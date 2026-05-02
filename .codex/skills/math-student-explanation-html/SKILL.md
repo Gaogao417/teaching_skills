@@ -71,6 +71,7 @@ Also create or reuse `assets/edu-print.css` beside the HTML. `assets/print-a4.cs
 - Leave blanks or ruled answer space after each check question.
 - Put answers in a teacher note, folded section, or final answer area.
 - Do not fake interaction with "问：... 答：..." unless the answer is clearly marked as teacher-only.
+- For browser preview, set `<body data-view="student">` by default; any teacher-view toggle must be `no-print`.
 
 ### live_tutor_script
 
@@ -146,7 +147,7 @@ Use these semantic classes as the fixed vocabulary for layout and teaching eleme
 - `edu-upgrade`
 - `edu-downgrade`
 - `edu-review`
-- utility classes: `page-break`, `no-print`, `u-mt-0`, `u-mb-0`, `u-center`, `u-right`, `u-muted`, `u-small`, `u-avoid-break`
+- utility classes: `page-break`, `page-break-after`, `no-print`, `u-mt-0`, `u-mb-0`, `u-center`, `u-right`, `u-muted`, `u-small`, `u-avoid-break`
 
 Forbidden:
 
@@ -160,7 +161,7 @@ Forbidden:
 Write the page in Chinese for the student unless a section is explicitly teacher-only.
 
 ```html
-<body>
+<body data-view="student">
 <div class="edu-page">
   <h1 class="edu-title">学生版讲解：题目短标题</h1>
   <p class="edu-subtitle">主题标签：...</p>
@@ -238,18 +239,34 @@ Write the page in Chinese for the student unless a section is explicitly teacher
 - Use likely student wording for misconceptions, then correct it gently.
 - Make the solution complete enough for checking, but not so long that it becomes a teacher monologue.
 
+## Page Break Rules
+
+打印分页规则：
+
+- 讲解页通常一页（A4）对应一个大节。若内容超过一页，在合适的逻辑断点插入 `<div class="page-break"></div>`。
+- 合适的分页位置：
+  - "标准解法"与"边讲边问"之间
+  - 不同子题（第(1)问与第(2)问）之间，当每个子题内容较多时
+  - "易错提醒"或"一句话总结"前，如果前面内容已接近页底
+- 不合适的分页位置：
+  - 步骤中间（不允许在第2步与第3步之间分页）
+  - 表格内部
+  - 关键想法与紧接的说明之间
+- 每个逻辑大块（原题卡片、解法步骤、互动问题）使用 `u-avoid-break` 防止跨页截断。
+- 教师专属内容（`.edu-teacher-note`）使用 `no-print`，学生打印时不可见。
+
 ## Mandatory Self-Check
 
 Before finalizing the HTML, inspect and revise the artifact. Add a teacher-only self-check block near the end:
 
 ```html
-<aside class="edu-teacher-note self-check">
+<aside class="edu-teacher-note self-check no-print">
   <div class="edu-card-title">生成后自检</div>
   <ul>
     <li><strong>数学检查：</strong>答案是否与 canonical solution 一致；是否漏解、增根、退化值；所用公式是否适用于本题。</li>
     <li><strong>教学检查：</strong>本页是否只训练一个核心动作；是否引入无关知识点；提示二是否过早暴露答案；互动问题是否围绕本题核心链条。</li>
     <li><strong>档位检查：</strong>学生档位是否由学生画像或教师输入支持；若没有学生证据，是否标注默认假设；讲解升级是否只小步上升。</li>
-    <li><strong>HTML 检查：</strong>标签是否闭合；是否包含 required sections；是否依赖网络 CDN；是否适合 A4 打印。</li>
+    <li><strong>HTML 检查：</strong>标签是否闭合；是否包含 required sections；是否依赖网络 CDN；是否适合 A4 打印；分页位置是否合理。</li>
     <li><strong>自检结论：</strong>...</li>
   </ul>
 </aside>
@@ -262,7 +279,7 @@ If using MathJax or any CDN, explicitly state the dependency in the HTML check. 
 At the end of the HTML, include a small teacher-only print note:
 
 ```html
-<aside class="edu-teacher-note">
+<aside class="edu-teacher-note no-print">
 下一步：记录学生在“边讲边问”中的回答，先使用 math-student-response-diagnosis 诊断档位，再使用 math-adaptive-practice-html 生成练习。
 </aside>
 ```

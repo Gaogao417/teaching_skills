@@ -17,6 +17,10 @@
   --border-strong: #111;
   --border-main: #555;
   --border-light: #aaa;
+  --accent-soft: #f6f9fc;
+  --accent-line: #9fb6d8;
+  --accent-line-light: #d7e1ee;
+  --accent-text: #2f527a;
 
   --bg-white: #fff;
   --bg-soft: #fafafa;
@@ -74,10 +78,66 @@ body {
   display: none;
 }
 
+/* ---------- 2b. Page Break Visual Divider (screen) ---------- */
+
+.page-break {
+  display: none;
+}
+
+.page-break-after {
+  display: none;
+}
+
+/* ---------- 2c. Avoid Breaking Inside Key Elements ---------- */
+
+.edu-problem-card {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.edu-practice-problem {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.edu-table {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.edu-route {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.edu-key-idea {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.edu-formula-key {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.edu-question {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.edu-mistake {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
 @media print {
   body {
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
+  }
+
+  .edu-screen-only {
+    display: none !important;
   }
 
   .no-print {
@@ -85,8 +145,40 @@ body {
   }
 
   .page-break {
+    display: block;
     break-before: page;
     page-break-before: always;
+  }
+
+  .page-break-after {
+    display: block;
+    break-after: page;
+    page-break-after: always;
+  }
+
+  .u-avoid-break {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .edu-section-title {
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+
+  .edu-step-title {
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+
+  .edu-practice-title {
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+
+  .edu-hint-title {
+    break-after: avoid;
+    page-break-after: avoid;
   }
 }
 
@@ -114,12 +206,14 @@ body {
 
 .edu-section-title {
   margin: var(--space-lg) 0 var(--space-sm);
-  padding: 1.5mm 2mm;
-  border-left: 3px solid var(--border-strong);
-  border-bottom: 1px solid var(--border-light);
+  padding: 1.2mm 2mm;
+  border-left: 2px solid var(--accent-line);
+  border-bottom: 1px solid var(--accent-line-light);
+  background: var(--accent-soft);
   font-family: var(--font-heading);
   font-size: var(--font-size-h2);
   font-weight: 700;
+  line-height: 1.45;
 }
 
 .edu-subsection-title {
@@ -198,7 +292,7 @@ body {
 .edu-student-note {
   margin: var(--space-md) 0;
   padding: 2.5mm 3mm;
-  border-left: 3px solid var(--border-main);
+  border-left: 2px solid var(--accent-line);
   background: var(--bg-key);
 }
 
@@ -268,7 +362,7 @@ body {
 .edu-step {
   margin: var(--space-md) 0;
   padding: 2.5mm 3mm;
-  border-left: 3px solid var(--border-main);
+  border-left: 2px solid var(--accent-line-light);
   background: var(--bg-white);
 }
 
@@ -464,7 +558,7 @@ body {
 .edu-judge {
   margin: var(--space-md) 0;
   padding: 2mm 3mm;
-  border-left: 3px solid var(--border-main);
+  border-left: 2px solid var(--accent-line-light);
   background: var(--bg-note);
   font-size: var(--font-size-small);
 }
@@ -484,7 +578,47 @@ body {
   color: #8a5a00;
 }
 
-/* ---------- 12. Utility ---------- */
+/* ---------- 12. Inline Elements ---------- */
+
+.step-num {
+  display: inline-block;
+  width: 5.6mm;
+  height: 5.6mm;
+  line-height: 5.2mm;
+  text-align: center;
+  border-radius: 50%;
+  border: 1px solid var(--accent-line);
+  background: #eef4ff;
+  color: var(--accent-text);
+  font-family: var(--font-heading);
+  font-size: 9.5pt;
+  font-weight: 700;
+  margin-right: 2mm;
+  vertical-align: middle;
+}
+
+.highlight {
+  background: var(--bg-key);
+  padding: 0 1mm;
+}
+
+.case-title {
+  margin: var(--space-md) 0 var(--space-xs);
+  padding: 1mm 3mm;
+  border-left: 2px solid var(--accent-line-light);
+  background: var(--accent-soft);
+  font-family: var(--font-heading);
+  font-weight: 700;
+}
+
+.think-box {
+  margin: var(--space-md) 0;
+  padding: 2.5mm 3mm;
+  border: 1px dashed var(--border-main);
+  background: var(--bg-white);
+}
+
+/* ---------- 13. Utility ---------- */
 
 .u-mt-0 { margin-top: 0 !important; }
 .u-mb-0 { margin-bottom: 0 !important; }
@@ -493,3 +627,44 @@ body {
 .u-muted { color: var(--text-muted); }
 .u-small { font-size: var(--font-size-small); }
 .u-avoid-break { break-inside: avoid; page-break-inside: avoid; }
+
+/* ---------- 14. Screen-only page break preview ---------- */
+
+@media screen {
+  .edu-screen-only {
+    display: block;
+  }
+
+  .edu-print-only {
+    display: none;
+  }
+
+  body[data-view="student"] .edu-teacher-note.no-print,
+  body.student-view .edu-teacher-note.no-print {
+    display: none;
+  }
+
+  .page-break::before {
+    content: "— 分页 —";
+    display: block;
+    padding: 4mm 0;
+    text-align: center;
+    color: #bbb;
+    font-size: 9pt;
+    font-family: var(--font-heading);
+    border-top: 1px dashed #ddd;
+    border-bottom: 1px dashed #ddd;
+  }
+
+  .page-break-after::after {
+    content: "— 分页 —";
+    display: block;
+    padding: 4mm 0;
+    text-align: center;
+    color: #bbb;
+    font-size: 9pt;
+    font-family: var(--font-heading);
+    border-top: 1px dashed #ddd;
+    border-bottom: 1px dashed #ddd;
+  }
+}

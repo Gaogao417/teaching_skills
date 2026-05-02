@@ -128,24 +128,20 @@ Allowed semantic classes:
 - `edu-upgrade`
 - `edu-downgrade`
 - `edu-review`
-- utility classes: `page-break`, `no-print`, `u-mt-0`, `u-mb-0`, `u-center`, `u-right`, `u-muted`, `u-small`, `u-avoid-break`
+- utility classes: `page-break`, `page-break-after`, `no-print`, `u-mt-0`, `u-mb-0`, `u-center`, `u-right`, `u-muted`, `u-small`, `u-avoid-break`
 
 Forbidden:
 
 - Creating ad-hoc classes like `think-box`, `step-box`, `case-box`, `negative-box`, `question-box`, `problem-block`, `problem-section`, `teacher-note`, `mistake-box`, `answer-space`, or `problem`.
 - Mixing teacher-only metadata into the student main flow. Use `.edu-teacher-note` and keep it visually separate.
 - Using `details` for printable hints unless the details are marked `open` or converted to print-visible `.edu-hint` blocks.
-- Generating a practice problem without a visible `.edu-training-goal`, `.edu-expected-blocker`, and printable answer space.
+- Placing `.edu-training-goal`, `.edu-expected-blocker`, complexity notes, mastery bands, confidence, upgrade/downgrade rules, or self-check text in the student main flow.
+- **学生版练习页不得包含教师判断内容。** 教师判断、训练目标、预期卡点、复杂度说明、档位、置信度、升级/降级建议必须放在 `no-print` 的 `.edu-teacher-note` 或 `.edu-judge` 中；默认打开页面时也应优先呈现学生视角。
 
 ```html
-<body>
+<body data-view="student">
 <div class="edu-page">
   <h1 class="edu-title">自适应练习：题目短标题</h1>
-
-  <section class="edu-teacher-note">
-    <div class="edu-card-title">教师判断</div>
-    <p class="edu-p">当前档位：X档。主要错因：...。置信度：...</p>
-  </section>
 
   <section class="edu-section">
     <h2 class="edu-section-title">练习说明</h2>
@@ -155,16 +151,6 @@ Forbidden:
   <section class="edu-practice-problem u-avoid-break">
     <h2 class="edu-practice-title">第 1 题：入口题</h2>
     <p class="edu-p">题目...</p>
-
-    <p class="edu-training-goal">
-      <span class="edu-tag">训练目标</span>
-      ...
-    </p>
-    <p class="edu-expected-blocker">
-      <span class="edu-tag">预期卡点</span>
-      ...
-    </p>
-    <p class="edu-small">复杂度说明：为什么没有超过预算。</p>
 
     <div class="edu-hint">
       <div class="edu-hint-title">提示一</div>
@@ -186,45 +172,81 @@ Forbidden:
         <span class="edu-answer-step-label">③ 检查并写结论：</span>
       </div>
     </div>
+
+    <aside class="edu-teacher-note no-print">
+      <div class="edu-card-title">第 1 题教师备忘</div>
+      <p class="edu-training-goal"><span class="edu-tag">训练目标</span>...</p>
+      <p class="edu-expected-blocker"><span class="edu-tag">预期卡点</span>...</p>
+      <p class="edu-small">复杂度说明：为什么没有超过预算。</p>
+      <div class="edu-judge">
+        <p class="edu-p"><span class="edu-upgrade">升级：</span>若学生...，进入...</p>
+        <p class="edu-p"><span class="edu-downgrade">降级：</span>若学生...，回到...</p>
+      </div>
+    </aside>
   </section>
 
+  <!-- 后续题目之间按需插入 <div class="page-break"></div> -->
+
   <section class="edu-answer-key page-break">
-    <h2 class="edu-section-title u-mt-0">参考答案与判断</h2>
+    <h2 class="edu-section-title u-mt-0">参考答案</h2>
     <div class="edu-step">
       <div class="edu-step-title">第 1 题答案</div>
       <p class="edu-p">标准答案...</p>
     </div>
+  </section>
+
+  <!-- 教师判断区：学生打印时不可见 -->
+  <aside class="edu-teacher-note no-print">
+    <div class="edu-card-title">教师判断</div>
+    <p class="edu-p">当前档位：X档。主要错因：...。置信度：...</p>
+  </aside>
+
+  <aside class="edu-teacher-note no-print">
+    <div class="edu-card-title">升级 / 降级建议</div>
     <div class="edu-judge">
       <p class="edu-p"><span class="edu-upgrade">升级：</span>若学生...，进入...</p>
       <p class="edu-p"><span class="edu-downgrade">降级：</span>若学生...，回到...</p>
     </div>
-  </section>
+  </aside>
 </div>
 </body>
 ```
+
+## Page Break Rules
+
+打印分页规则：
+
+- 答案区（`.edu-answer-key`）前必须使用 `page-break`，与学生练习内容分页。
+- 若题目数量超过一页（约2道大题），在第2题前插入 `<div class="page-break"></div>`。
+- 每道练习题（`.edu-practice-problem`）使用 `u-avoid-break` 防止题目被截断跨页。
+- 标题（`.edu-section-title`、`.edu-practice-title`、`.edu-step-title`）不允许出现在页面最底部（CSS 已设置 `break-after: avoid`）。
+- 若单道题带解答区超过一页，移除该题的 `u-avoid-break`，改用自然的步骤分隔。
 
 ## Generation Rules
 
 - Preserve the original problem's core structure.
 - Use the canonical solution as a pattern anchor and answer-quality reference.
+- For browser preview, set `<body data-view="student">` by default; if a teacher toggle is added, it must be `no-print` and must not appear in the printed student sheet.
 - Keep computation controlled; avoid ugly arithmetic unless the original structure requires it.
 - Do not introduce unrelated knowledge points.
 - Make hints progressive: hint 1 points to the action; hint 2 nearly reveals the setup, not the final answer.
-- Include how to judge the student's response after each problem.
+- Include how to judge the student's response after each problem only in a `no-print` teacher note, not beside the student-facing stem.
 - Use printable answer space: ruled lines or boxed work area.
+- **教师判断（档位、升级/降级、训练目标、预期卡点、复杂度说明）必须放在 `no-print` 的 `.edu-teacher-note` 中，学生在打印版和默认学生视角中看不到这些内容。** 答案区只放标准答案，不放升级/降级建议。
 
 ## Mandatory Self-Check
 
 Before finalizing the HTML, solve every generated problem and revise any faulty item. Add a teacher-only self-check block near the end:
 
 ```html
-<aside class="edu-teacher-note self-check">
+<aside class="edu-teacher-note self-check no-print">
   <div class="edu-card-title">生成后自检</div>
   <ul>
     <li><strong>数学检查：</strong>每道题答案是否正确；是否存在漏解、增根、退化值；公式是否适用于本题。</li>
     <li><strong>教学检查：</strong>本页是否只训练一个核心动作；有没有引入无关知识点；提示二是否过早暴露答案；互动问题/判断问题是否围绕本题核心链条。</li>
     <li><strong>档位检查：</strong>当前档位是否由学生证据或诊断 artifact 支持；如果没有学生证据，是否标注“默认诊断”；升级是否只小步上升。</li>
-    <li><strong>HTML 检查：</strong>标签是否闭合；是否符合 required sections；是否依赖网络 CDN；是否适合 A4 打印。</li>
+    <li><strong>学生版检查：</strong>教师判断、训练目标、预期卡点、复杂度说明、升级/降级建议是否全部在 `no-print` 区域内；学生打印和默认学生视角是否只看到题目、提示、答案空间和标准答案。</li>
+    <li><strong>HTML 检查：</strong>标签是否闭合；是否符合 required sections；是否依赖网络 CDN；是否适合 A4 打印；分页位置是否合理。</li>
     <li><strong>自检结论：</strong>...</li>
   </ul>
 </aside>
@@ -237,7 +259,7 @@ Do not finalize a practice page unless the answer key has been checked against t
 End with a teacher-only note:
 
 ```html
-<aside class="edu-teacher-note">
+<aside class="edu-teacher-note no-print">
 下一轮：根据本页完成情况，更新学生画像；必要时回到讲解页，或生成下一组变式。
 </aside>
 ```

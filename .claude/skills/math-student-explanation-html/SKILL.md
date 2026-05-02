@@ -71,6 +71,7 @@ Also create or reuse `assets/print-a4.css` beside the HTML when helpful. The HTM
 - Leave blanks or ruled answer space after each check question.
 - Put answers in a teacher note, folded section, or final answer area.
 - Do not fake interaction with "问：... 答：..." unless the answer is clearly marked as teacher-only.
+- For browser preview, set `<body data-view="student">` by default; any teacher-view toggle must be `no-print`.
 
 ### live_tutor_script
 
@@ -152,7 +153,7 @@ Write the page in Chinese for the student unless a section is explicitly teacher
 Before finalizing the HTML, inspect and revise the artifact. Add a teacher-only self-check block near the end:
 
 ```html
-<aside class="teacher-note self-check">
+<aside class="teacher-note self-check no-print">
   <h2>生成后自检</h2>
   <ul>
     <li><strong>数学检查：</strong>答案是否与 canonical solution 一致；是否漏解、增根、退化值；所用公式是否适用于本题。</li>
@@ -171,7 +172,7 @@ If using MathJax or any CDN, explicitly state the dependency in the HTML check. 
 At the end of the HTML, include a small teacher-only print note:
 
 ```html
-<aside class="teacher-note">
+<aside class="teacher-note no-print">
 下一步：记录学生在“边讲边问”中的回答，先使用 math-student-response-diagnosis 诊断档位，再使用 math-adaptive-practice-html 生成练习。
 </aside>
 ```

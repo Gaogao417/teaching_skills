@@ -36,10 +36,12 @@ h1 {
 
 h2 {
   margin: 5mm 0 2mm;
-  padding: 1.5mm 2mm;
-  border-left: 3px solid #111;
-  border-bottom: 1px solid #999;
+  padding: 1.2mm 2mm;
+  border-left: 2px solid #9fb6d8;
+  border-bottom: 1px solid #d7e1ee;
+  background: #f6f9fc;
   font-size: 13.5pt;
+  line-height: 1.45;
 }
 
 p, ol, ul {
@@ -61,8 +63,9 @@ ol, ul {
 
 .teacher-note {
   font-size: 10.5pt;
-  color: #333;
+  color: #555;
   background: #f7f7f7;
+  border-color: #d0d7e2;
 }
 
 .stem {
@@ -90,7 +93,46 @@ summary {
   page-break-before: always;
 }
 
+.step-num {
+  display: inline-block;
+  width: 5.6mm;
+  height: 5.6mm;
+  line-height: 5.2mm;
+  text-align: center;
+  border: 1px solid #9fb6d8;
+  border-radius: 50%;
+  background: #eef4ff;
+  color: #2f527a;
+  font-family: "SimHei", "Microsoft YaHei", sans-serif;
+  font-size: 9.5pt;
+  font-weight: 700;
+  margin-right: 2mm;
+  vertical-align: middle;
+}
+
+.highlight {
+  background: #fffdf0;
+  padding: 0 1mm;
+}
+
+.case-title {
+  margin: 3mm 0 1mm;
+  padding: 1mm 3mm;
+  border-left: 2px solid #d7e1ee;
+  background: #f6f9fc;
+  font-weight: 700;
+  font-family: "SimHei", "Microsoft YaHei", sans-serif;
+}
+
+body[data-view="student"] .teacher-note.no-print {
+  display: none;
+}
+
 @media print {
+  .no-print {
+    display: none !important;
+  }
+
   details {
     display: block;
   }
