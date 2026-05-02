@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>学生版讲解：一次函数与反比例函数交点——中点关系</title>
+<script>
+MathJax = {
+  tex: { inlineMath: [['$', '$']], displayMath: [['$$', '$$']] }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+@page {
+  size: A4;
+  margin: 16mm 14mm;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  color: #111;
+  background: #fff;
+  font-family: "SimSun", "Songti SC", "Noto Serif CJK SC", serif;
+  font-size: 12pt;
+  line-height: 1.72;
+}
+
+.page {
+  max-width: 186mm;
+  margin: 0 auto;
+  padding: 0 2mm;
+}
+
+h1, h2, h3 {
+  font-family: "SimHei", "Microsoft YaHei", sans-serif;
+  font-weight: 700;
+  color: #000;
+}
+
+h1 {
+  margin: 0 0 7mm;
+  text-align: center;
+  font-size: 18pt;
+  letter-spacing: 0;
+}
+
+h2 {
+  margin: 5mm 0 2mm;
+  padding: 1.5mm 2mm;
+  border-left: 3px solid #111;
+  border-bottom: 1px solid #999;
+  font-size: 13.5pt;
+}
+
+p, ol, ul {
+  margin-top: 0;
+  margin-bottom: 2.5mm;
+}
+
+ol, ul {
+  padding-left: 7mm;
+}
+
+.question-box,
+.teacher-note,
+.mistake-box,
+.think-box {
+  margin: 3mm 0;
+  padding: 2.5mm 3mm;
+  border: 1px solid #777;
+}
+
+.think-box {
+  border-left: 3px solid #555;
+  background: #fafafa;
+  font-style: italic;
+}
+
+.teacher-note {
+  font-size: 10.5pt;
+  color: #333;
+  background: #f7f7f7;
+}
+
+.mistake-box {
+  border-left: 3px solid #c00;
+  background: #fff5f5;
+}
+
+.blank-line {
+  display: block;
+  height: 8mm;
+  border-bottom: 1px solid #999;
+}
+
+.page-break {
+  break-before: page;
+  page-break-before: always;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 3mm 0;
+}
+
+td, th {
+  border: 1px solid #555;
+  padding: 1.8mm 2mm;
+  vertical-align: top;
+}
+
+.summary-box {
+  margin: 4mm 0;
+  padding: 3mm 4mm;
+  border: 2px solid #111;
+  background: #f5f5f0;
+  text-align: center;
+  font-size: 13pt;
+  font-family: "SimHei", "Microsoft YaHei", sans-serif;
+}
+
+.step-card {
+  margin: 2.5mm 0;
+  padding: 2mm 3mm;
+  border: 1px solid #aaa;
+  border-radius: 0;
+  background: #fff;
+}
+
+.step-card .step-num {
+  font-family: "SimHei", "Microsoft YaHei", sans-serif;
+  font-weight: 700;
+  font-size: 11pt;
+  color: #333;
+}
+
+mjx-container {
+  font-size: 105% !important;
+}
+
+@media print {
+  body {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<h1>学生版讲解：一次函数与反比例函数交点——中点关系</h1>
+
+<!-- ==================== 第一部分 ==================== -->
+<section>
+  <h2>一、这题先看懂什么</h2>
+  <p>题目给出了几个关键信息，我们先把它们"翻译"成坐标：</p>
+  <table>
+    <tr>
+      <th style="width:50%">题目信息</th>
+      <th style="width:50%">坐标含义</th>
+    </tr>
+    <tr>
+      <td>直线 AB 与 $x$ 轴交于 $A(-2, 0)$</td>
+      <td>$A$ 的坐标已经告诉你了：$A(-2, 0)$</td>
+    </tr>
+    <tr>
+      <td>与 $y$ 轴正半轴交于 $B$</td>
+      <td>$B$ 在 $y$ 轴上，所以 $x_B = 0$，$y_B > 0$</td>
+    </tr>
+    <tr>
+      <td>与 $y = \dfrac{m}{x}\ (x>0)$ 交于 $C$，$y_C = 4$</td>
+      <td>$C$ 的纵坐标已知为 4，横坐标未知</td>
+    </tr>
+    <tr>
+      <td>$AB = BC$</td>
+      <td>线段 AB 和 BC 长度相等（关键条件！）</td>
+    </tr>
+  </table>
+
+  <div class="think-box">
+    <strong>想一想：</strong>$AB = BC$ 只告诉你"长度相等"，但题目还有一个隐藏条件——$A$、$B$、$C$ 都在同一条直线上。这个"共线 + 等距"意味着什么？
+    <span class="blank-line"></span>
+    <p style="font-size:10.5pt;color:#555;font-style:normal;margin-top:1mm;">提示：如果 $A$、$B$、$C$ 在同一条线上，且 $AB = BC$，那么 $B$ 就是 $A$ 和 $C$ 的正中间——$B$ 是 $AC$ 的<strong>中点</strong>。</p>
+  </div>
+</section>
+
+<!-- ==================== 第二部分 ==================== -->
+<section>
+  <h2>二、第一步该做什么</h2>
+  <p>很多同学看到这道题，第一反应是"设直线方程，列方程组求解"。但这样做计算量很大，容易出错。</p>
+  <p>更好的第一步是：</p>
+
+  <div class="step-card">
+    <span class="step-num">核心动作：识别"共线等距 → 中点"关系</span>
+    <p>$A$、$B$、$C$ 都在直线 $AB$ 上（共线），又已知 $AB = BC$（等距），所以 $B$ 是 $AC$ 的<strong>中点</strong>。直接用中点坐标公式求坐标，不需要列距离方程。</p>
+  </div>
+
+  <p><strong>中点坐标公式</strong>：如果 $M$ 是 $P(x_1, y_1)$ 和 $Q(x_2, y_2)$ 的中点，那么</p>
+  <p style="text-align:center;">$M\left(\dfrac{x_1 + x_2}{2},\ \dfrac{y_1 + y_2}{2}\right)$</p>
+</section>
+
+<!-- ==================== 第三部分 ==================== -->
+<section>
+  <h2>三、关键转化怎么想</h2>
+
+  <h3>转化 1：$AB = BC$ → $B$ 是 $AC$ 中点</h3>
+  <p>这是整道题<strong>最关键的一步</strong>。我们已知：</p>
+  <ul>
+    <li>$A(-2, 0)$</li>
+    <li>$B(0, y_B)$（$y_B > 0$）</li>
+    <li>$C(x_C, 4)$</li>
+  </ul>
+  <p>$B$ 是 $AC$ 中点，所以：</p>
+  <p style="text-align:center;">$x_B = \dfrac{x_A + x_C}{2}$，即 $0 = \dfrac{-2 + x_C}{2}$ → $x_C = 2$</p>
+  <p style="text-align:center;">$y_B = \dfrac{y_A + y_C}{2}$，即 $y_B = \dfrac{0 + 4}{2} = 2$</p>
+  <p>一步就得到了两个关键坐标：<strong>$B(0, 2)$、$C(2, 4)$</strong>。</p>
+
+  <div class="think-box">
+    <strong>想一想：</strong>如果不利用中点关系，而是用距离公式 $\sqrt{(x_C+2)^2+(4-0)^2}=\sqrt{(0-x_C)^2+(y_B-4)^2}$ 来做，你觉得计算会怎样？
+    <span class="blank-line"></span>
+    <p style="font-size:10.5pt;color:#555;font-style:normal;margin-top:1mm;">会变成一个含两个未知数的方程，还得和其他条件联立，非常繁琐。中点公式一步搞定，这就是"看对关系"的价值。</p>
+  </div>
+
+  <h3>转化 2：$C$ 在反比例函数上 → 求 $m$</h3>
+  <p>反比例函数 $y = \dfrac{m}{x}$ 上的点，坐标满足 $xy = m$。所以：</p>
+  <p style="text-align:center;">$m = x_C \times y_C = 2 \times 4 = 8$，即反比例函数为 $y = \dfrac{8}{x}$</p>
+
+  <h3>转化 3：$A$、$B$ 确定直线 → 待定系数法</h3>
+  <p>两个点确定一条直线。已知 $A(-2, 0)$ 和 $B(0, 2)$：</p>
+  <p style="text-align:center;">斜率 $k = \dfrac{2 - 0}{0 - (-2)} = 1$</p>
+  <p style="text-align:center;">直线方程 $y = x + 2$</p>
+  <p>验证：$C(2, 4)$ 代入 $y = x + 2$ → $4 = 2 + 2$ ✓</p>
+</section>
+
+<!-- ==================== 第四部分 ==================== -->
+<section>
+  <h2>四、标准解法</h2>
+
+  <h3>第 (1) 问：求直线 AB 的表达式</h3>
+  <ol>
+    <li><strong>识别中点关系</strong>：$AB = BC$，$A$、$B$、$C$ 共线 → $B$ 是 $AC$ 中点</li>
+    <li><strong>用中点公式求坐标</strong>：
+      <p>$x_B = \dfrac{-2 + x_C}{2} = 0$ → $x_C = 2$</p>
+      <p>$y_B = \dfrac{0 + 4}{2} = 2$</p>
+      <p>所以 $B(0, 2)$，$C(2, 4)$</p>
+    </li>
+    <li><strong>待定系数法求直线</strong>：设 $y = kx + b$，代入 $A(-2, 0)$ 和 $B(0, 2)$：
+      <p>$0 = -2k + b$，$2 = 0 + b$ → $b = 2$，$k = 1$</p>
+      <p style="text-align:center;"><strong>$y = x + 2$</strong></p>
+    </li>
+  </ol>
+
+  <h3>第 (2) 问：求 CD 的长度</h3>
+  <ol>
+    <li><strong>理解"BD // $x$ 轴"</strong>：平行于 $x$ 轴的线上，所有点的纵坐标相同。所以 $y_D = y_B = 2$</li>
+    <li><strong>求 D 的坐标</strong>：$D$ 在 $y = \dfrac{8}{x}$ 上，$y_D = 2$，所以 $x_D = \dfrac{8}{2} = 4$，即 $D(4, 2)$</li>
+    <li><strong>用距离公式求 CD</strong>：
+      <p>$C(2, 4)$，$D(4, 2)$</p>
+      <p>$CD = \sqrt{(4 - 2)^2 + (2 - 4)^2} = \sqrt{4 + 4} = \sqrt{8} = 2\sqrt{2}$</p>
+      <p style="text-align:center;"><strong>$CD = 2\sqrt{2}$</strong></p>
+    </li>
+  </ol>
+</section>
+
+<!-- ==================== 第五部分 ==================== -->
+<section>
+  <h2>五、边讲边问</h2>
+  <div class="question-box">
+    <p><strong>问 1：</strong>$AB = BC$ 能说明 $B$ 是 $AC$ 中点吗？什么情况下不能？</p>
+    <span class="blank-line"></span>
+    <span class="blank-line"></span>
+  </div>
+
+  <div class="question-box">
+    <p><strong>问 2：</strong>如果题目改成 $AB : BC = 1 : 2$（共线），你能用类似的方法求 $B$ 的坐标吗？</p>
+    <span class="blank-line"></span>
+    <span class="blank-line"></span>
+  </div>
+
+  <div class="question-box">
+    <p><strong>问 3：</strong>反比例函数 $y = \dfrac{m}{x}$ 上的点，横纵坐标的<strong>积</strong>是多少？为什么？</p>
+    <span class="blank-line"></span>
+    <span class="blank-line"></span>
+  </div>
+
+  <div class="question-box">
+    <p><strong>问 4：</strong>"BD // $x$ 轴"这个条件，在坐标系里意味着 D 和 B 的什么坐标相同？</p>
+    <span class="blank-line"></span>
+    <span class="blank-line"></span>
+  </div>
+
+  <div class="question-box">
+    <p><strong>问 5：</strong>如果第 (2) 问把 BD 改成 BD // $y$ 轴，D 的坐标会变成什么？CD 还是一样的吗？</p>
+    <span class="blank-line"></span>
+    <span class="blank-line"></span>
+  </div>
+</section>
+
+<!-- ==================== 第六部分 ==================== -->
+<section>
+  <h2>六、易错提醒</h2>
+  <div class="mistake-box">
+    <p><strong>易错 1：看不出 AB = BC 就是中点条件</strong></p>
+    <p>有些同学看到 $AB = BC$ 就想用距离公式。记住：如果 A、B、C 在<strong>同一条直线</strong>上，$AB = BC$ 就意味着 B 是中点，直接用中点公式，快得多。</p>
+  </div>
+
+  <div class="mistake-box">
+    <p><strong>易错 2：BD // $x$ 轴时设错 D 的坐标</strong></p>
+    <p>平行于 $x$ 轴 → 纵坐标相同（$y$ 不变），横坐标变化。平行于 $y$ 轴 → 横坐标相同（$x$ 不变），纵坐标变化。不要搞反了。</p>
+  </div>
+
+  <div class="mistake-box">
+    <p><strong>易错 3：距离公式中坐标相减的顺序和符号</strong></p>
+    <p>$CD = \sqrt{(x_D - x_C)^2 + (y_D - y_C)^2}$，顺序不影响结果（因为平方了），但要小心不要漏掉负号导致算错。养成习惯：用"终点减起点"。</p>
+  </div>
+</section>
+
+<!-- ==================== 第七部分 ==================== -->
+<section>
+  <h2>七、一句话总结</h2>
+  <div class="summary-box">
+    <strong>共线等距找中点，中点公式求坐标；平行坐标轴，对应坐标不变；距离公式算长度。</strong>
+  </div>
+</section>
+
+<!-- 教师备注 -->
+<aside class="teacher-note" style="margin-top: 8mm;">
+  <strong>教师备注：</strong>下一步：记录学生在"边讲边问"中的回答，并使用 math-adaptive-practice-html 生成练习。
+  <ul>
+    <li>问 1 答错 → 说明不理解"共线 + 等距 = 中点"，需降至 B 档做基础识别</li>
+    <li>问 2 答不出 → 中点公式的推广能力不足，维持 C 档做巩固练习</li>
+    <li>问 3 答错 → 反比例函数基本性质不熟练，需补充基础训练</li>
+    <li>问 4 答错 → 坐标系中"平行"的含义不清晰，需专项练习</li>
+    <li>全部正确 → 升至 E 档做迁移变式</li>
+  </ul>
+</aside>
+
+</div>
+</body>
+</html>

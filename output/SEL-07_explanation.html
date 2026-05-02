@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>学生版讲解：两直线交点与割补法求动点坐标</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'], ['\\(','\\)']], displayMath: [['$$','$$'], ['\\[','\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+<style>
+  @page { size: A4; margin: 16mm 14mm; }
+  * { box-sizing: border-box; }
+  body { margin: 0; color: #111; background: #fff; font-family: "SimSun", "Songti SC", "Noto Serif CJK SC", serif; font-size: 12pt; line-height: 1.72; }
+  .page { max-width: 186mm; margin: 0 auto; padding: 5mm 0; }
+  h1, h2, h3 { font-family: "SimHei", "Microsoft YaHei", sans-serif; font-weight: 700; color: #000; }
+  h1 { margin: 0 0 7mm; text-align: center; font-size: 18pt; }
+  h2 { margin: 5mm 0 2mm; padding: 1.5mm 2mm; border-left: 3px solid #111; border-bottom: 1px solid #999; font-size: 13.5pt; }
+  p, ol, ul { margin-top: 0; margin-bottom: 2.5mm; }
+  ol, ul { padding-left: 7mm; }
+  .question-box { margin: 3mm 0; padding: 2.5mm 3mm; border: 1px solid #777; background: #fafafa; }
+  .teacher-note { margin: 3mm 0; padding: 2.5mm 3mm; border: 1px solid #777; font-size: 10.5pt; color: #333; background: #f7f7f7; }
+  .mistake-box { margin: 3mm 0; padding: 2.5mm 3mm; border: 1px dashed #c44; background: #fef7f7; }
+  .think-box { margin: 3mm 0; padding: 2.5mm 3mm; border: 1px solid #66a; background: #f5f7ff; }
+  .blank-line { display: block; height: 8mm; border-bottom: 1px solid #999; }
+  .answer-line { display: block; height: 6mm; border-bottom: 1px dashed #999; }
+  .page-break { break-before: page; page-break-before: always; }
+  table { width: 100%; border-collapse: collapse; margin: 3mm 0; }
+  td, th { border: 1px solid #555; padding: 1.8mm 2mm; vertical-align: top; }
+  .step { margin: 2mm 0 3mm; padding: 2mm 3mm; border-left: 3px solid #333; background: #fafafa; }
+  .step-title { font-family: "SimHei", "Microsoft YaHei", sans-serif; font-weight: 700; font-size: 11.5pt; color: #222; }
+  details { margin: 2mm 0; }
+  details summary { cursor: pointer; font-weight: 700; color: #333; }
+  .formula-box { display: block; text-align: center; margin: 3mm 0; padding: 2mm; background: #f9f9f0; border: 1px solid #ccc; }
+  @media print { body { -webkit-print-color-adjust: exact; print-color-adjust: exact; } }
+</style>
+</head>
+<body>
+<div class="page">
+
+<h1>学生版讲解：两直线交点与割补法求动点坐标</h1>
+
+<div class="question-box">
+  <strong>题目：</strong>在平面直角坐标系 $xOy$ 中，已知一次函数 $y=2x+m$ 与 $y=-\dfrac{1}{2}x+n$ 的图象都经过点 $A(-2,0)$，且分别与 $y$ 轴交于点 $B$ 和点 $C$。<br>
+  (1) 求 $B$、$C$ 两点的坐标；<br>
+  (2) 设点 $D$ 在直线 $y=-\dfrac{1}{2}x+n$ 上，且在 $y$ 轴右侧，当 $\triangle ABD$ 的面积为 $15$ 时，求点 $D$ 的坐标。
+</div>
+
+<!-- ========== 一、这题先看懂什么 ========== -->
+<section>
+  <h2>一、这题先看懂什么</h2>
+  <p>这道题的场景其实很简单：</p>
+  <ol>
+    <li><strong>两条直线，一个公共点。</strong> 直线 $l_1$：$y=2x+m$，直线 $l_2$：$y=-\dfrac{1}{2}x+n$。它们都经过同一点 $A(-2,0)$。</li>
+    <li><strong>每条直线各碰一次 $y$ 轴。</strong> $l_1$ 碰到 $y$ 轴的地方叫 $B$，$l_2$ 碰到 $y$ 轴的地方叫 $C$。</li>
+    <li><strong>有一个动点 $D$。</strong> $D$ 在 $l_2$ 上，且在 $y$ 轴右边，$\triangle ABD$ 的面积恰好是 $15$。</li>
+  </ol>
+
+  <div class="think-box">
+    <strong>想一想：</strong>如果 $m$、$n$ 的值还不知道，$A$ 点"在两条直线上"这个信息能帮你做什么？<br>
+    <span class="answer-line"></span>
+  </div>
+</section>
+
+<!-- ========== 二、第一步该做什么 ========== -->
+<section>
+  <h2>二、第一步该做什么</h2>
+  <p>第一步<strong>不是</strong>画图，也<strong>不是</strong>套面积公式——而是<strong>把 $m$、$n$ 算出来</strong>。</p>
+  <p>为什么？因为第(2)问要用到 $B$ 的坐标和 $l_2$ 的解析式，而这两样东西都取决于 $m$ 和 $n$。</p>
+  <p>怎么算？方法叫<strong>待定系数法</strong>，核心动作就一句：</p>
+  <div class="formula-box">
+    点在图象上 $\;\Longrightarrow\;$ 把坐标代入解析式，得到关于系数的方程
+  </div>
+  <p>$A(-2,0)$ 在 $l_1$ 上：把 $x=-2, y=0$ 代入 $y=2x+m$，解出 $m$。<br>
+  $A(-2,0)$ 在 $l_2$ 上：把 $x=-2, y=0$ 代入 $y=-\dfrac{1}{2}x+n$，解出 $n$。</p>
+</section>
+
+<!-- ========== 三、关键转化怎么想 ========== -->
+<section>
+  <h2>三、关键转化怎么想</h2>
+  <p>第(1)问是"热身"，第(2)问才是重点。第(2)问的关键动作是：</p>
+  <div class="formula-box">
+    面积 $\to$ 方程：把 $\triangle ABD$ 的面积等于 $15$ 这个条件，转化成一个关于 $D$ 坐标的方程
+  </div>
+  <p>具体来说，你需要一个"把坐标变成面积"的公式。最直接的做法是<strong>坐标三角形面积公式</strong>（也叫行列式面积公式）：</p>
+  <div class="formula-box">
+    $$S_{\triangle P_1P_2P_3} = \frac{1}{2}\left|x_1(y_2-y_3) + x_2(y_3-y_1) + x_3(y_1-y_2)\right|$$
+  </div>
+  <p>这个公式的好处：知道三个顶点的坐标，就能直接算面积，不需要画辅助线、不需要选底和高。</p>
+
+  <div class="think-box">
+    <strong>想一想：</strong>你之前学过的割补法（选一条边为底，找对应的高）和这个公式，结果一样吗？为什么这里用公式更方便？<br>
+    <span class="answer-line"></span>
+  </div>
+</section>
+
+<!-- ========== 四、标准解法 ========== -->
+<section>
+  <h2>四、标准解法</h2>
+
+  <h3>第(1)题：求 $B$、$C$ 坐标</h3>
+
+  <div class="step">
+    <p><strong>步骤1：求 $m$</strong></p>
+    <p>把 $A(-2,0)$ 代入 $y=2x+m$：</p>
+    <p>$0 = 2 \times (-2) + m$ &nbsp;→&nbsp; $0 = -4 + m$ &nbsp;→&nbsp; $\boxed{m = 4}$</p>
+    <p>所以 $l_1$：$y = 2x + 4$</p>
+    <p><em>为什么这么做：</em>"图象经过点"就是"坐标满足方程"，代入就得到关于 $m$ 的方程。</p>
+  </div>
+
+  <div class="step">
+    <p><strong>步骤2：求 $n$</strong></p>
+    <p>把 $A(-2,0)$ 代入 $y=-\dfrac{1}{2}x+n$：</p>
+    <p>$0 = -\dfrac{1}{2} \times (-2) + n$ &nbsp;→&nbsp; $0 = 1 + n$ &nbsp;→&nbsp; $\boxed{n = -1}$</p>
+    <p>所以 $l_2$：$y = -\dfrac{1}{2}x - 1$</p>
+  </div>
+
+  <div class="step">
+    <p><strong>步骤3：求 $B$、$C$ 坐标</strong></p>
+    <p>$B$ 是 $l_1$ 与 $y$ 轴的交点，令 $x=0$：$y = 2 \times 0 + 4 = 4$，$\boxed{B(0,4)}$</p>
+    <p>$C$ 是 $l_2$ 与 $y$ 轴的交点，令 $x=0$：$y = -\dfrac{1}{2} \times 0 - 1 = -1$，$\boxed{C(0,-1)}$</p>
+    <p><em>为什么这么做：</em>$y$ 轴上所有点的 $x$ 坐标都是 $0$，直接令 $x=0$ 就是求 $y$ 轴交点。</p>
+  </div>
+
+  <h3 style="margin-top:6mm;">第(2)题：求 $D$ 坐标</h3>
+
+  <div class="step">
+    <p><strong>步骤4：设 $D$ 坐标</strong></p>
+    <p>$D$ 在 $l_2$：$y = -\dfrac{1}{2}x - 1$ 上，设 $D(t,\, -\dfrac{1}{2}t - 1)$。</p>
+    <p>题目说 $D$ 在 $y$ 轴右侧，所以 $t > 0$。</p>
+    <p><em>为什么这么做：</em>动点在某条直线上，就设参数表示坐标，用一个字母表示横坐标，纵坐标用直线解析式表达。</p>
+  </div>
+
+  <div class="step">
+    <p><strong>步骤5：用坐标面积公式列方程</strong></p>
+    <p>将 $A(-2,0)$，$B(0,4)$，$D(t, -\frac{1}{2}t - 1)$ 代入面积公式：</p>
+    <p>$$S = \frac{1}{2}\left|x_A(y_B - y_D) + x_B(y_D - y_A) + x_D(y_A - y_B)\right|$$</p>
+    <p>$$15 = \frac{1}{2}\left|(-2)\!\left(4 - \left(-\frac{1}{2}t - 1\right)\right) + 0\!\left(\left(-\frac{1}{2}t - 1\right) - 0\right) + t(0 - 4)\right|$$</p>
+    <p>$$15 = \frac{1}{2}\left|(-2)\!\left(5 + \frac{1}{2}t\right) + 0 - 4t\right|$$</p>
+    <p>$$15 = \frac{1}{2}\left|-10 - t - 4t\right|$$</p>
+    <p>$$15 = \frac{1}{2}\left|-10 - 5t\right|$$</p>
+    <p>$$30 = |-10 - 5t| = |-5(t + 2)| = 5(t + 2)$$</p>
+    <p>（因为 $t > 0$，所以 $t + 2 > 0$，绝对值直接去掉）</p>
+    <p>$$30 = 5(t + 2)$$</p>
+    <p>$$t + 2 = 6$$</p>
+    <p>$$\boxed{t = 4}$$</p>
+    <p><em>为什么这么做：</em>坐标面积公式把三个顶点坐标和面积直接联系起来，一步列方程。</p>
+  </div>
+
+  <div class="step">
+    <p><strong>步骤6：写出 $D$ 坐标并验证</strong></p>
+    <p>$y_D = -\dfrac{1}{2} \times 4 - 1 = -2 - 1 = -3$</p>
+    <p>$\boxed{D(4, -3)}$</p>
+    <p>验证：$t = 4 > 0$，满足"$y$ 轴右侧"的条件。<strong>验证通过。</strong></p>
+  </div>
+</section>
+
+<!-- ========== 五、边讲边问 ========== -->
+<section>
+  <h2>五、边讲边问</h2>
+  <ol>
+    <li>"图象经过点 $A(-2,0)$"这句话，翻译成数学语言是什么意思？
+      <span class="answer-line"></span>
+    </li>
+    <li>求 $y$ 轴交点时，为什么要令 $x=0$？
+      <span class="answer-line"></span>
+    </li>
+    <li>设 $D(t, -\frac{1}{2}t - 1)$ 时，纵坐标为什么不用另一个新字母 $k$ 来设？
+      <span class="answer-line"></span>
+    </li>
+    <li>面积公式里有绝对值号，去掉绝对值时需要判断什么？
+      <span class="answer-line"></span>
+    </li>
+    <li>如果算出来的 $t = -2$，这个结果能要吗？为什么？
+      <span class="answer-line"></span>
+    </li>
+  </ol>
+</section>
+
+<!-- ========== 六、易错提醒 ========== -->
+<section>
+  <h2>六、易错提醒</h2>
+  <ul>
+    <li class="mistake-box"><strong>代入算 $m$ 时算错负号。</strong>$y = 2 \times (-2) + m = -4 + m$，不是 $4 + m$。负数乘正数是负数！</li>
+    <li class="mistake-box"><strong>面积公式里漏掉 $\dfrac{1}{2}$。</strong>三角形面积 = $\dfrac{1}{2} \times$ 底 $\times$ 高，别忘了除以 $2$。</li>
+    <li class="mistake-box"><strong>忘记检查 $t > 0$。</strong>题目明确说 "$D$ 在 $y$ 轴右侧"，$t$ 必须大于 $0$。如果算出 $t \le 0$，说明无解或题目有误。</li>
+  </ul>
+</section>
+
+<!-- ========== 七、一句话总结 ========== -->
+<section>
+  <h2>七、一句话总结</h2>
+  <div class="formula-box" style="font-size: 13pt; padding: 4mm;">
+    <strong>"点在直线上 → 代入求参数；面积给条件 → 坐标公式列方程；算完要验证 → 条件约束不能忘。"</strong>
+  </div>
+</section>
+
+<aside class="teacher-note">
+  <strong>下一步：</strong>记录学生在"边讲边问"中的回答，并使用 math-adaptive-practice-html 生成练习。
+</aside>
+
+</div>
+</body>
+</html>

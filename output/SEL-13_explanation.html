@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>学生版讲解：一次函数最值——购机利润问题</title>
+<style>
+@page {
+  size: A4;
+  margin: 16mm 14mm;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  color: #111;
+  background: #fff;
+  font-family: "SimSun", "Songti SC", "Noto Serif CJK SC", serif;
+  font-size: 12pt;
+  line-height: 1.72;
+}
+
+.page {
+  max-width: 186mm;
+  margin: 0 auto;
+  padding: 0 2mm;
+}
+
+h1, h2, h3 {
+  font-family: "SimHei", "Microsoft YaHei", sans-serif;
+  font-weight: 700;
+  color: #000;
+}
+
+h1 {
+  margin: 0 0 7mm;
+  text-align: center;
+  font-size: 18pt;
+  letter-spacing: 0;
+}
+
+h2 {
+  margin: 5mm 0 2mm;
+  padding: 1.5mm 2mm;
+  border-left: 3px solid #111;
+  border-bottom: 1px solid #999;
+  font-size: 13.5pt;
+}
+
+h3 {
+  font-size: 12pt;
+  margin: 3mm 0 1.5mm;
+}
+
+p, ol, ul {
+  margin-top: 0;
+  margin-bottom: 2.5mm;
+}
+
+ol, ul {
+  padding-left: 7mm;
+}
+
+ol li {
+  margin-bottom: 1.5mm;
+}
+
+.question-box,
+.teacher-note,
+.mistake-box {
+  margin: 3mm 0;
+  padding: 2.5mm 3mm;
+  border: 1px solid #777;
+}
+
+.teacher-note {
+  font-size: 10.5pt;
+  color: #333;
+  background: #f7f7f7;
+}
+
+.mistake-box {
+  border-left: 3px solid #c00;
+  background: #fef7f7;
+}
+
+.question-box {
+  border-left: 3px solid #0066cc;
+  background: #f0f6ff;
+}
+
+.blank-line {
+  display: block;
+  height: 8mm;
+  border-bottom: 1px solid #999;
+}
+
+.page-break {
+  break-before: page;
+  page-break-before: always;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 3mm 0;
+}
+
+td, th {
+  border: 1px solid #555;
+  padding: 1.8mm 2mm;
+  vertical-align: top;
+}
+
+.formula {
+  font-family: "Times New Roman", serif;
+  font-style: italic;
+}
+
+.formula-block {
+  text-align: center;
+  margin: 3mm 0;
+  font-size: 13pt;
+  font-family: "Times New Roman", serif;
+}
+
+.highlight {
+  border: 1.5px solid #111;
+  padding: 2mm 3mm;
+  margin: 3mm 0;
+  background: #fffff0;
+}
+
+.step-box {
+  margin: 2.5mm 0;
+  padding: 2mm 3mm;
+  border: 1px solid #bbb;
+  background: #fafafa;
+}
+
+@media print {
+  body {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<h1>学生版讲解：一次函数最值——购机利润问题</h1>
+
+<!-- ===== 题目回顾 ===== -->
+<div class="highlight">
+  <strong>题目：</strong>某商店销售A型和B型两种电脑，销售一台A型获利120元，B型获利140元。计划一次购进两种电脑共100台，B型不超过A型的3倍。设购进A型 <em>x</em> 台，总利润为 <em>y</em> 元。<br>
+  (1) 求 <em>y</em> 与 <em>x</em> 的关系式；(2) 购进A型、B型各多少台利润最大？(3) 若最多购进A型60台，总利润能否为13600元？若不能，求利润范围。
+</div>
+
+<!-- ===== 一、这题先看懂什么 ===== -->
+<section>
+<h2>一、这题先看懂什么</h2>
+
+<p>这道题说的是<strong>开店进货怎么赚最多</strong>。两种电脑，A型每台赚120元，B型每台赚140元。一共进100台，但有限制条件：B型的数量不能超过A型的3倍。</p>
+
+<p>我们需要解决三个问题：</p>
+<ol>
+  <li><strong>列关系式</strong>——利润 <em>y</em> 和A型台数 <em>x</em> 之间是什么函数？</li>
+  <li><strong>求最值</strong>——在限制条件下，怎么进负能赚最多？</li>
+  <li><strong>判断可达性</strong>——再加一个限制后，能不能赚到某个特定金额？</li>
+</ol>
+
+<p>本质上，这就是<strong>在限定范围内找一个一次函数的最大值和值域</strong>。</p>
+
+<div class="question-box">
+  <strong>想一想：</strong>如果没有任何限制条件，进哪种电脑更赚钱？为什么还要有限制条件？
+  <span class="blank-line"></span>
+</div>
+
+</section>
+
+<!-- ===== 二、第一步该做什么 ===== -->
+<section>
+<h2>二、第一步该做什么</h2>
+
+<p>拿到这类题，<strong>不要急着列式</strong>。第一步是：</p>
+
+<div class="highlight">
+  <strong>把所有文字条件翻译成数学语言——变量、关系式、不等式。</strong>
+</div>
+
+<p>具体来说，要搞清楚三件事：</p>
+<ol>
+  <li><strong>变量是什么？</strong> → A型 <em>x</em> 台，B型就是 <em>(100 − x)</em> 台</li>
+  <li><strong>目标函数是什么？</strong> → 总利润 = A型利润 + B型利润</li>
+  <li><strong>限制条件是什么？</strong> → "B型不超过A型的3倍"翻译成不等式</li>
+</ol>
+
+<p>这三件事搞清楚了，后面的求解就像走流程一样简单。</p>
+
+<div class="question-box">
+  <strong>想一想：</strong>"B型不超过A型的3倍"这句话，用数学式子怎么写？（提示：B型数量 = 100 − x，A型数量 = x）
+  <span class="blank-line"></span>
+</div>
+
+</section>
+
+<!-- ===== 三、关键转化怎么想 ===== -->
+<section>
+<h2>三、关键转化怎么想</h2>
+
+<p>这道题有两步<strong>关键转化</strong>：</p>
+
+<h3>转化1：把"利润"变成一个函数</h3>
+
+<p>总利润 = A型赚的钱 + B型赚的钱，每一项都是"单价 × 数量"：</p>
+
+<div class="step-box">
+  <strong>A型利润</strong>：120 × <em>x</em><br>
+  <strong>B型利润</strong>：140 × (100 − <em>x</em>)<br>
+  <strong>总利润</strong>：<em>y</em> = 120<em>x</em> + 140(100 − <em>x</em>)
+</div>
+
+<p>展开化简：<em>y</em> = 120<em>x</em> + 14000 − 140<em>x</em> = <strong>−20<em>x</em> + 14000</strong></p>
+
+<p>这是一个<strong>一次函数</strong>，而且 <em>k</em> = −20 &lt; 0，说明它是<strong>递减</strong>的——A型进得越多，利润反而越少（因为B型单台更赚钱）。</p>
+
+<h3>转化2：把"B不超过A的3倍"变成不等式</h3>
+
+<p>逐字翻译：</p>
+
+<div class="step-box">
+  "B型" → 100 − <em>x</em><br>
+  "不超过" → ≤<br>
+  "A型的3倍" → 3<em>x</em><br><br>
+  所以：<strong>100 − <em>x</em> ≤ 3<em>x</em></strong><br>
+  解得：100 ≤ 4<em>x</em>，即 <strong><em>x</em> ≥ 25</strong>
+</div>
+
+<p>再加上隐含条件（不能买负数台）：<em>x</em> ≥ 0，100 − <em>x</em> ≥ 0（即 <em>x</em> ≤ 100）。</p>
+
+<p>综合起来，<em>x</em> 的取值范围是：</p>
+
+<div class="formula-block"><strong>25 ≤ x ≤ 100</strong></div>
+
+<div class="question-box">
+  <strong>想一想：</strong>如果题目说"B型至少是A型的2倍"，不等式应该怎么写？解出来 <em>x</em> 的范围是什么？
+  <span class="blank-line"></span>
+</div>
+
+</section>
+
+<!-- ===== 四、标准解法 ===== -->
+<section class="page-break">
+<h2>四、标准解法</h2>
+
+<h3>第(1)问：求 <em>y</em> 与 <em>x</em> 的关系式</h3>
+
+<ol>
+  <li>A型 <em>x</em> 台，B型 (100 − <em>x</em>) 台</li>
+  <li><em>y</em> = 120<em>x</em> + 140(100 − <em>x</em>)</li>
+  <li>化简：<em>y</em> = 120<em>x</em> + 14000 − 140<em>x</em> = <strong>−20<em>x</em> + 14000</strong></li>
+</ol>
+
+<div class="highlight">
+  <strong>答：</strong><em>y</em> = −20<em>x</em> + 14000（其中 25 ≤ <em>x</em> ≤ 100）
+</div>
+
+<h3>第(2)问：购进各多少台利润最大？</h3>
+
+<p>这是这道题的<strong>核心</strong>。关键就一句话：</p>
+
+<div class="highlight">
+  <strong>看 <em>k</em> 的符号，决定取哪个端点。</strong>
+</div>
+
+<ol>
+  <li><em>y</em> = −20<em>x</em> + 14000，<em>k</em> = −20 &lt; 0 → <strong>函数递减</strong></li>
+  <li>递减函数：越往左（<em>x</em> 越小），<em>y</em> 越大</li>
+  <li>所以最大值在 <strong><em>x</em> = 25</strong>（范围的左端点）</li>
+  <li>代入：<em>y</em><sub>max</sub> = −20 × 25 + 14000 = −500 + 14000 = <strong>13500 元</strong></li>
+  <li>此时A型25台，B型 100 − 25 = 75 台</li>
+</ol>
+
+<div class="highlight">
+  <strong>答：</strong>购进A型25台、B型75台时，利润最大，为13500元。
+</div>
+
+<div class="mistake-box">
+  <strong>注意：</strong>如果忘了"xB≤3A"这个约束条件，会以为 <em>x</em> 的范围是 0 ≤ <em>x</em> ≤ 100，然后在 <em>x</em> = 0 处取最大值。但 <em>x</em> = 0 意味着不进A型全进B型，B型 = 100台，A型 = 0台，此时"0的3倍 = 0"，而100 > 0，不满足约束！
+</div>
+
+<h3>第(3)问：最多进A型60台，利润能否为13600元？</h3>
+
+<p>这里多了一个限制：<em>x</em> ≤ 60。和原来的 <em>x</em> ≥ 25 合在一起：</p>
+
+<div class="formula-block"><strong>25 ≤ x ≤ 60</strong></div>
+
+<ol>
+  <li><strong>先解方程</strong>：令 −20<em>x</em> + 14000 = 13600
+    <div class="step-box">
+      −20<em>x</em> = −400<br>
+      <em>x</em> = 20
+    </div>
+  </li>
+  <li><strong>验证范围</strong>：<em>x</em> = 20，但范围是 25 ≤ <em>x</em> ≤ 60。<br>
+    <span style="background:#ffdddd;padding:0 2mm;"><em>x</em> = 20 不在范围内！</span>
+  </li>
+  <li><strong>结论</strong>：不能达到13600元</li>
+  <li><strong>求利润范围</strong>：函数仍然递减，在 <em>x</em> = 25 时最大，<em>x</em> = 60 时最小
+    <div class="step-box">
+      <em>x</em> = 25 时：<em>y</em> = −20 × 25 + 14000 = <strong>13500</strong> 元<br>
+      <em>x</em> = 60 时：<em>y</em> = −20 × 60 + 14000 = −1200 + 14000 = <strong>12800</strong> 元
+    </div>
+  </li>
+</ol>
+
+<div class="highlight">
+  <strong>答：</strong>不能达到13600元。利润范围为 <strong>12800 ≤ <em>y</em> ≤ 13500</strong>（单位：元）。
+</div>
+
+</section>
+
+<!-- ===== 五、边讲边问 ===== -->
+<section>
+<h2>五、边讲边问</h2>
+
+<ol>
+  <li><strong>为什么 <em>y</em> = −20<em>x</em> + 14000 中 <em>k</em> 是负数？这和A型、B型谁的利润更高有什么关系？</strong>
+    <span class="blank-line"></span>
+    <span class="blank-line"></span>
+  </li>
+  <li><strong>如果题目改成"A型不超过B型的3倍"，不等式应该怎么写？解出来范围是什么？</strong>
+    <span class="blank-line"></span>
+    <span class="blank-line"></span>
+  </li>
+  <li><strong>第(2)问中，如果函数是递增的（<em>k</em> > 0），最大值应该取哪个端点？</strong>
+    <span class="blank-line"></span>
+    <span class="blank-line"></span>
+  </li>
+  <li><strong>第(3)问中，如果不验证范围直接说"能，<em>x</em> = 20"，哪里出了问题？</strong>
+    <span class="blank-line"></span>
+    <span class="blank-line"></span>
+  </li>
+  <li><strong>如果题目把"最多购进A型60台"改成"最多购进B型80台"，新的 <em>x</em> 范围是什么？</strong>
+    <span class="blank-line"></span>
+    <span class="blank-line"></span>
+  </li>
+</ol>
+</section>
+
+<!-- ===== 六、易错提醒 ===== -->
+<section>
+<h2>六、易错提醒</h2>
+
+<ul>
+  <li><strong>漏翻译约束条件</strong>："B型不超过A型的3倍"必须翻译成 100 − <em>x</em> ≤ 3<em>x</em>。很多同学直接用 0 ≤ <em>x</em> ≤ 100 当范围，导致最值取错位置。记住：<strong>每个文字限制都要变成一个不等式</strong>。</li>
+  <li><strong>递减取端点方向搞反</strong>：<em>k</em> < 0 时函数递减，最大值在<strong>最小的 <em>x</em></strong>处（左端点）。容易习惯性地以为"最大值在最大的地方"。</li>
+  <li><strong>第(3)问解完方程不验证</strong>：解出 <em>x</em> = 20 就下结论"能"，但20不在范围 [25, 60] 内。凡是涉及不等式约束的问题，<strong>算完必须回头检查范围</strong>。</li>
+</ul>
+</section>
+
+<!-- ===== 七、一句话总结 ===== -->
+<section>
+<h2>七、一句话总结</h2>
+
+<div class="highlight" style="font-size: 13pt; text-align: center;">
+  <strong>列函数 → 翻约束定范围 → 看 k 的符号 → 端点取最值。</strong>
+</div>
+<p style="text-align: center; font-size: 10.5pt; color: #666;">（四步走：建模、定域、看单调性、取端点）</p>
+</section>
+
+<aside class="teacher-note">
+  <strong>教师说明：</strong>本讲解面向初二学生，假设学生已掌握一次函数基本概念和一元一次不等式求解。核心训练目标：(1) 将文字约束翻译为不等式；(2) 利用 <em>k</em> 的符号判断单调性，在闭区间端点处取最值；(3) 解方程后验证范围。建议在"边讲边问"环节重点关注学生对"递减函数最大值在左端点"的理解。
+</aside>
+
+</div>
+</body>
+</html>

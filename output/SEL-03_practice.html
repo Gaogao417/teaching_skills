@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>自适应练习：一次函数与坐标轴围成面积</title>
+<script>
+MathJax = {
+  tex: { inlineMath: [['$','$'], ['\\(','\\)']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+<style>
+@page {
+  size: A4;
+  margin: 16mm 14mm;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  color: #111;
+  background: #fff;
+  font-family: "SimSun", "Songti SC", "Noto Serif CJK SC", serif;
+  font-size: 12pt;
+  line-height: 1.72;
+}
+
+.page {
+  max-width: 186mm;
+  margin: 0 auto;
+  padding: 2mm;
+}
+
+h1, h2, h3 {
+  font-family: "SimHei", "Microsoft YaHei", sans-serif;
+  font-weight: 700;
+  color: #000;
+}
+
+h1 {
+  margin: 0 0 7mm;
+  text-align: center;
+  font-size: 18pt;
+}
+
+h2 {
+  margin: 5mm 0 2mm;
+  padding: 1.5mm 2mm;
+  border-left: 3px solid #111;
+  border-bottom: 1px solid #999;
+  font-size: 13.5pt;
+}
+
+p, ol, ul {
+  margin-top: 0;
+  margin-bottom: 2.5mm;
+}
+
+ol, ul {
+  padding-left: 7mm;
+}
+
+.problem-block {
+  margin: 4mm 0;
+  padding: 3mm 3.5mm;
+  border: 1px solid #555;
+  background: #fff;
+}
+
+.stem {
+  font-size: 12pt;
+  margin-bottom: 2mm;
+}
+
+.meta-info {
+  font-size: 10.5pt;
+  color: #333;
+  margin-bottom: 2mm;
+}
+
+details {
+  margin: 2mm 0;
+  padding: 1.5mm 2mm;
+  border: 1px dashed #888;
+  background: #fdfdf5;
+  font-size: 11pt;
+}
+
+details summary {
+  cursor: pointer;
+  font-weight: 700;
+  font-family: "SimHei", "Microsoft YaHei", sans-serif;
+}
+
+.answer-space {
+  margin: 3mm 0;
+  min-height: 50mm;
+  border: 1px solid #aaa;
+  background: #fcfcfc;
+  position: relative;
+}
+
+.answer-space::before {
+  content: "解答区";
+  position: absolute;
+  top: 1mm;
+  right: 2mm;
+  font-size: 9pt;
+  color: #aaa;
+  font-family: "SimHei", "Microsoft YaHei", sans-serif;
+}
+
+.teacher-note {
+  margin: 3mm 0;
+  padding: 2.5mm 3mm;
+  border: 1px solid #777;
+  font-size: 10.5pt;
+  color: #333;
+  background: #f7f7f7;
+}
+
+.formula-box {
+  margin: 3mm 0;
+  padding: 2.5mm 4mm;
+  border: 1.5px solid #333;
+  background: #f5f5f5;
+  text-align: center;
+  font-size: 12.5pt;
+}
+
+.page-break {
+  break-before: page;
+  page-break-before: always;
+}
+
+.answer-key {
+  margin-top: 5mm;
+}
+
+.answer-key ol {
+  padding-left: 7mm;
+}
+
+.answer-key li {
+  margin-bottom: 4mm;
+}
+
+.judge-box {
+  margin: 2mm 0;
+  padding: 2mm 3mm;
+  border: 1px solid #666;
+  background: #f0f0f0;
+  font-size: 10.5pt;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 3mm 0;
+}
+
+td, th {
+  border: 1px solid #555;
+  padding: 1.8mm 2mm;
+  vertical-align: top;
+}
+
+@media print {
+  body {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  details {
+    break-inside: avoid;
+  }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<h1>自适应练习：一次函数与坐标轴围成面积</h1>
+
+<!-- 教师判断 -->
+<section class="teacher-note">
+  <h2>教师判断</h2>
+  <p><strong>当前档位：D→E档。</strong></p>
+  <p><strong>判断依据：</strong>学生能独立求解析式（第1问已掌握），需要加强面积计算的熟练度和通用公式的迁移能力。本组练习聚焦于"求截距→算面积"这条线，同时引入通用公式 $S = \dfrac{b^2}{2|k|}$ 的直接应用。</p>
+</section>
+
+<!-- 练习说明 -->
+<h2>练习说明</h2>
+<p>本组共 3 题，核心动作只有一个：<strong>找截距、算面积</strong>。</p>
+<p>第 1 题巩固基本流程；第 2 题练习用通用公式快速计算；第 3 题换一个方向——已知面积反求参数。每题算完后，请用通用公式 $S = \dfrac{b^2}{2|k|}$ 验证你的结果。</p>
+
+<div class="formula-box">
+  面积公式：$S = \dfrac{1}{2} \times |x_{\text{截距}}| \times |y_{\text{截距}}|$ &nbsp;通用形式：$S = \dfrac{b^2}{2|k|}$
+</div>
+
+<!-- 第1题 -->
+<section class="problem-block">
+  <h2>第 1 题（巩固基本流程）</h2>
+  <p class="stem">已知一次函数 $y = 2x - 6$。</p>
+  <p class="stem">（1）求它与 $x$ 轴的交点坐标和与 $y$ 轴的交点坐标；</p>
+  <p class="stem">（2）求它与两坐标轴所围成的三角形面积。</p>
+  <p class="meta-info"><strong>训练目标：</strong>熟练求截距坐标 → 代入面积公式。</p>
+  <p class="meta-info"><strong>预期卡点：</strong>令 $y=0$ 时解方程的符号、面积忘记乘 $\dfrac{1}{2}$。</p>
+
+  <details>
+    <summary>提示一</summary>
+    <p>求与 $x$ 轴交点：令 $y = 0$，解 $0 = 2x - 6$；求与 $y$ 轴交点：令 $x = 0$，得 $y = -6$。</p>
+  </details>
+  <details>
+    <summary>提示二</summary>
+    <p>$x$ 轴交点为 $(3, 0)$，$y$ 轴交点为 $(0, -6)$。注意截距长度要用绝对值：$|3| = 3$，$|-6| = 6$。</p>
+  </details>
+
+  <div class="answer-space"></div>
+</section>
+
+<!-- 第2题 -->
+<section class="problem-block">
+  <h2>第 2 题（练习通用公式）</h2>
+  <p class="stem">已知一次函数 $y = -4x + 10$。</p>
+  <p class="stem">（1）用通用公式 $S = \dfrac{b^2}{2|k|}$ 直接求它与两坐标轴所围成的面积；</p>
+  <p class="stem">（2）再通过求截距坐标的方法验证你的结果。</p>
+  <p class="meta-info"><strong>训练目标：</strong>直接使用通用公式 $S = \dfrac{b^2}{2|k|}$，并与逐项求截距法交叉验证。</p>
+  <p class="meta-info"><strong>预期卡点：</strong>通用公式中 $|k|$ 的绝对值可能漏掉，导致符号错误。</p>
+
+  <details>
+    <summary>提示一</summary>
+    <p>本题 $k = -4$，$b = 10$。代入通用公式：$S = \dfrac{10^2}{2 \times |-4|}$。</p>
+  </details>
+  <details>
+    <summary>提示二</summary>
+    <p>$S = \dfrac{100}{2 \times 4} = \dfrac{100}{8} = \dfrac{25}{2} = 12.5$。验证：$x$ 截距为 $\dfrac{10}{4} = \dfrac{5}{2}$，$y$ 截距为 $10$，$S = \dfrac{1}{2} \times \dfrac{5}{2} \times 10 = \dfrac{25}{2}$，结果一致。</p>
+  </details>
+
+  <div class="answer-space"></div>
+</section>
+
+<!-- 第3题 -->
+<section class="problem-block">
+  <h2>第 3 题（反求参数——迁移提升）</h2>
+  <p class="stem">已知一次函数 $y = kx + 4$（$k \neq 0$）与两坐标轴围成的三角形面积为 $8$。求 $k$ 的值。</p>
+  <p class="meta-info"><strong>训练目标：</strong>从"已知 $k$、$b$ 算面积"反转为"已知面积和 $b$ 求 $k$"，检验对公式的理解深度。</p>
+  <p class="meta-info"><strong>预期卡点：</strong>不会把面积公式反过来用、漏掉 $k$ 可正可负两种情况。</p>
+
+  <details>
+    <summary>提示一</summary>
+    <p>已知 $S = \dfrac{b^2}{2|k|} = 8$，其中 $b = 4$，代入得 $\dfrac{16}{2|k|} = 8$，解出 $|k|$。</p>
+  </details>
+  <details>
+    <summary>提示二</summary>
+    <p>$\dfrac{16}{2|k|} = 8 \implies \dfrac{8}{|k|} = 8 \implies |k| = 1$。所以 $k = 1$ 或 $k = -1$，不要漏掉负值！</p>
+  </details>
+
+  <div class="answer-space"></div>
+</section>
+
+<!-- 分页 + 答案 -->
+<div class="answer-key page-break">
+  <h2>参考答案与升级/降级判断</h2>
+
+  <h3>第 1 题答案</h3>
+  <p>（1）令 $y = 0$：$0 = 2x - 6 \implies x = 3$，与 $x$ 轴交于 $(3, 0)$；令 $x = 0$：$y = -6$，与 $y$ 轴交于 $(0, -6)$。</p>
+  <p>（2）$S = \dfrac{1}{2} \times |3| \times |-6| = \dfrac{1}{2} \times 3 \times 6 = 9$。</p>
+  <p><strong>通用公式验证：</strong>$S = \dfrac{(-6)^2}{2 \times |2|} = \dfrac{36}{4} = 9$。</p>
+  <div class="judge-box">
+    <strong>判断：</strong>若学生正确，说明基本流程已掌握。若漏了绝对值或 $\dfrac{1}{2}$，停留当前档位，下一轮重复同类练习。
+  </div>
+
+  <h3>第 2 题答案</h3>
+  <p>（1）$k = -4$，$b = 10$。$S = \dfrac{10^2}{2 \times |-4|} = \dfrac{100}{8} = \dfrac{25}{2}$。</p>
+  <p>（2）$x$ 截距：令 $y = 0 \implies 0 = -4x + 10 \implies x = \dfrac{5}{2}$，交点 $(\dfrac{5}{2}, 0)$；$y$ 截距：令 $x = 0 \implies y = 10$，交点 $(0, 10)$。</p>
+  <p>$S = \dfrac{1}{2} \times \dfrac{5}{2} \times 10 = \dfrac{25}{2}$，与通用公式结果一致。</p>
+  <div class="judge-box">
+    <strong>判断：</strong>若学生能用通用公式并正确验证，升级至 E 档。若不会用通用公式但仍能通过截距法算对，维持 D 档。
+  </div>
+
+  <h3>第 3 题答案</h3>
+  <p>由 $S = \dfrac{b^2}{2|k|}$ 得 $\dfrac{16}{2|k|} = 8$，即 $\dfrac{8}{|k|} = 8$，解得 $|k| = 1$。</p>
+  <p>所以 $k = 1$ 或 $k = -1$。</p>
+  <div class="judge-box">
+    <strong>判断：</strong>若学生得出 $k = 1$ 或 $k = -1$（两个值），升级至 F 档——已掌握核心结构，可进入结构隐藏型变式。若只写 $k = 1$ 漏了负值，停留 E 档，下一轮强调绝对值与分类讨论。
+  </div>
+</div>
+
+<!-- 教师备注 -->
+<aside class="teacher-note">
+下一轮：根据本页完成情况，更新学生画像；必要时回到讲解页，或生成下一组变式。若三题全对且含双解，可进入 F 档变式（如：不给解析式，给图或给条件逆推）。
+</aside>
+
+</div>
+</body>
+</html>

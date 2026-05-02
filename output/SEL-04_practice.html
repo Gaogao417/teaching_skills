@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>自适应练习：一次函数值与不等式</title>
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']]
+  }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<style>
+@page {
+  size: A4;
+  margin: 16mm 14mm;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  color: #111;
+  background: #fff;
+  font-family: "SimSun", "Songti SC", "Noto Serif CJK SC", serif;
+  font-size: 12pt;
+  line-height: 1.72;
+}
+
+.page {
+  max-width: 186mm;
+  margin: 0 auto;
+  padding: 0 2mm;
+}
+
+h1, h2, h3 {
+  font-family: "SimHei", "Microsoft YaHei", sans-serif;
+  font-weight: 700;
+  color: #000;
+}
+
+h1 {
+  margin: 0 0 7mm;
+  text-align: center;
+  font-size: 18pt;
+}
+
+h2 {
+  margin: 5mm 0 2mm;
+  padding: 1.5mm 2mm;
+  border-left: 3px solid #111;
+  border-bottom: 1px solid #999;
+  font-size: 13.5pt;
+}
+
+p, ol, ul {
+  margin-top: 0;
+  margin-bottom: 2.5mm;
+}
+
+ol, ul {
+  padding-left: 7mm;
+}
+
+.teacher-note,
+.problem,
+.answer-key {
+  margin: 3mm 0;
+  padding: 2.5mm 3mm;
+  border: 1px solid #777;
+}
+
+.teacher-note {
+  font-size: 10.5pt;
+  color: #333;
+  background: #f7f7f7;
+}
+
+.stem {
+  font-weight: 700;
+}
+
+.answer-space {
+  min-height: 42mm;
+  margin-top: 3mm;
+  background-image: repeating-linear-gradient(to bottom, transparent 0, transparent 7.5mm, #bbb 7.7mm);
+  border: 1px solid #aaa;
+}
+
+.answer-space-short {
+  min-height: 12mm;
+  margin-top: 3mm;
+  background-image: repeating-linear-gradient(to bottom, transparent 0, transparent 7.5mm, #bbb 7.7mm);
+  border: 1px solid #aaa;
+}
+
+details {
+  margin: 2mm 0;
+}
+
+summary {
+  cursor: pointer;
+  font-family: "SimHei", "Microsoft YaHei", sans-serif;
+}
+
+.page-break {
+  break-before: page;
+  page-break-before: always;
+}
+
+.formula-line {
+  text-align: center;
+  margin: 2mm 0;
+  font-size: 13pt;
+}
+
+.problem-number {
+  font-family: "SimHei", "Microsoft YaHei", sans-serif;
+  font-size: 14pt;
+  font-weight: 700;
+}
+
+.meta-line {
+  font-size: 10.5pt;
+  color: #444;
+  margin: 1mm 0;
+}
+
+@media print {
+  details {
+    display: block;
+  }
+
+  body {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<h1>自适应练习：一次函数值与不等式</h1>
+
+<section class="teacher-note">
+  <h2>教师判断</h2>
+  <p><strong>当前档位：E档</strong>（会做原题，但不会迁移）。</p>
+  <p><strong>判断依据：</strong>初二学生已学一次函数和一元一次不等式，题目结构清晰、系数简单，预计能完成原题。但将系数改为负数（递减函数）后，不等号方向的处理是典型的迁移卡点，需要针对性训练。</p>
+  <p><strong>练习策略：</strong>同源平级变式，保留"代入转化"核心结构，换系数正负，训练学生对增减性与不等式方向的敏感度。</p>
+</section>
+
+<section>
+  <h2>练习说明</h2>
+  <p>本组共 3 题，只练一个动作：<strong>把 y 的条件代回函数式子，变成方程或不等式，再求解</strong>。注意观察系数正负的变化对不等号方向的影响。</p>
+</section>
+
+<!-- ===== 第1题 ===== -->
+<section class="problem">
+  <div class="problem-number">第 1 题</div>
+  <p class="stem">已知一次函数 \(y = -2x + 10\)。</p>
+  <p>(1) 当 \(x\) 取何值时，\(y = 0\)？</p>
+  <p>(2) 当 \(x\) 取何值时，\(y > 0\)？</p>
+  <p>(3) 当 \(x\) 取何值时，\(y < 0\)？</p>
+  <p class="meta-line"><strong>训练目标：</strong>系数为负数时，增减性改变，不等式方向与直觉相反。</p>
+  <p class="meta-line"><strong>预期卡点：</strong>第(3)问容易直接写 \(x < 5\)，实际应该是 \(x > 5\)。</p>
+  <details>
+    <summary>提示一</summary>
+    <p>先看系数：\(-2 < 0\)，所以这个函数是<strong>递减</strong>的。y 大了，x 反而小。</p>
+  </details>
+  <details>
+    <summary>提示二</summary>
+    <p>第(1)问解方程 \(-2x + 10 = 0\)，得 \(x = 5\)。因为递减，所以 \(y > 0\) 时 \(x < 5\)，\(y < 0\) 时 \(x > 5\)。</p>
+  </details>
+  <div class="answer-space"></div>
+</section>
+
+<!-- ===== 第2题 ===== -->
+<section class="problem">
+  <div class="problem-number">第 2 题</div>
+  <p class="stem">已知一次函数 \(y = \dfrac{1}{3}x - 4\)。</p>
+  <p>(1) 当 \(x\) 取何值时，\(y = -1\)？</p>
+  <p>(2) 当 \(x\) 取何值时，\(-2 < y < -1\)？</p>
+  <p class="meta-line"><strong>训练目标：</strong>复合不等式的拆分与交集，且上下界都是负数。</p>
+  <p class="meta-line"><strong>预期卡点：</strong>拆成 \(\dfrac{1}{3}x - 4 > -2\) 和 \(\dfrac{1}{3}x - 4 < -1\) 后，解的过程容易算错常数项的移项。</p>
+  <details>
+    <summary>提示一</summary>
+    <p>先解(1)得 \(y = -1\) 对应 \(x = 9\)，这是上界分界点。再求 \(y = -2\) 对应的 \(x\)，作为下界分界点。</p>
+  </details>
+  <details>
+    <summary>提示二</summary>
+    <p>\(y = -2\) 代入：\(\dfrac{1}{3}x - 4 = -2\)，得 \(\dfrac{1}{3}x = 2\)，即 \(x = 6\)。系数 \(\frac{1}{3} > 0\) 递增，所以 \(-2 < y < -1\) 对应 \(6 < x < 9\)。</p>
+  </details>
+  <div class="answer-space"></div>
+</section>
+
+<!-- ===== 第3题 ===== -->
+<section class="problem">
+  <div class="problem-number">第 3 题</div>
+  <p class="stem">已知一次函数 \(y = -\dfrac{1}{2}x + 5\)。</p>
+  <p>(1) 当 \(x\) 取何值时，\(1 < y < 3\)？</p>
+  <p>(2) 当 \(x\) 取何值时，\(y \leq 1\)？</p>
+  <p class="meta-line"><strong>训练目标：</strong>负系数 + 复合不等式 + 含"等于"的不等式，综合迁移。</p>
+  <p class="meta-line"><strong>预期卡点：</strong>负系数递减，\(y\) 从 1 到 3 对应的 \(x\) 范围容易写反；\(\leq\) 在递减函数下对应的边界判断。</p>
+  <details>
+    <summary>提示一</summary>
+    <p>系数 \(-\frac{1}{2} < 0\)，函数递减。先求 \(y = 1\) 对应 \(x = 8\)，\(y = 3\) 对应 \(x = 4\)。</p>
+  </details>
+  <details>
+    <summary>提示二</summary>
+    <p>递减时，\(y\) 大对应 \(x\) 小：\(1 < y < 3\) 对应 \(4 < x < 8\)。\(\;y \leq 1\) 时 \(x \geq 8\)。</p>
+  </details>
+  <div class="answer-space"></div>
+</section>
+
+<!-- ===== 答案 ===== -->
+<section class="answer-key page-break">
+  <h2>参考答案与升级/降级判断</h2>
+
+  <p><strong>第 1 题</strong></p>
+  <ol type="1">
+    <li>\(-2x + 10 = 0 \Longrightarrow -2x = -10 \Longrightarrow x = 5\)。</li>
+    <li>\(-2x + 10 > 0 \Longrightarrow -2x > -10\)。两边除以 \(-2\)（负数），不等号翻转：\(x < 5\)。</li>
+    <li>\(-2x + 10 < 0 \Longrightarrow -2x < -10\)。两边除以 \(-2\)，不等号翻转：\(x > 5\)。</li>
+  </ol>
+  <p><strong>升级/降级判断：</strong>若学生三问全对，保持 E 档进入第 2 题。若第(2)(3)问不等号方向写反（写成 \(x>5\)、\(x<5\)），降级至 D 档——需加强"负系数时不等号翻转"的意识。</p>
+
+  <p><strong>第 2 题</strong></p>
+  <ol type="1">
+    <li>\(\dfrac{1}{3}x - 4 = -1 \Longrightarrow \dfrac{1}{3}x = 3 \Longrightarrow x = 9\)。</li>
+    <li>复合不等式 \(0 < \dfrac{1}{3}x - 4 < -1\)（注：应为 \(-2 < \dfrac{1}{3}x - 4 < -1\)）<br>
+    左半：\(\dfrac{1}{3}x - 4 > -2 \Longrightarrow \dfrac{1}{3}x > 2 \Longrightarrow x > 6\)<br>
+    右半：\(\dfrac{1}{3}x - 4 < -1 \Longrightarrow \dfrac{1}{3}x < 3 \Longrightarrow x < 9\)<br>
+    取交集：\(6 < x < 9\)。</li>
+  </ol>
+  <p><strong>升级/降级判断：</strong>若学生正确拆分并取交集得 \(6 < x < 9\)，保持 E 档进入第 3 题。若只解了一边或交集取错（写成并集），降级至 D 档。</p>
+
+  <p><strong>第 3 题</strong></p>
+  <ol type="1">
+    <li>\(-\dfrac{1}{2}x + 5 = 1 \Longrightarrow -\dfrac{1}{2}x = -4 \Longrightarrow x = 8\)；<br>
+    \(-\dfrac{1}{2}x + 5 = 3 \Longrightarrow -\dfrac{1}{2}x = -2 \Longrightarrow x = 4\)。<br>
+    系数为负，递减函数，\(y\) 从 1 到 3 对应 \(x\) 从 8 到 4：\(4 < x < 8\)。</li>
+    <li>\(y \leq 1 \Longrightarrow -\dfrac{1}{2}x + 5 \leq 1 \Longrightarrow -\dfrac{1}{2}x \leq -4 \Longrightarrow x \geq 8\)。</li>
+  </ol>
+  <p><strong>升级/降级判断：</strong>若学生三题全对，升级至 F 档——已掌握，下次可以做结构隐藏型变式（如函数式含参）。若第(2)问写反（写成 \(x \leq 8\)），保持 E 档，需要再练负系数含等号的情况。</p>
+
+  <div style="margin-top:5mm; padding:2mm; border-top:1px solid #999;">
+    <p><strong>综合判断：</strong></p>
+    <ul>
+      <li>三题全对且过程规范 → F档</li>
+      <li>复合不等式或负系数出错 → D档或E档（视具体错误）</li>
+      <li>基础代入都不会 → C档（回到讲解页重新理解"把 y 换成条件数"）</li>
+    </ul>
+  </div>
+</section>
+
+<aside class="teacher-note">
+  下一轮：根据本页完成情况，更新学生画像；必要时回到讲解页，或生成下一组变式。
+</aside>
+
+</div>
+</body>
+</html>

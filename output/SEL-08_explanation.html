@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>学生版讲解：分段函数——水费计费</title>
+<style>
+@page {
+  size: A4;
+  margin: 16mm 14mm;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  color: #111;
+  background: #fff;
+  font-family: "SimSun", "Songti SC", "Noto Serif CJK SC", serif;
+  font-size: 12pt;
+  line-height: 1.72;
+}
+
+.page {
+  max-width: 186mm;
+  margin: 0 auto;
+  padding: 0 2mm;
+}
+
+h1, h2, h3 {
+  font-family: "SimHei", "Microsoft YaHei", sans-serif;
+  font-weight: 700;
+  color: #000;
+}
+
+h1 {
+  margin: 0 0 7mm;
+  text-align: center;
+  font-size: 18pt;
+  letter-spacing: 0;
+}
+
+h2 {
+  margin: 5mm 0 2mm;
+  padding: 1.5mm 2mm;
+  border-left: 3px solid #111;
+  border-bottom: 1px solid #999;
+  font-size: 13.5pt;
+}
+
+h3 {
+  font-size: 12pt;
+  margin: 3mm 0 1.5mm;
+}
+
+p, ol, ul {
+  margin-top: 0;
+  margin-bottom: 2.5mm;
+}
+
+ol, ul {
+  padding-left: 7mm;
+}
+
+ol li {
+  margin-bottom: 1.5mm;
+}
+
+.question-box,
+.teacher-note,
+.mistake-box {
+  margin: 3mm 0;
+  padding: 2.5mm 3mm;
+  border: 1px solid #777;
+}
+
+.teacher-note {
+  font-size: 10.5pt;
+  color: #333;
+  background: #f7f7f7;
+}
+
+.mistake-box {
+  border-left: 3px solid #c00;
+  background: #fef7f7;
+}
+
+.question-box {
+  border-left: 3px solid #0066cc;
+  background: #f0f6ff;
+}
+
+.blank-line {
+  display: block;
+  height: 8mm;
+  border-bottom: 1px solid #999;
+}
+
+.page-break {
+  break-before: page;
+  page-break-before: always;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 3mm 0;
+}
+
+td, th {
+  border: 1px solid #555;
+  padding: 1.8mm 2mm;
+  vertical-align: top;
+}
+
+.formula {
+  font-family: "Times New Roman", serif;
+  font-style: italic;
+}
+
+.formula-block {
+  text-align: center;
+  margin: 3mm 0;
+  font-size: 13pt;
+  font-family: "Times New Roman", serif;
+}
+
+.highlight {
+  border: 1.5px solid #111;
+  padding: 2mm 3mm;
+  margin: 3mm 0;
+  background: #fffff0;
+}
+
+.step-box {
+  margin: 2.5mm 0;
+  padding: 2mm 3mm;
+  border: 1px solid #bbb;
+  background: #fafafa;
+}
+
+@media print {
+  body {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<h1>学生版讲解：分段函数——水费计费</h1>
+
+<!-- ===== 一、这题先看懂什么 ===== -->
+<section>
+<h2>一、这题先看懂什么</h2>
+
+<p>这道题说的是<strong>水费怎么收</strong>。你一年用了 <em>x</em> 立方米的水，要交 <em>y</em> 元水费。关键是：<strong>用的多，后面的水更贵</strong>。</p>
+
+<p>规则其实就一句话：前面220立方米以内，一个价；超过220的部分，另一个（更高的）价。</p>
+
+<p>题目里还有一笔<strong>污水处理费</strong>——不管哪个档次，每用1立方米都要额外加1.53元。这笔钱要<strong>叠加上去</strong>。</p>
+
+<div class="question-box">
+  <strong>想一想：</strong>如果一户人家一年只用了100立方米水，应该按哪个档次收费？如果用了300立方米呢？
+  <span class="blank-line"></span>
+</div>
+
+</section>
+
+<!-- ===== 二、第一步该做什么 ===== -->
+<section>
+<h2>二、第一步该做什么</h2>
+
+<p>拿到这类题，<strong>不要急着算数字</strong>。第一步是：</p>
+
+<div class="highlight">
+  <strong>找分界点，画"分段线"。</strong>
+</div>
+
+<p>这道题的分界点很明确：<strong>220立方米</strong>。</p>
+
+<table>
+  <tr>
+    <th style="width:40%">区间</th>
+    <th style="width:60%">收费方式</th>
+  </tr>
+  <tr>
+    <td>0 &lt; x &le; 220（第一段）</td>
+    <td>每立方米按"正常价"收</td>
+  </tr>
+  <tr>
+    <td>x &gt; 220（第二段）</td>
+    <td>前220按正常价，超出的按"加价"收</td>
+  </tr>
+</table>
+
+<p>有了分界点，你就知道要写<strong>两个</strong>函数解析式——这就是"分段函数"。</p>
+
+<div class="question-box">
+  <strong>想一想：</strong>分界点 x=220 这个位置，应该归到哪一段？为什么？
+  <span class="blank-line"></span>
+</div>
+
+</section>
+
+<!-- ===== 三、关键转化怎么想 ===== -->
+<section>
+<h2>三、关键转化怎么想</h2>
+
+<p>把题目的话变成数学式子，需要两步<strong>转化</strong>：</p>
+
+<h3>转化1：把"每项费用"加起来，得到一个"合计单价"</h3>
+
+<p>题目说每立方米收<strong>水费1.92元</strong>，还要加<strong>污水处理费1.53元</strong>。合起来：</p>
+
+<div class="formula-block">合计单价 = 1.92 + 1.53 = 3.45（元/立方米）</div>
+
+<h3>转化2：第二段不能直接用高单价乘全部水量</h3>
+
+<p>第二段的水费由<strong>两部分</strong>组成：</p>
+
+<div class="step-box">
+  <strong>部分A</strong>：前220立方米，按正常价 3.45 元/立方米<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;→ 费用 = 3.45 × 220 = 759 元<br><br>
+  <strong>部分B</strong>：超出220的部分，共 (x − 220) 立方米，按加价收<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;→ 超出部分单价 = 3.30 + 1.53 = 4.83 元/立方米<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;→ 费用 = 4.83 × (x − 220)
+</div>
+
+<div class="question-box">
+  <strong>想一想：</strong>如果不把"部分A"和"部分B"分开算，直接写成 y = 4.83x，结果会怎样？和正确答案差多少？
+  <span class="blank-line"></span>
+</div>
+
+</section>
+
+<!-- ===== 四、标准解法 ===== -->
+<section class="page-break">
+<h2>四、标准解法</h2>
+
+<h3>第(1)问：写出函数解析式</h3>
+
+<p><strong>第一段（0 &lt; x &le; 220）：</strong></p>
+<ol>
+  <li>合计单价 = 1.92 + 1.53 = 3.45（元/立方米）</li>
+  <li>y = 3.45x，定义域 0 &lt; x &le; 220</li>
+</ol>
+
+<p><strong>第二段（x &gt; 220）：</strong></p>
+<ol>
+  <li>前220立方米费用 = 3.45 × 220 = 759 元</li>
+  <li>超出部分费用 = 4.83 × (x − 220)</li>
+  <li>y = 759 + 4.83(x − 220)</li>
+  <li>展开化简：y = 759 + 4.83x − 1062.6 = <strong>4.83x − 303.6</strong></li>
+  <li>定义域 x &gt; 220</li>
+</ol>
+
+<div class="highlight">
+  <strong>最终答案：</strong><br>
+  当 0 &lt; x &le; 220 时，y = 3.45x<br>
+  当 x &gt; 220 时，y = 4.83x − 303.6
+</div>
+
+<h3>第(2)问：已知水费1000.5元，求用水量</h3>
+
+<p><strong>关键一步：先判断落在哪一段！</strong></p>
+
+<ol>
+  <li><strong>算分界点的水费</strong>：当 x = 220 时，y = 3.45 × 220 = 759 元</li>
+  <li><strong>比较</strong>：1000.5 &gt; 759 → 说明用水量超过了220立方米 → <strong>用第二段</strong></li>
+  <li><strong>代入第二段解方程</strong>：
+    <div class="step-box">
+      4.83x − 303.6 = 1000.5<br>
+      4.83x = 1304.1<br>
+      x = 1304.1 ÷ 4.83 = <strong>270</strong>
+    </div>
+  </li>
+  <li><strong>检验</strong>：270 &gt; 220，在第二段定义域内，<span style="background:#dfd;padding:0 2mm;">正确</span>。</li>
+</ol>
+
+<div class="highlight">
+  <strong>答：</strong>这户全年用水量为 270 立方米。
+</div>
+
+<div class="mistake-box">
+  <strong>注意：</strong>如果直接用第一段反除：x = 1000.5 ÷ 3.45 = 290，但 290 &gt; 220，不在第一段定义域内！所以必须先判断落在哪一段。
+</div>
+
+</section>
+
+<!-- ===== 五、边讲边问 ===== -->
+<section>
+<h2>五、边讲边问</h2>
+
+<ol>
+  <li><strong>如果某户用了恰好220立方米水，水费是多少？</strong>
+    <span class="blank-line"></span>
+    <span class="blank-line"></span>
+  </li>
+  <li><strong>在第二段中，4.83 和 303.6 这两个数字分别是怎么来的？</strong>
+    <span class="blank-line"></span>
+    <span class="blank-line"></span>
+  </li>
+  <li><strong>如果一户人家的水费恰好是759元，能确定用水量吗？用哪一段来算？</strong>
+    <span class="blank-line"></span>
+    <span class="blank-line"></span>
+  </li>
+  <li><strong>为什么第(2)问不能直接用"水费 ÷ 单价"得到答案？</strong>
+    <span class="blank-line"></span>
+    <span class="blank-line"></span>
+  </li>
+  <li><strong>如果把污水处理费去掉（只有水费1.92元和加价3.30元），解析式会怎么变？</strong>
+    <span class="blank-line"></span>
+    <span class="blank-line"></span>
+  </li>
+</ol>
+</section>
+
+<!-- ===== 六、易错提醒 ===== -->
+<section>
+<h2>六、易错提醒</h2>
+
+<ul>
+  <li><strong>忘加污水处理费</strong>：题目说"加收每立方米1.53元"，这是<strong>每立方米都要加的</strong>，不是一笔固定费用。不加上去，整道题都不对。</li>
+  <li><strong>第二段直接 y = 4.83x</strong>：这是最常见的错误。超出部分的加价只适用于"超出220以后的水量"，不适用于全部水量。正确做法是：前段总额 + 超出部分单价 × (x − 220)。</li>
+  <li><strong>第(2)问不验证区间</strong>：算出 x = 290 后没有回头检查 290 &gt; 220，就把答案写上去了。分段函数问题中，<strong>算完必须回头检查</strong>结果是否在所选区间内。</li>
+</ul>
+</section>
+
+<!-- ===== 七、一句话总结 ===== -->
+<section>
+<h2>七、一句话总结</h2>
+
+<div class="highlight" style="font-size: 13pt; text-align: center;">
+  <strong>找分界 → 分段列式 → 反代先判段 → 解完回头看。</strong>
+</div>
+<p style="text-align: center; font-size: 10.5pt; color: #666;">（四步走：分界点、分段解析式、判断区间、验证结果）</p>
+</section>
+
+<aside class="teacher-note">
+  <strong>教师说明：</strong>本讲解面向初二学生，假设学生已掌握一次函数的基本概念和方程求解。重点训练"从文字规则中提取分段结构"和"反向代入时先判断区间"两个动作。建议在"边讲边问"环节逐题检查，重点关注学生对第二段列式逻辑的理解。
+</aside>
+
+</div>
+</body>
+</html>

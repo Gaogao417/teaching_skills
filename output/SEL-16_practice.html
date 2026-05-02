@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>自适应练习：等腰梯形存在性</title>
+<style>
+@page { size: A4; margin: 16mm 14mm; }
+* { box-sizing: border-box; }
+body { margin: 0; color: #111; background: #fff; font-family: "SimSun","Songti SC","Noto Serif CJK SC",serif; font-size: 12pt; line-height: 1.72; }
+.page { max-width: 186mm; margin: 0 auto; padding: 0 2mm; }
+h1,h2,h3 { font-family: "SimHei","Microsoft YaHei",sans-serif; font-weight: 700; color: #000; }
+h1 { margin: 0 0 7mm; text-align: center; font-size: 18pt; }
+h2 { margin: 5mm 0 2mm; padding: 1.5mm 2mm; border-left: 3px solid #111; border-bottom: 1px solid #999; font-size: 13.5pt; }
+h3 { margin: 3mm 0 1.5mm; font-size: 12.5pt; }
+p,ol,ul { margin-top: 0; margin-bottom: 2.5mm; }
+ol,ul { padding-left: 7mm; }
+li { margin-bottom: 1.5mm; }
+.teacher-note { margin: 3mm 0; padding: 2.5mm 3mm; border: 1px solid #777; font-size: 10.5pt; color: #333; background: #f7f7f7; }
+.problem-box { margin: 3mm 0; padding: 3mm 4mm; border: 1.5px solid #111; background: #fafafa; }
+.highlight { background: #fff8dc; padding: 0 1mm; }
+.case-title { margin: 3mm 0 1mm; padding: 1mm 3mm; background: #f0f0f0; font-weight: 700; font-family: "SimHei","Microsoft YaHei",sans-serif; }
+table { width: 100%; border-collapse: collapse; margin: 3mm 0; }
+td,th { border: 1px solid #555; padding: 1.8mm 2mm; vertical-align: top; }
+details { margin: 2mm 0; }
+details summary { cursor: pointer; font-weight: 700; color: #333; padding: 1mm 0; }
+details p { margin: 1.5mm 0 1.5mm 5mm; color: #222; }
+.blank-line { display: block; height: 8mm; border-bottom: 1px solid #999; }
+.answer-space { margin: 3mm 0; border: 1px dashed #aaa; min-height: 30mm; background: #fefefe; }
+.page-break { break-before: page; page-break-before: always; }
+@media print { body { -webkit-print-color-adjust: exact; print-color-adjust: exact; } }
+</style>
+</head>
+<body>
+<div class="page">
+
+<h1>自适应练习：等腰梯形存在性</h1>
+
+<section class="teacher-note">
+<h2>教师判断</h2>
+<p><strong>当前档位：E 档</strong>（会做原题，但需要迁移巩固）</p>
+<p><strong>判断依据：</strong>学生已掌握平行四边形存在性，理解坐标几何基本工具（斜率、距离公式、平移）。通过讲解阶段学习了等腰梯形的三种分类讨论方法，但尚未独立完成过此类问题。需要同源平级变式来巩固"枚举平行对边 → 列方程 → 验证退化"的流程。</p>
+</section>
+
+<section>
+<h2>练习说明</h2>
+<p>本组共 3 题，每题都练习同一个动作：<strong>找到所有可能的平行对边组合，列方程求出第四个顶点，然后验证不退化为平行四边形。</strong></p>
+<p>请按顺序完成，每题写出完整的枚举、列式和验证过程。</p>
+</section>
+
+<!-- ====== 第1题 ====== -->
+<section class="problem">
+<h2>第 1 题（巩固：正向应用）</h2>
+<p class="stem">在平面直角坐标系中，已知 <em>A</em>(0, 0)、<em>B</em>(2, 4)、<em>C</em>(6, 0) 三个点。若点 <em>D</em> 在坐标平面内，且以 <em>A</em>、<em>B</em>、<em>C</em>、<em>D</em> 为顶点的四边形是<strong>等腰梯形</strong>，求所有满足条件的点 <em>D</em> 的坐标。</p>
+<p><strong>训练目标：</strong>独立完成三种情况的枚举，每步写出"哪两条边平行"和"哪两条边相等"。</p>
+<p><strong>预期卡点：</strong>① 漏掉 AB ∥ CD 的情况（因为 AB 是斜线不直观）；② 解方程时计算出错；③ 忘记验证退化。</p>
+
+<details>
+<summary>提示一</summary>
+<p>先算出 AB、BC、AC 三条线段的斜率和长度平方，备用。然后列出三组可能的平行对边组合。</p>
+</details>
+<details>
+<summary>提示二</summary>
+<p>三组组合分别是：① AB ∥ CD，AC = BD；② AC ∥ BD，AB = CD；③ BC ∥ AD，AB = CD。每组用斜率相等列一个方程，用距离相等列另一个方程。</p>
+</details>
+
+<div class="answer-space">
+  <div style="padding:2mm;text-align:center;color:#999;font-size:10pt;">答题区域</div>
+  <div class="blank-line"></div><div class="blank-line"></div><div class="blank-line"></div>
+  <div class="blank-line"></div><div class="blank-line"></div><div class="blank-line"></div>
+  <div class="blank-line"></div><div class="blank-line"></div>
+</div>
+</section>
+
+<!-- ====== 第2题 ====== -->
+<section class="problem">
+<h2>第 2 题（变式：换情境，结构不变）</h2>
+<p class="stem">抛物线 <em>y</em> = −<em>x</em>² + 4<em>x</em> 与 <em>x</em> 轴交于 <em>O</em>(0, 0) 和 <em>A</em>(4, 0)，与 <em>y</em> 轴交于 <em>B</em>(0, 4)。若点 <em>D</em> 在坐标平面内，且以 <em>O</em>、<em>B</em>、<em>A</em>、<em>D</em> 为顶点的四边形是<strong>等腰梯形</strong>，求所有满足条件的点 <em>D</em> 的坐标。</p>
+<p><strong>训练目标：</strong>将同样的分类讨论方法应用到新图形（抛物线）上，体会方法的通用性。</p>
+<p><strong>预期卡点：</strong>虽然图形变了，但核心方法完全一样。学生可能被"抛物线"吓到，但其实只需要 O、B、A 三个点的坐标。</p>
+
+<details>
+<summary>提示一</summary>
+<p>这道题的关键信息和上一题完全一样——三个已知点的坐标。不需要用抛物线的任何其他性质。直接算 OB、BA、OA 的斜率和长度。</p>
+</details>
+<details>
+<summary>提示二</summary>
+<p>注意：OA 在 x 轴上（斜率 0），OB 在 y 轴上（斜率不存在/无穷大）。三组平行对边中，OA ∥ BD 的情况下 BD 斜率 = 0 → D 的 y 坐标和 B 相同（即 y = 4）。</p>
+</details>
+
+<div class="answer-space">
+  <div style="padding:2mm;text-align:center;color:#999;font-size:10pt;">答题区域</div>
+  <div class="blank-line"></div><div class="blank-line"></div><div class="blank-line"></div>
+  <div class="blank-line"></div><div class="blank-line"></div><div class="blank-line"></div>
+  <div class="blank-line"></div><div class="blank-line"></div>
+</div>
+</section>
+
+<!-- ====== 第3题 ====== -->
+<section class="problem">
+<h2>第 3 题（提升：结构隐藏）</h2>
+<p class="stem">在平面直角坐标系中，<em>A</em>(−1, 0)、<em>B</em>(0, 2)、<em>C</em>(3, 0) 三个点。若四边形 <em>ABCD</em> 是<strong>等腰梯形</strong>，且 <em>AD</em> ∥ <em>BC</em>，求点 <em>D</em> 的坐标。<em>（注意：本题已指定哪两条边平行。）</em></p>
+<p><strong>训练目标：</strong>在指定平行边的情况下，专注于"等腰 + 不退化"两个条件的列式和验证。</p>
+<p><strong>预期卡点：</strong>① AD ∥ BC 的斜率方程可能有两个解；② 需要判断哪个解构成梯形（而不是平行四边形）。</p>
+
+<details>
+<summary>提示一</summary>
+<p>既然已知 AD ∥ BC，先算 BC 斜率：(0−2)/(3−0) = −2/3。设 D(a,b)，则 (b−0)/(a+1) = −2/3，得到 b = −2(a+1)/3。</p>
+</details>
+<details>
+<summary>提示二</summary>
+<p>等腰条件：AB = CD 或 AC = BD。题目说"等腰梯形"，两腰相等。既然 AD ∥ BC，两腰就是 AB 和 CD（或 AC 和 BD，需看哪个更合理）。先试 AB = CD，列出距离等式。</p>
+</details>
+
+<div class="answer-space">
+  <div style="padding:2mm;text-align:center;color:#999;font-size:10pt;">答题区域</div>
+  <div class="blank-line"></div><div class="blank-line"></div><div class="blank-line"></div>
+  <div class="blank-line"></div><div class="blank-line"></div><div class="blank-line"></div>
+</div>
+</section>
+
+<div class="page-break"></div>
+
+<!-- ====== 参考答案 ====== -->
+<section class="answer-key">
+<h2>参考答案与升级/降级判断</h2>
+
+<h3>第 1 题</h3>
+<p><strong>已知：</strong>A(0,0), B(2,4), C(6,0)</p>
+<p><strong>备算：</strong></p>
+<table>
+<tr><th>线段</th><th>斜率</th><th>长度²</th></tr>
+<tr><td>AB</td><td>2</td><td>20</td></tr>
+<tr><td>BC</td><td>−1</td><td>32</td></tr>
+<tr><td>AC</td><td>0</td><td>36</td></tr>
+</table>
+
+<p class="case-title">情况一：AB ∥ CD，AC = BD</p>
+<p>k<sub>CD</sub> = 2 → b/(a−6) = 2 → b = 2a − 12</p>
+<p>|AC|² = |BD|² → 36 = (a−2)² + (b−4)²</p>
+<p>代入 b = 2a − 12：(a−2)² + (2a−16)² = 36 → 5a² − 68a + 224 = 0 → Δ = 68² − 4×5×224 = 4624 − 4480 = 144 = 12² > 0 → a = (68±12)/10，a = 8 或 a = 28/5<ul><li>a = 8 → b = 4 → D(8, 4)。验证 AB ∥ CD ✓。检查 AD ∥ BC：k<sub>AD</sub> = 1/2 ≠ −1 ✓，但 AB = CD（k<sub>AB</sub> = k<sub>CD</sub> = 2 且 |AB|² = |CD|² = 20），一组对边平行且相等 → <strong>退化为平行四边形，舍去</strong>。</li><li>a = 28/5 → b = −4/5 → D(28/5, −4/5)。验证 AB ∥ CD：k<sub>CD</sub> = (−4/5)/(28/5 − 6) = (−4/5)/(−2/5) = 2 ✓。检查 AD ∥ BC：k<sub>AD</sub> = (−4/5)/(28/5) = −1/7 ≠ −1 ✓。AC = BD 已满足。<strong>D(28/5, −4/5)</strong>。</li></ul></p>
+
+<p class="case-title">情况二：AC ∥ BD，AB = CD</p>
+<p>AC 斜率 0 → BD 斜率 0 → (b−4)/(a−2) = 0 → b = 4</p>
+<p>|AB|² = |CD|² → 20 = (a−6)² + (4)² → (a−6)² = 4 → a = 8 或 a = 4</p>
+<ul>
+<li>D(8, 4)：验证 AC ∥ BD（都水平 ✓），检查 AB ∥ CD：k<sub>AB</sub> = 2，k<sub>CD</sub> = (4−0)/(8−6) = 2 → AB ∥ CD，退化为平行四边形，<strong>舍去</strong>。</li>
+<li>D(4, 4)：k<sub>CD</sub> = (4−0)/(4−6) = −2 ≠ 2 ✓。答案 <strong>D(4, 4)</strong>。</li>
+</ul>
+
+<p class="case-title">情况三：BC ∥ AD，AB = CD</p>
+<p>k<sub>AD</sub> = k<sub>BC</sub> = −1 → b/a = −1 → b = −a</p>
+<p>|AB|² = |CD|² → 20 = (a−6)² + (−a)² → 2a² − 12a + 16 = 0 → a² − 6a + 8 = 0 → a = 2 或 a = 4</p>
+<ul>
+<li>D(2, −2)：验证 BC ∥ AD（斜率都是 −1 ✓），检查 AB ∥ CD：k<sub>CD</sub> = (−2−0)/(2−6) = 1/2 ≠ 2 ✓。答案 <strong>D(2, −2)</strong>。</li>
+<li>D(4, −4)：k<sub>CD</sub> = (−4)/(4−6) = 2 = k<sub>AB</sub>，退化为平行四边形，<strong>舍去</strong>。</li>
+</ul>
+
+<p class="highlight"><strong>第 1 题答案：D(28/5, −4/5)、D(4, 4) 或 D(2, −2)</strong></p>
+<p><strong>升级判断：</strong>若学生三组都列出但情况一未正确求出两个解（尤其是未舍去退化解 D(8, 4)） → 说明解方程和验证退化需加强，保持 E 档。若三组都正确完成 → 升至 F 档。</p>
+
+<h3>第 2 题</h3>
+<p><strong>已知：</strong>O(0,0), B(0,4), A(4,0)</p>
+<p><strong>备算：</strong></p>
+<table>
+<tr><th>线段</th><th>斜率</th><th>长度²</th></tr>
+<tr><td>OB</td><td>不存在（竖直）</td><td>16</td></tr>
+<tr><td>BA</td><td>−1</td><td>32</td></tr>
+<tr><td>OA</td><td>0（水平）</td><td>16</td></tr>
+</table>
+
+<p class="case-title">情况一：OB ∥ AD，OA = BD</p>
+<p>OB 竖直 → AD 竖直 → a − 4 = 0 → a = 4（D 的 x 坐标等于 A 的 x 坐标）</p>
+<p>设 D(4, b)，|OA|² = |BD|² → 16 = (4−0)² + (b−4)² = 16 + (b−4)² → (b−4)² = 0 → b = 4</p>
+<ul>
+<li>D(4, 4)：OB ∥ AD（都竖直 ✓），检查 OA ∥ BD：k<sub>BD</sub> = (4−4)/(4−0) = 0 = k<sub>OA</sub>，两组对边分别平行 → <strong>退化为平行四边形，舍去</strong>。此情况<strong>无有效解</strong>。</li>
+</ul>
+
+<p class="case-title">情况二：BA ∥ OD，OB = AD</p>
+<p>k<sub>OD</sub> = k<sub>BA</sub> = −1 → b/a = −1 → b = −a</p>
+<p>|OB|² = |AD|² → 16 = (a−4)² + (−a−4)² = (a²−8a+16) + (a²+8a+16) = 2a² + 32 → 2a² + 16 = 0 → a² = −8，<strong>无实数解</strong>，此情况不成立。</p>
+
+<p class="case-title">情况三：OA ∥ BD，OB = AD</p>
+<p>k<sub>BD</sub> = 0 → b = 4</p>
+<p>|OB|² = |AD|² → 16 = (a−4)² + (4)² → (a−4)² = 0 → a = 4</p>
+<p>D(4, 4) = (A 的 x, B 的 y)。验证：OA ∥ BD 都水平 ✓，检查 OB ∥ AD：k<sub>AD</sub> = (4−4)/(4−4) 不确定 → 实际上 A(4,0) 和 D(4,4)，AD 竖直 = OB 竖直，退化为平行四边形，<strong>舍去</strong>。</p>
+
+<p class="highlight"><strong>第 2 题答案：不存在满足条件的点 D</strong></p>
+<p><strong>升级判断：</strong>此题三种情况均无有效解。若学生正确完成全部推导并得出"无解"结论 → 升至 F 档。若学生在某步卡住或未发现退化 → 保持 E 档。</p>
+
+<h3>第 3 题</h3>
+<p><strong>已知：</strong>A(−1,0), B(0,2), C(3,0)，AD ∥ BC</p>
+<p>k<sub>BC</sub> = (0−2)/(3−0) = −2/3</p>
+<p>k<sub>AD</sub> = −2/3 → (b−0)/(a−(−1)) = −2/3 → b = −2(a+1)/3 …… ①</p>
+
+<p>两腰是 AB 和 CD：|AB|² = |CD|²</p>
+<p>|AB|² = (0+1)² + (2−0)² = 5</p>
+<p>|CD|² = (a−3)² + (b−0)² = 5 …… ②</p>
+
+<p>代入 ① 到 ②：(a−3)² + 4(a+1)²/9 = 5</p>
+<p>两边乘 9：9(a−3)² + 4(a+1)² = 45</p>
+<p>9(a²−6a+9) + 4(a²+2a+1) = 45</p>
+<p>13a² − 46a + 85 = 45</p>
+<p>13a² − 46a + 40 = 0</p>
+<p>Δ = 46² − 4×13×40 = 2116 − 2080 = 36</p>
+<p>a = (46 ± 6) / 26 → a = 2 或 a = 20/13</p>
+
+<ul>
+<li>a = 2 → b = −2(3)/3 = −2 → D(2, −2)。验证：k<sub>AD</sub> = (−2)/(3) = −2/3 = k<sub>BC</sub> ✓。检查另一组对边 AB 和 CD：k<sub>AB</sub> = 2，k<sub>CD</sub> = (−2−0)/(2−3) = 2 → AB ∥ CD，<strong>退化为平行四边形，舍去</strong>。</li>
+<li>a = 20/13 → b = −2(33/13)/3 = −22/13 → D(20/13, −22/13)。验证 AD ∥ BC ✓。k<sub>CD</sub> = (−22/13)/(20/13−3) = (−22/13)/(−19/13) = 22/19 ≠ 2 ✓。<strong>D(20/13, −22/13)</strong>。</li>
+</ul>
+
+<p>再试 AC = BD 作为等腰条件：</p>
+<p>|AC|² = (3+1)² + 0 = 16</p>
+<p>|BD|² = (a−0)² + (b−2)² = 16</p>
+<p>代入 b = −2(a+1)/3：a² + (−2(a+1)/3 − 2)² = 16</p>
+<p>a² + (−2a−2−6)²/9 = 16 → a² + (−2a−8)²/9 = 16</p>
+<p>9a² + 4(a+4)² = 144</p>
+<p>9a² + 4a² + 32a + 64 = 144</p>
+<p>13a² + 32a − 80 = 0</p>
+<p>Δ = 1024 + 4160 = 5184 = 72²</p>
+<p>a = (−32 ± 72) / 26 → a = 40/26 = 20/13 或 a = −104/26 = −4</p>
+<ul>
+<li>a = 20/13 → 已得到，对应 AB = CD 的情况。</li>
+<li>a = −4 → b = −2(−3)/3 = 2 → D(−4, 2)。验证 AD ∥ BC：k<sub>AD</sub> = (2−0)/(−4+1) = −2/3 ✓。k<sub>AB</sub> = 2，k<sub>CD</sub> = (2−0)/(−4−3) = −2/7 ≠ 2 ✓。<strong>D(−4, 2)</strong>。</li>
+</ul>
+
+<p class="highlight"><strong>第 3 题答案：D(20/13, −22/13) 或 D(−4, 2)</strong></p>
+<p><strong>升级判断：</strong>若学生只试了一种等腰条件就结束 → 提醒"两腰不一定是 AB 和 CD"，保持 E 档。若两种等腰条件都试了并正确舍去退化 → 升至 F 档。</p>
+</section>
+
+<aside class="teacher-note">
+<strong>下一轮：</strong>根据本页完成情况，更新学生画像。若升至 F 档，可生成结构隐藏型变式（如"直角梯形存在性"或"不指定哪两条边平行"但增加其他约束条件）。若仍在 E 档，回到讲解页重点巩固"枚举三组平行对边"的思路，再做一轮同源变式。
+</aside>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>自适应练习：直线分割三角形面积求解析式</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$']], displayMath: [['$$','$$']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+<style>
+@page { size: A4; margin: 16mm 14mm; }
+* { box-sizing: border-box; }
+body { margin: 0; color: #111; background: #fff; font-family: "SimSun","Songti SC","Noto Serif CJK SC",serif; font-size: 12pt; line-height: 1.72; }
+.page { max-width: 186mm; margin: 0 auto; padding: 0 2mm; }
+h1,h2,h3 { font-family: "SimHei","Microsoft YaHei",sans-serif; font-weight: 700; color: #000; }
+h1 { margin: 0 0 7mm; text-align: center; font-size: 18pt; }
+h2 { margin: 5mm 0 2mm; padding: 1.5mm 2mm; border-left: 3px solid #111; border-bottom: 1px solid #999; font-size: 13.5pt; }
+p,ol,ul { margin-top: 0; margin-bottom: 2.5mm; }
+ol,ul { padding-left: 7mm; }
+.teacher-note { margin: 3mm 0; padding: 2.5mm 3mm; border: 1px solid #777; font-size: 10.5pt; color: #333; background: #f7f7f7; }
+.question-box { margin: 3mm 0; padding: 2.5mm 3mm; border: 1px solid #555; background: #fafafa; }
+.mistake-box { margin: 3mm 0; padding: 2.5mm 3mm; border: 1px dashed #b00; background: #fff5f5; }
+.blank-line { display: block; height: 8mm; border-bottom: 1px solid #999; }
+.page-break { break-before: page; page-break-before: always; }
+.answer-space { border: 1px solid #ccc; min-height: 40mm; margin: 2mm 0; padding: 1mm; }
+table { width: 100%; border-collapse: collapse; margin: 3mm 0; }
+td,th { border: 1px solid #555; padding: 1.8mm 2mm; vertical-align: top; }
+details { margin: 2mm 0; padding: 0 3mm; }
+details summary { cursor: pointer; font-weight: 700; color: #333; }
+details[open] { background: #fffff5; }
+.problem { margin: 4mm 0; padding: 3mm; border: 1px solid #aaa; }
+.training-target { font-size: 11pt; color: #555; }
+.expected-blocker { font-size: 11pt; color: #777; }
+.level-badge { display: inline-block; padding: 0.5mm 3mm; border: 1px solid #333; font-size: 10.5pt; margin-right: 3mm; }
+@media print { body { -webkit-print-color-adjust: exact; print-color-adjust: exact; } }
+</style>
+</head>
+<body>
+<div class="page">
+
+<h1>自适应练习：直线分割三角形面积求解析式</h1>
+
+<section class="teacher-note">
+<h2>教师判断</h2>
+<p><strong>当前档位：D → E 档过渡。</strong></p>
+<p><strong>判断依据：</strong>学生函数基础扎实（已能求交点、设参数），需要提升的核心是"面积比 → 坐标比"的转化链和分类讨论的完整性。本组练习保留核心结构，换表层情境，训练转化链在不同情境下的应用，并逐步隐藏辅助线。</p>
+</section>
+
+<section>
+<h2>练习说明</h2>
+<p>本组练习围绕同一个核心动作：<strong>面积比 → 高之比 → 坐标比 → 斜率</strong>。每道题换了图形背景，但解法骨架一样。做完后对比三道题，看看"四步转化"怎么在不同题目里反复出现。</p>
+</section>
+
+<section class="problem">
+<h2>第 1 题 <span class="level-badge">E 档·巩固</span></h2>
+<p class="stem">已知直线 $y = -2x + 6$ 与 $x$ 轴交于点 $A$，与 $y$ 轴交于点 $B$。直线 $l$ 经过原点 $O$，与线段 $AB$ 交于点 $C$，且 $S_{\triangle AOC} : S_{\triangle BOC} = 1:1$。求直线 $l$ 的解析式。</p>
+<p class="training-target"><strong>训练目标：</strong>在新的函数表达式中执行完整的四步转化，体会"面积比 $1:1$ 简化为 $|y_C|=|x_C|$"。</p>
+<p class="expected-blocker"><strong>预期卡点：</strong>$|OA|$ 和 $|OB|$ 不再相等，需要认真算；面积比 $1:1$ 时绝对值方程 $\frac{|t \text{ 对应的量}|}{|t \text{ 对应的量}|}=1$ 的列法。</p>
+
+<details>
+<summary>提示一</summary>
+<p>先求 $A$、$B$ 坐标。$A(3,0)$，$B(0,6)$。$|OA|=3$，$|OB|=6$。</p>
+</details>
+<details>
+<summary>提示二</summary>
+<p>$C$ 在 $AB$ 上，设 $C(t,\ -2t+6)$，$0 \le t \le 3$。$S_{\triangle AOC} = \frac{1}{2} \times 3 \times |-2t+6|$，$S_{\triangle BOC} = \frac{1}{2} \times 6 \times |t|$。面积相等意味着 $3|-2t+6| = 6|t|$。</p>
+</details>
+
+<div class="answer-space"></div>
+</section>
+
+<section class="problem">
+<h2>第 2 题 <span class="level-badge">E 档·迁移</span></h2>
+<p class="stem">在平面直角坐标系中，直线 $y = \frac{1}{2}x + 4$ 与 $x$ 轴交于点 $A$，与 $y$ 轴交于点 $B$。点 $C$ 是线段 $AB$ 上一点，直线 $OC$ 把 $\triangle AOB$ 的面积分为 $3:1$ 的两部分。求直线 $OC$ 的解析式。</p>
+<p class="training-target"><strong>训练目标：</strong>面积比变为 $3:1$，但转化链不变；体会"分母不变，分子变"的列式方式。</p>
+<p class="expected-blocker"><strong>预期卡点：</strong>$|OA| = 8$、$|OB| = 4$，比例 $8:4=2:1$ 需要带入计算，不能简单认为面积比 = 高之比；绝对值处理时 $t$ 的范围变了。</p>
+
+<details>
+<summary>提示一</summary>
+<p>$A(-8,0)$，$B(0,4)$。$|OA|=8$，$|OB|=4$。设 $C(t,\ \frac{1}{2}t+4)$，$-8 \le t \le 0$。</p>
+</details>
+<details>
+<summary>提示二</summary>
+<p>$S_{\triangle AOC} = \frac{1}{2}\times 8 \times |\frac{1}{2}t+4| = 4|\frac{1}{2}t+4|$，$S_{\triangle BOC} = \frac{1}{2}\times 4 \times |t| = 2|t|$。分两种情形：$4|\frac{t}{2}+4|:2|t| = 3:1$ 或 $1:3$。</p>
+</details>
+
+<div class="answer-space"></div>
+</section>
+
+<section class="problem">
+<h2>第 3 题 <span class="level-badge">F 档·结构隐藏</span></h2>
+<p class="stem">如图（请自画），在 $\triangle AOB$ 中，$A(0,6)$，$B(4,0)$，$O$ 为原点。点 $P$ 在线段 $AB$ 上，$\triangle AOP$ 的面积是 $\triangle BOP$ 面积的 $\dfrac{1}{3}$。求直线 $OP$ 的解析式。</p>
+<p class="training-target"><strong>训练目标：</strong>$A$ 在 $y$ 轴、$B$ 在 $x$ 轴（与原题相反），但解法不变；需要自己判断谁是"底"、谁是"高"。</p>
+<p class="expected-blocker"><strong>预期卡点：</strong>$A$、$B$ 位置与原题对称，学生会把 $\triangle AOP$ 的底误选为 $OA$（应选 $OA$，但高是 $|x_P|$）；或者混淆 $\dfrac{1}{3}$ 对应哪个三角形。</p>
+
+<details>
+<summary>提示一</summary>
+<p>画图：$A$ 在 $y$ 轴正半轴，$B$ 在 $x$ 轴正半轴。$|OA|=6$，$|OB|=4$。$AB$ 方程：$y = -\frac{3}{2}x + 6$。设 $P(t,\ -\frac{3}{2}t+6)$，$0 \le t \le 4$。</p>
+</details>
+<details>
+<summary>提示二</summary>
+<p>$\triangle AOP$ 以 $OA$ 为底，高 $= |x_P| = t$；$\triangle BOP$ 以 $OB$ 为底，高 $= |y_P| = -\frac{3}{2}t+6$。$\frac{\frac{1}{2}\times 6 \times t}{\frac{1}{2}\times 4 \times (-\frac{3}{2}t+6)} = \frac{1}{3}$。化简：$\frac{6t}{4(-\frac{3}{2}t+6)} = \frac{1}{3}$。别忘了还有一种情形。</p>
+</details>
+
+<div class="answer-space"></div>
+</section>
+
+</div>
+
+<div class="page page-break"></div>
+<div class="page">
+
+<section class="answer-key">
+<h2>参考答案与升级/降级判断</h2>
+
+<h3>第 1 题</h3>
+<p>$A(3,0)$，$B(0,6)$。$|OA|=3$，$|OB|=6$。</p>
+<p>设 $C(t,\ -2t+6)$，$0 \le t \le 3$。</p>
+<p>$S_{\triangle AOC} = \frac{1}{2}\times 3 \times |-2t+6| = \frac{3}{2}|-2t+6|$</p>
+<p>$S_{\triangle BOC} = \frac{1}{2}\times 6 \times |t| = 3|t|$</p>
+<p>面积相等：$\frac{3}{2}|-2t+6| = 3|t|$，即 $|-2t+6| = 2|t|$。</p>
+<p>在 $0 \le t \le 3$ 范围内：$-2t+6 > 0$，$t > 0$，所以 $-2t+6 = 2t \implies 4t = 6 \implies t = \frac{3}{2}$。</p>
+<p>$C\!\left(\frac{3}{2},\ 3\right)$，$k = \dfrac{3}{3/2} = 2$。</p>
+<p><strong>答：$y = 2x$。</strong>（因为面积比 $1:1$ 对称，此题只有一解。若学生写了两解，说明分类讨论时没注意到 $1:1$ 本身对称。）</p>
+<p><strong>升级/降级判断：</strong>若独立完成 → 进入第 2 题；若卡在绝对值去符号 → 回到讲解页重新看"情形一"部分；若不会求 $A$、$B$ → 降回 C 档，补交点求法专项。</p>
+
+<h3>第 2 题</h3>
+<p>$A(-8,0)$，$B(0,4)$。$|OA|=8$，$|OB|=4$。</p>
+<p>设 $C(t,\ \frac{t}{2}+4)$，$-8 \le t \le 0$。</p>
+<p>$S_{\triangle AOC} = \frac{1}{2}\times 8 \times |\frac{t}{2}+4| = 4|\frac{t}{2}+4|$</p>
+<p>$S_{\triangle BOC} = \frac{1}{2}\times 4 \times |t| = 2|t|$</p>
+
+<p><strong>情形一</strong>：$S_{\triangle AOC}:S_{\triangle BOC} = 3:1$</p>
+<p>$4|\frac{t}{2}+4| = 3 \times 2|t| \implies |\frac{t}{2}+4| = \frac{3}{2}|t|$</p>
+<p>$-8 \le t \le 0$：$\frac{t}{2}+4 \ge 0$，$|t| = -t$。$\frac{t}{2}+4 = -\frac{3}{2}t \implies 2t = -4 \implies t = -2$。</p>
+<p>$C(-2,\ 3)$，$k = \dfrac{3}{-2} = -\dfrac{3}{2}$。$l: y = -\dfrac{3}{2}x$。</p>
+
+<p><strong>情形二</strong>：$S_{\triangle AOC}:S_{\triangle BOC} = 1:3$</p>
+<p>$4|\frac{t}{2}+4| = \frac{1}{3} \times 2|t| \implies |\frac{t}{2}+4| = \frac{1}{6}|t|$</p>
+<p>$\frac{t}{2}+4 = \frac{1}{6}(-t) \implies \frac{t}{2}+4 = -\frac{t}{6} \implies \frac{2t}{3} = -4 \implies t = -6$。</p>
+<p>$C(-6,\ 1)$，$k = \dfrac{1}{-6} = -\dfrac{1}{6}$。$l: y = -\dfrac{1}{6}x$。</p>
+
+<p><strong>答：$y = -\dfrac{3}{2}x$ 或 $y = -\dfrac{1}{6}x$。</strong></p>
+<p><strong>升级/降级判断：</strong>若两种情形都算对 → 进入第 3 题；若漏一种情形 → 强调"分为 $3:1$ 的两部分"有两种分法；若计算错误 → 检查绝对值去符号步骤。</p>
+
+<h3>第 3 题</h3>
+<p>$A(0,6)$，$B(4,0)$。$|OA|=6$，$|OB|=4$。$AB$ 方程：$y = -\frac{3}{2}x+6$。</p>
+<p>设 $P(t,\ -\frac{3}{2}t+6)$，$0 \le t \le 4$。</p>
+<p>$\triangle AOP$ 以 $OA$（$y$ 轴上）为底，高 $= |x_P| = t$；$\triangle BOP$ 以 $OB$（$x$ 轴上）为底，高 $= |y_P| = -\frac{3}{2}t+6$。</p>
+
+<p>$S_{\triangle AOP} = \frac{1}{2}\times 6 \times t = 3t$，$S_{\triangle BOP} = \frac{1}{2}\times 4 \times (-\frac{3}{2}t+6) = 2(-\frac{3}{2}t+6) = -3t+12$。</p>
+
+<p><strong>情形一</strong>：$S_{\triangle AOP}:S_{\triangle BOP} = 1:3$（$S_{AOP} = \frac{1}{3}S_{BOP}$）</p>
+<p>$3t = \frac{1}{3}(-3t+12) \implies 9t = -3t+12 \implies 12t = 12 \implies t = 1$。</p>
+<p>$P(1,\ \frac{9}{2})$，$k = \dfrac{9/2}{1} = \dfrac{9}{2}$。$OP: y = \dfrac{9}{2}x$。</p>
+
+<p><strong>情形二</strong>：$S_{\triangle AOP}:S_{\triangle BOP} = 3:1$（$S_{BOP} = \frac{1}{3}S_{AOP}$）</p>
+<p>$3t = 3(-3t+12) \implies 3t = -9t+36 \implies 12t = 36 \implies t = 3$。</p>
+<p>$P(3,\ \frac{3}{2})$，$k = \dfrac{3/2}{3} = \dfrac{1}{2}$。$OP: y = \dfrac{1}{2}x$。</p>
+
+<p><strong>答：$y = \dfrac{9}{2}x$ 或 $y = \dfrac{1}{2}x$。</strong></p>
+<p><strong>升级/降级判断：</strong>若独立完成并两解 → F 档掌握，下次可给结构隐藏更强的变式（如分点不在坐标轴围成的三角形中）；若底高选错 → 回到讲解页复习"谁做底、谁做高"；若只做一解 → 提醒分类讨论。</p>
+
+</section>
+
+</div>
+
+<aside class="teacher-note">
+<strong>下一轮：</strong>根据本页完成情况，更新学生画像；必要时回到讲解页，或生成下一组变式。
+<br>三道题的递进设计：第 1 题（等分，熟悉流程）→ 第 2 题（非等分，$|OA|\neq|OB|$）→ 第 3 题（结构隐藏，$A$、$B$ 位置互换，底高需自行判断）。
+</aside>
+
+</body>
+</html>

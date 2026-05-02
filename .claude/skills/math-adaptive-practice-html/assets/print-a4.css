@@ -1,0 +1,102 @@
+@page {
+  size: A4;
+  margin: 16mm 14mm;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  color: #111;
+  background: #fff;
+  font-family: "SimSun", "Songti SC", "Noto Serif CJK SC", serif;
+  font-size: 12pt;
+  line-height: 1.72;
+}
+
+.page {
+  max-width: 186mm;
+  margin: 0 auto;
+}
+
+h1, h2, h3 {
+  font-family: "SimHei", "Microsoft YaHei", sans-serif;
+  font-weight: 700;
+  color: #000;
+}
+
+h1 {
+  margin: 0 0 7mm;
+  text-align: center;
+  font-size: 18pt;
+  letter-spacing: 0;
+}
+
+h2 {
+  margin: 5mm 0 2mm;
+  padding: 1.5mm 2mm;
+  border-left: 3px solid #111;
+  border-bottom: 1px solid #999;
+  font-size: 13.5pt;
+}
+
+p, ol, ul {
+  margin-top: 0;
+  margin-bottom: 2.5mm;
+}
+
+ol, ul {
+  padding-left: 7mm;
+}
+
+.teacher-note,
+.problem,
+.answer-key {
+  margin: 3mm 0;
+  padding: 2.5mm 3mm;
+  border: 1px solid #777;
+}
+
+.teacher-note {
+  font-size: 10.5pt;
+  color: #333;
+  background: #f7f7f7;
+}
+
+.stem {
+  font-weight: 700;
+}
+
+.answer-space {
+  min-height: 42mm;
+  margin-top: 3mm;
+  background-image: repeating-linear-gradient(to bottom, transparent 0, transparent 7.5mm, #bbb 7.7mm);
+  border: 1px solid #aaa;
+}
+
+details {
+  margin: 2mm 0;
+}
+
+summary {
+  cursor: pointer;
+  font-family: "SimHei", "Microsoft YaHei", sans-serif;
+}
+
+.page-break {
+  break-before: page;
+  page-break-before: always;
+}
+
+@media print {
+  details {
+    display: block;
+  }
+
+  body {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}

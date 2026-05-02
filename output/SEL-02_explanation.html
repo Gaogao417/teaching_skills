@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>学生版讲解：用待定系数法求一次函数解析式</title>
+<style>
+@page {
+  size: A4;
+  margin: 16mm 14mm;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; color: #111; background: #fff;
+  font-family: "SimSun", "Songti SC", "Noto Serif CJK SC", serif;
+  font-size: 12pt; line-height: 1.72;
+}
+.page { max-width: 186mm; margin: 0 auto; }
+h1, h2, h3 {
+  font-family: "SimHei", "Microsoft YaHei", sans-serif;
+  font-weight: 700; color: #000;
+}
+h1 { margin: 0 0 7mm; text-align: center; font-size: 18pt; }
+h2 {
+  margin: 5mm 0 2mm; padding: 1.5mm 2mm;
+  border-left: 3px solid #111; border-bottom: 1px solid #999;
+  font-size: 13.5pt;
+}
+p, ol, ul { margin-top: 0; margin-bottom: 2.5mm; }
+ol, ul { padding-left: 7mm; }
+ol li { margin-bottom: 2mm; }
+.teacher-note {
+  margin: 3mm 0; padding: 2.5mm 3mm;
+  border: 1px solid #777; font-size: 10.5pt;
+  color: #333; background: #f7f7f7;
+}
+.think-box {
+  margin: 3mm 0; padding: 2.5mm 3mm;
+  border: 1px dashed #666; background: #fafafa;
+}
+.blank-line {
+  display: block; height: 8mm;
+  border-bottom: 1px solid #999;
+}
+.formula {
+  display: block; text-align: center;
+  margin: 3mm 0; font-size: 13pt;
+}
+.step-box {
+  margin: 3mm 0; padding: 2.5mm 3mm;
+  border: 1px solid #aaa; background: #fefefe;
+}
+.mistake-box {
+  margin: 3mm 0; padding: 2.5mm 3mm;
+  border: 1px solid #c33; background: #fff5f5;
+}
+.page-break { break-before: page; page-break-before: always; }
+.highlight { font-weight: bold; }
+.subscript { font-size: 0.8em; }
+@media print {
+  body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<h1>学生版讲解：用待定系数法求一次函数解析式</h1>
+
+<section>
+<h2>一、这题先看懂什么</h2>
+<p>题目说："有一个一次函数"，什么是一次函数？就是<strong>y = kx + b</strong>（k ≠ 0）这样的函数，画出来是一条直线。</p>
+<p>题目又给了两条信息：</p>
+<ul>
+  <li>当 x = 3 时，y = −1，说明点 <strong>(3, −1)</strong> 在这条直线上；</li>
+  <li>当 x = 2 时，y = 8，说明点 <strong>(2, 8)</strong> 也在这条直线上。</li>
+</ul>
+<p>我们的任务：找到 k 和 b 分别等于多少，把解析式写完整。</p>
+</section>
+
+<section>
+<h2>二、第一步该做什么</h2>
+<p>不要急着算！先想一想：我们不知道 k 和 b，但它们是固定的两个数。</p>
+<p>既然不知道，那就<strong>设</strong>出来：</p>
+<div class="formula">设 y = kx + b（k ≠ 0）</div>
+<p>这里"设"就是把未知数摆出来，等一下用条件来求它们。这个方法叫做<strong>待定系数法</strong>——"待定"就是"等着确定"的意思。</p>
+</section>
+
+<section>
+<h2>三、关键转化怎么想</h2>
+<p>知道了两个点在直线上，怎么利用呢？</p>
+<p><strong>关键转化：</strong>如果点 (x₀, y₀) 在直线 y = kx + b 上，那么把 x₀ 和 y₀ 代进去，等式一定成立。</p>
+<div class="think-box">
+  <p><strong>想一想：</strong>如果点 (3, −1) 在直线 y = kx + b 上，把 x = 3、y = −1 代入，得到什么？</p>
+  <span class="blank-line"></span>
+  <p>答案：3k + b = −1&nbsp;&nbsp;……①</p>
+</div>
+<p>同理，把 (2, 8) 代入：</p>
+<div class="formula">2k + b = 8&nbsp;&nbsp;……②</div>
+<p>这样我们就得到了<strong>两个方程、两个未知数</strong>（k 和 b）的方程组，可以解了！</p>
+</section>
+
+<section>
+<h2>四、标准解法</h2>
+
+<div class="step-box">
+  <p><strong>第1步：设解析式</strong></p>
+  <p>设 y = kx + b（k ≠ 0）</p>
+  <p><em>为什么：k 和 b 是未知的，先写出来才知道要算什么。</em></p>
+</div>
+
+<div class="step-box">
+  <p><strong>第2步：代入已知点，列方程组</strong></p>
+  <p>将 (3, −1) 代入：3k + b = −1&nbsp;&nbsp;……①</p>
+  <p>将 (2, 8) 代入：2k + b = 8&nbsp;&nbsp;&nbsp;……②</p>
+  <p><em>为什么：点在图像上，坐标就满足关系式，每个点给一个方程。</em></p>
+</div>
+
+<div class="step-box">
+  <p><strong>第3步：解方程组（加减消元法）</strong></p>
+  <p>① − ②：&nbsp;(3k + b) − (2k + b) = −1 − 8</p>
+  <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;k = −9</p>
+  <p>将 k = −9 代入②：2 × (−9) + b = 8</p>
+  <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;−18 + b = 8</p>
+  <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;b = 26</p>
+  <p><em>为什么选消 b：两个方程里 b 的系数都是 1，直接相减就能消掉 b，一步求出 k。</em></p>
+</div>
+
+<div class="step-box">
+  <p><strong>第4步：写出解析式并检验</strong></p>
+  <p>所以 y = −9x + 26</p>
+  <p><strong>检验：</strong>把 (3, −1) 代入：−9 × 3 + 26 = −27 + 26 = −1 ✓</p>
+  <p>把 (2, 8) 代入：−9 × 2 + 26 = −18 + 26 = 8 ✓</p>
+  <p><em>为什么检验：代入时容易写错位置或算错符号，检验一遍能确保答案正确。</em></p>
+</div>
+</section>
+
+<section>
+<h2>五、边讲边问</h2>
+<ol>
+  <li>待定系数法的第一步是什么？（提示：把 k 和 b 怎么办？）
+    <span class="blank-line"></span>
+  </li>
+  <li>"点 (3, −1) 在直线上"这句话，用数学语言怎么翻译成方程？
+    <span class="blank-line"></span>
+  </li>
+  <li>解方程组时，① − ② 消去的是 k 还是 b？为什么选消这个？
+    <span class="blank-line"></span>
+  </li>
+  <li>如果 k = −9，b = 26，那么当 x = 0 时 y 等于多少？这个数在图像上代表什么？
+    <span class="blank-line"></span>
+  </li>
+  <li>为什么两个点就能确定一条直线，一个点行不行？
+    <span class="blank-line"></span>
+  </li>
+</ol>
+</section>
+
+<section>
+<h2>六、易错提醒</h2>
+<div class="mistake-box">
+  <ul>
+    <li><strong>代入时 x、y 位置写反：</strong>把 (3, −1) 代入写成 k × (−1) + b = 3，就全错了。记住：括号里第一个数是 x，第二个数是 y。</li>
+    <li><strong>解方程组正负号出错：</strong>① − ② 时，右边是 −1 − 8 = −9，不是 −1 + 8。减号要分配到整个式子。</li>
+    <li><strong>忘记写 k ≠ 0：</strong>一次函数的定义要求 k ≠ 0，虽然本题解出来 k = −9 ≠ 0 自然满足，但设的时候要写上。</li>
+  </ul>
+</div>
+</section>
+
+<section>
+<h2>七、一句话总结</h2>
+<div class="formula" style="font-size: 14pt; font-weight: bold;">
+设 → 代 → 列 → 解 → 写（并检验）
+</div>
+<p>待定系数法五步走：<strong>设</strong>出解析式，<strong>代</strong>入已知点，<strong>列</strong>出方程组，<strong>解</strong>出系数，<strong>写</strong>出解析式并检验。</p>
+</section>
+
+<aside class="teacher-note">
+<p><strong>教师备注：</strong>记录学生在"边讲边问"中的回答。如果学生能独立回答1-3题，说明掌握了基本流程；第4-5题答不出不影响本次目标，但可做拓展引导。</p>
+<p>下一步：使用 math-adaptive-practice-html 生成练习。</p>
+</aside>
+
+</div>
+</body>
+</html>

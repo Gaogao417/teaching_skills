@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>自适应练习：识别一次函数与正比例函数</title>
+<script>
+MathJax = {
+  tex: { inlineMath: [['$', '$']], displayMath: [['$$', '$$']] }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+@page {
+  size: A4;
+  margin: 16mm 14mm;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  color: #111;
+  background: #fff;
+  font-family: "SimSun", "Songti SC", "Noto Serif CJK SC", serif;
+  font-size: 12pt;
+  line-height: 1.72;
+}
+
+.page {
+  max-width: 186mm;
+  margin: 0 auto;
+  padding: 0 2mm;
+}
+
+h1, h2, h3 {
+  font-family: "SimHei", "Microsoft YaHei", sans-serif;
+  font-weight: 700;
+  color: #000;
+}
+
+h1 {
+  margin: 0 0 7mm;
+  text-align: center;
+  font-size: 18pt;
+  letter-spacing: 0;
+}
+
+h2 {
+  margin: 5mm 0 2mm;
+  padding: 1.5mm 2mm;
+  border-left: 3px solid #111;
+  border-bottom: 1px solid #999;
+  font-size: 13.5pt;
+}
+
+h3 {
+  margin: 3mm 0 1.5mm;
+  font-size: 12pt;
+}
+
+p, ol, ul {
+  margin-top: 0;
+  margin-bottom: 2.5mm;
+}
+
+ol, ul {
+  padding-left: 7mm;
+}
+
+.teacher-note {
+  font-size: 10.5pt;
+  color: #333;
+  background: #f7f7f7;
+  margin: 3mm 0;
+  padding: 2.5mm 3mm;
+  border: 1px solid #777;
+}
+
+.problem {
+  margin: 5mm 0;
+  padding: 3mm;
+  border: 1px solid #aaa;
+}
+
+.problem .stem {
+  font-size: 12pt;
+  line-height: 1.8;
+}
+
+.problem .stem ol {
+  padding-left: 6mm;
+}
+
+.problem .stem li {
+  margin-bottom: 1.5mm;
+}
+
+details {
+  margin: 2mm 0;
+  border: 1px dashed #999;
+  padding: 1.5mm 2mm;
+  background: #fafafa;
+}
+
+details summary {
+  cursor: pointer;
+  font-family: "SimHei", "Microsoft YaHei", sans-serif;
+  font-size: 11pt;
+  color: #333;
+}
+
+.answer-space {
+  margin: 3mm 0;
+  min-height: 30mm;
+  border: 1px solid #ccc;
+  background: repeating-linear-gradient(
+    transparent,
+    transparent 7mm,
+    #ddd 7mm,
+    #ddd 7.5mm
+  );
+}
+
+.page-break {
+  break-before: page;
+  page-break-before: always;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 3mm 0;
+}
+
+td, th {
+  border: 1px solid #555;
+  padding: 1.8mm 2mm;
+  vertical-align: top;
+}
+
+.key-tag {
+  display: inline-block;
+  font-family: "SimHei", "Microsoft YaHei", sans-serif;
+  font-size: 10pt;
+  padding: 0.5mm 2mm;
+  border: 1px solid #555;
+  background: #f0f0f0;
+  margin-right: 1mm;
+}
+
+mjx-container {
+  font-size: 105% !important;
+}
+
+@media print {
+  body {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  details {
+    break-inside: avoid;
+  }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<h1>自适应练习：识别一次函数与正比例函数</h1>
+
+<!-- 教师判断 -->
+<section class="teacher-note">
+  <h2 style="margin-top:0;">教师判断</h2>
+  <p><strong>当前档位：C档</strong>（会找关键量，但选关系不熟练）</p>
+  <p><strong>判断依据：</strong>学生为初二刚开始学习一次函数，尚无实际答题记录，按默认较低档位处理。本组练习聚焦"化简为标准形式后比对定义"的核心动作，不引入参数或复杂变形。</p>
+  <p><strong>升级条件：</strong>3 题全部正确，可升至 E 档做同源变式</p>
+  <p><strong>降级条件：</strong>第 1 题出错，降至 B 档做低门槛识别题</p>
+</section>
+
+<!-- 练习说明 -->
+<section>
+  <h2>练习说明</h2>
+  <p>本组练习只练一个动作：<strong>把"非标准长相"的式子化成 $y = kx + b$ 的标准形式，然后判断是不是一次函数</strong>。</p>
+  <p>共 3 题，每题 2-3 个小问。做完后对照参考答案自批，记录错在哪里。</p>
+</section>
+
+<!-- ==================== 第1题 ==================== -->
+<section class="problem">
+  <h2>第 1 题</h2>
+  <p class="stem">下列各式中，哪些是一次函数？哪些是正比例函数？写出化简过程。</p>
+  <ol>
+    <li>$y = \dfrac{2x - 6}{3}$</li>
+    <li>$y = \dfrac{2x}{3} - 2$</li>
+    <li>$y = \dfrac{2}{x} + 1$</li>
+  </ol>
+
+  <p><span class="key-tag">训练目标</span>化简分式形式，对比一次函数与反比例函数</p>
+  <p><span class="key-tag">预期卡点</span>第(3)小题 $x$ 在分母，学生可能忽略</p>
+
+  <details>
+    <summary>提示一</summary>
+    <p>一次函数的标准形式是 $y = kx + b$，其中 $x$ 只能出现在分子上且指数为 1。</p>
+  </details>
+
+  <details>
+    <summary>提示二</summary>
+    <p>第(1)小题：分母 3 分别除分子中的 $2x$ 和 $-6$。第(3)小题：$x$ 在分母里，$y = \dfrac{2}{x} + 1$ 能写成 $y = kx + b$ 吗？</p>
+  </details>
+
+  <div class="answer-space"></div>
+</section>
+
+<!-- ==================== 第2题 ==================== -->
+<section class="problem">
+  <h2>第 2 题</h2>
+  <p class="stem">判断下列式子是不是一次函数，写出化简过程。</p>
+  <ol>
+    <li>$y = 5 - x$</li>
+    <li>$y = (x + 1)^2 - x^2 - 2x$</li>
+    <li>$y = 0 \cdot x + 7$</li>
+  </ol>
+
+  <p><span class="key-tag">训练目标</span>常数写在前面时的识别；展开化简；$k \neq 0$ 条件检查</p>
+  <p><span class="key-tag">预期卡点</span>第(2)小题需要展开才能判断；第(3)小题 $k = 0$ 易被忽略</p>
+
+  <details>
+    <summary>提示一</summary>
+    <p>一次函数要求 $x$ 的系数 $k \neq 0$。如果 $k = 0$ 呢？</p>
+  </details>
+
+  <details>
+    <summary>提示二</summary>
+    <p>第(2)小题：$(x+1)^2 = x^2 + 2x + 1$，展开后 $y = x^2 + 2x + 1 - x^2 - 2x = 1$。这还是一次函数吗？</p>
+  </details>
+
+  <div class="answer-space"></div>
+</section>
+
+<!-- ==================== 第3题 ==================== -->
+<section class="problem">
+  <h2>第 3 题</h2>
+  <p class="stem">小明说："$y = 3x + 0$ 和 $y = 3x$ 是两个不同的一次函数。"他的说法对吗？请说明理由。</p>
+
+  <p><span class="key-tag">训练目标</span>正比例函数是一次函数的特例；等价表达式的理解</p>
+  <p><span class="key-tag">预期卡点</span>学生可能觉得"长得不一样"就是不同的函数</p>
+
+  <details>
+    <summary>提示一</summary>
+    <p>想想看，$b = 0$ 的一次函数叫什么？$3x + 0$ 和 $3x$ 在数学上相等吗？</p>
+  </details>
+
+  <details>
+    <summary>提示二</summary>
+    <p>$y = 3x + 0$ 就是 $y = 3x$，$b = 0$，这是正比例函数，也是一次函数。它们是同一个函数，不是两个。</p>
+  </details>
+
+  <div class="answer-space"></div>
+</section>
+
+<!-- ==================== 参考答案（分页） ==================== -->
+<div class="page-break"></div>
+
+<section>
+  <h2>参考答案与升级/降级判断</h2>
+
+  <h3>第 1 题</h3>
+  <ol>
+    <li>$y = \dfrac{2x}{3} - \dfrac{6}{3} = \dfrac{2}{3}x - 2$。$k = \dfrac{2}{3} \neq 0$，$b = -2 \neq 0$ → <strong>是一次函数，不是正比例函数</strong>。</li>
+    <li>$y = \dfrac{2}{3}x - 2$，与第(1)小题等价 → <strong>是一次函数，不是正比例函数</strong>。</li>
+    <li>$y = \dfrac{2}{x} + 1$，$x$ 在分母，不能写成 $y = kx + b$ → <strong>不是一次函数</strong>（是反比例函数加常数）。</li>
+  </ol>
+  <p><strong>判断：</strong></p>
+  <ul>
+    <li>3 小题全对 → 维持 C 档，可尝试第 2 题</li>
+    <li>第(3)小题判断为一次函数 → 降级至 B 档，需专门练习反比例函数识别</li>
+  </ul>
+
+  <h3>第 2 题</h3>
+  <ol>
+    <li>$y = -x + 5$。$k = -1 \neq 0$，$b = 5 \neq 0$ → <strong>是一次函数，不是正比例函数</strong>。</li>
+    <li>$(x+1)^2 = x^2 + 2x + 1$，所以 $y = x^2 + 2x + 1 - x^2 - 2x = 1$。这没有 $x$ 项（$k = 0$）→ <strong>不是一次函数</strong>（是常数函数）。</li>
+    <li>$y = 0 \cdot x + 7 = 7$。$k = 0$，不满足 $k \neq 0$ → <strong>不是一次函数</strong>（是常数函数）。</li>
+  </ol>
+  <p><strong>判断：</strong></p>
+  <ul>
+    <li>3 小题全对 → 升至 D 档</li>
+    <li>第(2)小题没展开就直接判断 → 维持 C 档，需强化"先化简再判断"的习惯</li>
+    <li>第(3)小题判断为一次函数 → 降级至 C 档，$k \neq 0$ 条件需反复强调</li>
+  </ul>
+
+  <h3>第 3 题</h3>
+  <p><strong>小明的说法不对。</strong></p>
+  <p>$y = 3x + 0$ 和 $y = 3x$ 是同一个式子，因为 $+0$ 不改变值。它们都满足 $y = kx + b$ 且 $b = 0$，所以它们是同一个正比例函数，当然也是同一个一次函数。</p>
+  <p><strong>判断：</strong></p>
+  <ul>
+    <li>答对并说清理由 → 升至 E 档，可做同源变式练习</li>
+    <li>答对但理由不完整 → 维持 C 档，需强化正比例函数是特例的理解</li>
+    <li>答错 → 降级至 B 档，需回到讲解页重新理解一次函数与正比例函数的关系</li>
+  </ul>
+</section>
+
+<!-- 教师备注 -->
+<aside class="teacher-note" style="margin-top: 8mm;">
+  <strong>下一轮指导：</strong>根据本页完成情况，更新学生画像；必要时回到讲解页，或生成下一组变式。
+  <ul>
+    <li>全部正确（3题满分）→ 生成 E 档变式（结构隐藏型，如含参判断题）</li>
+    <li>第1题出错 → 回到讲解页复习"化简为标准形式"步骤</li>
+    <li>第2题第(2)(3)小题出错 → 重点复习 $k \neq 0$ 条件和展开化简</li>
+    <li>第3题出错 → 重点复习正比例函数与一次函数的包含关系</li>
+  </ul>
+</aside>
+
+</div>
+</body>
+</html>
