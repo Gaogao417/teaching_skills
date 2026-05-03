@@ -1,6 +1,6 @@
 ---
 name: math-student-response-diagnosis
-description: "Diagnose a student's math response after an explanation or attempt, map the observed behavior to a human-readable L0-L6 learning level, identify the specific blocker, update the student profile, and recommend the next teaching move before adaptive practice is generated. This is an OPTIONAL skill outside the default 3-stage workflow. TRIGGER when: user explicitly requests student response diagnosis; user provides a student answer and wants diagnostic analysis; teacher wants learning-level assessment of student work. SKIP: user has not submitted any student response; user wants to proceed with the default 3-stage workflow (math-structure-analysis → math-student-explanation-html → math-adaptive-practice-html)."
+description: "Diagnose a student's math response after an explanation or attempt, map the observed behavior to an A-F mastery band, identify the specific blocker, update the student profile, and recommend the next teaching move before adaptive practice is generated. This is an OPTIONAL skill outside the default 3-stage workflow. TRIGGER when: user explicitly requests student response diagnosis; user provides a student answer and wants diagnostic analysis; teacher wants A-F band assessment of student work. SKIP: user has not submitted any student response; user wants to proceed with the default 3-stage workflow (math-structure-analysis → math-student-explanation-html → math-adaptive-practice-html)."
 ---
 
 # Math Student Response Diagnosis
@@ -61,8 +61,8 @@ Write in Chinese. Keep it teacher-facing and concise.
 - 次要错因：
 - 不是本轮重点的问题：
 
-## 四、学习层级判断
-- 当前层级：
+## 四、A-F 档位判断
+- 当前档位：
 - 判断依据：
 - 置信度：高/中/低
 
@@ -81,7 +81,7 @@ Write in Chinese. Keep it teacher-facing and concise.
 ## 七、交付给下一阶段的诊断摘要
 ```json
 {
-  "learning_level": "",
+  "mastery_band": "",
   "confidence": "",
   "main_blocker": "",
   "secondary_blockers": [],
@@ -94,15 +94,14 @@ Write in Chinese. Keep it teacher-facing and concise.
 ```
 ```
 
-## Learning-Level Rules
+## A-F Band Rules
 
-- L0 读题层：学生看不懂题目场景、对象或条件关系。
-- L1 入手层：学生能说出对象和条件，但找不到第一步入口。
-- L2 建模层：学生能找到关键量，但不会建立等量关系、公式入口或坐标/图形对应。
-- L3 求解层：学生会列式求解，但检查范围、绝对值、单位、排除值或退化情形不稳。
-- L4 迁移层：学生能完成原题，但换问法、换数字或换表征后不稳定。
-- L5 抽象层：学生能识别同构变式，可以处理部分隐藏结构或条件包装。
-- L6 命题层：学生能解释结构不变量和迁移条件，可以做反向构造或判断条件是否充分。
+- A档：学生没有看懂题目场景或对象关系。
+- B档：学生能说出图形/条件，但找不到关键交点、关键量、关键等量关系。
+- C档：学生找到了关键量，但不会选择底高、坐标差、对应关系或公式入口。
+- D档：学生会列式，但漏绝对值、范围、单位、排除值、退化情形或验算。
+- E档：学生能做原题，但换表层情境就找不到同一结构。
+- F档：学生能说明结构和迁移条件，可以做结构隐藏变式。
 
 ## Diagnosis Rules
 
@@ -111,7 +110,6 @@ Write in Chinese. Keep it teacher-facing and concise.
 - Do not over-punish an arithmetic slip if the structure is correct; record it as calculation carelessness.
 - Distinguish "不会算" from "不知道为什么这样算".
 - Prefer actionable blockers: "不知道交点要联立方程" is better than "基础差".
-- Use the lowest level that explains the visible evidence. A correct answer without visible reasoning usually supports at most L3-L4, not L5-L6.
 
 ## Mandatory Self-Check
 
@@ -126,8 +124,8 @@ Before finalizing `03-student-response-diagnosis.md`, perform the checks below. 
   - 诊断是否聚焦一个主要核心动作：
   - 是否引入无关知识点：
   - 下一步建议是否围绕本题核心链条：
-- 学习层级检查：
-  - 当前层级是否由学生证据支持：
+- 档位检查：
+  - 当前档位是否由学生证据支持：
   - 如果没有学生证据，是否标注“默认诊断”：
   - 升级是否只小步上升：
 - HTML 检查：

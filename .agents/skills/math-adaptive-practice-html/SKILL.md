@@ -1,6 +1,6 @@
 ---
 name: math-adaptive-practice-html
-description: "Generate the next printable A4 Chinese math practice HTML artifact from a structure-analysis artifact and an explanation artifact. Use as stage 3 after math-student-explanation-html to consolidate, transfer, deepen, abstract, or package variations while respecting the structure-analysis variation blueprint and computation budget. TRIGGER when: a structure-analysis artifact and explanation artifact exist for the current problem; user asks for practice problems, adaptive exercises, variation deepening, abstraction, or printable practice based on a previously analyzed problem. SKIP: no structure-analysis artifact exists (run math-structure-analysis first); no explanation artifact exists (run math-student-explanation-html first); user wants explanation not practice."
+description: "Generate the next printable A4 Chinese math practice HTML artifact from a structure-analysis artifact and an explanation artifact. Use as stage 3 after math-student-explanation-html to decide whether to downgrade, consolidate, mildly transfer, or hide the structure in variations while respecting a computation complexity budget. TRIGGER when: a structure-analysis artifact and explanation artifact exist for the current problem; user asks for practice problems or adaptive exercises; after math-student-explanation-html completes; user wants printable practice based on a previously analyzed problem. SKIP: no structure-analysis artifact exists (run math-structure-analysis first); no explanation artifact exists (run math-student-explanation-html first); user wants explanation not practice."
 ---
 
 # Math Adaptive Practice HTML
@@ -19,7 +19,7 @@ The goal is not to create similar problems mechanically. Decide the next teachin
 
 Require:
 
-- `01-structure-analysis.md` or equivalent, including `canonical_solution`, `variation_rules`, `complexity_budget`, and `practice_task_packet`.
+- `01-structure-analysis.md` or equivalent, including `canonical_solution`, `variation_rules`, and `complexity_budget`.
 - `02-student-explanation.html` or equivalent explanation artifact (for context on what the student has already seen).
 
 Fallback:
@@ -37,50 +37,26 @@ artifacts/<same-problem-slug>/03-adaptive-practice.html
 Use the same A4 print style as the explanation page. Include an answer key after a page break when the user wants a complete teacher version; otherwise include compact standard answers on the last page.
 Use or copy `assets/edu-print.css` beside the generated HTML. `assets/print-a4.css` may exist only as a backward-compatible entry point that imports `edu-print.css`.
 
-## Learning Levels
+## Mastery Bands
 
-Use the diagnosed learning level and stated blocker:
+Use the diagnosed band and stated blocker:
 
-- L0 读题层：看不懂题目场景、对象或条件关系。
-- L1 入手层：能说出对象和条件，但找不到第一步入口。
-- L2 建模层：能找到关键量，但不会建立关系、公式入口或坐标/图形对应。
-- L3 求解层：会列式求解，但范围、绝对值、单位、排除值或退化检查不稳。
-- L4 迁移层：能完成原题，但换问法、换数字或换表征后不稳定。
-- L5 抽象层：能识别同构变式，可以处理部分隐藏结构或条件包装。
-- L6 命题层：能解释结构不变量和迁移条件，可以做反向构造或判断条件是否充分。
+- A档：看不懂题目场景。
+- B档：能看懂图形，但不会找关键交点/关键量。
+- C档：会找关键量，但不会选底高/关系。
+- D档：会列式，但漏绝对值、范围、单位或条件检查。
+- E档：会做原题，但不会迁移。
+- F档：已经掌握，可以做结构隐藏的变式。
 
 ## Practice Selection
 
-- L0-L1：低门槛读题和入口题，不急着加入参数。
-- L2：找关键量、选关系、选公式入口的专项题。
-- L3：范围、绝对值、分类讨论、条件检查和验算题。
-- L4：同源迁移题，保留核心结构，换数字、问法或表征。
-- L5：结构部分隐藏或条件包装题，只深化一个主维度。
-- L6：反向构造、条件充分性判断或结构解释题，仍不引入无关知识点。
+- A/B档：低门槛识别题，不急着加入参数。
+- C档：选底高、选关系、找关键量的专项题。
+- D档：绝对值、范围、分类讨论、条件检查题。
+- E档：同源平级变式，保留核心结构，换表层情境。
+- F档：结构隐藏型变式，小步提高，不引入无关知识点。
 
 Each set has at most 3 problems. Difficulty may only rise one small step.
-
-## Variation Deepening
-
-Use `variation_rules` from structure analysis as the source of truth. If it is missing or thin, infer a concise variation blueprint before writing problems and place it in a teacher-only note.
-
-Deepen in this order, changing only one main dimension per problem:
-
-1. 原题复现：保留题面结构，只训练完整路径。
-2. 同结构换数：只换干净数字，核心动作不变。
-3. 同结构换问法：已知与所求轻微互换，仍保留明显入口。
-4. 同结构换表征：解析式、图像、表格、文字条件之间切换。
-5. 条件包装：把关键条件藏进一句情境或几何描述，但不加新知识点。
-6. 结构部分隐藏：题面不直接暴露核心结构，需要学生主动识别同构。
-7. 反向构造：给目标或性质，让学生构造参数、条件或判断是否存在。
-
-Quality gates for every generated problem:
-
-- Preserve the `core_invariant`.
-- State the changed dimension in a teacher-only note.
-- Keep arithmetic within `complexity_budget`.
-- Avoid every item in `forbidden_transforms` and `non_examples`.
-- Do not hide the structure and raise calculation difficulty in the same problem unless the student is L6 with high confidence.
 
 ## Complexity Budget
 
@@ -91,7 +67,7 @@ Use the budget from structure analysis. If missing, infer and state one before g
 - If the original has no radicals, avoid complex radicals.
 - If the original is for beginners, keep a visible baseline, axis, table, or diagram cue.
 - Keep arithmetic clean: small integers, simple fractions, and answers that can be checked by hand.
-- Do not hide the core structure and raise calculation difficulty in the same problem unless the diagnosis is L6 with high confidence.
+- Do not hide the core structure and raise calculation difficulty in the same problem unless the diagnosis is F档 with high confidence.
 
 ## Required HTML Sections
 
@@ -159,8 +135,8 @@ Forbidden:
 - Creating ad-hoc classes like `think-box`, `step-box`, `case-box`, `negative-box`, `question-box`, `problem-block`, `problem-section`, `teacher-note`, `mistake-box`, `answer-space`, or `problem`.
 - Mixing teacher-only metadata into the student main flow. Use `.edu-teacher-note` and keep it visually separate.
 - Using `details` for printable hints unless the details are marked `open` or converted to print-visible `.edu-hint` blocks.
-- Placing `.edu-training-goal`, `.edu-expected-blocker`, complexity notes, learning levels, confidence, upgrade/downgrade rules, variation rationale, or self-check text in the student main flow.
-- **学生版练习页不得包含教师判断内容。** 教师判断、训练目标、预期卡点、复杂度说明、学习层级、置信度、升级/降级建议、变式理由必须放在 `no-print` 的 `.edu-teacher-note` 或 `.edu-judge` 中；默认打开页面时也应优先呈现学生视角。
+- Placing `.edu-training-goal`, `.edu-expected-blocker`, complexity notes, mastery bands, confidence, upgrade/downgrade rules, or self-check text in the student main flow.
+- **学生版练习页不得包含教师判断内容。** 教师判断、训练目标、预期卡点、复杂度说明、档位、置信度、升级/降级建议必须放在 `no-print` 的 `.edu-teacher-note` 或 `.edu-judge` 中；默认打开页面时也应优先呈现学生视角。
 
 ```html
 <body data-view="student">
@@ -222,7 +198,7 @@ Forbidden:
   <!-- 教师判断区：学生打印时不可见 -->
   <aside class="edu-teacher-note no-print">
     <div class="edu-card-title">教师判断</div>
-    <p class="edu-p">当前学习层级：LX。主要错因：...。置信度：...</p>
+    <p class="edu-p">当前档位：X档。主要错因：...。置信度：...</p>
   </aside>
 
   <aside class="edu-teacher-note no-print">
@@ -256,7 +232,7 @@ Forbidden:
 - Make hints progressive: hint 1 points to the action; hint 2 nearly reveals the setup, not the final answer.
 - Include how to judge the student's response after each problem only in a `no-print` teacher note, not beside the student-facing stem.
 - Use printable answer space: ruled lines or boxed work area.
-- **教师判断（学习层级、升级/降级、训练目标、预期卡点、复杂度说明、变式理由）必须放在 `no-print` 的 `.edu-teacher-note` 中，学生在打印版和默认学生视角中看不到这些内容。** 答案区只放标准答案，不放升级/降级建议。
+- **教师判断（档位、升级/降级、训练目标、预期卡点、复杂度说明）必须放在 `no-print` 的 `.edu-teacher-note` 中，学生在打印版和默认学生视角中看不到这些内容。** 答案区只放标准答案，不放升级/降级建议。
 
 ## Mandatory Self-Check
 
@@ -268,9 +244,8 @@ Before finalizing the HTML, solve every generated problem and revise any faulty 
   <ul>
     <li><strong>数学检查：</strong>每道题答案是否正确；是否存在漏解、增根、退化值；公式是否适用于本题。</li>
     <li><strong>教学检查：</strong>本页是否只训练一个核心动作；有没有引入无关知识点；提示二是否过早暴露答案；互动问题/判断问题是否围绕本题核心链条。</li>
-    <li><strong>学习层级检查：</strong>当前学习层级是否由学生证据或诊断 artifact 支持；如果没有学生证据，是否标注“默认诊断”；升级是否只小步上升。</li>
-    <li><strong>变式检查：</strong>每道题是否保留核心不变量；是否只深化一个主维度；是否避开 forbidden transforms 和 non-examples；是否没有同时隐藏结构并增加计算负担。</li>
-    <li><strong>学生版检查：</strong>教师判断、训练目标、预期卡点、复杂度说明、变式理由、升级/降级建议是否全部在 `no-print` 区域内；学生打印和默认学生视角是否只看到题目、提示、答案空间和标准答案。</li>
+    <li><strong>档位检查：</strong>当前档位是否由学生证据或诊断 artifact 支持；如果没有学生证据，是否标注“默认诊断”；升级是否只小步上升。</li>
+    <li><strong>学生版检查：</strong>教师判断、训练目标、预期卡点、复杂度说明、升级/降级建议是否全部在 `no-print` 区域内；学生打印和默认学生视角是否只看到题目、提示、答案空间和标准答案。</li>
     <li><strong>HTML 检查：</strong>标签是否闭合；是否符合 required sections；是否依赖网络 CDN；是否适合 A4 打印；分页位置是否合理。</li>
     <li><strong>自检结论：</strong>...</li>
   </ul>
