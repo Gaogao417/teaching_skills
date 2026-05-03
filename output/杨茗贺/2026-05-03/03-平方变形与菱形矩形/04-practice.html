@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>平方变形与菱形矩形 · 练习</title>
+<link rel="stylesheet" href="../assets/edu-print.css">
+<script>
+MathJax = {
+  tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+</head>
+<body data-view="student">
+<div class="edu-page">
+
+<h1 class="edu-title">练习：平方变形与菱形矩形</h1>
+<p class="edu-subtitle">共 9 题 · 必须写完整步骤</p>
+
+<section class="edu-section">
+  <h2 class="edu-section-title">练习说明</h2>
+  <p class="edu-p">本组练习两个核心动作：</p>
+  <ol>
+    <li>对含 $\dfrac{1}{x}$ 的式子平方展开、移项、开方</li>
+    <li>用菱形/矩形的公式求周长、面积或对角线</li>
+  </ol>
+  <p class="edu-p">每道题都要写出完整的中间过程，不能只写答案。</p>
+</section>
+
+<!-- ========== A 组：x+1/x 平方变形（原第 1-3 题） ========== -->
+<section class="edu-section">
+  <h2 class="edu-section-title">A 组：$x+\dfrac{1}{x}$ 的平方变形</h2>
+</section>
+
+<section class="edu-practice-problem u-avoid-break">
+  <h2 class="edu-practice-title">第 1 题</h2>
+  <p class="edu-p">已知 $x+\dfrac{1}{x}=2$，求 $x^2+\dfrac{1}{x^2}$ 和 $x-\dfrac{1}{x}$。</p>
+
+  <div class="edu-hint">
+    <div class="edu-hint-title">提示一</div>
+    <p class="edu-p">先对 $x+\dfrac{1}{x}=2$ 两边平方，再用完全平方公式展开。</p>
+  </div>
+  <div class="edu-hint">
+    <div class="edu-hint-title">提示二</div>
+    <p class="edu-p">展开后 $x^2+2+\dfrac{1}{x^2}=4$，移项得到 $x^2+\dfrac{1}{x^2}=$？然后配方求 $(x-\dfrac{1}{x})^2$。</p>
+  </div>
+
+  <div class="edu-answer-steps">
+    <div class="edu-answer-step">
+      <span class="edu-answer-step-label">① 平方展开：</span>
+    </div>
+    <div class="edu-answer-step">
+      <span class="edu-answer-step-label">② 移项求 $x^2+\dfrac{1}{x^2}$：</span>
+    </div>
+    <div class="edu-answer-step">
+      <span class="edu-answer-step-label">③ 配方求 $x-\dfrac{1}{x}$：</span>
+    </div>
+  </div>
+
+  <aside class="edu-teacher-note no-print">
+    <div class="edu-card-title">第 1 题教师备忘</div>
+    <p class="edu-training-goal"><span class="edu-tag">训练目标</span>平方展开 + 移项 + 特殊情况 $x-\dfrac{1}{x}=0$</p>
+    <p class="edu-expected-blocker"><span class="edu-tag">预期卡点</span>结果为 0 时不知道不用写 $\pm$</p>
+    <p class="edu-small">复杂度说明：整数平方，结果为完全平方数。</p>
+    <div class="edu-judge">
+      <p class="edu-p"><span class="edu-upgrade">升级：</span>若学生顺利完成，进入第 2 题。</p>
+      <p class="edu-p"><span class="edu-downgrade">降级：</span>若展开就出错，回到纯展开 $(x+\dfrac{1}{x})^2$ 的题。</p>
+    </div>
+  </aside>
+</section>
+
+<section class="edu-practice-problem u-avoid-break">
+  <h2 class="edu-practice-title">第 2 题</h2>
+  <p class="edu-p">已知 $x+\dfrac{1}{x}=3$，求 $x^2+\dfrac{1}{x^2}$ 和 $x-\dfrac{1}{x}$。</p>
+
+  <div class="edu-hint">
+    <div class="edu-hint-title">提示一</div>
+    <p class="edu-p">步骤和第 1 题一样：平方 → 展开 → 移项 → 配方 → 开方。</p>
+  </div>
+  <div class="edu-hint">
+    <div class="edu-hint-title">提示二</div>
+    <p class="edu-p">$(x-\dfrac{1}{x})^2=9-4=5$，开方后别忘了 $\pm$。</p>
+  </div>
+
+  <div class="edu-answer-steps">
+    <div class="edu-answer-step">
+      <span class="edu-answer-step-label">① 平方展开：</span>
+    </div>
+    <div class="edu-answer-step">
+      <span class="edu-answer-step-label">② 移项求 $x^2+\dfrac{1}{x^2}$：</span>
+    </div>
+    <div class="edu-answer-step">
+      <span class="edu-answer-step-label">③ 配方求 $x-\dfrac{1}{x}$：</span>
+    </div>
+  </div>
+
+  <aside class="edu-teacher-note no-print">
+    <div class="edu-card-title">第 2 题教师备忘</div>
+    <p class="edu-training-goal"><span class="edu-tag">训练目标</span>标准流程 + $\pm$ 判断</p>
+    <p class="edu-expected-blocker"><span class="edu-tag">预期卡点</span>开方忘写 $\pm$</p>
+    <div class="edu-judge">
+      <p class="edu-p"><span class="edu-upgrade">升级：</span>若学生写出 $\pm\sqrt{5}$，进入第 3 题。</p>
+      <p class="edu-p"><span class="edu-downgrade">降级：</span>若学生只写 $\sqrt{5}$，提醒开方有两种可能。</p>
+    </div>
+  </aside>
+</section>
+
+<section class="edu-practice-problem u-avoid-break">
+  <h2 class="edu-practice-title">第 3 题</h2>
+  <p class="edu-p">已知 $x+\dfrac{1}{x}=4$，求 $x^2+\dfrac{1}{x^2}$ 和 $x-\dfrac{1}{x}$。</p>
+
+  <div class="edu-hint">
+    <div class="edu-hint-title">提示一</div>
+    <p class="edu-p">同样四步。$4^2=$？$(4)^2-4=$？结果能化简吗？</p>
+  </div>
+  <div class="edu-hint">
+    <div class="edu-hint-title">提示二</div>
+    <p class="edu-p">$(x-\dfrac{1}{x})^2=16-4=12$，$\sqrt{12}=2\sqrt{3}$。</p>
+  </div>
+
+  <div class="edu-answer-steps">
+    <div class="edu-answer-step">
+      <span class="edu-answer-step-label">① 平方展开：</span>
+    </div>
+    <div class="edu-answer-step">
+      <span class="edu-answer-step-label">② 移项求 $x^2+\dfrac{1}{x^2}$：</span>
+    </div>
+    <div class="edu-answer-step">
+      <span class="edu-answer-step-label">③ 配方求 $x-\dfrac{1}{x}$：</span>
+    </div>
+  </div>
+
+  <aside class="edu-teacher-note no-print">
+    <div class="edu-card-title">第 3 题教师备忘</div>
+    <p class="edu-training-goal"><span class="edu-tag">训练目标</span>含 $\sqrt{n}$ 化简</p>
+    <p class="edu-expected-blocker"><span class="edu-tag">预期卡点</span>$\sqrt{12}$ 不会化简成 $2\sqrt{3}$</p>
+    <div class="edu-judge">
+      <p class="edu-p"><span class="edu-upgrade">升级：</span>进入 B 组。</p>
+      <p class="edu-p"><span class="edu-downgrade">降级：</span>若展开步骤仍出错，回第 1 题。</p>
+    </div>
+  </aside>
+</section>
+
+<div class="page-break"></div>
+
+<!-- ========== B 组：分式平方变形（原第 6-8 题 → 新第 4-6 题） ========== -->
+<section class="edu-section">
+  <h2 class="edu-section-title">B 组：分式平方变形</h2>
+</section>
+
+<section class="edu-practice-problem u-avoid-break">
+  <h2 class="edu-practice-title">第 4 题</h2>
+  <p class="edu-p">已知 $x+\dfrac{1}{x}=5$，求 $x^2+\dfrac{1}{x^2}$ 和 $x-\dfrac{1}{x}$。</p>
+
+  <div class="edu-hint">
+    <div class="edu-hint-title">提示一</div>
+    <p class="edu-p">平方 → 展开 → 移项。和 A 组方法一样，只是数值变成了 5。</p>
+  </div>
+  <div class="edu-hint">
+    <div class="edu-hint-title">提示二</div>
+    <p class="edu-p">$x^2+\dfrac{1}{x^2}=25-2=23$。$(x-\dfrac{1}{x})^2=23-2=21$。</p>
+  </div>
+
+  <div class="edu-answer-steps">
+    <div class="edu-answer-step">
+      <span class="edu-answer-step-label">① 平方展开：</span>
+    </div>
+    <div class="edu-answer-step">
+      <span class="edu-answer-step-label">② 求 $x^2+\dfrac{1}{x^2}$：</span>
+    </div>
+    <div class="edu-answer-step">
+      <span class="edu-answer-step-label">③ 求 $x-\dfrac{1}{x}$：</span>
+    </div>
+  </div>
+
+  <aside class="edu-teacher-note no-print">
+    <div class="edu-card-title">第 4 题教师备忘</div>
+    <p class="edu-training-goal"><span class="edu-tag">训练目标</span>正向变形巩固</p>
+    <p class="edu-expected-blocker"><span class="edu-tag">预期卡点</span>结果含 $\sqrt{21}$ 不会化简</p>
+    <div class="edu-judge">
+      <p class="edu-p"><span class="edu-upgrade">升级：</span>进入第 5 题。</p>
+      <p class="edu-p"><span class="edu-downgrade">降级：</span>若步骤不熟，回 A 组第 2 题。</p>
+    </div>
+  </aside>
+</section>
+
+<section class="edu-practice-problem u-avoid-break">
+  <h2 class="edu-practice-title">第 5 题</h2>
+  <p class="edu-p">已知 $x+\dfrac{1}{x}=-3$，求 $x^2+\dfrac{1}{x^2}$ 和 $x-\dfrac{1}{x}$。</p>
+
+  <div class="edu-hint">
+    <div class="edu-hint-title">提示一</div>
+    <p class="edu-p">不要被负数吓到！先平方，负数平方变正。</p>
+  </div>
+  <div class="edu-hint">
+    <div class="edu-hint-title">提示二</div>
+    <p class="edu-p">$(-3)^2=9$，之后和 $x+\dfrac{1}{x}=3$ 完全一样。</p>
+  </div>
+
+  <div class="edu-answer-steps">
+    <div class="edu-answer-step">
+      <span class="edu-answer-step-label">① 平方：</span>
+    </div>
+    <div class="edu-answer-step">
+      <span class="edu-answer-step-label">② 求 $x^2+\dfrac{1}{x^2}$：</span>
+    </div>
+    <div class="edu-answer-step">
+      <span class="edu-answer-step-label">③ 求 $x-\dfrac{1}{x}$：</span>
+    </div>
+  </div>
+
+  <aside class="edu-teacher-note no-print">
+    <div class="edu-card-title">第 5 题教师备忘</div>
+    <p class="edu-training-goal"><span class="edu-tag">训练目标</span>负数平方后与正数相同</p>
+    <p class="edu-expected-blocker"><span class="edu-tag">预期卡点</span>$(-3)^2$ 算成 $-9$</p>
+    <div class="edu-judge">
+      <p class="edu-p"><span class="edu-upgrade">升级：</span>进入第 6 题。</p>
+      <p class="edu-p"><span class="edu-downgrade">降级：</span>若平方算错，做纯平方计算练习。</p>
+    </div>
+  </aside>
+</section>
+
+<section class="edu-practice-problem u-avoid-break">
+  <h2 class="edu-practice-title">第 6 题</h2>
+  <p class="edu-p">已知 $x-\dfrac{1}{x}=3$，求 $x^2+\dfrac{1}{x^2}$。</p>
+
+  <div class="edu-hint">
+    <div class="edu-hint-title">提示一</div>
+    <p class="edu-p">这次已知的是 $x-\dfrac{1}{x}$，不是 $x+\dfrac{1}{x}$。先平方，再展开。</p>
+  </div>
+  <div class="edu-hint">
+    <div class="edu-hint-title">提示二</div>
+    <p class="edu-p">$(x-\dfrac{1}{x})^2=x^2-2+\dfrac{1}{x^2}=9$，移项时 $-2$ 变 $+2$：$x^2+\dfrac{1}{x^2}=9+2=11$。</p>
+  </div>
+
+  <div class="edu-answer-steps">
+    <div class="edu-answer-step">
+      <span class="edu-answer-step-label">① 平方：</span>
+    </div>
+    <div class="edu-answer-step">
+      <span class="edu-answer-step-label">② 展开：</span>
+    </div>
+    <div class="edu-answer-step">
+      <span class="edu-answer-step-label">③ 移项求 $x^2+\dfrac{1}{x^2}$：</span>
+    </div>
+  </div>
+
+  <aside class="edu-teacher-note no-print">
+    <div class="edu-card-title">第 6 题教师备忘</div>
+    <p class="edu-training-goal"><span class="edu-tag">训练目标</span>逆向变形：从差到平方和</p>
+    <p class="edu-expected-blocker"><span class="edu-tag">预期卡点</span>移项时写成 $n^2-2$（应为 $n^2+2$）</p>
+    <div class="edu-judge">
+      <p class="edu-p"><span class="edu-upgrade">升级：</span>进入 C 组。</p>
+      <p class="edu-p"><span class="edu-downgrade">降级：</span>若公式搞混，对比 $(x+1/x)^2$ 和 $(x-1/x)^2$ 的展开式。</p>
+    </div>
+  </aside>
+</section>
+
+<div class="page-break"></div>
+
+<!-- ========== C 组：菱形与矩形（原第 9-11 题 → 新第 7-9 题） ========== -->
+<section class="edu-section">
+  <h2 class="edu-section-title">C 组：菱形与矩形</h2>
+</section>
+
+<section class="edu-practice-problem u-avoid-break">
+  <h2 class="edu-practice-title">第 7 题</h2>
+  <p class="edu-p">菱形的周长为 24，面积为 24，求两条对角线的长度。</p>
+
+  <div class="edu-hint">
+    <div class="edu-hint-title">提示一</div>
+    <p class="edu-p">先求边长。设对角线为 $p$、$q$，用面积公式 $\dfrac{1}{2}pq=24$ 和勾股定理 $(\dfrac{p}{2})^2+(\dfrac{q}{2})^2=a^2$ 列两个方程。</p>
+  </div>
+  <div class="edu-hint">
+    <div class="edu-hint-title">提示二</div>
+    <p class="edu-p">边长 $a=6$。$pq=48$，$p^2+q^2=144$。然后用 $(p+q)^2=p^2+q^2+2pq$ 求 $p+q$。</p>
+  </div>
+
+  <div class="edu-answer-steps">
+    <div class="edu-answer-step">
+      <span class="edu-answer-step-label">① 求边长：</span>
+    </div>
+    <div class="edu-answer-step">
+      <span class="edu-answer-step-label">② 列面积方程：</span>
+    </div>
+    <div class="edu-answer-step">
+      <span class="edu-answer-step-label">③ 列勾股定理方程：</span>
+    </div>
+    <div class="edu-answer-step">
+      <span class="edu-answer-step-label">④ 联立求解对角线：</span>
+    </div>
+  </div>
+
+  <aside class="edu-teacher-note no-print">
+    <div class="edu-card-title">第 7 题教师备忘</div>
+    <p class="edu-training-goal"><span class="edu-tag">训练目标</span>菱形面积公式 + 勾股定理 + 完全平方</p>
+    <p class="edu-expected-blocker"><span class="edu-tag">预期卡点</span>忘记菱形对角线互相垂直平分；面积公式漏 $\dfrac{1}{2}$</p>
+    <div class="edu-judge">
+      <p class="edu-p"><span class="edu-upgrade">升级：</span>进入第 8 题。</p>
+      <p class="edu-p"><span class="edu-downgrade">降级：</span>若面积公式不熟，做"给对角线求面积"的基础题。</p>
+    </div>
+  </aside>
+</section>
+
+<section class="edu-practice-problem u-avoid-break">
+  <h2 class="edu-practice-title">第 8 题</h2>
+  <p class="edu-p">矩形的周长为 14，面积为 10，求对角线的长度。</p>
+
+  <div class="edu-hint">
+    <div class="edu-hint-title">提示一</div>
+    <p class="edu-p">设长 $x$、宽 $y$，则 $x+y=\dfrac{14}{2}=7$，$xy=10$。对角线 $d^2=x^2+y^2=(x+y)^2-2xy$。</p>
+  </div>
+  <div class="edu-hint">
+    <div class="edu-hint-title">提示二</div>
+    <p class="edu-p">$d^2=49-20=29$。对角线是长度，只取正值。</p>
+  </div>
+
+  <div class="edu-answer-steps">
+    <div class="edu-answer-step">
+      <span class="edu-answer-step-label">① 求 $x+y$ 和 $xy$：</span>
+    </div>
+    <div class="edu-answer-step">
+      <span class="edu-answer-step-label">② 用公式求 $d^2$：</span>
+    </div>
+    <div class="edu-answer-step">
+      <span class="edu-answer-step-label">③ 求对角线 $d$：</span>
+    </div>
+  </div>
+
+  <aside class="edu-teacher-note no-print">
+    <div class="edu-card-title">第 8 题教师备忘</div>
+    <p class="edu-training-goal"><span class="edu-tag">训练目标</span>矩形对角线公式 + 长度取正</p>
+    <p class="edu-expected-blocker"><span class="edu-tag">预期卡点</span>写 $d=\pm\sqrt{29}$</p>
+    <div class="edu-judge">
+      <p class="edu-p"><span class="edu-upgrade">升级：</span>进入第 9 题。</p>
+      <p class="edu-p"><span class="edu-downgrade">降级：</span>若 $\pm$ 判断错误，对比代数题和几何题的区别。</p>
+    </div>
+  </aside>
+</section>
+
+<section class="edu-practice-problem u-avoid-break">
+  <h2 class="edu-practice-title">第 9 题</h2>
+  <p class="edu-p">菱形的两条对角线分别为 6 和 8，求菱形的面积和周长。</p>
+
+  <div class="edu-hint">
+    <div class="edu-hint-title">提示一</div>
+    <p class="edu-p">面积直接用 $\dfrac{1}{2}\times 6\times 8$。周长需要先求边长：边长是半对角线构成的直角三角形的斜边。</p>
+  </div>
+  <div class="edu-hint">
+    <div class="edu-hint-title">提示二</div>
+    <p class="edu-p">半对角线为 3 和 4。$3^2+4^2=5^2$，边长 $=5$。周长 $=4\times 5$。</p>
+  </div>
+
+  <div class="edu-answer-steps">
+    <div class="edu-answer-step">
+      <span class="edu-answer-step-label">① 求面积：</span>
+    </div>
+    <div class="edu-answer-step">
+      <span class="edu-answer-step-label">② 求边长：</span>
+    </div>
+    <div class="edu-answer-step">
+      <span class="edu-answer-step-label">③ 求周长：</span>
+    </div>
+  </div>
+
+  <aside class="edu-teacher-note no-print">
+    <div class="edu-card-title">第 9 题教师备忘</div>
+    <p class="edu-training-goal"><span class="edu-tag">训练目标</span>3-4-5 勾股数识别 + 反向求周长</p>
+    <p class="edu-expected-blocker"><span class="edu-tag">预期卡点</span>不识别 3-4-5，硬算 $\sqrt{3^2+4^2}$</p>
+    <div class="edu-judge">
+      <p class="edu-p"><span class="edu-upgrade">升级：</span>给非勾股数的对角线（如 5 和 10）。</p>
+      <p class="edu-p"><span class="edu-downgrade">降级：</span>若面积公式不会，回顾讲解页的推导。</p>
+    </div>
+  </aside>
+</section>
+
+<!-- ========== 答案区 ========== -->
+<div class="page-break"></div>
+
+<section class="edu-answer-key">
+  <h2 class="edu-section-title u-mt-0">参考答案</h2>
+
+  <div class="edu-step">
+    <div class="edu-step-title">第 1 题答案</div>
+    <p class="edu-p">$$\left(x+\frac{1}{x}\right)^2 = 4 \Rightarrow x^2+2+\frac{1}{x^2}=4$$</p>
+    <p class="edu-p">$$x^2+\frac{1}{x^2}=2$$</p>
+    <p class="edu-p">$$\left(x-\frac{1}{x}\right)^2 = 2-2=0 \Rightarrow x-\frac{1}{x}=0$$</p>
+  </div>
+
+  <div class="edu-step">
+    <div class="edu-step-title">第 2 题答案</div>
+    <p class="edu-p">$$\left(x+\frac{1}{x}\right)^2 = 9 \Rightarrow x^2+2+\frac{1}{x^2}=9 \Rightarrow x^2+\frac{1}{x^2}=7$$</p>
+    <p class="edu-p">$$\left(x-\frac{1}{x}\right)^2 = 7-2=5 \Rightarrow x-\frac{1}{x}=\pm\sqrt{5}$$</p>
+  </div>
+
+  <div class="edu-step">
+    <div class="edu-step-title">第 3 题答案</div>
+    <p class="edu-p">$$x^2+\frac{1}{x^2}=16-2=14$$</p>
+    <p class="edu-p">$$\left(x-\frac{1}{x}\right)^2 = 14-2=12 \Rightarrow x-\frac{1}{x}=\pm 2\sqrt{3}$$</p>
+  </div>
+
+  <div class="edu-step">
+    <div class="edu-step-title">第 4 题答案</div>
+    <p class="edu-p">$$x^2+\frac{1}{x^2}=25-2=23$$</p>
+    <p class="edu-p">$$\left(x-\frac{1}{x}\right)^2=23-2=21 \Rightarrow x-\frac{1}{x}=\pm\sqrt{21}$$</p>
+  </div>
+
+  <div class="edu-step">
+    <div class="edu-step-title">第 5 题答案</div>
+    <p class="edu-p">$$\left(x+\frac{1}{x}\right)^2 = (-3)^2 = 9$$</p>
+    <p class="edu-p">$$x^2+\frac{1}{x^2}=9-2=7$$</p>
+    <p class="edu-p">$$\left(x-\frac{1}{x}\right)^2=7-2=5 \Rightarrow x-\frac{1}{x}=\pm\sqrt{5}$$</p>
+  </div>
+
+  <div class="edu-step">
+    <div class="edu-step-title">第 6 题答案</div>
+    <p class="edu-p">$$\left(x-\frac{1}{x}\right)^2 = 9 \Rightarrow x^2-2+\frac{1}{x^2}=9$$</p>
+    <p class="edu-p">$$x^2+\frac{1}{x^2}=9+2=11$$</p>
+  </div>
+
+  <div class="edu-step">
+    <div class="edu-step-title">第 7 题答案</div>
+    <p class="edu-p">边长 $a=6$。设对角线 $p$、$q$：</p>
+    <p class="edu-p">$$\frac{1}{2}pq=24 \Rightarrow pq=48$$</p>
+    <p class="edu-p">$$\left(\frac{p}{2}\right)^2+\left(\frac{q}{2}\right)^2=36 \Rightarrow p^2+q^2=144$$</p>
+    <p class="edu-p">$$(p+q)^2=144+96=240 \Rightarrow p+q=4\sqrt{15}$$</p>
+    <p class="edu-p">$$(p-q)^2=144-96=48 \Rightarrow |p-q|=4\sqrt{3}$$</p>
+    <p class="edu-p">$$p=\frac{4\sqrt{15}+4\sqrt{3}}{2}=2\sqrt{15}+2\sqrt{3},\quad q=2\sqrt{15}-2\sqrt{3}$$</p>
+  </div>
+
+  <div class="edu-step">
+    <div class="edu-step-title">第 8 题答案</div>
+    <p class="edu-p">$$x+y=7,\quad xy=10$$</p>
+    <p class="edu-p">$$d^2=(x+y)^2-2xy=49-20=29$$</p>
+    <p class="edu-p">$$d=\sqrt{29}$$</p>
+  </div>
+
+  <div class="edu-step">
+    <div class="edu-step-title">第 9 题答案</div>
+    <p class="edu-p">$$\text{面积}=\frac{1}{2}\times 6\times 8=24$$</p>
+    <p class="edu-p">$$\text{边长}=\sqrt{3^2+4^2}=5$$</p>
+    <p class="edu-p">$$\text{周长}=4\times 5=20$$</p>
+  </div>
+</section>
+
+<!-- 教师判断区 -->
+<aside class="edu-teacher-note no-print">
+  <div class="edu-card-title">教师判断</div>
+  <p class="edu-p">当前档位：默认诊断（无学生证据）。主要关注点：开方是否写 $\pm$、几何题对角线是否取正值、逆向变形符号是否正确。置信度：低。</p>
+</aside>
+
+<aside class="edu-teacher-note no-print">
+  <div class="edu-card-title">升级 / 降级建议</div>
+  <div class="edu-judge">
+    <p class="edu-p"><span class="edu-upgrade">升级：</span>若 9 题全部正确且步骤规范，可进入含 $\sqrt{n}$ 型参数的变式，或混合正逆向的题。</p>
+    <p class="edu-p"><span class="edu-downgrade">降级：</span>若 A 组（第 1-3 题）出错超过 2 题，回到纯展开练习 $(x+\dfrac{1}{x})^2$。</p>
+    <p class="edu-p"><span class="edu-review">巩固：</span>若 B 组（第 4-6 题）逆向变形符号出错，专项对比 $(x+1/x)^2$ 和 $(x-1/x)^2$ 的展开式。</p>
+  </div>
+</aside>
+
+<!-- 自检区 -->
+<aside class="edu-teacher-note self-check no-print">
+  <div class="edu-card-title">生成后自检</div>
+  <ul>
+    <li><strong>数学检查：</strong>
+      <ul>
+        <li>第 1 题：$x^2+1/x^2=2$，$x-1/x=0$ ✓</li>
+        <li>第 2 题：$x^2+1/x^2=7$，$x-1/x=\pm\sqrt{5}$ ✓</li>
+        <li>第 3 题：$x^2+1/x^2=14$，$x-1/x=\pm 2\sqrt{3}$ ✓</li>
+        <li>第 4 题：$x^2+1/x^2=23$，$x-1/x=\pm\sqrt{21}$ ✓</li>
+        <li>第 5 题：$x^2+1/x^2=7$，$x-1/x=\pm\sqrt{5}$ ✓</li>
+        <li>第 6 题：$x^2+1/x^2=11$ ✓</li>
+        <li>第 7 题：$p=2\sqrt{15}+2\sqrt{3}, q=2\sqrt{15}-2\sqrt{3}$ ✓</li>
+        <li>第 8 题：$d=\sqrt{29}$ ✓</li>
+        <li>第 9 题：面积 24，周长 20 ✓</li>
+      </ul>
+    </li>
+    <li><strong>教学检查：</strong>本页训练两个核心动作（平方变形、菱形矩形公式），未引入无关知识点。提示一指向动作，提示二接近列式不直接给答案。</li>
+    <li><strong>档位检查：</strong>默认诊断（无学生证据），已标注。</li>
+    <li><strong>学生版检查：</strong>教师判断、训练目标、预期卡点、升级/降级建议均在 `no-print` 区域。学生版只看到题目、提示、答题空间和标准答案。</li>
+    <li><strong>HTML 检查：</strong>使用 edu-* 类；依赖 MathJax CDN；答案区前有 page-break；每题有 u-avoid-break。</li>
+    <li><strong>自检结论：</strong>全部通过。</li>
+  </ul>
+</aside>
+
+<aside class="edu-teacher-note no-print">
+  下一轮：根据本页完成情况，更新学生画像；必要时回到讲解页，或生成下一组变式。
+</aside>
+
+</div>
+</body>
+</html>

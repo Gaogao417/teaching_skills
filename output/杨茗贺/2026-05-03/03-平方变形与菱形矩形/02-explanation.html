@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>平方变形与菱形矩形 · 讲解</title>
+<link rel="stylesheet" href="../assets/edu-print.css">
+<script>
+MathJax = {
+  tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+</head>
+<body data-view="student">
+<div class="edu-page">
+
+<h1 class="edu-title">讲解：平方变形与菱形矩形</h1>
+<p class="edu-subtitle">主题：$x+\dfrac{1}{x}$ 平方变形 · 分式变形 · 菱形矩形</p>
+
+<!-- ==================== 一、x+1/x 的平方变形（原 B3） ==================== -->
+<section class="edu-problem-card u-avoid-break">
+  <div class="edu-problem-title">原题</div>
+  <p class="edu-problem-stem">已知 $x+\dfrac{1}{x}=3$，求 $x^2+\dfrac{1}{x^2}$ 和 $x-\dfrac{1}{x}$。</p>
+</section>
+
+<section class="edu-section">
+  <h2 class="edu-section-title">一、先把题目拆开</h2>
+  <table class="edu-table edu-task-table">
+    <tr><th>已知条件</th><td>$x+\dfrac{1}{x}=3$</td></tr>
+    <tr><th>要求目标</th><td>$x^2+\dfrac{1}{x^2}$ 和 $x-\dfrac{1}{x}$</td></tr>
+    <tr><th>关键词</th><td>平方、展开、移项、开方</td></tr>
+    <tr><th>容易忽略</th><td>开方时要写 $\pm$；结果为 $0$ 时不写 $\pm$</td></tr>
+  </table>
+</section>
+
+<section class="edu-section">
+  <h2 class="edu-section-title">二、这题准备怎么走</h2>
+  <div class="edu-route">
+    <ol>
+      <li>对已知式 $x+\dfrac{1}{x}=3$ 两边平方</li>
+      <li>展开，把 $\dfrac{1}{x}$ 项正确写出</li>
+      <li>移项，求出 $x^2+\dfrac{1}{x^2}$</li>
+      <li>配方 $(x-\dfrac{1}{x})^2$，开方加 $\pm$</li>
+    </ol>
+  </div>
+</section>
+
+<section class="edu-section">
+  <h2 class="edu-section-title">三、关键想法</h2>
+  <div class="edu-key-idea">
+    不要去解 $x$ 的具体值！直接对 $x+\dfrac{1}{x}$ 整体平方，展开后移项就能得到 $x^2+\dfrac{1}{x^2}$。
+  </div>
+</section>
+
+<section class="edu-section">
+  <h2 class="edu-section-title">四、标准解法：四步详解</h2>
+
+  <div class="edu-step u-avoid-break">
+    <div class="edu-step-title">第 1 步：平方</div>
+    <p class="edu-p">对 $x+\dfrac{1}{x}=3$ 两边平方：</p>
+    <p class="edu-math">$$\left(x+\frac{1}{x}\right)^2 = 3^2 = 9$$</p>
+    <p class="edu-step-why">为什么：我们要把"和"变成"平方和"，只有先平方才能展开。</p>
+  </div>
+
+  <div class="edu-step u-avoid-break">
+    <div class="edu-step-title">第 2 步：展开</div>
+    <p class="edu-p">用完全平方公式 $(a+b)^2=a^2+2ab+b^2$ 展开：</p>
+    <p class="edu-math">$$\left(x+\frac{1}{x}\right)^2 = x^2 + 2 \cdot x \cdot \frac{1}{x} + \frac{1}{x^2} = x^2 + 2 + \frac{1}{x^2}$$</p>
+    <p class="edu-step-why">为什么：中间项 $2 \cdot x \cdot \dfrac{1}{x} = 2$，不是 $2x$ 也不是 $0$。</p>
+  </div>
+
+  <div class="edu-step u-avoid-break">
+    <div class="edu-step-title">第 3 步：整理移项</div>
+    <p class="edu-p">把上面两步合起来：</p>
+    <p class="edu-math">$$x^2 + 2 + \frac{1}{x^2} = 9$$</p>
+    <p class="edu-math">$$x^2 + \frac{1}{x^2} = 9 - 2 = 7$$</p>
+    <p class="edu-step-why">为什么：移项是基本功，$2$ 从等号左边移到右边变成 $-2$。</p>
+  </div>
+
+  <div class="edu-step u-avoid-break">
+    <div class="edu-step-title">第 4 步：开方求差（关键！）</div>
+    <p class="edu-p">现在求 $x-\dfrac{1}{x}$。配方：</p>
+    <p class="edu-math">$$\left(x-\frac{1}{x}\right)^2 = x^2 - 2 + \frac{1}{x^2} = 7 - 2 = 5$$</p>
+    <p class="edu-p">开方：</p>
+    <p class="edu-math edu-formula-key">$$x - \frac{1}{x} = \pm\sqrt{5}$$</p>
+    <p class="edu-step-why">为什么写 $\pm$：因为 $x^2=\dfrac{1}{x^2}+\dots$ 只是知道 $(x-\dfrac{1}{x})^2=5$，所以 $x-\dfrac{1}{x}$ 可能是 $+\sqrt{5}$，也可能是 $-\sqrt{5}$。</p>
+  </div>
+</section>
+
+<div class="page-break"></div>
+
+<section class="edu-section">
+  <h2 class="edu-section-title">五、边讲边问</h2>
+  <div class="edu-question">
+    <div class="edu-question-title">想一想 1</div>
+    <p class="edu-p">$(x+\dfrac{1}{x})^2$ 展开后，中间项 $2 \cdot x \cdot \dfrac{1}{x}$ 等于几？为什么不是 $2x$？</p>
+    <div class="edu-answer-lines"></div>
+  </div>
+  <div class="edu-question">
+    <div class="edu-question-title">想一想 2</div>
+    <p class="edu-p">如果 $x+\dfrac{1}{x}=2$，那么 $x^2+\dfrac{1}{x^2}=$？$x-\dfrac{1}{x}=$？为什么这里不用写 $\pm$？</p>
+    <div class="edu-answer-lines"></div>
+  </div>
+  <div class="edu-question">
+    <div class="edu-question-title">想一想 3</div>
+    <p class="edu-p">$(x+\dfrac{1}{x})^2$ 和 $(x-\dfrac{1}{x})^2$ 展开后的区别是什么？只有中间的 $+2$ 和 $-2$ 不同吗？</p>
+    <div class="edu-answer-lines"></div>
+  </div>
+</section>
+
+<section class="edu-section">
+  <h2 class="edu-section-title">六、易错提醒</h2>
+  <div class="edu-mistake"><strong>易错 1：</strong>开方漏写 $\pm$。$(x-\dfrac{1}{x})^2=5$ 得出 $x-\dfrac{1}{x}=\sqrt{5}$ 漏了 $-\sqrt{5}$。</div>
+  <div class="edu-mistake"><strong>易错 2：</strong>结果为 $0$ 时也写 $\pm 0$。当 $(x-\dfrac{1}{x})^2=0$ 时，$x-\dfrac{1}{x}=0$，不需要写 $\pm$。</div>
+  <div class="edu-mistake"><strong>易错 3：</strong>中间项算错。$2 \cdot x \cdot \dfrac{1}{x}$ 应该等于 $2$，不是 $2x$ 也不是 $\dfrac{2}{x}$。</div>
+</section>
+
+<section class="edu-section">
+  <h2 class="edu-section-title">七、一句话总结</h2>
+  <div class="edu-key-idea">先平方、再展开、后移项、开方加 $\pm$。</div>
+</section>
+
+<div class="page-break"></div>
+
+<!-- ==================== 二、分式平方变形系统训练（原 C2） ==================== -->
+<section class="edu-problem-card u-avoid-break">
+  <div class="edu-problem-title">原题</div>
+  <p class="edu-problem-stem">系统训练 $x+\dfrac{1}{x}$ 和 $x-\dfrac{1}{x}$ 的平方变形：正向和逆向。</p>
+</section>
+
+<section class="edu-section">
+  <h2 class="edu-section-title">一、核心公式（必须记住）</h2>
+  <div class="edu-formula-key edu-p">
+    $$\left(x+\frac{1}{x}\right)^2 = x^2 + 2 + \frac{1}{x^2}$$
+    $$\left(x-\frac{1}{x}\right)^2 = x^2 - 2 + \frac{1}{x^2}$$
+  </div>
+  <p class="edu-p">两个公式只有中间的 $+2$ 和 $-2$ 不同，其他完全一样。</p>
+</section>
+
+<section class="edu-section">
+  <h2 class="edu-section-title">二、正向变形：从和到差</h2>
+  <p class="edu-p">例：$x+\dfrac{1}{x}=5$，求 $x^2+\dfrac{1}{x^2}$ 和 $x-\dfrac{1}{x}$。</p>
+  <div class="edu-step">
+    <div class="edu-step-title">第 1 步：平方</div>
+    <p class="edu-math">$$\left(x+\frac{1}{x}\right)^2 = 25$$</p>
+  </div>
+  <div class="edu-step">
+    <div class="edu-step-title">第 2 步：展开移项，求 $x^2+\dfrac{1}{x^2}$</div>
+    <p class="edu-math">$$x^2 + 2 + \frac{1}{x^2} = 25 \Rightarrow x^2+\frac{1}{x^2}=23$$</p>
+  </div>
+  <div class="edu-step">
+    <div class="edu-step-title">第 3 步：配方求差</div>
+    <p class="edu-math">$$\left(x-\frac{1}{x}\right)^2 = x^2-2+\frac{1}{x^2} = 23-2=21$$</p>
+    <p class="edu-math edu-formula-key">$$x-\frac{1}{x}=\pm\sqrt{21}$$</p>
+  </div>
+</section>
+
+<section class="edu-section">
+  <h2 class="edu-section-title">三、负数也能平方</h2>
+  <p class="edu-p">例：$x+\dfrac{1}{x}=-3$，求 $x^2+\dfrac{1}{x^2}$ 和 $x-\dfrac{1}{x}$。</p>
+  <div class="edu-step">
+    <div class="edu-step-title">第 1 步：平方（负数平方变正）</div>
+    <p class="edu-math">$$\left(x+\frac{1}{x}\right)^2 = (-3)^2 = 9$$</p>
+    <p class="edu-step-why">虽然 $x+\dfrac{1}{x}=-3$ 是负数，但平方之后是 $9$，和 $m=3$ 的情况一样！</p>
+  </div>
+  <div class="edu-step">
+    <div class="edu-step-title">第 2 步：展开移项</div>
+    <p class="edu-math">$$x^2+\frac{1}{x^2}=9-2=7$$</p>
+  </div>
+  <div class="edu-step">
+    <div class="edu-step-title">第 3 步：配方求差</div>
+    <p class="edu-math">$$\left(x-\frac{1}{x}\right)^2=7-2=5 \Rightarrow x-\frac{1}{x}=\pm\sqrt{5}$$</p>
+  </div>
+</section>
+
+<section class="edu-section">
+  <h2 class="edu-section-title">四、逆向变形：从差到平方和</h2>
+  <p class="edu-p">例：已知 $x-\dfrac{1}{x}=3$，求 $x^2+\dfrac{1}{x^2}$。</p>
+  <div class="edu-step">
+    <div class="edu-step-title">第 1 步：平方</div>
+    <p class="edu-math">$$\left(x-\frac{1}{x}\right)^2 = 9$$</p>
+  </div>
+  <div class="edu-step">
+    <div class="edu-step-title">第 2 步：展开</div>
+    <p class="edu-math">$$x^2 - 2 + \frac{1}{x^2} = 9$$</p>
+  </div>
+  <div class="edu-step">
+    <div class="edu-step-title">第 3 步：移项（注意符号！）</div>
+    <p class="edu-math edu-formula-key">$$x^2+\frac{1}{x^2} = 9 + 2 = 11$$</p>
+    <p class="edu-step-why">这里 $-2$ 移到右边变成 $+2$。正向是 $m^2-2$，逆向是 $n^2+2$，符号不同！</p>
+  </div>
+</section>
+
+<section class="edu-section">
+  <h2 class="edu-section-title">五、边讲边问</h2>
+  <div class="edu-question">
+    <div class="edu-question-title">想一想 4</div>
+    <p class="edu-p">$x+\dfrac{1}{x}=3$ 和 $x+\dfrac{1}{x}=-3$，求出来的 $x^2+\dfrac{1}{x^2}$ 一样吗？为什么？</p>
+    <div class="edu-answer-lines"></div>
+  </div>
+  <div class="edu-question">
+    <div class="edu-question-title">想一想 5</div>
+    <p class="edu-p">正向求 $x^2+\dfrac{1}{x^2}$ 用 $m^2-2$，逆向（从差出发）求 $x^2+\dfrac{1}{x^2}$ 用 $n^2+2$。为什么一个是减 $2$，一个是加 $2$？</p>
+    <div class="edu-answer-lines"></div>
+  </div>
+</section>
+
+<section class="edu-section">
+  <h2 class="edu-section-title">六、易错提醒</h2>
+  <div class="edu-mistake"><strong>易错 1：</strong>$(-3)^2$ 算成 $-9$。负数平方一定是正数。</div>
+  <div class="edu-mistake"><strong>易错 2：</strong>逆向移项符号搞错。$x^2-2+\dfrac{1}{x^2}=n^2$，移项后是 $x^2+\dfrac{1}{x^2}=n^2+2$，不是 $n^2-2$。</div>
+</section>
+
+<section class="edu-section">
+  <h2 class="edu-section-title">七、一句话总结</h2>
+  <div class="edu-key-idea">正向 $m^2-2$，逆向 $n^2+2$。负数平方变正，开方别忘 $\pm$。</div>
+</section>
+
+<div class="page-break"></div>
+
+<!-- ==================== 三、菱形与矩形（原 C3） ==================== -->
+<section class="edu-problem-card u-avoid-break">
+  <div class="edu-problem-title">原题（菱形）</div>
+  <p class="edu-problem-stem">菱形的周长为 20，面积为 20，求两条对角线的长度。</p>
+</section>
+
+<section class="edu-section">
+  <h2 class="edu-section-title">一、先把题目拆开</h2>
+  <table class="edu-table edu-task-table">
+    <tr><th>已知条件</th><td>周长 $=20$，面积 $=20$</td></tr>
+    <tr><th>要求目标</th><td>两条对角线的长度</td></tr>
+    <tr><th>关键词</th><td>菱形、对角线、垂直平分</td></tr>
+    <tr><th>容易忽略</th><td>菱形面积 $=\dfrac{1}{2}pq$（不是 $pq$）</td></tr>
+  </table>
+</section>
+
+<section class="edu-section">
+  <h2 class="edu-section-title">二、这题准备怎么走</h2>
+  <div class="edu-route">
+    <ol>
+      <li>周长 → 边长</li>
+      <li>设对角线 $p$、$q$，用面积列方程</li>
+      <li>对角线互相垂直平分 → 勾股定理列第二个方程</li>
+      <li>联立两个方程，用完全平方公式求解</li>
+    </ol>
+  </div>
+</section>
+
+<section class="edu-section">
+  <h2 class="edu-section-title">三、关键想法</h2>
+  <div class="edu-key-idea">
+    菱形对角线互相垂直平分，所以半对角线和边长构成直角三角形。面积公式 $S=\dfrac{1}{2}pq$ 直接把对角线与面积联系起来。
+  </div>
+</section>
+
+<section class="edu-section">
+  <h2 class="edu-section-title">四、菱形面积公式推导</h2>
+  <div class="edu-step">
+    <div class="edu-step-title">为什么面积是 $\dfrac{1}{2}pq$？</div>
+    <p class="edu-p">菱形被对角线分成 4 个直角三角形。每个三角形的两条直角边分别是 $\dfrac{p}{2}$ 和 $\dfrac{q}{2}$。</p>
+    <p class="edu-math">$$\text{一个三角形面积} = \frac{1}{2}\cdot\frac{p}{2}\cdot\frac{q}{2}=\frac{pq}{8}$$</p>
+    <p class="edu-math edu-formula-key">$$\text{菱形面积} = 4\times\frac{pq}{8}=\frac{pq}{2}$$</p>
+    <p class="edu-step-why">本质：菱形对角线互相垂直，可以用 $\dfrac{1}{2}\times\text{底}\times\text{高}$ 来算面积。</p>
+  </div>
+</section>
+
+<section class="edu-section">
+  <h2 class="edu-section-title">五、标准解法</h2>
+  <div class="edu-step">
+    <div class="edu-step-title">第 1 步：求边长</div>
+    <p class="edu-math">$$a = \frac{20}{4}=5$$</p>
+  </div>
+  <div class="edu-step">
+    <div class="edu-step-title">第 2 步：列方程</div>
+    <p class="edu-p">设对角线为 $p$、$q$：</p>
+    <p class="edu-math">$$\frac{1}{2}pq = 20 \Rightarrow pq=40 \quad \cdots\cdots ①$$</p>
+    <p class="edu-math">$$\left(\frac{p}{2}\right)^2+\left(\frac{q}{2}\right)^2=5^2 \Rightarrow p^2+q^2=100 \quad \cdots\cdots ②$$</p>
+    <p class="edu-step-why">第二个方程来自勾股定理：半对角线是直角边，边长是斜边。</p>
+  </div>
+  <div class="edu-step">
+    <div class="edu-step-title">第 3 步：用完全平方公式</div>
+    <p class="edu-math">$$(p+q)^2=p^2+q^2+2pq=100+80=180 \Rightarrow p+q=6\sqrt{5}$$</p>
+    <p class="edu-math">$$(p-q)^2=p^2+q^2-2pq=100-80=20 \Rightarrow |p-q|=2\sqrt{5}$$</p>
+  </div>
+  <div class="edu-step">
+    <div class="edu-step-title">第 4 步：求对角线</div>
+    <p class="edu-math edu-formula-key">$$p=\frac{6\sqrt{5}+2\sqrt{5}}{2}=4\sqrt{5},\quad q=\frac{6\sqrt{5}-2\sqrt{5}}{2}=2\sqrt{5}$$</p>
+  </div>
+</section>
+
+<section class="edu-section">
+  <h2 class="edu-section-title">六、边讲边问</h2>
+  <div class="edu-question">
+    <div class="edu-question-title">想一想 6</div>
+    <p class="edu-p">为什么菱形面积是 $\dfrac{1}{2}pq$ 而不是 $pq$？和普通三角形面积公式 $\dfrac{1}{2}\times\text{底}\times\text{高}$ 有什么联系？</p>
+    <div class="edu-answer-lines"></div>
+  </div>
+  <div class="edu-question">
+    <div class="edu-question-title">想一想 7</div>
+    <p class="edu-p">如果菱形对角线分别为 6 和 8，面积是多少？边长是多少？（提示：$3^2+4^2=$？）</p>
+    <div class="edu-answer-lines"></div>
+  </div>
+</section>
+
+<div class="page-break"></div>
+
+<!-- ==================== 矩形 ==================== -->
+<section class="edu-problem-card u-avoid-break">
+  <div class="edu-problem-title">原题（矩形）</div>
+  <p class="edu-problem-stem">矩形的周长为 14，面积为 10，求对角线的长度。</p>
+</section>
+
+<section class="edu-section">
+  <h2 class="edu-section-title">一、矩形对角线公式推导</h2>
+  <div class="edu-step">
+    <div class="edu-step-title">为什么 $d^2=(x+y)^2-2xy$？</div>
+    <p class="edu-p">设矩形长为 $x$，宽为 $y$，对角线为 $d$。由勾股定理：</p>
+    <p class="edu-math">$$d^2=x^2+y^2$$</p>
+    <p class="edu-p">而 $x^2+y^2$ 可以用完全平方公式表示：</p>
+    <p class="edu-math">$$x^2+y^2=(x+y)^2-2xy$$</p>
+    <p class="edu-math edu-formula-key">$$d^2=(x+y)^2-2xy$$</p>
+    <p class="edu-step-why">周长给了 $x+y$，面积给了 $xy$，直接代入就行，不需要求出 $x$ 和 $y$ 各是多少。</p>
+  </div>
+</section>
+
+<section class="edu-section">
+  <h2 class="edu-section-title">二、标准解法</h2>
+  <div class="edu-step">
+    <div class="edu-step-title">第 1 步：求 $x+y$ 和 $xy$</div>
+    <p class="edu-math">$$x+y=\frac{14}{2}=7,\quad xy=10$$</p>
+  </div>
+  <div class="edu-step">
+    <div class="edu-step-title">第 2 步：代入公式</div>
+    <p class="edu-math">$$d^2=7^2-2\times 10=49-20=29$$</p>
+  </div>
+  <div class="edu-step">
+    <div class="edu-step-title">第 3 步：求对角线</div>
+    <p class="edu-math edu-formula-key">$$d=\sqrt{29}$$</p>
+    <p class="edu-step-why">对角线是长度，必须取正数，不写 $\pm$。这和代数题里开方加 $\pm$ 不同！</p>
+  </div>
+</section>
+
+<section class="edu-section">
+  <h2 class="edu-section-title">三、边讲边问</h2>
+  <div class="edu-question">
+    <div class="edu-question-title">想一想 8</div>
+    <p class="edu-p">为什么对角线 $d$ 不写 $\pm\sqrt{29}$？和前面代数题里开方写 $\pm$ 有什么区别？</p>
+    <div class="edu-answer-lines"></div>
+  </div>
+  <div class="edu-question">
+    <div class="edu-question-title">想一想 9</div>
+    <p class="edu-p">矩形的对角线公式 $d^2=(x+y)^2-2xy$ 和前面第一节的公式 $(x-\dfrac{1}{x})^2=x^2-2+\dfrac{1}{x^2}$ 有什么相似的地方？</p>
+    <div class="edu-answer-lines"></div>
+  </div>
+</section>
+
+<section class="edu-section">
+  <h2 class="edu-section-title">四、易错提醒</h2>
+  <div class="edu-mistake"><strong>易错 1：</strong>菱形面积写成 $pq$（漏了 $\dfrac{1}{2}$）。菱形面积 $=\dfrac{1}{2}\times$对角线$1\times$对角线$2$。</div>
+  <div class="edu-mistake"><strong>易错 2：</strong>对角线长度写成 $\pm\sqrt{29}$。对角线是线段长度，一定是正数，不写 $\pm$。</div>
+  <div class="edu-mistake"><strong>易错 3：</strong>忘记菱形对角线互相垂直平分。如果以为对角线不垂直，就无法用勾股定理。</div>
+</section>
+
+<section class="edu-section">
+  <h2 class="edu-section-title">五、一句话总结</h2>
+  <div class="edu-key-idea">菱形面积 $=\dfrac{1}{2}pq$，对角线垂直平分用勾股定理。矩形对角线 $d^2=(x+y)^2-2xy$，长度取正不取负。</div>
+</section>
+
+<!-- 自检区 -->
+<aside class="edu-teacher-note self-check no-print">
+  <div class="edu-card-title">生成后自检</div>
+  <ul>
+    <li><strong>数学检查：</strong>
+      <ul>
+        <li>$x+1/x$ 例题 $x^2+1/x^2=7$，$x-1/x=\pm\sqrt{5}$ ✓</li>
+        <li>分式系统训练 $m=5$：$x^2+1/x^2=23$，$x-1/x=\pm\sqrt{21}$ ✓；$m=-3$：$x^2+1/x^2=7$，$x-1/x=\pm\sqrt{5}$ ✓；$n=3$ 逆向 $x^2+1/x^2=11$ ✓</li>
+        <li>菱形：$pq=40, p^2+q^2=100, p=4\sqrt{5}, q=2\sqrt{5}$ ✓</li>
+        <li>矩形：$d=\sqrt{29}$ ✓</li>
+      </ul>
+    </li>
+    <li><strong>教学检查：</strong>每节只训练一个核心动作（第一节：平方展开；第二节：正逆向；第三节：几何公式）；未引入无关知识点。</li>
+    <li><strong>档位检查：</strong>默认 C-D 档假设；未基于学生证据。</li>
+    <li><strong>HTML 检查：</strong>依赖 MathJax CDN；使用 edu-* 类；分页位置在逻辑断点。</li>
+    <li><strong>自检结论：</strong>全部通过。</li>
+  </ul>
+</aside>
+
+<aside class="edu-teacher-note no-print">
+  下一步：记录学生在"边讲边问"中的回答，先使用 math-student-response-diagnosis 诊断档位，再使用 math-adaptive-practice-html 生成练习。
+</aside>
+
+</div>
+</body>
+</html>
