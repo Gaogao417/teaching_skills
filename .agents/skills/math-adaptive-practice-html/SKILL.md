@@ -1,16 +1,16 @@
 ---
 name: math-adaptive-practice-html
-description: Generate the next printable A4 Chinese math practice HTML artifact from a structure-analysis artifact and a student-response diagnosis artifact. Use as stage 4 after math-student-response-diagnosis to decide whether to downgrade, consolidate, mildly transfer, or hide the structure in variations while respecting a computation complexity budget.
+description: Generate the next printable A4 Chinese math practice HTML artifact from a structure-analysis artifact and an explanation artifact. Use as stage 3 after math-student-explanation-html to decide whether to downgrade, consolidate, mildly transfer, or hide the structure in variations while respecting a computation complexity budget. TRIGGER when: a structure-analysis artifact and explanation artifact exist for the current problem; user asks for practice problems or adaptive exercises; after math-student-explanation-html completes; user wants printable practice based on a previously analyzed problem. SKIP: no structure-analysis artifact exists (run math-structure-analysis first); no explanation artifact exists (run math-student-explanation-html first); user wants explanation not practice.
 ---
 
 # Math Adaptive Practice HTML
 
 ## Purpose
 
-Use this skill after diagnosis:
+Use this skill after explanation:
 
 ```text
-structure analysis + diagnosis artifact -> printable adaptive practice HTML
+structure analysis + explanation artifact -> printable adaptive practice HTML
 ```
 
 The goal is not to create similar problems mechanically. Decide the next teaching move from the diagnosed blocker.
@@ -20,18 +20,18 @@ The goal is not to create similar problems mechanically. Decide the next teachin
 Require:
 
 - `01-structure-analysis.md` or equivalent, including `canonical_solution`, `variation_rules`, and `complexity_budget`.
-- `03-student-response-diagnosis.md` or equivalent diagnosis artifact.
+- `02-student-explanation.html` or equivalent explanation artifact (for context on what the student has already seen).
 
 Fallback:
 
-- If no diagnosis artifact exists, first create a brief diagnosis section inside the output using the same A-F band rules, mark confidence as low, and generate diagnostic practice. Prefer using `math-student-response-diagnosis` first.
+- If no explanation artifact exists, run `math-student-explanation-html` first.
 
 ## Output Artifact
 
 Create:
 
 ```text
-artifacts/<same-problem-slug>/04-adaptive-practice.html
+artifacts/<same-problem-slug>/03-adaptive-practice.html
 ```
 
 Use the same A4 print style as the explanation page. Include an answer key after a page break when the user wants a complete teacher version; otherwise include compact standard answers on the last page.
@@ -260,6 +260,6 @@ End with a teacher-only note:
 
 ```html
 <aside class="edu-teacher-note no-print">
-下一轮：根据本页完成情况，更新学生画像；必要时回到讲解页，或生成下一组变式。
+下一轮：根据本页完成情况，更新学生画像；若需讲解新题，回到 math-structure-analysis；若需新一轮变式，再次使用 math-adaptive-practice-html。工作流循环：math-structure-analysis → math-student-explanation-html → math-adaptive-practice-html。
 </aside>
 ```

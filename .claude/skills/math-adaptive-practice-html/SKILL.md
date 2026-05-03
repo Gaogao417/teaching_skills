@@ -1,16 +1,16 @@
 ---
 name: math-adaptive-practice-html
-description: Generate the next printable A4 Chinese math practice HTML artifact from a structure-analysis artifact and a student-response diagnosis artifact. Use as stage 4 after math-student-response-diagnosis to decide whether to downgrade, consolidate, mildly transfer, or hide the structure in variations while respecting a computation complexity budget.
+description: Generate the next printable A4 Chinese math practice HTML artifact from a structure-analysis artifact and an explanation artifact. Use as stage 3 after math-student-explanation-html to decide whether to downgrade, consolidate, mildly transfer, or hide the structure in variations while respecting a computation complexity budget. TRIGGER when: a structure-analysis artifact and explanation artifact exist for the current problem; user asks for practice problems or adaptive exercises; after math-student-explanation-html completes; user wants printable practice based on a previously analyzed problem. SKIP: no structure-analysis artifact exists (run math-structure-analysis first); no explanation artifact exists (run math-student-explanation-html first); user wants explanation not practice.
 ---
 
 # Math Adaptive Practice HTML
 
 ## Purpose
 
-Use this skill after diagnosis:
+Use this skill after explanation:
 
 ```text
-structure analysis + diagnosis artifact -> printable adaptive practice HTML
+structure analysis + explanation artifact -> printable adaptive practice HTML
 ```
 
 The goal is not to create similar problems mechanically. Decide the next teaching move from the diagnosed blocker.
@@ -20,22 +20,22 @@ The goal is not to create similar problems mechanically. Decide the next teachin
 Require:
 
 - `01-structure-analysis.md` or equivalent, including `canonical_solution`, `variation_rules`, and `complexity_budget`.
-- `03-student-response-diagnosis.md` or equivalent diagnosis artifact.
+- `02-student-explanation.html` or equivalent explanation artifact (for context on what the student has already seen).
 
 Fallback:
 
-- If no diagnosis artifact exists, first create a brief diagnosis section inside the output using the same A-F band rules, mark confidence as low, and generate diagnostic practice. Prefer using `math-student-response-diagnosis` first.
+- If no explanation artifact exists, run `math-student-explanation-html` first.
 
 ## Output Artifact
 
 Create:
 
 ```text
-artifacts/<same-problem-slug>/04-adaptive-practice.html
+artifacts/<same-problem-slug>/03-adaptive-practice.html
 ```
 
 Use the same A4 print style as the explanation page. Include an answer key after a page break when the user wants a complete teacher version; otherwise include compact standard answers on the last page.
-Teacher-only metadata must be hidden from the default student view and from print output.
+Use or copy `assets/edu-print.css` beside the generated HTML. `assets/print-a4.css` may exist only as a backward-compatible entry point that imports `edu-print.css`.
 
 ## Mastery Bands
 
@@ -73,43 +73,154 @@ Use the budget from structure analysis. If missing, infer and state one before g
 
 Write in Chinese.
 
+All generated printable HTML must use the shared atomic style system in `assets/edu-print.css`. Do not invent new visual classes unless absolutely necessary. Practice pages are built from fixed teaching components, not from ad-hoc page-specific boxes.
+
+Allowed semantic classes:
+
+- `edu-page`
+- `edu-title`
+- `edu-subtitle`
+- `edu-section`
+- `edu-section-title`
+- `edu-subsection-title`
+- `edu-p`
+- `edu-small`
+- `edu-math`
+- `edu-strong`
+- `edu-card`
+- `edu-card-soft`
+- `edu-card-title`
+- `edu-problem-card`
+- `edu-problem-title`
+- `edu-problem-stem`
+- `edu-task-table`
+- `edu-object-table`
+- `edu-table`
+- `edu-route`
+- `edu-key-idea`
+- `edu-step`
+- `edu-step-title`
+- `edu-step-why`
+- `edu-substep`
+- `edu-subproblem`
+- `edu-subproblem-title`
+- `edu-formula`
+- `edu-formula-key`
+- `edu-question`
+- `edu-question-title`
+- `edu-mistake`
+- `edu-student-note`
+- `edu-teacher-note`
+- `edu-practice-problem`
+- `edu-practice-title`
+- `edu-training-goal`
+- `edu-expected-blocker`
+- `edu-tag`
+- `edu-hint`
+- `edu-hint-title`
+- `edu-answer-space`
+- `edu-answer-lines`
+- `edu-answer-steps`
+- `edu-answer-step`
+- `edu-answer-step-label`
+- `edu-answer-key`
+- `edu-judge`
+- `edu-upgrade`
+- `edu-downgrade`
+- `edu-review`
+- utility classes: `page-break`, `page-break-after`, `no-print`, `u-mt-0`, `u-mb-0`, `u-center`, `u-right`, `u-muted`, `u-small`, `u-avoid-break`
+
+Forbidden:
+
+- Creating ad-hoc classes like `think-box`, `step-box`, `case-box`, `negative-box`, `question-box`, `problem-block`, `problem-section`, `teacher-note`, `mistake-box`, `answer-space`, or `problem`.
+- Mixing teacher-only metadata into the student main flow. Use `.edu-teacher-note` and keep it visually separate.
+- Using `details` for printable hints unless the details are marked `open` or converted to print-visible `.edu-hint` blocks.
+- Placing `.edu-training-goal`, `.edu-expected-blocker`, complexity notes, mastery bands, confidence, upgrade/downgrade rules, or self-check text in the student main flow.
+- **学生版练习页不得包含教师判断内容。** 教师判断、训练目标、预期卡点、复杂度说明、档位、置信度、升级/降级建议必须放在 `no-print` 的 `.edu-teacher-note` 或 `.edu-judge` 中；默认打开页面时也应优先呈现学生视角。
+
 ```html
-<h1>自适应练习：题目短标题</h1>
-<section>
-  <h2>练习说明</h2>
-  <p>告诉学生本组只练什么动作，不讲后台术语。</p>
-</section>
-<section class="problem">
-  <h2>第1题</h2>
-  <p class="stem">题目...</p>
-  <details>
-    <summary>提示一</summary>
-    <p>...</p>
-  </details>
-  <details>
-    <summary>提示二</summary>
-    <p>...</p>
-  </details>
-  <div class="answer-space"></div>
-  <aside class="teacher-note no-print">
-    <h3>第1题教师备忘</h3>
-    <p><strong>训练目标：</strong>...</p>
-    <p><strong>预期卡点：</strong>...</p>
-    <p><strong>复杂度说明：</strong>为什么没有超过预算。</p>
-    <p><strong>升级/降级判断：</strong>...</p>
+<body data-view="student">
+<div class="edu-page">
+  <h1 class="edu-title">自适应练习：题目短标题</h1>
+
+  <section class="edu-section">
+    <h2 class="edu-section-title">练习说明</h2>
+    <p class="edu-p">本组只练一个核心动作：...</p>
+  </section>
+
+  <section class="edu-practice-problem u-avoid-break">
+    <h2 class="edu-practice-title">第 1 题：入口题</h2>
+    <p class="edu-p">题目...</p>
+
+    <div class="edu-hint">
+      <div class="edu-hint-title">提示一</div>
+      <p class="edu-p">指向动作，不给答案。</p>
+    </div>
+    <div class="edu-hint">
+      <div class="edu-hint-title">提示二</div>
+      <p class="edu-p">接近列式，但不直接给最终答案。</p>
+    </div>
+
+    <div class="edu-answer-steps">
+      <div class="edu-answer-step">
+        <span class="edu-answer-step-label">① 写出关键对象或关系：</span>
+      </div>
+      <div class="edu-answer-step">
+        <span class="edu-answer-step-label">② 列式并计算：</span>
+      </div>
+      <div class="edu-answer-step">
+        <span class="edu-answer-step-label">③ 检查并写结论：</span>
+      </div>
+    </div>
+
+    <aside class="edu-teacher-note no-print">
+      <div class="edu-card-title">第 1 题教师备忘</div>
+      <p class="edu-training-goal"><span class="edu-tag">训练目标</span>...</p>
+      <p class="edu-expected-blocker"><span class="edu-tag">预期卡点</span>...</p>
+      <p class="edu-small">复杂度说明：为什么没有超过预算。</p>
+      <div class="edu-judge">
+        <p class="edu-p"><span class="edu-upgrade">升级：</span>若学生...，进入...</p>
+        <p class="edu-p"><span class="edu-downgrade">降级：</span>若学生...，回到...</p>
+      </div>
+    </aside>
+  </section>
+
+  <!-- 后续题目之间按需插入 <div class="page-break"></div> -->
+
+  <section class="edu-answer-key page-break">
+    <h2 class="edu-section-title u-mt-0">参考答案</h2>
+    <div class="edu-step">
+      <div class="edu-step-title">第 1 题答案</div>
+      <p class="edu-p">标准答案...</p>
+    </div>
+  </section>
+
+  <!-- 教师判断区：学生打印时不可见 -->
+  <aside class="edu-teacher-note no-print">
+    <div class="edu-card-title">教师判断</div>
+    <p class="edu-p">当前档位：X档。主要错因：...。置信度：...</p>
   </aside>
-</section>
-<section class="answer-key page-break">
-  <h2>参考答案</h2>
-  <ol>
-    <li>只放标准答案和必要推导。</li>
-  </ol>
-</section>
-<aside class="teacher-note no-print">
-  <h2>教师判断</h2>
-  <p>当前档位：X档。主要错因：...。置信度：...</p>
-</aside>
+
+  <aside class="edu-teacher-note no-print">
+    <div class="edu-card-title">升级 / 降级建议</div>
+    <div class="edu-judge">
+      <p class="edu-p"><span class="edu-upgrade">升级：</span>若学生...，进入...</p>
+      <p class="edu-p"><span class="edu-downgrade">降级：</span>若学生...，回到...</p>
+    </div>
+  </aside>
+</div>
+</body>
 ```
+
+## Page Break Rules
+
+打印分页规则：
+
+- 答案区（`.edu-answer-key`）前必须使用 `page-break`，与学生练习内容分页。
+- 若题目数量超过一页（约2道大题），在第2题前插入 `<div class="page-break"></div>`。
+- 每道练习题（`.edu-practice-problem`）使用 `u-avoid-break` 防止题目被截断跨页。
+- 标题（`.edu-section-title`、`.edu-practice-title`、`.edu-step-title`）不允许出现在页面最底部（CSS 已设置 `break-after: avoid`）。
+- 若单道题带解答区超过一页，移除该题的 `u-avoid-break`，改用自然的步骤分隔。
 
 ## Generation Rules
 
@@ -121,21 +232,21 @@ Write in Chinese.
 - Make hints progressive: hint 1 points to the action; hint 2 nearly reveals the setup, not the final answer.
 - Include how to judge the student's response after each problem only in a `no-print` teacher note, not beside the student-facing stem.
 - Use printable answer space: ruled lines or boxed work area.
-- Do not put training goals, expected blockers, complexity notes, mastery bands, confidence, upgrade/downgrade rules, or self-check text in the student main flow. The student-facing page should contain only the stem, optional hints, answer space, and standard answers.
+- **教师判断（档位、升级/降级、训练目标、预期卡点、复杂度说明）必须放在 `no-print` 的 `.edu-teacher-note` 中，学生在打印版和默认学生视角中看不到这些内容。** 答案区只放标准答案，不放升级/降级建议。
 
 ## Mandatory Self-Check
 
 Before finalizing the HTML, solve every generated problem and revise any faulty item. Add a teacher-only self-check block near the end:
 
 ```html
-<aside class="teacher-note self-check no-print">
-  <h2>生成后自检</h2>
+<aside class="edu-teacher-note self-check no-print">
+  <div class="edu-card-title">生成后自检</div>
   <ul>
     <li><strong>数学检查：</strong>每道题答案是否正确；是否存在漏解、增根、退化值；公式是否适用于本题。</li>
     <li><strong>教学检查：</strong>本页是否只训练一个核心动作；有没有引入无关知识点；提示二是否过早暴露答案；互动问题/判断问题是否围绕本题核心链条。</li>
     <li><strong>档位检查：</strong>当前档位是否由学生证据或诊断 artifact 支持；如果没有学生证据，是否标注“默认诊断”；升级是否只小步上升。</li>
     <li><strong>学生版检查：</strong>教师判断、训练目标、预期卡点、复杂度说明、升级/降级建议是否全部在 `no-print` 区域内；学生打印和默认学生视角是否只看到题目、提示、答案空间和标准答案。</li>
-    <li><strong>HTML 检查：</strong>标签是否闭合；是否符合 required sections；是否依赖网络 CDN；是否适合 A4 打印。</li>
+    <li><strong>HTML 检查：</strong>标签是否闭合；是否符合 required sections；是否依赖网络 CDN；是否适合 A4 打印；分页位置是否合理。</li>
     <li><strong>自检结论：</strong>...</li>
   </ul>
 </aside>
@@ -148,7 +259,7 @@ Do not finalize a practice page unless the answer key has been checked against t
 End with a teacher-only note:
 
 ```html
-<aside class="teacher-note no-print">
-下一轮：根据本页完成情况，更新学生画像；必要时回到讲解页，或生成下一组变式。
+<aside class="edu-teacher-note no-print">
+下一轮：根据本页完成情况，更新学生画像；若需讲解新题，回到 math-structure-analysis；若需新一轮变式，再次使用 math-adaptive-practice-html。工作流循环：math-structure-analysis → math-student-explanation-html → math-adaptive-practice-html。
 </aside>
 ```

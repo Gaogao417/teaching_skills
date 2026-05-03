@@ -1,6 +1,6 @@
 ---
 name: math-structure-analysis
-description: "Analyze a math problem into a reusable teaching-structure artifact before any student-facing explanation or practice generation. Use when Codex, OpenCode, or Claude Code needs the first stage of a math teaching workflow: lock the canonical solution, identify the problem pattern, key transformation, solution skeleton, examiner logic, likely student blockers, variation principles, and downstream task packets."
+description: "Analyze a math problem into a reusable teaching-structure artifact before any student-facing explanation or practice generation. Use as stage 1 of the math teaching workflow. TRIGGER when: user provides a math problem to analyze or teach; user mentions math structure analysis; user asks to break down a math problem, find the canonical solution, identify the problem pattern, or predict student blockers; conversation contains a math problem and no prior structure-analysis artifact exists for it. SKIP: user asks about a non-math subject; conversation already has a completed 01-structure-analysis.md for the problem; user is asking for student-facing explanation directly without first analyzing structure."
 ---
 
 # Math Structure Analysis
@@ -10,7 +10,7 @@ description: "Analyze a math problem into a reusable teaching-structure artifact
 Use this skill as stage 1 of the math teaching workflow:
 
 ```text
-original problem -> structure analysis artifact -> diagnosis/explanation/practice artifacts
+original problem -> structure analysis artifact -> explanation/practice artifacts
 ```
 
 Do not write a student-facing explanation. Produce a backend teaching artifact that later skills can consume. The first stage must lock the mathematical facts of the problem, not merely discuss it.
@@ -212,5 +212,5 @@ Use the canonical solution section to support the math check. Do not write "已�
 End with:
 
 ```text
-下一步建议：若已有学生回答，先使用 math-student-response-diagnosis；若还未互动，使用 math-student-explanation-html，输入本结构分析 + 学生画像 + 本次目标。
+下一步建议：使用 math-student-explanation-html，输入本结构分析 + 学生画像 + 本次目标，生成学生讲解页。工作流：math-structure-analysis → math-student-explanation-html → math-adaptive-practice-html。
 ```

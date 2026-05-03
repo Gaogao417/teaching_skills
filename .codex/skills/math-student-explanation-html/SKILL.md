@@ -1,6 +1,6 @@
 ---
 name: math-student-explanation-html
-description: Generate a student-facing Chinese math explanation as either a printable A4 HTML worksheet or a live tutor script from a prior structure-analysis artifact, student profile, teaching goal, allowed abstraction level, and interaction mode. Use as stage 2 after math-structure-analysis, especially when the output should look like mainland China exam or workbook material and be easy to print.
+description: Generate a student-facing Chinese math explanation as either a printable A4 HTML worksheet or a live tutor script from a prior structure-analysis artifact, student profile, teaching goal, allowed abstraction level, and interaction mode. Use as stage 2 after math-structure-analysis, especially when the output should look like mainland China exam or workbook material and be easy to print. TRIGGER when: a structure-analysis artifact (01-structure-analysis.md) exists for the current problem; user asks for a student-facing explanation or printable worksheet; after math-structure-analysis completes; user wants to convert backend structure into a lesson page. SKIP: no structure-analysis artifact exists (run math-structure-analysis first); user wants practice problems not explanation; user is asking about a non-math subject.
 ---
 
 # Math Student Explanation HTML
@@ -81,7 +81,7 @@ For each key question, include:
 - 如果答对怎么推进；
 - 如果答错怎么提示；
 - 如果沉默怎么降级；
-- 何时记录学生表现以交给 `math-student-response-diagnosis`。
+- 何时记录学生表现以决定后续练习难度。
 
 ## HTML Design Rules
 
@@ -280,6 +280,6 @@ At the end of the HTML, include a small teacher-only print note:
 
 ```html
 <aside class="edu-teacher-note no-print">
-下一步：记录学生在“边讲边问”中的回答，先使用 math-student-response-diagnosis 诊断档位，再使用 math-adaptive-practice-html 生成练习。
+下一步：使用 math-adaptive-practice-html，输入本结构分析 + 学生画像，生成自适应练习。工作流：math-structure-analysis → math-student-explanation-html → math-adaptive-practice-html。
 </aside>
 ```
