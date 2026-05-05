@@ -1,6 +1,6 @@
 ---
 name: math-structure-analysis
-description: "Analyze a math problem into a reusable teaching-structure artifact before any student-facing explanation or practice generation. Use as stage 1 of the math teaching workflow. TRIGGER when: user provides a math problem to analyze or teach; user mentions math structure analysis; user asks to break down a math problem, find the canonical solution, identify the problem pattern, or predict student blockers; conversation contains a math problem and no prior structure-analysis artifact exists for it. SKIP: user asks about a non-math subject; conversation already has a completed 01-structure-analysis.md for the problem; user is asking for student-facing explanation directly without first analyzing structure."
+description: "Analyze a math problem into a reusable teaching-structure artifact before any student-facing explanation or practice generation, including canonical solution, likely blockers, learning-level prediction, and a variation blueprint for deeper practice. Use as stage 1 of the math teaching workflow. TRIGGER when: user provides a math problem to analyze or teach; user mentions math structure analysis; user asks to break down a math problem, find the canonical solution, identify the problem pattern, predict student blockers, or design variation principles. SKIP: user asks about a non-math subject; conversation already has a completed 01-structure-analysis.md for the problem; user is asking for student-facing explanation directly without first analyzing structure."
 ---
 
 # Math Structure Analysis
@@ -93,9 +93,17 @@ Write in Chinese. Use concise teacher-facing language.
 - 较强学生：
 
 ## 七、变式原则
-- 必须保留：
-- 可以变化：
-- 容易跑偏：
+- 核心不变量：
+- 表层特征：
+- 可变维度：
+- 深化阶梯：
+- 允许的变换：
+- 禁止的变换：
+- 表征切换：
+- 包装方式：
+- 近迁移例子：
+- 远迁移例子：
+- 反例/伪变式：
 
 ## 八、计算复杂度预算
 - 原题计算层级：
@@ -104,7 +112,7 @@ Write in Chinese. Use concise teacher-facing language.
 - 必须保留的可见支架：
 
 ## 九、推荐讲题任务包
-- 适合的学生档位：
+- 适合的学习层级：
 - 本题讲解目标：
 - 不要直接讲的抽象话：
 - 必须先问的问题：
@@ -113,10 +121,11 @@ Write in Chinese. Use concise teacher-facing language.
 - 讲到哪里停下来让学生回答：
 
 ## 十、推荐练题任务包
-- 若学生卡在 A/B 档，出什么题：
-- 若学生卡在 C 档，出什么题：
-- 若学生卡在 D 档，出什么题：
-- 若学生达到 E/F 档，如何变式：
+- 若学生在 L0-L1，出什么题：
+- 若学生在 L2，出什么题：
+- 若学生在 L3，出什么题：
+- 若学生在 L4，如何迁移：
+- 若学生达到 L5-L6，如何深化/抽象/包装：
 - 禁止出的跑偏变式：
 
 ## 十一、交付给下一阶段的结构摘要
@@ -140,9 +149,18 @@ Write in Chinese. Use concise teacher-facing language.
     "strong": []
   },
   "variation_rules": {
-    "keep": [],
-    "change_allowed": [],
-    "avoid": []
+    "core_invariant": "",
+    "surface_features": [],
+    "variation_dimensions": [],
+    "depth_ladder": [],
+    "allowed_transforms": [],
+    "forbidden_transforms": [],
+    "cognitive_load_budget": "",
+    "representation_options": [],
+    "packaging_options": [],
+    "near_transfer_examples": [],
+    "far_transfer_examples": [],
+    "non_examples": []
   },
   "complexity_budget": {
     "original_level": "",
@@ -151,7 +169,7 @@ Write in Chinese. Use concise teacher-facing language.
     "required_scaffolds": []
   },
   "explanation_task_packet": {
-    "target_bands": [],
+    "target_learning_levels": [],
     "goal": "",
     "avoid_abstract_phrases": [],
     "must_ask_first": [],
@@ -160,10 +178,11 @@ Write in Chinese. Use concise teacher-facing language.
     "pause_points": []
   },
   "practice_task_packet": {
-    "ab_tasks": [],
-    "c_tasks": [],
-    "d_tasks": [],
-    "ef_variations": [],
+    "l0_l1_tasks": [],
+    "l2_tasks": [],
+    "l3_tasks": [],
+    "l4_transfer_tasks": [],
+    "l5_l6_deepening_variations": [],
     "forbidden_variations": []
   }
 }
@@ -178,8 +197,36 @@ Write in Chinese. Use concise teacher-facing language.
 - Keep "学生卡点预测" as predictions, not a final teaching plan.
 - Prefer action language over slogan language: "找交点坐标" beats "数形结合".
 - Identify the shortest reliable route and at least one tempting inefficient route.
+- Treat variation rules as a first-class output. Do not stop at "change numbers"; name the invariant, the allowed dimensions of change, and the next safe deepening move.
+- For each deepening move, change only one main dimension at a time: number, question target, representation, condition packaging, hidden structure, or reverse construction.
 - Mention hidden constraints such as domains, sign, absolute value, range checks, units, and diagram assumptions when relevant.
 - Do not generate HTML in this skill.
+
+## Learning-Level Ladder
+
+Use these human-readable levels:
+
+- L0 读题层：学生看不懂题目场景、对象或条件关系。
+- L1 入手层：学生能说出对象和条件，但找不到第一步入口。
+- L2 建模层：学生能找到关键量，但不会建立等量关系、公式入口或坐标/图形对应。
+- L3 求解层：学生会列式求解，但检查范围、绝对值、单位、排除值或退化情形不稳。
+- L4 迁移层：学生能完成原题，但换问法、换数字或换表征后不稳定。
+- L5 抽象层：学生能识别同构变式，可以处理部分隐藏结构或条件包装。
+- L6 命题层：学生能解释结构不变量和迁移条件，可以做反向构造或判断条件是否充分。
+
+## Variation Deepening Ladder
+
+Use this ladder when designing practice. Do not skip levels unless the student evidence supports it.
+
+1. 原题复现：保留题面结构，只训练完整路径。
+2. 同结构换数：只换干净数字，核心动作不变。
+3. 同结构换问法：已知与所求轻微互换，仍保留明显入口。
+4. 同结构换表征：解析式、图像、表格、文字条件之间切换。
+5. 条件包装：把关键条件藏进一句情境或几何描述，但不加新知识点。
+6. 结构部分隐藏：题面不直接暴露核心结构，需要学生主动识别同构。
+7. 反向构造：给目标或性质，让学生构造参数、条件或判断是否存在。
+
+Variation quality rule: preserve the core invariant, deepen exactly one main dimension, keep computation within budget, and include at least one non-example that explains what would count as a misleading or off-track variation.
 
 ## Mandatory Self-Check
 
@@ -195,8 +242,8 @@ Before finalizing `01-structure-analysis.md`, perform the checks below. If any c
   - 本页/本阶段是否只锁定一个核心结构或核心动作：
   - 有没有引入无关知识点：
   - 互动问题是否围绕本题核心链条：
-- 档位检查：
-  - 当前档位判断是否只作为预测而非结论：
+- 学习层级检查：
+  - 当前学习层级判断是否只作为预测而非结论：
   - 如果没有学生证据，是否标注“默认预测/默认诊断不可用”：
   - 后续升级建议是否只小步上升：
 - HTML 检查：
