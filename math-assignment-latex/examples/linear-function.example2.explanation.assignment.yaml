@@ -1,0 +1,71 @@
+meta:
+  title: "一次函数课堂讲解"
+  example_label: "例题 2"
+  subtitle: "一次函数 | 课堂讲解"
+  grade: "八年级"
+  subject: "数学"
+  version: "teacher"
+  show_answers: true
+
+render:
+  template: "exam-zh-explanation"
+  paper_size: "a4paper"
+
+sections:
+  - id: "main"
+    title: "例题 2"
+    type: "explanation"
+    visibility: "both"
+    blocks:
+      - type: "problem"
+        id: "problem"
+        label: "题目"
+        stem_latex: "已知一次函数 $y = kx + b$ 的图像经过点 $A(0,2)$ 和点 $B(4,0)$。"
+        subquestions:
+          - latex: "求这个一次函数的解析式；"
+          - latex: "若点 $C$ 在该图像上，且点 $C$ 的横坐标为 $2$，求点 $C$ 的坐标；"
+          - latex: "若直线 $y = kx + b$ 与直线 $y = -x + 4$ 交于点 $M$，求点 $M$ 的坐标。"
+
+      - type: "reading_tip"
+        id: "reading-tip"
+        items:
+          - latex: "先解决第（1）问，得到解析式，后面两问都要建立在第（1）问的结果上。"
+          - latex: "这是一道“先求式，再代入，再联立”的递进题。"
+
+      - type: "route"
+        id: "route"
+        steps:
+          - latex: "由 $A$、$B$ 两点求解析式"
+          - latex: "代入 $x=2$ 求点 $C$"
+          - latex: "联立两条直线求点 $M$"
+
+      - type: "dual_explanation"
+        id: "explanation"
+        title: "讲解"
+        left_title: "思考引导 / 易错提示"
+        left_items:
+          - latex: "已知两个点，优先想到用待定系数法求 $k,b$。"
+          - latex: "点 $A(0,2)$ 在 $y$ 轴上，代入后可以直接得到 $b$。"
+          - latex: "第（2）（3）问不要急着做，先把第（1）问算清楚。"
+        right_title: "规范讲解"
+        right_steps:
+          - latex: "把 $A(0,2)$ 代入 $y = kx + b$，得 $b = 2$。"
+          - latex: "把 $B(4,0)$ 代入 $y = kx + b$，得 $0 = 4k + 2$，所以 $k = -\\dfrac{1}{2}$。"
+          - latex: "所以一次函数解析式为 $y = -\\dfrac{1}{2}x + 2$。"
+        connection_title: "后两问如何承接"
+        connection_items:
+          - latex: "第（2）问：把 $x = 2$ 代入 $y = -\\dfrac{1}{2}x + 2$，得 $y = 1$，所以 $C(2,1)$。"
+          - latex: "第（3）问：联立 $y = -\\dfrac{1}{2}x + 2$ 与 $y = -x + 4$，可求交点 $M$。"
+
+      - type: "summary_dual"
+        id: "summary"
+        left_title: "答案"
+        left_items:
+          - latex: "$y = -\\dfrac{1}{2}x + 2$"
+          - latex: "$C(2,1)$"
+          - latex: "$M(4,0)$"
+        right_title: "方法提醒"
+        right_items:
+          - latex: "先做基础问，再做依赖前面结果的后续问。"
+          - latex: "题干与讲解分离，避免学生一开始就淹没在推导里。"
+          - latex: "有小问的题，先看递进关系，再决定书写顺序。"

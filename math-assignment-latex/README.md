@@ -6,7 +6,7 @@
 
 ```bash
 # 渲染
-python math-assignment-latex/scripts/render_assignment.py \
+python3 math-assignment-latex/scripts/render_assignment.py \
   math-assignment-latex/examples/linear-function.practice.assignment.yaml \
   --out artifacts/linear-function/04-assignment.tex
 
@@ -27,6 +27,7 @@ math-assignment-latex/
     exam-zh-homework.tex.j2             # 作业页模板
     exam-zh-solution.tex.j2             # 纯答案页模板
     preamble-exam-zh.tex                # 共享 preamble
+    preamble-exam-zh-v2.tex             # 讲解页共享 preamble
   references/
     assignment-schema.md                # DSL Schema 定义
     exam-zh-mapping.md                  # edu-* → LaTeX 映射
@@ -36,7 +37,7 @@ math-assignment-latex/
     render_assignment.py                # YAML → LaTeX 渲染器
     validate_assignment.py              # YAML Schema 验证
     sanitize_latex.py                   # LaTeX 文本转义
-    compile_latex.sh                    # XeLaTeX 编译脚本
+    compile_latex.sh                    # tectonic/XeLaTeX 编译脚本
   examples/
     linear-function.practice.assignment.yaml
     linear-function.explanation.assignment.yaml
@@ -47,5 +48,5 @@ math-assignment-latex/
 ## 依赖
 
 - Python 3.8+, PyYAML, Jinja2
-- XeLaTeX (texlive-xetex)
+- tectonic 或 XeLaTeX (texlive-xetex)；当前本地环境使用 tectonic
 - exam-zh, tcolorbox, needspace 宏包

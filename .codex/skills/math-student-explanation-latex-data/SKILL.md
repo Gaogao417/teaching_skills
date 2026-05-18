@@ -1,6 +1,6 @@
 ---
 name: math-student-explanation-latex-data
-description: "根据结构分析生成讲解内容的 assignment.yaml，保留原 math-student-explanation-html 的教学逻辑，但输出 YAML 而非 HTML。"
+description: "根据结构分析生成课堂讲解页 assignment.yaml，输出匹配 math-assignment-latex 的 exam-zh-explanation 讲义式 YAML。"
 version: 0.1.0
 triggers:
   - description: "已有 01-structure-analysis.md，需要生成讲解内容 YAML"
@@ -18,7 +18,7 @@ skip:
 
 从 `01-structure-analysis.md` 生成 `02-student-explanation.assignment.yaml`。
 
-保留原 `math-student-explanation-html` 的全部教学逻辑，输出格式从 HTML 改为 YAML。
+输出给 `math-assignment-latex` 的 `exam-zh-explanation` 模板使用。默认生成一页课堂讲解讲义：题目入口、读题提示、流程图、双栏讲解、答案/方法提醒。
 
 ## 输入
 
@@ -32,120 +32,97 @@ skip:
 artifacts/<slug>/02-student-explanation.assignment.yaml
 ```
 
-## 教学逻辑（与 HTML 版一致）
+## 默认讲义结构
 
-必须包含以下教学元素：
+除非用户明确要求旧式分节讲解，默认使用以下 5 个 block，放在同一个 section 中：
 
-### 原题拆解
-- 题目拆解表：已知、要求、关键词、忽略
+1. `problem`：原题入口，使用 `stem_latex` 和可选 `subquestions`。
+2. `reading_tip`：1-3 条读题提示，提醒先做什么、后续小问依赖什么。
+3. `route`：2-4 步横向解题路线，优先 3 步。
+4. `dual_explanation`：左栏放思考引导/易错提示，右栏放规范讲解；有递进小问时使用 `connection_items`。
+5. `summary_dual`：左栏答案，右栏方法提醒。
 
-### 解题路线
-- 路线图：2-5 步解题步骤
+保留原 HTML 版教学逻辑，但把它压缩映射到上述结构：
 
-### 关键想法
-- 核心解题思路的提炼
-
-### 标准解法
-- 分步骤展示
-- 每步有 title, content, 可选 why
-- 支持子步骤 substeps
-
-### 边讲边问
-- 2-3 个思考题
-- 帮助学生主动思考
-
-### 易错提醒
-- 常见错误和避坑指南
-
-### 一句话总结
-- 核心方法归纳
-
-### 教师备注
-- 训练目标
-- 预期卡点
-- 档位判断
+- 原题拆解 → `reading_tip` 和 `route`
+- 关键想法 → `reading_tip` 或 `dual_explanation.left_items`
+- 标准解法 → `dual_explanation.right_steps`
+- 易错提醒 → `dual_explanation.left_items`
+- 后续小问承接 → `dual_explanation.connection_items`
+- 一句话总结/方法归纳 → `summary_dual.right_items`
+- 最终答案 → `summary_dual.left_items`
 
 ## YAML 输出格式
 
 ```yaml
 meta:
-  title: "..."
-  subtitle: "..."
+  title: "一次函数课堂讲解"
+  example_label: "例题 2"
+  subtitle: "一次函数 | 课堂讲解"
   grade: "..."
-  subject: "..."
+  subject: "数学"
   version: "teacher"
   source_artifacts:
     structure_analysis: "artifacts/<slug>/01-structure-analysis.md"
 
 render:
   template: "exam-zh-explanation"
+  paper_size: "a4paper"
 
 sections:
-  - id: "original"
-    title: "原题"
+  - id: "main"
+    title: "课堂讲解"
+    type: "explanation"
+    visibility: "both"
     blocks:
-      - type: "key_idea"
-        content: "原题文本"
+      - type: "problem"
+        id: "problem"
+        label: "题目"
+        stem_latex: "原题主干，公式使用 $...$"
+        subquestions:
+          - latex: "第一个小问；"
+          - latex: "第二个小问。"
 
-  - id: "breakdown"
-    title: "一、先把题目拆开"
-    blocks:
+      - type: "reading_tip"
+        id: "reading-tip"
+        items:
+          - latex: "先解决基础问，再处理依赖前面结论的后续问。"
+          - latex: "点明这道题的核心递进关系。"
+
       - type: "route"
+        id: "route"
         steps: [...]
 
-  - id: "route-section"
-    title: "二、解题路线"
-    blocks:
-      - type: "route"
-        steps: [...]
+      - type: "dual_explanation"
+        id: "explanation"
+        title: "讲解"
+        left_title: "思考引导 / 易错提示"
+        left_items: [...]
+        right_title: "规范讲解"
+        right_steps: [...]
+        connection_title: "后两问如何承接"
+        connection_items: [...]
 
-  - id: "key-idea"
-    title: "三、关键想法"
-    blocks:
-      - type: "key_idea"
-        content: "..."
-
-  - id: "solution"
-    title: "四、标准解法"
-    blocks:
-      - type: "step"
-        title: "..."
-        content: "..."
-        why: "..."
-        substeps: [...]
-
-  - id: "mistakes"
-    title: "五、易错提醒"
-    blocks:
-      - type: "mistake"
-        title: "..."
-        content: "..."
-
-  - id: "questions"
-    title: "六、边讲边问"
-    blocks:
-      - type: "hint"
-        content: "..."
-
-  - id: "summary"
-    title: "七、一句话总结"
-    blocks:
-      - type: "key_idea"
-        content: "..."
-
-  - id: "teacher-notes"
-    title: "教师备注"
-    visibility: "teacher"
-    layout:
-      break_before: true
-    blocks:
-      - type: "key_idea"
-        content: "..."
-        teaching:
-          teaching_goal: "..."
-          expected_blocker: "..."
-          mastery_band: "..."
+      - type: "summary_dual"
+        id: "summary"
+        left_title: "答案"
+        left_items: [...]
+        right_title: "方法提醒"
+        right_items: [...]
 ```
+
+## 生成规则
+
+- `meta.example_label` 用于左上角例题编号；没有编号时写 `"例题"` 或省略。
+- `meta.subtitle` 写右上角栏目，如 `"一次函数 | 课堂讲解"`。
+- 讲解页不要生成旧式 `original/breakdown/key-idea/solution/mistakes/questions/summary` 多 section，除非用户明确要求。
+- 使用 `latex` 字段承载含公式的条目；纯文本可用 `text`。
+- 不要把中文标点放进数学模式：写 `$A$、$B$`，不要写 `$A、B$`。
+- `route.steps` 每步尽量 8-16 个汉字，避免流程框过长。
+- `dual_explanation.left_items` 放 2-4 条“怎么想/哪里易错”，不要重复右栏计算。
+- `dual_explanation.right_steps` 放 2-5 条规范步骤，每条能直接上课讲。
+- 有多个小问且后问依赖前问时，必须写 `connection_items`。
+- `summary_dual.left_items` 只放最终答案；`right_items` 放可迁移的方法提醒。
 
 ## Schema 遵循
 
@@ -157,7 +134,11 @@ sections:
 1. 所有 block 都有 id 且唯一
 2. 所有 block 都有 type
 3. 数学公式使用 `$...$` 和 `$$...$$` 格式
-4. version 字段正确设置
+4. `problem` 至少有 `stem` 或 `stem_latex`
+5. `route.steps` 非空
+6. `dual_explanation.left_items` 和 `right_steps` 非空
+7. `summary_dual.left_items` 和 `right_items` 非空
+8. version 字段正确设置
 
 ## Handoff
 
@@ -166,7 +147,10 @@ sections:
 ```
 下一步：使用 math-assignment-latex 渲染并编译 PDF。
 
-python math-assignment-latex/scripts/render_assignment.py \
+python3 math-assignment-latex/scripts/render_assignment.py \
   artifacts/<slug>/02-student-explanation.assignment.yaml \
   --out artifacts/<slug>/04-assignment.tex
+
+bash math-assignment-latex/scripts/compile_latex.sh \
+  artifacts/<slug>/04-assignment.tex
 ```

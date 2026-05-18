@@ -17,7 +17,7 @@ skip:
 ## 职责
 
 ```text
-assignment.yaml → Jinja2 模板 → .tex → XeLaTeX → .pdf
+assignment.yaml → Jinja2 模板 → .tex → tectonic/XeLaTeX → .pdf
 ```
 
 本 skill **不做**以下事情：
@@ -36,7 +36,7 @@ assignment.yaml → Jinja2 模板 → .tex → XeLaTeX → .pdf
 
 ```text
 artifacts/<slug>/04-assignment.tex    # 渲染后的 LaTeX 源码
-artifacts/<slug>/04-assignment.pdf    # 编译后的 PDF（若 xelatex 可用）
+artifacts/<slug>/04-assignment.pdf    # 编译后的 PDF（优先使用 tectonic；有 xelatex 时也可用）
 artifacts/<slug>/build.log            # 编译日志
 ```
 
@@ -45,7 +45,7 @@ artifacts/<slug>/build.log            # 编译日志
 ### 1. 验证 YAML
 
 ```bash
-python math-assignment-latex/scripts/validate_assignment.py <input.yaml>
+python3 math-assignment-latex/scripts/validate_assignment.py <input.yaml>
 ```
 
 检查 schema 合法性、必需字段、id 唯一性。
@@ -53,7 +53,7 @@ python math-assignment-latex/scripts/validate_assignment.py <input.yaml>
 ### 2. 渲染 LaTeX
 
 ```bash
-python math-assignment-latex/scripts/render_assignment.py <input.yaml> --out <output.tex>
+python3 math-assignment-latex/scripts/render_assignment.py <input.yaml> --out <output.tex>
 ```
 
 根据 `render.template` 选择 Jinja2 模板，将 YAML 渲染为 .tex。
@@ -64,7 +64,7 @@ python math-assignment-latex/scripts/render_assignment.py <input.yaml> --out <ou
 bash math-assignment-latex/scripts/compile_latex.sh <output.tex>
 ```
 
-固定使用 xelatex，编译 2 次，输出 PDF 和 build.log。
+脚本自动选择引擎：优先 `xelatex`，否则使用 `tectonic`。当前本地环境没有 `xelatex`，使用 `tectonic` 编译。
 
 ### 4. 报告结果
 
@@ -87,7 +87,7 @@ both     → 先 student，\clearpage 后 teacher 附加
 
 ```text
 Python 3.8+ (PyYAML, Jinja2)
-XeLaTeX (texlive-xetex)
+tectonic 或 XeLaTeX (texlive-xetex)
 exam-zh 宏包 (texlive-latex-extra 或 CTAN)
 tcolorbox 宏包
 needspace 宏包

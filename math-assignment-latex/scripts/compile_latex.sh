@@ -14,6 +14,11 @@
 
 set -euo pipefail
 
+# Add local texmf tree so tectonic/xelatex finds exam-zh and other local packages
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+LOCAL_TEXMF="${SCRIPT_DIR}/../texmf"
+export TEXINPUTS="${LOCAL_TEXMF}/tex/latex//:${TEXINPUTS-}"
+
 TEX_FILE="${1:?Usage: compile_latex.sh <input.tex>}"
 
 if [ ! -f "$TEX_FILE" ]; then
@@ -89,6 +94,15 @@ else
     exit 1
 fi
 echo "Engine: $ENGINE"
+
+# Tectonic ignores TEXINPUTS, so copy local packages to the working directory.
+# xelatex uses TEXINPUTS (set above) so no copy needed.
+LOCAL_PKG_DIR="${LOCAL_TEXMF}/tex/latex/exam-zh"
+if [ "$ENGINE" = "tectonic" ] && [ -d "$LOCAL_PKG_DIR" ]; then
+    for f in "$LOCAL_PKG_DIR"/*.cls "$LOCAL_PKG_DIR"/*.sty; do
+        [ -f "$f" ] && cp "$f" "$TEX_DIR/"
+    done
+fi
 
 # Initialize log
 : > "$TEX_DIR/$LOG_NAME"

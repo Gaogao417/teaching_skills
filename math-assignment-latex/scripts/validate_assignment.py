@@ -10,12 +10,36 @@ import sys
 
 import yaml
 
-VALID_TYPES = {"choice", "fillin", "problem", "short_answer", "key_idea",
-               "mistake", "hint", "route", "step", "problemcard"}
+VALID_TYPES = {
+    "choice",
+    "fillin",
+    "problem",
+    "short_answer",
+    "key_idea",
+    "reading_tip",
+    "mistake",
+    "hint",
+    "route",
+    "step",
+    "problemcard",
+    "dual_explanation",
+    "explanation_dual",
+    "summary_dual",
+    "answer_reminder",
+    "answer",
+    "answers",
+    "method_reminder",
+    "reminder",
+}
 VALID_VERSIONS = {"student", "teacher", "both"}
 VALID_VISIBILITIES = {"student", "teacher", "both"}
 VALID_FILLIN_TYPES = {"line", "paren", "circle", "blank", "rectangle"}
 VALID_ANSWER_SPACE_TYPES = {"lines", "blank", "steps"}
+
+
+def has_any(block, keys):
+    """Return True if block has a non-empty value for any key."""
+    return any(block.get(key) for key in keys)
 
 
 def validate(data):
@@ -70,8 +94,8 @@ def validate(data):
 
             # Stem required for question types
             if btype in ("choice", "fillin", "problem", "short_answer"):
-                if "stem" not in block:
-                    errors.append(f"{bprefix} ({bid}): missing 'stem'")
+                if "stem" not in block and "stem_latex" not in block:
+                    errors.append(f"{bprefix} ({bid}): missing 'stem' or 'stem_latex'")
 
             # Choice-specific
             if btype == "choice":
@@ -89,6 +113,41 @@ def validate(data):
                 ft = block.get("fillin_type")
                 if ft and ft not in VALID_FILLIN_TYPES:
                     errors.append(f"{bprefix} ({bid}): invalid fillin_type '{ft}'")
+
+            # Explanation-page semantic blocks
+            if btype == "reading_tip":
+                if not has_any(block, ("items", "tips", "content", "content_latex")):
+                    errors.append(f"{bprefix} ({bid}): reading_tip requires items, tips, content, or content_latex")
+
+            if btype == "route":
+                steps = block.get("steps")
+                if not isinstance(steps, list) or not steps:
+                    errors.append(f"{bprefix} ({bid}): route requires non-empty 'steps' list")
+
+            if btype in ("dual_explanation", "explanation_dual"):
+                left_items = block.get("left_items")
+                right_steps = block.get("right_steps")
+                if not isinstance(left_items, list) or not left_items:
+                    errors.append(f"{bprefix} ({bid}): {btype} requires non-empty 'left_items' list")
+                if not isinstance(right_steps, list) or not right_steps:
+                    errors.append(f"{bprefix} ({bid}): {btype} requires non-empty 'right_steps' list")
+
+            if btype in ("summary_dual", "answer_reminder"):
+                left_items = block.get("left_items")
+                right_items = block.get("right_items")
+                if not isinstance(left_items, list) or not left_items:
+                    errors.append(f"{bprefix} ({bid}): {btype} requires non-empty 'left_items' list")
+                if not isinstance(right_items, list) or not right_items:
+                    errors.append(f"{bprefix} ({bid}): {btype} requires non-empty 'right_items' list")
+
+            if btype in ("answer", "answers"):
+                if not has_any(block, ("items", "content", "content_latex")):
+                    errors.append(f"{bprefix} ({bid}): {btype} requires items, content, or content_latex")
+
+            if btype in ("method_reminder", "reminder"):
+                items = block.get("items")
+                if not isinstance(items, list) or not items:
+                    errors.append(f"{bprefix} ({bid}): {btype} requires non-empty 'items' list")
 
             # Answer space
             aspace = block.get("answer_space")
