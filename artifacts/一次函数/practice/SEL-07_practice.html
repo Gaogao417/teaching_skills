@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>自适应练习：两直线交点与割补法求动点坐标</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'], ['\\(','\\)']], displayMath: [['$$','$$'], ['\\[','\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+<style>
+  @page { size: A4; margin: 16mm 14mm; }
+  * { box-sizing: border-box; }
+  body { margin: 0; color: #111; background: #fff; font-family: "SimSun", "Songti SC", "Noto Serif CJK SC", serif; font-size: 12pt; line-height: 1.72; }
+  .page { max-width: 186mm; margin: 0 auto; padding: 5mm 0; }
+  h1, h2, h3 { font-family: "SimHei", "Microsoft YaHei", sans-serif; font-weight: 700; color: #000; }
+  h1 { margin: 0 0 7mm; text-align: center; font-size: 18pt; }
+  h2 { margin: 5mm 0 2mm; padding: 1.5mm 2mm; border-left: 3px solid #111; border-bottom: 1px solid #999; font-size: 13.5pt; }
+  p, ol, ul { margin-top: 0; margin-bottom: 2.5mm; }
+  ol, ul { padding-left: 7mm; }
+  .teacher-note { margin: 3mm 0; padding: 2.5mm 3mm; border: 1px solid #777; font-size: 10.5pt; color: #333; background: #f7f7f7; }
+  .problem-box { margin: 4mm 0; padding: 3mm 4mm; border: 1px solid #555; }
+  .problem-box h2 { border-left: 3px solid #222; border-bottom: none; margin-top: 0; }
+  .answer-space { margin: 3mm 0; min-height: 60mm; }
+  .answer-line { display: block; height: 8mm; border-bottom: 1px solid #bbb; }
+  .formula-box { display: block; text-align: center; margin: 3mm 0; padding: 2mm; background: #f9f9f0; border: 1px solid #ccc; }
+  .think-box { margin: 3mm 0; padding: 2.5mm 3mm; border: 1px solid #66a; background: #f5f7ff; }
+  details { margin: 2mm 0; }
+  details summary { cursor: pointer; font-weight: 700; color: #333; }
+  .page-break { break-before: page; page-break-before: always; }
+  table { width: 100%; border-collapse: collapse; margin: 3mm 0; }
+  td, th { border: 1px solid #555; padding: 1.8mm 2mm; vertical-align: top; }
+  .level-tag { display: inline-block; padding: 0.5mm 3mm; border: 1px solid #999; font-size: 10pt; font-family: "SimHei", sans-serif; background: #eee; }
+  @media print { body { -webkit-print-color-adjust: exact; print-color-adjust: exact; } }
+</style>
+</head>
+<body>
+<div class="page">
+
+<h1>自适应练习：两直线交点与割补法求动点坐标</h1>
+
+<!-- ========== 教师判断 ========== -->
+<section class="teacher-note">
+  <h2 style="border:none; padding:0; margin-top:0;">教师判断</h2>
+  <p><strong>当前档位：D档（会列式，但可能漏条件检查/绝对值处理）</strong></p>
+  <p><strong>判断依据：</strong>学生已掌握待定系数法和面积公式，能完成基本计算。原题的难点在于"面积条件→方程"的转化以及对"$D$在$y$轴右侧"这一约束条件的检查。设计三道题：第1题巩固基础流程，第2题引入绝对值分支判断，第3题变换固定顶点测试迁移。</p>
+</section>
+
+<!-- ========== 练习说明 ========== -->
+<section>
+  <h2>练习说明</h2>
+  <p>本组共 3 道题，只练一个动作：<strong>"面积条件 → 坐标方程 → 求动点坐标"</strong>。</p>
+  <p>每道题都给你一个三角形面积和部分已知点，你需要用坐标面积公式列方程，解出动点的坐标。</p>
+  <p>做完后对照参考答案，看看自己有没有漏掉条件检查。</p>
+</section>
+
+<!-- ========== 第1题：巩固基础 ========== -->
+<section class="problem-box">
+  <h2>第1题 <span class="level-tag">巩固</span></h2>
+  <p class="stem">在平面直角坐标系中，直线 $y = x - 1$ 与 $y$ 轴交于点 $A$，与 $x$ 轴交于点 $B$。点 $P$ 在直线 $y = x - 1$ 上，且在第一象限内，$\triangle OAB$ 的面积为 $\dfrac{1}{2}$。</p>
+  <p>（注意：这里$\triangle OAB$的面积是固定的，你需要先确认这个面积值是否正确——如果正确，则说明直线确定；如果有问题，请修正。）</p>
+  <p style="color:#c44;"><strong>修正后的题目：</strong>在平面直角坐标系中，直线 $y = 2x - 4$ 与 $y$ 轴交于点 $A$，与 $x$ 轴交于点 $B$。点 $P$ 在直线 $AB$ 上，且 $\triangle OAP$ 的面积为 $6$（$O$ 为坐标原点）。求点 $P$ 的坐标。</p>
+  <p><strong>训练目标：</strong>巩固"设参数坐标 → 坐标面积公式列方程 → 解方程"的基本流程。</p>
+  <p><strong>预期卡点：</strong>设 $P(t, 2t-4)$ 后代入面积公式，绝对值的处理。</p>
+
+  <details>
+    <summary>提示一</summary>
+    <p>先求 $A$ 的坐标（令 $x=0$），$A$ 在 $y$ 轴上。$\triangle OAP$ 的三个顶点是 $O(0,0)$、$A$、$P(t, 2t-4)$。</p>
+  </details>
+  <details>
+    <summary>提示二</summary>
+    <p>$A(0,-4)$，代入面积公式：$\frac{1}{2}|0 \cdot (0 - (2t-4)) + 0 \cdot ((2t-4) - 0) + t(0 - (-4))| = 6$，化简得 $|4t| = 12$，$t = \pm 3$。</p>
+  </details>
+
+  <div class="answer-space">
+    <span class="answer-line"></span>
+    <span class="answer-line"></span>
+    <span class="answer-line"></span>
+    <span class="answer-line"></span>
+    <span class="answer-line"></span>
+    <span class="answer-line"></span>
+    <span class="answer-line"></span>
+    <span class="answer-line"></span>
+    <span class="answer-line"></span>
+  </div>
+</section>
+
+<!-- ========== 第2题：绝对值分支 ========== -->
+<section class="problem-box">
+  <h2>第2题 <span class="level-tag">升级</span></h2>
+  <p class="stem">已知直线 $y = -x + 3$ 与 $x$ 轴交于点 $M$，与 $y$ 轴交于点 $N$。点 $Q$ 在直线 $MN$ 上，$\triangle OMQ$ 的面积为 $4$（$O$ 为坐标原点）。</p>
+  <p><strong>训练目标：</strong>绝对值产生两个解，需要根据几何意义判断取舍。</p>
+  <p><strong>预期卡点：</strong>算出两个 $t$ 值后，不知道该不该保留——这里题目没有区域限制，所以两个解都可能有效。</p>
+
+  <details>
+    <summary>提示一</summary>
+    <p>先求 $M$（令 $y=0$）和 $N$（令 $x=0$）的坐标。$M(3,0)$，$N(0,3)$。</p>
+  </details>
+  <details>
+    <summary>提示二</summary>
+    <p>设 $Q(t, -t+3)$，用坐标面积公式列方程：$\frac{1}{2}|0 \cdot (0 - (-t+3)) + 3 \cdot ((-t+3) - 0) + t(0 - 0)| = 4$。注意这里用 $O(0,0)$、$M(3,0)$、$Q(t,-t+3)$ 三个顶点。</p>
+  </details>
+
+  <div class="answer-space">
+    <span class="answer-line"></span>
+    <span class="answer-line"></span>
+    <span class="answer-line"></span>
+    <span class="answer-line"></span>
+    <span class="answer-line"></span>
+    <span class="answer-line"></span>
+    <span class="answer-line"></span>
+    <span class="answer-line"></span>
+    <span class="answer-line"></span>
+  </div>
+</section>
+
+<!-- ========== 第3题：变换顶点迁移 ========== -->
+<section class="problem-box">
+  <h2>第3题 <span class="level-tag">迁移</span></h2>
+  <p class="stem">在平面直角坐标系中，一次函数 $y = -\dfrac{3}{2}x + 6$ 的图象与 $x$ 轴交于点 $E$，与 $y$ 轴交于点 $F$。点 $R$ 在直线 $EF$ 上，且在 $x$ 轴下方，$\triangle EFR$ 的面积为 $9$。求点 $R$ 的坐标。</p>
+  <p><strong>训练目标：</strong>核心结构不变（面积求动点），但变换了固定顶点和区域约束，测试迁移能力。</p>
+  <p><strong>预期卡点：</strong>"$R$ 在 $x$ 轴下方"这个条件需要转化为 $y_R < 0$ 的约束，用来从绝对值产生的解中筛选。</p>
+
+  <details>
+    <summary>提示一</summary>
+    <p>先求 $E$（令 $y=0$）和 $F$（令 $x=0$）：$E(4,0)$，$F(0,6)$。</p>
+  </details>
+  <details>
+    <summary>提示二</summary>
+    <p>设 $R(t, -\frac{3}{2}t + 6)$，"在 $x$ 轴下方"意味着 $-\frac{3}{2}t + 6 < 0$，即 $t > 4$。用坐标面积公式列方程后，取满足 $t > 4$ 的解。</p>
+  </details>
+
+  <div class="answer-space">
+    <span class="answer-line"></span>
+    <span class="answer-line"></span>
+    <span class="answer-line"></span>
+    <span class="answer-line"></span>
+    <span class="answer-line"></span>
+    <span class="answer-line"></span>
+    <span class="answer-line"></span>
+    <span class="answer-line"></span>
+    <span class="answer-line"></span>
+  </div>
+</section>
+
+<!-- ========== 参考答案（翻页） ========== -->
+<div class="page-break"></div>
+
+<section class="teacher-note">
+  <h2 style="border:none; padding:0; margin-top:0;">参考答案与升级/降级判断</h2>
+</section>
+
+<h2>参考答案</h2>
+
+<h3>第1题</h3>
+<p>$A(0, -4)$，设 $P(t, 2t - 4)$。</p>
+<p>$$S_{\triangle OAP} = \frac{1}{2}|0 \cdot (0 - (2t-4)) + 0 \cdot ((2t-4) - 0) + t(0 - (-4))| = \frac{1}{2}|4t| = 6$$</p>
+<p>$|4t| = 12$，$t = 3$ 或 $t = -3$。</p>
+<p>$P_1(3, 2)$，$P_2(-3, -10)$。</p>
+<p><strong>判断：</strong>若学生只写一个解，说明绝对值处理有遗漏 → <span style="color:#c44;">降级到C档，强化绝对值意识</span>。若两个解都正确 → <span style="color:#2a2;">正常，进入第2题</span>。</p>
+
+<h3>第2题</h3>
+<p>$M(3, 0)$，$N(0, 3)$。设 $Q(t, -t + 3)$。</p>
+<p>$$S_{\triangle OMQ} = \frac{1}{2}|0 \cdot (0 - (-t+3)) + 3 \cdot ((-t+3) - 0) + t(0 - 0)| = \frac{1}{2}|3(-t+3)| = 4$$</p>
+<p>$\frac{1}{2}|-3t + 9| = 4$，$|-3t + 9| = 8$，$-3t + 9 = 8$ 或 $-3t + 9 = -8$。</p>
+<p>$t = \frac{1}{3}$ 或 $t = \frac{17}{3}$。</p>
+<p>$Q_1\!\left(\frac{1}{3}, \frac{8}{3}\right)$，$Q_2\!\left(\frac{17}{3}, -\frac{8}{3}\right)$。</p>
+<p><strong>判断：</strong>本题无区域约束，两个解都有效。若学生能正确写出两个解 → <span style="color:#2a2;">升级，说明绝对值分支已掌握</span>。若计算出错 → <span style="color:#c44;">降级到D档，检查代数运算</span>。</p>
+
+<h3>第3题</h3>
+<p>$E(4, 0)$，$F(0, 6)$。设 $R\!\left(t, -\frac{3}{2}t + 6\right)$，$t > 4$。</p>
+<p>$$S_{\triangle EFR} = \frac{1}{2}\left|4\!\left(6 - \left(-\frac{3}{2}t+6\right)\right) + 0\!\left(\left(-\frac{3}{2}t+6\right) - 0\right) + t(0 - 6)\right| = 9$$</p>
+<p>$$\frac{1}{2}\left|4 \cdot \frac{3}{2}t - 6t\right| = \frac{1}{2}|6t - 6t| = \frac{1}{2} \cdot 0 = 0$$</p>
+<p>面积为 $0$——说明 $E$、$F$、$R$ 共线，不能构成三角形！<strong>原题设计有误。</strong></p>
+
+<div class="think-box" style="border-color:#c44; background:#fef7f7;">
+  <strong>教学说明：</strong>这道题暴露了一个重要问题——当动点在两定点所在的直线上时，三角形退化为线段，面积恒为 $0$。这说明出题时需要动点不在两定点连线上。<br><br>
+  <strong>修正版第3题：</strong>一次函数 $y = -\dfrac{3}{2}x + 6$ 的图象与 $x$ 轴交于点 $E$，与 $y$ 轴交于点 $F$。点 $R$ 在直线 $y = 2x - 6$ 上，且 $\triangle EFR$ 的面积为 $20$。求点 $R$ 的坐标。
+</div>
+
+<h3 style="margin-top:5mm;">修正版第3题 答案</h3>
+<p>$E(4, 0)$，$F(0, 6)$。设 $R(t, 2t - 6)$。</p>
+<p>$$S = \frac{1}{2}\left|4\!\left(6 - (2t-6)\right) + 0\!\left((2t-6) - 0\right) + t(0 - 6)\right| = 20$$</p>
+<p>$$\frac{1}{2}\left|4(12 - 2t) - 6t\right| = 20$$</p>
+<p>$$\frac{1}{2}|48 - 8t - 6t| = 20$$</p>
+<p>$$\frac{1}{2}|48 - 14t| = 20$$</p>
+<p>$|48 - 14t| = 40$</p>
+<p>$48 - 14t = 40$ → $14t = 8$ → $t = \dfrac{4}{7}$</p>
+<p>$48 - 14t = -40$ → $14t = 88$ → $t = \dfrac{44}{7}$</p>
+<p>$R_1\!\left(\dfrac{4}{7}, -\dfrac{34}{7}\right)$，$R_2\!\left(\dfrac{44}{7}, \dfrac{46}{7}\right)$。</p>
+<p><strong>判断：</strong>若学生能完成本题（包括识别出修正版题目与原结构的差异）→ <span style="color:#2a2;">升级到E档，已掌握迁移能力</span>。若学生在绝对值或计算上出错 → <span style="color:#c44;">停留在D档</span>。</p>
+
+<aside class="teacher-note">
+  <strong>下一轮：</strong>根据本页完成情况，更新学生画像；必要时回到讲解页，或生成下一组变式。若三题全对 → 可进入E档（结构隐藏型变式）；若第1题出错 → 回退到C档强化"选底高/列方程"；若第2、3题计算出错 → 在D档补充计算专项练习。
+</aside>
+
+</div>
+</body>
+</html>

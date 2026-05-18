@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>自适应练习：一次函数综合压轴（五星）</title>
+<link rel="stylesheet" href="../assets/edu-print.css">
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$']], displayMath: [['$$','$$']] },
+  startup: { typeset: true }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+</head>
+<body data-view="student">
+
+<!-- ===== 标题区 ===== -->
+<header class="edu-header">
+  <h1 class="edu-title">自适应练习：一次函数综合压轴（五星）</h1>
+  <p class="edu-subtitle">一次函数综合压轴（五星）</p>
+</header>
+
+<!-- ===== 练习说明 ===== -->
+<section class="edu-section u-avoid-break">
+  <h2 class="edu-heading-2">练习说明</h2>
+  <div class="edu-card">
+    <p>本练习围绕<strong>一次函数与坐标轴交点、含特殊角的直角三角形面积建模、等腰三角形存在性分类讨论</strong>三大核心考点展开。共 3 题，建议完成时间 40&ndash;50 分钟。</p>
+    <ul>
+      <li>每题均包含<strong>提示</strong>和<strong>详细解答</strong>，请先独立完成后再对照。</li>
+      <li>注意区分"线段"与"射线"条件对动点范围的影响。</li>
+      <li>遇到卡点可参考提示；完成全部练习后填写自检表并交给老师。</li>
+    </ul>
+    <p>当前档位：<strong>E 档</strong>（基础巩固，侧重标准路径与计算准确性）。</p>
+  </div>
+</section>
+
+<!-- ================================================================ -->
+<!-- 第 1 题 -->
+<!-- ================================================================ -->
+<div class="page-break"></div>
+<section class="edu-section u-avoid-break">
+  <h2 class="edu-heading-2">第 1 题</h2>
+
+  <!-- 题目 -->
+  <div class="edu-card">
+    <p class="edu-problem">直线 $y = -\dfrac{\sqrt{3}}{3}\,x + 3$ 与 $y$ 轴、$x$ 轴分别交于 $A$、$B$ 两点。</p>
+    <p class="edu-problem">(1) 求点 $A$、$B$ 的坐标和 $\angle BAO$ 的度数；</p>
+    <p class="edu-problem">(2) 点 $C$、$D$ 分别在线段 $OA$、$AB$ 上（不与端点重合），且 $CD = DA$。设 $OC = x$，$\triangle OCD$ 的面积为 $y$，求 $y$ 关于 $x$ 的函数关系式及定义域；</p>
+    <p class="edu-problem">(3) 若点 $C$、$D$ 分别在<strong>射线</strong> $OA$、<strong>射线</strong> $BA$ 上，且 $CD = DA$，当 $\triangle ODB$ 为等腰三角形时，求点 $C$ 的坐标。</p>
+  </div>
+
+  <!-- 提示 -->
+  <details class="edu-hint">
+    <summary>提示</summary>
+    <div class="edu-hint-content">
+      <p><strong>第(1)问：</strong>令 $x=0$ 得 $A$ 坐标；令 $y=0$ 解方程得 $B$ 坐标；$\tan\angle BAO = \dfrac{OB}{OA}$。</p>
+      <p><strong>第(2)问：</strong>$C$ 在 $OA$（$y$ 轴）上，$C(0, x)$。由 $CD=DA$ 知 $\triangle CDA$ 是以 $A$ 为顶点的等腰三角形，作 $DF \perp OA$ 于 $F$，则 $F$ 是 $CA$ 中点。</p>
+      <p><strong>第(3)问：</strong>等腰三角形分三类讨论：$OD = OB$、$OD = DB$、$OB = DB$。注意"射线"意味着 $C$ 可以在 $O$ 下方或 $A$ 上方。</p>
+    </div>
+  </details>
+
+  <!-- 解答 -->
+  <details class="edu-answer">
+    <summary>详细解答</summary>
+    <div class="edu-answer-content">
+      <h3 class="edu-heading-3">第(1)问</h3>
+      <p>令 $x = 0$：$y = 3$，故 $A(0, 3)$。</p>
+      <p>令 $y = 0$：$-\dfrac{\sqrt{3}}{3}\,x + 3 = 0$，$x = 3\sqrt{3}$，故 $B(3\sqrt{3},\, 0)$。</p>
+      <p>$OA = 3$，$OB = 3\sqrt{3}$，$\tan\angle BAO = \dfrac{OB}{OA} = \sqrt{3}$，所以 $\angle BAO = 60°$。</p>
+
+      <h3 class="edu-heading-3">第(2)问</h3>
+      <p>$C$ 在线段 $OA$ 上，$OC = x$，故 $C(0, x)$，其中 $0 < x < 3$。</p>
+      <p>$CA = OA - OC = 3 - x$。</p>
+      <p>$CD = DA$，$\triangle CDA$ 是等腰三角形。作 $DF \perp OA$ 于 $F$，则 $F$ 是 $CA$ 的中点。</p>
+      <p>$AF = \dfrac{CA}{2} = \dfrac{3 - x}{2}$，$OF = OA - AF = 3 - \dfrac{3-x}{2} = \dfrac{3 + x}{2}$。</p>
+      <p>在 $\text{Rt}\triangle ADF$ 中，$\tan\angle BAO = \tan 60° = \dfrac{DF}{AF}$，所以 $DF = \sqrt{3} \cdot \dfrac{3-x}{2} = \dfrac{\sqrt{3}\,(3-x)}{2}$。</p>
+      <p>$S_{\triangle OCD} = \dfrac{1}{2} \cdot OC \cdot DF = \dfrac{1}{2} \cdot x \cdot \dfrac{\sqrt{3}\,(3-x)}{2} = \dfrac{\sqrt{3}\,x\,(3-x)}{4}$。</p>
+      <p>即 $y = \dfrac{-\sqrt{3}}{4}\,x^2 + \dfrac{3\sqrt{3}}{4}\,x$，定义域为 $0 < x < 3$。</p>
+
+      <h3 class="edu-heading-3">第(3)问</h3>
+      <p>$C$ 在射线 $OA$ 上，设 $C(0, m)$（$m$ 可正可负）。$D$ 在射线 $BA$ 上，$CD = DA$。</p>
+      <p>类似第(2)问的分析：作 $DF \perp OA$ 于 $F$，$F$ 仍为 $CA$ 中点。</p>
+      <p>$CA = |3 - m|$，$AF = \dfrac{|3-m|}{2}$。</p>
+
+      <p><strong>当 $m < 3$ 时</strong>（$C$ 在 $O$ 下方或 $OA$ 上），$CA = 3 - m$，$AF = \dfrac{3-m}{2}$，$DF = \sqrt{3} \cdot \dfrac{3-m}{2}$。</p>
+      <p>$D$ 的坐标为 $\left(\dfrac{\sqrt{3}\,(3-m)}{2},\; \dfrac{3+m}{2}\right)$。</p>
+      <p>$OD^2 = \left(\dfrac{\sqrt{3}\,(3-m)}{2}\right)^2 + \left(\dfrac{3+m}{2}\right)^2 = \dfrac{3(3-m)^2 + (3+m)^2}{4} = \dfrac{3(9-6m+m^2) + 9+6m+m^2}{4} = \dfrac{27 - 18m + 3m^2 + 9 + 6m + m^2}{4} = \dfrac{4m^2 - 12m + 36}{4} = m^2 - 3m + 9$。</p>
+
+      <p><strong>情形 i：$OD = OB$</strong></p>
+      <p>$OB = 3\sqrt{3}$，$OD^2 = 27$，即 $m^2 - 3m + 9 = 27$，$m^2 - 3m - 18 = 0$，$(m-6)(m+3) = 0$。</p>
+      <p>$m = 6$ 或 $m = -3$。</p>
+      <p>当 $m = 6$ 时，$CA = -3 < 0$，与 $m < 3$ 矛盾，舍去。<strong>验证：</strong>$m=6 > 3$，属于 $m > 3$ 的情况，后续单独讨论。</p>
+      <p>当 $m = -3$ 时，$D\left(3\sqrt{3},\, 0\right) = B$，此时 $\triangle ODB$ 退化为线段，不合题意，舍去。</p>
+
+      <p><strong>情形 ii：$OD = DB$</strong></p>
+      <p>$DB^2 = \left(3\sqrt{3} - \dfrac{\sqrt{3}(3-m)}{2}\right)^2 + \left(0 - \dfrac{3+m}{2}\right)^2 = \left(\dfrac{\sqrt{3}(3+m)}{2}\right)^2 + \left(\dfrac{3+m}{2}\right)^2 = \dfrac{3(3+m)^2 + (3+m)^2}{4} = (3+m)^2$。</p>
+      <p>$OD^2 = m^2 - 3m + 9$，$DB^2 = (3+m)^2 = m^2 + 6m + 9$。</p>
+      <p>$m^2 - 3m + 9 = m^2 + 6m + 9$，$-3m = 6m$，$m = 0$。</p>
+      <p>当 $m = 0$ 时，$C$ 与 $O$ 重合，$D$ 也在 $O$ 处（$D(0, \frac{3}{2})$ 处，$\triangle ODB$ 非退化），但 $C$ 在射线 $OA$ 上且 $m=0$ 意味着 $C$ 与 $O$ 重合。验证 $OD = \sqrt{0 - 0 + 9} = 3$，$DB = |3+0| = 3$，$OD = DB = 3 \neq OB = 3\sqrt{3}$，故 $m = 0$ 时 $\triangle ODB$ 为等腰三角形（$OD = DB$），$C(0, 0)$。</p>
+
+      <p><strong>情形 iii：$OB = DB$</strong></p>
+      <p>$OB = 3\sqrt{3}$，$DB = |3+m|$（因 $DB^2 = (3+m)^2$ 且 $DB \geq 0$），$3\sqrt{3} = |3+m|$。</p>
+      <p>$3 + m = 3\sqrt{3}$，$m = 3\sqrt{3} - 3$；或 $3 + m = -3\sqrt{3}$，$m = -3 - 3\sqrt{3}$。</p>
+      <p>$m = 3\sqrt{3} - 3 \approx 2.196 < 3$，符合。此时 $C\left(0,\; 3\sqrt{3} - 3\right)$。</p>
+      <p>$m = -3 - 3\sqrt{3} \approx -8.196 < 3$，符合。此时 $C\left(0,\; -3 - 3\sqrt{3}\right)$。</p>
+
+      <p><strong>当 $m > 3$ 时</strong>（$C$ 在 $A$ 上方），$CA = m - 3$，$D$ 在 $BA$ 延长线上。</p>
+      <p>$AF = \dfrac{m-3}{2}$，$DF = \sqrt{3} \cdot \dfrac{m-3}{2}$，$D\left(\dfrac{\sqrt{3}(m-3)}{2},\; \dfrac{3+m}{2}\right)$。</p>
+      <p>$OD^2 = \dfrac{3(m-3)^2 + (m+3)^2}{4} = \dfrac{4m^2 - 12m + 36}{4} = m^2 - 3m + 9$（与 $m < 3$ 结果一致）。</p>
+
+      <p><strong>情形 i（$OD = OB$）：</strong>$m^2 - 3m + 9 = 27$，$m = 6$ 或 $m = -3$。$m = 6 > 3$，符合。此时 $C(0, 6)$，$D\left(\dfrac{3\sqrt{3}}{2},\; \dfrac{9}{2}\right)$，验证 $OD = \sqrt{36 - 18 + 9} = \sqrt{27} = 3\sqrt{3} = OB$，成立。</p>
+
+      <p><strong>情形 ii（$OD = DB$）：</strong>$m^2 - 3m + 9 = (m+3)^2 = m^2 + 6m + 9$，$m = 0$，不满足 $m > 3$，舍去。</p>
+
+      <p><strong>情形 iii（$OB = DB$）：</strong>$|m+3| = 3\sqrt{3}$，$m = 3\sqrt{3} - 3 \approx 2.196 < 3$（舍去），$m = -3 - 3\sqrt{3} < 3$（舍去）。</p>
+
+      <h4 class="edu-heading-3">综上，点 $C$ 的坐标为：</h4>
+      <p>$C(0, 0)$，$C\left(0,\; 3\sqrt{3} - 3\right)$，$C\left(0,\; -3 - 3\sqrt{3}\right)$，$C(0, 6)$。</p>
+    </div>
+  </details>
+
+  <!-- 教师备注 -->
+  <div class="edu-teacher-note">
+    <p><strong>教师备注：</strong>本题第(3)问完整解涉及 4 个坐标，难度较大。E 档学生若完成(1)(2)两问即可视为达标；能写出第(3)问的分类框架（分三种情况讨论）即为良好。$m = 6$ 的解需要 $D$ 在射线延长线上，是最容易遗漏的解。</p>
+  </div>
+</section>
+
+<!-- ================================================================ -->
+<!-- 第 2 题 -->
+<!-- ================================================================ -->
+<div class="page-break"></div>
+<section class="edu-section u-avoid-break">
+  <h2 class="edu-heading-2">第 2 题</h2>
+
+  <!-- 题目 -->
+  <div class="edu-card">
+    <p class="edu-problem">直线 $y = -\sqrt{3}\,x + 3\sqrt{3}$ 与 $y$ 轴交于点 $A$，与 $x$ 轴交于点 $B$。</p>
+    <p class="edu-problem">(1) 求点 $A$、$B$ 的坐标及 $\angle BAO$ 的度数；</p>
+    <p class="edu-problem">(2) 点 $C$、$D$ 分别在线段 $OA$、$AB$ 上（不与端点重合），且 $CD = CA$。设 $OC = x$，$S_{\triangle OCD} = y$，求 $y$ 关于 $x$ 的函数关系式及定义域；</p>
+    <p class="edu-problem">(3) 若点 $C$、$D$ 分别在<strong>射线</strong> $OA$、<strong>射线</strong> $BA$ 上，且 $CD = CA$，当 $\triangle ODB$ 为等腰三角形时，求点 $C$ 的坐标。</p>
+  </div>
+
+  <!-- 提示 -->
+  <details class="edu-hint">
+    <summary>提示</summary>
+    <div class="edu-hint-content">
+      <p><strong>第(1)问：</strong>令 $x=0$ 得 $A(0, 3\sqrt{3})$；令 $y=0$ 得 $B(3, 0)$。$\tan\angle BAO = \dfrac{OB}{OA} = \dfrac{3}{3\sqrt{3}} = \dfrac{\sqrt{3}}{3}$，故 $\angle BAO = 30°$。</p>
+      <p><strong>第(2)问：</strong>$CD = CA$ 意味着 $\triangle CDA$ 以 $C$ 为顶点。作 $DE \perp OA$ 于 $E$，利用 $30°$ 角和等腰条件找 $DE$ 与 $x$ 的关系。</p>
+      <p><strong>第(3)问：</strong>等腰三分类：$OD = OB$、$OD = DB$、$OB = DB$。注意本题特殊角为 $30°$，$\tan 30° = \dfrac{\sqrt{3}}{3}$。</p>
+    </div>
+  </details>
+
+  <!-- 解答 -->
+  <details class="edu-answer">
+    <summary>详细解答</summary>
+    <div class="edu-answer-content">
+      <h3 class="edu-heading-3">第(1)问</h3>
+      <p>令 $x = 0$：$y = 3\sqrt{3}$，$A(0, 3\sqrt{3})$。</p>
+      <p>令 $y = 0$：$-\sqrt{3}\,x + 3\sqrt{3} = 0$，$x = 3$，$B(3, 0)$。</p>
+      <p>$OA = 3\sqrt{3}$，$OB = 3$，$\tan\angle BAO = \dfrac{OB}{OA} = \dfrac{3}{3\sqrt{3}} = \dfrac{\sqrt{3}}{3}$，$\angle BAO = 30°$。</p>
+
+      <h3 class="edu-heading-3">第(2)问</h3>
+      <p>$C$ 在线段 $OA$ 上，$OC = x$，故 $C(0, x)$，$0 < x < 3\sqrt{3}$。</p>
+      <p>$CA = OA - OC = 3\sqrt{3} - x$。</p>
+      <p>$CD = CA$，$\triangle CDA$ 是以 $C$ 为顶点的等腰三角形。作 $DE \perp OA$ 于 $E$。</p>
+      <p>$\angle CDA = \angle CAD$，且 $\angle CAD = \angle BAO = 30°$（$A$、$D$、$B$ 共线），所以 $\angle CDA = 30°$。</p>
+      <p>$\angle DCE = 90° - 30° = 60°$。在 $\text{Rt}\triangle CDE$ 中，$\tan\angle DCE = \dfrac{DE}{CE} = \tan 60° = \sqrt{3}$，$DE = \sqrt{3}\cdot CE$。</p>
+      <p>又 $CE = CD \cdot \cos 60° = CA \cdot \dfrac{1}{2} = \dfrac{3\sqrt{3} - x}{2}$。</p>
+      <p>$DE = \sqrt{3} \cdot \dfrac{3\sqrt{3} - x}{2} = \dfrac{9 - \sqrt{3}\,x}{2}$。</p>
+      <p>$S_{\triangle OCD} = \dfrac{1}{2} \cdot OC \cdot DE = \dfrac{1}{2} \cdot x \cdot \dfrac{9 - \sqrt{3}\,x}{2} = \dfrac{9x - \sqrt{3}\,x^2}{4}$。</p>
+      <p>即 $y = \dfrac{-\sqrt{3}}{4}\,x^2 + \dfrac{9}{4}\,x$，定义域为 $0 < x < 3\sqrt{3}$。</p>
+
+      <h3 class="edu-heading-3">第(3)问</h3>
+      <p>设 $C(0, m)$，$D$ 在射线 $BA$ 上。$CD = CA = |3\sqrt{3} - m|$。</p>
+      <p>与第 1 题类似分析（利用 $30°$ 角的特殊性）：</p>
+      <p>当 $m < 3\sqrt{3}$ 时，$CE = \dfrac{3\sqrt{3} - m}{2}$，$DE = \sqrt{3} \cdot \dfrac{3\sqrt{3} - m}{2} = \dfrac{9 - \sqrt{3}\,m}{2}$。</p>
+      <p>$OE = OC + CE = m + \dfrac{3\sqrt{3} - m}{2} = \dfrac{m + 3\sqrt{3}}{2}$。</p>
+      <p>$D\left(\dfrac{9 - \sqrt{3}\,m}{2},\; \dfrac{m + 3\sqrt{3}}{2}\right)$。</p>
+      <p>$OD^2 = \left(\dfrac{9 - \sqrt{3}\,m}{2}\right)^2 + \left(\dfrac{m + 3\sqrt{3}}{2}\right)^2 = \dfrac{81 - 18\sqrt{3}\,m + 3m^2 + m^2 + 6\sqrt{3}\,m + 27}{4} = \dfrac{4m^2 - 12\sqrt{3}\,m + 108}{4} = m^2 - 3\sqrt{3}\,m + 27$。</p>
+
+      <p><strong>情形 i：$OD = OB = 3$</strong></p>
+      <p>$m^2 - 3\sqrt{3}\,m + 27 = 9$，$m^2 - 3\sqrt{3}\,m + 18 = 0$。</p>
+      <p>$\Delta = 27 - 72 = -45 < 0$，无实数解。</p>
+
+      <p><strong>情形 ii：$OD = DB$</strong></p>
+      <p>$DB^2 = \left(3 - \dfrac{9 - \sqrt{3}\,m}{2}\right)^2 + \left(\dfrac{m + 3\sqrt{3}}{2}\right)^2 = \left(\dfrac{\sqrt{3}\,m - 3}{2}\right)^2 + \left(\dfrac{m + 3\sqrt{3}}{2}\right)^2 = \dfrac{3m^2 - 6\sqrt{3}\,m + 9 + m^2 + 6\sqrt{3}\,m + 27}{4} = \dfrac{4m^2 + 36}{4} = m^2 + 9$。</p>
+      <p>$m^2 - 3\sqrt{3}\,m + 27 = m^2 + 9$，$-3\sqrt{3}\,m = -18$，$m = \dfrac{18}{3\sqrt{3}} = 2\sqrt{3}$。</p>
+      <p>$2\sqrt{3} \approx 3.46 < 3\sqrt{3} \approx 5.20$，符合。</p>
+      <p>验证：$OD^2 = 12 - 18 + 27 = 21$，$DB^2 = 12 + 9 = 21$，$OD = DB = \sqrt{21}$，$OB = 3 \neq \sqrt{21}$，成立。$C(0, 2\sqrt{3})$。</p>
+
+      <p><strong>情形 iii：$OB = DB = 3$</strong></p>
+      <p>$m^2 + 9 = 9$，$m = 0$。</p>
+      <p>$C(0, 0) = O$，此时 $D\left(\dfrac{9}{2},\; \dfrac{3\sqrt{3}}{2}\right)$，验证 $OD = \sqrt{\dfrac{81}{4} + \dfrac{27}{4}} = \sqrt{27} = 3\sqrt{3}$，$DB = \sqrt{0 + 9} = 3 = OB$，$\triangle ODB$ 中 $OB = DB = 3$，成立。</p>
+      <p>但 $C$ 与 $O$ 重合，$C(0, 0)$。</p>
+
+      <p><strong>当 $m > 3\sqrt{3}$ 时</strong>，$C$ 在 $A$ 上方，$CA = m - 3\sqrt{3}$，$D$ 在 $BA$ 延长线上。</p>
+      <p>$CE = \dfrac{m - 3\sqrt{3}}{2}$，$DE = \sqrt{3} \cdot \dfrac{m - 3\sqrt{3}}{2} = \dfrac{\sqrt{3}\,m - 9}{2}$。</p>
+      <p>$OE = OC - CE = m - \dfrac{m - 3\sqrt{3}}{2} = \dfrac{m + 3\sqrt{3}}{2}$。</p>
+      <p>$D\left(\dfrac{\sqrt{3}\,m - 9}{2},\; \dfrac{m + 3\sqrt{3}}{2}\right)$。</p>
+      <p>$OD^2 = \dfrac{(\sqrt{3}\,m - 9)^2 + (m + 3\sqrt{3})^2}{4} = \dfrac{3m^2 - 18\sqrt{3}\,m + 81 + m^2 + 6\sqrt{3}\,m + 27}{4} = \dfrac{4m^2 - 12\sqrt{3}\,m + 108}{4} = m^2 - 3\sqrt{3}\,m + 27$（与上面一致）。</p>
+
+      <p><strong>情形 i（$OD = OB$）：</strong>$m^2 - 3\sqrt{3}\,m + 18 = 0$，$\Delta < 0$，无解。</p>
+      <p><strong>情形 ii（$OD = DB$）：</strong>$m = 2\sqrt{3} < 3\sqrt{3}$，不满足 $m > 3\sqrt{3}$，舍去。</p>
+      <p><strong>情形 iii（$OB = DB$）：</strong>$DB^2 = \dfrac{(\sqrt{3}\,m - 9 - 6)^2 + (m + 3\sqrt{3})^2}{4}$。由于 $D$ 在延长线上，$DB^2$ 的计算方式不同。更简洁地，由 $DB^2 = (m+3)^2$ 的推导在 $m > 3\sqrt{3}$ 时依然成立（$DB^2 = m^2 + 9$ 对所有 $m$ 成立，因为这是代数恒等式）。所以 $m^2 + 9 = 9$，$m = 0$，不符合 $m > 3\sqrt{3}$。</p>
+
+      <h4 class="edu-heading-3">综上，点 $C$ 的坐标为：</h4>
+      <p>$C(0, 0)$，$C(0, 2\sqrt{3})$。</p>
+    </div>
+  </details>
+
+  <!-- 教师备注 -->
+  <div class="edu-teacher-note">
+    <p><strong>教师备注：</strong>本题将特殊角从 $60°$ 改为 $30°$，等腰条件从 $CD=DA$ 改为 $CD=CA$（顶点从 $A$ 变为 $C$）。第(2)问的关键变化是 $CE$ 的计算方向不同。第(3)问只有 2 个解（比第 1 题少），$OD=OB$ 无解是一个值得让学生思考的结论。E 档学生完成(1)(2)即可视为达标。</p>
+  </div>
+</section>
+
+<!-- ================================================================ -->
+<!-- 第 3 题 -->
+<!-- ================================================================ -->
+<div class="page-break"></div>
+<section class="edu-section u-avoid-break">
+  <h2 class="edu-heading-2">第 3 题</h2>
+
+  <!-- 题目 -->
+  <div class="edu-card">
+    <p class="edu-problem">直线 $y = -x + 4$ 与 $y$ 轴交于点 $A$，与 $x$ 轴交于点 $B$。矩形 $OEFG$ 的顶点 $E$ 在 $AB$ 上，$F$ 在 $x$ 轴正半轴上，$G$ 在 $y$ 轴正半轴上。</p>
+    <p class="edu-problem">(1) 求点 $A$、$B$ 的坐标及 $\angle BAO$ 的度数；</p>
+    <p class="edu-problem">(2) 设 $OG = t$，用含 $t$ 的式子表示矩形 $OEFG$ 的面积 $S$，并求 $S$ 的最大值；</p>
+    <p class="edu-problem">(3) 点 $P$ 在线段 $AB$ 上，且 $\triangle OPA$ 为等腰三角形，求点 $P$ 的坐标。</p>
+  </div>
+
+  <!-- 提示 -->
+  <details class="edu-hint">
+    <summary>提示</summary>
+    <div class="edu-hint-content">
+      <p><strong>第(1)问：</strong>$A(0, 4)$，$B(4, 0)$。$\triangle AOB$ 是等腰直角三角形，$\angle BAO = 45°$。</p>
+      <p><strong>第(2)问：</strong>矩形内接于等腰直角三角形，$G(0, t)$，$E$ 在 $AB$ 上。由 $AB$ 的方程可求 $E$ 的横坐标。面积 $S = OG \times OF$。</p>
+      <p><strong>第(3)问：</strong>$\triangle OPA$ 为等腰三角形，分三类：$OP = OA$、$OP = PA$、$OA = PA$。注意 $A$ 在 $y$ 轴上、$O$ 为原点的几何关系。</p>
+    </div>
+  </details>
+
+  <!-- 解答 -->
+  <details class="edu-answer">
+    <summary>详细解答</summary>
+    <div class="edu-answer-content">
+      <h3 class="edu-heading-3">第(1)问</h3>
+      <p>令 $x = 0$：$y = 4$，$A(0, 4)$。</p>
+      <p>令 $y = 0$：$-x + 4 = 0$，$x = 4$，$B(4, 0)$。</p>
+      <p>$OA = 4 = OB$，$\triangle AOB$ 为等腰直角三角形，$\angle BAO = 45°$。</p>
+
+      <h3 class="edu-heading-3">第(2)问</h3>
+      <p>$G(0, t)$，$EG \perp OA$（$OA$ 在 $y$ 轴上），故 $E$ 的纵坐标为 $t$。</p>
+      <p>$E$ 在 $AB$：$y = -x + 4$ 上，$t = -x_E + 4$，$x_E = 4 - t$。</p>
+      <p>$OEGF$ 为矩形，$OF = x_E = 4 - t$，$OG = t$。</p>
+      <p>$S = OG \cdot OF = t(4 - t) = -t^2 + 4t$。</p>
+      <p>$S = -(t^2 - 4t + 4) + 4 = -(t - 2)^2 + 4$。</p>
+      <p>当 $t = 2$ 时，$S$ 取最大值 $4$。此时 $G(0, 2)$，$E(2, 2)$，$F(2, 0)$。</p>
+
+      <h3 class="edu-heading-3">第(3)问</h3>
+      <p>$P$ 在线段 $AB$ 上，设 $P(a, 4-a)$，$0 \leq a \leq 4$。</p>
+      <p>$OA = 4$。</p>
+      <p>$OP^2 = a^2 + (4-a)^2 = a^2 + 16 - 8a + a^2 = 2a^2 - 8a + 16$。</p>
+      <p>$PA^2 = a^2 + (4-a-4)^2 = a^2 + a^2 = 2a^2$。</p>
+
+      <p><strong>情形 i：$OP = OA = 4$</strong></p>
+      <p>$OP^2 = 16$，$2a^2 - 8a + 16 = 16$，$2a^2 - 8a = 0$，$2a(a - 4) = 0$。</p>
+      <p>$a = 0$：$P = A = (0, 4)$，$\triangle OPA$ 退化为线段，舍去。</p>
+      <p>$a = 4$：$P = B = (4, 0)$，$OP = \sqrt{16} = 4 = OA$，$PA = \sqrt{32} = 4\sqrt{2} \neq 4$，成立。$P(4, 0)$。</p>
+
+      <p><strong>情形 ii：$OP = PA$</strong></p>
+      <p>$OP^2 = PA^2$，$2a^2 - 8a + 16 = 2a^2$，$-8a + 16 = 0$，$a = 2$。</p>
+      <p>$P(2, 2)$，$OP = \sqrt{8} = 2\sqrt{2}$，$PA = \sqrt{8} = 2\sqrt{2}$，$OA = 4$，成立。</p>
+
+      <p><strong>情形 iii：$OA = PA = 4$</strong></p>
+      <p>$PA^2 = 16$，$2a^2 = 16$，$a^2 = 8$，$a = 2\sqrt{2}$。</p>
+      <p>$0 < 2\sqrt{2} \approx 2.83 < 4$，符合。</p>
+      <p>$P(2\sqrt{2},\; 4 - 2\sqrt{2})$，验证 $PA = \sqrt{8 + 8} = \sqrt{16} = 4 = OA$，$OP = \sqrt{8 + (4-2\sqrt{2})^2} = \sqrt{8 + 16 - 16\sqrt{2} + 8} = \sqrt{32 - 16\sqrt{2}} \neq 4$（$32 - 16\sqrt{2} \approx 32 - 22.63 = 9.37 \neq 16$），成立。</p>
+
+      <h4 class="edu-heading-3">综上，点 $P$ 的坐标为：</h4>
+      <p>$P(4, 0)$，$P(2, 2)$，$P\!\left(2\sqrt{2},\; 4 - 2\sqrt{2}\right)$。</p>
+    </div>
+  </details>
+
+  <!-- 教师备注 -->
+  <div class="edu-teacher-note">
+    <p><strong>教师备注：</strong>本题引入 $45°$ 等腰直角三角形，矩形面积建模比三角形更直观，第(3)问从等腰存在性角度切入。与第 1、2 题相比，特殊角为 $45°$（$\tan 45° = 1$），计算最简洁，适合作为过渡练习。E 档学生完成(1)(2)即可，第(3)问能分清三类情况即可。</p>
+  </div>
+</section>
+
+<!-- ================================================================ -->
+<!-- 答案速查 -->
+<!-- ================================================================ -->
+<div class="page-break"></div>
+<section class="edu-section">
+  <h2 class="edu-heading-2">答案速查</h2>
+  <div class="edu-card">
+    <table class="edu-table">
+      <thead>
+        <tr><th>题号</th><th>核心答案</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>第 1 题</td>
+          <td>
+            (1) $A(0,3)$，$B(3\sqrt{3},0)$，$\angle BAO = 60°$<br>
+            (2) $y = \dfrac{-\sqrt{3}\,x^2 + 3\sqrt{3}\,x}{4}$，$0 < x < 3$<br>
+            (3) $C(0,0)$，$C(0, 3\sqrt{3}-3)$，$C(0, -3-3\sqrt{3})$，$C(0, 6)$
+          </td>
+        </tr>
+        <tr>
+          <td>第 2 题</td>
+          <td>
+            (1) $A(0, 3\sqrt{3})$，$B(3, 0)$，$\angle BAO = 30°$<br>
+            (2) $y = \dfrac{-\sqrt{3}\,x^2 + 9x}{4}$，$0 < x < 3\sqrt{3}$<br>
+            (3) $C(0, 0)$，$C(0, 2\sqrt{3})$
+          </td>
+        </tr>
+        <tr>
+          <td>第 3 题</td>
+          <td>
+            (1) $A(0,4)$，$B(4,0)$，$\angle BAO = 45°$<br>
+            (2) $S = -t^2 + 4t$，最大值 $4$（$t = 2$ 时取到）<br>
+            (3) $P(4,0)$，$P(2,2)$，$P(2\sqrt{2},\; 4-2\sqrt{2})$
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ================================================================ -->
+<!-- 自检表 -->
+<!-- ================================================================ -->
+<section class="edu-section u-avoid-break">
+  <h2 class="edu-heading-2">自检表</h2>
+  <div class="edu-card">
+    <p>完成全部练习后，请勾选以下各项：</p>
+    <table class="edu-table">
+      <thead>
+        <tr><th>自检项目</th><th>第 1 题</th><th>第 2 题</th><th>第 3 题</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>能正确求出一次函数与坐标轴的交点</td>
+          <td>&square;</td><td>&square;</td><td>&square;</td>
+        </tr>
+        <tr>
+          <td>能利用特殊角（$\tan$ 值）求角度</td>
+          <td>&square;</td><td>&square;</td><td>&square;</td>
+        </tr>
+        <tr>
+          <td>能利用等腰条件 + 特殊角建立面积函数</td>
+          <td>&square;</td><td>&square;</td><td>&square;</td>
+        </tr>
+        <tr>
+          <td>能正确写出函数定义域（开/闭区间）</td>
+          <td>&square;</td><td>&square;</td><td>&square;</td>
+        </tr>
+        <tr>
+          <td>能对等腰存在性进行三分类讨论</td>
+          <td>&square;</td><td>&square;</td><td>&square;</td>
+        </tr>
+        <tr>
+          <td>能区分"线段"与"射线"对范围的影响</td>
+          <td>&square;</td><td>&square;</td><td>&square;</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ================================================================ -->
+<!-- 交接栏 -->
+<!-- ================================================================ -->
+<section class="edu-section u-avoid-break">
+  <h2 class="edu-heading-2">交接</h2>
+  <div class="edu-card">
+    <table class="edu-table" style="width:100%;">
+      <tbody>
+        <tr>
+          <td style="width:33%;">学生姓名：_______________</td>
+          <td style="width:34%;">完成日期：_______________</td>
+          <td style="width:33%;">用时：_______________</td>
+        </tr>
+        <tr>
+          <td>自评等级（A/B/C）：<br>_______________</td>
+          <td>教师评语：<br>_______________</td>
+          <td>建议下一档位：<br>_______________</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+</body>
+</html>

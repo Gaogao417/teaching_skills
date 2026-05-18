@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>学生版讲解：识别一次函数与正比例函数</title>
+  <link rel="stylesheet" href="../assets/edu-print.css">
+  <script>
+    MathJax = {
+      tex: { inlineMath: [['$', '$']], displayMath: [['$$', '$$']] }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+</head>
+<body data-view="student">
+
+<div class="edu-page">
+
+  <h1 class="edu-title">学生版讲解：识别一次函数与正比例函数</h1>
+  <p class="edu-subtitle">主题标签：一次函数的概念辨析</p>
+
+  <!-- ==================== 原题 ==================== -->
+  <section class="edu-problem-card u-avoid-break">
+    <div class="edu-problem-title">原题</div>
+    <p class="edu-problem-stem">下列函数中，哪些是一次函数？哪些是正比例函数？</p>
+    <p class="edu-p">(1) $y=-\dfrac{x+1}{5}$</p>
+    <p class="edu-p">(2) $y=-\dfrac{x}{5}$</p>
+    <p class="edu-p">(3) $y=-2x-1$</p>
+    <p class="edu-p">(4) $y=-3-\dfrac{x}{5}$</p>
+    <p class="edu-p">(5) $y=x^2-(x-1)(x-2)$</p>
+    <p class="edu-p">(6) $x^2-y=1$</p>
+    <p class="edu-p">(7) $y=-\dfrac{5}{x}+3$</p>
+  </section>
+
+  <!-- ==================== 一、先把题目拆开 ==================== -->
+  <section class="edu-section">
+    <h2 class="edu-section-title">一、先把题目拆开</h2>
+    <table class="edu-table edu-task-table u-avoid-break">
+      <tr>
+        <th>已知条件</th>
+        <td>7 个函数表达式，每个都用不同的形式书写（分式、整式、展开式、含 $x^2$ 的式子等）</td>
+      </tr>
+      <tr>
+        <th>要求目标</th>
+        <td>逐一判断：哪些是一次函数？哪些是正比例函数？</td>
+      </tr>
+      <tr>
+        <th>关键词</th>
+        <td>"一次函数""正比例函数"——要从定义出发判断</td>
+      </tr>
+      <tr>
+        <th>容易忽略</th>
+        <td>有些式子不是标准形式，需要先化简再判断；第(5)题有 $x^2$ 但化简后可能消失；第(6)(7)题的 $x$ 不在"一次"位置上</td>
+      </tr>
+    </table>
+  </section>
+
+  <!-- ==================== 二、这题准备怎么走 ==================== -->
+  <section class="edu-section">
+    <h2 class="edu-section-title">二、这题准备怎么走</h2>
+    <div class="edu-route">
+      <ol>
+        <li>先回顾一次函数和正比例函数的定义形式。</li>
+        <li>逐个化简：把每个表达式都变成 $y = kx + b$ 的样子（含 $x$ 的项 + 常数项）。</li>
+        <li>逐个检查：$x$ 的次数是否为 1，$k$ 是否不为 0，$b$ 是否为 0。</li>
+        <li>分两类汇总答案。</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ==================== 三、关键想法 ==================== -->
+  <section class="edu-section">
+    <h2 class="edu-section-title">三、关键想法</h2>
+    <div class="edu-key-idea">
+      不管题目给出什么形式，<span class="edu-strong">先化简为 $y = kx + b$，再和定义逐条对账</span>。只要 $x$ 的次数是 1 且 $k \neq 0$，就是一次函数；如果还有 $b = 0$，那就是正比例函数。
+    </div>
+  </section>
+
+  <!-- ==================== 四、标准解法 ==================== -->
+  <section class="edu-section">
+    <h2 class="edu-section-title">四、标准解法</h2>
+
+    <!-- 回顾定义 -->
+    <div class="edu-formula-key u-avoid-break">
+      一次函数：$y = kx + b \quad (k \neq 0)$
+      <br>
+      正比例函数：$y = kx \quad (k \neq 0)$&emsp;（即 $b = 0$ 时的特殊一次函数）
+    </div>
+
+    <!-- 第(1)题 -->
+    <div class="edu-subproblem u-avoid-break">
+      <div class="edu-subproblem-title">第 (1) 题&emsp;$y=-\dfrac{x+1}{5}$</div>
+      <div class="edu-step">
+        <div class="edu-step-title">第 1 步：拆开分子，把常数和含 $x$ 的项分开</div>
+        <p class="edu-p">$y = -\dfrac{x+1}{5} = -\dfrac{x}{5} - \dfrac{1}{5}$</p>
+        <p class="edu-step-why">为什么：把分子里的每一项分别除以分母，就能看出哪项含 $x$、哪项是常数。</p>
+      </div>
+      <div class="edu-step">
+        <div class="edu-step-title">第 2 步：对照定义</div>
+        <p class="edu-p">形式为 $y = \left(-\dfrac{1}{5}\right)x + \left(-\dfrac{1}{5}\right)$，其中 $k = -\dfrac{1}{5} \neq 0$，$b = -\dfrac{1}{5} \neq 0$。</p>
+        <p class="edu-step-why">满足一次函数定义，但 $b \neq 0$，所以不是正比例函数。</p>
+      </div>
+      <div class="edu-substep">
+        <p class="edu-p"><span class="edu-strong">结论：</span>是一次函数，不是正比例函数。</p>
+      </div>
+    </div>
+
+    <!-- 第(2)题 -->
+    <div class="edu-subproblem u-avoid-break">
+      <div class="edu-subproblem-title">第 (2) 题&emsp;$y=-\dfrac{x}{5}$</div>
+      <div class="edu-step">
+        <div class="edu-step-title">第 1 步：整理为标准形式</div>
+        <p class="edu-p">$y = -\dfrac{1}{5}x + 0$</p>
+        <p class="edu-step-why">为什么：已经有 $kx$ 的结构，常数项为 0。</p>
+      </div>
+      <div class="edu-step">
+        <div class="edu-step-title">第 2 步：对照定义</div>
+        <p class="edu-p">$k = -\dfrac{1}{5} \neq 0$，$b = 0$。</p>
+        <p class="edu-step-why">$b = 0$ 时，一次函数就是正比例函数。</p>
+      </div>
+      <div class="edu-substep">
+        <p class="edu-p"><span class="edu-strong">结论：</span>是一次函数，也是正比例函数。</p>
+      </div>
+    </div>
+
+    <!-- 第(3)题 -->
+    <div class="edu-subproblem u-avoid-break">
+      <div class="edu-subproblem-title">第 (3) 题&emsp;$y=-2x-1$</div>
+      <div class="edu-step">
+        <div class="edu-step-title">第 1 步：已经是标准形式</div>
+        <p class="edu-p">$y = (-2)x + (-1)$，即 $k = -2 \neq 0$，$b = -1 \neq 0$。</p>
+        <p class="edu-step-why">这个式子恰好就是 $y = kx + b$ 的形式，不需要化简。</p>
+      </div>
+      <div class="edu-substep">
+        <p class="edu-p"><span class="edu-strong">结论：</span>是一次函数，不是正比例函数。</p>
+      </div>
+    </div>
+
+    <!-- 第(4)题 -->
+    <div class="edu-subproblem u-avoid-break">
+      <div class="edu-subproblem-title">第 (4) 题&emsp;$y=-3-\dfrac{x}{5}$</div>
+      <div class="edu-step">
+        <div class="edu-step-title">第 1 步：调换顺序，把含 $x$ 的项放前面</div>
+        <p class="edu-p">$y = -\dfrac{1}{5}x - 3$</p>
+        <p class="edu-step-why">为什么：常数项 $-3$ 写在前面时，容易看错结构。把 $x$ 的项提出来，就能清楚地看出 $k$ 和 $b$。</p>
+      </div>
+      <div class="edu-step">
+        <div class="edu-step-title">第 2 步：对照定义</div>
+        <p class="edu-p">$k = -\dfrac{1}{5} \neq 0$，$b = -3 \neq 0$。</p>
+      </div>
+      <div class="edu-substep">
+        <p class="edu-p"><span class="edu-strong">结论：</span>是一次函数，不是正比例函数。</p>
+      </div>
+    </div>
+
+    <!-- 第(5)题 — 易错重点 -->
+    <div class="edu-subproblem u-avoid-break">
+      <div class="edu-subproblem-title">第 (5) 题&emsp;$y=x^2-(x-1)(x-2)$&emsp;<span class="edu-small u-muted">（注意：这题有陷阱）</span></div>
+      <div class="edu-step">
+        <div class="edu-step-title">第 1 步：展开括号</div>
+        <p class="edu-p">$(x-1)(x-2) = x^2 - 2x - x + 2 = x^2 - 3x + 2$</p>
+        <p class="edu-step-why">为什么：不能看到 $x^2$ 就直接下结论。必须先算出括号乘积的结果。</p>
+      </div>
+      <div class="edu-step">
+        <div class="edu-step-title">第 2 步：代入原式并合并</div>
+        <p class="edu-p">$y = x^2 - (x^2 - 3x + 2) = x^2 - x^2 + 3x - 2 = 3x - 2$</p>
+        <p class="edu-step-why">为什么：外面的负号要分配到括号内每一项上！$x^2$ 和 $-x^2$ 抵消了，$x^2$ 项消失。</p>
+      </div>
+      <div class="edu-step">
+        <div class="edu-step-title">第 3 步：对照定义</div>
+        <p class="edu-p">$y = 3x - 2$，$k = 3 \neq 0$，$b = -2 \neq 0$。$x$ 的次数为 1，符合一次函数定义。</p>
+      </div>
+      <div class="edu-substep">
+        <p class="edu-p"><span class="edu-strong">结论：</span>是一次函数，不是正比例函数。</p>
+      </div>
+    </div>
+
+    <!-- 第(6)题 -->
+    <div class="edu-subproblem u-avoid-break">
+      <div class="edu-subproblem-title">第 (6) 题&emsp;$x^2-y=1$</div>
+      <div class="edu-step">
+        <div class="edu-step-title">第 1 步：把 $y$ 解出来</div>
+        <p class="edu-p">$x^2 - y = 1$，移项得 $-y = 1 - x^2$，两边乘以 $-1$：</p>
+        <p class="edu-p">$y = x^2 - 1$</p>
+        <p class="edu-step-why">为什么：先把 $y$ 单独放在等号一边，才能看出它是什么函数。</p>
+      </div>
+      <div class="edu-step">
+        <div class="edu-step-title">第 2 步：对照定义</div>
+        <p class="edu-p">$y = x^2 - 1$ 中 $x$ 的次数为 2，不是 1。</p>
+        <p class="edu-step-why">一次函数要求 $x$ 的次数严格等于 1。$x^2$ 的次数是 2，所以不满足。</p>
+      </div>
+      <div class="edu-substep">
+        <p class="edu-p"><span class="edu-strong">结论：</span>不是一次函数（是二次函数）。</p>
+      </div>
+    </div>
+
+    <!-- 第(7)题 -->
+    <div class="edu-subproblem u-avoid-break">
+      <div class="edu-subproblem-title">第 (7) 题&emsp;$y=-\dfrac{5}{x}+3$</div>
+      <div class="edu-step">
+        <div class="edu-step-title">第 1 步：观察 $x$ 在什么位置</div>
+        <p class="edu-p">$x$ 出现在分母中，即 $x^{-1}$ 的形式。</p>
+        <p class="edu-step-why">为什么：一次函数要求 $x$ 以 $x^1$ 的形式出现。$x$ 在分母里等于 $x$ 的次数是 $-1$，不是 $1$。</p>
+      </div>
+      <div class="edu-step">
+        <div class="edu-step-title">第 2 步：无法化为 $y = kx + b$ 的形式</div>
+        <p class="edu-p">无论怎么变形，都无法把 $-\dfrac{5}{x}$ 写成 $kx$ 的样子（$k$ 为常数）。</p>
+      </div>
+      <div class="edu-substep">
+        <p class="edu-p"><span class="edu-strong">结论：</span>不是一次函数（是反比例函数加上一个常数）。</p>
+      </div>
+    </div>
+
+    <!-- 汇总 -->
+    <div class="edu-card u-avoid-break">
+      <div class="edu-card-title">汇总</div>
+      <table class="edu-table">
+        <tr>
+          <th>题号</th>
+          <th>化简结果</th>
+          <th>一次函数</th>
+          <th>正比例函数</th>
+        </tr>
+        <tr><td>(1)</td><td>$y=-\dfrac{1}{5}x-\dfrac{1}{5}$</td><td>是</td><td>否</td></tr>
+        <tr><td>(2)</td><td>$y=-\dfrac{1}{5}x$</td><td>是</td><td>是</td></tr>
+        <tr><td>(3)</td><td>$y=-2x-1$</td><td>是</td><td>否</td></tr>
+        <tr><td>(4)</td><td>$y=-\dfrac{1}{5}x-3$</td><td>是</td><td>否</td></tr>
+        <tr><td>(5)</td><td>$y=3x-2$</td><td>是</td><td>否</td></tr>
+        <tr><td>(6)</td><td>$y=x^2-1$</td><td>否</td><td>否</td></tr>
+        <tr><td>(7)</td><td>$y=-\dfrac{5}{x}+3$</td><td>否</td><td>否</td></tr>
+      </table>
+    </div>
+
+    <div class="page-break"></div>
+  </section>
+
+  <!-- ==================== 五、边讲边问 ==================== -->
+  <section class="edu-section">
+    <h2 class="edu-section-title">五、边讲边问</h2>
+
+    <div class="edu-question">
+      <div class="edu-question-title">想一想 1</div>
+      <p class="edu-p">正比例函数是一次函数吗？一次函数一定是正比例函数吗？说出你的理由。</p>
+      <span class="edu-blank-line"></span>
+      <span class="edu-blank-line"></span>
+    </div>
+
+    <div class="edu-question">
+      <div class="edu-question-title">想一想 2</div>
+      <p class="edu-p">如果看到 $y = 0 \cdot x + 5$，它是一次函数吗？为什么？</p>
+      <span class="edu-blank-line"></span>
+      <span class="edu-blank-line"></span>
+    </div>
+
+    <div class="edu-question">
+      <div class="edu-question-title">想一想 3</div>
+      <p class="edu-p">第 (5) 题中有 $x^2$，为什么最后化简出来却是一次函数？如果把 $(x-1)(x-2)$ 改成 $(x-1)(x-3)$，结果会怎样？先化简再判断。</p>
+      <span class="edu-blank-line"></span>
+      <span class="edu-blank-line"></span>
+      <span class="edu-blank-line"></span>
+    </div>
+
+    <div class="edu-question">
+      <div class="edu-question-title">想一想 4</div>
+      <p class="edu-p">$y = \dfrac{x}{2} + 1$ 和 $y = \dfrac{x+2}{2}$ 是同一个函数吗？化简后对照定义进行判断。</p>
+      <span class="edu-blank-line"></span>
+      <span class="edu-blank-line"></span>
+    </div>
+  </section>
+
+  <!-- ==================== 六、易错提醒 ==================== -->
+  <section class="edu-section">
+    <h2 class="edu-section-title">六、易错提醒</h2>
+
+    <div class="edu-mistake">
+      <strong>易错点 1：看到 $x^2$ 就判定为二次函数。</strong>
+      <p class="edu-p">第 (5) 题有两个 $x^2$ 项，展开后恰好抵消。如果看到 $x^2$ 就不往下算，就会把一次函数误判为不是一次函数。<span class="edu-strong">正确的做法是：先化简，再判断。</span></p>
+    </div>
+
+    <div class="edu-mistake">
+      <strong>易错点 2：忘记检查 $k \neq 0$。</strong>
+      <p class="edu-p">如果化简后 $x$ 的系数 $k = 0$（例如 $y = 0 \cdot x + 5 = 5$），那它只是一个常数函数，不是一次函数。虽然本题中没有出现这种情况，但遇到其他题目时一定要检查。</p>
+    </div>
+
+    <div class="edu-mistake">
+      <strong>易错点 3：分母上有 $x$ 时混淆为一次函数。</strong>
+      <p class="edu-p">第 (7) 题中 $x$ 出现在分母，即 $x$ 的次数是 $-1$，不等于 $1$。一次函数要求 $x$ 以 $x^1$ 的形式出现，不能在分母上。</p>
+    </div>
+
+    <div class="edu-mistake">
+      <strong>易错点 4：常数项写在前面时识别困难。</strong>
+      <p class="edu-p">第 (4) 题 $y = -3 - \dfrac{x}{5}$ 的常数项写在了含 $x$ 项的前面。把含 $x$ 的项移到前面、常数项放到后面，就能快速看出 $k$ 和 $b$ 的值。</p>
+    </div>
+  </section>
+
+  <!-- ==================== 七、一句话总结 ==================== -->
+  <section class="edu-section">
+    <h2 class="edu-section-title">七、一句话总结</h2>
+    <div class="edu-key-idea">
+      不管形式怎么变，先化简为 $y = kx + b$，再看 $k \neq 0$、$x$ 次数为 1；$b = 0$ 则为正比例函数。核心口诀：<span class="edu-strong">"化简标准形，对账逐条查"</span>。
+    </div>
+  </section>
+
+</div>
+
+<!-- ==================== 教师自检（不打印） ==================== -->
+<aside class="edu-teacher-note self-check no-print">
+  <div class="edu-card-title">生成后自检</div>
+  <ul>
+    <li><strong>数学检查：</strong>所有 7 个函数的化简结果与 canonical solution 一致：(1) $y=-\frac{1}{5}x-\frac{1}{5}$ 一次函数；(2) $y=-\frac{1}{5}x$ 一次且正比例；(3) $y=-2x-1$ 一次函数；(4) $y=-\frac{1}{5}x-3$ 一次函数；(5) $y=3x-2$ 一次函数；(6) $y=x^2-1$ 不是一次函数；(7) $y=-\frac{5}{x}+3$ 不是一次函数。无漏解、无增根。</li>
+    <li><strong>教学检查：</strong>本页只训练一个核心动作——"将非标准表达式化简为 $y=kx+b$ 后对照定义判断"。互动问题围绕核心链条：正比例与一次函数的关系、$k \neq 0$ 条件、化简消除 $x^2$ 的技巧、等价表达式判断。</li>
+    <li><strong>档位检查：</strong>未提供具体学生画像，采用默认假设（化简能力中等，可能忽略 $k \neq 0$ 条件，对分式和展开形式不熟练）。讲解中每步都附有"为什么"，降低跳跃感。</li>
+    <li><strong>HTML 检查：</strong>标签全部闭合；包含全部 7 个 required sections（拆开题目、路线、关键想法、标准解法、边讲边问、易错提醒、一句话总结）；使用 MathJax CDN（需网络）；适合 A4 打印；分页设在标准解法汇总与边讲边问之间，位置合理。</li>
+    <li><strong>自检结论：</strong>通过。唯一的外部依赖为 MathJax CDN，需联网渲染数学公式。</li>
+  </ul>
+</aside>
+
+<!-- ==================== 工作流交接（不打印） ==================== -->
+<aside class="edu-teacher-note no-print">
+  下一步：使用 math-adaptive-practice-html，输入本结构分析 + 学生画像，生成自适应练习。工作流：math-structure-analysis &rarr; math-student-explanation-html &rarr; math-adaptive-practice-html。
+</aside>
+
+</body>
+</html>

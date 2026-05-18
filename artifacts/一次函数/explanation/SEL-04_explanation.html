@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>学生版讲解：一次函数值与不等式</title>
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']]
+  }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<style>
+@page {
+  size: A4;
+  margin: 16mm 14mm;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  color: #111;
+  background: #fff;
+  font-family: "SimSun", "Songti SC", "Noto Serif CJK SC", serif;
+  font-size: 12pt;
+  line-height: 1.72;
+}
+
+.page {
+  max-width: 186mm;
+  margin: 0 auto;
+  padding: 0 2mm;
+}
+
+h1, h2, h3 {
+  font-family: "SimHei", "Microsoft YaHei", sans-serif;
+  font-weight: 700;
+  color: #000;
+}
+
+h1 {
+  margin: 0 0 7mm;
+  text-align: center;
+  font-size: 18pt;
+}
+
+h2 {
+  margin: 5mm 0 2mm;
+  padding: 1.5mm 2mm;
+  border-left: 3px solid #111;
+  border-bottom: 1px solid #999;
+  font-size: 13.5pt;
+}
+
+p, ol, ul {
+  margin-top: 0;
+  margin-bottom: 2.5mm;
+}
+
+ol, ul {
+  padding-left: 7mm;
+}
+
+.question-box,
+.teacher-note,
+.mistake-box {
+  margin: 3mm 0;
+  padding: 2.5mm 3mm;
+  border: 1px solid #777;
+}
+
+.teacher-note {
+  font-size: 10.5pt;
+  color: #333;
+  background: #f7f7f7;
+}
+
+.question-box {
+  background: #fafafa;
+}
+
+.blank-line {
+  display: block;
+  height: 8mm;
+  border-bottom: 1px solid #999;
+}
+
+.page-break {
+  break-before: page;
+  page-break-before: always;
+}
+
+.step-box {
+  margin: 3mm 0;
+  padding: 2.5mm 3mm;
+  border: 1px solid #aaa;
+  background: #fdfdfd;
+}
+
+.step-box .step-title {
+  font-family: "SimHei", "Microsoft YaHei", sans-serif;
+  font-weight: 700;
+  font-size: 11.5pt;
+  margin-bottom: 1.5mm;
+}
+
+.formula-line {
+  text-align: center;
+  margin: 2mm 0;
+  font-size: 13pt;
+}
+
+.arrow-note {
+  text-align: center;
+  color: #555;
+  font-size: 10.5pt;
+  margin: 1mm 0;
+}
+
+.highlight {
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+@media print {
+  body {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<h1>学生版讲解：一次函数值与不等式</h1>
+
+<div class="question-box">
+  <strong>题目：</strong>已知一次函数解析式是 \(y = \dfrac{1}{2}x - 3\)<br>
+  (1) 当 \(x\) 取何值时，\(y = 2\)？<br>
+  (2) 当 \(x\) 取何值时，\(y > 2\)？<br>
+  (3) 当 \(x\) 取何值时，\(y < 2\)？<br>
+  (4) 当 \(x\) 取何值时，\(0 < y < 2\)？
+</div>
+
+<!-- ===== 第一部分 ===== -->
+<section>
+  <h2>一、这题先看懂什么</h2>
+  <p>这道题给了一个一次函数的式子，然后问四件事。前三个问题很好懂：</p>
+  <ul>
+    <li>第(1)问：让函数值等于 2，问此时 \(x\) 是多少。</li>
+    <li>第(2)问：让函数值大于 2，问 \(x\) 在什么范围内。</li>
+    <li>第(3)问：让函数值小于 2，问 \(x\) 在什么范围内。</li>
+  </ul>
+  <p>第(4)问多了一层——要求函数值在 0 和 2 之间，<strong>同时满足两个条件</strong>。</p>
+</section>
+
+<!-- ===== 第二部分 ===== -->
+<section>
+  <h2>二、第一步该做什么</h2>
+  <p>很多同学看到 \(y = 2\)、\(y > 2\)，会犹豫：这是算函数，还是解不等式？</p>
+  <p>答案是：<strong>把 \(y\) 的条件，全部"塞回"函数式子里去</strong>。</p>
+  <p>因为题目给了 \(y = \dfrac{1}{2}x - 3\)，所以把 2 代替 \(y\) 的位置，问题就变成：</p>
+  <div class="formula-line">\(\dfrac{1}{2}x - 3 \quad\text{分别}\quad = 2,\; > 2,\; < 2\)</div>
+  <p>这样，一道函数题就变成了你学过的<strong>方程和不等式</strong>。</p>
+</section>
+
+<!-- ===== 第三部分 ===== -->
+<section>
+  <h2>三、关键转化怎么想</h2>
+  <p>核心动作就一句话：<strong>"把 y 换成条件数"</strong>。</p>
+  <p>具体来说：</p>
+  <ul>
+    <li>\(y = 2\) 代入后 \(\longrightarrow\) \(\dfrac{1}{2}x - 3 = 2\)（一元一次方程）</li>
+    <li>\(y > 2\) 代入后 \(\longrightarrow\) \(\dfrac{1}{2}x - 3 > 2\)（一元一次不等式）</li>
+    <li>\(y < 2\) 代入后 \(\longrightarrow\) \(\dfrac{1}{2}x - 3 < 2\)（一元一次不等式）</li>
+    <li>\(0 < y < 2\) 代入后 \(\longrightarrow\) \(0 < \dfrac{1}{2}x - 3 < 2\)（复合不等式）</li>
+  </ul>
+  <p>注意：复合不等式要<strong>拆成两半分别解</strong>，最后取<strong>交集</strong>。</p>
+</section>
+
+<!-- ===== 第四部分 ===== -->
+<section class="page-break">
+  <h2>四、标准解法</h2>
+
+  <div class="step-box">
+    <div class="step-title">第(1)问：\(y = 2\) 时，\(x =\)？</div>
+    <p><strong>做：</strong>把 \(y = 2\) 代入 \(y = \dfrac{1}{2}x - 3\)：</p>
+    <div class="formula-line">\(2 = \dfrac{1}{2}x - 3\)</div>
+    <div class="formula-line">\(\dfrac{1}{2}x = 5\)</div>
+    <div class="formula-line">\(x = 10\)</div>
+    <p><strong>为什么这么做：</strong>"\(y = \)" 就是告诉你函数值等于多少，把它塞进去就是一元一次方程，直接解。</p>
+    <p class="arrow-note">\(x = 10\) 是后面的"分界点"，要记住。</p>
+  </div>
+
+  <div class="step-box">
+    <div class="step-title">第(2)问：\(y > 2\) 时，\(x\) 的范围？</div>
+    <p><strong>做：</strong>把 \(y = 2\) 改成 \(y > 2\)：</p>
+    <div class="formula-line">\(\dfrac{1}{2}x - 3 > 2\)</div>
+    <div class="formula-line">\(\dfrac{1}{2}x > 5\)</div>
+    <div class="formula-line">\(x > 10\)</div>
+    <p><strong>为什么不等号不翻转：</strong>两边乘 2（正数），不等号方向不变。</p>
+    <p><strong>快捷想法：</strong>\(x = \frac{1}{2}x - 3\) 的系数 \(\frac{1}{2} > 0\)，函数是<strong>递增</strong>的。所以 \(y\) 大了，\(x\) 也应该大 \(\longrightarrow\) 直接写 \(x > 10\)。</p>
+  </div>
+
+  <div class="step-box">
+    <div class="step-title">第(3)问：\(y < 2\) 时，\(x\) 的范围？</div>
+    <p><strong>做：</strong>同理：</p>
+    <div class="formula-line">\(\dfrac{1}{2}x - 3 < 2 \;\Longrightarrow\; x < 10\)</div>
+    <p><strong>快捷想法：</strong>递增函数，\(y\) 小了，\(x\) 也小 \(\longrightarrow\) \(x < 10\)。</p>
+  </div>
+
+  <div class="step-box">
+    <div class="step-title">第(4)问：\(0 < y < 2\) 时，\(x\) 的范围？</div>
+    <p><strong>做：</strong>代入后得复合不等式：</p>
+    <div class="formula-line">\(0 < \dfrac{1}{2}x - 3 < 2\)</div>
+    <p><strong>拆成两半分别解：</strong></p>
+    <div class="formula-line">左半：\(0 < \dfrac{1}{2}x - 3 \;\Longrightarrow\; \dfrac{1}{2}x > 3 \;\Longrightarrow\; x > 6\)</div>
+    <div class="formula-line">右半：\(\dfrac{1}{2}x - 3 < 2 \;\Longrightarrow\; \dfrac{1}{2}x < 5 \;\Longrightarrow\; x < 10\)</div>
+    <p><strong>取交集：</strong>两个条件同时满足 \(\Longrightarrow\) \(6 < x < 10\)。</p>
+    <p><strong>检查：</strong>\(x = 6\) 时 \(y = 0\)（下界取等），\(x = 10\) 时 \(y = 2\)（上界取等），所以都是<strong>开区间</strong>，正确。</p>
+  </div>
+</section>
+
+<!-- ===== 第五部分 ===== -->
+<section>
+  <h2>五、边讲边问</h2>
+  <ol>
+    <li>函数 \(y = \dfrac{1}{2}x - 3\) 的系数 \(\dfrac{1}{2}\) 是正数还是负数？这说明函数图像是上升还是下降？<br>
+    <span class="blank-line"></span></li>
+    <li>为什么第(2)问可以直接写 \(x > 10\)，而不需要重新从头算？<br>
+    <span class="blank-line"></span></li>
+    <li>复合不等式 \(0 < \dfrac{1}{2}x - 3 < 2\) 拆成两半后，为什么要取"交集"而不是"并集"？<br>
+    <span class="blank-line"></span></li>
+    <li>如果函数式改成 \(y = -\dfrac{1}{2}x - 3\)（系数变负），第(2)问的答案会变成什么？为什么？<br>
+    <span class="blank-line"></span></li>
+    <li>第(4)问的答案 \(6 < x < 10\) 中，能不能取等号（即 \(x = 6\) 或 \(x = 10\)）？为什么？<br>
+    <span class="blank-line"></span></li>
+  </ol>
+</section>
+
+<!-- ===== 第六部分 ===== -->
+<section>
+  <h2>六、易错提醒</h2>
+  <ul>
+    <li><strong>忘代入：</strong>看到 \(y > 2\) 就想画图，忘记第一步应该是把 2 代入式子变成关于 \(x\) 的不等式。画图可以辅助理解，但计算要走代入。</li>
+    <li><strong>复合不等式只解一半：</strong>\(0 < y < 2\) 要拆成两个不等式分别解，然后取交集。如果只解了 \(y < 2\) 得到 \(x < 10\)，就漏掉了 \(y > 0\) 的要求。</li>
+    <li><strong>不等号方向搞错：</strong>如果系数是<strong>负数</strong>，乘（或除以）负数时不等号要翻转。本题系数 \(\frac{1}{2} > 0\)，方向不变。但换题后要特别注意。</li>
+  </ul>
+</section>
+
+<!-- ===== 第七部分 ===== -->
+<section>
+  <h2>七、一句话总结</h2>
+  <div class="question-box" style="text-align:center; font-size:13pt; padding: 3mm 4mm;">
+    <strong>y 的条件代回式子，方程求点，不等式求范围，复合不等式拆开解再取交集。</strong>
+  </div>
+</section>
+
+<aside class="teacher-note">
+  <strong>教师记录区：</strong>学生在"边讲边问"中的回答__________________________________________________<br>
+  _________________________________________________________________________________________<br>
+  _________________________________________________________________________________________<br><br>
+  下一步：记录学生在"边讲边问"中的回答，并使用 math-adaptive-practice-html 生成练习。
+</aside>
+
+</div>
+</body>
+</html>

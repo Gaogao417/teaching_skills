@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>学生版讲解：三定一动—平行四边形存在性</title>
+<link rel="stylesheet" href="../assets/edu-print.css">
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+</head>
+<body data-view="student">
+
+<div class="edu-page">
+
+  <h1 class="edu-title">学生版讲解：三定一动—平行四边形存在性</h1>
+  <p class="edu-subtitle">三定一动—平行四边形存在性</p>
+
+  <!-- ==================== 第一部分：拆题 ==================== -->
+  <div class="edu-section">
+    <h2 class="edu-section-title">一、先把题目拆开</h2>
+
+    <div class="edu-task-table">
+      <table class="edu-table">
+        <thead>
+          <tr>
+            <th>小问</th>
+            <th>已知条件</th>
+            <th>要求目标</th>
+            <th>关键词</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>第(1)问</td>
+            <td>一次函数 \(y = -2x + 4\) 的图象与 \(x\) 轴交于点 A，与 \(y\) 轴交于点 B</td>
+            <td>求点 A、点 B 的坐标</td>
+            <td>坐标轴交点</td>
+          </tr>
+          <tr>
+            <td>第(2)问</td>
+            <td>C 在线段 AB 上，O 为原点，D 在第二象限，四边形 BCOD 为菱形</td>
+            <td>求点 D 的坐标</td>
+            <td>菱形、四边相等</td>
+          </tr>
+          <tr>
+            <td>第(3)问</td>
+            <td>在(2)的条件下，以 B、D、A、P 为顶点的四边形是平行四边形</td>
+            <td>直接写出所有满足条件的 P 点坐标</td>
+            <td>平行四边形存在性、三定一动</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ==================== 第二部分：解题路线 ==================== -->
+  <div class="edu-section">
+    <h2 class="edu-section-title">二、这题准备怎么走</h2>
+
+    <div class="edu-route">
+      <ol>
+        <li><strong>第(1)问</strong>：令 \(y = 0\) 解出 A 的横坐标，令 \(x = 0\) 解出 B 的纵坐标 —— 基础送分题。</li>
+        <li><strong>第(2)问</strong>：设 C 在 AB 上用参数表示，由菱形四边相等（\(|BC| = |CO|\)）列方程求出 C，再由 \(|OC| = |OD|\) 且 D 在第二象限求出 D。</li>
+        <li><strong>第(3)问</strong>：核心步骤！三个顶点 B、D、A 已知，用<strong>中点坐标法</strong>分别以 BD、DA、AB 为对角线，求 P 的三种情况，共 3 个解。</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- ==================== 第三部分：关键想法 ==================== -->
+  <div class="edu-section">
+    <h2 class="edu-section-title">三、关键想法</h2>
+
+    <div class="edu-key-idea">
+      <p class="edu-p"><strong class="edu-strong">中点坐标法是平行四边形存在性问题的"万能钥匙"。</strong></p>
+      <p class="edu-p">平行四边形有一个核心性质：<strong class="edu-strong">对角线互相平分</strong>。也就是说，两条对角线的中点坐标一定相等。</p>
+      <p class="edu-p">对于三定一动问题（三个顶点已知，求第四个顶点 P），从 3 个定点中任选 2 个作为一条对角线的端点，剩下的 1 个定点和 P 构成另一条对角线 —— 共有 \(C_3^2 = 3\) 种搭配方式，每种搭配列一组中点相等的方程，就能求出 P 的全部可能坐标。</p>
+      <p class="edu-p"><strong class="edu-strong">为什么不用画图找点？</strong>画图数格子容易遗漏，尤其是 P 点落在第二、第三象限时很难精确读出坐标。中点坐标法是纯代数方法，保证不遗漏、不重复。</p>
+    </div>
+  </div>
+
+  <!-- ==================== 第四部分：标准解法 ==================== -->
+  <div class="edu-section">
+    <h2 class="edu-section-title">四、标准解法</h2>
+
+    <!-- 子问题1 -->
+    <div class="edu-subproblem">
+      <h3 class="edu-subproblem-title">第(1)问：求 A、B 坐标</h3>
+
+      <div class="edu-step">
+        <p class="edu-step-title">Step 1：令 \(y = 0\)，求 A 点坐标</p>
+        <p class="edu-p">把 \(y = 0\) 代入 \(y = -2x + 4\)：</p>
+        <p class="edu-formula">\[0 = -2x + 4 \quad \Longrightarrow \quad x = 2\]</p>
+        <p class="edu-p">所以 \(\boxed{A(2,\ 0)}\)。</p>
+      </div>
+
+      <div class="edu-step">
+        <p class="edu-step-title">Step 2：令 \(x = 0\)，求 B 点坐标</p>
+        <p class="edu-p">把 \(x = 0\) 代入 \(y = -2x + 4\)：</p>
+        <p class="edu-formula">\[y = -2 \times 0 + 4 = 4\]</p>
+        <p class="edu-p">所以 \(\boxed{B(0,\ 4)}\)。</p>
+      </div>
+    </div>
+
+    <div class="u-avoid-break"></div>
+
+    <!-- 子问题2 -->
+    <div class="edu-subproblem">
+      <h3 class="edu-subproblem-title">第(2)问：求 D 坐标（菱形 BCOD）</h3>
+
+      <div class="edu-step">
+        <p class="edu-step-title">Step 1：参数化线段 AB 上的点 C</p>
+        <p class="edu-p">A(2, 0) 到 B(0, 4) 的方向向量为 \((-2,\ 4)\)。设 C 将 AB 分为比例 \(s : (1-s)\)（\(0 \leq s \leq 1\)），则：</p>
+        <p class="edu-formula">\[C = (2 - 2s,\ 4s)\]</p>
+      </div>
+
+      <div class="edu-step">
+        <p class="edu-step-title">Step 2：由菱形条件 \(|BC| = |CO|\) 列方程</p>
+        <p class="edu-p">菱形四边相等，所以邻边 \(|BC| = |CO|\)：</p>
+        <p class="edu-formula">\[
+|BC|^2 = (-2s)^2 + (4 - 4s)^2 = 4s^2 + 16(1-s)^2
+\]</p>
+        <p class="edu-formula">\[
+|CO|^2 = (2-2s)^2 + (4s)^2 = 4(1-s)^2 + 16s^2
+\]</p>
+        <p class="edu-step-why">令 \(|BC| = |CO|\)，即 \(|BC|^2 = |CO|^2\)：</p>
+        <p class="edu-formula">\[
+4s^2 + 16(1-s)^2 = 4(1-s)^2 + 16s^2
+\]</p>
+        <p class="edu-formula">\[
+12(1-s)^2 = 12s^2 \quad \Longrightarrow \quad (1-s)^2 = s^2
+\]</p>
+        <p class="edu-formula">\[
+1 - 2s + s^2 = s^2 \quad \Longrightarrow \quad s = \frac{1}{2}
+\]</p>
+        <p class="edu-p">代入得 \(C(1,\ 2)\)。</p>
+      </div>
+
+      <div class="edu-step">
+        <p class="edu-step-title">Step 3：由 \(|OC| = |OD|\) 且 D 在第二象限求 D</p>
+        <p class="edu-p">\(|OC| = \sqrt{1^2 + 2^2} = \sqrt{5}\)。菱形中 \(|OD| = |OC| = \sqrt{5}\)，且 \(|CD| = |BC| = \sqrt{(-1)^2 + 2^2} = \sqrt{5}\)。</p>
+        <p class="edu-p">由于 O(0, 0)、C(1, 2)，菱形对角线互相垂直平分，中点为 \((\frac{1}{2},\ 1)\)。D 关于中点与 O 对称：</p>
+        <p class="edu-formula">\[
+D = (1 - 0,\ 2 - 0) = (1,\ 2) \quad \text{方向延长}
+\]</p>
+        <p class="edu-step-why">更直接地：O 和 D 关于中点 \((\frac{1}{2},\ 1)\) 对称，所以 \(D = (2 \times \frac{1}{2} - 0,\ 2 \times 1 - 0) = (1,\ 2)\)？不对，需要仔细核实。</p>
+        <p class="edu-p">正确做法：C(1, 2)，中点 M(1/2, 1)。D 满足 \(|OD| = \sqrt{5}\) 且 \(|MD| = |MC| = \frac{\sqrt{5}}{2}\)，D 在第二象限。</p>
+        <p class="edu-formula">\[
+D = (2 \times \tfrac{1}{2} - 0,\ 2 \times 1 - 0) = (1,\ 2) \quad \text{不行，这不满足对称关系}
+\]</p>
+        <p class="edu-step-why">重新推导：菱形 BCOD 中，对角线 BD 与 OC 互相平分。O(0,0) 和 C(1,2) 的中点为 M(1/2, 1)。B(0,4) 和 D 的中点也为 M，所以：</p>
+        <p class="edu-formula">\[
+\frac{0 + x_D}{2} = \frac{1}{2},\quad \frac{4 + y_D}{2} = 1
+\]</p>
+        <p class="edu-formula">\[
+x_D = 1,\quad y_D = -2
+\]</p>
+        <p class="edu-step-why">但这与"D 在第二象限"矛盾（\(y_D = -2\) 在第三象限方向）。重新检查：菱形 BCOD 的对角线是哪两条？</p>
+        <p class="edu-p">菱形 BCOD 的四条边是 BC、CO、OD、DB。对角线是 BO 和 CD。中点 M 同时是 BO 和 CD 的中点：</p>
+        <p class="edu-formula">\[
+M_{BO} = \left(\frac{0+0}{2},\ \frac{4+0}{2}\right) = (0,\ 2)
+\]</p>
+        <p class="edu-formula">\[
+M_{CD} = \left(\frac{1+x_D}{2},\ \frac{2+y_D}{2}\right) = (0,\ 2)
+\]</p>
+        <p class="edu-formula">\[
+\frac{1+x_D}{2} = 0 \Longrightarrow x_D = -1;\quad \frac{2+y_D}{2} = 2 \Longrightarrow y_D = 2
+\]</p>
+        <p class="edu-p">所以 \(\boxed{D(-1,\ 2)}\)，\(x_D = -1 < 0\)，\(y_D = 2 > 0\)，确实在第二象限，验证通过。</p>
+      </div>
+    </div>
+
+    <div class="page-break"></div>
+
+    <!-- 子问题3：核心 -->
+    <div class="edu-subproblem">
+      <h3 class="edu-subproblem-title">第(3)问：求所有 P 点坐标（平行四边形 BDAP 存在性）</h3>
+
+      <p class="edu-p">已知三个定点：\(B(0,\ 4)\)、\(D(-1,\ 2)\)、\(A(2,\ 0)\)。要求以 B、D、A、P 为顶点的四边形是平行四边形，求所有 P。</p>
+
+      <p class="edu-p edu-strong">核心方法：中点坐标法 —— 平行四边形对角线互相平分。</p>
+
+      <!-- 情况1 -->
+      <div class="edu-step">
+        <p class="edu-step-title">情况一：以 BD 为一条对角线，AP 为另一条对角线</p>
+        <p class="edu-p">此时 B 和 D 是对角线的两个端点，A 和 P 是另一条对角线的两个端点。两条对角线的中点相同：</p>
+        <p class="edu-formula">\[
+M_{BD} = \left(\frac{0+(-1)}{2},\ \frac{4+2}{2}\right) = \left(-\frac{1}{2},\ 3\right)
+\]</p>
+        <p class="edu-formula">\[
+M_{AP} = \left(\frac{2+x_P}{2},\ \frac{0+y_P}{2}\right) = \left(-\frac{1}{2},\ 3\right)
+\]</p>
+        <p class="edu-formula">\[
+\frac{2+x_P}{2} = -\frac{1}{2} \Longrightarrow x_P = -3;\quad \frac{y_P}{2} = 3 \Longrightarrow y_P = 6
+\]</p>
+        <p class="edu-p">所以 \(\boxed{P_1(-3,\ 6)}\)。</p>
+      </div>
+
+      <!-- 情况2 -->
+      <div class="edu-step">
+        <p class="edu-step-title">情况二：以 DA 为一条对角线，BP 为另一条对角线</p>
+        <p class="edu-formula">\[
+M_{DA} = \left(\frac{-1+2}{2},\ \frac{2+0}{2}\right) = \left(\frac{1}{2},\ 1\right)
+\]</p>
+        <p class="edu-formula">\[
+M_{BP} = \left(\frac{0+x_P}{2},\ \frac{4+y_P}{2}\right) = \left(\frac{1}{2},\ 1\right)
+\]</p>
+        <p class="edu-formula">\[
+\frac{x_P}{2} = \frac{1}{2} \Longrightarrow x_P = 1;\quad \frac{4+y_P}{2} = 1 \Longrightarrow y_P = -2
+\]</p>
+        <p class="edu-p">所以 \(\boxed{P_2(1,\ -2)}\)。</p>
+      </div>
+
+      <!-- 情况3 -->
+      <div class="edu-step">
+        <p class="edu-step-title">情况三：以 AB 为一条对角线，DP 为另一条对角线</p>
+        <p class="edu-formula">\[
+M_{AB} = \left(\frac{0+2}{2},\ \frac{4+0}{2}\right) = (1,\ 2)
+\]</p>
+        <p class="edu-formula">\[
+M_{DP} = \left(\frac{-1+x_P}{2},\ \frac{2+y_P}{2}\right) = (1,\ 2)
+\]</p>
+        <p class="edu-formula">\[
+\frac{-1+x_P}{2} = 1 \Longrightarrow x_P = 3;\quad \frac{2+y_P}{2} = 2 \Longrightarrow y_P = 2
+\]</p>
+        <p class="edu-p">所以 \(\boxed{P_3(3,\ 2)}\)。</p>
+      </div>
+
+      <div class="edu-step">
+        <p class="edu-step-title">汇总</p>
+        <div class="edu-task-table">
+          <table class="edu-table">
+            <thead>
+              <tr>
+                <th>情况</th>
+                <th>对角线配对</th>
+                <th>P 的坐标</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>一</td>
+                <td>BD 与 AP</td>
+                <td>\(P(-3,\ 6)\)</td>
+              </tr>
+              <tr>
+                <td>二</td>
+                <td>DA 与 BP</td>
+                <td>\(P(1,\ -2)\)</td>
+              </tr>
+              <tr>
+                <td>三</td>
+                <td>AB 与 DP</td>
+                <td>\(P(3,\ 2)\)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== 第五部分：边讲边问 ==================== -->
+  <div class="edu-section">
+    <h2 class="edu-section-title">五、边讲边问</h2>
+
+    <div class="edu-question">
+      <p class="edu-question-title">Q1</p>
+      <p class="edu-p">一次函数 \(y = -2x + 4\) 与 \(x\) 轴的交点怎么求？</p>
+      <p class="edu-blank-line"></p>
+    </div>
+
+    <div class="edu-question">
+      <p class="edu-question-title">Q2</p>
+      <p class="edu-p">菱形最核心的性质是什么？四条边有什么关系？</p>
+      <p class="edu-blank-line"></p>
+    </div>
+
+    <div class="edu-question">
+      <p class="edu-question-title">Q3</p>
+      <p class="edu-p">菱形的两条对角线有什么特殊性质？（提示：两条都满足）</p>
+      <p class="edu-blank-line"></p>
+    </div>
+
+    <div class="edu-question">
+      <p class="edu-question-title">Q4</p>
+      <p class="edu-p">第(2)问中，我们利用了菱形哪组"等量关系"来求 C？又是哪组关系来求 D？</p>
+      <p class="edu-blank-line"></p>
+    </div>
+
+    <div class="edu-question">
+      <p class="edu-question-title">Q5</p>
+      <p class="edu-p">平行四边形对角线互相平分，这个性质用坐标怎么表达？</p>
+      <p class="edu-blank-line"></p>
+    </div>
+
+    <div class="edu-question">
+      <p class="edu-question-title">Q6</p>
+      <p class="edu-p">3 个定点 B、D、A，从中选 2 个作为对角线端点，一共有几种选法？为什么是 3 种而不是 6 种？</p>
+      <p class="edu-blank-line"></p>
+    </div>
+
+    <div class="edu-question">
+      <p class="edu-question-title">Q7</p>
+      <p class="edu-p">如果不使用中点坐标法，只靠画图找 P 点，可能会遗漏哪个解？为什么？</p>
+      <p class="edu-blank-line"></p>
+    </div>
+  </div>
+
+  <!-- ==================== 第六部分：易错提醒 ==================== -->
+  <div class="edu-section">
+    <h2 class="edu-section-title">六、易错提醒</h2>
+
+    <div class="edu-mistake">
+      <p class="edu-p"><strong class="edu-strong">错误 1：混淆菱形的对角线</strong></p>
+      <p class="edu-p">菱形 BCOD 的四条边依次是 B→C→O→D→B，对角线是 BO 和 CD，<strong class="edu-strong">不是</strong> BD 和 OC。搞错对角线会导致中点算错，D 的坐标完全不对。</p>
+      <p class="edu-small">方法：菱形中，对角线连接的是"隔一个顶点"的两个顶点。画图标注四条边的顺序后，自然能看清对角线。</p>
+    </div>
+
+    <div class="edu-mistake">
+      <p class="edu-p"><strong class="edu-strong">错误 2：只找 1~2 个 P 点就停了</strong></p>
+      <p class="edu-p">画图数格子时，\(P(3,\ 2)\) 在第一象限很好找，但 \(P(-3,\ 6)\) 在第二象限、\(P(1,\ -2)\) 在第四象限，很容易漏掉。</p>
+      <p class="edu-small">方法：用中点坐标法，系统列出 3 种配对，每种算一个方程组，一个都不会漏。</p>
+    </div>
+
+    <div class="edu-mistake">
+      <p class="edu-p"><strong class="edu-strong">错误 3：忘记检查象限条件</strong></p>
+      <p class="edu-p">题目说"D 在第二象限"，如果求出的 D 不在第二象限，说明中间某个步骤出了问题。类似的，第(3)问的三个 P 点分别在第二、第四、第一象限，需要逐一确认。</p>
+    </div>
+
+    <div class="edu-mistake">
+      <p class="edu-p"><strong class="edu-strong">错误 4：参数化时范围不清</strong></p>
+      <p class="edu-p">第(2)问设 C 在 AB 上，参数 \(s\) 的范围是 \(0 \leq s \leq 1\)。如果解出来的 \(s\) 不在这个范围内，说明该解无效（C 不在线段 AB 上）。</p>
+    </div>
+  </div>
+
+  <!-- ==================== 第七部分：一句话总结 ==================== -->
+  <div class="edu-section">
+    <h2 class="edu-section-title">七、一句话总结</h2>
+
+    <div class="edu-key-idea">
+      <p class="edu-p"><strong class="edu-strong">三定一动平行四边形：3 个定点配出 \(C_3^2 = 3\) 条对角线，每条对角线对应一个中点方程，中点坐标法一拉就出，不遗漏不重复。</strong></p>
+    </div>
+  </div>
+
+</div><!-- end edu-page -->
+
+<!-- 自检清单（仅供教师/自评使用） -->
+<aside class="edu-teacher-note self-check no-print">
+  <p><strong>Self-check 清单</strong></p>
+  <ul>
+    <li>第(1)问 A(2,0)、B(0,4) 计算正确。</li>
+    <li>第(2)问菱形对角线识别正确（BO 与 CD），D(-1,2) 在第二象限。</li>
+    <li>第(3)问三种对角线配对齐全（BD-AP, DA-BP, AB-DP），3 个 P 点均由方程解出。</li>
+    <li>全篇未使用画图猜测法，全程代数推导。</li>
+    <li>易错点覆盖：对角线识别、遗漏解、象限检查、参数范围。</li>
+  </ul>
+</aside>
+
+</body>
+</html>

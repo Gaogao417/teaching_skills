@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>学生版讲解：双动点运动中特殊四边形存在性</title>
+<style>
+@page {
+  size: A4;
+  margin: 16mm 14mm;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  color: #111;
+  background: #fff;
+  font-family: "SimSun", "Songti SC", "Noto Serif CJK SC", serif;
+  font-size: 12pt;
+  line-height: 1.72;
+}
+.page { max-width: 186mm; margin: 0 auto; }
+h1, h2, h3 {
+  font-family: "SimHei", "Microsoft YaHei", sans-serif;
+  font-weight: 700;
+  color: #000;
+}
+h1 {
+  margin: 0 0 7mm;
+  text-align: center;
+  font-size: 18pt;
+}
+h2 {
+  margin: 5mm 0 2mm;
+  padding: 1.5mm 2mm;
+  border-left: 3px solid #111;
+  border-bottom: 1px solid #999;
+  font-size: 13.5pt;
+}
+p, ol, ul { margin-top: 0; margin-bottom: 2.5mm; }
+ol, ul { padding-left: 7mm; }
+.think-box, .mistake-box, .teacher-note {
+  margin: 3mm 0;
+  padding: 2.5mm 3mm;
+  border: 1px solid #777;
+}
+.think-box { background: #fffdf5; }
+.mistake-box { border-left: 3px solid #c00; }
+.teacher-note {
+  font-size: 10.5pt;
+  color: #333;
+  background: #f7f7f7;
+}
+.blank-line {
+  display: block;
+  height: 8mm;
+  border-bottom: 1px solid #999;
+}
+.page-break {
+  break-before: page;
+  page-break-before: always;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 3mm 0;
+}
+td, th {
+  border: 1px solid #555;
+  padding: 1.8mm 2mm;
+  vertical-align: top;
+}
+.formula {
+  font-family: "Times New Roman", "STIX", serif;
+  font-style: italic;
+}
+.key-formula {
+  background: #f0f4ff;
+  padding: 2mm 3mm;
+  border: 1px solid #aaccff;
+  margin: 3mm 0;
+  font-size: 12pt;
+}
+.question-box {
+  margin: 3mm 0;
+  padding: 2.5mm 3mm;
+  border: 1px solid #777;
+  background: #fffdf5;
+}
+.step-box {
+  margin: 2mm 0;
+  padding: 2mm 3mm;
+  border-left: 2px solid #444;
+  background: #fefefe;
+}
+.case-box {
+  margin: 2mm 0;
+  padding: 2mm 3mm;
+  border-left: 2px solid #369;
+  background: #f8faff;
+}
+.negative-box {
+  margin: 2mm 0;
+  padding: 2mm 3mm;
+  border-left: 2px solid #c33;
+  background: #fff8f8;
+}
+@media print {
+  body {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
+</style>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$', '$']], displayMath: [['$$', '$$']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+</head>
+<body>
+<div class="page">
+
+<h1>学生版讲解：双动点运动中特殊四边形存在性</h1>
+
+<h2>一、这题先看懂什么</h2>
+<p>题目在平面直角坐标系里搭了一个"舞台"：</p>
+<p><strong>固定角色：</strong>原点 $O$，点 $A(1,0)$，点 $C(0,4)$。$B$ 是 $A$ 关于原点的对称点。直线 $CM$ 平行于 $x$ 轴（过 $C$，所以就是 $y=4$）。直线 $y=x+b$ 过 $B$ 点，与 $CM$ 交于 $D$。</p>
+<p><strong>运动角色：</strong>$P$ 在 $x$ 轴正半轴上以每秒 2 个单位向右跑，$Q$ 在射线 $CM$ 上以每秒 1 个单位向右跑。两个点同时从各自的起点出发。</p>
+<p>整道题分三步：先<strong>找定点</strong>（第 1 问），再在定点基础上<strong>找等腰三角形</strong>（第 2 问），最后引入<strong>双动点</strong>，判断特殊四边形何时出现（第 3 问）。</p>
+
+<div class="question-box">
+<strong>想一想：</strong>你能先在草稿纸上画出坐标系，标出 $O$、$A$、$C$ 的位置，然后标出 $B$（$A$ 关于原点对称）和直线 $CM$（$y=4$）吗？
+<span class="blank-line"></span>
+</div>
+
+<h2>二、第一步该做什么</h2>
+<p>第(1)问是"建地基"。后面的所有计算都依赖 $b$ 和 $D$ 的值。</p>
+
+<div class="step-box">
+<strong>找 $B$：</strong>$A(1,0)$ 关于原点对称 → $B(-1,0)$。<br>
+<strong>求 $b$：</strong>$y=x+b$ 过 $B(-1,0)$ → $0 = -1 + b$ → $b = 1$。<br>
+<strong>求 $D$：</strong>直线 $y=x+1$ 与 $CM: y=4$ 联立 → $x+1=4$ → $x=3$ → $D(3,4)$。
+</div>
+
+<p><strong>记住两个操作：</strong>① 关于原点对称 $\to$ 横纵坐标都取反；② 求交点 $\to$ 联立方程组。</p>
+
+<div class="question-box">
+<strong>想一想：</strong>如果题目说"$B$ 关于 $A$ 对称"，$B$ 的坐标怎么求？和"关于原点对称"有什么区别？
+<span class="blank-line"></span>
+</div>
+
+<h2>三、关键转化怎么想</h2>
+
+<h3>第(2)问：等腰三角形——分类讨论</h3>
+<p>$\triangle POD$ 中 $O(0,0)$、$D(3,4)$ 已知，$P(p,0)$ 在 $x$ 轴正半轴。三个顶点确定了三角形的形状，但"等腰"需要进一步约束。</p>
+<p><strong>关键动作：</strong>"等腰"只说"有两边相等"，但没说哪两边。所以必须分三类讨论：</p>
+<ul>
+  <li><strong>情况一：</strong>$OP = OD$（两条从原点出发的边相等）</li>
+  <li><strong>情况二：</strong>$OP = PD$（一条从原点出发，一条从 $P$ 出发）</li>
+  <li><strong>情况三：</strong>$OD = PD$（两条都过 $D$）</li>
+</ul>
+
+<div class="key-formula">
+<strong>等腰三角形分类讨论口诀：</strong>三个顶点取两个，$C_3^2=3$ 种"哪两边等"，逐一列方程，解出后检验是否构成三角形。
+</div>
+
+<div class="question-box">
+<strong>想一想：</strong>如果有两条边相等了，第三条边有什么限制？（提示：想一想三角不等式。）
+<span class="blank-line"></span>
+</div>
+
+<h3>第(3)问：双动点——速度变坐标</h3>
+<p>这是整道题的<span class="formula">核心难点</span>。</p>
+<p><strong>关键转化：速度 × 时间 = 位移，位移决定坐标。</strong></p>
+<ul>
+  <li>$P$ 在 $x$ 轴正半轴上，速度 2，$t$ 秒后坐标：$P(2t,\ 0)$</li>
+  <li>$Q$ 在射线 $CM$（$y=4$，$x \geq 0$）上，速度 1，$t$ 秒后坐标：$Q(t,\ 4)$</li>
+</ul>
+
+<p>一旦写出 $P(t)$ 和 $Q(t)$，运动问题就变成了<span class="formula">含参数 $t$ 的坐标几何问题</span>。</p>
+
+<div class="question-box">
+<strong>想一想：</strong>$Q$ 的横坐标为什么是 $t$ 而不是 $2t$？速度 1 个单位/秒，沿 $x$ 轴方向走，$t$ 秒走了多少？
+<span class="blank-line"></span>
+</div>
+
+<h2>四、标准解法</h2>
+
+<h3>第(1)问</h3>
+<div class="step-box">
+$B(-1,\ 0)$（关于原点对称，坐标取反）。<br>
+$y = x + b$ 过 $B$：$0 = -1 + b \Rightarrow b = 1$。<br>
+联立 $y = x + 1$ 与 $y = 4$：$x + 1 = 4 \Rightarrow x = 3$。<br>
+$\boxed{b = 1}$，$\boxed{D(3,\ 4)}$。
+</div>
+
+<h3>第(2)问：$\triangle POD$ 为等腰三角形</h3>
+<p>$O(0,0)$，$D(3,4)$，$P(p,0)$，$p > 0$。</p>
+<p>先算已知边长：$OD = \sqrt{3^2 + 4^2} = 5$。</p>
+
+<div class="case-box">
+<strong>情况一：$OP = OD$</strong><br>
+$OP = p = OD = 5 \Rightarrow p = 5$。<br>
+验证三边：$OP=5$，$OD=5$，$PD = \sqrt{(5-3)^2 + (0-4)^2} = \sqrt{4+16} = \sqrt{20} = 2\sqrt{5}$。<br>
+$5 + 5 > 2\sqrt{5}$ ✓<br>
+$\boxed{P(5,\ 0)}$
+</div>
+
+<div class="case-box">
+<strong>情况二：$OD = PD$</strong><br>
+$OD = 5$，$PD = \sqrt{(p-3)^2 + (0-4)^2} = \sqrt{(p-3)^2 + 16}$。<br>
+令 $OD = PD$：$5^2 = (p-3)^2 + 16 \Rightarrow 25 = (p-3)^2 + 16 \Rightarrow (p-3)^2 = 9$。<br>
+$p - 3 = 3$ 或 $p - 3 = -3 \Rightarrow p = 6$ 或 $p = 0$。<br>
+$p = 0$ 时 $P$ 与 $O$ 重合，不构成三角形，舍去。<br>
+$\boxed{P(6,\ 0)}$
+</div>
+
+<div class="case-box">
+  <strong>情况三：$OP = PD$</strong><br>
+  $OP = p$，$PD = \sqrt{(p-3)^2 + 16}$。<br>
+  令 $OP = PD$：$p^2 = (p-3)^2 + 16 \Rightarrow p^2 = p^2 - 6p + 25 \Rightarrow 6p = 25 \Rightarrow p = \dfrac{25}{6}$。<br>
+  验证三边：$OP = \dfrac{25}{6}$，$PD = \sqrt{\left(\dfrac{25}{6}-3\right)^2 + 16} = \sqrt{\left(\dfrac{7}{6}\right)^2 + 16} = \sqrt{\dfrac{49}{36} + \dfrac{576}{36}} = \sqrt{\dfrac{625}{36}} = \dfrac{25}{6}$，$OD = 5 = \dfrac{30}{6}$。<br>
+  $\dfrac{25}{6} + \dfrac{25}{6} = \dfrac{50}{6} > \dfrac{30}{6}$ ✓<br>
+  $\boxed{P\!\left(\dfrac{25}{6},\ 0\right)}$
+</div>
+
+<p><strong>第(2)问完整答案：</strong>$P(5,\,0)$（$OP=OD$）、$P(6,\,0)$（$OD=PD$）、$P\!\left(\dfrac{25}{6},\,0\right)$（$OP=PD$），共三个解。</p>
+
+<h3>第(3)问：双动点运动</h3>
+
+<h4>参数化坐标</h4>
+<div class="step-box">
+$P$ 在 $x$ 轴正半轴，速度 2：$P(2t,\ 0)$。<br>
+$Q$ 在射线 $CM: y=4$ 上，速度 1：$Q(t,\ 4)$。<br>
+$O(0,0)$，$D(3,4)$ 为定点。
+</div>
+
+<h4>平行四边形分析</h4>
+<p>题目说"以 $P, Q, O, D$ 为顶点的四边形"——顶点顺序不固定，需要尝试不同的排列。</p>
+<p><strong>方法：向量平移法。</strong>检查哪种排列满足两组对边分别平行且相等。</p>
+
+<div class="case-box">
+<strong>尝试排列 OPQD（$O \to P \to Q \to D$）</strong><br>
+$OP = (2t,\ 0)$，$QD = (3-t,\ 0)$。<br>
+$OP \parallel QD$ ✓（都在 $x$ 轴方向）。<br>
+$OQ = (t,\ 4)$，$PD = (3-2t,\ 4)$。<br>
+$OQ \parallel PD$ ✓（$y$ 分量相同）。<br>
+需要 $OP = QD$ 且 $OQ = PD$（长度相等）。<br>
+$2t = 3 - t \Rightarrow 3t = 3 \Rightarrow \boxed{t = 1}$。<br>
+此时 $OQ = (1, 4)$，$PD = (1, 4)$，长度相等 ✓。<br>
+<strong>$t = 1$ 秒时，四边形 OPQD 为平行四边形。</strong>
+</div>
+
+<p>验证：$t=1$ 时 $P(2,0)$，$Q(1,4)$，$O(0,0)$，$D(3,4)$。$OP=(2,0)$，$QD=(2,0)$；$OQ=(1,4)$，$PD=(1,4)$。两组对边分别平行且相等，确实是平行四边形。</p>
+
+<h4>等腰梯形分析</h4>
+<p><strong>等腰梯形需要：</strong>① 只有一组对边平行（不能两组都平行，否则就是平行四边形）；② 另一组对边（腰）长度相等；③ 四个顶点不共线。</p>
+
+<div class="step-box">
+$O$ 和 $D$ 固定，$P$ 始终在 $y=0$ 上，$Q$ 始终在 $y=4$ 上。<br>
+所以 $OP$ 始终平行于 $QD$（都在水平方向）——只要 $OP \neq QD$，就不构成平行四边形。<br>
+要成为等腰梯形，还需两腰相等：$OQ = PD$。
+</div>
+
+<div class="step-box">
+$OQ = \sqrt{t^2 + 16}$，$PD = \sqrt{(2t-3)^2 + 16}$。<br>
+令 $OQ = PD$：$t^2 = (2t-3)^2 \Rightarrow t^2 = 4t^2 - 12t + 9$<br>
+$3t^2 - 12t + 9 = 0 \Rightarrow t^2 - 4t + 3 = 0 \Rightarrow (t-1)(t-3) = 0$<br>
+$t = 1$ 或 $t = 3$。
+</div>
+
+<div class="negative-box">
+<strong>$t = 1$ 时：</strong>$P(2,0)$，$Q(1,4)$，$OP=QD=2$，两组对边都平行且相等 → 这是平行四边形，不是等腰梯形。<br><br>
+<strong>$t = 3$ 时：</strong>$P(6,0)$，$Q(3,4) = D$，$Q$ 与 $D$ 重合 → 四边形退化为三角形，不是四边形。<br><br>
+<strong>结论：不存在满足条件的 $t$ 值，不能成为等腰梯形。</strong>
+</div>
+
+<h2>五、边讲边问</h2>
+<ol>
+<li>点 $(-2, 5)$ 关于原点对称的坐标是什么？关于 $y$ 轴对称呢？
+<span class="blank-line"></span></li>
+<li>等腰三角形"有两边相等"，一共有几种"哪两边等"的情况？为什么是 3 种？
+<span class="blank-line"></span></li>
+<li>$P$ 以每秒 2 个单位向右运动，3 秒后 $P$ 的横坐标是多少？如果 $P$ 从 $O$ 出发，写出 $P(t)$ 的坐标。
+<span class="blank-line"></span></li>
+<li>四边形是平行四边形的条件是什么？（提示：对边有什么关系？）
+<span class="blank-line"></span></li>
+<li>等腰梯形和等腰三角形有什么区别？平行四边形能同时是等腰梯形吗？为什么？
+<span class="blank-line"></span></li>
+</ol>
+
+<h2>六、易错提醒</h2>
+
+<div class="mistake-box">
+<strong>易错 1：第(2)问漏掉分类。</strong><br>
+等腰三角形只说"有两边相等"，必须分 $OP=OD$、$OP=PD$、$OD=PD$ 三种情况讨论。<span class="formula">不能只试一种就觉得做完了。</span>
+</div>
+
+<div class="mistake-box">
+<strong>易错 2：第(3)问搞错四边形顶点顺序。</strong><br>
+"$P, Q, O, D$ 为顶点的四边形"不等于"$P \to Q \to O \to D$ 依次连接"。需要自己尝试不同的排列，找到满足条件的连接方式。<span class="formula">顶点顺序决定哪些边是对边。</span>
+</div>
+
+<div class="mistake-box">
+<strong>易错 3：等腰梯形的"否定"论证不彻底。</strong><br>
+不能只说"找不到"就下结论。必须列出所有可能的情况，逐一排除。<span class="formula">否定结论也是数学论证，需要严密的排除过程。</span>
+</div>
+
+<h2>七、一句话总结</h2>
+<div class="key-formula">
+<strong>双动点四边形存在性：</strong>速度 × 时间 = 坐标（参数化）→ 写出 P(t)、Q(t) → 用向量法或中点坐标法检验四边形条件 → 分类讨论不遗漏，否定结论要穷举。
+</div>
+
+</div>
+
+<aside class="teacher-note">
+下一步：记录学生在"边讲边问"中的回答，并使用 math-adaptive-practice-html 生成练习。
+</aside>
+
+</body>
+</html>

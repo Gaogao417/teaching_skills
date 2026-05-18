@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>自适应练习：两定两动—菱形存在性</title>
+<link rel="stylesheet" href="../assets/edu-print.css">
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'], ['\\(','\\)']], displayMath: [['$$','$$'], ['\\[','\\]']] },
+  startup: { pageReady: () => MathJax.startup.defaultPageReady() }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+  body[data-view="student"] .teacher-only { display: none !important; }
+  body[data-view="teacher"] .student-only { display: none !important; }
+</style>
+</head>
+<body data-view="student">
+
+<div class="edu-page">
+
+  <!-- ===== 页眉 ===== -->
+  <header class="edu-header">
+    <div class="edu-title">自适应练习：两定两动—菱形存在性</div>
+    <div class="edu-subtitle">两定两动—菱形存在性</div>
+  </header>
+
+  <!-- ===== 练习说明 ===== -->
+  <section class="edu-section">
+    <div class="edu-section-title">练习说明</div>
+    <div class="edu-card">
+      <p class="edu-p">本练习围绕<strong>菱形存在性的分类讨论</strong>展开。核心方法：</p>
+      <ol>
+        <li>参数化两个动点——将动点坐标表示为直线上的参数形式；</li>
+        <li>分两大类讨论——两个定点的连线是菱形的<strong>边</strong>还是<strong>对角线</strong>；</li>
+        <li>利用距离相等 + 平行条件（或对角线垂直平分）列方程组求解；</li>
+        <li>验证约束条件（如坐标的正负、是否在指定半轴上等）。</li>
+      </ol>
+      <p class="edu-p">每道题后附有<strong>提示</strong>、<strong>解题步骤</strong>和<strong>答案</strong>，供你自主检查。</p>
+    </div>
+  </section>
+
+  <!-- ================================================================ -->
+  <!--                         第 1 题                                  -->
+  <!-- ================================================================ -->
+  <section class="edu-section u-avoid-break">
+    <div class="edu-section-title">第 1 题（巩固：正向应用，结构不变）</div>
+    <div class="edu-problem-card">
+      <p class="edu-problem-stem">在平面直角坐标系中，直线 $l_1$ 过 $A(0,0)$ 和 $B(3,3)$，直线 $l_2$ 过 $C(0,6)$ 和 $D(4,0)$。点 $M$ 在直线 $l_1$ 上，点 $N$ 在直线 $l_2$ 上。若存在以 $A$、$P(0,p)$（$p < 0$）、$M$、$N$ 为顶点的菱形，求点 $P$ 的坐标。</p>
+    </div>
+
+    <!-- 提示一 -->
+    <details class="edu-hint student-only">
+      <summary class="edu-hint-title">提示一</summary>
+      <div class="edu-card-soft">
+        <p class="edu-p">先写出两条直线的方程：$l_1$ 过 $(0,0)$ 和 $(3,3)$，斜率为 $1$，即 $y = x$；$l_2$ 过 $(0,6)$ 和 $(4,0)$，斜率为 $\dfrac{0-6}{4-0} = -\dfrac{3}{2}$，即 $y = -\dfrac{3}{2}x + 6$。然后参数化 $M(m, m)$ 和 $N\!\left(n,\, -\dfrac{3}{2}n + 6\right)$。</p>
+      </div>
+    </details>
+
+    <!-- 提示二 -->
+    <details class="edu-hint student-only">
+      <summary class="edu-hint-title">提示二</summary>
+      <div class="edu-card-soft">
+        <p class="edu-p">$A(0,0)$ 和 $P(0,p)$ 都在 $y$ 轴上，$AP$ 竖直。两大类：</p>
+        <ul>
+          <li><strong>AP 是边</strong>：对边 $MN$ 也竖直 $\Rightarrow$ $m = n$，用四边等长 + 对边平行列方程；</li>
+          <li><strong>AP 是对角线</strong>：中点重合 + $MN \perp AP$。$AP$ 竖直 $\Rightarrow$ $MN$ 水平 $\Rightarrow$ $y_M = y_N$。</li>
+        </ul>
+      </div>
+    </details>
+
+    <!-- 解题步骤 -->
+    <details class="edu-details student-only">
+      <summary>解题步骤</summary>
+      <div class="edu-card-soft">
+
+        <div class="edu-subsection-title">准备：参数化</div>
+        <p class="edu-p">$l_1: y = x$，$l_2: y = -\dfrac{3}{2}x + 6$。</p>
+        <p class="edu-p">$M(m, m)$，$N\!\left(n,\, -\dfrac{3}{2}n + 6\right)$。</p>
+        <p class="edu-p">$|AP| = |p|$（$p < 0$，所以 $|AP| = -p$）。</p>
+
+        <div class="edu-subsection-title">情况一：AP 是菱形的边</div>
+        <p class="edu-p">$AP$ 竖直 $\Rightarrow$ 对边 $MN$ 也竖直 $\Rightarrow$ $m = n$。</p>
+        <p class="edu-p">$|AM| = |AP|$：$\sqrt{m^2 + m^2} = -p$，即 $2m^2 = p^2$ &hellip;&hellip; &#x2460;</p>
+        <p class="edu-p">$AM \parallel PN$：方向 $(m, m) \parallel \left(m,\; -\dfrac{3}{2}m + 6 - p\right)$，得</p>
+        <p class="edu-p">$m = -\dfrac{3}{2}m + 6 - p$，即 $p = 6 - \dfrac{5}{2}m$ &hellip;&hellip; &#x2461;</p>
+        <p class="edu-p">&#x2461; 代入 &#x2460;：$2m^2 = \left(6 - \dfrac{5}{2}m\right)^{\!2} = 36 - 30m + \dfrac{25}{4}m^2$。</p>
+        <p class="edu-p">两边乘 $4$：$8m^2 = 144 - 120m + 25m^2$，即 $17m^2 - 120m + 144 = 0$。</p>
+        <p class="edu-p">$\Delta = 14400 - 9792 = 4608 = 2304 \times 2$，$\sqrt{\Delta} = 48\sqrt{2}$。</p>
+        <p class="edu-p">$m = \dfrac{120 \pm 48\sqrt{2}}{34} = \dfrac{60 \pm 24\sqrt{2}}{17}$。</p>
+        <ul>
+          <li>$m = \dfrac{60 + 24\sqrt{2}}{17} \Rightarrow p = 6 - \dfrac{5}{2} \cdot \dfrac{60 + 24\sqrt{2}}{17} = \dfrac{-48 - 60\sqrt{2}}{17} < 0$ &check;</li>
+          <li>$m = \dfrac{60 - 24\sqrt{2}}{17} \Rightarrow p = \dfrac{-48 + 60\sqrt{2}}{17} \approx 2.17 > 0$，<strong>舍去</strong>。</li>
+        </ul>
+
+        <div class="edu-subsection-title">情况二：AP 是菱形的对角线</div>
+        <p class="edu-p">$AP$ 竖直 $\Rightarrow$ $MN$ 水平 $\Rightarrow$ $y_M = y_N$，即 $m = -\dfrac{3}{2}n + 6$ &hellip;&hellip; &#x2460;</p>
+        <p class="edu-p">中点重合：$AP$ 中点 $\left(0, \dfrac{p}{2}\right)$，$MN$ 中点 $\left(\dfrac{m+n}{2},\; \dfrac{y_M + y_N}{2}\right)$。</p>
+        <p class="edu-p">$x$ 方向：$\dfrac{m+n}{2} = 0 \Rightarrow n = -m$ &hellip;&hellip; &#x2461;</p>
+        <p class="edu-p">&#x2461; 代入 &#x2460;：$m = \dfrac{3}{2}m + 6 \Rightarrow -\dfrac{1}{2}m = 6 \Rightarrow m = -12$，$n = 12$。</p>
+        <p class="edu-p">$y$ 方向中点：$\dfrac{p}{2} = \dfrac{-12 + (-12)}{2} = -12 \Rightarrow p = -24 < 0$ &check;</p>
+        <p class="edu-p">验证：$M(-12,-12)$，$N(12,-12)$，$|AM|^2 = 288$，$|AN|^2 = 288$，$|MN| = 24$，$|AP| = 24$。&check;</p>
+
+      </div>
+    </details>
+
+    <!-- 教师备注 -->
+    <div class="edu-teacher-note teacher-only">
+      <p><strong>教师备注（E档）：</strong>本题与原题结构高度一致：两个定点在 $y$ 轴上（$A$ 和 $P$），两个动点分别在两条直线上。重点观察学生是否：(1) 主动分两大类讨论；(2) 在情况一中同时使用距离相等和平行条件（而非只用距离）；(3) 在情况二中正确利用"竖直对角线 &rArr; 水平对角线"简化计算；(4) 最后验证 $p < 0$ 舍去不符合条件的解。</p>
+    </div>
+
+    <!-- 答案 -->
+    <div class="edu-answer-key student-only">
+      <p><strong>答案：</strong>$P\!\left(0,\; \dfrac{-48-60\sqrt{2}}{17}\right)$ 或 $P(0,\,-24)$</p>
+    </div>
+  </section>
+
+  <!-- ================================================================ -->
+  <!--                         第 2 题                                  -->
+  <!-- ================================================================ -->
+  <section class="edu-section u-avoid-break">
+    <div class="edu-section-title">第 2 题（变式：换情境，结构不变）</div>
+    <div class="edu-problem-card">
+      <p class="edu-problem-stem">在平面直角坐标系中，$A(-2, 0)$、$B(2, 0)$、$C(0, -4)$、$D(0, 2)$。直线 $AC$ 与直线 $BD$ 交于点 $P$。点 $M$ 在直线 $PA$ 上，点 $N$ 在直线 $PB$ 上。若存在以 $C$、$E(0, e)$（$e > 0$）、$M$、$N$ 为顶点的菱形，求 $e$ 的值。</p>
+    </div>
+
+    <!-- 提示一 -->
+    <details class="edu-hint student-only">
+      <summary class="edu-hint-title">提示一</summary>
+      <div class="edu-card-soft">
+        <p class="edu-p">先求直线方程。$AC$ 过 $(-2,0)$ 和 $(0,-4)$，斜率 $= -2$，即 $y = -2x - 4$。$BD$ 过 $(2,0)$ 和 $(0,2)$，斜率 $= -1$，即 $y = -x + 2$。联立求 $P$ 坐标，再参数化 $M$、$N$。</p>
+      </div>
+    </details>
+
+    <!-- 提示二 -->
+    <details class="edu-hint student-only">
+      <summary class="edu-hint-title">提示二</summary>
+      <div class="edu-card-soft">
+        <p class="edu-p">$C(0,-4)$ 和 $E(0,e)$ 都在 $y$ 轴上 $\Rightarrow$ $CE$ 竖直。两大类：</p>
+        <ul>
+          <li><strong>CE 是边</strong>：$MN$ 也竖直 $\Rightarrow$ $x_M = x_N$，用距离 + 平行列方程；</li>
+          <li><strong>CE 是对角线</strong>：中点重合 + $MN$ 水平。解出后必须验证四边是否真的相等！</li>
+        </ul>
+      </div>
+    </details>
+
+    <!-- 解题步骤 -->
+    <details class="edu-details student-only">
+      <summary>解题步骤</summary>
+      <div class="edu-card-soft">
+
+        <div class="edu-subsection-title">准备：求关键坐标和参数化</div>
+        <p class="edu-p">$AC: y = -2x - 4$，$BD: y = -x + 2$。</p>
+        <p class="edu-p">联立：$-2x - 4 = -x + 2 \Rightarrow x = -6$，$y = 8$。$P(-6, 8)$。</p>
+        <p class="edu-p">$PA$ 即 $AC$：$y = -2x - 4$，参数化 $M(m,\, -2m - 4)$。</p>
+        <p class="edu-p">$PB$ 即 $BD$：$y = -x + 2$，参数化 $N(n,\, -n + 2)$。</p>
+        <p class="edu-p">$|CE| = e - (-4) = e + 4$。</p>
+
+        <div class="edu-subsection-title">情况一：CE 是菱形的边</div>
+        <p class="edu-p">$CE$ 竖直 $\Rightarrow$ $MN$ 竖直 $\Rightarrow$ $m = n$。</p>
+        <p class="edu-p">$|CM| = |CE|$：$m^2 + (-2m)^2 = (e+4)^2$，即 $\boxed{5m^2 = (e+4)^2}$ &hellip;&hellip; &#x2460;</p>
+        <p class="edu-p">$CM \parallel EN$：方向 $(m, -2m) \parallel (m, -m + 2 - e)$，得 $-2m = -m + 2 - e$，即 $\boxed{e = m + 2}$ &hellip;&hellip; &#x2461;</p>
+        <p class="edu-p">&#x2461; 代入 &#x2460;：$5m^2 = (m + 6)^2 = m^2 + 12m + 36 \Rightarrow 4m^2 - 12m - 36 = 0 \Rightarrow m^2 - 3m - 9 = 0$。</p>
+        <p class="edu-p">$m = \dfrac{3 \pm \sqrt{9 + 36}}{2} = \dfrac{3 \pm 3\sqrt{5}}{2}$。</p>
+        <ul>
+          <li>$m = \dfrac{3 + 3\sqrt{5}}{2} \Rightarrow e = \dfrac{7 + 3\sqrt{5}}{2} \approx 6.85 > 0$ &check;</li>
+          <li>$m = \dfrac{3 - 3\sqrt{5}}{2} \approx -1.85 \Rightarrow e = \dfrac{7 - 3\sqrt{5}}{2} \approx 0.15 > 0$ &check;</li>
+        </ul>
+
+        <div class="edu-subsection-title">情况二：CE 是菱形的对角线</div>
+        <p class="edu-p">$CE$ 竖直 $\Rightarrow$ $MN$ 水平 $\Rightarrow$ $y_M = y_N$，即 $-2m - 4 = -n + 2 \Rightarrow n = 2m + 6$ &hellip;&hellip; &#x2460;</p>
+        <p class="edu-p">中点重合（$x$ 方向）：$\dfrac{m + n}{2} = 0 \Rightarrow n = -m$ &hellip;&hellip; &#x2461;</p>
+        <p class="edu-p">&#x2460;&#x2461; 联立：$2m + 6 = -m \Rightarrow 3m = -6 \Rightarrow m = -2$，$n = 2$。</p>
+        <p class="edu-p">中点（$y$ 方向）：$\dfrac{-4 + e}{2} = \dfrac{-2(-2)-4 + (-2+2)}{2} = \dfrac{0 + 0}{2} = 0 \Rightarrow e = 4$。</p>
+        <p class="edu-p"><strong>验证四边等长：</strong>$M(-2, 0)$，$N(2, 0)$，$C(0, -4)$，$E(0, 4)$。</p>
+        <p class="edu-p">$|CM|^2 = 4 + 16 = 20$，$|MN| = 4$，$|NE|^2 = 4 + 16 = 20$。$|CM| = 2\sqrt{5} \neq 4 = |MN|$。<strong>不是菱形，舍去。</strong></p>
+
+      </div>
+    </details>
+
+    <!-- 教师备注 -->
+    <div class="edu-teacher-note teacher-only">
+      <p><strong>教师备注（E档）：</strong>本题将"抛物线情境"简化为直接给坐标，但核心结构完全一致：$CE$ 在 $y$ 轴上（竖直），动点 $M$、$N$ 分别在两条直线上。关键陷阱在情况二：对角线条件（中点重合 + 垂直）只能保证四边形是"筝形"，不一定满足四边相等。若学生忘记验证就直接写出答案，说明对菱形与筝形的区别理解不足。</p>
+    </div>
+
+    <!-- 答案 -->
+    <div class="edu-answer-key student-only">
+      <p><strong>答案：</strong>$e = \dfrac{7 + 3\sqrt{5}}{2}$ 或 $e = \dfrac{7 - 3\sqrt{5}}{2}$</p>
+    </div>
+  </section>
+
+  <div class="page-break"></div>
+
+  <!-- ================================================================ -->
+  <!--                         第 3 题                                  -->
+  <!-- ================================================================ -->
+  <section class="edu-section u-avoid-break">
+    <div class="edu-section-title">第 3 题（迁移：三定一动变体）</div>
+    <div class="edu-problem-card">
+      <p class="edu-problem-stem">在平面直角坐标系中，$A(0, 0)$、$B(4, 0)$、$C(2, 3)$。点 $D$ 在直线 $y = 2x - 1$ 上。是否存在以 $A$、$B$、$C$、$D$ 为顶点的菱形？若存在，求点 $D$ 的坐标；若不存在，请说明理由。</p>
+    </div>
+
+    <!-- 提示一 -->
+    <details class="edu-hint student-only">
+      <summary class="edu-hint-title">提示一</summary>
+      <div class="edu-card-soft">
+        <p class="edu-p">先计算已知点之间的距离：$|AB| = 4$，$|AC| = |BC| = \sqrt{13}$。注意 $|AC| = |BC|$，但 $|AB| \neq |AC|$。</p>
+        <p class="edu-p">菱形四边等长。如果某两个已知点是菱形的邻边顶点，则边长等于它们的距离。$|AB| = 4$，$|AC| = |BC| = \sqrt{13}$——边长只能是 $4$ 或 $\sqrt{13}$。</p>
+      </div>
+    </details>
+
+    <!-- 提示二 -->
+    <details class="edu-hint student-only">
+      <summary class="edu-hint-title">提示二</summary>
+      <div class="edu-card-soft">
+        <p class="edu-p">枚举策略：先试"某两个已知点的连线是菱形的边"（需要边长相等），再试"某两个已知点的连线是菱形的对角线"（中点重合 + 垂直平分）。设 $D(d,\, 2d - 1)$，对每种情况列方程并验证。</p>
+        <p class="edu-p">注意：四个顶点的排列顺序可以不同，需要系统枚举所有可能的排列。</p>
+      </div>
+    </details>
+
+    <!-- 解题步骤 -->
+    <details class="edu-details student-only">
+      <summary>解题步骤</summary>
+      <div class="edu-card-soft">
+
+        <div class="edu-subsection-title">准备：已知距离</div>
+        <p class="edu-p">$|AB| = 4$，$|AC| = \sqrt{2^2 + 3^2} = \sqrt{13}$，$|BC| = \sqrt{2^2 + 3^2} = \sqrt{13}$。</p>
+        <p class="edu-p">设 $D(d,\, 2d - 1)$。</p>
+
+        <div class="edu-subsection-title">枚举：两个已知点的连线是边</div>
+        <p class="edu-p"><strong>AB 是边，边长 $= 4$：</strong>$|AC| = \sqrt{13} \neq 4$，所以 $C$ 不能是以 $A$、$B$ 为邻边的菱形的顶点。排除。</p>
+        <p class="edu-p"><strong>AC 是边，边长 $= \sqrt{13}$：</strong>$|AB| = 4 \neq \sqrt{13}$，排除。</p>
+        <p class="edu-p"><strong>BC 是边，边长 $= \sqrt{13}$：</strong>同理，排除。</p>
+
+        <div class="edu-subsection-title">枚举：两个已知点的连线是对角线</div>
+        <p class="edu-p"><strong>AB 是对角线：</strong>$AB$ 中点 $(2, 0)$。$CD$ 是另一条对角线 $\Rightarrow$ 中点也是 $(2, 0)$，且 $CD \perp AB$。$AB$ 水平 $\Rightarrow$ $CD$ 竖直 $\Rightarrow$ $x_D = x_C = 2$。$D(2, 3) = C$，与 $C$ 重合，舍去。</p>
+        <p class="edu-p"><strong>AC 是对角线：</strong>$AC$ 中点 $(1,\, 1.5)$。$BD$ 中点 $\left(\dfrac{4+d}{2},\; \dfrac{2d-1}{2}\right)$。$\dfrac{4+d}{2} = 1 \Rightarrow d = -2$，但 $\dfrac{2d-1}{2} = 1.5 \Rightarrow d = 2$，矛盾。无解。</p>
+        <p class="edu-p"><strong>BC 是对角线：</strong>$BC$ 中点 $(3,\, 1.5)$。$\dfrac{d}{2} = 3 \Rightarrow d = 6$，但 $\dfrac{2d-1}{2} = 1.5 \Rightarrow d = 2$，矛盾。无解。</p>
+
+        <div class="edu-subsection-title">继续枚举顶点排列顺序</div>
+        <p class="edu-p">上述排除了"两个已知点相邻"和"两个已知点是对角"的标准情况。还需要考虑其他顶点排列。</p>
+        <p class="edu-p"><strong>排列 $A$-$C$-$B$-$D$：</strong>$|AC| = |CB| = \sqrt{13}$（已满足两条邻边等长），需 $|BD| = |DA| = \sqrt{13}$。</p>
+        <p class="edu-p">$|BD|^2 = (d-4)^2 + (2d-1)^2 = 5d^2 - 12d + 17 = 13 \Rightarrow 5d^2 - 12d + 4 = 0$。</p>
+        <p class="edu-p">$d = \dfrac{12 \pm \sqrt{144 - 80}}{10} = \dfrac{12 \pm 8}{10}$，$d = 2$ 或 $d = \dfrac{2}{5}$。</p>
+        <p class="edu-p">$d = 2 \Rightarrow D(2, 3) = C$，舍去。$d = \dfrac{2}{5} \Rightarrow |DA|^2 = \dfrac{4}{25} + \dfrac{1}{25} = \dfrac{1}{5} \neq 13$，不成立。</p>
+        <p class="edu-p">其他排列（$A$-$B$-$C$-$D$、$A$-$B$-$D$-$C$、$A$-$C$-$D$-$B$、$A$-$D$-$C$-$B$）经逐一验证，均因边长不匹配而无解。</p>
+
+      </div>
+    </details>
+
+    <!-- 教师备注 -->
+    <div class="edu-teacher-note teacher-only">
+      <p><strong>教师备注（E档）：</strong>本题从"两定两动"迁移到"三定一动"，枚举维度增加。学生容易犯的错误：(1) 只试了一两种排列就下结论"不存在"；(2) 在"AB 是对角线"时没有发现 $D$ 与 $C$ 重合；(3) 在 $A$-$C$-$B$-$D$ 排列中，满足 $|BD| = \sqrt{13}$ 后忘记验证 $|DA| = \sqrt{13}$。若学生能系统地枚举所有情况并正确判断"不存在"，说明已掌握菱形存在性问题的完整分析框架。</p>
+    </div>
+
+    <!-- 答案 -->
+    <div class="edu-answer-key student-only">
+      <p><strong>答案：</strong>不存在满足条件的菱形。</p>
+    </div>
+  </section>
+
+  <div class="page-break"></div>
+
+  <!-- ===== 自我检查 ===== -->
+  <section class="edu-section student-only">
+    <div class="edu-section-title">自我检查</div>
+    <div class="edu-card">
+      <p class="edu-p">完成全部练习后，请对照以下清单核对：</p>
+      <ul>
+        <li>是否对每一题都分了"定点连线是边"和"定点连线是对角线"两大类？</li>
+        <li>在"边"类中，是否同时使用了距离相等<strong>和</strong>平行条件（而非只用距离）？</li>
+        <li>在"对角线"类中，是否正确利用了中点重合和垂直平分两个条件？</li>
+        <li>所有解是否都验证了约束条件（如 $p < 0$、$e > 0$）？</li>
+        <li>第 2 题情况二的解是否验证了四边真正相等？（筝形 &ne; 菱形）</li>
+        <li>第 3 题是否系统地枚举了所有可能的顶点排列，而非只试了一两种？</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ===== 答案汇总 ===== -->
+  <section class="edu-answer-key no-print student-only">
+    <div class="edu-section-title">答案汇总</div>
+    <p><strong>第 1 题：</strong>$P\!\left(0,\; \dfrac{-48-60\sqrt{2}}{17}\right)$ 或 $P(0,\,-24)$</p>
+    <p><strong>第 2 题：</strong>$e = \dfrac{7 + 3\sqrt{5}}{2}$ 或 $e = \dfrac{7 - 3\sqrt{5}}{2}$</p>
+    <p><strong>第 3 题：</strong>不存在满足条件的菱形。</p>
+  </section>
+
+  <!-- ===== 教师专用：教学交接说明 ===== -->
+  <section class="edu-teacher-note teacher-only">
+    <div class="edu-section-title">教学交接说明</div>
+    <p><strong>当前档位：</strong>E 档（基础入门）</p>
+    <p><strong>练习目标：</strong>巩固"两定两动菱形存在性"的参数化 + 两大类讨论 + 列方程 + 验证约束的完整流程。</p>
+    <p><strong>第 1 题</strong>：与原题结构高度一致，检验学生能否独立完成两大类讨论。重点观察是否遗漏"对角线"情况，以及是否忘记验证 $p < 0$。</p>
+    <p><strong>第 2 题</strong>：情境变化（给坐标而非抛物线），核心结构不变。关键陷阱：情况二对角线条件解出 $e = 4$ 后，验证发现不是菱形（筝形）。若学生能正确舍去，说明理解了菱形与筝形的区别。</p>
+    <p><strong>第 3 题</strong>：从两定两动迁移到三定一动，枚举维度增加。答案为"不存在"，考验学生是否系统地枚举了所有排列，而非过早下结论。</p>
+    <p><strong>升级条件：</strong>若学生三题全部独立完成（包括正确舍去不合条件的解、验证筝形与菱形的区别）&rarr; 升至 F 档（引入正方形存在性或旋转类菱形）。</p>
+    <p><strong>降级信号：</strong>若学生在第 1 题就只写出一种情况（漏掉"对角线"类）&rarr; 回到讲解阶段，强化"两大类讨论"的框架意识。</p>
+  </section>
+
+</div>
+
+</body>
+</html>

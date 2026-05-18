@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>自适应练习：直线与坐标三角形的面积与等腰问题</title>
+<style>
+@page {
+  size: A4;
+  margin: 16mm 14mm;
+}
+body {
+  font-family: "SimSun", "Songti SC", "Noto Serif CJK SC", serif;
+  font-size: 11pt;
+  line-height: 1.75;
+  color: #000;
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 20px 0;
+}
+h1 {
+  font-family: "SimHei", "Microsoft YaHei", sans-serif;
+  font-size: 16pt;
+  text-align: center;
+  border-bottom: 2px solid #000;
+  padding-bottom: 6px;
+  margin-bottom: 18px;
+}
+h2 {
+  font-family: "SimHei", "Microsoft YaHei", sans-serif;
+  font-size: 13pt;
+  margin-top: 20px;
+  margin-bottom: 8px;
+}
+h3 {
+  font-family: "SimHei", "Microsoft YaHei", sans-serif;
+  font-size: 11.5pt;
+  margin-top: 12px;
+  margin-bottom: 4px;
+}
+p { margin: 6px 0; text-indent: 2em; }
+ol, ul { margin: 6px 0 6px 2em; }
+li { margin: 3px 0; }
+.question-box {
+  border: 1px solid #666;
+  border-radius: 4px;
+  padding: 10px 14px;
+  margin: 12px 0;
+  background: #fafafa;
+}
+.question-box p { text-indent: 0; }
+.answer-line {
+  border-bottom: 1px solid #ccc;
+  height: 28px;
+  margin: 4px 0 4px 2em;
+}
+.answer-line-wide {
+  border-bottom: 1px solid #ccc;
+  height: 28px;
+  margin: 4px 0;
+}
+.teacher-note {
+  display: none;
+  border: 1px dashed #aaa;
+  padding: 8px 12px;
+  margin: 16px 0;
+  font-size: 9.5pt;
+  color: #666;
+  background: #f5f5f5;
+  border-radius: 4px;
+}
+.teacher-note p { text-indent: 0; }
+.teacher-note h2 { font-size: 11pt; color: #666; }
+details {
+  margin: 6px 0 6px 2em;
+}
+summary {
+  cursor: pointer;
+  font-weight: bold;
+  color: #333;
+  font-size: 10.5pt;
+}
+.page-break { page-break-before: always; }
+@media print {
+  body { margin: 0; padding: 0; }
+  .page { page-break-after: always; box-shadow: none; }
+  .hint-section { display: none !important; }
+}
+.sub-label { font-weight: bold; color: #333; }
+.problem { margin: 16px 0; }
+.answer-key { margin-top: 24px; }
+.work-box {
+  border: 1px solid #ddd;
+  min-height: 120px;
+  margin: 8px 0;
+  border-radius: 4px;
+  background: #fff;
+}
+</style>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'], ['\\(','\\)']], displayMath: [['$$','$$'], ['\\[','\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+</head>
+<body>
+
+<h1>自适应练习：直线与坐标三角形的面积与等腰问题</h1>
+
+<section class="teacher-note">
+<h2>教师判断</h2>
+<p><strong>当前档位：E档。</strong></p>
+<p>判断依据：学生为初二培优水平，几何基础扎实，已完整掌握面积法求坐标、待定系数法求直线方程、等腰三角形分类讨论的核心操作。本次练习侧重<strong>结构迁移</strong>——保留面积法+直线方程+等腰讨论的框架，更换表层情境，检验学生是否能独立识别核心结构并完整执行。</p>
+</section>
+
+<section>
+<h2>练习说明</h2>
+<p>本组共 3 题，目标只有一个：<strong>看你在不同情境下，能不能自动找到"面积→坐标""斜率/待定系数→方程""等腰→分类讨论"这三步操作</strong>。不需要新知识，但需要你主动识别。</p>
+</section>
+
+<!-- ========== 第1题 ========== -->
+<section class="problem">
+<h2>第 1 题</h2>
+
+<div class="question-box">
+<p>如图，在平面直角坐标系中，点 $A(-3,0)$，点 $P(1,3)$ 在第一象限。直线 $PA$ 交 $y$ 轴于点 $C$。</p>
+<p>（1）求直线 $PA$ 的解析式和点 $C$ 的坐标；</p>
+<p>（2）点 $B$ 在 $x$ 轴负半轴上，且 $\triangle PAB$ 的面积为 $6$，求点 $B$ 的坐标。</p>
+</div>
+
+<p><span class="sub-label">训练目标：</span>用斜率公式求直线方程，再用面积公式求坐标。</p>
+<p><span class="sub-label">预期卡点：</span>（1）斜率公式分子分母对应点搞混；（2）面积公式中底边长度用绝对值，且注意 $B$ 在 $A$ 左侧时 $|b-(-3)| = -(b+3)$。</p>
+
+<details>
+<summary>提示一</summary>
+<p>（1）$PA$ 斜率 $k = \dfrac{3-0}{1-(-3)} = \dfrac{3}{4}$。用点斜式 $y - 0 = \dfrac{3}{4}(x+3)$，整理得解析式。令 $x=0$ 求 $C$ 坐标。</p>
+</details>
+
+<details>
+<summary>提示二</summary>
+<p>（2）设 $B(b,0)$，$b < -3$。以 $AB$ 为底、$P$ 的纵坐标为高：$S = \dfrac{1}{2} \times |b+3| \times 3 = 6$，解得 $|b+3|=4$。因为 $b < -3$，所以 $b+3 = -4$。</p>
+</details>
+
+<div class="work-box"></div>
+<div class="answer-line"></div>
+<div class="answer-line"></div>
+</section>
+
+<!-- ========== 第2题 ========== -->
+<section class="problem">
+<h2>第 2 题</h2>
+
+<div class="question-box">
+<p>已知一次函数 $y = -2x + 6$ 与 $x$ 轴交于点 $M$，与 $y$ 轴交于点 $N$。点 $P$ 是该函数图象上一点，且 $\triangle PMN$ 的面积为 $3$，求点 $P$ 的坐标。</p>
+</div>
+
+<p><span class="sub-label">训练目标：</span>利用直线与坐标轴的交点确定三角形，再用面积公式反求动点坐标，注意绝对值产生的两组解。</p>
+<p><span class="sub-label">预期卡点：</span>面积公式中 $P$ 到 $x$ 轴的距离（即纵坐标的绝对值）容易忽略绝对值，导致漏解；或不理解"以 $OM$ 为底、$P$ 的纵坐标为高"的面积拆分方式。</p>
+
+<details>
+<summary>提示一</summary>
+<p>先求 $M$、$N$ 坐标：令 $y=0$ 得 $M(3,0)$；令 $x=0$ 得 $N(0,6)$。设 $P(p,\ -2p+6)$。以 $OM$ 为底，$P$ 到 $x$ 轴距离为高，列面积方程。</p>
+</details>
+
+<details>
+<summary>提示二</summary>
+<p>$S = \dfrac{1}{2} \times |OM| \times |y_P| = \dfrac{1}{2} \times 3 \times |-2p+6| = 3$。化简得 $|-2p+6| = 1$，分两种情况解：$-2p+6=1$ 或 $-2p+6=-1$。</p>
+</details>
+
+<div class="work-box"></div>
+<div class="answer-line"></div>
+<div class="answer-line"></div>
+</section>
+
+<!-- ========== 第3题 ========== -->
+<section class="problem">
+<h2>第 3 题</h2>
+
+<div class="question-box">
+<p>点 $F(a,0)$ 在 $x$ 轴正半轴上（$a>2$），点 $G(2,4)$ 在第一象限。$\triangle FOG$ 的面积为 $12$。直线 $FG$ 交 $y$ 轴于点 $H$。</p>
+<p>（1）求 $F$ 的坐标和点 $H$ 的坐标；</p>
+<p>（2）若 $\triangle FOG$ 是以 $OG$ 为腰的等腰三角形，直接写出 $F$ 的坐标和此时 $H$ 的坐标。</p>
+</div>
+
+<p><span class="sub-label">训练目标：</span>本题的面积方程只有一个未知数（直接解），降低第一问难度，把重心放在第二问的分类讨论上。同时检验学生发现"题目条件可能不满足"的能力。</p>
+<p><span class="sub-label">预期卡点：</span>（2）$OG = \sqrt{2^2+4^2} = 2\sqrt{5}$，以 $OG$ 为腰分 $OG=OF$ 和 $OG=GF$ 两种情况。$OG=OF$ 时 $a = 2\sqrt{5}$，代入求 $H$；$OG=GF$ 时 $(a-2)^2+16=20$，$a=4$（舍 $a=0$），再求 $H$。两个 $H$ 都要算。</p>
+
+<details>
+<summary>提示一</summary>
+<p>（1）面积 $\frac{1}{2}\times a \times 4 = 12$，直接得 $a=6$。$F(6,0)$。直线 $FG$ 过 $(6,0)$ 和 $(2,4)$，斜率 $k=\frac{4-0}{2-6}=-1$，方程 $y=-1(x-6)$，$H(0,6)$。</p>
+</details>
+
+<details>
+<summary>提示二</summary>
+<p>（2）$OG=2\sqrt{5}$。$OG=OF$：$a=2\sqrt{5}$，直线 $FG$ 过 $(2\sqrt{5},0)$ 和 $(2,4)$，斜率 $k=\frac{4}{2-2\sqrt{5}}=\frac{2}{1-\sqrt{5}}$，化简后令 $x=0$ 求 $H$。$OG=GF$：$(a-2)^2+16=20$，$a=4$（$a=0$ 不满足 $a>2$ 排除吗？$a=0$ 排除），$H$ 由 $(4,0)$ 和 $(2,4)$ 确定，$k=-2$，$H(0,8)$。</p>
+</details>
+
+<div class="work-box"></div>
+<div class="answer-line"></div>
+<div class="answer-line"></div>
+</section>
+
+<!-- ========== 参考答案 ========== -->
+<section class="answer-key page-break">
+<h2>参考答案与升级/降级判断</h2>
+
+<h3>第 1 题</h3>
+<p>（1）$PA$ 斜率 $k = \dfrac{3-0}{1-(-3)} = \dfrac{3}{4}$。</p>
+<p>直线 $PA$ 解析式：$y = \dfrac{3}{4}(x+3) = \dfrac{3}{4}x + \dfrac{9}{4}$。</p>
+<p>令 $x=0$，$y = \dfrac{9}{4}$。$C\!\left(0,\ \dfrac{9}{4}\right)$。</p>
+<p>（2）设 $B(b,0)$，$b < -3$。以 $AB$ 为底、$P$ 的纵坐标 $3$ 为高：</p>
+<p>$S_{\triangle PAB} = \dfrac{1}{2} \times |b-(-3)| \times 3 = \dfrac{3}{2}|b+3| = 6$。</p>
+<p>$|b+3| = 4$。因为 $b < -3$，所以 $b+3 = -4$，$b = -7$。</p>
+<p>$B(-7,\ 0)$。</p>
+<p><strong>升级/降级判断：</strong>若学生正确完成且计算无误，说明E档稳固；若面积公式忘记绝对值或漏掉 $b<-3$ 的限制，维持E档并强化坐标限制条件训练。</p>
+
+<h3>第 2 题</h3>
+<p>令 $y=0$：$-2x+6=0$，$x=3$，$M(3,0)$。</p>
+<p>令 $x=0$：$y=6$，$N(0,6)$。</p>
+<p>设 $P(p,\ -2p+6)$。以 $OM=3$ 为底，$P$ 到 $x$ 轴距离 $|-2p+6|$ 为高：</p>
+<p>$S_{\triangle PMN} = \dfrac{1}{2} \times 3 \times |-2p+6| = 3$。</p>
+<p>$|-2p+6| = 1$，分两种情况：</p>
+<p>$-2p+6=1 \Rightarrow p = \dfrac{5}{2}$，$P\!\left(\dfrac{5}{2},\ 1\right)$；</p>
+<p>$-2p+6=-1 \Rightarrow p = \dfrac{7}{2}$，$P\!\left(\dfrac{7}{2},\ -1\right)$。</p>
+<p>答案：$P\!\left(\dfrac{5}{2},\ 1\right)$ 或 $P\!\left(\dfrac{7}{2},\ -1\right)$。</p>
+<p><strong>升级/降级判断：</strong>若学生正确求出两组解，说明E档稳固，可升级至F档。若漏掉绝对值只得到一组解，维持E档并强化绝对值意识。若直线与坐标轴交点求错，降级至D档巩固基础。</p>
+
+<h3>第 3 题</h3>
+<p>（1）$\frac{1}{2}\times a\times 4=12$，$a=6$。$F(6,0)$。</p>
+<p>直线 $FG$ 过 $(6,0)$ 和 $(2,4)$：$k=\frac{4-0}{2-6}=-1$。方程 $y=-(x-6)$，即 $y=-x+6$。$H(0,6)$。</p>
+<p>（2）$OG=\sqrt{4+16}=2\sqrt{5}$。以 $OG$ 为腰：</p>
+<p><em>$OG=OF$：</em>$a=2\sqrt{5}$。$F(2\sqrt{5},0)$。直线 $FG$ 过 $(2\sqrt{5},0)$ 和 $(2,4)$：$k=\frac{4}{2-2\sqrt{5}}=\frac{2}{1-\sqrt{5}}=\frac{2(1+\sqrt{5})}{1-5}=\frac{1+\sqrt{5}}{-2}$。
+方程 $y=\frac{1+\sqrt{5}}{-2}(x-2\sqrt{5})$。$x=0$ 时 $y=\frac{1+\sqrt{5}}{-2}(-2\sqrt{5})=(1+\sqrt{5})\sqrt{5}=\sqrt{5}+5$。
+$H(0,\ 5+\sqrt{5})$。</p>
+
+<p><em>$OG=GF$：</em>$(a-2)^2+16=20$，$(a-2)^2=4$，$a=4$（$a=0$ 不满足 $a>2$ 排除）。$F(4,0)$。
+直线 $FG$ 过 $(4,0)$ 和 $(2,4)$：$k=\frac{4}{2-4}=-2$。方程 $y=-2(x-4)$，$x=0$ 时 $y=8$。$H(0,8)$。</p>
+
+<p>答案：$H(0,5+\sqrt{5})$ 或 $H(0,8)$。</p>
+<p><strong>升级/降级判断：</strong>若学生完整做对，说明E档稳固，可升级至F档。若漏掉一种情况，维持E档并强化分类讨论训练。若计算错误，维持E档强化根式运算。</p>
+</section>
+
+<aside class="teacher-note">
+<p>下一轮：根据本页完成情况，更新学生画像；必要时回到讲解页，或生成下一组变式。</p>
+</aside>
+
+</body>
+</html>

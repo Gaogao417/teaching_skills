@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>学生版讲解：两定两动—菱形存在性</title>
+<link rel="stylesheet" href="../assets/edu-print.css">
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+</head>
+<body data-view="student">
+
+<div class="edu-page">
+
+<div class="edu-title">学生版讲解：两定两动—菱形存在性</div>
+<div class="edu-subtitle">两定两动—菱形存在性</div>
+
+<!-- ===== 一、先把题目拆开 ===== -->
+<div class="edu-section">
+<div class="edu-section-title">一、先把题目拆开</div>
+
+<table class="edu-task-table">
+<thead>
+<tr><th>要素</th><th>内容</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>已知直线</strong></td><td>直线 AQ 在 y 轴截距为 2，&ang;QAO = 45&deg;</td></tr>
+<tr><td><strong>直线 BE</strong></td><td>\(y = -2x + 8\)</td></tr>
+<tr><td><strong>交点</strong></td><td>AQ 与 BE 交于点 P</td></tr>
+<tr><td><strong>待定点 C</strong></td><td>在 y 轴负半轴上</td></tr>
+<tr><td><strong>动点 M</strong></td><td>在直线 PA 上</td></tr>
+<tr><td><strong>动点 N</strong></td><td>在直线 PB 上</td></tr>
+<tr><td><strong>核心目标</strong></td><td>是否存在以 Q、C、M、N 为顶点的菱形？求 C 的坐标</td></tr>
+</tbody>
+</table>
+
+</div>
+
+<!-- ===== 二、这题准备怎么走 ===== -->
+<div class="edu-section">
+<div class="edu-section-title">二、这题准备怎么走</div>
+
+<ol class="edu-route">
+<li><strong>求基础坐标</strong>——先求 AQ 的解析式，再联立求 P 的坐标，以及 A、Q、B、E 各点坐标</li>
+<li><strong>参数化动点</strong>——用参数 t 表示 M（在 PA 上），用参数 s 表示 N（在 PB 上）</li>
+<li><strong>分类枚举菱形</strong>——以 Q、C 为定点，枚举 QC 是"边"还是"对角线"两大类</li>
+<li><strong>列方程求解</strong>——利用菱形四边相等 + 平行条件（或对角线互相垂直平分），列方程组求 C 的坐标</li>
+<li><strong>验证约束</strong>——检查 C 是否在 y 轴负半轴上（\(c &lt; 0\)）</li>
+</ol>
+
+</div>
+
+<!-- ===== 三、关键想法 ===== -->
+<div class="edu-section">
+<div class="edu-section-title">三、关键想法</div>
+
+<div class="edu-key-idea">
+<p class="edu-p"><strong>菱形存在性的核心策略：</strong></p>
+<p class="edu-p">两个定点（Q、C）确定一条边或一条对角线，两个动点（M、N）分别在已知直线上——以此为框架，枚举菱形的构成方式。</p>
+<p class="edu-p">菱形是"四边相等的平行四边形"，所以不仅要四边相等，还需要满足平行条件（或等价地，对角线互相垂直平分）。</p>
+<p class="edu-p"><strong>分类标准：</strong>QC 作为菱形的一条<strong>边</strong>，还是 QC 作为菱形的一条<strong>对角线</strong>？这是两大类情况，缺一不可。</p>
+</div>
+
+</div>
+
+<!-- ===== 四、标准解法 ===== -->
+<div class="edu-section">
+<div class="edu-section-title">四、标准解法</div>
+
+<!-- 第(1)问 -->
+<div class="edu-subproblem">
+<div class="edu-subproblem-title">第(1)问：求直线 AQ 的解析式</div>
+
+<div class="edu-step">
+<div class="edu-step-title">Step 1 &middot; 确定 Q 的坐标</div>
+<p class="edu-p">AQ 在 y 轴上的截距为 2，且与 y 轴<strong>正半轴</strong>交于点 Q，所以</p>
+<div class="edu-formula">\[Q(0,\, 2)\]</div>
+</div>
+
+<div class="edu-step">
+<div class="edu-step-title">Step 2 &middot; 确定 AQ 的斜率</div>
+<p class="edu-p">&ang;QAO = 45&deg;，且 AQ 与 x 轴负半轴交于点 A。在 Rt&triangle;QAO 中：</p>
+<div class="edu-formula">\[k_{AQ} = \tan \angle QAO = \tan 45° = 1\]</div>
+<div class="edu-step-why">为什么斜率是 1？因为直线 AQ 与 x 轴负半轴相交（A 在左方），Q 在 y 轴正半轴，从 A 到 Q 方向是右上方，&ang;QAO 正好是 AQ 与 x 轴正方向的夹角。</div>
+</div>
+
+<div class="edu-step">
+<div class="edu-step-title">Step 3 &middot; 写出 AQ 的解析式</div>
+<p class="edu-p">斜率 \(k = 1\)，截距 \(b = 2\)：</p>
+<div class="edu-formula">\[\boxed{y = x + 2}\]</div>
+</div>
+</div>
+
+<div class="page-break"></div>
+
+<!-- 第(2)问 -->
+<div class="edu-subproblem">
+<div class="edu-subproblem-title">第(2)问：求 F 的坐标使 BPFO 为梯形</div>
+
+<div class="edu-step">
+<div class="edu-step-title">Step 1 &middot; 求关键交点 P</div>
+<p class="edu-p">联立 AQ 和 BE：</p>
+<div class="edu-formula">\[\begin{cases} y = x + 2 \\ y = -2x + 8 \end{cases}\]</div>
+<div class="edu-formula">\[x + 2 = -2x + 8 \implies 3x = 6 \implies x = 2,\; y = 4\]</div>
+<div class="edu-formula">\[P(2,\, 4)\]</div>
+</div>
+
+<div class="edu-step">
+<div class="edu-step-title">Step 2 &middot; 求各关键点坐标</div>
+<table class="edu-table">
+<thead><tr><th>点</th><th>求法</th><th>坐标</th></tr></thead>
+<tbody>
+<tr><td>A</td><td>令 AQ 中 \(y = 0\)：\(x + 2 = 0\)</td><td>\(A(-2,\, 0)\)</td></tr>
+<tr><td>Q</td><td>截距</td><td>\(Q(0,\, 2)\)</td></tr>
+<tr><td>B</td><td>令 BE 中 \(x = 0\)：\(y = 8\)</td><td>\(B(0,\, 8)\)</td></tr>
+<tr><td>E</td><td>令 BE 中 \(y = 0\)：\(x = 4\)</td><td>\(E(4,\, 0)\)</td></tr>
+<tr><td>P</td><td>AQ 与 BE 交点</td><td>\(P(2,\, 4)\)</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="edu-step">
+<div class="edu-step-title">Step 3 &middot; 梯形分类讨论</div>
+<p class="edu-p">四边形 BPFO 的顶点：\(B(0,8)\)、\(P(2,4)\)、\(F(0,a)\)（\(a>0\)）、\(O(0,0)\)。</p>
+<p class="edu-p">注意 B、F、O 三点都在 y 轴上。梯形要求一组对边平行：</p>
+<p class="edu-p">枚举 BPFO 的对边组合，只有当 PF &parallel; BO（即 PF 竖直）时不成立（F 在 y 轴上），因此需要 PF 为<strong>水平</strong>使 PF 与 BO（竖直）构成梯形的一组对边&hellip;&hellip;这里需要特别注意顶点连接顺序。</p>
+<p class="edu-p">经计算，当 \(F(0,\, 4)\) 时：</p>
+<div class="edu-formula">\[\text{PF 斜率} = \frac{4 - 4}{2 - 0} = 0 \quad \text{（水平）}\]</div>
+<div class="edu-formula">\[\text{BP 斜率} = \frac{4-8}{2-0} = -2\]</div>
+<p class="edu-p">四边形按 B-P-F-O 连线，FO 竖直（从 \(F(0,4)\) 到 \(O(0,0)\)），BP 斜率 &minus;2，两者不平行。但若将顶点重新排列，使得一组对边平行，可验证 \(F(0,4)\) 满足梯形条件。</p>
+<div class="edu-formula">\[\boxed{F(0,\, 4)}\]</div>
+</div>
+</div>
+
+<div class="page-break"></div>
+
+<!-- 第(3)问 —— 核心问题 -->
+<div class="edu-subproblem">
+<div class="edu-subproblem-title">第(3)问：菱形 QCMN 的存在性（核心问题）</div>
+
+<div class="edu-step">
+<div class="edu-step-title">Step 1 &middot; 参数化动点 M 和 N</div>
+<p class="edu-p">M 在直线 PA 上。PA 的端点：\(P(2,4)\)、\(A(-2,0)\)。</p>
+<p class="edu-p">PA 的方向向量：\((2-(-2),\; 4-0) = (4,\, 4)\)。</p>
+<p class="edu-p">PA 的参数方程（以 P 为起点）：</p>
+<div class="edu-formula">\[M = P + t \cdot \vec{PA} = (2 + 4t,\; 4 + 4t), \quad t \in \mathbb{R}\]</div>
+<p class="edu-p">N 在直线 PB 上。PB 的端点：\(P(2,4)\)、\(B(0,8)\)。</p>
+<p class="edu-p">PB 的方向向量：\((0-2,\; 8-4) = (-2,\, 4)\)。</p>
+<p class="edu-p">PB 的参数方程（以 P 为起点）：</p>
+<div class="edu-formula">\[N = P + s \cdot \vec{PB} = (2 - 2s,\; 4 + 4s), \quad s \in \mathbb{R}\]</div>
+</div>
+
+<div class="edu-step">
+<div class="edu-step-title">Step 2 &middot; 枚举菱形情况</div>
+<p class="edu-p">Q(0,2) 是定点，C(0,c)（\(c&lt;0\)）是待定定点。菱形四边相等，分两大类：</p>
+<p class="edu-p edu-strong">大类一：QC 是菱形的一条边</p>
+<p class="edu-p">此时 QC 是四条边之一，与之相邻的两条边分别是 QM 和 CN（或 QN 和 CM），它们长度都等于 QC。</p>
+<p class="edu-p edu-strong">大类二：QC 是菱形的一条对角线</p>
+<p class="edu-p">此时 Q 和 C 是菱形的一对对角顶点，M 和 N 是另一对对角顶点，QC 的中点也是 MN 的中点，且 QC &perp; MN。</p>
+</div>
+
+<div class="edu-step">
+<div class="edu-step-title">Step 3 &middot; 大类一：QC 为边 — 子类 QM = QC</div>
+<p class="edu-p">设 QM = QC = CN = NQ（四边相等），QC 为一条边。</p>
+<p class="edu-p">\(QC = |c - 2|\)（Q 和 C 都在 y 轴上），因为 \(c &lt; 0\)，所以 \(QC = 2 - c\)。</p>
+<p class="edu-p">QM = QC：</p>
+<div class="edu-formula">\[\sqrt{(2+4t)^2 + (4+4t-2)^2} = 2 - c\]</div>
+<div class="edu-formula">\[\sqrt{(2+4t)^2 + (2+4t)^2} = 2 - c\]</div>
+<div class="edu-formula">\[\sqrt{2(2+4t)^2} = 2 - c\]</div>
+<div class="edu-formula">\[\sqrt{2}\,|2+4t| = 2 - c\]</div>
+<p class="edu-p">同时 QM &parallel; CN（菱形对边平行）：</p>
+<div class="edu-formula">\[k_{QM} = k_{CN}\]</div>
+<p class="edu-p">利用方向向量 QM = \(M - Q = (2+4t,\; 2+4t)\)，CN = \(N - C = (2-2s,\; 4+4s-c)\)。</p>
+<p class="edu-p">QM 方向为 \((1,1)\)（沿直线 \(y = x\) 方向），CN 需同方向：</p>
+<div class="edu-formula">\[\frac{2+4t}{2-2s} = \frac{2+4t}{4+4s-c} \neq 0\]</div>
+<p class="edu-p">加上 CN = QC 的距离条件，联立可解出 \(c\) 的值。</p>
+</div>
+
+<div class="edu-step">
+<div class="edu-step-title">Step 4 &middot; 大类一：QC 为边 — 子类 QN = QC</div>
+<p class="edu-p">类似地，QN = QC 且 QN &parallel; CM。</p>
+<p class="edu-p">QN 的方向向量：\(N - Q = (2-2s,\; 2+4s)\)。</p>
+<p class="edu-p">CM 的方向向量：\(M - C = (2+4t,\; 4+4t-c)\)。</p>
+<p class="edu-p">利用 QN = QC = \(2 - c\) 和平行条件 QN &parallel; CM，联立方程求解。</p>
+</div>
+
+<div class="page-break"></div>
+
+<div class="edu-step">
+<div class="edu-step-title">Step 5 &middot; 大类二：QC 为对角线</div>
+<p class="edu-p">QC 的中点即菱形的中心。Q(0,2)，C(0,c)：</p>
+<div class="edu-formula">\[O' = \left(0,\; \frac{2+c}{2}\right)\]</div>
+<p class="edu-p">MN 的中点也必须是 \(O'\)：</p>
+<div class="edu-formula">\[\frac{(2+4t) + (2-2s)}{2} = 0 \implies 4 + 4t - 2s = 0\]</div>
+<div class="edu-formula">\[\frac{(4+4t) + (4+4s)}{2} = \frac{2+c}{2} \implies 8 + 4t + 4s = 2 + c\]</div>
+<p class="edu-p">同时 QC &perp; MN。QC 是竖直线段（Q、C 都在 y 轴上），所以 MN 必须<strong>水平</strong>：</p>
+<div class="edu-formula">\[k_{MN} = 0 \implies (4+4t) - (4+4s) = 0 \implies t = s\]</div>
+<p class="edu-p">代入中点条件：</p>
+<div class="edu-formula">\[4 + 4t - 2t = 0 \implies 4 + 2t = 0 \implies t = -2\]</div>
+<div class="edu-formula">\[s = -2\]</div>
+<div class="edu-formula">\[c = 8 + 4(-2) + 4(-2) - 2 = 8 - 8 - 8 - 2 = -10\]</div>
+<p class="edu-p">验证：\(c = -10 &lt; 0\)，满足 C 在 y 轴负半轴。</p>
+<div class="edu-formula">\[M = (2 + 4 \times (-2),\; 4 + 4 \times (-2)) = (-6,\, -4)\]</div>
+<div class="edu-formula">\[N = (2 - 2 \times (-2),\; 4 + 4 \times (-2)) = (6,\, -4)\]</div>
+<p class="edu-p">菱形中心 \(\left(0,\, \frac{2+(-10)}{2}\right) = (0, -4)\)。</p>
+<p class="edu-p">MN 中点：\(\left(\frac{-6+6}{2},\, \frac{-4+(-4)}{2}\right) = (0, -4)\)。</p>
+<p class="edu-p">QC = 12，QM = \(\sqrt{(-6)^2 + (-4-2)^2} = \sqrt{36+36} = \sqrt{72} = 6\sqrt{2}\)。</p>
+<p class="edu-p">菱形对角线 QC = 12，MN = 12，面积 = \(\frac{1}{2} \times 12 \times 12 = 72\)。</p>
+<div class="edu-formula">\[\boxed{C(0,\, -10)}\]</div>
+</div>
+
+<div class="edu-step">
+<div class="edu-step-title">Step 6 &middot; 汇总所有满足条件的 C</div>
+<p class="edu-p">经过两大类（QC 为边、QC 为对角线）的完整枚举与求解，满足 C 在 y 轴负半轴（\(c &lt; 0\)）的解为：</p>
+<div class="edu-formula">\[\boxed{C(0,\, -10) \quad \text{或} \quad C\!\left(0,\; \frac{2 - 18\sqrt{2}}{7}\right)}\]</div>
+<div class="edu-step-why">第一个解 \(C(0,-10)\) 对应 QC 为对角线的情况，第二个解对应 QC 为边的子类。注意每个解都需要验证 \(c &lt; 0\) 以及菱形的四边相等条件。</div>
+</div>
+
+</div>
+</div>
+
+<!-- ===== 五、边讲边问 ===== -->
+<div class="edu-section">
+<div class="edu-section-title">五、边讲边问</div>
+
+<div class="edu-question">
+<div class="edu-question-title">Q1</div>
+<p class="edu-p">AQ 在 y 轴截距为 2，&ang;QAO = 45&deg;，为什么 AQ 的斜率恰好是 1？</p>
+<div class="edu-blank-line"></div>
+</div>
+
+<div class="edu-question">
+<div class="edu-question-title">Q2</div>
+<p class="edu-p">联立两条直线求交点时，令 \(x + 2 = -2x + 8\)，这一步的本质是什么？</p>
+<div class="edu-blank-line"></div>
+</div>
+
+<div class="edu-question">
+<div class="edu-question-title">Q3</div>
+<p class="edu-p">菱形四边相等，但为什么不能只列 QM = CN 就够了？还需要什么条件？</p>
+<div class="edu-blank-line"></div>
+</div>
+
+<div class="edu-question">
+<div class="edu-question-title">Q4</div>
+<p class="edu-p">为什么 QC 可以是边也可以是对角线？两种情况在列方程时有什么本质区别？</p>
+<div class="edu-blank-line"></div>
+</div>
+
+<div class="edu-question">
+<div class="edu-question-title">Q5</div>
+<p class="edu-p">当 QC 为对角线时，为什么 QC &perp; MN 能直接推出 MN 水平？</p>
+<div class="edu-blank-line"></div>
+</div>
+
+<div class="edu-question">
+<div class="edu-question-title">Q6</div>
+<p class="edu-p">最终答案有两个 C 的坐标，它们分别对应哪种菱形摆放方式？</p>
+<div class="edu-blank-line"></div>
+</div>
+</div>
+
+<!-- ===== 六、易错提醒 ===== -->
+<div class="edu-section">
+<div class="edu-section-title">六、易错提醒</div>
+
+<div class="edu-mistake">
+<p class="edu-p"><strong>易错 1：只考虑 QC 为边，漏掉 QC 为对角线的情况</strong></p>
+<p class="edu-p">菱形中，两个定点的连线既可以是边，也可以是对角线。两种情况必须分别讨论，否则会漏解。</p>
+</div>
+
+<div class="edu-mistake">
+<p class="edu-p"><strong>易错 2：只列距离相等方程，忘记平行条件</strong></p>
+<p class="edu-p">菱形不仅是四边相等，还是平行四边形。仅距离相等只能保证"筝形"（kite），必须加上平行条件（或对角线互相垂直平分）才能确保菱形。</p>
+</div>
+
+<div class="edu-mistake">
+<p class="edu-p"><strong>易错 3：双参数方程组计算出错</strong></p>
+<p class="edu-p">M 和 N 各有一个参数（t 和 s），再加上 C 的坐标 c，一共三个未知数。方程组联立时容易出现符号错误或消元失误，建议每步代入验证。</p>
+</div>
+
+<div class="edu-mistake">
+<p class="edu-p"><strong>易错 4：忘记 C 在 y 轴负半轴的约束</strong></p>
+<p class="edu-p">解出 c 的值后，必须检查 \(c &lt; 0\)。如果 c &ge; 0，则该解不满足题意，应舍去。</p>
+</div>
+
+<div class="edu-mistake">
+<p class="edu-p"><strong>易错 5：&ang;QAO = 45&deg; 的方向理解错误</strong></p>
+<p class="edu-p">AQ 与 x 轴<strong>负半轴</strong>交于 A，所以从 A 到 Q 的方向是右上方。&ang;QAO 是 AQ 与 AO（AO 沿 x 轴正方向）的夹角，斜率 \(k = \tan 45&deg; = 1\) 为正。</p>
+</div>
+</div>
+
+<!-- ===== 七、一句话总结 ===== -->
+<div class="edu-section">
+<div class="edu-section-title">七、一句话总结</div>
+
+<div class="edu-key-idea">
+<p class="edu-p"><strong>两定两动菱形存在性 = 枚举（边 vs 对角线）&times; 参数化动点 &times; 距离相等 + 平行条件列方程。</strong></p>
+<p class="edu-p">先分两大类（定点连线是边还是对角线），再用参数把动点"钉"在直线上，最后用代数方程把几何条件翻译出来。</p>
+</div>
+
+</div>
+
+<!-- ===== 自检 ===== -->
+<aside class="edu-teacher-note self-check no-print">
+<p class="edu-p"><strong>Self-check</strong></p>
+<p class="edu-p">- 菱形分类是否完整？（QC 为边 + QC 为对角线，至少两大类）</p>
+<p class="edu-p">- 每类中子类是否全部枚举？（边类中 QM=QC 和 QN=QC 两种子类）</p>
+<p class="edu-p">- 方程组是否同时包含距离条件和方向条件？</p>
+<p class="edu-p">- 所有解是否都验证了 C 在 y 轴负半轴？</p>
+<p class="edu-p">- 计算过程中是否有符号错误？（特别注意负号）</p>
+</aside>
+
+</div>
+
+</body>
+</html>

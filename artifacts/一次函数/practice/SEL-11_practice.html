@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>自适应练习：一次函数与反比例函数交点——中点关系</title>
+<script>
+MathJax = {
+  tex: { inlineMath: [['$', '$']], displayMath: [['$$', '$$']] }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+@page {
+  size: A4;
+  margin: 16mm 14mm;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  color: #111;
+  background: #fff;
+  font-family: "SimSun", "Songti SC", "Noto Serif CJK SC", serif;
+  font-size: 12pt;
+  line-height: 1.72;
+}
+
+.page {
+  max-width: 186mm;
+  margin: 0 auto;
+  padding: 0 2mm;
+}
+
+h1, h2, h3 {
+  font-family: "SimHei", "Microsoft YaHei", sans-serif;
+  font-weight: 700;
+  color: #000;
+}
+
+h1 {
+  margin: 0 0 7mm;
+  text-align: center;
+  font-size: 18pt;
+  letter-spacing: 0;
+}
+
+h2 {
+  margin: 5mm 0 2mm;
+  padding: 1.5mm 2mm;
+  border-left: 3px solid #111;
+  border-bottom: 1px solid #999;
+  font-size: 13.5pt;
+}
+
+h3 {
+  margin: 3mm 0 1.5mm;
+  font-size: 12pt;
+}
+
+p, ol, ul {
+  margin-top: 0;
+  margin-bottom: 2.5mm;
+}
+
+ol, ul {
+  padding-left: 7mm;
+}
+
+.teacher-note {
+  font-size: 10.5pt;
+  color: #333;
+  background: #f7f7f7;
+  margin: 3mm 0;
+  padding: 2.5mm 3mm;
+  border: 1px solid #777;
+}
+
+.problem {
+  margin: 5mm 0;
+  padding: 3mm;
+  border: 1px solid #aaa;
+}
+
+.problem .stem {
+  font-size: 12pt;
+  line-height: 1.8;
+}
+
+.problem .stem ol {
+  padding-left: 6mm;
+}
+
+.problem .stem li {
+  margin-bottom: 1.5mm;
+}
+
+details {
+  margin: 2mm 0;
+  border: 1px dashed #999;
+  padding: 1.5mm 2mm;
+  background: #fafafa;
+}
+
+details summary {
+  cursor: pointer;
+  font-family: "SimHei", "Microsoft YaHei", sans-serif;
+  font-size: 11pt;
+  color: #333;
+}
+
+.answer-space {
+  margin: 3mm 0;
+  min-height: 30mm;
+  border: 1px solid #ccc;
+  background: repeating-linear-gradient(
+    transparent,
+    transparent 7mm,
+    #ddd 7mm,
+    #ddd 7.5mm
+  );
+}
+
+.page-break {
+  break-before: page;
+  page-break-before: always;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 3mm 0;
+}
+
+td, th {
+  border: 1px solid #555;
+  padding: 1.8mm 2mm;
+  vertical-align: top;
+}
+
+.key-tag {
+  display: inline-block;
+  font-family: "SimHei", "Microsoft YaHei", sans-serif;
+  font-size: 10pt;
+  padding: 0.5mm 2mm;
+  border: 1px solid #555;
+  background: #f0f0f0;
+  margin-right: 1mm;
+}
+
+mjx-container {
+  font-size: 105% !important;
+}
+
+@media print {
+  body {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  details {
+    break-inside: avoid;
+  }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<h1>自适应练习：一次函数与反比例函数交点——中点关系</h1>
+
+<!-- 教师判断 -->
+<section class="teacher-note">
+  <h2 style="margin-top:0;">教师判断</h2>
+  <p><strong>当前档位：C档</strong>（会找关键量，但选关系不熟练）</p>
+  <p><strong>判断依据：</strong>初二学生，学过反比例函数，需要综合训练。本组练习聚焦"共线等距→中点关系"的识别与运用，以及平行坐标轴的坐标转化，不引入复杂变式。</p>
+  <p><strong>升级条件：</strong>3 题全部正确，可升至 E 档做同源变式</p>
+  <p><strong>降级条件：</strong>第 1 题出错，降至 B 档做低门槛识别题</p>
+</section>
+
+<!-- 练习说明 -->
+<section>
+  <h2>练习说明</h2>
+  <p>本组练习训练两个核心动作：</p>
+  <ol>
+    <li><strong>共线等距 → 中点关系</strong>：看到"三点共线 + 两段等长"，直接用中点公式</li>
+    <li><strong>平行坐标轴 → 坐标相同</strong>：平行 $x$ 轴则纵坐标相同，平行 $y$ 轴则横坐标相同</li>
+  </ol>
+  <p>共 3 题，做完后对照参考答案自批，记录错在哪里。</p>
+</section>
+
+<!-- ==================== 第1题 ==================== -->
+<section class="problem">
+  <h2>第 1 题</h2>
+  <p class="stem">在平面直角坐标系中，直线 $l$ 与 $x$ 轴交于 $A(-4, 0)$，与 $y$ 轴正半轴交于 $B$，与反比例函数 $y = \dfrac{k}{x}\ (x > 0)$ 的图象交于 $C$。已知 $AB = BC$，$C$ 的纵坐标为 6。</p>
+  <ol>
+    <li>求 $B$、$C$ 的坐标；</li>
+    <li>求直线 $l$ 的表达式；</li>
+    <li>求反比例函数的表达式。</li>
+  </ol>
+
+  <p><span class="key-tag">训练目标</span>共线等距→中点公式求坐标 + 待定系数法</p>
+  <p><span class="key-tag">预期卡点</span>看不出 AB=BC 就是中点条件；中点公式应用出错</p>
+
+  <details>
+    <summary>提示一</summary>
+    <p>$A$、$B$、$C$ 都在直线 $l$ 上，且 $AB = BC$。$B$ 和 $A$、$C$ 是什么关系？</p>
+  </details>
+
+  <details>
+    <summary>提示二</summary>
+    <p>$B$ 是 $AC$ 中点。$x_B = 0$（$B$ 在 $y$ 轴上），所以 $0 = \dfrac{-4 + x_C}{2}$ → $x_C = 4$。$y_B = \dfrac{0 + 6}{2} = 3$。得 $B(0, 3)$，$C(4, 6)$。</p>
+  </details>
+
+  <div class="answer-space"></div>
+</section>
+
+<!-- ==================== 第2题 ==================== -->
+<section class="problem">
+  <h2>第 2 题</h2>
+  <p class="stem">已知 $A(1, 2)$、$B(3, y)$、$C(5, 6)$ 三点在同一条直线上。</p>
+  <ol>
+    <li>若 $AB = BC$，求 $B$ 的坐标；</li>
+    <li>若 $AB : BC = 1 : 3$（$B$ 在 $AC$ 上），求 $B$ 的坐标。</li>
+  </ol>
+
+  <p><span class="key-tag">训练目标</span>中点公式的巩固；分点公式的初步接触</p>
+  <p><span class="key-tag">预期卡点</span>第(2)小题比例不是 1:1，需推广中点公式为分点公式</p>
+
+  <details>
+    <summary>提示一</summary>
+    <p>第(1)小题：$AB = BC$ → $B$ 是中点。第(2)小题：$AB : BC = 1 : 3$ 意味着 $B$ 把 $AC$ 分成 $1:3$，可以用分点公式或"从 A 出发走 $\frac{1}{1+3}$ 的路"来想。</p>
+  </details>
+
+  <details>
+    <summary>提示二</summary>
+    <p>第(1)小题：$B\left(\dfrac{1+5}{2}, \dfrac{2+6}{2}\right) = (3, 4)$。第(2)小题：$x_B = 1 + \dfrac{1}{4}(5-1) = 2$，$y_B = 2 + \dfrac{1}{4}(6-2) = 3$，即 $B(2, 3)$。</p>
+  </details>
+
+  <div class="answer-space"></div>
+</section>
+
+<!-- ==================== 第3题 ==================== -->
+<section class="problem">
+  <h2>第 3 题</h2>
+  <p class="stem">直线 $AB$ 与 $x$ 轴交于 $A(-4, 0)$，与 $y$ 轴正半轴交于 $B$，与反比例函数 $y = \dfrac{n}{x}\ (x > 0)$ 的图象交于 $C$，且 $AB = BC$，点 $C$ 的纵坐标为 $6$。</p>
+  <ol>
+    <li>求直线 $AB$ 的表达式与反比例函数的表达式；</li>
+    <li>过点 $B$ 作 $BD \parallel x$ 轴，交反比例函数 $y = \dfrac{n}{x}$ 的图象于 $D$，求线段 $CD$ 的长度。</li>
+  </ol>
+
+  <p><span class="key-tag">训练目标</span>原题结构的巩固：中点 + 平行坐标轴 + 距离公式完整流程</p>
+  <p><span class="key-tag">预期卡点</span>换数字后中点公式计算出错；BD // $x$ 轴后 $y_D = y_B$ 设错</p>
+
+  <details>
+    <summary>提示一</summary>
+    <p>第(1)小题和第 1 题思路完全一样：$AB = BC$ 共线 → $B$ 是 $AC$ 中点。第(2)小题也和原题第(2)问思路一致。</p>
+  </details>
+
+  <details>
+    <summary>提示二</summary>
+    <p>$x_B = 0 = \dfrac{-4 + x_C}{2}$ → $x_C = 4$；$y_B = \dfrac{0+6}{2} = 3$。$B(0,3)$，$C(4,6)$。直线过 $A(-4,0)$ 和 $B(0,3)$：$k = \dfrac{3}{4}$，$y = \dfrac{3}{4}x + 3$。$n = 4 \times 6 = 24$。$BD \parallel x$ 轴：$y_D = 3$，$x_D = \dfrac{24}{3} = 8$，$D(8,3)$。$CD = \sqrt{(8-4)^2 + (3-6)^2} = \sqrt{16+9} = 5$。</p>
+  </details>
+
+  <div class="answer-space"></div>
+</section>
+
+<!-- ==================== 参考答案（分页） ==================== -->
+<div class="page-break"></div>
+
+<section>
+  <h2>参考答案与升级/降级判断</h2>
+
+  <h3>第 1 题</h3>
+  <ol>
+    <li>$B$ 是 $AC$ 中点。$x_B = 0 = \dfrac{-4 + x_C}{2}$ → $x_C = 4$；$y_B = \dfrac{0 + 6}{2} = 3$。<strong>$B(0, 3)$，$C(4, 6)$</strong>。</li>
+    <li>直线 $l$ 过 $A(-4, 0)$ 和 $B(0, 3)$：斜率 $k = \dfrac{3-0}{0-(-4)} = \dfrac{3}{4}$，截距 $b = 3$。<strong>$y = \dfrac{3}{4}x + 3$</strong>。</li>
+    <li>$C(4, 6)$ 在 $y = \dfrac{k}{x}$ 上：$k = 4 \times 6 = 24$。<strong>$y = \dfrac{24}{x}$</strong>。</li>
+  </ol>
+  <p><strong>判断：</strong></p>
+  <ul>
+    <li>3 小题全对 → 升至 D 档</li>
+    <li>第(1)小题出错（看不出中点）→ 降至 B 档，需回到讲解页复习"共线等距"概念</li>
+    <li>第(2)(3)小题出错 → 维持 C 档，待定系数法需巩固</li>
+  </ul>
+
+  <h3>第 2 题</h3>
+  <ol>
+    <li>$B$ 是 $AC$ 中点：$B\left(\dfrac{1+5}{2}, \dfrac{2+6}{2}\right) = \mathbf{(3, 4)}$。</li>
+    <li>$AB : BC = 1 : 3$，$B$ 将 $AC$ 分为 $1:3$。从 $A$ 出发走 $\dfrac{1}{1+3} = \dfrac{1}{4}$ 的路到达 $B$：
+      <p>$x_B = 1 + \dfrac{1}{4}(5 - 1) = 1 + 1 = 2$</p>
+      <p>$y_B = 2 + \dfrac{1}{4}(6 - 2) = 2 + 1 = 3$</p>
+      <p><strong>$B(2, 3)$</strong></p>
+    </li>
+  </ol>
+  <p><strong>判断：</strong></p>
+  <ul>
+    <li>2 小题全对 → 升至 D 档，具备推广到分点公式的能力</li>
+    <li>第(1)小题出错 → 维持 C 档，中点公式基础不牢</li>
+    <li>第(2)小题答不出 → 维持 C 档，但已达到中点掌握水平</li>
+  </ul>
+
+  <h3>第 3 题</h3>
+  <ol>
+    <li>$B$ 是 $AC$ 中点：$x_B = 0 = \dfrac{-4 + x_C}{2}$ → $x_C = 4$；$y_B = \dfrac{0+6}{2} = 3$。
+      <p>$B(0, 3)$，$C(4, 6)$。直线 $AB$ 过 $A(-4, 0)$ 和 $B(0, 3)$：$k = \dfrac{3-0}{0-(-4)} = \dfrac{3}{4}$，<strong>$y = \dfrac{3}{4}x + 3$</strong>。</p>
+      <p>$n = x_C \cdot y_C = 4 \times 6 = 24$，<strong>$y = \dfrac{24}{x}$</strong>。</p>
+    </li>
+    <li>$BD \parallel x$ 轴 → $y_D = y_B = 3$。$D$ 在 $y = \dfrac{24}{x}$ 上：$x_D = \dfrac{24}{3} = 8$，$D(8, 3)$。
+      <p>$C(4, 6)$，$D(8, 3)$。$CD = \sqrt{(8-4)^2 + (3-6)^2} = \sqrt{16 + 9} = \sqrt{25} = \mathbf{5}$。</p>
+    </li>
+  </ol>
+  <p><strong>判断：</strong></p>
+  <ul>
+    <li>2 小题全对 → 升至 E 档，原题结构已巩固，可做变式</li>
+    <li>第(1)小题出错 → 维持 C 档，中点公式或待定系数法需强化</li>
+    <li>第(2)小题出错 → 维持 C 档，平行坐标轴的坐标转化需专项练习</li>
+  </ul>
+</section>
+
+<!-- 教师备注 -->
+<aside class="teacher-note" style="margin-top: 8mm;">
+  <strong>下一轮指导：</strong>根据本页完成情况，更新学生画像；必要时回到讲解页，或生成下一组变式。
+  <ul>
+    <li>全部正确（3题满分）→ 生成 E 档变式（结构隐藏型，如 AB:BC = 1:n 推广）</li>
+    <li>第1题出错 → 回到讲解页复习"共线等距→中点"核心转化</li>
+    <li>第2题第(2)小题出错 → 巩固中点公式，暂不推进分点公式</li>
+    <li>第3题联立出错 → 补充一次函数与反比例函数联立方程的专项训练</li>
+  </ul>
+</aside>
+
+</div>
+</body>
+</html>

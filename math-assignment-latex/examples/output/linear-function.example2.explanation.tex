@@ -1,0 +1,481 @@
+% preamble-exam-zh.tex — 极简讲解页共享 preamble
+% 目标：复刻「题目独立、提示轻框、路线箭头、主体双栏、答案轻收束」的讲义风格。
+
+\documentclass{exam-zh}
+
+% ---------- 基础配置 ----------
+\examsetup{
+  page/size = a4paper,
+  page/show-head = false,
+  page/show-foot = false,
+  sealline/show = false,
+  font = none,
+  math-font = none,
+}
+
+% ---------- 包 ----------
+\usepackage{geometry}
+\geometry{top=0mm,bottom=14mm,left=8mm,right=8mm}
+
+\usepackage{xcolor}
+\usepackage{needspace}
+\usepackage{enumitem}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning}
+\usepackage{tcolorbox}
+\tcbuselibrary{skins,breakable}
+
+% ---------- 打印/屏幕颜色切换 ----------
+% 用法：\documentclass[monochrome]{exam-zh} 可降级为灰度。
+% 注意：不要使用 \if@xxx 放在 makeatother 外部；这里改成普通条件名。
+\newif\ifeduprintcolor
+\eduprintcolortrue
+\makeatletter
+\@ifclasswith{exam-zh}{monochrome}{\eduprintcolorfalse}{}
+\makeatother
+
+% ---------- 语义颜色 ----------
+\ifeduprintcolor
+  \definecolor{edu-blue}{RGB}{31,62,126}
+  \definecolor{edu-blue-soft}{RGB}{232,238,250}
+  \definecolor{edu-blue-bg}{RGB}{248,250,254}
+  \definecolor{edu-ink}{RGB}{30,35,45}
+  \definecolor{edu-muted}{RGB}{118,124,136}
+  \definecolor{edu-line}{RGB}{209,218,235}
+  \definecolor{edu-soft-bg}{RGB}{250,251,253}
+  \definecolor{edu-red}{RGB}{168,58,58}
+  \definecolor{edu-red-bg}{RGB}{255,247,245}
+\else
+  \definecolor{edu-blue}{gray}{0.15}
+  \definecolor{edu-blue-soft}{gray}{0.90}
+  \definecolor{edu-blue-bg}{gray}{0.98}
+  \definecolor{edu-ink}{gray}{0.10}
+  \definecolor{edu-muted}{gray}{0.45}
+  \definecolor{edu-line}{gray}{0.82}
+  \definecolor{edu-soft-bg}{gray}{0.97}
+  \definecolor{edu-red}{gray}{0.28}
+  \definecolor{edu-red-bg}{gray}{0.97}
+\fi
+
+% ---------- 全局排版 ----------
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\linespread{1.16}
+\renewcommand{\arraystretch}{1.15}
+
+% ctex 通常提供 \kaishu；这里用它做教师旁白感。
+\newcommand{\edukai}{\kaishu}
+
+% ---------- 顶部元信息 ----------
+\newcommand{\eduTopBar}[2]{%
+  \noindent
+  \begin{tabularx}{\linewidth}{@{}Xr@{}}
+    {\color{edu-blue}\bfseries #1} &
+    {\color{edu-blue}\bfseries #2}
+  \end{tabularx}
+  \vspace{8mm}
+}
+
+% ---------- 轻标题体系 ----------
+% 只有真正的大结构才用它；不要给提示/路线滥用标题。
+\newcommand{\eduSectionTitle}[1]{%
+  \vspace{2mm}
+  {\color{edu-blue}\bfseries\large #1}\par
+  \vspace{3mm}
+}
+
+\newcommand{\eduSubTitle}[1]{%
+  \vspace{1mm}
+  {\color{edu-blue}\bfseries #1}\par
+  \vspace{1mm}
+}
+
+\newcommand{\eduColumnTitle}[2]{%
+  {\color{edu-blue}\bfseries #1\hspace{1.5mm}#2}\par
+  \vspace{2.5mm}
+}
+
+% ---------- 图标：不用外部 icon 字体，保证可移植 ----------
+\newcommand{\eduIconBulb}{\(\circ\)}
+\newcommand{\eduIconBook}{\(\square\)}
+\newcommand{\eduIconCheck}{\(\checkmark\)}
+\newcommand{\eduIconPin}{\(\diamond\)}
+\newcommand{\eduIconNote}{\(\triangleright\)}
+
+% ---------- 题目区 ----------
+% 题目区是页面入口：弱标签 + 一条长蓝线 + 大题干。
+\newenvironment{eduProblemBlock}[1][题目]{%
+  \needspace{8\baselineskip}
+  {\small\color{edu-muted}#1}\par
+  \vspace{1.5mm}
+  {\color{edu-blue}\hrule height 0.55pt}
+  \vspace{4.5mm}
+  \begingroup
+  \color{edu-ink}
+  \large
+  \setlength{\parskip}{2.2mm}
+  \linespread{1.20}\selectfont
+}{%
+  \par
+  \endgroup
+  \vspace{6mm}
+}
+
+\newenvironment{eduSubQuestions}{%
+  \begin{enumerate}[
+    label=(\arabic*),
+    leftmargin=8mm,
+    itemsep=2.0mm,
+    topsep=2.0mm,
+    parsep=0pt
+  ]
+}{%
+  \end{enumerate}
+}
+
+% ---------- 读题提示：轻框，不做同级标题 ----------
+\newtcolorbox{eduReadTipBox}{
+  enhanced,
+  breakable,
+  colback=white,
+  colframe=edu-blue!45,
+  boxrule=0.45pt,
+  arc=1.6mm,
+  left=10mm,
+  right=4mm,
+  top=3mm,
+  bottom=3mm,
+  before skip=1mm,
+  after skip=7mm,
+  fontupper=\edukai\small,
+  colupper=edu-ink,
+  overlay={
+    \node[anchor=north west, text=edu-blue] at ([xshift=3.2mm,yshift=-3.2mm]frame.north west)
+    {\small\eduIconNote};
+  }
+}
+
+\newenvironment{eduTipList}{%
+  \begin{itemize}[
+    label=\textbullet,
+    leftmargin=5mm,
+    itemsep=1.2mm,
+    topsep=0pt,
+    parsep=0pt
+  ]
+}{%
+  \end{itemize}
+}
+
+% ---------- 解题路线：箭头流程图 ----------
+\newenvironment{eduRouteFlow}{%
+  \vspace{1mm}
+  \begin{center}
+  \small
+}{%
+  \end{center}
+  \vspace{7mm}
+}
+
+\tikzset{
+  edu route node/.style={
+    draw=edu-blue,
+    rounded corners=1.5mm,
+    line width=0.45pt,
+    inner xsep=3.0mm,
+    inner ysep=2.4mm,
+    minimum height=9mm,
+    text width=43mm,
+    align=center,
+    text=edu-ink,
+    fill=white
+  },
+  edu route arrow/.style={
+    -{Latex[length=2.0mm,width=1.6mm]},
+    edu-blue,
+    line width=0.45pt
+  }
+}
+
+% ---------- 主体讲解：只在这里使用双栏 ----------
+% 不用 tabularx 包整块，避免模板生成后出现 tabularx body 扫描问题。
+\newenvironment{eduDualExplain}{%
+  \needspace{10\baselineskip}
+  \par\noindent
+}{%
+  \par\vspace{5mm}
+}
+
+\newenvironment{eduExplainLeft}{%
+  \begin{minipage}[t]{0.33\linewidth}
+  \small
+  \color{edu-ink}
+}{%
+  \end{minipage}
+}
+
+\newcommand{\eduColumnDivider}{%
+  \hspace{4mm}{\color{edu-blue}\vrule width 0.45pt}\hspace{4mm}%
+}
+
+\newenvironment{eduExplainRight}{%
+  \begin{minipage}[t]{0.58\linewidth}
+  \small
+  \color{edu-ink}
+}{%
+  \end{minipage}
+}
+
+\newenvironment{eduNumberList}{%
+  \begin{enumerate}[
+    label=\arabic*.,
+    leftmargin=6mm,
+    itemsep=2.1mm,
+    topsep=0pt,
+    parsep=0pt
+  ]
+}{%
+  \end{enumerate}
+}
+
+\newenvironment{eduBulletList}{%
+  \begin{itemize}[
+    label=\textbullet,
+    leftmargin=5mm,
+    itemsep=1.2mm,
+    topsep=0pt,
+    parsep=0pt
+  ]
+}{%
+  \end{itemize}
+}
+
+% ---------- 底部双栏：答案 + 方法提醒 ----------
+\newenvironment{eduBottomGrid}{%
+  \vspace{1mm}
+  \par\noindent
+}{%
+  \par\vspace{1mm}
+}
+
+\newenvironment{eduSummaryLeft}{%
+  \begin{minipage}[t]{0.33\linewidth}
+}{%
+  \end{minipage}
+}
+
+\newcommand{\eduSummaryDivider}{%
+  \hspace{4mm}{\color{edu-line}\vrule width 0.35pt}\hspace{4mm}%
+}
+
+\newenvironment{eduSummaryRight}{%
+  \begin{minipage}[t]{0.58\linewidth}
+}{%
+  \end{minipage}
+}
+
+% ---------- 答案/方法提醒：轻量收束 ----------
+\newtcolorbox{eduSummaryBlock}[2]{
+  enhanced,
+  breakable,
+  colback=white,
+  colframe=white,
+  boxrule=0pt,
+  sharp corners,
+  left=0mm,
+  right=0mm,
+  top=1mm,
+  bottom=1mm,
+  before skip=1mm,
+  after skip=1mm,
+  title={\color{edu-blue}\bfseries #1\hspace{1.5mm}#2},
+  coltitle=edu-blue,
+  attach title to upper={\par\vspace{2mm}},
+  fontupper=\small
+}
+
+\newenvironment{eduPlainList}{%
+  \begin{enumerate}[
+    label=(\arabic*),
+    leftmargin=7mm,
+    itemsep=1.2mm,
+    topsep=0pt,
+    parsep=0pt
+  ]
+}{%
+  \end{enumerate}
+}
+
+% ---------- 兼容旧 block 的轻量盒子 ----------
+\newtcolorbox{eduSoftBox}{
+  enhanced,
+  breakable,
+  colback=edu-soft-bg,
+  colframe=edu-line,
+  boxrule=0.35pt,
+  arc=1mm,
+  left=3mm,
+  right=3mm,
+  top=2mm,
+  bottom=2mm,
+  before skip=1mm,
+  after skip=2mm,
+  fontupper=\small
+}
+
+\newtcolorbox{eduMistakeBox}{
+  enhanced,
+  breakable,
+  colback=edu-red-bg,
+  colframe=edu-red!40,
+  boxrule=0.35pt,
+  arc=1mm,
+  left=3mm,
+  right=3mm,
+  top=2mm,
+  bottom=2mm,
+  before skip=1mm,
+  after skip=2mm,
+  fontupper=\small
+}
+
+\newtcolorbox{eduLegacySolution}{
+  enhanced,
+  breakable,
+  colback=edu-soft-bg,
+  colframe=edu-line,
+  boxrule=0.35pt,
+  arc=1mm,
+  left=3mm,
+  right=3mm,
+  top=2mm,
+  bottom=2mm,
+  before skip=-2mm,
+  after skip=4mm,
+  fontupper=\small
+}
+
+\newtcolorbox{eduTeacherNote}{
+  enhanced,
+  breakable,
+  colback=edu-soft-bg,
+  colframe=edu-line,
+  boxrule=0pt,
+  borderline west={1.5pt}{0pt}{edu-muted},
+  left=2.5mm,
+  right=2.5mm,
+  top=2mm,
+  bottom=2mm,
+  before skip=1mm,
+  after skip=2mm,
+  fontupper=\footnotesize,
+  colupper=edu-muted
+}
+
+% ---------- 答题区 ----------
+\newcommand{\answerarea}[1][40mm]{%
+  \vspace{3mm}%
+  \begin{tcolorbox}[
+    enhanced,
+    breakable,
+    colback=white,
+    colframe=edu-line,
+    boxrule=0.55pt,
+    arc=0.8mm,
+    height=#1,
+    valign=top,
+  ]
+  \end{tcolorbox}%
+}
+
+\examsetup{
+  question/show-answer = true,
+  fillin/show-answer = true,
+  solution/show-solution = show-stay,
+}
+
+\begin{document}
+
+\eduTopBar
+  {例题 2}
+  {一次函数 | 课堂讲解}
+
+
+
+\begin{eduProblemBlock}[题目]
+已知一次函数 $y = kx + b$ 的图像经过点 $A(0,2)$ 和点 $B(4,0)$。
+\begin{eduSubQuestions}
+  \item 求这个一次函数的解析式；  \item 若点 $C$ 在该图像上，且点 $C$ 的横坐标为 $2$，求点 $C$ 的坐标；  \item 若直线 $y = kx + b$ 与直线 $y = -x + 4$ 交于点 $M$，求点 $M$ 的坐标。\end{eduSubQuestions}
+\end{eduProblemBlock}
+
+
+
+
+
+\begin{eduReadTipBox}
+\begin{eduTipList}
+  \item 先解决第（1）问，得到解析式，后面两问都要建立在第（1）问的结果上。  \item 这是一道“先求式，再代入，再联立”的递进题。\end{eduTipList}
+\end{eduReadTipBox}
+
+
+
+
+\begin{eduRouteFlow}
+\begin{tikzpicture}
+  \node[edu route node] (route0) {由 $A、B$ 两点求解析式};
+  \node[edu route node, right=10mm of route0] (route1) {代入 $x=2$ 求点 $C$};
+  \node[edu route node, right=10mm of route1] (route2) {联立两条直线求点 $M$};
+  \draw[edu route arrow] (route0.east) -- (route1.west);
+  \draw[edu route arrow] (route1.east) -- (route2.west);
+\end{tikzpicture}
+\end{eduRouteFlow}
+
+
+
+
+\eduSectionTitle{讲解}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{思考引导 / 易错提示}
+    \begin{eduNumberList}
+      \item 已知两个点，优先想到用待定系数法求 $k,b$。      \item 点 $A(0,2)$ 在 $y$ 轴上，代入后可以直接得到 $b$。      \item 第（2）（3）问不要急着做，先把第（1）问算清楚。    \end{eduNumberList}
+  \end{eduExplainLeft}
+  \eduColumnDivider
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{规范讲解}
+    \begin{eduNumberList}
+      \item 把 $A(0,2)$ 代入 $y = kx + b$，得 $b = 2$。      \item 把 $B(4,0)$ 代入 $y = kx + b$，得 $0 = 4k + 2$，所以 $k = -\dfrac{1}{2}$。      \item 所以一次函数解析式为 $y = -\dfrac{1}{2}x + 2$。    \end{eduNumberList}
+
+    \vspace{1mm}
+    \eduSubTitle{后两问如何承接}
+    \begin{eduBulletList}
+      \item 第（2）问：把 $x = 2$ 代入 $y = -\dfrac{1}{2}x + 2$，得 $y = 1$，所以 $C(2,1)$。      \item 第（3）问：联立 $y = -\dfrac{1}{2}x + 2$ 与 $y = -x + 4$，可求交点 $M$。    \end{eduBulletList}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduBottomGrid}
+  \begin{eduSummaryLeft}
+    \begin{eduSummaryBlock}{\eduIconCheck}{答案}
+    \begin{eduPlainList}
+      \item $y = -\dfrac{1}{2}x + 2$      \item $C(2,1)$      \item $M(4,0)$    \end{eduPlainList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryLeft}
+  \eduSummaryDivider
+  \begin{eduSummaryRight}
+    \begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
+    \begin{eduBulletList}
+      \item 先做基础问，再做依赖前面结果的后续问。      \item 题干与讲解分离，避免学生一开始就淹没在推导里。      \item 有小问的题，先看递进关系，再决定书写顺序。    \end{eduBulletList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryRight}
+\end{eduBottomGrid}
+
+
+
+
+\end{document}
