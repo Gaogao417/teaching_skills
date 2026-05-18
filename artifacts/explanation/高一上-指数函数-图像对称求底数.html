@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>学生版讲解：指数函数关于 y 轴对称</title>
+<link rel="stylesheet" href="../../.opencode/skill/math-student-explanation-html/assets/edu-print.css">
+</head>
+<body data-view="student">
+<div class="edu-page">
+  <h1 class="edu-title">学生版讲解：指数函数关于 y 轴对称</h1>
+  <p class="edu-subtitle">主题标签：指数函数 · 对称变换 · 负指数化简</p>
+
+  <section class="edu-problem-card u-avoid-break">
+    <div class="edu-problem-title">原题</div>
+    <p class="edu-problem-stem">y = a<sup>x</sup> 与 y = 3<sup>x</sup> 关于 y 轴对称，求 a 的值。</p>
+  </section>
+
+  <section class="edu-section">
+    <h2 class="edu-section-title">一、先把题目拆开</h2>
+    <table class="edu-table edu-task-table">
+      <tr><th>已知条件</th><td>两个函数 y = a<sup>x</sup> 和 y = 3<sup>x</sup> 的图像关于 y 轴对称</td></tr>
+      <tr><th>要求目标</th><td>求 a 的值</td></tr>
+      <tr><th>关键词</th><td>"关于 y 轴对称"</td></tr>
+      <tr><th>容易忽略</th><td>指数函数底数 a &gt; 0，最后要验证 a 是否满足此条件</td></tr>
+    </table>
+  </section>
+
+  <section class="edu-section">
+    <h2 class="edu-section-title">二、这题准备怎么走</h2>
+    <div class="edu-route">
+      <ol>
+        <li>先理解"关于 y 轴对称"对一个点意味着什么</li>
+        <li>把这个理解翻译到函数表达式上</li>
+        <li>化简得到的表达式</li>
+        <li>对比两个函数，得出 a 的值</li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="edu-section">
+    <h2 class="edu-section-title">三、关键想法</h2>
+    <div class="edu-key-idea">"关于 y 轴对称"的动作翻译：把函数表达式中的 <span class="edu-strong">x 替换成 -x</span>。</div>
+    <p class="edu-p">为什么？因为图像关于 y 轴对称，意味着图像上每一个点 (x, y) 的对称点是 (-x, y)。所以只需要把原来表达式中的 x 全部换成 -x，就得到了对称图像的表达式。</p>
+  </section>
+
+  <section class="edu-section u-avoid-break">
+    <h2 class="edu-section-title">四、标准解法</h2>
+    <div class="edu-step">
+      <div class="edu-step-title">第 1 步：从"点"理解对称</div>
+      <p class="edu-p">y = 3<sup>x</sup> 上有一个点 (1, 3)。</p>
+      <p class="edu-p">它关于 y 轴的对称点：把 x 取反，y 不变 → (-1, 3)。</p>
+      <p class="edu-p">验证：把 x = -1 代入 y = 3<sup>x</sup> 的对称图像，应该得到 y = 3。而 3<sup>-1</sup> = 1/3，不是 3。</p>
+      <p class="edu-p">所以对称图像的表达式不是 y = 3<sup>x</sup>，而是别的——我们需要找到它。</p>
+      <p class="edu-step-why">具体点的例子帮我们建立直观感受：对称图像上 x = -1 时 y = 3。</p>
+    </div>
+
+    <div class="edu-step">
+      <div class="edu-step-title">第 2 步：把对称翻译到表达式</div>
+      <p class="edu-p">图像关于 y 轴对称 → 把表达式中的 x 换成 -x：</p>
+      <div class="edu-formula-key">y = 3<sup>x</sup> 关于 y 轴对称 → y = 3<sup>-x</sup></div>
+      <p class="edu-p">验证第 1 步的点：x = -1 时，y = 3<sup>-(-1)</sup> = 3<sup>1</sup> = 3。正确！</p>
+      <p class="edu-step-why">用具体点验证，确保"换 x 为 -x"这个动作是对的。</p>
+    </div>
+
+    <div class="edu-step">
+      <div class="edu-step-title">第 3 步：化简 3<sup>-x</sup></div>
+      <p class="edu-p">题目说 y = a<sup>x</sup>，所以要把 3<sup>-x</sup> 化成"<span class="edu-math">底数</span><sup>x</sup>"的形式。</p>
+      <p class="edu-p">利用指数运算法则 a<sup>-x</sup> = (1/a)<sup>x</sup>：</p>
+      <div class="edu-formula-key">3<sup>-x</sup> = (3<sup>-1</sup>)<sup>x</sup> = (1/3)<sup>x</sup></div>
+      <p class="edu-step-why">a<sup>mn</sup> = (a<sup>m</sup>)<sup>n</sup> 是基本指数法则，把 -x 拆成 (-1)·x 即可。</p>
+    </div>
+
+    <div class="edu-step">
+      <div class="edu-step-title">第 4 步：对比得 a</div>
+      <p class="edu-p">y = a<sup>x</sup> 与 y = (1/3)<sup>x</sup> 是同一个函数，因此：</p>
+      <div class="edu-formula-key">a = 1/3</div>
+      <p class="edu-step-why">验证：a = 1/3 &gt; 0 且 a ≠ 1，满足指数函数底数条件。</p>
+    </div>
+  </section>
+
+  <div class="page-break"></div>
+
+  <section class="edu-section">
+    <h2 class="edu-section-title">五、边讲边问</h2>
+    <div class="edu-question">
+      <div class="edu-question-title">想一想 1</div>
+      <p class="edu-p">点 (2, 9) 在 y = 3<sup>x</sup> 上。它关于 y 轴的对称点坐标是什么？</p>
+      <span class="edu-blank-line"></span>
+    </div>
+
+    <div class="edu-question">
+      <div class="edu-question-title">想一想 2</div>
+      <p class="edu-p">y = x<sup>2</sup> 关于 y 轴对称的图像是什么？提示：试试把 x 换成 -x，看表达式有没有变化。</p>
+      <span class="edu-blank-line"></span>
+      <span class="edu-blank-line"></span>
+    </div>
+
+    <div class="edu-question">
+      <div class="edu-question-title">想一想 3</div>
+      <p class="edu-p">y = 2<sup>x</sup> 关于 y 轴对称的图像，用"<span class="edu-math">底数</span><sup>x</sup>"的形式写出来是什么？</p>
+      <span class="edu-blank-line"></span>
+    </div>
+  </section>
+
+  <section class="edu-section">
+    <h2 class="edu-section-title">六、易错提醒</h2>
+    <div class="edu-mistake"><strong>易错点 1：</strong>把 y 取反而不是 x 取反。"关于 y 轴对称"改的是 x 坐标，y 不动。不要和"关于 x 轴对称"（改 y）搞混。</div>
+    <div class="edu-mistake"><strong>易错点 2：</strong>化简 3<sup>-x</sup> 时写成 -3<sup>x</sup>。记住：负号在指数上，不是在底数前面。3<sup>-x</sup> = (1/3)<sup>x</sup>，不是 -3<sup>x</sup>。</div>
+  </section>
+
+  <section class="edu-section">
+    <h2 class="edu-section-title">七、一句话总结</h2>
+    <div class="edu-key-idea">关于 y 轴对称 → 把 x 换成 -x → 化简负指数 a<sup>-x</sup> = (1/a)<sup>x</sup>。</div>
+  </section>
+
+  <section class="edu-section">
+    <h2 class="edu-section-title">八、本节核心公式</h2>
+    <div class="edu-formula-key">关于 y 轴对称：f(x) → f(-x)</div>
+    <div class="edu-formula">a<sup>-x</sup> = (1/a)<sup>x</sup> = (a<sup>-1</sup>)<sup>x</sup></div>
+  </section>
+</div>
+
+<aside class="edu-teacher-note self-check no-print">
+  <div class="edu-card-title">生成后自检</div>
+  <ul>
+    <li><strong>数学检查：</strong>答案 a = 1/3 与 canonical solution 一致；无漏解增根；3^(-x) = (1/3)^x 公式适用。</li>
+    <li><strong>教学检查：</strong>本页只训练"对称→换x→化简"一个核心动作；未引入无关知识点；互动问题围绕对称和负指数化简；提示由具体到抽象。</li>
+    <li><strong>档位检查：</strong>默认假设 C 档；无学生证据，标注"默认预测"。</li>
+    <li><strong>HTML 检查：</strong>标签闭合；包含全部 required sections；依赖相对路径 edu-print.css，无 CDN；@page A4 已在 CSS 中定义；分页在"标准解法"与"边讲边问"之间。</li>
+    <li><strong>自检结论：</strong>通过，可交付练习阶段。</li>
+  </ul>
+</aside>
+
+<aside class="edu-teacher-note no-print">
+下一步：使用 math-adaptive-practice-html，输入本结构分析 + 学生画像，生成自适应练习。工作流：math-structure-analysis → math-student-explanation-html → math-adaptive-practice-html。
+</aside>
+</body>
+</html>

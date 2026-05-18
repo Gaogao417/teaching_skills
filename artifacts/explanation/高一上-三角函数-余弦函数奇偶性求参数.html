@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>学生版讲解：余弦函数为奇函数求参数</title>
+<link rel="stylesheet" href="../../.opencode/skill/math-student-explanation-html/assets/edu-print.css">
+</head>
+<body data-view="student">
+<div class="edu-page">
+  <h1 class="edu-title">学生版讲解：余弦函数为奇函数求参数</h1>
+  <p class="edu-subtitle">主题标签：三角函数 · 奇偶性 · 和角公式 · 偶部归零</p>
+
+  <section class="edu-problem-card u-avoid-break">
+    <div class="edu-problem-title">原题</div>
+    <p class="edu-problem-stem">若 y = cos(x + φ) 为奇函数，求 sin φ 的值。</p>
+  </section>
+
+  <section class="edu-section">
+    <h2 class="edu-section-title">一、先把题目拆开</h2>
+    <table class="edu-table edu-task-table">
+      <tr><th>已知条件</th><td>y = cos(x + φ) 是奇函数</td></tr>
+      <tr><th>要求目标</th><td>求 sin φ 的值</td></tr>
+      <tr><th>关键词</th><td>"奇函数"、"cos(x + φ)"</td></tr>
+      <tr><th>容易忽略</th><td>奇函数要求偶函数部分必须消失；sin φ 有两个可能的值（±1）</td></tr>
+    </table>
+  </section>
+
+  <section class="edu-section">
+    <h2 class="edu-section-title">二、这题准备怎么走</h2>
+    <div class="edu-route">
+      <ol>
+        <li>回顾：什么是奇函数？cos x 和 sin x 分别是偶函数还是奇函数？</li>
+        <li>展开 cos(x + φ) 的和角公式</li>
+        <li>把展开结果分成"偶函数部分"和"奇函数部分"</li>
+        <li>偶函数部分必须为零，求出 φ</li>
+        <li>由 φ 的值算出 sin φ</li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="edu-section">
+    <h2 class="edu-section-title">三、关键想法</h2>
+    <div class="edu-key-idea">偶函数 + 奇函数 = 奇函数 → <span class="edu-strong">偶函数部分必须为零</span>。</div>
+    <p class="edu-p">也就是说：如果一个函数由"偶函数部分"加"奇函数部分"组成，它要是奇函数，那偶函数部分必须消失。</p>
+    <p class="edu-p">类比：一杯水是"热的"，但它由"冷的部分 + 热的部分"组成——那冷的部分必须是零。</p>
+  </section>
+
+  <section class="edu-section u-avoid-break">
+    <h2 class="edu-section-title">四、标准解法</h2>
+    <div class="edu-step">
+      <div class="edu-step-title">第 1 步：确认基础知识</div>
+      <p class="edu-p">奇函数定义：f(-x) = -f(x)，图像关于原点对称。</p>
+      <p class="edu-p">cos x 是<strong>偶函数</strong>（因为 cos(-x) = cos x）。</p>
+      <p class="edu-p">sin x 是<strong>奇函数</strong>（因为 sin(-x) = -sin x）。</p>
+      <p class="edu-step-why">后续展开后要识别"偶部"和"奇部"，先确认基本构件。</p>
+    </div>
+
+    <div class="edu-step">
+      <div class="edu-step-title">第 2 步：展开和角公式</div>
+      <p class="edu-p">利用 cos(α + β) = cos α cos β - sin α sin β：</p>
+      <div class="edu-formula-key">cos(x + φ) = cos x · cos φ - sin x · sin φ</div>
+      <p class="edu-step-why">展开是为了分离出偶函数项和奇函数项。</p>
+    </div>
+
+    <div class="edu-step">
+      <div class="edu-step-title">第 3 步：识别偶部和奇部</div>
+      <p class="edu-p">展开后的结果有两部分：</p>
+      <p class="edu-p">· <span class="edu-strong">cos x · cos φ</span>：cos x 是偶函数，乘以常数 cos φ 还是偶函数 → 这是<strong>偶函数部分</strong></p>
+      <p class="edu-p">· <span class="edu-strong">-sin x · sin φ</span>：sin x 是奇函数，乘以常数 -sin φ 还是奇函数 → 这是<strong>奇函数部分</strong></p>
+      <p class="edu-p">所以：cos(x + φ) = <u>偶函数部分</u> + <u>奇函数部分</u></p>
+      <p class="edu-step-why">分离偶部和奇部，是本题的核心动作。</p>
+    </div>
+
+    <div class="edu-step">
+      <div class="edu-step-title">第 4 步：偶部归零</div>
+      <p class="edu-p">题目说 cos(x + φ) 是<strong>奇函数</strong>。</p>
+      <p class="edu-p">而它由"偶部 + 奇部"组成，要是奇函数，偶部必须为零：</p>
+      <div class="edu-formula-key">cos φ = 0</div>
+      <p class="edu-p">所以 φ = π/2 + kπ（k 为整数）。</p>
+      <p class="edu-step-why">偶函数加奇函数不可能是纯奇函数，除非偶函数部分恰好为零。</p>
+    </div>
+
+    <div class="edu-step">
+      <div class="edu-step-title">第 5 步：求 sin φ</div>
+      <p class="edu-p">由 cos φ = 0，得 φ = π/2 + kπ。</p>
+      <p class="edu-p">当 k 为偶数时：φ = π/2, 5π/2, ... → sin φ = sin(π/2) = <strong>1</strong></p>
+      <p class="edu-p">当 k 为奇数时：φ = 3π/2, 7π/2, ... → sin φ = sin(3π/2) = <strong>-1</strong></p>
+      <div class="edu-formula-key">sin φ = ±1</div>
+      <p class="edu-step-why">k 的奇偶性导致 sin φ 取两个不同的值，必须都写出来。</p>
+    </div>
+  </section>
+
+  <div class="page-break"></div>
+
+  <section class="edu-section">
+    <h2 class="edu-section-title">五、边讲边问</h2>
+    <div class="edu-question">
+      <div class="edu-question-title">想一想 1</div>
+      <p class="edu-p">cos(-x) 等于什么？sin(-x) 等于什么？由此判断它们分别是偶函数还是奇函数。</p>
+      <span class="edu-blank-line"></span>
+    </div>
+
+    <div class="edu-question">
+      <div class="edu-question-title">想一想 2</div>
+      <p class="edu-p">展开 cos(x + π/3)，指出哪部分是偶函数、哪部分是奇函数。</p>
+      <span class="edu-blank-line"></span>
+      <span class="edu-blank-line"></span>
+    </div>
+
+    <div class="edu-question">
+      <div class="edu-question-title">想一想 3</div>
+      <p class="edu-p">取 φ = π/2，算一算 cos(x + π/2) = ？验证它是否真的是奇函数。</p>
+      <span class="edu-blank-line"></span>
+    </div>
+
+    <div class="edu-question">
+      <div class="edu-question-title">想一想 4</div>
+      <p class="edu-p">如果只写 sin φ = 1，会漏掉什么？为什么 sin φ = -1 也是对的？</p>
+      <span class="edu-blank-line"></span>
+    </div>
+  </section>
+
+  <section class="edu-section">
+    <h2 class="edu-section-title">六、易错提醒</h2>
+    <div class="edu-mistake"><strong>易错点 1：</strong>展开和角公式时符号出错。cos(α + β) = cos α cos β <strong>-</strong> sin α sin β，中间是减号，不是加号。</div>
+    <div class="edu-mistake"><strong>易错点 2：</strong>算出 cos φ = 0 后只写 sin φ = 1，漏掉 sin φ = -1。φ = π/2 和 φ = 3π/2 都满足 cos φ = 0，但 sin 的值不同。</div>
+    <div class="edu-mistake"><strong>易错点 3：</strong>不知道"偶部归零"的思路，改用 f(-x) = -f(x) 两边展开再整理。虽然也能做，但步骤多、容易在符号上出错。</div>
+  </section>
+
+  <section class="edu-section">
+    <h2 class="edu-section-title">七、一句话总结</h2>
+    <div class="edu-key-idea">展开和角公式 → 分出偶部和奇部 → <span class="edu-strong">偶部归零</span> → 得参数。</div>
+  </section>
+
+  <section class="edu-section">
+    <h2 class="edu-section-title">八、本节核心公式</h2>
+    <div class="edu-formula-key">cos(x + φ) = cos x cos φ - sin x sin φ</div>
+    <div class="edu-formula">偶函数 + 奇函数 = 奇函数 → 偶函数部分 = 0</div>
+    <div class="edu-formula">cos φ = 0 → φ = π/2 + kπ → sin φ = ±1</div>
+  </section>
+</div>
+
+<aside class="edu-teacher-note self-check no-print">
+  <div class="edu-card-title">生成后自检</div>
+  <ul>
+    <li><strong>数学检查：</strong>答案 sin φ = ±1 与 canonical solution 一致；φ = π/2 + kπ 的所有解均合法，无漏解；和角公式和三角函数奇偶性判定均正确。</li>
+    <li><strong>教学检查：</strong>本页只训练"展开→分离偶部/奇部→偶部归零"一个核心动作；未引入无关知识点；互动问题从基础识别到验证，围绕核心链条。</li>
+    <li><strong>档位检查：</strong>默认假设 C 档；无学生证据，标注"默认预测"。</li>
+    <li><strong>HTML 检查：</strong>标签闭合；包含全部 required sections；依赖相对路径 edu-print.css，无 CDN；@page A4 已在 CSS 中定义；分页在"标准解法"与"边讲边问"之间。</li>
+    <li><strong>自检结论：</strong>通过，可交付练习阶段。</li>
+  </ul>
+</aside>
+
+<aside class="edu-teacher-note no-print">
+下一步：使用 math-adaptive-practice-html，输入本结构分析 + 学生画像，生成自适应练习。工作流：math-structure-analysis → math-student-explanation-html → math-adaptive-practice-html。
+</aside>
+</body>
+</html>

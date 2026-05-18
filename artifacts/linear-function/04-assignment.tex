@@ -1,0 +1,271 @@
+% preamble-exam-zh.tex — 共享 preamble
+% 用于所有 exam-zh 模板
+%
+% 样式策略：
+%   屏幕 → 语义彩色（蓝=关键想法，红=易错，绿=路线，灰=提示/教师备注）
+%   打印 → 自动降级为黑白（通过 print mode 或 monochrome 选项）
+
+\documentclass{exam-zh}
+
+% ---------- 基础配置 ----------
+\examsetup{
+  page/size = a4paper,
+  page/show-head = false,
+  page/show-foot = false,
+  sealline/show = false,
+  font = times,
+  math-font = xits,
+}
+
+\usepackage{tcolorbox}
+\usepackage{needspace}
+\tcbuselibrary{skins,breakable}
+
+% ---------- 打印/屏幕颜色切换 ----------
+% 用法：\documentclass[monochrome]{exam-zh} 即可切换为纯黑白
+\makeatletter
+\newif\if@eduprintcolor
+\@eduprintcolortrue  % 默认彩色
+
+% 检测是否传入 monochrome 选项（由 \documentclass 传递）
+\@ifclasswith{exam-zh}{monochrome}{\@eduprintcolorfalse}{}
+\makeatother
+
+% ---------- 语义颜色定义 ----------
+% 屏幕：有色彩区分；打印：降级为灰度
+\if@eduprintcolor
+  % --- 屏幕彩色模式 ---
+  \definecolor{edu-blue}{RGB}{47, 82, 122}       % 关键想法
+  \definecolor{edu-blue-bg}{RGB}{243, 246, 252}
+  \definecolor{edu-red}{RGB}{180, 40, 40}         % 易错提醒
+  \definecolor{edu-red-bg}{RGB}{255, 245, 240}
+  \definecolor{edu-green}{RGB}{34, 100, 60}       % 路线图
+  \definecolor{edu-green-bg}{RGB}{242, 250, 245}
+  \definecolor{edu-orange}{RGB}{160, 90, 0}       % 训练目标
+  \definecolor{edu-orange-bg}{RGB}{255, 248, 235}
+  \definecolor{edu-gray}{RGB}{100, 100, 100}      % 提示/教师备注
+  \definecolor{edu-gray-bg}{RGB}{248, 248, 248}
+  \definecolor{edu-purple}{RGB}{90, 50, 120}      % 思考题
+  \definecolor{edu-purple-bg}{RGB}{248, 244, 252}
+\else
+  % --- 打印黑白模式 ---
+  \definecolor{edu-blue}{gray}{0.15}
+  \definecolor{edu-blue-bg}{gray}{0.96}
+  \definecolor{edu-red}{gray}{0.25}
+  \definecolor{edu-red-bg}{gray}{0.97}
+  \definecolor{edu-green}{gray}{0.20}
+  \definecolor{edu-green-bg}{gray}{0.97}
+  \definecolor{edu-orange}{gray}{0.25}
+  \definecolor{edu-orange-bg}{gray}{0.98}
+  \definecolor{edu-gray}{gray}{0.40}
+  \definecolor{edu-gray-bg}{gray}{0.97}
+  \definecolor{edu-purple}{gray}{0.30}
+  \definecolor{edu-purple-bg}{gray}{0.98}
+\fi
+
+% ---------- 自定义教学环境 ----------
+% 共性：enhanced + breakable（跨页不断裂）
+
+% 原题卡片 — 强边框，突出显示
+\newtcolorbox{problemcard}{
+  enhanced, breakable,
+  colback=edu-blue-bg,
+  colframe=edu-blue,
+  boxrule=1.2pt,
+  arc=0pt,
+  left=3mm, right=3mm, top=3mm, bottom=3mm,
+}
+
+% 解题路线图 — 左边线 + 浅底
+\newtcolorbox{routemap}{
+  enhanced, breakable,
+  colback=edu-green-bg,
+  colframe=edu-green!30,
+  boxrule=0pt,
+  borderline west={2.5pt}{0pt}{edu-green},
+  left=3mm, right=3mm, top=3mm, bottom=3mm,
+}
+
+% 关键想法 — 蓝色左边线
+\newtcolorbox{keyideabox}{
+  enhanced, breakable,
+  colback=edu-blue-bg,
+  colframe=edu-blue!30,
+  boxrule=0pt,
+  borderline west={2.5pt}{0pt}{edu-blue},
+  left=3mm, right=3mm, top=3mm, bottom=3mm,
+}
+
+% 易错提醒 — 红色左边线
+\newtcolorbox{mistakebox}{
+  enhanced, breakable,
+  colback=edu-red-bg,
+  colframe=edu-red!20,
+  boxrule=0pt,
+  borderline west={3pt}{0pt}{edu-red},
+  left=3mm, right=3mm, top=2.5mm, bottom=2.5mm,
+}
+
+% 提示 — 灰色虚线左边线
+\newtcolorbox{hintbox}{
+  enhanced, breakable,
+  colback=edu-gray-bg,
+  colframe=edu-gray!20,
+  boxrule=0pt,
+  borderline west={2pt}{0pt}{edu-gray, dashed},
+  left=3mm, right=3mm, top=2mm, bottom=2mm,
+}
+
+% 思考题 — 紫色虚线左边线
+\newtcolorbox{thinkbox}{
+  enhanced, breakable,
+  colback=edu-purple-bg,
+  colframe=edu-purple!20,
+  boxrule=0pt,
+  borderline west={2pt}{0pt}{edu-purple, dashed},
+  left=2.5mm, right=2.5mm, top=2.5mm, bottom=2.5mm,
+}
+
+% 教师备注 — 灰色左边线，小字
+\newtcolorbox{teachernote}{
+  enhanced, breakable,
+  colback=edu-gray-bg,
+  colframe=edu-gray!15,
+  boxrule=0pt,
+  borderline west={2pt}{0pt}{edu-gray!60},
+  left=2.5mm, right=2.5mm, top=2.5mm, bottom=2.5mm,
+  fontupper=\small,
+  colupper=black!60,
+}
+
+% 训练目标 — 橙色左边线，小字
+\newtcolorbox{traininggoal}{
+  enhanced, breakable,
+  colback=edu-orange-bg,
+  colframe=edu-orange!15,
+  boxrule=0pt,
+  borderline west={1.5pt}{0pt}{edu-orange},
+  left=2mm, right=2mm, top=1mm, bottom=1mm,
+  fontupper=\small,
+}
+
+% 答题区
+\newcommand{\answerarea}[1][40mm]{%
+  \vspace{3mm}%
+  \begin{tcolorbox}[
+    enhanced, breakable,
+    colback=white,
+    colframe=black!25,
+    boxrule=0.8pt,
+    arc=0pt,
+    height=#1,
+    valign=top,
+  ]
+  \end{tcolorbox}%
+}
+
+% ---------- 字体设置 ----------
+% exam-zh (ctexbook) already sets CJK fonts via ctex.
+% Only override if specific fonts are needed.
+% macOS: Songti SC, STHeiti, STFangsong
+% Linux: SimSun, SimHei, FangSong
+
+% ---------- 页面设置 ----------
+% exam-zh (ctexbook) already loads geometry.
+% Override margins if needed:
+% \geometry{top=16mm, bottom=16mm, left=14mm, right=14mm}
+
+\examsetup{
+  question/show-answer = false,
+  fillin/show-answer = false,
+  solution/show-solution = hide,
+}
+
+\begin{document}
+
+\title{一次函数专题练习}
+\subject{%
+  图像与解析式 · 八年级 · 数学}
+\maketitle
+
+\section*{一、核心练习}
+
+
+\begin{question}[points=4]
+  函数 $y=2x-1$ 的图像经过下列哪个点？
+  \begin{choices}
+    \item $(0,1)$
+    \item $(1,1)$
+    \item $(1,0)$
+    \item $(-1,1)$
+  \end{choices}
+\end{question}
+
+
+
+
+\begin{question}[points=4]
+  一次函数 $y=-x+3$ 与 $x$ 轴的交点坐标是 \underline{\hspace{2cm}}。
+  \fillin
+\end{question}
+
+
+
+
+\begin{problem}[points=8]
+  已知一次函数 $y=kx+b$ 的图像经过点 $(2,5)$ 和点 $(-1,-1)$，求 $k$ 和 $b$ 的值。
+  \answerarea[45mm]
+\end{problem}
+
+
+
+
+\begin{question}[points=4]
+  一次函数 $y=-2x+4$ 的图像不经过第 \underline{\hspace{1cm}} 象限。
+  \begin{choices}
+    \item 一
+    \item 二
+    \item 三
+    \item 四
+  \end{choices}
+\end{question}
+
+
+
+\clearpage
+\section*{二、参考答案}
+
+
+\begin{keyideabox}
+  \textbf{第 1 题}
+  选 B。代入 $x=1$，得 $y=2\times1-1=1$，即点 $(1,1)$ 在图像上。
+\end{keyideabox}
+
+
+
+
+\begin{keyideabox}
+  \textbf{第 2 题}
+  $(3,0)$。令 $y=0$，则 $-x+3=0$，$x=3$。
+\end{keyideabox}
+
+
+
+
+\begin{keyideabox}
+  \textbf{第 3 题}
+  $k=2, b=1$。由方程组 $\begin{cases}2k+b=5\\-k+b=-1\end{cases}$ 解得。
+\end{keyideabox}
+
+
+
+
+\begin{keyideabox}
+  \textbf{第 4 题}
+  选 C。$k=-2<0, b=4>0$，图像过一、二、四象限。
+\end{keyideabox}
+
+
+
+
+\end{document}

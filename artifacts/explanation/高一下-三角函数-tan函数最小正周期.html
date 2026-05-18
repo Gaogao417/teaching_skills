@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>学生版讲解：y = tan(2x + 1) 的最小正周期</title>
+<style>
+@import url("./assets/edu-print.css");
+</style>
+</head>
+<body data-view="student">
+<div class="edu-page">
+
+  <h1 class="edu-title">学生版讲解：求 tan(2x+1) 的最小正周期</h1>
+  <p class="edu-subtitle">三角函数 · 周期变换 · tan 型函数</p>
+
+  <section class="edu-problem-card">
+    <div class="edu-problem-title">原题</div>
+    <p class="edu-problem-stem">求函数 y = tan(2x + 1) 的最小正周期。</p>
+  </section>
+
+  <section class="edu-section">
+    <h2 class="edu-section-title">一、先把题目拆开</h2>
+    <table class="edu-table edu-task-table">
+      <tr><th>已知条件</th><td>函数解析式 y = tan(2x + 1)，其中自变量为 x</td></tr>
+      <tr><th>要求目标</th><td>最小正周期 T</td></tr>
+      <tr><th>关键词</th><td>tan、周期、最小正</td></tr>
+      <tr><th>容易忽略</th><td>tan 的基础周期是 <span class="edu-math">π</span>，不是 <span class="edu-math">2π</span>；平移量 +1 不影响周期</td></tr>
+    </table>
+  </section>
+
+  <section class="edu-section">
+    <h2 class="edu-section-title">二、这题准备怎么走</h2>
+    <div class="edu-route">
+      <ol>
+        <li>回忆 tan x 的基础周期是多少</li>
+        <li>找到自变量 x 前面的系数 ω</li>
+        <li>代入周期公式 T = π/|ω|</li>
+        <li>验证答案是否正确</li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="edu-section">
+    <h2 class="edu-section-title">三、关键想法</h2>
+    <div class="edu-key-idea">
+      周期只和自变量 x 前面的系数 ω 有关，和后面的加数（平移量）无关。<br>
+      <strong>只看系数，不看加数。</strong>
+    </div>
+  </section>
+
+  <section class="edu-section">
+    <h2 class="edu-section-title">四、标准解法</h2>
+
+    <div class="edu-step">
+      <div class="edu-step-title">第 1 步：回忆基础周期</div>
+      <p class="edu-p">tan x 的最小正周期是 <span class="edu-math">π</span>。</p>
+      <p class="edu-p">注意：sin x 和 cos x 的周期是 <span class="edu-math">2π</span>，但 tan x 的周期是 <span class="edu-math">π</span>——别搞混！</p>
+      <p class="edu-step-why">为什么：tan 的渐近线间距是 π，图像每 π 重复一次。</p>
+    </div>
+
+    <div class="edu-step">
+      <div class="edu-step-title">第 2 步：读出自变量系数</div>
+      <p class="edu-p">y = tan(<strong>2</strong>x + 1)，自变量 x 前面的系数 ω = 2。</p>
+      <p class="edu-step-why">为什么：周期公式 T = 基础周期 / |ω|，需要先找到 ω。</p>
+    </div>
+
+    <div class="edu-step">
+      <div class="edu-step-title">第 3 步：代入公式</div>
+      <p class="edu-p">T = π / |2| = <strong>π/2</strong></p>
+      <div class="edu-formula-key">T = π / |ω| = π / 2</div>
+    </div>
+
+    <div class="edu-step">
+      <div class="edu-step-title">第 4 步：验证</div>
+      <p class="edu-p">把 T = π/2 代回原函数，检查是否满足 f(x + T) = f(x)：</p>
+      <p class="edu-p">tan(2(x + π/2) + 1) = tan(2x + π + 1)</p>
+      <p class="edu-p">因为 tan 的周期是 π，所以 tan(2x + π + 1) = tan(2x + 1) ✓</p>
+      <p class="edu-step-why">注意：+1 始终跟着 x 走，加上 π/2 后变成了 +π + 1，但 tan 看到的是整体增加了 π，正好一个周期。</p>
+    </div>
+
+    <div class="edu-step">
+      <div class="edu-step-title">最终答案</div>
+      <div class="edu-formula-key">T<sub>min</sub> = π/2</div>
+    </div>
+  </section>
+
+  <section class="edu-section">
+    <h2 class="edu-section-title">五、边讲边问</h2>
+
+    <div class="edu-question">
+      <div class="edu-question-title">想一想 1</div>
+      <p class="edu-p">tan x 的最小正周期是多少？sin x 呢？它们为什么不一样？</p>
+      <span class="edu-blank-line"></span>
+    </div>
+
+    <div class="edu-question">
+      <div class="edu-question-title">想一想 2</div>
+      <p class="edu-p">如果题目变成 y = tan(2x + 100)，周期会变成多少？100 这个数会影响周期吗？</p>
+      <span class="edu-blank-line"></span>
+    </div>
+
+    <div class="edu-question">
+      <div class="edu-question-title">想一想 3</div>
+      <p class="edu-p">y = tan(2x + 1) 和 y = tan(2x) 的周期相同吗？图像有什么区别？</p>
+      <span class="edu-blank-line"></span>
+    </div>
+  </section>
+
+  <section class="edu-section">
+    <h2 class="edu-section-title">六、易错提醒</h2>
+    <div class="edu-mistake">
+      <strong>易错点 1：</strong>把 tan 的基础周期记成 2π。<br>
+      tan x 的周期是 π，不是 2π。sin 和 cos 才是 2π。
+    </div>
+    <div class="edu-mistake">
+      <strong>易错点 2：</strong>认为 +1 会改变周期。<br>
+      加号后面的数是"平移量"，只让图像左右移动，不改变重复的间距。
+    </div>
+    <div class="edu-mistake">
+      <strong>易错点 3：</strong>忘记公式里要取绝对值。<br>
+      如果 ω = -2，T = π/|-2| = π/2，结果一样。取绝对值保证周期为正。
+    </div>
+  </section>
+
+  <section class="edu-section">
+    <h2 class="edu-section-title">七、一句话总结</h2>
+    <div class="edu-key-idea">
+      找到 x 前面的系数 ω，用 T = 基础周期 / |ω| 算。<br>
+      tan 型：T = π / |ω|；sin/cos 型：T = 2π / |ω|。
+    </div>
+  </section>
+
+  <aside class="edu-teacher-note no-print">
+    <div class="edu-card-title">教师备注</div>
+    <p class="edu-p">停下来等学生回答的位置：第4步验证——让学生自己代入 T = π/2 算一遍 tan(2(x+π/2)+1)。</p>
+    <p class="edu-p">如果学生分不清 π 和 2π，建议从 tan 的渐近线 x = π/2 和 x = -π/2 入手，画图感受间距。</p>
+  </aside>
+
+</div>
+
+<aside class="edu-teacher-note no-print">
+  <div class="edu-card-title">下一步</div>
+  <p class="edu-p">使用 math-adaptive-practice-html，输入本结构分析 + 学生画像，生成自适应练习。工作流：math-structure-analysis → math-student-explanation-html → math-adaptive-practice-html。</p>
+</aside>
+
+<aside class="edu-teacher-note self-check no-print">
+  <div class="edu-card-title">生成后自检</div>
+  <ul>
+    <li><strong>数学检查：</strong>答案 π/2 与 canonical solution 一致；无漏解/增根；T = π/|ω| 公式适用。</li>
+    <li><strong>教学检查：</strong>本页只训练一个核心动作——从解析式提取 ω 求 tan 周期；未引入无关知识点；互动问题围绕本题核心链条。</li>
+    <li><strong>档位检查：</strong>默认假设学生为 B-D 档（无学生证据标注默认）；讲解升级只小步上升。</li>
+    <li><strong>HTML 检查：</strong>标签闭合；包含 required sections；依赖相对路径 edu-print.css（无外部 CDN）；适合 A4 打印；分页位置合理。</li>
+    <li><strong>自检结论：</strong>通过</li>
+  </ul>
+</aside>
+
+</body>
+</html>

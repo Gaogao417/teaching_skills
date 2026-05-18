@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>学生版讲解：斜面与竖直杆的影长</title>
+<link rel="stylesheet" href="edu-print.css">
+<style>
+  .formula { font-family: "Times New Roman", serif; }
+  .frac { display: inline-block; vertical-align: middle; text-align: center; }
+  .frac .num { display: block; padding: 0 0.15em; border-bottom: 1px solid; min-width: 1em; }
+  .frac .den { display: block; padding: 0 0.15em; min-width: 1em; }
+  sup { font-size: 0.75em; vertical-align: super; }
+  sub { font-size: 0.75em; vertical-align: sub; }
+</style>
+</head>
+<body data-view="student">
+<div class="edu-page">
+
+  <h1 class="edu-title">学生版讲解：斜面与竖直杆的影长</h1>
+  <p class="edu-subtitle">主题标签：锐角三角函数 · 向量分解 · 影子问题 · 斜面</p>
+
+  <section class="edu-problem-card u-avoid-break">
+    <div class="edu-problem-title">原题</div>
+    <p class="edu-problem-stem">一个斜面的底角为 <em>θ</em> = 20°。在水平地面上竖直立一根长为 1 米的杆，其在水平地面上的影子长为 0.5 米。现将一根同样长为 1 米的杆竖直插在斜面上，求这根杆在斜面上的影子长度（精确到 0.01 米）。</p>
+  </section>
+
+  <section class="edu-section">
+    <h2 class="edu-section-title">一、先把题目拆开</h2>
+    <table class="edu-table edu-task-table">
+      <tr><th>已知条件</th><td>① 斜面底角 <em>θ</em> = 20°；② 杆高 <em>h</em> = 1 米；③ 水平面上影子长 0.5 米；④ 第二根杆竖直插在斜面上</td></tr>
+      <tr><th>要求目标</th><td>求第二根杆在斜面上的影子长度 <em>s</em></td></tr>
+      <tr><th>关键词</th><td>竖直杆、水平面、斜面、影子、底角</td></tr>
+      <tr><th>容易忽略</th><td>① 阳光方向要先由水平面信息确定；② 影子在斜面上的水平分量和竖直分量要分别算</td></tr>
+    </table>
+  </section>
+
+  <section class="edu-section">
+    <h2 class="edu-section-title">二、这题准备怎么走</h2>
+    <div class="edu-route">
+      <ol>
+        <li>由水平面上的杆和影子，求出阳光方向（即阳光仰角 <em>β</em>）</li>
+        <li>画斜面的截面图，标出第二根杆和影子方向</li>
+        <li>把影子 <em>s</em> 分解为水平分量和竖直分量</li>
+        <li>用阳光方向的 tan <em>β</em> = 竖直下降 ÷ 水平距离，列方程</li>
+        <li>解方程，算出 <em>s</em>，精确到 0.01 米</li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="edu-section">
+    <h2 class="edu-section-title">三、关键想法</h2>
+    <div class="edu-key-idea">阳光是平行光，方向在两根杆处完全相同。先看水平面上的那根杆：高 1 米、影 0.5 米，说明阳光每水平移动 0.5 米，就竖直下降 1 米。把同样的比例用到斜面上——杆顶到影末端的竖直下降量 ÷ 水平移动量 = 2。</div>
+  </section>
+
+  <div class="page-break"></div>
+
+  <section class="edu-section">
+    <h2 class="edu-section-title">四、标准解法</h2>
+
+    <div class="edu-step">
+      <div class="edu-step-title">第 1 步：由水平影子确定阳光方向</div>
+      <p class="edu-p">水平面上：杆高 1 米，影子 0.5 米。</p>
+      <p class="edu-p">阳光仰角 <em>β</em> 满足：</p>
+      <div class="edu-formula-key">tan <em>β</em> = <span class="frac"><span class="num">杆高</span><span class="den">影长</span></span> = <span class="frac"><span class="num">1</span><span class="den">0.5</span></span> = 2</div>
+      <p class="edu-step-why">为什么：阳光是平行光，杆高和影长的比值就是 tan <em>β</em>。这个比例在整个场景中都成立。</p>
+    </div>
+
+    <div class="edu-step">
+      <div class="edu-step-title">第 2 步：画斜面截面图，分解影长</div>
+      <p class="edu-p">截面图（竖直平面内）：</p>
+      <div class="edu-formula" style="text-align:left; font-family: var(--font-body);">
+        斜面底角 <em>θ</em> = 20°，杆竖直立在斜面上，杆高 1 米。<br>
+        影子沿斜面向下，长度为 <em>s</em>。<br><br>
+        影子的<strong>水平分量</strong>（水平移动距离）：<em>s</em> cos 20°<br>
+        影子的<strong>竖直分量</strong>（沿竖直方向下降）：<em>s</em> sin 20°
+      </div>
+      <p class="edu-step-why">为什么：影子在斜面上，它有水平方向和竖直方向的分量。就像斜边 <em>s</em> 对应水平直角边 <em>s</em> cos <em>θ</em> 和竖直直角边 <em>s</em> sin <em>θ</em>。</p>
+    </div>
+
+    <div class="edu-step">
+      <div class="edu-step-title">第 3 步：列方程</div>
+      <p class="edu-p">从杆顶到影子末端的<strong>总竖直下降</strong>：</p>
+      <div class="edu-formula">1 + <em>s</em> sin 20°</div>
+      <p class="edu-p">（杆高 1 米 + 影子沿竖直方向又下降了 <em>s</em> sin 20°）</p>
+      <p class="edu-p">从杆顶到影子末端的<strong>总水平移动</strong>：</p>
+      <div class="edu-formula"><em>s</em> cos 20°</div>
+      <p class="edu-p">阳光方向的比例关系：</p>
+      <div class="edu-formula-key"><span class="frac"><span class="num">竖直下降</span><span class="den">水平移动</span></span> = tan <em>β</em> = 2</div>
+      <p class="edu-p">即：</p>
+      <div class="edu-formula-key"><span class="frac"><span class="num">1 + <em>s</em> sin 20°</span><span class="den"><em>s</em> cos 20°</span></span> = 2</div>
+    </div>
+
+    <div class="page-break"></div>
+
+    <div class="edu-step">
+      <div class="edu-step-title">第 4 步：解方程</div>
+      <div class="edu-substep">
+        <p class="edu-p">展开分子：</p>
+        <p class="edu-p">1 + <em>s</em> sin 20° = 2<em>s</em> cos 20°</p>
+      </div>
+      <div class="edu-substep">
+        <p class="edu-p">把含 <em>s</em> 的项移到一边：</p>
+        <p class="edu-p">1 = 2<em>s</em> cos 20° − <em>s</em> sin 20°</p>
+        <p class="edu-p">1 = <em>s</em>(2 cos 20° − sin 20°)</p>
+      </div>
+      <div class="edu-substep">
+        <p class="edu-p">解出 <em>s</em>：</p>
+        <div class="edu-formula-key"><em>s</em> = <span class="frac"><span class="num">1</span><span class="den">2 cos 20° − sin 20°</span></span></div>
+      </div>
+      <div class="edu-substep">
+        <p class="edu-p">代入数值（cos 20° ≈ 0.9397，sin 20° ≈ 0.3420）：</p>
+        <p class="edu-p"><em>s</em> = 1 / (2 × 0.9397 − 0.3420)</p>
+        <p class="edu-p"><em>s</em> = 1 / (1.8794 − 0.3420)</p>
+        <p class="edu-p"><em>s</em> = 1 / 1.5374</p>
+        <p class="edu-p"><em>s</em> ≈ 0.65046</p>
+      </div>
+      <div class="edu-substep">
+        <p class="edu-p">精确到 0.01 米：</p>
+        <div class="edu-formula-key">答：影长 <em>s</em> ≈ <strong>0.65 米</strong></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="edu-section">
+    <h2 class="edu-section-title">五、边讲边问</h2>
+
+    <div class="edu-question">
+      <div class="edu-question-title">想一想 1</div>
+      <p class="edu-p">杆高 1 米、影子 0.5 米，阳光仰角 <em>β</em> 的 tan 值是多少？如果影长变成 1 米呢？</p>
+      <span class="edu-blank-line"></span>
+    </div>
+
+    <div class="edu-question">
+      <div class="edu-question-title">想一想 2</div>
+      <p class="edu-p">影子在斜面上走了 <em>s</em> 米，它水平方向走了多少？竖直方向下降了多少？（用 cos 和 sin 写出表达式）</p>
+      <span class="edu-blank-line"></span>
+      <span class="edu-blank-line"></span>
+    </div>
+
+    <div class="edu-question">
+      <div class="edu-question-title">想一想 3</div>
+      <p class="edu-p">为什么杆顶到影末的竖直下降量是 1 + <em>s</em> sin 20°，而不是 <em>s</em> sin 20°？</p>
+      <span class="edu-blank-line"></span>
+    </div>
+
+    <div class="edu-question">
+      <div class="edu-question-title">想一想 4</div>
+      <p class="edu-p">直觉判断：斜面上的影长 0.65 米比水平面上的影长 0.5 米大，这合理吗？为什么？</p>
+      <span class="edu-blank-line"></span>
+    </div>
+  </section>
+
+  <div class="page-break"></div>
+
+  <section class="edu-section">
+    <h2 class="edu-section-title">六、易错提醒</h2>
+    <div class="edu-mistake"><strong>易错点 1：</strong>列方程时把分子分母搞反。tan <em>β</em> = 竖直 ÷ 水平（不是水平 ÷ 竖直）。本题 tan <em>β</em> = 2，所以竖直下降量是水平移动量的 2 倍。</div>
+    <div class="edu-mistake"><strong>易错点 2：</strong>忘记杆本身的 1 米高度。杆顶到影末的竖直下降 = 杆高 + 影子沿竖直方向的分量，不是只有影子本身的竖直分量。</div>
+    <div class="edu-mistake"><strong>易错点 3：</strong>精确度要求。题目要求精确到 0.01 米，0.65046 应写为 0.65 而非 0.650 或 0.7。</div>
+  </section>
+
+  <section class="edu-section">
+    <h2 class="edu-section-title">七、一句话总结</h2>
+    <div class="edu-key-idea">水平影定阳光方向（tan <em>β</em> = 杆高/影长） → 斜面上分解影子的水平和竖直分量 → 竖直下降 ÷ 水平移动 = tan <em>β</em> → 列方程解 <em>s</em>。</div>
+  </section>
+
+</div>
+
+<aside class="edu-teacher-note self-check no-print">
+  <div class="edu-card-title">生成后自检</div>
+  <ul>
+    <li><strong>数学检查：</strong>答案 s ≈ 0.65 米与 canonical_solution 一致（0.65046 精确到 0.01 = 0.65）；tan β = 1/0.5 = 2 正确；方程 (1+s sin20°)/(s cos20°) = 2 正确；代入数值 2cos20°−sin20° = 1.8794−0.3420 = 1.5374，1/1.5374 ≈ 0.65046 正确。</li>
+    <li><strong>教学检查：</strong>本页训练一个核心动作（先定阳光方向→分解分量→tanβ列方程）；未引入无关知识点；互动问题围绕核心链条（tanβ含义、分量分解、杆高贡献、合理性判断）。</li>
+    <li><strong>档位检查：</strong>默认假设 B/C 档；无学生证据，标注为默认预测；讲解步骤未跳跃。</li>
+    <li><strong>HTML 检查：</strong>标签闭合；包含全部 required sections；无网络 CDN 依赖（纯 HTML/CSS）；适合 A4 打印；分页在关键想法后、第4步展开时、边讲边问前、易错提醒前。</li>
+    <li><strong>自检结论：</strong>通过。</li>
+  </ul>
+</aside>
+
+<aside class="edu-teacher-note no-print">
+下一步：使用 math-adaptive-practice-html，输入本结构分析 + 学生画像，生成自适应练习。工作流：math-structure-analysis → math-student-explanation-html → math-adaptive-practice-html。
+</aside>
+
+</body>
+</html>

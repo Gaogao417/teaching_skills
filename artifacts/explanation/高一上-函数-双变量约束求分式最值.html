@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>学生版讲解：约束条件下求分式最值</title>
+<style>
+/* ================================
+   Edu Print System v0.1 (embedded)
+   ================================ */
+:root {
+  --font-body: "SimSun", "Songti SC", "Noto Serif CJK SC", serif;
+  --font-heading: "SimHei", "Microsoft YaHei", sans-serif;
+  --font-math: "Times New Roman", "STIX Two Math", serif;
+  --text-main: #111;
+  --text-muted: #555;
+  --text-light: #777;
+  --border-strong: #111;
+  --border-main: #555;
+  --border-light: #aaa;
+  --accent-soft: #f6f9fc;
+  --accent-line: #9fb6d8;
+  --accent-line-light: #d7e1ee;
+  --accent-text: #2f527a;
+  --bg-white: #fff;
+  --bg-soft: #fafafa;
+  --bg-note: #f7f7f7;
+  --bg-warn: #fff6f2;
+  --bg-key: #fffdf0;
+  --bg-answer: #fcfcfc;
+  --space-xs: 1mm;
+  --space-sm: 2mm;
+  --space-md: 3mm;
+  --space-lg: 5mm;
+  --space-xl: 7mm;
+  --font-size-body: 12pt;
+  --font-size-small: 10.5pt;
+  --font-size-title: 18pt;
+  --font-size-h2: 13.5pt;
+  --font-size-h3: 12.5pt;
+  --line-body: 1.72;
+}
+@page { size: A4; margin: 16mm 14mm; }
+* { box-sizing: border-box; }
+body { margin: 0; color: var(--text-main); background: var(--bg-white); font-family: var(--font-body); font-size: var(--font-size-body); line-height: var(--line-body); }
+.edu-page { max-width: 186mm; margin: 0 auto; padding: 0 2mm; }
+.edu-title { margin: 0 0 var(--space-xl); text-align: center; font-family: var(--font-heading); font-size: var(--font-size-title); font-weight: 700; line-height: 1.35; }
+.edu-subtitle { margin: -4mm 0 var(--space-lg); text-align: center; color: var(--text-muted); font-size: var(--font-size-small); }
+.edu-section { margin: var(--space-lg) 0; }
+.edu-section-title { margin: var(--space-lg) 0 var(--space-sm); padding: 1.2mm 2mm; border-left: 2px solid var(--accent-line); border-bottom: 1px solid var(--accent-line-light); background: var(--accent-soft); font-family: var(--font-heading); font-size: var(--font-size-h2); font-weight: 700; line-height: 1.45; }
+.edu-subsection-title { margin: var(--space-md) 0 var(--space-xs); font-family: var(--font-heading); font-size: var(--font-size-h3); font-weight: 700; }
+.edu-p { margin: 0 0 2.5mm; }
+.edu-small { font-size: var(--font-size-small); color: var(--text-muted); }
+.edu-math { font-family: var(--font-math); font-style: italic; }
+.edu-strong { font-weight: 700; }
+.edu-card { margin: var(--space-md) 0; padding: 3mm 4mm; border: 1px solid var(--border-main); background: var(--bg-white); }
+.edu-card-soft { margin: var(--space-md) 0; padding: 3mm 4mm; border: 1px solid var(--border-light); background: var(--bg-soft); }
+.edu-card-title { margin: 0 0 var(--space-sm); font-family: var(--font-heading); font-weight: 700; }
+.edu-problem-card { margin: var(--space-md) 0 var(--space-lg); padding: 3mm 4mm; border: 1.5px solid var(--border-strong); background: var(--bg-soft); break-inside: avoid; page-break-inside: avoid; }
+.edu-problem-title { margin: 0 0 var(--space-sm); font-family: var(--font-heading); font-weight: 700; }
+.edu-problem-stem { margin: 0 0 var(--space-sm); }
+.edu-teacher-note { margin: var(--space-md) 0; padding: 2.5mm 3mm; border: 1px solid var(--border-light); background: var(--bg-note); color: var(--text-muted); font-size: var(--font-size-small); }
+.edu-student-note { margin: var(--space-md) 0; padding: 2.5mm 3mm; border-left: 2px solid var(--accent-line); background: var(--bg-key); }
+.edu-mistake { margin: var(--space-md) 0; padding: 2.5mm 3mm; border: 1px solid var(--border-light); border-left: 3px solid #c00; background: var(--bg-warn); break-inside: avoid; page-break-inside: avoid; }
+.edu-key-idea { margin: var(--space-md) 0; padding: 3mm 4mm; border: 1.5px solid var(--border-strong); background: var(--bg-key); break-inside: avoid; page-break-inside: avoid; }
+.edu-table { width: 100%; border-collapse: collapse; margin: var(--space-md) 0; break-inside: avoid; page-break-inside: avoid; }
+.edu-table th, .edu-table td { border: 1px solid var(--border-main); padding: 1.8mm 2mm; vertical-align: top; }
+.edu-table th { font-family: var(--font-heading); background: var(--bg-soft); font-weight: 700; }
+.edu-task-table th:first-child, .edu-task-table td:first-child { width: 24%; font-family: var(--font-heading); }
+.edu-route { margin: var(--space-md) 0; padding: 3mm 4mm; border: 1px solid var(--border-main); background: var(--bg-soft); break-inside: avoid; page-break-inside: avoid; }
+.edu-route ol { margin: 0; padding-left: 7mm; }
+.edu-step { margin: var(--space-md) 0; padding: 2.5mm 3mm; border-left: 2px solid var(--accent-line-light); background: var(--bg-white); }
+.edu-step-title { margin: 0 0 var(--space-xs); font-family: var(--font-heading); font-weight: 700; }
+.edu-step-why { margin-top: var(--space-xs); color: var(--text-muted); font-size: var(--font-size-small); }
+.edu-substep { margin: 2mm 0 2mm 5mm; padding: 1.5mm 3mm; border-left: 2px solid var(--border-light); }
+.edu-formula { margin: var(--space-md) 0; padding: 2.5mm 4mm; border: 1px solid var(--border-main); background: var(--bg-soft); text-align: center; font-family: var(--font-math); font-size: 12.5pt; }
+.edu-formula-key { margin: var(--space-md) 0; padding: 3mm 4mm; border: 1.5px solid var(--border-strong); background: var(--bg-key); text-align: center; font-family: var(--font-math); font-size: 13pt; break-inside: avoid; page-break-inside: avoid; }
+.edu-question { margin: var(--space-md) 0; padding: 2.5mm 3mm; border: 1px dashed var(--border-main); background: var(--bg-white); break-inside: avoid; page-break-inside: avoid; }
+.edu-question-title { margin: 0 0 var(--space-xs); font-family: var(--font-heading); font-weight: 700; }
+.edu-blank-line { display: block; height: 8mm; border-bottom: 1px solid #999; }
+.edu-answer-space { margin: var(--space-md) 0; min-height: 35mm; border: 1px solid var(--border-light); background: var(--bg-answer); position: relative; }
+.edu-answer-space::before { content: "解答区"; position: absolute; top: 1mm; right: 2mm; color: #aaa; font-size: 9pt; font-family: var(--font-heading); }
+.edu-answer-lines { margin: var(--space-md) 0; padding: 2mm 3mm; border: 1px solid var(--border-light); background: repeating-linear-gradient(transparent, transparent 7mm, #ddd 7mm, #ddd 7.4mm); min-height: 40mm; }
+.edu-answer-step { min-height: 18mm; border-bottom: 1px solid #ddd; padding: 1.5mm 2mm; }
+.edu-answer-step:last-child { border-bottom: none; }
+.edu-answer-step-label { font-family: var(--font-heading); font-size: 10.5pt; color: var(--text-muted); }
+.edu-answer-key { margin: var(--space-lg) 0; padding: 3mm 4mm; border: 2px solid var(--border-strong); background: var(--bg-soft); }
+.edu-hint { margin: 2mm 0; padding: 2mm 3mm; border: 1px dashed var(--border-light); background: var(--bg-soft); font-size: 11pt; }
+.edu-hint-title { font-family: var(--font-heading); font-weight: 700; }
+.page-break { display: none; }
+.page-break-after { display: none; }
+.u-mt-0 { margin-top: 0 !important; }
+.u-mb-0 { margin-bottom: 0 !important; }
+.u-center { text-align: center; }
+.u-muted { color: var(--text-muted); }
+.u-small { font-size: var(--font-size-small); }
+.u-avoid-break { break-inside: avoid; page-break-inside: avoid; }
+.step-num { display: inline-block; width: 5.6mm; height: 5.6mm; line-height: 5.2mm; text-align: center; border-radius: 50%; border: 1px solid var(--accent-line); background: #eef4ff; color: var(--accent-text); font-family: var(--font-heading); font-size: 9.5pt; font-weight: 700; margin-right: 2mm; vertical-align: middle; }
+@media print {
+  body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .no-print { display: none !important; }
+  .page-break { display: block; break-before: page; page-break-before: always; }
+  .page-break-after { display: block; break-after: page; page-break-after: always; }
+  .u-avoid-break { break-inside: avoid; page-break-inside: avoid; }
+  .edu-section-title { break-after: avoid; page-break-after: avoid; }
+  .edu-step-title { break-after: avoid; page-break-after: avoid; }
+}
+@media screen {
+  body[data-view="student"] .edu-teacher-note.no-print { display: none; }
+  .page-break::before { content: "— 分页 —"; display: block; padding: 4mm 0; text-align: center; color: #bbb; font-size: 9pt; font-family: var(--font-heading); border-top: 1px dashed #ddd; border-bottom: 1px dashed #ddd; }
+  .page-break-after::after { content: "— 分页 —"; display: block; padding: 4mm 0; text-align: center; color: #bbb; font-size: 9pt; font-family: var(--font-heading); border-top: 1px dashed #ddd; border-bottom: 1px dashed #ddd; }
+}
+</style>
+</head>
+<body data-view="student">
+<div class="edu-page">
+
+  <h1 class="edu-title">学生版讲解：约束条件下求分式最值</h1>
+  <p class="edu-subtitle">主题：消元 · 换元 · 配方求最值 | 适合高中数学</p>
+
+  <!-- 原题 -->
+  <section class="edu-problem-card u-avoid-break">
+    <div class="edu-problem-title">原题</div>
+    <p class="edu-problem-stem">正实数 <em class="edu-math">a</em>, <em class="edu-math">b</em> 满足 <em class="edu-math">a</em> + 1/(2<em class="edu-math">b</em>) = 1，求 <em class="edu-math">a</em>/<em class="edu-math">b</em> 的最大值。</p>
+  </section>
+
+  <!-- 一、拆题 -->
+  <section class="edu-section">
+    <h2 class="edu-section-title">一、先把题目拆开</h2>
+    <table class="edu-table edu-task-table">
+      <tr><th>已知条件</th><td><em class="edu-math">a</em> &gt; 0，<em class="edu-math">b</em> &gt; 0，且 <em class="edu-math">a</em> + 1/(2<em class="edu-math">b</em>) = 1</td></tr>
+      <tr><th>要求目标</th><td><em class="edu-math">a</em>/<em class="edu-math">b</em> 的最大值</td></tr>
+      <tr><th>关键词</th><td>正实数、约束条件、最大值</td></tr>
+      <tr><th>容易忽略</th><td><em class="edu-math">a</em> &gt; 0 蕴含 <em class="edu-math">b</em> &gt; 1/2，即 <em class="edu-math">b</em> 有下界</td></tr>
+    </table>
+  </section>
+
+  <!-- 二、路线 -->
+  <section class="edu-section">
+    <h2 class="edu-section-title">二、这题准备怎么走</h2>
+    <div class="edu-route">
+      <ol>
+        <li>由约束条件解出 <em class="edu-math">a</em>，用 <em class="edu-math">b</em> 表示（消元）</li>
+        <li>把 <em class="edu-math">a</em> 的表达式代入 <em class="edu-math">a</em>/<em class="edu-math">b</em>，化简</li>
+        <li>换元：令 <em class="edu-math">t</em> = 1/<em class="edu-math">b</em>，把分式变成二次函数</li>
+        <li>对二次函数配方，求最大值</li>
+        <li>验证最值点是否在定义域内，代回验算</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- 三、关键想法 -->
+  <section class="edu-section">
+    <h2 class="edu-section-title">三、关键想法</h2>
+    <div class="edu-key-idea">
+      <strong>两个变量 → 一个变量：</strong>题目给了一个等式，可以把其中一个变量用另一个表示出来。这样"求两个变量的分式最值"就变成了"求一个变量的函数最值"，用配方就能解决。
+    </div>
+  </section>
+
+  <!-- 四、标准解法 -->
+  <section class="edu-section">
+    <h2 class="edu-section-title">四、标准解法</h2>
+
+    <div class="edu-step u-avoid-break">
+      <div class="edu-step-title"><span class="step-num">1</span>消元：用 <em class="edu-math">b</em> 表示 <em class="edu-math">a</em></div>
+      <p class="edu-p">由 <em class="edu-math">a</em> + 1/(2<em class="edu-math">b</em>) = 1，直接解出：</p>
+      <div class="edu-formula"><em class="edu-math">a</em> = 1 − 1/(2<em class="edu-math">b</em>)</div>
+      <p class="edu-p">因为 <em class="edu-math">a</em> &gt; 0，所以 1 − 1/(2<em class="edu-math">b</em>) &gt; 0，即 <strong><em class="edu-math">b</em> &gt; 1/2</strong>。</p>
+      <p class="edu-step-why">为什么：一个等式连着两个变量，就能把一个变量"消掉"，把双变量问题变成单变量问题。</p>
+    </div>
+
+    <div class="edu-step u-avoid-break">
+      <div class="edu-step-title"><span class="step-num">2</span>代入化简 <em class="edu-math">a</em>/<em class="edu-math">b</em></div>
+      <p class="edu-p">把 <em class="edu-math">a</em> = 1 − 1/(2<em class="edu-math">b</em>) 代入目标 <em class="edu-math">a</em>/<em class="edu-math">b</em>：</p>
+      <div class="edu-formula"><em class="edu-math">a</em>/<em class="edu-math">b</em> = (1 − 1/(2<em class="edu-math">b</em>)) / <em class="edu-math">b</em> = 1/<em class="edu-math">b</em> − 1/(2<em class="edu-math">b</em>&sup2;)</div>
+      <p class="edu-step-why">为什么：目标里也含 <em class="edu-math">a</em>，代入后目标就只含 <em class="edu-math">b</em> 了。现在的任务变成了：在 <em class="edu-math">b</em> &gt; 1/2 的条件下，求这个式子的最大值。</p>
+    </div>
+
+    <div class="edu-step u-avoid-break">
+      <div class="edu-step-title"><span class="step-num">3</span>换元：令 <em class="edu-math">t</em> = 1/<em class="edu-math">b</em></div>
+      <p class="edu-p">式子里到处是 1/<em class="edu-math">b</em>，不如直接令 <em class="edu-math">t</em> = 1/<em class="edu-math">b</em>：</p>
+      <p class="edu-p">因为 <em class="edu-math">b</em> &gt; 1/2，所以 <strong>0 &lt; <em class="edu-math">t</em> &lt; 2</strong>。</p>
+      <p class="edu-p">目标变成：</p>
+      <div class="edu-formula-key"><em class="edu-math">g</em>(<em class="edu-math">t</em>) = <em class="edu-math">t</em> − <em class="edu-math">t</em>&sup2;/2，&ensp;0 &lt; <em class="edu-math">t</em> &lt; 2</div>
+      <p class="edu-step-why">为什么：换元后，分式变成了简单的二次函数 <em class="edu-math">t</em> − <em class="edu-math">t</em>&sup2;/2，用配方法就能求最值。别忘了写 <em class="edu-math">t</em> 的范围！</p>
+    </div>
+
+    <div class="edu-step u-avoid-break">
+      <div class="edu-step-title"><span class="step-num">4</span>配方求最值</div>
+      <p class="edu-p">对 <em class="edu-math">g</em>(<em class="edu-math">t</em>) = <em class="edu-math">t</em> − <em class="edu-math">t</em>&sup2;/2 提取系数 −1/2：</p>
+      <div class="edu-formula"><em class="edu-math">g</em>(<em class="edu-math">t</em>) = −1/2 &middot; (<em class="edu-math">t</em>&sup2; − 2<em class="edu-math">t</em>)</div>
+      <p class="edu-p">对括号内配方：<em class="edu-math">t</em>&sup2; − 2<em class="edu-math">t</em> = (<em class="edu-math">t</em> − 1)&sup2; − 1</p>
+      <p class="edu-p">所以：</p>
+      <div class="edu-formula-key"><em class="edu-math">g</em>(<em class="edu-math">t</em>) = 1/2 − (<em class="edu-math">t</em> − 1)&sup2;/2 ≤ 1/2</div>
+      <p class="edu-p">等号当 <em class="edu-math">t</em> = 1 时取到。</p>
+      <p class="edu-step-why">为什么：二次项系数为负，开口向下，配方后立刻看出最大值。(<em class="edu-math">t</em>−1)&sup2; ≥ 0，所以 1/2 减去一个非负数，最大就是 1/2。</p>
+    </div>
+
+    <div class="edu-step u-avoid-break">
+      <div class="edu-step-title"><span class="step-num">5</span>验证与回代</div>
+      <p class="edu-p"><em class="edu-math">t</em> = 1 在范围 (0, 2) 内 ✓</p>
+      <p class="edu-p">回代：<em class="edu-math">b</em> = 1/<em class="edu-math">t</em> = 1，<em class="edu-math">a</em> = 1 − 1/(2&times;1) = 1/2</p>
+      <p class="edu-p">验算：<em class="edu-math">a</em> + 1/(2<em class="edu-math">b</em>) = 1/2 + 1/2 = 1 ✓</p>
+      <p class="edu-p"><em class="edu-math">a</em>/<em class="edu-math">b</em> = (1/2)/1 = 1/2 ✓</p>
+      <p class="edu-step-why">为什么：求出最值点后，一定要检查它是否在合法范围内（<em class="edu-math">a</em>, <em class="edu-math">b</em> 都是正实数），并且代回原条件验算。</p>
+    </div>
+
+    <div class="edu-formula-key u-avoid-break">
+      最终答案：<em class="edu-math">a</em>/<em class="edu-math">b</em> 的最大值为 <strong>1/2</strong>，当 <em class="edu-math">a</em> = 1/2，<em class="edu-math">b</em> = 1 时取到。
+    </div>
+  </section>
+
+  <div class="page-break"></div>
+
+  <!-- 五、边讲边问 -->
+  <section class="edu-section">
+    <h2 class="edu-section-title">五、边讲边问</h2>
+
+    <div class="edu-question">
+      <div class="edu-question-title">想一想 1</div>
+      <p class="edu-p">题目说 <em class="edu-math">a</em> 是正实数。从等式 <em class="edu-math">a</em> + 1/(2<em class="edu-math">b</em>) = 1 能推出 <em class="edu-math">b</em> 必须满足什么条件？</p>
+      <span class="edu-blank-line"></span>
+    </div>
+
+    <div class="edu-question">
+      <div class="edu-question-title">想一想 2</div>
+      <p class="edu-p">化简到 <em class="edu-math">a</em>/<em class="edu-math">b</em> = 1/<em class="edu-math">b</em> − 1/(2<em class="edu-math">b</em>&sup2;) 之后，这个式子看着不太方便。你想到怎么换元了吗？令什么等于什么？</p>
+      <span class="edu-blank-line"></span>
+    </div>
+
+    <div class="edu-question">
+      <div class="edu-question-title">想一想 3</div>
+      <p class="edu-p">配方得到 <em class="edu-math">g</em>(<em class="edu-math">t</em>) = 1/2 − (<em class="edu-math">t</em>−1)&sup2;/2 ≤ 1/2。最大值对应的 <em class="edu-math">t</em> = 1，它在 <em class="edu-math">t</em> 的取值范围 (0, 2) 内吗？如果不在会怎样？</p>
+      <span class="edu-blank-line"></span>
+    </div>
+  </section>
+
+  <!-- 六、易错提醒 -->
+  <section class="edu-section">
+    <h2 class="edu-section-title">六、易错提醒</h2>
+
+    <div class="edu-mistake">
+      <strong>易错点 1：忘记写 <em class="edu-math">b</em> 的范围。</strong>由 <em class="edu-math">a</em> &gt; 0 推出 <em class="edu-math">b</em> &gt; 1/2，换元后 <em class="edu-math">t</em> = 1/<em class="edu-math">b</em> 的范围是 (0, 2) 而非全体实数。如果最值点不在范围内，就不能取到等号。
+    </div>
+
+    <div class="edu-mistake">
+      <strong>易错点 2：换元后不写新变量的范围。</strong>令 <em class="edu-math">t</em> = 1/<em class="edu-math">b</em> 时，必须同步写出 0 &lt; <em class="edu-math">t</em> &lt; 2，否则后续配方求出的最值点可能不在定义域内。
+    </div>
+
+    <div class="edu-mistake">
+      <strong>易错点 3：代回验算跳过。</strong>算完 <em class="edu-math">t</em> = 1 后，必须回代检查 <em class="edu-math">a</em>, <em class="edu-math">b</em> 是否满足原条件和正实数要求。这是确保答案正确的最后一步。
+    </div>
+  </section>
+
+  <!-- 七、一句话总结 -->
+  <section class="edu-section">
+    <h2 class="edu-section-title">七、一句话总结</h2>
+    <div class="edu-key-idea">
+      <strong>消元 → 代入 → 换元 → 配方 → 验算。</strong>遇到"双变量 + 等式约束 + 求最值"，第一步永远是：用一个变量表示另一个变量。
+    </div>
+  </section>
+
+</div>
+
+<!-- 教师自检（打印时不显示） -->
+<aside class="edu-teacher-note no-print">
+  <div class="edu-card-title">生成后自检</div>
+  <ul>
+    <li><strong>数学检查：</strong>答案 1/2 与 canonical solution 一致；<em class="edu-math">b</em>&gt;1/2 范围正确；配方过程无误；验算通过。</li>
+    <li><strong>教学检查：</strong>只训练一个核心动作（消元换元配方）；未引入无关知识点；互动问题围绕消元、换元、范围验证三个关键点。</li>
+    <li><strong>档位检查：</strong>默认假设 B-D 档，无学生具体证据，按默认预测处理；讲解步骤无跨档跳跃。</li>
+    <li><strong>HTML 检查：</strong>使用内嵌 CSS，无外部 CDN 依赖；标签闭合完整；包含全部 required sections；@page A4 设置正确；分页在标准解法与边讲边问之间。</li>
+    <li><strong>自检结论：</strong>通过。</li>
+  </ul>
+</aside>
+
+<aside class="edu-teacher-note no-print">
+下一步：使用 math-adaptive-practice-html，输入本结构分析 + 学生画像，生成自适应练习。工作流：math-structure-analysis → math-student-explanation-html → math-adaptive-practice-html。
+</aside>
+
+</body>
+</html>

@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>自适应练习：二倍角公式</title>
+<link rel="stylesheet" href="../../.opencode/skill/math-adaptive-practice-html/assets/edu-print.css">
+<style>
+  sup { font-size: 0.7em; }
+</style>
+</head>
+<body data-view="student">
+<div class="edu-page">
+
+  <h1 class="edu-title">自适应练习：二倍角公式</h1>
+  <p class="edu-subtitle">核心动作：看已知、选公式、代入计算</p>
+
+  <!-- 练习说明 -->
+  <section class="edu-section">
+    <h2 class="edu-section-title">练习说明</h2>
+    <p class="edu-p">本组练习只练一个核心动作：<strong>根据题目给你的已知量，从二倍角公式中选出最方便的一个，然后代入算出结果。</strong></p>
+  </section>
+
+  <!-- 第 1 题 -->
+  <section class="edu-practice-problem u-avoid-break">
+    <h2 class="edu-practice-title">第 1 题：入口题</h2>
+    <p class="edu-p">已知 cos α = 3/5，求 cos 2α。</p>
+
+    <div class="edu-hint">
+      <div class="edu-hint-title">提示一</div>
+      <p class="edu-p">你手上有什么？cos α。找一条"只走 cos"的路。</p>
+    </div>
+    <div class="edu-hint">
+      <div class="edu-hint-title">提示二</div>
+      <p class="edu-p">三种公式里，哪两个只含 cos α？选更简单的那一个。</p>
+    </div>
+
+    <div class="edu-answer-steps">
+      <div class="edu-answer-step">
+        <span class="edu-answer-step-label">① 选择的公式：</span>
+      </div>
+      <div class="edu-answer-step">
+        <span class="edu-answer-step-label">② 代入计算过程：</span>
+      </div>
+      <div class="edu-answer-step">
+        <span class="edu-answer-step-label">③ 最终答案：</span>
+      </div>
+    </div>
+
+    <aside class="edu-teacher-note no-print">
+      <div class="edu-card-title">第 1 题教师备忘</div>
+      <p class="edu-training-goal"><span class="edu-tag">训练目标</span>已知 cos α 选公式 ② cos 2α = 2cos²α − 1（比 ① 少一步）</p>
+      <p class="edu-expected-blocker"><span class="edu-tag">预期卡点</span>可能选 ① cos²α − sin²α 但没有 sin α 的值</p>
+      <p class="edu-small">复杂度说明：cos²α = (3/5)² = 9/25，2×9/25 − 1 = 18/25 − 25/25 = −7/25。通分一步，未超预算。</p>
+      <div class="edu-judge">
+        <p class="edu-p"><span class="edu-upgrade">升级：</span>若学生顺利选出公式并算对，进入第 2 题。</p>
+        <p class="edu-p"><span class="edu-downgrade">降级：</span>若学生写不出三种公式，回到讲解页复习公式后再练。</p>
+      </div>
+    </aside>
+  </section>
+
+  <!-- 第 2 题 -->
+  <section class="edu-practice-problem u-avoid-break">
+    <h2 class="edu-practice-title">第 2 题：负值变式</h2>
+    <p class="edu-p">已知 cos α = −1/3，求 cos 2α。</p>
+
+    <div class="edu-hint">
+      <div class="edu-hint-title">提示一</div>
+      <p class="edu-p">公式里 cos α 是平方出现的，负号会怎样？</p>
+    </div>
+    <div class="edu-hint">
+      <div class="edu-hint-title">提示二</div>
+      <p class="edu-p">cos²α = (−1/3)² = 1/9，和正的 1/3 一样。所以负号不影响这道题的结果。</p>
+    </div>
+
+    <div class="edu-answer-steps">
+      <div class="edu-answer-step">
+        <span class="edu-answer-step-label">① 选择的公式：</span>
+      </div>
+      <div class="edu-answer-step">
+        <span class="edu-answer-step-label">② 代入计算过程：</span>
+      </div>
+      <div class="edu-answer-step">
+        <span class="edu-answer-step-label">③ 最终答案：</span>
+      </div>
+    </div>
+
+    <aside class="edu-teacher-note no-print">
+      <div class="edu-card-title">第 2 题教师备忘</div>
+      <p class="edu-training-goal"><span class="edu-tag">训练目标</span>体会平方消除符号——已知量是负数也不影响选公式策略</p>
+      <p class="edu-expected-blocker"><span class="edu-tag">预期卡点</span>(−1/3)² 算成 −1/9；或被负号干扰以为需要讨论象限</p>
+      <p class="edu-small">复杂度说明：cos 2α = 2×(1/9) − 1 = 2/9 − 9/9 = −7/9。与第 1 题同级。</p>
+      <div class="edu-judge">
+        <p class="edu-p"><span class="edu-upgrade">升级：</span>若学生理解平方消除符号，进入第 3 题。</p>
+        <p class="edu-p"><span class="edu-downgrade">降级：</span>若学生算错 (−1/3)²，回到正值的同类题（cos α = 1/3）先练。</p>
+      </div>
+    </aside>
+  </section>
+
+  <div class="page-break"></div>
+
+  <!-- 第 3 题 -->
+  <section class="edu-practice-problem u-avoid-break">
+    <h2 class="edu-practice-title">第 3 题：目标变化——求 sin 2α</h2>
+    <p class="edu-p">已知 sin α = 1/3，求 sin 2α。（提示：sin 2α = 2sin α cos α）</p>
+
+    <div class="edu-hint">
+      <div class="edu-hint-title">提示一</div>
+      <p class="edu-p">这道题和前两题不同：sin 2α 的公式里同时需要 sin α 和 cos α。</p>
+    </div>
+    <div class="edu-hint">
+      <div class="edu-hint-title">提示二</div>
+      <p class="edu-p">先用 sin²α + cos²α = 1 求出 cos²α = 1 − 1/9 = 8/9，所以 cos α = ±2√2/3。但 sin 2α = 2sin α cos α 需要知道 cos α 的正负号。</p>
+    </div>
+
+    <div class="edu-answer-steps">
+      <div class="edu-answer-step">
+        <span class="edu-answer-step-label">① 写出 cos α 的值（注意正负号的情况）：</span>
+      </div>
+      <div class="edu-answer-step">
+        <span class="edu-answer-step-label">② 代入 sin 2α = 2sin α cos α 计算：</span>
+      </div>
+      <div class="edu-answer-step">
+        <span class="edu-answer-step-label">③ 本题结果和原题有什么不同？为什么原题不需要讨论正负号？</span>
+      </div>
+    </div>
+
+    <aside class="edu-teacher-note no-print">
+      <div class="edu-card-title">第 3 题教师备忘</div>
+      <p class="edu-training-goal"><span class="edu-tag">训练目标</span>对比：cos 2α 可以只用 sin²α 消除符号，但 sin 2α 不行——需要 cos α 的符号</p>
+      <p class="edu-expected-blocker"><span class="edu-tag">预期卡点</span>忘记讨论 cos α 的正负号；算 √8/9 化简出错</p>
+      <p class="edu-small">复杂度说明：cos α = ±2√2/3，sin 2α = 2 × (1/3) × (±2√2/3) = ±4√2/9。引入简单根号，未超二级预算。</p>
+      <div class="edu-judge">
+        <p class="edu-p"><span class="edu-upgrade">升级：</span>若学生正确讨论正负号，进入第 4 题。</p>
+        <p class="edu-p"><span class="edu-downgrade">降级：</span>若学生对根号运算不熟，先练 sin α = 1/2 求 sin 2α（特殊角）。</p>
+      </div>
+    </aside>
+  </section>
+
+  <!-- 第 4 题 -->
+  <section class="edu-practice-problem u-avoid-break">
+    <h2 class="edu-practice-title">第 4 题：角度替换变式</h2>
+    <p class="edu-p">已知 sin(α/2) = 1/3，求 cos α。</p>
+
+    <div class="edu-hint">
+      <div class="edu-hint-title">提示一</div>
+      <p class="edu-p">把 α/2 当成一个整体，比如令 β = α/2，那题目变成：已知 sin β = 1/3，求 cos 2β。</p>
+    </div>
+    <div class="edu-hint">
+      <div class="edu-hint-title">提示二</div>
+      <p class="edu-p">这不就是原题吗？直接用 cos 2β = 1 − 2sin²β。</p>
+    </div>
+
+    <div class="edu-answer-steps">
+      <div class="edu-answer-step">
+        <span class="edu-answer-step-label">① 把 α/2 换成哪个字母方便看？</span>
+      </div>
+      <div class="edu-answer-step">
+        <span class="edu-answer-step-label">② 写出公式并计算：</span>
+      </div>
+      <div class="edu-answer-step">
+        <span class="edu-answer-step-label">③ 最终答案：</span>
+      </div>
+    </div>
+
+    <aside class="edu-teacher-note no-print">
+      <div class="edu-card-title">第 4 题教师备忘</div>
+      <p class="edu-training-goal"><span class="edu-tag">训练目标</span>识别二倍角关系的变体：α = 2×(α/2)，cos α = cos 2(α/2)</p>
+      <p class="edu-expected-blocker"><span class="edu-tag">预期卡点</span>看不出 α 和 α/2 的二倍角关系；换元后忘记换回来</p>
+      <p class="edu-small">复杂度说明：cos α = 1 − 2sin²(α/2) = 1 − 2/9 = 7/9。与原题同级计算。</p>
+      <div class="edu-judge">
+        <p class="edu-upgrade">升级：</span>若学生顺利完成，可进入半角/降幂公式的学习。</p>
+        <p class="edu-downgrade">降级：</span>若学生看不出角度关系，回到原题并问"如果我把 α 换成 2β，原题变成什么？"</p>
+      </div>
+    </aside>
+  </section>
+
+  <div class="page-break"></div>
+
+  <!-- 参考答案 -->
+  <section class="edu-answer-key">
+    <h2 class="edu-section-title u-mt-0">参考答案</h2>
+
+    <div class="edu-step">
+      <div class="edu-step-title">第 1 题答案</div>
+      <p class="edu-p">选择公式 cos 2α = 2cos²α − 1（或 ① cos²α − sin²α 也可以，但需要多求 sin²α）。</p>
+      <p class="edu-p">cos 2α = 2 × (3/5)² − 1 = 2 × 9/25 − 1 = 18/25 − 25/25 = <strong>−7/25</strong>。</p>
+    </div>
+
+    <div class="edu-step">
+      <div class="edu-step-title">第 2 题答案</div>
+      <p class="edu-p">cos 2α = 2cos²α − 1 = 2 × (−1/3)² − 1 = 2 × 1/9 − 1 = 2/9 − 9/9 = <strong>−7/9</strong>。</p>
+      <p class="edu-small">负号在平方后消失，结果与 cos α = 1/3 时的 cos 2α = −7/9 相同。</p>
+    </div>
+
+    <div class="edu-step">
+      <div class="edu-step-title">第 3 题答案</div>
+      <p class="edu-p">cos²α = 1 − sin²α = 1 − 1/9 = 8/9，所以 cos α = ±2√2/9。</p>
+      <p class="edu-p">sin 2α = 2sin α cos α = 2 × (1/3) × (±2√2/3) = <strong>±4√2/9</strong>。</p>
+      <p class="edu-small">因为公式 sin 2α = 2sin α cos α 中 cos α 不是平方，所以 cos α 的正负号会影响结果，无法消除。这与 cos 2α = 1 − 2sin²α 不同。</p>
+    </div>
+
+    <div class="edu-step">
+      <div class="edu-step-title">第 4 题答案</div>
+      <p class="edu-p">令 β = α/2，则 sin β = 1/3，求 cos 2β = cos α。</p>
+      <p class="edu-p">cos α = cos 2β = 1 − 2sin²β = 1 − 2 × (1/3)² = 1 − 2/9 = <strong>7/9</strong>。</p>
+    </div>
+  </section>
+
+  <!-- 教师自检 -->
+  <aside class="edu-teacher-note self-check no-print">
+    <div class="edu-card-title">生成后自检</div>
+    <ul>
+      <li><strong>数学检查：</strong>
+        <br>第 1 题：cos 2α = 2×(9/25)−1 = 18/25−25/25 = −7/25 ✓
+        <br>第 2 题：cos 2α = 2×(1/9)−1 = 2/9−9/9 = −7/9 ✓
+        <br>第 3 题：cos²α = 8/9, cos α = ±2√2/3, sin 2α = 2×(1/3)×(±2√2/3) = ±4√2/9 ✓
+        <br>第 4 题：cos α = 1−2×(1/9) = 7/9 ✓
+        <br>所有答案范围检查：−7/25 ∈ [−1,1] ✓；−7/9 ∈ [−1,1] ✓；±4√2/9 ≈ ±0.629 ∈ [−1,1] ✓；7/9 ∈ [−1,1] ✓
+      </li>
+      <li><strong>教学检查：</strong>本页只训练一个核心动作"根据已知量选二倍角公式"；四道题梯度为：选公式→负值消除符号→对比 sin 2α 的符号问题→角度替换识别；未引入无关知识点；提示一指向动作不给答案，提示二接近列式不给最终结果。</li>
+      <li><strong>档位检查：</strong>默认诊断（无学生证据），题目从入门到迁移小步递进：第1题C档→第2题C/D档→第3题D档→第4题E档。</li>
+      <li><strong>学生版检查：</strong>教师判断、训练目标、预期卡点、复杂度说明、升级/降级建议全部在 no-print 的 edu-teacher-note 中；学生打印和默认视角只看到题目、提示、解答区和参考答案。</li>
+      <li><strong>HTML 检查：</strong>标签闭合；包含 required sections（练习说明、4道练习题、参考答案）；无网络 CDN 依赖；A4 打印通过 edu-print.css；分页位置在第 2 题后和参考答案前合理。</li>
+      <li><strong>自检结论：</strong>通过。</li>
+    </ul>
+  </aside>
+
+  <aside class="edu-teacher-note no-print">
+    <div class="edu-card-title">教师判断</div>
+    <p class="edu-p">当前档位：默认 C 档。主要错因：公式记忆不牢、不会选最优公式。置信度：低（无学生证据）。</p>
+  </aside>
+
+  <aside class="edu-teacher-note no-print">
+    <div class="edu-card-title">升级 / 降级建议</div>
+    <div class="edu-judge">
+      <p class="edu-p"><span class="edu-upgrade">升级：</span>若 4 题全对，下次练习可加入 tan α 已知求 cos 2α（需要齐次式），或半角公式化简。</p>
+      <p class="edu-p"><span class="edu-downgrade">降级：</span>若第 1 题即卡住（写不出公式），回到讲解页复习三种公式形式，再重新练习。</p>
+      <p class="edu-p"><span class="edu-review">巩固：</span>若第 3 题出错（正负号讨论），重点复习"哪些公式能消除符号，哪些不能"。</p>
+    </div>
+  </aside>
+
+  <aside class="edu-teacher-note no-print">
+  下一轮：根据本页完成情况，更新学生画像；若需讲解新题，回到 math-structure-analysis；若需新一轮变式，再次使用 math-adaptive-practice-html。工作流循环：math-structure-analysis → math-student-explanation-html → math-adaptive-practice-html。
+  </aside>
+
+</div>
+</body>
+</html>

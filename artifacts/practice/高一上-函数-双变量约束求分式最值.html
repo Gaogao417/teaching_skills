@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>自适应练习：约束条件下求分式最值</title>
+<style>
+:root {
+  --font-body: "SimSun", "Songti SC", "Noto Serif CJK SC", serif;
+  --font-heading: "SimHei", "Microsoft YaHei", sans-serif;
+  --font-math: "Times New Roman", "STIX Two Math", serif;
+  --text-main: #111;
+  --text-muted: #555;
+  --text-light: #777;
+  --border-strong: #111;
+  --border-main: #555;
+  --border-light: #aaa;
+  --accent-soft: #f6f9fc;
+  --accent-line: #9fb6d8;
+  --accent-line-light: #d7e1ee;
+  --accent-text: #2f527a;
+  --bg-white: #fff;
+  --bg-soft: #fafafa;
+  --bg-note: #f7f7f7;
+  --bg-warn: #fff6f2;
+  --bg-key: #fffdf0;
+  --bg-answer: #fcfcfc;
+  --space-xs: 1mm;
+  --space-sm: 2mm;
+  --space-md: 3mm;
+  --space-lg: 5mm;
+  --space-xl: 7mm;
+  --font-size-body: 12pt;
+  --font-size-small: 10.5pt;
+  --font-size-title: 18pt;
+  --font-size-h2: 13.5pt;
+  --font-size-h3: 12.5pt;
+  --line-body: 1.72;
+}
+@page { size: A4; margin: 16mm 14mm; }
+* { box-sizing: border-box; }
+body { margin: 0; color: var(--text-main); background: var(--bg-white); font-family: var(--font-body); font-size: var(--font-size-body); line-height: var(--line-body); }
+.edu-page { max-width: 186mm; margin: 0 auto; padding: 0 2mm; }
+.edu-title { margin: 0 0 var(--space-xl); text-align: center; font-family: var(--font-heading); font-size: var(--font-size-title); font-weight: 700; line-height: 1.35; }
+.edu-subtitle { margin: -4mm 0 var(--space-lg); text-align: center; color: var(--text-muted); font-size: var(--font-size-small); }
+.edu-section { margin: var(--space-lg) 0; }
+.edu-section-title { margin: var(--space-lg) 0 var(--space-sm); padding: 1.2mm 2mm; border-left: 2px solid var(--accent-line); border-bottom: 1px solid var(--accent-line-light); background: var(--accent-soft); font-family: var(--font-heading); font-size: var(--font-size-h2); font-weight: 700; line-height: 1.45; }
+.edu-p { margin: 0 0 2.5mm; }
+.edu-small { font-size: var(--font-size-small); color: var(--text-muted); }
+.edu-math { font-family: var(--font-math); font-style: italic; }
+.edu-strong { font-weight: 700; }
+.edu-card { margin: var(--space-md) 0; padding: 3mm 4mm; border: 1px solid var(--border-main); background: var(--bg-white); }
+.edu-card-soft { margin: var(--space-md) 0; padding: 3mm 4mm; border: 1px solid var(--border-light); background: var(--bg-soft); }
+.edu-card-title { margin: 0 0 var(--space-sm); font-family: var(--font-heading); font-weight: 700; }
+.edu-teacher-note { margin: var(--space-md) 0; padding: 2.5mm 3mm; border: 1px solid var(--border-light); background: var(--bg-note); color: var(--text-muted); font-size: var(--font-size-small); }
+.edu-key-idea { margin: var(--space-md) 0; padding: 3mm 4mm; border: 1.5px solid var(--border-strong); background: var(--bg-key); break-inside: avoid; page-break-inside: avoid; }
+.edu-table { width: 100%; border-collapse: collapse; margin: var(--space-md) 0; break-inside: avoid; page-break-inside: avoid; }
+.edu-table th, .edu-table td { border: 1px solid var(--border-main); padding: 1.8mm 2mm; vertical-align: top; }
+.edu-table th { font-family: var(--font-heading); background: var(--bg-soft); font-weight: 700; }
+.edu-practice-problem { margin: var(--space-lg) 0; padding: 3mm 4mm; border: 1px solid var(--border-main); background: var(--bg-white); break-inside: avoid; page-break-inside: avoid; }
+.edu-practice-title { margin: 0 0 var(--space-sm); font-family: var(--font-heading); font-size: var(--font-size-h3); font-weight: 700; }
+.edu-hint { margin: 2mm 0; padding: 2mm 3mm; border: 1px dashed var(--border-light); background: var(--bg-soft); font-size: 11pt; }
+.edu-hint-title { font-family: var(--font-heading); font-weight: 700; }
+.edu-tag { display: inline-block; margin-right: 1.5mm; padding: 0.5mm 2mm; border: 1px solid var(--border-main); background: var(--bg-soft); font-family: var(--font-heading); font-size: 10pt; }
+.edu-answer-steps { margin: var(--space-md) 0; border: 1px solid var(--border-light); }
+.edu-answer-step { min-height: 18mm; border-bottom: 1px solid #ddd; padding: 1.5mm 2mm; }
+.edu-answer-step:last-child { border-bottom: none; }
+.edu-answer-step-label { font-family: var(--font-heading); font-size: 10.5pt; color: var(--text-muted); }
+.edu-answer-key { margin: var(--space-lg) 0; padding: 3mm 4mm; border: 2px solid var(--border-strong); background: var(--bg-soft); }
+.edu-formula { margin: var(--space-md) 0; padding: 2.5mm 4mm; border: 1px solid var(--border-main); background: var(--bg-soft); text-align: center; font-family: var(--font-math); font-size: 12.5pt; }
+.edu-step { margin: var(--space-md) 0; padding: 2.5mm 3mm; border-left: 2px solid var(--accent-line-light); background: var(--bg-white); }
+.edu-step-title { margin: 0 0 var(--space-xs); font-family: var(--font-heading); font-weight: 700; }
+.edu-judge { margin: var(--space-md) 0; padding: 2mm 3mm; border-left: 2px solid var(--accent-line-light); background: var(--bg-note); font-size: var(--font-size-small); }
+.edu-upgrade { font-weight: 700; color: #176b3a; }
+.edu-downgrade { font-weight: 700; color: #a11; }
+.edu-training-goal, .edu-expected-blocker { margin: 2mm 0; font-size: var(--font-size-small); }
+.page-break { display: none; }
+.u-mt-0 { margin-top: 0 !important; }
+.u-mb-0 { margin-bottom: 0 !important; }
+.u-center { text-align: center; }
+.u-muted { color: var(--text-muted); }
+.u-small { font-size: var(--font-size-small); }
+.u-avoid-break { break-inside: avoid; page-break-inside: avoid; }
+@media print {
+  body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .no-print { display: none !important; }
+  .page-break { display: block; break-before: page; page-break-before: always; }
+  .u-avoid-break { break-inside: avoid; page-break-inside: avoid; }
+  .edu-section-title { break-after: avoid; page-break-after: avoid; }
+  .edu-practice-title { break-after: avoid; page-break-after: avoid; }
+}
+@media screen {
+  body[data-view="student"] .edu-teacher-note.no-print { display: none; }
+  .page-break::before { content: "— 分页 —"; display: block; padding: 4mm 0; text-align: center; color: #bbb; font-size: 9pt; font-family: var(--font-heading); border-top: 1px dashed #ddd; border-bottom: 1px dashed #ddd; }
+}
+</style>
+</head>
+<body data-view="student">
+<div class="edu-page">
+
+  <h1 class="edu-title">自适应练习：约束条件下求最值</h1>
+  <p class="edu-subtitle">核心动作：消元 · 换元 · 配方</p>
+
+  <section class="edu-section">
+    <h2 class="edu-section-title">练习说明</h2>
+    <p class="edu-p">本组练习只练一个核心动作：<strong>把双变量约束问题通过消元变成一元函数，再配方求最值</strong>。每道题都围绕这个链条，难度逐步上升。</p>
+  </section>
+
+  <!-- 第 1 题 -->
+  <section class="edu-practice-problem">
+    <h2 class="edu-practice-title">第 1 题：配方基本功</h2>
+    <p class="edu-p">求函数 <em class="edu-math">f</em>(<em class="edu-math">x</em>) = <em class="edu-math">x</em> − <em class="edu-math">x</em>&sup2;/2 在区间 0 &lt; <em class="edu-math">x</em> &lt; 2 上的最大值。</p>
+
+    <div class="edu-hint">
+      <div class="edu-hint-title">提示一</div>
+      <p class="edu-p">这是一个关于 <em class="edu-math">x</em> 的二次函数。先提取二次项系数 −1/2，再对 <em class="edu-math">x</em>&sup2; − 2<em class="edu-math">x</em> 凑完全平方。</p>
+    </div>
+    <div class="edu-hint">
+      <div class="edu-hint-title">提示二</div>
+      <p class="edu-p">配方结果为 <em class="edu-math">f</em>(<em class="edu-math">x</em>) = 1/2 − (<em class="edu-math">x</em> − 1)&sup2;/2。接下来判断 <em class="edu-math">x</em> = 1 是否在 (0, 2) 内。</p>
+    </div>
+
+    <div class="edu-answer-steps">
+      <div class="edu-answer-step">
+        <span class="edu-answer-step-label">① 配方过程：</span>
+      </div>
+      <div class="edu-answer-step">
+        <span class="edu-answer-step-label">② 判断最值点是否在区间内：</span>
+      </div>
+      <div class="edu-answer-step">
+        <span class="edu-answer-step-label">③ 写出最大值：</span>
+      </div>
+    </div>
+
+    <aside class="edu-teacher-note no-print">
+      <div class="edu-card-title">第 1 题教师备忘</div>
+      <p class="edu-training-goal"><span class="edu-tag">训练目标</span>纯配方基本功，检验学生是否掌握二次函数配方求最值。</p>
+      <p class="edu-expected-blocker"><span class="edu-tag">预期卡点</span>忘记提取系数导致配方出错；不检查最值点是否在区间内。</p>
+      <p class="edu-small">复杂度说明：纯一元二次配方，与原题计算层级相同，不超预算。</p>
+      <div class="edu-judge">
+        <p class="edu-p"><span class="edu-upgrade">升级：</span>若学生顺利完成，进入第 2 题。</p>
+        <p class="edu-p"><span class="edu-downgrade">降级：</span>若学生配方出错，回到讲解页第四步复习配方过程。</p>
+      </div>
+    </aside>
+  </section>
+
+  <!-- 第 2 题 -->
+  <section class="edu-practice-problem">
+    <h2 class="edu-practice-title">第 2 题：简单约束消元</h2>
+    <p class="edu-p">正实数 <em class="edu-math">x</em>, <em class="edu-math">y</em> 满足 <em class="edu-math">x</em> + 1/<em class="edu-math">y</em> = 2，求 <em class="edu-math">x</em>/<em class="edu-math">y</em> 的最大值。</p>
+
+    <div class="edu-hint">
+      <div class="edu-hint-title">提示一</div>
+      <p class="edu-p">和讲解题一样：先从等式中解出 <em class="edu-math">x</em> = 2 − 1/<em class="edu-math">y</em>，代入 <em class="edu-math">x</em>/<em class="edu-math">y</em> 化简。</p>
+    </div>
+    <div class="edu-hint">
+      <div class="edu-hint-title">提示二</div>
+      <p class="edu-p">令 <em class="edu-math">t</em> = 1/<em class="edu-math">y</em>（<em class="edu-math">t</em> &gt; 0 且 <em class="edu-math">x</em> &gt; 0 ⇒ <em class="edu-math">t</em> &lt; 2），则 <em class="edu-math">x</em>/<em class="edu-math">y</em> = 2<em class="edu-math">t</em> − <em class="edu-math">t</em>&sup2;。</p>
+    </div>
+
+    <div class="edu-answer-steps">
+      <div class="edu-answer-step">
+        <span class="edu-answer-step-label">① 用 y 表示 x 并确定 y 的范围：</span>
+      </div>
+      <div class="edu-answer-step">
+        <span class="edu-answer-step-label">② 代入 x/y 并化简：</span>
+      </div>
+      <div class="edu-answer-step">
+        <span class="edu-answer-step-label">③ 换元、配方求最值，并验证：</span>
+      </div>
+    </div>
+
+    <aside class="edu-teacher-note no-print">
+      <div class="edu-card-title">第 2 题教师备忘</div>
+      <p class="edu-training-goal"><span class="edu-tag">训练目标</span>完整执行消元→代入→换元→配方链条。</p>
+      <p class="edu-expected-blocker"><span class="edu-tag">预期卡点</span>换元后忘记写 <em class="edu-math">t</em> 的范围（0 &lt; <em class="edu-math">t</em> &lt; 2）；配方系数为 −1 而非 −1/2，计算出错。</p>
+      <p class="edu-small">复杂度说明：约束条件比例题简单（系数为 1 和 2 而非 1 和 1/2），计算量相当。</p>
+      <div class="edu-judge">
+        <p class="edu-p"><span class="edu-upgrade">升级：</span>若学生顺利完成，进入第 3 题。</p>
+        <p class="edu-p"><span class="edu-downgrade">降级：</span>若学生卡在消元或换元，回到第 1 题加强基本功。</p>
+      </div>
+    </aside>
+  </section>
+
+  <div class="page-break"></div>
+
+  <!-- 第 3 题 -->
+  <section class="edu-practice-problem">
+    <h2 class="edu-practice-title">第 3 题：同源变式</h2>
+    <p class="edu-p">正实数 <em class="edu-math">m</em>, <em class="edu-math">n</em> 满足 2<em class="edu-math">m</em> + 3/<em class="edu-math">n</em> = 6，求 <em class="edu-math">m</em>/<em class="edu-math">n</em> 的最大值。</p>
+
+    <div class="edu-hint">
+      <div class="edu-hint-title">提示一</div>
+      <p class="edu-p">仍然是"消元→代入→换元→配方"的链条。先解出 <em class="edu-math">m</em> = (6 − 3/<em class="edu-math">n</em>)/2 = 3 − 3/(2<em class="edu-math">n</em>)。</p>
+    </div>
+    <div class="edu-hint">
+      <div class="edu-hint-title">提示二</div>
+      <p class="edu-p">代入 <em class="edu-math">m</em>/<em class="edu-math">n</em> = 3/<em class="edu-math">n</em> − 3/(2<em class="edu-math">n</em>&sup2;)。令 <em class="edu-math">t</em> = 1/<em class="edu-math">n</em>（<em class="edu-math">t</em> &gt; 0，且 <em class="edu-math">m</em> &gt; 0 ⇒ <em class="edu-math">t</em> &lt; 2），化为 3<em class="edu-math">t</em> − 3<em class="edu-math">t</em>&sup2;/2。</p>
+    </div>
+
+    <div class="edu-answer-steps">
+      <div class="edu-answer-step">
+        <span class="edu-answer-step-label">① 用 n 表示 m 并确定 n 的范围：</span>
+      </div>
+      <div class="edu-answer-step">
+        <span class="edu-answer-step-label">② 代入 m/n 并化简：</span>
+      </div>
+      <div class="edu-answer-step">
+        <span class="edu-answer-step-label">③ 换元、配方求最值，并验证：</span>
+      </div>
+    </div>
+
+    <aside class="edu-teacher-note no-print">
+      <div class="edu-card-title">第 3 题教师备忘</div>
+      <p class="edu-training-goal"><span class="edu-tag">训练目标</span>同结构迁移：系数变化后能否完整执行消元配方链条。</p>
+      <p class="edu-expected-blocker"><span class="edu-tag">预期卡点</span>解出 <em class="edu-math">m</em> 时系数运算出错（除以2）；配方时系数 3 的处理出错；忘记验证。</p>
+      <p class="edu-small">复杂度说明：系数从简单的 1,2 变为 2,3,6，但仍为整数运算，未引入分数或根式，不超预算。</p>
+      <div class="edu-judge">
+        <p class="edu-p"><span class="edu-upgrade">升级：</span>若学生顺利完成，说明已掌握本结构，可进入 F 档结构隐藏变式。</p>
+        <p class="edu-p"><span class="edu-downgrade">降级：</span>若学生卡在系数运算，回到第 2 题巩固基础形式。</p>
+      </div>
+    </aside>
+  </section>
+
+  <!-- 第 4 题 -->
+  <section class="edu-practice-problem">
+    <h2 class="edu-practice-title">第 4 题：改变目标表达式</h2>
+    <p class="edu-p">正实数 <em class="edu-math">x</em>, <em class="edu-math">y</em> 满足 <em class="edu-math">x</em> + 2/<em class="edu-math">y</em> = 3，求 <em class="edu-math">x</em>&middot;<em class="edu-math">y</em> 的最大值。</p>
+
+    <div class="edu-hint">
+      <div class="edu-hint-title">提示一</div>
+      <p class="edu-p">还是先消元。解出 <em class="edu-math">x</em> = 3 − 2/<em class="edu-math">y</em>，目标变为 <em class="edu-math">x</em>&middot;<em class="edu-math">y</em> = 3<em class="edu-math">y</em> − 2。</p>
+    </div>
+    <div class="edu-hint">
+      <div class="edu-hint-title">提示二</div>
+      <p class="edu-p"><em class="edu-math">x</em>&middot;<em class="edu-math">y</em> = 3<em class="edu-math">y</em> − 2 是关于 <em class="edu-math">y</em> 的一次函数（不是二次了！），<em class="edu-math">y</em> 越大值越大。但 <em class="edu-math">y</em> 有上限吗？——由 <em class="edu-math">x</em> &gt; 0 得 <em class="edu-math">y</em> &gt; 2/3，但 <em class="edu-math">y</em> 没有上限……这个题有最大值吗？</p>
+    </div>
+
+    <div class="edu-answer-steps">
+      <div class="edu-answer-step">
+        <span class="edu-answer-step-label">① 用 y 表示 x 并确定 y 的范围：</span>
+      </div>
+      <div class="edu-answer-step">
+        <span class="edu-answer-step-label">② 代入 x·y 并化简，判断函数类型：</span>
+      </div>
+      <div class="edu-answer-step">
+        <span class="edu-answer-step-label">③ 分析是否有最值，写出结论：</span>
+      </div>
+    </div>
+
+    <aside class="edu-teacher-note no-print">
+      <div class="edu-card-title">第 4 题教师备忘</div>
+      <p class="edu-training-goal"><span class="edu-tag">训练目标</span>检验学生是否机械套用配方：目标不是二次函数时，能否正确判断无最大值。</p>
+      <p class="edu-expected-blocker"><span class="edu-tag">预期卡点</span>学生习惯性配方，把一次函数当二次函数处理；没有注意到 <em class="edu-math">y</em> 只有下界没有上界。</p>
+      <p class="edu-small">复杂度说明：实际计算更简单（一次函数），但需要更高的分析意识。不超预算。</p>
+      <div class="edu-judge">
+        <p class="edu-p"><span class="edu-upgrade">升级：</span>若学生发现无最大值并说明原因，说明分析能力已超过 E 档。</p>
+        <p class="edu-p"><span class="edu-downgrade">降级：</span>若学生强行配方得出错误答案，回到第 2 题重新练习，强调先判断函数类型。</p>
+      </div>
+    </aside>
+  </section>
+
+  <!-- 参考答案 -->
+  <div class="page-break"></div>
+  <section class="edu-answer-key">
+    <h2 class="edu-section-title u-mt-0">参考答案</h2>
+
+    <div class="edu-step">
+      <div class="edu-step-title">第 1 题答案</div>
+      <div class="edu-formula"><em class="edu-math">f</em>(<em class="edu-math">x</em>) = <em class="edu-math">x</em> − <em class="edu-math">x</em>&sup2;/2 = −1/2(<em class="edu-math">x</em>&sup2; − 2<em class="edu-math">x</em>) = −1/2[(<em class="edu-math">x</em>−1)&sup2; − 1] = 1/2 − (<em class="edu-math">x</em>−1)&sup2;/2</div>
+      <p class="edu-p">因为 (<em class="edu-math">x</em>−1)&sup2; ≥ 0，所以 <em class="edu-math">f</em>(<em class="edu-math">x</em>) ≤ 1/2。</p>
+      <p class="edu-p"><em class="edu-math">x</em> = 1 ∈ (0, 2) ✓。</p>
+      <p class="edu-p"><strong>最大值为 1/2。</strong></p>
+    </div>
+
+    <div class="edu-step">
+      <div class="edu-step-title">第 2 题答案</div>
+      <p class="edu-p"><em class="edu-math">x</em> = 2 − 1/<em class="edu-math">y</em>，由 <em class="edu-math">x</em> &gt; 0 得 <em class="edu-math">y</em> &gt; 1/2。</p>
+      <p class="edu-p"><em class="edu-math">x</em>/<em class="edu-math">y</em> = (2 − 1/<em class="edu-math">y</em>)/<em class="edu-math">y</em> = 2/<em class="edu-math">y</em> − 1/<em class="edu-math">y</em>&sup2;。</p>
+      <p class="edu-p">令 <em class="edu-math">t</em> = 1/<em class="edu-math">y</em>，则 0 &lt; <em class="edu-math">t</em> &lt; 2。</p>
+      <div class="edu-formula"><em class="edu-math">x</em>/<em class="edu-math">y</em> = 2<em class="edu-math">t</em> − <em class="edu-math">t</em>&sup2; = −(<em class="edu-math">t</em>−1)&sup2; + 1 ≤ 1</div>
+      <p class="edu-p"><em class="edu-math">t</em> = 1 ∈ (0, 2) ✓，回代 <em class="edu-math">y</em> = 1，<em class="edu-math">x</em> = 1。验算：1 + 1 = 2 ✓。</p>
+      <p class="edu-p"><strong>最大值为 1，当 <em class="edu-math">x</em> = 1，<em class="edu-math">y</em> = 1 时取到。</strong></p>
+    </div>
+
+    <div class="edu-step">
+      <div class="edu-step-title">第 3 题答案</div>
+      <p class="edu-p"><em class="edu-math">m</em> = (6 − 3/<em class="edu-math">n</em>)/2 = 3 − 3/(2<em class="edu-math">n</em>)，由 <em class="edu-math">m</em> &gt; 0 得 <em class="edu-math">n</em> &gt; 1/2。</p>
+      <p class="edu-p"><em class="edu-math">m</em>/<em class="edu-math">n</em> = 3/<em class="edu-math">n</em> − 3/(2<em class="edu-math">n</em>&sup2;)。</p>
+      <p class="edu-p">令 <em class="edu-math">t</em> = 1/<em class="edu-math">n</em>，则 0 &lt; <em class="edu-math">t</em> &lt; 2。</p>
+      <div class="edu-formula"><em class="edu-math">m</em>/<em class="edu-math">n</em> = 3<em class="edu-math">t</em> − 3<em class="edu-math">t</em>&sup2;/2 = −3/2(<em class="edu-math">t</em>−1)&sup2; + 3/2 ≤ 3/2</div>
+      <p class="edu-p"><em class="edu-math">t</em> = 1 ∈ (0, 2) ✓，回代 <em class="edu-math">n</em> = 1，<em class="edu-math">m</em> = 3 − 3/2 = 3/2。验算：2&times;(3/2) + 3/1 = 3 + 3 = 6 ✓。</p>
+      <p class="edu-p"><strong>最大值为 3/2，当 <em class="edu-math">m</em> = 3/2，<em class="edu-math">n</em> = 1 时取到。</strong></p>
+    </div>
+
+    <div class="edu-step">
+      <div class="edu-step-title">第 4 题答案</div>
+      <p class="edu-p"><em class="edu-math">x</em> = 3 − 2/<em class="edu-math">y</em>，由 <em class="edu-math">x</em> &gt; 0 得 <em class="edu-math">y</em> &gt; 2/3。</p>
+      <p class="edu-p"><em class="edu-math">x</em>&middot;<em class="edu-math">y</em> = (3 − 2/<em class="edu-math">y</em>)&middot;<em class="edu-math">y</em> = 3<em class="edu-math">y</em> − 2。</p>
+      <p class="edu-p">这是一次函数，且系数 3 &gt; 0，所以 <em class="edu-math">y</em> 越大，<em class="edu-math">x</em>&middot;<em class="edu-math">y</em> 越大。</p>
+      <p class="edu-p">但 <em class="edu-math">y</em> 只有下界（&gt; 2/3），没有上界，所以 <em class="edu-math">y</em> → +∞ 时 <em class="edu-math">x</em>&middot;<em class="edu-math">y</em> → +∞。</p>
+      <p class="edu-p"><strong><em class="edu-math">x</em>&middot;<em class="edu-math">y</em> 没有最大值。</strong></p>
+    </div>
+  </section>
+
+</div>
+
+<!-- 教师自检 -->
+<aside class="edu-teacher-note no-print">
+  <div class="edu-card-title">生成后自检</div>
+  <ul>
+    <li><strong>数学检查：</strong>第1题：最大值1/2 ✓；第2题：最大值1 ✓；第3题：最大值3/2 ✓；第4题：无最大值 ✓。所有验算均通过。</li>
+    <li><strong>教学检查：</strong>全部围绕消元换元配方这一核心动作；第4题训练"先判断函数类型"的意识，不引入无关知识；提示一指向动作、提示二接近列式但不直接给答案。</li>
+    <li><strong>档位检查：</strong>默认假设 B-D 档，无学生具体证据，标注为默认诊断；难度梯度：纯配方→简单消元→系数变化→目标变化（无最值），每次只小步上升。</li>
+    <li><strong>学生版检查：</strong>教师判断、训练目标、预期卡点、复杂度说明、升级/降级建议全部在 no-print 区域内。学生打印版只看到题目、提示、解答区和参考答案。</li>
+    <li><strong>HTML 检查：</strong>使用内嵌 CSS，无外部 CDN 依赖；标签闭合完整；包含 required sections；@page A4 设置正确；答案区前有 page-break；第2-3题之间有 page-break。</li>
+    <li><strong>自检结论：</strong>通过。</li>
+  </ul>
+</aside>
+
+<aside class="edu-teacher-note no-print">
+<div class="edu-card-title">教师判断</div>
+<p class="edu-p">当前档位：默认 C 档（无学生具体证据）。主要训练动作：消元换元配方的完整链条。置信度：低（需学生完成练习后更新）。</p>
+</aside>
+
+<aside class="edu-teacher-note no-print">
+<div class="edu-card-title">升级 / 降级建议</div>
+<div class="edu-judge">
+  <p class="edu-p"><span class="edu-upgrade">升级：</span>若第1-3题全对且第4题正确判断无最大值，进入 F 档结构隐藏变式。</p>
+  <p class="edu-p"><span class="edu-downgrade">降级：</span>若第1题配方出错，回到讲解页复习配方；若第2题消元出错，回到讲解页第一至二步。</p>
+</div>
+</aside>
+
+<aside class="edu-teacher-note no-print">
+下一轮：根据本页完成情况，更新学生画像；若需讲解新题，回到 math-structure-analysis；若需新一轮变式，再次使用 math-adaptive-practice-html。工作流循环：math-structure-analysis → math-student-explanation-html → math-adaptive-practice-html。
+</aside>
+
+</body>
+</html>

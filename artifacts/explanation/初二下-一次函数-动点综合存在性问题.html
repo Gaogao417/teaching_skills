@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>学生版讲解：一次函数与平行四边形动点综合</title>
+<link rel="stylesheet" href="../../.opencode/skill/math-student-explanation-html/assets/edu-print.css">
+</head>
+<body data-view="student">
+<div class="edu-page">
+
+  <h1 class="edu-title">一次函数与平行四边形中的动点问题</h1>
+  <p class="edu-subtitle">一次函数 · 平行四边形 · 动点参数化 · 等腰直角三角形</p>
+
+  <!-- ========== 原题 ========== -->
+  <section class="edu-problem-card u-avoid-break">
+    <div class="edu-problem-title">原题</div>
+    <p class="edu-problem-stem">直线 y = 2x + 6 的图像交 x 轴于点 A，交 y 轴于点 B，点 D 在 x 轴正半轴上，且 OD = 8/3·OA，以 AB、AD 为边作平行四边形 ABCD。</p>
+    <p class="edu-problem-stem">(1) 求点 A、B 的坐标</p>
+    <p class="edu-problem-stem">(2) 求出直线 BD 的函数解析式</p>
+    <p class="edu-problem-stem">(3) 点 E 从 O 点出发，以每秒一个单位的速度沿 x 轴正方向移动，运动时间记为 t，点 F 是线段 BD 的中点，连接 EF 并延长，交直线 BC 于点 H。请直接写出：当 t 为何值时，四边形 ABHE 是平行四边形 / 等腰梯形？</p>
+    <p class="edu-problem-stem">(4) 点 Q 是直线 BD 上的一个动点，在 y 轴上找一点 P，连接 AP、AQ、PQ，当 △APQ 是以 PQ 为斜边的等腰直角三角形时，请直接写出点 P 的坐标。</p>
+  </section>
+
+  <!-- ========== 一、拆题 ========== -->
+  <section class="edu-section">
+    <h2 class="edu-section-title">一、先把题目拆开</h2>
+    <table class="edu-table edu-task-table">
+      <tr><th>已知条件</th><td>直线 y = 2x + 6；OD = 8/3·OA；AB、AD 是平行四边形的边；E 以 1 单位/秒在 x 轴正方向移动；F 是 BD 中点</td></tr>
+      <tr><th>要求目标</th><td>(1) A、B 坐标 (2) BD 解析式 (3) t 取何值使 ABHE 为平行四边形/等腰梯形 (4) P 的坐标</td></tr>
+      <tr><th>关键词</th><td>"交 x 轴""交 y 轴" → 令 y=0 / x=0；"OD = 8/3·OA" → OA 是长度不是坐标；"以 AB、AD 为边" → AB 和 AD 是邻边</td></tr>
+      <tr><th>容易忽略</th><td>OA 是长度 = |−3| = 3，不是 −3；平行四边形的 C 点要自己算出来</td></tr>
+    </table>
+  </section>
+
+  <!-- ========== 二、路线 ========== -->
+  <section class="edu-section">
+    <h2 class="edu-section-title">二、这题准备怎么走</h2>
+    <div class="edu-route">
+      <ol>
+        <li>求 A、B 坐标（令 y=0，令 x=0）</li>
+        <li>算 OA 长度 → 算 OD → 确定D坐标</li>
+        <li>用平行四边形条件确定 C 坐标</li>
+        <li>待定系数法求 BD 直线</li>
+        <li>把 E 的运动参数化：E = (t, 0)</li>
+        <li>求直线 EF 与直线 BC 的交点 H，得到 H = (8−t, 6)</li>
+        <li>用向量条件列方程，求平行四边形和等腰梯形的 t 值</li>
+        <li>用"旋转法"求第(4)问的 P 坐标</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ========== 三、关键想法 ========== -->
+  <section class="edu-section">
+    <h2 class="edu-section-title">三、关键想法</h2>
+    <div class="edu-key-idea u-avoid-break">
+      <strong>动点问题的核心：把"运动的点"用一个字母 t 表示坐标，然后所有运算都带着 t 做，最后把 t 算出来。</strong>
+    </div>
+    <div class="edu-key-idea u-avoid-break">
+      <strong>等腰直角三角形的快捷方法：从两个非直角顶点向公共直线作垂线，利用"一线三垂直"得到两个直角三角形全等（AAS），从而把几何条件变成简单的线段等式。P 在上、P 在下各算一次。</strong>
+    </div>
+  </section>
+
+  <div class="page-break"></div>
+
+  <!-- ========== 四、标准解法 ========== -->
+  <section class="edu-section">
+    <h2 class="edu-section-title">四、标准解法</h2>
+
+    <!-- 第(1)问 -->
+    <div class="edu-subproblem u-avoid-break">
+      <div class="edu-subproblem-title">第 (1) 问：求点 A、B 的坐标</div>
+
+      <div class="edu-step">
+        <div class="edu-step-title">求 A（交 x 轴）</div>
+        <p class="edu-p">交 x 轴 → y = 0：</p>
+        <p class="edu-p">0 = 2x + 6 → 2x = −6 → <strong>x = −3</strong></p>
+        <p class="edu-p">所以 <strong>A(−3, 0)</strong></p>
+        <p class="edu-step-why">交 x 轴的点的 y 坐标一定等于 0，只需令 y = 0 代入直线方程。</p>
+      </div>
+
+      <div class="edu-step">
+        <div class="edu-step-title">求 B（交 y 轴）</div>
+        <p class="edu-p">交 y 轴 → x = 0：</p>
+        <p class="edu-p">y = 2×0 + 6 = 6</p>
+        <p class="edu-p">所以 <strong>B(0, 6)</strong></p>
+        <p class="edu-step-why">交 y 轴的点的 x 坐标一定等于 0，只需令 x = 0 代入直线方程。</p>
+      </div>
+    </div>
+
+    <div class="edu-question u-avoid-break">
+      <div class="edu-question-title">想一想 1</div>
+      <p class="edu-p">如果直线 y = −x + 4，它交 x 轴于哪个点？交 y 轴于哪个点？</p>
+      <span class="edu-blank-line"></span>
+    </div>
+
+    <!-- 算D和C -->
+    <div class="edu-subproblem u-avoid-break">
+      <div class="edu-subproblem-title">预备：确定 D、C 坐标（为后面做准备）</div>
+
+      <div class="edu-step">
+        <div class="edu-step-title">求 D 坐标</div>
+        <p class="edu-p">OD = 8/3 × OA。OA 是长度 = |−3 − 0| = 3（不是 −3！）</p>
+        <p class="edu-p">OD = 8/3 × 3 = 8</p>
+        <p class="edu-p">D 在 x 轴正半轴 → <strong>D(8, 0)</strong></p>
+        <p class="edu-step-why">OA 是"距离"，永远是正数。A 的坐标是 −3，但 OA 的长度是 |−3| = 3。</p>
+      </div>
+
+      <div class="edu-step">
+        <div class="edu-step-title">求 C 坐标（平行四边形）</div>
+        <p class="edu-p">平行四边形 ABCD 中，AB 和 AD 是邻边。所以 C 的位置 = A + AB方向 + AD方向。</p>
+        <p class="edu-p">用坐标计算：从 A 到 B，x 走了 0−(−3) = 3，y 走了 6−0 = 6。</p>
+        <p class="edu-p">从 A 到 D，x 走了 8−(−3) = 11，y 走了 0−0 = 0。</p>
+        <p class="edu-p">从 B 继续走 AD 的方向：C = (0+11, 6+0) = <strong>(11, 6)</strong></p>
+        <p class="edu-step-why">平行四边形中，AD ∥ BC 且 AD = BC，所以从 B 走和 AD 相同的方向和距离就到 C。</p>
+      </div>
+
+      <div class="edu-student-note u-avoid-break">
+        <strong>四个关键点的坐标表（后面反复用到）：</strong>
+        <p class="edu-p">A(−3, 0)、B(0, 6)、C(11, 6)、D(8, 0)</p>
+      </div>
+    </div>
+
+    <!-- 第(2)问 -->
+    <div class="edu-subproblem u-avoid-break">
+      <div class="edu-subproblem-title">第 (2) 问：求直线 BD 的解析式</div>
+
+      <div class="edu-step">
+        <div class="edu-step-title">待定系数法</div>
+        <p class="edu-p">BD 过 B(0, 6) 和 D(8, 0)。</p>
+        <p class="edu-p">斜率 k = (0 − 6) / (8 − 0) = −6/8 = −3/4</p>
+        <p class="edu-p">过 B(0, 6) → b = 6</p>
+        <p class="edu-p">所以 <strong>y = −3/4 x + 6</strong></p>
+        <p class="edu-step-why">两点确定一条直线。斜率公式 k = (y₂−y₁)/(x₂−x₁)，然后代入任一点求 b。</p>
+      </div>
+    </div>
+
+    <div class="page-break"></div>
+
+    <!-- 第(3)问 -->
+    <div class="edu-subproblem u-avoid-break">
+      <div class="edu-subproblem-title">第 (3) 问：动点问题——求 t 使 ABHE 为平行四边形 / 等腰梯形</div>
+
+      <div class="edu-step u-avoid-break">
+        <div class="edu-step-title">第 1 步：参数化点 E</div>
+        <p class="edu-p">E 从原点出发，沿 x 轴正方向，速度 1 单位/秒。</p>
+        <p class="edu-p">所以 E 的坐标 = <strong>(t, 0)</strong>，其中 t > 0</p>
+        <p class="edu-step-why">这就是"参数化"——用一个字母 t 代替一个不断变化的量。后面所有关于 E 的计算都带着 t。</p>
+      </div>
+
+      <div class="edu-step u-avoid-break">
+        <div class="edu-step-title">第 2 步：确定 F 坐标</div>
+        <p class="edu-p">F 是 BD 的中点。B(0, 6)，D(8, 0)。</p>
+        <p class="edu-p">F = ((0+8)/2, (6+0)/2) = <strong>(4, 3)</strong></p>
+        <p class="edu-step-why">中点坐标 = 两个端点坐标的平均值。</p>
+      </div>
+
+      <div class="edu-step u-avoid-break">
+        <div class="edu-step-title">第 3 步：求直线 EF 与 BC 的交点 H（关键步骤）</div>
+        <p class="edu-p">直线 BC 是 y = 6（水平线，因为 B 和 C 的 y 坐标都是 6）。</p>
+        <p class="edu-p">直线 EF 过 E(t, 0) 和 F(4, 3)。</p>
+        <p class="edu-p">求 EF 与 y = 6 的交点：</p>
+        <p class="edu-p">&nbsp;&nbsp;EF 斜率 = (3−0)/(4−t) = 3/(4−t)</p>
+        <p class="edu-p">&nbsp;&nbsp;EF 方程：y = 3/(4−t) · (x − t)</p>
+        <p class="edu-p">&nbsp;&nbsp;令 y = 6：6 = 3(x−t)/(4−t)</p>
+        <p class="edu-p">&nbsp;&nbsp;化简：2(4−t) = x − t → 8 − 2t = x − t → <strong>x = 8 − t</strong></p>
+        <p class="edu-p">所以 <strong>H = (8 − t, 6)</strong></p>
+        <p class="edu-step-why">这一步是整道题的关键。一旦写出 H = (8−t, 6)，后面所有问题都变成了代数方程。</p>
+      </div>
+
+      <div class="edu-student-note u-avoid-break">
+        <strong>现在四边形 ABHE 的四个点：</strong>
+        <p class="edu-p">A(−3, 0)、B(0, 6)、H(8−t, 6)、E(t, 0)</p>
+        <p class="edu-p">注意：B 和 H 的 y 坐标都是 6，A 和 E 的 y 坐标都是 0。所以 BH 和 AE 都是水平线，<strong>永远平行</strong>。</p>
+      </div>
+
+      <!-- 平行四边形 -->
+      <div class="edu-step u-avoid-break">
+        <div class="edu-step-title">第 4 步：平行四边形条件</div>
+        <p class="edu-p">ABHE 是平行四边形 → AB ∥ HE 且 BH ∥ AE</p>
+        <p class="edu-p">BH ∥ AE 已经永远成立（都是水平线）。</p>
+        <p class="edu-p">只需要 AB ∥ HE：</p>
+        <p class="edu-p">&nbsp;&nbsp;AB 方向：从 A(−3,0) 到 B(0,6) → x 走 3，y 走 6</p>
+        <p class="edu-p">&nbsp;&nbsp;HE 方向：从 H(8−t,6) 到 E(t,0) → x 走 t−(8−t) = 2t−8，y 走 0−6 = −6</p>
+        <p class="edu-p">&nbsp;&nbsp;AB ∥ HE → 3/(2t−8) = 6/(−6) = −1</p>
+        <p class="edu-p">&nbsp;&nbsp;2t − 8 = −3 → <strong>t = 5/2</strong></p>
+        <p class="edu-step-why">平行四边形的判定：两组对边分别平行。一组已经天然平行，只需让另一组也平行。</p>
+      </div>
+
+      <!-- 等腰梯形 -->
+      <div class="edu-step u-avoid-break">
+        <div class="edu-step-title">第 5 步：等腰梯形条件</div>
+        <p class="edu-p">等腰梯形 = 只有一组对边平行 + 不平行的两边长度相等。</p>
+        <p class="edu-p">BH ∥ AE 永远成立 → 这是"平行的那一组"。</p>
+        <p class="edu-p">不平行的两边是 AB 和 HE，需要 |AB| = |HE|。</p>
+        <p class="edu-p">&nbsp;&nbsp;|AB| = √(3² + 6²) = √45 = 3√5</p>
+        <p class="edu-p">&nbsp;&nbsp;|HE| = √((2t−8)² + (−6)²) = √((2t−8)² + 36)</p>
+        <p class="edu-p">&nbsp;&nbsp;令 |AB| = |HE|：</p>
+        <p class="edu-p">&nbsp;&nbsp;45 = (2t−8)² + 36</p>
+        <p class="edu-p">&nbsp;&nbsp;(2t−8)² = 9</p>
+        <p class="edu-p">&nbsp;&nbsp;2t − 8 = 3 或 2t − 8 = −3</p>
+        <p class="edu-p">&nbsp;&nbsp;t = 11/2 或 t = 5/2</p>
+        <p class="edu-p">&nbsp;&nbsp;t = 5/2 时 ABHE 是平行四边形（不是梯形），排除！</p>
+        <p class="edu-p">所以 <strong>t = 11/2</strong></p>
+        <p class="edu-step-why">平行四边形是特殊的梯形（两组对边都平行），题目要求等腰梯形，必须排除平行四边形的情况。</p>
+      </div>
+
+      <div class="edu-answer-key u-avoid-break">
+        <strong>第 (3) 问答案：</strong><br>
+        平行四边形：t = 5/2<br>
+        等腰梯形：t = 11/2
+      </div>
+    </div>
+
+    <div class="page-break"></div>
+
+    <!-- 第(4)问 -->
+    <div class="edu-subproblem u-avoid-break">
+      <div class="edu-subproblem-title">第 (4) 问：等腰直角三角形存在性——一线三垂直全等法</div>
+
+      <div class="edu-step u-avoid-break">
+        <div class="edu-step-title">先理解条件</div>
+        <p class="edu-p">△APQ 以 PQ 为斜边的等腰直角三角形 → 直角在 A 点。</p>
+        <p class="edu-p">这意味着：</p>
+        <p class="edu-p">&nbsp;&nbsp;(1) AP = AQ（两条直角边相等）</p>
+        <p class="edu-p">&nbsp;&nbsp;(2) ∠PAQ = 90°（直角在 A）</p>
+        <p class="edu-step-why">等腰直角三角形中，斜边对着直角。PQ 是斜边 → 直角在 A。</p>
+      </div>
+
+      <div class="edu-step u-avoid-break">
+        <div class="edu-step-title">作辅助线（一线三垂直）</div>
+        <p class="edu-p"><strong>核心辅助线：</strong></p>
+        <p class="edu-p">&nbsp;&nbsp;① 过 P 向 x 轴作垂线，垂足为 O(0, 0)（因为 P 在 y 轴上，垂足恰好是原点）</p>
+        <p class="edu-p">&nbsp;&nbsp;② 过 Q 向 x 轴作垂线，垂足为 M(q, 0)</p>
+        <p class="edu-p">这样就有三个直角：</p>
+        <p class="edu-p">&nbsp;&nbsp;∠AOP = 90°（PO ⊥ x 轴）</p>
+        <p class="edu-p">&nbsp;&nbsp;∠QMA = 90°（QM ⊥ x 轴）</p>
+        <p class="edu-p">&nbsp;&nbsp;∠PAQ = 90°（题目已知）</p>
+        <p class="edu-step-why">这就是"一线三垂直"——一条线（x 轴）上出现了三个直角关系。这种构造能把 ∠PAQ = 90° 的条件"传递"到两个直角三角形之间，建立角相等的关系。</p>
+      </div>
+
+      <div class="edu-step u-avoid-break">
+        <div class="edu-step-title">找角关系（关键一步）</div>
+        <p class="edu-p">A(−3, 0)、O(0, 0)、M(q, 0) 都在 x 轴上，且 O 和 M 都在 A 的右边。</p>
+        <p class="edu-p">所以射线 AO 和射线 AM 方向相同（都向右）。</p>
+        <p class="edu-p">因此 ∠MAQ = ∠OAQ（同一个角）。</p>
+        <p class="edu-p">因为 ∠PAQ = 90°：</p>
+        <p class="edu-p">&nbsp;&nbsp;∠PAO + ∠OAQ = 90°</p>
+        <p class="edu-p">在直角三角形 APO 中：</p>
+        <p class="edu-p">&nbsp;&nbsp;∠PAO + ∠APO = 90°</p>
+        <p class="edu-p">所以 <strong>∠APO = ∠MAQ</strong></p>
+        <p class="edu-step-why">两个角都等于 90° 减去 ∠PAO，所以它们相等。这个角相等关系是一线三垂直的核心——它把 x 轴一侧的角"搬"到了另一侧。</p>
+      </div>
+
+      <div class="edu-step u-avoid-break">
+        <div class="edu-step-title">设未知数</div>
+        <p class="edu-p">P 在 y 轴上 → P = (0, p)</p>
+        <p class="edu-p">Q 在 BD 上（BD: y = −3/4 x + 6）→ Q = (q, −3/4 q + 6)</p>
+        <p class="edu-p">A = (−3, 0)</p>
+        <p class="edu-p">各线段长度：AO = 3，PO = |p|，QM = |−3/4 q + 6|，AM = |q + 3|</p>
+      </div>
+
+      <div class="edu-case-title">情况一：P 在 x 轴下方，Q 在 x 轴上方</div>
+      <div class="edu-step u-avoid-break">
+        <div class="edu-step-title">AAS 全等</div>
+        <p class="edu-p">P 在 x 轴下方 → p &lt; 0，PO = −p</p>
+        <p class="edu-p">Q 在 x 轴上方 → −3/4 q + 6 &gt; 0，QM = −3/4 q + 6</p>
+        <p class="edu-p">在 △APO 和 △QMA 中：</p>
+        <p class="edu-p">&nbsp;&nbsp;∠AOP = ∠QMA = 90° ✓</p>
+        <p class="edu-p">&nbsp;&nbsp;∠APO = ∠MAQ（上面已证）✓</p>
+        <p class="edu-p">&nbsp;&nbsp;AP = AQ（等腰条件，这是两个三角形中 90° 角对面的边）✓</p>
+        <p class="edu-p">所以 <strong>△APO ≅ △QMA（AAS）</strong></p>
+        <p class="edu-p">对应边相等：AO = QM，PO = AM</p>
+        <p class="edu-p">&nbsp;&nbsp;AO = 3 → QM = 3 → −3/4 q + 6 = 3 → q = 4</p>
+        <p class="edu-p">&nbsp;&nbsp;PO = AM → −p = q + 3 = 7 → p = −7</p>
+        <p class="edu-p">所以 <strong>P(0, −7)</strong></p>
+        <p class="edu-step-why">AAS 全等需要两角一边。90° 是公共的，∠APO = ∠MAQ 是我们证的，AP = AQ 是题目给的等腰条件。注意 AP 对应的是 △QMA 中 QM 对面的 QA，对应关系是 A↔Q、P↔M、O↔A。</p>
+      </div>
+
+      <div class="edu-case-title">情况二：P 在 x 轴上方，Q 在 x 轴下方</div>
+      <div class="edu-step u-avoid-break">
+        <div class="edu-step-title">换一组全等</div>
+        <p class="edu-p">P 在 x 轴上方 → p &gt; 0，PO = p</p>
+        <p class="edu-p">Q 在 x 轴下方 → −3/4 q + 6 &lt; 0，QM = 3/4 q − 6</p>
+        <p class="edu-p">角关系变为：∠QAP = 90° → ∠QAO + ∠OAP = 90°</p>
+        <p class="edu-p">直角三角形 APO 中：∠OAP + ∠APO = 90°</p>
+        <p class="edu-p">所以 ∠QAO = ∠APO，即 ∠QAM = ∠APO</p>
+        <p class="edu-p">在 △OAP 和 △MAQ 中：</p>
+        <p class="edu-p">&nbsp;&nbsp;∠AOP = ∠AMQ = 90° ✓</p>
+        <p class="edu-p">&nbsp;&nbsp;∠APO = ∠QAM（上面已证）✓</p>
+        <p class="edu-p">&nbsp;&nbsp;AP = AQ（等腰条件）✓</p>
+        <p class="edu-p">所以 <strong>△OAP ≅ △MAQ（AAS）</strong></p>
+        <p class="edu-p">对应边相等：OA = MQ，OP = AM</p>
+        <p class="edu-p">&nbsp;&nbsp;OA = 3 → MQ = 3 → 3/4 q − 6 = 3 → q = 12</p>
+        <p class="edu-p">&nbsp;&nbsp;OP = AM → p = q + 3 = 15</p>
+        <p class="edu-p">所以 <strong>P(0, 15)</strong></p>
+        <p class="edu-step-why">注意情况二的全等对应关系和情况一不同！情况一是 △APO ≅ △QMA，情况二是 △OAP ≅ △MAQ。顶点的顺序变了，因为 P 和 Q 上下交换了位置。</p>
+      </div>
+
+      <div class="edu-answer-key u-avoid-break">
+        <strong>第 (4) 问答案：P(0, −7) 或 P(0, 15)</strong>
+      </div>
+    </div>
+  </section>
+
+  <div class="page-break"></div>
+
+  <!-- ========== 五、边讲边问 ========== -->
+  <section class="edu-section">
+    <h2 class="edu-section-title">五、边讲边问</h2>
+
+    <div class="edu-question u-avoid-break">
+      <div class="edu-question-title">想一想 2</div>
+      <p class="edu-p">为什么 BH 和 AE 永远平行？提示：看它们的 y 坐标。</p>
+      <span class="edu-blank-line"></span>
+    </div>
+
+    <div class="edu-question u-avoid-break">
+      <div class="edu-question-title">想一想 3</div>
+      <p class="edu-p">求 H 坐标时，如果 t = 4，直线 EF 会怎样？交点 H 还能求出来吗？</p>
+      <span class="edu-blank-line"></span>
+    </div>
+
+    <div class="edu-question u-avoid-break">
+      <div class="edu-question-title">想一想 4</div>
+      <p class="edu-p">等腰梯形和等腰平行四边形有什么区别？为什么 t = 5/2 被排除了？</p>
+      <span class="edu-blank-line"></span>
+    </div>
+
+    <div class="edu-question u-avoid-break">
+      <div class="edu-question-title">想一想 5</div>
+      <p class="edu-p">为什么 ∠APO = ∠MAQ？提示：在直角三角形 APO 中，∠PAO + ∠APO 等于多少？</p>
+      <span class="edu-blank-line"></span>
+    </div>
+
+    <div class="edu-question u-avoid-break">
+      <div class="edu-question-title">想一想 6</div>
+      <p class="edu-p">情况一和情况二的全等三角形一样吗？为什么对应关系变了？提示：看 P 和 Q 分别在 x 轴的哪一侧。</p>
+      <span class="edu-blank-line"></span>
+    </div>
+  </section>
+
+  <!-- ========== 六、易错提醒 ========== -->
+  <section class="edu-section">
+    <h2 class="edu-section-title">六、易错提醒</h2>
+
+    <div class="edu-mistake u-avoid-break">
+      <strong>易错 1：OA 当成坐标</strong><br>
+      A 的坐标是 (−3, 0)，但 OA 是长度 = 3，不是 −3。OD = 8/3 × 3 = 8，不是 8/3 × (−3) = −8。
+    </div>
+
+    <div class="edu-mistake u-avoid-break">
+      <strong>易错 2：平行四边形 C 点搞反</strong><br>
+      AB 和 AD 是邻边，C 在 B 和 D 的"对面"。C = B + AD方向 = (0+11, 6+0) = (11, 6)。如果写成 C = D + AB方向 也能得到同样的结果，但方向不能搞反。
+    </div>
+
+    <div class="edu-mistake u-avoid-break">
+      <strong>易错 3：等腰梯形忘了排除平行四边形</strong><br>
+      t = 5/2 和 t = 11/2 都满足 |AB| = |HE|，但 t = 5/2 时四边形是平行四边形（两组对边都平行），不是梯形。必须排除。
+    </div>
+
+    <div class="edu-mistake u-avoid-break">
+      <strong>易错 4：全等对应关系搞混</strong><br>
+      情况一 △APO ≅ △QMA 和 情况二 △OAP ≅ △MAQ 的对应关系不同，因为 P 和 Q 在 x 轴的上下位置换了。必须重新画图找对应关系，不能照搬。
+    </div>
+  </section>
+
+  <!-- ========== 七、总结 ========== -->
+  <section class="edu-section">
+    <h2 class="edu-section-title">七、一句话总结</h2>
+    <div class="edu-key-idea u-avoid-break">
+      <strong>动点问题的套路：参数化 → 找关系 → 列方程 → 求解。</strong><br>
+      等腰直角三角形的套路：作两条垂线到公共线上（一线三垂直），利用互补角得 AAS 全等，P 在上 / P 在下各算一次。
+    </div>
+  </section>
+
+  <!-- ========== 教师自检（不打印） ========== -->
+  <aside class="edu-teacher-note self-check no-print">
+    <div class="edu-card-title">生成后自检</div>
+    <ul>
+      <li><strong>数学检查：</strong>第1问 A(-3,0) B(0,6) 代入验证通过；第2问 y=-3/4x+6 过 B(0,6)和 D(8,0) 验证通过；第3问 t=5/2 平行四边形验证 AB∥HE 且 BH∥EA 通过，t=11/2 等腰梯形验证 |AB|=|HE| 且 AB∦HE 通过；第4问 P(0,-7)：△APO≅△QMA(AAS)，AO=QM=3,PO=AM=7 验证通过；P(0,15)：△OAP≅△MAQ(AAS)，OA=MQ=3,OP=AM=15 验证通过。无漏解无增根。</li>
+      <li><strong>教学检查：</strong>本页训练两个核心动作：(1) 动点参数化+坐标条件 (2) 一线三垂直全等处理等腰直角三角形。未引入向量或相似（初二未学）。互动问题围绕参数化、角关系、全等对应关系展开。</li>
+      <li><strong>档位检查：</strong>B档初二学生，讲解拆分较细，每步都有"为什么"说明。一线三垂直全等法从画辅助线→找角→列全等逐步展开。基于用户输入"学生B档，初二"。</li>
+      <li><strong>HTML 检查：</strong>所有标签闭合；包含全部 required sections；无网络 CDN 依赖；使用 edu-print.css 相对路径；分页位置在逻辑断点（原题+拆题+路线、解法、第3问后分页、互动问答前分页）。</li>
+      <li><strong>自检结论：通过。</strong></li>
+    </ul>
+  </aside>
+
+  <aside class="edu-teacher-note no-print">
+    下一步：使用 math-adaptive-practice-html，输入本结构分析 + 学生画像(B档)，生成自适应练习。工作流：math-structure-analysis → math-student-explanation-html → math-adaptive-practice-html。
+  </aside>
+
+</div>
+</body>
+</html>

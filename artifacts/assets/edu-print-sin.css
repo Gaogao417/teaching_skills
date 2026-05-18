@@ -1,0 +1,670 @@
+/* ================================
+   Edu Print System v0.1
+   用于数学讲解页 / 练习页 / 教师版
+================================ */
+
+/* ---------- 1. Design Tokens ---------- */
+
+:root {
+  --font-body: "SimSun", "Songti SC", "Noto Serif CJK SC", serif;
+  --font-heading: "SimHei", "Microsoft YaHei", sans-serif;
+  --font-math: "Times New Roman", "STIX Two Math", serif;
+
+  --text-main: #111;
+  --text-muted: #555;
+  --text-light: #777;
+
+  --border-strong: #111;
+  --border-main: #555;
+  --border-light: #aaa;
+  --accent-soft: #f6f9fc;
+  --accent-line: #9fb6d8;
+  --accent-line-light: #d7e1ee;
+  --accent-text: #2f527a;
+
+  --bg-white: #fff;
+  --bg-soft: #fafafa;
+  --bg-note: #f7f7f7;
+  --bg-warn: #fff6f2;
+  --bg-key: #fffdf0;
+  --bg-answer: #fcfcfc;
+
+  --space-xs: 1mm;
+  --space-sm: 2mm;
+  --space-md: 3mm;
+  --space-lg: 5mm;
+  --space-xl: 7mm;
+
+  --font-size-body: 12pt;
+  --font-size-small: 10.5pt;
+  --font-size-title: 18pt;
+  --font-size-h2: 13.5pt;
+  --font-size-h3: 12.5pt;
+
+  --line-body: 1.72;
+}
+
+/* ---------- 2. Page Base ---------- */
+
+@page {
+  size: A4;
+  margin: 16mm 14mm;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  color: var(--text-main);
+  background: var(--bg-white);
+  font-family: var(--font-body);
+  font-size: var(--font-size-body);
+  line-height: var(--line-body);
+}
+
+.edu-page {
+  max-width: 186mm;
+  margin: 0 auto;
+  padding: 0 2mm;
+}
+
+.edu-print-only {
+  display: block;
+}
+
+.edu-screen-only {
+  display: none;
+}
+
+/* ---------- 2b. Page Break Visual Divider (screen) ---------- */
+
+.page-break {
+  display: none;
+}
+
+.page-break-after {
+  display: none;
+}
+
+/* ---------- 2c. Avoid Breaking Inside Key Elements ---------- */
+
+.edu-problem-card {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.edu-practice-problem {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.edu-table {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.edu-route {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.edu-key-idea {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.edu-formula-key {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.edu-question {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.edu-mistake {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+@media print {
+  body {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .edu-screen-only {
+    display: none !important;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .page-break {
+    display: block;
+    break-before: page;
+    page-break-before: always;
+  }
+
+  .page-break-after {
+    display: block;
+    break-after: page;
+    page-break-after: always;
+  }
+
+  .u-avoid-break {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .edu-section-title {
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+
+  .edu-step-title {
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+
+  .edu-practice-title {
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+
+  .edu-hint-title {
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+}
+
+/* ---------- 3. Typography ---------- */
+
+.edu-title {
+  margin: 0 0 var(--space-xl);
+  text-align: center;
+  font-family: var(--font-heading);
+  font-size: var(--font-size-title);
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.edu-subtitle {
+  margin: -4mm 0 var(--space-lg);
+  text-align: center;
+  color: var(--text-muted);
+  font-size: var(--font-size-small);
+}
+
+.edu-section {
+  margin: var(--space-lg) 0;
+}
+
+.edu-section-title {
+  margin: var(--space-lg) 0 var(--space-sm);
+  padding: 1.2mm 2mm;
+  border-left: 2px solid var(--accent-line);
+  border-bottom: 1px solid var(--accent-line-light);
+  background: var(--accent-soft);
+  font-family: var(--font-heading);
+  font-size: var(--font-size-h2);
+  font-weight: 700;
+  line-height: 1.45;
+}
+
+.edu-subsection-title {
+  margin: var(--space-md) 0 var(--space-xs);
+  font-family: var(--font-heading);
+  font-size: var(--font-size-h3);
+  font-weight: 700;
+}
+
+.edu-p {
+  margin: 0 0 2.5mm;
+}
+
+.edu-small {
+  font-size: var(--font-size-small);
+  color: var(--text-muted);
+}
+
+.edu-math {
+  font-family: var(--font-math);
+  font-style: italic;
+}
+
+.edu-strong {
+  font-weight: 700;
+}
+
+/* ---------- 4. Core Cards ---------- */
+
+.edu-card {
+  margin: var(--space-md) 0;
+  padding: 3mm 4mm;
+  border: 1px solid var(--border-main);
+  background: var(--bg-white);
+}
+
+.edu-card-soft {
+  margin: var(--space-md) 0;
+  padding: 3mm 4mm;
+  border: 1px solid var(--border-light);
+  background: var(--bg-soft);
+}
+
+.edu-card-title {
+  margin: 0 0 var(--space-sm);
+  font-family: var(--font-heading);
+  font-weight: 700;
+}
+
+.edu-problem-card {
+  margin: var(--space-md) 0 var(--space-lg);
+  padding: 3mm 4mm;
+  border: 1.5px solid var(--border-strong);
+  background: var(--bg-soft);
+}
+
+.edu-problem-title {
+  margin: 0 0 var(--space-sm);
+  font-family: var(--font-heading);
+  font-weight: 700;
+}
+
+.edu-problem-stem {
+  margin: 0 0 var(--space-sm);
+}
+
+.edu-teacher-note {
+  margin: var(--space-md) 0;
+  padding: 2.5mm 3mm;
+  border: 1px solid var(--border-light);
+  background: var(--bg-note);
+  color: var(--text-muted);
+  font-size: var(--font-size-small);
+}
+
+.edu-student-note {
+  margin: var(--space-md) 0;
+  padding: 2.5mm 3mm;
+  border-left: 2px solid var(--accent-line);
+  background: var(--bg-key);
+}
+
+.edu-mistake {
+  margin: var(--space-md) 0;
+  padding: 2.5mm 3mm;
+  border: 1px solid var(--border-light);
+  border-left: 3px solid #c00;
+  background: var(--bg-warn);
+}
+
+.edu-key-idea {
+  margin: var(--space-md) 0;
+  padding: 3mm 4mm;
+  border: 1.5px solid var(--border-strong);
+  background: var(--bg-key);
+}
+
+/* ---------- 5. Tables ---------- */
+
+.edu-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: var(--space-md) 0;
+}
+
+.edu-table th,
+.edu-table td {
+  border: 1px solid var(--border-main);
+  padding: 1.8mm 2mm;
+  vertical-align: top;
+}
+
+.edu-table th {
+  font-family: var(--font-heading);
+  background: var(--bg-soft);
+  font-weight: 700;
+}
+
+.edu-object-table th:first-child,
+.edu-object-table td:first-child {
+  width: 22%;
+  text-align: center;
+  font-family: var(--font-heading);
+}
+
+.edu-task-table th:first-child,
+.edu-task-table td:first-child {
+  width: 24%;
+  font-family: var(--font-heading);
+}
+
+/* ---------- 6. Route / Steps ---------- */
+
+.edu-route {
+  margin: var(--space-md) 0;
+  padding: 3mm 4mm;
+  border: 1px solid var(--border-main);
+  background: var(--bg-soft);
+}
+
+.edu-route ol {
+  margin: 0;
+  padding-left: 7mm;
+}
+
+.edu-step {
+  margin: var(--space-md) 0;
+  padding: 2.5mm 3mm;
+  border-left: 2px solid var(--accent-line-light);
+  background: var(--bg-white);
+}
+
+.edu-step-title {
+  margin: 0 0 var(--space-xs);
+  font-family: var(--font-heading);
+  font-weight: 700;
+}
+
+.edu-step-why {
+  margin-top: var(--space-xs);
+  color: var(--text-muted);
+  font-size: var(--font-size-small);
+}
+
+.edu-substep {
+  margin: 2mm 0 2mm 5mm;
+  padding: 1.5mm 3mm;
+  border-left: 2px solid var(--border-light);
+}
+
+.edu-subproblem {
+  margin: var(--space-lg) 0;
+  padding: 3mm 4mm;
+  border: 1px solid var(--border-light);
+}
+
+.edu-subproblem-title {
+  margin: 0 0 var(--space-sm);
+  font-family: var(--font-heading);
+  font-size: var(--font-size-h3);
+  font-weight: 700;
+}
+
+/* ---------- 7. Formula ---------- */
+
+.edu-formula {
+  margin: var(--space-md) 0;
+  padding: 2.5mm 4mm;
+  border: 1px solid var(--border-main);
+  background: var(--bg-soft);
+  text-align: center;
+  font-family: var(--font-math);
+  font-size: 12.5pt;
+}
+
+.edu-formula-key {
+  margin: var(--space-md) 0;
+  padding: 3mm 4mm;
+  border: 1.5px solid var(--border-strong);
+  background: var(--bg-key);
+  text-align: center;
+  font-family: var(--font-math);
+  font-size: 13pt;
+}
+
+/* ---------- 8. Questions ---------- */
+
+.edu-question {
+  margin: var(--space-md) 0;
+  padding: 2.5mm 3mm;
+  border: 1px dashed var(--border-main);
+  background: var(--bg-white);
+}
+
+.edu-question-title {
+  margin: 0 0 var(--space-xs);
+  font-family: var(--font-heading);
+  font-weight: 700;
+}
+
+.edu-blank-line {
+  display: block;
+  height: 8mm;
+  border-bottom: 1px solid #999;
+}
+
+.edu-blank-line-sm {
+  display: block;
+  height: 5mm;
+  border-bottom: 1px solid #bbb;
+}
+
+/* ---------- 9. Practice Problem ---------- */
+
+.edu-practice-problem {
+  margin: var(--space-lg) 0;
+  padding: 3mm 4mm;
+  border: 1px solid var(--border-main);
+  background: var(--bg-white);
+}
+
+.edu-practice-title {
+  margin: 0 0 var(--space-sm);
+  font-family: var(--font-heading);
+  font-size: var(--font-size-h3);
+  font-weight: 700;
+}
+
+.edu-training-goal,
+.edu-expected-blocker {
+  margin: 2mm 0;
+  font-size: var(--font-size-small);
+}
+
+.edu-tag {
+  display: inline-block;
+  margin-right: 1.5mm;
+  padding: 0.5mm 2mm;
+  border: 1px solid var(--border-main);
+  background: var(--bg-soft);
+  font-family: var(--font-heading);
+  font-size: 10pt;
+}
+
+.edu-hint {
+  margin: 2mm 0;
+  padding: 2mm 3mm;
+  border: 1px dashed var(--border-light);
+  background: var(--bg-soft);
+  font-size: 11pt;
+}
+
+.edu-hint-title {
+  font-family: var(--font-heading);
+  font-weight: 700;
+}
+
+/* ---------- 10. Answer Space ---------- */
+
+.edu-answer-space {
+  margin: var(--space-md) 0;
+  min-height: 35mm;
+  border: 1px solid var(--border-light);
+  background: var(--bg-answer);
+  position: relative;
+}
+
+.edu-answer-space::before {
+  content: "解答区";
+  position: absolute;
+  top: 1mm;
+  right: 2mm;
+  color: #aaa;
+  font-size: 9pt;
+  font-family: var(--font-heading);
+}
+
+.edu-answer-lines {
+  margin: var(--space-md) 0;
+  padding: 2mm 3mm;
+  border: 1px solid var(--border-light);
+  background:
+    repeating-linear-gradient(
+      transparent,
+      transparent 7mm,
+      #ddd 7mm,
+      #ddd 7.4mm
+    );
+  min-height: 40mm;
+}
+
+.edu-answer-steps {
+  margin: var(--space-md) 0;
+  border: 1px solid var(--border-light);
+}
+
+.edu-answer-step {
+  min-height: 18mm;
+  border-bottom: 1px solid #ddd;
+  padding: 1.5mm 2mm;
+}
+
+.edu-answer-step:last-child {
+  border-bottom: none;
+}
+
+.edu-answer-step-label {
+  font-family: var(--font-heading);
+  font-size: 10.5pt;
+  color: var(--text-muted);
+}
+
+/* ---------- 11. Answer Key / Judgement ---------- */
+
+.edu-answer-key {
+  margin: var(--space-lg) 0;
+  padding: 3mm 4mm;
+  border: 2px solid var(--border-strong);
+  background: var(--bg-soft);
+}
+
+.edu-judge {
+  margin: var(--space-md) 0;
+  padding: 2mm 3mm;
+  border-left: 2px solid var(--accent-line-light);
+  background: var(--bg-note);
+  font-size: var(--font-size-small);
+}
+
+.edu-upgrade {
+  font-weight: 700;
+  color: #176b3a;
+}
+
+.edu-downgrade {
+  font-weight: 700;
+  color: #a11;
+}
+
+.edu-review {
+  font-weight: 700;
+  color: #8a5a00;
+}
+
+/* ---------- 12. Inline Elements ---------- */
+
+.step-num {
+  display: inline-block;
+  width: 5.6mm;
+  height: 5.6mm;
+  line-height: 5.2mm;
+  text-align: center;
+  border-radius: 50%;
+  border: 1px solid var(--accent-line);
+  background: #eef4ff;
+  color: var(--accent-text);
+  font-family: var(--font-heading);
+  font-size: 9.5pt;
+  font-weight: 700;
+  margin-right: 2mm;
+  vertical-align: middle;
+}
+
+.highlight {
+  background: var(--bg-key);
+  padding: 0 1mm;
+}
+
+.case-title {
+  margin: var(--space-md) 0 var(--space-xs);
+  padding: 1mm 3mm;
+  border-left: 2px solid var(--accent-line-light);
+  background: var(--accent-soft);
+  font-family: var(--font-heading);
+  font-weight: 700;
+}
+
+.think-box {
+  margin: var(--space-md) 0;
+  padding: 2.5mm 3mm;
+  border: 1px dashed var(--border-main);
+  background: var(--bg-white);
+}
+
+/* ---------- 13. Utility ---------- */
+
+.u-mt-0 { margin-top: 0 !important; }
+.u-mb-0 { margin-bottom: 0 !important; }
+.u-center { text-align: center; }
+.u-right { text-align: right; }
+.u-muted { color: var(--text-muted); }
+.u-small { font-size: var(--font-size-small); }
+.u-avoid-break { break-inside: avoid; page-break-inside: avoid; }
+
+/* ---------- 14. Screen-only page break preview ---------- */
+
+@media screen {
+  .edu-screen-only {
+    display: block;
+  }
+
+  .edu-print-only {
+    display: none;
+  }
+
+  body[data-view="student"] .edu-teacher-note.no-print,
+  body.student-view .edu-teacher-note.no-print {
+    display: none;
+  }
+
+  .page-break::before {
+    content: "— 分页 —";
+    display: block;
+    padding: 4mm 0;
+    text-align: center;
+    color: #bbb;
+    font-size: 9pt;
+    font-family: var(--font-heading);
+    border-top: 1px dashed #ddd;
+    border-bottom: 1px dashed #ddd;
+  }
+
+  .page-break-after::after {
+    content: "— 分页 —";
+    display: block;
+    padding: 4mm 0;
+    text-align: center;
+    color: #bbb;
+    font-size: 9pt;
+    font-family: var(--font-heading);
+    border-top: 1px dashed #ddd;
+    border-bottom: 1px dashed #ddd;
+  }
+}

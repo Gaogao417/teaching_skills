@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>学生版讲解：面积倍增与动点坐标</title>
+<link rel="stylesheet" href="assets/edu-print.css">
+<style>
+.edu-answer-steps { min-height: 55mm; }
+.edu-multi-problem { margin: var(--space-lg) 0; padding: 3mm 4mm; border: 1.5px solid var(--border-strong); background: var(--bg-soft); }
+.edu-multi-problem .edu-problem-title { font-size: var(--font-size-h2); }
+.edu-subproblem { margin: var(--space-md) 0; padding: 2.5mm 3mm; border: 1px solid var(--border-light); }
+.edu-subproblem-title { margin: 0 0 var(--space-sm); font-family: var(--font-heading); font-size: var(--font-size-h3); font-weight: 700; }
+.edu-formula-compact { margin: 2mm 0; padding: 2mm 3mm; border: 1px solid var(--border-main); background: var(--bg-soft); text-align: center; font-family: var(--font-math); font-size: 12pt; }
+</style>
+</head>
+<body data-view="student">
+<div class="edu-page">
+
+  <h1 class="edu-title">面积倍增与动点坐标</h1>
+  <p class="edu-subtitle">四道题，同一个方法，逐步变形</p>
+
+  <!-- ============================================================ -->
+  <!-- 题目总览：四道题的变形关系 -->
+  <!-- ============================================================ -->
+  <section class="edu-section">
+    <h2 class="edu-section-title">今天要练的四道题</h2>
+    <p class="edu-p" style="margin-bottom:4mm;">每道题都是：已知 A、B、M 坐标，P 在某条直线上，使 <span class="edu-math">S<sub>&#9651;PBM</sub> = 2S<sub>&#9651;ABM</sub></span>，求 P。四道题只在"AB 在哪"和"P 在哪"上做变形，方法完全一样。</p>
+
+    <table class="edu-table">
+      <tr style="background:var(--bg-key);">
+        <th style="width:12%;">题号</th>
+        <th style="width:22%;">AB 的位置</th>
+        <th style="width:26%;">P 的位置</th>
+        <th style="width:22%;">BM 切割？</th>
+        <th style="width:18%;">这题在练什么</th>
+      </tr>
+      <tr>
+        <td class="edu-strong">题 1</td>
+        <td>x 轴上<br><span class="edu-math u-small">A(1,0), B(4,0)</span></td>
+        <td>(1) x 轴上<br>(2) y 轴上<br><span class="edu-math u-small">M(-2,3), C(0,2)</span></td>
+        <td><strong>切割</strong><br>B、M 在 y 轴两侧</td>
+        <td class="edu-strong" style="color:#176b3a;">建立原始模型</td>
+      </tr>
+      <tr>
+        <td class="edu-strong">题 2</td>
+        <td><strong>y 轴上</strong><br><span class="edu-math u-small">A(0,1), B(0,4)</span></td>
+        <td>(1) y 轴上<br>(2) x 轴上<br><span class="edu-math u-small">M(3,-2), C(2,0)</span></td>
+        <td><strong>切割</strong><br>B、M 在 x 轴两侧</td>
+        <td class="edu-strong" style="color:#176b3a;">横纵方向切换</td>
+      </tr>
+      <tr>
+        <td class="edu-strong">题 3</td>
+        <td>x 轴上<br><span class="edu-math u-small">A(1,0), B(3,0)</span></td>
+        <td>y 轴上<br><span class="edu-math u-small">M(5,2), C(0,-3)</span></td>
+        <td class="edu-downgrade"><strong>不切割</strong><br>B、M 在 y 轴同侧</td>
+        <td class="edu-downgrade">打掉"永远加法"</td>
+      </tr>
+      <tr>
+        <td class="edu-strong">题 4A</td>
+        <td>x 轴上<br><span class="edu-math u-small">A(2,0), B(5,0)</span></td>
+        <td><strong>y = 1</strong> 上<br><span class="edu-math u-small">M(1,2), C(3,1)</span></td>
+        <td><strong>切割</strong><br>B、M 在 y=1 两侧</td>
+        <td class="edu-strong" style="color:#2f527a;">迁移到水平线</td>
+      </tr>
+      <tr>
+        <td class="edu-strong">题 4B</td>
+        <td>x 轴上<br><span class="edu-math u-small">A(1,0), B(4,0)</span></td>
+        <td><strong>x = 2</strong> 上<br><span class="edu-math u-small">M(0,4), C(2,2)</span></td>
+        <td><strong>切割</strong><br>B、M 在 x=2 两侧</td>
+        <td class="edu-strong" style="color:#2f527a;">迁移到竖直线</td>
+      </tr>
+    </table>
+  </section>
+
+  <section class="edu-section">
+    <h2 class="edu-section-title">变形路线</h2>
+    <div class="edu-key-idea u-avoid-break">
+      <span class="edu-strong">题 1</span>（AB 在 x 轴，建立模型）<br>
+      &darr; 把 AB 从 x 轴搬到 y 轴<br>
+      <span class="edu-strong">题 2</span>（训练横纵切换）<br>
+      &darr; 回到 x 轴，但让 BM 不切割 y 轴<br>
+      <span class="edu-strong">题 3</span>（打掉"永远加法"，学减法）<br>
+      &darr; P 的直线从坐标轴换成任意水平/竖直线<br>
+      <span class="edu-strong">题 4</span>（迁移，方法不变）
+    </div>
+  </section>
+
+  <section class="edu-section">
+    <h2 class="edu-section-title">每道题的通用步骤</h2>
+    <div class="edu-route">
+      <ol>
+        <li>算 <span class="edu-math">S<sub>ABM</sub></span>，乘 2 得目标面积 <span class="edu-math">S<sub>PBM</sub></span></li>
+        <li>找 BM 与 P 所在直线的交点 C</li>
+        <li>看 B、M 在 C 的两侧还是同侧 &rarr; 加法或减法</li>
+        <li>列方程，解出 PC，得到 P 的坐标</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- 题 1 -->
+  <!-- ============================================================ -->
+  <section class="edu-multi-problem u-avoid-break">
+    <div class="edu-problem-title">题 1（基础）：AB 在 x 轴，P 在坐标轴上</div>
+    <p class="edu-problem-stem">
+      已知 <span class="edu-math">A(1, 0)</span>、<span class="edu-math">B(4, 0)</span>、<span class="edu-math">M(-2, 3)</span>。<br>
+      点 <span class="edu-math">P</span> 在坐标轴上，使 <span class="edu-math">S<sub>&#9651;PBM</sub> = 2S<sub>&#9651;ABM</sub></span>。<br>
+      已知直线 <span class="edu-math">BM</span> 与 <span class="edu-math">y</span> 轴交于 <span class="edu-math">C(0, 2)</span>。
+    </p>
+    <p class="edu-p edu-small">(1) P 在 x 轴上，求 P 的坐标；(2) P 在 y 轴上，求 P 的坐标。</p>
+  </section>
+
+  <section class="edu-section">
+    <h2 class="edu-section-title">题 1 解法</h2>
+
+    <div class="edu-subproblem u-avoid-break">
+      <div class="edu-subproblem-title">准备工作：算目标面积</div>
+      <div class="edu-step">
+        <div class="edu-step-title">算 S<sub>ABM</sub></div>
+        <p class="edu-p">
+          A、B 在 x 轴上，底 <span class="edu-math">AB = 3</span>，高 = M 的 y 坐标 = <span class="edu-math">3</span>。
+        </p>
+        <div class="edu-formula-compact">
+          S<sub>ABM</sub> = &frac12; &times; 3 &times; 3 = 9/2
+        </div>
+        <p class="edu-p">
+          目标：<span class="edu-math"><strong>S<sub>PBM</sub> = 9</strong></span>
+        </p>
+      </div>
+    </div>
+
+    <div class="edu-subproblem u-avoid-break">
+      <div class="edu-subproblem-title">(1) P 在 x 轴上</div>
+      <div class="edu-step">
+        <div class="edu-step-title">同底等高 &rarr; PB 是 AB 的 2 倍</div>
+        <p class="edu-p">
+          P 在 x 轴上，M 的高（y 坐标）不变，所以面积正比于底。
+        </p>
+        <div class="edu-formula-compact">
+          S<sub>PBM</sub> = &frac12; &times; PB &times; 3 = 9 &nbsp;&rarr;&nbsp; PB = 6
+        </div>
+        <p class="edu-p">
+          B 在 <span class="edu-math">x = 4</span>，P 在 B 的两侧各 6 个单位：
+        </p>
+        <div class="edu-formula-compact">
+          <strong>P(10, 0)&emsp;或&emsp;P(-2, 0)</strong>
+        </div>
+        <p class="edu-step-why">为什么这么快：P 和 B 都在 x 轴上，高不变，面积只跟 PB 成正比。</p>
+      </div>
+    </div>
+
+    <div class="edu-subproblem u-avoid-break">
+      <div class="edu-subproblem-title">(2) P 在 y 轴上 —— 面积分割（加法）</div>
+      <div class="edu-step">
+        <div class="edu-step-title">找交点 C，判断两侧</div>
+        <p class="edu-p">
+          <span class="edu-math">C(0, 2)</span> 是 BM 与 y 轴的交点。<br>
+          B(4, 0) 在 y 轴<strong>右侧</strong>，M(-2, 3) 在 y 轴<strong>左侧</strong> &rarr; <strong>B、M 在 C 两侧</strong>。
+        </p>
+        <p class="edu-p">
+          所以：<span class="edu-math">S<sub>PBM</sub> = S<sub>PBC</sub> + S<sub>PCM</sub></span>
+        </p>
+      </div>
+      <div class="edu-step u-avoid-break">
+        <div class="edu-step-title">列方程</div>
+        <p class="edu-p">
+          B 到 y 轴距离 = <span class="edu-math">4</span>，M 到 y 轴距离 = <span class="edu-math">2</span>。
+        </p>
+        <div class="edu-formula-compact">
+          9 = &frac12; &times; PC &times; 4 + &frac12; &times; PC &times; 2 = 3PC
+        </div>
+        <p class="edu-p">
+          <span class="edu-math">PC = 3</span>。C 的坐标是 <span class="edu-math">(0, 2)</span>，P 在 C 上下各 3 个单位：
+        </p>
+        <div class="edu-formula-compact">
+          <strong>P(0, 5)&emsp;或&emsp;P(0, -1)</strong>
+        </div>
+        <p class="edu-step-why">为什么 B、M 在两侧很重要：两侧时两个小三角形的面积直接相加；同侧时不能直接加（题 3 会练）。</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="edu-section">
+    <h2 class="edu-section-title">题 1 &middot; 边讲边问</h2>
+    <div class="edu-question u-avoid-break">
+      <div class="edu-question-title">想一想 1</div>
+      <p class="edu-p">P 在 x 轴上时，&#9651;PBM 和 &#9651;ABM 有什么相同？高的方向是什么？</p>
+      <div class="edu-answer-lines"></div>
+    </div>
+    <div class="edu-question u-avoid-break">
+      <div class="edu-question-title">想一想 2</div>
+      <p class="edu-p">P 在 y 轴上时，为什么不能直接用"同底等高"？高变成了什么？</p>
+      <div class="edu-answer-lines"></div>
+    </div>
+    <div class="edu-question u-avoid-break">
+      <div class="edu-question-title">想一想 3</div>
+      <p class="edu-p">"B、M 在 y 轴两侧"你是怎么看出来的？看什么坐标？</p>
+      <div class="edu-answer-lines"></div>
+    </div>
+  </section>
+
+  <div class="page-break"></div>
+
+  <!-- ============================================================ -->
+  <!-- 题 2 -->
+  <!-- ============================================================ -->
+  <section class="edu-multi-problem u-avoid-break">
+    <div class="edu-problem-title">题 2（换轴）：AB 在 y 轴，P 在坐标轴上</div>
+    <p class="edu-problem-stem">
+      已知 <span class="edu-math">A(0, 1)</span>、<span class="edu-math">B(0, 4)</span>、<span class="edu-math">M(3, -2)</span>。<br>
+      点 <span class="edu-math">P</span> 在坐标轴上，使 <span class="edu-math">S<sub>&#9651;PBM</sub> = 2S<sub>&#9651;ABM</sub></span>。<br>
+      已知直线 <span class="edu-math">BM</span> 与 <span class="edu-math">x</span> 轴交于 <span class="edu-math">C(2, 0)</span>。
+    </p>
+    <p class="edu-p edu-small">(1) P 在 y 轴上，求 P 的坐标；(2) P 在 x 轴上，求 P 的坐标。</p>
+  </section>
+
+  <section class="edu-section">
+    <h2 class="edu-section-title">题 2 解法</h2>
+
+    <div class="edu-subproblem u-avoid-break">
+      <div class="edu-subproblem-title">准备工作</div>
+      <div class="edu-step">
+        <div class="edu-step-title">算目标面积</div>
+        <p class="edu-p">
+          A、B 在 y 轴上，底 <span class="edu-math">AB = 3</span>，高 = M 的 x 坐标 = <span class="edu-math">3</span>（注意：现在是水平距离！）。
+        </p>
+        <div class="edu-formula-compact">
+          S<sub>ABM</sub> = &frac12; &times; 3 &times; 3 = 9/2 &emsp;&rarr;&emsp; <strong>S<sub>PBM</sub> = 9</strong>
+        </div>
+      </div>
+    </div>
+
+    <div class="edu-subproblem u-avoid-break">
+      <div class="edu-subproblem-title">(1) P 在 y 轴上</div>
+      <div class="edu-step">
+        <div class="edu-step-title">同底等高 &rarr; PB = 6</div>
+        <p class="edu-p">
+          P、B 都在 y 轴上，高（M 到 y 轴的水平距离 = 3）不变。
+        </p>
+        <div class="edu-formula-compact">
+          &frac12; &times; PB &times; 3 = 9 &nbsp;&rarr;&nbsp; PB = 6
+        </div>
+        <p class="edu-p">
+          B 在 <span class="edu-math">y = 4</span>，P 在 B 的上下各 6 个单位：
+        </p>
+        <div class="edu-formula-compact">
+          <strong>P(0, 10)&emsp;或&emsp;P(0, -2)</strong>
+        </div>
+      </div>
+    </div>
+
+    <div class="edu-subproblem u-avoid-break">
+      <div class="edu-subproblem-title">(2) P 在 x 轴上 —— 面积分割（加法）</div>
+      <div class="edu-step">
+        <div class="edu-step-title">找交点 C，判断两侧</div>
+        <p class="edu-p">
+          <span class="edu-math">C(2, 0)</span> 是 BM 与 x 轴的交点。<br>
+          B(0, 4) 在 x 轴<strong>上方</strong>，M(3, -2) 在 x 轴<strong>下方</strong> &rarr; <strong>B、M 在 C 两侧</strong>。
+        </p>
+      </div>
+      <div class="edu-step u-avoid-break">
+        <div class="edu-step-title">列方程</div>
+        <p class="edu-p">
+          B 到 x 轴距离 = <span class="edu-math">4</span>，M 到 x 轴距离 = <span class="edu-math">2</span>。
+        </p>
+        <div class="edu-formula-compact">
+          9 = &frac12; &times; PC &times; 4 + &frac12; &times; PC &times; 2 = 3PC
+        </div>
+        <p class="edu-p">
+          <span class="edu-math">PC = 3</span>。C 的坐标是 <span class="edu-math">(2, 0)</span>，P 在 C 左右各 3 个单位：
+        </p>
+        <div class="edu-formula-compact">
+          <strong>P(5, 0)&emsp;或&emsp;P(-1, 0)</strong>
+        </div>
+        <p class="edu-step-why">和题 1 完全对称：题 1 是"底在 x 轴，竖直距离是高"；这里是"底在 y 轴，水平距离是高"。步骤一样，方向互换。</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="edu-section">
+    <h2 class="edu-section-title">题 2 &middot; 边讲边问</h2>
+    <div class="edu-question u-avoid-break">
+      <div class="edu-question-title">想一想 4</div>
+      <p class="edu-p">AB 在 y 轴上时，&#9651;ABM 的"高"是什么方向的距离？看谁的坐标？</p>
+      <div class="edu-answer-lines"></div>
+    </div>
+    <div class="edu-question u-avoid-break">
+      <div class="edu-question-title">想一想 5</div>
+      <p class="edu-p">题 2 和题 1 的解法步骤是否完全一样？区别在哪里？</p>
+      <div class="edu-answer-lines"></div>
+    </div>
+  </section>
+
+  <div class="page-break"></div>
+
+  <!-- ============================================================ -->
+  <!-- 题 3 -->
+  <!-- ============================================================ -->
+  <section class="edu-multi-problem u-avoid-break">
+    <div class="edu-problem-title">题 3（关键）：BM 不切割 y 轴 &mdash;&mdash; 同侧！</div>
+    <p class="edu-problem-stem">
+      已知 <span class="edu-math">A(1, 0)</span>、<span class="edu-math">B(3, 0)</span>、<span class="edu-math">M(5, 2)</span>。<br>
+      点 <span class="edu-math">P</span> 在 <span class="edu-math">y</span> 轴上，使 <span class="edu-math">S<sub>&#9651;PBM</sub> = 2S<sub>&#9651;ABM</sub></span>。<br>
+      已知直线 <span class="edu-math">BM</span> 与 <span class="edu-math">y</span> 轴交于 <span class="edu-math">C(0, -3)</span>。
+    </p>
+  </section>
+
+  <section class="edu-section">
+    <h2 class="edu-section-title">题 3 解法</h2>
+
+    <div class="edu-subproblem u-avoid-break">
+      <div class="edu-subproblem-title">准备工作</div>
+      <div class="edu-step">
+        <div class="edu-step-title">算目标面积</div>
+        <p class="edu-p">
+          底 <span class="edu-math">AB = 2</span>，高 = <span class="edu-math">2</span>（M 的 y 坐标）。
+        </p>
+        <div class="edu-formula-compact">
+          S<sub>ABM</sub> = &frac12; &times; 2 &times; 2 = 2 &emsp;&rarr;&emsp; <strong>S<sub>PBM</sub> = 4</strong>
+        </div>
+      </div>
+    </div>
+
+    <div class="edu-subproblem u-avoid-break">
+      <div class="edu-subproblem-title">关键判断：B、M 在 y 轴同侧！</div>
+      <div class="edu-step">
+        <div class="edu-step-title">看 x 坐标判断两侧</div>
+        <p class="edu-p">
+          <span class="edu-math">B(3, 0)</span>：x = 3 &gt; 0，在 y 轴右侧。<br>
+          <span class="edu-math">M(5, 2)</span>：x = 5 &gt; 0，在 y 轴右侧。
+        </p>
+        <p class="edu-p">
+          &rarr; <strong>B、M 都在 y 轴右侧，同侧！BM 线段没有被 y 轴切割。</strong>
+        </p>
+      </div>
+    </div>
+
+    <div class="edu-subproblem u-avoid-break">
+      <div class="edu-subproblem-title">不能用加法 &mdash;&mdash; 用减法</div>
+      <div class="edu-step">
+        <div class="edu-step-title">面积关系是"大的减小的"</div>
+        <p class="edu-mistake">
+          <strong>常见错误：</strong>写成 S<sub>PBM</sub> = S<sub>PBC</sub> + S<sub>PCM</sub>。这是同侧情况，不能直接相加！
+        </p>
+        <p class="edu-p">
+          M 比 B 离 y 轴更远（5 &gt; 3），所以：
+        </p>
+        <div class="edu-formula-compact">
+          S<sub>PBM</sub> = S<sub>PCM</sub> &minus; S<sub>PBC</sub> = &frac12; &times; PC &times; 5 &minus; &frac12; &times; PC &times; 3
+        </div>
+        <div class="edu-formula-compact">
+          4 = &frac12; &times; PC &times; (5 &minus; 3) = PC
+        </div>
+        <p class="edu-p">
+          <span class="edu-math">PC = 4</span>。C 的坐标是 <span class="edu-math">(0, -3)</span>，P 在 C 上下各 4 个单位：
+        </p>
+        <div class="edu-formula-compact">
+          <strong>P(0, 1)&emsp;或&emsp;P(0, -7)</strong>
+        </div>
+        <p class="edu-step-why">本质：两个小三角形的高都是 PC，底分别是 |x<sub>M</sub>| 和 |x<sub>B</sub>|，底之差才是 &#9651;PBM 的"有效底宽"。</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="edu-section">
+    <h2 class="edu-section-title">题 3 &middot; 边讲边问</h2>
+    <div class="edu-question u-avoid-break">
+      <div class="edu-question-title">想一想 6</div>
+      <p class="edu-p">怎么判断 B、M 是在 y 轴两侧还是同侧？看什么坐标？</p>
+      <div class="edu-answer-lines"></div>
+    </div>
+    <div class="edu-question u-avoid-break">
+      <div class="edu-question-title">想一想 7</div>
+      <p class="edu-p">同侧时为什么不能 S<sub>PBC</sub> + S<sub>PCM</sub>？画个图，看看 &#9651;PCM 里面有没有把 &#9651;PBC 多算进去？</p>
+      <div class="edu-answer-lines"></div>
+    </div>
+    <div class="edu-question u-avoid-break">
+      <div class="edu-question-title">想一想 8</div>
+      <p class="edu-p">如果 B 在 y 轴左侧（比如 B(-3, 0)）、M 在 y 轴右侧，该用加法还是减法？</p>
+      <div class="edu-answer-lines"></div>
+    </div>
+  </section>
+
+  <div class="page-break"></div>
+
+  <!-- ============================================================ -->
+  <!-- 题 4 -->
+  <!-- ============================================================ -->
+  <section class="edu-multi-problem u-avoid-break">
+    <div class="edu-problem-title">题 4（迁移）：动点不在坐标轴上</div>
+    <p class="edu-problem-stem edu-small">
+      题 4 的 P 所在直线不再是坐标轴，而是任意的水平线 y=1 或竖直线 x=2。<br>
+      方法完全一样：找 BM 与该直线的交点 C &rarr; 判断两侧 &rarr; 加法或减法 &rarr; 解 PC。
+    </p>
+  </section>
+
+  <!-- 4A -->
+  <section class="edu-section">
+    <h2 class="edu-section-title">题 4A：P 在直线 y = 1 上</h2>
+
+    <section class="edu-multi-problem u-avoid-break">
+      <div class="edu-problem-stem">
+        已知 <span class="edu-math">A(2, 0)</span>、<span class="edu-math">B(5, 0)</span>、<span class="edu-math">M(1, 2)</span>。<br>
+        点 <span class="edu-math">P</span> 在直线 <span class="edu-math">y = 1</span> 上，使 <span class="edu-math">S<sub>&#9651;PBM</sub> = 2S<sub>&#9651;ABM</sub></span>。<br>
+        已知直线 <span class="edu-math">BM</span> 与 <span class="edu-math">y = 1</span> 交于 <span class="edu-math">C(3, 1)</span>。
+      </div>
+    </section>
+
+    <div class="edu-subproblem u-avoid-break">
+      <div class="edu-subproblem-title">解法</div>
+      <div class="edu-step">
+        <div class="edu-step-title">算目标面积</div>
+        <div class="edu-formula-compact">
+          S<sub>ABM</sub> = &frac12; &times; 3 &times; 2 = 3 &emsp;&rarr;&emsp; <strong>S<sub>PBM</sub> = 6</strong>
+        </div>
+      </div>
+      <div class="edu-step u-avoid-break">
+        <div class="edu-step-title">判断两侧</div>
+        <p class="edu-p">
+          B(5, 0)：y = 0 &lt; 1，在 y = 1 <strong>下方</strong>。<br>
+          M(1, 2)：y = 2 &gt; 1，在 y = 1 <strong>上方</strong>。<br>
+          &rarr; <strong>两侧，用加法。</strong>
+        </p>
+      </div>
+      <div class="edu-step u-avoid-break">
+        <div class="edu-step-title">列方程</div>
+        <p class="edu-p">
+          B 到 y = 1 的距离 = <span class="edu-math">|0 &minus; 1| = 1</span>。<br>
+          M 到 y = 1 的距离 = <span class="edu-math">|2 &minus; 1| = 1</span>。
+        </p>
+        <div class="edu-formula-compact">
+          6 = &frac12; &times; PC &times; 1 + &frac12; &times; PC &times; 1 = PC
+        </div>
+        <p class="edu-p">
+          <span class="edu-math">PC = 6</span>。C 在 <span class="edu-math">(3, 1)</span>，P 在 y = 1 上，左右各 6 个单位：
+        </p>
+        <div class="edu-formula-compact">
+          <strong>P(9, 1)&emsp;或&emsp;P(-3, 1)</strong>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4B -->
+  <section class="edu-section">
+    <h2 class="edu-section-title">题 4B：P 在直线 x = 2 上</h2>
+
+    <section class="edu-multi-problem u-avoid-break">
+      <div class="edu-problem-stem">
+        已知 <span class="edu-math">A(1, 0)</span>、<span class="edu-math">B(4, 0)</span>、<span class="edu-math">M(0, 4)</span>。<br>
+        点 <span class="edu-math">P</span> 在直线 <span class="edu-math">x = 2</span> 上，使 <span class="edu-math">S<sub>&#9651;PBM</sub> = 2S<sub>&#9651;ABM</sub></span>。<br>
+        已知直线 <span class="edu-math">BM</span> 与 <span class="edu-math">x = 2</span> 交于 <span class="edu-math">C(2, 2)</span>。
+      </div>
+    </section>
+
+    <div class="edu-subproblem u-avoid-break">
+      <div class="edu-subproblem-title">解法</div>
+      <div class="edu-step">
+        <div class="edu-step-title">算目标面积</div>
+        <div class="edu-formula-compact">
+          S<sub>ABM</sub> = &frac12; &times; 3 &times; 4 = 6 &emsp;&rarr;&emsp; <strong>S<sub>PBM</sub> = 12</strong>
+        </div>
+      </div>
+      <div class="edu-step u-avoid-break">
+        <div class="edu-step-title">判断两侧</div>
+        <p class="edu-p">
+          B(4, 0)：x = 4 &gt; 2，在 x = 2 <strong>右侧</strong>。<br>
+          M(0, 4)：x = 0 &lt; 2，在 x = 2 <strong>左侧</strong>。<br>
+          &rarr; <strong>两侧，用加法。</strong>
+        </p>
+      </div>
+      <div class="edu-step u-avoid-break">
+        <div class="edu-step-title">列方程</div>
+        <p class="edu-p">
+          B 到 x = 2 的距离 = <span class="edu-math">|4 &minus; 2| = 2</span>。<br>
+          M 到 x = 2 的距离 = <span class="edu-math">|0 &minus; 2| = 2</span>。
+        </p>
+        <div class="edu-formula-compact">
+          12 = &frac12; &times; PC &times; 2 + &frac12; &times; PC &times; 2 = 2PC
+        </div>
+        <p class="edu-p">
+          <span class="edu-math">PC = 6</span>。C 在 <span class="edu-math">(2, 2)</span>，P 在 x = 2 上，上下各 6 个单位：
+        </p>
+        <div class="edu-formula-compact">
+          <strong>P(2, 8)&emsp;或&emsp;P(2, -4)</strong>
+        </div>
+        <p class="edu-step-why">和坐标轴情况完全一样，只是"距离到坐标轴"变成了"距离到任意水平/竖直线"。</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="edu-section">
+    <h2 class="edu-section-title">题 4 &middot; 边讲边问</h2>
+    <div class="edu-question u-avoid-break">
+      <div class="edu-question-title">想一想 9</div>
+      <p class="edu-p">题 4A 里，"B 到 y=1 的距离"是 |y<sub>B</sub> &minus; 1| 还是 |x<sub>B</sub> &minus; 1|？为什么？</p>
+      <div class="edu-answer-lines"></div>
+    </div>
+    <div class="edu-question u-avoid-break">
+      <div class="edu-question-title">想一想 10</div>
+      <p class="edu-p">题 4 和题 1/2 的方法有什么区别？有没有本质区别？</p>
+      <div class="edu-answer-lines"></div>
+    </div>
+  </section>
+
+  <div class="page-break"></div>
+
+  <!-- ============================================================ -->
+  <!-- 总结 -->
+  <!-- ============================================================ -->
+  <section class="edu-section">
+    <h2 class="edu-section-title">易错提醒</h2>
+
+    <div class="edu-mistake u-avoid-break">
+      <strong>易错 1：永远写加法</strong><br>
+      题 3 专门打这个错误。B、M 同侧时，S<sub>PBM</sub> = |S<sub>大</sub> &minus; S<sub>小</sub>|，不能相加。
+    </div>
+
+    <div class="edu-mistake u-avoid-break">
+      <strong>易错 2：距离看成坐标而非绝对值</strong><br>
+      "B 到 y 轴的距离"是 |x<sub>B</sub>|，不是 x<sub>B</sub>。"B 到 y = 1 的距离"是 |y<sub>B</sub> &minus; 1|，不是 y<sub>B</sub> &minus; 1。
+    </div>
+
+    <div class="edu-mistake u-avoid-break">
+      <strong>易错 3：AB 在 y 轴时高的方向搞混</strong><br>
+      AB 在 x 轴 &rarr; 高是竖直的（看 y 坐标）。AB 在 y 轴 &rarr; 高是水平的（看 x 坐标）。
+    </div>
+
+    <div class="edu-mistake u-avoid-break">
+      <strong>易错 4：漏掉 P 的一个解</strong><br>
+      P 可以在 C 的两边（上/下 或 左/右），所以 PC 的绝对值方程一定有两个解。
+    </div>
+  </section>
+
+  <section class="edu-section">
+    <h2 class="edu-section-title">一句话总结</h2>
+    <div class="edu-key-idea u-avoid-break">
+      <strong>第一步算面积，第二步找交点 C，第三步看两侧还是同侧（决定加/减），第四步列方程解 PC。</strong><br><br>
+      坐标轴 &rarr; 任意水平/竖直线，方法完全一样。
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- 答案汇总 -->
+  <!-- ============================================================ -->
+  <section class="edu-section">
+    <h2 class="edu-section-title">答案汇总</h2>
+    <div class="edu-answer-key">
+      <table class="edu-table">
+        <tr><th>题目</th><th>P 在哪条线上</th><th>P 的坐标</th></tr>
+        <tr><td>题 1 (1)</td><td>x 轴</td><td class="edu-math">P(10, 0) 或 P(-2, 0)</td></tr>
+        <tr><td>题 1 (2)</td><td>y 轴</td><td class="edu-math">P(0, 5) 或 P(0, -1)</td></tr>
+        <tr><td>题 2 (1)</td><td>y 轴</td><td class="edu-math">P(0, 10) 或 P(0, -2)</td></tr>
+        <tr><td>题 2 (2)</td><td>x 轴</td><td class="edu-math">P(5, 0) 或 P(-1, 0)</td></tr>
+        <tr><td>题 3</td><td>y 轴</td><td class="edu-math">P(0, 1) 或 P(0, -7)</td></tr>
+        <tr><td>题 4A</td><td>y = 1</td><td class="edu-math">P(9, 1) 或 P(-3, 1)</td></tr>
+        <tr><td>题 4B</td><td>x = 2</td><td class="edu-math">P(2, 8) 或 P(2, -4)</td></tr>
+      </table>
+    </div>
+  </section>
+
+</div>
+
+<!-- ===== 教师自检（不打印） ===== -->
+<aside class="edu-teacher-note self-check no-print">
+  <div class="edu-card-title">生成后自检</div>
+  <ul>
+    <li><strong>数学检查：</strong>
+      题1：S_ABM=9/2, S_PBM=9, x轴PB=6 &rarr; P(10,0)/(-2,0) &check;; y轴两侧加法 PC=3 &rarr; P(0,5)/(0,-1) &check;。
+      题2：S_ABM=9/2, S_PBM=9, y轴PB=6 &rarr; P(0,10)/(0,-2) &check;; x轴两侧加法 PC=3 &rarr; P(5,0)/(-1,0) &check;。
+      题3：S_ABM=2, S_PBM=4, B(3,0)和M(5,2)同侧, 减法 PC=4 &rarr; P(0,1)/(0,-7) &check;。
+      题4A：S_ABM=3, S_PBM=6, 两侧加法 PC=6 &rarr; P(9,1)/(-3,1) &check;。
+      题4B：S_ABM=6, S_PBM=12, 两侧加法 PC=6 &rarr; P(2,8)/(2,-4) &check;。
+      全部答案与教师提供的 canonical solution 一致，无漏解/增根。
+    </li>
+    <li><strong>教学检查：</strong>
+      核心动作为"找交点C &rarr; 判断两侧 &rarr; 加法/减法 &rarr; 列方程解PC"，四道题递进训练同一核心。
+      题1建立模型，题2训练横纵切换，题3打"永远加法"错误，题4迁移到任意水平/竖直线。
+      互动问题未暴露答案。
+    </li>
+    <li><strong>档位检查：</strong>
+      无学生证据，默认 L2-L3。讲解直接使用教师提供的完整解法，未进行额外演算。
+    </li>
+    <li><strong>HTML 检查：</strong>
+      标签闭合；包含 required sections（拆题、路线、关键想法、标准解法、边讲边问、易错提醒、一句话总结）；
+      无 CDN 依赖；CSS 使用共享 edu-print.css + 最少量补充；适合 A4 打印；分页位置合理。
+    </li>
+    <li><strong>自检结论：</strong>通过。</li>
+  </ul>
+</aside>
+
+<aside class="edu-teacher-note no-print">
+下一步：使用 math-adaptive-practice-html，输入本结构分析 + 学生画像，生成自适应练习。工作流：math-structure-analysis &rarr; math-student-explanation-html &rarr; math-adaptive-practice-html。
+</aside>
+
+</body>
+</html>

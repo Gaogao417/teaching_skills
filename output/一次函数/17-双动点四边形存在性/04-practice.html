@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>自适应练习：双动点与平行四边形/等腰梯形</title>
+<link rel="stylesheet" href="../assets/edu-print.css">
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'], ['\\(','\\)']], displayMath: [['$$','$$'], ['\\[','\\]']] },
+  startup: { ready() { MathJax.startup.defaultReady(); } }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+</head>
+<body data-view="student">
+
+<!-- ===== 标题页 ===== -->
+<div class="edu-page edu-page--title">
+  <h1 class="edu-title">自适应练习：双动点与平行四边形/等腰梯形</h1>
+  <p class="edu-subtitle">双动点与平行四边形/等腰梯形</p>
+  <div class="edu-meta">
+    <p>姓名：________________　　班级：________________　　日期：________________</p>
+    <p>难度档位：E档（基础巩固）</p>
+  </div>
+</div>
+
+<!-- ===== 练习说明 ===== -->
+<div class="edu-page">
+  <section class="edu-section">
+    <h2 class="edu-heading">练习说明</h2>
+    <p>本练习围绕<strong>双动点运动与特殊四边形存在性</strong>展开，共 3 道题。每道题都要求你：</p>
+    <ol class="edu-ol">
+      <li><strong>用速度写出动点的参数坐标</strong>——速度 $\times$ 时间 $=$ 位移，方向决定坐标变化分量。</li>
+      <li><strong>用向量平移法或中点坐标法</strong>判断四边形类型（平行四边形、等腰梯形等）。</li>
+      <li><strong>将几何条件转化为方程</strong>，解出时间参数 $t$，并验证结果。</li>
+    </ol>
+    <p>建议每道题用时 10&ndash;15 分钟。遇到困难时可参考题后的<strong>提示</strong>和<strong>详细解答步骤</strong>。</p>
+  </section>
+</div>
+
+<!-- ========================================== -->
+<!-- 题目 1 -->
+<!-- ========================================== -->
+<div class="edu-page page-break"></div>
+<div class="edu-page">
+  <section class="edu-section">
+    <h2 class="edu-heading">第 1 题　双动点与平行四边形</h2>
+
+    <div class="edu-problem">
+      <p>如图，在平面直角坐标系中，$O$ 为原点，$A(4,0)$，$B(0,3)$。直线 $l$ 过点 $B$ 且平行于 $x$ 轴。</p>
+      <p>动点 $P$ 从点 $O$ 出发，沿 $x$ 轴正方向以每秒 $2$ 个单位的速度运动；动点 $Q$ 从点 $B$ 出发，沿直线 $l$ 向右以每秒 $1$ 个单位的速度运动。$P$、$Q$ 同时出发，设运动时间为 $t$ 秒（$t \ge 0$）。</p>
+      <p class="edu-question">（1）写出点 $P$、$Q$ 的坐标（用 $t$ 表示）；</p>
+      <p class="edu-question">（2）经过多少秒后，以 $O$、$P$、$Q$、$B$ 为顶点的四边形是平行四边形？</p>
+    </div>
+  </section>
+</div>
+
+<!-- 第1题 提示 -->
+<div class="edu-page">
+  <section class="edu-section">
+    <h3 class="edu-heading edu-heading--hint">提示</h3>
+    <div class="edu-hint">
+      <p>第（1）问：$P$ 在 $x$ 轴上，速度为 $2$，所以 $P$ 的横坐标每秒增加 $2$；$Q$ 在 $y=3$ 上，速度为 $1$，横坐标每秒增加 $1$。</p>
+      <p>第（2）问：四个顶点的顺序不固定，需要考虑不同的连接方式。建议用<strong>向量平移法</strong>：若四边形 $OPQB$ 是平行四边形，则 $\overrightarrow{OP} = \overrightarrow{BQ}$；也可以尝试 $OBQP$ 等其他排列。</p>
+    </div>
+  </section>
+</div>
+
+<!-- 第1题 解答步骤 -->
+<div class="edu-page">
+  <section class="edu-section">
+    <h3 class="edu-heading edu-heading--answer">解答步骤</h3>
+    <div class="edu-answer">
+      <p><strong>（1）动点坐标</strong></p>
+      <p>点 $P$ 在 $x$ 轴正半轴上，速度为 $2$ 个单位/秒：</p>
+      <p>$$P(t) = (2t,\ 0)$$</p>
+      <p>点 $Q$ 在直线 $y = 3$ 上，从 $B(0,3)$ 出发，速度为 $1$ 个单位/秒：</p>
+      <p>$$Q(t) = (t,\ 3)$$</p>
+
+      <p><strong>（2）平行四边形存在性</strong></p>
+      <p>已知 $O(0,0)$，$B(0,3)$，$P(2t,0)$，$Q(t,3)$。</p>
+      <p>考虑四边形 $OPQB$（顶点顺序 $O \to P \to Q \to B$）：</p>
+      <p>$$\overrightarrow{OP} = (2t,\ 0), \quad \overrightarrow{BQ} = (t - 0,\ 3 - 3) = (t,\ 0)$$</p>
+      <p>平行四边形条件 $\overrightarrow{OP} = \overrightarrow{BQ}$：</p>
+      <p>$$2t = t \implies t = 0$$</p>
+      <p>$t = 0$ 时 $P$ 与 $O$ 重合，四边形退化为三角形，<strong>舍去</strong>。</p>
+      <p>换顺序。考虑四边形 $OBQP$（顶点顺序 $O \to B \to Q \to P$）：</p>
+      <p>$$\overrightarrow{OB} = (0,\ 3), \quad \overrightarrow{PQ} = (t - 2t,\ 3 - 0) = (-t,\ 3)$$</p>
+      <p>平行四边形条件 $\overrightarrow{OB} = \overrightarrow{QP}$（注意方向）：</p>
+      <p>$$(0,\ 3) = (t,\ -3) \implies t = 0,\ -3 = 3 \text{ 矛盾}$$</p>
+      <p>再换。考虑四边形 $OQPB$（顶点顺序 $O \to Q \to P \to B$）：</p>
+      <p>$$\overrightarrow{OQ} = (t,\ 3), \quad \overrightarrow{BP} = (2t,\ -3)$$</p>
+      <p>$\overrightarrow{OQ} = \overrightarrow{BP}$：</p>
+      <p>$$t = 2t \implies t = 0 \text{（舍去）}$$</p>
+      <p>再考虑四边形 $OQBP$（顶点顺序 $O \to Q \to B \to P$）：</p>
+      <p>$$\overrightarrow{OQ} = (t,\ 3), \quad \overrightarrow{PB} = (-2t,\ 3)$$</p>
+      <p>$\overrightarrow{OQ} = \overrightarrow{PB}$：</p>
+      <p>$$t = -2t \implies 3t = 0 \implies t = 0 \text{（舍去）}$$</p>
+      <p>再考虑四边形 $OBPQ$（顶点顺序 $O \to B \to P \to Q$）：</p>
+      <p>$$\overrightarrow{OB} = (0,\ 3), \quad \overrightarrow{QP} = (2t - t,\ 0 - 3) = (t,\ -3)$$</p>
+      <p>$\overrightarrow{OB} = \overrightarrow{QP}$：</p>
+      <p>$$(0,\ 3) = (t,\ -3) \implies t = 0,\ 3 = -3 \text{ 矛盾}$$</p>
+      <p class="edu-emphasis">结论：本题中不存在 $t > 0$ 使得以 $O$、$P$、$Q$、$B$ 为顶点的四边形成为平行四边形。</p>
+    </div>
+  </section>
+</div>
+
+<!-- 第1题 教师备注 -->
+<div class="edu-page no-print">
+  <section class="edu-section">
+    <h3 class="edu-heading edu-heading--teacher">教师备注</h3>
+    <div class="edu-teacher">
+      <p><strong>设计意图：</strong>本题考查动点坐标的参数化表达以及平行四边形的系统化枚举。故意设置了"不存在"的答案，训练学生穷举所有顶点排列并逐一验证的能力，而非仅凭直觉猜测。</p>
+      <p><strong>常见错误：</strong>只试一种顶点排列就下结论；未排除 $t = 0$ 的退化情形。</p>
+      <p><strong>教学建议：</strong>引导学生列表枚举 6 种顶点排列（$4!/2 = 12$ 种有序排列，但首尾互换相同，实际 $3$ 种不同的四边形连接），系统检验。此题答案为"不存在"，可引发讨论：什么条件下才会存在？</p>
+    </div>
+  </section>
+</div>
+
+<!-- ========================================== -->
+<!-- 题目 2 -->
+<!-- ========================================== -->
+<div class="edu-page page-break"></div>
+<div class="edu-page">
+  <section class="edu-section">
+    <h2 class="edu-heading">第 2 题　双动点与矩形</h2>
+
+    <div class="edu-problem">
+      <p>在平面直角坐标系中，$O$ 为原点，$A(6,0)$，$C(0,4)$。直线 $l_1$ 过点 $A$ 且平行于 $y$ 轴，直线 $l_2$ 过点 $C$ 且平行于 $x$ 轴。$l_1$ 与 $l_2$ 交于点 $D$。</p>
+      <p>动点 $P$ 从点 $O$ 出发，沿 $x$ 轴正方向以每秒 $2$ 个单位的速度运动；动点 $Q$ 从点 $C$ 出发，沿直线 $l_2$ 向右以每秒 $1$ 个单位的速度运动。$P$、$Q$ 同时出发，运动时间为 $t$ 秒（$t \ge 0$）。</p>
+      <p class="edu-question">（1）求点 $D$ 的坐标；</p>
+      <p class="edu-question">（2）经过多少秒后，以 $O$、$P$、$Q$、$C$ 为顶点的四边形是矩形？若存在，求出 $t$ 的值；若不存在，说明理由。</p>
+    </div>
+  </section>
+</div>
+
+<!-- 第2题 提示 -->
+<div class="edu-page">
+  <section class="edu-section">
+    <h3 class="edu-heading edu-heading--hint">提示</h3>
+    <div class="edu-hint">
+      <p>第（1）问：$l_1$ 过 $A(6,0)$ 且平行于 $y$ 轴，即 $x = 6$；$l_2$ 过 $C(0,4)$ 且平行于 $x$ 轴，即 $y = 4$。交点即为 $D$。</p>
+      <p>第（2）问：矩形是特殊的平行四边形——四个角都是直角。可先找平行四边形，再验证是否有一个角为直角（或对角线相等）。注意 $O$ 和 $C$ 在坐标轴上，$P$ 在 $x$ 轴上，$Q$ 在 $y = 4$ 上——利用这一几何特点简化计算。</p>
+    </div>
+  </section>
+</div>
+
+<!-- 第2题 解答步骤 -->
+<div class="edu-page">
+  <section class="edu-section">
+    <h3 class="edu-heading edu-heading--answer">解答步骤</h3>
+    <div class="edu-answer">
+      <p><strong>（1）点 $D$ 的坐标</strong></p>
+      <p>$l_1$：过 $A(6,0)$ 且 $\parallel y$ 轴 $\implies x = 6$。</p>
+      <p>$l_2$：过 $C(0,4)$ 且 $\parallel x$ 轴 $\implies y = 4$。</p>
+      <p>联立 $x = 6$，$y = 4$，得 $D(6,4)$。</p>
+
+      <p><strong>（2）矩形存在性</strong></p>
+      <p>动点坐标：$P(t) = (2t,\ 0)$，$Q(t) = (t,\ 4)$。</p>
+      <p>已知 $O(0,0)$，$C(0,4)$。</p>
+      <p>考虑四边形 $OPQC$（顶点顺序 $O \to P \to Q \to C$）：</p>
+      <p>$$\overrightarrow{OP} = (2t,\ 0), \quad \overrightarrow{CQ} = (t,\ 0)$$</p>
+      <p>平行四边形条件 $\overrightarrow{OP} = \overrightarrow{CQ}$：</p>
+      <p>$$2t = t \implies t = 0 \text{（舍去）}$$</p>
+      <p>考虑四边形 $OCQP$（顶点顺序 $O \to C \to Q \to P$）：</p>
+      <p>$$\overrightarrow{OC} = (0,\ 4), \quad \overrightarrow{PQ} = (t - 2t,\ 4 - 0) = (-t,\ 4)$$</p>
+      <p>平行四边形条件 $\overrightarrow{OC} = \overrightarrow{QP}$：</p>
+      <p>$$(0,\ 4) = (t,\ -4) \implies t = 0,\ 4 = -4 \text{ 矛盾}$$</p>
+      <p>考虑四边形 $OQCP$（顶点顺序 $O \to Q \to C \to P$）：</p>
+      <p>$$\overrightarrow{OQ} = (t,\ 4), \quad \overrightarrow{PC} = (-2t,\ 4)$$</p>
+      <p>$\overrightarrow{OQ} = \overrightarrow{PC}$：</p>
+      <p>$$t = -2t \implies t = 0 \text{（舍去）}$$</p>
+      <p>考虑四边形 $OCPQ$（顶点顺序 $O \to C \to P \to Q$）：</p>
+      <p>$$\overrightarrow{OC} = (0,\ 4), \quad \overrightarrow{QP} = (2t - t,\ 0 - 4) = (t,\ -4)$$</p>
+      <p>$\overrightarrow{OC} = \overrightarrow{QP}$：</p>
+      <p>$$(0,\ 4) = (t,\ -4) \implies t = 0,\ 4 = -4 \text{ 矛盾}$$</p>
+      <p>考虑四边形 $OPCQ$（顶点顺序 $O \to P \to C \to Q$）：</p>
+      <p>$\overrightarrow{OP} = (2t,\ 0)$，$\overrightarrow{QC} = (-t,\ 0)$。</p>
+      <p>$\overrightarrow{OP} = \overrightarrow{QC}$：$2t = -t \implies t = 0$（舍去）。</p>
+      <p>考虑四边形 $OQPC$（顶点顺序 $O \to Q \to P \to C$）：</p>
+      <p>$\overrightarrow{OQ} = (t,\ 4)$，$\overrightarrow{CP} = (2t,\ -4)$。</p>
+      <p>$\overrightarrow{OQ} = \overrightarrow{CP}$：$t = 2t \implies t = 0$（舍去）。</p>
+      <p class="edu-emphasis">结论：不存在 $t > 0$，使得以 $O$、$P$、$Q$、$C$ 为顶点的四边形成为矩形（事实上连平行四边形都不存在）。</p>
+    </div>
+  </section>
+</div>
+
+<!-- 第2题 教师备注 -->
+<div class="edu-page no-print">
+  <section class="edu-section">
+    <h3 class="edu-heading edu-heading--teacher">教师备注</h3>
+    <div class="edu-teacher">
+      <p><strong>设计意图：</strong>在平行四边形基础上增加"矩形"条件，但核心仍然是先找平行四边形再升级。本题同样设计为"不存在"，强化系统枚举的意识。第（1）问作为热身，建立坐标系中的垂直线和平行线的概念。</p>
+      <p><strong>常见错误：</strong>跳过平行四边形检验，直接假设某个排列是矩形；未检查 $t = 0$ 的退化情形。</p>
+      <p><strong>教学建议：</strong>可追问学生："如果要使矩形存在，应该如何调整速度比？"引导发现当 $P$ 和 $Q$ 的速度相等时，某些排列才能构成平行四边形。</p>
+    </div>
+  </section>
+</div>
+
+<!-- ========================================== -->
+<!-- 题目 3 -->
+<!-- ========================================== -->
+<div class="edu-page page-break"></div>
+<div class="edu-page">
+  <section class="edu-section">
+    <h2 class="edu-heading">第 3 题　双动点与等腰梯形</h2>
+
+    <div class="edu-problem">
+      <p>在平面直角坐标系中，$O$ 为原点，$A(3,0)$，$B(0,4)$。直线 $l$ 过点 $B$ 且平行于 $x$ 轴。</p>
+      <p>动点 $P$ 从点 $O$ 出发，沿 $x$ 轴正方向以每秒 $2$ 个单位的速度运动；动点 $Q$ 从点 $B$ 出发，沿直线 $l$ 向右以每秒 $1$ 个单位的速度运动。$P$、$Q$ 同时出发，运动时间为 $t$ 秒（$t \ge 0$）。</p>
+      <p class="edu-question">（1）写出点 $P$、$Q$ 的坐标（用 $t$ 表示）；</p>
+      <p class="edu-question">（2）经过多少秒后，以 $O$、$P$、$Q$、$B$ 为顶点的四边形是等腰梯形？若存在，求出 $t$ 的值；若不存在，说明理由。</p>
+    </div>
+  </section>
+</div>
+
+<!-- 第3题 提示 -->
+<div class="edu-page">
+  <section class="edu-section">
+    <h3 class="edu-heading edu-heading--hint">提示</h3>
+    <div class="edu-hint">
+      <p>第（1）问：与第 1 题方法相同，用速度写出 $P(t)$ 和 $Q(t)$ 的坐标。</p>
+      <p>第（2）问：等腰梯形的定义——一组对边平行，另一组对边相等。注意：$O$ 和 $P$ 都在 $x$ 轴上，$B$ 和 $Q$ 都在 $y = 4$ 上，所以 $OP \parallel BQ$ <strong>始终成立</strong>。关键在于判断何时 $OB = PQ$（或 $OQ = PB$），同时确保四边形不是平行四边形。</p>
+      <p>还需注意排除"平行四边形"的情况——因为平行四边形有两组对边平行，不满足等腰梯形"只有一组对边平行"的条件。</p>
+    </div>
+  </section>
+</div>
+
+<!-- 第3题 解答步骤 -->
+<div class="edu-page">
+  <section class="edu-section">
+    <h3 class="edu-heading edu-heading--answer">解答步骤</h3>
+    <div class="edu-answer">
+      <p><strong>（1）动点坐标</strong></p>
+      <p>$$P(t) = (2t,\ 0), \quad Q(t) = (t,\ 4)$$</p>
+
+      <p><strong>（2）等腰梯形存在性</strong></p>
+      <p>已知 $O(0,0)$，$B(0,4)$，$P(2t,0)$，$Q(t,3)$（注：$B(0,4)$，直线 $l: y = 4$，所以 $Q(t) = (t, 4)$）。</p>
+      <p>重新确认：$Q(t) = (t,\ 4)$。</p>
+
+      <p>考虑四边形 $OPQB$（顶点顺序 $O \to P \to Q \to B$）：</p>
+      <p>$$\overrightarrow{OP} = (2t,\ 0), \quad \overrightarrow{BQ} = (t,\ 0)$$</p>
+      <p>$OP \parallel BQ$ 始终成立（都在 $x$ 轴方向）。</p>
+
+      <p><strong>要成为梯形，另一组对边不能平行：</strong></p>
+      <p>$$\overrightarrow{OQ} = (t,\ 4), \quad \overrightarrow{PB} = (-2t,\ 4)$$</p>
+      <p>$OQ \parallel PB$ 当且仅当 $t/(-2t) = 4/4$，即 $-1/2 = 1$，矛盾。</p>
+      <p>所以 $OQ$ 与 $PB$ 永远不平行——四边形 $OPQB$ 始终是梯形（不会退化为平行四边形）。</p>
+
+      <p><strong>要成为等腰梯形，需要腰相等：</strong></p>
+      <p>腰为 $OQ$ 和 $PB$：</p>
+      <p>$$OQ = \sqrt{t^2 + 16}, \quad PB = \sqrt{4t^2 + 16}$$</p>
+      <p>$OQ = PB$：</p>
+      <p>$$t^2 + 16 = 4t^2 + 16 \implies t^2 = 4t^2 \implies 3t^2 = 0 \implies t = 0 \text{（舍去）}$$</p>
+
+      <p>换一种连接顺序。考虑四边形 $OBQP$（顶点顺序 $O \to B \to Q \to P$）：</p>
+      <p>$OB \parallel QP$？$\overrightarrow{OB} = (0, 4)$，$\overrightarrow{QP} = (2t - t,\ 0 - 4) = (t, -4)$。</p>
+      <p>$OB \parallel QP \implies 0/t = 4/(-4) \implies 0 = -1$，矛盾。$OB$ 与 $QP$ 不平行。</p>
+      <p>另一组：$OQ \parallel BP$？$\overrightarrow{OQ} = (t, 4)$，$\overrightarrow{BP} = (2t, -4)$。</p>
+      <p>$OQ \parallel BP \implies t/(2t) = 4/(-4) \implies 1/2 = -1$，矛盾。不平行。</p>
+      <p>两组对边都不平行，不是梯形。</p>
+
+      <p>再考虑四边形 $OQPB$（顶点顺序 $O \to Q \to P \to B$）：</p>
+      <p>$OQ \parallel PB$？$\overrightarrow{OQ} = (t, 4)$，$\overrightarrow{BP} = (2t, -4)$。如上已证不平行。</p>
+      <p>$OP \parallel QB$？$\overrightarrow{OP} = (2t, 0)$，$\overrightarrow{QB} = (-t, 0)$。$OP \parallel QB$ 恒成立。</p>
+      <p>另一组 $OQ$ 与 $PB$ 不平行（已证），所以是梯形。</p>
+      <p>腰为 $OQ$ 和 $PB$：如上 $OQ = PB \implies t = 0$（舍去）。</p>
+
+      <p>再考虑四边形 $OBPQ$（顶点顺序 $O \to B \to P \to Q$）：</p>
+      <p>$OB \parallel PQ$？$\overrightarrow{OB} = (0, 4)$，$\overrightarrow{PQ} = (-t, 4)$。$\parallel \implies 0/(-t) = 4/4 \implies 0 = -1$，矛盾。</p>
+      <p>不是梯形。</p>
+
+      <p class="edu-emphasis">结论：不存在 $t > 0$，使得以 $O$、$P$、$Q$、$B$ 为顶点的四边形成为等腰梯形。</p>
+    </div>
+  </section>
+</div>
+
+<!-- 第3题 教师备注 -->
+<div class="edu-page no-print">
+  <section class="edu-section">
+    <h3 class="edu-heading edu-heading--teacher">教师备注</h3>
+    <div class="edu-teacher">
+      <p><strong>设计意图：</strong>本题直接对标原题 SEL-18 第(3)问中"等腰梯形"的否定论证。通过系统地枚举所有四边形排列，先用平行条件筛出梯形，再用腰相等条件验证等腰，最后排除退化情况。训练学生"否定存在性"的完整论证能力。</p>
+      <p><strong>常见错误：</strong>只检查一种排列就下结论；忘记排除 $t = 0$ 的退化情形；未排除平行四边形的情况（平行四边形有两组对边平行，不等腰梯形）。</p>
+      <p><strong>教学建议：</strong>可引导学生将本题的论证方法迁移回原题 SEL-18，体会"穷举 + 排除"的通用策略。也可以追问："改变哪个条件可以让等腰梯形存在？"（例如让 $P$ 的速度为 $1$ 而不是 $2$，再检查。）</p>
+    </div>
+  </section>
+</div>
+
+<!-- ========================================== -->
+<!-- 答案速查 -->
+<!-- ========================================== -->
+<div class="edu-page page-break"></div>
+<div class="edu-page">
+  <section class="edu-section">
+    <h2 class="edu-heading">答案速查</h2>
+    <div class="edu-answer-key">
+      <table class="edu-table">
+        <thead>
+          <tr><th>题号</th><th>答案</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>第 1 题（1）</td>
+            <td>$P(2t,\ 0)$，$Q(t,\ 3)$</td>
+          </tr>
+          <tr>
+            <td>第 1 题（2）</td>
+            <td>不存在满足条件的 $t > 0$</td>
+          </tr>
+          <tr>
+            <td>第 2 题（1）</td>
+            <td>$D(6,\ 4)$</td>
+          </tr>
+          <tr>
+            <td>第 2 题（2）</td>
+            <td>不存在满足条件的 $t > 0$</td>
+          </tr>
+          <tr>
+            <td>第 3 题（1）</td>
+            <td>$P(2t,\ 0)$，$Q(t,\ 4)$</td>
+          </tr>
+          <tr>
+            <td>第 3 题（2）</td>
+            <td>不存在满足条件的 $t > 0$</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>
+
+<!-- ========================================== -->
+<!-- 自我检查清单 -->
+<!-- ========================================== -->
+<div class="edu-page">
+  <section class="edu-section">
+    <h2 class="edu-heading">自我检查清单</h2>
+    <div class="edu-checklist">
+      <p>完成练习后，请逐项检查：</p>
+      <ul class="edu-ul">
+        <li>我能用速度和时间正确写出动点的参数坐标 $P(t)$、$Q(t)$。</li>
+        <li>我能列出四个顶点的所有不同四边形排列（至少 3 种），而不是只试一种。</li>
+        <li>我能用向量平移法（$\overrightarrow{\text{对边}_1} = \overrightarrow{\text{对边}_2}$）判断平行四边形。</li>
+        <li>我知道等腰梯形的条件是"一组对边平行 + 另一组对边相等"，且不是平行四边形。</li>
+        <li>我能排除 $t = 0$ 的退化情形（顶点重合，四边形退化为三角形）。</li>
+        <li>当答案为"不存在"时，我能写出完整的论证过程，而不是只写结论。</li>
+      </ul>
+    </div>
+  </section>
+</div>
+
+<!-- ========================================== -->
+<!-- 交接说明 -->
+<!-- ========================================== -->
+<div class="edu-page">
+  <section class="edu-section">
+    <h2 class="edu-heading">下一步建议</h2>
+    <div class="edu-handoff">
+      <p>完成本练习后，你可以：</p>
+      <ol class="edu-ol">
+        <li><strong>回顾原题 SEL-18</strong>：用本练习中掌握的"穷举 + 向量法"策略重新审视原题第(3)问，体会 $t = 1$ 时平行四边形成立而等腰梯形不成立的完整推理。</li>
+        <li><strong>尝试变式</strong>：将速度比改为 $v_P : v_Q = 1 : 1$（两动点同速），重新做第 1 题，观察平行四边形何时存在。</li>
+        <li><strong>进阶挑战</strong>：尝试将四边形类型改为"菱形"——先找到平行四边形，再添加"邻边相等"的条件。</li>
+      </ol>
+      <p>如果自我检查中有 2 项以上未通过，建议回到讲解页面复习动点坐标化和向量平移法的相关内容，然后再做一次本练习。</p>
+    </div>
+  </section>
+</div>
+
+</body>
+</html>

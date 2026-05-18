@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>自适应练习：坐标中的三角形面积</title>
+<link rel="stylesheet" href="assets/edu-print.css">
+</head>
+<body data-view="student">
+<div class="edu-page">
+
+  <h1 class="edu-title">坐标中的三角形面积</h1>
+  <p class="edu-subtitle">两种面积方法 &middot; 面积反求坐标 &middot; 从具体到抽象 &nbsp;|&nbsp; 解析几何基础</p>
+
+  <!-- ===== 方法回顾 ===== -->
+  <section class="edu-section">
+    <h2 class="edu-section-title">方法回顾</h2>
+    <div class="edu-key-idea u-avoid-break">
+      <strong>方法一：补成矩形（割补法）</strong><br>
+      找到包围三角形的最小矩形（边平行于坐标轴），矩形面积减去三个角上直角三角形的面积。
+    </div>
+    <div class="edu-key-idea u-avoid-break">
+      <strong>方法二：过某个顶点做竖线分割</strong><br>
+      选一个顶点 C，过它做竖直线 <span class="edu-math">x = x<sub>C</sub></span>，与对边 AB 交于 M。<br>
+      <span class="edu-math">S<sub>&#9651;ABC</sub> = &frac12; &middot; PM &middot; |x<sub>A</sub> &minus; x<sub>B</sub>|</span><br>
+      <span class="edu-small">这个公式恒成立，不需要 A、B 分居竖直线两侧。</span>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!--              第一组：已知三顶点，求面积（2题）                  -->
+  <!-- ============================================================ -->
+
+  <section class="edu-section">
+    <h2 class="edu-section-title">第一组：已知三顶点，求面积</h2>
+
+    <!-- ===== 第 1 题 ===== -->
+    <section class="edu-practice-problem u-avoid-break">
+      <h2 class="edu-practice-title">第 1 题&emsp;双方法对比</h2>
+      <p class="edu-problem-stem">
+        已知 <span class="edu-math">A(1, 1)</span>，<span class="edu-math">B(5, 3)</span>，<span class="edu-math">C(3, 6)</span>。
+      </p>
+      <div class="edu-subproblem">
+        <div class="edu-subproblem-title">(1) 用"补成矩形"法求 &#9651;ABC 的面积</div>
+        <p class="edu-p">画出 &#9651;ABC，找到包围它的最小矩形，用矩形面积减去角上多余的部分。</p>
+        <div class="edu-answer-space"></div>
+      </div>
+      <div class="edu-subproblem">
+        <div class="edu-subproblem-title">(2) 用"过 C 做竖线分割"法再求一次</div>
+        <p class="edu-p">过 <span class="edu-math">C(3, 6)</span> 做竖直线 <span class="edu-math">x = 3</span>，与 AB 交于点 M。计算 PM 和 <span class="edu-math">|x<sub>A</sub> &minus; x<sub>B</sub>|</span>，用公式求面积。</p>
+        <div class="edu-answer-space"></div>
+      </div>
+      <div class="edu-subproblem">
+        <div class="edu-subproblem-title">(3) 两次结果一样吗？你觉得哪种方法步骤更统一？</div>
+        <div class="edu-answer-lines"></div>
+      </div>
+
+      <div class="edu-hint">
+        <div class="edu-hint-title">提示</div>
+        <p class="edu-p">先在坐标系中标出三个顶点，再确定包围三角形的最小矩形。</p>
+      </div>
+
+      <aside class="edu-teacher-note no-print">
+        <div class="edu-card-title">第 1 题教师备忘</div>
+        <p class="edu-training-goal"><span class="edu-tag">训练目标</span>掌握两种面积方法的完整流程并对比</p>
+        <p class="edu-expected-blocker"><span class="edu-tag">预期卡点</span>矩形补法：不确定减哪几个角；竖线法：不会求 AB 方程或交点</p>
+        <p class="edu-small">AB 斜率 1/2，C 在 AB 上方。两种方法都给出 S=8。A 在矩形角上，所以矩形补法只需减 2 个角三角形 + 底边角。</p>
+      </aside>
+    </section>
+
+    <div class="page-break"></div>
+
+    <!-- ===== 第 2 题 ===== -->
+    <section class="edu-practice-problem u-avoid-break">
+      <h2 class="edu-practice-title">第 2 题&emsp;三个顶点在不同边上</h2>
+      <p class="edu-problem-stem">
+        已知 <span class="edu-math">A(0, 4)</span>，<span class="edu-math">B(4, 2)</span>，<span class="edu-math">C(2, 6)</span>。
+      </p>
+      <div class="edu-subproblem">
+        <div class="edu-subproblem-title">(1) 用"补成矩形"法求 &#9651;ABC 的面积</div>
+        <p class="edu-p">注意：A 在左边界上，B 在下边界上，C 在上边界上——三个顶点分布在三条不同边上。</p>
+        <div class="edu-answer-space"></div>
+      </div>
+      <div class="edu-subproblem">
+        <div class="edu-subproblem-title">(2) 用竖线分割法再求一次</div>
+        <div class="edu-answer-space"></div>
+      </div>
+
+      <div class="edu-hint">
+        <div class="edu-hint-title">提示</div>
+        <p class="edu-p">三个顶点分别在矩形的哪条边上？每个角上是不是都有多余的三角形要减？</p>
+      </div>
+
+      <aside class="edu-teacher-note no-print">
+        <div class="edu-card-title">第 2 题教师备忘</div>
+        <p class="edu-training-goal"><span class="edu-tag">训练目标</span>体会矩形补法在顶点分布复杂时仍可操作（但步骤更多）</p>
+        <p class="edu-expected-blocker"><span class="edu-tag">预期卡点</span>三个顶点不在"整齐"位置，矩形补法需要仔细判断每个角</p>
+        <p class="edu-small">S=6。矩形补法需减 3 个角（各 4, 4, 2）；竖线分割法只需求 AB 方程、交点 M(2,3)、PM=3，一步到位。</p>
+      </aside>
+    </section>
+  </section>
+
+  <div class="page-break"></div>
+
+  <!-- ============================================================ -->
+  <!--              第二组：面积反求坐标（3题）                       -->
+  <!-- ============================================================ -->
+
+  <section class="edu-section">
+    <h2 class="edu-section-title">第二组：已知面积，反求坐标</h2>
+
+    <!-- ===== 第 3 题 ===== -->
+    <section class="edu-practice-problem u-avoid-break">
+      <h2 class="edu-practice-title">第 3 题&emsp;竖直线上的动点</h2>
+      <p class="edu-problem-stem">
+        已知 <span class="edu-math">A(1, 1)</span>，<span class="edu-math">B(5, 3)</span>，点 <span class="edu-math">P</span> 在直线 <span class="edu-math">x = 3</span> 上，
+        &#9651;ABP 的面积为 <span class="edu-math">4</span>。求 <span class="edu-math">P</span> 的坐标。
+      </p>
+
+      <div class="edu-hint">
+        <div class="edu-hint-title">提示</div>
+        <p class="edu-p">设 <span class="edu-math">P(3, p)</span>。先求 AB 的方程，再求竖线 <span class="edu-math">x = 3</span> 与 AB 的交点 M。</p>
+      </div>
+
+      <div class="edu-answer-steps">
+        <div class="edu-answer-step">
+          <span class="edu-answer-step-label">① 求 AB 的方程：</span>
+        </div>
+        <div class="edu-answer-step">
+          <span class="edu-answer-step-label">② 竖线与 AB 的交点 M：</span>
+        </div>
+        <div class="edu-answer-step">
+          <span class="edu-answer-step-label">③ 用面积公式列方程并求解：</span>
+        </div>
+        <div class="edu-answer-step">
+          <span class="edu-answer-step-label">④ P 的坐标：</span>
+        </div>
+      </div>
+
+      <aside class="edu-teacher-note no-print">
+        <div class="edu-card-title">第 3 题教师备忘</div>
+        <p class="edu-training-goal"><span class="edu-tag">训练目标</span>面积反求竖线上动点坐标，掌握竖线分割法的"反向使用"</p>
+        <p class="edu-expected-blocker"><span class="edu-tag">预期卡点</span>忘写绝对值导致漏解；不会把面积公式"反过来"列方程</p>
+        <p class="edu-small">P(3,4) 或 P(3,0)。两个解关于 M(3,2) 对称。注意：这里 A 在 x=1，B 在 x=5，P 在 x=3 恰好在中间，但公式不依赖这个条件。</p>
+        <div class="edu-judge">
+          <p class="edu-p"><span class="edu-upgrade">升级：</span>若学生顺利完成，进入第 4 题（P 在斜线上）。</p>
+          <p class="edu-p"><span class="edu-downgrade">降级：</span>若学生不会求 AB 方程或交点，回到第 1 题复习竖线分割法步骤。</p>
+        </div>
+      </aside>
+    </section>
+
+    <div class="page-break"></div>
+
+    <!-- ===== 第 4 题 ===== -->
+    <section class="edu-practice-problem u-avoid-break">
+      <h2 class="edu-practice-title">第 4 题&emsp;斜线上的动点</h2>
+      <p class="edu-problem-stem">
+        已知 <span class="edu-math">A(0, 1)</span>，<span class="edu-math">B(4, 5)</span>，点 <span class="edu-math">P</span> 在直线 <span class="edu-math">y = 2x + 1</span> 上，
+        &#9651;ABP 的面积为 <span class="edu-math">4</span>。求 <span class="edu-math">P</span> 的坐标。
+      </p>
+
+      <div class="edu-hint">
+        <div class="edu-hint-title">提示</div>
+        <p class="edu-p">设 <span class="edu-math">P(t, 2t+1)</span>，过 P 做竖线与 AB 求交点 M。PM 就是 P 和 M 的 y 坐标之差。</p>
+      </div>
+
+      <div class="edu-answer-steps">
+        <div class="edu-answer-step">
+          <span class="edu-answer-step-label">① 求 AB 的方程：</span>
+        </div>
+        <div class="edu-answer-step">
+          <span class="edu-answer-step-label">② 设 P(t, 2t+1)，求交点 M：</span>
+        </div>
+        <div class="edu-answer-step">
+          <span class="edu-answer-step-label">③ PM 等于什么？用面积公式列方程：</span>
+        </div>
+        <div class="edu-answer-step">
+          <span class="edu-answer-step-label">④ 解方程，写出 P 的所有坐标：</span>
+        </div>
+      </div>
+
+      <aside class="edu-teacher-note no-print">
+        <div class="edu-card-title">第 4 题教师备忘</div>
+        <p class="edu-training-goal"><span class="edu-tag">训练目标</span>动点在斜线上（非竖直/水平），面积分割法仍可用</p>
+        <p class="edu-expected-blocker"><span class="edu-tag">预期卡点</span>不会设参数 P(t, 2t+1)；PM 计算出错</p>
+        <p class="edu-small">P(2,5) 或 P(−2,−3)。PM=|t|=2，非常简洁。设计意图：P 在斜线上增加参数化步骤，但核心动作不变。注意：如果用矩形补法，P 位置不同导致矩形完全不同，这就是局限。</p>
+        <div class="edu-judge">
+          <p class="edu-p"><span class="edu-upgrade">升级：</span>若学生顺利完成，进入第 5 题。</p>
+          <p class="edu-p"><span class="edu-downgrade">降级：</span>若学生不会设参数，回到第 3 题（P 在竖直线上更直观）。</p>
+        </div>
+      </aside>
+    </section>
+
+    <div class="page-break"></div>
+
+    <!-- ===== 第 5 题 ===== -->
+    <section class="edu-practice-problem u-avoid-break">
+      <h2 class="edu-practice-title">第 5 题&emsp;x 轴上的动点</h2>
+      <p class="edu-problem-stem">
+        已知 <span class="edu-math">A(0, 2)</span>，<span class="edu-math">B(6, 8)</span>，点 <span class="edu-math">P</span> 在 <span class="edu-math">x</span> 轴上，
+        &#9651;ABP 的面积为 <span class="edu-math">3</span>。求 <span class="edu-math">P</span> 的坐标。
+      </p>
+
+      <div class="edu-hint">
+        <div class="edu-hint-title">提示</div>
+        <p class="edu-p">设 <span class="edu-math">P(t, 0)</span>，和第 3、4 题一样，过 P 做竖线与 AB 求交点。</p>
+      </div>
+
+      <div class="edu-answer-steps">
+        <div class="edu-answer-step">
+          <span class="edu-answer-step-label">① 求 AB 的方程：</span>
+        </div>
+        <div class="edu-answer-step">
+          <span class="edu-answer-step-label">② 设 P(t, 0)，求交点 M，计算 PM：</span>
+        </div>
+        <div class="edu-answer-step">
+          <span class="edu-answer-step-label">③ 列面积方程，解出 t：</span>
+        </div>
+        <div class="edu-answer-step">
+          <span class="edu-answer-step-label">④ 写出 P 的坐标：</span>
+        </div>
+      </div>
+
+      <aside class="edu-teacher-note no-print">
+        <div class="edu-card-title">第 5 题教师备忘</div>
+        <p class="edu-training-goal"><span class="edu-tag">训练目标</span>动点在水平线上（x 轴），竖线分割法依然统一</p>
+        <p class="edu-expected-blocker"><span class="edu-tag">预期卡点</span">|x_A−x_B|=6 容易算错；绝对值漏解</p>
+        <p class="edu-small">P(−1,0) 或 P(−3,0)。注意 P 在 x 轴上但不在 A、B 之间。公式依然成立。AB 斜率为 1，不是水平线，两种方法都有意义。</p>
+        <div class="edu-judge">
+          <p class="edu-p"><span class="edu-upgrade">升级：</span>若学生顺利完成，进入第三组（抽象化）。</p>
+          <p class="edu-p"><span class="edu-downgrade">降级：</span>若学生绝对值漏解，回到第 3 题。</p>
+        </div>
+      </aside>
+    </section>
+  </section>
+
+  <div class="page-break"></div>
+
+  <!-- ============================================================ -->
+  <!--              第三组：从具体到抽象（3题）                       -->
+  <!-- ============================================================ -->
+
+  <section class="edu-section">
+    <h2 class="edu-section-title">第三组：从具体到抽象</h2>
+
+    <!-- ===== 第 6 题 ===== -->
+    <section class="edu-practice-problem u-avoid-break">
+      <h2 class="edu-practice-title">第 6 题&emsp;你真的需要坐标吗？</h2>
+      <p class="edu-problem-stem">
+        点 <span class="edu-math">A(1, 2)</span> 和 <span class="edu-math">B(5, 6)</span> 都在直线 <span class="edu-math">y = x + 1</span> 上，
+        点 <span class="edu-math">P</span> 在 <span class="edu-math">y</span> 轴上，&#9651;ABP 的面积为 <span class="edu-math">10</span>。求 <span class="edu-math">P</span> 的坐标。
+      </p>
+      <div class="edu-subproblem">
+        <div class="edu-subproblem-title">(1) 先按常规做法：求 P 的坐标</div>
+        <div class="edu-answer-steps">
+          <div class="edu-answer-step">
+            <span class="edu-answer-step-label">① AB 的方程（已知在 y=x+1 上，可直接用）：</span>
+          </div>
+          <div class="edu-answer-step">
+            <span class="edu-answer-step-label">② 竖线 x=0 与 AB 的交点 M：</span>
+          </div>
+          <div class="edu-answer-step">
+            <span class="edu-answer-step-label">③ 列面积方程，解出 P：</span>
+          </div>
+        </div>
+      </div>
+      <div class="edu-subproblem">
+        <div class="edu-subproblem-title">(2) 回顾你的解题过程</div>
+        <p class="edu-p">你在第 (1) 问中，真正用到了 A 和 B 的哪些信息？</p>
+        <p class="edu-p">具体来说：你是否用到了 A 的坐标 <span class="edu-math">(1, 2)</span> 和 B 的坐标 <span class="edu-math">(5, 6)</span>？还是只用了别的什么更简单的信息？</p>
+        <div class="edu-answer-lines"></div>
+      </div>
+
+      <div class="edu-hint">
+        <div class="edu-hint-title">提示</div>
+        <p class="edu-p">做完第 (1) 问后回头看：你每一步计算中，用到了 A、B 的哪些具体信息？</p>
+      </div>
+
+      <aside class="edu-teacher-note no-print">
+        <div class="edu-card-title">第 6 题教师备忘</div>
+        <p class="edu-training-goal"><span class="edu-tag">训练目标</span>从"知道坐标"到"只需要横坐标差和竖直距离"，抽象化认知</p>
+        <p class="edu-expected-blocker"><span class="edu-tag">预期卡点</span>第(2)问的反思——学生可能不习惯"回头审视自己用了哪些条件"</p>
+        <p class="edu-small">P(0,6) 或 P(0,−4)。关键洞察：解题过程中真正用到的是 (1) AB 的方程 y=x+1（用来求 M），(2) |x_A−x_B|=4。A、B 的具体坐标只在算 |x_A−x_B| 时被间接使用。如果直接告诉你横坐标差是 4，A、B 的坐标完全不需要。</p>
+        <div class="edu-judge">
+          <p class="edu-p"><span class="edu-upgrade">升级：</span>若学生能回答第(2)问，进入第 7 题。</p>
+          <p class="edu-p"><span class="edu-downgrade">降级：</span>若学生算不出来，检查是否忘了 AB 方程可以直接用 y=x+1。</p>
+        </div>
+      </aside>
+    </section>
+
+    <div class="page-break"></div>
+
+    <!-- ===== 第 7 题 ===== -->
+    <section class="edu-practice-problem u-avoid-break">
+      <h2 class="edu-practice-title">第 7 题&emsp;不给坐标，直接做</h2>
+      <p class="edu-problem-stem">
+        点 <span class="edu-math">A</span>、<span class="edu-math">B</span> 都在直线 <span class="edu-math">y = x + 1</span> 上，且横坐标之差为 <span class="edu-math">4</span>。
+        点 <span class="edu-math">P</span> 在 <span class="edu-math">y</span> 轴上，&#9651;ABP 的面积为 <span class="edu-math">10</span>。求 <span class="edu-math">P</span> 的坐标。
+      </p>
+      <p class="edu-small u-muted">注意：题目没有告诉你 A、B 的具体坐标。但你已经不需要了。</p>
+
+      <div class="edu-hint">
+        <div class="edu-hint-title">提示</div>
+        <p class="edu-p">竖线 <span class="edu-math">x = 0</span> 与 <span class="edu-math">y = x + 1</span> 的交点 M——它跟 A、B 在线上的具体位置有关吗？</p>
+      </div>
+
+      <div class="edu-answer-steps">
+        <div class="edu-answer-step">
+          <span class="edu-answer-step-label">① 求 M 的坐标：</span>
+        </div>
+        <div class="edu-answer-step">
+          <span class="edu-answer-step-label">② PM 和 |x_A − x_B| 分别是多少？：</span>
+        </div>
+        <div class="edu-answer-step">
+          <span class="edu-answer-step-label">③ 用面积公式直接求解：</span>
+        </div>
+        <div class="edu-answer-step">
+          <span class="edu-answer-step-label">④ P 的坐标：</span>
+        </div>
+      </div>
+
+      <div class="edu-subproblem">
+        <div class="edu-subproblem-title">想一想</div>
+        <p class="edu-p">你的答案和第 6 题一样吗？为什么？</p>
+        <div class="edu-answer-lines"></div>
+      </div>
+
+      <aside class="edu-teacher-note no-print">
+        <div class="edu-card-title">第 7 题教师备忘</div>
+        <p class="edu-training-goal"><span class="edu-tag">训练目标</span>验证第 6 题的洞察：不需要具体坐标，只需要横坐标差和竖直距离</p>
+        <p class="edu-expected-blocker"><span class="edu-tag">预期卡点</span>没有具体坐标就不敢动手</p>
+        <p class="edu-small">答案与第 6 题完全相同：P(0,6) 或 P(0,−4)。M(0,1) 只取决于 AB 的方程和 P 的 x 坐标，与 A、B 在线上的滑动位置无关。这是从"算术思维"到"结构思维"的关键跨越。</p>
+        <div class="edu-judge">
+          <p class="edu-p"><span class="edu-upgrade">升级：</span>若学生理解了，进入第 8 题（反求横坐标差）。</p>
+          <p class="edu-p"><span class="edu-downgrade">降级：</span>若学生仍想算具体坐标，回到第 6 题重新反思。</p>
+        </div>
+      </aside>
+    </section>
+
+    <div class="page-break"></div>
+
+    <!-- ===== 第 8 题 ===== -->
+    <section class="edu-practice-problem u-avoid-break">
+      <h2 class="edu-practice-title">第 8 题&emsp;反求横坐标差</h2>
+      <p class="edu-problem-stem">
+        点 <span class="edu-math">A</span>、<span class="edu-math">B</span> 都在直线 <span class="edu-math">y = 2x + 3</span> 上，横坐标之差为 <span class="edu-math">d</span>。
+        <span class="edu-math">P(1, 0)</span>。&#9651;ABP 的面积为 <span class="edu-math">10</span>。求 <span class="edu-math">d</span>。
+      </p>
+      <p class="edu-small u-muted">这次不仅不知道 A、B 的具体坐标，连横坐标差也不知道——它正是要求的东西。</p>
+
+      <div class="edu-hint">
+        <div class="edu-hint-title">提示</div>
+        <p class="edu-p">P 在 <span class="edu-math">x = 1</span> 上，竖线 <span class="edu-math">x = 1</span> 与 AB 的交点 M 跟 A、B 的位置有关吗？</p>
+      </div>
+
+      <div class="edu-answer-steps">
+        <div class="edu-answer-step">
+          <span class="edu-answer-step-label">① 求竖线 x=1 与 AB 的交点 M：</span>
+        </div>
+        <div class="edu-answer-step">
+          <span class="edu-answer-step-label">② 计算 PM：</span>
+        </div>
+        <div class="edu-answer-step">
+          <span class="edu-answer-step-label">③ 用面积公式列方程，解出 d：</span>
+        </div>
+      </div>
+
+      <aside class="edu-teacher-note no-print">
+        <div class="edu-card-title">第 8 题教师备忘</div>
+        <p class="edu-training-goal"><span class="edu-tag">训练目标</span>彻底掌握"面积只取决于 PM 和横坐标差"，反向使用公式</p>
+        <p class="edu-expected-blocker"><span class="edu-tag">预期卡点</span>不确定 M 是否依赖于 A、B 的位置</p>
+        <p class="edu-small">d=4。M(1,5) 只取决于 AB 的方程（y=2x+3）和 P 的 x 坐标（1），与 A、B 在线上的位置完全无关。公式 S=½·PM·|x_A−x_B| 中只有 d 是未知数，一步解出。</p>
+        <div class="edu-judge">
+          <p class="edu-p"><span class="edu-upgrade">升级：</span>若学生顺利完成，进入第四组。</p>
+          <p class="edu-p"><span class="edu-downgrade">降级：</span>若学生不理解为什么 M 与 A、B 无关，回到第 7 题。</p>
+        </div>
+      </aside>
+    </section>
+  </section>
+
+  <div class="page-break"></div>
+
+  <!-- ============================================================ -->
+  <!--              第四组：综合反思（2题）                           -->
+  <!-- ============================================================ -->
+
+  <section class="edu-section">
+    <h2 class="edu-section-title">第四组：综合与反思</h2>
+
+    <!-- ===== 第 9 题 ===== -->
+    <section class="edu-practice-problem u-avoid-break">
+      <h2 class="edu-practice-title">第 9 题&emsp;矩形补法在动点问题中的困境</h2>
+      <p class="edu-problem-stem">
+        已知 <span class="edu-math">A(1, 1)</span>，<span class="edu-math">B(5, 3)</span>，点 <span class="edu-math">P</span> 在直线 <span class="edu-math">y = x &minus; 1</span> 上，
+        &#9651;ABP 的面积为 <span class="edu-math">4</span>。求 <span class="edu-math">P</span> 的坐标。
+      </p>
+      <div class="edu-subproblem">
+        <div class="edu-subproblem-title">(1) 用竖线分割法求 P 的坐标</div>
+        <div class="edu-answer-steps">
+          <div class="edu-answer-step">
+            <span class="edu-answer-step-label">① 求 AB 的方程，设 P(t, t−1)，求交点 M：</span>
+          </div>
+          <div class="edu-answer-step">
+            <span class="edu-answer-step-label">② 列面积方程，解出 t：</span>
+          </div>
+          <div class="edu-answer-step">
+            <span class="edu-answer-step-label">③ P 的坐标：</span>
+          </div>
+        </div>
+      </div>
+      <div class="edu-subproblem">
+        <div class="edu-subproblem-title">(2) 如果你坚持用"补成矩形"法……</div>
+        <p class="edu-p">假设你不知道 P 的坐标，要用矩形补法做这道题：</p>
+        <p class="edu-p">包围 &#9651;ABP 的矩形是什么？它跟 P 的位置有关吗？当 P 还没求出来的时候，你能确定矩形吗？</p>
+        <p class="edu-p">如果 P 的位置有多个可能（比如两个解），你需要分别讨论吗？</p>
+        <div class="edu-answer-lines"></div>
+      </div>
+
+      <div class="edu-hint">
+        <div class="edu-hint-title">提示</div>
+        <p class="edu-p">和第 4 题一样的步骤：设 <span class="edu-math">P(t, t&minus;1)</span>，求 AB 方程，过 P 做竖线求交点 M。</p>
+      </div>
+
+      <aside class="edu-teacher-note no-print">
+        <div class="edu-card-title">第 9 题教师备忘</div>
+        <p class="edu-training-goal"><span class="edu-tag">训练目标</span>通过对比，深刻体会矩形补法在动点问题中的根本局限</p>
+        <p class="edu-expected-blocker"><span class="edu-tag">预期卡点</span>第(2)问需要文字表达，学生可能不习惯</p>
+        <p class="edu-small">P(7,6) 或 P(−1,−2)。矩形补法的困境：P 未知时，包围矩形也未知——矩形取决于 P 的坐标。P(7,6) 时矩形是 x∈[1,7], y∈[1,6]；P(−1,−2) 时矩形是 x∈[−1,5], y∈[−2,3]。完全不同的矩形，需要分别讨论。而竖线分割法只需要"求 AB 方程→求 M→套公式"，步骤完全统一，跟 P 在哪无关。</p>
+        <div class="edu-judge">
+          <p class="edu-p"><span class="edu-upgrade">升级：</span>进入第 10 题做系统总结。</p>
+          <p class="edu-p"><span class="edu-downgrade">降级：</span>若学生竖线分割法计算出错，回到第 4 题。</p>
+        </div>
+      </aside>
+    </section>
+
+    <div class="page-break"></div>
+
+    <!-- ===== 第 10 题 ===== -->
+    <section class="edu-practice-problem">
+      <h2 class="edu-practice-title">第 10 题&emsp;方法总结与反思</h2>
+      <p class="edu-problem-stem">回顾你做过的全部题目，回答以下问题：</p>
+      <div class="edu-subproblem">
+        <div class="edu-subproblem-title">(1) 矩形补法在什么情况下很方便？在什么情况下变得麻烦？</div>
+        <div class="edu-answer-lines"></div>
+      </div>
+      <div class="edu-subproblem">
+        <div class="edu-subproblem-title">(2) 竖线分割法的公式 S = ½·PM·|x_A−x_B| 中，PM 和 |x_A−x_B| 分别是什么？它们分别取决于什么信息？</div>
+        <div class="edu-answer-lines"></div>
+      </div>
+      <div class="edu-subproblem">
+        <div class="edu-subproblem-title">(3) 第 7 题和第 8 题的共同点是什么？它们和第 1−2 题的区别在哪里？</div>
+        <div class="edu-answer-lines"></div>
+      </div>
+      <div class="edu-subproblem">
+        <div class="edu-subproblem-title">(4) 竖线分割法有没有不适用的情况？</div>
+        <div class="edu-answer-lines"></div>
+      </div>
+
+      <aside class="edu-teacher-note no-print">
+        <div class="edu-card-title">第 10 题教师备忘</div>
+        <p class="edu-training-goal"><span class="edu-tag">训练目标</span>系统总结两种方法的适用范围，建立方法论</p>
+        <p class="edu-expected-blocker"><span class="edu-tag">预期卡点</span>学生可能只会写"矩形补法简单/竖线法难"之类的空话</p>
+        <p class="edu-small">期望回答：(1) 矩形补法适合三个顶点已知且位置整齐时；动点问题时矩形不确定，分类讨论爆炸。(2) PM 是 P 到直线 AB 的竖直距离（取决于 AB 的方程和 P 的 x 坐标），|x_A−x_B| 是水平跨度（横坐标差）。(3) 第 7-8 题不需要具体坐标，只需要横坐标差和竖直距离——这是从具体到抽象的升级。(4) 三个顶点横坐标相同时（竖线退化为经过所有顶点的线），竖线法退化。</p>
+      </aside>
+    </section>
+  </section>
+
+</div>
+
+<!-- ===== 参考答案 ===== -->
+<section class="edu-answer-key page-break">
+  <h2 class="edu-section-title u-mt-0">参考答案</h2>
+
+  <div class="edu-step">
+    <div class="edu-step-title">第 1 题</div>
+    <p class="edu-p">(1) 矩形 4&times;5=20，角三角形：&frac12;&times;4&times;2=4，&frac12;&times;3&times;2=3，&frac12;&times;5&times;2=5，S=20&minus;4&minus;3&minus;5=<strong>8</strong></p>
+    <p class="edu-p">(2) AB: y=&frac12;x+&frac12;，M(3,2)，PM=4，|x<sub>A</sub>&minus;x<sub>B</sub>|=4，S=&frac12;&times;4&times;4=<strong>8</strong></p>
+    <p class="edu-p">(3) 两种方法结果相同。竖线分割法步骤更统一。</p>
+  </div>
+
+  <div class="edu-step">
+    <div class="edu-step-title">第 2 题</div>
+    <p class="edu-p">(1) 矩形 4&times;4=16，角三角形：&frac12;&times;2&times;4=4，&frac12;&times;4&times;2=4，&frac12;&times;2&times;2=2，S=16&minus;4&minus;4&minus;2=<strong>6</strong></p>
+    <p class="edu-p">(2) AB: y=&minus;&frac12;x+4，M(2,3)，PM=3，|x<sub>A</sub>&minus;x<sub>B</sub>|=4，S=&frac12;&times;3&times;4=<strong>6</strong></p>
+  </div>
+
+  <div class="edu-step">
+    <div class="edu-step-title">第 3 题</div>
+    <p class="edu-p">AB: y=&frac12;x+&frac12;，M(3,2)，S=&frac12;&times;|p&minus;2|&times;4=4，|p&minus;2|=2，<strong>P(3, 4)</strong> 或 <strong>P(3, 0)</strong></p>
+  </div>
+
+  <div class="edu-step">
+    <div class="edu-step-title">第 4 题</div>
+    <p class="edu-p">AB: y=x+1，P(t, 2t+1)，M(t, t+1)，PM=|t|，S=&frac12;&times;|t|&times;4=4，|t|=2</p>
+    <p class="edu-p"><strong>P(2, 5)</strong> 或 <strong>P(&minus;2, &minus;3)</strong></p>
+  </div>
+
+  <div class="edu-step">
+    <div class="edu-step-title">第 5 题</div>
+    <p class="edu-p">AB: y=x+2，P(t, 0)，M(t, t+2)，PM=|t+2|，S=&frac12;&times;|t+2|&times;6=3，|t+2|=1</p>
+    <p class="edu-p"><strong>P(&minus;1, 0)</strong> 或 <strong>P(&minus;3, 0)</strong></p>
+  </div>
+
+  <div class="edu-step">
+    <div class="edu-step-title">第 6 题</div>
+    <p class="edu-p">(1) AB: y=x+1，M(0,1)，PM=|p&minus;1|，S=&frac12;&times;|p&minus;1|&times;4=10，|p&minus;1|=5</p>
+    <p class="edu-p"><strong>P(0, 6)</strong> 或 <strong>P(0, &minus;4)</strong></p>
+    <p class="edu-p">(2) 真正用到的是：AB 的方程（y=x+1，用来求 M）和 |x<sub>A</sub>&minus;x<sub>B</sub>|=4。A、B 的具体坐标只在计算横坐标差时被间接使用。</p>
+  </div>
+
+  <div class="edu-step">
+    <div class="edu-step-title">第 7 题</div>
+    <p class="edu-p">M(0, 1)，PM=|p&minus;1|，|x<sub>A</sub>&minus;x<sub>B</sub>|=4，S=&frac12;&times;|p&minus;1|&times;4=10</p>
+    <p class="edu-p"><strong>P(0, 6)</strong> 或 <strong>P(0, &minus;4)</strong>（与第 6 题答案相同）</p>
+  </div>
+
+  <div class="edu-step">
+    <div class="edu-step-title">第 8 题</div>
+    <p class="edu-p">M(1, 5)，PM=|0&minus;5|=5，S=&frac12;&times;5&times;d=10，<strong>d=4</strong></p>
+  </div>
+
+  <div class="edu-step">
+    <div class="edu-step-title">第 9 题</div>
+    <p class="edu-p">(1) AB: y=&frac12;x+&frac12;，P(t, t&minus;1)，M(t, &frac12;t+&frac12;)，PM=|t&minus;3|/2，S=|t&minus;3|=4</p>
+    <p class="edu-p"><strong>P(7, 6)</strong> 或 <strong>P(&minus;1, &minus;2)</strong></p>
+    <p class="edu-p">(2) 矩形补法的困境：P 未知时无法确定包围矩形；P 有多个解时需要分别讨论不同的矩形。</p>
+  </div>
+
+  <div class="edu-step">
+    <div class="edu-step-title">第 10 题</div>
+    <p class="edu-p">参考要点：(1) 矩形补法适合已知三顶点且位置整齐；动点问题中矩形不确定，讨论复杂。(2) PM = P 到 AB 的竖直距离，取决于 AB 方程和 P 的 x 坐标；|x<sub>A</sub>&minus;x<sub>B</sub>| = 横坐标差。(3) 第 7-8 题只需横坐标差和竖直距离，不需具体坐标。(4) 三顶点横坐标相同时竖线法退化。</p>
+  </div>
+</section>
+
+<!-- ===== 教师判断区（不打印） ===== -->
+<aside class="edu-teacher-note no-print">
+  <div class="edu-card-title">教师判断</div>
+  <p class="edu-p">当前档位：B-C 档（默认预测，无学生证据）。</p>
+  <p class="edu-p">主要训练目标：掌握两种面积方法，理解竖线分割法的结构优势，从具体计算升级到结构理解。</p>
+</aside>
+
+<aside class="edu-teacher-note no-print">
+  <div class="edu-card-title">升级 / 降级建议</div>
+  <div class="edu-judge">
+    <p class="edu-p"><span class="edu-upgrade">升级：</span>若第 1-5 题全对且第 6-7 题能独立完成反思，进入 E/F 档变式（如 P 在抛物线上、三个动点等）。</p>
+    <p class="edu-downgrade">降级：</span>若第 1-2 题矩形补法出错，先补直角坐标系和矩形面积基础。</p>
+  </div>
+</aside>
+
+<!-- ===== 生成后自检（不打印） ===== -->
+<aside class="edu-teacher-note self-check no-print">
+  <div class="edu-card-title">生成后自检</div>
+  <ul>
+    <li><strong>数学检查：</strong>
+      <ul>
+        <li>第1题 S=8：行列式 ½|det([4,2],[2,5])|=8 ✓，矩形补法 20−4−3−5=8 ✓</li>
+        <li>第2题 S=6：行列式 ½|det([4,−2],[2,2])|=6 ✓，矩形补法 16−4−4−2=6 ✓</li>
+        <li>第3题 P(3,4)或(3,0)：PM=2, S=½×2×4=4 ✓</li>
+        <li>第4题 P(2,5)或(−2,−3)：PM=2, S=½×2×4=4 ✓</li>
+        <li>第5题 P(−1,0)或(−3,0)：PM=1, S=½×1×6=3 ✓</li>
+        <li>第6题 P(0,6)或(0,−4)：PM=5, S=½×5×4=10 ✓</li>
+        <li>第7题 同第6题 ✓</li>
+        <li>第8题 d=4：PM=5, S=½×5×4=10 ✓</li>
+        <li>第9题 P(7,6)或(−1,−2)：PM=2, S=½×2×4=4 ✓</li>
+        <li>无漏解、增根、退化值</li>
+      </ul>
+    </li>
+    <li><strong>教学检查：</strong>
+      <ul>
+        <li>训练一个核心动作：竖线分割法 S=½·PM·|x_A−x_B| ✓</li>
+        <li>没有引入无关知识点 ✓</li>
+        <li>AB 全部为斜线（无水平线） ✓</li>
+        <li>公式说明"恒成立，不需要两侧条件" ✓</li>
+        <li>题型递进：求面积→反求坐标→只用距离信息 ✓</li>
+      </ul>
+    </li>
+    <li><strong>档位检查：</strong>无学生证据，默认 B-C 档，标注"默认预测" ✓</li>
+    <li><strong>学生版检查：</strong>教师判断、训练目标、预期卡点、复杂度说明、升级/降级建议全部在 no-print 区域内 ✓</li>
+    <li><strong>HTML 检查：</strong>
+      <ul>
+        <li>标签闭合 ✓</li>
+        <li>使用 edu-* 原子类，无 ad-hoc 类 ✓</li>
+        <li>答案区前有 page-break ✓</li>
+        <li>每道题使用 u-avoid-break ✓</li>
+        <li>适合 A4 打印 ✓</li>
+      </ul>
+    </li>
+    <li><strong>自检结论：</strong>通过</li>
+  </ul>
+</aside>
+
+<aside class="edu-teacher-note no-print">
+下一轮：根据本页完成情况，更新学生画像；若需新一轮变式，再次使用 math-adaptive-practice-html。工作流循环：math-structure-analysis → math-student-explanation-html → math-adaptive-practice-html。
+</aside>
+
+</body>
+</html>

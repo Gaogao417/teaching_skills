@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>学生版讲解：y = ln(x - 1) 的定义域</title>
+<link rel="stylesheet" href="edu-print.css">
+<style>
+.u-avoid-break { break-inside: avoid; page-break-inside: avoid; }
+</style>
+</head>
+<body data-view="student">
+<div class="edu-page">
+
+  <h1 class="edu-title">学生版讲解：y = ln(x - 1) 的定义域</h1>
+  <p class="edu-subtitle">主题：对数函数的定义域</p>
+
+  <!-- 原题 -->
+  <section class="edu-problem-card u-avoid-break">
+    <div class="edu-problem-title">原题</div>
+    <p class="edu-problem-stem">求函数 <span class="edu-math">y = ln(x - 1)</span> 的定义域。</p>
+  </section>
+
+  <!-- 一、拆题 -->
+  <section class="edu-section">
+    <h2 class="edu-section-title">一、先把题目拆开</h2>
+    <table class="edu-table edu-task-table">
+      <tr><th>已知条件</th><td>函数表达式为 y = ln(x - 1)，这是一个对数函数</td></tr>
+      <tr><th>要求目标</th><td>求定义域——哪些 x 值能让这个式子算得出来</td></tr>
+      <tr><th>关键词</th><td>ln（自然对数）、定义域、真数</td></tr>
+      <tr><th>容易忽略</th><td>对数括号里的东西（真数）必须大于 0</td></tr>
+    </table>
+  </section>
+
+  <!-- 二、路线 -->
+  <section class="edu-section">
+    <h2 class="edu-section-title">二、这题准备怎么走</h2>
+    <div class="edu-route">
+      <ol>
+        <li>看清楚：ln 后面括号里是 <span class="edu-math">x - 1</span>，这就是"真数"</li>
+        <li>想条件：真数必须大于 0，所以 <span class="edu-math">x - 1 &gt; 0</span></li>
+        <li>解不等式：移项得 <span class="edu-math">x &gt; 1</span></li>
+        <li>写答案：用区间表示法写成 <span class="edu-math">(1, +&infin;)</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- 三、关键想法 -->
+  <section class="edu-section">
+    <h2 class="edu-section-title">三、关键想法</h2>
+    <div class="edu-key-idea">
+      <strong>核心动作：</strong>看到 ln(   )，第一步就是把括号里的东西设为大于 0。<br>
+      不用想别的，直接写：<span class="edu-math">括号里的式子 &gt; 0</span>，然后解这个不等式。
+    </div>
+  </section>
+
+  <!-- 四、标准解法 -->
+  <section class="edu-section">
+    <h2 class="edu-section-title">四、标准解法</h2>
+    <div class="edu-subproblem">
+      <div class="edu-subproblem-title">求 y = ln(x - 1) 的定义域</div>
+
+      <div class="edu-step u-avoid-break">
+        <div class="edu-step-title">第 1 步：找到真数</div>
+        <p class="edu-p">
+          函数 <span class="edu-math">y = ln(x - 1)</span> 中，ln 后面括号里的 <span class="edu-math">x - 1</span> 就是真数。
+        </p>
+        <p class="edu-step-why">为什么要找真数？因为对数函数只接受正数输入，负数和 0 都不行。</p>
+      </div>
+
+      <div class="edu-step u-avoid-break">
+        <div class="edu-step-title">第 2 步：令真数大于 0</div>
+        <p class="edu-p">
+          <span class="edu-math">x - 1 &gt; 0</span>
+        </p>
+        <p class="edu-step-why">ln 的括号里必须填正数。填 0 → ln(0) 算不出来；填负数 → ln(-1) 也算不出来。只有正数才行。</p>
+      </div>
+
+      <div class="edu-step u-avoid-break">
+        <div class="edu-step-title">第 3 步：解不等式</div>
+        <p class="edu-p">
+          <span class="edu-math">x - 1 &gt; 0</span>，两边同时加 1，得 <span class="edu-math"><strong>x &gt; 1</strong></span>
+        </p>
+        <p class="edu-step-why">一元一次不等式，移项即解。</p>
+      </div>
+
+      <div class="edu-step u-avoid-break">
+        <div class="edu-step-title">第 4 步：用区间表示法写出定义域</div>
+        <div class="edu-formula-key">
+          定义域为 (1, +&infin;)
+        </div>
+        <p class="edu-step-why">圆括号表示不包含端点 1。x = 1 代入得 ln(0)，无意义。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 五、边讲边问 -->
+  <div class="page-break"></div>
+  <section class="edu-section">
+    <h2 class="edu-section-title">五、边讲边问</h2>
+
+    <div class="edu-question u-avoid-break">
+      <div class="edu-question-title">想一想 1</div>
+      <p class="edu-p">ln(1) 等于多少？ln(0) 呢？ln(-3) 呢？</p>
+      <span class="edu-blank-line"></span>
+    </div>
+
+    <div class="edu-question u-avoid-break">
+      <div class="edu-question-title">想一想 2</div>
+      <p class="edu-p">如果题目变成 <span class="edu-math">y = ln(x + 2)</span>，你应该先写什么不等式？</p>
+      <span class="edu-blank-line"></span>
+    </div>
+
+    <div class="edu-question u-avoid-break">
+      <div class="edu-question-title">想一想 3</div>
+      <p class="edu-p">解 <span class="edu-math">x + 2 &gt; 0</span> 得到什么？定义域写成区间怎么写？</p>
+      <span class="edu-blank-line"></span>
+      <span class="edu-blank-line"></span>
+    </div>
+  </section>
+
+  <!-- 六、易错提醒 -->
+  <section class="edu-section">
+    <h2 class="edu-section-title">六、易错提醒</h2>
+
+    <div class="edu-mistake">
+      <strong>易错点 1：</strong>写成 <span class="edu-math">[1, +&infin;)</span>（用了方括号）。<br>
+      x = 1 时 ln(0) 无意义，端点 1 <strong>不能</strong>包含在内。必须用圆括号 <span class="edu-math">(1, +&infin;)</span>。
+    </div>
+
+    <div class="edu-mistake">
+      <strong>易错点 2：</strong>解不等式时方向搞反，写成 <span class="edu-math">x &lt; 1</span>。<br>
+      <span class="edu-math">x - 1 &gt; 0</span> 移项后是 <span class="edu-math">x &gt; 1</span>，不是 x &lt; 1。可以代值验证：x = 2 时 ln(1) = 0 没问题。
+    </div>
+  </section>
+
+  <!-- 七、总结 -->
+  <section class="edu-section">
+    <h2 class="edu-section-title">七、一句话总结</h2>
+    <div class="edu-key-idea">
+      求对数函数的定义域，就三步：<strong>找真数 → 令真数 &gt; 0 → 解不等式写区间</strong>。
+    </div>
+  </section>
+
+</div>
+
+<!-- 教师自检 -->
+<aside class="edu-teacher-note self-check no-print">
+  <div class="edu-card-title">生成后自检</div>
+  <ul>
+    <li><strong>数学检查：</strong>答案 (1, +∞) 与 canonical solution 一致；ln(x-1) 要求 x-1>0，解得 x>1，无漏解无增根；公式 ln(u) 要求 u>0 适用于本题。</li>
+    <li><strong>教学检查：</strong>本页只训练一个核心动作——"令真数 > 0"；未引入对数运算法则、换底公式等无关知识；互动问题（想一想 1/2/3）围绕真数 > 0 及不等式求解的核心链条。</li>
+    <li><strong>档位检查：</strong>默认假设学生为 A~D 档，讲解从"ln 是什么"开始，逐步到列不等式和区间表示，小步上升。</li>
+    <li><strong>HTML 检查：</strong>标签闭合；包含全部 required sections；不依赖网络 CDN（无 MathJax，公式用 HTML 实体）；使用 edu-print.css 适合 A4 打印；分页位置合理（标准解法与边讲边问之间分页）。</li>
+    <li><strong>自检结论：</strong>通过。</li>
+  </ul>
+</aside>
+
+<aside class="edu-teacher-note no-print">
+下一步：使用 math-adaptive-practice-html，输入本结构分析 + 学生画像，生成自适应练习。工作流：math-structure-analysis → math-student-explanation-html → math-adaptive-practice-html。
+</aside>
+
+</body>
+</html>

@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>自适应练习：扇形周长面积求圆心角</title>
+<style>
+:root {
+  --font-body: "SimSun", "Songti SC", "Noto Serif CJK SC", serif;
+  --font-heading: "SimHei", "Microsoft YaHei", sans-serif;
+  --font-math: "Times New Roman", "STIX Two Math", serif;
+  --text-main: #111;
+  --text-muted: #555;
+  --text-light: #777;
+  --border-strong: #111;
+  --border-main: #555;
+  --border-light: #aaa;
+  --accent-soft: #f6f9fc;
+  --accent-line: #9fb6d8;
+  --accent-line-light: #d7e1ee;
+  --accent-text: #2f527a;
+  --bg-white: #fff;
+  --bg-soft: #fafafa;
+  --bg-note: #f7f7f7;
+  --bg-warn: #fff6f2;
+  --bg-key: #fffdf0;
+  --bg-answer: #fcfcfc;
+  --space-xs: 1mm;
+  --space-sm: 2mm;
+  --space-md: 3mm;
+  --space-lg: 5mm;
+  --space-xl: 7mm;
+  --font-size-body: 12pt;
+  --font-size-small: 10.5pt;
+  --font-size-title: 18pt;
+  --font-size-h2: 13.5pt;
+  --font-size-h3: 12.5pt;
+  --line-body: 1.72;
+}
+@page { size: A4; margin: 16mm 14mm; }
+* { box-sizing: border-box; }
+body { margin: 0; color: var(--text-main); background: var(--bg-white); font-family: var(--font-body); font-size: var(--font-size-body); line-height: var(--line-body); }
+.edu-page { max-width: 186mm; margin: 0 auto; padding: 0 2mm; }
+.edu-title { margin: 0 0 var(--space-xl); text-align: center; font-family: var(--font-heading); font-size: var(--font-size-title); font-weight: 700; line-height: 1.35; }
+.edu-subtitle { margin: -4mm 0 var(--space-lg); text-align: center; color: var(--text-muted); font-size: var(--font-size-small); }
+.edu-section { margin: var(--space-lg) 0; }
+.edu-section-title { margin: var(--space-lg) 0 var(--space-sm); padding: 1.2mm 2mm; border-left: 2px solid var(--accent-line); border-bottom: 1px solid var(--accent-line-light); background: var(--accent-soft); font-family: var(--font-heading); font-size: var(--font-size-h2); font-weight: 700; line-height: 1.45; }
+.edu-p { margin: 0 0 2.5mm; }
+.edu-small { font-size: var(--font-size-small); color: var(--text-muted); }
+.edu-math { font-family: var(--font-math); font-style: italic; }
+.edu-strong { font-weight: 700; }
+.edu-card { margin: var(--space-md) 0; padding: 3mm 4mm; border: 1px solid var(--border-main); background: var(--bg-white); }
+.edu-card-soft { margin: var(--space-md) 0; padding: 3mm 4mm; border: 1px solid var(--border-light); background: var(--bg-soft); }
+.edu-card-title { margin: 0 0 var(--space-sm); font-family: var(--font-heading); font-weight: 700; }
+.edu-teacher-note { margin: var(--space-md) 0; padding: 2.5mm 3mm; border: 1px solid var(--border-light); background: var(--bg-note); color: var(--text-muted); font-size: var(--font-size-small); }
+.edu-key-idea { margin: var(--space-md) 0; padding: 3mm 4mm; border: 1.5px solid var(--border-strong); background: var(--bg-key); break-inside: avoid; page-break-inside: avoid; }
+.edu-table { width: 100%; border-collapse: collapse; margin: var(--space-md) 0; break-inside: avoid; page-break-inside: avoid; }
+.edu-table th, .edu-table td { border: 1px solid var(--border-main); padding: 1.8mm 2mm; vertical-align: top; }
+.edu-table th { font-family: var(--font-heading); background: var(--bg-soft); font-weight: 700; }
+.edu-practice-problem { margin: var(--space-lg) 0; padding: 3mm 4mm; border: 1px solid var(--border-main); background: var(--bg-white); break-inside: avoid; page-break-inside: avoid; }
+.edu-practice-title { margin: 0 0 var(--space-sm); font-family: var(--font-heading); font-size: var(--font-size-h3); font-weight: 700; }
+.edu-hint { margin: 2mm 0; padding: 2mm 3mm; border: 1px dashed var(--border-light); background: var(--bg-soft); font-size: 11pt; }
+.edu-hint-title { font-family: var(--font-heading); font-weight: 700; }
+.edu-tag { display: inline-block; margin-right: 1.5mm; padding: 0.5mm 2mm; border: 1px solid var(--border-main); background: var(--bg-soft); font-family: var(--font-heading); font-size: 10pt; }
+.edu-answer-steps { margin: var(--space-md) 0; border: 1px solid var(--border-light); }
+.edu-answer-step { min-height: 18mm; border-bottom: 1px solid #ddd; padding: 1.5mm 2mm; }
+.edu-answer-step:last-child { border-bottom: none; }
+.edu-answer-step-label { font-family: var(--font-heading); font-size: 10.5pt; color: var(--text-muted); }
+.edu-answer-key { margin: var(--space-lg) 0; padding: 3mm 4mm; border: 2px solid var(--border-strong); background: var(--bg-soft); }
+.edu-formula { margin: var(--space-md) 0; padding: 2.5mm 4mm; border: 1px solid var(--border-main); background: var(--bg-soft); text-align: center; font-family: var(--font-math); font-size: 12.5pt; }
+.edu-formula-key { margin: var(--space-md) 0; padding: 3mm 4mm; border: 1.5px solid var(--border-strong); background: var(--bg-key); text-align: center; font-family: var(--font-math); font-size: 13pt; break-inside: avoid; page-break-inside: avoid; }
+.edu-step { margin: var(--space-md) 0; padding: 2.5mm 3mm; border-left: 2px solid var(--accent-line-light); background: var(--bg-white); }
+.edu-step-title { margin: 0 0 var(--space-xs); font-family: var(--font-heading); font-weight: 700; }
+.edu-judge { margin: var(--space-md) 0; padding: 2mm 3mm; border-left: 2px solid var(--accent-line-light); background: var(--bg-note); font-size: var(--font-size-small); }
+.edu-upgrade { font-weight: 700; color: #176b3a; }
+.edu-downgrade { font-weight: 700; color: #a11; }
+.edu-training-goal, .edu-expected-blocker { margin: 2mm 0; font-size: var(--font-size-small); }
+.edu-route { margin: var(--space-md) 0; padding: 3mm 4mm; border: 1px solid var(--border-main); background: var(--bg-soft); break-inside: avoid; page-break-inside: avoid; }
+.edu-route ol { margin: 0; padding-left: 7mm; }
+.page-break { display: none; }
+.u-mt-0 { margin-top: 0 !important; }
+.u-mb-0 { margin-bottom: 0 !important; }
+.u-center { text-align: center; }
+.u-muted { color: var(--text-muted); }
+.u-small { font-size: var(--font-size-small); }
+.u-avoid-break { break-inside: avoid; page-break-inside: avoid; }
+.case-title { margin: var(--space-md) 0 var(--space-xs); padding: 1mm 3mm; border-left: 2px solid var(--accent-line-light); background: var(--accent-soft); font-family: var(--font-heading); font-weight: 700; }
+@media print {
+  body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .no-print { display: none !important; }
+  .page-break { display: block; break-before: page; page-break-before: always; }
+  .u-avoid-break { break-inside: avoid; page-break-inside: avoid; }
+  .edu-section-title { break-after: avoid; page-break-after: avoid; }
+  .edu-practice-title { break-after: avoid; page-break-after: avoid; }
+  .edu-hint-title { break-after: avoid; page-break-after: avoid; }
+  .edu-formula-key { break-after: avoid; page-break-after: avoid; }
+}
+@media screen {
+  body[data-view="student"] .edu-teacher-note.no-print { display: none; }
+  .page-break::before { content: "— 分页 —"; display: block; padding: 4mm 0; text-align: center; color: #bbb; font-size: 9pt; font-family: var(--font-heading); border-top: 1px dashed #ddd; border-bottom: 1px dashed #ddd; }
+}
+</style>
+</head>
+<body data-view="student">
+<div class="edu-page">
+
+  <h1 class="edu-title">自适应练习：扇形公式联立</h1>
+  <p class="edu-subtitle">核心动作：面积 → 消元 → 代入 → 解方程 → 求 <em class="edu-math">θ</em></p>
+
+  <section class="edu-section">
+    <h2 class="edu-section-title">练习说明</h2>
+    <p class="edu-p">本组练习只练一个核心动作：<strong>从面积算出 <em class="edu-math">rl</em>，消去 <em class="edu-math">l</em>，解一元二次方程求 <em class="edu-math">θ</em></strong>。每道题都围绕这个链条，难度逐步上升。</p>
+  </section>
+
+  <!-- 公式速查 -->
+  <section class="edu-section">
+    <h2 class="edu-section-title">公式速查</h2>
+    <div class="edu-formula"><em class="edu-math">l</em> = <em class="edu-math">r</em><em class="edu-math">θ</em>&emsp;|&emsp;<em class="edu-math">S</em> = (1/2)<em class="edu-math">rl</em>&emsp;|&emsp;<em class="edu-math">C</em> = 2<em class="edu-math">r</em> + <em class="edu-math">l</em></div>
+  </section>
+
+  <!-- 第 1 题 -->
+  <section class="edu-practice-problem u-avoid-break">
+    <h2 class="edu-practice-title">第 1 题：直接套公式</h2>
+    <p class="edu-p">已知扇形的半径 <em class="edu-math">r</em> = 3，弧长 <em class="edu-math">l</em> = 6，求圆心角 <em class="edu-math">θ</em> 的弧度数。</p>
+
+    <div class="edu-hint">
+      <div class="edu-hint-title">提示一</div>
+      <p class="edu-p">直接用弧长公式 <em class="edu-math">l</em> = <em class="edu-math">r</em><em class="edu-math">θ</em>，把 <em class="edu-math">r</em> 和 <em class="edu-math">l</em> 代入。</p>
+    </div>
+
+    <div class="edu-answer-steps">
+      <div class="edu-answer-step">
+        <span class="edu-answer-step-label">① 写出弧长公式并代入数值：</span>
+      </div>
+      <div class="edu-answer-step">
+        <span class="edu-answer-step-label">② 求出 <em class="edu-math">θ</em>：</span>
+      </div>
+    </div>
+
+    <aside class="edu-teacher-note no-print">
+      <div class="edu-card-title">第 1 题教师备忘</div>
+      <p class="edu-training-goal"><span class="edu-tag">训练目标</span>直接套 <em class="edu-math">θ</em> = <em class="edu-math">l</em>/<em class="edu-math">r</em>，检验学生是否认识弧长公式。</p>
+      <p class="edu-expected-blocker"><span class="edu-tag">预期卡点</span>记不住弧长公式；单位混淆（弧度 vs 角度）。</p>
+      <p class="edu-small">复杂度说明：纯代入计算，与原题消元无关，只测公式基础。</p>
+      <div class="edu-judge">
+        <p class="edu-p"><span class="edu-upgrade">升级：</span>若学生顺利完成，进入第 2 题。</p>
+        <p class="edu-p"><span class="edu-downgrade">降级：</span>若学生不会，回到讲解页复习三个扇形公式。</p>
+      </div>
+    </aside>
+  </section>
+
+  <!-- 第 2 题 -->
+  <section class="edu-practice-problem u-avoid-break">
+    <h2 class="edu-practice-title">第 2 题：同构换数值</h2>
+    <p class="edu-p">扇形周长为 10，面积为 6，求圆心角 <em class="edu-math">θ</em> 的弧度数。</p>
+
+    <div class="edu-hint">
+      <div class="edu-hint-title">提示一</div>
+      <p class="edu-p">和讲解题完全相同的做法：面积 (1/2)<em class="edu-math">rl</em> = 6 → <em class="edu-math">rl</em> = 12 → <em class="edu-math">l</em> = 12/<em class="edu-math">r</em>，代入周长 2<em class="edu-math">r</em> + <em class="edu-math">l</em> = 10。</p>
+    </div>
+    <div class="edu-hint">
+      <div class="edu-hint-title">提示二</div>
+      <p class="edu-p">得到 2<em class="edu-math">r</em> + 12/<em class="edu-math">r</em> = 10，即 2<em class="edu-math">r</em>&sup2; − 10<em class="edu-math">r</em> + 12 = 0。两边除以 2 后尝试因式分解。</p>
+    </div>
+
+    <div class="edu-answer-steps">
+      <div class="edu-answer-step">
+        <span class="edu-answer-step-label">① 从面积求出 <em class="edu-math">l</em> = ？（用 <em class="edu-math">r</em> 表示）：</span>
+      </div>
+      <div class="edu-answer-step">
+        <span class="edu-answer-step-label">② 代入周长方程，化为关于 <em class="edu-math">r</em> 的方程：</span>
+      </div>
+      <div class="edu-answer-step">
+        <span class="edu-answer-step-label">③ 解方程求 <em class="edu-math">r</em>，再求 <em class="edu-math">θ</em>：</span>
+      </div>
+    </div>
+
+    <aside class="edu-teacher-note no-print">
+      <div class="edu-card-title">第 2 题教师备忘</div>
+      <p class="edu-training-goal"><span class="edu-tag">训练目标</span>完整执行消元→代入→解方程链条，同构换数值。</p>
+      <p class="edu-expected-blocker"><span class="edu-tag">预期卡点</span>因式分解 <em class="edu-math">r</em>&sup2; − 5<em class="edu-math">r</em> + 6 = 0 时找错因数；只写一个解。</p>
+      <p class="edu-small">复杂度说明：与原题结构完全相同，数值变化，不超预算。</p>
+      <div class="edu-judge">
+        <p class="edu-p"><span class="edu-upgrade">升级：</span>若学生顺利完成，进入第 3 题。</p>
+        <p class="edu-p"><span class="edu-downgrade">降级：</span>若学生因式分解出错，回到第 1 题巩固公式基础。</p>
+      </div>
+    </aside>
+  </section>
+
+  <div class="page-break"></div>
+
+  <!-- 第 3 题 -->
+  <section class="edu-practice-problem u-avoid-break">
+    <h2 class="edu-practice-title">第 3 题：换条件组合</h2>
+    <p class="edu-p">扇形面积为 8，圆心角 <em class="edu-math">θ</em> = 2 弧度，求该扇形的周长。</p>
+
+    <div class="edu-hint">
+      <div class="edu-hint-title">提示一</div>
+      <p class="edu-p">已知面积和圆心角，目标是周长。面积 = (1/2)<em class="edu-math">r</em>&sup2;<em class="edu-math">θ</em>，这里 <em class="edu-math">θ</em> 已知，可以解出 <em class="edu-math">r</em>。</p>
+    </div>
+    <div class="edu-hint">
+      <div class="edu-hint-title">提示二</div>
+      <p class="edu-p">面积用 <em class="edu-math">S</em> = (1/2)<em class="edu-math">r</em>&sup2;<em class="edu-math">θ</em>，即 8 = (1/2)<em class="edu-math">r</em>&sup2;&times;2 = <em class="edu-math">r</em>&sup2;，所以 <em class="edu-math">r</em> = 2&radic;2。然后 <em class="edu-math">l</em> = <em class="edu-math">r</em><em class="edu-math">θ</em>，周长 = 2<em class="edu-math">r</em> + <em class="edu-math">l</em>。</p>
+    </div>
+
+    <div class="edu-answer-steps">
+      <div class="edu-answer-step">
+        <span class="edu-answer-step-label">① 用面积和圆心角求 <em class="edu-math">r</em>：</span>
+      </div>
+      <div class="edu-answer-step">
+        <span class="edu-answer-step-label">② 求 <em class="edu-math">l</em> 和周长：</span>
+      </div>
+    </div>
+
+    <aside class="edu-teacher-note no-print">
+      <div class="edu-card-title">第 3 题教师备忘</div>
+      <p class="edu-training-goal"><span class="edu-tag">训练目标</span>换条件组合：已知面积和 <em class="edu-math">θ</em>，先求 <em class="edu-math">r</em>，再求周长。检验学生能否灵活运用扇形公式的不同形式。</p>
+      <p class="edu-expected-blocker"><span class="edu-tag">预期卡点</span>不记得 <em class="edu-math">S</em> = (1/2)<em class="edu-math">r</em>&sup2;<em class="edu-math">θ</em> 这个形式；求出 <em class="edu-math">r</em> 后忘记 <em class="edu-math">r</em> &gt; 0 只取正值。</p>
+      <p class="edu-small">复杂度说明：涉及平方根但答案含根号可保留，不超预算。</p>
+      <div class="edu-judge">
+        <p class="edu-p"><span class="edu-upgrade">升级：</span>若学生顺利完成，说明已掌握扇形公式灵活运用，可进入第 4 题。</p>
+        <p class="edu-p"><span class="edu-downgrade">降级：</span>若学生不会用 <em class="edu-math">S</em> = (1/2)<em class="edu-math">r</em>&sup2;<em class="edu-math">θ</em>，回到讲解页复习公式。</p>
+      </div>
+    </aside>
+  </section>
+
+  <!-- 第 4 题 -->
+  <section class="edu-practice-problem u-avoid-break">
+    <h2 class="edu-practice-title">第 4 题：比值理解</h2>
+    <p class="edu-p">扇形周长为 6，面积为 2，求该扇形两个可能的弧长之比。</p>
+
+    <div class="edu-hint">
+      <div class="edu-hint-title">提示一</div>
+      <p class="edu-p">这道题不需要重新解方程。回顾讲解页的答案：两个可能的扇形分别对应 (<em class="edu-math">r</em> = 1, <em class="edu-math">l</em> = 4) 和 (<em class="edu-math">r</em> = 2, <em class="edu-math">l</em> = 2)。弧长之比就是这两个 <em class="edu-math">l</em> 的比值。</p>
+    </div>
+    <div class="edu-hint">
+      <div class="edu-hint-title">提示二</div>
+      <p class="edu-p">弧长之比 = 4 : 2 = 2 : 1。你能解释为什么 <em class="edu-math">l</em> 大的那个 <em class="edu-math">r</em> 反而小吗？</p>
+    </div>
+
+    <div class="edu-answer-steps">
+      <div class="edu-answer-step">
+        <span class="edu-answer-step-label">① 写出两个解对应的 (<em class="edu-math">r</em>, <em class="edu-math">l</em>)：</span>
+      </div>
+      <div class="edu-answer-step">
+        <span class="edu-answer-step-label">② 求弧长之比，并用几何意义解释：</span>
+      </div>
+    </div>
+
+    <aside class="edu-teacher-note no-print">
+      <div class="edu-card-title">第 4 题教师备忘</div>
+      <p class="edu-training-goal"><span class="edu-tag">训练目标</span>检验学生对"一题两解"的几何理解，以及比值运算能力。</p>
+      <p class="edu-expected-blocker"><span class="edu-tag">预期卡点</span>学生重新解一遍方程（不必要但不是错误）；比值写反（2:1 vs 1:2，注意谁在前）。</p>
+      <p class="edu-small">复杂度说明：计算量极小（比值），重点在理解。不超预算。</p>
+      <div class="edu-judge">
+        <p class="edu-p"><span class="edu-upgrade">升级：</span>若学生能解释几何意义，说明已达到 E 档水平。</p>
+        <p class="edu-p"><span class="edu-downgrade">降级：</span>若学生不会，回到第 2 题重新做一遍消元过程。</p>
+      </div>
+    </aside>
+  </section>
+
+  <!-- 参考答案 -->
+  <div class="page-break"></div>
+  <section class="edu-answer-key">
+    <h2 class="edu-section-title u-mt-0">参考答案</h2>
+
+    <div class="edu-step">
+      <div class="edu-step-title">第 1 题答案</div>
+      <div class="edu-formula"><em class="edu-math">θ</em> = <em class="edu-math">l</em>/<em class="edu-math">r</em> = 6/3 = <strong>2 弧度</strong></div>
+    </div>
+
+    <div class="edu-step">
+      <div class="edu-step-title">第 2 题答案</div>
+      <p class="edu-p">面积 (1/2)<em class="edu-math">rl</em> = 6 → <em class="edu-math">rl</em> = 12 → <em class="edu-math">l</em> = 12/<em class="edu-math">r</em></p>
+      <p class="edu-p">代入周长：2<em class="edu-math">r</em> + 12/<em class="edu-math">r</em> = 10</p>
+      <p class="edu-p">两边乘 <em class="edu-math">r</em>：2<em class="edu-math">r</em>&sup2; − 10<em class="edu-math">r</em> + 12 = 0 → <em class="edu-math">r</em>&sup2; − 5<em class="edu-math">r</em> + 6 = 0</p>
+      <div class="edu-formula">(<em class="edu-math">r</em> − 2)(<em class="edu-math">r</em> − 3) = 0，<em class="edu-math">r</em> = 2 或 <em class="edu-math">r</em> = 3</div>
+      <p class="edu-p"><em class="edu-math">r</em> = 2：<em class="edu-math">l</em> = 12/2 = 6，<em class="edu-math">θ</em> = 6/2 = <strong>3</strong></p>
+      <p class="edu-p"><em class="edu-math">r</em> = 3：<em class="edu-math">l</em> = 12/3 = 4，<em class="edu-math">θ</em> = 4/3</p>
+      <p class="edu-p"><strong><em class="edu-math">θ</em> = 3 弧度或 4/3 弧度。</strong></p>
+      <p class="edu-p u-muted">验算：<em class="edu-math">r</em>=2,<em class="edu-math">l</em>=6：周长=4+6=10 ✓，面积=6 ✓；<em class="edu-math">r</em>=3,<em class="edu-math">l</em>=4：周长=6+4=10 ✓，面积=6 ✓</p>
+    </div>
+
+    <div class="edu-step">
+      <div class="edu-step-title">第 3 题答案</div>
+      <p class="edu-p">面积 <em class="edu-math">S</em> = (1/2)<em class="edu-math">r</em>&sup2;<em class="edu-math">θ</em> = (1/2)<em class="edu-math">r</em>&sup2;&times;2 = <em class="edu-math">r</em>&sup2; = 8</p>
+      <div class="edu-formula"><em class="edu-math">r</em> = 2&radic;2（<em class="edu-math">r</em> &gt; 0）</div>
+      <p class="edu-p"><em class="edu-math">l</em> = <em class="edu-math">r</em><em class="edu-math">θ</em> = 2&radic;2 &times; 2 = 4&radic;2</p>
+      <div class="edu-formula-key">周长 = 2<em class="edu-math">r</em> + <em class="edu-math">l</em> = 4&radic;2 + 4&radic;2 = <strong>8&radic;2</strong></div>
+    </div>
+
+    <div class="edu-step">
+      <div class="edu-step-title">第 4 题答案</div>
+      <p class="edu-p">两个解：<em class="edu-math">r</em> = 1 时 <em class="edu-math">l</em> = 4；<em class="edu-math">r</em> = 2 时 <em class="edu-math">l</em> = 2。</p>
+      <div class="edu-formula-key">弧长之比 = 4 : 2 = <strong>2 : 1</strong></div>
+      <p class="edu-p">几何含义：小半径（<em class="edu-math">r</em>=1）的扇形弧更长、角度更大，是一个"扁扇形"；大半径（<em class="edu-math">r</em>=2）的扇形弧更短、角度更小，是一个"窄扇形"。两者的周长和面积恰好相同。</p>
+    </div>
+  </section>
+
+</div>
+
+<aside class="edu-teacher-note no-print">
+  <div class="edu-card-title">生成后自检</div>
+  <ul>
+    <li><strong>数学检查：</strong>第1题：θ=2 ✓；第2题：θ=3 或 4/3 ✓（验算通过）；第3题：周长=8√2 ✓；第4题：弧长比=2:1 ✓。所有答案均正确。</li>
+    <li><strong>教学检查：</strong>全部围绕扇形公式联立消元这一核心动作；第3题训练公式形式转换（S=½r²θ），第4题训练几何理解，不引入无关知识；提示一指向动作、提示二接近列式但不直接给最终答案。</li>
+    <li><strong>档位检查：</strong>默认假设 B-D 档，无学生具体证据，标注为默认诊断；难度梯度：直接套公式→同构换数值→换条件组合→比值理解，每次只小步上升。</li>
+    <li><strong>学生版检查：</strong>教师判断、训练目标、预期卡点、复杂度说明、升级/降级建议全部在 no-print 区域内。学生打印版只看到题目、提示、解答区和参考答案。</li>
+    <li><strong>HTML 检查：</strong>使用内嵌 CSS，无外部 CDN 依赖；标签闭合完整；包含 required sections；@page A4 设置正确；答案区前有 page-break；第2-3题之间有 page-break。</li>
+    <li><strong>自检结论：</strong>通过。</li>
+  </ul>
+</aside>
+
+<aside class="edu-teacher-note no-print">
+<div class="edu-card-title">教师判断</div>
+<p class="edu-p">当前档位：默认 C 档（无学生具体证据）。主要训练动作：扇形公式联立消元的完整链条。置信度：低（需学生完成练习后更新）。</p>
+</aside>
+
+<aside class="edu-teacher-note no-print">
+<div class="edu-card-title">升级 / 降级建议</div>
+<div class="edu-judge">
+  <p class="edu-p"><span class="edu-upgrade">升级：</span>若第2-3题全对且第4题正确写出比值并解释几何含义，说明已达到 E 档。</p>
+  <p class="edu-downgrade">降级：</span>若第1题不会，回到讲解页复习公式；若第2题消元出错，回到讲解页第四步复习消元过程。</p>
+</div>
+</aside>
+
+<aside class="edu-teacher-note no-print">
+下一轮：根据本页完成情况，更新学生画像；若需讲解新题，回到 math-structure-analysis；若需新一轮变式，再次使用 math-adaptive-practice-html。工作流循环：math-structure-analysis → math-student-explanation-html → math-adaptive-practice-html。
+</aside>
+
+</body>
+</html>

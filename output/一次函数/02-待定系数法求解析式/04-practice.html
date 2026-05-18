@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>自适应练习：待定系数法求解析式</title>
+  <link rel="stylesheet" href="../assets/edu-print.css">
+  <script>
+    MathJax = {
+      tex: { inlineMath: [['$','$'], ['\\(','\\)']], displayMath: [['$$','$$'], ['\\[','\\]']] },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body data-view="student">
+
+  <header class="edu-header">
+    <h1 class="edu-title">自适应练习：待定系数法求解析式</h1>
+    <p class="edu-subtitle">待定系数法求解析式</p>
+  </header>
+
+  <section class="edu-section">
+    <h2 class="edu-section-title">练习说明</h2>
+    <div class="edu-info-box">
+      <p>下面有三道练习题，考查用<strong>待定系数法</strong>求一次函数 $y = kx + b$（$k \neq 0$）的解析式。</p>
+      <p>每题给出一次函数图像上两个点的坐标，请你：</p>
+      <ol>
+        <li>设解析式为 $y = kx + b$（$k \neq 0$）；</li>
+        <li>将两个点的坐标分别代入，得到关于 $k$、$b$ 的方程组；</li>
+        <li>解方程组，求出 $k$ 和 $b$ 的值；</li>
+        <li>写出完整的解析式，并检验。</li>
+      </ol>
+      <p>遇到困难时，请参考每题下方的<strong>提示</strong>。完成后可对照<strong>参考答案</strong>进行自评。</p>
+    </div>
+  </section>
+
+  <section class="edu-section">
+    <h2 class="edu-section-title">练习题</h2>
+
+    <!-- Problem 1 -->
+    <div class="edu-practice-problem u-avoid-break">
+      <h3>第 1 题</h3>
+      <p class="edu-problem-text">已知一次函数 $y = kx + b$（$k \neq 0$）的图像经过点 $A(1,\, 5)$ 和点 $B(-2,\, -4)$，求这个一次函数的解析式。</p>
+      <div class="edu-problem-blank"></div>
+      <div class="edu-hint">
+        <p><strong>提示：</strong>将 $A(1,\, 5)$ 代入 $y = kx + b$ 得到 $k + b = 5$；再将 $B(-2,\, -4)$ 代入得到 $-2k + b = -4$。两式相减即可消去 $b$。</p>
+      </div>
+      <div class="edu-teacher-note no-print">
+        <p><strong>教师批注：</strong></p>
+        <ul>
+          <li>设 $y = kx + b$，代入 $A(1,5)$：$k + b = 5$ &#12310;①&#12311;；代入 $B(-2,-4)$：$-2k + b = -4$ &#12310;②&#12311;。</li>
+          <li>② - ① 得 $-3k = -9$，即 $k = 3$。</li>
+          <li>代入 ① 得 $b = 2$。</li>
+          <li>解析式为 $y = 3x + 2$。检验：$A(1,5)$ 代入得 $3 \times 1 + 2 = 5$ ✔；$B(-2,-4)$ 代入得 $3 \times (-2) + 2 = -4$ ✔。</li>
+          <li>易错点：代入 $(-2)$ 时漏写负号；消元时两式相减的方向搞反导致 $k$ 的符号错误。</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Problem 2 -->
+    <div class="edu-practice-problem u-avoid-break">
+      <h3>第 2 题</h3>
+      <p class="edu-problem-text">已知一次函数的图像经过点 $(4,\, 0)$，且当 $x = 1$ 时，$y = 9$。求这个一次函数的解析式。</p>
+      <div class="edu-problem-blank"></div>
+      <div class="edu-hint">
+        <p><strong>提示：</strong>注意 "$x = 1$ 时 $y = 9$" 表示图像经过点 $(1,\, 9)$。因此图像经过 $(4,\, 0)$ 和 $(1,\, 9)$ 两个点，按待定系数法步骤操作即可。</p>
+      </div>
+      <div class="edu-teacher-note no-print">
+        <p><strong>教师批注：</strong></p>
+        <ul>
+          <li>图像经过 $(4, 0)$ 和 $(1, 9)$。</li>
+          <li>设 $y = kx + b$，代入 $(4,0)$：$4k + b = 0$ &#12310;①&#12311;；代入 $(1,9)$：$k + b = 9$ &#12310;②&#12311;。</li>
+          <li>① - ② 得 $3k = -9$，即 $k = -3$。</li>
+          <li>代入 ② 得 $b = 12$。</li>
+          <li>解析式为 $y = -3x + 12$。检验：$x=4$ 时 $y = -3 \times 4 + 12 = 0$ ✔；$x=1$ 时 $y = -3 \times 1 + 12 = 9$ ✔。</li>
+          <li>本题条件表述方式不同于第 1 题，考验学生将文字条件转化为点坐标的能力。</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Problem 3 -->
+    <div class="edu-practice-problem u-avoid-break">
+      <h3>第 3 题</h3>
+      <p class="edu-problem-text">一个一次函数的图像与 $x$ 轴交于点 $(2,\, 0)$，与 $y$ 轴交于点 $(0,\, -6)$。求这个一次函数的解析式。</p>
+      <div class="edu-problem-blank"></div>
+      <div class="edu-hint">
+        <p><strong>提示：</strong>图像与 $y$ 轴的交点为 $(0,\, -6)$，即当 $x = 0$ 时 $y = -6$，直接代入 $y = kx + b$ 可得 $b = -6$。这样可以跳过解方程组，直接得到 $b$ 的值，再用另一个点求出 $k$。</p>
+      </div>
+      <div class="edu-teacher-note no-print">
+        <p><strong>教师批注：</strong></p>
+        <ul>
+          <li>设 $y = kx + b$，代入 $(0, -6)$：$b = -6$。</li>
+          <li>代入 $(2, 0)$：$2k - 6 = 0$，解得 $k = 3$。</li>
+          <li>解析式为 $y = 3x - 6$。检验：$(2,0)$ 代入得 $3 \times 2 - 6 = 0$ ✔；$(0,-6)$ 代入得 $-6 = -6$ ✔。</li>
+          <li>本题体现"与 $y$ 轴交点的纵坐标即为 $b$ 值"这一重要性质，是待定系数法的简化运用。</li>
+          <li>进阶：学生会发现 $y$ 轴截距直接就是 $b$，这是后续学习"截距式"的基础。</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="page-break"></div>
+
+  <!-- Answer Key -->
+  <section class="edu-section">
+    <h2 class="edu-section-title">参考答案</h2>
+
+    <div class="edu-answer-block">
+      <h3>第 1 题</h3>
+      <p>设 $y = kx + b$（$k \neq 0$），分别代入 $A(1,\,5)$ 和 $B(-2,\,-4)$：</p>
+      <p>$$\begin{cases} k + b = 5 \quad \text{①} \\ -2k + b = -4 \quad \text{②} \end{cases}$$</p>
+      <p>② - ① 得：$-3k = -9$，解得 $k = 3$。</p>
+      <p>将 $k = 3$ 代入 ① 得：$b = 2$。</p>
+      <p>所以这个一次函数的解析式为 $\boxed{y = 3x + 2}$。</p>
+    </div>
+
+    <div class="edu-answer-block">
+      <h3>第 2 题</h3>
+      <p>条件转化为：图像经过 $(4,\,0)$ 和 $(1,\,9)$。</p>
+      <p>设 $y = kx + b$（$k \neq 0$），分别代入两点：</p>
+      <p>$$\begin{cases} 4k + b = 0 \quad \text{①} \\ k + b = 9 \quad \text{②} \end{cases}$$</p>
+      <p>① - ② 得：$3k = -9$，解得 $k = -3$。</p>
+      <p>将 $k = -3$ 代入 ② 得：$b = 12$。</p>
+      <p>所以这个一次函数的解析式为 $\boxed{y = -3x + 12}$。</p>
+    </div>
+
+    <div class="edu-answer-block">
+      <h3>第 3 题</h3>
+      <p>设 $y = kx + b$（$k \neq 0$），代入 $(0,\,-6)$：</p>
+      <p>$b = -6$。</p>
+      <p>代入 $(2,\,0)$：$2k + (-6) = 0$，解得 $k = 3$。</p>
+      <p>所以这个一次函数的解析式为 $\boxed{y = 3x - 6}$。</p>
+    </div>
+  </section>
+
+  <!-- Teacher Judge -->
+  <section class="edu-section no-print">
+    <h2 class="edu-section-title">教师评判要点</h2>
+    <div class="edu-judge-block">
+      <ul>
+        <li>是否正确设出 $y = kx + b$ 并注明 $k \neq 0$。</li>
+        <li>代入点坐标时 $x$、$y$ 的位置是否正确，正负号是否准确。</li>
+        <li>方程组是否正确列出并能用消元法（加减消元或代入消元）正确求解。</li>
+        <li>最终解析式是否写为 $y = kx + b$ 的标准形式，系数是否正确。</li>
+        <li>第 3 题是否注意到 $y$ 轴交点的纵坐标直接等于 $b$，能简化计算。</li>
+        <li>是否有检验意识（将已知点代入解析式验证）。</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Self Check -->
+  <section class="edu-section no-print">
+    <h2 class="edu-section-title">学生自评</h2>
+    <div class="edu-selfcheck-block">
+      <ul>
+        <li>我能独立设出 $y = kx + b$ 并代入两个点坐标。</li>
+        <li>我能正确列出关于 $k$、$b$ 的方程组并求解。</li>
+        <li>我注意到了不同条件的表述方式（点坐标、"当 $x = a$ 时 $y = b$"、"与坐标轴交于"）。</li>
+        <li>我写出了解析式并进行了检验。</li>
+      </ul>
+      <p>如果以上全部能独立完成，说明你已经掌握了待定系数法求一次函数解析式的基本方法。</p>
+    </div>
+  </section>
+
+  <!-- Handoff -->
+  <section class="edu-section no-print">
+    <h2 class="edu-section-title">衔接预告</h2>
+    <div class="edu-handoff-block">
+      <p>本次练习你掌握了：</p>
+      <ul>
+        <li><strong>核心方法：</strong>待定系数法 —— 设 → 代 → 列 → 解 → 写</li>
+        <li><strong>关键转化：</strong>点在函数图像上 ⟺ 坐标满足函数关系式</li>
+        <li><strong>实用技巧：</strong>$y$ 轴截距直接等于 $b$，可简化计算</li>
+      </ul>
+      <p>下一步我们将学习：</p>
+      <ul>
+        <li>用待定系数法求其他类型函数（如反比例函数 $y = \dfrac{k}{x}$、二次函数 $y = ax^2 + bx + c$）的解析式</li>
+        <li>根据实际问题中的条件确定函数关系式</li>
+      </ul>
+    </div>
+  </section>
+
+</body>
+</html>

@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>学生版讲解：等腰梯形存在性</title>
+<link rel="stylesheet" href="../assets/edu-print.css">
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'], ['\\(','\\)']], displayMath: [['$$','$$'], ['\\[','\\]']] },
+  chtml: { scale: 1 }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+</head>
+<body data-view="student">
+
+<div class="edu-page">
+
+<!-- ===== 标题 ===== -->
+<h1 class="edu-title">学生版讲解：等腰梯形存在性</h1>
+<p class="edu-subtitle">等腰梯形存在性</p>
+
+<!-- ===== 题目卡片 ===== -->
+<div class="edu-problem-card u-avoid-break">
+<p class="edu-problem-title">题目</p>
+<p class="edu-problem-stem">直线 $l_1$ 经过 $O(0,0)$、$A(1,2)$ 两点，将直线 $l_1$ 向下平移 $6$ 个单位得到直线 $l_2$，交 $x$ 轴于点 $C$，$B$ 是直线 $l_2$ 上一点，且四边形 $ABCO$ 是平行四边形。</p>
+<p class="edu-problem-stem">(1) 求直线 $l_2$ 的表达式及 $B$ 点的坐标；</p>
+<p class="edu-problem-stem">(2) 若 $D$ 是平面直角坐标系内的一点，且以 $O$、$A$、$C$、$D$ 四个点为顶点的四边形是等腰梯形，求点 $D$ 的坐标。</p>
+</div>
+
+<!-- ===== 第一部分：先把题目拆开 ===== -->
+<div class="edu-section u-avoid-break">
+<h2 class="edu-section-title">一、先把题目拆开</h2>
+<table class="edu-task-table">
+<thead>
+<tr><th>条件</th><th>能推出什么</th></tr>
+</thead>
+<tbody>
+<tr><td>$O(0,0)$、$A(1,2)$ 在 $l_1$ 上</td><td>两点确定直线：$l_1$ 的斜率 $k=\dfrac{2-0}{1-0}=2$，所以 $l_1: y=2x$</td></tr>
+<tr><td>$l_1$ 向下平移 $6$ 个单位得 $l_2$</td><td>$l_2: y=2x-6$</td></tr>
+<tr><td>$C$ 是 $l_2$ 与 $x$ 轴交点</td><td>令 $y=0$：$2x-6=0$，$x=3$，故 $C(3,0)$</td></tr>
+<tr><td>$ABCO$ 是平行四边形</td><td>对角线 $AC$ 与 $OB$ 中点相同，可求 $B$ 坐标为 $B(4,2)$</td></tr>
+<tr><td>$O,A,C,D$ 构成等腰梯形</td><td>需要分类讨论哪两条边平行（三选一）</td></tr>
+</tbody>
+</table>
+</div>
+
+<!-- ===== 第二部分：这题准备怎么走 ===== -->
+<div class="edu-section u-avoid-break">
+<h2 class="edu-section-title">二、这题准备怎么走</h2>
+<ol class="edu-route">
+<li>求 $l_1$ 的表达式（两点式）</li>
+<li>平移得到 $l_2$ 的表达式</li>
+<li>求 $l_2$ 与 $x$ 轴交点 $C$</li>
+<li>利用平行四边形条件求 $B$</li>
+<li>等腰梯形问题：枚举三组平行对边</li>
+<li>每组：平行条件（斜率相等）+ 等腰条件（腰长相等），列方程解 $D$</li>
+<li>验证每组解不退化为平行四边形</li>
+</ol>
+</div>
+
+<!-- ===== 第三部分：关键想法 ===== -->
+<div class="edu-section">
+<h2 class="edu-section-title">三、关键想法</h2>
+<div class="edu-key-idea">
+<p class="edu-p"><span class="edu-strong">等腰梯形 = 恰好一组对边平行 + 另一组对边不平行 + 两腰相等。</span></p>
+<p class="edu-p">已知三个点 $O(0,0)$、$A(1,2)$、$C(3,0)$，第四个点 $D$ 未知。三个已知点两两连成三条边 $OA$、$AC$、$OC$。梯形要求"恰好一组对边平行"，所以底边有三种选法：</p>
+<p class="edu-p edu-strong">(a) $OA \parallel CD$&emsp;&emsp;(b) $AC \parallel OD$&emsp;&emsp;(c) $OC \parallel AD$</p>
+<p class="edu-p">每组选法下，先由斜率相等列一个方程确定 $D$ 的方向，再由两腰长度相等列第二个方程求出 $D$ 的坐标。解完后必须检查另一组对边是否也平行——如果也平行，那就变成平行四边形了，必须舍去。</p>
+</div>
+</div>
+
+<!-- ===== 第四部分：标准解法 ===== -->
+<div class="edu-section">
+
+<h2 class="edu-section-title">四、标准解法</h2>
+
+<!-- 第(1)问 -->
+<div class="edu-subproblem u-avoid-break">
+<h3 class="edu-subproblem-title">第(1)问：求 $l_2$ 的表达式及 $B$ 的坐标</h3>
+
+<div class="edu-step">
+<h4 class="edu-step-title">步骤 1：求 $l_1$ 的表达式</h4>
+<p class="edu-p">$l_1$ 经过 $O(0,0)$ 和 $A(1,2)$，由两点式：</p>
+<p class="edu-formula">$$k = \frac{2-0}{1-0} = 2, \quad l_1: y = 2x$$</p>
+</div>
+
+<div class="edu-step">
+<h4 class="edu-step-title">步骤 2：向下平移 6 个单位得 $l_2$</h4>
+<p class="edu-p">向下平移 $b$ 变小，$l_2: y = 2x - 6$。</p>
+</div>
+
+<div class="edu-step">
+<h4 class="edu-step-title">步骤 3：求 $C$ 坐标</h4>
+<p class="edu-p">$C$ 是 $l_2$ 与 $x$ 轴的交点，令 $y=0$：</p>
+<p class="edu-formula">$$2x - 6 = 0 \implies x = 3, \quad C(3,\,0)$$</p>
+</div>
+
+<div class="edu-step">
+<h4 class="edu-step-title">步骤 4：平行四边形 $ABCO$ 求 $B$</h4>
+<p class="edu-p">平行四边形对角线中点相同。$AC$ 中点与 $OB$ 中点相同：</p>
+<p class="edu-formula">$$AC \text{ 中点}: \left(\frac{0+3}{2},\,\frac{2+0}{2}\right) = \left(\frac{3}{2},\,1\right)$$</p>
+<p class="edu-formula">$$OB \text{ 中点}: \left(\frac{0+x_B}{2},\,\frac{0+y_B}{2}\right) = \left(\frac{3}{2},\,1\right)$$</p>
+<p class="edu-p">故 $x_B = 3$，$y_B = 2$。又 $B$ 在 $l_2$ 上，验证 $y = 2 \times 3 - 6 = 0 \neq 2$，矛盾。</p>
+<p class="edu-p edu-strong">换用另一种判定：$ABCO$ 是平行四边形 $\iff$ $AB \parallel OC$ 且 $AB = OC$。</p>
+<p class="edu-p">$OC$ 在 $x$ 轴上，斜率为 $0$，故 $AB$ 斜率也为 $0$，即 $y_B = y_A = 2$。$B$ 在 $l_2$ 上：$2 = 2x_B - 6$，得 $x_B = 4$。$|OC| = 3$，$|AB| = |x_B - x_A| = 4 - 1 = 3$，满足。</p>
+<p class="edu-formula">$$\boxed{l_2: y = 2x - 6,\quad C(3,\,0),\quad B(4,\,2)}$$</p>
+</div>
+</div>
+
+<div class="page-break"></div>
+
+<!-- 第(2)问 -->
+<div class="edu-subproblem">
+<h3 class="edu-subproblem-title">第(2)问：求 $D$ 使 $OACD$ 为等腰梯形</h3>
+
+<p class="edu-p">先算备用数据（三条已知边的斜率和长度平方）：</p>
+<table class="edu-table">
+<thead>
+<tr><th>边</th><th>斜率 $k$</th><th>长度平方 $|AB|^2$</th></tr>
+</thead>
+<tbody>
+<tr><td>$OA$</td><td>$k_{OA} = \dfrac{2-0}{1-0} = 2$</td><td>$1^2 + 2^2 = 5$</td></tr>
+<tr><td>$OC$</td><td>$k_{OC} = 0$（在 $x$ 轴上）</td><td>$3^2 = 9$</td></tr>
+<tr><td>$AC$</td><td>$k_{AC} = \dfrac{0-2}{3-1} = -1$</td><td>$2^2 + (-2)^2 = 8$</td></tr>
+</tbody>
+</table>
+
+<!-- 情况一 -->
+<div class="edu-step u-avoid-break">
+<h4 class="edu-step-title">情况一：$OA \parallel CD$（底为 $OA$ 和 $CD$，腰为 $OC$ 和 $AD$）</h4>
+
+<p class="edu-p"><span class="edu-strong">平行条件：</span>$k_{CD} = k_{OA} = 2$</p>
+<p class="edu-p">设 $D(x,y)$，则 $\dfrac{y - 0}{x - 3} = 2$，即 $y = 2(x-3)$。</p>
+
+<p class="edu-p"><span class="edu-strong">等腰条件：</span>$|OC|^2 = |AD|^2$，即 $9 = (x-1)^2 + (y-2)^2$。</p>
+<p class="edu-p">将 $y = 2x - 6$ 代入：</p>
+<p class="edu-formula">$$(x-1)^2 + (2x-6-2)^2 = 9$$</p>
+<p class="edu-formula">$$(x-1)^2 + (2x-8)^2 = 9$$</p>
+<p class="edu-formula">$$x^2 - 2x + 1 + 4x^2 - 32x + 64 = 9$$</p>
+<p class="edu-formula">$$5x^2 - 34x + 56 = 0$$</p>
+<p class="edu-formula">$$x = \frac{34 \pm \sqrt{1156 - 1120}}{10} = \frac{34 \pm \sqrt{36}}{10} = \frac{34 \pm 6}{10}$$</p>
+<p class="edu-p">$x = 4$ 或 $x = \dfrac{14}{5}$。</p>
+<p class="edu-p">当 $x = 4$ 时，$y = 2$，$D(4,2)$。检查另一组对边：$k_{AD} = \dfrac{2-2}{4-1} = 0 = k_{OC}$，两组对边都平行 $\Rightarrow$ <span class="edu-strong">退化为平行四边形，舍去</span>。</p>
+<p class="edu-p">当 $x = \dfrac{14}{5}$ 时，$y = 2 \times \dfrac{14}{5} - 6 = -\dfrac{2}{5}$。检查：$k_{AD} = \dfrac{-\frac{2}{5}-2}{\frac{14}{5}-1} = \dfrac{-12/5}{9/5} = -\dfrac{4}{3} \neq 0 = k_{OC}$，不平行，<span class="edu-strong">有效</span>。</p>
+<p class="edu-formula">$$\boxed{D\left(\dfrac{14}{5},\, -\dfrac{2}{5}\right)}$$</p>
+</div>
+
+<!-- 情况二 -->
+<div class="edu-step u-avoid-break">
+<h4 class="edu-step-title">情况二：$AC \parallel OD$（底为 $AC$ 和 $OD$，腰为 $OA$ 和 $CD$）</h4>
+
+<p class="edu-p"><span class="edu-strong">平行条件：</span>$k_{OD} = k_{AC} = -1$</p>
+<p class="edu-p">$\dfrac{y}{x} = -1$，即 $y = -x$。</p>
+
+<p class="edu-p"><span class="edu-strong">等腰条件：</span>$|OA|^2 = |CD|^2$，即 $5 = (x-3)^2 + y^2$。</p>
+<p class="edu-p">将 $y = -x$ 代入：</p>
+<p class="edu-formula">$$(x-3)^2 + x^2 = 5$$</p>
+<p class="edu-formula">$$2x^2 - 6x + 4 = 0$$</p>
+<p class="edu-formula">$$(x-1)(x-2) = 0$$</p>
+<p class="edu-p">$x = 1$ 或 $x = 2$。</p>
+<p class="edu-p">当 $x = 1$ 时，$y = -1$，$D(1,-1)$。检查：$k_{CD} = \dfrac{-1-0}{1-3} = \dfrac{1}{2} \neq 2 = k_{OA}$，不平行，<span class="edu-strong">有效</span>。</p>
+<p class="edu-p">当 $x = 2$ 时，$y = -2$，$D(2,-2)$。检查：$k_{CD} = \dfrac{-2-0}{2-3} = 2 = k_{OA}$，$OA \parallel CD$ 且 $AC \parallel OD$，<span class="edu-strong">退化为平行四边形，舍去</span>。</p>
+<p class="edu-formula">$$\boxed{D(1,\,-1)}$$</p>
+</div>
+
+<!-- 情况三 -->
+<div class="edu-step u-avoid-break">
+<h4 class="edu-step-title">情况三：$OC \parallel AD$（底为 $OC$ 和 $AD$，腰为 $OA$ 和 $CD$）</h4>
+
+<p class="edu-p"><span class="edu-strong">平行条件：</span>$k_{AD} = k_{OC} = 0$</p>
+<p class="edu-p">$y_D = y_A = 2$，即 $y = 2$。</p>
+
+<p class="edu-p"><span class="edu-strong">等腰条件：</span>$|OA|^2 = |CD|^2$，即 $5 = (x-3)^2 + 4$。</p>
+<p class="edu-formula">$$(x-3)^2 = 1$$</p>
+<p class="edu-p">$x - 3 = \pm 1$，$x = 4$ 或 $x = 2$。</p>
+<p class="edu-p">当 $x = 4$ 时，$D(4,2)$。检查：$k_{CD} = \dfrac{2-0}{4-3} = 2 = k_{OA}$，$OA \parallel CD$ 且 $OC \parallel AD$，<span class="edu-strong">退化为平行四边形，舍去</span>。</p>
+<p class="edu-p">当 $x = 2$ 时，$D(2,2)$。检查：$k_{CD} = \dfrac{2-0}{2-3} = -2 \neq 2 = k_{OA}$，不平行，<span class="edu-strong">有效</span>。</p>
+<p class="edu-formula">$$\boxed{D(2,\,2)}$$</p>
+</div>
+
+<div class="edu-step">
+<h4 class="edu-step-title">汇总答案</h4>
+<p class="edu-formula">$$D\left(\dfrac{14}{5},\, -\dfrac{2}{5}\right)\;\text{或}\; D(1,\,-1)\;\text{或}\; D(2,\,2)$$</p>
+</div>
+
+</div>
+</div>
+
+<div class="page-break"></div>
+
+<!-- ===== 第五部分：边讲边问 ===== -->
+<div class="edu-section">
+<h2 class="edu-section-title">五、边讲边问</h2>
+
+<div class="edu-question">
+<p class="edu-question-title">问 1</p>
+<p class="edu-p">直线 $l_1: y = 2x$ 向下平移 $6$ 个单位，$y$ 后面应该加 $6$ 还是减 $6$？为什么？</p>
+<p class="edu-blank-line">&nbsp;</p>
+</div>
+
+<div class="edu-question">
+<p class="edu-question-title">问 2</p>
+<p class="edu-p">四边形 $ABCO$ 是平行四边形，你知道哪两种不同的判断方法？（提示：对角线中点 vs. 对边平行且相等）</p>
+<p class="edu-blank-line">&nbsp;</p>
+</div>
+
+<div class="edu-question">
+<p class="edu-question-title">问 3</p>
+<p class="edu-p">等腰梯形和普通梯形有什么区别？等腰梯形和平行四边形有什么区别？</p>
+<p class="edu-blank-line">&nbsp;</p>
+</div>
+
+<div class="edu-question">
+<p class="edu-question-title">问 4</p>
+<p class="edu-p">已知 $O(0,0)$、$A(1,2)$、$C(3,0)$ 三个点，哪两条边可以做梯形的"底"（即平行的那组对边）？为什么有三种情况？</p>
+<p class="edu-blank-line">&nbsp;</p>
+</div>
+
+<div class="edu-question">
+<p class="edu-question-title">问 5</p>
+<p class="edu-p">情况一解出了 $D(4,2)$ 和 $D\!\left(\frac{14}{5},-\frac{2}{5}\right)$，为什么 $D(4,2)$ 要舍去？</p>
+<p class="edu-blank-line">&nbsp;</p>
+</div>
+
+<div class="edu-question">
+<p class="edu-question-title">问 6</p>
+<p class="edu-p">每种情况要列几个方程？分别来自什么条件？</p>
+<p class="edu-blank-line">&nbsp;</p>
+</div>
+</div>
+
+<!-- ===== 第六部分：易错提醒 ===== -->
+<div class="edu-section">
+<h2 class="edu-section-title">六、易错提醒</h2>
+
+<div class="edu-mistake">
+<p class="edu-p"><span class="edu-strong">漏掉情况：</span>只考虑了 $OA \parallel CD$ 一种平行方式，漏掉了 $AC \parallel OD$ 和 $OC \parallel AD$。等腰梯形存在性问题必须<span class="edu-strong">系统枚举三组平行对边</span>，一个都不能少。</p>
+</div>
+
+<div class="edu-mistake">
+<p class="edu-p"><span class="edu-strong">忘记排除退化：</span>解出 $D$ 后没有检查另一组对边是否也平行。如果两组对边都平行，四边形就变成平行四边形了，不是梯形。<span class="edu-strong">每解出一个 $D$，必须立刻验证。</span></p>
+</div>
+
+<div class="edu-mistake">
+<p class="edu-p"><span class="edu-strong">平移方向搞反：</span>向下平移 $6$ 个单位，$b$ 应该减 $6$，不是加 $6$。记住：$y = kx + b$ 中，向上平移 $b$ 变大，向下平移 $b$ 变小。</p>
+</div>
+
+<div class="edu-mistake">
+<p class="edu-p"><span class="edu-strong">距离公式算错：</span>等腰条件用的是"两腰长相等"，要先把腰是哪两条边搞清楚。底是 $OA$ 和 $CD$ 时，腰是 $OC$ 和 $AD$，等腰就是 $|OC| = |AD|$，不要混淆。</p>
+</div>
+
+<div class="edu-mistake">
+<p class="edu-p"><span class="edu-strong">平行四边形求 $B$ 时方法不当：</span>直接用"对角线中点相同"时，需要确认哪两条是对角线。$ABCO$ 的对角线是 $AC$ 和 $OB$，不是 $AO$ 和 $BC$。</p>
+</div>
+</div>
+
+<!-- ===== 第七部分：一句话总结 ===== -->
+<div class="edu-section">
+<h2 class="edu-section-title">七、一句话总结</h2>
+<div class="edu-key-idea">
+<p class="edu-p"><span class="edu-strong">等腰梯形存在性 = 枚举三组平行对边 &times; 每组列两个方程（斜率相等 + 腰长相等）&times; 验证不退化为平行四边形。</span></p>
+<p class="edu-p">三个已知点、三条已知边，每条边都能当"底"，所以一定是三种情况。先算好所有斜率和长度平方作为备用数据，然后一组一组往下算，每算完一组就检查另一组对边平不平行，不平行才是真梯形。</p>
+</div>
+</div>
+
+<!-- ===== 自检区（打印时隐藏） ===== -->
+<aside class="edu-teacher-note self-check no-print">
+<p class="edu-p"><span class="edu-strong">自检清单（学生自行对照）</span></p>
+<ul>
+<li>我能独立写出 $l_1$、$l_2$ 的表达式吗？</li>
+<li>我能用两种方法判断平行四边形并求出 $B$ 吗？</li>
+<li>我能说出等腰梯形存在性问题为什么有三种情况吗？</li>
+<li>我能独立完成至少一种情况的列方程和解方程吗？</li>
+<li>我知道为什么 $D(4,2)$ 和 $D(2,-2)$ 要舍去吗？</li>
+<li>我能写出最终答案的三个 $D$ 的坐标吗？</li>
+</ul>
+</aside>
+
+</div><!-- edu-page -->
+
+</body>
+</html>

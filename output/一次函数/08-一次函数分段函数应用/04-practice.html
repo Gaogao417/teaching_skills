@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>自适应练习：一次函数在实际中的运用（分段函数）</title>
+<link rel="stylesheet" href="../assets/edu-print.css">
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'], ['\\(','\\)']], displayMath: [['$$','$$'], ['\\[','\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+</head>
+<body data-view="student">
+
+<!-- ========== 封面 ========== -->
+<div class="edu-cover">
+  <h1 class="edu-cover__title">自适应练习</h1>
+  <p class="edu-cover__subtitle">一次函数在实际中的运用（分段函数）</p>
+  <div class="edu-cover__meta">
+    <p>姓名：________________&emsp;&emsp;班级：________________&emsp;&emsp;日期：________________</p>
+    <p>当前难度：E 档（基础巩固）</p>
+  </div>
+</div>
+
+<div class="page-break"></div>
+
+<!-- ========== 练习说明 ========== -->
+<div class="edu-section">
+  <h2 class="edu-section__title">练习说明</h2>
+  <div class="edu-text">
+    <p>本练习围绕<strong>分段函数建模与求解</strong>展开，共 3 道题。</p>
+    <p>每道题分为"题目""提示""解答步骤"和"教师备注"四个部分。</p>
+    <p>建议先独立完成题目，遇到困难时再看提示；全部做完后再对照解答步骤进行自查。</p>
+    <p>文末附有<strong>参考答案</strong>、<strong>自查表</strong>和<strong>交接记录</strong>，请认真填写。</p>
+  </div>
+</div>
+
+<div class="page-break"></div>
+
+<!-- ========== 第 1 题 ========== -->
+<div class="edu-section u-avoid-break">
+  <h2 class="edu-section__title">第 1 题&emsp;出租车分段计费</h2>
+  <div class="edu-problem">
+    <p>某市出租车计价规则如下：</p>
+    <p>① 不超过 3 公里时，收费 10 元；</p>
+    <p>② 超过 3 公里的部分，每公里收费 2.4 元。</p>
+    <p>设乘车里程为 $x$ 公里（$x > 0$），车费为 $y$ 元。</p>
+    <p>（1）写出 $y$ 与 $x$ 的函数解析式，并注明定义域；</p>
+    <p>（2）小明打车回家共付车费 29.2 元，求乘车里程。</p>
+  </div>
+
+  <!-- 提示 -->
+  <div class="edu-hint">
+    <h3>提示</h3>
+    <p>（1）分界点是 $x = 3$，分两段列式。注意第二段要在起步价基础上加超出部分的费用。</p>
+    <p>（2）先判断 29.2 元对应哪一段：算出分界点处的车费 $y(3)$，再比较大小。</p>
+  </div>
+
+  <!-- 解答步骤 -->
+  <div class="edu-solution">
+    <h3>解答步骤</h3>
+    <p><strong>（1）列解析式</strong></p>
+    <p>分界点：$x = 3$。</p>
+    <p>当 $0 < x \leq 3$ 时，$y = 10$；</p>
+    <p>当 $x > 3$ 时，前 3 公里收费 10 元，超出部分 $(x - 3)$ 公里按 2.4 元/公里计费：</p>
+    <p>$$y = 10 + 2.4(x - 3) = 2.4x + 2.8$$</p>
+    <p>所以：</p>
+    <p>$$y = \begin{cases} 10, & 0 < x \leq 3, \\ 2.4x + 2.8, & x > 3. \end{cases}$$</p>
+    <p><strong>（2）反向求解</strong></p>
+    <p>先判断区间：$y(3) = 10$（元），$29.2 > 10$，故在第二段。</p>
+    <p>代入 $2.4x + 2.8 = 29.2$：</p>
+    <p>$$2.4x = 26.4$$</p>
+    <p>$$x = \frac{26.4}{2.4} = 11$$</p>
+    <p>验证：$11 > 3$，落在第二段，符合。答：乘车里程为 11 公里。</p>
+  </div>
+
+  <!-- 教师备注 -->
+  <div class="edu-teacher-note">
+    <h3>教师备注</h3>
+    <p>本题是最基础的"阈值分段"问题，结构清晰：起步价 + 超出单价。</p>
+    <p>考查要点：① 分段函数的定义域书写；② 第二段不是"全程按高单价"，而是"起步价 + 超出部分"；③ 反向代入时先判断区间。</p>
+    <p>易错点：学生可能把第二段写成 $y = 2.4x$，漏掉起步价 10 元。</p>
+  </div>
+</div>
+
+<div class="page-break"></div>
+
+<!-- ========== 第 2 题 ========== -->
+<div class="edu-section u-avoid-break">
+  <h2 class="edu-section__title">第 2 题&emsp;阶梯电费计价</h2>
+  <div class="edu-problem">
+    <p>某市居民用电实行阶梯计价，每月收费标准如下：</p>
+    <p>① 月用电量不超过 200 度时，每度电 0.52 元；</p>
+    <p>② 月用电量超过 200 度时，不超过 200 度的部分按 0.52 元/度计费，超过 200 度的部分按 0.78 元/度计费。</p>
+    <p>设某户月用电量为 $x$ 度（$x > 0$），应交电费 $y$ 元。</p>
+    <p>（1）写出 $y$ 与 $x$ 的函数解析式；</p>
+    <p>（2）小张家某月交电费 156 元，求该月用电量。</p>
+  </div>
+
+  <!-- 提示 -->
+  <div class="edu-hint">
+    <h3>提示</h3>
+    <p>（1）分界点是 $x = 200$。第二段要写"前 200 度的费用 + 超出部分的费用"。</p>
+    <p>（2）先算出 $y(200)$，再比较 156 元与该值的大小，判断落在哪一段。</p>
+  </div>
+
+  <!-- 解答步骤 -->
+  <div class="edu-solution">
+    <h3>解答步骤</h3>
+    <p><strong>（1）列解析式</strong></p>
+    <p>分界点：$x = 200$。</p>
+    <p>当 $0 < x \leq 200$ 时，$y = 0.52x$；</p>
+    <p>当 $x > 200$ 时：</p>
+    <p>$$y = 0.52 \times 200 + 0.78(x - 200) = 104 + 0.78x - 156 = 0.78x - 52$$</p>
+    <p>所以：</p>
+    <p>$$y = \begin{cases} 0.52x, & 0 < x \leq 200, \\ 0.78x - 52, & x > 200. \end{cases}$$</p>
+    <p><strong>（2）反向求解</strong></p>
+    <p>先判断区间：$y(200) = 0.52 \times 200 = 104$（元），$156 > 104$，故在第二段。</p>
+    <p>代入 $0.78x - 52 = 156$：</p>
+    <p>$$0.78x = 208$$</p>
+    <p>$$x = \frac{208}{0.78}$$</p>
+    <p>$\dfrac{208}{0.78} = \dfrac{20800}{78} = \dfrac{10400}{39} = \dfrac{10400 \div 13}{39 \div 13} = \dfrac{800}{3} \approx 266.67$（度）。</p>
+    <p>验证：$\dfrac{800}{3} > 200$，落在第二段，符合。答：该月用电量为 $\dfrac{800}{3}$ 度（约 266.7 度）。</p>
+  </div>
+
+  <!-- 教师备注 -->
+  <div class="edu-teacher-note">
+    <h3>教师备注</h3>
+    <p>本题在原题基础上替换情境为电费，保留了"基础单价 + 超出单价"的核心结构。</p>
+    <p>第（2）问答案为分数，意在训练学生接受精确值而非急于取近似值。</p>
+    <p>进阶考查：部分学生可能在化简 $104 + 0.78(x - 200)$ 时出错，尤其是 $0.78 \times 200 = 156$ 这一步。</p>
+    <p>可追问：如果改为"三档"计价（再加一段 400 度以上），解析式如何写？</p>
+  </div>
+</div>
+
+<div class="page-break"></div>
+
+<!-- ========== 第 3 题 ========== -->
+<div class="edu-section u-avoid-break">
+  <h2 class="edu-section__title">第 3 题&emsp;快递运费计价</h2>
+  <div class="edu-problem">
+    <p>某快递公司对省内件按重量分段计费：</p>
+    <p>① 不超过 1 千克时，运费 8 元；</p>
+    <p>② 超过 1 千克的部分，每千克加收 3.2 元（不足 1 千克按 1 千克计算）。</p>
+    <p>设包裹重量为 $x$ 千克（$x$ 为正整数），运费为 $y$ 元。</p>
+    <p>（1）写出 $y$ 与 $x$ 的函数解析式；</p>
+    <p>（2）小王寄一个省内包裹付了 24 元，求该包裹的重量。</p>
+  </div>
+
+  <!-- 提示 -->
+  <div class="edu-hint">
+    <h3>提示</h3>
+    <p>（1）分界点是 $x = 1$。第二段是"首重 8 元 + 续重 3.2 元/千克"。</p>
+    <p>（2）分界点运费 $y(1) = 8$ 元，$24 > 8$，所以落在第二段。</p>
+  </div>
+
+  <!-- 解答步骤 -->
+  <div class="edu-solution">
+    <h3>解答步骤</h3>
+    <p><strong>（1）列解析式</strong></p>
+    <p>分界点：$x = 1$。</p>
+    <p>当 $x = 1$ 时，$y = 8$；</p>
+    <p>当 $x > 1$（$x$ 为正整数）时：</p>
+    <p>$$y = 8 + 3.2(x - 1) = 3.2x + 4.8$$</p>
+    <p>所以：</p>
+    <p>$$y = \begin{cases} 8, & x = 1, \\ 3.2x + 4.8, & x > 1 \text{（$x$ 为正整数）}. \end{cases}$$</p>
+    <p><strong>（2）反向求解</strong></p>
+    <p>先判断区间：$y(1) = 8$（元），$24 > 8$，故在第二段。</p>
+    <p>代入 $3.2x + 4.8 = 24$：</p>
+    <p>$$3.2x = 19.2$$</p>
+    <p>$$x = \frac{19.2}{3.2} = 6$$</p>
+    <p>验证：$6 > 1$，落在第二段，且为正整数，符合。答：该包裹重量为 6 千克。</p>
+  </div>
+
+  <!-- 教师备注 -->
+  <div class="edu-teacher-note">
+    <h3>教师备注</h3>
+    <p>本题引入"离散变量"（$x$ 为正整数）的条件，是对分段函数定义域的一种变形。</p>
+    <p>核心结构不变：首重 + 续重。数字刻意选择使得 $\dfrac{19.2}{3.2}$ 整除，避免计算干扰。</p>
+    <p>可拓展：如果重量 $x$ 不限定为整数（如 2.3 千克），解析式是否需要修改？此时 $y$ 还是 $x$ 的函数吗？引导学生理解"取整"对函数定义的影响。</p>
+    <p>迁移方向：包裹寄送、停车费计价等"首段固定 + 后段线性"的生活情境均可套用此模型。</p>
+  </div>
+</div>
+
+<div class="page-break"></div>
+
+<!-- ========== 参考答案 ========== -->
+<div class="edu-section">
+  <h2 class="edu-section__title">参考答案</h2>
+  <div class="edu-answer-key">
+    <table class="edu-table">
+      <thead>
+        <tr>
+          <th>题号</th>
+          <th>第（1）问</th>
+          <th>第（2）问</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>$y = \begin{cases} 10, & 0 < x \leq 3, \\ 2.4x + 2.8, & x > 3 \end{cases}$</td>
+          <td>$x = 11$ 公里</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>$y = \begin{cases} 0.52x, & 0 < x \leq 200, \\ 0.78x - 52, & x > 200 \end{cases}$</td>
+          <td>$x = \dfrac{800}{3} \approx 266.7$ 度</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>$y = \begin{cases} 8, & x = 1, \\ 3.2x + 4.8, & x > 1 \end{cases}$（$x$ 为正整数）</td>
+          <td>$x = 6$ 千克</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="page-break"></div>
+
+<!-- ========== 自查表 ========== -->
+<div class="edu-section">
+  <h2 class="edu-section__title">自查表</h2>
+  <p class="edu-text">完成全部练习后，请对照参考答案逐题检查，在对应格中打勾。</p>
+  <div class="edu-self-check">
+    <table class="edu-table">
+      <thead>
+        <tr>
+          <th>题号</th>
+          <th>解析式正确</th>
+          <th>定义域正确</th>
+          <th>区间判断正确</th>
+          <th>求解过程正确</th>
+          <th>验证结果</th>
+          <th>整体评价</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>&square;</td>
+          <td>&square;</td>
+          <td>&square;</td>
+          <td>&square;</td>
+          <td>&square;</td>
+          <td>&emsp;&emsp;A&emsp;B&emsp;C&emsp;D</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>&square;</td>
+          <td>&square;</td>
+          <td>&square;</td>
+          <td>&square;</td>
+          <td>&square;</td>
+          <td>&emsp;&emsp;A&emsp;B&emsp;C&emsp;D</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>&square;</td>
+          <td>&square;</td>
+          <td>&square;</td>
+          <td>&square;</td>
+          <td>&square;</td>
+          <td>&emsp;&emsp;A&emsp;B&emsp;C&emsp;D</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="edu-text u-mt-0">
+    <p>评分标准：A = 全部正确，无瑕疵；B = 结果正确但过程有小误；C = 部分正确；D = 需要重新学习本节内容。</p>
+  </div>
+</div>
+
+<div class="page-break"></div>
+
+<!-- ========== 交接记录 ========== -->
+<div class="edu-section">
+  <h2 class="edu-section__title">交接记录</h2>
+  <div class="edu-handoff">
+    <table class="edu-table">
+      <thead>
+        <tr>
+          <th style="width:25%">项目</th>
+          <th>内容</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>完成时间</td>
+          <td>________________</td>
+        </tr>
+        <tr>
+          <td>自查结果</td>
+          <td>第 1 题____&emsp;第 2 题____&emsp;第 3 题____</td>
+        </tr>
+        <tr>
+          <td>主要困难</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>教师评语</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>下次练习建议</td>
+          <td>&square; 升档练习&emsp;&square; 同档巩固&emsp;&square; 降档复习&emsp;&square; 进入下一专题</td>
+        </tr>
+        <tr>
+          <td>教师签字</td>
+          <td>________________&emsp;&emsp;日期：________________</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+</body>
+</html>

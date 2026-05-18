@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>学生版讲解：sin函数平移交点正三角形</title>
+<link rel="stylesheet" href="edu-print.css">
+<style>
+  .formula { font-family: "Times New Roman", serif; }
+  .frac { display: inline-block; vertical-align: middle; text-align: center; }
+  .frac .num { display: block; padding: 0 0.15em; border-bottom: 1px solid; min-width: 1em; }
+  .frac .den { display: block; padding: 0 0.15em; min-width: 1em; }
+  sup { font-size: 0.75em; vertical-align: super; }
+  sub { font-size: 0.75em; vertical-align: sub; }
+  .sqrt-sign { text-decoration: overline; }
+  .pm { font-family: "Times New Roman", serif; }
+</style>
+</head>
+<body data-view="student">
+<div class="edu-page">
+
+  <h1 class="edu-title">学生版讲解：sin函数平移交点正三角形</h1>
+  <p class="edu-subtitle">主题标签：三角函数 · 图像平移 · 交点 · 正三角形 · 参数方程</p>
+
+  <section class="edu-problem-card u-avoid-break">
+    <div class="edu-problem-title">原题</div>
+    <p class="edu-problem-stem">将函数 <span class="formula"><em>y</em> = sin(<em>πx</em>)</span> 的图像向左平移 <span class="formula"><em>m</em></span>（<span class="formula"><em>m</em> &gt; 0</span>）个单位后，所得图像与原函数图像的相邻三个交点恰好构成一个正三角形，求 <span class="formula"><em>m</em></span> 的值。</p>
+  </section>
+
+  <section class="edu-section">
+    <h2 class="edu-section-title">一、先把题目拆开</h2>
+    <table class="edu-table edu-task-table">
+      <tr><th>已知条件</th><td>① <em>y</em> = sin(<em>πx</em>)；② 左移 <em>m</em> 个单位（<em>m</em> &gt; 0）；③ 两个图像的相邻三个交点构成正三角形</td></tr>
+      <tr><th>要求目标</th><td>求 <em>m</em> 的值</td></tr>
+      <tr><th>关键词</th><td>左移、交点、相邻、正三角形</td></tr>
+      <tr><th>容易忽略</th><td>① sin <em>A</em> = sin <em>B</em> 有两种情形；② 正三角形要求<strong>三边都相等</strong>，不只是两边</td></tr>
+    </table>
+  </section>
+
+  <section class="edu-section">
+    <h2 class="edu-section-title">二、这题准备怎么走</h2>
+    <div class="edu-route">
+      <ol>
+        <li>写出左移后的函数表达式</li>
+        <li>联立两个函数，求出交点横坐标的通项公式</li>
+        <li>写出相邻三个交点的坐标，发现纵坐标的规律</li>
+        <li>用正三角形"三边相等"的条件列方程</li>
+        <li>解方程，求出 <em>m</em></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="edu-section">
+    <h2 class="edu-section-title">三、关键想法</h2>
+    <div class="edu-key-idea">把 sin <em>A</em> = sin <em>B</em> 的两种情形分别列出来，化简后会发现交点的横坐标成等差数列，公差为 1。这意味着相邻交点的横坐标差恒为 1，问题从"求无数个交点"一下子变成"只看一个 <em>y</em> 值"。</div>
+  </section>
+
+  <div class="page-break"></div>
+
+  <section class="edu-section">
+    <h2 class="edu-section-title">四、标准解法</h2>
+
+    <div class="edu-step">
+      <div class="edu-step-title">第 1 步：写出左移后的函数</div>
+      <p class="edu-p">左移 <em>m</em> 个单位，<em>x</em> 变成 <em>x</em> + <em>m</em>：</p>
+      <div class="edu-formula"><em>y</em> = sin(<em>π</em>(<em>x</em> + <em>m</em>))</div>
+    </div>
+
+    <div class="edu-step">
+      <div class="edu-step-title">第 2 步：联立求交点</div>
+      <p class="edu-p">两个图像的交点满足：</p>
+      <div class="edu-formula">sin(<em>πx</em>) = sin(<em>π</em>(<em>x</em> + <em>m</em>))</div>
+      <p class="edu-p">设 <em>A</em> = <em>πx</em>，<em>B</em> = <em>π</em>(<em>x</em> + <em>m</em>)，则 sin <em>A</em> = sin <em>B</em>，有两种情形：</p>
+      <div class="edu-substep">
+        <p class="edu-p"><strong>情形一：</strong><em>A</em> = <em>B</em> + 2<em>kπ</em>，即 <em>πx</em> = <em>π</em>(<em>x</em> + <em>m</em>) + 2<em>kπ</em></p>
+        <p class="edu-p">化简：0 = <em>πm</em> + 2<em>kπ</em>，即 <em>m</em> = −2<em>k</em>。这只给出 <em>m</em> 的特殊值，不是我们要找的一般交点。</p>
+      </div>
+      <div class="edu-substep">
+        <p class="edu-p"><strong>情形二：</strong><em>A</em> = <em>π</em> − <em>B</em> + 2<em>kπ</em>，即 <em>πx</em> = <em>π</em> − <em>π</em>(<em>x</em> + <em>m</em>) + 2<em>kπ</em></p>
+        <p class="edu-p">化简：2<em>πx</em> = <em>π</em>(1 − <em>m</em>) + 2<em>kπ</em></p>
+        <p class="edu-p">两边除以 2<em>π</em>：</p>
+        <div class="edu-formula-key"><em>x</em> = <span class="frac"><span class="num">1 − <em>m</em></span><span class="den">2</span></span> + <em>k</em> &nbsp;&nbsp;(<em>k</em> ∈ <b>Z</b>)</div>
+        <p class="edu-step-why">为什么：这是交点横坐标的<strong>通项公式</strong>，相邻两个 <em>k</em> 值对应的 <em>x</em> 差 1。</p>
+      </div>
+    </div>
+
+    <div class="edu-step">
+      <div class="edu-step-title">第 3 步：写出相邻三个交点的坐标</div>
+      <p class="edu-p">记 <em>x</em><sub>0</sub> = (1−<em>m</em>)/2，则第 <em>k</em> 个交点：</p>
+      <div class="edu-formula"><em>P</em><sub><em>k</sub></em> = (<em>x</em><sub>0</sub> + <em>k</em>, &ensp; sin(<em>π</em>(<em>x</em><sub>0</sub> + <em>k</em>)))</div>
+      <p class="edu-p">计算纵坐标：</p>
+      <div class="edu-substep">
+        <p class="edu-p">sin(<em>π</em>(<em>x</em><sub>0</sub> + <em>k</em>)) = sin(<em>πx</em><sub>0</sub> + <em>kπ</em>) = sin(<em>πx</em><sub>0</sub>) · cos(<em>kπ</em>) + cos(<em>πx</em><sub>0</sub>) · sin(<em>kπ</em>)</p>
+        <p class="edu-p">因为 sin(<em>kπ</em>) = 0，cos(<em>kπ</em>) = (−1)<sup><em>k</em></sup>：</p>
+        <div class="edu-formula-key"><em>y</em><sub><em>k</em></sub> = (−1)<sup><em>k</em></sup> · <em>y</em><sub>0</sub> &ensp;，其中 <em>y</em><sub>0</sub> = sin<span class="pm">（</span><span class="frac"><span class="num"><em>π</em>(1−<em>m</em>)</span><span class="den">2</span></span><span class="pm">）</span></div>
+        <p class="edu-step-why">为什么：纵坐标<strong>交替</strong>取 <em>y</em><sub>0</sub> 和 −<em>y</em><sub>0</sub>。</p>
+      </div>
+      <p class="edu-p">相邻三个交点为：</p>
+      <div class="edu-formula"><em>P</em><sub>0</sub> = (<em>x</em><sub>0</sub>, <em>y</em><sub>0</sub>)，&ensp; <em>P</em><sub>1</sub> = (<em>x</em><sub>0</sub>+1, −<em>y</em><sub>0</sub>)，&ensp; <em>P</em><sub>2</sub> = (<em>x</em><sub>0</sub>+2, <em>y</em><sub>0</sub>)</div>
+    </div>
+
+    <div class="page-break"></div>
+
+    <div class="edu-step">
+      <div class="edu-step-title">第 4 步：列正三角形条件</div>
+      <p class="edu-p">正三角形要求三边相等。先算三条边的长度：</p>
+      <div class="edu-substep">
+        <p class="edu-p"><strong>|<em>P</em><sub>0</sub><em>P</em><sub>2</sub>|</strong> = √[(<em>x</em><sub>0</sub>+2 − <em>x</em><sub>0</sub>)<sup>2</sup> + (<em>y</em><sub>0</sub> − <em>y</em><sub>0</sub>)<sup>2</sup>] = √[2<sup>2</sup> + 0] = <strong>2</strong></p>
+      </div>
+      <div class="edu-substep">
+        <p class="edu-p"><strong>|<em>P</em><sub>0</sub><em>P</em><sub>1</sub>|</strong> = √[(<em>x</em><sub>0</sub>+1 − <em>x</em><sub>0</sub>)<sup>2</sup> + (−<em>y</em><sub>0</sub> − <em>y</em><sub>0</sub>)<sup>2</sup>] = √[1 + 4<em>y</em><sub>0</sub><sup>2</sup>]</p>
+      </div>
+      <p class="edu-p">令 |<em>P</em><sub>0</sub><em>P</em><sub>1</sub>| = |<em>P</em><sub>0</sub><em>P</em><sub>2</sub>| = 2：</p>
+      <div class="edu-formula-key">√(1 + 4<em>y</em><sub>0</sub><sup>2</sup>) = 2 &nbsp;⟹&nbsp; 1 + 4<em>y</em><sub>0</sub><sup>2</sup> = 4 &nbsp;⟹&nbsp; <em>y</em><sub>0</sub><sup>2</sup> = <span class="frac"><span class="num">3</span><span class="den">4</span></span></div>
+      <p class="edu-step-why">为什么：|<em>P</em><sub>1</sub><em>P</em><sub>2</sub>| 的计算与 |<em>P</em><sub>0</sub><em>P</em><sub>1</sub>| 完全对称，所以只需一个等式。</p>
+    </div>
+
+    <div class="edu-step">
+      <div class="edu-step-title">第 5 步：解 <em>m</em></div>
+      <p class="edu-p">由 <em>y</em><sub>0</sub><sup>2</sup> = 3/4 得 |<em>y</em><sub>0</sub>| = √3/2：</p>
+      <div class="edu-formula">|sin(<span class="frac"><span class="num"><em>π</em>(1−<em>m</em>)</span><span class="den">2</span></span>)| = <span class="frac"><span class="num">√3</span><span class="den">2</span></span></div>
+      <p class="edu-p">因为 <em>m</em> &gt; 0，令 <span class="frac"><span class="num"><em>π</em>(1−<em>m</em>)</span><span class="den">2</span></span> = <span class="frac"><span class="num"><em>π</em></span><span class="den">3</span></span> 或 <span class="frac"><span class="num">−<em>π</em></span><span class="den">3</span></span>（取主值范围内）：</p>
+      <div class="edu-substep">
+        <p class="edu-p"><span class="frac"><span class="num">1−<em>m</em></span><span class="den">2</span></span> = <span class="frac"><span class="num">1</span><span class="den">3</span></span> &nbsp;⟹&nbsp; 1−<em>m</em> = <span class="frac"><span class="num">2</span><span class="den">3</span></span> &nbsp;⟹&nbsp; <strong><em>m</em> = <span class="frac"><span class="num">1</span><span class="den">3</span></span></strong></p>
+      </div>
+      <div class="edu-substep">
+        <p class="edu-p"><span class="frac"><span class="num">1−<em>m</em></span><span class="den">2</span></span> = −<span class="frac"><span class="num">1</span><span class="den">3</span></span> &nbsp;⟹&nbsp; 1−<em>m</em> = −<span class="frac"><span class="num">2</span><span class="den">3</span></span> &nbsp;⟹&nbsp; <strong><em>m</em> = <span class="frac"><span class="num">5</span><span class="den">3</span></span></strong></p>
+      </div>
+      <p class="edu-p">两个值都满足 <em>m</em> &gt; 0。</p>
+      <div class="edu-formula-key">答：<em>m</em> = <span class="frac"><span class="num">1</span><span class="den">3</span></span> 或 <span class="frac"><span class="num">5</span><span class="den">3</span></span></div>
+    </div>
+  </section>
+
+  <section class="edu-section">
+    <h2 class="edu-section-title">五、边讲边问</h2>
+
+    <div class="edu-question">
+      <div class="edu-question-title">想一想 1</div>
+      <p class="edu-p">sin <em>A</em> = sin <em>B</em> 时，除了 <em>A</em> = <em>B</em> 之外，还有什么情况？写出第二种情况的一般形式。</p>
+      <span class="edu-blank-line"></span>
+      <span class="edu-blank-line"></span>
+    </div>
+
+    <div class="edu-question">
+      <div class="edu-question-title">想一想 2</div>
+      <p class="edu-p">交点横坐标为 <em>x</em> = (1−<em>m</em>)/2 + <em>k</em>，相邻两个交点的横坐标差是多少？</p>
+      <span class="edu-blank-line"></span>
+    </div>
+
+    <div class="edu-question">
+      <div class="edu-question-title">想一想 3</div>
+      <p class="edu-p">如果 <em>y</em><sub>0</sub> = 0，<em>P</em><sub>0</sub>、<em>P</em><sub>1</sub>、<em>P</em><sub>2</sub> 三点能构成三角形吗？为什么？</p>
+      <span class="edu-blank-line"></span>
+      <span class="edu-blank-line"></span>
+    </div>
+
+    <div class="edu-question">
+      <div class="edu-question-title">想一想 4</div>
+      <p class="edu-p">验证：把 <em>m</em> = 1/3 代入，算出 <em>P</em><sub>0</sub>、<em>P</em><sub>1</sub>、<em>P</em><sub>2</sub> 的坐标，然后算 |<em>P</em><sub>0</sub><em>P</em><sub>1</sub>| 和 |<em>P</em><sub>0</sub><em>P</em><sub>2</sub>|，看它们是否相等。</p>
+      <span class="edu-blank-line"></span>
+      <span class="edu-blank-line"></span>
+      <span class="edu-blank-line"></span>
+    </div>
+  </section>
+
+  <div class="page-break"></div>
+
+  <section class="edu-section">
+    <h2 class="edu-section-title">六、易错提醒</h2>
+    <div class="edu-mistake"><strong>易错点 1：</strong>漏掉 sin <em>A</em> = sin <em>B</em> 的第二种情形 <em>A</em> = <em>π</em> − <em>B</em> + 2<em>kπ</em>。如果只写 <em>A</em> = <em>B</em>，只能得到 <em>m</em> = −2<em>k</em>，完全找不到交点。</div>
+    <div class="edu-mistake"><strong>易错点 2：</strong>左移的方向搞错。左移 <em>m</em> 个单位是 <em>x</em> → <em>x</em> + <em>m</em>，不是 <em>x</em> → <em>x</em> − <em>m</em>。</div>
+    <div class="edu-mistake"><strong>易错点 3：</strong>算距离时纵坐标的符号弄错。<em>P</em><sub>1</sub> 的纵坐标是 −<em>y</em><sub>0</sub>，所以 |<em>P</em><sub>0</sub><em>P</em><sub>1</sub>| 中纵坐标差是 (−<em>y</em><sub>0</sub>) − <em>y</em><sub>0</sub> = −2<em>y</em><sub>0</sub>，平方后是 4<em>y</em><sub>0</sub><sup>2</sup>，不是 <em>y</em><sub>0</sub><sup>2</sup>。</div>
+  </section>
+
+  <section class="edu-section">
+    <h2 class="edu-section-title">七、一句话总结</h2>
+    <div class="edu-key-idea">sin <em>A</em> = sin <em>B</em> 两种情形化简 → 交点横坐标等差（公差 1） → 纵坐标交替 ±<em>y</em><sub>0</sub> → 三边相等列方程 → 解参数。</div>
+  </section>
+
+</div>
+
+<aside class="edu-teacher-note self-check no-print">
+  <div class="edu-card-title">生成后自检</div>
+  <ul>
+    <li><strong>数学检查：</strong>答案 m = 1/3 或 5/3 与 canonical_solution 一致；无漏解增根；sin α = sin β 两种情形正确；距离公式计算正确。</li>
+    <li><strong>教学检查：</strong>本页训练一个核心动作（交点通解→等距→几何约束列方程）；未引入无关知识点；互动问题围绕本题核心链条（sinα=sinβ通解、横坐标差、退化情形、验证）。</li>
+    <li><strong>档位检查：</strong>默认假设 C/D 档；无学生证据，标注为默认预测；讲解步骤未跳跃。</li>
+    <li><strong>HTML 检查：</strong>标签闭合；包含全部 required sections；无网络 CDN 依赖（纯 HTML/CSS）；适合 A4 打印；分页在步骤与问答之间、易错提醒前。</li>
+    <li><strong>自检结论：</strong>通过。</li>
+  </ul>
+</aside>
+
+<aside class="edu-teacher-note no-print">
+下一步：使用 math-adaptive-practice-html，输入本结构分析 + 学生画像，生成自适应练习。工作流：math-structure-analysis → math-student-explanation-html → math-adaptive-practice-html。
+</aside>
+
+</body>
+</html>

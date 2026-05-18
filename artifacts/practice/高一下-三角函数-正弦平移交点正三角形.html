@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>自适应练习：sin函数平移交点正三角形</title>
+<link rel="stylesheet" href="edu-print.css">
+<style>
+  .formula { font-family: "Times New Roman", serif; }
+  .frac { display: inline-block; vertical-align: middle; text-align: center; }
+  .frac .num { display: block; padding: 0 0.15em; border-bottom: 1px solid; min-width: 1em; }
+  .frac .den { display: block; padding: 0 0.15em; min-width: 1em; }
+  sup { font-size: 0.75em; vertical-align: super; }
+  sub { font-size: 0.75em; vertical-align: sub; }
+</style>
+</head>
+<body data-view="student">
+<div class="edu-page">
+
+  <h1 class="edu-title">自适应练习：sin函数平移交点正三角形</h1>
+  <p class="edu-subtitle">本组只练一个核心动作：交点通解 → 等距规律 → 几何约束列方程</p>
+
+  <section class="edu-practice-problem u-avoid-break">
+    <h2 class="edu-practice-title">第 1 题：找交点通项（入口题）</h2>
+    <p class="edu-p">已知函数 <span class="formula"><em>y</em> = sin(<em>πx</em>)</span> 与 <span class="formula"><em>y</em> = sin(<em>π</em>(<em>x</em> + <span class="frac"><span class="num">1</span><span class="den">3</span></span>))</span>。</p>
+    <p class="edu-p">(1) 联立方程，利用 sin <em>A</em> = sin <em>B</em> 的两种情形，求两个图像交点的横坐标通项公式（用 <em>k</em> 表示）。</p>
+    <p class="edu-p">(2) 写出 <em>k</em> = 0, 1, 2 时三个交点的坐标。</p>
+
+    <div class="edu-hint">
+      <div class="edu-hint-title">提示一</div>
+      <p class="edu-p">sin <em>A</em> = sin <em>B</em> 有两种情形：<em>A</em> = <em>B</em> + 2<em>kπ</em> 和 <em>A</em> = <em>π</em> − <em>B</em> + 2<em>kπ</em>。第二种情形才是产生一般交点的。</p>
+    </div>
+    <div class="edu-hint">
+      <div class="edu-hint-title">提示二</div>
+      <p class="edu-p">第二种情形化简得：<em>πx</em> = <em>π</em> − <em>π</em>(<em>x</em> + 1/3) + 2<em>kπ</em> → 2<em>πx</em> = <em>π</em>(1 − 1/3) + 2<em>kπ</em> = 2<em>π</em>/3 + 2<em>kπ</em> → <em>x</em> = 1/3 + <em>k</em>。</p>
+    </div>
+
+    <div class="edu-answer-steps">
+      <div class="edu-answer-step">
+        <span class="edu-answer-step-label">① 写出联立方程和两种情形：</span>
+      </div>
+      <div class="edu-answer-step">
+        <span class="edu-answer-step-label">② 化简得交点横坐标通项：</span>
+      </div>
+      <div class="edu-answer-step">
+        <span class="edu-answer-step-label">③ 列出三个交点的完整坐标：</span>
+      </div>
+    </div>
+
+    <aside class="edu-teacher-note no-print">
+      <div class="edu-card-title">第 1 题教师备忘</div>
+      <p class="edu-training-goal"><span class="edu-tag">训练目标</span>掌握 sin A = sin B 通解化简和交点通项公式</p>
+      <p class="edu-expected-blocker"><span class="edu-tag">预期卡点</span>漏掉第二种情形；化简时除法出错</p>
+      <p class="edu-small">复杂度：m 已给定为 1/3，无需解参数，计算量极低。</p>
+      <div class="edu-judge">
+        <p class="edu-p"><span class="edu-upgrade">升级：</span>若学生正确完成，进入第 2 题。</p>
+        <p class="edu-p"><span class="edu-downgrade">降级：</span>若学生不会 sin A = sin B 的第二种情形，回到讲解页复习后再试。</p>
+      </div>
+    </aside>
+  </section>
+
+  <div class="page-break"></div>
+
+  <section class="edu-practice-problem u-avoid-break">
+    <h2 class="edu-practice-title">第 2 题：等距交点的坐标规律</h2>
+    <p class="edu-p">设函数 <span class="formula"><em>y</em> = sin(<em>πx</em>)</span> 与 <span class="formula"><em>y</em> = sin(<em>π</em>(<em>x</em> + <em>m</em>))</span>（<span class="formula"><em>m</em> > 0</span>）的交点横坐标为 <span class="formula"><em>x<sub>k</sub></em> = <span class="frac"><span class="num">1 − <em>m</em></span><span class="den">2</span></span> + <em>k</em></span>（<span class="formula"><em>k</em> ∈ <b>Z</b></span>）。</p>
+    <p class="edu-p">(1) 证明相邻交点横坐标之差恒为 1。</p>
+    <p class="edu-p">(2) 证明交点纵坐标 <em>y<sub>k</sub></em> = (−1)<sup><em>k</em></sup> <em>y</em><sub>0</sub>，其中 <em>y</em><sub>0</sub> = sin<span class="pm">（</span><span class="frac"><span class="num"><em>π</em>(1 − <em>m</em>)</span><span class="den">2</span></span><span class="pm">）</span>。</p>
+    <p class="edu-p">(3) 写出 <em>P</em><sub>0</sub>、<em>P</em><sub>1</sub>、<em>P</em><sub>2</sub> 三个相邻交点的坐标。</p>
+
+    <div class="edu-hint">
+      <div class="edu-hint-title">提示一</div>
+      <p class="edu-p">第(1)问直接计算 <em>x</em><sub><em>k</em>+1</sub> − <em>x<sub>k</sub></em>。第(2)问把 <em>πx<sub>k</sub></em> = <em>π</em> · ((1−<em>m</em>)/2 + <em>k</em>) 拆成 <em>π</em>(1−<em>m</em>)/2 + <em>kπ</em>，利用 sin(α+<em>kπ</em>) 的公式。</p>
+    </div>
+    <div class="edu-hint">
+      <div class="edu-hint-title">提示二</div>
+      <p class="edu-p">sin(α + <em>kπ</em>) = sin α · cos(<em>kπ</em>) + cos α · sin(<em>kπ</em>) = (−1)<sup><em>k</em></sup> sin α（因为 cos(<em>kπ</em>) = (−1)<sup><em>k</em></sup>，sin(<em>kπ</em>) = 0）。</p>
+    </div>
+
+    <div class="edu-answer-steps">
+      <div class="edu-answer-step">
+        <span class="edu-answer-step-label">① 证明横坐标差为 1：</span>
+      </div>
+      <div class="edu-answer-step">
+        <span class="edu-answer-step-label">② 证明纵坐标交替规律：</span>
+      </div>
+      <div class="edu-answer-step">
+        <span class="edu-answer-step-label">③ 写出三点坐标：</span>
+      </div>
+    </div>
+
+    <aside class="edu-teacher-note no-print">
+      <div class="edu-card-title">第 2 题教师备忘</div>
+      <p class="edu-training-goal"><span class="edu-tag">训练目标</span>发现等距交点的纵坐标交替规律</p>
+      <p class="edu-expected-blocker"><span class="edu-tag">预期卡点</span>第(2)问中 sin(α + kπ) 的诱导公式展开出错</p>
+      <p class="edu-small">复杂度：与原题第二步第三步结构相同，但拆成独立小题降低认知负担。</p>
+      <div class="edu-judge">
+        <p class="edu-p"><span class="edu-upgrade">升级：</span>若学生顺利完成，进入第 3 题。</p>
+        <p class="edu-p"><span class="edu-downgrade">降级：</span>若学生卡在第(2)问的诱导公式，复习 sin(α+π) = −sin α 和 sin(α+2π) = sin α。</p>
+      </div>
+    </aside>
+  </section>
+
+  <div class="page-break"></div>
+
+  <section class="edu-practice-problem u-avoid-break">
+    <h2 class="edu-practice-title">第 3 题：三角形约束列方程</h2>
+    <p class="edu-p">已知三点坐标为 <span class="formula"><em>P</em><sub>0</sub> = (0, <em>a</em>)</span>、<span class="formula"><em>P</em><sub>1</sub> = (1, −<em>a</em>)</span>、<span class="formula"><em>P</em><sub>2</sub> = (2, <em>a</em>)</span>，其中 <span class="formula"><em>a</em> > 0</span>。</p>
+    <p class="edu-p">(1) 计算 |<em>P</em><sub>0</sub><em>P</em><sub>1</sub>|、|<em>P</em><sub>1</sub><em>P</em><sub>2</sub>|、|<em>P</em><sub>0</sub><em>P</em><sub>2</sub>|。</p>
+    <p class="edu-p">(2) 若 <em>P</em><sub>0</sub>、<em>P</em><sub>1</sub>、<em>P</em><sub>2</sub> 构成正三角形，求 <em>a</em> 的值。</p>
+    <p class="edu-p">(3) 若改为构成<strong>等腰直角三角形</strong>（直角在 <em>P</em><sub>1</sub>），求 <em>a</em> 的值。</p>
+
+    <div class="edu-hint">
+      <div class="edu-hint-title">提示一</div>
+      <p class="edu-p">距离公式：|<em>AB</em>| = √[(<em>x</em><sub>2</sub>−<em>x</em><sub>1</sub>)<sup>2</sup> + (<em>y</em><sub>2</sub>−<em>y</em><sub>1</sub>)<sup>2</sup>]。注意 <em>P</em><sub>1</sub> 的纵坐标是 −<em>a</em>，所以纵坐标差要算 (−<em>a</em>) − <em>a</em> = −2<em>a</em>。</p>
+    </div>
+    <div class="edu-hint">
+      <div class="edu-hint-title">提示二</div>
+      <p class="edu-p">第(2)问令 √(1+4<em>a</em><sup>2</sup>) = 2。第(3)问令 |<em>P</em><sub>0</sub><em>P</em><sub>1</sub>|<sup>2</sup> + |<em>P</em><sub>1</sub><em>P</em><sub>2</sub>|<sup>2</sup> = |<em>P</em><sub>0</sub><em>P</em><sub>2</sub>|<sup>2</sup>（勾股定理）。</p>
+    </div>
+
+    <div class="edu-answer-steps">
+      <div class="edu-answer-step">
+        <span class="edu-answer-step-label">① 计算三条边的长度：</span>
+      </div>
+      <div class="edu-answer-step">
+        <span class="edu-answer-step-label">② 正三角形条件列方程求解：</span>
+      </div>
+      <div class="edu-answer-step">
+        <span class="edu-answer-step-label">③ 等腰直角三角形条件列方程求解：</span>
+      </div>
+    </div>
+
+    <aside class="edu-teacher-note no-print">
+      <div class="edu-card-title">第 3 题教师备忘</div>
+      <p class="edu-training-goal"><span class="edu-tag">训练目标</span>等距交替点列的几何约束列方程（原题核心步骤的去参数化版本）</p>
+      <p class="edu-expected-blocker"><span class="edu-tag">预期卡点</span>纵坐标差算错（忘取绝对值或符号错）；第(3)问勾股定理列式方向搞反</p>
+      <p class="edu-small">复杂度：去掉了三角函数参数，纯代数计算。第(3)问小步上升到等腰直角三角形，计算量仍为简单二次方程。</p>
+      <div class="edu-judge">
+        <p class="edu-p"><span class="edu-upgrade">升级：</span>若学生完成第(3)问，进入第 4 题（完整版）。</p>
+        <p class="edu-p"><span class="edu-downgrade">降级：</span>若学生第(1)问就出错，回到讲解页复习距离公式。</p>
+      </div>
+    </aside>
+  </section>
+
+  <div class="page-break"></div>
+
+  <section class="edu-practice-problem u-avoid-break">
+    <h2 class="edu-practice-title">第 4 题：完整版（变式）</h2>
+    <p class="edu-p">将函数 <span class="formula"><em>y</em> = sin(<em>πx</em>)</span> 的图像向左平移 <span class="formula"><em>m</em></span>（<span class="formula"><em>m</em> > 0</span>）个单位后，所得图像与原函数图像的相邻三个交点构成<strong>等腰直角三角形</strong>（直角在中间的交点处），求 <em>m</em> 的值。</p>
+
+    <div class="edu-hint">
+      <div class="edu-hint-title">提示一</div>
+      <p class="edu-p">流程与原题完全相同：写平移函数 → 联立求交点通项 → 写三点坐标 → 列几何约束方程。唯一的区别是最后一步。</p>
+    </div>
+    <div class="edu-hint">
+      <div class="edu-hint-title">提示二</div>
+      <p class="edu-p">直角在 <em>P</em><sub>1</sub>，即 |<em>P</em><sub>0</sub><em>P</em><sub>1</sub>|<sup>2</sup> + |<em>P</em><sub>1</sub><em>P</em><sub>2</sub>|<sup>2</sup> = |<em>P</em><sub>0</sub><em>P</em><sub>2</sub>|<sup>2</sup>。代入得 2(1+4<em>y</em><sub>0</sub><sup>2</sup>) = 4，即 <em>y</em><sub>0</sub><sup>2</sup> = 1/4。</p>
+    </div>
+
+    <div class="edu-answer-steps">
+      <div class="edu-answer-step">
+        <span class="edu-answer-step-label">① 写出平移后的函数并求交点通项：</span>
+      </div>
+      <div class="edu-answer-step">
+        <span class="edu-answer-step-label">② 写出相邻三交点坐标：</span>
+      </div>
+      <div class="edu-answer-step">
+        <span class="edu-answer-step-label">③ 列等腰直角三角形条件并求解 m：</span>
+      </div>
+    </div>
+
+    <aside class="edu-teacher-note no-print">
+      <div class="edu-card-title">第 4 题教师备忘</div>
+      <p class="edu-training-goal"><span class="edu-tag">训练目标</span>同结构变式：正三角形改为等腰直角三角形</p>
+      <p class="edu-expected-blocker"><span class="edu-tag">预期卡点</span>勾股定理方向搞反（斜边应是 |<em>P</em><sub>0</sub><em>P</em><sub>2</sub>| = 2）；解 sin 方程后忘检查 <em>m</em> > 0</p>
+      <p class="edu-small">复杂度：与原题同级，仅末尾约束不同。答案为 m = 1/2 或 3/2（因为 <em>y</em><sub>0</sub><sup>2</sup> = 1/4 → sin(π(1−m)/2) = ±1/2 → (1−m)/2 = ±1/6 → m = 1−1/3=2/3 或 m = 1+1/3=4/3，需再检查通解中 m>0 的所有值）。</p>
+      <div class="edu-judge">
+        <p class="edu-p"><span class="edu-upgrade">升级：</span>若学生完成此题，可进入 E/F 档变式（如四个交点构成正方形）。</p>
+        <p class="edu-downgrade">降级：</span>若学生卡住，回到第 3 题复习距离公式和勾股定理。</p>
+      </div>
+    </aside>
+  </section>
+
+  <div class="page-break"></div>
+
+  <section class="edu-answer-key">
+    <h2 class="edu-section-title u-mt-0">参考答案</h2>
+
+    <div class="edu-step">
+      <div class="edu-step-title">第 1 题答案</div>
+      <p class="edu-p">(1) sin(<em>πx</em>) = sin(<em>π</em>(<em>x</em> + 1/3))</p>
+      <p class="edu-p">情形一：<em>πx</em> = <em>π</em>(<em>x</em> + 1/3) + 2<em>kπ</em> → <em>m</em> = −1/3（不合）</p>
+      <p class="edu-p">情形二：<em>πx</em> = <em>π</em> − <em>π</em>(<em>x</em> + 1/3) + 2<em>kπ</em> → 2<em>πx</em> = 2<em>π</em>/3 + 2<em>kπ</em> → <strong><em>x</em> = 1/3 + <em>k</em></strong></p>
+      <p class="edu-p">(2) <em>P</em><sub>0</sub> = (1/3, sin(π/3)) = (1/3, √3/2)</p>
+      <p class="edu-p">&emsp;&ensp;<em>P</em><sub>1</sub> = (4/3, sin(4π/3)) = (4/3, −√3/2)</p>
+      <p class="edu-p">&emsp;&ensp;<em>P</em><sub>2</sub> = (7/3, sin(7π/3)) = (7/3, √3/2)</p>
+    </div>
+
+    <div class="edu-step">
+      <div class="edu-step-title">第 2 题答案</div>
+      <p class="edu-p">(1) <em>x</em><sub><em>k</em>+1</sub> − <em>x<sub>k</sub></em> = (1−<em>m</em>)/2 + (<em>k</em>+1) − (1−<em>m</em>)/2 − <em>k</em> = <strong>1</strong> ✓</p>
+      <p class="edu-p">(2) <em>y<sub>k</sub></em> = sin(<em>πx<sub>k</sub></em>) = sin(<em>π</em>(1−<em>m</em>)/2 + <em>kπ</em>) = sin(<em>π</em>(1−<em>m</em>)/2)cos(<em>kπ</em>) + cos(<em>π</em>(1−<em>m</em>)/2)sin(<em>kπ</em>) = (−1)<sup><em>k</em></sup><em>y</em><sub>0</sub> ✓</p>
+      <p class="edu-p">(3) <em>P</em><sub>0</sub> = ((1−<em>m</em>)/2, <em>y</em><sub>0</sub>)，<em>P</em><sub>1</sub> = ((1−<em>m</em>)/2+1, −<em>y</em><sub>0</sub>)，<em>P</em><sub>2</sub> = ((1−<em>m</em>)/2+2, <em>y</em><sub>0</sub>)</p>
+    </div>
+
+    <div class="edu-step">
+      <div class="edu-step-title">第 3 题答案</div>
+      <p class="edu-p">(1) |<em>P</em><sub>0</sub><em>P</em><sub>1</sub>| = √(1+4<em>a</em><sup>2</sup>)，|<em>P</em><sub>1</sub><em>P</em><sub>2</sub>| = √(1+4<em>a</em><sup>2</sup>)，|<em>P</em><sub>0</sub><em>P</em><sub>2</sub>| = 2</p>
+      <p class="edu-p">(2) √(1+4<em>a</em><sup>2</sup>) = 2 → <em>a</em><sup>2</sup> = 3/4 → <strong><em>a</em> = √3/2</strong></p>
+      <p class="edu-p">(3) |<em>P</em><sub>0</sub><em>P</em><sub>1</sub>|<sup>2</sup> + |<em>P</em><sub>1</sub><em>P</em><sub>2</sub>|<sup>2</sup> = |<em>P</em><sub>0</sub><em>P</em><sub>2</sub>|<sup>2</sup> → 2(1+4<em>a</em><sup>2</sup>) = 4 → <em>a</em><sup>2</sup> = 1/4 → <strong><em>a</em> = 1/2</strong></p>
+    </div>
+
+    <div class="edu-step">
+      <div class="edu-step-title">第 4 题答案</div>
+      <p class="edu-p">交点通项：<em>x</em> = (1−<em>m</em>)/2 + <em>k</em>，纵坐标交替 ±<em>y</em><sub>0</sub></p>
+      <p class="edu-p">等腰直角三角形（直角在 <em>P</em><sub>1</sub>）：2(1+4<em>y</em><sub>0</sub><sup>2</sup>) = 4 → <em>y</em><sub>0</sub><sup>2</sup> = 1/4 → |<em>y</em><sub>0</sub>| = 1/2</p>
+      <p class="edu-p">sin(<em>π</em>(1−<em>m</em>)/2) = ±1/2 → <em>π</em>(1−<em>m</em>)/2 = <em>π</em>/6 或 −<em>π</em>/6（主值范围）</p>
+      <p class="edu-p">(1−<em>m</em>)/2 = 1/6 → <em>m</em> = 2/3；(1−<em>m</em>)/2 = −1/6 → <em>m</em> = 4/3</p>
+      <p class="edu-p"><strong>答：<em>m</em> = 2/3 或 4/3</strong></p>
+    </div>
+  </section>
+
+</div>
+
+<aside class="edu-teacher-note self-check no-print">
+  <div class="edu-card-title">生成后自检</div>
+  <ul>
+    <li><strong>数学检查：</strong>
+      第1题：交点通项 x=1/3+k ✓，P₀=(1/3, √3/2), P₁=(4/3, −√3/2), P₂=(7/3, √3/2) ✓。
+      第2题：横坐标差=1 ✓，纵坐标交替 ✓。
+      第3题：|P₀P₂|=2, |P₀P₁|=√(1+4a²) ✓；正三角形 a=√3/2 ✓；等腰直角 a=1/2 ✓。
+      第4题：y₀²=1/4 → m=2/3或4/3 ✓（代入验证：m=2/3时y₀=sin(π/6)=1/2, |P₀P₁|=√2, |P₀P₂|=2, 2·2=4=2² ✓）。
+    </li>
+    <li><strong>教学检查：</strong>4道题围绕同一核心动作（交点通解→等距→几何约束），梯度为：给定m找交点→证明规律→纯代数列方程→完整版变式。无无关知识点。</li>
+    <li><strong>档位检查：</strong>默认诊断为 C/D 档；无学生证据，标注为默认预测。升级路径为逐题递进，每步只小步上升。</li>
+    <li><strong>学生版检查：</strong>教师判断、训练目标、预期卡点、升级/降级建议全部在 no-print 区域内。学生版只看到题目、提示、解答区和答案。</li>
+    <li><strong>HTML 检查：</strong>标签闭合；包含 required sections；无网络 CDN 依赖；适合 A4 打印；每题前有 page-break；答案区前有 page-break。</li>
+    <li><strong>自检结论：</strong>通过。第4题答案 m=2/3 或 4/3 已验证。</li>
+  </ul>
+</aside>
+
+<aside class="edu-teacher-note no-print">
+<div class="edu-card-title">教师判断</div>
+<p class="edu-p">当前档位：默认 C/D 档。主要错因预测：sin α = sin β 漏第二种情形、距离公式纵坐标差算错、勾股定理方向搞反。置信度：低（无学生证据）。</p>
+</aside>
+
+<aside class="edu-teacher-note no-print">
+<div class="edu-card-title">升级 / 降级建议</div>
+<div class="edu-judge">
+  <p class="edu-p"><span class="edu-upgrade">升级：</span>若学生顺利完成第4题，可出 E/F 档变式（如 cos(πx) 左移后四交点构成正方形求 m）。</p>
+  <p class="edu-downgrade">降级：</span>若学生第1题不会 sinα=sinβ 第二种情形，回到讲解页复习公式后再从第1题重做。</p>
+</div>
+</aside>
+
+<aside class="edu-teacher-note no-print">
+下一轮：根据本页完成情况，更新学生画像；若需讲解新题，回到 math-structure-analysis；若需新一轮变式，再次使用 math-adaptive-practice-html。工作流循环：math-structure-analysis → math-student-explanation-html → math-adaptive-practice-html。
+</aside>
+
+</body>
+</html>

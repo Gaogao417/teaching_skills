@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>自适应练习：斜面与竖直杆的影长</title>
+<link rel="stylesheet" href="edu-print.css">
+<style>
+  .formula { font-family: "Times New Roman", serif; }
+  .frac { display: inline-block; vertical-align: middle; text-align: center; }
+  .frac .num { display: block; padding: 0 0.15em; border-bottom: 1px solid; min-width: 1em; }
+  .frac .den { display: block; padding: 0 0.15em; min-width: 1em; }
+  sup { font-size: 0.75em; vertical-align: super; }
+  sub { font-size: 0.75em; vertical-align: sub; }
+</style>
+</head>
+<body data-view="student">
+<div class="edu-page">
+
+  <h1 class="edu-title">自适应练习：斜面与竖直杆的影长</h1>
+
+  <section class="edu-section">
+    <h2 class="edu-section-title">练习说明</h2>
+    <p class="edu-p">本组只练一个核心动作：<strong>先定阳光方向，再在斜面上分解分量，最后用 tan <em>β</em> 列方程</strong>。每道题都围绕这个链条，逐步提高。</p>
+  </section>
+
+  <section class="edu-practice-problem u-avoid-break">
+    <h2 class="edu-practice-title">第 1 题：入口题（定阳光方向）</h2>
+    <p class="edu-problem-stem">一根高 2 米的杆竖直立在水平地面上，其影子长 1 米。</p>
+    <p class="edu-p">（1）求阳光仰角 <em>β</em> 的 tan 值。</p>
+    <p class="edu-p">（2）如果阳光方向不变，另一根高 1.5 米的杆竖立在水平地面上，影子多长？</p>
+
+    <div class="edu-hint">
+      <div class="edu-hint-title">提示一</div>
+      <p class="edu-p">tan <em>β</em> 等于哪个量除以哪个量？</p>
+    </div>
+    <div class="edu-hint">
+      <div class="edu-hint-title">提示二</div>
+      <p class="edu-p">tan <em>β</em> 不变，说明竖直下降量与水平移动量的比值不变。影长 = 杆高 ÷ tan <em>β</em>。</p>
+    </div>
+
+    <div class="edu-answer-steps">
+      <div class="edu-answer-step">
+        <span class="edu-answer-step-label">① 写出 tan <em>β</em> 的值：</span>
+      </div>
+      <div class="edu-answer-step">
+        <span class="edu-answer-step-label">② 求 1.5 米杆的影长：</span>
+      </div>
+    </div>
+
+    <aside class="edu-teacher-note no-print">
+      <div class="edu-card-title">第 1 题教师备忘</div>
+      <p class="edu-training-goal"><span class="edu-tag">训练目标</span>会由杆高和影长求阳光方向的 tan <em>β</em>，理解 tan <em>β</em> 是固定的比例关系。</p>
+      <p class="edu-expected-blocker"><span class="edu-tag">预期卡点</span>可能把 tan <em>β</em> 写成影长/杆高（分子分母反了）。</p>
+      <p class="edu-small">复杂度说明：纯水平面问题，不含斜面分解，是最基础的入口。</p>
+      <div class="edu-judge">
+        <p class="edu-p"><span class="edu-upgrade">升级：</span>若学生顺利答出两问，进入第 2 题。</p>
+        <p class="edu-p"><span class="edu-downgrade">降级：</span>若学生不会写 tan <em>β</em>，回到"直角三角形中对边/邻边"的基本定义。</p>
+      </div>
+    </aside>
+  </section>
+
+  <div class="page-break"></div>
+
+  <section class="edu-practice-problem u-avoid-break">
+    <h2 class="edu-practice-title">第 2 题：核心题（斜面分解 + 列方程）</h2>
+    <p class="edu-problem-stem">一个斜面的底角 <em>θ</em> = 30°。在水平地面上竖直立一根高 1 米的杆，影子长 0.5 米。现将一根同样高 1 米的杆竖直插在斜面上，求这根杆在斜面上的影子长度（精确到 0.01 米）。</p>
+
+    <div class="edu-hint">
+      <div class="edu-hint-title">提示一</div>
+      <p class="edu-p">先求 tan <em>β</em>，然后画截面图。影子 <em>s</em> 在斜面上，它的水平分量是多少？竖直分量是多少？</p>
+    </div>
+    <div class="edu-hint">
+      <div class="edu-hint-title">提示二</div>
+      <p class="edu-p">列方程：<span style="font-family:'Times New Roman',serif;"><em>s</em></span> = 1/(2 cos 30° − sin 30°)。代入 cos 30° = √3/2 ≈ 0.8660，sin 30° = 0.5。</p>
+    </div>
+
+    <div class="edu-answer-steps">
+      <div class="edu-answer-step">
+        <span class="edu-answer-step-label">① 求 tan <em>β</em>：</span>
+      </div>
+      <div class="edu-answer-step">
+        <span class="edu-answer-step-label">② 写出影长 s 的水平分量和竖直分量：</span>
+      </div>
+      <div class="edu-answer-step">
+        <span class="edu-answer-step-label">③ 列方程并求解：</span>
+      </div>
+      <div class="edu-answer-step">
+        <span class="edu-answer-step-label">④ 写出最终答案：</span>
+      </div>
+    </div>
+
+    <aside class="edu-teacher-note no-print">
+      <div class="edu-card-title">第 2 题教师备忘</div>
+      <p class="edu-training-goal"><span class="edu-tag">训练目标</span>完整执行"定阳光方向→分解分量→列方程"链条。θ = 30° 是特殊角，计算比原题更简洁。</p>
+      <p class="edu-expected-blocker"><span class="edu-tag">预期卡点</span>分解分量时 cos/sin 搞混；列方程时分子分母反了。</p>
+      <p class="edu-small">复杂度说明：与原题同结构，θ = 30° 使 cos/sin 为常见值，计算量略低于原题。tanβ = 2 仍是比例。</p>
+      <div class="edu-judge">
+        <p class="edu-p"><span class="edu-upgrade">升级：</span>若学生顺利答出，进入第 3 题（变式题）。</p>
+        <p class="edu-p"><span class="edu-downgrade">降级：</span>若学生列不出方程，回到讲解页第 3 步，用 θ = 20° 的原题重走一遍。</p>
+      </div>
+    </aside>
+  </section>
+
+  <div class="page-break"></div>
+
+  <section class="edu-practice-problem u-avoid-break">
+    <h2 class="edu-practice-title">第 3 题：进阶题（不同阳光方向）</h2>
+    <p class="edu-problem-stem">一个斜面的底角 <em>θ</em> = 20°。在水平地面上竖直立一根高 1 米的杆，影子长 1 米。现将一根高 1 米的杆竖直插在斜面上，求这根杆在斜面上的影子长度（精确到 0.01 米）。</p>
+
+    <div class="edu-hint">
+      <div class="edu-hint-title">提示一</div>
+      <p class="edu-p">本题 tan <em>β</em> 和原题一样吗？先算出新的 tan <em>β</em>。</p>
+    </div>
+    <div class="edu-hint">
+      <div class="edu-hint-title">提示二</div>
+      <p class="edu-p">tan <em>β</em> = 1（因为杆高 = 影长 = 1 米）。方程变为 (1 + <em>s</em> sin 20°)/(<em>s</em> cos 20°) = 1。</p>
+    </div>
+
+    <div class="edu-answer-steps">
+      <div class="edu-answer-step">
+        <span class="edu-answer-step-label">① 求新的 tan <em>β</em>：</span>
+      </div>
+      <div class="edu-answer-step">
+        <span class="edu-answer-step-label">② 列方程并化简：</span>
+      </div>
+      <div class="edu-answer-step">
+        <span class="edu-answer-step-label">③ 代入数值求 s：</span>
+      </div>
+    </div>
+
+    <aside class="edu-teacher-note no-print">
+      <div class="edu-card-title">第 3 题教师备忘</div>
+      <p class="edu-training-goal"><span class="edu-tag">训练目标</span>同结构下 tan <em>β</em> 改变（从 2 变为 1），检验学生是否真的理解列方程的方法而非死记数字。</p>
+      <p class="edu-expected-blocker"><span class="edu-tag">预期卡点</span>可能惯性写出 tan <em>β</em> = 2（原题的值）；tan <em>β</em> = 1 时方程变为 1+s sin20° = s cos20°，即 s = 1/(cos20° − sin20°)，需注意分母变小，s 变大。</p>
+      <p class="edu-small">复杂度说明：结构与第 2 题完全相同，仅 tan <em>β</em> 的数值改变，计算层级不上升。</p>
+      <div class="edu-judge">
+        <p class="edu-p"><span class="edu-upgrade">升级：</span>若学生顺利答出，说明已掌握核心动作，可进入第 4 题思考题。</p>
+      <p class="edu-p"><span class="edu-downgrade">降级：</span>若学生仍用 tan <em>β</em> = 2，说明是在"背答案"而非理解方法，需回到第 1 题重新建立对 tan <em>β</em> 的理解。</p>
+      </div>
+    </aside>
+  </section>
+
+  <div class="page-break"></div>
+
+  <section class="edu-practice-problem u-avoid-break">
+    <h2 class="edu-practice-title">第 4 题：思考题（退化情形）</h2>
+    <p class="edu-problem-stem">斜面底角为 <em>θ</em>。竖直杆高 1 米，水平影长 0.5 米（tan <em>β</em> = 2）。杆竖直插在斜面上。</p>
+    <p class="edu-p">（1）如果 <em>θ</em> = 0°（地面是平的），影子多长？</p>
+    <p class="edu-p">（2）如果 <em>θ</em> 逐渐增大，影子是变长还是变短？为什么？</p>
+    <p class="edu-p">（3）当 <em>θ</em> 多大时，影子会变得无穷长？（不需要算具体角度，用 tan 表示即可）</p>
+
+    <div class="edu-hint">
+      <div class="edu-hint-title">提示一</div>
+      <p class="edu-p">影长的公式是 <em>s</em> = 1/(2 cos <em>θ</em> − sin <em>θ</em>)。分母变小，<em>s</em> 会怎样？</p>
+    </div>
+    <div class="edu-hint">
+      <div class="edu-hint-title">提示二</div>
+      <p class="edu-p">当分母 2 cos <em>θ</em> − sin <em>θ</em> = 0 时，即 tan <em>θ</em> = 2 时，<em>s</em> → +∞。想想这意味着什么——阳光方向和斜面方向的关系。</p>
+    </div>
+
+    <div class="edu-answer-steps">
+      <div class="edu-answer-step">
+        <span class="edu-answer-step-label">① <em>θ</em> = 0° 时的影长：</span>
+      </div>
+      <div class="edu-answer-step">
+        <span class="edu-answer-step-label">② <em>θ</em> 增大时影长的变化趋势：</span>
+      </div>
+      <div class="edu-answer-step">
+        <span class="edu-answer-step-label">③ 分母为零的条件：</span>
+      </div>
+    </div>
+
+    <aside class="edu-teacher-note no-print">
+      <div class="edu-card-title">第 4 题教师备忘</div>
+      <p class="edu-training-goal"><span class="edu-tag">训练目标</span>从"算具体数"升级到"分析公式的行为"，培养对公式结构的敏感度。</p>
+      <p class="edu-expected-blocker"><span class="edu-tag">预期卡点</span>学生可能不理解"分母趋近于零意味着什么"的物理含义（阳光平行于斜面）。</p>
+      <p class="edu-small">复杂度说明：不引入新的计算负担，重点在于分析已有公式的行为，属于理解层面的小步上升。</p>
+      <div class="edu-judge">
+        <p class="edu-p"><span class="edu-upgrade">升级：</span>若学生能说出 tan <em>θ</em> = 2 时光线平行于斜面的物理解释，说明理解深入，可进入 F 档变式（杆垂直于斜面）。</p>
+        <p class="edu-p"><span class="edu-downgrade">降级：</span>若学生不会做第(3)问，不影响核心动作掌握，可留作思考。</p>
+      </div>
+    </aside>
+  </section>
+
+  <div class="page-break"></div>
+
+  <section class="edu-answer-key">
+    <h2 class="edu-section-title u-mt-0">参考答案</h2>
+
+    <div class="edu-step">
+      <div class="edu-step-title">第 1 题答案</div>
+      <div class="edu-substep">
+        <p class="edu-p">（1）tan <em>β</em> = 杆高 ÷ 影长 = 2 ÷ 1 = <strong>2</strong></p>
+      </div>
+      <div class="edu-substep">
+        <p class="edu-p">（2）tan <em>β</em> 不变 = 2，影长 = 杆高 ÷ tan <em>β</em> = 1.5 ÷ 2 = <strong>0.75 米</strong></p>
+      </div>
+    </div>
+
+    <div class="edu-step">
+      <div class="edu-step-title">第 2 题答案</div>
+      <div class="edu-substep">
+        <p class="edu-p">tan <em>β</em> = 1/0.5 = 2</p>
+      </div>
+      <div class="edu-substep">
+        <p class="edu-p">水平分量 = <em>s</em> cos 30°，竖直分量 = <em>s</em> sin 30°</p>
+      </div>
+      <div class="edu-substep">
+        <p class="edu-p">方程：(1 + <em>s</em> sin 30°)/(<em>s</em> cos 30°) = 2</p>
+        <p class="edu-p">1 + 0.5<em>s</em> = 2 × 0.8660<em>s</em></p>
+        <p class="edu-p">1 = (1.7321 − 0.5)<em>s</em> = 1.2321<em>s</em></p>
+        <p class="edu-p"><em>s</em> = 1/1.2321 ≈ <strong>0.82 米</strong></p>
+      </div>
+    </div>
+
+    <div class="edu-step">
+      <div class="edu-step-title">第 3 题答案</div>
+      <div class="edu-substep">
+        <p class="edu-p">tan <em>β</em> = 1/1 = 1（与原题不同！）</p>
+      </div>
+      <div class="edu-substep">
+        <p class="edu-p">方程：(1 + <em>s</em> sin 20°)/(<em>s</em> cos 20°) = 1</p>
+        <p class="edu-p">1 + 0.3420<em>s</em> = 0.9397<em>s</em></p>
+        <p class="edu-p">1 = 0.5977<em>s</em></p>
+        <p class="edu-p"><em>s</em> = 1/0.5977 ≈ <strong>1.67 米</strong></p>
+      </div>
+    </div>
+
+    <div class="edu-step">
+      <div class="edu-step-title">第 4 题答案</div>
+      <div class="edu-substep">
+        <p class="edu-p">（1）<em>θ</em> = 0° 时 <em>s</em> = 1/(2 cos 0° − sin 0°) = 1/(2 − 0) = <strong>0.5 米</strong>（就是水平面上的影子）</p>
+      </div>
+      <div class="edu-substep">
+        <p class="edu-p">（2）<em>θ</em> 增大时，cos <em>θ</em> 减小、sin <em>θ</em> 增大，分母 2 cos <em>θ</em> − sin <em>θ</em> 减小，所以 <em>s</em> <strong>变长</strong>。</p>
+      </div>
+      <div class="edu-substep">
+        <p class="edu-p">（3）分母为零时：<strong>2 cos <em>θ</em> − sin <em>θ</em> = 0</strong>，即 <strong>tan <em>θ</em> = 2</strong>。此时阳光方向与斜面方向平行，光线永远照不到斜面上，影子无限长。</p>
+      </div>
+    </div>
+  </section>
+
+  <aside class="edu-teacher-note no-print">
+    <div class="edu-card-title">教师判断</div>
+    <p class="edu-p">当前档位：默认诊断（无学生证据）。主要卡点预测：分解分量时 cos/sin 混淆、分子分母反了。</p>
+  </aside>
+
+  <aside class="edu-teacher-note no-print">
+    <div class="edu-card-title">升级 / 降级建议</div>
+    <div class="edu-judge">
+      <p class="edu-p"><span class="edu-upgrade">升级：</span>若第 2、3 题均正确且第 4 题能说出 tan <em>θ</em> = 2 的物理解释，可进入 F 档变式（杆垂直于斜面，而非竖直）。</p>
+      <p class="edu-p"><span class="edu-downgrade">降级：</span>若第 1 题就出错，需回到"直角三角形中 tan = 对边/邻边"的基本定义重新讲解。</p>
+    </div>
+  </aside>
+
+  <aside class="edu-teacher-note self-check no-print">
+    <div class="edu-card-title">生成后自检</div>
+    <ul>
+      <li><strong>数学检查：</strong>
+        第 1 题：tan β = 2/1 = 2 ✓；影长 = 1.5/2 = 0.75 ✓。
+        第 2 题：s = 1/(2cos30°−sin30°) = 1/(√3−0.5) = 1/(1.7321−0.5) = 1/1.2321 ≈ 0.8116 ≈ 0.82 ✓。
+        第 3 题：tan β = 1，s = 1/(cos20°−sin20°) = 1/(0.9397−0.3420) = 1/0.5977 ≈ 1.6731 ≈ 1.67 ✓。
+        第 4 题：θ=0° 时 s=0.5 ✓；tan θ=2 时分母为0 ✓。
+      </li>
+      <li><strong>教学检查：</strong>本页只训练一个核心动作（定阳光方向→分解分量→tanβ列方程）；未引入无关知识点；提示一指向动作不给答案，提示二接近列式但未直接给最终答案。</li>
+      <li><strong>档位检查：</strong>无学生证据，标注为默认诊断；梯度从入口到思考题，小步上升。</li>
+      <li><strong>学生版检查：</strong>教师判断、训练目标、预期卡点、升级/降级建议全部在 no-print 区域内；学生视角只看到题目、提示、答案空间和标准答案。</li>
+      <li><strong>HTML 检查：</strong>标签闭合；包含 required sections；无网络 CDN 依赖；适合 A4 打印；分页位置合理（每道题后、答案区前）。</li>
+      <li><strong>自检结论：</strong>通过。四道题答案均已手工验证。</li>
+    </ul>
+  </aside>
+
+  <aside class="edu-teacher-note no-print">
+下一轮：根据本页完成情况，更新学生画像；若需讲解新题，回到 math-structure-analysis；若需新一轮变式，再次使用 math-adaptive-practice-html。工作流循环：math-structure-analysis → math-student-explanation-html → math-adaptive-practice-html。
+  </aside>
+
+</div>
+</body>
+</html>

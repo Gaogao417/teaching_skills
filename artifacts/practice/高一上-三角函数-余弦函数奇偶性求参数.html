@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>自适应练习：余弦函数为奇函数求参数</title>
+<link rel="stylesheet" href="../../.opencode/skill/math-student-explanation-html/assets/edu-print.css">
+</head>
+<body data-view="student">
+<div class="edu-page">
+  <h1 class="edu-title">自适应练习：余弦函数为奇函数求参数</h1>
+
+  <section class="edu-section">
+    <h2 class="edu-section-title">练习说明</h2>
+    <p class="edu-p">本组只练一个核心动作：<span class="edu-strong">展开和角公式 → 分离偶部/奇部 → 偶部归零</span>。</p>
+  </section>
+
+  <section class="edu-practice-problem u-avoid-break">
+    <h2 class="edu-practice-title">第 1 题：展开并分离偶部和奇部</h2>
+    <p class="edu-p">展开 cos(x + π/4)，然后指出哪部分是偶函数、哪部分是奇函数。</p>
+
+    <div class="edu-hint">
+      <div class="edu-hint-title">提示一</div>
+      <p class="edu-p">用和角公式 cos(x + φ) = cos x cos φ - sin x sin φ 展开。</p>
+    </div>
+    <div class="edu-hint">
+      <div class="edu-hint-title">提示二</div>
+      <p class="edu-p">cos(x + π/4) = (√2/2)cos x - (√2/2)sin x。含 cos x 的项是偶部，含 sin x 的项是奇部。</p>
+    </div>
+
+    <div class="edu-answer-steps">
+      <div class="edu-answer-step">
+        <span class="edu-answer-step-label">① 展开结果：</span>
+      </div>
+      <div class="edu-answer-step">
+        <span class="edu-answer-step-label">② 偶函数部分是：</span>
+      </div>
+      <div class="edu-answer-step">
+        <span class="edu-answer-step-label">③ 奇函数部分是：</span>
+      </div>
+    </div>
+
+    <aside class="edu-teacher-note no-print">
+      <div class="edu-card-title">第 1 题教师备忘</div>
+      <p class="edu-training-goal"><span class="edu-tag">训练目标</span>熟练展开和角公式并识别偶部/奇部</p>
+      <p class="edu-expected-blocker"><span class="edu-tag">预期卡点</span>和角公式展开符号出错（减号写成加号）；不会计算 cos(π/4) 和 sin(π/4) 的值</p>
+      <p class="edu-small">复杂度说明：与原题同层级，仅更换 φ 值，计算量不增。</p>
+      <div class="edu-judge">
+        <p class="edu-p"><span class="edu-upgrade">升级：</span>若学生展开正确且能区分偶部/奇部，进入第 2 题。</p>
+        <p class="edu-p"><span class="edu-downgrade">降级：</span>若学生不会展开和角公式，回到讲解页"第 2 步"重新理解。</p>
+      </div>
+    </aside>
+  </section>
+
+  <section class="edu-practice-problem u-avoid-break">
+    <h2 class="edu-practice-title">第 2 题：同结构迁移——正弦函数为偶函数</h2>
+    <p class="edu-p">若 y = sin(x + φ) 为偶函数，求 cos φ 的值。</p>
+
+    <div class="edu-hint">
+      <div class="edu-hint-title">提示一</div>
+      <p class="edu-p">思路和原题完全一样：展开和角公式，分离偶部和奇部。</p>
+    </div>
+    <div class="edu-hint">
+      <div class="edu-hint-title">提示二</div>
+      <p class="edu-p">sin(x + φ) = sin x cos φ + cos x sin φ。偶函数要求奇部归零，所以 sin x cos φ = 0，即 cos φ = 0。</p>
+    </div>
+
+    <div class="edu-answer-steps">
+      <div class="edu-answer-step">
+        <span class="edu-answer-step-label">① 展开和角公式：</span>
+      </div>
+      <div class="edu-answer-step">
+        <span class="edu-answer-step-label">② 偶部是________，奇部是________：</span>
+      </div>
+      <div class="edu-answer-step">
+        <span class="edu-answer-step-label">③ 哪部分必须为零？由此得到什么方程？</span>
+      </div>
+      <div class="edu-answer-step">
+        <span class="edu-answer-step-label">④ cos φ = ？最终答案：</span>
+      </div>
+    </div>
+
+    <aside class="edu-teacher-note no-print">
+      <div class="edu-card-title">第 2 题教师备忘</div>
+      <p class="edu-training-goal"><span class="edu-tag">训练目标</span>同结构迁移：换用正弦和角公式，检验核心动作是否真正掌握</p>
+      <p class="edu-expected-blocker"><span class="edu-tag">预期卡点</span>sin 和角公式与 cos 和角公式混淆；分不清"偶函数要求偶部保留还是奇部归零"</p>
+      <p class="edu-small">复杂度说明：与原题完全同构，仅函数类型从 cos 换为 sin，计算量不增。</p>
+      <div class="edu-judge">
+        <p class="edu-p"><span class="edu-upgrade">升级：</span>若学生顺利完成，进入第 3 题。</p>
+        <p class="edu-p"><span class="edu-downgrade">降级：</span>若学生搞混 sin/cos 的和角公式，先默写两个和角公式再重新做。</p>
+      </div>
+    </aside>
+  </section>
+
+  <div class="page-break"></div>
+
+  <section class="edu-practice-problem u-avoid-break">
+    <h2 class="edu-practice-title">第 3 题：加区间约束——求具体 φ 值</h2>
+    <p class="edu-p">若 y = cos(x + φ) 为奇函数，且 φ ∈ [0, 2π]，求 φ 的所有可能的值。</p>
+
+    <div class="edu-hint">
+      <div class="edu-hint-title">提示一</div>
+      <p class="edu-p">和原题一样，先得 cos φ = 0，再在 [0, 2π] 内找出所有满足条件的 φ。</p>
+    </div>
+    <div class="edu-hint">
+      <div class="edu-hint-title">提示二</div>
+      <p class="edu-p">cos φ = 0 在 [0, 2π] 内的解是 φ = π/2 和 φ = 3π/2。</p>
+    </div>
+
+    <div class="edu-answer-steps">
+      <div class="edu-answer-step">
+        <span class="edu-answer-step-label">① 由 cos(x + φ) 为奇函数，得到：</span>
+      </div>
+      <div class="edu-answer-step">
+        <span class="edu-answer-step-label">② cos φ = 0 的通解是：</span>
+      </div>
+      <div class="edu-answer-step">
+        <span class="edu-answer-step-label">③ 在 [0, 2π] 内，φ = ________ 或 φ = ________：</span>
+      </div>
+      <div class="edu-answer-step">
+        <span class="edu-answer-step-label">④ 分别验证这两个值确实使函数为奇函数：</span>
+      </div>
+    </div>
+
+    <aside class="edu-teacher-note no-print">
+      <div class="edu-card-title">第 3 题教师备忘</div>
+      <p class="edu-training-goal"><span class="edu-tag">训练目标</span>加上区间约束后不漏解，检验通解转特解的能力</p>
+      <p class="edu-expected-blocker"><span class="edu-tag">预期卡点</span>忘记 φ = 3π/2；不理解为什么 cos φ = 0 在一个周期内有两个解</p>
+      <p class="edu-small">复杂度说明：从无约束到有区间约束，增加一步列举，计算量小步上升。</p>
+      <div class="edu-judge">
+        <p class="edu-p"><span class="edu-upgrade">升级：</span>若学生全对，进入第 4 题进阶变式。</p>
+        <p class="edu-p"><span class="edu-downgrade">降级：</span>若学生漏掉 3π/2，画单位圆标出 cos φ = 0 的点来帮助理解。</p>
+      </div>
+    </aside>
+  </section>
+
+  <section class="edu-practice-problem u-avoid-break">
+    <h2 class="edu-practice-title">第 4 题：结构隐藏型——合并后分离</h2>
+    <p class="edu-p">若 y = sin(x + φ) + cos(x + φ) 为奇函数，求 tan φ 的值。</p>
+
+    <div class="edu-hint">
+      <div class="edu-hint-title">提示一</div>
+      <p class="edu-p">分别展开 sin(x + φ) 和 cos(x + φ) 的和角公式，然后合并同类项。</p>
+    </div>
+    <div class="edu-hint">
+      <div class="edu-hint-title">提示二</div>
+      <p class="edu-p">sin(x+φ) + cos(x+φ) = (sin x cos φ + cos x sin φ) + (cos x cos φ - sin x sin φ) = (cos φ - sin φ) sin x + (sin φ + cos φ) cos x。偶部归零 → sin φ + cos φ = 0 → tan φ = -1。</p>
+    </div>
+
+    <div class="edu-answer-steps">
+      <div class="edu-answer-step">
+        <span class="edu-answer-step-label">① 分别展开两个和角公式：</span>
+      </div>
+      <div class="edu-answer-step">
+        <span class="edu-answer-step-label">② 合并同类项后，cos x 的系数是________，sin x 的系数是________：</span>
+      </div>
+      <div class="edu-answer-step">
+        <span class="edu-answer-step-label">③ 偶部归零得到什么方程？解出 tan φ：</span>
+      </div>
+    </div>
+
+    <aside class="edu-teacher-note no-print">
+      <div class="edu-card-title">第 4 题教师备忘</div>
+      <p class="edu-training-goal"><span class="edu-tag">训练目标</span>结构隐藏型变式：两个三角函数合并后分离偶部/奇部，检验核心动作的迁移能力</p>
+      <p class="edu-expected-blocker"><span class="edu-tag">预期卡点</span>展开两个和角公式后不会合并同类项；合并后分不清哪部分是偶部</p>
+      <p class="edu-small">复杂度说明：增加一次合并同类项的步骤，计算量小步上升，未超出预算。</p>
+      <div class="edu-judge">
+        <p class="edu-p"><span class="edu-upgrade">升级：</span>若学生全对，说明已掌握偶部归零的核心方法，可进入更复杂的三角函数奇偶性问题。</p>
+        <p class="edu-downgrade">降级：</span>若学生展开出错，回到第 1 题重新练习单个和角公式展开。</p>
+      </div>
+    </aside>
+  </section>
+
+  <section class="edu-answer-key page-break">
+    <h2 class="edu-section-title u-mt-0">参考答案</h2>
+    <div class="edu-step">
+      <div class="edu-step-title">第 1 题答案</div>
+      <p class="edu-p">cos(x + π/4) = cos x cos(π/4) - sin x sin(π/4) = (√2/2)cos x - (√2/2)sin x</p>
+      <p class="edu-p">偶函数部分：(√2/2)cos x</p>
+      <p class="edu-p">奇函数部分：-(√2/2)sin x</p>
+    </div>
+    <div class="edu-step">
+      <div class="edu-step-title">第 2 题答案</div>
+      <p class="edu-p">sin(x + φ) = sin x cos φ + cos x sin φ</p>
+      <p class="edu-p">奇函数部分：sin x cos φ（sin x 是奇函数）</p>
+      <p class="edu-p">偶函数部分：cos x sin φ（cos x 是偶函数）</p>
+      <p class="edu-p">要成为偶函数，奇部必须为零：cos φ = 0</p>
+      <p class="edu-p">所以 cos φ = 0。</p>
+    </div>
+    <div class="edu-step">
+      <div class="edu-step-title">第 3 题答案</div>
+      <p class="edu-p">由 cos(x + φ) 为奇函数，得 cos φ = 0，即 φ = π/2 + kπ。</p>
+      <p class="edu-p">在 [0, 2π] 内：k = 0 时 φ = π/2；k = 1 时 φ = 3π/2。</p>
+      <p class="edu-p">验证：φ = π/2 时 y = -sin x（奇函数）；φ = 3π/2 时 y = sin x（奇函数）。</p>
+      <p class="edu-p">答案：φ = π/2 或 φ = 3π/2。</p>
+    </div>
+    <div class="edu-step">
+      <div class="edu-step-title">第 4 题答案</div>
+      <p class="edu-p">sin(x+φ) + cos(x+φ) = (sin x cos φ + cos x sin φ) + (cos x cos φ - sin x sin φ)</p>
+      <p class="edu-p">= (cos φ - sin φ)sin x + (sin φ + cos φ)cos x</p>
+      <p class="edu-p">偶部（cos x 项）归零：sin φ + cos φ = 0 → tan φ = -1</p>
+      <p class="edu-p">答案：tan φ = -1。</p>
+    </div>
+  </section>
+
+  <aside class="edu-teacher-note no-print">
+    <div class="edu-card-title">教师判断</div>
+    <p class="edu-p">当前档位：默认 C 档（无学生证据）。主要错因预测：和角公式展开符号出错、偶部/奇部分离错误、漏解。置信度：低（无实际数据）。</p>
+  </aside>
+
+  <aside class="edu-teacher-note no-print">
+    <div class="edu-card-title">升级 / 降级建议</div>
+    <div class="edu-judge">
+      <p class="edu-p"><span class="edu-upgrade">升级：</span>若第 1-2 题全对 → 进入第 3 题；若第 1-3 题全对 → 进入第 4 题；若第 4 题也全对 → 已掌握核心方法。</p>
+      <p class="edu-p"><span class="edu-downgrade">降级：</span>若第 1 题不会 → 回到讲解页重新理解展开和偶部/奇部；若第 2 题搞混 sin/cos 和角公式 → 先默写两个和角公式。</p>
+    </div>
+  </aside>
+
+  <aside class="edu-teacher-note self-check no-print">
+    <div class="edu-card-title">生成后自检</div>
+    <ul>
+      <li><strong>数学检查：</strong>
+        第 1 题：cos(x+π/4) = (√2/2)cos x - (√2/2)sin x，偶部/奇部分离正确；
+        第 2 题：sin(x+φ) 为偶函数 → cos φ = 0，正确；
+        第 3 题：φ = π/2 或 3π/2，验证均通过，无漏解；
+        第 4 题：合并后偶部归零 → sin φ + cos φ = 0 → tan φ = -1，正确。无漏解增根。
+      </li>
+      <li><strong>教学检查：</strong>全组只训练"展开→分离偶部/奇部→偶部归零"一个核心动作；未引入无关知识点；提示一指向动作，提示二接近列式但不直接给最终答案。</li>
+      <li><strong>档位检查：</strong>当前为默认诊断（无学生证据）；第 1 题为 C 档基础，第 2 题为同结构迁移，第 3 题为 D 档区间约束，第 4 题为 E 档结构隐藏，均为小步上升。</li>
+      <li><strong>学生版检查：</strong>训练目标、预期卡点、复杂度说明、档位、升级/降级建议均在 no-print 区域内；学生视角只看到题目、提示、解答区和参考答案。</li>
+      <li><strong>HTML 检查：</strong>标签闭合；包含全部 required sections；依赖相对路径 edu-print.css，无 CDN；@page A4 已定义；答案区前有 page-break；各题有 u-avoid-break。</li>
+      <li><strong>自检结论：</strong>通过。</li>
+    </ul>
+  </aside>
+
+  <aside class="edu-teacher-note no-print">
+下一轮：根据本页完成情况，更新学生画像；若需讲解新题，回到 math-structure-analysis；若需新一轮变式，再次使用 math-adaptive-practice-html。工作流循环：math-structure-analysis → math-student-explanation-html → math-adaptive-practice-html。
+  </aside>
+</div>
+</body>
+</html>
