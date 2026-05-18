@@ -1,0 +1,59 @@
+<# exam-zh-solution.tex.j2 — 纯答案页模板 #>
+<% include "preamble-exam-zh.tex" ignore missing %>
+
+\examsetup{
+  question/show-answer = true,
+  fillin/show-answer = true,
+  solution/show-solution = show-stay,
+}
+
+\begin{document}
+
+<% if meta.title %>
+\title{<%= meta.title|latex_escape %> · 答案}
+<% endif %>
+\maketitle
+
+<% for section in sections %>
+<% if section.title %>
+\section*{<%= section.title|latex_escape %>}
+<% endif %>
+
+<% for block in section.blocks %>
+<% if block.type == "choice" %>
+\begin{question}[points=<%= block.points|default(4) %>]
+  <%= block.stem|latex_escape %>
+  \begin{choices}
+  <% for key, text in block.choices|dictsort %>
+    \item <%= text|latex_escape %>
+  <% endfor %>
+  \end{choices}
+  \paren[<%= block.answer|latex_escape %>]
+\end{question}
+
+<% elif block.type == "fillin" %>
+\begin{question}[points=<%= block.points|default(4) %>]
+  <%= block.stem|latex_escape %>
+  \fillin[<%= block.answer|latex_escape %>]
+\end{question}
+
+<% elif block.type == "problem" or block.type == "short_answer" %>
+\begin{problem}[points=<%= block.points|default(8) %>]
+  <%= block.stem|latex_escape %>
+  \begin{solution}
+    <% if block.explanation %>
+    <%= block.explanation|latex_escape %>
+    <% endif %>
+    <% for step in block.solution_steps|default([]) %>
+    \par\textbf{<%= step.title|latex_escape %>}
+    <%= step.content|latex_escape %>
+    <% if step.why %>\par\small <%= step.why|latex_escape %><% endif %>
+    <% endfor %>
+  \end{solution}
+\end{problem}
+
+<% endif %>
+<% endfor %><# blocks #>
+<% endfor %><# sections #>
+
+\end{document}

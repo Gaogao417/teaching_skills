@@ -1,0 +1,143 @@
+<# exam-zh-homework.tex.j2 — 作业页模板 #>
+<% include "preamble-exam-zh.tex" ignore missing %>
+
+<% if meta.version == "student" %>
+\examsetup{
+  question/show-answer = false,
+  fillin/show-answer = false,
+  solution/show-solution = hide,
+}
+<% elif meta.version == "teacher" %>
+\examsetup{
+  question/show-answer = true,
+  fillin/show-answer = true,
+  solution/show-solution = show-stay,
+}
+<% endif %>
+
+\begin{document}
+
+<% if meta.title %>
+\title{<%= meta.title|latex_escape %>}
+<% endif %>
+<% if meta.subtitle or meta.grade %>
+\subject{<%= meta.subtitle|default("")|latex_escape %><% if meta.grade %> · <%= meta.grade|latex_escape %><% endif %><% if meta.duration %>（<%= meta.duration|latex_escape %>）<% endif %>}
+<% endif %>
+\maketitle
+
+<% for section in sections %>
+<% if section.layout and section.layout.break_before %>
+\clearpage
+<% endif %>
+<% if section.title %>
+\section*{<%= section.title|latex_escape %>}
+<% endif %>
+
+<% for block in section.blocks %>
+<% if block.layout and block.layout.break_before %>
+\clearpage
+<% endif %>
+<% if block.layout and block.layout.avoid_break %>
+\needspace{5\baselineskip}
+<% endif %>
+
+<% if block.type == "problemcard" %>
+\begin{problemcard}
+  <% if block.title %>\textbf{<%= block.title|latex_escape %>}\par<% endif %>
+  <%= block.stem|latex_escape %>
+\end{problemcard}
+
+<% elif block.type == "choice" %>
+\begin{question}[points=<%= block.points|default(4) %>]
+  <%= block.stem|latex_escape %>
+  \begin{choices}
+  <% for key, text in block.choices|dictsort %>
+    \item <%= text|latex_escape %>
+  <% endfor %>
+  \end{choices}
+  <% if meta.version != "student" and block.answer %>
+  \paren[<%= block.answer|latex_escape %>]
+  <% endif %>
+\end{question}
+
+<% elif block.type == "fillin" %>
+\begin{question}[points=<%= block.points|default(4) %>]
+  <%= block.stem|latex_escape %>
+  <% if meta.version != "student" and block.answer %>
+  \fillin[<%= block.answer|latex_escape %>]
+  <% else %>
+  \fillin
+  <% endif %>
+\end{question}
+
+<% elif block.type == "problem" or block.type == "short_answer" %>
+\begin{problem}[points=<%= block.points|default(8) %>]
+  <%= block.stem|latex_escape %>
+  <% if block.answer_space %>
+  \answerarea[<%= block.answer_space.height|default("35mm") %>]
+  <% endif %>
+  <% if meta.version != "student" %>
+  \begin{solution}
+    <% if block.explanation %>
+    <%= block.explanation|latex_escape %>
+    <% endif %>
+    <% for step in block.solution_steps|default([]) %>
+    \par\textbf{<%= step.title|latex_escape %>}
+    <%= step.content|latex_escape %>
+    <% endfor %>
+  \end{solution}
+  <% endif %>
+\end{problem}
+
+<% elif block.type == "key_idea" %>
+\begin{keyideabox}
+  <% if block.title %>\textbf{<%= block.title|latex_escape %>}\par<% endif %>
+  <%= block.content|latex_escape %>
+\end{keyideabox}
+
+<% elif block.type == "mistake" %>
+\begin{mistakebox}
+  <% if block.title %>\textbf{<%= block.title|latex_escape %>}\par<% endif %>
+  <%= block.content|latex_escape %>
+\end{mistakebox}
+
+<% elif block.type == "hint" %>
+\begin{hintbox}
+  \textbf{提示 <%= block.level|default(1) %>：}<%= block.content|latex_escape %>
+\end{hintbox}
+
+<% elif block.type == "route" %>
+\begin{routemap}
+  \begin{enumerate}
+  <% for step in block.steps|default([]) %>
+    \item <%= step|latex_escape %>
+  <% endfor %>
+  \end{enumerate}
+\end{routemap}
+
+<% endif %>
+
+<% if meta.version != "student" and block.teaching %>
+\begin{teachernote}
+  <% if block.teaching.teaching_goal %>
+  \textbf{训练目标：}<%= block.teaching.teaching_goal|latex_escape %>\par
+  <% endif %>
+  <% if block.teaching.expected_blocker %>
+  \textbf{预期卡点：}<%= block.teaching.expected_blocker|latex_escape %>\par
+  <% endif %>
+  <% if block.teaching.mastery_band %>
+  \textbf{档位：}<%= block.teaching.mastery_band %>\par
+  <% endif %>
+  <% if block.teaching.upgrade_rule %>
+  \textbf{↑ 升级：}<%= block.teaching.upgrade_rule|latex_escape %>\par
+  <% endif %>
+  <% if block.teaching.downgrade_rule %>
+  \textbf{↓ 降级：}<%= block.teaching.downgrade_rule|latex_escape %>
+  <% endif %>
+\end{teachernote}
+<% endif %>
+
+<% endfor %><# blocks #>
+<% endfor %><# sections #>
+
+\end{document}
