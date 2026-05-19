@@ -1,0 +1,146 @@
+meta:
+  title: "一次函数过两点求解析式 · 专题练习"
+  subtitle: "待定系数法 · 代入检验 · 坐标轴面积"
+  grade: "八年级"
+  subject: "数学"
+  duration: "25分钟"
+  total_points: 54
+  version: "student"
+  source_artifacts:
+    structure_analysis: "examples/linear-function/01-structure-analysis.md"
+    explanation: "examples/linear-function/02-explanation.assignment.yaml"
+
+render:
+  template: "exam-zh-practice"
+  paper_size: "a4paper"
+  answer_key_position: "after_page_break"
+
+sections:
+  - id: "choice"
+    title: "一、选择题（每题 4 分，共 12 分）"
+    type: "practice"
+    visibility: "student"
+    blocks:
+      - type: "choice"
+        id: "c1"
+        points: 4
+        stem: "一次函数 $y = kx + b$ 的图像经过点 $(2, 7)$，则下列等式成立的是"
+        choices:
+          A: "$k + b = 7$"
+          B: "$2k + b = 7$"
+          C: "$2b + k = 7$"
+          D: "$k \\cdot 2 \\cdot b = 7$"
+        hints:
+          - content: "把点的横坐标代入 $x$，纵坐标代入 $y$。"
+
+      - type: "choice"
+        id: "c2"
+        points: 4
+        stem: "一次函数 $y = kx + b$ 的图像经过点 $(1, 5)$ 和 $(-1, 1)$，则 $k$ 的值为"
+        choices:
+          A: "$1$"
+          B: "$2$"
+          C: "$3$"
+          D: "$4$"
+        hints:
+          - content: "分别代入两个点，得到两个关于 $k$、$b$ 的方程。"
+          - content: "两式直接相减，可以一步消掉 $b$。"
+
+      - type: "choice"
+        id: "c3"
+        points: 4
+        stem: "直线 $y = 4x$ 与坐标轴围成的三角形面积为"
+        choices:
+          A: "$4$"
+          B: "$8$"
+          C: "$16$"
+          D: "$0$"
+        hints:
+          - content: "这条直线的 $b$ 等于多少？过不过原点？"
+
+  - id: "fillin"
+    title: "二、填空题（每题 4 分，共 12 分）"
+    type: "practice"
+    visibility: "student"
+    blocks:
+      - type: "fillin"
+        id: "f1"
+        points: 4
+        stem: "一次函数 $y = -x + 5$ 的图像经过点 $(3, \\underline{\\quad\\quad})$。"
+        hints:
+          - content: "把 $x = 3$ 代入解析式，算 $y$。"
+
+      - type: "fillin"
+        id: "f2"
+        points: 4
+        stem: "一次函数 $y = kx + b$ 过点 $(0, 1)$ 和 $(1, 4)$，则 $k = $ \\underline{\\quad\\quad}，$b = $ \\underline{\\quad\\quad}。"
+        hints:
+          - content: "点 $(0, 1)$ 在 $y$ 轴上，代入后可以直接得到什么？"
+          - content: "知道 $b$ 之后，再用另一个点求 $k$。"
+
+      - type: "fillin"
+        id: "f3"
+        points: 4
+        stem: "直线 $y = -3x + 6$ 与坐标轴围成的三角形面积为 \\underline{\\quad\\quad}。"
+        hints:
+          - content: "分别令 $y = 0$ 和 $x = 0$，求出两个交点坐标。"
+
+  - id: "problems"
+    title: "三、解答题（每题 10 分，共 30 分）"
+    type: "practice"
+    visibility: "student"
+    blocks:
+      - type: "problem"
+        id: "p1"
+        points: 10
+        label: "第 1 题"
+        stem_latex: "已知一次函数 $y = kx + b$ 的图像经过点 $A(2, 7)$ 和点 $B(-1, 1)$。\\begin{enumerate}[label=(\\arabic*)] \\item 求这个一次函数的解析式； \\item 判断点 $C(3, 9)$ 是否在该函数的图像上。 \\end{enumerate}"
+        subquestions:
+          - latex: "求这个一次函数的解析式；"
+          - latex: "判断点 $C(3, 9)$ 是否在该函数的图像上。"
+        layout:
+          avoid_break: true
+        hints:
+          - content: "分别代入 $A$、$B$ 两个点，列出关于 $k$、$b$ 的方程组。"
+          - content: "两式相减可以快速消去 $b$。"
+        answer_space:
+          type: "steps"
+          height: "60mm"
+          step_count: 4
+
+      - type: "problem"
+        id: "p2"
+        points: 10
+        label: "第 2 题"
+        stem_latex: "已知一次函数 $y = kx + b$ 的图像经过点 $A(0, 4)$ 和点 $B(3, -2)$。\\begin{enumerate}[label=(\\arabic*)] \\item 求解析式； \\item 求该函数图像与 $x$ 轴的交点坐标。 \\end{enumerate}"
+        subquestions:
+          - latex: "求解析式；"
+          - latex: "求该函数图像与 $x$ 轴的交点坐标。"
+        layout:
+          avoid_break: true
+        hints:
+          - content: "点 $(0, 4)$ 的横坐标为 $0$，代入后可以直接得到什么？"
+          - content: "与 $x$ 轴交点的纵坐标一定等于多少？"
+        answer_space:
+          type: "steps"
+          height: "50mm"
+          step_count: 3
+
+      - type: "problem"
+        id: "p3"
+        points: 10
+        label: "第 3 题"
+        stem_latex: "已知一次函数 $y = kx + b$ 的图像经过点 $A(1, 2)$ 和点 $B(-2, -4)$。\\begin{enumerate}[label=(\\arabic*)] \\item 求解析式； \\item 求该函数图像与坐标轴的交点坐标； \\item 求图像与坐标轴围成的三角形面积。 \\end{enumerate}"
+        subquestions:
+          - latex: "求解析式；"
+          - latex: "求该函数图像与坐标轴的交点坐标；"
+          - latex: "求图像与坐标轴围成的三角形面积。"
+        layout:
+          avoid_break: true
+        hints:
+          - content: "求出 $b = 0$ 后，这条直线有什么特殊之处？"
+          - content: "正比例函数的图像过哪个特殊点？两个交点会怎样？"
+        answer_space:
+          type: "steps"
+          height: "60mm"
+          step_count: 4

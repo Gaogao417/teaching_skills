@@ -83,6 +83,17 @@ compile_tectonic() {
 echo "=== Compiling $TEX_NAME ==="
 echo "Working directory: $TEX_DIR"
 
+# Pre-compile LaTeX syntax check
+CHECK_SCRIPT="${SCRIPT_DIR}/check_latex.py"
+if [ -f "$CHECK_SCRIPT" ]; then
+    if python3 "$CHECK_SCRIPT" "$TEX_FILE"; then
+        : # check passed
+    else
+        echo "--- LaTeX syntax issues detected (see above) ---"
+        echo "Continuing compilation anyway..."
+    fi
+fi
+
 # Detect engine: xelatex > tectonic
 ENGINE=""
 if command -v xelatex &>/dev/null; then

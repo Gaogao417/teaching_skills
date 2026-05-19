@@ -1,0 +1,210 @@
+meta:
+  title: "一次函数过两点与坐标轴面积"
+  subtitle: "待定系数法 · 退化识别 · 讲解"
+  grade: "八年级"
+  subject: "数学"
+  version: "teacher"
+  show_answers: true
+  source_artifacts:
+    structure_analysis: "examples/linear-function/01-structure-analysis.md"
+
+render:
+  template: "exam-zh-explanation"
+  paper_size: "a4paper"
+
+sections:
+  - id: "original"
+    title: "原题"
+    type: "explanation"
+    visibility: "both"
+    layout:
+      break_before: false
+    blocks:
+      - type: "problemcard"
+        id: "orig"
+        label: "题目"
+        stem_latex: |
+          已知一次函数 $y=kx+b$ 的图像经过点 $A(1,3)$ 和点 $B(-2,-6)$。
+          \begin{enumerate}[label=(\arabic*)]
+            \item 求这个一次函数的解析式；
+            \item 判断点 $C(3,9)$ 是否在这个函数的图像上；
+            \item 求该函数图像与 $x$ 轴、$y$ 轴的交点坐标，并计算图像与坐标轴围成的三角形面积。
+          \end{enumerate}
+
+  - id: "breakdown"
+    title: "一、先把题目拆开"
+    type: "explanation"
+    visibility: "student"
+    blocks:
+      - type: "reading_tip"
+        id: "rt1"
+        items:
+          - latex: "先做第（1）问——后面两问都建立在解析式上。"
+          - latex: "这道题是「先求式，再代入，再算面积」的递进结构。"
+          - latex: "注意第（3）问有一个容易掉进去的坑。"
+
+  - id: "route-section"
+    title: "二、解题路线"
+    type: "explanation"
+    visibility: "student"
+    blocks:
+      - type: "route"
+        id: "route"
+        steps:
+          - latex: "两点代入 $y=kx+b$，列方程组"
+          - latex: "解方程组求 $k$、$b$"
+          - latex: "代入检验点 $C$"
+          - latex: "求坐标轴交点，算面积"
+
+  - id: "key-idea"
+    title: "三、关键想法"
+    type: "explanation"
+    visibility: "student"
+    blocks:
+      - type: "key_idea"
+        id: "ki"
+        content: |
+          一次函数有两个未知系数 $k$ 和 $b$。"图像经过一个点"意味着这个点的坐标满足解析式。
+          两个点 = 两个方程，刚好解出两个未知数。
+          这是待定系数法最基本的应用。
+
+  - id: "solution"
+    title: "四、标准解法"
+    type: "explanation"
+    visibility: "student"
+    blocks:
+      - type: "dual_explanation"
+        id: "sol-part1"
+        label: "(1)"
+        stem_latex: "求这个一次函数的解析式；"
+        left_title: "思考引导"
+        left_items:
+          - latex: "把 $A(1,3)$ 代入 $y=kx+b$，你能得到什么方程？"
+          - latex: "两个方程，用什么方法消元最快？试试两式直接相减。"
+        right_title: "规范讲解"
+        right_steps:
+          - latex: "代入 $A(1,3)$：$3 = k + b$ \\quad \\textcircled{1}"
+          - latex: "代入 $B(-2,-6)$：$-6 = -2k + b$ \\quad \\textcircled{2}"
+          - latex: "\\textcircled{1}$-$\\textcircled{2}：$9 = 3k$，所以 $k = 3$"
+          - latex: "代回 \\textcircled{1}：$3 = 3 + b$，所以 $b = 0$"
+          - latex: "解析式：$y = 3x$"
+        connection_title: "注意"
+        connection_items:
+          - latex: "$b = 0$！这条直线过原点——后面的第（3）问会用到这个事实。"
+
+      - type: "dual_explanation"
+        id: "sol-part2"
+        label: "(2)"
+        stem_latex: "判断点 $C(3,9)$ 是否在这个函数的图像上；"
+        left_title: "思考引导"
+        left_items:
+          - latex: "判断一个点是否在函数图像上，怎么做？"
+          - latex: "把 $x$ 坐标代入解析式，看算出来的 $y$ 是否一致。"
+        right_title: "规范讲解"
+        right_steps:
+          - latex: "将 $x = 3$ 代入 $y = 3x$：$y = 3 \\times 3 = 9$"
+          - latex: "点 $C$ 的纵坐标也是 $9$，所以 $C(3,9)$ 在图像上。"
+        connection_title: "方法"
+        connection_items:
+          - latex: "代进去，算出来，比一比。判断「是否在图像上」只有这一招。"
+
+      - type: "dual_explanation"
+        id: "sol-part3"
+        label: "(3)"
+        stem_latex: "求该函数图像与 $x$ 轴、$y$ 轴的交点坐标，并计算图像与坐标轴围成的三角形面积。"
+        left_title: "思考引导"
+        left_items:
+          - latex: "与 $x$ 轴交点：令 $y = 0$，解出 $x$。"
+          - latex: "与 $y$ 轴交点：令 $x = 0$，解出 $y$。"
+          - latex: "\\textbf{等等！}$b = 0$ 时直线过原点，两个交点会怎样？"
+        right_title: "规范讲解"
+        right_steps:
+          - latex: "令 $y = 0$：$3x = 0$，$x = 0$，交点为 $(0,0)$"
+          - latex: "令 $x = 0$：$y = 3 \\times 0 = 0$，交点为 $(0,0)$"
+          - latex: "两个交点\\textbf{重合于原点}，无法围成三角形"
+          - latex: "面积 $S = 0$"
+        connection_title: "关键"
+        connection_items:
+          - latex: "正比例函数 $y = kx$ 过原点，与两轴只交于一个点，面积必然为 $0$。"
+          - latex: "只有 $b \\neq 0$ 时，直线与两轴才有两个不同交点，才能围成三角形。"
+
+  - id: "summary"
+    title: "五、一句话总结"
+    type: "explanation"
+    visibility: "student"
+    blocks:
+      - type: "summary_dual"
+        id: "summary-block"
+        left_title: "答案"
+        left_items:
+          - latex: "(1) $y = 3x$"
+          - latex: "(2) $C(3,9)$ 在图像上"
+          - latex: "(3) 与两轴交点均为 $(0,0)$，面积为 $0$"
+        right_title: "方法提醒"
+        right_items:
+          - latex: "待定系数法四步：代入 → 列方程 → 消元 → 回代"
+          - latex: "每次求出参数后先看有没有特殊情况（如 $b = 0$）"
+
+  - id: "mistakes"
+    title: "六、易错提醒"
+    type: "explanation"
+    visibility: "student"
+    blocks:
+      - type: "mistake"
+        id: "m1"
+        title: "套面积公式不看条件"
+        content: |
+          直线与坐标轴围成三角形面积公式 $S = \frac{1}{2}|x_0| \cdot |y_0|$ 的前提是：
+          两个交点不重合。本题 $b = 0$，两个交点都是原点，公式虽然代入也得 $0$，
+          但如果换一题（比如两交点确实重合但你没注意到），思维就错了。
+          **养成习惯：先判断两个交点是否不同，再套公式。**
+      - type: "mistake"
+        id: "m2"
+        title: "代入负号出错"
+        content: |
+          将 $B(-2, -6)$ 代入 $y = kx + b$ 时，容易写成 $-6 = k \cdot (-2) + b$ 后
+          漏掉负号变成 $-6 = 2k + b$。正确应为 $-6 = -2k + b$。
+      - type: "mistake"
+        id: "m3"
+        title: "求出 b=0 却没有反应"
+        content: |
+          $b = 0$ 不是普通的数值结果——它意味着这条直线过原点（正比例函数）。
+          每次求出 $b = 0$，都应该立刻标注"过原点"，这会影响后续所有与坐标轴有关的计算。
+
+  - id: "questions"
+    title: "七、边讲边问"
+    type: "explanation"
+    visibility: "student"
+    blocks:
+      - type: "hint"
+        id: "q1"
+        content: "如果把点 $B$ 改为 $(-2, -4)$，求出来的 $b$ 还等于 $0$ 吗？围成的面积会是多少？"
+        level: 1
+      - type: "hint"
+        id: "q2"
+        content: "一次函数 $y = kx + b$ 在什么条件下与坐标轴围成的三角形面积最大？（提示：固定面积 $S = 6$，你能写出几条满足条件的直线？）"
+        level: 2
+      - type: "hint"
+        id: "q3"
+        content: "如果一个一次函数与两轴围成面积为 $12$ 的三角形，且过点 $(1, 3)$，这个函数的解析式是什么？（注意可能有两组解）"
+        level: 2
+
+  - id: "teacher-notes"
+    title: "教师备注"
+    type: "explanation"
+    visibility: "teacher"
+    layout:
+      break_before: true
+    blocks:
+      - type: "key_idea"
+        id: "tn1"
+        content: |
+          本题核心陷阱在第（3）问的退化情形。
+          学生画像：初二中等生，能做待定系数法但对 b=0 没有警觉。
+          教学节奏：前两问让学生自己完成，第（3）问作为课堂讨论重点。
+        teaching:
+          teaching_goal: "待定系数法 + b=0 退化识别"
+          expected_blocker: "第(3)问机械套面积公式，不判断两交点是否重合"
+          mastery_band: "B"
+          upgrade_rule: "能主动在求出 b=0 时标注'过原点'并预判面积=0"
+          downgrade_rule: "待定系数法列方程组出错或消元出错"

@@ -21,6 +21,19 @@ skip:
 
 保留原 `math-adaptive-practice-html` 的全部教学逻辑。
 
+## 版本规则
+
+每次生成练习必须**同时输出学生版和教师版**，通过 `meta.version` 控制：
+
+- **学生版**（`version: "student"`）：纯净试卷，只有题干、选项、答题区。不含答案、解析、教师备注。
+  但可以在题目后附带渐进提示（hints），提示以轻量框显示。
+- **教师版**（`version: "teacher"`）：在学生版基础上，每道题后附带完整的解题步骤和答案。
+  解答题（problem）必须包含分步骤的标准解答（solution_steps）。
+- **同时输出**：默认生成两个文件：
+  - `03-adaptive-practice.student.assignment.yaml`（`version: "student"`）
+  - `03-adaptive-practice.teacher.assignment.yaml`（`version: "teacher"`）
+  如果用户明确只要一个版本，则只生成一个。
+
 ## 输入
 
 - `artifacts/<slug>/01-structure-analysis.md`
@@ -86,7 +99,95 @@ answer_space:
 - max_next_step 不超过预算
 - 不引入 forbidden_load
 
+## 题目字段要求
+
+### 选择题 (choice)
+
+```yaml
+type: "choice"
+id: "c1"
+points: 4
+stem: "题干文本 $math$"
+choices:
+  A: "选项 A"
+  B: "选项 B"
+  C: "选项 C"
+  D: "选项 D"
+answer: "B"
+explanation: "解析文本"          # 教师版显示
+teaching:                        # 教师版显示
+  teaching_goal: "..."
+  expected_blocker: "..."
+  mastery_band: "B"
+  complexity_note: "..."
+```
+
+### 填空题 (fillin)
+
+```yaml
+type: "fillin"
+id: "f1"
+points: 4
+stem: "题干文本"
+answer: "填空答案"
+explanation: "解析文本"          # 教师版显示
+teaching:
+  teaching_goal: "..."
+  mastery_band: "A"
+```
+
+### 解答题 (problem)
+
+**重要**：题干含 LaTeX 公式或 enumerate 时，必须用 `stem_latex`（原样输出），不要用 `stem`。
+
+```yaml
+type: "problem"
+id: "p1"
+points: 10
+label: "第 1 题"
+stem_latex: |
+  已知一次函数 $y = kx + b$ 的图像经过点 $A(2, 7)$ 和点 $B(-1, 1)$。
+  \begin{enumerate}[label=(\arabic*)]
+    \item 求这个一次函数的解析式；
+    \item 判断点 $C(3, 9)$ 是否在该函数的图像上。
+  \end{enumerate}
+answer: "(1) $y = 2x + 3$；(2) 在图像上。"
+explanation: |
+  (1) 代入 $A(2,7)$：$2k + b = 7$。代入 $B(-1,1)$：$-k + b = 1$。
+  两式相减：$3k = 6$，$k = 2$，$b = 3$。
+solution_steps:                  # 教师版分步骤展示
+  - title: "代入列方程组"
+    content: "代入 $(2,7)$ 得 $2k + b = 7$，代入 $(-1,1)$ 得 $-k + b = 1$。"
+  - title: "消元求解"
+    content: "两式相减：$3k = 6$，$k = 2$。回代：$b = 3$。"
+  - title: "检验点 C"
+    content: "将 $x = 3$ 代入 $y = 2x + 3 = 9$，等于 $C$ 的纵坐标。"
+teaching:
+  teaching_goal: "..."
+  expected_blocker: "..."
+  mastery_band: "B"
+hints:                           # 学生版也可以看到
+  - content: "先列方程组求 $k$ 和 $b$，再把 $C$ 的横坐标代入。"
+  - content: "两式相减可以快速消去 $b$。"
+answer_space:
+  type: "steps"
+  height: "60mm"
+  step_count: 4
+```
+
+## Layout 和分页规则
+
+大题跨页截断问题必须在 YAML 中通过 layout 控制：
+
+1. **选择题、填空题**：每组题不要超过一页（约 6 道选择或 6 道填空需分两组）
+2. **解答题**：每道大题加 `layout: { avoid_break: true }`，防止题目和答题区被截断
+3. **解答题超过 3 小问**：去掉 `avoid_break`，让内容自然分页
+4. **答案区**：必须 `layout: { break_before: true }`
+5. **两组练习之间**：前一组的最后一个 section 加 `layout: { break_after: true }` 或后一组加 `break_before: true`
+
 ## YAML 输出格式
+
+### 学生版 (03-adaptive-practice.student.assignment.yaml)
 
 ```yaml
 meta:
@@ -97,7 +198,6 @@ meta:
   duration: "20分钟"
   total_points: 24
   version: "student"
-  show_answers: false
   source_artifacts:
     structure_analysis: "artifacts/<slug>/01-structure-analysis.md"
     explanation: "artifacts/<slug>/02-student-explanation.assignment.yaml"
@@ -108,32 +208,147 @@ render:
   answer_key_position: "after_page_break"
 
 sections:
-  - id: "practice-main"
-    title: "一、核心练习"
+  - id: "choice"
+    title: "一、选择题（每题 4 分，共 24 分）"
     type: "practice"
     visibility: "student"
     blocks:
       - type: "choice"
-        id: "q1"
-        ...
+        id: "c1"
+        points: 4
+        stem: "..."
+        choices: { A: "...", B: "...", C: "...", D: "..." }
+        hints:
+          - content: "提示..."
+
+      - type: "choice"
+        id: "c2"
+        # ...
+
+  - id: "fillin"
+    title: "二、填空题（每题 4 分，共 16 分）"
+    type: "practice"
+    visibility: "student"
+    blocks:
       - type: "fillin"
-        id: "q2"
-        ...
+        id: "f1"
+        points: 4
+        stem: "..."
+        hints:
+          - content: "提示..."
+
+  - id: "problems"
+    title: "三、解答题（每题 10 分，共 20 分）"
+    type: "practice"
+    visibility: "student"
+    blocks:
       - type: "problem"
-        id: "q3"
-        ...
+        id: "p1"
+        points: 10
+        label: "第 1 题"
+        stem_latex: |
+          ...
+        layout:
+          avoid_break: true
+        hints:
+          - content: "提示 1"
+          - content: "提示 2"
+        answer_space:
+          type: "steps"
+          height: "60mm"
+          step_count: 4
+
+  # 学生版不含答案区和教师备注
+```
+
+### 教师版 (03-adaptive-practice.teacher.assignment.yaml)
+
+与学生版结构相同，区别在 `meta.version` 和每个 block 的 `answer`/`explanation`/`solution_steps`/`teaching` 字段。
+
+```yaml
+meta:
+  title: "...专题练习（教师版）"
+  subtitle: "..."
+  grade: "..."
+  subject: "..."
+  duration: "20分钟"
+  total_points: 24
+  version: "teacher"
+  source_artifacts:
+    structure_analysis: "artifacts/<slug>/01-structure-analysis.md"
+    explanation: "artifacts/<slug>/02-student-explanation.assignment.yaml"
+
+render:
+  template: "exam-zh-practice"
+  paper_size: "a4paper"
+  answer_key_position: "after_page_break"
+
+sections:
+  - id: "choice"
+    title: "一、选择题（每题 4 分，共 24 分）"
+    type: "practice"
+    visibility: "both"
+    blocks:
+      - type: "choice"
+        id: "c1"
+        points: 4
+        stem: "..."
+        choices: { A: "...", B: "...", C: "...", D: "..." }
+        answer: "B"
+        explanation: "解析..."
+        teaching:
+          teaching_goal: "..."
+          expected_blocker: "..."
+          mastery_band: "B"
+
+  - id: "problems"
+    title: "三、解答题"
+    type: "practice"
+    visibility: "both"
+    blocks:
+      - type: "problem"
+        id: "p1"
+        points: 10
+        stem_latex: |
+          ...
+        answer: "..."
+        explanation: |
+          完整解析文本...
+        solution_steps:
+          - title: "步骤 1"
+            content: "..."
+          - title: "步骤 2"
+            content: "..."
+        teaching:
+          teaching_goal: "..."
+          expected_blocker: "..."
+          mastery_band: "B"
+        layout:
+          avoid_break: true
 
   - id: "answer-key"
-    title: "二、参考答案"
+    title: "参考答案"
     type: "answer_key"
-    visibility: "student"
+    visibility: "teacher"
     layout:
       break_before: true
     blocks:
       - type: "step"
-        id: "ak1"
-        title: "第 1 题"
-        content: "解答..."
+        id: "ak-choice"
+        title: "选择题"
+        content: |
+          1. B  2. A  3. C  ...
+      - type: "step"
+        id: "ak-fillin"
+        title: "填空题"
+        content: |
+          1. $3$  2. $(2,0)$  ...
+      - type: "step"
+        id: "ak-problem"
+        title: "解答题"
+        content: |
+          第 1 题：(1) $y = 2x + 3$；(2) 在图像上。
+          第 2 题：...
 ```
 
 ## Schema 遵循
@@ -144,20 +359,39 @@ sections:
 
 输出前必须检查：
 1. 所有 block id 唯一
-2. 题目数量不超过 3 题
-3. 每题都有 teaching 字段
-4. 答案经过自检（代入验证）
-5. 复杂度不超过 structure-analysis 预算
-6. 数学公式使用 `$...$` 格式
+2. 题目数量不超过 3 题（每组）
+3. 学生版不含 `answer`、`explanation`、`solution_steps`、`teaching` 字段
+4. 教师版每道解答题必须有 `solution_steps`（分步骤标准解答）
+5. 解答题题干用 `stem_latex`（不经过转义），不用 `stem`
+6. 答案经过自检（代入验证）
+7. block scalar（`|`）字段中的 LaTeX 命令用单反斜杠 `\frac`（不是 `\\frac`）；双引号字符串中的 `\\frac` 会被 YAML 解析为 `\frac` 所以是正确的
+8. 复杂度不超过 structure-analysis 预算
+8. 答案区 answer_key 的 `visibility` 为 `"teacher"`
+9. 大题有 `layout: { avoid_break: true }`（除非超过 3 小问）
+10. 同时输出 student 和 teacher 两个文件
 
 ## Handoff
 
 生成完毕后说明：
 
 ```
-下一步：使用 math-assignment-latex 渲染并编译 PDF。
+已生成学生版和教师版两个 YAML 文件：
+- artifacts/<slug>/03-adaptive-practice.student.assignment.yaml
+- artifacts/<slug>/03-adaptive-practice.teacher.assignment.yaml
+
+下一步：使用 math-assignment-latex 渲染、检查并编译 PDF。
 
 python math-assignment-latex/scripts/render_assignment.py \
-  artifacts/<slug>/03-adaptive-practice.assignment.yaml \
-  --out artifacts/<slug>/04-assignment.tex
+  artifacts/<slug>/03-adaptive-practice.student.assignment.yaml \
+  --out artifacts/<slug>/03-practice-student.tex
+
+python math-assignment-latex/scripts/render_assignment.py \
+  artifacts/<slug>/03-adaptive-practice.teacher.assignment.yaml \
+  --out artifacts/<slug>/03-practice-teacher.tex
+
+python math-assignment-latex/scripts/check_latex.py artifacts/<slug>/03-practice-student.tex
+python math-assignment-latex/scripts/check_latex.py artifacts/<slug>/03-practice-teacher.tex
+
+bash math-assignment-latex/scripts/compile_latex.sh artifacts/<slug>/03-practice-student.tex
+bash math-assignment-latex/scripts/compile_latex.sh artifacts/<slug>/03-practice-teacher.tex
 ```

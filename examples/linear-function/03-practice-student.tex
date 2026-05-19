@@ -175,3 +175,126 @@
 % exam-zh (ctexbook) already loads geometry.
 % Override margins if needed:
 % \geometry{top=16mm, bottom=16mm, left=14mm, right=14mm}
+
+\examsetup{
+  question/show-answer = false,
+  fillin/show-answer = false,
+  solution/show-solution = hide,
+}
+
+% ---------- 教师版解答样式 ----------
+\newtcolorbox{solutionblock}{
+  enhanced, breakable,
+  colback=edu-blue-bg,
+  colframe=edu-blue!25,
+  boxrule=0pt,
+  borderline west={2pt}{0pt}{edu-blue!50},
+  arc=0pt,
+  left=3mm, right=3mm, top=2mm, bottom=2mm,
+  before skip=2mm,
+  after skip=3mm,
+  fontupper=\small,
+}
+
+% 解答步骤编号
+\newcounter{solstep}
+\newcommand{\solstep}[2]{%
+  \stepcounter{solstep}%
+  \par\medskip
+  \noindent\hangindent=6mm
+  {\color{edu-blue}\bfseries\textcircled{\scriptsize\thesolstep}\enspace #1}\enspace #2\par
+}
+
+\begin{document}
+
+\section*{一次函数过两点求解析式 · 专题练习}
+
+\section*{一、选择题（每题 4 分，共 12 分）}
+
+
+\begin{question}[points=4]
+  一次函数 $y = kx + b$ 的图像经过点 $(2, 7)$，则下列等式成立的是
+  \begin{choices}
+    \item $k + b = 7$
+    \item $2k + b = 7$
+    \item $2b + k = 7$
+    \item $k \cdot 2 \cdot b = 7$
+  \end{choices}
+\end{question}
+
+
+
+\begin{question}[points=4]
+  一次函数 $y = kx + b$ 的图像经过点 $(1, 5)$ 和 $(-1, 1)$，则 $k$ 的值为
+  \begin{choices}
+    \item $1$
+    \item $2$
+    \item $3$
+    \item $4$
+  \end{choices}
+\end{question}
+
+
+
+\begin{question}[points=4]
+  直线 $y = 4x$ 与坐标轴围成的三角形面积为
+  \begin{choices}
+    \item $4$
+    \item $8$
+    \item $16$
+    \item $0$
+  \end{choices}
+\end{question}
+
+
+\section*{二、填空题（每题 4 分，共 12 分）}
+
+
+\begin{question}[points=4]
+  一次函数 $y = -x + 5$ 的图像经过点 $(3, \underline{\quad\quad})$。
+  \fillin
+\end{question}
+
+
+
+\begin{question}[points=4]
+  一次函数 $y = kx + b$ 过点 $(0, 1)$ 和 $(1, 4)$，则 $k = $ \underline{\quad\quad}，$b = $ \underline{\quad\quad}。
+  \fillin
+\end{question}
+
+
+
+\begin{question}[points=4]
+  直线 $y = -3x + 6$ 与坐标轴围成的三角形面积为 \underline{\quad\quad}。
+  \fillin
+\end{question}
+
+
+\section*{三、解答题（每题 10 分，共 30 分）}
+
+\needspace{5\baselineskip}
+
+\begin{problem}[points=10]
+  已知一次函数 $y = kx + b$ 的图像经过点 $A(2, 7)$ 和点 $B(-1, 1)$。\begin{enumerate}[label=(\arabic*)] \item 求这个一次函数的解析式； \item 判断点 $C(3, 9)$ 是否在该函数的图像上。 \end{enumerate}
+  \answerarea[60mm]
+\end{problem}
+
+
+\needspace{5\baselineskip}
+
+\begin{problem}[points=10]
+  已知一次函数 $y = kx + b$ 的图像经过点 $A(0, 4)$ 和点 $B(3, -2)$。\begin{enumerate}[label=(\arabic*)] \item 求解析式； \item 求该函数图像与 $x$ 轴的交点坐标。 \end{enumerate}
+  \answerarea[50mm]
+\end{problem}
+
+
+\needspace{5\baselineskip}
+
+\begin{problem}[points=10]
+  已知一次函数 $y = kx + b$ 的图像经过点 $A(1, 2)$ 和点 $B(-2, -4)$。\begin{enumerate}[label=(\arabic*)] \item 求解析式； \item 求该函数图像与坐标轴的交点坐标； \item 求图像与坐标轴围成的三角形面积。 \end{enumerate}
+  \answerarea[60mm]
+\end{problem}
+
+
+
+\end{document}

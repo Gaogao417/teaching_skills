@@ -179,15 +179,19 @@ steps:
   - latex: "联立两条直线求点 $M$"
 ```
 
-`exam-zh-explanation` 会将 `route.steps` 渲染为横向箭头流程图。每步宜短，避免流程框溢出。
+`exam-zh-explanation` 会将 `route.steps` 渲染为虚线框内文字 + `→` 箭头，自然换行不会溢出。
 
 ### dual_explanation / explanation_dual 类型
 
 用于讲解页主体双栏。左栏放思考引导和易错提示，右栏放规范讲解；后续小问依赖前问时，用 `connection_items` 收束。
 
+每个子问题必须带 `label` + `stem_latex`，讲解前自动以 exam 格式复现该小问题干。
+不要用 `title: "第（X）问"`，改用 `label` + `stem_latex`。
+
 ```yaml
 type: dual_explanation
-title: "讲解"
+label: "(1)"
+stem_latex: "求这个一次函数的解析式；"
 left_title: "思考引导 / 易错提示"
 left_items:
   - latex: "已知两个点，优先想到用待定系数法求 $k,b$。"

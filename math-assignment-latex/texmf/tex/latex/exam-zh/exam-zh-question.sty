@@ -1047,7 +1047,7 @@
                 \bool_if:NTF \l__examzh_question_show_paren_answer_bool
                   % { \hfill \__examzh_paren_print_answer:n {#1} \hfill }
                   {
-                    \IfBlankTF{#2}
+                    \tl_if_blank:nTF {#2}
                       {
                         % 显示答案，但是 \paren 里没有输入答案
                         \kern 2em
