@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>学生版讲解：一次函数与实际应用（利润优化）</title>
+<link rel="stylesheet" href="../assets/edu-print.css">
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']] },
+  startup: { pageReady: () => MathJax.startup.defaultPageReady() }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+</head>
+<body data-view="student">
+
+<div class="edu-page">
+
+  <!-- 标题 -->
+  <h1 class="edu-title">学生版讲解：一次函数与实际应用（利润优化）</h1>
+  <p class="edu-subtitle">一次函数与实际应用（利润优化）</p>
+
+  <!-- ============================== -->
+  <!-- 第一部分：先把题目拆开 -->
+  <!-- ============================== -->
+  <div class="edu-section u-avoid-break">
+    <h2 class="edu-section-title">一、先把题目拆开</h2>
+
+    <div class="edu-task-table">
+      <table class="edu-table">
+        <thead>
+          <tr>
+            <th>已知条件</th>
+            <th>数学含义</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>销售一台A型获利120元，B型获利140元</td>
+            <td>A型单价利润 $a=120$，B型单价利润 $b=140$</td>
+          </tr>
+          <tr>
+            <td>计划购进两种电脑共100台</td>
+            <td>$x + (100 - x) = 100$，即A型 $x$ 台，B型 $100 - x$ 台</td>
+          </tr>
+          <tr>
+            <td>B型不超过A型的3倍</td>
+            <td>$100 - x \leq 3x$ &rarr; $x \geq 25$</td>
+          </tr>
+          <tr>
+            <td>第(3)问附加：最多购进A型60台</td>
+            <td>$x \leq 60$，与 $x \geq 25$ 合并为 $25 \leq x \leq 60$</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="edu-task-table">
+      <table class="edu-table">
+        <thead>
+          <tr>
+            <th>求解目标</th>
+            <th>对应操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>(1) 求 $y$ 与 $x$ 的关系式</td>
+            <td>用总利润公式列函数，化简为一次函数标准形式</td>
+          </tr>
+          <tr>
+            <td>(2) 各购进多少台利润最大</td>
+            <td>确定 $x$ 的范围，判断单调性，端点取最值</td>
+          </tr>
+          <tr>
+            <td>(3) 总利润能否为13600元？</td>
+            <td>代入解方程，验证 $x$ 是否在范围内；求值域</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ============================== -->
+  <!-- 第二部分：这题准备怎么走 -->
+  <!-- ============================== -->
+  <div class="edu-section">
+    <h2 class="edu-section-title">二、这题准备怎么走</h2>
+
+    <ol class="edu-route">
+      <li><strong>列函数</strong>——设A型 $x$ 台，用总利润 = A型利润 + B型利润列出 $y$ 与 $x$ 的关系式并化简。</li>
+      <li><strong>定范围</strong>——把所有文字约束（总数100、B&le;3A）翻译为不等式，求交集得到 $x$ 的取值区间。</li>
+      <li><strong>看单调性</strong>——判断一次函数 $k$ 的正负，确定递增还是递减。</li>
+      <li><strong>取端点</strong>——递减函数的最大值在左端点（最小的 $x$），直接代入即可。</li>
+      <li><strong>验范围</strong>——第(3)问解方程后，一定要回头检验 $x$ 是否落在允许范围内。</li>
+    </ol>
+  </div>
+
+  <!-- ============================== -->
+  <!-- 第三部分：关键想法 -->
+  <!-- ============================== -->
+  <div class="edu-section">
+    <h2 class="edu-section-title">三、关键想法</h2>
+
+    <div class="edu-key-idea">
+      <p class="edu-strong">核心策略：建模 &rarr; 定域 &rarr; 看单调性取端点。</p>
+      <p class="edu-p">这类利润优化问题的本质是：<em>在闭区间上求一次函数的最值</em>。只要完成三步：</p>
+      <p class="edu-p">1. 把文字翻译成函数 $y = -20x + 14000$；</p>
+      <p class="edu-p">2. 把文字约束翻译成不等式，确定 $x \in [25,\, 100]$；</p>
+      <p class="edu-p">3. 因为 $k = -20 < 0$（递减），最大值就在最左端 $x = 25$ 处。</p>
+      <p class="edu-p">不需要逐个代入试算，<span class="edu-strong">看一眼单调性就能锁定答案</span>。</p>
+    </div>
+  </div>
+
+  <!-- ============================== -->
+  <!-- 第四部分：标准解法 -->
+  <!-- ============================== -->
+  <div class="edu-section u-avoid-break">
+    <h2 class="edu-section-title">四、标准解法</h2>
+
+    <!-- 子问题 (1) -->
+    <div class="edu-subproblem">
+      <h3 class="edu-subproblem-title">第(1)问：求 $y$ 与 $x$ 的关系式</h3>
+
+      <div class="edu-step">
+        <p class="edu-step-title">Step 1：设变量、列式</p>
+        <p class="edu-p">设购进A型电脑 $x$ 台，则B型电脑 $100 - x$ 台。</p>
+        <p class="edu-p">总利润 $y$ = A型利润 + B型利润：</p>
+        <div class="edu-formula">
+          $$y = 120x + 140(100 - x)$$
+        </div>
+      </div>
+
+      <div class="edu-step">
+        <p class="edu-step-title">Step 2：化简</p>
+        <div class="edu-formula">
+          $$y = 120x + 14000 - 140x = -20x + 14000$$
+        </div>
+        <p class="edu-p">即 $y = -20x + 14000$（$x$ 为正整数）。</p>
+      </div>
+    </div>
+
+    <!-- 子问题 (2) -->
+    <div class="edu-subproblem">
+      <h3 class="edu-subproblem-title">第(2)问：各购进多少台利润最大？</h3>
+
+      <div class="edu-step">
+        <p class="edu-step-title">Step 1：翻译约束条件，确定 $x$ 的范围</p>
+        <p class="edu-p">隐含条件：$x \geq 0$，$100 - x \geq 0$，即 $0 \leq x \leq 100$。</p>
+        <p class="edu-p">显式条件：B型不超过A型的3倍：</p>
+        <div class="edu-formula">
+          $$100 - x \leq 3x \;\Longrightarrow\; 4x \geq 100 \;\Longrightarrow\; x \geq 25$$
+        </div>
+        <p class="edu-p">取交集：<span class="edu-strong">$25 \leq x \leq 100$</span>。</p>
+      </div>
+
+      <div class="edu-step">
+        <p class="edu-step-title">Step 2：判断单调性</p>
+        <p class="edu-p">$y = -20x + 14000$ 中，$k = -20 < 0$，函数在 $[25,\, 100]$ 上<span class="edu-strong">单调递减</span>。</p>
+      </div>
+
+      <div class="edu-step">
+        <p class="edu-step-title">Step 3：取端点求最大值</p>
+        <p class="edu-step-why">递减函数：$x$ 越小，$y$ 越大。所以最大值在左端点 $x = 25$。</p>
+        <div class="edu-formula">
+          $$y_{\max} = -20 \times 25 + 14000 = -500 + 14000 = 13500 \text{（元）}$$
+        </div>
+        <p class="edu-p">此时 A型 $x = 25$ 台，B型 $100 - 25 = 75$ 台。</p>
+        <p class="edu-p"><span class="edu-strong">答：购进A型25台、B型75台时利润最大，最大利润为13500元。</span></p>
+      </div>
+    </div>
+
+    <!-- 子问题 (3) -->
+    <div class="edu-subproblem page-break">
+      <h3 class="edu-subproblem-title">第(3)问：总利润能否为13600元？</h3>
+
+      <div class="edu-step">
+        <p class="edu-step-title">Step 1：附加约束，缩小区间</p>
+        <p class="edu-p">新增条件：最多购进A型60台，即 $x \leq 60$。</p>
+        <p class="edu-p">与原范围 $x \geq 25$ 取交集：<span class="edu-strong">$25 \leq x \leq 60$</span>。</p>
+      </div>
+
+      <div class="edu-step">
+        <p class="edu-step-title">Step 2：代入目标值，解方程</p>
+        <div class="edu-formula">
+          $$-20x + 14000 = 13600$$
+          $$-20x = -400$$
+          $$x = 20$$
+        </div>
+      </div>
+
+      <div class="edu-step">
+        <p class="edu-step-title">Step 3：验证范围（关键！）</p>
+        <p class="edu-step-why">$x = 20 < 25$，不在范围 $[25,\, 60]$ 内，所以总利润<span class="edu-strong">不能</span>达到13600元。</p>
+      </div>
+
+      <div class="edu-step">
+        <p class="edu-step-title">Step 4：求利润范围</p>
+        <p class="edu-p">函数仍为递减，在 $[25,\, 60]$ 上：</p>
+        <div class="edu-formula">
+          $$y(25) = -20 \times 25 + 14000 = 13500 \text{（元）}$$
+          $$y(60) = -20 \times 60 + 14000 = -1200 + 14000 = 12800 \text{（元）}$$
+        </div>
+        <p class="edu-p"><span class="edu-strong">利润范围为 $12800 \leq y \leq 13500$（元）。</span></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================== -->
+  <!-- 第五部分：边讲边问 -->
+  <!-- ============================== -->
+  <div class="edu-section u-avoid-break">
+    <h2 class="edu-section-title">五、边讲边问</h2>
+
+    <div class="edu-question">
+      <p class="edu-question-title">Q1</p>
+      <p class="edu-p">"B型不超过A型的3倍"写成不等式，应该是 $100 - x \leq 3x$ 还是 $100 - x \geq 3x$？为什么？</p>
+      <p class="edu-blank-line"></p>
+    </div>
+
+    <div class="edu-question">
+      <p class="edu-question-title">Q2</p>
+      <p class="edu-p">$y = -20x + 14000$ 中的 $k = -20 < 0$，说明函数图像从左到右是上升还是下降？$y$ 随 $x$ 增大而______。</p>
+      <p class="edu-blank-line"></p>
+    </div>
+
+    <div class="edu-question">
+      <p class="edu-question-title">Q3</p>
+      <p class="edu-p">递减函数在闭区间 $[25,\, 100]$ 上，最大值在 $x =$ ______ 处取得，最小值在 $x =$ ______ 处取得。</p>
+      <p class="edu-blank-line"></p>
+    </div>
+
+    <div class="edu-question">
+      <p class="edu-question-title">Q4</p>
+      <p class="edu-p">第(3)问解出 $x = 20$，如果不去验证范围就直接下结论，会犯什么错误？</p>
+      <p class="edu-blank-line"></p>
+    </div>
+
+    <div class="edu-question">
+      <p class="edu-question-title">Q5</p>
+      <p class="edu-p">第(3)问利润范围是 $12800 \leq y \leq 13500$。如果函数是递增的（$k > 0$），同样的区间 $[25,\, 60]$，利润范围的端点会怎么变？</p>
+      <p class="edu-blank-line"></p>
+    </div>
+  </div>
+
+  <!-- ============================== -->
+  <!-- 第六部分：易错提醒 -->
+  <!-- ============================== -->
+  <div class="edu-section">
+    <h2 class="edu-section-title">六、易错提醒</h2>
+
+    <div class="edu-mistake">
+      <p class="edu-strong">错误1：漏掉"B &le; 3A"的约束</p>
+      <p class="edu-p">只看到"共100台"，就把范围写成 $0 \leq x \leq 100$，导致最大值取在 $x = 0$ 处，答案错误。</p>
+      <p class="edu-p"><span class="edu-strong">对策：</span>逐条圈出题目中的约束条件，每一条都要翻译为不等式。</p>
+    </div>
+
+    <div class="edu-mistake">
+      <p class="edu-strong">错误2：化简 $y = 120x + 140(100 - x)$ 时算错</p>
+      <p class="edu-p">常见错误：忘记展开括号，或 $120x - 140x$ 的符号搞反。</p>
+      <p class="edu-p"><span class="edu-strong">对策：</span>分两步——先展开 $140 \times 100 = 14000$ 和 $140 \times (-x) = -140x$，再合并同类项 $120x - 140x = -20x$。</p>
+    </div>
+
+    <div class="edu-mistake">
+      <p class="edu-strong">错误3：递减函数的端点取反</p>
+      <p class="edu-p">知道函数递减，却误以为最大值在右端点 $x = 100$ 处。</p>
+      <p class="edu-p"><span class="edu-strong">对策：</span>记住口诀——"<em>递减往左取最大，递增往右取最大</em>"。</p>
+    </div>
+
+    <div class="edu-mistake">
+      <p class="edu-strong">错误4：第(3)问解出 $x = 20$ 后不验证范围</p>
+      <p class="edu-p">直接回答"能"，忽略了 $x$ 必须在 $[25,\, 60]$ 内这一前提。</p>
+      <p class="edu-p"><span class="edu-strong">对策：</span>凡解方程得到的值，必须回头检查是否落在自变量的允许范围内。</p>
+    </div>
+
+    <div class="edu-mistake">
+      <p class="edu-strong">错误5：附加约束后范围漏掉下界</p>
+      <p class="edu-p">第(3)问看到"最多购进A型60台"，就把范围写成 $0 \leq x \leq 60$，漏掉了 $x \geq 25$。</p>
+      <p class="edu-p"><span class="edu-strong">对策：</span>附加约束是与原有约束取<span class="edu-strong">交集</span>，不是替换。原来的下界 $x \geq 25$ 仍然有效。</p>
+    </div>
+  </div>
+
+  <!-- ============================== -->
+  <!-- 第七部分：一句话总结 -->
+  <!-- ============================== -->
+  <div class="edu-section">
+    <h2 class="edu-section-title">七、一句话总结</h2>
+
+    <div class="edu-key-idea">
+      <p class="edu-p">利润优化题就是<span class="edu-strong">线性约束下一次函数最值问题</span>，万能三步走：</p>
+      <p class="edu-strong" style="font-size: 1.15em; text-align: center; margin: 1em 0;">建模（列函数）&rarr; 定域（翻译不等式）&rarr; 看单调性取端点。</p>
+      <p class="edu-p">解出答案后，别忘了<span class="edu-strong">回头验证范围</span>——这是拿满分的最后一步。</p>
+    </div>
+  </div>
+
+</div>
+
+<!-- 自检清单（仅教师可见） -->
+<aside class="edu-teacher-note self-check no-print">
+  <p><strong>Self-check 清单：</strong></p>
+  <ul>
+    <li>[ ] 七个部分齐全，顺序正确</li>
+    <li>[ ] 所有 MathJax 公式在浏览器中正常渲染</li>
+    <li>[ ] edu-task-table 包含所有已知条件和求解目标</li>
+    <li>[ ] edu-route 有5个步骤，覆盖完整解题流程</li>
+    <li>[ ] edu-key-idea 突出"建模 &rarr; 定域 &rarr; 看单调性取端点"</li>
+    <li>[ ] edu-subproblem 覆盖(1)(2)(3)三个子问题</li>
+    <li>[ ] edu-question 包含5道互动问题</li>
+    <li>[ ] edu-mistake 列出5个常见错误及对策</li>
+    <li>[ ] body 标签包含 data-view="student"</li>
+    <li>[ ] 打印分页符 page-break 仅用于第(3)问前</li>
+  </ul>
+</aside>
+
+</body>
+</html>

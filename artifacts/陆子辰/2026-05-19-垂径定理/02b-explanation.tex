@@ -1,0 +1,557 @@
+% preamble-exam-zh.tex — 极简讲解页共享 preamble
+% 目标：复刻「题目独立、提示轻框、路线箭头、主体双栏、答案轻收束」的讲义风格。
+
+\documentclass{exam-zh}
+
+% ---------- 基础配置 ----------
+\examsetup{
+  page/size = a4paper,
+  page/show-head = false,
+  page/show-foot = false,
+  sealline/show = false,
+  font = none,
+  math-font = none,
+}
+
+% ---------- 包 ----------
+\usepackage{geometry}
+\geometry{top=10mm,bottom=14mm,left=15mm,right=13mm}
+\AtBeginDocument{\newgeometry{top=10mm,bottom=14mm,left=15mm,right=13mm}}
+
+\usepackage{xcolor}
+\usepackage{needspace}
+\usepackage{enumitem}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{tcolorbox}
+\tcbuselibrary{skins,breakable}
+\usepackage{paracol}
+
+% ---------- 打印/屏幕颜色切换 ----------
+% 用法：\documentclass[monochrome]{exam-zh} 可降级为灰度。
+% 注意：不要使用 \if@xxx 放在 makeatother 外部；这里改成普通条件名。
+\newif\ifeduprintcolor
+\eduprintcolortrue
+\makeatletter
+\@ifclasswith{exam-zh}{monochrome}{\eduprintcolorfalse}{}
+\makeatother
+
+% ---------- 语义颜色 ----------
+\ifeduprintcolor
+  \definecolor{edu-blue}{RGB}{31,62,126}
+  \definecolor{edu-blue-soft}{RGB}{232,238,250}
+  \definecolor{edu-blue-bg}{RGB}{248,250,254}
+  \definecolor{edu-ink}{RGB}{30,35,45}
+  \definecolor{edu-muted}{RGB}{118,124,136}
+  \definecolor{edu-line}{RGB}{209,218,235}
+  \definecolor{edu-soft-bg}{RGB}{250,251,253}
+  \definecolor{edu-red}{RGB}{168,58,58}
+  \definecolor{edu-red-bg}{RGB}{255,247,245}
+\else
+  \definecolor{edu-blue}{gray}{0.15}
+  \definecolor{edu-blue-soft}{gray}{0.90}
+  \definecolor{edu-blue-bg}{gray}{0.98}
+  \definecolor{edu-ink}{gray}{0.10}
+  \definecolor{edu-muted}{gray}{0.45}
+  \definecolor{edu-line}{gray}{0.82}
+  \definecolor{edu-soft-bg}{gray}{0.97}
+  \definecolor{edu-red}{gray}{0.28}
+  \definecolor{edu-red-bg}{gray}{0.97}
+\fi
+
+% ---------- 全局排版 ----------
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\linespread{1.16}
+\renewcommand{\arraystretch}{1.15}
+
+% ctex 通常提供 \kaishu；这里用它做教师旁白感。
+\newcommand{\edukai}{\kaishu}
+
+% ---------- 顶部元信息 ----------
+\newcommand{\eduTopBar}[2]{%
+  \noindent
+  \begin{tabularx}{\linewidth}{@{}Xr@{}}
+    {\color{edu-blue}\bfseries #1} &
+    {\color{edu-blue}\bfseries #2}
+  \end{tabularx}
+  \vspace{8mm}
+}
+
+% ---------- 轻标题体系 ----------
+% 只有真正的大结构才用它；不要给提示/路线滥用标题。
+\newcommand{\eduSectionTitle}[1]{%
+  \needspace{5\baselineskip}%
+  \vspace{2mm}
+  {\color{edu-blue}\bfseries\large #1}\par
+  \vspace{3mm}
+}
+
+\newcommand{\eduSubTitle}[1]{%
+  \needspace{4\baselineskip}%
+  \vspace{1mm}
+  {\color{edu-blue}\bfseries #1}\par
+  \vspace{1mm}
+}
+
+% ---------- 小问题干：复用 exam (1)(2)(3) 格式 ----------
+\newenvironment{eduSubQuestionItem}[1]{%
+  \needspace{4\baselineskip}%
+  \vspace{2mm}
+  \par\noindent
+  \hangindent=8mm\hangafter=1
+  {\color{edu-blue}\bfseries #1}\enspace
+  \begingroup
+  \color{edu-ink}
+}{%
+  \endgroup
+  \par
+  \vspace{3mm}
+}
+
+% ---------- 辅助信息条（解题流程/关键想法/思考）楷体 ----------
+\newenvironment{eduAuxItem}[1]{%
+  \needspace{4\baselineskip}%
+  \vspace{2mm}
+  \par\noindent
+  \hangindent=8mm\hangafter=1
+  {\color{edu-blue}\edukai $\triangleright$~#1}\enspace
+  \begingroup
+  \color{edu-ink}
+  \edukai
+}{%
+  \endgroup
+  \par
+  \vspace{4mm}
+}
+
+\newcommand{\eduColumnTitle}[2]{%
+  {\color{edu-blue}\bfseries #1\hspace{1.5mm}#2}\par
+  \vspace{2.5mm}
+}
+
+% ---------- 图标：不用外部 icon 字体，保证可移植 ----------
+\newcommand{\eduIconBulb}{\(\circ\)}
+\newcommand{\eduIconBook}{\(\square\)}
+\newcommand{\eduIconCheck}{\(\checkmark\)}
+\newcommand{\eduIconPin}{\(\diamond\)}
+\newcommand{\eduIconNote}{\(\triangleright\)}
+
+% ---------- 题目区 ----------
+% 题目区是页面入口：弱标签 + 一条长蓝线 + 大题干。
+\newenvironment{eduProblemBlock}[1][题目]{%
+  \needspace{8\baselineskip}
+  {\small\color{edu-muted}#1}\par
+  \vspace{1.5mm}
+  {\color{edu-blue}\hrule height 0.55pt}
+  \vspace{4.5mm}
+  \begingroup
+  \color{edu-ink}
+  \large
+  \setlength{\parskip}{2.2mm}
+  \linespread{1.20}\selectfont
+}{%
+  \par
+  \endgroup
+  \vspace{6mm}
+}
+
+\newenvironment{eduSubQuestions}{%
+  \begin{enumerate}[
+    label=(\arabic*),
+    leftmargin=8mm,
+    itemsep=2.0mm,
+    topsep=2.0mm,
+    parsep=0pt
+  ]
+}{%
+  \end{enumerate}
+}
+
+% ---------- 读题提示：轻框，不做同级标题 ----------
+\newtcolorbox{eduReadTipBox}{
+  enhanced,
+  breakable,
+  colback=white,
+  colframe=edu-blue!45,
+  boxrule=0.45pt,
+  arc=1.6mm,
+  left=10mm,
+  right=4mm,
+  top=5mm,
+  bottom=5mm,
+  before skip=1mm,
+  after skip=7mm,
+  fontupper=\edukai\normalsize,
+  colupper=edu-ink,
+  overlay={
+    \node[anchor=north west, text=edu-blue] at ([xshift=3.2mm,yshift=-3.2mm]frame.north west)
+    {\small\eduIconNote};
+  }
+}
+
+\newenvironment{eduTipList}{%
+  \begin{itemize}[
+    label=\textbullet,
+    leftmargin=5mm,
+    itemsep=1.2mm,
+    topsep=0pt,
+    parsep=0pt
+  ]
+}{%
+  \end{itemize}
+}
+
+% ---------- 解题路线：虚线框 + 文字箭头 ----------
+\newenvironment{eduRouteFlow}{%
+  \needspace{4\baselineskip}%
+  \vspace{1mm}
+  \begin{center}
+  \normalsize
+}{%
+  \end{center}
+  \vspace{7mm}
+}
+\newcommand{\eduRouteStep}[1]{%
+  {\color{edu-ink}#1}%
+}
+\newcommand{\eduRouteArrow}{%
+  \;$\boldsymbol{\to}$\;%
+}
+
+% ---------- 主体讲解：使用 paracol 实现跨页自适应双栏 ----------
+\newenvironment{eduDualExplain}{%
+  \needspace{6\baselineskip}% 防止标题孤行
+  \columnratio{0.25, 0.75}%
+  \setlength{\columnsep}{7mm}%
+  \columnseprule=0.45pt%
+  \colseprulecolor{edu-blue}%
+  \begin{paracol}{2}% 开启双栏
+}{%
+  \end{paracol}% 结束双栏
+  \vspace{5mm}
+}
+
+\newenvironment{eduExplainLeft}{%
+  \normalsize\color{edu-ink}%
+}{%
+  \switchcolumn
+}
+
+\newcommand{\eduColumnDivider}{}
+
+\newenvironment{eduExplainRight}{%
+  \normalsize\color{edu-ink}%
+}{%
+}
+
+\newenvironment{eduNumberList}{%
+  \begin{enumerate}[
+    label=\arabic*.,
+    leftmargin=6mm,
+    itemsep=4.8mm,
+    topsep=0pt,
+    parsep=0pt
+  ]
+}{%
+  \end{enumerate}
+}
+
+\newenvironment{eduBulletList}{%
+  \begin{itemize}[
+    label=\textbullet,
+    leftmargin=5mm,
+    itemsep=1.2mm,
+    topsep=0pt,
+    parsep=0pt
+  ]
+}{%
+  \end{itemize}
+}
+
+% ---------- 底部双栏：答案 + 方法提醒 ----------
+\newenvironment{eduBottomGrid}{%
+  \vspace{1mm}
+  \par\noindent
+}{%
+  \par\vspace{1mm}
+}
+
+\newenvironment{eduSummaryLeft}{%
+  \begin{minipage}[t]{0.30\linewidth}
+}{%
+  \end{minipage}
+}
+
+\newcommand{\eduSummaryDivider}{%
+  \hspace{4mm}{\color{edu-line}\vrule width 0.35pt}\hspace{7mm}%
+}
+
+\newenvironment{eduSummaryRight}{%
+  \begin{minipage}[t]{0.58\linewidth}
+}{%
+  \end{minipage}
+}
+
+% ---------- 答案/方法提醒：轻量收束 ----------
+\newtcolorbox{eduSummaryBlock}[2]{
+  enhanced,
+  breakable,
+  colback=white,
+  colframe=white,
+  boxrule=0pt,
+  sharp corners,
+  left=0mm,
+  right=0mm,
+  top=1mm,
+  bottom=1mm,
+  before skip=1mm,
+  after skip=1mm,
+  title={\color{edu-blue}\bfseries #1\hspace{1.5mm}#2},
+  coltitle=edu-blue,
+  attach title to upper={\par\vspace{2mm}},
+  fontupper=\normalsize
+}
+
+\newenvironment{eduPlainList}{%
+  \begin{enumerate}[
+    label=(\arabic*),
+    leftmargin=7mm,
+    itemsep=1.2mm,
+    topsep=0pt,
+    parsep=0pt
+  ]
+}{%
+  \end{enumerate}
+}
+
+% ---------- 兼容旧 block 的轻量盒子 ----------
+\newtcolorbox{eduSoftBox}{
+  enhanced,
+  breakable,
+  colback=edu-soft-bg,
+  colframe=edu-line,
+  boxrule=0.35pt,
+  arc=1mm,
+  left=3mm,
+  right=3mm,
+  top=2mm,
+  bottom=2mm,
+  before skip=1mm,
+  after skip=2mm,
+  fontupper=\small
+}
+
+\newtcolorbox{eduMistakeBox}{
+  enhanced,
+  breakable,
+  colback=edu-red-bg,
+  colframe=edu-red!40,
+  boxrule=0.35pt,
+  arc=1mm,
+  left=3mm,
+  right=3mm,
+  top=2.5mm,
+  bottom=2.5mm,
+  before skip=1mm,
+  after skip=2mm,
+  fontupper=\normalsize
+}
+
+\newtcolorbox{eduLegacySolution}{
+  enhanced,
+  breakable,
+  colback=edu-soft-bg,
+  colframe=edu-line,
+  boxrule=0.35pt,
+  arc=1mm,
+  left=3mm,
+  right=3mm,
+  top=2mm,
+  bottom=2mm,
+  before skip=-2mm,
+  after skip=4mm,
+  fontupper=\small
+}
+
+\newtcolorbox{eduTeacherNote}{
+  enhanced,
+  breakable,
+  colback=edu-soft-bg,
+  colframe=edu-line,
+  boxrule=0pt,
+  borderline west={1.5pt}{0pt}{edu-muted},
+  left=2.5mm,
+  right=2.5mm,
+  top=2mm,
+  bottom=2mm,
+  before skip=1mm,
+  after skip=2mm,
+  fontupper=\footnotesize,
+  colupper=edu-muted
+}
+
+% ---------- 答题区 ----------
+\newcommand{\answerarea}[1][40mm]{%
+  \vspace{3mm}%
+  \begin{tcolorbox}[
+    enhanced,
+    breakable,
+    colback=white,
+    colframe=edu-line,
+    boxrule=0.55pt,
+    arc=0.8mm,
+    height=#1,
+    valign=top,
+  ]
+  \end{tcolorbox}%
+}
+
+\examsetup{
+  question/show-answer = true,
+  fillin/show-answer = true,
+  solution/show-solution = show-stay,
+}
+
+\begin{document}
+
+
+\begin{eduProblemBlock}[题目]
+（2021$\cdot$浦东新区模拟）如图，已知 $AB$ 是圆 $O$ 的直径，弦 $CD$ 交 $AB$ 于点 $E$，$\angle CEA = 30^\circ$，$OE = 4$，$DE = 5\sqrt{3}$，求弦 $CD$ 及圆 $O$ 的半径长。
+
+\end{eduProblemBlock}
+
+
+
+
+
+
+
+
+
+\begin{eduAuxItem}{解题流程}
+过 $O$ 作 $OM \perp CD$ 于 $M$（核心辅助线）$\;\to\;$$30^\circ$ 特殊角求 $OM$ 和 $EM$$\;\to\;$分段求 $DM = DE - EM$$\;\to\;$垂径定理得 $CD$，勾股定理得半径\end{eduAuxItem}
+
+
+
+
+\begin{eduAuxItem}{关键想法}
+弦 $CD$ 不垂直于直径 $AB$，不能直接用垂径定理。
+解决办法：自己制造垂直条件——过圆心 $O$ 作 $OM \perp CD$。
+
+这样就有了两个直角三角形：
+\begin{itemize}
+  \item $\mathrm{Rt}\triangle OEM$：$\angle OEM = \angle CEA = 30^\circ$，$OE = 4$，可以求 $OM$ 和 $EM$
+  \item $\mathrm{Rt}\triangle DOM$：$OM$ 已知，$DM$ 可算，用勾股定理求 $OD$（半径）
+\end{itemize}
+\end{eduAuxItem}
+
+
+
+
+\begin{eduSubQuestionItem}{第一步}
+作辅助线，利用 $30^\circ$ 特殊角求 $OM$ 和 $EM$。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{思考引导}
+    \begin{eduNumberList}
+      \item 见到弦 $CD$，想用垂径定理——但 $CD$ 不和直径垂直。怎么办？      \item 过 $O$ 作 $OM \perp CD$——这条辅助线你一定要形成条件反射！      \item 现在看 $\mathrm{Rt}\triangle OEM$：$\angle OEM$ 等于多少？为什么？      \item $30^\circ$ 的直角三角形，斜边 $OE=4$，你能快速说出 $OM$ 和 $EM$ 吗？    \end{eduNumberList}
+  \end{eduExplainLeft}
+  \eduColumnDivider
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{规范讲解}
+    \begin{eduNumberList}
+      \item 过圆心 $O$ 作 $OM \perp CD$ 于 $M$，联结 $OD$。      \item $\because \angle OEM = \angle CEA = 30^\circ$（对顶角相等）。      \item 在 $\mathrm{Rt}\triangle OEM$ 中，$OE = 4$：      \item $OM = \frac{1}{2}OE = \frac{1}{2} \times 4 = 2$（$30^\circ$ 所对的直角边 = 斜边的一半）。      \item $EM = OE \cdot \cos 30^\circ = 4 \times \frac{\sqrt{3}}{2} = 2\sqrt{3}$。    \end{eduNumberList}
+
+    \vspace{1mm}
+    \eduSubTitle{关键}
+    \begin{eduBulletList}
+      \item 30° 特殊角直角三角形三边比 $1 : \sqrt{3} : 2$ 要熟记。    \end{eduBulletList}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduSubQuestionItem}{第二步}
+分段求 $DM$，再由垂径定理求 $CD$，勾股定理求半径。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{思考引导}
+    \begin{eduNumberList}
+      \item $M$ 是 $CD$ 的中点（垂径定理）。$E$ 在弦 $CD$ 上，$D$、$M$、$E$ 的顺序是怎样的？      \item $DE = 5\sqrt{3}$，$EM = 2\sqrt{3}$。$DM$ 等于 $DE + EM$ 还是 $DE - EM$？      \item 画一下：$M$ 是中点，$E$ 在 $M$ 的右边（靠近 $C$ 的方向），所以 $DM = DE - EM$。    \end{eduNumberList}
+  \end{eduExplainLeft}
+  \eduColumnDivider
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{规范讲解}
+    \begin{eduNumberList}
+      \item $\because OM \perp CD$ 且 $OM$ 过圆心，$\therefore M$ 是 $CD$ 中点。      \item $E$ 在线段 $DM$ 的延长线上（靠近 $C$），$\therefore DM = DE - EM$。      \item $DM = 5\sqrt{3} - 2\sqrt{3} = 3\sqrt{3}$。      \item 由垂径定理：$CD = 2DM = 2 \times 3\sqrt{3} = 6\sqrt{3}$。      \item 在 $\mathrm{Rt}\triangle DOM$ 中：      \item $OD = \sqrt{OM^2 + DM^2} = \sqrt{2^2 + (3\sqrt{3})^2} = \sqrt{4 + 27} = \sqrt{31}$。    \end{eduNumberList}
+
+    \vspace{1mm}
+    \eduSubTitle{注意}
+    \begin{eduBulletList}
+      \item 求半径一定要联结 $OD$（或 $OC$），在 $\mathrm{Rt}\triangle DOM$ 中用勾股定理。    \end{eduBulletList}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduBottomGrid}
+  \begin{eduSummaryLeft}
+    \begin{eduSummaryBlock}{\eduIconCheck}{答案}
+    \begin{eduPlainList}
+      \item 弦 $CD = 6\sqrt{3}$      \item 半径 $r = \sqrt{31}$    \end{eduPlainList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryLeft}
+  \eduSummaryDivider
+  \begin{eduSummaryRight}
+    \begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
+    \begin{eduBulletList}
+      \item 见到弦 + 非垂直条件，第一反应：作弦心距（过圆心作弦的垂线段）。      \item 30° 特殊角直角三角形边比 $1:\sqrt{3}:2$ 要脱口而出。      \item 注意 $DM = DE - EM$ 的方向判断——画图确认 $M$ 和 $E$ 的位置。    \end{eduBulletList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryRight}
+\end{eduBottomGrid}
+
+
+
+
+\begin{eduMistakeBox}
+\eduSubTitle{$DM$ 方向搞反}$M$ 是 $CD$ 中点，$E$ 在弦上。如果搞不清 $D$、$M$、$E$ 的顺序，会把 $DM$ 算成 $DE + EM = 7\sqrt{3}$（错）。
+正确做法：$DM = DE - EM = 3\sqrt{3}$。画图确认！
+\end{eduMistakeBox}
+
+
+
+
+\begin{eduAuxItem}{思考}
+如果 $\angle CEA = 45^\circ$，其他条件不变，你会怎么算？和 $30^\circ$ 有什么区别？\end{eduAuxItem}
+
+
+
+
+\begin{eduAuxItem}{思考}
+为什么作 $OM \perp CD$ 后，$\angle OEM$ 就等于 $\angle CEA$？用了什么几何知识？\end{eduAuxItem}
+
+
+
+\clearpage
+
+\begin{eduAuxItem}{关键想法}
+学生：陆子辰，八年级，B band，会作辅助线。
+本题定位：解答题，5 分钟。
+预期能力：陆子辰已有弦心距辅助线基础，应在 3-5 分钟内完成。
+讲解重点：强化辅助线条件反射 + $DM = DE - EM$ 方向判断。
+如果陆子辰卡住：问他「$M$ 在 $D$ 和 $E$ 之间，还是 $E$ 在 $D$ 和 $M$ 之间？」
+\end{eduAuxItem}
+
+
+\begin{eduTeacherNote}
+  \textbf{训练目标：}熟练弦心距辅助线 + 30° 特殊角，能独立判断线段方向。\par
+  \textbf{预期卡点：}DM = DE - EM 方向可能搞反。
+\end{eduTeacherNote}
+
+
+\end{document}

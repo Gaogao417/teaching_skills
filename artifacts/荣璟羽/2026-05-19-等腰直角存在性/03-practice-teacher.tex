@@ -1,0 +1,562 @@
+% preamble-exam-zh.tex — 共享 preamble
+% 用于所有 exam-zh 模板
+%
+% 样式策略：
+%   屏幕 → 语义彩色（蓝=关键想法，红=易错，绿=路线，灰=提示/教师备注）
+%   打印 → 自动降级为黑白（通过 print mode 或 monochrome 选项）
+
+\documentclass{exam-zh}
+
+% ---------- 基础配置 ----------
+\examsetup{
+  page/size = a4paper,
+  page/show-head = false,
+  page/show-foot = false,
+  sealline/show = false,
+  font = times,
+  math-font = xits,
+}
+
+\usepackage{tcolorbox}
+\usepackage{needspace}
+\tcbuselibrary{skins,breakable}
+
+% ---------- 打印/屏幕颜色切换 ----------
+% 用法：\documentclass[monochrome]{exam-zh} 即可切换为纯黑白
+% 注意：不要使用 \if@xxx 放在 makeatother 外部；这里改成普通条件名。
+\newif\ifeduprintcolor
+\eduprintcolortrue
+
+\makeatletter
+\@ifclasswith{exam-zh}{monochrome}{\eduprintcolorfalse}{}
+\makeatother
+
+% ---------- 语义颜色定义 ----------
+% 屏幕：有色彩区分；打印：降级为灰度
+\ifeduprintcolor
+  % --- 屏幕彩色模式 ---
+  \definecolor{edu-blue}{RGB}{47, 82, 122}       % 关键想法
+  \definecolor{edu-blue-bg}{RGB}{243, 246, 252}
+  \definecolor{edu-red}{RGB}{180, 40, 40}         % 易错提醒
+  \definecolor{edu-red-bg}{RGB}{255, 245, 240}
+  \definecolor{edu-green}{RGB}{34, 100, 60}       % 路线图
+  \definecolor{edu-green-bg}{RGB}{242, 250, 245}
+  \definecolor{edu-orange}{RGB}{160, 90, 0}       % 训练目标
+  \definecolor{edu-orange-bg}{RGB}{255, 248, 235}
+  \definecolor{edu-gray}{RGB}{100, 100, 100}      % 提示/教师备注
+  \definecolor{edu-gray-bg}{RGB}{248, 248, 248}
+  \definecolor{edu-purple}{RGB}{90, 50, 120}      % 思考题
+  \definecolor{edu-purple-bg}{RGB}{248, 244, 252}
+\else
+  % --- 打印黑白模式 ---
+  \definecolor{edu-blue}{gray}{0.15}
+  \definecolor{edu-blue-bg}{gray}{0.96}
+  \definecolor{edu-red}{gray}{0.25}
+  \definecolor{edu-red-bg}{gray}{0.97}
+  \definecolor{edu-green}{gray}{0.20}
+  \definecolor{edu-green-bg}{gray}{0.97}
+  \definecolor{edu-orange}{gray}{0.25}
+  \definecolor{edu-orange-bg}{gray}{0.98}
+  \definecolor{edu-gray}{gray}{0.40}
+  \definecolor{edu-gray-bg}{gray}{0.97}
+  \definecolor{edu-purple}{gray}{0.30}
+  \definecolor{edu-purple-bg}{gray}{0.98}
+\fi
+
+% ---------- 自定义教学环境 ----------
+% 共性：enhanced + breakable（跨页不断裂）
+
+% 原题卡片 — 强边框，突出显示
+\newtcolorbox{problemcard}{
+  enhanced, breakable,
+  colback=edu-blue-bg,
+  colframe=edu-blue,
+  boxrule=1.2pt,
+  arc=0pt,
+  left=3mm, right=3mm, top=3mm, bottom=3mm,
+}
+
+% 解题路线图 — 左边线 + 浅底
+\newtcolorbox{routemap}{
+  enhanced, breakable,
+  colback=edu-green-bg,
+  colframe=edu-green!30,
+  boxrule=0pt,
+  borderline west={2.5pt}{0pt}{edu-green},
+  left=3mm, right=3mm, top=3mm, bottom=3mm,
+}
+
+% 关键想法 — 蓝色左边线
+\newtcolorbox{keyideabox}{
+  enhanced, breakable,
+  colback=edu-blue-bg,
+  colframe=edu-blue!30,
+  boxrule=0pt,
+  borderline west={2.5pt}{0pt}{edu-blue},
+  left=3mm, right=3mm, top=3mm, bottom=3mm,
+}
+
+% 易错提醒 — 红色左边线
+\newtcolorbox{mistakebox}{
+  enhanced, breakable,
+  colback=edu-red-bg,
+  colframe=edu-red!20,
+  boxrule=0pt,
+  borderline west={3pt}{0pt}{edu-red},
+  left=3mm, right=3mm, top=2.5mm, bottom=2.5mm,
+}
+
+% 提示 — 灰色虚线左边线
+\newtcolorbox{hintbox}{
+  enhanced, breakable,
+  colback=edu-gray-bg,
+  colframe=edu-gray!20,
+  boxrule=0pt,
+  borderline west={2pt}{0pt}{edu-gray, dashed},
+  left=3mm, right=3mm, top=2mm, bottom=2mm,
+}
+
+% 思考题 — 紫色虚线左边线
+\newtcolorbox{thinkbox}{
+  enhanced, breakable,
+  colback=edu-purple-bg,
+  colframe=edu-purple!20,
+  boxrule=0pt,
+  borderline west={2pt}{0pt}{edu-purple, dashed},
+  left=2.5mm, right=2.5mm, top=2.5mm, bottom=2.5mm,
+}
+
+% 教师备注 — 灰色左边线，小字
+\newtcolorbox{teachernote}{
+  enhanced, breakable,
+  colback=edu-gray-bg,
+  colframe=edu-gray!15,
+  boxrule=0pt,
+  borderline west={2pt}{0pt}{edu-gray!60},
+  left=2.5mm, right=2.5mm, top=2.5mm, bottom=2.5mm,
+  fontupper=\small,
+  colupper=black!60,
+}
+
+% 训练目标 — 橙色左边线，小字
+\newtcolorbox{traininggoal}{
+  enhanced, breakable,
+  colback=edu-orange-bg,
+  colframe=edu-orange!15,
+  boxrule=0pt,
+  borderline west={1.5pt}{0pt}{edu-orange},
+  left=2mm, right=2mm, top=1mm, bottom=1mm,
+  fontupper=\small,
+}
+
+% 答题区 — 无边框，纯留白
+\newcommand{\answerarea}[1][40mm]{%
+  \vspace{2mm}%
+  \begin{tcolorbox}[
+    enhanced, breakable,
+    colback=white,
+    colframe=white,
+    boxrule=0pt,
+    height=#1,
+    valign=top,
+    bottom=0mm,
+    after skip=0mm,
+  ]
+  \end{tcolorbox}%
+}
+
+% ---------- 字体设置 ----------
+% exam-zh (ctexbook) already sets CJK fonts via ctex.
+% Only override if specific fonts are needed.
+% macOS: Songti SC, STHeiti, STFangsong
+% Linux: SimSun, SimHei, FangSong
+
+% ---------- 页面设置 ----------
+% exam-zh (ctexbook) already loads geometry.
+% Override margins if needed:
+% \geometry{top=16mm, bottom=16mm, left=14mm, right=14mm}
+
+\examsetup{
+  question/show-answer = true,
+  fillin/show-answer = true,
+  solution/show-solution = show-stay,
+}
+
+% ---------- 教师版解答样式 ----------
+\newtcolorbox{solutionblock}{
+  enhanced, breakable,
+  colback=edu-blue-bg,
+  colframe=edu-blue!25,
+  boxrule=0pt,
+  borderline west={2pt}{0pt}{edu-blue!50},
+  arc=0pt,
+  left=3mm, right=3mm, top=2mm, bottom=2mm,
+  before skip=2mm,
+  after skip=3mm,
+  fontupper=\small,
+}
+
+% 解答步骤编号
+\newcounter{solstep}
+\newcommand{\solstep}[2]{%
+  \stepcounter{solstep}%
+  \par\medskip
+  \noindent\hangindent=6mm
+  {\color{edu-blue}\bfseries\textcircled{\scriptsize\thesolstep}\enspace #1}\enspace #2\par
+}
+
+\begin{document}
+
+\section*{等腰三角形与直角三角形存在性 · 专题练习（教师版）}
+
+\section*{一、选择题（每题 3 分，共 18 分）}
+
+
+\begin{question}[points=3]
+  在 $x$ 轴上存在点 $P$ 使 $\triangle PAB$ 为等腰三角形。已知 $A(0,3)$，$B(4,0)$，则下列结论正确的是
+  \begin{choices}
+    \item 只有 $2$ 个符合条件的 $P$ 点
+    \item 一定有 $3$ 个符合条件的 $P$ 点
+    \item 最多有 $6$ 个符合条件的 $P$ 点（三等腰，每种最多 $2$ 个解）
+    \item 条件不足，无法判断
+  \end{choices}
+  \paren[C]
+  \begin{solutionblock}
+    等腰三角形有三种等腰情况，每种对应一个一元二次方程（关于 $P$ 的横坐标），一元二次方程最多有两个实数解。因此最多 $3 \times 2 = 6$ 个解。实际解的数量取决于各方程判别式是否大于零，以及是否有退化解需要排除。
+  \end{solutionblock}
+\end{question}
+
+
+
+\begin{question}[points=3]
+  已知 $A(-1,2)$，$B(3,2)$，$P$ 在 $y$ 轴上，$\triangle ABP$ 为直角三角形。当 $\angle P = 90°$ 时，$P$ 的纵坐标满足的方程是
+  \begin{choices}
+    \item $y^2 - 4y + 1 = 0$
+    \item $y^2 - 4y + 3 = 0$
+    \item $y^2 + 4y - 3 = 0$
+    \item $y^2 + 4y + 3 = 0$
+  \end{choices}
+  \paren[A]
+  \begin{solutionblock}
+    $P(0,y)$，$\overrightarrow{PA}=(-1,2-y)$，$\overrightarrow{PB}=(3,2-y)$。
+
+$\overrightarrow{PA}\cdot\overrightarrow{PB}=(-1)(3)+(2-y)^2=-3+y^2-4y+4=y^2-4y+1=0$。
+  \end{solutionblock}
+\end{question}
+
+
+
+\begin{question}[points=3]
+  $\triangle ABC$ 中 $A(0,0)$，$B(6,0)$，$C(0,8)$。$P$ 在 $x$ 轴上使 $\triangle PAC$ 为等腰三角形。下列哪种情况在 $x$ 轴上一定有解？
+  \begin{choices}
+    \item $PA = PC$（$P$ 在 $AC$ 的垂直平分线上）
+    \item $AP = AC$
+    \item $CP = CA$
+    \item 三种情况在 $x$ 轴上都有解
+  \end{choices}
+  \paren[B]
+  \begin{solutionblock}
+    $PA=PC$：$P$ 在 $AC$ 的垂直平分线上。$AC$ 中点 $(0,4)$，$AC$ 垂直平分线为 $y=4$，与 $x$ 轴平行无交点，无解。
+
+$AP=AC=8$：以 $A(0,0)$ 为圆心、半径 $8$ 的圆与 $x$ 轴交于 $(\pm 8,0)$，有解。
+
+$CP=CA=8$：以 $C(0,8)$ 为圆心、半径 $8$ 的圆方程 $x^2+(y-8)^2=64$，与 $x$ 轴（$y=0$）联立得 $x^2+64=64$，$x=0$，$P(0,0)=A$，退化排除，无解。
+  \end{solutionblock}
+\end{question}
+
+
+
+\begin{question}[points=3]
+  直角 $\triangle ABC$ 中 $\angle C = 90°$，$AC=3$，$BC=4$。$P$ 在 $AB$ 上运动，使 $\triangle PBC$ 为等腰三角形。下列哪种情况一定有解？
+  \begin{choices}
+    \item $PB=PC$（$P$ 在 $BC$ 的垂直平分线上）
+    \item $BP=BC=4$
+    \item $CP=CB=4$
+    \item 以上都不一定
+  \end{choices}
+  \paren[B]
+  \begin{solutionblock}
+    $BP=BC=4$：以 $B$ 为圆心、半径 $4$ 画圆。$B$ 在线段 $AB$ 上，$AB=\sqrt{3^2+4^2}=5>4$，圆一定与线段 $AB$ 相交于两点（$B$ 本身和另一侧一点），有解。
+
+$PB=PC$：$P$ 在 $BC$ 的垂直平分线上。$BC$ 中垂线不一定与 $AB$ 相交。
+
+$CP=CB=4$：以 $C$ 为圆心、半径 $4$ 画圆。$C$ 到 $AB$ 的距离为 $\dfrac{AC\cdot BC}{AB}=\dfrac{12}{5}$，圆心到直线距离 $12/5 < 4$，确实相交。但作为选择题，$BP=BC$ 的论证更直接。
+  \end{solutionblock}
+\end{question}
+
+
+
+\begin{question}[points=3]
+  已知 $A(2,0)$，$B(0,4)$。$P$ 在 $x$ 轴上使 $\triangle ABP$ 为直角三角形。$\angle A=90°$ 时，$P$ 的坐标为
+  \begin{choices}
+    \item $P(2,0)$（即 $P=A$，退化）
+    \item $P(2,0)$
+    \item 不存在符合条件的 $P$
+    \item $P$ 有两个解
+  \end{choices}
+  \paren[C]
+  \begin{solutionblock}
+    $\angle A=90° \Leftrightarrow \overrightarrow{AB}\cdot\overrightarrow{AP}=0$。
+
+$\overrightarrow{AB}=(-2,4)$，$\overrightarrow{AP}=(x-2,0)$。
+
+$(-2)(x-2)+4\cdot 0=-2(x-2)=0$，$x=2$。
+
+$P(2,0)=A$，三点 $A,B,P$ 退化为线段 $AB$（$P$ 与 $A$ 重合），不构成三角形，排除。
+
+因此 $\angle A=90°$ 时无有效解。
+  \end{solutionblock}
+\end{question}
+
+
+
+\begin{question}[points=3]
+  下列关于等腰三角形存在性问题的说法，正确的是
+  \begin{choices}
+    \item 等腰三角形一定有 $3$ 个解（三等腰各一个）
+    \item 求出解后不需要检验三点是否共线
+    \item 当动点与某个已知顶点重合时，三角形退化为线段，该解需要排除
+    \item 直角三角形只需要讨论两种情况（直角在动点和直角在一个定点）
+  \end{choices}
+  \paren[C]
+  \begin{solutionblock}
+    A错：每种等腰情况最多2个解（对应一元二次方程），且可能无解（判别式<0）或退化排除，实际解数不确定。
+
+B错：三点共线时不能构成三角形，必须检验。
+
+C正确：动点与已知顶点重合时三角形退化为线段，该解必须排除。
+
+D错：直角三角形有三种直角情况（三个顶点都可以是直角），需要全部讨论。
+  \end{solutionblock}
+\end{question}
+
+
+\section*{二、填空题（每题 3 分，共 18 分）}
+
+
+\begin{question}[points=3]
+  $A(0,0)$，$B(4,0)$，$C(2,3)$。$P$ 在 $x$ 轴上使 $\triangle PBC$ 为等腰三角形。当 $BP=BC$ 时，$P$ 的横坐标为 \fillin。
+  \fillin
+  \paren[$x=4\pm\sqrt{13}$]
+  \begin{solutionblock}
+    $BC^2=(2-4)^2+(3-0)^2=4+9=13$，$BC=\sqrt{13}$。
+
+$(x-4)^2+0=13$，$(x-4)^2=13$，$x=4\pm\sqrt{13}$。
+
+验证：$P(4+\sqrt{13},0)$ 和 $P(4-\sqrt{13},0)$ 均不与 $B,C$ 共线。有效。
+  \end{solutionblock}
+\end{question}
+
+
+
+\begin{question}[points=3]
+  $A(1,0)$，$B(0,2)$。$P$ 在 $y$ 轴上使 $\triangle ABP$ 为直角三角形。$\angle A=90°$ 时，$P$ 的纵坐标为 \fillin。
+  \fillin
+  \paren[$y=-\dfrac{1}{2}$]
+  \begin{solutionblock}
+    $\angle A=90°$：$\overrightarrow{AB}=(-1,2)$，$\overrightarrow{AP}=(-1,y)$。
+
+$\overrightarrow{AB}\cdot\overrightarrow{AP}=(-1)(-1)+2\cdot y=1+2y=0$，$y=-\dfrac{1}{2}$。
+
+$P\left(0,-\dfrac{1}{2}\right)$。验证：$A,B,P$ 不共线（$A(1,0),B(0,2),P(0,-1/2)$，面积不为零）。有效。
+  \end{solutionblock}
+\end{question}
+
+
+
+\begin{question}[points=3]
+  正方形 $ABCD$ 中 $A(0,0)$，$B(4,0)$，$C(4,4)$，$D(0,4)$。$P$ 在直线 $y=x$ 上使 $\triangle ABP$ 为等腰三角形。当 $AP=AB$ 时，$P$ 到原点的距离为 \fillin。
+  \fillin
+  \paren[$4$]
+  \begin{solutionblock}
+    $P(t,t)$，$AB=4$。
+
+$AP^2=t^2+t^2=2t^2=AB^2=16$，$t^2=8$，$t=\pm 2\sqrt{2}$。
+
+$OP=\sqrt{t^2+t^2}=\sqrt{16}=4$。
+
+验证：$P(2\sqrt{2},2\sqrt{2})$ 和 $P(-2\sqrt{2},-2\sqrt{2})$ 均不与 $A,B$ 共线。有效。
+  \end{solutionblock}
+\end{question}
+
+
+
+\begin{question}[points=3]
+  已知 $A(-2,0)$，$B(2,0)$，$P$ 在直线 $y=x+1$ 上使 $\triangle ABP$ 为直角三角形。$\angle P=90°$ 时，$P$ 的坐标满足的方程为 $\underline{\quad\quad}$（化为一般式）。
+  \fillin
+  \paren[$2x^2+2x-3=0$]
+  \begin{solutionblock}
+    $\angle P=90°$：$P$ 在以 $AB$ 为直径的圆上。$AB$ 中点 $(0,0)$，半径 $2$。
+
+圆方程：$x^2+y^2=4$。
+
+联立 $y=x+1$：$x^2+(x+1)^2=4$，$2x^2+2x-3=0$。
+
+$\Delta=4+24=28>0$，有两个实数解。
+  \end{solutionblock}
+\end{question}
+
+
+
+\begin{question}[points=3]
+  矩形 $ABCD$ 中 $A(0,0)$，$B(6,0)$，$C(6,4)$，$D(0,4)$。$P$ 在 $BC$ 上使 $\triangle APD$ 为等腰三角形。当 $AP=DP$ 时，$P$ 的坐标为 \fillin。
+  \fillin
+  \paren[$P(6,2)$]
+  \begin{solutionblock}
+    $AP=DP$：$P$ 在 $AD$ 的垂直平分线上。$AD$ 中点 $(0,2)$，$AD$ 垂直平分线为 $y=2$。
+
+$P$ 在 $BC$ 上（$x=6$），$y=2$ 与 $x=6$ 的交点 $P(6,2)$。
+
+验证：$AP^2=36+4=40=DP^2$。$\checkmark$
+  \end{solutionblock}
+\end{question}
+
+
+
+\begin{question}[points=3]
+  $\triangle ABC$ 中 $A(0,0)$，$B(6,0)$，$C(3,4)$。$P$ 在 $y$ 轴上使 $\triangle PBC$ 为等腰三角形。$PC=BC$ 时，$P$ 的坐标为 \fillin。
+  \fillin
+  \paren[$P(0,0)$ 或 $P(0,8)$]
+  \begin{solutionblock}
+    $BC^2=(3-6)^2+(4-0)^2=9+16=25$，$BC=5$。
+
+$P(0,y)$，$PC^2=(0-3)^2+(y-4)^2=9+(y-4)^2$。
+
+$PC=BC$：$9+(y-4)^2=25$，$(y-4)^2=16$，$y-4=\pm 4$，$y=0$ 或 $y=8$。
+
+$P(0,0)=A$：$A(0,0),B(6,0),C(3,4)$ 构成三角形（面积 $=12\neq 0$），$\triangle PBC=\triangle ABC$ 有效。
+$P(0,8)$：不共线，有效。
+  \end{solutionblock}
+\end{question}
+
+
+\section*{三、解答题（每题 10 分，共 30 分）}
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  直线 $y=-\dfrac{4}{3}x+4$ 与 $x$ 轴、$y$ 轴分别交于 $A$、$B$ 两点。$P$ 是 $x$ 轴上的动点，$\triangle ABP$ 为等腰三角形。
+
+（1）求 $A$、$B$ 的坐标和 $AB$ 的长；
+
+（2）求所有符合条件的 $P$ 的坐标。
+  \answerarea[80mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$P\left(\dfrac{3}{2},0\right)$，$P(8,0)$，$P(-2,0)$，$P(-3,0)$\par\medskip
+    \solstep{确定 $A,B$ 坐标和 $AB$ 长}{$y=-\dfrac{4}{3}x+4$ 与 $x$ 轴交点 $A(3,0)$，与 $y$ 轴交点 $B(0,4)$。$AB=5$。}
+    \solstep{设 $P(x,0)$，分类讨论}{三等腰：$AP=BP$、$AP=AB=5$、$BP=AB=5$。}
+    \solstep{情形一 $AP=BP$}{$(x-3)^2+16=x^2+16$，$x=\dfrac{3}{2}$。}
+    \solstep{情形二 $AP=AB=5$}{$(x-3)^2=25$，$x=8$ 或 $x=-2$。}
+    \solstep{情形三 $BP=AB=5$}{$x^2+16=25$，$x=3$（退化排除）或 $x=-3$。}
+    \solstep{汇总}{$P\left(\dfrac{3}{2},0\right)$，$P(8,0)$，$P(-2,0)$，$P(-3,0)$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  正方形 $OABC$ 边长 $4$，$O$ 在原点，$A$ 在 $x$ 轴正方向，$C$ 在 $y$ 轴正方向。$D(2,0)$。$P$ 从 $O$ 沿 $O \to A \to B$ 运动（$1$ 单位/秒）。
+
+是否存在 $P$ 使 $\triangle CDP$ 为等腰三角形？若存在，求所有 $P$ 的坐标。
+  \answerarea[80mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}参考例题12的解题结构。$CD=2\sqrt{5}$。分 $O\to A$ 段和 $A\to B$ 段参数化 $P$，三等腰分类讨论。\par\medskip
+    $O(0,0)$，$A(4,0)$，$B(4,4)$，$C(0,4)$，$D(2,0)$。$CD^2=4+16=20$，$CD=2\sqrt{5}$。
+
+$O\to A$ 段：$P(t,0)$，$0\leq t\leq 4$。
+$A\to B$ 段：$P(4,t-4)$，$4\leq t\leq 8$。
+
+三等腰 $CD=DP$、$CP=DP$、$CD=CP$ 在每段上分别求解。
+
+$O\to A$ 段，$CD=DP$：$(t-2)^2+20=20$，$(t-2)^2=0$，$t=2$，$P(2,0)=D$，退化排除。
+
+$O\to A$ 段，$CP=DP$：$t^2+16=(t-2)^2$，$t^2+16=t^2-4t+4$，$4t=-12$，$t=-3<0$，越界。
+
+$O\to A$ 段，$CD=CP$：$t^2+16=20$，$t^2=4$，$t=\pm 2$。$t=2$：$P(2,0)=D$，退化排除。$t=-2<0$，越界。
+
+$A\to B$ 段：$P(4,t-4)$，$4\leq t\leq 8$。
+
+$CD=DP$：$(4-2)^2+(t-4)^2=20$，$4+(t-4)^2=20$，$(t-4)^2=16$，$t-4=\pm 4$，$t=0$（越界）或 $t=8$。$P(4,4)=B$。
+
+$CP=DP$：$16+(t-4-4)^2=4+(t-4)^2$，$16+(t-8)^2=4+(t-4)^2$，$16+t^2-16t+64=4+t^2-8t+16$，$-16t+80=-8t+20$，$-8t=-60$，$t=7.5 \in [4,8]$。$P(4,3.5)$。
+
+$CD=CP$：$16+(t-8)^2=20$，$(t-8)^2=4$，$t-8=\pm 2$，$t=10$（越界）或 $t=6$。$P(4,2)$。
+
+汇总：$P(4,4)$，$P(4,3.5)$，$P(4,2)$。共 $3$ 个解。
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  $\triangle ABC$ 中 $AB=AC=5$，$BC=6$。$D$ 是 $AB$ 上一点，$DE \parallel BC$ 交 $AC$ 于 $E$。以 $DE$ 为边在 $DE$ 下方作正方形 $DEFG$（$G$ 在 $\triangle ABC$ 内部）。
+
+当 $\triangle BDG$ 为等腰三角形时，求 $AD$ 的长。
+  \answerarea[80mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$AD = \dfrac{20}{7}$ 或 $AD = \dfrac{25}{11}$ 或 $AD = \dfrac{125}{73}$\par\medskip
+    \solstep{建系}{$B(-3,0)$，$C(3,0)$，$A(0,4)$。}
+    \solstep{参数化 $D$、$E$}{$AD=t$。$D\left(-\dfrac{3t}{5}, 4-\dfrac{4t}{5}\right)$，$E\left(\dfrac{3t}{5}, 4-\dfrac{4t}{5}\right)$。$DE=\dfrac{6t}{5}$。}
+    \solstep{确定 $G$ 的坐标}{$G\left(-\dfrac{3t}{5}, 4-2t\right)$。}
+    \solstep{计算 $BG^2$}{$BG^2 = \dfrac{109t^2-490t+625}{25}$。}
+    \solstep{三等腰分类讨论}{$BD=BG$：$t=\dfrac{20}{7}$；$BD=DG$：$t=\dfrac{25}{11}$；$BG=DG$：$t=\dfrac{125}{73}$。}
+    \solstep{汇总}{$AD = \dfrac{20}{7}$ 或 $\dfrac{25}{11}$ 或 $\dfrac{125}{73}$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\clearpage
+\section*{参考答案}
+
+
+\begin{keyideabox}
+  \textbf{选择题}
+  1. C
+
+2. A
+
+3. B
+
+4. B
+
+5. C
+
+6. C
+\end{keyideabox}
+
+
+
+\begin{keyideabox}
+  \textbf{填空题}
+  1. $x=4\pm\sqrt{13}$
+
+2. $y=-\dfrac{1}{2}$
+
+3. $4$
+
+4. $2x^2+2x-3=0$
+
+5. $P(6,2)$
+
+6. $P(0,0)$ 或 $P(0,8)$
+\end{keyideabox}
+
+
+
+\begin{keyideabox}
+  \textbf{解答题}
+  第 1 题：$P\left(\dfrac{3}{2},0\right)$，$P(8,0)$，$P(-2,0)$，$P(-3,0)$，共 $4$ 个解。
+
+第 2 题：$P(4,4)$，$P(4,3.5)$，$P(4,2)$，共 $3$ 个解。
+
+第 3 题：$AD = \dfrac{20}{7}$ 或 $AD = \dfrac{25}{11}$ 或 $AD = \dfrac{125}{73}$。
+\end{keyideabox}
+
+
+
+\end{document}

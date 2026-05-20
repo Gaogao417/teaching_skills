@@ -2,11 +2,13 @@
 # compile_latex.sh — Compile .tex to PDF using XeLaTeX.
 #
 # Usage:
-#   bash compile_latex.sh <input.tex>
+#   bash compile_latex.sh [--strict] <input.tex>
 #
-# Output:
-#   <dir>/04-assignment.pdf
-#   <dir>/build.log
+# Options:
+#   --strict  Treat layout warnings (overfull boxes) as errors
+#
+# If a corresponding .assignment.yaml exists (in build/ or same dir),
+# the script will automatically re-render the .tex before compiling.
 #
 # Requirements:
 #   xelatex (texlive-xetex) or tectonic
@@ -14,12 +16,18 @@
 
 set -euo pipefail
 
+STRICT=0
+if [[ "${1:-}" == "--strict" ]]; then
+    STRICT=1
+    shift
+fi
+
 # Add local texmf tree so tectonic/xelatex finds exam-zh and other local packages
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 LOCAL_TEXMF="${SCRIPT_DIR}/../texmf"
 export TEXINPUTS="${LOCAL_TEXMF}/tex/latex//:${TEXINPUTS-}"
 
-TEX_FILE="${1:?Usage: compile_latex.sh <input.tex>}"
+TEX_FILE="${1:?Usage: compile_latex.sh [--strict] <input.tex>}"
 
 if [ ! -f "$TEX_FILE" ]; then
     echo "Error: File not found: $TEX_FILE" >&2
@@ -59,6 +67,43 @@ summarize_errors() {
     fi
 }
 
+check_layout_warnings() {
+    local log_file="$1"
+    local warnings=0
+
+    if grep -q "The upper box part has become overfull" "$log_file"; then
+        echo "⚠ tcolorbox content overflow (upper box part overfull)"
+        warnings=$((warnings + 1))
+    fi
+
+    local hbox_count
+    hbox_count=$(grep -cE "Overfull \\\\hbox \([0-9.]+pt too wide\)" "$log_file" || true)
+    if [ "$hbox_count" -gt 0 ]; then
+        echo "⚠ Overfull \\\\hbox: $hbox_count occurrence(s)"
+        grep -E "Overfull \\\\hbox \([0-9.]+pt too wide\)" "$log_file" | head -3
+        warnings=$((warnings + 1))
+    fi
+
+    local vbox_count
+    vbox_count=$(grep -cE "Overfull \\\\vbox \([0-9.]+pt too wide\)" "$log_file" || true)
+    if [ "$vbox_count" -gt 0 ]; then
+        echo "⚠ Overfull \\\\vbox: $vbox_count occurrence(s)"
+        warnings=$((warnings + 1))
+    fi
+
+    if [ "$warnings" -gt 0 ]; then
+        echo "--- Layout warnings: $warnings ---"
+        if [ "$STRICT" -eq 1 ]; then
+            echo "❌ Strict mode: build blocked by layout warnings."
+            return 1
+        else
+            echo "ℹ Run with --strict to block on warnings."
+            return 0
+        fi
+    fi
+    return 0
+}
+
 compile_xelatex() {
     local pass_num="$1"
     echo "--- Pass $pass_num ---"
@@ -82,6 +127,33 @@ compile_tectonic() {
 
 echo "=== Compiling $TEX_NAME ==="
 echo "Working directory: $TEX_DIR"
+
+# Auto re-render: if a .assignment.yaml exists for this .tex, re-render first
+RENDER_SCRIPT="${SCRIPT_DIR}/render_assignment.py"
+YAML_CANDIDATES=()
+# Convention: yaml lives in build/ next to the .tex
+YAML_CANDIDATES+=("$TEX_DIR/build/${TEX_NAME%.tex}.assignment.yaml" "$TEX_DIR/build/${TEX_NAME%.tex}.*.assignment.yaml")
+# Also check same directory
+YAML_CANDIDATES+=("$TEX_DIR/${TEX_NAME%.tex}.assignment.yaml" "$TEX_DIR/${TEX_NAME%.tex}.*.assignment.yaml")
+
+FOUND_YAML=""
+for pattern in "${YAML_CANDIDATES[@]}"; do
+    for f in $pattern; do
+        if [ -f "$f" ]; then
+            FOUND_YAML="$f"
+            break 2
+        fi
+    done
+done
+
+if [ -n "$FOUND_YAML" ] && [ -f "$RENDER_SCRIPT" ]; then
+    echo "--- Re-rendering from $(basename "$FOUND_YAML") ---"
+    if python3 "$RENDER_SCRIPT" "$FOUND_YAML" --out "$TEX_FILE"; then
+        echo "Re-render complete."
+    else
+        echo "⚠ Re-render failed. Compiling with existing .tex."
+    fi
+fi
 
 # Pre-compile LaTeX syntax check
 CHECK_SCRIPT="${SCRIPT_DIR}/check_latex.py"
@@ -133,11 +205,42 @@ fi
 
 # Check result
 if [ -f "$TEX_DIR/$PDF_NAME" ]; then
+    # --- Post-compile cleanup: move intermediates to build/ ---
+    BUILD_DIR="$TEX_DIR/build"
+    mkdir -p "$BUILD_DIR"
+
+    # Move build log
+    [ -f "$TEX_DIR/$LOG_NAME" ] && mv "$TEX_DIR/$LOG_NAME" "$BUILD_DIR/"
+
+    # Move per-tex log (tectonic --keep-logs produces <name>.log)
+    TEX_LOG="${TEX_NAME%.tex}.log"
+    [ -f "$TEX_DIR/$TEX_LOG" ] && mv "$TEX_DIR/$TEX_LOG" "$BUILD_DIR/"
+
+    # Move exam-zh packages (only present when using tectonic)
+    for f in "$TEX_DIR"/exam-zh.cls "$TEX_DIR"/exam-zh-*.sty; do
+        [ -f "$f" ] && mv "$f" "$BUILD_DIR/"
+    done
+
+    # Check layout warnings before declaring success
+    FINAL_LOG="$BUILD_DIR/$LOG_NAME"
+    [ ! -f "$FINAL_LOG" ] && FINAL_LOG="$BUILD_DIR/${TEX_NAME%.tex}.log"
+    if [ -f "$FINAL_LOG" ]; then
+        if ! check_layout_warnings "$FINAL_LOG"; then
+            echo ""
+            echo "=== FAILED (layout warnings in strict mode) ==="
+            exit 1
+        fi
+    fi
+
     echo ""
     echo "=== SUCCESS ==="
     echo "PDF: $TEX_DIR/$PDF_NAME"
-    echo "Log: $TEX_DIR/$LOG_NAME"
     ls -lh "$TEX_DIR/$PDF_NAME"
+
+    # 自动打开生成的 PDF (macOS)
+    if command -v open >/dev/null 2>&1; then
+        open "$TEX_DIR/$PDF_NAME"
+    fi
 else
     echo ""
     echo "=== FAILED ==="

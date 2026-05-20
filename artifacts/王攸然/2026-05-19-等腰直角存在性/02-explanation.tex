@@ -1,0 +1,1081 @@
+% preamble-exam-zh.tex — 极简讲解页共享 preamble
+% 目标：复刻「题目独立、提示轻框、路线箭头、主体双栏、答案轻收束」的讲义风格。
+
+\documentclass{exam-zh}
+
+% ---------- 基础配置 ----------
+\examsetup{
+  page/size = a4paper,
+  page/show-head = false,
+  page/show-foot = false,
+  sealline/show = false,
+  font = none,
+  math-font = none,
+}
+
+% ---------- 包 ----------
+\usepackage{geometry}
+\geometry{top=10mm,bottom=14mm,left=15mm,right=13mm}
+\AtBeginDocument{\newgeometry{top=10mm,bottom=14mm,left=15mm,right=13mm}}
+
+\usepackage{xcolor}
+\usepackage{needspace}
+\usepackage{enumitem}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{tcolorbox}
+\tcbuselibrary{skins,breakable}
+\usepackage{paracol}
+
+% ---------- 打印/屏幕颜色切换 ----------
+% 用法：\documentclass[monochrome]{exam-zh} 可降级为灰度。
+% 注意：不要使用 \if@xxx 放在 makeatother 外部；这里改成普通条件名。
+\newif\ifeduprintcolor
+\eduprintcolortrue
+\makeatletter
+\@ifclasswith{exam-zh}{monochrome}{\eduprintcolorfalse}{}
+\makeatother
+
+% ---------- 语义颜色 ----------
+\ifeduprintcolor
+  \definecolor{edu-blue}{RGB}{31,62,126}
+  \definecolor{edu-blue-soft}{RGB}{232,238,250}
+  \definecolor{edu-blue-bg}{RGB}{248,250,254}
+  \definecolor{edu-ink}{RGB}{30,35,45}
+  \definecolor{edu-muted}{RGB}{118,124,136}
+  \definecolor{edu-line}{RGB}{209,218,235}
+  \definecolor{edu-soft-bg}{RGB}{250,251,253}
+  \definecolor{edu-red}{RGB}{168,58,58}
+  \definecolor{edu-red-bg}{RGB}{255,247,245}
+\else
+  \definecolor{edu-blue}{gray}{0.15}
+  \definecolor{edu-blue-soft}{gray}{0.90}
+  \definecolor{edu-blue-bg}{gray}{0.98}
+  \definecolor{edu-ink}{gray}{0.10}
+  \definecolor{edu-muted}{gray}{0.45}
+  \definecolor{edu-line}{gray}{0.82}
+  \definecolor{edu-soft-bg}{gray}{0.97}
+  \definecolor{edu-red}{gray}{0.28}
+  \definecolor{edu-red-bg}{gray}{0.97}
+\fi
+
+% ---------- 全局排版 ----------
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\linespread{1.16}
+\renewcommand{\arraystretch}{1.15}
+
+% ctex 通常提供 \kaishu；这里用它做教师旁白感。
+\newcommand{\edukai}{\kaishu}
+
+% ---------- 顶部元信息 ----------
+\newcommand{\eduTopBar}[2]{%
+  \noindent
+  \begin{tabularx}{\linewidth}{@{}Xr@{}}
+    {\color{edu-blue}\bfseries #1} &
+    {\color{edu-blue}\bfseries #2}
+  \end{tabularx}
+  \vspace{8mm}
+}
+
+% ---------- 轻标题体系 ----------
+% 只有真正的大结构才用它；不要给提示/路线滥用标题。
+\newcommand{\eduSectionTitle}[1]{%
+  \needspace{5\baselineskip}%
+  \vspace{2mm}
+  {\color{edu-blue}\bfseries\large #1}\par
+  \vspace{3mm}
+}
+
+\newcommand{\eduSubTitle}[1]{%
+  \needspace{4\baselineskip}%
+  \vspace{1mm}
+  {\color{edu-blue}\bfseries #1}\par
+  \vspace{1mm}
+}
+
+% ---------- 小问题干：复用 exam (1)(2)(3) 格式 ----------
+\newenvironment{eduSubQuestionItem}[1]{%
+  \needspace{4\baselineskip}%
+  \vspace{2mm}
+  \par\noindent
+  \hangindent=8mm\hangafter=1
+  {\color{edu-blue}\bfseries #1}\enspace
+  \begingroup
+  \color{edu-ink}
+}{%
+  \endgroup
+  \par
+  \vspace{3mm}
+}
+
+% ---------- 辅助信息条（解题流程/关键想法/思考）楷体 ----------
+\newenvironment{eduAuxItem}[1]{%
+  \needspace{4\baselineskip}%
+  \vspace{2mm}
+  \par\noindent
+  \hangindent=8mm\hangafter=1
+  {\color{edu-blue}\edukai $\triangleright$~#1}\enspace
+  \begingroup
+  \color{edu-ink}
+  \edukai
+}{%
+  \endgroup
+  \par
+  \vspace{4mm}
+}
+
+\newcommand{\eduColumnTitle}[2]{%
+  {\color{edu-blue}\bfseries #1\hspace{1.5mm}#2}\par
+  \vspace{2.5mm}
+}
+
+% ---------- 图标：不用外部 icon 字体，保证可移植 ----------
+\newcommand{\eduIconBulb}{\(\circ\)}
+\newcommand{\eduIconBook}{\(\square\)}
+\newcommand{\eduIconCheck}{\(\checkmark\)}
+\newcommand{\eduIconPin}{\(\diamond\)}
+\newcommand{\eduIconNote}{\(\triangleright\)}
+
+% ---------- 题目区 ----------
+% 题目区是页面入口：弱标签 + 一条长蓝线 + 大题干。
+\newenvironment{eduProblemBlock}[1][题目]{%
+  \needspace{8\baselineskip}
+  {\small\color{edu-muted}#1}\par
+  \vspace{1.5mm}
+  {\color{edu-blue}\hrule height 0.55pt}
+  \vspace{4.5mm}
+  \begingroup
+  \color{edu-ink}
+  \large
+  \setlength{\parskip}{2.2mm}
+  \linespread{1.20}\selectfont
+}{%
+  \par
+  \endgroup
+  \vspace{6mm}
+}
+
+\newenvironment{eduSubQuestions}{%
+  \begin{enumerate}[
+    label=(\arabic*),
+    leftmargin=8mm,
+    itemsep=2.0mm,
+    topsep=2.0mm,
+    parsep=0pt
+  ]
+}{%
+  \end{enumerate}
+}
+
+% ---------- 读题提示：轻框，不做同级标题 ----------
+\newtcolorbox{eduReadTipBox}{
+  enhanced,
+  breakable,
+  colback=white,
+  colframe=edu-blue!45,
+  boxrule=0.45pt,
+  arc=1.6mm,
+  left=10mm,
+  right=4mm,
+  top=5mm,
+  bottom=5mm,
+  before skip=1mm,
+  after skip=7mm,
+  fontupper=\edukai\normalsize,
+  colupper=edu-ink,
+  overlay={
+    \node[anchor=north west, text=edu-blue] at ([xshift=3.2mm,yshift=-3.2mm]frame.north west)
+    {\small\eduIconNote};
+  }
+}
+
+\newenvironment{eduTipList}{%
+  \begin{itemize}[
+    label=\textbullet,
+    leftmargin=5mm,
+    itemsep=1.2mm,
+    topsep=0pt,
+    parsep=0pt
+  ]
+}{%
+  \end{itemize}
+}
+
+% ---------- 解题路线：虚线框 + 文字箭头 ----------
+\newenvironment{eduRouteFlow}{%
+  \needspace{4\baselineskip}%
+  \vspace{1mm}
+  \begin{center}
+  \normalsize
+}{%
+  \end{center}
+  \vspace{7mm}
+}
+\newcommand{\eduRouteStep}[1]{%
+  {\color{edu-ink}#1}%
+}
+\newcommand{\eduRouteArrow}{%
+  \;$\boldsymbol{\to}$\;%
+}
+
+% ---------- 主体讲解：使用 paracol 实现跨页自适应双栏 ----------
+\newenvironment{eduDualExplain}{%
+  \needspace{6\baselineskip}% 防止标题孤行
+  \columnratio{0.25, 0.75}%
+  \setlength{\columnsep}{7mm}%
+  \columnseprule=0.45pt%
+  \colseprulecolor{edu-blue}%
+  \begin{paracol}{2}% 开启双栏
+}{%
+  \end{paracol}% 结束双栏
+  \vspace{5mm}
+}
+
+\newenvironment{eduExplainLeft}{%
+  \normalsize\color{edu-ink}%
+}{%
+  \switchcolumn
+}
+
+\newcommand{\eduColumnDivider}{}
+
+\newenvironment{eduExplainRight}{%
+  \normalsize\color{edu-ink}%
+}{%
+}
+
+\newenvironment{eduNumberList}{%
+  \begin{enumerate}[
+    label=\arabic*.,
+    leftmargin=6mm,
+    itemsep=4.8mm,
+    topsep=0pt,
+    parsep=0pt
+  ]
+}{%
+  \end{enumerate}
+}
+
+\newenvironment{eduBulletList}{%
+  \begin{itemize}[
+    label=\textbullet,
+    leftmargin=5mm,
+    itemsep=1.2mm,
+    topsep=0pt,
+    parsep=0pt
+  ]
+}{%
+  \end{itemize}
+}
+
+% ---------- 底部双栏：答案 + 方法提醒 ----------
+\newenvironment{eduBottomGrid}{%
+  \vspace{1mm}
+  \par\noindent
+}{%
+  \par\vspace{1mm}
+}
+
+\newenvironment{eduSummaryLeft}{%
+  \begin{minipage}[t]{0.30\linewidth}
+}{%
+  \end{minipage}
+}
+
+\newcommand{\eduSummaryDivider}{%
+  \hspace{4mm}{\color{edu-line}\vrule width 0.35pt}\hspace{7mm}%
+}
+
+\newenvironment{eduSummaryRight}{%
+  \begin{minipage}[t]{0.58\linewidth}
+}{%
+  \end{minipage}
+}
+
+% ---------- 答案/方法提醒：轻量收束 ----------
+\newtcolorbox{eduSummaryBlock}[2]{
+  enhanced,
+  breakable,
+  colback=white,
+  colframe=white,
+  boxrule=0pt,
+  sharp corners,
+  left=0mm,
+  right=0mm,
+  top=1mm,
+  bottom=1mm,
+  before skip=1mm,
+  after skip=1mm,
+  title={\color{edu-blue}\bfseries #1\hspace{1.5mm}#2},
+  coltitle=edu-blue,
+  attach title to upper={\par\vspace{2mm}},
+  fontupper=\normalsize
+}
+
+\newenvironment{eduPlainList}{%
+  \begin{enumerate}[
+    label=(\arabic*),
+    leftmargin=7mm,
+    itemsep=1.2mm,
+    topsep=0pt,
+    parsep=0pt
+  ]
+}{%
+  \end{enumerate}
+}
+
+% ---------- 兼容旧 block 的轻量盒子 ----------
+\newtcolorbox{eduSoftBox}{
+  enhanced,
+  breakable,
+  colback=edu-soft-bg,
+  colframe=edu-line,
+  boxrule=0.35pt,
+  arc=1mm,
+  left=3mm,
+  right=3mm,
+  top=2mm,
+  bottom=2mm,
+  before skip=1mm,
+  after skip=2mm,
+  fontupper=\small
+}
+
+\newtcolorbox{eduMistakeBox}{
+  enhanced,
+  breakable,
+  colback=edu-red-bg,
+  colframe=edu-red!40,
+  boxrule=0.35pt,
+  arc=1mm,
+  left=3mm,
+  right=3mm,
+  top=2.5mm,
+  bottom=2.5mm,
+  before skip=1mm,
+  after skip=2mm,
+  fontupper=\normalsize
+}
+
+\newtcolorbox{eduLegacySolution}{
+  enhanced,
+  breakable,
+  colback=edu-soft-bg,
+  colframe=edu-line,
+  boxrule=0.35pt,
+  arc=1mm,
+  left=3mm,
+  right=3mm,
+  top=2mm,
+  bottom=2mm,
+  before skip=-2mm,
+  after skip=4mm,
+  fontupper=\small
+}
+
+\newtcolorbox{eduTeacherNote}{
+  enhanced,
+  breakable,
+  colback=edu-soft-bg,
+  colframe=edu-line,
+  boxrule=0pt,
+  borderline west={1.5pt}{0pt}{edu-muted},
+  left=2.5mm,
+  right=2.5mm,
+  top=2mm,
+  bottom=2mm,
+  before skip=1mm,
+  after skip=2mm,
+  fontupper=\footnotesize,
+  colupper=edu-muted
+}
+
+% ---------- 答题区 ----------
+\newcommand{\answerarea}[1][40mm]{%
+  \vspace{3mm}%
+  \begin{tcolorbox}[
+    enhanced,
+    breakable,
+    colback=white,
+    colframe=edu-line,
+    boxrule=0.55pt,
+    arc=0.8mm,
+    height=#1,
+    valign=top,
+  ]
+  \end{tcolorbox}%
+}
+
+
+\begin{document}
+
+\eduSectionTitle{方法总论：存在性问题的分类讨论框架}
+
+
+
+
+
+\begin{eduAuxItem}{解题流程}
+确定已知点坐标和关键距离（AB、BC、CA的长）$\;\to\;$设动点坐标（P在x轴→$P(x,0)$；P在y轴→$P(0,y)$；P在直线上→参数化）$\;\to\;$分类讨论（等腰3种/直角3种），每种建立方程$\;\to\;$解方程，排除（共线/退化/超出范围）\end{eduAuxItem}
+
+
+
+
+\begin{eduAuxItem}{关键想法}
+等腰三角形的「三等腰」框架——以 $\triangle ABC$ 为例：
+\begin{enumerate}
+  \item $AB = AC$（$A$ 为等腰顶角）：以 $A$ 为圆心、$AB$ 为半径的圆
+  \item $BA = BC$（$B$ 为等腰顶角）：以 $B$ 为圆心、$BA$ 为半径的圆
+  \item $CA = CB$（$C$ 为等腰顶角）：$C$ 在 $AB$ 的垂直平分线上
+\end{enumerate}
+动点在路径上，路径与上述三个几何对象（两个圆、一条垂直平分线）的交点就是所有可能的解。\end{eduAuxItem}
+
+
+
+
+\begin{eduAuxItem}{关键想法}
+直角三角形的「三直角」框架——以 $\triangle ABC$ 为例：
+\begin{enumerate}
+  \item $\angle A = 90°$：$\overrightarrow{AB} \cdot \overrightarrow{AC} = 0$
+  \item $\angle B = 90°$：$\overrightarrow{BA} \cdot \overrightarrow{BC} = 0$
+  \item $\angle C = 90°$：$\overrightarrow{CA} \cdot \overrightarrow{CB} = 0$
+\end{enumerate}
+每种情况对应一个向量点积为零的方程。等价于勾股定理：$AB^2 + AC^2 = BC^2$。\end{eduAuxItem}
+
+
+
+
+\begin{eduBottomGrid}
+  \begin{eduSummaryLeft}
+    \begin{eduSummaryBlock}{\eduIconCheck}{框架口诀}
+    \begin{eduPlainList}
+      \item 等腰分三对，直角分三角      \item 每类建方程，解完要排除      \item 共线不算形，退化要舍去      \item 范围要看清，象限别忽略    \end{eduPlainList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryLeft}
+  \eduSummaryDivider
+  \begin{eduSummaryRight}
+    \begin{eduSummaryBlock}{\eduIconPin}{代数工具}
+    \begin{eduBulletList}
+      \item 距离公式：$d = \sqrt{(x_1-x_2)^2+(y_1-y_2)^2}$      \item 向量点积：$\vec{a}\cdot\vec{b} = 0 \Leftrightarrow \vec{a} \perp \vec{b}$      \item 三点共线检验：面积 $S = 0$ 或代入直线方程    \end{eduBulletList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryRight}
+\end{eduBottomGrid}
+
+
+
+\eduSectionTitle{例题 1 — x轴上等腰直角存在性}
+
+\begin{eduProblemBlock}[例题 1]
+等腰 $\mathrm{Rt}\triangle ABC$ 的顶点 $A$ 在 $y$ 轴正半轴上，顶点 $B$ 在 $x$ 轴正半轴上，$OA=4$，$OB=3$。在第一象限内以 $AB$ 为直角边且 $\angle ABC = 90^\circ$ 作等腰 $\mathrm{Rt}\triangle ABC$。在 $x$ 轴上是否存在点 $P$，使 $\triangle PCB$ 为等腰三角形？若存在，直接写出 $P$ 的坐标。
+\end{eduProblemBlock}
+
+
+
+
+
+
+
+
+
+\begin{eduSubQuestionItem}{第一步}
+确定 $C$ 的坐标和关键距离。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{思考引导}
+    \begin{eduNumberList}
+      \item 等腰直角三角形——哪两边相等？哪角是直角？      \item $A$ 在 $y$ 轴上，$B$ 在 $x$ 轴上，$AB^2 = 3^2+4^2 = 25$。      \item 直角在 $B$ 还是 $A$？两种可能都要验证。    \end{eduNumberList}
+  \end{eduExplainLeft}
+  \eduColumnDivider
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{规范讲解}
+    \begin{eduNumberList}
+      \item $A(0,4)$，$B(3,0)$，$AB = 5$。      \item 验证 $\angle ABC = 90°$（$AB = BC = 5$）：$C(7,3)$，$BC^2 = 16+9 = 25 = AB^2$。      \item $AC^2 = 49+1 = 50$，$AB^2+BC^2 = 50 = AC^2$。$\angle ABC = 90°$，等腰直角 $\triangle ABC$（$AB=BC=5$）。    \end{eduNumberList}
+
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduSubQuestionItem}{第二步}
+设 $P(x,0)$ 在 $x$ 轴上，分类讨论。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{思考引导}
+    \begin{eduNumberList}
+      \item 三等腰框架：$BP=BC$、$PB=PC$、$CB=CP$。      \item 情形一最简单——$BP=BC=5$，就是以 $B$ 为圆心、半径 $5$ 的圆与 $x$ 轴的交点。      \item 情形二$PB=PC$——两边都含 $P$，列方程化简。      \item 情形三$CB=CP=5$——注意排除 $P=B$ 的退化情况。    \end{eduNumberList}
+  \end{eduExplainLeft}
+  \eduColumnDivider
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{规范讲解}
+    \begin{eduNumberList}
+      \item 设 $P(x,0)$。      \item 情形一：$BP = BC = 5$。$(x-3)^2 = 25$，$x = 8$ 或 $x = -2$。$P(8,0)$ 或 $P(-2,0)$。      \item 情形二：$PB = PC$。$(x-3)^2 = (x-7)^2+9$，$8x = 49$，$x = \dfrac{49}{8}$。$P\left(\dfrac{49}{8}, 0\right)$。      \item 情形三：$CB = CP = 5$。$(x-7)^2+9 = 25$，$x = 11$ 或 $x = 3$。$x = 3$ 时 $P=B$，退化排除。$P(11,0)$。    \end{eduNumberList}
+
+    \vspace{1mm}
+    \eduSubTitle{检验}
+    \begin{eduBulletList}
+      \item 四种解均不共线，全部有效。    \end{eduBulletList}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduBottomGrid}
+  \begin{eduSummaryLeft}
+    \begin{eduSummaryBlock}{\eduIconCheck}{答案}
+    \begin{eduPlainList}
+      \item $P(-2,0)$，$P(8,0)$，$P\left(\dfrac{49}{8}, 0\right)$，$P(11,0)$    \end{eduPlainList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryLeft}
+  \eduSummaryDivider
+  \begin{eduSummaryRight}
+    \begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
+    \begin{eduBulletList}
+      \item 等腰直角三角形的判定：先验证 $AB=BC$ 和 $\angle ABC=90°$      \item 三等腰框架要全部列出，不要遗漏      \item 退化情况（$P$ 与已知点重合）必须排除    \end{eduBulletList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryRight}
+\end{eduBottomGrid}
+
+
+
+\eduSectionTitle{例题 2 — y轴上直角（三点分类）}
+
+\begin{eduProblemBlock}[例题 2]
+正比例函数 $y=-x$ 与反比例函数 $y=\dfrac{k}{x}$ 交于 $A$、$B$ 两点。$P$ 为 $y$ 轴上一点，若以 $A$、$B$、$P$ 为顶点的三角形是直角三角形，直接写出 $P$ 所有可能的坐标。
+\end{eduProblemBlock}
+
+
+
+
+
+\begin{eduSubQuestionItem}{第一步}
+确定 $A$、$B$ 坐标。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{思考引导}
+    \begin{eduNumberList}
+      \item 正比例函数和反比例函数的交点关于原点对称。      \item $y = -x$ 与 $y = k/x$ 联立：$x^2 = -k$。    \end{eduNumberList}
+  \end{eduExplainLeft}
+  \eduColumnDivider
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{规范讲解}
+    \begin{eduNumberList}
+      \item $k = -1$：$x^2 = 1$，$A(-1,1)$，$B(1,-1)$。      \item $AB^2 = 4+4 = 8$，$AB = 2\sqrt{2}$。    \end{eduNumberList}
+
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduSubQuestionItem}{第二步}
+设 $P(0,y)$，分三种直角情况讨论。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{思考引导}
+    \begin{eduNumberList}
+      \item 三直角框架：$\angle PAB=90°$、$\angle PBA=90°$、$\angle APB=90°$。      \item 每种情况用向量点积为零建立方程。    \end{eduNumberList}
+  \end{eduExplainLeft}
+  \eduColumnDivider
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{规范讲解}
+    \begin{eduNumberList}
+      \item $\angle PAB = 90°$：$\overrightarrow{PA}\cdot\overrightarrow{BA} = 0$。$4-2y = 0$，$y = 2$。$P(0,2)$。      \item $\angle PBA = 90°$：$\overrightarrow{PB}\cdot\overrightarrow{AB} = 0$。$4+2y = 0$，$y = -2$。$P(0,-2)$。      \item $\angle APB = 90°$：$\overrightarrow{PA}\cdot\overrightarrow{PB} = 0$。$y^2-2 = 0$，$y = \pm\sqrt{2}$。$P(0,\sqrt{2})$，$P(0,-\sqrt{2})$。    \end{eduNumberList}
+
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduBottomGrid}
+  \begin{eduSummaryLeft}
+    \begin{eduSummaryBlock}{\eduIconCheck}{答案}
+    \begin{eduPlainList}
+      \item $P(0,2)$，$P(0,-2)$，$P(0,\sqrt{2})$，$P(0,-\sqrt{2})$    \end{eduPlainList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryLeft}
+  \eduSummaryDivider
+  \begin{eduSummaryRight}
+    \begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
+    \begin{eduBulletList}
+      \item 正比例与反比例交点关于原点对称，这个性质可以简化计算      \item 直角条件用向量点积最干净：$\vec{a}\cdot\vec{b}=0$    \end{eduBulletList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryRight}
+\end{eduBottomGrid}
+
+
+
+\eduSectionTitle{例题 3 — y轴上直角（指定顶点）}
+
+\begin{eduProblemBlock}[例题 3]
+已知 $A(-1,0)$，$B(5,4)$，在 $y$ 轴上求一点 $P$ 使 $\triangle ABP$ 是以 $\angle P$ 为直角的直角三角形。
+\end{eduProblemBlock}
+
+
+
+
+
+\begin{eduSubQuestionItem}{解题过程}
+求 $P$ 的坐标。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{思考引导}
+    \begin{eduNumberList}
+      \item 题目指定了 $\angle P = 90°$，所以只需要一种讨论！      \item $\angle P = 90°$ 等价于 $\overrightarrow{PA} \cdot \overrightarrow{PB} = 0$。      \item 也可以理解为：$P$ 在以 $AB$ 为直径的圆与 $y$ 轴的交点上。    \end{eduNumberList}
+  \end{eduExplainLeft}
+  \eduColumnDivider
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{规范讲解}
+    \begin{eduNumberList}
+      \item 设 $P(0,y)$。$\overrightarrow{PA} = (-1,-y)$，$\overrightarrow{PB} = (5,4-y)$。      \item $\overrightarrow{PA}\cdot\overrightarrow{PB} = -5+y^2-4y = y^2-4y-5 = 0$。      \item $(y-5)(y+1) = 0$，$y = 5$ 或 $y = -1$。      \item $P(0,5)$ 或 $P(0,-1)$。均不共线，有效。    \end{eduNumberList}
+
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduBottomGrid}
+  \begin{eduSummaryLeft}
+    \begin{eduSummaryBlock}{\eduIconCheck}{答案}
+    \begin{eduPlainList}
+      \item $P(0,5)$ 或 $P(0,-1)$    \end{eduPlainList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryLeft}
+  \eduSummaryDivider
+  \begin{eduSummaryRight}
+    \begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
+    \begin{eduBulletList}
+      \item 指定直角顶点时只需讨论一种情况，不要多讨论      \item 以 $AB$ 为直径的圆与 $y$ 轴的交点——这是几何直观    \end{eduBulletList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryRight}
+\end{eduBottomGrid}
+
+
+
+\eduSectionTitle{例题 4 — x轴上等腰（矩形+动点参数化）}
+
+\begin{eduProblemBlock}[例题 4]
+矩形 $AOBC$ 中 $A(0,3)$，$B(6,0)$，直线 $y=\dfrac{3}{4}x$ 与 $AC$ 交于点 $D$，点 $E$ 是线段 $OD$ 上一点且满足 $OE:ED = 3:2$。动点 $P$ 从 $O$ 沿线段 $OB$ 以 $2$ 单位/秒的速度运动。设运动时间为 $t$ 秒 ($0 \leq t \leq 3$)，当 $t$ 为何值时，$\triangle OEP$ 为等腰三角形？
+\end{eduProblemBlock}
+
+
+
+
+
+\begin{eduSubQuestionItem}{第一步}
+确定各点坐标和 $E$ 点位置。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{思考引导}
+    \begin{eduNumberList}
+      \item 矩形 $AOBC$ 的四个顶点坐标可以直接写出。      \item 直线 $y = \frac{3}{4}x$ 与 $AC$（$y=3$）的交点 $D$。      \item $E$ 在 $OD$ 上，$OE:ED = 3:2$。    \end{eduNumberList}
+  \end{eduExplainLeft}
+  \eduColumnDivider
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{规范讲解}
+    \begin{eduNumberList}
+      \item $A(0,3)$，$O(0,0)$，$B(6,0)$，$C(6,3)$。      \item $D(4,3)$（$y=\frac{3}{4}x$ 与 $y=3$ 交点）。      \item $E = O + \frac{3}{5}\overrightarrow{OD} = \left(\frac{12}{5}, \frac{9}{5}\right)$。      \item $OE^2 = \frac{144}{25}+\frac{81}{25} = 9$，$OE = 3$。    \end{eduNumberList}
+
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduSubQuestionItem}{第二步}
+参数化 $P$，分类讨论。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{思考引导}
+    \begin{eduNumberList}
+      \item $P$ 从 $O$ 以 $2$ 单位/秒运动：$P(2t,0)$，$0 \leq t \leq 3$。      \item 三等腰：$PO=PE$、$OP=OE$、$EO=EP$。    \end{eduNumberList}
+  \end{eduExplainLeft}
+  \eduColumnDivider
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{规范讲解}
+    \begin{eduNumberList}
+      \item $PO = PE$：$4t^2 = (2t-\frac{12}{5})^2+\frac{81}{25}$，$t = \dfrac{15}{16}$。      \item $OP = OE = 3$：$2t = 3$，$t = \dfrac{3}{2}$。      \item $EO = EP = 3$：$(2t-\frac{12}{5})^2+\frac{81}{25} = 9$，$t = \dfrac{12}{5}$（$t=0$ 退化排除）。    \end{eduNumberList}
+
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduBottomGrid}
+  \begin{eduSummaryLeft}
+    \begin{eduSummaryBlock}{\eduIconCheck}{答案}
+    \begin{eduPlainList}
+      \item $t = \dfrac{15}{16}$，$t = \dfrac{3}{2}$，$t = \dfrac{12}{5}$    \end{eduPlainList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryLeft}
+  \eduSummaryDivider
+  \begin{eduSummaryRight}
+    \begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
+    \begin{eduBulletList}
+      \item 动点参数化：$P$ 的坐标用 $t$ 表示，注意速度的含义      \item 分点坐标用定比分点公式：$E = O + \frac{OE}{OD}\cdot\overrightarrow{OD}$    \end{eduBulletList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryRight}
+\end{eduBottomGrid}
+
+
+
+\eduSectionTitle{例题 5 — y轴上等腰（等腰梯形背景）}
+
+\begin{eduProblemBlock}[例题 5]
+等腰梯形 $ABCD$：$A(-2,0)$，$B(6,0)$，$C(4,6)$，$D(0,6)$。在 $y$ 轴正半轴上求点 $P$ 使 $\triangle PBC$ 为等腰三角形。
+\end{eduProblemBlock}
+
+
+
+
+
+\begin{eduSubQuestionItem}{解题过程}
+设 $P(0,y)$，$y>0$，分类讨论。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{思考引导}
+    \begin{eduNumberList}
+      \item $BC^2 = 4+36 = 40$，$BC = 2\sqrt{10}$。      \item 三等腰：$PB=PC$、$BP=BC$、$CP=CB$。      \item 区域约束：$P$ 在 $y$ 轴正半轴，所以 $y>0$。    \end{eduNumberList}
+  \end{eduExplainLeft}
+  \eduColumnDivider
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{规范讲解}
+    \begin{eduNumberList}
+      \item $PB = PC$：$36+y^2 = 16+(y-6)^2$，$12y = 16$，$y = \dfrac{4}{3}>0$。$P\left(0,\dfrac{4}{3}\right)$。      \item $BP = BC = 2\sqrt{10}$：$36+y^2 = 40$，$y = \pm 2$，取 $y=2>0$。$P(0,2)$。      \item $CP = CB = 2\sqrt{10}$：$16+(y-6)^2 = 40$，$y = 6\pm 2\sqrt{6}$，均 $>0$。$P(0,6+2\sqrt{6})$，$P(0,6-2\sqrt{6})$。    \end{eduNumberList}
+
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduBottomGrid}
+  \begin{eduSummaryLeft}
+    \begin{eduSummaryBlock}{\eduIconCheck}{答案}
+    \begin{eduPlainList}
+      \item $P(0,2)$，$P\left(0,\dfrac{4}{3}\right)$，$P(0,6-2\sqrt{6})$，$P(0,6+2\sqrt{6})$    \end{eduPlainList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryLeft}
+  \eduSummaryDivider
+  \begin{eduSummaryRight}
+    \begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
+    \begin{eduBulletList}
+      \item 区域约束（如 $y>0$）要在最后筛选时使用      \item $PB=PC$ 等价于 $P$ 在 $BC$ 的垂直平分线上    \end{eduBulletList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryRight}
+\end{eduBottomGrid}
+
+
+
+\eduSectionTitle{例题 6 — 直线 x=1 上等腰}
+
+\begin{eduProblemBlock}[例题 6]
+直线 $y=-\dfrac{3}{4}x+3$ 与坐标轴交于 $A(0,3)$，$B(4,0)$。$P$ 是直线 $x=1$ 上的动点。是否存在 $P$ 使 $\triangle ABP$ 为等腰三角形？
+\end{eduProblemBlock}
+
+
+
+
+
+\begin{eduSubQuestionItem}{解题过程}
+设 $P(1,y)$，分类讨论三种等腰情况。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{思考引导}
+    \begin{eduNumberList}
+      \item $AB = 5$。$P(1,y)$ 在竖直线 $x=1$ 上。      \item 三等腰：$AP=BP$、$AP=AB=5$、$BP=AB=5$。    \end{eduNumberList}
+  \end{eduExplainLeft}
+  \eduColumnDivider
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{规范讲解}
+    \begin{eduNumberList}
+      \item $AP = BP$：$1+(y-3)^2 = 9+y^2$，$y = \dfrac{1}{6}$。$P\left(1,\dfrac{1}{6}\right)$。      \item $AP = AB = 5$：$1+(y-3)^2 = 25$，$(y-3)^2 = 24$，$y = 3\pm 2\sqrt{6}$。      \item $BP = AB = 5$：$9+y^2 = 25$，$y = \pm 4$。$P(1,4)$，$P(1,-4)$。    \end{eduNumberList}
+
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduBottomGrid}
+  \begin{eduSummaryLeft}
+    \begin{eduSummaryBlock}{\eduIconCheck}{答案}
+    \begin{eduPlainList}
+      \item $P\left(1,\dfrac{1}{6}\right)$，$P(1,3\pm 2\sqrt{6})$，$P(1,4)$，$P(1,-4)$    \end{eduPlainList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryLeft}
+  \eduSummaryDivider
+  \begin{eduSummaryRight}
+    \begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
+    \begin{eduBulletList}
+      \item 竖直线上设 $P(1,y)$，只有一个未知数，方程简单      \item $\sqrt{24}$ 要化简为 $2\sqrt{6}$    \end{eduBulletList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryRight}
+\end{eduBottomGrid}
+
+
+
+\eduSectionTitle{例题 7 — 直线AC上等腰（钝角排除）}
+
+\begin{eduProblemBlock}[例题 7]
+直线 $y=x+1$ 与 $y=-\dfrac{3}{4}x+3$ 交于 $A$，分别交 $x$ 轴于 $B(-1,0)$ 和 $C(4,0)$。$D$ 是直线 $AC$ 上的动点，当 $\triangle CBD$ 为等腰三角形时，求第四象限点 $D$ 的坐标。
+\end{eduProblemBlock}
+
+
+
+
+
+\begin{eduSubQuestionItem}{解题过程}
+先判断角度关系，再分类讨论。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{思考引导}
+    \begin{eduNumberList}
+      \item 直线 $AC$ 斜率 $k=-\dfrac{3}{4}$。$D$ 在 $C$ 右下方（第四象限）时，$\angle BCD$ 为钝角。      \item $\cos\angle BCD = -\dfrac{4}{5}<0$，所以 $\angle BCD > 90°$。      \item 钝角对大边——$BD$ 一定大于 $BC$，所以 $BD=BC$ 和 $BD=CD$ 在第四象限无解！    \end{eduNumberList}
+  \end{eduExplainLeft}
+  \eduColumnDivider
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{规范讲解}
+    \begin{eduNumberList}
+      \item $BC = 5$。$D(x,-\frac{3}{4}x+3)$。      \item $BC=BD=5$：化简得 $x=4$（$D=C$，退化排除）或 $x=-\dfrac{12}{5}$（第二象限，排除）。      \item $BD=CD$：$x=\dfrac{3}{2}$（第一象限，排除）。      \item $CB=CD=5$：$x=0$（第一象限）或 $x=8$。$D(8,-3)$，第四象限。$\checkmark$    \end{eduNumberList}
+
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduBottomGrid}
+  \begin{eduSummaryLeft}
+    \begin{eduSummaryBlock}{\eduIconCheck}{答案}
+    \begin{eduPlainList}
+      \item $D(8,-3)$    \end{eduPlainList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryLeft}
+  \eduSummaryDivider
+  \begin{eduSummaryRight}
+    \begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
+    \begin{eduBulletList}
+      \item 钝角排除法：先判断 $\angle BCD$ 为钝角，$BC$ 不是最长边，可以快速排除两种情形      \item 象限约束是最后一步的筛选条件    \end{eduBulletList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryRight}
+\end{eduBottomGrid}
+
+
+
+\eduSectionTitle{例题 8 — 线段AB上直角}
+
+\begin{eduProblemBlock}[例题 8]
+直线 $L$ 与 $x$ 轴、$y$ 轴分别交于 $A(6,0)$，$B(0,3)$，点 $C$ 的坐标为 $(4,0)$。动点 $P$ 在线段 $AB$ 上运动。是否存在 $P$ 使 $\triangle POC$ 为直角三角形？若存在，求出点 $P$ 的坐标。
+\end{eduProblemBlock}
+
+
+
+
+
+\begin{eduSubQuestionItem}{解题过程}
+直线 $AB$：$y=-\dfrac{1}{2}x+3$。设 $P\left(x,-\dfrac{x}{2}+3\right)$，$0\leq x\leq 6$。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{思考引导}
+    \begin{eduNumberList}
+      \item $P$ 在线段 $AB$ 上，有范围约束 $0\leq x\leq 6$。      \item 三直角：$\angle POC=90°$、$\angle PCO=90°$、$\angle CPO=90°$。      \item 前两种很简单——一个向量水平/竖直，点积立刻出结果。    \end{eduNumberList}
+  \end{eduExplainLeft}
+  \eduColumnDivider
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{规范讲解}
+    \begin{eduNumberList}
+      \item $\angle POC = 90°$：$\overrightarrow{PO}\cdot\overrightarrow{CO} = -4x = 0$，$x=0$。$P(0,3)=B$。      \item $\angle PCO = 90°$：$\overrightarrow{PC}\cdot\overrightarrow{OC} = 4(x-4) = 0$，$x=4$。$P(4,1)$。      \item $\angle CPO = 90°$：$5x^2-28x+36=0$，$x=\dfrac{18}{5}$ 或 $x=2$。      \item $P(0,3)$，$P(2,2)$，$P(4,1)$，$P\left(\dfrac{18}{5},\dfrac{6}{5}\right)$。    \end{eduNumberList}
+
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduBottomGrid}
+  \begin{eduSummaryLeft}
+    \begin{eduSummaryBlock}{\eduIconCheck}{答案}
+    \begin{eduPlainList}
+      \item $P(0,3)$，$P(2,2)$，$P(4,1)$，$P\left(\dfrac{18}{5},\dfrac{6}{5}\right)$    \end{eduPlainList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryLeft}
+  \eduSummaryDivider
+  \begin{eduSummaryRight}
+    \begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
+    \begin{eduBulletList}
+      \item 线段 $AB$ 有范围约束，解必须在 $[0,6]$ 内      \item 当已知点在坐标轴上时，向量点积常常可以化简（一个分量为零）    \end{eduBulletList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryRight}
+\end{eduBottomGrid}
+
+
+
+\eduSectionTitle{例题 12 — 折线上等腰（L4代表题）}
+
+\begin{eduProblemBlock}[例题 12]
+正方形 $OABC$ 边长 $3$，$A$ 在 $x$ 轴，$C$ 在 $y$ 轴。$D(1,0)$。$P$ 从 $C$ 沿 $C \to B \to A$ 运动（$1$ 单位/秒）。是否存在 $P$ 使 $\triangle CDP$ 为等腰三角形？
+\end{eduProblemBlock}
+
+
+
+
+
+\begin{eduSubQuestionItem}{解题过程}
+分段参数化 $P$ 的坐标，再分类讨论。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{思考引导}
+    \begin{eduNumberList}
+      \item 折线路径：$C \to B$ 段和 $B \to A$ 段，$P$ 的坐标表达式不同。      \item $C \to B$ 段：$P(t,3)$，$t \in [0,3]$。      \item $B \to A$ 段：$P(3,6-t)$，$t \in [3,6]$。      \item 每种等腰情况要在两段上分别求解！    \end{eduNumberList}
+  \end{eduExplainLeft}
+  \eduColumnDivider
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{规范讲解}
+    \begin{eduNumberList}
+      \item $CD = \sqrt{1+9} = \sqrt{10}$。三等腰：$CD=DP$、$CP=DP$、$CD=CP$。      \item $CD=DP$：$C\to B$ 段 $t=2$，$P(2,3)$；$B\to A$ 段 $t=6-\sqrt{6}$，$P(3,\sqrt{6})$。      \item $CP=DP$：$C\to B$ 段无解；$B\to A$ 段 $t=\dfrac{11}{3}$，$P\left(3,\dfrac{7}{3}\right)$。      \item $CD=CP$：$C\to B$ 段无解；$B\to A$ 段 $t=4$，$P(3,2)$。    \end{eduNumberList}
+
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduBottomGrid}
+  \begin{eduSummaryLeft}
+    \begin{eduSummaryBlock}{\eduIconCheck}{答案}
+    \begin{eduPlainList}
+      \item $P(2,3)$，$P(3,\sqrt{6})$，$P\left(3,\dfrac{7}{3}\right)$，$P(3,2)$    \end{eduPlainList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryLeft}
+  \eduSummaryDivider
+  \begin{eduSummaryRight}
+    \begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
+    \begin{eduBulletList}
+      \item 折线路径必须分段参数化      \item 每种等腰情况要在每段上分别求解，不能遗漏      \item 解的范围要检查是否在对应段的时间区间内    \end{eduBulletList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryRight}
+\end{eduBottomGrid}
+
+
+
+\eduSectionTitle{例题 14 — 正方形+正方形等腰（L5代表题）}
+
+\begin{eduProblemBlock}[例题 14]
+$\triangle ABC$ 中，$AB=AC=5$，$BC=6$。$D$ 在 $AB$ 上，$DE \parallel BC$。以 $DE$ 为边在 $DE$ 下方作正方形 $DEFG$。当 $\triangle BDG$ 为等腰三角形时求 $AD$。
+\end{eduProblemBlock}
+
+
+
+
+
+\begin{eduSubQuestionItem}{第一步}
+建立坐标系，参数化 $D$、$E$、$G$。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{思考引导}
+    \begin{eduNumberList}
+      \item 等腰 $\triangle ABC$ 的 $A$ 在 $y$ 轴上，$BC$ 在 $x$ 轴上。      \item $DE \parallel BC$，由相似比 $\dfrac{DE}{BC} = \dfrac{AD}{AB}$。      \item 正方形 $DEFG$：$G$ 在 $DE$ 下方（向 $BC$ 方向偏移 $DE$ 的长度）。    \end{eduNumberList}
+  \end{eduExplainLeft}
+  \eduColumnDivider
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{规范讲解}
+    \begin{eduNumberList}
+      \item $B(-3,0)$，$C(3,0)$，$A(0,4)$。      \item 设 $AD = t$。$D\left(-\dfrac{3t}{5}, 4-\dfrac{4t}{5}\right)$，$E\left(\dfrac{3t}{5}, 4-\dfrac{4t}{5}\right)$。      \item $DE = \dfrac{6t}{5}$。$G = D+(0,-DE) = \left(-\dfrac{3t}{5}, 4-2t\right)$。      \item $BD = 5-t$，$DG = \dfrac{6t}{5}$。    \end{eduNumberList}
+
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduSubQuestionItem}{第二步}
+分类讨论 $\triangle BDG$ 的等腰情况。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{思考引导}
+    \begin{eduNumberList}
+      \item 三等腰：$BD=BG$、$BD=DG$、$BG=DG$。      \item $BD=DG$ 最简单——直接解一次方程。      \item $BG^2$ 的展开较复杂，需要仔细。    \end{eduNumberList}
+  \end{eduExplainLeft}
+  \eduColumnDivider
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{规范讲解}
+    \begin{eduNumberList}
+      \item $BD = BG$：化简得 $84t^2-240t=0$，$t = \dfrac{20}{7}$。      \item $BD = DG$：$5-t = \dfrac{6t}{5}$，$t = \dfrac{25}{11}$。      \item $BG = DG$：$73t^2-490t+625=0$，$\Delta=240^2$，$t = \dfrac{125}{73}$。    \end{eduNumberList}
+
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduBottomGrid}
+  \begin{eduSummaryLeft}
+    \begin{eduSummaryBlock}{\eduIconCheck}{答案}
+    \begin{eduPlainList}
+      \item $AD = \dfrac{20}{7}$ 或 $AD = \dfrac{25}{11}$ 或 $AD = \dfrac{125}{73}$    \end{eduPlainList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryLeft}
+  \eduSummaryDivider
+  \begin{eduSummaryRight}
+    \begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
+    \begin{eduBulletList}
+      \item 相似三角形比例 $\dfrac{DE}{BC} = \dfrac{AD}{AB}$ 是连接 $AD$ 和 $DE$ 的关键      \item 正方形方向（$G$ 在 $DE$ 哪一侧）要判断清楚      \item $BG^2$ 展开后合并同类项要仔细    \end{eduBulletList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryRight}
+\end{eduBottomGrid}
+
+
+
+\eduSectionTitle{易错提醒}
+
+\begin{eduMistakeBox}
+\eduSubTitle{遗漏分类讨论}等腰三角形有3种情况，直角三角形有3种情况。先列出所有情形的标题，确保不遗漏。漏掉任何一种都会丢解。\end{eduMistakeBox}
+
+
+
+
+\begin{eduMistakeBox}
+\eduSubTitle{三点共线未排除}当动点在另外两点的连线（或延长线）上时，三点共线，不能构成三角形。检查方法：代入直线方程或计算三角形面积。\end{eduMistakeBox}
+
+
+
+
+\begin{eduMistakeBox}
+\eduSubTitle{退化三角形未排除}动点与某个已知顶点重合时（如 $P=B$），三角形退化为线段。求出解后要检查是否与已知点重合。\end{eduMistakeBox}
+
+
+
+
+\begin{eduMistakeBox}
+\eduSubTitle{范围约束遗漏}$y$ 轴正半轴，则 y>0；线段 AB 上，则参数有界；第四象限，则 x>0,y<0。求出所有解后必须筛选。\end{eduMistakeBox}
+
+
+
+
+\begin{eduMistakeBox}
+\eduSubTitle{计算展开错误}距离公式展开时漏项（如 $(4-y)^2$ 漏掉 $-8y$ 交叉项）；二次方程求解错误；无理数未化简（$\sqrt{24}$ 应为 $2\sqrt{6}$）。\end{eduMistakeBox}
+
+
+
+
+\end{document}

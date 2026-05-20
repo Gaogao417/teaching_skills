@@ -15,8 +15,8 @@
 
 % ---------- 包 ----------
 \usepackage{geometry}
-\geometry{top=10mm,bottom=14mm,left=15mm,right=13mm}
-\AtBeginDocument{\newgeometry{top=10mm,bottom=14mm,left=15mm,right=13mm}}
+\geometry{top=10mm,bottom=14mm,left=12mm,right=10mm}
+\AtBeginDocument{\newgeometry{top=10mm,bottom=14mm,left=12mm,right=10mm}}
 
 \usepackage{xcolor}
 \usepackage{needspace}
@@ -81,19 +81,22 @@
 % ---------- 轻标题体系 ----------
 % 只有真正的大结构才用它；不要给提示/路线滥用标题。
 \newcommand{\eduSectionTitle}[1]{%
+  \needspace{5\baselineskip}%
   \vspace{2mm}
   {\color{edu-blue}\bfseries\large #1}\par
   \vspace{3mm}
 }
 
 \newcommand{\eduSubTitle}[1]{%
+  \needspace{4\baselineskip}%
   \vspace{1mm}
   {\color{edu-blue}\bfseries #1}\par
   \vspace{1mm}
 }
 
 % ---------- 小问题干：复用 exam (1)(2)(3) 格式 ----------
-\newenvironment{eduSubQuestionBlock}[1]{%
+\newenvironment{eduSubQuestionItem}[1]{%
+  \needspace{4\baselineskip}%
   \vspace{2mm}
   \par\noindent
   \hangindent=8mm\hangafter=1
@@ -107,7 +110,8 @@
 }
 
 % ---------- 辅助信息条（解题流程/关键想法/思考）楷体 ----------
-\newenvironment{eduAsideBlock}[1]{%
+\newenvironment{eduAuxItem}[1]{%
+  \needspace{4\baselineskip}%
   \vspace{2mm}
   \par\noindent
   \hangindent=8mm\hangafter=1
@@ -200,6 +204,7 @@
 
 % ---------- 解题路线：虚线框 + 文字箭头 ----------
 \newenvironment{eduRouteFlow}{%
+  \needspace{4\baselineskip}%
   \vspace{1mm}
   \begin{center}
   \normalsize
@@ -217,9 +222,9 @@
 % ---------- 主体讲解：使用 paracol 实现跨页自适应双栏 ----------
 \newenvironment{eduDualExplain}{%
   \needspace{6\baselineskip}% 防止标题孤行
-  \columnratio{0.32, 0.68}%
+  \columnratio{0.60, 0.40}%
   \setlength{\columnsep}{11mm}%
-  \colseprule=0.45pt%
+  \columnseprule=0.45pt%
   \colseprulecolor{edu-blue}%
   \begin{paracol}{2}% 开启双栏
 }{%
@@ -266,26 +271,25 @@
 
 % ---------- 底部双栏：答案 + 方法提醒 ----------
 \newenvironment{eduBottomGrid}{%
-  \vspace{1mm}
-  \par\noindent
+  \columnratio{0.32, 0.68}%
+  \setlength{\columnsep}{11mm}%
+  \columnseprule=0.35pt%
+  \colseprulecolor{edu-line}%
+  \begin{paracol}{2}%
 }{%
-  \par\vspace{1mm}
+  \end{paracol}%
 }
 
 \newenvironment{eduSummaryLeft}{%
-  \begin{minipage}[t]{0.30\linewidth}
 }{%
-  \end{minipage}
 }
 
 \newcommand{\eduSummaryDivider}{%
-  \hspace{4mm}{\color{edu-line}\vrule width 0.35pt}\hspace{7mm}%
+  \switchcolumn
 }
 
 \newenvironment{eduSummaryRight}{%
-  \begin{minipage}[t]{0.58\linewidth}
 }{%
-  \end{minipage}
 }
 
 % ---------- 答案/方法提醒：轻量收束 ----------
@@ -321,7 +325,7 @@
 }
 
 % ---------- 兼容旧 block 的轻量盒子 ----------
-\newtcolorbox{eduLightBox}{
+\newtcolorbox{eduSoftBox}{
   enhanced,
   breakable,
   colback=edu-soft-bg,

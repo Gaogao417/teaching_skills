@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>学生版讲解：一次函数与反比例函数综合</title>
+  <link rel="stylesheet" href="../assets/edu-print.css">
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+</head>
+<body data-view="student">
+
+<div class="edu-page">
+
+  <!-- ===== 标题区 ===== -->
+  <div class="edu-title">学生版讲解：一次函数与反比例函数综合</div>
+  <div class="edu-subtitle">一次函数与反比例函数综合</div>
+
+  <!-- ===== 题目卡片 ===== -->
+  <div class="edu-problem-card">
+    <div class="edu-problem-title">题目 SEL-11</div>
+    <div class="edu-problem-stem">
+      直线AB与x轴交于点 \(A(-2,0)\)，与y轴的正半轴交于点B，与反比例函数 \(y=\dfrac{m}{x}\;(x>0)\) 的图象交于点C，且 \(AB=BC\)，点C的纵坐标为4。
+      <br>(1) 求直线AB的表达式；
+      <br>(2) 过点B作 \(BD\parallel x\) 轴，交反比例函数 \(y=\dfrac{m}{x}\) 的图象于点D，求线段CD的长度。
+    </div>
+  </div>
+
+  <!-- ================================================================== -->
+  <!-- 第一节  一、先把题目拆开                                            -->
+  <!-- ================================================================== -->
+  <div class="edu-section">
+    <div class="edu-section-title">一、先把题目拆开</div>
+    <table class="edu-task-table">
+      <thead>
+        <tr>
+          <th>数学对象</th>
+          <th>已知条件</th>
+          <th>求解目标</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>直线AB</td>
+          <td>过 \(A(-2,0)\)（x轴上）；B在y轴正半轴</td>
+          <td rowspan="2">求直线AB的表达式</td>
+        </tr>
+        <tr>
+          <td>反比例函数 \(y=\dfrac{m}{x}\)</td>
+          <td>\(x>0\)；C在图象上，\(y_C=4\)</td>
+        </tr>
+        <tr>
+          <td>点C</td>
+          <td>在直线AB上；在 \(y=\dfrac{m}{x}\) 上；\(AB=BC\)</td>
+          <td>求CD的长度</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ================================================================== -->
+  <!-- 第二节  二、这题准备怎么走                                          -->
+  <!-- ================================================================== -->
+  <div class="edu-section">
+    <div class="edu-section-title">二、这题准备怎么走</div>
+    <ol class="edu-route">
+      <li><span class="edu-strong">识别中点关系</span> &mdash;&mdash; A、B、C共线且 \(AB=BC\)，所以B是AC的中点。</li>
+      <li><span class="edu-strong">用中点公式求坐标</span> &mdash;&mdash; 已知A、C的坐标信息，求出B和C的完整坐标。</li>
+      <li><span class="edu-strong">求反比例函数参数</span> &mdash;&mdash; C在 \(y=\dfrac{m}{x}\) 上，代入求m。</li>
+      <li><span class="edu-strong">待定系数法求直线</span> &mdash;&mdash; 用A、B两点求直线AB的表达式。</li>
+      <li><span class="edu-strong">求D的坐标</span> &mdash;&mdash; \(BD\parallel x\) 轴 &rarr; \(y_D=y_B\)，再代入反比例函数求 \(x_D\)。</li>
+      <li><span class="edu-strong">距离公式求CD</span> &mdash;&mdash; 用两点间距离公式得出结果。</li>
+    </ol>
+  </div>
+
+  <!-- ================================================================== -->
+  <!-- 第三节  三、关键想法                                                -->
+  <!-- ================================================================== -->
+  <div class="edu-section">
+    <div class="edu-section-title">三、关键想法</div>
+    <div class="edu-key-idea">
+      <span class="edu-strong">共线等距 &rarr; 中点关系 &rarr; 坐标计算。</span>
+      <br>题目说 "\(AB=BC\)"，而A、B、C三点都在直线AB上（共线），所以 <span class="edu-strong">B是AC的中点</span>。有了中点关系，就可以直接用<span class="edu-strong">中点坐标公式</span>求出未知点的坐标，完全不需要列距离方程、开平方 &mdash;&mdash; 这比用距离公式硬算快得多，也准确得多。
+    </div>
+    <div class="edu-formula">
+      中点坐标公式：若 \(M\) 是 \(P(x_1,y_1)\) 和 \(Q(x_2,y_2)\) 的中点，则
+      \[
+        x_M = \frac{x_1+x_2}{2},\quad y_M = \frac{y_1+y_2}{2}
+      \]
+    </div>
+  </div>
+
+  <!-- ================================================================== -->
+  <!-- 第四节  四、标准解法                                                -->
+  <!-- ================================================================== -->
+  <div class="edu-section">
+    <div class="edu-section-title">四、标准解法</div>
+
+    <!-- ---------- 第(1)问 ---------- -->
+    <div class="edu-subproblem">
+      <div class="edu-subproblem-title">第(1)问：求直线AB的表达式</div>
+
+      <div class="edu-step">
+        <div class="edu-step-title">步骤1：利用中点公式求B和C的坐标</div>
+        <div class="edu-step-why">
+          A、B、C三点共线且 \(AB=BC\) &rarr; B是AC的中点。已知 \(A(-2,0)\)、\(y_C=4\)。
+        </div>
+        <div class="edu-p">
+          B在y轴上，所以 \(x_B=0\)。由中点公式：
+          \[
+            x_B = \frac{x_A+x_C}{2} \Rightarrow 0 = \frac{-2+x_C}{2} \Rightarrow x_C = 2
+          \]
+          \[
+            y_B = \frac{y_A+y_C}{2} = \frac{0+4}{2} = 2
+          \]
+          所以 <span class="edu-strong">\(B(0,2)\)</span>，<span class="edu-strong">\(C(2,4)\)</span>。
+        </div>
+      </div>
+
+      <div class="edu-step">
+        <div class="edu-step-title">步骤2：求反比例函数参数m</div>
+        <div class="edu-step-why">
+          C在反比例函数 \(y=\dfrac{m}{x}\) 上，将 \(C(2,4)\) 代入。
+        </div>
+        <div class="edu-p">
+          \[
+            m = x_C \cdot y_C = 2 \times 4 = 8
+          \]
+          所以反比例函数为 \(y=\dfrac{8}{x}\)。
+        </div>
+      </div>
+
+      <div class="edu-step">
+        <div class="edu-step-title">步骤3：用待定系数法求直线AB</div>
+        <div class="edu-step-why">
+          直线AB过 \(A(-2,0)\) 和 \(B(0,2)\)，两点确定一条直线。
+        </div>
+        <div class="edu-p">
+          斜率：
+          \[
+            k = \frac{y_B - y_A}{x_B - x_A} = \frac{2-0}{0-(-2)} = \frac{2}{2} = 1
+          \]
+          B(0,2)在y轴上，截距 \(b=2\)。
+        </div>
+        <div class="edu-p">
+          <span class="edu-strong">直线AB的表达式为 \(y = x + 2\)。</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ---------- 第(2)问 ---------- -->
+    <div class="edu-subproblem">
+      <div class="edu-subproblem-title">第(2)问：求线段CD的长度</div>
+
+      <div class="edu-step">
+        <div class="edu-step-title">步骤4：由 \(BD\parallel x\) 轴求D的坐标</div>
+        <div class="edu-step-why">
+          BD平行于x轴，意味着B和D的纵坐标相同，即 \(y_D=y_B=2\)。
+        </div>
+        <div class="edu-p">
+          将 \(y_D=2\) 代入 \(y=\dfrac{8}{x}\)：
+          \[
+            2 = \frac{8}{x_D} \Rightarrow x_D = 4
+          \]
+          所以 <span class="edu-strong">\(D(4,2)\)</span>。
+        </div>
+      </div>
+
+      <div class="edu-step">
+        <div class="edu-step-title">步骤5：用距离公式求CD</div>
+        <div class="edu-step-why">
+          已知 \(C(2,4)\) 和 \(D(4,2)\)，直接代入两点间距离公式。
+        </div>
+        <div class="edu-p">
+          \[
+            CD = \sqrt{(x_D-x_C)^2+(y_D-y_C)^2} = \sqrt{(4-2)^2+(2-4)^2} = \sqrt{4+4} = 2\sqrt{2}
+          \]
+        </div>
+        <div class="edu-p">
+          <span class="edu-strong">\(CD = 2\sqrt{2}\)</span>。
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================================================================== -->
+  <!-- 第五节  五、边讲边问                                                -->
+  <!-- ================================================================== -->
+  <div class="edu-section">
+    <div class="edu-section-title">五、边讲边问</div>
+
+    <div class="edu-question">
+      <div class="edu-question-title">Q1 &mdash;&mdash; 识破"中点"条件</div>
+      <div class="edu-p">
+        题目说 "\(AB=BC\)"，A、B、C三点有什么特殊的位置关系？它和"中点"有什么联系？
+      </div>
+      <div class="edu-blank-line"></div>
+      <div class="edu-blank-line"></div>
+      <div class="edu-p edu-small">
+        提示：想想A、B、C是否在同一条直线上。如果三点共线且 \(AB=BC\)，那B是什么角色？
+      </div>
+    </div>
+
+    <div class="edu-question">
+      <div class="edu-question-title">Q2 &mdash;&mdash; 中点公式应用</div>
+      <div class="edu-p">
+        已知A的坐标为 \((-2,0)\)，C的纵坐标为4。B在y轴上，请你用中点公式分别求出：
+        <br>&emsp;(a) C的横坐标 \(x_C =\) __________；
+        <br>&emsp;(b) B的纵坐标 \(y_B =\) __________。
+      </div>
+      <div class="edu-blank-line"></div>
+      <div class="edu-blank-line"></div>
+    </div>
+
+    <div class="edu-question">
+      <div class="edu-question-title">Q3 &mdash;&mdash; 反比例函数的关键性质</div>
+      <div class="edu-p">
+        点 \(C(2,4)\) 在反比例函数 \(y=\dfrac{m}{x}\) 的图象上，那么m的值等于多少？反比例函数图象上的点，其横纵坐标的乘积有什么规律？
+      </div>
+      <div class="edu-blank-line"></div>
+      <div class="edu-blank-line"></div>
+    </div>
+
+    <div class="edu-question">
+      <div class="edu-question-title">Q4 &mdash;&mdash; "平行于x轴"意味着什么</div>
+      <div class="edu-p">
+        第(2)问中 "\(BD\parallel x\) 轴"，B和D的哪个坐标一定相同？为什么？
+      </div>
+      <div class="edu-blank-line"></div>
+      <div class="edu-blank-line"></div>
+      <div class="edu-p edu-small">
+        提示：平行于x轴的线段，上面所有点的纵坐标都相等。
+      </div>
+    </div>
+
+    <div class="edu-question">
+      <div class="edu-question-title">Q5 &mdash;&mdash; 距离公式实战</div>
+      <div class="edu-p">
+        已知 \(C(2,4)\)、\(D(4,2)\)，请写出距离公式并算出CD的值：
+        <br>\(CD = \sqrt{(\ \_\_ - \ \_\_ )^2 + (\ \_\_ - \ \_\_ )^2} =\) __________
+      </div>
+      <div class="edu-blank-line"></div>
+      <div class="edu-blank-line"></div>
+    </div>
+  </div>
+
+  <!-- ================================================================== -->
+  <!-- 第六节  六、易错提醒                                                -->
+  <!-- ================================================================== -->
+  <div class="edu-section">
+    <div class="edu-section-title">六、易错提醒</div>
+
+    <div class="edu-mistake">
+      <span class="edu-strong">易错1：看不出 "\(AB=BC\)" 就是中点条件</span>
+      <br>有些同学会直接用距离公式列方程：\(\sqrt{(x_C+2)^2+16}=\sqrt{x_C^2+(b-4)^2}\)，然后和直线方程联立求解。这样要做大量平方和开方运算，非常容易算错。
+      <br><span class="edu-strong">正确做法：</span>A、B、C共线 + \(AB=BC\) = B是AC的中点 &rarr; 直接用中点坐标公式，一步到位。
+    </div>
+
+    <div class="edu-mistake">
+      <span class="edu-strong">易错2：中点公式与y轴条件结合出错</span>
+      <br>B在y轴上意味着 \(x_B=0\)，但有些同学会把中点公式写反：写成 \(\dfrac{x_A+x_B}{2}=x_C\) 而不是 \(\dfrac{x_A+x_C}{2}=x_B\)。
+      <br><span class="edu-strong">正确做法：</span>中点公式里，等号左边是中点B的坐标，等号右边是A和C的平均值。
+    </div>
+
+    <div class="edu-mistake">
+      <span class="edu-strong">易错3："\(BD\parallel x\) 轴"时设错D的坐标</span>
+      <br>有些同学看到平行条件，反而去设斜率、写方程，绕了很大弯子。
+      <br><span class="edu-strong">正确做法：</span>平行于x轴 &rarr; \(y_D=y_B=2\)，直接代入反比例函数求 \(x_D\)，两步出结果。
+    </div>
+
+    <div class="edu-mistake">
+      <span class="edu-strong">易错4：距离公式中符号出错</span>
+      <br>计算CD时写成 \((2-4)^2+(4-2)^2\) 其实没问题（平方后一样），但如果写成 \((x_C-x_D)^2+(y_B-y_D)^2\)，把点搞混了就会出错。
+      <br><span class="edu-strong">正确做法：</span>标清楚用的是哪两个点，顺序不重要（平方后结果相同），但点不能搞混。
+    </div>
+
+    <div class="edu-mistake">
+      <span class="edu-strong">易错5：忽略 \(x>0\) 的定义域限制</span>
+      <br>题目给的反比例函数定义域是 \(x>0\)，本题中 \(x_C=2>0\)，\(x_D=4>0\)，自然满足。但变式题中如果算出的坐标不满足定义域，说明无解或需要重新审视。
+    </div>
+  </div>
+
+  <!-- ================================================================== -->
+  <!-- 第七节  七、一句话总结                                              -->
+  <!-- ================================================================== -->
+  <div class="edu-section">
+    <div class="edu-section-title">七、一句话总结</div>
+    <div class="edu-key-idea">
+      共线等距 &rarr; 中点坐标公式 &rarr; 求出关键点 &rarr; 待定系数法求函数 &rarr; 坐标距离收尾。整道题的核心就是"<span class="edu-strong">认出中点、用好公式</span>"。
+    </div>
+  </div>
+
+  <!-- ===== 自检区域（仅屏幕显示，打印隐藏） ===== -->
+  <aside class="edu-teacher-note self-check no-print">
+    <div class="edu-p"><span class="edu-strong">自检清单：</span></div>
+    <div class="edu-p">
+      &#9744; 我能说出 "A、B、C共线 + AB=BC" 为什么意味着B是中点<br>
+      &#9744; 我能默写中点坐标公式<br>
+      &#9744; 我能独立完成求B(0,2)和C(2,4)的过程<br>
+      &#9744; 我知道反比例函数上的点满足 \(xy=m\)<br>
+      &#9744; 我能用待定系数法求直线表达式<br>
+      &#9744; 我理解 "BD平行于x轴" 意味着纵坐标相同<br>
+      &#9744; 我能正确使用两点间距离公式
+    </div>
+  </aside>
+
+</div><!-- /.edu-page -->
+
+</body>
+</html>

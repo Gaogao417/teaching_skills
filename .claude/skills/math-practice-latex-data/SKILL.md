@@ -1,6 +1,6 @@
 ---
-name: math-practice-latex-data
-description: "根据结构分析和讲解内容生成自适应练习的 assignment.yaml，保留原 math-practice-html 的教学逻辑。"
+name: math-adaptive-practice-latex-data
+description: "根据结构分析和讲解内容生成自适应练习的 assignment.yaml，保留原 math-adaptive-practice-html 的教学逻辑。"
 version: 0.1.0
 triggers:
   - description: "已有 structure-analysis 和 explanation，需要生成练习 YAML"
@@ -9,17 +9,17 @@ triggers:
 skip:
   - description: "没有 01-structure-analysis.md（先运行 math-structure-analysis）"
   - description: "没有讲解内容（先运行 math-student-explanation-latex-data 或 html）"
-  - description: "用户要求 HTML 输出（使用 math-practice-html）"
+  - description: "用户要求 HTML 输出（使用 math-adaptive-practice-html）"
   - description: "用户要求讲解而非练习"
 ---
 
-# math-practice-latex-data
+# math-adaptive-practice-latex-data
 
 ## 职责
 
-从 `01-structure-analysis.md` 和讲解内容生成 `03-practice.assignment.yaml`。
+从 `01-structure-analysis.md` 和讲解内容生成 `03-adaptive-practice.assignment.yaml`。
 
-保留原 `math-practice-html` 的全部教学逻辑。
+保留原 `math-adaptive-practice-html` 的全部教学逻辑。
 
 ## 版本规则
 
@@ -30,20 +30,20 @@ skip:
 - **教师版**（`version: "teacher"`）：在学生版基础上，每道题后附带完整的解题步骤和答案。
   解答题（problem）必须包含分步骤的标准解答（solution_steps）。
 - **同时输出**：默认生成两个文件：
-  - `03-practice-student.assignment.yaml`（`version: "student"`）
-  - `03-practice-teacher.assignment.yaml`（`version: "teacher"`）
+  - `03-adaptive-practice.student.assignment.yaml`（`version: "student"`）
+  - `03-adaptive-practice.teacher.assignment.yaml`（`version: "teacher"`）
   如果用户明确只要一个版本，则只生成一个。
 
 ## 输入
 
 - `artifacts/<学生名>/YYYY-MM-DD-<内容>/01-structure-analysis.md`
-- `artifacts/<学生名>/YYYY-MM-DD-<内容>/02-explanation.assignment.yaml` 或 `02-explanation.html`
+- `artifacts/<学生名>/YYYY-MM-DD-<内容>/02-student-explanation.assignment.yaml` 或 `02-student-explanation.html`
 - 学生画像（可选）
 
 ## 输出
 
 ```text
-artifacts/<学生名>/YYYY-MM-DD-<内容>/03-practice-[student|teacher].assignment.yaml
+artifacts/<学生名>/YYYY-MM-DD-<内容>/03-adaptive-practice.assignment.yaml
 ```
 
 ## 教学逻辑（与 HTML 版一致）
@@ -177,7 +177,7 @@ answer_space:
 
 ## YAML 输出格式
 
-### 学生版 (03-practice-student.assignment.yaml)
+### 学生版 (03-adaptive-practice.student.assignment.yaml)
 
 ```yaml
 meta:
@@ -190,7 +190,7 @@ meta:
   version: "student"
   source_artifacts:
     structure_analysis: "artifacts/<学生名>/YYYY-MM-DD-<内容>/01-structure-analysis.md"
-    explanation: "artifacts/<学生名>/YYYY-MM-DD-<内容>/02-explanation.assignment.yaml"
+    explanation: "artifacts/<学生名>/YYYY-MM-DD-<内容>/02-student-explanation.assignment.yaml"
 
 render:
   template: "exam-zh-practice"
@@ -249,7 +249,7 @@ sections:
   # 学生版不含答案区和教师备注
 ```
 
-### 教师版 (03-practice-teacher.assignment.yaml)
+### 教师版 (03-adaptive-practice.teacher.assignment.yaml)
 
 与学生版结构相同，区别在 `meta.version` 和每个 block 的 `answer`/`explanation`/`solution_steps`/`teaching` 字段。
 
@@ -264,7 +264,7 @@ meta:
   version: "teacher"
   source_artifacts:
     structure_analysis: "artifacts/<学生名>/YYYY-MM-DD-<内容>/01-structure-analysis.md"
-    explanation: "artifacts/<学生名>/YYYY-MM-DD-<内容>/02-explanation.assignment.yaml"
+    explanation: "artifacts/<学生名>/YYYY-MM-DD-<内容>/02-student-explanation.assignment.yaml"
 
 render:
   template: "exam-zh-practice"
@@ -351,11 +351,7 @@ sections:
 7. block scalar（`|`）字段中的 LaTeX 命令用单反斜杠 `\frac`（不是 `\\frac`）；双引号字符串中的 `\\frac` 会被 YAML 解析为 `\frac` 所以是正确的
 8. 复杂度不超过 structure-analysis 预算
 9. 答案区 section 的 `type` 为 `"answer_key"`，`visibility` 为 `"teacher"`（模板层会自动在其前插入分页）
-10. 文件名严格绑定：同时输出 student 和 teacher 两个文件。文件名必须严格命名为 `03-practice-student.assignment.yaml` 和 `03-practice-teacher.assignment.yaml`。
-11. 格式合规性：数学逻辑推导符号（如 `\because`, `\therefore`）必须强制置于数学环境 `$ ... $` 或 `$$ ... $$` 内部，不得以纯文本输出。
-12. 可读性保障：
-    - 对于列表字段（如 `solution_steps`, `hints` 等），**严禁**在单个元素的文本内部使用换行符（如 `\n\n`）。需要分步时，必须拆分为多个独立的数组元素。
-    - 对于长篇幅的纯文本块（如 `explanation`），长篇解答或分类讨论务必使用换行符进行清晰的段落划分，切忌挤成一团。
+10. 同时输出 student 和 teacher 两个文件
 
 ## Handoff
 
@@ -363,17 +359,17 @@ sections:
 
 ```
 已生成学生版和教师版两个 YAML 文件：
-- artifacts/<学生名>/YYYY-MM-DD-<内容>/03-practice-student.assignment.yaml
-- artifacts/<学生名>/YYYY-MM-DD-<内容>/03-practice-teacher.assignment.yaml
+- artifacts/<学生名>/YYYY-MM-DD-<内容>/03-adaptive-practice.student.assignment.yaml
+- artifacts/<学生名>/YYYY-MM-DD-<内容>/03-adaptive-practice.teacher.assignment.yaml
 
 下一步：使用 math-assignment-latex 渲染、检查并编译 PDF。
 
 python math-assignment-latex/scripts/render_assignment.py \
-  artifacts/<学生名>/YYYY-MM-DD-<内容>/03-practice-student.assignment.yaml \
+  artifacts/<学生名>/YYYY-MM-DD-<内容>/03-adaptive-practice.student.assignment.yaml \
   --out artifacts/<学生名>/YYYY-MM-DD-<内容>/03-practice-student.tex
 
 python math-assignment-latex/scripts/render_assignment.py \
-  artifacts/<学生名>/YYYY-MM-DD-<内容>/03-practice-teacher.assignment.yaml \
+  artifacts/<学生名>/YYYY-MM-DD-<内容>/03-adaptive-practice.teacher.assignment.yaml \
   --out artifacts/<学生名>/YYYY-MM-DD-<内容>/03-practice-teacher.tex
 
 python math-assignment-latex/scripts/check_latex.py artifacts/<学生名>/YYYY-MM-DD-<内容>/03-practice-student.tex
@@ -382,4 +378,3 @@ python math-assignment-latex/scripts/check_latex.py artifacts/<学生名>/YYYY-M
 bash math-assignment-latex/scripts/compile_latex.sh artifacts/<学生名>/YYYY-MM-DD-<内容>/03-practice-student.tex
 bash math-assignment-latex/scripts/compile_latex.sh artifacts/<学生名>/YYYY-MM-DD-<内容>/03-practice-teacher.tex
 ```
-

@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>自适应练习：一次函数与几何综合（面积分割）</title>
+<link rel="stylesheet" href="../assets/edu-print.css">
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'], ['\\(','\\)']], displayMath: [['$$','$$'], ['\\[','\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+</head>
+<body data-view="student">
+
+<!-- ===== 封面区 ===== -->
+<div class="edu-cover">
+  <h1 class="edu-cover__title">自适应练习：一次函数与几何综合（面积分割）</h1>
+  <p class="edu-cover__subtitle">一次函数与几何综合（面积分割）</p>
+  <div class="edu-cover__meta">
+    <span>难度默认：E档</span>
+    <span>适用：九年级一次函数复习</span>
+  </div>
+</div>
+
+<!-- ===== 练习说明 ===== -->
+<div class="edu-section page-break">
+  <h2 class="edu-section__title">练习说明</h2>
+  <div class="edu-note">
+    <p>本练习围绕<strong>"直线分割三角形面积求解析式"</strong>这一核心题型展开。所有题目都遵循同一套路：</p>
+    <ol>
+      <li>求一次函数与坐标轴的交点坐标；</li>
+      <li>利用面积比转化为坐标分量之比；</li>
+      <li>求得分点坐标，进而确定分割直线的斜率；</li>
+      <li>分两种情形讨论，注意分点在线段上的范围约束。</li>
+    </ol>
+    <p>每道题都配有<strong>分步提示</strong>和<strong>详细解答</strong>，请先独立思考，遇到困难再参考提示。完成全部题目后填写自评表。</p>
+  </div>
+  <div class="edu-note edu-note--tip">
+    <p><strong>核心转化链：</strong>面积比 $\longrightarrow$ 高之比（坐标分量之比）$\longrightarrow$ 分点参数 $\longrightarrow$ 斜率</p>
+  </div>
+</div>
+
+<!-- ===== 第1题 ===== -->
+<div class="edu-section page-break u-avoid-break">
+  <h2 class="edu-section__title">第1题（基础巩固）</h2>
+
+  <div class="edu-problem">
+    <p>已知直线 $y = 2x + 6$ 与 $x$ 轴交于点 $A$，与 $y$ 轴交于点 $B$。直线 $l$ 经过原点 $O$，与线段 $AB$ 交于点 $C$，且把 $\triangle AOB$ 的面积分为 $1:2$ 的两部分。求直线 $l$ 的解析式。</p>
+  </div>
+
+  <!-- 提示 -->
+  <details class="edu-hint">
+    <summary>分步提示</summary>
+    <ol>
+      <li><strong>求交点：</strong>令 $y = 0$，得 $2x + 6 = 0$，所以 $A(-3,\,0)$；令 $x = 0$，得 $B(0,\,6)$。</li>
+      <li><strong>面积比与坐标关系：</strong>$S_{\triangle AOC} = \dfrac{1}{2}\,|OA| \cdot |y_C|$，$S_{\triangle BOC} = \dfrac{1}{2}\,|OB| \cdot |x_C|$。</li>
+      <li><strong>参数化分点：</strong>设 $C(t,\, 2t+6)$，其中 $-3 \le t \le 0$。</li>
+      <li><strong>列比求解：</strong>分两种情形讨论面积比 $1:2$ 和 $2:1$，解出 $t$。</li>
+      <li><strong>求斜率：</strong>$k = \dfrac{2t+6}{t}$，代入 $t$ 的值。</li>
+    </ol>
+  </details>
+
+  <!-- 解答步骤 -->
+  <details class="edu-answer">
+    <summary>解答步骤</summary>
+
+    <p class="u-mt-0"><strong>解：</strong></p>
+
+    <p><strong>第一步：求交点坐标</strong></p>
+    <p>令 $y = 0$：$2x + 6 = 0 \Rightarrow x = -3$，所以 $A(-3,\,0)$。</p>
+    <p>令 $x = 0$：$y = 6$，所以 $B(0,\,6)$。</p>
+    <p>$|OA| = 3$，$|OB| = 6$。</p>
+
+    <p><strong>第二步：参数化分点 $C$</strong></p>
+    <p>因为 $C$ 在线段 $AB$ 上，设 $C(t,\, 2t+6)$，其中 $-3 \le t \le 0$。</p>
+
+    <p><strong>第三步：面积比转化为坐标关系</strong></p>
+    <p>$$S_{\triangle AOC} = \frac{1}{2} \times 3 \times |2t+6| = \frac{3|2t+6|}{2}$$</p>
+    <p>$$S_{\triangle BOC} = \frac{1}{2} \times 6 \times |t| = 3|t|$$</p>
+
+    <p><strong>第四步：分两种情形讨论</strong></p>
+
+    <p><em>情形一：$S_{\triangle AOC} : S_{\triangle BOC} = 1 : 2$</em></p>
+    <p>$$\frac{3|2t+6|}{2} : 3|t| = 1 : 2$$</p>
+    <p>$$\frac{|2t+6|}{2|t|} = \frac{1}{2} \Rightarrow |2t+6| = |t|$$</p>
+    <p>因为 $-3 \le t \le 0$，所以 $2t + 6 \ge 0$，$t \le 0$，去绝对值：</p>
+    <p>$$2t + 6 = -t \Rightarrow 3t = -6 \Rightarrow t = -2$$</p>
+    <p>验证：$t = -2 \in [-3,\,0]$，符合条件。$C(-2,\,2)$。</p>
+    <p>$k = \dfrac{2}{-2} = -1$，所以 $l:\ y = -x$。</p>
+
+    <p><em>情形二：$S_{\triangle AOC} : S_{\triangle BOC} = 2 : 1$</em></p>
+    <p>$$\frac{3|2t+6|}{2} : 3|t| = 2 : 1$$</p>
+    <p>$$\frac{|2t+6|}{2|t|} = 2 \Rightarrow |2t+6| = 4|t|$$</p>
+    <p>去绝对值：$2t + 6 = -4t \Rightarrow 6t = -6 \Rightarrow t = -1$。</p>
+    <p>验证：$t = -1 \in [-3,\,0]$，符合条件。$C(-1,\,4)$。</p>
+    <p>$k = \dfrac{4}{-1} = -4$，所以 $l:\ y = -4x$。</p>
+
+    <p><strong>综上，直线 $l$ 的解析式为 $y = -x$ 或 $y = -4x$。</strong></p>
+  </details>
+
+  <!-- 教师批注 -->
+  <div class="edu-teacher-note no-print">
+    <p><strong>教师批注：</strong></p>
+    <ul>
+      <li>本题 $|OA| \ne |OB|$（3 与 6），不能直接用坐标比等于面积比的简捷路径，需完整代入面积公式。</li>
+      <li>易错点：绝对值展开时忘记 $t \le 0$ 导致正负号出错。</li>
+      <li>若学生漏掉情形二，说明分类讨论意识不足，建议回看提示第4步。</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ===== 第2题 ===== -->
+<div class="edu-section page-break u-avoid-break">
+  <h2 class="edu-section__title">第2题（对称巧解）</h2>
+
+  <div class="edu-problem">
+    <p>已知直线 $y = -x + 4$ 与 $x$ 轴交于点 $A$，与 $y$ 轴交于点 $B$。直线 $l$ 经过原点 $O$，与线段 $AB$ 交于点 $C$，把 $\triangle AOB$ 的面积分为 $1:1$ 的两部分（即等分）。求直线 $l$ 的解析式。</p>
+  </div>
+
+  <!-- 提示 -->
+  <details class="edu-hint">
+    <summary>分步提示</summary>
+    <ol>
+      <li><strong>求交点：</strong>$A(4,\,0)$，$B(0,\,4)$。注意 $|OA| = |OB| = 4$。</li>
+      <li><strong>利用对称性：</strong>因为 $|OA| = |OB|$，所以 $S_{\triangle AOC} = S_{\triangle BOC}$ 等价于 $|y_C| = |x_C|$。</li>
+      <li><strong>求分点：</strong>设 $C(t,\, -t+4)$，由 $|y_C| = |x_C|$ 且 $C$ 在第一象限，得 $-t+4 = t$。</li>
+      <li><strong>求斜率：</strong>$k = \dfrac{-t+4}{t}$，代入求值。</li>
+    </ol>
+  </details>
+
+  <!-- 解答步骤 -->
+  <details class="edu-answer">
+    <summary>解答步骤</summary>
+
+    <p class="u-mt-0"><strong>解：</strong></p>
+
+    <p><strong>第一步：求交点坐标</strong></p>
+    <p>令 $y = 0$：$-x + 4 = 0 \Rightarrow x = 4$，所以 $A(4,\,0)$。</p>
+    <p>令 $x = 0$：$y = 4$，所以 $B(0,\,4)$。</p>
+    <p>$|OA| = |OB| = 4$。</p>
+
+    <p><strong>第二步：利用对称性</strong></p>
+    <p>因为 $|OA| = |OB|$，面积等分意味着：</p>
+    <p>$$S_{\triangle AOC} = \frac{1}{2}|OA| \cdot y_C, \quad S_{\triangle BOC} = \frac{1}{2}|OB| \cdot x_C$$</p>
+    <p>由 $S_{\triangle AOC} = S_{\triangle BOC}$ 且 $|OA| = |OB|$，得 $y_C = x_C$。</p>
+
+    <p><strong>第三步：求分点 $C$</strong></p>
+    <p>设 $C(t,\, -t+4)$，其中 $0 \le t \le 4$。</p>
+    <p>由 $y_C = x_C$：$-t + 4 = t \Rightarrow 2t = 4 \Rightarrow t = 2$。</p>
+    <p>验证：$t = 2 \in [0,\,4]$，符合条件。$C(2,\,2)$。</p>
+
+    <p><strong>第四步：求斜率</strong></p>
+    <p>$$k = \frac{2}{2} = 1$$</p>
+
+    <p><strong>所以直线 $l$ 的解析式为 $y = x$。</strong></p>
+
+    <p><em>说明：</em>本题面积比为 $1:1$（等分），由于图形关于 $y = x$ 对称，结果恰好为 $y = x$，只有一解。</p>
+  </details>
+
+  <!-- 教师批注 -->
+  <div class="edu-teacher-note no-print">
+    <p><strong>教师批注：</strong></p>
+    <ul>
+      <li>本题设计意图：让学生体会 $|OA| = |OB|$ 时，面积比直接退化为坐标分量之比的简捷路径。</li>
+      <li>延伸提问：如果面积比改为 $1:3$，结果是什么？（$y = \dfrac{1}{3}x$ 或 $y = 3x$）</li>
+      <li>部分学生可能疑惑"等分为什么只有一解"——因为等分线恰好是 $y = x$，两种情形重合。</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ===== 第3题 ===== -->
+<div class="edu-section page-break u-avoid-break">
+  <h2 class="edu-section__title">第3题（变式提升）</h2>
+
+  <div class="edu-problem">
+    <p>已知直线 $y = \dfrac{1}{2}x + 2$ 与 $x$ 轴交于点 $A$，与 $y$ 轴交于点 $B$。直线 $l$ 经过点 $P(0,\,1)$，与线段 $AB$ 交于点 $C$，且 $\triangle APC$ 与 $\triangle BPC$ 的面积比为 $3:1$。求直线 $l$ 的解析式。</p>
+  </div>
+
+  <!-- 提示 -->
+  <details class="edu-hint">
+    <summary>分步提示</summary>
+    <ol>
+      <li><strong>求交点：</strong>$A(-4,\,0)$，$B(0,\,2)$。注意 $P(0,\,1)$ 在 $y$ 轴上，位于 $O$ 与 $B$ 之间。</li>
+      <li><strong>画图理解：</strong>$C$ 在线段 $AB$ 上，$P$ 在 $y$ 轴上。$\triangle APC$ 和 $\triangle BPC$ 可以分别以 $PA$ 和 $PB$ 为底（在 $y$ 轴上），高为点 $C$ 到 $y$ 轴的水平距离 $|x_C|$。</li>
+      <li><strong>面积关系：</strong>$S_{\triangle APC} = \dfrac{1}{2} \cdot |PA| \cdot |x_C|$，$S_{\triangle BPC} = \dfrac{1}{2} \cdot |PB| \cdot |x_C|$。因为高相同（都是 $|x_C|$），面积比 $= |PA| : |PB| = 1 : 1$……等等，题目给的是 $3:1$，这说明底不能都用 $y$ 轴上的线段。</li>
+      <li><strong>换底重新分析：</strong>分别以 $x$ 轴上 $OA$ 段为公共参照。$S_{\triangle APC} = \dfrac{1}{2}|x_C| \cdot |y_P - y_A| = \dfrac{1}{2}|x_C| \cdot 1$，$S_{\triangle BPC} = \dfrac{1}{2}|x_C| \cdot |y_B - y_P| = \dfrac{1}{2}|x_C| \cdot 1$。</li>
+      <li><strong>重新审视：</strong>更直接的方法——设 $l: y = kx + 1$，联立 $y = \dfrac{1}{2}x + 2$ 求交点 $C$，再用面积公式列方程。</li>
+      <li><strong>参数化法：</strong>设 $C\!\left(t,\,\dfrac{t}{2}+2\right)$，$-4 \le t \le 0$。用 $P(0,1)$ 分别与 $A$、$B$、$C$ 构成三角形，通过面积比列方程。</li>
+    </ol>
+  </details>
+
+  <!-- 解答步骤 -->
+  <details class="edu-answer">
+    <summary>解答步骤</summary>
+
+    <p class="u-mt-0"><strong>解：</strong></p>
+
+    <p><strong>第一步：求交点坐标</strong></p>
+    <p>令 $y = 0$：$\dfrac{1}{2}x + 2 = 0 \Rightarrow x = -4$，所以 $A(-4,\,0)$。</p>
+    <p>令 $x = 0$：$y = 2$，所以 $B(0,\,2)$。</p>
+    <p>已知 $P(0,\,1)$。</p>
+
+    <p><strong>第二步：设分点 $C$ 并参数化</strong></p>
+    <p>设 $C\!\left(t,\,\dfrac{t}{2}+2\right)$，其中 $-4 \le t \le 0$。</p>
+
+    <p><strong>第三步：计算面积</strong></p>
+    <p>以 $PC$ 为底边方向，将 $\triangle APC$ 和 $\triangle BPC$ 都拆为"以 $y$ 轴上的线段为底、以水平距离为高"：</p>
+    <p>$$S_{\triangle APC} = \frac{1}{2}|x_C| \cdot |y_P - y_A| = \frac{1}{2}(-t) \cdot 1 = -\frac{t}{2}$$</p>
+    <p>$$S_{\triangle BPC} = \frac{1}{2}|x_C| \cdot |y_B - y_P| = \frac{1}{2}(-t) \cdot 1 = -\frac{t}{2}$$</p>
+    <p>面积比始终为 $1:1$，与题目 $3:1$ 矛盾——说明需要换一种分割方式。</p>
+
+    <p><strong>重新分析：直接用坐标公式计算三角形面积</strong></p>
+    <p>$$S_{\triangle APC} = \frac{1}{2}\left|x_A(y_P - y_C) + x_P(y_C - y_A) + x_C(y_A - y_P)\right|$$</p>
+    <p>$$= \frac{1}{2}\left|(-4)\!\left(1 - \frac{t}{2}-2\right) + 0 + t(0-1)\right|$$</p>
+    <p>$$= \frac{1}{2}\left|(-4)\!\left(-1 - \frac{t}{2}\right) - t\right| = \frac{1}{2}\left|4 + 2t - t\right| = \frac{1}{2}|t + 4|$$</p>
+    <p>因为 $-4 \le t \le 0$，所以 $t + 4 \ge 0$：</p>
+    <p>$$S_{\triangle APC} = \frac{t + 4}{2}$$</p>
+
+    <p>$$S_{\triangle BPC} = \frac{1}{2}\left|x_B(y_P - y_C) + x_P(y_C - y_B) + x_C(y_B - y_P)\right|$$</p>
+    <p>$$= \frac{1}{2}\left|0 + 0 + t(2-1)\right| = \frac{1}{2}|t| = -\frac{t}{2}$$</p>
+
+    <p><strong>第四步：分两种情形列方程</strong></p>
+
+    <p><em>情形一：$S_{\triangle APC} : S_{\triangle BPC} = 3 : 1$</em></p>
+    <p>$$\frac{t+4}{2} : \left(-\frac{t}{2}\right) = 3 : 1$$</p>
+    <p>$$\frac{t+4}{-t} = 3 \Rightarrow t + 4 = -3t \Rightarrow 4t = -4 \Rightarrow t = -1$$</p>
+    <p>验证：$t = -1 \in [-4,\,0]$，符合。$C\!\left(-1,\,\dfrac{3}{2}\right)$。</p>
+    <p>$$k = \frac{\frac{3}{2} - 1}{-1 - 0} = \frac{\frac{1}{2}}{-1} = -\frac{1}{2}$$</p>
+    <p>所以 $l:\ y = -\dfrac{1}{2}x + 1$。</p>
+
+    <p><em>情形二：$S_{\triangle APC} : S_{\triangle BPC} = 1 : 3$</em></p>
+    <p>$$\frac{t+4}{2} : \left(-\frac{t}{2}\right) = 1 : 3$$</p>
+    <p>$$\frac{t+4}{-t} = \frac{1}{3} \Rightarrow 3(t+4) = -t \Rightarrow 4t = -12 \Rightarrow t = -3$$</p>
+    <p>验证：$t = -3 \in [-4,\,0]$，符合。$C\!\left(-3,\,\dfrac{1}{2}\right)$。</p>
+    <p>$$k = \frac{\frac{1}{2}-1}{-3-0} = \frac{-\frac{1}{2}}{-3} = \frac{1}{6}$$</p>
+    <p>所以 $l:\ y = \dfrac{1}{6}x + 1$。</p>
+
+    <p><strong>综上，直线 $l$ 的解析式为 $y = -\dfrac{1}{2}x + 1$ 或 $y = \dfrac{1}{6}x + 1$。</strong></p>
+  </details>
+
+  <!-- 教师批注 -->
+  <div class="edu-teacher-note no-print">
+    <p><strong>教师批注：</strong></p>
+    <ul>
+      <li>本题关键变化：定点从原点移到 $P(0,1)$，不再有 $|OA|=|OB|$ 的对称性，且不能用简单的"底 $\times$ 高"直接做。</li>
+      <li>能力分层：E档学生重点掌握设参数、列方程的框架；D档以上应体会坐标公式法的普适性。</li>
+      <li>易错：面积比的方向（哪个三角形在前）容易混淆，提醒学生标注清楚 $S_{\triangle APC}$ 和 $S_{\triangle BPC}$ 各自的面积表达式。</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ===== 答案速查 ===== -->
+<div class="edu-section page-break">
+  <h2 class="edu-section__title">答案速查</h2>
+  <table class="edu-table">
+    <thead>
+      <tr>
+        <th>题号</th>
+        <th>答案</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>第1题</td>
+        <td>$y = -x$ 或 $y = -4x$</td>
+      </tr>
+      <tr>
+        <td>第2题</td>
+        <td>$y = x$</td>
+      </tr>
+      <tr>
+        <td>第3题</td>
+        <td>$y = -\dfrac{1}{2}x + 1$ 或 $y = \dfrac{1}{6}x + 1$</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ===== 自评表 ===== -->
+<div class="edu-section u-avoid-break">
+  <h2 class="edu-section__title">自评表</h2>
+  <p>完成全部练习后，请如实填写以下自评表。</p>
+  <table class="edu-table">
+    <thead>
+      <tr>
+        <th>题号</th>
+        <th>独立完成？</th>
+        <th>用时</th>
+        <th>主要困难</th>
+        <th>是否查看提示</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>第1题</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>第2题</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>第3题</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="edu-note edu-note--tip">
+    <p><strong>自评标准：</strong></p>
+    <ul>
+      <li><strong>A档：</strong>3题全部独立完成，过程规范，无遗漏情形。</li>
+      <li><strong>B档：</strong>独立完成2题以上，或有少量计算错误。</li>
+      <li><strong>C档：</strong>在提示帮助下完成大部分题目。</li>
+      <li><strong>D档：</strong>需要查看解答才能完成。</li>
+      <li><strong>E档：</strong>对解题思路有基本了解，但独立完成有较大困难。</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ===== 学习交接 ===== -->
+<div class="edu-section page-break">
+  <h2 class="edu-section__title">学习交接</h2>
+  <div class="edu-note">
+    <p>通过本练习，你应掌握以下内容：</p>
+    <ul>
+      <li><strong>题型识别：</strong>看到"直线分割三角形面积"立即想到：面积比 $\to$ 坐标比 $\to$ 分点 $\to$ 斜率。</li>
+      <li><strong>分类讨论：</strong>面积比有两种分配方向，务必分别讨论。</li>
+      <li><strong>范围约束：</strong>分点必须在线段上，解出的参数要检验范围。</li>
+      <li><strong>对称性利用：</strong>$|OA| = |OB|$ 时可以大幅简化计算。</li>
+    </ul>
+  </div>
+
+  <div class="edu-note edu-note--warning">
+    <p><strong>下一阶段预告：</strong></p>
+    <ul>
+      <li>分割直线不再过 $y$ 轴上的定点，而是过一般位置的定点——需要更灵活地选择"底和高"的组合。</li>
+      <li>面积比从直接给定变为间接给出（如一个三角形面积是另一个的2倍少2等）。</li>
+      <li>综合压轴题中，面积分割往往与动点问题结合出现。</li>
+    </ul>
+  </div>
+
+  <div class="edu-note">
+    <p><strong>常见障碍自查：</strong></p>
+    <table class="edu-table">
+      <thead>
+        <tr>
+          <th>障碍表现</th>
+          <th>对应能力</th>
+          <th>建议</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>不会求直线与坐标轴交点</td>
+          <td>基础运算</td>
+          <td>复习：令 $x=0$ 求 $y$ 轴交点，令 $y=0$ 求 $x$ 轴交点</td>
+        </tr>
+        <tr>
+          <td>面积比不会转化为坐标关系</td>
+          <td>核心转化</td>
+          <td>重做第1题，反复默写转化链</td>
+        </tr>
+        <tr>
+          <td>漏掉两种情形</td>
+          <td>分类讨论</td>
+          <td>养成习惯：看到"比"字就想到两种方向</td>
+        </tr>
+        <tr>
+          <td>忘记检验参数范围</td>
+          <td>严谨性</td>
+          <td>每道题的最后一步都问自己"$t$ 在范围内吗？"</td>
+        </tr>
+        <tr>
+          <td>过程不简洁</td>
+          <td>优化意识</td>
+          <td>做第2题后总结：对称性如何帮你走捷径</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+</body>
+</html>

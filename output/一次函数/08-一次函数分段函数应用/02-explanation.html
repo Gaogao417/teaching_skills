@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>学生版讲解：一次函数在实际中的运用（分段函数）</title>
+<link rel="stylesheet" href="../assets/edu-print.css">
+<script>
+MathJax = {
+  tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+</head>
+<body data-view="student">
+<div class="edu-page">
+
+<h1 class="edu-title">学生版讲解：一次函数在实际中的运用（分段函数）</h1>
+<p class="edu-subtitle">主题：一次函数在实际中的运用（分段函数）</p>
+
+<!-- ============================================================ -->
+<!-- 原题 -->
+<!-- ============================================================ -->
+<section class="edu-problem-card u-avoid-break">
+  <div class="edu-problem-title">原题</div>
+  <p class="edu-problem-stem">某市为鼓励市民节约用水，制订了以下每年每户用水的收费标准：<br>
+  &emsp;①用水量不超过220立方米时，每立方米收费1.92元，并加收每立方米1.53元的污水处理费；<br>
+  &emsp;②用水量超过220立方米时，在①的基础上，超过220立方米的部分，每立方米收费3.30元，并加收每立方米1.53元污水处理费。<br>
+  设某户一年的用水量为 $x$ 立方米，应交水费 $y$ 元。<br>
+  (1) 分别对①②两种情况，写出 $y$ 与 $x$ 的函数解析式，并指出函数的定义域；<br>
+  (2) 当某户全年缴纳的水费共计1000.5元时，求这户全年用水量。</p>
+</section>
+
+<!-- ============================================================ -->
+<!-- 一、先把题目拆开 -->
+<!-- ============================================================ -->
+<section class="edu-section">
+<h2 class="edu-section-title">一、先把题目拆开</h2>
+<table class="edu-table edu-task-table">
+  <tr><th>已知条件</th><td>用水量分两档收费；分界点为 220 立方米；三种单价：基础水费 1.92 元/m&sup3;、污水处理费 1.53 元/m&sup3;、超出部分水费 3.30 元/m&sup3;</td></tr>
+  <tr><th>要求目标</th><td>(1) 写出两段 $y$ 与 $x$ 的函数解析式及定义域；(2) 已知 $y=1000.5$，反向求 $x$</td></tr>
+  <tr><th>关键词</th><td>"不超过""超过"→ 分段阈值；"加收"→ 费用要叠加</td></tr>
+  <tr><th>容易忽略</th><td>污水处理费每一段都要加上；第二段的 3.30 元只针对超出部分，不是全部用水量</td></tr>
+</table>
+</section>
+
+<!-- ============================================================ -->
+<!-- 二、这题准备怎么走 -->
+<!-- ============================================================ -->
+<section class="edu-section">
+<h2 class="edu-section-title">二、这题准备怎么走</h2>
+<div class="edu-route">
+  <ol>
+    <li>识别分界点 $x=220$，明确两段各自的适用范围。</li>
+    <li>第一段：把水费单价和污水处理费单价加起来，得到合计单价，写出解析式。</li>
+    <li>第二段：前 220 立方米按第一段的合计单价算，超出部分 $(x-220)$ 按更高的合计单价算，化简。</li>
+    <li>第(2)问：先代入分界点算出 $y(220)$，判断 1000.5 元落在哪一段，再解方程。</li>
+    <li>检验结果是否在所选区间的定义域内。</li>
+  </ol>
+</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- 三、关键想法 -->
+<!-- ============================================================ -->
+<section class="edu-section u-avoid-break">
+<h2 class="edu-section-title">三、关键想法</h2>
+<div class="edu-key-idea">
+  题目里的"收费标准"本质上就是两组不同的<strong>单价</strong>，分别对应不同的用水量范围。<br><br>
+  <strong>把文字翻译成代数的动作：</strong><br>
+  每一段的水费 = (基础水费单价 + 污水处理费单价) &times; 对应的用水量。<br><br>
+  第一段：$x$ 全部按低价算。<br>
+  第二段：前 220 按低价算 + 超出部分按高价算。<br><br>
+  <strong>反向求解时，先判断再算：</strong>先算出分界点处的总水费 $y(220)=759$ 元，如果目标水费超过 759 元，说明用水量超过 220，必须用第二段公式来解。
+</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- 四、标准解法 -->
+<!-- ============================================================ -->
+<section class="edu-section">
+<h2 class="edu-section-title">四、标准解法</h2>
+
+<!-- 第(1)问 -->
+<div class="edu-subproblem u-avoid-break">
+  <div class="edu-subproblem-title">第(1)问：写出两段解析式及定义域</div>
+
+  <div class="edu-step u-avoid-break">
+    <div class="edu-step-title">第 1 步：算第一段的合计单价</div>
+    <p class="edu-p">第一段适用条件：用水量 $x$ 不超过 220 立方米。</p>
+    <p class="edu-p">这一段里，每一立方米要交两种费用：</p>
+    <p class="edu-p edu-math">基础水费单价 $= 1.92$ 元/m&sup3;</p>
+    <p class="edu-p edu-math">污水处理费单价 $= 1.53$ 元/m&sup3;</p>
+    <p class="edu-p">合计单价：</p>
+    <div class="edu-formula-key">
+      $$1.92 + 1.53 = 3.45 \text{（元/立方米）}$$
+    </div>
+    <p class="edu-p">所以第一段的解析式为：</p>
+    <div class="edu-formula-key">
+      $$y = 3.45x, \quad 0 < x \leq 220$$
+    </div>
+    <p class="edu-step-why">为什么要把两种费加起来？题目说"每立方米收费 1.92 元，并加收每立方米 1.53 元污水处理费"，"并加收"就是两笔费用都要算，不能只写 $y=1.92x$。</p>
+  </div>
+
+  <div class="edu-step u-avoid-break">
+    <div class="edu-step-title">第 2 步：算第二段的合计单价（超出部分）</div>
+    <p class="edu-p">第二段适用条件：用水量 $x$ 超过 220 立方米。</p>
+    <p class="edu-p">这一段分两部分算：</p>
+    <p class="edu-p edu-math">前 220 立方米的水费 $= 3.45 \times 220 = 759$ 元</p>
+    <p class="edu-p">超出部分 $(x-220)$ 立方米，每一立方米要交：</p>
+    <p class="edu-p edu-math">基础水费 $3.30$ 元 + 污水处理费 $1.53$ 元 $= 4.83$ 元</p>
+    <p class="edu-p">所以超出部分的水费 $= 4.83 \times (x - 220)$。</p>
+    <p class="edu-step-why">为什么超出部分是 $(x-220)$ 而不是 $x$？因为前 220 立方米已经按低价算过了，超出部分只有多出来的那些才按高价算。如果写成 $4.83x$，就把前 220 立方米也按高价多算了一次。</p>
+  </div>
+
+  <div class="edu-step u-avoid-break">
+    <div class="edu-step-title">第 3 步：写出第二段解析式并化简</div>
+    <p class="edu-p">将两部分合并：</p>
+    <div class="edu-formula-key">
+      $$y = 3.45 \times 220 + 4.83(x - 220)$$
+    </div>
+    <p class="edu-p">展开并化简：</p>
+    <p class="edu-p edu-math">$y = 759 + 4.83x - 1062.6$</p>
+    <p class="edu-p edu-math">$y = 4.83x - 303.6$</p>
+    <p class="edu-p">所以第二段的解析式为：</p>
+    <div class="edu-formula-key">
+      $$y = 4.83x - 303.6, \quad x > 220$$
+    </div>
+  </div>
+
+  <div class="edu-step u-avoid-break">
+    <div class="edu-step-title">第 4 步：写出完整答案</div>
+    <p class="edu-p edu-math">$y = \begin{cases} 3.45x & (0 < x \leq 220) \\ 4.83x - 303.6 & (x > 220) \end{cases}$</p>
+  </div>
+</div>
+
+<div class="page-break"></div>
+
+<!-- 第(2)问 -->
+<div class="edu-subproblem u-avoid-break">
+  <div class="edu-subproblem-title">第(2)问：已知 $y=1000.5$ 元，求用水量 $x$</div>
+
+  <div class="edu-step u-avoid-break">
+    <div class="edu-step-title">第 1 步：先判断 1000.5 元落在哪一段</div>
+    <p class="edu-p">代入分界点 $x=220$ 到第一段公式：</p>
+    <div class="edu-formula-key">
+      $$y(220) = 3.45 \times 220 = 759 \text{（元）}$$
+    </div>
+    <p class="edu-p">因为 $1000.5 > 759$，所以这户的用水量超过了 220 立方米，<strong>必须用第二段公式</strong>。</p>
+    <p class="edu-step-why">为什么不能直接用第一段算？如果硬代入第一段 $3.45x = 1000.5$，会得到 $x = 290$，但 290 已经超过 220，不在第一段的定义域 $0 < x \leq 220$ 内，矛盾。所以必须先判断再选公式。</p>
+  </div>
+
+  <div class="edu-step u-avoid-break">
+    <div class="edu-step-title">第 2 步：代入第二段公式解方程</div>
+    <p class="edu-p">将 $y = 1000.5$ 代入第二段：</p>
+    <div class="edu-formula-key">
+      $$4.83x - 303.6 = 1000.5$$
+    </div>
+    <p class="edu-p edu-math">$4.83x = 1000.5 + 303.6 = 1304.1$</p>
+    <p class="edu-p edu-math">$x = \dfrac{1304.1}{4.83} = 270$</p>
+  </div>
+
+  <div class="edu-step u-avoid-break">
+    <div class="edu-step-title">第 3 步：检验</div>
+    <p class="edu-p">$x = 270 > 220$，落在第二段 $x > 220$ 的定义域内，<strong>结果合理</strong>。</p>
+  </div>
+</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- 五、边讲边问 -->
+<!-- ============================================================ -->
+<section class="edu-section">
+<h2 class="edu-section-title">五、边讲边问</h2>
+
+<div class="edu-question u-avoid-break">
+  <div class="edu-question-title">想一想 1</div>
+  <p class="edu-p">如果题目没有污水处理费，只有基础水费 1.92 元/m&sup3;，第一段的解析式会变成什么？和现在的 $y=3.45x$ 比一比，少了什么？</p>
+  <div class="edu-answer-lines"></div>
+</div>
+
+<div class="edu-question u-avoid-break">
+  <div class="edu-question-title">想一想 2</div>
+  <p class="edu-p">有同学把第二段写成 $y = 4.83x$（全部用水量按超出单价算），请指出这个写法错在哪里。提示：算一下 $x=220$ 时，两种写法的 $y$ 分别等于多少？</p>
+  <div class="edu-answer-lines"></div>
+</div>
+
+<div class="edu-question u-avoid-break">
+  <div class="edu-question-title">想一想 3</div>
+  <p class="edu-p">第(2)问中，如果某户全年水费是 500 元，应该用哪一段来解？为什么？</p>
+  <div class="edu-answer-lines"></div>
+</div>
+
+<div class="edu-question u-avoid-break">
+  <div class="edu-question-title">想一想 4</div>
+  <p class="edu-p">这道题的"分段函数"和出租车计费（起步价 + 超出部分按里程计费）在列式思路上有什么相同之处？</p>
+  <div class="edu-answer-lines"></div>
+</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- 六、易错提醒 -->
+<!-- ============================================================ -->
+<section class="edu-section">
+<h2 class="edu-section-title">六、易错提醒</h2>
+
+<div class="edu-mistake"><strong>易错点 1：忽略污水处理费。</strong>题目说"每立方米收费 1.92 元，并加收每立方米 1.53 元污水处理费"。"并加收"意味着两笔费都要算。如果只写 $y=1.92x$，就漏掉了污水处理费，整个解析式都是错的。</div>
+
+<div class="edu-mistake"><strong>易错点 2：第二段把全部用水量按高单价算。</strong>第二段应该拆成两部分：前 220 按低价 $3.45$ 算，超出部分按高价 $4.83$ 算。如果直接写 $y = 4.83x$，就把前 220 立方米多算了一份差价，化简后常数项会出错。</div>
+
+<div class="edu-mistake"><strong>易错点 3：第(2)问不验证区间。</strong>反向求解时，先要判断目标值落在哪一段。如果直接代入第一段 $3.45x = 1000.5$ 得到 $x=290$，虽然算出了一个数，但 $290 > 220$ 不在第一段范围内，这个答案是无效的。正确做法是先算 $y(220)=759$，发现 $1000.5>759$，再用第二段公式解。</div>
+
+<div class="edu-mistake"><strong>易错点 4：忘记写定义域。</strong>分段函数必须标注每一段的自变量范围：$0 < x \leq 220$ 和 $x > 220$。不写定义域的分段函数是不完整的，阅卷会扣分。</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- 七、一句话总结 -->
+<!-- ============================================================ -->
+<section class="edu-section">
+<h2 class="edu-section-title">七、一句话总结</h2>
+<div class="edu-key-idea">
+  分段列式的核心动作：<strong>识别分界点 → 逐段算合计单价 → 第二段拆成"前段总额 + 超出部分 &times; 超出单价" → 化简。</strong><br><br>
+  反向求解的核心动作：<strong>先代入分界点判断落在哪一段，再解方程，最后检验定义域。</strong>
+</div>
+</section>
+
+</div>
+
+<!-- ============================================================ -->
+<!-- 参考答案 -->
+<!-- ============================================================ -->
+<aside class="edu-answer-key page-break">
+<h2 class="edu-section-title u-mt-0">参考答案</h2>
+
+<section class="edu-section">
+<h3 class="edu-subsection-title">第(1)问答案</h3>
+<p class="edu-p edu-math">$y = \begin{cases} 3.45x & (0 < x \leq 220) \\ 4.83x - 303.6 & (x > 220) \end{cases}$</p>
+</section>
+
+<section class="edu-section">
+<h3 class="edu-subsection-title">第(2)问答案</h3>
+<p class="edu-p">$y(220) = 3.45 \times 220 = 759 < 1000.5$，所以在第二段。</p>
+<p class="edu-p edu-math">$4.83x - 303.6 = 1000.5 \Rightarrow 4.83x = 1304.1 \Rightarrow x = 270$</p>
+<p class="edu-p">检验：$270 > 220$，在第二段定义域内，合理。</p>
+<p class="edu-p">答：这户全年用水量为 270 立方米。</p>
+</section>
+
+<section class="edu-section">
+<h3 class="edu-subsection-title">想一想参考答案</h3>
+<p class="edu-p"><strong>想一想 1：</strong>没有污水处理费时，第一段 $y = 1.92x$。和现在的 $y = 3.45x$ 相比，少了污水处理费那部分。$3.45 - 1.92 = 1.53$，正好是污水处理费单价。</p>
+<p class="edu-p"><strong>想一想 2：</strong>$x=220$ 时，错误写法 $y=4.83 \times 220 = 1062.6$；正确写法 $y=3.45 \times 220 = 759$。错误写法多算了 $1062.6 - 759 = 303.6$ 元，正好是前 220 立方米被多收的差价 $(4.83-3.83) \times 220$。</p>
+<p class="edu-p"><strong>想一想 3：</strong>$500 < 759 = y(220)$，所以 500 元落在第一段，应该用 $y = 3.45x$ 来解：$x = 500/3.45 \approx 144.93$ 立方米。</p>
+<p class="edu-p"><strong>想一想 4：</strong>相同之处在于都是"阈值分段"模型——有一个分界值，分界以内一个价，超出部分另一个价。列式时都是"前段总额 + 超出部分 &times; 超出单价"。不同情境（水费、出租车、电费）本质上是同一类数学模型。</p>
+</section>
+</aside>
+
+<!-- ============================================================ -->
+<!-- 生成后自检 -->
+<!-- ============================================================ -->
+<aside class="edu-teacher-note self-check no-print">
+  <div class="edu-card-title">生成后自检</div>
+  <ul>
+    <li><strong>数学检查：</strong>第一段合计单价 $1.92+1.53=3.45$ 正确；第二段超出单价 $3.30+1.53=4.83$ 正确；$y=4.83x-303.6$ 化简正确（$4.83\times220=1062.6$，$759-1062.6=-303.6$）；$y(220)=759$ 正确；第(2)问 $4.83x=1304.1$，$x=270$ 正确且 $270>220$ 落在第二段定义域内。与 canonical solution 一致，无漏解、增根。</li>
+    <li><strong>教学检查：</strong>本页只训练一个核心动作——"阈值分段收费的分段列式与反向区间判断"。未引入无关知识点。想一想 1 和 2 围绕污水处理费叠加和第二段拆分这两个核心易错点，想一想 3 和 4 围绕区间判断和模型迁移。</li>
+    <li><strong>档位检查：</strong>默认假设初中中等水平（无学生证据，标注默认假设）。讲解从"识别分界点"到"逐段列式"再到"反向判断区间"逐步推进，每步一个小动作，不跳跃。</li>
+    <li><strong>HTML 检查：</strong>标签闭合；包含全部 7 个 required sections；依赖 MathJax CDN（用户允许网络）；样式表路径 ../assets/edu-print.css 正确；body data-view="student" 已设置；分页在标准解法第(1)问与第(2)问之间、边讲边问之后，位置合理；教师专属内容均在 no-print 区域。</li>
+    <li><strong>自检结论：</strong>全部通过。</li>
+  </ul>
+</aside>
+
+<!-- ============================================================ -->
+<!-- 交接说明 -->
+<!-- ============================================================ -->
+<aside class="edu-teacher-note no-print">
+下一步：使用 math-adaptive-practice-html，输入本结构分析 + 学生画像，生成自适应练习。工作流：math-structure-analysis &rarr; math-student-explanation-html &rarr; math-adaptive-practice-html。
+</aside>
+
+</body>
+</html>

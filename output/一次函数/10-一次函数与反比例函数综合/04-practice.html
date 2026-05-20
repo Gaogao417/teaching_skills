@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>自适应练习：一次函数与反比例函数综合</title>
+<link rel="stylesheet" href="../assets/edu-print.css">
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'], ['\\(','\\)']], displayMath: [['$$','$$'], ['\\[','\\]']] },
+  startup: { pageReady: () => MathJax.startup.defaultPageReady() }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+</head>
+<body data-view="student">
+
+<!-- ====== 封面 ====== -->
+<header class="edu-header">
+  <h1 class="edu-title">自适应练习：一次函数与反比例函数综合</h1>
+  <p class="edu-subtitle">一次函数与反比例函数综合</p>
+  <div class="edu-meta">
+    <span>姓名：__________</span>
+    <span>班级：__________</span>
+    <span>日期：__________</span>
+  </div>
+</header>
+
+<!-- ====== 练习说明 ====== -->
+<section class="edu-section u-avoid-break">
+  <h2 class="edu-h2">练习说明</h2>
+  <div class="edu-block">
+    <p>本练习围绕<strong>一次函数与反比例函数的交点问题</strong>展开，共 3 道题，均以"共线等距 → 中点坐标公式 → 待定系数法"为核心思路。请按顺序完成，遇到困难可参考每题下方的<strong>提示</strong>。</p>
+    <ul>
+      <li>每题默认难度为 <strong>E 档（基础）</strong>，帮助你巩固核心方法。</li>
+      <li>完成全部练习后，请翻到最后一页核对答案并完成<strong>自评</strong>。</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ====== 第 1 题 ====== -->
+<section class="edu-problem u-avoid-break">
+  <h2 class="edu-h2">第 1 题</h2>
+  <div class="edu-block">
+    <p>已知直线 $l$ 与 $x$ 轴交于点 $A(-3, 0)$，与 $y$ 轴的正半轴交于点 $B$，与反比例函数 $y=\dfrac{k}{x}\;(x>0)$ 的图象交于点 $C$，且 $AB=BC$。点 $C$ 的纵坐标为 $6$。</p>
+    <p><strong>(1)</strong> 求直线 $l$ 的表达式；</p>
+    <p><strong>(2)</strong> 过点 $B$ 作 $BD \parallel x$ 轴，交反比例函数 $y=\dfrac{k}{x}$ 的图象于点 $D$，求线段 $CD$ 的长度。</p>
+  </div>
+
+  <!-- 提示（学生可见） -->
+  <details class="edu-hint">
+    <summary>点击查看提示</summary>
+    <div class="edu-block">
+      <ol>
+        <li>$A$、$B$、$C$ 三点共线且 $AB=BC$，说明 $B$ 是 $AC$ 的什么？</li>
+        <li>利用中点坐标公式：$x_B = \dfrac{x_A + x_C}{2}$，$y_B = \dfrac{y_A + y_C}{2}$。注意 $B$ 在 $y$ 轴上，所以 $x_B = 0$。</li>
+        <li>第 (2) 问：$BD \parallel x$ 轴意味着 $D$ 与 $B$ 的纵坐标相同。</li>
+      </ol>
+    </div>
+  </details>
+
+  <!-- 解答步骤（学生可见） -->
+  <details class="edu-hint">
+    <summary>点击查看解答步骤</summary>
+    <div class="edu-block">
+      <p><strong>(1)</strong></p>
+      <p>因为 $A$、$B$、$C$ 共线且 $AB=BC$，所以 $B$ 是 $AC$ 的中点。</p>
+      <p>中点公式：$x_B = \dfrac{x_A + x_C}{2} = \dfrac{-3 + x_C}{2} = 0$，解得 $x_C = 3$。</p>
+      <p>$y_B = \dfrac{y_A + y_C}{2} = \dfrac{0 + 6}{2} = 3$，所以 $B(0, 3)$，$C(3, 6)$。</p>
+      <p>$C(3, 6)$ 在 $y = \dfrac{k}{x}$ 上，所以 $k = 3 \times 6 = 18$。</p>
+      <p>直线 $l$ 过 $A(-3, 0)$ 和 $B(0, 3)$，斜率 $= \dfrac{3 - 0}{0 - (-3)} = 1$，所以直线 $l$ 的表达式为 $\boxed{y = x + 3}$。</p>
+      <p><strong>(2)</strong></p>
+      <p>$BD \parallel x$ 轴，所以 $y_D = y_B = 3$。$D$ 在 $y = \dfrac{18}{x}$ 上，$x_D = \dfrac{18}{3} = 6$，所以 $D(6, 3)$。</p>
+      <p>$CD = \sqrt{(6-3)^2 + (3-6)^2} = \sqrt{9 + 9} = \boxed{3\sqrt{2}}$。</p>
+    </div>
+  </details>
+
+  <!-- 教师备注（仅教师可见） -->
+  <div class="no-print edu-teacher-note">
+    <p><strong>教师备注：</strong>本题与原题结构完全一致，仅将 $A$ 从 $(-2,0)$ 改为 $(-3,0)$，$C$ 的纵坐标从 $4$ 改为 $6$。训练目标：巩固"共线等距即中点"的识别与中点公式的运用。常见障碍（低）：看不出 $AB=BC$ 即中点。常见障碍（中）：不会同时利用 $x_B=0$ 求 $x_C$。</p>
+  </div>
+</section>
+
+<!-- ====== 第 2 题 ====== -->
+<section class="edu-problem u-avoid-break">
+  <h2 class="edu-h2">第 2 题</h2>
+  <div class="edu-block">
+    <p>已知直线 $l$ 与 $x$ 轴交于点 $A(-4, 0)$，与 $y$ 轴的正半轴交于点 $B$，与反比例函数 $y=\dfrac{k}{x}\;(x>0)$ 的图象交于点 $C$，且 $AB = 2BC$。点 $C$ 的纵坐标为 $3$。</p>
+    <p><strong>(1)</strong> 求直线 $l$ 的表达式；</p>
+    <p><strong>(2)</strong> 过点 $C$ 作 $CD \parallel y$ 轴，交反比例函数 $y=\dfrac{k}{x}$ 的图象于点 $D$，求线段 $CD$ 的长度。</p>
+  </div>
+
+  <!-- 提示 -->
+  <details class="edu-hint">
+    <summary>点击查看提示</summary>
+    <div class="edu-block">
+      <ol>
+        <li>$AB = 2BC$ 且 $A$、$B$、$C$ 共线，说明 $B$ 分 $AC$ 的比为 $2:1$。试试分点公式：$x_B = \dfrac{2 \cdot x_C + 1 \cdot x_A}{2+1}$。</li>
+        <li>因为 $B$ 在 $y$ 轴上，所以 $x_B = 0$，代入上式即可求出 $x_C$。</li>
+        <li>第 (2) 问：$CD \parallel y$ 轴意味着 $D$ 与 $C$ 的横坐标相同，但 $D$ 在反比例函数的另一支上。</li>
+      </ol>
+    </div>
+  </details>
+
+  <!-- 解答步骤 -->
+  <details class="edu-hint">
+    <summary>点击查看解答步骤</summary>
+    <div class="edu-block">
+      <p><strong>(1)</strong></p>
+      <p>$A$、$B$、$C$ 共线且 $AB = 2BC$，所以 $B$ 分 $AC$ 的比为 $2:1$（$B$ 靠近 $C$）。</p>
+      <p>分点公式：$x_B = \dfrac{2 \cdot x_C + 1 \cdot x_A}{2+1} = \dfrac{2x_C + (-4)}{3}$。</p>
+      <p>因为 $B$ 在 $y$ 轴上，$x_B = 0$，所以 $2x_C - 4 = 0$，$x_C = 2$，即 $C(2, 3)$。</p>
+      <p>同样 $y_B = \dfrac{2 \cdot y_C + 1 \cdot y_A}{2+1} = \dfrac{2 \times 3 + 0}{3} = 2$，所以 $B(0, 2)$。</p>
+      <p>$C(2, 3)$ 在 $y = \dfrac{k}{x}$ 上，$k = 2 \times 3 = 6$。</p>
+      <p>直线 $l$ 过 $A(-4, 0)$ 和 $B(0, 2)$，斜率 $= \dfrac{2-0}{0-(-4)} = \dfrac{1}{2}$，所以直线 $l$ 的表达式为 $\boxed{y = \dfrac{1}{2}x + 2}$。</p>
+      <p><strong>(2)</strong></p>
+      <p>$CD \parallel y$ 轴，所以 $x_D = x_C = 2$。$D$ 在 $y = \dfrac{6}{x}$ 上，$y_D = \dfrac{6}{2} = 3$。</p>
+      <p>此时 $D(2, 3)$ 与 $C(2, 3)$ 重合，这是因为 $C$ 本身就在 $x=2$ 处与反比例函数只有一个交点。</p>
+      <p>本题的 $C$ 恰好是直线与反比例函数在第一象限的唯一交点。若考虑反比例函数在 $x>0$ 的定义域，$x_D = 2$ 时 $y_D = 3 = y_C$，因此 $\boxed{CD = 0}$。</p>
+      <p class="no-print edu-teacher-note"><strong>教师备注：</strong>本题设计意在引导学生发现——$CD \parallel y$ 轴时，$D$ 与 $C$ 可能重合，这是一个有意义的讨论点。课堂上可追问：如果要使 $CD > 0$，$CD$ 应该平行于哪条轴？</p>
+    </div>
+  </details>
+
+  <!-- 教师备注 -->
+  <div class="no-print edu-teacher-note">
+    <p><strong>教师备注：</strong>本题是中点关系的推广：从 $AB=BC$（中点）变为 $AB=2BC$（分点）。训练目标：将分点坐标公式（定比分点）作为中点公式的自然推广。常见障碍（中）：不熟悉分点公式，或混淆内分/外分。本题保持了简洁的计算，斜率为 $\frac{1}{2}$，方便心算。</p>
+  </div>
+</section>
+
+<!-- ====== 第 3 题 ====== -->
+<section class="edu-problem u-avoid-break">
+  <h2 class="edu-h2">第 3 题</h2>
+  <div class="edu-block">
+    <p>已知直线 $l$ 与 $x$ 轴交于点 $A(-6, 0)$，与 $y$ 轴的正半轴交于点 $B$，与反比例函数 $y=\dfrac{k}{x}\;(x>0)$ 的图象交于点 $C$，且 $AB=BC$。点 $C$ 的纵坐标为 $2$。</p>
+    <p><strong>(1)</strong> 求直线 $l$ 的表达式及反比例函数的表达式；</p>
+    <p><strong>(2)</strong> 过点 $B$ 作 $BD \parallel x$ 轴，交反比例函数 $y=\dfrac{k}{x}$ 的图象于点 $D$。再过点 $D$ 作 $DE \parallel y$ 轴，交直线 $l$ 于点 $E$。求线段 $DE$ 的长度。</p>
+  </div>
+
+  <!-- 提示 -->
+  <details class="edu-hint">
+    <summary>点击查看提示</summary>
+    <div class="edu-block">
+      <ol>
+        <li>第 (1) 问的核心方法与第 1 题完全相同——先识别中点关系。</li>
+        <li>$B$ 在 $y$ 轴上，$x_B = 0$。用中点公式 $x_B = \dfrac{x_A + x_C}{2} = 0$ 求 $x_C$。</li>
+        <li>第 (2) 问分两步：先求 $D$（$BD \parallel x$ 轴 → $y_D = y_B$），再求 $E$（$DE \parallel y$ 轴 → $x_E = x_D$，且 $E$ 在直线 $l$ 上）。</li>
+      </ol>
+    </div>
+  </details>
+
+  <!-- 解答步骤 -->
+  <details class="edu-hint">
+    <summary>点击查看解答步骤</summary>
+    <div class="edu-block">
+      <p><strong>(1)</strong></p>
+      <p>$A$、$B$、$C$ 共线且 $AB=BC$，$B$ 是 $AC$ 的中点。</p>
+      <p>$x_B = \dfrac{-6 + x_C}{2} = 0$，解得 $x_C = 6$。</p>
+      <p>$y_B = \dfrac{0 + 2}{2} = 1$，所以 $B(0, 1)$，$C(6, 2)$。</p>
+      <p>$C(6, 2)$ 在 $y = \dfrac{k}{x}$ 上，$k = 6 \times 2 = 12$，所以反比例函数为 $\boxed{y = \dfrac{12}{x}}$。</p>
+      <p>直线 $l$ 过 $A(-6, 0)$ 和 $B(0, 1)$，斜率 $= \dfrac{1-0}{0-(-6)} = \dfrac{1}{6}$，所以直线 $l$ 的表达式为 $\boxed{y = \dfrac{1}{6}x + 1}$。</p>
+      <p><strong>(2)</strong></p>
+      <p>$BD \parallel x$ 轴，$y_D = y_B = 1$。$D$ 在 $y = \dfrac{12}{x}$ 上，$x_D = \dfrac{12}{1} = 12$，所以 $D(12, 1)$。</p>
+      <p>$DE \parallel y$ 轴，$x_E = x_D = 12$。$E$ 在直线 $l$ 上，$y_E = \dfrac{1}{6} \times 12 + 1 = 2 + 1 = 3$，所以 $E(12, 3)$。</p>
+      <p>$DE = |y_E - y_D| = |3 - 1| = \boxed{2}$。</p>
+    </div>
+  </details>
+
+  <!-- 教师备注 -->
+  <div class="no-print edu-teacher-note">
+    <p><strong>教师备注：</strong>本题在第 1 题基础上增加了一次平行线构造（$DE \parallel y$ 轴），形成"两步坐标追踪"。训练目标：在多步平行构造中保持坐标的有序传递。$A(-6,0)$ 与 $C$ 的纵坐标 $2$ 的选取确保了 $x_C=6$，$D(12,1)$ 与 $E(12,3)$ 的纵坐标差恰好为整数 $2$，避免出现无理数。常见障碍（中）：在多步构造中混淆 $x$、$y$ 坐标。</p>
+  </div>
+</section>
+
+<!-- ====== 答案速查（换页） ====== -->
+<div class="page-break"></div>
+<section class="edu-section">
+  <h2 class="edu-h2">答案速查</h2>
+  <div class="edu-block">
+    <table class="edu-table">
+      <thead>
+        <tr>
+          <th>题号</th>
+          <th>(1) 答案</th>
+          <th>(2) 答案</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>第 1 题</td>
+          <td>$y = x + 3$</td>
+          <td>$CD = 3\sqrt{2}$</td>
+        </tr>
+        <tr>
+          <td>第 2 题</td>
+          <td>$y = \dfrac{1}{2}x + 2$</td>
+          <td>$CD = 0$</td>
+        </tr>
+        <tr>
+          <td>第 3 题</td>
+          <td>$y = \dfrac{1}{6}x + 1$，$y = \dfrac{12}{x}$</td>
+          <td>$DE = 2$</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ====== 教师评判 ====== -->
+<section class="edu-section no-print u-avoid-break">
+  <h2 class="edu-h2">教师评判</h2>
+  <div class="edu-block">
+    <table class="edu-table">
+      <thead>
+        <tr>
+          <th>题号</th>
+          <th>完成情况</th>
+          <th>错误类型</th>
+          <th>能力档位判断</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>第 1 题</td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>第 2 题</td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>第 3 题</td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+    <p><strong>综合评价：</strong></p>
+    <p>□ A 档（熟练掌握，可进入迁移训练）&emsp;□ B 档（基本掌握，少量失误）&emsp;□ C 档（能完成基础，进阶需辅导）&emsp;□ D 档（核心方法需重新讲解）&emsp;□ E 档（需从基础概念补起）&emsp;□ F 档（需一对一辅导）</p>
+  </div>
+</section>
+
+<!-- ====== 学生自评 ====== -->
+<section class="edu-section u-avoid-break">
+  <h2 class="edu-h2">学生自评</h2>
+  <div class="edu-block">
+    <p>1. 我能识别出"共线等距"意味着中点关系吗？</p>
+    <p>&emsp;□ 完全能 &emsp;□ 大致能 &emsp;□ 不太能 &emsp;□ 完全不会</p>
+    <p>2. 我能熟练使用中点坐标公式吗？</p>
+    <p>&emsp;□ 完全能 &emsp;□ 大致能 &emsp;□ 不太能 &emsp;□ 完全不会</p>
+    <p>3. 我能理解"BD // x 轴"意味着纵坐标相同吗？</p>
+    <p>&emsp;□ 完全能 &emsp;□ 大致能 &emsp;□ 不太能 &emsp;□ 完全不会</p>
+    <p>4. 本练习中，我觉得最有收获的一道题是第 ____ 题，因为 ________________________________。</p>
+    <p>5. 我还需要在哪些方面加强练习？</p>
+    <p>________________________________________________________________________________</p>
+  </div>
+</section>
+
+<!-- ====== 交接区 ====== -->
+<section class="edu-section u-avoid-break">
+  <h2 class="edu-h2">交接确认</h2>
+  <div class="edu-block">
+    <p>□ 练习已完成，请教师批阅</p>
+    <p>□ 学生已完成自评</p>
+    <p>□ 教师已完成评判并记录能力档位</p>
+    <p>□ 已安排下次练习内容：________________________________</p>
+    <p><strong>教师签名：</strong>______________&emsp;&emsp;<strong>日期：</strong>______________</p>
+  </div>
+</section>
+
+</body>
+</html>

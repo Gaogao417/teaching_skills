@@ -63,9 +63,7 @@
 \begin{question}[points=<%= block.points|default(4) %>]
   <%= block.stem|latex_escape %>
   <% if meta.version != "student" and block.answer %>
-  \fillin[<%= block.answer|latex_escape %>]
-  <% else %>
-  \fillin
+  \paren[<%= block.answer|latex_escape %>]
   <% endif %>
 \end{question}
 

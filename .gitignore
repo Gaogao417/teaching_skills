@@ -4,7 +4,9 @@
 
 # AI-generated lecture outputs (tracked in worktree-ai-generated branch)
 output/
-artifacts/
+
+# artifacts: track deliverables (.md/.tex/.pdf), ignore intermediates in build/
+artifacts/**/build/
 
 node_modules/
 .DS_Store
@@ -18,7 +20,3 @@ __pycache__/
 *.aux
 *.xdv
 *.synctex.gz
-
-# Copied exam-zh packages (tectonic needs local copies; source is in texmf/)
-examples/*/exam-zh*.sty
-examples/*/exam-zh.cls

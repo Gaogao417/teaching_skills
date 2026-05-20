@@ -1,0 +1,1277 @@
+% preamble-exam-zh.tex — 极简讲解页共享 preamble
+% 目标：复刻「题目独立、提示轻框、路线箭头、主体双栏、答案轻收束」的讲义风格。
+
+\documentclass{exam-zh}
+
+% ---------- 基础配置 ----------
+\examsetup{
+  page/size = a4paper,
+  page/show-head = false,
+  page/show-foot = false,
+  sealline/show = false,
+  font = none,
+  math-font = none,
+}
+
+% ---------- 包 ----------
+\usepackage{geometry}
+\geometry{top=10mm,bottom=14mm,left=12mm,right=10mm}
+\AtBeginDocument{\newgeometry{top=10mm,bottom=14mm,left=12mm,right=10mm}}
+
+\usepackage{xcolor}
+\usepackage{needspace}
+\usepackage{enumitem}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{tcolorbox}
+\tcbuselibrary{skins,breakable}
+\usepackage{paracol}
+
+% ---------- 打印/屏幕颜色切换 ----------
+% 用法：\documentclass[monochrome]{exam-zh} 可降级为灰度。
+% 注意：不要使用 \if@xxx 放在 makeatother 外部；这里改成普通条件名。
+\newif\ifeduprintcolor
+\eduprintcolortrue
+\makeatletter
+\@ifclasswith{exam-zh}{monochrome}{\eduprintcolorfalse}{}
+\makeatother
+
+% ---------- 语义颜色 ----------
+\ifeduprintcolor
+  \definecolor{edu-blue}{RGB}{31,62,126}
+  \definecolor{edu-blue-soft}{RGB}{232,238,250}
+  \definecolor{edu-blue-bg}{RGB}{248,250,254}
+  \definecolor{edu-ink}{RGB}{30,35,45}
+  \definecolor{edu-muted}{RGB}{118,124,136}
+  \definecolor{edu-line}{RGB}{209,218,235}
+  \definecolor{edu-soft-bg}{RGB}{250,251,253}
+  \definecolor{edu-red}{RGB}{168,58,58}
+  \definecolor{edu-red-bg}{RGB}{255,247,245}
+\else
+  \definecolor{edu-blue}{gray}{0.15}
+  \definecolor{edu-blue-soft}{gray}{0.90}
+  \definecolor{edu-blue-bg}{gray}{0.98}
+  \definecolor{edu-ink}{gray}{0.10}
+  \definecolor{edu-muted}{gray}{0.45}
+  \definecolor{edu-line}{gray}{0.82}
+  \definecolor{edu-soft-bg}{gray}{0.97}
+  \definecolor{edu-red}{gray}{0.28}
+  \definecolor{edu-red-bg}{gray}{0.97}
+\fi
+
+% ---------- 全局排版 ----------
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\linespread{1.16}
+\renewcommand{\arraystretch}{1.15}
+
+% ctex 通常提供 \kaishu；这里用它做教师旁白感。
+\newcommand{\edukai}{\kaishu}
+
+% ---------- 顶部元信息 ----------
+\newcommand{\eduTopBar}[2]{%
+  \noindent
+  \begin{tabularx}{\linewidth}{@{}Xr@{}}
+    {\color{edu-blue}\bfseries #1} &
+    {\color{edu-blue}\bfseries #2}
+  \end{tabularx}
+  \vspace{8mm}
+}
+
+% ---------- 轻标题体系 ----------
+% 只有真正的大结构才用它；不要给提示/路线滥用标题。
+\newcommand{\eduSectionTitle}[1]{%
+  \needspace{5\baselineskip}%
+  \vspace{2mm}
+  {\color{edu-blue}\bfseries\large #1}\par
+  \vspace{3mm}
+}
+
+\newcommand{\eduSubTitle}[1]{%
+  \needspace{4\baselineskip}%
+  \vspace{1mm}
+  {\color{edu-blue}\bfseries #1}\par
+  \vspace{1mm}
+}
+
+% ---------- 小问题干：复用 exam (1)(2)(3) 格式 ----------
+\newenvironment{eduSubQuestionItem}[1]{%
+  \needspace{4\baselineskip}%
+  \vspace{2mm}
+  \par\noindent
+  \hangindent=8mm\hangafter=1
+  {\color{edu-blue}\bfseries #1}\enspace
+  \begingroup
+  \color{edu-ink}
+}{%
+  \endgroup
+  \par
+  \vspace{3mm}
+}
+
+% ---------- 辅助信息条（解题流程/关键想法/思考）楷体 ----------
+\newenvironment{eduAuxItem}[1]{%
+  \needspace{4\baselineskip}%
+  \vspace{2mm}
+  \par\noindent
+  \hangindent=8mm\hangafter=1
+  {\color{edu-blue}\edukai $\triangleright$~#1}\enspace
+  \begingroup
+  \color{edu-ink}
+  \edukai
+}{%
+  \endgroup
+  \par
+  \vspace{4mm}
+}
+
+\newcommand{\eduColumnTitle}[2]{%
+  {\color{edu-blue}\bfseries #1\hspace{1.5mm}#2}\par
+  \vspace{2.5mm}
+}
+
+% ---------- 图标：不用外部 icon 字体，保证可移植 ----------
+\newcommand{\eduIconBulb}{\(\circ\)}
+\newcommand{\eduIconBook}{\(\square\)}
+\newcommand{\eduIconCheck}{\(\checkmark\)}
+\newcommand{\eduIconPin}{\(\diamond\)}
+\newcommand{\eduIconNote}{\(\triangleright\)}
+
+% ---------- 题目区 ----------
+% 题目区是页面入口：弱标签 + 一条长蓝线 + 大题干。
+\newenvironment{eduProblemBlock}[1][题目]{%
+  \needspace{8\baselineskip}
+  {\small\color{edu-muted}#1}\par
+  \vspace{1.5mm}
+  {\color{edu-blue}\hrule height 0.55pt}
+  \vspace{4.5mm}
+  \begingroup
+  \color{edu-ink}
+  \large
+  \setlength{\parskip}{2.2mm}
+  \linespread{1.20}\selectfont
+}{%
+  \par
+  \endgroup
+  \vspace{6mm}
+}
+
+\newenvironment{eduSubQuestions}{%
+  \begin{enumerate}[
+    label=(\arabic*),
+    leftmargin=8mm,
+    itemsep=2.0mm,
+    topsep=2.0mm,
+    parsep=0pt
+  ]
+}{%
+  \end{enumerate}
+}
+
+% ---------- 读题提示：轻框，不做同级标题 ----------
+\newtcolorbox{eduReadTipBox}{
+  enhanced,
+  breakable,
+  colback=white,
+  colframe=edu-blue!45,
+  boxrule=0.45pt,
+  arc=1.6mm,
+  left=10mm,
+  right=4mm,
+  top=5mm,
+  bottom=5mm,
+  before skip=1mm,
+  after skip=7mm,
+  fontupper=\edukai\normalsize,
+  colupper=edu-ink,
+  overlay={
+    \node[anchor=north west, text=edu-blue] at ([xshift=3.2mm,yshift=-3.2mm]frame.north west)
+    {\small\eduIconNote};
+  }
+}
+
+\newenvironment{eduTipList}{%
+  \begin{itemize}[
+    label=\textbullet,
+    leftmargin=5mm,
+    itemsep=1.2mm,
+    topsep=0pt,
+    parsep=0pt
+  ]
+}{%
+  \end{itemize}
+}
+
+% ---------- 解题路线：虚线框 + 文字箭头 ----------
+\newenvironment{eduRouteFlow}{%
+  \needspace{4\baselineskip}%
+  \vspace{1mm}
+  \begin{center}
+  \normalsize
+}{%
+  \end{center}
+  \vspace{7mm}
+}
+\newcommand{\eduRouteStep}[1]{%
+  {\color{edu-ink}#1}%
+}
+\newcommand{\eduRouteArrow}{%
+  \;$\boldsymbol{\to}$\;%
+}
+
+% ---------- 主体讲解：使用 paracol 实现跨页自适应双栏 ----------
+\newenvironment{eduDualExplain}{%
+  \needspace{6\baselineskip}% 防止标题孤行
+  \columnratio{0.20, 0.80}%
+  \setlength{\columnsep}{5mm}%
+  \columnseprule=0.45pt%
+  \colseprulecolor{edu-blue}%
+  \begin{paracol}{2}% 开启双栏
+}{%
+  \end{paracol}% 结束双栏
+  \vspace{5mm}
+}
+
+\newenvironment{eduExplainLeft}{%
+  \normalsize\color{edu-ink}%
+}{%
+  \switchcolumn
+}
+
+\newcommand{\eduColumnDivider}{}
+
+\newenvironment{eduExplainRight}{%
+  \normalsize\color{edu-ink}%
+}{%
+}
+
+\newenvironment{eduNumberList}{%
+  \begin{enumerate}[
+    label=\arabic*.,
+    leftmargin=6mm,
+    itemsep=4.8mm,
+    topsep=0pt,
+    parsep=0pt
+  ]
+}{%
+  \end{enumerate}
+}
+
+\newenvironment{eduBulletList}{%
+  \begin{itemize}[
+    label=\textbullet,
+    leftmargin=5mm,
+    itemsep=1.2mm,
+    topsep=0pt,
+    parsep=0pt
+  ]
+}{%
+  \end{itemize}
+}
+
+% ---------- 底部双栏：答案 + 方法提醒 ----------
+\newenvironment{eduBottomGrid}{%
+  \vspace{1mm}
+  \par\noindent
+}{%
+  \par\vspace{1mm}
+}
+
+\newenvironment{eduSummaryLeft}{%
+  \begin{minipage}[t]{0.30\linewidth}
+}{%
+  \end{minipage}
+}
+
+\newcommand{\eduSummaryDivider}{%
+  \hspace{4mm}{\color{edu-line}\vrule width 0.35pt}\hspace{7mm}%
+}
+
+\newenvironment{eduSummaryRight}{%
+  \begin{minipage}[t]{0.58\linewidth}
+}{%
+  \end{minipage}
+}
+
+% ---------- 答案/方法提醒：轻量收束 ----------
+\newtcolorbox{eduSummaryBlock}[2]{
+  enhanced,
+  breakable,
+  colback=white,
+  colframe=white,
+  boxrule=0pt,
+  sharp corners,
+  left=0mm,
+  right=0mm,
+  top=1mm,
+  bottom=1mm,
+  before skip=1mm,
+  after skip=1mm,
+  title={\color{edu-blue}\bfseries #1\hspace{1.5mm}#2},
+  coltitle=edu-blue,
+  attach title to upper={\par\vspace{2mm}},
+  fontupper=\normalsize
+}
+
+\newenvironment{eduPlainList}{%
+  \begin{enumerate}[
+    label=(\arabic*),
+    leftmargin=7mm,
+    itemsep=1.2mm,
+    topsep=0pt,
+    parsep=0pt
+  ]
+}{%
+  \end{enumerate}
+}
+
+% ---------- 兼容旧 block 的轻量盒子 ----------
+\newtcolorbox{eduSoftBox}{
+  enhanced,
+  breakable,
+  colback=edu-soft-bg,
+  colframe=edu-line,
+  boxrule=0.35pt,
+  arc=1mm,
+  left=3mm,
+  right=3mm,
+  top=2mm,
+  bottom=2mm,
+  before skip=1mm,
+  after skip=2mm,
+  fontupper=\small
+}
+
+\newtcolorbox{eduMistakeBox}{
+  enhanced,
+  breakable,
+  colback=edu-red-bg,
+  colframe=edu-red!40,
+  boxrule=0.35pt,
+  arc=1mm,
+  left=3mm,
+  right=3mm,
+  top=2.5mm,
+  bottom=2.5mm,
+  before skip=1mm,
+  after skip=2mm,
+  fontupper=\normalsize
+}
+
+\newtcolorbox{eduLegacySolution}{
+  enhanced,
+  breakable,
+  colback=edu-soft-bg,
+  colframe=edu-line,
+  boxrule=0.35pt,
+  arc=1mm,
+  left=3mm,
+  right=3mm,
+  top=2mm,
+  bottom=2mm,
+  before skip=-2mm,
+  after skip=4mm,
+  fontupper=\small
+}
+
+\newtcolorbox{eduTeacherNote}{
+  enhanced,
+  breakable,
+  colback=edu-soft-bg,
+  colframe=edu-line,
+  boxrule=0pt,
+  borderline west={1.5pt}{0pt}{edu-muted},
+  left=2.5mm,
+  right=2.5mm,
+  top=2mm,
+  bottom=2mm,
+  before skip=1mm,
+  after skip=2mm,
+  fontupper=\footnotesize,
+  colupper=edu-muted
+}
+
+% ---------- 答题区 ----------
+\newcommand{\answerarea}[1][40mm]{%
+  \vspace{3mm}%
+  \begin{tcolorbox}[
+    enhanced,
+    breakable,
+    colback=white,
+    colframe=edu-line,
+    boxrule=0.55pt,
+    arc=0.8mm,
+    height=#1,
+    valign=top,
+  ]
+  \end{tcolorbox}%
+}
+
+\examsetup{
+  question/show-answer = true,
+  fillin/show-answer = true,
+  solution/show-solution = show-stay,
+}
+
+\begin{document}
+
+\eduSectionTitle{例题 1 — 直接两点待定系数 ★★}
+
+\begin{eduProblemBlock}[题目]
+一次函数的图像经过 $(0,2)$ 和 $(-2,0)$ 两点，求这个一次函数的解析式。
+\end{eduProblemBlock}
+
+
+
+
+
+
+
+
+
+\begin{eduAuxItem}{解题流程}
+设 $y = kx + b$$\;\to\;$代入 $(0,2)$ 得 $b = 2$$\;\to\;$代入 $(-2,0)$ 得 $k = 1$$\;\to\;$写出 $y = x + 2$，验算\end{eduAuxItem}
+
+
+
+
+\begin{eduAuxItem}{关键想法}
+待定系数法的核心：
+设 $y = kx + b$，将每个点的坐标 $(x_0, y_0)$ 代入，得到关于 $k$、$b$ 的方程。
+两个点给两个方程，解方程组即可。
+
+捷径：如果一个点在 $y$ 轴上（$x = 0$），代入后直接得到 $b$ 的值，无需联立。\end{eduAuxItem}
+
+
+
+
+\begin{eduSubQuestionItem}{求解}
+求一次函数的解析式。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{思考引导}
+    \begin{eduNumberList}
+      \item 设 $y = kx + b$，需要确定 $k$ 和 $b$。      \item $(0,2)$ 代入：$x = 0$，$y = 2$，即 $0 \cdot k + b = 2$。      \item 一步得到 $b = 2$！不需要联立。      \item 接下来只剩 $k$ 一个未知数。      \item $(-2,0)$ 代入：$-2k + 2 = 0$，$k = 1$。    \end{eduNumberList}
+  \end{eduExplainLeft}
+  \eduColumnDivider
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{规范讲解}
+    \begin{eduNumberList}
+      \item 设 $y = kx + b$。      \item 将 $(0,2)$ 代入：$0 \cdot k + b = 2$，得 $b = 2$。      \item 将 $(-2,0)$ 代入：$-2k + 2 = 0$，解得 $k = 1$。      \item $\therefore$ 这个一次函数的解析式为 $y = x + 2$。    \end{eduNumberList}
+
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduBottomGrid}
+  \begin{eduSummaryLeft}
+    \begin{eduSummaryBlock}{\eduIconCheck}{答案}
+    \begin{eduPlainList}
+      \item $y = x + 2$    \end{eduPlainList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryLeft}
+  \eduSummaryDivider
+  \begin{eduSummaryRight}
+    \begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
+    \begin{eduBulletList}
+      \item 看到坐标轴上的点，先代入读出 $k$ 或 $b$，减少未知数。      \item 待定系数法的流程：设→代→解→写→验。    \end{eduBulletList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryRight}
+\end{eduBottomGrid}
+
+
+
+\eduSectionTitle{例题 2 — 平行关系+一个点 ★★}
+
+\begin{eduProblemBlock}[题目]
+已知一次函数 $y = kx + b$ 的图像与直线 $y = -5x + 1$ 平行，且经过点 $(2,1)$，求 $k$、$b$ 的值及解析式。
+\end{eduProblemBlock}
+
+
+
+
+
+
+
+
+
+\begin{eduAuxItem}{解题流程}
+平行 $\Rightarrow$ $k = -5$$\;\to\;$设 $y = -5x + b$$\;\to\;$代入 $(2,1)$ 得 $b = 11$\end{eduAuxItem}
+
+
+
+
+\begin{eduSubQuestionItem}{求解}
+求 $k$、$b$ 的值及解析式。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{思考引导}
+    \begin{eduNumberList}
+      \item 两条直线平行，$k$ 有什么关系？——$k$ 相同！      \item $y = -5x + 1$ 的 $k = -5$，所以 $y = kx + b$ 的 $k$ 也是 $-5$。      \item 现在只剩一个未知数 $b$，把 $(2,1)$ 代入就行。    \end{eduNumberList}
+  \end{eduExplainLeft}
+  \eduColumnDivider
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{规范讲解}
+    \begin{eduNumberList}
+      \item $\because$ $y = kx + b$ 与 $y = -5x + 1$ 平行，$\therefore$ $k = -5$。      \item 设 $y = -5x + b$，将 $(2,1)$ 代入：$1 = -5 \times 2 + b = -10 + b$。      \item 解得 $b = 11$。      \item $\therefore$ $k = -5$，$b = 11$，解析式为 $y = -5x + 11$。    \end{eduNumberList}
+
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduBottomGrid}
+  \begin{eduSummaryLeft}
+    \begin{eduSummaryBlock}{\eduIconCheck}{答案}
+    \begin{eduPlainList}
+      \item $k = -5$，$b = 11$      \item $y = -5x + 11$    \end{eduPlainList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryLeft}
+  \eduSummaryDivider
+  \begin{eduSummaryRight}
+    \begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
+    \begin{eduBulletList}
+      \item 平行 $\Rightarrow$ $k$ 相同。这是确定 $k$ 的最快方法。    \end{eduBulletList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryRight}
+\end{eduBottomGrid}
+
+
+
+\eduSectionTitle{例题 3 — 无交点（平行）+截距 ★★}
+
+\begin{eduProblemBlock}[题目]
+已知一次函数 $y = kx + b$ 的图像与直线 $y = 2x - 3$ 没有交点，且在 $y$ 轴上的截距为 $-9$，求这个一次函数的解析式。
+\end{eduProblemBlock}
+
+
+
+
+
+\begin{eduSubQuestionItem}{求解}
+求解析式。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{思考引导}
+    \begin{eduNumberList}
+      \item '没有交点'是什么意思？——两条直线平行！      \item 平行 $\Rightarrow$ $k$ 相同。$y = 2x - 3$ 的 $k = 2$，所以 $k = 2$。      \item '截距为 $-9$'是什么意思？——直线与 $y$ 轴的交点纵坐标为 $-9$，即 $b = -9$。      \item $k$ 和 $b$ 都直接得到了！    \end{eduNumberList}
+  \end{eduExplainLeft}
+  \eduColumnDivider
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{规范讲解}
+    \begin{eduNumberList}
+      \item $\because$ $y = kx + b$ 与 $y = 2x - 3$ 没有交点，$\therefore$ 两直线平行，$k = 2$。      \item $\because$ 截距为 $-9$，$\therefore$ $b = -9$。      \item $\therefore$ 解析式为 $y = 2x - 9$。    \end{eduNumberList}
+
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduBottomGrid}
+  \begin{eduSummaryLeft}
+    \begin{eduSummaryBlock}{\eduIconCheck}{答案}
+    \begin{eduPlainList}
+      \item $y = 2x - 9$    \end{eduPlainList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryLeft}
+  \eduSummaryDivider
+  \begin{eduSummaryRight}
+    \begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
+    \begin{eduBulletList}
+      \item 没有交点 $=$ 平行 $=$ $k$ 相同。      \item 截距就是 $b$。    \end{eduBulletList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryRight}
+\end{eduBottomGrid}
+
+
+
+\eduSectionTitle{例题 4 — 平移求解析式 ★★}
+
+\begin{eduProblemBlock}[题目]
+将直线 $y = 2x - 1$ 向下平移 $2$ 个单位，再向左平移 $1$ 个单位，求平移后的直线解析式。
+\end{eduProblemBlock}
+
+
+
+
+
+\begin{eduSubQuestionItem}{求解}
+求平移后的直线解析式。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{思考引导}
+    \begin{eduNumberList}
+      \item 平移后 $k$ 不变，还是 $2$。只有 $b$ 会变。      \item 向下平移 $2$ 个单位：$y = 2x - 1 - 2 = 2x - 3$。      \item 向左平移 $1$ 个单位：$y = 2(x + 1) - 3 = 2x + 2 - 3 = 2x - 1$。      \item 回到了原函数！这不是巧合——沿直线方向平移不会改变直线本身。    \end{eduNumberList}
+  \end{eduExplainLeft}
+  \eduColumnDivider
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{规范讲解}
+    \begin{eduNumberList}
+      \item 平移不改变 $k$，$k = 2$ 不变。      \item 向下平移 $2$ 个单位：$b$ 减 $2$，$y = 2x - 1 - 2 = 2x - 3$。      \item 向左平移 $1$ 个单位：用 $(x + 1)$ 替换 $x$。      \item $y = 2(x + 1) - 3 = 2x + 2 - 3 = 2x - 1$。      \item $\therefore$ 平移后的直线解析式为 $y = 2x - 1$。    \end{eduNumberList}
+
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduBottomGrid}
+  \begin{eduSummaryLeft}
+    \begin{eduSummaryBlock}{\eduIconCheck}{答案}
+    \begin{eduPlainList}
+      \item $y = 2x - 1$（回到原函数）    \end{eduPlainList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryLeft}
+  \eduSummaryDivider
+  \begin{eduSummaryRight}
+    \begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
+    \begin{eduBulletList}
+      \item 平移 $\Rightarrow$ $k$ 不变。向下平移 $a$：$b$ 减 $a$。向左平移 $h$：用 $(x+h)$ 替换 $x$。      \item 沿直线方向平移，解析式不变。    \end{eduBulletList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryRight}
+\end{eduBottomGrid}
+
+
+
+\eduSectionTitle{例题 5 — 平移+面积条件 ★★★}
+
+\begin{eduProblemBlock}[题目]
+将直线 $y = x - 2$ 向上平移若干个单位后，平移后的直线与反比例函数 $y = \dfrac{8}{x}$ 的图像在第一象限交于点 $C$。记原直线 $y = x - 2$ 与 $x$ 轴的交点为 $A$，与 $y$ 轴的交点为 $B$，若 $\triangle ABC$ 的面积为 $9$，求平移后的直线解析式。
+\end{eduProblemBlock}
+
+
+
+
+
+
+
+
+
+\begin{eduAuxItem}{解题流程}
+求 $A(2,0)$、$B(0,-2)$$\;\to\;$设平移后 $y = x + c$，联立 $y = 8/x$ 求 $C$$\;\to\;$用面积坐标公式化简，发现 $S = c + 2$$\;\to\;$令 $S = 9$，解得 $c = 7$\end{eduAuxItem}
+
+
+
+
+\begin{eduSubQuestionItem}{第一步}
+求 $A$、$B$ 的坐标，设平移后的解析式。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{思考引导}
+    \begin{eduNumberList}
+      \item $y = x - 2$ 与 $x$ 轴交点：令 $y = 0$，$x = 2$。      \item $y = x - 2$ 与 $y$ 轴交点：令 $x = 0$，$y = -2$。      \item 向上平移 $a$ 个单位：$b$ 增加 $a$，$y = x - 2 + a$。      \item 令 $c = a - 2$（平移后的截距），则 $y = x + c$，$c > -2$。    \end{eduNumberList}
+  \end{eduExplainLeft}
+  \eduColumnDivider
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{规范讲解}
+    \begin{eduNumberList}
+      \item $A(2, 0)$，$B(0, -2)$。      \item 设平移后 $y = x + c$（其中 $c = a - 2$，$c > -2$）。    \end{eduNumberList}
+
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduSubQuestionItem}{第二步}
+联立求 $C$ 的坐标（用 $c$ 表示），用面积列方程。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{思考引导}
+    \begin{eduNumberList}
+      \item 联立 $y = x + c$ 和 $y = 8/x$：$x + c = 8/x$。      \item $C(x_C, y_C)$ 在 $y = x + c$ 上，所以 $y_C = x_C + c$。      \item 用坐标公式求面积：$S = \frac{1}{2}|x_A(y_B - y_C) + x_B(y_C - y_A) + x_C(y_A - y_B)|$。      \item 代入 $A(2,0)$、$B(0,-2)$、$y_C = x_C + c$：化简后 $S = c + 2$。      \item 面积中不包含 $x_C$！这大大简化了计算。    \end{eduNumberList}
+  \end{eduExplainLeft}
+  \eduColumnDivider
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{规范讲解}
+    \begin{eduNumberList}
+      \item 联立：$x^2 + cx - 8 = 0$。      \item $C$ 在 $y = x + c$ 上，$y_C = x_C + c$。      \item $2S = |2(-2 - y_C) + x_C \cdot 2| = |-4 - 2y_C + 2x_C|$。      \item $= |-4 - 2(x_C + c) + 2x_C| = |-4 - 2c| = 2(c + 2)$。      \item $\therefore S = c + 2$。      \item 令 $S = 9$：$c + 2 = 9$，$c = 7$。    \end{eduNumberList}
+
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduSubQuestionItem}{第三步}
+写出解析式并验算。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{思考引导}
+    \begin{eduNumberList}
+      \item $c = 7$，平移后 $y = x + 7$。      \item 验算：联立 $y = x + 7$ 和 $y = 8/x$，$x^2 + 7x - 8 = 0$，$(x+8)(x-1) = 0$。      \item 第一象限 $x_C = 1$，$y_C = 8$。面积 $= |{-4 - 16 + 2}|/2 = 9$ ✓。    \end{eduNumberList}
+  \end{eduExplainLeft}
+  \eduColumnDivider
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{规范讲解}
+    \begin{eduNumberList}
+      \item $\therefore$ 平移后的直线解析式为 $y = x + 7$。      \item 验证：$C(1, 8)$，$S_{\triangle ABC} = 9$ ✓。    \end{eduNumberList}
+
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduBottomGrid}
+  \begin{eduSummaryLeft}
+    \begin{eduSummaryBlock}{\eduIconCheck}{答案}
+    \begin{eduPlainList}
+      \item $y = x + 7$    \end{eduPlainList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryLeft}
+  \eduSummaryDivider
+  \begin{eduSummaryRight}
+    \begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
+    \begin{eduBulletList}
+      \item 设参数→联立→面积公式化简→消去变量→解方程。      \item 面积公式化简后可能不依赖具体坐标——这大大简化计算。    \end{eduBulletList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryRight}
+\end{eduBottomGrid}
+
+
+
+\eduSectionTitle{例题 6 — 关于坐标轴对称求解析式 ★★★}
+
+\begin{eduProblemBlock}[题目]
+已知直线 $y = -2x - 4$，分别求它关于 $x$ 轴、$y$ 轴、原点对称的直线解析式。
+\end{eduProblemBlock}
+
+
+
+
+
+\begin{eduSubQuestionItem}{求解}
+求关于 $x$ 轴、$y$ 轴、原点对称的直线。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{思考引导}
+    \begin{eduNumberList}
+      \item 对称的本质：一个点 $(x, y)$ 变成另一个点，新点满足原方程。      \item 关于 $x$ 轴对称：$(x, y) \to (x, -y)$。代入 $y = -2x - 4$：$-y = -2x - 4$，即 $y = 2x + 4$。      \item 关于 $y$ 轴对称：$(x, y) \to (-x, y)$。代入：$y = -2(-x) - 4 = 2x - 4$。      \item 关于原点对称：$(x, y) \to (-x, -y)$。代入：$-y = -2(-x) - 4 = 2x - 4$，即 $y = -2x + 4$。      \item 注意：关于 $x$ 轴和原点的结果不同！    \end{eduNumberList}
+  \end{eduExplainLeft}
+  \eduColumnDivider
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{规范讲解}
+    \begin{eduNumberList}
+      \item 关于 $x$ 轴对称：$(x, y) \to (x, -y)$。      \item $-y = -2x - 4$，$\therefore$ $y = 2x + 4$。      \item 关于 $y$ 轴对称：$(x, y) \to (-x, y)$。      \item $y = 2x - 4$。      \item 关于原点对称：$(x, y) \to (-x, -y)$。      \item $-y = 2x - 4$，$\therefore$ $y = -2x + 4$。    \end{eduNumberList}
+
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduBottomGrid}
+  \begin{eduSummaryLeft}
+    \begin{eduSummaryBlock}{\eduIconCheck}{答案}
+    \begin{eduPlainList}
+      \item 关于 $x$ 轴：$y = 2x + 4$      \item 关于 $y$ 轴：$y = 2x - 4$      \item 关于原点：$y = -2x + 4$    \end{eduPlainList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryLeft}
+  \eduSummaryDivider
+  \begin{eduSummaryRight}
+    \begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
+    \begin{eduBulletList}
+      \item 对称变换的核心：$(x, y)$ 坐标变换 $\to$ 代入原式 $\to$ 化简。      \item 关于 $x$ 轴：$y$ 取反；关于 $y$ 轴：$x$ 取反；关于原点：都取反。    \end{eduBulletList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryRight}
+\end{eduBottomGrid}
+
+
+
+\eduSectionTitle{例题 7 — 角平分线+坐标轴交点 ★★★}
+
+\begin{eduProblemBlock}[题目]
+直线 $y = -\dfrac{\sqrt{3}}{3}x + 3$ 与 $x$ 轴交于点 $A$，与 $y$ 轴交于点 $B$。$BP$ 平分 $\angle ABO$（$O$ 为原点），求直线 $BP$ 的解析式。
+\end{eduProblemBlock}
+
+
+
+
+
+\begin{eduSubQuestionItem}{第一步}
+求 $A$、$B$ 坐标，分析 $\triangle ABO$。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{思考引导}
+    \begin{eduNumberList}
+      \item $A$：令 $y = 0$，$-\frac{\sqrt{3}}{3}x + 3 = 0$，$x = 3\sqrt{3}$。      \item $B$：令 $x = 0$，$y = 3$。      \item $AB = 6$，$OA = 3\sqrt{3}$，$OB = 3$。      \item 由三边比 $OB : OA : AB = 3 : 3\sqrt{3} : 6 = 1 : \sqrt{3} : 2$，判定 $\triangle ABO$ 为含 $30°$ 角的直角三角形，$\angle ABO = 60°$。    \end{eduNumberList}
+  \end{eduExplainLeft}
+  \eduColumnDivider
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{规范讲解}
+    \begin{eduNumberList}
+      \item $A(3\sqrt{3}, 0)$，$B(0, 3)$，$O(0, 0)$。      \item $AB = \sqrt{(3\sqrt{3})^2 + 3^2} = 6$，$OA = 3\sqrt{3}$，$OB = 3$。      \item 三边比 $OB : OA : AB = 3 : 3\sqrt{3} : 6 = 1 : \sqrt{3} : 2$，即 $30°{-}60°{-}90°$ 三角形的边比。      \item $\therefore \angle ABO = 60°$。    \end{eduNumberList}
+
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduSubQuestionItem}{第二步}
+利用角平分线求 $BP$ 的斜率。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{思考引导}
+    \begin{eduNumberList}
+      \item $BP$ 平分 $\angle ABO$，所以 $\angle OBP = 30°$。      \item $BO$ 沿 $y$ 轴负方向（从 $B$ 到 $O$）。      \item $BP$ 与 $BO$（$y$ 轴负方向）的夹角为 $30°$。      \item $BP$ 与 $x$ 轴的夹角 $= 90° - 30° = 60°$（在第四象限方向）。      \item $k_{BP} = \tan(-60°) = -\sqrt{3}$。    \end{eduNumberList}
+  \end{eduExplainLeft}
+  \eduColumnDivider
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{规范讲解}
+    \begin{eduNumberList}
+      \item $\angle OBP = \dfrac{1}{2} \angle ABO = 30°$。      \item $BP$ 与 $x$ 轴正方向的夹角为 $-60°$（第四象限方向）。      \item $k_{BP} = \tan(-60°) = -\sqrt{3}$。      \item $BP$ 过 $B(0, 3)$：$y = -\sqrt{3}x + 3$。    \end{eduNumberList}
+
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduBottomGrid}
+  \begin{eduSummaryLeft}
+    \begin{eduSummaryBlock}{\eduIconCheck}{答案}
+    \begin{eduPlainList}
+      \item $y = -\sqrt{3}x + 3$    \end{eduPlainList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryLeft}
+  \eduSummaryDivider
+  \begin{eduSummaryRight}
+    \begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
+    \begin{eduBulletList}
+      \item 坐标→角度→斜率→解析式。关键是角度与斜率的转换。    \end{eduBulletList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryRight}
+\end{eduBottomGrid}
+
+
+
+\eduSectionTitle{例题 8 — 正方形顶点推导 ★★★}
+
+\begin{eduProblemBlock}[题目]
+直线 $y = 2x + 4$ 与 $x$ 轴交于点 $A$，与 $y$ 轴交于点 $B$。以 $AB$ 为边在第一象限内作正方形 $ABCD$（顺时针方向标记 $A$、$B$、$C$、$D$），求对角线 $BD$ 所在直线的解析式。
+\end{eduProblemBlock}
+
+
+
+
+
+\begin{eduSubQuestionItem}{第一步}
+求 $A$、$B$ 坐标，用向量旋转求 $D$。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{思考引导}
+    \begin{eduNumberList}
+      \item $A(-2, 0)$，$B(0, 4)$。      \item $\vec{AB} = (2, 4)$。      \item 顺时针旋转 $90°$：$(x, y) \to (y, -x)$，所以 $\vec{AB}$ 旋转后为 $(4, -2)$。      \item $D = A + (4, -2) = (2, -2)$。    \end{eduNumberList}
+  \end{eduExplainLeft}
+  \eduColumnDivider
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{规范讲解}
+    \begin{eduNumberList}
+      \item $A(-2, 0)$，$B(0, 4)$。      \item $\vec{AB} = B - A = (2, 4)$。      \item $\vec{AB}$ 顺时针旋转 $90°$：$(4, -2)$。      \item $D = A + (4, -2) = (2, -2)$。    \end{eduNumberList}
+
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduSubQuestionItem}{第二步}
+求 $BD$ 的解析式。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{思考引导}
+    \begin{eduNumberList}
+      \item $B(0, 4)$，$D(2, -2)$。      \item $k_{BD} = \dfrac{-2 - 4}{2 - 0} = -3$。      \item $y = -3x + 4$。    \end{eduNumberList}
+  \end{eduExplainLeft}
+  \eduColumnDivider
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{规范讲解}
+    \begin{eduNumberList}
+      \item $k_{BD} = \dfrac{-2 - 4}{2 - 0} = -3$。      \item $\therefore y = -3x + 4$。    \end{eduNumberList}
+
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduBottomGrid}
+  \begin{eduSummaryLeft}
+    \begin{eduSummaryBlock}{\eduIconCheck}{答案}
+    \begin{eduPlainList}
+      \item $y = -3x + 4$    \end{eduPlainList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryLeft}
+  \eduSummaryDivider
+  \begin{eduSummaryRight}
+    \begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
+    \begin{eduBulletList}
+      \item 向量旋转 $90°$：$(x, y) \to (y, -x)$（顺时针）。      \item 正方形中，可以用向量旋转快速求顶点坐标。    \end{eduBulletList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryRight}
+\end{eduBottomGrid}
+
+
+
+\eduSectionTitle{例题 9 — 两直线交于y轴+截距条件 ★★★}
+
+\begin{eduProblemBlock}[题目]
+已知一次函数 $y = kx + b$ 与 $y = 5 - 4x$ 平行，且与 $y = -3(x - 6)$ 交于 $y$ 轴上的点，求这个一次函数的解析式。
+\end{eduProblemBlock}
+
+
+
+
+
+\begin{eduSubQuestionItem}{求解}
+求解析式。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{思考引导}
+    \begin{eduNumberList}
+      \item $y = 5 - 4x = -4x + 5$，平行 $\Rightarrow$ $k = -4$。      \item '交于 $y$ 轴上的点' $\Rightarrow$ 交点的 $x = 0$。      \item $y = -3(x - 6) = -3x + 18$。$x = 0$ 时 $y = 18$。      \item 交点为 $(0, 18)$，代入 $y = -4x + b$：$b = 18$。    \end{eduNumberList}
+  \end{eduExplainLeft}
+  \eduColumnDivider
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{规范讲解}
+    \begin{eduNumberList}
+      \item $y = 5 - 4x$ 即 $y = -4x + 5$，$\therefore$ $k = -4$。      \item 设 $y = -4x + b$。      \item $y = -3(x - 6) = -3x + 18$。      \item 交于 $y$ 轴上的点：$x = 0$，$y = 18$，即交点 $(0, 18)$。      \item $(0, 18)$ 在 $y = -4x + b$ 上：$18 = b$。      \item $\therefore y = -4x + 18$。    \end{eduNumberList}
+
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduBottomGrid}
+  \begin{eduSummaryLeft}
+    \begin{eduSummaryBlock}{\eduIconCheck}{答案}
+    \begin{eduPlainList}
+      \item $y = -4x + 18$    \end{eduPlainList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryLeft}
+  \eduSummaryDivider
+  \begin{eduSummaryRight}
+    \begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
+    \begin{eduBulletList}
+      \item 交于坐标轴 $\Rightarrow$ 直接令 $x = 0$ 或 $y = 0$，代入求坐标，一步到位。    \end{eduBulletList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryRight}
+\end{eduBottomGrid}
+
+
+
+\eduSectionTitle{例题 10 — 面积比分割+正比例函数 ★★★★}
+
+\begin{eduProblemBlock}[题目]
+直线 $y = x + 3$ 与 $x$ 轴交于点 $A$，与 $y$ 轴交于点 $B$。直线 $l$ 过原点 $O$，与线段 $AB$ 交于点 $C$，将 $\triangle AOB$ 的面积分为 $2:1$ 两部分。求直线 $l$ 的解析式。
+\end{eduProblemBlock}
+
+
+
+
+
+\begin{eduAuxItem}{解题流程}
+求 $A(-3,0)$、$B(0,3)$，$S_{\triangle AOB} = \frac{9}{2}$$\;\to\;$$C$ 在 $AB$ 上，设 $C(x, x+3)$$\;\to\;$面积比 $2:1$ 分两种情况，列方程$\;\to\;$解得 $C(-1,2)$ 或 $C(-2,1)$，$k = -2$ 或 $k = -\frac{1}{2}$\end{eduAuxItem}
+
+
+
+
+\begin{eduSubQuestionItem}{第一步}
+求 $A$、$B$ 坐标，设 $C$ 在 $AB$ 上。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{思考引导}
+    \begin{eduNumberList}
+      \item $A(-3, 0)$，$B(0, 3)$。      \item $S_{\triangle AOB} = \frac{1}{2} \times 3 \times 3 = \frac{9}{2}$。      \item $C$ 在 $y = x + 3$ 上，设 $C(x_C, x_C + 3)$，$-3 \leq x_C \leq 0$。    \end{eduNumberList}
+  \end{eduExplainLeft}
+  \eduColumnDivider
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{规范讲解}
+    \begin{eduNumberList}
+      \item $A(-3, 0)$，$B(0, 3)$，$OA = 3$，$OB = 3$。      \item $C$ 在 $AB$ 上：$C(x_C, x_C + 3)$，其中 $-3 \leq x_C \leq 0$。    \end{eduNumberList}
+
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduSubQuestionItem}{第二步}
+用面积比列方程。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{思考引导}
+    \begin{eduNumberList}
+      \item $\triangle AOC$ 以 $OA$ 为底，高为 $y_C$：$S = \frac{1}{2} \times 3 \times y_C$。      \item $\triangle BOC$ 以 $OB$ 为底，高为 $|x_C|$：$S = \frac{1}{2} \times 3 \times |x_C|$。      \item $x_C \leq 0$，$|x_C| = -x_C$。面积比要分两种情况！      \item 情况一：$\frac{S_{AOC}}{S_{BOC}} = 2:1$，即 $y_C = -2x_C$。      \item $x_C + 3 = -2x_C$，$x_C = -1$，$C(-1, 2)$。      \item 情况二：$\frac{S_{AOC}}{S_{BOC}} = 1:2$，即 $y_C = -\frac{1}{2}x_C$。      \item $x_C + 3 = -\frac{1}{2}x_C$，$x_C = -2$，$C(-2, 1)$。    \end{eduNumberList}
+  \end{eduExplainLeft}
+  \eduColumnDivider
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{规范讲解}
+    \begin{eduNumberList}
+      \item $S_{\triangle AOC} = \frac{3}{2}(x_C + 3)$，$S_{\triangle BOC} = \frac{3}{2}(-x_C)$。      \item 情况一：$\frac{x_C + 3}{-x_C} = 2$，$x_C + 3 = -2x_C$，$x_C = -1$，$C(-1, 2)$。      \item $k = \frac{2}{-1} = -2$，$l$: $y = -2x$。      \item 情况二：$\frac{x_C + 3}{-x_C} = \frac{1}{2}$，$2x_C + 6 = -x_C$，$x_C = -2$，$C(-2, 1)$。      \item $k = \frac{1}{-2} = -\frac{1}{2}$，$l$: $y = -\frac{1}{2}x$。    \end{eduNumberList}
+
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduBottomGrid}
+  \begin{eduSummaryLeft}
+    \begin{eduSummaryBlock}{\eduIconCheck}{答案}
+    \begin{eduPlainList}
+      \item $y = -2x$ 或 $y = -\dfrac{1}{2}x$    \end{eduPlainList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryLeft}
+  \eduSummaryDivider
+  \begin{eduSummaryRight}
+    \begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
+    \begin{eduBulletList}
+      \item 面积比→坐标比→分类讨论（两解）。      \item 绝对值处理：$C$ 在第二象限，$x_C < 0$，$|x_C| = -x_C$。    \end{eduBulletList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryRight}
+\end{eduBottomGrid}
+
+
+
+\eduSectionTitle{例题 11 — 取值范围反推解析式 ★★★}
+
+\begin{eduProblemBlock}[题目]
+已知一次函数 $y = kx + b$（$k \neq 0$），当 $-2 \leq x \leq -1$ 时，$y$ 的最大值为 $A_1$，最小值为 $B_1$；当 $1 \leq x \leq 3$ 时，$y$ 的最大值为 $A_2$，最小值为 $B_2$。已知 $A_1 + B_2 = 4$，$A_2 + B_1 = 6$，求这个一次函数的解析式。
+\end{eduProblemBlock}
+
+
+
+
+
+\begin{eduSubQuestionItem}{情况一：$k > 0$}
+$k > 0$ 时，函数递增。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{思考引导}
+    \begin{eduNumberList}
+      \item $k > 0$ 递增：区间 $[-2, -1]$ 上，$B_1 = f(-2)$，$A_1 = f(-1)$。      \item 区间 $[1, 3]$ 上，$B_2 = f(1)$，$A_2 = f(3)$。      \item $A_1 + B_2 = f(-1) + f(1) = (-k + b) + (k + b) = 2b = 4$，$b = 2$。      \item $A_2 + B_1 = f(3) + f(-2) = (3k + 2) + (-2k + 2) = k + 4 = 6$，$k = 2$。    \end{eduNumberList}
+  \end{eduExplainLeft}
+  \eduColumnDivider
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{规范讲解}
+    \begin{eduNumberList}
+      \item $A_1 = -k + b$，$B_1 = -2k + b$，$A_2 = 3k + b$，$B_2 = k + b$。      \item $A_1 + B_2 = 2b = 4$，$b = 2$。      \item $A_2 + B_1 = k + 2b = k + 4 = 6$，$k = 2$。      \item $y = 2x + 2$。    \end{eduNumberList}
+
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduSubQuestionItem}{情况二：$k < 0$}
+$k < 0$ 时，函数递减。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{思考引导}
+    \begin{eduNumberList}
+      \item $k < 0$ 递减：区间 $[-2, -1]$ 上，$A_1 = f(-2)$，$B_1 = f(-1)$。      \item 区间 $[1, 3]$ 上，$A_2 = f(1)$，$B_2 = f(3)$。      \item $A_2 + B_1 = f(1) + f(-1) = (k + b) + (-k + b) = 2b = 6$，$b = 3$。      \item $A_1 + B_2 = f(-2) + f(3) = (-2k + 3) + (3k + 3) = k + 6 = 4$，$k = -2$。    \end{eduNumberList}
+  \end{eduExplainLeft}
+  \eduColumnDivider
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{规范讲解}
+    \begin{eduNumberList}
+      \item $A_1 = -2k + b$，$B_1 = -k + b$，$A_2 = k + b$，$B_2 = 3k + b$。      \item $A_2 + B_1 = 2b = 6$，$b = 3$。      \item $A_1 + B_2 = k + 2b = k + 6 = 4$，$k = -2$。      \item $y = -2x + 3$。    \end{eduNumberList}
+
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduBottomGrid}
+  \begin{eduSummaryLeft}
+    \begin{eduSummaryBlock}{\eduIconCheck}{答案}
+    \begin{eduPlainList}
+      \item $y = 2x + 2$ 或 $y = -2x + 3$    \end{eduPlainList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryLeft}
+  \eduSummaryDivider
+  \begin{eduSummaryRight}
+    \begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
+    \begin{eduBulletList}
+      \item 分 $k > 0$ 和 $k < 0$ 讨论，利用单调性确定最值位置。      \item $A_1 + B_2$ 和 $A_2 + B_1$ 的巧妙组合可以消元。    \end{eduBulletList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryRight}
+\end{eduBottomGrid}
+
+
+
+\eduSectionTitle{例题 12 — 恒过定点 ★★★}
+
+\begin{eduProblemBlock}[题目]
+已知一次函数 $y = \dfrac{2k - 1}{k + 2} \cdot x - \dfrac{k - 10}{k + 2}$（$k + 2 \neq 0$），无论 $k$ 取何值，该函数图像恒过一个定点，求这个定点的坐标。
+\end{eduProblemBlock}
+
+
+
+
+
+\begin{eduSubQuestionItem}{求解}
+求定点坐标。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{思考引导}
+    \begin{eduNumberList}
+      \item 将函数改写为 $y = (\text{含 } k \text{ 的系数}) \cdot x + \text{不含 } k \text{ 的项}$ 的形式。      \item 利用多项式除法：$\dfrac{2k - 1}{k + 2} = \dfrac{2(k+2) - 5}{k+2} = 2 - \dfrac{5}{k+2}$。      \item $-\dfrac{k - 10}{k + 2} = -\dfrac{(k+2) - 12}{k+2} = -1 + \dfrac{12}{k+2}$。      \item $y = 2x - 1 + \dfrac{-5x + 12}{k+2}$。      \item 令含 $k$ 的项为零：$-5x + 12 = 0$，$x = \dfrac{12}{5}$。      \item $y = 2 \times \dfrac{12}{5} - 1 = \dfrac{19}{5}$。    \end{eduNumberList}
+  \end{eduExplainLeft}
+  \eduColumnDivider
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{规范讲解}
+    \begin{eduNumberList}
+      \item $y = \dfrac{2k-1}{k+2}x - \dfrac{k-10}{k+2}$。      \item $y(k+2) = (2k-1)x - (k-10) = 2kx - x - k + 10$。      \item $yk + 2y = k(2x - 1) - x + 10$。      \item $k(y - 2x + 1) = -x - 2y + 10$。      \item 令 $y - 2x + 1 = 0$（使左边不含 $k$）：$y = 2x - 1$。      \item $0 = -x - 2(2x-1) + 10 = -5x + 12$，$x = \dfrac{12}{5}$。      \item $y = 2 \times \dfrac{12}{5} - 1 = \dfrac{19}{5}$。      \item $\therefore$ 定点为 $\left(\dfrac{12}{5}, \dfrac{19}{5}\right)$。    \end{eduNumberList}
+
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduBottomGrid}
+  \begin{eduSummaryLeft}
+    \begin{eduSummaryBlock}{\eduIconCheck}{答案}
+    \begin{eduPlainList}
+      \item $\left(\dfrac{12}{5}, \dfrac{19}{5}\right)$    \end{eduPlainList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryLeft}
+  \eduSummaryDivider
+  \begin{eduSummaryRight}
+    \begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
+    \begin{eduBulletList}
+      \item 分离参数法：将函数整理为 $y = \text{不含 } k \text{ 的部分} + \dfrac{\text{含 } k \text{ 的分子}}{\text{含 } k \text{ 的分母}}$。      \item 令分子为零，解出 $x$，再代入求 $y$。    \end{eduBulletList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryRight}
+\end{eduBottomGrid}
+
+
+
+\eduSectionTitle{例题 13 — 函数方程法求解析式 ★★★★}
+
+\begin{eduProblemBlock}[题目]
+已知 $f(x)$ 为一次函数，且 $f(x + 2) + f(2x - 1) = 2x + 7$ 对所有 $x$ 成立，求 $f(x)$ 的解析式。
+\end{eduProblemBlock}
+
+
+
+
+
+\begin{eduSubQuestionItem}{求解}
+求 $f(x)$ 的解析式。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{思考引导}
+    \begin{eduNumberList}
+      \item $f(x)$ 是一次函数，设 $f(x) = kx + b$。      \item $f(x+2) = k(x+2) + b = kx + 2k + b$。      \item $f(2x-1) = k(2x-1) + b = 2kx - k + b$。      \item 相加：$(k + 2k)x + (2k - k + 2b) = 3kx + k + 2b$。      \item 与 $2x + 7$ 比较系数：$3k = 2$，$k + 2b = 7$。      \item $k = \dfrac{2}{3}$，$b = \dfrac{19}{6}$。    \end{eduNumberList}
+  \end{eduExplainLeft}
+  \eduColumnDivider
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{规范讲解}
+    \begin{eduNumberList}
+      \item 设 $f(x) = kx + b$。      \item $f(x + 2) + f(2x - 1) = kx + 2k + b + 2kx - k + b = 3kx + k + 2b$。      \item $\therefore 3kx + k + 2b = 2x + 7$。      \item 比较系数：$\begin{cases} 3k = 2 \\ k + 2b = 7 \end{cases}$      \item $k = \dfrac{2}{3}$，代入 $k + 2b = 7$：$\dfrac{2}{3} + 2b = 7$，$b = \dfrac{19}{6}$。      \item $\therefore f(x) = \dfrac{2}{3}x + \dfrac{19}{6}$。    \end{eduNumberList}
+
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduBottomGrid}
+  \begin{eduSummaryLeft}
+    \begin{eduSummaryBlock}{\eduIconCheck}{答案}
+    \begin{eduPlainList}
+      \item $f(x) = \dfrac{2}{3}x + \dfrac{19}{6}$    \end{eduPlainList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryLeft}
+  \eduSummaryDivider
+  \begin{eduSummaryRight}
+    \begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
+    \begin{eduBulletList}
+      \item 函数方程解法：设 $f(x) = kx + b$ → 代入 → 比较系数 → 解方程组。      \item 也可以用特殊值法（代入 $x = 0$ 和 $x = 1$），但比较系数法更直接。    \end{eduBulletList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryRight}
+\end{eduBottomGrid}
+
+
+
+\eduSectionTitle{例题 14 — 平行+过交点+取值范围（综合）★★★}
+
+\begin{eduProblemBlock}[题目]
+已知直线 $y = kx + b$ 与 $y = 6 - x$ 交于点 $A(5, m)$，且与直线 $y = 2x - 3$ 没有交点。求这个一次函数的解析式。
+\end{eduProblemBlock}
+
+
+
+
+
+\begin{eduSubQuestionItem}{求解}
+求解析式。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{思考引导}
+    \begin{eduNumberList}
+      \item '没有交点' $=$ 平行 $=$ $k$ 相同。$y = 2x - 3$ 的 $k = 2$，所以 $k = 2$。      \item 先求 $A$ 的完整坐标：$A(5, m)$ 在 $y = 6 - x$ 上，$m = 6 - 5 = 1$。      \item $A(5, 1)$ 在 $y = 2x + b$ 上：$1 = 10 + b$，$b = -9$。    \end{eduNumberList}
+  \end{eduExplainLeft}
+  \eduColumnDivider
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{规范讲解}
+    \begin{eduNumberList}
+      \item $\because$ $y = kx + b$ 与 $y = 2x - 3$ 没有交点，$\therefore$ $k = 2$。      \item $A(5, m)$ 在 $y = 6 - x$ 上：$m = 6 - 5 = 1$。      \item $\therefore A(5, 1)$。      \item $A(5, 1)$ 在 $y = 2x + b$ 上：$1 = 2 \times 5 + b$，$b = -9$。      \item $\therefore y = 2x - 9$。    \end{eduNumberList}
+
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduBottomGrid}
+  \begin{eduSummaryLeft}
+    \begin{eduSummaryBlock}{\eduIconCheck}{答案}
+    \begin{eduPlainList}
+      \item $y = 2x - 9$    \end{eduPlainList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryLeft}
+  \eduSummaryDivider
+  \begin{eduSummaryRight}
+    \begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
+    \begin{eduBulletList}
+      \item 综合题的解法：从每个条件中提取一步信息，逐步确定 $k$ 和 $b$。    \end{eduBulletList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryRight}
+\end{eduBottomGrid}
+
+
+
+
+\end{document}

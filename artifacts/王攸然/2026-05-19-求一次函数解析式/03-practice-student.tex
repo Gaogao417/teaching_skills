@@ -1,0 +1,365 @@
+% preamble-exam-zh.tex — 共享 preamble
+% 用于所有 exam-zh 模板
+%
+% 样式策略：
+%   屏幕 → 语义彩色（蓝=关键想法，红=易错，绿=路线，灰=提示/教师备注）
+%   打印 → 自动降级为黑白（通过 print mode 或 monochrome 选项）
+
+\documentclass{exam-zh}
+
+% ---------- 基础配置 ----------
+\examsetup{
+  page/size = a4paper,
+  page/show-head = false,
+  page/show-foot = false,
+  sealline/show = false,
+  font = times,
+  math-font = xits,
+}
+
+\usepackage{tcolorbox}
+\usepackage{needspace}
+\tcbuselibrary{skins,breakable}
+
+% ---------- 打印/屏幕颜色切换 ----------
+% 用法：\documentclass[monochrome]{exam-zh} 即可切换为纯黑白
+% 注意：不要使用 \if@xxx 放在 makeatother 外部；这里改成普通条件名。
+\newif\ifeduprintcolor
+\eduprintcolortrue
+
+\makeatletter
+\@ifclasswith{exam-zh}{monochrome}{\eduprintcolorfalse}{}
+\makeatother
+
+% ---------- 语义颜色定义 ----------
+% 屏幕：有色彩区分；打印：降级为灰度
+\ifeduprintcolor
+  % --- 屏幕彩色模式 ---
+  \definecolor{edu-blue}{RGB}{47, 82, 122}       % 关键想法
+  \definecolor{edu-blue-bg}{RGB}{243, 246, 252}
+  \definecolor{edu-red}{RGB}{180, 40, 40}         % 易错提醒
+  \definecolor{edu-red-bg}{RGB}{255, 245, 240}
+  \definecolor{edu-green}{RGB}{34, 100, 60}       % 路线图
+  \definecolor{edu-green-bg}{RGB}{242, 250, 245}
+  \definecolor{edu-orange}{RGB}{160, 90, 0}       % 训练目标
+  \definecolor{edu-orange-bg}{RGB}{255, 248, 235}
+  \definecolor{edu-gray}{RGB}{100, 100, 100}      % 提示/教师备注
+  \definecolor{edu-gray-bg}{RGB}{248, 248, 248}
+  \definecolor{edu-purple}{RGB}{90, 50, 120}      % 思考题
+  \definecolor{edu-purple-bg}{RGB}{248, 244, 252}
+\else
+  % --- 打印黑白模式 ---
+  \definecolor{edu-blue}{gray}{0.15}
+  \definecolor{edu-blue-bg}{gray}{0.96}
+  \definecolor{edu-red}{gray}{0.25}
+  \definecolor{edu-red-bg}{gray}{0.97}
+  \definecolor{edu-green}{gray}{0.20}
+  \definecolor{edu-green-bg}{gray}{0.97}
+  \definecolor{edu-orange}{gray}{0.25}
+  \definecolor{edu-orange-bg}{gray}{0.98}
+  \definecolor{edu-gray}{gray}{0.40}
+  \definecolor{edu-gray-bg}{gray}{0.97}
+  \definecolor{edu-purple}{gray}{0.30}
+  \definecolor{edu-purple-bg}{gray}{0.98}
+\fi
+
+% ---------- 自定义教学环境 ----------
+% 共性：enhanced + breakable（跨页不断裂）
+
+% 原题卡片 — 强边框，突出显示
+\newtcolorbox{problemcard}{
+  enhanced, breakable,
+  colback=edu-blue-bg,
+  colframe=edu-blue,
+  boxrule=1.2pt,
+  arc=0pt,
+  left=3mm, right=3mm, top=3mm, bottom=3mm,
+}
+
+% 解题路线图 — 左边线 + 浅底
+\newtcolorbox{routemap}{
+  enhanced, breakable,
+  colback=edu-green-bg,
+  colframe=edu-green!30,
+  boxrule=0pt,
+  borderline west={2.5pt}{0pt}{edu-green},
+  left=3mm, right=3mm, top=3mm, bottom=3mm,
+}
+
+% 关键想法 — 蓝色左边线
+\newtcolorbox{keyideabox}{
+  enhanced, breakable,
+  colback=edu-blue-bg,
+  colframe=edu-blue!30,
+  boxrule=0pt,
+  borderline west={2.5pt}{0pt}{edu-blue},
+  left=3mm, right=3mm, top=3mm, bottom=3mm,
+}
+
+% 易错提醒 — 红色左边线
+\newtcolorbox{mistakebox}{
+  enhanced, breakable,
+  colback=edu-red-bg,
+  colframe=edu-red!20,
+  boxrule=0pt,
+  borderline west={3pt}{0pt}{edu-red},
+  left=3mm, right=3mm, top=2.5mm, bottom=2.5mm,
+}
+
+% 提示 — 灰色虚线左边线
+\newtcolorbox{hintbox}{
+  enhanced, breakable,
+  colback=edu-gray-bg,
+  colframe=edu-gray!20,
+  boxrule=0pt,
+  borderline west={2pt}{0pt}{edu-gray, dashed},
+  left=3mm, right=3mm, top=2mm, bottom=2mm,
+}
+
+% 思考题 — 紫色虚线左边线
+\newtcolorbox{thinkbox}{
+  enhanced, breakable,
+  colback=edu-purple-bg,
+  colframe=edu-purple!20,
+  boxrule=0pt,
+  borderline west={2pt}{0pt}{edu-purple, dashed},
+  left=2.5mm, right=2.5mm, top=2.5mm, bottom=2.5mm,
+}
+
+% 教师备注 — 灰色左边线，小字
+\newtcolorbox{teachernote}{
+  enhanced, breakable,
+  colback=edu-gray-bg,
+  colframe=edu-gray!15,
+  boxrule=0pt,
+  borderline west={2pt}{0pt}{edu-gray!60},
+  left=2.5mm, right=2.5mm, top=2.5mm, bottom=2.5mm,
+  fontupper=\small,
+  colupper=black!60,
+}
+
+% 训练目标 — 橙色左边线，小字
+\newtcolorbox{traininggoal}{
+  enhanced, breakable,
+  colback=edu-orange-bg,
+  colframe=edu-orange!15,
+  boxrule=0pt,
+  borderline west={1.5pt}{0pt}{edu-orange},
+  left=2mm, right=2mm, top=1mm, bottom=1mm,
+  fontupper=\small,
+}
+
+% 答题区 — 无边框，纯留白
+\newcommand{\answerarea}[1][40mm]{%
+  \vspace{2mm}%
+  \begin{tcolorbox}[
+    enhanced, breakable,
+    colback=white,
+    colframe=white,
+    boxrule=0pt,
+    height=#1,
+    valign=top,
+    bottom=0mm,
+    after skip=0mm,
+  ]
+  \end{tcolorbox}%
+}
+
+% ---------- 字体设置 ----------
+% exam-zh (ctexbook) already sets CJK fonts via ctex.
+% Only override if specific fonts are needed.
+% macOS: Songti SC, STHeiti, STFangsong
+% Linux: SimSun, SimHei, FangSong
+
+% ---------- 页面设置 ----------
+% exam-zh (ctexbook) already loads geometry.
+% Override margins if needed:
+% \geometry{top=16mm, bottom=16mm, left=14mm, right=14mm}
+
+\examsetup{
+  question/show-answer = false,
+  fillin/show-answer = false,
+  solution/show-solution = hide,
+}
+
+% ---------- 教师版解答样式 ----------
+\newtcolorbox{solutionblock}{
+  enhanced, breakable,
+  colback=edu-blue-bg,
+  colframe=edu-blue!25,
+  boxrule=0pt,
+  borderline west={2pt}{0pt}{edu-blue!50},
+  arc=0pt,
+  left=3mm, right=3mm, top=2mm, bottom=2mm,
+  before skip=2mm,
+  after skip=3mm,
+  fontupper=\small,
+}
+
+% 解答步骤编号
+\newcounter{solstep}
+\newcommand{\solstep}[2]{%
+  \stepcounter{solstep}%
+  \par\medskip
+  \noindent\hangindent=6mm
+  {\color{edu-blue}\bfseries\textcircled{\scriptsize\thesolstep}\enspace #1}\enspace #2\par
+}
+
+\begin{document}
+
+\section*{已知两点求一次函数解析式 · 专题练习}
+
+\section*{一、填空题（每题 5 分，共 30 分）}
+
+
+\begin{question}[points=5]
+  一次函数的图像经过 $(1, 5)$ 和 $(-1, 1)$ 两点，则这个一次函数的解析式为 $y = $ $\underline{\quad\quad}$。
+  \fillin
+\end{question}
+
+
+
+\begin{question}[points=5]
+  一次函数 $y = kx + b$ 与 $y = 3x - 1$ 平行，且经过点 $(1, 2)$，则 $b = $ $\underline{\quad\quad}$。
+  \fillin
+\end{question}
+
+
+
+\begin{question}[points=5]
+  将直线 $y = -3x + 5$ 向上平移 $4$ 个单位后，所得直线的解析式为 $y = $ $\underline{\quad\quad}$。
+  \fillin
+\end{question}
+
+
+
+\begin{question}[points=5]
+  直线 $y = 3x - 6$ 关于 $y$ 轴对称的直线解析式为 $y = $ $\underline{\quad\quad}$。
+  \fillin
+\end{question}
+
+
+
+\begin{question}[points=5]
+  已知一次函数 $y = kx + b$ 与 $y = -x + 4$ 没有交点，且在 $y$ 轴上的截距为 $7$，则解析式为 $y = $ $\underline{\quad\quad}$。
+  \fillin
+\end{question}
+
+
+
+\begin{question}[points=5]
+  已知 $f(x)$ 为一次函数，$f(x + 1) + f(x - 1) = 4x + 6$，则 $f(x) = $ $\underline{\quad\quad}$。
+  \fillin
+\end{question}
+
+
+\section*{二、选择题（每题 5 分，共 30 分）}
+
+
+\begin{question}[points=5]
+  一次函数 $y = kx + b$ 的图像经过 $(0, -3)$ 和 $(2, 1)$，则 $k$ 的值为
+  \begin{choices}
+    \item $-2$
+    \item $2$
+    \item $-1$
+    \item $1$
+  \end{choices}
+\end{question}
+
+
+
+\begin{question}[points=5]
+  下列直线中，与 $y = 2x + 3$ 平行的是
+  \begin{choices}
+    \item $y = -2x + 1$
+    \item $y = 2x - 5$
+    \item $y = \frac{1}{2}x + 3$
+    \item $y = x + 3$
+  \end{choices}
+\end{question}
+
+
+
+\begin{question}[points=5]
+  将直线 $y = x + 2$ 向左平移 $3$ 个单位，再向下平移 $1$ 个单位，所得直线的解析式为
+  \begin{choices}
+    \item $y = x - 2$
+    \item $y = x + 4$
+    \item $y = x + 1$
+    \item $y = x - 1$
+  \end{choices}
+\end{question}
+
+
+
+\begin{question}[points=5]
+  直线 $y = -x + 4$ 关于 $x$ 轴对称的直线解析式为
+  \begin{choices}
+    \item $y = x + 4$
+    \item $y = x - 4$
+    \item $y = -x - 4$
+    \item $y = -x + 4$
+  \end{choices}
+\end{question}
+
+
+
+\begin{question}[points=5]
+  一次函数 $y = kx + b$ 满足 $f(0) = 3$，$f(2) = -1$，则 $f(-1) = $
+  \begin{choices}
+    \item $4$
+    \item $5$
+    \item $6$
+    \item $7$
+  \end{choices}
+\end{question}
+
+
+
+\begin{question}[points=5]
+  直线 $y = kx + b$ 与 $y = 2x + 1$ 无交点，且经过点 $(-1, 5)$，则 $b$ 的值为
+  \begin{choices}
+    \item $7$
+    \item $3$
+    \item $-7$
+    \item $5$
+  \end{choices}
+\end{question}
+
+
+\section*{三、解答题（每题 10 分，共 40 分）}
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  将直线 $y = -x + 3$ 向右平移 $2$ 个单位，再向上平移 $1$ 个单位，得到直线 $l_1$。再将 $l_1$ 关于 $y$ 轴对称，得到直线 $l_2$。求 $l_2$ 的解析式。
+  \answerarea[80mm]
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  直线 $y = -2x + 6$ 与 $x$ 轴交于点 $A$，与 $y$ 轴交于点 $B$。直线 $l$ 过原点 $O$ 且与线段 $AB$ 交于点 $C$，若 $\triangle AOC$ 与 $\triangle BOC$ 的面积之比为 $1 : 2$，求直线 $l$ 的解析式。
+  \answerarea[100mm]
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  已知一次函数 $y = kx + b$ 与 $y = -3x + 2$ 平行，且与直线 $y = x - 4$ 交于 $y$ 轴上的同一点，求这个一次函数的解析式。
+  \answerarea[60mm]
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  已知一次函数 $y = kx + b$（$k \neq 0$），当 $-1 \leq x \leq 2$ 时，$y$ 的最大值与最小值之差为 $9$。当 $x = 0$ 时 $y = 3$。求这个一次函数的解析式。
+  \answerarea[80mm]
+\end{problem}
+
+
+
+\end{document}

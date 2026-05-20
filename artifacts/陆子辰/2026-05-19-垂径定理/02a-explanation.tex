@@ -1,0 +1,559 @@
+% preamble-exam-zh.tex — 极简讲解页共享 preamble
+% 目标：复刻「题目独立、提示轻框、路线箭头、主体双栏、答案轻收束」的讲义风格。
+
+\documentclass{exam-zh}
+
+% ---------- 基础配置 ----------
+\examsetup{
+  page/size = a4paper,
+  page/show-head = false,
+  page/show-foot = false,
+  sealline/show = false,
+  font = none,
+  math-font = none,
+}
+
+% ---------- 包 ----------
+\usepackage{geometry}
+\geometry{top=10mm,bottom=14mm,left=15mm,right=13mm}
+\AtBeginDocument{\newgeometry{top=10mm,bottom=14mm,left=15mm,right=13mm}}
+
+\usepackage{xcolor}
+\usepackage{needspace}
+\usepackage{enumitem}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{tcolorbox}
+\tcbuselibrary{skins,breakable}
+\usepackage{paracol}
+
+% ---------- 打印/屏幕颜色切换 ----------
+% 用法：\documentclass[monochrome]{exam-zh} 可降级为灰度。
+% 注意：不要使用 \if@xxx 放在 makeatother 外部；这里改成普通条件名。
+\newif\ifeduprintcolor
+\eduprintcolortrue
+\makeatletter
+\@ifclasswith{exam-zh}{monochrome}{\eduprintcolorfalse}{}
+\makeatother
+
+% ---------- 语义颜色 ----------
+\ifeduprintcolor
+  \definecolor{edu-blue}{RGB}{31,62,126}
+  \definecolor{edu-blue-soft}{RGB}{232,238,250}
+  \definecolor{edu-blue-bg}{RGB}{248,250,254}
+  \definecolor{edu-ink}{RGB}{30,35,45}
+  \definecolor{edu-muted}{RGB}{118,124,136}
+  \definecolor{edu-line}{RGB}{209,218,235}
+  \definecolor{edu-soft-bg}{RGB}{250,251,253}
+  \definecolor{edu-red}{RGB}{168,58,58}
+  \definecolor{edu-red-bg}{RGB}{255,247,245}
+\else
+  \definecolor{edu-blue}{gray}{0.15}
+  \definecolor{edu-blue-soft}{gray}{0.90}
+  \definecolor{edu-blue-bg}{gray}{0.98}
+  \definecolor{edu-ink}{gray}{0.10}
+  \definecolor{edu-muted}{gray}{0.45}
+  \definecolor{edu-line}{gray}{0.82}
+  \definecolor{edu-soft-bg}{gray}{0.97}
+  \definecolor{edu-red}{gray}{0.28}
+  \definecolor{edu-red-bg}{gray}{0.97}
+\fi
+
+% ---------- 全局排版 ----------
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\linespread{1.16}
+\renewcommand{\arraystretch}{1.15}
+
+% ctex 通常提供 \kaishu；这里用它做教师旁白感。
+\newcommand{\edukai}{\kaishu}
+
+% ---------- 顶部元信息 ----------
+\newcommand{\eduTopBar}[2]{%
+  \noindent
+  \begin{tabularx}{\linewidth}{@{}Xr@{}}
+    {\color{edu-blue}\bfseries #1} &
+    {\color{edu-blue}\bfseries #2}
+  \end{tabularx}
+  \vspace{8mm}
+}
+
+% ---------- 轻标题体系 ----------
+% 只有真正的大结构才用它；不要给提示/路线滥用标题。
+\newcommand{\eduSectionTitle}[1]{%
+  \needspace{5\baselineskip}%
+  \vspace{2mm}
+  {\color{edu-blue}\bfseries\large #1}\par
+  \vspace{3mm}
+}
+
+\newcommand{\eduSubTitle}[1]{%
+  \needspace{4\baselineskip}%
+  \vspace{1mm}
+  {\color{edu-blue}\bfseries #1}\par
+  \vspace{1mm}
+}
+
+% ---------- 小问题干：复用 exam (1)(2)(3) 格式 ----------
+\newenvironment{eduSubQuestionItem}[1]{%
+  \needspace{4\baselineskip}%
+  \vspace{2mm}
+  \par\noindent
+  \hangindent=8mm\hangafter=1
+  {\color{edu-blue}\bfseries #1}\enspace
+  \begingroup
+  \color{edu-ink}
+}{%
+  \endgroup
+  \par
+  \vspace{3mm}
+}
+
+% ---------- 辅助信息条（解题流程/关键想法/思考）楷体 ----------
+\newenvironment{eduAuxItem}[1]{%
+  \needspace{4\baselineskip}%
+  \vspace{2mm}
+  \par\noindent
+  \hangindent=8mm\hangafter=1
+  {\color{edu-blue}\edukai $\triangleright$~#1}\enspace
+  \begingroup
+  \color{edu-ink}
+  \edukai
+}{%
+  \endgroup
+  \par
+  \vspace{4mm}
+}
+
+\newcommand{\eduColumnTitle}[2]{%
+  {\color{edu-blue}\bfseries #1\hspace{1.5mm}#2}\par
+  \vspace{2.5mm}
+}
+
+% ---------- 图标：不用外部 icon 字体，保证可移植 ----------
+\newcommand{\eduIconBulb}{\(\circ\)}
+\newcommand{\eduIconBook}{\(\square\)}
+\newcommand{\eduIconCheck}{\(\checkmark\)}
+\newcommand{\eduIconPin}{\(\diamond\)}
+\newcommand{\eduIconNote}{\(\triangleright\)}
+
+% ---------- 题目区 ----------
+% 题目区是页面入口：弱标签 + 一条长蓝线 + 大题干。
+\newenvironment{eduProblemBlock}[1][题目]{%
+  \needspace{8\baselineskip}
+  {\small\color{edu-muted}#1}\par
+  \vspace{1.5mm}
+  {\color{edu-blue}\hrule height 0.55pt}
+  \vspace{4.5mm}
+  \begingroup
+  \color{edu-ink}
+  \large
+  \setlength{\parskip}{2.2mm}
+  \linespread{1.20}\selectfont
+}{%
+  \par
+  \endgroup
+  \vspace{6mm}
+}
+
+\newenvironment{eduSubQuestions}{%
+  \begin{enumerate}[
+    label=(\arabic*),
+    leftmargin=8mm,
+    itemsep=2.0mm,
+    topsep=2.0mm,
+    parsep=0pt
+  ]
+}{%
+  \end{enumerate}
+}
+
+% ---------- 读题提示：轻框，不做同级标题 ----------
+\newtcolorbox{eduReadTipBox}{
+  enhanced,
+  breakable,
+  colback=white,
+  colframe=edu-blue!45,
+  boxrule=0.45pt,
+  arc=1.6mm,
+  left=10mm,
+  right=4mm,
+  top=5mm,
+  bottom=5mm,
+  before skip=1mm,
+  after skip=7mm,
+  fontupper=\edukai\normalsize,
+  colupper=edu-ink,
+  overlay={
+    \node[anchor=north west, text=edu-blue] at ([xshift=3.2mm,yshift=-3.2mm]frame.north west)
+    {\small\eduIconNote};
+  }
+}
+
+\newenvironment{eduTipList}{%
+  \begin{itemize}[
+    label=\textbullet,
+    leftmargin=5mm,
+    itemsep=1.2mm,
+    topsep=0pt,
+    parsep=0pt
+  ]
+}{%
+  \end{itemize}
+}
+
+% ---------- 解题路线：虚线框 + 文字箭头 ----------
+\newenvironment{eduRouteFlow}{%
+  \needspace{4\baselineskip}%
+  \vspace{1mm}
+  \begin{center}
+  \normalsize
+}{%
+  \end{center}
+  \vspace{7mm}
+}
+\newcommand{\eduRouteStep}[1]{%
+  {\color{edu-ink}#1}%
+}
+\newcommand{\eduRouteArrow}{%
+  \;$\boldsymbol{\to}$\;%
+}
+
+% ---------- 主体讲解：使用 paracol 实现跨页自适应双栏 ----------
+\newenvironment{eduDualExplain}{%
+  \needspace{6\baselineskip}% 防止标题孤行
+  \columnratio{0.25, 0.75}%
+  \setlength{\columnsep}{7mm}%
+  \columnseprule=0.45pt%
+  \colseprulecolor{edu-blue}%
+  \begin{paracol}{2}% 开启双栏
+}{%
+  \end{paracol}% 结束双栏
+  \vspace{5mm}
+}
+
+\newenvironment{eduExplainLeft}{%
+  \normalsize\color{edu-ink}%
+}{%
+  \switchcolumn
+}
+
+\newcommand{\eduColumnDivider}{}
+
+\newenvironment{eduExplainRight}{%
+  \normalsize\color{edu-ink}%
+}{%
+}
+
+\newenvironment{eduNumberList}{%
+  \begin{enumerate}[
+    label=\arabic*.,
+    leftmargin=6mm,
+    itemsep=4.8mm,
+    topsep=0pt,
+    parsep=0pt
+  ]
+}{%
+  \end{enumerate}
+}
+
+\newenvironment{eduBulletList}{%
+  \begin{itemize}[
+    label=\textbullet,
+    leftmargin=5mm,
+    itemsep=1.2mm,
+    topsep=0pt,
+    parsep=0pt
+  ]
+}{%
+  \end{itemize}
+}
+
+% ---------- 底部双栏：答案 + 方法提醒 ----------
+\newenvironment{eduBottomGrid}{%
+  \vspace{1mm}
+  \par\noindent
+}{%
+  \par\vspace{1mm}
+}
+
+\newenvironment{eduSummaryLeft}{%
+  \begin{minipage}[t]{0.30\linewidth}
+}{%
+  \end{minipage}
+}
+
+\newcommand{\eduSummaryDivider}{%
+  \hspace{4mm}{\color{edu-line}\vrule width 0.35pt}\hspace{7mm}%
+}
+
+\newenvironment{eduSummaryRight}{%
+  \begin{minipage}[t]{0.58\linewidth}
+}{%
+  \end{minipage}
+}
+
+% ---------- 答案/方法提醒：轻量收束 ----------
+\newtcolorbox{eduSummaryBlock}[2]{
+  enhanced,
+  breakable,
+  colback=white,
+  colframe=white,
+  boxrule=0pt,
+  sharp corners,
+  left=0mm,
+  right=0mm,
+  top=1mm,
+  bottom=1mm,
+  before skip=1mm,
+  after skip=1mm,
+  title={\color{edu-blue}\bfseries #1\hspace{1.5mm}#2},
+  coltitle=edu-blue,
+  attach title to upper={\par\vspace{2mm}},
+  fontupper=\normalsize
+}
+
+\newenvironment{eduPlainList}{%
+  \begin{enumerate}[
+    label=(\arabic*),
+    leftmargin=7mm,
+    itemsep=1.2mm,
+    topsep=0pt,
+    parsep=0pt
+  ]
+}{%
+  \end{enumerate}
+}
+
+% ---------- 兼容旧 block 的轻量盒子 ----------
+\newtcolorbox{eduSoftBox}{
+  enhanced,
+  breakable,
+  colback=edu-soft-bg,
+  colframe=edu-line,
+  boxrule=0.35pt,
+  arc=1mm,
+  left=3mm,
+  right=3mm,
+  top=2mm,
+  bottom=2mm,
+  before skip=1mm,
+  after skip=2mm,
+  fontupper=\small
+}
+
+\newtcolorbox{eduMistakeBox}{
+  enhanced,
+  breakable,
+  colback=edu-red-bg,
+  colframe=edu-red!40,
+  boxrule=0.35pt,
+  arc=1mm,
+  left=3mm,
+  right=3mm,
+  top=2.5mm,
+  bottom=2.5mm,
+  before skip=1mm,
+  after skip=2mm,
+  fontupper=\normalsize
+}
+
+\newtcolorbox{eduLegacySolution}{
+  enhanced,
+  breakable,
+  colback=edu-soft-bg,
+  colframe=edu-line,
+  boxrule=0.35pt,
+  arc=1mm,
+  left=3mm,
+  right=3mm,
+  top=2mm,
+  bottom=2mm,
+  before skip=-2mm,
+  after skip=4mm,
+  fontupper=\small
+}
+
+\newtcolorbox{eduTeacherNote}{
+  enhanced,
+  breakable,
+  colback=edu-soft-bg,
+  colframe=edu-line,
+  boxrule=0pt,
+  borderline west={1.5pt}{0pt}{edu-muted},
+  left=2.5mm,
+  right=2.5mm,
+  top=2mm,
+  bottom=2mm,
+  before skip=1mm,
+  after skip=2mm,
+  fontupper=\footnotesize,
+  colupper=edu-muted
+}
+
+% ---------- 答题区 ----------
+\newcommand{\answerarea}[1][40mm]{%
+  \vspace{3mm}%
+  \begin{tcolorbox}[
+    enhanced,
+    breakable,
+    colback=white,
+    colframe=edu-line,
+    boxrule=0.55pt,
+    arc=0.8mm,
+    height=#1,
+    valign=top,
+  ]
+  \end{tcolorbox}%
+}
+
+\examsetup{
+  question/show-answer = true,
+  fillin/show-answer = true,
+  solution/show-solution = show-stay,
+}
+
+\begin{document}
+
+
+\begin{eduProblemBlock}[题目]
+（2018$\cdot$普陀区模拟）如图，是一个隧道的截面，如果路面 $AB$ 宽为 $8$ 米，净高 $CD$ 为 $8$ 米，那么这个隧道所在圆的半径 $OA$ 是\_\_\_\_米。
+\end{eduProblemBlock}
+
+
+
+
+
+
+
+
+
+\begin{eduAuxItem}{解题流程}
+识别 $CD \perp AB$ 且 $CD$ 过圆心 $O$$\;\to\;$垂径定理得 $AD = 4$$\;\to\;$设半径 $r$，用 $r$ 表示 $OD$$\;\to\;$在 $\mathrm{Rt}\triangle AOD$ 中列方程，解出 $r$\end{eduAuxItem}
+
+
+
+
+\begin{eduAuxItem}{关键想法}
+净高 $CD$ 是从路面（弦 $AB$）到弧顶（圆弧最高点 $C$）的距离。
+$CD$ 是一条垂直于 $AB$ 的线段，而且它经过圆心 $O$！
+
+为什么？因为弧顶 $C$ 是圆上离弦 $AB$ 最远的点，过 $C$ 作 $AB$ 的垂线一定过圆心（垂径定理推论）。
+
+所以 $C$、$O$、$D$ 三点共线，$CD$ 可以拆成两段：
+\begin{itemize}
+  \item $CO = r$（半径）
+  \item $OD = CD - CO = 8 - r$
+\end{itemize}
+在 $\mathrm{Rt}\triangle AOD$ 中：$r^2 = 4^2 + (8-r)^2$。
+\end{eduAuxItem}
+
+
+
+
+\begin{eduSubQuestionItem}{第一步}
+识别垂径关系并求半弦长。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{思考引导}
+    \begin{eduNumberList}
+      \item $CD$ 是从弧顶到路面的垂直距离——它和圆心有什么关系？      \item 弧顶 $C$ 是圆上到弦 $AB$ 最远的点。从 $C$ 向 $AB$ 作垂线，这条垂线过圆心吗？      \item 垂径定理推论：平分弧的直径垂直平分这条弧所对的弦。反过来想——从弧顶作弦的垂线，一定经过圆心。    \end{eduNumberList}
+  \end{eduExplainLeft}
+  \eduColumnDivider
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{规范讲解}
+    \begin{eduNumberList}
+      \item 设隧道截面为 $\odot O$，路面为弦 $AB$，弧顶为 $C$，$CD \perp AB$ 于 $D$。      \item $\because$ $C$ 是弧顶，$CD$ 是弧到弦的最大距离，$\therefore$ $CD$ 过圆心 $O$。      \item $\therefore$ $C$、$O$、$D$ 三点共线，$CD \perp AB$。      \item 由垂径定理：$D$ 是 $AB$ 中点，$AD = \frac{1}{2}AB = 4$。    \end{eduNumberList}
+
+    \vspace{1mm}
+    \eduSubTitle{关键}
+    \begin{eduBulletList}
+      \item 不要把 $CD=8$ 当成弦心距！弦心距是 $OD$，不是 $CD$。    \end{eduBulletList}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduSubQuestionItem}{第二步}
+列方程求半径 $r$。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{思考引导}
+    \begin{eduNumberList}
+      \item $C$、$O$、$D$ 共线，$CD$ 从上到下依次是 $C \to O \to D$。那么 $OD$ 等于什么？      \item $CD = CO + OD = r + OD$，所以 $OD = 8 - r$。      \item 现在 $\mathrm{Rt}\triangle AOD$ 三边都知道了吗？哪条边还用 $r$ 表示？    \end{eduNumberList}
+  \end{eduExplainLeft}
+  \eduColumnDivider
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{规范讲解}
+    \begin{eduNumberList}
+      \item $\because$ $C$ 在 $O$ 上方，$D$ 在 $O$ 下方，$CD = CO + OD$。      \item $OD = CD - CO = 8 - r$。      \item 在 $\mathrm{Rt}\triangle AOD$ 中，由勾股定理：      \item $OA^2 = AD^2 + OD^2$      \item $r^2 = 4^2 + (8-r)^2 = 16 + 64 - 16r + r^2$      \item $16r = 80$，解得 $r = 5$。    \end{eduNumberList}
+
+    \vspace{1mm}
+    \eduSubTitle{注意}
+    \begin{eduBulletList}
+      \item $r^2$ 项消掉了！这题本质上是一元一次方程，不是二次方程。    \end{eduBulletList}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduBottomGrid}
+  \begin{eduSummaryLeft}
+    \begin{eduSummaryBlock}{\eduIconCheck}{答案}
+    \begin{eduPlainList}
+      \item $r = OA = 5$ 米    \end{eduPlainList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryLeft}
+  \eduSummaryDivider
+  \begin{eduSummaryRight}
+    \begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
+    \begin{eduBulletList}
+      \item 「弦长 + 拱高求半径」的标准步骤：拱高拆为 $CO+OD$，设 $r$ 列方程。      \item $r^2$ 一定会消去，本质是一元一次方程。      \item 通用公式：$r = \frac{a^2 + 4h^2}{8h}$（$a$=弦长，$h$=拱高）。    \end{eduBulletList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryRight}
+\end{eduBottomGrid}
+
+
+
+
+\begin{eduMistakeBox}
+\eduSubTitle{把净高 $CD$ 当成弦心距 $OD$}弦心距是 $OD$（圆心到弦的距离），不是 $CD$（弦到弧顶的距离）。
+$OD = CD - r$，必须先拆分。
+\end{eduMistakeBox}
+
+
+
+
+\begin{eduAuxItem}{思考}
+如果把路面宽度改为 $6$ 米，净高改为 $2$ 米，半径是多少？试试用通用公式。\end{eduAuxItem}
+
+
+
+
+\begin{eduAuxItem}{思考}
+反过来：已知半径 $r=5$，弦长 $AB=8$，求净高（拱高）$CD$。\end{eduAuxItem}
+
+
+
+\clearpage
+
+\begin{eduAuxItem}{关键想法}
+学生：陆子辰，八年级，B band。
+本题定位：填空题，1 分钟。
+预期能力：陆子辰能识别垂径定理，会设方程，应能在 1 分钟内完成。
+讲解重点：强化「拱高 $\neq$ 弦心距」的区分，以及 $CD = CO + OD$ 的拆分。
+如果陆子辰卡住：问他「$OD$ 用 $r$ 怎么表示？」
+\end{eduAuxItem}
+
+
+\begin{eduTeacherNote}
+  \textbf{训练目标：}掌握弦长-拱高-半径方程模型，能 1 分钟内列方程求解。\par
+  \textbf{预期卡点：}可能把 CD=8 直接当弦心距，列错方程。
+\end{eduTeacherNote}
+
+
+\end{document}

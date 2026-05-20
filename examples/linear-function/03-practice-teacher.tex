@@ -23,17 +23,17 @@
 
 % ---------- 打印/屏幕颜色切换 ----------
 % 用法：\documentclass[monochrome]{exam-zh} 即可切换为纯黑白
-\makeatletter
-\newif\if@eduprintcolor
-\@eduprintcolortrue  % 默认彩色
+% 注意：不要使用 \if@xxx 放在 makeatother 外部；这里改成普通条件名。
+\newif\ifeduprintcolor
+\eduprintcolortrue
 
-% 检测是否传入 monochrome 选项（由 \documentclass 传递）
-\@ifclasswith{exam-zh}{monochrome}{\@eduprintcolorfalse}{}
+\makeatletter
+\@ifclasswith{exam-zh}{monochrome}{\eduprintcolorfalse}{}
 \makeatother
 
 % ---------- 语义颜色定义 ----------
 % 屏幕：有色彩区分；打印：降级为灰度
-\if@eduprintcolor
+\ifeduprintcolor
   % --- 屏幕彩色模式 ---
   \definecolor{edu-blue}{RGB}{47, 82, 122}       % 关键想法
   \definecolor{edu-blue-bg}{RGB}{243, 246, 252}
@@ -300,7 +300,7 @@ $S = \frac{1}{2} \times 2 \times 6 = 6$。
 
 \section*{三、解答题（每题 10 分，共 30 分）}
 
-\needspace{5\baselineskip}
+\needspace{8\baselineskip}
 
 \begin{problem}[points=10]
   已知一次函数 $y = kx + b$ 的图像经过点 $A(2, 7)$ 和点 $B(-1, 1)$。\begin{enumerate}[label=(\arabic*)] \item 求这个一次函数的解析式； \item 判断点 $C(3, 9)$ 是否在该函数的图像上。 \end{enumerate}
@@ -314,7 +314,7 @@ $S = \frac{1}{2} \times 2 \times 6 = 6$。
 \end{problem}
 
 
-\needspace{5\baselineskip}
+\needspace{8\baselineskip}
 
 \begin{problem}[points=10]
   已知一次函数 $y = kx + b$ 的图像经过点 $A(0, 4)$ 和点 $B(3, -2)$。\begin{enumerate}[label=(\arabic*)] \item 求解析式； \item 求该函数图像与 $x$ 轴的交点坐标。 \end{enumerate}
@@ -328,7 +328,7 @@ $S = \frac{1}{2} \times 2 \times 6 = 6$。
 \end{problem}
 
 
-\needspace{5\baselineskip}
+\needspace{8\baselineskip}
 
 \begin{problem}[points=10]
   已知一次函数 $y = kx + b$ 的图像经过点 $A(1, 2)$ 和点 $B(-2, -4)$。\begin{enumerate}[label=(\arabic*)] \item 求解析式； \item 求该函数图像与坐标轴的交点坐标； \item 求图像与坐标轴围成的三角形面积。 \end{enumerate}

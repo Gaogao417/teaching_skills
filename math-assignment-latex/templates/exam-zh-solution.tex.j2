@@ -34,7 +34,7 @@
 <% elif block.type == "fillin" %>
 \begin{question}[points=<%= block.points|default(4) %>]
   <%= block.stem|latex_escape %>
-  \fillin[<%= block.answer|latex_escape %>]
+  \paren[<%= block.answer|latex_escape %>]
 \end{question}
 
 <% elif block.type == "problem" or block.type == "short_answer" %>

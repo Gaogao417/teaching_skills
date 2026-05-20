@@ -1,0 +1,818 @@
+% preamble-exam-zh.tex — 极简讲解页共享 preamble
+% 目标：复刻「题目独立、提示轻框、路线箭头、主体双栏、答案轻收束」的讲义风格。
+
+\documentclass{exam-zh}
+
+% ---------- 基础配置 ----------
+\examsetup{
+  page/size = a4paper,
+  page/show-head = false,
+  page/show-foot = false,
+  sealline/show = false,
+  font = none,
+  math-font = none,
+}
+
+% ---------- 包 ----------
+\usepackage{geometry}
+\geometry{top=10mm,bottom=14mm,left=12mm,right=10mm}
+\AtBeginDocument{\newgeometry{top=10mm,bottom=14mm,left=12mm,right=10mm}}
+
+\usepackage{xcolor}
+\usepackage{needspace}
+\usepackage{enumitem}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{tcolorbox}
+\tcbuselibrary{skins,breakable}
+\usepackage{paracol}
+
+% ---------- 打印/屏幕颜色切换 ----------
+% 用法：\documentclass[monochrome]{exam-zh} 可降级为灰度。
+% 注意：不要使用 \if@xxx 放在 makeatother 外部；这里改成普通条件名。
+\newif\ifeduprintcolor
+\eduprintcolortrue
+\makeatletter
+\@ifclasswith{exam-zh}{monochrome}{\eduprintcolorfalse}{}
+\makeatother
+
+% ---------- 语义颜色 ----------
+\ifeduprintcolor
+  \definecolor{edu-blue}{RGB}{31,62,126}
+  \definecolor{edu-blue-soft}{RGB}{232,238,250}
+  \definecolor{edu-blue-bg}{RGB}{248,250,254}
+  \definecolor{edu-ink}{RGB}{30,35,45}
+  \definecolor{edu-muted}{RGB}{118,124,136}
+  \definecolor{edu-line}{RGB}{209,218,235}
+  \definecolor{edu-soft-bg}{RGB}{250,251,253}
+  \definecolor{edu-red}{RGB}{168,58,58}
+  \definecolor{edu-red-bg}{RGB}{255,247,245}
+\else
+  \definecolor{edu-blue}{gray}{0.15}
+  \definecolor{edu-blue-soft}{gray}{0.90}
+  \definecolor{edu-blue-bg}{gray}{0.98}
+  \definecolor{edu-ink}{gray}{0.10}
+  \definecolor{edu-muted}{gray}{0.45}
+  \definecolor{edu-line}{gray}{0.82}
+  \definecolor{edu-soft-bg}{gray}{0.97}
+  \definecolor{edu-red}{gray}{0.28}
+  \definecolor{edu-red-bg}{gray}{0.97}
+\fi
+
+% ---------- 全局排版 ----------
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\linespread{1.16}
+\renewcommand{\arraystretch}{1.15}
+
+% ctex 通常提供 \kaishu；这里用它做教师旁白感。
+\newcommand{\edukai}{\kaishu}
+
+% ---------- 顶部元信息 ----------
+\newcommand{\eduTopBar}[2]{%
+  \noindent
+  \begin{tabularx}{\linewidth}{@{}Xr@{}}
+    {\color{edu-blue}\bfseries #1} &
+    {\color{edu-blue}\bfseries #2}
+  \end{tabularx}
+  \vspace{8mm}
+}
+
+% ---------- 轻标题体系 ----------
+% 只有真正的大结构才用它；不要给提示/路线滥用标题。
+\newcommand{\eduSectionTitle}[1]{%
+  \needspace{5\baselineskip}%
+  \vspace{2mm}
+  {\color{edu-blue}\bfseries\large #1}\par
+  \vspace{3mm}
+}
+
+\newcommand{\eduSubTitle}[1]{%
+  \needspace{4\baselineskip}%
+  \vspace{1mm}
+  {\color{edu-blue}\bfseries #1}\par
+  \vspace{1mm}
+}
+
+% ---------- 小问题干：复用 exam (1)(2)(3) 格式 ----------
+\newenvironment{eduSubQuestionItem}[1]{%
+  \needspace{4\baselineskip}%
+  \vspace{2mm}
+  \par\noindent
+  \hangindent=8mm\hangafter=1
+  {\color{edu-blue}\bfseries #1}\enspace
+  \begingroup
+  \color{edu-ink}
+}{%
+  \endgroup
+  \par
+  \vspace{3mm}
+}
+
+% ---------- 辅助信息条（解题流程/关键想法/思考）楷体 ----------
+\newenvironment{eduAuxItem}[1]{%
+  \needspace{4\baselineskip}%
+  \vspace{2mm}
+  \par\noindent
+  \hangindent=8mm\hangafter=1
+  {\color{edu-blue}\edukai $\triangleright$~#1}\enspace
+  \begingroup
+  \color{edu-ink}
+  \edukai
+}{%
+  \endgroup
+  \par
+  \vspace{4mm}
+}
+
+\newcommand{\eduColumnTitle}[2]{%
+  {\color{edu-blue}\bfseries #1\hspace{1.5mm}#2}\par
+  \vspace{2.5mm}
+}
+
+% ---------- 图标：不用外部 icon 字体，保证可移植 ----------
+\newcommand{\eduIconBulb}{\(\circ\)}
+\newcommand{\eduIconBook}{\(\square\)}
+\newcommand{\eduIconCheck}{\(\checkmark\)}
+\newcommand{\eduIconPin}{\(\diamond\)}
+\newcommand{\eduIconNote}{\(\triangleright\)}
+
+% ---------- 题目区 ----------
+% 题目区是页面入口：弱标签 + 一条长蓝线 + 大题干。
+\newenvironment{eduProblemBlock}[1][题目]{%
+  \needspace{8\baselineskip}
+  {\small\color{edu-muted}#1}\par
+  \vspace{1.5mm}
+  {\color{edu-blue}\hrule height 0.55pt}
+  \vspace{4.5mm}
+  \begingroup
+  \color{edu-ink}
+  \large
+  \setlength{\parskip}{2.2mm}
+  \linespread{1.20}\selectfont
+}{%
+  \par
+  \endgroup
+  \vspace{6mm}
+}
+
+\newenvironment{eduSubQuestions}{%
+  \begin{enumerate}[
+    label=(\arabic*),
+    leftmargin=8mm,
+    itemsep=2.0mm,
+    topsep=2.0mm,
+    parsep=0pt
+  ]
+}{%
+  \end{enumerate}
+}
+
+% ---------- 读题提示：轻框，不做同级标题 ----------
+\newtcolorbox{eduReadTipBox}{
+  enhanced,
+  breakable,
+  colback=white,
+  colframe=edu-blue!45,
+  boxrule=0.45pt,
+  arc=1.6mm,
+  left=10mm,
+  right=4mm,
+  top=5mm,
+  bottom=5mm,
+  before skip=1mm,
+  after skip=7mm,
+  fontupper=\edukai\normalsize,
+  colupper=edu-ink,
+  overlay={
+    \node[anchor=north west, text=edu-blue] at ([xshift=3.2mm,yshift=-3.2mm]frame.north west)
+    {\small\eduIconNote};
+  }
+}
+
+\newenvironment{eduTipList}{%
+  \begin{itemize}[
+    label=\textbullet,
+    leftmargin=5mm,
+    itemsep=1.2mm,
+    topsep=0pt,
+    parsep=0pt
+  ]
+}{%
+  \end{itemize}
+}
+
+% ---------- 解题路线：虚线框 + 文字箭头 ----------
+\newenvironment{eduRouteFlow}{%
+  \needspace{4\baselineskip}%
+  \vspace{1mm}
+  \begin{center}
+  \normalsize
+}{%
+  \end{center}
+  \vspace{7mm}
+}
+\newcommand{\eduRouteStep}[1]{%
+  {\color{edu-ink}#1}%
+}
+\newcommand{\eduRouteArrow}{%
+  \;$\boldsymbol{\to}$\;%
+}
+
+% ---------- 主体讲解：使用 paracol 实现跨页自适应双栏 ----------
+\newenvironment{eduDualExplain}{%
+  \needspace{6\baselineskip}% 防止标题孤行
+  \columnratio{0.20, 0.80}%
+  \setlength{\columnsep}{5mm}%
+  \columnseprule=0.45pt%
+  \colseprulecolor{edu-blue}%
+  \begin{paracol}{2}% 开启双栏
+}{%
+  \end{paracol}% 结束双栏
+  \vspace{5mm}
+}
+
+\newenvironment{eduExplainLeft}{%
+  \normalsize\color{edu-ink}%
+}{%
+  \switchcolumn
+}
+
+\newcommand{\eduColumnDivider}{}
+
+\newenvironment{eduExplainRight}{%
+  \normalsize\color{edu-ink}%
+}{%
+}
+
+\newenvironment{eduNumberList}{%
+  \begin{enumerate}[
+    label=\arabic*.,
+    leftmargin=6mm,
+    itemsep=4.8mm,
+    topsep=0pt,
+    parsep=0pt
+  ]
+}{%
+  \end{enumerate}
+}
+
+\newenvironment{eduBulletList}{%
+  \begin{itemize}[
+    label=\textbullet,
+    leftmargin=5mm,
+    itemsep=1.2mm,
+    topsep=0pt,
+    parsep=0pt
+  ]
+}{%
+  \end{itemize}
+}
+
+% ---------- 底部双栏：答案 + 方法提醒 ----------
+\newenvironment{eduBottomGrid}{%
+  \vspace{1mm}
+  \par\noindent
+}{%
+  \par\vspace{1mm}
+}
+
+\newenvironment{eduSummaryLeft}{%
+  \begin{minipage}[t]{0.30\linewidth}
+}{%
+  \end{minipage}
+}
+
+\newcommand{\eduSummaryDivider}{%
+  \hspace{4mm}{\color{edu-line}\vrule width 0.35pt}\hspace{7mm}%
+}
+
+\newenvironment{eduSummaryRight}{%
+  \begin{minipage}[t]{0.58\linewidth}
+}{%
+  \end{minipage}
+}
+
+% ---------- 答案/方法提醒：轻量收束 ----------
+\newtcolorbox{eduSummaryBlock}[2]{
+  enhanced,
+  breakable,
+  colback=white,
+  colframe=white,
+  boxrule=0pt,
+  sharp corners,
+  left=0mm,
+  right=0mm,
+  top=1mm,
+  bottom=1mm,
+  before skip=1mm,
+  after skip=1mm,
+  title={\color{edu-blue}\bfseries #1\hspace{1.5mm}#2},
+  coltitle=edu-blue,
+  attach title to upper={\par\vspace{2mm}},
+  fontupper=\normalsize
+}
+
+\newenvironment{eduPlainList}{%
+  \begin{enumerate}[
+    label=(\arabic*),
+    leftmargin=7mm,
+    itemsep=1.2mm,
+    topsep=0pt,
+    parsep=0pt
+  ]
+}{%
+  \end{enumerate}
+}
+
+% ---------- 兼容旧 block 的轻量盒子 ----------
+\newtcolorbox{eduSoftBox}{
+  enhanced,
+  breakable,
+  colback=edu-soft-bg,
+  colframe=edu-line,
+  boxrule=0.35pt,
+  arc=1mm,
+  left=3mm,
+  right=3mm,
+  top=2mm,
+  bottom=2mm,
+  before skip=1mm,
+  after skip=2mm,
+  fontupper=\small
+}
+
+\newtcolorbox{eduMistakeBox}{
+  enhanced,
+  breakable,
+  colback=edu-red-bg,
+  colframe=edu-red!40,
+  boxrule=0.35pt,
+  arc=1mm,
+  left=3mm,
+  right=3mm,
+  top=2.5mm,
+  bottom=2.5mm,
+  before skip=1mm,
+  after skip=2mm,
+  fontupper=\normalsize
+}
+
+\newtcolorbox{eduLegacySolution}{
+  enhanced,
+  breakable,
+  colback=edu-soft-bg,
+  colframe=edu-line,
+  boxrule=0.35pt,
+  arc=1mm,
+  left=3mm,
+  right=3mm,
+  top=2mm,
+  bottom=2mm,
+  before skip=-2mm,
+  after skip=4mm,
+  fontupper=\small
+}
+
+\newtcolorbox{eduTeacherNote}{
+  enhanced,
+  breakable,
+  colback=edu-soft-bg,
+  colframe=edu-line,
+  boxrule=0pt,
+  borderline west={1.5pt}{0pt}{edu-muted},
+  left=2.5mm,
+  right=2.5mm,
+  top=2mm,
+  bottom=2mm,
+  before skip=1mm,
+  after skip=2mm,
+  fontupper=\footnotesize,
+  colupper=edu-muted
+}
+
+% ---------- 答题区 ----------
+\newcommand{\answerarea}[1][40mm]{%
+  \vspace{3mm}%
+  \begin{tcolorbox}[
+    enhanced,
+    breakable,
+    colback=white,
+    colframe=edu-line,
+    boxrule=0.55pt,
+    arc=0.8mm,
+    height=#1,
+    valign=top,
+  ]
+  \end{tcolorbox}%
+}
+
+\examsetup{
+  question/show-answer = true,
+  fillin/show-answer = true,
+  solution/show-solution = show-stay,
+}
+
+\begin{document}
+
+\eduSectionTitle{例题 1 — 三垂直全等求等腰直角第三顶点 C}
+
+\begin{eduProblemBlock}[题目]
+直线 $y = -\dfrac{\sqrt{3}}{3}x + 1$ 与 $x$ 轴、$y$ 轴分别交于 $A$、$B$，以 $AB$ 为直角边在第一象限作等腰 Rt$\triangle ABC$，$\angle BAC = 90°$。\\
+(1) 求点 $C$ 的坐标。
+
+\end{eduProblemBlock}
+
+
+
+
+
+
+
+
+
+\begin{eduAuxItem}{解题流程}
+令 $y=0$ 求 $A(\sqrt{3},\,0)$，令 $x=0$ 求 $B(0,\,1)$$\;\to\;$构造 $\overrightarrow{BA}=(\sqrt{3},\,-1)$$\;\to\;$逆时针旋转 $90°$：$\overrightarrow{AC}=(1,\,\sqrt{3})$$\;\to\;$$C = A + \overrightarrow{AC} = (\sqrt{3}+1,\,\sqrt{3})$$\;\to\;$验证：等腰 $+$ 垂直\end{eduAuxItem}
+
+
+
+
+\begin{eduAuxItem}{关键想法}
+\textbf{向量旋转公式（核心工具）}：
+\begin{itemize}
+  \item 逆时针 $90°$：$(x, y) \to (-y, x)$
+  \item 顺时针 $90°$：$(x, y) \to (y, -x)$
+\end{itemize}
+旋转中心是 $A$（直角顶点），旋转对象是 $\overrightarrow{BA}$（从另一个已知顶点指向旋转中心），不是 $\overrightarrow{AB}$！
+
+\textbf{方向判断}：题目要求 $C$ 在第一象限，逆时针旋转后 $C(\sqrt{3}+1,\sqrt{3})$ 在第一象限 $\checkmark$。
+\end{eduAuxItem}
+
+
+
+
+\begin{eduSubQuestionItem}{第一步}
+求交点 $A$、$B$ 的坐标。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{思考引导}
+    \begin{eduNumberList}
+      \item $y = 0$ 代入直线方程求 $x$ 轴交点。      \item 注意 $-\dfrac{\sqrt{3}}{3}x + 1 = 0$ 的解法：$x = \dfrac{1}{\sqrt{3}/3} = \sqrt{3}$。    \end{eduNumberList}
+  \end{eduExplainLeft}
+  \eduColumnDivider
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{规范讲解}
+    \begin{eduNumberList}
+      \item 令 $y = 0$：$-\dfrac{\sqrt{3}}{3}x + 1 = 0$      \item $x = \dfrac{1}{\sqrt{3}/3} = \sqrt{3}$      \item $A(\sqrt{3},\,0)$      \item 令 $x = 0$：$y = 1$      \item $B(0,\,1)$    \end{eduNumberList}
+
+    \vspace{1mm}
+    \eduSubTitle{注意}
+    \begin{eduBulletList}
+      \item $\dfrac{1}{\sqrt{3}/3} = \dfrac{3}{\sqrt{3}} = \sqrt{3}$，不要算成 $3\sqrt{3}$。    \end{eduBulletList}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduSubQuestionItem}{第二步}
+构造向量并旋转 $90°$ 求点 $C$。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{思考引导}
+    \begin{eduNumberList}
+      \item $\angle BAC = 90°$，旋转中心是 $A$，旋转对象是 $\overrightarrow{BA}$。      \item 逆时针还是顺时针？用象限约束验证。    \end{eduNumberList}
+  \end{eduExplainLeft}
+  \eduColumnDivider
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{规范讲解}
+    \begin{eduNumberList}
+      \item $\overrightarrow{BA} = A - B = (\sqrt{3},\,-1)$      \item 逆时针 $90°$：$(\sqrt{3},\,-1) \to (1,\,\sqrt{3})$      \item $\overrightarrow{AC} = (1,\,\sqrt{3})$      \item $C = A + \overrightarrow{AC} = (\sqrt{3}+1,\,\sqrt{3})$    \end{eduNumberList}
+
+    \vspace{1mm}
+    \eduSubTitle{后两问如何承接}
+    \begin{eduBulletList}
+      \item 顺时针旋转得 $(-1,\,-\sqrt{3})$，$C = (\sqrt{3}-1,\,-\sqrt{3})$ 不在第一象限，舍去。    \end{eduBulletList}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduSubQuestionItem}{第三步}
+验证等腰和垂直。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{思考引导}
+    \begin{eduNumberList}
+      \item 等腰：$|AC| = |AB|$。      \item 垂直：$\overrightarrow{BA} \cdot \overrightarrow{AC} = 0$。    \end{eduNumberList}
+  \end{eduExplainLeft}
+  \eduColumnDivider
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{规范讲解}
+    \begin{eduNumberList}
+      \item $|AC| = \sqrt{1 + 3} = 2 = |AB|$ $\checkmark$      \item $\overrightarrow{BA} \cdot \overrightarrow{AC} = \sqrt{3} \times 1 + (-1) \times \sqrt{3} = 0$ $\checkmark$    \end{eduNumberList}
+
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduBottomGrid}
+  \begin{eduSummaryLeft}
+    \begin{eduSummaryBlock}{\eduIconCheck}{答案}
+    \begin{eduPlainList}
+      \item $C(\sqrt{3}+1,\,\sqrt{3})$    \end{eduPlainList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryLeft}
+  \eduSummaryDivider
+  \begin{eduSummaryRight}
+    \begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
+    \begin{eduBulletList}
+      \item 三垂直求第三顶点的标准流程：求交点 $\to$ 构造向量 $\to$ 旋转 $90°$ $\to$ 象限验证。      \item 旋转中心 = 直角顶点，旋转对象 = 从另一个端点指向旋转中心的向量。    \end{eduBulletList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryRight}
+\end{eduBottomGrid}
+
+
+
+
+\begin{eduMistakeBox}
+\eduSubTitle{向量方向搞反}旋转中心是 $A$，应该旋转 $\overrightarrow{BA}$（从 $B$ 指向 $A$），不是 $\overrightarrow{AB}$。
+如果旋转 $\overrightarrow{AB} = (-\sqrt{3}, 1)$，得到的 $C$ 坐标完全不同。
+\end{eduMistakeBox}
+
+
+
+
+\begin{eduMistakeBox}
+\eduSubTitle{旋转公式记错}逆时针 $90°$ 是 $(-y, x)$，不是 $(y, -x)$（那是顺时针）。
+\end{eduMistakeBox}
+
+
+
+\eduSectionTitle{例题 2 — BP=BD 且 BP⊥BD 构造第三顶点}
+
+\begin{eduProblemBlock}[题目]
+直线 $AB$ 过 $A(-1,1)$、$B(2,0)$，交 $y$ 轴于 $C$。$D(0,n)$ 在 $C$ 上方，$S_{\triangle ABD} = 2$ 时，求 $P$ 使 $BP = BD$ 且 $BP \perp BD$。
+
+\end{eduProblemBlock}
+
+
+
+
+
+
+
+
+
+\begin{eduAuxItem}{解题流程}
+求直线 $AB$ 解析式$\;\to\;$求 $C$ 坐标$\;\to\;$用坐标面积公式 $S_{\triangle ABD} = 2$ 求 $n$$\;\to\;$求 $BD$ 长，判断 $\angle BDP = \angle DBO = 45°$$\;\to\;$$DP \parallel x$ 轴，求 $P$ 坐标\end{eduAuxItem}
+
+
+
+
+\begin{eduSubQuestionItem}{第一步}
+求直线 $AB$ 解析式和点 $D$ 坐标。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{思考引导}
+    \begin{eduNumberList}
+      \item 已知 $A(-1,1)$、$B(2,0)$，用待定系数法。      \item 面积公式用坐标三角形面积：$S = \dfrac{1}{2}|x_A(y_B - y_D) + x_B(y_D - y_A) + x_D(y_A - y_B)|$。    \end{eduNumberList}
+  \end{eduExplainLeft}
+  \eduColumnDivider
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{规范讲解}
+    \begin{eduNumberList}
+      \item $k = \dfrac{0 - 1}{2 - (-1)} = -\dfrac{1}{3}$，$y = -\dfrac{1}{3}x + \dfrac{2}{3}$      \item $C\!\left(0,\,\dfrac{2}{3}\right)$，$D(0,n)$ 在 $C$ 上方      \item $S_{\triangle ABD} = \dfrac{1}{2}|(-1)(0-n) + 2(n-1)| = \dfrac{1}{2}|3n - 2| = 2$      \item $n = 2$（$n > 2/3$），$D(0,\,2)$    \end{eduNumberList}
+
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduSubQuestionItem}{第二步}
+求 $P$ 坐标。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{思考引导}
+    \begin{eduNumberList}
+      \item $BP = BD$ 且 $BP \perp BD$ $\to$ $\triangle BDP$ 等腰直角，$\angle DBP = 90°$。      \item $\angle BDP = 45°$。观察 $\angle DBO$ 也是多少度？    \end{eduNumberList}
+  \end{eduExplainLeft}
+  \eduColumnDivider
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{规范讲解}
+    \begin{eduNumberList}
+      \item $BD = \sqrt{4 + 4} = 2\sqrt{2}$      \item $\triangle DBO$ 中 $DO = 2$，$BO = 2$ $\to$ 等腰直角 $\to$ $\angle DBO = 45°$      \item $\angle BDP = 45° = \angle DBO$ $\to$ $DP \parallel x$ 轴      \item $D(0,2)$，$DP \parallel x$ 轴，$P$ 的 $y$ 坐标为 $2$      \item 等腰直角 $\triangle BDP$ 中 $BP = BD = 2\sqrt{2}$（腰），$DP = 4$（斜边）      \item $P(4,\,2)$    \end{eduNumberList}
+
+    \vspace{1mm}
+    \eduSubTitle{后两问如何承接}
+    \begin{eduBulletList}
+      \item $P$ 也可以在 $D$ 的另一侧：$P(-4,\,2)$。    \end{eduBulletList}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduBottomGrid}
+  \begin{eduSummaryLeft}
+    \begin{eduSummaryBlock}{\eduIconCheck}{答案}
+    \begin{eduPlainList}
+      \item $D(0,\,2)$，$P(4,\,2)$（或 $P(-4,\,2)$）    \end{eduPlainList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryLeft}
+  \eduSummaryDivider
+  \begin{eduSummaryRight}
+    \begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
+    \begin{eduBulletList}
+      \item 条件构造型三垂直：先用条件确定已知点，再构造等腰直角第三顶点。      \item 发现 $\angle BDP = \angle DBO \to DP \parallel x$ 轴是关键几何直觉。    \end{eduBulletList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryRight}
+\end{eduBottomGrid}
+
+
+
+\eduSectionTitle{例题 3 — 手拉手：两正方形旋转 90° 证垂直}
+
+\begin{eduProblemBlock}[题目]
+以 $\triangle ABC$ 的边 $AC$、$AB$ 向外作正方形 $ABEF$ 和 $ACNM$，联结 $BM$、$CF$。\\
+(1) 证明 $BM = CF$，$BM \perp CF$；\\
+(2) 若 $AB = 3$，$AC = 2$，$BC = 4$，求 $FM$。
+
+\end{eduProblemBlock}
+
+
+
+
+
+
+
+
+
+\begin{eduAuxItem}{关键想法}
+\textbf{手拉手模型的核心}：两个正方形共顶点 $A$，各贡献一个 $90°$ 角，所以 $\angle FAC = \angle BAC + 90° = \angle BAM$。
+
+\textbf{证垂直的关键}：由全等得 $\angle ABM = \angle AFC$。设 $BM \cap CF = O$，利用 $\angle AOB + \angle AOF = 180°$ 和 $\angle OBA = \angle OFA$，推出 $AO$ 平分 $\angle BAF = 90°$，从而 $\angle AOB = 90°$。
+
+\textbf{第(2)问坐标法}：设 $A$ 在原点，$AB$ 沿 $x$ 轴。确定正方形方向后用向量旋转求 $F$、$M$ 坐标，距离公式求 $FM$。
+\end{eduAuxItem}
+
+
+
+
+\begin{eduSubQuestionItem}{(1) 证全等}
+证明 $\triangle FAC \cong \triangle BAM$。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{思考引导}
+    \begin{eduNumberList}
+      \item 正方形给出哪些等量？哪些 $90°$ 角？      \item 把 $90°$ 分配到 $\angle FAC$ 和 $\angle BAM$ 里使它们相等。    \end{eduNumberList}
+  \end{eduExplainLeft}
+  \eduColumnDivider
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{规范讲解}
+    \begin{eduNumberList}
+      \item $AB = AF$（正方形 $ABEF$），$AC = AM$（正方形 $ACNM$）      \item $\angle FAC = \angle FAB + \angle BAC = 90° + \angle BAC$      \item $\angle BAM = \angle BAC + \angle CAM = \angle BAC + 90°$      \item $\therefore \angle FAC = \angle BAM$      \item $\therefore \triangle FAC \cong \triangle BAM$（SAS），$BM = CF$    \end{eduNumberList}
+
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduSubQuestionItem}{(1) 证垂直}
+证明 $BM \perp CF$。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{思考引导}
+    \begin{eduNumberList}
+      \item 设 $BM \cap CF = O$。全等给了 $\angle ABM = \angle AFC$。      \item $\angle AOB + \angle AOF = 180°$（邻补角），$\angle OBA = \angle OFA$（全等）。    \end{eduNumberList}
+  \end{eduExplainLeft}
+  \eduColumnDivider
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{规范讲解}
+    \begin{eduNumberList}
+      \item 设 $BM \cap CF = O$。$\angle OBA = \angle OFA$。      \item 由 $\triangle AOB$ 和 $\triangle AOF$ 角度关系，$\angle OAB = \angle OAF = 45°$      \item $\angle AOB = 180° - 45° - 45° = 90°$      \item $\therefore BM \perp CF$    \end{eduNumberList}
+
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduSubQuestionItem}{(2) 求 FM}
+$AB = 3$，$AC = 2$，$BC = 4$，求 $FM$。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{思考引导}
+    \begin{eduNumberList}
+      \item 纯几何计算量大，用坐标法。      \item 设 $A$ 在原点，$AB$ 沿 $x$ 轴正方向。    \end{eduNumberList}
+  \end{eduExplainLeft}
+  \eduColumnDivider
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{规范讲解}
+    \begin{eduNumberList}
+      \item $A(0,0)$，$B(3,0)$。由 $AC=2$，$BC=4$ 得 $C(-1/2,\,\sqrt{15}/2)$。      \item 正方形 $ABEF$ 向外（远离 $C$）：$F(0,\,-3)$。      \item 正方形 $ACNM$ 向外（远离 $B$）：$M(-\sqrt{15}/2,\,-1/2)$。      \item $FM = \sqrt{(\sqrt{15}/2)^2 + (5/2)^2} = \sqrt{15/4 + 25/4} = \sqrt{10}$    \end{eduNumberList}
+
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduBottomGrid}
+  \begin{eduSummaryLeft}
+    \begin{eduSummaryBlock}{\eduIconCheck}{答案}
+    \begin{eduPlainList}
+      \item (1) $BM = CF$，$BM \perp CF$      \item (2) $FM = \sqrt{10}$    \end{eduPlainList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryLeft}
+  \eduSummaryDivider
+  \begin{eduSummaryRight}
+    \begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
+    \begin{eduBulletList}
+      \item 手拉手：共顶点 $A$ 的两个正方形 $\to$ SAS 全等 $+$ 旋转 $90°$ 证垂直。      \item 求长度：坐标法（建系 + 向量旋转 + 距离公式）比纯几何更直接。    \end{eduBulletList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryRight}
+\end{eduBottomGrid}
+
+
+
+\eduSectionTitle{例题 4-6 — 旋转 90° 综合应用}
+
+\begin{eduAuxItem}{关键想法}
+\textbf{旋转拼接线段}（例题 4）：将 $\triangle OBE$ 绕 $O$ 旋转 $90°$ 使 $B \to C$，得到 $\triangle OCE'$。$\angle EOF = 45°$ 结合 $\angle EOE' = 90°$ 推出 $\triangle EOF \cong \triangle E'OF$，$EF = E'F$。$BE + BF + EF = CE' + BF + E'F = BC = AB$。
+
+\textbf{旋转拼线段求角}（例题 5）：将 $\triangle APC$ 绕 $C$ 旋转 $90°$ 使 $A \to B$，$P \to P'$。$BP^2 + PP'^2 = 1 + 8 = 9 = BP'^2$，$\angle BPP' = 90°$。$\angle BPC = 90° + 45° = 135°$。
+
+\textbf{正方形内坐标法}（例题 6）：建系后求 $E$、$O$ 坐标，用坐标面积公式 $S = \frac{1}{2}|x_1(y_2-y_3) + x_2(y_3-y_1) + x_3(y_1-y_2)|$，$\sqrt{34}$ 在公式中消去得 $2.5$。
+\end{eduAuxItem}
+
+
+
+
+\begin{eduBottomGrid}
+  \begin{eduSummaryLeft}
+    \begin{eduSummaryBlock}{\eduIconCheck}{三题答案}
+    \begin{eduPlainList}
+      \item 例题 4：$BE + BF + EF = a$，$BF^2 + BE^2 = EF^2$      \item 例题 5：$\angle BPC = 135°$      \item 例题 6：$S_{\triangle OBE} = 2.5$    \end{eduPlainList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryLeft}
+  \eduSummaryDivider
+  \begin{eduSummaryRight}
+    \begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
+    \begin{eduBulletList}
+      \item 旋转核心思路：分散线段 $\to$ 旋转拼成直角三角形 $\to$ 勾股定理。      \item 面积问题优先考虑坐标法，根式经常消去。    \end{eduBulletList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryRight}
+\end{eduBottomGrid}
+
+
+
+\eduSectionTitle{例题 7-11 — 存在性问题}
+
+\begin{eduAuxItem}{关键想法}
+\textbf{等腰三角形存在性}：$P$ 在某条线上，$\triangle ABP$ 等腰。分三类：
+\begin{enumerate}
+  \item $PA = PB$：$P$ 在 $AB$ 的垂直平分线上
+  \item $PA = AB$：以 $A$ 为圆心、$AB$ 为半径的圆与轨迹的交点
+  \item $PB = AB$：以 $B$ 为圆心、$AB$ 为半径的圆与轨迹的交点
+\end{enumerate}
+
+\textbf{直角三角形存在性}：直角可以在 $A$、$B$、$P$ 三个位置，用向量点积 $= 0$ 判断。
+\end{eduAuxItem}
+
+
+
+
+\begin{eduBottomGrid}
+  \begin{eduSummaryLeft}
+    \begin{eduSummaryBlock}{\eduIconCheck}{5 道存在性题一览}
+    \begin{eduPlainList}
+      \item 例题 7：$x$ 轴上 $\triangle PCB$ 等腰（4 解）      \item 例题 8：$y$ 轴上 $\triangle ABP$ 直角（4 解）      \item 例题 9：$y$ 轴上指定 $\angle P = 90°$（2 解）      \item 例题 10：$x$ 轴上 $\triangle OEP$ 等腰（3 解）      \item 例题 11：$x = 1$ 上 $\triangle ABP$ 等腰（5 解）    \end{eduPlainList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryLeft}
+  \eduSummaryDivider
+  \begin{eduSummaryRight}
+    \begin{eduSummaryBlock}{\eduIconPin}{解题要点}
+    \begin{eduBulletList}
+      \item 先确定已知点坐标，再设 $P$ 的参数坐标。      \item 分清等腰和直角的分类框架。      \item 每种情况列方程，解完检查退化（三点共线）。      \item 向量点积 $\overrightarrow{PA} \cdot \overrightarrow{PB} = 0$ 是判断直角最快方法。    \end{eduBulletList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryRight}
+\end{eduBottomGrid}
+
+
+
+
+\end{document}

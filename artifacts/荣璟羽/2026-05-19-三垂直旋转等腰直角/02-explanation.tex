@@ -1,0 +1,714 @@
+% preamble-exam-zh.tex — 极简讲解页共享 preamble
+% 目标：复刻「题目独立、提示轻框、路线箭头、主体双栏、答案轻收束」的讲义风格。
+
+\documentclass{exam-zh}
+
+% ---------- 基础配置 ----------
+\examsetup{
+  page/size = a4paper,
+  page/show-head = false,
+  page/show-foot = false,
+  sealline/show = false,
+  font = none,
+  math-font = none,
+}
+
+% ---------- 包 ----------
+\usepackage{geometry}
+\geometry{top=10mm,bottom=14mm,left=12mm,right=10mm}
+\AtBeginDocument{\newgeometry{top=10mm,bottom=14mm,left=12mm,right=10mm}}
+
+\usepackage{xcolor}
+\usepackage{needspace}
+\usepackage{enumitem}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{tcolorbox}
+\tcbuselibrary{skins,breakable}
+\usepackage{paracol}
+
+% ---------- 打印/屏幕颜色切换 ----------
+% 用法：\documentclass[monochrome]{exam-zh} 可降级为灰度。
+% 注意：不要使用 \if@xxx 放在 makeatother 外部；这里改成普通条件名。
+\newif\ifeduprintcolor
+\eduprintcolortrue
+\makeatletter
+\@ifclasswith{exam-zh}{monochrome}{\eduprintcolorfalse}{}
+\makeatother
+
+% ---------- 语义颜色 ----------
+\ifeduprintcolor
+  \definecolor{edu-blue}{RGB}{31,62,126}
+  \definecolor{edu-blue-soft}{RGB}{232,238,250}
+  \definecolor{edu-blue-bg}{RGB}{248,250,254}
+  \definecolor{edu-ink}{RGB}{30,35,45}
+  \definecolor{edu-muted}{RGB}{118,124,136}
+  \definecolor{edu-line}{RGB}{209,218,235}
+  \definecolor{edu-soft-bg}{RGB}{250,251,253}
+  \definecolor{edu-red}{RGB}{168,58,58}
+  \definecolor{edu-red-bg}{RGB}{255,247,245}
+\else
+  \definecolor{edu-blue}{gray}{0.15}
+  \definecolor{edu-blue-soft}{gray}{0.90}
+  \definecolor{edu-blue-bg}{gray}{0.98}
+  \definecolor{edu-ink}{gray}{0.10}
+  \definecolor{edu-muted}{gray}{0.45}
+  \definecolor{edu-line}{gray}{0.82}
+  \definecolor{edu-soft-bg}{gray}{0.97}
+  \definecolor{edu-red}{gray}{0.28}
+  \definecolor{edu-red-bg}{gray}{0.97}
+\fi
+
+% ---------- 全局排版 ----------
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\linespread{1.16}
+\renewcommand{\arraystretch}{1.15}
+
+% ctex 通常提供 \kaishu；这里用它做教师旁白感。
+\newcommand{\edukai}{\kaishu}
+
+% ---------- 顶部元信息 ----------
+\newcommand{\eduTopBar}[2]{%
+  \noindent
+  \begin{tabularx}{\linewidth}{@{}Xr@{}}
+    {\color{edu-blue}\bfseries #1} &
+    {\color{edu-blue}\bfseries #2}
+  \end{tabularx}
+  \vspace{8mm}
+}
+
+% ---------- 轻标题体系 ----------
+% 只有真正的大结构才用它；不要给提示/路线滥用标题。
+\newcommand{\eduSectionTitle}[1]{%
+  \needspace{5\baselineskip}%
+  \vspace{2mm}
+  {\color{edu-blue}\bfseries\large #1}\par
+  \vspace{3mm}
+}
+
+\newcommand{\eduSubTitle}[1]{%
+  \needspace{4\baselineskip}%
+  \vspace{1mm}
+  {\color{edu-blue}\bfseries #1}\par
+  \vspace{1mm}
+}
+
+% ---------- 小问题干：复用 exam (1)(2)(3) 格式 ----------
+\newenvironment{eduSubQuestionItem}[1]{%
+  \needspace{4\baselineskip}%
+  \vspace{2mm}
+  \par\noindent
+  \hangindent=8mm\hangafter=1
+  {\color{edu-blue}\bfseries #1}\enspace
+  \begingroup
+  \color{edu-ink}
+}{%
+  \endgroup
+  \par
+  \vspace{3mm}
+}
+
+% ---------- 辅助信息条（思路导航/核心思路/思路启发）楷体 ----------
+\newenvironment{eduAuxItem}[1]{%
+  \needspace{4\baselineskip}%
+  \vspace{2mm}
+  \par\noindent
+  \hangindent=8mm\hangafter=1
+  {\color{edu-blue}\edukai $\triangleright$~#1}\enspace
+  \begingroup
+  \color{edu-ink}
+  \edukai
+}{%
+  \endgroup
+  \par
+  \vspace{4mm}
+}
+
+\newcommand{\eduColumnTitle}[2]{%
+  {\color{edu-blue}\bfseries #1\hspace{1.5mm}#2}\par
+  \vspace{2.5mm}
+}
+
+% ---------- 图标：不用外部 icon 字体，保证可移植 ----------
+\newcommand{\eduIconBulb}{\(\circ\)}
+\newcommand{\eduIconBook}{\(\square\)}
+\newcommand{\eduIconCheck}{\(\checkmark\)}
+\newcommand{\eduIconPin}{\(\diamond\)}
+\newcommand{\eduIconNote}{\(\triangleright\)}
+
+% ---------- 题目区 ----------
+% 题目区是页面入口：弱标签 + 一条长蓝线 + 大题干。
+\newenvironment{eduProblemBlock}[1][题目]{%
+  \needspace{8\baselineskip}
+  {\small\color{edu-muted}#1}\par
+  \vspace{1.5mm}
+  {\color{edu-blue}\hrule height 0.55pt}
+  \vspace{4.5mm}
+  \begingroup
+  \color{edu-ink}
+  \large
+  \setlength{\parskip}{2.2mm}
+  \linespread{1.20}\selectfont
+}{%
+  \par
+  \endgroup
+  \vspace{6mm}
+}
+
+\newenvironment{eduSubQuestions}{%
+  \begin{enumerate}[
+    label=(\arabic*),
+    leftmargin=8mm,
+    itemsep=2.0mm,
+    topsep=2.0mm,
+    parsep=0pt
+  ]
+}{%
+  \end{enumerate}
+}
+
+% ---------- 读题提示：轻框，不做同级标题 ----------
+\newtcolorbox{eduReadTipBox}{
+  enhanced,
+  breakable,
+  colback=white,
+  colframe=edu-blue!45,
+  boxrule=0.45pt,
+  arc=1.6mm,
+  left=10mm,
+  right=4mm,
+  top=5mm,
+  bottom=5mm,
+  before skip=1mm,
+  after skip=7mm,
+  fontupper=\edukai\normalsize,
+  colupper=edu-ink,
+  overlay={
+    \node[anchor=north west, text=edu-blue] at ([xshift=3.2mm,yshift=-3.2mm]frame.north west)
+    {\small\eduIconNote};
+  }
+}
+
+\newenvironment{eduTipList}{%
+  \begin{itemize}[
+    label=\textbullet,
+    leftmargin=5mm,
+    itemsep=1.2mm,
+    topsep=0pt,
+    parsep=0pt
+  ]
+}{%
+  \end{itemize}
+}
+
+% ---------- 解题路线：虚线框 + 文字箭头 ----------
+\newenvironment{eduRouteFlow}{%
+  \needspace{4\baselineskip}%
+  \vspace{1mm}
+  \begin{center}
+  \normalsize
+}{%
+  \end{center}
+  \vspace{7mm}
+}
+\newcommand{\eduRouteStep}[1]{%
+  {\color{edu-ink}#1}%
+}
+\newcommand{\eduRouteArrow}{%
+  \;$\boldsymbol{\to}$\;%
+}
+
+% ---------- 主体讲解：使用 paracol 实现跨页自适应双栏 ----------
+\newenvironment{eduDualExplain}{%
+  \needspace{6\baselineskip}% 防止标题孤行
+  \columnratio{0.60, 0.40}%
+  \setlength{\columnsep}{11mm}%
+  \columnseprule=0.45pt%
+  \colseprulecolor{edu-blue}%
+  \begin{paracol}{2}% 开启双栏
+}{%
+  \end{paracol}% 结束双栏
+  \vspace{5mm}
+}
+
+\newenvironment{eduExplainLeft}{%
+  \normalsize\color{edu-ink}%
+}{%
+  \switchcolumn
+}
+
+\newcommand{\eduColumnDivider}{}
+
+\newenvironment{eduExplainRight}{%
+  \normalsize\color{edu-ink}%
+}{%
+}
+
+\newenvironment{eduNumberList}{%
+  \begin{enumerate}[
+    label=\arabic*.,
+    leftmargin=6mm,
+    itemsep=4.8mm,
+    topsep=0pt,
+    parsep=0pt
+  ]
+}{%
+  \end{enumerate}
+}
+
+\newenvironment{eduBulletList}{%
+  \begin{itemize}[
+    label=\textbullet,
+    leftmargin=5mm,
+    itemsep=1.2mm,
+    topsep=0pt,
+    parsep=0pt
+  ]
+}{%
+  \end{itemize}
+}
+
+% ---------- 底部双栏：答案 + 方法提醒 ----------
+\newenvironment{eduBottomGrid}{%
+  \columnratio{0.32, 0.68}%
+  \setlength{\columnsep}{11mm}%
+  \columnseprule=0.35pt%
+  \colseprulecolor{edu-line}%
+  \begin{paracol}{2}%
+}{%
+  \end{paracol}%
+}
+
+\newenvironment{eduSummaryLeft}{%
+}{%
+}
+
+\newcommand{\eduSummaryDivider}{%
+  \switchcolumn
+}
+
+\newenvironment{eduSummaryRight}{%
+}{%
+}
+
+% ---------- 答案/方法提醒：轻量收束 ----------
+\newtcolorbox{eduSummaryBlock}[2]{
+  enhanced,
+  breakable,
+  colback=white,
+  colframe=white,
+  boxrule=0pt,
+  sharp corners,
+  left=0mm,
+  right=0mm,
+  top=1mm,
+  bottom=1mm,
+  before skip=1mm,
+  after skip=1mm,
+  title={\color{edu-blue}\bfseries #1\hspace{1.5mm}#2},
+  coltitle=edu-blue,
+  attach title to upper={\par\vspace{2mm}},
+  fontupper=\normalsize
+}
+
+\newenvironment{eduPlainList}{%
+  \begin{enumerate}[
+    label=(\arabic*),
+    leftmargin=7mm,
+    itemsep=1.2mm,
+    topsep=0pt,
+    parsep=0pt
+  ]
+}{%
+  \end{enumerate}
+}
+
+% ---------- 兼容旧 block 的轻量盒子 ----------
+\newtcolorbox{eduSoftBox}{
+  enhanced,
+  breakable,
+  colback=edu-soft-bg,
+  colframe=edu-line,
+  boxrule=0.35pt,
+  arc=1mm,
+  left=3mm,
+  right=3mm,
+  top=2mm,
+  bottom=2mm,
+  before skip=1mm,
+  after skip=2mm,
+  fontupper=\small
+}
+
+\newtcolorbox{eduMistakeBox}{
+  enhanced,
+  breakable,
+  colback=edu-red-bg,
+  colframe=edu-red!40,
+  boxrule=0.35pt,
+  arc=1mm,
+  left=3mm,
+  right=3mm,
+  top=2.5mm,
+  bottom=2.5mm,
+  before skip=1mm,
+  after skip=2mm,
+  fontupper=\normalsize
+}
+
+\newtcolorbox{eduLegacySolution}{
+  enhanced,
+  breakable,
+  colback=edu-soft-bg,
+  colframe=edu-line,
+  boxrule=0.35pt,
+  arc=1mm,
+  left=3mm,
+  right=3mm,
+  top=2mm,
+  bottom=2mm,
+  before skip=-2mm,
+  after skip=4mm,
+  fontupper=\small
+}
+
+\newtcolorbox{eduTeacherNote}{
+  enhanced,
+  breakable,
+  colback=edu-soft-bg,
+  colframe=edu-line,
+  boxrule=0pt,
+  borderline west={1.5pt}{0pt}{edu-muted},
+  left=2.5mm,
+  right=2.5mm,
+  top=2mm,
+  bottom=2mm,
+  before skip=1mm,
+  after skip=2mm,
+  fontupper=\footnotesize,
+  colupper=edu-muted
+}
+
+% ---------- 答题区 ----------
+\newcommand{\answerarea}[1][40mm]{%
+  \vspace{3mm}%
+  \begin{tcolorbox}[
+    enhanced,
+    breakable,
+    colback=white,
+    colframe=edu-line,
+    boxrule=0.55pt,
+    arc=0.8mm,
+    height=#1,
+    valign=top,
+  ]
+  \end{tcolorbox}%
+}
+
+\examsetup{
+  question/show-answer = true,
+  fillin/show-answer = true,
+  solution/show-solution = show-stay,
+}
+
+\begin{document}
+
+\eduSectionTitle{例题 1 — 一线三垂直求等腰直角第三顶点 C}
+
+\begin{eduProblemBlock}[题目]
+直线 $y = -\dfrac{\sqrt{3}}{3}x + 1$ 与 $x$ 轴、$y$ 轴分别交于 $A$、$B$，以 $AB$ 为直角边在第一象限作等腰 Rt$\triangle ABC$，$\angle BAC = 90°$。
+(1) 求点 $C$ 的坐标。
+
+\end{eduProblemBlock}
+
+
+
+
+
+
+
+
+
+\begin{eduAuxItem}{思路导航}
+令 $y=0$ 求 $A(\sqrt{3},\,0)$，令 $x=0$ 求 $B(0,\,1)$$\;\to\;$过 $A$ 做 $x$ 轴辅助线，过 $B$、$C$ 做垂线$\;\to\;$标出三个直角，证明 $\triangle ABB_1 \cong \triangle CC_1A$$\;\to\;$由对应边：$AB_1 \to CC_1$，$BB_1 \to AC_1$$\;\to\;$求出 $C$ 坐标，验证等腰 $+$ 直角\end{eduAuxItem}
+
+
+
+
+\begin{eduAuxItem}{核心思路}
+\textbf{一线三垂直全等模型（核心工具）}：
+\begin{enumerate}
+  \item 过直角顶点 $A$ 沿坐标轴方向做辅助线（本题 $A$ 在 $x$ 轴上，直接用 $x$ 轴）
+  \item 从两个锐角顶点 $B$、$C$ 分别做辅助线的垂线，垂足为 $B_1$、$C_1$
+  \item 辅助线上出现三个直角：$\angle AB_1B = 90°$、$\angle BAC = 90°$、$\angle AC_1C = 90°$
+  \item 由互补关系证 $\angle ABB_1 = \angle CAC_1$，加上 $AB = AC$，得 $\triangle ABB_1 \cong \triangle CC_1A$（AAS）
+  \item 全等 $\Rightarrow$ 对应边相等：水平位移与竖直位移互换
+\end{enumerate}
+\end{eduAuxItem}
+
+
+
+
+\begin{eduSubQuestionItem}{(1)}
+求点 $C$ 的坐标。\end{eduSubQuestionItem}
+
+\begingroup
+\setlength{\parskip}{2.5mm}
+令 $y = 0$：$-\dfrac{\sqrt{3}}{3}x + 1 = 0 \implies x = \sqrt{3}$，$A(\sqrt{3},\,0)$；令 $x = 0$：$B(0,\,1)$\par
+过直角顶点 $A$ 沿 $x$ 轴做辅助线。过 $B$ 做 $x$ 轴垂线，垂足 $B_1(0,\,0)$；过 $C$ 做 $x$ 轴垂线，垂足 $C_1(x_C,\,0)$\par
+三个直角：$\angle AB_1B = 90°$（$B_1$ 处），$\angle BAC = 90°$（$A$ 处），$\angle AC_1C = 90°$（$C_1$ 处）\par
+在 $\triangle ABB_1$ 中 $\angle ABB_1 = 90° - \angle B_1AB$；又 $\angle BAC = 90° = \angle B_1AB + \angle CAC_1$，所以 $\angle ABB_1 = \angle CAC_1$\par
+$AB = AC$（等腰直角），$\angle AB_1B = \angle AC_1C = 90°$，$\angle ABB_1 = \angle CAC_1$ $\implies$ $\triangle ABB_1 \cong \triangle CC_1A$（AAS）\par
+由全等：$AB_1 = CC_1 = \sqrt{3}$ $\implies$ $y_C = \sqrt{3}$；$BB_1 = AC_1 = 1$ $\implies$ $x_C = \sqrt{3} + 1$\par
+$C(\sqrt{3}+1,\,\sqrt{3})$，验证：$AB = \sqrt{3+1} = 2$，$AC = \sqrt{1+3} = 2$ $\checkmark$\par
+\endgroup
+
+\vspace{2mm}
+\eduSubTitle{注意}
+\begin{eduBulletList}
+  \item $\dfrac{1}{\sqrt{3}/3} = \dfrac{3}{\sqrt{3}} = \sqrt{3}$，不要算成 $3\sqrt{3}$。  \item 全等对应：$A \leftrightarrow C$，$B \leftrightarrow A$，$B_1 \leftrightarrow C_1$，所以 $AB_1$ 对应 $CC_1$，$BB_1$ 对应 $AC_1$。\end{eduBulletList}
+
+
+
+
+\begin{eduBottomGrid}
+  \begin{eduSummaryLeft}
+    \begin{eduSummaryBlock}{\eduIconCheck}{答案}
+    \begin{eduPlainList}
+      \item $C(\sqrt{3}+1,\,\sqrt{3})$    \end{eduPlainList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryLeft}
+  \eduSummaryDivider
+  \begin{eduSummaryRight}
+    \begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
+    \begin{eduBulletList}
+      \item 一线三垂直标准六步：求交点 $\to$ 做辅助线 $\to$ 做垂线 $\to$ 证全等 $\to$ 对应边互换 $\to$ 求坐标。      \item 全等后水平位移变成竖直位移、竖直位移变成水平位移，注意方向。    \end{eduBulletList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryRight}
+\end{eduBottomGrid}
+
+
+
+
+\begin{eduMistakeBox}
+\eduSubTitle{全等对应边搞反}$\triangle ABB_1 \cong \triangle CC_1A$ 的对应关系是 $A \leftrightarrow C$、$B \leftrightarrow A$、$B_1 \leftrightarrow C_1$。
+所以 $AB_1$（水平）对应 $CC_1$（竖直），$BB_1$（竖直）对应 $AC_1$（水平）——水平与竖直互换。
+如果搞反了，$AB_1$ 对应 $AC_1$，就会得到 $x_C = \sqrt{3} + \sqrt{3}$ 的错误结果。
+\end{eduMistakeBox}
+
+
+
+
+\begin{eduMistakeBox}
+\eduSubTitle{辅助线方向选错}过直角顶点做辅助线时，选坐标轴方向（水平或竖直）最方便，因为垂线也沿坐标轴方向，坐标计算最简单。
+如果选斜线做辅助线，垂线是斜的，坐标计算会变复杂。
+\end{eduMistakeBox}
+
+
+
+
+\begin{eduAuxItem}{思路启发}
+$A$ 在 $x$ 轴上，过 $A$ 做辅助线选什么方向最方便？为什么？\end{eduAuxItem}
+
+
+
+
+\begin{eduAuxItem}{思路启发}
+如果直角顶点不在坐标轴上（比如 $A(2, 3)$），辅助线该怎么画？全等还成立吗？\end{eduAuxItem}
+
+
+
+\clearpage
+\eduSectionTitle{例题 2 — 条件求点 + 一线三垂直构造 P}
+
+\begin{eduProblemBlock}[题目]
+直线 $AB$ 过 $A(-1,1)$、$B(2,0)$，交 $y$ 轴于 $C$。$D(0,n)$ 在 $C$ 上方，$S_{\triangle ABD} = 2$ 时，求 $P$ 使 $BP = BD$ 且 $BP \perp BD$。
+
+\end{eduProblemBlock}
+
+
+
+
+
+
+
+
+
+\begin{eduAuxItem}{思路导航}
+求直线 $AB$ 解析式和 $C$ 坐标$\;\to\;$用 $CD$ 作竖直底边，拆成 $\triangle ACD$ 和 $\triangle BCD$ 求 $n$$\;\to\;$对 $\triangle BDP$（等腰直角，$B$ 为直角顶点）套一线三垂直$\;\to\;$由全等对应边求 $P$ 坐标（注意两解）\end{eduAuxItem}
+
+
+
+
+\begin{eduSubQuestionItem}{第一步}
+求直线 $AB$ 解析式和点 $D$ 坐标。\end{eduSubQuestionItem}
+
+\begingroup
+\setlength{\parskip}{2.5mm}
+$k = \dfrac{0 - 1}{2 - (-1)} = -\dfrac{1}{3}$，$y = -\dfrac{1}{3}x + \dfrac{2}{3}$ $\implies$ $C\!\left(0,\,\dfrac{2}{3}\right)$\par
+因为 $D$ 在 $C$ 上方，$CD=n-\dfrac{2}{3}$。以 $CD$ 为公共底，$A$ 到 $y$ 轴的距离为 $1$，$B$ 到 $y$ 轴的距离为 $2$\par
+$S_{\triangle ABD}=S_{\triangle ACD}+S_{\triangle BCD}=\dfrac12\cdot CD\cdot1+\dfrac12\cdot CD\cdot2=\dfrac32\left(n-\dfrac23\right)$\par
+$\dfrac32\left(n-\dfrac23\right)=2 \implies n=2$，所以 $D(0,\,2)$\par
+\endgroup
+
+
+
+
+
+\begin{eduSubQuestionItem}{第二步}
+用一线三垂直求 $P$ 坐标。\end{eduSubQuestionItem}
+
+\begingroup
+\setlength{\parskip}{2.5mm}
+$BP = BD$ 且 $BP \perp BD$ $\implies$ $\triangle BDP$ 等腰直角，$B$ 为直角顶点\par
+过直角顶点 $B$ 作水平辅助线（即 $x$ 轴）。过锐角顶点 $D(0,2)$ 作垂线，垂足 $D_1(0,0)$，则 $BD_1=2$，$DD_1=2$\par
+再过另一个锐角顶点 $P$ 作辅助线的垂线，垂足为 $P_1$。三个直角是 $\angle BD_1D$、$\angle DBP$、$\angle BP_1P$\par
+由一线三垂直，$\triangle BDD_1 \cong \triangle PP_1B$（AAS），所以 $BP_1=DD_1=2$，$PP_1=BD_1=2$\par
+若 $P_1$ 在 $B$ 右侧，则 $x_P=2+2=4$，且 $P$ 在 $x$ 轴上方，$P(4,\,2)$\par
+若 $P_1$ 在 $B$ 左侧，则 $x_P=2-2=0$，且 $P$ 在 $x$ 轴下方，$P(0,\,-2)$\par
+检验：两点都满足 $BP=BD=2\sqrt2$，且一线三垂直的构造已经保证 $BP\perp BD$\par
+\endgroup
+
+\vspace{2mm}
+\eduSubTitle{后两问如何承接}
+\begin{eduBulletList}
+  \item $P(0,\,-2)$ 时，$P$ 的垂足 $P_1(0,0)$ 恰好与 $D_1$ 重合——这是垂足重合的退化情形，不要漏掉。\end{eduBulletList}
+
+
+
+
+\begin{eduBottomGrid}
+  \begin{eduSummaryLeft}
+    \begin{eduSummaryBlock}{\eduIconCheck}{答案}
+    \begin{eduPlainList}
+      \item $D(0,\,2)$，$P(4,\,2)$ 或 $P(0,\,-2)$    \end{eduPlainList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryLeft}
+  \eduSummaryDivider
+  \begin{eduSummaryRight}
+    \begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
+    \begin{eduBulletList}
+      \item 条件构造型：先用条件（面积）确定已知点，再套一线三垂直。      \item 全等求坐标时注意两侧都有解，检查退化情形。    \end{eduBulletList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryRight}
+\end{eduBottomGrid}
+
+
+
+
+\begin{eduMistakeBox}
+\eduSubTitle{漏掉 P(0, -2)}$P$ 可以在 $B$ 的左侧。全等 $\triangle BDD_1 \cong \triangle BP_1P$ 中，$P_1$ 可以在 $B$ 的左侧（$x_P = 0$），此时 $y_P = -2$。
+不要因为 $D_1$ 和 $P_1$ 重合就认为这个解不成立。
+\end{eduMistakeBox}
+
+
+
+
+\begin{eduMistakeBox}
+\eduSubTitle{面积别套高中公式}不要直接套行列式面积。这里 $C$、$D$ 都在 $y$ 轴上，先看 $CD=n-\frac23$，再把 $\triangle ABD$ 拆成 $\triangle ACD$ 和 $\triangle BCD$。
+两个小三角形的高分别是 $1$ 和 $2$，因此面积是 $\frac12CD\cdot1+\frac12CD\cdot2$。
+\end{eduMistakeBox}
+
+
+
+
+\begin{eduAuxItem}{思路启发}
+观察 $\triangle BDD_1$，$BD_1 = DD_1 = 2$，它本身是什么三角形？这个发现能帮你更快求 $P$ 吗？\end{eduAuxItem}
+
+
+
+\clearpage
+\eduSectionTitle{例题 3 — 手拉手：两正方形全等证垂直}
+
+\begin{eduProblemBlock}[题目]
+以 $\triangle ABC$ 的边 $AC$、$AB$ 向外作正方形 $ABEF$ 和 $ACNM$，联结 $BM$、$CF$。
+(1) 证明 $BM = CF$，$BM \perp CF$；
+(2) 若 $AB = 3$，$AC = 2$，$BC = 4$，求 $FM$。
+
+\end{eduProblemBlock}
+
+
+
+
+
+
+
+
+
+\begin{eduAuxItem}{思路导航}
+证 $\triangle FAC \cong \triangle BAM$（SAS）$\;\to\;$由全等 + 旋转 $90°$ 的几何意义证 $BM \perp CF$$\;\to\;$建系求 $C$ 坐标，再求 $F$、$M$ 坐标$\;\to\;$距离公式求 $FM$\end{eduAuxItem}
+
+
+
+
+\begin{eduAuxItem}{核心思路}
+\textbf{手拉手模型核心}：两个正方形共顶点 $A$，各贡献一个 $90°$ 角。
+$\angle FAC = \angle FAB + \angle BAC = 90° + \angle BAC = \angle BAM$，从而 SAS 全等。
+
+\textbf{证垂直的简洁方法}：$\triangle FAC$ 绕 $A$ 旋转 $90°$ 得到 $\triangle BAM$（因为两个正方形各贡献 $90°$）。
+旋转 $90°$ 使对应线段 $CF$ 和 $BM$ 的夹角也是 $90°$，所以 $BM \perp CF$。
+
+\textbf{第(2)问建系}：设 $A$ 在原点，$AB$ 沿 $x$ 轴，由距离公式求 $C$ 坐标，再用正方形方向确定 $F$、$M$ 坐标。
+\end{eduAuxItem}
+
+
+
+
+\begin{eduSubQuestionItem}{(1)}
+证明 $BM = CF$，$BM \perp CF$。\end{eduSubQuestionItem}
+
+\begingroup
+\setlength{\parskip}{2.5mm}
+$AB = AF$（正方形 $ABEF$），$AC = AM$（正方形 $ACNM$）\par
+$\angle FAC = \angle FAB + \angle BAC = 90° + \angle BAC = \angle BAM$\par
+$\therefore \triangle FAC \cong \triangle BAM$（SAS）$\implies$ $BM = CF$\par
+$\triangle FAC$ 绕 $A$ 旋转 $90°$ 得 $\triangle BAM$（两个正方形各转 $90°$），旋转 $90°$ 使对应线段夹角为 $90°$\par
+$\therefore BM \perp CF$\par
+\endgroup
+
+
+
+
+
+\begin{eduSubQuestionItem}{(2)}
+$AB = 3$，$AC = 2$，$BC = 4$，求 $FM$。\end{eduSubQuestionItem}
+
+\begingroup
+\setlength{\parskip}{2.5mm}
+设 $A(0,0)$，$B(3,0)$。由 $AC = 2$、$BC = 4$ 列方程求 $C$：$x_C^2 + y_C^2 = 4$，$(x_C-3)^2 + y_C^2 = 16$ $\implies$ $C\!\left(-\dfrac{1}{2},\,\dfrac{\sqrt{15}}{2}\right)$\par
+正方形 $ABEF$ 向外（远离 $C$，$C$ 在上方故 $F$ 在下方）：$F(0,\,-3)$\par
+正方形 $ACNM$ 向外（远离 $B$，$B$ 在右侧故 $M$ 在左下）：$M\!\left(-\dfrac{\sqrt{15}}{2},\,-\dfrac{1}{2}\right)$\par
+$FM = \sqrt{\left(\dfrac{\sqrt{15}}{2}\right)^2 + \left(\dfrac{5}{2}\right)^2} = \sqrt{\dfrac{15}{4} + \dfrac{25}{4}} = \sqrt{10}$\par
+\endgroup
+
+
+
+
+
+\begin{eduBottomGrid}
+  \begin{eduSummaryLeft}
+    \begin{eduSummaryBlock}{\eduIconCheck}{答案}
+    \begin{eduPlainList}
+      \item (1) $BM = CF$，$BM \perp CF$      \item (2) $FM = \sqrt{10}$    \end{eduPlainList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryLeft}
+  \eduSummaryDivider
+  \begin{eduSummaryRight}
+    \begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
+    \begin{eduBulletList}
+      \item 手拉手：共顶点正方形 $\to$ SAS 全等 $\to$ 旋转 $90°$ 证垂直。      \item 建系求长度：先确定正方形方向（"向外"），再用距离公式。    \end{eduBulletList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryRight}
+\end{eduBottomGrid}
+
+
+
+
+\begin{eduAuxItem}{思路启发}
+如果两个正方形都向内（朝向 $\triangle ABC$）作，全等还成立吗？垂直关系还成立吗？\end{eduAuxItem}
+
+
+
+
+\end{document}

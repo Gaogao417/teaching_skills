@@ -1,8 +1,8 @@
 <# exam-zh-explanation.tex.j2 — 讲解页模板
    设计目标：
    1. 题目区是入口，长蓝线 + 大题干；
-   2. 解题流程用 SubQuestionItem 风格；
-   3. 关键想法用纯文本；
+   2. 思路导航用 SubQuestionItem 风格；
+   3. 核心思路用纯文本；
    4. 只有主体讲解使用双栏；
    5. 答案和方法提醒做轻量收束。
 #>
@@ -25,8 +25,7 @@
 \begin{document}
 
 <% for section in sections %>
-<# 教师专属区块或答案页：自动另起一页（不依赖 YAML layout 字段）#>
-<% if section.type == "answer_key" or section.visibility == "teacher" %>
+<% if (section.layout and section.layout.break_before) or section.type == "answer_key" or section.visibility == "teacher" %>
 \clearpage
 <% endif %>
 <% if section.title and section.show_title %>
@@ -64,24 +63,24 @@
 <% endif %>
 
 <# ———————————————————————————
-   解题流程：辅助信息条（楷体 + 图标）
+   思路导航：辅助信息条（楷体 + 图标）
    支持字段：block.steps
 ——————————————————————————— #>
 <% elif block.type == "route" %>
-\begin{eduAsideBlock}{思路导航}
+\begin{eduAuxItem}{思路导航}
 <% for step in block.steps|default([]) %>
 <% if step.latex %><%= step.latex %><% elif step.text %><%= step.text|latex_escape %><% else %><%= step|latex_escape %><% endif %><% if not loop.last %>$\;\to\;$<% endif %>
 <% endfor %>
-\end{eduAsideBlock}
+\end{eduAuxItem}
 
 <# ———————————————————————————
-   关键想法：辅助信息条（楷体 + 图标）
+   核心思路：辅助信息条（楷体 + 图标）
    支持字段：block.content
 ——————————————————————————— #>
 <% elif block.type == "key_idea" %>
-\begin{eduAsideBlock}{核心思路}
+\begin{eduAuxItem}{核心思路}
 <% if block.content_latex %><%= block.content_latex %><% else %><%= block.content|latex_escape %><% endif %>
-\end{eduAsideBlock}
+\end{eduAuxItem}
 
 <# ———————————————————————————
    读题提示：跳过，不渲染
@@ -99,40 +98,27 @@
 ——————————————————————————— #>
 <% elif block.type == "explanation_dual" or block.type == "dual_explanation" %>
 <% if block.stem_latex or block.stem %>
-\begin{eduSubQuestionBlock}{<% if block.label %><%= block.label|latex_escape %><% else %>(\arabic*)<% endif %>}
+\begin{eduSubQuestionItem}{<% if block.label %><%= block.label|latex_escape %><% else %>(\arabic*)<% endif %>}
 <% if block.stem_latex %><%= block.stem_latex %><% else %><%= block.stem|latex_escape %><% endif %>
-\end{eduSubQuestionBlock}
+\end{eduSubQuestionItem}
 <% endif %>
 
-\begin{eduDualExplain}
-  \begin{eduExplainLeft}
-    \eduColumnTitle{\eduIconBulb}{<% if block.left_title %><%= block.left_title|latex_escape %><% else %>思路点拨<% endif %>}
-    \begin{eduNumberList}
-    <% for item in block.left_items|default([]) %>
-      \item <% if item.latex %><%= item.latex %><% elif item.text %><%= item.text|latex_escape %><% elif item.content %><%= item.content|latex_escape %><% else %><%= item|latex_escape %><% endif %>
-    <% endfor %>
-    \end{eduNumberList}
-  \end{eduExplainLeft}
-  \eduColumnDivider
-  \begin{eduExplainRight}
-    \eduColumnTitle{\eduIconBook}{<% if block.right_title %><%= block.right_title|latex_escape %><% else %>解题示范<% endif %>}
-    \begin{eduNumberList}
-    <% for step in block.right_steps|default([]) %>
-      \item <% if step.latex %><%= step.latex %><% elif step.text %><%= step.text|latex_escape %><% elif step.content %><%= step.content|latex_escape %><% else %><%= step|latex_escape %><% endif %>
-    <% endfor %>
-    \end{eduNumberList}
+\begingroup
+\setlength{\parskip}{2.5mm}
+<% for item in block.left_items|default([]) %>
+<% if item.latex %><%= item.latex %><% elif item.text %><%= item.text|latex_escape %><% elif item.content %><%= item.content|latex_escape %><% else %><%= item|latex_escape %><% endif %>\par
+<% endfor %>
+\endgroup
 
-    <% if block.connection_items %>
-    \vspace{1mm}
-    \eduSubTitle{<% if block.connection_title %><%= block.connection_title|latex_escape %><% else %>后两问如何承接<% endif %>}
-    \begin{eduBulletList}
-    <% for item in block.connection_items %>
-      \item <% if item.latex %><%= item.latex %><% elif item.text %><%= item.text|latex_escape %><% elif item.content %><%= item.content|latex_escape %><% else %><%= item|latex_escape %><% endif %>
-    <% endfor %>
-    \end{eduBulletList}
-    <% endif %>
-  \end{eduExplainRight}
-\end{eduDualExplain}
+<% if block.connection_items %>
+\vspace{2mm}
+\eduSubTitle{<% if block.connection_title %><%= block.connection_title|latex_escape %><% else %>后两问如何承接<% endif %>}
+\begin{eduBulletList}
+<% for item in block.connection_items %>
+  \item <% if item.latex %><%= item.latex %><% elif item.text %><%= item.text|latex_escape %><% elif item.content %><%= item.content|latex_escape %><% else %><%= item|latex_escape %><% endif %>
+<% endfor %>
+\end{eduBulletList}
+<% endif %>
 
 <# ———————————————————————————
    答案 + 方法提醒：双栏收束
@@ -140,7 +126,7 @@
 <% elif block.type == "summary_dual" or block.type == "answer_reminder" %>
 \begin{eduBottomGrid}
   \begin{eduSummaryLeft}
-    \begin{eduSummaryBlock}{\eduIconCheck}{<% if block.left_title %><%= block.left_title|latex_escape %><% else %>参考答案<% endif %>}
+    \begin{eduSummaryBlock}{\eduIconCheck}{<% if block.left_title %><%= block.left_title|latex_escape %><% else %>答案<% endif %>}
     \begin{eduPlainList}
     <% for item in block.left_items|default([]) %>
       \item <% if item.latex %><%= item.latex %><% elif item.text %><%= item.text|latex_escape %><% else %><%= item|latex_escape %><% endif %>
@@ -150,7 +136,7 @@
   \end{eduSummaryLeft}
   \eduSummaryDivider
   \begin{eduSummaryRight}
-    \begin{eduSummaryBlock}{\eduIconPin}{<% if block.right_title %><%= block.right_title|latex_escape %><% else %>方法提炼<% endif %>}
+    \begin{eduSummaryBlock}{\eduIconPin}{<% if block.right_title %><%= block.right_title|latex_escape %><% else %>方法提醒<% endif %>}
     \begin{eduBulletList}
     <% for item in block.right_items|default([]) %>
       \item <% if item.latex %><%= item.latex %><% elif item.text %><%= item.text|latex_escape %><% elif item.content %><%= item.content|latex_escape %><% else %><%= item|latex_escape %><% endif %>
@@ -164,7 +150,7 @@
    答案区：轻量总结
 ——————————————————————————— #>
 <% elif block.type == "answer" or block.type == "answers" %>
-\begin{eduSummaryBlock}{\eduIconCheck}{<% if block.title %><%= block.title|latex_escape %><% else %>参考答案<% endif %>}
+\begin{eduSummaryBlock}{\eduIconCheck}{<% if block.title %><%= block.title|latex_escape %><% else %>答案<% endif %>}
 <% if block.get('items') %>
 \begin{eduPlainList}
 <% for item in block.get('items') %>
@@ -182,7 +168,7 @@
    方法提醒
 ——————————————————————————— #>
 <% elif block.type == "method_reminder" or block.type == "reminder" %>
-\begin{eduSummaryBlock}{\eduIconPin}{<% if block.title %><%= block.title|latex_escape %><% else %>方法提炼<% endif %>}
+\begin{eduSummaryBlock}{\eduIconPin}{<% if block.title %><%= block.title|latex_escape %><% else %>方法提醒<% endif %>}
 \begin{eduBulletList}
 <% for item in block.get('items', []) %>
   \item <% if item.latex %><%= item.latex %><% elif item.text %><%= item.text|latex_escape %><% elif item.content %><%= item.content|latex_escape %><% else %><%= item|latex_escape %><% endif %>
@@ -194,14 +180,14 @@
    兼容旧 block
 ——————————————————————————— #>
 <% elif block.type == "step" %>
-\begin{eduLightBox}
+\begin{eduSoftBox}
   <% if block.title %>\eduSubTitle{<%= block.title|latex_escape %>}<% endif %>
   <% if block.content_latex %><%= block.content_latex %><% else %><%= block.content|latex_escape %><% endif %>
   <% if block.why %>\par{\small\color{edu-muted}<%= block.why|latex_escape %>}<% endif %>
   <% for sub in block.substeps|default([]) %>
     \par\hspace{5mm}{\small — <%= sub|latex_escape %>}
   <% endfor %>
-\end{eduLightBox}
+\end{eduSoftBox}
 
 <% elif block.type == "mistake" %>
 \begin{eduMistakeBox}
@@ -210,9 +196,9 @@
 \end{eduMistakeBox}
 
 <% elif block.type == "hint" %>
-\begin{eduAsideBlock}{思路启发}
+\begin{eduAuxItem}{思路启发}
 <% if block.content_latex %><%= block.content_latex %><% else %><%= block.content|latex_escape %><% endif %>
-\end{eduAsideBlock}
+\end{eduAuxItem}
 
 <% elif block.type == "choice" %>
 \begin{question}[points=<%= block.points|default(4) %>]
@@ -231,9 +217,7 @@
 \begin{question}[points=<%= block.points|default(4) %>]
   <% if block.stem_latex %><%= block.stem_latex %><% else %><%= block.stem|latex_escape %><% endif %>
   <% if meta.version != "student" and block.answer %>
-  \fillin[<%= block.answer|latex_escape %>]
-  <% else %>
-  \fillin
+  \paren[<%= block.answer|latex_escape %>]
   <% endif %>
 \end{question}
 

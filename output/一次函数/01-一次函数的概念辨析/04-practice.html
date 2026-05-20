@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>自适应练习：识别一次函数与正比例函数</title>
+<link rel="stylesheet" href="../assets/edu-print.css">
+<script>
+MathJax = {
+  tex: { inlineMath: [['$', '$']], displayMath: [['$$', '$$']] },
+  startup: { pageReady: () => MathJax.startup.defaultPageReady() }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+</head>
+<body data-view="student">
+
+<div class="edu-page">
+
+  <!-- 标题区 -->
+  <h1 class="edu-title">自适应练习：识别一次函数与正比例函数</h1>
+  <p class="edu-subtitle">一次函数的概念辨析</p>
+
+  <!-- 练习说明 -->
+  <div class="edu-section">
+    <h2 class="edu-section-title">练习说明</h2>
+    <p class="edu-p">将每个表达式化简为 $y = kx + b$ 的标准形式，再判断它是否为一次函数或正比例函数。核心动作只有一个：<span class="edu-strong">化简 → 对比定义</span>。</p>
+  </div>
+
+  <!-- 题目 1 -->
+  <div class="edu-practice-problem u-avoid-break">
+    <h3 class="edu-practice-title">练习 1</h3>
+    <p class="edu-p"><strong>题目：</strong>下列函数中，哪些是一次函数？哪些是正比例函数？</p>
+    <p class="edu-p">(1) $y = \dfrac{2x - 4}{3}$</p>
+    <p class="edu-p">(2) $y = \dfrac{2x}{3}$</p>
+    <p class="edu-p">(3) $y = 3x + 5$</p>
+    <p class="edu-p">(4) $y = 5 + \dfrac{2x}{3}$</p>
+    <p class="edu-p">(5) $y = (x+1)^2 - x^2 - 2x$</p>
+    <p class="edu-p">(6) $y - x^2 = 4$</p>
+
+    <!-- 提示 1 -->
+    <div class="edu-hint">
+      <p class="edu-hint-title">提示 1</p>
+      <p class="edu-p">回顾定义：一次函数是 $y = kx + b\ (k \neq 0)$ 的形式，正比例函数是 $b = 0$ 时的特例。先把每个式子尽量化成这个样子。</p>
+    </div>
+
+    <!-- 提示 2 -->
+    <div class="edu-hint">
+      <p class="edu-hint-title">提示 2</p>
+      <p class="edu-p">重点看第(5)题——表面有 $x^2$，但展开后可能消掉。第(6)题移项后看看 $x$ 的最高次数是几。</p>
+    </div>
+
+    <!-- 解答步骤 -->
+    <div class="edu-answer-steps">
+      <p class="edu-answer-step-label">解答步骤</p>
+      <div class="edu-answer-step">
+        <p class="edu-p">(1) $y = \dfrac{2}{3}x - \dfrac{4}{3}$，$k = \dfrac{2}{3} \neq 0$，$b = -\dfrac{4}{3} \neq 0$ → 一次函数</p>
+      </div>
+      <div class="edu-answer-step">
+        <p class="edu-p">(2) $y = \dfrac{2}{3}x$，$k = \dfrac{2}{3} \neq 0$，$b = 0$ → 一次函数且正比例函数</p>
+      </div>
+      <div class="edu-answer-step">
+        <p class="edu-p">(3) $y = 3x + 5$，已经是标准形式 → 一次函数</p>
+      </div>
+      <div class="edu-answer-step">
+        <p class="edu-p">(4) $y = \dfrac{2}{3}x + 5$，$k = \dfrac{2}{3} \neq 0$ → 一次函数</p>
+      </div>
+      <div class="edu-answer-step">
+        <p class="edu-p">(5) $y = (x^2 + 2x + 1) - x^2 - 2x = 1$，化简后不含 $x$（即 $k = 0$）→ 不是一次函数（是常函数）</p>
+      </div>
+      <div class="edu-answer-step">
+        <p class="edu-p">(6) $y = x^2 + 4$，$x$ 的最高次数为 2 → 二次函数，不是一次函数</p>
+      </div>
+    </div>
+
+    <!-- 教师备注 -->
+    <div class="edu-teacher-note no-print">
+      <p class="edu-card-title">教师备注</p>
+      <p class="edu-training-goal">训练目标：能将分式形式化为 $y = kx + b$ 标准形式，并准确判断。</p>
+      <p class="edu-expected-blocker">预期卡点：第(5)题展开化简后 $x$ 项完全消掉，学生可能没想到需要真正展开计算；第(1)题分母分配到每一项容易出错。</p>
+      <p class="edu-upgrade">升级信号：3 题以上全对，且第(5)题正确识别为常函数。</p>
+      <p class="edu-downgrade">降级信号：第(1)题或第(4)题化简出错，说明分式运算不熟练，需回退复习分式基本运算。</p>
+    </div>
+  </div>
+
+  <!-- 题目 2 -->
+  <div class="edu-practice-problem u-avoid-break">
+    <h3 class="edu-practice-title">练习 2</h3>
+    <p class="edu-p"><strong>题目：</strong>下列函数中，哪些是一次函数？哪些是正比例函数？</p>
+    <p class="edu-p">(1) $y = -\dfrac{x + 3}{2}$</p>
+    <p class="edu-p">(2) $y = -\dfrac{x}{2}$</p>
+    <p class="edu-p">(3) $y = 4 - 3x$</p>
+    <p class="edu-p">(4) $y = -3x$</p>
+    <p class="edu-p">(5) $y = x(x - 1) - (x^2 - x + 1)$</p>
+    <p class="edu-p">(6) $y = \dfrac{6}{x} - 1$</p>
+
+    <!-- 提示 1 -->
+    <div class="edu-hint">
+      <p class="edu-hint-title">提示 1</p>
+      <p class="edu-p">先逐个化为 $y = kx + b$ 的形式。遇到分式的，把分母分配到分子每一项；遇到乘法展开的，先展开再合并同类项。</p>
+    </div>
+
+    <!-- 提示 2 -->
+    <div class="edu-hint">
+      <p class="edu-hint-title">提示 2</p>
+      <p class="edu-p">注意第(5)题：表面有两个 $x^2$ 项，展开后观察它们是否抵消。第(6)题的 $x$ 出现在分母位置——这和 $kx$ 的形式一样吗？</p>
+    </div>
+
+    <!-- 解答步骤 -->
+    <div class="edu-answer-steps">
+      <p class="edu-answer-step-label">解答步骤</p>
+      <div class="edu-answer-step">
+        <p class="edu-p">(1) $y = -\dfrac{1}{2}x - \dfrac{3}{2}$，$k = -\dfrac{1}{2} \neq 0$ → 一次函数</p>
+      </div>
+      <div class="edu-answer-step">
+        <p class="edu-p">(2) $y = -\dfrac{1}{2}x$，$k = -\dfrac{1}{2} \neq 0$，$b = 0$ → 一次函数且正比例函数</p>
+      </div>
+      <div class="edu-answer-step">
+        <p class="edu-p">(3) $y = -3x + 4$，已经是标准形式 → 一次函数</p>
+      </div>
+      <div class="edu-answer-step">
+        <p class="edu-p">(4) $y = -3x$，$k = -3 \neq 0$，$b = 0$ → 一次函数且正比例函数</p>
+      </div>
+      <div class="edu-answer-step">
+        <p class="edu-p">(5) $y = (x^2 - x) - x^2 + x - 1 = -1$，化简后 $k = 0$ → 不是一次函数（是常函数）</p>
+      </div>
+      <div class="edu-answer-step">
+        <p class="edu-p">(6) $y = \dfrac{6}{x} - 1$，$x$ 在分母，不能写成 $kx$ 的形式 → 不是一次函数（反比例函数 + 常数）</p>
+      </div>
+    </div>
+
+    <!-- 教师备注 -->
+    <div class="edu-teacher-note no-print">
+      <p class="edu-card-title">教师备注</p>
+      <p class="edu-training-goal">训练目标：识别反比例函数干扰项（第6题），巩固"正比例函数要求 $b=0$"的判断。</p>
+      <p class="edu-expected-blocker">预期卡点：第(5)题展开后全部消掉只剩常数，学生可能不敢相信答案这么简单；第(6)题部分学生会误认为 $\dfrac{6}{x}$ 可以写成 $6x$。</p>
+      <p class="edu-upgrade">升级信号：全对，且能主动标注第(4)题既是正比例也是一次函数。</p>
+      <p class="edu-downgrade">降级信号：第(6)题判断为一次函数，说明对反比例函数形式不敏感，需补充反比例函数 $y = \dfrac{k}{x}$ 的识别训练。</p>
+    </div>
+  </div>
+
+  <!-- 题目 3 -->
+  <div class="edu-practice-problem u-avoid-break">
+    <h3 class="edu-practice-title">练习 3</h3>
+    <p class="edu-p"><strong>题目：</strong>下列函数中，哪些是一次函数？哪些是正比例函数？</p>
+    <p class="edu-p">(1) $y = \dfrac{3x + 6}{-3}$</p>
+    <p class="edu-p">(2) $y = -x - 2$</p>
+    <p class="edu-p">(3) $y = 2(x - 1)$</p>
+    <p class="edu-p">(4) $y = 2x - 2$</p>
+    <p class="edu-p">(5) $y = (x + 2)(x - 2) - (x^2 - 4)$</p>
+    <p class="edu-p">(6) $y = \dfrac{4}{x+1}$</p>
+
+    <!-- 提示 1 -->
+    <div class="edu-hint">
+      <p class="edu-hint-title">提示 1</p>
+      <p class="edu-p">化简时注意负号分配：第(1)题分母是 $-3$，分子每一项都要变号。第(3)题可以用乘法分配律展开。</p>
+    </div>
+
+    <!-- 提示 2 -->
+    <div class="edu-hint">
+      <p class="edu-hint-title">提示 2</p>
+      <p class="edu-p">第(1)题和第(2)题其实是同一个函数——化简后对比一下。第(5)题用平方差公式展开后再观察。第(6)题的分母是 $x + 1$ 而不是单独的 $x$，这能写成 $kx$ 的形式吗？</p>
+    </div>
+
+    <!-- 解答步骤 -->
+    <div class="edu-answer-steps">
+      <p class="edu-answer-step-label">解答步骤</p>
+      <div class="edu-answer-step">
+        <p class="edu-p">(1) $y = \dfrac{3}{-3}x + \dfrac{6}{-3} = -x - 2$，$k = -1 \neq 0$ → 一次函数</p>
+      </div>
+      <div class="edu-answer-step">
+        <p class="edu-p">(2) $y = -x - 2$，已经是标准形式，与第(1)题化简结果相同 → 一次函数</p>
+      </div>
+      <div class="edu-answer-step">
+        <p class="edu-p">(3) $y = 2x - 2$，$k = 2 \neq 0$，$b = -2 \neq 0$ → 一次函数</p>
+      </div>
+      <div class="edu-answer-step">
+        <p class="edu-p">(4) $y = 2x - 2$，与第(3)题结果相同 → 一次函数</p>
+      </div>
+      <div class="edu-answer-step">
+        <p class="edu-p">(5) $y = (x^2 - 4) - x^2 + 4 = 0$，化简后 $k = 0$ → 不是一次函数（常函数 $y = 0$）</p>
+      </div>
+      <div class="edu-answer-step">
+        <p class="edu-p">(6) $y = \dfrac{4}{x+1}$，分母含 $x$，整体不是 $kx + b$ 的形式 → 不是一次函数</p>
+      </div>
+    </div>
+
+    <!-- 教师备注 -->
+    <div class="edu-teacher-note no-print">
+      <p class="edu-card-title">教师备注</p>
+      <p class="edu-training-goal">训练目标：识别不同表达形式下的等价函数（第1题与第2题、第3题与第4题互为等价），强化"化简后本质相同"的意识。</p>
+      <p class="edu-expected-blocker">预期卡点：第(1)题负号分配容易出错（只变号一项或忘记变号）；第(5)题用平方差公式后全部消掉，学生可能展开过程出错。</p>
+      <p class="edu-upgrade">升级信号：全对，且能指出第(1)(2)题、第(3)(4)题分别是同一个函数。</p>
+      <p class="edu-downgrade">降级信号：第(1)题负号分配错误，或第(3)题展开不完整，说明代数运算基本功薄弱，需回退练习分配律与去括号。</p>
+    </div>
+  </div>
+
+  <!-- 分页 -->
+  <div class="page-break"></div>
+
+  <!-- 答案速查 -->
+  <div class="edu-answer-key">
+    <h2 class="edu-section-title">答案速查</h2>
+
+    <div class="edu-step">
+      <p class="edu-step-title">练习 1</p>
+      <p class="edu-p">一次函数：(1)(2)(3)(4)&emsp;正比例函数：(2)</p>
+      <p class="edu-small">说明：(5)化简为 $y = 1$（常函数，不是一次函数）；(6)是二次函数。</p>
+    </div>
+
+    <div class="edu-step">
+      <p class="edu-step-title">练习 2</p>
+      <p class="edu-p">一次函数：(1)(2)(3)(4)&emsp;正比例函数：(2)(4)</p>
+      <p class="edu-small">说明：(5)化简为 $y = -1$（常函数）；(6)是反比例函数 + 常数，不是一次函数。</p>
+    </div>
+
+    <div class="edu-step">
+      <p class="edu-step-title">练习 3</p>
+      <p class="edu-p">一次函数：(1)(2)(3)(4)&emsp;正比例函数：无</p>
+      <p class="edu-small">说明：(1)与(2)等价（$y = -x - 2$），(3)与(4)等价（$y = 2x - 2$），均 $b \neq 0$；(5)化简为 $y = 0$（常函数）；(6)分母含 $x$，不是一次函数。</p>
+    </div>
+  </div>
+
+  <!-- 教师判断备注 -->
+  <div class="edu-teacher-note no-print">
+    <p class="edu-card-title">教师判断备注</p>
+    <p class="edu-judge"><strong>当前档位：E档（会做原题但不会迁移）</strong></p>
+    <p class="edu-p">本练习通过改变系数符号、数值和伪装形式（分式、展开式、嵌套式）来训练迁移能力，同时保留"化简为标准形式后对比定义"这一核心动作。</p>
+    <p class="edu-upgrade"><strong>升级建议：</strong>若 3 套练习正确率均在 90% 以上，可升至 F 档（举一反三）：引入含参问题（如"若 $y = (m-1)x + 3$ 是一次函数，求 $m$ 的取值范围"）或函数图像结合判断题。</p>
+    <p class="edu-downgrade"><strong>降级建议：</strong>若多道题在化简步骤出错（负号分配、展开合并），退回 D 档巩固代数运算基本功。</p>
+  </div>
+
+  <!-- 自检清单 -->
+  <div class="edu-teacher-note self-check no-print">
+    <p class="edu-card-title">自检清单</p>
+    <p class="edu-p">做完后请逐项检查：</p>
+    <p class="edu-p">- [ ] 每个表达式我都化简成了 $y = kx + b$ 的形式</p>
+    <p class="edu-p">- [ ] 我检查了 $k \neq 0$（没有漏掉"化简后 $k$ 变成 0"的情况）</p>
+    <p class="edu-p">- [ ] 正比例函数我同时标注了"一次函数"和"正比例函数"（正比例是一次函数的特例）</p>
+    <p class="edu-p">- [ ] 遇到 $x^2$ 的项，我没有直接跳过，而是真正展开化简看了结果</p>
+    <p class="edu-p">- [ ] 遇到 $x$ 在分母的情况，我确认了它不能写成 $kx$ 的形式</p>
+  </div>
+
+  <!-- 交接备注 -->
+  <div class="edu-teacher-note no-print">
+    <p class="edu-card-title">交接备注</p>
+    <p class="edu-review"><strong>回顾阶段：</strong>若学生已完成 01-一次函数的概念辨析 的讲解页（02-explanation.html），可先用本练习检测理解程度。</p>
+    <p class="edu-p"><strong>下一步：</strong>根据学生表现决定——(1) 升级到含参判断或图像结合题；(2) 降级回代数化简专项训练；(3) 进入 02-待定系数法求解析式 的新主题。</p>
+  </div>
+
+</div>
+
+</body>
+</html>
