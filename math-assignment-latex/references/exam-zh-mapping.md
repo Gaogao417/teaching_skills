@@ -14,7 +14,7 @@
 | 自定义环境 | edu CSS class | 颜色/边框 |
 | --- | --- | --- |
 | `problemcard` | `.edu-problem-card` | 1.5pt 黑边框, 浅灰底 |
-| `routemap` | `.edu-route` | 1pt 黑边框, 浅灰底 |
+| `routebox` | `.edu-route` | 1pt 黑边框, 浅灰底 |
 | `keyideabox` | `.edu-key-idea` | 1.5pt 黑边框, 暖白底 |
 | `mistakebox` | `.edu-mistake` | 1pt 浅边框, 3pt 红左边框, 暖白底 |
 | `hintbox` | `.edu-hint` | 1pt 虚线浅边框, 浅灰底 |

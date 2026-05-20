@@ -26,7 +26,8 @@
 \maketitle
 
 <% for section in sections %>
-<% if section.layout and section.layout.break_before %>
+<# 答案页：自动另起一页（不依赖 YAML layout 字段）#>
+<% if section.type == "answer_key" %>
 \clearpage
 <% endif %>
 <% if section.title %>
@@ -34,11 +35,9 @@
 <% endif %>
 
 <% for block in section.blocks %>
-<% if block.layout and block.layout.break_before %>
-\clearpage
-<% endif %>
-<% if block.layout and block.layout.avoid_break %>
-\needspace{5\baselineskip}
+<# 解答题：模板层自动保护标题与答题区不被截断 #>
+<% if block.type in ("problem", "short_answer") %>
+\needspace{8\baselineskip}
 <% endif %>
 
 <% if block.type == "problemcard" %>
@@ -107,13 +106,13 @@
 \end{hintbox}
 
 <% elif block.type == "route" %>
-\begin{routemap}
+\begin{routebox}
   \begin{enumerate}
   <% for step in block.steps|default([]) %>
     \item <%= step|latex_escape %>
   <% endfor %>
   \end{enumerate}
-\end{routemap}
+\end{routebox}
 
 <% endif %>
 
