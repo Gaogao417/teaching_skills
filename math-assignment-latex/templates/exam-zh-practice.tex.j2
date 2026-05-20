@@ -45,8 +45,7 @@
 <% endif %>
 
 <% for section in sections %>
-<# 答案页：自动另起一页（不依赖 YAML layout 字段）#>
-<% if section.type == "answer_key" %>
+<% if (section.layout and section.layout.break_before) or section.type == "answer_key" %>
 \clearpage
 <% endif %>
 <% if section.title %>

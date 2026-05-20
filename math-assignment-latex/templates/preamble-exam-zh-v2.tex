@@ -271,26 +271,25 @@
 
 % ---------- 底部双栏：答案 + 方法提醒 ----------
 \newenvironment{eduBottomGrid}{%
-  \vspace{1mm}
-  \par\noindent
+  \columnratio{0.32, 0.68}%
+  \setlength{\columnsep}{11mm}%
+  \columnseprule=0.35pt%
+  \colseprulecolor{edu-line}%
+  \begin{paracol}{2}%
 }{%
-  \par\vspace{1mm}
+  \end{paracol}%
 }
 
 \newenvironment{eduSummaryLeft}{%
-  \begin{minipage}[t]{0.30\linewidth}
 }{%
-  \end{minipage}
 }
 
 \newcommand{\eduSummaryDivider}{%
-  \hspace{4mm}{\color{edu-line}\vrule width 0.35pt}\hspace{7mm}%
+  \switchcolumn
 }
 
 \newenvironment{eduSummaryRight}{%
-  \begin{minipage}[t]{0.58\linewidth}
 }{%
-  \end{minipage}
 }
 
 % ---------- 答案/方法提醒：轻量收束 ----------
