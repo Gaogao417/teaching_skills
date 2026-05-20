@@ -16,7 +16,7 @@ skip:
 
 ## 职责
 
-从 `01-structure-analysis.md` 生成 `02-student-explanation.assignment.yaml`。
+从 `01-structure-analysis.md` 生成 `02-explanation.assignment.yaml`。
 
 保留原 `math-student-explanation-html` 的全部教学逻辑，输出格式从 HTML 改为 YAML。
 
@@ -29,7 +29,7 @@ skip:
 ## 输出
 
 ```text
-artifacts/<学生名>/YYYY-MM-DD-<内容>/02-student-explanation.assignment.yaml
+artifacts/<学生名>/YYYY-MM-DD-<内容>/02-explanation.assignment.yaml
 ```
 
 ## 教学逻辑（与 HTML 版一致）
@@ -42,7 +42,7 @@ artifacts/<学生名>/YYYY-MM-DD-<内容>/02-student-explanation.assignment.yaml
 ### 解题路线
 - 路线图：2-5 步解题步骤
 
-### 关键想法
+### 核心思路
 - 核心解题思路的提炼
 
 ### 标准解法
@@ -111,7 +111,7 @@ steps:
   - latex: "求坐标轴交点，算面积"
 ```
 
-### key_idea — 关键想法
+### key_idea — 核心思路
 
 轻提示框渲染，用于提炼核心解题思路。
 
@@ -124,7 +124,7 @@ content: |
 
 ### dual_explanation — 主体双栏讲解（核心）
 
-这是讲解页最核心的 block type。左栏放思考引导，右栏放规范讲解。
+这是讲解页最核心的 block type。左栏放思路点拨，右栏放解题示范。
 有子问题时，每个子问题各用一个 `dual_explanation`。
 
 每个小问必须在讲解前带上该小问的题干，使用 `label` + `stem_latex` 字段，
@@ -136,11 +136,11 @@ content: |
 type: "dual_explanation"
 label: "(1)"
 stem_latex: "求这个一次函数的解析式；"
-left_title: "思考引导"
+left_title: "思路点拨"
 left_items:
   - latex: "把 $A(1,3)$ 代入 $y=kx+b$，你能得到什么方程？"
   - latex: "两个方程，用什么方法消元最快？试试两式直接相减。"
-right_title: "规范讲解"
+right_title: "解题示范"
 right_steps:
   - latex: "代入 $A(1,3)$：$3 = k + b$ \\quad \\textcircled{1}"
   - latex: "代入 $B(-2,-6)$：$-6 = -2k + b$ \\quad \\textcircled{2}"
@@ -155,22 +155,22 @@ connection_items:
 字段说明：
 - `label`：小问题号，如 `(1)`、`(2)`、`(3)`，与原题 enumerate 格式一致
 - `stem_latex`：该小问的题干文字（LaTeX），从原题摘出对应小问
-- `left_items`：思考引导或易错提示，列表
-- `right_steps`：规范讲解步骤，列表
+- `left_items`：思路点拨或易错提示，列表
+- `right_steps`：解题示范步骤，列表
 - `connection_title`：衔接标题（如"注意"、"方法"、"关键"）
 - `connection_items`：后问如何承接前问的提示
 
-### summary_dual — 底部双栏收束（答案 + 方法提醒）
+### summary_dual — 底部双栏收束（参考答案 + 方法提炼）
 
 用于讲解页最底部的答案和方法总结。
 
 ```yaml
 type: "summary_dual"
-left_title: "答案"
+left_title: "参考答案"
 left_items:
   - latex: "$y = 3x$"
   - latex: "$C(3,9)$ 在图像上"
-right_title: "方法提醒"
+right_title: "方法提炼"
 right_items:
   - latex: "待定系数法四步：代入 → 列方程 → 消元 → 回代"
   - latex: "每次求出参数后先看有没有特殊情况（如 $b = 0$）"
@@ -219,8 +219,6 @@ sections:
     title: "原题"
     type: "explanation"
     visibility: "both"
-    layout:
-      break_before: false
     blocks:
       - type: "problemcard"
         id: "orig"
@@ -245,7 +243,7 @@ sections:
           - latex: "这道题是「先求式，再代入，再算面积」的递进结构。"
 
   - id: "route-section"
-    title: "二、解题路线"
+    title: "二、思路导航"
     type: "explanation"
     visibility: "student"
     show_title: false
@@ -259,7 +257,7 @@ sections:
           - latex: "求坐标轴交点"
 
   - id: "key-idea"
-    title: "三、关键想法"
+    title: "三、核心思路"
     type: "explanation"
     visibility: "student"
     show_title: false
@@ -280,10 +278,10 @@ sections:
         id: "sol-part1"
         label: "(1)"
         stem_latex: "求这个一次函数的解析式；"
-        left_title: "思考引导"
+        left_title: "思路点拨"
         left_items:
           - latex: "..."
-        right_title: "规范讲解"
+        right_title: "解题示范"
         right_steps:
           - latex: "..."
         connection_title: "注意"
@@ -294,10 +292,10 @@ sections:
         id: "sol-part2"
         label: "(2)"
         stem_latex: "判断点 $C(3,9)$ 是否在这个函数的图像上；"
-        left_title: "思考引导"
+        left_title: "思路点拨"
         left_items:
           - latex: "..."
-        right_title: "规范讲解"
+        right_title: "解题示范"
         right_steps:
           - latex: "..."
 
@@ -309,10 +307,10 @@ sections:
     blocks:
       - type: "summary_dual"
         id: "summary-block"
-        left_title: "答案"
+        left_title: "参考答案"
         left_items:
           - latex: "..."
-        right_title: "方法提醒"
+        right_title: "方法提炼"
         right_items:
           - latex: "..."
 
@@ -346,8 +344,6 @@ sections:
     title: "教师备注"
     type: "explanation"
     visibility: "teacher"
-    layout:
-      break_before: true
     blocks:
       - type: "key_idea"
         id: "tn1"
@@ -372,11 +368,15 @@ sections:
 2. 所有 block 都有 type，且使用正确的 type（不要用 `step` 替代 `dual_explanation`）
 3. 原题用 `problemcard` + `stem_latex`，不要用 `key_idea`
 4. 每个子问题的解法各用一个 `dual_explanation`，必须带 `label`（如 `(1)`）和 `stem_latex`（该小问题干），不要用 `title: "第（X）问"`
-5. 数学公式使用 `$...$` 和 `$$...$$` 格式
+5. 数学公式使用 `$...$` 和 `$$...$$` 格式。特别注意：逻辑推理符号（如 `\because`, `\therefore`）必须强制置于数学环境内（即 `$\because$`，`$\therefore$`），不得以纯文本形式出现。
 6. `stem_latex` 中的 LaTeX 命令不转义（原样输出）
 7. block scalar（`|`）字段中的 LaTeX 命令用单反斜杠 `\frac`（不是 `\\frac`）；双引号字符串中的 `\\frac` 会被 YAML 解析为 `\frac` 所以是正确的
-7. 每个 section 都有 `type: "explanation"` 和 `visibility`
-8. 底部答案用 `summary_dual`，不要用 `key_idea`
+8. 每个 section 都有 `type: "explanation"` 和 `visibility`
+9. 底部答案用 `summary_dual`，不要用 `key_idea`
+10. 可读性保障：
+    - 对于列表字段（如 `left_items`, `right_steps`, `items` 等），**严禁**在单个 item 的字符串内部使用换行符（如 `\n\n` 或 `\\`）。如果需要分步，请将其拆分为多个独立的 item 数组元素，模板会自动进行列表排版。
+    - 对于纯长文本段落字段（如 `explanation`, `content`），如果有复杂的推导、多步方程或分类讨论，务必使用换行符进行清晰的段落划分，避免文字堆砌挤成一团。
+11. 文件名严格绑定：输出文件名必须严格命名为 `02-explanation.assignment.yaml`，以匹配编译管线的自动挂载策略。
 
 ## Handoff
 
@@ -386,10 +386,11 @@ sections:
 下一步：使用 math-assignment-latex 渲染、检查并编译 PDF。
 
 python math-assignment-latex/scripts/render_assignment.py \
-  artifacts/<学生名>/YYYY-MM-DD-<内容>/02-student-explanation.assignment.yaml \
+  artifacts/<学生名>/YYYY-MM-DD-<内容>/02-explanation.assignment.yaml \
   --out artifacts/<学生名>/YYYY-MM-DD-<内容>/02-explanation.tex
 
 python math-assignment-latex/scripts/check_latex.py artifacts/<学生名>/YYYY-MM-DD-<内容>/02-explanation.tex
 
 bash math-assignment-latex/scripts/compile_latex.sh artifacts/<学生名>/YYYY-MM-DD-<内容>/02-explanation.tex
 ```
+
