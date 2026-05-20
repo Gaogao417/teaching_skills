@@ -28,7 +28,7 @@ skip:
 如果已有结构分析但没有 02-student-explanation.assignment.yaml
 → 调用 math-student-explanation-latex-data
 
-如果已有讲解但没有 03-adaptive-practice.assignment.yaml
+如果已有讲解但没有 03-practice.assignment.yaml
 → 调用 math-practice-latex-data
 
 如果已有 assignment.yaml 但没有 .tex
@@ -69,7 +69,7 @@ artifacts/linear-function/02-student-explanation.assignment.yaml
 
 ### Stage 3：练习 YAML
 ```
-artifacts/linear-function/03-adaptive-practice.assignment.yaml
+artifacts/linear-function/03-practice.assignment.yaml
 ```
 
 ### Stage 4：渲染 LaTeX

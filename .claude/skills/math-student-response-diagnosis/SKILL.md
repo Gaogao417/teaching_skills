@@ -1,16 +1,16 @@
 ---
 name: math-student-response-diagnosis
-description: "Diagnose a student's math response after an explanation or attempt, map the observed behavior to an A-F mastery band, identify the specific blocker, update the student profile, and recommend the next teaching move before adaptive practice is generated. This is an OPTIONAL skill outside the default 3-stage workflow. TRIGGER when: user explicitly requests student response diagnosis; user provides a student answer and wants diagnostic analysis; teacher wants A-F band assessment of student work. SKIP: user has not submitted any student response; user wants to proceed with the default 3-stage workflow (math-structure-analysis → math-student-explanation-html → math-practice-html)."
+description: "Diagnose a student's math response after an explanation or attempt, map the observed behavior to an A-F mastery band, identify the specific blocker, update the student profile, and recommend the next teaching move before practice is generated. This is an OPTIONAL skill outside the default 3-stage workflow. TRIGGER when: user explicitly requests student response diagnosis; user provides a student answer and wants diagnostic analysis; teacher wants A-F band assessment of student work. SKIP: user has not submitted any student response; user wants to proceed with the default 3-stage workflow (math-structure-analysis → math-student-explanation-html → math-practice-html)."
 ---
 
 # Math Student Response Diagnosis
 
 ## Purpose
 
-Use this skill between explanation and adaptive practice:
+Use this skill between explanation and practice:
 
 ```text
-student response + structure analysis + canonical solution -> diagnosis artifact -> adaptive practice
+student response + structure analysis + canonical solution -> diagnosis artifact -> practice
 ```
 
 This skill decides why the student struggled, not merely whether the final answer is right.
@@ -76,7 +76,7 @@ Write in Chinese. Keep it teacher-facing and concise.
 - 需要再讲：
 - 需要先练：
 - 是否可以升级变式：
-- 给 adaptive practice 的出题指令：
+- 给 practice 的出题指令：
 
 ## 七、交付给下一阶段的诊断摘要
 ```json

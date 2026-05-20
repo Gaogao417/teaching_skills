@@ -1,16 +1,16 @@
 ---
 name: math-practice-html
-description: "Generate the next printable A4 Chinese math practice HTML artifact from a structure-analysis artifact and an explanation artifact. Use as stage 3 after math-student-explanation-html to decide whether to downgrade, consolidate, mildly transfer, or hide the structure in variations while respecting a computation complexity budget. TRIGGER when: a structure-analysis artifact and explanation artifact exist for the current problem; user asks for practice problems or adaptive exercises; after math-student-explanation-html completes; user wants printable practice based on a previously analyzed problem. SKIP: no structure-analysis artifact exists (run math-structure-analysis first); no explanation artifact exists (run math-student-explanation-html first); user wants explanation not practice."
+description: "Generate the next printable A4 Chinese math practice HTML artifact from a structure-analysis artifact and an explanation artifact. Use as stage 3 after math-student-explanation-html to decide whether to downgrade, consolidate, mildly transfer, or hide the structure in variations while respecting a computation complexity budget. TRIGGER when: a structure-analysis artifact and explanation artifact exist for the current problem; user asks for practice problems or practice exercises; after math-student-explanation-html completes; user wants printable practice based on a previously analyzed problem. SKIP: no structure-analysis artifact exists (run math-structure-analysis first); no explanation artifact exists (run math-student-explanation-html first); user wants explanation not practice."
 ---
 
-# Math Adaptive Practice HTML
+# Math Practice HTML
 
 ## Purpose
 
 Use this skill after explanation:
 
 ```text
-structure analysis + explanation artifact -> printable adaptive practice HTML
+structure analysis + explanation artifact -> printable practice HTML
 ```
 
 The goal is not to create similar problems mechanically. Decide the next teaching move from the diagnosed blocker.
@@ -31,7 +31,7 @@ Fallback:
 Create:
 
 ```text
-artifacts/<same-problem-slug>/03-adaptive-practice.html
+artifacts/<same-problem-slug>/03-practice.html
 ```
 
 Use the same A4 print style as the explanation page. Include an answer key after a page break when the user wants a complete teacher version; otherwise include compact standard answers on the last page.
