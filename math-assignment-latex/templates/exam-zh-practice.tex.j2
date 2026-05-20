@@ -88,15 +88,12 @@
   <%= block.stem|latex_escape %>
   <% endif %>
   <% if meta.version != "student" and block.answer %>
-  \fillin
   \paren[<%= block.answer|latex_escape %>]
   <% if block.explanation %>
   \begin{solutionblock}
     <%= block.explanation %>
   \end{solutionblock}
   <% endif %>
-  <% else %>
-  \fillin
   <% endif %>
 \end{question}
 
