@@ -26,17 +26,18 @@
 \maketitle
 
 <% for section in sections %>
-<% if section.layout and section.layout.break_before %>
+<# 答案页：自动另起一页（不依赖 YAML layout 字段）#>
+<% if section.type == "answer_key" %>
 \clearpage
 <% endif %>
 <% if section.title %>
-\needspace{3\baselineskip}
 \section*{<%= section.title|latex_escape %>}
 <% endif %>
 
 <% for block in section.blocks %>
-<% if block.type == "problem" or block.type == "short_answer" %>
-\needspace{5\baselineskip}
+<# 解答题：模板层自动保护标题与答题区不被截断 #>
+<% if block.type in ("problem", "short_answer") %>
+\needspace{8\baselineskip}
 <% endif %>
 
 <% if block.type == "problemcard" %>

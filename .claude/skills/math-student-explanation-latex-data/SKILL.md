@@ -22,17 +22,15 @@ skip:
 
 ## 输入
 
-- `artifacts/<学生名>/<YYYY-MM-DD-<subject>>/01-structure-analysis.md`
+- `artifacts/<学生名>/YYYY-MM-DD-<内容>/01-structure-analysis.md`
 - 学生画像（可选）
 - 教学目标（可选）
 
 ## 输出
 
 ```text
-artifacts/<学生名>/<YYYY-MM-DD-<subject>>/build/02-student-explanation.assignment.yaml
+artifacts/<学生名>/YYYY-MM-DD-<内容>/02-student-explanation.assignment.yaml
 ```
-
-中间产物（YAML）统一放入 `build/` 子目录。
 
 ## 教学逻辑（与 HTML 版一致）
 
@@ -210,157 +208,154 @@ meta:
   subject: "..."
   version: "teacher"
   source_artifacts:
-    structure_analysis: "artifacts/<学生名>/<YYYY-MM-DD-<subject>>/01-structure-analysis.md"
+    structure_analysis: "artifacts/<学生名>/YYYY-MM-DD-<内容>/01-structure-analysis.md"
 
 render:
   template: "exam-zh-explanation"
   paper_size: "a4paper"
 
-problems:
-  - label: "例题 — 待定系数法求一次函数解析式"
-    sections:
-      - id: "original"
-        title: "原题"
-        type: "explanation"
-        visibility: "both"
-        blocks:
-          - type: "problemcard"
-            id: "orig"
-            label: "题目"
-            stem_latex: |
-              已知一次函数 $y=kx+b$ 的图像经过点 $A(1,3)$ 和点 $B(-2,-6)$。
-              \begin{enumerate}[label=(\arabic*)]
-                \item 求这个一次函数的解析式；
-                \item 判断点 $C(3,9)$ 是否在这个函数的图像上；
-              \end{enumerate}
+sections:
+  - id: "original"
+    title: "原题"
+    type: "explanation"
+    visibility: "both"
+    blocks:
+      - type: "problemcard"
+        id: "orig"
+        label: "题目"
+        stem_latex: |
+          已知一次函数 $y=kx+b$ 的图像经过点 $A(1,3)$ 和点 $B(-2,-6)$。
+          \begin{enumerate}[label=(\arabic*)]
+            \item 求这个一次函数的解析式；
+            \item 判断点 $C(3,9)$ 是否在这个函数的图像上；
+          \end{enumerate}
 
-      - id: "breakdown"
-        title: "一、先把题目拆开"
-        type: "explanation"
-        visibility: "student"
-        show_title: false
-        blocks:
-          - type: "reading_tip"
-            id: "rt1"
-            items:
-              - latex: "先做第（1）问——后面两问都建立在解析式上。"
-              - latex: "这道题是「先求式，再代入，再算面积」的递进结构。"
+  - id: "breakdown"
+    title: "一、先把题目拆开"
+    type: "explanation"
+    visibility: "student"
+    show_title: false
+    blocks:
+      - type: "reading_tip"
+        id: "rt1"
+        items:
+          - latex: "先做第（1）问——后面两问都建立在解析式上。"
+          - latex: "这道题是「先求式，再代入，再算面积」的递进结构。"
 
-      - id: "route-section"
-        title: "二、解题路线"
-        type: "explanation"
-        visibility: "student"
-        show_title: false
-        blocks:
-          - type: "route"
-            id: "route"
-            steps:
-              - latex: "两点代入 $y=kx+b$"
-              - latex: "解方程组求 $k$、$b$"
-              - latex: "代入检验点 $C$"
-              - latex: "求坐标轴交点"
+  - id: "route-section"
+    title: "二、解题路线"
+    type: "explanation"
+    visibility: "student"
+    show_title: false
+    blocks:
+      - type: "route"
+        id: "route"
+        steps:
+          - latex: "两点代入 $y=kx+b$"
+          - latex: "解方程组求 $k$、$b$"
+          - latex: "代入检验点 $C$"
+          - latex: "求坐标轴交点"
 
-      - id: "key-idea"
-        title: "三、关键想法"
-        type: "explanation"
-        visibility: "student"
-        show_title: false
-        blocks:
-          - type: "key_idea"
-            id: "ki"
-            content: |
-              核心解题思路...
+  - id: "key-idea"
+    title: "三、关键想法"
+    type: "explanation"
+    visibility: "student"
+    show_title: false
+    blocks:
+      - type: "key_idea"
+        id: "ki"
+        content: |
+          核心解题思路...
 
-      - id: "solution"
-        title: "四、标准解法"
-        type: "explanation"
-        visibility: "student"
-        show_title: false
-        blocks:
-          - type: "dual_explanation"
-            id: "sol-part1"
-            label: "(1)"
-            stem_latex: "求这个一次函数的解析式；"
-            left_title: "思考引导"
-            left_items:
-              - latex: "..."
-            right_title: "规范讲解"
-            right_steps:
-              - latex: "..."
-            connection_title: "注意"
-            connection_items:
-              - latex: "..."
+  - id: "solution"
+    title: "四、标准解法"
+    type: "explanation"
+    visibility: "student"
+    show_title: false
+    blocks:
+      # 每个子问题用一个 dual_explanation，带 label + stem_latex 复现题干
+      - type: "dual_explanation"
+        id: "sol-part1"
+        label: "(1)"
+        stem_latex: "求这个一次函数的解析式；"
+        left_title: "思考引导"
+        left_items:
+          - latex: "..."
+        right_title: "规范讲解"
+        right_steps:
+          - latex: "..."
+        connection_title: "注意"
+        connection_items:
+          - latex: "..."
 
-          - type: "dual_explanation"
-            id: "sol-part2"
-            label: "(2)"
-            stem_latex: "判断点 $C(3,9)$ 是否在这个函数的图像上；"
-            left_title: "思考引导"
-            left_items:
-              - latex: "..."
-            right_title: "规范讲解"
-            right_steps:
-              - latex: "..."
+      - type: "dual_explanation"
+        id: "sol-part2"
+        label: "(2)"
+        stem_latex: "判断点 $C(3,9)$ 是否在这个函数的图像上；"
+        left_title: "思考引导"
+        left_items:
+          - latex: "..."
+        right_title: "规范讲解"
+        right_steps:
+          - latex: "..."
 
-      - id: "summary"
-        title: "总结"
-        type: "explanation"
-        visibility: "student"
-        show_title: false
-        blocks:
-          - type: "summary_dual"
-            id: "summary-block"
-            left_title: "答案"
-            left_items:
-              - latex: "..."
-            right_title: "方法提醒"
-            right_items:
-              - latex: "..."
+  - id: "summary"
+    title: "总结"
+    type: "explanation"
+    visibility: "student"
+    show_title: false
+    blocks:
+      - type: "summary_dual"
+        id: "summary-block"
+        left_title: "答案"
+        left_items:
+          - latex: "..."
+        right_title: "方法提醒"
+        right_items:
+          - latex: "..."
 
-      - id: "mistakes"
-        title: "易错提醒"
-        type: "explanation"
-        visibility: "student"
-        show_title: false
-        blocks:
-          - type: "mistake"
-            id: "m1"
-            title: "易错点标题"
-            content: "..."
+  - id: "mistakes"
+    title: "易错提醒"
+    type: "explanation"
+    visibility: "student"
+    show_title: false
+    blocks:
+      - type: "mistake"
+        id: "m1"
+        title: "易错点标题"
+        content: "..."
 
-      - id: "questions"
-        title: "边讲边问"
-        type: "explanation"
-        visibility: "student"
-        show_title: false
-        blocks:
-          - type: "hint"
-            id: "q1"
-            content: "思考题..."
-            level: 1
-          - type: "hint"
-            id: "q2"
-            content: "思考题..."
-            level: 2
+  - id: "questions"
+    title: "边讲边问"
+    type: "explanation"
+    visibility: "student"
+    show_title: false
+    blocks:
+      - type: "hint"
+        id: "q1"
+        content: "思考题..."
+        level: 1
+      - type: "hint"
+        id: "q2"
+        content: "思考题..."
+        level: 2
 
-      - id: "teacher-notes"
-        title: "教师备注"
-        type: "explanation"
-        visibility: "teacher"
-        blocks:
-          - type: "key_idea"
-            id: "tn1"
-            content: |
-              学生画像和教学节奏说明...
-            teaching:
-              teaching_goal: "..."
-              expected_blocker: "..."
-              mastery_band: "B"
-              upgrade_rule: "升级条件"
-              downgrade_rule: "降级条件"
+  - id: "teacher-notes"
+    title: "教师备注"
+    type: "explanation"
+    visibility: "teacher"
+    blocks:
+      - type: "key_idea"
+        id: "tn1"
+        content: |
+          学生画像和教学节奏说明...
+        teaching:
+          teaching_goal: "..."
+          expected_blocker: "..."
+          mastery_band: "B"
+          upgrade_rule: "升级条件"
+          downgrade_rule: "降级条件"
 ```
-
-多题讲义时，`problems` 数组包含多个元素，每个元素有 `label` 和 `sections`。渲染时每道题自动分页。
 
 ## Schema 遵循
 
@@ -387,10 +382,10 @@ problems:
 下一步：使用 math-assignment-latex 渲染、检查并编译 PDF。
 
 python math-assignment-latex/scripts/render_assignment.py \
-  artifacts/<学生名>/<YYYY-MM-DD-<subject>>/build/02-student-explanation.assignment.yaml \
-  --out artifacts/<学生名>/<YYYY-MM-DD-<subject>>/02-explanation.tex
+  artifacts/<学生名>/YYYY-MM-DD-<内容>/02-student-explanation.assignment.yaml \
+  --out artifacts/<学生名>/YYYY-MM-DD-<内容>/02-explanation.tex
 
-python math-assignment-latex/scripts/check_latex.py artifacts/<学生名>/<YYYY-MM-DD-<subject>>/02-explanation.tex
+python math-assignment-latex/scripts/check_latex.py artifacts/<学生名>/YYYY-MM-DD-<内容>/02-explanation.tex
 
-bash math-assignment-latex/scripts/compile_latex.sh artifacts/<学生名>/<YYYY-MM-DD-<subject>>/02-explanation.tex
+bash math-assignment-latex/scripts/compile_latex.sh artifacts/<学生名>/YYYY-MM-DD-<内容>/02-explanation.tex
 ```

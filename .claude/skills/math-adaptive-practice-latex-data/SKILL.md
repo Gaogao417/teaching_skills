@@ -36,73 +36,25 @@ skip:
 
 ## 输入
 
-### 必需
-
-- `artifacts/<学生名>/<YYYY-MM-DD-<subject>>/01-structure-analysis.md`
-- `artifacts/<学生名>/<YYYY-MM-DD-<subject>>/build/02-student-explanation.assignment.yaml` 或 `02-student-explanation.html`
-
-### 用户必须提供（缺一不可，否则先询问再出题）
-
-1. **学生程度**：如"差生"、"中等偏弱"、"中等"、"好"
-2. **每道小题用时**：如"2分钟"、"1分钟"、"30秒"
-3. **每道大题用时**：如"5分钟"、"3分钟"
-
-agent 不得自行假设用时，必须向用户确认后再出题。
+- `artifacts/<学生名>/YYYY-MM-DD-<内容>/01-structure-analysis.md`
+- `artifacts/<学生名>/YYYY-MM-DD-<内容>/02-student-explanation.assignment.yaml` 或 `02-student-explanation.html`
+- 学生画像（可选）
 
 ## 输出
 
 ```text
-artifacts/<学生名>/<YYYY-MM-DD-<subject>>/build/03-adaptive-practice.student.assignment.yaml
-artifacts/<学生名>/<YYYY-MM-DD-<subject>>/build/03-adaptive-practice.teacher.assignment.yaml
+artifacts/<学生名>/YYYY-MM-DD-<内容>/03-adaptive-practice.assignment.yaml
 ```
-
-中间产物（YAML）统一放入 `build/` 子目录。
 
 ## 教学逻辑（与 HTML 版一致）
 
-### 时间预算
+### 练习设计原则
 
-- **常规部分总量控制在 20 分钟 ± 2 分钟**
-- **提高题单独一组，不计入 20 分钟**
-- agent 根据用户提供的小题/大题用时计算题目数量
-
-计算公式：
-
-```
-n_small × 小题用时 + n_large × 大题用时 ≈ 20
-```
-
-分配建议（agent 可灵活调整）：
-- `n_small` = 选择题 + 填空题总数，建议 4~8 道
-- `n_large` = 解答题，建议 2~3 道
-- 若计算结果为非整数，向下取整并微调
-
-**示例**：小题 2min、大题 5min → 4 小题 + 2 大题 = 4×2+2×5 = 18min ≈ 20min
-**示例**：小题 1min、大题 3min → 5 小题 + 3 大题 = 5×1+3×3 = 14min → 调为 6 小题 + 3 大题 = 15min 或 5 小题 + 4 大题 = 17min
-
-### 题目梯度
-
-不管出多少题，梯度从易到难：
-- 前 30%：L2 巩固（同结构换数）
-- 中 40%：L3 换问法 / 换条件
-- 后 30%：L4 易错陷阱 / 条件包装
-- 提高题：L5 远迁移
-
-### 提高题
-
-- 独立成一组 section，标注"★ 提高题"
-- **不计入 20 分钟总时间**
-- 来源（两者结合）：
-  1. 优先从 `01-structure-analysis.md` 的 `far_transfer_examples` 或 `l5_l6_deepening_variations` 选取
-  2. 若无现成远迁移，基于 `variation_rules` 独立设计一道 L5 层级题
-- 提高题的复杂度可以超出常规部分的 `complexity_budget`
-
-### 通用规则
-
-1. **难度只升一小步**
-2. **保留核心结构**，不引入无关知识点
-3. **提示渐进**：hint 1 指向动作，hint 2 接近答案
-4. **答案经过自检**
+1. **每组最多 3 题**
+2. **难度只升一小步**
+3. **保留核心结构**，不引入无关知识点
+4. **提示渐进**：hint 1 指向动作，hint 2 接近答案
+5. **答案经过自检**
 
 ### 档位规则
 
@@ -172,13 +124,11 @@ teaching:                        # 教师版显示
 
 ### 填空题 (fillin)
 
-空白处用 `\fillin`，放在 stem 文本中空白应该在的位置（句号/单位之前）。不要用 `\_\_\_` 或其他手动横线。
-
 ```yaml
 type: "fillin"
 id: "f1"
 points: 4
-stem: "则 $\odot O$ 的半径为\fillin。"
+stem: "题干文本"
 answer: "填空答案"
 explanation: "解析文本"          # 教师版显示
 teaching:
@@ -225,10 +175,6 @@ answer_space:
   step_count: 4
 ```
 
-## Layout 和分页规则
-
-YAML 中不设置任何分页规则。题干+答题区不可跨页截断由模板自动处理（problem/short_answer 类型 block 自动加 `\needspace`）。
-
 ## YAML 输出格式
 
 ### 学生版 (03-adaptive-practice.student.assignment.yaml)
@@ -243,8 +189,8 @@ meta:
   total_points: 24
   version: "student"
   source_artifacts:
-    structure_analysis: "artifacts/<学生名>/<YYYY-MM-DD-<subject>>/01-structure-analysis.md"
-    explanation: "artifacts/<学生名>/<YYYY-MM-DD-<subject>>/build/02-student-explanation.assignment.yaml"
+    structure_analysis: "artifacts/<学生名>/YYYY-MM-DD-<内容>/01-structure-analysis.md"
+    explanation: "artifacts/<学生名>/YYYY-MM-DD-<内容>/02-student-explanation.assignment.yaml"
 
 render:
   template: "exam-zh-practice"
@@ -317,8 +263,8 @@ meta:
   total_points: 24
   version: "teacher"
   source_artifacts:
-    structure_analysis: "artifacts/<学生名>/<YYYY-MM-DD-<subject>>/01-structure-analysis.md"
-    explanation: "artifacts/<学生名>/<YYYY-MM-DD-<subject>>/build/02-student-explanation.assignment.yaml"
+    structure_analysis: "artifacts/<学生名>/YYYY-MM-DD-<内容>/01-structure-analysis.md"
+    explanation: "artifacts/<学生名>/YYYY-MM-DD-<内容>/02-student-explanation.assignment.yaml"
 
 render:
   template: "exam-zh-practice"
@@ -397,18 +343,15 @@ sections:
 
 输出前必须检查：
 1. 所有 block id 唯一
-2. 用户已提供学生程度、小题用时、大题用时三项信息
-3. 常规部分题目总量 ≈ 20 分钟（± 2 分钟），提高题单独不计入
-4. 学生版不含 `answer`、`explanation`、`solution_steps`、`teaching` 字段
-5. 教师版每道解答题必须有 `solution_steps`（分步骤标准解答）
-6. 解答题题干用 `stem_latex`（不经过转义），不用 `stem`
-7. 答案经过自检（代入验证）
-8. block scalar（`|`）字段中的 LaTeX 命令用单反斜杠 `\frac`（不是 `\\frac`）；双引号字符串中的 `\\frac` 会被 YAML 解析为 `\frac` 所以是正确的
-9. 常规部分复杂度不超过 structure-analysis 预算（提高题可超出）
-10. 答案区 answer_key 的 `visibility` 为 `"teacher"`
-11. 同时输出 student 和 teacher 两个文件
-12. 填空题空白用 `\fillin`（放在 stem 中正确位置），不用 `\_\_\_`
-13. 提高题独立 section
+2. 题目数量不超过 3 题（每组）
+3. 学生版不含 `answer`、`explanation`、`solution_steps`、`teaching` 字段
+4. 教师版每道解答题必须有 `solution_steps`（分步骤标准解答）
+5. 解答题题干用 `stem_latex`（不经过转义），不用 `stem`
+6. 答案经过自检（代入验证）
+7. block scalar（`|`）字段中的 LaTeX 命令用单反斜杠 `\frac`（不是 `\\frac`）；双引号字符串中的 `\\frac` 会被 YAML 解析为 `\frac` 所以是正确的
+8. 复杂度不超过 structure-analysis 预算
+9. 答案区 section 的 `type` 为 `"answer_key"`，`visibility` 为 `"teacher"`（模板层会自动在其前插入分页）
+10. 同时输出 student 和 teacher 两个文件
 
 ## Handoff
 
@@ -416,22 +359,22 @@ sections:
 
 ```
 已生成学生版和教师版两个 YAML 文件：
-- artifacts/<学生名>/<YYYY-MM-DD-<subject>>/build/03-adaptive-practice.student.assignment.yaml
-- artifacts/<学生名>/<YYYY-MM-DD-<subject>>/build/03-adaptive-practice.teacher.assignment.yaml
+- artifacts/<学生名>/YYYY-MM-DD-<内容>/03-adaptive-practice.student.assignment.yaml
+- artifacts/<学生名>/YYYY-MM-DD-<内容>/03-adaptive-practice.teacher.assignment.yaml
 
 下一步：使用 math-assignment-latex 渲染、检查并编译 PDF。
 
 python math-assignment-latex/scripts/render_assignment.py \
-  artifacts/<学生名>/<YYYY-MM-DD-<subject>>/build/03-adaptive-practice.student.assignment.yaml \
-  --out artifacts/<学生名>/<YYYY-MM-DD-<subject>>/03-practice-student.tex
+  artifacts/<学生名>/YYYY-MM-DD-<内容>/03-adaptive-practice.student.assignment.yaml \
+  --out artifacts/<学生名>/YYYY-MM-DD-<内容>/03-practice-student.tex
 
 python math-assignment-latex/scripts/render_assignment.py \
-  artifacts/<学生名>/<YYYY-MM-DD-<subject>>/build/03-adaptive-practice.teacher.assignment.yaml \
-  --out artifacts/<学生名>/<YYYY-MM-DD-<subject>>/03-practice-teacher.tex
+  artifacts/<学生名>/YYYY-MM-DD-<内容>/03-adaptive-practice.teacher.assignment.yaml \
+  --out artifacts/<学生名>/YYYY-MM-DD-<内容>/03-practice-teacher.tex
 
-python math-assignment-latex/scripts/check_latex.py artifacts/<学生名>/<YYYY-MM-DD-<subject>>/03-practice-student.tex
-python math-assignment-latex/scripts/check_latex.py artifacts/<学生名>/<YYYY-MM-DD-<subject>>/03-practice-teacher.tex
+python math-assignment-latex/scripts/check_latex.py artifacts/<学生名>/YYYY-MM-DD-<内容>/03-practice-student.tex
+python math-assignment-latex/scripts/check_latex.py artifacts/<学生名>/YYYY-MM-DD-<内容>/03-practice-teacher.tex
 
-bash math-assignment-latex/scripts/compile_latex.sh artifacts/<学生名>/<YYYY-MM-DD-<subject>>/03-practice-student.tex
-bash math-assignment-latex/scripts/compile_latex.sh artifacts/<学生名>/<YYYY-MM-DD-<subject>>/03-practice-teacher.tex
+bash math-assignment-latex/scripts/compile_latex.sh artifacts/<学生名>/YYYY-MM-DD-<内容>/03-practice-student.tex
+bash math-assignment-latex/scripts/compile_latex.sh artifacts/<学生名>/YYYY-MM-DD-<内容>/03-practice-teacher.tex
 ```

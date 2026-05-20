@@ -10,36 +10,8 @@
 ```yaml
 meta:         # 元信息
 render:       # 渲染配置
-problems:     # 题目列表（每题有 label + sections）
+sections:     # 内容区块
 ```
-
-### problems 数组
-
-`problems` 是顶层内容容器。每个元素代表一道题，包含 `label`（题目标题）和 `sections`（该题的讲解区块）。
-
-```yaml
-problems:
-  - label: "例题 1 — 两直线交点求坐标"
-    sections:
-      - id: "p1-original"
-        title: "原题"
-        blocks:
-          - type: "problemcard"
-            stem_latex: "..."
-      - id: "p1-solution"
-        title: "四、标准解法"
-        blocks: [...]
-  - label: "例题 2 — 面积条件反求动点坐标"
-    sections:
-      - id: "p2-original"
-        ...
-```
-
-渲染时 `problems` 会被自动展平为 `sections`：每道题前插入一个带分页的标题 section。
-
-### 向后兼容：sections
-
-旧格式仍支持：顶层直接使用 `sections` 等价于 `problems` 数组只有一个元素且无 `label`。
 
 ---
 
@@ -87,12 +59,18 @@ sections:
     title: string         # 区块标题（如"一、核心练习"）
     type: enum            # practice / explanation / answer_key
     visibility: enum      # student / teacher / both
-    layout:
-      break_before: bool  # 区块前分页
-      avoid_break: bool   # 区块内不分页
     blocks:               # 题目或内容块列表
       - ...
 ```
+
+> **分页规则（模板层自动处理，YAML 无需声明）**
+> - `type: "answer_key"` 的 section：渲染模板自动在其前插入 `\clearpage`
+> - `visibility: "teacher"` 的 section（讲解页模板）：渲染模板自动在其前插入 `\clearpage`
+> - `type: "problem"` / `"short_answer"` 的 block：渲染模板自动加 `\needspace{8\baselineskip}` 防止题干与答题区被截断
+> - `type: "dual_explanation"` / `"explanation_dual"`（讲解页）：使用 `paracol` 双栏，内容超出单页时自动跨页续排，无需任何声明
+>
+> **`layout` 字段已废弃**，不再由 LLM 生成，忽略即可。
+
 
 ---
 
