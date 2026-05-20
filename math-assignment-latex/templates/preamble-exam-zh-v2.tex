@@ -25,6 +25,7 @@
 \usepackage{tabularx}
 \usepackage{tcolorbox}
 \tcbuselibrary{skins,breakable}
+\usepackage{paracol}
 
 % ---------- 打印/屏幕颜色切换 ----------
 % 用法：\documentclass[monochrome]{exam-zh} 可降级为灰度。
@@ -80,12 +81,14 @@
 % ---------- 轻标题体系 ----------
 % 只有真正的大结构才用它；不要给提示/路线滥用标题。
 \newcommand{\eduSectionTitle}[1]{%
+  \needspace{5\baselineskip}%
   \vspace{2mm}
   {\color{edu-blue}\bfseries\large #1}\par
   \vspace{3mm}
 }
 
 \newcommand{\eduSubTitle}[1]{%
+  \needspace{4\baselineskip}%
   \vspace{1mm}
   {\color{edu-blue}\bfseries #1}\par
   \vspace{1mm}
@@ -93,6 +96,7 @@
 
 % ---------- 小问题干：复用 exam (1)(2)(3) 格式 ----------
 \newenvironment{eduSubQuestionItem}[1]{%
+  \needspace{4\baselineskip}%
   \vspace{2mm}
   \par\noindent
   \hangindent=8mm\hangafter=1
@@ -107,6 +111,7 @@
 
 % ---------- 辅助信息条（解题流程/关键想法/思考）楷体 ----------
 \newenvironment{eduAuxItem}[1]{%
+  \needspace{4\baselineskip}%
   \vspace{2mm}
   \par\noindent
   \hangindent=8mm\hangafter=1
@@ -199,6 +204,7 @@
 
 % ---------- 解题路线：虚线框 + 文字箭头 ----------
 \newenvironment{eduRouteFlow}{%
+  \needspace{4\baselineskip}%
   \vspace{1mm}
   \begin{center}
   \normalsize
@@ -213,33 +219,30 @@
   \;$\boldsymbol{\to}$\;%
 }
 
-% ---------- 主体讲解：只在这里使用双栏 ----------
-% 不用 tabularx 包整块，避免模板生成后出现 tabularx body 扫描问题。
+% ---------- 主体讲解：使用 paracol 实现跨页自适应双栏 ----------
 \newenvironment{eduDualExplain}{%
-  \needspace{10\baselineskip}
-  \par\noindent
+  \needspace{6\baselineskip}% 防止标题孤行
+  \columnratio{0.32, 0.68}%
+  \setlength{\columnsep}{11mm}%
+  \colseprule=0.45pt%
+  \colseprulecolor{edu-blue}%
+  \begin{paracol}{2}% 开启双栏
 }{%
-  \par\vspace{5mm}
+  \end{paracol}% 结束双栏
+  \vspace{5mm}
 }
 
 \newenvironment{eduExplainLeft}{%
-  \begin{minipage}[t]{0.30\linewidth}
-  \normalsize
-  \color{edu-ink}
+  \normalsize\color{edu-ink}%
 }{%
-  \end{minipage}
+  \switchcolumn
 }
 
-\newcommand{\eduColumnDivider}{%
-  \hspace{4mm}{\color{edu-blue}\vrule width 0.45pt}\hspace{7mm}%
-}
+\newcommand{\eduColumnDivider}{}
 
 \newenvironment{eduExplainRight}{%
-  \begin{minipage}[t]{0.58\linewidth}
-  \normalsize
-  \color{edu-ink}
+  \normalsize\color{edu-ink}%
 }{%
-  \end{minipage}
 }
 
 \newenvironment{eduNumberList}{%
@@ -293,6 +296,7 @@
 % ---------- 答案/方法提醒：轻量收束 ----------
 \newtcolorbox{eduSummaryBlock}[2]{
   enhanced,
+  breakable,
   colback=white,
   colframe=white,
   boxrule=0pt,
@@ -341,11 +345,8 @@
 \newtcolorbox{eduMistakeBox}{
   enhanced,
   breakable,
-  title={\kaishu 易错提醒},
   colback=edu-red-bg,
   colframe=edu-red!40,
-  colbacktitle=edu-red!15,
-  coltitle=edu-red,
   boxrule=0.35pt,
   arc=1mm,
   left=3mm,
@@ -354,8 +355,7 @@
   bottom=2.5mm,
   before skip=1mm,
   after skip=2mm,
-  fontupper=\normalsize,
-  fonttitle=\bfseries
+  fontupper=\normalsize
 }
 
 \newtcolorbox{eduLegacySolution}{
