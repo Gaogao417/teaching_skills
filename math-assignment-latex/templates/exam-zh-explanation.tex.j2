@@ -106,7 +106,7 @@
 
 \begin{eduDualExplain}
   \begin{eduExplainLeft}
-    \eduColumnTitle{\eduIconBulb}{<% if block.left_title %><%= block.left_title|latex_escape %><% else %>思考引导 / 易错提示<% endif %>}
+    \eduColumnTitle{\eduIconBook}{<% if block.left_title %><%= block.left_title|latex_escape %><% else %>解答<% endif %>}
     \begin{eduNumberList}
     <% for item in block.left_items|default([]) %>
       \item <% if item.latex %><%= item.latex %><% elif item.text %><%= item.text|latex_escape %><% elif item.content %><%= item.content|latex_escape %><% else %><%= item|latex_escape %><% endif %>
@@ -115,7 +115,7 @@
   \end{eduExplainLeft}
   \eduColumnDivider
   \begin{eduExplainRight}
-    \eduColumnTitle{\eduIconBook}{<% if block.right_title %><%= block.right_title|latex_escape %><% else %>规范讲解<% endif %>}
+    \eduColumnTitle{\eduIconNote}{<% if block.right_title %><%= block.right_title|latex_escape %><% else %>例题重做<% endif %>}
     \begin{eduNumberList}
     <% for step in block.right_steps|default([]) %>
       \item <% if step.latex %><%= step.latex %><% elif step.text %><%= step.text|latex_escape %><% elif step.content %><%= step.content|latex_escape %><% else %><%= step|latex_escape %><% endif %>

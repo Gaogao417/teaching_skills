@@ -124,7 +124,7 @@ content: |
 
 ### dual_explanation — 主体双栏讲解（核心）
 
-这是讲解页最核心的 block type。左栏放思考引导，右栏放规范讲解。
+这是讲解页最核心的 block type。左栏放规范解答（详细过程与讲解），右栏放例题重做（用于学生记笔记，只提供极简的小标题引导）。
 有子问题时，每个子问题各用一个 `dual_explanation`。
 
 每个小问必须在讲解前带上该小问的题干，使用 `label` + `stem_latex` 字段，
@@ -136,17 +136,15 @@ content: |
 type: "dual_explanation"
 label: "(1)"
 stem_latex: "求这个一次函数的解析式；"
-left_title: "思考引导"
+left_title: "解答"
 left_items:
-  - latex: "把 $A(1,3)$ 代入 $y=kx+b$，你能得到什么方程？"
-  - latex: "两个方程，用什么方法消元最快？试试两式直接相减。"
-right_title: "规范讲解"
-right_steps:
-  - latex: "代入 $A(1,3)$：$3 = k + b$ \\quad \\textcircled{1}"
-  - latex: "代入 $B(-2,-6)$：$-6 = -2k + b$ \\quad \\textcircled{2}"
-  - latex: "\\textcircled{1}$-$\\textcircled{2}：$9 = 3k$，所以 $k = 3$"
-  - latex: "代回 \\textcircled{1}：$3 = 3 + b$，所以 $b = 0$"
+  - latex: "代入 $A(1,3)$ 和 $B(-2,-6)$ 列出方程组：\\quad \\textcircled{1} $3 = k + b$ ； \\quad \\textcircled{2} $-6 = -2k + b$"
+  - latex: "\\textcircled{1}$-$\\textcircled{2}：$9 = 3k \\implies k = 3$"
+  - latex: "代回 \\textcircled{1}：$3 = 3 + b \\implies b = 0$"
   - latex: "解析式：$y = 3x$"
+right_title: "例题重做"
+right_steps:
+  - latex: "思路提示：代入两点坐标，用加减消元法求解。"
 connection_title: "注意"
 connection_items:
   - latex: "$b = 0$！这条直线过原点——后面的第（3）问会用到这个事实。"
@@ -155,8 +153,10 @@ connection_items:
 字段说明：
 - `label`：小问题号，如 `(1)`、`(2)`、`(3)`，与原题 enumerate 格式一致
 - `stem_latex`：该小问的题干文字（LaTeX），从原题摘出对应小问
-- `left_items`：思考引导或易错提示，列表
-- `right_steps`：规范讲解步骤，列表
+- `left_items`：规范解答步骤，列表。**排版及逻辑注意：**
+  1. **结构对应**：`left_items` 中的每一步拆分，必须与上文“解题路线”（route）中的步骤严格对应。解题路线里写了几步，这里就应该对应输出几个带序号的 latex 步骤。
+  2. **避免过细**：连续的简单公式推导请合并为一行（使用 $\implies$ 连接），绝不能把每一步单纯的移项或化简单独作为一个带有序号的 item 输出（避免变成瘦长的“竹竿排版”）！
+- `right_steps`：例题重做的方向引导，列表。这里只输出一两个简短的小标题（如 `思路提示：代入两点坐标，用加减消元法求 k 和 b`），右侧的大量剩余空间会自动留白，作为学生的重做与笔记区。
 - `connection_title`：衔接标题（如"注意"、"方法"、"关键"）
 - `connection_items`：后问如何承接前问的提示
 
@@ -278,10 +278,10 @@ sections:
         id: "sol-part1"
         label: "(1)"
         stem_latex: "求这个一次函数的解析式；"
-        left_title: "思考引导"
+        left_title: "解答"
         left_items:
           - latex: "..."
-        right_title: "规范讲解"
+        right_title: "例题重做"
         right_steps:
           - latex: "..."
         connection_title: "注意"
@@ -292,10 +292,10 @@ sections:
         id: "sol-part2"
         label: "(2)"
         stem_latex: "判断点 $C(3,9)$ 是否在这个函数的图像上；"
-        left_title: "思考引导"
+        left_title: "解答"
         left_items:
           - latex: "..."
-        right_title: "规范讲解"
+        right_title: "例题重做"
         right_steps:
           - latex: "..."
 
