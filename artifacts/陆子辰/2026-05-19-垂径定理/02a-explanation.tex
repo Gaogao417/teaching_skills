@@ -15,8 +15,8 @@
 
 % ---------- 包 ----------
 \usepackage{geometry}
-\geometry{top=10mm,bottom=14mm,left=12mm,right=10mm}
-\AtBeginDocument{\newgeometry{top=10mm,bottom=14mm,left=12mm,right=10mm}}
+\geometry{top=10mm,bottom=14mm,left=15mm,right=13mm}
+\AtBeginDocument{\newgeometry{top=10mm,bottom=14mm,left=15mm,right=13mm}}
 
 \usepackage{xcolor}
 \usepackage{needspace}
@@ -222,8 +222,8 @@
 % ---------- 主体讲解：使用 paracol 实现跨页自适应双栏 ----------
 \newenvironment{eduDualExplain}{%
   \needspace{6\baselineskip}% 防止标题孤行
-  \columnratio{0.20, 0.80}%
-  \setlength{\columnsep}{5mm}%
+  \columnratio{0.25, 0.75}%
+  \setlength{\columnsep}{7mm}%
   \columnseprule=0.45pt%
   \colseprulecolor{edu-blue}%
   \begin{paracol}{2}% 开启双栏
@@ -406,3 +406,154 @@
   ]
   \end{tcolorbox}%
 }
+
+\examsetup{
+  question/show-answer = true,
+  fillin/show-answer = true,
+  solution/show-solution = show-stay,
+}
+
+\begin{document}
+
+
+\begin{eduProblemBlock}[题目]
+（2018$\cdot$普陀区模拟）如图，是一个隧道的截面，如果路面 $AB$ 宽为 $8$ 米，净高 $CD$ 为 $8$ 米，那么这个隧道所在圆的半径 $OA$ 是\_\_\_\_米。
+\end{eduProblemBlock}
+
+
+
+
+
+
+
+
+
+\begin{eduAuxItem}{解题流程}
+识别 $CD \perp AB$ 且 $CD$ 过圆心 $O$$\;\to\;$垂径定理得 $AD = 4$$\;\to\;$设半径 $r$，用 $r$ 表示 $OD$$\;\to\;$在 $\mathrm{Rt}\triangle AOD$ 中列方程，解出 $r$\end{eduAuxItem}
+
+
+
+
+\begin{eduAuxItem}{关键想法}
+净高 $CD$ 是从路面（弦 $AB$）到弧顶（圆弧最高点 $C$）的距离。
+$CD$ 是一条垂直于 $AB$ 的线段，而且它经过圆心 $O$！
+
+为什么？因为弧顶 $C$ 是圆上离弦 $AB$ 最远的点，过 $C$ 作 $AB$ 的垂线一定过圆心（垂径定理推论）。
+
+所以 $C$、$O$、$D$ 三点共线，$CD$ 可以拆成两段：
+\begin{itemize}
+  \item $CO = r$（半径）
+  \item $OD = CD - CO = 8 - r$
+\end{itemize}
+在 $\mathrm{Rt}\triangle AOD$ 中：$r^2 = 4^2 + (8-r)^2$。
+\end{eduAuxItem}
+
+
+
+
+\begin{eduSubQuestionItem}{第一步}
+识别垂径关系并求半弦长。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{思考引导}
+    \begin{eduNumberList}
+      \item $CD$ 是从弧顶到路面的垂直距离——它和圆心有什么关系？      \item 弧顶 $C$ 是圆上到弦 $AB$ 最远的点。从 $C$ 向 $AB$ 作垂线，这条垂线过圆心吗？      \item 垂径定理推论：平分弧的直径垂直平分这条弧所对的弦。反过来想——从弧顶作弦的垂线，一定经过圆心。    \end{eduNumberList}
+  \end{eduExplainLeft}
+  \eduColumnDivider
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{规范讲解}
+    \begin{eduNumberList}
+      \item 设隧道截面为 $\odot O$，路面为弦 $AB$，弧顶为 $C$，$CD \perp AB$ 于 $D$。      \item $\because$ $C$ 是弧顶，$CD$ 是弧到弦的最大距离，$\therefore$ $CD$ 过圆心 $O$。      \item $\therefore$ $C$、$O$、$D$ 三点共线，$CD \perp AB$。      \item 由垂径定理：$D$ 是 $AB$ 中点，$AD = \frac{1}{2}AB = 4$。    \end{eduNumberList}
+
+    \vspace{1mm}
+    \eduSubTitle{关键}
+    \begin{eduBulletList}
+      \item 不要把 $CD=8$ 当成弦心距！弦心距是 $OD$，不是 $CD$。    \end{eduBulletList}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduSubQuestionItem}{第二步}
+列方程求半径 $r$。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{思考引导}
+    \begin{eduNumberList}
+      \item $C$、$O$、$D$ 共线，$CD$ 从上到下依次是 $C \to O \to D$。那么 $OD$ 等于什么？      \item $CD = CO + OD = r + OD$，所以 $OD = 8 - r$。      \item 现在 $\mathrm{Rt}\triangle AOD$ 三边都知道了吗？哪条边还用 $r$ 表示？    \end{eduNumberList}
+  \end{eduExplainLeft}
+  \eduColumnDivider
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{规范讲解}
+    \begin{eduNumberList}
+      \item $\because$ $C$ 在 $O$ 上方，$D$ 在 $O$ 下方，$CD = CO + OD$。      \item $OD = CD - CO = 8 - r$。      \item 在 $\mathrm{Rt}\triangle AOD$ 中，由勾股定理：      \item $OA^2 = AD^2 + OD^2$      \item $r^2 = 4^2 + (8-r)^2 = 16 + 64 - 16r + r^2$      \item $16r = 80$，解得 $r = 5$。    \end{eduNumberList}
+
+    \vspace{1mm}
+    \eduSubTitle{注意}
+    \begin{eduBulletList}
+      \item $r^2$ 项消掉了！这题本质上是一元一次方程，不是二次方程。    \end{eduBulletList}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduBottomGrid}
+  \begin{eduSummaryLeft}
+    \begin{eduSummaryBlock}{\eduIconCheck}{答案}
+    \begin{eduPlainList}
+      \item $r = OA = 5$ 米    \end{eduPlainList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryLeft}
+  \eduSummaryDivider
+  \begin{eduSummaryRight}
+    \begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
+    \begin{eduBulletList}
+      \item 「弦长 + 拱高求半径」的标准步骤：拱高拆为 $CO+OD$，设 $r$ 列方程。      \item $r^2$ 一定会消去，本质是一元一次方程。      \item 通用公式：$r = \frac{a^2 + 4h^2}{8h}$（$a$=弦长，$h$=拱高）。    \end{eduBulletList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryRight}
+\end{eduBottomGrid}
+
+
+
+
+\begin{eduMistakeBox}
+\eduSubTitle{把净高 $CD$ 当成弦心距 $OD$}弦心距是 $OD$（圆心到弦的距离），不是 $CD$（弦到弧顶的距离）。
+$OD = CD - r$，必须先拆分。
+\end{eduMistakeBox}
+
+
+
+
+\begin{eduAuxItem}{思考}
+如果把路面宽度改为 $6$ 米，净高改为 $2$ 米，半径是多少？试试用通用公式。\end{eduAuxItem}
+
+
+
+
+\begin{eduAuxItem}{思考}
+反过来：已知半径 $r=5$，弦长 $AB=8$，求净高（拱高）$CD$。\end{eduAuxItem}
+
+
+
+\clearpage
+
+\begin{eduAuxItem}{关键想法}
+学生：陆子辰，八年级，B band。
+本题定位：填空题，1 分钟。
+预期能力：陆子辰能识别垂径定理，会设方程，应能在 1 分钟内完成。
+讲解重点：强化「拱高 $\neq$ 弦心距」的区分，以及 $CD = CO + OD$ 的拆分。
+如果陆子辰卡住：问他「$OD$ 用 $r$ 怎么表示？」
+\end{eduAuxItem}
+
+
+\begin{eduTeacherNote}
+  \textbf{训练目标：}掌握弦长-拱高-半径方程模型，能 1 分钟内列方程求解。\par
+  \textbf{预期卡点：}可能把 CD=8 直接当弦心距，列错方程。
+\end{eduTeacherNote}
+
+
+\end{document}

@@ -1,0 +1,1056 @@
+% preamble-exam-zh.tex — 极简讲解页共享 preamble
+% 目标：复刻「题目独立、提示轻框、路线箭头、主体双栏、答案轻收束」的讲义风格。
+
+\documentclass{exam-zh}
+
+% ---------- 基础配置 ----------
+\examsetup{
+  page/size = a4paper,
+  page/show-head = false,
+  page/show-foot = false,
+  sealline/show = false,
+  font = none,
+  math-font = none,
+}
+
+% ---------- 包 ----------
+\usepackage{geometry}
+\geometry{top=10mm,bottom=14mm,left=15mm,right=13mm}
+\AtBeginDocument{\newgeometry{top=10mm,bottom=14mm,left=15mm,right=13mm}}
+
+\usepackage{xcolor}
+\usepackage{needspace}
+\usepackage{enumitem}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{tcolorbox}
+\tcbuselibrary{skins,breakable}
+\usepackage{paracol}
+
+% ---------- 打印/屏幕颜色切换 ----------
+% 用法：\documentclass[monochrome]{exam-zh} 可降级为灰度。
+% 注意：不要使用 \if@xxx 放在 makeatother 外部；这里改成普通条件名。
+\newif\ifeduprintcolor
+\eduprintcolortrue
+\makeatletter
+\@ifclasswith{exam-zh}{monochrome}{\eduprintcolorfalse}{}
+\makeatother
+
+% ---------- 语义颜色 ----------
+\ifeduprintcolor
+  \definecolor{edu-blue}{RGB}{31,62,126}
+  \definecolor{edu-blue-soft}{RGB}{232,238,250}
+  \definecolor{edu-blue-bg}{RGB}{248,250,254}
+  \definecolor{edu-ink}{RGB}{30,35,45}
+  \definecolor{edu-muted}{RGB}{118,124,136}
+  \definecolor{edu-line}{RGB}{209,218,235}
+  \definecolor{edu-soft-bg}{RGB}{250,251,253}
+  \definecolor{edu-red}{RGB}{168,58,58}
+  \definecolor{edu-red-bg}{RGB}{255,247,245}
+\else
+  \definecolor{edu-blue}{gray}{0.15}
+  \definecolor{edu-blue-soft}{gray}{0.90}
+  \definecolor{edu-blue-bg}{gray}{0.98}
+  \definecolor{edu-ink}{gray}{0.10}
+  \definecolor{edu-muted}{gray}{0.45}
+  \definecolor{edu-line}{gray}{0.82}
+  \definecolor{edu-soft-bg}{gray}{0.97}
+  \definecolor{edu-red}{gray}{0.28}
+  \definecolor{edu-red-bg}{gray}{0.97}
+\fi
+
+% ---------- 全局排版 ----------
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\linespread{1.16}
+\renewcommand{\arraystretch}{1.15}
+
+% ctex 通常提供 \kaishu；这里用它做教师旁白感。
+\newcommand{\edukai}{\kaishu}
+
+% ---------- 顶部元信息 ----------
+\newcommand{\eduTopBar}[2]{%
+  \noindent
+  \begin{tabularx}{\linewidth}{@{}Xr@{}}
+    {\color{edu-blue}\bfseries #1} &
+    {\color{edu-blue}\bfseries #2}
+  \end{tabularx}
+  \vspace{8mm}
+}
+
+% ---------- 轻标题体系 ----------
+% 只有真正的大结构才用它；不要给提示/路线滥用标题。
+\newcommand{\eduSectionTitle}[1]{%
+  \needspace{5\baselineskip}%
+  \vspace{2mm}
+  {\color{edu-blue}\bfseries\large #1}\par
+  \vspace{3mm}
+}
+
+\newcommand{\eduSubTitle}[1]{%
+  \needspace{4\baselineskip}%
+  \vspace{1mm}
+  {\color{edu-blue}\bfseries #1}\par
+  \vspace{1mm}
+}
+
+% ---------- 小问题干：复用 exam (1)(2)(3) 格式 ----------
+\newenvironment{eduSubQuestionItem}[1]{%
+  \needspace{4\baselineskip}%
+  \vspace{2mm}
+  \par\noindent
+  \hangindent=8mm\hangafter=1
+  {\color{edu-blue}\bfseries #1}\enspace
+  \begingroup
+  \color{edu-ink}
+}{%
+  \endgroup
+  \par
+  \vspace{3mm}
+}
+
+% ---------- 辅助信息条（解题流程/关键想法/思考）楷体 ----------
+\newenvironment{eduAuxItem}[1]{%
+  \needspace{4\baselineskip}%
+  \vspace{2mm}
+  \par\noindent
+  \hangindent=8mm\hangafter=1
+  {\color{edu-blue}\edukai $\triangleright$~#1}\enspace
+  \begingroup
+  \color{edu-ink}
+  \edukai
+}{%
+  \endgroup
+  \par
+  \vspace{4mm}
+}
+
+\newcommand{\eduColumnTitle}[2]{%
+  {\color{edu-blue}\bfseries #1\hspace{1.5mm}#2}\par
+  \vspace{2.5mm}
+}
+
+% ---------- 图标：不用外部 icon 字体，保证可移植 ----------
+\newcommand{\eduIconBulb}{\(\circ\)}
+\newcommand{\eduIconBook}{\(\square\)}
+\newcommand{\eduIconCheck}{\(\checkmark\)}
+\newcommand{\eduIconPin}{\(\diamond\)}
+\newcommand{\eduIconNote}{\(\triangleright\)}
+
+% ---------- 题目区 ----------
+% 题目区是页面入口：弱标签 + 一条长蓝线 + 大题干。
+\newenvironment{eduProblemBlock}[1][题目]{%
+  \needspace{8\baselineskip}
+  {\small\color{edu-muted}#1}\par
+  \vspace{1.5mm}
+  {\color{edu-blue}\hrule height 0.55pt}
+  \vspace{4.5mm}
+  \begingroup
+  \color{edu-ink}
+  \large
+  \setlength{\parskip}{2.2mm}
+  \linespread{1.20}\selectfont
+}{%
+  \par
+  \endgroup
+  \vspace{6mm}
+}
+
+\newenvironment{eduSubQuestions}{%
+  \begin{enumerate}[
+    label=(\arabic*),
+    leftmargin=8mm,
+    itemsep=2.0mm,
+    topsep=2.0mm,
+    parsep=0pt
+  ]
+}{%
+  \end{enumerate}
+}
+
+% ---------- 读题提示：轻框，不做同级标题 ----------
+\newtcolorbox{eduReadTipBox}{
+  enhanced,
+  breakable,
+  colback=white,
+  colframe=edu-blue!45,
+  boxrule=0.45pt,
+  arc=1.6mm,
+  left=10mm,
+  right=4mm,
+  top=5mm,
+  bottom=5mm,
+  before skip=1mm,
+  after skip=7mm,
+  fontupper=\edukai\normalsize,
+  colupper=edu-ink,
+  overlay={
+    \node[anchor=north west, text=edu-blue] at ([xshift=3.2mm,yshift=-3.2mm]frame.north west)
+    {\small\eduIconNote};
+  }
+}
+
+\newenvironment{eduTipList}{%
+  \begin{itemize}[
+    label=\textbullet,
+    leftmargin=5mm,
+    itemsep=1.2mm,
+    topsep=0pt,
+    parsep=0pt
+  ]
+}{%
+  \end{itemize}
+}
+
+% ---------- 解题路线：虚线框 + 文字箭头 ----------
+\newenvironment{eduRouteFlow}{%
+  \needspace{4\baselineskip}%
+  \vspace{1mm}
+  \begin{center}
+  \normalsize
+}{%
+  \end{center}
+  \vspace{7mm}
+}
+\newcommand{\eduRouteStep}[1]{%
+  {\color{edu-ink}#1}%
+}
+\newcommand{\eduRouteArrow}{%
+  \;$\boldsymbol{\to}$\;%
+}
+
+% ---------- 主体讲解：使用 paracol 实现跨页自适应双栏 ----------
+\newenvironment{eduDualExplain}{%
+  \needspace{6\baselineskip}% 防止标题孤行
+  \columnratio{0.25, 0.75}%
+  \setlength{\columnsep}{7mm}%
+  \columnseprule=0.45pt%
+  \colseprulecolor{edu-blue}%
+  \begin{paracol}{2}% 开启双栏
+}{%
+  \end{paracol}% 结束双栏
+  \vspace{5mm}
+}
+
+\newenvironment{eduExplainLeft}{%
+  \normalsize\color{edu-ink}%
+}{%
+  \switchcolumn
+}
+
+\newcommand{\eduColumnDivider}{}
+
+\newenvironment{eduExplainRight}{%
+  \normalsize\color{edu-ink}%
+}{%
+}
+
+\newenvironment{eduNumberList}{%
+  \begin{enumerate}[
+    label=\arabic*.,
+    leftmargin=6mm,
+    itemsep=4.8mm,
+    topsep=0pt,
+    parsep=0pt
+  ]
+}{%
+  \end{enumerate}
+}
+
+\newenvironment{eduBulletList}{%
+  \begin{itemize}[
+    label=\textbullet,
+    leftmargin=5mm,
+    itemsep=1.2mm,
+    topsep=0pt,
+    parsep=0pt
+  ]
+}{%
+  \end{itemize}
+}
+
+% ---------- 底部双栏：答案 + 方法提醒 ----------
+\newenvironment{eduBottomGrid}{%
+  \vspace{1mm}
+  \par\noindent
+}{%
+  \par\vspace{1mm}
+}
+
+\newenvironment{eduSummaryLeft}{%
+  \begin{minipage}[t]{0.30\linewidth}
+}{%
+  \end{minipage}
+}
+
+\newcommand{\eduSummaryDivider}{%
+  \hspace{4mm}{\color{edu-line}\vrule width 0.35pt}\hspace{7mm}%
+}
+
+\newenvironment{eduSummaryRight}{%
+  \begin{minipage}[t]{0.58\linewidth}
+}{%
+  \end{minipage}
+}
+
+% ---------- 答案/方法提醒：轻量收束 ----------
+\newtcolorbox{eduSummaryBlock}[2]{
+  enhanced,
+  breakable,
+  colback=white,
+  colframe=white,
+  boxrule=0pt,
+  sharp corners,
+  left=0mm,
+  right=0mm,
+  top=1mm,
+  bottom=1mm,
+  before skip=1mm,
+  after skip=1mm,
+  title={\color{edu-blue}\bfseries #1\hspace{1.5mm}#2},
+  coltitle=edu-blue,
+  attach title to upper={\par\vspace{2mm}},
+  fontupper=\normalsize
+}
+
+\newenvironment{eduPlainList}{%
+  \begin{enumerate}[
+    label=(\arabic*),
+    leftmargin=7mm,
+    itemsep=1.2mm,
+    topsep=0pt,
+    parsep=0pt
+  ]
+}{%
+  \end{enumerate}
+}
+
+% ---------- 兼容旧 block 的轻量盒子 ----------
+\newtcolorbox{eduSoftBox}{
+  enhanced,
+  breakable,
+  colback=edu-soft-bg,
+  colframe=edu-line,
+  boxrule=0.35pt,
+  arc=1mm,
+  left=3mm,
+  right=3mm,
+  top=2mm,
+  bottom=2mm,
+  before skip=1mm,
+  after skip=2mm,
+  fontupper=\small
+}
+
+\newtcolorbox{eduMistakeBox}{
+  enhanced,
+  breakable,
+  colback=edu-red-bg,
+  colframe=edu-red!40,
+  boxrule=0.35pt,
+  arc=1mm,
+  left=3mm,
+  right=3mm,
+  top=2.5mm,
+  bottom=2.5mm,
+  before skip=1mm,
+  after skip=2mm,
+  fontupper=\normalsize
+}
+
+\newtcolorbox{eduLegacySolution}{
+  enhanced,
+  breakable,
+  colback=edu-soft-bg,
+  colframe=edu-line,
+  boxrule=0.35pt,
+  arc=1mm,
+  left=3mm,
+  right=3mm,
+  top=2mm,
+  bottom=2mm,
+  before skip=-2mm,
+  after skip=4mm,
+  fontupper=\small
+}
+
+\newtcolorbox{eduTeacherNote}{
+  enhanced,
+  breakable,
+  colback=edu-soft-bg,
+  colframe=edu-line,
+  boxrule=0pt,
+  borderline west={1.5pt}{0pt}{edu-muted},
+  left=2.5mm,
+  right=2.5mm,
+  top=2mm,
+  bottom=2mm,
+  before skip=1mm,
+  after skip=2mm,
+  fontupper=\footnotesize,
+  colupper=edu-muted
+}
+
+% ---------- 答题区 ----------
+\newcommand{\answerarea}[1][40mm]{%
+  \vspace{3mm}%
+  \begin{tcolorbox}[
+    enhanced,
+    breakable,
+    colback=white,
+    colframe=edu-line,
+    boxrule=0.55pt,
+    arc=0.8mm,
+    height=#1,
+    valign=top,
+  ]
+  \end{tcolorbox}%
+}
+
+
+\begin{document}
+
+\eduSectionTitle{例题 1 — 两直线交点求坐标（入门）}
+
+\begin{eduProblemBlock}[题目]
+直线 $l$：$y=kx+6$ 与 $x$ 轴、$y$ 轴分别交于点 $B$、$C$，点 $B(-8,0)$，点 $A(-6,0)$，点 $P$ 是直线 $l$ 上的动点。
+
+求 $k$ 的值。
+\end{eduProblemBlock}
+
+
+
+
+
+
+
+
+
+\begin{eduSubQuestionItem}{求 $k$}
+求 $k$ 的值。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{思考引导}
+    \begin{eduNumberList}
+      \item "点 $B$ 在直线上"是什么意思？——$B$ 的坐标满足直线方程 $y=kx+6$。      \item 把 $B(-8,0)$ 代入 $y=kx+6$，得到关于 $k$ 的方程。      \item 注意：$-8$ 乘以 $k$ 是负的，解方程时两边同时除以 $-8$，负负得正。    \end{eduNumberList}
+  \end{eduExplainLeft}
+  \eduColumnDivider
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{规范讲解}
+    \begin{eduNumberList}
+      \item 把 $B(-8,0)$ 代入 $y=kx+6$：      \item $0 = k \times (-8) + 6$      \item $-8k = -6$      \item $k = \dfrac{-6}{-8} = \dfrac{3}{4}$    \end{eduNumberList}
+
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduBottomGrid}
+  \begin{eduSummaryLeft}
+    \begin{eduSummaryBlock}{\eduIconCheck}{答案}
+    \begin{eduPlainList}
+      \item $k = \dfrac{3}{4}$    \end{eduPlainList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryLeft}
+  \eduSummaryDivider
+  \begin{eduSummaryRight}
+    \begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
+    \begin{eduBulletList}
+      \item 直线过某点 → 点坐标满足方程 → 代入求解。      \item 遇到多余条件，先判断哪些条件是本问需要的。    \end{eduBulletList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryRight}
+\end{eduBottomGrid}
+
+
+
+\eduSectionTitle{例题 2 — 两直线交点求坐标（综合）}
+
+\begin{eduProblemBlock}[题目]
+直线 $AB$ 与直线 $BC$ 相交于 $B(-2,2)$，$AB$ 与 $y$ 轴交于 $A(0,4)$，$BC$ 与 $x$ 轴交于 $D(-1,0)$、$y$ 轴交于 $C$。
+
+(1) 求直线 $AB$ 的解析式；
+(2) 过 $A$ 作 $BC$ 的平行线交 $x$ 轴于 $E$，求 $E$ 的坐标。
+\end{eduProblemBlock}
+
+
+
+
+
+
+
+
+
+\begin{eduSubQuestionItem}{(1)}
+求直线 $AB$ 的解析式；\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{思考引导}
+    \begin{eduNumberList}
+      \item $A(0,4)$ 在 $y$ 轴上，可以直接读出截距 $b=4$。      \item 再代入 $B(-2,2)$ 求斜率 $k$。    \end{eduNumberList}
+  \end{eduExplainLeft}
+  \eduColumnDivider
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{规范讲解}
+    \begin{eduNumberList}
+      \item 设 $AB$：$y=kx+b$，$A(0,4)$ 代入得 $b=4$。      \item $B(-2,2)$ 代入 $y=kx+4$：      \item $2 = k \times (-2) + 4$，解得 $k=1$。      \item $AB$：$y = x + 4$    \end{eduNumberList}
+
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduSubQuestionItem}{(2)}
+过 $A$ 作 $BC$ 的平行线交 $x$ 轴于 $E$，求 $E$ 的坐标。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{思考引导}
+    \begin{eduNumberList}
+      \item 平行线的斜率相等。先求 $BC$ 的斜率。      \item $B(-2,2)$、$D(-1,0)$ 两点确定 $BC$，注意坐标不要写错。      \item 过 $A(0,4)$ 作平行线，斜率相同，截距用 $A$ 点确定。    \end{eduNumberList}
+  \end{eduExplainLeft}
+  \eduColumnDivider
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{规范讲解}
+    \begin{eduNumberList}
+      \item $BC$ 过 $B(-2,2)$、$D(-1,0)$：      \item $k_{BC} = \dfrac{0-2}{-1-(-2)} = \dfrac{-2}{1} = -2$      \item $B(-2,2)$ 代入 $y=-2x+b$：$2 = 4+b$，$b=-2$。      \item $BC$：$y = -2x - 2$      \item 过 $A(0,4)$ 作平行线，$k=-2$：      \item $AE$：$y = -2x + 4$      \item 令 $y=0$：$0 = -2x + 4$，$x=2$。    \end{eduNumberList}
+
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduBottomGrid}
+  \begin{eduSummaryLeft}
+    \begin{eduSummaryBlock}{\eduIconCheck}{答案}
+    \begin{eduPlainList}
+      \item (1) $AB$：$y = x + 4$      \item (2) $E(2, 0)$    \end{eduPlainList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryLeft}
+  \eduSummaryDivider
+  \begin{eduSummaryRight}
+    \begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
+    \begin{eduBulletList}
+      \item 平行 $\Leftrightarrow$ 斜率相同，截距用经过的点确定。      \item 多线题目中，求出一条直线的斜率后，构造平行线或垂直线就很方便。    \end{eduBulletList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryRight}
+\end{eduBottomGrid}
+
+
+
+\eduSectionTitle{例题 3 — 面积条件反求动点坐标}
+
+\begin{eduProblemBlock}[题目]
+接例题 1。直线 $l$：$y=\dfrac{3}{4}x+6$，$B(-8,0)$，$A(-6,0)$，$P$ 是直线 $l$ 上的动点。
+
+当点 $P$ 运动到什么位置时，$\triangle OPA$ 的面积为 $9$。
+\end{eduProblemBlock}
+
+
+
+
+
+
+
+
+
+\begin{eduSubQuestionItem}{求 $P$}
+当点 $P$ 运动到什么位置时，$\triangle OPA$ 的面积为 $9$。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{思考引导}
+    \begin{eduNumberList}
+      \item $O(0,0)$、$A(-6,0)$ 在 $x$ 轴上，底 $OA = 6$。      \item 高 $= P$ 到 $x$ 轴的距离 $= |y_P|$。      \item $\dfrac{1}{2} \times 6 \times |y_P| = 9$，得 $|y_P| = 3$。      \item 绝对值产生两个解：$y_P = 3$ 或 $y_P = -3$，分别代入直线求 $x$。    \end{eduNumberList}
+  \end{eduExplainLeft}
+  \eduColumnDivider
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{规范讲解}
+    \begin{eduNumberList}
+      \item 底 $OA = |{-6} - 0| = 6$，高 $= |y_P|$。      \item $\dfrac{1}{2} \times 6 \times |y_P| = 9$，$|y_P| = 3$。      \item 情况一：$y_P = 3$，代入 $y = \dfrac{3}{4}x + 6$：      \item $3 = \dfrac{3}{4}x + 6$，$\dfrac{3}{4}x = -3$，$x = -4$。      \item $P_1(-4, 3)$。      \item 情况二：$y_P = -3$，代入直线：      \item $-3 = \dfrac{3}{4}x + 6$，$\dfrac{3}{4}x = -9$，$x = -12$。      \item $P_2(-12, -3)$。    \end{eduNumberList}
+
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduMistakeBox}
+\eduSubTitle{易错点}只算 $y_P = 3$ 的情况，漏掉 $y_P = -3$。绝对值方程 $|y_P|=3$ 一定有两个解，除非有象限条件限制。\end{eduMistakeBox}
+
+
+
+
+\begin{eduBottomGrid}
+  \begin{eduSummaryLeft}
+    \begin{eduSummaryBlock}{\eduIconCheck}{答案}
+    \begin{eduPlainList}
+      \item $P(-4, 3)$ 或 $P(-12, -3)$    \end{eduPlainList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryLeft}
+  \eduSummaryDivider
+  \begin{eduSummaryRight}
+    \begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
+    \begin{eduBulletList}
+      \item 底在坐标轴上的三角形，高 = 另一坐标的绝对值。      \item 绝对值 → 两个解，不要漏。    \end{eduBulletList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryRight}
+\end{eduBottomGrid}
+
+
+
+\eduSectionTitle{例题 4 — 面积比例求点坐标}
+
+\begin{eduProblemBlock}[题目]
+$y=-\dfrac{\sqrt{3}}{3}x+\sqrt{3}$ 与 $x$ 轴、$y$ 轴分别交于 $A$、$B$。$C$、$D$ 分别在线段 $OA$、$AB$ 上，$CD=CA$。
+
+(1) 求 $A$、$B$ 坐标；
+(2) 求 $\angle OCD$ 度数；
+(3) 如果 $\triangle CDO$ 面积是 $\triangle ABO$ 面积的 $\dfrac{1}{4}$，求 $C$ 坐标。
+\end{eduProblemBlock}
+
+
+
+
+
+
+
+
+
+\begin{eduSubQuestionItem}{(1)}
+求 $A$、$B$ 坐标；\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{思考引导}
+    \begin{eduNumberList}
+      \item 令 $y=0$ 求 $x$ 轴交点，令 $x=0$ 求 $y$ 轴交点。      \item 解方程时涉及 $\sqrt{3}$，注意化简。    \end{eduNumberList}
+  \end{eduExplainLeft}
+  \eduColumnDivider
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{规范讲解}
+    \begin{eduNumberList}
+      \item 令 $y=0$：$0 = -\dfrac{\sqrt{3}}{3}x + \sqrt{3}$，$x=3$。      \item $A(3, 0)$。      \item 令 $x=0$：$y = \sqrt{3}$。      \item $B(0, \sqrt{3})$。    \end{eduNumberList}
+
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduSubQuestionItem}{(2)}
+求 $\angle OCD$ 度数；\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{思考引导}
+    \begin{eduNumberList}
+      \item $\triangle ABO$ 中，$OA=3$，$OB=\sqrt{3}$，$\tan \angle OAB = \dfrac{\sqrt{3}}{3}$，所以 $\angle OAB = 30°$。      \item $CD=CA$ 说明 $\triangle CAD$ 是等腰三角形。      \item 结合角度关系推导 $\angle OCD$。    \end{eduNumberList}
+  \end{eduExplainLeft}
+  \eduColumnDivider
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{规范讲解}
+    \begin{eduNumberList}
+      \item $\triangle ABO$ 中 $\tan \angle OAB = \dfrac{OB}{OA} = \dfrac{\sqrt{3}}{3} = \dfrac{1}{\sqrt{3}}$      \item $\angle OAB = 30°$，$\angle ABO = 60°$。      \item $CD=CA \Rightarrow \angle CDA = \angle CAD = \angle OAB = 30°$      \item $\angle ADO = 180° - \angle CDA = 150°$（$C$、$D$、$O$ 分布）      \item 在 $\triangle AOD$ 中，$\angle AOD = 180° - 30° - \angle ADO$      \item 利用外角定理和等腰三角形性质可得 $\angle OCD = 60°$。    \end{eduNumberList}
+
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduSubQuestionItem}{(3)}
+如果 $\triangle CDO$ 面积是 $\triangle ABO$ 面积的 $\dfrac{1}{4}$，求 $C$ 坐标。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{思考引导}
+    \begin{eduNumberList}
+      \item 先算 $S_{ABO}$，再用面积比得到 $S_{CDO}$。      \item $\triangle CDO$ 以 $OC$ 为底、$y_D$ 为高。      \item $CD=CA$ 用距离公式表达，$D$ 在直线 $AB$ 上。      \item 两个条件联立，消去 $D$ 的坐标，得到关于 $x_C$ 的方程。    \end{eduNumberList}
+  \end{eduExplainLeft}
+  \eduColumnDivider
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{规范讲解}
+    \begin{eduNumberList}
+      \item $S_{ABO} = \dfrac{1}{2} \times 3 \times \sqrt{3} = \dfrac{3\sqrt{3}}{2}$      \item $S_{CDO} = \dfrac{1}{4} S_{ABO} = \dfrac{3\sqrt{3}}{8}$      \item 设 $C(x,0)$，则 $\dfrac{1}{2} \cdot x \cdot y_D = \dfrac{3\sqrt{3}}{8}$      \item 得 $y_D = \dfrac{3\sqrt{3}}{4x}$。      \item $CD = CA = 3 - x$，$D$ 在 $AB$ 上，联立后化简得：      \item $2x^2 - 6x + 3 = 0$      \item $x = \dfrac{6 \pm \sqrt{12}}{4} = \dfrac{3 \pm \sqrt{3}}{2}$      \item 筛选：$x = \dfrac{3-\sqrt{3}}{2}$ 时 $D$ 不在 $AB$ 上，舍去。    \end{eduNumberList}
+
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduMistakeBox}
+\eduSubTitle{易错点}$\sqrt{3}$ 的化算出错。记住：$\sqrt{3} \times \sqrt{3}=3$，$\dfrac{\sqrt{3}}{3} = \dfrac{1}{\sqrt{3}}$。二次方程有两个解，需根据 $D$ 在线段 $AB$ 上筛选。\end{eduMistakeBox}
+
+
+
+
+\begin{eduBottomGrid}
+  \begin{eduSummaryLeft}
+    \begin{eduSummaryBlock}{\eduIconCheck}{答案}
+    \begin{eduPlainList}
+      \item (1) $A(3,0)$，$B(0,\sqrt{3})$      \item (2) $\angle OCD = 60°$      \item (3) $C\left(\dfrac{3+\sqrt{3}}{2}, 0\right)$    \end{eduPlainList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryLeft}
+  \eduSummaryDivider
+  \begin{eduSummaryRight}
+    \begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
+    \begin{eduBulletList}
+      \item 面积比 → $\dfrac{1}{2} \times \text{底} \times \text{高}$ 方程。      \item 线段相等 → 距离公式方程。    \end{eduBulletList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryRight}
+\end{eduBottomGrid}
+
+
+
+\eduSectionTitle{例题 5 — 面积条件+等腰梯形求点}
+
+\begin{eduProblemBlock}[题目]
+$A(0,4)$，$C(5,0)$，$B$ 在第一象限，$BA \perp y$ 轴，$AB=\dfrac{3}{2}OA$。
+
+(1) 求 $BC$ 的表达式；
+(2) 四边形 $ABCD$ 是等腰梯形，求 $D$ 坐标。
+\end{eduProblemBlock}
+
+
+
+
+
+
+
+
+
+\begin{eduSubQuestionItem}{(1)}
+求 $BC$ 的表达式；\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{思考引导}
+    \begin{eduNumberList}
+      \item $BA \perp y$ 轴 → $BA$ 水平 → $y_B = y_A = 4$。      \item $OA = 4$，$AB = \dfrac{3}{2} \times 4 = 6$，$x_B = 0 + 6 = 6$。      \item 用 $B(6,4)$ 和 $C(5,0)$ 求直线方程。    \end{eduNumberList}
+  \end{eduExplainLeft}
+  \eduColumnDivider
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{规范讲解}
+    \begin{eduNumberList}
+      \item $OA = 4$，$AB = 6$。      \item $y_B = y_A = 4$，$x_B = 6$，所以 $B(6,4)$。      \item $k = \dfrac{0-4}{5-6} = 4$      \item 代入 $C(5,0)$：$0 = 20 + b$，$b = -20$。      \item $BC$：$y = 4x - 20$    \end{eduNumberList}
+
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduSubQuestionItem}{(2) 情况一}
+四边形 $ABCD$ 是等腰梯形，求 $D$ 坐标。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{思考引导}
+    \begin{eduNumberList}
+      \item 等腰梯形有两种构型：
+① $AB \parallel DC$，$AD = BC$
+② $AD \parallel BC$，$AB = DC$      \item 情况一：$AB$ 水平，$DC$ 也水平，$D$ 在 $x$ 轴上。      \item 用 $AD = BC$（距离公式）列方程。    \end{eduNumberList}
+  \end{eduExplainLeft}
+  \eduColumnDivider
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{规范讲解}
+    \begin{eduNumberList}
+      \item 情况一：$AB \parallel DC$，$AD = BC$。      \item $AB$ 水平，$DC$ 也水平，$D$ 在 $y=0$ 上。      \item $BC^2 = 1+16 = 17$。      \item $AD^2 = x_D^2 + 16 = 17$，$x_D^2 = 1$。      \item $D_1(1, 0)$。    \end{eduNumberList}
+
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{思考引导}
+    \begin{eduNumberList}
+      \item 情况二：$AD \parallel BC$，$AB = DC$。      \item $AD$ 斜率 $= BC$ 斜率 $= 4$。$AD$ 过 $A(0,4)$，所以 $AD$：$y=4x+4$。      \item $D$ 在 $AD$ 上，$AB = DC = 6$，列方程求 $x_D$。      \item 会得到一个二次方程，需要用求根公式。    \end{eduNumberList}
+  \end{eduExplainLeft}
+  \eduColumnDivider
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{规范讲解}
+    \begin{eduNumberList}
+      \item $AD$：$y = 4x + 4$（过 $A$，斜率 $4$）。      \item 设 $D(x_D, 4x_D+4)$，$DC^2 = 36$：      \item $(x_D-5)^2 + (4x_D+4)^2 = 36$      \item 展开：$17x_D^2 + 22x_D + 5 = 0$      \item $x_D = \dfrac{-22 \pm 12}{34}$      \item $x_D = -\dfrac{5}{17}$（$x_D=-1$ 退化，舍去）      \item $y_D = 4 \times \left(-\dfrac{5}{17}\right) + 4 = \dfrac{48}{17}$    \end{eduNumberList}
+
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduMistakeBox}
+\eduSubTitle{易错点}等腰梯形最容易漏解——只算 $AB \parallel DC$ 一种情况。情况二的二次方程展开需要仔细，系数大容易算错。\end{eduMistakeBox}
+
+
+
+
+\begin{eduBottomGrid}
+  \begin{eduSummaryLeft}
+    \begin{eduSummaryBlock}{\eduIconCheck}{答案}
+    \begin{eduPlainList}
+      \item (1) $y = 4x - 20$      \item (2) $D(1,0)$ 或 $D\left(-\dfrac{5}{17}, \dfrac{48}{17}\right)$    \end{eduPlainList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryLeft}
+  \eduSummaryDivider
+  \begin{eduSummaryRight}
+    \begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
+    \begin{eduBulletList}
+      \item 等腰梯形必须分类讨论哪两边是底。      \item 几何条件 → 坐标转化：垂直于 $y$ 轴 → 水平 → 纵坐标相同。    \end{eduBulletList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryRight}
+\end{eduBottomGrid}
+
+
+
+\eduSectionTitle{例题 6 — 面积条件间接求未知点+求解析式}
+
+\begin{eduProblemBlock}[题目]
+$A$、$B$ 分别是 $x$ 轴上位于原点两侧的点，$P(2,p)$ 在第一象限，$PA$ 交 $y$ 轴于 $C(0,2)$，$PB$ 交 $y$ 轴于 $D$，$\triangle AOP$ 面积为 $3$，$\triangle BOP$ 与 $\triangle DOP$ 面积相等，求 $BD$ 表达式。
+\end{eduProblemBlock}
+
+
+
+
+
+
+
+
+
+\begin{eduAuxItem}{解题流程}
+设 $A(a,0)$，$a<0$，由 $S_{AOP}=3$ 和 $P,A,C$ 共线，联立求 $a$ 和 $p$$\;\to\;$设 $B(b,0)$，$b>0$，由 $S_{BOP}=S_{DOP}$ 和 $P,B,D$ 共线，联立求 $b$ 和 $d$$\;\to\;$用 $B(b,0)$、$D(0,d)$ 求 $BD$ 直线方程\end{eduAuxItem}
+
+
+
+
+\begin{eduSubQuestionItem}{求 $A$ 和 $P$}
+求 $A$、$P$ 坐标。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{思考引导}
+    \begin{eduNumberList}
+      \item $A$ 在 $x$ 轴负半轴，设 $A(a,0)$，$a<0$。      \item $S_{AOP} = \dfrac{1}{2} \times (-a) \times p = 3$。      \item $P(2,p)$、$A(a,0)$、$C(0,2)$ 共线，斜率相等。    \end{eduNumberList}
+  \end{eduExplainLeft}
+  \eduColumnDivider
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{规范讲解}
+    \begin{eduNumberList}
+      \item $-ap = 6 \quad \cdots (1)$      \item $\dfrac{p}{2-a} = \dfrac{-2}{a}$，化简得 $pa = 2a-4 \quad \cdots (2)$      \item 由(1) $p = \dfrac{-6}{a}$，代入(2)：$-6 = 2a-4$      \item $a = -1$，$p = 6$      \item $A(-1,0)$，$P(2,6)$    \end{eduNumberList}
+
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduSubQuestionItem}{求 $B$ 和 $D$}
+求 $B$、$D$ 坐标和 $BD$ 表达式。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{思考引导}
+    \begin{eduNumberList}
+      \item $B$ 在 $x$ 轴正半轴，设 $B(b,0)$，$b>0$。      \item $S_{BOP} = \dfrac{1}{2} \times b \times 6 = 3b$。      \item $S_{DOP}$ 以 $OD$ 为底，高为 $P$ 到 $y$ 轴距离 $= 2$。      \item $P,B,D$ 共线，用直线方程表达 $d$ 与 $b$ 的关系。    \end{eduNumberList}
+  \end{eduExplainLeft}
+  \eduColumnDivider
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{规范讲解}
+    \begin{eduNumberList}
+      \item $S_{BOP} = S_{DOP}$：$3b = |d| \quad \cdots (3)$      \item $D(0,d)$ 在 $PB$ 上：$d = \dfrac{-6b}{2-b} \quad \cdots (4)$      \item 代入(3)：$3b = \dfrac{6b}{|2-b|}$，$|2-b|=2$      \item $b=4$（$b=0$ 舍去），$D(0,12)$      \item $BD$ 过 $(4,0)$ 和 $(0,12)$：      \item $k = \dfrac{12}{-4} = -3$      \item $BD$：$y = -3x + 12$    \end{eduNumberList}
+
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduBottomGrid}
+  \begin{eduSummaryLeft}
+    \begin{eduSummaryBlock}{\eduIconCheck}{答案}
+    \begin{eduPlainList}
+      \item $y = -3x + 12$    \end{eduPlainList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryLeft}
+  \eduSummaryDivider
+  \begin{eduSummaryRight}
+    \begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
+    \begin{eduBulletList}
+      \item "面积条件 + 共线条件 → 联立"是最常用的间接求点方法。      \item 注意符号：$A$ 在负半轴时 $|x_A| = -x_A$。    \end{eduBulletList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryRight}
+\end{eduBottomGrid}
+
+
+
+\eduSectionTitle{例题 7 — 面积相等+割补法求参数}
+
+\begin{eduProblemBlock}[题目]
+已知 $A(\sqrt{3},0)$，$B(0,1)$，$C(\sqrt{3}+1, \sqrt{3})$（等腰 Rt$\triangle ABC$，$\angle BAC=90°$）。
+
+第二象限内一点 $P(a, \dfrac{1}{2})$，$\triangle ABP$ 面积与 $\triangle ABC$ 面积相等，求 $a$。
+\end{eduProblemBlock}
+
+
+
+
+
+
+
+
+
+\begin{eduSubQuestionItem}{求 $a$}
+第二象限内一点 $P(a, \dfrac{1}{2})$，$\triangle ABP$ 面积与 $\triangle ABC$ 面积相等，求 $a$。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{思考引导}
+    \begin{eduNumberList}
+      \item $AB = AC = 2$，$S_{ABC} = \dfrac{1}{2} \times 2 \times 2 = 2$。      \item 坐标面积公式：$S = \dfrac{1}{2}|x_A(y_B-y_P) + x_B(y_P-y_A) + x_P(y_A-y_B)|$。      \item 代入三点坐标，令等于 $2$，解绝对值方程。      \item 两个解中，$a < 0$ 的才在第二象限。    \end{eduNumberList}
+  \end{eduExplainLeft}
+  \eduColumnDivider
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{规范讲解}
+    \begin{eduNumberList}
+      \item $S_{ABC} = 2$。      \item $S_{ABP} = \dfrac{1}{2}\left|\sqrt{3}\left(1-\dfrac{1}{2}\right) + 0 + a(0-1)\right|$      \item $= \dfrac{1}{2}\left|\dfrac{\sqrt{3}}{2} - a\right|$      \item 令 $= 2$：$\left|\dfrac{\sqrt{3}}{2} - a\right| = 4$      \item 情况一：$a = \dfrac{\sqrt{3}}{2} - 4 = \dfrac{\sqrt{3}-8}{2} \approx -3.13 < 0$ ✓      \item 情况二：$a = \dfrac{\sqrt{3}+8}{2} > 0$，不在第二象限，舍去。    \end{eduNumberList}
+
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduBottomGrid}
+  \begin{eduSummaryLeft}
+    \begin{eduSummaryBlock}{\eduIconCheck}{答案}
+    \begin{eduPlainList}
+      \item $a = \dfrac{\sqrt{3}-8}{2}$    \end{eduPlainList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryLeft}
+  \eduSummaryDivider
+  \begin{eduSummaryRight}
+    \begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
+    \begin{eduBulletList}
+      \item 坐标面积公式是含无理数时的利器，避免画错割补矩形。      \item 绝对值方程的两个解要逐一验证附加条件。    \end{eduBulletList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryRight}
+\end{eduBottomGrid}
+
+
+
+\eduSectionTitle{例题 8 — 对称+距离最值求点}
+
+\begin{eduProblemBlock}[题目]
+$y=kx+b$ 与 $x$ 轴交于 $A$，与 $y$ 轴交于 $B(0,2)$，与正比例函数 $y=\dfrac{3}{2}x$ 交于 $C(4,c)$。
+
+(1) 求 $k$ 和 $b$；
+(2) $P$ 是 $y$ 轴上动点，$|PA-PC|$ 最大时 $P$ 坐标；
+(3) $DE$ 在 $x$ 轴上运动，$DE=2$，四边形 $BDEC$ 周长最小时 $D$、$E$ 坐标。
+\end{eduProblemBlock}
+
+
+
+
+
+
+
+
+
+\begin{eduSubQuestionItem}{(1)}
+求 $k$ 和 $b$；\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{思考引导}
+    \begin{eduNumberList}
+      \item $C(4,c)$ 在 $y=\dfrac{3}{2}x$ 上，代入求 $c$。      \item $B(0,2)$ 给出截距 $b$，再用 $C$ 求斜率 $k$。    \end{eduNumberList}
+  \end{eduExplainLeft}
+  \eduColumnDivider
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{规范讲解}
+    \begin{eduNumberList}
+      \item $c = \dfrac{3}{2} \times 4 = 6$，$C(4,6)$。      \item $k = \dfrac{6-2}{4-0} = 1$，$b = 2$。      \item $y = x + 2$，令 $y=0$ 得 $A(-2,0)$。    \end{eduNumberList}
+
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduSubQuestionItem}{(2)}
+$P$ 是 $y$ 轴上动点，$|PA-PC|$ 最大时 $P$ 坐标；\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{思考引导}
+    \begin{eduNumberList}
+      \item $P$ 在 $y$ 轴上，$|PA-PC|$ 什么时候最大？      \item 用对称：$A(-2,0)$ 关于 $y$ 轴的对称点 $A'(2,0)$。      \item $A'C$ 连线与 $y$ 轴的交点就是所求的 $P$。      \item 原理：$|PA-PC| \leq A'C$，等号在 $P$ 在 $A'C$ 延长线上时取到。    \end{eduNumberList}
+  \end{eduExplainLeft}
+  \eduColumnDivider
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{规范讲解}
+    \begin{eduNumberList}
+      \item $A(-2,0)$ 关于 $y$ 轴对称：$A'(2,0)$。      \item $A'(2,0)$、$C(4,6)$，斜率 $= \dfrac{6}{2} = 3$。      \item $A'C$：$y = 3(x-2) = 3x - 6$      \item 令 $x=0$：$y = -6$。      \item $P(0, -6)$    \end{eduNumberList}
+
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduSubQuestionItem}{(3)}
+$DE$ 在 $x$ 轴上运动，$DE=2$，四边形 $BDEC$ 周长最小时 $D$、$E$ 坐标。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{思考引导}
+    \begin{eduNumberList}
+      \item 周长 $= BD + DE + EC + CB$，其中 $DE=2$ 和 $CB=4\sqrt{2}$ 固定。      \item 最小化 $BD + EC$。设 $D(d,0)$，$E(d+2,0)$。      \item 把 $C(4,6)$ 向左平移 $2$ 个单位到 $C'(2,6)$。      \item 则 $BD + EC = BD + DC'$（点到两定点距离之和）。      \item 用对称：$B(0,2)$ 关于 $x$ 轴对称 $B_1(0,-2)$，$B_1C'$ 连线交 $x$ 轴即为 $D$。    \end{eduNumberList}
+  \end{eduExplainLeft}
+  \eduColumnDivider
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{规范讲解}
+    \begin{eduNumberList}
+      \item $C(4,6)$ 平移到 $C'(2,6)$。      \item $B(0,2)$ 关于 $x$ 轴对称：$B_1(0,-2)$。      \item $B_1C'$：斜率 $= \dfrac{6+2}{2-0} = 4$，$y = 4x - 2$      \item 令 $y=0$：$x = \dfrac{1}{2}$。      \item $D\left(\dfrac{1}{2}, 0\right)$，$E\left(\dfrac{5}{2}, 0\right)$    \end{eduNumberList}
+
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduMistakeBox}
+\eduSubTitle{易错点}第(2)问不要把 $P$ 误认为在直线 $y=x+2$ 上——题目说 $P$ 在 $y$ 轴上。第(3)问的平移方向容易搞错：应该把 $C$ 向左平移 $2$ 个单位（而非向右），使 $EC$ 转化为 $DC'$。\end{eduMistakeBox}
+
+
+
+
+\begin{eduBottomGrid}
+  \begin{eduSummaryLeft}
+    \begin{eduSummaryBlock}{\eduIconCheck}{答案}
+    \begin{eduPlainList}
+      \item (1) $y = x + 2$      \item (2) $P(0, -6)$      \item (3) $D\left(\dfrac{1}{2}, 0\right)$，$E\left(\dfrac{5}{2}, 0\right)$    \end{eduPlainList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryLeft}
+  \eduSummaryDivider
+  \begin{eduSummaryRight}
+    \begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
+    \begin{eduBulletList}
+      \item 对称求最值：$|PA-PC|$ 最大 → 对称点连线。      \item 平移求最短路径：将 $C$ 平移 $DE$ 的长度，转化为"点到两定点距离之和"。    \end{eduBulletList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryRight}
+\end{eduBottomGrid}
+
+
+
+
+\end{document}

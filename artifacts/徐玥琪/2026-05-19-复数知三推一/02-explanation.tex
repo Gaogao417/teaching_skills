@@ -15,8 +15,8 @@
 
 % ---------- 包 ----------
 \usepackage{geometry}
-\geometry{top=10mm,bottom=14mm,left=12mm,right=10mm}
-\AtBeginDocument{\newgeometry{top=10mm,bottom=14mm,left=12mm,right=10mm}}
+\geometry{top=10mm,bottom=14mm,left=15mm,right=13mm}
+\AtBeginDocument{\newgeometry{top=10mm,bottom=14mm,left=15mm,right=13mm}}
 
 \usepackage{xcolor}
 \usepackage{needspace}
@@ -222,8 +222,8 @@
 % ---------- 主体讲解：使用 paracol 实现跨页自适应双栏 ----------
 \newenvironment{eduDualExplain}{%
   \needspace{6\baselineskip}% 防止标题孤行
-  \columnratio{0.20, 0.80}%
-  \setlength{\columnsep}{5mm}%
+  \columnratio{0.25, 0.75}%
+  \setlength{\columnsep}{7mm}%
   \columnseprule=0.45pt%
   \colseprulecolor{edu-blue}%
   \begin{paracol}{2}% 开启双栏
@@ -406,3 +406,114 @@
   ]
   \end{tcolorbox}%
 }
+
+
+\begin{document}
+
+\eduSectionTitle{方法总论：共轭展开与公式选择框架}
+
+
+
+
+
+\begin{eduAuxItem}{关键想法}
+对复数和、差模平方做共轭展开：
+\begin{align*}
+  |z_1 + z_2|^2 &= (z_1 + z_2)(\bar{z}_1 + \bar{z}_2) = |z_1|^2 + |z_2|^2 + (z_1\bar{z}_2 + \bar{z}_1z_2) \\
+  |z_1 - z_2|^2 &= (z_1 - z_2)(\bar{z}_1 - \bar{z}_2) = |z_1|^2 + |z_2|^2 - (z_1\bar{z}_2 + \bar{z}_1z_2)
+\end{align*}
+两式相加即得\textbf{平行四边形恒等式}（消去交叉项）：
+\begin{equation*}
+  |z_1 + z_2|^2 + |z_1 - z_2|^2 = 2(|z_1|^2 + |z_2|^2)
+\end{equation*}
+两式相减可得\textbf{交叉项表达式}（消去模长和）：
+\begin{equation*}
+  |z_1 + z_2|^2 - |z_1 - z_2|^2 = 2(z_1\bar{z}_2 + \bar{z}_1z_2)
+\end{equation*}
+利用复数商的关系 $z_1/z_2$，我们可以将交叉项改写为（记 $w = \dfrac{z_1}{z_2}$）：
+\begin{equation*}
+  z_1\bar{z}_2 + \bar{z}_1z_2 = |z_2|^2 \cdot \frac{z_1}{z_2} + |z_1|^2 \cdot \frac{z_2}{z_1} = |z_2|^2 \left( w + \bar{w} \right) = 2|z_2|^2 \mathrm{Re}(w)
+\end{equation*}\end{eduAuxItem}
+
+
+
+\eduSectionTitle{例题 1 — 复数知三推一}
+
+\begin{eduProblemBlock}[例题 1]
+已知复数 $z_1, z_2$ 满足 $|z_1| = \sqrt{5}$，$|z_1 - z_2| = \sqrt{2}$，$|z_1 + z_2| = 3\sqrt{2}$，求 $|z_2|$ 及 $\dfrac{z_1}{z_2}$。
+\end{eduProblemBlock}
+
+
+
+
+
+
+
+
+
+\begin{eduSubQuestionItem}{第一步}
+应用平行四边形公式求得 $|z_2|$ 的值。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{思考引导}
+    \begin{eduNumberList}
+      \item 我们要连结 $|z_1|$, $|z_2|$, $|z_1-z_2|$, $|z_1+z_2|$ 这四个模长。      \item 写出平行四边形恒等式，将已知的三项代入即可。    \end{eduNumberList}
+  \end{eduExplainLeft}
+  \eduColumnDivider
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{规范讲解}
+    \begin{eduNumberList}
+      \item 平行四边形恒等式为：$|z_1 - z_2|^2 + |z_1 + z_2|^2 = 2(|z_1|^2 + |z_2|^2)$。      \item 代入已知数据：$(\sqrt{2})^2 + (3\sqrt{2})^2 = 2((\sqrt{5})^2 + |z_2|^2)$。      \item 计算化简：$2 + 18 = 2(5 + |z_2|^2) \implies 20 = 10 + 2|z_2|^2$。      \item 得出 $|z_2|^2 = 5$。因为模长非负，故 $|z_2| = \sqrt{5}$。    \end{eduNumberList}
+
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduSubQuestionItem}{第二步}
+通过展开公式或两式相减求出 $z_1/z_2$。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{思考引导}
+    \begin{eduNumberList}
+      \item 设 $w = z_1/z_2$，我们知道 $|w| = |z_1|/|z_2| = \sqrt{5}/\sqrt{5} = 1$。      \item 要求出 $w$，我们需要先求出它的实部 $\mathrm{Re}(w) = \cos\theta$。      \item 利用模平方之差公式展开：$|z_1+z_2|^2 - |z_1-z_2|^2 = 4\mathrm{Re}(z_1\bar{z}_2) = 4|z_2|^2\mathrm{Re}(w)$。    \end{eduNumberList}
+  \end{eduExplainLeft}
+  \eduColumnDivider
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{规范讲解}
+    \begin{eduNumberList}
+      \item 由模平方之差公式得：$|z_1+z_2|^2 - |z_1-z_2|^2 = 2(z_1\bar{z}_2 + \bar{z}_1z_2)$。      \item 因为 $z_1\bar{z}_2 + \bar{z}_1z_2 = 2|z_2|^2 \mathrm{Re}(w)$（其中 $w = z_1/z_2$）。      \item 代入数据：$18 - 2 = 4|z_2|^2 \mathrm{Re}(w) \implies 16 = 4 \times 5 \mathrm{Re}(w)$。      \item 得到 $\mathrm{Re}(w) = \dfrac{16}{20} = \dfrac{4}{5}$。      \item 由于 $|w| = \dfrac{|z_1|}{|z_2|} = 1$。      \item 根据 $|w|^2 = [\mathrm{Re}(w)]^2 + [\mathrm{Im}(w)]^2 = 1$，得 $[\mathrm{Im}(w)]^2 = 1 - \left(\dfrac{4}{5}\right)^2 = \dfrac{9}{25}$。      \item 因为 $\mathrm{Im}(w) = \pm\dfrac{3}{5}$，所以 $\dfrac{z_1}{z_2} = \dfrac{4 \pm 3i}{5}$。    \end{eduNumberList}
+
+    \vspace{1mm}
+    \eduSubTitle{结论}
+    \begin{eduBulletList}
+      \item 两步环环相扣，最终答案为：$|z_2| = \sqrt{5}$，$\dfrac{z_1}{z_2} = \dfrac{4 \pm 3i}{5}$。    \end{eduBulletList}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduBottomGrid}
+  \begin{eduSummaryLeft}
+    \begin{eduSummaryBlock}{\eduIconCheck}{避坑指南}
+    \begin{eduPlainList}
+      \item **不要硬设坐标**：设 $z_1=a+bi, z_2=c+di$ 展开会得到含4个未知数的3个二次方程，极难求解！      \item **别忘比值双解**：由平方和为1开根号时，记得加 $\pm$，即 $\mathrm{Im}(z_1/z_2) = \pm 3/5$。      \item **分清角和与角差**：商 $z_1/z_2$ 的辐角是角差 $\alpha - \beta$，而 $z_1\bar{z}_2$ 也是角差；共轭相乘是角和。    \end{eduPlainList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryLeft}
+  \eduSummaryDivider
+  \begin{eduSummaryRight}
+    \begin{eduSummaryBlock}{\eduIconPin}{万能公式模板}
+    \begin{eduBulletList}
+      \item 平行四边形恒等式：$|z_1-z_2|^2+|z_1+z_2|^2 = 2(|z_1|^2+|z_2|^2)$      \item 模平方差与交叉项：$|z_1+z_2|^2-|z_1-z_2|^2 = 4\mathrm{Re}(z_1\bar{z}_2)$      \item 复商与交叉项关系：$z_1\bar{z}_2+\bar{z}_1z_2 = 2|z_2|^2\mathrm{Re}(z_1/z_2)$      \item 极坐标关联：$\mathrm{Re}(z_1/z_2) = \dfrac{|z_1|}{|z_2|}\cos\theta$    \end{eduBulletList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryRight}
+\end{eduBottomGrid}
+
+
+
+
+\end{document}

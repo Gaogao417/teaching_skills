@@ -15,8 +15,8 @@
 
 % ---------- 包 ----------
 \usepackage{geometry}
-\geometry{top=10mm,bottom=14mm,left=12mm,right=10mm}
-\AtBeginDocument{\newgeometry{top=10mm,bottom=14mm,left=12mm,right=10mm}}
+\geometry{top=10mm,bottom=14mm,left=15mm,right=13mm}
+\AtBeginDocument{\newgeometry{top=10mm,bottom=14mm,left=15mm,right=13mm}}
 
 \usepackage{xcolor}
 \usepackage{needspace}
@@ -222,8 +222,8 @@
 % ---------- 主体讲解：使用 paracol 实现跨页自适应双栏 ----------
 \newenvironment{eduDualExplain}{%
   \needspace{6\baselineskip}% 防止标题孤行
-  \columnratio{0.20, 0.80}%
-  \setlength{\columnsep}{5mm}%
+  \columnratio{0.25, 0.75}%
+  \setlength{\columnsep}{7mm}%
   \columnseprule=0.45pt%
   \colseprulecolor{edu-blue}%
   \begin{paracol}{2}% 开启双栏
@@ -406,3 +406,223 @@
   ]
   \end{tcolorbox}%
 }
+
+
+\begin{document}
+
+\eduSectionTitle{例题 1 — 求和坐标轴的交点}
+
+\begin{eduProblemBlock}[题目]
+直线 $y = -2x + 6$ 与 $x$ 轴、$y$ 轴分别交于点 $A$、$B$。
+
+求 $A$、$B$ 的坐标。
+\end{eduProblemBlock}
+
+
+
+
+
+
+
+
+
+\begin{eduSubQuestionItem}{求 $B$（$y$ 轴交点）}
+求与 $y$ 轴的交点 $B$。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{思考引导}
+    \begin{eduNumberList}
+      \item $y$ 轴上的点横坐标都是 $0$。      \item 令 $x=0$，代入方程 $y = -2x + 6$。    \end{eduNumberList}
+  \end{eduExplainLeft}
+  \eduColumnDivider
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{规范讲解}
+    \begin{eduNumberList}
+      \item 令 $x = 0$：      \item $y = -2 \times 0 + 6 = 6$      \item $B(0, 6)$    \end{eduNumberList}
+
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduSubQuestionItem}{求 $A$（$x$ 轴交点）}
+求与 $x$ 轴的交点 $A$。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{思考引导}
+    \begin{eduNumberList}
+      \item $x$ 轴上的点纵坐标都是 $0$。      \item 令 $y=0$，代入方程解 $x$。      \item 解方程时，$-2x$ 移到右边变 $+2x$。    \end{eduNumberList}
+  \end{eduExplainLeft}
+  \eduColumnDivider
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{规范讲解}
+    \begin{eduNumberList}
+      \item 令 $y = 0$：      \item $0 = -2x + 6$      \item $2x = 6$      \item $x = 3$      \item $A(3, 0)$    \end{eduNumberList}
+
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduBottomGrid}
+  \begin{eduSummaryLeft}
+    \begin{eduSummaryBlock}{\eduIconCheck}{答案}
+    \begin{eduPlainList}
+      \item $A(3, 0)$，$B(0, 6)$    \end{eduPlainList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryLeft}
+  \eduSummaryDivider
+  \begin{eduSummaryRight}
+    \begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
+    \begin{eduBulletList}
+      \item $y$ 轴交点：令 $x=0$。      \item $x$ 轴交点：令 $y=0$。      \item 交点坐标写成 $(x, 0)$ 或 $(0, y)$ 的形式。    \end{eduBulletList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryRight}
+\end{eduBottomGrid}
+
+
+
+\eduSectionTitle{例题 2 — 交点求k}
+
+\begin{eduProblemBlock}[题目]
+直线 $y = kx + 6$ 经过点 $B(-3, 0)$。
+
+(1) 求 $k$ 的值；
+(2) 写出这条直线的解析式。
+\end{eduProblemBlock}
+
+
+
+
+
+
+
+
+
+\begin{eduSubQuestionItem}{(1) 求 $k$}
+求 $k$ 的值。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{思考引导}
+    \begin{eduNumberList}
+      \item 把 $x=-3$、$y=0$ 代入 $y=kx+6$。      \item $k \times (-3)$ 等于 $-3k$，注意负号。      \item 移项后两边同时除以 $-3$，负负得正。    \end{eduNumberList}
+  \end{eduExplainLeft}
+  \eduColumnDivider
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{规范讲解}
+    \begin{eduNumberList}
+      \item 把 $B(-3, 0)$ 代入 $y = kx + 6$：      \item $0 = k \times (-3) + 6$      \item $-3k + 6 = 0$      \item $-3k = -6$      \item $k = 2$    \end{eduNumberList}
+
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduSubQuestionItem}{(2) 写解析式}
+写出这条直线的解析式。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{思考引导}
+    \begin{eduNumberList}
+      \item 把求出的 $k=2$ 代回 $y=kx+6$ 即可。    \end{eduNumberList}
+  \end{eduExplainLeft}
+  \eduColumnDivider
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{规范讲解}
+    \begin{eduNumberList}
+      \item $k = 2$，所以：      \item $y = 2x + 6$    \end{eduNumberList}
+
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduBottomGrid}
+  \begin{eduSummaryLeft}
+    \begin{eduSummaryBlock}{\eduIconCheck}{答案}
+    \begin{eduPlainList}
+      \item (1) $k = 2$      \item (2) $y = 2x + 6$    \end{eduPlainList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryLeft}
+  \eduSummaryDivider
+  \begin{eduSummaryRight}
+    \begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
+    \begin{eduBulletList}
+      \item 点在直线上 → 坐标代入方程 → 解方程求参数。      \item 负数代入时注意符号。    \end{eduBulletList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryRight}
+\end{eduBottomGrid}
+
+
+
+\eduSectionTitle{例题 3 — 两直线交点}
+
+\begin{eduProblemBlock}[题目]
+直线 $l_1$：$y = 2x + 1$ 与直线 $l_2$：$y = -x + 4$。
+
+求 $l_1$ 与 $l_2$ 的交点坐标。
+\end{eduProblemBlock}
+
+
+
+
+
+
+
+
+
+\begin{eduAuxItem}{解题流程}
+令 $2x + 1 = -x + 4$，解出 $x$$\;\to\;$把 $x$ 代回任一方程求 $y$$\;\to\;$写出交点坐标 $(x, y)$\end{eduAuxItem}
+
+
+
+
+\begin{eduSubQuestionItem}{求交点}
+求 $l_1$ 与 $l_2$ 的交点坐标。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{思考引导}
+    \begin{eduNumberList}
+      \item 交点同时在两条直线上，所以 $y$ 值相等。      \item 令 $2x+1 = -x+4$，把 $-x$ 移到左边变 $+x$。      \item 解出 $x$ 后，代入 $l_1$ 或 $l_2$ 求 $y$（选简单的）。    \end{eduNumberList}
+  \end{eduExplainLeft}
+  \eduColumnDivider
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{规范讲解}
+    \begin{eduNumberList}
+      \item $2x + 1 = -x + 4$      \item $2x + x = 4 - 1$      \item $3x = 3$      \item $x = 1$      \item 代入 $l_1$：$y = 2 \times 1 + 1 = 3$      \item 交点为 $(1, 3)$    \end{eduNumberList}
+
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduBottomGrid}
+  \begin{eduSummaryLeft}
+    \begin{eduSummaryBlock}{\eduIconCheck}{答案}
+    \begin{eduPlainList}
+      \item 交点为 $(1, 3)$    \end{eduPlainList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryLeft}
+  \eduSummaryDivider
+  \begin{eduSummaryRight}
+    \begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
+    \begin{eduBulletList}
+      \item 两直线交点 → 联立方程 → 令 $y_1 = y_2$ → 先求 $x$ 再回代求 $y$。      \item 回代时选系数简单的直线，减少出错。    \end{eduBulletList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryRight}
+\end{eduBottomGrid}
+
+
+
+
+\end{document}

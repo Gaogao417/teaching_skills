@@ -15,8 +15,8 @@
 
 % ---------- 包 ----------
 \usepackage{geometry}
-\geometry{top=10mm,bottom=14mm,left=12mm,right=10mm}
-\AtBeginDocument{\newgeometry{top=10mm,bottom=14mm,left=12mm,right=10mm}}
+\geometry{top=10mm,bottom=14mm,left=15mm,right=13mm}
+\AtBeginDocument{\newgeometry{top=10mm,bottom=14mm,left=15mm,right=13mm}}
 
 \usepackage{xcolor}
 \usepackage{needspace}
@@ -222,8 +222,8 @@
 % ---------- 主体讲解：使用 paracol 实现跨页自适应双栏 ----------
 \newenvironment{eduDualExplain}{%
   \needspace{6\baselineskip}% 防止标题孤行
-  \columnratio{0.20, 0.80}%
-  \setlength{\columnsep}{5mm}%
+  \columnratio{0.25, 0.75}%
+  \setlength{\columnsep}{7mm}%
   \columnseprule=0.45pt%
   \colseprulecolor{edu-blue}%
   \begin{paracol}{2}% 开启双栏
@@ -406,3 +406,152 @@
   ]
   \end{tcolorbox}%
 }
+
+\examsetup{
+  question/show-answer = true,
+  fillin/show-answer = true,
+  solution/show-solution = show-stay,
+}
+
+\begin{document}
+
+
+\begin{eduProblemBlock}[题目]
+（2021$\cdot$浦东新区模拟）如图，已知 $AB$ 是圆 $O$ 的直径，弦 $CD$ 交 $AB$ 于点 $E$，$\angle CEA = 30^\circ$，$OE = 4$，$DE = 5\sqrt{3}$，求弦 $CD$ 及圆 $O$ 的半径长。
+
+\end{eduProblemBlock}
+
+
+
+
+
+
+
+
+
+\begin{eduAuxItem}{解题流程}
+过 $O$ 作 $OM \perp CD$ 于 $M$（核心辅助线）$\;\to\;$$30^\circ$ 特殊角求 $OM$ 和 $EM$$\;\to\;$分段求 $DM = DE - EM$$\;\to\;$垂径定理得 $CD$，勾股定理得半径\end{eduAuxItem}
+
+
+
+
+\begin{eduAuxItem}{关键想法}
+弦 $CD$ 不垂直于直径 $AB$，不能直接用垂径定理。
+解决办法：自己制造垂直条件——过圆心 $O$ 作 $OM \perp CD$。
+
+这样就有了两个直角三角形：
+\begin{itemize}
+  \item $\mathrm{Rt}\triangle OEM$：$\angle OEM = \angle CEA = 30^\circ$，$OE = 4$，可以求 $OM$ 和 $EM$
+  \item $\mathrm{Rt}\triangle DOM$：$OM$ 已知，$DM$ 可算，用勾股定理求 $OD$（半径）
+\end{itemize}
+\end{eduAuxItem}
+
+
+
+
+\begin{eduSubQuestionItem}{第一步}
+作辅助线，利用 $30^\circ$ 特殊角求 $OM$ 和 $EM$。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{思考引导}
+    \begin{eduNumberList}
+      \item 见到弦 $CD$，想用垂径定理——但 $CD$ 不和直径垂直。怎么办？      \item 过 $O$ 作 $OM \perp CD$——这条辅助线你一定要形成条件反射！      \item 现在看 $\mathrm{Rt}\triangle OEM$：$\angle OEM$ 等于多少？为什么？      \item $30^\circ$ 的直角三角形，斜边 $OE=4$，你能快速说出 $OM$ 和 $EM$ 吗？    \end{eduNumberList}
+  \end{eduExplainLeft}
+  \eduColumnDivider
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{规范讲解}
+    \begin{eduNumberList}
+      \item 过圆心 $O$ 作 $OM \perp CD$ 于 $M$，联结 $OD$。      \item $\because \angle OEM = \angle CEA = 30^\circ$（对顶角相等）。      \item 在 $\mathrm{Rt}\triangle OEM$ 中，$OE = 4$：      \item $OM = \frac{1}{2}OE = \frac{1}{2} \times 4 = 2$（$30^\circ$ 所对的直角边 = 斜边的一半）。      \item $EM = OE \cdot \cos 30^\circ = 4 \times \frac{\sqrt{3}}{2} = 2\sqrt{3}$。    \end{eduNumberList}
+
+    \vspace{1mm}
+    \eduSubTitle{关键}
+    \begin{eduBulletList}
+      \item 30° 特殊角直角三角形三边比 $1 : \sqrt{3} : 2$ 要熟记。    \end{eduBulletList}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduSubQuestionItem}{第二步}
+分段求 $DM$，再由垂径定理求 $CD$，勾股定理求半径。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{思考引导}
+    \begin{eduNumberList}
+      \item $M$ 是 $CD$ 的中点（垂径定理）。$E$ 在弦 $CD$ 上，$D$、$M$、$E$ 的顺序是怎样的？      \item $DE = 5\sqrt{3}$，$EM = 2\sqrt{3}$。$DM$ 等于 $DE + EM$ 还是 $DE - EM$？      \item 画一下：$M$ 是中点，$E$ 在 $M$ 的右边（靠近 $C$ 的方向），所以 $DM = DE - EM$。    \end{eduNumberList}
+  \end{eduExplainLeft}
+  \eduColumnDivider
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{规范讲解}
+    \begin{eduNumberList}
+      \item $\because OM \perp CD$ 且 $OM$ 过圆心，$\therefore M$ 是 $CD$ 中点。      \item $E$ 在线段 $DM$ 的延长线上（靠近 $C$），$\therefore DM = DE - EM$。      \item $DM = 5\sqrt{3} - 2\sqrt{3} = 3\sqrt{3}$。      \item 由垂径定理：$CD = 2DM = 2 \times 3\sqrt{3} = 6\sqrt{3}$。      \item 在 $\mathrm{Rt}\triangle DOM$ 中：      \item $OD = \sqrt{OM^2 + DM^2} = \sqrt{2^2 + (3\sqrt{3})^2} = \sqrt{4 + 27} = \sqrt{31}$。    \end{eduNumberList}
+
+    \vspace{1mm}
+    \eduSubTitle{注意}
+    \begin{eduBulletList}
+      \item 求半径一定要联结 $OD$（或 $OC$），在 $\mathrm{Rt}\triangle DOM$ 中用勾股定理。    \end{eduBulletList}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduBottomGrid}
+  \begin{eduSummaryLeft}
+    \begin{eduSummaryBlock}{\eduIconCheck}{答案}
+    \begin{eduPlainList}
+      \item 弦 $CD = 6\sqrt{3}$      \item 半径 $r = \sqrt{31}$    \end{eduPlainList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryLeft}
+  \eduSummaryDivider
+  \begin{eduSummaryRight}
+    \begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
+    \begin{eduBulletList}
+      \item 见到弦 + 非垂直条件，第一反应：作弦心距（过圆心作弦的垂线段）。      \item 30° 特殊角直角三角形边比 $1:\sqrt{3}:2$ 要脱口而出。      \item 注意 $DM = DE - EM$ 的方向判断——画图确认 $M$ 和 $E$ 的位置。    \end{eduBulletList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryRight}
+\end{eduBottomGrid}
+
+
+
+
+\begin{eduMistakeBox}
+\eduSubTitle{$DM$ 方向搞反}$M$ 是 $CD$ 中点，$E$ 在弦上。如果搞不清 $D$、$M$、$E$ 的顺序，会把 $DM$ 算成 $DE + EM = 7\sqrt{3}$（错）。
+正确做法：$DM = DE - EM = 3\sqrt{3}$。画图确认！
+\end{eduMistakeBox}
+
+
+
+
+\begin{eduAuxItem}{思考}
+如果 $\angle CEA = 45^\circ$，其他条件不变，你会怎么算？和 $30^\circ$ 有什么区别？\end{eduAuxItem}
+
+
+
+
+\begin{eduAuxItem}{思考}
+为什么作 $OM \perp CD$ 后，$\angle OEM$ 就等于 $\angle CEA$？用了什么几何知识？\end{eduAuxItem}
+
+
+
+\clearpage
+
+\begin{eduAuxItem}{关键想法}
+学生：陆子辰，八年级，B band，会作辅助线。
+本题定位：解答题，5 分钟。
+预期能力：陆子辰已有弦心距辅助线基础，应在 3-5 分钟内完成。
+讲解重点：强化辅助线条件反射 + $DM = DE - EM$ 方向判断。
+如果陆子辰卡住：问他「$M$ 在 $D$ 和 $E$ 之间，还是 $E$ 在 $D$ 和 $M$ 之间？」
+\end{eduAuxItem}
+
+
+\begin{eduTeacherNote}
+  \textbf{训练目标：}熟练弦心距辅助线 + 30° 特殊角，能独立判断线段方向。\par
+  \textbf{预期卡点：}DM = DE - EM 方向可能搞反。
+\end{eduTeacherNote}
+
+
+\end{document}

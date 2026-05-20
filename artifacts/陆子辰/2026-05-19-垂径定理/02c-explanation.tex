@@ -15,8 +15,8 @@
 
 % ---------- 包 ----------
 \usepackage{geometry}
-\geometry{top=10mm,bottom=14mm,left=12mm,right=10mm}
-\AtBeginDocument{\newgeometry{top=10mm,bottom=14mm,left=12mm,right=10mm}}
+\geometry{top=10mm,bottom=14mm,left=15mm,right=13mm}
+\AtBeginDocument{\newgeometry{top=10mm,bottom=14mm,left=15mm,right=13mm}}
 
 \usepackage{xcolor}
 \usepackage{needspace}
@@ -222,8 +222,8 @@
 % ---------- 主体讲解：使用 paracol 实现跨页自适应双栏 ----------
 \newenvironment{eduDualExplain}{%
   \needspace{6\baselineskip}% 防止标题孤行
-  \columnratio{0.20, 0.80}%
-  \setlength{\columnsep}{5mm}%
+  \columnratio{0.25, 0.75}%
+  \setlength{\columnsep}{7mm}%
   \columnseprule=0.45pt%
   \colseprulecolor{edu-blue}%
   \begin{paracol}{2}% 开启双栏
@@ -406,3 +406,153 @@
   ]
   \end{tcolorbox}%
 }
+
+\examsetup{
+  question/show-answer = true,
+  fillin/show-answer = true,
+  solution/show-solution = show-stay,
+}
+
+\begin{document}
+
+
+\begin{eduProblemBlock}[题目]
+已知 $\odot O$ 半径 $OB = 13$，$AB$、$CD$ 是弦，$AB \parallel CD$，$AB = 10$，$CD = 24$，则 $AB$ 与 $CD$ 的距离是\_\_\_\_。
+\end{eduProblemBlock}
+
+
+
+
+
+
+
+
+
+\begin{eduAuxItem}{解题流程}
+分别对 $AB$、$CD$ 作弦心距 $OM$、$ON$$\;\to\;$利用 $AB \parallel CD$ 证明 $OM$ 与 $ON$ 共线$\;\to\;$勾股定理分别求 $OM$ 和 $ON$$\;\to\;$分同侧（$OM - ON$）和异侧（$OM + ON$）求距离\end{eduAuxItem}
+
+
+
+
+\begin{eduAuxItem}{关键想法}
+两条平行弦 $AB \parallel CD$，从圆心 $O$ 分别向它们作垂线段 $OM$ 和 $ON$。
+因为两条垂线都垂直于平行弦，所以 $OM \parallel ON$。
+又因为它们都过点 $O$，所以 $M$、$O$、$N$ 三点共线！
+
+两弦距离就等于弦心距的差或和：
+\begin{itemize}
+  \item 同侧：距离 $= OM - ON$
+  \item 异侧：距离 $= OM + ON$
+\end{itemize}
+而 $OM$、$ON$ 各自独立用垂径定理 $+$ 勾股定理求。
+\end{eduAuxItem}
+
+
+
+
+\begin{eduSubQuestionItem}{第一步}
+分别求两弦的弦心距 $OM$ 和 $ON$。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{思考引导}
+    \begin{eduNumberList}
+      \item 圆中有弦，过圆心作弦的垂线段——每条弦各作一条。      \item $AB \parallel CD$，$OM \perp AB$，$ON \perp CD$——两条垂线有什么关系？      \item 两条直线都垂直于平行线，它们互相平行。又都过点 $O$，所以三点共线！      \item 分别算 $OM$ 和 $ON$：半弦长分别是多少？    \end{eduNumberList}
+  \end{eduExplainLeft}
+  \eduColumnDivider
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{规范讲解}
+    \begin{eduNumberList}
+      \item 过 $O$ 作 $OM \perp AB$ 于 $M$，$ON \perp CD$ 于 $N$，联结 $OA$、$OC$。      \item $\because AB \parallel CD$，$OM \perp AB$，$ON \perp CD$，      \item $\therefore$ 点 $M$、$O$、$N$ 三点共线。      \item 由垂径定理：$AM = \frac{1}{2}AB = 5$，$CN = \frac{1}{2}CD = 12$。      \item 在 $\mathrm{Rt}\triangle OAM$ 中：$OM = \sqrt{OA^2 - AM^2} = \sqrt{13^2 - 5^2} = \sqrt{144} = 12$。      \item 在 $\mathrm{Rt}\triangle OCN$ 中：$ON = \sqrt{OC^2 - CN^2} = \sqrt{13^2 - 12^2} = \sqrt{25} = 5$。    \end{eduNumberList}
+
+    \vspace{1mm}
+    \eduSubTitle{关键}
+    \begin{eduBulletList}
+      \item 短弦 $AB=10$ 的弦心距反而更大（$OM=12$），长弦 $CD=24$ 的弦心距更小（$ON=5$）——弦越长，离圆心越近。    \end{eduBulletList}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduSubQuestionItem}{第二步}
+分类讨论求两弦距离。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{思考引导}
+    \begin{eduNumberList}
+      \item 题目说两弦在圆心哪一侧了吗？没有！所以必须讨论两种情况。      \item 情形一：两弦在圆心同侧，距离怎么算？      \item 情形二：两弦在圆心异侧，距离怎么算？      \item 填空题答案要写几个？两个都要写！    \end{eduNumberList}
+  \end{eduExplainLeft}
+  \eduColumnDivider
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{规范讲解}
+    \begin{eduNumberList}
+      \item $M$、$O$、$N$ 共线，分两种情况：      \item 情形一（同侧）：$AB$ 和 $CD$ 在圆心同侧，距离 $= OM - ON = 12 - 5 = 7$。      \item 情形二（异侧）：$AB$ 和 $CD$ 在圆心异侧，距离 $= OM + ON = 12 + 5 = 17$。      \item $\therefore$ $AB$ 与 $CD$ 的距离为 $7$ 或 $17$。    \end{eduNumberList}
+
+    \vspace{1mm}
+    \eduSubTitle{注意}
+    \begin{eduBulletList}
+      \item 分类讨论的两种情况都要写！只写一个扣一半分。这是陆子辰需要特别注意的。    \end{eduBulletList}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduBottomGrid}
+  \begin{eduSummaryLeft}
+    \begin{eduSummaryBlock}{\eduIconCheck}{答案}
+    \begin{eduPlainList}
+      \item 距离为 $7$ 或 $17$    \end{eduPlainList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryLeft}
+  \eduSummaryDivider
+  \begin{eduSummaryRight}
+    \begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
+    \begin{eduBulletList}
+      \item 两平行弦求距离 = 分别求弦心距 + 分类讨论同侧/异侧。      \item 分类讨论的触发条件：题目没说两弦在圆心哪一侧。      \item 规律：弦越长，弦心距越小；弦越短，弦心距越大。    \end{eduBulletList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryRight}
+\end{eduBottomGrid}
+
+
+
+
+\begin{eduMistakeBox}
+\eduSubTitle{只算一种情况漏解}题目没有明确两弦在圆心的哪一侧，就必须分同侧和异侧两种情况讨论。
+填空题写两个答案，只写一个扣一半分。
+\end{eduMistakeBox}
+
+
+
+
+\begin{eduAuxItem}{思考}
+如果 $AB = CD$（两弦等长），同侧距离是多少？这个结果说明什么？\end{eduAuxItem}
+
+
+
+
+\begin{eduAuxItem}{思考}
+如果半径改为 $r$，弦长分别为 $a$ 和 $b$，推导一般公式 $d = \sqrt{r^2 - (a/2)^2} \pm \sqrt{r^2 - (b/2)^2}$。\end{eduAuxItem}
+
+
+
+\clearpage
+
+\begin{eduAuxItem}{关键想法}
+学生：陆子辰，八年级，B band。已知弱点：分类讨论意识弱。
+本题定位：解答题，5 分钟。
+教学重点：这是针对陆子辰弱点的专项训练题。
+预期行为：陆子辰很可能只算出 7 或只算出 17，需要在他写完第一个答案后追问"还有没有别的可能？"
+如果陆子辰只写了一个答案：不直接纠正，问"两弦能不能在圆心的另一侧？"
+\end{eduAuxItem}
+
+
+\begin{eduTeacherNote}
+  \textbf{训练目标：}建立分类讨论习惯——看到'求距离'先问'需要分类吗？'\par
+  \textbf{预期卡点：}分类讨论意识弱，极可能只算一种情况。
+\end{eduTeacherNote}
+
+
+\end{document}
