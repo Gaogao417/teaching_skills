@@ -23,17 +23,17 @@
 
 % ---------- 打印/屏幕颜色切换 ----------
 % 用法：\documentclass[monochrome]{exam-zh} 即可切换为纯黑白
-\makeatletter
-\newif\if@eduprintcolor
-\@eduprintcolortrue  % 默认彩色
+% 注意：不要使用 \if@xxx 放在 makeatother 外部；这里改成普通条件名。
+\newif\ifeduprintcolor
+\eduprintcolortrue
 
-% 检测是否传入 monochrome 选项（由 \documentclass 传递）
-\@ifclasswith{exam-zh}{monochrome}{\@eduprintcolorfalse}{}
+\makeatletter
+\@ifclasswith{exam-zh}{monochrome}{\eduprintcolorfalse}{}
 \makeatother
 
 % ---------- 语义颜色定义 ----------
 % 屏幕：有色彩区分；打印：降级为灰度
-\if@eduprintcolor
+\ifeduprintcolor
   % --- 屏幕彩色模式 ---
   \definecolor{edu-blue}{RGB}{47, 82, 122}       % 关键想法
   \definecolor{edu-blue-bg}{RGB}{243, 246, 252}

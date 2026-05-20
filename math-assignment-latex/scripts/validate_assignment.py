@@ -49,8 +49,15 @@ def validate(data):
     # Top-level
     if "meta" not in data:
         errors.append("Missing 'meta'")
-    if "sections" not in data:
-        errors.append("Missing 'sections'")
+    if "sections" not in data and "problems" not in data:
+        errors.append("Missing 'sections' or 'problems'")
+
+    # Flatten problems into sections for unified validation
+    if "sections" not in data and "problems" in data:
+        flat = []
+        for i, prob in enumerate(data["problems"]):
+            flat.extend(prob.get("sections", []))
+        data = {**data, "sections": flat}
 
     if errors:
         return errors  # Can't continue without these
@@ -167,6 +174,13 @@ def main():
 
     with open(args.input, "r", encoding="utf-8") as f:
         data = yaml.safe_load(f)
+
+    # Flatten problems into sections for display counting
+    if "sections" not in data and "problems" in data:
+        flat = []
+        for prob in data["problems"]:
+            flat.extend(prob.get("sections", []))
+        data["sections"] = flat
 
     errors = validate(data)
 

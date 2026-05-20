@@ -49,14 +49,12 @@
 \clearpage
 <% endif %>
 <% if section.title %>
+\needspace{3\baselineskip}
 \section*{<%= section.title|latex_escape %>}
 <% endif %>
 
 <% for block in section.blocks %>
-<% if block.layout and block.layout.break_before %>
-\clearpage
-<% endif %>
-<% if block.layout and block.layout.avoid_break %>
+<% if block.type == "problem" or block.type == "short_answer" %>
 \needspace{5\baselineskip}
 <% endif %>
 
@@ -90,15 +88,12 @@
   <%= block.stem|latex_escape %>
   <% endif %>
   <% if meta.version != "student" and block.answer %>
-  \fillin
   \paren[<%= block.answer|latex_escape %>]
   <% if block.explanation %>
   \begin{solutionblock}
     <%= block.explanation %>
   \end{solutionblock}
   <% endif %>
-  <% else %>
-  \fillin
   <% endif %>
 \end{question}
 
@@ -134,6 +129,12 @@
   <%= block.content %>
   <% if block.why %>\par\small <%= block.why|latex_escape %><% endif %>
 \end{keyideabox}
+
+<% elif block.type == "hint" %>
+\begin{hintbox}
+  <% if block.title %>\textbf{<%= block.title|latex_escape %>}\par <% endif %>
+  <% if block.content_latex %><%= block.content_latex %><% else %><%= block.content %><% endif %>
+\end{hintbox}
 
 <% endif %>
 

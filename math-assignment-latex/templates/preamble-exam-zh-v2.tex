@@ -293,7 +293,6 @@
 % ---------- 答案/方法提醒：轻量收束 ----------
 \newtcolorbox{eduSummaryBlock}[2]{
   enhanced,
-  breakable,
   colback=white,
   colframe=white,
   boxrule=0pt,
@@ -342,8 +341,11 @@
 \newtcolorbox{eduMistakeBox}{
   enhanced,
   breakable,
+  title={\kaishu 易错提醒},
   colback=edu-red-bg,
   colframe=edu-red!40,
+  colbacktitle=edu-red!15,
+  coltitle=edu-red,
   boxrule=0.35pt,
   arc=1mm,
   left=3mm,
@@ -352,7 +354,8 @@
   bottom=2.5mm,
   before skip=1mm,
   after skip=2mm,
-  fontupper=\normalsize
+  fontupper=\normalsize,
+  fonttitle=\bfseries
 }
 
 \newtcolorbox{eduLegacySolution}{

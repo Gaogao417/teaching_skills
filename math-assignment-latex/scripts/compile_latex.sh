@@ -133,10 +133,25 @@ fi
 
 # Check result
 if [ -f "$TEX_DIR/$PDF_NAME" ]; then
+    # --- Post-compile cleanup: move intermediates to build/ ---
+    BUILD_DIR="$TEX_DIR/build"
+    mkdir -p "$BUILD_DIR"
+
+    # Move build log
+    [ -f "$TEX_DIR/$LOG_NAME" ] && mv "$TEX_DIR/$LOG_NAME" "$BUILD_DIR/"
+
+    # Move per-tex log (tectonic --keep-logs produces <name>.log)
+    TEX_LOG="${TEX_NAME%.tex}.log"
+    [ -f "$TEX_DIR/$TEX_LOG" ] && mv "$TEX_DIR/$TEX_LOG" "$BUILD_DIR/"
+
+    # Move exam-zh packages (only present when using tectonic)
+    for f in "$TEX_DIR"/exam-zh.cls "$TEX_DIR"/exam-zh-*.sty; do
+        [ -f "$f" ] && mv "$f" "$BUILD_DIR/"
+    done
+
     echo ""
     echo "=== SUCCESS ==="
     echo "PDF: $TEX_DIR/$PDF_NAME"
-    echo "Log: $TEX_DIR/$LOG_NAME"
     ls -lh "$TEX_DIR/$PDF_NAME"
 else
     echo ""

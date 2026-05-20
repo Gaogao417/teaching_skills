@@ -10,8 +10,36 @@
 ```yaml
 meta:         # 元信息
 render:       # 渲染配置
-sections:     # 内容区块
+problems:     # 题目列表（每题有 label + sections）
 ```
+
+### problems 数组
+
+`problems` 是顶层内容容器。每个元素代表一道题，包含 `label`（题目标题）和 `sections`（该题的讲解区块）。
+
+```yaml
+problems:
+  - label: "例题 1 — 两直线交点求坐标"
+    sections:
+      - id: "p1-original"
+        title: "原题"
+        blocks:
+          - type: "problemcard"
+            stem_latex: "..."
+      - id: "p1-solution"
+        title: "四、标准解法"
+        blocks: [...]
+  - label: "例题 2 — 面积条件反求动点坐标"
+    sections:
+      - id: "p2-original"
+        ...
+```
+
+渲染时 `problems` 会被自动展平为 `sections`：每道题前插入一个带分页的标题 section。
+
+### 向后兼容：sections
+
+旧格式仍支持：顶层直接使用 `sections` 等价于 `problems` 数组只有一个元素且无 `label`。
 
 ---
 

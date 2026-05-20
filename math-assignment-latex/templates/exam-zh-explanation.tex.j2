@@ -25,19 +25,15 @@
 \begin{document}
 
 <% for section in sections %>
+<% if section.visibility != "teacher" %>
 <% if section.layout and section.layout.break_before %>
 \clearpage
 <% endif %>
 <% if section.title and section.show_title %>
+\needspace{3\baselineskip}
 \eduSectionTitle{<%= section.title|latex_escape %>}
 <% endif %>
 <% for block in section.blocks %>
-<% if block.layout and block.layout.break_before %>
-\clearpage
-<% endif %>
-<% if block.layout and block.layout.avoid_break %>
-\needspace{6\baselineskip}
-<% endif %>
 
 <# ———————————————————————————
    原题卡片：页面入口
@@ -103,7 +99,7 @@
    block.connection_title / block.connection_items
 ——————————————————————————— #>
 <% elif block.type == "explanation_dual" or block.type == "dual_explanation" %>
-\needspace{12\baselineskip}
+\needspace{16\baselineskip}
 <% if block.stem_latex or block.stem %>
 \begin{eduSubQuestionItem}{<% if block.label %><%= block.label|latex_escape %><% else %>(\arabic*)<% endif %>}
 <% if block.stem_latex %><%= block.stem_latex %><% else %><%= block.stem|latex_escape %><% endif %>
@@ -257,6 +253,7 @@
 <% endif %>
 
 <% endfor %><# blocks #>
+<% endif %><# visibility filter #>
 <% endfor %><# sections #>
 
 \end{document}

@@ -31,10 +31,13 @@ Accept when available:
 Create one Markdown file in the working directory unless the user gives another path:
 
 ```text
-artifacts/<problem-slug>/01-structure-analysis.md
+artifacts/<学生名>/<YYYY-MM-DD-<subject>>/01-structure-analysis.md
 ```
 
-If the directory does not exist, create it. Use a short ASCII slug such as `linear-area-param` when the user does not provide a title.
+路径规范：
+- `<学生名>`：学生姓名（如 `陆子辰`、`荣璟羽`）
+- `<YYYY-MM-DD-<subject>>`：日期 + 中文话题词，如 `2026-05-19-垂径定理`
+- 如果目录不存在，自动创建
 
 The artifact must be self-contained and include both human-readable sections and a compact machine-readable block.
 
