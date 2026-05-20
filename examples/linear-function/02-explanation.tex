@@ -25,6 +25,7 @@
 \usepackage{tabularx}
 \usepackage{tcolorbox}
 \tcbuselibrary{skins,breakable}
+\usepackage{paracol}
 
 % ---------- 打印/屏幕颜色切换 ----------
 % 用法：\documentclass[monochrome]{exam-zh} 可降级为灰度。
@@ -80,12 +81,14 @@
 % ---------- 轻标题体系 ----------
 % 只有真正的大结构才用它；不要给提示/路线滥用标题。
 \newcommand{\eduSectionTitle}[1]{%
+  \needspace{5\baselineskip}%
   \vspace{2mm}
   {\color{edu-blue}\bfseries\large #1}\par
   \vspace{3mm}
 }
 
 \newcommand{\eduSubTitle}[1]{%
+  \needspace{4\baselineskip}%
   \vspace{1mm}
   {\color{edu-blue}\bfseries #1}\par
   \vspace{1mm}
@@ -93,6 +96,7 @@
 
 % ---------- 小问题干：复用 exam (1)(2)(3) 格式 ----------
 \newenvironment{eduSubQuestionItem}[1]{%
+  \needspace{4\baselineskip}%
   \vspace{2mm}
   \par\noindent
   \hangindent=8mm\hangafter=1
@@ -107,6 +111,7 @@
 
 % ---------- 辅助信息条（解题流程/关键想法/思考）楷体 ----------
 \newenvironment{eduAuxItem}[1]{%
+  \needspace{4\baselineskip}%
   \vspace{2mm}
   \par\noindent
   \hangindent=8mm\hangafter=1
@@ -199,6 +204,7 @@
 
 % ---------- 解题路线：虚线框 + 文字箭头 ----------
 \newenvironment{eduRouteFlow}{%
+  \needspace{4\baselineskip}%
   \vspace{1mm}
   \begin{center}
   \normalsize
@@ -213,33 +219,30 @@
   \;$\boldsymbol{\to}$\;%
 }
 
-% ---------- 主体讲解：只在这里使用双栏 ----------
-% 不用 tabularx 包整块，避免模板生成后出现 tabularx body 扫描问题。
+% ---------- 主体讲解：使用 paracol 实现跨页自适应双栏 ----------
 \newenvironment{eduDualExplain}{%
-  \needspace{10\baselineskip}
-  \par\noindent
+  \needspace{6\baselineskip}% 防止标题孤行
+  \columnratio{0.32, 0.68}%
+  \setlength{\columnsep}{11mm}%
+  \colseprule=0.45pt%
+  \colseprulecolor{edu-blue}%
+  \begin{paracol}{2}% 开启双栏
 }{%
-  \par\vspace{5mm}
+  \end{paracol}% 结束双栏
+  \vspace{5mm}
 }
 
 \newenvironment{eduExplainLeft}{%
-  \begin{minipage}[t]{0.30\linewidth}
-  \normalsize
-  \color{edu-ink}
+  \normalsize\color{edu-ink}%
 }{%
-  \end{minipage}
+  \switchcolumn
 }
 
-\newcommand{\eduColumnDivider}{%
-  \hspace{4mm}{\color{edu-blue}\vrule width 0.45pt}\hspace{7mm}%
-}
+\newcommand{\eduColumnDivider}{}
 
 \newenvironment{eduExplainRight}{%
-  \begin{minipage}[t]{0.58\linewidth}
-  \normalsize
-  \color{edu-ink}
+  \normalsize\color{edu-ink}%
 }{%
-  \end{minipage}
 }
 
 \newenvironment{eduNumberList}{%
@@ -446,7 +449,6 @@
 
 
 
-\needspace{12\baselineskip}
 \begin{eduSubQuestionItem}{(1)}
 求这个一次函数的解析式；\end{eduSubQuestionItem}
 
@@ -472,7 +474,6 @@
 
 
 
-\needspace{12\baselineskip}
 \begin{eduSubQuestionItem}{(2)}
 判断点 $C(3,9)$ 是否在这个函数的图像上；\end{eduSubQuestionItem}
 
@@ -498,7 +499,6 @@
 
 
 
-\needspace{12\baselineskip}
 \begin{eduSubQuestionItem}{(3)}
 求该函数图像与 $x$ 轴、$y$ 轴的交点坐标，并计算图像与坐标轴围成的三角形面积。\end{eduSubQuestionItem}
 
@@ -547,7 +547,7 @@
 \eduSubTitle{套面积公式不看条件}直线与坐标轴围成三角形面积公式 $S = \frac{1}{2}|x_0| \cdot |y_0|$ 的前提是：
 两个交点不重合。本题 $b = 0$，两个交点都是原点，公式虽然代入也得 $0$，
 但如果换一题（比如两交点确实重合但你没注意到），思维就错了。
-**养成习惯：先判断两个交点是否不同，再套公式。**
+\textbf{养成习惯：先判断两个交点是否不同，再套公式。}
 \end{eduMistakeBox}
 
 

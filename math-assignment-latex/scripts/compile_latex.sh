@@ -236,6 +236,11 @@ if [ -f "$TEX_DIR/$PDF_NAME" ]; then
     echo "=== SUCCESS ==="
     echo "PDF: $TEX_DIR/$PDF_NAME"
     ls -lh "$TEX_DIR/$PDF_NAME"
+
+    # 自动打开生成的 PDF (macOS)
+    if command -v open >/dev/null 2>&1; then
+        open "$TEX_DIR/$PDF_NAME"
+    fi
 else
     echo ""
     echo "=== FAILED ==="
