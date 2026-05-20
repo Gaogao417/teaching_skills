@@ -1,6 +1,6 @@
 ---
 name: math-student-response-diagnosis
-description: "Diagnose a student's math response after an explanation or attempt, map the observed behavior to an A-F mastery band, identify the specific blocker, update the student profile, and recommend the next teaching move before adaptive practice is generated. This is an OPTIONAL skill outside the default 3-stage workflow. TRIGGER when: user explicitly requests student response diagnosis; user provides a student answer and wants diagnostic analysis; teacher wants A-F band assessment of student work. SKIP: user has not submitted any student response; user wants to proceed with the default 3-stage workflow (math-structure-analysis → math-student-explanation-html → math-adaptive-practice-html)."
+description: "Diagnose a student's math response after an explanation or attempt, map the observed behavior to an A-F mastery band, identify the specific blocker, update the student profile, and recommend the next teaching move before adaptive practice is generated. This is an OPTIONAL skill outside the default 3-stage workflow. TRIGGER when: user explicitly requests student response diagnosis; user provides a student answer and wants diagnostic analysis; teacher wants A-F band assessment of student work. SKIP: user has not submitted any student response; user wants to proceed with the default 3-stage workflow (math-structure-analysis → math-student-explanation-html → math-practice-html)."
 ---
 
 # Math Student Response Diagnosis
@@ -141,5 +141,5 @@ Do not infer high confidence from a correct answer alone; confidence must come f
 End with:
 
 ```text
-下一步建议：使用 math-adaptive-practice-html，输入本诊断 + 结构分析，生成下一组 A4 练习。注意：本 skill 为可选独立工具，默认工作流为 math-structure-analysis → math-student-explanation-html → math-adaptive-practice-html，无需经过本诊断阶段。
+下一步建议：使用 math-practice-html，输入本诊断 + 结构分析，生成下一组 A4 练习。注意：本 skill 为可选独立工具，默认工作流为 math-structure-analysis → math-student-explanation-html → math-practice-html，无需经过本诊断阶段。
 ```

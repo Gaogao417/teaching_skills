@@ -9,7 +9,7 @@ triggers:
 skip:
   - description: "没有 01-structure-analysis.md（先运行 math-structure-analysis）"
   - description: "用户要求 HTML 输出（使用 math-student-explanation-html）"
-  - description: "用户要求练习题（使用 math-adaptive-practice-latex-data）"
+  - description: "用户要求练习题（使用 math-practice-latex-data）"
 ---
 
 # math-student-explanation-latex-data

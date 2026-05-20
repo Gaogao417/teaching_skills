@@ -1,5 +1,5 @@
 ---
-name: math-adaptive-practice-html
+name: math-practice-html
 description: "Generate the next printable A4 Chinese math practice HTML artifact from a structure-analysis artifact and an explanation artifact. Use as stage 3 after math-student-explanation-html to decide whether to downgrade, consolidate, mildly transfer, or hide the structure in variations while respecting a computation complexity budget. TRIGGER when: a structure-analysis artifact and explanation artifact exist for the current problem; user asks for practice problems or adaptive exercises; after math-student-explanation-html completes; user wants printable practice based on a previously analyzed problem. SKIP: no structure-analysis artifact exists (run math-structure-analysis first); no explanation artifact exists (run math-student-explanation-html first); user wants explanation not practice."
 ---
 
@@ -260,6 +260,6 @@ End with a teacher-only note:
 
 ```html
 <aside class="edu-teacher-note no-print">
-下一轮：根据本页完成情况，更新学生画像；若需讲解新题，回到 math-structure-analysis；若需新一轮变式，再次使用 math-adaptive-practice-html。工作流循环：math-structure-analysis → math-student-explanation-html → math-adaptive-practice-html。
+下一轮：根据本页完成情况，更新学生画像；若需讲解新题，回到 math-structure-analysis；若需新一轮变式，再次使用 math-practice-html。工作流循环：math-structure-analysis → math-student-explanation-html → math-practice-html。
 </aside>
 ```

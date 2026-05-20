@@ -1,6 +1,6 @@
 ---
-name: math-adaptive-practice-latex-data
-description: "根据结构分析和讲解内容生成自适应练习的 assignment.yaml，保留原 math-adaptive-practice-html 的教学逻辑。"
+name: math-practice-latex-data
+description: "根据结构分析和讲解内容生成自适应练习的 assignment.yaml，保留原 math-practice-html 的教学逻辑。"
 version: 0.1.0
 triggers:
   - description: "已有 structure-analysis 和 explanation，需要生成练习 YAML"
@@ -9,17 +9,17 @@ triggers:
 skip:
   - description: "没有 01-structure-analysis.md（先运行 math-structure-analysis）"
   - description: "没有讲解内容（先运行 math-student-explanation-latex-data 或 html）"
-  - description: "用户要求 HTML 输出（使用 math-adaptive-practice-html）"
+  - description: "用户要求 HTML 输出（使用 math-practice-html）"
   - description: "用户要求讲解而非练习"
 ---
 
-# math-adaptive-practice-latex-data
+# math-practice-latex-data
 
 ## 职责
 
 从 `01-structure-analysis.md` 和讲解内容生成 `03-practice.assignment.yaml`。
 
-保留原 `math-adaptive-practice-html` 的全部教学逻辑。
+保留原 `math-practice-html` 的全部教学逻辑。
 
 ## 版本规则
 

@@ -182,7 +182,7 @@ Write the page in Chinese for the student unless a section is explicitly teacher
   </section>
 
   <section class="edu-section">
-    <h2 class="edu-section-title">二、这题准备怎么走</h2>
+    <h2 class="edu-section-title">二、思路导航</h2>
     <div class="edu-route">
       <ol>
         <li>只写路线顺序，不展开计算。</li>
@@ -191,7 +191,7 @@ Write the page in Chinese for the student unless a section is explicitly teacher
   </section>
 
   <section class="edu-section">
-    <h2 class="edu-section-title">三、关键想法</h2>
+    <h2 class="edu-section-title">三、核心思路</h2>
     <div class="edu-key-idea">把后台结构翻译成一个具体动作。</div>
   </section>
 
@@ -246,13 +246,14 @@ Write the page in Chinese for the student unless a section is explicitly teacher
 - 讲解页通常一页（A4）对应一个大节。若内容超过一页，在合适的逻辑断点插入 `<div class="page-break"></div>`。
 - 合适的分页位置：
   - "标准解法"与"边讲边问"之间
+  - "标准解法"与"互动练习"之间
   - 不同子题（第(1)问与第(2)问）之间，当每个子题内容较多时
-  - "易错提醒"或"一句话总结"前，如果前面内容已接近页底
+  - "易错提醒"或"总结归纳"前，如果前面内容已接近页底
 - 不合适的分页位置：
   - 步骤中间（不允许在第2步与第3步之间分页）
   - 表格内部
-  - 关键想法与紧接的说明之间
-- 每个逻辑大块（原题卡片、解法步骤、互动问题）使用 `u-avoid-break` 防止跨页截断。
+  - 核心思路与紧接的说明之间
+  - 每个逻辑大块（原题卡片、解法步骤、互动问题）使用 `u-avoid-break` 防止跨页截断。
 - 教师专属内容（`.edu-teacher-note`）使用 `no-print`，学生打印时不可见。
 
 ## Mandatory Self-Check
@@ -280,6 +281,6 @@ At the end of the HTML, include a small teacher-only print note:
 
 ```html
 <aside class="edu-teacher-note no-print">
-下一步：使用 math-adaptive-practice-html，输入本结构分析 + 学生画像，生成自适应练习。工作流：math-structure-analysis → math-student-explanation-html → math-adaptive-practice-html。
+下一步：使用 math-practice-html，输入本结构分析 + 学生画像，生成自适应练习。工作流：math-structure-analysis → math-student-explanation-html → math-practice-html。
 </aside>
 ```

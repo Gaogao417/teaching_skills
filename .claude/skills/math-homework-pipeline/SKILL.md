@@ -29,7 +29,7 @@ skip:
 → 调用 math-student-explanation-latex-data
 
 如果已有讲解但没有 03-adaptive-practice.assignment.yaml
-→ 调用 math-adaptive-practice-latex-data
+→ 调用 math-practice-latex-data
 
 如果已有 assignment.yaml 但没有 .tex
 → 运行 render_assignment.py
@@ -101,7 +101,7 @@ Agent：
   → 检查 artifacts 目录：无现有产物
   → Stage 1: 调用 math-structure-analysis
   → Stage 2: 调用 math-student-explanation-latex-data
-  → Stage 3: 调用 math-adaptive-practice-latex-data
+  → Stage 3: 调用 math-practice-latex-data
   → Stage 4: python render_assignment.py ...
   → Stage 5: bash compile_latex.sh ...
   → 输出最终报告
