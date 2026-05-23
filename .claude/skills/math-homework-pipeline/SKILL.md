@@ -1,23 +1,28 @@
 ---
 name: math-homework-pipeline
-description: "端到端调度器：判断当前产物缺哪一步，自动调用对应 skill 或脚本补齐。"
-version: 0.1.0
-triggers:
-  - description: "用户给了一道数学题，要求生成完整作业 PDF"
-  - description: "用户提到 homework-pipeline 或 pipeline"
-  - description: "用户说：帮我把这道题做成作业"
-  - description: "用户要求端到端生成"
-skip:
-  - description: "用户只要求分析结构（使用 math-structure-analysis）"
-  - description: "用户只要求生成 YAML（使用对应 latex-data skill）"
-  - description: "用户只要求渲染 PDF（使用 math-assignment-latex）"
+description: "端到端调度器：判断当前产物缺哪一步，自动调用对应 skill 或脚本补齐；生成完成后启动独立审核子任务，使用 math-homework-review 给出五项快速质量印象。"
 ---
 
 # math-homework-pipeline
 
 ## 职责
 
-端到端调度器。不直接写题目，不直接写 LaTeX。只判断当前产物缺哪一步，调用对应 skill 或脚本。
+端到端调度器。不直接写题目，不直接写 LaTeX。只判断当前产物缺哪一步，调用对应 skill 或脚本。生成完成后，启动一个独立审核子任务，使用 `math-homework-review` 给用户一个简短质量印象。
+
+## 触发与跳过
+
+使用本 skill：
+
+- 用户给了一道数学题，要求生成完整作业 PDF
+- 用户提到 homework-pipeline 或 pipeline
+- 用户说"帮我把这道题做成作业"
+- 用户要求端到端生成
+
+跳过本 skill：
+
+- 用户只要求分析结构（使用 `math-structure-analysis`）
+- 用户只要求生成 YAML（使用对应 latex-data skill）
+- 用户只要求渲染 PDF（使用 `math-assignment-latex`）
 
 ## 输入要求
 
@@ -120,6 +125,10 @@ artifacts/<学生名>/<YYYY-MM-DD-<subject>>/
 → git add 该专题目录下的交付物（.md/.tex/.pdf）
 → git commit -m "[artifacts] <学生名>/<话题>: <简述>"
 → 若本回合也修改了 skill/脚本/模板，另做一次 [workflow] commit
+
+如果 PDF 已生成且没有阻断错误
+→ 启动 subagent 使用 math-homework-review 审核完整 artifact 目录
+→ 输出五项快速印象：完整性、数学正确性、结构分析、讲解质量、练习设计
 ```
 
 ### Git Commit 格式
@@ -162,6 +171,16 @@ workflow commit 只 add 修改过的 skill/脚本/模板文件。
 ⚠️  需要人工检查：是/否
 ```
 
+最终审核阶段输出：
+
+```text
+✅ 当前阶段：Stage 6 作业审核
+📄 审核对象：[artifact 目录]
+🧑‍🏫 审核方式：subagent + math-homework-review
+📝 审核印象：[通过 / 基本可用但需小修 / 建议回退重做]
+➡️  下一步：[放行给学生 / 修复具体阶段 / 回退重新生成]
+```
+
 ## 完整 pipeline 示例
 
 ### 输入
@@ -201,6 +220,11 @@ artifacts/陆子辰/2026-05-19-一次函数面积/03-practice-student.pdf
 artifacts/陆子辰/2026-05-19-一次函数面积/03-practice-teacher.pdf
 ```
 
+### Stage 6：快速审核
+```
+subagent 使用 math-homework-review 审核 artifacts/陆子辰/2026-05-19-一次函数面积/
+```
+
 ## 失败处理
 
 ```text
@@ -208,6 +232,7 @@ artifacts/陆子辰/2026-05-19-一次函数面积/03-practice-teacher.pdf
 如果 Stage 2/3 失败 → 报告教学逻辑问题，回退到 Stage 1 重新分析
 如果 Stage 4 失败 → 报告 YAML schema 错误，修复 YAML
 如果 Stage 5 失败 → 摘要 build.log，修复模板或 LaTeX 内容
+如果 Stage 6 发现明显问题 → 不直接修改产物，指出最可能需要回退的阶段
 ```
 
 ## 使用示例
@@ -224,12 +249,13 @@ Agent：
   → Stage 3: 调用 math-adaptive-practice-latex-data（传入学情信息）
   → Stage 4: python render_assignment.py ...
   → Stage 5: bash compile_latex.sh ...
-  → 输出最终报告
+  → Stage 6: 启动 subagent，使用 math-homework-review 做五项快速审核
+  → 输出最终报告 + 审核印象
 ```
 
 ## 不做事项
 
 - 不直接生成题目内容
 - 不直接写 LaTeX
-- 不做教学判断
+- 主流程不做教学判断；最终审核判断交给 math-homework-review 子任务
 - 不修改现有产物（除非明确要求重新生成）
