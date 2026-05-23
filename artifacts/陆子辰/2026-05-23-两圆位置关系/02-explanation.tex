@@ -1,0 +1,595 @@
+% preamble-exam-zh.tex — 极简讲解页共享 preamble
+% 目标：复刻「题目独立、提示轻框、路线箭头、主体双栏、答案轻收束」的讲义风格。
+
+\documentclass{exam-zh}
+
+% ---------- 基础配置 ----------
+\examsetup{
+  page/size = a4paper,
+  page/show-head = false,
+  page/show-foot = false,
+  sealline/show = false,
+  font = none,
+  math-font = none,
+}
+
+% ---------- 包 ----------
+\usepackage{geometry}
+\geometry{top=10mm,bottom=14mm,left=12mm,right=10mm}
+\AtBeginDocument{\newgeometry{top=10mm,bottom=14mm,left=12mm,right=10mm}}
+
+\usepackage{xcolor}
+\usepackage{needspace}
+\usepackage{enumitem}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{tcolorbox}
+\tcbuselibrary{skins,breakable}
+\usepackage{paracol}
+
+% ---------- 打印/屏幕颜色切换 ----------
+% 用法：\documentclass[monochrome]{exam-zh} 可降级为灰度。
+% 注意：不要使用 \if@xxx 放在 makeatother 外部；这里改成普通条件名。
+\newif\ifeduprintcolor
+\eduprintcolortrue
+\makeatletter
+\@ifclasswith{exam-zh}{monochrome}{\eduprintcolorfalse}{}
+\makeatother
+
+% ---------- 语义颜色 ----------
+\ifeduprintcolor
+  \definecolor{edu-blue}{RGB}{31,62,126}
+  \definecolor{edu-blue-soft}{RGB}{232,238,250}
+  \definecolor{edu-blue-bg}{RGB}{248,250,254}
+  \definecolor{edu-ink}{RGB}{30,35,45}
+  \definecolor{edu-muted}{RGB}{118,124,136}
+  \definecolor{edu-line}{RGB}{209,218,235}
+  \definecolor{edu-soft-bg}{RGB}{250,251,253}
+  \definecolor{edu-red}{RGB}{168,58,58}
+  \definecolor{edu-red-bg}{RGB}{255,247,245}
+\else
+  \definecolor{edu-blue}{gray}{0.15}
+  \definecolor{edu-blue-soft}{gray}{0.90}
+  \definecolor{edu-blue-bg}{gray}{0.98}
+  \definecolor{edu-ink}{gray}{0.10}
+  \definecolor{edu-muted}{gray}{0.45}
+  \definecolor{edu-line}{gray}{0.82}
+  \definecolor{edu-soft-bg}{gray}{0.97}
+  \definecolor{edu-red}{gray}{0.28}
+  \definecolor{edu-red-bg}{gray}{0.97}
+\fi
+
+% ---------- 全局排版 ----------
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\linespread{1.16}
+\renewcommand{\arraystretch}{1.15}
+
+% ctex 通常提供 \kaishu；这里用它做教师旁白感。
+\newcommand{\edukai}{\kaishu}
+
+% ---------- 顶部元信息 ----------
+\newcommand{\eduTopBar}[2]{%
+  \noindent
+  \begin{tabularx}{\linewidth}{@{}Xr@{}}
+    {\color{edu-blue}\bfseries #1} &
+    {\color{edu-blue}\bfseries #2}
+  \end{tabularx}
+  \vspace{8mm}
+}
+
+% ---------- 轻标题体系 ----------
+% 只有真正的大结构才用它；不要给提示/路线滥用标题。
+\newcommand{\eduSectionTitle}[1]{%
+  \needspace{5\baselineskip}%
+  \vspace{2mm}
+  {\color{edu-blue}\bfseries\large #1}\par
+  \vspace{3mm}
+}
+
+\newcommand{\eduSubTitle}[1]{%
+  \needspace{4\baselineskip}%
+  \vspace{1mm}
+  {\color{edu-blue}\bfseries #1}\par
+  \vspace{1mm}
+}
+
+% ---------- 小问题干：复用 exam (1)(2)(3) 格式 ----------
+\newenvironment{eduSubQuestionItem}[1]{%
+  \needspace{4\baselineskip}%
+  \vspace{2mm}
+  \par\noindent
+  \hangindent=8mm\hangafter=1
+  {\color{edu-blue}\bfseries #1}\enspace
+  \begingroup
+  \color{edu-ink}
+}{%
+  \endgroup
+  \par
+  \vspace{3mm}
+}
+
+% ---------- 辅助信息条（解题流程/关键想法/思考）楷体 ----------
+\newenvironment{eduAuxItem}[1]{%
+  \needspace{4\baselineskip}%
+  \vspace{2mm}
+  \par\noindent
+  \hangindent=8mm\hangafter=1
+  {\color{edu-blue}\edukai $\triangleright$~#1}\enspace
+  \begingroup
+  \color{edu-ink}
+  \edukai
+}{%
+  \endgroup
+  \par
+  \vspace{4mm}
+}
+
+\newcommand{\eduColumnTitle}[2]{%
+  {\color{edu-blue}\bfseries #1\hspace{1.5mm}#2}\par
+  \vspace{2.5mm}
+}
+
+% ---------- 图标：不用外部 icon 字体，保证可移植 ----------
+\newcommand{\eduIconBulb}{\(\circ\)}
+\newcommand{\eduIconBook}{\(\square\)}
+\newcommand{\eduIconCheck}{\(\checkmark\)}
+\newcommand{\eduIconPin}{\(\diamond\)}
+\newcommand{\eduIconNote}{\(\triangleright\)}
+
+% ---------- 题目区 ----------
+% 题目区是页面入口：弱标签 + 一条长蓝线 + 大题干。
+\newenvironment{eduProblemBlock}[1][题目]{%
+  \needspace{8\baselineskip}
+  {\small\color{edu-muted}#1}\par
+  \vspace{1.5mm}
+  {\color{edu-blue}\hrule height 0.55pt}
+  \vspace{4.5mm}
+  \begingroup
+  \color{edu-ink}
+  \large
+  \setlength{\parskip}{2.2mm}
+  \linespread{1.20}\selectfont
+}{%
+  \par
+  \endgroup
+  \vspace{6mm}
+}
+
+\newenvironment{eduSubQuestions}{%
+  \begin{enumerate}[
+    label=(\arabic*),
+    leftmargin=8mm,
+    itemsep=2.0mm,
+    topsep=2.0mm,
+    parsep=0pt
+  ]
+}{%
+  \end{enumerate}
+}
+
+% ---------- 读题提示：轻框，不做同级标题 ----------
+\newtcolorbox{eduReadTipBox}{
+  enhanced,
+  breakable,
+  colback=white,
+  colframe=edu-blue!45,
+  boxrule=0.45pt,
+  arc=1.6mm,
+  left=10mm,
+  right=4mm,
+  top=5mm,
+  bottom=5mm,
+  before skip=1mm,
+  after skip=7mm,
+  fontupper=\edukai\normalsize,
+  colupper=edu-ink,
+  overlay={
+    \node[anchor=north west, text=edu-blue] at ([xshift=3.2mm,yshift=-3.2mm]frame.north west)
+    {\small\eduIconNote};
+  }
+}
+
+\newenvironment{eduTipList}{%
+  \begin{itemize}[
+    label=\textbullet,
+    leftmargin=5mm,
+    itemsep=1.2mm,
+    topsep=0pt,
+    parsep=0pt
+  ]
+}{%
+  \end{itemize}
+}
+
+% ---------- 解题路线：虚线框 + 文字箭头 ----------
+\newenvironment{eduRouteFlow}{%
+  \needspace{4\baselineskip}%
+  \vspace{1mm}
+  \begin{center}
+  \normalsize
+}{%
+  \end{center}
+  \vspace{7mm}
+}
+\newcommand{\eduRouteStep}[1]{%
+  {\color{edu-ink}#1}%
+}
+\newcommand{\eduRouteArrow}{%
+  \;$\boldsymbol{\to}$\;%
+}
+
+% ---------- 主体讲解：使用 paracol 实现跨页自适应双栏 ----------
+\newenvironment{eduDualExplain}{%
+  \needspace{6\baselineskip}% 防止标题孤行
+  \columnratio{0.60, 0.40}%
+  \setlength{\columnsep}{11mm}%
+  \columnseprule=0.45pt%
+  \colseprulecolor{edu-blue}%
+  \begin{paracol}{2}% 开启双栏
+}{%
+  \end{paracol}% 结束双栏
+  \vspace{5mm}
+}
+
+\newenvironment{eduExplainLeft}{%
+  \normalsize\color{edu-ink}%
+}{%
+  \switchcolumn
+}
+
+\newcommand{\eduColumnDivider}{}
+
+\newenvironment{eduExplainRight}{%
+  \normalsize\color{edu-ink}%
+}{%
+}
+
+\newenvironment{eduNumberList}{%
+  \begin{enumerate}[
+    label=\arabic*.,
+    leftmargin=6mm,
+    itemsep=4.8mm,
+    topsep=0pt,
+    parsep=0pt
+  ]
+}{%
+  \end{enumerate}
+}
+
+\newenvironment{eduBulletList}{%
+  \begin{itemize}[
+    label=\textbullet,
+    leftmargin=5mm,
+    itemsep=1.2mm,
+    topsep=0pt,
+    parsep=0pt
+  ]
+}{%
+  \end{itemize}
+}
+
+% ---------- 底部双栏：答案 + 方法提醒 ----------
+\newenvironment{eduBottomGrid}{%
+  \columnratio{0.32, 0.68}%
+  \setlength{\columnsep}{11mm}%
+  \columnseprule=0pt%
+  \begin{paracol}{2}%
+}{%
+  \end{paracol}%
+}
+
+\newenvironment{eduSummaryLeft}{%
+}{%
+}
+
+\newcommand{\eduSummaryDivider}{%
+  \switchcolumn
+}
+
+\newenvironment{eduSummaryRight}{%
+}{%
+}
+
+% ---------- 答案/方法提醒：轻量收束 ----------
+\newtcolorbox{eduSummaryBlock}[2]{
+  enhanced,
+  breakable,
+  colback=edu-blue-bg,
+  colframe=edu-line,
+  boxrule=0.45pt,
+  arc=1.2mm,
+  left=3.5mm,
+  right=3.5mm,
+  top=3mm,
+  bottom=3mm,
+  before skip=1mm,
+  after skip=2.5mm,
+  title={\color{edu-blue}\bfseries #1\hspace{1.5mm}#2},
+  coltitle=edu-blue,
+  attach title to upper={\par\vspace{1.5mm}},
+  fontupper=\normalsize
+}
+
+% ---------- 例题单栏解答卡片 ----------
+\newtcolorbox{eduSolutionBox}[1]{
+  enhanced,
+  breakable,
+  colback=white,
+  colframe=edu-blue!40,
+  boxrule=0.55pt,
+  arc=1.2mm,
+  left=4mm,
+  right=4mm,
+  top=3.5mm,
+  bottom=3.5mm,
+  before skip=2mm,
+  after skip=3mm,
+  title={\color{edu-blue}\bfseries \eduIconBook\hspace{1.5mm}#1},
+  coltitle=edu-blue,
+  attach title to upper={\par\vspace{1.5mm}},
+  fontupper=\normalsize
+}
+
+\newenvironment{eduPlainList}{%
+  \begin{enumerate}[
+    label=(\arabic*),
+    leftmargin=7mm,
+    itemsep=1.2mm,
+    topsep=0pt,
+    parsep=0pt
+  ]
+}{%
+  \end{enumerate}
+}
+
+% ---------- 兼容旧 block 的轻量盒子 ----------
+\newtcolorbox{eduSoftBox}{
+  enhanced,
+  breakable,
+  colback=edu-soft-bg,
+  colframe=edu-line,
+  boxrule=0.35pt,
+  arc=1mm,
+  left=3mm,
+  right=3mm,
+  top=2mm,
+  bottom=2mm,
+  before skip=1mm,
+  after skip=2mm,
+  fontupper=\small
+}
+
+\newtcolorbox{eduMistakeBox}{
+  enhanced,
+  breakable,
+  colback=edu-red-bg,
+  colframe=edu-red!40,
+  boxrule=0.35pt,
+  arc=1mm,
+  left=3mm,
+  right=3mm,
+  top=2.5mm,
+  bottom=2.5mm,
+  before skip=1mm,
+  after skip=2mm,
+  fontupper=\normalsize
+}
+
+\newtcolorbox{eduLegacySolution}{
+  enhanced,
+  breakable,
+  colback=edu-soft-bg,
+  colframe=edu-line,
+  boxrule=0.35pt,
+  arc=1mm,
+  left=3mm,
+  right=3mm,
+  top=2mm,
+  bottom=2mm,
+  before skip=-2mm,
+  after skip=4mm,
+  fontupper=\small
+}
+
+\newtcolorbox{eduTeacherNote}{
+  enhanced,
+  breakable,
+  colback=edu-soft-bg,
+  colframe=edu-line,
+  boxrule=0pt,
+  borderline west={1.5pt}{0pt}{edu-muted},
+  left=2.5mm,
+  right=2.5mm,
+  top=2mm,
+  bottom=2mm,
+  before skip=1mm,
+  after skip=2mm,
+  fontupper=\footnotesize,
+  colupper=edu-muted
+}
+
+% ---------- 答题区 ----------
+\newcommand{\answerarea}[1][40mm]{%
+  \vspace{3mm}%
+  \begin{tcolorbox}[
+    enhanced,
+    breakable,
+    colback=white,
+    colframe=edu-line,
+    boxrule=0.55pt,
+    arc=0.8mm,
+    height=#1,
+    valign=top,
+  ]
+  \end{tcolorbox}%
+}
+
+\examsetup{
+  question/show-answer = true,
+  fillin/show-answer = true,
+  solution/show-solution = show-stay,
+}
+
+\begin{document}
+
+
+\begin{eduProblemBlock}[题目]
+已知大圆半径为 $R$，小圆半径为 $r$（即 $R \ge r$），两圆圆心距为 $d$。
+\begin{enumerate}[label=(\arabic*)]
+  \item \textbf{【已知半径与圆心距求位置关系】} 已知 $\odot O_1$ 的半径为 $3\text{cm}$，$\odot O_2$ 的半径为 $4\text{cm}$。
+  \begin{enumerate}[label=\arabic*.]
+    \item 若圆心距 $O_1O_2 = 8\text{cm}$，求两圆的位置关系；
+    \item 若圆心距 $O_1O_2 = 5\text{cm}$，求两圆的位置关系。
+  \end{enumerate}
+  \item \textbf{【已知半径与位置关系求圆心距】} 已知两圆的半径分别为 $2$ 和 $5$，若两圆\textbf{相切}，求两圆的圆心距 $d$。
+  \item \textbf{【已知单半径、圆心距与位置关系求另一半径】} 已知 $\odot A$ 的半径为 $4$，$\odot A$ 与 $\odot B$ \textbf{相切}，两圆的圆心距为 $3$，求 $\odot B$ 的半径 $r$。
+\end{enumerate}
+
+\end{eduProblemBlock}
+
+
+
+
+
+
+
+
+
+\begin{eduAuxItem}{思路导航}
+算关键边界：和值 $R+r$ 与差值 $R-r$$\;\to\;$将 $d$ 与边界值对比判定位置关系$\;\to\;$相切双解：外切代入 $d=R+r$，内切代入 $d=|R-r|$$\;\to\;$内切大圆讨论：讨论 $r_A > r$ 或 $r > r_A$$\;\to\;$过滤非法解（半径必大于0）并汇总答案\end{eduAuxItem}
+
+
+
+
+\begin{eduAuxItem}{核心思路}
+\textbf{数轴边界模型（把位置关系变成区间）}：
+我们可以把两圆的圆心距 $d$ 放在一条数轴上。和值 $R+r$ 与差值 $R-r$ 就是两个\textbf{黄金边界点}。
+- 边界点 1：$d = R + r$ $\implies$ 外切（相切的第一种情况）
+- 边界点 2：$d = R - r$ $\implies$ 内切（相切的第二种情况）
+只要题目中提到“相切”，你的第一反应必须是：\textbf{它代表数轴上的这两个孤立分界点}，所以必须写出 $d = R+r$ 或 $d = R-r$ 的分类。
+而“相交”则是夹在差与和之间的\textbf{开区间}（$R-r < d < R+r$）；“内含”则是小于差值的区间（$0 \le d < R-r$）。
+\end{eduAuxItem}
+
+
+
+
+\begin{eduSubQuestionItem}{(1)}
+已知 $\odot O_1$ 的半径为 $3\text{cm}$，$\odot O_2$ 的半径为 $4\text{cm}$。
+若圆心距 $O_1O_2 = 8\text{cm}$，求两圆的位置关系；若圆心距 $O_1O_2 = 5\text{cm}$，求两圆的位置关系。
+\end{eduSubQuestionItem}
+
+\begin{eduSolutionBox}{解答}
+  \begingroup
+  \setlength{\parskip}{2.5mm}
+由题意，两圆半径分别为 $R = 4\text{cm}, r = 3\text{cm}$，则 $R+r = 7\text{cm}$，$R-r = 1\text{cm}$。\par
+① 当圆心距 $d = 8\text{cm}$ 时，因为 $d > R+r$，所以两圆的位置关系是\textbf{外离}。\par
+② 当圆心距 $d = 5\text{cm}$ 时，因为 $R-r < d < R+r$，所以两圆的位置关系是\textbf{相交}。\par
+  \endgroup
+  \vspace{2.5mm}
+  {\color{edu-blue}\bfseries\small 核心}\par\vspace{1.5mm}
+  \begin{eduBulletList}
+    \item 做题时一定要先写出“和”与“差”的数值，它们是判定位置关系的基准边界线。  \end{eduBulletList}
+\end{eduSolutionBox}
+
+
+
+
+\begin{eduSubQuestionItem}{(2)}
+已知两圆的半径分别为 $2$ 和 $5$，若两圆相切，求两圆的圆心距 $d$。\end{eduSubQuestionItem}
+
+\begin{eduSolutionBox}{解答}
+  \begingroup
+  \setlength{\parskip}{2.5mm}
+因为两圆相切，所以分外切和内切两种几何情况讨论：\par
+① 当两圆外切时，圆心距等于两半径之和：$d = R+r = 5+2=7$；\par
+② 当两圆内切时，圆心距等于两半径之差：$d = R-r = 5-2=3$。\par
+综上所述，两圆的圆心距 $d$ 为 $3$ 或 $7$。\par
+  \endgroup
+  \vspace{2.5mm}
+  {\color{edu-blue}\bfseries\small 关键}\par\vspace{1.5mm}
+  \begin{eduBulletList}
+    \item 绝不能漏解！在没有明确指明时，“相切”是“外切”和“内切”的合并统称。  \end{eduBulletList}
+\end{eduSolutionBox}
+
+
+
+
+\begin{eduSubQuestionItem}{(3)}
+已知 $\odot A$ 的半径为 $4$，$\odot A$ 与 $\odot B$ 相切，两圆的圆心距为 $3$，求 $\odot B$ 的半径 $r$。\end{eduSubQuestionItem}
+
+\begin{eduSolutionBox}{解答}
+  \begingroup
+  \setlength{\parskip}{2.5mm}
+设 $\odot B$ 的半径为 $r(r>0)$。因为 $\odot A$ 与 $\odot B$ 相切，分以下两种情况讨论：\par
+① 若两圆外切，则圆心距 $d = r_A + r \implies 3 = 4 + r \implies r = -1 < 0$（不合题意，舍去）；\par
+② 若两圆内切，根据两圆大半径未知，分以下两种子情况：\par
+\quad 子情况 1（$\odot A$ 为大圆，即 $4 > r$）：$d = r_A - r \implies 3 = 4 - r \implies r = 1$；\par
+\quad 子情况 2（$\odot B$ 为大圆，即 $r > 4$）：$d = r - r_A \implies 3 = r - 4 \implies r = 7$。\par
+综上所述，$\odot B$ 的半径为 $1$ 或 $7$。\par
+  \endgroup
+  \vspace{2.5mm}
+  {\color{edu-blue}\bfseries\small 警示}\par\vspace{1.5mm}
+  \begin{eduBulletList}
+    \item 即使外切无解，内切仍然有两解！这是中考填空题第18题的超高频陷阱，一定要熟练掌握大小圆分类讨论。  \end{eduBulletList}
+\end{eduSolutionBox}
+
+
+
+
+\begin{eduBottomGrid}
+  \begin{eduSummaryLeft}
+    \begin{eduSummaryBlock}{\eduIconCheck}{通关答案汇总}
+    \begin{eduPlainList}
+      \item (1) $O_1O_2=8\text{cm}$ 时外离， $O_1O_2=5\text{cm}$ 时相交。      \item (2) 圆心距 $d$ 为 $3$ 或 $7$。      \item (3) $\odot B$ 的半径为 $1$ 或 $7$。    \end{eduPlainList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryLeft}
+  \eduSummaryDivider
+  \begin{eduSummaryRight}
+    \begin{eduSummaryBlock}{\eduIconPin}{“知二推一”核心口诀}
+    \begin{eduBulletList}
+      \item 两圆相切找边界，外切内切分两界。      \item 已知半径求半径，大圆小圆要警惕。      \item 外切负值定要舍，内切讨论防漏解。    \end{eduBulletList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryRight}
+\end{eduBottomGrid}
+
+
+
+
+\begin{eduMistakeBox}
+\eduSubTitle{漏掉内切情况}很多同学在做“两圆相切”问题时，下意识只在脑海中画出两圆在外面挨着的图像，只写了外切 $d = R+r$，而完全把圆藏在圆里面的内切 $d = R-r$ 忘得一干二净。
+\textbf{防坑策略}：只要题目中没有明确指出是“外切”还是“内切”，只要看见\textbf{“相切”}，草稿纸上立刻写下“外切”和“内切”两个大字。
+\end{eduMistakeBox}
+
+
+
+
+\begin{eduMistakeBox}
+\eduSubTitle{忽略负半径必须舍去}在例题 3 的外切讨论中，我们列出了 $3 = 4+r \implies r=-1$。有的同学会顺手把 $-1$ 写在答案里，或者怀疑自己算错了。
+\textbf{防坑策略}：几何图形中，圆的半径 $r$ 是线段长度，\textbf{必须是严格大于 0 的实数}。算出来的负数解一定要勇敢地写上“舍去”。
+\end{eduMistakeBox}
+
+
+
+
+\begin{eduMistakeBox}
+\eduSubTitle{漏掉内切中的大圆分类}在例题 3 的内切讨论中，很多同学只写了 $3 = 4-r \implies r=1$，就以为完事了。他们默认了已知圆 $\odot A$ 必定是那个大圆。但实际上，新求的圆 $\odot B$ 的半径完全可以是 $7$，把 $\odot A$ 包在里面。
+\textbf{防坑策略}：当内切时，只要\textbf{不知道哪一个是已知半径的大圆}，必须列出两个内切公式：$d = r_A - r_B$ 和 $d = r_B - r_A$。
+\end{eduMistakeBox}
+
+
+
+
+\begin{eduAuxItem}{思路启发}
+在例题 3 中，如果把圆心距从 3 改为 5，再次计算，$\odot B$ 的半径会有几个有效解？（提示：写出方程算算看，外切的解这次是不是正数？）\end{eduAuxItem}
+
+
+
+
+\begin{eduAuxItem}{思路启发}
+如果两圆的位置关系是“内含”，并且两圆圆心不重合（即不是同心圆），那么圆心距 $d$ 的取值范围应该怎么用不等式严格表示？（提示：别忘了 $d$ 必须大于 0）\end{eduAuxItem}
+
+
+
+
+\end{document}

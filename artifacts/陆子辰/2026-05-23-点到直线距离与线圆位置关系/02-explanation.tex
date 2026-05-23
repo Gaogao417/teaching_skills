@@ -1,0 +1,553 @@
+% preamble-exam-zh.tex — 极简讲解页共享 preamble
+% 目标：复刻「题目独立、提示轻框、路线箭头、主体双栏、答案轻收束」的讲义风格。
+
+\documentclass{exam-zh}
+
+% ---------- 基础配置 ----------
+\examsetup{
+  page/size = a4paper,
+  page/show-head = false,
+  page/show-foot = false,
+  sealline/show = false,
+  font = none,
+  math-font = none,
+}
+
+% ---------- 包 ----------
+\usepackage{geometry}
+\geometry{top=10mm,bottom=14mm,left=12mm,right=10mm}
+\AtBeginDocument{\newgeometry{top=10mm,bottom=14mm,left=12mm,right=10mm}}
+
+\usepackage{xcolor}
+\usepackage{needspace}
+\usepackage{enumitem}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{tcolorbox}
+\tcbuselibrary{skins,breakable}
+\usepackage{paracol}
+
+% ---------- 打印/屏幕颜色切换 ----------
+% 用法：\documentclass[monochrome]{exam-zh} 可降级为灰度。
+% 注意：不要使用 \if@xxx 放在 makeatother 外部；这里改成普通条件名。
+\newif\ifeduprintcolor
+\eduprintcolortrue
+\makeatletter
+\@ifclasswith{exam-zh}{monochrome}{\eduprintcolorfalse}{}
+\makeatother
+
+% ---------- 语义颜色 ----------
+\ifeduprintcolor
+  \definecolor{edu-blue}{RGB}{31,62,126}
+  \definecolor{edu-blue-soft}{RGB}{232,238,250}
+  \definecolor{edu-blue-bg}{RGB}{248,250,254}
+  \definecolor{edu-ink}{RGB}{30,35,45}
+  \definecolor{edu-muted}{RGB}{118,124,136}
+  \definecolor{edu-line}{RGB}{209,218,235}
+  \definecolor{edu-soft-bg}{RGB}{250,251,253}
+  \definecolor{edu-red}{RGB}{168,58,58}
+  \definecolor{edu-red-bg}{RGB}{255,247,245}
+\else
+  \definecolor{edu-blue}{gray}{0.15}
+  \definecolor{edu-blue-soft}{gray}{0.90}
+  \definecolor{edu-blue-bg}{gray}{0.98}
+  \definecolor{edu-ink}{gray}{0.10}
+  \definecolor{edu-muted}{gray}{0.45}
+  \definecolor{edu-line}{gray}{0.82}
+  \definecolor{edu-soft-bg}{gray}{0.97}
+  \definecolor{edu-red}{gray}{0.28}
+  \definecolor{edu-red-bg}{gray}{0.97}
+\fi
+
+% ---------- 全局排版 ----------
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\linespread{1.16}
+\renewcommand{\arraystretch}{1.15}
+
+% ctex 通常提供 \kaishu；这里用它做教师旁白感。
+\newcommand{\edukai}{\kaishu}
+
+% ---------- 顶部元信息 ----------
+\newcommand{\eduTopBar}[2]{%
+  \noindent
+  \begin{tabularx}{\linewidth}{@{}Xr@{}}
+    {\color{edu-blue}\bfseries #1} &
+    {\color{edu-blue}\bfseries #2}
+  \end{tabularx}
+  \vspace{8mm}
+}
+
+% ---------- 轻标题体系 ----------
+% 只有真正的大结构才用它；不要给提示/路线滥用标题。
+\newcommand{\eduSectionTitle}[1]{%
+  \needspace{5\baselineskip}%
+  \vspace{2mm}
+  {\color{edu-blue}\bfseries\large #1}\par
+  \vspace{3mm}
+}
+
+\newcommand{\eduSubTitle}[1]{%
+  \needspace{4\baselineskip}%
+  \vspace{1mm}
+  {\color{edu-blue}\bfseries #1}\par
+  \vspace{1mm}
+}
+
+% ---------- 小问题干：复用 exam (1)(2)(3) 格式 ----------
+\newenvironment{eduSubQuestionItem}[1]{%
+  \needspace{4\baselineskip}%
+  \vspace{2mm}
+  \par\noindent
+  \hangindent=8mm\hangafter=1
+  {\color{edu-blue}\bfseries #1}\enspace
+  \begingroup
+  \color{edu-ink}
+}{%
+  \endgroup
+  \par
+  \vspace{3mm}
+}
+
+% ---------- 辅助信息条（解题流程/关键想法/思考）楷体 ----------
+\newenvironment{eduAuxItem}[1]{%
+  \needspace{4\baselineskip}%
+  \vspace{2mm}
+  \par\noindent
+  \hangindent=8mm\hangafter=1
+  {\color{edu-blue}\edukai $\triangleright$~#1}\enspace
+  \begingroup
+  \color{edu-ink}
+  \edukai
+}{%
+  \endgroup
+  \par
+  \vspace{4mm}
+}
+
+\newcommand{\eduColumnTitle}[2]{%
+  {\color{edu-blue}\bfseries #1\hspace{1.5mm}#2}\par
+  \vspace{2.5mm}
+}
+
+% ---------- 图标：不用外部 icon 字体，保证可移植 ----------
+\newcommand{\eduIconBulb}{\(\circ\)}
+\newcommand{\eduIconBook}{\(\square\)}
+\newcommand{\eduIconCheck}{\(\checkmark\)}
+\newcommand{\eduIconPin}{\(\diamond\)}
+\newcommand{\eduIconNote}{\(\triangleright\)}
+
+% ---------- 题目区 ----------
+% 题目区是页面入口：弱标签 + 一条长蓝线 + 大题干。
+\newenvironment{eduProblemBlock}[1][题目]{%
+  \needspace{8\baselineskip}
+  {\small\color{edu-muted}#1}\par
+  \vspace{1.5mm}
+  {\color{edu-blue}\hrule height 0.55pt}
+  \vspace{4.5mm}
+  \begingroup
+  \color{edu-ink}
+  \large
+  \setlength{\parskip}{2.2mm}
+  \linespread{1.20}\selectfont
+}{%
+  \par
+  \endgroup
+  \vspace{6mm}
+}
+
+\newenvironment{eduSubQuestions}{%
+  \begin{enumerate}[
+    label=(\arabic*),
+    leftmargin=8mm,
+    itemsep=2.0mm,
+    topsep=2.0mm,
+    parsep=0pt
+  ]
+}{%
+  \end{enumerate}
+}
+
+% ---------- 读题提示：轻框，不做同级标题 ----------
+\newtcolorbox{eduReadTipBox}{
+  enhanced,
+  breakable,
+  colback=white,
+  colframe=edu-blue!45,
+  boxrule=0.45pt,
+  arc=1.6mm,
+  left=10mm,
+  right=4mm,
+  top=5mm,
+  bottom=5mm,
+  before skip=1mm,
+  after skip=7mm,
+  fontupper=\edukai\normalsize,
+  colupper=edu-ink,
+  overlay={
+    \node[anchor=north west, text=edu-blue] at ([xshift=3.2mm,yshift=-3.2mm]frame.north west)
+    {\small\eduIconNote};
+  }
+}
+
+\newenvironment{eduTipList}{%
+  \begin{itemize}[
+    label=\textbullet,
+    leftmargin=5mm,
+    itemsep=1.2mm,
+    topsep=0pt,
+    parsep=0pt
+  ]
+}{%
+  \end{itemize}
+}
+
+% ---------- 解题路线：虚线框 + 文字箭头 ----------
+\newenvironment{eduRouteFlow}{%
+  \needspace{4\baselineskip}%
+  \vspace{1mm}
+  \begin{center}
+  \normalsize
+}{%
+  \end{center}
+  \vspace{7mm}
+}
+\newcommand{\eduRouteStep}[1]{%
+  {\color{edu-ink}#1}%
+}
+\newcommand{\eduRouteArrow}{%
+  \;$\boldsymbol{\to}$\;%
+}
+
+% ---------- 主体讲解：使用 paracol 实现跨页自适应双栏 ----------
+\newenvironment{eduDualExplain}{%
+  \needspace{6\baselineskip}% 防止标题孤行
+  \columnratio{0.60, 0.40}%
+  \setlength{\columnsep}{11mm}%
+  \columnseprule=0.45pt%
+  \colseprulecolor{edu-blue}%
+  \begin{paracol}{2}% 开启双栏
+}{%
+  \end{paracol}% 结束双栏
+  \vspace{5mm}
+}
+
+\newenvironment{eduExplainLeft}{%
+  \normalsize\color{edu-ink}%
+}{%
+  \switchcolumn
+}
+
+\newcommand{\eduColumnDivider}{}
+
+\newenvironment{eduExplainRight}{%
+  \normalsize\color{edu-ink}%
+}{%
+}
+
+\newenvironment{eduNumberList}{%
+  \begin{enumerate}[
+    label=\arabic*.,
+    leftmargin=6mm,
+    itemsep=4.8mm,
+    topsep=0pt,
+    parsep=0pt
+  ]
+}{%
+  \end{enumerate}
+}
+
+\newenvironment{eduBulletList}{%
+  \begin{itemize}[
+    label=\textbullet,
+    leftmargin=5mm,
+    itemsep=1.2mm,
+    topsep=0pt,
+    parsep=0pt
+  ]
+}{%
+  \end{itemize}
+}
+
+% ---------- 底部双栏：答案 + 方法提醒 ----------
+\newenvironment{eduBottomGrid}{%
+  \columnratio{0.32, 0.68}%
+  \setlength{\columnsep}{11mm}%
+  \columnseprule=0pt%
+  \begin{paracol}{2}%
+}{%
+  \end{paracol}%
+}
+
+\newenvironment{eduSummaryLeft}{%
+}{%
+}
+
+\newcommand{\eduSummaryDivider}{%
+  \switchcolumn
+}
+
+\newenvironment{eduSummaryRight}{%
+}{%
+}
+
+% ---------- 答案/方法提醒：轻量收束 ----------
+\newtcolorbox{eduSummaryBlock}[2]{
+  enhanced,
+  breakable,
+  colback=edu-blue-bg,
+  colframe=edu-line,
+  boxrule=0.45pt,
+  arc=1.2mm,
+  left=3.5mm,
+  right=3.5mm,
+  top=3mm,
+  bottom=3mm,
+  before skip=1mm,
+  after skip=2.5mm,
+  title={\color{edu-blue}\bfseries #1\hspace{1.5mm}#2},
+  coltitle=edu-blue,
+  attach title to upper={\par\vspace{1.5mm}},
+  fontupper=\normalsize
+}
+
+% ---------- 例题单栏解答卡片 ----------
+\newtcolorbox{eduSolutionBox}[1]{
+  enhanced,
+  breakable,
+  colback=white,
+  colframe=edu-blue!40,
+  boxrule=0.55pt,
+  arc=1.2mm,
+  left=4mm,
+  right=4mm,
+  top=3.5mm,
+  bottom=3.5mm,
+  before skip=2mm,
+  after skip=3mm,
+  title={\color{edu-blue}\bfseries \eduIconBook\hspace{1.5mm}#1},
+  coltitle=edu-blue,
+  attach title to upper={\par\vspace{1.5mm}},
+  fontupper=\normalsize
+}
+
+\newenvironment{eduPlainList}{%
+  \begin{enumerate}[
+    label=(\arabic*),
+    leftmargin=7mm,
+    itemsep=1.2mm,
+    topsep=0pt,
+    parsep=0pt
+  ]
+}{%
+  \end{enumerate}
+}
+
+% ---------- 兼容旧 block 的轻量盒子 ----------
+\newtcolorbox{eduSoftBox}{
+  enhanced,
+  breakable,
+  colback=edu-soft-bg,
+  colframe=edu-line,
+  boxrule=0.35pt,
+  arc=1mm,
+  left=3mm,
+  right=3mm,
+  top=2mm,
+  bottom=2mm,
+  before skip=1mm,
+  after skip=2mm,
+  fontupper=\small
+}
+
+\newtcolorbox{eduMistakeBox}{
+  enhanced,
+  breakable,
+  colback=edu-red-bg,
+  colframe=edu-red!40,
+  boxrule=0.35pt,
+  arc=1mm,
+  left=3mm,
+  right=3mm,
+  top=2.5mm,
+  bottom=2.5mm,
+  before skip=1mm,
+  after skip=2mm,
+  fontupper=\normalsize
+}
+
+\newtcolorbox{eduLegacySolution}{
+  enhanced,
+  breakable,
+  colback=edu-soft-bg,
+  colframe=edu-line,
+  boxrule=0.35pt,
+  arc=1mm,
+  left=3mm,
+  right=3mm,
+  top=2mm,
+  bottom=2mm,
+  before skip=-2mm,
+  after skip=4mm,
+  fontupper=\small
+}
+
+\newtcolorbox{eduTeacherNote}{
+  enhanced,
+  breakable,
+  colback=edu-soft-bg,
+  colframe=edu-line,
+  boxrule=0pt,
+  borderline west={1.5pt}{0pt}{edu-muted},
+  left=2.5mm,
+  right=2.5mm,
+  top=2mm,
+  bottom=2mm,
+  before skip=1mm,
+  after skip=2mm,
+  fontupper=\footnotesize,
+  colupper=edu-muted
+}
+
+% ---------- 答题区 ----------
+\newcommand{\answerarea}[1][40mm]{%
+  \vspace{3mm}%
+  \begin{tcolorbox}[
+    enhanced,
+    breakable,
+    colback=white,
+    colframe=edu-line,
+    boxrule=0.55pt,
+    arc=0.8mm,
+    height=#1,
+    valign=top,
+  ]
+  \end{tcolorbox}%
+}
+
+\examsetup{
+  question/show-answer = true,
+  fillin/show-answer = true,
+  solution/show-solution = show-stay,
+}
+
+\begin{document}
+
+
+\begin{eduProblemBlock}[题目]
+在 $\triangle ABC$ 中，$\angle C = 90^\circ$，$AC = 3$，$BC = 4$。
+\begin{enumerate}[label=(\arabic*)]
+  \item 若以点 $C$ 为圆心作 $\odot C$，使 $\odot C$ 与斜边 $AB$ 相切，求 $\odot C$ 的半径 $r$；
+  \item 若以点 $C$ 为圆心，以 $2.5$ 为半径作 $\odot C$，判断直线 $AB$ 与 $\odot C$ 的位置关系。
+\end{enumerate}
+
+\end{eduProblemBlock}
+
+
+
+
+
+
+
+
+
+\begin{eduAuxItem}{思路导航}
+利用勾股定理求出斜边 $AB$ 的长度$\;\to\;$利用等面积法求出圆心 $C$ 到斜边 $AB$ 的距离 $d$$\;\to\;$第 (1) 问：根据相切条件 $d = r$ 逆推半径 $r$$\;\to\;$第 (2) 问：对比距离 $d$ 与半径 $r = 2.5$ 的大小关系得出位置关系\end{eduAuxItem}
+
+
+
+
+\begin{eduAuxItem}{核心思路}
+圆心到直线的距离 $d$ 的几何本质就是“点到直线的垂线段长度”。
+在直角三角形中，斜边上的高最快求法就是“等面积法”，即：
+$$h = \frac{a \cdot b}{c}$$
+求出距离 $d$ 之后，直线与圆的位置关系判定就完全简化为 $d$ 与 $r$ 的代数大小比较了。
+\end{eduAuxItem}
+
+
+
+
+\begin{eduSubQuestionItem}{(1)}
+若以点 $C$ 为圆心作 $\odot C$，使 $\odot C$ 与斜边 $AB$ 相切，求 $\odot C$ 的半径 $r$。\end{eduSubQuestionItem}
+
+\begin{eduSolutionBox}{解答}
+  \begingroup
+  \setlength{\parskip}{2.5mm}
+在 $Rt\triangle ABC$ 中，根据勾股定理求出斜边：$AB = \sqrt{AC^2 + BC^2} = \sqrt{3^2 + 4^2} = 5$。\par
+设圆心 $C$ 到斜边 $AB$ 的距离为 $d$。由 $\triangle ABC$ 的等面积法知：$S = \frac{1}{2} AC \cdot BC = \frac{1}{2} AB \cdot d$。\par
+代入数据：$3 \times 4 = 5 \times d \implies d = 2.4$。\par
+因为 $\odot C$ 与斜边 $AB$ 相切，所以半径 $r = d = 2.4$。\par
+  \endgroup
+  \vspace{2.5mm}
+  {\color{edu-blue}\bfseries\small 注意}\par\vspace{1.5mm}
+  \begin{eduBulletList}
+    \item 算出来的距离 $d = 2.4$ 是一个固定的图形特征值。在第二问中，虽然圆的半径发生了改变，但圆心到斜边 $AB$ 的实际垂直距离 $d$ 仍然是 $2.4$，可以直接复用。  \end{eduBulletList}
+\end{eduSolutionBox}
+
+
+
+
+\begin{eduSubQuestionItem}{(2)}
+若以点 $C$ 为圆心，以 $2.5$ 为半径作 $\odot C$，判断直线 $AB$ 与 $\odot C$ 的位置关系。\end{eduSubQuestionItem}
+
+\begin{eduSolutionBox}{解答}
+  \begingroup
+  \setlength{\parskip}{2.5mm}
+由第 (1) 问可知，圆心 $C$ 到斜边 $AB$ 的距离 $d = 2.4$。\par
+此时 $\odot C$ 的半径 $r = 2.5$。\par
+因为 $2.4 < 2.5$，即 $d < r$。\par
+所以直线 $AB$ 与 $\odot C$ 的位置关系是相交。\par
+  \endgroup
+\end{eduSolutionBox}
+
+
+
+
+\begin{eduBottomGrid}
+  \begin{eduSummaryLeft}
+    \begin{eduSummaryBlock}{\eduIconCheck}{答案}
+    \begin{eduPlainList}
+      \item (1) 半径 $r = 2.4$      \item (2) 直线 $AB$ 与 $\odot C$ 的位置关系是相交    \end{eduPlainList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryLeft}
+  \eduSummaryDivider
+  \begin{eduSummaryRight}
+    \begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
+    \begin{eduBulletList}
+      \item 直角三角形斜边高公式：$h = \frac{a \cdot b}{c}$，非常快捷，做选择填空时可直接套用。      \item 双向判定口诀：$d<r \iff$ 相交；$d=r \iff$ 相切；$d>r \iff$ 相离。    \end{eduBulletList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryRight}
+\end{eduBottomGrid}
+
+
+
+
+\begin{eduMistakeBox}
+\eduSubTitle{位置关系名词写错}许多同学在回答直线与圆的位置关系时，会写成“相割”或者“相交但有两个公共点”。
+在初中阶段，标准的学术名称只有三种：\textbf{相交、相切、相离}。切勿在考试中使用非标准名词导致扣分。
+\end{eduMistakeBox}
+
+
+
+
+\begin{eduMistakeBox}
+\eduSubTitle{误以为 d 会随着 r 的变化而变化}在第 (2) 问中，有些同学看到半径变为了 $2.5$，误以为圆心到斜边的距离 $d$ 也发生了改变。
+实际上，\textbf{只要三角形的大小 and 圆心的位置固定，圆心到斜边的垂直距离 $d$ 就是一个客观存在的物理特征值，它在整个题目中是绝对恒定的}。
+\end{eduMistakeBox}
+
+
+
+
+\begin{eduAuxItem}{思路启发}
+如果把圆的半径 $r$ 改为 $2$，此时直线 $AB$ 与 $\odot C$ 的位置关系是什么？为什么？\end{eduAuxItem}
+
+
+
+
+\begin{eduAuxItem}{思路启发}
+若以点 $C$ 为圆心的圆与斜边 $AB$ 没有公共点（相离），求半径 $r$ 的取值范围。（提示：注意考虑半径的隐含正数约束哦！）\end{eduAuxItem}
+
+
+
+
+\end{document}
