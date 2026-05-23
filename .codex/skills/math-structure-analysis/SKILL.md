@@ -28,13 +28,20 @@ Accept when available:
 
 ## Output Artifact
 
-Create one Markdown file in the working directory unless the user gives another path:
+Create one Markdown file alongside the explanation and practice artifacts (same directory) unless the user gives another path:
 
 ```text
-artifacts/<problem-slug>/01-structure-analysis.md
+artifacts/<student-name>/<date>-<problem-slug>/01-structure-analysis.md
 ```
 
-If the directory does not exist, create it. Use a short ASCII slug such as `linear-area-param` when the user does not provide a title.
+Example: `artifacts/王攸然/2026-05-19-等腰直角存在性/01-structure-analysis.md`
+
+Derive the path from the conversation context:
+- `<student-name>`: ask the user or infer from existing artifact directories.
+- `<date>`: today's date in `YYYY-MM-DD` format.
+- `<problem-slug>`: short Chinese or ASCII slug describing the problem (e.g., `等腰直角存在性`, `linear-area-param`).
+
+If the directory already exists (e.g., explanation PDFs are already there), place the file in that existing directory. If the directory does not exist, create it.
 
 The artifact must be self-contained and include both human-readable sections and a compact machine-readable block.
 

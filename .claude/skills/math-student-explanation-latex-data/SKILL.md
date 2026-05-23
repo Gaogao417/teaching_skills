@@ -122,29 +122,24 @@ content: |
   两个点 = 两个方程，刚好解出两个未知数。
 ```
 
-### dual_explanation — 主体双栏讲解（核心）
+### solution — 主体单栏讲解（核心）
 
-这是讲解页最核心的 block type。左栏放规范解答（详细过程与讲解），右栏放例题重做（用于学生记笔记，只提供极简的小标题引导）。
-有子问题时，每个子问题各用一个 `dual_explanation`。
+这是讲解页最核心的 block type。在带有浅蓝色细边框和 $\square$ 图标的卡片盒子（`eduSolutionBox`）中展示规范解答（详细过程与讲解）。
+有子问题时，每个子问题各用一个 `solution`。
 
 每个小问必须在讲解前带上该小问的题干，使用 `label` + `stem_latex` 字段，
 渲染时自动以 `(1)` 题干内容 的 exam 格式呈现（蓝色加粗题号 + 题干文字）。
 
-**不要用** `title: "第（1）问"` 这种写法，改用 `label` + `stem_latex`。
-
 ```yaml
-type: "dual_explanation"
+type: "solution"
 label: "(1)"
 stem_latex: "求这个一次函数的解析式；"
-left_title: "解答"
-left_items:
+title: "解答"
+items:
   - latex: "代入 $A(1,3)$ 和 $B(-2,-6)$ 列出方程组：\\quad \\textcircled{1} $3 = k + b$ ； \\quad \\textcircled{2} $-6 = -2k + b$"
   - latex: "\\textcircled{1}$-$\\textcircled{2}：$9 = 3k \\implies k = 3$"
   - latex: "代回 \\textcircled{1}：$3 = 3 + b \\implies b = 0$"
   - latex: "解析式：$y = 3x$"
-right_title: "例题重做"
-right_steps:
-  - latex: "思路提示：代入两点坐标，用加减消元法求解。"
 connection_title: "注意"
 connection_items:
   - latex: "$b = 0$！这条直线过原点——后面的第（3）问会用到这个事实。"
@@ -153,10 +148,10 @@ connection_items:
 字段说明：
 - `label`：小问题号，如 `(1)`、`(2)`、`(3)`，与原题 enumerate 格式一致
 - `stem_latex`：该小问的题干文字（LaTeX），从原题摘出对应小问
-- `left_items`：规范解答步骤，列表。**排版及逻辑注意：**
-  1. **结构对应**：`left_items` 中的每一步拆分，必须与上文“解题路线”（route）中的步骤严格对应。解题路线里写了几步，这里就应该对应输出几个带序号的 latex 步骤。
-  2. **避免过细**：连续的简单公式推导请合并为一行（使用 $\implies$ 连接），绝不能把每一步单纯的移项或化简单独作为一个带有序号的 item 输出（避免变成瘦长的“竹竿排版”）！
-- `right_steps`：例题重做的方向引导，列表。这里只输出一两个简短的小标题（如 `思路提示：代入两点坐标，用加减消元法求 k 和 b`），右侧的大量剩余空间会自动留白，作为学生的重做与笔记区。
+- `title`：解答卡片标题，一般写 `"解答"` 或 `"规范解答"`
+- `items`：规范解答步骤，列表。**排版及逻辑注意：**
+  1. **结构对应**：`items` 中的每一步拆分，必须与上文“解题路线”（route）中的步骤严格对应。解题路线里写了几步，这里就应该对应输出几个带序号的 latex 步骤。
+  2. **避免过细**：连续的简单公式推导请合并为一行（使用 $\implies$ 连接），绝不能把每一步单纯 of 移项或化简单独作为一个带有序号的 item 输出（避免变成瘦长的“竹竿排版”）！
 - `connection_title`：衔接标题（如"注意"、"方法"、"关键"）
 - `connection_items`：后问如何承接前问的提示
 
@@ -206,7 +201,7 @@ meta:
   subtitle: "..."
   grade: "..."
   subject: "..."
-  version: "teacher"
+  version: "student"
   source_artifacts:
     structure_analysis: "artifacts/<学生名>/YYYY-MM-DD-<内容>/01-structure-analysis.md"
 
@@ -273,30 +268,24 @@ sections:
     visibility: "student"
     show_title: false
     blocks:
-      # 每个子问题用一个 dual_explanation，带 label + stem_latex 复现题干
-      - type: "dual_explanation"
+      # 每个子问题用一个 solution，带 label + stem_latex 复现题干
+      - type: "solution"
         id: "sol-part1"
         label: "(1)"
         stem_latex: "求这个一次函数的解析式；"
-        left_title: "解答"
-        left_items:
-          - latex: "..."
-        right_title: "例题重做"
-        right_steps:
+        title: "解答"
+        items:
           - latex: "..."
         connection_title: "注意"
         connection_items:
           - latex: "..."
 
-      - type: "dual_explanation"
+      - type: "solution"
         id: "sol-part2"
         label: "(2)"
         stem_latex: "判断点 $C(3,9)$ 是否在这个函数的图像上；"
-        left_title: "解答"
-        left_items:
-          - latex: "..."
-        right_title: "例题重做"
-        right_steps:
+        title: "解答"
+        items:
           - latex: "..."
 
   - id: "summary"
@@ -365,9 +354,9 @@ sections:
 
 输出前必须检查：
 1. 所有 block 都有 id 且唯一
-2. 所有 block 都有 type，且使用正确的 type（不要用 `step` 替代 `dual_explanation`）
+2. 所有 block 都有 type，且使用正确的 type（不要用 `step` 替代 `solution`）
 3. 原题用 `problemcard` + `stem_latex`，不要用 `key_idea`
-4. 每个子问题的解法各用一个 `dual_explanation`，必须带 `label`（如 `(1)`）和 `stem_latex`（该小问题干），不要用 `title: "第（X）问"`
+4. 每个子问题的解法各用一个 `solution`，必须带 `label`（如 `(1)`）和 `stem_latex`（该小问题干），不要用 `title: "第（X）问"`
 5. 数学公式使用 `$...$` 和 `$$...$$` 格式
 6. `stem_latex` 中的 LaTeX 命令不转义（原样输出）
 7. block scalar（`|`）字段中的 LaTeX 命令用单反斜杠 `\frac`（不是 `\\frac`）；双引号字符串中的 `\\frac` 会被 YAML 解析为 `\frac` 所以是正确的

@@ -30,6 +30,7 @@ VALID_TYPES = {
     "answers",
     "method_reminder",
     "reminder",
+    "solution",
 }
 VALID_VERSIONS = {"student", "teacher", "both"}
 VALID_VISIBILITIES = {"student", "teacher", "both"}
@@ -138,6 +139,11 @@ def validate(data):
                     errors.append(f"{bprefix} ({bid}): {btype} requires non-empty 'left_items' list")
                 if not isinstance(right_steps, list) or not right_steps:
                     errors.append(f"{bprefix} ({bid}): {btype} requires non-empty 'right_steps' list")
+
+            if btype == "solution":
+                items = block.get("items")
+                if not isinstance(items, list) or not items:
+                    errors.append(f"{bprefix} ({bid}): solution requires non-empty 'items' list")
 
             if btype in ("summary_dual", "answer_reminder"):
                 left_items = block.get("left_items")

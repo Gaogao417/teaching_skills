@@ -12,9 +12,7 @@ import sys
 
 import yaml
 
-# Add scripts dir to path for sanitize_latex import
-sys.path.insert(0, os.path.dirname(__file__))
-from sanitize_latex import sanitize_latex
+from sanitize_latex import sanitize_latex, sanitize_latex_data
 
 try:
     from jinja2 import Environment, FileSystemLoader, select_autoescape
@@ -269,6 +267,7 @@ def main():
 
     # Load
     data = load_yaml(args.input)
+    data = sanitize_latex_data(data)
 
     # Flatten multi-problem format
     flatten_problems(data)

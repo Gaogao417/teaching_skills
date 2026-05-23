@@ -55,6 +55,17 @@ def sanitize_latex(text: str) -> str:
     return text
 
 
+def sanitize_latex_data(val):
+    """Recursively sanitize all string values in a data structure (dict, list, str)."""
+    if isinstance(val, dict):
+        return {k: sanitize_latex_data(v) for k, v in val.items()}
+    elif isinstance(val, list):
+        return [sanitize_latex_data(x) for x in val]
+    elif isinstance(val, str):
+        return sanitize_latex(val)
+    return val
+
+
 if __name__ == "__main__":
     text = sys.stdin.read()
     print(sanitize_latex(text))

@@ -115,7 +115,29 @@ artifacts/<学生名>/<YYYY-MM-DD-<subject>>/
 
 如果编译失败
 → 摘要 build.log，反馈最小修复建议
+
+如果所有 PDF 编译成功
+→ git add 该专题目录下的交付物（.md/.tex/.pdf）
+→ git commit -m "[artifacts] <学生名>/<话题>: <简述>"
+→ 若本回合也修改了 skill/脚本/模板，另做一次 [workflow] commit
 ```
+
+### Git Commit 格式
+
+完成编译后必须 git commit。commit message 开头用方括号标注变更类别：
+
+```text
+[artifacts] <学生名>/<话题>: <简述>
+[workflow] <scope>: <简述>
+```
+
+例：
+- `[artifacts] 陆子辰/两圆位置关系: 讲解与练习`
+- `[workflow] feat(latex): solution block 替代 dual_explanation`
+
+artifacts commit 只 add 该专题目录（`.md/.tex/.pdf`，`build/` 已被 `.gitignore` 排除）。
+workflow commit 只 add 修改过的 skill/脚本/模板文件。
+两类变更不要混在同一次 commit 中。
 
 ### Review 标记规则
 
