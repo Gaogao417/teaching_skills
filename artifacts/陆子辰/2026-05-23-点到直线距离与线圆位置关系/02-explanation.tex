@@ -452,16 +452,16 @@
 
 
 \begin{eduAuxItem}{思路导航}
-利用勾股定理求出斜边 $AB$ 的长度$\;\to\;$利用等面积法求出圆心 $C$ 到斜边 $AB$ 的距离 $d$$\;\to\;$第 (1) 问：根据相切条件 $d = r$ 逆推半径 $r$$\;\to\;$第 (2) 问：对比距离 $d$ 与半径 $r = 2.5$ 的大小关系得出位置关系\end{eduAuxItem}
+利用勾股定理求斜边 $AB$ 的长度$\;\to\;$利用等面积法求圆心 $C$ 到斜边 $AB$ 的距离 $d$$\;\to\;$第（1）问：由相切条件 $d = r$ 确定半径$\;\to\;$第（2）问：比较距离 $d$ 与半径 $r = 2.5$ 的大小确定位置关系\end{eduAuxItem}
 
 
 
 
 \begin{eduAuxItem}{核心思路}
-圆心到直线的距离 $d$ 的几何本质就是“点到直线的垂线段长度”。
-在直角三角形中，斜边上的高最快求法就是“等面积法”，即：
-$$h = \frac{a \cdot b}{c}$$
-求出距离 $d$ 之后，直线与圆的位置关系判定就完全简化为 $d$ 与 $r$ 的代数大小比较了。
+圆心到直线的距离 $d$ 即点到直线的垂线段长度。
+直角三角形斜边上的高常用等面积法求解：
+$$d = \frac{a \cdot b}{c}$$
+确定 $d$ 后，通过比较 $d$ 与 $r$ 的大小判定直线与圆的位置关系。
 \end{eduAuxItem}
 
 
@@ -473,15 +473,15 @@ $$h = \frac{a \cdot b}{c}$$
 \begin{eduSolutionBox}{解答}
   \begingroup
   \setlength{\parskip}{2.5mm}
-在 $Rt\triangle ABC$ 中，根据勾股定理求出斜边：$AB = \sqrt{AC^2 + BC^2} = \sqrt{3^2 + 4^2} = 5$。\par
-设圆心 $C$ 到斜边 $AB$ 的距离为 $d$。由 $\triangle ABC$ 的等面积法知：$S = \frac{1}{2} AC \cdot BC = \frac{1}{2} AB \cdot d$。\par
+在 $Rt\triangle ABC$ 中，由勾股定理得：$AB = \sqrt{AC^2 + BC^2} = \sqrt{3^2 + 4^2} = 5$。\par
+设圆心 $C$ 到斜边 $AB$ 的距离为 $d$。由等面积法得：$AC \cdot BC = AB \cdot d$。\par
 代入数据：$3 \times 4 = 5 \times d \implies d = 2.4$。\par
-因为 $\odot C$ 与斜边 $AB$ 相切，所以半径 $r = d = 2.4$。\par
+因 $\odot C$ 与斜边 $AB$ 相切，故半径 $r = d = 2.4$。\par
   \endgroup
   \vspace{2.5mm}
   {\color{edu-blue}\bfseries\small 注意}\par\vspace{1.5mm}
   \begin{eduBulletList}
-    \item 算出来的距离 $d = 2.4$ 是一个固定的图形特征值。在第二问中，虽然圆的半径发生了改变，但圆心到斜边 $AB$ 的实际垂直距离 $d$ 仍然是 $2.4$，可以直接复用。  \end{eduBulletList}
+    \item 圆心到斜边 $AB$ 的垂直距离 $d = 2.4$ 是由三角形确定的几何特征值，不随圆的半径变化而改变，在第（2）问中可直接复用。  \end{eduBulletList}
 \end{eduSolutionBox}
 
 
@@ -493,10 +493,10 @@ $$h = \frac{a \cdot b}{c}$$
 \begin{eduSolutionBox}{解答}
   \begingroup
   \setlength{\parskip}{2.5mm}
-由第 (1) 问可知，圆心 $C$ 到斜边 $AB$ 的距离 $d = 2.4$。\par
-此时 $\odot C$ 的半径 $r = 2.5$。\par
-因为 $2.4 < 2.5$，即 $d < r$。\par
-所以直线 $AB$ 与 $\odot C$ 的位置关系是相交。\par
+由第（1）问知，圆心 $C$ 到斜边 $AB$ 的距离 $d = 2.4$。\par
+已知半径 $r = 2.5$。\par
+因 $d = 2.4 < 2.5 = r$，即 $d < r$。\par
+故直线 $AB$ 与 $\odot C$ 相交。\par
   \endgroup
 \end{eduSolutionBox}
 
@@ -507,14 +507,14 @@ $$h = \frac{a \cdot b}{c}$$
   \begin{eduSummaryLeft}
     \begin{eduSummaryBlock}{\eduIconCheck}{答案}
     \begin{eduPlainList}
-      \item (1) 半径 $r = 2.4$      \item (2) 直线 $AB$ 与 $\odot C$ 的位置关系是相交    \end{eduPlainList}
+      \item (1) 半径 $r = 2.4$      \item (2) 直线与圆相交    \end{eduPlainList}
     \end{eduSummaryBlock}
   \end{eduSummaryLeft}
   \eduSummaryDivider
   \begin{eduSummaryRight}
     \begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
     \begin{eduBulletList}
-      \item 直角三角形斜边高公式：$h = \frac{a \cdot b}{c}$，非常快捷，做选择填空时可直接套用。      \item 双向判定口诀：$d<r \iff$ 相交；$d=r \iff$ 相切；$d>r \iff$ 相离。    \end{eduBulletList}
+      \item 直角三角形斜边高公式：$h = \frac{a \cdot b}{c}$（选择填空可直接套用）。      \item 双向判定关系：$d < r \iff$ 相交；$d = r \iff$ 相切；$d > r \iff$ 相离。    \end{eduBulletList}
     \end{eduSummaryBlock}
   \end{eduSummaryRight}
 \end{eduBottomGrid}
@@ -523,29 +523,28 @@ $$h = \frac{a \cdot b}{c}$$
 
 
 \begin{eduMistakeBox}
-\eduSubTitle{位置关系名词写错}许多同学在回答直线与圆的位置关系时，会写成“相割”或者“相交但有两个公共点”。
-在初中阶段，标准的学术名称只有三种：\textbf{相交、相切、相离}。切勿在考试中使用非标准名词导致扣分。
+\eduSubTitle{位置关系名词写错}回答位置关系时，须使用标准的几何名词：\textbf{相交、相切、相离}。避免使用“相割”或“有两个公共点”等非标准表述，以免失分。
 \end{eduMistakeBox}
 
 
 
 
 \begin{eduMistakeBox}
-\eduSubTitle{误以为 d 会随着 r 的变化而变化}在第 (2) 问中，有些同学看到半径变为了 $2.5$，误以为圆心到斜边的距离 $d$ 也发生了改变。
-实际上，\textbf{只要三角形的大小 and 圆心的位置固定，圆心到斜边的垂直距离 $d$ 就是一个客观存在的物理特征值，它在整个题目中是绝对恒定的}。
+\eduSubTitle{误以为 d 会随着 r 的变化而变化}误以为 $d$ 随 $r$ 的变化而变化。
+事实上，只要三角形的大小和圆心的位置固定，圆心到斜边的距离 $d$ 即为定值，在同一题中保持恒定，与圆的半径变化无关。
 \end{eduMistakeBox}
 
 
 
 
 \begin{eduAuxItem}{思路启发}
-如果把圆的半径 $r$ 改为 $2$，此时直线 $AB$ 与 $\odot C$ 的位置关系是什么？为什么？\end{eduAuxItem}
+若圆半径 $r = 2$，直线 $AB$ 与 $\odot C$ 的位置关系是什么？为什么？\end{eduAuxItem}
 
 
 
 
 \begin{eduAuxItem}{思路启发}
-若以点 $C$ 为圆心的圆与斜边 $AB$ 没有公共点（相离），求半径 $r$ 的取值范围。（提示：注意考虑半径的隐含正数约束哦！）\end{eduAuxItem}
+若以点 $C$ 为圆心的圆与斜边 $AB$ 无公共点，求半径 $r$ 的取值范围。（提示：注意半径为正数的隐含条件）\end{eduAuxItem}
 
 
 

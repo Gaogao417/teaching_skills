@@ -1,0 +1,361 @@
+% preamble-exam-zh.tex — 共享 preamble
+% 用于所有 exam-zh 模板
+%
+% 样式策略：
+%   屏幕 → 语义彩色（蓝=关键想法，红=易错，绿=路线，灰=提示/教师备注）
+%   打印 → 自动降级为黑白（通过 print mode 或 monochrome 选项）
+
+\documentclass{exam-zh}
+
+% ---------- 基础配置 ----------
+\examsetup{
+  page/size = a4paper,
+  page/show-head = false,
+  page/show-foot = false,
+  sealline/show = false,
+  font = times,
+  math-font = xits,
+}
+
+\usepackage{tcolorbox}
+\usepackage{needspace}
+\tcbuselibrary{skins,breakable}
+
+% ---------- 打印/屏幕颜色切换 ----------
+% 用法：\documentclass[monochrome]{exam-zh} 即可切换为纯黑白
+% 注意：不要使用 \if@xxx 放在 makeatother 外部；这里改成普通条件名。
+\newif\ifeduprintcolor
+\eduprintcolortrue
+
+\makeatletter
+\@ifclasswith{exam-zh}{monochrome}{\eduprintcolorfalse}{}
+\makeatother
+
+% ---------- 语义颜色定义 ----------
+% 屏幕：有色彩区分；打印：降级为灰度
+\ifeduprintcolor
+  % --- 屏幕彩色模式 ---
+  \definecolor{edu-blue}{RGB}{47, 82, 122}       % 关键想法
+  \definecolor{edu-blue-bg}{RGB}{243, 246, 252}
+  \definecolor{edu-red}{RGB}{180, 40, 40}         % 易错提醒
+  \definecolor{edu-red-bg}{RGB}{255, 245, 240}
+  \definecolor{edu-green}{RGB}{34, 100, 60}       % 路线图
+  \definecolor{edu-green-bg}{RGB}{242, 250, 245}
+  \definecolor{edu-orange}{RGB}{160, 90, 0}       % 训练目标
+  \definecolor{edu-orange-bg}{RGB}{255, 248, 235}
+  \definecolor{edu-gray}{RGB}{100, 100, 100}      % 提示/教师备注
+  \definecolor{edu-gray-bg}{RGB}{248, 248, 248}
+  \definecolor{edu-purple}{RGB}{90, 50, 120}      % 思考题
+  \definecolor{edu-purple-bg}{RGB}{248, 244, 252}
+\else
+  % --- 打印黑白模式 ---
+  \definecolor{edu-blue}{gray}{0.15}
+  \definecolor{edu-blue-bg}{gray}{0.96}
+  \definecolor{edu-red}{gray}{0.25}
+  \definecolor{edu-red-bg}{gray}{0.97}
+  \definecolor{edu-green}{gray}{0.20}
+  \definecolor{edu-green-bg}{gray}{0.97}
+  \definecolor{edu-orange}{gray}{0.25}
+  \definecolor{edu-orange-bg}{gray}{0.98}
+  \definecolor{edu-gray}{gray}{0.40}
+  \definecolor{edu-gray-bg}{gray}{0.97}
+  \definecolor{edu-purple}{gray}{0.30}
+  \definecolor{edu-purple-bg}{gray}{0.98}
+\fi
+
+% ---------- 自定义教学环境 ----------
+% 共性：enhanced + breakable（跨页不断裂）
+
+% 原题卡片 — 强边框，突出显示
+\newtcolorbox{problemcard}{
+  enhanced, breakable,
+  colback=edu-blue-bg,
+  colframe=edu-blue,
+  boxrule=1.2pt,
+  arc=0pt,
+  left=3mm, right=3mm, top=3mm, bottom=3mm,
+}
+
+% 解题路线图 — 左边线 + 浅底
+\newtcolorbox{routebox}{
+  enhanced, breakable,
+  colback=edu-green-bg,
+  colframe=edu-green!30,
+  boxrule=0pt,
+  borderline west={2.5pt}{0pt}{edu-green},
+  left=3mm, right=3mm, top=3mm, bottom=3mm,
+}
+
+% 关键想法 — 蓝色左边线
+\newtcolorbox{keyideabox}{
+  enhanced, breakable,
+  colback=edu-blue-bg,
+  colframe=edu-blue!30,
+  boxrule=0pt,
+  borderline west={2.5pt}{0pt}{edu-blue},
+  left=3mm, right=3mm, top=3mm, bottom=3mm,
+}
+
+% 易错提醒 — 红色左边线
+\newtcolorbox{mistakebox}{
+  enhanced, breakable,
+  colback=edu-red-bg,
+  colframe=edu-red!20,
+  boxrule=0pt,
+  borderline west={3pt}{0pt}{edu-red},
+  left=3mm, right=3mm, top=2.5mm, bottom=2.5mm,
+}
+
+% 提示 — 灰色虚线左边线
+\newtcolorbox{hintbox}{
+  enhanced, breakable,
+  colback=edu-gray-bg,
+  colframe=edu-gray!20,
+  boxrule=0pt,
+  borderline west={2pt}{0pt}{edu-gray, dashed},
+  left=3mm, right=3mm, top=2mm, bottom=2mm,
+}
+
+% 思考题 — 紫色虚线左边线
+\newtcolorbox{thinkbox}{
+  enhanced, breakable,
+  colback=edu-purple-bg,
+  colframe=edu-purple!20,
+  boxrule=0pt,
+  borderline west={2pt}{0pt}{edu-purple, dashed},
+  left=2.5mm, right=2.5mm, top=2.5mm, bottom=2.5mm,
+}
+
+% 教师备注 — 灰色左边线，小字
+\newtcolorbox{teachernote}{
+  enhanced, breakable,
+  colback=edu-gray-bg,
+  colframe=edu-gray!15,
+  boxrule=0pt,
+  borderline west={2pt}{0pt}{edu-gray!60},
+  left=2.5mm, right=2.5mm, top=2.5mm, bottom=2.5mm,
+  fontupper=\small,
+  colupper=black!60,
+}
+
+% 训练目标 — 橙色左边线，小字
+\newtcolorbox{traininggoal}{
+  enhanced, breakable,
+  colback=edu-orange-bg,
+  colframe=edu-orange!15,
+  boxrule=0pt,
+  borderline west={1.5pt}{0pt}{edu-orange},
+  left=2mm, right=2mm, top=1mm, bottom=1mm,
+  fontupper=\small,
+}
+
+% 答题区 — 无边框，纯留白
+\newcommand{\answerarea}[1][40mm]{%
+  \vspace{2mm}%
+  \begin{tcolorbox}[
+    enhanced, breakable,
+    colback=white,
+    colframe=white,
+    boxrule=0pt,
+    height=#1,
+    valign=top,
+    bottom=0mm,
+    after skip=0mm,
+  ]
+  \end{tcolorbox}%
+}
+
+% ---------- 字体设置 ----------
+% exam-zh (ctexbook) already sets CJK fonts via ctex.
+% Only override if specific fonts are needed.
+% macOS: Songti SC, STHeiti, STFangsong
+% Linux: SimSun, SimHei, FangSong
+
+% ---------- 页面设置 ----------
+% exam-zh (ctexbook) already loads geometry.
+% Override margins if needed:
+% \geometry{top=16mm, bottom=16mm, left=14mm, right=14mm}
+
+\examsetup{
+  question/show-answer = true,
+  fillin/show-answer = true,
+  solution/show-solution = show-stay,
+}
+
+% ---------- 教师版解答样式 ----------
+\newtcolorbox{solutionblock}{
+  enhanced, breakable,
+  colback=edu-blue-bg,
+  colframe=edu-blue!25,
+  boxrule=0pt,
+  borderline west={2pt}{0pt}{edu-blue!50},
+  arc=0pt,
+  left=3mm, right=3mm, top=2mm, bottom=2mm,
+  before skip=2mm,
+  after skip=3mm,
+  fontupper=\small,
+}
+
+% 解答步骤编号
+\newcounter{solstep}
+\newcommand{\solstep}[2]{%
+  \stepcounter{solstep}%
+  \par\medskip
+  \noindent\hangindent=6mm
+  {\color{edu-blue}\bfseries\textcircled{\scriptsize\thesolstep}\enspace #1}\enspace #2\par
+}
+
+\begin{document}
+
+\section*{通过交点、面积、距离等条件求点坐标（四） · 练习卷（教师版）}
+
+\section*{一、选择题（每题 12 分，共 48 分）}
+
+
+\begin{keyideabox}
+  \textbf{中等思想：坐标面积公式}
+  已知 $A(x_a, y_a)$，$B(x_b, y_b)$，$C(x_c, y_c)$，三角形面积为：\\ $S = \frac{1}{2}|x_a(y_b - y_c) + x_b(y_c - y_a) + x_c(y_a - y_b)|$。这能避免复杂的割补画图。
+\end{keyideabox}
+
+
+
+\begin{question}[points=12]
+  已知点 $O(0, 0)$，点 $A(0, 4)$。若点 $P$ 在直线 $y = -2x$ 上，且 $\triangle OAP$ 的面积为 $8$，则点 $P$ 的坐标为
+  \begin{choices}
+    \item $(4, -8)$ 或 $(-4, 8)$
+    \item $(4, -8)$
+    \item $(2, -4)$ 或 $(-2, 4)$
+    \item $(2, -4)$
+  \end{choices}
+  \paren[A]
+  \begin{solutionblock}
+    底 $OA = 4$ 在 $y$ 轴上，高为 $|x_p|$。$S = \frac{1}{2} \times 4 \times |x_p| = 2|x_p| = 8 \implies |x_p| = 4 \implies x_p = \pm 4$。代入直线方程得 $y_p = -2x_p$。坐标为 $(4, -8)$ 或 $(-4, 8)$。
+  \end{solutionblock}
+\end{question}
+
+
+
+\begin{question}[points=12]
+  直线 $y = -x + 4$ 与 $x$ 轴交于点 $A$，与 $y$ 轴交于点 $B$。若点 $C$ 在 $y$ 轴上，且 $\triangle ABC$ 的面积为 2，则点 $C$ 的坐标可以为
+  \begin{choices}
+    \item $(0, 5)$ 或 $(0, 3)$
+    \item $(0, 5)$
+    \item $(0, 3)$
+    \item $(0, 6)$
+  \end{choices}
+  \paren[A]
+  \begin{solutionblock}
+    $A(4, 0)$，$B(0, 4)$。$\triangle ABC$ 以 $BC$ 为底，高为 $A$ 到 $y$ 轴的距离 $= 4$。$S = \frac{1}{2} \times BC \times 4 = 2BC = 2 \implies BC = 1$。$C$ 在 $B(0,4)$ 上下 $1$ 单位处，故为 $(0, 5)$ 或 $(0, 3)$。
+  \end{solutionblock}
+\end{question}
+
+
+
+\begin{question}[points=12]
+  已知三点 $A(1, 0)$，$B(0, 3)$，$C(2, 4)$，则 $\triangle ABC$ 的面积为
+  \begin{choices}
+    \item 3.5
+    \item 4.5
+    \item 5.5
+    \item 2.5
+  \end{choices}
+  \paren[A]
+  \begin{solutionblock}
+    利用公式：$S = \frac{1}{2}|1(3 - 4) + 0 + 2(0 - 3)| = \frac{1}{2}|-1 - 6| = \frac{7}{2} = 3.5$。
+  \end{solutionblock}
+\end{question}
+
+
+
+\begin{question}[points=12]
+  已知直线平行于 $y = -3x$，且经过点 $C(1, -2)$，则该直线与 $x$ 轴的交点横坐标为
+  \begin{choices}
+    \item 1/3
+    \item -1/3
+    \item 3
+    \item -3
+  \end{choices}
+  \paren[A]
+  \begin{solutionblock}
+    平行斜率 $k = -3$，设 $y = -3x + b$，代入 $(1,-2)$ 得 $-2 = -3 + b \implies b = 1$。解析式为 $y = -3x + 1$。令 $y=0 \implies x = 1/3$。
+  \end{solutionblock}
+\end{question}
+
+
+\section*{二、填空题（每题 12 分，共 12 分）}
+
+
+\begin{question}[points=12]
+  已知 $A(-2, 0)$，$C(4, 6)$。点 $P$ 是 $y$ 轴上的一个动点，若要使线段长度之差 $|PA - PC|$ 达到最大，则此时点 $P$ 的坐标为 \fillin。
+  \paren[$(0, -6)$]
+  \begin{solutionblock}
+    $A(-2, 0)$ 关于 $y$ 轴对称点 $A'(2, 0)$。$A'C$ 连线交 $y$ 轴即为所求。$A'(2,0)$ 和 $C(4,6)$ 确定直线斜率 $k = \frac{6-0}{4-2} = 3$。解析式为 $y = 3(x-2) = 3x - 6$。交 $y$ 轴点即为 $(0, -6)$。
+  \end{solutionblock}
+\end{question}
+
+
+\section*{三、解答题（共 40 分）}
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=20]
+  直线 $y = x + 3$ 与 $x$ 轴交于点 $A$，与 $y$ 轴交于点 $B$。另有一条过原点 $O$ 的直线 $l$ 与线段 $AB$ 交于点 $C$。
+
+(1) 求点 $A$ 和点 $B$ 的坐标，并计算 $\triangle AOB$ 的面积；
+(2) 若直线 $l$ 将 $\triangle AOB$ 的面积分为 $2:1$ 两部分，求直线 $l$ 的解析式。
+  \answerarea[60mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}(1) $A(-3, 0)$，$B(0, 3)$，$S_{\triangle AOB} = 4.5$；(2) $y = -2x$ 或 $y = -\dfrac{1}{2}x$\par\medskip
+    \solstep{求 A、B 坐标与面积}{$A(-3, 0)$，$B(0, 3)$。$OA = 3$，$OB = 3$。\\ $S_{\triangle AOB} = \frac{1}{2} \times OA \times OB = \frac{1}{2} \times 3 \times 3 = 4.5$。}
+    \solstep{分析面积比分类讨论}{设 $C(x_c, x_c+3)$，$-3 < x_c < 0$。\\ $\triangle AOC$ 以 $OA$ 为底，高为 $y_c = x_c+3$；$\triangle BOC$ 以 $OB$ 为底，高为 $|x_c| = -x_c$。\\ 面积比为 $2:1$ 产生两种情况：}
+    \solstep{求解情况一与情况二}{情况一：$S_{\triangle AOC} : S_{\triangle BOC} = 2 : 1 \implies \frac{y_c}{-x_c} = 2 \implies x_c + 3 = -2x_c \implies x_c = -1$。\\ 点 $C(-1, 2)$，斜率 $k = -2$，解析式为 $y = -2x$。\\ 情况二：$S_{\triangle AOC} : S_{\triangle BOC} = 1 : 2 \implies \frac{y_c}{-x_c} = \frac{1}{2} \implies 2x_c + 6 = -x_c \implies x_c = -2$。\\ 点 $C(-2, 1)$，斜率 $k = -1/2$，解析式为 $y = -\frac{1}{2}x$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=20]
+  已知点 $B(0, 2)$，点 $C(4, 6)$。线段 $DE$ 在 $x$ 轴上运动，且长度固定为 $DE = 2$。
+
+(1) 当四边形 $BDEC$ 的周长最小时，请利用平移和对称画出点 $D$ 和点 $E$ 的位置并简述理由；
+(2) 求周长最小时，点 $D$ 和点 $E$ 的坐标。
+  \answerarea[60mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}(1) 平移 $C$ 并关于 $x$ 轴对称；(2) $D\left(\dfrac{1}{2}, 0\right)$，$E\left(\dfrac{5}{2}, 0\right)$\par\medskip
+    \solstep{利用平移和对称转化最值}{周长 $= BD + DE + EC + BC$。其中 $DE=2$ 且 $BC$ 长度固定。\\ 最小化周长即最小化 $BD + EC$。\\ 将 $C(4,6)$ 向左平移 $2$ 个单位至 $C'(2, 6)$，则 $EC = DC'$。\\ 问题转化为求 $BD + DC'$ 最小值。}
+    \solstep{作对称点连线交轴}{$B(0,2)$ 关于 $x$ 轴对称点 $B_1(0, -2)$。\\ 连接 $B_1C'$ 交 $x$ 轴于点 $D$，则此时 $BD + DC' = B_1D + DC' = B_1C'$ 达到最小。\\ $B_1(0, -2)$ 和 $C'(2, 6)$ 确定直线斜率 $k = \frac{6 - (-2)}{2 - 0} = 4$。}
+    \solstep{求解 D 和 E 坐标}{直线解析式为 $y = 4x - 2$。\\ 令 $y = 0 \implies 4x - 2 = 0 \implies x = 1/2$。\\ 故点 $D$ 坐标为 $\left(\frac{1}{2}, 0\right)$。\\ $E$ 在 $D$ 右侧 $2$ 个单位处，故点 $E$ 坐标为 $\left(\frac{5}{2}, 0\right)$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\clearpage
+\section*{参考答案}
+
+
+\begin{keyideabox}
+  \textbf{选择题}
+  1. A  2. A  3. A  4. A
+\end{keyideabox}
+
+
+
+\begin{keyideabox}
+  \textbf{填空题}
+  1. (0, -6)
+\end{keyideabox}
+
+
+
+\begin{keyideabox}
+  \textbf{解答题}
+  第 1 题：(1) $A(-3, 0)$，$B(0, 3)$，$S_{\triangle AOB} = 4.5$；(2) $y = -2x$ 或 $y = -\dfrac{1}{2}x$
+第 2 题：(1) 平移 $C$ 并关于 $x$ 轴对称；(2) $D\left(\dfrac{1}{2}, 0\right)$，$E\left(\dfrac{5}{2}, 0\right)$
+\end{keyideabox}
+
+
+
+\end{document}

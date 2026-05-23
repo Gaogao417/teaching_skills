@@ -1,0 +1,361 @@
+% preamble-exam-zh.tex — 共享 preamble
+% 用于所有 exam-zh 模板
+%
+% 样式策略：
+%   屏幕 → 语义彩色（蓝=关键想法，红=易错，绿=路线，灰=提示/教师备注）
+%   打印 → 自动降级为黑白（通过 print mode 或 monochrome 选项）
+
+\documentclass{exam-zh}
+
+% ---------- 基础配置 ----------
+\examsetup{
+  page/size = a4paper,
+  page/show-head = false,
+  page/show-foot = false,
+  sealline/show = false,
+  font = times,
+  math-font = xits,
+}
+
+\usepackage{tcolorbox}
+\usepackage{needspace}
+\tcbuselibrary{skins,breakable}
+
+% ---------- 打印/屏幕颜色切换 ----------
+% 用法：\documentclass[monochrome]{exam-zh} 即可切换为纯黑白
+% 注意：不要使用 \if@xxx 放在 makeatother 外部；这里改成普通条件名。
+\newif\ifeduprintcolor
+\eduprintcolortrue
+
+\makeatletter
+\@ifclasswith{exam-zh}{monochrome}{\eduprintcolorfalse}{}
+\makeatother
+
+% ---------- 语义颜色定义 ----------
+% 屏幕：有色彩区分；打印：降级为灰度
+\ifeduprintcolor
+  % --- 屏幕彩色模式 ---
+  \definecolor{edu-blue}{RGB}{47, 82, 122}       % 关键想法
+  \definecolor{edu-blue-bg}{RGB}{243, 246, 252}
+  \definecolor{edu-red}{RGB}{180, 40, 40}         % 易错提醒
+  \definecolor{edu-red-bg}{RGB}{255, 245, 240}
+  \definecolor{edu-green}{RGB}{34, 100, 60}       % 路线图
+  \definecolor{edu-green-bg}{RGB}{242, 250, 245}
+  \definecolor{edu-orange}{RGB}{160, 90, 0}       % 训练目标
+  \definecolor{edu-orange-bg}{RGB}{255, 248, 235}
+  \definecolor{edu-gray}{RGB}{100, 100, 100}      % 提示/教师备注
+  \definecolor{edu-gray-bg}{RGB}{248, 248, 248}
+  \definecolor{edu-purple}{RGB}{90, 50, 120}      % 思考题
+  \definecolor{edu-purple-bg}{RGB}{248, 244, 252}
+\else
+  % --- 打印黑白模式 ---
+  \definecolor{edu-blue}{gray}{0.15}
+  \definecolor{edu-blue-bg}{gray}{0.96}
+  \definecolor{edu-red}{gray}{0.25}
+  \definecolor{edu-red-bg}{gray}{0.97}
+  \definecolor{edu-green}{gray}{0.20}
+  \definecolor{edu-green-bg}{gray}{0.97}
+  \definecolor{edu-orange}{gray}{0.25}
+  \definecolor{edu-orange-bg}{gray}{0.98}
+  \definecolor{edu-gray}{gray}{0.40}
+  \definecolor{edu-gray-bg}{gray}{0.97}
+  \definecolor{edu-purple}{gray}{0.30}
+  \definecolor{edu-purple-bg}{gray}{0.98}
+\fi
+
+% ---------- 自定义教学环境 ----------
+% 共性：enhanced + breakable（跨页不断裂）
+
+% 原题卡片 — 强边框，突出显示
+\newtcolorbox{problemcard}{
+  enhanced, breakable,
+  colback=edu-blue-bg,
+  colframe=edu-blue,
+  boxrule=1.2pt,
+  arc=0pt,
+  left=3mm, right=3mm, top=3mm, bottom=3mm,
+}
+
+% 解题路线图 — 左边线 + 浅底
+\newtcolorbox{routebox}{
+  enhanced, breakable,
+  colback=edu-green-bg,
+  colframe=edu-green!30,
+  boxrule=0pt,
+  borderline west={2.5pt}{0pt}{edu-green},
+  left=3mm, right=3mm, top=3mm, bottom=3mm,
+}
+
+% 关键想法 — 蓝色左边线
+\newtcolorbox{keyideabox}{
+  enhanced, breakable,
+  colback=edu-blue-bg,
+  colframe=edu-blue!30,
+  boxrule=0pt,
+  borderline west={2.5pt}{0pt}{edu-blue},
+  left=3mm, right=3mm, top=3mm, bottom=3mm,
+}
+
+% 易错提醒 — 红色左边线
+\newtcolorbox{mistakebox}{
+  enhanced, breakable,
+  colback=edu-red-bg,
+  colframe=edu-red!20,
+  boxrule=0pt,
+  borderline west={3pt}{0pt}{edu-red},
+  left=3mm, right=3mm, top=2.5mm, bottom=2.5mm,
+}
+
+% 提示 — 灰色虚线左边线
+\newtcolorbox{hintbox}{
+  enhanced, breakable,
+  colback=edu-gray-bg,
+  colframe=edu-gray!20,
+  boxrule=0pt,
+  borderline west={2pt}{0pt}{edu-gray, dashed},
+  left=3mm, right=3mm, top=2mm, bottom=2mm,
+}
+
+% 思考题 — 紫色虚线左边线
+\newtcolorbox{thinkbox}{
+  enhanced, breakable,
+  colback=edu-purple-bg,
+  colframe=edu-purple!20,
+  boxrule=0pt,
+  borderline west={2pt}{0pt}{edu-purple, dashed},
+  left=2.5mm, right=2.5mm, top=2.5mm, bottom=2.5mm,
+}
+
+% 教师备注 — 灰色左边线，小字
+\newtcolorbox{teachernote}{
+  enhanced, breakable,
+  colback=edu-gray-bg,
+  colframe=edu-gray!15,
+  boxrule=0pt,
+  borderline west={2pt}{0pt}{edu-gray!60},
+  left=2.5mm, right=2.5mm, top=2.5mm, bottom=2.5mm,
+  fontupper=\small,
+  colupper=black!60,
+}
+
+% 训练目标 — 橙色左边线，小字
+\newtcolorbox{traininggoal}{
+  enhanced, breakable,
+  colback=edu-orange-bg,
+  colframe=edu-orange!15,
+  boxrule=0pt,
+  borderline west={1.5pt}{0pt}{edu-orange},
+  left=2mm, right=2mm, top=1mm, bottom=1mm,
+  fontupper=\small,
+}
+
+% 答题区 — 无边框，纯留白
+\newcommand{\answerarea}[1][40mm]{%
+  \vspace{2mm}%
+  \begin{tcolorbox}[
+    enhanced, breakable,
+    colback=white,
+    colframe=white,
+    boxrule=0pt,
+    height=#1,
+    valign=top,
+    bottom=0mm,
+    after skip=0mm,
+  ]
+  \end{tcolorbox}%
+}
+
+% ---------- 字体设置 ----------
+% exam-zh (ctexbook) already sets CJK fonts via ctex.
+% Only override if specific fonts are needed.
+% macOS: Songti SC, STHeiti, STFangsong
+% Linux: SimSun, SimHei, FangSong
+
+% ---------- 页面设置 ----------
+% exam-zh (ctexbook) already loads geometry.
+% Override margins if needed:
+% \geometry{top=16mm, bottom=16mm, left=14mm, right=14mm}
+
+\examsetup{
+  question/show-answer = true,
+  fillin/show-answer = true,
+  solution/show-solution = show-stay,
+}
+
+% ---------- 教师版解答样式 ----------
+\newtcolorbox{solutionblock}{
+  enhanced, breakable,
+  colback=edu-blue-bg,
+  colframe=edu-blue!25,
+  boxrule=0pt,
+  borderline west={2pt}{0pt}{edu-blue!50},
+  arc=0pt,
+  left=3mm, right=3mm, top=2mm, bottom=2mm,
+  before skip=2mm,
+  after skip=3mm,
+  fontupper=\small,
+}
+
+% 解答步骤编号
+\newcounter{solstep}
+\newcommand{\solstep}[2]{%
+  \stepcounter{solstep}%
+  \par\medskip
+  \noindent\hangindent=6mm
+  {\color{edu-blue}\bfseries\textcircled{\scriptsize\thesolstep}\enspace #1}\enspace #2\par
+}
+
+\begin{document}
+
+\section*{三垂直与旋转等腰直角专题（一） · 练习卷（教师版）}
+
+\section*{一、选择题（每题 12 分，共 48 分）}
+
+
+\begin{keyideabox}
+  \textbf{核心模型：一线三垂直}
+  已知等腰直角 $\triangle ABC$ 中 $\angle BAC = 90^\circ$，$AB = AC$。过直角顶点 $A$ 作一条直线，从另外两个顶点 $B, C$ 向该直线作垂线，垂足为 $B_1, C_1$。由直角互余可证 $\triangle ABB_1 \cong \triangle CC_1A$ (AAS)。水平位移与竖直位移发生互换。
+\end{keyideabox}
+
+
+
+\begin{question}[points=12]
+  直线 $y = -x + 4$ 与 $x$ 轴、 $y$ 轴分别交于点 $A$ 和点 $B$。以 $AB$ 为直角边在第一象限作等腰 Rt$\triangle ABC$ （直角顶点为 $A$，即 $\angle BAC = 90^\circ$），则点 $C$ 的坐标为
+  \begin{choices}
+    \item $(8, 4)$
+    \item $(4, 8)$
+    \item $(4, 4)$
+    \item $(8, 0)$
+  \end{choices}
+  \paren[A]
+  \begin{solutionblock}
+    $A(4,0)$，$B(0,4)$。做辅助线 $x$ 轴，$BB_1 \perp x$ 轴于 $B_1(0,0)$，$CC_1 \perp x$ 轴于 $C_1$。$\triangle ABB_1 \cong \triangle CC_1A$ $\implies CC_1 = AB_1 = 4 \implies y_c = 4$；$AC_1 = BB_1 = 4 \implies x_c = x_a + AC_1 = 4+4=8$。坐标为 $(8, 4)$。
+  \end{solutionblock}
+\end{question}
+
+
+
+\begin{question}[points=12]
+  一线三垂直模型的核心是证全等，其全等的判定依据是
+  \begin{choices}
+    \item AAS
+    \item SAS
+    \item SSS
+    \item HL
+  \end{choices}
+  \paren[A]
+  \begin{solutionblock}
+    通过三直角证明两锐角相等（余角性质），以及腰相等，构成角角边 (AAS) 证明全等。
+  \end{solutionblock}
+\end{question}
+
+
+
+\begin{question}[points=12]
+  直线 $y = -2x + 6$ 与 $x$ 轴、 $y$ 轴分别交于点 $A$ 和点 $B$。以 $AB$ 为直角边在第一象限作等腰 Rt$\triangle ABC$ （直角顶点为 $A$，$\angle BAC = 90^\circ$），则点 $C$ 的坐标为
+  \begin{choices}
+    \item $(9, 3)$
+    \item $(6, 3)$
+    \item $(3, 6)$
+    \item $(9, 6)$
+  \end{choices}
+  \paren[A]
+  \begin{solutionblock}
+    $A(3,0)$，$B(0,6)$。作 $x$ 轴垂线，$B_1(0,0)$，垂线段 $BB_1 = 6$，$AB_1 = 3$。\\ $\triangle ABB_1 \cong \triangle CC_1A \implies CC_1 = AB_1 = 3 \implies y_c = 3$；$AC_1 = BB_1 = 6 \implies x_c = x_a + 6 = 9$。坐标为 $(9, 3)$。
+  \end{solutionblock}
+\end{question}
+
+
+
+\begin{question}[points=12]
+  已知点 $A(2, 0)$，点 $B(0, 2)$。若以 $AB$ 为直角边在第一象限作等腰 Rt$\triangle ABC$ （直角顶点为 $A$，$\angle BAC = 90^\circ$），则点 $C$ 的坐标为
+  \begin{choices}
+    \item $(4, 2)$
+    \item $(2, 4)$
+    \item $(4, 4)$
+    \item $(2, 2)$
+  \end{choices}
+  \paren[A]
+  \begin{solutionblock}
+    $A(2,0)$，$B(0,2)$。同样地，$\triangle ABB_1 \cong \triangle CC_1A \implies CC_1 = AB_1 = 2 \implies y_c = 2$；$AC_1 = BB_1 = 2 \implies x_c = 2+2=4$。坐标为 $(4, 2)$。
+  \end{solutionblock}
+\end{question}
+
+
+\section*{二、填空题（每题 12 分，共 12 分）}
+
+
+\begin{question}[points=12]
+  已知两点 $A(3, 0)$ 和 $B(0, 4)$。以 $AB$ 为直角边在第一象限作等腰 Rt$\triangle ABC$ （直角顶点为 $A$），则点 $C$ 的坐标为 \fillin。
+  \paren[$(7, 3)$]
+  \begin{solutionblock}
+    $A(3,0)$，$B(0,4)$。$\triangle ABB_1 \cong \triangle CC_1A \implies CC_1 = AB_1 = 3 \implies y_c = 3$；$AC_1 = BB_1 = 4 \implies x_c = x_a + 4 = 7$。坐标为 $(7, 3)$。
+  \end{solutionblock}
+\end{question}
+
+
+\section*{三、解答题（共 40 分）}
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=20]
+  直线 $y = -\dfrac{\sqrt{3}}{3}x + 1$ 与 $x$ 轴、$y$ 轴分别交于点 $A$、点 $B$。以 $AB$ 为直角边在第一象限作等腰 Rt$\triangle ABC$ （直角顶点为 $A$，$\angle BAC = 90^\circ$）。
+
+(1) 求点 $A$ 和点 $B$ 的坐标；
+(2) 证明 $\triangle ABB_1 \cong \triangle CC_1A$ （其中 $B_1, C_1$ 为 $B, C$ 到 $x$ 轴的垂足），并求点 $C$ 的坐标。
+  \answerarea[60mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}(1) $A(\sqrt{3}, 0)$，$B(0, 1)$；(2) $C(\sqrt{3}+1, \sqrt{3})$\par\medskip
+    \solstep{求 A、B 坐标}{令 $y = 0 \implies x = \sqrt{3}$，故 $A(\sqrt{3}, 0)$。\\ 令 $x = 0 \implies y = 1$，故 $B(0, 1)$。}
+    \solstep{证明 AAS 全等}{过直角顶点 $A$ 沿 $x$ 轴做辅助线。自 $B, C$ 向 $x$ 轴作垂线，垂足 $B_1(0,0)$，$C_1(x_c, 0)$。\\ $\angle AB_1B = \angle AC_1C = 90^\circ$。\\ $\because \angle B_1AB + \angle CAC_1 = 90^\circ$，且 $\angle B_1AB + \angle ABB_1 = 90^\circ$。\\ $\therefore \angle ABB_1 = \angle CAC_1$。\\ 在 $\triangle ABB_1$ 和 $\triangle CC_1A$ 中，有 $\angle AB_1B = \angle AC_1C = 90^\circ$，$\angle ABB_1 = \angle CAC_1$，且 $AB = AC$。\\ $\therefore \triangle ABB_1 \cong \triangle CC_1A$ (AAS)。}
+    \solstep{利用对应边求 C 坐标}{由全等得 $CC_1 = AB_1 = \sqrt{3} \implies y_c = \sqrt{3}$。\\ $AC_1 = BB_1 = 1 \implies x_c = x_a + AC_1 = \sqrt{3} + 1$。\\ 故点 $C$ 的坐标为 $(\sqrt{3}+1, \sqrt{3})$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=20]
+  直线 $y = -x + 2$ 与 $x$ 轴、 $y$ 轴分别交于点 $A$ 和点 $B$。以 $AB$ 为直角边在第一象限内作等腰 Rt$\triangle ABC$ （直角顶点为 $A$，$\angle BAC = 90^\circ$）。
+
+(1) 证明 $\triangle ABB_1 \cong \triangle CC_1A$ （$B_1, C_1$ 分别为 $B, C$ 到 $x$ 轴的垂足）；
+(2) 求点 $C$ 的坐标并验证 $AC = AB$ 的长度。
+  \answerarea[55mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}(1) AAS全等证明；(2) $C(4, 2)$，经过验证 $AB = AC = 2\sqrt{2}$\par\medskip
+    \solstep{求两轴交点及全等证明}{$A(2, 0)$，$B(0, 2)$。\\ 证明同前：直角三角形互余 $\implies \angle ABB_1 = \angle CAC_1$。利用 AAS 判定两三角形全等。}
+    \solstep{求 C 点坐标}{由全等得 $CC_1 = AB_1 = 2 \implies y_c = 2$。\\ $AC_1 = BB_1 = 2 \implies x_c = x_a + 2 = 2 + 2 = 4$。\\ 故点 $C$ 坐标为 $(4, 2)$。}
+    \solstep{验证长度}{$AB = \sqrt{2^2 + 2^2} = \sqrt{8} = 2\sqrt{2}$。\\ $AC = \sqrt{(4-2)^2 + (2-0)^2} = \sqrt{2^2 + 2^2} = \sqrt{8} = 2\sqrt{2}$。\\ 长度相等，验证通过。}
+  \end{solutionblock}
+\end{problem}
+
+
+\clearpage
+\section*{参考答案}
+
+
+\begin{keyideabox}
+  \textbf{选择题}
+  1. A  2. A  3. A  4. A
+\end{keyideabox}
+
+
+
+\begin{keyideabox}
+  \textbf{填空题}
+  1. (7, 3)
+\end{keyideabox}
+
+
+
+\begin{keyideabox}
+  \textbf{解答题}
+  第 1 题：(1) $A(\sqrt{3}, 0)$，$B(0, 1)$；(2) $C(\sqrt{3}+1, \sqrt{3})$
+第 2 题：(1) AAS全等证明；(2) $C(4, 2)$，经过验证 $AB = AC = 2\sqrt{2}$
+\end{keyideabox}
+
+
+
+\end{document}

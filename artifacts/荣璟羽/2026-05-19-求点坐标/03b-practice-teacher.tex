@@ -1,0 +1,360 @@
+% preamble-exam-zh.tex — 共享 preamble
+% 用于所有 exam-zh 模板
+%
+% 样式策略：
+%   屏幕 → 语义彩色（蓝=关键想法，红=易错，绿=路线，灰=提示/教师备注）
+%   打印 → 自动降级为黑白（通过 print mode 或 monochrome 选项）
+
+\documentclass{exam-zh}
+
+% ---------- 基础配置 ----------
+\examsetup{
+  page/size = a4paper,
+  page/show-head = false,
+  page/show-foot = false,
+  sealline/show = false,
+  font = times,
+  math-font = xits,
+}
+
+\usepackage{tcolorbox}
+\usepackage{needspace}
+\tcbuselibrary{skins,breakable}
+
+% ---------- 打印/屏幕颜色切换 ----------
+% 用法：\documentclass[monochrome]{exam-zh} 即可切换为纯黑白
+% 注意：不要使用 \if@xxx 放在 makeatother 外部；这里改成普通条件名。
+\newif\ifeduprintcolor
+\eduprintcolortrue
+
+\makeatletter
+\@ifclasswith{exam-zh}{monochrome}{\eduprintcolorfalse}{}
+\makeatother
+
+% ---------- 语义颜色定义 ----------
+% 屏幕：有色彩区分；打印：降级为灰度
+\ifeduprintcolor
+  % --- 屏幕彩色模式 ---
+  \definecolor{edu-blue}{RGB}{47, 82, 122}       % 关键想法
+  \definecolor{edu-blue-bg}{RGB}{243, 246, 252}
+  \definecolor{edu-red}{RGB}{180, 40, 40}         % 易错提醒
+  \definecolor{edu-red-bg}{RGB}{255, 245, 240}
+  \definecolor{edu-green}{RGB}{34, 100, 60}       % 路线图
+  \definecolor{edu-green-bg}{RGB}{242, 250, 245}
+  \definecolor{edu-orange}{RGB}{160, 90, 0}       % 训练目标
+  \definecolor{edu-orange-bg}{RGB}{255, 248, 235}
+  \definecolor{edu-gray}{RGB}{100, 100, 100}      % 提示/教师备注
+  \definecolor{edu-gray-bg}{RGB}{248, 248, 248}
+  \definecolor{edu-purple}{RGB}{90, 50, 120}      % 思考题
+  \definecolor{edu-purple-bg}{RGB}{248, 244, 252}
+\else
+  % --- 打印黑白模式 ---
+  \definecolor{edu-blue}{gray}{0.15}
+  \definecolor{edu-blue-bg}{gray}{0.96}
+  \definecolor{edu-red}{gray}{0.25}
+  \definecolor{edu-red-bg}{gray}{0.97}
+  \definecolor{edu-green}{gray}{0.20}
+  \definecolor{edu-green-bg}{gray}{0.97}
+  \definecolor{edu-orange}{gray}{0.25}
+  \definecolor{edu-orange-bg}{gray}{0.98}
+  \definecolor{edu-gray}{gray}{0.40}
+  \definecolor{edu-gray-bg}{gray}{0.97}
+  \definecolor{edu-purple}{gray}{0.30}
+  \definecolor{edu-purple-bg}{gray}{0.98}
+\fi
+
+% ---------- 自定义教学环境 ----------
+% 共性：enhanced + breakable（跨页不断裂）
+
+% 原题卡片 — 强边框，突出显示
+\newtcolorbox{problemcard}{
+  enhanced, breakable,
+  colback=edu-blue-bg,
+  colframe=edu-blue,
+  boxrule=1.2pt,
+  arc=0pt,
+  left=3mm, right=3mm, top=3mm, bottom=3mm,
+}
+
+% 解题路线图 — 左边线 + 浅底
+\newtcolorbox{routebox}{
+  enhanced, breakable,
+  colback=edu-green-bg,
+  colframe=edu-green!30,
+  boxrule=0pt,
+  borderline west={2.5pt}{0pt}{edu-green},
+  left=3mm, right=3mm, top=3mm, bottom=3mm,
+}
+
+% 关键想法 — 蓝色左边线
+\newtcolorbox{keyideabox}{
+  enhanced, breakable,
+  colback=edu-blue-bg,
+  colframe=edu-blue!30,
+  boxrule=0pt,
+  borderline west={2.5pt}{0pt}{edu-blue},
+  left=3mm, right=3mm, top=3mm, bottom=3mm,
+}
+
+% 易错提醒 — 红色左边线
+\newtcolorbox{mistakebox}{
+  enhanced, breakable,
+  colback=edu-red-bg,
+  colframe=edu-red!20,
+  boxrule=0pt,
+  borderline west={3pt}{0pt}{edu-red},
+  left=3mm, right=3mm, top=2.5mm, bottom=2.5mm,
+}
+
+% 提示 — 灰色虚线左边线
+\newtcolorbox{hintbox}{
+  enhanced, breakable,
+  colback=edu-gray-bg,
+  colframe=edu-gray!20,
+  boxrule=0pt,
+  borderline west={2pt}{0pt}{edu-gray, dashed},
+  left=3mm, right=3mm, top=2mm, bottom=2mm,
+}
+
+% 思考题 — 紫色虚线左边线
+\newtcolorbox{thinkbox}{
+  enhanced, breakable,
+  colback=edu-purple-bg,
+  colframe=edu-purple!20,
+  boxrule=0pt,
+  borderline west={2pt}{0pt}{edu-purple, dashed},
+  left=2.5mm, right=2.5mm, top=2.5mm, bottom=2.5mm,
+}
+
+% 教师备注 — 灰色左边线，小字
+\newtcolorbox{teachernote}{
+  enhanced, breakable,
+  colback=edu-gray-bg,
+  colframe=edu-gray!15,
+  boxrule=0pt,
+  borderline west={2pt}{0pt}{edu-gray!60},
+  left=2.5mm, right=2.5mm, top=2.5mm, bottom=2.5mm,
+  fontupper=\small,
+  colupper=black!60,
+}
+
+% 训练目标 — 橙色左边线，小字
+\newtcolorbox{traininggoal}{
+  enhanced, breakable,
+  colback=edu-orange-bg,
+  colframe=edu-orange!15,
+  boxrule=0pt,
+  borderline west={1.5pt}{0pt}{edu-orange},
+  left=2mm, right=2mm, top=1mm, bottom=1mm,
+  fontupper=\small,
+}
+
+% 答题区 — 无边框，纯留白
+\newcommand{\answerarea}[1][40mm]{%
+  \vspace{2mm}%
+  \begin{tcolorbox}[
+    enhanced, breakable,
+    colback=white,
+    colframe=white,
+    boxrule=0pt,
+    height=#1,
+    valign=top,
+    bottom=0mm,
+    after skip=0mm,
+  ]
+  \end{tcolorbox}%
+}
+
+% ---------- 字体设置 ----------
+% exam-zh (ctexbook) already sets CJK fonts via ctex.
+% Only override if specific fonts are needed.
+% macOS: Songti SC, STHeiti, STFangsong
+% Linux: SimSun, SimHei, FangSong
+
+% ---------- 页面设置 ----------
+% exam-zh (ctexbook) already loads geometry.
+% Override margins if needed:
+% \geometry{top=16mm, bottom=16mm, left=14mm, right=14mm}
+
+\examsetup{
+  question/show-answer = true,
+  fillin/show-answer = true,
+  solution/show-solution = show-stay,
+}
+
+% ---------- 教师版解答样式 ----------
+\newtcolorbox{solutionblock}{
+  enhanced, breakable,
+  colback=edu-blue-bg,
+  colframe=edu-blue!25,
+  boxrule=0pt,
+  borderline west={2pt}{0pt}{edu-blue!50},
+  arc=0pt,
+  left=3mm, right=3mm, top=2mm, bottom=2mm,
+  before skip=2mm,
+  after skip=3mm,
+  fontupper=\small,
+}
+
+% 解答步骤编号
+\newcounter{solstep}
+\newcommand{\solstep}[2]{%
+  \stepcounter{solstep}%
+  \par\medskip
+  \noindent\hangindent=6mm
+  {\color{edu-blue}\bfseries\textcircled{\scriptsize\thesolstep}\enspace #1}\enspace #2\par
+}
+
+\begin{document}
+
+\section*{通过交点、面积、距离等条件求点坐标（二） · 练习卷（教师版）}
+
+\section*{一、选择题（每题 12 分，共 48 分）}
+
+
+\begin{keyideabox}
+  \textbf{核心思想：平面两点间距离与对称}
+  1. 距离公式：$d = \sqrt{(x_1-x_2)^2 + (y_1-y_2)^2}$；\\ 2. 对称特征：关于 $x$ 轴对称，横坐标不变，纵坐标取反；关于 $y$ 轴对称，纵坐标不变，横坐标取反。
+\end{keyideabox}
+
+
+
+\begin{question}[points=12]
+  已知一次函数 $y = kx - 3$ 经过点 $(2, 5)$，则 $k$ 的值为
+  \begin{choices}
+    \item 4
+    \item 2
+    \item -4
+    \item 1
+  \end{choices}
+  \paren[A]
+  \begin{solutionblock}
+    代入得：$5 = 2k - 3 \implies 2k = 8 \implies k = 4$。
+  \end{solutionblock}
+\end{question}
+
+
+
+\begin{question}[points=12]
+  直线 $y = -x + 3$ 与直线 $y = 2x - 3$ 的交点为
+  \begin{choices}
+    \item $(2, 1)$
+    \item $(1, 2)$
+    \item $(2, 5)$
+    \item $(3, 0)$
+  \end{choices}
+  \paren[A]
+  \begin{solutionblock}
+    联立得 $-x + 3 = 2x - 3 \implies 3x = 6 \implies x = 2$。代入得 $y = 1$。所以交点为 $(2, 1)$。
+  \end{solutionblock}
+\end{question}
+
+
+
+\begin{question}[points=12]
+  已知点 $A(2, -4)$，它关于 $x$ 轴的对称点为 $A'$，则 $A'$ 的坐标为
+  \begin{choices}
+    \item $(-2, -4)$
+    \item $(2, 4)$
+    \item $(-2, 4)$
+    \item $(4, 2)$
+  \end{choices}
+  \paren[B]
+  \begin{solutionblock}
+    关于 $x$ 轴对称，横坐标不变，纵坐标取反，即为 $(2, 4)$。
+  \end{solutionblock}
+\end{question}
+
+
+
+\begin{question}[points=12]
+  已知直线 $y = -2x + 4$ 与 $x$ 轴交于点 $A$，与 $y$ 轴交于点 $B$，则 $\triangle AOB$ （$O$ 为原点）的面积为
+  \begin{choices}
+    \item 8
+    \item 4
+    \item 2
+    \item 6
+  \end{choices}
+  \paren[B]
+  \begin{solutionblock}
+    $A(2, 0)$，$B(0, 4)$。$\triangle AOB$ 为直角三角形，面积为 $\frac{1}{2} \times 2 \times 4 = 4$。
+  \end{solutionblock}
+\end{question}
+
+
+\section*{二、填空题（每题 12 分，共 12 分）}
+
+
+\begin{question}[points=12]
+  平面直角坐标系中，点 $C(-1, 1)$ 与点 $D(3, 4)$ 之间的距离为 \fillin。
+  \paren[5]
+  \begin{solutionblock}
+    $CD = \sqrt{(3 - (-1))^2 + (4 - 1)^2} = \sqrt{4^2 + 3^2} = 5$。
+  \end{solutionblock}
+\end{question}
+
+
+\section*{三、解答题（共 40 分）}
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=20]
+  直线 $y = \dfrac{3}{4}x + 3$ 与 $x$ 轴 Pap、$y$ 轴分别交于点 $A$、$B$。
+
+(1) 求点 $A$ 和点 $B$ 的坐标；
+(2) 若点 $P$ 在该直线上，且满足 $\triangle OAP$ 的面积为 $6$ （$O$ 为原点），求点 $P$ 的坐标。
+  \answerarea[55mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}(1) $A(-4, 0)$，$B(0, 3)$；(2) $P(-8, -3)$ 或 $P(0, 3)$\par\medskip
+    \solstep{求 A、B 坐标}{令 $y = 0 \implies \frac{3}{4}x + 3 = 0 \implies x = -4$，故 $A(-4, 0)$。\\ 令 $x = 0 \implies y = 3$，故 $B(0, 3)$。}
+    \solstep{建立面积方程}{$OA = |-4| = 4$ 在 $x$ 轴上，高为 $|y_p|$。\\ $S_{\triangle OAP} = \frac{1}{2} \times OA \times |y_p| = \frac{1}{2} \times 4 \times |y_p| = 2|y_p|$。\\ 令 $2|y_p| = 6 \implies |y_p| = 3 \implies y_p = 3$ 或 $y_p = -3$。}
+    \solstep{代入求横坐标}{若 $y_p = 3$：$3 = \frac{3}{4}x + 3 \implies x = 0$，点为 $(0, 3)$。\\ 若 $y_p = -3$：$-3 = \frac{3}{4}x + 3 \implies \frac{3}{4}x = -6 \implies x = -8$，点为 $(-8, -3)$。\\ 故点 $P$ 坐标为 $(0, 3)$ 或 $(-8, -3)$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=20]
+  直线 $l_1$ 经过 $A(0, 4)$ 和 $B(3, 0)$ 两点；直线 $l_2$ 经过 $B(3, 0)$ 和 $C(5, 2)$ 两点。
+
+(1) 求直线 $l_1$ 和直线 $l_2$ 的解析式；
+(2) 过点 $A$ 作直线 $l_2$ 的平行线交 $x$ 轴于点 $D$，求点 $D$ 的坐标。
+  \answerarea[50mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}(1) $l_1: y = -\dfrac{4}{3}x + 4$，$l_2: y = x - 3$；(2) $D(-4, 0)$\par\medskip
+    \solstep{求 l1、l2 解析式}{对于 $l_1$: 截距为 $4$，代入 $(3,0)$ 得 $3k_1 + 4 = 0 \implies k_1 = -\frac{4}{3}$。故 $l_1: y = -\frac{4}{3}x + 4$。\\ 对于 $l_2$: 设 $y = k_2x + b_2$，代入 $(3,0)$ 和 $(5,2)$ 得：\\ $\begin{cases} 3k_2 + b_2 = 0 \\ 5k_2 + b_2 = 2 \end{cases} \implies \begin{cases} k_2 = 1 \\ b_2 = -3 \end{cases}$，故 $l_2: y = x - 3$。}
+    \solstep{求平行线与 D 坐标}{平行于 $l_2$ 且过 $A(0,4)$，斜率 $k = 1$。\\ 解析式为 $y = x + 4$。\\ 交 $x$ 轴于点 $D$: 令 $y = 0 \implies x + 4 = 0 \implies x = -4$。\\ 故点 $D$ 的坐标为 $(-4, 0)$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\clearpage
+\section*{参考答案}
+
+
+\begin{keyideabox}
+  \textbf{选择题}
+  1. A  2. A  3. B  4. B
+\end{keyideabox}
+
+
+
+\begin{keyideabox}
+  \textbf{填空题}
+  1. 5
+\end{keyideabox}
+
+
+
+\begin{keyideabox}
+  \textbf{解答题}
+  第 1 题：(1) $A(-4, 0)$，$B(0, 3)$；(2) $P(-8, -3)$ 或 $P(0, 3)$
+第 2 题：(1) $l_1: y = -\dfrac{4}{3}x + 4$，$l_2: y = x - 3$；(2) $D(-4, 0)$
+\end{keyideabox}
+
+
+
+\end{document}

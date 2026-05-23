@@ -1,0 +1,361 @@
+% preamble-exam-zh.tex — 共享 preamble
+% 用于所有 exam-zh 模板
+%
+% 样式策略：
+%   屏幕 → 语义彩色（蓝=关键想法，红=易错，绿=路线，灰=提示/教师备注）
+%   打印 → 自动降级为黑白（通过 print mode 或 monochrome 选项）
+
+\documentclass{exam-zh}
+
+% ---------- 基础配置 ----------
+\examsetup{
+  page/size = a4paper,
+  page/show-head = false,
+  page/show-foot = false,
+  sealline/show = false,
+  font = times,
+  math-font = xits,
+}
+
+\usepackage{tcolorbox}
+\usepackage{needspace}
+\tcbuselibrary{skins,breakable}
+
+% ---------- 打印/屏幕颜色切换 ----------
+% 用法：\documentclass[monochrome]{exam-zh} 即可切换为纯黑白
+% 注意：不要使用 \if@xxx 放在 makeatother 外部；这里改成普通条件名。
+\newif\ifeduprintcolor
+\eduprintcolortrue
+
+\makeatletter
+\@ifclasswith{exam-zh}{monochrome}{\eduprintcolorfalse}{}
+\makeatother
+
+% ---------- 语义颜色定义 ----------
+% 屏幕：有色彩区分；打印：降级为灰度
+\ifeduprintcolor
+  % --- 屏幕彩色模式 ---
+  \definecolor{edu-blue}{RGB}{47, 82, 122}       % 关键想法
+  \definecolor{edu-blue-bg}{RGB}{243, 246, 252}
+  \definecolor{edu-red}{RGB}{180, 40, 40}         % 易错提醒
+  \definecolor{edu-red-bg}{RGB}{255, 245, 240}
+  \definecolor{edu-green}{RGB}{34, 100, 60}       % 路线图
+  \definecolor{edu-green-bg}{RGB}{242, 250, 245}
+  \definecolor{edu-orange}{RGB}{160, 90, 0}       % 训练目标
+  \definecolor{edu-orange-bg}{RGB}{255, 248, 235}
+  \definecolor{edu-gray}{RGB}{100, 100, 100}      % 提示/教师备注
+  \definecolor{edu-gray-bg}{RGB}{248, 248, 248}
+  \definecolor{edu-purple}{RGB}{90, 50, 120}      % 思考题
+  \definecolor{edu-purple-bg}{RGB}{248, 244, 252}
+\else
+  % --- 打印黑白模式 ---
+  \definecolor{edu-blue}{gray}{0.15}
+  \definecolor{edu-blue-bg}{gray}{0.96}
+  \definecolor{edu-red}{gray}{0.25}
+  \definecolor{edu-red-bg}{gray}{0.97}
+  \definecolor{edu-green}{gray}{0.20}
+  \definecolor{edu-green-bg}{gray}{0.97}
+  \definecolor{edu-orange}{gray}{0.25}
+  \definecolor{edu-orange-bg}{gray}{0.98}
+  \definecolor{edu-gray}{gray}{0.40}
+  \definecolor{edu-gray-bg}{gray}{0.97}
+  \definecolor{edu-purple}{gray}{0.30}
+  \definecolor{edu-purple-bg}{gray}{0.98}
+\fi
+
+% ---------- 自定义教学环境 ----------
+% 共性：enhanced + breakable（跨页不断裂）
+
+% 原题卡片 — 强边框，突出显示
+\newtcolorbox{problemcard}{
+  enhanced, breakable,
+  colback=edu-blue-bg,
+  colframe=edu-blue,
+  boxrule=1.2pt,
+  arc=0pt,
+  left=3mm, right=3mm, top=3mm, bottom=3mm,
+}
+
+% 解题路线图 — 左边线 + 浅底
+\newtcolorbox{routebox}{
+  enhanced, breakable,
+  colback=edu-green-bg,
+  colframe=edu-green!30,
+  boxrule=0pt,
+  borderline west={2.5pt}{0pt}{edu-green},
+  left=3mm, right=3mm, top=3mm, bottom=3mm,
+}
+
+% 关键想法 — 蓝色左边线
+\newtcolorbox{keyideabox}{
+  enhanced, breakable,
+  colback=edu-blue-bg,
+  colframe=edu-blue!30,
+  boxrule=0pt,
+  borderline west={2.5pt}{0pt}{edu-blue},
+  left=3mm, right=3mm, top=3mm, bottom=3mm,
+}
+
+% 易错提醒 — 红色左边线
+\newtcolorbox{mistakebox}{
+  enhanced, breakable,
+  colback=edu-red-bg,
+  colframe=edu-red!20,
+  boxrule=0pt,
+  borderline west={3pt}{0pt}{edu-red},
+  left=3mm, right=3mm, top=2.5mm, bottom=2.5mm,
+}
+
+% 提示 — 灰色虚线左边线
+\newtcolorbox{hintbox}{
+  enhanced, breakable,
+  colback=edu-gray-bg,
+  colframe=edu-gray!20,
+  boxrule=0pt,
+  borderline west={2pt}{0pt}{edu-gray, dashed},
+  left=3mm, right=3mm, top=2mm, bottom=2mm,
+}
+
+% 思考题 — 紫色虚线左边线
+\newtcolorbox{thinkbox}{
+  enhanced, breakable,
+  colback=edu-purple-bg,
+  colframe=edu-purple!20,
+  boxrule=0pt,
+  borderline west={2pt}{0pt}{edu-purple, dashed},
+  left=2.5mm, right=2.5mm, top=2.5mm, bottom=2.5mm,
+}
+
+% 教师备注 — 灰色左边线，小字
+\newtcolorbox{teachernote}{
+  enhanced, breakable,
+  colback=edu-gray-bg,
+  colframe=edu-gray!15,
+  boxrule=0pt,
+  borderline west={2pt}{0pt}{edu-gray!60},
+  left=2.5mm, right=2.5mm, top=2.5mm, bottom=2.5mm,
+  fontupper=\small,
+  colupper=black!60,
+}
+
+% 训练目标 — 橙色左边线，小字
+\newtcolorbox{traininggoal}{
+  enhanced, breakable,
+  colback=edu-orange-bg,
+  colframe=edu-orange!15,
+  boxrule=0pt,
+  borderline west={1.5pt}{0pt}{edu-orange},
+  left=2mm, right=2mm, top=1mm, bottom=1mm,
+  fontupper=\small,
+}
+
+% 答题区 — 无边框，纯留白
+\newcommand{\answerarea}[1][40mm]{%
+  \vspace{2mm}%
+  \begin{tcolorbox}[
+    enhanced, breakable,
+    colback=white,
+    colframe=white,
+    boxrule=0pt,
+    height=#1,
+    valign=top,
+    bottom=0mm,
+    after skip=0mm,
+  ]
+  \end{tcolorbox}%
+}
+
+% ---------- 字体设置 ----------
+% exam-zh (ctexbook) already sets CJK fonts via ctex.
+% Only override if specific fonts are needed.
+% macOS: Songti SC, STHeiti, STFangsong
+% Linux: SimSun, SimHei, FangSong
+
+% ---------- 页面设置 ----------
+% exam-zh (ctexbook) already loads geometry.
+% Override margins if needed:
+% \geometry{top=16mm, bottom=16mm, left=14mm, right=14mm}
+
+\examsetup{
+  question/show-answer = true,
+  fillin/show-answer = true,
+  solution/show-solution = show-stay,
+}
+
+% ---------- 教师版解答样式 ----------
+\newtcolorbox{solutionblock}{
+  enhanced, breakable,
+  colback=edu-blue-bg,
+  colframe=edu-blue!25,
+  boxrule=0pt,
+  borderline west={2pt}{0pt}{edu-blue!50},
+  arc=0pt,
+  left=3mm, right=3mm, top=2mm, bottom=2mm,
+  before skip=2mm,
+  after skip=3mm,
+  fontupper=\small,
+}
+
+% 解答步骤编号
+\newcounter{solstep}
+\newcommand{\solstep}[2]{%
+  \stepcounter{solstep}%
+  \par\medskip
+  \noindent\hangindent=6mm
+  {\color{edu-blue}\bfseries\textcircled{\scriptsize\thesolstep}\enspace #1}\enspace #2\par
+}
+
+\begin{document}
+
+\section*{求一次函数解析式专题（一） · 练习卷（教师版）}
+
+\section*{一、选择题（每题 12 分，共 48 分）}
+
+
+\begin{keyideabox}
+  \textbf{待定系数法基本步骤}
+  1. 设解析式为 $y=kx+b$ ($k\neq0$)；\\ 2. 代入已知点坐标，得到关于 $k, b$ 的方程或方程组；\\ 3. 解方程组求出 $k, b$；\\ 4. 写出解析式并检验。
+\end{keyideabox}
+
+
+
+\begin{question}[points=12]
+  一次函数的图像经过点 $(1, 2)$ 和点 $(3, 8)$，则该函数的解析式为
+  \begin{choices}
+    \item $y = 3x - 1$
+    \item $y = 2x$
+    \item $y = x + 1$
+    \item $y = 3x$
+  \end{choices}
+  \paren[A]
+  \begin{solutionblock}
+    设 $y = kx+b$，代入 $(1,2)$ 和 $(3,8)$：\\ $\begin{cases} k+b=2 \\ 3k+b=8 \end{cases} \implies 2k=6 \implies k=3, b=-1$。故 $y=3x-1$。
+  \end{solutionblock}
+\end{question}
+
+
+
+\begin{question}[points=12]
+  已知一次函数 $y = kx + b$ 的图像与直线 $y = 2x - 5$ 平行，且经过点 $(1, 3)$，则该函数的解析式为
+  \begin{choices}
+    \item $y = 2x + 1$
+    \item $y = 2x - 1$
+    \item $y = 2x + 5$
+    \item $y = -2x + 5$
+  \end{choices}
+  \paren[A]
+  \begin{solutionblock}
+    因为平行，所以斜率 $k = 2$。设 $y = 2x + b$，代入 $(1,3)$ 得：$3 = 2 \times 1 + b \implies b = 1$。解析式为 $y = 2x + 1$。
+  \end{solutionblock}
+\end{question}
+
+
+
+\begin{question}[points=12]
+  已知直线与 $y = -3x + 1$ 平行，且经过点 $(0, -2)$，则其解析式为
+  \begin{choices}
+    \item $y = -3x - 2$
+    \item $y = -3x + 2$
+    \item $y = 3x - 2$
+    \item $y = -3x$
+  \end{choices}
+  \paren[A]
+  \begin{solutionblock}
+    平行 $\implies k = -3$。经过 $(0,-2)$，说明 $y$ 轴截距 $b = -2$。直接得出 $y = -3x - 2$。
+  \end{solutionblock}
+\end{question}
+
+
+
+\begin{question}[points=12]
+  直线 $y = kx + b$ 与直线 $y = x + 4$ 平行，且经过点 $(3, 2)$，则 $b$ 的值为
+  \begin{choices}
+    \item -1
+    \item 1
+    \item 2
+    \item 5
+  \end{choices}
+  \paren[A]
+  \begin{solutionblock}
+    平行 $\implies k = 1$。设 $y = x + b$，代入 $(3,2)$ 得：$2 = 3 + b \implies b = -1$。
+  \end{solutionblock}
+\end{question}
+
+
+\section*{二、填空题（每题 12 分，共 12 分）}
+
+
+\begin{question}[points=12]
+  一次函数的图像经过 $(0, 3)$ 和 $(-2, 0)$ 两点，则该一次函数的解析式为 \fillin。
+  \paren[$y = \dfrac{3}{2}x + 3$]
+  \begin{solutionblock}
+    点 $(0,3)$ 在 $y$ 轴上，得 $b = 3$。代入 $(-2,0)$：$0 = -2k + 3 \implies k = \frac{3}{2}$。解析式为 $y = \frac{3}{2}x + 3$。
+  \end{solutionblock}
+\end{question}
+
+
+\section*{三、解答题（共 40 分）}
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=20]
+  已知一次函数的图像经过 $A(2, 7)$ 和 $B(-1, 1)$ 两点。
+
+(1) 求这个一次函数的解析式；
+(2) 判断点 $C(3, 9)$ 是否在该函数的图像上。
+  \answerarea[50mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}(1) $y = 2x + 3$；(2) 在图像上\par\medskip
+    \solstep{设解析式并代入列方程}{设一次函数解析式为 $y = kx + b$ ($k \neq 0$)。\\ 将 $A(2, 7)$ 和 $B(-1, 1)$ 代入得：\\ $\begin{cases} 2k + b = 7 \\ -k + b = 1 \end{cases}$。}
+    \solstep{解方程组确定系数}{两式相减：$(2k+b) - (-k+b) = 7 - 1 \implies 3k = 6 \implies k = 2$。\\ 将 $k=2$ 代入得：$2(2) + b = 7 \implies b = 3$。\\ 故这个一次函数的解析式为 $y = 2x + 3$。}
+    \solstep{验证点 C 是否在图像上}{将 $C(3, 9)$ 的横坐标 $x = 3$ 代入解析式 $y = 2x + 3$：\\ $y = 2 \times 3 + 3 = 9$。\\ 计算结果等于点 $C$ 的纵坐标 $9$。\\ 故点 $C(3, 9)$ 在该函数的图像上。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=20]
+  已知一次函数 $y = kx + b$ 的图像与直线 $y = -2x + 5$ 平行，且经过点 $M(1, 4)$。
+
+(1) 求该一次函数的解析式；
+(2) 求该函数的图像与 $x$ 轴和 $y$ 轴的交点坐标。
+  \answerarea[50mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}(1) $y = -2x + 6$；(2) 与 $x$ 轴交于 $(3, 0)$，与 $y$ 轴交于 $(0, 6)$\par\medskip
+    \solstep{确定斜率与设解析式}{因为平行，所以斜率相同，即 $k = -2$。\\ 设一次函数解析式为 $y = -2x + b$。}
+    \solstep{求出截距确定方程}{将点 $M(1, 4)$ 代入解析式得：\\ $4 = -2 \times 1 + b \implies b = 6$。\\ 故该一次函数的解析式为 $y = -2x + 6$。}
+    \solstep{求两轴交点坐标}{求与 $x$ 轴交点：令 $y = 0 \implies -2x + 6 = 0 \implies x = 3$。交点坐标为 $(3, 0)$。\\ 求与 $y$ 轴交点：令 $x = 0 \implies y = 6$。交点坐标为 $(0, 6)$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\clearpage
+\section*{参考答案}
+
+
+\begin{keyideabox}
+  \textbf{选择题}
+  1. A  2. A  3. A  4. A
+\end{keyideabox}
+
+
+
+\begin{keyideabox}
+  \textbf{填空题}
+  1. $y = \dfrac{3}{2}x + 3$
+\end{keyideabox}
+
+
+
+\begin{keyideabox}
+  \textbf{解答题}
+  第 1 题：(1) $y = 2x + 3$；(2) 在图像上
+第 2 题：(1) $y = -2x + 6$；(2) 与 $x$ 轴交于 $(3, 0)$，与 $y$ 轴交于 $(0, 6)$
+\end{keyideabox}
+
+
+
+\end{document}

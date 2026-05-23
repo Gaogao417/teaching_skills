@@ -1,0 +1,324 @@
+% preamble-exam-zh.tex — 共享 preamble
+% 用于所有 exam-zh 模板
+%
+% 样式策略：
+%   屏幕 → 语义彩色（蓝=关键想法，红=易错，绿=路线，灰=提示/教师备注）
+%   打印 → 自动降级为黑白（通过 print mode 或 monochrome 选项）
+
+\documentclass{exam-zh}
+
+% ---------- 基础配置 ----------
+\examsetup{
+  page/size = a4paper,
+  page/show-head = false,
+  page/show-foot = false,
+  sealline/show = false,
+  font = times,
+  math-font = xits,
+}
+
+\usepackage{tcolorbox}
+\usepackage{needspace}
+\tcbuselibrary{skins,breakable}
+
+% ---------- 打印/屏幕颜色切换 ----------
+% 用法：\documentclass[monochrome]{exam-zh} 即可切换为纯黑白
+% 注意：不要使用 \if@xxx 放在 makeatother 外部；这里改成普通条件名。
+\newif\ifeduprintcolor
+\eduprintcolortrue
+
+\makeatletter
+\@ifclasswith{exam-zh}{monochrome}{\eduprintcolorfalse}{}
+\makeatother
+
+% ---------- 语义颜色定义 ----------
+% 屏幕：有色彩区分；打印：降级为灰度
+\ifeduprintcolor
+  % --- 屏幕彩色模式 ---
+  \definecolor{edu-blue}{RGB}{47, 82, 122}       % 关键想法
+  \definecolor{edu-blue-bg}{RGB}{243, 246, 252}
+  \definecolor{edu-red}{RGB}{180, 40, 40}         % 易错提醒
+  \definecolor{edu-red-bg}{RGB}{255, 245, 240}
+  \definecolor{edu-green}{RGB}{34, 100, 60}       % 路线图
+  \definecolor{edu-green-bg}{RGB}{242, 250, 245}
+  \definecolor{edu-orange}{RGB}{160, 90, 0}       % 训练目标
+  \definecolor{edu-orange-bg}{RGB}{255, 248, 235}
+  \definecolor{edu-gray}{RGB}{100, 100, 100}      % 提示/教师备注
+  \definecolor{edu-gray-bg}{RGB}{248, 248, 248}
+  \definecolor{edu-purple}{RGB}{90, 50, 120}      % 思考题
+  \definecolor{edu-purple-bg}{RGB}{248, 244, 252}
+\else
+  % --- 打印黑白模式 ---
+  \definecolor{edu-blue}{gray}{0.15}
+  \definecolor{edu-blue-bg}{gray}{0.96}
+  \definecolor{edu-red}{gray}{0.25}
+  \definecolor{edu-red-bg}{gray}{0.97}
+  \definecolor{edu-green}{gray}{0.20}
+  \definecolor{edu-green-bg}{gray}{0.97}
+  \definecolor{edu-orange}{gray}{0.25}
+  \definecolor{edu-orange-bg}{gray}{0.98}
+  \definecolor{edu-gray}{gray}{0.40}
+  \definecolor{edu-gray-bg}{gray}{0.97}
+  \definecolor{edu-purple}{gray}{0.30}
+  \definecolor{edu-purple-bg}{gray}{0.98}
+\fi
+
+% ---------- 自定义教学环境 ----------
+% 共性：enhanced + breakable（跨页不断裂）
+
+% 原题卡片 — 强边框，突出显示
+\newtcolorbox{problemcard}{
+  enhanced, breakable,
+  colback=edu-blue-bg,
+  colframe=edu-blue,
+  boxrule=1.2pt,
+  arc=0pt,
+  left=3mm, right=3mm, top=3mm, bottom=3mm,
+}
+
+% 解题路线图 — 左边线 + 浅底
+\newtcolorbox{routebox}{
+  enhanced, breakable,
+  colback=edu-green-bg,
+  colframe=edu-green!30,
+  boxrule=0pt,
+  borderline west={2.5pt}{0pt}{edu-green},
+  left=3mm, right=3mm, top=3mm, bottom=3mm,
+}
+
+% 关键想法 — 蓝色左边线
+\newtcolorbox{keyideabox}{
+  enhanced, breakable,
+  colback=edu-blue-bg,
+  colframe=edu-blue!30,
+  boxrule=0pt,
+  borderline west={2.5pt}{0pt}{edu-blue},
+  left=3mm, right=3mm, top=3mm, bottom=3mm,
+}
+
+% 易错提醒 — 红色左边线
+\newtcolorbox{mistakebox}{
+  enhanced, breakable,
+  colback=edu-red-bg,
+  colframe=edu-red!20,
+  boxrule=0pt,
+  borderline west={3pt}{0pt}{edu-red},
+  left=3mm, right=3mm, top=2.5mm, bottom=2.5mm,
+}
+
+% 提示 — 灰色虚线左边线
+\newtcolorbox{hintbox}{
+  enhanced, breakable,
+  colback=edu-gray-bg,
+  colframe=edu-gray!20,
+  boxrule=0pt,
+  borderline west={2pt}{0pt}{edu-gray, dashed},
+  left=3mm, right=3mm, top=2mm, bottom=2mm,
+}
+
+% 思考题 — 紫色虚线左边线
+\newtcolorbox{thinkbox}{
+  enhanced, breakable,
+  colback=edu-purple-bg,
+  colframe=edu-purple!20,
+  boxrule=0pt,
+  borderline west={2pt}{0pt}{edu-purple, dashed},
+  left=2.5mm, right=2.5mm, top=2.5mm, bottom=2.5mm,
+}
+
+% 教师备注 — 灰色左边线，小字
+\newtcolorbox{teachernote}{
+  enhanced, breakable,
+  colback=edu-gray-bg,
+  colframe=edu-gray!15,
+  boxrule=0pt,
+  borderline west={2pt}{0pt}{edu-gray!60},
+  left=2.5mm, right=2.5mm, top=2.5mm, bottom=2.5mm,
+  fontupper=\small,
+  colupper=black!60,
+}
+
+% 训练目标 — 橙色左边线，小字
+\newtcolorbox{traininggoal}{
+  enhanced, breakable,
+  colback=edu-orange-bg,
+  colframe=edu-orange!15,
+  boxrule=0pt,
+  borderline west={1.5pt}{0pt}{edu-orange},
+  left=2mm, right=2mm, top=1mm, bottom=1mm,
+  fontupper=\small,
+}
+
+% 答题区 — 无边框，纯留白
+\newcommand{\answerarea}[1][40mm]{%
+  \vspace{2mm}%
+  \begin{tcolorbox}[
+    enhanced, breakable,
+    colback=white,
+    colframe=white,
+    boxrule=0pt,
+    height=#1,
+    valign=top,
+    bottom=0mm,
+    after skip=0mm,
+  ]
+  \end{tcolorbox}%
+}
+
+% ---------- 字体设置 ----------
+% exam-zh (ctexbook) already sets CJK fonts via ctex.
+% Only override if specific fonts are needed.
+% macOS: Songti SC, STHeiti, STFangsong
+% Linux: SimSun, SimHei, FangSong
+
+% ---------- 页面设置 ----------
+% exam-zh (ctexbook) already loads geometry.
+% Override margins if needed:
+% \geometry{top=16mm, bottom=16mm, left=14mm, right=14mm}
+
+\examsetup{
+  question/show-answer = false,
+  fillin/show-answer = false,
+  solution/show-solution = hide,
+}
+
+% ---------- 教师版解答样式 ----------
+\newtcolorbox{solutionblock}{
+  enhanced, breakable,
+  colback=edu-blue-bg,
+  colframe=edu-blue!25,
+  boxrule=0pt,
+  borderline west={2pt}{0pt}{edu-blue!50},
+  arc=0pt,
+  left=3mm, right=3mm, top=2mm, bottom=2mm,
+  before skip=2mm,
+  after skip=3mm,
+  fontupper=\small,
+}
+
+% 解答步骤编号
+\newcounter{solstep}
+\newcommand{\solstep}[2]{%
+  \stepcounter{solstep}%
+  \par\medskip
+  \noindent\hangindent=6mm
+  {\color{edu-blue}\bfseries\textcircled{\scriptsize\thesolstep}\enspace #1}\enspace #2\par
+}
+
+\begin{document}
+
+\section*{一次函数图像与一元一次不等式 · 专题练习}
+
+\section*{一、选择题（每题 4 分，共 12 分）}
+
+
+\begin{question}[points=4]
+  已知一次函数 $y = k_1x + b_1$ 的图像与 $y = k_2x + b_2$ 的图像交于点 $P(-2, 3)$，且 $y = k_1x + b_1$ 随 $x$ 的增大而增大，$y = k_2x + b_2$ 随 $x$ 的增大而减小。则不等式 $k_1x + b_1 < k_2x + b_2$ 的解集是
+  \begin{choices}
+    \item $x > -2$
+    \item $x < -2$
+    \item $x > 3$
+    \item $x < 3$
+  \end{choices}
+\end{question}
+
+
+
+\begin{question}[points=4]
+  已知一次函数 $y = 2x + k$ 的图像与直线 $y = -x + 3$ 交于点 $P(a, 2)$，则关于 $x$ 的不等式 $2x + k \ge -x + 3$ 的解集为
+  \begin{choices}
+    \item $x \ge 1$
+    \item $x \le 1$
+    \item $x \ge 2$
+    \item $x \le 2$
+  \end{choices}
+\end{question}
+
+
+
+\begin{question}[points=4]
+  若一次函数 $y = kx + b$ 的图像经过第一、二、四象限，且与直线 $y = x + 1$ 相交于点 $P(1, 2)$，则关于 $x$ 的不等式 $x + 1 > kx + b$ 的解集是
+  \begin{choices}
+    \item $x > 1$
+    \item $x < 1$
+    \item $x > 2$
+    \item $x < 2$
+  \end{choices}
+\end{question}
+
+
+\section*{二、填空题（每题 4 分，共 12 分）}
+
+
+\begin{question}[points=4]
+  已知一次函数 $y = 3x - 2$ 与 $y = x + 4$ 的图像交点坐标为 \underline{\quad\quad}。
+\end{question}
+
+
+
+\begin{question}[points=4]
+  已知一次函数 $y = kx + b$ 与正比例函数 $y = -2x$ 的图像相交于点 $P(-1, m)$，且一次函数 $y = kx + b$ 的图像与 $y$ 轴交点为 $(0, 4)$，则该一次函数的解析式为 \underline{\quad\quad}。
+\end{question}
+
+
+
+\begin{question}[points=4]
+  已知直线 $l_1: y = 2x + 6$ 与直线 $l_2: y = kx + b$ 相交于点 $P(-2, 2)$，且直线 $l_2$ 与 $y$ 轴交于点 $(0, -2)$，则不等式 $2x + 6 \le kx + b$ 的解集是 \underline{\quad\quad}。
+\end{question}
+
+
+\section*{三、解答题（每题 12 分，共 36 分）}
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=12]
+  如图 1，已知一次函数 $y = -x + 3$ 的图像 $l_1$ 与另一个一次函数 $y = kx + b$ 的图像 $l_2$ 相交于点 $P(1, 2)$，且 $l_2$ 经过点 $A(0, -1)$。
+\begin{center}
+  \includegraphics[width=6.5cm]{plot_p1.pdf}
+\end{center}
+\begin{enumerate}[label=(\arabic*)]
+  \item 求一次函数 $y = kx + b$ 的解析式；
+  \item 直接根据图像，求不等式 $kx + b > -x + 3$ 的解集；
+  \item 求直线 $l_2$ 与坐标轴围成的三角形面积。
+\end{enumerate}
+
+  \answerarea[65mm]
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=12]
+  如图 2，已知一次函数 $y = x - 1$ 的图像 $l_1$ 与另一个一次函数 $y = kx + b$ 的图像 $l_2$ 相交于点 $P(2, 1)$，且 $l_2$ 经过点 $B(0, 5)$。
+\begin{center}
+  \includegraphics[width=6.5cm]{plot_p2.pdf}
+\end{center}
+\begin{enumerate}[label=(\arabic*)]
+  \item 求一次函数 $y = kx + b$ 的解析式；
+  \item 直接根据图像，求不等式 $kx + b \ge x - 1$ 的解集；
+  \item 求直线 $l_1, l_2$ 与 $y$ 轴围成的三角形面积。
+\end{enumerate}
+
+  \answerarea[65mm]
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=12]
+  如图 3，已知一次函数 $y = 2x + 4$ 的图像 $l_1$ 与另一个一次函数 $y = kx + b$ 的图像 $l_2$ 相交于点 $P(-1, 2)$，且 $l_2$ 经过点 $C(0, 3)$。
+\begin{center}
+  \includegraphics[width=6.5cm]{plot_p3.pdf}
+\end{center}
+\begin{enumerate}[label=(\arabic*)]
+  \item 求一次函数 $y = kx + b$ 的解析式；
+  \item 直接根据图像，求不等式 $2x + 4 < kx + b$ 的解集；
+  \item 直线 $l_1, l_2$ 分别与 $x$ 轴相交于点 $A$ 和点 $B$，求 $\triangle PAB$ 的面积。
+\end{enumerate}
+
+  \answerarea[65mm]
+\end{problem}
+
+
+
+\end{document}

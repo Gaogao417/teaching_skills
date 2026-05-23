@@ -457,18 +457,20 @@
 
 
 \begin{eduAuxItem}{思路导航}
-算关键边界：和值 $R+r$ 与差值 $R-r$$\;\to\;$将 $d$ 与边界值对比判定位置关系$\;\to\;$相切双解：外切代入 $d=R+r$，内切代入 $d=|R-r|$$\;\to\;$内切大圆讨论：讨论 $r_A > r$ 或 $r > r_A$$\;\to\;$过滤非法解（半径必大于0）并汇总答案\end{eduAuxItem}
+计算关键边界值：和值 $R+r$ 与差值 $R-r$$\;\to\;$对比圆心距 $d$ 与边界值，确定几何位置关系$\;\to\;$相切讨论：外切代入 $d = R+r$，内切代入 $d = |R-r|$$\;\to\;$内切大圆讨论：分 $r_A > r_B$ 或 $r_B > r_A$ 讨论$\;\to\;$排除非法解（半径必须大于 0）并汇总答案\end{eduAuxItem}
 
 
 
 
 \begin{eduAuxItem}{核心思路}
-\textbf{数轴边界模型（把位置关系变成区间）}：
-我们可以把两圆的圆心距 $d$ 放在一条数轴上。和值 $R+r$ 与差值 $R-r$ 就是两个\textbf{黄金边界点}。
-- 边界点 1：$d = R + r$ $\implies$ 外切（相切的第一种情况）
-- 边界点 2：$d = R - r$ $\implies$ 内切（相切的第二种情况）
-只要题目中提到“相切”，你的第一反应必须是：\textbf{它代表数轴上的这两个孤立分界点}，所以必须写出 $d = R+r$ 或 $d = R-r$ 的分类。
-而“相交”则是夹在差与和之间的\textbf{开区间}（$R-r < d < R+r$）；“内含”则是小于差值的区间（$0 \le d < R-r$）。
+\textbf{数轴边界模型（位置关系区间化）}：
+将圆心距 $d$ 映射在数轴上，两半径的“和” $R+r$ 与“差” $R-r$ （设 $R \ge r$）即为核心边界点。
+- 边界点 1：$d = R + r \iff$ 外切
+- 边界点 2：$d = R - r \iff$ 内切
+当题目涉及“相切”时，须立即对应 $d = R+r$ 或 $d = R-r$ 两种情况进行分类讨论。
+其他关系为区间：
+- “相交”对应开区间：$R-r < d < R+r$
+- “内含”对应区间：$0 \le d < R-r$
 \end{eduAuxItem}
 
 
@@ -482,14 +484,14 @@
 \begin{eduSolutionBox}{解答}
   \begingroup
   \setlength{\parskip}{2.5mm}
-由题意，两圆半径分别为 $R = 4\text{cm}, r = 3\text{cm}$，则 $R+r = 7\text{cm}$，$R-r = 1\text{cm}$。\par
-① 当圆心距 $d = 8\text{cm}$ 时，因为 $d > R+r$，所以两圆的位置关系是\textbf{外离}。\par
-② 当圆心距 $d = 5\text{cm}$ 时，因为 $R-r < d < R+r$，所以两圆的位置关系是\textbf{相交}。\par
+由题意，设 $R = 4\text{cm}, r = 3\text{cm}$，则 $R+r = 7\text{cm}$，$R-r = 1\text{cm}$。\par
+① 当圆心距 $d = 8\text{cm}$ 时，因 $d > R+r$，故两圆\textbf{外离}。\par
+② 当圆心距 $d = 5\text{cm}$ 时，因 $R-r < d < R+r$，故两圆\textbf{相交}。\par
   \endgroup
   \vspace{2.5mm}
   {\color{edu-blue}\bfseries\small 核心}\par\vspace{1.5mm}
   \begin{eduBulletList}
-    \item 做题时一定要先写出“和”与“差”的数值，它们是判定位置关系的基准边界线。  \end{eduBulletList}
+    \item 求解前应先求出两半径之“和”与“差”，作为判定两圆位置关系的基准线。  \end{eduBulletList}
 \end{eduSolutionBox}
 
 
@@ -501,15 +503,15 @@
 \begin{eduSolutionBox}{解答}
   \begingroup
   \setlength{\parskip}{2.5mm}
-因为两圆相切，所以分外切和内切两种几何情况讨论：\par
-① 当两圆外切时，圆心距等于两半径之和：$d = R+r = 5+2=7$；\par
-② 当两圆内切时，圆心距等于两半径之差：$d = R-r = 5-2=3$。\par
-综上所述，两圆的圆心距 $d$ 为 $3$ 或 $7$。\par
+因两圆相切，分外切和内切两种情况讨论：\par
+① 两圆外切时，圆心距等于半径之和：$d = R+r = 5+2=7$；\par
+② 两圆内切时，圆心距等于半径之差：$d = R-r = 5-2=3$。\par
+综上，两圆的圆心距 $d$ 为 $3$ 或 $7$。\par
   \endgroup
   \vspace{2.5mm}
   {\color{edu-blue}\bfseries\small 关键}\par\vspace{1.5mm}
   \begin{eduBulletList}
-    \item 绝不能漏解！在没有明确指明时，“相切”是“外切”和“内切”的合并统称。  \end{eduBulletList}
+    \item 在未指明相切方式时，“相切”必须包含“外切”和“内切”两种情形，避免遗漏。  \end{eduBulletList}
 \end{eduSolutionBox}
 
 
@@ -521,17 +523,17 @@
 \begin{eduSolutionBox}{解答}
   \begingroup
   \setlength{\parskip}{2.5mm}
-设 $\odot B$ 的半径为 $r(r>0)$。因为 $\odot A$ 与 $\odot B$ 相切，分以下两种情况讨论：\par
-① 若两圆外切，则圆心距 $d = r_A + r \implies 3 = 4 + r \implies r = -1 < 0$（不合题意，舍去）；\par
-② 若两圆内切，根据两圆大半径未知，分以下两种子情况：\par
-\quad 子情况 1（$\odot A$ 为大圆，即 $4 > r$）：$d = r_A - r \implies 3 = 4 - r \implies r = 1$；\par
-\quad 子情况 2（$\odot B$ 为大圆，即 $r > 4$）：$d = r - r_A \implies 3 = r - 4 \implies r = 7$。\par
-综上所述，$\odot B$ 的半径为 $1$ 或 $7$。\par
+设 $\odot B$ 的半径为 $r(r>0)$。因 $\odot A$ 与 $\odot B$ 相切，分以下两种情况讨论：\par
+① 两圆外切时，圆心距 $d = r_A + r \implies 3 = 4 + r \implies r = -1 < 0$（不合题意，舍去）；\par
+② 两圆内切时，圆心距 $d = |r_A - r|$。分情况讨论大圆归属：\par
+\quad 情况 a（$\odot A$ 为大圆，即 $4 > r$）：$d = r_A - r \implies 3 = 4 - r \implies r = 1$；\par
+\quad 情况 b（$\odot B$ 为大圆，即 $r > 4$）：$d = r - r_A \implies 3 = r - 4 \implies r = 7$。\par
+综上，$\odot B$ 的半径为 $1$ 或 $7$。\par
   \endgroup
   \vspace{2.5mm}
   {\color{edu-blue}\bfseries\small 警示}\par\vspace{1.5mm}
   \begin{eduBulletList}
-    \item 即使外切无解，内切仍然有两解！这是中考填空题第18题的超高频陷阱，一定要熟练掌握大小圆分类讨论。  \end{eduBulletList}
+    \item 若大圆身份未明，内切仍有两解。这是填空题中的易错考点，必须对大小圆的归属进行完整讨论。  \end{eduBulletList}
 \end{eduSolutionBox}
 
 
@@ -541,14 +543,14 @@
   \begin{eduSummaryLeft}
     \begin{eduSummaryBlock}{\eduIconCheck}{通关答案汇总}
     \begin{eduPlainList}
-      \item (1) $O_1O_2=8\text{cm}$ 时外离， $O_1O_2=5\text{cm}$ 时相交。      \item (2) 圆心距 $d$ 为 $3$ 或 $7$。      \item (3) $\odot B$ 的半径为 $1$ 或 $7$。    \end{eduPlainList}
+      \item (1) $O_1O_2=8\text{cm}$ 时外离； $O_1O_2=5\text{cm}$ 时相交。      \item (2) 圆心距 $d$ 为 $3$ 或 $7$。      \item (3) $\odot B$ 的半径为 $1$ 或 $7$。    \end{eduPlainList}
     \end{eduSummaryBlock}
   \end{eduSummaryLeft}
   \eduSummaryDivider
   \begin{eduSummaryRight}
     \begin{eduSummaryBlock}{\eduIconPin}{“知二推一”核心口诀}
     \begin{eduBulletList}
-      \item 两圆相切找边界，外切内切分两界。      \item 已知半径求半径，大圆小圆要警惕。      \item 外切负值定要舍，内切讨论防漏解。    \end{eduBulletList}
+      \item 两圆相切定边界，外切内切分两界。      \item 已知半径求半径，大圆小圆要警惕。      \item 外切负解须舍去，内切讨论防漏解。    \end{eduBulletList}
     \end{eduSummaryBlock}
   \end{eduSummaryRight}
 \end{eduBottomGrid}
@@ -557,37 +559,40 @@
 
 
 \begin{eduMistakeBox}
-\eduSubTitle{漏掉内切情况}很多同学在做“两圆相切”问题时，下意识只在脑海中画出两圆在外面挨着的图像，只写了外切 $d = R+r$，而完全把圆藏在圆里面的内切 $d = R-r$ 忘得一干二净。
-\textbf{防坑策略}：只要题目中没有明确指出是“外切”还是“内切”，只要看见\textbf{“相切”}，草稿纸上立刻写下“外切”和“内切”两个大字。
+\eduSubTitle{漏掉内切情况}\textbf{漏掉内切情况}：
+“相切”包括“外切”和“内切”两种情形，极易遗漏内切。
+防坑策略：若未明确指明相切类型，看见“相切”应立刻列出外切（$d=R+r$）和内切（$d=R-r$）两种方程。
 \end{eduMistakeBox}
 
 
 
 
 \begin{eduMistakeBox}
-\eduSubTitle{忽略负半径必须舍去}在例题 3 的外切讨论中，我们列出了 $3 = 4+r \implies r=-1$。有的同学会顺手把 $-1$ 写在答案里，或者怀疑自己算错了。
-\textbf{防坑策略}：几何图形中，圆的半径 $r$ 是线段长度，\textbf{必须是严格大于 0 的实数}。算出来的负数解一定要勇敢地写上“舍去”。
+\eduSubTitle{忽略负半径必须舍去}\textbf{忽略负半径舍去}：
+易将计算出的负值半径写进答案。
+防坑策略：在几何学中，圆半径必须为正数（$r > 0$）。若算出负数解，须作“不合题意，舍去”处理。
 \end{eduMistakeBox}
 
 
 
 
 \begin{eduMistakeBox}
-\eduSubTitle{漏掉内切中的大圆分类}在例题 3 的内切讨论中，很多同学只写了 $3 = 4-r \implies r=1$，就以为完事了。他们默认了已知圆 $\odot A$ 必定是那个大圆。但实际上，新求的圆 $\odot B$ 的半径完全可以是 $7$，把 $\odot A$ 包在里面。
-\textbf{防坑策略}：当内切时，只要\textbf{不知道哪一个是已知半径的大圆}，必须列出两个内切公式：$d = r_A - r_B$ 和 $d = r_B - r_A$。
+\eduSubTitle{漏掉内切中的大圆分类}\textbf{漏掉内切中的大圆归属讨论}：
+默认已知圆为大圆，遗漏新求圆为大圆的情况。
+防坑策略：在内切且未知大圆归属时，必须列出 $d = R_{已知} - r_{未知}$ 和 $d = r_{未知} - R_{已知}$ 两种可能进行完整求解。
 \end{eduMistakeBox}
 
 
 
 
 \begin{eduAuxItem}{思路启发}
-在例题 3 中，如果把圆心距从 3 改为 5，再次计算，$\odot B$ 的半径会有几个有效解？（提示：写出方程算算看，外切的解这次是不是正数？）\end{eduAuxItem}
+若将例题 3 中的圆心距改为 5，求 $\odot B$ 的半径的有效解个数。（提示：列方程计算，检查外切解是否为正数）\end{eduAuxItem}
 
 
 
 
 \begin{eduAuxItem}{思路启发}
-如果两圆的位置关系是“内含”，并且两圆圆心不重合（即不是同心圆），那么圆心距 $d$ 的取值范围应该怎么用不等式严格表示？（提示：别忘了 $d$ 必须大于 0）\end{eduAuxItem}
+若两圆位置关系为非同心圆的“内含”，圆心距 $d$ 的取值范围如何表示？（提示：注意 $d > 0$ 的约束）\end{eduAuxItem}
 
 
 

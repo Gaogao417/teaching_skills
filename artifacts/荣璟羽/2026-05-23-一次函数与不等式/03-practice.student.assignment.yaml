@@ -1,0 +1,180 @@
+meta:
+  title: "一次函数图像与一元一次不等式 · 专题练习"
+  subtitle: "数形结合 · 图像位置关系 · 待定系数法"
+  grade: "八年级"
+  subject: "数学"
+  duration: "30分钟"
+  total_points: 60
+  version: "student"
+  source_artifacts:
+    structure_analysis: "artifacts/荣璟羽/2026-05-23-一次函数与不等式/01-structure-analysis.md"
+
+render:
+  template: "exam-zh-practice"
+  paper_size: "a4paper"
+  answer_key_position: "after_page_break"
+
+sections:
+  - id: "choice"
+    title: "一、选择题（每题 4 分，共 12 分）"
+    type: "practice"
+    visibility: "student"
+    blocks:
+      - type: "choice"
+        id: "c1"
+        points: 4
+        stem: "已知一次函数 $y = k_1x + b_1$ 的图像与 $y = k_2x + b_2$ 的图像交于点 $P(-2, 3)$，且 $y = k_1x + b_1$ 随 $x$ 的增大而增大，$y = k_2x + b_2$ 随 $x$ 的增大而减小。则不等式 $k_1x + b_1 < k_2x + b_2$ 的解集是"
+        choices:
+          A: "$x > -2$"
+          B: "$x < -2$"
+          C: "$x > 3$"
+          D: "$x < 3$"
+        hints:
+          - content: "随 $x$ 增大而增大说明直线往右上倾斜，随 $x$ 增大而减小说明往右下倾斜。"
+          - content: "不等式 $y_1 < y_2$ 在图像上对应于 $y_1$ 图像在 $y_2$ 图像的下方部分。"
+
+      - type: "choice"
+        id: "c2"
+        points: 4
+        stem: "已知一次函数 $y = 2x + k$ 的图像与直线 $y = -x + 3$ 交于点 $P(a, 2)$，则关于 $x$ 的不等式 $2x + k \\ge -x + 3$ 的解集为"
+        choices:
+          A: "$x \\ge 1$"
+          B: "$x \\le 1$"
+          C: "$x \\ge 2$"
+          D: "$x \\le 2$"
+        hints:
+          - content: "先把交点 $P(a, 2)$ 代入已知直线 $y = -x + 3$，求出交点的横坐标 $a$。"
+          - content: "$y = 2x + k$ 的斜率大于零（单调递增），$y = -x + 3$ 的斜率小于零（单调递减），所以在交点右侧，递增的直线在递减的直线之上。"
+
+      - type: "choice"
+        id: "c3"
+        points: 4
+        stem: "若一次函数 $y = kx + b$ 的图像经过第一、二、四象限，且与直线 $y = x + 1$ 相交于点 $P(1, 2)$，则关于 $x$ 的不等式 $x + 1 > kx + b$ 的解集是"
+        choices:
+          A: "$x > 1$"
+          B: "$x < 1$"
+          C: "$x > 2$"
+          D: "$x < 2$"
+        hints:
+          - content: "直线经过第一、二、四象限说明其斜率 $k < 0$，直线向右下倾斜。"
+          - content: "直线 $y = x + 1$ 的斜率大于 0，向右上倾斜。分析两条直线在交点 $P(1, 2)$ 两侧的上下位置关系。"
+
+  - id: "fillin"
+    title: "二、填空题（每题 4 分，共 12 分）"
+    type: "practice"
+    visibility: "student"
+    blocks:
+      - type: "fillin"
+        id: "f1"
+        points: 4
+        stem: "已知一次函数 $y = 3x - 2$ 与 $y = x + 4$ 的图像交点坐标为 \\underline{\\quad\\quad}。"
+        hints:
+          - content: "联立两个解析式，建立二元一次方程组，求出 $x$ 和 $y$ 的值即可。"
+
+      - type: "fillin"
+        id: "f2"
+        points: 4
+        stem: "已知一次函数 $y = kx + b$ 与正比例函数 $y = -2x$ 的图像相交于点 $P(-1, m)$，且一次函数 $y = kx + b$ 的图像与 $y$ 轴交点为 $(0, 4)$，则该一次函数的解析式为 \\underline{\\quad\\quad}。"
+        hints:
+          - content: "先将交点 $P(-1, m)$ 代入正比例函数中求出 $m$ 的值，即得到交点 $P$ 的坐标。"
+          - content: "将交点 $P$ 坐标和 $y$ 轴交点 $(0, 4)$ 代入 $y = kx + b$，求出 $k$ 和 $b$。"
+
+      - type: "fillin"
+        id: "f3"
+        points: 4
+        stem: "已知直线 $l_1: y = 2x + 6$ 与直线 $l_2: y = kx + b$ 相交于点 $P(-2, 2)$，且直线 $l_2$ 与 $y$ 轴交于点 $(0, -2)$，则不等式 $2x + 6 \\le kx + b$ 的解集是 \\underline{\\quad\\quad}。"
+        hints:
+          - content: "先判断直线 $l_2$ 的斜率是正还是负（通过其经过的两个点 $(-2, 2)$ 和 $(0, -2)$ 可以算出其斜率 $k$）。"
+          - content: "在交点 $P$ 的左侧还是右侧，直线 $l_1$ 的图像在直线 $l_2$ 的下方？"
+
+  - id: "problems"
+    title: "三、解答题（每题 12 分，共 36 分）"
+    type: "practice"
+    visibility: "student"
+    blocks:
+      - type: "problem"
+        id: "p1"
+        points: 12
+        label: "第 1 题"
+        stem_latex: |
+          如图 1，已知一次函数 $y = -x + 3$ 的图像 $l_1$ 与另一个一次函数 $y = kx + b$ 的图像 $l_2$ 相交于点 $P(1, 2)$，且 $l_2$ 经过点 $A(0, -1)$。
+          \begin{center}
+            \includegraphics[width=6.5cm]{plot_p1.pdf}
+          \end{center}
+          \begin{enumerate}[label=(\arabic*)]
+            \item 求一次函数 $y = kx + b$ 的解析式；
+            \item 直接根据图像，求不等式 $kx + b > -x + 3$ 的解集；
+            \item 求直线 $l_2$ 与坐标轴围成的三角形面积。
+          \end{enumerate}
+        subquestions:
+          - latex: "求一次函数 $y = kx + b$ 的解析式；"
+          - latex: "直接根据图像，求不等式 $kx + b > -x + 3$ 的解集；"
+          - latex: "求直线 $l_2$ 与坐标轴围成的三角形面积。"
+        layout:
+          avoid_break: true
+        hints:
+          - content: "将点 $A(0, -1)$ 代入直线 $l_2$ 直接可以得到 $b$ 的值，再代入交点 $P(1, 2)$ 求出 $k$。"
+          - content: "不等式 $kx + b > -x + 3$ 意味着直线 $l_2$ 的图像位于直线 $l_1$ 的上方，观察对应 $x$ 的范围。"
+          - content: "分别求出直线 $l_2$ 与 $x$ 轴、$y$ 轴的交点，然后用面积公式 $S = \frac{1}{2} |x_{intercept}| \cdot |y_{intercept}|$ 求解。"
+        answer_space:
+          type: "steps"
+          height: "65mm"
+          step_count: 3
+
+      - type: "problem"
+        id: "p2"
+        points: 12
+        label: "第 2 题"
+        stem_latex: |
+          如图 2，已知一次函数 $y = x - 1$ 的图像 $l_1$ 与另一个一次函数 $y = kx + b$ 的图像 $l_2$ 相交于点 $P(2, 1)$，且 $l_2$ 经过点 $B(0, 5)$。
+          \begin{center}
+            \includegraphics[width=6.5cm]{plot_p2.pdf}
+          \end{center}
+          \begin{enumerate}[label=(\arabic*)]
+            \item 求一次函数 $y = kx + b$ 的解析式；
+            \item 直接根据图像，求不等式 $kx + b \ge x - 1$ 的解集；
+            \item 求直线 $l_1, l_2$ 与 $y$ 轴围成的三角形面积。
+          \end{enumerate}
+        subquestions:
+          - latex: "求一次函数 $y = kx + b$ 的解析式；"
+          - latex: "直接根据图像，求不等式 $kx + b \ge x - 1$ 的解集；"
+          - latex: "求直线 $l_1, l_2$ 与 $y$ 轴围成的三角形面积。"
+        layout:
+          avoid_break: true
+        hints:
+          - content: "$l_2$ 过点 $B(0, 5)$ 直接可得 $b = 5$，再用交点 $P(2, 1)$ 求出 $k$。"
+          - content: "$l_2$ 是一条向右下方倾斜的直线（斜率为负），观察它在交点左侧还是右侧在 $l_1$ 的上方。"
+          - content: "求出 $l_1$ 和 $l_2$ 与 $y$ 轴的两个交点，它们之间的距离作为三角形的底，交点 $P$ 的横坐标的绝对值作为三角形的高。"
+        answer_space:
+          type: "steps"
+          height: "65mm"
+          step_count: 3
+
+      - type: "problem"
+        id: "p3"
+        points: 12
+        label: "第 3 题"
+        stem_latex: |
+          如图 3，已知一次函数 $y = 2x + 4$ 的图像 $l_1$ 与另一个一次函数 $y = kx + b$ 的图像 $l_2$ 相交于点 $P(-1, 2)$，且 $l_2$ 经过点 $C(0, 3)$。
+          \begin{center}
+            \includegraphics[width=6.5cm]{plot_p3.pdf}
+          \end{center}
+          \begin{enumerate}[label=(\arabic*)]
+            \item 求一次函数 $y = kx + b$ 的解析式；
+            \item 直接根据图像，求不等式 $2x + 4 < kx + b$ 的解集；
+            \item 直线 $l_1, l_2$ 分别与 $x$ 轴相交于点 $A$ 和点 $B$，求 $\triangle PAB$ 的面积。
+          \end{enumerate}
+        subquestions:
+          - latex: "求一次函数 $y = kx + b$ 的解析式；"
+          - latex: "直接根据图像，求不等式 $2x + 4 < kx + b$ 的解集；"
+          - latex: "直线 $l_1, l_2$ 分别与 $x$ 轴相交于点 $A$ 和点 $B$，求 $\triangle PAB$ 的面积。"
+        layout:
+          avoid_break: true
+        hints:
+          - content: "$l_2$ 过 $(0, 3)$ 得 $b = 3$，代入 $P(-1, 2)$ 可求得 $k$。"
+          - content: "求 $y_1 < y_2$ 的解集，在图像上即为寻找直线 $l_2$ 在直线 $l_1$ 上方的区域对应的 $x$ 范围。"
+          - content: "分别令 $l_1$ 和 $l_2$ 的 $y = 0$，求得与 $x$ 轴的交点 $A, B$ 的坐标，线段 $AB$ 的长度为底，交点 $P$ 的纵坐标为高。"
+        answer_space:
+          type: "steps"
+          height: "65mm"
+          step_count: 3
