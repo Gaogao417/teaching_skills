@@ -1,22 +1,62 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE & Editor / Agent dynamic directories
 /.ruff_cache
 /undefined
-/函数值域专题_深度练习与模考.html
+.claude/worktrees/
+.codex/worktrees/
+.vscode/
+.idea/
 
-# AI-generated lecture outputs (tracked in worktree-ai-generated branch)
-output/
-
-# artifacts: track deliverables (.md/.tex/.pdf), ignore intermediates in build/
-artifacts/**/build/
-
+# Package & Dependencies
 node_modules/
-.DS_Store
 package-lock.json
+
+# Python virtual environments
 .venv/
+.venv-diagram/
+.venv*/
+venv/
+env/
+
+# Python cache & compiled files
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
 
-# Build artifacts
+# LaTeX build intermediate files
 *.log
 *.aux
 *.xdv
 *.synctex.gz
+*.toc
+*.out
+*.fls
+*.fdb_latexmk
+*.pdfsync
+
+# Math Homework Pipeline / Artifact intermediate folders
+# Keep deliverables (*.md, *.tex, *.pdf) under artifacts/
+# but ignore transient compilation, diagram generation, and image preview files
+artifacts/**/build/
+artifacts/**/diagram/
+artifacts/**/preview/
+
+# Local Audit run logs & raw trace sessions
+audits/
+
+# Temporary test plots & worksheets
+test_plot.pdf
+/函数值域专题_深度练习与模考.html
+/一次函数合并练习/
+/一次函数练习/
+
+# Archives and compressed files
+*.zip
+*.rar
+*.7z
+*.tar.gz
+
