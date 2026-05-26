@@ -60,11 +60,6 @@ artifacts/<学生名>/YYYY-MM-DD-<内容>/02-student-explanation.assignment.yaml
 ### 一句话总结
 - 核心方法归纳
 
-### 教师备注
-- 训练目标
-- 预期卡点
-- 档位判断
-
 ## 关键 block type 说明
 
 explanation 模板支持多种 block type，必须使用正确的 type 才能正确渲染：
@@ -328,22 +323,6 @@ sections:
         id: "q2"
         content: "思考题..."
         level: 2
-
-  - id: "teacher-notes"
-    title: "教师备注"
-    type: "explanation"
-    visibility: "teacher"
-    blocks:
-      - type: "key_idea"
-        id: "tn1"
-        content: |
-          学生画像和教学节奏说明...
-        teaching:
-          teaching_goal: "..."
-          expected_blocker: "..."
-          mastery_band: "B"
-          upgrade_rule: "升级条件"
-          downgrade_rule: "降级条件"
 ```
 
 ## Schema 遵循

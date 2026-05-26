@@ -130,6 +130,11 @@ body {
   page-break-inside: avoid;
 }
 
+.edu-diagram {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
 @media print {
   body {
     -webkit-print-color-adjust: exact;
@@ -309,6 +314,26 @@ body {
   padding: 3mm 4mm;
   border: 1.5px solid var(--border-strong);
   background: var(--bg-key);
+}
+
+.edu-diagram {
+  margin: var(--space-md) 0 var(--space-lg);
+  text-align: center;
+}
+
+.edu-diagram-image {
+  display: block;
+  max-width: 100%;
+  max-height: 92mm;
+  margin: 0 auto;
+  object-fit: contain;
+}
+
+.edu-diagram-caption {
+  margin-top: 1.5mm;
+  color: var(--text-muted);
+  font-size: var(--font-size-small);
+  line-height: 1.45;
 }
 
 /* ---------- 5. Tables ---------- */

@@ -266,6 +266,7 @@ Before finalizing the HTML, inspect and revise the artifact. Add a teacher-only 
     <li><strong>数学检查：</strong>答案是否与 canonical solution 一致；是否漏解、增根、退化值；所用公式是否适用于本题。</li>
     <li><strong>教学检查：</strong>本页是否只训练一个核心动作；是否引入无关知识点；提示二是否过早暴露答案；互动问题是否围绕本题核心链条。</li>
     <li><strong>学习层级检查：</strong>学生学习层级是否由学生画像或教师输入支持；若没有学生证据，是否标注默认假设；讲解升级是否只小步上升。</li>
+    <li><strong>图形检查：</strong>若插图，图片路径是否相对 HTML 可访问；caption 是否服务教学动作；失败时是否使用 fallback 而不是破图。</li>
     <li><strong>HTML 检查：</strong>标签是否闭合；是否包含 required sections；是否依赖网络 CDN；是否适合 A4 打印；分页位置是否合理。</li>
     <li><strong>自检结论：</strong>...</li>
   </ul>

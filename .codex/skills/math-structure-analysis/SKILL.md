@@ -135,6 +135,15 @@ Write in Chinese. Use concise teacher-facing language.
 - 若学生达到 L5-L6，如何深化/抽象/包装：
 - 禁止出的跑偏变式：
 
+## 十点五、推荐图形请求包（可选）
+- 是否需要图：
+- 图形类型：`synthetic_geometry` / `coordinate_geometry` / `function_graph` / `auto`
+- 用图意图：`student_explanation` / `practice_prompt` / `teacher_reference`
+- 需要出现的对象：
+- 需要突出给学生看的关系：
+- 图中不能暗示的错误性质：
+- 图失败时的降级方案：
+
 ## 十一、交付给下一阶段的结构摘要
 ```json
 {
@@ -191,6 +200,20 @@ Write in Chinese. Use concise teacher-facing language.
     "l4_transfer_tasks": [],
     "l5_l6_deepening_variations": [],
     "forbidden_variations": []
+  },
+  "diagram_request_packet": {
+    "needs_diagram": false,
+    "diagram_type": "synthetic_geometry | coordinate_geometry | function_graph | auto",
+    "diagram_intent": "student_explanation",
+    "objects_hint": {
+      "points": [],
+      "segments": [],
+      "curves": [],
+      "constraints": []
+    },
+    "teaching_focus": [],
+    "must_not_imply": [],
+    "fallback": "textual_diagram_description"
   }
 }
 ```
@@ -207,6 +230,11 @@ Write in Chinese. Use concise teacher-facing language.
 - Treat variation rules as a first-class output. Do not stop at "change numbers"; name the invariant, the allowed dimensions of change, and the next safe deepening move.
 - For each deepening move, change only one main dimension at a time: number, question target, representation, condition packaging, hidden structure, or reverse construction.
 - Mention hidden constraints such as domains, sign, absolute value, range checks, units, and diagram assumptions when relevant.
+- If a diagram would materially help the student, fill `diagram_request_packet`; otherwise set `needs_diagram: false`.
+- `diagram_request_packet` describes teaching needs only. Do not write Wolfram, GeometricScene code, rendering prompts, VLM prompts, retry rules, or image paths in this skill.
+- Use `synthetic_geometry` only for ruler-and-compass style geometry such as triangles, circles, parallel/perpendicular relations, angle bisectors, medians, altitudes, and angle relations.
+- Use `coordinate_geometry` or `function_graph` for axes, coordinates, function images, intersections, area under/with axes, and graph-reading tasks; do not force these into GeometricScene.
+- In `must_not_imply`, name visual traps such as "不要暗示等腰", "不要画成直角", "不要让点重合", or "坐标比例不能误导面积关系".
 - Do not generate HTML in this skill.
 
 ## Learning-Level Ladder
@@ -249,6 +277,10 @@ Before finalizing `01-structure-analysis.md`, perform the checks below. If any c
   - 本页/本阶段是否只锁定一个核心结构或核心动作：
   - 有没有引入无关知识点：
   - 互动问题是否围绕本题核心链条：
+- 图形检查：
+  - 若需要图，diagram_request_packet 是否只描述对象、教学重点和误导风险：
+  - 坐标/函数图是否标为 coordinate_geometry 或 function_graph，而不是强行 synthetic_geometry：
+  - 是否没有生成 Wolfram/GeometricScene 代码：
 - 学习层级检查：
   - 当前学习层级判断是否只作为预测而非结论：
   - 如果没有学生证据，是否标注“默认预测/默认诊断不可用”：

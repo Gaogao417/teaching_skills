@@ -82,7 +82,14 @@ description: "审核 math-homework-pipeline 生成后的完整数学作业产物
 
 ## 输出格式
 
-输出简短印象，不写完整审计报告。使用格式：
+输出简短印象，不写完整审计报告。必须同时生成 Markdown 和 JSON 两个文件：
+
+```text
+review/final-homework-review.md
+review/final-homework-review.json
+```
+
+Markdown 使用格式：
 
 ```text
 审核印象：通过 / 基本可用但需小修 / 建议回退重做
@@ -98,6 +105,39 @@ description: "审核 math-homework-pipeline 生成后的完整数学作业产物
 ```
 
 每个编号项控制在一到两句话。证据不足时，说明缺少哪个文件，不要猜测。
+
+JSON 使用格式：
+
+```json
+{
+  "stage": "S6",
+  "reviewer": "math-homework-review",
+  "verdict": "PASS | PASS_WITH_NOTES | BLOCK",
+  "dimensions": {
+    "completeness": "PASS | NOTE | BLOCK",
+    "math_correctness": "PASS | NOTE | BLOCK",
+    "structure": "PASS | NOTE | BLOCK",
+    "explanation": "PASS | NOTE | BLOCK",
+    "practice": "PASS | NOTE | BLOCK"
+  },
+  "summary": "<最需要关注的一句话>",
+  "next_action": "<放行 / 修复某阶段 / 回退重做>"
+}
+```
+
+推荐使用命令写入结构化终态：
+
+```bash
+python3 scripts/workflow_gate.py final-review \
+  --artifact-dir <artifact_dir> \
+  --reviewer math-homework-review \
+  --verdict PASS_WITH_NOTES \
+  --dimensions-json '<五项维度 JSON>' \
+  --summary "<最需要关注>" \
+  --next-action "<放行 / 修复某阶段 / 回退重做>"
+```
+
+没有 `review/final-homework-review.json` 时，`math-homework-pipeline` 不得宣称完整完成。
 
 ## 边界
 

@@ -99,6 +99,26 @@ answer_space:
 - max_next_step 不超过预算
 - 不引入 forbidden_load
 
+## 几何图使用规则
+
+- 每道练习题都先做插图判定：几何大题一律需要图；几何题已知条件数大于 3 默认需要图；题干出现“如图/图中/下图”强制需要图。
+- 已知条件计数按原子几何条件统计：长度、角度、相等、平行、垂直、共线、比例、中点、圆/切线/坐标等；复合句拆开计数。
+- 练习题默认每道题单独生成图：每个需要图的题必须有唯一 `diagram_job_id`，输出到 `diagram/jobs/<diagram_job_id>/rendered/prompt.png`。
+- 不要默认复用已有 `diagram/rendered/prompt.png`；只有原题讲义图可以复用原题图。练习题若确实复用，必须显式写 `reuse_from`。
+- 如果某道新题需要新合成几何图，使用 `math-geometry-diagram-renderer` 按题目级 job 生成 `prompt/clean` 图；教师解析如需辅助线，另生成 `solution/annotated` 图。
+- PNG 存在且不泄露答案时，按题型写入结构化字段：选择题 `diagram_col`，填空题组 `diagram_row`，解答题 `answer_space.diagram_col` 或 `answer_space.parts[].diagram_col`。
+- 如果图形失败、跳过、不支持或图片缺失，使用 fallback 文本或教师手动画图建议，不插入破图。
+
+```yaml
+diagram_col:
+  image_path: "diagram/jobs/c1-prompt/rendered/prompt.png"
+  diagram_job_id: "c1-prompt"
+  width: "0.30\\linewidth"
+  caption: "观察点 D 在边 BC 上的位置。"
+  variant: "prompt"
+  disclosure_policy: "clean"
+```
+
 ## 题目字段要求
 
 ### 选择题 (choice)
@@ -108,6 +128,13 @@ type: "choice"
 id: "c1"
 points: 4
 stem: "题干文本 $math$"
+diagram_col:                    # 几何选择题需要图时使用；模板会强制竖排选项并把图放右栏
+  image_path: "diagram/jobs/c1-prompt/rendered/prompt.png"
+  diagram_job_id: "c1-prompt"
+  width: "0.30\\linewidth"
+  caption: "参考图"
+  variant: "prompt"
+  disclosure_policy: "clean"
 choices:
   A: "选项 A"
   B: "选项 B"
@@ -123,6 +150,27 @@ teaching:                        # 教师版显示
 ```
 
 ### 填空题 (fillin)
+
+同一组填空题需要多张图时，先输出对应 fillin block，再在这些 fillin block 后插入一个 `diagram_row`，并排放所有图，图下标对应题号；不要把 `diagram_row` 放在题目前面，也不要给每道填空题单独塞独立 `diagram` block。
+
+```yaml
+type: "diagram_row"
+id: "fillin-diagrams-1"
+needspace: "18\\baselineskip"
+items:
+  - label: "第 1 题"
+    image_path: "diagram/jobs/f1-prompt/rendered/prompt.png"
+    diagram_job_id: "f1-prompt"
+    width: "0.23\\linewidth"
+    variant: "prompt"
+    disclosure_policy: "clean"
+  - label: "第 2 题"
+    image_path: "diagram/jobs/f2-prompt/rendered/prompt.png"
+    diagram_job_id: "f2-prompt"
+    width: "0.23\\linewidth"
+    variant: "prompt"
+    disclosure_policy: "clean"
+```
 
 ```yaml
 type: "fillin"
@@ -173,6 +221,25 @@ answer_space:
   type: "steps"
   height: "60mm"
   step_count: 4
+  parts:                         # 多问几何大题推荐每问一个答题区 + 右侧图栏
+    - label: "(1)"
+      height: "28mm"
+      diagram_col:
+        image_path: "diagram/jobs/p1-part1-prompt/rendered/prompt.png"
+        diagram_job_id: "p1-part1-prompt"
+        width: "0.32\\linewidth"
+        caption: "原题图"
+        variant: "prompt"
+        disclosure_policy: "clean"
+    - label: "(2)"
+      height: "32mm"
+      diagram_col:
+        image_path: "diagram/jobs/p1-part2-prompt/rendered/prompt.png"
+        diagram_job_id: "p1-part2-prompt"
+        width: "0.32\\linewidth"
+        caption: "原题图"
+        variant: "prompt"
+        disclosure_policy: "clean"
 ```
 
 ## Layout 和分页规则
@@ -363,12 +430,13 @@ sections:
 3. 学生版不含 `answer`、`explanation`、`solution_steps`、`teaching` 字段
 4. 教师版每道解答题必须有 `solution_steps`（分步骤标准解答）
 5. 解答题题干用 `stem_latex`（不经过转义），不用 `stem`
-6. 答案经过自检（代入验证）
-7. block scalar（`|`）字段中的 LaTeX 命令用单反斜杠 `\frac`（不是 `\\frac`）；双引号字符串中的 `\\frac` 会被 YAML 解析为 `\frac` 所以是正确的
-8. 复杂度不超过 structure-analysis 预算
-8. 答案区 answer_key 的 `visibility` 为 `"teacher"`
-9. 大题有 `layout: { avoid_break: true }`（除非超过 3 小问）
-10. 同时输出 student 和 teacher 两个文件
+6. 若使用几何图，确认每道题有独立 `diagram_job_id` 和 `diagram/jobs/<job-id>/rendered/prompt.png`；多题复用必须写 `reuse_from`；填空题 `diagram_row` 在对应题目后面；prompt 图不含辅助线或答案泄露，solution 图只出现在教师解析/讲解中
+7. 答案经过自检（代入验证）
+8. block scalar（`|`）字段中的 LaTeX 命令用单反斜杠 `\frac`（不是 `\\frac`）；双引号字符串中的 `\\frac` 会被 YAML 解析为 `\frac` 所以是正确的
+9. 复杂度不超过 structure-analysis 预算
+10. 答案区 answer_key 的 `visibility` 为 `"teacher"`
+11. 大题有 `layout: { avoid_break: true }`（除非超过 3 小问）
+12. 同时输出 student 和 teacher 两个文件
 
 ## Handoff
 

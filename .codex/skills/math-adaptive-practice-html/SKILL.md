@@ -246,6 +246,7 @@ Before finalizing the HTML, solve every generated problem and revise any faulty 
     <li><strong>教学检查：</strong>本页是否只训练一个核心动作；有没有引入无关知识点；提示二是否过早暴露答案；互动问题/判断问题是否围绕本题核心链条。</li>
     <li><strong>档位检查：</strong>当前档位是否由学生证据或诊断 artifact 支持；如果没有学生证据，是否标注“默认诊断”；升级是否只小步上升。</li>
     <li><strong>学生版检查：</strong>教师判断、训练目标、预期卡点、复杂度说明、升级/降级建议是否全部在 `no-print` 区域内；学生打印和默认学生视角是否只看到题目、提示、答案空间和标准答案。</li>
+    <li><strong>图形检查：</strong>若复用/插入图，是否不泄露答案；图片路径是否相对 HTML 可访问；失败或 unsupported 时是否使用 fallback。</li>
     <li><strong>HTML 检查：</strong>标签是否闭合；是否符合 required sections；是否依赖网络 CDN；是否适合 A4 打印；分页位置是否合理。</li>
     <li><strong>自检结论：</strong>...</li>
   </ul>

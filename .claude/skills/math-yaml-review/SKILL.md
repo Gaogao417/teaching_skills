@@ -107,6 +107,21 @@ skip:
 结论：通过 / 需修复后重新生成
 ```
 
+同时必须给出结构化 verdict：
+
+```json
+{
+  "reviewer": "math-yaml-review",
+  "artifact": "<yaml path>",
+  "verdict": "PASS | PASS_WITH_NOTES | BLOCK",
+  "blocking_issues": 0,
+  "compile_issues": 0,
+  "render_issues": 0,
+  "content_issues": 0,
+  "marker": "<build/*.reviewed>"
+}
+```
+
 ## 判定标准
 
 - 存在任何编译级问题 → ❌ 不放行
@@ -116,7 +131,7 @@ skip:
 
 ## 通过标记
 
-审查通过后，在 build/ 目录下创建空文件：
+审查通过后，必须用 `scripts/workflow_gate.py` 写入 `build/review-ledger.jsonl` 并在 build/ 目录下创建空文件：
 
 ```
 <basename>.reviewed
@@ -124,7 +139,43 @@ skip:
 
 例如 `02-student-explanation.reviewed`。
 
-pipeline 检查此文件决定是否跳过审查。
+推荐命令：
+
+```bash
+python3 scripts/workflow_gate.py review-ledger \
+  --artifact-dir <artifact_dir> \
+  --stage <S2G|S3G> \
+  --artifact <yaml_path> \
+  --reviewer math-yaml-review \
+  --verdict PASS \
+  --blocking-issues 0 \
+  --create-marker
+```
+
+审查不通过时也必须写 ledger，但不得创建 marker：
+
+```bash
+python3 scripts/workflow_gate.py review-ledger \
+  --artifact-dir <artifact_dir> \
+  --stage <S2G|S3G> \
+  --artifact <yaml_path> \
+  --reviewer math-yaml-review \
+  --verdict BLOCK \
+  --blocking-issues <数量> \
+  --summary "<阻断摘要>"
+```
+
+pipeline 检查 `build/review-ledger.jsonl` 当前 YAML hash 的 PASS/PASS_WITH_NOTES verdict 和 `.reviewed` marker 后，才能跳过审查或渲染。
+
+## 重新生成规则
+
+如果 YAML 被重新生成或手动修改，旧 `.reviewed` 标记必须失效：
+
+```bash
+python3 scripts/workflow_gate.py invalidate-review <yaml_path>
+```
+
+只存在旧 marker、但 ledger 中没有当前 YAML hash 的 PASS/PASS_WITH_NOTES verdict，不得放行。
 
 ## 不做事项
 

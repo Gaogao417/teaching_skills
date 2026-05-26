@@ -60,10 +60,12 @@ artifacts/<学生名>/YYYY-MM-DD-<内容>/02-student-explanation.assignment.yaml
 ### 一句话总结
 - 核心方法归纳
 
-### 教师备注
-- 训练目标
-- 预期卡点
-- 档位判断
+### 图形辅助（可选）
+- 如果结构分析的 `diagram_request_packet.needs_diagram: true`，先使用 `math-geometry-diagram-renderer` 生成配套图片。
+- 原题展示只能用 `prompt` / `clean` 图：只画题干已知对象和必要顶点标签，不画辅助线、不写推理标注、不泄露答案。
+- 讲解步骤中如需辅助线、垂足、角标、相等标记或推理标注，另生成 `solution` / `annotated` 图，不要改造原题图。
+- 讲义正文可用 `type: diagram` 居中展示图片；题目型试卷中的选择/填空/解答题图栏由 practice YAML 使用 `diagram_col` / `diagram_row` / `answer_space.diagram_col`。
+- 如果图形生成失败、跳过或暂不支持，用 `hint` block 写 fallback 文本，不插入破图
 
 ## 关键 block type 说明
 
@@ -86,6 +88,29 @@ stem_latex: |
 ```
 
 **不要用** `key_idea` 或 `step` 放原题。`stem_latex` 原样输出 LaTeX，不经过转义。
+
+### diagram — 图形包插图
+
+用于插入 `math-geometry-diagram-renderer` 产出的最终 PNG。只插入最终可用图，不暴露生成过程。
+
+```yaml
+type: "diagram"
+id: "fig-main"
+image_path: "diagram/rendered/prompt.png"
+caption: "先观察底边 BC 与高 AD 的关系。"
+variant: "prompt"
+disclosure_policy: "clean"
+teaching_focus:
+  - "先看底边"
+  - "再作高"
+```
+
+规则：
+- `image_path` 必须相对当前 YAML/最终 `.tex` 所在目录可访问
+- `caption` 写学生要观察的动作，不写“模型生成”“第几轮成功”等调试信息
+- 只有 PNG 文件真实存在时才生成 `diagram` block；否则改用 `hint` 写 fallback 或教师手动画图建议
+- 原题图必须写 `variant: "prompt"` 和 `disclosure_policy: "clean"`；辅助线讲解图必须写 `variant: "solution"` 和 `disclosure_policy: "annotated"`
+- 坐标图/函数图如果 renderer skill 明确不支持，不强行插图
 
 ### reading_tip — 读题提示
 
@@ -341,24 +366,6 @@ sections:
         id: "q2"
         content: "思考题..."
         level: 2
-
-  - id: "teacher-notes"
-    title: "教师备注"
-    type: "explanation"
-    visibility: "teacher"
-    layout:
-      break_before: true
-    blocks:
-      - type: "key_idea"
-        id: "tn1"
-        content: |
-          学生画像和教学节奏说明...
-        teaching:
-          teaching_goal: "..."
-          expected_blocker: "..."
-          mastery_band: "B"
-          upgrade_rule: "升级条件"
-          downgrade_rule: "降级条件"
 ```
 
 ## Schema 遵循
@@ -372,11 +379,12 @@ sections:
 2. 所有 block 都有 type，且使用正确的 type（不要用 `step` 替代 `dual_explanation`）
 3. 原题用 `problemcard` + `stem_latex`，不要用 `key_idea`
 4. 每个子问题的解法各用一个 `dual_explanation`，必须带 `label`（如 `(1)`）和 `stem_latex`（该小问题干），不要用 `title: "第（X）问"`
-5. 数学公式使用 `$...$` 和 `$$...$$` 格式
-6. `stem_latex` 中的 LaTeX 命令不转义（原样输出）
-7. block scalar（`|`）字段中的 LaTeX 命令用单反斜杠 `\frac`（不是 `\\frac`）；双引号字符串中的 `\\frac` 会被 YAML 解析为 `\frac` 所以是正确的
-7. 每个 section 都有 `type: "explanation"` 和 `visibility`
-8. 底部答案用 `summary_dual`，不要用 `key_idea`
+5. 若使用 `diagram` block，图片路径相对 YAML/最终 `.tex` 可访问；原题图必须 clean，辅助线图必须另用 solution/annotated；失败时使用 fallback，不留空图
+6. 数学公式使用 `$...$` 和 `$$...$$` 格式
+7. `stem_latex` 中的 LaTeX 命令不转义（原样输出）
+8. block scalar（`|`）字段中的 LaTeX 命令用单反斜杠 `\frac`（不是 `\\frac`）；双引号字符串中的 `\\frac` 会被 YAML 解析为 `\frac` 所以是正确的
+9. 每个 section 都有 `type: "explanation"` 和 `visibility`
+10. 底部答案用 `summary_dual`，不要用 `key_idea`
 
 ## Handoff
 
