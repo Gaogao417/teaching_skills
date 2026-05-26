@@ -1,0 +1,144 @@
+meta:
+  title: "几何插图验收样例"
+  version: "teacher"
+sections:
+  - id: "choices"
+    title: "选择题"
+    blocks:
+      - id: "c1"
+        type: "choice"
+        stem: "如图，在三角形 ABC 中，D 在 BC 上，AD=AB，BD=BC。求应观察的直角三角形关系。"
+        choices:
+          A: "AB 与 AD"
+          B: "BD 与 BC"
+          C: "AC 与 CD"
+          D: "AD 与 BC"
+        answer: "A"
+        diagram_col:
+          image_path: "diagram/jobs/c1-prompt/rendered/prompt.png"
+          diagram_job_id: "c1-prompt"
+          variant: "prompt"
+          disclosure_policy: "clean"
+          objects_hint:
+            points: ["A", "B", "C", "D"]
+            segments: [["A", "B"], ["A", "C"], ["B", "C"], ["A", "D"]]
+            constraints: ["D lies on line BC", "AD = AB", "BD = BC"]
+      - id: "c2"
+        type: "choice"
+        stem: "如图，在三角形 ABC 中，D 在 BC 延长线上，AD=AB，CD=2BD。选择可用于双勾股的公共高。"
+        choices:
+          A: "从 A 到直线 BC 的垂线"
+          B: "从 B 到 AC 的垂线"
+          C: "从 C 到 AB 的垂线"
+          D: "从 D 到 AB 的垂线"
+        answer: "A"
+        diagram_col:
+          image_path: "diagram/jobs/c2-prompt/rendered/prompt.png"
+          diagram_job_id: "c2-prompt"
+          variant: "prompt"
+          disclosure_policy: "clean"
+          objects_hint:
+            points: ["A", "B", "C", "D"]
+            segments: [["A", "B"], ["A", "C"], ["B", "C"], ["A", "D"]]
+            constraints: ["B, C, D are collinear", "AD = AB", "CD = 2 BD"]
+  - id: "fillins"
+    title: "填空题"
+    blocks:
+      - id: "f1"
+        type: "fillin"
+        stem: "三角形 ABC 中，D 在 BC 上，AD=AB，BD=BC。设从 A 到 BC 的垂足为 H，则可分别在两个直角三角形中使用勾股定理。"
+        answer: "AH"
+      - id: "f2"
+        type: "fillin"
+        stem: "三角形 ABC 中，D 在 BC 上，AD=AB，CD=BC。若作 AH 垂直 BC，则 AH 是两次勾股的公共边。"
+        answer: "AH"
+      - id: "f3"
+        type: "fillin"
+        stem: "三角形 ABC 中，D 在直线 BC 上，AD=AB，BD:DC=1:2。作 AH 垂直 BC 后，应比较 BH、HD、HC 的关系。"
+        answer: "BH"
+      - id: "fillin-diagrams"
+        type: "diagram_row"
+        items:
+          - image_path: "diagram/jobs/f1-prompt/rendered/prompt.png"
+            diagram_job_id: "f1-prompt"
+            variant: "prompt"
+            disclosure_policy: "clean"
+            caption: "第1题"
+            problem_text: "三角形 ABC 中，D 在 BC 上，AD=AB，BD=BC。"
+            objects_hint:
+              points: ["A", "B", "C", "D"]
+              segments: [["A", "B"], ["A", "C"], ["B", "C"], ["A", "D"]]
+              constraints: ["D lies on BC", "AD = AB", "BD = BC"]
+          - image_path: "diagram/jobs/f2-prompt/rendered/prompt.png"
+            diagram_job_id: "f2-prompt"
+            variant: "prompt"
+            disclosure_policy: "clean"
+            caption: "第2题"
+            problem_text: "三角形 ABC 中，D 在 BC 上，AD=AB，CD=BC。"
+            objects_hint:
+              points: ["A", "B", "C", "D"]
+              segments: [["A", "B"], ["A", "C"], ["B", "C"], ["A", "D"]]
+              constraints: ["D lies on BC", "AD = AB", "CD = BC"]
+          - image_path: "diagram/jobs/f3-prompt/rendered/prompt.png"
+            diagram_job_id: "f3-prompt"
+            variant: "prompt"
+            disclosure_policy: "clean"
+            caption: "第3题"
+            problem_text: "三角形 ABC 中，D 在直线 BC 上，AD=AB，BD:DC=1:2。"
+            objects_hint:
+              points: ["A", "B", "C", "D"]
+              segments: [["A", "B"], ["A", "C"], ["B", "C"], ["A", "D"]]
+              constraints: ["B, D, C are collinear", "AD = AB", "BD:DC = 1:2"]
+  - id: "problems"
+    title: "解答题"
+    blocks:
+      - id: "p1"
+        type: "problem"
+        stem: "三角形 ABC 中，D 是直线 BC 上一点，AD=AB。已知 BD=BC，证明双勾股关系并求相关线段。"
+        answer_space:
+          type: "steps"
+          height: "72mm"
+          parts:
+            - label: "(1)"
+              height: "34mm"
+              diagram_col:
+                image_path: "diagram/jobs/p1-part1-prompt/rendered/prompt.png"
+                diagram_job_id: "p1-part1-prompt"
+                variant: "prompt"
+                disclosure_policy: "clean"
+                objects_hint:
+                  points: ["A", "B", "C", "D"]
+                  segments: [["A", "B"], ["A", "C"], ["B", "C"], ["A", "D"]]
+                  constraints: ["D lies on line BC", "AD = AB", "BD = BC"]
+            - label: "(2)"
+              height: "38mm"
+              diagram_col:
+                image_path: "diagram/jobs/p1-part2-prompt/rendered/prompt.png"
+                diagram_job_id: "p1-part2-prompt"
+                variant: "prompt"
+                disclosure_policy: "clean"
+                objects_hint:
+                  points: ["A", "B", "C", "D"]
+                  segments: [["A", "B"], ["A", "C"], ["B", "C"], ["A", "D"]]
+                  constraints: ["D lies on line BC", "AD = AB", "BD = BC"]
+      - id: "p1-solution-diagram"
+        type: "diagram"
+        image_path: "diagram/jobs/p1-part1-solution/rendered/solution.png"
+        diagram_job_id: "p1-part1-solution"
+        variant: "solution"
+        disclosure_policy: "annotated"
+        reuse_geometry_from: "p1-part1-prompt"
+        problem_text: "三角形 ABC 中，D 是直线 BC 上一点，AD=AB。已知 BD=BC。讲解时作 AH 垂直 BC。"
+        add_auxiliary:
+          add_points: ["H"]
+          hypotheses_wl:
+            - "H == TriangleCenter[{A, B, C}, {\"Foot\", A}]"
+          diagram_spec_delta:
+            segments: [["A", "H"]]
+            markers:
+              - type: "right_angle"
+                vertex: "H"
+                arms: ["A", "B"]
+            labels:
+              H:
+                text: "H"
