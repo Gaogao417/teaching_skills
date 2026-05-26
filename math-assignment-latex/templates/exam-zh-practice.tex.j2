@@ -59,6 +59,37 @@
 <% endif %>
 
 <% if block.type == "choice" %>
+<% set diagram_col = block.diagram_col or block.prompt_diagram %>
+<% if diagram_col %>
+\needspace{14\baselineskip}
+\begin{question}[points=<%= block.points|default(4) %>]
+  \noindent
+  \begin{minipage}[t]{0.64\linewidth}
+    \vspace{0pt}
+    <% if block.stem_latex %>
+    <%= block.stem_latex %>
+    <% else %>
+    <%= block.stem|latex_escape %>
+    <% endif %>
+    \par
+    \begin{choices}[columns=1]
+    <% for key, text in block.choices|dictsort %>
+      \item <%= text|latex_escape %>
+    <% endfor %>
+    \end{choices}
+  \end{minipage}\hfill
+  \diagramcolfigure{<%= diagram_col.image_path|latex_path %>}{<%= diagram_col.width|default("0.30\\linewidth") %>}{<% if diagram_col.caption %><%= diagram_col.caption|latex_escape %><% endif %>}
+  <% if meta.version != "student" and block.answer %>
+  \paren[<%= block.answer|latex_escape %>]
+  <% if block.explanation %>
+  \begin{solutionblock}
+    <%= block.explanation %>
+  \end{solutionblock}
+  <% endif %>
+  <% endif %>
+\end{question}
+
+<% else %>
 \begin{question}[points=<%= block.points|default(4) %>]
   <% if block.stem_latex %>
   <%= block.stem_latex %>
@@ -79,6 +110,7 @@
   <% endif %>
   <% endif %>
 \end{question}
+<% endif %>
 
 <% elif block.type == "fillin" %>
 \begin{question}[points=<%= block.points|default(4) %>]
@@ -97,6 +129,15 @@
   <% endif %>
 \end{question}
 
+<% elif block.type == "diagram_row" %>
+<% set diagram_items = block.get("items") or block.get("diagrams") %>
+\needspace{<%= block.needspace|default("18\\baselineskip") %>}
+\begin{center}
+  <% for item in diagram_items|default([]) %>
+  \diagramrowitem{<%= item.image_path|latex_path %>}{<%= item.width|default("0.22\\linewidth") %>}{<% if item.label %><%= item.label|latex_escape %><% endif %>}{<% if item.caption %><%= item.caption|latex_escape %><% endif %>}<% if not loop.last %>\hfill<% endif %>
+  <% endfor %>
+\end{center}
+
 <% elif block.type == "problem" or block.type == "short_answer" %>
 \begin{problem}[points=<%= block.points|default(8) %>]
   <% if block.stem_latex %>
@@ -105,7 +146,24 @@
   <%= block.stem|latex_escape %>
   <% endif %>
   <% if block.answer_space %>
+  <% set default_diagram_col = block.answer_space.diagram_col or block.answer_space.diagram or block.diagram_col or block.prompt_diagram %>
+  <% if block.answer_space.parts %>
+    <% for part in block.answer_space.parts %>
+      <% set part_diagram_col = part.diagram_col or part.prompt_diagram or part.diagram or default_diagram_col %>
+      <% if part.label %>
+  \noindent\textbf{<%= part.label|latex_escape %>}\par
+      <% endif %>
+      <% if part_diagram_col %>
+  \answerareawithdiagramcol{<%= part.height|default(block.answer_space.height|default("35mm")) %>}{<%= part_diagram_col.image_path|latex_path %>}{<%= part_diagram_col.width|default("0.32\\linewidth") %>}{<% if part_diagram_col.caption %><%= part_diagram_col.caption|latex_escape %><% endif %>}
+      <% else %>
+  \answerarea[<%= part.height|default(block.answer_space.height|default("35mm")) %>]
+      <% endif %>
+    <% endfor %>
+  <% elif default_diagram_col %>
+  \answerareawithdiagramcol{<%= block.answer_space.height|default("35mm") %>}{<%= default_diagram_col.image_path|latex_path %>}{<%= default_diagram_col.width|default("0.32\\linewidth") %>}{<% if default_diagram_col.caption %><%= default_diagram_col.caption|latex_escape %><% endif %>}
+  <% else %>
   \answerarea[<%= block.answer_space.height|default("35mm") %>]
+  <% endif %>
   <% endif %>
   <% if meta.version != "student" %>
   \setcounter{solstep}{0}
@@ -122,6 +180,15 @@
   \end{solutionblock}
   <% endif %>
 \end{problem}
+
+<% elif block.type == "diagram" %>
+\needspace{10\baselineskip}
+\begin{center}
+  \includegraphics[width=<% if block.width %><%= block.width %><% else %>0.82\linewidth<% endif %>]{\detokenize{<%= block.image_path|latex_path %>}}
+  <% if block.caption %>
+  \par\vspace{1mm}{\small\color{edu-gray}<%= block.caption|latex_escape %>}
+  <% endif %>
+\end{center}
 
 <% elif block.type == "step" %>
 \begin{keyideabox}

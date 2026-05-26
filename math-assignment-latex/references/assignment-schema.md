@@ -95,13 +95,47 @@ sections:
 choice / fillin / problem / short_answer
 key_idea / reading_tip / route / dual_explanation / explanation_dual
 summary_dual / answer_reminder / answer / answers / method_reminder / reminder
-mistake / hint / step / problemcard
+mistake / hint / step / problemcard / diagram / diagram_row
 ```
+
+### 几何插图契约
+
+`assignment-latex` 不从题干自然语言推断是否需要插图；latex-data writer 必须在 YAML 中显式声明。
+
+通用图片对象：
+
+```yaml
+image_path: "diagram/rendered/prompt.png"
+diagram_job_id: "c1-prompt"
+caption: "观察点 D 在 BC 上的位置。"
+width: "0.30\\linewidth"
+variant: "prompt"             # prompt / solution
+disclosure_policy: "clean"    # clean / annotated
+reuse_from: ""                # 只有显式复用别题图时填写
+```
+
+规则：
+
+- `prompt` / `clean` 图只画题目已知对象和必要顶点标签，不画辅助线、不写推理标注、不泄露答案。
+- `solution` / `annotated` 图只用于讲解、解析、教师版，可画辅助线和推理标注。
+- 练习题默认每道题一个独立 `diagram_job_id`，独立输出到 `diagram/jobs/<diagram_job_id>/rendered/prompt.png`。
+- 多道题引用同一 `image_path` 时，除原题讲义图外，必须显式写 `reuse_from` 说明复用来源；否则 validator 判错。
+- 几何大题必须有图；几何题已知条件数大于 3 时默认要有图；题干出现“如图/图中/下图”强制要有图。
+- 选择题用 `diagram_col` 或 `prompt_diagram`，模板会把选项强制竖排并把图放右栏。
+- 填空题用独立 `diagram_row` block，把同组填空题的所有图并排放在题目后面。
+- 大题用 `answer_space.parts[].diagram_col` 或 `answer_space.diagram_col`，模板会把每一问答题区和右侧图栏并排。
 
 ### choice 类型
 
 ```yaml
 type: choice
+diagram_col:
+  image_path: "diagram/jobs/c1-prompt/rendered/prompt.png"
+  diagram_job_id: "c1-prompt"
+  width: "0.30\\linewidth"
+  caption: "参考图"
+  variant: "prompt"
+  disclosure_policy: "clean"
 choices:
   A: "选项文本 $x=1$"
   B: "选项文本 $x=2$"
@@ -116,6 +150,36 @@ answer: "B"
 type: fillin
 answer: "填空答案"
 fillin_type: line        # line / paren / circle / blank / rectangle
+```
+
+填空题插图行示例。注意：`diagram_row` 放在对应填空题 block 后面。
+
+```yaml
+blocks:
+  - type: fillin
+    id: f1
+    stem: "如图，求 $x$ 的值。"
+    answer: "$5$"
+  - type: fillin
+    id: f2
+    stem: "如图，求 $y$ 的值。"
+    answer: "$6$"
+  - type: diagram_row
+    id: fillin-diagrams-1
+    needspace: "18\\baselineskip"
+    items:
+      - label: "第 1 题"
+        image_path: "diagram/jobs/f1-prompt/rendered/prompt.png"
+        diagram_job_id: "f1-prompt"
+        width: "0.23\\linewidth"
+        variant: "prompt"
+        disclosure_policy: "clean"
+      - label: "第 2 题"
+        image_path: "diagram/jobs/f2-prompt/rendered/prompt.png"
+        diagram_job_id: "f2-prompt"
+        width: "0.23\\linewidth"
+        variant: "prompt"
+        disclosure_policy: "clean"
 ```
 
 ### problem / short_answer 类型
@@ -137,7 +201,64 @@ solution_steps:
 answer_space:
   type: lines            # lines / blank / steps
   height: "25mm"
+  diagram_col:
+    image_path: "diagram/rendered/prompt.png"
+    diagram_job_id: "p1-prompt"
+    width: "0.32\\linewidth"
+    caption: "参考图"
+    variant: "prompt"
+    disclosure_policy: "clean"
 ```
+
+多问大题推荐按每一问声明答题区和右侧图栏：
+
+```yaml
+answer_space:
+  type: steps
+  height: "28mm"
+  parts:
+    - label: "(1)"
+      height: "28mm"
+      diagram_col:
+        image_path: "diagram/jobs/p1-part1-prompt/rendered/prompt.png"
+        diagram_job_id: "p1-part1-prompt"
+        width: "0.32\\linewidth"
+        caption: "原题图"
+        variant: "prompt"
+        disclosure_policy: "clean"
+    - label: "(2)"
+      height: "32mm"
+      diagram_col:
+        image_path: "diagram/jobs/p1-part2-prompt/rendered/prompt.png"
+        diagram_job_id: "p1-part2-prompt"
+        width: "0.32\\linewidth"
+        caption: "原题图"
+        variant: "prompt"
+        disclosure_policy: "clean"
+```
+
+### diagram 类型
+
+用于消费本地画图工作流产物。渲染器只负责插入最终图片，不负责生成、评价或重试。
+
+优先用题目内的 `diagram_col` / `diagram_row` / `answer_space.diagram_col` 表达试卷图。`type: diagram` 只用于讲义正文中确实需要独立居中图片的场景。
+
+```yaml
+type: diagram
+id: fig-main
+image_path: "diagram/rendered/prompt.png"
+caption: "观察底边 BC 与高 AD 的关系。"
+width: "0.82\\linewidth"   # 可选，默认 0.82\linewidth
+teaching_focus:
+  - "先看底边"
+  - "再看高"
+```
+
+规则：
+
+- `image_path` 必须相对最终 `.tex` 所在目录可访问，或使用绝对路径。
+- 只插入已经存在的最终 PNG；失败时用 `reading_tip` / `hint` 写 fallback。
+- `caption` 面向学生观察动作，不写模型名、重试轮次、Wolfram 代码等调试信息。
 
 ### key_idea 类型
 
@@ -293,6 +414,13 @@ answer_space:
   type: lines        # lines / blank / steps
   height: "25mm"
   step_count: 4      # type=steps 时
+  diagram_col:       # 可选；把图放进答题区右侧，不单独占用题面纵向空间
+    image_path: "diagram/jobs/p1-prompt/rendered/prompt.png"
+    diagram_job_id: "p1-prompt"
+    width: "0.32\\linewidth"
+    caption: "原题图"
+    variant: "prompt"
+    disclosure_policy: "clean"
 ```
 
 ---

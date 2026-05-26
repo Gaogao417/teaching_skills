@@ -32,6 +32,8 @@ assignment.yaml → Jinja2 模板 → .tex → tectonic/XeLaTeX → .pdf
 - 或 `artifacts/<slug>/03-adaptive-practice.assignment.yaml`
 - 或任意合法的 `*.assignment.yaml`
 
+如果 YAML 使用几何插图，确认所有 `diagram_col` / `diagram_row` / `answer_space.diagram_col` / `type: diagram` 的 `image_path` 相对最终 `.tex` 所在目录可访问；本 skill 只按结构化字段排版图片，不判断题目是否该有图，也不生成图片。
+
 ## 输出
 
 ```text
@@ -49,6 +51,12 @@ python3 math-assignment-latex/scripts/validate_assignment.py <input.yaml>
 ```
 
 检查 schema 合法性、必需字段、id 唯一性。
+所有插图对象必须包含 `image_path`。几何题应由 latex-data writer 显式写入：
+
+- 选择题：`diagram_col` 或 `prompt_diagram`，渲染为左侧题干和竖直选项、右侧图栏。
+- 填空题：`type: diagram_row`，渲染为同组填空题前的并排插图行。
+- 解答题：`answer_space.diagram_col` 或 `answer_space.parts[].diagram_col`，渲染为答题区和右侧图栏并排。
+- 讲义正文：只有确实需要独立居中图时才使用 `type: diagram`。
 
 ### 2. 渲染 LaTeX
 

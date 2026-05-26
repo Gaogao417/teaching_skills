@@ -32,6 +32,11 @@
 ——————————————————————————— #>
 <% if block.type == "problemcard" or block.type == "problem" or block.type == "short_answer" %>
 \begin{eduProblemBlock}[<% if block.label %><%= block.label|latex_escape %><% else %>题目<% endif %>]
+<% set diagram_col = block.diagram_col or block.prompt_diagram %>
+<% if diagram_col %>
+\noindent
+\begin{minipage}[t]{0.64\linewidth}
+\vspace{0pt}
 <% if block.stem_latex %>
 <%= block.stem_latex %>
 <% else %>
@@ -43,6 +48,22 @@
   \item <% if item.latex %><%= item.latex %><% elif item.text %><%= item.text|latex_escape %><% else %><%= item|latex_escape %><% endif %>
 <% endfor %>
 \end{eduSubQuestions}
+<% endif %>
+\end{minipage}\hfill
+\diagramcolfigure{<%= diagram_col.image_path|latex_path %>}{<%= diagram_col.width|default("0.30\\linewidth") %>}{<% if diagram_col.caption %><%= diagram_col.caption|latex_escape %><% endif %>}
+<% else %>
+<% if block.stem_latex %>
+<%= block.stem_latex %>
+<% else %>
+<%= block.stem|latex_escape %>
+<% endif %>
+<% if block.subquestions %>
+\begin{eduSubQuestions}
+<% for item in block.subquestions %>
+  \item <% if item.latex %><%= item.latex %><% elif item.text %><%= item.text|latex_escape %><% else %><%= item|latex_escape %><% endif %>
+<% endfor %>
+\end{eduSubQuestions}
+<% endif %>
 <% endif %>
 <% if block.answer_space and meta.version == "student" %>
 \answerarea[<%= block.answer_space.height|default("35mm") %>]
@@ -192,6 +213,15 @@
 \begin{eduAuxItem}{思路启发}
 <% if block.content_latex %><%= block.content_latex %><% else %><%= block.content|latex_escape %><% endif %>
 \end{eduAuxItem}
+
+<% elif block.type == "diagram" %>
+\needspace{10\baselineskip}
+\begin{center}
+  \includegraphics[width=<% if block.width %><%= block.width %><% else %>0.82\linewidth<% endif %>]{\detokenize{<%= block.image_path|latex_path %>}}
+  <% if block.caption %>
+  \par\vspace{1mm}{\small\color{edu-muted}<%= block.caption|latex_escape %>}
+  <% endif %>
+\end{center}
 
 <% elif block.type == "choice" %>
 \begin{question}[points=<%= block.points|default(4) %>]

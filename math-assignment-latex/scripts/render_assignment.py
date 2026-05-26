@@ -39,6 +39,13 @@ def latex_escape(value):
     return sanitize_latex(str(value))
 
 
+def latex_path(value):
+    """Jinja2 filter: normalize file paths for \\includegraphics."""
+    if value is None:
+        return ""
+    return str(value).replace("\n", "").replace("{", "").replace("}", "")
+
+
 def _fix_yaml_escapes(raw: str) -> str:
     """Pre-process YAML to preserve LaTeX backslash commands in double-quoted strings.
 
@@ -211,6 +218,7 @@ def render(data, template_name=None):
         comment_end_string="#>",
     )
     env.filters["latex_escape"] = latex_escape
+    env.filters["latex_path"] = latex_path
 
     template = env.get_template(tpl_file)
 
