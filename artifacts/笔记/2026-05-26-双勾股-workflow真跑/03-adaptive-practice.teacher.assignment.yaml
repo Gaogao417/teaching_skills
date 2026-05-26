@@ -1,0 +1,144 @@
+meta:
+  title: "双勾股专项练习"
+  version: "teacher"
+render:
+  template: "exam-zh-practice"
+sections:
+  - id: "choices"
+    title: "一、选择题"
+    blocks:
+      - id: "c1"
+        type: "choice"
+        points: 4
+        stem_latex: |
+          如图，$D$ 在射线 $BC$ 上，$C$ 在 $B,D$ 之间，$AD=AB$，作 $AH\perp BD$。
+          若 $BD=6BC$，则 $CH$ 等于（  ）
+        choices:
+          A: "$BC$"
+          B: "$2BC$"
+          C: "$3BC$"
+          D: "$4BC$"
+        answer: "B"
+        explanation: "由 $AD=AB$ 且 $AH\\perp BD$，得 $H$ 是 $BD$ 中点，故 $BH=3BC$，于是 $CH=BH-BC=2BC$。"
+        diagram_col:
+          image_path: "diagram/jobs/c1-prompt/rendered/prompt.png"
+          diagram_job_id: "c1-prompt"
+          width: "0.30\\linewidth"
+          caption: "观察点 C,H 在 BD 上的位置。"
+          variant: "prompt"
+          disclosure_policy: "clean"
+
+      - id: "c2"
+        type: "choice"
+        points: 4
+        stem_latex: |
+          如图，$AD=AB$，$AH\perp BD$，且 $BH=9$，$CH=5$。
+          若 $AB=15$，则 $AH$ 等于（  ）
+        choices:
+          A: "10"
+          B: "11"
+          C: "12"
+          D: "13"
+        answer: "C"
+        explanation: "在 $\\triangle ABH$ 中，$AH^2=15^2-9^2=144$，所以 $AH=12$。"
+        diagram_col:
+          image_path: "diagram/jobs/c2-prompt/rendered/prompt.png"
+          diagram_job_id: "c2-prompt"
+          width: "0.30\\linewidth"
+          caption: "先看直角三角形 ABH。"
+          variant: "prompt"
+          disclosure_policy: "clean"
+
+  - id: "fillins"
+    title: "二、填空题"
+    blocks:
+      - id: "f1"
+        type: "fillin"
+        points: 4
+        stem_latex: |
+          如图，$AD=AB$，$AH\perp BD$，$BD=8BC$。设 $BC=x$，则 $CH=$ \fillin[3x]。
+        answer: "$3x$"
+        explanation: "$BH=\\frac12BD=4BC=4x$，所以 $CH=BH-BC=3x$。"
+
+      - id: "f2"
+        type: "fillin"
+        points: 4
+        stem_latex: |
+          如图，$AD=AB$，$AH\perp BD$，$AB=13$，$AC=5$，$CH=3$，则公共高 $AH=$ \fillin[4]。
+        answer: "4"
+        explanation: "在 $\\triangle AHC$ 中，$AH^2=5^2-3^2=16$，所以 $AH=4$。"
+
+      - id: "f3"
+        type: "fillin"
+        points: 4
+        stem_latex: |
+          如图，$AD=AB$，$AH\perp BD$，$AB=17$，$AC=10$，$BD=4BC$。设 $BC=x$，
+          双勾股相减可得 \fillin[$189=3x^2$]。
+        answer: "$189=3x^2$"
+        explanation: "$BH=2x$，$CH=x$。由 $17^2=AH^2+(2x)^2$，$10^2=AH^2+x^2$，相减得 $189=3x^2$。"
+
+      - id: "fillin-diagrams"
+        type: "diagram_row"
+        needspace: "20\\baselineskip"
+        items:
+          - label: "第1题"
+            image_path: "diagram/jobs/f1-prompt/rendered/prompt.png"
+            diagram_job_id: "f1-prompt"
+            width: "0.22\\linewidth"
+            caption: "看 BD 与 BC。"
+            variant: "prompt"
+            disclosure_policy: "clean"
+          - label: "第2题"
+            image_path: "diagram/jobs/f2-prompt/rendered/prompt.png"
+            diagram_job_id: "f2-prompt"
+            width: "0.22\\linewidth"
+            caption: "看 AHC。"
+            variant: "prompt"
+            disclosure_policy: "clean"
+          - label: "第3题"
+            image_path: "diagram/jobs/f3-prompt/rendered/prompt.png"
+            diagram_job_id: "f3-prompt"
+            width: "0.22\\linewidth"
+            caption: "看两个共高三角形。"
+            variant: "prompt"
+            disclosure_policy: "clean"
+
+  - id: "problems"
+    title: "三、解答题"
+    blocks:
+      - id: "p1"
+        type: "problem"
+        points: 10
+        stem_latex: |
+          如图，在三角形 $ABC$ 中，点 $D$ 在射线 $BC$ 上，点序为 $B,C,H,D$，$AD=AB$。
+          过 $A$ 作 $AH\perp BD$。已知 $AB=15$，$AC=13$，$BH=9$，$CH=5$。
+          (1) 求 $AH$；(2) 求 $BC$。
+        answer_space:
+          type: "steps"
+          height: "34mm"
+          parts:
+            - label: "(1)"
+              height: "30mm"
+              diagram_col:
+                image_path: "diagram/jobs/p1-prompt/rendered/prompt.png"
+                diagram_job_id: "p1-prompt"
+                width: "0.32\\linewidth"
+                caption: "看 AHB 与 AHC。"
+                variant: "prompt"
+                disclosure_policy: "clean"
+            - label: "(2)"
+              height: "30mm"
+              diagram_col:
+                image_path: "diagram/jobs/p1-prompt/rendered/prompt.png"
+                diagram_job_id: "p1-prompt"
+                reuse_from: "p1-prompt"
+                width: "0.32\\linewidth"
+                caption: "同一原题图。"
+                variant: "prompt"
+                disclosure_policy: "clean"
+        answer: "(1) $AH=12$；(2) $BC=4$。"
+        solution_steps:
+          - title: "求高"
+            content: "在 $\\triangle ABH$ 中，$AH^2=15^2-9^2=144$，所以 $AH=12$。在 $\\triangle ACH$ 中也有 $AH^2=13^2-5^2=144$。"
+          - title: "求 BC"
+            content: "点序为 $B,C,H,D$，所以 $BC=BH-CH=9-5=4$。"

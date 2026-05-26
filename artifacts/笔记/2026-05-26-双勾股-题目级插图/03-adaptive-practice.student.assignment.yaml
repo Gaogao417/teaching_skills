@@ -1,0 +1,135 @@
+meta:
+  title: "双勾股专题练习"
+  grade: "八年级"
+  subject: "数学"
+  duration: "20分钟"
+  total_points: 28
+  version: "student"
+  source_artifacts:
+    structure_analysis: "01-structure-analysis.md"
+    explanation: "02-student-explanation.assignment.yaml"
+render:
+  template: "exam-zh-practice"
+  paper_size: "a4paper"
+sections:
+  - id: "choice"
+    title: "一、选择题（每题 4 分，共 8 分）"
+    type: "practice"
+    visibility: "student"
+    blocks:
+      - type: "choice"
+        id: "c1"
+        points: 4
+        stem: "如图，$D$ 在射线 $BC$ 上，$C$ 在 $B,D$ 之间，$AD=AB$，作 $AH\\perp BD$。若 $BD=6BC$，则 $CH$ 等于（ ）"
+        diagram_col:
+          image_path: "diagram/jobs/c1-prompt/rendered/prompt.png"
+          diagram_job_id: "c1-prompt"
+          width: "0.30\\linewidth"
+          caption: "第 1 题图"
+          variant: "prompt"
+          disclosure_policy: "clean"
+        choices:
+          A: "$2BC$"
+          B: "$3BC$"
+          C: "$4BC$"
+          D: "$5BC$"
+        answer: "A"
+      - type: "choice"
+        id: "c2"
+        points: 4
+        stem: "如图，$AD=AB$，$AH\\perp BD$，且 $BH=9$，$CH=5$。若 $AB=15$，则 $AH$ 等于（ ）"
+        diagram_col:
+          image_path: "diagram/jobs/c2-prompt/rendered/prompt.png"
+          diagram_job_id: "c2-prompt"
+          width: "0.30\\linewidth"
+          caption: "第 2 题图"
+          variant: "prompt"
+          disclosure_policy: "clean"
+        choices:
+          A: "$8$"
+          B: "$10$"
+          C: "$12$"
+          D: "$14$"
+        answer: "C"
+  - id: "fillin"
+    title: "二、填空题（每题 4 分，共 12 分）"
+    type: "practice"
+    visibility: "student"
+    blocks:
+      - type: "fillin"
+        id: "f1"
+        points: 4
+        stem: "如图，$AD=AB$，$AH\\perp BD$，$BD=8BC$。设 $BC=x$，则 $CH=$ \fillin。"
+        answer: "$3x$"
+      - type: "fillin"
+        id: "f2"
+        points: 4
+        stem: "如图，$AB=13$，$AC=5$，且 $BH=12$，$CH=0$ 不合题意；若改为 $CH=3$，则公共高 $AH=$ \fillin。"
+        answer: "$4$"
+      - type: "fillin"
+        id: "f3"
+        points: 4
+        stem: "如图，$AB=17$，$AC=10$，$BD=4BC$。设 $BC=x$，则由双勾股相减得到的方程是 \fillin。"
+        answer: "$17^2-10^2=(2^2-1^2)x^2$"
+      - type: "diagram_row"
+        id: "fillin-diagrams"
+        needspace: "18\\baselineskip"
+        items:
+          - label: "第 1 题"
+            image_path: "diagram/jobs/f1-prompt/rendered/prompt.png"
+            diagram_job_id: "f1-prompt"
+            width: "0.23\\linewidth"
+            variant: "prompt"
+            disclosure_policy: "clean"
+          - label: "第 2 题"
+            image_path: "diagram/jobs/f2-prompt/rendered/prompt.png"
+            diagram_job_id: "f2-prompt"
+            width: "0.23\\linewidth"
+            variant: "prompt"
+            disclosure_policy: "clean"
+          - label: "第 3 题"
+            image_path: "diagram/jobs/f3-prompt/rendered/prompt.png"
+            diagram_job_id: "f3-prompt"
+            width: "0.23\\linewidth"
+            variant: "prompt"
+            disclosure_policy: "clean"
+  - id: "problem"
+    title: "三、解答题（8 分）"
+    type: "practice"
+    layout:
+      break_before: true
+    visibility: "student"
+    blocks:
+      - type: "problem"
+        id: "p1"
+        points: 8
+        label: "第 1 题"
+        stem_latex: |
+          如图，在三角形 $ABC$ 中，$D$ 在射线 $BC$ 上，$C$ 在 $B,D$ 之间，$AD=AB$。已知 $AB=15$，$AC=13$，且 $2BD=9BC$。
+          \begin{enumerate}[label=(\arabic*)]
+            \item 作 $AH\perp BD$，设 $BC=x$，用 $x$ 表示 $BH$ 和 $CH$；
+            \item 求 $BC$ 的长，并验算公共高 $AH$。
+          \end{enumerate}
+        answer: "$BC=4$"
+        answer_space:
+          type: "steps"
+          height: "30mm"
+          parts:
+            - label: "(1)"
+              height: "30mm"
+              diagram_col:
+                image_path: "diagram/jobs/p1-part1-prompt/rendered/prompt.png"
+                diagram_job_id: "p1-part1-prompt"
+                width: "0.32\\linewidth"
+                caption: "第(1)问图"
+                variant: "prompt"
+                disclosure_policy: "clean"
+            - label: "(2)"
+              height: "34mm"
+              diagram_col:
+                image_path: "diagram/jobs/p1-part2-prompt/rendered/prompt.png"
+                diagram_job_id: "p1-part2-prompt"
+                width: "0.32\\linewidth"
+                caption: "第(2)问图"
+                variant: "prompt"
+                disclosure_policy: "clean"

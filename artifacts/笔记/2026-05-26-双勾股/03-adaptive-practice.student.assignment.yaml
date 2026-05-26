@@ -1,0 +1,108 @@
+meta:
+  title: "双勾股求边长 · 专题练习"
+  subtitle: "作高取中点 · 表示底边 · 勾股相减"
+  grade: "八年级"
+  subject: "数学"
+  duration: "25分钟"
+  total_points: 38
+  version: "student"
+  source_artifacts:
+    structure_analysis: "artifacts/笔记/2026-05-26-双勾股/01-structure-analysis.md"
+    explanation: "artifacts/笔记/2026-05-26-双勾股/02-student-explanation.assignment.yaml"
+
+render:
+  template: "exam-zh-practice"
+  paper_size: "a4paper"
+  answer_key_position: "after_page_break"
+
+sections:
+  - id: "choice"
+    title: "一、选择题（每题 4 分，共 8 分）"
+    type: "practice"
+    visibility: "student"
+    blocks:
+      - type: "choice"
+        id: "c1"
+        points: 4
+        stem: '在等腰三角形 $ABD$ 中，$AD=AB$。过 $A$ 作 $AH\perp BD$，垂足为 $H$。下列结论一定正确的是'
+        choices:
+          A: "$AH=BD$"
+          B: "$BH=HD$"
+          C: "$AB=BH$"
+          D: "$AC=AD$"
+        answer: "B"
+        hints:
+          - content: "等腰三角形顶点到底边的高，同时也是底边上的什么线？"
+
+      - type: "choice"
+        id: "c2"
+        points: 4
+        stem: '设 $BC=x$，点序为 $B-C-H-D$，且 $BH=\dfrac94x$。则 $CH$ 等于'
+        choices:
+          A: '$\dfrac14x$'
+          B: '$\dfrac54x$'
+          C: '$\dfrac{13}4x$'
+          D: '$\dfrac94x$'
+        answer: "B"
+        hints:
+          - content: "沿直线从 $B$ 到 $H$，中间经过 $C$，所以 $CH=BH-BC$。"
+
+  - id: "fillin"
+    title: "二、填空题（每题 5 分，共 10 分）"
+    type: "practice"
+    visibility: "student"
+    blocks:
+      - type: "fillin"
+        id: "f1"
+        points: 5
+        stem: '若 $BD=4BC$，过 $A$ 作 $AH\perp BD$ 后由 $AD=AB$ 得 $BH=\underline{\quad\quad}BC$。'
+        answer: "$2$"
+        hints:
+          - content: "先写 $BH=\\dfrac12BD$。"
+
+      - type: "fillin"
+        id: "f2"
+        points: 5
+        stem: '若 $AB=15$，$AC=13$，$BH=9$，$CH=5$，则公共高 $AH=\underline{\quad\quad}$。'
+        answer: "$12$"
+        hints:
+          - content: "用 $AB^2=AH^2+BH^2$。"
+
+  - id: "problems"
+    title: "三、解答题（每题 10 分，共 20 分）"
+    type: "practice"
+    visibility: "student"
+    blocks:
+      - type: "problem"
+        id: "p1"
+        points: 10
+        label: "第 1 题"
+        stem_latex: |
+          在三角形 $ABC$ 中，点 $D$ 在射线 $BC$ 上，且 $C$ 在 $B,D$ 之间，$AD=AB$。
+          已知 $AB=17$，$AC=10$，且 $BD=4BC$，求 $BC$。
+        hints:
+          - content: "过 $A$ 作 $AH\\perp BD$，先判断 $H$ 是 $BD$ 的中点。"
+          - content: "设 $BC=x$，则 $BH=2x$，$CH=x$。"
+        answer_space:
+          type: "steps"
+          height: "64mm"
+          step_count: 4
+          diagram:
+            image_path: "diagram/rendered/diagram.png"
+            width: "0.42\\linewidth"
+            caption: "参考图：先作高"
+
+      - type: "problem"
+        id: "p2"
+        points: 10
+        label: "第 2 题"
+        stem_latex: |
+          在三角形 $ABC$ 中，点 $D$ 在射线 $BC$ 上，且 $C$ 在 $B,D$ 之间，$AD=AB$。
+          已知 $AC=13$，$BC=4$，且 $2BD=9BC$，求 $AB$。
+        hints:
+          - content: "先由比例求 $BD$，再由等腰求 $BH$。"
+          - content: '本题可以先用 $\triangle ACH$ 求 $AH$，再用 $\triangle ABH$ 求 $AB$。'
+        answer_space:
+          type: "steps"
+          height: "55mm"
+          step_count: 4

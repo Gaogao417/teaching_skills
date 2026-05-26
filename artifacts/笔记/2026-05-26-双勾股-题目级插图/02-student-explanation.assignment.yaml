@@ -1,0 +1,85 @@
+meta:
+  title: "双勾股：作高以后，两次勾股相减"
+  example_label: "例题"
+  grade: "八年级"
+  subject: "数学"
+  version: "teacher"
+  source_artifacts:
+    structure_analysis: "01-structure-analysis.md"
+render:
+  template: "exam-zh-explanation"
+  paper_size: "a4paper"
+sections:
+  - id: "original"
+    title: "原题"
+    type: "explanation"
+    visibility: "both"
+    show_title: false
+    blocks:
+      - type: "problemcard"
+        id: "orig"
+        label: "题目"
+        stem_latex: |
+          如图，在三角形 $ABC$ 中，点 $D$ 在射线 $BC$ 上，且 $C$ 在 $B,D$ 之间，$AD=AB$。已知 $AB=15$，$AC=13$，且 $2BD=9BC$，求 $BC$ 的长。
+      - type: "diagram"
+        id: "orig-diagram"
+        image_path: "diagram/jobs/orig-prompt/rendered/prompt.png"
+        diagram_job_id: "orig-prompt"
+        width: "0.52\\linewidth"
+        caption: "先看点序 $B-C-H-D$，再看公共高 $AH$。"
+        variant: "prompt"
+        disclosure_policy: "clean"
+  - id: "route"
+    title: "解题路线"
+    type: "explanation"
+    visibility: "both"
+    show_title: false
+    blocks:
+      - type: "route"
+        id: "route-main"
+        steps:
+          - latex: "过 $A$ 作 $AH\\perp BD$"
+          - latex: "由 $AD=AB$ 得 $H$ 是 $BD$ 中点"
+          - latex: "把 $BH,CH$ 都写成 $BC$ 的倍数"
+          - latex: "两次勾股相减，消去 $AH^2$"
+      - type: "key_idea"
+        id: "key-main"
+        content_latex: |
+          双勾股的关键不是先算高，而是让两个直角三角形共用同一个高 $AH$。这样两个勾股式相减时，$AH^2$ 会自动消掉。
+  - id: "solution"
+    title: "规范解答"
+    type: "explanation"
+    visibility: "both"
+    show_title: false
+    blocks:
+      - type: "dual_explanation"
+        id: "solve-1"
+        label: "(1)"
+        stem_latex: "设 $BC=x$，先表示 $BH$ 和 $CH$。"
+        left_title: "先把底边说清楚"
+        left_items:
+          - latex: "由 $2BD=9BC$，得 $BD=\\dfrac92x$。"
+          - latex: "因为 $AD=AB$，且 $AH\\perp BD$，所以 $H$ 是 $BD$ 的中点。"
+        right_steps:
+          - latex: "因此 $BH=\\dfrac12BD=\\dfrac94x$。"
+          - latex: "点序为 $B-C-H-D$，所以 $CH=BH-BC=\\dfrac54x$。"
+      - type: "dual_explanation"
+        id: "solve-2"
+        label: "(2)"
+        stem_latex: "列两次勾股并相减。"
+        left_title: "两次勾股"
+        left_items:
+          - latex: "$15^2=AH^2+\\left(\\dfrac94x\\right)^2$。"
+          - latex: "$13^2=AH^2+\\left(\\dfrac54x\\right)^2$。"
+        right_steps:
+          - latex: "两式相减：$56=\\dfrac{81-25}{16}x^2=\\dfrac72x^2$。"
+          - latex: "所以 $x^2=16$，$x=4$，即 $BC=4$。"
+      - type: "summary_dual"
+        id: "summary"
+        left_title: "答案"
+        left_items:
+          - latex: "$BC=4$"
+        right_title: "方法提醒"
+        right_items:
+          - latex: "等腰给中点，共高给消元。"
+          - latex: "先表达两条底边，再列两个勾股式。"

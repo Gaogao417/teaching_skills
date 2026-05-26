@@ -1,0 +1,183 @@
+meta:
+  title: "双勾股求边长"
+  subtitle: "等腰给中点 · 比例给底边 · 勾股相减"
+  grade: "八年级"
+  subject: "数学"
+  version: "teacher"
+  show_answers: true
+  source_artifacts:
+    structure_analysis: "artifacts/笔记/2026-05-26-双勾股/01-structure-analysis.md"
+
+render:
+  template: "exam-zh-explanation"
+  paper_size: "a4paper"
+
+sections:
+  - id: "original"
+    title: "原题"
+    type: "explanation"
+    visibility: "both"
+    blocks:
+      - type: "problemcard"
+        id: "orig"
+        label: "题目"
+        stem_latex: |
+          如图，在三角形 $ABC$ 中，点 $D$ 在射线 $BC$ 上，且 $C$ 在 $B,D$ 之间，$AD=AB$。
+          已知 $AB=15$，$AC=13$，且 $2BD=9BC$，求 $BC$ 的长。
+      - type: "diagram"
+        id: "fig-main"
+        image_path: "diagram/rendered/diagram.png"
+        width: "0.58\\linewidth"
+        caption: '先看 $B,C,H,D$ 共线，再看 $AH\perp BD$ 与 $AD=AB$。'
+        teaching_focus:
+          - "先作高"
+          - "再看中点"
+          - "最后看两个直角三角形"
+
+  - id: "breakdown"
+    title: "一、先把题目拆开"
+    type: "explanation"
+    visibility: "student"
+    blocks:
+      - type: "reading_tip"
+        id: "rt-breakdown"
+        items:
+          - latex: "先按顺序画出 $B-C-D$，点 $A$ 在直线 $BD$ 上方。"
+          - latex: "$AD=AB$ 不是直接代数条件，它在提醒你看等腰三角形 $ABD$。"
+          - latex: "这题的入口不是先算高，而是先作出高，再把高消掉。"
+
+  - id: "route-section"
+    title: "二、解题路线"
+    type: "explanation"
+    visibility: "student"
+    blocks:
+      - type: "route"
+        id: "route"
+        steps:
+          - latex: '过 $A$ 作 $AH\perp BD$'
+          - latex: "由 $AD=AB$ 得 $H$ 是 $BD$ 中点"
+          - latex: "设 $BC=x$，表示 $BH$ 和 $CH$"
+          - latex: '在 $\triangle ABH$、$\triangle ACH$ 中两次勾股'
+          - latex: "两式相减，消去 $AH^2$"
+
+  - id: "key-idea"
+    title: "三、关键想法"
+    type: "explanation"
+    visibility: "student"
+    blocks:
+      - type: "key_idea"
+        id: "ki"
+        content: |
+          看到 $AD=AB$，要把它放进等腰三角形 $ABD$ 里看。
+          过顶点 $A$ 作底边 $BD$ 的高 $AH$，这个高同时也是中线，所以 $BH=HD$。
+          接下来两个直角三角形共用同一条高 $AH$，两次勾股相减就能把 $AH^2$ 消掉。
+
+  - id: "solution"
+    title: "四、标准解法"
+    type: "explanation"
+    visibility: "student"
+    blocks:
+      - type: "dual_explanation"
+        id: "sol-1"
+        label: "(1)"
+        stem_latex: '为什么要作 $AH\perp BD$？'
+        left_title: "思考引导"
+        left_items:
+          - latex: '$AD=AB$ 说明 $\triangle ABD$ 是等腰三角形。'
+          - latex: "等腰三角形里，顶点到底边的高还有什么身份？"
+        right_title: "规范讲解"
+        right_steps:
+          - latex: '过 $A$ 作 $AH\perp BD$，垂足为 $H$。'
+          - latex: '因为 $AD=AB$，所以 $\triangle ABD$ 是以 $A$ 为顶点的等腰三角形。'
+          - latex: '等腰三角形底边上的高也是中线，所以 $BH=HD=\dfrac12BD$。'
+        connection_title: "入口"
+        connection_items:
+          - latex: "这一步把 $AD=AB$ 翻译成了可计算的线段关系。"
+
+      - type: "dual_explanation"
+        id: "sol-2"
+        label: "(2)"
+        stem_latex: "怎样把 $BH$、$CH$ 都用 $BC$ 表示？"
+        left_title: "思考引导"
+        left_items:
+          - latex: "设 $BC=x$，先由 $2BD=9BC$ 求 $BD$。"
+          - latex: "注意点序是 $B-C-D$，本题中 $H$ 在 $C,D$ 之间。"
+        right_title: "规范讲解"
+        right_steps:
+          - latex: '设 $BC=x$。由 $2BD=9BC$，得 $BD=\dfrac92x$。'
+          - latex: '因为 $H$ 是 $BD$ 中点，所以 $BH=\dfrac12BD=\dfrac94x$。'
+          - latex: '点序为 $B-C-H-D$，所以 $CH=BH-BC=\dfrac94x-x=\dfrac54x$。'
+        connection_title: "停一下"
+        connection_items:
+          - latex: '这一步最容易错在 $CH$：它不是 $\dfrac94x+x$，而是 $BH-BC$。'
+
+      - type: "dual_explanation"
+        id: "sol-3"
+        label: "(3)"
+        stem_latex: "怎样用两次勾股求出 $BC$？"
+        left_title: "思考引导"
+        left_items:
+          - latex: '$\triangle ABH$ 和 $\triangle ACH$ 都是直角三角形。'
+          - latex: "两个式子里都有 $AH^2$，相减可以把它消掉。"
+        right_title: "规范讲解"
+        right_steps:
+          - latex: '在 $\triangle ABH$ 中：$15^2=AH^2+\left(\dfrac94x\right)^2$。'
+          - latex: '在 $\triangle ACH$ 中：$13^2=AH^2+\left(\dfrac54x\right)^2$。'
+          - latex: '两式相减：$225-169=\left[\left(\dfrac94\right)^2-\left(\dfrac54\right)^2\right]x^2$。'
+          - latex: '所以 $56=\dfrac{81-25}{16}x^2=\dfrac72x^2$。'
+          - latex: "解得 $x^2=16$，因为 $x$ 是线段长，所以 $x=4$。"
+        connection_title: "答案"
+        connection_items:
+          - latex: "因此 $BC=4$。"
+
+      - type: "dual_explanation"
+        id: "sol-4"
+        label: "(4)"
+        stem_latex: "怎样快速验算？"
+        left_title: "思考引导"
+        left_items:
+          - latex: "把 $BC=4$ 代回比例条件，看 $BH$ 和 $CH$ 是否干净。"
+          - latex: "如果出现两个经典直角三角形，说明计算很稳。"
+        right_title: "规范讲解"
+        right_steps:
+          - latex: "$BC=4$ 时，$BD=18$，所以 $BH=9$，$CH=5$。"
+          - latex: '由 $AB=15$，得 $AH=\sqrt{15^2-9^2}=12$。'
+          - latex: '再验 $AC=\sqrt{12^2+5^2}=13$，与题目一致。'
+        connection_title: "结构"
+        connection_items:
+          - latex: "这题实际藏了两个直角三角形：$9-12-15$ 和 $5-12-13$。"
+
+  - id: "mistakes"
+    title: "五、易错提醒"
+    type: "explanation"
+    visibility: "student"
+    blocks:
+      - type: "mistake"
+        id: "mistake-1"
+        title: "只看到 $AD=AB$，没作底边高"
+        content: |
+          $AD=AB$ 本身不能直接求 $BC$。它真正有用的地方是：作 $AH\perp BD$ 后，可以推出 $BH=HD$。
+      - type: "mistake"
+        id: "mistake-2"
+        title: "$CH$ 的方向写反"
+        content: |
+          本题点序是 $B-C-H-D$，所以 $CH=BH-BC$。如果把它写成 $BH+BC$，后面勾股式会整体跑偏。
+      - type: "hint"
+        id: "ask-1"
+        content: "边讲边问：如果把 $2BD=9BC$ 改成 $BD=4BC$，你能先写出 $BH$ 和 $CH$ 吗？"
+        level: 1
+
+  - id: "summary"
+    title: "六、一句话总结"
+    type: "explanation"
+    visibility: "student"
+    blocks:
+      - type: "summary_dual"
+        id: "summary-dual"
+        left_title: "答案"
+        left_items:
+          - latex: "$BC=4$"
+        right_title: "方法提醒"
+        right_items:
+          - latex: "等腰三角形里，先作底边高，把等边关系转成中点关系。"
+          - latex: "两个直角三角形共高时，优先考虑两次勾股相减。"

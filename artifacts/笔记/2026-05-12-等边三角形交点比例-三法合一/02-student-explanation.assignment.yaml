@@ -1,0 +1,490 @@
+meta:
+  title: "等边三角形交点比例四题（三法讲义）"
+  subtitle: "每题一图 · 每题三法：几何法 / 向量法 / 建系法"
+  grade: "初中"
+  subject: "数学"
+  version: "teacher"
+  show_answers: true
+  source_artifacts:
+    structure_analysis: "artifacts/笔记/2026-05-12-等边三角形交点比例-三法合一/01-structure-analysis.md"
+
+render:
+  template: "exam-zh-explanation"
+  paper_size: "a4paper"
+
+sections:
+  - id: "overview"
+    title: "总入口"
+    show_title: true
+    type: "explanation"
+    visibility: "both"
+    layout:
+      break_before: false
+    blocks:
+      - type: "problemcard"
+        id: "overview-problem"
+        label: "题组"
+        stem_latex: |
+          原笔记里记作 $P,Q$；为贴合图解，下文统一记 $D=P,\ E=Q$。
+
+          等边三角形 $ABC$ 中，$AB=6$，直线或线段 $BD$ 与直线或线段 $AC$ 交于点 $E$，且 $BE=3DE$。本讲义把例题和三个变式拆成四道题，每道题都给出几何法、向量法、建系法。
+
+      - type: "key_idea"
+        id: "overview-model"
+        content_latex: |
+          四道题看起来条件不同，其实都先压缩成同一个小模型。第一步取 $AC$ 的中点 $G$。于是
+          $$BG\perp AC,\qquad BG=3\sqrt3.$$
+          若题目给 $AD\perp DC$，则 $\triangle ADC$ 是以 $AC$ 为斜边的直角三角形，$G$ 是斜边中点，所以
+          $$DG=AG=CG=3.$$
+          之后不急着算 $BD$，先判断比例 $BE=3DE$ 对应哪一种分点位置：一种是 $E$ 在线段 $BD$ 上，另一种是 $D$ 在线段 $BE$ 上。线段/直线条件决定哪些分支保留。把这件事判断清楚后，四道题都只需要看 $B,G,E,D$ 这四个点。
+
+      - type: "route"
+        id: "overview-route"
+        steps:
+          - latex: '取 $G$ 为 $AC$ 中点'
+          - latex: '写出 $BG=3\sqrt3$'
+          - latex: '判断 $D$ 在 $E$ 的哪一侧'
+          - latex: '代入垂直或等长条件'
+          - latex: '检查 $E$ 是否必须在线段 $AC$ 内'
+          - latex: '用三种方法互相校验'
+
+  - id: "problem-1"
+    title: "第1题：例题"
+    show_title: true
+    type: "explanation"
+    visibility: "student"
+    layout:
+      break_before: true
+    blocks:
+      - type: "problemcard"
+        id: "p1-card"
+        label: "第1题"
+        stem_latex: |
+          $AD\perp DC$，线段 $BD$ 和线段 $AC$ 交于点 $E$，且 $BE=3DE$，求 $BD$。
+
+      - type: "key_idea"
+        id: "p1-grip"
+        content_latex: |
+          本题两个“线段”限制很关键：$E$ 在线段 $AC$ 上，也在线段 $BD$ 上。因此比例只取 $E$ 在线段 $BD$ 上这一支。又因为 $AD\perp DC$，可以立刻得到 $DG=3$。所以本题的计算主线是
+          $$BG=3\sqrt3,\quad DG=3,\quad BE:DE=3:1.$$
+
+      - type: "route"
+        id: "p1-route"
+        steps:
+          - latex: '取中点 $G$'
+          - latex: '由直角三角形得 $DG=3$'
+          - latex: '作 $DH\perp AC$'
+          - latex: '相似求 $DH$'
+          - latex: '勾股求 $BD$'
+
+      - type: "step"
+        id: "p1-figure"
+        title: "Wolfram 插图"
+        content_latex: |
+          \begin{center}
+            \includegraphics[width=0.68\linewidth]{figures/problem1.pdf}
+          \end{center}
+
+      - type: "dual_explanation"
+        id: "p1-geo"
+        label: "几何法"
+        stem_latex: "辅助线 + 相似 + 勾股。"
+        left_title: "几何法"
+        left_items:
+          - latex: '取 $G$ 为 $AC$ 中点。等边三角形边长为 $6$，所以 $AG=CG=3$，高 $BG=\sqrt{6^2-3^2}=3\sqrt3$。'
+          - latex: '因为 $AD\perp DC$，$\triangle ADC$ 是直角三角形，且 $G$ 是斜边 $AC$ 的中点，所以 $DG=\frac12AC=3$。'
+          - latex: '过 $D$ 作 $DH\perp AC$ 于 $H$。由于 $BG\perp AC$，所以 $BG\parallel DH$，$\angle EBG=\angle EDH$，$\angle EGB=\angle EHD$。'
+          - latex: '于是 $\triangle EBG\sim\triangle EDH$。又 $BE:DE=3:1$，相似三角形对应高也成 $3:1$，所以 $BG:DH=3:1$，即 $DH=\sqrt3$。'
+          - latex: '在直角三角形 $DGH$ 中，$DG=3$，$DH=\sqrt3$，因此 $GH=\sqrt{DG^2-DH^2}=\sqrt{9-3}=\sqrt6$。'
+          - latex: '从 $B$ 到 $D$，竖直方向一共跨过 $BG+DH=4\sqrt3$，水平方向跨过 $GH=\sqrt6$。'
+          - latex: '$BD=\sqrt{(4\sqrt3)^2+(\sqrt6)^2}=3\sqrt6$。'
+        connection_title: "本法小结"
+        connection_items:
+          - latex: '几何法的核心不是一开始求 $E$，而是先用 $DG=3$ 和相似关系求出 $D$ 到 $AC$ 的距离。'
+          - latex: '答案：$BD=3\sqrt6$。'
+        right_title: "答案"
+        right_steps:
+          - latex: '$BD=3\sqrt6$'
+
+      - type: "dual_explanation"
+        id: "p1-vector"
+        label: "向量法"
+        stem_latex: "把比例点写成分点向量。"
+        left_title: "向量法"
+        left_items:
+          - latex: '以 $G$ 为原点式参照，令 $\vec{GE}=\mathbf e,\ \vec{GB}=\mathbf b$。其中 $\mathbf e$ 沿 $AC$，$\mathbf b$ 沿高，所以 $\mathbf e\perp\mathbf b$，$|\mathbf b|=3\sqrt3$。'
+          - latex: '本题 $E$ 在线段 $BD$ 上，且 $BE:DE=3:1$，所以从 $B$ 走到 $D$ 要经过 $E$ 后再走 $\frac13BE$。写成向量就是 $\vec{GD}=\mathbf b+\frac43(\mathbf e-\mathbf b)=\frac43\mathbf e-\frac13\mathbf b$。'
+          - latex: '由 $AD\perp DC$ 得 $DG=3$，因此 $9=|\vec{GD}|^2=\frac{16}{9}|\mathbf e|^2+\frac19|\mathbf b|^2$。这里没有交叉项，是因为 $\mathbf e\perp\mathbf b$。'
+          - latex: '代入 $|\mathbf b|^2=27$，得 $|\mathbf e|^2=\frac{27}{8}$。'
+          - latex: '又 $BE=\sqrt{|\mathbf e|^2+|\mathbf b|^2}$，且 $BD=\frac43BE$，所以 $BD=\frac43\sqrt{\frac{27}{8}+27}=3\sqrt6$。'
+        connection_title: "本法小结"
+        connection_items:
+          - latex: '向量法把“比例点”直接翻译成 $\vec{GD}$，适合统一处理后面的直线分支。'
+          - latex: '答案：$BD=3\sqrt6$。'
+        right_title: "答案"
+        right_steps:
+          - latex: '$BD=3\sqrt6$'
+
+      - type: "dual_explanation"
+        id: "p1-coordinate"
+        label: "建系法"
+        stem_latex: "设 $E(x,0)$，把模型写成坐标。"
+        left_title: "建系法"
+        left_items:
+          - latex: '取 $G(0,0)$，$AC$ 为 $x$ 轴，则 $A(-3,0)$，$C(3,0)$，$B(0,3\sqrt3)$。设 $E(x,0)$，且本题 $-3\le x\le 3$。'
+          - latex: '因为 $E$ 在线段 $BD$ 上且 $BE=3DE$，所以 $D=B+\frac43(E-B)=(\frac43x,-\sqrt3)$。这个坐标式已经把比例条件完整用掉了。'
+          - latex: '$AD\perp DC$ 等价于 $DG=3$，所以 $(\frac43x)^2+(-\sqrt3)^2=9$，即 $\frac{16}{9}x^2+3=9$。'
+          - latex: '解得 $x^2=\frac{27}{8}$。这两个 $x$ 值都在 $[-3,3]$ 内，对应左右对称的两幅图，$BD$ 长度相同。'
+          - latex: '$BD=\frac43BE=\frac43\sqrt{x^2+27}=3\sqrt6$。'
+        connection_title: "本法小结"
+        connection_items:
+          - latex: '建系法最稳定：先用比例写出 $D$，再把附加条件翻译成方程。'
+          - latex: '答案：$BD=3\sqrt6$。'
+        right_title: "答案"
+        right_steps:
+          - latex: '$BD=3\sqrt6$'
+
+  - id: "problem-2"
+    title: "第2题：变式1"
+    show_title: true
+    type: "explanation"
+    visibility: "student"
+    layout:
+      break_before: true
+    blocks:
+      - type: "problemcard"
+        id: "p2-card"
+        label: "第2题"
+        stem_latex: |
+          $AD=AC$，直线 $BD$ 和线段 $AC$ 交于点 $E$，且 $BE=3DE$，求 $BD$。
+
+      - type: "key_idea"
+        id: "p2-grip"
+        content_latex: |
+          本题把 $AD\perp DC$ 换成 $AD=AC=6$，所以不能再用 $DG=3$。但是 $E$ 仍在线段 $AC$ 上，最后必须检查 $-3\le x\le3$。直线 $BD$ 允许两个分点分支，真正可行的是 $E$ 在线段 $BD$ 上这一支。
+
+      - type: "route"
+        id: "p2-route"
+        steps:
+          - latex: '仍取 $G$'
+          - latex: '先判有效分支'
+          - latex: '由相似求 $DH$'
+          - latex: '用 $AD=6$ 求水平距离'
+          - latex: '检查 $E$ 在线段 $AC$ 内'
+
+      - type: "step"
+        id: "p2-figure"
+        title: "Wolfram 插图"
+        content_latex: |
+          \begin{center}
+            \includegraphics[width=0.68\linewidth]{figures/problem2.pdf}
+          \end{center}
+
+      - type: "dual_explanation"
+        id: "p2-geo"
+        label: "几何法"
+        stem_latex: "先判分支，再用 $AD=6$。"
+        left_title: "几何法"
+        left_items:
+          - latex: '取 $G$ 为 $AC$ 中点，仍有 $BG=3\sqrt3$。这一次 $AD=AC=6$ 只说明 $D$ 在以 $A$ 为圆心、半径 $6$ 的圆上，不能推出 $DG=3$。'
+          - latex: '先看分支。若 $D$ 在线段 $BE$ 上，则为了满足 $AD=6$ 会把 $E$ 推到线段 $AC$ 外；题目要求 $E$ 在线段 $AC$ 上，所以舍去。有效分支是 $E$ 在线段 $BD$ 上。'
+          - latex: '过 $D$ 作 $DH\perp AC$ 于 $H$。和第1题一样，$\triangle EBG\sim\triangle EDH$，由 $BE:DE=3:1$ 得 $BG:DH=3:1$，所以 $DH=\sqrt3$。'
+          - latex: '现在用的是 $AD=6$。在直角三角形 $ADH$ 中，$AH=\sqrt{AD^2-DH^2}=\sqrt{36-3}=\sqrt{33}$。'
+          - latex: '因为 $AG=3$，且有效图形中 $H$ 在 $G$ 的右侧，所以 $GH=AH-AG=\sqrt{33}-3$。'
+          - latex: '从 $B$ 到 $D$ 的竖直差仍是 $BG+DH=4\sqrt3$，水平差是 $GH=\sqrt{33}-3$。'
+          - latex: '$BD^2=(4\sqrt3)^2+(\sqrt{33}-3)^2=90-6\sqrt{33}$。'
+          - latex: '所以 $BD=\sqrt{90-6\sqrt{33}}$。'
+        connection_title: "本法小结"
+        connection_items:
+          - latex: '和第1题相比，唯一换掉的是“求水平距离”的来源：第1题用 $DG=3$，本题用 $AD=6$。'
+          - latex: '答案：$BD=\sqrt{90-6\sqrt{33}}$。'
+        right_title: "答案"
+        right_steps:
+          - latex: '$BD=\sqrt{90-6\sqrt{33}}$'
+
+      - type: "dual_explanation"
+        id: "p2-vector"
+        label: "向量法"
+        stem_latex: "同一个分点表达，换成 $AD=6$。"
+        left_title: "向量法"
+        left_items:
+          - latex: '令 $\vec{GE}=\mathbf e=x\mathbf u,\ \vec{GB}=\mathbf b$，其中 $\mathbf u$ 是 $AC$ 方向单位向量，$\mathbf e\perp\mathbf b$，$|\mathbf b|=3\sqrt3$，且 $\vec{GA}=-3\mathbf u$。'
+          - latex: '有效分支仍为 $E$ 在线段 $BD$ 上，所以 $\vec{GD}=\frac43\mathbf e-\frac13\mathbf b=\frac43x\mathbf u-\frac13\mathbf b$。'
+          - latex: '$AD=6$ 写成 $|\vec{GD}-\vec{GA}|=6$，即 $|\frac43x\mathbf u+3\mathbf u-\frac13\mathbf b|^2=36$。'
+          - latex: '利用垂直分量平方相加：$(\frac43x+3)^2+\frac19|\mathbf b|^2=36$，也就是 $(\frac43x+3)^2+3=36$。'
+          - latex: '解得 $x=\frac34(\sqrt{33}-3)$ 或 $x=-\frac34(\sqrt{33}+3)$。后者小于 $-3$，不在线段 $AC$ 内，舍去。'
+          - latex: '有效根代回 $BD=\frac43BE=\frac43\sqrt{x^2+27}$，得 $BD^2=90-6\sqrt{33}$。'
+          - latex: '因此 $BD=\sqrt{90-6\sqrt{33}}$。'
+        connection_title: "本法小结"
+        connection_items:
+          - latex: '向量法里舍根最清楚：根是否满足 $-3\le x\le3$，一看就能判定。'
+          - latex: '答案：$BD=\sqrt{90-6\sqrt{33}}$。'
+        right_title: "答案"
+        right_steps:
+          - latex: '$BD=\sqrt{90-6\sqrt{33}}$'
+
+      - type: "dual_explanation"
+        id: "p2-coordinate"
+        label: "建系法"
+        stem_latex: "坐标最方便检查舍根。"
+        left_title: "建系法"
+        left_items:
+          - latex: '仍取 $G(0,0)$，$A(-3,0)$，$C(3,0)$，$B(0,3\sqrt3)$，设 $E(x,0)$。'
+          - latex: '先取有效分支 $E$ 在线段 $BD$ 上，于是 $D=(\frac43x,-\sqrt3)$。这一步和第1题完全相同。'
+          - latex: '由 $AD=6$，得 $(\frac43x+3)^2+(-\sqrt3)^2=36$，即 $(\frac43x+3)^2+3=36$。'
+          - latex: '解得 $x=\frac34(\sqrt{33}-3)$ 或 $x=-\frac34(\sqrt{33}+3)$。由于 $E$ 在线段 $AC$ 上，必须 $-3\le x\le3$，所以只保留 $x=\frac34(\sqrt{33}-3)$。'
+          - latex: '于是 $BD=\frac43BE=\frac43\sqrt{x^2+27}$。代入有效根并化简，得 $BD=\sqrt{90-6\sqrt{33}}$。'
+          - latex: '如果尝试另一分点分支，也会在 $x$ 的范围检查中被排除，因此本题只有一个答案。'
+        connection_title: "本法小结"
+        connection_items:
+          - latex: '建系法的关键不是方程难，而是方程解完以后必须检查 $E$ 是否仍在线段 $AC$ 上。'
+          - latex: '答案：$BD=\sqrt{90-6\sqrt{33}}$。'
+        right_title: "答案"
+        right_steps:
+          - latex: '$BD=\sqrt{90-6\sqrt{33}}$'
+
+  - id: "problem-3"
+    title: "第3题：变式2"
+    show_title: true
+    type: "explanation"
+    visibility: "student"
+    layout:
+      break_before: true
+    blocks:
+      - type: "problemcard"
+        id: "p3-card"
+        label: "第3题"
+        stem_latex: |
+          $AD\perp DC$，直线 $BD$ 和直线 $AC$ 交于点 $E$，且 $BE=3DE$，求 $BD$。
+
+      - type: "key_idea"
+        id: "p3-grip"
+        content_latex: |
+          本题和第1题一样有 $AD\perp DC$，所以仍有 $DG=3$。变化在“直线 $BD$ 和直线 $AC$”：$E$ 不一定夹在 $B,D$ 之间，也不一定在线段 $AC$ 内。因此两个分点分支都要算，再按直线条件保留。
+
+      - type: "route"
+        id: "p3-route"
+        steps:
+          - latex: '保留 $DG=3$'
+          - latex: '列两个分点分支'
+          - latex: '分别求 $DH,GH$ 或 $x$'
+          - latex: '判断是否只在线段外'
+          - latex: '直线条件允许则保留'
+
+      - type: "step"
+        id: "p3-figure"
+        title: "Wolfram 插图"
+        content_latex: |
+          \begin{center}
+            \includegraphics[width=0.70\linewidth]{figures/problem3.pdf}
+          \end{center}
+
+      - type: "dual_explanation"
+        id: "p3-geo"
+        label: "几何法"
+        stem_latex: "直线条件带来两个分支。"
+        left_title: "几何法"
+        left_items:
+          - latex: '$AD\perp DC$ 仍然给出 $DG=3$，并且 $BG=3\sqrt3$ 不变。'
+          - latex: '分支一：$E$ 在线段 $BD$ 上。这时与第1题完全相同，由相似得 $DH=\sqrt3$，再由 $DG=3$ 得 $GH=\sqrt6$。竖直差为 $BG+DH=4\sqrt3$，所以 $BD=3\sqrt6$。'
+          - latex: '分支二：$D$ 在线段 $BE$ 上。此时 $D$ 在 $B$ 与 $E$ 之间，作 $DH\perp AC$ 后，仍由相似比 $BE:DE=3:1$ 得 $DH=\sqrt3$。'
+          - latex: '由于 $DG=3$，仍有 $GH=\sqrt{9-3}=\sqrt6$。但这一次 $D$ 在 $B$ 下方、$AC$ 上方，竖直差是 $BG-DH=2\sqrt3$。'
+          - latex: '所以第二个长度 $BD=\sqrt{(2\sqrt3)^2+(\sqrt6)^2}=3\sqrt2$。这个分支会让 $E$ 落在 $AC$ 的延长线上，但题目说的是直线 $AC$，所以不能舍。'
+        connection_title: "本法小结"
+        connection_items:
+          - latex: '本题最容易错在把“直线”看成“线段”，从而漏掉 $3\sqrt2$。'
+          - latex: '答案：$BD=3\sqrt6$ 或 $3\sqrt2$。'
+        right_title: "答案"
+        right_steps:
+          - latex: '$BD=3\sqrt6$ 或 $3\sqrt2$'
+
+      - type: "dual_explanation"
+        id: "p3-vector"
+        label: "向量法"
+        stem_latex: "两个分点表达都要取。"
+        left_title: "向量法"
+        left_items:
+          - latex: '仍令 $\vec{GE}=\mathbf e,\ \vec{GB}=\mathbf b$，其中 $\mathbf e\perp\mathbf b$，$|\mathbf b|^2=27$，且由 $AD\perp DC$ 得 $|\vec{GD}|=3$。'
+          - latex: '分支一：$E$ 在线段 $BD$ 上，$\vec{GD}=\frac43\mathbf e-\frac13\mathbf b$。代入 $|\vec{GD}|=3$，得 $\frac{16}{9}|\mathbf e|^2+3=9$，即 $|\mathbf e|^2=\frac{27}{8}$，所以 $BD=3\sqrt6$。'
+          - latex: '分支二：$D$ 在线段 $BE$ 上，$\vec{GD}=\frac23\mathbf e+\frac13\mathbf b$。代入 $|\vec{GD}|=3$，得 $\frac49|\mathbf e|^2+3=9$，即 $|\mathbf e|^2=\frac{27}{2}$。'
+          - latex: '这一支中 $BD=\frac23BE$，于是 $BD=\frac23\sqrt{|\mathbf e|^2+|\mathbf b|^2}=\frac23\sqrt{\frac{27}{2}+27}=3\sqrt2$。'
+          - latex: '因为本题是直线 $BD$ 与直线 $AC$，两个分支都合法。'
+        connection_title: "本法小结"
+        connection_items:
+          - latex: '向量法特别适合这题，因为两个分支只差一个分点表达式。'
+          - latex: '答案：$BD=3\sqrt6$ 或 $3\sqrt2$。'
+        right_title: "答案"
+        right_steps:
+          - latex: '$BD=3\sqrt6$ 或 $3\sqrt2$'
+
+      - type: "dual_explanation"
+        id: "p3-coordinate"
+        label: "建系法"
+        stem_latex: "两个坐标分支分别代入 $DG=3$。"
+        left_title: "建系法"
+        left_items:
+          - latex: '仍设 $G(0,0)$，$B(0,3\sqrt3)$，$E(x,0)$。直线条件下，$x$ 不必限制在 $[-3,3]$。'
+          - latex: '分支一：$E$ 在线段 $BD$ 上，$D=(\frac43x,-\sqrt3)$。代入 $DG=3$ 得 $\frac{16}{9}x^2+3=9$，所以 $x^2=\frac{27}{8}$，进而 $BD=3\sqrt6$。'
+          - latex: '分支二：$D$ 在线段 $BE$ 上，$D=(\frac23x,\sqrt3)$。代入 $DG=3$ 得 $\frac49x^2+3=9$，所以 $x^2=\frac{27}{2}$，进而 $BD=3\sqrt2$。'
+          - latex: '第二分支的 $|x|>3$，如果是线段 $AC$ 要舍；但这里是直线 $AC$，保留。'
+        connection_title: "本法小结"
+        connection_items:
+          - latex: '坐标法把“直线”和“线段”的区别落实为 $x$ 是否必须落在 $[-3,3]$。'
+          - latex: '答案：$BD=3\sqrt6$ 或 $3\sqrt2$。'
+        right_title: "答案"
+        right_steps:
+          - latex: '$BD=3\sqrt6$ 或 $3\sqrt2$'
+
+  - id: "problem-4"
+    title: "第4题：变式3"
+    show_title: true
+    type: "explanation"
+    visibility: "student"
+    layout:
+      break_before: true
+    blocks:
+      - type: "problemcard"
+        id: "p4-card"
+        label: "第4题"
+        stem_latex: |
+          $BD\perp DC$，直线 $BD$ 和线段 $AC$ 交于点 $E$，且 $BE=3DE$，求 $BD$。
+
+      - type: "key_idea"
+        id: "p4-grip"
+        content_latex: |
+          本题最容易误套第1题：条件是 $BD\perp DC$，不是 $AD\perp DC$，所以没有 $DG=3$。不过 $E$ 仍在线段 $AC$ 上，这会排除一部分分支。有效做法是先用比例写出 $D$ 的位置，再把 $BD\perp DC$ 翻译成几何乘积或坐标点积。
+
+      - type: "route"
+        id: "p4-route"
+        steps:
+          - latex: '不能用 $DG=3$'
+          - latex: '判断有效分支为 $D$ 在线段 $BE$ 上'
+          - latex: '设 $GH=t$ 或 $E(x,0)$'
+          - latex: '用 $BD\perp DC$ 建方程'
+          - latex: '检查有效根'
+
+      - type: "step"
+        id: "p4-figure"
+        title: "Wolfram 插图"
+        content_latex: |
+          \begin{center}
+            \includegraphics[width=0.68\linewidth]{figures/problem4.pdf}
+          \end{center}
+
+      - type: "dual_explanation"
+        id: "p4-geo"
+        label: "几何法"
+        stem_latex: '这次不能用 $DG=3$，改用 $BD\perp DC$。'
+        left_title: "几何法"
+        left_items:
+          - latex: '先不要写 $DG=3$，因为本题没有 $AD\perp DC$。由线段 $AC$ 的限制检查分支，可行的是 $D$ 在线段 $BE$ 上。'
+          - latex: '作 $DH\perp AC$。由 $\triangle EBG\sim\triangle EDH$ 和 $BE:DE=3:1$，仍得 $BG:DH=3:1$，所以 $DH=\sqrt3$。此时 $D$ 在 $AC$ 上方。'
+          - latex: '设 $H$ 在 $G$ 左侧，$GH=t$。从 $D$ 看向 $B$，水平差为 $t$，竖直差为 $BG-DH=2\sqrt3$。'
+          - latex: '从 $D$ 看向 $C$，水平差为 $CG+GH=3+t$，竖直差为 $DH=\sqrt3$。'
+          - latex: '因为 $BD\perp DC$，两个方向的斜率乘积为 $-1$；等价地，水平差乘积等于竖直差乘积，所以 $t(3+t)=2\sqrt3\cdot\sqrt3=6$。'
+          - latex: '解得 $t=\frac{\sqrt{33}-3}{2}$。'
+          - latex: '于是 $BD^2=t^2+(2\sqrt3)^2=\frac{45-3\sqrt{33}}{2}$。'
+          - latex: '所以 $BD=\sqrt{\frac{45-3\sqrt{33}}{2}}$。'
+        connection_title: "本法小结"
+        connection_items:
+          - latex: '本题的关键是换垂直对象：从“斜边中线”模型切到“垂直方向点积/斜率”模型。'
+          - latex: '答案：$BD=\sqrt{\frac{45-3\sqrt{33}}{2}}$。'
+        right_title: "答案"
+        right_steps:
+          - latex: '$BD=\sqrt{\frac{45-3\sqrt{33}}{2}}$'
+
+      - type: "dual_explanation"
+        id: "p4-vector"
+        label: "向量法"
+        stem_latex: "垂直写成点积为零。"
+        left_title: "向量法"
+        left_items:
+          - latex: '令 $\vec{GE}=x\mathbf u,\ \vec{GB}=\mathbf b$，其中 $\mathbf u$ 沿 $AC$，$|\mathbf b|=3\sqrt3$，$\vec{GC}=3\mathbf u$。'
+          - latex: '先试 $E$ 在线段 $BD$ 上的分支：$\vec{GD}=\frac43x\mathbf u-\frac13\mathbf b$。把 $BD\perp DC$ 写成 $(\vec{GB}-\vec{GD})\cdot(\vec{GC}-\vec{GD})=0$，会得到判别式小于 $0$ 的方程，因此无实数解。'
+          - latex: '有效分支为 $D$ 在线段 $BE$ 上：$\vec{GD}=\frac23x\mathbf u+\frac13\mathbf b$。'
+          - latex: '代入点积方程 $(\vec{GB}-\vec{GD})\cdot(\vec{GC}-\vec{GD})=0$，利用 $\mathbf u\perp\mathbf b$，得到 $4x^2-18x-54=0$。'
+          - latex: '解得 $x=\frac{9\pm3\sqrt{33}}4$。线段 $AC$ 要求 $-3\le x\le3$，所以取 $x=\frac{9-3\sqrt{33}}4$。'
+          - latex: '此时 $BD=\frac23BE=\frac23\sqrt{x^2+27}$，化简得 $BD^2=\frac{45-3\sqrt{33}}{2}$。'
+          - latex: '所以 $BD=\sqrt{\frac{45-3\sqrt{33}}{2}}$。'
+        connection_title: "本法小结"
+        connection_items:
+          - latex: '向量法中，垂直条件最干净的表达就是点积为 $0$，比斜率更不容易漏符号。'
+          - latex: '答案：$BD=\sqrt{\frac{45-3\sqrt{33}}{2}}$。'
+        right_title: "答案"
+        right_steps:
+          - latex: '$BD=\sqrt{\frac{45-3\sqrt{33}}{2}}$'
+
+      - type: "dual_explanation"
+        id: "p4-coordinate"
+        label: "建系法"
+        stem_latex: "坐标直接判有效根。"
+        left_title: "建系法"
+        left_items:
+          - latex: '设 $G(0,0)$，$B(0,3\sqrt3)$，$C(3,0)$，$E(x,0)$，并且因为 $E$ 在线段 $AC$ 上，要有 $-3\le x\le3$。'
+          - latex: '先检查分支。若 $E$ 在线段 $BD$ 上，则 $D=(\frac43x,-\sqrt3)$，代入 $(B-D)\cdot(C-D)=0$ 得 $4x^2-9x+27=0$，没有实数解。'
+          - latex: '因此取 $D$ 在线段 $BE$ 上的分支：$D=(\frac23x,\sqrt3)$。'
+          - latex: '$BD\perp DC$ 写成 $(B-D)\cdot(C-D)=0$，即 $(-\frac23x,2\sqrt3)\cdot(3-\frac23x,-\sqrt3)=0$。'
+          - latex: '展开得 $4x^2-18x-54=0$，所以 $x=\frac{9\pm3\sqrt{33}}4$。'
+          - latex: '根 $x=\frac{9+3\sqrt{33}}4$ 大于 $3$，不在线段 $AC$ 上，舍去；有效根为 $x=\frac{9-3\sqrt{33}}4$。'
+          - latex: '$BD=\frac23BE=\frac23\sqrt{x^2+27}=\sqrt{\frac{45-3\sqrt{33}}{2}}$。'
+        connection_title: "本法小结"
+        connection_items:
+          - latex: '建系法把本题所有限制都落到三件事：分支、点积、范围。'
+          - latex: '答案：$BD=\sqrt{\frac{45-3\sqrt{33}}{2}}$。'
+        right_title: "答案"
+        right_steps:
+          - latex: '$BD=\sqrt{\frac{45-3\sqrt{33}}{2}}$'
+
+  - id: "summary"
+    title: "总答案与方法对照"
+    show_title: true
+    type: "explanation"
+    visibility: "student"
+    layout:
+      break_before: true
+    blocks:
+      - type: "answer"
+        id: "final-summary"
+        title: "四题答案"
+        items:
+          - latex: '第1题：$BD=3\sqrt6$'
+          - latex: '第2题：$BD=\sqrt{90-6\sqrt{33}}$'
+          - latex: '第3题：$BD=3\sqrt6$ 或 $3\sqrt2$'
+          - latex: '第4题：$BD=\sqrt{\frac{45-3\sqrt{33}}{2}}$'
+
+      - type: "method_reminder"
+        id: "final-method-reminder"
+        title: "三种方法区别"
+        items:
+          - latex: '几何法：最能看出图形结构，重点是辅助线、相似和勾股。'
+          - latex: '向量法：最能表达分点关系，尤其适合处理 $E$ 在线段 $BD$ 上和 $D$ 在线段 $BE$ 上两个分支。'
+          - latex: '建系法：最适合处理变式和检查舍根，把线段 $AC$ 的限制落实为 $-3\le x\le3$。'
+
+      - type: "mistake"
+        id: "final-mistake-1"
+        title: "变式1条件"
+        content: |
+          变式1是 $AD=AC$，不是 $AD=DC$。这会改变 $D$ 的轨迹，不能再把它当作垂直平分线问题。
+
+      - type: "mistake"
+        id: "final-mistake-2"
+        title: "四题都要先判分支"
+        content: |
+          $BE=3DE$ 不是自动等于 $BD=\frac43BE$。如果题目说直线 $BD$，还要检查 $D$ 在线段 $BE$ 上的分支，此时 $BD=\frac23BE$。
+
+  - id: "teacher-notes"
+    title: "教师备注"
+    show_title: true
+    type: "explanation"
+    visibility: "teacher"
+    layout:
+      break_before: true
+    blocks:
+      - type: "key_idea"
+        id: "teacher-note"
+        content: |
+          这份讲义按四道题拆开，每道题都给出三种方法。讲课建议不要一次性讲完所有代数细节：先用第1题建立 $B,G,E,D$ 小模型，再让学生在第2-4题中练“分支 + 范围检查”。
+        teaching:
+          teaching_goal: "四题三法对照，训练共同模型与分支检查"
+          expected_blocker: "学生知道建系但不知道为什么要先取G"
+          mastery_band: "B+"

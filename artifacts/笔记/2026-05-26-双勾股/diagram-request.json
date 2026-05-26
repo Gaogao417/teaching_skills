@@ -1,0 +1,46 @@
+{
+  "schema_version": "teaching-diagram-request/v1",
+  "source_artifact": "/Users/gaochong/develop/teaching_skills/artifacts/笔记/2026-05-26-双勾股/01-structure-analysis.md",
+  "created_date": "2026-05-26",
+  "needs_diagram": true,
+  "diagram_type": "synthetic_geometry",
+  "diagram_intent": "student_explanation",
+  "problem_text": "如图，在三角形 $ABC$ 中，点 $D$ 在射线 $BC$ 上，且 $C$ 在 $B,D$ 之间，$AD=AB$。已知 $AB=15$，$AC=13$，且 $2BD=9BC$，求 $BC$ 的长。",
+  "grade_or_topic": "等腰三角形底边高 + 共高双勾股求线段",
+  "objects_hint": {
+    "points": [
+      "A",
+      "B",
+      "C",
+      "H",
+      "D"
+    ],
+    "segments": [
+      "AB",
+      "AC",
+      "AD",
+      "AH",
+      "BC",
+      "CH",
+      "HD"
+    ],
+    "curves": [],
+    "constraints": [
+      "B,C,H,D collinear",
+      "AH perpendicular BD",
+      "BH=HD",
+      "C between B and H"
+    ]
+  },
+  "teaching_focus": [
+    "先作高",
+    "再看中点",
+    "最后看两个直角三角形"
+  ],
+  "must_not_imply": [
+    "不要暗示 C=H",
+    "不要暗示 AC=AD",
+    "不要把 H 画到 BC 外侧"
+  ],
+  "fallback": "textual_diagram_description"
+}

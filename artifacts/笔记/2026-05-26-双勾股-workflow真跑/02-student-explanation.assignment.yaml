@@ -1,0 +1,57 @@
+meta:
+  title: "双勾股：等腰底边高里的共高消元"
+  version: "student"
+render:
+  template: "exam-zh-explanation"
+sections:
+  - id: "lesson"
+    title: "双勾股讲解"
+    show_title: true
+    blocks:
+      - id: "orig"
+        type: "problemcard"
+        label: "原题"
+        stem_latex: |
+          如图，在三角形 $ABC$ 中，点 $D$ 在射线 $BC$ 上，且 $C$ 在 $B,D$ 之间，$AD=AB$。
+          已知 $AB=15$，$AC=13$，且 $2BD=9BC$，求 $BC$ 的长。
+        diagram_col:
+          image_path: "diagram/jobs/orig-prompt/rendered/prompt.png"
+          diagram_job_id: "orig-prompt"
+          width: "0.30\\linewidth"
+          caption: "先看点序和共高。"
+          variant: "prompt"
+          disclosure_policy: "clean"
+
+      - id: "route"
+        type: "route"
+        steps:
+          - latex: "作 $AH\\perp BD$"
+          - latex: "由 $AD=AB$ 得 $H$ 是 $BD$ 中点"
+          - latex: "把 $BH,CH$ 都写成 $BC$ 的倍数"
+          - latex: "在 $\\triangle ABH$ 与 $\\triangle ACH$ 中两次勾股并相减"
+
+      - id: "key"
+        type: "key_idea"
+        content_latex: |
+          这类题的共同动作是：两条斜边已知，两个直角三角形共用同一条高 $AH$。
+          所以分别写勾股式后相减，可以把 $AH^2$ 消掉，只留下底边上的线段关系。
+
+      - id: "solution-main"
+        type: "solution"
+        title: "解答"
+        items:
+          - latex: "设 $BC=x$。由 $2BD=9BC$，得 $BD=\\dfrac92x$。"
+          - latex: "因为 $AD=AB$，且 $AH\\perp BD$，所以 $H$ 是 $BD$ 的中点，$BH=\\dfrac12BD=\\dfrac94x$。"
+          - latex: "点序为 $B-C-H-D$，所以 $CH=BH-BC=\\dfrac94x-x=\\dfrac54x$。"
+          - latex: "在 $\\triangle ABH$ 与 $\\triangle ACH$ 中：$15^2=AH^2+\\left(\\dfrac94x\\right)^2$，$13^2=AH^2+\\left(\\dfrac54x\\right)^2$。"
+          - latex: "两式相减：$56=\\dfrac{81-25}{16}x^2=\\dfrac72x^2$，所以 $x^2=16$，$x=4$。"
+
+      - id: "summary"
+        type: "answer_reminder"
+        left_title: "答案"
+        left_items:
+          - latex: "$BC=4$。"
+        right_title: "方法提醒"
+        right_items:
+          - latex: "看到 $AD=AB$，优先想到向 $BD$ 作高，得到中点。"
+          - latex: "看到两条斜边长度，优先写两个共高直角三角形的勾股式。"

@@ -1,0 +1,182 @@
+meta:
+  title: "双勾股求边长 · 专题练习（教师版）"
+  subtitle: "作高取中点 · 表示底边 · 勾股相减"
+  grade: "八年级"
+  subject: "数学"
+  duration: "25分钟"
+  total_points: 38
+  version: "teacher"
+  source_artifacts:
+    structure_analysis: "artifacts/笔记/2026-05-26-双勾股/01-structure-analysis.md"
+    explanation: "artifacts/笔记/2026-05-26-双勾股/02-student-explanation.assignment.yaml"
+
+render:
+  template: "exam-zh-practice"
+  paper_size: "a4paper"
+  answer_key_position: "after_page_break"
+
+sections:
+  - id: "choice"
+    title: "一、选择题（每题 4 分，共 8 分）"
+    type: "practice"
+    visibility: "both"
+    blocks:
+      - type: "choice"
+        id: "c1"
+        points: 4
+        stem: '在等腰三角形 $ABD$ 中，$AD=AB$。过 $A$ 作 $AH\perp BD$，垂足为 $H$。下列结论一定正确的是'
+        choices:
+          A: "$AH=BD$"
+          B: "$BH=HD$"
+          C: "$AB=BH$"
+          D: "$AC=AD$"
+        answer: "B"
+        explanation: "等腰三角形顶点到底边的高也是底边上的中线，所以 $BH=HD$。"
+        teaching:
+          teaching_goal: "确认学生能把等腰条件转成中点条件。"
+          expected_blocker: "只记得等腰两边相等，不会调用三线合一。"
+          mastery_band: "B"
+          upgrade_rule: "若能说出原因，进入完整双勾股题。"
+          downgrade_rule: "若选错，先复习等腰三角形底边高。"
+          complexity_note: "只考结构入口，不涉及计算。"
+
+      - type: "choice"
+        id: "c2"
+        points: 4
+        stem: '设 $BC=x$，点序为 $B-C-H-D$，且 $BH=\dfrac94x$。则 $CH$ 等于'
+        choices:
+          A: '$\dfrac14x$'
+          B: '$\dfrac54x$'
+          C: '$\dfrac{13}4x$'
+          D: '$\dfrac94x$'
+        answer: "B"
+        explanation: '因为点序为 $B-C-H$，所以 $CH=BH-BC=\dfrac94x-x=\dfrac54x$。'
+        teaching:
+          teaching_goal: "训练点序与线段差。"
+          expected_blocker: "把 $CH$ 写成 $BH+BC$。"
+          mastery_band: "B"
+          upgrade_rule: "能稳定表达 $CH$ 后进入列勾股式。"
+          downgrade_rule: "若错，要求学生在直线上标出 $B,C,H,D$。"
+          complexity_note: "只含简单分数减法。"
+
+  - id: "fillin"
+    title: "二、填空题（每题 5 分，共 10 分）"
+    type: "practice"
+    visibility: "both"
+    blocks:
+      - type: "fillin"
+        id: "f1"
+        points: 5
+        stem: '若 $BD=4BC$，过 $A$ 作 $AH\perp BD$ 后由 $AD=AB$ 得 $BH=\underline{\quad\quad}BC$。'
+        answer: "$2$"
+        explanation: '$BH=\dfrac12BD=\dfrac12\cdot4BC=2BC$。'
+        teaching:
+          teaching_goal: "巩固等腰取中点后与比例结合。"
+          expected_blocker: "漏掉一半，直接写 $4BC$。"
+          mastery_band: "B"
+          complexity_note: "低计算量比例转换。"
+
+      - type: "fillin"
+        id: "f2"
+        points: 5
+        stem: '若 $AB=15$，$AC=13$，$BH=9$，$CH=5$，则公共高 $AH=\underline{\quad\quad}$。'
+        answer: "$12$"
+        explanation: '由 $AB^2=AH^2+BH^2$ 得 $AH=\sqrt{15^2-9^2}=12$；也可用 $13^2-5^2$ 验算。'
+        teaching:
+          teaching_goal: "识别共高并完成验算。"
+          expected_blocker: "不知道用哪一个直角三角形求高。"
+          mastery_band: "B"
+          complexity_note: "经典 $9-12-15$ 与 $5-12-13$。"
+
+  - id: "problems"
+    title: "三、解答题（每题 10 分，共 20 分）"
+    type: "practice"
+    visibility: "both"
+    blocks:
+      - type: "problem"
+        id: "p1"
+        points: 10
+        label: "第 1 题"
+        stem_latex: |
+          在三角形 $ABC$ 中，点 $D$ 在射线 $BC$ 上，且 $C$ 在 $B,D$ 之间，$AD=AB$。
+          已知 $AB=17$，$AC=10$，且 $BD=4BC$，求 $BC$。
+        answer: '$BC=3\sqrt7$'
+        explanation: |
+          设 $BC=x$。作 $AH\perp BD$，因为 $AD=AB$，所以 $H$ 是 $BD$ 中点。
+          由 $BD=4BC$ 得 $BH=2x$。点序为 $B-C-H-D$，所以 $CH=BH-BC=x$。
+          两次勾股相减：$17^2-10^2=(2x)^2-x^2=3x^2$，所以 $189=3x^2$，$x^2=63$，$x=3\sqrt7$。
+        solution_steps:
+          - title: "作高取中点"
+            content: '过 $A$ 作 $AH\perp BD$。由 $AD=AB$ 得 $H$ 是 $BD$ 中点。'
+          - title: "表示底边"
+            content: "设 $BC=x$。由 $BD=4BC$ 得 $BH=2x$，且 $CH=BH-BC=x$。"
+          - title: "两次勾股相减"
+            content: "$17^2=AH^2+(2x)^2$，$10^2=AH^2+x^2$，相减得 $189=3x^2$。"
+          - title: "求解并取正"
+            content: '$3x^2=189$，所以 $x^2=63$，$x=3\sqrt7$。'
+          - title: "结论"
+            content: '本题答案为 $BC=3\sqrt7$。'
+        teaching:
+          teaching_goal: "迁移原题路径，比例变简单但答案为根式。"
+          expected_blocker: "看到不能开整数后误以为前面做错。"
+          mastery_band: "C"
+          upgrade_rule: "若能接受根式答案，可进入换问法。"
+          downgrade_rule: "若比例表达错，退回选择题 c2。"
+          complexity_note: "结构不变，计算略升到根式。"
+        answer_space:
+          type: "steps"
+          height: "50mm"
+          diagram:
+            image_path: "diagram/rendered/diagram.png"
+            width: "0.42\\linewidth"
+            caption: "参考图：先作高"
+
+      - type: "problem"
+        id: "p2"
+        points: 10
+        label: "第 2 题"
+        stem_latex: |
+          在三角形 $ABC$ 中，点 $D$ 在射线 $BC$ 上，且 $C$ 在 $B,D$ 之间，$AD=AB$。
+          已知 $AC=13$，$BC=4$，且 $2BD=9BC$，求 $AB$。
+        answer: "$AB=15$"
+        explanation: |
+          由 $BC=4$ 和 $2BD=9BC$ 得 $BD=18$。作 $AH\perp BD$，由 $AD=AB$ 得 $BH=9$。
+          点序为 $B-C-H-D$，所以 $CH=BH-BC=5$。
+          在 $\triangle ACH$ 中，$AH=\sqrt{13^2-5^2}=12$。
+          在 $\triangle ABH$ 中，$AB=\sqrt{12^2+9^2}=15$。
+        solution_steps:
+          - title: "先求底边位置"
+            content: '$BD=\dfrac92BC=18$，所以 $BH=\dfrac12BD=9$。'
+          - title: "求 $CH$"
+            content: "点序为 $B-C-H-D$，所以 $CH=BH-BC=9-4=5$。"
+          - title: "先求公共高"
+            content: '在 $\triangle ACH$ 中，$AH=\sqrt{13^2-5^2}=12$。'
+          - title: "再求 $AB$"
+            content: '在 $\triangle ABH$ 中，$AB=\sqrt{12^2+9^2}=15$。'
+        teaching:
+          teaching_goal: "把原题反向迁移：先求高，再求另一条斜边。"
+          expected_blocker: "仍然机械相减，不知道换问法时可以顺推。"
+          mastery_band: "B"
+          upgrade_rule: "若能完成，说明已能迁移到换问法。"
+          downgrade_rule: "若卡住，提示先算 $BD,BH,CH$。"
+          complexity_note: "数值回到 $5-12-13$ 和 $9-12-15$。"
+
+  - id: "answer-key"
+    title: "参考答案"
+    type: "answer_key"
+    visibility: "teacher"
+    blocks:
+      - type: "step"
+        id: "ak-choice"
+        title: "选择题"
+        content: "1. B；2. B。"
+      - type: "step"
+        id: "ak-fillin"
+        title: "填空题"
+        content: "1. $2$；2. $12$。"
+      - type: "step"
+        id: "ak-problem"
+        title: "解答题"
+        content: |
+          第 1 题：$BC=3\sqrt7$。
+          第 2 题：$AB=15$。
