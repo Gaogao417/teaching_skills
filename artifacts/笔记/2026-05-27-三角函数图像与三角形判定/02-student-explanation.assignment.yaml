@@ -1,0 +1,136 @@
+meta:
+  title: "三角函数图像与三角形判定"
+  example_label: "例题"
+  grade: "高中"
+  subject: "数学"
+  version: "teacher"
+  source_artifacts:
+    structure_analysis: "01-structure-analysis.md"
+render:
+  template: "exam-zh-explanation"
+  paper_size: "a4paper"
+sections:
+  - id: "original"
+    title: "原题"
+    type: "explanation"
+    visibility: "both"
+    show_title: false
+    blocks:
+      - type: "problemcard"
+        id: "orig"
+        label: "题目"
+        stem_latex: |
+          已知函数 $y=f(x)$，$f(x)=A\sin(\omega x+\varphi)$，其中 $A>0,\omega>0,|\varphi|<\dfrac{\pi}{2}$，其部分图像如图所示。
+          \begin{enumerate}[label=(\arabic*)]
+            \item 求 $y=f(x)$ 的解析式；
+            \item 在 $\triangle ABC$ 中，$a,b,c$ 分别是角 $A,B,C$ 的对边，若 $f(B)=1$，$a,b,c$ 成等差数列，判断 $\triangle ABC$ 的形状。
+          \end{enumerate}
+      - type: "diagram"
+        id: "orig-graph"
+        image_path: "diagram/jobs/orig-prompt/rendered/prompt.png"
+        diagram_job_id: "orig-prompt"
+        width: "0.58\\linewidth"
+        caption: "先读最大值、$f(0)$ 和峰值横坐标。"
+        variant: "prompt"
+        disclosure_policy: "clean"
+      - type: "reading_tip"
+        id: "read-tip"
+        items:
+          - latex: "第（1）问先把图上的三个信息翻译成方程：振幅、初值、峰值。"
+          - latex: "第（2）问不是直接猜形状，要先由 $f(B)=1$ 求出角 $B$。"
+  - id: "route"
+    title: "解题路线"
+    type: "explanation"
+    visibility: "both"
+    show_title: false
+    blocks:
+      - type: "route"
+        id: "route-main"
+        steps:
+          - latex: '读图：最大值 $2$，$f(0)=1$，峰值在 $x=\dfrac{\pi}{6}$'
+          - latex: '求参：先得 $A,\varphi$，再由峰值相位求 $\omega$'
+          - latex: "定角：由 $f(B)=1$ 求 $B$"
+          - latex: "判形：$2b=a+c$ 与余弦定理联立"
+      - type: "key_idea"
+        id: "key-main"
+        content_latex: |
+          这道题的难点不是某一步很长，而是每个条件都要翻译准确。图像条件翻译成三角函数参数，边成等差翻译成 $2b=a+c$，角 $B$ 再交给余弦定理。
+  - id: "solution"
+    title: "规范解答"
+    type: "explanation"
+    visibility: "both"
+    show_title: false
+    blocks:
+      - type: "dual_explanation"
+        id: "solve-1"
+        label: "(1)"
+        stem_latex: "求 $y=f(x)$ 的解析式。"
+        left_title: "先读图"
+        left_items:
+          - latex: "最大值是 $2$，且 $A>0$，所以 $A=2$。"
+          - latex: "曲线经过 $(0,1)$，所以 $f(0)=1$。"
+          - latex: '图中峰值对应 $x=\dfrac{\pi}{6}$。'
+        right_title: "规范讲解"
+        right_steps:
+          - latex: '$f(0)=2\sin\varphi=1$，所以 $\sin\varphi=\dfrac12$。'
+          - latex: '由 $|\varphi|<\dfrac{\pi}{2}$，得 $\varphi=\dfrac{\pi}{6}$。'
+          - latex: '峰值处函数值为 $2$，所以 $\sin\left(\dfrac{\pi}{6}\omega+\dfrac{\pi}{6}\right)=1$。'
+          - latex: '因此 $\dfrac{\pi}{6}\omega+\dfrac{\pi}{6}=\dfrac{\pi}{2}+2k\pi$，即 $\omega=2+12k$。'
+          - latex: '结合图像相邻峰位置，周期不能过短，故 $0<\omega<3$，所以 $\omega=2$。'
+          - latex: '故 $f(x)=2\sin\left(2x+\dfrac{\pi}{6}\right)$。'
+        connection_title: "注意"
+        connection_items:
+          - latex: '$\omega$ 的多解不能全保留，要用图像的周期信息筛掉。'
+      - type: "diagram"
+        id: "solution-graph"
+        image_path: "diagram/jobs/orig-solution/rendered/prompt.png"
+        diagram_job_id: "orig-solution"
+        width: "0.58\\linewidth"
+        caption: "把 $f(0)$ 与峰值点分别对应到相位方程。"
+        variant: "solution"
+        disclosure_policy: "annotated"
+      - type: "dual_explanation"
+        id: "solve-2"
+        label: "(2)"
+        stem_latex: '若 $f(B)=1$，$a,b,c$ 成等差数列，判断 $\triangle ABC$ 的形状。'
+        left_title: "先求角，再看边"
+        left_items:
+          - latex: "$f(B)=1$ 先给出关于 $B$ 的三角方程。"
+          - latex: '$B$ 是三角形内角，所以 $B\in(0,\pi)$。'
+          - latex: "$a,b,c$ 成等差数列要写成 $2b=a+c$。"
+        right_title: "规范讲解"
+        right_steps:
+          - latex: '$2\sin\left(2B+\dfrac{\pi}{6}\right)=1$，所以 $\sin\left(2B+\dfrac{\pi}{6}\right)=\dfrac12$。'
+          - latex: '由 $B\in(0,\pi)$，得 $2B+\dfrac{\pi}{6}\in\left(\dfrac{\pi}{6},\dfrac{13\pi}{6}\right)$。'
+          - latex: '在这个范围内取 $2B+\dfrac{\pi}{6}=\dfrac{5\pi}{6}$，所以 $B=\dfrac{\pi}{3}$。'
+          - latex: "由等差数列得 $2b=a+c$。"
+          - latex: '由余弦定理，$b^2=a^2+c^2-2ac\cos\dfrac{\pi}{3}=a^2+c^2-ac$。'
+          - latex: "又 $4b^2=(a+c)^2$，代入得 $3(a-c)^2=0$，所以 $a=c$。"
+          - latex: '于是 $2b=a+c=2a$，所以 $a=b=c$，$\triangle ABC$ 为等边三角形。'
+        connection_title: "别跳步"
+        connection_items:
+          - latex: '不能因为 $B=60^\circ$ 就直接说等边，还需要证明三边相等。'
+      - type: "diagram"
+        id: "tri-solution"
+        image_path: "diagram/jobs/tri-solution/rendered/prompt.png"
+        diagram_job_id: "tri-solution"
+        width: "0.42\\linewidth"
+        caption: "对照角 $B$、对边 $b$ 和等差关系。"
+        variant: "solution"
+        disclosure_policy: "annotated"
+      - type: "mistake"
+        id: "mistake-main"
+        title: "易错提醒"
+        content_latex: |
+          余弦定理中，角 $B$ 的对边是 $b$，所以应写
+          $b^2=a^2+c^2-2ac\cos B$。如果把 $a$ 或 $c$ 放到左边，后面的判形就会错。
+      - type: "summary_dual"
+        id: "summary"
+        left_title: "答案"
+        left_items:
+          - latex: '$f(x)=2\sin\left(2x+\dfrac{\pi}{6}\right)$'
+          - latex: '$\triangle ABC$ 为等边三角形'
+        right_title: "方法提醒"
+        right_items:
+          - latex: "图像定参：振幅、初值、峰值横坐标。"
+          - latex: "三角形判形：先定角，再用边的关系和余弦定理。"

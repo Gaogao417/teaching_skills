@@ -1,0 +1,135 @@
+meta:
+  title: "三角函数图像与三角形判定专题练习"
+  grade: "高中"
+  subject: "数学"
+  duration: "25分钟"
+  total_points: 30
+  version: "student"
+  source_artifacts:
+    structure_analysis: "01-structure-analysis.md"
+    explanation: "02-student-explanation.assignment.yaml"
+render:
+  template: "exam-zh-practice"
+  paper_size: "a4paper"
+sections:
+  - id: "choice"
+    title: "一、选择题（每题 4 分，共 8 分）"
+    type: "practice"
+    visibility: "student"
+    blocks:
+      - type: "choice"
+        id: "c1"
+        points: 4
+        stem: '函数 $f(x)=A\sin(\omega x+\varphi)$，$A>0,\omega>0,|\varphi|<\dfrac{\pi}{2}$。由图可知最大值为 $3$，$f(0)=\dfrac{3\sqrt2}{2}$，且峰值横坐标为 $\dfrac{\pi}{8}$，则 $f(x)$ 可以是（ ）'
+        diagram_col:
+          image_path: "diagram/jobs/c1-prompt/rendered/prompt.png"
+          diagram_job_id: "c1-prompt"
+          width: "0.30\\linewidth"
+          caption: "读最大值、初值、峰值横坐标。"
+          variant: "prompt"
+          disclosure_policy: "clean"
+        choices:
+          A: '$3\sin\left(2x+\dfrac{\pi}{4}\right)$'
+          B: '$3\sin\left(4x+\dfrac{\pi}{4}\right)$'
+          C: '$\dfrac{3\sqrt2}{2}\sin\left(2x+\dfrac{\pi}{4}\right)$'
+          D: '$3\sin\left(2x+\dfrac{\pi}{6}\right)$'
+        answer: "A"
+        hints:
+          - content: '先由最大值确定 $A$，再由 $f(0)$ 确定 $\varphi$。'
+      - type: "choice"
+        id: "c2"
+        points: 4
+        stem: '在 $\triangle ABC$ 中，$a,b,c$ 分别是角 $A,B,C$ 的对边。若 $B=\dfrac{\pi}{3}$，且 $a,b,c$ 成等差数列，则 $\triangle ABC$ 是（ ）'
+        diagram_col:
+          image_path: "diagram/jobs/c2-prompt/rendered/prompt.png"
+          diagram_job_id: "c2-prompt"
+          width: "0.28\\linewidth"
+          caption: "对照角 $B$ 与对边 $b$。"
+          variant: "prompt"
+          disclosure_policy: "clean"
+        choices:
+          A: "等边三角形"
+          B: "只有 $AB=BC$ 的等腰三角形"
+          C: "直角三角形"
+          D: "不能确定形状"
+        answer: "A"
+        hints:
+          - content: "把等差数列先写成 $2b=a+c$，再写角 $B$ 对应的余弦定理。"
+  - id: "fillin"
+    title: "二、填空题（每题 4 分，共 8 分）"
+    type: "practice"
+    visibility: "student"
+    blocks:
+      - type: "fillin"
+        id: "f1"
+        points: 4
+        stem_latex: '函数 $f(x)=A\sin(\omega x+\varphi)$ 的最大值为 $4$，$f(0)=2$，且在 $x=\dfrac{\pi}{12}$ 处达到峰值。若 $0<\omega<6$，则 $\omega=$ \underline{\hspace{1.8cm}}。'
+        fillin_type: "line"
+        answer: "$4$"
+        hints:
+          - content: '先求 $\varphi=\dfrac{\pi}{6}$，再令 $\dfrac{\pi}{12}\omega+\dfrac{\pi}{6}=\dfrac{\pi}{2}$。'
+      - type: "fillin"
+        id: "f2"
+        points: 4
+        stem_latex: '在 $\triangle ABC$ 中，若 $B=\dfrac{\pi}{3}$，且 $a,b,c$ 成等差数列，则 $\triangle ABC$ 的形状是 \underline{\hspace{2.4cm}}。'
+        fillin_type: "line"
+        answer: "等边三角形"
+        hints:
+          - content: "用 $2b=a+c$ 和 $b^2=a^2+c^2-ac$ 联立。"
+      - type: "diagram_row"
+        id: "fillin-diagrams"
+        needspace: "15\\baselineskip"
+        items:
+          - label: "第 1 题"
+            image_path: "diagram/jobs/f1-prompt/rendered/prompt.png"
+            diagram_job_id: "f1-prompt"
+            width: "0.24\\linewidth"
+            variant: "prompt"
+            disclosure_policy: "clean"
+          - label: "第 2 题"
+            image_path: "diagram/jobs/f2-prompt/rendered/prompt.png"
+            diagram_job_id: "f2-prompt"
+            width: "0.22\\linewidth"
+            variant: "prompt"
+            disclosure_policy: "clean"
+  - id: "problem"
+    title: "三、解答题（14 分）"
+    type: "practice"
+    visibility: "student"
+    blocks:
+      - type: "problem"
+        id: "p1"
+        points: 14
+        label: "第 1 题"
+        stem_latex: |
+          已知函数 $f(x)=A\sin(\omega x+\varphi)$，其中 $A>0,\omega>0,|\varphi|<\dfrac{\pi}{2}$。图像显示最大值为 $3$，$f(0)=\dfrac32$，并且在 $x=\dfrac{\pi}{6}$ 处达到峰值，且 $0<\omega<3$。
+          \begin{enumerate}[label=(\arabic*)]
+            \item 求 $f(x)$ 的解析式；
+            \item 在 $\triangle ABC$ 中，$a,b,c$ 分别是角 $A,B,C$ 的对边。若 $f(B)=\dfrac32$，且 $a,b,c$ 成等差数列，判断 $\triangle ABC$ 的形状。
+          \end{enumerate}
+        answer: '(1) $f(x)=3\sin\left(2x+\dfrac{\pi}{6}\right)$；(2) $\triangle ABC$ 为等边三角形。'
+        hints:
+          - content: '第（1）问按 $A$、$\varphi$、$\omega$ 的顺序求。'
+          - content: "第（2）问先解出 $B$，再用 $2b=a+c$ 和余弦定理。"
+        answer_space:
+          type: "steps"
+          height: "32mm"
+          parts:
+            - label: "(1)"
+              height: "35mm"
+              diagram_col:
+                image_path: "diagram/jobs/p1-part1-prompt/rendered/prompt.png"
+                diagram_job_id: "p1-part1-prompt"
+                width: "0.32\\linewidth"
+                caption: "读图求参。"
+                variant: "prompt"
+                disclosure_policy: "clean"
+            - label: "(2)"
+              height: "40mm"
+              diagram_col:
+                image_path: "diagram/jobs/p1-part2-prompt/rendered/prompt.png"
+                diagram_job_id: "p1-part2-prompt"
+                width: "0.32\\linewidth"
+                caption: "对照角 $B$ 与对边 $b$。"
+                variant: "prompt"
+                disclosure_policy: "clean"

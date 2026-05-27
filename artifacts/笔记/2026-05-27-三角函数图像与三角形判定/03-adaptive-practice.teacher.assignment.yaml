@@ -1,0 +1,183 @@
+meta:
+  title: "三角函数图像与三角形判定专题练习（教师版）"
+  grade: "高中"
+  subject: "数学"
+  duration: "25分钟"
+  total_points: 30
+  version: "teacher"
+  source_artifacts:
+    structure_analysis: "01-structure-analysis.md"
+    explanation: "02-student-explanation.assignment.yaml"
+render:
+  template: "exam-zh-practice"
+  paper_size: "a4paper"
+  answer_key_position: "after_page_break"
+sections:
+  - id: "choice"
+    title: "一、选择题（每题 4 分，共 8 分）"
+    type: "practice"
+    visibility: "both"
+    blocks:
+      - type: "choice"
+        id: "c1"
+        points: 4
+        stem: '函数 $f(x)=A\sin(\omega x+\varphi)$，$A>0,\omega>0,|\varphi|<\dfrac{\pi}{2}$。由图可知最大值为 $3$，$f(0)=\dfrac{3\sqrt2}{2}$，且峰值横坐标为 $\dfrac{\pi}{8}$，则 $f(x)$ 可以是（ ）'
+        diagram_col:
+          image_path: "diagram/jobs/c1-prompt/rendered/prompt.png"
+          diagram_job_id: "c1-prompt"
+          width: "0.30\\linewidth"
+          caption: "读最大值、初值、峰值横坐标。"
+          variant: "prompt"
+          disclosure_policy: "clean"
+        choices:
+          A: '$3\sin\left(2x+\dfrac{\pi}{4}\right)$'
+          B: '$3\sin\left(4x+\dfrac{\pi}{4}\right)$'
+          C: '$\dfrac{3\sqrt2}{2}\sin\left(2x+\dfrac{\pi}{4}\right)$'
+          D: '$3\sin\left(2x+\dfrac{\pi}{6}\right)$'
+        answer: "A"
+        explanation: '最大值给出 $A=3$；$3\sin\varphi=\dfrac{3\sqrt2}{2}$ 且 $|\varphi|<\dfrac{\pi}{2}$，所以 $\varphi=\dfrac{\pi}{4}$。峰值条件为 $\dfrac{\pi}{8}\omega+\dfrac{\pi}{4}=\dfrac{\pi}{2}$，得 $\omega=2$。'
+        teaching:
+          teaching_goal: "巩固图像三读数定参。"
+          expected_blocker: "把初值当成振幅，或漏掉相位范围。"
+          mastery_band: "B"
+          complexity_note: '与原题同结构，数值换成 $\sqrt2/2$。'
+      - type: "choice"
+        id: "c2"
+        points: 4
+        stem: '在 $\triangle ABC$ 中，$a,b,c$ 分别是角 $A,B,C$ 的对边。若 $B=\dfrac{\pi}{3}$，且 $a,b,c$ 成等差数列，则 $\triangle ABC$ 是（ ）'
+        diagram_col:
+          image_path: "diagram/jobs/c2-prompt/rendered/prompt.png"
+          diagram_job_id: "c2-prompt"
+          width: "0.28\\linewidth"
+          caption: "对照角 $B$ 与对边 $b$。"
+          variant: "prompt"
+          disclosure_policy: "clean"
+        choices:
+          A: "等边三角形"
+          B: "只有 $AB=BC$ 的等腰三角形"
+          C: "直角三角形"
+          D: "不能确定形状"
+        answer: "A"
+        explanation: '由等差数列得 $2b=a+c$。由余弦定理，$b^2=a^2+c^2-2ac\cos\dfrac{\pi}{3}=a^2+c^2-ac$。联立可得 $3(a-c)^2=0$，所以 $a=c$，进而 $a=b=c$。'
+        teaching:
+          teaching_goal: "巩固等差边和余弦定理联立。"
+          expected_blocker: "误把角 $B$ 的对边写成 $a$ 或 $c$。"
+          mastery_band: "B"
+          complexity_note: "只保留原题第二段核心结构。"
+  - id: "fillin"
+    title: "二、填空题（每题 4 分，共 8 分）"
+    type: "practice"
+    visibility: "both"
+    blocks:
+      - type: "fillin"
+        id: "f1"
+        points: 4
+        stem_latex: '函数 $f(x)=A\sin(\omega x+\varphi)$ 的最大值为 $4$，$f(0)=2$，且在 $x=\dfrac{\pi}{12}$ 处达到峰值。若 $0<\omega<6$，则 $\omega=$ \underline{\hspace{1.8cm}}。'
+        fillin_type: "line"
+        answer: "$4$"
+        explanation: '$A=4$，$4\sin\varphi=2$，所以 $\varphi=\dfrac{\pi}{6}$。峰值条件：$\dfrac{\pi}{12}\omega+\dfrac{\pi}{6}=\dfrac{\pi}{2}$，得 $\omega=4$。'
+        teaching:
+          teaching_goal: "让学生独立完成峰值相位方程。"
+          expected_blocker: "把峰值条件写成函数值为 0。"
+          mastery_band: "B"
+      - type: "fillin"
+        id: "f2"
+        points: 4
+        stem_latex: '在 $\triangle ABC$ 中，若 $B=\dfrac{\pi}{3}$，且 $a,b,c$ 成等差数列，则 $\triangle ABC$ 的形状是 \underline{\hspace{2.4cm}}。'
+        fillin_type: "line"
+        answer: "等边三角形"
+        explanation: "同选择题第 2 题，$2b=a+c$ 与 $b^2=a^2+c^2-ac$ 联立，推出 $a=b=c$。"
+        teaching:
+          teaching_goal: "把原题判形压缩成一步填空。"
+          expected_blocker: "只答等腰，未推出三边相等。"
+          mastery_band: "B"
+      - type: "diagram_row"
+        id: "fillin-diagrams"
+        needspace: "15\\baselineskip"
+        items:
+          - label: "第 1 题"
+            image_path: "diagram/jobs/f1-prompt/rendered/prompt.png"
+            diagram_job_id: "f1-prompt"
+            width: "0.24\\linewidth"
+            variant: "prompt"
+            disclosure_policy: "clean"
+          - label: "第 2 题"
+            image_path: "diagram/jobs/f2-prompt/rendered/prompt.png"
+            diagram_job_id: "f2-prompt"
+            width: "0.22\\linewidth"
+            variant: "prompt"
+            disclosure_policy: "clean"
+  - id: "problem"
+    title: "三、解答题（14 分）"
+    type: "practice"
+    visibility: "both"
+    blocks:
+      - type: "problem"
+        id: "p1"
+        points: 14
+        label: "第 1 题"
+        stem_latex: |
+          已知函数 $f(x)=A\sin(\omega x+\varphi)$，其中 $A>0,\omega>0,|\varphi|<\dfrac{\pi}{2}$。图像显示最大值为 $3$，$f(0)=\dfrac32$，并且在 $x=\dfrac{\pi}{6}$ 处达到峰值，且 $0<\omega<3$。
+          \begin{enumerate}[label=(\arabic*)]
+            \item 求 $f(x)$ 的解析式；
+            \item 在 $\triangle ABC$ 中，$a,b,c$ 分别是角 $A,B,C$ 的对边。若 $f(B)=\dfrac32$，且 $a,b,c$ 成等差数列，判断 $\triangle ABC$ 的形状。
+          \end{enumerate}
+        answer: '(1) $f(x)=3\sin\left(2x+\dfrac{\pi}{6}\right)$；(2) $\triangle ABC$ 为等边三角形。'
+        explanation: |
+          (1) 最大值为 $3$，所以 $A=3$。由 $f(0)=\dfrac32$ 得 $3\sin\varphi=\dfrac32$，所以 $\varphi=\dfrac{\pi}{6}$。峰值条件为 $\dfrac{\pi}{6}\omega+\dfrac{\pi}{6}=\dfrac{\pi}{2}+2k\pi$，即 $\omega=2+12k$。又 $0<\omega<3$，故 $\omega=2$。
+
+          (2) $f(B)=\dfrac32$，所以 $\sin\left(2B+\dfrac{\pi}{6}\right)=\dfrac12$。由 $B\in(0,\pi)$，取 $2B+\dfrac{\pi}{6}=\dfrac{5\pi}{6}$，得 $B=\dfrac{\pi}{3}$。再由 $2b=a+c$ 和 $b^2=a^2+c^2-ac$ 推得 $3(a-c)^2=0$，所以 $a=b=c$。
+        solution_steps:
+          - title: "读图求 $A$ 与 $\\varphi$"
+            content: '最大值给出 $A=3$；由 $3\sin\varphi=\dfrac32$ 且 $|\varphi|<\dfrac{\pi}{2}$，得 $\varphi=\dfrac{\pi}{6}$。'
+          - title: "用峰值求 $\\omega$"
+            content: '$\dfrac{\pi}{6}\omega+\dfrac{\pi}{6}=\dfrac{\pi}{2}+2k\pi$，所以 $\omega=2+12k$。由 $0<\omega<3$，得 $\omega=2$。'
+          - title: "由函数值求角 $B$"
+            content: '$3\sin\left(2B+\dfrac{\pi}{6}\right)=\dfrac32$，所以 $B=\dfrac{\pi}{3}$。'
+          - title: "判定三角形"
+            content: "$2b=a+c$，且 $b^2=a^2+c^2-ac$。联立得 $3(a-c)^2=0$，所以 $a=c$，进一步 $a=b=c$。"
+        teaching:
+          teaching_goal: "完整迁移原题链条。"
+          expected_blocker: "第（2）问漏掉先求角，直接套边关系。"
+          mastery_band: "B"
+          complexity_note: "参数换成 $A=3$，核心结构不变。"
+        answer_space:
+          type: "steps"
+          height: "32mm"
+          parts:
+            - label: "(1)"
+              height: "35mm"
+              diagram_col:
+                image_path: "diagram/jobs/p1-part1-prompt/rendered/prompt.png"
+                diagram_job_id: "p1-part1-prompt"
+                width: "0.32\\linewidth"
+                caption: "读图求参。"
+                variant: "prompt"
+                disclosure_policy: "clean"
+            - label: "(2)"
+              height: "40mm"
+              diagram_col:
+                image_path: "diagram/jobs/p1-part2-prompt/rendered/prompt.png"
+                diagram_job_id: "p1-part2-prompt"
+                width: "0.32\\linewidth"
+                caption: "对照角 $B$ 与对边 $b$。"
+                variant: "prompt"
+                disclosure_policy: "clean"
+  - id: "answer-key"
+    title: "参考答案"
+    type: "answer_key"
+    visibility: "teacher"
+    blocks:
+      - type: "step"
+        id: "ak-choice"
+        title: "选择题"
+        content_latex: '1. A\quad 2. A'
+      - type: "step"
+        id: "ak-fillin"
+        title: "填空题"
+        content_latex: '1. $4$\quad 2. 等边三角形'
+      - type: "step"
+        id: "ak-problem"
+        title: "解答题"
+        content_latex: |
+          第 1 题：(1) $f(x)=3\sin\left(2x+\dfrac{\pi}{6}\right)$；(2) $\triangle ABC$ 为等边三角形。
