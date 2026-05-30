@@ -102,37 +102,66 @@
 <% elif block.type == "reading_tip" %>
 
 <# ———————————————————————————
-   主体讲解：单栏解答盒子环境
-   小问题干 + 解答盒子视作整体，不允许中间分页
-   支持字段：
-   block.label / block.stem_latex / block.stem
-   block.items / block.left_items
-   block.connection_title / block.connection_items
+   兼容普通 solution block：单栏解答盒子
 ——————————————————————————— #>
-<% elif block.type == "solution" or block.type == "explanation_dual" or block.type == "dual_explanation" %>
+<% elif block.type == "solution" %>
 <% if block.stem_latex or block.stem %>
 \begin{eduSubQuestionItem}{<% if block.label %><%= block.label|latex_escape %><% else %>(\arabic*)<% endif %>}
 <% if block.stem_latex %><%= block.stem_latex %><% else %><%= block.stem|latex_escape %><% endif %>
 \end{eduSubQuestionItem}
 <% endif %>
 
-\begin{eduSolutionBox}{<% if block.left_title %><%= block.left_title|latex_escape %><% elif block.title %><%= block.title|latex_escape %><% else %>解答<% endif %>}
+\begin{eduSolutionBox}{<% if block.title %><%= block.title|latex_escape %><% else %>解答<% endif %>}
   \begingroup
   \setlength{\parskip}{2.5mm}
-  <% for item in block.get('items', block.get('left_items', [])) %>
-    <% if item.latex %><%= item.latex %><% elif item.text %><%= item.text|latex_escape %><% elif item.content %><%= item.content|latex_escape %><% else %><%= item|latex_escape %><% endif %>\par
+  <% for item in block.get('items', []) %>
+    <% if item.latex %><%= item.latex %><% elif item.text %><%= item.text|latex_escape %><% elif item.content_latex %><%= item.content_latex %><% elif item.content %><%= item.content|latex_escape %><% else %><%= item|latex_escape %><% endif %>\par
   <% endfor %>
   \endgroup
-  <% if block.connection_items %>
-  \vspace{2.5mm}
-  {\color{edu-blue}\bfseries\small <% if block.connection_title %><%= block.connection_title|latex_escape %><% else %>注意<% endif %>}\par\vspace{1.5mm}
-  \begin{eduBulletList}
-  <% for item in block.connection_items %>
-    \item <% if item.latex %><%= item.latex %><% elif item.text %><%= item.text|latex_escape %><% elif item.content %><%= item.content|latex_escape %><% else %><%= item|latex_escape %><% endif %>
-  <% endfor %>
-  \end{eduBulletList}
-  <% endif %>
 \end{eduSolutionBox}
+
+<# ———————————————————————————
+   主体讲解：小问级双栏
+   左栏：hint / mistake / note
+   右栏：step1. 标题 + 正文
+——————————————————————————— #>
+<% elif block.type == "explanation_dual" or block.type == "dual_explanation" %>
+<% if block.stem_latex or block.stem %>
+\begin{eduSubQuestionItem}{<% if block.label %><%= block.label|latex_escape %><% else %>(\arabic*)<% endif %>}
+<% if block.stem_latex %><%= block.stem_latex %><% else %><%= block.stem|latex_escape %><% endif %>
+\end{eduSubQuestionItem}
+<% endif %>
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{<% if block.side_title %><%= block.side_title|latex_escape %><% else %>提示与易错<% endif %>}
+    <% for item in block.side_items|default([]) %>
+      <% if item.kind == "hint" %>
+        \eduSideHint{<%= item.title|latex_escape %>}{<% if item.content_latex %><%= item.content_latex %><% elif item.latex %><%= item.latex %><% else %><%= item.content|latex_escape %><% endif %>}
+      <% elif item.kind == "mistake" %>
+        \eduSideMistake{<%= item.title|latex_escape %>}{<% if item.content_latex %><%= item.content_latex %><% elif item.latex %><%= item.latex %><% else %><%= item.content|latex_escape %><% endif %>}
+      <% else %>
+        \eduSideNote{<%= item.title|latex_escape %>}{<% if item.content_latex %><%= item.content_latex %><% elif item.latex %><%= item.latex %><% else %><%= item.content|latex_escape %><% endif %>}
+      <% endif %>
+    <% endfor %>
+  \end{eduExplainLeft}
+
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{<% if block.solution_title %><%= block.solution_title|latex_escape %><% else %>解答<% endif %>}
+    <% for step in block.solution_steps|default([]) %>
+      \eduExplainStep{<%= loop.index %>}{<% if step.latex %><%= step.latex %><% elif step.text %><%= step.text|latex_escape %><% else %><%= step.title|latex_escape %><% endif %>}{<% if step.content_latex %><%= step.content_latex %><% else %><%= step.content|latex_escape %><% endif %>}
+    <% endfor %>
+  <% if block.connection_items %>
+    \vspace{1mm}
+    {\color{edu-blue}\bfseries\small <% if block.connection_title %><%= block.connection_title|latex_escape %><% else %>注意<% endif %>}\par\vspace{1mm}
+    \begin{eduBulletList}
+    <% for item in block.connection_items %>
+      \item <% if item.content_latex %><%= item.content_latex %><% elif item.latex %><%= item.latex %><% elif item.text %><%= item.text|latex_escape %><% elif item.content %><%= item.content|latex_escape %><% else %><%= item|latex_escape %><% endif %>
+    <% endfor %>
+    \end{eduBulletList}
+  <% endif %>
+  \end{eduExplainRight}
+\end{eduDualExplain}
 
 <# ———————————————————————————
    答案 + 方法提醒：双栏收束

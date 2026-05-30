@@ -127,6 +127,15 @@ def check_empty_required_fields(data):
         for prob in data["problems"]:
             sections.extend(prob.get("sections", []))
 
+    route_steps = {}
+    for section in sections:
+        for block in section.get("blocks", []):
+            if block.get("type") != "route":
+                continue
+            for step in block.get("steps") or []:
+                if isinstance(step, dict) and step.get("id"):
+                    route_steps[step["id"]] = step
+
     for si, section in enumerate(sections):
         for bi, block in enumerate(section.get("blocks", [])):
             bid = block.get("id", f"blocks[{bi}]")
@@ -158,6 +167,34 @@ def check_empty_required_fields(data):
             # left_items not empty
             if "left_items" in block and not block["left_items"]:
                 issues.append(("content", 0, f"{bid}: empty 'left_items' list"))
+
+            if btype in ("dual_explanation", "explanation_dual"):
+                for legacy_key in ("left_title", "left_items", "right_title", "right_steps"):
+                    if legacy_key in block:
+                        issues.append(("compile", 0, f"{bid}: legacy '{legacy_key}' field is not allowed"))
+
+                side_items = block.get("side_items") or []
+                if not any(isinstance(item, dict) and item.get("kind") in ("hint", "mistake") for item in side_items):
+                    issues.append(("content", 0, f"{bid}: side_items should include at least one hint or mistake item"))
+
+                for idx, item in enumerate(side_items):
+                    if not isinstance(item, dict):
+                        issues.append(("compile", 0, f"{bid}: side_items[{idx}] uses scalar/list format"))
+                        continue
+                    if not item.get("kind") or not item.get("title"):
+                        issues.append(("content", 0, f"{bid}: side_items[{idx}] requires kind and title"))
+                    if not (item.get("content_latex") or item.get("content") or item.get("latex")):
+                        issues.append(("content", 0, f"{bid}: side_items[{idx}] requires content_latex/content/latex"))
+
+                for idx, step_id in enumerate(block.get("solution_step_ids") or []):
+                    if not isinstance(step_id, str):
+                        issues.append(("compile", 0, f"{bid}: solution_step_ids[{idx}] must be a route step id string"))
+                        continue
+                    step = route_steps.get(step_id)
+                    if not step:
+                        issues.append(("compile", 0, f"{bid}: solution_step_ids[{idx}] references missing route step '{step_id}'"))
+                    elif not (step.get("content_latex") or step.get("content")):
+                        issues.append(("content", 0, f"{bid}: route step '{step_id}' requires content_latex/content for solution rendering"))
 
     return issues
 

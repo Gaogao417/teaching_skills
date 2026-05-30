@@ -310,23 +310,43 @@ steps:
 
 ### dual_explanation / explanation_dual 类型
 
-用于讲解页主体双栏。左栏放思考引导和易错提示，右栏放规范讲解；后续小问依赖前问时，用 `connection_items` 收束。
+用于讲解页主体双栏。每个小问一个 `dual_explanation`：`side_items` 是小问级“提示与易错”，`solution_step_ids` 引用 `route.steps[].id` 作为“解答”的分步。思路导航和解答步骤标题必须同源，不要另写一套步骤标题。后续小问依赖前问时，用 `connection_items` 收束。
 
 每个子问题必须带 `label` + `stem_latex`，讲解前自动以 exam 格式复现该小问题干。
 不要用 `title: "第（X）问"`，改用 `label` + `stem_latex`。
+
+`route.steps[]` 可带 `id` 和 `content_latex/content`；带 `id` 的 route step 可被 `dual_explanation.solution_step_ids` 引用。解答渲染时使用 route step 的 `latex/text/title` 作为 step 标题，使用 `content_latex/content` 作为正文。
+`side_items[]` 必须是对象，推荐 `kind: hint | mistake | note`，并包含 `title` 与 `content_latex` / `content` / `latex`。
+旧格式 `left_items/right_steps` 不再合法。
+
+```yaml
+type: route
+id: route
+steps:
+  - id: solve-by-points
+    latex: "两点代入 $y=kx+b$，列方程组"
+    content_latex: "把 $A(0,2)$、$B(4,0)$ 分别代入，得到两个方程。"
+  - id: solve-parameters
+    latex: "解方程组求 $k$、$b$"
+    content_latex: "由方程组求得 $k=-\\dfrac12$，$b=2$。"
+```
 
 ```yaml
 type: dual_explanation
 label: "(1)"
 stem_latex: "求这个一次函数的解析式；"
-left_title: "思考引导 / 易错提示"
-left_items:
-  - latex: "已知两个点，优先想到用待定系数法求 $k,b$。"
-  - latex: "点 $A(0,2)$ 在 $y$ 轴上，代入后可以直接得到 $b$。"
-right_title: "规范讲解"
-right_steps:
-  - latex: "把 $A(0,2)$ 代入 $y=kx+b$，得 $b=2$。"
-  - latex: "把 $B(4,0)$ 代入 $y=kx+b$，得 $0=4k+2$，所以 $k=-\\dfrac{1}{2}$。"
+side_title: "提示与易错"
+side_items:
+  - kind: hint
+    title: "入口"
+    content_latex: "已知两个点，优先想到用待定系数法求 $k,b$。"
+  - kind: mistake
+    title: "负号"
+    content_latex: "代入 $B(4,0)$ 时，不要漏掉移项后的负号。"
+solution_title: "解答"
+solution_step_ids:
+  - solve-by-points
+  - solve-parameters
 connection_title: "后两问如何承接"
 connection_items:
   - latex: "把 $x=2$ 代入解析式，求点 $C$。"

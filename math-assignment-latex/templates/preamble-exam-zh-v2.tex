@@ -224,8 +224,8 @@
 % ---------- 主体讲解：使用 paracol 实现跨页自适应双栏 ----------
 \newenvironment{eduDualExplain}{%
   \needspace{6\baselineskip}% 防止标题孤行
-  \columnratio{0.60, 0.40}%
-  \setlength{\columnsep}{11mm}%
+  \columnratio{0.26, 0.74}%
+  \setlength{\columnsep}{8mm}%
   \columnseprule=0.45pt%
   \colseprulecolor{edu-blue}%
   \begin{paracol}{2}% 开启双栏
@@ -235,6 +235,8 @@
 }
 
 \newenvironment{eduExplainLeft}{%
+  \setlength{\linewidth}{\columnwidth}%
+  \hsize=\columnwidth
   \normalsize\color{edu-ink}%
 }{%
   \switchcolumn
@@ -243,8 +245,91 @@
 \newcommand{\eduColumnDivider}{}
 
 \newenvironment{eduExplainRight}{%
+  \setlength{\linewidth}{\columnwidth}%
+  \hsize=\columnwidth
   \normalsize\color{edu-ink}%
 }{%
+}
+
+\newtcolorbox{eduSideHintBox}[1]{
+  enhanced,
+  breakable,
+  colback=edu-blue-bg,
+  colframe=edu-line,
+  boxrule=0.35pt,
+  borderline west={1.5pt}{0pt}{edu-blue},
+  arc=0.8mm,
+  left=2.4mm,
+  right=2.4mm,
+  top=2mm,
+  bottom=2mm,
+  before skip=1mm,
+  after skip=1.5mm,
+  title={\color{edu-blue}\bfseries\small #1},
+  coltitle=edu-blue,
+  attach title to upper={\par\vspace{0.7mm}},
+  fontupper=\small
+}
+
+\newtcolorbox{eduSideMistakeBox}[1]{
+  enhanced,
+  breakable,
+  colback=edu-red-bg,
+  colframe=edu-red!35,
+  boxrule=0.35pt,
+  borderline west={1.5pt}{0pt}{edu-red},
+  arc=0.8mm,
+  left=2.4mm,
+  right=2.4mm,
+  top=2mm,
+  bottom=2mm,
+  before skip=1mm,
+  after skip=1.5mm,
+  title={\color{edu-red}\bfseries\small #1},
+  coltitle=edu-red,
+  attach title to upper={\par\vspace{0.7mm}},
+  fontupper=\small
+}
+
+\newtcolorbox{eduSideNoteBox}[1]{
+  enhanced,
+  breakable,
+  colback=edu-soft-bg,
+  colframe=edu-line,
+  boxrule=0.35pt,
+  borderline west={1.5pt}{0pt}{edu-muted},
+  arc=0.8mm,
+  left=2.4mm,
+  right=2.4mm,
+  top=2mm,
+  bottom=2mm,
+  before skip=1mm,
+  after skip=1.5mm,
+  title={\color{edu-muted}\bfseries\small #1},
+  coltitle=edu-muted,
+  attach title to upper={\par\vspace{0.7mm}},
+  fontupper=\small
+}
+
+\newcommand{\eduSideHint}[2]{%
+  \begin{eduSideHintBox}{#1}#2\end{eduSideHintBox}%
+}
+\newcommand{\eduSideMistake}[2]{%
+  \begin{eduSideMistakeBox}{#1}#2\end{eduSideMistakeBox}%
+}
+\newcommand{\eduSideNote}[2]{%
+  \begin{eduSideNoteBox}{#1}#2\end{eduSideNoteBox}%
+}
+
+\newcommand{\eduExplainStep}[3]{%
+  \needspace{3\baselineskip}%
+  \vspace{1.2mm}%
+  {\color{edu-blue}\bfseries step#1.\enspace #2}\par
+  \vspace{0.8mm}%
+  \begingroup
+  \color{edu-ink}#3\par
+  \endgroup
+  \vspace{2.2mm}%
 }
 
 \newenvironment{eduNumberList}{%

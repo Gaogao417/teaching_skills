@@ -42,11 +42,44 @@ VALID_FILLIN_TYPES = {"line", "paren", "circle", "blank", "rectangle"}
 VALID_ANSWER_SPACE_TYPES = {"lines", "blank", "steps"}
 VALID_DIAGRAM_VARIANTS = {"prompt", "solution"}
 VALID_DISCLOSURE_POLICIES = {"clean", "annotated"}
+VALID_DUAL_LEFT_KINDS = {"hint", "mistake", "note"}
 
 
 def has_any(block, keys):
     """Return True if block has a non-empty value for any key."""
     return any(block.get(key) for key in keys)
+
+
+def has_content(obj, keys=("content_latex", "content", "latex")):
+    """Return True if a mapping has any non-empty content field."""
+    return isinstance(obj, dict) and any(obj.get(key) for key in keys)
+
+
+def step_text(step):
+    """Return the route-step title text used by both route and solution."""
+    if not isinstance(step, dict):
+        return ""
+    return step.get("latex") or step.get("text") or step.get("title") or ""
+
+
+def collect_route_steps(sections):
+    """Collect route steps by id."""
+    route_steps = {}
+    duplicate_ids = set()
+    for section in sections:
+        for block in section.get("blocks", []):
+            if block.get("type") != "route":
+                continue
+            for step in block.get("steps", []):
+                if not isinstance(step, dict):
+                    continue
+                sid = step.get("id")
+                if not sid:
+                    continue
+                if sid in route_steps:
+                    duplicate_ids.add(sid)
+                route_steps[sid] = step
+    return route_steps, duplicate_ids
 
 
 def validate_diagram_obj(obj, prefix, errors, base_dir=None):
@@ -139,6 +172,10 @@ def validate(data, base_dir=None):
     # Sections
     seen_ids = set()
     diagram_refs = []
+    route_steps, duplicate_route_step_ids = collect_route_steps(data["sections"])
+    for sid in sorted(duplicate_route_step_ids):
+        errors.append(f"duplicate route step id '{sid}'")
+
     for si, section in enumerate(data["sections"]):
         prefix = f"sections[{si}]"
 
@@ -196,14 +233,60 @@ def validate(data, base_dir=None):
                 steps = block.get("steps")
                 if not isinstance(steps, list) or not steps:
                     errors.append(f"{bprefix} ({bid}): route requires non-empty 'steps' list")
+                else:
+                    for step_i, step in enumerate(steps):
+                        if not isinstance(step, dict):
+                            continue
+                        if step.get("id") and not step_text(step):
+                            errors.append(f"{bprefix} ({bid}).steps[{step_i}]: route step with id requires latex/text/title")
 
             if btype in ("dual_explanation", "explanation_dual"):
-                left_items = block.get("left_items")
-                right_steps = block.get("right_steps")
-                if not isinstance(left_items, list) or not left_items:
-                    errors.append(f"{bprefix} ({bid}): {btype} requires non-empty 'left_items' list")
-                if not isinstance(right_steps, list) or not right_steps:
-                    errors.append(f"{bprefix} ({bid}): {btype} requires non-empty 'right_steps' list")
+                for legacy_key in ("left_title", "left_items", "right_title", "right_steps"):
+                    if legacy_key in block:
+                        errors.append(
+                            f"{bprefix} ({bid}): legacy '{legacy_key}' is not allowed; "
+                            "use side_title/side_items/solution_title/solution_step_ids"
+                        )
+                if not block.get("label"):
+                    errors.append(f"{bprefix} ({bid}): {btype} requires 'label' such as '(1)'")
+                if not block.get("stem") and not block.get("stem_latex"):
+                    errors.append(f"{bprefix} ({bid}): {btype} requires 'stem_latex' or 'stem'")
+
+                side_items = block.get("side_items")
+                solution_step_ids = block.get("solution_step_ids")
+                if not isinstance(side_items, list) or not side_items:
+                    errors.append(f"{bprefix} ({bid}): {btype} requires non-empty 'side_items' list")
+                elif side_items:
+                    for li, item in enumerate(side_items):
+                        iprefix = f"{bprefix} ({bid}).side_items[{li}]"
+                        if not isinstance(item, dict):
+                            errors.append(f"{iprefix}: side_items entries must be objects with kind/title/content")
+                            continue
+                        kind = item.get("kind")
+                        if kind not in VALID_DUAL_LEFT_KINDS:
+                            errors.append(
+                                f"{iprefix}: kind must be one of {sorted(VALID_DUAL_LEFT_KINDS)}, got '{kind}'"
+                            )
+                        if not item.get("title"):
+                            errors.append(f"{iprefix}: requires non-empty 'title'")
+                        if not has_content(item):
+                            errors.append(f"{iprefix}: requires one of content_latex, content, or latex")
+                if not isinstance(solution_step_ids, list) or not solution_step_ids:
+                    errors.append(f"{bprefix} ({bid}): {btype} requires non-empty 'solution_step_ids' list")
+                elif solution_step_ids:
+                    for ri, sid in enumerate(solution_step_ids):
+                        sprefix = f"{bprefix} ({bid}).solution_step_ids[{ri}]"
+                        if not isinstance(sid, str):
+                            errors.append(f"{sprefix}: must be a route step id string")
+                            continue
+                        step = route_steps.get(sid)
+                        if not step:
+                            errors.append(f"{sprefix}: references missing route step id '{sid}'")
+                            continue
+                        if not step_text(step):
+                            errors.append(f"{sprefix}: route step '{sid}' requires latex/text/title")
+                        if not has_content(step, keys=("content_latex", "content")):
+                            errors.append(f"{sprefix}: route step '{sid}' requires 'content_latex' or 'content'")
 
             if btype == "solution":
                 items = block.get("items")

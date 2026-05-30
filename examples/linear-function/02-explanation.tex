@@ -15,8 +15,8 @@
 
 % ---------- 包 ----------
 \usepackage{geometry}
-\geometry{top=10mm,bottom=14mm,left=15mm,right=13mm}
-\AtBeginDocument{\newgeometry{top=10mm,bottom=14mm,left=15mm,right=13mm}}
+\geometry{top=10mm,bottom=14mm,left=12mm,right=10mm}
+\AtBeginDocument{\newgeometry{top=10mm,bottom=14mm,left=12mm,right=10mm}}
 
 \usepackage{xcolor}
 \usepackage{needspace}
@@ -26,6 +26,7 @@
 \usepackage{tcolorbox}
 \tcbuselibrary{skins,breakable}
 \usepackage{paracol}
+\usepackage{graphicx}
 
 % ---------- 打印/屏幕颜色切换 ----------
 % 用法：\documentclass[monochrome]{exam-zh} 可降级为灰度。
@@ -58,6 +59,7 @@
   \definecolor{edu-red}{gray}{0.28}
   \definecolor{edu-red-bg}{gray}{0.97}
 \fi
+\colorlet{edu-diagram-muted}{edu-muted}
 
 % ---------- 全局排版 ----------
 \setlength{\parindent}{0pt}
@@ -222,9 +224,9 @@
 % ---------- 主体讲解：使用 paracol 实现跨页自适应双栏 ----------
 \newenvironment{eduDualExplain}{%
   \needspace{6\baselineskip}% 防止标题孤行
-  \columnratio{0.32, 0.68}%
-  \setlength{\columnsep}{11mm}%
-  \colseprule=0.45pt%
+  \columnratio{0.26, 0.74}%
+  \setlength{\columnsep}{8mm}%
+  \columnseprule=0.45pt%
   \colseprulecolor{edu-blue}%
   \begin{paracol}{2}% 开启双栏
 }{%
@@ -233,6 +235,8 @@
 }
 
 \newenvironment{eduExplainLeft}{%
+  \setlength{\linewidth}{\columnwidth}%
+  \hsize=\columnwidth
   \normalsize\color{edu-ink}%
 }{%
   \switchcolumn
@@ -241,8 +245,91 @@
 \newcommand{\eduColumnDivider}{}
 
 \newenvironment{eduExplainRight}{%
+  \setlength{\linewidth}{\columnwidth}%
+  \hsize=\columnwidth
   \normalsize\color{edu-ink}%
 }{%
+}
+
+\newtcolorbox{eduSideHintBox}[1]{
+  enhanced,
+  breakable,
+  colback=edu-blue-bg,
+  colframe=edu-line,
+  boxrule=0.35pt,
+  borderline west={1.5pt}{0pt}{edu-blue},
+  arc=0.8mm,
+  left=2.4mm,
+  right=2.4mm,
+  top=2mm,
+  bottom=2mm,
+  before skip=1mm,
+  after skip=1.5mm,
+  title={\color{edu-blue}\bfseries\small #1},
+  coltitle=edu-blue,
+  attach title to upper={\par\vspace{0.7mm}},
+  fontupper=\small
+}
+
+\newtcolorbox{eduSideMistakeBox}[1]{
+  enhanced,
+  breakable,
+  colback=edu-red-bg,
+  colframe=edu-red!35,
+  boxrule=0.35pt,
+  borderline west={1.5pt}{0pt}{edu-red},
+  arc=0.8mm,
+  left=2.4mm,
+  right=2.4mm,
+  top=2mm,
+  bottom=2mm,
+  before skip=1mm,
+  after skip=1.5mm,
+  title={\color{edu-red}\bfseries\small #1},
+  coltitle=edu-red,
+  attach title to upper={\par\vspace{0.7mm}},
+  fontupper=\small
+}
+
+\newtcolorbox{eduSideNoteBox}[1]{
+  enhanced,
+  breakable,
+  colback=edu-soft-bg,
+  colframe=edu-line,
+  boxrule=0.35pt,
+  borderline west={1.5pt}{0pt}{edu-muted},
+  arc=0.8mm,
+  left=2.4mm,
+  right=2.4mm,
+  top=2mm,
+  bottom=2mm,
+  before skip=1mm,
+  after skip=1.5mm,
+  title={\color{edu-muted}\bfseries\small #1},
+  coltitle=edu-muted,
+  attach title to upper={\par\vspace{0.7mm}},
+  fontupper=\small
+}
+
+\newcommand{\eduSideHint}[2]{%
+  \begin{eduSideHintBox}{#1}#2\end{eduSideHintBox}%
+}
+\newcommand{\eduSideMistake}[2]{%
+  \begin{eduSideMistakeBox}{#1}#2\end{eduSideMistakeBox}%
+}
+\newcommand{\eduSideNote}[2]{%
+  \begin{eduSideNoteBox}{#1}#2\end{eduSideNoteBox}%
+}
+
+\newcommand{\eduExplainStep}[3]{%
+  \needspace{3\baselineskip}%
+  \vspace{1.2mm}%
+  {\color{edu-blue}\bfseries step#1.\enspace #2}\par
+  \vspace{0.8mm}%
+  \begingroup
+  \color{edu-ink}#3\par
+  \endgroup
+  \vspace{2.2mm}%
 }
 
 \newenvironment{eduNumberList}{%
@@ -271,45 +358,63 @@
 
 % ---------- 底部双栏：答案 + 方法提醒 ----------
 \newenvironment{eduBottomGrid}{%
-  \vspace{1mm}
-  \par\noindent
+  \columnratio{0.32, 0.68}%
+  \setlength{\columnsep}{11mm}%
+  \columnseprule=0pt%
+  \begin{paracol}{2}%
 }{%
-  \par\vspace{1mm}
+  \end{paracol}%
 }
 
 \newenvironment{eduSummaryLeft}{%
-  \begin{minipage}[t]{0.30\linewidth}
 }{%
-  \end{minipage}
 }
 
 \newcommand{\eduSummaryDivider}{%
-  \hspace{4mm}{\color{edu-line}\vrule width 0.35pt}\hspace{7mm}%
+  \switchcolumn
 }
 
 \newenvironment{eduSummaryRight}{%
-  \begin{minipage}[t]{0.58\linewidth}
 }{%
-  \end{minipage}
 }
 
 % ---------- 答案/方法提醒：轻量收束 ----------
 \newtcolorbox{eduSummaryBlock}[2]{
   enhanced,
   breakable,
-  colback=white,
-  colframe=white,
-  boxrule=0pt,
-  sharp corners,
-  left=0mm,
-  right=0mm,
-  top=1mm,
-  bottom=1mm,
+  colback=edu-blue-bg,
+  colframe=edu-line,
+  boxrule=0.45pt,
+  arc=1.2mm,
+  left=3.5mm,
+  right=3.5mm,
+  top=3mm,
+  bottom=3mm,
   before skip=1mm,
-  after skip=1mm,
+  after skip=2.5mm,
   title={\color{edu-blue}\bfseries #1\hspace{1.5mm}#2},
   coltitle=edu-blue,
-  attach title to upper={\par\vspace{2mm}},
+  attach title to upper={\par\vspace{1.5mm}},
+  fontupper=\normalsize
+}
+
+% ---------- 例题单栏解答卡片 ----------
+\newtcolorbox{eduSolutionBox}[1]{
+  enhanced,
+  breakable,
+  colback=white,
+  colframe=edu-blue!40,
+  boxrule=0.55pt,
+  arc=1.2mm,
+  left=4mm,
+  right=4mm,
+  top=3.5mm,
+  bottom=3.5mm,
+  before skip=2mm,
+  after skip=3mm,
+  title={\color{edu-blue}\bfseries \eduIconBook\hspace{1.5mm}#1},
+  coltitle=edu-blue,
+  attach title to upper={\par\vspace{1.5mm}},
   fontupper=\normalsize
 }
 
@@ -407,6 +512,52 @@
   \end{tcolorbox}%
 }
 
+\newcommand{\diagramcolfigure}[3]{%
+  \begin{minipage}[t]{#2}
+    \vspace{0pt}\centering
+    \includegraphics[width=\linewidth]{\detokenize{#1}}
+    \if\relax\detokenize{#3}\relax\else
+      \par\vspace{1mm}{\scriptsize\color{edu-diagram-muted}#3}
+    \fi
+  \end{minipage}%
+}
+
+\newcommand{\diagramrowitem}[4]{%
+  \begin{minipage}[t]{#2}
+    \vspace{0pt}\centering
+    \includegraphics[width=\linewidth]{\detokenize{#1}}
+    \if\relax\detokenize{#3}\relax\else
+      \par\vspace{1mm}{\scriptsize\bfseries #3}
+    \fi
+    \if\relax\detokenize{#4}\relax\else
+      \par\vspace{0.5mm}{\scriptsize\color{edu-diagram-muted}#4}
+    \fi
+  \end{minipage}%
+}
+
+\newcommand{\answerareawithdiagramcol}[4]{%
+  \vspace{3mm}%
+  \begin{tcolorbox}[
+    enhanced,
+    breakable,
+    colback=white,
+    colframe=edu-line,
+    boxrule=0.55pt,
+    arc=0.8mm,
+    height=#1,
+    valign=top,
+  ]
+  \begin{minipage}[t]{\dimexpr\linewidth-#3-6mm\relax}
+    \vspace{0pt}
+  \end{minipage}\hfill
+  \diagramcolfigure{#2}{#3}{#4}
+  \end{tcolorbox}%
+}
+
+\newcommand{\answerareawithdiagram}[4]{%
+  \answerareawithdiagramcol{#1}{#2}{#3}{#4}%
+}
+
 \examsetup{
   question/show-answer = true,
   fillin/show-answer = true,
@@ -434,13 +585,13 @@
 
 
 
-\begin{eduAuxItem}{解题流程}
-两点代入 $y=kx+b$，列方程组$\;\to\;$解方程组求 $k$、$b$$\;\to\;$代入检验点 $C$$\;\to\;$求坐标轴交点，算面积\end{eduAuxItem}
+\begin{eduAuxItem}{思路导航}
+两点代入 $y=kx+b$，列方程组$\;\to\;$解方程组求 $k$、$b$，写出解析式$\;\to\;$代入检验点 $C$$\;\to\;$求坐标轴交点$\;\to\;$判断是否围成三角形并求面积\end{eduAuxItem}
 
 
 
 
-\begin{eduAuxItem}{关键想法}
+\begin{eduAuxItem}{核心思路}
 一次函数有两个未知系数 $k$ 和 $b$。"图像经过一个点"意味着这个点的坐标满足解析式。
 两个点 = 两个方程，刚好解出两个未知数。
 这是待定系数法最基本的应用。
@@ -454,18 +605,18 @@
 
 \begin{eduDualExplain}
   \begin{eduExplainLeft}
-    \eduColumnTitle{\eduIconBulb}{思考引导}
-    \begin{eduNumberList}
-      \item 把 $A(1,3)$ 代入 $y=kx+b$，你能得到什么方程？      \item 两个方程，用什么方法消元最快？试试两式直接相减。    \end{eduNumberList}
+    \eduColumnTitle{\eduIconBulb}{提示与易错}
+        \eduSideHint{入口}{把 $A(1,3)$ 和 $B(-2,-6)$ 分别代入 $y=kx+b$。}
+        \eduSideHint{消元}{两个方程直接相减，能最快消掉 $b$。}
+        \eduSideMistake{负号}{代入 $B(-2,-6)$ 时，$kx$ 是 $-2k$，不要写成 $2k$。}
   \end{eduExplainLeft}
-  \eduColumnDivider
-  \begin{eduExplainRight}
-    \eduColumnTitle{\eduIconBook}{规范讲解}
-    \begin{eduNumberList}
-      \item 代入 $A(1,3)$：$3 = k + b$ \quad \textcircled{1}      \item 代入 $B(-2,-6)$：$-6 = -2k + b$ \quad \textcircled{2}      \item \textcircled{1}$-$\textcircled{2}：$9 = 3k$，所以 $k = 3$      \item 代回 \textcircled{1}：$3 = 3 + b$，所以 $b = 0$      \item 解析式：$y = 3x$    \end{eduNumberList}
 
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{解答}
+      \eduExplainStep{1}{两点代入 $y=kx+b$，列方程组}{代入 $A(1,3)$：$3=k+b$；代入 $B(-2,-6)$：$-6=-2k+b$。}
+      \eduExplainStep{2}{解方程组求 $k$、$b$，写出解析式}{两式相减得 $9=3k$，所以 $k=3$；代回 $3=k+b$，得 $b=0$。所以解析式是 $y=3x$。}
     \vspace{1mm}
-    \eduSubTitle{注意}
+    {\color{edu-blue}\bfseries\small 注意}\par\vspace{1mm}
     \begin{eduBulletList}
       \item $b = 0$！这条直线过原点——后面的第（3）问会用到这个事实。    \end{eduBulletList}
   \end{eduExplainRight}
@@ -479,18 +630,16 @@
 
 \begin{eduDualExplain}
   \begin{eduExplainLeft}
-    \eduColumnTitle{\eduIconBulb}{思考引导}
-    \begin{eduNumberList}
-      \item 判断一个点是否在函数图像上，怎么做？      \item 把 $x$ 坐标代入解析式，看算出来的 $y$ 是否一致。    \end{eduNumberList}
+    \eduColumnTitle{\eduIconBulb}{提示与易错}
+        \eduSideHint{判断方法}{把点的 $x$ 坐标代入解析式，看算出的 $y$ 是否等于点的纵坐标。}
+        \eduSideMistake{别反代}{不要只看 $3$ 和 $9$ 像比例关系，要真正代入 $y=3x$ 检验。}
   \end{eduExplainLeft}
-  \eduColumnDivider
-  \begin{eduExplainRight}
-    \eduColumnTitle{\eduIconBook}{规范讲解}
-    \begin{eduNumberList}
-      \item 将 $x = 3$ 代入 $y = 3x$：$y = 3 \times 3 = 9$      \item 点 $C$ 的纵坐标也是 $9$，所以 $C(3,9)$ 在图像上。    \end{eduNumberList}
 
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{解答}
+      \eduExplainStep{1}{代入检验点 $C$}{将 $x=3$ 代入 $y=3x$，得 $y=3\times3=9$，与点 $C(3,9)$ 的纵坐标一致，所以 $C$ 在图像上。}
     \vspace{1mm}
-    \eduSubTitle{方法}
+    {\color{edu-blue}\bfseries\small 方法}\par\vspace{1mm}
     \begin{eduBulletList}
       \item 代进去，算出来，比一比。判断「是否在图像上」只有这一招。    \end{eduBulletList}
   \end{eduExplainRight}
@@ -504,18 +653,18 @@
 
 \begin{eduDualExplain}
   \begin{eduExplainLeft}
-    \eduColumnTitle{\eduIconBulb}{思考引导}
-    \begin{eduNumberList}
-      \item 与 $x$ 轴交点：令 $y = 0$，解出 $x$。      \item 与 $y$ 轴交点：令 $x = 0$，解出 $y$。      \item \textbf{等等！}$b = 0$ 时直线过原点，两个交点会怎样？    \end{eduNumberList}
+    \eduColumnTitle{\eduIconBulb}{提示与易错}
+        \eduSideHint{坐标轴交点}{与 $x$ 轴交点令 $y=0$；与 $y$ 轴交点令 $x=0$。}
+        \eduSideMistake{先看重合}{求面积前先判断两个交点是否不同；$b=0$ 时两轴交点会重合在原点。}
+        \eduSideNote{特殊结构}{$y=3x$ 是正比例函数，图像一定过原点。}
   \end{eduExplainLeft}
-  \eduColumnDivider
-  \begin{eduExplainRight}
-    \eduColumnTitle{\eduIconBook}{规范讲解}
-    \begin{eduNumberList}
-      \item 令 $y = 0$：$3x = 0$，$x = 0$，交点为 $(0,0)$      \item 令 $x = 0$：$y = 3 \times 0 = 0$，交点为 $(0,0)$      \item 两个交点\textbf{重合于原点}，无法围成三角形      \item 面积 $S = 0$    \end{eduNumberList}
 
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{解答}
+      \eduExplainStep{1}{求坐标轴交点}{令 $y=0$，得 $x=0$，与 $x$ 轴交于 $(0,0)$；令 $x=0$，得 $y=0$，与 $y$ 轴也交于 $(0,0)$。}
+      \eduExplainStep{2}{判断是否围成三角形并求面积}{两个交点重合于原点，不能和坐标轴围成非退化三角形，因此面积 $S=0$。}
     \vspace{1mm}
-    \eduSubTitle{关键}
+    {\color{edu-blue}\bfseries\small 关键}\par\vspace{1mm}
     \begin{eduBulletList}
       \item 正比例函数 $y = kx$ 过原点，与两轴只交于一个点，面积必然为 $0$。      \item 只有 $b \neq 0$ 时，直线与两轴才有两个不同交点，才能围成三角形。    \end{eduBulletList}
   \end{eduExplainRight}
@@ -569,26 +718,26 @@
 
 
 
-\begin{eduAuxItem}{思考}
+\begin{eduAuxItem}{思路启发}
 如果把点 $B$ 改为 $(-2, -4)$，求出来的 $b$ 还等于 $0$ 吗？围成的面积会是多少？\end{eduAuxItem}
 
 
 
 
-\begin{eduAuxItem}{思考}
+\begin{eduAuxItem}{思路启发}
 一次函数 $y = kx + b$ 在什么条件下与坐标轴围成的三角形面积最大？（提示：固定面积 $S = 6$，你能写出几条满足条件的直线？）\end{eduAuxItem}
 
 
 
 
-\begin{eduAuxItem}{思考}
+\begin{eduAuxItem}{思路启发}
 如果一个一次函数与两轴围成面积为 $12$ 的三角形，且过点 $(1, 3)$，这个函数的解析式是什么？（注意可能有两组解）\end{eduAuxItem}
 
 
 
 \clearpage
 
-\begin{eduAuxItem}{关键想法}
+\begin{eduAuxItem}{核心思路}
 本题核心陷阱在第（3）问的退化情形。
 学生画像：初二中等生，能做待定系数法但对 b=0 没有警觉。
 教学节奏：前两问让学生自己完成，第（3）问作为课堂讨论重点。

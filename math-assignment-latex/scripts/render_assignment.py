@@ -30,6 +30,7 @@ TEMPLATE_MAP = {
     "exam-zh-homework": "exam-zh-homework.tex.j2",
     "exam-zh-solution": "exam-zh-solution.tex.j2",
 }
+VALID_DUAL_LEFT_KINDS = {"hint", "mistake", "note"}
 
 
 def latex_escape(value):
@@ -158,9 +159,59 @@ def flatten_problems(data):
     return data
 
 
+def _step_text(step):
+    if not isinstance(step, dict):
+        return ""
+    return step.get("latex") or step.get("text") or step.get("title") or ""
+
+
+def collect_route_steps(data):
+    """Collect route steps by id so solutions can share route titles."""
+    route_steps = {}
+    duplicate_ids = set()
+    for section in data.get("sections", []):
+        for block in section.get("blocks", []):
+            if block.get("type") != "route":
+                continue
+            for step in block.get("steps", []):
+                if not isinstance(step, dict):
+                    continue
+                sid = step.get("id")
+                if not sid:
+                    continue
+                if sid in route_steps:
+                    duplicate_ids.add(sid)
+                route_steps[sid] = step
+    return route_steps, duplicate_ids
+
+
+def attach_solution_steps(data):
+    """Attach route-backed solution steps to each dual_explanation block."""
+    route_steps, _ = collect_route_steps(data)
+    for section in data.get("sections", []):
+        for block in section.get("blocks", []):
+            if block.get("type") not in ("dual_explanation", "explanation_dual"):
+                continue
+            step_ids = block.get("solution_step_ids") or []
+            block["solution_steps"] = [
+                route_steps[sid]
+                for sid in step_ids
+                if sid in route_steps
+            ]
+    return data
+
+
+def has_content(obj, keys=("content_latex", "content", "latex")):
+    """Return True if a mapping has any non-empty content field."""
+    return isinstance(obj, dict) and any(obj.get(key) for key in keys)
+
+
 def validate_assignment(data):
     """Basic validation of assignment data."""
     errors = []
+    route_steps, duplicate_route_step_ids = collect_route_steps(data)
+    for sid in sorted(duplicate_route_step_ids):
+        errors.append(f"Duplicate route step id: {sid}")
 
     if "meta" not in data:
         errors.append("Missing top-level 'meta' key")
@@ -187,6 +238,55 @@ def validate_assignment(data):
                 seen_ids.add(bid)
                 if "type" not in block:
                     errors.append(f"Block {bid} missing 'type'")
+                if block.get("type") == "route":
+                    for idx, step in enumerate(block.get("steps", [])):
+                        if not isinstance(step, dict):
+                            continue
+                        if step.get("id") and not _step_text(step):
+                            errors.append(f"Block {bid}.steps[{idx}] requires latex/text/title")
+                if block.get("type") in ("dual_explanation", "explanation_dual"):
+                    for legacy_key in ("left_title", "left_items", "right_title", "right_steps"):
+                        if legacy_key in block:
+                            errors.append(f"Block {bid} uses legacy '{legacy_key}'; use side_title/side_items/solution_title/solution_step_ids")
+                    if not block.get("label"):
+                        errors.append(f"Block {bid} missing 'label' for dual_explanation")
+                    if not block.get("stem") and not block.get("stem_latex"):
+                        errors.append(f"Block {bid} missing 'stem_latex' or 'stem' for dual_explanation")
+
+                    side_items = block.get("side_items")
+                    if not isinstance(side_items, list) or not side_items:
+                        errors.append(f"Block {bid} requires non-empty 'side_items' list")
+                    else:
+                        for idx, item in enumerate(side_items):
+                            prefix = f"Block {bid}.side_items[{idx}]"
+                            if not isinstance(item, dict):
+                                errors.append(f"{prefix} must be an object with kind/title/content")
+                                continue
+                            kind = item.get("kind")
+                            if kind not in VALID_DUAL_LEFT_KINDS:
+                                errors.append(f"{prefix}.kind must be one of {sorted(VALID_DUAL_LEFT_KINDS)}")
+                            if not item.get("title"):
+                                errors.append(f"{prefix} requires 'title'")
+                            if not has_content(item):
+                                errors.append(f"{prefix} requires content_latex, content, or latex")
+
+                    solution_step_ids = block.get("solution_step_ids")
+                    if not isinstance(solution_step_ids, list) or not solution_step_ids:
+                        errors.append(f"Block {bid} requires non-empty 'solution_step_ids' list")
+                    else:
+                        for idx, sid in enumerate(solution_step_ids):
+                            prefix = f"Block {bid}.solution_step_ids[{idx}]"
+                            if not isinstance(sid, str):
+                                errors.append(f"{prefix} must be a route step id string")
+                                continue
+                            step = route_steps.get(sid)
+                            if not step:
+                                errors.append(f"{prefix} references missing route step id '{sid}'")
+                                continue
+                            if not _step_text(step):
+                                errors.append(f"{prefix} route step '{sid}' requires latex/text/title")
+                            if not has_content(step, keys=("content_latex", "content")):
+                                errors.append(f"{prefix} route step '{sid}' requires content_latex or content")
 
     return errors
 
@@ -279,6 +379,7 @@ def main():
 
     # Flatten multi-problem format
     flatten_problems(data)
+    attach_solution_steps(data)
 
     # Validate
     errors = validate_assignment(data)
