@@ -1,0 +1,82 @@
+\documentclass[UTF8,11pt]{ctexart}
+\usepackage[a4paper,top=1.8cm,bottom=1.8cm,left=1.7cm,right=1.7cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{enumitem}
+\usepackage{multicol}
+\usepackage{graphicx}
+\setlength{\parindent}{0pt}
+\setlist[enumerate]{leftmargin=2.2em,itemsep=0.85em,topsep=0.5em}
+\newcommand{\blank}{\underline{\hspace{2.8cm}}}
+\newcommand{\diagram}[2]{\begin{center}\includegraphics[width=#2]{#1}\end{center}}
+\newcommand{\circnum}[1]{\textcircled{\scriptsize #1}}
+\newcommand{\fourchoices}[4]{%
+  \begin{multicols}{4}
+  \begin{enumerate}[label=\Alph*.,leftmargin=1.6em,itemsep=0pt,topsep=0pt]
+  \item #1
+  \item #2
+  \item #3
+  \item #4
+  \end{enumerate}
+  \end{multicols}
+}
+\newcommand{\longchoices}[4]{%
+  \begin{enumerate}[label=\Alph*.,leftmargin=2em,itemsep=0.15em,topsep=0.2em]
+  \item #1
+  \item #2
+  \item #3
+  \item #4
+  \end{enumerate}
+}
+\pagestyle{plain}
+\begin{document}
+\begin{center}
+{\LARGE \bfseries 高一数学专题练习：平面向量}\\[0.4em]
+{\small 题目由原始试卷整理为纯 \TeX{} 版，供课堂讲义和学生练习使用。}
+\end{center}
+\vspace{0.5em}
+\begin{enumerate}
+\item 若 $\vec a=(2,1),\ \vec b=(3,4)$，则 $\vec a$ 在 $\vec b$ 方向上的投影是\blank.
+
+\item 在 $\triangle ABC$ 中，$AC=7,\ BC=4$，点 $D$ 满足 $\overrightarrow{AD}=2\overrightarrow{DB}$，$CD=\sqrt{19}$，则 $BD=$\blank.
+
+\item 若复数 $z_1=a+bi,\ z_2=c+di$ 在复平面上所对应的向量分别是 $\overrightarrow{OZ_1},\overrightarrow{OZ_2}$，比较 $|z_1z_2|$ 与 $\left|\overrightarrow{OZ_1}\cdot\overrightarrow{OZ_2}\right|$ 的大小.
+
+\item 已知平面上的两个向量 $\vec a=(\cos\alpha,\sin\alpha)\ (0\le\alpha<2\pi),\ \vec b=(1,\sqrt3)$.\\
+(1) 若 $\vec a$ 与 $\vec b$ 平行，求 $\tan\alpha$ 的值；\\
+(2) 若 $\vec a+\vec b$ 与 $5\vec a-2\vec b$ 垂直，求 $\alpha$ 的值.
+
+\item 已知向量 $\vec a=(1,\sqrt3),\ \vec b=(a,b)$，其中 $a>0,\ b>0$，求 $\dfrac{\vec a\cdot\vec b}{|\vec b|}$ 的取值范围.
+
+\item 设单位向量 $\vec a,\vec b$ 的夹角为锐角，若对于任意满足 $|x\vec a+y\vec b|=1,\ xy\ge0$ 的实数对 $(x,y)$，都有 $|3x+y|\le\dfrac{2\sqrt{21}}3$ 成立，则 $\vec a\cdot\vec b$ 的最小值为\blank.
+
+\item 已知平面向量 $\vec a=(1,x),\ \vec b=(2x+3,-x)$，$x\in\mathbb R$.\\
+(1) 若 $\vec a\perp \vec b$，求 $x$ 的值；\\
+(2) 若 $\vec a\parallel\vec b$，求 $|2\vec a-\vec b|$ 的值.
+
+\item 已知向量 $\vec a=(1,3),\ \vec b=(m,-1)$，若 $\vec a\perp\vec b$，则 $m=$\blank.
+
+\item 已知向量 $\vec a=(1,-\sqrt3),\ \vec b=(2,0)$，则 $\vec a$ 在 $\vec b$ 方向上的数量投影为\blank.
+
+\item 由一个正方形 $ABCD$ 与正三角形 $BDE$（点 $E$ 在 $BD$ 下方）组成一个“风筝骨架”，$O$ 为正方形 $ABCD$ 的中心，点 $P$ 是“风筝骨架”上一点，设 $\overrightarrow{OP}=m\overrightarrow{OA}+n\overrightarrow{OB}\ (m,n\in\mathbb R)$，则 $m+n$ 的最大值是\blank.\diagram{figures/vector-kite.png}{0.28\linewidth}
+
+\item 已知 $\vec a,\vec b$ 为单位向量，且 $\vec a$ 与 $\vec b$ 的夹角为 $60^\circ$.\\
+(1) 求 $|\vec a-2\vec b|$；\\
+(2) 若向量 $2\vec a-\lambda\vec b$ 与 $\lambda\vec a-\vec b$ 的夹角为锐角，求实数 $\lambda$ 的取值范围.
+
+\item 已知坐标平面上的三点 $A(2,1),\ B(-3,-2),\ C(3,1)$，则 $\overrightarrow{AB}$ 在 $\overrightarrow{AC}$ 方向上的数量投影为\blank.
+
+\item 在同一平面上，已知两圆 $\omega_1,\omega_2$ 的圆心均为 $O$，半径分别为 $1,2$，常数 $\lambda\in\mathbb R$. 若在圆 $\omega_1$ 上的点 $A$ 以及在圆 $\omega_2$ 上的点 $B$，对该平面上的任意一个单位向量 $\vec e$，恒有 $\left|\overrightarrow{OA}\cdot\vec e\right|+\left|\overrightarrow{OB}\cdot\vec e\right|\le\lambda$，则 $\lambda$ 的最小值为\blank.
+
+\item 已知平面向量 $\vec a=(1,3),\ \vec b=(1,-2)$，则 $\vec a$ 在 $\vec b$ 方向上的投影向量为\blank.
+
+\item 已知单位向量 $\vec a,\vec b$ 满足 $\sqrt3\,|k\vec a+\vec b|=|\vec a-k\vec b|,\ k>0$.\\
+(1) 将 $\vec a\cdot\vec b$ 表示为关于 $k$ 的函数；\\
+(2) 求函数 $y=f(k)$ 的最大值及取得最大值时 $\vec a$ 与 $\vec b$ 的夹角.
+
+\item 在 $\triangle ABC$ 中，点 $D$ 是线段 $BC$ 上的动点，且 $\overrightarrow{AD}=x\overrightarrow{AB}+y\overrightarrow{AC}$，求 $\dfrac1x+\dfrac1y$ 的最小值.\diagram{figures/vector-triangle-d.png}{0.24\linewidth}
+
+\item 已知向量 $\vec a=(\sin x,\sqrt3),\ \vec b=(\cos x,1)$.\\
+(1) 若 $\vec a\parallel\vec b$，求 $\dfrac{\sin x+\sqrt3\cos x}{\sqrt3\sin x-\cos x}$ 的值；\\
+(2) 设 $f(x)=\left(\vec a-\sqrt3\vec b\right)^2,\ x\in\left[0,\dfrac\pi2\right]$，若关于 $x$ 的不等式 $f(x)\ge m^2-1$ 有解，求实数 $m$ 的取值范围.
+\end{enumerate}
+\end{document}

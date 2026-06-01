@@ -1,0 +1,92 @@
+\documentclass[UTF8,11pt]{ctexart}
+\usepackage[a4paper,top=1.8cm,bottom=1.8cm,left=1.7cm,right=1.7cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{enumitem}
+\usepackage{multicol}
+\usepackage{graphicx}
+\setlength{\parindent}{0pt}
+\setlist[enumerate]{leftmargin=2.2em,itemsep=0.85em,topsep=0.5em}
+\newcommand{\blank}{\underline{\hspace{2.8cm}}}
+\newcommand{\diagram}[2]{\begin{center}\includegraphics[width=#2]{#1}\end{center}}
+\newcommand{\circnum}[1]{\textcircled{\scriptsize #1}}
+\newcommand{\fourchoices}[4]{%
+  \begin{multicols}{4}
+  \begin{enumerate}[label=\Alph*.,leftmargin=1.6em,itemsep=0pt,topsep=0pt]
+  \item #1
+  \item #2
+  \item #3
+  \item #4
+  \end{enumerate}
+  \end{multicols}
+}
+\newcommand{\longchoices}[4]{%
+  \begin{enumerate}[label=\Alph*.,leftmargin=2em,itemsep=0.15em,topsep=0.2em]
+  \item #1
+  \item #2
+  \item #3
+  \item #4
+  \end{enumerate}
+}
+\pagestyle{plain}
+\begin{document}
+\begin{center}
+{\LARGE \bfseries 高一数学专题练习：三角函数}\\[0.4em]
+{\small 题目由原始试卷整理为纯 \TeX{} 版，供课堂讲义和学生练习使用。}
+\end{center}
+\vspace{0.5em}
+\begin{enumerate}
+\item 函数 $y=\tan x$ 的最小正周期是\blank.
+
+\item 函数 $y=\sin x$ 的单调增区间是\blank.
+
+\item 直线 $2x+y+3=0$ 的倾斜角等于（\quad）\\
+\fourchoices{$\arctan2$}{$\arctan(-2)$}{$\pi+\arctan(-2)$}{$\pi-\arctan(-2)$}
+
+\item 已知 $\vec a=(\cos\alpha,\sin\alpha),\ \vec b=(1,\sqrt3)$.\\
+(1) 若 $\vec a\parallel\vec b$，求 $\tan\alpha$；\\
+(2) 若 $\vec a+\vec b\perp5\vec a-2\vec b$，求 $\alpha$.
+
+\item 某赛道的前一部分为函数 $y=A\sin\omega x\ (A>0,\omega>0),\ x\in[0,4]$ 的图像，最高点为 $S(3,2\sqrt3)$；后一部分为折线段 $MNP$，其中 $P(8,0)$，且 $\angle MNP=120^\circ$.\diagram{figures/trig-race.png}{0.34\linewidth}
+(1) 求 $A,\omega$ 的值和 $M,P$ 两点间的距离；\\
+(2) 设 $\angle PMN=\theta$，当 $\theta$ 为何值时，折线段赛道 $MNP$ 最长？
+
+\item 已知扇形的弧长为 $8$，半径为 $4$，则扇形的面积为\blank.
+
+\item 已知 $\cos\alpha=-\dfrac8{17}$，且 $\alpha$ 在第二象限，则 $\tan\alpha=$\blank.
+
+\item 已知角 $\alpha$ 的终边经过点 $P(-4m,3m)\ (m<0)$，则 $2\sin\alpha+\cos\alpha$ 的值是\blank.
+
+\item 已知扇形的弧长和半径都是 $4$，则扇形的面积为\blank.
+
+\item 已知 $\sin\alpha+\cos\alpha=\dfrac13$，则 $\sin2\alpha=$\blank.
+
+\item 已知向量 $\vec a=(1,0),\ \vec b=(\cos\theta,\sin\theta)$，$\theta\in\left[-\dfrac\pi2,\dfrac\pi2\right]$，则 $|\vec a+\vec b|$ 的取值范围是（\quad）\\
+\fourchoices{$\left[0,\sqrt2\right]$}{$\left(1,\sqrt2\right]$}{$[1,2]$}{$\left[\sqrt2,2\right]$}
+
+\item 函数 $y=\sin2x$ 的最小正周期是\blank.
+
+\item 已知常数 $\varphi\in\mathbb R$，函数 $f(x)=\sin x+\sqrt3\cos(x+\varphi)$ 为偶函数，则 $\cos2\varphi=$\blank.
+
+\item 在 $\triangle ABC$ 中，$\cos A=\dfrac45,\ AC=1$.\\
+(1) 若 $AB=2$，求 $BC$ 的长；\\
+(2) 若 $\sin C=\dfrac5{13}$，求 $\triangle ABC$ 的面积.
+
+\item 已知 $\alpha$ 是第四象限的角，则点 $P(\tan\alpha,\cos\alpha)$ 在第\blank 象限.
+
+\item 已知 $\sin\left(\theta+\dfrac\pi6\right)=2\cos\theta$，则 $\tan2\theta=$\blank.
+
+\item 已知 $\tan\alpha\tan\beta=\tan(\alpha+\beta)$，判断下列象限组合是否可能：\\
+（1）$\alpha$ 在第一象限，$\beta$ 在第三象限；（2）$\alpha$ 在第二象限，$\beta$ 在第四象限；（3）$\alpha$ 在第一象限，$\beta$ 在第四象限.
+
+\item 已知函数 $f(x)=\sin kx\cdot\sin^k x+\cos kx\cdot\cos^k x-\cos^k 2x$，其中 $k\in\mathbb N^*$.\\
+(1) 当 $k=1$ 时，求方程 $f(x)=1-\dfrac{\sqrt3}{2}$ 的解集；\\
+(2) 若 $f(x)$ 是偶函数，当 $k$ 取最小值时，求函数 $g(x)=\dfrac{f(x)}{\tan x}+\sin x+\cos x$ 的取值范围；\\
+(3) 若 $f(x)$ 是常数函数，求 $k$ 的值.
+
+\item 已知 $f(x)=\sin\left(\omega x+\dfrac\pi4\right)\ (\omega>0)$，如果存在实数 $m$，使得对任意实数 $x$，都有 $f(m)\le f(x)\le f(m+1)$ 成立，则 $\omega$ 的最小值为\blank.
+
+\item 已知向量 $\vec a=(\sin x,\sqrt3),\ \vec b=(\cos x,1)$.\\
+(1) 若 $\vec a\parallel\vec b$，求 $\dfrac{\sin x+\sqrt3\cos x}{\sqrt3\sin x-\cos x}$ 的值；\\
+(2) 设 $f(x)=\left(\vec a-\sqrt3\vec b\right)^2,\ x\in\left[0,\dfrac\pi2\right]$，若关于 $x$ 的不等式 $f(x)\ge m^2-1$ 有解，求实数 $m$ 的取值范围.
+\end{enumerate}
+\end{document}

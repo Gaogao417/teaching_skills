@@ -1,0 +1,92 @@
+\documentclass[UTF8,11pt]{ctexart}
+\usepackage[a4paper,top=1.8cm,bottom=1.8cm,left=1.7cm,right=1.7cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{enumitem}
+\usepackage{multicol}
+\usepackage{graphicx}
+\setlength{\parindent}{0pt}
+\setlist[enumerate]{leftmargin=2.2em,itemsep=0.85em,topsep=0.5em}
+\newcommand{\blank}{\underline{\hspace{2.8cm}}}
+\newcommand{\diagram}[2]{\begin{center}\includegraphics[width=#2]{#1}\end{center}}
+\newcommand{\circnum}[1]{\textcircled{\scriptsize #1}}
+\newcommand{\fourchoices}[4]{%
+  \begin{multicols}{4}
+  \begin{enumerate}[label=\Alph*.,leftmargin=1.6em,itemsep=0pt,topsep=0pt]
+  \item #1
+  \item #2
+  \item #3
+  \item #4
+  \end{enumerate}
+  \end{multicols}
+}
+\newcommand{\longchoices}[4]{%
+  \begin{enumerate}[label=\Alph*.,leftmargin=2em,itemsep=0.15em,topsep=0.2em]
+  \item #1
+  \item #2
+  \item #3
+  \item #4
+  \end{enumerate}
+}
+\pagestyle{plain}
+\begin{document}
+\begin{center}
+{\LARGE \bfseries 高一数学专题练习：复数}\\[0.4em]
+{\small 题目由原始试卷整理为纯 \TeX{} 版，供课堂讲义和学生练习使用。}
+\end{center}
+\vspace{0.5em}
+\begin{enumerate}
+\item 若复数 $z$ 满足 $(1+i)z=i$，则 $z=$\blank.
+
+\item 若复数 $z$ 满足 $|z|=|z-2-4i|$，则 $|z|+|z+1|$ 的最小值是\blank.
+
+\item 若复数 $z_1=a+bi,\ z_2=c+di\ (a,b,c,d\in\mathbb R)$ 在复平面上所对应的向量分别是 $\overrightarrow{OZ_1},\overrightarrow{OZ_2}$，则 $|z_1z_2|$ 与 $\bigl|\overrightarrow{OZ_1}\cdot\overrightarrow{OZ_2}\bigr|$ 的大小关系是（\quad）\\
+\longchoices{$|z_1z_2|\le \bigl|\overrightarrow{OZ_1}\cdot\overrightarrow{OZ_2}\bigr|$}{$|z_1z_2|= \bigl|\overrightarrow{OZ_1}\cdot\overrightarrow{OZ_2}\bigr|$}{$|z_1z_2|\ge \bigl|\overrightarrow{OZ_1}\cdot\overrightarrow{OZ_2}\bigr|$}{无法判定}
+
+\item 已知关于 $x$ 的方程 $x^2+2\sqrt3x+m=0\ (m\in\mathbb R)$ 有两个复数根 $x_1,x_2$.\\
+(1) 若 $\operatorname{Im}x_1<\operatorname{Im}x_2<1$，求 $m$ 的取值范围；\\
+(2) 若 $\dfrac1{|x_1|}+\dfrac1{|x_2|}=1$，求 $m$ 的值.
+
+\item 已知虚数 $z$，其实部为 $1$，且 $z+\dfrac2z=m\ (m\in\mathbb R)$，则实数 $m=$\blank.
+
+\item 在复平面内，复数 $z=i(1-i)$ 的共轭复数 $\bar z$ 对应的点位于（\quad）\\
+\fourchoices{第一象限}{第二象限}{第三象限}{第四象限}
+
+\item 已知复数 $z=1+bi\ (b\in\mathbb R,\ i$ 为虚数单位)，$z$ 在复平面上对应的点在第四象限，且满足 $z^2=4\bar z$.\\
+(1) 求实数 $b$ 的值；\\
+(2) 若复数 $z$ 是关于 $x$ 的方程 $px^2+2x+q=0\ (p\ne0,\ p,q\in\mathbb R)$ 的一个复数根，求 $p+q$ 的值.
+
+\item 若复数 $z$ 满足 $zi=2+i$，$i$ 为虚数单位，则 $z$ 的实部为\blank.
+
+\item 已知 $i$ 为虚数单位，则 $i+i^2+i^3+i^4+\cdots+i^{2026}=$\blank.
+
+\item $i$ 是虚数单位，复数 $1+2i$ 在复平面内对应的点位于（\quad）\\
+\fourchoices{第一象限}{第二象限}{第三象限}{第四象限}
+
+\item 已知复数 $z=\dfrac2{1-i}$，$i$ 为虚数单位.\\
+(1) 求 $|z|$；\\
+(2) 若复数 $z$ 是关于 $x$ 的方程 $x^2+mx+n=0$ 的一个根，求实数 $m,n$ 的值.
+
+\item 若复数 $z=\dfrac{i+1}{i}$（$i$ 为虚数单位），则 $\bar z=$\blank.
+
+\item 设复数 $z$ 满足 $|z-1|=1$，则 $|z+2-i|$ 的最大值为\blank.
+
+\item 已知常数 $a,b\in\mathbb R$，关于 $x$ 的方程 $x^2+ax+b=0$ 在复数集中有两个虚根.\\
+(1) 若 $b=1$，求 $a$ 的取值范围；\\
+(2) 若其中一个虚根为 $1+i$（$i$ 为虚数单位），求 $a,b$ 的值.
+
+\item 若复数 $z$ 满足 $(1+i)z=2$，则 $z$ 的虚部为\blank.
+
+\item 已知方程 $3x^2-6(m-1)x+m^2+1=0$ 的两个虚根为 $\alpha,\beta$，且 $|\alpha|+|\beta|=2$，则实数 $m=$\blank.
+
+\item 下列说法错误的是（\quad）\\
+\fourchoices{已知复数 $z_1,z_2$，若 $z_1=\bar z_2$，则 $\bar z_1=z_2$}{已知复数 $z_1,z_2$，若 $|z_1|=|z_2|$，则 $z_1^2=z_2^2$}{若 $|\vec a\cdot\vec b|=|\vec a|\,|\vec b|$，则 $\vec a$ 与 $\vec b$ 共线}{若 $|\vec a|=|\vec b|$，则 $\vec a^{\,2}=\vec b^{\,2}$}
+
+\item 已知复数 $z=1+mi\ (i$ 是虚数单位，$m\in\mathbb R)$，且 $\bar z\,(3+i)$ 为纯虚数.\\
+(1) 求实数 $m$；\\
+(2) 设复数 $z_1=\dfrac{a-i^{2027}}{z}$，且复数 $z_1$ 对应的点在第二象限，求实数 $a$ 的取值.
+
+\item 已知 $i$ 是虚数单位，复数 $z$ 满足 $z(1+\sqrt3\,i)=1$，则 $|z|=$\blank.
+
+\item 已知 $i$ 是虚数单位，若 $z\in\mathbb C$，且 $|z-2-2i|=3$，则 $|z|$ 的取值范围为\blank.
+\end{enumerate}
+\end{document}

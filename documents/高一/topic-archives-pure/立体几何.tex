@@ -1,0 +1,65 @@
+\documentclass[UTF8,11pt]{ctexart}
+\usepackage[a4paper,top=1.8cm,bottom=1.8cm,left=1.7cm,right=1.7cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{enumitem}
+\usepackage{multicol}
+\usepackage{graphicx}
+\setlength{\parindent}{0pt}
+\setlist[enumerate]{leftmargin=2.2em,itemsep=0.85em,topsep=0.5em}
+\newcommand{\blank}{\underline{\hspace{2.8cm}}}
+\newcommand{\diagram}[2]{\begin{center}\includegraphics[width=#2]{#1}\end{center}}
+\newcommand{\circnum}[1]{\textcircled{\scriptsize #1}}
+\newcommand{\fourchoices}[4]{%
+  \begin{multicols}{4}
+  \begin{enumerate}[label=\Alph*.,leftmargin=1.6em,itemsep=0pt,topsep=0pt]
+  \item #1
+  \item #2
+  \item #3
+  \item #4
+  \end{enumerate}
+  \end{multicols}
+}
+\newcommand{\longchoices}[4]{%
+  \begin{enumerate}[label=\Alph*.,leftmargin=2em,itemsep=0.15em,topsep=0.2em]
+  \item #1
+  \item #2
+  \item #3
+  \item #4
+  \end{enumerate}
+}
+\pagestyle{plain}
+\begin{document}
+\begin{center}
+{\LARGE \bfseries 高一数学专题练习：立体几何}\\[0.4em]
+{\small 题目由原始试卷整理为纯 \TeX{} 版，供课堂讲义和学生练习使用。}
+\end{center}
+\vspace{0.5em}
+\begin{enumerate}
+\item 一个圆锥的表面积为 $\pi$，母线长为 $\dfrac56$，则其底面半径为\blank.
+
+\item 已知正三棱锥底面的边长为 $6$，高为 $3$，求该正三棱锥的侧面积.
+
+\item 如图，甲站在水库底面上的点 $D$ 处，乙站在水坝斜面上的点 $C$ 处. 已知水库底面与水坝斜面所成的二面角为 $150^\circ$，从 $D,C$ 两点到交线的距离分别为 $DA=20\sqrt3\,\mathrm m,\ CB=40\,\mathrm m$，且 $AB=20\,\mathrm m$，求甲乙两人的距离.\diagram{figures/solid-water-dam.png}{0.30\linewidth}
+
+\item 已知平行六面体 $ABCD-A_1B_1C_1D_1$ 的体积为 $4$，若将其截去三棱锥 $B_1-BD_1C_1$，求剩余几何体的体积.\diagram{figures/solid-parallelepiped.png}{0.34\linewidth}
+
+\item 如图，正方体 $ABCD-A_1B_1C_1D_1$ 中，四分之一圆柱 $BB_1C_1-AA_1D_1$ 与四分之一圆柱 $AA_1B_1-DD_1C_1$ 的公共部分是八分之一“牟合方盖”. 已知正方体棱长为 $2$，利用祖暅原理求该八分之一“牟合方盖”的体积.\diagram{figures/solid-mouhefanggai.png}{0.28\linewidth}
+
+\item 如图，在正方体 $ABCD-A_1B_1C_1D_1$ 中，$E$ 为 $AB$ 的中点，对于下列两个命题：\circnum{1}平面 $BCC_1B_1$ 上存在一条直线，与平面 $A_1C_1E$ 平行；\circnum{2}平面 $BCC_1B_1$ 上存在一条直线，与平面 $A_1C_1E$ 垂直. 则（\quad）\\
+\fourchoices{\circnum{1}对，\circnum{2}对}{\circnum{1}对，\circnum{2}错}{\circnum{1}错，\circnum{2}对}{\circnum{1}错，\circnum{2}错}
+\diagram{figures/solid-cube-e.png}{0.32\linewidth}
+
+\item 正方体 $ABCD-A'B'C'D'$ 中，直线 $a\subset$ 平面 $ABCD$，直线 $b\subset$ 平面 $DAB'C'$，记该正方体的 $12$ 条棱所在的直线构成的集合为 $\Omega$. 给出下列四个命题：\\
+\circnum{1}$\Omega$ 中可能恰有 $2$ 条直线与 $a$ 异面；\quad
+\circnum{2}$\Omega$ 中可能恰有 $4$ 条直线与 $a$ 异面；\\
+\circnum{3}$\Omega$ 中可能恰有 $8$ 条直线与 $b$ 异面；\quad
+\circnum{4}$\Omega$ 中可能恰有 $10$ 条直线与 $b$ 异面.\\
+其中，正确命题的个数为（\quad）\\
+\fourchoices{$1$}{$2$}{$3$}{$4$}
+\diagram{figures/solid-cube-lines.png}{0.30\linewidth}
+
+\item 四边形 $ABCD$ 是矩形，$AD=2,\ DC=1,\ AB\perp$ 平面 $BCE$，$BE=\sqrt3,\ EC=1$，点 $F$ 为线段 $BE$ 的中点.\diagram{figures/solid-rect-bce.png}{0.34\linewidth}
+(1) 求证：$EC\perp$ 平面 $ABE$；\\
+(2) 求异面直线 $AF$ 与 $DE$ 所成角的大小.
+\end{enumerate}
+\end{document}
