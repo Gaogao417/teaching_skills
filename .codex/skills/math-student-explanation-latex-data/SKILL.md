@@ -42,17 +42,15 @@ artifacts/<学生名>/YYYY-MM-DD-<内容>/02-student-explanation.assignment.yaml
 ### 解题路线
 - 路线图：2-5 步解题步骤
 
-### 关键想法
-- 核心解题思路的提炼
-
 ### 标准解法
 - 分步骤展示
 - 每步有 title, content, 可选 why
 - 支持子步骤 substeps
 
-### 边讲边问
-- 2-3 个思考题
-- 帮助学生主动思考
+### 变式训练
+- 2-3 道完整变式题
+- 题干要完整，学生不依赖讲解上下文也能独立作答
+- 每题必须留答题空白，让学生自己做
 
 ### 易错提醒
 - 常见错误和避坑指南
@@ -87,7 +85,7 @@ stem_latex: |
   \end{enumerate}
 ```
 
-**不要用** `key_idea` 或 `step` 放原题。`stem_latex` 原样输出 LaTeX，不经过转义。
+**不要用** `step` 放原题。`stem_latex` 原样输出 LaTeX，不经过转义。
 
 ### diagram — 图形包插图
 
@@ -142,17 +140,6 @@ steps:
   - id: "route-area"
     latex: "求坐标轴交点，算面积"
     content_latex: "分别令 $y=0$、$x=0$ 求交点，再判断能否围成三角形。"
-```
-
-### key_idea — 关键想法
-
-轻提示框渲染，用于提炼核心解题思路。
-
-```yaml
-type: "key_idea"
-content: |
-  一次函数有两个未知系数 $k$ 和 $b$。"图像经过一个点"意味着这个点的坐标满足解析式。
-  两个点 = 两个方程，刚好解出两个未知数。
 ```
 
 ### dual_explanation — 主体双栏讲解（核心）
@@ -224,13 +211,38 @@ content: |
   两个交点不重合。本题 $b = 0$，两个交点都是原点。
 ```
 
-### hint — 边讲边问
+### variation_training — 变式训练
+
+用于讲解后的独立练习，不是“思路启发”。每个 block 必须给学生一整道可以独立完成的题，并配置答题留白。
+
+```yaml
+type: "variation_training"
+id: "var-1"
+label: "变式 1"
+stem_latex: |
+  已知一次函数 $y=kx+b$ 的图像经过点 $A(1,3)$ 和点 $B(-2,-4)$。
+  \begin{enumerate}[label=(\arabic*)]
+    \item 求这个一次函数的解析式；
+    \item 求它与两坐标轴围成的三角形面积。
+  \end{enumerate}
+answer_space:
+  height: "36mm"
+```
+
+字段说明：
+- `label`：题目标记，如 `"变式 1"`、`"变式 2"`
+- `stem_latex` / `stem`：完整题干，不能只写一句启发问题
+- `answer_space.height`：学生作答留白高度，必须提供
+
+### hint — 补充提示 / fallback
 
 ```yaml
 type: "hint"
-content: "如果把点 $B$ 改为 $(-2, -4)$，求出来的 $b$ 还等于 $0$ 吗？"
+content: "图形暂未生成，请教师在黑板上补画题目草图。"
 level: 1
 ```
+
+`hint` 只用于补充提示或 diagram fallback，不承担“变式训练”职责。
 
 ### step — 其他内容块（不用于主体讲解）
 
@@ -304,19 +316,8 @@ sections:
             latex: "求坐标轴交点"
             content_latex: "..."
 
-  - id: "key-idea"
-    title: "三、关键想法"
-    type: "explanation"
-    visibility: "student"
-    show_title: false
-    blocks:
-      - type: "key_idea"
-        id: "ki"
-        content: |
-          核心解题思路...
-
   - id: "solution"
-    title: "四、标准解法"
+    title: "三、标准解法"
     type: "explanation"
     visibility: "student"
     show_title: false
@@ -381,20 +382,24 @@ sections:
         title: "易错点标题"
         content: "..."
 
-  - id: "questions"
-    title: "边讲边问"
+  - id: "variations"
+    title: "变式训练"
     type: "explanation"
     visibility: "student"
     show_title: false
     blocks:
-      - type: "hint"
-        id: "q1"
-        content: "思考题..."
-        level: 1
-      - type: "hint"
-        id: "q2"
-        content: "思考题..."
-        level: 2
+      - type: "variation_training"
+        id: "var-1"
+        label: "变式 1"
+        stem_latex: "完整题干..."
+        answer_space:
+          height: "36mm"
+      - type: "variation_training"
+        id: "var-2"
+        label: "变式 2"
+        stem_latex: "完整题干..."
+        answer_space:
+          height: "42mm"
 ```
 
 ## Schema 遵循
@@ -406,14 +411,15 @@ sections:
 输出前必须检查：
 1. 所有 block 都有 id 且唯一
 2. 所有 block 都有 type，且使用正确的 type（不要用 `step` 替代 `dual_explanation`）
-3. 原题用 `problemcard` + `stem_latex`，不要用 `key_idea`
+3. 原题用 `problemcard` + `stem_latex`
 4. 每个子问题的解法各用一个 `dual_explanation`，必须带 `label`（如 `(1)`）和 `stem_latex`（该小问题干），不要用 `title: "第（X）问"`
 5. 若使用 `diagram` block，图片路径相对 YAML/最终 `.tex` 可访问；原题图必须 clean，辅助线图必须另用 solution/annotated；失败时使用 fallback，不留空图
 6. 数学公式使用 `$...$` 和 `$$...$$` 格式
 7. `stem_latex` 中的 LaTeX 命令不转义（原样输出）
 8. block scalar（`|`）字段中的 LaTeX 命令用单反斜杠 `\frac`（不是 `\\frac`）；双引号字符串中的 `\\frac` 会被 YAML 解析为 `\frac` 所以是正确的
 9. 每个 section 都有 `type: "explanation"` 和 `visibility`
-10. 底部答案用 `summary_dual`，不要用 `key_idea`
+10. 底部答案用 `summary_dual`
+11. 讲解后的独立练习用 `variation_training`，不要用 `hint` 冒充变式题
 
 ## Handoff
 

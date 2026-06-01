@@ -67,20 +67,8 @@ sections:
             latex: "判断是否围成三角形并求面积"
             content_latex: "两个交点重合于原点，不能和坐标轴围成非退化三角形，因此面积 $S=0$。"
 
-  - id: "key-idea"
-    title: "三、关键想法"
-    type: "explanation"
-    visibility: "student"
-    blocks:
-      - type: "key_idea"
-        id: "ki"
-        content: |
-          一次函数有两个未知系数 $k$ 和 $b$。"图像经过一个点"意味着这个点的坐标满足解析式。
-          两个点 = 两个方程，刚好解出两个未知数。
-          这是待定系数法最基本的应用。
-
   - id: "solution"
-    title: "四、标准解法"
+    title: "三、标准解法"
     type: "explanation"
     visibility: "student"
     blocks:
@@ -193,23 +181,47 @@ sections:
           $b = 0$ 不是普通的数值结果——它意味着这条直线过原点（正比例函数）。
           每次求出 $b = 0$，都应该立刻标注"过原点"，这会影响后续所有与坐标轴有关的计算。
 
-  - id: "questions"
-    title: "七、边讲边问"
+  - id: "variations"
+    title: "七、变式训练"
     type: "explanation"
     visibility: "student"
     blocks:
-      - type: "hint"
-        id: "q1"
-        content: "如果把点 $B$ 改为 $(-2, -4)$，求出来的 $b$ 还等于 $0$ 吗？围成的面积会是多少？"
-        level: 1
-      - type: "hint"
-        id: "q2"
-        content: "一次函数 $y = kx + b$ 在什么条件下与坐标轴围成的三角形面积最大？（提示：固定面积 $S = 6$，你能写出几条满足条件的直线？）"
-        level: 2
-      - type: "hint"
-        id: "q3"
-        content: "如果一个一次函数与两轴围成面积为 $12$ 的三角形，且过点 $(1, 3)$，这个函数的解析式是什么？（注意可能有两组解）"
-        level: 2
+      - type: "variation_training"
+        id: "var-1"
+        label: "变式 1"
+        stem_latex: |
+          已知一次函数 $y=kx+b$ 的图像经过点 $A(1,3)$ 和点 $B(-2,-4)$。
+          \begin{enumerate}[label=(\arabic*)]
+            \item 求这个一次函数的解析式；
+            \item 求它与两坐标轴围成的三角形面积。
+          \end{enumerate}
+        answer_space:
+          height: "36mm"
+
+      - type: "variation_training"
+        id: "var-2"
+        label: "变式 2"
+        stem_latex: |
+          已知一次函数 $y=kx+b$ 经过点 $(1,3)$，且与 $y$ 轴交于点 $(0,-3)$。
+          \begin{enumerate}[label=(\arabic*)]
+            \item 求这个一次函数的解析式；
+            \item 求它与 $x$ 轴的交点坐标，并计算与两坐标轴围成的三角形面积。
+          \end{enumerate}
+        answer_space:
+          height: "40mm"
+
+      - type: "variation_training"
+        id: "var-3"
+        label: "变式 3"
+        stem_latex: |
+          已知一次函数图像与 $x$ 轴交于 $(4,0)$，与 $y$ 轴交于 $(0,-2)$。
+          \begin{enumerate}[label=(\arabic*)]
+            \item 求这个一次函数的解析式；
+            \item 判断点 $P(2,-1)$ 是否在这个函数图像上；
+            \item 求该图像与两坐标轴围成的三角形面积。
+          \end{enumerate}
+        answer_space:
+          height: "42mm"
 
   - id: "teacher-notes"
     title: "教师备注"
@@ -218,7 +230,7 @@ sections:
     layout:
       break_before: true
     blocks:
-      - type: "key_idea"
+      - type: "hint"
         id: "tn1"
         content: |
           本题核心陷阱在第（3）问的退化情形。

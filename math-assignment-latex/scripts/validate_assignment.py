@@ -17,10 +17,10 @@ VALID_TYPES = {
     "fillin",
     "problem",
     "short_answer",
-    "key_idea",
     "reading_tip",
     "mistake",
     "hint",
+    "variation_training",
     "route",
     "step",
     "problemcard",
@@ -239,6 +239,15 @@ def validate(data, base_dir=None):
                             continue
                         if step.get("id") and not step_text(step):
                             errors.append(f"{bprefix} ({bid}).steps[{step_i}]: route step with id requires latex/text/title")
+
+            if btype == "variation_training":
+                if "stem" not in block and "stem_latex" not in block:
+                    errors.append(f"{bprefix} ({bid}): variation_training requires 'stem' or 'stem_latex'")
+                aspace = block.get("answer_space")
+                if not isinstance(aspace, dict):
+                    errors.append(f"{bprefix} ({bid}): variation_training requires answer_space with a height")
+                elif not aspace.get("height"):
+                    errors.append(f"{bprefix} ({bid}): variation_training.answer_space requires 'height'")
 
             if btype in ("dual_explanation", "explanation_dual"):
                 for legacy_key in ("left_title", "left_items", "right_title", "right_steps"):

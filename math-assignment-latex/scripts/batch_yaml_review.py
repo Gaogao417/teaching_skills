@@ -155,6 +155,13 @@ def check_empty_required_fields(data):
                 if not block.get("stem") and not block.get("stem_latex"):
                     issues.append(("content", 0, f"{bid}: problem block missing 'stem'/'stem_latex'"))
 
+            elif btype == "variation_training":
+                if not block.get("stem") and not block.get("stem_latex"):
+                    issues.append(("content", 0, f"{bid}: variation_training missing 'stem'/'stem_latex'"))
+                aspace = block.get("answer_space")
+                if not isinstance(aspace, dict) or not aspace.get("height"):
+                    issues.append(("content", 0, f"{bid}: variation_training requires answer_space.height"))
+
             # Check solutionblock not empty in teacher version
             if version == "teacher" and btype in ("solutionblock", "solution"):
                 if not block.get("content") and not block.get("content_latex") and not block.get("items"):

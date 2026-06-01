@@ -93,7 +93,7 @@ sections:
 
 ```text
 choice / fillin / problem / short_answer
-key_idea / reading_tip / route / dual_explanation / explanation_dual
+reading_tip / route / dual_explanation / explanation_dual / variation_training
 summary_dual / answer_reminder / answer / answers / method_reminder / reminder
 mistake / hint / step / problemcard / diagram / diagram_row
 ```
@@ -260,15 +260,6 @@ teaching_focus:
 - 只插入已经存在的最终 PNG；失败时用 `reading_tip` / `hint` 写 fallback。
 - `caption` 面向学生观察动作，不写模型名、重试轮次、Wolfram 代码等调试信息。
 
-### key_idea 类型
-
-```yaml
-type: key_idea
-content: "关键想法内容"
-```
-
-在 `exam-zh-explanation` 模板中，`key_idea` 会以轻提示框渲染；新讲义页优先使用语义更明确的 `reading_tip`。
-
 ### reading_tip 类型
 
 用于讲解页题目下方的读题提示框。
@@ -295,6 +286,32 @@ type: hint
 content: "提示内容"
 level: 1                # 1=轻微, 2=接近答案
 ```
+
+`hint` 只用于补充提示或 diagram fallback，不用于讲解后的变式题。
+
+### variation_training 类型
+
+用于讲解后的独立变式练习。它必须像一道完整题：有完整题干，并给学生留白作答。
+
+```yaml
+type: variation_training
+id: var-1
+label: "变式 1"
+stem_latex: |
+  已知一次函数 $y=kx+b$ 的图像经过点 $A(1,3)$ 和点 $B(-2,-4)$。
+  \begin{enumerate}[label=(\arabic*)]
+    \item 求这个一次函数的解析式；
+    \item 求它与两坐标轴围成的三角形面积。
+  \end{enumerate}
+answer_space:
+  height: "36mm"
+```
+
+字段规则：
+
+- `label` / `title`：可选，渲染为题目标记，推荐使用 `label: "变式 1"`。
+- `stem_latex` / `stem`：必填其一，必须是完整题干，不要只写启发问题。
+- `answer_space.height`：必填，控制留白高度。
 
 ### route 类型
 

@@ -30,6 +30,30 @@ TEMPLATE_MAP = {
     "exam-zh-homework": "exam-zh-homework.tex.j2",
     "exam-zh-solution": "exam-zh-solution.tex.j2",
 }
+VALID_TYPES = {
+    "choice",
+    "fillin",
+    "problem",
+    "short_answer",
+    "reading_tip",
+    "mistake",
+    "hint",
+    "variation_training",
+    "route",
+    "step",
+    "problemcard",
+    "dual_explanation",
+    "explanation_dual",
+    "summary_dual",
+    "answer_reminder",
+    "answer",
+    "answers",
+    "method_reminder",
+    "reminder",
+    "solution",
+    "diagram",
+    "diagram_row",
+}
 VALID_DUAL_LEFT_KINDS = {"hint", "mistake", "note"}
 
 
@@ -238,12 +262,22 @@ def validate_assignment(data):
                 seen_ids.add(bid)
                 if "type" not in block:
                     errors.append(f"Block {bid} missing 'type'")
+                elif block.get("type") not in VALID_TYPES:
+                    errors.append(f"Block {bid} has unknown type '{block.get('type')}'")
                 if block.get("type") == "route":
                     for idx, step in enumerate(block.get("steps", [])):
                         if not isinstance(step, dict):
                             continue
                         if step.get("id") and not _step_text(step):
                             errors.append(f"Block {bid}.steps[{idx}] requires latex/text/title")
+                if block.get("type") == "variation_training":
+                    if not block.get("stem") and not block.get("stem_latex"):
+                        errors.append(f"Block {bid} missing 'stem_latex' or 'stem' for variation_training")
+                    aspace = block.get("answer_space")
+                    if not isinstance(aspace, dict):
+                        errors.append(f"Block {bid} requires answer_space with height for variation_training")
+                    elif not aspace.get("height"):
+                        errors.append(f"Block {bid}.answer_space requires 'height' for variation_training")
                 if block.get("type") in ("dual_explanation", "explanation_dual"):
                     for legacy_key in ("left_title", "left_items", "right_title", "right_steps"):
                         if legacy_key in block:
