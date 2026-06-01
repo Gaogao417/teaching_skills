@@ -1,26 +1,19 @@
 # Repository Agent Notes
 
-## Geometry Diagram Workflow
+## Git Commit Message Rules
 
-Use the repository-local diagram virtual environment, not the system Python:
-
-```bash
-.venv-diagram/bin/python scripts/geometry_diagram_workflow/examples/verify_setup.py
-.venv-diagram/bin/python scripts/build_diagram_request.py ...
-.venv-diagram/bin/python scripts/run_diagram_workflow.py ... --python .venv-diagram/bin/python ...
-.venv-diagram/bin/python scripts/render_geometry_spec.py ...
-```
-
-The system `python3` may not have `openai` or `wolframclient` installed. The checked workflow environment is:
+Commit messages must start with a square-bracket category tag:
 
 ```text
-/Users/gaochong/develop/teaching_skills/.venv-diagram/bin/python
+[artifacts] <student>/<topic>: <summary>
+[documents] <scope>: <summary>
+[workflow] <scope>: <summary>
 ```
 
-Before inserting geometry `diagram_col`, `diagram_row`, or `answer_space.diagram_col` fields into assignment YAML, verify the workflow with:
+Use the categories this way:
 
-```bash
-.venv-diagram/bin/python scripts/geometry_diagram_workflow/examples/verify_setup.py
-```
+- `[artifacts]` for generated student-facing homework/lesson artifacts under `artifacts/`.
+- `[documents]` for source-document collection, downloaded article assets, OCR inputs/outputs, and files under `documents/`.
+- `[workflow]` for skills, scripts, templates, tests, validators, renderers, and repository tooling.
 
-For function graphs, do not force the geometry `GeometricScene` workflow unless a dedicated function-graph renderer exists. Use a deterministic graph-rendering path such as `wolframscript` and record the generation script in the artifact directory.
+Keep different categories in separate commits. For example, do not mix a generated homework artifact with a renderer or skill change in the same commit.

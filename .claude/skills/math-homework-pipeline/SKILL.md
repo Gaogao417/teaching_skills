@@ -193,16 +193,19 @@ Step -1: LaTeX preflight
 
 ```text
 [artifacts] <学生名>/<话题>: <简述>
+[documents] <scope>: <简述>
 [workflow] <scope>: <简述>
 ```
 
 例：
 - `[artifacts] 陆子辰/两圆位置关系: 讲解与练习`
+- `[documents] 高一/wechat: 下载文章图片与 OCR 输入`
 - `[workflow] feat(latex): solution block 替代 dual_explanation`
 
 artifacts commit 只 add 该专题目录（`.md/.tex/.pdf`，`build/` 已被 `.gitignore` 排除）。
+documents commit 只 add 文档采集、下载、OCR 输入输出相关文件（如 `documents/`）。
 workflow commit 只 add 修改过的 skill/脚本/模板文件。
-两类变更不要混在同一次 commit 中。
+三类变更不要混在同一次 commit 中。
 
 ### Review 标记规则
 

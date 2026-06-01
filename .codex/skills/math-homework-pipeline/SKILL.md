@@ -57,6 +57,9 @@ description: "端到端调度器：判断当前产物缺哪一步，自动调用
 → 必要时回到 YAML 调整 width、diagram_col/diagram_row 位置后重新渲染编译
 
 如果 PDF 已生成且没有阻断错误
+→ git add 该专题目录下的交付物（.md/.tex/.pdf）
+→ git commit -m "[artifacts] <学生名>/<话题>: <简述>"
+→ 若本回合也修改了 skill/脚本/模板，另做一次 [workflow] commit
 → 启动 subagent 使用 math-homework-review 审核完整 artifact 目录
 → 输出六项快速印象：完整性、数学正确性、结构分析、讲解质量、练习设计、几何插图与版式
 ```
@@ -78,6 +81,26 @@ description: "端到端调度器：判断当前产物缺哪一步，自动调用
 - 如果多个 block 引用同一个 `image_path` 且没有 `reuse_from`，判为 workflow 错误并回退重画。
 - `variant: prompt` 必须搭配 `disclosure_policy: clean`；`variant: solution` 必须只出现在讲解、解析或教师版解答中。
 - 所有 `image_path` 必须存在且相对最终 `.tex` 可访问。
+
+### Git Commit 格式
+
+完成编译或文档采集后必须 git commit。commit message 开头用方括号标注变更类别：
+
+```text
+[artifacts] <学生名>/<话题>: <简述>
+[documents] <scope>: <简述>
+[workflow] <scope>: <简述>
+```
+
+例：
+- `[artifacts] 陆子辰/两圆位置关系: 讲解与练习`
+- `[documents] 高一/wechat: 下载文章图片与 OCR 输入`
+- `[workflow] feat(latex): solution block 替代 dual_explanation`
+
+artifacts commit 只 add 该专题目录（`.md/.tex/.pdf`，`build/` 已被 `.gitignore` 排除）。
+documents commit 只 add 文档采集、下载、OCR 输入输出相关文件（如 `documents/`）。
+workflow commit 只 add 修改过的 skill/脚本/模板/测试文件。
+三类变更不要混在同一次 commit 中。
 
 ## 每阶段输出
 
