@@ -16,6 +16,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 import sys
 from pathlib import Path
 from typing import Any
@@ -100,14 +101,28 @@ def build_artifact_for_job(
         height_px = rr_data.get("height_px")
         aspect_ratio = rr_data.get("aspect_ratio")
 
-    # Compute hash from the actual image file
+    # Compute hash from the actual image file.
+    # Renderer outputs image_path relative to the job directory,
+    # so resolve against job_dir first, then normalize to artifact_dir-relative.
     artifact_hash = ""
+    resolved_image_for_hash: Path | None = None
     if image_path:
-        image_file = resolve_image_path(image_path, artifact_dir)
-        if image_file.exists() and image_file.stat().st_size > 0:
-            artifact_hash = sha256_file(image_file)
+        # Try job_dir first (renderer's perspective)
+        candidate = job_dir / image_path
+        if candidate.exists() and candidate.stat().st_size > 0:
+            resolved_image_for_hash = candidate
+            # Rewrite image_path to be relative to artifact_dir
+            image_path = Path(os.path.relpath(candidate, artifact_dir)).as_posix()
         else:
-            warnings.append(f"image file missing or empty: {image_path}")
+            # Fallback: try resolving from artifact_dir
+            candidate = resolve_image_path(image_path, artifact_dir)
+            if candidate.exists() and candidate.stat().st_size > 0:
+                resolved_image_for_hash = candidate
+            else:
+                warnings.append(f"image file missing or empty: {image_path}")
+
+    if resolved_image_for_hash:
+        artifact_hash = sha256_file(resolved_image_for_hash)
 
     # Compute aspect_ratio if not provided
     if aspect_ratio is None and width_px and height_px:
