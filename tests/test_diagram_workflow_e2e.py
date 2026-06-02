@@ -15,10 +15,10 @@ Run from repo root:
     python3 tests/test_diagram_workflow_e2e.py
 """
 
+import argparse
 import json
 import subprocess
 import sys
-import tempfile
 from pathlib import Path
 
 try:
@@ -541,27 +541,35 @@ def check_gate_negative(
 # ---------------------------------------------------------------------------
 
 def main() -> int:
-    with tempfile.TemporaryDirectory(prefix="diagram-e2e-") as td:
-        td = Path(td)
-        plan_path = td / "assignment.plan.yaml"
-        build_dir = td / "build" / "diagram"
-        jobs_path = build_dir / "diagram_jobs.json"
-        jobs_dir = build_dir / "jobs"
-        artifacts_path = build_dir / "diagram_artifacts.json"
-        resolved_path = td / "assignment.resolved.yaml"
+    parser = argparse.ArgumentParser(description="Diagram workflow e2e test")
+    parser.add_argument("--out-dir", type=Path,
+                        default=Path("build/e2e-diagram-test"),
+                        help="Persistent output directory (default: build/e2e-diagram-test)")
+    args = parser.parse_args()
 
-        plan_path.write_text(
-            yaml.dump(PLAN_YAML, allow_unicode=True, default_flow_style=False, sort_keys=False),
-            encoding="utf-8",
-        )
-        info(f"Plan YAML -> {plan_path}")
+    td = args.out_dir.resolve()
+    td.mkdir(parents=True, exist_ok=True)
+    info(f"Output dir: {td}")
 
-        check_s25(plan_path, jobs_path)
-        check_s26(jobs_path, td, plan_path)
-        check_s27(jobs_path, jobs_dir, td, artifacts_path)
-        gate_status = check_s28(plan_path, jobs_path, artifacts_path, td)
-        check_s29(plan_path, artifacts_path, resolved_path, gate_status, td)
-        check_gate_negative(plan_path, jobs_path, artifacts_path, td)
+    plan_path = td / "assignment.plan.yaml"
+    build_dir = td / "build" / "diagram"
+    jobs_path = build_dir / "diagram_jobs.json"
+    jobs_dir = build_dir / "jobs"
+    artifacts_path = build_dir / "diagram_artifacts.json"
+    resolved_path = td / "assignment.resolved.yaml"
+
+    plan_path.write_text(
+        yaml.dump(PLAN_YAML, allow_unicode=True, default_flow_style=False, sort_keys=False),
+        encoding="utf-8",
+    )
+    info(f"Plan YAML -> {plan_path}")
+
+    check_s25(plan_path, jobs_path)
+    check_s26(jobs_path, td, plan_path)
+    check_s27(jobs_path, jobs_dir, td, artifacts_path)
+    gate_status = check_s28(plan_path, jobs_path, artifacts_path, td)
+    check_s29(plan_path, artifacts_path, resolved_path, gate_status, td)
+    check_gate_negative(plan_path, jobs_path, artifacts_path, td)
 
     heading("Summary")
     if _errors == 0:
