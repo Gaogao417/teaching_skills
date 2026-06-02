@@ -24,9 +24,12 @@ from typing import Any
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from diagram_contracts import (  # noqa: E402
+    DiagramBatchJobResult,
+    DiagramBatchReport,
     DiagramJob,
     DiagramJobRequest,
     DiagramJobsManifest,
+    DiagramReuseSpec,
 )
 
 
@@ -101,13 +104,9 @@ def build_request(
     Reads semantic constraints from the plan YAML if available,
     otherwise produces a minimal request.
     """
-    semantic_constraints: dict[str, Any] = {}
     problem_context: dict[str, Any] = {}
-    visual_requirements: dict[str, Any] = {}
-    reuse: dict[str, Any] = {"reuse_geometry_from": job.reuse_geometry_from}
-    engine_options: dict[str, Any] = {}
+    reuse = DiagramReuseSpec(reuse_geometry_from=job.reuse_geometry_from)
 
-    # Try to extract problem context from plan YAML
     if plan_data:
         problem_ctx = _extract_problem_context(plan_data, job)
         problem_context.update(problem_ctx)
@@ -123,10 +122,7 @@ def build_request(
         diagram_kind=job.diagram_kind,
         teaching_intent=job.teaching_intent,
         problem_context=problem_context,
-        semantic_constraints=semantic_constraints,
-        visual_requirements=visual_requirements,
         reuse=reuse,
-        engine_options=engine_options,
     )
 
 
@@ -164,25 +160,11 @@ def run_one_job(
     artifact_dir: Path,
     python_executable: str,
     dry_run: bool,
-) -> dict[str, Any]:
-    """Execute a single diagram job: write request → workflow → renderer.
-
-    Returns a result dict with status, paths, and subprocess output.
-    """
+) -> DiagramBatchJobResult:
+    """Execute a single diagram job: write request → workflow → renderer."""
     job_id = job.job_id
-    # Build directory paths
     build_dir = artifact_dir / "build" / "diagram"
     job_build_dir = build_dir / "jobs" / job_id
-    job_public_dir = artifact_dir / "diagram" / "jobs" / job_id / "rendered"
-
-    record: dict[str, Any] = {
-        "job_id": job_id,
-        "slot_id": job.slot_id,
-        "variant": job.variant.value,
-        "status": "not_run",
-        "workflow_status": "not_run",
-        "renderer_status": "not_run",
-    }
 
     # Write v2 request
     request_path = job_build_dir / "request.json"
@@ -194,10 +176,14 @@ def run_one_job(
     write_json(legacy_request_path, legacy_request)
 
     if dry_run:
-        record["status"] = "dry_run"
-        record["workflow_status"] = "dry_run"
-        record["renderer_status"] = "dry_run"
-        return record
+        return DiagramBatchJobResult(
+            job_id=job_id,
+            slot_id=job.slot_id,
+            variant=job.variant.value,
+            status="dry_run",
+            workflow_status="dry_run",
+            renderer_status="dry_run",
+        )
 
     # Run workflow
     workflow_script = SCRIPT_DIR / "run_diagram_workflow.py"
@@ -209,33 +195,41 @@ def run_one_job(
         "--out", str(build_dir),
         "--python", python_executable,
     ]
-    wf_result = subprocess.run(
+    subprocess.run(
         workflow_cmd, cwd=str(SCRIPT_DIR.parent),
         text=True, capture_output=True, check=False,
     )
-    record["workflow_returncode"] = wf_result.returncode
 
     # Read workflow result
     wf_result_path = job_build_dir / "workflow_result.json"
+    wf_status = "missing_result"
     if wf_result_path.exists():
         wf_data = read_json(wf_result_path)
-        record["workflow_status"] = wf_data.get("status", "unknown")
-    else:
-        record["workflow_status"] = "missing_result"
+        wf_status = wf_data.get("status", "unknown")
 
-    if record["workflow_status"] != "ok":
-        record["status"] = "workflow_failed"
-        record["failure_reason"] = f"workflow status: {record['workflow_status']}"
-        return record
+    if wf_status != "ok":
+        return DiagramBatchJobResult(
+            job_id=job_id,
+            slot_id=job.slot_id,
+            variant=job.variant.value,
+            status="workflow_failed",
+            workflow_status=wf_status,
+            failure_reason=f"workflow status: {wf_status}",
+        )
 
     # Run renderer
-    renderer_script = SCRIPT_DIR / "render_geometry_spec.py"
     spec_path = job_build_dir / "final_renderer_spec.json"
     if not spec_path.exists():
-        record["status"] = "renderer_no_spec"
-        record["renderer_status"] = "no_spec"
-        return record
+        return DiagramBatchJobResult(
+            job_id=job_id,
+            slot_id=job.slot_id,
+            variant=job.variant.value,
+            status="renderer_no_spec",
+            workflow_status="ok",
+            renderer_status="no_spec",
+        )
 
+    renderer_script = SCRIPT_DIR / "render_geometry_spec.py"
     renderer_cmd = [
         python_executable,
         str(renderer_script),
@@ -243,30 +237,40 @@ def run_one_job(
         "--out-dir", str(job_build_dir),
         "--variant", job.variant.value,
     ]
-    rr_result = subprocess.run(
+    subprocess.run(
         renderer_cmd, cwd=str(SCRIPT_DIR.parent),
         text=True, capture_output=True, check=False,
     )
 
     # Read renderer result
     rr_result_path = job_build_dir / "renderer_result.json"
+    rr_status = "missing_result"
+    rr_image_path = ""
     if rr_result_path.exists():
         rr_data = read_json(rr_result_path)
-        record["renderer_status"] = rr_data.get("status", "unknown")
-    else:
-        record["renderer_status"] = "missing_result"
+        rr_status = rr_data.get("status", "unknown")
+        rr_image_path = rr_data.get("image_path", "")
 
-    if record["renderer_status"] == "ok":
-        record["status"] = "ok"
-        # Copy rendered images to public directory
-        image_path = rr_data.get("image_path", "")
-        if image_path:
-            record["image_path"] = image_path
-    else:
-        record["status"] = "renderer_failed"
-        record["failure_reason"] = f"renderer status: {record['renderer_status']}"
+    if rr_status == "ok":
+        return DiagramBatchJobResult(
+            job_id=job_id,
+            slot_id=job.slot_id,
+            variant=job.variant.value,
+            status="ok",
+            workflow_status="ok",
+            renderer_status="ok",
+            image_path=rr_image_path,
+        )
 
-    return record
+    return DiagramBatchJobResult(
+        job_id=job_id,
+        slot_id=job.slot_id,
+        variant=job.variant.value,
+        status="renderer_failed",
+        workflow_status="ok",
+        renderer_status=rr_status,
+        failure_reason=f"renderer status: {rr_status}",
+    )
 
 
 # ---------------------------------------------------------------------------
@@ -281,24 +285,20 @@ def run_batch(
     dry_run: bool,
     jobs_filter: set[str] | None,
     plan_data: dict[str, Any] | None,
-) -> list[dict[str, Any]]:
+) -> DiagramBatchReport:
     """Run all jobs in topological order with parallelism within each level."""
     ordered_ids = manifest.topological_job_ids()
 
-    # Filter if requested
     if jobs_filter:
         ordered_ids = [jid for jid in ordered_ids if jid in jobs_filter]
 
     job_by_id = {job.job_id: job for job in manifest.jobs}
-
-    # Group by dependency level for wave-based parallelism
     levels = _topological_levels(ordered_ids, job_by_id)
 
-    results: list[dict[str, Any]] = []
+    results: list[DiagramBatchJobResult] = []
     completed_ok: set[str] = set()
 
-    for level_idx, level_ids in enumerate(levels):
-        # Filter out jobs whose dependencies failed
+    for level_ids in levels:
         runnable: list[DiagramJob] = []
         for jid in level_ids:
             job = job_by_id[jid]
@@ -306,24 +306,22 @@ def run_batch(
             if deps_ok:
                 runnable.append(job)
             else:
-                results.append({
-                    "job_id": jid,
-                    "slot_id": job.slot_id,
-                    "variant": job.variant.value,
-                    "status": "dependency_failed",
-                    "failure_reason": "dependency job failed or was skipped",
-                })
+                results.append(DiagramBatchJobResult(
+                    job_id=jid,
+                    slot_id=job.slot_id,
+                    variant=job.variant.value,
+                    status="dependency_failed",
+                    failure_reason="dependency job failed or was skipped",
+                ))
 
         if not runnable:
             continue
 
-        # Build requests
         job_requests = [
             (job, build_request(job, manifest, plan_data))
             for job in runnable
         ]
 
-        # Execute in parallel
         with ThreadPoolExecutor(max_workers=max_workers) as executor:
             futures = {
                 executor.submit(
@@ -334,10 +332,20 @@ def run_batch(
             for future in as_completed(futures):
                 result = future.result()
                 results.append(result)
-                if result["status"] in ("ok", "dry_run"):
-                    completed_ok.add(result["job_id"])
+                if result.status in ("ok", "dry_run"):
+                    completed_ok.add(result.job_id)
 
-    return sorted(results, key=lambda r: r["job_id"])
+    results.sort(key=lambda r: r.job_id)
+    ok_count = sum(1 for r in results if r.status in ("ok", "dry_run"))
+
+    return DiagramBatchReport(
+        assignment_id=manifest.assignment_id,
+        total_jobs=len(results),
+        ok_count=ok_count,
+        failed_count=len(results) - ok_count,
+        dry_run=dry_run,
+        jobs=results,
+    )
 
 
 def _topological_levels(
@@ -349,22 +357,18 @@ def _topological_levels(
     All jobs in a level can run concurrently; all deps are in prior levels.
     """
     levels: list[list[str]] = []
-    assigned: set[str] = set()
 
     for jid in ordered_ids:
         job = job_by_id[jid]
-        # Find the minimum level where all deps are assigned
         min_level = 0
         for dep in job.depends_on:
             for li, level in enumerate(levels):
                 if dep in level:
                     min_level = max(min_level, li + 1)
                     break
-        # Extend levels list if needed
         while len(levels) <= min_level:
             levels.append([])
         levels[min_level].append(jid)
-        assigned.add(jid)
 
     return levels
 
@@ -419,18 +423,14 @@ def main() -> None:
     if not jobs_path.exists():
         raise SystemExit(f"Jobs manifest not found: {jobs_path}")
 
-    # Determine artifact dir
     if args.artifact_dir:
         artifact_dir = args.artifact_dir.resolve()
     else:
-        # diagram_jobs.json is in <artifact_dir>/build/diagram/
         artifact_dir = jobs_path.parent.parent.parent
 
-    # Load manifest
     raw = read_json(jobs_path)
     manifest = DiagramJobsManifest(**raw)
 
-    # Optionally load plan YAML for problem context
     plan_data: dict[str, Any] | None = None
     if args.plan_yaml and args.plan_yaml.exists():
         try:
@@ -441,7 +441,7 @@ def main() -> None:
 
     jobs_filter = set(args.jobs_filter) if args.jobs_filter else None
 
-    results = run_batch(
+    report = run_batch(
         manifest,
         artifact_dir,
         args.python,
@@ -451,26 +451,13 @@ def main() -> None:
         plan_data,
     )
 
-    ok_count = sum(1 for r in results if r["status"] in ("ok", "dry_run"))
-    fail_count = len(results) - ok_count
-
-    report = {
-        "schema_version": "diagram-batch-report/v1",
-        "assignment_id": manifest.assignment_id,
-        "total_jobs": len(results),
-        "ok_count": ok_count,
-        "failed_count": fail_count,
-        "dry_run": args.dry_run,
-        "jobs": results,
-    }
-
-    # Write report alongside the manifest
+    # Write report — single serialization point
     report_path = jobs_path.parent / "diagram_batch_report.json"
-    write_json(report_path, report)
+    write_json(report_path, report.model_dump(mode="json"))
 
-    print(json.dumps(report, ensure_ascii=False, indent=2))
+    print(json.dumps(report.model_dump(mode="json"), ensure_ascii=False, indent=2))
 
-    if fail_count > 0 and not args.dry_run:
+    if report.failed_count > 0 and not args.dry_run:
         raise SystemExit(1)
 
 

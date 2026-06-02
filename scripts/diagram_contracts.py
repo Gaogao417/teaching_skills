@@ -447,3 +447,36 @@ class DiagramGateReport(DiagramModel):
     status: Literal["pass", "warn", "block"]
     checks: list[DiagramGateCheck] = Field(default_factory=list)
 
+
+# ---------------------------------------------------------------------------
+# Batch execution types
+# ---------------------------------------------------------------------------
+
+class DiagramBatchJobResult(DiagramModel):
+    """Per-job execution result from the batch runner."""
+
+    job_id: str = ""
+    slot_id: str = ""
+    variant: str = "prompt"
+    status: Literal[
+        "ok", "dry_run", "not_run",
+        "workflow_failed", "renderer_failed", "renderer_no_spec",
+        "dependency_failed",
+    ] = "not_run"
+    workflow_status: str = "not_run"
+    renderer_status: str = "not_run"
+    image_path: str = ""
+    failure_reason: str = ""
+
+
+class DiagramBatchReport(DiagramModel):
+    """Overall batch execution report."""
+
+    schema_version: Literal["diagram-batch-report/v1"] = "diagram-batch-report/v1"
+    assignment_id: str = ""
+    total_jobs: int = Field(default=0, ge=0)
+    ok_count: int = Field(default=0, ge=0)
+    failed_count: int = Field(default=0, ge=0)
+    dry_run: bool = False
+    jobs: list[DiagramBatchJobResult] = Field(default_factory=list)
+
