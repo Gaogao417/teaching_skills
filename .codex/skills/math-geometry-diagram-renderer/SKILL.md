@@ -1,15 +1,17 @@
 ---
 name: math-geometry-diagram-renderer
-description: "为 LaTeX/YAML writer 生成几何题配套图片。仅在 math-student-explanation-latex-data 或 math-adaptive-practice-latex-data 准备插入 diagram_col、diagram_row、answer_space.diagram_col 或讲义 diagram block、且结构分析/题目判定需要插图时使用。不要在 math-assignment-latex 渲染阶段直接触发。"
+description: "为 LaTeX/YAML writer 生成几何题配套图片。仅在 math-student-explanation-latex-data 或 math-adaptive-practice-latex-data 已声明 diagram_slot、且结构分析/题目判定需要插图时使用；本 skill 负责真实 collect/batch/gate/resolve 链路。不要在 math-assignment-latex 渲染阶段直接触发。"
 ---
 
 # math-geometry-diagram-renderer
 
 ## 职责
 
-这是 LaTeX/YAML writer 的局部辅助 skill：把结构分析里的几何画图需求变成可打印 PNG，并返回可插入 assignment.yaml 的图片对象。
+这是 LaTeX/YAML writer 的局部辅助 skill：读取 latex-data skill 已声明的 `diagram_slot`，通过本仓库的 diagram batch 链路生成可打印 PNG，并由 resolver 写回可插入 assignment.resolved.yaml 的图片对象。
 
-不要把 GSB、renderer、重试细节暴露到学生页、HTML skill、pipeline skill 或 LaTeX 渲染 skill。
+latex-data skill 只负责判断题目是否需要图、写清 slot 的教学意图和语义约束；本 skill 负责运行真实链路、确认真的生成 PNG、做 gate，并产出 resolved YAML。不要把这些职责放回 `math-homework-pipeline`。
+
+不要把 GSB、renderer、重试细节暴露到学生页、HTML skill 或 LaTeX 渲染 skill。生产链路必须使用 `DiagramJobRequest v2`；batch 默认只写并调用 `request.json`。
 
 本 skill 必须区分两种图：
 
@@ -29,8 +31,8 @@ solution 图不得让 Python 自己成为第二套几何求解器，也不得手
 - `01-structure-analysis.md`
 - 结构分析中的 `diagram_request_packet`
 - 当前 YAML writer 要插图的位置、题型、caption 意图
-- `diagram_job_id`: 题目级 job id，例如 `c1-prompt`、`f2-prompt`、`p1-part1-prompt`
-- `diagram_variant`: `prompt` 或 `solution`；未指定时默认 `prompt`
+- `diagram_slot.slot_id`: 图位 id，例如 `c1.prompt`、`f2.prompt`、`p1.part1.prompt`
+- `variant`: `prompt` 或 `solution`；未指定时默认 `prompt`
 - `disclosure_policy`: `clean` 或 `annotated`；未指定时 `prompt → clean`，`solution → annotated`
 
 只支持合成几何图的默认路径。坐标几何/函数图如果没有确定性 renderer 支持，直接 fallback，不强行走 GeometricScene。
@@ -82,42 +84,77 @@ solution 图可以引用 prompt 图并追加辅助对象。workflow 会读取 pr
 
 ## 工作流
 
-在 artifact 目录下执行单个 job：
+生产工作流必须先写 plan YAML 中的 `diagram_slot`，不要手写 `image_path`。最小 slot 示例：
+
+```yaml
+diagram_slot:
+  slot_id: "c1.prompt"
+  diagram_ref: "c1.prompt"
+  variant: "prompt"
+  disclosure_policy: "clean"
+  required: true
+  on_failure: "fail_assignment"
+  placement: "diagram_col"
+  layout_role: "question_sidecar"
+  width_hint: "0.30\\linewidth"
+  caption: "原题图"
+  engine: "geometric_scene"
+  diagram_kind: "synthetic_geometry"
+  teaching_intent: "practice_prompt"
+  semantic_constraints:
+    given_objects: ["A", "B", "C", "D"]
+    given_constraints: ["AB=AC", "D on BC"]
+    clean_forbidden: ["不要画辅助线"]
+```
+
+在 artifact 目录下执行 batch 链路：
 
 ```bash
 python3 -m venv .venv-diagram
 .venv-diagram/bin/python -m pip install -r scripts/geometry_diagram_workflow/requirements.txt
 .venv-diagram/bin/python scripts/geometry_diagram_workflow/examples/verify_setup.py
 
-python3 scripts/build_diagram_request.py artifacts/<slug>/01-structure-analysis.md \
-  --job-id c1-prompt \
-  --problem-text "当前题目的完整题干和已知条件" \
-  --variant prompt \
-  --disclosure-policy clean \
-  --out artifacts/<slug>/diagram/jobs/c1-prompt/diagram-request.json
+.venv-diagram/bin/python scripts/collect_diagram_jobs.py \
+  artifacts/<slug>/assignment.plan.yaml \
+  --out-dir artifacts/<slug>/build/diagram
 
-python3 scripts/run_diagram_workflow.py artifacts/<slug>/diagram/jobs/c1-prompt/diagram-request.json \
-  --job-id c1-prompt \
-  --python .venv-diagram/bin/python \
-  --out artifacts/<slug>/diagram
+.venv-diagram/bin/python scripts/run_diagram_batch.py \
+  artifacts/<slug>/build/diagram/diagram_jobs.json \
+  --artifact-dir artifacts/<slug> \
+  --plan-yaml artifacts/<slug>/assignment.plan.yaml \
+  --max-workers 4
 
-python3 scripts/render_geometry_spec.py artifacts/<slug>/diagram/jobs/c1-prompt/final_renderer_spec.json \
-  --variant prompt \
-  --out-dir artifacts/<slug>/diagram/jobs/c1-prompt
+.venv-diagram/bin/python scripts/build_diagram_artifacts.py \
+  --jobs artifacts/<slug>/build/diagram/diagram_jobs.json \
+  --jobs-dir artifacts/<slug>/build/diagram/jobs \
+  --artifact-dir artifacts/<slug> \
+  --out artifacts/<slug>/build/diagram/diagram_artifacts.json
+
+.venv-diagram/bin/python scripts/check_diagram_gate.py \
+  --plan artifacts/<slug>/assignment.plan.yaml \
+  --jobs artifacts/<slug>/build/diagram/diagram_jobs.json \
+  --artifacts artifacts/<slug>/build/diagram/diagram_artifacts.json \
+  --artifact-dir artifacts/<slug>
+
+.venv-diagram/bin/python scripts/resolve_assignment_diagrams.py \
+  artifacts/<slug>/assignment.plan.yaml \
+  --artifacts artifacts/<slug>/build/diagram/diagram_artifacts.json \
+  --out artifacts/<slug>/assignment.resolved.yaml
 ```
 
-若要生成讲解/教师版辅助线图，把上面两个命令的 `prompt/clean` 改成 `solution/annotated`，并在 request/YAML 中显式写 `reuse_geometry_from`，输出/引用 `diagram/jobs/<job_id>/rendered/solution.png`。
+若要生成讲解/教师版辅助线图，把对应 slot 写成 `variant: solution`、`disclosure_policy: annotated`，并显式写 `reuse_geometry_from` 指向 prompt slot。collector 会把它转成依赖 prompt job 的 solution job，输出/引用 `rendered/solution.png`。
 
 然后检查：
 
 ```text
-artifacts/<slug>/diagram/jobs/<job_id>/workflow_events.jsonl
-artifacts/<slug>/diagram/jobs/<job_id>/rounds/round_*/scene_payload.json
-artifacts/<slug>/diagram/jobs/<job_id>/rounds/round_*/render_result.json
-artifacts/<slug>/diagram/jobs/<job_id>/rounds/round_*/vision_result.json
-artifacts/<slug>/diagram/jobs/<job_id>/renderer_result.json
-artifacts/<slug>/diagram/jobs/<job_id>/rendered/prompt.png
-artifacts/<slug>/diagram/jobs/<job_id>/rendered/solution.png  # 仅在需要 annotated 解答图时存在
+artifacts/<slug>/build/diagram/jobs/<job_id>/request.json
+artifacts/<slug>/build/diagram/jobs/<job_id>/workflow_events.jsonl
+artifacts/<slug>/build/diagram/jobs/<job_id>/rounds/round_*/scene_payload.json
+artifacts/<slug>/build/diagram/jobs/<job_id>/rounds/round_*/render_result.json
+artifacts/<slug>/build/diagram/jobs/<job_id>/rounds/round_*/vision_result.json
+artifacts/<slug>/build/diagram/jobs/<job_id>/renderer_result.json
+artifacts/<slug>/build/diagram/jobs/<job_id>/rendered/prompt.png
+artifacts/<slug>/build/diagram/jobs/<job_id>/rendered/solution.png  # 仅在需要 annotated 解答图时存在
 ```
 
 语义复核不能只看 `usable=true`。每个 prompt job 还必须核对：
@@ -129,11 +166,11 @@ artifacts/<slug>/diagram/jobs/<job_id>/rendered/solution.png  # 仅在需要 ann
 
 不要在缺依赖时报 fallback。先安装 `scripts/geometry_diagram_workflow/requirements.txt` 并运行 `scripts/geometry_diagram_workflow/examples/verify_setup.py`；只有依赖和 Wolfram 验证仍失败，或 renderer 明确不支持当前图形类型时，才 fallback。
 
-只有当 `renderer_result.json.status == "ok"` 且对应的 `diagram/jobs/<job_id>/rendered/<variant>.png` 存在时，才插入 YAML 图片对象。练习题不要默认引用 artifact 级 `diagram/rendered/prompt.png`。
+只有当 `renderer_result.json.status == "ok"`、`diagram_artifacts.json` 中 artifact `bindable: true` 且对应 PNG 非空时，才允许 resolver 写入 YAML 图片对象。练习题不要默认引用 artifact 级 `diagram/rendered/prompt.png`。
 
 ## YAML 输出
 
-成功时，LaTeX/YAML writer 插入图片对象，并且必须显式设置 `width`，不要依赖模板默认值：
+成功时，LaTeX/YAML writer 的 plan 阶段只写 `diagram_slot` 和 `width_hint`，不要手写 `image_path`。resolver 生成的 resolved YAML 图片对象必须显式设置 `width`，不要依赖模板默认值：
 
 ```yaml
 diagram_col:
@@ -194,7 +231,7 @@ level: 1
 
 ## 边界
 
-- 本 skill 可以调用 `scripts/build_diagram_request.py`、`scripts/run_diagram_workflow.py`、`scripts/render_geometry_spec.py`。
+- 本 skill 可以调用 `scripts/collect_diagram_jobs.py`、`scripts/run_diagram_batch.py`、`scripts/build_diagram_artifacts.py`、`scripts/check_diagram_gate.py`、`scripts/resolve_assignment_diagrams.py`。
 - 本 skill 不修改 LaTeX 模板，不编译 PDF。
 - 本 skill 不要求 Wolfram 输出 PNG；正式图片来自 teaching renderer。
 - 本 skill 不把 `workflow_result`、`final_renderer_spec`、`renderer_result` 写进学生可见内容。

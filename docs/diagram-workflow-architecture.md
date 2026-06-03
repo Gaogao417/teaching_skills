@@ -323,12 +323,9 @@ assignment.resolved.yaml → Jinja2 template → .tex → XeLaTeX / tectonic →
 
 | 模块 | 当前职责 | 目标职责 | 备注 |
 |---|---|---|---|
-| `scripts/build_diagram_request.py` | 从 `01-structure-analysis.md` 构造 teaching-side diagram request；缺 packet 时可关键词推断 | legacy 单图 request builder；未来应由 collector 根据 slot 生成 `DiagramJobRequest` | 不应承担“是否需要图”的最终判断 |
-| `scripts/run_diagram_workflow.py` | 把 teaching request 规范化后调用本地 `geometry_diagram_workflow/core/workflow.py`；目前只显式支持 `synthetic_geometry` | engine adapter；只负责 request 格式适配和调用 workflow.py | 不应做 clean policy 的业务修补 |
-| `scripts/geometry_diagram_workflow/core/workflow.py` | agentic GeometricScene workflow：文本模型写/revise Wolfram GeometricScene，Wolfram 求解，产出 renderer-friendly spec | 单 job executor；只处理一个 `DiagramJobRequest` | 核心图片生成工作流，应重新设计输入 contract |
+| `scripts/run_diagram_workflow.py` | 读取单个 `DiagramJobRequest` v2 并调用本地 `geometry_diagram_workflow/core/workflow.py`；只显式支持 `synthetic_geometry` | engine adapter；只负责 request 传递、engine 路由和调用 workflow.py | 不应做 clean policy 的业务修补 |
+| `scripts/geometry_diagram_workflow/core/workflow.py` | agentic GeometricScene workflow：文本模型写/revise Wolfram GeometricScene，Wolfram 求解，产出 renderer-friendly spec | 单 job executor；生产输入是一个 `DiagramJobRequest` v2 | 核心图片生成工作流，不扫描或修改 assignment YAML |
 | `scripts/render_geometry_spec.py` | `geometry-render-spec/v1` → SVG → PNG，输出 `renderer_result.json` | deterministic renderer；只消费 renderer spec，输出图片 | 不理解 assignment，不改 YAML |
-| `scripts/run_diagram_acceptance.py` | 从 assignment YAML 扫描已声明 diagram，跑独立 job 到 PNG；不编译 TeX / 不查 PDF layout | 改造成 `diagram_artifact_gate.py`；消费 `diagram_jobs.json` 和 `diagram_artifacts.json` | 不应从最终 YAML 反向构造 request |
-| `scripts/attach_diagram_package.py` | 读取 diagram dir，构造 package，插入 YAML/HTML；失败时可插 fallback block | legacy only；生产链路不应使用 | 不应在后处理阶段改变教学内容 |
 | `scripts/workflow_gate.py` | run manifest、preflight、review ledger、render gate、final review | 增加 diagram stage 记录和 diagram gate | 不直接生成图 |
 
 ### 5.2 建议新增模块
@@ -496,8 +493,8 @@ layout              TeX 排版，不属于 workflow.py
 | `diagram_kind` | 推荐 `engine` | 说明 |
 |---|---|---|
 | `synthetic_geometry` | `geometric_scene` | 综合几何，Wolfram `GeometricScene` 求实例点位 |
-| `coordinate_geometry` | `coordinate_renderer` / `wolfram_plot` | 坐标系内的点、线、圆、多边形；可用 Wolfram 校验或采样 |
-| `function_graph` | `wolfram_plot` / `coordinate_renderer` | 函数图像、坐标轴、网格、交点、零点、关键点 |
+| `coordinate_geometry` | `wolfram_client` / `coordinate_renderer` | 坐标系内的点、线、圆、多边形；用 WolframClient 计算关系，Python renderer 出图 |
+| `function_graph` | `wolfram_client` / `coordinate_renderer` | 函数图像、坐标轴、网格、交点、零点、关键点 |
 | `hybrid` | 由 orchestrator 拆 job | 同一题同时需要综合几何示意和函数/坐标图时，拆成多个 slot/job |
 | `auto` | collector/workflow 路由 | 只在上游不确定时临时使用；进入执行前应收敛为明确 kind |
 
@@ -540,7 +537,7 @@ layout              TeX 排版，不属于 workflow.py
     "functions": [],
     "objects": [],
     "annotations": [],
-    "wolfram_plot_options": {}
+    "wolfram_client_options": {}
   },
 
   "visual_requirements": {
@@ -571,7 +568,8 @@ layout              TeX 排版，不属于 workflow.py
 - `layout_role`、`width`、`image_path` 不进入 `workflow.py`。
 - `workflow.py` 可以知道 `caption` 作为视觉意图，但不负责最终 LaTeX caption 排版。
 - `reuse_geometry_from` 只表达几何复用，不表达图片路径复用。
-- `analytic_requirements` 只在 `coordinate_geometry` / `function_graph` 中承载坐标轴、视窗、函数、点、直线、采样、Wolfram plot 选项；综合几何可以为空。
+- `analytic_requirements` 只在 `coordinate_geometry` / `function_graph` 中承载坐标轴、视窗、函数、点、直线、采样和兼容保留的 Wolfram plot 选项；综合几何可以为空。
+- 解析几何推荐路径是 Python 调 WolframClient 做数学计算，再由 Python renderer 输出 SVG/PNG；`wolfram_plot` 只作为兼容 alias。
 
 ### 8.3 `workflow.py` 内部职责
 
@@ -783,9 +781,9 @@ DiagramJobRequest
 | `width_hint` | slot | plan 阶段的 TeX 宽度建议 | latex-data | resolver |
 | `width` | resolved YAML | 模板实际使用的 TeX 宽度 | resolver | LaTeX template |
 | `image_path` | resolved/artifact | 最终 PNG 路径，必须相对 `.tex` 可访问 | artifact builder / resolver | template / compiler |
-| `engine` | jobs/request | 图片生成引擎，如 `geometric_scene` / `wolfram_plot` / `coordinate_renderer` | collector | orchestrator |
+| `engine` | jobs/request | 图片生成引擎，如 `geometric_scene` / `wolfram_client` / `coordinate_renderer`；`wolfram_plot` 为兼容 alias | collector | orchestrator |
 | `diagram_kind` | jobs/request | 图类型，如 `synthetic_geometry` / `coordinate_geometry` / `function_graph` / `hybrid` | latex-data / collector | workflow adapter |
-| `analytic_requirements` | slot/request | 坐标/函数图的 viewport、axes、functions、objects、Wolfram plot 选项输入 | latex-data / collector | workflow |
+| `analytic_requirements` | slot/request | 坐标/函数图的 viewport、axes、functions、objects 和 WolframClient 计算输入 | latex-data / collector | workflow |
 | `reuse_geometry_from` | request/jobs | solution 图复用哪个 prompt job 的几何点位 | latex-data / collector | orchestrator / workflow |
 | `content_hash` | jobs/artifacts | 用于判断 job 是否 stale | collector | cache / gate |
 | `artifact_hash` | resolved/artifacts | 最终 PNG hash | artifact builder | resolver / gate |
@@ -924,9 +922,9 @@ blocked        required 图失败，assignment 不可渲染
 | solution 图复用靠路径猜测 | `reuse_geometry_from` 显式进入 job graph |
 | clean policy 靠 wrapper 后处理 | `semantic_constraints.clean_forbidden` + 独立 gate |
 
-### 13.2 `run_diagram_acceptance.py` 降级为 gate
+### 13.2 旧 assignment 反扫入口已移除
 
-当前它从 assignment YAML 反向扫描 diagram 并生成 job。目标架构中，扫描 YAML 是 `collect_diagram_jobs.py` 的职责；acceptance/gate 只消费：
+从 assignment YAML 反向扫描 diagram 并生成 job 的入口已移除。目标架构中，扫描 YAML 是 `collect_diagram_jobs.py` 的职责；gate 只消费：
 
 ```text
 assignment.plan.yaml
@@ -935,11 +933,11 @@ diagram_artifacts.json
 assignment.resolved.yaml
 ```
 
-它应该回答：“计划中要求的图是否都已经可绑定、可渲染、符合 policy？”而不是重新跑生成流程。
+gate 应回答：“计划中要求的图是否都已经可绑定、可渲染、符合 policy？”而不是重新跑生成流程。
 
-### 13.3 `attach_diagram_package.py` 移出主链路
+### 13.3 后处理插图入口已移除
 
-它当前既构造 package，又可能插入 YAML/HTML fallback。目标架构中，这种“后处理改教学内容”的行为应移出主链路。可保留为 legacy/debug 工具，但生产链路应使用：
+后处理脚本不再构造 package，也不再插入 YAML/HTML fallback。生产链路只使用：
 
 ```text
 resolve_assignment_diagrams.py
@@ -988,7 +986,7 @@ assignment.plan.yaml + fake diagram_artifacts.json → assignment.resolved.yaml
 
 ### Step 4：重构 `workflow.py` request v2
 
-引入 `DiagramJobRequest` v2；`run_diagram_workflow.py` 做 v2 → legacy 的临时 adapter，直到 workflow.py 原生支持 v2。
+引入 `DiagramJobRequest` v2 作为生产唯一输入；`run_diagram_batch.py` 只写并调用每个 job 的 `request.json`。
 
 ### Step 5：把 diagram gate 接入 `math-homework-pipeline`
 
@@ -1000,9 +998,9 @@ check_diagram_gate.py
 
 没有通过 required diagram gate，不允许进入 LaTeX render。
 
-### Step 6：清理 legacy fallback
+### Step 6：清理旧 fallback
 
-把 `attach_diagram_package.py` 从主链路移除，只保留 debug/legacy 用法。
+删除旧 request builder、assignment 反扫入口和后处理插图入口；生产链路只保留 `DiagramJobRequest` v2。
 
 ---
 

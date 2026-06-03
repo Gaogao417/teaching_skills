@@ -236,6 +236,7 @@ def check_s26(jobs_path: Path, artifact_dir: Path, plan_path: Path) -> dict | No
       - each job dir contains workflow_result.json with status=ok
       - each job dir contains renderer_result.json with status=ok
       - each job dir contains final_renderer_spec.json with a 'points' key
+      - each job dir does not contain the retired request filename
       - at least one .png file exists under each job dir (non-zero bytes)
     """
     heading("S2.6  run_diagram_batch.py  (REAL)")
@@ -276,6 +277,10 @@ def check_s26(jobs_path: Path, artifact_dir: Path, plan_path: Path) -> dict | No
         if not job_dir.exists():
             fail(f"{job_id}: job directory not found")
             continue
+
+        retired_request = job_dir / ("diagram" + "-request.json")
+        if retired_request.exists():
+            fail(f"{job_id}: retired request file should not be written in production path")
 
         wf_path = job_dir / "workflow_result.json"
         if wf_path.exists():

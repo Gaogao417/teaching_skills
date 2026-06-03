@@ -13,6 +13,7 @@ import html
 import json
 import math
 import os
+import re
 import shutil
 import subprocess
 from pathlib import Path
@@ -248,8 +249,310 @@ class SvgGeometryRenderer:
         )
 
 
+class SvgCoordinateRenderer:
+    def __init__(self, spec: dict[str, Any], width: int, height: int, padding: int = 56):
+        self.spec = spec
+        self.width = width
+        self.height = height
+        self.padding = padding
+        viewport = spec.get("viewport") or {}
+        self.x_min = float(viewport.get("x_min", -5))
+        self.x_max = float(viewport.get("x_max", 5))
+        self.y_min = float(viewport.get("y_min", -5))
+        self.y_max = float(viewport.get("y_max", 5))
+        self.preserve_aspect = bool(viewport.get("preserve_aspect", True))
+        self.view_x_min = self.x_min
+        self.view_x_max = self.x_max
+        self.view_y_min = self.y_min
+        self.view_y_max = self.y_max
+        self.scale_x, self.scale_y, self.plot_x, self.plot_y, self.plot_w, self.plot_h = self._plot_transform()
+        self.elements: list[str] = []
+        self.point_objects: dict[str, Point] = {}
+
+    def _plot_transform(self) -> tuple[float, float, float, float, float, float]:
+        span_x = self.x_max - self.x_min
+        span_y = self.y_max - self.y_min
+        available_w = self.width - 2 * self.padding
+        available_h = self.height - 2 * self.padding
+        if self.preserve_aspect:
+            scale = min(available_w / span_x, available_h / span_y)
+            view_span_x = available_w / scale
+            view_span_y = available_h / scale
+            center_x = (self.x_min + self.x_max) / 2
+            center_y = (self.y_min + self.y_max) / 2
+            self.view_x_min = center_x - view_span_x / 2
+            self.view_x_max = center_x + view_span_x / 2
+            self.view_y_min = center_y - view_span_y / 2
+            self.view_y_max = center_y + view_span_y / 2
+            return scale, scale, float(self.padding), float(self.padding), float(available_w), float(available_h)
+        return (
+            available_w / span_x,
+            available_h / span_y,
+            float(self.padding),
+            float(self.padding),
+            float(available_w),
+            float(available_h),
+        )
+
+    def screen_xy(self, x: float, y: float) -> Point:
+        sx = self.plot_x + (x - self.view_x_min) * self.scale_x
+        sy = self.plot_y + self.plot_h - (y - self.view_y_min) * self.scale_y
+        return (sx, sy)
+
+    def line(self, p1: Point, p2: Point, stroke: str, width: float, dash: str | None = None) -> str:
+        return f"<line {svg_attrs(x1=f'{p1[0]:.2f}', y1=f'{p1[1]:.2f}', x2=f'{p2[0]:.2f}', y2=f'{p2[1]:.2f}', stroke=stroke, stroke_width=width, stroke_linecap='round', stroke_dasharray=dash)} />"
+
+    def polyline(self, points: list[Point], stroke: str, width: float, fill: str = "none", closed: bool = False) -> str:
+        tag = "polygon" if closed else "polyline"
+        value = " ".join(f"{x:.2f},{y:.2f}" for x, y in points)
+        return f"<{tag} {svg_attrs(points=value, fill=fill, stroke=stroke, stroke_width=width, stroke_linejoin='round', stroke_linecap='round')} />"
+
+    def text(self, x: float, y: float, value: str, size: int = 18, anchor: str = "middle", fill: str = "#111827") -> str:
+        attrs = svg_attrs(
+            x=f"{x:.2f}",
+            y=f"{y:.2f}",
+            text_anchor=anchor,
+            dominant_baseline="central",
+            font_family="Arial, Helvetica, sans-serif",
+            font_size=size,
+            font_weight=700,
+            fill=fill,
+        )
+        return f"<text {attrs}>{html.escape(value)}</text>"
+
+    def tick_step(self, low: float, high: float, configured: Any) -> float:
+        if configured:
+            return float(configured)
+        span = abs(high - low)
+        rough = span / 8
+        power = 10 ** math.floor(math.log10(max(rough, 1e-9)))
+        for factor in (1, 2, 5, 10):
+            step = factor * power
+            if span / step <= 10:
+                return step
+        return power
+
+    def tick_values(self, low: float, high: float, step: float) -> list[float]:
+        start = math.ceil(low / step) * step
+        values: list[float] = []
+        current = start
+        guard = 0
+        while current <= high + 1e-9 and guard < 200:
+            values.append(0.0 if abs(current) < 1e-9 else current)
+            current += step
+            guard += 1
+        return values
+
+    def draw_axes(self) -> None:
+        axes = self.spec.get("axes") or {}
+        draw_x = axes.get("x", True)
+        draw_y = axes.get("y", True)
+        grid = axes.get("grid", True)
+        show_ticks = axes.get("show_ticks", True)
+        x_step = self.tick_step(self.view_x_min, self.view_x_max, axes.get("x_tick_step"))
+        y_step = self.tick_step(self.view_y_min, self.view_y_max, axes.get("y_tick_step"))
+        x_ticks = self.tick_values(self.view_x_min, self.view_x_max, x_step)
+        y_ticks = self.tick_values(self.view_y_min, self.view_y_max, y_step)
+
+        if grid:
+            for x in x_ticks:
+                p1 = self.screen_xy(x, self.view_y_min)
+                p2 = self.screen_xy(x, self.view_y_max)
+                self.elements.append(self.line(p1, p2, "#e5e7eb", 1.0))
+            for y in y_ticks:
+                p1 = self.screen_xy(self.view_x_min, y)
+                p2 = self.screen_xy(self.view_x_max, y)
+                self.elements.append(self.line(p1, p2, "#e5e7eb", 1.0))
+
+        axis_stroke = "#111827"
+        if draw_x:
+            y_axis = 0 if self.view_y_min <= 0 <= self.view_y_max else self.view_y_min
+            self.elements.append(self.line(self.screen_xy(self.view_x_min, y_axis), self.screen_xy(self.view_x_max, y_axis), axis_stroke, 2.0))
+        if draw_y:
+            x_axis = 0 if self.view_x_min <= 0 <= self.view_x_max else self.view_x_min
+            self.elements.append(self.line(self.screen_xy(x_axis, self.view_y_min), self.screen_xy(x_axis, self.view_y_max), axis_stroke, 2.0))
+
+        if show_ticks:
+            for x in x_ticks:
+                if abs(x) < 1e-9:
+                    continue
+                sx, sy = self.screen_xy(x, 0 if self.view_y_min <= 0 <= self.view_y_max else self.view_y_min)
+                self.elements.append(self.text(sx, sy + 18, f"{x:g}", 13, fill="#4b5563"))
+            for y in y_ticks:
+                if abs(y) < 1e-9:
+                    continue
+                sx, sy = self.screen_xy(0 if self.view_x_min <= 0 <= self.view_x_max else self.view_x_min, y)
+                self.elements.append(self.text(sx - 18, sy, f"{y:g}", 13, anchor="end", fill="#4b5563"))
+
+        x_label = str(axes.get("x_label", "x"))
+        y_label = str(axes.get("y_label", "y"))
+        self.elements.append(self.text(*self.screen_xy(self.view_x_max, 0 if self.view_y_min <= 0 <= self.view_y_max else self.view_y_min), x_label, 16, fill="#111827"))
+        self.elements.append(self.text(self.screen_xy(0 if self.view_x_min <= 0 <= self.view_x_max else self.view_x_min, self.view_y_max)[0] - 16, self.screen_xy(0 if self.view_x_min <= 0 <= self.view_x_max else self.view_x_min, self.view_y_max)[1], y_label, 16, anchor="end", fill="#111827"))
+
+    def draw_functions(self) -> None:
+        samples = self.spec.get("samples") or {}
+        functions = self.spec.get("functions") or []
+        palette = ["#2563eb", "#dc2626", "#059669", "#7c3aed"]
+        for index, func in enumerate(functions):
+            fid = str(func.get("id", f"f{index + 1}"))
+            raw_points = samples.get(fid) or []
+            points: list[Point] = []
+            for item in raw_points:
+                if isinstance(item, (list, tuple)) and len(item) == 2:
+                    try:
+                        points.append(self.screen_xy(float(item[0]), float(item[1])))
+                    except (TypeError, ValueError):
+                        continue
+            if len(points) >= 2:
+                style = func.get("style") if isinstance(func.get("style"), dict) else {}
+                stroke = str(style.get("stroke") or palette[index % len(palette)])
+                self.elements.append(self.polyline(points, stroke, float(style.get("stroke_width", 3.0))))
+            label = func.get("label")
+            if label and points:
+                lx, ly = points[min(len(points) - 1, max(0, len(points) // 2))]
+                self.elements.append(self.text(lx + 10, ly - 18, str(label), 15, anchor="start", fill=palette[index % len(palette)]))
+
+    def object_point(self, value: Any) -> Point | None:
+        if isinstance(value, str) and value in self.point_objects:
+            return self.point_objects[value]
+        if isinstance(value, (list, tuple)) and len(value) == 2:
+            return (float(value[0]), float(value[1]))
+        if isinstance(value, dict) and {"x", "y"} <= set(value):
+            return (float(value["x"]), float(value["y"]))
+        return None
+
+    def line_endpoints(self, obj: dict[str, Any]) -> tuple[Point, Point] | None:
+        style_equation = str(obj.get("equation", "")).replace(" ", "")
+        number = r"[+-]?(?:\d+(?:\.\d+)?|\.\d+)"
+        if style_equation:
+            vertical = re.match(rf"^x={{1,2}}(?P<c>{number})$", style_equation)
+            if vertical:
+                x = float(vertical.group("c"))
+                return self.screen_xy(x, self.view_y_min), self.screen_xy(x, self.view_y_max)
+
+            horizontal = re.match(rf"^y={{1,2}}(?P<c>{number})$", style_equation)
+            if horizontal:
+                y = float(horizontal.group("c"))
+                return self.screen_xy(self.view_x_min, y), self.screen_xy(self.view_x_max, y)
+
+            y_match = re.match(r"^y={1,2}(?P<rhs>.+)$", style_equation)
+            if y_match:
+                rhs = y_match.group("rhs")
+                simple_x = re.match(rf"^(?P<sign>[+-]?)x(?P<b>[+-](?:\d+(?:\.\d+)?|\.\d+))?$", rhs)
+                if simple_x:
+                    m = -1.0 if simple_x.group("sign") == "-" else 1.0
+                    b = float(simple_x.group("b") or 0)
+                    return self.screen_xy(self.view_x_min, m * self.view_x_min + b), self.screen_xy(self.view_x_max, m * self.view_x_max + b)
+
+                linear = re.match(rf"^(?P<m>{number})\*?x(?P<b>[+-](?:\d+(?:\.\d+)?|\.\d+))?$", rhs)
+                if linear:
+                    m = float(linear.group("m"))
+                    b = float(linear.group("b") or 0)
+                    return self.screen_xy(self.view_x_min, m * self.view_x_min + b), self.screen_xy(self.view_x_max, m * self.view_x_max + b)
+
+        if "slope" in obj and "intercept" in obj:
+            m = float(obj["slope"])
+            b = float(obj["intercept"])
+            return self.screen_xy(self.view_x_min, m * self.view_x_min + b), self.screen_xy(self.view_x_max, m * self.view_x_max + b)
+        return None
+
+    def draw_objects(self) -> None:
+        objects = self.spec.get("objects") or []
+        for obj in objects:
+            if not isinstance(obj, dict):
+                continue
+            if obj.get("type") == "point" and "x" in obj and "y" in obj:
+                self.point_objects[str(obj.get("id", ""))] = (float(obj["x"]), float(obj["y"]))
+
+        for obj in objects:
+            if not isinstance(obj, dict):
+                continue
+            kind = obj.get("type")
+            style = obj.get("style") if isinstance(obj.get("style"), dict) else {}
+            stroke = str(style.get("stroke", "#111827"))
+            fill = str(style.get("fill", "none"))
+            if kind == "point":
+                if "x" not in obj or "y" not in obj:
+                    continue
+                x, y = float(obj["x"]), float(obj["y"])
+                sx, sy = self.screen_xy(x, y)
+                self.elements.append(f"<circle {svg_attrs(cx=f'{sx:.2f}', cy=f'{sy:.2f}', r=style.get('radius', 5.2), fill=stroke)} />")
+                label = obj.get("label") or obj.get("id")
+                if label:
+                    self.elements.append(self.text(sx + float(style.get("label_dx", 14)), sy - float(style.get("label_dy", 14)), str(label), 15, anchor="start"))
+            elif kind == "line":
+                endpoints = self.line_endpoints(obj)
+                if endpoints is None:
+                    continue
+                self.elements.append(self.line(endpoints[0], endpoints[1], stroke, float(style.get("stroke_width", 2.4)), style.get("dash")))
+            elif kind == "circle":
+                center = obj.get("center")
+                if isinstance(center, dict):
+                    cx, cy = float(center.get("x", 0)), float(center.get("y", 0))
+                elif isinstance(center, (list, tuple)) and len(center) == 2:
+                    cx, cy = float(center[0]), float(center[1])
+                else:
+                    cx, cy = float(obj.get("cx", obj.get("x", 0))), float(obj.get("cy", obj.get("y", 0)))
+                radius = float(obj.get("radius", 1))
+                center_screen = self.screen_xy(cx, cy)
+                edge_screen = self.screen_xy(cx + radius, cy)
+                top_screen = self.screen_xy(cx, cy + radius)
+                rx_screen = abs(edge_screen[0] - center_screen[0])
+                ry_screen = abs(top_screen[1] - center_screen[1])
+                if abs(rx_screen - ry_screen) < 1e-6:
+                    self.elements.append(f"<circle {svg_attrs(cx=f'{center_screen[0]:.2f}', cy=f'{center_screen[1]:.2f}', r=f'{rx_screen:.2f}', fill=fill, stroke=stroke, stroke_width=style.get('stroke_width', 2.4))} />")
+                else:
+                    self.elements.append(f"<ellipse {svg_attrs(cx=f'{center_screen[0]:.2f}', cy=f'{center_screen[1]:.2f}', rx=f'{rx_screen:.2f}', ry=f'{ry_screen:.2f}', fill=fill, stroke=stroke, stroke_width=style.get('stroke_width', 2.4))} />")
+            elif kind in {"polyline", "polygon"}:
+                raw_points = obj.get("points") or []
+                world_points = [self.object_point(item) for item in raw_points]
+                points = [self.screen_xy(p[0], p[1]) for p in world_points if p is not None]
+                if len(points) >= 2:
+                    self.elements.append(self.polyline(points, stroke, float(style.get("stroke_width", 2.2)), fill if kind == "polygon" else "none", closed=kind == "polygon"))
+
+    def render(self) -> str:
+        self.draw_axes()
+        self.draw_functions()
+        self.draw_objects()
+        title = html.escape(str(self.spec.get("title", "coordinate diagram")))
+        body = "\n  ".join(self.elements)
+        return (
+            f'<svg xmlns="http://www.w3.org/2000/svg" width="{self.width}" height="{self.height}" '
+            f'viewBox="0 0 {self.width} {self.height}" role="img" aria-label="{title}">\n'
+            f'  <rect x="0" y="0" width="{self.width}" height="{self.height}" fill="#ffffff" />\n'
+            f"  {body}\n"
+            "</svg>\n"
+        )
+
+
 def validate_spec(spec: dict[str, Any]) -> list[str]:
     errors: list[str] = []
+    spec_type = spec.get("type", "synthetic_geometry")
+    if spec_type in {"coordinate_geometry", "function_graph"}:
+        viewport = spec.get("viewport")
+        if not isinstance(viewport, dict):
+            errors.append("analytic spec requires viewport")
+            return errors
+        for low, high in (("x_min", "x_max"), ("y_min", "y_max")):
+            if low not in viewport or high not in viewport:
+                errors.append(f"viewport requires {low} and {high}")
+            elif float(viewport[low]) >= float(viewport[high]):
+                errors.append(f"viewport {low} must be < {high}")
+        has_payload = bool(spec.get("points") or spec.get("objects") or spec.get("functions") or spec.get("curves") or spec.get("samples"))
+        if not has_payload:
+            errors.append("analytic spec requires points, objects, functions, curves, or samples")
+        for func in spec.get("functions") or []:
+            fid = str(func.get("id", ""))
+            if fid and fid not in (spec.get("samples") or {}):
+                errors.append(f"function '{fid}' has no samples")
+        for index, obj in enumerate(spec.get("objects") or []):
+            kind = obj.get("type")
+            if kind == "point" and not {"x", "y"} <= set(obj):
+                errors.append(f"objects[{index}] point requires x and y")
+            if kind == "circle" and "radius" not in obj:
+                errors.append(f"objects[{index}] circle requires radius")
+        return errors
+
     points = spec.get("points")
     if not isinstance(points, dict) or not points:
         errors.append("spec requires non-empty points")
@@ -338,18 +641,13 @@ def render_geometry_spec(
         return result
 
     svg_path.parent.mkdir(parents=True, exist_ok=True)
-    svg_path.write_text(SvgGeometryRenderer(spec, width=width, height=height).render(), encoding="utf-8")
+    if spec.get("type") in {"coordinate_geometry", "function_graph"}:
+        svg_text = SvgCoordinateRenderer(spec, width=width, height=height).render()
+    else:
+        svg_text = SvgGeometryRenderer(spec, width=width, height=height).render()
+    svg_path.write_text(svg_text, encoding="utf-8")
     converted, message = convert_svg_to_png(svg_path, png_path, width=width, height=height, size=size)
     image_exists = png_path.exists() and png_path.stat().st_size > 0
-    legacy_png_path = out_dir / "rendered" / "diagram.png"
-    legacy_svg_path = out_dir / "rendered" / "diagram.svg"
-    legacy_image_path = ""
-    if image_exists and diagram_variant == "prompt":
-        if png_path != legacy_png_path:
-            shutil.copyfile(png_path, legacy_png_path)
-        if svg_path != legacy_svg_path:
-            shutil.copyfile(svg_path, legacy_svg_path)
-        legacy_image_path = relpath(legacy_png_path, out_dir)
     status = "ok" if converted and image_exists else "failed"
     result = {
         "schema_version": "geometry-renderer-result/v1",
@@ -361,7 +659,6 @@ def render_geometry_spec(
         "disclosure_policy": "clean" if diagram_variant == "prompt" else "annotated",
         "renderer_spec": relpath(spec_path, out_dir),
         "image_path": relpath(png_path, out_dir) if image_exists else "",
-        "legacy_image_path": legacy_image_path,
         "preview_svg": relpath(svg_path, out_dir),
         "checks": {
             "references_valid": True,

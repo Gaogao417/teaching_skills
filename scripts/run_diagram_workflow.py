@@ -4,8 +4,8 @@
 This keeps the teaching pipeline on a local JSON + subprocess boundary.  The
 wrapper normalizes the teaching-side request to the workflow CLI contract
 without introducing an MCP server or any long-lived service.  The default
-workflow lives inside this repository; the old external GeometricScene-Builder
-path is only supported as an explicit legacy override.
+workflow lives inside this repository.  A custom workflow root can be supplied
+only for local experiments, not as the production path.
 """
 
 from __future__ import annotations
@@ -19,6 +19,8 @@ from typing import Any
 
 
 SUPPORTED_GSB_TYPES = {"synthetic_geometry"}
+SUPPORTED_ANALYTIC_TYPES = {"coordinate_geometry", "function_graph"}
+SUPPORTED_ANALYTIC_ENGINES = {"wolfram_client", "wolfram_plot", "coordinate_renderer"}
 
 
 def read_json(path: Path) -> dict[str, Any]:
@@ -48,7 +50,61 @@ def skipped_result(out_dir: Path, request: dict[str, Any], reason: str) -> dict[
     return result
 
 
+def request_diagram_type(request: dict[str, Any]) -> str:
+    return str(
+        request.get("diagram_kind")
+        or request.get("diagram_type")
+        or "synthetic_geometry"
+    )
+
+
+def request_engine(request: dict[str, Any]) -> str:
+    return str(request.get("engine") or "geometric_scene")
+
+
+def run_analytic_workflow(
+    request_path: Path,
+    out_dir: Path,
+    python_executable: str,
+) -> dict[str, Any]:
+    script = Path(__file__).resolve().parent / "analytic_diagram_workflow.py"
+    cmd = [
+        python_executable,
+        str(script),
+        str(request_path),
+        "--out",
+        str(out_dir),
+    ]
+    completed = subprocess.run(cmd, text=True, capture_output=True, check=False)
+    (out_dir / "wrapper_stdout.txt").write_text(completed.stdout, encoding="utf-8")
+    (out_dir / "wrapper_stderr.txt").write_text(completed.stderr, encoding="utf-8")
+    result_path = out_dir / "workflow_result.json"
+    if result_path.exists():
+        result = read_json(result_path)
+        result["teaching_request"] = "teaching_request.json"
+        write_json(result_path, result)
+    else:
+        result = {
+            "status": "failed",
+            "error": "analytic workflow did not produce workflow_result.json",
+            "returncode": completed.returncode,
+            "stdout": completed.stdout,
+            "stderr": completed.stderr,
+            "out_dir": str(out_dir),
+        }
+        write_json(result_path, result)
+    print(json.dumps(result, ensure_ascii=False))
+    if completed.returncode != 0:
+        sys.exit(completed.returncode)
+    return result
+
+
 def normalize_for_gsb(request: dict[str, Any]) -> dict[str, Any]:
+    if request.get("schema_version") == "diagram-job-request/v2":
+        normalized = dict(request)
+        normalized.setdefault("engine_options", {})
+        return normalized
+
     diagram_type = request.get("diagram_type") or "synthetic_geometry"
     normalized = dict(request)
     normalized["teaching_diagram_intent"] = request.get("diagram_intent", "student_explanation")
@@ -123,14 +179,14 @@ def sanitize_clean_prompt_spec(out_dir: Path, request: dict[str, Any], result: d
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Run local agentic GeometricScene workflow")
-    parser.add_argument("request", type=Path, help="Path to diagram-request.json")
+    parser.add_argument("request", type=Path, help="Path to DiagramJobRequest v2 JSON")
     parser.add_argument("--out", type=Path, help="Output directory; defaults to <request-dir>/diagram")
     parser.add_argument("--job-id", help="Diagram job id; defaults to request.diagram_job_id when present")
     parser.add_argument(
         "--gsb-root",
         type=Path,
         default=default_gsb_root(),
-        help="Path to local geometry workflow root; legacy external GSB roots are still accepted",
+        help="Path to local geometry workflow root for local experiments",
     )
     parser.add_argument("--python", default=sys.executable, help="Python executable for GSB workflow")
     parser.add_argument(
@@ -147,7 +203,7 @@ def main() -> None:
 
     request_path = args.request.resolve()
     request = read_json(request_path)
-    job_id = args.job_id or request.get("diagram_job_id")
+    job_id = args.job_id or request.get("job_id") or request.get("diagram_job_id")
     out_dir = (args.out or (request_path.parent / "diagram")).resolve()
     if job_id and out_dir.name != job_id:
         out_dir = out_dir / "jobs" / str(job_id)
@@ -161,7 +217,14 @@ def main() -> None:
         print(json.dumps(result, ensure_ascii=False))
         return
 
-    diagram_type = request.get("diagram_type", "synthetic_geometry")
+    diagram_type = request_diagram_type(request)
+    engine = request_engine(request)
+    if diagram_type in SUPPORTED_ANALYTIC_TYPES or engine in SUPPORTED_ANALYTIC_ENGINES:
+        result = run_analytic_workflow(request_path, out_dir, args.python)
+        if args.strict and result.get("status") != "ok":
+            sys.exit(1)
+        return
+
     if diagram_type not in SUPPORTED_GSB_TYPES and not args.allow_unsupported:
         result = skipped_result(
             out_dir,
