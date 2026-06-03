@@ -1,10 +1,10 @@
 ---
 name: math-student-explanation-latex-data
-description: "根据结构分析生成讲解内容的 assignment.yaml，保留原 math-student-explanation-html 的教学逻辑，但输出 YAML 而非 HTML。"
+description: "根据结构分析生成讲解内容的 plan assignment.yaml，保留原 math-student-explanation-html 的教学逻辑；需要配图时只声明 diagram_slot，不直接写图片路径。"
 version: 0.1.0
 triggers:
   - description: "已有 01-structure-analysis.md，需要生成讲解内容 YAML"
-  - description: "用户要求生成 explanation assignment.yaml"
+  - description: "用户要求生成 explanation assignment.yaml 或 explanation plan YAML"
   - description: "用户提到 explanation-latex-data 或讲解 YAML"
 skip:
   - description: "没有 01-structure-analysis.md（先运行 math-structure-analysis）"
@@ -16,7 +16,7 @@ skip:
 
 ## 职责
 
-从 `01-structure-analysis.md` 生成 `02-student-explanation.assignment.yaml`。
+从 `01-structure-analysis.md` 生成讲解内容 YAML。若讲解需要几何图，输出 `02-student-explanation.plan.assignment.yaml`，并只写 `diagram_slot`；若完全不需要图，可以输出普通 `02-student-explanation.assignment.yaml`。
 
 保留原 `math-student-explanation-html` 的全部教学逻辑，输出格式从 HTML 改为 YAML。
 
@@ -29,7 +29,8 @@ skip:
 ## 输出
 
 ```text
-artifacts/<学生名>/YYYY-MM-DD-<内容>/02-student-explanation.assignment.yaml
+artifacts/<学生名>/YYYY-MM-DD-<内容>/02-student-explanation.plan.assignment.yaml
+artifacts/<学生名>/YYYY-MM-DD-<内容>/02-student-explanation.assignment.yaml  # 无 diagram_slot 时可直接渲染
 ```
 
 ## 教学逻辑（与 HTML 版一致）
@@ -59,11 +60,11 @@ artifacts/<学生名>/YYYY-MM-DD-<内容>/02-student-explanation.assignment.yaml
 - 核心方法归纳
 
 ### 图形辅助（可选）
-- 如果结构分析的 `diagram_request_packet.needs_diagram: true`，先使用 `math-geometry-diagram-renderer` 生成配套图片。
+- 如果结构分析的 `diagram_request_packet.needs_diagram: true`，本 skill 只在 plan YAML 中声明 `diagram_slot`，不要调用 renderer，也不要手写 `image_path`。
 - 原题展示只能用 `prompt` / `clean` 图：只画题干已知对象和必要顶点标签，不画辅助线、不写推理标注、不泄露答案。
-- 讲解步骤中如需辅助线、垂足、角标、相等标记或推理标注，另生成 `solution` / `annotated` 图，不要改造原题图。
-- 讲义正文可用 `type: diagram` 居中展示图片；题目型试卷中的选择/填空/解答题图栏由 practice YAML 使用 `diagram_col` / `diagram_row` / `answer_space.diagram_col`。
-- 如果图形生成失败、跳过或暂不支持，用 `hint` block 写 fallback 文本，不插入破图
+- 讲解步骤中如需辅助线、垂足、角标、相等标记或推理标注，另声明 `solution` / `annotated` slot，并用 `reuse_geometry_from` 指向 prompt slot，不要改造原题图。
+- 讲义正文需要居中展示时，使用 block 级 `diagram_slot`，`placement` 写 `block_center`；renderer resolver 会把它解析成最终可渲染图片对象。
+- 坐标图/函数图不属于当前 synthetic geometry renderer 默认路径；如果没有明确的解析几何 renderer 支持，用 `hint` block 写教师手动画图或坐标系观察建议，不插入破图。
 
 ## 关键 block type 说明
 
@@ -87,28 +88,40 @@ stem_latex: |
 
 **不要用** `step` 放原题。`stem_latex` 原样输出 LaTeX，不经过转义。
 
-### diagram — 图形包插图
+### diagram_slot — 讲解配图声明（plan 阶段）
 
-用于插入 `math-geometry-diagram-renderer` 产出的最终 PNG。只插入最终可用图，不暴露生成过程。
+用于声明讲解页需要的图位。plan 阶段只写 `diagram_slot`，真实 PNG、hash、尺寸和最终图片字段由 `math-geometry-diagram-renderer` 的 collect/batch/gate/resolve 链路生成。
 
 ```yaml
-type: "diagram"
 id: "fig-main"
-image_path: "diagram/rendered/prompt.png"
-caption: "先观察底边 BC 与高 AD 的关系。"
-variant: "prompt"
-disclosure_policy: "clean"
-teaching_focus:
-  - "先看底边"
-  - "再作高"
+type: "step"
+title: "观察图形"
+content_latex: "先观察底边 $BC$ 与顶点 $A$ 的位置关系。"
+diagram_slot:
+  slot_id: "explanation.orig.prompt"
+  diagram_ref: "explanation.orig.prompt"
+  variant: "prompt"
+  disclosure_policy: "clean"
+  required: true
+  on_failure: "fail_assignment"
+  placement: "block_center"
+  layout_role: "explanation_figure"
+  width_hint: "0.42\\linewidth"
+  caption: "先观察底边 BC 与顶点 A 的位置关系。"
+  engine: "geometric_scene"
+  diagram_kind: "synthetic_geometry"
+  teaching_intent: "explanation_prompt"
+  semantic_constraints:
+    given_objects: ["A", "B", "C"]
+    given_constraints: ["AB=AC"]
 ```
 
 规则：
-- `image_path` 必须相对当前 YAML/最终 `.tex` 所在目录可访问
+- `slot_id` 必须唯一；同一张 prompt 图的 annotated 讲解图用单独 slot，并显式写 `reuse_geometry_from`
 - `caption` 写学生要观察的动作，不写“模型生成”“第几轮成功”等调试信息
-- 只有 PNG 文件真实存在时才生成 `diagram` block；否则改用 `hint` 写 fallback 或教师手动画图建议
+- plan YAML 中不得出现 `image_path`、`diagram_job_id`、`diagram_col` 或最终 `type: diagram` 图片对象
 - 原题图必须写 `variant: "prompt"` 和 `disclosure_policy: "clean"`；辅助线讲解图必须写 `variant: "solution"` 和 `disclosure_policy: "annotated"`
-- 坐标图/函数图如果 renderer skill 明确不支持，不强行插图
+- 如果图形暂不支持，直接写 `hint` fallback，不要制造空 slot 或破图字段
 
 ### reading_tip — 读题提示
 
@@ -413,7 +426,7 @@ sections:
 2. 所有 block 都有 type，且使用正确的 type（不要用 `step` 替代 `dual_explanation`）
 3. 原题用 `problemcard` + `stem_latex`
 4. 每个子问题的解法各用一个 `dual_explanation`，必须带 `label`（如 `(1)`）和 `stem_latex`（该小问题干），不要用 `title: "第（X）问"`
-5. 若使用 `diagram` block，图片路径相对 YAML/最终 `.tex` 可访问；原题图必须 clean，辅助线图必须另用 solution/annotated；失败时使用 fallback，不留空图
+5. 若需要几何图，只写 `diagram_slot`；plan YAML 中不得写 `image_path`、`diagram_job_id`、`diagram_col` 或最终 `type: diagram` 图片对象；原题图必须 clean，辅助线图必须另用 solution/annotated 并显式复用 prompt slot
 6. 数学公式使用 `$...$` 和 `$$...$$` 格式
 7. `stem_latex` 中的 LaTeX 命令不转义（原样输出）
 8. block scalar（`|`）字段中的 LaTeX 命令用单反斜杠 `\frac`（不是 `\\frac`）；双引号字符串中的 `\\frac` 会被 YAML 解析为 `\frac` 所以是正确的
@@ -426,10 +439,14 @@ sections:
 生成完毕后说明：
 
 ```
+若输出 YAML 中存在 diagram_slot：
+下一步：使用 math-geometry-diagram-renderer 走真实 collect/batch/gate/resolve 链路，生成 02-student-explanation.resolved.assignment.yaml。
+
+若输出 YAML 中不存在 diagram_slot，或已经得到 resolved YAML：
 下一步：使用 math-assignment-latex 渲染、检查并编译 PDF。
 
 python math-assignment-latex/scripts/render_assignment.py \
-  artifacts/<学生名>/YYYY-MM-DD-<内容>/02-student-explanation.assignment.yaml \
+  artifacts/<学生名>/YYYY-MM-DD-<内容>/02-student-explanation.resolved.assignment.yaml \
   --out artifacts/<学生名>/YYYY-MM-DD-<内容>/02-explanation.tex
 
 python math-assignment-latex/scripts/check_latex.py artifacts/<学生名>/YYYY-MM-DD-<内容>/02-explanation.tex

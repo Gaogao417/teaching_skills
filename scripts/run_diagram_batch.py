@@ -2,9 +2,8 @@
 """Run diagram generation batch from a jobs manifest.
 
 Reads diagram_jobs.json, iterates jobs in topological order, generates
-DiagramJobRequest v2 per job, adapts to legacy v1 format for the current
-workflow.py, and calls run_diagram_workflow.py + render_geometry_spec.py
-per job.
+DiagramJobRequest v2 per job, and calls run_diagram_workflow.py +
+render_geometry_spec.py per job.
 
 Supports parallel execution with --max-workers, dry-run, and job filtering.
 
@@ -26,10 +25,15 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from diagram_contracts import (  # noqa: E402
     DiagramBatchJobResult,
     DiagramBatchReport,
+    DiagramAnalyticRequirements,
     DiagramJob,
     DiagramJobRequest,
     DiagramJobsManifest,
+    DiagramProblemContext,
     DiagramReuseSpec,
+    DiagramSemanticConstraints,
+    DiagramVisualRequirements,
+    DiagramEngineOptions,
 )
 
 
@@ -50,49 +54,35 @@ def write_json(path: Path, data: dict[str, Any]) -> None:
 
 
 # ---------------------------------------------------------------------------
-# v2 → v1 adapter
-# ---------------------------------------------------------------------------
-
-def job_request_to_legacy_v1(req: DiagramJobRequest) -> dict[str, Any]:
-    """Convert DiagramJobRequest v2 to legacy teaching-diagram-request/v1.
-
-    This adapter bridges the new contract to the existing workflow.py input
-    format until workflow.py natively supports v2.
-    """
-    sc = req.semantic_constraints
-    return {
-        "schema_version": "teaching-diagram-request/v1",
-        "needs_diagram": True,
-        "diagram_type": req.diagram_kind.value,
-        "diagram_intent": req.teaching_intent,
-        "diagram_variant": req.variant.value,
-        "variant": req.variant.value,
-        "disclosure_policy": req.disclosure_policy.value,
-        "diagram_job_id": req.job_id,
-        "problem_text": req.problem_context.stem_latex,
-        "grade_or_topic": req.problem_context.grade_or_topic,
-        "objects_hint": {
-            "points": sc.given_objects,
-            "segments": [],
-            "curves": [],
-            "constraints": sc.given_constraints,
-        },
-        "teaching_focus": sc.given_objects,
-        "must_not_imply": sc.clean_forbidden,
-        "fallback": "textual_diagram_description",
-        "reuse_geometry_from": req.reuse.reuse_geometry_from,
-        "base_job_dir": req.reuse.base_job_dir,
-        **{
-            k: v
-            for k, v in req.engine_options.model_dump(exclude_none=True, mode="json").items()
-            if v is not None and k != "engine_model_config"
-        },
-    }
-
-
-# ---------------------------------------------------------------------------
 # Request generation
 # ---------------------------------------------------------------------------
+
+def _parse_pointer(pointer: str) -> list[str]:
+    if not pointer.startswith("/"):
+        return []
+    return [part.replace("~1", "/").replace("~0", "~") for part in pointer[1:].split("/") if part]
+
+
+def _get_by_pointer(data: dict[str, Any], pointer: str) -> Any:
+    current: Any = data
+    for segment in _parse_pointer(pointer):
+        if isinstance(current, dict):
+            current = current[segment]
+        elif isinstance(current, list):
+            current = current[int(segment)]
+        else:
+            raise KeyError(pointer)
+    return current
+
+
+def _slot_data_for_job(plan_data: dict[str, Any] | None, job: DiagramJob) -> dict[str, Any]:
+    if not plan_data:
+        return {}
+    try:
+        slot_data = _get_by_pointer(plan_data, job.slot_path)
+    except (KeyError, IndexError, ValueError, TypeError):
+        return {}
+    return slot_data if isinstance(slot_data, dict) else {}
 
 def build_request(
     job: DiagramJob,
@@ -104,12 +94,36 @@ def build_request(
     Reads semantic constraints from the plan YAML if available,
     otherwise produces a minimal request.
     """
+    slot_data = _slot_data_for_job(plan_data, job)
     problem_context: dict[str, Any] = {}
     reuse = DiagramReuseSpec(reuse_geometry_from=job.reuse_geometry_from)
 
     if plan_data:
         problem_ctx = _extract_problem_context(plan_data, job)
         problem_context.update(problem_ctx)
+    if isinstance(slot_data.get("problem_context"), dict):
+        problem_context.update(slot_data["problem_context"])
+
+    semantic_constraints = (
+        DiagramSemanticConstraints(**slot_data.get("semantic_constraints", {}))
+        if isinstance(slot_data.get("semantic_constraints"), dict)
+        else DiagramSemanticConstraints()
+    )
+    visual_requirements = (
+        DiagramVisualRequirements(**slot_data.get("visual_requirements", {}))
+        if isinstance(slot_data.get("visual_requirements"), dict)
+        else DiagramVisualRequirements()
+    )
+    analytic_requirements = (
+        DiagramAnalyticRequirements(**slot_data.get("analytic_requirements", {}))
+        if isinstance(slot_data.get("analytic_requirements"), dict)
+        else DiagramAnalyticRequirements()
+    )
+    engine_options = (
+        DiagramEngineOptions(**slot_data.get("engine_options", {}))
+        if isinstance(slot_data.get("engine_options"), dict)
+        else DiagramEngineOptions()
+    )
 
     return DiagramJobRequest(
         job_id=job.job_id,
@@ -121,8 +135,12 @@ def build_request(
         engine=job.engine,
         diagram_kind=job.diagram_kind,
         teaching_intent=job.teaching_intent,
-        problem_context=problem_context,
+        problem_context=DiagramProblemContext(**problem_context),
+        semantic_constraints=semantic_constraints,
+        analytic_requirements=analytic_requirements,
+        visual_requirements=visual_requirements,
         reuse=reuse,
+        engine_options=engine_options,
     )
 
 
@@ -170,11 +188,6 @@ def run_one_job(
     request_path = job_build_dir / "request.json"
     write_json(request_path, request.model_dump(mode="json"))
 
-    # Write legacy v1 request for current workflow.py
-    legacy_request = job_request_to_legacy_v1(request)
-    legacy_request_path = job_build_dir / "diagram-request.json"
-    write_json(legacy_request_path, legacy_request)
-
     if dry_run:
         return DiagramBatchJobResult(
             job_id=job_id,
@@ -190,7 +203,7 @@ def run_one_job(
     workflow_cmd = [
         python_executable,
         str(workflow_script),
-        str(legacy_request_path),
+        str(request_path),
         "--job-id", job_id,
         "--out", str(build_dir),
         "--python", python_executable,

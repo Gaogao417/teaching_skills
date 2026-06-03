@@ -13,7 +13,7 @@
 | **Python** | `collect_diagram_jobs.py` | slot → jobs manifest |
 | **Python** | `run_diagram_batch.py` | 按 job graph 调度单图任务 |
 | **Python** | `workflow.py` | 单图生成；综合几何走 Wolfram GeometricScene，函数/坐标图走 analytic graph route |
-| **Python** | `render_geometry_spec.py` | spec → SVG/PNG；函数图也可由 Wolfram Plot 导出后记录 renderer_result |
+| **Python** | `render_geometry_spec.py` | spec → SVG/PNG；函数/坐标图由 Python renderer 使用 WolframClient 计算结果统一出图 |
 | **Python** | `build_diagram_artifacts.py` | 汇总所有 job 结果为 artifact manifest |
 | **Python** | `resolve_assignment_diagrams.py` | plan YAML + artifacts → resolved YAML |
 | **Python** | `check_diagram_gate.py` | required 图 / policy / 路径检查 |
@@ -80,7 +80,7 @@ sequenceDiagram
                 WF ->> WF: Wolfram 求解点位
             else coordinate_geometry / function_graph
                 WF ->> WF: 生成/校验 analytic_requirements
-                WF ->> WF: Wolfram 计算采样、交点、Plot 范围
+                WF ->> WF: WolframClient 计算采样、交点、零点和视窗所需数值
             end
             WF -->> Batch: workflow_result.json
             deactivate WF
@@ -91,7 +91,7 @@ sequenceDiagram
 
             Batch ->> Renderer: final_renderer_spec.json
             activate Renderer
-            Renderer ->> Renderer: SVG 生成 → PNG 转换<br/>或绑定 Wolfram Plot 导出图
+            Renderer ->> Renderer: Python SVG 生成 → PNG 转换
             Renderer -->> Batch: renderer_result.json
             deactivate Renderer
             Note right of Renderer: <b>GeometryRendererResult</b><br/>image_path / preview_svg<br/>width_px / height_px / checks
@@ -225,7 +225,7 @@ math-homework-pipeline (skill, 调度器)
   │        ├── 内部调 workflow.py (python) × N
   │        └── 内部调 render_geometry_spec.py (python) × N
   │        └── 输出: per-job files [DiagramJobRequest → DiagramJobResult + GeometryRenderSpec → GeometryRendererResult]
-  │        └── 路由: synthetic_geometry → geometric_scene；function_graph/coordinate_geometry → wolfram_plot 或 coordinate_renderer
+  │        └── 路由: synthetic_geometry → geometric_scene；function_graph/coordinate_geometry → wolfram_client 或 coordinate_renderer
   │
   ├── S2.7 调用 build_diagram_artifacts.py (python)
   │        └── 输出: diagram_artifacts.json [DiagramArtifactsManifest]

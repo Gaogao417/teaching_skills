@@ -6,6 +6,13 @@ The workflow accepts one teaching-oriented geometry request, asks an
 OpenAI-compatible text model to write/revise a Wolfram GeometricScene,
 solves it through Wolfram, compiles a renderer-friendly geometry spec, and
 optionally renders/evaluates a debug image up to max_retries.
+
+中文导览：
+1. 入口请求先被归一化成 workflow 内部使用的扁平字段。
+2. 文本模型生成 GeometricScene；solution 图会复用 prompt 图坐标，只追加辅助点/标记。
+3. Wolfram 子进程负责求解，主进程用 hard timeout 防止 kernel 卡死。
+4. 渲染结果会被编译成 renderer spec，并可交给视觉模型做可用性反馈。
+5. 每一轮的产物都落在 rounds/round_N，最终产物落在输出目录根部。
 """
 
 from __future__ import annotations
@@ -124,6 +131,12 @@ DEFAULT_VISION_MODELS = [
 
 
 class WorkflowState(TypedDict, total=False):
+    """节点之间传递的最小状态包。
+
+    这个文件目前没有真正接入 LangGraph，但 state 的字段刻意按节点输入/输出
+    来组织，方便以后把下面几个 *_node 函数直接搬进图编排。
+    """
+
     request: Dict[str, Any]
     out_dir: str
     round_index: int
@@ -165,6 +178,101 @@ def _read_json_if_exists(path: Path) -> Dict[str, Any]:
     return _read_json(path)
 
 
+def _compact_string_parts(*values: Any) -> str:
+    return "\n".join(str(value).strip() for value in values if str(value or "").strip())
+
+
+def _normalize_workflow_request(request: Dict[str, Any]) -> Dict[str, Any]:
+    """Normalize public request contracts to the flat runtime shape.
+
+    The production teaching pipeline now sends DiagramJobRequest v2. Most of
+    this workflow's generation/rendering helpers predate that contract and read
+    flat fields such as problem_text, objects_hint, and model_config, so v2 is
+    flattened once at the boundary.
+
+    中文说明：
+    外部 schema 是面向教学流水线的分层结构；本文件里很多函数仍按早期扁平字段
+    读取配置。这里是唯一的适配边界，后续步骤都假定 request 已经被拍平。
+    """
+    if request.get("schema_version") != "diagram-job-request/v2":
+        return request
+
+    engine = str(request.get("engine") or "geometric_scene")
+    diagram_kind = str(request.get("diagram_kind") or "synthetic_geometry")
+    if engine != "geometric_scene":
+        raise ValueError(f"unsupported diagram engine for geometry workflow: {engine}")
+    if diagram_kind != "synthetic_geometry":
+        raise ValueError(f"unsupported diagram_kind for geometry workflow: {diagram_kind}")
+
+    problem_context = request.get("problem_context")
+    if not isinstance(problem_context, dict):
+        problem_context = {}
+    semantic_constraints = request.get("semantic_constraints")
+    if not isinstance(semantic_constraints, dict):
+        semantic_constraints = {}
+    visual_requirements = request.get("visual_requirements")
+    if not isinstance(visual_requirements, dict):
+        visual_requirements = {}
+    reuse = request.get("reuse")
+    if not isinstance(reuse, dict):
+        reuse = {}
+    engine_options = request.get("engine_options")
+    if not isinstance(engine_options, dict):
+        engine_options = {}
+
+    model_config = (
+        engine_options.get("engine_model_config")
+        or engine_options.get("model_config")
+        or {}
+    )
+    if not isinstance(model_config, dict):
+        model_config = {}
+
+    given_objects = _compact_list(semantic_constraints.get("given_objects"))
+    given_constraints = _compact_list(semantic_constraints.get("given_constraints"))
+    derived_constraints = _compact_list(semantic_constraints.get("derived_constraints"))
+
+    normalized = dict(request)
+    normalized.update(
+        {
+            "diagram_job_id": request.get("job_id", ""),
+            "diagram_type": diagram_kind,
+            "diagram_intent": diagram_kind,
+            "teaching_diagram_intent": request.get("teaching_intent", ""),
+            "diagram_variant": request.get("variant", "prompt"),
+            "problem_text": _compact_string_parts(
+                problem_context.get("stem_latex"),
+                problem_context.get("subquestion_latex"),
+                problem_context.get("source_problem_text"),
+            ),
+            "grade_or_topic": problem_context.get("grade_or_topic", ""),
+            "objects_hint": {
+                "points": given_objects,
+                "segments": [],
+                "curves": [],
+                "constraints": [*given_constraints, *derived_constraints],
+            },
+            "teaching_focus": given_objects or given_constraints,
+            "must_not_imply": _compact_list(semantic_constraints.get("clean_forbidden")),
+            "solution_allowed_annotations": _compact_list(
+                semantic_constraints.get("solution_allowed_annotations")
+            ),
+            "reuse_geometry_from": reuse.get("reuse_geometry_from", ""),
+            "base_job_dir": reuse.get("base_job_dir", ""),
+            "model_config": model_config,
+            "max_retries": engine_options.get("max_retries", 3),
+            "wolfram_timeout_s": engine_options.get("wolfram_timeout_s", 30),
+            "wolfram_hard_timeout_s": engine_options.get("wolfram_hard_timeout_s", 60),
+            "wolfram_render_image": False,
+        }
+    )
+    if engine_options.get("seed") is not None:
+        normalized["seed"] = engine_options["seed"]
+    if visual_requirements.get("caption"):
+        normalized["caption"] = visual_requirements["caption"]
+    return normalized
+
+
 def _write_json(path: Path, data: Dict[str, Any]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     with open(path, "w", encoding="utf-8") as f:
@@ -172,6 +280,11 @@ def _write_json(path: Path, data: Dict[str, Any]) -> None:
 
 
 def _emit_event(out_dir: Path, event: str, **fields: Any) -> None:
+    """写入 JSONL 事件，同时向 stderr 打一行机器可读日志。
+
+    事件里可能包含模型错误或请求片段，所以写出前统一做一次脱敏。
+    """
+
     payload = {
         "ts": datetime.now().isoformat(timespec="seconds"),
         "event": event,
@@ -214,6 +327,8 @@ def _read_skill(skill_name: str, max_chars: int = 9000) -> str:
 
 
 def load_skills_context() -> Dict[str, str]:
+    """按生成、评估、收尾三类读取本地 skill 文档，供模型 prompt 使用。"""
+
     contexts: Dict[str, str] = {}
     for group, names in SKILL_SETS.items():
         parts = []
@@ -318,6 +433,12 @@ def _is_retryable_model_error(exc: Exception) -> bool:
 
 
 def _resolved_model_config(model_config: Dict[str, Any]) -> Dict[str, Any]:
+    """合并请求、环境变量和默认值，得到文本/视觉模型池配置。
+
+    模型池按“请求显式指定 -> 环境变量 -> 默认列表”的优先级排列；调用端会
+    依次尝试，直到某个模型成功或遇到不可重试错误。
+    """
+
     load_local_env()
     resolved = dict(model_config)
     configured_base_url = _env_first(
@@ -418,6 +539,12 @@ def _api_key_from_config(config: Dict[str, Any], role: str) -> Optional[str]:
 
 
 def _extract_json_object(text: str) -> Dict[str, Any]:
+    """从模型回复中提取 JSON 对象。
+
+    模型偶尔会包一层 Markdown 代码块，或在 JSON 前后加解释文字；这里做宽松
+    解析，但最终仍要求结果必须是 object，避免后续字段访问悄悄错位。
+    """
+
     text = text.strip()
     if text.startswith("```"):
         text = re.sub(r"^```(?:json)?", "", text, flags=re.IGNORECASE).strip()
@@ -630,6 +757,13 @@ def _solution_scene_payload(
     round_index: int,
     skills_context: Optional[Dict[str, str]] = None,
 ) -> Dict[str, Any]:
+    """生成“解答图”的 GeometricScene payload。
+
+    解答图与普通 prompt 图最大的区别是：已有点坐标必须从 base renderer spec
+    锁定复用，模型只能追加辅助点、辅助约束和可视标记。这样可以保证同一道题的
+    prompt 图与 solution 图几何形状一致，只是讲解层信息更多。
+    """
+
     base_dir = _resolve_reuse_job_dir(request, out_dir)
     base_spec_path = base_dir / "final_renderer_spec.json"
     base_renderer_spec = _read_json(base_spec_path)
@@ -710,6 +844,12 @@ def _text_model_json(
     round_index: int,
     skills_context: Optional[Dict[str, str]] = None,
 ) -> Dict[str, Any]:
+    """调用文本模型生成普通几何图的 GeometricScene 和可视化 spec。
+
+    返回值不是直接给 SVG renderer 的最终 spec，而是“模型意图 + Wolfram
+    scene_code”。真正的点坐标要等 Wolfram 求解后再编译出来。
+    """
+
     model_config = _resolved_model_config(request.get("model_config", {}))
     client = _make_client(model_config, "text")
     models = model_config.get("text_models", [])
@@ -792,6 +932,8 @@ def _text_model_json(
 
 
 def _validate_scene_code(scene_code: str) -> None:
+    """对模型生成的 Wolfram 代码做最小安全门禁。"""
+
     if "GeometricScene" not in scene_code:
         raise ValueError("scene_code must contain GeometricScene")
     for token in FORBIDDEN_WL_TOKENS:
@@ -809,6 +951,12 @@ def _render_worker(
     render_image: bool,
     image_abs: str,
 ) -> None:
+    """在独立进程中运行 Wolfram。
+
+    Wolfram kernel 或 GeometricScene 求解可能长时间卡住；因此 worker 只负责
+    把结果放进 queue，进程生命周期由主进程的 _render_scene 统一看门。
+    """
+
     try:
         if WOLFRAM_IMPORT_ERROR is not None:
             raise RuntimeError(f"Missing wolframclient: {WOLFRAM_IMPORT_ERROR}")
@@ -871,7 +1019,11 @@ def _numeric_pair(value: Any) -> Optional[List[float]]:
 
 
 def _normalize_solver_points(parameters: Any) -> Dict[str, List[float]]:
-    """Normalize Wolfram point rules into renderer-friendly point coordinates."""
+    """Normalize Wolfram point rules into renderer-friendly point coordinates.
+
+    Wolfram 返回的点规则可能是 dict、规则列表或嵌套结构；renderer 只需要
+    {"A": [x, y]} 这种稳定格式，所以这里集中做兼容处理。
+    """
     points: Dict[str, List[float]] = {}
     if isinstance(parameters, dict):
         iterable = parameters.items()
@@ -953,6 +1105,12 @@ def _extend_render_objects(
     markers: List[Dict[str, Any]],
     source: Any,
 ) -> None:
+    """从 objects_hint 或模型 diagram_spec 中收集 renderer 可画对象。
+
+    支持两种输入风格：直接的 segments/polygons/markers 字段，以及 objects
+    里按 type/kind 描述的对象。这里只做结构归一化，不做坐标求解。
+    """
+
     if not isinstance(source, dict):
         return
 
@@ -1018,6 +1176,16 @@ def _compile_renderer_spec(
     scene_payload: Dict[str, Any],
     render_result: Dict[str, Any],
 ) -> Dict[str, Any]:
+    """把模型意图和 Wolfram 求解结果合并成 renderer 的最终输入。
+
+    数据来源有三层：
+    1. Wolfram render_result 提供可靠点坐标；
+    2. 模型 diagram_spec 提供要画哪些线段、多边形、标记；
+    3. request.objects_hint 作为题目侧的保底提示。
+
+    这里会过滤掉引用不存在点的线段/多边形，避免下游 renderer 因脏引用崩溃。
+    """
+
     diagram_spec = scene_payload.get("diagram_spec")
     if not isinstance(diagram_spec, dict):
         diagram_spec = {}
@@ -1094,6 +1262,12 @@ def _render_scene(
     round_index: int,
     request: Dict[str, Any],
 ) -> Dict[str, Any]:
+    """求解单轮 GeometricScene，并按需生成 Wolfram 调试 PNG。
+
+    主进程只负责准备 round 目录、启动 worker、执行硬超时和校验 PNG 是否真的
+    生成；Wolfram 相关调用都在 _render_worker 里完成。
+    """
+
     _validate_scene_code(scene_code)
     round_dir = out_dir / "rounds" / f"round_{round_index}"
     round_dir.mkdir(parents=True, exist_ok=True)
@@ -1167,6 +1341,12 @@ def _solution_reuse_check(
     render_result: Dict[str, Any],
     tolerance: float = 1e-7,
 ) -> Dict[str, Any]:
+    """校验 solution 图没有移动 prompt 图的既有点。
+
+    解答图可以添加辅助点，但不能改变基础图坐标；一旦发现 drift，调用方会把本轮
+    render 标记为失败，迫使下一轮重新生成辅助约束。
+    """
+
     if not _is_solution_request(request) or not render_result.get("success"):
         return {}
     base_dir = _resolve_reuse_job_dir(request, out_dir)
@@ -1215,6 +1395,12 @@ def _evaluate_image(
     out_dir: Path,
     skills_context: Optional[Dict[str, str]] = None,
 ) -> Dict[str, Any]:
+    """用视觉模型评估调试图是否适合学生讲义。
+
+    如果请求关闭了 Wolfram PNG 渲染，则进入 spec_only 模式：只要 Wolfram
+    求解成功，就跳过视觉评价，让最终 renderer spec 继续向下游流转。
+    """
+
     if not render_result.get("success"):
         return {
             "usable": False,
@@ -1324,6 +1510,13 @@ def _evaluate_image(
 
 
 def generate_scene_node(state: WorkflowState) -> WorkflowState:
+    """生成节点：根据当前轮次和上一轮反馈产出 scene_payload.json。
+
+    普通图走 _text_model_json；solution 图走 _solution_scene_payload，以便复用
+    base 图坐标。失败时不抛出到外层，而是写入 state/status，保证后续节点仍能
+    生成结构化失败产物。
+    """
+
     request = state["request"]
     round_index = state.get("round_index", 0)
     history = state.get("history", [])
@@ -1388,6 +1581,8 @@ def generate_scene_node(state: WorkflowState) -> WorkflowState:
 
 
 def render_wolfram_node(state: WorkflowState) -> WorkflowState:
+    """渲染/求解节点：执行 Wolfram，并写出 render_result.json。"""
+
     out_dir = Path(state["out_dir"])
     round_index = state.get("round_index", 0)
     round_dir = out_dir / "rounds" / f"round_{round_index}"
@@ -1453,6 +1648,8 @@ def render_wolfram_node(state: WorkflowState) -> WorkflowState:
 
 
 def evaluate_image_node(state: WorkflowState) -> WorkflowState:
+    """视觉评估节点：把 render_result 转成下一轮可用的反馈。"""
+
     out_dir = Path(state["out_dir"])
     round_index = state.get("round_index", 0)
     round_dir = out_dir / "rounds" / f"round_{round_index}"
@@ -1516,6 +1713,8 @@ def evaluate_image_node(state: WorkflowState) -> WorkflowState:
 
 
 def update_history_node(state: WorkflowState) -> WorkflowState:
+    """把本轮产物追加进 history，并决定成功、失败或进入下一轮。"""
+
     history = state.get("history", [])
     history.append(
         {
@@ -1551,6 +1750,11 @@ def _collect_model_attempts(history: List[Dict[str, Any]]) -> List[Dict[str, Any
 
 
 def finalize_node(state: WorkflowState) -> WorkflowState:
+    """收尾节点：写出最终 Wolfram、renderer spec、diagram spec 和总结果。
+
+    即使前面状态是 failed，也会尽量编译已有信息，方便调用方或人工排查失败原因。
+    """
+
     out_dir = Path(state["out_dir"])
     history = state.get("history", [])
     final_round = history[-1] if history else {}
@@ -1613,6 +1817,8 @@ def finalize_node(state: WorkflowState) -> WorkflowState:
 
 
 def _run_without_langgraph(state: WorkflowState) -> WorkflowState:
+    """当前默认编排：generate -> render -> evaluate -> history 的重试循环。"""
+
     while True:
         state = generate_scene_node(state)
         state = render_wolfram_node(state)
@@ -1629,6 +1835,12 @@ def build_graph():
 
 
 def run_workflow(request: Dict[str, Any], out_dir: Path, request_path: Path) -> Dict[str, Any]:
+    """执行完整 workflow。
+
+    这是 CLI --action run 的主入口：准备输出目录、复制原始 request、初始化
+    WorkflowState，然后交给图编排或当前的 Python 循环编排。
+    """
+
     out_dir.mkdir(parents=True, exist_ok=True)
     (out_dir / "rounds").mkdir(exist_ok=True)
     shutil.copy2(request_path, out_dir / "request.json")
@@ -1663,6 +1875,8 @@ def generate_candidate_action(
     round_index: int,
     history_path: Optional[Path] = None,
 ) -> Dict[str, Any]:
+    """只执行生成步骤，供调试或外部编排逐步调用。"""
+
     history: List[Dict[str, Any]] = []
     if history_path and history_path.exists():
         loaded = _read_json(history_path)
@@ -1703,6 +1917,8 @@ def render_candidate_action(
     out_dir: Path,
     round_index: int,
 ) -> Dict[str, Any]:
+    """只执行 Wolfram 求解/渲染步骤，输入上一阶段的 scene_payload.json。"""
+
     payload = _read_json(scene_payload_path)
     if "scene_code" not in payload:
         raise ValueError("scene_payload missing scene_code")
@@ -1731,6 +1947,8 @@ def evaluate_image_action(
     out_dir: Path,
     round_index: int,
 ) -> Dict[str, Any]:
+    """只执行视觉评估步骤，输入上一阶段的 render_result.json。"""
+
     render_result = _read_json(render_result_path)
     vision_result = _evaluate_image(
         request,
@@ -1751,6 +1969,8 @@ def evaluate_image_action(
 
 
 def skill_context_action(out_dir: Path) -> Dict[str, Any]:
+    """导出本 workflow 会注入 prompt 的本地 skill 上下文。"""
+
     context = load_skills_context()
     out_dir.mkdir(parents=True, exist_ok=True)
     path = out_dir / "skills_context.json"
@@ -1764,6 +1984,12 @@ def skill_context_action(out_dir: Path) -> Dict[str, Any]:
 
 
 def main() -> None:
+    """命令行入口。
+
+    run 是完整重试循环；generate/render/evaluate 是拆开的单步动作，方便人工
+    调试某一轮模型输出或 Wolfram 结果。
+    """
+
     parser = argparse.ArgumentParser(description="Run agentic GeometricScene workflow")
     parser.add_argument(
         "--action",
@@ -1793,7 +2019,7 @@ def main() -> None:
             request_path = Path(args.request)
             if not request_path.exists():
                 raise FileNotFoundError(f"Request file not found: {request_path}")
-            request = _read_json(request_path)
+            request = _normalize_workflow_request(_read_json(request_path))
 
             if args.action == "run":
                 result = run_workflow(request, out_dir, request_path)

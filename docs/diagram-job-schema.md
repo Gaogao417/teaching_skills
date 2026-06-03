@@ -28,6 +28,7 @@ request.json
      - workflow.py 每次只处理一个 DiagramJobRequest
      - 只消费数学语义、生成引擎、clean/annotated policy
      - 不消费 layout_role / width_hint / image_path
+     - 生产链路只写并调用每个 job 的 `request.json`
 
 final_renderer_spec.json
   -> renderer_result.json + rendered/*.png
@@ -72,11 +73,13 @@ assignment.resolved.yaml
 - `required: true` 必须搭配 `on_failure: fail_assignment`。
 - `solution` 图必须显式声明 `reuse_geometry_from`，并在 job graph 中依赖对应 prompt job。
 - `DiagramJobRequest` 不携带 `layout_role`、`width_hint`、`image_path`。
+- `DiagramJobRequest` v2 是 workflow 的唯一生产输入；batch runner 默认只生成 v2 `request.json`。
 - `DiagramArtifact.bindable: true` 要求 `status: ok`、`image_path` 非空、`hash` 非空。
 - 学生版 resolved YAML 不应引用 `variant: solution` 或 `disclosure_policy: annotated` 的图片；这是 gate 层检查。
 - `diagram_kind: synthetic_geometry` 默认搭配 `engine: geometric_scene`，走 Wolfram `GeometricScene` 求实例点位。
-- `diagram_kind: coordinate_geometry` 或 `function_graph` 不应强塞进 `GeometricScene`；优先使用 `engine: wolfram_plot` 或 `engine: coordinate_renderer`。
-- 函数图和坐标图的数学输入放在 `analytic_requirements`，包括 `viewport`、`axes`、`functions`、`objects`、`annotations` 与 `wolfram_plot_options`。
+- `diagram_kind: coordinate_geometry` 或 `function_graph` 不应强塞进 `GeometricScene`；优先使用 `engine: wolfram_client`，纯显式坐标对象也可使用 `engine: coordinate_renderer`。
+- `wolfram_plot` 仅保留为兼容 alias；新 plan 不推荐使用。
+- 函数图和坐标图的数学输入放在 `analytic_requirements`，包括 `viewport`、`axes`、`functions`、`objects`、`annotations` 与 `wolfram_client_options`；`wolfram_plot_options` 仅作兼容输入。
 - `GeometryRenderSpec` 对综合几何要求 `points`；对坐标/函数图要求 `points`、`objects`、`functions`、`curves` 或 `samples` 至少一种可渲染对象。
 
 ## 4. 最小对象示例
@@ -114,7 +117,7 @@ diagram_slot:
   layout_role: "question_sidecar"
   width_hint: "0.34\\linewidth"
   caption: "函数图像"
-  engine: "wolfram_plot"
+  engine: "wolfram_client"
   diagram_kind: "function_graph"
   teaching_intent: "practice_prompt"
   analytic_requirements:
@@ -231,7 +234,7 @@ diagram_slot:
   "slot_id": "f1.prompt",
   "variant": "prompt",
   "disclosure_policy": "clean",
-  "engine": "wolfram_plot",
+  "engine": "wolfram_client",
   "diagram_kind": "function_graph",
   "teaching_intent": "practice_prompt",
   "problem_context": {
@@ -273,7 +276,7 @@ diagram_slot:
     "objects": [
       {"type": "point", "id": "A", "x": 2, "y": 3, "label": "A"}
     ],
-    "wolfram_plot_options": {
+    "wolfram_client_options": {
       "aspect_ratio": "Automatic",
       "plot_range_padding": "Scaled[0.04]"
     }

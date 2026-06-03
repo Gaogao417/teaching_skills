@@ -23,12 +23,12 @@
 
 | 场景 | 推荐 engine | 说明 |
 |---|---|---|
-| 函数曲线 + 坐标轴 | `wolfram_plot` | Wolfram 校验表达式、采样、计算关键点，可直接导出 Plot PNG/SVG |
-| 坐标点/线/多边形 | `coordinate_renderer` | 本地确定性 renderer 画坐标系和对象；可选 Wolfram 校验 |
-| 函数图但需要本地统一风格 | `coordinate_renderer` | Wolfram 只产 samples，最终由本地 renderer 画 |
+| 函数曲线 + 坐标轴 | `wolfram_client` | Python 调 WolframClient 校验表达式、采样、计算交点/零点；Python renderer 输出最终 SVG/PNG |
+| 坐标点/线/多边形 | `wolfram_client` / `coordinate_renderer` | 需要符号/数值关系时走 WolframClient；纯显式坐标对象可直接本地渲染 |
+| 函数图但需要本地统一风格 | `wolfram_client` | WolframClient 只产 samples 和关键点，最终由本地 renderer 画 |
 | 综合几何示意 | `geometric_scene` | 不属于函数图分支 |
 
-无论是否由 Wolfram 直接导出图片，都必须写 `final_renderer_spec.json`，记录 `viewport`、`axes`、`functions`、`objects` 或 `samples`。
+`wolfram_plot` 仅作为兼容 alias，不作为新 plan 的推荐 engine。正式产物必须写 `final_renderer_spec.json`，记录 `viewport`、`axes`、`functions`、`objects` 或 `samples`；WolframClient 不负责最终图片样式。
 
 ## 3. DiagramSlot 最小要求
 
@@ -44,7 +44,7 @@ diagram_slot:
   layout_role: "question_sidecar"
   width_hint: "0.34\\linewidth"
   caption: "函数图像"
-  engine: "wolfram_plot"
+  engine: "wolfram_client"
   diagram_kind: "function_graph"
   teaching_intent: "practice_prompt"
   analytic_requirements:
@@ -80,7 +80,7 @@ diagram_slot:
 
 - `workflow_result.json`：状态、失败类型、Wolfram summary、model attempts。
 - `final_renderer_spec.json`：可审计的函数图 spec。
-- `renderer_result.json`：最终 PNG/SVG 路径，可能来自 Wolfram Plot，也可能来自本地 coordinate renderer。
+- `renderer_result.json`：最终 PNG/SVG 路径，由本地 coordinate renderer 输出。
 
 函数图 `final_renderer_spec.json` 至少满足：
 
@@ -122,10 +122,10 @@ Solution 图：
 - 必须使用 `variant: solution` 和 `disclosure_policy: annotated`。
 - 学生版 resolved YAML 不得引用 solution 图。
 
-## 6. 后续实现 TODO
+## 6. 实现状态
 
 1. `run_diagram_batch.py` 从 plan slot 提取 `analytic_requirements`，写入 `DiagramJobRequest`。
-2. `run_diagram_workflow.py` 按 `engine + diagram_kind` 路由 `wolfram_plot` / `coordinate_renderer`，不要 skip `function_graph`。
-3. 新增 Wolfram Plot adapter：表达式安全校验、采样、关键点计算、PNG/SVG 导出。
-4. 扩展 renderer/gate：检查 viewport 合法、函数/对象引用一致、图片路径可访问。
-5. 增加 e2e fixture：一次函数图 + 坐标点，覆盖 S2.5-S2.9。
+2. `run_diagram_workflow.py` 按 `engine + diagram_kind` 路由 `wolfram_client` / `coordinate_renderer`，不要 skip `function_graph`。
+3. `scripts/analytic_diagram_workflow.py` 使用 WolframClient 做表达式安全校验、采样、交点与零点计算，不生成 `.wl` 文件。
+4. `render_geometry_spec.py` 对 `function_graph` / `coordinate_geometry` 使用坐标 renderer，画 axes、grid、ticks、function samples、point、line、circle、polyline/polygon。
+5. gate 和更复杂标注能力继续增强；`wolfram_plot` 只作为兼容 alias。

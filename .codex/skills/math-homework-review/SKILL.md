@@ -1,6 +1,6 @@
 ---
 name: math-homework-review
-description: "审核 math-homework-pipeline 生成后的完整数学作业产物，从六个角度给出简短质量印象：pipeline 完整性、数学正确性、结构分析质量、学生讲解质量、自适应练习设计、几何插图与版式。用于 pipeline 编译 PDF 后的最终独立审核子任务，或用户要求快速审查已生成作业时。不要用于完整 YAML schema 审查、LaTeX 编译排错或重新生成内容。"
+description: "审核完整数学作业产物，从六个角度给出简短质量印象：流程完整性、数学正确性、结构分析质量、学生讲解质量、自适应练习设计、几何插图与版式。用于 PDF 生成后的最终独立审核子任务，或用户要求快速审查已生成作业时。不要用于完整 YAML schema 审查、LaTeX 编译排错或重新生成内容。"
 ---
 
 # math-homework-review
@@ -20,9 +20,9 @@ description: "审核 math-homework-pipeline 生成后的完整数学作业产物
 可检查的产物包括：
 
 - `01-structure-analysis.md`
-- `02-student-explanation.assignment.yaml`, `.tex`, or `.pdf`
-- `03-adaptive-practice.student.assignment.yaml`, `.tex`, or `.pdf`
-- `03-adaptive-practice.teacher.assignment.yaml`, `.tex`, or `.pdf`
+- `02-student-explanation.plan.assignment.yaml`, `.resolved.assignment.yaml`, `.assignment.yaml`, `.tex`, or `.pdf`
+- `03-adaptive-practice.student.plan.assignment.yaml`, `.resolved.assignment.yaml`, `.assignment.yaml`, `.tex`, or `.pdf`
+- `03-adaptive-practice.teacher.plan.assignment.yaml`, `.resolved.assignment.yaml`, `.assignment.yaml`, `.tex`, or `.pdf`
 - `build.log` if compilation happened
 
 文件缺失本身就是审核结论的一部分，归入“完整性”。
@@ -31,7 +31,7 @@ description: "审核 math-homework-pipeline 生成后的完整数学作业产物
 
 只审核以下六项。
 
-### 1. Pipeline 完整性
+### 1. 流程完整性
 
 检查各阶段产物是否齐全、衔接是否清楚：
 
@@ -40,6 +40,7 @@ description: "审核 math-homework-pipeline 生成后的完整数学作业产物
 - 要求练习时，是否有学生版和教师版练习产物。
 - 渲染和编译后是否有 TEX/PDF。
 - 文件命名和 source-artifacts 引用是否没有明显错位。
+- 若存在 `diagram_slot`，是否有对应 resolved YAML；最终渲染是否使用 resolved YAML，而不是直接渲染 plan YAML。
 
 ### 2. 数学正确性
 
@@ -85,10 +86,10 @@ description: "审核 math-homework-pipeline 生成后的完整数学作业产物
 只在产物含几何题或结构分析/YAML 声明需要图时审核；非几何作业可写“不适用”。
 
 - 该有图的题是否有图：几何大题一律有图；几何题已知条件数大于 3 默认有图；“如图/图中/下图”题必须有图。
-- 选择题是否使用右侧 `diagram_col`，且四个选项竖排，不与图互相挤压；每题是否引用自己的 `diagram_job_id`。
-- 填空题是否先出现题干、再在题后使用 `diagram_row`；同组插图是否并排，且图行和对应题干没有分到正反两面或远距离跨页。
-- 解答题是否每一问答题区和右侧图栏并排；每一问是否有自己的 diagram job；若共用图，是否显式写了 `reuse_from`。
-- 是否存在多道练习题偷偷引用同一 `image_path` 但没有 `reuse_from` 的情况；有则判为需回退修复。
+- plan YAML 是否只含 `diagram_slot`，没有手写 `image_path`、`diagram_job_id`、`diagram_col`、`diagram_row` 或 `answer_space.diagram_col`。
+- resolved YAML 是否已把 slot 解析为题型可用图片字段；选择题图栏、填空题图位、解答题答题区图栏是否和模板契约匹配。
+- 每道需要图的练习题是否有独立 `diagram_slot.slot_id` / resolved `diagram_job_id`；若共用图，是否显式写了 `reuse_geometry_from`。
+- 是否存在多道练习题偷偷引用同一 `image_path` 但没有显式复用声明的情况；有则判为需回退修复。
 - solution 图若存在，检查对应 `workflow_result.json` 中的 `solution_reuse_check.locked_points_same` 是否为 true；否则判为需回退修复。
 - prompt 原题图是否 clean：只含题目已知对象和顶点标签，没有辅助线、推理标注或答案泄露；solution/teacher 图才可 annotated。
 - PDF 缩小预览中顶点标签是否清楚可读，图尺寸是否不过大。
@@ -101,7 +102,7 @@ description: "审核 math-homework-pipeline 生成后的完整数学作业产物
 ```text
 审核印象：通过 / 基本可用但需小修 / 建议回退重做
 
-1. 完整性：...
+1. 流程完整性：...
 2. 数学正确性：...
 3. 结构分析：...
 4. 讲解质量：...

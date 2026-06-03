@@ -30,6 +30,7 @@ class DisclosurePolicy(str, Enum):
 
 class DiagramEngine(str, Enum):
     GEOMETRIC_SCENE = "geometric_scene"
+    WOLFRAM_CLIENT = "wolfram_client"
     WOLFRAM_PLOT = "wolfram_plot"
     COORDINATE_RENDERER = "coordinate_renderer"
 
@@ -87,7 +88,7 @@ class DiagramModel(BaseModel):
 
 
 class DiagramLooseModel(BaseModel):
-    """Contract for external tool outputs where legacy fields may still appear."""
+    """Contract for external tool outputs that may carry extra diagnostic fields."""
 
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
@@ -165,7 +166,14 @@ class DiagramAnalyticRequirements(DiagramModel):
     functions: list[DiagramFunctionSpec] = Field(default_factory=list)
     objects: list[DiagramCoordinateObject] = Field(default_factory=list)
     annotations: list[dict[str, Any]] = Field(default_factory=list)
+    wolfram_client_options: dict[str, Any] = Field(default_factory=dict)
     wolfram_plot_options: dict[str, Any] = Field(default_factory=dict)
+
+    @model_validator(mode="after")
+    def normalize_plot_options(self) -> DiagramAnalyticRequirements:
+        if not self.wolfram_client_options and self.wolfram_plot_options:
+            self.wolfram_client_options = dict(self.wolfram_plot_options)
+        return self
 
 
 class DiagramSemanticConstraints(DiagramModel):
