@@ -19,7 +19,6 @@ import argparse
 import json
 import sys
 from pathlib import Path
-from typing import Any
 
 try:
     import yaml
@@ -28,6 +27,7 @@ except ImportError as exc:  # pragma: no cover
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from diagram_contracts import (  # noqa: E402
+    AssignmentPlanDiagramView,
     DiagramArtifactsManifest,
     DiagramGateCheck,
     DiagramGateReport,
@@ -93,7 +93,7 @@ def _check_image_exists(
 
 def _check_content_hash(
     jobs: DiagramJobsManifest,
-    plan_data: dict[str, Any],
+    plan_data: AssignmentPlanDiagramView | dict[str, object],
 ) -> list[DiagramGateCheck]:
     """Check 3: Job content_hash matches current plan YAML content.
 
@@ -103,19 +103,29 @@ def _check_content_hash(
     checks: list[DiagramGateCheck] = []
     # Re-scan slots from plan to compute current hashes
     import hashlib
+    plan_view = (
+        plan_data
+        if isinstance(plan_data, AssignmentPlanDiagramView)
+        else AssignmentPlanDiagramView.model_validate(plan_data)
+    )
     current_hashes: dict[str, str] = {}
-    for si, section in enumerate(plan_data.get("sections") or []):
-        if not isinstance(section, dict):
-            continue
-        for bi, block in enumerate(section.get("blocks") or []):
-            if not isinstance(block, dict):
-                continue
-            # Scan all diagram_slot locations
-            for slot_data in _extract_slot_data(block):
-                slot_id = slot_data.get("slot_id", "")
-                if slot_id:
-                    canonical = json.dumps(slot_data, sort_keys=True, ensure_ascii=False)
-                    current_hashes[slot_id] = "sha256:" + hashlib.sha256(canonical.encode()).hexdigest()
+    for section in plan_view.sections:
+        for block in section.blocks:
+            slots = []
+            if block.diagram_slot is not None:
+                slots.append(block.diagram_slot)
+            if block.answer_space is not None:
+                if block.answer_space.diagram_slot is not None:
+                    slots.append(block.answer_space.diagram_slot)
+                slots.extend(
+                    part.diagram_slot
+                    for part in block.answer_space.parts
+                    if part.diagram_slot is not None
+                )
+            for slot in slots:
+                slot_data = slot.model_dump(mode="json", by_alias=True)
+                canonical = json.dumps(slot_data, sort_keys=True, ensure_ascii=False)
+                current_hashes[slot.slot_id] = "sha256:" + hashlib.sha256(canonical.encode()).hexdigest()
 
     for job in jobs.jobs:
         current = current_hashes.get(job.slot_id)
@@ -282,7 +292,7 @@ def _check_diagram_ref_consistency(
     return checks
 
 
-def _read_json(path: Path) -> dict[str, Any] | None:
+def _read_json(path: Path) -> dict[str, object] | None:
     try:
         data = json.loads(path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError, UnicodeDecodeError):
@@ -335,7 +345,7 @@ def _check_analytic_renderer_specs(
     return checks
 
 
-def _analytic_spec_errors(spec: dict[str, Any]) -> list[str]:
+def _analytic_spec_errors(spec: dict[str, object]) -> list[str]:
     errors: list[str] = []
     viewport = spec.get("viewport")
     if not isinstance(viewport, dict):
@@ -396,7 +406,7 @@ def _analytic_spec_errors(spec: dict[str, Any]) -> list[str]:
 # ---------------------------------------------------------------------------
 
 def run_gate(
-    plan_data: dict[str, Any],
+    plan_data: AssignmentPlanDiagramView | dict[str, object],
     jobs: DiagramJobsManifest,
     artifacts: DiagramArtifactsManifest,
     artifact_dir: Path,
@@ -476,7 +486,9 @@ def main() -> None:
         if not p.exists():
             raise SystemExit(f"File not found: {p}")
 
-    plan_data = yaml.safe_load(plan_path.read_text(encoding="utf-8"))
+    plan_data = AssignmentPlanDiagramView.model_validate(
+        yaml.safe_load(plan_path.read_text(encoding="utf-8"))
+    )
     jobs_raw = json.loads(jobs_path.read_text(encoding="utf-8"))
     artifacts_raw = json.loads(artifacts_path.read_text(encoding="utf-8"))
 

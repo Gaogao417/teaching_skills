@@ -28,9 +28,27 @@ import sys
 import time
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List, Optional, TypedDict
+from typing import Dict, List, Optional, TypedDict
 
-sys.path.insert(0, str(Path(__file__).resolve().parent))
+CORE_DIR = Path(__file__).resolve().parent
+SCRIPTS_DIR = CORE_DIR.parents[1]
+sys.path.insert(0, str(CORE_DIR))
+sys.path.insert(0, str(SCRIPTS_DIR))
+from diagram_contracts import (  # noqa: E402
+    DiagramJobRequest,
+    DiagramJobResult,
+    DiagramModelConfig,
+    EvaluateImageResult,
+    GenerateCandidateResult,
+    GeometryRenderSpec,
+    ModelAttempt,
+    RenderCandidateResult,
+    ScenePayload,
+    SolutionAuxiliaryPayload,
+    VisionEvaluationResult,
+    WolframRenderResult,
+    WorkflowRound,
+)
 from runtime import (
     configure_utf8_stdio,
     project_root,
@@ -137,21 +155,21 @@ class WorkflowState(TypedDict, total=False):
     来组织，方便以后把下面几个 *_node 函数直接搬进图编排。
     """
 
-    request: Dict[str, Any]
+    request: Dict[str, object]
     out_dir: str
     round_index: int
     max_retries: int
-    scene_payload: Dict[str, Any]
-    render_result: Dict[str, Any]
-    vision_result: Dict[str, Any]
-    history: List[Dict[str, Any]]
+    scene_payload: Dict[str, object]
+    render_result: Dict[str, object]
+    vision_result: Dict[str, object]
+    history: List[Dict[str, object]]
     skills_context: Dict[str, str]
     status: str
     error: str
 
 
 class ModelPoolError(RuntimeError):
-    def __init__(self, role: str, attempts: List[Dict[str, Any]]):
+    def __init__(self, role: str, attempts: List[Dict[str, object]]):
         super().__init__(
             f"All {role} models failed: "
             + json.dumps(attempts, ensure_ascii=False, default=_json_default)
@@ -160,11 +178,24 @@ class ModelPoolError(RuntimeError):
         self.attempts = attempts
 
 
-def _json_default(value: Any) -> str:
+def _json_default(value: object) -> str:
     return str(value)
 
 
-def _read_json(path: Path) -> Dict[str, Any]:
+def _model_dump_json(value: object) -> object:
+    if hasattr(value, "model_dump"):
+        return value.model_dump(mode="json", by_alias=True)
+    return value
+
+
+def _dict_from_model(value: object) -> Dict[str, object]:
+    dumped = _model_dump_json(value)
+    if not isinstance(dumped, dict):
+        raise ValueError("expected model/dict to serialize to a JSON object")
+    return dumped
+
+
+def _read_json(path: Path) -> Dict[str, object]:
     with open(path, "r", encoding="utf-8") as f:
         data = json.load(f)
     if not isinstance(data, dict):
@@ -172,17 +203,17 @@ def _read_json(path: Path) -> Dict[str, Any]:
     return data
 
 
-def _read_json_if_exists(path: Path) -> Dict[str, Any]:
+def _read_json_if_exists(path: Path) -> Dict[str, object]:
     if not path.exists():
         return {}
     return _read_json(path)
 
 
-def _compact_string_parts(*values: Any) -> str:
+def _compact_string_parts(*values: object) -> str:
     return "\n".join(str(value).strip() for value in values if str(value or "").strip())
 
 
-def _normalize_workflow_request(request: Dict[str, Any]) -> Dict[str, Any]:
+def _normalize_workflow_request(request: Dict[str, object]) -> Dict[str, object]:
     """Normalize public request contracts to the flat runtime shape.
 
     The production teaching pipeline now sends DiagramJobRequest v2. Most of
@@ -197,6 +228,8 @@ def _normalize_workflow_request(request: Dict[str, Any]) -> Dict[str, Any]:
     if request.get("schema_version") != "diagram-job-request/v2":
         return request
 
+    request_model = DiagramJobRequest.model_validate(request)
+    request = request_model.model_dump(mode="json", by_alias=True)
     engine = str(request.get("engine") or "geometric_scene")
     diagram_kind = str(request.get("diagram_kind") or "synthetic_geometry")
     if engine != "geometric_scene":
@@ -273,13 +306,13 @@ def _normalize_workflow_request(request: Dict[str, Any]) -> Dict[str, Any]:
     return normalized
 
 
-def _write_json(path: Path, data: Dict[str, Any]) -> None:
+def _write_json(path: Path, data: Dict[str, object]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     with open(path, "w", encoding="utf-8") as f:
-        json.dump(data, f, ensure_ascii=False, indent=2, default=_json_default)
+        json.dump(_model_dump_json(data), f, ensure_ascii=False, indent=2, default=_json_default)
 
 
-def _emit_event(out_dir: Path, event: str, **fields: Any) -> None:
+def _emit_event(out_dir: Path, event: str, **fields: object) -> None:
     """写入 JSONL 事件，同时向 stderr 打一行机器可读日志。
 
     事件里可能包含模型错误或请求片段，所以写出前统一做一次脱敏。
@@ -378,7 +411,7 @@ def _env_first(*names: str) -> Optional[str]:
     return None
 
 
-def _split_models(value: Any) -> List[str]:
+def _split_models(value: object) -> List[str]:
     if value is None:
         return []
     if isinstance(value, str):
@@ -399,7 +432,7 @@ def _dedupe_models(models: List[str]) -> List[str]:
 
 
 def _model_pool(
-    config: Dict[str, Any],
+    config: Dict[str, object],
     pool_key: str,
     single_keys: List[str],
     env_names: List[str],
@@ -418,6 +451,7 @@ def _model_error_record(role: str, model: str, exc: Exception) -> Dict[str, str]
     return {
         "role": role,
         "model": model,
+        "status": "failed",
         "error_type": exc.__class__.__name__,
         "error": redact_secrets(exc),
     }
@@ -432,7 +466,7 @@ def _is_retryable_model_error(exc: Exception) -> bool:
     return True
 
 
-def _resolved_model_config(model_config: Dict[str, Any]) -> Dict[str, Any]:
+def _resolved_model_config(model_config: Dict[str, object]) -> Dict[str, object]:
     """合并请求、环境变量和默认值，得到文本/视觉模型池配置。
 
     模型池按“请求显式指定 -> 环境变量 -> 默认列表”的优先级排列；调用端会
@@ -500,7 +534,7 @@ def _resolved_model_config(model_config: Dict[str, Any]) -> Dict[str, Any]:
         vision_key_env = _env_first("GSB_VISION_API_KEY_ENV", "VISION_API_KEY_ENV")
         if vision_key_env:
             resolved["vision_api_key_env"] = vision_key_env
-    return resolved
+    return DiagramModelConfig.model_validate(resolved).model_dump(mode="python")
 
 
 def _env_from_names(*names: Optional[str]) -> Optional[str]:
@@ -512,7 +546,7 @@ def _env_from_names(*names: Optional[str]) -> Optional[str]:
     return None
 
 
-def _api_key_from_config(config: Dict[str, Any], role: str) -> Optional[str]:
+def _api_key_from_config(config: Dict[str, object], role: str) -> Optional[str]:
     if role == "vision":
         direct = config.get("vision_api_key") or config.get("api_key")
         if direct:
@@ -538,7 +572,7 @@ def _api_key_from_config(config: Dict[str, Any], role: str) -> Optional[str]:
     )
 
 
-def _extract_json_object(text: str) -> Dict[str, Any]:
+def _extract_json_object(text: str) -> Dict[str, object]:
     """从模型回复中提取 JSON 对象。
 
     模型偶尔会包一层 Markdown 代码块，或在 JSON 前后加解释文字；这里做宽松
@@ -562,12 +596,12 @@ def _extract_json_object(text: str) -> Dict[str, Any]:
     return parsed
 
 
-def _is_solution_request(request: Dict[str, Any]) -> bool:
+def _is_solution_request(request: Dict[str, object]) -> bool:
     variant = request.get("diagram_variant") or request.get("variant")
     return variant == "solution" or request.get("disclosure_policy") == "annotated"
 
 
-def _solution_reuse_id(request: Dict[str, Any]) -> str:
+def _solution_reuse_id(request: Dict[str, object]) -> str:
     return str(
         request.get("reuse_geometry_from")
         or request.get("reuse_from")
@@ -576,7 +610,7 @@ def _solution_reuse_id(request: Dict[str, Any]) -> str:
     ).strip()
 
 
-def _resolve_reuse_job_dir(request: Dict[str, Any], out_dir: Path) -> Path:
+def _resolve_reuse_job_dir(request: Dict[str, object], out_dir: Path) -> Path:
     explicit = request.get("reuse_geometry_dir") or request.get("base_job_dir")
     if explicit:
         path = Path(str(explicit))
@@ -615,8 +649,8 @@ def _wl_point_list(points: List[str]) -> str:
     return "{" + ", ".join(_wl_symbol(name) for name in points) + "}"
 
 
-def _merge_lists(base: Any, delta: Any) -> List[Any]:
-    merged: List[Any] = []
+def _merge_lists(base: object, delta: object) -> List[object]:
+    merged: List[object] = []
     if isinstance(base, list):
         merged.extend(base)
     if isinstance(delta, list):
@@ -626,14 +660,14 @@ def _merge_lists(base: Any, delta: Any) -> List[Any]:
     return merged
 
 
-def _merge_dict(base: Any, delta: Any) -> Dict[str, Any]:
+def _merge_dict(base: object, delta: object) -> Dict[str, object]:
     merged = dict(base) if isinstance(base, dict) else {}
     if isinstance(delta, dict):
         merged.update(delta)
     return merged
 
 
-def _base_diagram_spec_from_renderer_spec(base_spec: Dict[str, Any]) -> Dict[str, Any]:
+def _base_diagram_spec_from_renderer_spec(base_spec: Dict[str, object]) -> Dict[str, object]:
     return {
         "type": base_spec.get("type") or "synthetic_geometry",
         "segments": base_spec.get("segments") or [],
@@ -645,7 +679,7 @@ def _base_diagram_spec_from_renderer_spec(base_spec: Dict[str, Any]) -> Dict[str
     }
 
 
-def _merge_diagram_spec(base_spec: Dict[str, Any], delta: Dict[str, Any]) -> Dict[str, Any]:
+def _merge_diagram_spec(base_spec: Dict[str, object], delta: Dict[str, object]) -> Dict[str, object]:
     merged = dict(base_spec)
     for key in ("objects", "segments", "polygons", "markers", "teaching_focus", "constraints"):
         merged[key] = _merge_lists(base_spec.get(key), delta.get(key))
@@ -657,21 +691,21 @@ def _merge_diagram_spec(base_spec: Dict[str, Any], delta: Dict[str, Any]) -> Dic
 
 
 def _solution_model_json(
-    request: Dict[str, Any],
-    base_renderer_spec: Dict[str, Any],
-    history: List[Dict[str, Any]],
+    request: Dict[str, object],
+    base_renderer_spec: Dict[str, object],
+    history: List[Dict[str, object]],
     round_index: int,
     skills_context: Optional[Dict[str, str]] = None,
-) -> Dict[str, Any]:
+) -> Dict[str, object]:
     add_auxiliary = request.get("add_auxiliary")
     if isinstance(add_auxiliary, dict) and add_auxiliary.get("hypotheses_wl"):
-        return {
+        return _dict_from_model(SolutionAuxiliaryPayload.model_validate({
             "auxiliary_points": _compact_list(add_auxiliary.get("add_points") or add_auxiliary.get("points")),
             "auxiliary_hypotheses_wl": _compact_list(add_auxiliary.get("hypotheses_wl")),
             "diagram_spec_delta": add_auxiliary.get("diagram_spec_delta") or {},
             "rationale": "Used structured add_auxiliary from request.",
             "model_attempts": [],
-        }
+        }))
 
     model_config = _resolved_model_config(request.get("model_config", {}))
     client = _make_client(model_config, "text")
@@ -741,7 +775,7 @@ def _solution_model_json(
                     "raw_response": content,
                 }
             ]
-            return payload
+            return _dict_from_model(SolutionAuxiliaryPayload.model_validate(payload))
         except Exception as exc:
             attempts.append(_model_error_record("text", model, exc))
             if not _is_retryable_model_error(exc):
@@ -751,12 +785,12 @@ def _solution_model_json(
 
 
 def _solution_scene_payload(
-    request: Dict[str, Any],
+    request: Dict[str, object],
     out_dir: Path,
-    history: List[Dict[str, Any]],
+    history: List[Dict[str, object]],
     round_index: int,
     skills_context: Optional[Dict[str, str]] = None,
-) -> Dict[str, Any]:
+) -> Dict[str, object]:
     """生成“解答图”的 GeometricScene payload。
 
     解答图与普通 prompt 图最大的区别是：已有点坐标必须从 base renderer spec
@@ -802,7 +836,7 @@ def _solution_scene_payload(
     diagram_spec["constraints"] = _merge_lists(diagram_spec.get("constraints"), hypotheses)
     diagram_spec.setdefault("teaching_focus", request.get("teaching_focus", []))
 
-    return {
+    return _dict_from_model(ScenePayload.model_validate({
         "scene_code": scene_code,
         "points": list(base_points.keys()) + aux_points,
         "diagram_spec": diagram_spec,
@@ -817,10 +851,10 @@ def _solution_scene_payload(
         "model_used": auxiliary_payload.get("model_used", ""),
         "raw_response": auxiliary_payload.get("raw_response", ""),
         "model_attempts": auxiliary_payload.get("model_attempts", []),
-    }
+    }))
 
 
-def _make_client(model_config: Dict[str, Any], role: str = "text"):
+def _make_client(model_config: Dict[str, object], role: str = "text"):
     if OpenAI is None:
         raise RuntimeError("Missing dependency: install openai>=1.0.0")
     config = _resolved_model_config(model_config)
@@ -839,11 +873,11 @@ def _make_client(model_config: Dict[str, Any], role: str = "text"):
 
 
 def _text_model_json(
-    request: Dict[str, Any],
-    history: List[Dict[str, Any]],
+    request: Dict[str, object],
+    history: List[Dict[str, object]],
     round_index: int,
     skills_context: Optional[Dict[str, str]] = None,
-) -> Dict[str, Any]:
+) -> Dict[str, object]:
     """调用文本模型生成普通几何图的 GeometricScene 和可视化 spec。
 
     返回值不是直接给 SVG renderer 的最终 spec，而是“模型意图 + Wolfram
@@ -922,7 +956,7 @@ def _text_model_json(
                     "raw_response": content,
                 }
             ]
-            return payload
+            return _dict_from_model(ScenePayload.model_validate(payload))
         except Exception as exc:
             attempts.append(_model_error_record("text", model, exc))
             if not _is_retryable_model_error(exc):
@@ -988,7 +1022,7 @@ def _render_worker(
         )
 
 
-def _wl_to_python(value: Any) -> Any:
+def _wl_to_python(value: object) -> object:
     if value is None:
         return None
     if isinstance(value, dict):
@@ -1002,14 +1036,14 @@ def _wl_to_python(value: Any) -> Any:
     return value
 
 
-def _point_label(value: Any) -> str:
+def _point_label(value: object) -> str:
     label = str(value).strip()
     if "`" in label:
         label = label.rsplit("`", 1)[-1]
     return label
 
 
-def _numeric_pair(value: Any) -> Optional[List[float]]:
+def _numeric_pair(value: object) -> Optional[List[float]]:
     if not isinstance(value, (list, tuple)) or len(value) < 2:
         return None
     try:
@@ -1018,7 +1052,7 @@ def _numeric_pair(value: Any) -> Optional[List[float]]:
         return None
 
 
-def _normalize_solver_points(parameters: Any) -> Dict[str, List[float]]:
+def _normalize_solver_points(parameters: object) -> Dict[str, List[float]]:
     """Normalize Wolfram point rules into renderer-friendly point coordinates.
 
     Wolfram 返回的点规则可能是 dict、规则列表或嵌套结构；renderer 只需要
@@ -1044,7 +1078,7 @@ def _normalize_solver_points(parameters: Any) -> Dict[str, List[float]]:
     return points
 
 
-def _compact_list(value: Any) -> List[Any]:
+def _compact_list(value: object) -> List[object]:
     if isinstance(value, list):
         return [item for item in value if item not in ("", None, [])]
     if value in ("", None):
@@ -1052,14 +1086,14 @@ def _compact_list(value: Any) -> List[Any]:
     return [value]
 
 
-def _point_names(value: Any) -> List[str]:
+def _point_names(value: object) -> List[str]:
     if not isinstance(value, (list, tuple)):
         return []
     names = [_point_label(item) for item in value if isinstance(item, (str, int, float))]
     return [name for name in names if name]
 
 
-def _segment_from(value: Any) -> Optional[Dict[str, str]]:
+def _segment_from(value: object) -> Optional[Dict[str, str]]:
     if isinstance(value, dict):
         start = value.get("from") or value.get("start") or value.get("a")
         end = value.get("to") or value.get("end") or value.get("b")
@@ -1074,7 +1108,7 @@ def _segment_from(value: Any) -> Optional[Dict[str, str]]:
     return None
 
 
-def _polygon_from(value: Any) -> Optional[Dict[str, Any]]:
+def _polygon_from(value: object) -> Optional[Dict[str, object]]:
     if isinstance(value, dict):
         names = _point_names(value.get("points") or value.get("vertices"))
         if len(names) >= 3:
@@ -1087,7 +1121,7 @@ def _polygon_from(value: Any) -> Optional[Dict[str, Any]]:
     return None
 
 
-def _dedupe_dicts(items: List[Dict[str, Any]], key_fn) -> List[Dict[str, Any]]:
+def _dedupe_dicts(items: List[Dict[str, object]], key_fn) -> List[Dict[str, object]]:
     seen = set()
     result = []
     for item in items:
@@ -1101,9 +1135,9 @@ def _dedupe_dicts(items: List[Dict[str, Any]], key_fn) -> List[Dict[str, Any]]:
 
 def _extend_render_objects(
     segments: List[Dict[str, str]],
-    polygons: List[Dict[str, Any]],
-    markers: List[Dict[str, Any]],
-    source: Any,
+    polygons: List[Dict[str, object]],
+    markers: List[Dict[str, object]],
+    source: object,
 ) -> None:
     """从 objects_hint 或模型 diagram_spec 中收集 renderer 可画对象。
 
@@ -1148,7 +1182,7 @@ def _extend_render_objects(
                 markers.append(marker)
 
 
-def _normalize_marker(marker: Dict[str, Any]) -> Dict[str, Any]:
+def _normalize_marker(marker: Dict[str, object]) -> Dict[str, object]:
     normalized = dict(marker)
     marker_type = str(normalized.get("type", "")).lower()
     if marker_type == "equal_tick":
@@ -1172,10 +1206,10 @@ def _normalize_marker(marker: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def _compile_renderer_spec(
-    request: Dict[str, Any],
-    scene_payload: Dict[str, Any],
-    render_result: Dict[str, Any],
-) -> Dict[str, Any]:
+    request: Dict[str, object],
+    scene_payload: Dict[str, object],
+    render_result: Dict[str, object],
+) -> Dict[str, object]:
     """把模型意图和 Wolfram 求解结果合并成 renderer 的最终输入。
 
     数据来源有三层：
@@ -1201,8 +1235,8 @@ def _compile_renderer_spec(
     )
 
     segments: List[Dict[str, str]] = []
-    polygons: List[Dict[str, Any]] = []
-    markers: List[Dict[str, Any]] = []
+    polygons: List[Dict[str, object]] = []
+    markers: List[Dict[str, object]] = []
     _extend_render_objects(segments, polygons, markers, objects_hint)
     _extend_render_objects(segments, polygons, markers, diagram_spec)
 
@@ -1228,7 +1262,7 @@ def _compile_renderer_spec(
         for name in points
     }
 
-    return {
+    return _dict_from_model(GeometryRenderSpec.model_validate({
         "schema_version": "geometry-render-spec/v1",
         "status": "ready" if points else "missing_coordinates",
         "type": diagram_spec.get("type")
@@ -1253,15 +1287,15 @@ def _compile_renderer_spec(
             "render_image_requested": render_result.get("render_image_requested", True),
             "render_fail_type": render_result.get("fail_type", ""),
         },
-    }
+    }))
 
 
 def _render_scene(
     scene_code: str,
     out_dir: Path,
     round_index: int,
-    request: Dict[str, Any],
-) -> Dict[str, Any]:
+    request: Dict[str, object],
+) -> Dict[str, object]:
     """求解单轮 GeometricScene，并按需生成 Wolfram 调试 PNG。
 
     主进程只负责准备 round 目录、启动 worker、执行硬超时和校验 PNG 是否真的
@@ -1303,22 +1337,22 @@ def _render_scene(
         proc.join(timeout=5)
         if proc.is_alive():
             proc.kill()
-        return {
+        return _dict_from_model(WolframRenderResult.model_validate({
             "success": False,
             "fail_type": "host_watchdog_timeout",
             "message": f"Wolfram render exceeded {hard_timeout_s}s",
             "image_path": image_rel,
             "render_image_requested": render_image,
-        }
+        }))
 
     if queue.empty():
-        return {
+        return _dict_from_model(WolframRenderResult.model_validate({
             "success": False,
             "fail_type": "worker_no_result",
             "message": "Wolfram worker returned no result",
             "image_path": image_rel,
             "render_image_requested": render_image,
-        }
+        }))
 
     result = queue.get()
     result["render_image_requested"] = render_image
@@ -1332,15 +1366,15 @@ def _render_scene(
             result["image_path"] = image_rel
     elif result.get("success"):
         result["image_path"] = ""
-    return result
+    return _dict_from_model(WolframRenderResult.model_validate(result))
 
 
 def _solution_reuse_check(
-    request: Dict[str, Any],
+    request: Dict[str, object],
     out_dir: Path,
-    render_result: Dict[str, Any],
+    render_result: Dict[str, object],
     tolerance: float = 1e-7,
-) -> Dict[str, Any]:
+) -> Dict[str, object]:
     """校验 solution 图没有移动 prompt 图的既有点。
 
     解答图可以添加辅助点，但不能改变基础图坐标；一旦发现 drift，调用方会把本轮
@@ -1353,7 +1387,7 @@ def _solution_reuse_check(
     base_spec = _read_json(base_dir / "final_renderer_spec.json")
     base_points = base_spec.get("points") if isinstance(base_spec.get("points"), dict) else {}
     solved_points = _normalize_solver_points(render_result.get("parameters"))
-    drift: List[Dict[str, Any]] = []
+    drift: List[Dict[str, object]] = []
     missing: List[str] = []
     for name, expected in base_points.items():
         expected_pair = _numeric_pair(expected)
@@ -1390,11 +1424,11 @@ def _image_data_url(path: Path) -> str:
 
 
 def _evaluate_image(
-    request: Dict[str, Any],
-    render_result: Dict[str, Any],
+    request: Dict[str, object],
+    render_result: Dict[str, object],
     out_dir: Path,
     skills_context: Optional[Dict[str, str]] = None,
-) -> Dict[str, Any]:
+) -> Dict[str, object]:
     """用视觉模型评估调试图是否适合学生讲义。
 
     如果请求关闭了 Wolfram PNG 渲染，则进入 spec_only 模式：只要 Wolfram
@@ -1402,33 +1436,33 @@ def _evaluate_image(
     """
 
     if not render_result.get("success"):
-        return {
+        return _dict_from_model(VisionEvaluationResult.model_validate({
             "usable": False,
             "score": 1,
             "defects": [render_result.get("fail_type", "render_failed")],
             "suggested_constraint_feedback": render_result.get(
                 "message", "Render failed; generate a simpler valid GeometricScene."
             ),
-        }
+        }))
 
     if render_result.get("render_image_requested") is False:
-        return {
+        return _dict_from_model(VisionEvaluationResult.model_validate({
             "usable": True,
             "score": "",
             "defects": [],
             "evaluation_mode": "spec_only",
             "suggested_constraint_feedback": "",
-        }
+        }))
 
     image_rel = render_result.get("image_path")
     image_path = out_dir / image_rel if image_rel else None
     if not image_path or not image_path.exists():
-        return {
+        return _dict_from_model(VisionEvaluationResult.model_validate({
             "usable": False,
             "score": 1,
             "defects": ["missing_image"],
             "suggested_constraint_feedback": "The render did not produce a PNG.",
-        }
+        }))
 
     model_config = _resolved_model_config(request.get("model_config", {}))
     client = _make_client(model_config, "vision")
@@ -1482,7 +1516,7 @@ def _evaluate_image(
             )
             content = response.choices[0].message.content or "{}"
             payload = _extract_json_object(content)
-            return {
+            return _dict_from_model(VisionEvaluationResult.model_validate({
                 "usable": bool(payload.get("usable")),
                 "score": int(payload.get("score", 1)),
                 "defects": payload.get("defects", []),
@@ -1500,7 +1534,7 @@ def _evaluate_image(
                         "raw_response": content,
                     }
                 ],
-            }
+            }))
         except Exception as exc:
             attempts.append(_model_error_record("vision", vision_model, exc))
             if not _is_retryable_model_error(exc):
@@ -1588,11 +1622,11 @@ def render_wolfram_node(state: WorkflowState) -> WorkflowState:
     round_dir = out_dir / "rounds" / f"round_{round_index}"
     _emit_event(out_dir, "render.start", round_index=round_index)
     if state.get("status") == "failed":
-        render_result = {
+        render_result = _dict_from_model(WolframRenderResult.model_validate({
             "success": False,
             "fail_type": "skipped",
             "message": state.get("error", "previous workflow step failed"),
-        }
+        }))
         _write_json(round_dir / "render_result.json", render_result)
         state["render_result"] = render_result
         _emit_event(
@@ -1613,6 +1647,7 @@ def render_wolfram_node(state: WorkflowState) -> WorkflowState:
                 render_result["success"] = False
                 render_result["fail_type"] = "solution_base_point_drift"
                 render_result["message"] = "Solution diagram did not preserve prompt point coordinates"
+            render_result = _dict_from_model(WolframRenderResult.model_validate(render_result))
         _write_json(round_dir / "render_result.json", render_result)
         state["render_result"] = render_result
         image_rel = render_result.get("image_path")
@@ -1629,11 +1664,11 @@ def render_wolfram_node(state: WorkflowState) -> WorkflowState:
             render_image_requested=render_result.get("render_image_requested", True),
         )
     except Exception as exc:
-        render_result = {
+        render_result = _dict_from_model(WolframRenderResult.model_validate({
             "success": False,
             "fail_type": "render_exception",
             "message": redact_secrets(exc),
-        }
+        }))
         _write_json(round_dir / "render_result.json", render_result)
         state["render_result"] = render_result
         _emit_event(
@@ -1655,12 +1690,12 @@ def evaluate_image_node(state: WorkflowState) -> WorkflowState:
     round_dir = out_dir / "rounds" / f"round_{round_index}"
     _emit_event(out_dir, "vision.start", round_index=round_index)
     if state.get("status") == "failed":
-        vision_result = {
+        vision_result = _dict_from_model(VisionEvaluationResult.model_validate({
             "usable": False,
             "score": 1,
             "defects": ["skipped"],
             "suggested_constraint_feedback": state.get("error", "previous workflow step failed"),
-        }
+        }))
         _write_json(round_dir / "vision_result.json", vision_result)
         state["vision_result"] = vision_result
         _emit_event(
@@ -1679,20 +1714,20 @@ def evaluate_image_node(state: WorkflowState) -> WorkflowState:
             state.get("skills_context") or load_skills_context(),
         )
     except ModelPoolError as exc:
-        vision_result = {
+        vision_result = _dict_from_model(VisionEvaluationResult.model_validate({
             "usable": False,
             "score": 1,
             "defects": ["vision_model_pool_failed"],
             "suggested_constraint_feedback": redact_secrets(exc),
             "model_attempts": exc.attempts,
-        }
+        }))
     except Exception as exc:
-        vision_result = {
+        vision_result = _dict_from_model(VisionEvaluationResult.model_validate({
             "usable": False,
             "score": 1,
             "defects": ["vision_evaluation_failed"],
             "suggested_constraint_feedback": redact_secrets(exc),
-        }
+        }))
     _write_json(round_dir / "vision_result.json", vision_result)
     state["vision_result"] = vision_result
     _emit_event(
@@ -1717,12 +1752,12 @@ def update_history_node(state: WorkflowState) -> WorkflowState:
 
     history = state.get("history", [])
     history.append(
-        {
+        _dict_from_model(WorkflowRound.model_validate({
             "round_index": state.get("round_index", 0),
             "scene_payload": state.get("scene_payload", {}),
             "render_result": state.get("render_result", {}),
             "vision_result": state.get("vision_result", {}),
-        }
+        }))
     )
     state["history"] = history
     if state.get("vision_result", {}).get("usable"):
@@ -1739,14 +1774,14 @@ def should_continue(state: WorkflowState) -> str:
     return "done" if state.get("status") in {"ok", "failed"} else "retry"
 
 
-def _collect_model_attempts(history: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
-    attempts: List[Dict[str, Any]] = []
+def _collect_model_attempts(history: List[Dict[str, object]]) -> List[Dict[str, object]]:
+    attempts: List[Dict[str, object]] = []
     for round_item in history:
         scene_payload = round_item.get("scene_payload", {})
         vision_result = round_item.get("vision_result", {})
         attempts.extend(scene_payload.get("model_attempts", []))
         attempts.extend(vision_result.get("model_attempts", []))
-    return attempts
+    return [_dict_from_model(ModelAttempt.model_validate(item)) for item in attempts]
 
 
 def finalize_node(state: WorkflowState) -> WorkflowState:
@@ -1790,20 +1825,40 @@ def finalize_node(state: WorkflowState) -> WorkflowState:
         final_spec["solution_reuse_check"] = render_result.get("solution_reuse_check", {})
     _write_json(out_dir / "final_diagram_spec.json", final_spec)
 
+    model_attempts = _collect_model_attempts(history)
     result = {
+        "schema_version": "diagram-job-result/v2",
+        "job_id": state.get("request", {}).get("diagram_job_id") or state.get("request", {}).get("job_id", ""),
         "status": state.get("status", "failed"),
-        "error": state.get("error", ""),
+        "fail_type": state.get("error", ""),
+        "message": state.get("error", ""),
         "out_dir": str(out_dir),
+        "request": "request.json",
+        "workflow_events": "workflow_events.jsonl",
+        "scene_payload": "scene_payload.json",
         "final_diagram_spec": "final_diagram_spec.json",
         "final_renderer_spec": "final_renderer_spec.json",
         "final_image_path": render_result.get("image_path"),
+        "wolfram": {
+            "success": bool(render_result.get("success")),
+            "solve_time_s": render_result.get("solve_time_s", 0) or 0,
+            "seed": render_result.get("seed"),
+        },
+        "model": {
+            "text_model_used": scene_payload.get("model_used", ""),
+            "attempts": model_attempts,
+        },
+        "policy_warnings": [],
         "skills_used": SKILL_SETS,
-        "model_attempts": _collect_model_attempts(history),
+        "model_attempts": model_attempts,
         "rounds": history,
     }
+    if state.get("error"):
+        result["error"] = state.get("error", "")
     if scene_payload.get("solution_reuse"):
         result["solution_reuse"] = scene_payload.get("solution_reuse")
         result["solution_reuse_check"] = render_result.get("solution_reuse_check", {})
+    result = _dict_from_model(DiagramJobResult.model_validate(result))
     _write_json(out_dir / "workflow_result.json", result)
     _emit_event(
         out_dir,
@@ -1834,7 +1889,7 @@ def build_graph():
     return None
 
 
-def run_workflow(request: Dict[str, Any], out_dir: Path, request_path: Path) -> Dict[str, Any]:
+def run_workflow(request: Dict[str, object], out_dir: Path, request_path: Path) -> Dict[str, object]:
     """执行完整 workflow。
 
     这是 CLI --action run 的主入口：准备输出目录、复制原始 request、初始化
@@ -1870,14 +1925,14 @@ def run_workflow(request: Dict[str, Any], out_dir: Path, request_path: Path) -> 
 
 
 def generate_candidate_action(
-    request: Dict[str, Any],
+    request: Dict[str, object],
     out_dir: Path,
     round_index: int,
     history_path: Optional[Path] = None,
-) -> Dict[str, Any]:
+) -> Dict[str, object]:
     """只执行生成步骤，供调试或外部编排逐步调用。"""
 
-    history: List[Dict[str, Any]] = []
+    history: List[Dict[str, object]] = []
     if history_path and history_path.exists():
         loaded = _read_json(history_path)
         if isinstance(loaded.get("rounds"), list):
@@ -1902,27 +1957,28 @@ def generate_candidate_action(
             load_skills_context(),
         )
     _write_json(round_dir / "scene_payload.json", payload)
-    return {
-        "status": "ok",
-        "action": "generate",
-        "round_index": round_index,
-        "scene_payload_path": str(round_dir / "scene_payload.json"),
-        "skills_used": SKILL_SETS["generate"],
-    }
+    result = GenerateCandidateResult(
+        status="ok",
+        action="generate",
+        round_index=round_index,
+        scene_payload_path=str(round_dir / "scene_payload.json"),
+        scene_payload=ScenePayload.model_validate(payload),
+        skills_used=SKILL_SETS["generate"],
+    )
+    return _dict_from_model(result)
 
 
 def render_candidate_action(
-    request: Dict[str, Any],
+    request: Dict[str, object],
     scene_payload_path: Path,
     out_dir: Path,
     round_index: int,
-) -> Dict[str, Any]:
+) -> Dict[str, object]:
     """只执行 Wolfram 求解/渲染步骤，输入上一阶段的 scene_payload.json。"""
 
     payload = _read_json(scene_payload_path)
-    if "scene_code" not in payload:
-        raise ValueError("scene_payload missing scene_code")
-    render_result = _render_scene(payload["scene_code"], out_dir, round_index, request)
+    scene_payload = ScenePayload.model_validate(payload)
+    render_result = _render_scene(scene_payload.scene_code, out_dir, round_index, request)
     reuse_check = _solution_reuse_check(request, out_dir, render_result)
     if reuse_check:
         render_result["solution_reuse_check"] = reuse_check
@@ -1930,45 +1986,49 @@ def render_candidate_action(
             render_result["success"] = False
             render_result["fail_type"] = "solution_base_point_drift"
             render_result["message"] = "Solution diagram did not preserve prompt point coordinates"
+        render_result = _dict_from_model(WolframRenderResult.model_validate(render_result))
     round_dir = out_dir / "rounds" / f"round_{round_index}"
     _write_json(round_dir / "render_result.json", render_result)
-    return {
-        "status": "ok" if render_result.get("success") else "failed",
-        "action": "render",
-        "round_index": round_index,
-        "render_result_path": str(round_dir / "render_result.json"),
-        "render_result": render_result,
-    }
+    result = RenderCandidateResult(
+        status="ok" if render_result.get("success") else "failed",
+        action="render",
+        round_index=round_index,
+        render_result_path=str(round_dir / "render_result.json"),
+        render_result=WolframRenderResult.model_validate(render_result),
+    )
+    return _dict_from_model(result)
 
 
 def evaluate_image_action(
-    request: Dict[str, Any],
+    request: Dict[str, object],
     render_result_path: Path,
     out_dir: Path,
     round_index: int,
-) -> Dict[str, Any]:
+) -> Dict[str, object]:
     """只执行视觉评估步骤，输入上一阶段的 render_result.json。"""
 
     render_result = _read_json(render_result_path)
+    render_model = WolframRenderResult.model_validate(render_result)
     vision_result = _evaluate_image(
         request,
-        render_result,
+        _dict_from_model(render_model),
         out_dir,
         load_skills_context(),
     )
     round_dir = out_dir / "rounds" / f"round_{round_index}"
     _write_json(round_dir / "vision_result.json", vision_result)
-    return {
-        "status": "ok",
-        "action": "evaluate",
-        "round_index": round_index,
-        "vision_result_path": str(round_dir / "vision_result.json"),
-        "vision_result": vision_result,
-        "skills_used": SKILL_SETS["evaluate"],
-    }
+    result = EvaluateImageResult(
+        status="ok",
+        action="evaluate",
+        round_index=round_index,
+        vision_result_path=str(round_dir / "vision_result.json"),
+        vision_result=VisionEvaluationResult.model_validate(vision_result),
+        skills_used=SKILL_SETS["evaluate"],
+    )
+    return _dict_from_model(result)
 
 
-def skill_context_action(out_dir: Path) -> Dict[str, Any]:
+def skill_context_action(out_dir: Path) -> Dict[str, object]:
     """导出本 workflow 会注入 prompt 的本地 skill 上下文。"""
 
     context = load_skills_context()

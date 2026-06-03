@@ -16,22 +16,35 @@ import os
 import re
 import shutil
 import subprocess
+import sys
 from pathlib import Path
-from typing import Any
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from diagram_contracts import (  # noqa: E402
+    GeometryRendererResult,
+    GeometryRenderSpec,
+    RendererChecks,
+)
 
 Point = tuple[float, float]
 
 
-def read_json(path: Path) -> dict[str, Any]:
+def read_json(path: Path) -> dict[str, object]:
     data = json.loads(path.read_text(encoding="utf-8"))
     if not isinstance(data, dict):
         raise ValueError(f"{path} must contain a JSON object")
     return data
 
 
-def write_json(path: Path, data: dict[str, Any]) -> None:
+def write_json(path: Path, data: dict[str, object]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    path.write_text(json.dumps(model_dump_json(data), ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+
+def model_dump_json(value: object) -> object:
+    if hasattr(value, "model_dump"):
+        return value.model_dump(mode="json", by_alias=True)
+    return value
 
 
 def relpath(target: Path, base: Path) -> str:
@@ -61,7 +74,7 @@ def perp(v: Point) -> Point:
     return (-v[1], v[0])
 
 
-def svg_attrs(**kwargs: Any) -> str:
+def svg_attrs(**kwargs: object) -> str:
     parts: list[str] = []
     for key, value in kwargs.items():
         if value is None:
@@ -71,7 +84,7 @@ def svg_attrs(**kwargs: Any) -> str:
 
 
 class SvgGeometryRenderer:
-    def __init__(self, spec: dict[str, Any], width: int, height: int, padding: int = 64):
+    def __init__(self, spec: dict[str, object], width: int, height: int, padding: int = 64):
         self.spec = spec
         self.width = width
         self.height = height
@@ -144,7 +157,7 @@ class SvgGeometryRenderer:
                 )
             )
 
-    def draw_right_angle(self, marker: dict[str, Any]) -> None:
+    def draw_right_angle(self, marker: dict[str, object]) -> None:
         vertex_name = marker.get("vertex") or marker.get("at")
         arms = [str(name) for name in marker.get("arms", [])[:2]]
         if not vertex_name or len(arms) < 2:
@@ -159,7 +172,7 @@ class SvgGeometryRenderer:
         p3 = add(vertex, mul(v, size))
         self.elements.append(self.polyline([p1, p2, p3], marker.get("stroke", "#dc2626"), 2.0))
 
-    def draw_equal_ticks(self, marker: dict[str, Any]) -> None:
+    def draw_equal_ticks(self, marker: dict[str, object]) -> None:
         count = int(marker.get("count", 1))
         size = float(marker.get("size_px", 15))
         spacing = float(marker.get("spacing_px", 6))
@@ -180,7 +193,7 @@ class SvgGeometryRenderer:
                     )
                 )
 
-    def draw_angle_arc(self, marker: dict[str, Any]) -> None:
+    def draw_angle_arc(self, marker: dict[str, object]) -> None:
         vertex_name = marker.get("vertex") or marker.get("at")
         arms = [str(name) for name in marker.get("arms", [])[:2]]
         if not vertex_name or len(arms) < 2:
@@ -250,7 +263,7 @@ class SvgGeometryRenderer:
 
 
 class SvgCoordinateRenderer:
-    def __init__(self, spec: dict[str, Any], width: int, height: int, padding: int = 56):
+    def __init__(self, spec: dict[str, object], width: int, height: int, padding: int = 56):
         self.spec = spec
         self.width = width
         self.height = height
@@ -320,7 +333,7 @@ class SvgCoordinateRenderer:
         )
         return f"<text {attrs}>{html.escape(value)}</text>"
 
-    def tick_step(self, low: float, high: float, configured: Any) -> float:
+    def tick_step(self, low: float, high: float, configured: object) -> float:
         if configured:
             return float(configured)
         span = abs(high - low)
@@ -412,7 +425,7 @@ class SvgCoordinateRenderer:
                 lx, ly = points[min(len(points) - 1, max(0, len(points) // 2))]
                 self.elements.append(self.text(lx + 10, ly - 18, str(label), 15, anchor="start", fill=palette[index % len(palette)]))
 
-    def object_point(self, value: Any) -> Point | None:
+    def object_point(self, value: object) -> Point | None:
         if isinstance(value, str) and value in self.point_objects:
             return self.point_objects[value]
         if isinstance(value, (list, tuple)) and len(value) == 2:
@@ -421,7 +434,7 @@ class SvgCoordinateRenderer:
             return (float(value["x"]), float(value["y"]))
         return None
 
-    def line_endpoints(self, obj: dict[str, Any]) -> tuple[Point, Point] | None:
+    def line_endpoints(self, obj: dict[str, object]) -> tuple[Point, Point] | None:
         style_equation = str(obj.get("equation", "")).replace(" ", "")
         number = r"[+-]?(?:\d+(?:\.\d+)?|\.\d+)"
         if style_equation:
@@ -525,7 +538,7 @@ class SvgCoordinateRenderer:
         )
 
 
-def validate_spec(spec: dict[str, Any]) -> list[str]:
+def validate_spec(spec: dict[str, object]) -> list[str]:
     errors: list[str] = []
     spec_type = spec.get("type", "synthetic_geometry")
     if spec_type in {"coordinate_geometry", "function_graph"}:
@@ -616,27 +629,42 @@ def render_geometry_spec(
     height: int,
     size: int,
     variant: str | None = None,
-) -> dict[str, Any]:
-    spec = read_json(spec_path)
-    diagram_variant = variant or spec.get("diagram_variant") or spec.get("variant") or "prompt"
+) -> dict[str, object]:
+    result_path = out_dir / "renderer_result.json"
+    raw_spec = read_json(spec_path)
+    diagram_variant = variant or raw_spec.get("diagram_variant") or raw_spec.get("variant") or "prompt"
     if diagram_variant not in {"prompt", "solution"}:
         diagram_variant = "prompt"
-    result_path = out_dir / "renderer_result.json"
     svg_path = out_dir / "rendered" / f"{diagram_variant}.svg"
     png_path = out_dir / "rendered" / f"{diagram_variant}.png"
 
+    try:
+        spec_model = GeometryRenderSpec.model_validate(raw_spec)
+        spec = spec_model.model_dump(mode="json", by_alias=True)
+    except Exception as exc:
+        result = GeometryRendererResult(
+            status="failed",
+            fail_type="invalid_renderer_spec",
+            message=str(exc),
+            renderer_spec=relpath(spec_path, out_dir),
+            image_path="",
+            preview_svg="",
+            checks=RendererChecks(references_valid=False, image_exists=False),
+        ).model_dump(mode="json", by_alias=True)
+        write_json(result_path, result)
+        return result
+
     errors = validate_spec(spec)
     if errors:
-        result = {
-            "schema_version": "geometry-renderer-result/v1",
-            "status": "failed",
-            "fail_type": "invalid_renderer_spec",
-            "message": "; ".join(errors),
-            "renderer_spec": relpath(spec_path, out_dir),
-            "image_path": "",
-            "preview_svg": "",
-            "checks": {"references_valid": False, "image_exists": False},
-        }
+        result = GeometryRendererResult(
+            status="failed",
+            fail_type="invalid_renderer_spec",
+            message="; ".join(errors),
+            renderer_spec=relpath(spec_path, out_dir),
+            image_path="",
+            preview_svg="",
+            checks=RendererChecks(references_valid=False, image_exists=False),
+        ).model_dump(mode="json", by_alias=True)
         write_json(result_path, result)
         return result
 
@@ -649,23 +677,22 @@ def render_geometry_spec(
     converted, message = convert_svg_to_png(svg_path, png_path, width=width, height=height, size=size)
     image_exists = png_path.exists() and png_path.stat().st_size > 0
     status = "ok" if converted and image_exists else "failed"
-    result = {
-        "schema_version": "geometry-renderer-result/v1",
-        "status": status,
-        "fail_type": "" if status == "ok" else "png_export_failed",
-        "message": message,
-        "renderer": "teaching-svg-geometry-renderer",
-        "diagram_variant": diagram_variant,
-        "disclosure_policy": "clean" if diagram_variant == "prompt" else "annotated",
-        "renderer_spec": relpath(spec_path, out_dir),
-        "image_path": relpath(png_path, out_dir) if image_exists else "",
-        "preview_svg": relpath(svg_path, out_dir),
-        "checks": {
-            "references_valid": True,
-            "svg_exists": svg_path.exists(),
-            "image_exists": image_exists,
-        },
-    }
+    result = GeometryRendererResult(
+        status=status,
+        fail_type="" if status == "ok" else "png_export_failed",
+        message=message,
+        renderer="teaching-svg-geometry-renderer",
+        diagram_variant=diagram_variant,
+        disclosure_policy="clean" if diagram_variant == "prompt" else "annotated",
+        renderer_spec=relpath(spec_path, out_dir),
+        image_path=relpath(png_path, out_dir) if image_exists else "",
+        preview_svg=relpath(svg_path, out_dir),
+        checks=RendererChecks(
+            references_valid=True,
+            svg_exists=svg_path.exists(),
+            image_exists=image_exists,
+        ),
+    ).model_dump(mode="json", by_alias=True)
     write_json(result_path, result)
     return result
 
