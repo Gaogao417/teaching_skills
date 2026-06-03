@@ -30,11 +30,15 @@ class DisclosurePolicy(str, Enum):
 
 class DiagramEngine(str, Enum):
     GEOMETRIC_SCENE = "geometric_scene"
+    WOLFRAM_PLOT = "wolfram_plot"
+    COORDINATE_RENDERER = "coordinate_renderer"
 
 
 class DiagramKind(str, Enum):
     SYNTHETIC_GEOMETRY = "synthetic_geometry"
     COORDINATE_GEOMETRY = "coordinate_geometry"
+    FUNCTION_GRAPH = "function_graph"
+    HYBRID = "hybrid"
     AUTO = "auto"
 
 
@@ -86,6 +90,82 @@ class DiagramLooseModel(BaseModel):
     """Contract for external tool outputs where legacy fields may still appear."""
 
     model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+
+class DiagramNumericDomain(DiagramModel):
+    min: float
+    max: float
+
+    @model_validator(mode="after")
+    def validate_order(self) -> DiagramNumericDomain:
+        if self.min >= self.max:
+            raise ValueError("domain min must be < max")
+        return self
+
+
+class DiagramCoordinateViewport(DiagramModel):
+    x_min: float | None = None
+    x_max: float | None = None
+    y_min: float | None = None
+    y_max: float | None = None
+    preserve_aspect: bool = True
+    padding_ratio: float = Field(default=0.08, ge=0, le=0.5)
+
+    @model_validator(mode="after")
+    def validate_viewport_pairs(self) -> DiagramCoordinateViewport:
+        pairs = (("x_min", "x_max"), ("y_min", "y_max"))
+        for low_name, high_name in pairs:
+            low = getattr(self, low_name)
+            high = getattr(self, high_name)
+            if (low is None) != (high is None):
+                raise ValueError(f"{low_name} and {high_name} must be provided together")
+            if low is not None and high is not None and low >= high:
+                raise ValueError(f"{low_name} must be < {high_name}")
+        return self
+
+
+class DiagramAxesSpec(DiagramModel):
+    x: bool = True
+    y: bool = True
+    grid: bool = True
+    show_ticks: bool = True
+    x_label: str = "x"
+    y_label: str = "y"
+    x_tick_step: float | None = Field(default=None, gt=0)
+    y_tick_step: float | None = Field(default=None, gt=0)
+
+
+class DiagramFunctionSpec(DiagramModel):
+    id: NonEmptyStr
+    variable: str = "x"
+    expression_latex: str = ""
+    expression_wl: str = ""
+    domain: DiagramNumericDomain | None = None
+    label: str = ""
+    sample_count: int = Field(default=160, ge=2)
+    style: dict[str, Any] = Field(default_factory=dict)
+
+    @model_validator(mode="after")
+    def require_expression(self) -> DiagramFunctionSpec:
+        if not self.expression_latex and not self.expression_wl:
+            raise ValueError("function specs require expression_latex or expression_wl")
+        return self
+
+
+class DiagramCoordinateObject(DiagramLooseModel):
+    type: NonEmptyStr
+    id: str = ""
+    label: str = ""
+    style: dict[str, Any] = Field(default_factory=dict)
+
+
+class DiagramAnalyticRequirements(DiagramModel):
+    viewport: DiagramCoordinateViewport = Field(default_factory=DiagramCoordinateViewport)
+    axes: DiagramAxesSpec = Field(default_factory=DiagramAxesSpec)
+    functions: list[DiagramFunctionSpec] = Field(default_factory=list)
+    objects: list[DiagramCoordinateObject] = Field(default_factory=list)
+    annotations: list[dict[str, Any]] = Field(default_factory=list)
+    wolfram_plot_options: dict[str, Any] = Field(default_factory=dict)
 
 
 class DiagramSemanticConstraints(DiagramModel):
@@ -154,6 +234,7 @@ class DiagramSlot(DiagramModel):
     teaching_intent: str = "practice_prompt"
     problem_context: DiagramProblemContext = Field(default_factory=DiagramProblemContext)
     semantic_constraints: DiagramSemanticConstraints = Field(default_factory=DiagramSemanticConstraints)
+    analytic_requirements: DiagramAnalyticRequirements = Field(default_factory=DiagramAnalyticRequirements)
     visual_requirements: DiagramVisualRequirements = Field(default_factory=DiagramVisualRequirements)
     reuse_geometry_from: str = ""
     engine_options: DiagramEngineOptions = Field(default_factory=DiagramEngineOptions)
@@ -285,6 +366,7 @@ class DiagramJobRequest(DiagramModel):
     teaching_intent: str = "practice_prompt"
     problem_context: DiagramProblemContext = Field(default_factory=DiagramProblemContext)
     semantic_constraints: DiagramSemanticConstraints = Field(default_factory=DiagramSemanticConstraints)
+    analytic_requirements: DiagramAnalyticRequirements = Field(default_factory=DiagramAnalyticRequirements)
     visual_requirements: DiagramVisualRequirements = Field(default_factory=DiagramVisualRequirements)
     reuse: DiagramReuseSpec = Field(default_factory=DiagramReuseSpec)
     engine_options: DiagramEngineOptions = Field(default_factory=DiagramEngineOptions)
@@ -330,12 +412,34 @@ class GeometryRenderSpec(DiagramLooseModel):
     variant: DiagramVariant | None = None
     disclosure_policy: DisclosurePolicy | None = None
     type: str = "synthetic_geometry"
-    points: dict[str, tuple[float, float]]
+    canvas: dict[str, Any] = Field(default_factory=dict)
+    viewport: DiagramCoordinateViewport | None = None
+    axes: DiagramAxesSpec | None = None
+    points: dict[str, tuple[float, float]] = Field(default_factory=dict)
     segments: list[dict[str, Any]] = Field(default_factory=list)
     polygons: list[dict[str, Any]] = Field(default_factory=list)
     markers: list[dict[str, Any]] = Field(default_factory=list)
     labels: dict[str, Any] = Field(default_factory=dict)
+    objects: list[DiagramCoordinateObject] = Field(default_factory=list)
+    functions: list[DiagramFunctionSpec] = Field(default_factory=list)
+    curves: list[dict[str, Any]] = Field(default_factory=list)
+    samples: dict[str, list[tuple[float, float]]] = Field(default_factory=dict)
     teaching_focus: list[str] = Field(default_factory=list)
+
+    @model_validator(mode="after")
+    def validate_render_payload(self) -> GeometryRenderSpec:
+        diagram_type = str(self.type)
+        if diagram_type == DiagramKind.SYNTHETIC_GEOMETRY.value and not self.points:
+            raise ValueError("synthetic geometry render specs require points")
+        if diagram_type in {
+            DiagramKind.COORDINATE_GEOMETRY.value,
+            DiagramKind.FUNCTION_GRAPH.value,
+        }:
+            if not (self.points or self.objects or self.functions or self.curves or self.samples):
+                raise ValueError(
+                    "coordinate/function render specs require points, objects, functions, curves, or samples"
+                )
+        return self
 
 
 class RendererChecks(DiagramLooseModel):
@@ -479,4 +583,3 @@ class DiagramBatchReport(DiagramModel):
     failed_count: int = Field(default=0, ge=0)
     dry_run: bool = False
     jobs: list[DiagramBatchJobResult] = Field(default_factory=list)
-

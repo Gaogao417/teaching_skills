@@ -485,11 +485,21 @@ answer_space:
 ```text
 teaching_intent     这张图服务哪种教学场景
 engine              用哪个生成引擎
-engine_kind         引擎内部图类型
+diagram_kind        图的数学/视觉类型
 variant             prompt / solution
 policy              clean / annotated
 layout              TeX 排版，不属于 workflow.py
 ```
+
+当前 engine/kind 边界：
+
+| `diagram_kind` | 推荐 `engine` | 说明 |
+|---|---|---|
+| `synthetic_geometry` | `geometric_scene` | 综合几何，Wolfram `GeometricScene` 求实例点位 |
+| `coordinate_geometry` | `coordinate_renderer` / `wolfram_plot` | 坐标系内的点、线、圆、多边形；可用 Wolfram 校验或采样 |
+| `function_graph` | `wolfram_plot` / `coordinate_renderer` | 函数图像、坐标轴、网格、交点、零点、关键点 |
+| `hybrid` | 由 orchestrator 拆 job | 同一题同时需要综合几何示意和函数/坐标图时，拆成多个 slot/job |
+| `auto` | collector/workflow 路由 | 只在上游不确定时临时使用；进入执行前应收敛为明确 kind |
 
 ### 8.2 `DiagramJobRequest` v2
 
@@ -524,6 +534,15 @@ layout              TeX 排版，不属于 workflow.py
     "solution_allowed_annotations": []
   },
 
+  "analytic_requirements": {
+    "viewport": {},
+    "axes": {},
+    "functions": [],
+    "objects": [],
+    "annotations": [],
+    "wolfram_plot_options": {}
+  },
+
   "visual_requirements": {
     "show_labels": true,
     "show_given_markers": true,
@@ -552,6 +571,7 @@ layout              TeX 排版，不属于 workflow.py
 - `layout_role`、`width`、`image_path` 不进入 `workflow.py`。
 - `workflow.py` 可以知道 `caption` 作为视觉意图，但不负责最终 LaTeX caption 排版。
 - `reuse_geometry_from` 只表达几何复用，不表达图片路径复用。
+- `analytic_requirements` 只在 `coordinate_geometry` / `function_graph` 中承载坐标轴、视窗、函数、点、直线、采样、Wolfram plot 选项；综合几何可以为空。
 
 ### 8.3 `workflow.py` 内部职责
 
@@ -559,9 +579,11 @@ layout              TeX 排版，不属于 workflow.py
 
 ```text
 DiagramJobRequest
-  → text model produces scene payload
-  → validate Wolfram code safety
-  → Wolfram solves GeometricScene
+  → route by engine + diagram_kind
+  → synthetic_geometry: text model produces GeometricScene payload
+  → coordinate/function: text model or parser produces analytic payload
+  → validate Wolfram code / expression safety
+  → Wolfram solves GeometricScene or validates/samples analytic graph
   → compile final_renderer_spec.json
   → optional debug render / vision feedback
   → workflow_result.json
@@ -609,6 +631,8 @@ DiagramJobRequest
 
 由 `workflow.py` 产出，供 renderer 消费。
 
+综合几何示例：
+
 ```json
 {
   "schema_version": "geometry-render-spec/v1",
@@ -634,6 +658,50 @@ DiagramJobRequest
     "A": {"text": "A", "dx": 0, "dy": -24}
   },
   "teaching_focus": ["读清等腰条件"]
+}
+```
+
+函数图示例：
+
+```json
+{
+  "schema_version": "geometry-render-spec/v1",
+  "job_id": "f1-prompt",
+  "variant": "prompt",
+  "disclosure_policy": "clean",
+  "type": "function_graph",
+  "viewport": {
+    "x_min": -2,
+    "x_max": 6,
+    "y_min": -6,
+    "y_max": 12,
+    "preserve_aspect": true
+  },
+  "axes": {
+    "x": true,
+    "y": true,
+    "grid": true,
+    "show_ticks": true,
+    "x_label": "x",
+    "y_label": "y"
+  },
+  "functions": [
+    {
+      "id": "f",
+      "variable": "x",
+      "expression_latex": "2x-1",
+      "expression_wl": "2*x - 1",
+      "domain": {"min": -2, "max": 6},
+      "label": "y=2x-1"
+    }
+  ],
+  "samples": {
+    "f": [[-2, -5], [0, -1], [2, 3], [6, 11]]
+  },
+  "objects": [
+    {"type": "point", "id": "A", "x": 2, "y": 3, "label": "A"}
+  ],
+  "teaching_focus": ["读图判断点是否在函数图像上"]
 }
 ```
 
@@ -715,8 +783,9 @@ DiagramJobRequest
 | `width_hint` | slot | plan 阶段的 TeX 宽度建议 | latex-data | resolver |
 | `width` | resolved YAML | 模板实际使用的 TeX 宽度 | resolver | LaTeX template |
 | `image_path` | resolved/artifact | 最终 PNG 路径，必须相对 `.tex` 可访问 | artifact builder / resolver | template / compiler |
-| `engine` | jobs/request | 图片生成引擎，如 `geometric_scene` | collector | orchestrator |
-| `diagram_kind` | jobs/request | 引擎内图类型，如 `synthetic_geometry` | latex-data / collector | workflow adapter |
+| `engine` | jobs/request | 图片生成引擎，如 `geometric_scene` / `wolfram_plot` / `coordinate_renderer` | collector | orchestrator |
+| `diagram_kind` | jobs/request | 图类型，如 `synthetic_geometry` / `coordinate_geometry` / `function_graph` / `hybrid` | latex-data / collector | workflow adapter |
+| `analytic_requirements` | slot/request | 坐标/函数图的 viewport、axes、functions、objects、Wolfram plot 选项输入 | latex-data / collector | workflow |
 | `reuse_geometry_from` | request/jobs | solution 图复用哪个 prompt job 的几何点位 | latex-data / collector | orchestrator / workflow |
 | `content_hash` | jobs/artifacts | 用于判断 job 是否 stale | collector | cache / gate |
 | `artifact_hash` | resolved/artifacts | 最终 PNG hash | artifact builder | resolver / gate |
