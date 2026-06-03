@@ -1,6 +1,6 @@
 ---
 name: math-homework-review
-description: "审核完整数学作业产物，从六个角度给出简短质量印象：流程完整性、数学正确性、结构分析质量、学生讲解质量、自适应练习设计、几何插图与版式。用于 PDF 生成后的最终独立审核子任务，或用户要求快速审查已生成作业时。不要用于完整 YAML schema 审查、LaTeX 编译排错或重新生成内容。"
+description: "快速审核已生成的数学作业产物，从流程完整性、数学正确性、结构分析、讲解质量、练习设计、几何插图与版式给出简短质量印象。Use when: PDF/YAML/TEX 已生成后需要最终独立审核，或用户要求快速审查 artifact 目录。Skip when: 需要重新生成内容、完整 YAML schema 审查、LaTeX 编译排错或真实出图。"
 ---
 
 # math-homework-review
@@ -85,7 +85,7 @@ description: "审核完整数学作业产物，从六个角度给出简短质量
 
 只在产物含几何题或结构分析/YAML 声明需要图时审核；非几何作业可写“不适用”。
 
-- 该有图的题是否有图：几何大题一律有图；几何题已知条件数大于 3 默认有图；“如图/图中/下图”题必须有图。
+- 是否符合前序图形契约：结构分析/YAML 声明需要图的题是否有图；题干出现“如图/图中/下图”时是否有对应 `diagram_slot` 或 resolved 图片。
 - plan YAML 是否只含 `diagram_slot`，没有手写 `image_path`、`diagram_job_id`、`diagram_col`、`diagram_row` 或 `answer_space.diagram_col`。
 - resolved YAML 是否已把 slot 解析为题型可用图片字段；选择题图栏、填空题图位、解答题答题区图栏是否和模板契约匹配。
 - 每道需要图的练习题是否有独立 `diagram_slot.slot_id` / resolved `diagram_job_id`；若共用图，是否显式写了 `reuse_geometry_from`。
@@ -117,7 +117,7 @@ description: "审核完整数学作业产物，从六个角度给出简短质量
 
 ## 边界
 
-- 不做完整 YAML schema 审查；需要时使用 `math-yaml-review` 或 `validate_assignment.py`。
+- 不做完整 YAML schema 审查；需要时使用 `validate_assignment.py` 或 `math-assignment-latex/scripts/batch_yaml_review.py`。
 - 不详细排查 LaTeX 编译；只有 `build.log` 明确显示问题时才简述。
 - 不重新生成结构分析、YAML、TEX 或 PDF。
 - 不把结论表述为“数学保证正确”；这只是快速独立审核。

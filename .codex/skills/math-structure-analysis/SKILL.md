@@ -1,6 +1,6 @@
 ---
 name: math-structure-analysis
-description: "Analyze a math problem into a reusable teaching-structure artifact before any student-facing explanation or practice generation, including canonical solution, likely blockers, learning-level prediction, and a variation blueprint for deeper practice. Use as stage 1 of the math teaching workflow. TRIGGER when: user provides a math problem to analyze or teach; user mentions math structure analysis; user asks to break down a math problem, find the canonical solution, identify the problem pattern, predict student blockers, or design variation principles. SKIP: user asks about a non-math subject; conversation already has a completed 01-structure-analysis.md for the problem; user is asking for student-facing explanation directly without first analyzing structure."
+description: "Analyze a math problem into 01-structure-analysis.md before LaTeX/YAML explanation or practice generation. Use when: user provides a math problem to analyze/teach, asks for canonical solution, problem pattern, likely blockers, variation rules, complexity budget, or diagram teaching needs. Skip when: non-math request, an adequate 01-structure-analysis.md already exists, or the user only asks to render/compile existing YAML. This stage locks math facts and task packets; it does not generate assignment YAML, diagrams, images, or PDFs."
 ---
 
 # Math Structure Analysis
@@ -119,7 +119,7 @@ Write in Chinese. Use concise teacher-facing language.
 - 必须保留的可见支架：
 
 ## 九、推荐讲题任务包
-- 适合的学习层级：
+- 建议的本轮教学入口：
 - 本题讲解目标：
 - 不要直接讲的抽象话：
 - 必须先问的问题：
@@ -128,11 +128,11 @@ Write in Chinese. Use concise teacher-facing language.
 - 讲到哪里停下来让学生回答：
 
 ## 十、推荐练题任务包
-- 若学生在 L0-L1，出什么题：
-- 若学生在 L2，出什么题：
-- 若学生在 L3，出什么题：
-- 若学生在 L4，如何迁移：
-- 若学生达到 L5-L6，如何深化/抽象/包装：
+- 若卡在读题/入手动作，出什么题：
+- 若卡在建模或关系入口，出什么题：
+- 若卡在求解和检查，出什么题：
+- 若原题已稳，如何小步迁移：
+- 若结构识别已稳，如何深化/抽象/包装：
 - 禁止出的跑偏变式：
 
 ## 十点五、推荐图形请求包（可选）
@@ -185,7 +185,7 @@ Write in Chinese. Use concise teacher-facing language.
     "required_scaffolds": []
   },
   "explanation_task_packet": {
-    "target_learning_levels": [],
+    "target_teaching_entries": [],
     "goal": "",
     "avoid_abstract_phrases": [],
     "must_ask_first": [],
@@ -194,11 +194,11 @@ Write in Chinese. Use concise teacher-facing language.
     "pause_points": []
   },
   "practice_task_packet": {
-    "l0_l1_tasks": [],
-    "l2_tasks": [],
-    "l3_tasks": [],
-    "l4_transfer_tasks": [],
-    "l5_l6_deepening_variations": [],
+    "read_context_or_find_entry_tasks": [],
+    "build_relation_tasks": [],
+    "solve_and_check_tasks": [],
+    "transfer_tasks": [],
+    "hidden_structure_or_reverse_tasks": [],
     "forbidden_variations": []
   },
   "diagram_request_packet": {
@@ -235,19 +235,19 @@ Write in Chinese. Use concise teacher-facing language.
 - Use `synthetic_geometry` only for ruler-and-compass style geometry such as triangles, circles, parallel/perpendicular relations, angle bisectors, medians, altitudes, and angle relations.
 - Use `coordinate_geometry` or `function_graph` for axes, coordinates, function images, intersections, area under/with axes, and graph-reading tasks; do not force these into GeometricScene.
 - In `must_not_imply`, name visual traps such as "不要暗示等腰", "不要画成直角", "不要让点重合", or "坐标比例不能误导面积关系".
-- Do not generate HTML in this skill.
+- Do not generate assignment YAML, diagrams, images, or PDFs in this skill.
 
-## Learning-Level Ladder
+## Teaching Entry Ladder
 
-Use these human-readable levels:
+Use these human-readable entries as local teaching-entry descriptions, not as student ratings:
 
-- L0 读题层：学生看不懂题目场景、对象或条件关系。
-- L1 入手层：学生能说出对象和条件，但找不到第一步入口。
-- L2 建模层：学生能找到关键量，但不会建立等量关系、公式入口或坐标/图形对应。
-- L3 求解层：学生会列式求解，但检查范围、绝对值、单位、排除值或退化情形不稳。
-- L4 迁移层：学生能完成原题，但换问法、换数字或换表征后不稳定。
-- L5 抽象层：学生能识别同构变式，可以处理部分隐藏结构或条件包装。
-- L6 命题层：学生能解释结构不变量和迁移条件，可以做反向构造或判断条件是否充分。
+- read_context：看不懂题目场景、对象或条件关系。
+- find_entry：能说出对象和条件，但找不到第一步入口。
+- build_relation：能找到关键量，但不会建立等量关系、公式入口或坐标/图形对应。
+- solve_and_check：会列式求解，但检查范围、绝对值、单位、排除值或退化情形不稳。
+- transfer：能完成原题，但换问法、换数字或换表征后不稳定。
+- hidden_structure：能识别同构变式，可以处理部分隐藏结构或条件包装。
+- reverse_construct：能解释结构不变量和迁移条件，可以做反向构造或判断条件是否充分。
 
 ## Variation Deepening Ladder
 
@@ -263,40 +263,21 @@ Use this ladder when designing practice. Do not skip levels unless the student e
 
 Variation quality rule: preserve the core invariant, deepen exactly one main dimension, keep computation within budget, and include at least one non-example that explains what would count as a misleading or off-track variation.
 
-## Mandatory Self-Check
+## Internal Generation Checks
 
-Before finalizing `01-structure-analysis.md`, perform the checks below. If any check fails, revise the artifact first. Then append a concise section:
+Before finalizing `01-structure-analysis.md`, check the points below internally and revise if needed. Do not append a separate self-check or review section to the artifact; final quality review belongs to `math-homework-review`.
 
-```markdown
-## 十二、生成后自检
-- 数学检查：
-  - 每道题答案是否正确：
-  - 是否存在漏解、增根、退化值：
-  - 公式是否适用于本题：
-- 教学检查：
-  - 本页/本阶段是否只锁定一个核心结构或核心动作：
-  - 有没有引入无关知识点：
-  - 互动问题是否围绕本题核心链条：
-- 图形检查：
-  - 若需要图，diagram_request_packet 是否只描述对象、教学重点和误导风险：
-  - 坐标/函数图是否标为 coordinate_geometry 或 function_graph，而不是强行 synthetic_geometry：
-  - 是否没有生成 Wolfram/GeometricScene 代码：
-- 学习层级检查：
-  - 当前学习层级判断是否只作为预测而非结论：
-  - 如果没有学生证据，是否标注“默认预测/默认诊断不可用”：
-  - 后续升级建议是否只小步上升：
-- HTML 检查：
-  - 本阶段不生成 HTML，是否未输出学生页 HTML：
-  - 若引用后续 HTML 要求，是否保留 A4 打印约束：
-- 自检结论：
-```
-
-Use the canonical solution section to support the math check. Do not write "已检查" without naming the actual risk points checked.
+- The canonical solution is complete enough to anchor later YAML generation.
+- Hidden constraints such as domains, sign, absolute value, excluded values, or degenerate cases are named when relevant.
+- `variation_rules` preserve one core invariant and avoid off-track variations.
+- `complexity_budget` gives concrete constraints for the practice stage.
+- `diagram_request_packet` describes only teaching needs, object hints, focus, and visual traps; it does not include renderer code, retry logic, or image paths.
+- The output contains no assignment YAML, diagrams, images, TEX, or PDF instructions beyond the handoff.
 
 ## Handoff
 
 End with:
 
 ```text
-下一步建议：使用 math-student-explanation-html，输入本结构分析 + 学生画像 + 本次目标，生成学生讲解页。工作流：math-structure-analysis → math-student-explanation-html → math-adaptive-practice-html。
+下一步建议：使用 math-student-explanation-latex-data，输入本结构分析 + 学生画像 + 本次目标，生成 02-student-explanation.plan.assignment.yaml 或 02-student-explanation.assignment.yaml。工作流：math-structure-analysis → math-student-explanation-latex-data → math-adaptive-practice-latex-data → math-geometry-diagram-renderer → math-assignment-latex render/compile → math-homework-review。
 ```

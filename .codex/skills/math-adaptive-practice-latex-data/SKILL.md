@@ -1,119 +1,80 @@
 ---
 name: math-adaptive-practice-latex-data
-description: "根据结构分析和讲解内容生成自适应练习的 plan assignment.yaml；需要配图时只声明 diagram_slot，不直接写图片路径。"
-version: 0.1.0
-triggers:
-  - description: "已有 structure-analysis 和 explanation，需要生成练习 YAML"
-  - description: "用户要求生成 practice assignment.yaml 或 practice plan YAML"
-  - description: "用户提到 practice-latex-data 或练习 YAML"
-skip:
-  - description: "没有 01-structure-analysis.md（先运行 math-structure-analysis）"
-  - description: "没有讲解内容（先运行 math-student-explanation-latex-data 或 html）"
-  - description: "用户要求 HTML 输出（使用 math-adaptive-practice-html）"
-  - description: "用户要求讲解而非练习"
+description: "根据 01-structure-analysis.md 和讲解 YAML 生成自适应练习 assignment.yaml。Use when: 已有结构分析和 02-student-explanation 的 assignment/resolved YAML，用户要求练习、practice YAML、学生版/教师版练习或端到端作业补齐练习阶段。Skip when: 没有结构分析、没有讲解内容、用户只要求讲解或只要求渲染 PDF。需要几何图时只声明 diagram_slot，不写 image_path/diagram_col；真实出图交给 math-geometry-diagram-renderer。"
+version: 0.2.0
 ---
 
 # math-adaptive-practice-latex-data
 
 ## 职责
 
-从 `01-structure-analysis.md` 和讲解内容生成自适应练习 YAML。若练习需要几何图，输出 plan YAML，并只写 `diagram_slot`；若完全不需要图，可以输出普通 assignment YAML。
+从结构分析和讲解内容生成练习 YAML。这个 skill 只负责练习内容、学生/教师版本分离、练习题上的 `diagram_slot` 声明；不运行 renderer，不编译 PDF，所有调节判断都只服务本轮练习。
 
-保留原 `math-adaptive-practice-html` 的全部教学逻辑。
-
-## 版本规则
-
-每次生成练习必须**同时输出学生版和教师版**，通过 `meta.version` 控制：
-
-- **学生版**（`version: "student"`）：纯净试卷，只有题干、选项、答题区。不含答案、解析、教师备注。
-  但可以在题目后附带渐进提示（hints），提示以轻量框显示。
-- **教师版**（`version: "teacher"`）：在学生版基础上，每道题后附带完整的解题步骤和答案。
-  解答题（problem）必须包含分步骤的标准解答（solution_steps）。
-- **同时输出**：默认生成两个文件：
-  - `03-adaptive-practice.student.plan.assignment.yaml`（`version: "student"`，需要图时）
-  - `03-adaptive-practice.teacher.plan.assignment.yaml`（`version: "teacher"`，需要图时）
-  - 若完全不需要图，可直接输出 `.student.assignment.yaml` / `.teacher.assignment.yaml`
-  如果用户明确只要一个版本，则只生成一个。
-
-## 输入
-
-- `artifacts/<学生名>/YYYY-MM-DD-<内容>/01-structure-analysis.md`
-- `artifacts/<学生名>/YYYY-MM-DD-<内容>/02-student-explanation.assignment.yaml`、`02-student-explanation.resolved.assignment.yaml` 或 `02-student-explanation.html`
-- 学生画像（可选）
-
-## 输出
+默认同时输出：
 
 ```text
 artifacts/<学生名>/YYYY-MM-DD-<内容>/03-adaptive-practice.student.plan.assignment.yaml
 artifacts/<学生名>/YYYY-MM-DD-<内容>/03-adaptive-practice.teacher.plan.assignment.yaml
-artifacts/<学生名>/YYYY-MM-DD-<内容>/03-adaptive-practice.student.assignment.yaml  # 无 diagram_slot 时可直接渲染
-artifacts/<学生名>/YYYY-MM-DD-<内容>/03-adaptive-practice.teacher.assignment.yaml  # 无 diagram_slot 时可直接渲染
 ```
 
-## 教学逻辑（与 HTML 版一致）
-
-### 练习设计原则
-
-1. **每组最多 3 题**
-2. **难度只升一小步**
-3. **保留核心结构**，不引入无关知识点
-4. **提示渐进**：hint 1 指向动作，hint 2 接近答案
-5. **答案经过自检**
-
-### 档位规则
+若完全没有 `diagram_slot`，可直接输出：
 
 ```text
-A 独立完成，步骤清晰 → 升级到换问法/高阶变式
-B 需提示但能完成 → 巩固当前结构
-C 做对但有瑕疵 → 给同类题再练
-D 有思路但卡住 → 给提示更多支架
-E 完全不会 → 回退到前置知识点
-F 连前置知识都不具备 → 需要重新讲解
+03-adaptive-practice.student.assignment.yaml
+03-adaptive-practice.teacher.assignment.yaml
 ```
 
-### 每道题必须包含
+## 输入
+
+- `01-structure-analysis.md`
+- `02-student-explanation.assignment.yaml` 或 `02-student-explanation.resolved.assignment.yaml`
+- 学生画像或学生回答诊断（可选，只作为本轮练习调节证据）
+
+## 练习调节参数
+
+根据结构分析、学生画像和可见证据，为本轮练习选择以下任务参数：
 
 ```yaml
-id: "q1"
-question_type: "choice"  # choice/fillin/problem/short_answer
-points: 4
-stem: "题干文本"
-answer: "答案"
-explanation: "解析"
-solution_steps: [...]
 teaching:
-  teaching_goal: "训练目标"
-  expected_blocker: "预期卡点"
-  mastery_band: "B"
-  upgrade_rule: "升级条件"
-  downgrade_rule: "降级条件"
-  complexity_note: "复杂度说明"
-hints:
-  - content: "提示 1"
-  - content: "提示 2"
-answer_space:
-  type: "lines"
-  height: "25mm"
+  teaching_goal: "本题训练的核心动作"
+  expected_blocker: "本轮最可能卡住的位置"
+  entry_point: "read_context | find_key_quantity | build_relation | solve_and_check | transfer"
+  scaffold_level: "high | medium | low"
+  variation_depth: "same_structure | changed_numbers | changed_question | changed_representation | packaged_condition | partially_hidden"
+  complexity_note: "与 structure-analysis 的 complexity_budget 对齐"
+  upgrade_rule: "学生可升级的可观察条件"
+  fallback_move: "学生卡住时回退到哪个动作"
 ```
 
-### 复杂度预算
+规则：
 
-遵守 structure-analysis 中的 `complexity_budget`：
-- 不使用丑陋的算术（除非结构需要）
-- max_next_step 不超过预算
-- 不引入 forbidden_load
+- 学生版不得包含 `answer`、`explanation`、`solution_steps`、`teaching`。
+- 教师版可以包含 `teaching`，但字段必须描述本轮任务选择，不描述学生等级。
+- 每组最多 3 题；只小步改变一个主维度。
+- 保留核心结构，不引入无关知识点。
+- 提示渐进：先提示动作，再接近答案。
+- 所有答案必须先独立验算。
+
+## 复杂度预算
+
+遵守 `structure-analysis` 中的 `complexity_budget`：
+
+- `max_next_step` 不超过预算。
+- 不引入 `forbidden_load`。
+- 算术保持干净：小整数、简单分数、可手算验证。
+- 不同时隐藏结构和提高计算难度，除非学生证据明确支持低支架迁移。
 
 ## 几何图使用规则
 
-- 本 skill 负责对每道练习题做插图判定：几何大题一律需要图；几何题已知条件数大于 3 默认需要图；题干出现“如图/图中/下图”强制需要图。
-- 已知条件计数按原子几何条件统计：长度、角度、相等、平行、垂直、共线、比例、中点、圆/切线/坐标等；复合句拆开计数。
-- 练习题默认每道题单独声明图槽：每个需要图的题必须有唯一 `diagram_slot.slot_id`。不要写 `diagram_job_id`，job id 由 collector 从 slot id 生成。
-- 不要默认复用已有原题图。练习题若确实复用几何构型，必须显式写 `reuse_geometry_from`，并保证题干条件完全一致。
-- 学生版只声明 `prompt` / `clean` slot：不画辅助线、不写推理标注、不泄露答案。
-- 教师版若解析需要辅助线，另声明 `solution` / `annotated` slot，并用 `reuse_geometry_from` 指向对应 prompt slot。
-- plan YAML 中不得写最终图片字段：不写 `image_path`、`diagram_job_id`、`diagram_col`、`diagram_row` 或 `answer_space.diagram_col`。这些字段只能由 `math-geometry-diagram-renderer` 的 resolver 写入 resolved YAML。
-- 当前 collector/resolver 只扫描 block 级 `diagram_slot`、`answer_space.diagram_slot`、`answer_space.parts[].diagram_slot`。不要在 plan 阶段手写 `diagram_row.items[]`，否则不会进入真实出图链路。
-- 如果图形失败、跳过、不支持或图片缺失，交给 renderer 的 gate/fallback 处理；本 skill 不插入破图。
+- 本 skill 负责判断当前练习题是否需要在题目位置声明 `diagram_slot`；图的生成、gate、fallback 由 `math-geometry-diagram-renderer` 决定。
+- 若题干出现“如图/图中/下图”，必须声明 `diagram_slot`。
+- 几何大题或条件较多、仅靠文字会显著增加读题负担的几何题，应声明 `diagram_slot`。
+- 每个需要图的练习题默认使用唯一 `diagram_slot.slot_id`。若复用构型，必须显式写 `reuse_geometry_from`，并保证题干条件完全一致。
+- 学生版只声明 `prompt` / `clean` slot；教师版解析若需要辅助线，另声明 `solution` / `annotated` slot，并复用对应 prompt slot。
+- plan YAML 不得写最终图片字段：不写 `image_path`、`diagram_job_id`、`diagram_col`、`diagram_row` 或 `answer_space.diagram_col`。
+- 当前 collector/resolver 只扫描 block 级 `diagram_slot`、`answer_space.diagram_slot`、`answer_space.parts[].diagram_slot`。不要在 plan 阶段手写 `diagram_row.items[]`。
+
+最小 slot 示例：
 
 ```yaml
 diagram_slot:
@@ -137,77 +98,49 @@ diagram_slot:
 
 ## 题目字段要求
 
-### 选择题 (choice)
+### choice
 
 ```yaml
 type: "choice"
 id: "c1"
 points: 4
 stem: "题干文本 $math$"
-diagram_slot:                   # plan 阶段声明；renderer resolver 会解析成 diagram_col
-  slot_id: "c1.prompt"
-  diagram_ref: "c1.prompt"
-  variant: "prompt"
-  disclosure_policy: "clean"
-  required: true
-  on_failure: "fail_assignment"
-  placement: "diagram_col"
-  layout_role: "question_sidecar"
-  width_hint: "0.30\\linewidth"
-  caption: "参考图"
-  engine: "geometric_scene"
-  diagram_kind: "synthetic_geometry"
-  teaching_intent: "practice_prompt"
-  semantic_constraints:
-    given_objects: ["A", "B", "C", "D"]
-    given_constraints: ["D on BC"]
 choices:
   A: "选项 A"
   B: "选项 B"
   C: "选项 C"
   D: "选项 D"
-answer: "B"
-explanation: "解析文本"          # 教师版显示
-teaching:                        # 教师版显示
+hints:
+  - content: "先找题目中真正不变的量。"
+answer: "B"              # 仅教师版
+explanation: "解析文本"   # 仅教师版
+teaching:                 # 仅教师版
   teaching_goal: "..."
   expected_blocker: "..."
-  mastery_band: "B"
+  entry_point: "find_key_quantity"
+  scaffold_level: "medium"
+  variation_depth: "changed_numbers"
   complexity_note: "..."
+  upgrade_rule: "..."
+  fallback_move: "..."
 ```
 
-### 填空题 (fillin)
-
-填空题需要图时，在对应 fillin block 上声明 block 级 `diagram_slot`。当前真实链路不会扫描手写的 `diagram_row.items[]`，所以 plan 阶段不要直接写 `diagram_row`。若后续 resolver 支持 fillin 图行，可由 renderer 将 slot 解析为图行；在此之前优先使用 `placement: "diagram_col"` 或 renderer 已明确支持的 placement。
+### fillin
 
 ```yaml
 type: "fillin"
 id: "f1"
 points: 4
 stem: "题干文本"
-diagram_slot:
-  slot_id: "f1.prompt"
-  diagram_ref: "f1.prompt"
-  variant: "prompt"
-  disclosure_policy: "clean"
-  required: true
-  on_failure: "fail_assignment"
-  placement: "diagram_col"
-  layout_role: "question_sidecar"
-  width_hint: "0.26\\linewidth"
-  caption: "观察题干中的线段关系。"
-  engine: "geometric_scene"
-  diagram_kind: "synthetic_geometry"
-  teaching_intent: "practice_prompt"
-answer: "填空答案"
-explanation: "解析文本"          # 教师版显示
-teaching:
-  teaching_goal: "..."
-  mastery_band: "A"
+hints:
+  - content: "先把已知条件转成等量关系。"
+answer: "填空答案"        # 仅教师版
+explanation: "解析文本"   # 仅教师版
 ```
 
-### 解答题 (problem)
+### problem
 
-**重要**：题干含 LaTeX 公式或 enumerate 时，必须用 `stem_latex`（原样输出），不要用 `stem`。
+题干含 LaTeX 公式或 enumerate 时，必须用 `stem_latex`，不要用 `stem`。
 
 ```yaml
 type: "problem"
@@ -220,76 +153,25 @@ stem_latex: |
     \item 求这个一次函数的解析式；
     \item 判断点 $C(3, 9)$ 是否在该函数的图像上。
   \end{enumerate}
-answer: "(1) $y = 2x + 3$；(2) 在图像上。"
-explanation: |
-  (1) 代入 $A(2,7)$：$2k + b = 7$。代入 $B(-1,1)$：$-k + b = 1$。
-  两式相减：$3k = 6$，$k = 2$，$b = 3$。
-solution_steps:                  # 教师版分步骤展示
-  - title: "代入列方程组"
-    content: "代入 $(2,7)$ 得 $2k + b = 7$，代入 $(-1,1)$ 得 $-k + b = 1$。"
-  - title: "消元求解"
-    content: "两式相减：$3k = 6$，$k = 2$。回代：$b = 3$。"
-  - title: "检验点 C"
-    content: "将 $x = 3$ 代入 $y = 2x + 3 = 9$，等于 $C$ 的纵坐标。"
-teaching:
-  teaching_goal: "..."
-  expected_blocker: "..."
-  mastery_band: "B"
-hints:                           # 学生版也可以看到
+hints:
   - content: "先列方程组求 $k$ 和 $b$，再把 $C$ 的横坐标代入。"
-  - content: "两式相减可以快速消去 $b$。"
 answer_space:
   type: "steps"
   height: "60mm"
   step_count: 4
-  parts:                         # 多问几何大题推荐每问一个答题区 + 图槽
-    - label: "(1)"
-      height: "28mm"
-      diagram_slot:
-        slot_id: "p1.part1.prompt"
-        diagram_ref: "p1.part1.prompt"
-        variant: "prompt"
-        disclosure_policy: "clean"
-        required: true
-        on_failure: "fail_assignment"
-        placement: "answer_space.parts[].diagram_col"
-        layout_role: "answer_sidecar"
-        width_hint: "0.32\\linewidth"
-        caption: "原题图"
-        engine: "geometric_scene"
-        diagram_kind: "synthetic_geometry"
-        teaching_intent: "practice_prompt"
-    - label: "(2)"
-      height: "32mm"
-      diagram_slot:
-        slot_id: "p1.part2.prompt"
-        diagram_ref: "p1.part2.prompt"
-        variant: "prompt"
-        disclosure_policy: "clean"
-        required: true
-        on_failure: "fail_assignment"
-        placement: "answer_space.parts[].diagram_col"
-        layout_role: "answer_sidecar"
-        width_hint: "0.32\\linewidth"
-        caption: "原题图"
-        engine: "geometric_scene"
-        diagram_kind: "synthetic_geometry"
-        teaching_intent: "practice_prompt"
+layout:
+  avoid_break: true
+answer: "(1) $y = 2x + 3$；(2) 在图像上。"  # 仅教师版
+solution_steps:                                  # 仅教师版
+  - title: "代入列方程组"
+    content: "代入 $(2,7)$ 得 $2k + b = 7$，代入 $(-1,1)$ 得 $-k + b = 1$。"
+  - title: "消元求解"
+    content: "两式相减：$3k = 6$，$k = 2$。回代：$b = 3$。"
 ```
-
-## Layout 和分页规则
-
-大题跨页截断问题必须在 YAML 中通过 layout 控制：
-
-1. **选择题、填空题**：每组题不要超过一页（约 6 道选择或 6 道填空需分两组）
-2. **解答题**：每道大题加 `layout: { avoid_break: true }`，防止题目和答题区被截断
-3. **解答题超过 3 小问**：去掉 `avoid_break`，让内容自然分页
-4. **答案区**：必须 `layout: { break_before: true }`
-5. **两组练习之间**：前一组的最后一个 section 加 `layout: { break_after: true }` 或后一组加 `break_before: true`
 
 ## YAML 输出格式
 
-### 学生版 (03-adaptive-practice.student.plan.assignment.yaml)
+学生版：
 
 ```yaml
 meta:
@@ -311,123 +193,16 @@ render:
 
 sections:
   - id: "choice"
-    title: "一、选择题（每题 4 分，共 24 分）"
+    title: "一、选择题"
     type: "practice"
     visibility: "student"
-    blocks:
-      - type: "choice"
-        id: "c1"
-        points: 4
-        stem: "..."
-        choices: { A: "...", B: "...", C: "...", D: "..." }
-        hints:
-          - content: "提示..."
-
-      - type: "choice"
-        id: "c2"
-        # ...
-
-  - id: "fillin"
-    title: "二、填空题（每题 4 分，共 16 分）"
-    type: "practice"
-    visibility: "student"
-    blocks:
-      - type: "fillin"
-        id: "f1"
-        points: 4
-        stem: "..."
-        hints:
-          - content: "提示..."
-
-  - id: "problems"
-    title: "三、解答题（每题 10 分，共 20 分）"
-    type: "practice"
-    visibility: "student"
-    blocks:
-      - type: "problem"
-        id: "p1"
-        points: 10
-        label: "第 1 题"
-        stem_latex: |
-          ...
-        layout:
-          avoid_break: true
-        hints:
-          - content: "提示 1"
-          - content: "提示 2"
-        answer_space:
-          type: "steps"
-          height: "60mm"
-          step_count: 4
-
-  # 学生版不含答案区和教师备注
+    blocks: []
 ```
 
-### 教师版 (03-adaptive-practice.teacher.plan.assignment.yaml)
-
-与学生版结构相同，区别在 `meta.version` 和每个 block 的 `answer`/`explanation`/`solution_steps`/`teaching` 字段。
+教师版与学生版结构一致，但 `meta.version: "teacher"`，题目中可加入答案、解析、`solution_steps` 和 `teaching`，并添加 `answer_key` section：
 
 ```yaml
-meta:
-  title: "...专题练习（教师版）"
-  subtitle: "..."
-  grade: "..."
-  subject: "..."
-  duration: "20分钟"
-  total_points: 24
-  version: "teacher"
-  source_artifacts:
-    structure_analysis: "artifacts/<学生名>/YYYY-MM-DD-<内容>/01-structure-analysis.md"
-    explanation: "artifacts/<学生名>/YYYY-MM-DD-<内容>/02-student-explanation.resolved.assignment.yaml"
-
-render:
-  template: "exam-zh-practice"
-  paper_size: "a4paper"
-  answer_key_position: "after_page_break"
-
 sections:
-  - id: "choice"
-    title: "一、选择题（每题 4 分，共 24 分）"
-    type: "practice"
-    visibility: "both"
-    blocks:
-      - type: "choice"
-        id: "c1"
-        points: 4
-        stem: "..."
-        choices: { A: "...", B: "...", C: "...", D: "..." }
-        answer: "B"
-        explanation: "解析..."
-        teaching:
-          teaching_goal: "..."
-          expected_blocker: "..."
-          mastery_band: "B"
-
-  - id: "problems"
-    title: "三、解答题"
-    type: "practice"
-    visibility: "both"
-    blocks:
-      - type: "problem"
-        id: "p1"
-        points: 10
-        stem_latex: |
-          ...
-        answer: "..."
-        explanation: |
-          完整解析文本...
-        solution_steps:
-          - title: "步骤 1"
-            content: "..."
-          - title: "步骤 2"
-            content: "..."
-        teaching:
-          teaching_goal: "..."
-          expected_blocker: "..."
-          mastery_band: "B"
-        layout:
-          avoid_break: true
-
   - id: "answer-key"
     title: "参考答案"
     type: "answer_key"
@@ -438,66 +213,45 @@ sections:
       - type: "step"
         id: "ak-choice"
         title: "选择题"
-        content: |
-          1. B  2. A  3. C  ...
-      - type: "step"
-        id: "ak-fillin"
-        title: "填空题"
-        content: |
-          1. $3$  2. $(2,0)$  ...
-      - type: "step"
-        id: "ak-problem"
-        title: "解答题"
-        content: |
-          第 1 题：(1) $y = 2x + 3$；(2) 在图像上。
-          第 2 题：...
+        content: "1. B  2. A  3. C"
 ```
+
+## Layout 和分页规则
+
+1. 选择题、填空题每组控制在一页内。
+2. 解答题默认加 `layout: { avoid_break: true }`；超过 3 小问时允许自然分页。
+3. 答案区必须 `layout: { break_before: true }`。
+4. 两组练习之间可用 `break_after` 或 `break_before` 控制分页。
 
 ## Schema 遵循
 
-必须符合 `math-assignment-latex/references/assignment-schema.md` 定义的 schema。
+必须符合 `math-assignment-latex/references/assignment-schema.md`。
 
 ## 自检
 
 输出前必须检查：
-1. 所有 block id 唯一
-2. 题目数量不超过 3 题（每组）
-3. 学生版不含 `answer`、`explanation`、`solution_steps`、`teaching` 字段
-4. 教师版每道解答题必须有 `solution_steps`（分步骤标准解答）
-5. 解答题题干用 `stem_latex`（不经过转义），不用 `stem`
-6. 若使用几何图，确认每道题有独立 `diagram_slot.slot_id`；plan YAML 不得包含 `image_path`、`diagram_job_id`、`diagram_col`、`diagram_row` 或 `answer_space.diagram_col`；多题复用必须写 `reuse_geometry_from`；学生版只用 prompt/clean，教师解析图才可用 solution/annotated
-7. 答案经过自检（代入验证）
-8. block scalar（`|`）字段中的 LaTeX 命令用单反斜杠 `\frac`（不是 `\\frac`）；双引号字符串中的 `\\frac` 会被 YAML 解析为 `\frac` 所以是正确的
-9. 复杂度不超过 structure-analysis 预算
-10. 答案区 answer_key 的 `visibility` 为 `"teacher"`
-11. 大题有 `layout: { avoid_break: true }`（除非超过 3 小问）
-12. 同时输出 student 和 teacher 两个文件
+
+1. 所有 block id 唯一。
+2. 每组题量不超过 3 题。
+3. 学生版不含 `answer`、`explanation`、`solution_steps`、`teaching`。
+4. 教师版解答题有分步骤 `solution_steps`。
+5. 不出现长期标签或档位字段。
+6. 解答题题干用 `stem_latex`，LaTeX block scalar 中用单反斜杠。
+7. 若使用几何图，plan YAML 只写 `diagram_slot`，不写最终图片字段。
+8. 答案经过代入或逻辑验算。
+9. 复杂度不超过 structure-analysis 预算。
+10. 同时输出 student 和 teacher 两个文件，除非用户明确只要一个版本。
 
 ## Handoff
 
 生成完毕后说明：
 
-```
-已生成学生版和教师版两个 YAML 文件：
-- artifacts/<学生名>/YYYY-MM-DD-<内容>/03-adaptive-practice.student.plan.assignment.yaml
-- artifacts/<学生名>/YYYY-MM-DD-<内容>/03-adaptive-practice.teacher.plan.assignment.yaml
+```text
+已生成学生版和教师版两个 YAML 文件。
 
 若任一 YAML 中存在 diagram_slot：
 下一步：使用 math-geometry-diagram-renderer 走真实 collect/batch/gate/resolve 链路，生成 resolved YAML。
 
-得到 resolved YAML 后，或确认普通 assignment YAML 中不存在 diagram_slot 后，使用 math-assignment-latex 渲染、检查并编译 PDF。
-
-python math-assignment-latex/scripts/render_assignment.py \
-  artifacts/<学生名>/YYYY-MM-DD-<内容>/03-adaptive-practice.student.resolved.assignment.yaml \
-  --out artifacts/<学生名>/YYYY-MM-DD-<内容>/03-practice-student.tex
-
-python math-assignment-latex/scripts/render_assignment.py \
-  artifacts/<学生名>/YYYY-MM-DD-<内容>/03-adaptive-practice.teacher.resolved.assignment.yaml \
-  --out artifacts/<学生名>/YYYY-MM-DD-<内容>/03-practice-teacher.tex
-
-python math-assignment-latex/scripts/check_latex.py artifacts/<学生名>/YYYY-MM-DD-<内容>/03-practice-student.tex
-python math-assignment-latex/scripts/check_latex.py artifacts/<学生名>/YYYY-MM-DD-<内容>/03-practice-teacher.tex
-
-bash math-assignment-latex/scripts/compile_latex.sh artifacts/<学生名>/YYYY-MM-DD-<内容>/03-practice-student.tex
-bash math-assignment-latex/scripts/compile_latex.sh artifacts/<学生名>/YYYY-MM-DD-<内容>/03-practice-teacher.tex
+得到 resolved YAML 后，或确认普通 assignment YAML 中不存在 diagram_slot 后：
+下一步：使用 math-assignment-latex 渲染、检查并编译 PDF。
 ```

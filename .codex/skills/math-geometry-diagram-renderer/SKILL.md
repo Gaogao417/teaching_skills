@@ -11,7 +11,7 @@ description: "为 LaTeX/YAML writer 生成几何题配套图片。仅在 math-st
 
 latex-data skill 只负责判断题目是否需要图、写清 slot 的教学意图和语义约束；本 skill 负责运行真实链路、确认真的生成 PNG、做 gate，并产出 resolved YAML。不要把这些职责放回 `math-homework-pipeline`。
 
-不要把 GSB、renderer、重试细节暴露到学生页、HTML skill 或 LaTeX 渲染 skill。生产链路必须使用 `DiagramJobRequest v2`；batch 默认只写并调用 `request.json`。
+不要把 GSB、renderer、重试细节暴露到学生可见内容、YAML writer skill 或 LaTeX 渲染 skill。生产链路必须使用 `DiagramJobRequest v2`；batch 默认只写并调用 `request.json`。
 
 本 skill 必须区分两种图：
 

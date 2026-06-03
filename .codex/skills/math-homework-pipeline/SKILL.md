@@ -1,6 +1,6 @@
 ---
 name: math-homework-pipeline
-description: "端到端轻量调度器：只判断当前数学作业产物缺哪一步，并把内容生成、图形生成、LaTeX 渲染和最终审核分别委托给对应 skill 或脚本。"
+description: "端到端轻量调度器：检查数学作业 artifact 缺哪一步，并按 LaTeX/YAML 流水线委托给结构分析、讲解 YAML、练习 YAML、几何图 resolve、LaTeX render/compile 和最终审核。Use when: 用户给数学题要求完整作业/PDF，或要求端到端补齐缺失阶段。Skip when: 用户只要求某个单独阶段、只要求几何图、只要求 LaTeX 排错或只要求审核。"
 ---
 
 # math-homework-pipeline

@@ -1,15 +1,7 @@
 ---
 name: math-student-explanation-latex-data
-description: "根据结构分析生成讲解内容的 plan assignment.yaml，保留原 math-student-explanation-html 的教学逻辑；需要配图时只声明 diagram_slot，不直接写图片路径。"
+description: "根据 01-structure-analysis.md 生成学生讲解 assignment.yaml。Use when: 已有结构分析，用户要求讲解 YAML、explanation assignment.yaml、讲义内容或端到端作业补齐讲解阶段。Skip when: 没有结构分析、用户要求独立练习题、只要求几何图或只要求渲染 PDF。需要配图时只声明 diagram_slot，不写 image_path/diagram_col；真实出图交给 math-geometry-diagram-renderer。"
 version: 0.1.0
-triggers:
-  - description: "已有 01-structure-analysis.md，需要生成讲解内容 YAML"
-  - description: "用户要求生成 explanation assignment.yaml 或 explanation plan YAML"
-  - description: "用户提到 explanation-latex-data 或讲解 YAML"
-skip:
-  - description: "没有 01-structure-analysis.md（先运行 math-structure-analysis）"
-  - description: "用户要求 HTML 输出（使用 math-student-explanation-html）"
-  - description: "用户要求练习题（使用 math-adaptive-practice-latex-data）"
 ---
 
 # math-student-explanation-latex-data
@@ -18,7 +10,7 @@ skip:
 
 从 `01-structure-analysis.md` 生成讲解内容 YAML。若讲解需要几何图，输出 `02-student-explanation.plan.assignment.yaml`，并只写 `diagram_slot`；若完全不需要图，可以输出普通 `02-student-explanation.assignment.yaml`。
 
-保留原 `math-student-explanation-html` 的全部教学逻辑，输出格式从 HTML 改为 YAML。
+本 skill 负责“讲懂原题和关键动作”。它不生成独立成套练习；独立练习交给 `math-adaptive-practice-latex-data`。
 
 ## 输入
 
@@ -33,7 +25,7 @@ artifacts/<学生名>/YYYY-MM-DD-<内容>/02-student-explanation.plan.assignment
 artifacts/<学生名>/YYYY-MM-DD-<内容>/02-student-explanation.assignment.yaml  # 无 diagram_slot 时可直接渲染
 ```
 
-## 教学逻辑（与 HTML 版一致）
+## 教学契约
 
 必须包含以下教学元素：
 
@@ -48,10 +40,10 @@ artifacts/<学生名>/YYYY-MM-DD-<内容>/02-student-explanation.assignment.yaml
 - 每步有 title, content, 可选 why
 - 支持子步骤 substeps
 
-### 变式训练
-- 2-3 道完整变式题
-- 题干要完整，学生不依赖讲解上下文也能独立作答
-- 每题必须留答题空白，让学生自己做
+### 随堂检查
+- 只放短小的关键动作确认、例后小练或一个局部迁移动作。
+- 不生成 2-3 道完整独立变式题。
+- 若用户需要成套练习，交给 `math-adaptive-practice-latex-data`。
 
 ### 易错提醒
 - 常见错误和避坑指南
@@ -224,27 +216,23 @@ content: |
   两个交点不重合。本题 $b = 0$，两个交点都是原点。
 ```
 
-### variation_training — 变式训练
+### variation_training — 随堂检查 / 例后小练
 
-用于讲解后的独立练习，不是“思路启发”。每个 block 必须给学生一整道可以独立完成的题，并配置答题留白。
+用于讲解后的短小动作确认，不承担独立成套练习职责。每个 block 只检查一个关键动作，题量最多 1 道；完整自适应练习由 `math-adaptive-practice-latex-data` 生成。
 
 ```yaml
 type: "variation_training"
 id: "var-1"
-label: "变式 1"
+label: "随堂检查"
 stem_latex: |
-  已知一次函数 $y=kx+b$ 的图像经过点 $A(1,3)$ 和点 $B(-2,-4)$。
-  \begin{enumerate}[label=(\arabic*)]
-    \item 求这个一次函数的解析式；
-    \item 求它与两坐标轴围成的三角形面积。
-  \end{enumerate}
+  把点 $A(1,3)$ 代入 $y=kx+b$，写出对应等式。
 answer_space:
-  height: "36mm"
+  height: "14mm"
 ```
 
 字段说明：
-- `label`：题目标记，如 `"变式 1"`、`"变式 2"`
-- `stem_latex` / `stem`：完整题干，不能只写一句启发问题
+- `label`：题目标记，如 `"随堂检查"`、`"例后小练"`
+- `stem_latex` / `stem`：短小检查题干，只检查一个动作
 - `answer_space.height`：学生作答留白高度，必须提供
 
 ### hint — 补充提示 / fallback
@@ -395,24 +383,18 @@ sections:
         title: "易错点标题"
         content: "..."
 
-  - id: "variations"
-    title: "变式训练"
+  - id: "quick-check"
+    title: "随堂检查"
     type: "explanation"
     visibility: "student"
     show_title: false
     blocks:
       - type: "variation_training"
-        id: "var-1"
-        label: "变式 1"
-        stem_latex: "完整题干..."
+        id: "check-1"
+        label: "随堂检查"
+        stem_latex: "短小关键动作检查..."
         answer_space:
-          height: "36mm"
-      - type: "variation_training"
-        id: "var-2"
-        label: "变式 2"
-        stem_latex: "完整题干..."
-        answer_space:
-          height: "42mm"
+          height: "14mm"
 ```
 
 ## Schema 遵循
@@ -432,7 +414,7 @@ sections:
 8. block scalar（`|`）字段中的 LaTeX 命令用单反斜杠 `\frac`（不是 `\\frac`）；双引号字符串中的 `\\frac` 会被 YAML 解析为 `\frac` 所以是正确的
 9. 每个 section 都有 `type: "explanation"` 和 `visibility`
 10. 底部答案用 `summary_dual`
-11. 讲解后的独立练习用 `variation_training`，不要用 `hint` 冒充变式题
+11. 讲解后的 `variation_training` 只能作为短小随堂检查；独立成套练习必须交给 `math-adaptive-practice-latex-data`
 
 ## Handoff
 
