@@ -33,7 +33,7 @@ Accept:
 Create:
 
 ```text
-artifacts/<same-problem-slug>/03-student-response-diagnosis.md
+artifacts/<学生名>/<date>-<problem-slug>/03-student-response-diagnosis.md
 ```
 
 If this diagnosis happens after a later practice round, increment the filename or place it under `round-02/`.
@@ -106,10 +106,9 @@ Write in Chinese. Keep it teacher-facing and concise.
 
 ## Mandatory Self-Check
 
-Before finalizing `03-student-response-diagnosis.md`, perform the checks below. If any check fails, revise the diagnosis first. Then append:
+Before finalizing `03-student-response-diagnosis.md`, perform the checks below internally. If any check fails, revise the diagnosis first. Do not append the checklist to the formal artifact unless the user explicitly asks for an audit trail.
 
 ```markdown
-## 七、生成后自检
 - 数学检查：
   - 是否正确对照 canonical solution：
   - 是否误判漏解、增根、退化值或公式适用性：

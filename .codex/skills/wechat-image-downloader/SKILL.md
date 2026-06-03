@@ -21,7 +21,7 @@ Wechat source documents belong under `documents/`, not `downloads/`.
 
 - For one-off/raw article image extraction, use `documents/wechat-images/<timestamp>-<page-title-or-hash>/`.
 - For identified exam or worksheet documents, retitle and move/store them under `documents/<学段>/<document-title>/`, for example `documents/初三/虹口区-2025-学年度初三年级第一次学生学习能力诊断练习-数学-练习卷/`.
-- Keep only the final named document directory after inspection. Delete temporary check/raw directories such as `title-check-*`, `script-check-*`, and timestamp-only duplicates once the final PDF/images are verified.
+- Keep only the final named document directory after inspection. Delete only temporary check/raw directories created in the current run, such as `title-check-*`, `script-check-*`, and timestamp-only duplicates, after the final PDF/images are verified.
 - When moving an existing directory, update `manifest.json` so `output_dir` matches the new absolute path.
 
 If the user gives a preferred destination, pass it with `--out`:

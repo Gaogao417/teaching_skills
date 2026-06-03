@@ -90,7 +90,7 @@ description: "快速审核已生成的数学作业产物，从流程完整性、
 - resolved YAML 是否已把 slot 解析为题型可用图片字段；选择题图栏、填空题图位、解答题答题区图栏是否和模板契约匹配。
 - 每道需要图的练习题是否有独立 `diagram_slot.slot_id` / resolved `diagram_job_id`；若共用图，是否显式写了 `reuse_geometry_from`。
 - 是否存在多道练习题偷偷引用同一 `image_path` 但没有显式复用声明的情况；有则判为需回退修复。
-- solution 图若存在，检查对应 `workflow_result.json` 中的 `solution_reuse_check.locked_points_same` 是否为 true；否则判为需回退修复。
+- solution 图若存在，抽查其是否显式复用 prompt 构型；若相关 workflow 结果暴露了复用检查字段，再参考该字段判断是否需回退修复。
 - prompt 原题图是否 clean：只含题目已知对象和顶点标签，没有辅助线、推理标注或答案泄露；solution/teacher 图才可 annotated。
 - PDF 缩小预览中顶点标签是否清楚可读，图尺寸是否不过大。
 - 不只审核图片是否存在；还要抽查题干点序和图中点序是否一致，尤其是 `B,C,H,D`、`C 在 B,H 之间`、`D 在射线 BC 上` 这类条件。若 `workflow_result.json` 显示 `usable=true` 但预览点序不合题意，判为需回退重画。

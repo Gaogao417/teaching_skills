@@ -1,15 +1,6 @@
 ---
 name: math-assignment-latex
-description: "将 assignment.yaml 渲染为 exam-zh LaTeX 并编译为 PDF。不做教学判断，不生成题目内容。"
-version: 0.1.0
-triggers:
-  - description: "用户已有 assignment.yaml，需要渲染为 LaTeX 或编译 PDF"
-  - description: "用户提到 math-assignment-latex 或 assignment 渲染"
-  - description: "用户要求从 YAML 生成作业 PDF"
-skip:
-  - description: "用户没有 assignment.yaml（需要先运行 latex-data skill 生成）"
-  - description: "用户要求生成题目内容而非渲染"
-  - description: "用户要求 HTML 输出（使用 math-student-explanation-html）"
+description: "将已有 assignment.yaml 渲染为 exam-zh LaTeX 并编译为 PDF。Use when: 用户已有 assignment.yaml，需要渲染为 LaTeX、编译 PDF、检查 LaTeX 或从 YAML 生成作业 PDF。Skip when: 用户没有 assignment.yaml、要求生成题目内容、要求结构分析/讲解/练习内容，或要求 HTML 输出。本 skill 不做教学判断，不生成题目内容。"
 ---
 
 # math-assignment-latex
