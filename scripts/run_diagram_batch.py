@@ -19,10 +19,10 @@ import subprocess
 import sys
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
-from typing import Any
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from diagram_contracts import (  # noqa: E402
+    AssignmentPlanDiagramView,
     DiagramBatchJobResult,
     DiagramBatchReport,
     DiagramAnalyticRequirements,
@@ -31,6 +31,7 @@ from diagram_contracts import (  # noqa: E402
     DiagramJobsManifest,
     DiagramProblemContext,
     DiagramReuseSpec,
+    DiagramSlotRef,
     DiagramSemanticConstraints,
     DiagramVisualRequirements,
     DiagramEngineOptions,
@@ -44,11 +45,11 @@ SCRIPT_DIR = Path(__file__).resolve().parent
 # I/O helpers
 # ---------------------------------------------------------------------------
 
-def read_json(path: Path) -> dict[str, Any]:
+def read_json(path: Path) -> dict[str, object]:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-def write_json(path: Path, data: dict[str, Any]) -> None:
+def write_json(path: Path, data: dict[str, object]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
@@ -57,73 +58,90 @@ def write_json(path: Path, data: dict[str, Any]) -> None:
 # Request generation
 # ---------------------------------------------------------------------------
 
-def _parse_pointer(pointer: str) -> list[str]:
-    if not pointer.startswith("/"):
-        return []
-    return [part.replace("~1", "/").replace("~0", "~") for part in pointer[1:].split("/") if part]
+def _plan_view(plan_data: AssignmentPlanDiagramView | dict[str, object] | None) -> AssignmentPlanDiagramView | None:
+    if plan_data is None:
+        return None
+    if isinstance(plan_data, AssignmentPlanDiagramView):
+        return plan_data
+    return AssignmentPlanDiagramView.model_validate(plan_data)
 
 
-def _get_by_pointer(data: dict[str, Any], pointer: str) -> Any:
-    current: Any = data
-    for segment in _parse_pointer(pointer):
-        if isinstance(current, dict):
-            current = current[segment]
-        elif isinstance(current, list):
-            current = current[int(segment)]
-        else:
-            raise KeyError(pointer)
-    return current
+def _slot_refs(plan: AssignmentPlanDiagramView) -> list[DiagramSlotRef]:
+    refs: list[DiagramSlotRef] = []
+    for si, section in enumerate(plan.sections):
+        for bi, block in enumerate(section.blocks):
+            if block.diagram_slot is not None:
+                refs.append(DiagramSlotRef(
+                    slot_path=f"/sections/{si}/blocks/{bi}/diagram_slot",
+                    slot=block.diagram_slot,
+                    section_index=si,
+                    block_index=bi,
+                ))
+            answer_space = block.answer_space
+            if answer_space is None:
+                continue
+            if answer_space.diagram_slot is not None:
+                refs.append(DiagramSlotRef(
+                    slot_path=f"/sections/{si}/blocks/{bi}/answer_space/diagram_slot",
+                    slot=answer_space.diagram_slot,
+                    section_index=si,
+                    block_index=bi,
+                ))
+            for pi, part in enumerate(answer_space.parts):
+                if part.diagram_slot is not None:
+                    refs.append(DiagramSlotRef(
+                        slot_path=f"/sections/{si}/blocks/{bi}/answer_space/parts/{pi}/diagram_slot",
+                        slot=part.diagram_slot,
+                        section_index=si,
+                        block_index=bi,
+                        part_index=pi,
+                    ))
+    return refs
 
 
-def _slot_data_for_job(plan_data: dict[str, Any] | None, job: DiagramJob) -> dict[str, Any]:
-    if not plan_data:
-        return {}
-    try:
-        slot_data = _get_by_pointer(plan_data, job.slot_path)
-    except (KeyError, IndexError, ValueError, TypeError):
-        return {}
-    return slot_data if isinstance(slot_data, dict) else {}
+def _slot_ref_for_job(
+    plan_data: AssignmentPlanDiagramView | dict[str, object] | None,
+    job: DiagramJob,
+) -> DiagramSlotRef | None:
+    plan = _plan_view(plan_data)
+    if plan is None:
+        return None
+    for ref in _slot_refs(plan):
+        if ref.slot_path == job.slot_path or ref.slot.slot_id == job.slot_id:
+            return ref
+    return None
 
 def build_request(
     job: DiagramJob,
     manifest: DiagramJobsManifest,
-    plan_data: dict[str, Any] | None,
+    plan_data: AssignmentPlanDiagramView | dict[str, object] | None,
 ) -> DiagramJobRequest:
     """Build a DiagramJobRequest v2 from a DiagramJob.
 
     Reads semantic constraints from the plan YAML if available,
     otherwise produces a minimal request.
     """
-    slot_data = _slot_data_for_job(plan_data, job)
-    problem_context: dict[str, Any] = {}
+    slot_ref = _slot_ref_for_job(plan_data, job)
+    slot = slot_ref.slot if slot_ref else None
+    problem_context: dict[str, object] = {}
     reuse = DiagramReuseSpec(reuse_geometry_from=job.reuse_geometry_from)
 
     if plan_data:
         problem_ctx = _extract_problem_context(plan_data, job)
         problem_context.update(problem_ctx)
-    if isinstance(slot_data.get("problem_context"), dict):
-        problem_context.update(slot_data["problem_context"])
+    if slot is not None:
+        problem_context.update(
+            {
+                key: value
+                for key, value in slot.problem_context.model_dump(mode="json").items()
+                if value not in ("", None, [], {})
+            }
+        )
 
-    semantic_constraints = (
-        DiagramSemanticConstraints(**slot_data.get("semantic_constraints", {}))
-        if isinstance(slot_data.get("semantic_constraints"), dict)
-        else DiagramSemanticConstraints()
-    )
-    visual_requirements = (
-        DiagramVisualRequirements(**slot_data.get("visual_requirements", {}))
-        if isinstance(slot_data.get("visual_requirements"), dict)
-        else DiagramVisualRequirements()
-    )
-    analytic_requirements = (
-        DiagramAnalyticRequirements(**slot_data.get("analytic_requirements", {}))
-        if isinstance(slot_data.get("analytic_requirements"), dict)
-        else DiagramAnalyticRequirements()
-    )
-    engine_options = (
-        DiagramEngineOptions(**slot_data.get("engine_options", {}))
-        if isinstance(slot_data.get("engine_options"), dict)
-        else DiagramEngineOptions()
-    )
+    semantic_constraints = slot.semantic_constraints if slot else DiagramSemanticConstraints()
+    visual_requirements = slot.visual_requirements if slot else DiagramVisualRequirements()
+    analytic_requirements = slot.analytic_requirements if slot else DiagramAnalyticRequirements()
+    engine_options = slot.engine_options if slot else DiagramEngineOptions()
 
     return DiagramJobRequest(
         job_id=job.job_id,
@@ -145,25 +163,19 @@ def build_request(
 
 
 def _extract_problem_context(
-    plan_data: dict[str, Any], job: DiagramJob
-) -> dict[str, Any]:
+    plan_data: AssignmentPlanDiagramView | dict[str, object], job: DiagramJob
+) -> dict[str, object]:
     """Best-effort extraction of problem context from plan YAML."""
-    for section in plan_data.get("sections") or []:
-        if not isinstance(section, dict):
-            continue
-        for block in section.get("blocks") or []:
-            if not isinstance(block, dict):
-                continue
-            block_id = block.get("id", "")
+    plan = _plan_view(plan_data)
+    if plan is None:
+        return {}
+    for section in plan.sections:
+        for block in section.blocks:
+            block_id = block.id
             if block_id == job.problem_id or block_id == job.slot_id.split(".")[0]:
-                stem = block.get("stem_latex", "") or block.get("stem", "")
-                topic = ""
-                meta = plan_data.get("meta")
-                if isinstance(meta, dict):
-                    topic = meta.get("title", "")
                 return {
-                    "stem_latex": stem,
-                    "grade_or_topic": topic,
+                    "stem_latex": block.stem_latex or block.stem,
+                    "grade_or_topic": plan.title,
                 }
     return {}
 
@@ -297,7 +309,7 @@ def run_batch(
     max_workers: int,
     dry_run: bool,
     jobs_filter: set[str] | None,
-    plan_data: dict[str, Any] | None,
+    plan_data: AssignmentPlanDiagramView | dict[str, object] | None,
 ) -> DiagramBatchReport:
     """Run all jobs in topological order with parallelism within each level."""
     ordered_ids = manifest.topological_job_ids()
@@ -444,11 +456,12 @@ def main() -> None:
     raw = read_json(jobs_path)
     manifest = DiagramJobsManifest(**raw)
 
-    plan_data: dict[str, Any] | None = None
+    plan_data: AssignmentPlanDiagramView | None = None
     if args.plan_yaml and args.plan_yaml.exists():
         try:
             import yaml as _yaml
-            plan_data = _yaml.safe_load(args.plan_yaml.read_text(encoding="utf-8"))
+            raw_plan = _yaml.safe_load(args.plan_yaml.read_text(encoding="utf-8"))
+            plan_data = AssignmentPlanDiagramView.model_validate(raw_plan)
         except ImportError:
             pass
 

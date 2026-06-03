@@ -17,7 +17,6 @@ import copy
 import json
 import sys
 from pathlib import Path
-from typing import Any
 
 try:
     import yaml
@@ -26,10 +25,15 @@ except ImportError as exc:  # pragma: no cover
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from diagram_contracts import (  # noqa: E402
+    AssignmentPlanDiagramView,
     DiagramArtifactsManifest,
     DiagramArtifact,
     DiagramRunStatus,
+    DiagramSlot,
+    DiagramSlotRef,
+    ResolvedDiagramFallback,
     ResolvedDiagramImage,
+    ResolvedDiagramPlacement,
 )
 
 
@@ -53,7 +57,7 @@ def _parse_pointer(pointer: str) -> list[str]:
     ]
 
 
-def _get_by_pointer(data: dict, pointer: str) -> Any:
+def _get_by_pointer(data: dict, pointer: str) -> object:
     """Retrieve a value from a nested dict by JSON Pointer."""
     segments = _parse_pointer(pointer)
     current = data
@@ -67,7 +71,7 @@ def _get_by_pointer(data: dict, pointer: str) -> Any:
     return current
 
 
-def _set_by_pointer(data: dict, pointer: str, value: Any) -> None:
+def _set_by_pointer(data: dict, pointer: str, value: object) -> None:
     """Set a value in a nested dict by JSON Pointer, replacing the parent key.
 
     Because diagram_slot needs to be replaced by diagram_col (a different key),
@@ -79,7 +83,7 @@ def _set_by_pointer(data: dict, pointer: str, value: Any) -> None:
     parent_segments = segments[:-1]
     leaf_key = segments[-1]
 
-    current: Any = data
+    current: object = data
     for seg in parent_segments:
         if isinstance(current, dict):
             current = current[seg]
@@ -121,14 +125,47 @@ def _resolved_field_for_placement(placement: str) -> str:
     return "diagram_col"  # default
 
 
+def _collect_slot_refs(plan: AssignmentPlanDiagramView) -> list[DiagramSlotRef]:
+    refs: list[DiagramSlotRef] = []
+    for si, section in enumerate(plan.sections):
+        for bi, block in enumerate(section.blocks):
+            if block.diagram_slot is not None:
+                refs.append(DiagramSlotRef(
+                    slot_path=f"/sections/{si}/blocks/{bi}/diagram_slot",
+                    slot=block.diagram_slot,
+                    section_index=si,
+                    block_index=bi,
+                ))
+            answer_space = block.answer_space
+            if answer_space is None:
+                continue
+            if answer_space.diagram_slot is not None:
+                refs.append(DiagramSlotRef(
+                    slot_path=f"/sections/{si}/blocks/{bi}/answer_space/diagram_slot",
+                    slot=answer_space.diagram_slot,
+                    section_index=si,
+                    block_index=bi,
+                ))
+            for pi, part in enumerate(answer_space.parts):
+                if part.diagram_slot is not None:
+                    refs.append(DiagramSlotRef(
+                        slot_path=f"/sections/{si}/blocks/{bi}/answer_space/parts/{pi}/diagram_slot",
+                        slot=part.diagram_slot,
+                        section_index=si,
+                        block_index=bi,
+                        part_index=pi,
+                    ))
+    return refs
+
+
 # ---------------------------------------------------------------------------
 # Slot resolution
 # ---------------------------------------------------------------------------
 
 def _resolve_slot(
-    slot_data: dict[str, Any],
+    slot: DiagramSlot,
     artifact: DiagramArtifact,
-) -> dict[str, dict[str, Any]]:
+) -> ResolvedDiagramPlacement:
     """Build a resolved diagram object from a slot and its artifact.
 
     Returns a single-key dict like {"diagram_col": {...}} ready for
@@ -136,45 +173,42 @@ def _resolve_slot(
     """
     resolved = ResolvedDiagramImage(
         image_path=artifact.image_path,
-        diagram_ref=slot_data.get("diagram_ref", slot_data.get("slot_id", "")),
+        diagram_ref=slot.diagram_ref or slot.slot_id,
         diagram_job_id=artifact.job_id,
-        width=slot_data.get("width_hint", ""),
-        caption=slot_data.get("caption", ""),
+        width=slot.width_hint,
+        caption=slot.caption,
         variant=artifact.variant,
         disclosure_policy=artifact.disclosure_policy,
         artifact_hash=artifact.artifact_hash,
     )
 
-    field = _resolved_field_for_placement(slot_data.get("placement", "diagram_col"))
-    return {field: resolved.model_dump(mode="json")}
+    field = _resolved_field_for_placement(slot.placement)
+    return ResolvedDiagramPlacement(field=field, image=resolved)
 
 
 def _handle_missing_slot(
-    slot_data: dict[str, Any],
-) -> dict[str, Any] | None:
+    slot: DiagramSlot,
+) -> ResolvedDiagramPlacement | None:
     """Determine the fallback for a slot with no bindable artifact.
 
     Returns None for omit_diagram, a dict with fallback content for
     textual_fallback, or raises for fail_assignment.
     """
-    on_failure = slot_data.get("on_failure", "fail_assignment")
+    on_failure = slot.on_failure.value
 
     if on_failure == "omit_diagram":
         return None  # signal: remove the slot entirely
 
     if on_failure == "textual_fallback":
-        field = _resolved_field_for_placement(slot_data.get("placement", "diagram_col"))
-        return {
-            field: {
-                "fallback": True,
-                "message": slot_data.get("caption", "图暂不可用"),
-            }
-        }
+        field = _resolved_field_for_placement(slot.placement)
+        return ResolvedDiagramPlacement(
+            field=field,
+            fallback=ResolvedDiagramFallback(message=slot.caption or "图暂不可用"),
+        )
 
     # fail_assignment or unspecified
-    slot_id = slot_data.get("slot_id", "<unknown>")
     raise ValueError(
-        f"Required diagram slot '{slot_id}' has no bindable artifact "
+        f"Required diagram slot '{slot.slot_id}' has no bindable artifact "
         f"(on_failure={on_failure})"
     )
 
@@ -184,11 +218,11 @@ def _handle_missing_slot(
 # ---------------------------------------------------------------------------
 
 def resolve_assignment(
-    plan_data: dict[str, Any],
+    plan_data: AssignmentPlanDiagramView | dict[str, object],
     artifacts_manifest: DiagramArtifactsManifest,
     *,
     skip_required_check: bool = False,
-) -> dict[str, Any]:
+) -> dict[str, object]:
     """Resolve all diagram slots in plan_data using artifacts.
 
     Returns a deep copy of plan_data with diagram_slots replaced by
@@ -197,54 +231,33 @@ def resolve_assignment(
     If skip_required_check is True, missing required slots produce a
     warning dict instead of raising (used during partial builds).
     """
-    result = copy.deepcopy(plan_data)
+    plan_view = (
+        plan_data
+        if isinstance(plan_data, AssignmentPlanDiagramView)
+        else AssignmentPlanDiagramView.model_validate(plan_data)
+    )
+    result = copy.deepcopy(
+        plan_data.model_dump(mode="json", by_alias=True, exclude_none=True, exclude_defaults=True)
+        if isinstance(plan_data, AssignmentPlanDiagramView)
+        else plan_data
+    )
     artifacts = artifacts_manifest.artifacts
 
-    # Collect all slots with their paths (same logic as collector)
-    slots_to_resolve: list[tuple[str, dict[str, Any]]] = []
-    for si, section in enumerate(result.get("sections") or []):
-        if not isinstance(section, dict):
-            continue
-        for bi, block in enumerate(section.get("blocks") or []):
-            if not isinstance(block, dict):
-                continue
-
-            # diagram_slot under block
-            if isinstance(block.get("diagram_slot"), dict):
-                sp = f"/sections/{si}/blocks/{bi}/diagram_slot"
-                slots_to_resolve.append((sp, block["diagram_slot"]))
-
-            # diagram_slot under answer_space
-            answer_space = block.get("answer_space")
-            if isinstance(answer_space, dict):
-                if isinstance(answer_space.get("diagram_slot"), dict):
-                    sp = f"/sections/{si}/blocks/{bi}/answer_space/diagram_slot"
-                    slots_to_resolve.append((sp, answer_space["diagram_slot"]))
-
-                for pi, part in enumerate(answer_space.get("parts") or []):
-                    if not isinstance(part, dict):
-                        continue
-                    if isinstance(part.get("diagram_slot"), dict):
-                        sp = (
-                            f"/sections/{si}/blocks/{bi}"
-                            f"/answer_space/parts/{pi}/diagram_slot"
-                        )
-                        slots_to_resolve.append((sp, part["diagram_slot"]))
-
     # Resolve each slot
-    for slot_path, slot_data in slots_to_resolve:
-        diagram_ref = slot_data.get("diagram_ref") or slot_data.get("slot_id", "")
+    for slot_ref in _collect_slot_refs(plan_view):
+        slot = slot_ref.slot
+        diagram_ref = slot.diagram_ref or slot.slot_id
         artifact = artifacts.get(diagram_ref)
 
         if artifact and artifact.bindable and artifact.status == DiagramRunStatus.OK:
-            replacement = _resolve_slot(slot_data, artifact)
+            replacement = _resolve_slot(slot, artifact)
         elif artifact and artifact.status == DiagramRunStatus.OK and not artifact.bindable:
             # Artifact exists but not fully bindable; try anyway with warnings
-            replacement = _resolve_slot(slot_data, artifact)
+            replacement = _resolve_slot(slot, artifact)
         else:
             # No usable artifact
             try:
-                replacement = _handle_missing_slot(slot_data)
+                replacement = _handle_missing_slot(slot)
             except ValueError:
                 if skip_required_check:
                     # Leave the slot as-is for a partial build
@@ -253,9 +266,9 @@ def resolve_assignment(
 
         if replacement is None:
             # omit_diagram: remove the slot entirely
-            _set_by_pointer(result, slot_path, {})
+            _set_by_pointer(result, slot_ref.slot_path, {})
         else:
-            _set_by_pointer(result, slot_path, replacement)
+            _set_by_pointer(result, slot_ref.slot_path, replacement.as_mapping())
 
     return result
 
@@ -264,14 +277,14 @@ def resolve_assignment(
 # YAML I/O
 # ---------------------------------------------------------------------------
 
-def read_yaml(path: Path) -> dict[str, Any]:
+def read_yaml(path: Path) -> dict[str, object]:
     data = yaml.safe_load(path.read_text(encoding="utf-8"))
     if not isinstance(data, dict):
         raise ValueError(f"{path} must contain a YAML mapping")
     return data
 
 
-def write_yaml(path: Path, data: dict[str, Any]) -> None:
+def write_yaml(path: Path, data: dict[str, object]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(
         yaml.dump(data, allow_unicode=True, default_flow_style=False, sort_keys=False),

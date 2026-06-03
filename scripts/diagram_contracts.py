@@ -10,12 +10,16 @@ and resolver binds artifacts back into assignment.resolved.yaml.
 from __future__ import annotations
 
 from enum import Enum
-from typing import Annotated, Any, Literal
+from typing import Annotated, Literal, TypeAlias
 
 from pydantic import AliasChoices, BaseModel, ConfigDict, Field, model_validator
 
 
 NonEmptyStr = Annotated[str, Field(min_length=1)]
+JsonScalar: TypeAlias = str | int | float | bool | None
+JsonValue: TypeAlias = object
+JsonObject: TypeAlias = dict[str, object]
+Point2D: TypeAlias = tuple[float, float]
 
 
 class DiagramVariant(str, Enum):
@@ -144,7 +148,7 @@ class DiagramFunctionSpec(DiagramModel):
     domain: DiagramNumericDomain | None = None
     label: str = ""
     sample_count: int = Field(default=160, ge=2)
-    style: dict[str, Any] = Field(default_factory=dict)
+    style: JsonObject = Field(default_factory=dict)
 
     @model_validator(mode="after")
     def require_expression(self) -> DiagramFunctionSpec:
@@ -157,7 +161,7 @@ class DiagramCoordinateObject(DiagramLooseModel):
     type: NonEmptyStr
     id: str = ""
     label: str = ""
-    style: dict[str, Any] = Field(default_factory=dict)
+    style: JsonObject = Field(default_factory=dict)
 
 
 class DiagramAnalyticRequirements(DiagramModel):
@@ -165,9 +169,9 @@ class DiagramAnalyticRequirements(DiagramModel):
     axes: DiagramAxesSpec = Field(default_factory=DiagramAxesSpec)
     functions: list[DiagramFunctionSpec] = Field(default_factory=list)
     objects: list[DiagramCoordinateObject] = Field(default_factory=list)
-    annotations: list[dict[str, Any]] = Field(default_factory=list)
-    wolfram_client_options: dict[str, Any] = Field(default_factory=dict)
-    wolfram_plot_options: dict[str, Any] = Field(default_factory=dict)
+    annotations: list[JsonObject] = Field(default_factory=list)
+    wolfram_client_options: JsonObject = Field(default_factory=dict)
+    wolfram_plot_options: JsonObject = Field(default_factory=dict)
 
     @model_validator(mode="after")
     def normalize_plot_options(self) -> DiagramAnalyticRequirements:
@@ -205,13 +209,40 @@ class DiagramReuseSpec(DiagramModel):
     base_job_dir: str = ""
 
 
+class DiagramModelConfig(DiagramLooseModel):
+    """OpenAI-compatible model/runtime config consumed by workflow.py."""
+
+    base_url: str = ""
+    vision_base_url: str = ""
+    api_key: str = ""
+    vision_api_key: str = ""
+    api_key_env: str = ""
+    vision_api_key_env: str = ""
+    model: str = ""
+    text_model: str = ""
+    vision_model: str = ""
+    text_models: list[str] = Field(default_factory=list)
+    vision_models: list[str] = Field(default_factory=list)
+    temperature: float | None = None
+    vision_temperature: float | None = None
+    request_timeout_s: float | None = Field(default=None, gt=0)
+    vision_request_timeout_s: float | None = Field(default=None, gt=0)
+
+    def get(self, key: str, default: JsonValue | None = None) -> JsonValue | None:
+        return self.model_dump(mode="python").get(key, default)
+
+    def __getitem__(self, key: str) -> JsonValue:
+        data = self.model_dump(mode="python")
+        return data[key]
+
+
 class DiagramEngineOptions(DiagramModel):
     seed: int | None = None
     max_retries: int = Field(default=3, ge=0)
     wolfram_timeout_s: int = Field(default=30, ge=1)
     wolfram_hard_timeout_s: int = Field(default=60, ge=1)
-    engine_model_config: dict[str, Any] = Field(
-        default_factory=dict,
+    engine_model_config: DiagramModelConfig = Field(
+        default_factory=DiagramModelConfig,
         validation_alias=AliasChoices("engine_model_config", "model_config"),
     )
 
@@ -388,6 +419,166 @@ class DiagramJobRequest(DiagramModel):
         return self
 
 
+class ModelAttempt(DiagramModel):
+    role: Literal["text", "vision", "workflow", "renderer", "wolfram"] | str
+    model: str = ""
+    status: Literal["ok", "failed", "skipped"] = "failed"
+    error_type: str = ""
+    error: str = ""
+    raw_response: str = ""
+
+
+class RenderCanvas(DiagramLooseModel):
+    width_px: int | None = Field(default=None, ge=1)
+    height_px: int | None = Field(default=None, ge=1)
+    padding_px: int | None = Field(default=None, ge=0)
+    background: str = "#ffffff"
+
+
+class RenderSegment(DiagramLooseModel):
+    start: NonEmptyStr = Field(
+        validation_alias=AliasChoices("from", "start", "a"),
+        serialization_alias="from",
+    )
+    end: NonEmptyStr = Field(
+        validation_alias=AliasChoices("to", "end", "b"),
+        serialization_alias="to",
+    )
+    stroke: str = "#111827"
+    stroke_width: float = Field(default=2.6, gt=0)
+    dash: str | None = None
+
+    @model_validator(mode="before")
+    @classmethod
+    def normalize_shorthand(cls, value: object) -> object:
+        if isinstance(value, (list, tuple)) and len(value) >= 2:
+            return {"from": str(value[0]), "to": str(value[1])}
+        return value
+
+
+class RenderPolygon(DiagramLooseModel):
+    points: list[NonEmptyStr] = Field(min_length=3)
+    stroke: str = "#374151"
+    stroke_width: float = Field(default=2.0, gt=0)
+    fill: str = "#eff6ff"
+
+    @model_validator(mode="before")
+    @classmethod
+    def normalize_shorthand(cls, value: object) -> object:
+        if isinstance(value, (list, tuple)):
+            return {"points": [str(item) for item in value]}
+        return value
+
+
+class RenderMarker(DiagramLooseModel):
+    type: NonEmptyStr
+    vertex: str = Field(default="", validation_alias=AliasChoices("vertex", "at"))
+    arms: list[str] = Field(default_factory=list)
+    segments: list[tuple[str, str]] = Field(default_factory=list)
+    stroke: str = ""
+
+    @model_validator(mode="after")
+    def normalize_marker_type(self) -> RenderMarker:
+        marker_type = self.type.lower()
+        if marker_type == "equal_tick":
+            marker_type = "equal_ticks"
+        self.type = marker_type
+        return self
+
+
+class RenderLabel(DiagramLooseModel):
+    text: str = ""
+    dx: float = 0
+    dy: float = -24
+
+    @model_validator(mode="before")
+    @classmethod
+    def normalize_shorthand(cls, value: object) -> object:
+        if isinstance(value, str):
+            return {"text": value}
+        return value
+
+
+class SceneDiagramSpec(DiagramLooseModel):
+    """Model-generated renderer intent before Wolfram coordinates are solved."""
+
+    type: str = DiagramKind.SYNTHETIC_GEOMETRY.value
+    points: JsonObject = Field(default_factory=dict)
+    objects: list[DiagramCoordinateObject] = Field(default_factory=list)
+    segments: list[RenderSegment] = Field(default_factory=list)
+    polygons: list[RenderPolygon] = Field(default_factory=list)
+    markers: list[RenderMarker] = Field(default_factory=list)
+    labels: dict[str, RenderLabel] = Field(default_factory=dict)
+    teaching_focus: list[str] = Field(default_factory=list)
+    constraints: list[str] = Field(default_factory=list)
+    annotations: list[JsonObject] = Field(default_factory=list)
+    source: JsonObject = Field(default_factory=dict)
+    diagnostics: JsonObject = Field(default_factory=dict)
+
+
+class ScenePayload(DiagramLooseModel):
+    scene_code: NonEmptyStr
+    points: list[str] = Field(default_factory=list)
+    diagram_spec: SceneDiagramSpec = Field(default_factory=SceneDiagramSpec)
+    rationale: str = ""
+    solution_reuse: JsonObject = Field(default_factory=dict)
+    model_used: str = ""
+    raw_response: str = ""
+    model_attempts: list[ModelAttempt] = Field(default_factory=list)
+
+
+class SolutionAuxiliaryPayload(DiagramLooseModel):
+    auxiliary_points: list[str] = Field(default_factory=list)
+    auxiliary_hypotheses_wl: list[str] = Field(default_factory=list)
+    diagram_spec_delta: SceneDiagramSpec = Field(default_factory=SceneDiagramSpec)
+    rationale: str = ""
+    model_used: str = ""
+    raw_response: str = ""
+    model_attempts: list[ModelAttempt] = Field(default_factory=list)
+
+
+class WolframRenderResult(DiagramLooseModel):
+    success: bool = False
+    fail_type: str = ""
+    message: str = ""
+    solve_time_s: float = Field(default=0, ge=0)
+    seed: int | None = None
+    parameters: JsonValue = None
+    points: JsonValue = None
+    image_path: str = ""
+    render_image_requested: bool = True
+    solution_reuse_check: JsonObject = Field(default_factory=dict)
+
+    @model_validator(mode="after")
+    def validate_status_payload(self) -> WolframRenderResult:
+        if self.success:
+            has_coordinates = self.parameters not in (None, {}, []) or self.points not in (None, {}, [])
+            has_image = bool(self.image_path)
+            if not (has_coordinates or has_image or self.render_image_requested is False):
+                raise ValueError("successful Wolfram results require coordinates, image_path, or spec-only mode")
+        elif not self.fail_type:
+            self.fail_type = "unknown"
+        return self
+
+
+class VisionEvaluationResult(DiagramLooseModel):
+    usable: bool = False
+    score: int | str = 1
+    defects: list[str] = Field(default_factory=list)
+    suggested_constraint_feedback: str = ""
+    evaluation_mode: str = ""
+    model_used: str = ""
+    raw_response: str = ""
+    model_attempts: list[ModelAttempt] = Field(default_factory=list)
+
+
+class WorkflowRound(DiagramModel):
+    round_index: int = Field(default=0, ge=0)
+    scene_payload: ScenePayload | JsonObject = Field(default_factory=dict)
+    render_result: WolframRenderResult | JsonObject = Field(default_factory=dict)
+    vision_result: VisionEvaluationResult | JsonObject = Field(default_factory=dict)
+
+
 class DiagramWolframSummary(DiagramLooseModel):
     success: bool = False
     solve_time_s: float = Field(default=0, ge=0)
@@ -396,7 +587,7 @@ class DiagramWolframSummary(DiagramLooseModel):
 
 class DiagramModelSummary(DiagramLooseModel):
     text_model_used: str = ""
-    attempts: list[dict[str, Any]] = Field(default_factory=list)
+    attempts: list[ModelAttempt] = Field(default_factory=list)
 
 
 class DiagramJobResult(DiagramLooseModel):
@@ -412,6 +603,13 @@ class DiagramJobResult(DiagramLooseModel):
     wolfram: DiagramWolframSummary = Field(default_factory=DiagramWolframSummary)
     model: DiagramModelSummary = Field(default_factory=DiagramModelSummary)
     policy_warnings: list[str] = Field(default_factory=list)
+    final_diagram_spec: str = "final_diagram_spec.json"
+    final_image_path: str = ""
+    skills_used: JsonObject = Field(default_factory=dict)
+    model_attempts: list[ModelAttempt] = Field(default_factory=list)
+    rounds: list[WorkflowRound] = Field(default_factory=list)
+    solution_reuse: JsonObject = Field(default_factory=dict)
+    solution_reuse_check: JsonObject = Field(default_factory=dict)
 
 
 class GeometryRenderSpec(DiagramLooseModel):
@@ -420,23 +618,29 @@ class GeometryRenderSpec(DiagramLooseModel):
     variant: DiagramVariant | None = None
     disclosure_policy: DisclosurePolicy | None = None
     type: str = "synthetic_geometry"
-    canvas: dict[str, Any] = Field(default_factory=dict)
+    status: str = ""
+    canvas: RenderCanvas = Field(default_factory=RenderCanvas)
     viewport: DiagramCoordinateViewport | None = None
     axes: DiagramAxesSpec | None = None
-    points: dict[str, tuple[float, float]] = Field(default_factory=dict)
-    segments: list[dict[str, Any]] = Field(default_factory=list)
-    polygons: list[dict[str, Any]] = Field(default_factory=list)
-    markers: list[dict[str, Any]] = Field(default_factory=list)
-    labels: dict[str, Any] = Field(default_factory=dict)
+    points: dict[str, Point2D] = Field(default_factory=dict)
+    segments: list[RenderSegment] = Field(default_factory=list)
+    polygons: list[RenderPolygon] = Field(default_factory=list)
+    markers: list[RenderMarker] = Field(default_factory=list)
+    labels: dict[str, RenderLabel] = Field(default_factory=dict)
     objects: list[DiagramCoordinateObject] = Field(default_factory=list)
     functions: list[DiagramFunctionSpec] = Field(default_factory=list)
-    curves: list[dict[str, Any]] = Field(default_factory=list)
-    samples: dict[str, list[tuple[float, float]]] = Field(default_factory=dict)
+    curves: list[JsonObject] = Field(default_factory=list)
+    samples: dict[str, list[Point2D]] = Field(default_factory=dict)
     teaching_focus: list[str] = Field(default_factory=list)
+    constraints: list[str] = Field(default_factory=list)
+    source: JsonObject = Field(default_factory=dict)
+    diagnostics: JsonObject = Field(default_factory=dict)
 
     @model_validator(mode="after")
     def validate_render_payload(self) -> GeometryRenderSpec:
         diagram_type = str(self.type)
+        if self.status == "missing_coordinates":
+            return self
         if diagram_type == DiagramKind.SYNTHETIC_GEOMETRY.value and not self.points:
             raise ValueError("synthetic geometry render specs require points")
         if diagram_type in {
@@ -447,6 +651,21 @@ class GeometryRenderSpec(DiagramLooseModel):
                 raise ValueError(
                     "coordinate/function render specs require points, objects, functions, curves, or samples"
                 )
+        point_names = set(self.points)
+        for index, segment in enumerate(self.segments):
+            if point_names and (segment.start not in point_names or segment.end not in point_names):
+                raise ValueError(f"segments[{index}] references missing point")
+        for index, polygon in enumerate(self.polygons):
+            if point_names and any(name not in point_names for name in polygon.points):
+                raise ValueError(f"polygons[{index}] references missing point")
+        for index, marker in enumerate(self.markers):
+            refs: list[str] = []
+            if marker.vertex:
+                refs.append(marker.vertex)
+            refs.extend(marker.arms)
+            refs.extend(name for segment in marker.segments for name in segment)
+            if point_names and any(name not in point_names for name in refs):
+                raise ValueError(f"markers[{index}] references missing point")
         return self
 
 
@@ -544,6 +763,97 @@ class ResolvedDiagramImage(DiagramModel):
         if self.variant == DiagramVariant.PROMPT and self.disclosure_policy != DisclosurePolicy.CLEAN:
             raise ValueError("prompt resolved images must use disclosure_policy='clean'")
         return self
+
+
+class ResolvedDiagramFallback(DiagramModel):
+    fallback: Literal[True] = True
+    message: str = "图暂不可用"
+
+
+class ResolvedDiagramPlacement(DiagramModel):
+    field: Literal["diagram_col", "diagram_row_item", "diagram"] = "diagram_col"
+    image: ResolvedDiagramImage | None = None
+    fallback: ResolvedDiagramFallback | None = None
+
+    def as_mapping(self) -> JsonObject:
+        value: JsonValue
+        if self.image is not None:
+            value = self.image.model_dump(mode="json", by_alias=True)
+        elif self.fallback is not None:
+            value = self.fallback.model_dump(mode="json")
+        else:
+            value = {}
+        return {self.field: value}
+
+
+class AnswerSpacePartView(DiagramLooseModel):
+    diagram_slot: DiagramSlot | None = None
+
+
+class AnswerSpaceView(DiagramLooseModel):
+    diagram_slot: DiagramSlot | None = None
+    parts: list[AnswerSpacePartView] = Field(default_factory=list)
+
+
+class AssignmentBlockView(DiagramLooseModel):
+    id: str = ""
+    stem_latex: str = ""
+    stem: str = ""
+    diagram_slot: DiagramSlot | None = None
+    answer_space: AnswerSpaceView | None = None
+
+
+class AssignmentSectionView(DiagramLooseModel):
+    blocks: list[AssignmentBlockView] = Field(default_factory=list)
+
+
+class AssignmentPlanDiagramView(DiagramLooseModel):
+    meta: JsonObject = Field(default_factory=dict)
+    sections: list[AssignmentSectionView] = Field(default_factory=list)
+
+    @property
+    def assignment_id(self) -> str:
+        value = self.meta.get("assignment_id")
+        return value if isinstance(value, str) else ""
+
+    @property
+    def title(self) -> str:
+        value = self.meta.get("title")
+        return value if isinstance(value, str) else ""
+
+
+class DiagramSlotRef(DiagramModel):
+    slot_path: NonEmptyStr
+    slot: DiagramSlot
+    section_index: int = Field(ge=0)
+    block_index: int = Field(ge=0)
+    part_index: int | None = Field(default=None, ge=0)
+
+
+class GenerateCandidateResult(DiagramModel):
+    status: Literal["ok", "failed"] = "ok"
+    action: Literal["generate"] = "generate"
+    round_index: int = Field(ge=0)
+    scene_payload_path: str
+    scene_payload: ScenePayload | None = None
+    skills_used: list[str] = Field(default_factory=list)
+
+
+class RenderCandidateResult(DiagramModel):
+    status: Literal["ok", "failed"] = "failed"
+    action: Literal["render"] = "render"
+    round_index: int = Field(ge=0)
+    render_result_path: str
+    render_result: WolframRenderResult
+
+
+class EvaluateImageResult(DiagramModel):
+    status: Literal["ok", "failed"] = "ok"
+    action: Literal["evaluate"] = "evaluate"
+    round_index: int = Field(ge=0)
+    vision_result_path: str
+    vision_result: VisionEvaluationResult
+    skills_used: list[str] = Field(default_factory=list)
 
 
 class DiagramGateCheck(DiagramModel):

@@ -15,13 +15,18 @@ import re
 import sys
 from datetime import datetime
 from pathlib import Path
-from typing import Any
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(SCRIPT_DIR))
 sys.path.insert(0, str(SCRIPT_DIR / "geometry_diagram_workflow" / "core"))
 
-from diagram_contracts import DiagramEngine, DiagramJobRequest, DiagramKind  # noqa: E402
+from diagram_contracts import (  # noqa: E402
+    DiagramEngine,
+    DiagramJobRequest,
+    DiagramJobResult,
+    DiagramKind,
+    GeometryRenderSpec,
+)
 from runtime import redact_secrets, resolve_wolfram_kernel  # noqa: E402
 
 try:
@@ -72,19 +77,21 @@ ALLOWED_FUNCTIONS = {
 }
 
 
-def read_json(path: Path) -> dict[str, Any]:
+def read_json(path: Path) -> dict[str, object]:
     data = json.loads(path.read_text(encoding="utf-8"))
     if not isinstance(data, dict):
         raise ValueError(f"{path} must contain a JSON object")
     return data
 
 
-def write_json(path: Path, data: dict[str, Any]) -> None:
+def write_json(path: Path, data: dict[str, object]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
+    if hasattr(data, "model_dump"):
+        data = data.model_dump(mode="json", by_alias=True)
     path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
-def emit_event(out_dir: Path, event: str, **fields: Any) -> None:
+def emit_event(out_dir: Path, event: str, **fields: object) -> None:
     payload = {
         "ts": datetime.now().isoformat(timespec="seconds"),
         "event": event,
@@ -94,7 +101,7 @@ def emit_event(out_dir: Path, event: str, **fields: Any) -> None:
         f.write(json.dumps(payload, ensure_ascii=False, default=str) + "\n")
 
 
-def compact_float(value: Any) -> float:
+def compact_float(value: object) -> float:
     number = float(value)
     if not math.isfinite(number):
         raise ValueError(f"non-finite numeric value: {value}")
@@ -139,7 +146,7 @@ def sanitize_wl_expression(raw: str, variable: str = "x") -> str:
     return expr
 
 
-def function_expression(function_spec: dict[str, Any]) -> tuple[str, str]:
+def function_expression(function_spec: dict[str, object]) -> tuple[str, str]:
     variable = str(function_spec.get("variable") or "x")
     expr = function_spec.get("expression_wl") or wl_expr_from_latex(function_spec.get("expression_latex", ""))
     return sanitize_wl_expression(str(expr), variable), variable
@@ -161,7 +168,7 @@ class WolframAnalyticKernel:
             self.session.terminate()
         self.session = None
 
-    def evaluate(self, expression: str) -> Any:
+    def evaluate(self, expression: str) -> object:
         if self.session is None:
             raise RuntimeError("Wolfram session is not open")
         return self.session.evaluate(wlexpr(expression))  # type: ignore[misc]
@@ -223,7 +230,7 @@ def sanitize_equation(raw: str) -> str:
     return f"{sanitize_wl_expression(left.strip(), 'x')} == {sanitize_wl_expression(right.strip(), 'x')}"
 
 
-def viewport_bounds(analytic: dict[str, Any], functions: list[dict[str, Any]], objects: list[dict[str, Any]]) -> dict[str, Any]:
+def viewport_bounds(analytic: dict[str, object], functions: list[dict[str, object]], objects: list[dict[str, object]]) -> dict[str, object]:
     viewport = dict(analytic.get("viewport") or {})
     x_values: list[float] = []
     y_values: list[float] = []
@@ -267,7 +274,7 @@ def viewport_bounds(analytic: dict[str, Any], functions: list[dict[str, Any]], o
     return viewport
 
 
-def object_center(obj: dict[str, Any]) -> tuple[float, float]:
+def object_center(obj: dict[str, object]) -> tuple[float, float]:
     center = obj.get("center")
     if isinstance(center, (list, tuple)) and len(center) == 2:
         return compact_float(center[0]), compact_float(center[1])
@@ -276,7 +283,7 @@ def object_center(obj: dict[str, Any]) -> tuple[float, float]:
     return compact_float(obj.get("cx", obj.get("x", 0))), compact_float(obj.get("cy", obj.get("y", 0)))
 
 
-def line_equation(obj: dict[str, Any]) -> str:
+def line_equation(obj: dict[str, object]) -> str:
     equation = obj.get("equation")
     if isinstance(equation, str) and equation.strip():
         return sanitize_equation(equation)
@@ -287,7 +294,7 @@ def line_equation(obj: dict[str, Any]) -> str:
     raise ValueError(f"line object requires equation or slope/intercept: {obj.get('id', '')}")
 
 
-def circle_equation(obj: dict[str, Any]) -> str:
+def circle_equation(obj: dict[str, object]) -> str:
     cx, cy = object_center(obj)
     radius = compact_float(obj.get("radius"))
     if radius <= 0:
@@ -295,7 +302,7 @@ def circle_equation(obj: dict[str, Any]) -> str:
     return f"(x - ({cx:.12g}))^2 + (y - ({cy:.12g}))^2 == ({radius:.12g})^2"
 
 
-def function_equation(function_spec: dict[str, Any]) -> str:
+def function_equation(function_spec: dict[str, object]) -> str:
     expr, variable = function_expression(function_spec)
     if variable != "x":
         raise ValueError("coordinate renderer currently supports function variable 'x'")
@@ -304,9 +311,9 @@ def function_equation(function_spec: dict[str, Any]) -> str:
 
 def compute_intersections(
     kernel: WolframAnalyticKernel,
-    functions: list[dict[str, Any]],
-    objects: list[dict[str, Any]],
-) -> list[dict[str, Any]]:
+    functions: list[dict[str, object]],
+    objects: list[dict[str, object]],
+) -> list[dict[str, object]]:
     by_id = {str(obj.get("id")): obj for obj in objects if obj.get("id")}
     by_id.update(
         {
@@ -315,7 +322,7 @@ def compute_intersections(
             if func.get("id")
         }
     )
-    computed: list[dict[str, Any]] = []
+    computed: list[dict[str, object]] = []
     for obj in objects:
         kind = obj.get("type")
         if kind not in {"intersection", "zero", "root", "x_intercept"}:
@@ -354,7 +361,7 @@ def compute_intersections(
     return computed
 
 
-def equation_for_object(obj: dict[str, Any]) -> str:
+def equation_for_object(obj: dict[str, object]) -> str:
     kind = obj.get("type")
     if kind == "function":
         return function_equation(obj)
@@ -365,7 +372,7 @@ def equation_for_object(obj: dict[str, Any]) -> str:
     raise ValueError(f"intersection supports function/line/circle objects, not {kind}")
 
 
-def build_spec(request: DiagramJobRequest, out_dir: Path) -> dict[str, Any]:
+def build_spec(request: DiagramJobRequest, out_dir: Path) -> GeometryRenderSpec:
     analytic = request.analytic_requirements.model_dump(mode="json")
     functions = list(analytic.get("functions") or [])
     objects = [dict(obj) for obj in analytic.get("objects") or []]
@@ -410,10 +417,10 @@ def build_spec(request: DiagramJobRequest, out_dir: Path) -> dict[str, Any]:
         "teaching_focus": request.semantic_constraints.given_objects
         or request.semantic_constraints.given_constraints,
     }
-    return spec
+    return GeometryRenderSpec.model_validate(spec)
 
 
-def run_analytic_workflow(request_path: Path, out_dir: Path) -> dict[str, Any]:
+def run_analytic_workflow(request_path: Path, out_dir: Path) -> dict[str, object]:
     raw = read_json(request_path)
     out_dir.mkdir(parents=True, exist_ok=True)
     request: DiagramJobRequest | None = None
@@ -433,7 +440,7 @@ def run_analytic_workflow(request_path: Path, out_dir: Path) -> dict[str, Any]:
             raise ValueError(f"unsupported analytic diagram_kind: {request.diagram_kind.value}")
         spec = build_spec(request, out_dir)
         write_json(out_dir / "final_renderer_spec.json", spec)
-        result = {
+        result = DiagramJobResult.model_validate({
             "schema_version": "diagram-job-result/v2",
             "job_id": request.job_id,
             "status": "ok",
@@ -446,12 +453,12 @@ def run_analytic_workflow(request_path: Path, out_dir: Path) -> dict[str, Any]:
             "wolfram": {"success": True},
             "model": {"text_model_used": "", "attempts": []},
             "policy_warnings": [],
-        }
+        }).model_dump(mode="json", by_alias=True)
     except Exception as exc:
         if not (out_dir / "request.json").exists():
             write_json(out_dir / "request.json", raw)
         emit_event(out_dir, "analytic_failed", error=redact_secrets(exc))
-        result = {
+        result = DiagramJobResult.model_validate({
             "schema_version": "diagram-job-result/v2",
             "job_id": (request.job_id if request else raw.get("job_id") or raw.get("diagram_job_id", "")),
             "status": "failed",
@@ -464,7 +471,7 @@ def run_analytic_workflow(request_path: Path, out_dir: Path) -> dict[str, Any]:
             "wolfram": {"success": False},
             "model": {"text_model_used": "", "attempts": []},
             "policy_warnings": [],
-        }
+        }).model_dump(mode="json", by_alias=True)
     write_json(out_dir / "workflow_result.json", result)
     return result
 
