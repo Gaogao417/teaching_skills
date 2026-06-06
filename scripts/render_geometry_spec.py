@@ -127,6 +127,9 @@ class SvgGeometryRenderer:
         value = " ".join(f"{x:.2f},{y:.2f}" for x, y in points)
         return f"<{tag} {svg_attrs(points=value, fill=fill, stroke=stroke, stroke_width=width, stroke_linejoin='round', stroke_linecap='round')} />"
 
+    def rect(self, x: float, y: float, width: float, height: float, fill: str, opacity: float) -> str:
+        return f"<rect {svg_attrs(x=f'{x:.2f}', y=f'{y:.2f}', width=f'{width:.2f}', height=f'{height:.2f}', fill=fill, opacity=f'{opacity:.3g}')} />"
+
     def draw_polygons(self) -> None:
         for polygon in self.spec.get("polygons", []):
             names = polygon.get("points", [])
@@ -320,6 +323,9 @@ class SvgCoordinateRenderer:
         value = " ".join(f"{x:.2f},{y:.2f}" for x, y in points)
         return f"<{tag} {svg_attrs(points=value, fill=fill, stroke=stroke, stroke_width=width, stroke_linejoin='round', stroke_linecap='round')} />"
 
+    def rect(self, x: float, y: float, width: float, height: float, fill: str, opacity: float) -> str:
+        return f"<rect {svg_attrs(x=f'{x:.2f}', y=f'{y:.2f}', width=f'{width:.2f}', height=f'{height:.2f}', fill=fill, opacity=f'{opacity:.3g}')} />"
+
     def text(self, x: float, y: float, value: str, size: int = 18, anchor: str = "middle", fill: str = "#111827") -> str:
         attrs = svg_attrs(
             x=f"{x:.2f}",
@@ -332,6 +338,33 @@ class SvgCoordinateRenderer:
             fill=fill,
         )
         return f"<text {attrs}>{html.escape(value)}</text>"
+
+    def draw_interval_bands(self) -> None:
+        for obj in self.spec.get("objects") or []:
+            if not isinstance(obj, dict) or obj.get("type") not in {"interval_band", "x_interval_band"}:
+                continue
+            try:
+                x_min = max(float(obj.get("x_min", self.view_x_min)), self.view_x_min)
+                x_max = min(float(obj.get("x_max", self.view_x_max)), self.view_x_max)
+            except (TypeError, ValueError):
+                continue
+            if x_min >= x_max:
+                continue
+            style = obj.get("style") if isinstance(obj.get("style"), dict) else {}
+            fill = str(style.get("fill") or obj.get("fill") or "#eef2ff")
+            opacity = float(style.get("opacity", obj.get("opacity", 0.28)))
+            top_left = self.screen_xy(x_min, self.view_y_max)
+            bottom_right = self.screen_xy(x_max, self.view_y_min)
+            self.elements.append(
+                self.rect(
+                    top_left[0],
+                    top_left[1],
+                    bottom_right[0] - top_left[0],
+                    bottom_right[1] - top_left[1],
+                    fill,
+                    opacity,
+                )
+            )
 
     def tick_step(self, low: float, high: float, configured: object) -> float:
         if configured:
@@ -492,12 +525,26 @@ class SvgCoordinateRenderer:
                 self.elements.append(f"<circle {svg_attrs(cx=f'{sx:.2f}', cy=f'{sy:.2f}', r=style.get('radius', 5.2), fill=stroke)} />")
                 label = obj.get("label") or obj.get("id")
                 if label:
-                    self.elements.append(self.text(sx + float(style.get("label_dx", 14)), sy - float(style.get("label_dy", 14)), str(label), 15, anchor="start"))
+                    self.elements.append(self.text(sx + float(style.get("label_dx", 14)), sy - float(style.get("label_dy", 14)), str(label), 15, anchor="start", fill=str(style.get("label_fill", "#111827"))))
             elif kind == "line":
                 endpoints = self.line_endpoints(obj)
                 if endpoints is None:
                     continue
                 self.elements.append(self.line(endpoints[0], endpoints[1], stroke, float(style.get("stroke_width", 2.4)), style.get("dash")))
+            elif kind == "text":
+                if "x" not in obj or "y" not in obj:
+                    continue
+                sx, sy = self.screen_xy(float(obj["x"]), float(obj["y"]))
+                self.elements.append(
+                    self.text(
+                        sx,
+                        sy,
+                        str(obj.get("text") or obj.get("label") or ""),
+                        int(style.get("font_size", 13)),
+                        anchor=str(style.get("anchor", "middle")),
+                        fill=str(style.get("fill", "#374151")),
+                    )
+                )
             elif kind == "circle":
                 center = obj.get("center")
                 if isinstance(center, dict):
@@ -524,6 +571,7 @@ class SvgCoordinateRenderer:
                     self.elements.append(self.polyline(points, stroke, float(style.get("stroke_width", 2.2)), fill if kind == "polygon" else "none", closed=kind == "polygon"))
 
     def render(self) -> str:
+        self.draw_interval_bands()
         self.draw_axes()
         self.draw_functions()
         self.draw_objects()

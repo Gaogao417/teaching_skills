@@ -37,10 +37,10 @@ artifacts/<学生名>/YYYY-MM-DD-<内容>/02-student-explanation.assignment.yaml
 
 ## 教学规则
 
-- 原题用 `problemcard` + `stem_latex`，不要用普通 `step` 放原题。
-- 路线图用 `route`；每个小问用 `dual_explanation`，并通过 `solution_step_ids` 复用路线图步骤。
-- 每个小问讲解前必须带 `label` 和该小问 `stem_latex`，不要写成 `title: "第（X）问"`。
-- 标准解法要分步展示；步骤标题和正文来自对应 `route.steps[]`。
+- 原题用 `problemcard` + `stem_latex`，`stem_latex` 必须忠实复现原题；不要用普通 `step` 放原题。
+- 路线图用 `route`；`route.steps[].latex` 写步骤动作标题，`content_latex` 写标准解答正文。标准讲解中的步骤标题和正文都从这些 route step 复用，不另写一套。
+- `dual_explanation` 是“真实题目/真实小问”的讲解外壳，不是教学步骤外壳。原题有几个真实小问，就写几个 `dual_explanation`；原题只有一问时，只写一个 `dual_explanation`，用 `solution_step_ids` 引用全部必要 route step。
+- 每个 `dual_explanation` 必须带 `label` 和该真实题目/小问的 `stem_latex`。`stem_latex` 不写“为什么……”“怎样……”这类引导问题；引导语放进 `side_items`、`route.steps[].content_latex` 或 `connection_items`。
 - `variation_training` 只做一个短小动作确认。独立成套练习交给 `math-adaptive-practice-latex-data`。
 - 数学公式用 `$...$` / `$$...$$`；block scalar 中 LaTeX 命令用单反斜杠。
 

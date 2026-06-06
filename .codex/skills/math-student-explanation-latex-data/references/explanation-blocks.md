@@ -2,6 +2,17 @@
 
 只在生成 `exam-zh-explanation` YAML 时读取。本文件记录常用 block type 和最小字段。
 
+## 字段职责
+
+- `problemcard.stem_latex`：原题入口，忠实复现题面。
+- `route.steps[].latex`：路线图里的步骤动作标题，同时会成为标准解答步骤标题。
+- `route.steps[].content_latex`：对应步骤的标准解答正文。
+- `dual_explanation.stem_latex`：真实题目或真实小问的题干，不写引导问题。
+- `dual_explanation.solution_step_ids`：引用 route step，决定本题/本小问的标准解答包含哪些步骤。
+- `side_items` / `connection_items`：放提示、易错、追问和承接说明。
+
+不要把教学步骤伪装成小问。原题只有一问时，只写一个 `dual_explanation`；原题有真实 `(1)(2)(3)` 小问时，才写多个 `dual_explanation`。
+
 ## problemcard
 
 用于页面顶部原题展示。
@@ -49,13 +60,15 @@ steps:
 
 ## dual_explanation
 
-主体讲解 block。每个小问一个 `dual_explanation`，解答步骤通过 `solution_step_ids` 引用 `route.steps[].id`。
+主体讲解 block。每个真实题目/真实小问一个 `dual_explanation`，解答步骤通过 `solution_step_ids` 引用 `route.steps[].id`。
+
+如果原题只有一问，标准讲解也只写一个 `dual_explanation`：
 
 ```yaml
 type: "dual_explanation"
-id: "sol-part1"
-label: "(1)"
-stem_latex: "求这个一次函数的解析式；"
+id: "sol-main"
+label: "本题"
+stem_latex: "求这个一次函数的解析式。"
 side_title: "提示与易错"
 side_items:
   - kind: "hint"
@@ -70,7 +83,19 @@ connection_items:
   - latex: "求出的参数要回代检查。"
 ```
 
-不要使用旧结构 `right_steps`。不要用 `title: "第（1）问"` 替代 `label` + `stem_latex`。
+如果原题明确有多个小问，才按真实小问拆分：
+
+```yaml
+type: "dual_explanation"
+id: "sol-part1"
+label: "(1)"
+stem_latex: "求这个一次函数的解析式；"
+solution_step_ids:
+  - "route-equations"
+  - "route-solve"
+```
+
+不要使用旧结构 `right_steps`。不要用 `title: "第（1）问"` 替代 `label` + `stem_latex`。不要把 `stem_latex` 写成“为什么先……”“怎样……”这类讲解提问；这些内容应放在 `side_items`、`route.steps[].content_latex` 或 `connection_items`。
 
 ## summary_dual
 

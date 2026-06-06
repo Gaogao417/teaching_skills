@@ -327,9 +327,11 @@ steps:
 
 ### dual_explanation / explanation_dual 类型
 
-用于讲解页主体双栏。每个小问一个 `dual_explanation`：`side_items` 是小问级“提示与易错”，`solution_step_ids` 引用 `route.steps[].id` 作为“解答”的分步。思路导航和解答步骤标题必须同源，不要另写一套步骤标题。后续小问依赖前问时，用 `connection_items` 收束。
+用于讲解页主体双栏。每个真实题目/真实小问一个 `dual_explanation`：`side_items` 是题目级/小问级“提示与易错”，`solution_step_ids` 引用 `route.steps[].id` 作为“解答”的分步。思路导航和解答步骤标题必须同源，不要另写一套步骤标题。后续小问依赖前问时，用 `connection_items` 收束。
 
-每个子问题必须带 `label` + `stem_latex`，讲解前自动以 exam 格式复现该小问题干。
+原题只有一问时，只写一个 `dual_explanation`，用 `solution_step_ids` 引用全部必要 route step；不要把讲解步骤拆成伪小问。
+
+每个 `dual_explanation` 必须带 `label` + `stem_latex`，讲解前自动以 exam 格式复现该题/小问题干。`stem_latex` 必须是真实题干，不写“为什么……”“怎样……”这类讲解提问。
 不要用 `title: "第（X）问"`，改用 `label` + `stem_latex`。
 
 `route.steps[]` 可带 `id` 和 `content_latex/content`；带 `id` 的 route step 可被 `dual_explanation.solution_step_ids` 引用。解答渲染时使用 route step 的 `latex/text/title` 作为 step 标题，使用 `content_latex/content` 作为正文。

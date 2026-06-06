@@ -262,19 +262,31 @@ def run_one_job(
         "--out-dir", str(job_build_dir),
         "--variant", job.variant.value,
     ]
-    subprocess.run(
+    rr_result_path = job_build_dir / "renderer_result.json"
+    if rr_result_path.exists():
+        rr_result_path.unlink()
+    renderer_completed = subprocess.run(
         renderer_cmd, cwd=str(SCRIPT_DIR.parent),
         text=True, capture_output=True, check=False,
     )
 
     # Read renderer result
-    rr_result_path = job_build_dir / "renderer_result.json"
     rr_status = "missing_result"
     rr_image_path = ""
     if rr_result_path.exists():
         rr_data = read_json(rr_result_path)
         rr_status = rr_data.get("status", "unknown")
         rr_image_path = rr_data.get("image_path", "")
+    elif renderer_completed.returncode != 0:
+        return DiagramBatchJobResult(
+            job_id=job_id,
+            slot_id=job.slot_id,
+            variant=job.variant.value,
+            status="renderer_failed",
+            workflow_status="ok",
+            renderer_status="process_failed",
+            failure_reason=(renderer_completed.stderr or renderer_completed.stdout or "renderer process failed")[-500:],
+        )
 
     if rr_status == "ok":
         return DiagramBatchJobResult(
