@@ -1,0 +1,526 @@
+% preamble-exam-zh.tex — 共享 preamble
+% 用于所有 exam-zh 模板
+%
+% 样式策略：
+%   屏幕 → 语义彩色（蓝=关键想法，红=易错，绿=路线，灰=提示/教师备注）
+%   打印 → 自动降级为黑白（通过 print mode 或 monochrome 选项）
+
+\documentclass{exam-zh}
+
+% ---------- 基础配置 ----------
+\examsetup{
+  page/size = a4paper,
+  page/show-head = false,
+  page/show-foot = false,
+  sealline/show = false,
+  font = times,
+  math-font = xits,
+}
+
+\usepackage{tcolorbox}
+\usepackage{needspace}
+\usepackage{graphicx}
+\tcbuselibrary{skins,breakable}
+
+% ---------- 打印/屏幕颜色切换 ----------
+% 用法：\documentclass[monochrome]{exam-zh} 即可切换为纯黑白
+% 注意：不要使用 \if@xxx 放在 makeatother 外部；这里改成普通条件名。
+\newif\ifeduprintcolor
+\eduprintcolortrue
+
+\makeatletter
+\@ifclasswith{exam-zh}{monochrome}{\eduprintcolorfalse}{}
+\makeatother
+
+% ---------- 语义颜色定义 ----------
+% 屏幕：有色彩区分；打印：降级为灰度
+\ifeduprintcolor
+  % --- 屏幕彩色模式 ---
+  \definecolor{edu-blue}{RGB}{47, 82, 122}       % 关键想法
+  \definecolor{edu-blue-bg}{RGB}{243, 246, 252}
+  \definecolor{edu-red}{RGB}{180, 40, 40}         % 易错提醒
+  \definecolor{edu-red-bg}{RGB}{255, 245, 240}
+  \definecolor{edu-green}{RGB}{34, 100, 60}       % 路线图
+  \definecolor{edu-green-bg}{RGB}{242, 250, 245}
+  \definecolor{edu-orange}{RGB}{160, 90, 0}       % 训练目标
+  \definecolor{edu-orange-bg}{RGB}{255, 248, 235}
+  \definecolor{edu-gray}{RGB}{100, 100, 100}      % 提示/教师备注
+  \definecolor{edu-gray-bg}{RGB}{248, 248, 248}
+  \definecolor{edu-purple}{RGB}{90, 50, 120}      % 思考题
+  \definecolor{edu-purple-bg}{RGB}{248, 244, 252}
+\else
+  % --- 打印黑白模式 ---
+  \definecolor{edu-blue}{gray}{0.15}
+  \definecolor{edu-blue-bg}{gray}{0.96}
+  \definecolor{edu-red}{gray}{0.25}
+  \definecolor{edu-red-bg}{gray}{0.97}
+  \definecolor{edu-green}{gray}{0.20}
+  \definecolor{edu-green-bg}{gray}{0.97}
+  \definecolor{edu-orange}{gray}{0.25}
+  \definecolor{edu-orange-bg}{gray}{0.98}
+  \definecolor{edu-gray}{gray}{0.40}
+  \definecolor{edu-gray-bg}{gray}{0.97}
+  \definecolor{edu-purple}{gray}{0.30}
+  \definecolor{edu-purple-bg}{gray}{0.98}
+\fi
+\colorlet{edu-diagram-muted}{edu-gray}
+
+% ---------- 自定义教学环境 ----------
+% 共性：enhanced + breakable（跨页不断裂）
+
+% 原题卡片 — 强边框，突出显示
+\newtcolorbox{problemcard}{
+  enhanced, breakable,
+  colback=edu-blue-bg,
+  colframe=edu-blue,
+  boxrule=1.2pt,
+  arc=0pt,
+  left=3mm, right=3mm, top=3mm, bottom=3mm,
+}
+
+% 解题路线图 — 左边线 + 浅底
+\newtcolorbox{routebox}{
+  enhanced, breakable,
+  colback=edu-green-bg,
+  colframe=edu-green!30,
+  boxrule=0pt,
+  borderline west={2.5pt}{0pt}{edu-green},
+  left=3mm, right=3mm, top=3mm, bottom=3mm,
+}
+
+% 关键想法 — 蓝色左边线
+\newtcolorbox{keyideabox}{
+  enhanced, breakable,
+  colback=edu-blue-bg,
+  colframe=edu-blue!30,
+  boxrule=0pt,
+  borderline west={2.5pt}{0pt}{edu-blue},
+  left=3mm, right=3mm, top=3mm, bottom=3mm,
+}
+
+% 易错提醒 — 红色左边线
+\newtcolorbox{mistakebox}{
+  enhanced, breakable,
+  colback=edu-red-bg,
+  colframe=edu-red!20,
+  boxrule=0pt,
+  borderline west={3pt}{0pt}{edu-red},
+  left=3mm, right=3mm, top=2.5mm, bottom=2.5mm,
+}
+
+% 提示 — 灰色虚线左边线
+\newtcolorbox{hintbox}{
+  enhanced, breakable,
+  colback=edu-gray-bg,
+  colframe=edu-gray!20,
+  boxrule=0pt,
+  borderline west={2pt}{0pt}{edu-gray, dashed},
+  left=3mm, right=3mm, top=2mm, bottom=2mm,
+}
+
+% 思考题 — 紫色虚线左边线
+\newtcolorbox{thinkbox}{
+  enhanced, breakable,
+  colback=edu-purple-bg,
+  colframe=edu-purple!20,
+  boxrule=0pt,
+  borderline west={2pt}{0pt}{edu-purple, dashed},
+  left=2.5mm, right=2.5mm, top=2.5mm, bottom=2.5mm,
+}
+
+% 教师备注 — 灰色左边线，小字
+\newtcolorbox{teachernote}{
+  enhanced, breakable,
+  colback=edu-gray-bg,
+  colframe=edu-gray!15,
+  boxrule=0pt,
+  borderline west={2pt}{0pt}{edu-gray!60},
+  left=2.5mm, right=2.5mm, top=2.5mm, bottom=2.5mm,
+  fontupper=\small,
+  colupper=black!60,
+}
+
+% 训练目标 — 橙色左边线，小字
+\newtcolorbox{traininggoal}{
+  enhanced, breakable,
+  colback=edu-orange-bg,
+  colframe=edu-orange!15,
+  boxrule=0pt,
+  borderline west={1.5pt}{0pt}{edu-orange},
+  left=2mm, right=2mm, top=1mm, bottom=1mm,
+  fontupper=\small,
+}
+
+% 答题区 — 无边框，纯留白
+\newcommand{\answerarea}[1][40mm]{%
+  \vspace{2mm}%
+  \begin{tcolorbox}[
+    enhanced, breakable,
+    colback=white,
+    colframe=white,
+    boxrule=0pt,
+    height=#1,
+    valign=top,
+    bottom=0mm,
+    after skip=0mm,
+  ]
+  \end{tcolorbox}%
+}
+
+\newcommand{\diagramcolfigure}[3]{%
+  \begin{minipage}[t]{#2}
+    \vspace{0pt}\centering
+    \includegraphics[width=\linewidth]{\detokenize{#1}}
+    \if\relax\detokenize{#3}\relax\else
+      \par\vspace{1mm}{\scriptsize\color{edu-diagram-muted}#3}
+    \fi
+  \end{minipage}%
+}
+
+\newcommand{\diagramrowitem}[4]{%
+  \begin{minipage}[t]{#2}
+    \vspace{0pt}\centering
+    \includegraphics[width=\linewidth]{\detokenize{#1}}
+    \if\relax\detokenize{#3}\relax\else
+      \par\vspace{1mm}{\scriptsize\bfseries #3}
+    \fi
+    \if\relax\detokenize{#4}\relax\else
+      \par\vspace{0.5mm}{\scriptsize\color{edu-diagram-muted}#4}
+    \fi
+  \end{minipage}%
+}
+
+\newcommand{\answerareawithdiagramcol}[4]{%
+  \vspace{2mm}%
+  \begin{tcolorbox}[
+    enhanced, breakable,
+    colback=white,
+    colframe=white,
+    boxrule=0pt,
+    height=#1,
+    valign=top,
+    bottom=0mm,
+    after skip=0mm,
+  ]
+  \begin{minipage}[t]{\dimexpr\linewidth-#3-6mm\relax}
+    \vspace{0pt}
+  \end{minipage}\hfill
+  \diagramcolfigure{#2}{#3}{#4}
+  \end{tcolorbox}%
+}
+
+\newcommand{\answerareawithdiagram}[4]{%
+  \answerareawithdiagramcol{#1}{#2}{#3}{#4}%
+}
+
+% ---------- 字体设置 ----------
+% exam-zh (ctexbook) already sets CJK fonts via ctex.
+% Only override if specific fonts are needed.
+% macOS: Songti SC, STHeiti, STFangsong
+% Linux: SimSun, SimHei, FangSong
+
+% ---------- 页面设置 ----------
+% exam-zh (ctexbook) already loads geometry.
+% Override margins if needed:
+% \geometry{top=16mm, bottom=16mm, left=14mm, right=14mm}
+
+\examsetup{
+  question/show-answer = true,
+  fillin/show-answer = true,
+  solution/show-solution = show-stay,
+}
+
+% ---------- 教师版解答样式 ----------
+\newtcolorbox{solutionblock}{
+  enhanced, breakable,
+  colback=edu-blue-bg,
+  colframe=edu-blue!25,
+  boxrule=0pt,
+  borderline west={2pt}{0pt}{edu-blue!50},
+  arc=0pt,
+  left=3mm, right=3mm, top=2mm, bottom=2mm,
+  before skip=2mm,
+  after skip=3mm,
+  fontupper=\small,
+}
+
+% 解答步骤编号
+\newcounter{solstep}
+\newcommand{\solstep}[2]{%
+  \stepcounter{solstep}%
+  \par\medskip
+  \noindent\hangindent=6mm
+  {\color{edu-blue}\bfseries\textcircled{\scriptsize\thesolstep}\enspace #1}\enspace #2\par
+}
+
+\begin{document}
+
+\section*{一元二次方程 · 20题方法练习（教师版）}
+
+\section*{一、开平方法（每题 5 分，共 25 分）}
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=5]
+  解方程：$(x-3)^2=16$。
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$x=7$ 或 $x=-1$\par\medskip
+    \solstep{开平方}{由 $(x-3)^2=16$ 得 $x-3=\pm4$，所以 $x=7$ 或 $x=-1$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=5]
+  解方程：$(2x+1)^2=25$。
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$x=2$ 或 $x=-3$\par\medskip
+    \solstep{开平方}{由 $(2x+1)^2=25$ 得 $2x+1=\pm5$，所以 $x=2$ 或 $x=-3$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=5]
+  解方程：$3x^2-27=0$。
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$x=3$ 或 $x=-3$\par\medskip
+    \solstep{整理后开方}{$3x^2=27$，得 $x^2=9$，所以 $x=\pm3$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=5]
+  解方程：$(x+4)^2=7$。
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$x=-4+\sqrt7$ 或 $x=-4-\sqrt7$\par\medskip
+    \solstep{开平方}{$x+4=\pm\sqrt7$，所以 $x=-4\pm\sqrt7$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=5]
+  解方程：$5(x-2)^2=45$。
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$x=5$ 或 $x=-1$\par\medskip
+    \solstep{先除系数}{两边同除以 $5$，得 $(x-2)^2=9$，所以 $x-2=\pm3$，即 $x=5$ 或 $x=-1$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\section*{二、十字相乘法（每题 5 分，共 25 分）}
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=5]
+  解方程：$x^2-7x+12=0$。
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$x=3$ 或 $x=4$\par\medskip
+    \solstep{因式分解}{$x^2-7x+12=(x-3)(x-4)$，所以 $(x-3)(x-4)=0$，得 $x=3$ 或 $x=4$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=5]
+  解方程：$x^2+x-20=0$。
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$x=4$ 或 $x=-5$\par\medskip
+    \solstep{因式分解}{$x^2+x-20=(x+5)(x-4)$，所以 $x=4$ 或 $x=-5$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=5]
+  解方程：$2x^2+7x+3=0$。
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$x=-3$ 或 $x=-\frac12$\par\medskip
+    \solstep{因式分解}{$2x^2+7x+3=(2x+1)(x+3)$，所以 $2x+1=0$ 或 $x+3=0$，得 $x=-\frac12$ 或 $x=-3$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=5]
+  解方程：$3x^2-10x+8=0$。
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$x=2$ 或 $x=\frac43$\par\medskip
+    \solstep{因式分解}{$3x^2-10x+8=(3x-4)(x-2)$，所以 $x=\frac43$ 或 $x=2$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=5]
+  解方程：$4x^2-12x+9=0$。
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$x_1=x_2=\frac32$\par\medskip
+    \solstep{完全平方}{$4x^2-12x+9=(2x-3)^2$，所以 $2x-3=0$，得 $x_1=x_2=\frac32$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\section*{三、配方法（每题 5 分，共 25 分）}
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=5]
+  用配方法解方程：$x^2+6x+5=0$。
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$x=-1$ 或 $x=-5$\par\medskip
+    \solstep{配方}{$x^2+6x=-5$，两边加 $9$ 得 $(x+3)^2=4$，所以 $x+3=\pm2$，得 $x=-1$ 或 $x=-5$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=5]
+  用配方法解方程：$x^2-4x-1=0$。
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$x=2+\sqrt5$ 或 $x=2-\sqrt5$\par\medskip
+    \solstep{配方}{$x^2-4x=1$，两边加 $4$ 得 $(x-2)^2=5$，所以 $x=2\pm\sqrt5$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=5]
+  用配方法解方程：$x^2+5x+2=0$。
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$x=\frac{-5+\sqrt{17}}2$ 或 $x=\frac{-5-\sqrt{17}}2$\par\medskip
+    \solstep{配方}{$x^2+5x=-2$，两边加 $\frac{25}{4}$ 得 $(x+\frac52)^2=\frac{17}{4}$，所以 $x=\frac{-5\pm\sqrt{17}}2$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=5]
+  用配方法解方程：$2x^2-8x+3=0$。
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$x=2+\frac{\sqrt{10}}2$ 或 $x=2-\frac{\sqrt{10}}2$\par\medskip
+    \solstep{先化首项系数}{两边同除以 $2$ 得 $x^2-4x+\frac32=0$，即 $x^2-4x=-\frac32$。两边加 $4$ 得 $(x-2)^2=\frac52$，所以 $x=2\pm\frac{\sqrt{10}}2$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=5]
+  用配方法解方程：$x^2-3x-4=0$。
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$x=4$ 或 $x=-1$\par\medskip
+    \solstep{配方}{$x^2-3x=4$，两边加 $\frac94$ 得 $(x-\frac32)^2=\frac{25}{4}$，所以 $x=\frac32\pm\frac52$，即 $x=4$ 或 $x=-1$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\section*{四、求根公式（每题 5 分，共 25 分）}
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=5]
+  用求根公式解方程：$x^2-2x-3=0$。
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$x=3$ 或 $x=-1$\par\medskip
+    \solstep{代入公式}{$a=1,b=-2,c=-3$，$\Delta=b^2-4ac=16$，所以 $x=\frac{2\pm4}{2}$，得 $x=3$ 或 $x=-1$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=5]
+  用求根公式解方程：$2x^2-4x+1=0$。
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$x=1+\frac{\sqrt2}{2}$ 或 $x=1-\frac{\sqrt2}{2}$\par\medskip
+    \solstep{代入公式}{$a=2,b=-4,c=1$，$\Delta=16-8=8$，所以 $x=\frac{4\pm\sqrt8}{4}=1\pm\frac{\sqrt2}{2}$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=5]
+  用求根公式解方程：$3x^2+2x-1=0$。
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$x=\frac13$ 或 $x=-1$\par\medskip
+    \solstep{代入公式}{$a=3,b=2,c=-1$，$\Delta=4+12=16$，所以 $x=\frac{-2\pm4}{6}$，得 $x=\frac13$ 或 $x=-1$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=5]
+  用求根公式解方程：$x^2+4x+4=0$。
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$x_1=x_2=-2$\par\medskip
+    \solstep{判别式为零}{$a=1,b=4,c=4$，$\Delta=16-16=0$，所以 $x=\frac{-4}{2}=-2$，即 $x_1=x_2=-2$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=5]
+  用求根公式解方程：$5x^2+x-2=0$。
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$x=\frac{-1+\sqrt{41}}{10}$ 或 $x=\frac{-1-\sqrt{41}}{10}$\par\medskip
+    \solstep{代入公式}{$a=5,b=1,c=-2$，$\Delta=1+40=41$，所以 $x=\frac{-1\pm\sqrt{41}}{10}$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\clearpage
+\section*{答案速查}
+
+
+\begin{keyideabox}
+  \textbf{20题答案}
+  1. $7,-1$；2. $2,-3$；3. $\pm3$；4. $-4\pm\sqrt7$；5. $5,-1$。
+
+6. $3,4$；7. $4,-5$；8. $-3,-\frac12$；9. $2,\frac43$；10. $x_1=x_2=\frac32$。
+
+11. $-1,-5$；12. $2\pm\sqrt5$；13. $\frac{-5\pm\sqrt{17}}2$；14. $2\pm\frac{\sqrt{10}}2$；15. $4,-1$。
+
+16. $3,-1$；17. $1\pm\frac{\sqrt2}{2}$；18. $\frac13,-1$；19. $x_1=x_2=-2$；20. $\frac{-1\pm\sqrt{41}}{10}$。
+
+\end{keyideabox}
+
+
+
+\end{document}

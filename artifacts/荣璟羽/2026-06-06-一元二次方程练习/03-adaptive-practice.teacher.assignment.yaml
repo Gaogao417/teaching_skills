@@ -1,0 +1,317 @@
+meta:
+  title: '一元二次方程 · 20题方法练习（教师版）'
+  subtitle: '开平方法 · 十字相乘法 · 配方法 · 求根公式'
+  grade: '八年级'
+  subject: '数学'
+  duration: '45分钟'
+  total_points: 100
+  version: 'teacher'
+  source_artifacts:
+    structure_analysis: 'artifacts/荣璟羽/2026-06-06-一元二次方程练习/01-structure-analysis.md'
+
+render:
+  template: 'exam-zh-practice'
+  paper_size: 'a4paper'
+  answer_key_position: 'after_page_break'
+
+sections:
+  - id: 'sqrt-method'
+    title: '一、开平方法（每题 5 分，共 25 分）'
+    type: 'practice'
+    visibility: 'both'
+    blocks:
+      - type: 'problem'
+        id: 'q1'
+        points: 5
+        stem_latex: '解方程：$(x-3)^2=16$。'
+        answer: '$x=7$ 或 $x=-1$'
+        solution_steps:
+          - title: '开平方'
+            content: '由 $(x-3)^2=16$ 得 $x-3=\pm4$，所以 $x=7$ 或 $x=-1$。'
+        teaching:
+          teaching_goal: '训练平方整体开方时写出正负两种情况。'
+          entry_point: 'solve_and_check'
+          scaffold_level: 'medium'
+          variation_depth: 'same_structure'
+      - type: 'problem'
+        id: 'q2'
+        points: 5
+        stem_latex: '解方程：$(2x+1)^2=25$。'
+        answer: '$x=2$ 或 $x=-3$'
+        solution_steps:
+          - title: '开平方'
+            content: '由 $(2x+1)^2=25$ 得 $2x+1=\pm5$，所以 $x=2$ 或 $x=-3$。'
+        teaching:
+          teaching_goal: '处理一次式整体平方。'
+          entry_point: 'solve_and_check'
+          scaffold_level: 'medium'
+          variation_depth: 'changed_numbers'
+      - type: 'problem'
+        id: 'q3'
+        points: 5
+        stem_latex: '解方程：$3x^2-27=0$。'
+        answer: '$x=3$ 或 $x=-3$'
+        solution_steps:
+          - title: '整理后开方'
+            content: '$3x^2=27$，得 $x^2=9$，所以 $x=\pm3$。'
+        teaching:
+          teaching_goal: '先化成 $x^2=a$ 再开方。'
+          entry_point: 'build_relation'
+          scaffold_level: 'medium'
+          variation_depth: 'changed_numbers'
+      - type: 'problem'
+        id: 'q4'
+        points: 5
+        stem_latex: '解方程：$(x+4)^2=7$。'
+        answer: '$x=-4+\sqrt7$ 或 $x=-4-\sqrt7$'
+        solution_steps:
+          - title: '开平方'
+            content: '$x+4=\pm\sqrt7$，所以 $x=-4\pm\sqrt7$。'
+        teaching:
+          teaching_goal: '接受根号形式答案，不强求整数根。'
+          entry_point: 'solve_and_check'
+          scaffold_level: 'medium'
+          variation_depth: 'changed_numbers'
+      - type: 'problem'
+        id: 'q5'
+        points: 5
+        stem_latex: '解方程：$5(x-2)^2=45$。'
+        answer: '$x=5$ 或 $x=-1$'
+        solution_steps:
+          - title: '先除系数'
+            content: '两边同除以 $5$，得 $(x-2)^2=9$，所以 $x-2=\pm3$，即 $x=5$ 或 $x=-1$。'
+        teaching:
+          teaching_goal: '含整体平方系数时先整理。'
+          entry_point: 'build_relation'
+          scaffold_level: 'medium'
+          variation_depth: 'changed_numbers'
+
+  - id: 'factor-method'
+    title: '二、十字相乘法（每题 5 分，共 25 分）'
+    type: 'practice'
+    visibility: 'both'
+    blocks:
+      - type: 'problem'
+        id: 'q6'
+        points: 5
+        stem_latex: '解方程：$x^2-7x+12=0$。'
+        answer: '$x=3$ 或 $x=4$'
+        solution_steps:
+          - title: '因式分解'
+            content: '$x^2-7x+12=(x-3)(x-4)$，所以 $(x-3)(x-4)=0$，得 $x=3$ 或 $x=4$。'
+        teaching:
+          teaching_goal: '首项系数为 1 的基本十字相乘。'
+          entry_point: 'find_entry'
+          scaffold_level: 'medium'
+          variation_depth: 'same_structure'
+      - type: 'problem'
+        id: 'q7'
+        points: 5
+        stem_latex: '解方程：$x^2+x-20=0$。'
+        answer: '$x=4$ 或 $x=-5$'
+        solution_steps:
+          - title: '因式分解'
+            content: '$x^2+x-20=(x+5)(x-4)$，所以 $x=4$ 或 $x=-5$。'
+        teaching:
+          teaching_goal: '常数项为负时两个根异号。'
+          entry_point: 'find_entry'
+          scaffold_level: 'medium'
+          variation_depth: 'changed_numbers'
+      - type: 'problem'
+        id: 'q8'
+        points: 5
+        stem_latex: '解方程：$2x^2+7x+3=0$。'
+        answer: '$x=-3$ 或 $x=-\frac12$'
+        solution_steps:
+          - title: '因式分解'
+            content: '$2x^2+7x+3=(2x+1)(x+3)$，所以 $2x+1=0$ 或 $x+3=0$，得 $x=-\frac12$ 或 $x=-3$。'
+        teaching:
+          teaching_goal: '首项系数不为 1 时保持因式与根对应。'
+          entry_point: 'build_relation'
+          scaffold_level: 'medium'
+          variation_depth: 'changed_numbers'
+      - type: 'problem'
+        id: 'q9'
+        points: 5
+        stem_latex: '解方程：$3x^2-10x+8=0$。'
+        answer: '$x=2$ 或 $x=\frac43$'
+        solution_steps:
+          - title: '因式分解'
+            content: '$3x^2-10x+8=(3x-4)(x-2)$，所以 $x=\frac43$ 或 $x=2$。'
+        teaching:
+          teaching_goal: '含分数根时用因式方程给出答案。'
+          entry_point: 'build_relation'
+          scaffold_level: 'medium'
+          variation_depth: 'changed_numbers'
+      - type: 'problem'
+        id: 'q10'
+        points: 5
+        stem_latex: '解方程：$4x^2-12x+9=0$。'
+        answer: '$x_1=x_2=\frac32$'
+        solution_steps:
+          - title: '完全平方'
+            content: '$4x^2-12x+9=(2x-3)^2$，所以 $2x-3=0$，得 $x_1=x_2=\frac32$。'
+        teaching:
+          teaching_goal: '识别完全平方型因式分解和重根。'
+          entry_point: 'hidden_structure'
+          scaffold_level: 'medium'
+          variation_depth: 'changed_representation'
+
+  - id: 'complete-square'
+    title: '三、配方法（每题 5 分，共 25 分）'
+    type: 'practice'
+    visibility: 'both'
+    blocks:
+      - type: 'problem'
+        id: 'q11'
+        points: 5
+        stem_latex: '用配方法解方程：$x^2+6x+5=0$。'
+        answer: '$x=-1$ 或 $x=-5$'
+        solution_steps:
+          - title: '配方'
+            content: '$x^2+6x=-5$，两边加 $9$ 得 $(x+3)^2=4$，所以 $x+3=\pm2$，得 $x=-1$ 或 $x=-5$。'
+        teaching:
+          teaching_goal: '补一次项系数一半的平方。'
+          entry_point: 'build_relation'
+          scaffold_level: 'medium'
+          variation_depth: 'same_structure'
+      - type: 'problem'
+        id: 'q12'
+        points: 5
+        stem_latex: '用配方法解方程：$x^2-4x-1=0$。'
+        answer: '$x=2+\sqrt5$ 或 $x=2-\sqrt5$'
+        solution_steps:
+          - title: '配方'
+            content: '$x^2-4x=1$，两边加 $4$ 得 $(x-2)^2=5$，所以 $x=2\pm\sqrt5$。'
+        teaching:
+          teaching_goal: '配方后出现根号时正确保留两根。'
+          entry_point: 'solve_and_check'
+          scaffold_level: 'medium'
+          variation_depth: 'changed_numbers'
+      - type: 'problem'
+        id: 'q13'
+        points: 5
+        stem_latex: '用配方法解方程：$x^2+5x+2=0$。'
+        answer: '$x=\frac{-5+\sqrt{17}}2$ 或 $x=\frac{-5-\sqrt{17}}2$'
+        solution_steps:
+          - title: '配方'
+            content: '$x^2+5x=-2$，两边加 $\frac{25}{4}$ 得 $(x+\frac52)^2=\frac{17}{4}$，所以 $x=\frac{-5\pm\sqrt{17}}2$。'
+        teaching:
+          teaching_goal: '一次项系数为奇数时处理半系数平方。'
+          entry_point: 'solve_and_check'
+          scaffold_level: 'low'
+          variation_depth: 'changed_numbers'
+      - type: 'problem'
+        id: 'q14'
+        points: 5
+        stem_latex: '用配方法解方程：$2x^2-8x+3=0$。'
+        answer: '$x=2+\frac{\sqrt{10}}2$ 或 $x=2-\frac{\sqrt{10}}2$'
+        solution_steps:
+          - title: '先化首项系数'
+            content: '两边同除以 $2$ 得 $x^2-4x+\frac32=0$，即 $x^2-4x=-\frac32$。两边加 $4$ 得 $(x-2)^2=\frac52$，所以 $x=2\pm\frac{\sqrt{10}}2$。'
+        teaching:
+          teaching_goal: '二次项系数不为 1 时先除系数。'
+          entry_point: 'build_relation'
+          scaffold_level: 'low'
+          variation_depth: 'changed_numbers'
+      - type: 'problem'
+        id: 'q15'
+        points: 5
+        stem_latex: '用配方法解方程：$x^2-3x-4=0$。'
+        answer: '$x=4$ 或 $x=-1$'
+        solution_steps:
+          - title: '配方'
+            content: '$x^2-3x=4$，两边加 $\frac94$ 得 $(x-\frac32)^2=\frac{25}{4}$，所以 $x=\frac32\pm\frac52$，即 $x=4$ 或 $x=-1$。'
+        teaching:
+          teaching_goal: '用配方法求出整数根，并能化简。'
+          entry_point: 'solve_and_check'
+          scaffold_level: 'medium'
+          variation_depth: 'changed_representation'
+
+  - id: 'formula-method'
+    title: '四、求根公式（每题 5 分，共 25 分）'
+    type: 'practice'
+    visibility: 'both'
+    blocks:
+      - type: 'problem'
+        id: 'q16'
+        points: 5
+        stem_latex: '用求根公式解方程：$x^2-2x-3=0$。'
+        answer: '$x=3$ 或 $x=-1$'
+        solution_steps:
+          - title: '代入公式'
+            content: '$a=1,b=-2,c=-3$，$\Delta=b^2-4ac=16$，所以 $x=\frac{2\pm4}{2}$，得 $x=3$ 或 $x=-1$。'
+        teaching:
+          teaching_goal: '熟悉求根公式的代入顺序。'
+          entry_point: 'solve_and_check'
+          scaffold_level: 'medium'
+          variation_depth: 'same_structure'
+      - type: 'problem'
+        id: 'q17'
+        points: 5
+        stem_latex: '用求根公式解方程：$2x^2-4x+1=0$。'
+        answer: '$x=1+\frac{\sqrt2}{2}$ 或 $x=1-\frac{\sqrt2}{2}$'
+        solution_steps:
+          - title: '代入公式'
+            content: '$a=2,b=-4,c=1$，$\Delta=16-8=8$，所以 $x=\frac{4\pm\sqrt8}{4}=1\pm\frac{\sqrt2}{2}$。'
+        teaching:
+          teaching_goal: '处理分母 $2a$ 和根号化简。'
+          entry_point: 'solve_and_check'
+          scaffold_level: 'medium'
+          variation_depth: 'changed_numbers'
+      - type: 'problem'
+        id: 'q18'
+        points: 5
+        stem_latex: '用求根公式解方程：$3x^2+2x-1=0$。'
+        answer: '$x=\frac13$ 或 $x=-1$'
+        solution_steps:
+          - title: '代入公式'
+            content: '$a=3,b=2,c=-1$，$\Delta=4+12=16$，所以 $x=\frac{-2\pm4}{6}$，得 $x=\frac13$ 或 $x=-1$。'
+        teaching:
+          teaching_goal: '当 $b$ 为正时，公式分子是 $-b\pm\sqrt\Delta$。'
+          entry_point: 'solve_and_check'
+          scaffold_level: 'medium'
+          variation_depth: 'changed_numbers'
+      - type: 'problem'
+        id: 'q19'
+        points: 5
+        stem_latex: '用求根公式解方程：$x^2+4x+4=0$。'
+        answer: '$x_1=x_2=-2$'
+        solution_steps:
+          - title: '判别式为零'
+            content: '$a=1,b=4,c=4$，$\Delta=16-16=0$，所以 $x=\frac{-4}{2}=-2$，即 $x_1=x_2=-2$。'
+        teaching:
+          teaching_goal: '识别求根公式中的重根情形。'
+          entry_point: 'solve_and_check'
+          scaffold_level: 'medium'
+          variation_depth: 'changed_representation'
+      - type: 'problem'
+        id: 'q20'
+        points: 5
+        stem_latex: '用求根公式解方程：$5x^2+x-2=0$。'
+        answer: '$x=\frac{-1+\sqrt{41}}{10}$ 或 $x=\frac{-1-\sqrt{41}}{10}$'
+        solution_steps:
+          - title: '代入公式'
+            content: '$a=5,b=1,c=-2$，$\Delta=1+40=41$，所以 $x=\frac{-1\pm\sqrt{41}}{10}$。'
+        teaching:
+          teaching_goal: '判别式不是完全平方数时保留根号形式。'
+          entry_point: 'solve_and_check'
+          scaffold_level: 'medium'
+          variation_depth: 'changed_numbers'
+
+  - id: 'answer-key'
+    title: '答案速查'
+    type: 'answer_key'
+    visibility: 'teacher'
+    blocks:
+      - type: 'step'
+        id: 'key-all'
+        title: '20题答案'
+        content: |
+          1. $7,-1$；2. $2,-3$；3. $\pm3$；4. $-4\pm\sqrt7$；5. $5,-1$。
+
+          6. $3,4$；7. $4,-5$；8. $-3,-\frac12$；9. $2,\frac43$；10. $x_1=x_2=\frac32$。
+
+          11. $-1,-5$；12. $2\pm\sqrt5$；13. $\frac{-5\pm\sqrt{17}}2$；14. $2\pm\frac{\sqrt{10}}2$；15. $4,-1$。
+
+          16. $3,-1$；17. $1\pm\frac{\sqrt2}{2}$；18. $\frac13,-1$；19. $x_1=x_2=-2$；20. $\frac{-1\pm\sqrt{41}}{10}$。
