@@ -1,0 +1,213 @@
+meta:
+  title: 一次函数与反比例函数图像解不等式
+  subtitle: 把不等式读成图像上下 · 用交点和 0 分段
+  grade: 八年级
+  subject: 数学
+  version: teacher
+  assignment_id: 2026-06-06-yangminghe-function-inequality-explanation
+  show_answers: true
+  source_artifacts:
+    structure_analysis: artifacts/杨茗贺/2026-06-06-一次函数反比例函数图像解不等式/01-structure-analysis.md
+render:
+  template: exam-zh-explanation
+  paper_size: a4paper
+sections:
+- id: original
+  title: 原题
+  type: explanation
+  visibility: both
+  blocks:
+  - type: problemcard
+    id: orig
+    label: 题目
+    stem_latex: '如图，已知一次函数 $y_1=x+1$ 与反比例函数 $y_2=\dfrac{6}{x}$ 的图像相交于点 $A,B$，交点的横坐标分别为
+      $-3$ 和 $2$。
+
+
+      根据图像求不等式
+
+      $$
+
+      x+1>\frac{6}{x}
+
+      $$
+
+      的解集。
+
+      '
+    diagram_col:
+      image_path: build/diagram/jobs/explanation-orig-prompt/rendered/prompt.png
+      diagram_ref: explanation.orig.prompt
+      diagram_job_id: explanation-orig-prompt
+      width: 0.34\linewidth
+      caption: 题目图：直线 $y_1$ 与双曲线 $y_2$ 的交点横坐标为 $-3,2$。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:6ed7ebaed1b67ac0212ace16348589164cae9e868f4f247285c83a001b3a7625
+  - type: reading_tip
+    id: rt-original
+    items:
+    - latex: 这类题不是先急着通分，而是先把不等式翻译成图像语言。
+    - latex: $y_2=\dfrac{m}{x}$ 在 $x=0$ 没有意义，所以 $0$ 一定要参与分段，而且答案里不能包含 $0$。
+- id: route-section
+  title: 一、解题路线
+  type: explanation
+  visibility: student
+  blocks:
+  - type: route
+    id: route
+    steps:
+    - id: route-translate
+      latex: 把不等式读成 $y_1>y_2$
+      content_latex: 因为 $y_1=x+1$，$y_2=\dfrac{6}{x}$，所以 $x+1>\dfrac{6}{x}$ 就是在问：同一个
+        $x$ 下，$y_1$ 的值是否大于 $y_2$ 的值。
+    - id: route-meaning
+      latex: 把 $y_1>y_2$ 翻译成“$y_1$ 图像在上方”
+      content_latex: 在同一个横坐标 $x$ 上，谁的 $y$ 值大，谁的点就在图像上更高。
+    - id: route-intersections
+      latex: 找全两图像交点
+      content_latex: 交点处 $y_1=y_2$，所以交点横坐标会把满足和不满足的区间分开。本题交点横坐标是 $-3$ 和 $2$。
+    - id: route-zero
+      latex: 把 $0$ 也放进断点
+      content_latex: 反比例函数 $y_2=\dfrac{m}{x}$ 在 $x=0$ 无定义，因此 $x=0$ 也是分界点，不能跨过去把两段合成一段。
+    - id: route-compare
+      latex: 逐段比较谁在上方
+      content_latex: 用 $-3,0,2$ 把图像分成 $(-\infty,-3)$、$(-3,0)$、$(0,2)$、$(2,+\infty)$
+        四段；每一段都回到原图看：直线 $y_1$ 在上，还是双曲线 $y_2$ 在上。
+    - id: route-answer
+      latex: 写出 $y_1$ 在上方的 $x$ 范围
+      content_latex: 从图像上看，$(-3,0)$ 和 $(2,+\infty)$ 中直线 $y_1$ 在双曲线 $y_2$ 上方，所以解集为
+        $-3<x<0$ 或 $x>2$。
+- id: solution
+  title: 二、标准讲解
+  type: explanation
+  visibility: student
+  blocks:
+  - type: dual_explanation
+    id: sol-main
+    label: 本题
+    stem_latex: 根据图像求不等式 $x+1>\dfrac{6}{x}$ 的解集。
+    side_title: 提示与易错
+    side_items:
+    - kind: hint
+      title: 入口
+      content_latex: 先给两个表达式起名字：$y_1=x+1$，$y_2=\dfrac{6}{x}$；不等式就是比较同一个 $x$ 下谁的
+        $y$ 值更大。
+    - kind: hint
+      title: 分段依据
+      content_latex: 交点横坐标 $-3,2$ 和反比例函数断点 $0$ 都要放到数轴上，从小到大分段。
+    - kind: mistake
+      title: 端点和断点
+      content_latex: 题目是 $>$，交点横坐标不能取；$x=0$ 处 $y_2$ 无定义，也不能取，不能跨过 $0$ 合并区间。
+    solution_title: 解答
+    solution_step_ids:
+    - route-translate
+    - route-meaning
+    - route-intersections
+    - route-zero
+    - route-compare
+    - route-answer
+    connection_title: 图像校对
+    connection_items:
+    - latex: 校对时按顺序指图：$(-\infty,-3)$、$(-3,0)$、$(0,2)$、$(2,+\infty)$ 四段里，哪几段直线
+        $y_1$ 在双曲线 $y_2$ 上方。
+    - latex: 本题满足的是 $(-3,0)$ 和 $(2,+\infty)$，所以写作 $-3<x<0$ 或 $x>2$。
+- id: graph-check
+  title: 三、分段图像校对表
+  type: explanation
+  visibility: student
+  blocks:
+  - type: problemcard
+    id: graph-check-card
+    label: 图像校对
+    stem_latex: '对照右图，用 $-3,0,2$ 把图像分成四段。
+
+      每一段都只判断一件事：直线 $y_1$ 是否在双曲线 $y_2$ 上方。
+
+      '
+    diagram_col:
+      image_path: build/diagram/jobs/explanation-graph_check-prompt/rendered/prompt.png
+      diagram_ref: explanation.graph_check.prompt
+      diagram_job_id: explanation-graph_check-prompt
+      width: 0.36\linewidth
+      caption: 分段比较图：用 $-3,0,2$ 分段，逐段比较上下。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:6ed7ebaed1b67ac0212ace16348589164cae9e868f4f247285c83a001b3a7625
+  - type: hint
+    id: graph-table-hint
+    content: '校对分段比较时，不要凭感觉直接写答案。先把断点从小到大写出来：
+
+      “$-3,0,2$”。然后每一段都回到图像看上下。
+
+      可以在草稿纸上画这样的表：
+
+
+      断点顺序：$-3$，$0$，$2$
+
+
+      第 1 段 $(-\infty,-3)$：$y_2$ 在上，不满足 $y_1>y_2$。
+
+
+      第 2 段 $(-3,0)$：$y_1$ 在上，满足 $y_1>y_2$。
+
+
+      第 3 段 $(0,2)$：$y_2$ 在上，不满足 $y_1>y_2$。
+
+
+      第 4 段 $(2,+\infty)$：$y_1$ 在上，满足 $y_1>y_2$。
+
+      '
+    level: 1
+  - type: mistake
+    id: mistake-read-reverse
+    title: 把上下关系看反
+    content: '$y_1>y_2$ 要找的是 $y_1$ 图像在上方，不是 $y_2$ 在上方。看图时先确认哪条是直线、哪条是双曲线，再比较高度。
+
+      '
+  - type: mistake
+    id: mistake-zero
+    title: 忘记 $x=0$
+    content: '反比例函数 $y_2=\dfrac{m}{x}$ 没有 $x=0$ 这个点。答案中出现 $x=0$，或者把 $(-2,0)$ 和 $(0,3)$
+      写成 $(-2,3)$，都是错误的。
+
+      '
+  - type: mistake
+    id: mistake-endpoint
+    title: 把交点写进答案
+    content: '交点处 $y_1=y_2$，只满足等于，不满足 $y_1>y_2$。所以严格大于号的解集不能包含交点横坐标。
+
+      '
+- id: check
+  title: 四、随堂检查
+  type: explanation
+  visibility: student
+  blocks:
+  - type: variation_training
+    id: check-translate
+    label: 检查 1
+    stem_latex: 把 $x+1>\dfrac{6}{x}$ 改写成 $y_1,y_2$ 的大小关系，并写出它在图像上的意思。
+    answer_space:
+      height: 16mm
+  - type: variation_training
+    id: check-segment
+    label: 检查 2
+    stem_latex: 如果两图像交点横坐标为 $-2$ 和 $3$，请写出应该用哪些断点分段，并列出全部区间。
+    answer_space:
+      height: 18mm
+- id: summary
+  title: 五、一句话总结
+  type: explanation
+  visibility: student
+  blocks:
+  - type: summary_dual
+    id: summary-dual
+    left_title: 本题方法
+    left_items:
+    - latex: $x+1>\dfrac{6}{x}\Longleftrightarrow y_1>y_2$，也就是找 $y_1$ 图像在 $y_2$ 图像上方的
+        $x$ 范围。
+    - latex: 本题用 $-3,0,2$ 分段，满足的区间是 $(-3,0)$ 和 $(2,+\infty)$。
+    right_title: 最后检查
+    right_items:
+    - latex: 严格大于号不取交点。
+    - latex: $x=0$ 不属于反比例函数定义域，不能写进解集，也不能跨过 $0$ 合并区间。
