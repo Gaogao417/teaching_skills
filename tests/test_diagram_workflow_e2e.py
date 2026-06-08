@@ -188,7 +188,7 @@ def check_s25(plan_path: Path, jobs_path: Path) -> dict | None:
     """
     heading("S2.5  collect_diagram_jobs.py")
     r = run_script(
-        [str(REPO_ROOT / "scripts/collect_diagram_jobs.py"),
+        [str(REPO_ROOT / "scripts/diagram_workflow/collect_diagram_jobs.py"),
          str(plan_path),
          "--out-dir", str(jobs_path.parent)],
         "Collector",
@@ -244,7 +244,7 @@ def check_s26(jobs_path: Path, artifact_dir: Path, plan_path: Path) -> dict | No
     info("May take 1-3 minutes (LLM + Wolfram)...\n")
 
     r = run_script(
-        [str(REPO_ROOT / "scripts/run_diagram_batch.py"),
+        [str(REPO_ROOT / "scripts/diagram_workflow/run_diagram_batch.py"),
          str(jobs_path),
          "--artifact-dir", str(artifact_dir),
          "--plan-yaml", str(plan_path),
@@ -331,7 +331,7 @@ def check_s27(
     """
     heading("S2.7  build_diagram_artifacts.py")
     r = run_script(
-        [str(REPO_ROOT / "scripts/build_diagram_artifacts.py"),
+        [str(REPO_ROOT / "scripts/diagram_workflow/build_diagram_artifacts.py"),
          "--jobs", str(jobs_path),
          "--jobs-dir", str(jobs_dir),
          "--artifact-dir", str(artifact_dir),
@@ -377,7 +377,7 @@ def check_s28(
     """
     heading("S2.8  check_diagram_gate.py")
     r = run_script(
-        [str(REPO_ROOT / "scripts/check_diagram_gate.py"),
+        [str(REPO_ROOT / "scripts/diagram_workflow/check_diagram_gate.py"),
          "--plan", str(plan_path),
          "--jobs", str(jobs_path),
          "--artifacts", str(artifacts_path),
@@ -432,7 +432,7 @@ def check_s29(
     skip_flag = ["--skip-required-check"] if gate_status == "block" else []
 
     r = run_script(
-        [str(REPO_ROOT / "scripts/resolve_assignment_diagrams.py"),
+        [str(REPO_ROOT / "scripts/diagram_workflow/resolve_assignment_diagrams.py"),
          str(plan_path),
          "--artifacts", str(artifacts_path),
          "--out", str(resolved_path),
@@ -513,7 +513,7 @@ def check_gate_negative(
     missing_path.write_text(json.dumps(arts, indent=2))
 
     r = run_script(
-        [str(REPO_ROOT / "scripts/check_diagram_gate.py"),
+        [str(REPO_ROOT / "scripts/diagram_workflow/check_diagram_gate.py"),
          "--plan", str(plan_path),
          "--jobs", str(jobs_path),
          "--artifacts", str(missing_path),

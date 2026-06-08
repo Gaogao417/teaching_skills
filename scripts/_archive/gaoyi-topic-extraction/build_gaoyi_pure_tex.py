@@ -7,7 +7,14 @@ from pathlib import Path
 from PIL import Image
 
 
-ROOT = Path(__file__).resolve().parents[1]
+def find_repo_root(path: Path) -> Path:
+    for parent in path.resolve().parents:
+        if (parent / "AGENTS.md").exists() and (parent / "scripts").is_dir():
+            return parent
+    raise RuntimeError("cannot find repository root")
+
+
+ROOT = find_repo_root(Path(__file__))
 OUT_DIR = ROOT / "documents" / "高一" / "topic-archives-pure"
 FIGURES_DIR = OUT_DIR / "figures"
 

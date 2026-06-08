@@ -8,8 +8,8 @@ import warnings
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "scripts"))
-sys.path.insert(0, str(ROOT / "scripts" / "geometry_diagram_workflow" / "core"))
+sys.path.insert(0, str(ROOT / "scripts" / "diagram_workflow"))
+sys.path.insert(0, str(ROOT / "scripts" / "diagram_workflow" / "geometry_diagram_workflow" / "core"))
 
 from analytic_diagram_workflow import run_analytic_workflow, sanitize_wl_expression  # noqa: E402
 from check_diagram_gate import _check_analytic_renderer_specs  # noqa: E402

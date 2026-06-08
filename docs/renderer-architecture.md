@@ -693,7 +693,7 @@ matplotlib_render_failed
 推荐 CLI：
 
 ```bash
-python3 scripts/render_geometry_spec.py \
+python3 scripts/diagram_workflow/render_geometry_spec.py \
   --renderer-spec build/diagram/jobs/q01_prompt/final_renderer_spec.json \
   --work-dir build/diagram/jobs/q01_prompt \
   --public-image-dir diagram/jobs/q01_prompt/rendered \
@@ -1245,7 +1245,7 @@ renderer 只画图，不做业务判断。
 ```
 
 [1]: https://github.com/Gaogao417/teaching_skills/tree/main/scripts "teaching_skills/scripts at main · Gaogao417/teaching_skills · GitHub"
-[2]: https://raw.githubusercontent.com/Gaogao417/teaching_skills/main/scripts/render_geometry_spec.py "raw.githubusercontent.com"
+[2]: https://raw.githubusercontent.com/Gaogao417/teaching_skills/main/scripts/diagram_workflow/render_geometry_spec.py "raw.githubusercontent.com"
 [3]: https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.set_aspect.html "matplotlib.axes.Axes.set_aspect — Matplotlib 3.10.9 documentation"
 [4]: https://matplotlib.org/stable/api/_as_gen/matplotlib.patches.Circle.html "matplotlib.patches.Circle — Matplotlib 3.10.9 documentation"
 [5]: https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.annotate.html "matplotlib.axes.Axes.annotate — Matplotlib 3.10.9 documentation"

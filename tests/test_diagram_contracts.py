@@ -7,7 +7,7 @@ from pathlib import Path
 from pydantic import ValidationError
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "scripts"))
+sys.path.insert(0, str(ROOT / "scripts" / "diagram_workflow"))
 
 from diagram_contracts import (  # noqa: E402
     DiagramEngineOptions,

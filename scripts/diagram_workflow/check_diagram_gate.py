@@ -6,7 +6,7 @@ and artifacts are consistent with the plan. Produces a DiagramGateReport
 with pass/warn/block status.
 
 Usage:
-    python3 scripts/check_diagram_gate.py \
+    python3 scripts/diagram_workflow/check_diagram_gate.py \
         --plan <assignment.plan.yaml> \
         --jobs <diagram_jobs.json> \
         --artifacts <diagram_artifacts.json> \

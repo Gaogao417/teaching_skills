@@ -14,7 +14,8 @@ import sys
 from pathlib import Path
 
 
-ROOT = Path(__file__).resolve().parent.parent
+SCRIPT_DIR = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parents[2]
 
 
 def default_resolved_path(plan_yaml: Path) -> Path:
@@ -67,7 +68,7 @@ def main() -> None:
     run(
         [
             py,
-            "scripts/collect_diagram_jobs.py",
+            str(SCRIPT_DIR / "collect_diagram_jobs.py"),
             str(plan_yaml),
             "--out-dir",
             str(build_dir),
@@ -78,7 +79,7 @@ def main() -> None:
     run(
         [
             py,
-            "scripts/run_diagram_batch.py",
+            str(SCRIPT_DIR / "run_diagram_batch.py"),
             str(jobs_json),
             "--artifact-dir",
             str(artifact_dir),
@@ -95,7 +96,7 @@ def main() -> None:
     run(
         [
             py,
-            "scripts/build_diagram_artifacts.py",
+            str(SCRIPT_DIR / "build_diagram_artifacts.py"),
             "--jobs",
             str(jobs_json),
             "--jobs-dir",
@@ -112,7 +113,7 @@ def main() -> None:
         run(
             [
                 py,
-                "scripts/check_diagram_gate.py",
+                str(SCRIPT_DIR / "check_diagram_gate.py"),
                 "--plan",
                 str(plan_yaml),
                 "--jobs",
@@ -128,7 +129,7 @@ def main() -> None:
     run(
         [
             py,
-            "scripts/resolve_assignment_diagrams.py",
+            str(SCRIPT_DIR / "resolve_assignment_diagrams.py"),
             str(plan_yaml),
             "--artifacts",
             str(artifacts_json),

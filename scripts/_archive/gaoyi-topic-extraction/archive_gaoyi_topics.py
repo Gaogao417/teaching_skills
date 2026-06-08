@@ -11,10 +11,17 @@ from pathlib import Path
 from PIL import Image
 
 
-ROOT = Path(__file__).resolve().parents[1]
+def find_repo_root(path: Path) -> Path:
+    for parent in path.resolve().parents:
+        if (parent / "AGENTS.md").exists() and (parent / "scripts").is_dir():
+            return parent
+    raise RuntimeError("cannot find repository root")
+
+
+ROOT = find_repo_root(Path(__file__))
 SOURCE_DIR = ROOT / "documents" / "高一"
 OUT_DIR = SOURCE_DIR / "topic-archives"
-OCR_SCRIPT = ROOT / "scripts" / "ocr_vision.swift"
+OCR_SCRIPT = Path(__file__).resolve().with_name("ocr_vision.swift")
 
 TOPICS = {
     "复数": [

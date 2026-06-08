@@ -8,7 +8,7 @@ render_geometry_spec.py per job.
 Supports parallel execution with --max-workers, dry-run, and job filtering.
 
 Usage:
-    python3 scripts/run_diagram_batch.py <diagram_jobs.json> [options]
+    python3 scripts/diagram_workflow/run_diagram_batch.py <diagram_jobs.json> [options]
 """
 
 from __future__ import annotations

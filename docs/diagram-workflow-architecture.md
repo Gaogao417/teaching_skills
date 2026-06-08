@@ -323,20 +323,20 @@ assignment.resolved.yaml → Jinja2 template → .tex → XeLaTeX / tectonic →
 
 | 模块 | 当前职责 | 目标职责 | 备注 |
 |---|---|---|---|
-| `scripts/run_diagram_workflow.py` | 读取单个 `DiagramJobRequest` v2 并调用本地 `geometry_diagram_workflow/core/workflow.py`；只显式支持 `synthetic_geometry` | engine adapter；只负责 request 传递、engine 路由和调用 workflow.py | 不应做 clean policy 的业务修补 |
-| `scripts/geometry_diagram_workflow/core/workflow.py` | agentic GeometricScene workflow：文本模型写/revise Wolfram GeometricScene，Wolfram 求解，产出 renderer-friendly spec | 单 job executor；生产输入是一个 `DiagramJobRequest` v2 | 核心图片生成工作流，不扫描或修改 assignment YAML |
-| `scripts/render_geometry_spec.py` | `geometry-render-spec/v1` → SVG → PNG，输出 `renderer_result.json` | deterministic renderer；只消费 renderer spec，输出图片 | 不理解 assignment，不改 YAML |
+| `scripts/diagram_workflow/run_diagram_workflow.py` | 读取单个 `DiagramJobRequest` v2 并调用本地 `geometry_diagram_workflow/core/workflow.py`；只显式支持 `synthetic_geometry` | engine adapter；只负责 request 传递、engine 路由和调用 workflow.py | 不应做 clean policy 的业务修补 |
+| `scripts/diagram_workflow/geometry_diagram_workflow/core/workflow.py` | agentic GeometricScene workflow：文本模型写/revise Wolfram GeometricScene，Wolfram 求解，产出 renderer-friendly spec | 单 job executor；生产输入是一个 `DiagramJobRequest` v2 | 核心图片生成工作流，不扫描或修改 assignment YAML |
+| `scripts/diagram_workflow/render_geometry_spec.py` | `geometry-render-spec/v1` → SVG → PNG，输出 `renderer_result.json` | deterministic renderer；只消费 renderer spec，输出图片 | 不理解 assignment，不改 YAML |
 | `scripts/workflow_gate.py` | run manifest、preflight、review ledger、render gate、final review | 增加 diagram stage 记录和 diagram gate | 不直接生成图 |
 
 ### 5.2 建议新增模块
 
 | 新模块 | 输入 | 输出 | 职责 |
 |---|---|---|---|
-| `scripts/collect_diagram_jobs.py` | `assignment.plan.yaml` | `build/diagram/diagram_jobs.json` | 扫描 plan YAML 中的 diagram slots，生成批量 job graph |
-| `scripts/run_diagram_batch.py` | `diagram_jobs.json` | per-job output + partial manifest | 按依赖关系运行所有 diagram jobs；控制并发、重试、缓存 |
-| `scripts/build_diagram_artifacts.py` | jobs 目录 | `diagram_artifacts.json` | 汇总 renderer_result、image hash、尺寸、状态 |
-| `scripts/resolve_assignment_diagrams.py` | `assignment.plan.yaml` + `diagram_artifacts.json` | `assignment.resolved.yaml` | 将 slot/ref 回填为模板可消费的 `image_path` 对象 |
-| `scripts/check_diagram_gate.py` | plan + jobs + artifacts + resolved YAML | PASS/BLOCK JSON | 检查 required 图、路径、hash、stale、policy |
+| `scripts/diagram_workflow/collect_diagram_jobs.py` | `assignment.plan.yaml` | `build/diagram/diagram_jobs.json` | 扫描 plan YAML 中的 diagram slots，生成批量 job graph |
+| `scripts/diagram_workflow/run_diagram_batch.py` | `diagram_jobs.json` | per-job output + partial manifest | 按依赖关系运行所有 diagram jobs；控制并发、重试、缓存 |
+| `scripts/diagram_workflow/build_diagram_artifacts.py` | jobs 目录 | `diagram_artifacts.json` | 汇总 renderer_result、image hash、尺寸、状态 |
+| `scripts/diagram_workflow/resolve_assignment_diagrams.py` | `assignment.plan.yaml` + `diagram_artifacts.json` | `assignment.resolved.yaml` | 将 slot/ref 回填为模板可消费的 `image_path` 对象 |
+| `scripts/diagram_workflow/check_diagram_gate.py` | plan + jobs + artifacts + resolved YAML | PASS/BLOCK JSON | 检查 required 图、路径、hash、stale、policy |
 
 ### 5.3 LaTeX 相关模块
 

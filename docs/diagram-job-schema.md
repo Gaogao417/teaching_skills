@@ -1,6 +1,6 @@
 # Diagram Job Schema
 
-本文档把 `docs/diagram-workflow-architecture.md` 中的 diagram 数据流收敛成可实现的 Pydantic contract。类型定义落在 `scripts/diagram_contracts.py`。
+本文档把 `docs/diagram-workflow-architecture.md` 中的 diagram 数据流收敛成可实现的 Pydantic contract。类型定义落在 `scripts/diagram_workflow/diagram_contracts.py`。
 
 ## 1. 关键数据流
 

@@ -4,7 +4,7 @@
 
 当前实现层面的主结论：
 
-- `GeometricScene-Builder` 外部仓库不再是默认运行依赖；其 agentic `workflow.py`、Wolfram 包和 prompt skills 已迁入 `scripts/geometry_diagram_workflow/`。
+- `GeometricScene-Builder` 外部仓库不再是默认运行依赖；其 agentic `workflow.py`、Wolfram 包和 prompt skills 已迁入 `scripts/diagram_workflow/geometry_diagram_workflow/`。
 - 模型继续负责写 Wolfram `GeometricScene`，workflow 负责注入 skill、执行 Wolfram、抽取坐标、编译 renderer spec、渲染和记录日志。
 - solution 图采用二阶段逻辑：先用 prompt job 求原图点坐标，再用 `Join[Thread[basePoints -> baseCoords], auxPoints]` 锁定原点并追加辅助约束，保证 annotated 图不重造构型。
 
@@ -14,7 +14,7 @@
 assignment.plan.yaml 中的 diagram_slot 字段
   -> collect_diagram_jobs.py 收集题目级 diagram jobs
   -> 写 build/diagram/jobs/<job_id>/request.json（DiagramJobRequest v2）
-  -> run_diagram_batch.py 运行本仓库内置 scripts/geometry_diagram_workflow
+  -> run_diagram_batch.py 运行本仓库内置 scripts/diagram_workflow/geometry_diagram_workflow
   -> 生成 final_renderer_spec.json
   -> render_geometry_spec.py 输出 rendered/prompt.png 或 rendered/solution.png
   -> build_diagram_artifacts.py / check_diagram_gate.py 汇总和验收

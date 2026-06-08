@@ -6,7 +6,7 @@ workflow_result.json per job, computes image hashes, and assembles
 a DiagramArtifactsManifest.
 
 Usage:
-    python3 scripts/build_diagram_artifacts.py \
+    python3 scripts/diagram_workflow/build_diagram_artifacts.py \
         --jobs <diagram_jobs.json> --jobs-dir <build/diagram/jobs> \
         --out <diagram_artifacts.json>
 """

@@ -6,7 +6,7 @@ DiagramSlot contracts, converts each to a DiagramJob, and writes a
 DiagramJobsManifest to build/diagram/diagram_jobs.json.
 
 Usage:
-    python3 scripts/collect_diagram_jobs.py <plan.yaml> [--out-dir <dir>]
+    python3 scripts/diagram_workflow/collect_diagram_jobs.py <plan.yaml> [--out-dir <dir>]
 """
 
 from __future__ import annotations

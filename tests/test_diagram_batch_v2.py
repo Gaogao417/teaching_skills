@@ -7,7 +7,7 @@ import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "scripts"))
+sys.path.insert(0, str(ROOT / "scripts" / "diagram_workflow"))
 
 from diagram_contracts import DiagramJob, DiagramJobsManifest  # noqa: E402
 from run_diagram_batch import build_request, run_one_job  # noqa: E402

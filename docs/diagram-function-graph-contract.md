@@ -126,6 +126,6 @@ Solution 图：
 
 1. `run_diagram_batch.py` 从 plan slot 提取 `analytic_requirements`，写入 `DiagramJobRequest`。
 2. `run_diagram_workflow.py` 按 `engine + diagram_kind` 路由 `wolfram_client` / `coordinate_renderer`，不要 skip `function_graph`。
-3. `scripts/analytic_diagram_workflow.py` 使用 WolframClient 做表达式安全校验、采样、交点与零点计算，不生成 `.wl` 文件。
+3. `scripts/diagram_workflow/analytic_diagram_workflow.py` 使用 WolframClient 做表达式安全校验、采样、交点与零点计算，不生成 `.wl` 文件。
 4. `render_geometry_spec.py` 对 `function_graph` / `coordinate_geometry` 使用坐标 renderer，画 axes、grid、ticks、function samples、point、line、circle、polyline/polygon。
 5. gate 和更复杂标注能力继续增强；`wolfram_plot` 只作为兼容 alias。

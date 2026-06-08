@@ -10,7 +10,7 @@ func loadCGImage(path: String) -> CGImage? {
 
 let args = Array(CommandLine.arguments.dropFirst())
 guard !args.isEmpty else {
-    fputs("usage: swift scripts/ocr_vision.swift IMAGE...\n", stderr)
+    fputs("usage: swift scripts/_archive/gaoyi-topic-extraction/ocr_vision.swift IMAGE...\n", stderr)
     exit(2)
 }
 

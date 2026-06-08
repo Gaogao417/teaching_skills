@@ -6,7 +6,7 @@ diagram_slot with a resolved diagram object (diagram_col / type: diagram)
 consumable by LaTeX templates, and writes assignment.resolved.yaml.
 
 Usage:
-    python3 scripts/resolve_assignment_diagrams.py <plan.yaml> \
+    python3 scripts/diagram_workflow/resolve_assignment_diagrams.py <plan.yaml> \
         --artifacts <diagram_artifacts.json> --out <resolved.yaml>
 """
 
