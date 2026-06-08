@@ -1,17 +1,19 @@
 # Explanation Block Reference
 
-只在生成 `exam-zh-explanation` YAML 时读取。本文件记录常用 block type 和最小字段。
+只在生成 `exam-zh-explanation` YAML 时读取。本文件是生成讲解 block 的唯一教学字段约束来源，记录常用 block type 和最小字段。
 
 ## 字段职责
 
 - `problemcard.stem_latex`：原题入口，忠实复现题面。
 - `route.steps[].latex`：路线图里的步骤动作标题，同时会成为标准解答步骤标题。
 - `route.steps[].content_latex`：对应步骤的标准解答正文。
-- `dual_explanation.stem_latex`：真实题目或真实小问的题干，不写引导问题。
+- `dual_explanation.label` / `dual_explanation.stem_latex`：只在原题有多个真实小问时使用，用来标出真实小问和小问题干；原题只有一问时不写。
 - `dual_explanation.solution_step_ids`：引用 route step，决定本题/本小问的标准解答包含哪些步骤。
-- `side_items` / `connection_items`：放提示、易错、追问和承接说明。
+- `connection_items`：放必要的承接说明；不要默认补提示、易错或追问。
 
-不要把教学步骤伪装成小问。原题只有一问时，只写一个 `dual_explanation`；原题有真实 `(1)(2)(3)` 小问时，才写多个 `dual_explanation`。
+不要把教学步骤伪装成小问。原题只有一问时，只写一个 `dual_explanation`，且不写 `label` 和 `stem_latex`；原题有真实 `(1)(2)(3)` 小问时，才写多个 `dual_explanation`。
+
+不默认生成 `reading_tip`、`mistake`、`variation_training` 或 `hint` block。易错点、变式训练和额外提示由教师后续手动补充。
 
 ## problemcard
 
@@ -30,17 +32,6 @@ stem_latex: |
 ```
 
 不要用 `step` 放原题。`stem_latex` 原样输出 LaTeX，不转义。
-
-## reading_tip
-
-轻量读题提示。
-
-```yaml
-type: "reading_tip"
-id: "rt1"
-items:
-  - latex: "先做第（1）问，后面两问都建立在解析式上。"
-```
 
 ## route
 
@@ -67,13 +58,6 @@ steps:
 ```yaml
 type: "dual_explanation"
 id: "sol-main"
-label: "本题"
-stem_latex: "求这个一次函数的解析式。"
-side_title: "提示与易错"
-side_items:
-  - kind: "hint"
-    title: "入口"
-    content_latex: "把两个已知点分别代入 $y=kx+b$。"
 solution_title: "解答"
 solution_step_ids:
   - "route-equations"
@@ -95,7 +79,7 @@ solution_step_ids:
   - "route-solve"
 ```
 
-不要使用旧结构 `right_steps`。不要用 `title: "第（1）问"` 替代 `label` + `stem_latex`。不要把 `stem_latex` 写成“为什么先……”“怎样……”这类讲解提问；这些内容应放在 `side_items`、`route.steps[].content_latex` 或 `connection_items`。
+不要使用旧结构 `right_steps`。多小问时不要用 `title: "第（1）问"` 替代 `label` + `stem_latex`。不要把 `stem_latex` 写成“为什么先……”“怎样……”这类讲解提问；必要引导放在 `route.steps[].content_latex` 或 `connection_items`。
 
 ## summary_dual
 
@@ -110,39 +94,6 @@ left_items:
 right_title: "方法提醒"
 right_items:
   - latex: "待定系数法：代入、列方程、消元、回代。"
-```
-
-## mistake
-
-```yaml
-type: "mistake"
-id: "m1"
-title: "易错点标题"
-content: "说明常见错误和避坑动作。"
-```
-
-## variation_training
-
-讲解后的短小动作确认。每个 block 只检查一个关键动作。
-
-```yaml
-type: "variation_training"
-id: "check-1"
-label: "随堂检查"
-stem_latex: "把点 $A(1,3)$ 代入 $y=kx+b$，写出对应等式。"
-answer_space:
-  height: "14mm"
-```
-
-## hint
-
-用于补充提示或 diagram fallback。
-
-```yaml
-type: "hint"
-id: "fig-main-fallback"
-content: "本题建议教师在黑板上补画题目草图。"
-level: 1
 ```
 
 ## Minimal YAML Shape

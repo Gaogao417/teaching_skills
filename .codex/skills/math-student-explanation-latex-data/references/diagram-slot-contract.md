@@ -31,4 +31,5 @@ diagram_slot:
 - 辅助线讲解图使用 `variant: "solution"` 和 `disclosure_policy: "annotated"`，并显式写 `reuse_geometry_from`。
 - `caption` 写学生要观察的动作，不写调试信息。
 - plan YAML 不得出现 `image_path`、`diagram_job_id`、`diagram_col`、`diagram_row`、`answer_space.diagram_col` 或最终 `type: diagram` 图片对象。
-- 如果图形暂不支持，写 `hint` fallback，不制造空 slot。
+- 如果图形暂不支持，不补额外提示 block，也不制造空 slot。
+- 必需图使用 `required: true` 和 `on_failure: "fail_assignment"` 让流程显式失败；非必需图直接跳过图位。
