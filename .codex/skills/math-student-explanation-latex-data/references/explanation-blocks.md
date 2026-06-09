@@ -6,14 +6,32 @@
 
 - `problemcard.stem_latex`：原题入口，忠实复现题面。
 - `route.steps[].latex`：路线图里的步骤动作标题，同时会成为标准解答步骤标题。
-- `route.steps[].content_latex`：对应步骤的标准解答正文。
+- `route.steps[].content_latex`：对应步骤的标准解答正文，只写 how：必要动作、公式、推导和结论。不要写大段动机、类比、追问或“所以然”解释。
 - `dual_explanation.label` / `dual_explanation.stem_latex`：只在原题有多个真实小问时使用，用来标出真实小问和小问题干；原题只有一问时不写。
 - `dual_explanation.solution_step_ids`：引用 route step，决定本题/本小问的标准解答包含哪些步骤。
-- `connection_items`：放必要的承接说明；不要默认补提示、易错或追问。
+- `dual_explanation.side_items`：放小贴士提问和易混提醒，用来讲 why 和“所以然”。每条要短，优先写成能让学生思考的提问或判断句。
+- `connection_items`：放必要的承接说明；不要把步骤正文已经能表达清楚的内容重复写一遍。
 
 不要把教学步骤伪装成小问。原题只有一问时，只写一个 `dual_explanation`，且不写 `label` 和 `stem_latex`；原题有真实 `(1)(2)(3)` 小问时，才写多个 `dual_explanation`。
 
-不默认生成 `reading_tip`、`mistake`、`variation_training` 或 `hint` block。易错点、变式训练和额外提示由教师后续手动补充。
+不默认生成独立的 `reading_tip`、`mistake`、`variation_training` 或 `hint` block。若标准步骤里出现了讲 why、讲“所以然”的长解释，应移到 `dual_explanation.side_items`，作为小贴士提问或易混提醒。
+
+## Step Brevity Rule
+
+生成 assignment YAML 后，必须复查每个 `route.steps[].content_latex`：
+
+- 简洁：每步通常只保留 1 个核心动作；能用一行公式说明的，不写成讲义段落。
+- 严谨：公式、等量关系、取值范围、点序或符号判断必须完整，不能为了短而漏条件。
+- 规范：使用标准数学表述，如“由中位线定理得”“代入得”“解得”“因此”，少用口语化解释。
+- 分工：右栏解答步骤讲“怎么做”；左栏 `side_items` 讲“为什么想到这一步”“这里为什么不能那样做”“下一步先观察什么”。
+
+如果发现 `content_latex` 中出现下面内容，应移动到 `side_items`：
+
+- “为什么先……”
+- “看到……要想到……”
+- “这一步的本质是……”
+- “容易错在……”
+- “你可以先问自己……”
 
 ## problemcard
 
@@ -58,6 +76,11 @@ steps:
 ```yaml
 type: "dual_explanation"
 id: "sol-main"
+side_title: "小贴士"
+side_items:
+  - kind: "hint"
+    title: "先想什么"
+    content_latex: "为什么这一步要先找到两个已知点？"
 solution_title: "解答"
 solution_step_ids:
   - "route-equations"

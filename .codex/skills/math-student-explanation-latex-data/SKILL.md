@@ -32,7 +32,7 @@ artifacts/<学生名>/YYYY-MM-DD-<内容>/02-student-explanation.assignment.yaml
 2. 先独立核对原题、标准解和关键限制；不要把结构分析里的错误机械抄入 YAML。
 3. 读取 `references/explanation-blocks.md`，按其中的 block 规则设计讲解内容。
 4. 若需要几何图，读取 `references/diagram-slot-contract.md`，只声明 plan 阶段的 `diagram_slot`。
-5. 使用 `exam-zh-explanation` 模板输出 assignment YAML。
+5. 使用 `exam-zh-explanation` 模板输出 assignment YAML。输出后必须检查每个 `route.steps[].content_latex`：解答步骤只讲 how，要求简洁、严谨、规范；把讲 why、讲“所以然”、入口追问和易混判断移到 `dual_explanation.side_items` 的小贴士提问中。
 6. 输出 YAML 后运行 schema 校验；如果校验失败，修 YAML，不把错误留给渲染阶段。
 
 ## References
@@ -47,8 +47,10 @@ artifacts/<学生名>/YYYY-MM-DD-<内容>/02-student-explanation.assignment.yaml
 
 1. 所有 block 有唯一 `id` 和正确 `type`。
 2. 已按 `references/explanation-blocks.md` 约束生成讲解 block。
-3. 若有图，已按 `references/diagram-slot-contract.md` 约束只声明 plan 图位。
-4. YAML 通过 `python3 math-assignment-latex/scripts/validate_assignment.py <yaml>`。
+3. 已逐条检查 `route.steps[].content_latex`：每步只保留必要动作、公式和结论；删除冗长动机、类比、追问、口语解释。
+4. 已把必要的“为什么这样做”“下一步该想到什么”“容易混在哪里”改写为 `dual_explanation.side_items` 中的短小贴士提问，而不是塞进标准解答正文。
+5. 若有图，已按 `references/diagram-slot-contract.md` 约束只声明 plan 图位。
+6. YAML 通过 `python3 math-assignment-latex/scripts/validate_assignment.py <yaml>`。
 
 ## Handoff
 
