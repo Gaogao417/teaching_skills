@@ -1,0 +1,462 @@
+meta:
+  title: "矩形中点中位线求线段"
+  subtitle: "补一个中点，把两个已有中点接成中位线"
+  grade: "八年级"
+  subject: "数学"
+  version: "teacher"
+  assignment_id: "2026-06-08-note-midpoint-midline-explanation"
+  show_answers: true
+  source_artifacts:
+    structure_analysis: "artifacts/笔记/2026-06-08-矩形中点中位线求线段/01-structure-analysis.md"
+
+render:
+  template: "exam-zh-explanation"
+  paper_size: "a4paper"
+
+sections:
+  - id: "original"
+    title: "原题"
+    type: "explanation"
+    visibility: "both"
+    blocks:
+      - type: "problemcard"
+        id: "orig"
+        label: "题目"
+        stem_latex: |
+          如图，在矩形 $ABCD$ 中，$AB=6$，$BD=10$，$O$ 为对角线 $BD$ 的中点，
+          $E$ 为边 $BC$ 上一点，连接 $AE$，取 $AE$ 的中点 $F$，连接 $OF$。
+          若 $BE=2$，则 $OF$ 的长为多少？
+        diagram_slot:
+          slot_id: "explanation.orig.prompt"
+          diagram_ref: "explanation.orig.prompt"
+          variant: "prompt"
+          disclosure_policy: "clean"
+          required: true
+          on_failure: "fail_assignment"
+          placement: "diagram_col"
+          layout_role: "question_sidecar"
+          width_hint: "0.30\\linewidth"
+          caption: "原题图：看清 $O,F$。"
+          engine: "coordinate_renderer"
+          diagram_kind: "coordinate_geometry"
+          teaching_intent: "explanation_prompt"
+          problem_context:
+            stem_latex: "矩形 ABCD 中，AB=6，BD=10，O 是 BD 中点，E 在 BC 上且 BE=2，F 是 AE 中点，求 OF。"
+            grade_or_topic: "八年级几何·中位线"
+          semantic_constraints:
+            given_objects:
+              - "矩形 ABCD"
+              - "点 E 在 BC 上，BE=2"
+              - "O 是 BD 的中点"
+              - "F 是 AE 的中点"
+            given_constraints:
+              - "AB=6"
+              - "BD=10"
+            clean_forbidden:
+              - "不要画辅助点 M"
+              - "不要标注 MO=4 或 MF=1"
+          visual_requirements:
+            show_labels: true
+            show_given_markers: true
+            show_axes: false
+            preferred_orientation: "landscape"
+            caption: "原题图：看清 $O,F$。"
+          analytic_requirements:
+            viewport:
+              x_min: -0.8
+              x_max: 8.8
+              y_min: -0.8
+              y_max: 6.8
+              preserve_aspect: true
+            axes:
+              x: false
+              y: false
+              grid: false
+              show_ticks: false
+              x_label: ""
+              y_label: ""
+            objects:
+              - type: "polygon"
+                id: "rect"
+                points: ["A", "B", "C", "D"]
+                style:
+                  fill: "#f8fafc"
+                  stroke: "#111827"
+                  stroke_width: 2.4
+              - type: "polyline"
+                id: "BD"
+                points: ["B", "D"]
+                style:
+                  stroke: "#2563eb"
+                  stroke_width: 2.4
+              - type: "polyline"
+                id: "AE"
+                points: ["A", "E"]
+                style:
+                  stroke: "#2563eb"
+                  stroke_width: 2.4
+              - type: "polyline"
+                id: "OF"
+                points: ["O", "F"]
+                style:
+                  stroke: "#dc2626"
+                  stroke_width: 3.0
+              - type: "point"
+                id: "A"
+                x: 0
+                y: 6
+                label: "A"
+                style:
+                  label_dx: -20
+                  label_dy: 16
+              - type: "point"
+                id: "B"
+                x: 0
+                y: 0
+                label: "B"
+                style:
+                  label_dx: -20
+                  label_dy: -16
+              - type: "point"
+                id: "C"
+                x: 8
+                y: 0
+                label: "C"
+                style:
+                  label_dx: 12
+                  label_dy: -16
+              - type: "point"
+                id: "D"
+                x: 8
+                y: 6
+                label: "D"
+                style:
+                  label_dx: 12
+                  label_dy: 16
+              - type: "point"
+                id: "E"
+                x: 2
+                y: 0
+                label: "E"
+                style:
+                  label_dx: 0
+                  label_dy: -18
+              - type: "point"
+                id: "O"
+                x: 4
+                y: 3
+                label: "O"
+                style:
+                  label_dx: 10
+                  label_dy: -22
+              - type: "point"
+                id: "F"
+                x: 1
+                y: 3
+                label: "F"
+                style:
+                  label_dx: -18
+                  label_dy: 0
+              - type: "text"
+                id: "ab-len"
+                x: -0.35
+                y: 3
+                text: "6"
+                style:
+                  font_size: 15
+                  fill: "#374151"
+              - type: "text"
+                id: "be-len"
+                x: 1
+                y: -0.45
+                text: "BE=2"
+                style:
+                  font_size: 15
+                  fill: "#374151"
+              - type: "text"
+                id: "bd-len"
+                x: 4.95
+                y: 3.75
+                text: "BD=10"
+                style:
+                  font_size: 15
+                  fill: "#374151"
+
+  - id: "route-section"
+    title: "一、解题路线"
+    type: "explanation"
+    visibility: "student"
+    blocks:
+      - type: "route"
+        id: "route"
+        steps:
+          - id: "route-find-width"
+            latex: "先求矩形的另一条边"
+            content_latex: |
+              在直角三角形 $BCD$ 中，$BD=10$，$CD=AB=6$，所以
+              $$
+              BC=\sqrt{10^2-6^2}=8.
+              $$
+              因此 $AD=BC=8$。
+          - id: "route-add-midpoint"
+            latex: "在 $AB$ 上补取中点 $M$"
+            content_latex: |
+              题目已经给了两个中点：$O$ 是 $BD$ 的中点，$F$ 是 $AE$ 的中点。
+              为了让它们进入中位线，补取 $M$ 为 $AB$ 的中点。
+          - id: "route-big-midline"
+            latex: "看 $\triangle ABD$ 中的中位线"
+            content_latex: |
+              在 $\triangle ABD$ 中，$M$ 是 $AB$ 的中点，$O$ 是 $BD$ 的中点，
+              所以 $MO$ 是中位线，且
+              $$
+              MO=\frac12 AD=\frac12\times 8=4.
+              $$
+          - id: "route-small-midline"
+            latex: "看 $\triangle ABE$ 中的中位线"
+            content_latex: |
+              在 $\triangle ABE$ 中，$M$ 是 $AB$ 的中点，$F$ 是 $AE$ 的中点，
+              所以 $MF$ 是中位线，且
+              $$
+              MF=\frac12 BE=\frac12\times 2=1.
+              $$
+          - id: "route-subtract"
+            latex: "用同一直线上的两段相减"
+            content_latex: |
+              $MO\parallel AD$，$MF\parallel BE$，且 $AD\parallel BE$，所以 $M,F,O$ 共线。
+              图中 $F$ 在 $M$ 与 $O$ 之间，因此
+              $$
+              OF=MO-MF=4-1=3.
+              $$
+
+  - id: "solution"
+    title: "二、标准讲解"
+    type: "explanation"
+    visibility: "student"
+    blocks:
+      - type: "problemcard"
+        id: "midpoint-figure"
+        label: "辅助图"
+        stem_latex: |
+          关键动作：在 $AB$ 上取中点 $M$。
+          这样 $M,O$ 进入 $\triangle ABD$，$M,F$ 进入 $\triangle ABE$。
+        diagram_slot:
+          slot_id: "explanation.solution.annotated"
+          diagram_ref: "explanation.solution.annotated"
+          variant: "solution"
+          disclosure_policy: "annotated"
+          reuse_geometry_from: "explanation.orig.prompt"
+          required: true
+          on_failure: "fail_assignment"
+          placement: "block_center"
+          layout_role: "solution_annotation"
+          width_hint: "0.30\\linewidth"
+          caption: "补 $M$：$MO=4$，$MF=1$。"
+          engine: "coordinate_renderer"
+          diagram_kind: "coordinate_geometry"
+          teaching_intent: "explanation_solution"
+          problem_context:
+            stem_latex: "在原题图基础上，补取 M 为 AB 的中点，连接 MO 与 MF。"
+            grade_or_topic: "八年级几何·中位线"
+          semantic_constraints:
+            given_objects:
+              - "原题矩形 ABCD 与点 E,O,F"
+            given_constraints:
+              - "M 是 AB 的中点"
+              - "MO 是三角形 ABD 的中位线"
+              - "MF 是三角形 ABE 的中位线"
+            derived_objects:
+              - "辅助点 M"
+              - "线段 MO"
+              - "线段 MF"
+            derived_constraints:
+              - "MO=AD/2=4"
+              - "MF=BE/2=1"
+              - "OF=MO-MF=3"
+            solution_allowed_annotations:
+              - "标出辅助点 M"
+              - "标出 MO=4、MF=1"
+          visual_requirements:
+            show_labels: true
+            show_given_markers: true
+            show_axes: false
+            preferred_orientation: "landscape"
+            caption: "补 $M$：$MO=4$，$MF=1$。"
+          analytic_requirements:
+            viewport:
+              x_min: -0.8
+              x_max: 8.8
+              y_min: -0.8
+              y_max: 6.8
+              preserve_aspect: true
+            axes:
+              x: false
+              y: false
+              grid: false
+              show_ticks: false
+              x_label: ""
+              y_label: ""
+            objects:
+              - type: "polygon"
+                id: "rect"
+                points: ["A", "B", "C", "D"]
+                style:
+                  fill: "#f8fafc"
+                  stroke: "#111827"
+                  stroke_width: 2.4
+              - type: "polyline"
+                id: "BD"
+                points: ["B", "D"]
+                style:
+                  stroke: "#94a3b8"
+                  stroke_width: 2.0
+              - type: "polyline"
+                id: "AE"
+                points: ["A", "E"]
+                style:
+                  stroke: "#94a3b8"
+                  stroke_width: 2.0
+              - type: "polyline"
+                id: "MO"
+                points: ["M", "O"]
+                style:
+                  stroke: "#2563eb"
+                  stroke_width: 3.2
+              - type: "polyline"
+                id: "MF"
+                points: ["M", "F"]
+                style:
+                  stroke: "#16a34a"
+                  stroke_width: 3.2
+              - type: "polyline"
+                id: "OF"
+                points: ["F", "O"]
+                style:
+                  stroke: "#dc2626"
+                  stroke_width: 3.4
+              - type: "point"
+                id: "A"
+                x: 0
+                y: 6
+                label: "A"
+                style:
+                  label_dx: -20
+                  label_dy: 16
+              - type: "point"
+                id: "B"
+                x: 0
+                y: 0
+                label: "B"
+                style:
+                  label_dx: -20
+                  label_dy: -16
+              - type: "point"
+                id: "C"
+                x: 8
+                y: 0
+                label: "C"
+                style:
+                  label_dx: 12
+                  label_dy: -16
+              - type: "point"
+                id: "D"
+                x: 8
+                y: 6
+                label: "D"
+                style:
+                  label_dx: 12
+                  label_dy: 16
+              - type: "point"
+                id: "E"
+                x: 2
+                y: 0
+                label: "E"
+                style:
+                  label_dx: 0
+                  label_dy: -18
+              - type: "point"
+                id: "M"
+                x: 0
+                y: 3
+                label: "M"
+                style:
+                  label_dx: -20
+                  label_dy: 0
+              - type: "point"
+                id: "F"
+                x: 1
+                y: 3
+                label: "F"
+                style:
+                  label_dx: -10
+                  label_dy: -20
+              - type: "point"
+                id: "O"
+                x: 4
+                y: 3
+                label: "O"
+                style:
+                  label_dx: 10
+                  label_dy: -20
+              - type: "text"
+                id: "mo-len"
+                x: 2.35
+                y: 3.42
+                text: "MO=4"
+                style:
+                  font_size: 15
+                  fill: "#2563eb"
+              - type: "text"
+                id: "mf-len"
+                x: 0.45
+                y: 2.62
+                text: "MF=1"
+                style:
+                  font_size: 15
+                  fill: "#16a34a"
+              - type: "text"
+                id: "of-len"
+                x: 2.5
+                y: 2.58
+                text: "OF=3"
+                style:
+                  font_size: 15
+                  fill: "#dc2626"
+
+      - type: "dual_explanation"
+        id: "sol-main"
+        label: "本题"
+        stem_latex: "求 $OF$ 的长。"
+        side_title: "提示与易错"
+        side_items:
+          - kind: "hint"
+            title: "入口"
+            content_latex: "$O,F$ 已经是中点，但还不能直接组成一条中位线；补取 $AB$ 的中点 $M$。"
+          - kind: "mistake"
+            title: "点序"
+            content_latex: "求出 $MO=4$、$MF=1$ 后要相减，不要相加，因为 $F$ 在 $M,O$ 之间。"
+        solution_title: "解答"
+        solution_step_ids:
+          - "route-find-width"
+          - "route-add-midpoint"
+          - "route-big-midline"
+          - "route-small-midline"
+          - "route-subtract"
+        connection_title: "这一步为什么自然"
+        connection_items:
+          - latex: "$O$ 和 $F$ 已经是两个中点，但它们不在同一个三角形里；补 $AB$ 的中点 $M$，就是为了让 $O$、$F$ 各自进入一个中位线。"
+          - latex: "最后不是 $4+1$，而是 $4-1$，因为 $MF$ 是从 $M$ 到 $F$，$MO$ 是从 $M$ 到 $O$，$F$ 在 $M,O$ 之间。"
+
+  - id: "summary"
+    title: "三、方法收束"
+    type: "explanation"
+    visibility: "student"
+    blocks:
+      - type: "summary_dual"
+        id: "summary-block"
+        left_title: "答案"
+        left_items:
+          - latex: "$OF=3$"
+        right_title: "方法提醒"
+        right_items:
+          - latex: "看到两个中点但套不上中位线时，先想：能不能补一个中点。"
+          - latex: "平行线间的中点连线，常常等于两条对应底边的一半之差。"
