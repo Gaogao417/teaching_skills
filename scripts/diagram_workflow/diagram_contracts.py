@@ -795,11 +795,16 @@ class AnswerSpaceView(DiagramLooseModel):
     parts: list[AnswerSpacePartView] = Field(default_factory=list)
 
 
+class AssignmentRouteStepView(DiagramLooseModel):
+    diagram_slot: DiagramSlot | None = None
+
+
 class AssignmentBlockView(DiagramLooseModel):
     id: str = ""
     stem_latex: str = ""
     stem: str = ""
     diagram_slot: DiagramSlot | None = None
+    steps: list[AssignmentRouteStepView] = Field(default_factory=list)
     answer_space: AnswerSpaceView | None = None
 
 
@@ -827,6 +832,7 @@ class DiagramSlotRef(DiagramModel):
     slot: DiagramSlot
     section_index: int = Field(ge=0)
     block_index: int = Field(ge=0)
+    step_index: int | None = Field(default=None, ge=0)
     part_index: int | None = Field(default=None, ge=0)
 
 

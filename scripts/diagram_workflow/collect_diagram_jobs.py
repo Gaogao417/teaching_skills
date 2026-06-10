@@ -95,6 +95,17 @@ def _find_diagram_slots(data: AssignmentPlanDiagramView) -> list[DiagramSlotRef]
                     block_index=bi,
                 ))
 
+            for sti, step in enumerate(block.steps):
+                if step.diagram_slot is not None:
+                    sp = _slot_path(si, bi, "steps", str(sti), "diagram_slot")
+                    found.append(DiagramSlotRef(
+                        slot_path=sp,
+                        slot=step.diagram_slot,
+                        section_index=si,
+                        block_index=bi,
+                        step_index=sti,
+                    ))
+
             answer_space = block.answer_space
             if answer_space is not None:
                 if answer_space.diagram_slot is not None:

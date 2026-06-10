@@ -29,6 +29,7 @@ diagram_slot:
 - `slot_id` 必须唯一。
 - 原题图使用 `variant: "prompt"` 和 `disclosure_policy: "clean"`。
 - 辅助线讲解图使用 `variant: "solution"` 和 `disclosure_policy: "annotated"`，并显式写 `reuse_geometry_from`。
+- 若辅助图对应某个解答动作，如“作辅助线”“补中点”“连接某线段”，优先把 `diagram_slot` 写在对应 `route.steps[]` 下，并使用 `placement: "step_diagram"`；不要单独制造一个“辅助图” `problemcard`。
 - `caption` 写学生要观察的动作，不写调试信息。
 - plan YAML 不得出现 `image_path`、`diagram_job_id`、`diagram_col`、`diagram_row`、`answer_space.diagram_col` 或最终 `type: diagram` 图片对象。
 - 如果图形暂不支持，不补额外提示 block，也不制造空 slot。

@@ -77,6 +77,15 @@ def _slot_refs(plan: AssignmentPlanDiagramView) -> list[DiagramSlotRef]:
                     section_index=si,
                     block_index=bi,
                 ))
+            for sti, step in enumerate(block.steps):
+                if step.diagram_slot is not None:
+                    refs.append(DiagramSlotRef(
+                        slot_path=f"/sections/{si}/blocks/{bi}/steps/{sti}/diagram_slot",
+                        slot=step.diagram_slot,
+                        section_index=si,
+                        block_index=bi,
+                        step_index=sti,
+                    ))
             answer_space = block.answer_space
             if answer_space is None:
                 continue

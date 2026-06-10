@@ -141,6 +141,15 @@
     \eduColumnTitle{\eduIconBook}{<% if block.solution_title %><%= block.solution_title|latex_escape %><% else %>解答<% endif %>}
     <% for step in block.solution_steps|default([]) %>
       \eduExplainStep{<%= loop.index %>}{<% if step.latex %><%= step.latex %><% elif step.text %><%= step.text|latex_escape %><% else %><%= step.title|latex_escape %><% endif %>}{<% if step.content_latex %><%= step.content_latex %><% else %><%= step.content|latex_escape %><% endif %>}
+      <% set step_diagram = step.diagram_col or step.prompt_diagram %>
+      <% if step_diagram %>
+      \begin{center}
+        \includegraphics[width=<% if step_diagram.width %><%= step_diagram.width %><% else %>0.82\linewidth<% endif %>]{\detokenize{<%= step_diagram.image_path|latex_path %>}}
+        <% if step_diagram.caption %>
+        \par\vspace{0.6mm}{\scriptsize\color{edu-diagram-muted}<%= step_diagram.caption|latex_escape %>}
+        <% endif %>
+      \end{center}
+      <% endif %>
     <% endfor %>
   <% if block.connection_items %>
     \vspace{1mm}

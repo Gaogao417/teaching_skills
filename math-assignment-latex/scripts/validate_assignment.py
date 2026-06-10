@@ -128,6 +128,11 @@ def collect_diagram_refs(block, owner):
     if block.get("type") == "diagram_row":
         for i, item in enumerate(block.get("items") or block.get("diagrams") or []):
             add(item, f"diagram_row[{i}]")
+    if block.get("type") == "route":
+        for i, step in enumerate(block.get("steps") or []):
+            if isinstance(step, dict):
+                add(step.get("diagram_col"), f"steps[{i}].diagram_col")
+                add(step.get("prompt_diagram"), f"steps[{i}].prompt_diagram")
     aspace = block.get("answer_space") if isinstance(block.get("answer_space"), dict) else None
     if aspace:
         for key in ("diagram_col", "diagram"):
@@ -239,6 +244,14 @@ def validate(data, base_dir=None):
                             continue
                         if step.get("id") and not step_text(step):
                             errors.append(f"{bprefix} ({bid}).steps[{step_i}]: route step with id requires latex/text/title")
+                        for key in ("diagram_col", "prompt_diagram"):
+                            if step.get(key):
+                                validate_diagram_obj(
+                                    step[key],
+                                    f"{bprefix} ({bid}).steps[{step_i}].{key}",
+                                    errors,
+                                    base_dir,
+                                )
 
             if btype == "variation_training":
                 if "stem" not in block and "stem_latex" not in block:

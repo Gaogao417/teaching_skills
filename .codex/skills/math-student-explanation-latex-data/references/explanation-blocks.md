@@ -7,6 +7,7 @@
 - `problemcard.stem_latex`：原题入口，忠实复现题面。
 - `route.steps[].latex`：路线图里的步骤动作标题，同时会成为标准解答步骤标题。
 - `route.steps[].content_latex`：对应步骤的标准解答正文，只写 how：必要动作、公式、推导和结论。不要写大段动机、类比、追问或“所以然”解释。
+- `route.steps[].diagram_slot`：若某一步需要讲解辅助图，图位放在对应 step 下；例如“作辅助线/补中点”这一步的 annotated 图应跟随该 step，不另起一个 `problemcard`。
 - `dual_explanation.label` / `dual_explanation.stem_latex`：只在原题有多个真实小问时使用，用来标出真实小问和小问题干；原题只有一问时不写。
 - `dual_explanation.solution_step_ids`：引用 route step，决定本题/本小问的标准解答包含哪些步骤。
 - `dual_explanation.side_items`：放小贴士提问和易混提醒，用来讲 why 和“所以然”。每条要短，优先写成能让学生思考的提问或判断句。
@@ -65,6 +66,29 @@ steps:
   - id: "route-solve"
     latex: "解方程组求 $k$、$b$"
     content_latex: "解出 $k,b$ 后写出解析式。"
+```
+
+如果某一步本身就是“补辅助线/作图/标关键点”，把讲解图位挂在该 step 下：
+
+```yaml
+  - id: "route-add-helper"
+    latex: "补取中点 $M$"
+    content_latex: "取 $M$ 为 $AB$ 的中点。"
+    diagram_slot:
+      slot_id: "explanation.solution.annotated"
+      diagram_ref: "explanation.solution.annotated"
+      variant: "solution"
+      disclosure_policy: "annotated"
+      reuse_geometry_from: "explanation.orig.prompt"
+      required: true
+      on_failure: "fail_assignment"
+      placement: "step_diagram"
+      layout_role: "solution_annotation"
+      width_hint: "0.58\\linewidth"
+      caption: "补 $M$ 后看两条中位线。"
+      engine: "coordinate_renderer"
+      diagram_kind: "coordinate_geometry"
+      teaching_intent: "explanation_solution"
 ```
 
 ## dual_explanation
