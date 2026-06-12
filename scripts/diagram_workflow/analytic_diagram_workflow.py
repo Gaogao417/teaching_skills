@@ -409,6 +409,7 @@ def build_spec(request: DiagramJobRequest, out_dir: Path) -> GeometryRenderSpec:
         "variant": request.variant.value,
         "disclosure_policy": request.disclosure_policy.value,
         "type": spec_type,
+        "render_profile": request.render_profile.model_dump(mode="json"),
         "viewport": viewport,
         "axes": axes,
         "functions": functions,

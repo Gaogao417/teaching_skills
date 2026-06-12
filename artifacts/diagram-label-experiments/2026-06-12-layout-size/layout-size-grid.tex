@@ -1,0 +1,71 @@
+\documentclass[10pt]{article}
+\usepackage[a4paper,margin=10mm]{geometry}
+\usepackage{graphicx}
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\begin{document}
+\small
+\textbf{Diagram size / viewport experiment}
+
+Columns are final display widths. Rows test canvas aspect, viewport tightness, and label size.
+\vspace{2.5mm}
+
+{\small\bfseries 720x520 loose viewport, label 44px}\\[1mm]
+\begin{minipage}[t]{50mm}\centering
+\includegraphics[width=\linewidth]{build/loose-720x520-44px/rendered/prompt.png}\\[-0.5mm]
+{\scriptsize 50mm}
+\end{minipage}\hfill
+\begin{minipage}[t]{60mm}\centering
+\includegraphics[width=\linewidth]{build/loose-720x520-44px/rendered/prompt.png}\\[-0.5mm]
+{\scriptsize 60mm}
+\end{minipage}\hfill
+\begin{minipage}[t]{70mm}\centering
+\includegraphics[width=\linewidth]{build/loose-720x520-44px/rendered/prompt.png}\\[-0.5mm]
+{\scriptsize 70mm}
+\end{minipage}\par\vspace{4mm}
+
+{\small\bfseries 720x520 tight viewport, label 44px}\\[1mm]
+\begin{minipage}[t]{50mm}\centering
+\includegraphics[width=\linewidth]{build/tight-720x520-44px/rendered/prompt.png}\\[-0.5mm]
+{\scriptsize 50mm}
+\end{minipage}\hfill
+\begin{minipage}[t]{60mm}\centering
+\includegraphics[width=\linewidth]{build/tight-720x520-44px/rendered/prompt.png}\\[-0.5mm]
+{\scriptsize 60mm}
+\end{minipage}\hfill
+\begin{minipage}[t]{70mm}\centering
+\includegraphics[width=\linewidth]{build/tight-720x520-44px/rendered/prompt.png}\\[-0.5mm]
+{\scriptsize 70mm}
+\end{minipage}\par\vspace{4mm}
+
+{\small\bfseries 720x360 tight viewport, label 44px}\\[1mm]
+\begin{minipage}[t]{50mm}\centering
+\includegraphics[width=\linewidth]{build/tight-720x360-44px/rendered/prompt.png}\\[-0.5mm]
+{\scriptsize 50mm}
+\end{minipage}\hfill
+\begin{minipage}[t]{60mm}\centering
+\includegraphics[width=\linewidth]{build/tight-720x360-44px/rendered/prompt.png}\\[-0.5mm]
+{\scriptsize 60mm}
+\end{minipage}\hfill
+\begin{minipage}[t]{70mm}\centering
+\includegraphics[width=\linewidth]{build/tight-720x360-44px/rendered/prompt.png}\\[-0.5mm]
+{\scriptsize 70mm}
+\end{minipage}\par\vspace{4mm}
+
+{\small\bfseries 720x360 tight viewport, label 52px}\\[1mm]
+\begin{minipage}[t]{50mm}\centering
+\includegraphics[width=\linewidth]{build/tight-720x360-52px/rendered/prompt.png}\\[-0.5mm]
+{\scriptsize 50mm}
+\end{minipage}\hfill
+\begin{minipage}[t]{60mm}\centering
+\includegraphics[width=\linewidth]{build/tight-720x360-52px/rendered/prompt.png}\\[-0.5mm]
+{\scriptsize 60mm}
+\end{minipage}\hfill
+\begin{minipage}[t]{70mm}\centering
+\includegraphics[width=\linewidth]{build/tight-720x360-52px/rendered/prompt.png}\\[-0.5mm]
+{\scriptsize 70mm}
+\end{minipage}\par\vspace{4mm}
+
+\vfill
+\footnotesize Tight viewport means the diagram's world bounds hug the actual geometry more closely; 720x360 reduces vertical whitespace for landscape geometry.
+\end{document}

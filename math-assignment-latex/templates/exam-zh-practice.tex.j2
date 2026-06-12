@@ -61,10 +61,11 @@
 <% if block.type == "choice" %>
 <% set diagram_col = block.diagram_col or block.prompt_diagram %>
 <% if diagram_col %>
+<% set diagram_width = diagram_col.width|default("60mm") %>
 \needspace{14\baselineskip}
 \begin{question}[points=<%= block.points|default(4) %>]
   \noindent
-  \begin{minipage}[t]{0.64\linewidth}
+  \begin{minipage}[t]{\dimexpr\linewidth-<%= diagram_width %>-6mm\relax}
     \vspace{0pt}
     <% if block.stem_latex %>
     <%= block.stem_latex %>
@@ -78,7 +79,7 @@
     <% endfor %>
     \end{choices}
   \end{minipage}\hfill
-  \diagramcolfigure{<%= diagram_col.image_path|latex_path %>}{<%= diagram_col.width|default("0.30\\linewidth") %>}{<% if diagram_col.caption %><%= diagram_col.caption|latex_escape %><% endif %>}
+  \diagramcolfigure{<%= diagram_col.image_path|latex_path %>}{<%= diagram_width %>}{<% if diagram_col.caption %><%= diagram_col.caption|latex_escape %><% endif %>}
   <% if meta.version != "student" and block.answer %>
   \paren[<%= block.answer|latex_escape %>]
   <% if block.explanation %>
@@ -154,13 +155,13 @@
   \noindent\textbf{<%= part.label|latex_escape %>}\par
       <% endif %>
       <% if part_diagram_col %>
-  \answerareawithdiagramcol{<%= part.height|default(block.answer_space.height|default("35mm")) %>}{<%= part_diagram_col.image_path|latex_path %>}{<%= part_diagram_col.width|default("0.32\\linewidth") %>}{<% if part_diagram_col.caption %><%= part_diagram_col.caption|latex_escape %><% endif %>}
+  \answerareawithdiagramcol{<%= part.height|default(block.answer_space.height|default("35mm")) %>}{<%= part_diagram_col.image_path|latex_path %>}{<%= part_diagram_col.width|default("60mm") %>}{<% if part_diagram_col.caption %><%= part_diagram_col.caption|latex_escape %><% endif %>}
       <% else %>
   \answerarea[<%= part.height|default(block.answer_space.height|default("35mm")) %>]
       <% endif %>
     <% endfor %>
   <% elif default_diagram_col %>
-  \answerareawithdiagramcol{<%= block.answer_space.height|default("35mm") %>}{<%= default_diagram_col.image_path|latex_path %>}{<%= default_diagram_col.width|default("0.32\\linewidth") %>}{<% if default_diagram_col.caption %><%= default_diagram_col.caption|latex_escape %><% endif %>}
+  \answerareawithdiagramcol{<%= block.answer_space.height|default("35mm") %>}{<%= default_diagram_col.image_path|latex_path %>}{<%= default_diagram_col.width|default("60mm") %>}{<% if default_diagram_col.caption %><%= default_diagram_col.caption|latex_escape %><% endif %>}
   <% else %>
   \answerarea[<%= block.answer_space.height|default("35mm") %>]
   <% endif %>

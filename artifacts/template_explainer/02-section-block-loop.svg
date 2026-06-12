@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="0 0 1400 900">
+  <defs>
+    <style>
+      .bg{fill:#f7f8fb}.title{font:700 38px Arial,"PingFang SC","Microsoft YaHei",sans-serif;fill:#152238}
+      .sub{font:400 20px Arial,"PingFang SC","Microsoft YaHei",sans-serif;fill:#526070}
+      .panel{fill:#fff;stroke:#cdd7e2;stroke-width:2;rx:18}.gate{fill:#fff6dd;stroke:#e0a22f;stroke-width:2;rx:16}
+      .loop{fill:#eaf4ff;stroke:#6b9edb;stroke-width:2;rx:16}.out{fill:#edf9f2;stroke:#4faf7b;stroke-width:2;rx:16}
+      .h{font:700 25px Arial,"PingFang SC","Microsoft YaHei",sans-serif;fill:#17243a}
+      .t{font:400 20px Arial,"PingFang SC","Microsoft YaHei",sans-serif;fill:#35445a}
+      .small{font:400 17px Arial,"PingFang SC","Microsoft YaHei",sans-serif;fill:#647084}
+      .code{font:600 17px Menlo,Consolas,monospace;fill:#334155}
+      .arrow{stroke:#7d8ca1;stroke-width:3;fill:none;marker-end:url(#arrow)}
+      .muted{fill:#edf0f4;stroke:#bcc7d3;stroke-width:2;rx:16}
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#7d8ca1"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="1400" height="900"/>
+  <text class="title" x="70" y="80">图 2：外层骨架只做三件事：过滤 section、分页、遍历 block</text>
+  <text class="sub" x="70" y="118">把它当成“页面级调度器”，不要一开始陷入每个 block 的排版细节。</text>
+
+  <rect class="loop" x="105" y="185" width="310" height="120"/>
+  <text class="h" x="135" y="235">1. 遍历 sections</text>
+  <text class="code" x="135" y="275">&lt;% for section in sections %&gt;</text>
+
+  <rect class="gate" x="520" y="165" width="360" height="160"/>
+  <text class="h" x="550" y="215">2. 过滤教师内容</text>
+  <text class="code" x="550" y="255">section.visibility != "teacher"</text>
+  <text class="code" x="550" y="287">or meta.version != "student"</text>
+  <text class="small" x="550" y="315">学生版跳过 teacher-only section</text>
+
+  <rect class="gate" x="990" y="165" width="300" height="160"/>
+  <text class="h" x="1020" y="215">3. 是否换页</text>
+  <text class="code" x="1020" y="255">break_before</text>
+  <text class="code" x="1020" y="287">answer_key</text>
+  <text class="code" x="1020" y="319">teacher section</text>
+
+  <rect class="out" x="160" y="440" width="290" height="130"/>
+  <text class="h" x="190" y="492">4. 输出标题</text>
+  <text class="code" x="190" y="532">section.title</text>
+  <text class="small" x="190" y="560">show_title 为真才显示</text>
+
+  <rect class="loop" x="565" y="420" width="320" height="170"/>
+  <text class="h" x="595" y="472">5. 遍历 blocks</text>
+  <text class="code" x="595" y="512">&lt;% for block in section.blocks %&gt;</text>
+  <text class="small" x="595" y="548">每个 block 进入下一张图的 type 分发</text>
+
+  <rect class="panel" x="990" y="430" width="300" height="160"/>
+  <text class="h" x="1020" y="480">6. block 后处理</text>
+  <text class="code" x="1020" y="520">if block.teaching</text>
+  <text class="small" x="1020" y="555">教师版追加教学备注</text>
+
+  <rect class="muted" x="360" y="690" width="680" height="105"/>
+  <text class="h" x="395" y="737">心智模型</text>
+  <text class="t" x="395" y="775">section 控制“这一页/这一段是否出现”；block 控制“出现时长什么样”。</text>
+
+  <path class="arrow" d="M415 245 H510"/>
+  <path class="arrow" d="M880 245 H980"/>
+  <path class="arrow" d="M1140 325 C1140 390,1050 405,890 475"/>
+  <path class="arrow" d="M700 325 C650 365,520 420,450 475"/>
+  <path class="arrow" d="M450 510 H555"/>
+  <path class="arrow" d="M885 505 H980"/>
+
+  <text class="code" x="80" y="845">对应代码：lines 19-27 打开 section/block 循环；lines 20-25 过滤、分页、标题；lines 286-294 教师备注。</text>
+</svg>

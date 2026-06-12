@@ -21,7 +21,7 @@ resolver 生成的图片对象必须显式设置 `width`。
 diagram_col:
   image_path: "diagram/jobs/c1-prompt/rendered/prompt.png"
   diagram_job_id: "c1-prompt"
-  width: "0.30\\linewidth"
+  width: "60mm"
   caption: "观察点 D 在 BC 上的位置。"
   variant: "prompt"
   disclosure_policy: "clean"
@@ -30,12 +30,13 @@ diagram_col:
 ## Layout Rules
 
 - 讲义原题展示用 clean prompt 图；讲解步骤如需辅助线，另生成 annotated solution 图。
-- 选择题用 `diagram_col`，宽度优先 `0.28\\linewidth` 到 `0.32\\linewidth`。
+- 选择题和解答题侧栏图使用 `display_profile: "worksheet_geometry_sidecar"`，resolved 宽度默认 `60mm`；侧栏绝对宽度低于 `55mm` 会被 gate 阻断。
 - 填空题先排题干，再在题后用 `diagram_row.items[]`，单图宽度优先 `0.20\\linewidth` 到 `0.25\\linewidth`。
-- 解答题用 `answer_space.diagram_col` 或 `answer_space.parts[].diagram_col`，宽度优先 `0.30\\linewidth` 到 `0.34\\linewidth`。
+- 居中讲解图使用 `display_profile: "worksheet_geometry_center"`，resolved 宽度默认 `70mm`；居中图低于 `68mm` 会被 gate 阻断。
 - 试卷中不要再用独立 `type: diagram` block 承载原题图。
 - `caption` 写学生要观察的动作，不写调试信息。
-- 顶点/关键点标签必须清晰可读。
+- 顶点/关键点标签必须清晰可读：默认点标注 `44px`，密集图 `52px`，正常字重，serif italic 点名。
+- 长度条件在图上只保留数字，如 `7`、`19`；不要输出 `AB=7`、`CD=19` 这类完整等式标签。
 
 ## Fallback
 

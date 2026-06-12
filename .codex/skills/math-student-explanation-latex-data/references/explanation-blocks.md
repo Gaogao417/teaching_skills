@@ -84,7 +84,7 @@ steps:
       on_failure: "fail_assignment"
       placement: "step_diagram"
       layout_role: "solution_annotation"
-      width_hint: "0.58\\linewidth"
+      display_profile: "worksheet_geometry_center"
       caption: "补 $M$ 后看两条中位线。"
       engine: "coordinate_renderer"
       diagram_kind: "coordinate_geometry"

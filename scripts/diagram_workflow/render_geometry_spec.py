@@ -83,12 +83,53 @@ def svg_attrs(**kwargs: object) -> str:
     return " ".join(parts)
 
 
+def render_profile(spec: dict[str, object]) -> dict[str, object]:
+    value = spec.get("render_profile")
+    return value if isinstance(value, dict) else {}
+
+
+def profile_int(profile: dict[str, object], key: str, default: int) -> int:
+    value = profile.get(key)
+    try:
+        return int(value) if value is not None else default
+    except (TypeError, ValueError):
+        return default
+
+
+def profile_float(profile: dict[str, object], key: str, default: float) -> float:
+    value = profile.get(key)
+    try:
+        return float(value) if value is not None else default
+    except (TypeError, ValueError):
+        return default
+
+
+def profile_text(profile: dict[str, object], key: str, default: str) -> str:
+    value = profile.get(key)
+    return str(value) if value not in (None, "") else default
+
+
+def value_only_condition_label(value: str, profile: dict[str, object]) -> str:
+    if profile.get("condition_label_style") != "value_only":
+        return value
+    match = re.match(r"^\s*[A-Z]{1,3}\s*=\s*(?P<value>.+?)\s*$", value)
+    return match.group("value") if match else value
+
+
 class SvgGeometryRenderer:
     def __init__(self, spec: dict[str, object], width: int, height: int, padding: int = 64):
         self.spec = spec
+        self.profile = render_profile(spec)
         self.width = width
         self.height = height
-        self.padding = padding
+        self.padding = int(spec.get("padding_px") or padding)
+        self.font_family = profile_text(self.profile, "font_family", "Times New Roman, Georgia, serif")
+        self.point_label_font_style = profile_text(self.profile, "point_label_font_style", "italic")
+        self.point_label_font_weight = profile_text(self.profile, "point_label_font_weight", "normal")
+        self.point_label_px = profile_float(self.profile, "point_label_px", 44)
+        self.point_radius_px = profile_float(self.profile, "point_radius_px", 5.2)
+        self.label_outline_width_px = profile_float(self.profile, "label_outline_width_px", 0)
+        self.point_label_offset_px = profile_float(self.profile, "point_label_offset_px", 34)
         self.points: dict[str, Point] = {
             str(name): (float(value[0]), float(value[1]))
             for name, value in spec.get("points", {}).items()
@@ -230,9 +271,9 @@ class SvgGeometryRenderer:
 
     def draw_labels(self) -> None:
         labels = self.spec.get("labels", {})
-        font_size = float(self.spec.get("label_font_size", 34))
-        point_radius = float(self.spec.get("point_radius", 5.2))
-        outline_width = float(self.spec.get("label_outline_width", 5.0))
+        font_size = float(self.spec.get("label_font_size", self.point_label_px))
+        point_radius = float(self.spec.get("point_radius", self.point_radius_px))
+        outline_width = float(self.spec.get("label_outline_width", self.label_outline_width_px))
         for name in self.points:
             x, y = self.screen(name)
             self.elements.append(f"<circle {svg_attrs(cx=f'{x:.2f}', cy=f'{y:.2f}', r=point_radius, fill='#111827')} />")
@@ -240,13 +281,14 @@ class SvgGeometryRenderer:
             if not isinstance(label, dict):
                 label = {"text": str(label)}
             dx = float(label.get("dx", 0))
-            dy = float(label.get("dy", -24))
+            dy = float(label.get("dy", -self.point_label_offset_px))
             text = html.escape(str(label.get("text", name)))
+            if outline_width > 0:
+                self.elements.append(
+                    f"<text {svg_attrs(x=f'{x + dx:.2f}', y=f'{y + dy:.2f}', text_anchor='middle', dominant_baseline='central', font_family=self.font_family, font_size=font_size, font_style=self.point_label_font_style, font_weight=self.point_label_font_weight, fill='none', stroke='#ffffff', stroke_width=outline_width, data_label_kind='point')}>{text}</text>"
+                )
             self.elements.append(
-                f"<text {svg_attrs(x=f'{x + dx:.2f}', y=f'{y + dy:.2f}', text_anchor='middle', dominant_baseline='central', font_family='Arial, Helvetica, sans-serif', font_size=font_size, font_weight=800, fill='none', stroke='#ffffff', stroke_width=outline_width)}>{text}</text>"
-            )
-            self.elements.append(
-                f"<text {svg_attrs(x=f'{x + dx:.2f}', y=f'{y + dy:.2f}', text_anchor='middle', dominant_baseline='central', font_family='Arial, Helvetica, sans-serif', font_size=font_size, font_weight=800, fill='#111827')}>{text}</text>"
+                f"<text {svg_attrs(x=f'{x + dx:.2f}', y=f'{y + dy:.2f}', text_anchor='middle', dominant_baseline='central', font_family=self.font_family, font_size=font_size, font_style=self.point_label_font_style, font_weight=self.point_label_font_weight, fill='#111827', data_label_kind='point')}>{text}</text>"
             )
 
     def render(self) -> str:
@@ -268,9 +310,20 @@ class SvgGeometryRenderer:
 class SvgCoordinateRenderer:
     def __init__(self, spec: dict[str, object], width: int, height: int, padding: int = 56):
         self.spec = spec
+        self.profile = render_profile(spec)
         self.width = width
         self.height = height
-        self.padding = padding
+        self.padding = int(spec.get("padding_px") or padding)
+        self.font_family = profile_text(self.profile, "font_family", "Times New Roman, Georgia, serif")
+        self.point_label_px = profile_int(self.profile, "point_label_px", 44)
+        self.condition_label_px = profile_int(self.profile, "condition_label_px", 36)
+        self.axis_label_px = profile_int(self.profile, "axis_label_px", 18)
+        self.tick_label_px = profile_int(self.profile, "tick_label_px", 13)
+        self.point_radius_px = profile_float(self.profile, "point_radius_px", 5.2)
+        self.point_label_font_style = profile_text(self.profile, "point_label_font_style", "italic")
+        self.point_label_font_weight = profile_text(self.profile, "point_label_font_weight", "normal")
+        self.condition_label_font_style = profile_text(self.profile, "condition_label_font_style", "normal")
+        self.condition_label_font_weight = profile_text(self.profile, "condition_label_font_weight", "normal")
         viewport = spec.get("viewport") or {}
         self.x_min = float(viewport.get("x_min", -5))
         self.x_max = float(viewport.get("x_max", 5))
@@ -326,16 +379,30 @@ class SvgCoordinateRenderer:
     def rect(self, x: float, y: float, width: float, height: float, fill: str, opacity: float) -> str:
         return f"<rect {svg_attrs(x=f'{x:.2f}', y=f'{y:.2f}', width=f'{width:.2f}', height=f'{height:.2f}', fill=fill, opacity=f'{opacity:.3g}')} />"
 
-    def text(self, x: float, y: float, value: str, size: int = 18, anchor: str = "middle", fill: str = "#111827") -> str:
+    def text(
+        self,
+        x: float,
+        y: float,
+        value: str,
+        size: int = 18,
+        anchor: str = "middle",
+        fill: str = "#111827",
+        *,
+        font_style: str = "normal",
+        font_weight: str = "normal",
+        label_kind: str = "annotation",
+    ) -> str:
         attrs = svg_attrs(
             x=f"{x:.2f}",
             y=f"{y:.2f}",
             text_anchor=anchor,
             dominant_baseline="central",
-            font_family="Arial, Helvetica, sans-serif",
+            font_family=self.font_family,
             font_size=size,
-            font_weight=700,
+            font_style=font_style,
+            font_weight=font_weight,
             fill=fill,
+            data_label_kind=label_kind,
         )
         return f"<text {attrs}>{html.escape(value)}</text>"
 
@@ -419,21 +486,26 @@ class SvgCoordinateRenderer:
             self.elements.append(self.line(self.screen_xy(x_axis, self.view_y_min), self.screen_xy(x_axis, self.view_y_max), axis_stroke, 2.0))
 
         if show_ticks:
-            for x in x_ticks:
-                if abs(x) < 1e-9:
-                    continue
-                sx, sy = self.screen_xy(x, 0 if self.view_y_min <= 0 <= self.view_y_max else self.view_y_min)
-                self.elements.append(self.text(sx, sy + 18, f"{x:g}", 13, fill="#4b5563"))
-            for y in y_ticks:
-                if abs(y) < 1e-9:
-                    continue
-                sx, sy = self.screen_xy(0 if self.view_x_min <= 0 <= self.view_x_max else self.view_x_min, y)
-                self.elements.append(self.text(sx - 18, sy, f"{y:g}", 13, anchor="end", fill="#4b5563"))
+            if draw_x:
+                for x in x_ticks:
+                    if abs(x) < 1e-9:
+                        continue
+                    sx, sy = self.screen_xy(x, 0 if self.view_y_min <= 0 <= self.view_y_max else self.view_y_min)
+                    self.elements.append(self.text(sx, sy + 18, f"{x:g}", self.tick_label_px, fill="#4b5563", label_kind="axis_tick"))
+            if draw_y:
+                for y in y_ticks:
+                    if abs(y) < 1e-9:
+                        continue
+                    sx, sy = self.screen_xy(0 if self.view_x_min <= 0 <= self.view_x_max else self.view_x_min, y)
+                    self.elements.append(self.text(sx - 18, sy, f"{y:g}", self.tick_label_px, anchor="end", fill="#4b5563", label_kind="axis_tick"))
 
         x_label = str(axes.get("x_label", "x"))
         y_label = str(axes.get("y_label", "y"))
-        self.elements.append(self.text(*self.screen_xy(self.view_x_max, 0 if self.view_y_min <= 0 <= self.view_y_max else self.view_y_min), x_label, 16, fill="#111827"))
-        self.elements.append(self.text(self.screen_xy(0 if self.view_x_min <= 0 <= self.view_x_max else self.view_x_min, self.view_y_max)[0] - 16, self.screen_xy(0 if self.view_x_min <= 0 <= self.view_x_max else self.view_x_min, self.view_y_max)[1], y_label, 16, anchor="end", fill="#111827"))
+        if draw_x and x_label:
+            self.elements.append(self.text(*self.screen_xy(self.view_x_max, 0 if self.view_y_min <= 0 <= self.view_y_max else self.view_y_min), x_label, self.axis_label_px, fill="#111827", label_kind="axis_label"))
+        if draw_y and y_label:
+            y_label_point = self.screen_xy(0 if self.view_x_min <= 0 <= self.view_x_max else self.view_x_min, self.view_y_max)
+            self.elements.append(self.text(y_label_point[0] - 16, y_label_point[1], y_label, self.axis_label_px, anchor="end", fill="#111827", label_kind="axis_label"))
 
     def draw_functions(self) -> None:
         samples = self.spec.get("samples") or {}
@@ -456,7 +528,7 @@ class SvgCoordinateRenderer:
             label = func.get("label")
             if label and points:
                 lx, ly = points[min(len(points) - 1, max(0, len(points) // 2))]
-                self.elements.append(self.text(lx + 10, ly - 18, str(label), 15, anchor="start", fill=palette[index % len(palette)]))
+                self.elements.append(self.text(lx + 10, ly - 18, str(label), 15, anchor="start", fill=palette[index % len(palette)], label_kind="function_label"))
 
     def object_point(self, value: object) -> Point | None:
         if isinstance(value, str) and value in self.point_objects:
@@ -522,10 +594,22 @@ class SvgCoordinateRenderer:
                     continue
                 x, y = float(obj["x"]), float(obj["y"])
                 sx, sy = self.screen_xy(x, y)
-                self.elements.append(f"<circle {svg_attrs(cx=f'{sx:.2f}', cy=f'{sy:.2f}', r=style.get('radius', 5.2), fill=stroke)} />")
+                self.elements.append(f"<circle {svg_attrs(cx=f'{sx:.2f}', cy=f'{sy:.2f}', r=style.get('radius', self.point_radius_px), fill=stroke)} />")
                 label = obj.get("label") or obj.get("id")
                 if label:
-                    self.elements.append(self.text(sx + float(style.get("label_dx", 14)), sy - float(style.get("label_dy", 14)), str(label), 15, anchor="start", fill=str(style.get("label_fill", "#111827"))))
+                    self.elements.append(
+                        self.text(
+                            sx + float(style.get("label_dx", 18)),
+                            sy - float(style.get("label_dy", 20)),
+                            str(label),
+                            self.point_label_px,
+                            anchor="start",
+                            fill=str(style.get("label_fill", "#111827")),
+                            font_style=self.point_label_font_style,
+                            font_weight=self.point_label_font_weight,
+                            label_kind="point",
+                        )
+                    )
             elif kind == "line":
                 endpoints = self.line_endpoints(obj)
                 if endpoints is None:
@@ -539,10 +623,13 @@ class SvgCoordinateRenderer:
                     self.text(
                         sx,
                         sy,
-                        str(obj.get("text") or obj.get("label") or ""),
-                        int(style.get("font_size", 13)),
+                        value_only_condition_label(str(obj.get("text") or obj.get("label") or ""), self.profile),
+                        int(style.get("font_size", self.condition_label_px)),
                         anchor=str(style.get("anchor", "middle")),
                         fill=str(style.get("fill", "#374151")),
+                        font_style=str(style.get("font_style", self.condition_label_font_style)),
+                        font_weight=str(style.get("font_weight", self.condition_label_font_weight)),
+                        label_kind="condition",
                     )
                 )
             elif kind == "circle":
@@ -673,9 +760,9 @@ def convert_svg_to_png(svg_path: Path, png_path: Path, width: int, height: int, 
 def render_geometry_spec(
     spec_path: Path,
     out_dir: Path,
-    width: int,
-    height: int,
-    size: int,
+    width: int | None,
+    height: int | None,
+    size: int | None,
     variant: str | None = None,
 ) -> dict[str, object]:
     result_path = out_dir / "renderer_result.json"
@@ -716,6 +803,11 @@ def render_geometry_spec(
         write_json(result_path, result)
         return result
 
+    profile = render_profile(spec)
+    width = width or int((spec.get("canvas") or {}).get("width_px") or profile_int(profile, "canvas_width_px", 720))
+    height = height or int((spec.get("canvas") or {}).get("height_px") or profile_int(profile, "canvas_height_px", 520))
+    size = size or profile_int(profile, "png_size_px", 1024)
+
     svg_path.parent.mkdir(parents=True, exist_ok=True)
     if spec.get("type") in {"coordinate_geometry", "function_graph"}:
         svg_text = SvgCoordinateRenderer(spec, width=width, height=height).render()
@@ -735,6 +827,8 @@ def render_geometry_spec(
         renderer_spec=relpath(spec_path, out_dir),
         image_path=relpath(png_path, out_dir) if image_exists else "",
         preview_svg=relpath(svg_path, out_dir),
+        width_px=width,
+        height_px=height,
         checks=RendererChecks(
             references_valid=True,
             svg_exists=svg_path.exists(),
@@ -749,9 +843,9 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Render final_renderer_spec.json to renderer_result.json + PNG")
     parser.add_argument("renderer_spec", type=Path, help="Path to final_renderer_spec.json")
     parser.add_argument("--out-dir", type=Path, help="Diagram output dir; defaults beside spec")
-    parser.add_argument("--width", type=int, default=720)
-    parser.add_argument("--height", type=int, default=520)
-    parser.add_argument("--png-size", type=int, default=1024)
+    parser.add_argument("--width", type=int)
+    parser.add_argument("--height", type=int)
+    parser.add_argument("--png-size", type=int)
     parser.add_argument("--variant", choices=("prompt", "solution"), help="Output diagram variant")
     args = parser.parse_args()
 

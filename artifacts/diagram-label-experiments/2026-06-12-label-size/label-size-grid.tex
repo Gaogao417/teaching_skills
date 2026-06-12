@@ -1,0 +1,68 @@
+\documentclass[10pt]{article}
+\usepackage[a4paper,margin=14mm]{geometry}
+\usepackage{graphicx}
+\usepackage{array}
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\begin{document}
+\small
+\textbf{Diagram label readability experiment}
+
+Canvas: 720px wide. Columns are final display widths. Rows are SVG text sizes.
+\vspace{3mm}
+
+\noindent \begin{minipage}[t]{45mm}\centering
+\includegraphics[width=\linewidth]{build/label-15px/rendered/prompt.png}\\[-0.5mm]
+{\scriptsize 15px / 45mm}
+\end{minipage}\hfill
+\begin{minipage}[t]{55mm}\centering
+\includegraphics[width=\linewidth]{build/label-15px/rendered/prompt.png}\\[-0.5mm]
+{\scriptsize 15px / 55mm}
+\end{minipage}\hfill
+\begin{minipage}[t]{65mm}\centering
+\includegraphics[width=\linewidth]{build/label-15px/rendered/prompt.png}\\[-0.5mm]
+{\scriptsize 15px / 65mm}
+\end{minipage}\par\vspace{3.5mm}
+
+\noindent \begin{minipage}[t]{45mm}\centering
+\includegraphics[width=\linewidth]{build/label-32px/rendered/prompt.png}\\[-0.5mm]
+{\scriptsize 32px / 45mm}
+\end{minipage}\hfill
+\begin{minipage}[t]{55mm}\centering
+\includegraphics[width=\linewidth]{build/label-32px/rendered/prompt.png}\\[-0.5mm]
+{\scriptsize 32px / 55mm}
+\end{minipage}\hfill
+\begin{minipage}[t]{65mm}\centering
+\includegraphics[width=\linewidth]{build/label-32px/rendered/prompt.png}\\[-0.5mm]
+{\scriptsize 32px / 65mm}
+\end{minipage}\par\vspace{3.5mm}
+
+\noindent \begin{minipage}[t]{45mm}\centering
+\includegraphics[width=\linewidth]{build/label-44px/rendered/prompt.png}\\[-0.5mm]
+{\scriptsize 44px / 45mm}
+\end{minipage}\hfill
+\begin{minipage}[t]{55mm}\centering
+\includegraphics[width=\linewidth]{build/label-44px/rendered/prompt.png}\\[-0.5mm]
+{\scriptsize 44px / 55mm}
+\end{minipage}\hfill
+\begin{minipage}[t]{65mm}\centering
+\includegraphics[width=\linewidth]{build/label-44px/rendered/prompt.png}\\[-0.5mm]
+{\scriptsize 44px / 65mm}
+\end{minipage}\par\vspace{3.5mm}
+
+\noindent \begin{minipage}[t]{45mm}\centering
+\includegraphics[width=\linewidth]{build/label-52px/rendered/prompt.png}\\[-0.5mm]
+{\scriptsize 52px / 45mm}
+\end{minipage}\hfill
+\begin{minipage}[t]{55mm}\centering
+\includegraphics[width=\linewidth]{build/label-52px/rendered/prompt.png}\\[-0.5mm]
+{\scriptsize 52px / 55mm}
+\end{minipage}\hfill
+\begin{minipage}[t]{65mm}\centering
+\includegraphics[width=\linewidth]{build/label-52px/rendered/prompt.png}\\[-0.5mm]
+{\scriptsize 52px / 65mm}
+\end{minipage}\par\vspace{3.5mm}
+
+\vfill
+\footnotesize Current coordinate point-label default is effectively 15px. The useful region should keep printed point labels close to normal worksheet text.
+\end{document}

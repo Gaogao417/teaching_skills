@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="0 0 1400 900">
+  <defs>
+    <style>
+      .bg{fill:#f7f8fb}.title{font:700 38px Arial,"PingFang SC","Microsoft YaHei",sans-serif;fill:#152238}
+      .sub{font:400 20px Arial,"PingFang SC","Microsoft YaHei",sans-serif;fill:#526070}
+      .paper{fill:#fff;stroke:#cdd7e2;stroke-width:2;rx:12}.strip{fill:#eaf4ff;stroke:#6b9edb;stroke-width:2;rx:12}
+      .left{fill:#fff8e8;stroke:#dfa541;stroke-width:2;rx:14}.right{fill:#eef8f2;stroke:#50a979;stroke-width:2;rx:14}
+      .note{fill:#f4f6f8;stroke:#b8c3cf;stroke-width:2;rx:12}.warn{fill:#fff0f0;stroke:#dc6b6b;stroke-width:2;rx:12}
+      .h{font:700 24px Arial,"PingFang SC","Microsoft YaHei",sans-serif;fill:#17243a}
+      .t{font:400 19px Arial,"PingFang SC","Microsoft YaHei",sans-serif;fill:#35445a}
+      .small{font:400 17px Arial,"PingFang SC","Microsoft YaHei",sans-serif;fill:#647084}
+      .code{font:600 16px Menlo,Consolas,monospace;fill:#334155}
+      .arrow{stroke:#7d8ca1;stroke-width:2.8;fill:none;marker-end:url(#arrow)}
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#7d8ca1"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="1400" height="900"/>
+  <text class="title" x="70" y="80">图 4：主体讲解 explanation_dual 的内部结构</text>
+  <text class="sub" x="70" y="118">这是模板最重要的版式组件：小问标题在上，下面左右双栏。</text>
+
+  <rect class="paper" x="170" y="165" width="1060" height="610"/>
+
+  <rect class="strip" x="230" y="215" width="940" height="78"/>
+  <text class="h" x="260" y="262">可选：小问题条 eduSubQuestionItem</text>
+  <text class="code" x="690" y="262">block.label + block.stem/stem_latex</text>
+
+  <rect class="left" x="235" y="350" width="395" height="330"/>
+  <text class="h" x="270" y="398">左栏 eduExplainLeft</text>
+  <text class="t" x="270" y="438">标题：side_title，默认“提示与易错”</text>
+  <rect class="note" x="270" y="470" width="315" height="58"/>
+  <text class="code" x="292" y="507">kind == hint → eduSideHint</text>
+  <rect class="warn" x="270" y="545" width="315" height="58"/>
+  <text class="code" x="292" y="582">kind == mistake → eduSideMistake</text>
+  <rect class="note" x="270" y="620" width="315" height="42"/>
+  <text class="code" x="292" y="647">else → eduSideNote</text>
+
+  <rect class="right" x="705" y="350" width="465" height="330"/>
+  <text class="h" x="740" y="398">右栏 eduExplainRight</text>
+  <text class="t" x="740" y="438">标题：solution_title，默认“解答”</text>
+  <rect class="note" x="740" y="470" width="380" height="64"/>
+  <text class="code" x="762" y="508">for step in solution_steps</text>
+  <rect class="note" x="740" y="550" width="380" height="64"/>
+  <text class="code" x="762" y="588">eduExplainStep(index, title, content)</text>
+  <rect class="note" x="740" y="630" width="380" height="42"/>
+  <text class="code" x="762" y="657">connection_items → 注意列表</text>
+
+  <path class="arrow" d="M700 293 V340"/>
+  <path class="arrow" d="M630 515 H695"/>
+
+  <rect class="note" x="150" y="805" width="1100" height="52"/>
+  <text class="code" x="180" y="838">对应代码：lines 119-155。这个分支把一个讲解 block 拆成 side_items、solution_steps、connection_items 三组数据。</text>
+</svg>

@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="0 0 1400 900">
+  <defs>
+    <style>
+      .bg{fill:#f7f8fb}.title{font:700 38px Arial,"PingFang SC","Microsoft YaHei",sans-serif;fill:#152238}
+      .sub{font:400 20px Arial,"PingFang SC","Microsoft YaHei",sans-serif;fill:#526070}
+      .box{fill:#fff;stroke:#ccd6e0;stroke-width:2;rx:18}.blue{fill:#e8f2ff;stroke:#5b8fd9}
+      .green{fill:#e9f8f1;stroke:#4aab78}.orange{fill:#fff3e4;stroke:#df9a3f}.red{fill:#fff0f0;stroke:#da6969}
+      .h{font:700 25px Arial,"PingFang SC","Microsoft YaHei",sans-serif;fill:#16243a}
+      .t{font:400 20px Arial,"PingFang SC","Microsoft YaHei",sans-serif;fill:#35445a}
+      .small{font:400 18px Arial,"PingFang SC","Microsoft YaHei",sans-serif;fill:#647084}
+      .code{font:600 18px Menlo,Consolas,monospace;fill:#334155}
+      .arrow{stroke:#8090a4;stroke-width:3;fill:none;marker-end:url(#arrow)}
+      .dash{stroke:#8090a4;stroke-width:3;stroke-dasharray:9 8;fill:none;marker-end:url(#arrow)}
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#8090a4"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="1400" height="900"/>
+  <text class="title" x="70" y="80">图 1：这个 tex.j2 不是“普通 TeX”，而是一个渲染流水线</text>
+  <text class="sub" x="70" y="118">理解顺序：数据 YAML/对象 → Jinja 判断与循环 → LaTeX 宏 → PDF 页面</text>
+
+  <rect class="box blue" x="80" y="210" width="270" height="190"/>
+  <text class="h" x="115" y="260">输入数据</text>
+  <text class="t" x="115" y="305">meta.version</text>
+  <text class="t" x="115" y="340">sections[]</text>
+  <text class="t" x="115" y="375">section.blocks[]</text>
+
+  <rect class="box orange" x="430" y="190" width="320" height="230"/>
+  <text class="h" x="465" y="242">Jinja 控制层</text>
+  <text class="t" x="465" y="290">for section</text>
+  <text class="t" x="465" y="325">if visibility / break</text>
+  <text class="t" x="465" y="360">for block</text>
+  <text class="small" x="465" y="395">决定“渲染哪一种块”</text>
+
+  <rect class="box green" x="830" y="190" width="320" height="230"/>
+  <text class="h" x="865" y="242">LaTeX 版式层</text>
+  <text class="t" x="865" y="290">\eduProblemBlock</text>
+  <text class="t" x="865" y="325">\eduDualExplain</text>
+  <text class="t" x="865" y="360">\eduSummaryBlock</text>
+  <text class="small" x="865" y="395">真正排版靠这些宏</text>
+
+  <rect class="box red" x="470" y="565" width="500" height="190"/>
+  <text class="h" x="515" y="617">输出页面</text>
+  <text class="t" x="515" y="662">题目入口 → 思路导航 → 主体讲解 → 总结/变式/答案</text>
+  <text class="small" x="515" y="705">学生版会隐藏 teacher-only 内容和部分答案/讲解</text>
+
+  <path class="arrow" d="M350 305 H420"/>
+  <path class="arrow" d="M750 305 H820"/>
+  <path class="arrow" d="M990 430 C990 510,900 535,810 565"/>
+  <path class="dash" d="M570 420 C520 500,545 535,610 565"/>
+
+  <rect class="box" x="85" y="500" width="270" height="170"/>
+  <text class="h" x="120" y="548">读法口诀</text>
+  <text class="t" x="120" y="592">先看 Jinja 条件</text>
+  <text class="t" x="120" y="627">再看 block.type</text>
+  <text class="t" x="120" y="662">最后看 LaTeX 宏</text>
+
+  <rect class="box" x="1080" y="525" width="240" height="150"/>
+  <text class="h" x="1115" y="573">混在一起的原因</text>
+  <text class="t" x="1115" y="617">同一文件同时负责</text>
+  <text class="t" x="1115" y="650">分发 + 排版细节</text>
+
+  <text class="code" x="75" y="835">关键位置：lines 9-17 preamble/document；19-27 sections 循环；33-284 block.type 分发；286-294 教师备注附加层</text>
+</svg>

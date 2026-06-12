@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="0 0 1400 900">
+  <defs>
+    <style>
+      .bg{fill:#f7f8fb}.title{font:700 38px Arial,"PingFang SC","Microsoft YaHei",sans-serif;fill:#152238}
+      .sub{font:400 20px Arial,"PingFang SC","Microsoft YaHei",sans-serif;fill:#526070}
+      .center{fill:#17243a;rx:22}.card{fill:#fff;stroke:#cbd6e2;stroke-width:2;rx:16}
+      .a{fill:#eaf4ff;stroke:#6b9edb}.b{fill:#edf9f2;stroke:#4faf7b}.c{fill:#fff3e6;stroke:#de9b49}
+      .d{fill:#fff0f0;stroke:#da6969}.e{fill:#f1efff;stroke:#8672d8}.f{fill:#f4f6f8;stroke:#aeb8c5}
+      .white{font:700 27px Arial,"PingFang SC","Microsoft YaHei",sans-serif;fill:#fff}
+      .h{font:700 22px Arial,"PingFang SC","Microsoft YaHei",sans-serif;fill:#17243a}
+      .t{font:400 18px Arial,"PingFang SC","Microsoft YaHei",sans-serif;fill:#35445a}
+      .code{font:600 16px Menlo,Consolas,monospace;fill:#334155}
+      .arrow{stroke:#7d8ca1;stroke-width:2.6;fill:none;marker-end:url(#arrow)}
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#7d8ca1"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="1400" height="900"/>
+  <text class="title" x="70" y="80">图 3：中间最大的一坨，其实是 block.type 路由表</text>
+  <text class="sub" x="70" y="118">读法：看到一个 YAML block，先找它的 type，然后跳到对应分支。</text>
+
+  <rect class="center" x="555" y="350" width="290" height="150"/>
+  <text class="white" x="600" y="410">block.type</text>
+  <text class="white" x="610" y="452">选择一个渲染分支</text>
+
+  <rect class="card a" x="80" y="185" width="300" height="135"/>
+  <text class="h" x="110" y="230">题目入口</text>
+  <text class="code" x="110" y="265">problemcard/problem/short_answer</text>
+  <text class="t" x="110" y="295">题干、子问、可选配图、学生留白</text>
+
+  <rect class="card b" x="550" y="175" width="320" height="150"/>
+  <text class="h" x="580" y="222">思路导航</text>
+  <text class="code" x="580" y="257">route</text>
+  <text class="t" x="580" y="292">steps 用箭头串起来</text>
+
+  <rect class="card c" x="1010" y="185" width="300" height="135"/>
+  <text class="h" x="1040" y="230">主体讲解</text>
+  <text class="code" x="1040" y="265">explanation_dual/dual_explanation</text>
+  <text class="t" x="1040" y="295">左提示易错，右分步解答</text>
+
+  <rect class="card e" x="85" y="560" width="300" height="145"/>
+  <text class="h" x="115" y="607">总结收束</text>
+  <text class="code" x="115" y="642">summary_dual/answer_reminder</text>
+  <text class="code" x="115" y="672">answer/answers/reminder</text>
+
+  <rect class="card d" x="545" y="585" width="335" height="150"/>
+  <text class="h" x="575" y="632">训练与图</text>
+  <text class="code" x="575" y="667">variation_training</text>
+  <text class="code" x="575" y="697">diagram / choice / fillin</text>
+
+  <rect class="card f" x="1010" y="560" width="300" height="150"/>
+  <text class="h" x="1040" y="607">旧格式兼容</text>
+  <text class="code" x="1040" y="642">solution / step</text>
+  <text class="code" x="1040" y="672">mistake / hint</text>
+  <text class="t" x="1040" y="702">保留历史 YAML 能继续渲染</text>
+
+  <path class="arrow" d="M380 275 C475 310,515 350,555 395"/>
+  <path class="arrow" d="M700 325 V350"/>
+  <path class="arrow" d="M1010 275 C920 310,875 350,845 395"/>
+  <path class="arrow" d="M385 630 C475 590,515 520,555 460"/>
+  <path class="arrow" d="M705 585 V500"/>
+  <path class="arrow" d="M1010 630 C920 590,875 520,845 460"/>
+
+  <text class="code" x="80" y="835">对应代码：lines 33-284 是一个长 if/elif；每个 elif 就是一种 block.type 到 LaTeX 宏的映射。</text>
+</svg>

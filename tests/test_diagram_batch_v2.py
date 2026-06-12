@@ -73,6 +73,9 @@ class DiagramBatchV2Test(unittest.TestCase):
         self.assertEqual(request.semantic_constraints.given_constraints, ["AB=AC", "D on BC"])
         self.assertEqual(request.semantic_constraints.clean_forbidden, ["不要画高 AH"])
         self.assertEqual(request.visual_requirements.caption, "原题图")
+        self.assertEqual(request.render_profile.width, "60mm")
+        self.assertEqual(request.render_profile.canvas_height_px, 360)
+        self.assertEqual(request.render_profile.point_label_px, 44)
         self.assertEqual(request.engine_options.seed, 7)
         self.assertEqual(request.engine_options.max_retries, 1)
         self.assertEqual(request.engine_options.engine_model_config["text_model"], "test-model")
@@ -143,6 +146,8 @@ class DiagramBatchV2Test(unittest.TestCase):
             payload = json.loads(request_path.read_text(encoding="utf-8"))
             self.assertEqual(payload["schema_version"], "diagram-job-request/v2")
             self.assertEqual(payload["semantic_constraints"]["given_objects"], ["A", "B", "C", "D"])
+            self.assertEqual(payload["render_profile"]["width"], "60mm")
+            self.assertEqual(payload["render_profile"]["canvas_height_px"], 360)
 
 
 if __name__ == "__main__":

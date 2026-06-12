@@ -151,6 +151,7 @@ def build_request(
     visual_requirements = slot.visual_requirements if slot else DiagramVisualRequirements()
     analytic_requirements = slot.analytic_requirements if slot else DiagramAnalyticRequirements()
     engine_options = slot.engine_options if slot else DiagramEngineOptions()
+    render_profile = slot.resolved_render_profile() if slot else None
 
     return DiagramJobRequest(
         job_id=job.job_id,
@@ -166,6 +167,7 @@ def build_request(
         semantic_constraints=semantic_constraints,
         analytic_requirements=analytic_requirements,
         visual_requirements=visual_requirements,
+        **({"render_profile": render_profile} if render_profile is not None else {}),
         reuse=reuse,
         engine_options=engine_options,
     )

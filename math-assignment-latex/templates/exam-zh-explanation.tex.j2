@@ -34,8 +34,9 @@
 \begin{eduProblemBlock}[<% if block.label %><%= block.label|latex_escape %><% else %>题目<% endif %>]
 <% set diagram_col = block.diagram_col or block.prompt_diagram %>
 <% if diagram_col %>
+<% set diagram_width = diagram_col.width|default("60mm") %>
 \noindent
-\begin{minipage}[t]{0.64\linewidth}
+\begin{minipage}[t]{\dimexpr\linewidth-<%= diagram_width %>-6mm\relax}
 \vspace{0pt}
 <% if block.stem_latex %>
 <%= block.stem_latex %>
@@ -50,7 +51,7 @@
 \end{eduSubQuestions}
 <% endif %>
 \end{minipage}\hfill
-\diagramcolfigure{<%= diagram_col.image_path|latex_path %>}{<%= diagram_col.width|default("0.30\\linewidth") %>}{<% if diagram_col.caption %><%= diagram_col.caption|latex_escape %><% endif %>}
+\diagramcolfigure{<%= diagram_col.image_path|latex_path %>}{<%= diagram_width %>}{<% if diagram_col.caption %><%= diagram_col.caption|latex_escape %><% endif %>}
 <% else %>
 <% if block.stem_latex %>
 <%= block.stem_latex %>

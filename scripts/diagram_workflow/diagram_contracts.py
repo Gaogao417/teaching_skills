@@ -10,6 +10,7 @@ and resolver binds artifacts back into assignment.resolved.yaml.
 from __future__ import annotations
 
 from enum import Enum
+import re
 from typing import Annotated, Literal, TypeAlias
 
 from pydantic import AliasChoices, BaseModel, ConfigDict, Field, model_validator
@@ -68,6 +69,27 @@ class DiagramOrientation(str, Enum):
     SQUARE = "square"
 
 
+class DiagramDisplayProfile(str, Enum):
+    AUTO = "auto"
+    WORKSHEET_GEOMETRY_SIDECAR = "worksheet_geometry_sidecar"
+    WORKSHEET_GEOMETRY_CENTER = "worksheet_geometry_center"
+
+
+class DiagramBodyScale(str, Enum):
+    NORMAL = "normal"
+    LARGE = "large"
+
+
+class DiagramLabelDensity(str, Enum):
+    NORMAL = "normal"
+    DENSE = "dense"
+
+
+class DiagramConditionLabelStyle(str, Enum):
+    VALUE_ONLY = "value_only"
+    FULL = "full"
+
+
 class DiagramRunStatus(str, Enum):
     PLANNED = "planned"
     COLLECTED = "collected"
@@ -95,6 +117,25 @@ class DiagramLooseModel(BaseModel):
     """Contract for external tool outputs that may carry extra diagnostic fields."""
 
     model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+
+_LATEX_DIMENSION_PATTERN = re.compile(
+    r"^\s*(?:"
+    r"(?:\d+(?:\.\d+)?|\.\d+)\s*(?:mm|cm|pt|in)"
+    r"|(?:\d+(?:\.\d+)?|\.\d+)?\s*\\linewidth"
+    r"|\\linewidth"
+    r")\s*$"
+)
+
+
+def validate_latex_dimension(value: str, *, field_name: str) -> str:
+    if not value:
+        return value
+    if not _LATEX_DIMENSION_PATTERN.match(value):
+        raise ValueError(
+            f"{field_name} must be a TeX dimension in mm/cm/pt/in or a \\linewidth expression"
+        )
+    return value
 
 
 class DiagramNumericDomain(DiagramModel):
@@ -201,7 +242,74 @@ class DiagramVisualRequirements(DiagramModel):
     show_given_markers: bool = True
     show_axes: bool = False
     preferred_orientation: DiagramOrientation = DiagramOrientation.AUTO
+    label_density: DiagramLabelDensity = DiagramLabelDensity.NORMAL
     caption: str = ""
+
+
+class DiagramRenderProfile(DiagramModel):
+    """Resolved renderer/display defaults for printable worksheet diagrams."""
+
+    display_profile: DiagramDisplayProfile = DiagramDisplayProfile.AUTO
+    width: str = ""
+    canvas_width_px: int | None = Field(default=None, ge=1)
+    canvas_height_px: int | None = Field(default=None, ge=1)
+    png_size_px: int | None = Field(default=None, ge=1)
+    body_scale: DiagramBodyScale | None = None
+    point_label_px: int | None = Field(default=None, ge=1)
+    condition_label_px: int | None = Field(default=None, ge=1)
+    axis_label_px: int | None = Field(default=None, ge=1)
+    tick_label_px: int | None = Field(default=None, ge=1)
+    point_radius_px: float | None = Field(default=None, gt=0)
+    label_outline_width_px: float | None = Field(default=None, ge=0)
+    point_label_offset_px: float | None = Field(default=None, ge=0)
+    font_family: str = ""
+    point_label_font_style: str = ""
+    point_label_font_weight: str = ""
+    condition_label_font_style: str = ""
+    condition_label_font_weight: str = ""
+    condition_label_style: DiagramConditionLabelStyle | None = None
+
+    @model_validator(mode="after")
+    def validate_width(self) -> DiagramRenderProfile:
+        if self.width:
+            validate_latex_dimension(self.width, field_name="render_profile.width")
+        return self
+
+
+def default_render_profile(
+    display_profile: DiagramDisplayProfile,
+    layout_role: DiagramLayoutRole | None = None,
+    label_density: DiagramLabelDensity = DiagramLabelDensity.NORMAL,
+) -> DiagramRenderProfile:
+    if display_profile == DiagramDisplayProfile.AUTO:
+        if layout_role == DiagramLayoutRole.CENTER_BLOCK:
+            display_profile = DiagramDisplayProfile.WORKSHEET_GEOMETRY_CENTER
+        else:
+            display_profile = DiagramDisplayProfile.WORKSHEET_GEOMETRY_SIDECAR
+
+    point_label_px = 52 if label_density == DiagramLabelDensity.DENSE else 44
+    width = "70mm" if display_profile == DiagramDisplayProfile.WORKSHEET_GEOMETRY_CENTER else "60mm"
+    return DiagramRenderProfile(
+        display_profile=display_profile,
+        width=width,
+        canvas_width_px=720,
+        canvas_height_px=360,
+        png_size_px=1024,
+        body_scale=DiagramBodyScale.LARGE,
+        point_label_px=point_label_px,
+        condition_label_px=36,
+        axis_label_px=18,
+        tick_label_px=13,
+        point_radius_px=5.2,
+        label_outline_width_px=0,
+        point_label_offset_px=34,
+        font_family="Times New Roman, Georgia, serif",
+        point_label_font_style="italic",
+        point_label_font_weight="normal",
+        condition_label_font_style="normal",
+        condition_label_font_weight="normal",
+        condition_label_style=DiagramConditionLabelStyle.VALUE_ONLY,
+    )
 
 
 class DiagramReuseSpec(DiagramModel):
@@ -267,6 +375,8 @@ class DiagramSlot(DiagramModel):
     placement: NonEmptyStr
     layout_role: DiagramLayoutRole
     width_hint: str = ""
+    display_profile: DiagramDisplayProfile = DiagramDisplayProfile.AUTO
+    render_profile: DiagramRenderProfile | None = None
     caption: str = ""
     engine: DiagramEngine = DiagramEngine.GEOMETRIC_SCENE
     diagram_kind: DiagramKind = DiagramKind.SYNTHETIC_GEOMETRY
@@ -282,6 +392,8 @@ class DiagramSlot(DiagramModel):
     def enforce_slot_policy(self) -> DiagramSlot:
         if not self.diagram_ref:
             self.diagram_ref = self.slot_id
+        if self.width_hint:
+            validate_latex_dimension(self.width_hint, field_name="width_hint")
         if self.variant == DiagramVariant.PROMPT and self.disclosure_policy != DisclosurePolicy.CLEAN:
             raise ValueError("prompt diagrams must use disclosure_policy='clean'")
         if self.required and self.on_failure != DiagramOnFailure.FAIL_ASSIGNMENT:
@@ -291,6 +403,31 @@ class DiagramSlot(DiagramModel):
         if self.caption and not self.visual_requirements.caption:
             self.visual_requirements.caption = self.caption
         return self
+
+    def resolved_display_profile(self) -> DiagramDisplayProfile:
+        if self.display_profile != DiagramDisplayProfile.AUTO:
+            return self.display_profile
+        if self.render_profile and self.render_profile.display_profile != DiagramDisplayProfile.AUTO:
+            return self.render_profile.display_profile
+        if self.layout_role == DiagramLayoutRole.CENTER_BLOCK:
+            return DiagramDisplayProfile.WORKSHEET_GEOMETRY_CENTER
+        return DiagramDisplayProfile.WORKSHEET_GEOMETRY_SIDECAR
+
+    def resolved_render_profile(self) -> DiagramRenderProfile:
+        base = default_render_profile(
+            self.resolved_display_profile(),
+            self.layout_role,
+            self.visual_requirements.label_density,
+        )
+        if self.render_profile is not None:
+            overrides = self.render_profile.model_dump(exclude_unset=True, mode="python")
+            for key, value in overrides.items():
+                if value not in (None, ""):
+                    setattr(base, key, value)
+        if self.width_hint:
+            base.width = self.width_hint
+        base.display_profile = self.resolved_display_profile()
+        return base
 
 
 class DiagramJob(DiagramModel):
@@ -407,6 +544,9 @@ class DiagramJobRequest(DiagramModel):
     semantic_constraints: DiagramSemanticConstraints = Field(default_factory=DiagramSemanticConstraints)
     analytic_requirements: DiagramAnalyticRequirements = Field(default_factory=DiagramAnalyticRequirements)
     visual_requirements: DiagramVisualRequirements = Field(default_factory=DiagramVisualRequirements)
+    render_profile: DiagramRenderProfile = Field(
+        default_factory=lambda: default_render_profile(DiagramDisplayProfile.WORKSHEET_GEOMETRY_SIDECAR)
+    )
     reuse: DiagramReuseSpec = Field(default_factory=DiagramReuseSpec)
     engine_options: DiagramEngineOptions = Field(default_factory=DiagramEngineOptions)
 
@@ -620,6 +760,9 @@ class GeometryRenderSpec(DiagramLooseModel):
     type: str = "synthetic_geometry"
     status: str = ""
     canvas: RenderCanvas = Field(default_factory=RenderCanvas)
+    render_profile: DiagramRenderProfile = Field(
+        default_factory=lambda: default_render_profile(DiagramDisplayProfile.WORKSHEET_GEOMETRY_SIDECAR)
+    )
     viewport: DiagramCoordinateViewport | None = None
     axes: DiagramAxesSpec | None = None
     points: dict[str, Point2D] = Field(default_factory=dict)

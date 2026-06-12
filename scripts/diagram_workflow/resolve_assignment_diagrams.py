@@ -122,6 +122,8 @@ def _resolved_field_for_placement(placement: str) -> str:
         return "diagram_col"
     if "diagram_row" in placement:
         return "diagram_row_item"
+    if "block_center" in placement or "center" in placement:
+        return "diagram"
     return "diagram_col"  # default
 
 
@@ -184,7 +186,7 @@ def _resolve_slot(
         image_path=artifact.image_path,
         diagram_ref=slot.diagram_ref or slot.slot_id,
         diagram_job_id=artifact.job_id,
-        width=slot.width_hint,
+        width=slot.resolved_render_profile().width,
         caption=slot.caption,
         variant=artifact.variant,
         disclosure_policy=artifact.disclosure_policy,

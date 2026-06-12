@@ -1269,6 +1269,7 @@ def _compile_renderer_spec(
         or request.get("diagram_type")
         or request.get("diagram_intent")
         or "synthetic_geometry",
+        "render_profile": request.get("render_profile") or {},
         "points": points,
         "polygons": polygons,
         "segments": segments,
