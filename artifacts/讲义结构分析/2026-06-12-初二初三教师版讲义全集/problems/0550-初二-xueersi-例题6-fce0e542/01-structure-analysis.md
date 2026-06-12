@@ -1,0 +1,530 @@
+# 结构分析：初二 xueersi 例题6：函数/坐标关系建模
+
+## 原题
+【例题6】 ★★★☆☆
+
+如图，已知在Rt $ \Delta A B C $中， $ \angle A C B=9 0^{\circ} $ $ \angle B=3 0^{\circ} $ $ AB=2 $ ，点D在斜边AB上，将 $ \Delta A B C $沿着过点D的一条直线翻折，使点B落在射线BC上的点 $ B^{\prime} $处，连接 $ D B^{\prime} $并延长，交射线AC于E.
+
+(1) 当点 $ B^{\prime} $与点C重合时，求BD的长.
+
+(2) 当点 E在 AC的延长线上时，设 BD为 x，CE为 y，求 y关于 x的函数关系式，并写出定义域.
+
+(3) 连接 AB'，当 $ \triangle AB^{\prime}D $是直角三角形时，请直接写出 BD的长.
+
+备用图
+
+备用图
+
+- 来源讲义：（数）2020年秋八年级培优体系_教师版_第15讲_期末复习（敏学班）
+- 来源定位：page=5；例题6
+- 主题标签：函数、几何综合、OCR需复核
+- OCR/图形状态：需人工复核：数字可能被拆空格；含图形条件，需对照原图；选择项/表格排版可能丢列；题目依赖图形，仅生成 diagram_request_packet，不生成图片。本结构分析只锁定 OCR 文本可见条件，不补造图中缺失条件。
+
+## 一、题目场景
+- 数学对象：函数/坐标关系建模中的题面对象、变量、图形/函数/方程关系。
+- 变量/参数：以原题出现的字母、动点、边长、函数参数或方程参数为准；OCR 不确定处不补造。
+- 函数/图形：题面含图或坐标/几何图形，必须按原图复核后再用于学生版。
+- 已知条件：见“原题”；若选项、空格、图形信息缺列，以上方 OCR 状态为准。
+- 要求目标：完成原题各小问，锁定计算入口、答案范围和验算点。
+
+## 二、核心结构
+- 表面考点：函数、几何综合、OCR需复核。
+- 本质考点：把可见条件转化为一个可计算/可证明的关系链。
+- 一句话问题模式：先确定入口，再列关系，最后检查范围、图形位置或实际意义。
+
+## 三、关键转化
+- 最关键的转化：先锁定题面对象与可见条件；对图形/OCR不完整处标记复核，再进入公式、判别式、函数或辅助线转化。
+- 为什么降低计算量：先抓核心关系，能避免在多小问、复杂图形或参数表达中盲目展开。
+- 不转化时的低效路径：直接硬算、照图猜性质、把每个小问孤立处理，容易漏范围和退化情况。
+
+## 四、标准路径骨架
+1. 先做什么：复述对象、变量、已知条件与目标。
+2. 再做什么：判断应使用判别式/韦达/坐标代入/面积公式/辅助线/向量线性组合等哪一个入口。
+3. 建立什么关系：把题面条件写成方程、函数关系、几何等量关系或向量表达。
+4. 如何求解：按教师版分析或可见关系链完成代数求解/证明。
+5. 需要检查什么：定义域、实数根、参数范围、三角形成立、点是否重合、图形边界、实际单位。
+
+## 四点五、标准完整解与验算
+- 关键交点/关键量：依据题面和教师版分析锁定；图形题需回源确认图中对象。
+- 面积/方程/关系式：见下方教师版分析片段。
+- 完整求解过程：
+
+【分析】
+
+
+在 Rt $ \Delta $ ABC中， $ \angle A C B=9 0^{\circ} $ $ \angle B=3 0^{\circ} $ AB=2
+
+
+$ \therefore A C=\frac{1}{2} A B=1 $ ，根据勾股定理得， $ BC=\sqrt{3} $
+
+
+$ \because $由折叠知， $ D B^{\prime}=D B $ $ \therefore \angle B=\angle B B^{\prime} D=3 0^{\circ} $ $ \therefore \angle A
+D B^{\prime}=\angle B+\angle B B^{\prime} D=6 0^{\circ} $
+
+
+(1) 当点 $ B^{\prime} $与点C重合时， $ DC=DB $ $ \angle A=\angle ADC=60^{\circ} $
+
+
+$ \therefore \Delta A D C $是等边三角形， $ \therefore A D=A C=1 $ $ \therefore B D=A B-A D=1; $
+
+
+(2) 过 D作 DH $ \bot $ BC于H
+
+
+在 Rt $\Delta$ BDH中， $BD = x$ ， $ \angle B=30^{\circ} $则 $ B H=\frac{\sqrt{3}}{2} x $， $ BB^{\prime}=\sqrt{3} x $
+
+
+在 $Rt\triangle B^{\prime}EC$ 中， $EC = y$ ， $ \angle EB^{\prime}C = 30^{\circ} $则 $ B^{\prime}C = \sqrt{3} y $
+
+
+$$
+
+\therefore B C = \sqrt {3} x + \sqrt {3} y = \sqrt {3}, \quad \therefore y = - x + 1 (0 < x < 1)
+
+$$
+
+
+(3) 设 $ D H=a $
+
+
+在 Rt $ \Delta $ ADH中，BD=2a，BH $ =\sqrt{3} a $
+
+
+$$
+
+\therefore D B ^ {\prime} = B D = 2 a, \quad B B ^ {\prime} = 2 B H = 2 \sqrt {3},
+
+$$
+
+
+由（1）知， $ \angle A D B^{\prime}=6 0^{\circ} $
+
+
+$ \because \triangle A B^{\prime} D $是直角三角形，
+
+
+$ \therefore $ $ \textcircled{1} $当 $ \angle A B^{\prime} D=9 0^{\circ} $时
+
+
+在 Rt $ \triangle A B^{\prime} D $中， $ \angle B^{\prime} A D=9 0^{\circ}-\angle A D B^{\prime}=3 0^{\circ} $
+
+
+$$
+
+\therefore A D = 2 B ^ {\prime} D = 4 a, A B ^ {\prime} = \sqrt {3} B ^ {\prime} D = 2 \sqrt {3} a,
+
+$$
+
+
+在 $\mathrm{Rt}\Delta \mathrm{ACB}^{\prime}$ 中， $B^{\prime}C = BC - BB^{\prime} = \sqrt{3} - 2\sqrt{3}a$
+
+
+根据勾股定理得， $ A B^{\prime 2}=B^{\prime} C^{2}+A C^{2} $
+
+
+$ \therefore(2\sqrt{3} a)^{2}=(\sqrt{3}-2\sqrt{3} a)^{2}+1, $ $ \therefore a=\frac{1}{3}, $ $ \therefore B D=2
+a=\frac{2}{3}; $
+
+
+$ \textcircled{2} $当 $ \angle B^{\prime}AD=90^{\circ} $时，如图3，同 $ \textcircled{1} $的方法得， $ BD=\frac{4}{3} $
+
+
+即：满足条件的 BD $ = \frac{2}{3} $或 $ \frac{4}{3} $
+
+
+![](page=6,bbox=[43, 43, 257, 109])
+
+
+【补充1】 ★★★☆☆
+
+
+已知，如图，在 $\Delta ABC$ 中，AE平分 $\angle CAB$ 交BC于点E， $AC = 6$ ， $CE = 3$ ， $AE = 3\sqrt{5}$ $BE = 5$
+，点F是边AB上的动点（点F与点A，B不重合），连接EF，设 $BF = x$ ， $EF = y$
+
+
+(1) 求 AB的长；
+
+
+(2) 求 y关于 x的函数解析式，并写出函数的定义域；
+
+
+(3) 当 $ \Delta A E F $为等腰三角形时，直接写出 BF的长.
+
+
+![](page=6,bbox=[311, 608, 669, 1082])
+
+
+【分析】
+
+
+(1) $ \because A C=6 $ , $ C E=3 $ , $ A E=3\sqrt{5} $ ,
+
+
+$$
+
+\therefore A C ^ {2} + C E ^ {2} = 6 ^ {2} + 3 ^ {2} = 4 5,
+
+$$
+
+
+$$
+
+A E ^ {2} = \left(3 \sqrt {5}\right) ^ {2} = 4 5, \therefore A C ^ {2} + C E ^ {2} = A E ^ {2}, \therefore \angle A C
+E = 9 0 ^ {\circ},
+
+$$
+
+
+$$
+
+\because B E = 5, \quad \therefore B C = 8,
+
+$$
+
+
+由勾股定理得： $ AB=\sqrt{A C^{2}+B C^{2}}=\sqrt{6^{2}+8^{2}}=10; $
+
+
+(2) 如图1，过E作 $ EG\bot AB $于G，
+
+
+$$
+
+\because A E = A E, \therefore \mathrm {R t} \Delta \mathrm {A C E} \cong \mathrm {R t} \Delta \mathrm {A G E}
+(\mathrm {H L}),
+
+$$
+
+
+$$
+
+\therefore A G = A C = 6,
+
+$$
+
+
+$$
+
+\therefore B G = 1 0 - 6 = 4,
+
+$$
+
+
+$$
+
+\because B F = x, \therefore F G = | 4 - x |,
+
+$$
+
+
+在 Rt $\Delta$ EFG中，由勾股定理得： $EF = \sqrt{EG^{2} + FG^{2}}$
+
+
+$$
+
+\therefore y = \sqrt {3 ^ {2} + (4 - x) ^ {2}} = \sqrt {x ^ {2} - 8 x + 2 5} (0 < x < 1 0);
+
+$$
+
+
+(3) 分两种情况讨论：
+
+
+$ \textcircled{1} $当 $ A E=A F=3 \sqrt{5} $时，
+
+
+$$
+
+\because A B = 1 0
+
+$$
+
+
+$$
+
+\therefore B F = 1 0 - 3 \sqrt {5},
+
+$$
+
+
+$ \textcircled{2} $当 AF=EF时，过F作FP $ \bot $AE于P，
+
+
+$$
+
+\therefore A P = \frac {1}{2} A E = \frac {3 \sqrt {5}}{2}, A F = \frac {1 5}{4},
+
+$$
+
+
+$$
+
+\therefore B F = 1 0 - \frac {1 5}{4} = \frac {2 5}{4},
+
+$$
+
+
+综上，当 $ \Delta A E F $为等腰三角形时，BF的长为 $ 1 0-3 \sqrt{5} $或 $ \frac{2 5}{4}. $
+
+
+![](page=7,bbox=[43, 44, 256, 109])
+
+
+## 试题拓展
+
+- 最终答案：以教师版分析片段中的答案为准；若片段只给结论，需下一阶段补全逐步验算。
+- 排除值：OCR/图形未复核前，保留潜在排除值。
+- 退化情形：需检查点重合、边界位置、图形方向或函数交点退化。
+- 验算：把结果代回原条件；应用题检查单位和实际意义；几何/函数题检查图形位置与定义域。
+- 本题最短可靠路径：以教师版【分析】片段为标准解证据；若片段只给答案，则下一阶段生成学生讲解前应回源补全推导。
+
+## 五、出题人逻辑
+- 诱导学生硬算的位置：多条件、多小问、参数或图形对象同时出现时，学生容易先展开计算。
+- 真正的捷径：抓住一个核心不变量或关键关系式，再推进各小问。
+- 训练的可迁移能力：读题建模、选择入口、列式/证明、检查边界。
+
+## 六、学生卡点预测
+- 读题/入手动作卡点：看见长题面或图形后不知道先整理对象。
+- 建模/关系入口卡点：不会判断该用哪条公式、定理、函数性质或辅助线。
+- 求解/检查卡点：求出答案后漏掉范围、退化、实际意义或图形位置验证。
+
+## 七、变式原则
+- 核心不变量：保持“函数/坐标关系建模”这一核心结构不变，只改变一个表层维度。
+- 表层特征：函数、几何综合、OCR需复核。
+- 可变维度：换数、换问法、换表征、条件包装。
+- 深化阶梯：原题复现 → 同结构换数 → 同结构换问法 → 同结构换表征 → 条件包装 → 结构部分隐藏 → 反向构造。
+- 允许的变换：只改变一个主维度，保留核心入口和计算层级。
+- 禁止的变换：加入无关新知识点，或让图形/OCR 条件成为猜测。
+- 表征切换：文字、代数式、坐标图像、几何图形、表格。
+- 包装方式：把关键条件藏入情境、图形描述或参数限制。
+- 近迁移例子：同结构换干净数字，要求学生复现入口和检查。
+- 远迁移例子：保留不变量，把代数关系迁移到函数/几何/向量表达。
+- 反例/伪变式：改变了核心入口或引入超纲计算的题，不算本题有效变式。
+
+## 八、计算复杂度预算
+- 原题计算层级：初二培优核心例题；一到两个关键转化。
+- 允许小步上升到：增加一个边界讨论、一个同构表征切换或一个轻量参数。
+- 禁止引入的计算负担：高次复杂运算、多重分类叠加、超纲定理、未给图却强依赖隐含图形条件。
+- 必须保留的可见支架：对象表、关键关系、范围/退化检查。
+
+## 九、推荐讲题任务包
+- 建议的本轮教学入口：read_context/find_entry；先复核题面完整性。
+- 本题讲解目标：能解释关键关系从哪里来，并完成结果检查。
+- 不要直接讲的抽象话：“数形结合”“综合运用”“灵活转化”。
+- 必须先问的问题：题中确定了哪些量？要求什么？哪些条件限制范围？
+- 关键讲解顺序：对象整理 → 入口选择 → 关系式 → 求解/证明 → 验算。
+- 最适合的具体数值例子：取原题一个小问或缩小数字，保留同一入口。
+- 讲到哪里停下来让学生回答：写出关键关系式前、求出候选答案后、检查排除值前。
+
+## 十、推荐练题任务包
+- 若卡在读题/入手动作，出什么题：同题型短题，只要求圈对象、已知、目标。
+- 若卡在建模或关系入口，出什么题：给出半成品关系链，让学生补关键等式/辅助线理由。
+- 若卡在求解和检查，出什么题：给出已列关系式，训练求解和验算。
+- 若原题已稳，如何小步迁移：同结构换数或轻微换问法。
+- 若结构识别已稳，如何深化/抽象/包装：把关键条件换成图像、表格或情境句。
+- 禁止出的跑偏变式：增加无关知识点、复杂高次计算或依赖未给图形性质。
+
+## 十点五、推荐图形请求包（可选）
+- 是否需要图：true
+- 图形类型：`coordinate_geometry`
+- 用图意图：`student_explanation`
+- 需要出现的对象：原题所有点、线段、函数图像/几何对象；需回源复核图中相对位置。
+- 需要突出给学生看的关系：关键等量、垂直/平行、交点、动点路径或函数交点。
+- 图中不能暗示的错误性质：不要暗示题中未给出的等腰、直角、平行、点重合或比例关系。
+- 图失败时的降级方案：用文字图形描述替代，明确所有对象与关系。
+
+## 十一、交付给下一阶段的结构摘要
+```json
+{
+  "problem_pattern": "函数/坐标关系建模",
+  "core_transformation": "先锁定题面对象与可见条件；对图形/OCR不完整处标记复核，再进入公式、判别式、函数或辅助线转化。",
+  "solution_skeleton": [
+    "识别对象、变量、已知条件和目标",
+    "选择最短入口：判别式/韦达/坐标代入/辅助线/向量基底/面积表达",
+    "列式求解并检查定义域、退化、图形或实际意义"
+  ],
+  "canonical_solution": {
+    "key_quantities": [
+      "题面给定量",
+      "待求量",
+      "中间关系式"
+    ],
+    "equation": "见本文件“标准完整解与验算”中的教师版分析片段。",
+    "answer_set": [
+      "见教师版分析片段或答案句"
+    ],
+    "excluded_values": [
+      "OCR/图形条件未复核前，不排除存在额外限制"
+    ],
+    "degenerate_cases": [
+      "图形位置、点重合、边界位置需按原图复核"
+    ],
+    "verification": "后续讲解阶段应按教师版分析重算并补充验算。",
+    "shortest_reliable_path": "沿教师版分析中的关键转化展开，避免另起复杂分类。"
+  },
+  "common_blockers": {
+    "read_context_or_find_entry": [
+      "把多小问当成零散计算，未先识别同一结构",
+      "依赖图形但未先确认图中位置关系"
+    ],
+    "build_relation": [
+      "不知道该用判别式、韦达、坐标代入、面积表达、辅助线还是向量基底",
+      "把结论直接代入，缺少等量关系来源"
+    ],
+    "solve_and_check": [
+      "求出数值后不检查定义域、根的存在性、三角形边界或实际范围",
+      "OCR 数字/选项不复核导致答案漂移"
+    ]
+  },
+  "variation_rules": {
+    "core_invariant": "保持“函数/坐标关系建模”这一核心结构不变，只改变一个表层维度。",
+    "surface_features": [
+      "函数",
+      "几何综合",
+      "OCR需复核"
+    ],
+    "variation_dimensions": [
+      "换干净数字",
+      "轻微换问法",
+      "换表征：文字/图像/解析式/表格",
+      "条件包装"
+    ],
+    "depth_ladder": [
+      "原题复现",
+      "同结构换数",
+      "同结构换问法",
+      "同结构换表征",
+      "条件包装",
+      "结构部分隐藏",
+      "反向构造"
+    ],
+    "allowed_transforms": [
+      "保留核心入口和计算层级",
+      "只改变一个主维度",
+      "保留必要范围检查"
+    ],
+    "forbidden_transforms": [
+      "同时换知识点和计算负担",
+      "把图形题改到需要新定理",
+      "引入超出初二体系的技巧"
+    ],
+    "cognitive_load_budget": "下一阶段练习不应比原题多一个以上主要计算层级。",
+    "representation_options": [
+      "文字题面",
+      "坐标/函数图像",
+      "几何图形描述",
+      "代数式/方程组"
+    ],
+    "packaging_options": [
+      "把关键等量关系藏入情境",
+      "把已知与所求轻微互换",
+      "把图形条件改写成文字条件"
+    ],
+    "near_transfer_examples": [
+      "保留题型和入口，仅替换数值或点的位置"
+    ],
+    "far_transfer_examples": [
+      "保留不变量，把代数关系迁移到函数/几何表达"
+    ],
+    "non_examples": [
+      "为了追求难度加入无关新知识点，导致训练目标偏移"
+    ]
+  },
+  "complexity_budget": {
+    "original_level": "初二培优讲义核心例题；以一到两个关键转化为主。",
+    "max_next_step": "允许增加一个边界讨论或一个表征切换。",
+    "forbidden_load": [
+      "复杂高次运算",
+      "多重分类叠加",
+      "超纲定理",
+      "未给图却强依赖图形隐含条件"
+    ],
+    "required_scaffolds": [
+      "先列对象表",
+      "标出关键等量关系",
+      "保留范围/退化检查"
+    ]
+  },
+  "explanation_task_packet": {
+    "target_teaching_entries": [
+      "read_context",
+      "find_entry",
+      "build_relation"
+    ],
+    "goal": "让学生能说出题目核心结构、第一步入口、关系式来源和答案检查点。",
+    "avoid_abstract_phrases": [
+      "数形结合",
+      "综合运用",
+      "灵活转化"
+    ],
+    "must_ask_first": [
+      "题目中哪些量是确定的？",
+      "要求目标对应哪个等量关系？",
+      "有没有范围、符号或图形位置限制？"
+    ],
+    "teaching_sequence": [
+      "复述题面对象",
+      "确定核心入口",
+      "列出关键关系",
+      "完成计算",
+      "检查范围和退化"
+    ],
+    "concrete_probe_example": "把原题数字缩小或取其中一小问，让学生先完成同结构入口。",
+    "pause_points": [
+      "关系式写出前",
+      "代入求解前",
+      "答案验算前"
+    ]
+  },
+  "practice_task_packet": {
+    "read_context_or_find_entry_tasks": [
+      "给出同题型短题，只要求圈出对象、已知和目标"
+    ],
+    "build_relation_tasks": [
+      "保留原题数值，让学生补全关键等式或辅助线理由"
+    ],
+    "solve_and_check_tasks": [
+      "给出已列好的关系式，训练求解与范围检查"
+    ],
+    "transfer_tasks": [
+      "同结构换数或换问法一题"
+    ],
+    "hidden_structure_or_reverse_tasks": [
+      "反向给答案或性质，要求构造参数/说明条件是否充分"
+    ],
+    "forbidden_variations": [
+      "不加入本讲未覆盖的新定理或复杂计算"
+    ]
+  },
+  "diagram_request_packet": {
+    "needs_diagram": true,
+    "diagram_type": "coordinate_geometry",
+    "diagram_intent": "student_explanation",
+    "objects_hint": {
+      "points": [
+        "按原题点名与图中对象标注"
+      ],
+      "segments": [
+        "按原题线段、边、垂线、平行线或函数图像标注"
+      ],
+      "curves": [
+        "坐标轴、函数图像、交点"
+      ],
+      "constraints": [
+        "必须回源复核原图位置关系"
+      ]
+    },
+    "teaching_focus": [
+      "突出关键等量关系或位置关系",
+      "避免误导学生读出题中没有给出的特殊性质"
+    ],
+    "must_not_imply": [
+      "不要暗示未给出的等腰/直角/平行/点重合关系",
+      "坐标比例或长度比例不能误导结论"
+    ],
+    "fallback": "textual_diagram_description"
+  }
+}
+```
+
+下一步建议：使用 math-student-explanation-latex-data，输入本结构分析 + 学生画像 + 本次目标，生成 02-student-explanation.plan.assignment.yaml 或 02-student-explanation.assignment.yaml。工作流：math-structure-analysis → math-student-explanation-latex-data → math-adaptive-practice-latex-data → math-geometry-diagram-renderer → math-assignment-latex render/compile → math-homework-review。
