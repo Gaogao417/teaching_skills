@@ -1,0 +1,441 @@
+meta:
+  title: "梯形中的中点连线专项练习"
+  subtitle: "教师版：远迁移到梯形和平行线"
+  grade: "八年级"
+  subject: "数学"
+  duration: "20分钟"
+  total_points: 30
+  version: "teacher"
+  assignment_id: "2026-06-12-note-midpoint-midline-far-transfer-teacher"
+  source_artifacts:
+    structure_analysis: "artifacts/笔记/2026-06-08-矩形中点中位线求线段/01-structure-analysis.md"
+    explanation: "artifacts/笔记/2026-06-08-矩形中点中位线求线段/02-student-explanation.v2.resolved.assignment.yaml"
+
+render:
+  template: "exam-zh-practice"
+  paper_size: "a4paper"
+  answer_key_position: "after_page_break"
+
+sections:
+  - id: "far-transfer"
+    title: "一、远迁移练习"
+    type: "practice"
+    visibility: "student"
+    blocks:
+      - type: "problem"
+        id: "p1"
+        points: 10
+        label: "第1题"
+        stem_latex: |
+          如图，在梯形 $ABCD$ 中，$AB\parallel CD$，$AB=7$，$CD=19$。
+          点 $E,F$ 分别是对角线 $AC,BD$ 的中点。求 $EF$ 的长。
+        hints:
+          - content: "不要只看梯形名称，先想能不能补一条经过中点的辅助线。"
+          - content: "可以取 $AD$ 的中点 $M$，分别在两个三角形中看中位线。"
+        answer_space:
+          type: "steps"
+          height: "38mm"
+          diagram_slot:
+            slot_id: "practice.teacher.trap1.prompt"
+            diagram_ref: "practice.teacher.trap1.prompt"
+            variant: "prompt"
+            disclosure_policy: "clean"
+            required: true
+            on_failure: "fail_assignment"
+            placement: "answer_space.diagram_col"
+            layout_role: "answer_area_sidecar"
+            width_hint: "0.32\\linewidth"
+            caption: "第1题图"
+            engine: "coordinate_renderer"
+            diagram_kind: "coordinate_geometry"
+            teaching_intent: "practice_prompt"
+            semantic_constraints:
+              given_objects: ["梯形 ABCD", "AB parallel CD", "E 是 AC 的中点", "F 是 BD 的中点"]
+              given_constraints: ["AB=7", "CD=19"]
+              clean_forbidden: ["不要画辅助点 M", "不要标注 EF 的长度"]
+            visual_requirements: {show_labels: true, show_given_markers: true, show_axes: false, preferred_orientation: "landscape"}
+            analytic_requirements:
+              viewport: {x_min: -1, x_max: 20, y_min: -1, y_max: 5, preserve_aspect: true}
+              axes: {x: false, y: false, grid: false, show_ticks: false, x_label: "", y_label: ""}
+              objects:
+                - type: "polygon"
+                  id: "trap"
+                  points: ["A", "B", "C", "D"]
+                  style: {fill: "#f8fafc", stroke: "#111827", stroke_width: 2.4}
+                - type: "polyline"
+                  id: "AC"
+                  points: ["A", "C"]
+                  style: {stroke: "#2563eb", stroke_width: 2.2}
+                - type: "polyline"
+                  id: "BD"
+                  points: ["B", "D"]
+                  style: {stroke: "#2563eb", stroke_width: 2.2}
+                - type: "polyline"
+                  id: "EF"
+                  points: ["F", "E"]
+                  style: {stroke: "#dc2626", stroke_width: 3.0}
+                - type: "point"
+                  id: "A"
+                  x: 3
+                  y: 4
+                  label: "A"
+                  style: {label_dx: -14, label_dy: 15}
+                - type: "point"
+                  id: "B"
+                  x: 10
+                  y: 4
+                  label: "B"
+                  style: {label_dx: 10, label_dy: 15}
+                - type: "point"
+                  id: "C"
+                  x: 19
+                  y: 0
+                  label: "C"
+                  style: {label_dx: 10, label_dy: -16}
+                - type: "point"
+                  id: "D"
+                  x: 0
+                  y: 0
+                  label: "D"
+                  style: {label_dx: -16, label_dy: -16}
+                - type: "point"
+                  id: "E"
+                  x: 11
+                  y: 2
+                  label: "E"
+                  style: {label_dx: 8, label_dy: -18}
+                - type: "point"
+                  id: "F"
+                  x: 5
+                  y: 2
+                  label: "F"
+                  style: {label_dx: -18, label_dy: -18}
+                - type: "text"
+                  id: "ab-len"
+                  x: 6.5
+                  y: 4.35
+                  text: "AB=7"
+                  style: {font_size: 15, fill: "#374151"}
+                - type: "text"
+                  id: "cd-len"
+                  x: 9.5
+                  y: -0.45
+                  text: "CD=19"
+                  style: {font_size: 15, fill: "#374151"}
+        answer: "$EF=6$。"
+        explanation: "取 $M$ 为 $AD$ 的中点。在 $\\triangle ACD$ 中，$ME=\\frac12CD=9.5$；在 $\\triangle ABD$ 中，$MF=\\frac12AB=3.5$。两段同向且 $F$ 在 $M,E$ 之间，所以 $EF=ME-MF=6$。"
+        solution_steps:
+          - title: "补辅助中点"
+            content: "取 $M$ 为 $AD$ 的中点，使 $M,E$ 和 $M,F$ 分别进入两个三角形的中位线。"
+          - title: "两次中位线"
+            content: "在 $\\triangle ACD$ 中，$ME=\\frac12CD=9.5$；在 $\\triangle ABD$ 中，$MF=\\frac12AB=3.5$。"
+          - title: "比较两段"
+            content: "$AB\\parallel CD$，所以 $ME$ 与 $MF$ 同向共线，$EF=9.5-3.5=6$。"
+        teaching:
+          teaching_goal: "把原题的补中点结构迁移到梯形对角线中点"
+          expected_blocker: "只想套梯形中位线公式，忽略对角线中点需要补点"
+          entry_point: "hidden_structure"
+          scaffold_level: "medium"
+          variation_depth: "changed_representation"
+          complexity_note: "不增加计算难度，只换几何包装"
+          upgrade_rule: "能主动补 $AD$ 中点，并说出两个三角形"
+          fallback_move: "提示学生先找 E 和 F 分别在哪条线段的中点"
+
+      - type: "problem"
+        id: "p2"
+        points: 10
+        label: "第2题"
+        stem_latex: |
+          如图，在梯形 $ABCD$ 中，$AB\parallel CD$，$AB=8$。
+          点 $E,F$ 分别是对角线 $AC,BD$ 的中点，且 $EF=5$。求 $CD$ 的长。
+        hints:
+          - content: "先把第1题的结论写成底边差的一半。"
+          - content: "注意这题反求的是较长的下底。"
+        answer_space:
+          type: "steps"
+          height: "38mm"
+          diagram_slot:
+            slot_id: "practice.teacher.trap2.prompt"
+            diagram_ref: "practice.teacher.trap2.prompt"
+            variant: "prompt"
+            disclosure_policy: "clean"
+            required: true
+            on_failure: "fail_assignment"
+            placement: "answer_space.diagram_col"
+            layout_role: "answer_area_sidecar"
+            width_hint: "0.32\\linewidth"
+            caption: "第2题图"
+            engine: "coordinate_renderer"
+            diagram_kind: "coordinate_geometry"
+            teaching_intent: "practice_prompt"
+            semantic_constraints:
+              given_objects: ["梯形 ABCD", "AB parallel CD", "E 是 AC 的中点", "F 是 BD 的中点"]
+              given_constraints: ["AB=8", "EF=5"]
+              clean_forbidden: ["不要标注 CD 的答案", "不要画辅助点 M"]
+            visual_requirements: {show_labels: true, show_given_markers: true, show_axes: false, preferred_orientation: "landscape"}
+            analytic_requirements:
+              viewport: {x_min: -1, x_max: 19, y_min: -1, y_max: 5, preserve_aspect: true}
+              axes: {x: false, y: false, grid: false, show_ticks: false, x_label: "", y_label: ""}
+              objects:
+                - type: "polygon"
+                  id: "trap"
+                  points: ["A", "B", "C", "D"]
+                  style: {fill: "#f8fafc", stroke: "#111827", stroke_width: 2.4}
+                - type: "polyline"
+                  id: "AC"
+                  points: ["A", "C"]
+                  style: {stroke: "#2563eb", stroke_width: 2.2}
+                - type: "polyline"
+                  id: "BD"
+                  points: ["B", "D"]
+                  style: {stroke: "#2563eb", stroke_width: 2.2}
+                - type: "polyline"
+                  id: "EF"
+                  points: ["F", "E"]
+                  style: {stroke: "#dc2626", stroke_width: 3.0}
+                - type: "point"
+                  id: "A"
+                  x: 5
+                  y: 4
+                  label: "A"
+                  style: {label_dx: -14, label_dy: 15}
+                - type: "point"
+                  id: "B"
+                  x: 13
+                  y: 4
+                  label: "B"
+                  style: {label_dx: 10, label_dy: 15}
+                - type: "point"
+                  id: "C"
+                  x: 18
+                  y: 0
+                  label: "C"
+                  style: {label_dx: 10, label_dy: -16}
+                - type: "point"
+                  id: "D"
+                  x: 0
+                  y: 0
+                  label: "D"
+                  style: {label_dx: -16, label_dy: -16}
+                - type: "point"
+                  id: "E"
+                  x: 11.5
+                  y: 2
+                  label: "E"
+                  style: {label_dx: 8, label_dy: -18}
+                - type: "point"
+                  id: "F"
+                  x: 6.5
+                  y: 2
+                  label: "F"
+                  style: {label_dx: -18, label_dy: -18}
+                - type: "text"
+                  id: "ab-len"
+                  x: 9
+                  y: 4.35
+                  text: "AB=8"
+                  style: {font_size: 15, fill: "#374151"}
+                - type: "text"
+                  id: "ef-len"
+                  x: 9
+                  y: 2.35
+                  text: "EF=5"
+                  style: {font_size: 15, fill: "#dc2626"}
+        answer: "$CD=18$。"
+        explanation: "由第1题结构可得 $EF=\\frac12(CD-AB)$。所以 $5=\\frac12(CD-8)$，解得 $CD=18$。"
+        solution_steps:
+          - title: "写出结构关系"
+            content: "对角线中点连线等于两底差的一半：$EF=\\frac12(CD-AB)$。"
+          - title: "代入反求"
+            content: "$5=\\frac12(CD-8)$，所以 $CD-8=10$，$CD=18$。"
+        teaching:
+          teaching_goal: "训练把远迁移结论反向使用"
+          expected_blocker: "把 $EF$ 误写成两底和的一半"
+          entry_point: "reverse_construct"
+          scaffold_level: "medium"
+          variation_depth: "changed_question"
+          complexity_note: "只反求底边，不引入新计算"
+          upgrade_rule: "能解释为什么是底边差而不是底边和"
+          fallback_move: "回到第1题的补点图，重新比较两条半底"
+
+      - type: "problem"
+        id: "p3"
+        points: 10
+        label: "第3题"
+        stem_latex: |
+          如图，两条直线 $l_1\parallel l_2$。点 $A,B$ 在 $l_1$ 上，$AB=10$；
+          点 $C,D$ 在 $l_2$ 上，$CD=24$。连接 $AC$ 与 $BD$，点 $M,N$
+          分别是 $AC,BD$ 的中点。求 $MN$ 的长，并说明它和梯形题有什么共同结构。
+        hints:
+          - content: "可以把 $ABCD$ 看成一个没有强调名称的梯形。"
+          - content: "目标不是套矩形，而是比较两条平行线上的对应端点距离。"
+        answer_space:
+          type: "steps"
+          height: "42mm"
+          diagram_slot:
+            slot_id: "practice.teacher.parallel1.prompt"
+            diagram_ref: "practice.teacher.parallel1.prompt"
+            variant: "prompt"
+            disclosure_policy: "clean"
+            required: true
+            on_failure: "fail_assignment"
+            placement: "answer_space.diagram_col"
+            layout_role: "answer_area_sidecar"
+            width_hint: "0.32\\linewidth"
+            caption: "第3题图"
+            engine: "coordinate_renderer"
+            diagram_kind: "coordinate_geometry"
+            teaching_intent: "practice_prompt"
+            semantic_constraints:
+              given_objects: ["parallel lines l1 and l2", "A,B on l1", "C,D on l2", "M 是 AC 的中点", "N 是 BD 的中点"]
+              given_constraints: ["AB=10", "CD=24"]
+              clean_forbidden: ["不要标注 MN 的答案", "不要写梯形中位线公式"]
+            visual_requirements: {show_labels: true, show_given_markers: true, show_axes: false, preferred_orientation: "landscape"}
+            analytic_requirements:
+              viewport: {x_min: -1, x_max: 25, y_min: -1, y_max: 6, preserve_aspect: true}
+              axes: {x: false, y: false, grid: false, show_ticks: false, x_label: "", y_label: ""}
+              objects:
+                - type: "polyline"
+                  id: "l1"
+                  points: ["L1a", "L1b"]
+                  style: {stroke: "#94a3b8", stroke_width: 1.8}
+                - type: "polyline"
+                  id: "l2"
+                  points: ["L2a", "L2b"]
+                  style: {stroke: "#94a3b8", stroke_width: 1.8}
+                - type: "polyline"
+                  id: "AB"
+                  points: ["A", "B"]
+                  style: {stroke: "#111827", stroke_width: 2.8}
+                - type: "polyline"
+                  id: "CD"
+                  points: ["D", "C"]
+                  style: {stroke: "#111827", stroke_width: 2.8}
+                - type: "polyline"
+                  id: "AC"
+                  points: ["A", "C"]
+                  style: {stroke: "#2563eb", stroke_width: 2.2}
+                - type: "polyline"
+                  id: "BD"
+                  points: ["B", "D"]
+                  style: {stroke: "#2563eb", stroke_width: 2.2}
+                - type: "polyline"
+                  id: "MN"
+                  points: ["N", "M"]
+                  style: {stroke: "#dc2626", stroke_width: 3.0}
+                - type: "point"
+                  id: "L1a"
+                  x: -0.5
+                  y: 5
+                  label: ""
+                - type: "point"
+                  id: "L1b"
+                  x: 24.5
+                  y: 5
+                  label: ""
+                - type: "point"
+                  id: "L2a"
+                  x: -0.5
+                  y: 0
+                  label: ""
+                - type: "point"
+                  id: "L2b"
+                  x: 24.5
+                  y: 0
+                  label: ""
+                - type: "point"
+                  id: "A"
+                  x: 3
+                  y: 5
+                  label: "A"
+                  style: {label_dx: -14, label_dy: 15}
+                - type: "point"
+                  id: "B"
+                  x: 13
+                  y: 5
+                  label: "B"
+                  style: {label_dx: 10, label_dy: 15}
+                - type: "point"
+                  id: "C"
+                  x: 24
+                  y: 0
+                  label: "C"
+                  style: {label_dx: 10, label_dy: -16}
+                - type: "point"
+                  id: "D"
+                  x: 0
+                  y: 0
+                  label: "D"
+                  style: {label_dx: -16, label_dy: -16}
+                - type: "point"
+                  id: "M"
+                  x: 13.5
+                  y: 2.5
+                  label: "M"
+                  style: {label_dx: 8, label_dy: -18}
+                - type: "point"
+                  id: "N"
+                  x: 6.5
+                  y: 2.5
+                  label: "N"
+                  style: {label_dx: -18, label_dy: -18}
+                - type: "text"
+                  id: "l1-label"
+                  x: 0.2
+                  y: 5.35
+                  text: "l1"
+                  style: {font_size: 15, fill: "#475569"}
+                - type: "text"
+                  id: "l2-label"
+                  x: 0.2
+                  y: -0.45
+                  text: "l2"
+                  style: {font_size: 15, fill: "#475569"}
+                - type: "text"
+                  id: "ab-len"
+                  x: 8
+                  y: 5.35
+                  text: "AB=10"
+                  style: {font_size: 15, fill: "#374151"}
+                - type: "text"
+                  id: "cd-len"
+                  x: 12
+                  y: -0.45
+                  text: "CD=24"
+                  style: {font_size: 15, fill: "#374151"}
+        answer: "$MN=7$。共同结构：两条平行线之间有两条交叉截线，连接截线中点，长度等于两条平行端点距离之差的一半。"
+        explanation: "把 $ABCD$ 看作 $AB\\parallel CD$ 的梯形，$M,N$ 是两条对角线的中点，所以 $MN=\\frac12(CD-AB)=\\frac12(24-10)=7$。"
+        solution_steps:
+          - title: "识别包装"
+            content: "虽然题目没有说梯形，但 $AB\\parallel CD$，连接 $AC,BD$ 后就是同一类结构。"
+          - title: "使用中点连线关系"
+            content: "$M,N$ 是两条交叉截线的中点，因此 $MN=\\frac12(CD-AB)$。"
+          - title: "代入计算"
+            content: "$MN=\\frac12(24-10)=7$。"
+        teaching:
+          teaching_goal: "训练去掉梯形名称后的结构识别"
+          expected_blocker: "看不到平行线间截线与梯形对角线中点是同一结构"
+          entry_point: "hidden_structure"
+          scaffold_level: "low"
+          variation_depth: "packaged_condition"
+          complexity_note: "计算很轻，主要负荷放在识别包装"
+          upgrade_rule: "能主动把题目改说成梯形对角线中点连线"
+          fallback_move: "让学生用笔补出四边形 ABCD，再标出哪两条边平行"
+
+  - id: "answer-key"
+    title: "答案与讲评"
+    type: "answer_key"
+    visibility: "teacher"
+    blocks:
+      - type: "answer"
+        id: "ak-p1"
+        title: "第1题"
+        content_latex: "答案：$EF=6$。补 $AD$ 中点 $M$，比较 $\\frac12CD$ 与 $\\frac12AB$。"
+      - type: "answer"
+        id: "ak-p2"
+        title: "第2题"
+        content_latex: "答案：$CD=18$。由 $5=\\frac12(CD-8)$ 得出。"
+      - type: "answer"
+        id: "ak-p3"
+        title: "第3题"
+        content_latex: "答案：$MN=7$。本题是去掉“梯形”名称后的同结构远迁移。"

@@ -1,0 +1,96 @@
+meta:
+  title: 梯形中的中点连线专项练习
+  subtitle: 远迁移：把矩形结构换成梯形和平行线
+  grade: 八年级
+  subject: 数学
+  duration: 20分钟
+  total_points: 30
+  version: student
+  assignment_id: 2026-06-12-note-midpoint-midline-far-transfer-student
+  source_artifacts:
+    structure_analysis: artifacts/笔记/2026-06-08-矩形中点中位线求线段/01-structure-analysis.md
+    explanation: artifacts/笔记/2026-06-08-矩形中点中位线求线段/02-student-explanation.v2.resolved.assignment.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: far-transfer
+  title: 一、远迁移练习
+  type: practice
+  visibility: student
+  blocks:
+  - type: problem
+    id: p1
+    points: 10
+    label: 第1题
+    stem_latex: '如图，在梯形 $ABCD$ 中，$AB\parallel CD$，$AB=7$，$CD=19$。
+
+      点 $E,F$ 分别是对角线 $AC,BD$ 的中点。求 $EF$ 的长。
+
+      '
+    hints:
+    - content: 不要只看梯形名称，先想能不能补一条经过中点的辅助线。
+    - content: 可以取 $AD$ 的中点 $M$，分别在两个三角形中看中位线。
+    answer_space:
+      type: steps
+      height: 38mm
+      diagram_col:
+        image_path: build/diagram/jobs/practice-student-trap1-prompt/rendered/prompt.png
+        diagram_ref: practice.student.trap1.prompt
+        diagram_job_id: practice-student-trap1-prompt
+        width: 0.32\linewidth
+        caption: 第1题图
+        variant: prompt
+        disclosure_policy: clean
+        artifact_hash: sha256:c499b6dfa5560e90c6cea33d01eba52a9f278c8f995fc350f718e377326312a7
+  - type: problem
+    id: p2
+    points: 10
+    label: 第2题
+    stem_latex: '如图，在梯形 $ABCD$ 中，$AB\parallel CD$，$AB=8$。
+
+      点 $E,F$ 分别是对角线 $AC,BD$ 的中点，且 $EF=5$。求 $CD$ 的长。
+
+      '
+    hints:
+    - content: 先把第1题的结论写成底边差的一半。
+    - content: 注意这题反求的是较长的下底。
+    answer_space:
+      type: steps
+      height: 38mm
+      diagram_col:
+        image_path: build/diagram/jobs/practice-student-trap2-prompt/rendered/prompt.png
+        diagram_ref: practice.student.trap2.prompt
+        diagram_job_id: practice-student-trap2-prompt
+        width: 0.32\linewidth
+        caption: 第2题图
+        variant: prompt
+        disclosure_policy: clean
+        artifact_hash: sha256:d11bf074e73b2666abc1b1437080780c6f330de9aff30639ab78ebd048b2ab90
+  - type: problem
+    id: p3
+    points: 10
+    label: 第3题
+    stem_latex: '如图，两条直线 $l_1\parallel l_2$。点 $A,B$ 在 $l_1$ 上，$AB=10$；
+
+      点 $C,D$ 在 $l_2$ 上，$CD=24$。连接 $AC$ 与 $BD$，点 $M,N$
+
+      分别是 $AC,BD$ 的中点。求 $MN$ 的长，并说明它和梯形题有什么共同结构。
+
+      '
+    hints:
+    - content: 可以把 $ABCD$ 看成一个没有强调名称的梯形。
+    - content: 目标不是套矩形，而是比较两条平行线上的对应端点距离。
+    answer_space:
+      type: steps
+      height: 42mm
+      diagram_col:
+        image_path: build/diagram/jobs/practice-student-parallel1-prompt/rendered/prompt.png
+        diagram_ref: practice.student.parallel1.prompt
+        diagram_job_id: practice-student-parallel1-prompt
+        width: 0.32\linewidth
+        caption: 第3题图
+        variant: prompt
+        disclosure_policy: clean
+        artifact_hash: sha256:4d5dee6233367d5fc0e3d2febd2a624e2e84affa5f5027d3d405693d0a8ea860
