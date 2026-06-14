@@ -1,0 +1,147 @@
+meta:
+  title: "一次函数与反比例函数图像解不等式"
+  subtitle: "把不等式读成图像上下 · 交点和 0 一起分段"
+  grade: "八年级"
+  subject: "数学"
+  version: "teacher"
+  show_answers: true
+  assignment_id: "2026-06-06-yangminghe-function-inequality-explanation-reuse-graphs"
+  source_artifacts:
+    structure_analysis: "artifacts/杨茗贺/2026-06-06-一次函数反比例函数图像解不等式/01-structure-analysis.md"
+    reused_diagram: "artifacts/杨茗贺/2026-06-06-一次函数反比例函数图像解不等式/build/diagram/jobs/explanation-orig-prompt/rendered/prompt.png"
+
+render:
+  template: "exam-zh-explanation"
+  paper_size: "a4paper"
+
+sections:
+  - id: "original"
+    title: "原题"
+    type: "explanation"
+    visibility: "both"
+    blocks:
+      - type: "problemcard"
+        id: "orig"
+        label: "题目"
+        stem_latex: |
+          如图，已知一次函数 $y_1=x+1$ 与反比例函数 $y_2=\dfrac{6}{x}$ 的图像相交于点 $A,B$，交点的横坐标分别为 $-3$ 和 $2$。
+
+          根据图像求不等式
+          $$
+          x+1>\frac{6}{x}
+          $$
+          的解集。
+        diagram_col:
+          image_path: "build/diagram/jobs/explanation-orig-prompt/rendered/prompt.png"
+          diagram_ref: "explanation.orig.prompt"
+          diagram_job_id: "explanation-orig-prompt"
+          width: "0.38\\linewidth"
+          caption: "用 $-3,0,2$ 分段后，逐段比较直线和双曲线谁在上方。"
+          variant: "prompt"
+          disclosure_policy: "clean"
+          artifact_hash: "sha256:6ed7ebaed1b67ac0212ace16348589164cae9e868f4f247285c83a001b3a7625"
+      - type: "reading_tip"
+        id: "read-tip"
+        items:
+          - latex: "$x+1>\\dfrac{6}{x}$ 先读成 $y_1>y_2$，不要先通分硬算。"
+          - latex: "$x=0$ 是反比例函数的无定义点，必须参与分段，且不能写进解集。"
+
+  - id: "route-section"
+    title: "一、解题路线"
+    type: "explanation"
+    visibility: "student"
+    blocks:
+      - type: "route"
+        id: "route"
+        steps:
+          - id: "route-name"
+            latex: "命名两个函数"
+            content_latex: "设 $y_1=x+1$，$y_2=\\dfrac{6}{x}$。"
+          - id: "route-translate"
+            latex: "把不等式读成 $y_1>y_2$"
+            content_latex: "$x+1>\\dfrac{6}{x}$ 等价于同一个 $x$ 下 $y_1$ 的值大于 $y_2$ 的值。"
+          - id: "route-meaning"
+            latex: "图像上找 $y_1$ 在上方"
+            content_latex: "$y_1>y_2$ 表示直线 $y_1$ 在双曲线 $y_2$ 的上方。"
+          - id: "route-breaks"
+            latex: "用交点和 $0$ 分段"
+            content_latex: "交点横坐标为 $-3,2$，再加入反比例函数断点 $0$，断点顺序是 $-3,0,2$。"
+          - id: "route-compare"
+            latex: "逐段比较上下"
+            content_latex: "四个区间为 $(-\\infty,-3)$、$(-3,0)$、$(0,2)$、$(2,+\\infty)$；逐段看图像谁在上方。"
+          - id: "route-answer"
+            latex: "写满足区间并检查端点"
+            content_latex: "直线在上方的区间是 $(-3,0)$ 和 $(2,+\\infty)$；因为是严格大于，交点不取，且 $x=0$ 不取。"
+
+  - id: "solution"
+    title: "二、标准讲解"
+    type: "explanation"
+    visibility: "student"
+    blocks:
+      - type: "dual_explanation"
+        id: "sol-main"
+        label: "本题"
+        stem_latex: "根据图像求不等式 $x+1>\\dfrac{6}{x}$ 的解集。"
+        side_title: "提示与易错"
+        side_items:
+          - kind: "hint"
+            title: "入口"
+            content_latex: "先问：不等式左边是哪条图像？右边是哪条图像？"
+          - kind: "hint"
+            title: "为什么要分段"
+            content_latex: "交点处两函数相等；经过交点后，上下关系可能改变。"
+          - kind: "mistake"
+            title: "不要漏掉 $0$"
+            content_latex: "$y_2=\\dfrac{6}{x}$ 在 $x=0$ 没有意义，所以不能把 $(-3,0)$ 和 $(0,2)$ 合并。"
+          - kind: "mistake"
+            title: "端点是否能取"
+            content_latex: "$>$ 不包含交点；若题目改成 $\\ge$，才考虑把交点横坐标取进来。"
+        solution_title: "解答"
+        solution_step_ids:
+          - "route-name"
+          - "route-translate"
+          - "route-meaning"
+          - "route-breaks"
+          - "route-compare"
+          - "route-answer"
+        connection_title: "图像校对"
+        connection_items:
+          - latex: "$(-\\infty,-3)$：双曲线在上，不取。"
+          - latex: "$(-3,0)$：直线在上，取。"
+          - latex: "$(0,2)$：双曲线在上，不取。"
+          - latex: "$(2,+\\infty)$：直线在上，取。"
+          - latex: "所以不等式 $x+1>\\dfrac{6}{x}$ 的解集为 $-3<x<0$ 或 $x>2$。"
+
+  - id: "checkpoint"
+    title: "三、当堂校对"
+    type: "explanation"
+    visibility: "student"
+    blocks:
+      - type: "variation_training"
+        id: "check-1"
+        label: "校对 1"
+        stem_latex: "请把断点 $-3,0,2$ 从小到大写在数轴上，并列出四个分段。"
+        answer_space:
+          height: "18mm"
+      - type: "variation_training"
+        id: "check-2"
+        label: "校对 2"
+        stem_latex: "如果题目改为 $x+1<\\dfrac{6}{x}$，应选择哪几段？"
+        answer_space:
+          height: "20mm"
+
+  - id: "summary"
+    title: "四、一句话总结"
+    type: "explanation"
+    visibility: "student"
+    blocks:
+      - type: "summary_dual"
+        id: "summary-main"
+        left_title: "本题答案"
+        left_items:
+          - latex: "$x+1>\\dfrac{6}{x}$ 的解集是 $-3<x<0$ 或 $x>2$。"
+        right_title: "检查清单"
+        right_items:
+          - latex: "先翻译成 $y_1>y_2$。"
+          - latex: "交点横坐标和 $0$ 都要分段。"
+          - latex: "严格大于不取交点，$x=0$ 永远不取。"

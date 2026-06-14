@@ -225,9 +225,9 @@
 % \geometry{top=16mm, bottom=16mm, left=14mm, right=14mm}
 
 \examsetup{
-  question/show-answer = false,
-  fillin/show-answer = false,
-  solution/show-solution = hide,
+  question/show-answer = true,
+  fillin/show-answer = true,
+  solution/show-solution = show-stay,
 }
 
 % ---------- 教师版解答样式 ----------
@@ -255,39 +255,84 @@
 
 \begin{document}
 
-\section*{梯形中的中点连线专项练习}
+\section*{一次函数与反比例函数图像解不等式 · 练习（教师版）}
 
-\section*{一、远迁移练习}
+\section*{练习题（每题 10 分，共 30 分）}
 
 \needspace{8\baselineskip}
 
 \begin{problem}[points=10]
-  如图，在梯形 $ABCD$ 中，$AB\parallel CD$，$AB=7$，$CD=19$。
-点 $E,F$ 分别是对角线 $AC,BD$ 的中点。求 $EF$ 的长。
+  如图，已知一次函数 $y_1=x+3$ 与反比例函数 $y_2=\dfrac{4}{x}$ 的图像交点横坐标为 $-4$ 和 $1$。
+根据图像求不等式
+$$
+x+3>\frac{4}{x}
+$$
+的解集。
 
-  \answerareawithdiagramcol{38mm}{build/diagram/jobs/practice-student-trap1-prompt/rendered/prompt.png}{0.32\linewidth}{第1题图}
+  \answerareawithdiagramcol{42mm}{03-practice-diagrams/p1.pdf}{62mm}{第 1 题图}
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$-4<x<0$ 或 $x>1$。\par\medskip
+    \solstep{翻译}{$x+3>\dfrac{4}{x}$ 等价于 $y_1>y_2$。}
+    \solstep{分段}{断点为 $-4,0,1$，分成 $(-\infty,-4)$、$(-4,0)$、$(0,1)$、$(1,+\infty)$。}
+    \solstep{取区间}{直线在上方的是 $(-4,0)$ 和 $(1,+\infty)$，所以解集为 $-4<x<0$ 或 $x>1$。}
+  \end{solutionblock}
 \end{problem}
 
 
 \needspace{8\baselineskip}
 
 \begin{problem}[points=10]
-  如图，在梯形 $ABCD$ 中，$AB\parallel CD$，$AB=8$。
-点 $E,F$ 分别是对角线 $AC,BD$ 的中点，且 $EF=5$。求 $CD$ 的长。
+  如图，已知一次函数 $y_1=x-1$ 与反比例函数 $y_2=\dfrac{6}{x}$ 的图像交点横坐标为 $-2$ 和 $3$。
+根据图像求不等式
+$$
+x-1<\frac{6}{x}
+$$
+的解集。
 
-  \answerareawithdiagramcol{38mm}{build/diagram/jobs/practice-student-trap2-prompt/rendered/prompt.png}{0.32\linewidth}{第2题图}
+  \answerareawithdiagramcol{42mm}{03-practice-diagrams/p2.pdf}{62mm}{第 2 题图}
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$x<-2$ 或 $0<x<3$。\par\medskip
+    \solstep{翻译}{$x-1<\dfrac{6}{x}$ 等价于 $y_1<y_2$。}
+    \solstep{分段}{断点为 $-2,0,3$。}
+    \solstep{取区间}{双曲线在上方的区间为 $(-\infty,-2)$ 和 $(0,3)$，所以解集为 $x<-2$ 或 $0<x<3$。}
+  \end{solutionblock}
 \end{problem}
 
 
 \needspace{8\baselineskip}
 
 \begin{problem}[points=10]
-  如图，两条直线 $l_1\parallel l_2$。点 $A,B$ 在 $l_1$ 上，$AB=10$；
-点 $C,D$ 在 $l_2$ 上，$CD=24$。连接 $AC$ 与 $BD$，点 $M,N$
-分别是 $AC,BD$ 的中点。求 $MN$ 的长，并说明它和梯形题有什么共同结构。
+  如图，已知一次函数 $y_1=x-3$ 与反比例函数 $y_2=\dfrac{4}{x}$ 的图像交点横坐标为 $-1$ 和 $4$。
+根据图像求不等式
+$$
+x-3\ge\frac{4}{x}
+$$
+的解集，并说明哪些端点可以取。
 
-  \answerareawithdiagramcol{42mm}{build/diagram/jobs/practice-student-parallel1-prompt/rendered/prompt.png}{0.32\linewidth}{第3题图}
+  \answerareawithdiagramcol{46mm}{03-practice-diagrams/p3.pdf}{62mm}{第 3 题图}
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$-1\le x<0$ 或 $x\ge4$；端点 $-1,4$ 可以取，$0$ 不能取。\par\medskip
+    \solstep{找大于的区间}{先看 $y_1>y_2$，直线在上方的是 $(-1,0)$ 和 $(4,+\infty)$。}
+    \solstep{处理等号}{$\ge$ 包含交点，所以 $x=-1$ 和 $x=4$ 可以取。}
+    \solstep{排除 $0$}{$x=0$ 处 $\dfrac{4}{x}$ 无定义，不能取。解集为 $-1\le x<0$ 或 $x\ge4$。}
+  \end{solutionblock}
 \end{problem}
+
+
+\clearpage
+\section*{参考答案}
+
+
+\begin{keyideabox}
+  \textbf{练习题}
+  第 1 题：$-4<x<0$ 或 $x>1$。
+第 2 题：$x<-2$ 或 $0<x<3$。
+第 3 题：$-1\le x<0$ 或 $x\ge4$；端点 $-1,4$ 可以取，$0$ 不能取。
+
+\end{keyideabox}
 
 
 

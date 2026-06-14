@@ -1,6 +1,6 @@
 meta:
   title: 梯形中的中点连线专项练习
-  subtitle: 教师版：远迁移到梯形和平行线
+  subtitle: 教师版：梯形和平行线中的中点连线
   grade: 八年级
   subject: 数学
   duration: 20分钟
@@ -16,7 +16,7 @@ render:
   answer_key_position: after_page_break
 sections:
 - id: far-transfer
-  title: 一、远迁移练习
+  title: 一、专项练习
   type: practice
   visibility: student
   blocks:
@@ -39,11 +39,11 @@ sections:
         image_path: build/diagram/jobs/practice-teacher-trap1-prompt/rendered/prompt.png
         diagram_ref: practice.teacher.trap1.prompt
         diagram_job_id: practice-teacher-trap1-prompt
-        width: 0.32\linewidth
+        width: 68mm
         caption: 第1题图
         variant: prompt
         disclosure_policy: clean
-        artifact_hash: sha256:c499b6dfa5560e90c6cea33d01eba52a9f278c8f995fc350f718e377326312a7
+        artifact_hash: sha256:076ce255129d5fe4e4e08f2737c34c41a45776396250c5dcb14aef7ce6df0637
     answer: $EF=6$。
     explanation: 取 $M$ 为 $AD$ 的中点。在 $\triangle ACD$ 中，$ME=\frac12CD=9.5$；在 $\triangle
       ABD$ 中，$MF=\frac12AB=3.5$。两段同向且 $F$ 在 $M,E$ 之间，所以 $EF=ME-MF=6$。
@@ -82,11 +82,11 @@ sections:
         image_path: build/diagram/jobs/practice-teacher-trap2-prompt/rendered/prompt.png
         diagram_ref: practice.teacher.trap2.prompt
         diagram_job_id: practice-teacher-trap2-prompt
-        width: 0.32\linewidth
+        width: 68mm
         caption: 第2题图
         variant: prompt
         disclosure_policy: clean
-        artifact_hash: sha256:d11bf074e73b2666abc1b1437080780c6f330de9aff30639ab78ebd048b2ab90
+        artifact_hash: sha256:1c3f1eb5b12d1901c5dad5ac09898c209307c7a5d8488d4547bf4e94a809b5c2
     answer: $CD=18$。
     explanation: 由第1题结构可得 $EF=\frac12(CD-AB)$。所以 $5=\frac12(CD-8)$，解得 $CD=18$。
     solution_steps:
@@ -95,7 +95,7 @@ sections:
     - title: 代入反求
       content: $5=\frac12(CD-8)$，所以 $CD-8=10$，$CD=18$。
     teaching:
-      teaching_goal: 训练把远迁移结论反向使用
+      teaching_goal: 训练把底边差关系反向使用
       expected_blocker: 把 $EF$ 误写成两底和的一半
       entry_point: reverse_construct
       scaffold_level: medium
@@ -111,7 +111,7 @@ sections:
 
       点 $C,D$ 在 $l_2$ 上，$CD=24$。连接 $AC$ 与 $BD$，点 $M,N$
 
-      分别是 $AC,BD$ 的中点。求 $MN$ 的长，并说明它和梯形题有什么共同结构。
+      分别是 $AC,BD$ 的中点。求 $MN$ 的长。
 
       '
     hints:
@@ -124,23 +124,23 @@ sections:
         image_path: build/diagram/jobs/practice-teacher-parallel1-prompt/rendered/prompt.png
         diagram_ref: practice.teacher.parallel1.prompt
         diagram_job_id: practice-teacher-parallel1-prompt
-        width: 0.32\linewidth
+        width: 68mm
         caption: 第3题图
         variant: prompt
         disclosure_policy: clean
-        artifact_hash: sha256:4d5dee6233367d5fc0e3d2febd2a624e2e84affa5f5027d3d405693d0a8ea860
-    answer: $MN=7$。共同结构：两条平行线之间有两条交叉截线，连接截线中点，长度等于两条平行端点距离之差的一半。
+        artifact_hash: sha256:a09f85934068d30bb7c7b306995cfd88f1cfb15acb5dc3a494e4bfd7501bcf13
+    answer: $MN=7$。
     explanation: 把 $ABCD$ 看作 $AB\parallel CD$ 的梯形，$M,N$ 是两条对角线的中点，所以 $MN=\frac12(CD-AB)=\frac12(24-10)=7$。
     solution_steps:
     - title: 识别包装
-      content: 虽然题目没有说梯形，但 $AB\parallel CD$，连接 $AC,BD$ 后就是同一类结构。
+      content: 虽然题目没有说梯形，但 $AB\parallel CD$，连接 $AC,BD$ 后可以按梯形对角线中点连线处理。
     - title: 使用中点连线关系
       content: $M,N$ 是两条交叉截线的中点，因此 $MN=\frac12(CD-AB)$。
     - title: 代入计算
       content: $MN=\frac12(24-10)=7$。
     teaching:
-      teaching_goal: 训练去掉梯形名称后的结构识别
-      expected_blocker: 看不到平行线间截线与梯形对角线中点是同一结构
+      teaching_goal: 训练去掉梯形名称后的图形识别
+      expected_blocker: 看不到可以补出四边形 $ABCD$ 来处理
       entry_point: hidden_structure
       scaffold_level: low
       variation_depth: packaged_condition
@@ -163,4 +163,4 @@ sections:
   - type: answer
     id: ak-p3
     title: 第3题
-    content_latex: 答案：$MN=7$。本题是去掉“梯形”名称后的同结构远迁移。
+    content_latex: 答案：$MN=7$。把四边形 $ABCD$ 看成两底平行的梯形即可。

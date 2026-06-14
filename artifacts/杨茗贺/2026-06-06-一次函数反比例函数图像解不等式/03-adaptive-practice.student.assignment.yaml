@@ -1,0 +1,92 @@
+meta:
+  title: "一次函数与反比例函数图像解不等式 · 练习"
+  subtitle: "三张新图，练会分段、方向和端点"
+  grade: "八年级"
+  subject: "数学"
+  duration: "18分钟"
+  total_points: 30
+  version: "student"
+  source_artifacts:
+    structure_analysis: "artifacts/杨茗贺/2026-06-06-一次函数反比例函数图像解不等式/01-structure-analysis.md"
+    explanation: "artifacts/杨茗贺/2026-06-06-一次函数反比例函数图像解不等式/02-student-explanation.reuse-graphs.assignment.yaml"
+
+render:
+  template: "exam-zh-practice"
+  paper_size: "a4paper"
+  answer_key_position: "after_page_break"
+
+sections:
+  - id: "problems"
+    title: "练习题（每题 10 分，共 30 分）"
+    type: "practice"
+    visibility: "student"
+    blocks:
+      - type: "problem"
+        id: "p1"
+        points: 10
+        label: "第 1 题"
+        stem_latex: |
+          如图，已知一次函数 $y_1=x+3$ 与反比例函数 $y_2=\dfrac{4}{x}$ 的图像交点横坐标为 $-4$ 和 $1$。
+          根据图像求不等式
+          $$
+          x+3>\frac{4}{x}
+          $$
+          的解集。
+        diagram_col:
+          image_path: "03-practice-diagrams/p1.pdf"
+          diagram_job_id: "practice-p1-prompt"
+          width: "62mm"
+          caption: "第 1 题图"
+          variant: "prompt"
+          disclosure_policy: "clean"
+        hints:
+          - content: "先把不等式读成 $y_1>y_2$，再用 $-4,0,1$ 分段。"
+        answer_space:
+          type: "steps"
+          height: "42mm"
+      - type: "problem"
+        id: "p2"
+        points: 10
+        label: "第 2 题"
+        stem_latex: |
+          如图，已知一次函数 $y_1=x-1$ 与反比例函数 $y_2=\dfrac{6}{x}$ 的图像交点横坐标为 $-2$ 和 $3$。
+          根据图像求不等式
+          $$
+          x-1<\frac{6}{x}
+          $$
+          的解集。
+        diagram_col:
+          image_path: "03-practice-diagrams/p2.pdf"
+          diagram_job_id: "practice-p2-prompt"
+          width: "62mm"
+          caption: "第 2 题图"
+          variant: "prompt"
+          disclosure_policy: "clean"
+        hints:
+          - content: "这次要找 $y_1<y_2$，也就是双曲线在直线上方的区间。"
+        answer_space:
+          type: "steps"
+          height: "42mm"
+      - type: "problem"
+        id: "p3"
+        points: 10
+        label: "第 3 题"
+        stem_latex: |
+          如图，已知一次函数 $y_1=x-3$ 与反比例函数 $y_2=\dfrac{4}{x}$ 的图像交点横坐标为 $-1$ 和 $4$。
+          根据图像求不等式
+          $$
+          x-3\ge\frac{4}{x}
+          $$
+          的解集，并说明哪些端点可以取。
+        diagram_col:
+          image_path: "03-practice-diagrams/p3.pdf"
+          diagram_job_id: "practice-p3-prompt"
+          width: "62mm"
+          caption: "第 3 题图"
+          variant: "prompt"
+          disclosure_policy: "clean"
+        hints:
+          - content: "先按 $>$ 找直线在上方的区间，再判断交点横坐标是否可取。"
+        answer_space:
+          type: "steps"
+          height: "46mm"
