@@ -1,0 +1,202 @@
+meta:
+  title: "一次函数与反比例函数交点面积综合 · 练习（教师版）"
+  subtitle: "两题近迁移，两题只迁移面积第三问"
+  grade: "八年级"
+  subject: "数学"
+  duration: "28分钟"
+  total_points: 40
+  version: "teacher"
+  source_artifacts:
+    structure_analysis: "artifacts/王攸然/2026-06-14-一次函数反比例函数交点面积综合/01-structure-analysis.md"
+    explanation: "artifacts/王攸然/2026-06-14-一次函数反比例函数交点面积综合/02-student-explanation.assignment.yaml"
+
+render:
+  template: "exam-zh-practice"
+  paper_size: "a4paper"
+  answer_key_position: "after_page_break"
+
+sections:
+  - id: "problems"
+    title: "练习题（每题 10 分，共 40 分）"
+    type: "practice"
+    visibility: "both"
+    blocks:
+      - type: "problem"
+        id: "p1"
+        points: 10
+        label: "第 1 题（近迁移）"
+        stem_latex: |
+          已知一次函数 $y_1=kx+b$ 与反比例函数 $y_2=\dfrac{m}{x}$ 的图像交于点 $A,B$。已知：点 $A$ 的横坐标为 $3$，点 $B$ 的横坐标为 $-1$，一次函数图像与 $y$ 轴交于点 $C(0,-2)$。
+          \begin{enumerate}[label=(\arabic*)]
+            \item 求一次函数解析式、反比例函数解析式，以及点 $A,B$ 的坐标；
+            \item 根据图像求不等式 $kx+b>\dfrac{m}{x}$ 的解集；
+            \item 求 $\triangle OAB$ 的面积。
+          \end{enumerate}
+        diagram_col:
+          image_path: "diagrams/p1.pdf"
+          diagram_job_id: "practice-p1"
+          width: "62mm"
+          caption: "第 1 题图"
+          variant: "prompt"
+          disclosure_policy: "clean"
+        hints:
+          - content: "先由 $C(0,-2)$ 得到 $b$，再用两个交点在反比例函数上列 $xy$ 相等。"
+        answer_space:
+          type: "steps"
+          height: "58mm"
+        answer: "(1) $y_1=x-2$，$y_2=\\dfrac3x$，$A(3,1)$，$B(-1,-3)$；(2) $-1<x<0$ 或 $x>3$；(3) $S_{\\triangle OAB}=4$。"
+        solution_steps:
+          - title: "求函数和交点"
+            content: "由 $C(0,-2)$ 得 $b=-2$。设 $A(3,3k-2)$，$B(-1,-k-2)$。由 $3(3k-2)=(-1)(-k-2)$，得 $k=1$，所以 $A(3,1)$，$B(-1,-3)$，$m=3$。"
+          - title: "解不等式"
+            content: "$x-2>\\dfrac3x$ 看直线在双曲线上方。断点为 $-1,0,3$，取 $(-1,0)$ 和 $(3,+\\infty)$。"
+          - title: "求面积"
+            content: "直线 $AB$ 与 $y$ 轴交于 $P(0,-2)$，所以 $OP=2$。把 $\\triangle OAB$ 按 $OP$ 拆成 $\\triangle OPA$ 和 $\\triangle OPB$；两者共用底 $OP$，高分别是 $|x_A|$、$|x_B|$。因 $A,B$ 在 $y$ 轴两侧，$S_{\\triangle OAB}=S_{\\triangle OPA}+S_{\\triangle OPB}=\\dfrac12OP(|x_A|+|x_B|)=\\dfrac12OP|x_A-x_B|=\\dfrac12\\cdot2\\cdot|3-(-1)|=4$。"
+        teaching:
+          teaching_goal: "完整复现原题结构，确认能用 $xy=m$ 求参。"
+          expected_blocker: "会表示 A,B 坐标，但忘记两个交点的 $xy$ 相等。"
+          entry_point: "transfer"
+          scaffold_level: "medium"
+          variation_depth: "changed_numbers"
+          complexity_note: "只换数，三问结构不变。"
+          upgrade_rule: "能独立列出 $3(3k-2)=(-1)(-k-2)$。"
+          fallback_move: "先把点在反比例函数上改写成 $xy=m$。"
+      - type: "problem"
+        id: "p2"
+        points: 10
+        label: "第 2 题（近迁移：给 $k,b$ 和一个交点横坐标）"
+        stem_latex: |
+          已知一次函数 $y_1=kx+b$ 与反比例函数 $y_2=\dfrac{m}{x}$ 的图像交于点 $A,B$。已知：$k=-1$，$b=5$，点 $A$ 的横坐标为 $1$。
+          \begin{enumerate}[label=(\arabic*)]
+            \item 求一次函数解析式、反比例函数解析式，以及点 $A,B$ 的坐标；
+            \item 根据图像求不等式 $kx+b>\dfrac{m}{x}$ 的解集；
+            \item 求 $\triangle OAB$ 的面积。
+          \end{enumerate}
+        diagram_col:
+          image_path: "diagrams/p2.pdf"
+          diagram_job_id: "practice-p2"
+          width: "62mm"
+          caption: "第 2 题图"
+          variant: "prompt"
+          disclosure_policy: "clean"
+        hints:
+          - content: "先由 $k,b$ 写出直线，再用点 $A$ 的横坐标求 $m$；另一个交点可由方程或根的关系求出。"
+        answer_space:
+          type: "steps"
+          height: "58mm"
+        answer: "(1) $y_1=-x+5$，$y_2=\\dfrac4x$，$A(1,4)$，$B(4,1)$；(2) $x<0$ 或 $1<x<4$；(3) $S_{\\triangle OAB}=\\dfrac{15}{2}$。"
+        solution_steps:
+          - title: "求函数和交点"
+            content: "由 $k=-1,b=5$，得 $y_1=-x+5$。点 $A$ 的横坐标为 $1$，所以 $A(1,4)$，从而 $m=1\\cdot4=4$，$y_2=\\dfrac4x$。解 $-x+5=\\dfrac4x$，得 $x=1$ 或 $x=4$，所以 $B(4,1)$。"
+          - title: "解不等式"
+            content: "$-x+5>\\dfrac4x$ 的断点为 $0,1,4$；直线在上方的区间为 $(-\\infty,0)$ 和 $(1,4)$。"
+          - title: "求面积"
+            content: "直线 $AB$ 与 $y$ 轴交于 $P(0,5)$，所以 $OP=5$。把图形按 $OP$ 拆看，$\\triangle OPB$ 和 $\\triangle OPA$ 共用底 $OP$，高分别为 $|x_B|$、$|x_A|$。因 $A,B$ 在 $y$ 轴同侧，所求区域是大三角形减小三角形：$S_{\\triangle OAB}=S_{\\triangle OPB}-S_{\\triangle OPA}=\\dfrac12OP(|x_B|-|x_A|)=\\dfrac12OP|x_A-x_B|=\\dfrac12\\cdot5\\cdot|1-4|=\\dfrac{15}{2}$。"
+        teaching:
+          teaching_goal: "换条件包装：给 $k,b$ 和一个交点横坐标，仍求完整三问。"
+          expected_blocker: "只会用两个交点横坐标列式，不会从已知直线和一个交点反推出 $m$。"
+          entry_point: "solve_and_check"
+          scaffold_level: "medium"
+          variation_depth: "packaged_condition"
+          complexity_note: "改变条件给法，同时保留两个交点同在第一象限的分支。"
+          upgrade_rule: "能先由 $A$ 求 $m$，再求另一个交点。"
+          fallback_move: "先把已知的 $k,b$ 写成明确直线，再代入 $x_A$。"
+      - type: "problem"
+        id: "p3"
+        points: 10
+        label: "第 3 题（远迁移：面积目标改变）"
+        stem_latex: |
+          已知一次函数 $y_1=kx+b$ 与反比例函数 $y_2=\dfrac{m}{x}$ 的图像交于点 $A,B$。已知：$b=1$，$m=6$，点 $A$ 的横坐标为 $2$。
+          \begin{enumerate}[label=(\arabic*)]
+            \item 求一次函数解析式、反比例函数解析式，以及点 $A,B$ 的坐标；
+            \item 根据图像求不等式 $kx+b>\dfrac{m}{x}$ 的解集；
+            \item 已知 $P(0,4)$，求 $\triangle PAB$ 的面积。
+          \end{enumerate}
+        diagram_col:
+          image_path: "diagrams/p3.pdf"
+          diagram_job_id: "practice-p3"
+          width: "62mm"
+          caption: "第 3 题图"
+          variant: "prompt"
+          disclosure_policy: "clean"
+        hints:
+          - content: "先用点 $A$ 同时在两条函数图像上求 $k$；第三问把面积顶点从 $O$ 换成 $P$，仍用铅垂线法。"
+        answer_space:
+          type: "steps"
+          height: "62mm"
+        answer: "(1) $y_1=x+1$，$y_2=\\dfrac6x$，$A(2,3)$，$B(-3,-2)$；(2) $-3<x<0$ 或 $x>2$；(3) $S_{\\triangle PAB}=\\dfrac{15}{2}$。"
+        solution_steps:
+          - title: "求函数和交点"
+            content: "由 $m=6$ 且 $x_A=2$，得 $A(2,3)$。又 $b=1$，代入 $y=kx+1$ 得 $2k+1=3$，所以 $k=1$，$y_1=x+1$。解 $x+1=\\dfrac6x$，得 $x=2$ 或 $x=-3$，所以 $B(-3,-2)$。"
+          - title: "解不等式"
+            content: "$x+1>\\dfrac6x$ 的断点为 $-3,0,2$；直线在上方的区间为 $(-3,0)$ 和 $(2,+\\infty)$。"
+          - title: "求 $PAB$ 面积"
+            content: "因为题中已有点 $P(0,4)$，把直线 $AB$ 与 $y$ 轴交点记为 $Q(0,1)$，则 $PQ=3$。把 $\\triangle PAB$ 按 $PQ$ 拆成 $\\triangle PQA$ 和 $\\triangle PQB$；两者共用底 $PQ$，高分别是 $|x_A|$、$|x_B|$。因 $A,B$ 在 $y$ 轴两侧，$S_{\\triangle PAB}=S_{\\triangle PQA}+S_{\\triangle PQB}=\\dfrac12PQ(|x_A|+|x_B|)=\\dfrac12PQ|x_A-x_B|=\\dfrac12\\cdot3\\cdot|2-(-3)|=\\dfrac{15}{2}$。"
+        teaching:
+          teaching_goal: "换条件包装为 $b,m$ 和一个交点横坐标；第三问只迁移面积顶点。"
+          expected_blocker: "不知道先用 $m$ 和 $x_A$ 得到点 $A$ 的纵坐标。"
+          entry_point: "transfer"
+          scaffold_level: "low"
+          variation_depth: "packaged_condition"
+          complexity_note: "一二问结构不远迁移，但条件入口从交点横坐标改为参数加一个交点。"
+          upgrade_rule: "能主动找到直线 $AB$ 与 $y$ 轴的交点，并说明铅垂线面积公式来源。"
+          fallback_move: "先用 $m/x_A$ 求 $y_A$，再用直线求 $k$，最后找 $AB$ 与 $y$ 轴交点。"
+      - type: "problem"
+        id: "p4"
+        points: 10
+        label: "第 4 题（远迁移：由面积反求点）"
+        stem_latex: |
+          已知一次函数 $y_1=kx+b$ 与反比例函数 $y_2=\dfrac{m}{x}$ 的图像交于点 $A,B$。已知：$k=-1$，$m=-2$，点 $A$ 的横坐标为 $1$。
+          \begin{enumerate}[label=(\arabic*)]
+            \item 求一次函数解析式、反比例函数解析式，以及点 $A,B$ 的坐标；
+            \item 根据图像求不等式 $kx+b>\dfrac{m}{x}$ 的解集；
+            \item 点 $P$ 在反比例函数第四象限分支上，且在点 $A$ 的右侧。若 $S_{\triangle PAB}=3$，求点 $P$ 的坐标。
+          \end{enumerate}
+        diagram_col:
+          image_path: "diagrams/p4.pdf"
+          diagram_job_id: "practice-p4"
+          width: "62mm"
+          caption: "第 4 题图"
+          variant: "prompt"
+          disclosure_policy: "clean"
+        hints:
+          - content: "先用点 $A$ 求出 $b$，再求另一个交点；设 $P(t,\\dfrac{m}{t})$，用过 $P$ 的铅垂线到直线 $AB$ 的距离列面积方程。"
+        answer_space:
+          type: "steps"
+          height: "64mm"
+        answer: "(1) $y_1=-x-1$，$y_2=-\\dfrac2x$，$A(1,-2)$，$B(-2,1)$；(2) $x<-2$ 或 $0<x<1$；(3) $P(2,-1)$。"
+        solution_steps:
+          - title: "求函数和交点"
+            content: "由 $m=-2$ 且 $x_A=1$，得 $A(1,-2)$。又 $k=-1$，代入 $y=-x+b$ 得 $-1+b=-2$，所以 $b=-1$，$y_1=-x-1$。解 $-x-1=-\\dfrac2x$，得 $x=1$ 或 $x=-2$，所以 $B(-2,1)$。"
+          - title: "解不等式"
+            content: "$-x-1>-\\dfrac2x$。由图像可知，直线在双曲线上方的区间为 $(-\\infty,-2)$ 和 $(0,1)$。"
+          - title: "设点并列面积方程"
+            content: "点 $P$ 在第四象限分支且在 $A$ 右侧，设 $P(t,-\\dfrac2t)$，其中 $t>1$。直线 $AB$ 为 $y=-x-1$，过 $P$ 作铅垂线交 $AB$ 于 $H$，则 $H(t,-t-1)$。"
+          - title: "解出 $P$"
+            content: "此时 $A,B$ 都在铅垂线 $PH$ 的左侧，且 $A$ 在 $B,H$ 之间，所以 $\\triangle PHB$ 是大三角形，$\\triangle PHA$ 是被减去的小三角形。于是 $S_{\\triangle PAB}=S_{\\triangle PHB}-S_{\\triangle PHA}=\\dfrac12PH\\big((t-x_B)-(t-x_A)\\big)=\\dfrac12PH|x_A-x_B|$。又 $PH=|(-t-1)-(-\\dfrac2t)|=|t+1-\\dfrac2t|$，所以 $\\dfrac12\\cdot3\\cdot|t+1-\\dfrac2t|=3$。由 $t>1$ 得 $t+1-\\dfrac2t>0$，解得 $t=2$，$P(2,-1)$。"
+        teaching:
+          teaching_goal: "换条件包装为 $k,m$ 和一个交点横坐标；第三问升级为由面积反求反比例函数上的点。"
+          expected_blocker: "不会先由 $m$ 和 $x_A$ 求 $A$，也不会把 $P$ 设成 $(t,m/t)$。"
+          entry_point: "hidden_structure"
+          scaffold_level: "low"
+          variation_depth: "partially_hidden"
+          complexity_note: "一二问仍是同结构求参和图像不等式，第三问有轻微反向构造。"
+          upgrade_rule: "能把点在函数上转成坐标表达，并用铅垂线法列面积方程求参数。"
+          fallback_move: "先回到已知点 $A,B$，再单独处理 $P$ 的坐标表达。"
+
+  - id: "answer-key"
+    title: "参考答案"
+    type: "answer_key"
+    visibility: "teacher"
+    blocks:
+      - type: "step"
+        id: "ak-main"
+        title: "练习题"
+        content: |
+          第 1 题：$y_1=x-2$，$y_2=\dfrac3x$，$A(3,1)$，$B(-1,-3)$；解集为 $-1<x<0$ 或 $x>3$；$S_{\triangle OAB}=4$。
+
+          第 2 题：$y_1=-x+5$，$y_2=\dfrac4x$，$A(1,4)$，$B(4,1)$；解集为 $x<0$ 或 $1<x<4$；$S_{\triangle OAB}=\dfrac{15}{2}$。
+
+          第 3 题：$y_1=x+1$，$y_2=\dfrac6x$，$A(2,3)$，$B(-3,-2)$；解集为 $-3<x<0$ 或 $x>2$；$S_{\triangle PAB}=\dfrac{15}{2}$。
+
+          第 4 题：$y_1=-x-1$，$y_2=-\dfrac2x$，$A(1,-2)$，$B(-2,1)$；解集为 $x<-2$ 或 $0<x<1$；$P(2,-1)$。

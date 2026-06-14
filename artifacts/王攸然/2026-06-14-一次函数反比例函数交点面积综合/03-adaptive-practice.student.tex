@@ -1,0 +1,319 @@
+% preamble-exam-zh.tex — 共享 preamble
+% 用于所有 exam-zh 模板
+%
+% 样式策略：
+%   屏幕 → 语义彩色（蓝=关键想法，红=易错，绿=路线，灰=提示/教师备注）
+%   打印 → 自动降级为黑白（通过 print mode 或 monochrome 选项）
+
+\documentclass{exam-zh}
+
+% ---------- 基础配置 ----------
+\examsetup{
+  page/size = a4paper,
+  page/show-head = false,
+  page/show-foot = false,
+  sealline/show = false,
+  font = times,
+  math-font = xits,
+}
+
+\usepackage{tcolorbox}
+\usepackage{needspace}
+\usepackage{graphicx}
+\tcbuselibrary{skins,breakable}
+
+% ---------- 打印/屏幕颜色切换 ----------
+% 用法：\documentclass[monochrome]{exam-zh} 即可切换为纯黑白
+% 注意：不要使用 \if@xxx 放在 makeatother 外部；这里改成普通条件名。
+\newif\ifeduprintcolor
+\eduprintcolortrue
+
+\makeatletter
+\@ifclasswith{exam-zh}{monochrome}{\eduprintcolorfalse}{}
+\makeatother
+
+% ---------- 语义颜色定义 ----------
+% 屏幕：有色彩区分；打印：降级为灰度
+\ifeduprintcolor
+  % --- 屏幕彩色模式 ---
+  \definecolor{edu-blue}{RGB}{47, 82, 122}       % 关键想法
+  \definecolor{edu-blue-bg}{RGB}{243, 246, 252}
+  \definecolor{edu-red}{RGB}{180, 40, 40}         % 易错提醒
+  \definecolor{edu-red-bg}{RGB}{255, 245, 240}
+  \definecolor{edu-green}{RGB}{34, 100, 60}       % 路线图
+  \definecolor{edu-green-bg}{RGB}{242, 250, 245}
+  \definecolor{edu-orange}{RGB}{160, 90, 0}       % 训练目标
+  \definecolor{edu-orange-bg}{RGB}{255, 248, 235}
+  \definecolor{edu-gray}{RGB}{100, 100, 100}      % 提示/教师备注
+  \definecolor{edu-gray-bg}{RGB}{248, 248, 248}
+  \definecolor{edu-purple}{RGB}{90, 50, 120}      % 思考题
+  \definecolor{edu-purple-bg}{RGB}{248, 244, 252}
+\else
+  % --- 打印黑白模式 ---
+  \definecolor{edu-blue}{gray}{0.15}
+  \definecolor{edu-blue-bg}{gray}{0.96}
+  \definecolor{edu-red}{gray}{0.25}
+  \definecolor{edu-red-bg}{gray}{0.97}
+  \definecolor{edu-green}{gray}{0.20}
+  \definecolor{edu-green-bg}{gray}{0.97}
+  \definecolor{edu-orange}{gray}{0.25}
+  \definecolor{edu-orange-bg}{gray}{0.98}
+  \definecolor{edu-gray}{gray}{0.40}
+  \definecolor{edu-gray-bg}{gray}{0.97}
+  \definecolor{edu-purple}{gray}{0.30}
+  \definecolor{edu-purple-bg}{gray}{0.98}
+\fi
+\colorlet{edu-diagram-muted}{edu-gray}
+
+% ---------- 自定义教学环境 ----------
+% 共性：enhanced + breakable（跨页不断裂）
+
+% 原题卡片 — 强边框，突出显示
+\newtcolorbox{problemcard}{
+  enhanced, breakable,
+  colback=edu-blue-bg,
+  colframe=edu-blue,
+  boxrule=1.2pt,
+  arc=0pt,
+  left=3mm, right=3mm, top=3mm, bottom=3mm,
+}
+
+% 解题路线图 — 左边线 + 浅底
+\newtcolorbox{routebox}{
+  enhanced, breakable,
+  colback=edu-green-bg,
+  colframe=edu-green!30,
+  boxrule=0pt,
+  borderline west={2.5pt}{0pt}{edu-green},
+  left=3mm, right=3mm, top=3mm, bottom=3mm,
+}
+
+% 关键想法 — 蓝色左边线
+\newtcolorbox{keyideabox}{
+  enhanced, breakable,
+  colback=edu-blue-bg,
+  colframe=edu-blue!30,
+  boxrule=0pt,
+  borderline west={2.5pt}{0pt}{edu-blue},
+  left=3mm, right=3mm, top=3mm, bottom=3mm,
+}
+
+% 易错提醒 — 红色左边线
+\newtcolorbox{mistakebox}{
+  enhanced, breakable,
+  colback=edu-red-bg,
+  colframe=edu-red!20,
+  boxrule=0pt,
+  borderline west={3pt}{0pt}{edu-red},
+  left=3mm, right=3mm, top=2.5mm, bottom=2.5mm,
+}
+
+% 提示 — 灰色虚线左边线
+\newtcolorbox{hintbox}{
+  enhanced, breakable,
+  colback=edu-gray-bg,
+  colframe=edu-gray!20,
+  boxrule=0pt,
+  borderline west={2pt}{0pt}{edu-gray, dashed},
+  left=3mm, right=3mm, top=2mm, bottom=2mm,
+}
+
+% 思考题 — 紫色虚线左边线
+\newtcolorbox{thinkbox}{
+  enhanced, breakable,
+  colback=edu-purple-bg,
+  colframe=edu-purple!20,
+  boxrule=0pt,
+  borderline west={2pt}{0pt}{edu-purple, dashed},
+  left=2.5mm, right=2.5mm, top=2.5mm, bottom=2.5mm,
+}
+
+% 教师备注 — 灰色左边线，小字
+\newtcolorbox{teachernote}{
+  enhanced, breakable,
+  colback=edu-gray-bg,
+  colframe=edu-gray!15,
+  boxrule=0pt,
+  borderline west={2pt}{0pt}{edu-gray!60},
+  left=2.5mm, right=2.5mm, top=2.5mm, bottom=2.5mm,
+  fontupper=\small,
+  colupper=black!60,
+}
+
+% 训练目标 — 橙色左边线，小字
+\newtcolorbox{traininggoal}{
+  enhanced, breakable,
+  colback=edu-orange-bg,
+  colframe=edu-orange!15,
+  boxrule=0pt,
+  borderline west={1.5pt}{0pt}{edu-orange},
+  left=2mm, right=2mm, top=1mm, bottom=1mm,
+  fontupper=\small,
+}
+
+% 答题区 — 无边框，纯留白
+\newcommand{\answerarea}[1][40mm]{%
+  \vspace{2mm}%
+  \begin{tcolorbox}[
+    enhanced, breakable,
+    colback=white,
+    colframe=white,
+    boxrule=0pt,
+    height=#1,
+    valign=top,
+    bottom=0mm,
+    after skip=0mm,
+  ]
+  \end{tcolorbox}%
+}
+
+\newcommand{\diagramcolfigure}[3]{%
+  \begin{minipage}[t]{#2}
+    \vspace{0pt}\centering
+    \includegraphics[width=\linewidth]{\detokenize{#1}}
+    \if\relax\detokenize{#3}\relax\else
+      \par\vspace{1mm}{\scriptsize\color{edu-diagram-muted}#3}
+    \fi
+  \end{minipage}%
+}
+
+\newcommand{\diagramrowitem}[4]{%
+  \begin{minipage}[t]{#2}
+    \vspace{0pt}\centering
+    \includegraphics[width=\linewidth]{\detokenize{#1}}
+    \if\relax\detokenize{#3}\relax\else
+      \par\vspace{1mm}{\scriptsize\bfseries #3}
+    \fi
+    \if\relax\detokenize{#4}\relax\else
+      \par\vspace{0.5mm}{\scriptsize\color{edu-diagram-muted}#4}
+    \fi
+  \end{minipage}%
+}
+
+\newcommand{\answerareawithdiagramcol}[4]{%
+  \vspace{2mm}%
+  \begin{tcolorbox}[
+    enhanced, breakable,
+    colback=white,
+    colframe=white,
+    boxrule=0pt,
+    height=#1,
+    valign=top,
+    bottom=0mm,
+    after skip=0mm,
+  ]
+  \begin{minipage}[t]{\dimexpr\linewidth-#3-6mm\relax}
+    \vspace{0pt}
+  \end{minipage}\hfill
+  \diagramcolfigure{#2}{#3}{#4}
+  \end{tcolorbox}%
+}
+
+\newcommand{\answerareawithdiagram}[4]{%
+  \answerareawithdiagramcol{#1}{#2}{#3}{#4}%
+}
+
+% ---------- 字体设置 ----------
+% exam-zh (ctexbook) already sets CJK fonts via ctex.
+% Only override if specific fonts are needed.
+% macOS: Songti SC, STHeiti, STFangsong
+% Linux: SimSun, SimHei, FangSong
+
+% ---------- 页面设置 ----------
+% exam-zh (ctexbook) already loads geometry.
+% Override margins if needed:
+% \geometry{top=16mm, bottom=16mm, left=14mm, right=14mm}
+
+\examsetup{
+  question/show-answer = false,
+  fillin/show-answer = false,
+  solution/show-solution = hide,
+}
+
+% ---------- 教师版解答样式 ----------
+\newtcolorbox{solutionblock}{
+  enhanced, breakable,
+  colback=edu-blue-bg,
+  colframe=edu-blue!25,
+  boxrule=0pt,
+  borderline west={2pt}{0pt}{edu-blue!50},
+  arc=0pt,
+  left=3mm, right=3mm, top=2mm, bottom=2mm,
+  before skip=2mm,
+  after skip=3mm,
+  fontupper=\small,
+}
+
+% 解答步骤编号
+\newcounter{solstep}
+\newcommand{\solstep}[2]{%
+  \stepcounter{solstep}%
+  \par\medskip
+  \noindent\hangindent=6mm
+  {\color{edu-blue}\bfseries\textcircled{\scriptsize\thesolstep}\enspace #1}\enspace #2\par
+}
+
+\begin{document}
+
+\section*{一次函数与反比例函数交点面积综合 · 练习}
+
+\section*{练习题（每题 10 分，共 40 分）}
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  已知一次函数 $y_1=kx+b$ 与反比例函数 $y_2=\dfrac{m}{x}$ 的图像交于点 $A,B$。已知：点 $A$ 的横坐标为 $3$，点 $B$ 的横坐标为 $-1$，一次函数图像与 $y$ 轴交于点 $C(0,-2)$。
+\begin{enumerate}[label=(\arabic*)]
+  \item 求一次函数解析式、反比例函数解析式，以及点 $A,B$ 的坐标；
+  \item 根据图像求不等式 $kx+b>\dfrac{m}{x}$ 的解集；
+  \item 求 $\triangle OAB$ 的面积。
+\end{enumerate}
+
+  \answerareawithdiagramcol{58mm}{diagrams/p1.pdf}{62mm}{第 1 题图}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  已知一次函数 $y_1=kx+b$ 与反比例函数 $y_2=\dfrac{m}{x}$ 的图像交于点 $A,B$。已知：$k=-1$，$b=5$，点 $A$ 的横坐标为 $1$。
+\begin{enumerate}[label=(\arabic*)]
+  \item 求一次函数解析式、反比例函数解析式，以及点 $A,B$ 的坐标；
+  \item 根据图像求不等式 $kx+b>\dfrac{m}{x}$ 的解集；
+  \item 求 $\triangle OAB$ 的面积。
+\end{enumerate}
+
+  \answerareawithdiagramcol{58mm}{diagrams/p2.pdf}{62mm}{第 2 题图}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  已知一次函数 $y_1=kx+b$ 与反比例函数 $y_2=\dfrac{m}{x}$ 的图像交于点 $A,B$。已知：$b=1$，$m=6$，点 $A$ 的横坐标为 $2$。
+\begin{enumerate}[label=(\arabic*)]
+  \item 求一次函数解析式、反比例函数解析式，以及点 $A,B$ 的坐标；
+  \item 根据图像求不等式 $kx+b>\dfrac{m}{x}$ 的解集；
+  \item 已知 $P(0,4)$，求 $\triangle PAB$ 的面积。
+\end{enumerate}
+
+  \answerareawithdiagramcol{62mm}{diagrams/p3.pdf}{62mm}{第 3 题图}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  已知一次函数 $y_1=kx+b$ 与反比例函数 $y_2=\dfrac{m}{x}$ 的图像交于点 $A,B$。已知：$k=-1$，$m=-2$，点 $A$ 的横坐标为 $1$。
+\begin{enumerate}[label=(\arabic*)]
+  \item 求一次函数解析式、反比例函数解析式，以及点 $A,B$ 的坐标；
+  \item 根据图像求不等式 $kx+b>\dfrac{m}{x}$ 的解集；
+  \item 点 $P$ 在反比例函数第四象限分支上，且在点 $A$ 的右侧。若 $S_{\triangle PAB}=3$，求点 $P$ 的坐标。
+\end{enumerate}
+
+  \answerareawithdiagramcol{64mm}{diagrams/p4.pdf}{62mm}{第 4 题图}
+\end{problem}
+
+
+
+\end{document}

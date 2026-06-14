@@ -1,0 +1,160 @@
+meta:
+  title: "一次函数与反比例函数交点面积综合"
+  subtitle: "先求函数和交点，再用图像解不等式，最后用铅垂线法求面积"
+  grade: "八年级"
+  subject: "数学"
+  version: "teacher"
+  show_answers: true
+  assignment_id: "2026-06-14-wangyouran-linear-inverse-area-explanation"
+  source_artifacts:
+    structure_analysis: "artifacts/王攸然/2026-06-14-一次函数反比例函数交点面积综合/01-structure-analysis.md"
+
+render:
+  template: "exam-zh-explanation"
+  paper_size: "a4paper"
+
+sections:
+  - id: "original"
+    title: "原题"
+    type: "explanation"
+    visibility: "both"
+    blocks:
+      - type: "problemcard"
+        id: "orig"
+        label: "题目"
+        stem_latex: |
+          已知一次函数 $y_1=kx+b$ 与反比例函数 $y_2=\dfrac{m}{x}$ 的图像交于点 $A,B$。已知：点 $A$ 的横坐标为 $2$，点 $B$ 的横坐标为 $-1$，一次函数图像与 $y$ 轴交于点 $C(0,-1)$。
+          \begin{enumerate}[label=(\arabic*)]
+            \item 求一次函数解析式、反比例函数解析式，以及点 $A,B$ 的坐标；
+            \item 根据图像求不等式 $kx+b>\dfrac{m}{x}$ 的解集；
+            \item 求 $\triangle OAB$ 的面积。
+          \end{enumerate}
+        diagram_col:
+          image_path: "diagrams/original.pdf"
+          diagram_job_id: "function-original"
+          width: "65mm"
+          caption: "原题函数图像"
+          variant: "prompt"
+          disclosure_policy: "clean"
+
+  - id: "route-section"
+    title: "一、解题路线"
+    type: "explanation"
+    visibility: "student"
+    blocks:
+      - type: "route"
+        id: "route"
+        steps:
+          - id: "route-b"
+            latex: "先由截距确定 $b$"
+            content_latex: "由 $C(0,-1)$ 在直线 $y=kx+b$ 上，得 $b=-1$。"
+          - id: "route-points"
+            latex: "用 $k$ 表示交点坐标"
+            content_latex: "直线为 $y=kx-1$，所以 $A(2,2k-1)$，$B(-1,-k-1)$。"
+          - id: "route-inverse"
+            latex: "用 $xy=m$ 列方程"
+            content_latex: "$A,B$ 都在 $y=\\dfrac{m}{x}$ 上，所以 $2(2k-1)=(-1)(-k-1)$。"
+          - id: "route-functions"
+            latex: "求出函数和交点"
+            content_latex: "解得 $k=1$，所以 $y_1=x-1$，$A(2,1)$，$B(-1,-2)$，$m=2$，$y_2=\\dfrac2x$。"
+          - id: "route-ineq"
+            latex: "图像分段解不等式"
+            content_latex: "$x-1>\\dfrac2x$ 表示直线在双曲线上方；用 $-1,0,2$ 分段，取 $(-1,0)$ 和 $(2,+\\infty)$。"
+          - id: "route-area"
+            latex: "用铅垂线法求面积"
+            content_latex: "直线 $AB$ 与 $y$ 轴交于 $P(0,-1)$，所以 $OP=1$。把 $\\triangle OAB$ 按 $OP$ 拆成 $\\triangle OPA$ 和 $\\triangle OPB$，两者共用底 $OP$，高分别是 $|x_A|$、$|x_B|$。因为 $A,B$ 在 $y$ 轴两侧，所以 $S_{\\triangle OAB}=S_{\\triangle OPA}+S_{\\triangle OPB}=\\dfrac12OP(|x_A|+|x_B|)=\\dfrac12OP|x_A-x_B|=\\dfrac12\\cdot1\\cdot|2-(-1)|=\\dfrac32$。"
+
+  - id: "solution"
+    title: "二、标准讲解"
+    type: "explanation"
+    visibility: "student"
+    blocks:
+      - type: "dual_explanation"
+        id: "sol-part1"
+        label: "(1)"
+        stem_latex: "求一次函数解析式、反比例函数解析式，以及点 $A,B$ 的坐标。"
+        side_title: "提示与易错"
+        side_items:
+          - kind: "hint"
+            title: "第一步"
+            content_latex: "$C(0,-1)$ 直接给出直线的截距，不要先列复杂方程组。"
+          - kind: "hint"
+            title: "交点关系"
+            content_latex: "点在 $y=\\dfrac{m}{x}$ 上，就有 $xy=m$。两个交点的 $xy$ 应相等。"
+          - kind: "mistake"
+            title: "不要漏写坐标"
+            content_latex: "求出函数后，要把 $A,B$ 的完整坐标写出来，不只写横坐标。"
+        solution_title: "解答"
+        solution_step_ids:
+          - "route-b"
+          - "route-points"
+          - "route-inverse"
+          - "route-functions"
+        connection_title: "验算"
+        connection_items:
+          - latex: "$A(2,1)$ 满足 $1=2-1$，且 $1=\\dfrac22$。"
+          - latex: "$B(-1,-2)$ 满足 $-2=-1-1$，且 $-2=\\dfrac2{-1}$。"
+      - type: "dual_explanation"
+        id: "sol-part2"
+        label: "(2)"
+        stem_latex: "根据图像求不等式 $kx+b>\\dfrac{m}{x}$ 的解集。"
+        side_title: "提示与易错"
+        side_items:
+          - kind: "hint"
+            title: "先翻译"
+            content_latex: "$kx+b>\\dfrac{m}{x}$ 就是 $y_1>y_2$，图像上看直线是否在双曲线上方。"
+          - kind: "mistake"
+            title: "$0$ 也要分段"
+            content_latex: "反比例函数在 $x=0$ 无定义，所以 $0$ 必须作为断点，且不能取。"
+          - kind: "mistake"
+            title: "严格大于"
+            content_latex: "交点处两函数相等，题目是 $>$，所以 $x=-1,2$ 都不能取。"
+        solution_title: "解答"
+        solution_step_ids:
+          - "route-ineq"
+        connection_title: "图像校对"
+        connection_items:
+          - latex: "$(-\\infty,-1)$：双曲线在上，不取。"
+          - latex: "$(-1,0)$：直线在上，取。"
+          - latex: "$(0,2)$：双曲线在上，不取。"
+          - latex: "$(2,+\\infty)$：直线在上，取。"
+          - latex: "解集为 $-1<x<0$ 或 $x>2$。"
+      - type: "dual_explanation"
+        id: "sol-part3"
+        label: "(3)"
+        stem_latex: "求 $\\triangle OAB$ 的面积。"
+        side_title: "提示与易错"
+        side_items:
+          - kind: "hint"
+            title: "铅垂线法"
+            content_latex: "先看 $AB$ 与 $y$ 轴的交点 $P$，把 $\triangle OAB$ 拆成两个共用高 $OP$ 的小三角形。"
+          - kind: "hint"
+            title: "公式怎么来"
+            content_latex: "$S_{\\triangle OAB}=S_{\\triangle OPA}+S_{\\triangle OPB}=\\dfrac12 OP\\cdot|x_A|+\\dfrac12 OP\\cdot|x_B|$；本题 $A,B$ 在 $y$ 轴两侧，所以 $|x_A|+|x_B|=|x_A-x_B|$。"
+          - kind: "mistake"
+            title: "别漏掉 $\\dfrac12$"
+            content_latex: "铅垂线法的面积仍是三角形面积，公式是 $\\dfrac12\\cdot OP\\cdot|x_A-x_B|$。"
+        solution_title: "解答"
+        solution_step_ids:
+          - "route-area"
+        connection_title: "结论"
+        connection_items:
+          - latex: "$S_{\\triangle OAB}=\\dfrac32$。"
+
+  - id: "summary"
+    title: "三、一句话总结"
+    type: "explanation"
+    visibility: "student"
+    blocks:
+      - type: "summary_dual"
+        id: "summary-main"
+        left_title: "本题答案"
+        left_items:
+          - latex: "$y_1=x-1$，$y_2=\\dfrac2x$，$A(2,1)$，$B(-1,-2)$。"
+          - latex: "$kx+b>\\dfrac{m}{x}$ 的解集为 $-1<x<0$ 或 $x>2$。"
+          - latex: "$S_{\\triangle OAB}=\\dfrac32$。"
+        right_title: "检查清单"
+        right_items:
+          - latex: "交点在反比例函数上，抓住 $xy=m$。"
+          - latex: "图像解不等式要把交点和 $0$ 一起分段。"
+          - latex: "第三问用铅垂线法：先找 $AB$ 与 $y$ 轴交点，再用 $\\dfrac12\\cdot OP\\cdot|x_A-x_B|$。"
