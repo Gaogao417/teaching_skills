@@ -43,7 +43,7 @@ Derive the path from the conversation context:
 
 If the directory already exists (e.g., explanation PDFs are already there), place the file in that existing directory. If the directory does not exist, create it.
 
-The artifact must be self-contained and include both human-readable sections and a compact machine-readable block.
+The artifact must be self-contained. Use structured Markdown sections as the downstream interface; do not append a compact JSON or machine-readable summary that lets later skills ignore the prose.
 
 ## Required Structure
 
@@ -64,13 +64,12 @@ The artifact must include these sections:
 - 推荐讲题任务包
 - 推荐练题任务包
 - 推荐图形请求包（可选）
-- 交付给下一阶段的结构摘要 JSON
 
-When writing the actual artifact, read `references/structure-template.md` and use its Markdown/JSON template. Keep the artifact self-contained: later YAML skills should be able to consume it without rereading the original problem.
+When writing the actual artifact, read `references/structure-template.md` and use its Markdown template. Keep the artifact self-contained: later YAML skills should be able to consume the full structure analysis without rereading the original problem.
 
 ## References
 
-- `references/structure-template.md`: full `01-structure-analysis.md` Markdown template and handoff JSON schema.
+- `references/structure-template.md`: full `01-structure-analysis.md` Markdown template.
 
 ## Core Structure Representation
 
@@ -94,7 +93,7 @@ Rules:
 - Do not invent propositions from a diagram. If a relation comes only from a visual impression, mark it as `需原图复核`.
 - A relation should name the method, not just the result: "R2: P3 + P4 -> P5，方法：SAS 全等" is useful; "推出 P5" is not.
 - Keep the human-readable network compact. For long proofs, list the key network and put routine algebra in the standard solution.
-- Keep the old summary fields (`problem_pattern`, `core_transformation`, `solution_skeleton`) for compatibility, but add machine-readable `proposition_network` and `model_tags` in the JSON handoff.
+- Put compatibility-friendly labels such as problem pattern, core transformation, proposition network, and model tags in the prose sections themselves. Do not duplicate them into a separate handoff block.
 
 ## Quality Rules
 
@@ -109,8 +108,8 @@ Rules:
 - For each deepening move, change only one main dimension at a time: number, question target, representation, condition packaging, hidden structure, or reverse construction.
 - Variation rules should preserve the proposition network/model relation, not merely the surface topic. If a variation changes the key relation set, mark it as a non-example.
 - Mention hidden constraints such as domains, sign, absolute value, range checks, units, and diagram assumptions when relevant.
-- If a diagram would materially help the student, fill `diagram_request_packet`; otherwise set `needs_diagram: false`.
-- `diagram_request_packet` describes teaching needs only. Do not write Wolfram, GeometricScene code, rendering prompts, VLM prompts, retry rules, or image paths in this skill.
+- If a diagram would materially help the student, fill "推荐图形请求包"; otherwise write "是否需要图：否" and give a short reason.
+- "推荐图形请求包" describes teaching needs only. Do not write Wolfram, GeometricScene code, rendering prompts, VLM prompts, retry rules, or image paths in this skill.
 - Use `synthetic_geometry` only for ruler-and-compass style geometry such as triangles, circles, parallel/perpendicular relations, angle bisectors, medians, altitudes, and angle relations.
 - Use `coordinate_geometry` or `function_graph` for axes, coordinates, function images, intersections, area under/with axes, and graph-reading tasks; do not force these into GeometricScene.
 - In `must_not_imply`, name visual traps such as "不要暗示等腰", "不要画成直角", "不要让点重合", or "坐标比例不能误导面积关系".
@@ -149,11 +148,11 @@ Before finalizing `01-structure-analysis.md`, check the points below internally 
 - The canonical solution is complete enough to anchor later YAML generation.
 - The "核心结构" section contains an appropriate proposition network. Concept criteria and application quantity tables may appear as helper tables, but the core inference should still be expressible as `P_i + P_j -> P_k`.
 - Every nontrivial `P_i + P_j -> P_k` relation names a method or theorem.
-- The JSON handoff includes `proposition_network` and `model_tags`, even if some arrays are empty for simple concept/basic-skill tasks.
+- The prose sections include proposition network and model tags, even if some entries are brief for simple concept/basic-skill tasks.
 - Hidden constraints such as domains, sign, absolute value, excluded values, or degenerate cases are named when relevant.
-- `variation_rules` preserve one core invariant and avoid off-track variations.
-- `complexity_budget` gives concrete constraints for the practice stage.
-- `diagram_request_packet` describes only teaching needs, object hints, focus, and visual traps; it does not include renderer code, retry logic, or image paths.
+- "变式原则" preserves one core invariant and avoids off-track variations.
+- "计算复杂度预算" gives concrete constraints for the practice stage.
+- "推荐图形请求包" describes only teaching needs, object hints, focus, and visual traps; it does not include renderer code, retry logic, or image paths.
 - The output contains no assignment YAML, diagrams, images, TEX, or PDF instructions beyond the handoff.
 
 ## Handoff

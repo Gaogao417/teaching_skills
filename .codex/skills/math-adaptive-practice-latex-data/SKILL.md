@@ -31,12 +31,17 @@ artifacts/<学生名>/YYYY-MM-DD-<内容>/03-adaptive-practice.teacher.plan.assi
 
 ## 工作流
 
-1. 读取结构分析中的 `canonical_solution`、`practice_task_packet`、`variation_rules`、`complexity_budget`；如果存在，也读取 `proposition_network`、`model_tags`、`application_quantity_network`。
-2. 若有学生回答诊断，读取其中的 `entry_point`、`scaffold_level`、`variation_depth`、`fallback_move`。
-3. 为本轮练习选择一个主要训练动作，最多小步改变一个主维度。
-4. 生成学生版和教师版 YAML。学生版不含答案、解析、教学备注；教师版含答案、解析、分步解法和本轮调节说明。
-5. 若练习题需要图，只写 `diagram_slot`。slot 字段规则读取 `references/practice-diagram-slot.md`。
-6. 输出 YAML 后运行 schema 校验；如果校验失败，修 YAML。
+1. 读取 `01-structure-analysis.md` 全文。生成前先在内部列出：
+   - `核心结构` / `出题人逻辑` 中的结构不变量和关键 relation。
+   - `变式原则` 中的深化阶梯、包装方式、远迁移例子、伪变式/非例。
+   - `推荐练题任务包` 中每个卡点对应的出题建议。
+   - `标准完整解与验算`、`计算复杂度预算`、`推荐图形请求包`（如有）中的硬约束。
+2. 不读取、不依赖末尾 JSON 摘要；若旧结构分析仍带 JSON，把它视为历史冗余，不能作为选题依据。
+3. 若有学生回答诊断，读取其中的 `entry_point`、`scaffold_level`、`variation_depth`、`fallback_move`。
+4. 为本轮练习选择一个主要训练动作，并确定本组题覆盖哪些深化阶梯。组内可以递进跨阶梯，但每一题只相对上一题提高一个主维度。
+5. 生成学生版和教师版 YAML。学生版不含答案、解析、教学备注；教师版含答案、解析、分步解法和本轮调节说明。
+6. 若练习题需要图，只写 `diagram_slot`。slot 字段规则读取 `references/practice-diagram-slot.md`。
+7. 输出 YAML 后运行 schema 校验；如果校验失败，修 YAML。
 
 ## 调节参数
 
@@ -49,7 +54,7 @@ teaching:
   entry_point: "read_context | find_entry | build_relation | solve_and_check | transfer | hidden_structure | reverse_construct"
   scaffold_level: "high | medium | low"
   variation_depth: "same_structure | changed_numbers | changed_question | changed_representation | packaged_condition | partially_hidden | reverse_construct"
-  complexity_note: "与 structure-analysis 的 complexity_budget 对齐"
+  complexity_note: "与结构分析的计算复杂度预算对齐"
   upgrade_rule: "学生可升级的可观察条件"
   fallback_move: "学生卡住时回退到哪个动作"
 ```
@@ -58,9 +63,11 @@ teaching:
 
 ## 出题规则
 
-- 每组最多 3 题；只小步改变一个主维度。
-- 保留核心结构，不引入无关知识点。若结构分析包含命题网络，练习变式必须保留同一组关键 proposition/relation 或明确只改变一个 relation 的方向；若包含 `model_tags.configuration`，优先围绕同一 model 的 configuration 做换数、换问法或反向构造。
-- 遵守 `complexity_budget.max_next_step`，不引入 `forbidden_load`。
+- 每组最多 3 题；组内默认至少覆盖两个“变式原则”的深化层级。只有当学生证据要求高支架，或“计算复杂度预算”明确禁止迁移时，才允许全组停在同一层级，并在教师版调节说明中写明原因。
+- 若结构分析提供远迁移例子、包装方式或“矩形 -> 平行线/梯形”等迁移目标，3 题组必须至少有 1 题来自这些远迁移/包装方式；不得把 3 题都写成同结构换数或反求同一量。
+- “只小步改变一个主维度”指每一题相对上一题只升一级，不是整组只能选一个维度原地重复。
+- 保留核心结构，不引入无关知识点。若结构分析包含命题网络，练习变式必须保留同一组关键命题/关系，或明确只改变一个关系的方向；若包含模型标签，优先围绕同一模型构型做换数、换问法或反向构造。
+- 遵守“计算复杂度预算”的最大下一步，不引入其禁止的计算负担。
 - 算术保持干净：小整数、简单分数、可手算验证。
 - 不同时隐藏结构和提高计算难度，除非学生证据明确支持低支架迁移。
 - 提示渐进：先提示动作，再接近答案。
@@ -86,11 +93,13 @@ teaching:
 
 1. 所有 block id 唯一。
 2. 每组题量不超过 3 题。
-3. 学生版不含答案、解析、分步解法、教学备注。
-4. 教师版答案经过代入或逻辑验算，解答题有 `solution_steps`。
-5. `entry_point` 和 `variation_depth` 使用当前枚举。
-6. 若使用几何图，plan YAML 只写 `diagram_slot`，不写最终图片字段。
-7. YAML 通过 `python3 math-assignment-latex/scripts/validate_assignment.py <yaml>`。
+3. 每道题都能对应到 `变式原则` 或 `推荐练题任务包` 的一个明确来源；若只能对应到摘要标签，要回读叙述节重做选题依据。
+4. 2-3 题组默认覆盖至少两个深化层级；3 题组在允许时至少包含一个远迁移/包装题；不得全是同结构换数。
+5. 学生版不含答案、解析、分步解法、教学备注。
+6. 教师版答案经过代入或逻辑验算，解答题有 `solution_steps`。
+7. `entry_point` 和 `variation_depth` 使用当前枚举。
+8. 若使用几何图，plan YAML 只写 `diagram_slot`，不写最终图片字段。
+9. YAML 通过 `python3 math-assignment-latex/scripts/validate_assignment.py <yaml>`。
 
 ## Handoff
 
