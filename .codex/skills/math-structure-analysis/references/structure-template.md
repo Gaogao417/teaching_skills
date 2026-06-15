@@ -2,7 +2,7 @@
 
 Use this full template when writing `01-structure-analysis.md`.
 
-```markdown
+````markdown
 # 结构分析：<题目短标题>
 
 ## 原题
@@ -16,9 +16,44 @@ Use this full template when writing `01-structure-analysis.md`.
 - 要求目标：
 
 ## 二、核心结构
+### 2.1 表层信息
 - 表面考点：
-- 本质考点：
+- 题型功能：`concept_check` / `basic_skill` / `application_modeling` / `proof_model` / `composite_problem` / `existence_or_parameter`
+- 是否值得完整 structural analysis：是/否；理由：
 - 一句话问题模式：
+
+### 2.2 结构表达
+> 统一使用命题网络。概念辨析题可先写“判别条件表”，应用题可先写“情景量表”，但最终都要落到 `P_i + P_j -> P_k`。基础计算题把“计算状态”也写成命题。
+
+#### 判别条件表（概念辨析题用；不适用则写“无”）
+- 必要条件：
+- 充分条件：
+- 常见干扰项：
+- 最短检查动作：
+
+#### 情景量表（应用题用；不适用则写“无”）
+| 量 | 类型/单位 | 题设关系 | 未知/已知 |
+|---|---|---|---|
+|  |  |  |  |
+
+#### 命题网络（所有题型都写；简单题写简版）
+- P1（题设/定义/定理/构造/可推/目标/检查）：
+- P2（题设/定义/定理/构造/可推/目标/检查）：
+- P3（计算状态/可推结论/目标）：
+- R1：P1 + P2 -> P3，方法：
+- 目标：由哪些命题推出最终答案/结论：
+
+### 2.3 解题主链
+```text
+P1 + P2 -> P3 -> ... -> Answer
+```
+
+### 2.4 模型标签
+- model_id：
+- model_name：
+- configuration：已知哪些 P，要求哪个 P/Answer
+- 可迁移方向：
+- 非同构边界：
 
 ## 三、关键转化
 - 最关键的转化：
@@ -102,6 +137,65 @@ Use this full template when writing `01-structure-analysis.md`.
 {
   "problem_pattern": "",
   "core_transformation": "",
+  "structure_representation": {
+    "task_type": "concept_check | basic_skill | application_modeling | proof_model | composite_problem | existence_or_parameter",
+    "is_full_structural_analysis_worthy": true,
+    "reason": "",
+    "surface_topic": "",
+    "model_name": ""
+  },
+  "concept_criteria": {
+    "necessary_conditions": [],
+    "sufficient_conditions": [],
+    "common_distractors": [],
+    "shortest_check": ""
+  },
+  "application_quantity_network": {
+    "quantities": [
+      {
+        "name": "",
+        "type": "",
+        "unit": "",
+        "known_or_unknown": "",
+        "relation": ""
+      }
+    ],
+    "model_equations": [],
+    "target": ""
+  },
+  "proposition_network": {
+    "propositions": [
+      {
+        "id": "P1",
+        "source": "given | definition | theorem | construction | derived | target | check | needs_diagram_review",
+        "statement": "",
+        "type": ""
+      }
+    ],
+    "relations": [
+      {
+        "id": "R1",
+        "given": ["P1"],
+        "derive": "P2",
+        "method": "",
+        "teaching_note": ""
+      }
+    ],
+    "target": "",
+    "main_chain": ["P1", "P2", "Answer"],
+    "branch_cases": [],
+    "diagram_dependent_relations": []
+  },
+  "model_tags": {
+    "model_id": "",
+    "model_name": "",
+    "configuration": {
+      "given": [],
+      "target": ""
+    },
+    "transfer_directions": [],
+    "non_isomorphic_boundaries": []
+  },
   "solution_skeleton": ["", "", ""],
   "canonical_solution": {
     "key_quantities": [],
@@ -170,4 +264,4 @@ Use this full template when writing `01-structure-analysis.md`.
   }
 }
 ```
-```
+````

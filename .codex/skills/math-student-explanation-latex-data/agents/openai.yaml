@@ -1,4 +1,4 @@
 interface:
   display_name: "数学讲解YAML"
-  short_description: "根据结构分析生成课堂讲解页 plan assignment.yaml；需要图时只声明 diagram_slot。"
-  default_prompt: "请使用该技能读取结构分析，生成匹配 exam-zh-explanation 的 02-student-explanation.plan.assignment.yaml；如不需要图，可生成普通 assignment.yaml。输出后检查 route.steps[].content_latex 是否简洁、严谨、规范，只讲 how；把 why 和所以然改写到 dual_explanation.side_items 的小贴士提问中。"
+  short_description: "根据结构分析生成单题讲解或知识点复习讲义 YAML；需要图时只声明 diagram_slot。"
+  default_prompt: "请使用该技能读取结构分析，生成匹配 exam-zh-explanation 的 02-student-explanation.plan.assignment.yaml；如不需要图，可生成普通 assignment.yaml。若用户要求复习、专题、期末复习、薄弱点或知识点讲义，使用知识点复习模式：solution 知识点公式框 + 若干 problemcard/route/dual_explanation 例题讲解 + mistake 易错提醒 + method_reminder 方法提醒。若用户要求单题讲解，保留原来的 problemcard + route + dual_explanation + summary_dual 主线。输出后检查 route.steps[].content_latex 是否简洁、严谨、规范，只讲 how；把 why 和所以然改写到 dual_explanation.side_items 的小贴士提问中。"

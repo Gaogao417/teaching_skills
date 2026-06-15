@@ -31,7 +31,7 @@ artifacts/<学生名>/YYYY-MM-DD-<内容>/03-adaptive-practice.teacher.plan.assi
 
 ## 工作流
 
-1. 读取结构分析中的 `canonical_solution`、`practice_task_packet`、`variation_rules`、`complexity_budget`。
+1. 读取结构分析中的 `canonical_solution`、`practice_task_packet`、`variation_rules`、`complexity_budget`；如果存在，也读取 `proposition_network`、`model_tags`、`application_quantity_network`。
 2. 若有学生回答诊断，读取其中的 `entry_point`、`scaffold_level`、`variation_depth`、`fallback_move`。
 3. 为本轮练习选择一个主要训练动作，最多小步改变一个主维度。
 4. 生成学生版和教师版 YAML。学生版不含答案、解析、教学备注；教师版含答案、解析、分步解法和本轮调节说明。
@@ -59,7 +59,7 @@ teaching:
 ## 出题规则
 
 - 每组最多 3 题；只小步改变一个主维度。
-- 保留核心结构，不引入无关知识点。
+- 保留核心结构，不引入无关知识点。若结构分析包含命题网络，练习变式必须保留同一组关键 proposition/relation 或明确只改变一个 relation 的方向；若包含 `model_tags.configuration`，优先围绕同一 model 的 configuration 做换数、换问法或反向构造。
 - 遵守 `complexity_budget.max_next_step`，不引入 `forbidden_load`。
 - 算术保持干净：小整数、简单分数、可手算验证。
 - 不同时隐藏结构和提高计算难度，除非学生证据明确支持低支架迁移。

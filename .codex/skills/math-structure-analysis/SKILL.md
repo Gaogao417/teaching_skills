@@ -53,7 +53,7 @@ The artifact must include these sections:
 
 - 原题
 - 题目场景
-- 核心结构
+- 核心结构（必须包含题型功能、统一命题网络、模型标签）
 - 关键转化
 - 标准路径骨架
 - 标准完整解与验算
@@ -72,6 +72,30 @@ When writing the actual artifact, read `references/structure-template.md` and us
 
 - `references/structure-template.md`: full `01-structure-analysis.md` Markdown template and handoff JSON schema.
 
+## Core Structure Representation
+
+The "核心结构" section should be more precise than a topic label. Use a teacher-readable proposition network inspired by ai-math:
+
+```text
+problem -> propositions -> relations -> target
+```
+
+Use the representation that matches the problem type:
+
+- 概念辨析题：write a "判别条件表", then express the shortest check as a small proposition network.
+- 基础计算题：still use propositions. Treat computation states as propositions, e.g. `P3（计算状态）：去分母后得到 ...`, then write `R1: P1 + P2 -> P3，方法：去分母`.
+- 应用题：use 情景量表 + proposition network. Quantities are propositions or proposition inputs; equations are relations.
+- 证明题：write propositions as `P1`, `P2`, ... and relations as `R1: P1 + P2 -> P3，方法：...`.
+- 综合题/压轴题/存在性题：use layered proposition network plus a compressed main chain. Separate branch conditions and final range/degenerate checks.
+
+Rules:
+
+- Label each proposition by source: `题设`, `定义`, `定理`, `构造`, `可推`, `目标`, or `检查`.
+- Do not invent propositions from a diagram. If a relation comes only from a visual impression, mark it as `需原图复核`.
+- A relation should name the method, not just the result: "R2: P3 + P4 -> P5，方法：SAS 全等" is useful; "推出 P5" is not.
+- Keep the human-readable network compact. For long proofs, list the key network and put routine algebra in the standard solution.
+- Keep the old summary fields (`problem_pattern`, `core_transformation`, `solution_skeleton`) for compatibility, but add machine-readable `proposition_network` and `model_tags` in the JSON handoff.
+
 ## Quality Rules
 
 - Always solve the problem completely before writing the teaching analysis.
@@ -79,9 +103,11 @@ When writing the actual artifact, read `references/structure-template.md` and us
 - Separate what the problem determines from what the student determines.
 - Keep "学生卡点预测" as task-level predictions, not student labels or a final teaching plan.
 - Prefer action language over slogan language: "找交点坐标" beats "数形结合".
+- In "核心结构", prefer explicit relations over vague labels: "P1 + P2 -> P3" beats "利用相似".
 - Identify the shortest reliable route and at least one tempting inefficient route.
 - Treat variation rules as a first-class output. Do not stop at "change numbers"; name the invariant, the allowed dimensions of change, and the next safe deepening move.
 - For each deepening move, change only one main dimension at a time: number, question target, representation, condition packaging, hidden structure, or reverse construction.
+- Variation rules should preserve the proposition network/model relation, not merely the surface topic. If a variation changes the key relation set, mark it as a non-example.
 - Mention hidden constraints such as domains, sign, absolute value, range checks, units, and diagram assumptions when relevant.
 - If a diagram would materially help the student, fill `diagram_request_packet`; otherwise set `needs_diagram: false`.
 - `diagram_request_packet` describes teaching needs only. Do not write Wolfram, GeometricScene code, rendering prompts, VLM prompts, retry rules, or image paths in this skill.
@@ -121,6 +147,9 @@ Variation quality rule: preserve the core invariant, deepen exactly one main dim
 Before finalizing `01-structure-analysis.md`, check the points below internally and revise if needed. Do not append a separate self-check or review section to the artifact; final quality review belongs to `math-homework-review`.
 
 - The canonical solution is complete enough to anchor later YAML generation.
+- The "核心结构" section contains an appropriate proposition network. Concept criteria and application quantity tables may appear as helper tables, but the core inference should still be expressible as `P_i + P_j -> P_k`.
+- Every nontrivial `P_i + P_j -> P_k` relation names a method or theorem.
+- The JSON handoff includes `proposition_network` and `model_tags`, even if some arrays are empty for simple concept/basic-skill tasks.
 - Hidden constraints such as domains, sign, absolute value, excluded values, or degenerate cases are named when relevant.
 - `variation_rules` preserve one core invariant and avoid off-track variations.
 - `complexity_budget` gives concrete constraints for the practice stage.
