@@ -1,0 +1,819 @@
+% preamble-exam-zh.tex — 极简讲解页共享 preamble
+% 目标：复刻「题目独立、提示轻框、路线箭头、主体双栏、答案轻收束」的讲义风格。
+
+\documentclass{exam-zh}
+
+% ---------- 基础配置 ----------
+\examsetup{
+  page/size = a4paper,
+  page/show-head = false,
+  page/show-foot = false,
+  sealline/show = false,
+  font = none,
+  math-font = none,
+}
+
+% ---------- 包 ----------
+\usepackage{geometry}
+\geometry{top=10mm,bottom=14mm,left=12mm,right=10mm}
+\AtBeginDocument{\newgeometry{top=10mm,bottom=14mm,left=12mm,right=10mm}}
+
+\usepackage{xcolor}
+\usepackage{needspace}
+\usepackage{enumitem}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{tcolorbox}
+\tcbuselibrary{skins,breakable}
+\usepackage{paracol}
+\usepackage{graphicx}
+
+% ---------- 打印/屏幕颜色切换 ----------
+% 用法：\documentclass[monochrome]{exam-zh} 可降级为灰度。
+% 注意：不要使用 \if@xxx 放在 makeatother 外部；这里改成普通条件名。
+\newif\ifeduprintcolor
+\eduprintcolortrue
+\makeatletter
+\@ifclasswith{exam-zh}{monochrome}{\eduprintcolorfalse}{}
+\makeatother
+
+% ---------- 语义颜色 ----------
+\ifeduprintcolor
+  \definecolor{edu-blue}{RGB}{31,62,126}
+  \definecolor{edu-blue-soft}{RGB}{232,238,250}
+  \definecolor{edu-blue-bg}{RGB}{248,250,254}
+  \definecolor{edu-ink}{RGB}{30,35,45}
+  \definecolor{edu-muted}{RGB}{118,124,136}
+  \definecolor{edu-line}{RGB}{209,218,235}
+  \definecolor{edu-soft-bg}{RGB}{250,251,253}
+  \definecolor{edu-red}{RGB}{168,58,58}
+  \definecolor{edu-red-bg}{RGB}{255,247,245}
+\else
+  \definecolor{edu-blue}{gray}{0.15}
+  \definecolor{edu-blue-soft}{gray}{0.90}
+  \definecolor{edu-blue-bg}{gray}{0.98}
+  \definecolor{edu-ink}{gray}{0.10}
+  \definecolor{edu-muted}{gray}{0.45}
+  \definecolor{edu-line}{gray}{0.82}
+  \definecolor{edu-soft-bg}{gray}{0.97}
+  \definecolor{edu-red}{gray}{0.28}
+  \definecolor{edu-red-bg}{gray}{0.97}
+\fi
+\colorlet{edu-diagram-muted}{edu-muted}
+
+% ---------- 全局排版 ----------
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\linespread{1.16}
+\renewcommand{\arraystretch}{1.15}
+
+% ctex 通常提供 \kaishu；这里用它做教师旁白感。
+\newcommand{\edukai}{\kaishu}
+
+% ---------- 顶部元信息 ----------
+\newcommand{\eduTopBar}[2]{%
+  \noindent
+  \begin{tabularx}{\linewidth}{@{}Xr@{}}
+    {\color{edu-blue}\bfseries #1} &
+    {\color{edu-blue}\bfseries #2}
+  \end{tabularx}
+  \vspace{8mm}
+}
+
+% ---------- 轻标题体系 ----------
+% 只有真正的大结构才用它；不要给提示/路线滥用标题。
+\newcommand{\eduSectionTitle}[1]{%
+  \needspace{5\baselineskip}%
+  \vspace{2mm}
+  {\color{edu-blue}\bfseries\large #1}\par
+  \vspace{3mm}
+}
+
+\newcommand{\eduSubTitle}[1]{%
+  \needspace{4\baselineskip}%
+  \vspace{1mm}
+  {\color{edu-blue}\bfseries #1}\par
+  \vspace{1mm}
+}
+
+% ---------- 小问题干：复用 exam (1)(2)(3) 格式 ----------
+\newenvironment{eduSubQuestionItem}[1]{%
+  \needspace{4\baselineskip}%
+  \vspace{2mm}
+  \par\noindent
+  \hangindent=8mm\hangafter=1
+  {\color{edu-blue}\bfseries #1}\enspace
+  \begingroup
+  \color{edu-ink}
+}{%
+  \endgroup
+  \par
+  \vspace{3mm}
+}
+
+% ---------- 辅助信息条（解题流程/关键想法/思考）楷体 ----------
+\newenvironment{eduAuxItem}[1]{%
+  \needspace{4\baselineskip}%
+  \vspace{2mm}
+  \par\noindent
+  \hangindent=8mm\hangafter=1
+  {\color{edu-blue}\edukai $\triangleright$~#1}\enspace
+  \begingroup
+  \color{edu-ink}
+  \edukai
+}{%
+  \endgroup
+  \par
+  \vspace{4mm}
+}
+
+\newcommand{\eduColumnTitle}[2]{%
+  {\color{edu-blue}\bfseries #1\hspace{1.5mm}#2}\par
+  \vspace{2.5mm}
+}
+
+% ---------- 图标：不用外部 icon 字体，保证可移植 ----------
+\newcommand{\eduIconBulb}{\(\circ\)}
+\newcommand{\eduIconBook}{\(\square\)}
+\newcommand{\eduIconCheck}{\(\checkmark\)}
+\newcommand{\eduIconPin}{\(\diamond\)}
+\newcommand{\eduIconNote}{\(\triangleright\)}
+
+% ---------- 题目区 ----------
+% 题目区是页面入口：弱标签 + 一条长蓝线 + 大题干。
+\newenvironment{eduProblemBlock}[1][题目]{%
+  \needspace{8\baselineskip}
+  {\small\color{edu-muted}#1}\par
+  \vspace{1.5mm}
+  {\color{edu-blue}\hrule height 0.55pt}
+  \vspace{4.5mm}
+  \begingroup
+  \color{edu-ink}
+  \large
+  \setlength{\parskip}{2.2mm}
+  \linespread{1.20}\selectfont
+}{%
+  \par
+  \endgroup
+  \vspace{6mm}
+}
+
+\newenvironment{eduSubQuestions}{%
+  \begin{enumerate}[
+    label=(\arabic*),
+    leftmargin=8mm,
+    itemsep=2.0mm,
+    topsep=2.0mm,
+    parsep=0pt
+  ]
+}{%
+  \end{enumerate}
+}
+
+% ---------- 读题提示：轻框，不做同级标题 ----------
+\newtcolorbox{eduReadTipBox}{
+  enhanced,
+  breakable,
+  colback=white,
+  colframe=edu-blue!45,
+  boxrule=0.45pt,
+  arc=1.6mm,
+  left=10mm,
+  right=4mm,
+  top=5mm,
+  bottom=5mm,
+  before skip=1mm,
+  after skip=7mm,
+  fontupper=\edukai\normalsize,
+  colupper=edu-ink,
+  overlay={
+    \node[anchor=north west, text=edu-blue] at ([xshift=3.2mm,yshift=-3.2mm]frame.north west)
+    {\small\eduIconNote};
+  }
+}
+
+\newenvironment{eduTipList}{%
+  \begin{itemize}[
+    label=\textbullet,
+    leftmargin=5mm,
+    itemsep=1.2mm,
+    topsep=0pt,
+    parsep=0pt
+  ]
+}{%
+  \end{itemize}
+}
+
+% ---------- 解题路线：虚线框 + 文字箭头 ----------
+\newenvironment{eduRouteFlow}{%
+  \needspace{4\baselineskip}%
+  \vspace{1mm}
+  \begin{center}
+  \normalsize
+}{%
+  \end{center}
+  \vspace{7mm}
+}
+\newcommand{\eduRouteStep}[1]{%
+  {\color{edu-ink}#1}%
+}
+\newcommand{\eduRouteArrow}{%
+  \;$\boldsymbol{\to}$\;%
+}
+
+% ---------- 主体讲解：使用 paracol 实现跨页自适应双栏 ----------
+\newenvironment{eduDualExplain}{%
+  \needspace{6\baselineskip}% 防止标题孤行
+  \columnratio{0.26, 0.74}%
+  \setlength{\columnsep}{8mm}%
+  \columnseprule=0.45pt%
+  \colseprulecolor{edu-blue}%
+  \begin{paracol}{2}% 开启双栏
+}{%
+  \end{paracol}% 结束双栏
+  \vspace{5mm}
+}
+
+\newenvironment{eduExplainLeft}{%
+  \setlength{\linewidth}{\columnwidth}%
+  \hsize=\columnwidth
+  \normalsize\color{edu-ink}%
+}{%
+  \switchcolumn
+}
+
+\newcommand{\eduColumnDivider}{}
+
+\newenvironment{eduExplainRight}{%
+  \setlength{\linewidth}{\columnwidth}%
+  \hsize=\columnwidth
+  \normalsize\color{edu-ink}%
+}{%
+}
+
+\newtcolorbox{eduSideHintBox}[1]{
+  enhanced,
+  breakable,
+  colback=edu-blue-bg,
+  colframe=edu-line,
+  boxrule=0.35pt,
+  borderline west={1.5pt}{0pt}{edu-blue},
+  arc=0.8mm,
+  left=2.4mm,
+  right=2.4mm,
+  top=2mm,
+  bottom=2mm,
+  before skip=1mm,
+  after skip=1.5mm,
+  title={\color{edu-blue}\bfseries\small #1},
+  coltitle=edu-blue,
+  attach title to upper={\par\vspace{0.7mm}},
+  fontupper=\small
+}
+
+\newtcolorbox{eduSideMistakeBox}[1]{
+  enhanced,
+  breakable,
+  colback=edu-red-bg,
+  colframe=edu-red!35,
+  boxrule=0.35pt,
+  borderline west={1.5pt}{0pt}{edu-red},
+  arc=0.8mm,
+  left=2.4mm,
+  right=2.4mm,
+  top=2mm,
+  bottom=2mm,
+  before skip=1mm,
+  after skip=1.5mm,
+  title={\color{edu-red}\bfseries\small #1},
+  coltitle=edu-red,
+  attach title to upper={\par\vspace{0.7mm}},
+  fontupper=\small
+}
+
+\newtcolorbox{eduSideNoteBox}[1]{
+  enhanced,
+  breakable,
+  colback=edu-soft-bg,
+  colframe=edu-line,
+  boxrule=0.35pt,
+  borderline west={1.5pt}{0pt}{edu-muted},
+  arc=0.8mm,
+  left=2.4mm,
+  right=2.4mm,
+  top=2mm,
+  bottom=2mm,
+  before skip=1mm,
+  after skip=1.5mm,
+  title={\color{edu-muted}\bfseries\small #1},
+  coltitle=edu-muted,
+  attach title to upper={\par\vspace{0.7mm}},
+  fontupper=\small
+}
+
+\newcommand{\eduSideHint}[2]{%
+  \begin{eduSideHintBox}{#1}#2\end{eduSideHintBox}%
+}
+\newcommand{\eduSideMistake}[2]{%
+  \begin{eduSideMistakeBox}{#1}#2\end{eduSideMistakeBox}%
+}
+\newcommand{\eduSideNote}[2]{%
+  \begin{eduSideNoteBox}{#1}#2\end{eduSideNoteBox}%
+}
+
+\newcommand{\eduExplainStep}[3]{%
+  \needspace{3\baselineskip}%
+  \vspace{1.2mm}%
+  {\color{edu-blue}\bfseries step#1.\enspace #2}\par
+  \vspace{0.8mm}%
+  \begingroup
+  \color{edu-ink}#3\par
+  \endgroup
+  \vspace{2.2mm}%
+}
+
+\newenvironment{eduNumberList}{%
+  \begin{enumerate}[
+    label=\arabic*.,
+    leftmargin=6mm,
+    itemsep=4.8mm,
+    topsep=0pt,
+    parsep=0pt
+  ]
+}{%
+  \end{enumerate}
+}
+
+\newenvironment{eduBulletList}{%
+  \begin{itemize}[
+    label=\textbullet,
+    leftmargin=5mm,
+    itemsep=1.2mm,
+    topsep=0pt,
+    parsep=0pt
+  ]
+}{%
+  \end{itemize}
+}
+
+% ---------- 底部双栏：答案 + 方法提醒 ----------
+\newenvironment{eduBottomGrid}{%
+  \columnratio{0.32, 0.68}%
+  \setlength{\columnsep}{11mm}%
+  \columnseprule=0pt%
+  \begin{paracol}{2}%
+}{%
+  \end{paracol}%
+}
+
+\newenvironment{eduSummaryLeft}{%
+}{%
+}
+
+\newcommand{\eduSummaryDivider}{%
+  \switchcolumn
+}
+
+\newenvironment{eduSummaryRight}{%
+}{%
+}
+
+% ---------- 答案/方法提醒：轻量收束 ----------
+\newtcolorbox{eduSummaryBlock}[2]{
+  enhanced,
+  breakable,
+  colback=edu-blue-bg,
+  colframe=edu-line,
+  boxrule=0.45pt,
+  arc=1.2mm,
+  left=3.5mm,
+  right=3.5mm,
+  top=3mm,
+  bottom=3mm,
+  before skip=1mm,
+  after skip=2.5mm,
+  title={\color{edu-blue}\bfseries #1\hspace{1.5mm}#2},
+  coltitle=edu-blue,
+  attach title to upper={\par\vspace{1.5mm}},
+  fontupper=\normalsize
+}
+
+% ---------- 例题单栏解答卡片 ----------
+\newtcolorbox{eduSolutionBox}[1]{
+  enhanced,
+  breakable,
+  colback=white,
+  colframe=edu-blue!40,
+  boxrule=0.55pt,
+  arc=1.2mm,
+  left=4mm,
+  right=4mm,
+  top=3.5mm,
+  bottom=3.5mm,
+  before skip=2mm,
+  after skip=3mm,
+  title={\color{edu-blue}\bfseries \eduIconBook\hspace{1.5mm}#1},
+  coltitle=edu-blue,
+  attach title to upper={\par\vspace{1.5mm}},
+  fontupper=\normalsize
+}
+
+% ---------- 变式训练：完整题目 + 学生留白 ----------
+\newtcolorbox{eduVariationTraining}[1]{
+  enhanced,
+  breakable,
+  colback=white,
+  colframe=edu-blue!45,
+  boxrule=0.5pt,
+  borderline west={1.8pt}{0pt}{edu-blue},
+  arc=1.2mm,
+  left=4mm,
+  right=4mm,
+  top=3.2mm,
+  bottom=3.2mm,
+  before skip=2mm,
+  after skip=4mm,
+  title={\color{edu-blue}\bfseries #1},
+  coltitle=edu-blue,
+  attach title to upper={\par\vspace{1.8mm}},
+  fontupper=\normalsize,
+  colupper=edu-ink
+}
+
+\newenvironment{eduPlainList}{%
+  \begin{enumerate}[
+    label=(\arabic*),
+    leftmargin=7mm,
+    itemsep=1.2mm,
+    topsep=0pt,
+    parsep=0pt
+  ]
+}{%
+  \end{enumerate}
+}
+
+% ---------- 兼容旧 block 的轻量盒子 ----------
+\newtcolorbox{eduSoftBox}{
+  enhanced,
+  breakable,
+  colback=edu-soft-bg,
+  colframe=edu-line,
+  boxrule=0.35pt,
+  arc=1mm,
+  left=3mm,
+  right=3mm,
+  top=2mm,
+  bottom=2mm,
+  before skip=1mm,
+  after skip=2mm,
+  fontupper=\small
+}
+
+\newtcolorbox{eduMistakeBox}{
+  enhanced,
+  breakable,
+  colback=edu-red-bg,
+  colframe=edu-red!40,
+  boxrule=0.35pt,
+  arc=1mm,
+  left=3mm,
+  right=3mm,
+  top=2.5mm,
+  bottom=2.5mm,
+  before skip=1mm,
+  after skip=2mm,
+  fontupper=\normalsize
+}
+
+\newtcolorbox{eduLegacySolution}{
+  enhanced,
+  breakable,
+  colback=edu-soft-bg,
+  colframe=edu-line,
+  boxrule=0.35pt,
+  arc=1mm,
+  left=3mm,
+  right=3mm,
+  top=2mm,
+  bottom=2mm,
+  before skip=-2mm,
+  after skip=4mm,
+  fontupper=\small
+}
+
+\newtcolorbox{eduTeacherNote}{
+  enhanced,
+  breakable,
+  colback=edu-soft-bg,
+  colframe=edu-line,
+  boxrule=0pt,
+  borderline west={1.5pt}{0pt}{edu-muted},
+  left=2.5mm,
+  right=2.5mm,
+  top=2mm,
+  bottom=2mm,
+  before skip=1mm,
+  after skip=2mm,
+  fontupper=\footnotesize,
+  colupper=edu-muted
+}
+
+% ---------- 答题区 ----------
+\newcommand{\answerarea}[1][40mm]{%
+  \vspace{3mm}%
+  \begin{tcolorbox}[
+    enhanced,
+    breakable,
+    colback=white,
+    colframe=edu-line,
+    boxrule=0.55pt,
+    arc=0.8mm,
+    height=#1,
+    valign=top,
+  ]
+  \end{tcolorbox}%
+}
+
+\newcommand{\diagramcolfigure}[3]{%
+  \begin{minipage}[t]{#2}
+    \vspace{0pt}\centering
+    \includegraphics[width=\linewidth]{\detokenize{#1}}
+    \if\relax\detokenize{#3}\relax\else
+      \par\vspace{1mm}{\scriptsize\color{edu-diagram-muted}#3}
+    \fi
+  \end{minipage}%
+}
+
+\newcommand{\diagramrowitem}[4]{%
+  \begin{minipage}[t]{#2}
+    \vspace{0pt}\centering
+    \includegraphics[width=\linewidth]{\detokenize{#1}}
+    \if\relax\detokenize{#3}\relax\else
+      \par\vspace{1mm}{\scriptsize\bfseries #3}
+    \fi
+    \if\relax\detokenize{#4}\relax\else
+      \par\vspace{0.5mm}{\scriptsize\color{edu-diagram-muted}#4}
+    \fi
+  \end{minipage}%
+}
+
+\newcommand{\answerareawithdiagramcol}[4]{%
+  \vspace{3mm}%
+  \begin{tcolorbox}[
+    enhanced,
+    breakable,
+    colback=white,
+    colframe=edu-line,
+    boxrule=0.55pt,
+    arc=0.8mm,
+    height=#1,
+    valign=top,
+  ]
+  \begin{minipage}[t]{\dimexpr\linewidth-#3-6mm\relax}
+    \vspace{0pt}
+  \end{minipage}\hfill
+  \diagramcolfigure{#2}{#3}{#4}
+  \end{tcolorbox}%
+}
+
+\newcommand{\answerareawithdiagram}[4]{%
+  \answerareawithdiagramcol{#1}{#2}{#3}{#4}%
+}
+
+\examsetup{
+  question/show-answer = true,
+  fillin/show-answer = true,
+  solution/show-solution = show-stay,
+}
+
+\begin{document}
+
+\clearpage
+\eduSectionTitle{模型一：平行四边形存在性与对角线中点}
+
+\begin{eduProblemBlock}[例题 1]
+已知 $A(1,2)$，$B(4,3)$，$C(6,7)$。
+\begin{enumerate}[label=(\arabic*)]
+  \item 若四边形 $ABCD$ 是平行四边形，求 $D$；
+  \item 若 $A,B,C,D$ 构成平行四边形，求所有可能的 $D$。
+\end{enumerate}
+
+\end{eduProblemBlock}
+
+
+
+
+
+\begin{eduAuxItem}{思路导航}
+固定顺序只用 $A+C=B+D$$\;\to\;$构成题：$A,B$ 对角$\;\to\;$构成题：$A,C$ 对角$\;\to\;$构成题：$A,D$ 对角\end{eduAuxItem}
+
+
+
+
+\begin{eduSubQuestionItem}{例题 1}
+比较“平行四边形 $ABCD$”和“$A,B,C,D$ 构成平行四边形”的做法。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{小贴士}
+        \eduSideHint{先看顺序}{题目写成 $ABCD$，顺序已经固定；题目只说“构成”，顺序没有固定。}
+        \eduSideMistake{构成题不能只写一个答案}{只做 $A,C$ 对角，会漏掉另外两种平行四边形。}
+  \end{eduExplainLeft}
+
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{解答}
+      \eduExplainStep{1}{固定顺序只用 $A+C=B+D$}{平行四边形 $ABCD$ 中，$A,C$ 对角，所以 $D=A+C-B=(1+6-4,2+7-3)=(3,6)$。}
+      \eduExplainStep{2}{构成题：$A,B$ 对角}{$D=A+B-C=(1+4-6,2+3-7)=(-1,-2)$。}
+      \eduExplainStep{3}{构成题：$A,C$ 对角}{$D=A+C-B=(1+6-4,2+7-3)=(3,6)$。}
+      \eduExplainStep{4}{构成题：$A,D$ 对角}{$D=B+C-A=(4+6-1,3+7-2)=(9,8)$。}
+    \vspace{1mm}
+    {\color{edu-blue}\bfseries\small 结论}\par\vspace{1mm}
+    \begin{eduBulletList}
+      \item 第 (1) 问：$D(3,6)$。      \item 第 (2) 问：$D(-1,-2)$，$D(3,6)$，$D(9,8)$。    \end{eduBulletList}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduProblemBlock}[例题 2]
+已知 $A(1,2)$，$B(4,3)$，点 $C$ 在一次函数 $y=x+2$ 的图像上，点 $D$ 在反比例函数 $y=\dfrac{12}{x}$ 的图像上。
+若四边形 $ABCD$ 是平行四边形，求 $C,D$ 的坐标。
+
+\end{eduProblemBlock}
+
+
+
+
+
+\begin{eduAuxItem}{思路导航}
+先设两个动点$\;\to\;$固定顺序列对角关系$\;\to\;$解方程组\end{eduAuxItem}
+
+
+
+
+\begin{eduSubQuestionItem}{例题 2}
+两定两动时，如何设点并列方程？\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{小贴士}
+        \eduSideHint{先把点写全}{存在性题第一步不是猜图形，而是把动点坐标设出来。}
+        \eduSideMistake{别只设 $D$}{这里 $C,D$ 都在动，所以两个点都要设。}
+  \end{eduExplainLeft}
+
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{解答}
+      \eduExplainStep{1}{先设两个动点}{设 $C(t,t+2)$，$D\left(s,\dfrac{12}{s}\right)$，其中 $s\ne0$。}
+      \eduExplainStep{2}{固定顺序列对角关系}{$ABCD$ 是平行四边形，所以 $A+C=B+D$，即 $(1+t,t+4)=\left(4+s,3+\dfrac{12}{s}\right)$。}
+      \eduExplainStep{3}{解方程组}{由 $t=3+s$，代入 $t+2=1+\dfrac{12}{s}$，得 $s+4=\dfrac{12}{s}$，即 $s^2+4s-12=0$。解得 $s=2$ 或 $s=-6$。所以 $(C,D)=((5,7),(2,6))$ 或 $((-3,-1),(-6,-2))$。}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduMistakeBox}
+\eduSubTitle{易错提醒}平行四边形存在性最容易漏的是“构成”题的三种对角情况。做题时先在草稿纸上写：$AB$ 对角、$AC$ 对角、$AD$ 对角，再分别列式。
+\end{eduMistakeBox}
+
+
+
+
+\begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
+\begin{eduBulletList}
+  \item 固定顺序 $ABCD$：直接 $D=A+C-B$。  \item 无固定顺序：三个候选公式都要写。  \item 动点在轨迹上：先设坐标，再列坐标和方程。\end{eduBulletList}
+\end{eduSummaryBlock}
+
+
+
+\clearpage
+\eduSectionTitle{模型二：矩形存在性与直角分类}
+
+\begin{eduProblemBlock}[例题 3]
+已知 $A(1,2)$，$B(7,2)$，点 $C$ 在一次函数 $y=2x-3$ 的图像上，且 $x_C>2$。
+\begin{enumerate}[label=(\arabic*)]
+  \item 若四边形 $ABCD$ 是矩形，求 $C,D$；
+  \item 若 $A,B,C,D$ 构成矩形，求所有可能的 $C,D$。
+\end{enumerate}
+
+\end{eduProblemBlock}
+
+
+
+
+
+\begin{eduAuxItem}{思路导航}
+设 $C$ 点$\;\to\;$固定顺序：直角在 $B$$\;\to\;$构成题：直角在 $A$$\;\to\;$构成题：直角在 $B$$\;\to\;$构成题：直角在 $C$\end{eduAuxItem}
+
+
+
+
+\begin{eduSubQuestionItem}{例题 3}
+矩形题怎样从直角三角形入手？\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{小贴士}
+        \eduSideHint{固定顺序只做一类}{矩形 $ABCD$ 的相邻边是 $AB$ 与 $BC$，所以直角在 $B$。}
+        \eduSideMistake{构成题要做三类}{只说四点构成矩形时，$A,B,C$ 三个点中谁是直角都可能。}
+        \eduSideHint{求完 $C$ 再求 $D$}{矩形也是平行四边形，所以最后回到对角线公式。}
+  \end{eduExplainLeft}
+
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{解答}
+      \eduExplainStep{1}{设 $C$ 点}{因为 $C$ 在 $y=2x-3$ 上，设 $C(t,2t-3)$，且 $t>2$。}
+      \eduExplainStep{2}{固定顺序：直角在 $B$}{矩形 $ABCD$ 中 $\angle B=90^\circ$，所以 $AB^2+BC^2=AC^2$。即 $36+[(t-7)^2+(2t-5)^2]=(t-1)^2+(2t-5)^2$，解得 $t=7$，所以 $C(7,11)$，$D=A+C-B=(1,11)$。}
+      \eduExplainStep{3}{构成题：直角在 $A$}{列 $AB^2+AC^2=BC^2$。化简得 $t=1$，但不满足 $t>2$，舍去。}
+      \eduExplainStep{4}{构成题：直角在 $B$}{列 $AB^2+BC^2=AC^2$，解得 $t=7$。所以 $C(7,11)$，$D=A+C-B=(1,11)$。}
+      \eduExplainStep{5}{构成题：直角在 $C$}{列 $AC^2+BC^2=AB^2$，化简得 $5t^2-28t+32=0$。解得 $t=4$ 或 $t=\dfrac85$，由 $t>2$ 取 $t=4$，所以 $C(4,5)$，$D=A+B-C=(4,-1)$。}
+    \vspace{1mm}
+    {\color{edu-blue}\bfseries\small 结论}\par\vspace{1mm}
+    \begin{eduBulletList}
+      \item 第 (1) 问：$C(7,11)$，$D(1,11)$。      \item 第 (2) 问：$C(7,11),D(1,11)$；或 $C(4,5),D(4,-1)$。    \end{eduBulletList}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduMistakeBox}
+\eduSubTitle{易错提醒}矩形存在性不是一开始就求 $D$。通常先通过直角三角形求出 $C$，再用平行四边形公式求 $D$。
+\end{eduMistakeBox}
+
+
+
+
+\begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
+\begin{eduBulletList}
+  \item 矩形 $ABCD$：只按 $\angle B=90^\circ$。  \item 四点构成矩形：$\angle A,\angle B,\angle C$ 三类都要列。  \item 每求出一个 $C$，立刻匹配对应的 $D$ 公式。\end{eduBulletList}
+\end{eduSummaryBlock}
+
+
+
+\clearpage
+\eduSectionTitle{模型三：菱形存在性与等腰分类}
+
+\begin{eduProblemBlock}[例题 4]
+已知 $A(1,2)$，$B(6,2)$，点 $C$ 在一次函数 $y=\dfrac43x+\dfrac23$ 的图像上。
+\begin{enumerate}[label=(\arabic*)]
+  \item 若四边形 $ABCD$ 是菱形，求所有可能的 $C,D$；
+  \item 若 $A,B,C,D$ 构成菱形，写出三种等腰分类应列的方程和对应的 $D$ 公式。
+\end{enumerate}
+
+\end{eduProblemBlock}
+
+
+
+
+
+\begin{eduAuxItem}{思路导航}
+设 $C$ 点$\;\to\;$固定顺序：用 $AB=BC$$\;\to\;$固定顺序求 $D$$\;\to\;$构成题：$AB=AC$$\;\to\;$构成题：$AB=BC$$\;\to\;$构成题：$AC=BC$\end{eduAuxItem}
+
+
+
+
+\begin{eduSubQuestionItem}{例题 4}
+菱形题怎样从等腰三角形入手？\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{小贴士}
+        \eduSideHint{和矩形对应起来}{矩形讨论谁是直角；菱形讨论哪两条边相等。}
+        \eduSideMistake{不要把菱形当矩形}{菱形不一定有直角，不能列勾股作为基本条件。}
+  \end{eduExplainLeft}
+
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{解答}
+      \eduExplainStep{1}{设 $C$ 点}{设 $C\left(t,\dfrac43t+\dfrac23\right)$。}
+      \eduExplainStep{2}{固定顺序：用 $AB=BC$}{菱形 $ABCD$ 中，$AB=BC$。列 $25=(t-6)^2+\left(\dfrac43t-\dfrac43\right)^2$，解得 $t=1$ 或 $t=\dfrac{23}{5}$。$t=1$ 时 $C=A$，舍去。}
+      \eduExplainStep{3}{固定顺序求 $D$}{所以 $C\left(\dfrac{23}{5},\dfrac{34}{5}\right)$，$D=A+C-B=\left(-\dfrac25,\dfrac{34}{5}\right)$。}
+      \eduExplainStep{4}{构成题：$AB=AC$}{列 $25=(t-1)^2+\left(\dfrac43t-\dfrac43\right)^2$，对应 $D=B+C-A$。}
+      \eduExplainStep{5}{构成题：$AB=BC$}{列 $25=(t-6)^2+\left(\dfrac43t-\dfrac43\right)^2$，对应 $D=A+C-B$。}
+      \eduExplainStep{6}{构成题：$AC=BC$}{列 $(t-1)^2+\left(\dfrac43t-\dfrac43\right)^2=(t-6)^2+\left(\dfrac43t-\dfrac43\right)^2$，对应 $D=A+B-C$。}
+    \vspace{1mm}
+    {\color{edu-blue}\bfseries\small 结论}\par\vspace{1mm}
+    \begin{eduBulletList}
+      \item 第 (1) 问：$C\left(\dfrac{23}{5},\dfrac{34}{5}\right)$，$D\left(-\dfrac25,\dfrac{34}{5}\right)$。      \item 第 (2) 问：按 $AB=AC$、$AB=BC$、$AC=BC$ 三类列方程。    \end{eduBulletList}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduMistakeBox}
+\eduSubTitle{易错提醒}菱形题最容易少做一种等腰情况。只要题目说“四点构成菱形”，就不要默认顺序，先把三种等腰关系写出来。
+\end{eduMistakeBox}
+
+
+
+
+\begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
+\begin{eduBulletList}
+  \item 菱形 $ABCD$：先用 $AB=BC$。  \item 四点构成菱形：$AB=AC$、$AB=BC$、$AC=BC$ 三类。  \item 求完 $C$ 后，仍然用平行四边形的对角线公式求 $D$。\end{eduBulletList}
+\end{eduSummaryBlock}
+
+
+
+
+\end{document}

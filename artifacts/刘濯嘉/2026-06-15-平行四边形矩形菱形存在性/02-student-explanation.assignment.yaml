@@ -1,0 +1,279 @@
+meta:
+  title: "特殊四边形坐标存在性专题"
+  subtitle: "刘濯嘉 · 学生讲义"
+  grade: "八年级"
+  subject: "数学"
+  version: "student"
+  source_artifacts:
+    structure_analysis: "artifacts/刘濯嘉/2026-06-15-平行四边形矩形菱形存在性/01-structure-analysis.md"
+
+render:
+  template: "exam-zh-explanation"
+  paper_size: "a4paper"
+
+sections:
+  - id: "parallelogram"
+    title: "模型一：平行四边形存在性与对角线中点"
+    show_title: true
+    type: "explanation"
+    visibility: "student"
+    layout:
+      break_before: true
+    blocks:
+      - type: "problemcard"
+        id: "parallelogram-example"
+        label: "例题 1"
+        stem_latex: |
+          已知 $A(1,2)$，$B(4,3)$，$C(6,7)$。
+          \begin{enumerate}[label=(\arabic*)]
+            \item 若四边形 $ABCD$ 是平行四边形，求 $D$；
+            \item 若 $A,B,C,D$ 构成平行四边形，求所有可能的 $D$。
+          \end{enumerate}
+
+      - type: "route"
+        id: "parallelogram-route"
+        steps:
+          - id: "para-fixed"
+            latex: "固定顺序只用 $A+C=B+D$"
+            content_latex: '平行四边形 $ABCD$ 中，$A,C$ 对角，所以 $D=A+C-B=(1+6-4,2+7-3)=(3,6)$。'
+          - id: "para-case1"
+            latex: "构成题：$A,B$ 对角"
+            content_latex: '$D=A+B-C=(1+4-6,2+3-7)=(-1,-2)$。'
+          - id: "para-case2"
+            latex: "构成题：$A,C$ 对角"
+            content_latex: '$D=A+C-B=(1+6-4,2+7-3)=(3,6)$。'
+          - id: "para-case3"
+            latex: "构成题：$A,D$ 对角"
+            content_latex: '$D=B+C-A=(4+6-1,3+7-2)=(9,8)$。'
+
+      - type: "dual_explanation"
+        id: "parallelogram-solution"
+        label: "例题 1"
+        stem_latex: "比较“平行四边形 $ABCD$”和“$A,B,C,D$ 构成平行四边形”的做法。"
+        side_title: "小贴士"
+        side_items:
+          - kind: "hint"
+            title: "先看顺序"
+            content_latex: "题目写成 $ABCD$，顺序已经固定；题目只说“构成”，顺序没有固定。"
+          - kind: "mistake"
+            title: "构成题不能只写一个答案"
+            content_latex: "只做 $A,C$ 对角，会漏掉另外两种平行四边形。"
+        solution_title: "解答"
+        solution_step_ids:
+          - "para-fixed"
+          - "para-case1"
+          - "para-case2"
+          - "para-case3"
+        connection_title: "结论"
+        connection_items:
+          - latex: "第 (1) 问：$D(3,6)$。"
+          - latex: "第 (2) 问：$D(-1,-2)$，$D(3,6)$，$D(9,8)$。"
+
+      - type: "problemcard"
+        id: "parallelogram-two-moving"
+        label: "例题 2"
+        stem_latex: |
+          已知 $A(1,2)$，$B(4,3)$，点 $C$ 在一次函数 $y=x+2$ 的图像上，点 $D$ 在反比例函数 $y=\dfrac{12}{x}$ 的图像上。
+          若四边形 $ABCD$ 是平行四边形，求 $C,D$ 的坐标。
+
+      - type: "route"
+        id: "parallelogram-two-route"
+        steps:
+          - id: "para-two-set"
+            latex: "先设两个动点"
+            content_latex: '设 $C(t,t+2)$，$D\left(s,\dfrac{12}{s}\right)$，其中 $s\ne0$。'
+          - id: "para-two-eq"
+            latex: "固定顺序列对角关系"
+            content_latex: '$ABCD$ 是平行四边形，所以 $A+C=B+D$，即 $(1+t,t+4)=\left(4+s,3+\dfrac{12}{s}\right)$。'
+          - id: "para-two-solve"
+            latex: "解方程组"
+            content_latex: '由 $t=3+s$，代入 $t+2=1+\dfrac{12}{s}$，得 $s+4=\dfrac{12}{s}$，即 $s^2+4s-12=0$。解得 $s=2$ 或 $s=-6$。所以 $(C,D)=((5,7),(2,6))$ 或 $((-3,-1),(-6,-2))$。'
+
+      - type: "dual_explanation"
+        id: "parallelogram-two-solution"
+        label: "例题 2"
+        stem_latex: "两定两动时，如何设点并列方程？"
+        side_title: "小贴士"
+        side_items:
+          - kind: "hint"
+            title: "先把点写全"
+            content_latex: "存在性题第一步不是猜图形，而是把动点坐标设出来。"
+          - kind: "mistake"
+            title: "别只设 $D$"
+            content_latex: "这里 $C,D$ 都在动，所以两个点都要设。"
+        solution_title: "解答"
+        solution_step_ids:
+          - "para-two-set"
+          - "para-two-eq"
+          - "para-two-solve"
+
+      - type: "mistake"
+        id: "parallelogram-mistake"
+        title: "易错提醒"
+        content_latex: |
+          平行四边形存在性最容易漏的是“构成”题的三种对角情况。做题时先在草稿纸上写：$AB$ 对角、$AC$ 对角、$AD$ 对角，再分别列式。
+
+      - type: "method_reminder"
+        id: "parallelogram-method"
+        title: "方法提醒"
+        items:
+          - latex: "固定顺序 $ABCD$：直接 $D=A+C-B$。"
+          - latex: "无固定顺序：三个候选公式都要写。"
+          - latex: "动点在轨迹上：先设坐标，再列坐标和方程。"
+
+  - id: "rectangle"
+    title: "模型二：矩形存在性与直角分类"
+    show_title: true
+    type: "explanation"
+    visibility: "student"
+    layout:
+      break_before: true
+    blocks:
+      - type: "problemcard"
+        id: "rectangle-example"
+        label: "例题 3"
+        stem_latex: |
+          已知 $A(1,2)$，$B(7,2)$，点 $C$ 在一次函数 $y=2x-3$ 的图像上，且 $x_C>2$。
+          \begin{enumerate}[label=(\arabic*)]
+            \item 若四边形 $ABCD$ 是矩形，求 $C,D$；
+            \item 若 $A,B,C,D$ 构成矩形，求所有可能的 $C,D$。
+          \end{enumerate}
+
+      - type: "route"
+        id: "rectangle-route"
+        steps:
+          - id: "rect-set"
+            latex: "设 $C$ 点"
+            content_latex: "因为 $C$ 在 $y=2x-3$ 上，设 $C(t,2t-3)$，且 $t>2$。"
+          - id: "rect-fixed"
+            latex: "固定顺序：直角在 $B$"
+            content_latex: '矩形 $ABCD$ 中 $\angle B=90^\circ$，所以 $AB^2+BC^2=AC^2$。即 $36+[(t-7)^2+(2t-5)^2]=(t-1)^2+(2t-5)^2$，解得 $t=7$，所以 $C(7,11)$，$D=A+C-B=(1,11)$。'
+          - id: "rect-case-a"
+            latex: "构成题：直角在 $A$"
+            content_latex: '列 $AB^2+AC^2=BC^2$。化简得 $t=1$，但不满足 $t>2$，舍去。'
+          - id: "rect-case-b"
+            latex: "构成题：直角在 $B$"
+            content_latex: '列 $AB^2+BC^2=AC^2$，解得 $t=7$。所以 $C(7,11)$，$D=A+C-B=(1,11)$。'
+          - id: "rect-case-c"
+            latex: "构成题：直角在 $C$"
+            content_latex: '列 $AC^2+BC^2=AB^2$，化简得 $5t^2-28t+32=0$。解得 $t=4$ 或 $t=\dfrac85$，由 $t>2$ 取 $t=4$，所以 $C(4,5)$，$D=A+B-C=(4,-1)$。'
+
+      - type: "dual_explanation"
+        id: "rectangle-solution"
+        label: "例题 3"
+        stem_latex: "矩形题怎样从直角三角形入手？"
+        side_title: "小贴士"
+        side_items:
+          - kind: "hint"
+            title: "固定顺序只做一类"
+            content_latex: "矩形 $ABCD$ 的相邻边是 $AB$ 与 $BC$，所以直角在 $B$。"
+          - kind: "mistake"
+            title: "构成题要做三类"
+            content_latex: "只说四点构成矩形时，$A,B,C$ 三个点中谁是直角都可能。"
+          - kind: "hint"
+            title: "求完 $C$ 再求 $D$"
+            content_latex: "矩形也是平行四边形，所以最后回到对角线公式。"
+        solution_title: "解答"
+        solution_step_ids:
+          - "rect-set"
+          - "rect-fixed"
+          - "rect-case-a"
+          - "rect-case-b"
+          - "rect-case-c"
+        connection_title: "结论"
+        connection_items:
+          - latex: "第 (1) 问：$C(7,11)$，$D(1,11)$。"
+          - latex: "第 (2) 问：$C(7,11),D(1,11)$；或 $C(4,5),D(4,-1)$。"
+
+      - type: "mistake"
+        id: "rectangle-mistake"
+        title: "易错提醒"
+        content_latex: |
+          矩形存在性不是一开始就求 $D$。通常先通过直角三角形求出 $C$，再用平行四边形公式求 $D$。
+
+      - type: "method_reminder"
+        id: "rectangle-method"
+        title: "方法提醒"
+        items:
+          - latex: '矩形 $ABCD$：只按 $\angle B=90^\circ$。'
+          - latex: '四点构成矩形：$\angle A,\angle B,\angle C$ 三类都要列。'
+          - latex: "每求出一个 $C$，立刻匹配对应的 $D$ 公式。"
+
+  - id: "rhombus"
+    title: "模型三：菱形存在性与等腰分类"
+    show_title: true
+    type: "explanation"
+    visibility: "student"
+    layout:
+      break_before: true
+    blocks:
+      - type: "problemcard"
+        id: "rhombus-example"
+        label: "例题 4"
+        stem_latex: |
+          已知 $A(1,2)$，$B(6,2)$，点 $C$ 在一次函数 $y=\dfrac43x+\dfrac23$ 的图像上。
+          \begin{enumerate}[label=(\arabic*)]
+            \item 若四边形 $ABCD$ 是菱形，求所有可能的 $C,D$；
+            \item 若 $A,B,C,D$ 构成菱形，写出三种等腰分类应列的方程和对应的 $D$ 公式。
+          \end{enumerate}
+
+      - type: "route"
+        id: "rhombus-route"
+        steps:
+          - id: "rhom-set"
+            latex: "设 $C$ 点"
+            content_latex: '设 $C\left(t,\dfrac43t+\dfrac23\right)$。'
+          - id: "rhom-fixed"
+            latex: "固定顺序：用 $AB=BC$"
+            content_latex: '菱形 $ABCD$ 中，$AB=BC$。列 $25=(t-6)^2+\left(\dfrac43t-\dfrac43\right)^2$，解得 $t=1$ 或 $t=\dfrac{23}{5}$。$t=1$ 时 $C=A$，舍去。'
+          - id: "rhom-fixed-d"
+            latex: "固定顺序求 $D$"
+            content_latex: '所以 $C\left(\dfrac{23}{5},\dfrac{34}{5}\right)$，$D=A+C-B=\left(-\dfrac25,\dfrac{34}{5}\right)$。'
+          - id: "rhom-all-a"
+            latex: "构成题：$AB=AC$"
+            content_latex: '列 $25=(t-1)^2+\left(\dfrac43t-\dfrac43\right)^2$，对应 $D=B+C-A$。'
+          - id: "rhom-all-b"
+            latex: "构成题：$AB=BC$"
+            content_latex: '列 $25=(t-6)^2+\left(\dfrac43t-\dfrac43\right)^2$，对应 $D=A+C-B$。'
+          - id: "rhom-all-c"
+            latex: "构成题：$AC=BC$"
+            content_latex: '列 $(t-1)^2+\left(\dfrac43t-\dfrac43\right)^2=(t-6)^2+\left(\dfrac43t-\dfrac43\right)^2$，对应 $D=A+B-C$。'
+
+      - type: "dual_explanation"
+        id: "rhombus-solution"
+        label: "例题 4"
+        stem_latex: "菱形题怎样从等腰三角形入手？"
+        side_title: "小贴士"
+        side_items:
+          - kind: "hint"
+            title: "和矩形对应起来"
+            content_latex: "矩形讨论谁是直角；菱形讨论哪两条边相等。"
+          - kind: "mistake"
+            title: "不要把菱形当矩形"
+            content_latex: "菱形不一定有直角，不能列勾股作为基本条件。"
+        solution_title: "解答"
+        solution_step_ids:
+          - "rhom-set"
+          - "rhom-fixed"
+          - "rhom-fixed-d"
+          - "rhom-all-a"
+          - "rhom-all-b"
+          - "rhom-all-c"
+        connection_title: "结论"
+        connection_items:
+          - latex: '第 (1) 问：$C\left(\dfrac{23}{5},\dfrac{34}{5}\right)$，$D\left(-\dfrac25,\dfrac{34}{5}\right)$。'
+          - latex: "第 (2) 问：按 $AB=AC$、$AB=BC$、$AC=BC$ 三类列方程。"
+
+      - type: "mistake"
+        id: "rhombus-mistake"
+        title: "易错提醒"
+        content_latex: |
+          菱形题最容易少做一种等腰情况。只要题目说“四点构成菱形”，就不要默认顺序，先把三种等腰关系写出来。
+
+      - type: "method_reminder"
+        id: "rhombus-method"
+        title: "方法提醒"
+        items:
+          - latex: "菱形 $ABCD$：先用 $AB=BC$。"
+          - latex: "四点构成菱形：$AB=AC$、$AB=BC$、$AC=BC$ 三类。"
+          - latex: "求完 $C$ 后，仍然用平行四边形的对角线公式求 $D$。"

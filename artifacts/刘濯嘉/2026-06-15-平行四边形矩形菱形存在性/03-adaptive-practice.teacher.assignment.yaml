@@ -1,0 +1,333 @@
+meta:
+  title: "特殊四边形坐标存在性练习"
+  subtitle: "刘濯嘉 · 教师版"
+  grade: "八年级"
+  subject: "数学"
+  duration: "35分钟"
+  total_points: 90
+  version: "teacher"
+  source_artifacts:
+    structure_analysis: "artifacts/刘濯嘉/2026-06-15-平行四边形矩形菱形存在性/01-structure-analysis.md"
+    explanation: "artifacts/刘濯嘉/2026-06-15-平行四边形矩形菱形存在性/02-student-explanation.assignment.yaml"
+
+render:
+  template: "exam-zh-practice"
+  paper_size: "a4paper"
+  answer_key_position: "after_page_break"
+
+sections:
+  - id: "para-practice"
+    title: "一、平行四边形存在性（每题 10 分，共 30 分）"
+    type: "practice"
+    visibility: "both"
+    blocks:
+      - type: "problem"
+        id: "q1"
+        points: 10
+        stem_latex: |
+          已知 $A(2,-1)$，$B(5,1)$，$C(7,4)$。若四边形 $ABCD$ 是平行四边形，求点 $D$ 的坐标。
+        hints:
+          - content: "固定顺序 $ABCD$，直接用 $D=A+C-B$。"
+        answer_space:
+          type: "steps"
+          height: "30mm"
+          step_count: 3
+        answer: "$D(4,2)$"
+        solution_steps:
+          - title: "确定对角"
+            content: "平行四边形 $ABCD$ 中，$A,C$ 为对角顶点。"
+          - title: "列坐标和"
+            content: '$D=A+C-B=(2+7-5,-1+4-1)=(4,2)$。'
+        teaching:
+          teaching_goal: "训练固定顺序平行四边形第四点公式。"
+          expected_blocker: "把构成题的三类公式混到固定顺序题里。"
+          entry_point: "build_relation"
+          scaffold_level: "medium"
+          variation_depth: "same_structure"
+          complexity_note: "只做坐标加减。"
+          upgrade_rule: "能说明为什么是A和C对角。"
+          fallback_move: "先画出ABCD顺序或写对角线AC、BD。"
+
+      - type: "problem"
+        id: "q2"
+        points: 10
+        stem_latex: |
+          已知 $A(1,2)$，$B(4,4)$，$C(6,1)$。若 $A,B,C,D$ 构成平行四边形，求所有可能的点 $D$。
+        hints:
+          - content: "分别讨论 $A,B$ 对角、$A,C$ 对角、$A,D$ 对角。"
+        answer_space:
+          type: "steps"
+          height: "42mm"
+          step_count: 4
+        answer: "$D(-1,5)$，$D(3,-1)$，$D(9,3)$"
+        solution_steps:
+          - title: "$A,B$ 对角"
+            content: '$D=A+B-C=(1+4-6,2+4-1)=(-1,5)$。'
+          - title: "$A,C$ 对角"
+            content: '$D=A+C-B=(1+6-4,2+1-4)=(3,-1)$。'
+          - title: "$A,D$ 对角"
+            content: '$D=B+C-A=(4+6-1,4+1-2)=(9,3)$。'
+        teaching:
+          teaching_goal: "训练无固定顺序时三种对角配对。"
+          expected_blocker: "只求一个D或把三个公式顺序写乱。"
+          entry_point: "find_entry"
+          scaffold_level: "medium"
+          variation_depth: "changed_question"
+          complexity_note: "三定一动，数字简单。"
+          upgrade_rule: "能不看提示独立列出三种公式。"
+          fallback_move: "先只写对角关系，不算坐标。"
+
+      - type: "problem"
+        id: "q3"
+        points: 10
+        stem_latex: |
+          已知 $A(1,2)$，$B(4,3)$，点 $C$ 在一次函数 $y=x+2$ 的图像上，点 $D$ 在反比例函数 $y=\dfrac{12}{x}$ 的图像上。
+          若四边形 $ABCD$ 是平行四边形，求 $C,D$ 的坐标。
+        hints:
+          - content: '设 $C(t,t+2)$，$D\left(s,\dfrac{12}{s}\right)$，再用 $A+C=B+D$。'
+        answer_space:
+          type: "steps"
+          height: "45mm"
+          step_count: 4
+        answer: "$C(5,7),D(2,6)$；或 $C(-3,-1),D(-6,-2)$"
+        solution_steps:
+          - title: "设动点"
+            content: '设 $C(t,t+2)$，$D\left(s,\dfrac{12}{s}\right)$，其中 $s\ne0$。'
+          - title: "列对角关系"
+            content: '$ABCD$ 是平行四边形，所以 $A+C=B+D$，即 $(1+t,t+4)=\left(4+s,3+\dfrac{12}{s}\right)$。'
+          - title: "解方程组"
+            content: '由 $t=3+s$，代入 $t+2=1+\dfrac{12}{s}$，得 $s+4=\dfrac{12}{s}$，即 $s^2+4s-12=0$。解得 $s=2$ 或 $s=-6$，所以 $(C,D)=((5,7),(2,6))$ 或 $((-3,-1),(-6,-2))$。'
+        teaching:
+          teaching_goal: "训练两定两动题先设点再列坐标方程。"
+          expected_blocker: "忘记把C的轨迹写成参数点。"
+          entry_point: "build_relation"
+          scaffold_level: "medium"
+          variation_depth: "changed_representation"
+          complexity_note: "二元一次方程组。"
+          upgrade_rule: "能把其他直线轨迹也参数化。"
+          fallback_move: "先问C在y=x+2上可以怎么写。"
+
+  - id: "rect-practice"
+    title: "二、矩形存在性（每题 10 分，共 30 分）"
+    type: "practice"
+    visibility: "both"
+    blocks:
+      - type: "problem"
+        id: "q4"
+        points: 10
+        stem_latex: |
+          已知 $A(1,2)$，$B(7,2)$，点 $C$ 在一次函数 $y=2x-3$ 的图像上，且 $x_C>2$。
+          若四边形 $ABCD$ 是矩形，求 $C,D$ 的坐标。
+        hints:
+          - content: '矩形 $ABCD$ 固定顺序时，$\angle ABC=90^\circ$。'
+        answer_space:
+          type: "steps"
+          height: "42mm"
+          step_count: 4
+        answer: "$C(7,11)$，$D(1,11)$"
+        solution_steps:
+          - title: "设点"
+            content: "设 $C(t,2t-3)$，且 $t>2$。"
+          - title: "固定顺序列直角"
+            content: '矩形 $ABCD$ 中 $\angle B=90^\circ$，所以 $AB^2+BC^2=AC^2$。即 $36+[(t-7)^2+(2t-5)^2]=(t-1)^2+(2t-5)^2$。'
+          - title: "求C和D"
+            content: "解得 $t=7$，所以 $C(7,11)$。再由 $D=A+C-B$，得 $D(1,11)$。"
+        teaching:
+          teaching_goal: "训练矩形ABCD先用B处直角，再用平行四边形公式。"
+          expected_blocker: "直接设D，跳过C的直角条件。"
+          entry_point: "build_relation"
+          scaffold_level: "medium"
+          variation_depth: "changed_representation"
+          complexity_note: "一元一次化简。"
+          upgrade_rule: "能说出固定顺序为什么直角在B。"
+          fallback_move: "先写出AB、BC、AC三个距离平方。"
+
+      - type: "problem"
+        id: "q5"
+        points: 10
+        stem_latex: |
+          已知 $A(1,2)$，$B(7,2)$，点 $C$ 在一次函数 $y=2x-3$ 的图像上，且 $x_C>2$。
+          若 $A,B,C,D$ 构成矩形，求所有可能的 $C,D$。
+        hints:
+          - content: '分别让 $\angle A,\angle B,\angle C$ 为直角。'
+        answer_space:
+          type: "steps"
+          height: "55mm"
+          step_count: 5
+        answer: "$C(7,11),D(1,11)$；或 $C(4,5),D(4,-1)$"
+        solution_steps:
+          - title: "设点"
+            content: "设 $C(t,2t-3)$，且 $t>2$。"
+          - title: "直角在A"
+            content: '列 $AB^2+AC^2=BC^2$，化简得 $t=1$，不满足 $t>2$，舍去。'
+          - title: "直角在B"
+            content: '列 $AB^2+BC^2=AC^2$，得 $t=7$。此时 $C(7,11)$，$D=A+C-B=(1,11)$。'
+          - title: "直角在C"
+            content: '列 $AC^2+BC^2=AB^2$，化简得 $5t^2-28t+32=0$，解得 $t=4$ 或 $t=\frac85$。由 $t>2$ 取 $t=4$，所以 $C(4,5)$，$D=A+B-C=(4,-1)$。'
+        teaching:
+          teaching_goal: "训练矩形构成题三种直角分类。"
+          expected_blocker: "漏直角在A，或者直角在C无解时不说明。"
+          entry_point: "find_entry"
+          scaffold_level: "medium"
+          variation_depth: "changed_question"
+          complexity_note: "两个有效解，一个无实数解。"
+          upgrade_rule: "能匹配每种直角对应的D公式。"
+          fallback_move: "先写三条勾股方程框架。"
+
+      - type: "problem"
+        id: "q6"
+        points: 10
+        stem_latex: |
+          已知 $A(1,2)$，$B(5,2)$，点 $C$ 在反比例函数 $y=\dfrac{15}{x}$ 的图像上，且 $x_C>0$。
+          若四边形 $ABCD$ 是矩形，求 $C,D$ 的坐标。
+        hints:
+          - content: "固定顺序矩形 $ABCD$ 中，先判断 $C$ 的横坐标。"
+        answer_space:
+          type: "steps"
+          height: "48mm"
+          step_count: 4
+        answer: "$C(5,3)$，$D(1,3)$"
+        solution_steps:
+          - title: "设点"
+            content: '设 $C\left(t,\dfrac{15}{t}\right)$，其中 $t>0$。'
+          - title: "固定顺序列直角"
+            content: '矩形 $ABCD$ 中 $\angle B=90^\circ$，所以 $BC$ 应与水平的 $AB$ 垂直，故 $C$ 的横坐标与 $B$ 相同，$t=5$。'
+          - title: "求C"
+            content: '代入反比例函数得 $C(5,3)$。'
+          - title: "求D"
+            content: '固定顺序用 $D=A+C-B$，得 $D(1,3)$。'
+        teaching:
+          teaching_goal: "训练被轨迹包装的矩形构成题。"
+          expected_blocker: "不知道直角在C时A、B是对角。"
+          entry_point: "hidden_structure"
+          scaffold_level: "medium"
+          variation_depth: "partially_hidden"
+          complexity_note: "含一个正负筛选。"
+          upgrade_rule: "能解释为什么先确定 $C$ 的横坐标。"
+          fallback_move: "先只画出过 $B$ 且垂直于 $AB$ 的直线。"
+
+  - id: "rhom-practice"
+    title: "三、菱形存在性（每题 10 分，共 30 分）"
+    type: "practice"
+    visibility: "both"
+    blocks:
+      - type: "problem"
+        id: "q7"
+        points: 10
+        stem_latex: |
+          已知 $A(1,2)$，$B(6,2)$，点 $C$ 在一次函数 $y=\dfrac43x+\dfrac23$ 的图像上。
+          若四边形 $ABCD$ 是菱形，求所有可能的 $C,D$。
+        hints:
+          - content: "固定顺序菱形 $ABCD$，先用 $AB=BC$。"
+        answer_space:
+          type: "steps"
+          height: "45mm"
+          step_count: 4
+        answer: '$C\left(\dfrac{23}{5},\dfrac{34}{5}\right)$，$D\left(-\dfrac25,\dfrac{34}{5}\right)$'
+        solution_steps:
+          - title: "设点"
+            content: '设 $C\left(t,\dfrac43t+\dfrac23\right)$。'
+          - title: "列邻边相等"
+            content: '菱形 $ABCD$ 中 $AB=BC$。所以 $25=(t-6)^2+\left(\dfrac43t-\dfrac43\right)^2$，解得 $t=1$ 或 $t=\dfrac{23}{5}$。'
+          - title: "求D"
+            content: '$t=1$ 时 $C=A$，舍去。所以 $C\left(\dfrac{23}{5},\dfrac{34}{5}\right)$，$D=A+C-B=\left(-\dfrac25,\dfrac{34}{5}\right)$。'
+        teaching:
+          teaching_goal: "训练固定顺序菱形的等腰条件。"
+          expected_blocker: "误把菱形当矩形列直角。"
+          entry_point: "build_relation"
+          scaffold_level: "medium"
+          variation_depth: "changed_representation"
+          complexity_note: "一元二次可直接开方。"
+          upgrade_rule: "能主动说出固定顺序用AB=BC。"
+          fallback_move: "先写AB和BC的距离平方。"
+
+      - type: "problem"
+        id: "q8"
+        points: 10
+        stem_latex: |
+          已知 $A(1,2)$，$B(6,2)$，点 $C$ 在一次函数 $y=\dfrac43x+\dfrac23$ 的图像上。
+          若 $A,B,C,D$ 构成菱形，求所有可能的 $C,D$。
+        hints:
+          - content: "分别列 $AB=AC$，$AB=BC$，$AC=BC$。"
+        answer_space:
+          type: "steps"
+          height: "65mm"
+          step_count: 6
+        answer: '$C(4,6),D(9,6)$；$C(-2,-2),D(3,-2)$；$C\left(\dfrac{23}{5},\dfrac{34}{5}\right),D\left(-\dfrac25,\dfrac{34}{5}\right)$；$C\left(\dfrac72,\dfrac{16}{3}\right),D\left(\dfrac72,-\dfrac43\right)$'
+        solution_steps:
+          - title: "设点"
+            content: '设 $C\left(t,\dfrac43t+\dfrac23\right)$。'
+          - title: "$AB=AC$"
+            content: '列 $25=(t-1)^2+\left(\dfrac43t-\dfrac43\right)^2$，得 $t=4$ 或 $t=-2$。此时 $D=B+C-A$，得到 $(C,D)=((4,6),(9,6))$ 或 $((-2,-2),(3,-2))$。'
+          - title: "$AB=BC$"
+            content: '列 $25=(t-6)^2+\left(\dfrac43t-\dfrac43\right)^2$，得 $t=1$ 或 $t=\dfrac{23}{5}$。$t=1$ 时 $C=A$，舍去；此时 $D=A+C-B$，得到 $C\left(\dfrac{23}{5},\dfrac{34}{5}\right)$，$D\left(-\dfrac25,\dfrac{34}{5}\right)$。'
+          - title: "$AC=BC$"
+            content: '列 $(t-1)^2+\left(\dfrac43t-\dfrac43\right)^2=(t-6)^2+\left(\dfrac43t-\dfrac43\right)^2$，得 $t=\dfrac72$。此时 $D=A+B-C=\left(\dfrac72,-\dfrac43\right)$。'
+        teaching:
+          teaching_goal: "训练菱形构成题的三种等腰分类。"
+          expected_blocker: "只做AB=BC，漏AB=AC和AC=BC。"
+          entry_point: "find_entry"
+          scaffold_level: "medium"
+          variation_depth: "changed_question"
+          complexity_note: "结果多，但每类方程简单。"
+          upgrade_rule: "能按等腰关系写出对应D公式。"
+          fallback_move: "先填三行分类表，不要求立即解。"
+
+      - type: "problem"
+        id: "q9"
+        points: 10
+        stem_latex: |
+          已知 $A(1,2)$，$B(5,2)$，点 $C$ 在一次函数 $y=2x$ 的图像上。
+          若四边形 $ABCD$ 是菱形，求 $C,D$ 的坐标。
+        hints:
+          - content: "固定顺序先用 $AB=BC$，最后要排除 $C=A$ 的退化情况。"
+        answer_space:
+          type: "steps"
+          height: "45mm"
+          step_count: 4
+        answer: '$C\left(\dfrac{13}{5},\dfrac{26}{5}\right)$，$D\left(-\dfrac75,\dfrac{26}{5}\right)$'
+        solution_steps:
+          - title: "设点"
+            content: "设 $C(t,2t)$。"
+          - title: "列邻边相等"
+            content: '菱形 $ABCD$ 中 $AB=BC$，所以 $16=(t-5)^2+(2t-2)^2$，化简得 $5t^2-18t+13=0$。'
+          - title: "排除退化"
+            content: '解得 $t=1$ 或 $t=\dfrac{13}{5}$。当 $t=1$ 时 $C=A$，不能构成四边形，舍去；所以 $C\left(\dfrac{13}{5},\dfrac{26}{5}\right)$。'
+          - title: "求D"
+            content: '$D=A+C-B=\left(-\dfrac75,\dfrac{26}{5}\right)$。'
+        teaching:
+          teaching_goal: "训练轨迹包装下的退化排除。"
+          expected_blocker: "保留C=A这个退化解。"
+          entry_point: "solve_and_check"
+          scaffold_level: "medium"
+          variation_depth: "packaged_condition"
+          complexity_note: "简单二次方程并含退化检查。"
+          upgrade_rule: "能主动检查点是否重合。"
+          fallback_move: "先把t=0代回看C是谁。"
+
+  - id: "answer-key"
+    title: "答案速查"
+    type: "answer_key"
+    visibility: "teacher"
+    blocks:
+      - type: "answers"
+        id: "answers-main"
+        items:
+          - number: "1"
+            answer: "$D(4,2)$"
+          - number: "2"
+            answer: "$D(-1,5)$，$D(3,-1)$，$D(9,3)$"
+          - number: "3"
+            answer: "$C(5,7),D(2,6)$；或 $C(-3,-1),D(-6,-2)$"
+          - number: "4"
+            answer: "$C(7,11)$，$D(1,11)$"
+          - number: "5"
+            answer: "$C(7,11),D(1,11)$；或 $C(4,5),D(4,-1)$"
+          - number: "6"
+            answer: "$C(5,3)$，$D(1,3)$"
+          - number: "7"
+            answer: '$C\left(\dfrac{23}{5},\dfrac{34}{5}\right)$，$D\left(-\dfrac25,\dfrac{34}{5}\right)$'
+          - number: "8"
+            answer: '$C(4,6),D(9,6)$；$C(-2,-2),D(3,-2)$；$C\left(\dfrac{23}{5},\dfrac{34}{5}\right),D\left(-\dfrac25,\dfrac{34}{5}\right)$；$C\left(\dfrac72,\dfrac{16}{3}\right),D\left(\dfrac72,-\dfrac43\right)$'
+          - number: "9"
+            answer: '$C\left(\dfrac{13}{5},\dfrac{26}{5}\right)$，$D\left(-\dfrac75,\dfrac{26}{5}\right)$'

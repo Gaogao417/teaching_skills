@@ -1,0 +1,420 @@
+% preamble-exam-zh.tex — 共享 preamble
+% 用于所有 exam-zh 模板
+%
+% 样式策略：
+%   屏幕 → 语义彩色（蓝=关键想法，红=易错，绿=路线，灰=提示/教师备注）
+%   打印 → 自动降级为黑白（通过 print mode 或 monochrome 选项）
+
+\documentclass{exam-zh}
+
+% ---------- 基础配置 ----------
+\examsetup{
+  page/size = a4paper,
+  page/show-head = false,
+  page/show-foot = false,
+  sealline/show = false,
+  font = times,
+  math-font = xits,
+}
+
+\usepackage{tcolorbox}
+\usepackage{needspace}
+\usepackage{graphicx}
+\tcbuselibrary{skins,breakable}
+
+% ---------- 打印/屏幕颜色切换 ----------
+% 用法：\documentclass[monochrome]{exam-zh} 即可切换为纯黑白
+% 注意：不要使用 \if@xxx 放在 makeatother 外部；这里改成普通条件名。
+\newif\ifeduprintcolor
+\eduprintcolortrue
+
+\makeatletter
+\@ifclasswith{exam-zh}{monochrome}{\eduprintcolorfalse}{}
+\makeatother
+
+% ---------- 语义颜色定义 ----------
+% 屏幕：有色彩区分；打印：降级为灰度
+\ifeduprintcolor
+  % --- 屏幕彩色模式 ---
+  \definecolor{edu-blue}{RGB}{47, 82, 122}       % 关键想法
+  \definecolor{edu-blue-bg}{RGB}{243, 246, 252}
+  \definecolor{edu-red}{RGB}{180, 40, 40}         % 易错提醒
+  \definecolor{edu-red-bg}{RGB}{255, 245, 240}
+  \definecolor{edu-green}{RGB}{34, 100, 60}       % 路线图
+  \definecolor{edu-green-bg}{RGB}{242, 250, 245}
+  \definecolor{edu-orange}{RGB}{160, 90, 0}       % 训练目标
+  \definecolor{edu-orange-bg}{RGB}{255, 248, 235}
+  \definecolor{edu-gray}{RGB}{100, 100, 100}      % 提示/教师备注
+  \definecolor{edu-gray-bg}{RGB}{248, 248, 248}
+  \definecolor{edu-purple}{RGB}{90, 50, 120}      % 思考题
+  \definecolor{edu-purple-bg}{RGB}{248, 244, 252}
+\else
+  % --- 打印黑白模式 ---
+  \definecolor{edu-blue}{gray}{0.15}
+  \definecolor{edu-blue-bg}{gray}{0.96}
+  \definecolor{edu-red}{gray}{0.25}
+  \definecolor{edu-red-bg}{gray}{0.97}
+  \definecolor{edu-green}{gray}{0.20}
+  \definecolor{edu-green-bg}{gray}{0.97}
+  \definecolor{edu-orange}{gray}{0.25}
+  \definecolor{edu-orange-bg}{gray}{0.98}
+  \definecolor{edu-gray}{gray}{0.40}
+  \definecolor{edu-gray-bg}{gray}{0.97}
+  \definecolor{edu-purple}{gray}{0.30}
+  \definecolor{edu-purple-bg}{gray}{0.98}
+\fi
+\colorlet{edu-diagram-muted}{edu-gray}
+
+% ---------- 自定义教学环境 ----------
+% 共性：enhanced + breakable（跨页不断裂）
+
+% 原题卡片 — 强边框，突出显示
+\newtcolorbox{problemcard}{
+  enhanced, breakable,
+  colback=edu-blue-bg,
+  colframe=edu-blue,
+  boxrule=1.2pt,
+  arc=0pt,
+  left=3mm, right=3mm, top=3mm, bottom=3mm,
+}
+
+% 解题路线图 — 左边线 + 浅底
+\newtcolorbox{routebox}{
+  enhanced, breakable,
+  colback=edu-green-bg,
+  colframe=edu-green!30,
+  boxrule=0pt,
+  borderline west={2.5pt}{0pt}{edu-green},
+  left=3mm, right=3mm, top=3mm, bottom=3mm,
+}
+
+% 关键想法 — 蓝色左边线
+\newtcolorbox{keyideabox}{
+  enhanced, breakable,
+  colback=edu-blue-bg,
+  colframe=edu-blue!30,
+  boxrule=0pt,
+  borderline west={2.5pt}{0pt}{edu-blue},
+  left=3mm, right=3mm, top=3mm, bottom=3mm,
+}
+
+% 易错提醒 — 红色左边线
+\newtcolorbox{mistakebox}{
+  enhanced, breakable,
+  colback=edu-red-bg,
+  colframe=edu-red!20,
+  boxrule=0pt,
+  borderline west={3pt}{0pt}{edu-red},
+  left=3mm, right=3mm, top=2.5mm, bottom=2.5mm,
+}
+
+% 提示 — 灰色虚线左边线
+\newtcolorbox{hintbox}{
+  enhanced, breakable,
+  colback=edu-gray-bg,
+  colframe=edu-gray!20,
+  boxrule=0pt,
+  borderline west={2pt}{0pt}{edu-gray, dashed},
+  left=3mm, right=3mm, top=2mm, bottom=2mm,
+}
+
+% 思考题 — 紫色虚线左边线
+\newtcolorbox{thinkbox}{
+  enhanced, breakable,
+  colback=edu-purple-bg,
+  colframe=edu-purple!20,
+  boxrule=0pt,
+  borderline west={2pt}{0pt}{edu-purple, dashed},
+  left=2.5mm, right=2.5mm, top=2.5mm, bottom=2.5mm,
+}
+
+% 教师备注 — 灰色左边线，小字
+\newtcolorbox{teachernote}{
+  enhanced, breakable,
+  colback=edu-gray-bg,
+  colframe=edu-gray!15,
+  boxrule=0pt,
+  borderline west={2pt}{0pt}{edu-gray!60},
+  left=2.5mm, right=2.5mm, top=2.5mm, bottom=2.5mm,
+  fontupper=\small,
+  colupper=black!60,
+}
+
+% 训练目标 — 橙色左边线，小字
+\newtcolorbox{traininggoal}{
+  enhanced, breakable,
+  colback=edu-orange-bg,
+  colframe=edu-orange!15,
+  boxrule=0pt,
+  borderline west={1.5pt}{0pt}{edu-orange},
+  left=2mm, right=2mm, top=1mm, bottom=1mm,
+  fontupper=\small,
+}
+
+% 答题区 — 无边框，纯留白
+\newcommand{\answerarea}[1][40mm]{%
+  \vspace{2mm}%
+  \begin{tcolorbox}[
+    enhanced, breakable,
+    colback=white,
+    colframe=white,
+    boxrule=0pt,
+    height=#1,
+    valign=top,
+    bottom=0mm,
+    after skip=0mm,
+  ]
+  \end{tcolorbox}%
+}
+
+\newcommand{\diagramcolfigure}[3]{%
+  \begin{minipage}[t]{#2}
+    \vspace{0pt}\centering
+    \includegraphics[width=\linewidth]{\detokenize{#1}}
+    \if\relax\detokenize{#3}\relax\else
+      \par\vspace{1mm}{\scriptsize\color{edu-diagram-muted}#3}
+    \fi
+  \end{minipage}%
+}
+
+\newcommand{\diagramrowitem}[4]{%
+  \begin{minipage}[t]{#2}
+    \vspace{0pt}\centering
+    \includegraphics[width=\linewidth]{\detokenize{#1}}
+    \if\relax\detokenize{#3}\relax\else
+      \par\vspace{1mm}{\scriptsize\bfseries #3}
+    \fi
+    \if\relax\detokenize{#4}\relax\else
+      \par\vspace{0.5mm}{\scriptsize\color{edu-diagram-muted}#4}
+    \fi
+  \end{minipage}%
+}
+
+\newcommand{\answerareawithdiagramcol}[4]{%
+  \vspace{2mm}%
+  \begin{tcolorbox}[
+    enhanced, breakable,
+    colback=white,
+    colframe=white,
+    boxrule=0pt,
+    height=#1,
+    valign=top,
+    bottom=0mm,
+    after skip=0mm,
+  ]
+  \begin{minipage}[t]{\dimexpr\linewidth-#3-6mm\relax}
+    \vspace{0pt}
+  \end{minipage}\hfill
+  \diagramcolfigure{#2}{#3}{#4}
+  \end{tcolorbox}%
+}
+
+\newcommand{\answerareawithdiagram}[4]{%
+  \answerareawithdiagramcol{#1}{#2}{#3}{#4}%
+}
+
+% ---------- 字体设置 ----------
+% exam-zh (ctexbook) already sets CJK fonts via ctex.
+% Only override if specific fonts are needed.
+% macOS: Songti SC, STHeiti, STFangsong
+% Linux: SimSun, SimHei, FangSong
+
+% ---------- 页面设置 ----------
+% exam-zh (ctexbook) already loads geometry.
+% Override margins if needed:
+% \geometry{top=16mm, bottom=16mm, left=14mm, right=14mm}
+
+\examsetup{
+  question/show-answer = true,
+  fillin/show-answer = true,
+  solution/show-solution = show-stay,
+}
+
+% ---------- 教师版解答样式 ----------
+\newtcolorbox{solutionblock}{
+  enhanced, breakable,
+  colback=edu-blue-bg,
+  colframe=edu-blue!25,
+  boxrule=0pt,
+  borderline west={2pt}{0pt}{edu-blue!50},
+  arc=0pt,
+  left=3mm, right=3mm, top=2mm, bottom=2mm,
+  before skip=2mm,
+  after skip=3mm,
+  fontupper=\small,
+}
+
+% 解答步骤编号
+\newcounter{solstep}
+\newcommand{\solstep}[2]{%
+  \stepcounter{solstep}%
+  \par\medskip
+  \noindent\hangindent=6mm
+  {\color{edu-blue}\bfseries\textcircled{\scriptsize\thesolstep}\enspace #1}\enspace #2\par
+}
+
+\begin{document}
+
+\section*{45°旋转与等腰直角坐标模型练习}
+
+\section*{一、求底角顶点 C（每题 10 分，共 20 分）}
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  等腰直角三角形 $ABC$ 中，$\angle A=90^\circ$，$AB=AC$。
+已知 $A(-2,3)$，$B(4,7)$，点 $C$ 在点 $A$ 的右下方，求点 $C$ 的坐标。
+
+  \answerarea[35mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$C(2,-3)$\par\medskip
+    \solstep{读 $AB$}{从 $A(-2,3)$ 到 $B(4,7)$ 是“右 $6$ 上 $4$”。}
+    \solstep{旋转成 $AC$}{右下方对应“右 $4$ 下 $6$”。}
+    \solstep{定坐标}{从 $A(-2,3)$ 出发，右 $4$ 下 $6$，得 $C(2,-3)$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  等腰直角三角形 $ABC$ 中，$\angle A=90^\circ$，$AB=AC$。
+已知 $A(3,-1)$，$B(-2,5)$，点 $C$ 在点 $A$ 的右上方，求点 $C$ 的坐标。
+
+  \answerarea[35mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$C(9,4)$\par\medskip
+    \solstep{读 $AB$}{从 $A(3,-1)$ 到 $B(-2,5)$ 是“左 $5$ 上 $6$”。}
+    \solstep{旋转成 $AC$}{右上方对应“右 $6$ 上 $5$”。}
+    \solstep{定坐标}{从 $A(3,-1)$ 出发，右 $6$ 上 $5$，得 $C(9,4)$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\section*{二、求顶角顶点 A（每题 10 分，共 20 分）}
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  等腰直角三角形 $ABC$ 中，$\angle A=90^\circ$。
+已知 $B(-3,4)$，$C(5,-2)$，点 $A$ 在第一象限，求点 $A$ 的坐标。
+
+  \answerarea[40mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$A(4,5)$\par\medskip
+    \solstep{取中点}{$D\left(\frac{-3+5}{2},\frac{4+(-2)}{2}\right)=(1,1)$。}
+    \solstep{读 $DB$}{从 $D(1,1)$ 到 $B(-3,4)$ 是“左 $4$ 上 $3$”。}
+    \solstep{旋转成 $DA$}{候选走法为“右 $3$ 上 $4$”或“左 $3$ 下 $4$”。}
+    \solstep{筛选}{第一象限取 $A(4,5)$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  等腰直角三角形 $ABC$ 中，$\angle A=90^\circ$。
+已知 $B(-4,1)$，$C(2,9)$，点 $A$ 在第一象限，求点 $A$ 的坐标。
+
+  \answerarea[40mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$A(3,2)$\par\medskip
+    \solstep{取中点}{$D\left(\frac{-4+2}{2},\frac{1+9}{2}\right)=(-1,5)$。}
+    \solstep{读 $DB$}{从 $D(-1,5)$ 到 $B(-4,1)$ 是“左 $3$ 下 $4$”。}
+    \solstep{旋转成 $DA$}{候选走法为“右 $4$ 下 $3$”或“左 $4$ 上 $3$”。}
+    \solstep{筛选}{第一象限取“右 $4$ 下 $3$”，所以 $A(3,2)$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\section*{三、45 度求直线与后续计算（每题 10 分，共 20 分）}
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  已知 $A(2,5)$，$B(5,6)$。直线 $BC$ 与射线 $BA$ 成 $45^\circ$，对应的辅助点 $P$ 在点 $A$ 的右下方。
+\begin{enumerate}[label=(\arabic*)]
+  \item 求直线 $BC$ 的解析式；
+  \item 若直线 $BC$ 与反比例函数 $y=\dfrac{30}{x}$ 的图像除 $B$ 外还交于点 $C$，求点 $C$ 的坐标和 $\triangle ABC$ 的面积。
+\end{enumerate}
+
+  \answerarea[55mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}(1) $y=2x-4$；(2) $C(-3,-10)$，$S_{\triangle ABC}=20$。\par\medskip
+    \solstep{求辅助点 $P$}{从 $A(2,5)$ 到 $B(5,6)$ 是“右 $3$ 上 $1$”。$P$ 在右下方，所以 $AP$ 是“右 $1$ 下 $3$”，得 $P(3,2)$。}
+    \solstep{求直线 $BC$}{直线 $BP$ 的斜率 $k=\frac{6-2}{5-3}=2$。代入 $B(5,6)$，得 $6=10+b$，所以 $b=-4$，$BC:y=2x-4$。}
+    \solstep{求 $C$}{联立 $y=2x-4$ 与 $y=\dfrac{30}{x}$，得 $x^2-2x-15=0$，解得 $x=5$ 或 $x=-3$。$x=5$ 是点 $B$，所以 $C(-3,-10)$。}
+    \solstep{求面积}{$S_{\triangle ABC}=\frac12|(5-2)(-10-5)-(6-5)(-3-2)|=20$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  已知 $A(2,11)$，$B(6,9)$。直线 $BC$ 与射线 $BA$ 成 $45^\circ$，对应的辅助点 $P$ 在点 $A$ 的右上方。
+\begin{enumerate}[label=(\arabic*)]
+  \item 求直线 $BC$ 的解析式；
+  \item 若点 $C$ 在反比例函数 $y=\dfrac{54}{x}$ 的图像上，且 $x_C<4$，求点 $C$ 的坐标和 $\triangle ABC$ 的面积。
+\end{enumerate}
+
+  \answerarea[55mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}(1) $y=-3x+27$；(2) $C(3,18)$，$S_{\triangle ABC}=15$。\par\medskip
+    \solstep{求辅助点 $P$}{从 $A(2,11)$ 到 $B(6,9)$ 是“右 $4$ 下 $2$”。$P$ 在右上方，所以 $AP$ 是“右 $2$ 上 $4$”，得 $P(4,15)$。}
+    \solstep{求直线 $BC$}{直线 $BP$ 的斜率 $k=\frac{15-9}{4-6}=-3$。代入 $B(6,9)$，得 $9=-18+b$，所以 $b=27$，$BC:y=-3x+27$。}
+    \solstep{求 $C$}{联立 $y=-3x+27$ 与 $y=\dfrac{54}{x}$，得 $-3x^2+27x-54=0$，即 $x^2-9x+18=0$。解得 $x=3$ 或 $x=6$，由 $x_C<4$ 得 $C(3,18)$。}
+    \solstep{求面积}{$S_{\triangle ABC}=\frac12|(6-2)(18-11)-(9-11)(3-2)|=15$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\section*{四、条件是否足够（每题 10 分，共 20 分）}
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  已知 $A(1,2)$，$B(7,2)$。如果题目只说 $\angle ACB=45^\circ$，
+能不能唯一求出直线 $BC$ 的解析式？请说明理由。
+
+  \answerarea[35mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}不能唯一求出。\par\medskip
+    \solstep{看角顶点}{$\angle ACB$ 的顶点是 $C$，但题目没有给出点 $C$ 的位置。}
+    \solstep{判断唯一性}{不同位置的点 $C$ 都可能满足 $\angle ACB=45^\circ$，因此直线 $BC$ 不唯一。}
+    \solstep{规范结论}{还需要补充 $C$ 所在直线、坐标或其他条件。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  已知 $A(1,1)$，$B(5,1)$，$\angle ACB=45^\circ$，且点 $C$ 在直线 $x=1$ 上并位于点 $A$ 上方。
+求点 $C$ 的坐标和直线 $BC$ 的解析式。
+
+  \answerarea[40mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$C(1,5)$，$BC:y=-x+6$。\par\medskip
+    \solstep{利用位置确定形状}{设 $C(1,t)$，且 $t>1$。从 $C$ 到 $A$ 是“下 $t-1$”，从 $C$ 到 $B$ 是“右 $4$ 下 $t-1$”。}
+    \solstep{用45度判断}{要让 $CA$ 与 $CB$ 成 $45^\circ$，这里需要水平距离和竖直距离相等，所以 $t-1=4$，得 $C(1,5)$。}
+    \solstep{求直线}{直线 $BC$ 过 $B(5,1)$、$C(1,5)$，斜率为 $-1$，所以 $BC:y=-x+6$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\clearpage
+\section*{答案速查}
+
+
+
+
+\end{document}

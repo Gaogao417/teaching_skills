@@ -1,0 +1,298 @@
+meta:
+  title: "45°旋转与等腰直角坐标模型专题"
+  subtitle: "刘濯嘉 · 学生讲义"
+  grade: "八年级"
+  subject: "数学"
+  version: "student"
+  source_artifacts:
+    structure_analysis: "artifacts/刘濯嘉/2026-06-15-等腰直角45度坐标模型/01-structure-analysis.md"
+
+render:
+  template: "exam-zh-explanation"
+  paper_size: "a4paper"
+
+sections:
+  - id: "model-c"
+    title: "模型一：直角顶点已知，求等腰直角第三点"
+    show_title: true
+    type: "explanation"
+    visibility: "student"
+    layout:
+      break_before: true
+    blocks:
+      - type: "problemcard"
+        id: "model-c-example"
+        label: "例题 1"
+        stem_latex: |
+          在平面直角坐标系中，等腰直角三角形 $ABC$ 满足 $\angle A=90^\circ$，$AB=AC$。
+          已知 $A(-2,3)$，$B(4,7)$，点 $C$ 在点 $A$ 的右下方，求点 $C$ 的坐标。
+
+      - type: "route"
+        id: "model-c-route"
+        steps:
+          - id: "model-c-read"
+            latex: "读出 $AB$ 的走法"
+            content_latex: "从 $A(-2,3)$ 到 $B(4,7)$：横坐标加 $6$，纵坐标加 $4$，所以走法是“右 $6$ 上 $4$”。"
+          - id: "model-c-rotate"
+            latex: "把走法旋转成 $AC$"
+            content_latex: '因为 $AB=AC$ 且 $AB\perp AC$，所以把“右 $6$ 上 $4$”变成“右 $4$ 下 $6$”或“左 $4$ 上 $6$”。'
+          - id: "model-c-choose"
+            latex: "根据位置取方向"
+            content_latex: "题目说 $C$ 在 $A$ 的右下方，所以取“右 $4$ 下 $6$”。"
+          - id: "model-c-coordinate"
+            latex: "由 $A$ 到 $C$ 定坐标"
+            content_latex: "从 $A(-2,3)$ 出发，右 $4$ 得 $x=2$，下 $6$ 得 $y=-3$，所以 $C(2,-3)$。"
+
+      - type: "dual_explanation"
+        id: "model-c-solution"
+        label: "例题 1"
+        stem_latex: "求底角顶点 $C$ 的坐标。"
+        side_title: "小贴士"
+        side_items:
+          - kind: "hint"
+            title: "为什么能交换步数"
+            content_latex: "过 $A$ 作竖线，过 $B,C$ 向这条竖线作垂线，会得到两个全等的小直角三角形，所以横竖步数交换。"
+          - kind: "mistake"
+            title: "别漏另一个方向"
+            content_latex: "如果题目没有说 $C$ 在哪一侧，一般要写两个候选点。"
+          - kind: "hint"
+            title: "先说走法"
+            content_latex: "不要一上来写公式，先把 $AB$ 说成“右几上几”。"
+        solution_title: "解答"
+        solution_step_ids:
+          - "model-c-read"
+          - "model-c-rotate"
+          - "model-c-choose"
+          - "model-c-coordinate"
+        connection_title: "检查"
+        connection_items:
+          - latex: "$AB$ 是右 $6$ 上 $4$，$AC$ 是右 $4$ 下 $6$，长度相同，方向垂直。"
+
+      - type: "mistake"
+        id: "model-c-mistake"
+        title: "易错提醒"
+        content_latex: |
+          坐标题里最容易把“走法”和“坐标”混在一起。$A(-2,3)$ 到 $B(4,7)$ 的走法是右 $6$ 上 $4$，不是点 $(6,4)$；最后求 $C$ 时还要从 $A$ 出发走一次。
+
+      - type: "method_reminder"
+        id: "model-c-method"
+        title: "方法提醒"
+        items:
+          - latex: "先读 $AB$：右/左几，上/下几。"
+          - latex: "再旋转：水平竖直交换，并根据图形位置决定方向。"
+          - latex: "最后从直角顶点出发，按新走法确定第三点。"
+
+  - id: "model-a"
+    title: "模型二：斜边两端已知，求直角顶点"
+    show_title: true
+    type: "explanation"
+    visibility: "student"
+    layout:
+      break_before: true
+    blocks:
+      - type: "problemcard"
+        id: "model-a-example"
+        label: "例题 2"
+        stem_latex: |
+          在平面直角坐标系中，等腰直角三角形 $ABC$ 满足 $\angle A=90^\circ$。
+          已知 $B(-3,4)$，$C(5,-2)$，点 $A$ 在第一象限，求点 $A$ 的坐标。
+
+      - type: "route"
+        id: "model-a-route"
+        steps:
+          - id: "model-a-mid"
+            latex: "取 $BC$ 中点 $D$"
+            content_latex: '$D$ 的坐标为 $\left(\dfrac{-3+5}{2},\dfrac{4+(-2)}{2}\right)=(1,1)$。'
+          - id: "model-a-read"
+            latex: "读出 $DB$ 的走法"
+            content_latex: "从 $D(1,1)$ 到 $B(-3,4)$ 是“左 $4$ 上 $3$”。"
+          - id: "model-a-rotate"
+            latex: "把 $DB$ 旋转成 $DA$"
+            content_latex: "与“左 $4$ 上 $3$”等长垂直的走法可以是“右 $3$ 上 $4$”，也可以是“左 $3$ 下 $4$”。"
+          - id: "model-a-coordinate"
+            latex: "根据位置确定 $A$"
+            content_latex: "从 $D(1,1)$ 走“右 $3$ 上 $4$”得 $A(4,5)$；另一个候选为 $A(-2,-3)$。题目说 $A$ 在第一象限，所以 $A(4,5)$。"
+
+      - type: "dual_explanation"
+        id: "model-a-solution"
+        label: "例题 2"
+        stem_latex: "求顶角顶点 $A$ 的坐标。"
+        side_title: "小贴士"
+        side_items:
+          - kind: "hint"
+            title: "为什么取中点"
+            content_latex: "已知的是斜边两端 $B,C$，中点 $D$ 能把未知的直角顶点转化成上一节的“底角顶点”。"
+          - kind: "mistake"
+            title: "不要从 $B$ 直接转"
+            content_latex: "这类题的旋转中心是中点 $D$，不是 $B$ 或 $C$。"
+        solution_title: "解答"
+        solution_step_ids:
+          - "model-a-mid"
+          - "model-a-read"
+          - "model-a-rotate"
+          - "model-a-coordinate"
+        connection_title: "检查"
+        connection_items:
+          - latex: "$D$ 是 $BC$ 中点，$DA$ 与 $DB$ 都是右三角形的一半斜边，方向也垂直。"
+
+      - type: "mistake"
+        id: "model-a-mistake"
+        title: "易错提醒"
+        content_latex: |
+          已知 $B,C$ 求 $A$ 时，先找中点 $D$。如果跳过 $D$，很容易把整条 $BC$ 当成一条腰，长度会错一倍。
+
+      - type: "method_reminder"
+        id: "model-a-method"
+        title: "方法提醒"
+        items:
+          - latex: "已知两个底角顶点，先取中点。"
+          - latex: '从中点到一个端点读走法，再旋转 $90^\circ$。'
+          - latex: "两个候选点用题目给的位置条件筛选。"
+
+  - id: "model-45"
+    title: "模型三：45°方向直线与函数交点"
+    show_title: true
+    type: "explanation"
+    visibility: "student"
+    layout:
+      break_before: true
+    blocks:
+      - type: "problemcard"
+        id: "model-45-example"
+        label: "例题 3"
+        stem_latex: |
+          已知 $A(2,5)$，$B(5,6)$。直线 $BC$ 与射线 $BA$ 成 $45^\circ$，且对应的辅助点 $P$ 在点 $A$ 的右下方。
+          \begin{enumerate}[label=(\arabic*)]
+            \item 求直线 $BC$ 的解析式；
+            \item 若直线 $BC$ 与反比例函数 $y=\dfrac{30}{x}$ 的图像除 $B$ 外还交于点 $C$，求点 $C$ 的坐标与 $\triangle ABC$ 的面积。
+          \end{enumerate}
+
+      - type: "route"
+        id: "model-45-route"
+        steps:
+          - id: "model-45-read"
+            latex: "读出 $AB$ 的走法"
+            content_latex: "从 $A(2,5)$ 到 $B(5,6)$ 是“右 $3$ 上 $1$”。"
+          - id: "model-45-point"
+            latex: "作等腰直角三角形 $ABP$"
+            content_latex: "以 $A$ 为直角顶点，取 $P$ 在 $A$ 的右下方，则 $AP$ 的走法是“右 $1$ 下 $3$”，所以 $P(3,2)$。"
+          - id: "model-45-line"
+            latex: "用 $B,P$ 求直线"
+            content_latex: '直线 $BP$ 的斜率为 $k=\dfrac{6-2}{5-3}=2$，代入 $B(5,6)$，得 $6=2\cdot5+b$，所以 $b=-4$，即 $BC:y=2x-4$。'
+          - id: "model-45-intersection"
+            latex: "联立反比例函数求 $C$"
+            content_latex: '联立 $y=2x-4$ 与 $y=\dfrac{30}{x}$，得 $2x-4=\dfrac{30}{x}$，即 $x^2-2x-15=0$。解得 $x=5$ 或 $x=-3$。$x=5$ 对应点 $B$，所以另一个交点为 $C(-3,-10)$。'
+          - id: "model-45-area"
+            latex: "用坐标底高求面积"
+            content_latex: '用坐标面积：$S_{\triangle ABC}=\dfrac12\left|(5-2)(-10-5)-(6-5)(-3-2)\right|=20$。'
+
+      - type: "dual_explanation"
+        id: "model-45-solution-1"
+        label: "(1)"
+        stem_latex: "求直线 $BC$ 的解析式。"
+        side_title: "小贴士"
+        side_items:
+          - kind: "hint"
+            title: "为什么找 $P$"
+            content_latex: '题目只给了 $45^\circ$，直接求直线不好做；补出等腰直角三角形后，$BP$ 就是一条明确的 45 度方向线。'
+          - kind: "mistake"
+            title: "方向要看题"
+            content_latex: "本题说 $P$ 在 $A$ 的右下方，所以只取“右 $1$ 下 $3$”。"
+        solution_title: "解答"
+        solution_step_ids:
+          - "model-45-read"
+          - "model-45-point"
+          - "model-45-line"
+
+      - type: "dual_explanation"
+        id: "model-45-solution-2"
+        label: "(2)"
+        stem_latex: '求点 $C$ 的坐标与 $\triangle ABC$ 的面积。'
+        side_title: "小贴士"
+        side_items:
+          - kind: "hint"
+            title: "后续题怎么接"
+            content_latex: "一旦直线 $BC$ 求出来，后面的交点、面积就是一次函数与反比例函数的综合。"
+          - kind: "mistake"
+            title: "面积不要凭图猜"
+            content_latex: "点不在水平或竖直底边上时，用坐标面积更稳。"
+        solution_title: "解答"
+        solution_step_ids:
+          - "model-45-intersection"
+          - "model-45-area"
+
+      - type: "mistake"
+        id: "model-45-mistake"
+        title: "易错提醒"
+        content_latex: |
+          $\angle ABC=45^\circ$ 的顶点是 $B$，所以最后要找的是过 $B$ 的直线。辅助三角形中 $A$ 是直角顶点，$P$ 是为了帮我们找方向，不是题目原本给的点。
+
+      - type: "method_reminder"
+        id: "model-45-method"
+        title: "方法提醒"
+        items:
+          - latex: '看到 $\angle ABC=45^\circ$，先让 $A$ 做直角顶点，补等腰直角三角形 $ABP$。'
+          - latex: "求出 $P$ 后，直线 $BP$ 就是 $BC$ 的候选直线。"
+          - latex: "若题目没有给方向，要写两条候选直线或说明需要附加条件。"
+
+  - id: "angle-acb"
+    title: "条件辨析：∠ABC 与 ∠ACB 的差异"
+    show_title: true
+    type: "explanation"
+    visibility: "student"
+    layout:
+      break_before: true
+    blocks:
+      - type: "problemcard"
+        id: "angle-acb-example"
+        label: "例题 4"
+        stem_latex: |
+          已知 $A(1,2)$，$B(7,2)$。只知道 $\angle ACB=45^\circ$，能不能唯一求出直线 $BC$ 的解析式？说明理由。
+
+      - type: "route"
+        id: "angle-acb-route"
+        steps:
+          - id: "angle-acb-vertex"
+            latex: "先看角的顶点"
+            content_latex: '$\angle ACB$ 的顶点是 $C$，但 $C$ 的位置没有给出。'
+          - id: "angle-acb-not-unique"
+            latex: "判断是否唯一"
+            content_latex: '不同位置的点 $C$ 都可能看见同一条 $AB$ 成 $45^\circ$，所以直线 $BC$ 不唯一。'
+          - id: "angle-acb-need"
+            latex: "补充条件后才能求"
+            content_latex: "若再给 $C$ 在某条直线上，或给 $C$ 的横坐标、纵坐标，才能把 $C$ 定下来，再求 $BC$。"
+
+      - type: "dual_explanation"
+        id: "angle-acb-solution"
+        label: "例题 4"
+        stem_latex: "判断是否能唯一求出 $BC$ 的解析式。"
+        side_title: "小贴士"
+        side_items:
+          - kind: "hint"
+            title: "先问顶点"
+            content_latex: "角写在中间的字母就是顶点。$ABC$ 的顶点是 $B$，$ACB$ 的顶点是 $C$。"
+          - kind: "mistake"
+            title: "不要套错模型"
+            content_latex: '上一节的补点 $P$ 是为了解决 $\angle ABC=45^\circ$，不能直接搬到 $\angle ACB=45^\circ$。'
+        solution_title: "解答"
+        solution_step_ids:
+          - "angle-acb-vertex"
+          - "angle-acb-not-unique"
+          - "angle-acb-need"
+        connection_title: "结论"
+        connection_items:
+          - latex: "不能唯一求出；题目还缺少确定 $C$ 的条件。"
+
+      - type: "mistake"
+        id: "angle-acb-mistake"
+        title: "易错提醒"
+        content_latex: |
+          遇到 $45^\circ$ 题，不要只看数字 $45^\circ$。先看角的顶点是谁，再决定这条 45 度方向线应该过哪个点。
+
+      - type: "method_reminder"
+        id: "angle-acb-method"
+        title: "方法提醒"
+        items:
+          - latex: "角名中间的字母是顶点。"
+          - latex: "顶点已知，常能求一条候选直线；顶点未知，先判断条件是否足够。"
+          - latex: "条件不足时，规范写法是“不能唯一确定，还需要补充条件”。"

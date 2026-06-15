@@ -1,0 +1,426 @@
+% preamble-exam-zh.tex — 共享 preamble
+% 用于所有 exam-zh 模板
+%
+% 样式策略：
+%   屏幕 → 语义彩色（蓝=关键想法，红=易错，绿=路线，灰=提示/教师备注）
+%   打印 → 自动降级为黑白（通过 print mode 或 monochrome 选项）
+
+\documentclass{exam-zh}
+
+% ---------- 基础配置 ----------
+\examsetup{
+  page/size = a4paper,
+  page/show-head = false,
+  page/show-foot = false,
+  sealline/show = false,
+  font = times,
+  math-font = xits,
+}
+
+\usepackage{tcolorbox}
+\usepackage{needspace}
+\usepackage{graphicx}
+\tcbuselibrary{skins,breakable}
+
+% ---------- 打印/屏幕颜色切换 ----------
+% 用法：\documentclass[monochrome]{exam-zh} 即可切换为纯黑白
+% 注意：不要使用 \if@xxx 放在 makeatother 外部；这里改成普通条件名。
+\newif\ifeduprintcolor
+\eduprintcolortrue
+
+\makeatletter
+\@ifclasswith{exam-zh}{monochrome}{\eduprintcolorfalse}{}
+\makeatother
+
+% ---------- 语义颜色定义 ----------
+% 屏幕：有色彩区分；打印：降级为灰度
+\ifeduprintcolor
+  % --- 屏幕彩色模式 ---
+  \definecolor{edu-blue}{RGB}{47, 82, 122}       % 关键想法
+  \definecolor{edu-blue-bg}{RGB}{243, 246, 252}
+  \definecolor{edu-red}{RGB}{180, 40, 40}         % 易错提醒
+  \definecolor{edu-red-bg}{RGB}{255, 245, 240}
+  \definecolor{edu-green}{RGB}{34, 100, 60}       % 路线图
+  \definecolor{edu-green-bg}{RGB}{242, 250, 245}
+  \definecolor{edu-orange}{RGB}{160, 90, 0}       % 训练目标
+  \definecolor{edu-orange-bg}{RGB}{255, 248, 235}
+  \definecolor{edu-gray}{RGB}{100, 100, 100}      % 提示/教师备注
+  \definecolor{edu-gray-bg}{RGB}{248, 248, 248}
+  \definecolor{edu-purple}{RGB}{90, 50, 120}      % 思考题
+  \definecolor{edu-purple-bg}{RGB}{248, 244, 252}
+\else
+  % --- 打印黑白模式 ---
+  \definecolor{edu-blue}{gray}{0.15}
+  \definecolor{edu-blue-bg}{gray}{0.96}
+  \definecolor{edu-red}{gray}{0.25}
+  \definecolor{edu-red-bg}{gray}{0.97}
+  \definecolor{edu-green}{gray}{0.20}
+  \definecolor{edu-green-bg}{gray}{0.97}
+  \definecolor{edu-orange}{gray}{0.25}
+  \definecolor{edu-orange-bg}{gray}{0.98}
+  \definecolor{edu-gray}{gray}{0.40}
+  \definecolor{edu-gray-bg}{gray}{0.97}
+  \definecolor{edu-purple}{gray}{0.30}
+  \definecolor{edu-purple-bg}{gray}{0.98}
+\fi
+\colorlet{edu-diagram-muted}{edu-gray}
+
+% ---------- 自定义教学环境 ----------
+% 共性：enhanced + breakable（跨页不断裂）
+
+% 原题卡片 — 强边框，突出显示
+\newtcolorbox{problemcard}{
+  enhanced, breakable,
+  colback=edu-blue-bg,
+  colframe=edu-blue,
+  boxrule=1.2pt,
+  arc=0pt,
+  left=3mm, right=3mm, top=3mm, bottom=3mm,
+}
+
+% 解题路线图 — 左边线 + 浅底
+\newtcolorbox{routebox}{
+  enhanced, breakable,
+  colback=edu-green-bg,
+  colframe=edu-green!30,
+  boxrule=0pt,
+  borderline west={2.5pt}{0pt}{edu-green},
+  left=3mm, right=3mm, top=3mm, bottom=3mm,
+}
+
+% 关键想法 — 蓝色左边线
+\newtcolorbox{keyideabox}{
+  enhanced, breakable,
+  colback=edu-blue-bg,
+  colframe=edu-blue!30,
+  boxrule=0pt,
+  borderline west={2.5pt}{0pt}{edu-blue},
+  left=3mm, right=3mm, top=3mm, bottom=3mm,
+}
+
+% 易错提醒 — 红色左边线
+\newtcolorbox{mistakebox}{
+  enhanced, breakable,
+  colback=edu-red-bg,
+  colframe=edu-red!20,
+  boxrule=0pt,
+  borderline west={3pt}{0pt}{edu-red},
+  left=3mm, right=3mm, top=2.5mm, bottom=2.5mm,
+}
+
+% 提示 — 灰色虚线左边线
+\newtcolorbox{hintbox}{
+  enhanced, breakable,
+  colback=edu-gray-bg,
+  colframe=edu-gray!20,
+  boxrule=0pt,
+  borderline west={2pt}{0pt}{edu-gray, dashed},
+  left=3mm, right=3mm, top=2mm, bottom=2mm,
+}
+
+% 思考题 — 紫色虚线左边线
+\newtcolorbox{thinkbox}{
+  enhanced, breakable,
+  colback=edu-purple-bg,
+  colframe=edu-purple!20,
+  boxrule=0pt,
+  borderline west={2pt}{0pt}{edu-purple, dashed},
+  left=2.5mm, right=2.5mm, top=2.5mm, bottom=2.5mm,
+}
+
+% 教师备注 — 灰色左边线，小字
+\newtcolorbox{teachernote}{
+  enhanced, breakable,
+  colback=edu-gray-bg,
+  colframe=edu-gray!15,
+  boxrule=0pt,
+  borderline west={2pt}{0pt}{edu-gray!60},
+  left=2.5mm, right=2.5mm, top=2.5mm, bottom=2.5mm,
+  fontupper=\small,
+  colupper=black!60,
+}
+
+% 训练目标 — 橙色左边线，小字
+\newtcolorbox{traininggoal}{
+  enhanced, breakable,
+  colback=edu-orange-bg,
+  colframe=edu-orange!15,
+  boxrule=0pt,
+  borderline west={1.5pt}{0pt}{edu-orange},
+  left=2mm, right=2mm, top=1mm, bottom=1mm,
+  fontupper=\small,
+}
+
+% 答题区 — 无边框，纯留白
+\newcommand{\answerarea}[1][40mm]{%
+  \vspace{2mm}%
+  \begin{tcolorbox}[
+    enhanced, breakable,
+    colback=white,
+    colframe=white,
+    boxrule=0pt,
+    height=#1,
+    valign=top,
+    bottom=0mm,
+    after skip=0mm,
+  ]
+  \end{tcolorbox}%
+}
+
+\newcommand{\diagramcolfigure}[3]{%
+  \begin{minipage}[t]{#2}
+    \vspace{0pt}\centering
+    \includegraphics[width=\linewidth]{\detokenize{#1}}
+    \if\relax\detokenize{#3}\relax\else
+      \par\vspace{1mm}{\scriptsize\color{edu-diagram-muted}#3}
+    \fi
+  \end{minipage}%
+}
+
+\newcommand{\diagramrowitem}[4]{%
+  \begin{minipage}[t]{#2}
+    \vspace{0pt}\centering
+    \includegraphics[width=\linewidth]{\detokenize{#1}}
+    \if\relax\detokenize{#3}\relax\else
+      \par\vspace{1mm}{\scriptsize\bfseries #3}
+    \fi
+    \if\relax\detokenize{#4}\relax\else
+      \par\vspace{0.5mm}{\scriptsize\color{edu-diagram-muted}#4}
+    \fi
+  \end{minipage}%
+}
+
+\newcommand{\answerareawithdiagramcol}[4]{%
+  \vspace{2mm}%
+  \begin{tcolorbox}[
+    enhanced, breakable,
+    colback=white,
+    colframe=white,
+    boxrule=0pt,
+    height=#1,
+    valign=top,
+    bottom=0mm,
+    after skip=0mm,
+  ]
+  \begin{minipage}[t]{\dimexpr\linewidth-#3-6mm\relax}
+    \vspace{0pt}
+  \end{minipage}\hfill
+  \diagramcolfigure{#2}{#3}{#4}
+  \end{tcolorbox}%
+}
+
+\newcommand{\answerareawithdiagram}[4]{%
+  \answerareawithdiagramcol{#1}{#2}{#3}{#4}%
+}
+
+% ---------- 字体设置 ----------
+% exam-zh (ctexbook) already sets CJK fonts via ctex.
+% Only override if specific fonts are needed.
+% macOS: Songti SC, STHeiti, STFangsong
+% Linux: SimSun, SimHei, FangSong
+
+% ---------- 页面设置 ----------
+% exam-zh (ctexbook) already loads geometry.
+% Override margins if needed:
+% \geometry{top=16mm, bottom=16mm, left=14mm, right=14mm}
+
+\examsetup{
+  question/show-answer = true,
+  fillin/show-answer = true,
+  solution/show-solution = show-stay,
+}
+
+% ---------- 教师版解答样式 ----------
+\newtcolorbox{solutionblock}{
+  enhanced, breakable,
+  colback=edu-blue-bg,
+  colframe=edu-blue!25,
+  boxrule=0pt,
+  borderline west={2pt}{0pt}{edu-blue!50},
+  arc=0pt,
+  left=3mm, right=3mm, top=2mm, bottom=2mm,
+  before skip=2mm,
+  after skip=3mm,
+  fontupper=\small,
+}
+
+% 解答步骤编号
+\newcounter{solstep}
+\newcommand{\solstep}[2]{%
+  \stepcounter{solstep}%
+  \par\medskip
+  \noindent\hangindent=6mm
+  {\color{edu-blue}\bfseries\textcircled{\scriptsize\thesolstep}\enspace #1}\enspace #2\par
+}
+
+\begin{document}
+
+\section*{特殊四边形坐标存在性练习}
+
+\section*{一、平行四边形存在性（每题 10 分，共 30 分）}
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  已知 $A(2,-1)$，$B(5,1)$，$C(7,4)$。若四边形 $ABCD$ 是平行四边形，求点 $D$ 的坐标。
+
+  \answerarea[30mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$D(4,2)$\par\medskip
+    \solstep{确定对角}{平行四边形 $ABCD$ 中，$A,C$ 为对角顶点。}
+    \solstep{列坐标和}{$D=A+C-B=(2+7-5,-1+4-1)=(4,2)$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  已知 $A(1,2)$，$B(4,4)$，$C(6,1)$。若 $A,B,C,D$ 构成平行四边形，求所有可能的点 $D$。
+
+  \answerarea[42mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$D(-1,5)$，$D(3,-1)$，$D(9,3)$\par\medskip
+    \solstep{$A,B$ 对角}{$D=A+B-C=(1+4-6,2+4-1)=(-1,5)$。}
+    \solstep{$A,C$ 对角}{$D=A+C-B=(1+6-4,2+1-4)=(3,-1)$。}
+    \solstep{$A,D$ 对角}{$D=B+C-A=(4+6-1,4+1-2)=(9,3)$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  已知 $A(1,2)$，$B(4,3)$，点 $C$ 在一次函数 $y=x+2$ 的图像上，点 $D$ 在反比例函数 $y=\dfrac{12}{x}$ 的图像上。
+若四边形 $ABCD$ 是平行四边形，求 $C,D$ 的坐标。
+
+  \answerarea[45mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$C(5,7),D(2,6)$；或 $C(-3,-1),D(-6,-2)$\par\medskip
+    \solstep{设动点}{设 $C(t,t+2)$，$D\left(s,\dfrac{12}{s}\right)$，其中 $s\ne0$。}
+    \solstep{列对角关系}{$ABCD$ 是平行四边形，所以 $A+C=B+D$，即 $(1+t,t+4)=\left(4+s,3+\dfrac{12}{s}\right)$。}
+    \solstep{解方程组}{由 $t=3+s$，代入 $t+2=1+\dfrac{12}{s}$，得 $s+4=\dfrac{12}{s}$，即 $s^2+4s-12=0$。解得 $s=2$ 或 $s=-6$，所以 $(C,D)=((5,7),(2,6))$ 或 $((-3,-1),(-6,-2))$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\section*{二、矩形存在性（每题 10 分，共 30 分）}
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  已知 $A(1,2)$，$B(7,2)$，点 $C$ 在一次函数 $y=2x-3$ 的图像上，且 $x_C>2$。
+若四边形 $ABCD$ 是矩形，求 $C,D$ 的坐标。
+
+  \answerarea[42mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$C(7,11)$，$D(1,11)$\par\medskip
+    \solstep{设点}{设 $C(t,2t-3)$，且 $t>2$。}
+    \solstep{固定顺序列直角}{矩形 $ABCD$ 中 $\angle B=90^\circ$，所以 $AB^2+BC^2=AC^2$。即 $36+[(t-7)^2+(2t-5)^2]=(t-1)^2+(2t-5)^2$。}
+    \solstep{求C和D}{解得 $t=7$，所以 $C(7,11)$。再由 $D=A+C-B$，得 $D(1,11)$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  已知 $A(1,2)$，$B(7,2)$，点 $C$ 在一次函数 $y=2x-3$ 的图像上，且 $x_C>2$。
+若 $A,B,C,D$ 构成矩形，求所有可能的 $C,D$。
+
+  \answerarea[55mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$C(7,11),D(1,11)$；或 $C(4,5),D(4,-1)$\par\medskip
+    \solstep{设点}{设 $C(t,2t-3)$，且 $t>2$。}
+    \solstep{直角在A}{列 $AB^2+AC^2=BC^2$，化简得 $t=1$，不满足 $t>2$，舍去。}
+    \solstep{直角在B}{列 $AB^2+BC^2=AC^2$，得 $t=7$。此时 $C(7,11)$，$D=A+C-B=(1,11)$。}
+    \solstep{直角在C}{列 $AC^2+BC^2=AB^2$，化简得 $5t^2-28t+32=0$，解得 $t=4$ 或 $t=\frac85$。由 $t>2$ 取 $t=4$，所以 $C(4,5)$，$D=A+B-C=(4,-1)$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  已知 $A(1,2)$，$B(5,2)$，点 $C$ 在反比例函数 $y=\dfrac{15}{x}$ 的图像上，且 $x_C>0$。
+若四边形 $ABCD$ 是矩形，求 $C,D$ 的坐标。
+
+  \answerarea[48mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$C(5,3)$，$D(1,3)$\par\medskip
+    \solstep{设点}{设 $C\left(t,\dfrac{15}{t}\right)$，其中 $t>0$。}
+    \solstep{固定顺序列直角}{矩形 $ABCD$ 中 $\angle B=90^\circ$，所以 $BC$ 应与水平的 $AB$ 垂直，故 $C$ 的横坐标与 $B$ 相同，$t=5$。}
+    \solstep{求C}{代入反比例函数得 $C(5,3)$。}
+    \solstep{求D}{固定顺序用 $D=A+C-B$，得 $D(1,3)$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\section*{三、菱形存在性（每题 10 分，共 30 分）}
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  已知 $A(1,2)$，$B(6,2)$，点 $C$ 在一次函数 $y=\dfrac43x+\dfrac23$ 的图像上。
+若四边形 $ABCD$ 是菱形，求所有可能的 $C,D$。
+
+  \answerarea[45mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$C\left(\dfrac{23}{5},\dfrac{34}{5}\right)$，$D\left(-\dfrac25,\dfrac{34}{5}\right)$\par\medskip
+    \solstep{设点}{设 $C\left(t,\dfrac43t+\dfrac23\right)$。}
+    \solstep{列邻边相等}{菱形 $ABCD$ 中 $AB=BC$。所以 $25=(t-6)^2+\left(\dfrac43t-\dfrac43\right)^2$，解得 $t=1$ 或 $t=\dfrac{23}{5}$。}
+    \solstep{求D}{$t=1$ 时 $C=A$，舍去。所以 $C\left(\dfrac{23}{5},\dfrac{34}{5}\right)$，$D=A+C-B=\left(-\dfrac25,\dfrac{34}{5}\right)$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  已知 $A(1,2)$，$B(6,2)$，点 $C$ 在一次函数 $y=\dfrac43x+\dfrac23$ 的图像上。
+若 $A,B,C,D$ 构成菱形，求所有可能的 $C,D$。
+
+  \answerarea[65mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$C(4,6),D(9,6)$；$C(-2,-2),D(3,-2)$；$C\left(\dfrac{23}{5},\dfrac{34}{5}\right),D\left(-\dfrac25,\dfrac{34}{5}\right)$；$C\left(\dfrac72,\dfrac{16}{3}\right),D\left(\dfrac72,-\dfrac43\right)$\par\medskip
+    \solstep{设点}{设 $C\left(t,\dfrac43t+\dfrac23\right)$。}
+    \solstep{$AB=AC$}{列 $25=(t-1)^2+\left(\dfrac43t-\dfrac43\right)^2$，得 $t=4$ 或 $t=-2$。此时 $D=B+C-A$，得到 $(C,D)=((4,6),(9,6))$ 或 $((-2,-2),(3,-2))$。}
+    \solstep{$AB=BC$}{列 $25=(t-6)^2+\left(\dfrac43t-\dfrac43\right)^2$，得 $t=1$ 或 $t=\dfrac{23}{5}$。$t=1$ 时 $C=A$，舍去；此时 $D=A+C-B$，得到 $C\left(\dfrac{23}{5},\dfrac{34}{5}\right)$，$D\left(-\dfrac25,\dfrac{34}{5}\right)$。}
+    \solstep{$AC=BC$}{列 $(t-1)^2+\left(\dfrac43t-\dfrac43\right)^2=(t-6)^2+\left(\dfrac43t-\dfrac43\right)^2$，得 $t=\dfrac72$。此时 $D=A+B-C=\left(\dfrac72,-\dfrac43\right)$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  已知 $A(1,2)$，$B(5,2)$，点 $C$ 在一次函数 $y=2x$ 的图像上。
+若四边形 $ABCD$ 是菱形，求 $C,D$ 的坐标。
+
+  \answerarea[45mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$C\left(\dfrac{13}{5},\dfrac{26}{5}\right)$，$D\left(-\dfrac75,\dfrac{26}{5}\right)$\par\medskip
+    \solstep{设点}{设 $C(t,2t)$。}
+    \solstep{列邻边相等}{菱形 $ABCD$ 中 $AB=BC$，所以 $16=(t-5)^2+(2t-2)^2$，化简得 $5t^2-18t+13=0$。}
+    \solstep{排除退化}{解得 $t=1$ 或 $t=\dfrac{13}{5}$。当 $t=1$ 时 $C=A$，不能构成四边形，舍去；所以 $C\left(\dfrac{13}{5},\dfrac{26}{5}\right)$。}
+    \solstep{求D}{$D=A+C-B=\left(-\dfrac75,\dfrac{26}{5}\right)$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\clearpage
+\section*{答案速查}
+
+
+
+
+\end{document}

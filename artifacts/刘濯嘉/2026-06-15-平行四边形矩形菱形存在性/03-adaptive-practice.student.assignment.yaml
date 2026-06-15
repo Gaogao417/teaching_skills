@@ -1,0 +1,141 @@
+meta:
+  title: "特殊四边形坐标存在性练习"
+  subtitle: "刘濯嘉 · 学生版"
+  grade: "八年级"
+  subject: "数学"
+  duration: "35分钟"
+  total_points: 90
+  version: "student"
+  source_artifacts:
+    structure_analysis: "artifacts/刘濯嘉/2026-06-15-平行四边形矩形菱形存在性/01-structure-analysis.md"
+    explanation: "artifacts/刘濯嘉/2026-06-15-平行四边形矩形菱形存在性/02-student-explanation.assignment.yaml"
+
+render:
+  template: "exam-zh-practice"
+  paper_size: "a4paper"
+  answer_key_position: "after_page_break"
+
+sections:
+  - id: "para-practice"
+    title: "一、平行四边形存在性（每题 10 分，共 30 分）"
+    type: "practice"
+    visibility: "student"
+    blocks:
+      - type: "problem"
+        id: "q1"
+        points: 10
+        stem_latex: |
+          已知 $A(2,-1)$，$B(5,1)$，$C(7,4)$。若四边形 $ABCD$ 是平行四边形，求点 $D$ 的坐标。
+        hints:
+          - content: "固定顺序 $ABCD$，直接用 $D=A+C-B$。"
+        answer_space:
+          type: "steps"
+          height: "30mm"
+          step_count: 3
+      - type: "problem"
+        id: "q2"
+        points: 10
+        stem_latex: |
+          已知 $A(1,2)$，$B(4,4)$，$C(6,1)$。若 $A,B,C,D$ 构成平行四边形，求所有可能的点 $D$。
+        hints:
+          - content: "分别讨论 $A,B$ 对角、$A,C$ 对角、$A,D$ 对角。"
+        answer_space:
+          type: "steps"
+          height: "42mm"
+          step_count: 4
+      - type: "problem"
+        id: "q3"
+        points: 10
+        stem_latex: |
+          已知 $A(1,2)$，$B(4,3)$，点 $C$ 在一次函数 $y=x+2$ 的图像上，点 $D$ 在反比例函数 $y=\dfrac{12}{x}$ 的图像上。
+          若四边形 $ABCD$ 是平行四边形，求 $C,D$ 的坐标。
+        hints:
+          - content: '设 $C(t,t+2)$，$D\left(s,\dfrac{12}{s}\right)$，再用 $A+C=B+D$。'
+        answer_space:
+          type: "steps"
+          height: "45mm"
+          step_count: 4
+
+  - id: "rect-practice"
+    title: "二、矩形存在性（每题 10 分，共 30 分）"
+    type: "practice"
+    visibility: "student"
+    blocks:
+      - type: "problem"
+        id: "q4"
+        points: 10
+        stem_latex: |
+          已知 $A(1,2)$，$B(7,2)$，点 $C$ 在一次函数 $y=2x-3$ 的图像上，且 $x_C>2$。
+          若四边形 $ABCD$ 是矩形，求 $C,D$ 的坐标。
+        hints:
+          - content: '矩形 $ABCD$ 固定顺序时，$\angle ABC=90^\circ$。'
+        answer_space:
+          type: "steps"
+          height: "42mm"
+          step_count: 4
+      - type: "problem"
+        id: "q5"
+        points: 10
+        stem_latex: |
+          已知 $A(1,2)$，$B(7,2)$，点 $C$ 在一次函数 $y=2x-3$ 的图像上，且 $x_C>2$。
+          若 $A,B,C,D$ 构成矩形，求所有可能的 $C,D$。
+        hints:
+          - content: '分别让 $\angle A,\angle B,\angle C$ 为直角。'
+        answer_space:
+          type: "steps"
+          height: "55mm"
+          step_count: 5
+      - type: "problem"
+        id: "q6"
+        points: 10
+        stem_latex: |
+          已知 $A(1,2)$，$B(5,2)$，点 $C$ 在反比例函数 $y=\dfrac{15}{x}$ 的图像上，且 $x_C>0$。
+          若四边形 $ABCD$ 是矩形，求 $C,D$ 的坐标。
+        hints:
+          - content: "固定顺序矩形 $ABCD$ 中，先判断 $C$ 的横坐标。"
+        answer_space:
+          type: "steps"
+          height: "48mm"
+          step_count: 4
+
+  - id: "rhom-practice"
+    title: "三、菱形存在性（每题 10 分，共 30 分）"
+    type: "practice"
+    visibility: "student"
+    blocks:
+      - type: "problem"
+        id: "q7"
+        points: 10
+        stem_latex: |
+          已知 $A(1,2)$，$B(6,2)$，点 $C$ 在一次函数 $y=\dfrac43x+\dfrac23$ 的图像上。
+          若四边形 $ABCD$ 是菱形，求所有可能的 $C,D$。
+        hints:
+          - content: "固定顺序菱形 $ABCD$，先用 $AB=BC$。"
+        answer_space:
+          type: "steps"
+          height: "45mm"
+          step_count: 4
+      - type: "problem"
+        id: "q8"
+        points: 10
+        stem_latex: |
+          已知 $A(1,2)$，$B(6,2)$，点 $C$ 在一次函数 $y=\dfrac43x+\dfrac23$ 的图像上。
+          若 $A,B,C,D$ 构成菱形，求所有可能的 $C,D$。
+        hints:
+          - content: "分别列 $AB=AC$，$AB=BC$，$AC=BC$。"
+        answer_space:
+          type: "steps"
+          height: "65mm"
+          step_count: 6
+      - type: "problem"
+        id: "q9"
+        points: 10
+        stem_latex: |
+          已知 $A(1,2)$，$B(5,2)$，点 $C$ 在一次函数 $y=2x$ 的图像上。
+          若四边形 $ABCD$ 是菱形，求 $C,D$ 的坐标。
+        hints:
+          - content: "固定顺序先用 $AB=BC$，最后要排除 $C=A$ 的退化情况。"
+        answer_space:
+          type: "steps"
+          height: "45mm"
+          step_count: 4

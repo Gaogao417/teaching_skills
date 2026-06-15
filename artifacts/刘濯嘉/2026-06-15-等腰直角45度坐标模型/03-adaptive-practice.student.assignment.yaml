@@ -1,0 +1,142 @@
+meta:
+  title: "45°旋转与等腰直角坐标模型练习"
+  subtitle: "刘濯嘉 · 学生版"
+  grade: "八年级"
+  subject: "数学"
+  duration: "30分钟"
+  total_points: 80
+  version: "student"
+  source_artifacts:
+    structure_analysis: "artifacts/刘濯嘉/2026-06-15-等腰直角45度坐标模型/01-structure-analysis.md"
+    explanation: "artifacts/刘濯嘉/2026-06-15-等腰直角45度坐标模型/02-student-explanation.assignment.yaml"
+
+render:
+  template: "exam-zh-practice"
+  paper_size: "a4paper"
+  answer_key_position: "after_page_break"
+
+sections:
+  - id: "find-c"
+    title: "一、求底角顶点 C（每题 10 分，共 20 分）"
+    type: "practice"
+    visibility: "student"
+    blocks:
+      - type: "problem"
+        id: "q1"
+        points: 10
+        stem_latex: |
+          等腰直角三角形 $ABC$ 中，$\angle A=90^\circ$，$AB=AC$。
+          已知 $A(-2,3)$，$B(4,7)$，点 $C$ 在点 $A$ 的右下方，求点 $C$ 的坐标。
+        hints:
+          - content: "先把 $AB$ 读成“右几上几”，再交换水平和竖直步数。"
+        answer_space:
+          type: "steps"
+          height: "35mm"
+          step_count: 4
+      - type: "problem"
+        id: "q2"
+        points: 10
+        stem_latex: |
+          等腰直角三角形 $ABC$ 中，$\angle A=90^\circ$，$AB=AC$。
+          已知 $A(3,-1)$，$B(-2,5)$，点 $C$ 在点 $A$ 的右上方，求点 $C$ 的坐标。
+        hints:
+          - content: "从 $A$ 到 $B$ 是右下方向，旋转后要选右上方向。"
+        answer_space:
+          type: "steps"
+          height: "35mm"
+          step_count: 4
+
+  - id: "find-a"
+    title: "二、求顶角顶点 A（每题 10 分，共 20 分）"
+    type: "practice"
+    visibility: "student"
+    blocks:
+      - type: "problem"
+        id: "q3"
+        points: 10
+        stem_latex: |
+          等腰直角三角形 $ABC$ 中，$\angle A=90^\circ$。
+          已知 $B(-3,4)$，$C(5,-2)$，点 $A$ 在第一象限，求点 $A$ 的坐标。
+        hints:
+          - content: "先取 $BC$ 的中点 $D$，再从 $D$ 到 $B$ 读走法。"
+        answer_space:
+          type: "steps"
+          height: "40mm"
+          step_count: 4
+      - type: "problem"
+        id: "q4"
+        points: 10
+        stem_latex: |
+          等腰直角三角形 $ABC$ 中，$\angle A=90^\circ$。
+          已知 $B(-4,1)$，$C(2,9)$，点 $A$ 在第一象限，求点 $A$ 的坐标。
+        hints:
+          - content: "中点 $D$ 是旋转中心，不是 $B$ 或 $C$。"
+        answer_space:
+          type: "steps"
+          height: "40mm"
+          step_count: 4
+
+  - id: "find-line"
+    title: "三、45 度求直线与后续计算（每题 10 分，共 20 分）"
+    type: "practice"
+    visibility: "student"
+    blocks:
+      - type: "problem"
+        id: "q5"
+        points: 10
+        stem_latex: |
+          已知 $A(2,5)$，$B(5,6)$。直线 $BC$ 与射线 $BA$ 成 $45^\circ$，对应的辅助点 $P$ 在点 $A$ 的右下方。
+          \begin{enumerate}[label=(\arabic*)]
+            \item 求直线 $BC$ 的解析式；
+            \item 若直线 $BC$ 与反比例函数 $y=\dfrac{30}{x}$ 的图像除 $B$ 外还交于点 $C$，求点 $C$ 的坐标和 $\triangle ABC$ 的面积。
+          \end{enumerate}
+        hints:
+          - content: "先作等腰直角三角形 $ABP$，让 $A$ 做直角顶点。"
+        answer_space:
+          type: "steps"
+          height: "55mm"
+          step_count: 5
+      - type: "problem"
+        id: "q6"
+        points: 10
+        stem_latex: |
+          已知 $A(2,11)$，$B(6,9)$。直线 $BC$ 与射线 $BA$ 成 $45^\circ$，对应的辅助点 $P$ 在点 $A$ 的右上方。
+          \begin{enumerate}[label=(\arabic*)]
+            \item 求直线 $BC$ 的解析式；
+            \item 若点 $C$ 在反比例函数 $y=\dfrac{54}{x}$ 的图像上，且 $x_C<4$，求点 $C$ 的坐标和 $\triangle ABC$ 的面积。
+          \end{enumerate}
+        hints:
+          - content: "求出 $P$ 后，用 $B,P$ 两点求直线。"
+        answer_space:
+          type: "steps"
+          height: "55mm"
+          step_count: 5
+
+  - id: "condition-check"
+    title: "四、条件是否足够（每题 10 分，共 20 分）"
+    type: "practice"
+    visibility: "student"
+    blocks:
+      - type: "problem"
+        id: "q7"
+        points: 10
+        stem_latex: |
+          已知 $A(1,2)$，$B(7,2)$。如果题目只说 $\angle ACB=45^\circ$，
+          能不能唯一求出直线 $BC$ 的解析式？请说明理由。
+        hints:
+          - content: '先看 $\angle ACB$ 的顶点是谁。'
+        answer_space:
+          type: "lines"
+          height: "35mm"
+      - type: "problem"
+        id: "q8"
+        points: 10
+        stem_latex: |
+          已知 $A(1,1)$，$B(5,1)$，$\angle ACB=45^\circ$，且点 $C$ 在直线 $x=1$ 上并位于点 $A$ 上方。
+          求点 $C$ 的坐标和直线 $BC$ 的解析式。
+        hints:
+          - content: "这次题目补充了 $C$ 的位置，所以可以先确定 $C$。"
+        answer_space:
+          type: "steps"
+          height: "40mm"
+          step_count: 4
