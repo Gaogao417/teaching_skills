@@ -197,7 +197,7 @@ class TikzRendererTest(unittest.TestCase):
                         "functions": [{"id": "f", "expression_wl": "2*x - 1", "label": "f(x)"}],
                         "samples": {"f": [[-2, -5], [0, -1], [2, 3], [6, 11]]},
                         "objects": [
-                            {"type": "point", "id": "A", "x": 2, "y": 3, "label": "A"},
+                            {"type": "point", "id": "A", "x": 2, "y": 3, "label": "A", "style": {"label_dx": -20, "label_dy": 16}},
                             {"type": "line", "equation": "x=2", "style": {"dash": "5 4"}},
                             {"type": "circle", "center": [2, 3], "radius": 2},
                             {"type": "polygon", "points": [[1, 1], [2, 3], [3, 1]], "style": {"fill": "#fef3c7"}},
@@ -214,9 +214,12 @@ class TikzRendererTest(unittest.TestCase):
             fragment = (out_dir / result["tikz_fragment_path"]).read_text(encoding="utf-8")
             self.assertIn(r"\begin{axis}", fragment)
             self.assertIn("grid=both", fragment)
+            self.assertIn("clip=false", fragment)
             self.assertIn(r"\addplot+", fragment)
             self.assertIn("dash pattern=on 5pt off 4pt", fragment)
             self.assertIn("axis cs:2,3", fragment)
+            self.assertIn("anchor=south east, xshift=-8pt, yshift=6.4pt", fragment)
+            self.assertLess(fragment.index("coordinates {(1,1) (2,3) (3,1) (1,1)}"), fragment.index(r"{$\mathit{A}$}"))
             self.assertIn("{19}", fragment)
             self.assertNotIn("CD=19", fragment)
 

@@ -87,6 +87,43 @@ class AnalyticDiagramWorkflowTest(unittest.TestCase):
             self.assertTrue((job_dir / "workflow_result.json").exists())
             self.assertIn("Extra inputs", result["message"])
 
+    def test_coordinate_renderer_with_explicit_objects_does_not_require_wolfram(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            request_path = root / "request.json"
+            request = {
+                "schema_version": "diagram-job-request/v2",
+                "job_id": "coord-explicit-prompt",
+                "assignment_id": "coord-explicit",
+                "slot_id": "coord.prompt",
+                "variant": "prompt",
+                "disclosure_policy": "clean",
+                "engine": "coordinate_renderer",
+                "diagram_kind": "coordinate_geometry",
+                "analytic_requirements": {
+                    "viewport": {"x_min": -1, "x_max": 5, "y_min": -1, "y_max": 4},
+                    "axes": {"x": False, "y": False, "grid": False, "show_ticks": False},
+                    "objects": [
+                        {"type": "point", "id": "A", "x": 0, "y": 0, "label": "A"},
+                        {"type": "point", "id": "B", "x": 4, "y": 0, "label": "B"},
+                        {"type": "polyline", "id": "AB", "points": ["A", "B"]},
+                    ],
+                },
+            }
+            request_path.write_text(json.dumps(request), encoding="utf-8")
+
+            job_dir = root / "job"
+            with patch("analytic_diagram_workflow.WolframAnalyticKernel", side_effect=AssertionError("wolfram should not run")):
+                result = run_analytic_workflow(request_path, job_dir)
+
+            self.assertEqual(result["status"], "ok")
+            self.assertFalse(result["wolfram"]["success"])
+            spec = json.loads((job_dir / "final_renderer_spec.json").read_text(encoding="utf-8"))
+            self.assertFalse(spec["diagnostics"]["wolfram_used"])
+            self.assertEqual(spec["objects"][0]["id"], "A")
+            events = (job_dir / "workflow_events.jsonl").read_text(encoding="utf-8")
+            self.assertIn("wolfram_skipped", events)
+
     def test_coordinate_renderer_outputs_function_objects_and_tikz_fragment(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             out_dir = Path(tmp)

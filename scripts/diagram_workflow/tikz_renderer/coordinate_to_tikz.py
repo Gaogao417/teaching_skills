@@ -7,7 +7,7 @@ from typing import Any
 from diagram_contracts import DiagramVariant, GeometryRenderSpec
 
 from .contracts import TikzCommand, TikzCompilerAudit, TikzDiagramSpec, TikzStyleRole
-from .styles import profile_to_style, value_only_condition_label
+from .styles import LABEL_PX_TO_PT, profile_to_style, value_only_condition_label
 from .writer import (
     color_option,
     dash_option,
@@ -165,7 +165,7 @@ class CoordinateTikzCompiler:
             f"ymin={fmt_num(self.y_min)}",
             f"ymax={fmt_num(self.y_max)}",
             "enlargelimits=false",
-            "clip=true",
+            "clip=false",
             "scale only axis",
             "grid=both" if grid else "grid=none",
             "ticks=both" if show_ticks else "ticks=none",
@@ -256,14 +256,58 @@ class CoordinateTikzCompiler:
         x, y = float(obj["x"]), float(obj["y"])
         color = color_option(style.get("stroke") or "#111827")
         radius = float(style.get("radius", 2.2))
-        tex = (
+        mark_tex = (
             f"\\addplot+[only marks, mark=*, mark size={fmt_num(radius, 3)}pt, draw={color}, fill={color}, forget plot] "
             f"coordinates {{({fmt_num(x)},{fmt_num(y)})}};"
         )
+        self.commands.append(TikzCommand(kind="object:point", order=700 + index, tex=mark_tex))
+
         label = obj.get("label") or obj.get("id")
         if label:
-            tex += f"\n\\node[axis point label, anchor=south west] at (axis cs:{fmt_num(x)},{fmt_num(y)}) {{{point_label_tex(label)}}};"
-        self.commands.append(TikzCommand(kind="object:point", order=500 + index, tex=tex))
+            options = self._point_label_options(style)
+            label_tex = (
+                f"\\node[axis point label, {options}] "
+                f"at (axis cs:{fmt_num(x)},{fmt_num(y)}) {{{point_label_tex(label)}}};"
+            )
+            self.commands.append(TikzCommand(kind="object:point_label", order=900 + index, tex=label_tex))
+
+    def _point_label_options(self, style: dict[str, Any]) -> str:
+        dx_value = style.get("label_dx")
+        dy_value = style.get("label_dy")
+        if dx_value is not None or dy_value is not None:
+            dx = float(dx_value or 0)
+            dy = float(dy_value or 0)
+            return join_options(
+                f"anchor={self._anchor_from_shift(dx, dy)}",
+                f"xshift={fmt_num(dx * LABEL_PX_TO_PT, 3)}pt" if dx else "",
+                f"yshift={fmt_num(dy * LABEL_PX_TO_PT, 3)}pt" if dy else "",
+            )
+        offset_pt = self.style.point_label_offset_cm * 28.4528
+        return join_options(
+            "anchor=south west",
+            f"xshift={fmt_num(offset_pt, 3)}pt",
+            f"yshift={fmt_num(offset_pt, 3)}pt",
+        )
+
+    @staticmethod
+    def _anchor_from_shift(dx: float, dy: float) -> str:
+        if dx < 0 and dy > 0:
+            return "south east"
+        if dx > 0 and dy > 0:
+            return "south west"
+        if dx < 0 and dy < 0:
+            return "north east"
+        if dx > 0 and dy < 0:
+            return "north west"
+        if dx < 0:
+            return "east"
+        if dx > 0:
+            return "west"
+        if dy > 0:
+            return "south"
+        if dy < 0:
+            return "north"
+        return "south west"
 
     def _draw_line_object(self, index: int, obj: dict[str, Any], style: dict[str, Any]) -> None:
         endpoints = _line_endpoints(obj, self.x_min, self.x_max, self.y_min, self.y_max)
@@ -279,7 +323,7 @@ class CoordinateTikzCompiler:
             "forget plot",
         )
         self.commands.append(
-            TikzCommand(kind="object:line", order=550 + index, tex=f"\\addplot+[{options}] coordinates {{{_coordinates_tex(list(endpoints))}}};")
+            TikzCommand(kind="object:line", order=300 + index, tex=f"\\addplot+[{options}] coordinates {{{_coordinates_tex(list(endpoints))}}};")
         )
 
     def _draw_text_object(self, index: int, obj: dict[str, Any], style: dict[str, Any]) -> None:
@@ -292,7 +336,7 @@ class CoordinateTikzCompiler:
             f"\\node[anchor={anchor}, text={fill}, font=\\fontsize{{{fmt_num(self.style.condition_label_pt, 2)}}}{{{fmt_num(self.style.condition_label_pt * 1.1, 2)}}}\\selectfont] "
             f"at (axis cs:{fmt_num(float(obj['x']))},{fmt_num(float(obj['y']))}) {{{node_text_tex(text)}}};"
         )
-        self.commands.append(TikzCommand(kind="object:text", order=600 + index, tex=tex))
+        self.commands.append(TikzCommand(kind="object:text", order=950 + index, tex=tex))
 
     def _draw_circle_object(self, index: int, obj: dict[str, Any], style: dict[str, Any]) -> None:
         center = _coordinate(obj.get("center"), self.point_objects)
@@ -312,7 +356,7 @@ class CoordinateTikzCompiler:
             stroke_width_option(style.get("stroke_width", 2.4)),
             "forget plot",
         )
-        self.commands.append(TikzCommand(kind="object:circle", order=650 + index, tex=f"\\addplot+[{options}] coordinates {{{_coordinates_tex(points)}}};"))
+        self.commands.append(TikzCommand(kind="object:circle", order=350 + index, tex=f"\\addplot+[{options}] coordinates {{{_coordinates_tex(points)}}};"))
 
     def _draw_poly_object(self, index: int, obj: dict[str, Any], style: dict[str, Any], *, closed: bool) -> None:
         raw_points = obj.get("points") or []
@@ -332,7 +376,8 @@ class CoordinateTikzCompiler:
             dash_option(style.get("dash")),
             "forget plot",
         )
-        self.commands.append(TikzCommand(kind="object:polygon" if closed else "object:polyline", order=700 + index, tex=f"\\addplot+[{options}] coordinates {{{_coordinates_tex(clean_points)}}};"))
+        order = 200 + index if closed else 300 + index
+        self.commands.append(TikzCommand(kind="object:polygon" if closed else "object:polyline", order=order, tex=f"\\addplot+[{options}] coordinates {{{_coordinates_tex(clean_points)}}};"))
 
 
 def opacity_option(value: object) -> str:
