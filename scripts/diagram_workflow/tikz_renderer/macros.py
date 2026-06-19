@@ -14,6 +14,9 @@ DIAGRAM_TIKZ_MACROS = r"""
 }
 \providecommand{\DrawSegment}[3][]{\draw[diagram segment,#1] (#2) -- (#3);}
 \providecommand{\DrawDashedSegment}[3][]{\draw[diagram segment,dashed,#1] (#2) -- (#3);}
+\providecommand{\Triangle}[4][]{\path[#1] (#2) -- (#3) -- (#4) -- cycle;}
+\providecommand{\Quadrilateral}[5][]{\path[#1] (#2) -- (#3) -- (#4) -- (#5) -- cycle;}
+\providecommand{\PolygonPath}[2][]{\path[#1] #2 -- cycle;}
 \providecommand{\PointDot}[2][]{\fill[diagram point,#1] (#2) circle[radius=0.14cm];}
 \providecommand{\PointLabel}[3][]{\node[point label,#1] at (#2) {#3};}
 \providecommand{\SegmentLabel}[4][]{\node[condition label,#1] at ($(#2)!0.5!(#3)$) {#4};}

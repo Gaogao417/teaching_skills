@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import math
 import re
 
 from diagram_contracts import DiagramVariant, GeometryRenderSpec, RenderLabel
@@ -34,6 +35,7 @@ class SyntheticGeometryTikzCompiler:
         self.points: dict[str, Point] = {}
         self.coordinates: list[TikzCoordinate] = []
         self.commands: list[TikzCommand] = []
+        self.label_offsets: dict[str, Point] = {}
         self.warnings: list[str] = []
         self.natural_width_cm = 1.0
         self.natural_height_cm = 1.0
@@ -132,8 +134,15 @@ class SyntheticGeometryTikzCompiler:
                 stroke_width_option(polygon.stroke_width),
                 "line join=round",
             )
-            path = " -- ".join(f"({name})" for name in names) + " -- cycle"
-            self.commands.append(TikzCommand(kind="polygon", order=100 + index, tex=f"\\path[{options}] {path};"))
+            if len(names) == 3:
+                tex = f"\\Triangle[{options}]{{{names[0]}}}{{{names[1]}}}{{{names[2]}}}"
+            elif len(names) == 4:
+                tex = f"\\Quadrilateral[{options}]{{{names[0]}}}{{{names[1]}}}{{{names[2]}}}{{{names[3]}}}"
+            else:
+                path = " -- ".join(f"({name})" for name in names)
+                tex = f"\\PolygonPath[{options}]{{{path}}}"
+            self.commands.append(TikzCommand(kind="polygon", order=100 + index, tex=tex))
+            self._remember_polygon_label_offsets(polygon.points)
 
     def _draw_segments(self) -> None:
         for index, segment in enumerate(self.spec.segments):
@@ -209,10 +218,17 @@ class SyntheticGeometryTikzCompiler:
         for index, name in enumerate(self.source_points):
             label = self.spec.labels.get(name)
             if not label:
-                label = RenderLabel(text=name, dy=-(self.spec.render_profile.point_label_offset_px or 34))
+                label = RenderLabel(text=name, dx=0, dy=0)
             text = label.text or name
-            dx_cm = float(label.dx or 0) * PX_TO_CM
-            dy_cm = -float(label.dy if label.dy is not None else -24) * PX_TO_CM
+            has_explicit_offset = bool(label.dx) or label.dy not in (None, 0, -24)
+            if has_explicit_offset:
+                dx_cm = float(label.dx or 0) * PX_TO_CM
+                dy_cm = -float(label.dy if label.dy is not None else 0) * PX_TO_CM
+            else:
+                dx_cm, dy_cm = self.label_offsets.get(
+                    name,
+                    (0.0, (self.spec.render_profile.point_label_offset_px or 34) * PX_TO_CM),
+                )
             self.commands.append(
                 TikzCommand(
                     kind="point_label",
@@ -223,6 +239,25 @@ class SyntheticGeometryTikzCompiler:
                     ),
                 )
             )
+
+    def _remember_polygon_label_offsets(self, point_names: list[str]) -> None:
+        polygon_points = [self.points[name] for name in point_names if name in self.points]
+        if len(polygon_points) < 3:
+            return
+        centroid_x = sum(point[0] for point in polygon_points) / len(polygon_points)
+        centroid_y = sum(point[1] for point in polygon_points) / len(polygon_points)
+        distance = (self.spec.render_profile.point_label_offset_px or 34) * PX_TO_CM
+        for name in point_names:
+            if name in self.label_offsets or name not in self.points:
+                continue
+            point = self.points[name]
+            vx = point[0] - centroid_x
+            vy = point[1] - centroid_y
+            length = math.hypot(vx, vy)
+            if length <= 1e-9:
+                self.label_offsets[name] = (0.0, distance)
+                continue
+            self.label_offsets[name] = (vx / length * distance, vy / length * distance)
 
 
 def compile_synthetic_geometry(spec: GeometryRenderSpec) -> TikzDiagramSpec:
