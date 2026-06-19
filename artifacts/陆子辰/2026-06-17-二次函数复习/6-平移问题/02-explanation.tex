@@ -1,0 +1,769 @@
+% preamble-exam-zh.tex — 极简讲解页共享 preamble
+% 目标：复刻「题目独立、提示轻框、路线箭头、主体双栏、答案轻收束」的讲义风格。
+
+\documentclass{exam-zh}
+
+% ---------- 基础配置 ----------
+\examsetup{
+  page/size = a4paper,
+  page/show-head = false,
+  page/show-foot = false,
+  sealline/show = false,
+  font = none,
+  math-font = none,
+}
+
+% ---------- 包 ----------
+\usepackage{geometry}
+\geometry{top=10mm,bottom=14mm,left=12mm,right=10mm}
+\AtBeginDocument{\newgeometry{top=10mm,bottom=14mm,left=12mm,right=10mm}}
+
+\usepackage{xcolor}
+\usepackage{needspace}
+\usepackage{enumitem}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{tcolorbox}
+\tcbuselibrary{skins,breakable}
+\usepackage{paracol}
+\usepackage{graphicx}
+
+% ---------- 打印/屏幕颜色切换 ----------
+% 用法：\documentclass[monochrome]{exam-zh} 可降级为灰度。
+% 注意：不要使用 \if@xxx 放在 makeatother 外部；这里改成普通条件名。
+\newif\ifeduprintcolor
+\eduprintcolortrue
+\makeatletter
+\@ifclasswith{exam-zh}{monochrome}{\eduprintcolorfalse}{}
+\makeatother
+
+% ---------- 语义颜色 ----------
+\ifeduprintcolor
+  \definecolor{edu-blue}{RGB}{31,62,126}
+  \definecolor{edu-blue-soft}{RGB}{232,238,250}
+  \definecolor{edu-blue-bg}{RGB}{248,250,254}
+  \definecolor{edu-ink}{RGB}{30,35,45}
+  \definecolor{edu-muted}{RGB}{118,124,136}
+  \definecolor{edu-line}{RGB}{209,218,235}
+  \definecolor{edu-soft-bg}{RGB}{250,251,253}
+  \definecolor{edu-red}{RGB}{168,58,58}
+  \definecolor{edu-red-bg}{RGB}{255,247,245}
+\else
+  \definecolor{edu-blue}{gray}{0.15}
+  \definecolor{edu-blue-soft}{gray}{0.90}
+  \definecolor{edu-blue-bg}{gray}{0.98}
+  \definecolor{edu-ink}{gray}{0.10}
+  \definecolor{edu-muted}{gray}{0.45}
+  \definecolor{edu-line}{gray}{0.82}
+  \definecolor{edu-soft-bg}{gray}{0.97}
+  \definecolor{edu-red}{gray}{0.28}
+  \definecolor{edu-red-bg}{gray}{0.97}
+\fi
+\colorlet{edu-diagram-muted}{edu-muted}
+
+% ---------- 全局排版 ----------
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\linespread{1.16}
+\renewcommand{\arraystretch}{1.15}
+
+% ctex 通常提供 \kaishu；这里用它做教师旁白感。
+\newcommand{\edukai}{\kaishu}
+
+% ---------- 顶部元信息 ----------
+\newcommand{\eduTopBar}[2]{%
+  \noindent
+  \begin{tabularx}{\linewidth}{@{}Xr@{}}
+    {\color{edu-blue}\bfseries #1} &
+    {\color{edu-blue}\bfseries #2}
+  \end{tabularx}
+  \vspace{8mm}
+}
+
+% ---------- 轻标题体系 ----------
+% 只有真正的大结构才用它；不要给提示/路线滥用标题。
+\newcommand{\eduSectionTitle}[1]{%
+  \needspace{5\baselineskip}%
+  \vspace{2mm}
+  {\color{edu-blue}\bfseries\large #1}\par
+  \vspace{3mm}
+}
+
+\newcommand{\eduSubTitle}[1]{%
+  \needspace{4\baselineskip}%
+  \vspace{1mm}
+  {\color{edu-blue}\bfseries #1}\par
+  \vspace{1mm}
+}
+
+% ---------- 小问题干：复用 exam (1)(2)(3) 格式 ----------
+\newenvironment{eduSubQuestionItem}[1]{%
+  \needspace{4\baselineskip}%
+  \vspace{2mm}
+  \par\noindent
+  \hangindent=8mm\hangafter=1
+  {\color{edu-blue}\bfseries #1}\enspace
+  \begingroup
+  \color{edu-ink}
+}{%
+  \endgroup
+  \par
+  \vspace{3mm}
+}
+
+% ---------- 辅助信息条（解题流程/关键想法/思考）楷体 ----------
+\newenvironment{eduAuxItem}[1]{%
+  \needspace{4\baselineskip}%
+  \vspace{2mm}
+  \par\noindent
+  \hangindent=8mm\hangafter=1
+  {\color{edu-blue}\edukai $\triangleright$~#1}\enspace
+  \begingroup
+  \color{edu-ink}
+  \edukai
+}{%
+  \endgroup
+  \par
+  \vspace{4mm}
+}
+
+\newcommand{\eduColumnTitle}[2]{%
+  {\color{edu-blue}\bfseries #1\hspace{1.5mm}#2}\par
+  \vspace{2.5mm}
+}
+
+% ---------- 图标：不用外部 icon 字体，保证可移植 ----------
+\newcommand{\eduIconBulb}{\(\circ\)}
+\newcommand{\eduIconBook}{\(\square\)}
+\newcommand{\eduIconCheck}{\(\checkmark\)}
+\newcommand{\eduIconPin}{\(\diamond\)}
+\newcommand{\eduIconNote}{\(\triangleright\)}
+
+% ---------- 题目区 ----------
+% 题目区是页面入口：弱标签 + 一条长蓝线 + 大题干。
+\newenvironment{eduProblemBlock}[1][题目]{%
+  \needspace{8\baselineskip}
+  {\small\color{edu-muted}#1}\par
+  \vspace{1.5mm}
+  {\color{edu-blue}\hrule height 0.55pt}
+  \vspace{4.5mm}
+  \begingroup
+  \color{edu-ink}
+  \large
+  \setlength{\parskip}{2.2mm}
+  \linespread{1.20}\selectfont
+}{%
+  \par
+  \endgroup
+  \vspace{6mm}
+}
+
+\newenvironment{eduSubQuestions}{%
+  \begin{enumerate}[
+    label=(\arabic*),
+    leftmargin=8mm,
+    itemsep=2.0mm,
+    topsep=2.0mm,
+    parsep=0pt
+  ]
+}{%
+  \end{enumerate}
+}
+
+% ---------- 读题提示：轻框，不做同级标题 ----------
+\newtcolorbox{eduReadTipBox}{
+  enhanced,
+  breakable,
+  colback=white,
+  colframe=edu-blue!45,
+  boxrule=0.45pt,
+  arc=1.6mm,
+  left=10mm,
+  right=4mm,
+  top=5mm,
+  bottom=5mm,
+  before skip=1mm,
+  after skip=7mm,
+  fontupper=\edukai\normalsize,
+  colupper=edu-ink,
+  overlay={
+    \node[anchor=north west, text=edu-blue] at ([xshift=3.2mm,yshift=-3.2mm]frame.north west)
+    {\small\eduIconNote};
+  }
+}
+
+\newenvironment{eduTipList}{%
+  \begin{itemize}[
+    label=\textbullet,
+    leftmargin=5mm,
+    itemsep=1.2mm,
+    topsep=0pt,
+    parsep=0pt
+  ]
+}{%
+  \end{itemize}
+}
+
+% ---------- 解题路线：虚线框 + 文字箭头 ----------
+\newenvironment{eduRouteFlow}{%
+  \needspace{4\baselineskip}%
+  \vspace{1mm}
+  \begin{center}
+  \normalsize
+}{%
+  \end{center}
+  \vspace{7mm}
+}
+\newcommand{\eduRouteStep}[1]{%
+  {\color{edu-ink}#1}%
+}
+\newcommand{\eduRouteArrow}{%
+  \;$\boldsymbol{\to}$\;%
+}
+
+% ---------- 主体讲解：使用 paracol 实现跨页自适应双栏 ----------
+\newenvironment{eduDualExplain}{%
+  \needspace{6\baselineskip}% 防止标题孤行
+  \columnratio{0.26, 0.74}%
+  \setlength{\columnsep}{8mm}%
+  \columnseprule=0.45pt%
+  \colseprulecolor{edu-blue}%
+  \begin{paracol}{2}% 开启双栏
+}{%
+  \end{paracol}% 结束双栏
+  \vspace{5mm}
+}
+
+\newenvironment{eduExplainLeft}{%
+  \setlength{\linewidth}{\columnwidth}%
+  \hsize=\columnwidth
+  \normalsize\color{edu-ink}%
+}{%
+  \switchcolumn
+}
+
+\newcommand{\eduColumnDivider}{}
+
+\newenvironment{eduExplainRight}{%
+  \setlength{\linewidth}{\columnwidth}%
+  \hsize=\columnwidth
+  \normalsize\color{edu-ink}%
+}{%
+}
+
+\newtcolorbox{eduSideHintBox}[1]{
+  enhanced,
+  breakable,
+  colback=edu-blue-bg,
+  colframe=edu-line,
+  boxrule=0.35pt,
+  borderline west={1.5pt}{0pt}{edu-blue},
+  arc=0.8mm,
+  left=2.4mm,
+  right=2.4mm,
+  top=2mm,
+  bottom=2mm,
+  before skip=1mm,
+  after skip=1.5mm,
+  title={\color{edu-blue}\bfseries\small #1},
+  coltitle=edu-blue,
+  attach title to upper={\par\vspace{0.7mm}},
+  fontupper=\small
+}
+
+\newtcolorbox{eduSideMistakeBox}[1]{
+  enhanced,
+  breakable,
+  colback=edu-red-bg,
+  colframe=edu-red!35,
+  boxrule=0.35pt,
+  borderline west={1.5pt}{0pt}{edu-red},
+  arc=0.8mm,
+  left=2.4mm,
+  right=2.4mm,
+  top=2mm,
+  bottom=2mm,
+  before skip=1mm,
+  after skip=1.5mm,
+  title={\color{edu-red}\bfseries\small #1},
+  coltitle=edu-red,
+  attach title to upper={\par\vspace{0.7mm}},
+  fontupper=\small
+}
+
+\newtcolorbox{eduSideNoteBox}[1]{
+  enhanced,
+  breakable,
+  colback=edu-soft-bg,
+  colframe=edu-line,
+  boxrule=0.35pt,
+  borderline west={1.5pt}{0pt}{edu-muted},
+  arc=0.8mm,
+  left=2.4mm,
+  right=2.4mm,
+  top=2mm,
+  bottom=2mm,
+  before skip=1mm,
+  after skip=1.5mm,
+  title={\color{edu-muted}\bfseries\small #1},
+  coltitle=edu-muted,
+  attach title to upper={\par\vspace{0.7mm}},
+  fontupper=\small
+}
+
+\newcommand{\eduSideHint}[2]{%
+  \begin{eduSideHintBox}{#1}#2\end{eduSideHintBox}%
+}
+\newcommand{\eduSideMistake}[2]{%
+  \begin{eduSideMistakeBox}{#1}#2\end{eduSideMistakeBox}%
+}
+\newcommand{\eduSideNote}[2]{%
+  \begin{eduSideNoteBox}{#1}#2\end{eduSideNoteBox}%
+}
+
+\newcommand{\eduExplainStep}[3]{%
+  \needspace{3\baselineskip}%
+  \vspace{1.2mm}%
+  {\color{edu-blue}\bfseries step#1.\enspace #2}\par
+  \vspace{0.8mm}%
+  \begingroup
+  \color{edu-ink}#3\par
+  \endgroup
+  \vspace{2.2mm}%
+}
+
+\newenvironment{eduNumberList}{%
+  \begin{enumerate}[
+    label=\arabic*.,
+    leftmargin=6mm,
+    itemsep=4.8mm,
+    topsep=0pt,
+    parsep=0pt
+  ]
+}{%
+  \end{enumerate}
+}
+
+\newenvironment{eduBulletList}{%
+  \begin{itemize}[
+    label=\textbullet,
+    leftmargin=5mm,
+    itemsep=1.2mm,
+    topsep=0pt,
+    parsep=0pt
+  ]
+}{%
+  \end{itemize}
+}
+
+% ---------- 底部双栏：答案 + 方法提醒 ----------
+\newenvironment{eduBottomGrid}{%
+  \columnratio{0.32, 0.68}%
+  \setlength{\columnsep}{11mm}%
+  \columnseprule=0pt%
+  \begin{paracol}{2}%
+}{%
+  \end{paracol}%
+}
+
+\newenvironment{eduSummaryLeft}{%
+}{%
+}
+
+\newcommand{\eduSummaryDivider}{%
+  \switchcolumn
+}
+
+\newenvironment{eduSummaryRight}{%
+}{%
+}
+
+% ---------- 答案/方法提醒：轻量收束 ----------
+\newtcolorbox{eduSummaryBlock}[2]{
+  enhanced,
+  breakable,
+  colback=edu-blue-bg,
+  colframe=edu-line,
+  boxrule=0.45pt,
+  arc=1.2mm,
+  left=3.5mm,
+  right=3.5mm,
+  top=3mm,
+  bottom=3mm,
+  before skip=1mm,
+  after skip=2.5mm,
+  title={\color{edu-blue}\bfseries #1\hspace{1.5mm}#2},
+  coltitle=edu-blue,
+  attach title to upper={\par\vspace{1.5mm}},
+  fontupper=\normalsize
+}
+
+% ---------- 例题单栏解答卡片 ----------
+\newtcolorbox{eduSolutionBox}[1]{
+  enhanced,
+  breakable,
+  colback=white,
+  colframe=edu-blue!40,
+  boxrule=0.55pt,
+  arc=1.2mm,
+  left=4mm,
+  right=4mm,
+  top=3.5mm,
+  bottom=3.5mm,
+  before skip=2mm,
+  after skip=3mm,
+  title={\color{edu-blue}\bfseries \eduIconBook\hspace{1.5mm}#1},
+  coltitle=edu-blue,
+  attach title to upper={\par\vspace{1.5mm}},
+  fontupper=\normalsize
+}
+
+% ---------- 变式训练：完整题目 + 学生留白 ----------
+\newtcolorbox{eduVariationTraining}[1]{
+  enhanced,
+  breakable,
+  colback=white,
+  colframe=edu-blue!45,
+  boxrule=0.5pt,
+  borderline west={1.8pt}{0pt}{edu-blue},
+  arc=1.2mm,
+  left=4mm,
+  right=4mm,
+  top=3.2mm,
+  bottom=3.2mm,
+  before skip=2mm,
+  after skip=4mm,
+  title={\color{edu-blue}\bfseries #1},
+  coltitle=edu-blue,
+  attach title to upper={\par\vspace{1.8mm}},
+  fontupper=\normalsize,
+  colupper=edu-ink
+}
+
+\newenvironment{eduPlainList}{%
+  \begin{enumerate}[
+    label=(\arabic*),
+    leftmargin=7mm,
+    itemsep=1.2mm,
+    topsep=0pt,
+    parsep=0pt
+  ]
+}{%
+  \end{enumerate}
+}
+
+% ---------- 兼容旧 block 的轻量盒子 ----------
+\newtcolorbox{eduSoftBox}{
+  enhanced,
+  breakable,
+  colback=edu-soft-bg,
+  colframe=edu-line,
+  boxrule=0.35pt,
+  arc=1mm,
+  left=3mm,
+  right=3mm,
+  top=2mm,
+  bottom=2mm,
+  before skip=1mm,
+  after skip=2mm,
+  fontupper=\small
+}
+
+\newtcolorbox{eduMistakeBox}{
+  enhanced,
+  breakable,
+  colback=edu-red-bg,
+  colframe=edu-red!40,
+  boxrule=0.35pt,
+  arc=1mm,
+  left=3mm,
+  right=3mm,
+  top=2.5mm,
+  bottom=2.5mm,
+  before skip=1mm,
+  after skip=2mm,
+  fontupper=\normalsize
+}
+
+\newtcolorbox{eduLegacySolution}{
+  enhanced,
+  breakable,
+  colback=edu-soft-bg,
+  colframe=edu-line,
+  boxrule=0.35pt,
+  arc=1mm,
+  left=3mm,
+  right=3mm,
+  top=2mm,
+  bottom=2mm,
+  before skip=-2mm,
+  after skip=4mm,
+  fontupper=\small
+}
+
+\newtcolorbox{eduTeacherNote}{
+  enhanced,
+  breakable,
+  colback=edu-soft-bg,
+  colframe=edu-line,
+  boxrule=0pt,
+  borderline west={1.5pt}{0pt}{edu-muted},
+  left=2.5mm,
+  right=2.5mm,
+  top=2mm,
+  bottom=2mm,
+  before skip=1mm,
+  after skip=2mm,
+  fontupper=\footnotesize,
+  colupper=edu-muted
+}
+
+% ---------- 答题区 ----------
+\newcommand{\answerarea}[1][40mm]{%
+  \vspace{3mm}%
+  \begin{tcolorbox}[
+    enhanced,
+    breakable,
+    colback=white,
+    colframe=edu-line,
+    boxrule=0.55pt,
+    arc=0.8mm,
+    height=#1,
+    valign=top,
+  ]
+  \end{tcolorbox}%
+}
+
+\newcommand{\diagramcolfigure}[3]{%
+  \begin{minipage}[t]{#2}
+    \vspace{0pt}\centering
+    \includegraphics[width=\linewidth]{\detokenize{#1}}
+    \if\relax\detokenize{#3}\relax\else
+      \par\vspace{1mm}{\scriptsize\color{edu-diagram-muted}#3}
+    \fi
+  \end{minipage}%
+}
+
+\newcommand{\diagramrowitem}[4]{%
+  \begin{minipage}[t]{#2}
+    \vspace{0pt}\centering
+    \includegraphics[width=\linewidth]{\detokenize{#1}}
+    \if\relax\detokenize{#3}\relax\else
+      \par\vspace{1mm}{\scriptsize\bfseries #3}
+    \fi
+    \if\relax\detokenize{#4}\relax\else
+      \par\vspace{0.5mm}{\scriptsize\color{edu-diagram-muted}#4}
+    \fi
+  \end{minipage}%
+}
+
+\newcommand{\answerareawithdiagramcol}[4]{%
+  \vspace{3mm}%
+  \begin{tcolorbox}[
+    enhanced,
+    breakable,
+    colback=white,
+    colframe=edu-line,
+    boxrule=0.55pt,
+    arc=0.8mm,
+    height=#1,
+    valign=top,
+  ]
+  \begin{minipage}[t]{\dimexpr\linewidth-#3-6mm\relax}
+    \vspace{0pt}
+  \end{minipage}\hfill
+  \diagramcolfigure{#2}{#3}{#4}
+  \end{tcolorbox}%
+}
+
+\newcommand{\answerareawithdiagram}[4]{%
+  \answerareawithdiagramcol{#1}{#2}{#3}{#4}%
+}
+
+\examsetup{
+  question/show-answer = true,
+  fillin/show-answer = true,
+  solution/show-solution = show-stay,
+}
+
+\begin{document}
+
+\eduSectionTitle{知识点 6：二次函数图像平移——只动顶点，不动 a}
+
+
+\begin{eduSolutionBox}{核心结论：顶点式平移——只动顶点，不动 a}
+  \begingroup
+  \setlength{\parskip}{2.5mm}
+顶点式 $y=a(x-h)^2+k$，顶点为 $(h,k)$，开口方向与宽窄由 $a$ 决定。\par
+\textbf{平移只改变顶点位置，不改变 $a$。}\par
+\begin{tabular}{p{0.30\linewidth}p{0.58\linewidth}}
+平移方向 & 代换动作\\
+向左 $m$ 个单位 & 括号内 $x$ 换成 $x+m$\\
+向右 $m$ 个单位 & 括号内 $x$ 换成 $x-m$\\
+向上 $n$ 个单位 & $k$ 换成 $k+n$\\
+向下 $n$ 个单位 & $k$ 换成 $k-n$
+\end{tabular}
+\par
+口诀：\textbf{左加右减（对 $x$），上加下减（对 $k$）}；$a$ 原样抄。\par
+  \endgroup
+\end{eduSolutionBox}
+
+
+
+
+\begin{eduProblemBlock}[例题 1（A 类：已知原解析式 + 平移 → 求新解析式）]
+将抛物线 $y=2(x-3)^2+1$ 先向左平移 $2$ 个单位，再向上平移 $3$ 个单位，求平移后得到的新解析式。
+
+\end{eduProblemBlock}
+
+
+
+
+
+\begin{eduAuxItem}{思路导航}
+读原顶点与 $a$$\;\to\;$向左 $2$：$x\to x+2$$\;\to\;$向上 $3$：$k\to k+3$\end{eduAuxItem}
+
+
+
+
+\begin{eduSubQuestionItem}{例题 1}
+求 $y=2(x-3)^2+1$ 向左 $2$、向上 $3$ 后的新解析式。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{小贴士}
+        \eduSideMistake{左右符号}{向左是“加”：$x\to x+2$。如果你写成了 $x-2$，方向就反了。}
+        \eduSideHint{为什么 $a$ 不动}{平移只移动整条抛物线的位置，不改变开口方向和宽窄，所以 $a=2$ 原样抄。}
+        \eduSideHint{怎么验算}{原顶点 $(3,1)$ 左 $2$、上 $3$ 应得到 $(1,4)$，与新解析式顶点对得上吗？}
+  \end{eduExplainLeft}
+
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{解答}
+      \eduExplainStep{1}{读原顶点与 $a$}{原式 $y=2(x-3)^2+1$，顶点为 $(3,1)$，$a=2$。}
+      \eduExplainStep{2}{向左 $2$：$x\to x+2$}{向左平移 $2$ 个单位，把括号内的 $x$ 换成 $x+2$：$2(x-3+2)^2+1=2(x-1)^2+1$。}
+      \eduExplainStep{3}{向上 $3$：$k\to k+3$}{向上平移 $3$ 个单位，把 $k$ 换成 $k+3$：$y=2(x-1)^2+(1+3)=2(x-1)^2+4$，新顶点为 $(1,4)$，$a=2$ 不变。}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduProblemBlock}[例题 2（B 类：已知原解析式 + 新解析式 → 求平移方式）]
+已知抛物线 $y=-(x+1)^2+2$ 经过平移后得到 $y=-(x-3)^2+5$。说明这条抛物线是怎样平移的（向哪、几个单位）。
+
+\end{eduProblemBlock}
+
+
+
+
+
+\begin{eduAuxItem}{思路导航}
+分别读出原、新顶点$\;\to\;$求 $\Delta x$ 并判左右$\;\to\;$求 $\Delta y$ 并判上下\end{eduAuxItem}
+
+
+
+
+\begin{eduSubQuestionItem}{例题 2}
+由 $y=-(x+1)^2+2$ 到 $y=-(x-3)^2+5$ 是怎样平移的？\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{小贴士}
+        \eduSideHint{先想什么}{$a$ 没变说明只是平移；只要盯住顶点，比较新旧顶点坐标差即可。}
+        \eduSideMistake{方向判反}{$\Delta x>0$ 是向右，$\Delta x<0$ 是向左；别看到 $x+1$ 里有“$+$”就以为是向左。}
+        \eduSideHint{怎么验算}{把 $(-1,2)$ 右 $4$、上 $3$ 后，是否落到 $(3,5)$？}
+  \end{eduExplainLeft}
+
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{解答}
+      \eduExplainStep{1}{分别读出原、新顶点}{原式顶点 $(-1,2)$，新式顶点 $(3,5)$；两式 $a=-1$ 相同。}
+      \eduExplainStep{2}{求 $\Delta x$ 并判左右}{$\Delta x=3-(-1)=4>0$，顶点横坐标增大 $4$，即向右平移 $4$ 个单位。}
+      \eduExplainStep{3}{求 $\Delta y$ 并判上下}{$\Delta y=5-2=3>0$，顶点纵坐标增大 $3$，即向上平移 $3$ 个单位。}
+    \vspace{1mm}
+    {\color{edu-blue}\bfseries\small 结论}\par\vspace{1mm}
+    \begin{eduBulletList}
+      \item 向右平移 $4$ 个单位，再向上平移 $3$ 个单位。    \end{eduBulletList}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduProblemBlock}[例题 3（C 类：已知新解析式 + 平移方式 → 反推原解析式）]
+一条抛物线经过“向左平移 $3$ 个单位、向下平移 $2$ 个单位”后，得到新解析式 $y=3(x-2)^2-1$。求原解析式。
+
+\end{eduProblemBlock}
+
+
+
+
+
+\begin{eduAuxItem}{思路导航}
+读新顶点与 $a$$\;\to\;$反推原顶点横坐标 $h$$\;\to\;$反推原顶点纵坐标 $k$$\;\to\;$写出原顶点式\end{eduAuxItem}
+
+
+
+
+\begin{eduSubQuestionItem}{例题 3}
+已知新解析式 $y=3(x-2)^2-1$ 由原式向左 $3$、向下 $2$ 得到，求原解析式。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{小贴士}
+        \eduSideHint{先想什么}{“原经平移得新”就是：新顶点 $=$ 原顶点 $+$ 平移量。把它反过来解原顶点。}
+        \eduSideMistake{方向搞反}{向左 $3$ 意味着新横坐标 $=h-3$（不是 $h+3$）；向下 $2$ 意味着新纵坐标 $=k-2$。}
+        \eduSideHint{怎么验算}{把求出的原式再向左 $3$、向下 $2$，能否回到 $y=3(x-2)^2-1$？}
+  \end{eduExplainLeft}
+
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{解答}
+      \eduExplainStep{1}{读新顶点与 $a$}{新式 $y=3(x-2)^2-1$，新顶点 $(2,-1)$，$a=3$。}
+      \eduExplainStep{2}{反推原顶点横坐标 $h$}{原经“左 $3$”到新，故新横坐标 $=h-3=2$，解得 $h=5$。}
+      \eduExplainStep{3}{反推原顶点纵坐标 $k$}{原经“下 $2$”到新，故新纵坐标 $=k-2=-1$，解得 $k=1$。}
+      \eduExplainStep{4}{写出原顶点式}{原顶点 $(5,1)$，$a=3$ 不变，原式 $y=3(x-5)^2+1$。}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduMistakeBox}
+\eduSubTitle{易错提醒}\begin{itemize}
+  \item \textbf{左右符号反}：向左 $m$ 是 $x\to x+m$（加），向右 $m$ 才是 $x\to x-m$。陆子辰最易把“向左”写成 $x-m$。
+  \item \textbf{动了 $a$}：平移不改变 $a$，不要把 $a$ 也加减。
+  \item \textbf{左右量加到 $k$}：左右只改括号内的 $x$，上下才改 $k$。
+  \item \textbf{先展开再平移}：左右平移只对括号内的 $x$ 操作，不要先展开成一般式再乱加。
+\end{itemize}
+\end{eduMistakeBox}
+
+
+
+
+\begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
+\begin{eduBulletList}
+  \item 三要素：顶点 $(h,k)$、$a$、平移方向与单位数；知二推一。  \item A 类顺推：对 $x$、$k$ 做平移代换；B 类对比：比新旧顶点差；C 类逆推：由新顶点反解原顶点。  \item 口诀：左加右减（对 $x$），上加下减（对 $k$），$a$ 永远不动。\end{eduBulletList}
+\end{eduSummaryBlock}
+
+
+
+
+\begin{eduBottomGrid}
+  \begin{eduSummaryLeft}
+    \begin{eduSummaryBlock}{\eduIconCheck}{答案}
+    \begin{eduPlainList}
+      \item 例题 1：$y=2(x-1)^2+4$      \item 例题 2：向右 $4$，向上 $3$      \item 例题 3：原式 $y=3(x-5)^2+1$    \end{eduPlainList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryLeft}
+  \eduSummaryDivider
+  \begin{eduSummaryRight}
+    \begin{eduSummaryBlock}{\eduIconPin}{一句话方法}
+    \begin{eduBulletList}
+      \item 守住顶点式，只动 $(h,k)$，不动 $a$。    \end{eduBulletList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryRight}
+\end{eduBottomGrid}
+
+
+
+
+\end{document}
