@@ -54,7 +54,7 @@ class TikzRendererTest(unittest.TestCase):
             self.assertIn(r"\DoubleEqualTick", fragment)
             self.assertIn(r"\PointDot", fragment)
             self.assertIn(r"\PointLabel", fragment)
-            self.assertIn(r"\PointLabel[left]{A}", fragment)
+            self.assertIn(r"\PointLabel[left, xshift=", fragment)
             self.assertIn(r"A\_\textbackslash{}draw", fragment)
             self.assertNotIn(r"A_\draw", fragment)
 
@@ -88,10 +88,10 @@ class TikzRendererTest(unittest.TestCase):
 
             fragment = (out_dir / result["tikz_fragment_path"]).read_text(encoding="utf-8")
             self.assertIn(r"\Quadrilateral", fragment)
-            self.assertIn(r"\PointLabel[below left]{A}", fragment)
-            self.assertIn(r"\PointLabel[below right]{B}", fragment)
-            self.assertIn(r"\PointLabel[above right]{C}", fragment)
-            self.assertIn(r"\PointLabel[above left]{D}", fragment)
+            self.assertIn(r"\PointLabel[below left, xshift=", fragment)
+            self.assertIn(r"\PointLabel[below right, xshift=", fragment)
+            self.assertIn(r"\PointLabel[above right, xshift=", fragment)
+            self.assertIn(r"\PointLabel[above left, xshift=", fragment)
 
     def test_explicit_point_label_placement_overrides_polygon_default(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -117,7 +117,40 @@ class TikzRendererTest(unittest.TestCase):
                 result = render_geometry_spec(spec_path, out_dir, variant="prompt")
 
             fragment = (out_dir / result["tikz_fragment_path"]).read_text(encoding="utf-8")
-            self.assertIn(r"\PointLabel[above right]{A}", fragment)
+            self.assertIn(r"\PointLabel[above right, xshift=", fragment)
+
+    def test_segment_only_geometry_places_labels_outward(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            out_dir = Path(tmp)
+            spec_path = out_dir / "final_renderer_spec.json"
+            spec_path.write_text(
+                json.dumps(
+                    {
+                        "schema_version": "geometry-render-spec/v1",
+                        "job_id": "segment-only",
+                        "variant": "prompt",
+                        "type": "synthetic_geometry",
+                        "points": {"A": [0, 2.4], "B": [-3, 0], "C": [3, 0], "D": [0, 0]},
+                        "segments": [
+                            {"from": "A", "to": "B"},
+                            {"from": "A", "to": "C"},
+                            {"from": "B", "to": "C"},
+                            {"from": "A", "to": "D"},
+                        ],
+                        "labels": {"A": "A", "B": "B", "C": "C", "D": "D"},
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            with patch("render_geometry_spec.build_previews", return_value=PreviewResult()):
+                result = render_geometry_spec(spec_path, out_dir, variant="prompt")
+
+            fragment = (out_dir / result["tikz_fragment_path"]).read_text(encoding="utf-8")
+            self.assertIn(r"\PointLabel[above, yshift=0.12cm]{A}", fragment)
+            self.assertIn(r"\PointLabel[below left, xshift=-0.12cm, yshift=-0.12cm]{B}", fragment)
+            self.assertIn(r"\PointLabel[below right, xshift=0.12cm, yshift=-0.12cm]{C}", fragment)
+            self.assertIn(r"\PointLabel[below, yshift=-0.12cm]{D}", fragment)
 
     def test_polygon_default_is_unfilled(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

@@ -11,6 +11,7 @@ from .writer import color_option, dash_option, fmt_cm, fmt_num, join_options, po
 
 Point = tuple[float, float]
 TIKZ_LABEL_PLACEMENTS = {placement.value for placement in DiagramLabelPlacement}
+POINT_LABEL_SHIFT_CM = 0.12
 
 
 def _coord_name(name: str, used: set[str]) -> str:
@@ -47,6 +48,7 @@ class SyntheticGeometryTikzCompiler:
         self._draw_segments()
         self._draw_markers()
         self._draw_points()
+        self._remember_default_label_placements()
         self._draw_labels()
         point_label_count = len(self.source_points)
         audit = TikzCompilerAudit(
@@ -238,7 +240,28 @@ class SyntheticGeometryTikzCompiler:
             dx_cm = float(label.dx or 0) * PX_TO_CM
             dy_cm = -float(label.dy if label.dy is not None else 0) * PX_TO_CM
             options.extend([f"xshift={fmt_cm(dx_cm)}", f"yshift={fmt_cm(dy_cm)}"])
+        elif placement != DiagramLabelPlacement.CENTER.value:
+            options.extend(self._placement_shift_options(placement))
         return join_options(*options)
+
+    def _placement_shift_options(self, placement: str) -> list[str]:
+        dx = 0.0
+        dy = 0.0
+        parts = placement.split()
+        if "left" in parts:
+            dx = -POINT_LABEL_SHIFT_CM
+        elif "right" in parts:
+            dx = POINT_LABEL_SHIFT_CM
+        if "below" in parts:
+            dy = -POINT_LABEL_SHIFT_CM
+        elif "above" in parts:
+            dy = POINT_LABEL_SHIFT_CM
+        options: list[str] = []
+        if dx:
+            options.append(f"xshift={fmt_cm(dx)}")
+        if dy:
+            options.append(f"yshift={fmt_cm(dy)}")
+        return options
 
     def _label_placement(self, placement: DiagramLabelPlacement | str | None) -> str:
         if not placement:
@@ -263,6 +286,64 @@ class SyntheticGeometryTikzCompiler:
             vx = point[0] - centroid_x
             vy = point[1] - centroid_y
             self.label_placements[name] = self._vector_to_label_placement(vx, vy)
+
+    def _remember_default_label_placements(self) -> None:
+        if len(self.points) < 2:
+            return
+        xs = [point[0] for point in self.points.values()]
+        ys = [point[1] for point in self.points.values()]
+        min_x, max_x = min(xs), max(xs)
+        min_y, max_y = min(ys), max(ys)
+        tol_x = max((max_x - min_x) * 0.08, 1e-6)
+        tol_y = max((max_y - min_y) * 0.08, 1e-6)
+        centroid_x = sum(point[0] for point in self.points.values()) / len(self.points)
+        centroid_y = sum(point[1] for point in self.points.values()) / len(self.points)
+        for name, point in self.points.items():
+            if name in self.label_placements:
+                continue
+            self.label_placements[name] = self._bbox_label_placement(
+                point,
+                min_x=min_x,
+                max_x=max_x,
+                min_y=min_y,
+                max_y=max_y,
+                tol_x=tol_x,
+                tol_y=tol_y,
+            ) or self._vector_to_label_placement(point[0] - centroid_x, point[1] - centroid_y)
+
+    def _bbox_label_placement(
+        self,
+        point: Point,
+        *,
+        min_x: float,
+        max_x: float,
+        min_y: float,
+        max_y: float,
+        tol_x: float,
+        tol_y: float,
+    ) -> str:
+        x, y = point
+        on_left = x <= min_x + tol_x
+        on_right = x >= max_x - tol_x
+        on_bottom = y <= min_y + tol_y
+        on_top = y >= max_y - tol_y
+        if on_bottom:
+            if on_left:
+                return "below left"
+            if on_right:
+                return "below right"
+            return "below"
+        if on_top:
+            if on_left:
+                return "above left"
+            if on_right:
+                return "above right"
+            return "above"
+        if on_left:
+            return "left"
+        if on_right:
+            return "right"
+        return ""
 
     def _vector_to_label_placement(self, vx: float, vy: float) -> str:
         if math.hypot(vx, vy) <= 1e-9:

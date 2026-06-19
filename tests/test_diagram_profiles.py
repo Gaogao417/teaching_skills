@@ -141,7 +141,8 @@ class DiagramProfileTest(unittest.TestCase):
         )
 
         self.assertIn(r"\begin{tikzpicture}", synthetic_tikz)
-        self.assertIn(r"\fontsize{33}", synthetic_tikz)
+        self.assertIn(r"\fontsize{17.6}", synthetic_tikz)
+        self.assertNotIn(r"\fontsize{33}", synthetic_tikz)
         self.assertIn(r"$\mathit{A}$", synthetic_tikz)
         self.assertNotIn("Arial", synthetic_tikz)
 
