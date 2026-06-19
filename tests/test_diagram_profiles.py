@@ -15,12 +15,14 @@ from diagram_contracts import (  # noqa: E402
     DiagramArtifact,
     DiagramArtifactsManifest,
     DiagramDisplayProfile,
+    GeometryRenderSpec,
     DiagramJob,
     DiagramJobsManifest,
     DiagramSlot,
 )
-from render_geometry_spec import SvgCoordinateRenderer, SvgGeometryRenderer  # noqa: E402
 from resolve_assignment_diagrams import resolve_assignment  # noqa: E402
+from tikz_renderer import compile_geometry_render_spec  # noqa: E402
+from tikz_renderer.writer import render_fragment  # noqa: E402
 
 
 def slot_payload(**overrides: object) -> dict[str, object]:
@@ -94,42 +96,45 @@ class DiagramProfileTest(unittest.TestCase):
 
     def test_renderers_use_profile_label_style_and_value_only_conditions(self) -> None:
         profile = DiagramSlot(**slot_payload()).resolved_render_profile().model_dump(mode="json")
-        synthetic_svg = SvgGeometryRenderer(
-            {
-                "render_profile": profile,
-                "points": {"A": [0, 0], "B": [1, 0]},
-                "segments": [{"from": "A", "to": "B"}],
-            },
-            width=720,
-            height=360,
-        ).render()
+        synthetic_tikz = render_fragment(
+            compile_geometry_render_spec(
+                GeometryRenderSpec(
+                    **{
+                        "render_profile": profile,
+                        "points": {"A": [0, 0], "B": [1, 0]},
+                        "segments": [{"from": "A", "to": "B"}],
+                    }
+                )
+            )
+        )
 
-        self.assertIn('font-family="Times New Roman, Georgia, serif"', synthetic_svg)
-        self.assertIn('font-size="44.0"', synthetic_svg)
-        self.assertIn('font-style="italic"', synthetic_svg)
-        self.assertIn('font-weight="normal"', synthetic_svg)
-        self.assertIn('data-label-kind="point"', synthetic_svg)
-        self.assertNotIn("Arial", synthetic_svg)
+        self.assertIn(r"\begin{tikzpicture}", synthetic_tikz)
+        self.assertIn(r"\fontsize{33}", synthetic_tikz)
+        self.assertIn(r"$\mathit{A}$", synthetic_tikz)
+        self.assertNotIn("Arial", synthetic_tikz)
 
-        coordinate_svg = SvgCoordinateRenderer(
-            {
-                "type": "coordinate_geometry",
-                "render_profile": profile,
-                "viewport": {"x_min": -1, "x_max": 3, "y_min": -1, "y_max": 3},
-                "axes": {"x": False, "y": False, "grid": False, "show_ticks": True},
-                "objects": [
-                    {"type": "point", "id": "C", "x": 0, "y": 0, "label": "C"},
-                    {"type": "text", "x": 1, "y": 1, "text": "CD=19"},
-                ],
-            },
-            width=720,
-            height=360,
-        ).render()
+        coordinate_tikz = render_fragment(
+            compile_geometry_render_spec(
+                GeometryRenderSpec(
+                    **{
+                        "type": "coordinate_geometry",
+                        "render_profile": profile,
+                        "viewport": {"x_min": -1, "x_max": 3, "y_min": -1, "y_max": 3},
+                        "axes": {"x": False, "y": False, "grid": False, "show_ticks": True},
+                        "objects": [
+                            {"type": "point", "id": "C", "x": 0, "y": 0, "label": "C"},
+                            {"type": "text", "x": 1, "y": 1, "text": "CD=19"},
+                        ],
+                    }
+                )
+            )
+        )
 
-        self.assertIn(">19</text>", coordinate_svg)
-        self.assertNotIn("CD=19", coordinate_svg)
-        self.assertNotIn(">x</text>", coordinate_svg)
-        self.assertNotIn(">y</text>", coordinate_svg)
+        self.assertIn(r"\begin{axis}", coordinate_tikz)
+        self.assertIn("{19}", coordinate_tikz)
+        self.assertNotIn("CD=19", coordinate_tikz)
+        self.assertNotIn("xlabel=", coordinate_tikz)
+        self.assertNotIn("ylabel=", coordinate_tikz)
 
     def test_gate_checks_sidecar_width_and_svg_readability(self) -> None:
         plan_data = {

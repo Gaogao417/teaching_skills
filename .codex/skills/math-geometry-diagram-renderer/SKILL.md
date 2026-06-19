@@ -1,15 +1,15 @@
 ---
 name: math-geometry-diagram-renderer
-description: "为 LaTeX/YAML writer 生成几何题配套图片。仅在 math-student-explanation-latex-data 或 math-adaptive-practice-latex-data 已声明 diagram_slot、且结构分析/题目判定需要插图时使用；本 skill 负责真实 collect/batch/gate/resolve 链路。不要在 math-assignment-latex 渲染阶段直接触发。"
+description: "为 LaTeX/YAML writer 生成几何题配套 TikZ 图。仅在 math-student-explanation-latex-data 或 math-adaptive-practice-latex-data 已声明 diagram_slot、且结构分析/题目判定需要插图时使用；本 skill 负责真实 collect/batch/gate/resolve 链路。不要在 math-assignment-latex 渲染阶段直接触发。"
 ---
 
 # math-geometry-diagram-renderer
 
 ## 职责
 
-读取 plan YAML 中的 `diagram_slot`，运行真实 collect/batch/gate/resolve 链路，生成可渲染的 `*.resolved.assignment.yaml`。本 skill 不判断题目是否需要图，不修改 LaTeX 模板，不编译 PDF。
+读取 plan YAML 中的 `diagram_slot`，运行真实 collect/batch/gate/resolve 链路，生成可渲染的 `*.resolved.assignment.yaml`。本 skill 不判断题目是否需要图，不修改 LaTeX 模板，不编译最终作业 PDF。
 
-latex-data skill 只负责声明图位和教学语义；本 skill 负责确认 PNG 真实存在、gate 通过、resolved YAML 可绑定。
+latex-data skill 只负责声明图位和教学语义；本 skill 负责确认 TikZ fragment 真实存在、gate 通过、resolved YAML 可绑定。PDF/PNG/SVG 只作为调试预览。
 
 ## 输入
 
@@ -17,7 +17,7 @@ latex-data skill 只负责声明图位和教学语义；本 skill 负责确认 P
 - `01-structure-analysis.md` 中的 `diagram_request_packet`
 - plan YAML 中的 `diagram_slot`
 
-只支持合成几何图默认路径。坐标几何/函数图如果没有确定性 renderer 支持，直接 fallback，不强行走 GeometricScene。
+支持合成几何、坐标几何和函数图的确定性 TikZ compiler。workflow 仍负责几何事实和函数采样，TikZ backend 只负责编译绘图。
 
 ## 图形类型
 
@@ -76,7 +76,7 @@ build/diagram/diagram_artifacts.json
 build/diagram/jobs/<job_id>/...
 ```
 
-只有当 `renderer_result.json.status == "ok"`、artifact `bindable: true` 且 PNG 非空时，才允许 resolver 写入 YAML 图片对象。
+只有当 `renderer_result.json.status == "ok"`、artifact `bindable: true` 且 TikZ fragment 非空时，才允许 resolver 写入 YAML TikZ 对象。
 
 ## References
 

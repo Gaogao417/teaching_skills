@@ -25,6 +25,8 @@ Supporting modules:
   requests, and renderer results.
 - `run_diagram_workflow.py`: single-job engine router.
 - `analytic_diagram_workflow.py`: coordinate/function diagram branch.
-- `render_geometry_spec.py`: deterministic SVG/PNG renderer.
+- `render_geometry_spec.py`: deterministic TikZ compiler; writes the bindable
+  `rendered/<variant>.fragment.tex` plus optional preview files.
+- `tikz_renderer/`: typed compiler modules for synthetic geometry and
+  coordinate/function render specs.
 - `geometry_diagram_workflow/`: local GeometricScene workflow branch.
-

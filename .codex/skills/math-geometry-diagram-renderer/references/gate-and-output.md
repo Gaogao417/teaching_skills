@@ -9,17 +9,22 @@ build/diagram/jobs/<job_id>/rounds/round_*/scene_payload.json
 build/diagram/jobs/<job_id>/rounds/round_*/render_result.json
 build/diagram/jobs/<job_id>/rounds/round_*/vision_result.json
 build/diagram/jobs/<job_id>/renderer_result.json
-build/diagram/jobs/<job_id>/rendered/prompt.png
-build/diagram/jobs/<job_id>/rendered/solution.png
+build/diagram/jobs/<job_id>/rendered/prompt.fragment.tex
+build/diagram/jobs/<job_id>/rendered/solution.fragment.tex
+build/diagram/jobs/<job_id>/rendered/*.preview.pdf
+build/diagram/jobs/<job_id>/rendered/*.preview.png
+build/diagram/jobs/<job_id>/rendered/*.preview.svg
 ```
 
 ## Resolved YAML Shape
 
-resolver 生成的图片对象必须显式设置 `width`。
+resolver 生成的 TikZ 对象必须显式设置 `width`。`tikz_path` 是最终
+LaTeX 可直接 `\input` 的 fragment；preview 文件只用于人工抽查。
 
 ```yaml
 diagram_col:
-  image_path: "diagram/jobs/c1-prompt/rendered/prompt.png"
+  kind: "tikz"
+  tikz_path: "diagram/jobs/c1-prompt/rendered/prompt.fragment.tex"
   diagram_job_id: "c1-prompt"
   width: "60mm"
   caption: "观察点 D 在 BC 上的位置。"
@@ -40,7 +45,7 @@ diagram_col:
 
 ## Fallback
 
-失败、跳过或图片缺失时，不插入破图字段；改插入简短 `hint` 或 `reading_tip`。
+失败、跳过或 TikZ fragment 缺失时，不插入破图字段；改插入简短 `hint` 或 `reading_tip`。
 
 ```yaml
 type: "hint"

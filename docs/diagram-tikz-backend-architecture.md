@@ -542,20 +542,20 @@ TikZ solves intrinsic diagram sizing.
 The pipeline still decides display sizing.
 ```
 
-## 6. Renderer Module Plan
+## 6. Implemented Renderer Modules
 
 ```text
 scripts/diagram_workflow/render_geometry_spec.py
 
 scripts/diagram_workflow/tikz_renderer/
   __init__.py
+  compiler.py
   contracts.py
   validate.py
   geometry_to_tikz.py
   coordinate_to_tikz.py
   styles.py
-  macros.py
-  audit.py
+  writer.py
   toolchain.py
   result.py
 ```
@@ -566,6 +566,7 @@ Responsibilities:
 validate current GeometryRenderSpec
 compile TikzDiagramSpec
 write fragment tex
+write tikz_spec debug json
 write optional standalone tex
 optionally compile preview pdf/png/svg
 write renderer_audit.json
