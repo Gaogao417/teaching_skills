@@ -7,7 +7,7 @@ from typing import Any
 from diagram_contracts import DiagramVariant, GeometryRenderSpec
 
 from .contracts import TikzCommand, TikzCompilerAudit, TikzDiagramSpec, TikzStyleRole
-from .styles import LABEL_PX_TO_PT, profile_to_style, value_only_condition_label
+from .styles import LABEL_PX_TO_PT, natural_width_cm_for_profile, profile_to_style, value_only_condition_label
 from .writer import (
     color_option,
     dash_option,
@@ -104,7 +104,7 @@ class CoordinateTikzCompiler:
         canvas = spec.canvas
         width_px = canvas.width_px or spec.render_profile.canvas_width_px or 720
         height_px = canvas.height_px or spec.render_profile.canvas_height_px or 520
-        self.natural_width_cm = 7.0
+        self.natural_width_cm = natural_width_cm_for_profile(spec.render_profile)
         self.natural_height_cm = max(3.2, min(6.5, self.natural_width_cm * height_px / width_px))
 
     def compile(self) -> TikzDiagramSpec:
@@ -255,7 +255,7 @@ class CoordinateTikzCompiler:
             return
         x, y = float(obj["x"]), float(obj["y"])
         color = color_option(style.get("stroke") or "#111827")
-        radius = float(style.get("radius", 2.2))
+        radius = float(style.get("radius", 1.5))
         mark_tex = (
             f"\\addplot+[only marks, mark=*, mark size={fmt_num(radius, 3)}pt, draw={color}, fill={color}, forget plot] "
             f"coordinates {{({fmt_num(x)},{fmt_num(y)})}};"

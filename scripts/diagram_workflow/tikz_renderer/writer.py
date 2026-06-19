@@ -99,7 +99,7 @@ def stroke_width_option(value: object, *, default_px: float = 2.0) -> str:
         px = float(value)
     except (TypeError, ValueError):
         px = default_px
-    return f"line width={fmt_num(px * 0.75, 3)}pt"
+    return f"line width={fmt_num(px * 0.45, 3)}pt"
 
 
 def dash_option(value: object) -> str:

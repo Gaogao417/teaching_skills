@@ -55,7 +55,7 @@ class TikzRendererTest(unittest.TestCase):
             self.assertIn(r"\PointDot", fragment)
             self.assertIn(r"\PointLabel", fragment)
             self.assertIn(r"\PointLabel[left, xshift=", fragment)
-            self.assertIn(r"\renewcommand{\DiagramPointRadius}{0.0728cm}", fragment)
+            self.assertIn(r"\renewcommand{\DiagramPointRadius}{0.052cm}", fragment)
             self.assertIn(r"A\_\textbackslash{}draw", fragment)
             self.assertNotIn(r"A_\draw", fragment)
 
@@ -218,7 +218,7 @@ class TikzRendererTest(unittest.TestCase):
             self.assertIn(r"\addplot+", fragment)
             self.assertIn("dash pattern=on 5pt off 4pt", fragment)
             self.assertIn("axis cs:2,3", fragment)
-            self.assertIn("anchor=south east, xshift=-8pt, yshift=6.4pt", fragment)
+            self.assertIn("anchor=south east, xshift=-4.8pt, yshift=3.84pt", fragment)
             self.assertLess(fragment.index("coordinates {(1,1) (2,3) (3,1) (1,1)}"), fragment.index(r"{$\mathit{A}$}"))
             self.assertIn("{19}", fragment)
             self.assertNotIn("CD=19", fragment)

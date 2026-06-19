@@ -6,7 +6,7 @@ import re
 from diagram_contracts import DiagramLabelPlacement, DiagramVariant, GeometryRenderSpec, RenderLabel
 
 from .contracts import TikzCommand, TikzCompilerAudit, TikzCoordinate, TikzDiagramSpec, TikzStyleRole
-from .styles import PX_TO_CM, profile_to_style
+from .styles import PX_TO_CM, natural_width_cm_for_profile, profile_to_style
 from .writer import color_option, dash_option, fmt_cm, fmt_num, join_options, point_label_tex, stroke_width_option
 
 Point = tuple[float, float]
@@ -104,10 +104,12 @@ class SyntheticGeometryTikzCompiler:
         min_y, max_y = float(bbox["y_min"]), float(bbox["y_max"])
         world_w = max(max_x - min_x, 1e-6)
         world_h = max(max_y - min_y, 1e-6)
-        target_w = 6.2
-        target_h = 4.2
+        target_total_w = natural_width_cm_for_profile(self.spec.render_profile)
+        target_total_h = max(3.6, min(5.2, target_total_w * 0.68))
+        padding = 0.4
+        target_w = max(1.0, target_total_w - padding * 2)
+        target_h = max(1.0, target_total_h - padding * 2)
         scale = min(target_w / world_w, target_h / world_h)
-        padding = 0.45
         self.natural_width_cm = round(world_w * scale + padding * 2, 4)
         self.natural_height_cm = round(world_h * scale + padding * 2, 4)
         for name, point in self.source_points.items():

@@ -16,6 +16,7 @@ Run from repo root:
 
 import argparse
 import json
+import shutil
 import subprocess
 import sys
 from pathlib import Path
@@ -537,7 +538,7 @@ def main() -> int:
     parser = argparse.ArgumentParser(description="Diagram workflow e2e test")
     parser.add_argument("--out-dir", type=Path,
                         default=Path("build/e2e-diagram-test"),
-                        help="Persistent output directory (default: build/e2e-diagram-test)")
+                        help="Output directory for this test run (default: build/e2e-diagram-test)")
     args = parser.parse_args()
 
     td = args.out_dir.resolve()
@@ -549,6 +550,16 @@ def main() -> int:
     jobs_path = build_dir / "diagram_jobs.json"
     jobs_dir = build_dir / "jobs"
     resolved_path = td / "assignment.resolved.yaml"
+    if build_dir.exists():
+        shutil.rmtree(build_dir)
+    for stale in (
+        resolved_path,
+        td / "assignment.resolved.tex",
+        td / "assignment.resolved.pdf",
+        td / "assignment.resolved.build.log",
+    ):
+        if stale.exists():
+            stale.unlink()
 
     plan_path.write_text(
         yaml.dump(PLAN_YAML, allow_unicode=True, default_flow_style=False, sort_keys=False),
