@@ -54,8 +54,7 @@ class TikzRendererTest(unittest.TestCase):
             self.assertIn(r"\DoubleEqualTick", fragment)
             self.assertIn(r"\PointDot", fragment)
             self.assertIn(r"\PointLabel", fragment)
-            self.assertIn(r"\PointLabel[xshift=-", fragment)
-            self.assertIn(r"yshift=-", fragment)
+            self.assertIn(r"\PointLabel[left]{A}", fragment)
             self.assertIn(r"A\_\textbackslash{}draw", fragment)
             self.assertNotIn(r"A_\draw", fragment)
 
@@ -89,9 +88,36 @@ class TikzRendererTest(unittest.TestCase):
 
             fragment = (out_dir / result["tikz_fragment_path"]).read_text(encoding="utf-8")
             self.assertIn(r"\Quadrilateral", fragment)
-            self.assertIn(r"\PointLabel[xshift=-", fragment)
-            self.assertIn(r"\PointLabel[xshift=0.", fragment)
-            self.assertIn(r"yshift=-", fragment)
+            self.assertIn(r"\PointLabel[below left]{A}", fragment)
+            self.assertIn(r"\PointLabel[below right]{B}", fragment)
+            self.assertIn(r"\PointLabel[above right]{C}", fragment)
+            self.assertIn(r"\PointLabel[above left]{D}", fragment)
+
+    def test_explicit_point_label_placement_overrides_polygon_default(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            out_dir = Path(tmp)
+            spec_path = out_dir / "final_renderer_spec.json"
+            spec_path.write_text(
+                json.dumps(
+                    {
+                        "schema_version": "geometry-render-spec/v1",
+                        "job_id": "explicit-placement",
+                        "variant": "prompt",
+                        "type": "synthetic_geometry",
+                        "points": {"A": [0, 0], "B": [3, 0], "C": [0, 2]},
+                        "segments": [{"from": "A", "to": "B"}, {"from": "B", "to": "C"}, {"from": "C", "to": "A"}],
+                        "polygons": [{"points": ["A", "B", "C"], "fill": "#eff6ff"}],
+                        "labels": {"A": {"text": "A", "placement": "above_right"}},
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            with patch("render_geometry_spec.build_previews", return_value=PreviewResult()):
+                result = render_geometry_spec(spec_path, out_dir, variant="prompt")
+
+            fragment = (out_dir / result["tikz_fragment_path"]).read_text(encoding="utf-8")
+            self.assertIn(r"\PointLabel[above right]{A}", fragment)
 
     def test_coordinate_geometry_outputs_axis_and_structured_objects(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

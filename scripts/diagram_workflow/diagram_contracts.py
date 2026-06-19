@@ -13,7 +13,7 @@ from enum import Enum
 import re
 from typing import Annotated, Literal, TypeAlias
 
-from pydantic import AliasChoices, BaseModel, ConfigDict, Field, model_validator
+from pydantic import AliasChoices, BaseModel, ConfigDict, Field, field_validator, model_validator
 
 
 NonEmptyStr = Annotated[str, Field(min_length=1)]
@@ -106,6 +106,18 @@ class DiagramBodyScale(str, Enum):
 class DiagramLabelDensity(str, Enum):
     NORMAL = "normal"
     DENSE = "dense"
+
+
+class DiagramLabelPlacement(str, Enum):
+    ABOVE = "above"
+    BELOW = "below"
+    LEFT = "left"
+    RIGHT = "right"
+    ABOVE_LEFT = "above left"
+    ABOVE_RIGHT = "above right"
+    BELOW_LEFT = "below left"
+    BELOW_RIGHT = "below right"
+    CENTER = "center"
 
 
 class DiagramConditionLabelStyle(str, Enum):
@@ -652,8 +664,16 @@ class RenderMarker(DiagramLooseModel):
 
 class RenderLabel(DiagramLooseModel):
     text: str = ""
+    placement: DiagramLabelPlacement | None = None
     dx: float = 0
     dy: float = -24
+
+    @field_validator("placement", mode="before")
+    @classmethod
+    def normalize_placement(cls, value: object) -> object:
+        if isinstance(value, str):
+            return re.sub(r"\s+", " ", value.strip().lower().replace("_", " "))
+        return value
 
     @model_validator(mode="before")
     @classmethod

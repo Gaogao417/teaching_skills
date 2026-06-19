@@ -3,13 +3,14 @@ from __future__ import annotations
 import math
 import re
 
-from diagram_contracts import DiagramVariant, GeometryRenderSpec, RenderLabel
+from diagram_contracts import DiagramLabelPlacement, DiagramVariant, GeometryRenderSpec, RenderLabel
 
 from .contracts import TikzCommand, TikzCompilerAudit, TikzCoordinate, TikzDiagramSpec, TikzStyleRole
 from .styles import PX_TO_CM, profile_to_style
 from .writer import color_option, dash_option, fmt_cm, fmt_num, join_options, point_label_tex, stroke_width_option
 
 Point = tuple[float, float]
+TIKZ_LABEL_PLACEMENTS = {placement.value for placement in DiagramLabelPlacement}
 
 
 def _coord_name(name: str, used: set[str]) -> str:
@@ -35,7 +36,7 @@ class SyntheticGeometryTikzCompiler:
         self.points: dict[str, Point] = {}
         self.coordinates: list[TikzCoordinate] = []
         self.commands: list[TikzCommand] = []
-        self.label_offsets: dict[str, Point] = {}
+        self.label_placements: dict[str, str] = {}
         self.warnings: list[str] = []
         self.natural_width_cm = 1.0
         self.natural_height_cm = 1.0
@@ -142,7 +143,7 @@ class SyntheticGeometryTikzCompiler:
                 path = " -- ".join(f"({name})" for name in names)
                 tex = f"\\PolygonPath[{options}]{{{path}}}"
             self.commands.append(TikzCommand(kind="polygon", order=100 + index, tex=tex))
-            self._remember_polygon_label_offsets(polygon.points)
+            self._remember_polygon_label_placements(polygon.points)
 
     def _draw_segments(self) -> None:
         for index, segment in enumerate(self.spec.segments):
@@ -220,44 +221,64 @@ class SyntheticGeometryTikzCompiler:
             if not label:
                 label = RenderLabel(text=name, dx=0, dy=0)
             text = label.text or name
-            has_explicit_offset = bool(label.dx) or label.dy not in (None, 0, -24)
-            if has_explicit_offset:
-                dx_cm = float(label.dx or 0) * PX_TO_CM
-                dy_cm = -float(label.dy if label.dy is not None else 0) * PX_TO_CM
-            else:
-                dx_cm, dy_cm = self.label_offsets.get(
-                    name,
-                    (0.0, (self.spec.render_profile.point_label_offset_px or 34) * PX_TO_CM),
-                )
+            options = self._label_options(name, label)
             self.commands.append(
                 TikzCommand(
                     kind="point_label",
                     order=500 + index,
-                    tex=(
-                        f"\\PointLabel[xshift={fmt_cm(dx_cm)}, yshift={fmt_cm(dy_cm)}]"
-                        f"{{{self.coord_names[name]}}}{{{point_label_tex(text)}}}"
-                    ),
+                    tex=f"\\PointLabel[{options}]{{{self.coord_names[name]}}}{{{point_label_tex(text)}}}",
                 )
             )
 
-    def _remember_polygon_label_offsets(self, point_names: list[str]) -> None:
+    def _label_options(self, name: str, label: RenderLabel) -> str:
+        placement = self._label_placement(label.placement) or self.label_placements.get(name) or "above"
+        options = ["anchor=center" if placement == DiagramLabelPlacement.CENTER.value else placement]
+        has_explicit_offset = bool(label.dx) or label.dy not in (None, 0, -24)
+        if has_explicit_offset:
+            dx_cm = float(label.dx or 0) * PX_TO_CM
+            dy_cm = -float(label.dy if label.dy is not None else 0) * PX_TO_CM
+            options.extend([f"xshift={fmt_cm(dx_cm)}", f"yshift={fmt_cm(dy_cm)}"])
+        return join_options(*options)
+
+    def _label_placement(self, placement: DiagramLabelPlacement | str | None) -> str:
+        if not placement:
+            return ""
+        value = placement.value if isinstance(placement, DiagramLabelPlacement) else str(placement)
+        value = re.sub(r"\s+", " ", value.strip().lower().replace("_", " "))
+        if value in TIKZ_LABEL_PLACEMENTS:
+            return value
+        self.warnings.append(f"unsupported point label placement: {value}")
+        return ""
+
+    def _remember_polygon_label_placements(self, point_names: list[str]) -> None:
         polygon_points = [self.points[name] for name in point_names if name in self.points]
         if len(polygon_points) < 3:
             return
         centroid_x = sum(point[0] for point in polygon_points) / len(polygon_points)
         centroid_y = sum(point[1] for point in polygon_points) / len(polygon_points)
-        distance = (self.spec.render_profile.point_label_offset_px or 34) * PX_TO_CM
         for name in point_names:
-            if name in self.label_offsets or name not in self.points:
+            if name in self.label_placements or name not in self.points:
                 continue
             point = self.points[name]
             vx = point[0] - centroid_x
             vy = point[1] - centroid_y
-            length = math.hypot(vx, vy)
-            if length <= 1e-9:
-                self.label_offsets[name] = (0.0, distance)
-                continue
-            self.label_offsets[name] = (vx / length * distance, vy / length * distance)
+            self.label_placements[name] = self._vector_to_label_placement(vx, vy)
+
+    def _vector_to_label_placement(self, vx: float, vy: float) -> str:
+        if math.hypot(vx, vy) <= 1e-9:
+            return "above"
+        angle = math.degrees(math.atan2(vy, vx))
+        index = int(((angle + 360.0 + 22.5) % 360.0) // 45.0)
+        return [
+            "right",
+            "above right",
+            "above",
+            "above left",
+            "left",
+            "below left",
+            "below",
+            "below right",
+        ][index]
 
 
 def compile_synthetic_geometry(spec: GeometryRenderSpec) -> TikzDiagramSpec:
