@@ -1,5 +1,10 @@
 # 几何画图闭环工作流设计
 
+> Status: historical design notes. The active output path is TikZ-only:
+> `GeometryRenderSpec -> TikzDiagramSpec -> fragment.tex -> renderer_result.json`,
+> with gate/resolver consuming `RendererBindingManifest` rather than image
+> artifacts.
+
 ## 0. 当前实现与测试入口
 
 当前实现层面的主结论：

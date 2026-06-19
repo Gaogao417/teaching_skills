@@ -1840,6 +1840,7 @@ def finalize_node(state: WorkflowState) -> WorkflowState:
         "final_diagram_spec": "final_diagram_spec.json",
         "final_renderer_spec": "final_renderer_spec.json",
         "final_image_path": render_result.get("image_path"),
+        "final_tikz_fragment_path": "",
         "wolfram": {
             "success": bool(render_result.get("success")),
             "solve_time_s": render_result.get("solve_time_s", 0) or 0,
@@ -1867,6 +1868,7 @@ def finalize_node(state: WorkflowState) -> WorkflowState:
         status=result["status"],
         error=result.get("error", ""),
         final_image_path=result.get("final_image_path") or "",
+        final_tikz_fragment_path=result.get("final_tikz_fragment_path") or "",
         round_count=len(history),
     )
     return state

@@ -3,7 +3,7 @@
 
 This is the deterministic wrapper used by the math-geometry-diagram-renderer
 skill. It expects a plan YAML containing diagram_slot declarations and writes a
-resolved assignment YAML after generated diagram artifacts pass the gate.
+resolved assignment YAML after generated renderer results pass the gate.
 """
 
 from __future__ import annotations
@@ -59,7 +59,6 @@ def main() -> None:
     build_dir = artifact_dir / "build" / "diagram"
     jobs_json = build_dir / "diagram_jobs.json"
     jobs_dir = build_dir / "jobs"
-    artifacts_json = build_dir / "diagram_artifacts.json"
     out_yaml = (args.out.resolve() if args.out else default_resolved_path(plan_yaml).resolve())
 
     py = args.python
@@ -93,22 +92,6 @@ def main() -> None:
         cwd=common_cwd,
         dry_run=args.dry_run,
     )
-    run(
-        [
-            py,
-            str(SCRIPT_DIR / "build_diagram_artifacts.py"),
-            "--jobs",
-            str(jobs_json),
-            "--jobs-dir",
-            str(jobs_dir),
-            "--artifact-dir",
-            str(artifact_dir),
-            "--out",
-            str(artifacts_json),
-        ],
-        cwd=common_cwd,
-        dry_run=args.dry_run,
-    )
     if not args.skip_gate:
         run(
             [
@@ -118,8 +101,8 @@ def main() -> None:
                 str(plan_yaml),
                 "--jobs",
                 str(jobs_json),
-                "--artifacts",
-                str(artifacts_json),
+                "--jobs-dir",
+                str(jobs_dir),
                 "--artifact-dir",
                 str(artifact_dir),
             ],
@@ -131,8 +114,12 @@ def main() -> None:
             py,
             str(SCRIPT_DIR / "resolve_assignment_diagrams.py"),
             str(plan_yaml),
-            "--artifacts",
-            str(artifacts_json),
+            "--jobs",
+            str(jobs_json),
+            "--jobs-dir",
+            str(jobs_dir),
+            "--artifact-dir",
+            str(artifact_dir),
             "--out",
             str(out_yaml),
         ],

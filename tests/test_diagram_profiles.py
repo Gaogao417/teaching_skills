@@ -12,15 +12,17 @@ sys.path.insert(0, str(ROOT / "scripts" / "diagram_workflow"))
 
 from check_diagram_gate import _check_slot_layout_profiles, _check_svg_readability  # noqa: E402
 from diagram_contracts import (  # noqa: E402
-    DiagramArtifact,
-    DiagramArtifactsManifest,
     DiagramDisplayProfile,
+    GeometryRenderSpec,
     DiagramJob,
     DiagramJobsManifest,
     DiagramSlot,
+    RendererBinding,
+    RendererBindingManifest,
 )
-from render_geometry_spec import SvgCoordinateRenderer, SvgGeometryRenderer  # noqa: E402
 from resolve_assignment_diagrams import resolve_assignment  # noqa: E402
+from tikz_renderer import compile_geometry_render_spec  # noqa: E402
+from tikz_renderer.writer import render_fragment  # noqa: E402
 
 
 def slot_payload(**overrides: object) -> dict[str, object]:
@@ -70,15 +72,16 @@ class DiagramProfileTest(unittest.TestCase):
                 }
             ],
         }
-        artifacts = DiagramArtifactsManifest(
+        artifacts = RendererBindingManifest(
             assignment_id="profile-resolve",
             source_jobs="build/diagram/diagram_jobs.json",
-            artifacts={
-                "q1.prompt": DiagramArtifact(
+            bindings={
+                "q1.prompt": RendererBinding(
                     slot_id="q1.prompt",
+                    diagram_ref="q1.prompt",
                     job_id="q1-prompt",
                     status="ok",
-                    image_path="build/diagram/jobs/q1-prompt/rendered/prompt.png",
+                    tikz_fragment=r"\begin{tikzpicture}\draw (0,0) -- (1,0);\end{tikzpicture}",
                     hash="sha256:abc",
                     bindable=True,
                 )
@@ -87,47 +90,85 @@ class DiagramProfileTest(unittest.TestCase):
 
         resolved = resolve_assignment(plan_data, artifacts)
         diagram_col = resolved["sections"][0]["blocks"][0]["diagram_col"]
+        self.assertEqual(diagram_col["kind"], "tikz")
+        self.assertIn("tikz_code", diagram_col)
         self.assertEqual(diagram_col["width"], "60mm")
         self.assertEqual(diagram_col["caption"], "原题图")
 
+    def test_resolver_refuses_ok_renderer_result_without_bindable_tikz(self) -> None:
+        plan_data = {
+            "meta": {"assignment_id": "profile-resolve"},
+            "sections": [
+                {
+                    "blocks": [
+                        {
+                            "id": "q1",
+                            "diagram_slot": slot_payload(caption="原题图"),
+                        }
+                    ]
+                }
+            ],
+        }
+        artifacts = RendererBindingManifest(
+            assignment_id="profile-resolve",
+            source_jobs="build/diagram/diagram_jobs.json",
+            bindings={
+                "q1.prompt": RendererBinding(
+                    slot_id="q1.prompt",
+                    diagram_ref="q1.prompt",
+                    job_id="q1-prompt",
+                    status="ok",
+                    bindable=False,
+                )
+            },
+        )
+
+        with self.assertRaises(ValueError):
+            resolve_assignment(plan_data, artifacts)
+
     def test_renderers_use_profile_label_style_and_value_only_conditions(self) -> None:
         profile = DiagramSlot(**slot_payload()).resolved_render_profile().model_dump(mode="json")
-        synthetic_svg = SvgGeometryRenderer(
-            {
-                "render_profile": profile,
-                "points": {"A": [0, 0], "B": [1, 0]},
-                "segments": [{"from": "A", "to": "B"}],
-            },
-            width=720,
-            height=360,
-        ).render()
+        synthetic_tikz = render_fragment(
+            compile_geometry_render_spec(
+                GeometryRenderSpec(
+                    **{
+                        "render_profile": profile,
+                        "points": {"A": [0, 0], "B": [1, 0]},
+                        "segments": [{"from": "A", "to": "B"}],
+                    }
+                )
+            )
+        )
 
-        self.assertIn('font-family="Times New Roman, Georgia, serif"', synthetic_svg)
-        self.assertIn('font-size="44.0"', synthetic_svg)
-        self.assertIn('font-style="italic"', synthetic_svg)
-        self.assertIn('font-weight="normal"', synthetic_svg)
-        self.assertIn('data-label-kind="point"', synthetic_svg)
-        self.assertNotIn("Arial", synthetic_svg)
+        self.assertIn(r"\begin{tikzpicture}", synthetic_tikz)
+        self.assertIn(r"\fontsize{17.6}", synthetic_tikz)
+        self.assertNotIn(r"\fontsize{33}", synthetic_tikz)
+        self.assertIn(r"\renewcommand{\DiagramPointRadius}{0.0728cm}", synthetic_tikz)
+        self.assertIn(r"$\mathit{A}$", synthetic_tikz)
+        self.assertNotIn("Arial", synthetic_tikz)
 
-        coordinate_svg = SvgCoordinateRenderer(
-            {
-                "type": "coordinate_geometry",
-                "render_profile": profile,
-                "viewport": {"x_min": -1, "x_max": 3, "y_min": -1, "y_max": 3},
-                "axes": {"x": False, "y": False, "grid": False, "show_ticks": True},
-                "objects": [
-                    {"type": "point", "id": "C", "x": 0, "y": 0, "label": "C"},
-                    {"type": "text", "x": 1, "y": 1, "text": "CD=19"},
-                ],
-            },
-            width=720,
-            height=360,
-        ).render()
+        coordinate_tikz = render_fragment(
+            compile_geometry_render_spec(
+                GeometryRenderSpec(
+                    **{
+                        "type": "coordinate_geometry",
+                        "render_profile": profile,
+                        "viewport": {"x_min": -1, "x_max": 3, "y_min": -1, "y_max": 3},
+                        "axes": {"x": False, "y": False, "grid": False, "show_ticks": True},
+                        "objects": [
+                            {"type": "point", "id": "C", "x": 0, "y": 0, "label": "C"},
+                            {"type": "text", "x": 1, "y": 1, "text": "CD=19"},
+                        ],
+                    }
+                )
+            )
+        )
 
-        self.assertIn(">19</text>", coordinate_svg)
-        self.assertNotIn("CD=19", coordinate_svg)
-        self.assertNotIn(">x</text>", coordinate_svg)
-        self.assertNotIn(">y</text>", coordinate_svg)
+        self.assertIn(r"\begin{axis}", coordinate_tikz)
+        self.assertIn("{19}", coordinate_tikz)
+        self.assertNotIn("CD=19", coordinate_tikz)
+        self.assertNotIn("xlabel=", coordinate_tikz)
+        self.assertNotIn("ylabel=", coordinate_tikz)
 
     def test_gate_checks_sidecar_width_and_svg_readability(self) -> None:
         plan_data = {
@@ -170,15 +211,16 @@ class DiagramProfileTest(unittest.TestCase):
                     )
                 ],
             )
-            artifacts = DiagramArtifactsManifest(
+            artifacts = RendererBindingManifest(
                 assignment_id="gate-profile",
                 source_jobs="build/diagram/diagram_jobs.json",
-                artifacts={
-                    "q1.prompt": DiagramArtifact(
+                bindings={
+                    "q1.prompt": RendererBinding(
                         slot_id="q1.prompt",
+                        diagram_ref="q1.prompt",
                         job_id="q1-prompt",
                         status="ok",
-                        image_path="build/diagram/jobs/q1-prompt/rendered/prompt.png",
+                        tikz_fragment=r"\begin{tikzpicture}\draw (0,0) -- (1,0);\end{tikzpicture}",
                         preview_svg="rendered/prompt.svg",
                         hash="sha256:abc",
                         bindable=True,

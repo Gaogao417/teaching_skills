@@ -6,6 +6,7 @@ import tempfile
 import unittest
 import warnings
 from pathlib import Path
+from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts" / "diagram_workflow"))
@@ -15,14 +16,15 @@ from analytic_diagram_workflow import run_analytic_workflow, sanitize_wl_express
 from check_diagram_gate import _check_analytic_renderer_specs  # noqa: E402
 from diagram_contracts import (  # noqa: E402
     DiagramAnalyticRequirements,
-    DiagramArtifact,
-    DiagramArtifactsManifest,
     DiagramJob,
     DiagramJobsManifest,
     DiagramJobRequest,
+    RendererBinding,
+    RendererBindingManifest,
 )
-from render_geometry_spec import SvgCoordinateRenderer, render_geometry_spec  # noqa: E402
+from render_geometry_spec import render_geometry_spec  # noqa: E402
 from runtime import resolve_wolfram_kernel  # noqa: E402
+from tikz_renderer.toolchain import PreviewResult  # noqa: E402
 
 
 def wolfram_available() -> bool:
@@ -85,7 +87,44 @@ class AnalyticDiagramWorkflowTest(unittest.TestCase):
             self.assertTrue((job_dir / "workflow_result.json").exists())
             self.assertIn("Extra inputs", result["message"])
 
-    def test_coordinate_renderer_outputs_function_objects_and_nonempty_image(self) -> None:
+    def test_coordinate_renderer_with_explicit_objects_does_not_require_wolfram(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            request_path = root / "request.json"
+            request = {
+                "schema_version": "diagram-job-request/v2",
+                "job_id": "coord-explicit-prompt",
+                "assignment_id": "coord-explicit",
+                "slot_id": "coord.prompt",
+                "variant": "prompt",
+                "disclosure_policy": "clean",
+                "engine": "coordinate_renderer",
+                "diagram_kind": "coordinate_geometry",
+                "analytic_requirements": {
+                    "viewport": {"x_min": -1, "x_max": 5, "y_min": -1, "y_max": 4},
+                    "axes": {"x": False, "y": False, "grid": False, "show_ticks": False},
+                    "objects": [
+                        {"type": "point", "id": "A", "x": 0, "y": 0, "label": "A"},
+                        {"type": "point", "id": "B", "x": 4, "y": 0, "label": "B"},
+                        {"type": "polyline", "id": "AB", "points": ["A", "B"]},
+                    ],
+                },
+            }
+            request_path.write_text(json.dumps(request), encoding="utf-8")
+
+            job_dir = root / "job"
+            with patch("analytic_diagram_workflow.WolframAnalyticKernel", side_effect=AssertionError("wolfram should not run")):
+                result = run_analytic_workflow(request_path, job_dir)
+
+            self.assertEqual(result["status"], "ok")
+            self.assertFalse(result["wolfram"]["success"])
+            spec = json.loads((job_dir / "final_renderer_spec.json").read_text(encoding="utf-8"))
+            self.assertFalse(spec["diagnostics"]["wolfram_used"])
+            self.assertEqual(spec["objects"][0]["id"], "A")
+            events = (job_dir / "workflow_events.jsonl").read_text(encoding="utf-8")
+            self.assertIn("wolfram_skipped", events)
+
+    def test_coordinate_renderer_outputs_function_objects_and_tikz_fragment(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             out_dir = Path(tmp)
             spec_path = out_dir / "final_renderer_spec.json"
@@ -97,7 +136,7 @@ class AnalyticDiagramWorkflowTest(unittest.TestCase):
                 "type": "function_graph",
                 "viewport": {"x_min": -2, "x_max": 6, "y_min": -6, "y_max": 12},
                 "axes": {"x": True, "y": True, "grid": True, "show_ticks": True},
-                "functions": [{"id": "f", "variable": "x", "expression_wl": "2*x - 1"}],
+                "functions": [{"id": "f", "variable": "x", "expression_wl": "2*x - 1", "label": "f(x)"}],
                 "samples": {"f": [[-2, -5], [0, -1], [2, 3], [6, 11]]},
                 "objects": [
                     {"type": "point", "id": "A", "x": 2, "y": 3, "label": "A"},
@@ -115,36 +154,43 @@ class AnalyticDiagramWorkflowTest(unittest.TestCase):
             }
             spec_path.write_text(json.dumps(spec), encoding="utf-8")
 
-            result = render_geometry_spec(spec_path, out_dir, width=720, height=520, size=1024)
+            with patch("render_geometry_spec.build_previews", return_value=PreviewResult()):
+                result = render_geometry_spec(spec_path, out_dir, width=720, height=520, size=1024)
 
             self.assertEqual(result["status"], "ok")
-            image_path = out_dir / result["image_path"]
-            svg_path = out_dir / result["preview_svg"]
-            self.assertTrue(image_path.exists())
-            self.assertGreater(image_path.stat().st_size, 0)
-            self.assertIn("polyline", svg_path.read_text(encoding="utf-8"))
+            fragment_path = out_dir / result["tikz_fragment_path"]
+            self.assertTrue(fragment_path.exists())
+            fragment = fragment_path.read_text(encoding="utf-8")
+            self.assertIn(r"\begin{axis}", fragment)
+            self.assertIn(r"\addplot+", fragment)
+            self.assertIn("axis cs:2,3", fragment)
+            self.assertIn("f(x)", fragment)
 
     def test_coordinate_renderer_preserves_equal_axis_units(self) -> None:
-        renderer = SvgCoordinateRenderer(
-            {
-                "type": "coordinate_geometry",
-                "viewport": {
-                    "x_min": -2,
-                    "x_max": 6,
-                    "y_min": -6,
-                    "y_max": 12,
-                    "preserve_aspect": True,
-                },
-            },
-            width=720,
-            height=520,
-        )
-        origin = renderer.screen_xy(0, 0)
-        one_x = renderer.screen_xy(1, 0)
-        one_y = renderer.screen_xy(0, 1)
+        with tempfile.TemporaryDirectory() as tmp:
+            out_dir = Path(tmp)
+            spec_path = out_dir / "final_renderer_spec.json"
+            spec_path.write_text(
+                json.dumps(
+                    {
+                        "type": "coordinate_geometry",
+                        "viewport": {
+                            "x_min": -2,
+                            "x_max": 6,
+                            "y_min": -6,
+                            "y_max": 12,
+                            "preserve_aspect": True,
+                        },
+                        "objects": [{"type": "point", "id": "O", "x": 0, "y": 0}],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            with patch("render_geometry_spec.build_previews", return_value=PreviewResult()):
+                result = render_geometry_spec(spec_path, out_dir, width=720, height=520, size=1024)
+            fragment = (out_dir / result["tikz_fragment_path"]).read_text(encoding="utf-8")
 
-        self.assertAlmostEqual(one_x[0] - origin[0], origin[1] - one_y[1])
-        self.assertEqual(renderer.scale_x, renderer.scale_y)
+        self.assertIn("axis equal image", fragment)
 
     def test_gate_blocks_analytic_spec_without_function_samples(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -180,15 +226,16 @@ class AnalyticDiagramWorkflowTest(unittest.TestCase):
                     )
                 ],
             )
-            artifacts = DiagramArtifactsManifest(
+            artifacts = RendererBindingManifest(
                 assignment_id="gate-analytic",
                 source_jobs="build/diagram/diagram_jobs.json",
-                artifacts={
-                    "f1.prompt": DiagramArtifact(
+                bindings={
+                    "f1.prompt": RendererBinding(
                         slot_id="f1.prompt",
+                        diagram_ref="f1.prompt",
                         job_id="f1-prompt",
                         status="ok",
-                        image_path="build/diagram/jobs/f1-prompt/rendered/prompt.png",
+                        tikz_fragment=r"\begin{tikzpicture}\draw (0,0) -- (1,0);\end{tikzpicture}",
                         hash="sha256:abc",
                         final_renderer_spec="build/diagram/jobs/f1-prompt/final_renderer_spec.json",
                         bindable=True,
@@ -259,9 +306,10 @@ class AnalyticDiagramWorkflowTest(unittest.TestCase):
             self.assertEqual(computed["J"]["x"], 2.0)
             self.assertEqual(computed["Z"]["x"], 0.5)
 
-            render_result = render_geometry_spec(job_dir / "final_renderer_spec.json", job_dir, 720, 520, 1024)
+            with patch("render_geometry_spec.build_previews", return_value=PreviewResult()):
+                render_result = render_geometry_spec(job_dir / "final_renderer_spec.json", job_dir, 720, 520, 1024)
             self.assertEqual(render_result["status"], "ok")
-            self.assertTrue((job_dir / render_result["image_path"]).exists())
+            self.assertTrue((job_dir / render_result["tikz_fragment_path"]).exists())
 
 
 if __name__ == "__main__":

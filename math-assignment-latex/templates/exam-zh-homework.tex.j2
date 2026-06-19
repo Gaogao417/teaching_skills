@@ -1,5 +1,8 @@
 <# exam-zh-homework.tex.j2 — 作业页模板 #>
 <% include "preamble-exam-zh.tex" ignore missing %>
+<% macro diagram_tikz_body(diagram) -%>
+<% if diagram.tikz_code %><%= diagram.tikz_code %><% elif diagram.tikz_path %>\input{\detokenize{<%= diagram.tikz_path|latex_path %>}}<% endif %>
+<%- endmacro %>
 
 <% if meta.version == "student" %>
 \examsetup{
@@ -63,7 +66,9 @@
     <% endfor %>
     \end{choices}
   \end{minipage}\hfill
-  \diagramcolfigure{<%= diagram_col.image_path|latex_path %>}{<%= diagram_width %>}{<% if diagram_col.caption %><%= diagram_col.caption|latex_escape %><% endif %>}
+  \begin{diagramcoltikz}{<%= diagram_width %>}{<% if diagram_col.caption %><%= diagram_col.caption|latex_escape %><% endif %>}
+  <%= diagram_tikz_body(diagram_col) %>
+  \end{diagramcoltikz}
   <% if meta.version != "student" and block.answer %>
   \paren[<%= block.answer|latex_escape %>]
   <% endif %>
@@ -96,7 +101,9 @@
 \needspace{<%= block.needspace|default("18\\baselineskip") %>}
 \begin{center}
   <% for item in diagram_items|default([]) %>
-  \diagramrowitem{<%= item.image_path|latex_path %>}{<%= item.width|default("0.22\\linewidth") %>}{<% if item.label %><%= item.label|latex_escape %><% endif %>}{<% if item.caption %><%= item.caption|latex_escape %><% endif %>}<% if not loop.last %>\hfill<% endif %>
+  \begin{diagramrowtikz}{<%= item.width|default("0.22\\linewidth") %>}{<% if item.label %><%= item.label|latex_escape %><% endif %>}{<% if item.caption %><%= item.caption|latex_escape %><% endif %>}
+  <%= diagram_tikz_body(item) %>
+  \end{diagramrowtikz}<% if not loop.last %>\hfill<% endif %>
   <% endfor %>
 \end{center}
 
@@ -112,13 +119,17 @@
   \noindent\textbf{<%= part.label|latex_escape %>}\par
       <% endif %>
       <% if part_diagram_col %>
-  \answerareawithdiagramcol{<%= part.height|default(block.answer_space.height|default("35mm")) %>}{<%= part_diagram_col.image_path|latex_path %>}{<%= part_diagram_col.width|default("60mm") %>}{<% if part_diagram_col.caption %><%= part_diagram_col.caption|latex_escape %><% endif %>}
+  \begin{answerareawithdiagramtikz}{<%= part.height|default(block.answer_space.height|default("35mm")) %>}{<%= part_diagram_col.width|default("60mm") %>}{<% if part_diagram_col.caption %><%= part_diagram_col.caption|latex_escape %><% endif %>}
+  <%= diagram_tikz_body(part_diagram_col) %>
+  \end{answerareawithdiagramtikz}
       <% else %>
   \answerarea[<%= part.height|default(block.answer_space.height|default("35mm")) %>]
       <% endif %>
     <% endfor %>
   <% elif default_diagram_col %>
-  \answerareawithdiagramcol{<%= block.answer_space.height|default("35mm") %>}{<%= default_diagram_col.image_path|latex_path %>}{<%= default_diagram_col.width|default("60mm") %>}{<% if default_diagram_col.caption %><%= default_diagram_col.caption|latex_escape %><% endif %>}
+  \begin{answerareawithdiagramtikz}{<%= block.answer_space.height|default("35mm") %>}{<%= default_diagram_col.width|default("60mm") %>}{<% if default_diagram_col.caption %><%= default_diagram_col.caption|latex_escape %><% endif %>}
+  <%= diagram_tikz_body(default_diagram_col) %>
+  \end{answerareawithdiagramtikz}
   <% else %>
   \answerarea[<%= block.answer_space.height|default("35mm") %>]
   <% endif %>

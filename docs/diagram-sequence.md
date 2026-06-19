@@ -1,5 +1,10 @@
 # Diagram Workflow 时序图
 
+> Status: historical sequence for the old image/artifact path. The current
+> sequence skips `build_diagram_artifacts.py` in production and uses
+> `renderer_result.json -> RendererBindingManifest -> resolved YAML kind: tikz`.
+> Keep this file only as background unless it is redrawn for the TikZ chain.
+
 ## 参与者分类
 
 | 类型 | 参与者 | 说明 |

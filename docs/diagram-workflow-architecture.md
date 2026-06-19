@@ -1,5 +1,11 @@
 # Diagram Workflow Architecture
 
+> Status: historical pre-TikZ image workflow notes. The active production tail
+> is now `renderer_result.json -> RendererBindingManifest -> resolved YAML
+> kind: tikz`; `diagram_artifacts.json` and `image_path` are no longer the main
+> contract. See `docs/diagram-tikz-backend-architecture.md` and
+> `scripts/diagram_workflow/README.md` for the current chain.
+
 > 目标：把 teaching-skills 中“批量生成 assignment / explanation，但按小题逐个生成 Mathematica 图，再回填到 LaTeX/PDF”的链路梳理成可实现、可审计、职责清晰的工作流。
 
 ## 1. 背景与核心矛盾

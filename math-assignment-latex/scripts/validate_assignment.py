@@ -87,13 +87,23 @@ def validate_diagram_obj(obj, prefix, errors, base_dir=None):
     if not isinstance(obj, dict):
         errors.append(f"{prefix}: diagram payload must be a dict")
         return
-    image_path = obj.get("image_path")
-    if not image_path:
-        errors.append(f"{prefix}: diagram payload requires 'image_path'")
-    elif base_dir:
-        candidate = image_path if os.path.isabs(image_path) else os.path.join(base_dir, image_path)
-        if not os.path.exists(candidate):
-            errors.append(f"{prefix}: image_path does not exist: {image_path}")
+    kind = obj.get("kind")
+    if kind == "tikz" or obj.get("tikz_code") or obj.get("tikz_path"):
+        if not obj.get("tikz_code") and not obj.get("tikz_path"):
+            errors.append(f"{prefix}: TikZ diagram requires 'tikz_code' or 'tikz_path'")
+        tikz_path = obj.get("tikz_path")
+        if tikz_path and base_dir:
+            candidate = tikz_path if os.path.isabs(tikz_path) else os.path.join(base_dir, tikz_path)
+            if not os.path.exists(candidate):
+                errors.append(f"{prefix}: tikz_path does not exist: {tikz_path}")
+    else:
+        image_path = obj.get("image_path")
+        if not image_path:
+            errors.append(f"{prefix}: diagram payload requires 'image_path' or TikZ payload")
+        elif base_dir:
+            candidate = image_path if os.path.isabs(image_path) else os.path.join(base_dir, image_path)
+            if not os.path.exists(candidate):
+                errors.append(f"{prefix}: image_path does not exist: {image_path}")
     variant = obj.get("variant") or obj.get("diagram_variant")
     if variant and variant not in VALID_DIAGRAM_VARIANTS:
         errors.append(f"{prefix}: invalid diagram variant '{variant}'")
@@ -110,12 +120,12 @@ def collect_diagram_refs(block, owner):
     refs = []
 
     def add(obj, field):
-        if isinstance(obj, dict) and obj.get("image_path"):
+        if isinstance(obj, dict) and (obj.get("image_path") or obj.get("tikz_path")):
             refs.append(
                 {
                     "owner": owner,
                     "field": field,
-                    "image_path": obj.get("image_path"),
+                    "asset_path": obj.get("image_path") or obj.get("tikz_path"),
                     "diagram_job_id": obj.get("diagram_job_id"),
                     "reuse_from": obj.get("reuse_from"),
                 }
@@ -390,8 +400,8 @@ def validate(data, base_dir=None):
 
     by_path = defaultdict(list)
     for ref in diagram_refs:
-        by_path[ref["image_path"]].append(ref)
-    for image_path, refs in by_path.items():
+        by_path[ref["asset_path"]].append(ref)
+    for asset_path, refs in by_path.items():
         owners = {ref["owner"] for ref in refs}
         if len(owners) <= 1:
             continue
@@ -403,7 +413,7 @@ def validate(data, base_dir=None):
         if len(missing_reuse) > 1:
             errors.append(
                 "diagram image reused by multiple blocks without explicit reuse_from: "
-                f"{image_path} ({', '.join(missing_reuse)})"
+                f"{asset_path} ({', '.join(missing_reuse)})"
             )
 
     return errors

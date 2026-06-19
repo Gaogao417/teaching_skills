@@ -361,6 +361,16 @@ def compute_intersections(
     return computed
 
 
+COMPUTED_OBJECT_TYPES = {"intersection", "zero", "root", "x_intercept"}
+
+
+def needs_wolfram(functions: list[dict[str, object]], objects: list[dict[str, object]]) -> bool:
+    """Return true when the analytic route must compute data, not just pass it through."""
+    if functions:
+        return True
+    return any(obj.get("type") in COMPUTED_OBJECT_TYPES for obj in objects)
+
+
 def equation_for_object(obj: dict[str, object]) -> str:
     kind = obj.get("type")
     if kind == "function":
@@ -384,21 +394,25 @@ def build_spec(request: DiagramJobRequest, out_dir: Path) -> GeometryRenderSpec:
         kernel_path = request.engine_options.engine_model_config.get("wl_kernel")
 
     emit_event(out_dir, "analytic_start", job_id=request.job_id, engine=request.engine.value, kind=request.diagram_kind.value)
-    with WolframAnalyticKernel(kernel_path) as kernel:
-        emit_event(out_dir, "wolfram_kernel_ready", kernel=kernel.kernel_path)
-        for func in functions:
-            expr, variable = function_expression(func)
-            domain = func.get("domain") or {}
-            x_min = compact_float(domain.get("min", viewport["x_min"]))
-            x_max = compact_float(domain.get("max", viewport["x_max"]))
-            count = int(func.get("sample_count", 160))
-            samples[str(func["id"])] = kernel.sample_function(expr, variable, x_min, x_max, count)
-            func["expression_wl"] = expr
-            emit_event(out_dir, "function_sampled", function_id=func["id"], sample_count=len(samples[str(func["id"])]))
-        computed = compute_intersections(kernel, functions, objects)
-        objects.extend(computed)
-        if computed:
-            emit_event(out_dir, "intersections_computed", count=len(computed))
+    used_wolfram = needs_wolfram(functions, objects)
+    if used_wolfram:
+        with WolframAnalyticKernel(kernel_path) as kernel:
+            emit_event(out_dir, "wolfram_kernel_ready", kernel=kernel.kernel_path)
+            for func in functions:
+                expr, variable = function_expression(func)
+                domain = func.get("domain") or {}
+                x_min = compact_float(domain.get("min", viewport["x_min"]))
+                x_max = compact_float(domain.get("max", viewport["x_max"]))
+                count = int(func.get("sample_count", 160))
+                samples[str(func["id"])] = kernel.sample_function(expr, variable, x_min, x_max, count)
+                func["expression_wl"] = expr
+                emit_event(out_dir, "function_sampled", function_id=func["id"], sample_count=len(samples[str(func["id"])]))
+            computed = compute_intersections(kernel, functions, objects)
+            objects.extend(computed)
+            if computed:
+                emit_event(out_dir, "intersections_computed", count=len(computed))
+    else:
+        emit_event(out_dir, "wolfram_skipped", reason="explicit coordinate objects require no analytic computation")
 
     spec_type = request.diagram_kind.value
     if spec_type not in {DiagramKind.COORDINATE_GEOMETRY.value, DiagramKind.FUNCTION_GRAPH.value}:
@@ -417,6 +431,7 @@ def build_spec(request: DiagramJobRequest, out_dir: Path) -> GeometryRenderSpec:
         "objects": objects,
         "teaching_focus": request.semantic_constraints.given_objects
         or request.semantic_constraints.given_constraints,
+        "diagnostics": {"wolfram_used": used_wolfram},
     }
     return GeometryRenderSpec.model_validate(spec)
 
@@ -441,6 +456,7 @@ def run_analytic_workflow(request_path: Path, out_dir: Path) -> dict[str, object
             raise ValueError(f"unsupported analytic diagram_kind: {request.diagram_kind.value}")
         spec = build_spec(request, out_dir)
         write_json(out_dir / "final_renderer_spec.json", spec)
+        wolfram_used = bool(spec.diagnostics.get("wolfram_used"))
         result = DiagramJobResult.model_validate({
             "schema_version": "diagram-job-result/v2",
             "job_id": request.job_id,
@@ -451,7 +467,7 @@ def run_analytic_workflow(request_path: Path, out_dir: Path) -> dict[str, object
             "workflow_events": "workflow_events.jsonl",
             "scene_payload": "",
             "final_renderer_spec": "final_renderer_spec.json",
-            "wolfram": {"success": True},
+            "wolfram": {"success": wolfram_used},
             "model": {"text_model_used": "", "attempts": []},
             "policy_warnings": [],
         }).model_dump(mode="json", by_alias=True)

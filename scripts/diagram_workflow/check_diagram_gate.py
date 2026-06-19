@@ -2,14 +2,14 @@
 """Check diagram gate before rendering.
 
 Validates that all required diagrams are present, policies are correct,
-and artifacts are consistent with the plan. Produces a DiagramGateReport
+and renderer results are consistent with the plan. Produces a DiagramGateReport
 with pass/warn/block status.
 
 Usage:
     python3 scripts/diagram_workflow/check_diagram_gate.py \
         --plan <assignment.plan.yaml> \
         --jobs <diagram_jobs.json> \
-        --artifacts <diagram_artifacts.json> \
+        --jobs-dir <build/diagram/jobs> \
         [--resolved <assignment.resolved.yaml>]
 """
 
@@ -29,7 +29,6 @@ except ImportError as exc:  # pragma: no cover
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from diagram_contracts import (  # noqa: E402
     AssignmentPlanDiagramView,
-    DiagramArtifactsManifest,
     DiagramDisplayProfile,
     DiagramGateCheck,
     DiagramGateReport,
@@ -37,7 +36,9 @@ from diagram_contracts import (  # noqa: E402
     DiagramJobsManifest,
     DisclosurePolicy,
     DiagramVariant,
+    RendererBindingManifest,
 )
+from renderer_bindings import manifest_from_paths  # noqa: E402
 
 
 _ABSOLUTE_DIMENSION_RE = re.compile(
@@ -57,14 +58,14 @@ _UNIT_TO_MM = {
 
 def _check_required_bindable(
     jobs: DiagramJobsManifest,
-    artifacts: DiagramArtifactsManifest,
+    artifacts: RendererBindingManifest,
 ) -> list[DiagramGateCheck]:
     """Check 1: All required slots have bindable artifacts."""
     checks: list[DiagramGateCheck] = []
     for job in jobs.jobs:
         if not job.required:
             continue
-        art = artifacts.artifacts.get(job.diagram_ref)
+        art = artifacts.bindings.get(job.diagram_ref)
         if not art or not art.bindable:
             checks.append(DiagramGateCheck(
                 name="required_bindable",
@@ -75,30 +76,40 @@ def _check_required_bindable(
     return checks
 
 
-def _check_image_exists(
+def _check_tikz_payload_exists(
     jobs: DiagramJobsManifest,
-    artifacts: DiagramArtifactsManifest,
+    artifacts: RendererBindingManifest,
     artifact_dir: Path,
 ) -> list[DiagramGateCheck]:
-    """Check 2: All artifact image_path files exist and are non-empty."""
+    """Check 2: All bindable TikZ payloads exist and are non-empty."""
     checks: list[DiagramGateCheck] = []
-    for art in artifacts.artifacts.values():
-        if not art.image_path:
+    for art in artifacts.bindings.values():
+        if art.tikz_fragment:
             continue
-        image_path = Path(art.image_path)
-        full_path = image_path if image_path.is_absolute() else artifact_dir / image_path
+        path_value = art.tikz_fragment_path or art.tikz_source_path
+        if not path_value:
+            if art.bindable:
+                checks.append(DiagramGateCheck(
+                    name="tikz_payload_exists",
+                    status="block",
+                    message=f"Bindable TikZ artifact has no tikz_fragment or tikz path: {art.slot_id}",
+                    refs=[art.slot_id],
+                ))
+            continue
+        source_path = Path(path_value)
+        full_path = source_path if source_path.is_absolute() else artifact_dir / source_path
         if not full_path.exists():
             checks.append(DiagramGateCheck(
-                name="image_exists",
+                name="tikz_payload_exists",
                 status="warn",
-                message=f"Image file missing: {art.image_path}",
+                message=f"TikZ source file missing: {path_value}",
                 refs=[art.slot_id],
             ))
         elif full_path.stat().st_size == 0:
             checks.append(DiagramGateCheck(
-                name="image_exists",
+                name="tikz_payload_exists",
                 status="block",
-                message=f"Image file is empty: {art.image_path}",
+                message=f"TikZ source file is empty: {path_value}",
                 refs=[art.slot_id],
             ))
     return checks
@@ -168,11 +179,11 @@ def _extract_slot_data(block: dict) -> list[dict]:
 
 
 def _check_prompt_clean(
-    artifacts: DiagramArtifactsManifest,
+    artifacts: RendererBindingManifest,
 ) -> list[DiagramGateCheck]:
-    """Check 4: All prompt artifacts have clean disclosure_policy."""
+    """Check 4: All prompt bindings have clean disclosure_policy."""
     checks: list[DiagramGateCheck] = []
-    for art in artifacts.artifacts.values():
+    for art in artifacts.bindings.values():
         if art.variant == DiagramVariant.PROMPT and art.disclosure_policy != DisclosurePolicy.CLEAN:
             checks.append(DiagramGateCheck(
                 name="prompt_clean_policy",
@@ -233,55 +244,54 @@ def _check_student_no_solution(
 
 
 def _collect_resolved_diagrams(block: dict) -> list[dict]:
-    """Collect all resolved diagram objects from a block."""
+    """Collect all resolved TikZ diagram objects from a block."""
     found = []
     for key in ("diagram_col", "prompt_diagram"):
         obj = block.get(key)
-        if isinstance(obj, dict) and obj.get("image_path"):
+        if isinstance(obj, dict) and (obj.get("kind") == "tikz" or obj.get("tikz_code") or obj.get("tikz_path")):
             found.append(obj)
     answer_space = block.get("answer_space")
     if isinstance(answer_space, dict):
         for key in ("diagram_col",):
             obj = answer_space.get(key)
-            if isinstance(obj, dict) and obj.get("image_path"):
+            if isinstance(obj, dict) and (obj.get("kind") == "tikz" or obj.get("tikz_code") or obj.get("tikz_path")):
                 found.append(obj)
         for part in answer_space.get("parts") or []:
             if not isinstance(part, dict):
                 continue
             for key in ("diagram_col",):
                 obj = part.get(key)
-                if isinstance(obj, dict) and obj.get("image_path"):
+                if isinstance(obj, dict) and (obj.get("kind") == "tikz" or obj.get("tikz_code") or obj.get("tikz_path")):
                     found.append(obj)
     return found
 
 
-def _check_image_path_accessible(
-    artifacts: DiagramArtifactsManifest,
+def _check_tikz_path_accessible(
+    artifacts: RendererBindingManifest,
     artifact_dir: Path,
 ) -> list[DiagramGateCheck]:
-    """Check 6: image_path is accessible relative to expected .tex location."""
+    """Check 6: tikz_path is accessible relative to expected .tex location."""
     checks: list[DiagramGateCheck] = []
-    # The .tex file will be at <artifact_dir>/<name>.tex
-    # image_path should be relative and accessible from there
-    for art in artifacts.artifacts.values():
-        if not art.image_path:
+    for art in artifacts.bindings.values():
+        path_value = art.tikz_fragment_path or art.tikz_source_path
+        if not path_value:
             continue
-        p = Path(art.image_path)
+        p = Path(path_value)
         if p.is_absolute():
             if not p.exists():
                 checks.append(DiagramGateCheck(
-                    name="image_path_accessible",
+                    name="tikz_path_accessible",
                     status="block",
-                    message=f"Absolute image_path does not exist: {art.image_path}",
+                    message=f"Absolute tikz_path does not exist: {path_value}",
                     refs=[art.slot_id],
                 ))
         else:
             full = artifact_dir / p
             if not full.exists():
                 checks.append(DiagramGateCheck(
-                    name="image_path_accessible",
+                    name="tikz_path_accessible",
                     status="warn",
-                    message=f"Relative image_path not found from artifact dir: {art.image_path}",
+                    message=f"Relative tikz_path not found from artifact dir: {path_value}",
                     refs=[art.slot_id],
                 ))
     return checks
@@ -289,17 +299,17 @@ def _check_image_path_accessible(
 
 def _check_diagram_ref_consistency(
     jobs: DiagramJobsManifest,
-    artifacts: DiagramArtifactsManifest,
+    artifacts: RendererBindingManifest,
 ) -> list[DiagramGateCheck]:
-    """Check 7: All diagram_ref in artifacts match slots in jobs."""
+    """Check 7: All diagram_ref in renderer bindings match slots in jobs."""
     checks: list[DiagramGateCheck] = []
     job_refs = {job.diagram_ref for job in jobs.jobs}
-    for diagram_ref in artifacts.artifacts:
+    for diagram_ref in artifacts.bindings:
         if diagram_ref not in job_refs:
             checks.append(DiagramGateCheck(
                 name="diagram_ref_consistency",
                 status="warn",
-                message=f"Artifact with ref '{diagram_ref}' has no matching job slot",
+                message=f"Renderer binding with ref '{diagram_ref}' has no matching job slot",
                 refs=[diagram_ref],
             ))
     return checks
@@ -315,7 +325,7 @@ def _read_json(path: Path) -> dict[str, object] | None:
 
 def _check_analytic_renderer_specs(
     jobs: DiagramJobsManifest,
-    artifacts: DiagramArtifactsManifest,
+    artifacts: RendererBindingManifest,
     artifact_dir: Path,
 ) -> list[DiagramGateCheck]:
     """Check 8: coordinate/function specs contain renderable analytic payload."""
@@ -324,7 +334,7 @@ def _check_analytic_renderer_specs(
     for job in jobs.jobs:
         if job.diagram_kind not in analytic_kinds:
             continue
-        art = artifacts.artifacts.get(job.diagram_ref)
+        art = artifacts.bindings.get(job.diagram_ref)
         if not art or not art.final_renderer_spec:
             checks.append(DiagramGateCheck(
                 name="analytic_renderer_spec",
@@ -510,12 +520,12 @@ def _font_size_from_tag(tag: str) -> float | None:
 
 def _check_svg_readability(
     jobs: DiagramJobsManifest,
-    artifacts: DiagramArtifactsManifest,
+    artifacts: RendererBindingManifest,
     artifact_dir: Path,
 ) -> list[DiagramGateCheck]:
     checks: list[DiagramGateCheck] = []
     job_by_ref = {job.diagram_ref: job for job in jobs.jobs}
-    for diagram_ref, art in artifacts.artifacts.items():
+    for diagram_ref, art in artifacts.bindings.items():
         if not art.preview_svg:
             continue
         svg_path = _artifact_path(artifact_dir, art.job_id, art.preview_svg)
@@ -572,7 +582,7 @@ def _check_svg_readability(
 def run_gate(
     plan_data: AssignmentPlanDiagramView | dict[str, object],
     jobs: DiagramJobsManifest,
-    artifacts: DiagramArtifactsManifest,
+    artifacts: RendererBindingManifest,
     artifact_dir: Path,
     resolved_path: Path | None,
 ) -> DiagramGateReport:
@@ -580,11 +590,11 @@ def run_gate(
     all_checks: list[DiagramGateCheck] = []
 
     all_checks.extend(_check_required_bindable(jobs, artifacts))
-    all_checks.extend(_check_image_exists(jobs, artifacts, artifact_dir))
+    all_checks.extend(_check_tikz_payload_exists(jobs, artifacts, artifact_dir))
     all_checks.extend(_check_content_hash(jobs, plan_data))
     all_checks.extend(_check_prompt_clean(artifacts))
     all_checks.extend(_check_student_no_solution(resolved_path))
-    all_checks.extend(_check_image_path_accessible(artifacts, artifact_dir))
+    all_checks.extend(_check_tikz_path_accessible(artifacts, artifact_dir))
     all_checks.extend(_check_diagram_ref_consistency(jobs, artifacts))
     all_checks.extend(_check_slot_layout_profiles(plan_data))
     all_checks.extend(_check_svg_readability(jobs, artifacts, artifact_dir))
@@ -627,10 +637,10 @@ def main() -> None:
         help="Path to diagram_jobs.json",
     )
     parser.add_argument(
-        "--artifacts",
+        "--jobs-dir",
         type=Path,
         required=True,
-        help="Path to diagram_artifacts.json",
+        help="Path to build/diagram/jobs/ directory",
     )
     parser.add_argument(
         "--resolved",
@@ -646,26 +656,27 @@ def main() -> None:
 
     plan_path = args.plan.resolve()
     jobs_path = args.jobs.resolve()
-    artifacts_path = args.artifacts.resolve()
+    jobs_dir = args.jobs_dir.resolve()
 
-    for p in (plan_path, jobs_path, artifacts_path):
+    for p in (plan_path, jobs_path):
         if not p.exists():
             raise SystemExit(f"File not found: {p}")
+    if not jobs_dir.exists():
+        raise SystemExit(f"Jobs directory not found: {jobs_dir}")
 
     plan_data = AssignmentPlanDiagramView.model_validate(
         yaml.safe_load(plan_path.read_text(encoding="utf-8"))
     )
     jobs_raw = json.loads(jobs_path.read_text(encoding="utf-8"))
-    artifacts_raw = json.loads(artifacts_path.read_text(encoding="utf-8"))
 
     jobs_manifest = DiagramJobsManifest(**jobs_raw)
-    artifacts_manifest = DiagramArtifactsManifest(**artifacts_raw)
 
     artifact_dir = args.artifact_dir.resolve() if args.artifact_dir else plan_path.parent
     resolved_path = args.resolved.resolve() if args.resolved else None
+    binding_manifest = manifest_from_paths(jobs_path, jobs_dir, artifact_dir)
 
     report = run_gate(
-        plan_data, jobs_manifest, artifacts_manifest,
+        plan_data, jobs_manifest, binding_manifest,
         artifact_dir, resolved_path,
     )
 

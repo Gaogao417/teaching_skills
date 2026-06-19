@@ -15,7 +15,8 @@ sections:
           D: "AD 与 BC"
         answer: "A"
         diagram_col:
-          image_path: "diagram/jobs/c1-prompt/rendered/prompt.png"
+          kind: "tikz"
+          tikz_path: "diagram/jobs/c1-prompt/rendered/prompt.fragment.tex"
           diagram_job_id: "c1-prompt"
           variant: "prompt"
           disclosure_policy: "clean"
@@ -33,7 +34,8 @@ sections:
           D: "从 D 到 AB 的垂线"
         answer: "A"
         diagram_col:
-          image_path: "diagram/jobs/c2-prompt/rendered/prompt.png"
+          kind: "tikz"
+          tikz_path: "diagram/jobs/c2-prompt/rendered/prompt.fragment.tex"
           diagram_job_id: "c2-prompt"
           variant: "prompt"
           disclosure_policy: "clean"
@@ -59,7 +61,8 @@ sections:
       - id: "fillin-diagrams"
         type: "diagram_row"
         items:
-          - image_path: "diagram/jobs/f1-prompt/rendered/prompt.png"
+          - kind: "tikz"
+            tikz_path: "diagram/jobs/f1-prompt/rendered/prompt.fragment.tex"
             diagram_job_id: "f1-prompt"
             variant: "prompt"
             disclosure_policy: "clean"
@@ -69,7 +72,8 @@ sections:
               points: ["A", "B", "C", "D"]
               segments: [["A", "B"], ["A", "C"], ["B", "C"], ["A", "D"]]
               constraints: ["D lies on BC", "AD = AB", "BD = BC"]
-          - image_path: "diagram/jobs/f2-prompt/rendered/prompt.png"
+          - kind: "tikz"
+            tikz_path: "diagram/jobs/f2-prompt/rendered/prompt.fragment.tex"
             diagram_job_id: "f2-prompt"
             variant: "prompt"
             disclosure_policy: "clean"
@@ -79,7 +83,8 @@ sections:
               points: ["A", "B", "C", "D"]
               segments: [["A", "B"], ["A", "C"], ["B", "C"], ["A", "D"]]
               constraints: ["D lies on BC", "AD = AB", "CD = BC"]
-          - image_path: "diagram/jobs/f3-prompt/rendered/prompt.png"
+          - kind: "tikz"
+            tikz_path: "diagram/jobs/f3-prompt/rendered/prompt.fragment.tex"
             diagram_job_id: "f3-prompt"
             variant: "prompt"
             disclosure_policy: "clean"
@@ -102,7 +107,8 @@ sections:
             - label: "(1)"
               height: "34mm"
               diagram_col:
-                image_path: "diagram/jobs/p1-part1-prompt/rendered/prompt.png"
+                kind: "tikz"
+                tikz_path: "diagram/jobs/p1-part1-prompt/rendered/prompt.fragment.tex"
                 diagram_job_id: "p1-part1-prompt"
                 variant: "prompt"
                 disclosure_policy: "clean"
@@ -113,7 +119,8 @@ sections:
             - label: "(2)"
               height: "38mm"
               diagram_col:
-                image_path: "diagram/jobs/p1-part2-prompt/rendered/prompt.png"
+                kind: "tikz"
+                tikz_path: "diagram/jobs/p1-part2-prompt/rendered/prompt.fragment.tex"
                 diagram_job_id: "p1-part2-prompt"
                 variant: "prompt"
                 disclosure_policy: "clean"
@@ -123,7 +130,8 @@ sections:
                   constraints: ["D lies on line BC", "AD = AB", "BD = BC"]
       - id: "p1-solution-diagram"
         type: "diagram"
-        image_path: "diagram/jobs/p1-part1-solution/rendered/solution.png"
+        kind: "tikz"
+        tikz_path: "diagram/jobs/p1-part1-solution/rendered/solution.fragment.tex"
         diagram_job_id: "p1-part1-solution"
         variant: "solution"
         disclosure_policy: "annotated"

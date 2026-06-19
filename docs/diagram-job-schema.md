@@ -31,23 +31,24 @@ request.json
      - 生产链路只写并调用每个 job 的 `request.json`
 
 final_renderer_spec.json
-  -> renderer_result.json + rendered/*.png
-     - render_geometry_spec 只做确定性渲染
-     - 输出 PNG/SVG 路径、尺寸、引用检查
+  -> renderer_result.json + rendered/<variant>.fragment.tex
+     - render_geometry_spec 只做确定性 TikZ 编译
+     - TikZ fragment 是唯一可绑定产物
+     - PDF/PNG/SVG 预览只作诊断，不作为绑定合同
 
 jobs/<job_id>/renderer_result.json
-  -> build/diagram/diagram_artifacts.json
-     - build_diagram_artifacts 汇总可绑定事实
-     - diagram_artifacts.json 是 resolver 的唯一图片事实源
+  -> RendererBindingManifest
+     - renderer_bindings.py 从 jobs + renderer_result 汇总可绑定事实
+     - renderer_result.json 是每个 job 的唯一 renderer 事实源
 
-assignment.plan.yaml + diagram_artifacts.json
+assignment.plan.yaml + RendererBindingManifest
   -> assignment.resolved.yaml
-     - resolve_assignment_diagrams 把 DiagramSlot 绑定为 ResolvedDiagramImage
-     - 输出现有模板可消费的 diagram_col / diagram_row / type: diagram
+     - resolve_assignment_diagrams 把 DiagramSlot 绑定为 ResolvedDiagramTikz
+     - 输出模板可消费的 diagram_col / diagram_row / type: diagram
 
 assignment.resolved.yaml
   -> .tex -> .pdf
-     - math-assignment-latex 只渲染已存在图片
+     - math-assignment-latex 直接 \input 或内联 TikZ fragment
 ```
 
 ## 2. Pydantic 类型边界
@@ -57,24 +58,24 @@ assignment.resolved.yaml
 | plan YAML | `diagram_slot` | `DiagramSlot` | latex-data skills | collector / plan gate |
 | batch manifest | `diagram_jobs.json` | `DiagramJobsManifest` / `DiagramJob` | collector | batch runner / gate |
 | workflow input | `request.json` | `DiagramJobRequest` | collector / batch runner | `workflow.py` adapter |
-| workflow output | `workflow_result.json` | `DiagramJobResult` | `workflow.py` | artifact builder / gate |
+| workflow output | `workflow_result.json` | `DiagramJobResult` | `workflow.py` | renderer binding / gate |
 | renderer input | `final_renderer_spec.json` | `GeometryRenderSpec` | `workflow.py` | renderer |
-| renderer output | `renderer_result.json` | `GeometryRendererResult` | renderer | artifact builder |
-| artifact manifest | `diagram_artifacts.json` | `DiagramArtifactsManifest` / `DiagramArtifact` | artifact builder | resolver / gate |
-| resolved YAML | image payload | `ResolvedDiagramImage` | resolver | LaTeX templates |
+| renderer output | `renderer_result.json` | `GeometryRendererResult` | renderer | renderer binding |
+| binding manifest | in-memory / optional `renderer_bindings.json` | `RendererBindingManifest` / `RendererBinding` | `renderer_bindings.py` | resolver / gate |
+| resolved YAML | TikZ payload | `ResolvedDiagramTikz` | resolver | LaTeX templates |
 | render gate | gate report | `DiagramGateReport` / `DiagramGateCheck` | check_diagram_gate | pipeline |
 
 ## 3. 强制约束
 
 - `slot_id` 表示“图片放在哪里”，`job_id` 表示“一次生成任务”，二者不能混用。
-- `diagram_ref` 是 plan/resolved/artifacts 之间的稳定绑定键；默认可等于 `slot_id`。
+- `diagram_ref` 是 plan/resolved/renderer bindings 之间的稳定绑定键；默认可等于 `slot_id`。
 - `slot_path` 是 JSON Pointer，用于 resolver 在 plan YAML 中定位原 slot。
 - `prompt` 图必须是 `disclosure_policy: clean`。
 - `required: true` 必须搭配 `on_failure: fail_assignment`。
 - `solution` 图必须显式声明 `reuse_geometry_from`，并在 job graph 中依赖对应 prompt job。
 - `DiagramJobRequest` 不携带 `layout_role`、`width_hint`、`image_path`。
 - `DiagramJobRequest` v2 是 workflow 的唯一生产输入；batch runner 默认只生成 v2 `request.json`。
-- `DiagramArtifact.bindable: true` 要求 `status: ok`、`image_path` 非空、`hash` 非空。
+- `RendererBinding.bindable: true` 要求 `status: ok`、TikZ source 非空且可访问、`hash` 非空。
 - 学生版 resolved YAML 不应引用 `variant: solution` 或 `disclosure_policy: annotated` 的图片；这是 gate 层检查。
 - `diagram_kind: synthetic_geometry` 默认搭配 `engine: geometric_scene`，走 Wolfram `GeometricScene` 求实例点位。
 - `diagram_kind: coordinate_geometry` 或 `function_graph` 不应强塞进 `GeometricScene`；优先使用 `engine: wolfram_client`，纯显式坐标对象也可使用 `engine: coordinate_renderer`。
@@ -341,20 +342,18 @@ diagram_slot:
 }
 ```
 
-### DiagramArtifact
+### RendererBinding
 
 ```json
 {
   "slot_id": "q3.part1.prompt",
+  "diagram_ref": "q3.part1.prompt",
   "job_id": "q3-part1-prompt",
   "status": "ok",
   "variant": "prompt",
   "disclosure_policy": "clean",
-  "image_path": "diagram/jobs/q3-part1-prompt/rendered/prompt.png",
-  "preview_svg": "diagram/jobs/q3-part1-prompt/rendered/prompt.svg",
-  "width_px": 720,
-  "height_px": 520,
-  "aspect_ratio": 1.3846,
+  "tikz_fragment_path": "build/diagram/jobs/q3-part1-prompt/rendered/prompt.fragment.tex",
+  "preview_svg": "build/diagram/jobs/q3-part1-prompt/rendered/prompt.preview.svg",
   "hash": "sha256:...",
   "renderer_result": "build/diagram/jobs/q3-part1-prompt/renderer_result.json",
   "workflow_result": "build/diagram/jobs/q3-part1-prompt/workflow_result.json",

@@ -283,11 +283,13 @@ def run_one_job(
 
     # Read renderer result
     rr_status = "missing_result"
-    rr_image_path = ""
+    rr_tikz_fragment_path = ""
+    rr_tikz_source_path = ""
     if rr_result_path.exists():
         rr_data = read_json(rr_result_path)
         rr_status = rr_data.get("status", "unknown")
-        rr_image_path = rr_data.get("image_path", "")
+        rr_tikz_fragment_path = rr_data.get("tikz_fragment_path", "")
+        rr_tikz_source_path = rr_data.get("tikz_source_path", "")
     elif renderer_completed.returncode != 0:
         return DiagramBatchJobResult(
             job_id=job_id,
@@ -307,7 +309,8 @@ def run_one_job(
             status="ok",
             workflow_status="ok",
             renderer_status="ok",
-            image_path=rr_image_path,
+            tikz_fragment_path=rr_tikz_fragment_path,
+            tikz_source_path=rr_tikz_source_path,
         )
 
     return DiagramBatchJobResult(
