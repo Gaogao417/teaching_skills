@@ -27,7 +27,7 @@ relations:
     statement: 矩形面积给出 |k|，象限或增减性筛选 k 的符号。
   constraints:
   - 面积必须非负。
-  - 若目标是确定 k 而不只是 |k|，必须给出 sign_filter。
+  - 若目标是确定 k 而不只是 |k|，必须给出 符号筛选。
   relation:
     given:
     - Area
@@ -35,8 +35,8 @@ relations:
     derive:
     - InverseProportionalFunction
     constraints:
-    - area_equals_abs_k
-    - sign_filter_required_for_unique_k
+    - 矩形面积等于 |k|
+    - 唯一确定 k 时必须有符号筛选
   ports:
     inputs:
       rectangle_area: Area
@@ -64,7 +64,7 @@ relations:
     statement: 三角形面积给出 |k|/2，符号由位置条件筛选。
   constraints:
   - 三角形的底高必须确实对应 |x| 与 |y| 或可化为 xy 的倍数。
-  - 若目标是唯一反比例函数，必须给 sign_filter。
+  - 若目标是唯一反比例函数，必须给 符号筛选。
   relation:
     given:
     - Area
@@ -72,8 +72,8 @@ relations:
     derive:
     - InverseProportionalFunction
     constraints:
-    - area_equals_half_abs_k_or_scaled_abs_k
-    - sign_filter_required_for_unique_k
+    - 三角形面积等于 |k|/2 或其倍数形式
+    - 唯一确定 k 时必须有符号筛选
   ports:
     inputs:
       triangle_area: Area

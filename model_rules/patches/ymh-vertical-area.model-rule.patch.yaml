@@ -28,8 +28,8 @@ relations:
     statement: 解出的候选点需按位置范围或题设筛选。
   constraints:
   - 轨迹必须是可参数化的一次函数或非竖直直线。
-  - 面积反求通常产生 CandidateSet<Point2D>，进入下游 Point2D 时必须 selector_or_branching。
-  - 若题目要求唯一点，必须有 PositionConstraint 足以筛掉多余候选。
+  - 面积反求通常产生 候选点集，进入下游 坐标点 时必须 筛选或分支。
+  - 若题目要求唯一点，必须有 位置约束 足以筛掉多余候选。
   relation:
     given:
     - LinearFunction
@@ -38,9 +38,9 @@ relations:
     derive:
     - CandidateSet<Point2D>
     constraints:
-    - parameterize_point_on_locus
-    - solve_absolute_value_area_equation
-    - selector_or_branching_for_position_filter
+    - 将动点按一次函数轨迹参数化
+    - 求解面积绝对值方程
+    - 位置条件必须说明筛选或分支
   ports:
     inputs:
       moving_locus: LinearFunction

@@ -32,8 +32,8 @@ relations:
     derive:
     - Area
     constraints:
-    - nondegenerate_axis_intercepts
-    - axes_triangle_area_formula
+    - 坐标轴截距三角形不得退化
+    - 坐标轴截距三角形面积公式
   ports:
     inputs:
       linear_function: LinearFunction
@@ -41,7 +41,7 @@ relations:
       axes_triangle_area: Area
       intercept_points: Point2D[]
   generation_notes:
-  - 可与 linear_function_intercepts 串联：先求截距，再求坐标轴三角形面积。
+  - 可与 一次函数与坐标轴交点关系 串联：先求截距，再求坐标轴三角形面积。
   - 设计参数题时用面积反向筛选 k 或 b，但要避免截距为 0 的退化。
   non_examples:
   - 直线过原点时仍按两个非零截距构造三角形面积。

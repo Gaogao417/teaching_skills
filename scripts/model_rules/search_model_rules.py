@@ -47,8 +47,8 @@ def matches(relation: dict, args: argparse.Namespace) -> bool:
 
 def summarize(relation: dict) -> dict:
     return {
-        "relation_id": relation.get("relation_id"),
         "name": relation.get("name"),
+        "relation_id": relation.get("relation_id"),
         "model_family_id": relation.get("model_family_id"),
         "topic_tags": relation.get("topic_tags") or [],
         "input_types": sorted(relation_types(relation, "inputs")),

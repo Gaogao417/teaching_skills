@@ -59,6 +59,8 @@ model_rules/relations.yaml
 - 未知类型写入 `type_registry_patch.new_type_candidates`，并预期 apply 阶段进入 `needs_review`。
 - relation 必须是单箭头；一个模型有多个方向时拆成多条 relation。
 - 若输出 `CandidateSet<T>`，constraints 必须说明下游接 `T` 时需要 selector、filter 或 branching。
+- `relation_id`、`model_family_id`、canonical type id 和 port type 是机器检索用稳定键，可以保留英文 snake_case。
+- `name`、`topic_tags`、`propositions.statement`、`constraints`、`generation_notes`、`non_examples` 等人读字段优先写中文；不要把英文 slug 当成可读约束入库。
 
 ## 入库边界
 
@@ -99,4 +101,3 @@ patch：[path]
 relation_ids：[...]
 下一步：math-student-explanation-latex-data 与 math-adaptive-practice-latex-data 可并行消费 canonical relations
 ```
-

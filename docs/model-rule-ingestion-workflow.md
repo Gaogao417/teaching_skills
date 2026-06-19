@@ -134,6 +134,10 @@ model_rule_draft:
 
 Canonical relation 建议格式：
 
+约定：`relation_id`、`model_family_id`、canonical type id 和 port type 是机器检索用稳定键，可以使用英文
+snake_case；`name`、`topic_tags`、`propositions.statement`、`constraints`、`generation_notes`、
+`non_examples` 等人读字段优先使用中文。下游讲解和出题应该展示中文字段，不把英文机器键当作老师或学生可读术语。
+
 ```yaml
 relation_id: vertical_area_inverse_on_linear_locus
 model_family_id: vertical_line_area

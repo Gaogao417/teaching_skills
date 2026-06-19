@@ -27,8 +27,8 @@ relations:
   - id: P4
     statement: 由交点横坐标分段得到不等式解集。
   constraints:
-  - 交点必须按横坐标排序，交点候选进入分段时必须有 selector_or_branching。
-  - 反比例函数要求 x != 0，解集不能跨过未定义点而不分段。
+  - 交点必须按横坐标排序，交点候选进入分段时必须有 筛选或分支。
+  - 反比例函数要求 x 不等于 0，解集不能跨过未定义点而不分段。
   - 题目必须明确比较方向，例如一次函数大于、等于或小于反比例函数。
   relation:
     given:
@@ -39,9 +39,9 @@ relations:
     derive:
     - IntervalSet
     constraints:
-    - intersection_x_ordering
-    - x_nonzero_domain_split
-    - selector_or_branching_for_intersection_candidates
+    - 交点横坐标必须排序
+    - 反比例函数题必须按 x=0 分段
+    - 交点候选必须说明筛选或分支
   ports:
     inputs:
       linear_function: LinearFunction
