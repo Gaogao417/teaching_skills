@@ -181,7 +181,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Run local agentic GeometricScene workflow")
     parser.add_argument("request", type=Path, help="Path to DiagramJobRequest v2 JSON")
     parser.add_argument("--out", type=Path, help="Output directory; defaults to <request-dir>/diagram")
-    parser.add_argument("--job-id", help="Diagram job id; defaults to request.diagram_job_id when present")
+    parser.add_argument("--job-id", help="Diagram job id; defaults to request.job_id when present")
     parser.add_argument(
         "--gsb-root",
         type=Path,
@@ -209,7 +209,7 @@ def main() -> None:
         out_dir = out_dir / "jobs" / str(job_id)
     out_dir.mkdir(parents=True, exist_ok=True)
     if job_id:
-        request["diagram_job_id"] = str(job_id)
+        request["job_id"] = str(job_id)
     write_json(out_dir / "teaching_request.json", request)
 
     if not request.get("needs_diagram", True):
