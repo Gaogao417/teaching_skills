@@ -1,0 +1,92 @@
+source_analysis_path: artifacts/杨茗贺/2026-06-19-反比例函数面积与铅垂线法复习/1-反比例函数面积/01-structure-analysis.md
+model_family: inverse_area_invariant
+type_registry_patch:
+  aliases_to_add:
+  - type_id: Area
+    aliases:
+    - 矩形面积
+    - 坐标轴三角形面积
+  - type_id: Constraint
+    aliases:
+    - 象限筛选
+    - k的符号
+relations:
+- relation_id: inverse_rectangle_area_to_k
+  name: 反比例函数矩形面积反求 k
+  model_family_id: inverse_area_invariant
+  topic_tags:
+  - 反比例函数
+  - 面积
+  - k的几何意义
+  propositions:
+  - id: P1
+    statement: 点 A(x,y) 在 y=k/x 上时 xy=k。
+  - id: P2
+    statement: A 向坐标轴作垂线得到的矩形面积为 |xy|。
+  - id: P3
+    statement: 矩形面积给出 |k|，象限或增减性筛选 k 的符号。
+  constraints:
+  - 面积必须非负。
+  - 若目标是确定 k 而不只是 |k|，必须给出 sign_filter。
+  relation:
+    given:
+    - Area
+    - Constraint
+    derive:
+    - InverseProportionalFunction
+    constraints:
+    - area_equals_abs_k
+    - sign_filter_required_for_unique_k
+  ports:
+    inputs:
+      rectangle_area: Area
+      sign_filter: Constraint
+    outputs:
+      inverse_function: InverseProportionalFunction
+  generation_notes:
+  - 用小整数面积生成 k 的绝对值，再用象限或图像所在象限确定符号。
+  - 教师版要检查正负号是否由题干充分给出。
+  non_examples:
+  - 只给矩形面积却要求唯一 k，且没有象限、增减性或图像位置条件。
+- relation_id: inverse_axis_triangle_area_to_k
+  name: 反比例函数坐标轴三角形面积反求 k
+  model_family_id: inverse_area_invariant
+  topic_tags:
+  - 反比例函数
+  - 三角形面积
+  - k的几何意义
+  propositions:
+  - id: P1
+    statement: 点 A(x,y) 在 y=k/x 上时 xy=k。
+  - id: P2
+    statement: 以坐标轴方向为底高的相关直角三角形面积为 |xy|/2。
+  - id: P3
+    statement: 三角形面积给出 |k|/2，符号由位置条件筛选。
+  constraints:
+  - 三角形的底高必须确实对应 |x| 与 |y| 或可化为 xy 的倍数。
+  - 若目标是唯一反比例函数，必须给 sign_filter。
+  relation:
+    given:
+    - Area
+    - Constraint
+    derive:
+    - InverseProportionalFunction
+    constraints:
+    - area_equals_half_abs_k_or_scaled_abs_k
+    - sign_filter_required_for_unique_k
+  ports:
+    inputs:
+      triangle_area: Area
+      sign_filter: Constraint
+      base_height_scale: Constraint
+    outputs:
+      inverse_function: InverseProportionalFunction
+  generation_notes:
+  - 可把坐标轴上一点、底高倍数作为包装，但必须能回到 xy=k。
+  - 自检时用具体点代回，验证面积与 k 的绝对值关系。
+  non_examples:
+  - 三角形底高不沿坐标轴或不能转化为 x、y 乘积，却套用 |k|/2。
+review_status: applied
+applied_relation_ids:
+- inverse_rectangle_area_to_k
+- inverse_axis_triangle_area_to_k

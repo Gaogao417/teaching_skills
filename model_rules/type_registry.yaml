@@ -1,0 +1,187 @@
+version: 1
+description: Lightweight semantic type registry for model-rule retrieval and composition.
+types:
+  Point2D:
+    category: coordinate
+    aliases:
+    - 点
+    - 坐标点
+    - 点坐标
+    - 动点
+    - 待求点
+    - 候选点
+    - 第三点
+    description: A point in the coordinate plane.
+  CandidateSet<Point2D>:
+    category: collection
+    aliases:
+    - 候选点集
+    - 多解点
+    - 满足条件的点
+    - 所有可能点
+    - 点集
+    - 面积方程候选点
+    can_feed:
+    - Point2D
+    requires:
+    - selector_or_branching
+    description: A finite set of candidate coordinate points; feeding Point2D requires
+      selection, filtering, or branching.
+  LinearFunction:
+    category: function
+    aliases:
+    - 一次函数
+    - 一次函数解析式
+    - y=kx+b
+    - 非竖直直线
+    - 动点轨迹
+    - P所在直线
+    - 直线解析式
+    can_feed:
+    - Line2D
+    constraints:
+    - non_vertical
+    description: A non-vertical linear function expressible as y=kx+b.
+  CandidateSet<LinearFunction>:
+    category: collection
+    aliases:
+    - 候选直线集
+    - 候选一次函数
+    - 两条候选直线
+    - 45度候选直线
+    can_feed:
+    - LinearFunction
+    requires:
+    - selector_or_branching
+    description: A finite set of candidate non-vertical linear functions; feeding
+      LinearFunction requires selection, filtering, or branching.
+  InverseProportionalFunction:
+    category: function
+    aliases:
+    - 反比例函数
+    - 双曲线
+    - y=k/x
+    - 反比例函数解析式
+    - 反比例函数图像
+    - k/x图像
+    description: An inverse proportional function expressible as y=k/x with x != 0.
+  Line2D:
+    category: coordinate
+    aliases:
+    - 直线
+    - 平面直线
+    - 坐标直线
+    description: A line in the coordinate plane, including vertical lines.
+  PointPair2D:
+    category: coordinate
+    aliases:
+    - 点对
+    - 坐标点对
+    - C和D
+    - 候选点对
+    description: A paired coordinate result, usually two related points such as (C,D).
+  CandidateSet<PointPair2D>:
+    category: collection
+    aliases:
+    - 候选点对集
+    - 多组点对
+    - 所有可能的C和D
+    - 候选C和D
+    - 矩形菱形候选点对
+    - 存在性候选点对
+    can_feed:
+    - PointPair2D
+    requires:
+    - selector_or_branching
+    description: A finite set of candidate point pairs; feeding PointPair2D requires
+      selection, filtering, or branching.
+  Area:
+    category: measure
+    aliases:
+    - 面积
+    - 三角形面积
+    - 目标面积
+    - 矩形面积
+    - 坐标轴三角形面积
+    - 坐标轴围成三角形面积
+    description: A nonnegative area quantity.
+  IntervalSet:
+    category: set
+    aliases:
+    - 解集
+    - 区间
+    - 自变量取值范围
+    - x取值范围
+    - 不等式解集
+    description: A set of intervals on the number line.
+  Equation:
+    category: algebra
+    aliases:
+    - 方程
+    - 关系式
+    - 等量关系
+    description: An algebraic equation or equality relation.
+  Constraint:
+    category: rule
+    aliases:
+    - 约束
+    - 筛选条件
+    - 条件
+    - 题设条件
+    - 象限筛选
+    - k的符号
+    description: A condition that restricts a relation, parameter, or candidate.
+  PositionConstraint:
+    category: rule
+    aliases:
+    - 位置条件
+    - 象限条件
+    - 在线段上
+    - 在第一象限
+    - 横坐标范围
+    - 动点筛选
+    can_feed:
+    - Constraint
+    description: A geometric or coordinate-position filter.
+  QuadrilateralConstraint:
+    category: rule
+    aliases:
+    - 四边形条件
+    - 平行四边形条件
+    - 固定顺序
+    - 四点构成
+    - 矩形条件
+    - 菱形条件
+    can_feed:
+    - Constraint
+    description: A constraint naming a quadrilateral relationship or order convention.
+compatibility:
+- from: LinearFunction
+  to: Line2D
+  requires:
+  - non_vertical
+- from: CandidateSet<Point2D>
+  to: Point2D
+  requires:
+  - selector_or_branching
+- from: CandidateSet<LinearFunction>
+  to: LinearFunction
+  requires:
+  - selector_or_branching
+- from: CandidateSet<PointPair2D>
+  to: PointPair2D
+  requires:
+  - selector_or_branching
+- from: PositionConstraint
+  to: Constraint
+  requires: []
+- from: QuadrilateralConstraint
+  to: Constraint
+  requires: []
+construction_rules:
+- output: LinearFunction
+  from:
+  - Point2D
+  - Point2D
+  requires:
+  - x1_not_equal_x2

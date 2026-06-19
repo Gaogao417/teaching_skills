@@ -194,10 +194,10 @@ echo "Source: $TEX_FILE" >> "$TEX_DIR/$LOG_NAME"
 echo "Engine: $ENGINE" >> "$TEX_DIR/$LOG_NAME"
 echo "" >> "$TEX_DIR/$LOG_NAME"
 
-# Two passes for cross-references
+# XeLaTeX needs explicit passes for cross-references. Tectonic manages reruns
+# within a single invocation, so calling it twice doubles the fixed startup cost.
 if [ "$ENGINE" = "tectonic" ]; then
     compile_tectonic 1
-    compile_tectonic 2
 else
     compile_xelatex 1
     compile_xelatex 2

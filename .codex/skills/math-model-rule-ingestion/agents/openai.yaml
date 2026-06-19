@@ -1,0 +1,4 @@
+name: math-model-rule-ingestion
+short_description: "把结构分析中的模型规则草案规范化为 typed relations，并写入 YAML 模型规则库。"
+default_prompt: "请使用该技能读取 01-structure-analysis.md，生成 model_rules/patches 下的模型规则 patch，校验并尝试应用到 model_rules/type_registry.yaml 和 model_rules/relations.yaml；若 needs_review，请报告需要人工确认的类型或 relation 问题。"
+

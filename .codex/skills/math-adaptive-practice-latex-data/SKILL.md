@@ -27,6 +27,7 @@ artifacts/<学生名>/YYYY-MM-DD-<内容>/03-adaptive-practice.teacher.plan.assi
 
 - `01-structure-analysis.md`
 - `02-student-explanation.assignment.yaml` 或 `02-student-explanation.resolved.assignment.yaml`
+- `model_rules/relations.yaml` 中相关 canonical relations（若 math-model-rule-ingestion 已 applied）
 - 学生画像或 `03-student-response-diagnosis.md`（可选，只作为本轮调节证据）
 
 ## 工作流
@@ -36,12 +37,14 @@ artifacts/<学生名>/YYYY-MM-DD-<内容>/03-adaptive-practice.teacher.plan.assi
    - `变式原则` 中的深化阶梯、包装方式、远迁移例子、伪变式/非例。
    - `推荐练题任务包` 中每个卡点对应的出题建议。
    - `标准完整解与验算`、`计算复杂度预算`、`推荐图形请求包`（如有）中的硬约束。
-2. 不读取、不依赖末尾 JSON 摘要；若旧结构分析仍带 JSON，把它视为历史冗余，不能作为选题依据。
-3. 若有学生回答诊断，读取其中的 `entry_point`、`scaffold_level`、`variation_depth`、`fallback_move`。
-4. 为本轮练习选择一个主要训练动作，并确定本组题覆盖哪些深化阶梯。组内可以递进跨阶梯，但每一题只相对上一题提高一个主维度。
-5. 生成学生版和教师版 YAML。学生版不含答案、解析、教学备注；教师版含答案、解析、分步解法和本轮调节说明。
-6. 若练习题需要图，只写 `diagram_slot`。slot 字段规则读取 `references/practice-diagram-slot.md`。
-7. 输出 YAML 后运行 schema 校验；如果校验失败，修 YAML。
+2. 优先检索 canonical relations：使用 topic、model family、input/output type 或结构分析中的 relation id，运行 `python3 scripts/model_rules/search_model_rules.py`。若检索失败，写明 fallback：只使用结构分析变式原则。
+3. 若使用 canonical relation，练习题必须保留其 constraints / generation_notes / non_examples；组合 relation 时必须检查 output type 能否接 input type。
+4. 不读取、不依赖末尾 JSON 摘要；若旧结构分析仍带 JSON，把它视为历史冗余，不能作为选题依据。
+5. 若有学生回答诊断，读取其中的 `entry_point`、`scaffold_level`、`variation_depth`、`fallback_move`。
+6. 为本轮练习选择一个主要训练动作，并确定本组题覆盖哪些深化阶梯。组内可以递进跨阶梯，但每一题只相对上一题提高一个主维度。
+7. 生成学生版和教师版 YAML。学生版不含答案、解析、教学备注；教师版含答案、解析、分步解法和本轮调节说明。
+8. 若练习题需要图，只写 `diagram_slot`。slot 字段规则读取 `references/practice-diagram-slot.md`。
+9. 输出 YAML 后运行 schema 校验；如果校验失败，修 YAML。
 
 ## 调节参数
 
@@ -72,6 +75,7 @@ teaching:
 - 不同时隐藏结构和提高计算难度，除非学生证据明确支持低支架迁移。
 - 提示渐进：先提示动作，再接近答案。
 - 所有答案必须先独立验算。
+- 使用模型库时，教师版必须在 `teaching` 或解析中记录使用的 relation id；检索失败时写明 fallback 来源。
 - 不出现长期标签、评级、档位字段。
 
 ## 版本分离
@@ -95,11 +99,12 @@ teaching:
 2. 每组题量不超过 3 题。
 3. 每道题都能对应到 `变式原则` 或 `推荐练题任务包` 的一个明确来源；若只能对应到摘要标签，要回读叙述节重做选题依据。
 4. 2-3 题组默认覆盖至少两个深化层级；3 题组在允许时至少包含一个远迁移/包装题；不得全是同结构换数。
-5. 学生版不含答案、解析、分步解法、教学备注。
-6. 教师版答案经过代入或逻辑验算，解答题有 `solution_steps`。
-7. `entry_point` 和 `variation_depth` 使用当前枚举。
-8. 若使用几何图，plan YAML 只写 `diagram_slot`，不写最终图片字段。
-9. YAML 通过 `python3 math-assignment-latex/scripts/validate_assignment.py <yaml>`。
+5. 若使用 canonical relation，每道题的条件满足 relation constraints，并避开 non_examples。
+6. 学生版不含答案、解析、分步解法、教学备注。
+7. 教师版答案经过代入或逻辑验算，解答题有 `solution_steps`。
+8. `entry_point` 和 `variation_depth` 使用当前枚举。
+9. 若使用几何图，plan YAML 只写 `diagram_slot`，不写最终图片字段。
+10. YAML 通过 `python3 math-assignment-latex/scripts/validate_assignment.py <yaml>`。
 
 ## Handoff
 

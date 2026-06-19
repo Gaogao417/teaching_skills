@@ -1,0 +1,61 @@
+source_analysis_path: artifacts/杨茗贺/2026-06-19-反比例函数面积与铅垂线法复习/2-铅垂线法面积/01-structure-analysis.md
+model_family: vertical_line_area
+type_registry_patch:
+  aliases_to_add:
+  - type_id: PositionConstraint
+    aliases:
+    - 横坐标范围
+    - 动点筛选
+  - type_id: CandidateSet<Point2D>
+    aliases:
+    - 面积方程候选点
+relations:
+- relation_id: vertical_area_inverse_with_position_filter
+  name: 铅垂线法面积反求动点并按位置筛选
+  model_family_id: vertical_line_area
+  topic_tags:
+  - 一次函数
+  - 坐标面积
+  - 铅垂线法
+  propositions:
+  - id: P1
+    statement: 动点 P 在一次函数或直线轨迹上，可设为 P(t,f(t))。
+  - id: P2
+    statement: 三角形面积可化为横向宽度乘竖直距离的一半。
+  - id: P3
+    statement: 已知面积得到关于 t 的绝对值方程。
+  - id: P4
+    statement: 解出的候选点需按位置范围或题设筛选。
+  constraints:
+  - 轨迹必须是可参数化的一次函数或非竖直直线。
+  - 面积反求通常产生 CandidateSet<Point2D>，进入下游 Point2D 时必须 selector_or_branching。
+  - 若题目要求唯一点，必须有 PositionConstraint 足以筛掉多余候选。
+  relation:
+    given:
+    - LinearFunction
+    - Area
+    - PositionConstraint
+    derive:
+    - CandidateSet<Point2D>
+    constraints:
+    - parameterize_point_on_locus
+    - solve_absolute_value_area_equation
+    - selector_or_branching_for_position_filter
+  ports:
+    inputs:
+      moving_locus: LinearFunction
+      target_area: Area
+      fixed_points: Point2D[]
+      position_filter: PositionConstraint
+    outputs:
+      candidate_points: CandidateSet<Point2D>
+  generation_notes:
+  - 先生成底边横向宽度简单、绝对值方程最多两解的题。
+  - 下游可把候选点逐个接入平行四边形第四点、交点或面积验证模型。
+  - 教师版必须写明每个候选点是否满足轨迹、面积、位置条件。
+  non_examples:
+  - 没有给动点轨迹，却要求由面积唯一反求坐标。
+  - 面积方程两解但题干没有筛选条件，教师版却只保留一个答案。
+review_status: applied
+applied_relation_ids:
+- vertical_area_inverse_with_position_filter

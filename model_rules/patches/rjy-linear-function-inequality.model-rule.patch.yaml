@@ -1,0 +1,50 @@
+source_analysis_path: artifacts/荣璟羽/2026-05-23-一次函数与不等式/01-structure-analysis.md
+model_family: linear_function_inequality_and_axes_area
+type_registry_patch:
+  aliases_to_add:
+  - type_id: LinearFunction
+    aliases:
+    - 直线解析式
+  - type_id: Area
+    aliases:
+    - 坐标轴围成三角形面积
+relations:
+- relation_id: linear_function_axes_triangle_area
+  name: 一次函数截距三角形面积
+  model_family_id: linear_function_inequality_and_axes_area
+  topic_tags:
+  - 一次函数
+  - 截距
+  - 面积
+  propositions:
+  - id: P1
+    statement: 一次函数与坐标轴的交点可由令 x=0 或 y=0 得到。
+  - id: P2
+    statement: 两个截距和原点围成的直角三角形面积为 |x_intercept * y_intercept|/2。
+  - id: P3
+    statement: 截距面积可反向约束直线参数。
+  constraints:
+  - 一次函数不能与某坐标轴重合导致面积退化，除非题目显式讨论零面积。
+  - x 截距和 y 截距必须都存在且可求。
+  relation:
+    given:
+    - LinearFunction
+    derive:
+    - Area
+    constraints:
+    - nondegenerate_axis_intercepts
+    - axes_triangle_area_formula
+  ports:
+    inputs:
+      linear_function: LinearFunction
+    outputs:
+      axes_triangle_area: Area
+      intercept_points: Point2D[]
+  generation_notes:
+  - 可与 linear_function_intercepts 串联：先求截距，再求坐标轴三角形面积。
+  - 设计参数题时用面积反向筛选 k 或 b，但要避免截距为 0 的退化。
+  non_examples:
+  - 直线过原点时仍按两个非零截距构造三角形面积。
+review_status: applied
+applied_relation_ids:
+- linear_function_axes_triangle_area

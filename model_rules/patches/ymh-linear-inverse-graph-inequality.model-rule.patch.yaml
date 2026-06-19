@@ -1,0 +1,63 @@
+source_analysis_path: artifacts/杨茗贺/2026-06-06-一次函数反比例函数图像解不等式/01-structure-analysis.md
+model_family: linear_inverse_graph_inequality
+type_registry_patch:
+  aliases_to_add:
+  - type_id: InverseProportionalFunction
+    aliases:
+    - 反比例函数图像
+    - k/x图像
+  - type_id: IntervalSet
+    aliases:
+    - 不等式解集
+relations:
+- relation_id: linear_inverse_function_inequality_by_graph
+  name: 一次函数与反比例函数图像解不等式
+  model_family_id: linear_inverse_graph_inequality
+  topic_tags:
+  - 一次函数
+  - 反比例函数
+  - 图像解不等式
+  propositions:
+  - id: P1
+    statement: 已知一次函数图像与反比例函数图像。
+  - id: P2
+    statement: 已知或可求两图像交点的横坐标。
+  - id: P3
+    statement: 比较两个函数值大小等价于比较同一横坐标处图像上下位置。
+  - id: P4
+    statement: 由交点横坐标分段得到不等式解集。
+  constraints:
+  - 交点必须按横坐标排序，交点候选进入分段时必须有 selector_or_branching。
+  - 反比例函数要求 x != 0，解集不能跨过未定义点而不分段。
+  - 题目必须明确比较方向，例如一次函数大于、等于或小于反比例函数。
+  relation:
+    given:
+    - LinearFunction
+    - InverseProportionalFunction
+    - CandidateSet<Point2D>
+    - Constraint
+    derive:
+    - IntervalSet
+    constraints:
+    - intersection_x_ordering
+    - x_nonzero_domain_split
+    - selector_or_branching_for_intersection_candidates
+  ports:
+    inputs:
+      linear_function: LinearFunction
+      inverse_function: InverseProportionalFunction
+      intersection_points: CandidateSet<Point2D>
+      comparison_direction: Constraint
+      domain_restriction: Constraint
+    outputs:
+      solution_set: IntervalSet
+  generation_notes:
+  - 先给两图交点或设计成能代入求交点，再问不等式解集。
+  - 出题时显式标注比较方向，并把 x=0 作为分段边界检查。
+  - 自检时随机取每个区间内一点代回比较函数值大小。
+  non_examples:
+  - 只给图像草图但没有交点坐标或可求交点信息。
+  - 忽略 x=0，把两个区间误合并成一个连续区间。
+review_status: applied
+applied_relation_ids:
+- linear_inverse_function_inequality_by_graph

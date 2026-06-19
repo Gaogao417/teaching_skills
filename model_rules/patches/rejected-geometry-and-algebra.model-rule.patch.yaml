@@ -1,0 +1,11 @@
+source_analysis_path: multiple artifacts/杨茗贺/2026-06-08-矩形中点中位线求线段/01-structure-analysis.md; artifacts/杨茗贺/2026-06-19-反比例函数面积与铅垂线法复习/3-角平分线等腰/01-structure-analysis.md; artifacts/杨茗贺/2026-06-19-反比例函数面积与铅垂线法复习/4-中点四边形/01-structure-analysis.md; artifacts/荣璟羽/2026-05-19-三垂直旋转等腰直角/01-structure-analysis.md; artifacts/荣璟羽/2026-06-06-一元二次方程练习/01-structure-analysis.md
+model_family: out_of_scope_v0_geometry_and_quadratic
+type_registry_patch: {}
+relations: []
+review_status: rejected
+review_notes:
+  - 矩形中点中位线求线段属于纯几何中位线/勾股链，v0 只覆盖一次函数、坐标面积和坐标存在性，暂不入 typed relations。
+  - 角平分线和平行线推出等腰属于几何证明命题网络，当前按结构分析保留，不进入模型规则库。
+  - 中点四边形属于特殊平行四边形证明与判定网络，当前未设计几何证明 relation 类型。
+  - 三垂直旋转等腰直角主链是几何证明/全等/旋转，坐标 45 度部分已由 coordinate_isosceles_right_45 关系覆盖，不重复入库。
+  - 一元二次方程练习是代数解法分类，不在本次一次函数/坐标面积/坐标存在性范围内。

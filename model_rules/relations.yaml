@@ -1,0 +1,782 @@
+version: 1
+description: Canonical single-direction relations for the first linear-function model-rule
+  library.
+relations:
+- relation_id: two_points_determine_linear_function
+  model_family_id: linear_function_determination
+  name: 两点确定一次函数
+  topic_tags:
+  - 一次函数
+  - 解析式
+  - 坐标
+  propositions:
+    P1:
+      statement: 已知两个坐标点 P,Q
+      ports:
+        P: Point2D
+        Q: Point2D
+    P2:
+      statement: 过 P,Q 的一次函数解析式
+      ports:
+        L: LinearFunction
+  constraints:
+    C1: P,Q 横坐标不同
+    C2: 输出直线必须能写成 y=kx+b
+  relation:
+    given:
+    - P1
+    derive:
+    - P2
+    constraints:
+    - C1
+    - C2
+  ports:
+    inputs:
+      P: Point2D
+      Q: Point2D
+    outputs:
+      L: LinearFunction
+  generation_notes:
+  - 反向构造时先选两个横坐标不同的点，再求解析式。
+  - 斜率和截距优先控制为整数或简单分数。
+  non_examples:
+  - 两点横坐标相同却要求写成 y=kx+b。
+- relation_id: point_on_linear_function_forward
+  model_family_id: linear_function_point
+  name: 一次函数代入横坐标求点
+  topic_tags:
+  - 一次函数
+  - 坐标
+  - 代入
+  propositions:
+    P1:
+      statement: 已知一次函数 L 和横坐标 x
+      ports:
+        L: LinearFunction
+        x_value: Equation
+    P2:
+      statement: 函数图像上对应点 P
+      ports:
+        P: Point2D
+  constraints:
+    C1: L 是非竖直一次函数
+    C2: x_value 在题目允许的定义域或范围内
+  relation:
+    given:
+    - P1
+    derive:
+    - P2
+    constraints:
+    - C1
+    - C2
+  ports:
+    inputs:
+      L: LinearFunction
+      x_value: Equation
+    outputs:
+      P: Point2D
+  generation_notes:
+  - 坐标代入题优先使用小整数横坐标。
+  non_examples:
+  - 只给直线图像但没有横坐标或其他定位条件。
+- relation_id: linear_function_intercepts
+  model_family_id: linear_function_intercepts
+  name: 一次函数与坐标轴交点
+  topic_tags:
+  - 一次函数
+  - 截距
+  - 坐标轴
+  propositions:
+    P1:
+      statement: 已知一次函数 L
+      ports:
+        L: LinearFunction
+    P2:
+      statement: L 与 x 轴、y 轴的交点
+      ports:
+        x_intercept: Point2D
+        y_intercept: Point2D
+  constraints:
+    C1: 求 x 轴交点时斜率 k 不为 0
+    C2: y 轴交点总可由 x=0 得到
+  relation:
+    given:
+    - P1
+    derive:
+    - P2
+    constraints:
+    - C1
+    - C2
+  ports:
+    inputs:
+      L: LinearFunction
+    outputs:
+      x_intercept: Point2D
+      y_intercept: Point2D
+  generation_notes:
+  - 适合接入坐标轴三角形面积题。
+  non_examples:
+  - k=0 时仍要求唯一 x 轴交点。
+- relation_id: intersection_of_two_linear_functions
+  model_family_id: linear_function_intersection
+  name: 两个一次函数交点
+  topic_tags:
+  - 一次函数
+  - 交点
+  - 方程
+  propositions:
+    P1:
+      statement: 已知两个一次函数 L1,L2
+      ports:
+        L1: LinearFunction
+        L2: LinearFunction
+    P2:
+      statement: 两图像交点 P
+      ports:
+        P: Point2D
+  constraints:
+    C1: L1 与 L2 斜率不同
+    C2: 交点坐标保持计算干净
+  relation:
+    given:
+    - P1
+    derive:
+    - P2
+    constraints:
+    - C1
+    - C2
+  ports:
+    inputs:
+      L1: LinearFunction
+      L2: LinearFunction
+    outputs:
+      P: Point2D
+  generation_notes:
+  - 可先选交点和两条斜率，再反推截距。
+  non_examples:
+  - 两条平行直线却要求交点。
+- relation_id: linear_inequality_by_graph
+  model_family_id: linear_inequality_graph
+  name: 一次函数图像解一元一次不等式
+  topic_tags:
+  - 一次函数
+  - 图像
+  - 不等式
+  propositions:
+    P1:
+      statement: 已知两个一次函数 L1,L2 及比较方向
+      ports:
+        L1: LinearFunction
+        L2: LinearFunction
+        comparison: Constraint
+    P2:
+      statement: 两函数交点或交点横坐标
+      ports:
+        intersection_point: Point2D
+    P3:
+      statement: 满足比较关系的自变量取值范围
+      ports:
+        solution: IntervalSet
+  constraints:
+    C1: L1 与 L2 有唯一交点
+    C2: 严格或非严格不等号决定端点是否包含
+    C3: 题面必须明确比较的是哪一个函数在上方
+  relation:
+    given:
+    - P1
+    - P2
+    derive:
+    - P3
+    constraints:
+    - C1
+    - C2
+    - C3
+  ports:
+    inputs:
+      L1: LinearFunction
+      L2: LinearFunction
+      comparison: Constraint
+      intersection_point: Point2D
+    outputs:
+      solution: IntervalSet
+  generation_notes:
+  - 图像题应避免让学生硬解复杂不等式。
+  - 教师版要明确端点取舍。
+  non_examples:
+  - 图像上下关系不清，却要求直接读解集。
+- relation_id: vertical_area_forward
+  model_family_id: vertical_line_area
+  name: 铅垂线法由三点求面积
+  topic_tags:
+  - 一次函数
+  - 坐标面积
+  - 铅垂线法
+  propositions:
+    P1:
+      statement: 已知底边两端点 A,B
+      ports:
+        A: Point2D
+        B: Point2D
+    P2:
+      statement: 已知第三点 P
+      ports:
+        P: Point2D
+    P3:
+      statement: 三角形 ABP 的面积
+      ports:
+        area: Area
+  constraints:
+    C1: A,B 横坐标不同，横向宽度非零
+    C2: 竖直距离用同横坐标纵坐标差表示
+  relation:
+    given:
+    - P1
+    - P2
+    derive:
+    - P3
+    constraints:
+    - C1
+    - C2
+  ports:
+    inputs:
+      A: Point2D
+      B: Point2D
+      P: Point2D
+    outputs:
+      area: Area
+  generation_notes:
+  - 先求 AB 所在直线，再过 P 作铅垂线。
+  - 不使用点到直线距离公式。
+  non_examples:
+  - A,B 横坐标相同却继续用横向宽度公式。
+- relation_id: vertical_area_inverse_on_linear_locus
+  model_family_id: vertical_line_area
+  name: 铅垂线法面积反求一次函数轨迹上的动点
+  topic_tags:
+  - 一次函数
+  - 坐标面积
+  - 铅垂线法
+  - 动点
+  propositions:
+    P1:
+      statement: 已知底边两端点 A,B
+      ports:
+        A: Point2D
+        B: Point2D
+    P2:
+      statement: 动点 P 在一次函数轨迹上
+      ports:
+        moving_locus: LinearFunction
+    P3:
+      statement: 三角形 ABP 的面积为目标面积
+      ports:
+        target_area: Area
+    P4:
+      statement: 满足面积条件的候选点集
+      ports:
+        candidate_points: CandidateSet<Point2D>
+  constraints:
+    C1: A,B 横坐标不同，横向宽度非零
+    C2: moving_locus 是非竖直一次函数
+    C3: 目标面积非负
+    C4: 输出 CandidateSet<Point2D> 接入 Point2D 下游时必须有 selector_or_branching
+  relation:
+    given:
+    - P1
+    - P2
+    - P3
+    derive:
+    - P4
+    constraints:
+    - C1
+    - C2
+    - C3
+    - C4
+  ports:
+    inputs:
+      A: Point2D
+      B: Point2D
+      moving_locus: LinearFunction
+      target_area: Area
+      filters: Constraint[]
+    outputs:
+      candidate_points: CandidateSet<Point2D>
+  generation_notes:
+  - 推荐先反向构造干净点 P，再计算面积。
+  - 若下游需要单点，题面必须给象限、线段范围或允许分支讨论。
+  non_examples:
+  - 没有给 P 的轨迹却要求由面积唯一确定 P。
+  - 输出多点但下游题干只承认一个答案且无筛选条件。
+- relation_id: parallelogram_fourth_point_fixed_order
+  model_family_id: coordinate_parallelogram_existence
+  name: 平行四边形固定顺序三点求第四点
+  topic_tags:
+  - 一次函数
+  - 坐标
+  - 平行四边形
+  - 存在性
+  propositions:
+    P1:
+      statement: 已知 A,B,C 三点
+      ports:
+        A: Point2D
+        B: Point2D
+        C: Point2D
+    P2:
+      statement: 题设指定平行四边形 ABCD
+      ports:
+        condition: QuadrilateralConstraint
+    P3:
+      statement: 第四点 D
+      ports:
+        D: Point2D
+  constraints:
+    C1: condition 必须是 parallelogram_ABCD 固定顺序
+    C2: A,C 为对角顶点，B,D 为对角顶点
+    C3: 排除点重合或面积为 0 的退化情况
+  relation:
+    given:
+    - P1
+    - P2
+    derive:
+    - P3
+    constraints:
+    - C1
+    - C2
+    - C3
+  ports:
+    inputs:
+      A: Point2D
+      B: Point2D
+      C: Point2D
+      condition: QuadrilateralConstraint
+    outputs:
+      D: Point2D
+  generation_notes:
+  - 使用 D=A+C-B。
+  - 不要和“四点构成平行四边形”的无序题混用。
+  non_examples:
+  - 题面只说四点构成平行四边形，却只给固定顺序的一种 D。
+- relation_id: parallelogram_fourth_point_unordered
+  model_family_id: coordinate_parallelogram_existence
+  name: 四点构成平行四边形三点求候选第四点
+  topic_tags:
+  - 一次函数
+  - 坐标
+  - 平行四边形
+  - 存在性
+  - 分类讨论
+  propositions:
+    P1:
+      statement: 已知 A,B,C 三点
+      ports:
+        A: Point2D
+        B: Point2D
+        C: Point2D
+    P2:
+      statement: 题设只说四点构成平行四边形
+      ports:
+        condition: QuadrilateralConstraint
+    P3:
+      statement: 所有可能的第四点
+      ports:
+        candidate_points: CandidateSet<Point2D>
+  constraints:
+    C1: condition 必须是 four_points_form_parallelogram
+    C2: 三种对角配对都要讨论
+    C3: 排除点重合、面积为 0、重复答案
+    C4: 输出 CandidateSet<Point2D> 接入 Point2D 下游时必须有 selector_or_branching
+  relation:
+    given:
+    - P1
+    - P2
+    derive:
+    - P3
+    constraints:
+    - C1
+    - C2
+    - C3
+    - C4
+  ports:
+    inputs:
+      A: Point2D
+      B: Point2D
+      C: Point2D
+      condition: QuadrilateralConstraint
+    outputs:
+      candidate_points: CandidateSet<Point2D>
+  generation_notes:
+  - 三类候选为 A+B-C、A+C-B、B+C-A。
+  - 教师版必须写清对角分类和排重。
+  non_examples:
+  - 把无序“构成”题当作固定顺序 ABCD 只做一种情况。
+- relation_id: linear_inverse_function_inequality_by_graph
+  name: 一次函数与反比例函数图像解不等式
+  model_family_id: linear_inverse_graph_inequality
+  topic_tags:
+  - 一次函数
+  - 反比例函数
+  - 图像解不等式
+  propositions:
+  - id: P1
+    statement: 已知一次函数图像与反比例函数图像。
+  - id: P2
+    statement: 已知或可求两图像交点的横坐标。
+  - id: P3
+    statement: 比较两个函数值大小等价于比较同一横坐标处图像上下位置。
+  - id: P4
+    statement: 由交点横坐标分段得到不等式解集。
+  constraints:
+  - 交点必须按横坐标排序，交点候选进入分段时必须有 selector_or_branching。
+  - 反比例函数要求 x != 0，解集不能跨过未定义点而不分段。
+  - 题目必须明确比较方向，例如一次函数大于、等于或小于反比例函数。
+  relation:
+    given:
+    - LinearFunction
+    - InverseProportionalFunction
+    - CandidateSet<Point2D>
+    - Constraint
+    derive:
+    - IntervalSet
+    constraints:
+    - intersection_x_ordering
+    - x_nonzero_domain_split
+    - selector_or_branching_for_intersection_candidates
+  ports:
+    inputs:
+      linear_function: LinearFunction
+      inverse_function: InverseProportionalFunction
+      intersection_points: CandidateSet<Point2D>
+      comparison_direction: Constraint
+      domain_restriction: Constraint
+    outputs:
+      solution_set: IntervalSet
+  generation_notes:
+  - 先给两图交点或设计成能代入求交点，再问不等式解集。
+  - 出题时显式标注比较方向，并把 x=0 作为分段边界检查。
+  - 自检时随机取每个区间内一点代回比较函数值大小。
+  non_examples:
+  - 只给图像草图但没有交点坐标或可求交点信息。
+  - 忽略 x=0，把两个区间误合并成一个连续区间。
+- relation_id: inverse_rectangle_area_to_k
+  name: 反比例函数矩形面积反求 k
+  model_family_id: inverse_area_invariant
+  topic_tags:
+  - 反比例函数
+  - 面积
+  - k的几何意义
+  propositions:
+  - id: P1
+    statement: 点 A(x,y) 在 y=k/x 上时 xy=k。
+  - id: P2
+    statement: A 向坐标轴作垂线得到的矩形面积为 |xy|。
+  - id: P3
+    statement: 矩形面积给出 |k|，象限或增减性筛选 k 的符号。
+  constraints:
+  - 面积必须非负。
+  - 若目标是确定 k 而不只是 |k|，必须给出 sign_filter。
+  relation:
+    given:
+    - Area
+    - Constraint
+    derive:
+    - InverseProportionalFunction
+    constraints:
+    - area_equals_abs_k
+    - sign_filter_required_for_unique_k
+  ports:
+    inputs:
+      rectangle_area: Area
+      sign_filter: Constraint
+    outputs:
+      inverse_function: InverseProportionalFunction
+  generation_notes:
+  - 用小整数面积生成 k 的绝对值，再用象限或图像所在象限确定符号。
+  - 教师版要检查正负号是否由题干充分给出。
+  non_examples:
+  - 只给矩形面积却要求唯一 k，且没有象限、增减性或图像位置条件。
+- relation_id: inverse_axis_triangle_area_to_k
+  name: 反比例函数坐标轴三角形面积反求 k
+  model_family_id: inverse_area_invariant
+  topic_tags:
+  - 反比例函数
+  - 三角形面积
+  - k的几何意义
+  propositions:
+  - id: P1
+    statement: 点 A(x,y) 在 y=k/x 上时 xy=k。
+  - id: P2
+    statement: 以坐标轴方向为底高的相关直角三角形面积为 |xy|/2。
+  - id: P3
+    statement: 三角形面积给出 |k|/2，符号由位置条件筛选。
+  constraints:
+  - 三角形的底高必须确实对应 |x| 与 |y| 或可化为 xy 的倍数。
+  - 若目标是唯一反比例函数，必须给 sign_filter。
+  relation:
+    given:
+    - Area
+    - Constraint
+    derive:
+    - InverseProportionalFunction
+    constraints:
+    - area_equals_half_abs_k_or_scaled_abs_k
+    - sign_filter_required_for_unique_k
+  ports:
+    inputs:
+      triangle_area: Area
+      sign_filter: Constraint
+      base_height_scale: Constraint
+    outputs:
+      inverse_function: InverseProportionalFunction
+  generation_notes:
+  - 可把坐标轴上一点、底高倍数作为包装，但必须能回到 xy=k。
+  - 自检时用具体点代回，验证面积与 k 的绝对值关系。
+  non_examples:
+  - 三角形底高不沿坐标轴或不能转化为 x、y 乘积，却套用 |k|/2。
+- relation_id: vertical_area_inverse_with_position_filter
+  name: 铅垂线法面积反求动点并按位置筛选
+  model_family_id: vertical_line_area
+  topic_tags:
+  - 一次函数
+  - 坐标面积
+  - 铅垂线法
+  propositions:
+  - id: P1
+    statement: 动点 P 在一次函数或直线轨迹上，可设为 P(t,f(t))。
+  - id: P2
+    statement: 三角形面积可化为横向宽度乘竖直距离的一半。
+  - id: P3
+    statement: 已知面积得到关于 t 的绝对值方程。
+  - id: P4
+    statement: 解出的候选点需按位置范围或题设筛选。
+  constraints:
+  - 轨迹必须是可参数化的一次函数或非竖直直线。
+  - 面积反求通常产生 CandidateSet<Point2D>，进入下游 Point2D 时必须 selector_or_branching。
+  - 若题目要求唯一点，必须有 PositionConstraint 足以筛掉多余候选。
+  relation:
+    given:
+    - LinearFunction
+    - Area
+    - PositionConstraint
+    derive:
+    - CandidateSet<Point2D>
+    constraints:
+    - parameterize_point_on_locus
+    - solve_absolute_value_area_equation
+    - selector_or_branching_for_position_filter
+  ports:
+    inputs:
+      moving_locus: LinearFunction
+      target_area: Area
+      fixed_points: Point2D[]
+      position_filter: PositionConstraint
+    outputs:
+      candidate_points: CandidateSet<Point2D>
+  generation_notes:
+  - 先生成底边横向宽度简单、绝对值方程最多两解的题。
+  - 下游可把候选点逐个接入平行四边形第四点、交点或面积验证模型。
+  - 教师版必须写明每个候选点是否满足轨迹、面积、位置条件。
+  non_examples:
+  - 没有给动点轨迹，却要求由面积唯一反求坐标。
+  - 面积方程两解但题干没有筛选条件，教师版却只保留一个答案。
+- relation_id: linear_function_axes_triangle_area
+  name: 一次函数截距三角形面积
+  model_family_id: linear_function_inequality_and_axes_area
+  topic_tags:
+  - 一次函数
+  - 截距
+  - 面积
+  propositions:
+  - id: P1
+    statement: 一次函数与坐标轴的交点可由令 x=0 或 y=0 得到。
+  - id: P2
+    statement: 两个截距和原点围成的直角三角形面积为 |x_intercept * y_intercept|/2。
+  - id: P3
+    statement: 截距面积可反向约束直线参数。
+  constraints:
+  - 一次函数不能与某坐标轴重合导致面积退化，除非题目显式讨论零面积。
+  - x 截距和 y 截距必须都存在且可求。
+  relation:
+    given:
+    - LinearFunction
+    derive:
+    - Area
+    constraints:
+    - nondegenerate_axis_intercepts
+    - axes_triangle_area_formula
+  ports:
+    inputs:
+      linear_function: LinearFunction
+    outputs:
+      axes_triangle_area: Area
+      intercept_points: Point2D[]
+  generation_notes:
+  - 可与 linear_function_intercepts 串联：先求截距，再求坐标轴三角形面积。
+  - 设计参数题时用面积反向筛选 k 或 b，但要避免截距为 0 的退化。
+  non_examples:
+  - 直线过原点时仍按两个非零截距构造三角形面积。
+- relation_id: rectangle_candidate_point_pairs_on_linear_locus
+  name: 一次函数轨迹上的矩形存在性候选点对
+  model_family_id: coordinate_quadrilateral_existence
+  topic_tags:
+  - 一次函数
+  - 矩形存在性
+  - 坐标四边形
+  propositions:
+  - id: P1
+    statement: 已知部分定点和动点轨迹，要求四点构成矩形。
+  - id: P2
+    statement: 矩形条件可转化为平行四边形条件加邻边垂直或对角线相等等约束。
+  - id: P3
+    statement: 约束方程给出一组或多组候选点对。
+  constraints:
+  - 必须明确四边形顶点顺序或使用 unordered 分支。
+  - CandidateSet<PointPair2D> 进入下游 PointPair2D 时必须 selector_or_branching。
+  - 需要排除三点共线、重合点、零面积矩形等退化情况。
+  relation:
+    given:
+    - Point2D
+    - LinearFunction
+    - QuadrilateralConstraint
+    derive:
+    - CandidateSet<PointPair2D>
+    constraints:
+    - rectangle_condition_system
+    - nondegenerate_quadrilateral
+    - selector_or_branching_for_candidate_point_pairs
+  ports:
+    inputs:
+      fixed_points: Point2D[]
+      moving_locus: LinearFunction
+      quadrilateral_condition: QuadrilateralConstraint
+      position_filters: PositionConstraint[]
+    outputs:
+      candidate_point_pairs: CandidateSet<PointPair2D>
+  generation_notes:
+  - 先固定顶点顺序，再用平行四边形第四点或中点关系减少未知量。
+  - 教师版逐组验算平行、垂直、长度或对角线条件。
+  - 可接在面积反求点之后：先由面积得到候选点，再分支尝试矩形存在性。
+  non_examples:
+  - 未声明顶点顺序却只套一个固定顺序公式。
+  - 候选点与已知点重合仍当作合法矩形。
+- relation_id: rhombus_candidate_point_pairs_on_linear_locus
+  name: 一次函数轨迹上的菱形存在性候选点对
+  model_family_id: coordinate_quadrilateral_existence
+  topic_tags:
+  - 一次函数
+  - 菱形存在性
+  - 坐标四边形
+  propositions:
+  - id: P1
+    statement: 已知部分定点和动点轨迹，要求四点构成菱形。
+  - id: P2
+    statement: 菱形条件可转化为平行四边形条件加邻边相等或对角线垂直。
+  - id: P3
+    statement: 约束方程给出候选点对，并需按题设筛选。
+  constraints:
+  - 必须明确使用邻边相等、四边相等或对角线垂直中的哪一种等价条件。
+  - CandidateSet<PointPair2D> 进入下游 PointPair2D 时必须 selector_or_branching。
+  - 必须排除退化平行四边形和重复点。
+  relation:
+    given:
+    - Point2D
+    - LinearFunction
+    - QuadrilateralConstraint
+    derive:
+    - CandidateSet<PointPair2D>
+    constraints:
+    - rhombus_condition_system
+    - nondegenerate_quadrilateral
+    - selector_or_branching_for_candidate_point_pairs
+  ports:
+    inputs:
+      fixed_points: Point2D[]
+      moving_locus: LinearFunction
+      quadrilateral_condition: QuadrilateralConstraint
+      position_filters: PositionConstraint[]
+    outputs:
+      candidate_point_pairs: CandidateSet<PointPair2D>
+  generation_notes:
+  - 适合与 parallelogram_fourth_point_fixed_order 串联：先生成第四点，再加菱形约束。
+  - 多解题必须保留分支，并在教师版逐个代回。
+  non_examples:
+  - 只验证一组对边平行就宣称是菱形。
+  - 忽略顶点顺序导致把交叉四边形当作合法结果。
+- relation_id: isosceles_right_third_point_from_leg
+  name: 等腰直角已知边求第三点候选
+  model_family_id: coordinate_isosceles_right_45
+  topic_tags:
+  - 等腰直角
+  - 45度
+  - 坐标模型
+  propositions:
+  - id: P1
+    statement: 已知直角顶点和一个底角顶点，可用向量旋转 90 度得到另一个底角顶点。
+  - id: P2
+    statement: 旋转有两个方向，因此通常得到候选点集。
+  constraints:
+  - 已知点不能与直角顶点重合。
+  - CandidateSet<Point2D> 进入下游 Point2D 时必须 selector_or_branching。
+  - 若要求唯一点，必须给出方向、象限、同侧或其他位置筛选。
+  relation:
+    given:
+    - Point2D
+    - PositionConstraint
+    derive:
+    - CandidateSet<Point2D>
+    constraints:
+    - ninety_degree_vector_rotation
+    - nonzero_leg
+    - selector_or_branching_for_rotation_direction
+  ports:
+    inputs:
+      right_vertex: Point2D
+      known_vertex: Point2D
+      position_filter: PositionConstraint
+    outputs:
+      candidate_third_points: CandidateSet<Point2D>
+  generation_notes:
+  - 用“右 a 上 b”的走法语言生成整数坐标，两个方向都应先列出再筛选。
+  - 后续可接 two_points_determine_linear_function 求 45 度候选直线。
+  non_examples:
+  - 只给一个 45 度角但没有旋转中心或待求点轨迹，却要求唯一坐标。
+- relation_id: forty_five_degree_lines_from_two_points
+  name: 已知两点构造 45 度候选直线
+  model_family_id: coordinate_isosceles_right_45
+  topic_tags:
+  - 一次函数
+  - 45度
+  - 坐标旋转
+  propositions:
+  - id: P1
+    statement: 已知 A,B，构造以 A 为直角顶点的等腰直角三角形 ABP。
+  - id: P2
+    statement: 直线 BP 是满足与 BA 成 45 度关系的候选直线。
+  - id: P3
+    statement: 两个旋转方向通常产生两条候选一次函数。
+  constraints:
+  - A 与 B 不能重合。
+  - CandidateSet<LinearFunction> 进入下游 LinearFunction 时必须 selector_or_branching。
+  - 若题目问 angle ACB=45 且没有 C 的轨迹或方向条件，不足以唯一确定 BC。
+  relation:
+    given:
+    - Point2D
+    - PositionConstraint
+    derive:
+    - CandidateSet<LinearFunction>
+    constraints:
+    - construct_isosceles_right_auxiliary_point
+    - two_point_line_from_auxiliary_point
+    - selector_or_branching_for_rotation_direction
+  ports:
+    inputs:
+      base_point_a: Point2D
+      vertex_b: Point2D
+      direction_filter: PositionConstraint
+    outputs:
+      candidate_lines: CandidateSet<LinearFunction>
+  generation_notes:
+  - 先构造辅助点 P，再由 B、P 两点确定候选直线。
+  - 可接 intersection_of_two_linear_functions 或 linear_function_axes_triangle_area 生成交点/面积题。
+  non_examples:
+  - 只给 A,B 和 angle ACB=45，却没有 C 的轨迹或方向，仍要求唯一 BC 解析式。

@@ -55,6 +55,18 @@ P1 + P2 -> P3 -> ... -> Answer
 - 可迁移方向：
 - 非同构边界：
 
+## 二点五、知识点/模型锚点
+> 给后续学生讲义使用。这里锁定数学事实、标题素材和讲解边界；不要写成学生版讲义，也不要决定 YAML block。
+
+- 建议讲义标题：
+- 知识点/模型名称：
+- 核心公式/定理：
+- 使用条件：
+- 入口信号：
+- 易混边界：
+- 本题如何体现：
+- 可作为例题的结构层级：
+
 ## 三、关键转化
 - 最关键的转化：
 - 为什么降低计算量：
@@ -131,4 +143,32 @@ P1 + P2 -> P3 -> ... -> Answer
 - 需要突出给学生看的关系：
 - 图中不能暗示的错误性质：
 - 图失败时的降级方案：
+
+## 十一点、模型规则入库草案（可选）
+> 一次函数、坐标面积、一次函数轨迹上的坐标存在性默认尝试入库。几何证明题或暂不支持的综合模型写“暂不入库”并说明原因。
+
+```yaml
+model_rule_draft:
+  model_family_id:
+  name:
+  intuitive_given:
+    -
+  intuitive_derive:
+    -
+  type_registry_patch:
+    aliases_to_add: []
+    new_type_candidates: []
+  relation_candidates:
+    - relation_id:
+      given:
+        -
+      derive:
+        -
+      expected_input_types:
+        slot_name:
+      expected_output_types:
+        slot_name:
+      must_keep_constraints:
+        -
+```
 ````

@@ -1,0 +1,184 @@
+source_analysis_path: artifacts/刘濯嘉/2026-06-15-平行四边形矩形菱形存在性/01-structure-analysis.md
+model_family: coordinate_quadrilateral_existence
+type_registry_patch:
+  aliases_to_add:
+  - type_id: CandidateSet<PointPair2D>
+    aliases:
+    - 矩形菱形候选点对
+    - 存在性候选点对
+  - type_id: QuadrilateralConstraint
+    aliases:
+    - 矩形条件
+    - 菱形条件
+relations:
+- relation_id: rectangle_candidate_point_pairs_on_linear_locus
+  name: 一次函数轨迹上的矩形存在性候选点对
+  model_family_id: coordinate_quadrilateral_existence
+  topic_tags:
+  - 一次函数
+  - 矩形存在性
+  - 坐标四边形
+  propositions:
+  - id: P1
+    statement: 已知部分定点和动点轨迹，要求四点构成矩形。
+  - id: P2
+    statement: 矩形条件可转化为平行四边形条件加邻边垂直或对角线相等等约束。
+  - id: P3
+    statement: 约束方程给出一组或多组候选点对。
+  constraints:
+  - 必须明确四边形顶点顺序或使用 unordered 分支。
+  - CandidateSet<PointPair2D> 进入下游 PointPair2D 时必须 selector_or_branching。
+  - 需要排除三点共线、重合点、零面积矩形等退化情况。
+  relation:
+    given:
+    - Point2D
+    - LinearFunction
+    - QuadrilateralConstraint
+    derive:
+    - CandidateSet<PointPair2D>
+    constraints:
+    - rectangle_condition_system
+    - nondegenerate_quadrilateral
+    - selector_or_branching_for_candidate_point_pairs
+  ports:
+    inputs:
+      fixed_points: Point2D[]
+      moving_locus: LinearFunction
+      quadrilateral_condition: QuadrilateralConstraint
+      position_filters: PositionConstraint[]
+    outputs:
+      candidate_point_pairs: CandidateSet<PointPair2D>
+  generation_notes:
+  - 先固定顶点顺序，再用平行四边形第四点或中点关系减少未知量。
+  - 教师版逐组验算平行、垂直、长度或对角线条件。
+  - 可接在面积反求点之后：先由面积得到候选点，再分支尝试矩形存在性。
+  non_examples:
+  - 未声明顶点顺序却只套一个固定顺序公式。
+  - 候选点与已知点重合仍当作合法矩形。
+- relation_id: rhombus_candidate_point_pairs_on_linear_locus
+  name: 一次函数轨迹上的菱形存在性候选点对
+  model_family_id: coordinate_quadrilateral_existence
+  topic_tags:
+  - 一次函数
+  - 菱形存在性
+  - 坐标四边形
+  propositions:
+  - id: P1
+    statement: 已知部分定点和动点轨迹，要求四点构成菱形。
+  - id: P2
+    statement: 菱形条件可转化为平行四边形条件加邻边相等或对角线垂直。
+  - id: P3
+    statement: 约束方程给出候选点对，并需按题设筛选。
+  constraints:
+  - 必须明确使用邻边相等、四边相等或对角线垂直中的哪一种等价条件。
+  - CandidateSet<PointPair2D> 进入下游 PointPair2D 时必须 selector_or_branching。
+  - 必须排除退化平行四边形和重复点。
+  relation:
+    given:
+    - Point2D
+    - LinearFunction
+    - QuadrilateralConstraint
+    derive:
+    - CandidateSet<PointPair2D>
+    constraints:
+    - rhombus_condition_system
+    - nondegenerate_quadrilateral
+    - selector_or_branching_for_candidate_point_pairs
+  ports:
+    inputs:
+      fixed_points: Point2D[]
+      moving_locus: LinearFunction
+      quadrilateral_condition: QuadrilateralConstraint
+      position_filters: PositionConstraint[]
+    outputs:
+      candidate_point_pairs: CandidateSet<PointPair2D>
+  generation_notes:
+  - 适合与 parallelogram_fourth_point_fixed_order 串联：先生成第四点，再加菱形约束。
+  - 多解题必须保留分支，并在教师版逐个代回。
+  non_examples:
+  - 只验证一组对边平行就宣称是菱形。
+  - 忽略顶点顺序导致把交叉四边形当作合法结果。
+- relation_id: isosceles_right_third_point_from_leg
+  name: 等腰直角已知边求第三点候选
+  model_family_id: coordinate_isosceles_right_45
+  topic_tags:
+  - 等腰直角
+  - 45度
+  - 坐标模型
+  propositions:
+  - id: P1
+    statement: 已知直角顶点和一个底角顶点，可用向量旋转 90 度得到另一个底角顶点。
+  - id: P2
+    statement: 旋转有两个方向，因此通常得到候选点集。
+  constraints:
+  - 已知点不能与直角顶点重合。
+  - CandidateSet<Point2D> 进入下游 Point2D 时必须 selector_or_branching。
+  - 若要求唯一点，必须给出方向、象限、同侧或其他位置筛选。
+  relation:
+    given:
+    - Point2D
+    - PositionConstraint
+    derive:
+    - CandidateSet<Point2D>
+    constraints:
+    - ninety_degree_vector_rotation
+    - nonzero_leg
+    - selector_or_branching_for_rotation_direction
+  ports:
+    inputs:
+      right_vertex: Point2D
+      known_vertex: Point2D
+      position_filter: PositionConstraint
+    outputs:
+      candidate_third_points: CandidateSet<Point2D>
+  generation_notes:
+  - 用“右 a 上 b”的走法语言生成整数坐标，两个方向都应先列出再筛选。
+  - 后续可接 two_points_determine_linear_function 求 45 度候选直线。
+  non_examples:
+  - 只给一个 45 度角但没有旋转中心或待求点轨迹，却要求唯一坐标。
+- relation_id: forty_five_degree_lines_from_two_points
+  name: 已知两点构造 45 度候选直线
+  model_family_id: coordinate_isosceles_right_45
+  topic_tags:
+  - 一次函数
+  - 45度
+  - 坐标旋转
+  propositions:
+  - id: P1
+    statement: 已知 A,B，构造以 A 为直角顶点的等腰直角三角形 ABP。
+  - id: P2
+    statement: 直线 BP 是满足与 BA 成 45 度关系的候选直线。
+  - id: P3
+    statement: 两个旋转方向通常产生两条候选一次函数。
+  constraints:
+  - A 与 B 不能重合。
+  - CandidateSet<LinearFunction> 进入下游 LinearFunction 时必须 selector_or_branching。
+  - 若题目问 angle ACB=45 且没有 C 的轨迹或方向条件，不足以唯一确定 BC。
+  relation:
+    given:
+    - Point2D
+    - PositionConstraint
+    derive:
+    - CandidateSet<LinearFunction>
+    constraints:
+    - construct_isosceles_right_auxiliary_point
+    - two_point_line_from_auxiliary_point
+    - selector_or_branching_for_rotation_direction
+  ports:
+    inputs:
+      base_point_a: Point2D
+      vertex_b: Point2D
+      direction_filter: PositionConstraint
+    outputs:
+      candidate_lines: CandidateSet<LinearFunction>
+  generation_notes:
+  - 先构造辅助点 P，再由 B、P 两点确定候选直线。
+  - 可接 intersection_of_two_linear_functions 或 linear_function_axes_triangle_area 生成交点/面积题。
+  non_examples:
+  - 只给 A,B 和 angle ACB=45，却没有 C 的轨迹或方向，仍要求唯一 BC 解析式。
+review_status: applied
+applied_relation_ids:
+- rectangle_candidate_point_pairs_on_linear_locus
+- rhombus_candidate_point_pairs_on_linear_locus
+- isosceles_right_third_point_from_leg
+- forty_five_degree_lines_from_two_points

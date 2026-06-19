@@ -10,7 +10,7 @@ description: "诊断学生数学回答中的可见证据，识别当前卡点、
 Use this optional skill between explanation and adaptive practice:
 
 ```text
-student response + structure analysis + canonical solution -> diagnosis artifact -> adaptive practice YAML instructions
+student response + structure analysis -> diagnosis artifact -> adaptive practice YAML instructions
 ```
 
 This skill diagnoses the current blocker from evidence. It does not label the student.
@@ -19,7 +19,7 @@ This skill diagnoses the current blocker from evidence. It does not label the st
 
 Require:
 
-- `01-structure-analysis.md` or equivalent, especially `canonical_solution`, `common_blockers`, and `explanation_task_packet`.
+- `01-structure-analysis.md` or equivalent, especially `标准完整解与验算`、`学生卡点预测`、`核心结构`、`计算复杂度预算`、`推荐练题任务包`.
 - Student answer, scratch work, oral response transcript, teacher notes, or screenshots transcribed into text.
 
 Accept:
@@ -51,7 +51,7 @@ Write in Chinese. Keep it teacher-facing and concise.
 - 是否使用提示：
 
 ## 二、对照标准完整解
-- 与 canonical solution 一致的部分：
+- 与 `标准完整解与验算` 一致的部分：
 - 缺失的关键量/关系：
 - 错误的计算或推理：
 - 需要排查的隐藏条件：
@@ -110,7 +110,7 @@ Before finalizing `03-student-response-diagnosis.md`, perform the checks below i
 
 ```markdown
 - 数学检查：
-  - 是否正确对照 canonical solution：
+  - 是否正确对照 `标准完整解与验算`：
   - 是否误判漏解、增根、退化值或公式适用性：
 - 教学检查：
   - 诊断是否聚焦一个主要核心动作：

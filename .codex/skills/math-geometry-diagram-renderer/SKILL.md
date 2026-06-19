@@ -14,8 +14,8 @@ latex-data skill 只负责声明图位和教学语义；本 skill 负责确认 T
 ## 输入
 
 - 当前 artifact 目录或一个 `*.plan.assignment.yaml`
-- `01-structure-analysis.md` 中的 `diagram_request_packet`
 - plan YAML 中的 `diagram_slot`
+- `01-structure-analysis.md` 中的 `推荐图形请求包` 只作为语义复核背景；真实 collect/batch/resolve 输入来自 plan YAML 的 `diagram_slot`
 
 支持合成几何、坐标几何和函数图的确定性 TikZ compiler。workflow 仍负责几何事实和函数采样，TikZ backend 只负责编译绘图。
 

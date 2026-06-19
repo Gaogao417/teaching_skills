@@ -10,7 +10,7 @@ description: "Analyze a math problem into 01-structure-analysis.md before LaTeX/
 Use this skill as stage 1 of the math teaching workflow:
 
 ```text
-original problem -> structure analysis artifact -> explanation/practice artifacts
+original problem -> structure analysis artifact -> model-rule ingestion -> explanation/practice artifacts
 ```
 
 Do not write a student-facing explanation. Produce a backend teaching artifact that later skills can consume. The first stage must lock the mathematical facts of the problem, not merely discuss it.
@@ -43,7 +43,7 @@ Derive the path from the conversation context:
 
 If the directory already exists (e.g., explanation PDFs are already there), place the file in that existing directory. If the directory does not exist, create it.
 
-The artifact must be self-contained. Use structured Markdown sections as the downstream interface; do not append a compact JSON or machine-readable summary that lets later skills ignore the prose.
+The artifact must be self-contained. Use structured Markdown sections as the downstream interface; do not append a compact JSON or machine-readable summary that lets later skills ignore the prose. The only allowed machine-oriented block is the optional `model_rule_draft` in "模型规则入库草案"; it is an ingestion draft, not a replacement for the prose analysis.
 
 ## Required Structure
 
@@ -54,6 +54,7 @@ The artifact must include these sections:
 - 原题
 - 题目场景
 - 核心结构（必须包含题型功能、统一命题网络、模型标签）
+- 知识点/模型锚点
 - 关键转化
 - 标准路径骨架
 - 标准完整解与验算
@@ -64,6 +65,7 @@ The artifact must include these sections:
 - 推荐讲题任务包
 - 推荐练题任务包
 - 推荐图形请求包（可选）
+- 模型规则入库草案（可选；一次函数相关题默认尝试）
 
 When writing the actual artifact, read `references/structure-template.md` and use its Markdown template. Keep the artifact self-contained: later YAML skills should be able to consume the full structure analysis without rereading the original problem.
 
@@ -94,6 +96,43 @@ Rules:
 - A relation should name the method, not just the result: "R2: P3 + P4 -> P5，方法：SAS 全等" is useful; "推出 P5" is not.
 - Keep the human-readable network compact. For long proofs, list the key network and put routine algebra in the standard solution.
 - Put compatibility-friendly labels such as problem pattern, core transformation, proposition network, and model tags in the prose sections themselves. Do not duplicate them into a separate handoff block.
+
+## Model Rule Draft
+
+For linear-function topics, coordinate area, and coordinate parallelogram existence, add a final section:
+
+```markdown
+## 十一点、模型规则入库草案（可选）
+```
+
+If the problem should enter the v0 model-rule library, include a fenced YAML block named `model_rule_draft` with:
+
+```yaml
+model_rule_draft:
+  model_family_id:
+  name:
+  intuitive_given:
+    - ...
+  intuitive_derive:
+    - ...
+  type_registry_patch:
+    aliases_to_add: []
+    new_type_candidates: []
+  relation_candidates:
+    - relation_id:
+      given:
+        - ...
+      derive:
+        - ...
+      expected_input_types:
+        slot_name: Point2D
+      expected_output_types:
+        slot_name: Area
+      must_keep_constraints:
+        - ...
+```
+
+If the problem is outside the v0 scope, write "暂不入库" and a short reason. Geometry proof models are out of scope for now.
 
 ## Quality Rules
 
@@ -154,11 +193,12 @@ Before finalizing `01-structure-analysis.md`, check the points below internally 
 - "计算复杂度预算" gives concrete constraints for the practice stage.
 - "推荐图形请求包" describes only teaching needs, object hints, focus, and visual traps; it does not include renderer code, retry logic, or image paths.
 - The output contains no assignment YAML, diagrams, images, TEX, or PDF instructions beyond the handoff.
+- If the topic is in the v0 model-rule scope, the output includes either a `model_rule_draft` or a clear "暂不入库" reason.
 
 ## Handoff
 
 End with:
 
 ```text
-下一步建议：使用 math-student-explanation-latex-data，输入本结构分析 + 学生画像 + 本次目标，生成 02-student-explanation.plan.assignment.yaml 或 02-student-explanation.assignment.yaml。工作流：math-structure-analysis → math-student-explanation-latex-data → math-adaptive-practice-latex-data → math-geometry-diagram-renderer → math-assignment-latex render/compile → math-homework-review。
+下一步建议：先使用 math-model-rule-ingestion 将本结构分析中的模型规则规范化为 canonical relations；随后 math-student-explanation-latex-data 与 math-adaptive-practice-latex-data 可并行消费结构分析和模型库关系。工作流：math-structure-analysis → math-model-rule-ingestion →（math-student-explanation-latex-data 与 math-adaptive-practice-latex-data 并行）→ math-geometry-diagram-renderer → math-assignment-latex render/compile → math-homework-review。
 ```
