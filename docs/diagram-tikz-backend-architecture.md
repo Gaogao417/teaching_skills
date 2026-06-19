@@ -455,6 +455,162 @@ path clipping, and visual intersections.
 Do not use TikZ to replace solved mathematical facts. Intersections that matter
 to the problem should still be emitted by workflow or analytic workflow.
 
+### 4.5 Semantic Macro Layer
+
+The compiler should not stay as a primitive TikZ writer forever.
+
+The first implementation emits valid low-level TikZ:
+
+```tex
+\coordinate (A) at (...);
+\draw (A) -- (B);
+\node at (A) {...};
+\draw (...) arc[...];
+```
+
+That is compile-safe, but it does not use TikZ's strongest diagram features
+enough. The target architecture is:
+
+```text
+GeometryRenderSpec
+  -> TikzDiagramSpec
+  -> semantic TikZ macro calls
+  -> shared worksheet diagram macros
+```
+
+The renderer still generates the TikZ deterministically. The LLM never emits
+raw TikZ. Macro arguments are always structured values: point ids, style roles,
+placement enums, numeric dimensions, and escaped label text.
+
+Recommended shared macros:
+
+```tex
+\DrawSegment{A}{B}
+\DrawDashedSegment{A}{B}
+\PointDot{A}
+\PointLabel[above left]{A}{A}
+\SegmentLabel[above]{A}{B}{5}
+\AngleMark{A}{B}{C}
+\AngleLabel{A}{B}{C}{30^\circ}
+\RightAngleMark{A}{B}{C}
+\EqualTick{A}{B}
+\ParallelMark{A}{B}
+\CoordinateTag[above right]{P}{text}
+\NamedSegmentPath{ab}{A}{B}
+\IntersectPaths{I}{ab}{cd}
+```
+
+Macro conventions:
+
+```text
+\AngleMark{A}{B}{C} means angle ABC, with B as the vertex.
+\RightAngleMark{A}{B}{C} uses the same convention.
+\EqualTick{A}{B} marks segment AB at its midpoint.
+\SegmentLabel{A}{B}{text} places text near the midpoint of AB.
+```
+
+These macros should use TikZ libraries instead of duplicating geometry drawing
+logic in Python:
+
+```tex
+pic {angle = A--B--C}
+pic {right angle = A--B--C}
+($(A)!0.5!(B)$)
+name path=...
+name intersections={of=pathA and pathB, by=I}
+```
+
+The production macro definitions should live in the assignment LaTeX preamble
+so every diagram shares one visual language. The preview renderer should import
+or emit the same macro definitions in standalone TeX; preview and final TeX
+must not drift.
+
+### 4.6 Label And Tag Placement
+
+Current implementation:
+
+```text
+synthetic point labels:
+  node at point + xshift/yshift
+  default: above the point
+
+coordinate point labels:
+  node at axis cs:x,y
+  default: anchor=south west
+
+coordinate text tags:
+  node at axis cs:x,y
+  default: anchor=center
+```
+
+This is deterministic and compile-safe, but too blunt for dense geometry.
+
+Target placement model:
+
+```text
+point labels:
+  placement enum first: above, below, left, right, above left, ...
+  auto default: away from the diagram centroid
+  dx/dy offset remains an escape hatch
+
+segment labels:
+  midpoint via calc: ($(A)!0.5!(B)$)
+  normal side chosen away from figure centroid unless explicitly specified
+
+angle labels:
+  position along the angle bisector
+  radius/eccentricity controlled by marker style
+
+condition/free tags:
+  anchor + coordinate binding
+  can attach to point, segment midpoint, angle bisector point, or explicit coordinate
+```
+
+The `GeometryRenderSpec` should evolve from point-only `labels` into typed label
+records:
+
+```text
+PointLabelSpec:
+  point, text, placement, dx, dy
+
+SegmentLabelSpec:
+  start, end, text, placement, pos
+
+AngleLabelSpec:
+  arm1, vertex, arm2, text, radius, placement
+
+FreeTagSpec:
+  at, text, anchor, dx, dy
+```
+
+For v1 hardening, the compiler should support explicit placement hints and
+produce audit warnings for likely collisions. Full global label avoidance is a
+later improvement; the first target is stable, semantic placement rather than
+pixel-like offsets.
+
+### 4.7 Intersections Policy
+
+Use TikZ `intersections` for visual drawing convenience:
+
+```text
+extension line crosses another drawn path
+helper path midpoint/intersection is only needed for drawing a marker
+construction tag needs a visual anchor but not a mathematical fact
+```
+
+Do not use TikZ `intersections` as the source of mathematical truth:
+
+```text
+problem-relevant intersection point
+root / zero / solution point on a graph
+derived point needed by explanation text
+length or angle fact used by reasoning
+```
+
+Those must remain solved upstream by GeometricScene, WolframClient, or analytic
+workflow and enter `GeometryRenderSpec` as named points or objects. TikZ may
+reuse the named point for drawing, but it should not silently invent it.
+
 ## 5. Size Strategy
 
 TikZ helps substantially, but it does not decide the final worksheet layout by
@@ -575,6 +731,15 @@ write renderer_result.json
 
 No SVG backend, no backend flag, no legacy renderer fallback.
 
+Current implementation note:
+
+```text
+The renderer already emits bindable TikZ fragments and passes smoke tests.
+However, geometry_to_tikz.py still emits mostly primitive TikZ commands.
+The next hardening step is to move marker, label, tag, and intersection drawing
+onto the semantic macro layer described above.
+```
+
 ## 7. Toolchain Policy
 
 Final assignment compile requires a TeX engine capable of TikZ:
@@ -605,6 +770,10 @@ Final assignment compile failure remains fatal.
 7. Add optional preview compilation and audit.
 8. Update gate checks to read TikZ audit, not SVG text metadata.
 9. Update e2e tests so bindable means TikZ source, not image path.
+10. Add shared semantic macros for point labels, segment labels, angle marks,
+    right-angle marks, equal ticks, tags, and visual intersections.
+11. Replace primitive synthetic-geometry marker output with semantic macro
+    calls backed by TikZ `calc`, `angles`, `quotes`, and `intersections`.
 
 ## 9. Acceptance Criteria
 
