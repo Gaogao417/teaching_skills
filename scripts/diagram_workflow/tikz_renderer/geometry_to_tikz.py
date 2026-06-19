@@ -11,7 +11,6 @@ from .writer import color_option, dash_option, fmt_cm, fmt_num, join_options, po
 
 Point = tuple[float, float]
 TIKZ_LABEL_PLACEMENTS = {placement.value for placement in DiagramLabelPlacement}
-POINT_LABEL_SHIFT_CM = 0.12
 
 
 def _coord_name(name: str, used: set[str]) -> str:
@@ -208,6 +207,13 @@ class SyntheticGeometryTikzCompiler:
         return f"\\AngleMark[{options}]{{{self.coord_names[arms[0]]}}}{{{self.coord_names[vertex]}}}{{{self.coord_names[arms[1]]}}}"
 
     def _draw_points(self) -> None:
+        self.commands.append(
+            TikzCommand(
+                kind="point_radius",
+                order=390,
+                tex=f"\\renewcommand{{\\DiagramPointRadius}}{{{fmt_cm(self.style.point_radius_cm)}}}",
+            )
+        )
         for index, name in enumerate(self.source_points):
             self.commands.append(
                 TikzCommand(
@@ -249,13 +255,13 @@ class SyntheticGeometryTikzCompiler:
         dy = 0.0
         parts = placement.split()
         if "left" in parts:
-            dx = -POINT_LABEL_SHIFT_CM
+            dx = -self.style.point_label_offset_cm
         elif "right" in parts:
-            dx = POINT_LABEL_SHIFT_CM
+            dx = self.style.point_label_offset_cm
         if "below" in parts:
-            dy = -POINT_LABEL_SHIFT_CM
+            dy = -self.style.point_label_offset_cm
         elif "above" in parts:
-            dy = POINT_LABEL_SHIFT_CM
+            dy = self.style.point_label_offset_cm
         options: list[str] = []
         if dx:
             options.append(f"xshift={fmt_cm(dx)}")

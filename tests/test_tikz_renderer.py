@@ -55,6 +55,7 @@ class TikzRendererTest(unittest.TestCase):
             self.assertIn(r"\PointDot", fragment)
             self.assertIn(r"\PointLabel", fragment)
             self.assertIn(r"\PointLabel[left, xshift=", fragment)
+            self.assertIn(r"\renewcommand{\DiagramPointRadius}{0.0728cm}", fragment)
             self.assertIn(r"A\_\textbackslash{}draw", fragment)
             self.assertNotIn(r"A_\draw", fragment)
 
@@ -147,10 +148,10 @@ class TikzRendererTest(unittest.TestCase):
                 result = render_geometry_spec(spec_path, out_dir, variant="prompt")
 
             fragment = (out_dir / result["tikz_fragment_path"]).read_text(encoding="utf-8")
-            self.assertIn(r"\PointLabel[above, yshift=0.12cm]{A}", fragment)
-            self.assertIn(r"\PointLabel[below left, xshift=-0.12cm, yshift=-0.12cm]{B}", fragment)
-            self.assertIn(r"\PointLabel[below right, xshift=0.12cm, yshift=-0.12cm]{C}", fragment)
-            self.assertIn(r"\PointLabel[below, yshift=-0.12cm]{D}", fragment)
+            self.assertIn(r"\PointLabel[above, yshift=0.238cm]{A}", fragment)
+            self.assertIn(r"\PointLabel[below left, xshift=-0.238cm, yshift=-0.238cm]{B}", fragment)
+            self.assertIn(r"\PointLabel[below right, xshift=0.238cm, yshift=-0.238cm]{C}", fragment)
+            self.assertIn(r"\PointLabel[below, yshift=-0.238cm]{D}", fragment)
 
     def test_polygon_default_is_unfilled(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

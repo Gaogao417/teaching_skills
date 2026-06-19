@@ -9,6 +9,8 @@ from diagram_contracts import DiagramConditionLabelStyle, DiagramRenderProfile
 PX_TO_CM = 0.026458333
 LABEL_PX_TO_PT = 0.4
 AXIS_PX_TO_PT = 0.55
+POINT_RADIUS_PX_TO_CM = 0.014
+LABEL_OFFSET_PX_TO_CM = 0.007
 
 
 @dataclass(frozen=True)
@@ -17,8 +19,8 @@ class TikzRenderStyle:
     condition_label_pt: float = 14.4
     axis_label_pt: float = 9.9
     tick_label_pt: float = 7.15
-    point_radius_cm: float = 0.055
-    point_label_offset_cm: float = 0.9
+    point_radius_cm: float = 0.073
+    point_label_offset_cm: float = 0.238
     point_label_font_style: str = "italic"
     point_label_font_weight: str = "normal"
     condition_label_font_style: str = "normal"
@@ -38,8 +40,8 @@ def profile_to_style(profile: DiagramRenderProfile) -> TikzRenderStyle:
         condition_label_pt=round(condition_label_px * LABEL_PX_TO_PT, 3),
         axis_label_pt=round(axis_label_px * AXIS_PX_TO_PT, 3),
         tick_label_pt=round(tick_label_px * AXIS_PX_TO_PT, 3),
-        point_radius_cm=round(point_radius_px * PX_TO_CM, 4),
-        point_label_offset_cm=round(point_label_offset_px * PX_TO_CM, 4),
+        point_radius_cm=round(point_radius_px * POINT_RADIUS_PX_TO_CM, 4),
+        point_label_offset_cm=round(point_label_offset_px * LABEL_OFFSET_PX_TO_CM, 4),
         point_label_font_style=profile.point_label_font_style or "italic",
         point_label_font_weight=profile.point_label_font_weight or "normal",
         condition_label_font_style=profile.condition_label_font_style or "normal",
