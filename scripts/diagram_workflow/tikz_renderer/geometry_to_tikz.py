@@ -1,13 +1,12 @@
 from __future__ import annotations
 
-import math
 import re
 
 from diagram_contracts import DiagramVariant, GeometryRenderSpec, RenderLabel
 
 from .contracts import TikzCommand, TikzCompilerAudit, TikzCoordinate, TikzDiagramSpec, TikzStyleRole
 from .styles import PX_TO_CM, profile_to_style
-from .writer import color_option, dash_option, fmt_cm, fmt_num, join_options, node_text_tex, point_label_tex, stroke_width_option
+from .writer import color_option, dash_option, fmt_cm, fmt_num, join_options, point_label_tex, stroke_width_option
 
 Point = tuple[float, float]
 
@@ -23,29 +22,6 @@ def _coord_name(name: str, used: set[str]) -> str:
         suffix += 1
     used.add(candidate)
     return candidate
-
-
-def _sub(a: Point, b: Point) -> Point:
-    return (a[0] - b[0], a[1] - b[1])
-
-
-def _add(a: Point, b: Point) -> Point:
-    return (a[0] + b[0], a[1] + b[1])
-
-
-def _mul(a: Point, k: float) -> Point:
-    return (a[0] * k, a[1] * k)
-
-
-def _unit(a: Point) -> Point:
-    length = math.hypot(a[0], a[1])
-    if length <= 1e-12:
-        return (0, 0)
-    return (a[0] / length, a[1] / length)
-
-
-def _perp(a: Point) -> Point:
-    return (-a[1], a[0])
 
 
 class SyntheticGeometryTikzCompiler:
@@ -84,7 +60,7 @@ class SyntheticGeometryTikzCompiler:
             job_id=self.spec.job_id,
             variant=self.spec.variant or DiagramVariant.PROMPT,
             diagram_type=self.spec.type,
-            libraries=["calc", "angles", "quotes", "arrows.meta"],
+            libraries=["calc", "intersections", "angles", "quotes", "arrows.meta", "decorations.markings"],
             natural_width_cm=self.natural_width_cm,
             natural_height_cm=self.natural_height_cm,
             styles=[
@@ -173,7 +149,7 @@ class SyntheticGeometryTikzCompiler:
                 TikzCommand(
                     kind="segment",
                     order=200 + index,
-                    tex=f"\\draw[{options}] ({self.coord_names[segment.start]}) -- ({self.coord_names[segment.end]});",
+                    tex=f"\\DrawSegment[{options}]{{{self.coord_names[segment.start]}}}{{{self.coord_names[segment.end]}}}",
                 )
             )
 
@@ -194,63 +170,30 @@ class SyntheticGeometryTikzCompiler:
     def _right_angle_tex(self, marker: object) -> str:
         vertex = getattr(marker, "vertex", "")
         arms = list(getattr(marker, "arms", []) or [])[:2]
-        if vertex not in self.points or len(arms) < 2 or any(arm not in self.points for arm in arms):
+        if vertex not in self.coord_names or len(arms) < 2 or any(arm not in self.coord_names for arm in arms):
             return ""
-        v = self.points[vertex]
-        u1 = _unit(_sub(self.points[arms[0]], v))
-        u2 = _unit(_sub(self.points[arms[1]], v))
-        size = 0.28
-        p1 = _add(v, _mul(u1, size))
-        p2 = _add(p1, _mul(u2, size))
-        p3 = _add(v, _mul(u2, size))
-        options = join_options(f"draw={color_option(getattr(marker, 'stroke', '') or '#dc2626')}", "line width=1.2pt")
-        return (
-            f"\\draw[{options}] ({fmt_num(p1[0])},{fmt_num(p1[1])}) -- "
-            f"({fmt_num(p2[0])},{fmt_num(p2[1])}) -- ({fmt_num(p3[0])},{fmt_num(p3[1])});"
-        )
+        options = join_options(f"draw={color_option(getattr(marker, 'stroke', '') or '#dc2626')}")
+        return f"\\RightAngleMark[{options}]{{{self.coord_names[arms[0]]}}}{{{self.coord_names[vertex]}}}{{{self.coord_names[arms[1]]}}}"
 
     def _equal_ticks_tex(self, marker: object) -> str:
         segments = list(getattr(marker, "segments", []) or [])
         count = max(1, int(getattr(marker, "count", 1) or 1))
-        tick_size = 0.18
-        spacing = 0.12
         lines: list[str] = []
-        options = join_options(f"draw={color_option(getattr(marker, 'stroke', '') or '#dc2626')}", "line width=1.2pt")
+        options = join_options(f"draw={color_option(getattr(marker, 'stroke', '') or '#dc2626')}")
+        macro_name = "EqualTick" if count == 1 else "DoubleEqualTick" if count == 2 else "TripleEqualTick"
         for start, end in segments:
-            if start not in self.points or end not in self.points:
+            if start not in self.coord_names or end not in self.coord_names:
                 continue
-            p1, p2 = self.points[start], self.points[end]
-            along = _unit(_sub(p2, p1))
-            normal = _perp(along)
-            mid = _mul(_add(p1, p2), 0.5)
-            for i in range(count):
-                center = _add(mid, _mul(along, (i - (count - 1) / 2) * spacing))
-                a = _add(center, _mul(normal, -tick_size / 2))
-                b = _add(center, _mul(normal, tick_size / 2))
-                lines.append(
-                    f"\\draw[{options}] ({fmt_num(a[0])},{fmt_num(a[1])}) -- ({fmt_num(b[0])},{fmt_num(b[1])});"
-                )
+            lines.append(f"\\{macro_name}[{options}]{{{self.coord_names[start]}}}{{{self.coord_names[end]}}}")
         return "\n".join(lines)
 
     def _angle_arc_tex(self, marker: object) -> str:
         vertex = getattr(marker, "vertex", "")
         arms = list(getattr(marker, "arms", []) or [])[:2]
-        if vertex not in self.points or len(arms) < 2 or any(arm not in self.points for arm in arms):
+        if vertex not in self.coord_names or len(arms) < 2 or any(arm not in self.coord_names for arm in arms):
             return ""
-        v = self.points[vertex]
-        u1 = _unit(_sub(self.points[arms[0]], v))
-        u2 = _unit(_sub(self.points[arms[1]], v))
-        a1 = math.degrees(math.atan2(u1[1], u1[0]))
-        a2 = math.degrees(math.atan2(u2[1], u2[0]))
-        diff = (a2 - a1) % 360
-        if diff > 180:
-            a1, a2 = a2, a1
-        radius = 0.48
-        options = join_options(f"draw={color_option(getattr(marker, 'stroke', '') or '#059669')}", "line width=1.2pt")
-        return (
-            f"\\draw[{options}] ({self.coord_names[vertex]}) ++({fmt_num(a1, 3)}:{fmt_cm(radius)}) "
-            f"arc[start angle={fmt_num(a1, 3)}, end angle={fmt_num(a2, 3)}, radius={fmt_cm(radius)}];"
-        )
+        options = join_options(f"draw={color_option(getattr(marker, 'stroke', '') or '#059669')}")
+        return f"\\AngleMark[{options}]{{{self.coord_names[arms[0]]}}}{{{self.coord_names[vertex]}}}{{{self.coord_names[arms[1]]}}}"
 
     def _draw_points(self) -> None:
         for index, name in enumerate(self.source_points):
@@ -258,7 +201,7 @@ class SyntheticGeometryTikzCompiler:
                 TikzCommand(
                     kind="point",
                     order=400 + index,
-                    tex=f"\\fill[diagram point] ({self.coord_names[name]}) circle[radius={fmt_cm(self.style.point_radius_cm)}];",
+                    tex=f"\\PointDot[fill={color_option('#111827')}]{{{self.coord_names[name]}}}",
                 )
             )
 
@@ -275,8 +218,8 @@ class SyntheticGeometryTikzCompiler:
                     kind="point_label",
                     order=500 + index,
                     tex=(
-                        f"\\node[point label, xshift={fmt_cm(dx_cm)}, yshift={fmt_cm(dy_cm)}] "
-                        f"at ({self.coord_names[name]}) {{{point_label_tex(text)}}};"
+                        f"\\PointLabel[xshift={fmt_cm(dx_cm)}, yshift={fmt_cm(dy_cm)}]"
+                        f"{{{self.coord_names[name]}}}{{{point_label_tex(text)}}}"
                     ),
                 )
             )

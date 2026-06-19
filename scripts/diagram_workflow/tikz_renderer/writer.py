@@ -4,6 +4,7 @@ import math
 import re
 
 from .contracts import TikzDiagramSpec
+from .macros import DIAGRAM_TIKZ_MACROS
 
 
 _SAFE_COLOR_NAMES = {
@@ -150,6 +151,7 @@ def render_standalone(fragment: str, libraries: list[str]) -> str:
         [
             r"\usepackage{pgfplots}",
             r"\pgfplotsset{compat=1.18}",
+            DIAGRAM_TIKZ_MACROS,
             r"\begin{document}",
             fragment.rstrip(),
             r"\end{document}",
