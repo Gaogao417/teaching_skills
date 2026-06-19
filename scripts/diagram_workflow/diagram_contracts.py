@@ -40,6 +40,28 @@ class DiagramEngine(str, Enum):
     COORDINATE_RENDERER = "coordinate_renderer"
 
 
+class DiagramArtifactKind(str, Enum):
+    TIKZ = "tikz"
+
+
+class TikzSourceMode(str, Enum):
+    INLINE_FRAGMENT = "inline_fragment"
+    SOURCE_FILE = "source_file"
+
+
+class TikzCompileEngine(str, Enum):
+    NONE = "none"
+    TECTONIC = "tectonic"
+    XELATEX = "xelatex"
+    PDFLATEX = "pdflatex"
+
+
+class TikzExportTool(str, Enum):
+    NONE = "none"
+    PDFTOCAIRO = "pdftocairo"
+    DVISVGM = "dvisvgm"
+
+
 class DiagramKind(str, Enum):
     SYNTHETIC_GEOMETRY = "synthetic_geometry"
     COORDINATE_GEOMETRY = "coordinate_geometry"
@@ -744,7 +766,7 @@ class DiagramJobResult(DiagramLooseModel):
     model: DiagramModelSummary = Field(default_factory=DiagramModelSummary)
     policy_warnings: list[str] = Field(default_factory=list)
     final_diagram_spec: str = "final_diagram_spec.json"
-    final_image_path: str = ""
+    final_tikz_fragment_path: str = ""
     skills_used: JsonObject = Field(default_factory=dict)
     model_attempts: list[ModelAttempt] = Field(default_factory=list)
     rounds: list[WorkflowRound] = Field(default_factory=list)
@@ -816,6 +838,80 @@ class RendererChecks(DiagramLooseModel):
     references_valid: bool = False
     svg_exists: bool = False
     image_exists: bool = False
+    tikz_exists: bool = False
+    pdf_exists: bool = False
+    audit_exists: bool = False
+
+
+class TikzRendererPaths(DiagramModel):
+    fragment_path: str = ""
+    standalone_tex_path: str = ""
+    pdf_path: str = ""
+    preview_png_path: str = ""
+    preview_svg_path: str = ""
+    log_path: str = ""
+    audit_path: str = "renderer_audit.json"
+
+
+class TikzNaturalSize(DiagramModel):
+    width_pt: float | None = Field(default=None, gt=0)
+    height_pt: float | None = Field(default=None, gt=0)
+    aspect_ratio: float | None = Field(default=None, gt=0)
+
+    @model_validator(mode="after")
+    def compute_aspect_ratio(self) -> TikzNaturalSize:
+        if self.aspect_ratio is None and self.width_pt and self.height_pt:
+            self.aspect_ratio = round(self.width_pt / self.height_pt, 4)
+        return self
+
+
+class TikzReadabilityAudit(DiagramModel):
+    display_width: str = ""
+    point_label_count: int = Field(default=0, ge=0)
+    min_point_label_pt_at_display_width: float | None = Field(default=None, gt=0)
+    condition_label_style: DiagramConditionLabelStyle | None = None
+    warnings: list[str] = Field(default_factory=list)
+
+    @model_validator(mode="after")
+    def validate_display_width(self) -> TikzReadabilityAudit:
+        if self.display_width:
+            validate_latex_dimension(self.display_width, field_name="display_width")
+        return self
+
+
+class TikzRendererAudit(DiagramModel):
+    schema_version: Literal["tikz-renderer-audit/v1"] = "tikz-renderer-audit/v1"
+    job_id: str = ""
+    variant: DiagramVariant = DiagramVariant.PROMPT
+    paths: TikzRendererPaths = Field(default_factory=TikzRendererPaths)
+    natural_size: TikzNaturalSize = Field(default_factory=TikzNaturalSize)
+    readability: TikzReadabilityAudit = Field(default_factory=TikzReadabilityAudit)
+    checks: RendererChecks = Field(default_factory=RendererChecks)
+    warnings: list[str] = Field(default_factory=list)
+
+
+class TikzSourcePayload(DiagramModel):
+    """TikZ source emitted by the deterministic renderer.
+
+    The fragment is the bindable TeX payload. Standalone TeX/PDF/PNG/SVG files
+    are optional diagnostics and previews; the final assignment can inline or
+    input the fragment directly.
+    """
+
+    source_mode: TikzSourceMode = TikzSourceMode.SOURCE_FILE
+    fragment: str = ""
+    fragment_path: str = ""
+    standalone_tex_path: str = ""
+    packages: list[str] = Field(default_factory=lambda: ["tikz"])
+    libraries: list[str] = Field(default_factory=list)
+    compile_engine: TikzCompileEngine = TikzCompileEngine.NONE
+    export_tool: TikzExportTool = TikzExportTool.NONE
+
+    @model_validator(mode="after")
+    def require_fragment_or_path(self) -> TikzSourcePayload:
+        if not self.fragment and not self.fragment_path:
+            raise ValueError("TikZ source requires fragment or fragment_path")
+        return self
 
 
 class GeometryRendererResult(DiagramLooseModel):
@@ -824,25 +920,49 @@ class GeometryRendererResult(DiagramLooseModel):
     status: DiagramRunStatus = DiagramRunStatus.FAILED
     fail_type: str = ""
     message: str = ""
-    renderer: str = "teaching-svg-geometry-renderer"
+    renderer: str = "teaching-tikz-geometry-renderer"
+    artifact_kind: DiagramArtifactKind = DiagramArtifactKind.TIKZ
     diagram_variant: DiagramVariant = DiagramVariant.PROMPT
     disclosure_policy: DisclosurePolicy = DisclosurePolicy.CLEAN
     renderer_spec: str = "final_renderer_spec.json"
-    image_path: str = ""
+    tikz_fragment: str = ""
+    tikz_fragment_path: str = ""
+    tikz_source_path: str = ""
+    tikz_standalone_path: str = ""
+    tikz_pdf_path: str = ""
+    preview_png_path: str = ""
     preview_svg: str = ""
+    renderer_audit: str = ""
+    natural_width_pt: float | None = Field(default=None, gt=0)
+    natural_height_pt: float | None = Field(default=None, gt=0)
     width_px: int | None = Field(default=None, ge=1)
     height_px: int | None = Field(default=None, ge=1)
     checks: RendererChecks = Field(default_factory=RendererChecks)
+
+    @model_validator(mode="after")
+    def enforce_renderer_output_policy(self) -> GeometryRendererResult:
+        if self.status == DiagramRunStatus.OK:
+            has_tikz = bool(self.tikz_fragment or self.tikz_fragment_path or self.tikz_source_path)
+            if not has_tikz:
+                raise ValueError("ok renderer results require tikz_fragment, tikz_fragment_path, or tikz_source_path")
+        return self
 
 
 class DiagramArtifact(DiagramModel):
     slot_id: NonEmptyStr
     job_id: NonEmptyStr = Field(validation_alias=AliasChoices("job_id", "diagram_job_id"))
     status: DiagramRunStatus
+    artifact_kind: DiagramArtifactKind = DiagramArtifactKind.TIKZ
     variant: DiagramVariant = DiagramVariant.PROMPT
     disclosure_policy: DisclosurePolicy = DisclosurePolicy.CLEAN
-    image_path: str = ""
+    tikz_fragment: str = ""
+    tikz_fragment_path: str = ""
+    tikz_source_path: str = ""
+    tikz_standalone_path: str = ""
+    tikz_pdf_path: str = ""
+    preview_png_path: str = ""
     preview_svg: str = ""
+    renderer_audit: str = ""
     width_px: int | None = Field(default=None, ge=1)
     height_px: int | None = Field(default=None, ge=1)
     aspect_ratio: float | None = Field(default=None, gt=0)
@@ -866,8 +986,8 @@ class DiagramArtifact(DiagramModel):
         if self.bindable:
             if self.status != DiagramRunStatus.OK:
                 raise ValueError("bindable artifacts must have status='ok'")
-            if not self.image_path:
-                raise ValueError("bindable artifacts must have image_path")
+            if not (self.tikz_fragment or self.tikz_fragment_path or self.tikz_source_path):
+                raise ValueError("bindable TikZ artifacts must have tikz_fragment, tikz_fragment_path, or tikz_source_path")
             if not self.artifact_hash:
                 raise ValueError("bindable artifacts must have a hash")
         return self
@@ -889,10 +1009,12 @@ class DiagramArtifactsManifest(DiagramModel):
         return self
 
 
-class ResolvedDiagramImage(DiagramModel):
-    """Resolved YAML image object consumed by math-assignment-latex templates."""
+class ResolvedDiagramTikz(DiagramModel):
+    """Resolved YAML TikZ object consumed directly by LaTeX templates."""
 
-    image_path: NonEmptyStr
+    kind: Literal["tikz"] = "tikz"
+    tikz_code: str = ""
+    tikz_path: str = ""
     diagram_ref: NonEmptyStr
     diagram_job_id: NonEmptyStr = Field(validation_alias=AliasChoices("diagram_job_id", "job_id"))
     width: str = ""
@@ -900,11 +1022,17 @@ class ResolvedDiagramImage(DiagramModel):
     variant: DiagramVariant = DiagramVariant.PROMPT
     disclosure_policy: DisclosurePolicy = DisclosurePolicy.CLEAN
     artifact_hash: str = Field(default="", validation_alias=AliasChoices("artifact_hash", "hash"))
+    packages: list[str] = Field(default_factory=lambda: ["tikz"])
+    libraries: list[str] = Field(default_factory=list)
 
     @model_validator(mode="after")
-    def enforce_resolved_policy(self) -> ResolvedDiagramImage:
+    def enforce_resolved_tikz_policy(self) -> ResolvedDiagramTikz:
+        if not self.tikz_code and not self.tikz_path:
+            raise ValueError("resolved TikZ diagrams require tikz_code or tikz_path")
+        if self.width:
+            validate_latex_dimension(self.width, field_name="resolved TikZ width")
         if self.variant == DiagramVariant.PROMPT and self.disclosure_policy != DisclosurePolicy.CLEAN:
-            raise ValueError("prompt resolved images must use disclosure_policy='clean'")
+            raise ValueError("prompt resolved TikZ diagrams must use disclosure_policy='clean'")
         return self
 
 
@@ -915,13 +1043,20 @@ class ResolvedDiagramFallback(DiagramModel):
 
 class ResolvedDiagramPlacement(DiagramModel):
     field: Literal["diagram_col", "diagram_row_item", "diagram"] = "diagram_col"
-    image: ResolvedDiagramImage | None = None
+    tikz: ResolvedDiagramTikz | None = None
     fallback: ResolvedDiagramFallback | None = None
+
+    @model_validator(mode="after")
+    def require_single_payload(self) -> ResolvedDiagramPlacement:
+        payloads = [self.tikz is not None, self.fallback is not None]
+        if sum(payloads) > 1:
+            raise ValueError("resolved diagram placement accepts only one payload")
+        return self
 
     def as_mapping(self) -> JsonObject:
         value: JsonValue
-        if self.image is not None:
-            value = self.image.model_dump(mode="json", by_alias=True)
+        if self.tikz is not None:
+            value = self.tikz.model_dump(mode="json", by_alias=True)
         elif self.fallback is not None:
             value = self.fallback.model_dump(mode="json")
         else:
@@ -1036,7 +1171,8 @@ class DiagramBatchJobResult(DiagramModel):
     ] = "not_run"
     workflow_status: str = "not_run"
     renderer_status: str = "not_run"
-    image_path: str = ""
+    tikz_fragment_path: str = ""
+    tikz_source_path: str = ""
     failure_reason: str = ""
 
 

@@ -75,30 +75,40 @@ def _check_required_bindable(
     return checks
 
 
-def _check_image_exists(
+def _check_tikz_payload_exists(
     jobs: DiagramJobsManifest,
     artifacts: DiagramArtifactsManifest,
     artifact_dir: Path,
 ) -> list[DiagramGateCheck]:
-    """Check 2: All artifact image_path files exist and are non-empty."""
+    """Check 2: All bindable TikZ payloads exist and are non-empty."""
     checks: list[DiagramGateCheck] = []
     for art in artifacts.artifacts.values():
-        if not art.image_path:
+        if art.tikz_fragment:
             continue
-        image_path = Path(art.image_path)
-        full_path = image_path if image_path.is_absolute() else artifact_dir / image_path
+        path_value = art.tikz_fragment_path or art.tikz_source_path
+        if not path_value:
+            if art.bindable:
+                checks.append(DiagramGateCheck(
+                    name="tikz_payload_exists",
+                    status="block",
+                    message=f"Bindable TikZ artifact has no tikz_fragment or tikz path: {art.slot_id}",
+                    refs=[art.slot_id],
+                ))
+            continue
+        source_path = Path(path_value)
+        full_path = source_path if source_path.is_absolute() else artifact_dir / source_path
         if not full_path.exists():
             checks.append(DiagramGateCheck(
-                name="image_exists",
+                name="tikz_payload_exists",
                 status="warn",
-                message=f"Image file missing: {art.image_path}",
+                message=f"TikZ source file missing: {path_value}",
                 refs=[art.slot_id],
             ))
         elif full_path.stat().st_size == 0:
             checks.append(DiagramGateCheck(
-                name="image_exists",
+                name="tikz_payload_exists",
                 status="block",
-                message=f"Image file is empty: {art.image_path}",
+                message=f"TikZ source file is empty: {path_value}",
                 refs=[art.slot_id],
             ))
     return checks
@@ -233,55 +243,54 @@ def _check_student_no_solution(
 
 
 def _collect_resolved_diagrams(block: dict) -> list[dict]:
-    """Collect all resolved diagram objects from a block."""
+    """Collect all resolved TikZ diagram objects from a block."""
     found = []
     for key in ("diagram_col", "prompt_diagram"):
         obj = block.get(key)
-        if isinstance(obj, dict) and obj.get("image_path"):
+        if isinstance(obj, dict) and (obj.get("kind") == "tikz" or obj.get("tikz_code") or obj.get("tikz_path")):
             found.append(obj)
     answer_space = block.get("answer_space")
     if isinstance(answer_space, dict):
         for key in ("diagram_col",):
             obj = answer_space.get(key)
-            if isinstance(obj, dict) and obj.get("image_path"):
+            if isinstance(obj, dict) and (obj.get("kind") == "tikz" or obj.get("tikz_code") or obj.get("tikz_path")):
                 found.append(obj)
         for part in answer_space.get("parts") or []:
             if not isinstance(part, dict):
                 continue
             for key in ("diagram_col",):
                 obj = part.get(key)
-                if isinstance(obj, dict) and obj.get("image_path"):
+                if isinstance(obj, dict) and (obj.get("kind") == "tikz" or obj.get("tikz_code") or obj.get("tikz_path")):
                     found.append(obj)
     return found
 
 
-def _check_image_path_accessible(
+def _check_tikz_path_accessible(
     artifacts: DiagramArtifactsManifest,
     artifact_dir: Path,
 ) -> list[DiagramGateCheck]:
-    """Check 6: image_path is accessible relative to expected .tex location."""
+    """Check 6: tikz_path is accessible relative to expected .tex location."""
     checks: list[DiagramGateCheck] = []
-    # The .tex file will be at <artifact_dir>/<name>.tex
-    # image_path should be relative and accessible from there
     for art in artifacts.artifacts.values():
-        if not art.image_path:
+        path_value = art.tikz_fragment_path or art.tikz_source_path
+        if not path_value:
             continue
-        p = Path(art.image_path)
+        p = Path(path_value)
         if p.is_absolute():
             if not p.exists():
                 checks.append(DiagramGateCheck(
-                    name="image_path_accessible",
+                    name="tikz_path_accessible",
                     status="block",
-                    message=f"Absolute image_path does not exist: {art.image_path}",
+                    message=f"Absolute tikz_path does not exist: {path_value}",
                     refs=[art.slot_id],
                 ))
         else:
             full = artifact_dir / p
             if not full.exists():
                 checks.append(DiagramGateCheck(
-                    name="image_path_accessible",
+                    name="tikz_path_accessible",
                     status="warn",
-                    message=f"Relative image_path not found from artifact dir: {art.image_path}",
+                    message=f"Relative tikz_path not found from artifact dir: {path_value}",
                     refs=[art.slot_id],
                 ))
     return checks
@@ -580,11 +589,11 @@ def run_gate(
     all_checks: list[DiagramGateCheck] = []
 
     all_checks.extend(_check_required_bindable(jobs, artifacts))
-    all_checks.extend(_check_image_exists(jobs, artifacts, artifact_dir))
+    all_checks.extend(_check_tikz_payload_exists(jobs, artifacts, artifact_dir))
     all_checks.extend(_check_content_hash(jobs, plan_data))
     all_checks.extend(_check_prompt_clean(artifacts))
     all_checks.extend(_check_student_no_solution(resolved_path))
-    all_checks.extend(_check_image_path_accessible(artifacts, artifact_dir))
+    all_checks.extend(_check_tikz_path_accessible(artifacts, artifact_dir))
     all_checks.extend(_check_diagram_ref_consistency(jobs, artifacts))
     all_checks.extend(_check_slot_layout_profiles(plan_data))
     all_checks.extend(_check_svg_readability(jobs, artifacts, artifact_dir))

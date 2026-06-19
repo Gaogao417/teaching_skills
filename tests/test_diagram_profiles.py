@@ -78,7 +78,7 @@ class DiagramProfileTest(unittest.TestCase):
                     slot_id="q1.prompt",
                     job_id="q1-prompt",
                     status="ok",
-                    image_path="build/diagram/jobs/q1-prompt/rendered/prompt.png",
+                    tikz_fragment=r"\begin{tikzpicture}\draw (0,0) -- (1,0);\end{tikzpicture}",
                     hash="sha256:abc",
                     bindable=True,
                 )
@@ -87,6 +87,8 @@ class DiagramProfileTest(unittest.TestCase):
 
         resolved = resolve_assignment(plan_data, artifacts)
         diagram_col = resolved["sections"][0]["blocks"][0]["diagram_col"]
+        self.assertEqual(diagram_col["kind"], "tikz")
+        self.assertIn("tikz_code", diagram_col)
         self.assertEqual(diagram_col["width"], "60mm")
         self.assertEqual(diagram_col["caption"], "原题图")
 
@@ -178,7 +180,7 @@ class DiagramProfileTest(unittest.TestCase):
                         slot_id="q1.prompt",
                         job_id="q1-prompt",
                         status="ok",
-                        image_path="build/diagram/jobs/q1-prompt/rendered/prompt.png",
+                        tikz_fragment=r"\begin{tikzpicture}\draw (0,0) -- (1,0);\end{tikzpicture}",
                         preview_svg="rendered/prompt.svg",
                         hash="sha256:abc",
                         bindable=True,

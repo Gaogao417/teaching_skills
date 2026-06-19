@@ -54,9 +54,9 @@ def sha256_file(path: Path) -> str:
     return "sha256:" + h.hexdigest()
 
 
-def resolve_image_path(image_path: str, artifact_dir: Path) -> Path:
-    """Resolve a potentially relative image_path against the artifact dir."""
-    p = Path(image_path)
+def resolve_artifact_path(path_value: str, artifact_dir: Path) -> Path:
+    """Resolve a potentially relative artifact path against the artifact dir."""
+    p = Path(path_value)
     return p if p.is_absolute() else artifact_dir / p
 
 
@@ -86,43 +86,60 @@ def build_artifact_for_job(
     else:
         status = DiagramRunStatus.FAILED
 
-    # Extract fields from renderer result
-    image_path = ""
+    # Extract fields from renderer result. In the TikZ-only architecture the
+    # bindable payload is TeX source; PNG/SVG files are previews for review.
+    tikz_fragment = ""
+    tikz_fragment_path = ""
+    tikz_source_path = ""
+    tikz_standalone_path = ""
+    tikz_pdf_path = ""
+    preview_png_path = ""
     preview_svg = ""
+    renderer_audit = ""
     width_px = None
     height_px = None
     aspect_ratio = None
     warnings: list[str] = []
 
     if rr_data:
-        image_path = rr_data.get("image_path", "")
+        tikz_fragment = rr_data.get("tikz_fragment", "")
+        tikz_fragment_path = rr_data.get("tikz_fragment_path", "")
+        tikz_source_path = rr_data.get("tikz_source_path", "")
+        tikz_standalone_path = rr_data.get("tikz_standalone_path", "")
+        tikz_pdf_path = rr_data.get("tikz_pdf_path", "")
+        preview_png_path = rr_data.get("preview_png_path", "")
         preview_svg = rr_data.get("preview_svg", "")
+        renderer_audit = rr_data.get("renderer_audit", "")
         width_px = rr_data.get("width_px")
         height_px = rr_data.get("height_px")
         aspect_ratio = rr_data.get("aspect_ratio")
 
-    # Compute hash from the actual image file.
-    # Renderer outputs image_path relative to the job directory,
-    # so resolve against job_dir first, then normalize to artifact_dir-relative.
+    # Compute hash from the bindable TikZ payload. Prefer source files so the
+    # manifest can avoid storing large inline fragments, but support inline
+    # fragments for small diagrams.
     artifact_hash = ""
-    resolved_image_for_hash: Path | None = None
-    if image_path:
-        # Try job_dir first (renderer's perspective)
-        candidate = job_dir / image_path
+    resolved_tikz_for_hash: Path | None = None
+    tikz_path_for_hash = tikz_fragment_path or tikz_source_path
+    if tikz_path_for_hash:
+        candidate = job_dir / tikz_path_for_hash
         if candidate.exists() and candidate.stat().st_size > 0:
-            resolved_image_for_hash = candidate
-            # Rewrite image_path to be relative to artifact_dir
-            image_path = Path(os.path.relpath(candidate, artifact_dir)).as_posix()
-        else:
-            # Fallback: try resolving from artifact_dir
-            candidate = resolve_image_path(image_path, artifact_dir)
-            if candidate.exists() and candidate.stat().st_size > 0:
-                resolved_image_for_hash = candidate
+            resolved_tikz_for_hash = candidate
+            normalized = Path(os.path.relpath(candidate, artifact_dir)).as_posix()
+            if tikz_fragment_path:
+                tikz_fragment_path = normalized
             else:
-                warnings.append(f"image file missing or empty: {image_path}")
+                tikz_source_path = normalized
+        else:
+            candidate = resolve_artifact_path(tikz_path_for_hash, artifact_dir)
+            if candidate.exists() and candidate.stat().st_size > 0:
+                resolved_tikz_for_hash = candidate
+            else:
+                warnings.append(f"TikZ source file missing or empty: {tikz_path_for_hash}")
 
-    if resolved_image_for_hash:
-        artifact_hash = sha256_file(resolved_image_for_hash)
+    if resolved_tikz_for_hash:
+        artifact_hash = sha256_file(resolved_tikz_for_hash)
+    elif tikz_fragment:
+        artifact_hash = "sha256:" + hashlib.sha256(tikz_fragment.encode("utf-8")).hexdigest()
 
     # Compute aspect_ratio if not provided
     if aspect_ratio is None and width_px and height_px:
@@ -138,7 +155,7 @@ def build_artifact_for_job(
     # Determine bindable
     bindable = (
         status == DiagramRunStatus.OK
-        and bool(image_path)
+        and bool(tikz_fragment or tikz_fragment_path or tikz_source_path)
         and bool(artifact_hash)
     )
 
@@ -149,10 +166,17 @@ def build_artifact_for_job(
         slot_id=job.slot_id,
         job_id=job.job_id,
         status=status,
+        artifact_kind="tikz",
         variant=job.variant,
         disclosure_policy=job.disclosure_policy,
-        image_path=image_path,
+        tikz_fragment=tikz_fragment,
+        tikz_fragment_path=tikz_fragment_path,
+        tikz_source_path=tikz_source_path,
+        tikz_standalone_path=tikz_standalone_path,
+        tikz_pdf_path=tikz_pdf_path,
+        preview_png_path=preview_png_path,
         preview_svg=preview_svg,
+        renderer_audit=renderer_audit,
         width_px=width_px,
         height_px=height_px,
         aspect_ratio=aspect_ratio,

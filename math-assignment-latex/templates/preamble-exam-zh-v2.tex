@@ -27,6 +27,10 @@
 \tcbuselibrary{skins,breakable}
 \usepackage{paracol}
 \usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{calc,intersections,angles,quotes,arrows.meta,decorations.markings,patterns.meta,backgrounds}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
 
 % ---------- 打印/屏幕颜色切换 ----------
 % 用法：\documentclass[monochrome]{exam-zh} 可降级为灰度。
@@ -534,30 +538,37 @@
   \end{tcolorbox}%
 }
 
-\newcommand{\diagramcolfigure}[3]{%
-  \begin{minipage}[t]{#2}
+\newenvironment{diagramcoltikz}[2]{%
+  \begin{minipage}[t]{#1}
     \vspace{0pt}\centering
-    \includegraphics[width=\linewidth]{\detokenize{#1}}
-    \if\relax\detokenize{#3}\relax\else
-      \par\vspace{1mm}{\scriptsize\color{edu-diagram-muted}#3}
+    \def\diagramcaption{#2}%
+    \resizebox{\linewidth}{!}\bgroup
+}{%
+    \egroup
+    \ifx\diagramcaption\empty\else
+      \par\vspace{1mm}{\scriptsize\color{edu-diagram-muted}\diagramcaption}
     \fi
   \end{minipage}%
 }
 
-\newcommand{\diagramrowitem}[4]{%
-  \begin{minipage}[t]{#2}
+\newenvironment{diagramrowtikz}[3]{%
+  \begin{minipage}[t]{#1}
     \vspace{0pt}\centering
-    \includegraphics[width=\linewidth]{\detokenize{#1}}
-    \if\relax\detokenize{#3}\relax\else
-      \par\vspace{1mm}{\scriptsize\bfseries #3}
+    \def\diagramlabel{#2}%
+    \def\diagramcaption{#3}%
+    \resizebox{\linewidth}{!}\bgroup
+}{%
+    \egroup
+    \ifx\diagramlabel\empty\else
+      \par\vspace{1mm}{\scriptsize\bfseries\diagramlabel}
     \fi
-    \if\relax\detokenize{#4}\relax\else
-      \par\vspace{0.5mm}{\scriptsize\color{edu-diagram-muted}#4}
+    \ifx\diagramcaption\empty\else
+      \par\vspace{0.5mm}{\scriptsize\color{edu-diagram-muted}\diagramcaption}
     \fi
   \end{minipage}%
 }
 
-\newcommand{\answerareawithdiagramcol}[4]{%
+\newenvironment{answerareawithdiagramtikz}[3]{%
   \vspace{3mm}%
   \begin{tcolorbox}[
     enhanced,
@@ -569,13 +580,11 @@
     height=#1,
     valign=top,
   ]
-  \begin{minipage}[t]{\dimexpr\linewidth-#3-6mm\relax}
+  \begin{minipage}[t]{\dimexpr\linewidth-#2-6mm\relax}
     \vspace{0pt}
   \end{minipage}\hfill
-  \diagramcolfigure{#2}{#3}{#4}
+  \begin{diagramcoltikz}{#2}{#3}
+}{%
+  \end{diagramcoltikz}
   \end{tcolorbox}%
-}
-
-\newcommand{\answerareawithdiagram}[4]{%
-  \answerareawithdiagramcol{#1}{#2}{#3}{#4}%
 }

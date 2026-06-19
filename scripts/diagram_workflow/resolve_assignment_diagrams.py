@@ -32,7 +32,7 @@ from diagram_contracts import (  # noqa: E402
     DiagramSlot,
     DiagramSlotRef,
     ResolvedDiagramFallback,
-    ResolvedDiagramImage,
+    ResolvedDiagramTikz,
     ResolvedDiagramPlacement,
 )
 
@@ -182,8 +182,9 @@ def _resolve_slot(
     Returns a single-key dict like {"diagram_col": {...}} ready for
     _set_by_pointer to merge into the parent container.
     """
-    resolved = ResolvedDiagramImage(
-        image_path=artifact.image_path,
+    resolved = ResolvedDiagramTikz(
+        tikz_code=artifact.tikz_fragment,
+        tikz_path=artifact.tikz_fragment_path or artifact.tikz_source_path,
         diagram_ref=slot.diagram_ref or slot.slot_id,
         diagram_job_id=artifact.job_id,
         width=slot.resolved_render_profile().width,
@@ -194,7 +195,7 @@ def _resolve_slot(
     )
 
     field = _resolved_field_for_placement(slot.placement)
-    return ResolvedDiagramPlacement(field=field, image=resolved)
+    return ResolvedDiagramPlacement(field=field, tikz=resolved)
 
 
 def _handle_missing_slot(

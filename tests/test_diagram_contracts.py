@@ -10,9 +10,13 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts" / "diagram_workflow"))
 
 from diagram_contracts import (  # noqa: E402
+    DiagramArtifact,
     DiagramEngineOptions,
     DiagramModelConfig,
+    GeometryRendererResult,
     GeometryRenderSpec,
+    ResolvedDiagramPlacement,
+    ResolvedDiagramTikz,
     ScenePayload,
     WolframRenderResult,
 )
@@ -80,6 +84,60 @@ class DiagramContractsTest(unittest.TestCase):
         self.assertEqual(config["text_model"], "unit-text")
         self.assertEqual(config.get("wl_kernel"), "/Applications/WolframKernel")
         self.assertEqual(config.vision_models[1], "unit-vision-b")
+
+    def test_tikz_renderer_result_requires_tikz_payload(self) -> None:
+        ok = GeometryRendererResult(
+            status="ok",
+            tikz_fragment_path="rendered/prompt.fragment.tex",
+            renderer_audit="renderer_audit.json",
+        )
+        self.assertEqual(ok.artifact_kind, "tikz")
+        self.assertEqual(ok.renderer, "teaching-tikz-geometry-renderer")
+
+        with self.assertRaises(ValidationError):
+            GeometryRendererResult(status="ok")
+
+    def test_bindable_artifact_is_tikz_source_not_image(self) -> None:
+        artifact = DiagramArtifact(
+            slot_id="q1.prompt",
+            job_id="q1-prompt",
+            status="ok",
+            tikz_fragment=r"\begin{tikzpicture}\draw (0,0) -- (1,0);\end{tikzpicture}",
+            hash="sha256:abc",
+            bindable=True,
+        )
+        self.assertEqual(artifact.artifact_kind, "tikz")
+        self.assertTrue(artifact.bindable)
+
+        with self.assertRaises(ValidationError):
+            DiagramArtifact(
+                slot_id="q1.prompt",
+                job_id="q1-prompt",
+                status="ok",
+                hash="sha256:abc",
+                bindable=True,
+            )
+
+    def test_resolved_diagram_placement_outputs_tikz_payload(self) -> None:
+        tikz = ResolvedDiagramTikz(
+            tikz_path="build/diagram/jobs/q1/rendered/prompt.fragment.tex",
+            diagram_ref="q1.prompt",
+            diagram_job_id="q1-prompt",
+            width="60mm",
+            caption="原题图",
+            hash="sha256:abc",
+        )
+        placement = ResolvedDiagramPlacement(field="diagram_col", tikz=tikz)
+
+        payload = placement.as_mapping()["diagram_col"]
+        self.assertEqual(payload["kind"], "tikz")
+        self.assertEqual(payload["tikz_path"], "build/diagram/jobs/q1/rendered/prompt.fragment.tex")
+
+        with self.assertRaises(ValidationError):
+            ResolvedDiagramTikz(
+                diagram_ref="q1.prompt",
+                diagram_job_id="q1-prompt",
+            )
 
 
 if __name__ == "__main__":

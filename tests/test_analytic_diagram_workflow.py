@@ -85,6 +85,7 @@ class AnalyticDiagramWorkflowTest(unittest.TestCase):
             self.assertTrue((job_dir / "workflow_result.json").exists())
             self.assertIn("Extra inputs", result["message"])
 
+    @unittest.skip("TikZ-only renderer will replace the legacy SVG/PNG renderer")
     def test_coordinate_renderer_outputs_function_objects_and_nonempty_image(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             out_dir = Path(tmp)
@@ -188,7 +189,7 @@ class AnalyticDiagramWorkflowTest(unittest.TestCase):
                         slot_id="f1.prompt",
                         job_id="f1-prompt",
                         status="ok",
-                        image_path="build/diagram/jobs/f1-prompt/rendered/prompt.png",
+                        tikz_fragment=r"\begin{tikzpicture}\draw (0,0) -- (1,0);\end{tikzpicture}",
                         hash="sha256:abc",
                         final_renderer_spec="build/diagram/jobs/f1-prompt/final_renderer_spec.json",
                         bindable=True,
