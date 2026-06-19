@@ -12,13 +12,13 @@ sys.path.insert(0, str(ROOT / "scripts" / "diagram_workflow"))
 
 from check_diagram_gate import _check_slot_layout_profiles, _check_svg_readability  # noqa: E402
 from diagram_contracts import (  # noqa: E402
-    DiagramArtifact,
-    DiagramArtifactsManifest,
     DiagramDisplayProfile,
     GeometryRenderSpec,
     DiagramJob,
     DiagramJobsManifest,
     DiagramSlot,
+    RendererBinding,
+    RendererBindingManifest,
 )
 from resolve_assignment_diagrams import resolve_assignment  # noqa: E402
 from tikz_renderer import compile_geometry_render_spec  # noqa: E402
@@ -72,12 +72,13 @@ class DiagramProfileTest(unittest.TestCase):
                 }
             ],
         }
-        artifacts = DiagramArtifactsManifest(
+        artifacts = RendererBindingManifest(
             assignment_id="profile-resolve",
             source_jobs="build/diagram/diagram_jobs.json",
-            artifacts={
-                "q1.prompt": DiagramArtifact(
+            bindings={
+                "q1.prompt": RendererBinding(
                     slot_id="q1.prompt",
+                    diagram_ref="q1.prompt",
                     job_id="q1-prompt",
                     status="ok",
                     tikz_fragment=r"\begin{tikzpicture}\draw (0,0) -- (1,0);\end{tikzpicture}",
@@ -93,6 +94,37 @@ class DiagramProfileTest(unittest.TestCase):
         self.assertIn("tikz_code", diagram_col)
         self.assertEqual(diagram_col["width"], "60mm")
         self.assertEqual(diagram_col["caption"], "原题图")
+
+    def test_resolver_refuses_ok_renderer_result_without_bindable_tikz(self) -> None:
+        plan_data = {
+            "meta": {"assignment_id": "profile-resolve"},
+            "sections": [
+                {
+                    "blocks": [
+                        {
+                            "id": "q1",
+                            "diagram_slot": slot_payload(caption="原题图"),
+                        }
+                    ]
+                }
+            ],
+        }
+        artifacts = RendererBindingManifest(
+            assignment_id="profile-resolve",
+            source_jobs="build/diagram/diagram_jobs.json",
+            bindings={
+                "q1.prompt": RendererBinding(
+                    slot_id="q1.prompt",
+                    diagram_ref="q1.prompt",
+                    job_id="q1-prompt",
+                    status="ok",
+                    bindable=False,
+                )
+            },
+        )
+
+        with self.assertRaises(ValueError):
+            resolve_assignment(plan_data, artifacts)
 
     def test_renderers_use_profile_label_style_and_value_only_conditions(self) -> None:
         profile = DiagramSlot(**slot_payload()).resolved_render_profile().model_dump(mode="json")
@@ -177,12 +209,13 @@ class DiagramProfileTest(unittest.TestCase):
                     )
                 ],
             )
-            artifacts = DiagramArtifactsManifest(
+            artifacts = RendererBindingManifest(
                 assignment_id="gate-profile",
                 source_jobs="build/diagram/diagram_jobs.json",
-                artifacts={
-                    "q1.prompt": DiagramArtifact(
+                bindings={
+                    "q1.prompt": RendererBinding(
                         slot_id="q1.prompt",
+                        diagram_ref="q1.prompt",
                         job_id="q1-prompt",
                         status="ok",
                         tikz_fragment=r"\begin{tikzpicture}\draw (0,0) -- (1,0);\end{tikzpicture}",

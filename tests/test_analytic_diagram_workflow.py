@@ -16,11 +16,11 @@ from analytic_diagram_workflow import run_analytic_workflow, sanitize_wl_express
 from check_diagram_gate import _check_analytic_renderer_specs  # noqa: E402
 from diagram_contracts import (  # noqa: E402
     DiagramAnalyticRequirements,
-    DiagramArtifact,
-    DiagramArtifactsManifest,
     DiagramJob,
     DiagramJobsManifest,
     DiagramJobRequest,
+    RendererBinding,
+    RendererBindingManifest,
 )
 from render_geometry_spec import render_geometry_spec  # noqa: E402
 from runtime import resolve_wolfram_kernel  # noqa: E402
@@ -189,12 +189,13 @@ class AnalyticDiagramWorkflowTest(unittest.TestCase):
                     )
                 ],
             )
-            artifacts = DiagramArtifactsManifest(
+            artifacts = RendererBindingManifest(
                 assignment_id="gate-analytic",
                 source_jobs="build/diagram/diagram_jobs.json",
-                artifacts={
-                    "f1.prompt": DiagramArtifact(
+                bindings={
+                    "f1.prompt": RendererBinding(
                         slot_id="f1.prompt",
+                        diagram_ref="f1.prompt",
                         job_id="f1-prompt",
                         status="ok",
                         tikz_fragment=r"\begin{tikzpicture}\draw (0,0) -- (1,0);\end{tikzpicture}",

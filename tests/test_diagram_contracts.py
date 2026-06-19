@@ -10,11 +10,11 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts" / "diagram_workflow"))
 
 from diagram_contracts import (  # noqa: E402
-    DiagramArtifact,
     DiagramEngineOptions,
     DiagramModelConfig,
     GeometryRendererResult,
     GeometryRenderSpec,
+    RendererBinding,
     ResolvedDiagramPlacement,
     ResolvedDiagramTikz,
     ScenePayload,
@@ -97,21 +97,22 @@ class DiagramContractsTest(unittest.TestCase):
         with self.assertRaises(ValidationError):
             GeometryRendererResult(status="ok")
 
-    def test_bindable_artifact_is_tikz_source_not_image(self) -> None:
-        artifact = DiagramArtifact(
+    def test_bindable_renderer_binding_is_tikz_source_not_image(self) -> None:
+        binding = RendererBinding(
             slot_id="q1.prompt",
+            diagram_ref="q1.prompt",
             job_id="q1-prompt",
             status="ok",
             tikz_fragment=r"\begin{tikzpicture}\draw (0,0) -- (1,0);\end{tikzpicture}",
             hash="sha256:abc",
             bindable=True,
         )
-        self.assertEqual(artifact.artifact_kind, "tikz")
-        self.assertTrue(artifact.bindable)
+        self.assertTrue(binding.bindable)
 
         with self.assertRaises(ValidationError):
-            DiagramArtifact(
+            RendererBinding(
                 slot_id="q1.prompt",
+                diagram_ref="q1.prompt",
                 job_id="q1-prompt",
                 status="ok",
                 hash="sha256:abc",

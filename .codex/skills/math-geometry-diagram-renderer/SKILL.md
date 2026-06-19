@@ -47,12 +47,15 @@ python3 scripts/diagram_workflow/run_assignment_diagrams.py <plan.yaml> --dry-ru
 ```text
 collect_diagram_jobs.py
 run_diagram_batch.py
-build_diagram_artifacts.py
 check_diagram_gate.py
 resolve_assignment_diagrams.py
 ```
 
 不要跳过 gate，除非正在调试脚本本身。
+
+`build_diagram_artifacts.py` 只保留为调试 dump 工具，可从 jobs 和
+`renderer_result.json` 生成 `renderer_bindings.json` 供人工检查；它不是主链路
+必需步骤。
 
 ## 语义复核
 
@@ -72,13 +75,16 @@ gate 通过后仍要抽查图义；不要只看 `usable=true`。
 ```text
 <name>.resolved.assignment.yaml
 build/diagram/diagram_jobs.json
-build/diagram/diagram_artifacts.json
 build/diagram/jobs/<job_id>/...
+build/diagram/jobs/<job_id>/renderer_result.json
+build/diagram/jobs/<job_id>/rendered/<variant>.fragment.tex
 ```
 
-只有当 `renderer_result.json.status == "ok"`、artifact `bindable: true` 且 TikZ fragment 非空时，才允许 resolver 写入 YAML TikZ 对象。
+只有当 `renderer_result.json.status == "ok"`，且由 `renderer_bindings.py`
+构建出的 binding `bindable: true`、TikZ fragment 可访问时，才允许 resolver
+写入 YAML TikZ 对象。
 
 ## References
 
 - `references/solution-reuse-contract.md`: solution/annotated 图如何复用 prompt 构型。
-- `references/gate-and-output.md`: gate 后检查、输出文件、resolved YAML 图片字段和布局尺寸。
+- `references/gate-and-output.md`: gate 后检查、输出文件、resolved YAML TikZ 字段和布局尺寸。

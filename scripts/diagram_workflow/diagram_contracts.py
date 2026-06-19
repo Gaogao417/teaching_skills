@@ -38,6 +38,7 @@ class DiagramEngine(str, Enum):
     WOLFRAM_CLIENT = "wolfram_client"
     WOLFRAM_PLOT = "wolfram_plot"
     COORDINATE_RENDERER = "coordinate_renderer"
+    RENDERER_SPEC = "renderer_spec"
 
 
 class DiagramArtifactKind(str, Enum):
@@ -371,6 +372,7 @@ class DiagramEngineOptions(DiagramModel):
     max_retries: int = Field(default=3, ge=0)
     wolfram_timeout_s: int = Field(default=30, ge=1)
     wolfram_hard_timeout_s: int = Field(default=60, ge=1)
+    renderer_spec: JsonObject = Field(default_factory=dict)
     engine_model_config: DiagramModelConfig = Field(
         default_factory=DiagramModelConfig,
         validation_alias=AliasChoices("engine_model_config", "model_config"),
@@ -948,11 +950,14 @@ class GeometryRendererResult(DiagramLooseModel):
         return self
 
 
-class DiagramArtifact(DiagramModel):
+class RendererBinding(DiagramModel):
+    """Bindable TikZ result derived directly from a job renderer_result.json."""
+
     slot_id: NonEmptyStr
-    job_id: NonEmptyStr = Field(validation_alias=AliasChoices("job_id", "diagram_job_id"))
-    status: DiagramRunStatus
-    artifact_kind: DiagramArtifactKind = DiagramArtifactKind.TIKZ
+    diagram_ref: NonEmptyStr
+    job_id: NonEmptyStr
+    status: DiagramRunStatus = DiagramRunStatus.FAILED
+    bindable: bool = False
     variant: DiagramVariant = DiagramVariant.PROMPT
     disclosure_policy: DisclosurePolicy = DisclosurePolicy.CLEAN
     tikz_fragment: str = ""
@@ -963,48 +968,42 @@ class DiagramArtifact(DiagramModel):
     preview_png_path: str = ""
     preview_svg: str = ""
     renderer_audit: str = ""
-    width_px: int | None = Field(default=None, ge=1)
-    height_px: int | None = Field(default=None, ge=1)
-    aspect_ratio: float | None = Field(default=None, gt=0)
+    renderer_result: str = ""
+    workflow_result: str = ""
+    final_renderer_spec: str = ""
     artifact_hash: str = Field(
         default="",
         validation_alias=AliasChoices("hash", "artifact_hash"),
         serialization_alias="hash",
     )
-    renderer_result: str = ""
-    workflow_result: str = ""
-    final_renderer_spec: str = ""
-    bindable: bool = False
     warnings: list[str] = Field(default_factory=list)
 
     @model_validator(mode="after")
-    def enforce_artifact_policy(self) -> DiagramArtifact:
+    def enforce_binding_policy(self) -> RendererBinding:
         if self.variant == DiagramVariant.PROMPT and self.disclosure_policy != DisclosurePolicy.CLEAN:
-            raise ValueError("prompt artifacts must use disclosure_policy='clean'")
-        if self.aspect_ratio is None and self.width_px and self.height_px:
-            self.aspect_ratio = round(self.width_px / self.height_px, 4)
+            raise ValueError("prompt renderer bindings must use disclosure_policy='clean'")
         if self.bindable:
             if self.status != DiagramRunStatus.OK:
-                raise ValueError("bindable artifacts must have status='ok'")
+                raise ValueError("bindable renderer bindings must have status='ok'")
             if not (self.tikz_fragment or self.tikz_fragment_path or self.tikz_source_path):
-                raise ValueError("bindable TikZ artifacts must have tikz_fragment, tikz_fragment_path, or tikz_source_path")
+                raise ValueError("bindable renderer bindings require tikz_fragment, tikz_fragment_path, or tikz_source_path")
             if not self.artifact_hash:
-                raise ValueError("bindable artifacts must have a hash")
+                raise ValueError("bindable renderer bindings must have a hash")
         return self
 
 
-class DiagramArtifactsManifest(DiagramModel):
-    schema_version: Literal["diagram-artifacts/v1"] = "diagram-artifacts/v1"
+class RendererBindingManifest(DiagramModel):
+    schema_version: Literal["renderer-bindings/v1"] = "renderer-bindings/v1"
     assignment_id: NonEmptyStr
     source_jobs: NonEmptyStr
-    artifacts: dict[str, DiagramArtifact] = Field(default_factory=dict)
+    bindings: dict[str, RendererBinding] = Field(default_factory=dict)
 
     @model_validator(mode="after")
-    def validate_artifact_keys(self) -> DiagramArtifactsManifest:
-        for diagram_ref, artifact in self.artifacts.items():
-            if diagram_ref != artifact.slot_id:
+    def validate_binding_keys(self) -> RendererBindingManifest:
+        for diagram_ref, binding in self.bindings.items():
+            if diagram_ref != binding.diagram_ref:
                 raise ValueError(
-                    f"artifact key '{diagram_ref}' must match artifact.slot_id '{artifact.slot_id}'"
+                    f"binding key '{diagram_ref}' must match binding.diagram_ref '{binding.diagram_ref}'"
                 )
         return self
 

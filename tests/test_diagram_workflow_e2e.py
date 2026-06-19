@@ -6,9 +6,8 @@ subprocesses and real file outputs:
 
     S2.5  collector  →  real
     S2.6  batch      →  real (workflow.py + renderer)
-    S2.7  artifacts  →  real (reads actual TikZ + JSON)
-    S2.8  gate       →  real
-    S2.9  resolver   →  real
+    S2.7  gate       →  real
+    S2.8  resolver   →  real
 
 Run from repo root:
 
@@ -30,7 +29,8 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 PYTHON = sys.executable
 
 # ---------------------------------------------------------------------------
-# The ONLY mock: a fabricated assignment.plan.yaml
+# The only fixture: a fabricated assignment.plan.yaml with deterministic
+# renderer_spec payloads. Every workflow script still runs as a subprocess.
 # ---------------------------------------------------------------------------
 
 PLAN_YAML = {
@@ -65,9 +65,22 @@ PLAN_YAML = {
                         "layout_role": "question_sidecar",
                         "display_profile": "worksheet_geometry_sidecar",
                         "caption": "等腰三角形 ABC",
-                        "engine": "geometric_scene",
+                        "engine": "renderer_spec",
                         "diagram_kind": "synthetic_geometry",
                         "teaching_intent": "practice_prompt",
+                        "engine_options": {
+                            "renderer_spec": {
+                                "points": {"A": [0, 2.4], "B": [-3, 0], "C": [3, 0], "D": [0, 0]},
+                                "segments": [
+                                    {"from": "A", "to": "B"},
+                                    {"from": "A", "to": "C"},
+                                    {"from": "B", "to": "C"},
+                                    {"from": "A", "to": "D"},
+                                ],
+                                "labels": {"A": "A", "B": "B", "C": "C", "D": "D"},
+                                "markers": [{"type": "equal_ticks", "segments": [["A", "B"], ["A", "C"]]}],
+                            }
+                        },
                         "semantic_constraints": {
                             "given_objects": ["A", "B", "C", "D"],
                             "given_constraints": ["AB=AC=5", "BC=6", "D is midpoint of BC"],
@@ -99,9 +112,22 @@ PLAN_YAML = {
                                     "layout_role": "answer_area_sidecar",
                                     "display_profile": "worksheet_geometry_sidecar",
                                     "caption": "原题图",
-                                    "engine": "geometric_scene",
+                                    "engine": "renderer_spec",
                                     "diagram_kind": "synthetic_geometry",
                                     "teaching_intent": "practice_prompt",
+                                    "engine_options": {
+                                        "renderer_spec": {
+                                            "points": {"A": [0, 2.4], "B": [-3, 0], "C": [3, 0], "D": [0, 0]},
+                                            "segments": [
+                                                {"from": "A", "to": "B"},
+                                                {"from": "A", "to": "C"},
+                                                {"from": "B", "to": "C"},
+                                                {"from": "A", "to": "D"},
+                                            ],
+                                            "labels": {"A": "A", "B": "B", "C": "C", "D": "D"},
+                                            "markers": [{"type": "equal_ticks", "segments": [["B", "D"], ["D", "C"]]}],
+                                        }
+                                    },
                                     "semantic_constraints": {
                                         "given_objects": ["A", "B", "C", "D"],
                                         "given_constraints": ["AB=AC", "BD=DC"],
@@ -241,7 +267,7 @@ def check_s26(jobs_path: Path, artifact_dir: Path, plan_path: Path) -> dict | No
     """
     heading("S2.6  run_diagram_batch.py  (REAL)")
     info("Calls workflow.py + render_geometry_spec.py")
-    info("May take 1-3 minutes (LLM + Wolfram)...\n")
+    info("Uses deterministic renderer_spec fixtures; no LLM/API key required.\n")
 
     r = run_script(
         [str(REPO_ROOT / "scripts/diagram_workflow/run_diagram_batch.py"),
@@ -324,70 +350,20 @@ def check_s26(jobs_path: Path, artifact_dir: Path, plan_path: Path) -> dict | No
 
 
 def check_s27(
-    jobs_path: Path, jobs_dir: Path, artifact_dir: Path, artifacts_path: Path,
-) -> dict | None:
-    """S2.7 artifact builder: per-job outputs -> diagram_artifacts.json
-
-    Pass iff ALL of:
-      - script exits 0
-      - for every artifact with status=ok: bindable=True
-      - for every bindable artifact: artifact_hash starts with 'sha256:'
-      - for every bindable artifact: tikz_fragment_path or tikz_source_path is non-empty
-      - for every bindable artifact: the TikZ file exists and is non-empty
-    """
-    heading("S2.7  build_diagram_artifacts.py")
-    r = run_script(
-        [str(REPO_ROOT / "scripts/diagram_workflow/build_diagram_artifacts.py"),
-         "--jobs", str(jobs_path),
-         "--jobs-dir", str(jobs_dir),
-         "--artifact-dir", str(artifact_dir),
-         "--out", str(artifacts_path)],
-        "Artifact builder",
-    )
-    if r.returncode != 0:
-        fail("Artifact builder exited non-zero")
-        return None
-
-    arts = json.loads(artifacts_path.read_text())
-    ok(f"{len(arts['artifacts'])} artifacts")
-
-    for ref, art in arts["artifacts"].items():
-        icon = GREEN + "✓" + RESET if art["bindable"] else RED + "✗" + RESET
-        print(f"  {icon} {ref}: status={art['status']}, bindable={art['bindable']}")
-
-        if art["status"] == "ok" and not art["bindable"]:
-            fail(f"  {ref}: status=ok but bindable=False")
-        if art["bindable"]:
-            if not art["artifact_hash"].startswith("sha256:"):
-                fail(f"  {ref}: invalid hash: {art.get('artifact_hash')}")
-            tikz_path = art.get("tikz_fragment_path") or art.get("tikz_source_path")
-            if not tikz_path:
-                fail(f"  {ref}: missing TikZ path")
-            else:
-                source = artifact_dir / tikz_path
-                if source.exists() and source.stat().st_size > 0:
-                    ok(f"  {ref}: {source.name} ({source.stat().st_size / 1024:.1f} KB)")
-                else:
-                    fail(f"  {ref}: TikZ source missing at {tikz_path}")
-
-    return arts
-
-
-def check_s28(
-    plan_path: Path, jobs_path: Path, artifacts_path: Path, artifact_dir: Path,
+    plan_path: Path, jobs_path: Path, jobs_dir: Path, artifact_dir: Path,
 ) -> str | None:
-    """S2.8 gate: plan + jobs + artifacts -> pass/warn/block
+    """S2.7 gate: plan + jobs + renderer_result.json -> pass/warn/block
 
     Pass iff:    gate status == "pass"
     Warn (ok):   gate status == "warn"
     Block:       gate status == "block"  (downstream uses --skip-required-check)
     """
-    heading("S2.8  check_diagram_gate.py")
+    heading("S2.7  check_diagram_gate.py")
     r = run_script(
         [str(REPO_ROOT / "scripts/diagram_workflow/check_diagram_gate.py"),
          "--plan", str(plan_path),
          "--jobs", str(jobs_path),
-         "--artifacts", str(artifacts_path),
+         "--jobs-dir", str(jobs_dir),
          "--artifact-dir", str(artifact_dir)],
         "Gate",
     )
@@ -416,14 +392,15 @@ def check_s28(
     return None
 
 
-def check_s29(
+def check_s28(
     plan_path: Path,
-    artifacts_path: Path,
+    jobs_path: Path,
+    jobs_dir: Path,
     resolved_path: Path,
     gate_status: str | None,
     artifact_dir: Path,
 ) -> None:
-    """S2.9 resolver: plan YAML + artifacts -> resolved YAML
+    """S2.8 resolver: plan YAML + renderer_result.json -> resolved YAML
 
     Pass iff ALL of:
       - script exits 0
@@ -435,13 +412,15 @@ def check_s29(
     If gate was block, uses --skip-required-check and verifies
       that unbindable slots remain as diagram_slot (partial build).
     """
-    heading("S2.9  resolve_assignment_diagrams.py")
+    heading("S2.8  resolve_assignment_diagrams.py")
     skip_flag = ["--skip-required-check"] if gate_status == "block" else []
 
     r = run_script(
         [str(REPO_ROOT / "scripts/diagram_workflow/resolve_assignment_diagrams.py"),
          str(plan_path),
-         "--artifacts", str(artifacts_path),
+         "--jobs", str(jobs_path),
+         "--jobs-dir", str(jobs_dir),
+         "--artifact-dir", str(artifact_dir),
          "--out", str(resolved_path),
          *skip_flag],
         "Resolver",
@@ -498,40 +477,36 @@ def check_s29(
 
 
 def check_gate_negative(
-    plan_path: Path, jobs_path: Path, artifacts_path: Path, artifact_dir: Path,
+    plan_path: Path, jobs_path: Path, jobs_dir: Path, artifact_dir: Path,
 ) -> None:
-    """Negative: gate blocks when all artifacts are failed.
+    """Negative: gate blocks when a required renderer result is not bindable.
 
     Pass iff ALL of:
       - gate exits rc=2
       - gate status == "block"
       - at least one check has status="block" with name containing "required"
     """
-    heading("Negative: gate blocks on all-missing artifacts")
+    heading("Negative: gate blocks on missing TikZ binding")
 
-    if not artifacts_path.exists():
-        info("Skipped: no artifacts manifest from prior stages")
-        return
+    target_rr = jobs_dir / "c1-prompt" / "renderer_result.json"
+    original = target_rr.read_text(encoding="utf-8")
+    data = json.loads(original)
+    data["tikz_fragment_path"] = ""
+    data["tikz_source_path"] = ""
+    data["tikz_fragment"] = ""
+    target_rr.write_text(json.dumps(data, indent=2), encoding="utf-8")
 
-    arts = json.loads(artifacts_path.read_text())
-    for art in arts["artifacts"].values():
-        art["status"] = "failed"
-        art["bindable"] = False
-        art["tikz_fragment"] = ""
-        art["tikz_fragment_path"] = ""
-        art["tikz_source_path"] = ""
-        art["artifact_hash"] = ""
-    missing_path = artifacts_path.parent / "diagram_artifacts_all_missing.json"
-    missing_path.write_text(json.dumps(arts, indent=2))
-
-    r = run_script(
-        [str(REPO_ROOT / "scripts/diagram_workflow/check_diagram_gate.py"),
-         "--plan", str(plan_path),
-         "--jobs", str(jobs_path),
-         "--artifacts", str(missing_path),
-         "--artifact-dir", str(artifact_dir)],
-        "Gate (all missing)",
-    )
+    try:
+        r = run_script(
+            [str(REPO_ROOT / "scripts/diagram_workflow/check_diagram_gate.py"),
+             "--plan", str(plan_path),
+             "--jobs", str(jobs_path),
+             "--jobs-dir", str(jobs_dir),
+             "--artifact-dir", str(artifact_dir)],
+            "Gate (missing TikZ binding)",
+        )
+    finally:
+        target_rr.write_text(original, encoding="utf-8")
 
     if r.returncode != 2:
         fail(f"Expected rc=2, got rc={r.returncode}")
@@ -572,7 +547,6 @@ def main() -> int:
     build_dir = td / "build" / "diagram"
     jobs_path = build_dir / "diagram_jobs.json"
     jobs_dir = build_dir / "jobs"
-    artifacts_path = build_dir / "diagram_artifacts.json"
     resolved_path = td / "assignment.resolved.yaml"
 
     plan_path.write_text(
@@ -583,10 +557,9 @@ def main() -> int:
 
     check_s25(plan_path, jobs_path)
     check_s26(jobs_path, td, plan_path)
-    check_s27(jobs_path, jobs_dir, td, artifacts_path)
-    gate_status = check_s28(plan_path, jobs_path, artifacts_path, td)
-    check_s29(plan_path, artifacts_path, resolved_path, gate_status, td)
-    check_gate_negative(plan_path, jobs_path, artifacts_path, td)
+    gate_status = check_s27(plan_path, jobs_path, jobs_dir, td)
+    check_s28(plan_path, jobs_path, jobs_dir, resolved_path, gate_status, td)
+    check_gate_negative(plan_path, jobs_path, jobs_dir, td)
 
     heading("Summary")
     if _errors == 0:
@@ -594,9 +567,8 @@ def main() -> int:
         print(f"  Only mock: assignment.plan.yaml")
         print(f"  S2.5 collector  -> real   plan YAML -> job graph")
         print(f"  S2.6 batch      -> real   workflow.py + renderer -> TikZ")
-        print(f"  S2.7 artifacts  -> real   TikZ hashes + bindable status")
-        print(f"  S2.8 gate       -> real   policy + path + hash checks")
-        print(f"  S2.9 resolver   -> real   diagram_slot -> diagram_col")
+        print(f"  S2.7 gate       -> real   policy + renderer_result checks")
+        print(f"  S2.8 resolver   -> real   diagram_slot -> diagram_col")
         return 0
     else:
         print(f"  {RED}{BOLD}{_errors} error(s){RESET}")

@@ -17,6 +17,8 @@ import sys
 from pathlib import Path
 from typing import Any
 
+from diagram_contracts import DiagramJobRequest, DiagramJobResult, GeometryRenderSpec
+
 
 SUPPORTED_GSB_TYPES = {"synthetic_geometry"}
 SUPPORTED_ANALYTIC_TYPES = {"coordinate_geometry", "function_graph"}
@@ -96,6 +98,78 @@ def run_analytic_workflow(
     print(json.dumps(result, ensure_ascii=False))
     if completed.returncode != 0:
         sys.exit(completed.returncode)
+    return result
+
+
+def _safe_renderer_spec_payload(value: object) -> dict[str, Any]:
+    if not isinstance(value, dict) or not value:
+        raise ValueError("engine_options.renderer_spec must be a non-empty object")
+    forbidden = {"tikz", "tikz_code", "tikz_fragment", "tex", "tex_source"}
+    present = sorted(forbidden & set(value))
+    if present:
+        raise ValueError(f"renderer_spec engine accepts GeometryRenderSpec only; forbidden key(s): {present}")
+    return dict(value)
+
+
+def run_renderer_spec_workflow(
+    request: dict[str, Any],
+    out_dir: Path,
+) -> dict[str, Any]:
+    """Deterministic workflow route for tests and precomputed renderer specs."""
+    try:
+        request_model = DiagramJobRequest(**request)
+        write_json(out_dir / "request.json", request_model.model_dump(mode="json", by_alias=True))
+        spec_payload = _safe_renderer_spec_payload(request_model.engine_options.renderer_spec)
+        spec_payload.update(
+            {
+                "schema_version": "geometry-render-spec/v1",
+                "job_id": request_model.job_id,
+                "variant": request_model.variant.value,
+                "disclosure_policy": request_model.disclosure_policy.value,
+                "type": request_model.diagram_kind.value,
+                "render_profile": request_model.render_profile.model_dump(mode="json"),
+            }
+        )
+        spec = GeometryRenderSpec.model_validate(spec_payload)
+        write_json(out_dir / "final_renderer_spec.json", spec.model_dump(mode="json", by_alias=True))
+        result = DiagramJobResult.model_validate(
+            {
+                "schema_version": "diagram-job-result/v2",
+                "job_id": request_model.job_id,
+                "status": "ok",
+                "fail_type": "",
+                "message": "",
+                "request": "request.json",
+                "workflow_events": "",
+                "scene_payload": "",
+                "final_renderer_spec": "final_renderer_spec.json",
+                "final_tikz_fragment_path": "",
+                "wolfram": {"success": False},
+                "model": {"text_model_used": "", "attempts": []},
+                "policy_warnings": [],
+            }
+        ).model_dump(mode="json", by_alias=True)
+    except Exception as exc:
+        result = DiagramJobResult.model_validate(
+            {
+                "schema_version": "diagram-job-result/v2",
+                "job_id": request.get("job_id") or request.get("diagram_job_id", ""),
+                "status": "failed",
+                "fail_type": "renderer_spec_workflow_failed",
+                "message": str(exc),
+                "request": "request.json",
+                "workflow_events": "",
+                "scene_payload": "",
+                "final_renderer_spec": "final_renderer_spec.json",
+                "wolfram": {"success": False},
+                "model": {"text_model_used": "", "attempts": []},
+                "policy_warnings": [],
+            }
+        ).model_dump(mode="json", by_alias=True)
+        if not (out_dir / "request.json").exists():
+            write_json(out_dir / "request.json", request)
+    write_json(out_dir / "workflow_result.json", result)
+    print(json.dumps(result, ensure_ascii=False))
     return result
 
 
@@ -219,6 +293,11 @@ def main() -> None:
 
     diagram_type = request_diagram_type(request)
     engine = request_engine(request)
+    if engine == "renderer_spec":
+        result = run_renderer_spec_workflow(request, out_dir)
+        if args.strict and result.get("status") != "ok":
+            sys.exit(1)
+        return
     if diagram_type in SUPPORTED_ANALYTIC_TYPES or engine in SUPPORTED_ANALYTIC_ENGINES:
         result = run_analytic_workflow(request_path, out_dir, args.python)
         if args.strict and result.get("status") != "ok":

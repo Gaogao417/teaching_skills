@@ -1,20 +1,19 @@
 #!/usr/bin/env python3
-"""Resolve diagram slots in plan YAML by binding generated artifacts.
+"""Resolve diagram slots in plan YAML by binding generated renderer results.
 
-Reads assignment.plan.yaml + diagram_artifacts.json, replaces each
+Reads assignment.plan.yaml + diagram_jobs.json + per-job renderer_result.json, replaces each
 diagram_slot with a resolved diagram object (diagram_col / type: diagram)
 consumable by LaTeX templates, and writes assignment.resolved.yaml.
 
 Usage:
     python3 scripts/diagram_workflow/resolve_assignment_diagrams.py <plan.yaml> \
-        --artifacts <diagram_artifacts.json> --out <resolved.yaml>
+        --jobs <diagram_jobs.json> --jobs-dir <build/diagram/jobs> --out <resolved.yaml>
 """
 
 from __future__ import annotations
 
 import argparse
 import copy
-import json
 import sys
 from pathlib import Path
 
@@ -26,15 +25,16 @@ except ImportError as exc:  # pragma: no cover
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from diagram_contracts import (  # noqa: E402
     AssignmentPlanDiagramView,
-    DiagramArtifactsManifest,
-    DiagramArtifact,
     DiagramRunStatus,
     DiagramSlot,
     DiagramSlotRef,
+    RendererBinding,
+    RendererBindingManifest,
     ResolvedDiagramFallback,
     ResolvedDiagramTikz,
     ResolvedDiagramPlacement,
 )
+from renderer_bindings import manifest_from_paths  # noqa: E402
 
 
 # ---------------------------------------------------------------------------
@@ -175,9 +175,9 @@ def _collect_slot_refs(plan: AssignmentPlanDiagramView) -> list[DiagramSlotRef]:
 
 def _resolve_slot(
     slot: DiagramSlot,
-    artifact: DiagramArtifact,
+    artifact: RendererBinding,
 ) -> ResolvedDiagramPlacement:
-    """Build a resolved diagram object from a slot and its artifact.
+    """Build a resolved diagram object from a slot and its renderer binding.
 
     Returns a single-key dict like {"diagram_col": {...}} ready for
     _set_by_pointer to merge into the parent container.
@@ -231,11 +231,11 @@ def _handle_missing_slot(
 
 def resolve_assignment(
     plan_data: AssignmentPlanDiagramView | dict[str, object],
-    artifacts_manifest: DiagramArtifactsManifest,
+    artifacts_manifest: RendererBindingManifest,
     *,
     skip_required_check: bool = False,
 ) -> dict[str, object]:
-    """Resolve all diagram slots in plan_data using artifacts.
+    """Resolve all diagram slots in plan_data using renderer bindings.
 
     Returns a deep copy of plan_data with diagram_slots replaced by
     resolved diagram objects.
@@ -253,7 +253,7 @@ def resolve_assignment(
         if isinstance(plan_data, AssignmentPlanDiagramView)
         else plan_data
     )
-    artifacts = artifacts_manifest.artifacts
+    artifacts = artifacts_manifest.bindings
 
     # Resolve each slot
     for slot_ref in _collect_slot_refs(plan_view):
@@ -262,9 +262,6 @@ def resolve_assignment(
         artifact = artifacts.get(diagram_ref)
 
         if artifact and artifact.bindable and artifact.status == DiagramRunStatus.OK:
-            replacement = _resolve_slot(slot, artifact)
-        elif artifact and artifact.status == DiagramRunStatus.OK and not artifact.bindable:
-            # Artifact exists but not fully bindable; try anyway with warnings
             replacement = _resolve_slot(slot, artifact)
         else:
             # No usable artifact
@@ -310,7 +307,7 @@ def write_yaml(path: Path, data: dict[str, object]) -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Resolve diagram slots in plan YAML using generated artifacts"
+        description="Resolve diagram slots in plan YAML using generated renderer results"
     )
     parser.add_argument(
         "plan_yaml",
@@ -318,10 +315,21 @@ def main() -> None:
         help="Path to assignment.plan.yaml",
     )
     parser.add_argument(
-        "--artifacts",
+        "--jobs",
         type=Path,
         required=True,
-        help="Path to diagram_artifacts.json",
+        help="Path to diagram_jobs.json",
+    )
+    parser.add_argument(
+        "--jobs-dir",
+        type=Path,
+        required=True,
+        help="Path to build/diagram/jobs/ directory",
+    )
+    parser.add_argument(
+        "--artifact-dir",
+        type=Path,
+        help="Artifact root directory for resolving relative TikZ paths",
     )
     parser.add_argument(
         "--out",
@@ -337,17 +345,20 @@ def main() -> None:
     args = parser.parse_args()
 
     plan_path = args.plan_yaml.resolve()
-    artifacts_path = args.artifacts.resolve()
+    jobs_path = args.jobs.resolve()
+    jobs_dir = args.jobs_dir.resolve()
+    artifact_dir = args.artifact_dir.resolve() if args.artifact_dir else plan_path.parent
     out_path = args.out.resolve()
 
     if not plan_path.exists():
         raise SystemExit(f"Plan YAML not found: {plan_path}")
-    if not artifacts_path.exists():
-        raise SystemExit(f"Artifacts manifest not found: {artifacts_path}")
+    if not jobs_path.exists():
+        raise SystemExit(f"Jobs manifest not found: {jobs_path}")
+    if not jobs_dir.exists():
+        raise SystemExit(f"Jobs directory not found: {jobs_dir}")
 
     plan_data = read_yaml(plan_path)
-    artifacts_raw = json.loads(artifacts_path.read_text(encoding="utf-8"))
-    artifacts_manifest = DiagramArtifactsManifest(**artifacts_raw)
+    artifacts_manifest = manifest_from_paths(jobs_path, jobs_dir, artifact_dir)
 
     try:
         resolved = resolve_assignment(
@@ -361,11 +372,17 @@ def main() -> None:
 
     write_yaml(out_path, resolved)
     print(f"Resolved YAML written to {out_path}")
-    slot_count = sum(
-        1 for sp, sd in _collect_slots_from_result(resolved)
-        if not sd  # empty dict means slot was removed
+    resolved_count = sum(
+        1 for _, payload in _collect_slots_from_result(resolved)
+        if payload.get("kind") == "tikz"
     )
-    print(f"Slots resolved: {slot_count}")
+    remaining_slots = sum(
+        1 for path, _ in _collect_slots_from_result(resolved)
+        if path.endswith(".diagram_slot")
+    )
+    print(f"TikZ diagrams resolved: {resolved_count}")
+    if remaining_slots:
+        print(f"Remaining diagram_slot entries: {remaining_slots}", file=sys.stderr)
 
 
 def _collect_slots_from_result(data: dict) -> list[tuple[str, dict]]:

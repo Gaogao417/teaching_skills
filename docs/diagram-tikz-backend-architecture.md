@@ -19,7 +19,7 @@ diagram_slot
   -> TikzDiagramSpec
   -> tikz fragment (.tex)
   -> renderer_result.json
-  -> diagram_artifacts.json
+  -> RendererBindingManifest
   -> resolved YAML with kind: tikz
   -> assignment TeX inlines or inputs TikZ
 ```
@@ -238,13 +238,17 @@ rendered/<variant>.preview.svg
 }
 ```
 
-### 2.9 Artifact Stage
+### 2.9 Binding And Gate Stage
 
-`build_diagram_artifacts.py` hashes the TikZ fragment, not the preview image.
+`renderer_bindings.py` reads `diagram_jobs.json` and each job's
+`renderer_result.json`, resolves the TikZ fragment path, and hashes the TikZ
+source. This in-memory binding manifest is the single source consumed by gate
+and resolver.
 
 ```text
-renderer_result.json
-  -> diagram_artifacts.json
+diagram_jobs.json + jobs/<job_id>/renderer_result.json
+  -> RendererBindingManifest
+  -> gate / resolver
 ```
 
 Bindable means:
@@ -258,6 +262,10 @@ artifact_hash starts with sha256:
 
 Preview images are not required for final LaTeX inclusion, but they can be
 required by visual gate policies.
+
+`build_diagram_artifacts.py` is now only a debug helper that can dump those
+bindings to `renderer_bindings.json`; the production chain does not require a
+`diagram_artifacts.json` file.
 
 ### 2.10 Resolver Stage
 
@@ -346,12 +354,15 @@ renderer_audit
 
 No `image_path` is required or considered bindable.
 
-### 3.2 Artifact Manifest
+### 3.2 Renderer Binding
 
-`DiagramArtifact` is TikZ-only:
+`RendererBinding` is derived from `diagram_jobs.json` and per-job
+`renderer_result.json`:
 
 ```text
-artifact_kind = tikz
+diagram_ref
+job_id
+status
 tikz_fragment
 tikz_fragment_path
 tikz_source_path
@@ -362,6 +373,7 @@ preview_svg
 renderer_audit
 artifact_hash
 bindable
+warnings
 ```
 
 `bindable=true` means the TikZ source can be included in final TeX.
@@ -761,18 +773,18 @@ Final assignment compile failure remains fatal.
 
 ## 8. Migration Tasks
 
-1. Replace renderer-result and artifact contracts with TikZ-only payloads.
-2. Make artifact builder hash TikZ source instead of PNG.
-3. Make resolver output `kind: tikz` payloads.
-4. Make LaTeX templates render `tikz_code` or `tikz_path`.
-5. Implement deterministic `GeometryRenderSpec -> TikzDiagramSpec`.
-6. Implement `TikzDiagramSpec -> fragment.tex`.
-7. Add optional preview compilation and audit.
-8. Update gate checks to read TikZ audit, not SVG text metadata.
-9. Update e2e tests so bindable means TikZ source, not image path.
-10. Add shared semantic macros for point labels, segment labels, angle marks,
+1. Keep renderer-result as the renderer output contract and derive bindable
+   facts through `RendererBindingManifest`.
+2. Make resolver output `kind: tikz` payloads.
+3. Make LaTeX templates render `tikz_code` or `tikz_path`.
+4. Implement deterministic `GeometryRenderSpec -> TikzDiagramSpec`.
+5. Implement `TikzDiagramSpec -> fragment.tex`.
+6. Add optional preview compilation and audit.
+7. Update gate checks to read TikZ audit, not SVG text metadata.
+8. Update e2e tests so bindable means TikZ source, not image path.
+9. Add shared semantic macros for point labels, segment labels, angle marks,
     right-angle marks, equal ticks, tags, and visual intersections.
-11. Replace primitive synthetic-geometry marker output with semantic macro
+10. Replace primitive synthetic-geometry marker output with semantic macro
     calls backed by TikZ `calc`, `angles`, `quotes`, and `intersections`.
 
 ## 9. Acceptance Criteria
@@ -783,7 +795,8 @@ TikZ-only architecture is ready when:
 required diagram slots resolve to kind: tikz
 resolved YAML contains tikz_code or tikz_path
 assignment templates compile TikZ directly
-diagram_artifacts.json hashes TikZ source
+renderer_result.json is the only per-job renderer truth
+RendererBindingManifest hashes TikZ source
 preview PNG/SVG is optional and marked diagnostic
 student YAML cannot bind annotated solution TikZ
 gate checks use renderer_audit.json

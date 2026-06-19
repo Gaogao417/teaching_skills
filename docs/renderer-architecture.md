@@ -1,5 +1,10 @@
 # Renderer Architecture and Contract
 
+> Status: historical renderer notes from the PNG/SVG period. The active
+> renderer is TikZ-only: `final_renderer_spec.json -> rendered/<variant>.fragment.tex
+> -> renderer_result.json`, and gate/resolver derive bindable facts with
+> `RendererBindingManifest`.
+
 ## 0. 核心结论
 
 renderer 只做一件事：
