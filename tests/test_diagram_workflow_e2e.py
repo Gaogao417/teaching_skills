@@ -55,6 +55,7 @@ PLAN_YAML = {
                         "C": r"$\sqrt{7}$",
                         "D": r"$2\sqrt{6}$",
                     },
+                    "answer": "B",
                     "diagram_slot": {
                         "slot_id": "c1.prompt",
                         "variant": "prompt",

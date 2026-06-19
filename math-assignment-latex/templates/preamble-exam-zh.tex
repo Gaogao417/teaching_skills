@@ -207,13 +207,16 @@
   \end{tcolorbox}%
 }
 
+\newsavebox{\diagramtikzbox}
+
 \newenvironment{diagramcoltikz}[2]{%
   \begin{minipage}[t]{#1}
     \vspace{0pt}\centering
     \def\diagramcaption{#2}%
-    \resizebox{\linewidth}{!}\bgroup
+    \begin{lrbox}{\diagramtikzbox}%
 }{%
-    \egroup
+    \end{lrbox}%
+    \resizebox{\linewidth}{!}{\usebox{\diagramtikzbox}}%
     \ifx\diagramcaption\empty\else
       \par\vspace{1mm}{\scriptsize\color{edu-diagram-muted}\diagramcaption}
     \fi
@@ -225,9 +228,10 @@
     \vspace{0pt}\centering
     \def\diagramlabel{#2}%
     \def\diagramcaption{#3}%
-    \resizebox{\linewidth}{!}\bgroup
+    \begin{lrbox}{\diagramtikzbox}%
 }{%
-    \egroup
+    \end{lrbox}%
+    \resizebox{\linewidth}{!}{\usebox{\diagramtikzbox}}%
     \ifx\diagramlabel\empty\else
       \par\vspace{1mm}{\scriptsize\bfseries\diagramlabel}
     \fi
