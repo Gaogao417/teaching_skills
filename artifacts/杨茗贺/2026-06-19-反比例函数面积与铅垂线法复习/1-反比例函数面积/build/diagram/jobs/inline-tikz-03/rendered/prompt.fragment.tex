@@ -1,0 +1,16 @@
+\begin{tikzpicture}[scale=0.625,>=latex]
+  \draw[->] (-5.2,0)--(1.2,0) node[right]{$x$};
+  \draw[->] (0,-3.8)--(0,4.2) node[above]{$y$};
+  \node[below right] at (0,0){$O$};
+  \draw[smooth,domain=-4.6:-0.75,samples=80] plot(\x,{-3/\x});
+  \coordinate (A) at (-2.2,1.36);
+  \coordinate (D) at (-2.2,0);
+  \coordinate (B) at (-2.2,-1.36);
+  \coordinate (C) at (0,0.8);
+  \draw (A)--(B)--(C)--cycle;
+  \draw[dashed] (A)--(D);
+  \fill (A) circle(1.45pt) node[left]{$A$};
+  \fill (B) circle(1.45pt) node[left]{$B$};
+  \fill (C) circle(1.45pt) node[right]{$C$};
+  \fill (D) circle(1.45pt) node[below]{$D$};
+\end{tikzpicture}

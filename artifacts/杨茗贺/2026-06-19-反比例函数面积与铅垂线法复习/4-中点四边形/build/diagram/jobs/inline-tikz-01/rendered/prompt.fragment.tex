@@ -1,0 +1,9 @@
+\begin{tikzpicture}[scale=0.7111]
+  \coordinate (B) at (0,0); \coordinate (C) at (6,0);
+  \coordinate (A) at (-3,5.196); \coordinate (D) at (3,5.196);
+  \coordinate (E) at (-1.5,2.598); \coordinate (F) at (3,0); \coordinate (G) at (4.5,2.598); \coordinate (H) at (0,5.196);
+  \draw (A)--(B)--(C)--(D)--cycle;
+  \draw[dashed] (A)--(C) (B)--(D);
+  \draw[thick] (E)--(F)--(G)--(H)--cycle;
+  \foreach \p/\pos in {A/above left,B/below,C/below,D/above,E/left,F/below,G/right,H/above}\fill(\p)circle(1.45pt)node[\pos]{$\p$};
+\end{tikzpicture}

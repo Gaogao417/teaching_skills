@@ -1,0 +1,137 @@
+meta:
+  title: 角平分线和平行线推出等腰
+  subtitle: 杨茗贺 · 学生讲义
+  grade: 八年级
+  subject: 数学
+  version: student
+  source_artifacts:
+    structure_analysis: artifacts/杨茗贺/2026-06-19-反比例函数面积与铅垂线法复习/3-角平分线等腰/01-structure-analysis.md
+render:
+  template: exam-zh-explanation
+  paper_size: a4paper
+sections:
+- id: main
+  title: 模型：角平分线和平行线推出等腰
+  show_title: true
+  type: explanation
+  visibility: student
+  blocks:
+  - type: solution
+    id: knowledge
+    title: 核心结论：角平分、平行线、翻折都在制造等角
+    items:
+    - latex: 角平分线给出一组相等角。
+    - latex: 平行线给出另一组相等角。
+    - latex: 翻折题中，折痕两侧的对应角相等；常常等价于出现一条角平分线。
+    - latex: 两组角合在一起，推出某个三角形有两个角相等。
+    - latex: 两角相等，则所对的边相等。
+  - type: problemcard
+    id: ex1
+    label: 例题 1
+    stem_latex: '如图，在矩形 $ABCD$ 中，$BE$ 平分 $\angle ABC$，交 $AD$ 于点 $E$，连接 $CE$。若 $AB=5$，$BC=8$，求 $CE$ 的长。
+
+      \begin{center}
+
+      \input{\detokenize{build/diagram/jobs/inline-tikz-01/rendered/prompt.fragment.tex}}
+
+      \end{center}
+
+      '
+  - type: route
+    id: ex1-route
+    steps:
+    - id: ex1-angle
+      latex: 证明等腰
+      content_latex: $BE$ 平分 $\angle ABC$，所以 $\angle ABE=\angle EBC$。又 $AD\parallel BC$，所以 $\angle AEB=\angle EBC$。因此 $\triangle ABE$ 是等腰三角形，$AE=AB=5$。
+    - id: ex1-ce
+      latex: 求 $CE$
+      content_latex: $DE=AD-AE=8-5=3$，$CD=5$，所以 $CE=\sqrt{5^2+3^2}=\sqrt{34}$。
+  - type: dual_explanation
+    id: ex1-sol
+    label: 例题 1
+    stem_latex: 求 $CE$。
+    side_title: 小贴士
+    side_items:
+    - kind: mistake
+      title: 等腰边别找错
+      content_latex: 相等的是 $AE$ 和 $AB$，不是 $BE$。
+    solution_title: 解答
+    solution_step_ids:
+    - ex1-angle
+    - ex1-ce
+  - type: problemcard
+    id: ex-fold
+    label: 例题 2
+    stem_latex: '如图，在矩形 $ABCD$ 中，$AB=6$，$BC=8$。沿对角线 $AC$ 翻折，使点 $B$ 落在点 $B''$ 处，线段 $CB''$ 交 $AD$ 于点 $E$。求 $AE$ 的长。
+
+      \begin{center}
+
+      \input{\detokenize{build/diagram/jobs/inline-tikz-02/rendered/prompt.fragment.tex}}
+
+      \end{center}
+
+      '
+  - type: route
+    id: ex-fold-route
+    steps:
+    - id: ex-fold-angle
+      latex: 翻折和平行线给等角
+      content_latex: 沿 $AC$ 翻折，$CB$ 的对应线段为 $CB'$，所以 $\angle BCA=\angle ACB'$。又 $AD\parallel BC$，所以 $\angle EAC=\angle BCA$。因此 $\angle EAC=\angle ACE$。
+    - id: ex-fold-isosceles
+      latex: 得到等腰三角形
+      content_latex: $\triangle AEC$ 中两个底角相等，所以 $AE=CE$。
+    - id: ex-fold-calc
+      latex: 列方程求 $AE$
+      content_latex: 设 $AE=x$，则 $DE=8-x$，$CD=6$。由 $CE=AE$，得 $x^2=(8-x)^2+6^2$，解得 $x=\dfrac{25}{4}$。
+  - type: dual_explanation
+    id: ex-fold-sol
+    label: 例题 2
+    stem_latex: 用翻折中的等角关系求 $AE$。
+    side_title: 小贴士
+    side_items:
+    - kind: hint
+      title: 翻折看角
+      content_latex: 折过去的线段和原线段对应，角也对应相等；再用矩形的平行边把角搬到 $\triangle AEC$。
+    solution_title: 解答
+    solution_step_ids:
+    - ex-fold-angle
+    - ex-fold-isosceles
+    - ex-fold-calc
+  - type: problemcard
+    id: ex2
+    label: 例题 3
+    stem_latex: '如图，在正方形 $ABCD$ 中，点 $E$ 是 $CD$ 的中点，$BF$ 平分 $\angle ABE$，交 $AD$ 于点 $F$。以 $B$ 为原点，以 $BC$ 所在直线为 $x$ 轴，以 $BA$ 所在直线为 $y$ 轴建立坐标系。若 $E(2,1)$，求点 $D$ 和点 $F$ 的坐标。
+
+      \begin{center}
+
+      \input{\detokenize{build/diagram/jobs/inline-tikz-03/rendered/prompt.fragment.tex}}
+
+      \end{center}
+
+      '
+  - type: route
+    id: ex2-route
+    steps:
+    - id: ex2-d
+      latex: 确定正方形
+      content_latex: $E$ 是 $CD$ 中点且 $E(2,1)$，所以正方形边长为 $2$，$D(2,2)$。
+    - id: ex2-g
+      latex: 延长得到等腰
+      content_latex: 延长 $BF$ 交 $CD$ 延长线于 $G$。由 $AB\parallel GE$ 和角平分线，得 $\triangle BGE$ 为等腰三角形，$GE=BE=\sqrt5$。
+    - id: ex2-f
+      latex: 求 $F$
+      content_latex: $G(2,1+\sqrt5)$，直线 $BG:y=\dfrac{1+\sqrt5}{2}x$。令 $y=2$，得 $x=\sqrt5-1$，所以 $F(\sqrt5-1,2)$。
+  - type: dual_explanation
+    id: ex2-sol
+    label: 例题 3
+    stem_latex: 求 $D,F$ 的坐标。
+    side_title: 小贴士
+    side_items:
+    - kind: hint
+      title: 为什么延长
+      content_latex: 延长到 $CD$ 所在直线后，才能用 $AB\parallel GE$ 搬角。
+    solution_title: 解答
+    solution_step_ids:
+    - ex2-d
+    - ex2-g
+    - ex2-f

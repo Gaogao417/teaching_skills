@@ -1,0 +1,15 @@
+\begin{tikzpicture}[scale=0.651]
+  \coordinate (A) at (0,6); \coordinate (B) at (0,0);
+  \coordinate (C) at (8,0); \coordinate (D) at (8,6);
+  \coordinate (E) at (6.25,6); \coordinate (Bp) at (5.76,7.68);
+  \draw (A)--(B)--(C)--(D)--cycle;
+  \draw (A)--(C);
+  \draw[dashed] (B)--(Bp);
+  \draw (C)--(Bp);
+  \fill (A) circle(1.45pt) node[above left]{$A$};
+  \fill (B) circle(1.45pt) node[below left]{$B$};
+  \fill (C) circle(1.45pt) node[below right]{$C$};
+  \fill (D) circle(1.45pt) node[above right]{$D$};
+  \fill (E) circle(1.45pt) node[above]{$E$};
+  \fill (Bp) circle(1.45pt) node[above]{$B'$};
+\end{tikzpicture}

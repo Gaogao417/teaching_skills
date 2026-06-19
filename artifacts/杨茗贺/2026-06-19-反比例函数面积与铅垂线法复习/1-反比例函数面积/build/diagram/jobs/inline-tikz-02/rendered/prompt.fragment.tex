@@ -1,0 +1,13 @@
+\begin{tikzpicture}[scale=0.7353,>=latex]
+  \draw[->] (-0.8,0)--(5,0) node[right]{$x$};
+  \draw[->] (0,-3.8)--(0,3) node[above]{$y$};
+  \node[below left] at (0,0){$O$};
+  \draw[smooth,domain=0.8:4.8,samples=80] plot(\x,{-3/\x});
+  \coordinate (A) at (2.5,-1.2);
+  \coordinate (M) at (2.5,0);
+  \coordinate (C) at (0,1.8);
+  \draw (A)--(M)--(C)--cycle;
+  \fill (A) circle(1.45pt) node[right]{$A$};
+  \fill (M) circle(1.45pt) node[above]{$M$};
+  \fill (C) circle(1.45pt) node[left]{$C$};
+\end{tikzpicture}

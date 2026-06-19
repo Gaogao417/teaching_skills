@@ -1,0 +1,97 @@
+meta:
+  title: 中点四边形
+  subtitle: 杨茗贺 · 学生讲义
+  grade: 八年级
+  subject: 数学
+  version: student
+  source_artifacts:
+    structure_analysis: artifacts/杨茗贺/2026-06-19-反比例函数面积与铅垂线法复习/4-中点四边形/01-structure-analysis.md
+render:
+  template: exam-zh-explanation
+  paper_size: a4paper
+sections:
+- id: main
+  title: 模型：中点四边形反看原对角线
+  show_title: true
+  type: explanation
+  visibility: student
+  blocks:
+  - type: solution
+    id: knowledge
+    title: 核心结论：新边对应原对角线
+    items:
+    - latex: $EF\parallel AC$，$EF=\dfrac12AC$；$FG\parallel BD$，$FG=\dfrac12BD$。
+    - latex: $EFGH$ 一定是平行四边形。
+    - latex: $EFGH$ 是菱形 $\Rightarrow AC=BD$；若原图 $ABCD$ 是平行四边形，则原图是矩形。
+    - latex: $EFGH$ 是矩形 $\Rightarrow AC\perp BD$；若原图 $ABCD$ 是平行四边形，则原图是菱形。
+    - latex: $EFGH$ 是正方形 $\Rightarrow AC=BD$ 且 $AC\perp BD$；若原图是平行四边形，则原图是正方形。
+  - type: problemcard
+    id: ex1
+    label: 例题 1
+    stem_latex: '如图，在平行四边形 $ABCD$ 中，$E,F,G,H$ 分别是 $AB,BC,CD,DA$ 的中点，四边形 $EFGH$ 是矩形。若 $\angle ABC=120^\circ$，$AC=6\sqrt3$，求平行四边形 $ABCD$ 的周长和面积。
+
+      \begin{center}
+
+      \input{\detokenize{build/diagram/jobs/inline-tikz-01/rendered/prompt.fragment.tex}}
+
+      \end{center}
+
+      '
+  - type: route
+    id: ex1-route
+    steps:
+    - id: ex1-rhombus
+      latex: 由中点四边形反推原图形
+      content_latex: $EFGH$ 是矩形，所以 $EF\perp FG$。又 $EF\parallel AC$，$FG\parallel BD$，因此 $AC\perp BD$。平行四边形对角线互相垂直，所以 $ABCD$ 是菱形。
+    - id: ex1-side
+      latex: 用菱形性质求边长
+      content_latex: 在菱形 $ABCD$ 中，$AB=BC=s$。$\angle ABC=120^\circ$，所以 $AC^2=s^2+s^2-2s^2\cos120^\circ=3s^2$。由 $AC=6\sqrt3$，得 $s=6$。
+    - id: ex1-result
+      latex: 求周长和面积
+      content_latex: 周长为 $4s=24$；面积为 $s^2\sin120^\circ=36\cdot\dfrac{\sqrt3}{2}=18\sqrt3$。
+  - type: dual_explanation
+    id: ex1-sol
+    label: 例题 1
+    stem_latex: 由中点四边形是矩形，反推原图形并继续计算。
+    side_title: 小贴士
+    side_items:
+    - kind: hint
+      title: 不要停在判形状
+      content_latex: 真正的考点常常是：先反推出原图形是菱形/矩形，再用这个特殊图形的性质继续算。
+    solution_title: 解答
+    solution_step_ids:
+    - ex1-rhombus
+    - ex1-side
+    - ex1-result
+  - type: problemcard
+    id: ex2
+    label: 例题 2
+    stem_latex: '判断正误，并说明理由：在任意四边形 $ABCD$ 中，若中点四边形 $EFGH$ 是矩形，则原四边形 $ABCD$ 一定是菱形。
+
+      '
+  - type: route
+    id: ex2-route
+    steps:
+    - id: ex2-relation
+      latex: 先写能推出什么
+      content_latex: $EFGH$ 是矩形，只能推出 $EF\perp FG$，即原四边形两条对角线 $AC\perp BD$。
+    - id: ex2-condition
+      latex: 检查是否能判原图形
+      content_latex: 若 $ABCD$ 只是任意四边形，对角线垂直不能推出它是菱形；只有先知道 $ABCD$ 是平行四边形，才能由对角线垂直推出菱形。
+    - id: ex2-answer
+      latex: 结论
+      content_latex: 原命题错误。缺少“$ABCD$ 是平行四边形”的条件。
+  - type: dual_explanation
+    id: ex2-sol
+    label: 例题 2
+    stem_latex: 判断命题是否正确。
+    side_title: 小贴士
+    side_items:
+    - kind: mistake
+      title: 任意四边形不能乱反推
+      content_latex: 中点四边形告诉你的是原对角线关系；要把原图形判成矩形/菱形，还需要原图形本来是平行四边形。
+    solution_title: 解答
+    solution_step_ids:
+    - ex2-relation
+    - ex2-condition
+    - ex2-answer

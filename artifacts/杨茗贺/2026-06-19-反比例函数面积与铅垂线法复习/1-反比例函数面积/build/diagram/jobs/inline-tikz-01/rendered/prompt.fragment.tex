@@ -1,0 +1,12 @@
+\begin{tikzpicture}[scale=0.6579,>=latex]
+  \draw[->] (-4.8,0)--(4.8,0) node[right]{$x$};
+  \draw[->] (0,-3.8)--(0,3.8) node[above]{$y$};
+  \node[below right] at (0,0){$O$};
+  \draw[smooth,domain=-4.5:-0.8,samples=80] plot(\x,{-4/\x});
+  \draw[smooth,domain=0.8:4.5,samples=80] plot(\x,{-4/\x});
+  \coordinate (A) at (-3,1.33);
+  \draw[dashed] (A)--(-3,0) node[below]{$M$};
+  \draw[dashed] (A)--(0,1.33) node[right]{$N$};
+  \draw (-3,0)--(0,0)--(0,1.33)--(A)--cycle;
+  \fill (A) circle(1.45pt) node[above left]{$A$};
+\end{tikzpicture}

@@ -1,0 +1,15 @@
+\begin{tikzpicture}[scale=0.8,>=latex]
+  \draw[->] (-3,0)--(5,0) node[right]{$x$};
+  \draw[->] (0,-1.5)--(0,4) node[above]{$y$};
+  \coordinate (O) at (0,0);
+  \coordinate (A) at (4,2);
+  \coordinate (B) at (-2,3);
+  \coordinate (M) at (-2,-1);
+  \draw (O)--(A)--(B)--cycle;
+  \draw[dashed] (B)--(M);
+  \draw[dotted] (O)--(M);
+  \fill (O) circle(1.45pt) node[below right]{$O$};
+  \fill (A) circle(1.45pt) node[right]{$A$};
+  \fill (B) circle(1.45pt) node[left]{$B$};
+  \fill (M) circle(1.45pt) node[left]{$M$};
+\end{tikzpicture}
