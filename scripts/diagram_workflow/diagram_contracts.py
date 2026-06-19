@@ -636,7 +636,7 @@ class RenderPolygon(DiagramLooseModel):
     points: list[NonEmptyStr] = Field(min_length=3)
     stroke: str = "#374151"
     stroke_width: float = Field(default=2.0, gt=0)
-    fill: str = "#eff6ff"
+    fill: str = "none"
 
     @model_validator(mode="before")
     @classmethod

@@ -119,6 +119,34 @@ class TikzRendererTest(unittest.TestCase):
             fragment = (out_dir / result["tikz_fragment_path"]).read_text(encoding="utf-8")
             self.assertIn(r"\PointLabel[above right]{A}", fragment)
 
+    def test_polygon_default_is_unfilled(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            out_dir = Path(tmp)
+            spec_path = out_dir / "final_renderer_spec.json"
+            spec_path.write_text(
+                json.dumps(
+                    {
+                        "schema_version": "geometry-render-spec/v1",
+                        "job_id": "unfilled-polygon",
+                        "variant": "prompt",
+                        "type": "synthetic_geometry",
+                        "points": {"A": [0, 0], "B": [3, 0], "C": [0, 2]},
+                        "segments": [{"from": "A", "to": "B"}, {"from": "B", "to": "C"}, {"from": "C", "to": "A"}],
+                        "polygons": [{"points": ["A", "B", "C"]}],
+                        "labels": {"A": "A", "B": "B", "C": "C"},
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            with patch("render_geometry_spec.build_previews", return_value=PreviewResult()):
+                result = render_geometry_spec(spec_path, out_dir, variant="prompt")
+
+            fragment = (out_dir / result["tikz_fragment_path"]).read_text(encoding="utf-8")
+            triangle_line = next(line for line in fragment.splitlines() if r"\Triangle[" in line)
+            self.assertIn("draw=", triangle_line)
+            self.assertNotIn("fill=", triangle_line)
+
     def test_coordinate_geometry_outputs_axis_and_structured_objects(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             out_dir = Path(tmp)
