@@ -1,0 +1,159 @@
+meta:
+  title: 反比例函数面积练习
+  subtitle: 杨茗贺 · 教师版
+  grade: 八年级
+  subject: 数学
+  duration: 25分钟
+  total_points: 48
+  version: teacher
+  source_artifacts:
+    structure_analysis: artifacts/杨茗贺/2026-06-19-反比例函数面积与铅垂线法复习/1-反比例函数面积/01-structure-analysis.md
+    explanation: artifacts/杨茗贺/2026-06-19-反比例函数面积与铅垂线法复习/1-反比例函数面积/02-student-explanation.assignment.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: main
+  title: 一、解答题（每题 8 分，共 48 分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: q1
+    points: 8
+    label: 第 1 题
+    stem_latex: "如图，点 $A$ 在反比例函数 $y=\\dfrac{k}{x}$ 的图像上，过点 $A$ 分别向坐标轴作垂线。若围成的矩形面积为 $12$，且图像在第二、四象限，求 $k$。\n\\begin{center}\n\\begin{tikzpicture}[scale=0.45,>=latex]\n  \\draw[->] (-4.8,0)--(4.8,0) node[right]{$x$};\n  \\draw[->] (0,-3.8)--(0,3.8) node[above]{$y$};\n  \\node[below right] at (0,0){$O$};\n  \\draw[smooth,domain=-4.5:-0.8,samples=80] plot(\\x,{-4/\\x});\n  \\draw[smooth,domain=0.8:4.5,samples=80] plot(\\x,{-4/\\x});\n  \\coordinate (A) at (-3,1.33);\n  \\draw[dashed] (A)--(-3,0) node[below]{$M$};\n  \\draw[dashed] (A)--(0,1.33) node[right]{$N$};\n  \\draw (-3,0)--(0,0)--(0,1.33)--(A)--cycle;\n  \\fill (A) circle(2pt) node[above left]{$A$};\n\\end{tikzpicture}\n\\end{center}\n"
+    hints:
+    - content: 矩形面积对应 $|k|$。
+    answer_space:
+      type: steps
+      height: 30mm
+      step_count: 3
+    answer: $k=-12$
+    solution_steps:
+    - title: 面积转化
+      content: 围成矩形面积为 $|k|$，所以 $|k|=12$。
+    - title: 确定符号
+      content: 图像在第二、四象限，所以 $k<0$。
+    - title: 答案
+      content: 故 $k=-12$。
+  - type: problem
+    id: q2
+    points: 8
+    label: 第 2 题
+    stem_latex: "如图，反比例函数 $y=\\dfrac{t^2-4t-5}{x}$ 的图像在每一支上，$y$ 随 $x$ 的增大而增大。点 $A$ 在图像上，过 $A$ 向两坐标轴作垂线，围成的矩形面积为 $5$。求 $t$。\n\\begin{center}\n\\begin{tikzpicture}[scale=0.45,>=latex]\n  \\draw[->] (-4.8,0)--(4.8,0) node[right]{$x$};\n  \\draw[->] (0,-3.8)--(0,3.8) node[above]{$y$};\n  \\node[below right] at (0,0){$O$};\n  \\draw[smooth,domain=-4.5:-0.8,samples=80] plot(\\x,{-3/\\x});\n  \\draw[smooth,domain=0.8:4.5,samples=80] plot(\\x,{-3/\\x});\n  \\coordinate (A) at (2.4,-1.25);\n  \\draw[dashed] (A)--(2.4,0);\n  \\draw[dashed] (A)--(0,-1.25);\n  \\draw (0,0)--(2.4,0)--(A)--(0,-1.25)--cycle;\n  \\fill (A) circle(2pt) node[below right]{$A$};\n\\end{tikzpicture}\n\\end{center}\n"
+    hints:
+    - content: 每一支上随 $x$ 增大而增大，对应系数小于 0。
+    answer_space:
+      type: steps
+      height: 38mm
+      step_count: 4
+    answer: $t=0$ 或 $t=4$
+    solution_steps:
+    - title: 判断符号
+      content: 每一支上 $y$ 随 $x$ 增大而增大，所以 $t^2-4t-5<0$。
+    - title: 列方程
+      content: 矩形面积为 $|t^2-4t-5|=5$，结合系数为负，得 $t^2-4t-5=-5$。
+    - title: 解方程
+      content: $t^2-4t=0$，所以 $t=0$ 或 $t=4$。
+  - type: problem
+    id: q3
+    points: 8
+    label: 第 3 题
+    stem_latex: "如图，点 $A(x,y)$ 在反比例函数 $y=\\dfrac{k}{x}$ 上，过 $A$ 向 $x$ 轴作垂线，垂足为 $M$。点 $C(0,7)$ 在 $y$ 轴上。若 $\\triangle AMC$ 的面积为 $9$，且图像在第一、三象限，求 $k$。\n\\begin{center}\n\\begin{tikzpicture}[scale=0.45,>=latex]\n  \\draw[->] (-1,0)--(5,0) node[right]{$x$};\n  \\draw[->] (0,-0.8)--(0,4.6) node[above]{$y$};\n  \\node[below left] at (0,0){$O$};\n  \\draw[smooth,domain=0.75:4.8,samples=80] plot(\\x,{3/\\x});\n  \\coordinate (A) at (2.8,1.07);\n  \\coordinate (M) at (2.8,0);\n  \\coordinate (C) at (0,2.7);\n  \\draw (A)--(M)--(C)--cycle;\n  \\fill (A) circle(2pt) node[right]{$A$};\n  \\fill (M) circle(2pt) node[below]{$M$};\n  \\fill (C) circle(2pt) node[left]{$C$};\n\\end{tikzpicture}\n\\end{center}\n"
+    hints:
+    - content: 点 $C$ 到竖直线 $AM$ 的距离仍是 $|x|$。
+    answer_space:
+      type: steps
+      height: 34mm
+      step_count: 4
+    answer: $k=18$
+    solution_steps:
+    - title: 面积模型
+      content: $AM=|y|$，点 $C$ 到 $AM$ 的距离为 $|x|$，所以 $S_{\triangle AMC}=\frac{|k|}{2}$。
+    - title: 求 $k$
+      content: $\frac{|k|}{2}=9$，得 $|k|=18$。图像在第一、三象限，所以 $k=18$。
+  - type: problem
+    id: q4
+    points: 8
+    label: 第 4 题
+    stem_latex: "如图，点 $A$ 在反比例函数 $y=\\dfrac{3-q}{x}$ 上，过 $A$ 向 $y$ 轴作垂线，垂足为 $N$。点 $D(-5,0)$ 在 $x$ 轴上。若 $\\triangle AND$ 的面积为 $6$，且图像在第二、四象限，求 $q$。\n\\begin{center}\n\\begin{tikzpicture}[scale=0.45,>=latex]\n  \\draw[->] (-5,0)--(3.5,0) node[right]{$x$};\n  \\draw[->] (0,-0.8)--(0,4.2) node[above]{$y$};\n  \\node[below right] at (0,0){$O$};\n  \\draw[smooth,domain=-4.5:-0.8,samples=80] plot(\\x,{-3/\\x});\n  \\coordinate (A) at (-2.4,1.25);\n  \\coordinate (N) at (0,1.25);\n  \\coordinate (D) at (-3.6,0);\n  \\draw (A)--(N)--(D)--cycle;\n  \\fill (A) circle(2pt) node[left]{$A$};\n  \\fill (N) circle(2pt) node[right]{$N$};\n  \\fill (D) circle(2pt) node[below]{$D$};\n\\end{tikzpicture}\n\\end{center}\n"
+    hints:
+    - content: 点 $D$ 在 $x$ 轴上，关键高仍然是 $|y|$。
+    answer_space:
+      type: steps
+      height: 36mm
+      step_count: 4
+    answer: $q=15$
+    solution_steps:
+    - title: 面积模型
+      content: $AN=|x|$，点 $D$ 到 $AN$ 的距离为 $|y|$，所以 $S_{\triangle AND}=\frac{|3-q|}{2}$。
+    - title: 列方程
+      content: $\frac{|3-q|}{2}=6$，所以 $|3-q|=12$。
+    - title: 筛选
+      content: 图像在第二、四象限，所以 $3-q<0$，即 $3-q=-12$，得 $q=15$。
+  - type: problem
+    id: q5
+    points: 8
+    label: 第 5 题
+    stem_latex: "如图，点 $A$ 在反比例函数 $y=\\dfrac{k}{x}$ 当 $x<0$ 时的部分图像上。过点 $A$ 作 $AB\\perp x$ 轴，交 $x$ 轴于点 $D$，且 $D$ 为线段 $AB$ 的中点；点 $C$ 为 $y$ 轴上一点。若 $\\triangle ABC$ 的面积为 $9$，求 $k$。\n\\begin{center}\n\\begin{tikzpicture}[scale=0.48,>=latex]\n  \\draw[->] (-5,0)--(2.2,0) node[right]{$x$};\n  \\draw[->] (0,-2.8)--(0,4.2) node[above]{$y$};\n  \\node[below right] at (0,0){$O$};\n  \\draw[smooth,domain=-4.7:-0.8,samples=80] plot(\\x,{-4/\\x});\n  \\coordinate (A) at (-2.5,1.6);\n  \\coordinate (D) at (-2.5,0);\n  \\coordinate (B) at (-2.5,-1.6);\n  \\coordinate (C) at (0,0.7);\n  \\draw (A)--(B);\n  \\draw (A)--(C)--(B);\n  \\draw[dashed] (D)--(0,0);\n  \\fill (A) circle(2pt) node[above left]{$A$};\n  \\fill (B) circle(2pt) node[below left]{$B$};\n  \\fill (C) circle(2pt) node[right]{$C$};\n  \\fill (D) circle(2pt) node[below left]{$D$};\n\\end{tikzpicture}\n\\end{center}\n"
+    hints:
+    - content: 把 $AB$ 看作底，点 $C$ 到直线 $AB$ 的距离是多少？
+    answer_space:
+      type: steps
+      height: 34mm
+      step_count: 4
+    answer: $k=-9$
+    solution_steps:
+    - title: 设点坐标
+      content: 设 $A(x,y)$，则 $xy=k$。由图可知 $x<0,y>0$，所以 $k<0$。
+    - title: 利用中点
+      content: $D(x,0)$ 是 $AB$ 的中点，所以 $B(x,-y)$，从而 $AB=2|y|$。
+    - title: 转化面积
+      content: 点 $C$ 在 $y$ 轴上，到直线 $AB$ 的距离为 $|x|$，所以 $S_{\triangle ABC}=\frac12\cdot2|y|\cdot|x|=|xy|=|k|$。
+    - title: 确定符号
+      content: $|k|=9$，且 $k<0$，故 $k=-9$。
+  - type: problem
+    id: q6
+    points: 8
+    label: 第 6 题
+    stem_latex: "如图，点 $A$ 在反比例函数 $y=\\dfrac{5-q}{x}$ 当 $x>0$ 时的部分图像上。过点 $A$ 作 $AB\\perp x$ 轴，交 $x$ 轴于点 $D$，且 $D$ 为线段 $AB$ 的中点；点 $C$ 为 $y$ 轴上一点。若 $\\triangle ABC$ 的面积为 $8$，求 $q$。\n\\begin{center}\n\\begin{tikzpicture}[scale=0.48,>=latex]\n  \\draw[->] (-2.2,0)--(5,0) node[right]{$x$};\n  \\draw[->] (0,-4.2)--(0,2.8) node[above]{$y$};\n  \\node[above left] at (0,0){$O$};\n  \\draw[smooth,domain=0.8:4.7,samples=80] plot(\\x,{-4/\\x});\n  \\coordinate (A) at (2.5,-1.6);\n  \\coordinate (D) at (2.5,0);\n  \\coordinate (B) at (2.5,1.6);\n  \\coordinate (C) at (0,-0.7);\n  \\draw (A)--(B);\n  \\draw (A)--(C)--(B);\n  \\draw[dashed] (D)--(0,0);\n  \\fill (A) circle(2pt) node[below right]{$A$};\n  \\fill (B) circle(2pt) node[above right]{$B$};\n  \\fill (C) circle(2pt) node[left]{$C$};\n  \\fill (D) circle(2pt) node[above right]{$D$};\n\\end{tikzpicture}\n\\end{center}\n"
+    hints:
+    - content: $D$ 是 $AB$ 的中点，所以 $AB$ 与点 $A$ 的纵坐标有什么关系？
+    answer_space:
+      type: steps
+      height: 38mm
+      step_count: 4
+    answer: $q=13$
+    solution_steps:
+    - title: 设点坐标
+      content: 设 $A(x,y)$，则 $xy=5-q$。由图可知 $x>0,y<0$，所以 $5-q<0$。
+    - title: 利用中点
+      content: $D(x,0)$ 是 $AB$ 的中点，所以 $B(x,-y)$，从而 $AB=2|y|$。
+    - title: 转化面积
+      content: 点 $C$ 在 $y$ 轴上，到直线 $AB$ 的距离为 $|x|$，所以 $S_{\triangle ABC}=\frac12\cdot2|y|\cdot|x|=|xy|=|5-q|$。
+    - title: 解参数
+      content: $|5-q|=8$，且 $5-q<0$，所以 $5-q=-8$，得 $q=13$。
+- id: answer-key
+  title: 答案速查
+  type: answer_key
+  visibility: teacher
+  layout:
+    break_before: true
+  blocks:
+  - type: answers
+    id: answers-main
+    items:
+    - number: '1'
+      answer: $k=-12$
+    - number: '2'
+      answer: $t=0$ 或 $t=4$
+    - number: '3'
+      answer: $k=18$
+    - number: '4'
+      answer: $q=15$
+    - number: '5'
+      answer: $k=-9$
+    - number: '6'
+      answer: $q=13$

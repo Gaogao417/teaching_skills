@@ -1,0 +1,135 @@
+meta:
+  title: 铅垂线法面积练习
+  subtitle: 杨茗贺 · 教师版
+  grade: 八年级
+  subject: 数学
+  duration: 25分钟
+  total_points: 48
+  version: teacher
+  source_artifacts:
+    structure_analysis: artifacts/杨茗贺/2026-06-19-反比例函数面积与铅垂线法复习/2-铅垂线法面积/01-structure-analysis.md
+    explanation: artifacts/杨茗贺/2026-06-19-反比例函数面积与铅垂线法复习/2-铅垂线法面积/02-student-explanation.assignment.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: main
+  title: 一、解答题（每题 8 分，共 48 分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: q1
+    points: 8
+    label: 第 1 题
+    stem_latex: "如图，已知 $O(0,0)$，$A(4,2)$，$B(-2,3)$，求 $\\triangle OAB$ 的面积。\n\\begin{center}\n\\begin{tikzpicture}[scale=0.45,>=latex]\n  \\draw[->] (-3,0)--(5,0) node[right]{$x$};\n  \\draw[->] (0,-2)--(0,4) node[above]{$y$};\n  \\coordinate (O) at (0,0);\n  \\coordinate (A) at (4,2);\n  \\coordinate (B) at (-2,3);\n  \\coordinate (M) at (-2,-1);\n  \\draw (O)--(A)--(B)--cycle;\n  \\draw[dashed] (B)--(M);\n  \\draw[dotted] (O)--(M);\n  \\fill (O) circle(2pt) node[right]{$O$};\n  \\fill (A) circle(2pt) node[above]{$A$};\n  \\fill (B) circle(2pt) node[left]{$B$};\n  \\fill (M) circle(2pt) node[left]{$M$};\n\\end{tikzpicture}\n\\end{center}\n"
+    answer_space:
+      type: steps
+      height: 32mm
+      step_count: 4
+    answer: $8$
+    solution_steps:
+    - title: 求交点
+      content: 直线 $OA:y=\frac12x$。过 $B$ 作铅垂线，交 $OA$ 于 $M(-2,-1)$。
+    - title: 面积
+      content: $BM=4$，横向宽度 $4$，所以 $S=\frac12\times4\times4=8$。
+  - type: problem
+    id: q2
+    points: 8
+    label: 第 2 题
+    stem_latex: "如图，已知 $O(0,0)$，$A(2,5)$，$B(-4,1)$，求 $\\triangle OAB$ 的面积。\n\\begin{center}\n\\begin{tikzpicture}[scale=0.38,>=latex]\n  \\draw[->] (-5,0)--(3,0) node[right]{$x$};\n  \\draw[->] (0,-11)--(0,6) node[above]{$y$};\n  \\coordinate (O) at (0,0);\n  \\coordinate (A) at (2,5);\n  \\coordinate (B) at (-4,1);\n  \\coordinate (M) at (-4,-10);\n  \\draw (O)--(A)--(B)--cycle;\n  \\draw[dashed] (B)--(M);\n  \\draw[dotted] (O)--(M);\n  \\fill (O) circle(2pt) node[right]{$O$};\n  \\fill (A) circle(2pt) node[above]{$A$};\n  \\fill (B) circle(2pt) node[left]{$B$};\n  \\fill (M) circle(2pt) node[left]{$M$};\n\\end{tikzpicture}\n\\end{center}\n"
+    answer_space:
+      type: steps
+      height: 32mm
+      step_count: 4
+    answer: $11$
+    solution_steps:
+    - title: 求交点
+      content: 直线 $OA:y=\frac52x$。过 $B$ 作铅垂线，交 $OA$ 于 $M(-4,-10)$。
+    - title: 面积
+      content: $BM=11$，横向宽度 $|2-0|=2$，所以 $S=\frac12\times2\times11=11$。
+  - type: problem
+    id: q3
+    points: 8
+    label: 第 3 题
+    stem_latex: "如图，已知 $A(0,1)$，$B(4,5)$，$C(2,0)$，求 $\\triangle ABC$ 的面积。\n\\begin{center}\n\\begin{tikzpicture}[scale=0.45,>=latex]\n  \\draw[->] (-0.8,0)--(5,0) node[right]{$x$};\n  \\draw[->] (0,-0.8)--(0,6) node[above]{$y$};\n  \\coordinate (A) at (0,1);\n  \\coordinate (B) at (4,5);\n  \\coordinate (C) at (2,0);\n  \\coordinate (M) at (2,3);\n  \\draw (A)--(B)--(C)--cycle;\n  \\draw[dashed] (C)--(M);\n  \\fill (A) circle(2pt) node[left]{$A$};\n  \\fill (B) circle(2pt) node[above]{$B$};\n  \\fill (C) circle(2pt) node[below]{$C$};\n  \\fill (M) circle(2pt) node[right]{$M$};\n\\end{tikzpicture}\n\\end{center}\n"
+    answer_space:
+      type: steps
+      height: 32mm
+      step_count: 4
+    answer: $6$
+    solution_steps:
+    - title: 求交点
+      content: 直线 $AB:y=x+1$。过 $C$ 作铅垂线，得 $M(2,3)$。
+    - title: 面积
+      content: $CM=3$，横向宽度 $4$，所以 $S=\frac12\times4\times3=6$。
+  - type: problem
+    id: q4
+    points: 8
+    label: 第 4 题
+    stem_latex: "如图，已知 $A(-2,3)$，$B(4,0)$，$C(6,5)$，求 $\\triangle ABC$ 的面积。\n\\begin{center}\n\\begin{tikzpicture}[scale=0.45,>=latex]\n  \\draw[->] (-3,0)--(7,0) node[right]{$x$};\n  \\draw[->] (0,-2)--(0,6) node[above]{$y$};\n  \\coordinate (A) at (-2,3);\n  \\coordinate (B) at (4,0);\n  \\coordinate (C) at (6,5);\n  \\coordinate (M) at (6,-1);\n  \\draw (A)--(B)--(C)--cycle;\n  \\draw[dashed] (C)--(M);\n  \\draw[dotted] (B)--(M);\n  \\fill (A) circle(2pt) node[above left]{$A$};\n  \\fill (B) circle(2pt) node[below]{$B$};\n  \\fill (C) circle(2pt) node[above]{$C$};\n  \\fill (M) circle(2pt) node[right]{$M$};\n\\end{tikzpicture}\n\\end{center}\n"
+    answer_space:
+      type: steps
+      height: 32mm
+      step_count: 4
+    answer: $18$
+    solution_steps:
+    - title: 求交点
+      content: 直线 $AB:y=-\frac12x+2$。过 $C$ 作铅垂线，得 $M(6,-1)$。
+    - title: 面积
+      content: $CM=6$，横向宽度 $|4-(-2)|=6$，所以 $S=\frac12\times6\times6=18$。
+  - type: problem
+    id: q5
+    points: 8
+    label: 第 5 题
+    stem_latex: "如图，已知 $A(0,1)$，$B(4,5)$，点 $P$ 在直线 $y=-x+5$ 上，且 $0\\le x_P\\le4$。若 $S_{\\triangle ABP}=4$，求点 $P$ 的坐标。\n\\begin{center}\n\\begin{tikzpicture}[scale=0.45,>=latex]\n  \\draw[->] (-0.8,0)--(5,0) node[right]{$x$};\n  \\draw[->] (0,-0.8)--(0,6) node[above]{$y$};\n  \\draw[domain=0:4.3] plot(\\x,{\\x+1});\n  \\draw[domain=0:4.3] plot(\\x,{-\\x+5});\n  \\coordinate (A) at (0,1);\n  \\coordinate (B) at (4,5);\n  \\coordinate (P) at (1,4);\n  \\coordinate (M) at (1,2);\n  \\draw[thick] (A)--(B)--(P)--cycle;\n  \\draw[dashed] (P)--(M);\n  \\fill (A) circle(2pt) node[left]{$A$};\n  \\fill (B) circle(2pt) node[right]{$B$};\n  \\fill (P) circle(2pt) node[above]{$P$};\n  \\fill (M) circle(2pt) node[right]{$M$};\n\\end{tikzpicture}\n\\end{center}\n"
+    answer_space:
+      type: steps
+      height: 40mm
+      step_count: 5
+    answer: $P(1,4)$ 或 $P(3,2)$
+    solution_steps:
+    - title: 设点
+      content: 直线 $AB:y=x+1$。设 $P(t,-t+5)$，则 $M(t,t+1)$。
+    - title: 列方程
+      content: $PM=|4-2t|$，$4=\frac12\cdot4\cdot|4-2t|$，得 $|4-2t|=2$。
+    - title: 答案
+      content: $t=1$ 或 $t=3$，所以 $P(1,4)$ 或 $P(3,2)$。
+  - type: problem
+    id: q6
+    points: 8
+    label: 第 6 题
+    stem_latex: "如图，直线 $AB$ 的解析式为 $y=-x+3$，点 $A,B$ 在这条直线上，且横坐标分别为 $-1,3$。点 $P$ 在直线 $y=2x-2$ 上，且 $x_P>3$。若 $S_{\\triangle ABP}=14$，求点 $P$ 的坐标。\n\\begin{center}\n\\begin{tikzpicture}[scale=0.42,>=latex]\n  \\draw[->] (-2,0)--(5,0) node[right]{$x$};\n  \\draw[->] (0,-1.5)--(0,7) node[above]{$y$};\n  \\draw[domain=-1.2:4.3] plot(\\x,{-\\x+3});\n  \\draw[domain=0:4.3] plot(\\x,{2*\\x-2});\n  \\coordinate (A) at (-1,4);\n  \\coordinate (B) at (3,0);\n  \\coordinate (P) at (4,6);\n  \\coordinate (M) at (4,-1);\n  \\draw[thick] (A)--(B)--(P)--cycle;\n  \\draw[dashed] (P)--(M);\n  \\fill (A) circle(2pt) node[above left]{$A$};\n  \\fill (B) circle(2pt) node[below]{$B$};\n  \\fill (P) circle(2pt) node[above]{$P$};\n  \\fill (M) circle(2pt) node[right]{$M$};\n\\end{tikzpicture}\n\\end{center}\n"
+    answer_space:
+      type: steps
+      height: 40mm
+      step_count: 5
+    answer: $P(4,6)$
+    solution_steps:
+    - title: 设点
+      content: 设 $P(t,2t-2)$，同横坐标点 $M(t,-t+3)$。
+    - title: 列方程
+      content: $PM=|3t-5|$，$14=\frac12\cdot4\cdot|3t-5|$，得 $|3t-5|=7$。
+    - title: 筛选
+      content: $t=4$ 或 $t=-\frac23$。由 $x_P>3$，取 $t=4$，故 $P(4,6)$。
+- id: answer-key
+  title: 答案速查
+  type: answer_key
+  visibility: teacher
+  blocks:
+  - type: answers
+    id: answers
+    items:
+    - number: '1'
+      answer: $8$
+    - number: '2'
+      answer: $11$
+    - number: '3'
+      answer: $6$
+    - number: '4'
+      answer: $18$
+    - number: '5'
+      answer: $P(1,4)$ 或 $P(3,2)$
+    - number: '6'
+      answer: $P(4,6)$

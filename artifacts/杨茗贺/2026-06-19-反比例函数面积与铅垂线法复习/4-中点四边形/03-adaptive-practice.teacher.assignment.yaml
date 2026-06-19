@@ -1,0 +1,103 @@
+meta:
+  title: 中点四边形练习
+  subtitle: 杨茗贺 · 教师版
+  grade: 八年级
+  subject: 数学
+  duration: 25分钟
+  total_points: 32
+  version: teacher
+  source_artifacts:
+    structure_analysis: artifacts/杨茗贺/2026-06-19-反比例函数面积与铅垂线法复习/4-中点四边形/01-structure-analysis.md
+    explanation: artifacts/杨茗贺/2026-06-19-反比例函数面积与铅垂线法复习/4-中点四边形/02-student-explanation.assignment.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: main
+  title: 一、解答题（每题 8 分，共 32 分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: q1
+    points: 8
+    label: 第 1 题
+    stem_latex: "如图，四边形 $ABCD$ 中，$E,F,G,H$ 分别是 $AB,BC,CD,DA$ 的中点。判断下列说法是否正确，并说明理由。\n\\begin{enumerate}[label=(\\arabic*)]\n  \\item 若四边形 $EFGH$ 是矩形，则四边形 $ABCD$ 一定是菱形；\n  \\item 若四边形 $ABCD$ 是平行四边形，且 $EFGH$ 是矩形，则 $ABCD$ 是菱形。\n\\end{enumerate}\n\\begin{center}\n\\begin{tikzpicture}[scale=0.5]\n  \\coordinate (A) at (0,0); \\coordinate (B) at (5,0.7); \\coordinate (C) at (4,4); \\coordinate (D) at (-1,3);\n  \\coordinate (E) at (2.5,0.35); \\coordinate (F) at (4.5,2.35); \\coordinate (G) at (1.5,3.5); \\coordinate (H) at (-0.5,1.5);\n  \\draw (A)--(B)--(C)--(D)--cycle;\n  \\draw[dashed] (A)--(C) (B)--(D);\n  \\draw[thick] (E)--(F)--(G)--(H)--cycle;\n  \\foreach \\p/\\pos in {A/below left,B/below right,C/above right,D/above left,E/below,F/right,G/above,H/left}\\fill(\\p)circle(2pt)node[\\pos]{$\\p$};\n\\end{tikzpicture}\n\\end{center}\n"
+    answer_space:
+      type: steps
+      height: 40mm
+      step_count: 5
+    answer: （1）错误；（2）正确。
+    solution_steps:
+    - title: 先反推对角线
+      content: $E,F,G,H$ 是各边中点，所以 $EF\parallel AC$，$FG\parallel BD$。若 $EFGH$ 是矩形，则 $EF\perp FG$，因此 $AC\perp BD$。
+    - title: 辨析条件
+      content: 只知道任意四边形的对角线垂直，不能推出它一定是菱形，所以（1）错误。若再知道 $ABCD$ 是平行四边形，平行四边形对角线互相垂直可推出它是菱形，所以（2）正确。
+  - type: problem
+    id: q2
+    points: 8
+    label: 第 2 题
+    stem_latex: "如图，在平行四边形 $ABCD$ 中，$E,F,G,H$ 分别是 $AB,BC,CD,DA$ 的中点，四边形 $EFGH$ 是矩形。若 $\\angle ABC=120^\\circ$，$AC=6\\sqrt3$，求平行四边形 $ABCD$ 的周长和面积。\n\\begin{center}\n\\begin{tikzpicture}[scale=0.5]\n  \\coordinate (B) at (0,0); \\coordinate (C) at (6,0);\n  \\coordinate (A) at (-3,5.196); \\coordinate (D) at (3,5.196);\n  \\coordinate (E) at (-1.5,2.598); \\coordinate (F) at (3,0); \\coordinate (G) at (4.5,2.598); \\coordinate (H) at (0,5.196);\n  \\draw (A)--(B)--(C)--(D)--cycle;\n  \\draw[dashed] (A)--(C) (B)--(D);\n  \\draw[thick] (E)--(F)--(G)--(H)--cycle;\n  \\foreach \\p/\\pos in {A/above left,B/below,C/below,D/above,E/left,F/below,G/right,H/above}\\fill(\\p)circle(2pt)node[\\pos]{$\\p$};\n\\end{tikzpicture}\n\\end{center}\n"
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 6
+    answer: 周长 $24$，面积 $18\sqrt3$。
+    solution_steps:
+    - title: 反推原图形
+      content: $EFGH$ 是矩形，所以 $AC\perp BD$。又 $ABCD$ 是平行四边形，因此 $ABCD$ 是菱形。
+    - title: 求边长
+      content: 设菱形边长为 $a$。在 $\triangle ABC$ 中，$AB=BC=a$，$\angle ABC=120^\circ$，所以 $AC^2=a^2+a^2-2a^2\cos120^\circ=3a^2$。由 $AC=6\sqrt3$，得 $a=6$。
+    - title: 求周长和面积
+      content: 周长为 $4a=24$。面积为 $a^2\sin120^\circ=36\cdot\frac{\sqrt3}{2}=18\sqrt3$。
+  - type: problem
+    id: q3
+    points: 8
+    label: 第 3 题
+    stem_latex: "如图，在平行四边形 $ABCD$ 中，$E,F,G,H$ 分别是 $AB,BC,CD,DA$ 的中点，四边形 $EFGH$ 是菱形，且 $EF=5$，$AB=6$。求平行四边形 $ABCD$ 的周长和面积。\n\\begin{center}\n\\begin{tikzpicture}[scale=0.48]\n  \\coordinate (A) at (0,0); \\coordinate (B) at (6,0); \\coordinate (C) at (6,8); \\coordinate (D) at (0,8);\n  \\coordinate (E) at (3,0); \\coordinate (F) at (6,4); \\coordinate (G) at (3,8); \\coordinate (H) at (0,4);\n  \\draw (A)--(B)--(C)--(D)--cycle;\n  \\draw[dashed] (A)--(C) (B)--(D);\n  \\draw[thick] (E)--(F)--(G)--(H)--cycle;\n  \\foreach \\p/\\pos in {A/below left,B/below right,C/above right,D/above left,E/below,F/right,G/above,H/left}\\fill(\\p)circle(2pt)node[\\pos]{$\\p$};\n\\end{tikzpicture}\n\\end{center}\n"
+    answer_space:
+      type: steps
+      height: 40mm
+      step_count: 5
+    answer: 周长 $28$，面积 $48$。
+    solution_steps:
+    - title: 反推原图形
+      content: $EFGH$ 是菱形，所以 $EF=FG$。又 $EF=\frac12 AC$，$FG=\frac12 BD$，所以 $AC=BD$。平行四边形对角线相等，因此 $ABCD$ 是矩形。
+    - title: 求边长
+      content: $EF=5$，所以 $AC=10$。矩形中 $AB=6$，故 $BC=\sqrt{10^2-6^2}=8$。
+    - title: 求周长和面积
+      content: 周长为 $2(6+8)=28$，面积为 $6\times8=48$。
+  - type: problem
+    id: q4
+    points: 8
+    label: 第 4 题
+    stem_latex: "如图，在平行四边形 $ABCD$ 中，$E,F,G,H$ 分别是 $AB,BC,CD,DA$ 的中点。若四边形 $EFGH$ 是正方形，且 $EF=3\\sqrt2$，求平行四边形 $ABCD$ 的周长和面积。\n\\begin{center}\n\\begin{tikzpicture}[scale=0.5]\n  \\coordinate (A) at (0,0); \\coordinate (B) at (6,0); \\coordinate (C) at (6,6); \\coordinate (D) at (0,6);\n  \\coordinate (E) at (3,0); \\coordinate (F) at (6,3); \\coordinate (G) at (3,6); \\coordinate (H) at (0,3);\n  \\draw (A)--(B)--(C)--(D)--cycle;\n  \\draw[dashed] (A)--(C) (B)--(D);\n  \\draw[thick] (E)--(F)--(G)--(H)--cycle;\n  \\foreach \\p/\\pos in {A/below left,B/below right,C/above right,D/above left,E/below,F/right,G/above,H/left}\\fill(\\p)circle(2pt)node[\\pos]{$\\p$};\n\\end{tikzpicture}\n\\end{center}\n"
+    answer_space:
+      type: steps
+      height: 40mm
+      step_count: 5
+    answer: 周长 $24$，面积 $36$。
+    solution_steps:
+    - title: 反推原图形
+      content: $EFGH$ 是正方形，所以 $AC=BD$ 且 $AC\perp BD$。平行四边形同时满足对角线相等和垂直，因此 $ABCD$ 是正方形。
+    - title: 求边长
+      content: $EF=\frac12 AC=3\sqrt2$，所以 $AC=6\sqrt2$。正方形边长为 $\frac{6\sqrt2}{\sqrt2}=6$。
+    - title: 求周长和面积
+      content: 周长为 $24$，面积为 $36$。
+- id: answer-key
+  title: 答案速查
+  type: answer_key
+  visibility: teacher
+  blocks:
+  - type: answers
+    id: answers
+    items:
+    - number: '1'
+      answer: （1）错误；（2）正确
+    - number: '2'
+      answer: 周长 $24$，面积 $18\sqrt3$
+    - number: '3'
+      answer: 周长 $28$，面积 $48$
+    - number: '4'
+      answer: 周长 $24$，面积 $36$

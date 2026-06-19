@@ -1,0 +1,192 @@
+meta:
+  title: "铅垂线法面积"
+  subtitle: "杨茗贺 · 学生讲义"
+  grade: "八年级"
+  subject: "数学"
+  version: "student"
+  source_artifacts:
+    structure_analysis: "artifacts/杨茗贺/2026-06-19-反比例函数面积与铅垂线法复习/2-铅垂线法面积/01-structure-analysis.md"
+
+render:
+  template: "exam-zh-explanation"
+  paper_size: "a4paper"
+
+sections:
+  - id: "vertical-area"
+    title: "模型：三点坐标面积的铅垂线法"
+    show_title: true
+    type: "explanation"
+    visibility: "student"
+    blocks:
+      - type: "solution"
+        id: "knowledge"
+        title: "核心步骤：过一个顶点作铅垂线"
+        items:
+          - latex: "铅垂线就是平行于 $y$ 轴的直线。"
+          - latex: "过三角形一个顶点作铅垂线，交对边所在直线于 $M$。"
+          - latex: "竖直距离是两个纵坐标的差：$PM=|y_P-y_M|$。"
+          - latex: "横向宽度看对边两端点横坐标差：$|x_B-x_A|$。"
+          - latex: "同一道题可以过不同顶点作铅垂线；选计算最顺的那一个。"
+
+      - type: "problemcard"
+        id: "ex1"
+        label: "例题 1"
+        stem_latex: |
+          如图，$O(0,0)$，$A(4,2)$，$B(-2,3)$，求 $\triangle OAB$ 的面积。
+          \begin{center}
+          \begin{tikzpicture}[scale=0.42,>=latex]
+            \draw[->] (-3,0)--(5,0) node[right]{$x$};
+            \draw[->] (0,-1.5)--(0,4) node[above]{$y$};
+            \coordinate (O) at (0,0);
+            \coordinate (A) at (4,2);
+            \coordinate (B) at (-2,3);
+            \coordinate (M) at (-2,-1);
+            \draw (O)--(A)--(B)--cycle;
+            \draw[dashed] (B)--(M);
+            \draw[dotted] (O)--(M);
+            \fill (O) circle(2pt) node[below right]{$O$};
+            \fill (A) circle(2pt) node[right]{$A$};
+            \fill (B) circle(2pt) node[left]{$B$};
+            \fill (M) circle(2pt) node[left]{$M$};
+          \end{tikzpicture}
+          \end{center}
+
+      - type: "route"
+        id: "ex1-route"
+        steps:
+          - id: "ex1-line"
+            latex: "把 $OA$ 当对边"
+            content_latex: "直线 $OA$ 过 $O(0,0)$ 和 $A(4,2)$，所以 $OA:y=\\dfrac12x$。"
+          - id: "ex1-m"
+            latex: "过 $B$ 作铅垂线"
+            content_latex: "过 $B(-2,3)$ 作 $x=-2$，交 $OA$ 于 $M$。代入 $x=-2$ 得 $M(-2,-1)$。"
+          - id: "ex1-area"
+            latex: "用竖直距离和横向宽度求面积"
+            content_latex: "$BM=|3-(-1)|=4$，$OA$ 的横向宽度为 $|4-0|=4$，所以 $S_{\\triangle OAB}=\\dfrac12\\cdot4\\cdot4=8$。"
+
+      - type: "dual_explanation"
+        id: "ex1-sol"
+        label: "例题 1"
+        stem_latex: "过 $B$ 作铅垂线，求 $\\triangle OAB$ 的面积。"
+        side_title: "小贴士"
+        side_items:
+          - kind: "hint"
+            title: "为什么不是坐标轴底高"
+            content_latex: "$OA$ 不在坐标轴上，所以要先求 $OA$ 所在直线，再过 $B$ 作铅垂线。"
+        solution_title: "解答"
+        solution_step_ids:
+          - "ex1-line"
+          - "ex1-m"
+          - "ex1-area"
+
+      - type: "problemcard"
+        id: "ex2"
+        label: "例题 2"
+        stem_latex: |
+          如图，已知 $A(1,2)$，$B(5,6)$，$C(3,1)$，求 $\triangle ABC$ 的面积。
+          \begin{center}
+          \begin{tikzpicture}[scale=0.42,>=latex]
+            \draw[->] (-0.5,0)--(6,0) node[right]{$x$};
+            \draw[->] (0,-0.5)--(0,7) node[above]{$y$};
+            \coordinate (A) at (1,2);
+            \coordinate (B) at (5,6);
+            \coordinate (C) at (3,1);
+            \coordinate (M) at (3,4);
+            \coordinate (N) at (5,0);
+            \draw (A)--(B)--(C)--cycle;
+            \draw[dashed] (C)--(M);
+            \draw[dashed] (B)--(N);
+            \fill (A) circle(2pt) node[left]{$A$};
+            \fill (B) circle(2pt) node[above]{$B$};
+            \fill (C) circle(2pt) node[below]{$C$};
+            \fill (M) circle(2pt) node[right]{$M$};
+            \fill (N) circle(2pt) node[right]{$N$};
+          \end{tikzpicture}
+          \end{center}
+
+      - type: "route"
+        id: "ex2-route"
+        steps:
+          - id: "ex2-c"
+            latex: "方法一：过 $C$ 作铅垂线"
+            content_latex: "直线 $AB:y=x+1$。过 $C(3,1)$ 作 $x=3$，交 $AB$ 于 $M(3,4)$，所以 $CM=3$，横向宽度 $|5-1|=4$，面积 $S=\\dfrac12\\cdot4\\cdot3=6$。"
+          - id: "ex2-b"
+            latex: "方法二：过 $B$ 作铅垂线"
+            content_latex: "直线 $AC$ 过 $A(1,2),C(3,1)$，所以 $AC:y=-\\dfrac12x+\\dfrac52$。过 $B(5,6)$ 作 $x=5$，交 $AC$ 于 $N(5,0)$，所以 $BN=6$，横向宽度 $|3-1|=2$，面积 $S=\\dfrac12\\cdot2\\cdot6=6$。"
+
+      - type: "dual_explanation"
+        id: "ex2-sol"
+        label: "例题 2"
+        stem_latex: "用两种铅垂线法求同一个三角形面积。"
+        side_title: "小贴士"
+        side_items:
+          - kind: "hint"
+            title: "过谁作线都可以"
+            content_latex: "选一个顶点作铅垂线，再把另外两个点所在的边当对边。算得顺，就用那种。"
+          - kind: "mistake"
+            title: "底不是边长"
+            content_latex: "这里的“底”是横向宽度，不是斜边的实际长度。"
+        solution_title: "解答"
+        solution_step_ids:
+          - "ex2-c"
+          - "ex2-b"
+
+      - type: "problemcard"
+        id: "ex3"
+        label: "例题 3"
+        stem_latex: |
+          如图，直线 $AB:y=x+1$，点 $A,B$ 在这条直线上，且横坐标分别为 $0,4$。点 $P$ 在直线 $y=-x+7$ 上，且 $0<x_P<4$。若 $S_{\triangle ABP}=8$，求点 $P$。
+          \begin{center}
+          \begin{tikzpicture}[scale=0.42,>=latex]
+            \draw[->] (-0.5,0)--(5.2,0) node[right]{$x$};
+            \draw[->] (0,-0.5)--(0,8) node[above]{$y$};
+            \draw[domain=0:4.5] plot(\x,{\x+1}) node[right]{$AB$};
+            \draw[domain=0:4.5] plot(\x,{-\x+7});
+            \coordinate (A) at (0,1);
+            \coordinate (B) at (4,5);
+            \coordinate (P) at (1,6);
+            \coordinate (M) at (1,2);
+            \draw[thick] (A)--(B)--(P)--cycle;
+            \draw[dashed] (P)--(M);
+            \fill (A) circle(2pt) node[left]{$A$};
+            \fill (B) circle(2pt) node[right]{$B$};
+            \fill (P) circle(2pt) node[above]{$P$};
+            \fill (M) circle(2pt) node[right]{$M$};
+          \end{tikzpicture}
+          \end{center}
+
+      - type: "route"
+        id: "ex3-route"
+        steps:
+          - id: "ex3-set"
+            latex: "设点并找 $M$"
+            content_latex: "设 $P(t,-t+7)$，同横坐标的 $M$ 在 $AB$ 上，所以 $M(t,t+1)$。"
+          - id: "ex3-equation"
+            latex: "列面积方程"
+            content_latex: "$PM=|(-t+7)-(t+1)|=|6-2t|$，所以 $\\dfrac12\\cdot4\\cdot|6-2t|=8$。"
+          - id: "ex3-answer"
+            latex: "求点坐标"
+            content_latex: "$|6-2t|=4$，得 $t=1$ 或 $5$。由 $0<t<4$，取 $t=1$，所以 $P(1,6)$。"
+
+      - type: "dual_explanation"
+        id: "ex3-sol"
+        label: "例题 3"
+        stem_latex: "已知面积求动点 $P$。"
+        side_title: "小贴士"
+        side_items:
+          - kind: "mistake"
+            title: "绝对值不能丢"
+            content_latex: "$P$ 可能在 $AB$ 上方或下方，距离必须写绝对值。"
+        solution_title: "解答"
+        solution_step_ids:
+          - "ex3-set"
+          - "ex3-equation"
+          - "ex3-answer"
+
+      - type: "method_reminder"
+        id: "method"
+        title: "方法提醒"
+        items:
+          - latex: "求面积：先选一个顶点作铅垂线，再求交点 $M$。"
+          - latex: "同题可换顶点作铅垂线，答案应相同。"
+          - latex: "反求点：设 $P(t,f(t))$，列绝对值方程。"

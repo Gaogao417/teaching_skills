@@ -1,0 +1,203 @@
+meta:
+  title: "铅垂线法面积练习"
+  subtitle: "杨茗贺 · 学生版"
+  grade: "八年级"
+  subject: "数学"
+  duration: "25分钟"
+  total_points: 48
+  version: "student"
+  source_artifacts:
+    structure_analysis: "artifacts/杨茗贺/2026-06-19-反比例函数面积与铅垂线法复习/2-铅垂线法面积/01-structure-analysis.md"
+    explanation: "artifacts/杨茗贺/2026-06-19-反比例函数面积与铅垂线法复习/2-铅垂线法面积/02-student-explanation.assignment.yaml"
+
+render:
+  template: "exam-zh-practice"
+  paper_size: "a4paper"
+  answer_key_position: "after_page_break"
+
+sections:
+  - id: "main"
+    title: "一、解答题（每题 8 分，共 48 分）"
+    type: "practice"
+    visibility: "student"
+    blocks:
+      - type: "problem"
+        id: "q1"
+        points: 8
+        label: "第 1 题"
+        stem_latex: |
+          如图，已知 $O(0,0)$，$A(4,2)$，$B(-2,3)$，求 $\triangle OAB$ 的面积。
+          \begin{center}
+          \begin{tikzpicture}[scale=0.45,>=latex]
+            \draw[->] (-3,0)--(5,0) node[right]{$x$};
+            \draw[->] (0,-2)--(0,4) node[above]{$y$};
+            \coordinate (O) at (0,0);
+            \coordinate (A) at (4,2);
+            \coordinate (B) at (-2,3);
+            \coordinate (M) at (-2,-1);
+            \draw (O)--(A)--(B)--cycle;
+            \draw[dashed] (B)--(M);
+            \draw[dotted] (O)--(M);
+            \fill (O) circle(2pt) node[right]{$O$};
+            \fill (A) circle(2pt) node[above]{$A$};
+            \fill (B) circle(2pt) node[left]{$B$};
+            \fill (M) circle(2pt) node[left]{$M$};
+          \end{tikzpicture}
+          \end{center}
+        hints:
+          - content: "先求直线 $OA$，再过 $B$ 作铅垂线交 $OA$ 于 $M$。"
+        answer_space:
+          type: "steps"
+          height: "38mm"
+          step_count: 5
+
+      - type: "problem"
+        id: "q2"
+        points: 8
+        label: "第 2 题"
+        stem_latex: |
+          如图，已知 $O(0,0)$，$A(2,5)$，$B(-4,1)$，求 $\triangle OAB$ 的面积。
+          \begin{center}
+          \begin{tikzpicture}[scale=0.38,>=latex]
+            \draw[->] (-5,0)--(3,0) node[right]{$x$};
+            \draw[->] (0,-11)--(0,6) node[above]{$y$};
+            \coordinate (O) at (0,0);
+            \coordinate (A) at (2,5);
+            \coordinate (B) at (-4,1);
+            \coordinate (M) at (-4,-10);
+            \draw (O)--(A)--(B)--cycle;
+            \draw[dashed] (B)--(M);
+            \draw[dotted] (O)--(M);
+            \fill (O) circle(2pt) node[right]{$O$};
+            \fill (A) circle(2pt) node[above]{$A$};
+            \fill (B) circle(2pt) node[left]{$B$};
+            \fill (M) circle(2pt) node[left]{$M$};
+          \end{tikzpicture}
+          \end{center}
+        hints:
+          - content: "当 $OA$ 不在坐标轴上时，可过 $B$ 作竖直线交 $OA$ 于 $M$。"
+        answer_space:
+          type: "steps"
+          height: "42mm"
+          step_count: 5
+
+      - type: "problem"
+        id: "q3"
+        points: 8
+        label: "第 3 题"
+        stem_latex: |
+          如图，已知 $A(0,1)$，$B(4,5)$，$C(2,0)$，求 $\triangle ABC$ 的面积。
+          \begin{center}
+          \begin{tikzpicture}[scale=0.45,>=latex]
+            \draw[->] (-0.8,0)--(5,0) node[right]{$x$};
+            \draw[->] (0,-0.8)--(0,6) node[above]{$y$};
+            \coordinate (A) at (0,1);
+            \coordinate (B) at (4,5);
+            \coordinate (C) at (2,0);
+            \coordinate (M) at (2,3);
+            \draw (A)--(B)--(C)--cycle;
+            \draw[dashed] (C)--(M);
+            \fill (A) circle(2pt) node[left]{$A$};
+            \fill (B) circle(2pt) node[above]{$B$};
+            \fill (C) circle(2pt) node[below]{$C$};
+            \fill (M) circle(2pt) node[right]{$M$};
+          \end{tikzpicture}
+          \end{center}
+        hints:
+          - content: "先求直线 $AB$，再找与 $C$ 同横坐标的点 $M$。"
+        answer_space:
+          type: "steps"
+          height: "40mm"
+          step_count: 5
+
+      - type: "problem"
+        id: "q4"
+        points: 8
+        label: "第 4 题"
+        stem_latex: |
+          如图，已知 $A(-2,3)$，$B(4,0)$，$C(6,5)$，求 $\triangle ABC$ 的面积。
+          \begin{center}
+          \begin{tikzpicture}[scale=0.45,>=latex]
+            \draw[->] (-3,0)--(7,0) node[right]{$x$};
+            \draw[->] (0,-2)--(0,6) node[above]{$y$};
+            \coordinate (A) at (-2,3);
+            \coordinate (B) at (4,0);
+            \coordinate (C) at (6,5);
+            \coordinate (M) at (6,-1);
+            \draw (A)--(B)--(C)--cycle;
+            \draw[dashed] (C)--(M);
+            \draw[dotted] (B)--(M);
+            \fill (A) circle(2pt) node[above left]{$A$};
+            \fill (B) circle(2pt) node[below]{$B$};
+            \fill (C) circle(2pt) node[above]{$C$};
+            \fill (M) circle(2pt) node[right]{$M$};
+          \end{tikzpicture}
+          \end{center}
+        hints:
+          - content: "点 $C$ 在 $A,B$ 横坐标范围外，图形上是大三角形减小三角形。"
+        answer_space:
+          type: "steps"
+          height: "42mm"
+          step_count: 5
+
+      - type: "problem"
+        id: "q5"
+        points: 8
+        label: "第 5 题"
+        stem_latex: |
+          如图，已知 $A(0,1)$，$B(4,5)$，点 $P$ 在直线 $y=-x+5$ 上，且 $0\le x_P\le4$。若 $S_{\triangle ABP}=4$，求点 $P$ 的坐标。
+          \begin{center}
+          \begin{tikzpicture}[scale=0.45,>=latex]
+            \draw[->] (-0.8,0)--(5,0) node[right]{$x$};
+            \draw[->] (0,-0.8)--(0,6) node[above]{$y$};
+            \draw[domain=0:4.3] plot(\x,{\x+1});
+            \draw[domain=0:4.3] plot(\x,{-\x+5});
+            \coordinate (A) at (0,1);
+            \coordinate (B) at (4,5);
+            \coordinate (P) at (1,4);
+            \coordinate (M) at (1,2);
+            \draw[thick] (A)--(B)--(P)--cycle;
+            \draw[dashed] (P)--(M);
+            \fill (A) circle(2pt) node[left]{$A$};
+            \fill (B) circle(2pt) node[right]{$B$};
+            \fill (P) circle(2pt) node[above]{$P$};
+            \fill (M) circle(2pt) node[right]{$M$};
+          \end{tikzpicture}
+          \end{center}
+        hints:
+          - content: "设 $P(t,-t+5)$，再写同横坐标的 $M(t,t+1)$。"
+        answer_space:
+          type: "steps"
+          height: "48mm"
+          step_count: 5
+
+      - type: "problem"
+        id: "q6"
+        points: 8
+        label: "第 6 题"
+        stem_latex: |
+          如图，直线 $AB$ 的解析式为 $y=-x+3$，点 $A,B$ 在这条直线上，且横坐标分别为 $-1,3$。点 $P$ 在直线 $y=2x-2$ 上，且 $x_P>3$。若 $S_{\triangle ABP}=14$，求点 $P$ 的坐标。
+          \begin{center}
+          \begin{tikzpicture}[scale=0.42,>=latex]
+            \draw[->] (-2,0)--(5,0) node[right]{$x$};
+            \draw[->] (0,-1.5)--(0,7) node[above]{$y$};
+            \draw[domain=-1.2:4.3] plot(\x,{-\x+3});
+            \draw[domain=0:4.3] plot(\x,{2*\x-2});
+            \coordinate (A) at (-1,4);
+            \coordinate (B) at (3,0);
+            \coordinate (P) at (4,6);
+            \coordinate (M) at (4,-1);
+            \draw[thick] (A)--(B)--(P)--cycle;
+            \draw[dashed] (P)--(M);
+            \fill (A) circle(2pt) node[above left]{$A$};
+            \fill (B) circle(2pt) node[below]{$B$};
+            \fill (P) circle(2pt) node[above]{$P$};
+            \fill (M) circle(2pt) node[right]{$M$};
+          \end{tikzpicture}
+          \end{center}
+        hints:
+          - content: "横向宽度由 $A,B$ 的横坐标差给出，最后用 $x_P>3$ 筛选。"
+        answer_space:
+          type: "steps"
+          height: "48mm"
+          step_count: 5

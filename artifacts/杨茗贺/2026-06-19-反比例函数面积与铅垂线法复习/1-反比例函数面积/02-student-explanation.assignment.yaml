@@ -1,0 +1,231 @@
+meta:
+  title: "反比例函数面积"
+  subtitle: "杨茗贺 · 学生讲义"
+  grade: "八年级"
+  subject: "数学"
+  version: "student"
+  source_artifacts:
+    structure_analysis: "artifacts/杨茗贺/2026-06-19-反比例函数面积与铅垂线法复习/1-反比例函数面积/01-structure-analysis.md"
+
+render:
+  template: "exam-zh-explanation"
+  paper_size: "a4paper"
+
+sections:
+  - id: "inverse-area-model"
+    title: "模型：反比例函数中的面积不变量"
+    show_title: true
+    type: "explanation"
+    visibility: "student"
+    blocks:
+      - type: "solution"
+        id: "inverse-area-knowledge"
+        title: "核心结论：矩形是 $|k|$，三角形是 $|k|/2$"
+        items:
+          - latex: "若 $A(x,y)$ 在 $y=\\dfrac{k}{x}$ 上，则 $xy=k$。"
+          - latex: "由 $A$ 向两坐标轴作垂线，围成的矩形面积为 $|x|\\cdot |y|=|k|$。"
+          - latex: "与坐标轴和原点围成的直角三角形面积为 $\\dfrac12|x|\\cdot |y|=\\dfrac{|k|}{2}$。"
+          - latex: "面积只能先确定 $|k|$，$k$ 的符号要看象限或增减性。"
+
+      - type: "problemcard"
+        id: "ex1"
+        label: "例题 1"
+        stem_latex: |
+          如图，点 $A$ 在反比例函数 $y=\dfrac{k}{x}$ 的图像上，过点 $A$ 分别向坐标轴作垂线。若围成的矩形面积为 $12$，且图像在第二、四象限，求 $k$。
+          \begin{center}
+          \begin{tikzpicture}[scale=0.45,>=latex]
+            \draw[->] (-4.8,0)--(4.8,0) node[right]{$x$};
+            \draw[->] (0,-3.8)--(0,3.8) node[above]{$y$};
+            \node[below right] at (0,0){$O$};
+            \draw[smooth,domain=-4.5:-0.8,samples=80] plot(\x,{-4/\x});
+            \draw[smooth,domain=0.8:4.5,samples=80] plot(\x,{-4/\x});
+            \coordinate (A) at (-3,1.33);
+            \draw[dashed] (A)--(-3,0) node[below]{$M$};
+            \draw[dashed] (A)--(0,1.33) node[right]{$N$};
+            \draw (-3,0)--(0,0)--(0,1.33)--(A)--cycle;
+            \fill (A) circle(2pt) node[above left]{$A$};
+          \end{tikzpicture}
+          \end{center}
+
+      - type: "route"
+        id: "ex1-route"
+        steps:
+          - id: "ex1-area"
+            latex: "矩形面积对应 $|k|$"
+            content_latex: "围成的矩形面积为 $|k|$，所以 $|k|=12$。"
+          - id: "ex1-sign"
+            latex: "用象限确定符号"
+            content_latex: "图像在第二、四象限，所以 $k<0$。因此 $k=-12$。"
+
+      - type: "dual_explanation"
+        id: "ex1-solution"
+        label: "例题 1"
+        stem_latex: "求反比例函数系数 $k$。"
+        side_title: "小贴士"
+        side_items:
+          - kind: "hint"
+            title: "面积没有符号"
+            content_latex: "先得到 $|k|$，再根据图像所在象限判断正负。"
+        solution_title: "解答"
+        solution_step_ids:
+          - "ex1-area"
+          - "ex1-sign"
+
+      - type: "problemcard"
+        id: "ex2"
+        label: "例题 2"
+        stem_latex: |
+          如图，点 $A(x,y)$ 在反比例函数 $y=\dfrac{k}{x}$ 上，过 $A$ 向 $x$ 轴作垂线，垂足为 $M$。点 $C(0,4)$ 在 $y$ 轴上。若 $\triangle AMC$ 的面积为 $10$，且点 $A$ 在第四象限，求 $k$。
+          \begin{center}
+          \begin{tikzpicture}[scale=0.45,>=latex]
+            \draw[->] (-0.8,0)--(5,0) node[right]{$x$};
+            \draw[->] (0,-3.8)--(0,3) node[above]{$y$};
+            \node[below left] at (0,0){$O$};
+            \draw[smooth,domain=0.8:4.8,samples=80] plot(\x,{-3/\x});
+            \coordinate (A) at (2.5,-1.2);
+            \coordinate (M) at (2.5,0);
+            \coordinate (C) at (0,1.8);
+            \draw (A)--(M)--(C)--cycle;
+            \fill (A) circle(2pt) node[right]{$A$};
+            \fill (M) circle(2pt) node[above]{$M$};
+            \fill (C) circle(2pt) node[left]{$C$};
+          \end{tikzpicture}
+          \end{center}
+
+      - type: "route"
+        id: "ex2-route"
+        steps:
+          - id: "ex2-height"
+            latex: "找底和高"
+            content_latex: "$AM=|y|$，点 $C$ 到直线 $AM$ 的距离为 $|x|$。"
+          - id: "ex2-area"
+            latex: "面积回到 $|k|/2$"
+            content_latex: "$S_{\\triangle AMC}=\\dfrac12|x|\\cdot |y|=\\dfrac{|k|}{2}$。由 $\\dfrac{|k|}{2}=10$ 得 $|k|=20$。"
+          - id: "ex2-sign"
+            latex: "用象限确定符号"
+            content_latex: "$A$ 在第四象限，$xy<0$，所以 $k=-20$。"
+
+      - type: "dual_explanation"
+        id: "ex2-solution"
+        label: "例题 2"
+        stem_latex: "点 $C$ 在坐标轴上时，用面积求 $k$。"
+        side_title: "小贴士"
+        side_items:
+          - kind: "mistake"
+            title: "别把 C 的坐标直接当高"
+            content_latex: "高是点到直线 $AM$ 的距离，不是 $C$ 的纵坐标。"
+        solution_title: "解答"
+        solution_step_ids:
+          - "ex2-height"
+          - "ex2-area"
+          - "ex2-sign"
+
+      - type: "problemcard"
+        id: "ex3"
+        label: "例题 3"
+        stem_latex: |
+          如图，点 $A$ 在反比例函数 $y=\dfrac{k}{x}$ 当 $x<0$ 时的图像上，过点 $A$ 作 $AB\perp x$ 轴，垂足为 $D$，且 $D$ 是线段 $AB$ 的中点。点 $C$ 在 $y$ 轴上，若 $\triangle ABC$ 的面积为 $9$，求 $k$。
+          \begin{center}
+          \begin{tikzpicture}[scale=0.45,>=latex]
+            \draw[->] (-5.2,0)--(1.2,0) node[right]{$x$};
+            \draw[->] (0,-3.8)--(0,4.2) node[above]{$y$};
+            \node[below right] at (0,0){$O$};
+            \draw[smooth,domain=-4.6:-0.75,samples=80] plot(\x,{-3/\x});
+            \coordinate (A) at (-2.2,1.36);
+            \coordinate (D) at (-2.2,0);
+            \coordinate (B) at (-2.2,-1.36);
+            \coordinate (C) at (0,0.8);
+            \draw (A)--(B)--(C)--cycle;
+            \draw[dashed] (A)--(D);
+            \fill (A) circle(2pt) node[left]{$A$};
+            \fill (B) circle(2pt) node[left]{$B$};
+            \fill (C) circle(2pt) node[right]{$C$};
+            \fill (D) circle(2pt) node[below]{$D$};
+          \end{tikzpicture}
+          \end{center}
+
+      - type: "route"
+        id: "ex-middle-route"
+        steps:
+          - id: "ex-middle-length"
+            latex: "用中点看出 $AB=2|y|$"
+            content_latex: "设 $A(x,y)$。点 $A$ 在第二象限，所以 $x<0,y>0$。$D$ 是 $AB$ 的中点且 $D$ 在 $x$ 轴上，所以 $AB=2y$。"
+          - id: "ex-middle-area"
+            latex: "面积变成 $|k|$"
+            content_latex: "$C$ 在 $y$ 轴上，到直线 $AB$ 的距离为 $|x|$。所以 $S_{\\triangle ABC}=\\dfrac12\\cdot2y\\cdot|x|=|xy|=|k|$。"
+          - id: "ex-middle-answer"
+            latex: "用象限确定符号"
+            content_latex: "由面积 $9$ 得 $|k|=9$。又 $A$ 在第二象限，$k<0$，所以 $k=-9$。"
+
+      - type: "dual_explanation"
+        id: "ex-middle-solution"
+        label: "例题 3"
+        stem_latex: "中点让三角形面积从 $|k|/2$ 变成 $|k|$。"
+        side_title: "小贴士"
+        side_items:
+          - kind: "hint"
+            title: "为什么不是 $|k|/2$"
+            content_latex: "普通坐标轴三角形只用一段 $|y|$；本题 $D$ 是中点，整条 $AB$ 是 $2|y|$。"
+        solution_title: "解答"
+        solution_step_ids:
+          - "ex-middle-length"
+          - "ex-middle-area"
+          - "ex-middle-answer"
+
+      - type: "problemcard"
+        id: "ex4"
+        label: "例题 4"
+        stem_latex: |
+          如图，点 $A(x,y)$ 在反比例函数 $y=\dfrac{k}{x}$ 上，且 $A$ 在第一象限。点 $B(2x,0)$，点 $C(0,3y)$。若 $\triangle OBC$ 的面积为 $24$，求 $k$。
+          \begin{center}
+          \begin{tikzpicture}[scale=0.45,>=latex]
+            \draw[->] (-0.8,0)--(5,0) node[right]{$x$};
+            \draw[->] (0,-0.8)--(0,5) node[above]{$y$};
+            \node[below left] at (0,0){$O$};
+            \draw[smooth,domain=0.8:4.8,samples=80] plot(\x,{3/\x});
+            \coordinate (A) at (2,1.5);
+            \coordinate (B) at (4,0);
+            \coordinate (C) at (0,4.5);
+            \draw (0,0)--(B)--(C)--cycle;
+            \fill (A) circle(2pt) node[right]{$A(x,y)$};
+            \fill (B) circle(2pt) node[below]{$B(2x,0)$};
+            \fill (C) circle(2pt) node[left]{$C(0,3y)$};
+          \end{tikzpicture}
+          \end{center}
+
+      - type: "route"
+        id: "ex4-route"
+        steps:
+          - id: "ex3-length"
+            latex: "把底和高写成 $x,y$"
+            content_latex: "第一象限中 $x>0,y>0$，所以 $OB=2x$，$OC=3y$。"
+          - id: "ex3-area"
+            latex: "面积整理出 $xy$"
+            content_latex: "$S_{\\triangle OBC}=\\dfrac12\\cdot2x\\cdot3y=3xy$。"
+          - id: "ex3-answer"
+            latex: "用 $xy=k$"
+            content_latex: "由 $3xy=24$ 且 $xy=k$，得 $3k=24$，所以 $k=8$。"
+
+      - type: "dual_explanation"
+        id: "ex4-solution"
+        label: "例题 4"
+        stem_latex: "底和高用 $x,y$ 表示时，求 $k$。"
+        side_title: "小贴士"
+        side_items:
+          - kind: "hint"
+            title: "最后一定回到 xy"
+            content_latex: "$B,C$ 不在反比例函数上，但 $A(x,y)$ 在图像上，所以 $xy=k$。"
+        solution_title: "解答"
+        solution_step_ids:
+          - "ex3-length"
+          - "ex3-area"
+          - "ex3-answer"
+
+      - type: "method_reminder"
+        id: "inverse-method"
+        title: "方法提醒"
+        items:
+          - latex: "矩形面积：$|k|$。"
+          - latex: "三角形面积：$|k|/2$。"
+          - latex: "底高是 $x,y$ 的倍数时，先整理出 $xy$，再换成 $k$。"
+          - latex: "最后检查象限或增减性。"

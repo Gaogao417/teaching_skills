@@ -1,0 +1,99 @@
+meta:
+  title: 角平分线与等腰三角形练习
+  subtitle: 杨茗贺 · 教师版
+  grade: 八年级
+  subject: 数学
+  duration: 25分钟
+  total_points: 32
+  version: teacher
+  source_artifacts:
+    structure_analysis: artifacts/杨茗贺/2026-06-19-反比例函数面积与铅垂线法复习/3-角平分线等腰/01-structure-analysis.md
+    explanation: artifacts/杨茗贺/2026-06-19-反比例函数面积与铅垂线法复习/3-角平分线等腰/02-student-explanation.assignment.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: main
+  title: 一、解答题（每题 8 分，共 32 分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: q1
+    points: 8
+    label: 第 1 题
+    stem_latex: "如图，在矩形 $ABCD$ 中，$BE$ 平分 $\\angle ABC$，交 $AD$ 于点 $E$，连接 $CE$。若 $AB=4$，$BC=9$，求 $CE$ 的长。\n\\begin{center}\n\\begin{tikzpicture}[scale=0.48]\n  \\coordinate (A) at (0,4); \\coordinate (B) at (0,0);\n  \\coordinate (C) at (9,0); \\coordinate (D) at (9,4);\n  \\coordinate (E) at (4,4);\n  \\draw (A)--(B)--(C)--(D)--cycle;\n  \\draw (B)--(E)--(C);\n  \\foreach \\p/\\pos in {A/left,B/left,C/right,D/right,E/above}\n    \\fill (\\p) circle(2pt) node[\\pos]{$\\p$};\n  \\node[left] at (0,2){$4$}; \\node[below] at (4.5,0){$9$};\n\\end{tikzpicture}\n\\end{center}\n"
+    answer_space:
+      type: steps
+      height: 30mm
+      step_count: 4
+    answer: $CE=\sqrt{41}$
+    solution_steps:
+    - title: 推出等腰
+      content: $BE$ 平分 $\angle ABC$，且 $AD\parallel BC$，所以 $\angle ABE=\angle AEB$，$AE=AB=4$。
+    - title: 求 $CE$
+      content: $DE=9-4=5$，$CD=4$，所以 $CE=\sqrt{4^2+5^2}=\sqrt{41}$。
+  - type: problem
+    id: q2
+    points: 8
+    label: 第 2 题
+    stem_latex: "如图，在矩形 $ABCD$ 中，$AB=6$，$BC=8$。沿对角线 $AC$ 翻折，使点 $B$ 落在点 $B'$ 处，线段 $CB'$ 交 $AD$ 于点 $E$。求 $AE$ 的长。\n\\begin{center}\n\\begin{tikzpicture}[scale=0.48]\n  \\coordinate (A) at (0,6); \\coordinate (B) at (0,0);\n  \\coordinate (C) at (8,0); \\coordinate (D) at (8,6);\n  \\coordinate (E) at (6.25,6); \\coordinate (Bp) at (5.76,7.68);\n  \\draw (A)--(B)--(C)--(D)--cycle;\n  \\draw (A)--(C);\n  \\draw[dashed] (B)--(Bp);\n  \\draw (C)--(Bp);\n  \\foreach \\p/\\pos in {A/left,B/below,C/below,D/right,E/above}\n    \\fill (\\p) circle(2pt) node[\\pos]{$\\p$};\n  \\fill (Bp) circle(2pt) node[above]{$B'$};\n  \\node[left] at (0,3){$6$}; \\node[below] at (4,0){$8$};\n\\end{tikzpicture}\n\\end{center}\n"
+    answer_space:
+      type: steps
+      height: 30mm
+      step_count: 4
+    answer: $AE=\dfrac{25}{4}$
+    solution_steps:
+    - title: 推出等腰
+      content: 翻折得 $\angle BCA=\angle ACE$，又 $AD\parallel BC$ 得 $\angle EAC=\angle BCA$，所以 $\angle EAC=\angle ACE$，$AE=CE$。
+    - title: 列方程
+      content: 设 $AE=x$，则 $DE=8-x$，$CD=6$。由 $CE=AE$，得 $x^2=(8-x)^2+6^2$，解得 $x=\dfrac{25}{4}$。
+  - type: problem
+    id: q3
+    points: 8
+    label: 第 3 题
+    stem_latex: "如图，在平行四边形 $ABCD$ 中，点 $E$ 在边 $CD$ 上，$CE=4$，$AE=6$。$AG$ 平分 $\\angle BAE$，交 $CD$ 的延长线于点 $G$，且点 $G$ 在点 $C$ 的外侧。求 $CG$ 的长。\n\\begin{center}\n\\begin{tikzpicture}[scale=0.58]\n  \\coordinate (A) at (0,3); \\coordinate (B) at (-1,0);\n  \\coordinate (C) at (5,0); \\coordinate (D) at (6,3);\n  \\coordinate (E) at (3,3); \\coordinate (G) at (5,3);\n  \\draw (A)--(B)--(C)--(D)--cycle;\n  \\draw (A)--(E); \\draw (A)--(G);\n  \\draw[dashed] (D)--(6.5,3);\n  \\foreach \\p/\\pos in {A/above left,B/below,C/below,D/above,E/above,G/above}\n    \\fill (\\p) circle(2pt) node[\\pos]{$\\p$};\n\\end{tikzpicture}\n\\end{center}\n"
+    answer_space:
+      type: steps
+      height: 34mm
+      step_count: 5
+    answer: $CG=2$
+    solution_steps:
+    - title: 推出等腰
+      content: $AB\parallel GE$，且 $AG$ 平分 $\angle BAE$，所以 $\angle GAE=\angle AGE$，$AE=GE=6$。
+    - title: 求 $CG$
+      content: $GE=CE+CG$，所以 $CG=6-4=2$。
+  - type: problem
+    id: q4
+    points: 8
+    label: 第 4 题
+    stem_latex: "如图，在正方形 $ABCD$ 中，点 $E$ 是 $CD$ 的中点，$BF$ 平分 $\\angle ABE$，交 $AD$ 于点 $F$。以点 $B$ 为原点，以 $BC$ 所在直线为 $x$ 轴，以 $BA$ 所在直线为 $y$ 轴建立平面直角坐标系。若点 $E$ 的坐标为 $(2,1)$，求点 $D$ 和点 $F$ 的坐标。\n\\begin{center}\n\\begin{tikzpicture}[scale=1.0,>=latex]\n  \\draw[->] (-0.3,0)--(2.8,0) node[right]{$x$};\n  \\draw[->] (0,-0.3)--(0,3.4) node[above]{$y$};\n  \\coordinate (B) at (0,0); \\coordinate (C) at (2,0);\n  \\coordinate (D) at (2,2); \\coordinate (A) at (0,2);\n  \\coordinate (E) at (2,1); \\coordinate (G) at (2,3.236);\n  \\coordinate (F) at (1.236,2);\n  \\draw (A)--(B)--(C)--(D)--cycle;\n  \\draw (B)--(E); \\draw (B)--(F); \\draw[dashed] (F)--(G);\n  \\foreach \\p/\\pos in {A/left,B/below left,C/below,D/right,E/right,F/above,G/right}\n    \\fill (\\p) circle(1.5pt) node[\\pos]{$\\p$};\n\\end{tikzpicture}\n\\end{center}\n"
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 6
+    answer: $D(2,2)$，$F(\sqrt5-1,2)$
+    solution_steps:
+    - title: 求 $D$
+      content: $E$ 是 $CD$ 中点且 $E(2,1)$，正方形边长为 $2$，所以 $D(2,2)$。
+    - title: 延长求等腰
+      content: 延长 $BF$ 交 $CD$ 延长线于 $G$，由 $AB\parallel GE$ 和角平分线得 $\triangle BGE$ 为等腰，$GE=BE=\sqrt5$。
+    - title: 求 $F$
+      content: $G(2,1+\sqrt5)$，直线 $BG:y=\frac{1+\sqrt5}{2}x$。令 $y=2$ 得 $x=\sqrt5-1$，所以 $F(\sqrt5-1,2)$。
+- id: answer-key
+  title: 答案速查
+  type: answer_key
+  visibility: teacher
+  blocks:
+  - type: answers
+    id: answers
+    items:
+    - number: '1'
+      answer: $\sqrt{41}$
+    - number: '2'
+      answer: $\dfrac{25}{4}$
+    - number: '3'
+      answer: $2$
+    - number: '4'
+      answer: $D(2,2)$，$F(\sqrt5-1,2)$

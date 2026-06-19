@@ -1,0 +1,127 @@
+meta:
+  title: "角平分线与等腰三角形练习"
+  subtitle: "杨茗贺 · 学生版"
+  grade: "八年级"
+  subject: "数学"
+  duration: "25分钟"
+  total_points: 32
+  version: "student"
+  source_artifacts:
+    structure_analysis: "artifacts/杨茗贺/2026-06-19-反比例函数面积与铅垂线法复习/3-角平分线等腰/01-structure-analysis.md"
+    explanation: "artifacts/杨茗贺/2026-06-19-反比例函数面积与铅垂线法复习/3-角平分线等腰/02-student-explanation.assignment.yaml"
+
+render:
+  template: "exam-zh-practice"
+  paper_size: "a4paper"
+  answer_key_position: "after_page_break"
+
+sections:
+  - id: "main"
+    title: "一、解答题（每题 8 分，共 32 分）"
+    type: "practice"
+    visibility: "student"
+    blocks:
+      - type: "problem"
+        id: "q1"
+        points: 8
+        label: "第 1 题"
+        stem_latex: |
+          如图，在矩形 $ABCD$ 中，$BE$ 平分 $\angle ABC$，交 $AD$ 于点 $E$，连接 $CE$。若 $AB=4$，$BC=9$，求 $CE$ 的长。
+          \begin{center}
+          \begin{tikzpicture}[scale=0.48]
+            \coordinate (A) at (0,4); \coordinate (B) at (0,0);
+            \coordinate (C) at (9,0); \coordinate (D) at (9,4);
+            \coordinate (E) at (4,4);
+            \draw (A)--(B)--(C)--(D)--cycle;
+            \draw (B)--(E)--(C);
+            \foreach \p/\pos in {A/left,B/left,C/right,D/right,E/above}
+              \fill (\p) circle(2pt) node[\pos]{$\p$};
+            \node[left] at (0,2){$4$}; \node[below] at (4.5,0){$9$};
+          \end{tikzpicture}
+          \end{center}
+        hints:
+          - content: '先证明 $\triangle ABE$ 是等腰三角形。'
+        answer_space:
+          type: "steps"
+          height: "42mm"
+          step_count: 5
+
+      - type: "problem"
+        id: "q2"
+        points: 8
+        label: "第 2 题"
+        stem_latex: |
+          如图，在矩形 $ABCD$ 中，$AB=6$，$BC=8$。沿对角线 $AC$ 翻折，使点 $B$ 落在点 $B'$ 处，线段 $CB'$ 交 $AD$ 于点 $E$。求 $AE$ 的长。
+          \begin{center}
+          \begin{tikzpicture}[scale=0.48]
+            \coordinate (A) at (0,6); \coordinate (B) at (0,0);
+            \coordinate (C) at (8,0); \coordinate (D) at (8,6);
+            \coordinate (E) at (6.25,6); \coordinate (Bp) at (5.76,7.68);
+            \draw (A)--(B)--(C)--(D)--cycle;
+            \draw (A)--(C);
+            \draw[dashed] (B)--(Bp);
+            \draw (C)--(Bp);
+            \foreach \p/\pos in {A/left,B/below,C/below,D/right,E/above}
+              \fill (\p) circle(2pt) node[\pos]{$\p$};
+            \fill (Bp) circle(2pt) node[above]{$B'$};
+            \node[left] at (0,3){$6$}; \node[below] at (4,0){$8$};
+          \end{tikzpicture}
+          \end{center}
+        hints:
+          - content: "翻折得到对应角相等，再用 $AD\\parallel BC$ 把角搬到 $\\triangle AEC$。"
+        answer_space:
+          type: "steps"
+          height: "42mm"
+          step_count: 5
+
+      - type: "problem"
+        id: "q3"
+        points: 8
+        label: "第 3 题"
+        stem_latex: |
+          如图，在平行四边形 $ABCD$ 中，点 $E$ 在边 $CD$ 上，$CE=4$，$AE=6$。$AG$ 平分 $\angle BAE$，交 $CD$ 的延长线于点 $G$，且点 $G$ 在点 $C$ 的外侧。求 $CG$ 的长。
+          \begin{center}
+          \begin{tikzpicture}[scale=0.58]
+            \coordinate (A) at (0,3); \coordinate (B) at (-1,0);
+            \coordinate (C) at (5,0); \coordinate (D) at (6,3);
+            \coordinate (E) at (3,3); \coordinate (G) at (5,3);
+            \draw (A)--(B)--(C)--(D)--cycle;
+            \draw (A)--(E); \draw (A)--(G);
+            \draw[dashed] (D)--(6.5,3);
+            \foreach \p/\pos in {A/above left,B/below,C/below,D/above,E/above,G/above}
+              \fill (\p) circle(2pt) node[\pos]{$\p$};
+          \end{tikzpicture}
+          \end{center}
+        hints:
+          - content: '用 $AB\parallel CD$ 把角搬到 $\triangle AGE$ 中。'
+        answer_space:
+          type: "steps"
+          height: "42mm"
+          step_count: 5
+
+      - type: "problem"
+        id: "q4"
+        points: 8
+        label: "第 4 题"
+        stem_latex: |
+          如图，在正方形 $ABCD$ 中，点 $E$ 是 $CD$ 的中点，$BF$ 平分 $\angle ABE$，交 $AD$ 于点 $F$。以点 $B$ 为原点，以 $BC$ 所在直线为 $x$ 轴，以 $BA$ 所在直线为 $y$ 轴建立平面直角坐标系。若点 $E$ 的坐标为 $(2,1)$，求点 $D$ 和点 $F$ 的坐标。
+          \begin{center}
+          \begin{tikzpicture}[scale=1.0,>=latex]
+            \draw[->] (-0.3,0)--(2.8,0) node[right]{$x$};
+            \draw[->] (0,-0.3)--(0,3.4) node[above]{$y$};
+            \coordinate (B) at (0,0); \coordinate (C) at (2,0);
+            \coordinate (D) at (2,2); \coordinate (A) at (0,2);
+            \coordinate (E) at (2,1); \coordinate (G) at (2,3.236);
+            \coordinate (F) at (1.236,2);
+            \draw (A)--(B)--(C)--(D)--cycle;
+            \draw (B)--(E); \draw (B)--(F); \draw[dashed] (F)--(G);
+            \foreach \p/\pos in {A/left,B/below left,C/below,D/right,E/right,F/above,G/right}
+              \fill (\p) circle(1.5pt) node[\pos]{$\p$};
+          \end{tikzpicture}
+          \end{center}
+        hints:
+          - content: "延长 $BF$ 到 $CD$ 所在直线，先得到一个等腰三角形。"
+        answer_space:
+          type: "steps"
+          height: "58mm"
+          step_count: 6
