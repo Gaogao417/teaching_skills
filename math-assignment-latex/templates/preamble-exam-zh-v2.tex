@@ -610,22 +610,13 @@
 }
 
 \newenvironment{answerareawithdiagramtikz}[3]{%
-  \vspace{3mm}%
-  \begin{tcolorbox}[
-    enhanced,
-    breakable,
-    colback=white,
-    colframe=edu-line,
-    boxrule=0.55pt,
-    arc=0.8mm,
-    height=#1,
-    valign=top,
-  ]
+  \par\vspace{3mm}%
+  \noindent
   \begin{minipage}[t]{\dimexpr\linewidth-#2-6mm\relax}
-    \vspace{0pt}
+    \vspace{0pt}\rule{0pt}{#1}
   \end{minipage}\hfill
   \begin{diagramcoltikz}{#2}{#3}
 }{%
   \end{diagramcoltikz}
-  \end{tcolorbox}%
+  \par\vspace{2mm}%
 }

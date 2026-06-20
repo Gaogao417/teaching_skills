@@ -60,11 +60,35 @@ def point_label_tex(value: object) -> str:
     text = str(value)
     if re.match(r"^[A-Za-z][A-Za-z0-9']*$", text):
         return r"$\mathit{" + escape_tex(text) + "}$"
+    subscript_match = re.match(r"^(?P<name>[A-Za-z])_\{?(?P<sub>[0-9]+)\}?$", text)
+    if subscript_match:
+        return (
+            r"$\mathit{"
+            + escape_tex(subscript_match.group("name"))
+            + r"}_{"
+            + escape_tex(subscript_match.group("sub"))
+            + r"}$"
+        )
     return escape_tex(text)
 
 
+def _looks_like_math_label(text: str) -> bool:
+    return bool(re.fullmatch(r"[A-Za-z0-9_{}=+\-*/^().,\\\s<>]+", text))
+
+
+def _normalize_math_subscripts(text: str) -> str:
+    return re.sub(r"([A-Za-z])_([A-Za-z0-9]+)", r"\1_{\2}", text)
+
+
 def node_text_tex(value: object) -> str:
-    return escape_tex(value)
+    text = str(value).strip()
+    if not text:
+        return ""
+    if text.startswith("$") and text.endswith("$"):
+        return text
+    if _looks_like_math_label(text) and any(ch in text for ch in "_=^+-*/"):
+        return "$" + _normalize_math_subscripts(text) + "$"
+    return escape_tex(text)
 
 
 def color_option(value: object, *, default: str = "black") -> str:

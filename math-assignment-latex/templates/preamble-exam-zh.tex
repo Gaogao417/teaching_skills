@@ -243,24 +243,15 @@
 }
 
 \newenvironment{answerareawithdiagramtikz}[3]{%
-  \vspace{2mm}%
-  \begin{tcolorbox}[
-    enhanced, breakable,
-    colback=white,
-    colframe=white,
-    boxrule=0pt,
-    height=#1,
-    valign=top,
-    bottom=0mm,
-    after skip=0mm,
-  ]
+  \par\vspace{2mm}%
+  \noindent
   \begin{minipage}[t]{\dimexpr\linewidth-#2-6mm\relax}
-    \vspace{0pt}
+    \vspace{0pt}\rule{0pt}{#1}
   \end{minipage}\hfill
   \begin{diagramcoltikz}{#2}{#3}
 }{%
   \end{diagramcoltikz}
-  \end{tcolorbox}%
+  \par\vspace{2mm}%
 }
 
 % ---------- 字体设置 ----------

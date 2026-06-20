@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import argparse
 import copy
+import json
 import sys
 from pathlib import Path
 
@@ -301,6 +302,30 @@ def write_yaml(path: Path, data: dict[str, object]) -> None:
     )
 
 
+def validate_batch_report_allows_resolution(report_path: Path) -> None:
+    if not report_path.exists():
+        return
+    try:
+        report = json.loads(report_path.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, UnicodeDecodeError) as exc:
+        raise ValueError(f"Invalid diagram batch report: {report_path}") from exc
+    if not isinstance(report, dict):
+        raise ValueError(f"Invalid diagram batch report: {report_path}")
+    total_jobs = int(report.get("total_jobs") or 0)
+    ok_count = int(report.get("ok_count") or 0)
+    failed_count = int(report.get("failed_count") or 0)
+    jobs = report.get("jobs") or []
+    all_workflow_failed = bool(jobs) and all(
+        isinstance(job, dict) and job.get("status") == "workflow_failed"
+        for job in jobs
+    )
+    if total_jobs > 0 and ok_count == 0 and (failed_count > 0 or all_workflow_failed):
+        raise ValueError(
+            "Diagram batch produced no successful jobs; refusing to resolve "
+            "diagram bindings from fallback or stale artifacts"
+        )
+
+
 # ---------------------------------------------------------------------------
 # CLI
 # ---------------------------------------------------------------------------
@@ -358,6 +383,7 @@ def main() -> None:
         raise SystemExit(f"Jobs directory not found: {jobs_dir}")
 
     plan_data = read_yaml(plan_path)
+    validate_batch_report_allows_resolution(jobs_path.parent / "diagram_batch_report.json")
     artifacts_manifest = manifest_from_paths(jobs_path, jobs_dir, artifact_dir)
 
     try:

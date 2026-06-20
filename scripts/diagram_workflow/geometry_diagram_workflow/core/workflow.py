@@ -438,13 +438,16 @@ def _model_pool(
     env_names: List[str],
     defaults: List[str],
 ) -> List[str]:
-    candidates: List[str] = []
+    configured: List[str] = []
     for key in single_keys:
-        candidates.extend(_split_models(config.get(key)))
-    candidates.extend(_split_models(config.get(pool_key)))
-    candidates.extend(_split_models(_env_first(*env_names)))
-    candidates.extend(defaults)
-    return _dedupe_models(candidates)
+        configured.extend(_split_models(config.get(key)))
+    configured.extend(_split_models(config.get(pool_key)))
+    if configured:
+        return _dedupe_models(configured)
+    env_models = _split_models(_env_first(*env_names))
+    if env_models:
+        return _dedupe_models(env_models)
+    return _dedupe_models(defaults)
 
 
 def _model_error_record(role: str, model: str, exc: Exception) -> Dict[str, str]:
@@ -466,6 +469,25 @@ def _is_retryable_model_error(exc: Exception) -> bool:
     return True
 
 
+def _configured_value(value: object) -> bool:
+    return value not in (None, "", [], {})
+
+
+def _prune_empty_model_config(config: Dict[str, object]) -> Dict[str, object]:
+    return {
+        key: value
+        for key, value in dict(config).items()
+        if _configured_value(value)
+    }
+
+
+def _float_config(config: Dict[str, object], key: str, default: float) -> float:
+    value = config.get(key)
+    if not _configured_value(value):
+        return float(default)
+    return float(value)
+
+
 def _resolved_model_config(model_config: Dict[str, object]) -> Dict[str, object]:
     """合并请求、环境变量和默认值，得到文本/视觉模型池配置。
 
@@ -474,11 +496,11 @@ def _resolved_model_config(model_config: Dict[str, object]) -> Dict[str, object]
     """
 
     load_local_env()
-    resolved = dict(model_config)
+    resolved = _prune_empty_model_config(model_config)
     configured_base_url = _env_first(
         "GSB_BASE_URL", "DASHSCOPE_BASE_URL", "OPENAI_BASE_URL"
     )
-    if "base_url" not in resolved:
+    if not resolved.get("base_url"):
         if configured_base_url:
             resolved["base_url"] = configured_base_url
         elif _env_first("OPENAI_API_KEY") and not _env_first("DASHSCOPE_API_KEY", "GSB_API_KEY"):
@@ -520,17 +542,15 @@ def _resolved_model_config(model_config: Dict[str, object]) -> Dict[str, object]
     resolved["vision_models"] = vision_models
     resolved.setdefault("text_model", text_models[0] if text_models else "")
     resolved.setdefault("vision_model", vision_models[0] if vision_models else "")
-    resolved.setdefault(
-        "api_key_env",
-        _env_first("GSB_API_KEY_ENV") or "DASHSCOPE_API_KEY",
-    )
-    if "vision_base_url" not in resolved:
+    if not resolved.get("api_key_env"):
+        resolved["api_key_env"] = _env_first("GSB_API_KEY_ENV") or "DASHSCOPE_API_KEY"
+    if not resolved.get("vision_base_url"):
         vision_base_url = _env_first(
             "GSB_VISION_BASE_URL", "DASHSCOPE_VISION_BASE_URL", "VISION_BASE_URL"
         )
         if vision_base_url:
             resolved["vision_base_url"] = vision_base_url
-    if "vision_api_key_env" not in resolved:
+    if not resolved.get("vision_api_key_env"):
         vision_key_env = _env_first("GSB_VISION_API_KEY_ENV", "VISION_API_KEY_ENV")
         if vision_key_env:
             resolved["vision_api_key_env"] = vision_key_env
@@ -754,8 +774,8 @@ def _solution_model_json(
         try:
             response = client.chat.completions.create(
                 model=model,
-                temperature=float(model_config.get("temperature", 0.2)),
-                timeout=float(model_config.get("request_timeout_s", 120)),
+                temperature=_float_config(model_config, "temperature", 0.2),
+                timeout=_float_config(model_config, "request_timeout_s", 120),
                 messages=[
                     {"role": "system", "content": system_prompt},
                     {"role": "user", "content": json.dumps(user_payload, ensure_ascii=False)},
@@ -932,8 +952,8 @@ def _text_model_json(
         try:
             response = client.chat.completions.create(
                 model=model,
-                temperature=float(model_config.get("temperature", 0.2)),
-                timeout=float(model_config.get("request_timeout_s", 120)),
+                temperature=_float_config(model_config, "temperature", 0.2),
+                timeout=_float_config(model_config, "request_timeout_s", 120),
                 messages=[
                     {"role": "system", "content": system_prompt},
                     {
@@ -1497,8 +1517,12 @@ def _evaluate_image(
         try:
             response = client.chat.completions.create(
                 model=vision_model,
-                temperature=float(model_config.get("vision_temperature", 0.0)),
-                timeout=float(model_config.get("vision_request_timeout_s", model_config.get("request_timeout_s", 120))),
+                temperature=_float_config(model_config, "vision_temperature", 0.0),
+                timeout=_float_config(
+                    model_config,
+                    "vision_request_timeout_s",
+                    _float_config(model_config, "request_timeout_s", 120),
+                ),
                 messages=[
                     {
                         "role": "user",

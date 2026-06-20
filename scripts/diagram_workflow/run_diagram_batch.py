@@ -54,6 +54,29 @@ def write_json(path: Path, data: dict[str, object]) -> None:
     path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
+def _has_runtime_value(value: object) -> bool:
+    return value not in (None, "", [], {})
+
+
+def request_payload_for_artifact(request: DiagramJobRequest) -> dict[str, object]:
+    """Serialize a request while omitting empty runtime model config fields."""
+    payload = request.model_dump(mode="json")
+    engine_options = payload.get("engine_options")
+    if isinstance(engine_options, dict):
+        model_config = engine_options.get("engine_model_config")
+        if isinstance(model_config, dict):
+            pruned_config = {
+                key: value
+                for key, value in model_config.items()
+                if _has_runtime_value(value)
+            }
+            if pruned_config:
+                engine_options["engine_model_config"] = pruned_config
+            else:
+                engine_options.pop("engine_model_config", None)
+    return payload
+
+
 # ---------------------------------------------------------------------------
 # Request generation
 # ---------------------------------------------------------------------------
@@ -209,7 +232,7 @@ def run_one_job(
 
     # Write v2 request
     request_path = job_build_dir / "request.json"
-    write_json(request_path, request.model_dump(mode="json"))
+    write_json(request_path, request_payload_for_artifact(request))
 
     if dry_run:
         return DiagramBatchJobResult(

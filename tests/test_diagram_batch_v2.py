@@ -10,7 +10,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts" / "diagram_workflow"))
 
 from diagram_contracts import DiagramJob, DiagramJobsManifest  # noqa: E402
-from run_diagram_batch import build_request, run_one_job  # noqa: E402
+from run_diagram_batch import build_request, request_payload_for_artifact, run_one_job  # noqa: E402
 
 
 class DiagramBatchV2Test(unittest.TestCase):
@@ -148,6 +148,20 @@ class DiagramBatchV2Test(unittest.TestCase):
             self.assertEqual(payload["semantic_constraints"]["given_objects"], ["A", "B", "C", "D"])
             self.assertEqual(payload["render_profile"]["width"], "60mm")
             self.assertEqual(payload["render_profile"]["canvas_height_px"], 360)
+            self.assertEqual(payload["engine_options"]["engine_model_config"], {"text_model": "test-model"})
+
+    def test_request_artifact_omits_empty_model_config_defaults(self) -> None:
+        manifest = self._manifest()
+        plan_data = self._plan_data()
+        plan_data["sections"][0]["blocks"][0]["diagram_slot"].pop("engine_options")
+
+        request = build_request(manifest.jobs[0], manifest, plan_data)
+        payload = request_payload_for_artifact(request)
+
+        self.assertIn("schema_version", payload)
+        self.assertIn("engine", payload)
+        self.assertIn("diagram_kind", payload)
+        self.assertNotIn("engine_model_config", payload["engine_options"])
 
 
 if __name__ == "__main__":

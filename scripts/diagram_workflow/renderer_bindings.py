@@ -65,6 +65,28 @@ def _resolve_existing_source(
     return None, path_value
 
 
+def _is_fallback_workflow(wf_data: dict[str, Any] | None, spec_data: dict[str, Any] | None) -> bool:
+    if not wf_data:
+        return False
+    model = wf_data.get("model")
+    text_model_used = ""
+    if isinstance(model, dict):
+        text_model_used = str(model.get("text_model_used") or "")
+    message = str(wf_data.get("message") or "")
+    if text_model_used == "offline-constraint-solver":
+        return True
+    if "offline constraint" in message.lower():
+        return True
+    if spec_data:
+        generator = str(spec_data.get("generator") or "")
+        coordinate_source = str(spec_data.get("coordinate_source") or "")
+        if "generate_constraint_specs.py" in generator:
+            return True
+        if "deterministic constraint solve" in coordinate_source.lower():
+            return True
+    return False
+
+
 def build_renderer_binding(
     *,
     job: object,
@@ -73,9 +95,11 @@ def build_renderer_binding(
 ) -> RendererBinding:
     rr_data = read_json(job_dir / "renderer_result.json")
     wf_data = read_json(job_dir / "workflow_result.json")
+    spec_data = read_json(job_dir / "final_renderer_spec.json")
     warnings: list[str] = []
 
-    if rr_data and rr_data.get("status") == "ok":
+    wf_status = wf_data.get("status") if wf_data else None
+    if rr_data and rr_data.get("status") == "ok" and wf_status == "ok":
         status = DiagramRunStatus.OK
     else:
         status = DiagramRunStatus.FAILED
@@ -105,6 +129,16 @@ def build_renderer_binding(
     else:
         warnings.append("renderer_result.json missing or invalid")
 
+    if wf_data:
+        if wf_status != "ok":
+            warnings.append(f"workflow status: {wf_status or 'unknown'}")
+    else:
+        warnings.append("workflow_result.json missing or invalid")
+
+    fallback_workflow = _is_fallback_workflow(wf_data, spec_data)
+    if fallback_workflow:
+        warnings.append("fallback/offline constraint workflow is not bindable")
+
     artifact_hash = ""
     source_path = None
     normalized_path = ""
@@ -130,7 +164,12 @@ def build_renderer_binding(
     if wf_data:
         warnings.extend(str(item) for item in (wf_data.get("policy_warnings") or []))
 
-    bindable = bool(status == DiagramRunStatus.OK and artifact_hash and (tikz_fragment or tikz_fragment_path or tikz_source_path))
+    bindable = bool(
+        status == DiagramRunStatus.OK
+        and not fallback_workflow
+        and artifact_hash
+        and (tikz_fragment or tikz_fragment_path or tikz_source_path)
+    )
     rel_prefix = f"build/diagram/jobs/{job.job_id}"
     return RendererBinding(
         slot_id=job.slot_id,

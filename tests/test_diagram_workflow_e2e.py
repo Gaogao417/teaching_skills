@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
-"""End-to-end test for the diagram workflow scripts.
+"""Offline renderer end-to-end test for the diagram workflow scripts.
 
-Only the plan YAML is fabricated. Every stage runs against real
-subprocesses and real file outputs:
+Only the plan YAML is fabricated. Every stage runs against real subprocesses
+and real file outputs, but the fixture uses deterministic renderer_spec jobs.
+This test does not call the GeometricScene LLM route or Wolfram synthetic
+geometry solver:
 
     S2.5  collector  →  real
     S2.6  batch      →  real (workflow.py + renderer)
@@ -31,7 +33,8 @@ PYTHON = sys.executable
 
 # ---------------------------------------------------------------------------
 # The only fixture: a fabricated assignment.plan.yaml with deterministic
-# renderer_spec payloads. Every workflow script still runs as a subprocess.
+# renderer_spec payloads. Every workflow script still runs as a subprocess, but
+# this is an offline file-flow test rather than a live GeometricScene smoke.
 # ---------------------------------------------------------------------------
 
 PLAN_YAML = {
@@ -267,7 +270,7 @@ def check_s26(jobs_path: Path, artifact_dir: Path, plan_path: Path) -> dict | No
       - each job dir does not contain the retired request filename
       - each renderer_result points to a non-empty TikZ fragment
     """
-    heading("S2.6  run_diagram_batch.py  (REAL)")
+    heading("S2.6  run_diagram_batch.py  (OFFLINE RENDERER)")
     info("Calls workflow.py + render_geometry_spec.py")
     info("Uses deterministic renderer_spec fixtures; no LLM/API key required.\n")
 

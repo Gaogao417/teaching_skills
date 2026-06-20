@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import sys
 import tempfile
 import unittest
@@ -20,7 +21,7 @@ from diagram_contracts import (  # noqa: E402
     RendererBinding,
     RendererBindingManifest,
 )
-from resolve_assignment_diagrams import resolve_assignment  # noqa: E402
+from resolve_assignment_diagrams import resolve_assignment, validate_batch_report_allows_resolution  # noqa: E402
 from tikz_renderer import compile_geometry_render_spec  # noqa: E402
 from tikz_renderer.writer import render_fragment  # noqa: E402
 
@@ -125,6 +126,29 @@ class DiagramProfileTest(unittest.TestCase):
 
         with self.assertRaises(ValueError):
             resolve_assignment(plan_data, artifacts)
+
+    def test_resolver_rejects_zero_success_batch_report(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            report_path = Path(tmp) / "diagram_batch_report.json"
+            report_path.write_text(
+                json.dumps(
+                    {
+                        "schema_version": "diagram-batch-report/v1",
+                        "total_jobs": 2,
+                        "ok_count": 0,
+                        "failed_count": 2,
+                        "dry_run": False,
+                        "jobs": [
+                            {"job_id": "q1-prompt", "status": "workflow_failed"},
+                            {"job_id": "q2-prompt", "status": "workflow_failed"},
+                        ],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            with self.assertRaises(ValueError):
+                validate_batch_report_allows_resolution(report_path)
 
     def test_renderers_use_profile_label_style_and_value_only_conditions(self) -> None:
         profile = DiagramSlot(**slot_payload()).resolved_render_profile().model_dump(mode="json")
