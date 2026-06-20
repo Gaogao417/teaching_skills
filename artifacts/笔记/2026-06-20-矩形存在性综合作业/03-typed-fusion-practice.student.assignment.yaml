@@ -1,0 +1,138 @@
+meta:
+  title: "矩形存在性 Typed Fusion 作业"
+  subtitle: "学生版"
+  grade: "八年级"
+  subject: "数学"
+  duration: "60分钟"
+  total_points: 100
+  version: "student"
+  show_answers: false
+  source_artifacts:
+    structure_analysis: "artifacts/笔记/2026-06-20-矩形存在性综合作业/01-structure-analysis.md"
+    explanation: "artifacts/笔记/2026-06-20-矩形存在性综合作业/02-student-explanation.assignment.yaml"
+
+render:
+  template: "exam-zh-practice"
+  paper_size: "a4paper"
+  answer_key_position: "after_page_break"
+
+sections:
+  - id: "chain-entry"
+    title: "一、链式入口与关键输出（每题 8 分，共 24 分）"
+    type: "practice"
+    visibility: "student"
+    blocks:
+      - type: "choice"
+        id: "q1"
+        points: 8
+        stem_latex: |
+          已知反比例函数 $y=\dfrac{k}{x}$ 的图像在第一象限与坐标轴围成的矩形面积为 $8$，直线 $y=x+2$ 与该反比例函数交于两点。取第一象限交点 $P$，则 $P$ 的坐标与以 $P$ 为顶点的坐标轴矩形面积分别为（\quad）。
+        choices:
+          A: "$P(2,4)$，面积 $8$"
+          B: "$P(4,2)$，面积 $8$"
+          C: "$P(2,4)$，面积 $4$"
+          D: "$P(-4,-2)$，面积 $8$"
+        answer: "A"
+      - type: "fillin"
+        id: "q2"
+        points: 8
+        fillin_type: "line"
+        stem_latex: |
+          反比例函数 $y=\dfrac{k}{x}$ 在第一象限对应的坐标轴矩形面积为 $12$。直线 $y=x+1$ 与它的第一象限交点为 $P$。若以 $A(0,0)$，$B(3,0)$，$C=P$ 为相邻顶点作矩形 $ABCD$，则 $D=$ \underline{\hspace{2cm}}。
+        answer: "$(0,4)$"
+      - type: "fillin"
+        id: "q3"
+        points: 8
+        fillin_type: "line"
+        stem_latex: |
+          已知 $A(0,0)$，$B(6,0)$，点 $C$ 在直线 $y=x$ 上。若 $A,B,C,D$ 构成矩形，且矩形面积为 $18$，再令 $C$ 落在反比例函数 $y=\dfrac{k}{x}$ 上，则 $k=$ \underline{\hspace{2cm}}。
+        answer: "$9$"
+
+  - id: "two-step-chain"
+    title: "二、两段 relation chain（每题 12 分，共 36 分）"
+    type: "practice"
+    visibility: "student"
+    blocks:
+      - type: "problem"
+        id: "q4"
+        points: 12
+        stem_latex: |
+          反比例函数 $y=\dfrac{k}{x}$ 在第一象限对应的坐标轴矩形面积为 $20$。点 $P$ 是该反比例函数上横坐标为 $4$ 的点，直线 $OP$ 与点 $A(0,0)$，$B(4,0)$ 共同确定矩形 $ABCD$，其中 $C=P$。求直线 $OP$ 的解析式、$k$ 的值以及点 $C,D$。
+        hints:
+          - content: "先由面积得到反比例函数，再由 $x_P=4$ 得到点 $P$。"
+        answer_space:
+          type: "steps"
+          height: "55mm"
+          step_count: 5
+      - type: "problem"
+        id: "q5"
+        points: 12
+        stem_latex: |
+          一次函数 $y=x+2$ 与反比例函数 $y=\dfrac{8}{x}$ 相交。先求两图像交点并得到不等式 $x+2\ge\dfrac{8}{x}$ 的解集；再在直线 $y=x+2$ 上寻找点 $C$，使 $A(0,0)$，$B(2,0)$，$C,D$ 构成矩形，且 $x_C$ 属于上述解集。求所有可能的 $C,D$。
+        hints:
+          - content: "不等式解集先成为位置筛选条件，再进入矩形候选点。"
+        answer_space:
+          type: "steps"
+          height: "65mm"
+          step_count: 6
+      - type: "problem"
+        id: "q6"
+        points: 12
+        stem_latex: |
+          已知 $A(0,0)$，$B(4,0)$，点 $C$ 在直线 $y=x$ 上。先求使四边形 $ABCD$ 为菱形的 $C,D$；再判断这个候选四边形是否也是矩形。
+        hints:
+          - content: "先用菱形 relation 得到候选点对，再把候选点对送入矩形验证。"
+        answer_space:
+          type: "steps"
+          height: "55mm"
+          step_count: 5
+
+  - id: "three-step-chain"
+    title: "三、三段 typed chain 综合（每题 10 分，共 40 分）"
+    type: "practice"
+    visibility: "student"
+    blocks:
+      - type: "problem"
+        id: "q7"
+        points: 10
+        stem_latex: |
+          已知 $A(0,0)$，$B(8,0)$。四边形 $ABCD$ 是矩形且面积为 $16$，点 $C$ 在第一象限。设 $C$ 同时在直线 $y=mx$ 与反比例函数 $y=\dfrac{k}{x}$ 上。求 $C,D,m,k$。
+        hints:
+          - content: "矩形面积先输出点 $C$，再分别喂给一次函数参数和反比例函数参数。"
+        answer_space:
+          type: "steps"
+          height: "58mm"
+          step_count: 6
+      - type: "problem"
+        id: "q8"
+        points: 10
+        stem_latex: |
+          已知 $A(0,0)$，$B(4,0)$，点 $C$ 在直线 $y=2x$ 上。先由矩形 $ABCD$ 生成候选点对，再把该候选点对送入菱形条件检验。判断是否存在同一组 $C,D$，使四边形 $ABCD$ 同时为矩形和菱形。
+        hints:
+          - content: "不是分别求两题，而是把矩形候选点对送去做菱形验证。"
+        answer_space:
+          type: "steps"
+          height: "52mm"
+          step_count: 5
+      - type: "problem"
+        id: "q9"
+        points: 10
+        stem_latex: |
+          反比例函数 $y=\dfrac{k}{x}$ 在第一象限对应的坐标轴矩形面积为 $18$。直线 $y=x+3$ 与该反比例函数交于两点，取第一象限交点 $P$。过 $O(0,0)$ 与 $P$ 作直线 $OP$，再在直线 $OP$ 上取点 $E$，使四边形 $ABEF$ 是菱形，其中 $A(0,0)$，$B(6,0)$。求 $P$、直线 $OP$ 的解析式以及 $E,F$。
+        hints:
+          - content: "面积 -> 反比例函数 -> 交点 -> 直线 OP -> 菱形候选点。"
+        answer_space:
+          type: "steps"
+          height: "75mm"
+          step_count: 8
+      - type: "problem"
+        id: "q10"
+        points: 10
+        stem_latex: |
+          反比例函数 $y=\dfrac{k}{x}$ 在第一象限对应的坐标轴矩形面积为 $12$。直线 $y=x+1$ 与该反比例函数交于两点，取第一象限交点 $P$。以 $A(0,0)$，$B(x_P,0)$，$C=P$ 构成矩形 $ABCD$；再用点 $C$ 反求一次函数 $y=mx$。求 $k,P,D,m$，并说明每一步的输出进入了下一步的哪个输入。
+        hints:
+          - content: "这题要写清 chain：面积给函数，函数交点给点，点给矩形，点再给一次函数参数。"
+        answer_space:
+          type: "steps"
+          height: "75mm"
+          step_count: 8

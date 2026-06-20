@@ -1,0 +1,245 @@
+meta:
+  title: 菱形存在性 · 10题综合练习
+  subtitle: 定点+动点轨迹 · AB为边/为对角线分类讨论
+  grade: 八年级
+  subject: 数学
+  duration: 45分钟
+  total_points: 100
+  version: student
+  assignment_id: 2026-06-20-菱形存在性-student
+  source_artifacts:
+    structure_analysis: artifacts/荣璟羽/2026-06-20-菱形存在性/01-structure-analysis.md
+    model_relations:
+    - rhombus_candidate_point_pairs_on_linear_locus
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: group1-scaffold
+  title: 一、入门：单一角色（每题 9 分，共 18 分）
+  type: practice
+  visibility: student
+  blocks:
+  - type: problem
+    id: q1
+    points: 9
+    stem_latex: '在平面直角坐标系中，点 $A(0,0)$、$B(4,0)$。点 $P$ 在 $y$ 轴上运动（异于 $A$），
+
+      是否存在点 $P$ 和点 $Q$，使以 $A,B,P,Q$ 为顶点（$AB$ 为一条边）的四边形是菱形？
+
+      若存在，求出所有符合条件的点 $P$ 和点 $Q$ 的坐标。
+
+      '
+    hints:
+    - content: $AB$ 是菱形的一条边，所以 $|AP|$ 也要等于 $|AB|$。
+    - content: 设 $P=(0,t)$，用 $|AP|=|AB|=4$ 列方程。
+    answer_space:
+      type: steps
+      height: 56mm
+      step_count: 4
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/practice-student-q1-prompt/rendered/prompt.fragment.tex
+        diagram_ref: practice.student.q1.prompt
+        diagram_job_id: practice-student-q1-prompt
+        width: 60mm
+        caption: 第1题图（A、B 与 y 轴）
+        variant: prompt
+        disclosure_policy: clean
+        artifact_hash: sha256:1d5b0c3f8949016a2facdf77fb633a77d8ca66c5792fecc71da3b7f105df8e88
+        packages:
+        - tikz
+        libraries: []
+  - type: problem
+    id: q2
+    points: 9
+    stem_latex: '在平面直角坐标系中，点 $A(0,0)$、$B(6,0)$。线段 $AB$ 是菱形 $ABQP$ 的一条对角线，
+
+      点 $P$ 在直线 $x=3$ 上，且菱形 $ABQP$ 的面积为 $24$。
+
+      求点 $P$ 和点 $Q$ 的坐标，并求菱形的边长。
+
+      '
+    hints:
+    - content: $AB$ 是对角线，则另一条对角线 $PQ$ 被 $AB$ 垂直平分，$P,Q$ 关于 $AB$ 对称。
+    - content: 菱形面积 $=\dfrac12\times|AB|\times|PQ|$，先用面积求 $|PQ|$。
+    answer_space:
+      type: steps
+      height: 56mm
+      step_count: 4
+- id: group2-full-case
+  title: 二、完整分类：AB为边 + AB为对角线（每题 10 分，共 20 分）
+  type: practice
+  visibility: student
+  blocks:
+  - type: problem
+    id: q3
+    points: 10
+    stem_latex: '如图，直线 $y=-\dfrac34 x+3$ 与 $x$ 轴交于点 $A$，与 $y$ 轴交于点 $B$。
+
+      点 $P$ 在 $x$ 轴上运动（异于点 $A$）。
+
+      是否存在点 $P$ 和点 $Q$，使以 $A,B,P,Q$ 为顶点的四边形是菱形？
+
+      若存在，求出所有符合条件的点 $P$ 和点 $Q$ 的坐标。
+
+      '
+    hints:
+    - content: 先求 $A,B$ 的坐标和 $|AB|$。再分两类：$AB$ 为边、$AB$ 为对角线。
+    - content: 每个候选 $P$ 都要补出 $Q$，再验证四边是否相等。
+    answer_space:
+      type: steps
+      height: 92mm
+      step_count: 6
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/practice-student-q3-prompt/rendered/prompt.fragment.tex
+        diagram_ref: practice.student.q3.prompt
+        diagram_job_id: practice-student-q3-prompt
+        width: 60mm
+        caption: 第3题图（直线与两坐标轴）
+        variant: prompt
+        disclosure_policy: clean
+        artifact_hash: sha256:877e9dfcd4cf5af2104b4be1206f1368a25bf8cf32375c62e91cc0ad7865c86f
+        packages:
+        - tikz
+        libraries: []
+  - type: problem
+    id: q4
+    points: 10
+    stem_latex: '直线 $y=-\dfrac34 x+6$ 与 $x$ 轴交于点 $A$，与 $y$ 轴交于点 $B$。
+
+      点 $P$ 在 $x$ 轴上运动（异于点 $A$）。
+
+      是否存在点 $P$ 和点 $Q$，使以 $A,B,P,Q$ 为顶点的四边形是菱形？
+
+      若存在，求出所有符合条件的点 $P$ 和点 $Q$ 的坐标。
+
+      '
+    hints:
+    - content: 本题与第 3 题结构相同，只是数字变了。
+    - content: 记得分两类，每个候选 $P$ 都补 $Q$ 验四边。
+    answer_space:
+      type: steps
+      height: 92mm
+      step_count: 6
+- id: group3-role
+  title: 三、轨迹与角色：天然成立 / 明确无解（每题 10 分，共 20 分）
+  type: practice
+  visibility: student
+  blocks:
+  - type: problem
+    id: q5
+    points: 10
+    stem_latex: '在平面直角坐标系中，点 $A(0,0)$、$B(8,0)$。线段 $AB$ 是菱形 $ABQP$ 的一条对角线，
+
+      点 $P$ 在直线 $x=4$（即 $AB$ 的垂直平分线）上，菱形 $ABQP$ 的面积为 $24$。
+
+      求点 $P$ 和点 $Q$ 的坐标，并求菱形的边长。
+
+      '
+    hints:
+    - content: $P$ 在 $AB$ 的中垂线上，所以 $AB$ 作为对角线时 $PQ\perp AB$ 天然成立。
+    - content: 用面积 $=\dfrac12|AB|\cdot|PQ|$ 求出 $|PQ|$，再定 $P$ 的纵坐标。
+    answer_space:
+      type: steps
+      height: 62mm
+      step_count: 4
+  - type: problem
+    id: q6
+    points: 10
+    stem_latex: '在平面直角坐标系中，点 $A(0,0)$、$B(6,0)$。点 $P$ 在 $y$ 轴上运动（异于 $A$）。
+
+      是否存在点 $P$ 和点 $Q$，使以 $A,B,P,Q$ 为顶点的四边形是菱形？
+
+      若存在，求出所有符合条件的点 $P$ 和点 $Q$ 的坐标；若某一类不存在，请说明理由。
+
+      '
+    hints:
+    - content: 分两类。其中“$AB$ 为对角线”这一类要判断：$P$ 在 $y$ 轴上时，$PQ$ 能否与水平的 $AB$ 垂直？
+    - content: 即使某一类无解，也要写出判断过程，不能直接跳过。
+    answer_space:
+      type: steps
+      height: 78mm
+      step_count: 5
+- id: group4-transfer
+  title: 四、迁移与筛选（每题 10 分，共 20 分）
+  type: practice
+  visibility: student
+  blocks:
+  - type: problem
+    id: q7
+    points: 10
+    stem_latex: '直线 $y=-\dfrac43 x+4$ 与 $x$ 轴交于点 $A$，与 $y$ 轴交于点 $B$。
+
+      点 $P$ 在 $x$ 轴上运动（异于点 $A$）。
+
+      是否存在点 $P$ 和点 $Q$，使以 $A,B,P,Q$ 为顶点的四边形是菱形？
+
+      若存在，求出所有符合条件的点 $P$ 和点 $Q$ 的坐标。
+
+      '
+    hints:
+    - content: 先求 $A,B$ 和 $|AB|$（这里 $|AB|$ 是整数）。
+    - content: 对角线那一类的解可能是分数，列点积等于 $0$ 的方程即可。
+    answer_space:
+      type: steps
+      height: 92mm
+      step_count: 6
+  - type: problem
+    id: q8
+    points: 10
+    stem_latex: '直线 $y=-\dfrac34 x+3$ 与 $x$ 轴交于点 $A(4,0)$，与 $y$ 轴交于点 $B(0,3)$。
+
+      点 $P$ 在 $y$ 轴上运动（异于点 $B$）。
+
+      是否存在点 $P$ 和点 $Q$，使以 $A,B,P,Q$ 为顶点的四边形是菱形？
+
+      若存在，求出所有符合条件的点 $P$ 和点 $Q$ 的坐标。
+
+      '
+    hints:
+    - content: 本题动点在 $y$ 轴上。注意：满足某个距离条件的 $P$ 不一定是菱形顶点，要补 $Q$ 验四边。
+    - content: 分两类讨论，把不满足四边相等的候选舍去。
+    answer_space:
+      type: steps
+      height: 92mm
+      step_count: 6
+- id: group5-reverse
+  title: 五、反向构造（每题 11 分，共 22 分）
+  type: practice
+  visibility: student
+  blocks:
+  - type: problem
+    id: q9
+    points: 11
+    stem_latex: "已知一个菱形的边长为 $13$，一条对角线长为 $10$。\n\\begin{enumerate}[label=(\\arabic*)]\n\
+      \  \\item 求这个菱形另一条对角线的长；\n  \\item 求这个菱形的面积；\n  \\item 把这个菱形放入平面直角坐标系，使长为 $10$\
+      \ 的对角线与 $x$ 轴重合、\n        两条对角线的交点在原点，写出四个顶点的坐标。\n\\end{enumerate}\n"
+    hints:
+    - content: 菱形的对角线互相垂直平分，把边长和两条半对角线放进一个直角三角形。
+    - content: 第(3)问先确定两条对角线分别沿哪个坐标轴。
+    answer_space:
+      type: steps
+      height: 82mm
+      step_count: 6
+  - type: problem
+    id: q10
+    points: 11
+    stem_latex: '在平面直角坐标系中，点 $A(0,0)$、$B(10,0)$。线段 $AB$ 是菱形 $ABQP$ 的一条对角线，
+
+      点 $P$ 在直线 $x=5$ 上，且菱形的边长为 $\sqrt{34}$。
+
+      求点 $P$ 和点 $Q$ 的坐标。
+
+      '
+    hints:
+    - content: $AB$ 为对角线，$P=(5,t)$。边长平方 $=5^2+t^2$。
+    - content: 用边长平方等于 $34$ 求 $t$，注意 $t$ 有两个值。
+    answer_space:
+      type: steps
+      height: 62mm
+      step_count: 4

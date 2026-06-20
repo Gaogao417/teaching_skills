@@ -1,0 +1,361 @@
+meta:
+  title: "矩形存在性综合作业"
+  subtitle: "教师版"
+  grade: "八年级"
+  subject: "数学"
+  duration: "55分钟"
+  total_points: 100
+  version: "teacher"
+  source_artifacts:
+    structure_analysis: "artifacts/笔记/2026-06-20-矩形存在性综合作业/01-structure-analysis.md"
+    explanation: "artifacts/笔记/2026-06-20-矩形存在性综合作业/02-student-explanation.assignment.yaml"
+
+render:
+  template: "exam-zh-practice"
+  paper_size: "a4paper"
+  answer_key_position: "after_page_break"
+
+sections:
+  - id: "fixed-order"
+    title: "一、固定顺序矩形：从直角入口到轨迹包装（每题 10 分，共 30 分）"
+    type: "practice"
+    visibility: "both"
+    blocks:
+      - type: "problem"
+        id: "q1"
+        points: 10
+        stem_latex: |
+          已知 $A(1,1)$，$B(5,1)$，点 $C$ 在直线 $y=x+1$ 上。若四边形 $ABCD$ 是矩形，求点 $C,D$ 的坐标。
+        hints:
+          - content: '固定顺序 $ABCD$ 中，先判断 $\angle B$。'
+        answer_space:
+          type: "steps"
+          height: "35mm"
+          step_count: 4
+        answer: "$C(5,6),D(1,6)$"
+        solution_steps:
+          - title: "确定直角"
+            content: "$AB$ 水平，固定顺序矩形中 $BC\\perp AB$，所以 $x_C=5$。"
+          - title: "代入轨迹"
+            content: "代入 $y=x+1$，得 $C(5,6)$。"
+          - title: "求第四点"
+            content: "$D=A+C-B=(1+5-5,1+6-1)=(1,6)$。"
+        teaching:
+          teaching_goal: "来自 SA 的固定顺序同结构入口：先用相邻边垂直，再求第四点。"
+          expected_blocker: "直接套平行四边形公式，没先确定C。"
+          entry_point: "build_relation"
+          scaffold_level: "medium"
+          variation_depth: "same_structure"
+          complexity_note: "水平边、一次函数，计算只做代入。"
+          upgrade_rule: "能说出固定顺序为什么直角在B。"
+          fallback_move: "先画过B且垂直AB的直线。"
+
+      - type: "problem"
+        id: "q2"
+        points: 10
+        stem_latex: |
+          已知 $A(1,2)$，$B(5,3)$，$D(2,m)$。若四边形 $ABCD$ 是矩形，求 $m$ 的值和点 $C$ 的坐标。
+        hints:
+          - content: '这次 $AB$ 不是水平边，写出 $\overrightarrow{AB}$ 与 $\overrightarrow{AD}$。'
+        answer_space:
+          type: "steps"
+          height: "42mm"
+          step_count: 5
+        answer: "$m=-2$，$C(6,-1)$"
+        solution_steps:
+          - title: "写相邻边向量"
+            content: "$\\overrightarrow{AB}=(4,1)$，$\\overrightarrow{AD}=(1,m-2)$。"
+          - title: "列垂直关系"
+            content: "$(4,1)\\cdot(1,m-2)=0$，得 $4+m-2=0$，所以 $m=-2$。"
+          - title: "求C"
+            content: "$C=B+D-A=(5+2-1,3-2-2)=(6,-1)$。"
+        teaching:
+          teaching_goal: "来自 SA 的表征切换：从水平垂直迁移到向量点积。"
+          expected_blocker: "只会处理水平边，斜边不会列直角。"
+          entry_point: "build_relation"
+          scaffold_level: "medium"
+          variation_depth: "changed_representation"
+          complexity_note: "一次方程，避免加重计算。"
+          upgrade_rule: "能独立写出两个相邻边向量。"
+          fallback_move: "先只写 $\\overrightarrow{AB}$ 和 $\\overrightarrow{AD}$。"
+
+      - type: "problem"
+        id: "q3"
+        points: 10
+        stem_latex: |
+          已知 $A(0,0)$，$B(4,0)$，点 $C$ 在反比例函数 $y=\dfrac{12}{x}$ 的图像上，且 $x_C>0$。若四边形 $ABCD$ 是矩形，求点 $C,D$ 的坐标。
+        hints:
+          - content: "先用矩形关系确定 $C$ 的横坐标，再代入反比例函数。"
+        answer_space:
+          type: "steps"
+          height: "40mm"
+          step_count: 4
+        answer: "$C(4,3),D(0,3)$"
+        solution_steps:
+          - title: "确定C"
+            content: "$AB$ 水平，固定顺序下 $BC$ 竖直，所以 $x_C=4$。代入 $y=\\dfrac{12}{x}$ 得 $C(4,3)$。"
+          - title: "求D"
+            content: "$D=A+C-B=(0,3)$。"
+        teaching:
+          teaching_goal: "来自 SA 的轨迹包装：同一固定顺序结构换成反比例函数轨迹。"
+          expected_blocker: "设 $C(t,12/t)$ 后不先利用垂直关系。"
+          entry_point: "build_relation"
+          scaffold_level: "medium"
+          variation_depth: "packaged_condition"
+          complexity_note: "只含一个定义域检查 $x_C>0$。"
+          upgrade_rule: "能说明 $x_C=4$ 比直接设参更省。"
+          fallback_move: "先找过B且垂直AB的直线。"
+
+  - id: "unordered-diagonal"
+    title: "二、无固定顺序与对角线包装（每题 10 分，共 30 分）"
+    type: "practice"
+    visibility: "both"
+    blocks:
+      - type: "problem"
+        id: "q4"
+        points: 10
+        stem_latex: |
+          已知 $A(1,1)$，$B(5,1)$，点 $C$ 在直线 $y=x+1$ 上。若 $A,B,C,D$ 构成矩形，求所有可能的点 $C,D$。
+        hints:
+          - content: "没有固定 $ABCD$ 顺序，要分别讨论直角在 $A,B,C$。"
+        answer_space:
+          type: "steps"
+          height: "55mm"
+          step_count: 5
+        answer: "$C(1,2),D(5,2)$；或 $C(5,6),D(1,6)$"
+        solution_steps:
+          - title: "设点"
+            content: "设 $C(t,t+1)$。"
+          - title: "直角在A"
+            content: "$AB$ 水平，$AC\\perp AB$ 时 $t=1$，得 $C(1,2)$，$D=B+C-A=(5,2)$。"
+          - title: "直角在B"
+            content: "$BC\\perp AB$ 时 $t=5$，得 $C(5,6)$，$D=A+C-B=(1,6)$。"
+          - title: "直角在C"
+            content: "列 $(A-C)\\cdot(B-C)=0$，得 $2t^2-6t+5=0$，判别式小于 $0$，无实数解。"
+        teaching:
+          teaching_goal: "来自 SA 的同结构换问法：固定顺序改为构成题，训练三类直角。"
+          expected_blocker: "只写固定顺序的一种答案。"
+          entry_point: "find_entry"
+          scaffold_level: "medium"
+          variation_depth: "changed_question"
+          complexity_note: "两类直接读坐标，一类判无解。"
+          upgrade_rule: "能先列分类表再计算。"
+          fallback_move: "写出直角在A/B/C三行。"
+
+      - type: "problem"
+        id: "q5"
+        points: 10
+        stem_latex: |
+          已知 $A(0,0)$，$C(8,6)$，点 $B$ 在直线 $y=3$ 上。若 $A,B,C,D$ 构成以 $AC$ 为对角线的矩形，求所有可能的点 $B,D$。
+        hints:
+          - content: "设 $B(t,3)$，先用对角线中点关系表示 $D$。"
+        answer_space:
+          type: "steps"
+          height: "55mm"
+          step_count: 5
+        answer: "$B(9,3),D(-1,3)$；或 $B(-1,3),D(9,3)$"
+        solution_steps:
+          - title: "设点与第四点"
+            content: "设 $B(t,3)$。因 $AC$ 为对角线，$D=A+C-B=(8-t,3)$。"
+          - title: "列直角"
+            content: "矩形中 $AB\\perp BC$，所以 $(t,3)\\cdot(8-t,3)=0$。"
+          - title: "求解"
+            content: "化简得 $t^2-8t-9=0$，解得 $t=9$ 或 $t=-1$。"
+          - title: "写答案"
+            content: "当 $t=9$ 时，$B(9,3),D(-1,3)$；当 $t=-1$ 时，$B(-1,3),D(9,3)$。"
+        teaching:
+          teaching_goal: "来自 SA 的对角线包装：已知对角线时先用中点关系。"
+          expected_blocker: "把AC误当成边。"
+          entry_point: "hidden_structure"
+          scaffold_level: "medium"
+          variation_depth: "partially_hidden"
+          complexity_note: "一个可因式分解二次方程。"
+          upgrade_rule: "能先写 $A+C=B+D$。"
+          fallback_move: "先标出AC是对角线。"
+
+      - type: "problem"
+        id: "q6"
+        points: 10
+        stem_latex: |
+          已知 $A(0,0)$，$B(6,0)$，点 $C$ 在直线 $y=2x$ 上。若 $A,B,C,D$ 构成矩形，求所有可能的点 $C,D$。
+        hints:
+          - content: "仍然是三类直角，但直角在 $C$ 时会出现分数坐标。"
+        answer_space:
+          type: "steps"
+          height: "60mm"
+          step_count: 6
+        answer: "$C(6,12),D(0,12)$；或 $C\\left(\\dfrac65,\\dfrac{12}{5}\\right),D\\left(\\dfrac{24}{5},-\\dfrac{12}{5}\\right)$"
+        solution_steps:
+          - title: "设点"
+            content: "设 $C(t,2t)$。"
+          - title: "直角在A"
+            content: "$AC\\perp AB$ 时 $t=0$，此时 $C=A$，舍去。"
+          - title: "直角在B"
+            content: "$BC\\perp AB$ 时 $t=6$，得 $C(6,12)$，$D=A+C-B=(0,12)$。"
+          - title: "直角在C"
+            content: "列 $(-t,-2t)\\cdot(6-t,-2t)=0$，得 $t(5t-6)=0$。舍去 $t=0$，取 $t=\\dfrac65$，所以 $C\\left(\\dfrac65,\\dfrac{12}{5}\\right)$，$D=A+B-C=\\left(\\dfrac{24}{5},-\\dfrac{12}{5}\\right)$。"
+        teaching:
+          teaching_goal: "来自 SA 的小步深化：同为构成题，但轨迹斜率改变并出现分数解。"
+          expected_blocker: "看见分数后漏掉直角在C。"
+          entry_point: "solve_and_check"
+          scaffold_level: "medium"
+          variation_depth: "changed_numbers"
+          complexity_note: "只允许一个简单分数解。"
+          upgrade_rule: "能完整保留两类非退化答案。"
+          fallback_move: "先照Q4分类，不急着算。"
+
+  - id: "parameter-synthesis"
+    title: "三、参数反求与综合筛选（每题 10 分，共 40 分）"
+    type: "practice"
+    visibility: "both"
+    blocks:
+      - type: "problem"
+        id: "q7"
+        points: 10
+        stem_latex: |
+          已知 $A(0,0)$，$B(6,0)$，点 $C$ 在直线 $y=kx$ 上。若四边形 $ABCD$ 是矩形，且矩形面积为 $36$，求 $k$ 的值以及点 $C,D$ 的坐标。
+        hints:
+          - content: "面积要用高度的绝对值。"
+        answer_space:
+          type: "steps"
+          height: "45mm"
+          step_count: 5
+        answer: "$k=1$ 时 $C(6,6),D(0,6)$；$k=-1$ 时 $C(6,-6),D(0,-6)$"
+        solution_steps:
+          - title: "确定C的形式"
+            content: "固定顺序下 $BC\\perp AB$，所以 $x_C=6$。又 $C$ 在 $y=kx$ 上，故 $C(6,6k)$。"
+          - title: "用面积"
+            content: "矩形面积为 $6\\cdot |6k|=36$，所以 $|k|=1$。"
+          - title: "写答案"
+            content: "$k=1$ 时 $C(6,6),D(0,6)$；$k=-1$ 时 $C(6,-6),D(0,-6)$。"
+        teaching:
+          teaching_goal: "来自 SA 的参数反求：固定顺序结构 + 面积筛选。"
+          expected_blocker: "漏掉 $k=-1$。"
+          entry_point: "solve_and_check"
+          scaffold_level: "medium"
+          variation_depth: "reverse_construct"
+          complexity_note: "含绝对值，计算轻。"
+          upgrade_rule: "能说明面积为何取绝对值。"
+          fallback_move: "先写 $C(6,6k)$。"
+
+      - type: "problem"
+        id: "q8"
+        points: 10
+        stem_latex: |
+          已知 $A(0,0)$，$B(4,0)$，点 $C$ 在二次函数 $y=x^2+ax+4$ 的图像上。若四边形 $ABCD$ 是矩形，且矩形面积为 $16$，求 $a$ 的值以及点 $C,D$ 的坐标。
+        hints:
+          - content: "固定顺序先确定 $x_C$，面积再给出 $y_C$ 的两个可能。"
+        answer_space:
+          type: "steps"
+          height: "50mm"
+          step_count: 5
+        answer: "$a=-4$ 时 $C(4,4),D(0,4)$；$a=-6$ 时 $C(4,-4),D(0,-4)$"
+        solution_steps:
+          - title: "确定C的横坐标"
+            content: "$AB$ 水平且固定顺序，所以 $x_C=4$。"
+          - title: "用面积确定纵坐标"
+            content: "矩形面积为 $4|y_C|=16$，所以 $y_C=4$ 或 $y_C=-4$。"
+          - title: "代入二次函数"
+            content: "当 $x=4$ 时，$y_C=16+4a+4=20+4a$。若 $20+4a=4$，得 $a=-4$；若 $20+4a=-4$，得 $a=-6$。"
+          - title: "求D"
+            content: "$a=-4$ 时 $C(4,4),D(0,4)$；$a=-6$ 时 $C(4,-4),D(0,-4)$。"
+        teaching:
+          teaching_goal: "来自 SA 的表征升级：二次函数轨迹 + 面积反求参数。"
+          expected_blocker: "只取上方矩形，漏掉 $y_C=-4$。"
+          entry_point: "transfer"
+          scaffold_level: "medium"
+          variation_depth: "changed_representation"
+          complexity_note: "不解二次方程，只做代入。"
+          upgrade_rule: "能把面积条件转成两个纵坐标。"
+          fallback_move: "先只写 $x_C=4$ 和 $4|y_C|=16$。"
+
+      - type: "problem"
+        id: "q9"
+        points: 10
+        stem_latex: |
+          已知 $A(0,0)$，$C(6,8)$，点 $B$ 在直线 $y=4$ 上。若 $A,B,C,D$ 构成以 $AC$ 为对角线的矩形，求所有可能的点 $B,D$。
+        hints:
+          - content: "这是对角线包装题，先设 $B(t,4)$。"
+        answer_space:
+          type: "steps"
+          height: "55mm"
+          step_count: 5
+        answer: "$B(8,4),D(-2,4)$；或 $B(-2,4),D(8,4)$"
+        solution_steps:
+          - title: "设点与第四点"
+            content: "设 $B(t,4)$。因 $AC$ 为对角线，$D=A+C-B=(6-t,4)$。"
+          - title: "列直角"
+            content: "$AB\\perp BC$，所以 $(t,4)\\cdot(6-t,4)=0$。"
+          - title: "求解"
+            content: "化简得 $t^2-6t-16=0$，解得 $t=8$ 或 $t=-2$。"
+          - title: "写答案"
+            content: "当 $t=8$ 时，$B(8,4),D(-2,4)$；当 $t=-2$ 时，$B(-2,4),D(8,4)$。"
+        teaching:
+          teaching_goal: "来自 SA 的对角线包装复现：换数后保持中点和垂直链条。"
+          expected_blocker: "只求一个B，忘记二次方程两解。"
+          entry_point: "hidden_structure"
+          scaffold_level: "low"
+          variation_depth: "changed_numbers"
+          complexity_note: "可因式分解二次方程。"
+          upgrade_rule: "能独立完成对角线题。"
+          fallback_move: "先写 $D=A+C-B$。"
+
+      - type: "problem"
+        id: "q10"
+        points: 10
+        stem_latex: |
+          已知 $A(0,0)$，$B(4,2)$，点 $C$ 在直线 $y=-2x+k$ 上。若四边形 $ABCD$ 是矩形，且矩形面积为 $20$，求 $k$ 的值以及所有可能的点 $C,D$。
+        hints:
+          - content: '先用 $\overrightarrow{AB}\cdot\overrightarrow{BC}=0$ 确定直线参数，再用面积确定 $C$ 的位置。'
+        answer_space:
+          type: "steps"
+          height: "65mm"
+          step_count: 6
+        answer: "$k=10$；$C(6,-2),D(2,-4)$，或 $C(2,6),D(-2,4)$"
+        solution_steps:
+          - title: "设C并列垂直"
+            content: "设 $C(x,-2x+k)$。$\\overrightarrow{AB}=(4,2)$，$\\overrightarrow{BC}=(x-4,-2x+k-2)$。"
+          - title: "确定k"
+            content: "由 $AB\\perp BC$，得 $4(x-4)+2(-2x+k-2)=0$，化简得 $2k-20=0$，所以 $k=10$。"
+          - title: "利用面积"
+            content: "此时 $C$ 在过 $B$ 且垂直于 $AB$ 的直线 $y=-2x+10$ 上。设 $C=B+s(1,-2)$，则 $BC=|s|\\sqrt5$，$AB=2\\sqrt5$。"
+          - title: "求C和D"
+            content: "面积 $20=AB\\cdot BC=10|s|$，所以 $s=2$ 或 $s=-2$。当 $s=2$ 时 $C(6,-2),D=A+C-B=(2,-4)$；当 $s=-2$ 时 $C(2,6),D=(-2,4)$。"
+        teaching:
+          teaching_goal: "来自 SA 的综合收束：斜边点积、参数直线和面积筛选同时出现。"
+          expected_blocker: "先用面积猜点，忘记直线参数必须由垂直关系确定。"
+          entry_point: "transfer"
+          scaffold_level: "low"
+          variation_depth: "reverse_construct"
+          complexity_note: "综合但仍只含一次方程和简单边长。"
+          upgrade_rule: "能解释 $k$ 与面积分别来自哪一条条件。"
+          fallback_move: "先只做点积方程，求出 $k$。"
+
+  - id: "answer-key"
+    title: "答案速查"
+    type: "answer_key"
+    visibility: "teacher"
+    blocks:
+      - type: "answers"
+        id: "answers-main"
+        items:
+          - number: "1"
+            answer: "$C(5,6),D(1,6)$"
+          - number: "2"
+            answer: "$m=-2$，$C(6,-1)$"
+          - number: "3"
+            answer: "$C(4,3),D(0,3)$"
+          - number: "4"
+            answer: "$C(1,2),D(5,2)$；或 $C(5,6),D(1,6)$"
+          - number: "5"
+            answer: "$B(9,3),D(-1,3)$；或 $B(-1,3),D(9,3)$"
+          - number: "6"
+            answer: "$C(6,12),D(0,12)$；或 $C\\left(\\dfrac65,\\dfrac{12}{5}\\right),D\\left(\\dfrac{24}{5},-\\dfrac{12}{5}\\right)$"
+          - number: "7"
+            answer: "$k=1$ 时 $C(6,6),D(0,6)$；$k=-1$ 时 $C(6,-6),D(0,-6)$"
+          - number: "8"
+            answer: "$a=-4$ 时 $C(4,4),D(0,4)$；$a=-6$ 时 $C(4,-4),D(0,-4)$"
+          - number: "9"
+            answer: "$B(8,4),D(-2,4)$；或 $B(-2,4),D(8,4)$"
+          - number: "10"
+            answer: "$k=10$；$C(6,-2),D(2,-4)$，或 $C(2,6),D(-2,4)$"

@@ -1,0 +1,355 @@
+meta:
+  title: "数学试卷22摘录"
+  subtitle: "PDF第7-8页：第3、4、5、9、11、12、13、15、16、20题"
+  grade: "八年级"
+  subject: "数学"
+  version: "student"
+  show_answers: false
+  assignment_id: "2026-06-20-math-paper-22-selected"
+  source_artifacts:
+    source_pdf: "/Users/gaochong/Library/Containers/com.tencent.xinWeChat/Data/Documents/xwechat_files/wxid_jfjy52m4e8io21_6e3d/msg/attach/09899e5742fd62a1adbebbd865d3868d/2026-06/Rec/5824422c869e62f2/F/0/数学试卷18～22答案.pdf"
+    source_pdf_pages: "PDF第7-8页为数学试卷22；对应试卷内页码1-4"
+    transcription_note: "source-transcription.md 记录页码确认与题干判读；diagram-coordinate-derivations.md 记录几何图坐标来源。"
+render:
+  template: "exam-zh-practice"
+  paper_size: "a4paper"
+  show_seal_line: false
+sections:
+  - id: "selected"
+    title: "摘录题目"
+    type: "practice"
+    visibility: "both"
+    blocks:
+      - type: "choice"
+        id: "q3"
+        stem_latex: "（原第3题）若一个四边形顶点的横坐标变为原来的相反数，而纵坐标不变，此时图形位置也不变，则这个四边形不可能是（\\quad）。"
+        choices:
+          A: "矩形"
+          B: "直角梯形"
+          C: "正方形"
+          D: "菱形"
+        answer: "B"
+
+      - type: "choice"
+        id: "q4"
+        stem_latex: "（原第4题）在四边形 $ABCD$ 中，$AD\\parallel BC$，$AC,BD$ 交于点 $O$，下列说法错误的是（\\quad）。"
+        choices:
+          A: "如果 $AB=CD$，$\\angle ABC=\\angle BAD$，那么四边形 $ABCD$ 是矩形"
+          B: "如果 $AB=CD$，$AC=BD$，那么四边形 $ABCD$ 是矩形"
+          C: "如果 $OB=OD$，$AC\\perp BD$，那么四边形 $ABCD$ 是菱形"
+          D: "如果 $AD=BC$，$\\angle ABD=\\angle CBD$，那么四边形 $ABCD$ 是菱形"
+        answer: "B"
+
+      - type: "choice"
+        id: "q5"
+        stem_latex: >-
+          （原第5题）如图，在矩形 $ABCD$ 中，$\angle BAD$ 的平分线 $AE$ 交 $BC$ 于点 $E$，且 $AD=\sqrt{2}AB$，$DH\perp AE$ 于点 $H$，连接 $BH$ 并延长，交 $CD$ 于点 $F$，连接 $DE$。下列结论：① $BC=\sqrt{2}AB$；② $\angle AHD=\angle CED$；③ $DH=BF$；④ $DC=2BH+CF$。其中正确的有（\quad）。
+        choices:
+          A: "1个"
+          B: "2个"
+          C: "3个"
+          D: "4个"
+        answer: "D"
+        diagram_slot:
+          slot_id: "q5.prompt"
+          diagram_ref: "q5.prompt"
+          source_problem_ref: "q5"
+          variant: "prompt"
+          disclosure_policy: "clean"
+          required: true
+          on_failure: "fail_assignment"
+          placement: "diagram_col"
+          layout_role: "question_sidecar"
+          display_profile: "worksheet_geometry_sidecar"
+          caption: "矩形中的角平分线与垂线"
+          engine: "renderer_spec"
+          diagram_kind: "synthetic_geometry"
+          teaching_intent: "practice_prompt"
+          problem_context:
+            source_problem_text: "几何坐标来源见 diagram-coordinate-derivations.md：由矩形、AD=sqrt(2)AB、AE为角平分线、DH垂直AE、BH延长交CD于F解析得到，不是视觉手摆。"
+          engine_options:
+            renderer_spec:
+              points:
+                A: [0.0, 4.0]
+                B: [0.0, 0.0]
+                C: [5.657, 0.0]
+                D: [5.657, 4.0]
+                E: [4.0, 0.0]
+                H: [2.828, 1.172]
+                F: [5.657, 2.343]
+              polygons:
+                - ["A", "B", "C", "D"]
+              segments:
+                - ["A", "E"]
+                - ["D", "H"]
+                - ["B", "H"]
+                - ["H", "F"]
+                - ["D", "E"]
+              markers:
+                - type: "right_angle"
+                  vertex: "H"
+                  arms: ["D", "E"]
+              labels:
+                A: {text: "A", placement: "above left"}
+                B: {text: "B", placement: "below left"}
+                C: {text: "C", placement: "below right"}
+                D: {text: "D", placement: "above right"}
+                E: {text: "E", placement: "below"}
+                F: {text: "F", placement: "right"}
+                H: {text: "H", placement: "below left"}
+              constraints:
+                - "ABCD为矩形"
+                - "AD=sqrt(2)AB"
+                - "AE平分角BAD并交BC于E"
+                - "DH垂直AE于H"
+                - "B,H,F共线，F在CD上"
+              source:
+                derivation_file: "diagram-coordinate-derivations.md"
+          semantic_constraints:
+            given_objects: ["A", "B", "C", "D", "E", "F", "H"]
+            given_constraints:
+              - "ABCD为矩形"
+              - "AD=sqrt(2)AB"
+              - "AE平分角BAD，E在BC上"
+              - "DH垂直AE于H"
+              - "B,H,F共线，F在CD上"
+              - "连接DE"
+
+      - type: "fillin"
+        id: "q9"
+        fillin_type: "line"
+        stem_latex: "（原第9题）在平面直角坐标系 $xOy$ 中，若一次函数 $y=kx+2k+3\\ (k\\ne0)$ 对于除 $0$ 之外的任意实数 $k$，其图象都经过一个定点 $A$，点 $A'$ 与点 $A$ 关于 $x$ 轴对称，则 $\\triangle OAA'$ 的面积为\\underline{\\hspace{28mm}}。"
+        answer: "$6$"
+
+      - type: "fillin"
+        id: "q11"
+        fillin_type: "line"
+        stem_latex: "（原第11题）若一元二次方程 $x^2-5x+a=0$ 无实数根，则一次函数 $y=(a-5)x+a$ 的图象不经过\\underline{\\hspace{28mm}}。"
+        answer: "第四象限"
+
+      - type: "fillin"
+        id: "q12"
+        fillin_type: "line"
+        stem_latex: "（原第12题）在平面直角坐标系中，若点 $A(3,0)$，点 $B(0,1)$，点 $P$ 在 $y$ 轴上，且三角形 $PAB$ 的面积为 $6$，则点 $P$ 的坐标为\\underline{\\hspace{36mm}}。"
+        answer: "$(0,5)$ 或 $(0,-3)$"
+
+      - type: "problem"
+        id: "q13"
+        points: 4
+        stem_latex: >-
+          （原第13题）已知一次函数 $y_1=kx+b$ 与 $y_2=x+a$ 的图象如图所示，有下列结论：① $a<0$；② $b>0$；③ 关于 $x$ 的方程 $kx+b=x+a$ 的解为 $x=3$；④ 当 $x\le3$ 时，$y_2\ge y_1$。其中正确的结论有\underline{\hspace{18mm}}个。
+        answer: "$3$"
+        answer_space:
+          type: "lines"
+          height: "36mm"
+          diagram_slot:
+            slot_id: "q13.prompt"
+            diagram_ref: "q13.prompt"
+            source_problem_ref: "q13"
+            variant: "prompt"
+            disclosure_policy: "clean"
+            required: true
+            on_failure: "fail_assignment"
+            placement: "answer_space.diagram_col"
+            layout_role: "answer_area_sidecar"
+            display_profile: "worksheet_geometry_sidecar"
+            caption: "两条一次函数图象"
+            engine: "renderer_spec"
+            diagram_kind: "coordinate_geometry"
+            teaching_intent: "practice_prompt"
+            problem_context:
+              source_problem_text: "坐标来源：题干图象给出交点横坐标x=3；取同形示意线y2=x-1与y1=-0.5x+3.5，相交于(3,2)，保留a<0、b>0和交点横坐标3。"
+            engine_options:
+              renderer_spec:
+                viewport:
+                  x_min: -1.2
+                  x_max: 6.2
+                  y_min: -1.2
+                  y_max: 4.6
+                  preserve_aspect: true
+                axes:
+                  x: true
+                  y: true
+                  grid: false
+                  show_ticks: false
+                  x_label: "x"
+                  y_label: "y"
+                functions:
+                  - id: "y1"
+                    variable: "x"
+                    expression_wl: "-0.5*x+3.5"
+                    label: "y_1=kx+b"
+                  - id: "y2"
+                    variable: "x"
+                    expression_wl: "x-1"
+                    label: "y_2=x+a"
+                samples:
+                  y1:
+                    - [-1.0, 4.0]
+                    - [6.0, 0.5]
+                  y2:
+                    - [-0.2, -1.2]
+                    - [5.2, 4.2]
+                objects:
+                  - type: "polyline"
+                    id: "x3dash"
+                    points: [[3, 0], [3, 2]]
+                    style: {dash: "dashed"}
+                  - type: "point"
+                    id: "X3"
+                    x: 3
+                    y: 0
+                    label: "3"
+                    style: {label_dx: -4, label_dy: -18}
+            semantic_constraints:
+              given_objects: ["x-axis", "y-axis", "line y1", "line y2"]
+              given_constraints:
+                - "y1=kx+b为下降直线且b>0"
+                - "y2=x+a为斜率1的上升直线且a<0"
+                - "两图象交点横坐标为3"
+
+      - type: "problem"
+        id: "q15"
+        points: 4
+        stem_latex: >-
+          （原第15题）如图，在矩形 $ABCD$ 中，$AD=5$，$AB=8$，点 $E$ 为射线 $DC$ 上一个动点，将 $\triangle ADE$ 沿直线 $AE$ 折叠，当点 $D$ 的对应点 $F$ 刚好落在线段 $AB$ 的垂直平分线上时，$DE$ 的长为\underline{\hspace{28mm}}。
+        answer: "$\\dfrac52$ 或 $10$"
+        answer_space:
+          type: "lines"
+          height: "44mm"
+          diagram_slot:
+            slot_id: "q15.prompt"
+            diagram_ref: "q15.prompt"
+            source_problem_ref: "q15"
+            variant: "prompt"
+            disclosure_policy: "clean"
+            required: true
+            on_failure: "fail_assignment"
+            placement: "answer_space.diagram_col"
+            layout_role: "answer_area_sidecar"
+            display_profile: "worksheet_geometry_sidecar"
+            caption: "矩形折叠示意"
+            engine: "renderer_spec"
+            diagram_kind: "synthetic_geometry"
+            teaching_intent: "practice_prompt"
+            problem_context:
+              source_problem_text: "几何坐标来源见 diagram-coordinate-derivations.md：由矩形AB=8、AD=5、点D关于AE折叠到F且F在AB垂直平分线解析得到，图采用原题图中E在线段DC上的构型。"
+            engine_options:
+              renderer_spec:
+                points:
+                  A: [0.0, 0.0]
+                  B: [8.0, 0.0]
+                  C: [8.0, 5.0]
+                  D: [0.0, 5.0]
+                  E: [2.5, 5.0]
+                  F: [4.0, 3.0]
+                polygons:
+                  - ["A", "B", "C", "D"]
+                segments:
+                  - ["A", "E"]
+                  - ["E", "F"]
+                  - ["F", "A"]
+                markers: []
+                labels:
+                  A: {text: "A", placement: "below left"}
+                  B: {text: "B", placement: "below right"}
+                  C: {text: "C", placement: "above right"}
+                  D: {text: "D", placement: "above left"}
+                  E: {text: "E", placement: "above"}
+                  F: {text: "F", placement: "right"}
+                constraints:
+                  - "ABCD为矩形"
+                  - "AD=5"
+                  - "AB=8"
+                  - "E在射线DC上"
+                  - "F是D关于AE折叠后的对应点"
+                  - "F在AB的垂直平分线上"
+                source:
+                  derivation_file: "diagram-coordinate-derivations.md"
+            semantic_constraints:
+              given_objects: ["A", "B", "C", "D", "E", "F"]
+              given_constraints:
+                - "ABCD为矩形"
+                - "AD=5，AB=8"
+                - "E在射线DC上"
+                - "F是D关于AE折叠后的对应点"
+                - "F在AB的垂直平分线上"
+
+      - type: "fillin"
+        id: "q16"
+        fillin_type: "line"
+        stem_latex: >-
+          （原第16题）新定义：有一组对角相等而另一组对角不相等的四边形叫做“等对角四边形”。在“等对角四边形” $ABCD$ 中，$\angle DAB=60^\circ$，$\angle ABC=90^\circ$，$AB=5$，$AD=7$，对角线 $AC$ 的长为\underline{\hspace{28mm}}。
+        answer: "$2\\sqrt3$ 或 $\\sqrt{13}$"
+
+      - type: "problem"
+        id: "q20"
+        stem_latex: >-
+          （原第20题）如图，在 $\triangle ABC$ 中，$D$ 是边 $BC$ 的中点，点 $P,E$ 分别在线段 $AD$ 及其延长线上，$DE=DP$，连接 $BP,CP,BE,CE$。\par
+          (1) 若 $BC=EP$，求证：四边形 $BECP$ 是矩形；\par
+          (2) 已知 $AB=5$，$BC=6$。\par
+          ① 当 $AC$ 的长为多少时，四边形 $BECP$ 是菱形？并加以证明；\par
+          ② 请直接写出当 $AP$ 的长为多少时，四边形 $BECP$ 是正方形。
+        answer_space:
+          type: "lines"
+          height: "76mm"
+          diagram_slot:
+            slot_id: "q20.prompt"
+            diagram_ref: "q20.prompt"
+            source_problem_ref: "q20"
+            variant: "prompt"
+            disclosure_policy: "clean"
+            required: true
+            on_failure: "fail_assignment"
+            placement: "answer_space.diagram_col"
+            layout_role: "answer_area_sidecar"
+            display_profile: "worksheet_geometry_sidecar"
+            caption: "中点与延长线构型"
+            engine: "renderer_spec"
+            diagram_kind: "synthetic_geometry"
+            teaching_intent: "practice_prompt"
+            problem_context:
+              source_problem_text: "几何坐标来源见 diagram-coordinate-derivations.md：由D为BC中点、P在AD上、E在AD延长线上且DE=DP解析出示意构型；不画待求正方形或菱形答案。"
+            engine_options:
+              renderer_spec:
+                points:
+                  A: [1.0, 3.0]
+                  B: [-3.0, 0.0]
+                  C: [3.0, 0.0]
+                  D: [0.0, 0.0]
+                  P: [0.45, 1.35]
+                  E: [-0.45, -1.35]
+                segments:
+                  - ["A", "B"]
+                  - ["A", "C"]
+                  - ["B", "C"]
+                  - ["A", "E"]
+                  - ["B", "P"]
+                  - ["C", "P"]
+                  - ["B", "E"]
+                  - ["C", "E"]
+                markers: []
+                labels:
+                  A: {text: "A", placement: "above"}
+                  B: {text: "B", placement: "left"}
+                  C: {text: "C", placement: "right"}
+                  D: {text: "D", placement: "below"}
+                  P: {text: "P", placement: "right"}
+                  E: {text: "E", placement: "below"}
+                constraints:
+                  - "D是BC中点"
+                  - "A,P,D,E共线"
+                  - "P在线段AD上"
+                  - "E在AD延长线上"
+                  - "DE=DP"
+                  - "连接BP,CP,BE,CE"
+                source:
+                  derivation_file: "diagram-coordinate-derivations.md"
+            semantic_constraints:
+              given_objects: ["A", "B", "C", "D", "P", "E"]
+              given_constraints:
+                - "D是BC中点"
+                - "P在线段AD上"
+                - "E在AD延长线上"
+                - "DE=DP"
+                - "连接BP,CP,BE,CE"

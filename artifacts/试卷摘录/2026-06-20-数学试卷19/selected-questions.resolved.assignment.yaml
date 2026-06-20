@@ -1,0 +1,179 @@
+meta:
+  title: 数学试卷19摘录
+  subtitle: PDF第3-4页：第2、5、6、9、13、14、15、16、19题
+  grade: 八年级
+  subject: 数学
+  version: student
+  show_answers: false
+  assignment_id: 2026-06-20-math-paper-19-selected
+  source_artifacts:
+    source_pdf: /Users/gaochong/Library/Containers/com.tencent.xinWeChat/Data/Documents/xwechat_files/wxid_jfjy52m4e8io21_6e3d/msg/attach/09899e5742fd62a1adbebbd865d3868d/2026-06/Rec/5824422c869e62f2/F/0/数学试卷18～22答案.pdf
+    source_pdf_pages: PDF第3-4页为数学试卷19；对应试卷内页码1-4
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  show_seal_line: false
+sections:
+- id: selected
+  title: 摘录题目
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: q2
+    stem_latex: （原第2题）直线 $y=\dfrac12x+n$ 经过点 $A(m,y_1)$，$B(n,y_2)$，且 $m>n$，下列结论正确的是（\quad）。
+    choices:
+      A: $y_1>y_2$
+      B: $y_1=y_2$
+      C: $y_1<y_2$
+      D: $y_1,y_2$ 的大小不能确定
+    answer: A
+  - type: choice
+    id: q5
+    stem_latex: （原第5题）如图，菱形 $ABCD$ 的对角线 $AC,BD$ 相交于点 $O$，过点 $D$ 作 $DH\perp AB$ 于点
+      $H$，连接 $OH$。若 $OA=6$，$OB=4$，则菱形 $ABCD$ 的面积为（\quad）。
+    choices:
+      A: $24\sqrt7$
+      B: $48\sqrt7$
+      C: $48$
+      D: $96$
+    answer: C
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/q5-prompt/rendered/prompt.fragment.tex
+      diagram_ref: q5.prompt
+      diagram_job_id: q5-prompt
+      width: 60mm
+      caption: 菱形对角线与垂线
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:a046a0916856eddd78b2849645dcc801f6f379c45865e808a8a9c4e6597fcc1b
+      packages:
+      - tikz
+      libraries: []
+  - type: choice
+    id: q6
+    stem_latex: （原第6题）如图，在 $\triangle ABC$ 中，$AB=3$，$AC=4$，$BC=5$，$\triangle ABD$、$\triangle
+      ACE$、$\triangle BCF$ 都是等边三角形。下列结论中：① $AB\perp AC$；② $\triangle DEF\cong\triangle
+      ABC$；③ 四边形 $AEFD$ 是平行四边形；④ $\angle DFE=110^\circ$；⑤ $S_{\triangle DEF}-S_{\triangle
+      ABC}=5$。正确的个数是（\quad）。
+    choices:
+      A: 2个
+      B: 3个
+      C: 4个
+      D: 5个
+    answer: B
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/q6-prompt/rendered/prompt.fragment.tex
+      diagram_ref: q6.prompt
+      diagram_job_id: q6-prompt
+      width: 60mm
+      caption: 三边外作等边三角形
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:0b514f78aae3a27eb25ff698e516125658492e75865b03d6ee9d1eba89c06fe3
+      packages:
+      - tikz
+      libraries: []
+  - type: fillin
+    id: q9
+    fillin_type: line
+    stem_latex: （原第9题）将直线 $y=5x-3\sqrt3$ 向上平移 $5$ 个单位，得到的直线的解析式是\underline{\hspace{36mm}}。
+    answer: $y=5x-3\sqrt3+5$
+  - type: fillin
+    id: q13
+    fillin_type: line
+    stem_latex: （原第13题）在平行四边形 $ABCD$ 中，$AB=12$，$DC=7$，点 $E$ 在 $CD$ 边上，点 $F$ 在 $AB$
+      边上。连接 $EF,DF$，若 $CG=3\sqrt6$，$EF=5\sqrt2$，则 $DF$ 的长为\underline{\hspace{24mm}}。
+    answer: ''
+  - type: fillin
+    id: q14
+    fillin_type: line
+    stem_latex: （原第14题）我们把直角坐标系平面内到 $x$ 轴和到 $y$ 轴距离之比的值为 $2$ 的点称为“特殊点”，那么一次函数 $y=-2x+4$
+      的图象上的“特殊点”坐标为\underline{\hspace{24mm}}。
+    answer: $(1,2)$
+  - type: problem
+    id: q15
+    stem_latex: （原第15题）如图，直线 $y_1=-2x$ 与 $y_2=ax+3$ 的图象相交于点 $A(-1,2)$，则当 $y_1<y_2$
+      时，$x$ 的取值范围是\underline{\hspace{24mm}}。
+    answer: $x>-1$
+    answer_space:
+      type: lines
+      height: 34mm
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/q15-prompt/rendered/prompt.fragment.tex
+        diagram_ref: q15.prompt
+        diagram_job_id: q15-prompt
+        width: 60mm
+        caption: 两条一次函数图象
+        variant: prompt
+        disclosure_policy: clean
+        artifact_hash: sha256:a9b5501ae2e4118b7c6bc1a6b85d6bc3f7c8d401c925db608938437b0799083d
+        packages:
+        - tikz
+        libraries: []
+  - type: problem
+    id: q16
+    stem_latex: （原第16题）动手操作是学习数学的一种好方法。如图，小明同学在一次折纸活动中，将一张 $A4$ 纸（长宽比为 $\sqrt2:1$）$ABCD$
+      沿 $AP$ 折叠，使点 $B$ 落在 $AD$ 边上的点 $G$ 处，再沿 $FI$ 折叠，使点 $C$ 落在 $FG$ 边上的点 $H$ 处，则矩形
+      $GHID$ 的长与宽的比值为\underline{\hspace{24mm}}。
+    answer: $\sqrt2-1$
+    answer_space:
+      type: lines
+      height: 44mm
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/q16-prompt/rendered/prompt.fragment.tex
+        diagram_ref: q16.prompt
+        diagram_job_id: q16-prompt
+        width: 60mm
+        caption: A4纸折叠示意
+        variant: prompt
+        disclosure_policy: clean
+        artifact_hash: sha256:f80b4f0651a1619d944ec85fd5611b66f5fd3622eaa3e9a7c83bf45ec3d90773
+        packages:
+        - tikz
+        libraries: []
+  - type: problem
+    id: q19
+    stem_latex: （原第19题）如图，一次函数 $y_1=2x-2$ 的图象与 $y$ 轴交于点 $A$，一次函数 $y_2$ 的图象与 $y$ 轴交于点
+      $B(0,6)$，$C$ 为两函数图象的交点，且点 $C$ 的横坐标为 $2$。\par (1) 求 $C$ 点坐标及一次函数 $y_2$ 的函数解析式；\par
+      (2) 求 $\triangle ABC$ 的面积；\par (3) 在坐标轴上，是否存在一点 $P$，使得 $S_{\triangle ACP}=2S_{\triangle
+      ABC}$？若存在，请直接写出点 $P$ 的坐标；若不存在，请说明理由。
+    answer_space:
+      type: lines
+      height: 72mm
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/q19-prompt/rendered/prompt.fragment.tex
+        diagram_ref: q19.prompt
+        diagram_job_id: q19-prompt
+        width: 60mm
+        caption: 两条一次函数与坐标轴
+        variant: prompt
+        disclosure_policy: clean
+        artifact_hash: sha256:55765ac9660031d0624c43e096550671f3b23f4c00f546a59a624a1e261084df
+        packages:
+        - tikz
+        libraries: []
+    semantic_constraints:
+      given_objects:
+      - A
+      - B
+      - C
+      - x-axis
+      - y-axis
+      - line y1
+      - line y2
+      given_constraints:
+      - y1=2x-2
+      - B=(0,6)
+      - C is intersection
+      - x_C=2

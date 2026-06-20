@@ -1,0 +1,390 @@
+% preamble-exam-zh.tex — 共享 preamble
+% 用于所有 exam-zh 模板
+%
+% 样式策略：
+%   屏幕 → 语义彩色（蓝=关键想法，红=易错，绿=路线，灰=提示/教师备注）
+%   打印 → 自动降级为黑白（通过 print mode 或 monochrome 选项）
+
+\documentclass{exam-zh}
+
+% ---------- 基础配置 ----------
+\examsetup{
+  page/size = a4paper,
+  page/show-head = false,
+  page/show-foot = false,
+  sealline/show = false,
+  font = times,
+  math-font = xits,
+}
+
+\usepackage{tcolorbox}
+\usepackage{needspace}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{calc,intersections,angles,quotes,arrows.meta,decorations.markings,patterns.meta,backgrounds}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\tcbuselibrary{skins,breakable}
+
+% ---------- 打印/屏幕颜色切换 ----------
+% 用法：\documentclass[monochrome]{exam-zh} 即可切换为纯黑白
+% 注意：不要使用 \if@xxx 放在 makeatother 外部；这里改成普通条件名。
+\newif\ifeduprintcolor
+\eduprintcolortrue
+
+\makeatletter
+\@ifclasswith{exam-zh}{monochrome}{\eduprintcolorfalse}{}
+\makeatother
+
+% ---------- 语义颜色定义 ----------
+% 屏幕：有色彩区分；打印：降级为灰度
+\ifeduprintcolor
+  % --- 屏幕彩色模式 ---
+  \definecolor{edu-blue}{RGB}{47, 82, 122}       % 关键想法
+  \definecolor{edu-blue-bg}{RGB}{243, 246, 252}
+  \definecolor{edu-red}{RGB}{180, 40, 40}         % 易错提醒
+  \definecolor{edu-red-bg}{RGB}{255, 245, 240}
+  \definecolor{edu-green}{RGB}{34, 100, 60}       % 路线图
+  \definecolor{edu-green-bg}{RGB}{242, 250, 245}
+  \definecolor{edu-orange}{RGB}{160, 90, 0}       % 训练目标
+  \definecolor{edu-orange-bg}{RGB}{255, 248, 235}
+  \definecolor{edu-gray}{RGB}{100, 100, 100}      % 提示/教师备注
+  \definecolor{edu-gray-bg}{RGB}{248, 248, 248}
+  \definecolor{edu-purple}{RGB}{90, 50, 120}      % 思考题
+  \definecolor{edu-purple-bg}{RGB}{248, 244, 252}
+\else
+  % --- 打印黑白模式 ---
+  \definecolor{edu-blue}{gray}{0.15}
+  \definecolor{edu-blue-bg}{gray}{0.96}
+  \definecolor{edu-red}{gray}{0.25}
+  \definecolor{edu-red-bg}{gray}{0.97}
+  \definecolor{edu-green}{gray}{0.20}
+  \definecolor{edu-green-bg}{gray}{0.97}
+  \definecolor{edu-orange}{gray}{0.25}
+  \definecolor{edu-orange-bg}{gray}{0.98}
+  \definecolor{edu-gray}{gray}{0.40}
+  \definecolor{edu-gray-bg}{gray}{0.97}
+  \definecolor{edu-purple}{gray}{0.30}
+  \definecolor{edu-purple-bg}{gray}{0.98}
+\fi
+\colorlet{edu-diagram-muted}{edu-gray}
+
+% ---------- TikZ diagram semantic macros ----------
+\definecolor{edu-diagram-ink}{RGB}{17,24,39}
+\definecolor{edu-diagram-marker}{RGB}{220,38,38}
+\definecolor{edu-diagram-angle}{RGB}{5,150,105}
+\tikzset{
+  diagram point/.style={fill=edu-diagram-ink},
+  diagram tick/.style={draw=edu-diagram-marker,line width=0.9pt,line cap=round},
+  diagram segment/.style={draw=edu-diagram-ink,line cap=round},
+  point label/.style={inner sep=1pt},
+  condition label/.style={inner sep=1pt}
+}
+\providecommand{\DrawSegment}[3][]{\draw[diagram segment,#1] (#2) -- (#3);}
+\providecommand{\DrawDashedSegment}[3][]{\draw[diagram segment,dashed,#1] (#2) -- (#3);}
+\providecommand{\Triangle}[4][]{\path[#1] (#2) -- (#3) -- (#4) -- cycle;}
+\providecommand{\Quadrilateral}[5][]{\path[#1] (#2) -- (#3) -- (#4) -- (#5) -- cycle;}
+\providecommand{\PolygonPath}[2][]{\path[#1] #2 -- cycle;}
+\providecommand{\DiagramPointRadius}{0.052cm}
+\providecommand{\PointDot}[2][]{\fill[diagram point,#1] (#2) circle[radius=\DiagramPointRadius];}
+\providecommand{\PointLabel}[3][]{\node[point label,#1] at (#2) {#3};}
+\providecommand{\SegmentLabel}[4][]{\node[condition label,#1] at ($(#2)!0.5!(#3)$) {#4};}
+\providecommand{\CoordinateTag}[3][]{\node[condition label,#1] at (#2) {#3};}
+\providecommand{\AngleMark}[4][]{\pic[draw=edu-diagram-angle,line width=0.9pt,angle radius=0.48cm,#1] {angle=#2--#3--#4};}
+\providecommand{\AngleLabel}[5][]{\pic["{#5}",draw=none,angle radius=0.64cm,#1] {angle=#2--#3--#4};}
+\providecommand{\RightAngleMark}[4][]{\pic[draw=edu-diagram-marker,line width=0.9pt,angle radius=0.28cm,#1] {right angle=#2--#3--#4};}
+\providecommand{\EqualTick}[3][]{%
+  \path[postaction={decorate},decoration={markings,mark=at position .5 with {\draw[diagram tick,#1] (0pt,-4pt) -- (0pt,4pt);}}] (#2) -- (#3);%
+}
+\providecommand{\DoubleEqualTick}[3][]{%
+  \path[postaction={decorate},decoration={markings,mark=at position .46 with {\draw[diagram tick,#1] (0pt,-4pt) -- (0pt,4pt);},mark=at position .54 with {\draw[diagram tick,#1] (0pt,-4pt) -- (0pt,4pt);}}] (#2) -- (#3);%
+}
+\providecommand{\TripleEqualTick}[3][]{%
+  \path[postaction={decorate},decoration={markings,mark=at position .43 with {\draw[diagram tick,#1] (0pt,-4pt) -- (0pt,4pt);},mark=at position .5 with {\draw[diagram tick,#1] (0pt,-4pt) -- (0pt,4pt);},mark=at position .57 with {\draw[diagram tick,#1] (0pt,-4pt) -- (0pt,4pt);}}] (#2) -- (#3);%
+}
+\providecommand{\ParallelMark}[3][]{\EqualTick[#1]{#2}{#3}}
+\providecommand{\NamedSegmentPath}[3]{\path[name path=#1] (#2) -- (#3);}
+\providecommand{\IntersectPaths}[3]{\path[name intersections={of=#2 and #3, by=#1}];}
+
+% ---------- 自定义教学环境 ----------
+% 共性：enhanced + breakable（跨页不断裂）
+
+% 原题卡片 — 强边框，突出显示
+\newtcolorbox{problemcard}{
+  enhanced, breakable,
+  colback=edu-blue-bg,
+  colframe=edu-blue,
+  boxrule=1.2pt,
+  arc=0pt,
+  left=3mm, right=3mm, top=3mm, bottom=3mm,
+}
+
+% 解题路线图 — 左边线 + 浅底
+\newtcolorbox{routebox}{
+  enhanced, breakable,
+  colback=edu-green-bg,
+  colframe=edu-green!30,
+  boxrule=0pt,
+  borderline west={2.5pt}{0pt}{edu-green},
+  left=3mm, right=3mm, top=3mm, bottom=3mm,
+}
+
+% 关键想法 — 蓝色左边线
+\newtcolorbox{keyideabox}{
+  enhanced, breakable,
+  colback=edu-blue-bg,
+  colframe=edu-blue!30,
+  boxrule=0pt,
+  borderline west={2.5pt}{0pt}{edu-blue},
+  left=3mm, right=3mm, top=3mm, bottom=3mm,
+}
+
+% 易错提醒 — 红色左边线
+\newtcolorbox{mistakebox}{
+  enhanced, breakable,
+  colback=edu-red-bg,
+  colframe=edu-red!20,
+  boxrule=0pt,
+  borderline west={3pt}{0pt}{edu-red},
+  left=3mm, right=3mm, top=2.5mm, bottom=2.5mm,
+}
+
+% 提示 — 灰色虚线左边线
+\newtcolorbox{hintbox}{
+  enhanced, breakable,
+  colback=edu-gray-bg,
+  colframe=edu-gray!20,
+  boxrule=0pt,
+  borderline west={2pt}{0pt}{edu-gray, dashed},
+  left=3mm, right=3mm, top=2mm, bottom=2mm,
+}
+
+% 思考题 — 紫色虚线左边线
+\newtcolorbox{thinkbox}{
+  enhanced, breakable,
+  colback=edu-purple-bg,
+  colframe=edu-purple!20,
+  boxrule=0pt,
+  borderline west={2pt}{0pt}{edu-purple, dashed},
+  left=2.5mm, right=2.5mm, top=2.5mm, bottom=2.5mm,
+}
+
+% 教师备注 — 灰色左边线，小字
+\newtcolorbox{teachernote}{
+  enhanced, breakable,
+  colback=edu-gray-bg,
+  colframe=edu-gray!15,
+  boxrule=0pt,
+  borderline west={2pt}{0pt}{edu-gray!60},
+  left=2.5mm, right=2.5mm, top=2.5mm, bottom=2.5mm,
+  fontupper=\small,
+  colupper=black!60,
+}
+
+% 训练目标 — 橙色左边线，小字
+\newtcolorbox{traininggoal}{
+  enhanced, breakable,
+  colback=edu-orange-bg,
+  colframe=edu-orange!15,
+  boxrule=0pt,
+  borderline west={1.5pt}{0pt}{edu-orange},
+  left=2mm, right=2mm, top=1mm, bottom=1mm,
+  fontupper=\small,
+}
+
+% 答题区 — 无边框，纯留白
+\newcommand{\answerarea}[1][40mm]{%
+  \vspace{2mm}%
+  \begin{tcolorbox}[
+    enhanced, breakable,
+    colback=white,
+    colframe=white,
+    boxrule=0pt,
+    height=#1,
+    valign=top,
+    bottom=0mm,
+    after skip=0mm,
+  ]
+  \end{tcolorbox}%
+}
+
+\newsavebox{\diagramtikzbox}
+
+\newenvironment{diagramcoltikz}[2]{%
+  \begin{minipage}[t]{#1}
+    \vspace{0pt}\centering
+    \def\diagramcaption{#2}%
+    \begin{lrbox}{\diagramtikzbox}%
+}{%
+    \end{lrbox}%
+    \usebox{\diagramtikzbox}%
+    \ifx\diagramcaption\empty\else
+      \par\vspace{1mm}{\scriptsize\color{edu-diagram-muted}\diagramcaption}
+    \fi
+  \end{minipage}%
+}
+
+\newenvironment{diagramrowtikz}[3]{%
+  \begin{minipage}[t]{#1}
+    \vspace{0pt}\centering
+    \def\diagramlabel{#2}%
+    \def\diagramcaption{#3}%
+    \begin{lrbox}{\diagramtikzbox}%
+}{%
+    \end{lrbox}%
+    \usebox{\diagramtikzbox}%
+    \ifx\diagramlabel\empty\else
+      \par\vspace{1mm}{\scriptsize\bfseries\diagramlabel}
+    \fi
+    \ifx\diagramcaption\empty\else
+      \par\vspace{0.5mm}{\scriptsize\color{edu-diagram-muted}\diagramcaption}
+    \fi
+  \end{minipage}%
+}
+
+\newenvironment{answerareawithdiagramtikz}[3]{%
+  \par\vspace{2mm}%
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-#2-6mm\relax}
+    \vspace{0pt}\rule{0pt}{#1}
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{#2}{#3}
+}{%
+  \end{diagramcoltikz}
+  \par\vspace{2mm}%
+}
+
+% ---------- 字体设置 ----------
+% exam-zh (ctexbook) already sets CJK fonts via ctex.
+% Only override if specific fonts are needed.
+% macOS: Songti SC, STHeiti, STFangsong
+% Linux: SimSun, SimHei, FangSong
+
+% ---------- 页面设置 ----------
+% exam-zh (ctexbook) already loads geometry.
+% Override margins if needed:
+% \geometry{top=16mm, bottom=16mm, left=14mm, right=14mm}
+
+\examsetup{
+  question/show-answer = true,
+  fillin/show-answer = true,
+  solution/show-solution = show-stay,
+}
+
+% ---------- 教师版解答样式 ----------
+\newtcolorbox{solutionblock}{
+  enhanced, breakable,
+  colback=edu-blue-bg,
+  colframe=edu-blue!25,
+  boxrule=0pt,
+  borderline west={2pt}{0pt}{edu-blue!50},
+  arc=0pt,
+  left=3mm, right=3mm, top=2mm, bottom=2mm,
+  before skip=2mm,
+  after skip=3mm,
+  fontupper=\small,
+}
+
+% 解答步骤编号
+\newcounter{solstep}
+\newcommand{\solstep}[2]{%
+  \stepcounter{solstep}%
+  \par\medskip
+  \noindent\hangindent=6mm
+  {\color{edu-blue}\bfseries\textcircled{\scriptsize\thesolstep}\enspace #1}\enspace #2\par
+}
+
+\begin{document}
+
+\section*{数学试卷18精选题}
+
+\section*{精选题}
+
+
+\needspace{14\baselineskip}
+\begin{question}[points=4]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    正方形 $A_1B_1C_1O$、$A_2B_2C_2C_1$、$A_3B_3C_3C_2\cdots$ 按如图所示的方式放置，点 $A_1,A_2,A_3,\cdots$ 和点 $C_1,C_2,C_3,\cdots$ 分别在直线 $y=x+1$ 和 $x$ 轴上，则点 $B_{2020}$ 的坐标是（\quad）。
+    \par
+    \begin{choices}[columns=1]
+      \item $(2^{2020},\ 2^{2020})$
+      \item $(2^{2020}-1,\ 2^{2019})$
+      \item $(2^{2020},\ 2^{2019})$
+      \item $(2^{2019}-1,\ 2^{2019})$
+    \end{choices}
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{正方形递推示意}
+  \input{\detokenize{build/diagram/jobs/q6-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \paren[B]
+\end{question}
+
+
+
+
+\begin{question}[points=4]
+  已知点 $P(2a-1,a+1)$，如果点 $Q$ 的坐标为 $(5,2)$，且直线 $PQ\parallel y$ 轴，那么点 $P$ 的坐标是\underline{\hspace{22mm}}。
+  \paren[$(5,4)$]
+\end{question}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=4]
+  如图，在平面直角坐标系中，矩形 $ABCD$ 的对角线 $AC,BD$ 相交于点 $E$，$B(-1,0)$，$C(0,\sqrt3)$，如果 $AC\parallel x$ 轴，那么 $BE$ 的长为\underline{\hspace{18mm}}。
+  \begin{answerareawithdiagramtikz}{68mm}{60mm}{矩形与坐标轴}
+  \input{\detokenize{build/diagram/jobs/q14-prompt/rendered/prompt.fragment.tex}}
+  \end{answerareawithdiagramtikz}
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$2$\par\medskip
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=4]
+  如图，$\triangle ABC$ 中，$\angle BAC=90^\circ$，$\angle ABC=30^\circ$。将 $\triangle ABC$ 绕点 $A$ 按顺时针方向旋转到 $\triangle ADE$（点 $D$ 与点 $B$ 对应），且使射线 $AD\parallel BC$，直线 $DE$ 交射线 $BC$ 于点 $G$，那么 $\angle EAG$ 的度数为\underline{\hspace{18mm}}度。
+  \begin{answerareawithdiagramtikz}{44mm}{60mm}{旋转与平行}
+  \input{\detokenize{build/diagram/jobs/q17-prompt/rendered/prompt.fragment.tex}}
+  \end{answerareawithdiagramtikz}
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$15$\par\medskip
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=4]
+  如图，在 $\triangle ABC$ 中，点 $E,F$ 分别是 $AB,BC$ 的中点，$EH\perp AC$ 于 $H$，$GF\perp BC$ 且交 $EH$ 于点 $G$，$GF=FC$。若 $BG=\sqrt5$，$AH=3$，则 $CH$ 的长度为\underline{\hspace{18mm}}。
+  \begin{answerareawithdiagramtikz}{64mm}{60mm}{中点与垂线}
+  \input{\detokenize{build/diagram/jobs/q18-prompt/rendered/prompt.fragment.tex}}
+  \end{answerareawithdiagramtikz}
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$5+2\sqrt5$\par\medskip
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=8]
+  如图，在平面直角坐标系中，四边形 $OABC$ 是平行四边形。点 $O$ 是原点，点 $A$ 的坐标是 $(-16,0)$。线段 $BC$ 交 $y$ 轴于点 $D(0,8)$，$CD=6$。动点 $P$ 从点 $O$ 出发，沿射线 $OA$ 的方向以每秒 $2$ 个单位的速度运动，同时动点 $Q$ 从点 $D$ 出发，以每秒 $1$ 个单位的速度向点 $B$ 运动，当点 $Q$ 运动到点 $B$ 时，点 $P$ 随之停止运动。设运动时间为 $t$ 秒。\par (1) 用含 $t$ 的代数式表示：$BQ=$\underline{\hspace{18mm}}；\par (2) 当以 $P,Q,A,B$ 为顶点的四边形是平行四边形时，则 $t$ 的值是\underline{\hspace{18mm}}。
+  \begin{answerareawithdiagramtikz}{44mm}{60mm}{坐标系中的平行四边形}
+  \input{\detokenize{build/diagram/jobs/q19-prompt/rendered/prompt.fragment.tex}}
+  \end{answerareawithdiagramtikz}
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}(1) $10-t$；(2) $\dfrac{26}{3}$\par\medskip
+  \end{solutionblock}
+\end{problem}
+
+
+
+\end{document}

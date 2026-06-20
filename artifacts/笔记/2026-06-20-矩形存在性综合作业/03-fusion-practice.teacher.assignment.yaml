@@ -1,0 +1,442 @@
+meta:
+  title: "矩形存在性 Fusion 综合作业"
+  subtitle: "教师版"
+  grade: "八年级"
+  subject: "数学"
+  duration: "60分钟"
+  total_points: 100
+  version: "teacher"
+  source_artifacts:
+    structure_analysis: "artifacts/笔记/2026-06-20-矩形存在性综合作业/01-structure-analysis.md"
+    explanation: "artifacts/笔记/2026-06-20-矩形存在性综合作业/02-student-explanation.assignment.yaml"
+    model_rules:
+      - "rectangle_candidate_point_pairs_on_linear_locus"
+      - "rhombus_candidate_point_pairs_on_linear_locus"
+      - "inverse_rectangle_area_to_k"
+      - "linear_inverse_function_inequality_by_graph"
+
+render:
+  template: "exam-zh-practice"
+  paper_size: "a4paper"
+  answer_key_position: "after_page_break"
+
+sections:
+  - id: "model-discrimination"
+    title: "一、模型辨析与关键量（每题 8 分，共 24 分）"
+    type: "practice"
+    visibility: "both"
+    blocks:
+      - type: "choice"
+        id: "q1"
+        points: 8
+        stem_latex: |
+          已知 $A(0,0)$，$B(4,0)$，点 $C$ 在直线 $y=2x$ 上。比较“矩形 $ABCD$”与“菱形 $ABCD$”两种固定顺序条件，下列说法正确的是（\quad）。
+        choices:
+          A: "两种条件都得到 $C(4,8)$"
+          B: "矩形得到 $C(4,8)$，菱形得到 $C\\left(\\dfrac85,\\dfrac{16}{5}\\right)$"
+          C: "矩形得到 $C\\left(\\dfrac85,\\dfrac{16}{5}\\right)$，菱形得到 $C(4,8)$"
+          D: "两种条件都无解"
+        answer: "B"
+        explanation: "矩形固定顺序用 $BC\\perp AB$，故 $x_C=4$，得 $C(4,8)$。菱形固定顺序用 $AB=BC$，设 $C(t,2t)$，列 $(t-4)^2+(2t)^2=16$，非退化解为 $t=\\dfrac85$。"
+        teaching:
+          teaching_goal: "用选择题训练矩形 relation 与菱形 relation 的入口辨析。"
+          source_relations:
+            - "rectangle_candidate_point_pairs_on_linear_locus"
+            - "rhombus_candidate_point_pairs_on_linear_locus"
+          model_fusion:
+            model_count: 2
+            models:
+              - "coordinate_quadrilateral_existence:rectangle"
+              - "coordinate_quadrilateral_existence:rhombus"
+            fusion_role: "discriminator"
+          expected_blocker: "把矩形和菱形都当成同一种特殊四边形入口。"
+          entry_point: "find_entry"
+          scaffold_level: "medium"
+          variation_depth: "changed_question"
+          complexity_note: "选择题只比较入口，不展开长计算。"
+          upgrade_rule: "能说出矩形看直角、菱形看邻边。"
+          fallback_move: "分别写出 $BC\\perp AB$ 与 $AB=BC$。"
+
+      - type: "fillin"
+        id: "q2"
+        points: 8
+        fillin_type: "line"
+        stem_latex: |
+          点 $P$ 在第一象限，且在反比例函数 $y=\dfrac{k}{x}$ 的图像上。以 $O(0,0)$、$P$ 以及两条坐标轴上的垂足为顶点的矩形面积为 $24$，则 $k=$ \underline{\hspace{2cm}}。
+        answer: "$24$"
+        explanation: "第一象限中，坐标轴矩形面积等于 $xy=k$，故 $k=24$。"
+        teaching:
+          teaching_goal: "训练反比例函数矩形面积反求 $k$。"
+          source_relations:
+            - "inverse_rectangle_area_to_k"
+          model_fusion:
+            model_count: 1
+            models:
+              - "inverse_area_invariant"
+            fusion_role: "prerequisite"
+          expected_blocker: "不知道面积与 $k$ 的绝对值关系。"
+          entry_point: "build_relation"
+          scaffold_level: "medium"
+          variation_depth: "same_structure"
+          complexity_note: "作为后续融合题的前置关键量。"
+          upgrade_rule: "能根据象限判断 $k$ 的符号。"
+          fallback_move: "先写 $P(a,b)$，面积为 $ab$。"
+
+      - type: "problem"
+        id: "q3"
+        points: 8
+        stem_latex: |
+          一次函数 $y=x+2$ 与反比例函数 $y=\dfrac{8}{x}$ 相交。求使 $x+2\ge \dfrac{8}{x}$ 的 $x$ 的取值范围。
+        answer_space:
+          type: "steps"
+          height: "28mm"
+          step_count: 3
+        answer: "$\\left[-4,0\\right)\\cup\\left[2,+\\infty\\right)$"
+        solution_steps:
+          - title: "求交点横坐标"
+            content: "由 $x+2=\\dfrac8x$ 得 $x^2+2x-8=0$，解得 $x=-4$ 或 $x=2$。"
+          - title: "分段比较"
+            content: "以 $x=-4,0,2$ 分段比较函数值，得解集为 $\\left[-4,0\\right)\\cup\\left[2,+\\infty\\right)$。"
+        teaching:
+          teaching_goal: "训练一次函数与反比例函数图像解不等式，为函数图像融合题做准备。"
+          source_relations:
+            - "linear_inverse_function_inequality_by_graph"
+          model_fusion:
+            model_count: 1
+            models:
+              - "linear_inverse_graph_inequality"
+            fusion_role: "prerequisite"
+          expected_blocker: "忘记 $x=0$ 是分段边界。"
+          entry_point: "solve_and_check"
+          scaffold_level: "medium"
+          variation_depth: "changed_representation"
+          complexity_note: "交点整数，区间比较可手算。"
+          upgrade_rule: "能用测试点验证每个区间。"
+          fallback_move: "先解交点，再画数轴分段。"
+
+  - id: "two-model-fusion"
+    title: "二、两模型融合：存在性 + 面积/辨析（每题 12 分，共 36 分）"
+    type: "practice"
+    visibility: "both"
+    blocks:
+      - type: "problem"
+        id: "q4"
+        points: 12
+        stem_latex: |
+          已知 $A(0,0)$，$B(6,0)$，点 $C$ 在第一象限，且在反比例函数 $y=\dfrac{k}{x}$ 的图像上。若四边形 $ABCD$ 是矩形，且矩形面积为 $18$，求 $k$ 的值以及点 $C,D$ 的坐标。
+        hints:
+          - content: "固定顺序先确定 $x_C$，面积再确定 $y_C$。"
+        answer_space:
+          type: "steps"
+          height: "48mm"
+          step_count: 5
+        answer: "$k=18$，$C(6,3)$，$D(0,3)$"
+        solution_steps:
+          - title: "矩形存在性入口"
+            content: "$AB$ 水平且 $ABCD$ 为固定顺序矩形，所以 $BC\\perp AB$，得 $x_C=6$。"
+          - title: "面积反求高度"
+            content: "矩形面积为 $6y_C=18$，且 $C$ 在第一象限，故 $y_C=3$。"
+          - title: "反比例参数"
+            content: "$C(6,3)$ 在 $y=\\dfrac{k}{x}$ 上，所以 $k=18$。"
+          - title: "求D"
+            content: "$D=A+C-B=(0,3)$。"
+        teaching:
+          teaching_goal: "融合固定顺序矩形存在性与反比例矩形面积反求 $k$。"
+          source_relations:
+            - "rectangle_candidate_point_pairs_on_linear_locus"
+            - "inverse_rectangle_area_to_k"
+          model_fusion:
+            model_count: 2
+            models:
+              - "coordinate_quadrilateral_existence:rectangle"
+              - "inverse_area_invariant"
+            fusion_role: "constraint"
+          expected_blocker: "把反比例函数当作摆设，或只求 C 不求 k。"
+          entry_point: "build_relation"
+          scaffold_level: "medium"
+          variation_depth: "packaged_condition"
+          complexity_note: "矩形关系确定横坐标，面积确定纵坐标。"
+          upgrade_rule: "能说明两个 model 分别给了哪个量。"
+          fallback_move: "先写 $x_C=6$ 和 $6y_C=18$。"
+
+      - type: "problem"
+        id: "q5"
+        points: 12
+        stem_latex: |
+          已知 $A(0,0)$，$B(4,0)$，点 $C$ 在直线 $y=2x$ 上。
+          \begin{enumerate}[label=(\arabic*)]
+            \item 若四边形 $ABCD$ 是矩形，求 $C,D$；
+            \item 若四边形 $ABCD$ 是菱形，求 $C,D$。
+          \end{enumerate}
+        hints:
+          - content: "矩形看直角；菱形看邻边相等。"
+        answer_space:
+          type: "steps"
+          height: "62mm"
+          step_count: 6
+        answer: "矩形：$C(4,8),D(0,8)$；菱形：$C\\left(\\dfrac85,\\dfrac{16}{5}\\right),D\\left(-\\dfrac{12}{5},\\dfrac{16}{5}\\right)$"
+        solution_steps:
+          - title: "矩形"
+            content: "$AB$ 水平，固定顺序矩形得 $x_C=4$，所以 $C(4,8)$，$D=A+C-B=(0,8)$。"
+          - title: "菱形"
+            content: "设 $C(t,2t)$。固定顺序菱形用 $AB=BC$，列 $(t-4)^2+(2t)^2=16$，得 $t=0$ 或 $t=\\dfrac85$。舍去 $t=0$，所以 $C\\left(\\dfrac85,\\dfrac{16}{5}\\right)$。"
+          - title: "菱形第四点"
+            content: "$D=A+C-B=\\left(-\\dfrac{12}{5},\\dfrac{16}{5}\\right)$。"
+        teaching:
+          teaching_goal: "同题面融合矩形与菱形两个存在性 relation，训练入口辨析。"
+          source_relations:
+            - "rectangle_candidate_point_pairs_on_linear_locus"
+            - "rhombus_candidate_point_pairs_on_linear_locus"
+          model_fusion:
+            model_count: 2
+            models:
+              - "coordinate_quadrilateral_existence:rectangle"
+              - "coordinate_quadrilateral_existence:rhombus"
+            fusion_role: "discriminator"
+          expected_blocker: "用同一条方程解两种特殊四边形。"
+          entry_point: "find_entry"
+          scaffold_level: "medium"
+          variation_depth: "changed_question"
+          complexity_note: "菱形只含一个可因式分解方程。"
+          upgrade_rule: "能主动写出两个 model 的入口差异。"
+          fallback_move: "先填“矩形：垂直；菱形：等边”。"
+
+      - type: "problem"
+        id: "q6"
+        points: 12
+        stem_latex: |
+          已知 $A(0,0)$，$B(6,0)$，点 $C$ 在直线 $y=x$ 上。若 $A,B,C,D$ 构成矩形，且矩形面积为 $18$，求所有可能的点 $C,D$。
+        hints:
+          - content: "先做无固定顺序分类，再用面积筛选。"
+        answer_space:
+          type: "steps"
+          height: "58mm"
+          step_count: 6
+        answer: "$C(3,3),D(3,-3)$"
+        solution_steps:
+          - title: "先分类"
+            content: "设 $C(t,t)$。直角在 $A$ 时 $t=0$ 退化；直角在 $B$ 时 $C(6,6),D(0,6)$；直角在 $C$ 时 $C(3,3),D(3,-3)$。"
+          - title: "面积筛选"
+            content: "$C(6,6)$ 对应面积 $36$，不满足；$C(3,3)$ 时相邻边长均为 $3\\sqrt2$，面积为 $18$，满足。"
+        teaching:
+          teaching_goal: "融合无固定顺序矩形候选点与面积筛选。"
+          source_relations:
+            - "rectangle_candidate_point_pairs_on_linear_locus"
+            - "fallback:coordinate_area_filter"
+          model_fusion:
+            model_count: 2
+            models:
+              - "coordinate_quadrilateral_existence:rectangle"
+              - "coordinate_area_filter"
+            fusion_role: "constraint"
+          expected_blocker: "只做固定顺序，或先用面积导致漏分类。"
+          entry_point: "transfer"
+          scaffold_level: "medium"
+          variation_depth: "reverse_construct"
+          complexity_note: "面积筛掉一个候选矩形，不是换数题。"
+          upgrade_rule: "能先列候选集，再筛选。"
+          fallback_move: "先完整写出构成矩形的候选点。"
+
+  - id: "three-model-fusion"
+    title: "三、三模型融合与压轴（每题 10 分，共 40 分）"
+    type: "practice"
+    visibility: "both"
+    blocks:
+      - type: "problem"
+        id: "q7"
+        points: 10
+        stem_latex: |
+          已知 $A(0,0)$，$B(4,0)$，点 $C$ 在第一象限，同时在直线 $y=mx$ 与反比例函数 $y=\dfrac{k}{x}$ 的图像上。若四边形 $ABCD$ 是矩形，且矩形面积为 $20$，求 $m,k$ 的值以及点 $C,D$ 的坐标。
+        hints:
+          - content: "矩形定点，面积定高，再回到两条函数图像。"
+        answer_space:
+          type: "steps"
+          height: "58mm"
+          step_count: 6
+        answer: "$m=\\dfrac54$，$k=20$，$C(4,5)$，$D(0,5)$"
+        solution_steps:
+          - title: "矩形定横坐标"
+            content: "$AB$ 水平且 $ABCD$ 为矩形，所以 $x_C=4$。"
+          - title: "面积定纵坐标"
+            content: "面积 $4y_C=20$，且 $C$ 在第一象限，故 $y_C=5$，所以 $C(4,5)$。"
+          - title: "回代两条函数"
+            content: "$C$ 在 $y=mx$ 上，所以 $m=\\dfrac54$；在 $y=\\dfrac{k}{x}$ 上，所以 $k=20$。"
+          - title: "求D"
+            content: "$D=A+C-B=(0,5)$。"
+        teaching:
+          teaching_goal: "三模型融合：矩形存在性 + 面积约束 + 一次/反比例参数回代。"
+          source_relations:
+            - "rectangle_candidate_point_pairs_on_linear_locus"
+            - "inverse_rectangle_area_to_k"
+            - "fallback:linear_function_parameter_from_point"
+          model_fusion:
+            model_count: 3
+            models:
+              - "coordinate_quadrilateral_existence:rectangle"
+              - "inverse_area_invariant"
+              - "linear_function_parameter"
+            fusion_role: "target_transform"
+          expected_blocker: "求出C后忘记回到两个函数参数。"
+          entry_point: "transfer"
+          scaffold_level: "medium"
+          variation_depth: "reverse_construct"
+          complexity_note: "三模型但只做一次代入，计算可控。"
+          upgrade_rule: "能说明每个条件分别确定哪个未知量。"
+          fallback_move: "先只求 $C$，再分别代入函数。"
+
+      - type: "problem"
+        id: "q8"
+        points: 10
+        stem_latex: |
+          已知 $A(0,0)$，$B(4,0)$，点 $C$ 在直线 $y=2x$ 上。是否存在点 $C,D$，使四边形 $ABCD$ 同时是矩形和菱形？请说明理由。
+        hints:
+          - content: "同时是矩形和菱形就是正方形，但点 $C$ 还必须在给定直线上。"
+        answer_space:
+          type: "steps"
+          height: "50mm"
+          step_count: 5
+        answer: "不存在"
+        solution_steps:
+          - title: "同时满足的含义"
+            content: "固定顺序四边形同时是矩形和菱形，即为正方形，所以需 $BC\\perp AB$ 且 $BC=AB=4$。"
+          - title: "矩形候选"
+            content: "$BC\\perp AB$ 得 $x_C=4$。因 $C$ 在 $y=2x$ 上，$C(4,8)$，此时 $BC=8\\ne4$。"
+          - title: "结论"
+            content: "因此不存在满足条件的 $C,D$。"
+        teaching:
+          teaching_goal: "融合矩形与菱形 relation 做存在性充要条件辨析。"
+          source_relations:
+            - "rectangle_candidate_point_pairs_on_linear_locus"
+            - "rhombus_candidate_point_pairs_on_linear_locus"
+          model_fusion:
+            model_count: 2
+            models:
+              - "coordinate_quadrilateral_existence:rectangle"
+              - "coordinate_quadrilateral_existence:rhombus"
+            fusion_role: "verification"
+          expected_blocker: "以为矩形候选点存在就自动也是菱形。"
+          entry_point: "hidden_structure"
+          scaffold_level: "medium"
+          variation_depth: "partially_hidden"
+          complexity_note: "不需要长算，关键是条件同时满足。"
+          upgrade_rule: "能把“同时满足”翻译成正方形检查。"
+          fallback_move: "先求矩形候选点，再检查边长。"
+
+      - type: "problem"
+        id: "q9"
+        points: 10
+        stem_latex: |
+          一次函数 $y=x+2$ 与反比例函数 $y=\dfrac{8}{x}$ 交于两点。
+          \begin{enumerate}[label=(\arabic*)]
+            \item 求两个交点；
+            \item 取第一象限交点 $P$，以 $O(0,0)$、$P$ 及两条坐标轴上的垂足为顶点作矩形，求矩形面积；
+            \item 解不等式 $x+2\ge\dfrac{8}{x}$。
+          \end{enumerate}
+        hints:
+          - content: "交点、面积、不等式都来自同一组函数图像。"
+        answer_space:
+          type: "steps"
+          height: "70mm"
+          step_count: 7
+        answer: "交点 $(2,4)$、$(-4,-2)$；面积 $8$；不等式解集 $\\left[-4,0\\right)\\cup\\left[2,+\\infty\\right)$"
+        solution_steps:
+          - title: "求交点"
+            content: "由 $x+2=\\dfrac8x$，得 $x^2+2x-8=0$，解得 $x=2$ 或 $x=-4$。交点为 $(2,4)$、$(-4,-2)$。"
+          - title: "矩形面积"
+            content: "第一象限交点 $P(2,4)$，坐标轴矩形面积为 $2\\times4=8$。"
+          - title: "解不等式"
+            content: "以 $x=-4,0,2$ 分段比较，得 $x+2\\ge\\dfrac8x$ 的解集为 $\\left[-4,0\\right)\\cup\\left[2,+\\infty\\right)$。"
+        teaching:
+          teaching_goal: "三模型融合：交点、反比例矩形面积、图像不等式。"
+          source_relations:
+            - "linear_inverse_function_inequality_by_graph"
+            - "inverse_rectangle_area_to_k"
+            - "fallback:intersection_points"
+          model_fusion:
+            model_count: 3
+            models:
+              - "linear_inverse_graph_inequality"
+              - "inverse_area_invariant"
+              - "function_intersection"
+            fusion_role: "target_transform"
+          expected_blocker: "把交点题、面积题、不等式题割裂处理。"
+          entry_point: "transfer"
+          scaffold_level: "medium"
+          variation_depth: "changed_representation"
+          complexity_note: "交点整数，面积和区间都可直接验证。"
+          upgrade_rule: "能把交点作为后两问的共同入口。"
+          fallback_move: "先只求两个交点，并标出 $x=0$。"
+
+      - type: "problem"
+        id: "q10"
+        points: 10
+        stem_latex: |
+          已知 $A(0,0)$，$B(6,0)$。
+          \begin{enumerate}[label=(\arabic*)]
+            \item 点 $C$ 在第一象限的反比例函数 $y=\dfrac{k}{x}$ 上，四边形 $ABCD$ 是矩形，且面积为 $24$。求 $k,C,D$；
+            \item 点 $E$ 在直线 $y=2x$ 上，四边形 $ABEF$ 是菱形。求 $E,F$；
+            \item 比较两个四边形的面积。
+          \end{enumerate}
+        hints:
+          - content: "同一条底边 $AB$，分别接矩形面积模型和菱形存在性模型。"
+        answer_space:
+          type: "steps"
+          height: "75mm"
+          step_count: 8
+        answer: "$k=24$，$C(6,4)$，$D(0,4)$；$E\\left(\\dfrac{12}{5},\\dfrac{24}{5}\\right)$，$F\\left(-\\dfrac{18}{5},\\dfrac{24}{5}\\right)$；菱形面积 $\\dfrac{144}{5}$ 大于矩形面积 $24$"
+        solution_steps:
+          - title: "矩形部分"
+            content: "$ABCD$ 为固定顺序矩形，得 $x_C=6$。面积 $6y_C=24$，故 $C(6,4)$，$D(0,4)$，且 $k=24$。"
+          - title: "菱形部分"
+            content: "设 $E(t,2t)$。菱形 $ABEF$ 中 $AB=BE$，列 $(t-6)^2+(2t)^2=36$，得 $t=0$ 或 $t=\\dfrac{12}{5}$。舍去退化解，得 $E\\left(\\dfrac{12}{5},\\dfrac{24}{5}\\right)$。"
+          - title: "求F和比较面积"
+            content: "$F=A+E-B=\\left(-\\dfrac{18}{5},\\dfrac{24}{5}\\right)$。矩形面积为 $24$；菱形以 $AB$ 为底，高为 $\\dfrac{24}{5}$，面积为 $6\\cdot\\dfrac{24}{5}=\\dfrac{144}{5}$，所以菱形面积更大。"
+        teaching:
+          teaching_goal: "压轴融合：同底边下矩形反比例面积模型与菱形存在性模型并行比较。"
+          source_relations:
+            - "rectangle_candidate_point_pairs_on_linear_locus"
+            - "inverse_rectangle_area_to_k"
+            - "rhombus_candidate_point_pairs_on_linear_locus"
+          model_fusion:
+            model_count: 3
+            models:
+              - "coordinate_quadrilateral_existence:rectangle"
+              - "inverse_area_invariant"
+              - "coordinate_quadrilateral_existence:rhombus"
+            fusion_role: "constraint+discriminator+verification"
+          expected_blocker: "把两个子模型混成一套条件，或漏掉菱形退化解。"
+          entry_point: "transfer"
+          scaffold_level: "low"
+          variation_depth: "reverse_construct"
+          complexity_note: "三模型融合，但每条链只含一个核心方程。"
+          upgrade_rule: "能说明同底边下两个模型的高度来源不同。"
+          fallback_move: "先把第(1)问和第(2)问分成两条独立模型链。"
+
+  - id: "answer-key"
+    title: "答案速查"
+    type: "answer_key"
+    visibility: "teacher"
+    blocks:
+      - type: "answers"
+        id: "answers-main"
+        items:
+          - number: "1"
+            answer: "B"
+          - number: "2"
+            answer: "$24$"
+          - number: "3"
+            answer: "$\\left[-4,0\\right)\\cup\\left[2,+\\infty\\right)$"
+          - number: "4"
+            answer: "$k=18$，$C(6,3)$，$D(0,3)$"
+          - number: "5"
+            answer: "矩形：$C(4,8),D(0,8)$；菱形：$C\\left(\\dfrac85,\\dfrac{16}{5}\\right),D\\left(-\\dfrac{12}{5},\\dfrac{16}{5}\\right)$"
+          - number: "6"
+            answer: "$C(3,3),D(3,-3)$"
+          - number: "7"
+            answer: "$m=\\dfrac54$，$k=20$，$C(4,5)$，$D(0,5)$"
+          - number: "8"
+            answer: "不存在"
+          - number: "9"
+            answer: "交点 $(2,4)$、$(-4,-2)$；面积 $8$；不等式解集 $\\left[-4,0\\right)\\cup\\left[2,+\\infty\\right)$"
+          - number: "10"
+            answer: "$k=24$，$C(6,4)$，$D(0,4)$；$E\\left(\\dfrac{12}{5},\\dfrac{24}{5}\\right)$，$F\\left(-\\dfrac{18}{5},\\dfrac{24}{5}\\right)$；菱形面积 $\\dfrac{144}{5}$ 更大"

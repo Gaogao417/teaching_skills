@@ -1,0 +1,772 @@
+meta:
+  title: "矩形存在性综合作业"
+  subtitle: "教师版"
+  grade: "八年级"
+  subject: "数学"
+  duration: "60分钟"
+  total_points: 100
+  version: "teacher"
+  source_artifacts:
+    structure_analysis: "artifacts/笔记/2026-06-20-矩形存在性综合作业/01-structure-analysis.md"
+    explanation: "artifacts/笔记/2026-06-20-矩形存在性综合作业/02-student-explanation.assignment.yaml"
+    model_rules:
+      - "inverse_rectangle_area_to_k"
+      - "linear_inverse_function_inequality_by_graph"
+      - "rectangle_candidate_point_pairs_on_linear_locus"
+      - "rhombus_candidate_point_pairs_on_linear_locus"
+
+render:
+  template: "exam-zh-practice"
+  paper_size: "a4paper"
+  answer_key_position: "after_page_break"
+
+sections:
+  - id: "chain-entry"
+    title: "一、图象中的关键点（每题 8 分，共 24 分）"
+    type: "practice"
+    visibility: "both"
+    blocks:
+      - type: "choice"
+        id: "q1"
+        points: 8
+        stem_latex: |
+          点 $P$ 在第一象限，过 $P$ 分别作两坐标轴的垂线，所得矩形面积为 $8$。若 $P$ 又在直线 $y=x+2$ 上，则 $P$ 的坐标与该矩形面积分别为（\quad）。
+        choices:
+          A: "$P(2,4)$，面积 $8$"
+          B: "$P(4,2)$，面积 $8$"
+          C: "$P(2,4)$，面积 $4$"
+          D: "$P(-4,-2)$，面积 $8$"
+        answer: "A"
+        explanation: "面积 $8$ 且第一象限，得 $k=8$。解 $x+2=\\dfrac8x$，得交点 $(2,4)$ 与 $(-4,-2)$，第一象限交点为 $P(2,4)$，坐标轴矩形面积为 $8$。"
+        teaching:
+          teaching_goal: "训练 area -> inverse function -> intersections -> selector -> area verification 的 typed chain。"
+          source_relations:
+            - "inverse_rectangle_area_to_k"
+            - "fallback:linear_inverse_intersections"
+            - "fallback:axis_rectangle_area_from_point"
+          model_fusion:
+            model_count: 3
+            models:
+              - "inverse_area_invariant"
+              - "function_intersection"
+              - "coordinate_area"
+            fusion_role: "target_transform"
+          relation_chain:
+            - step: 1
+              relation_id: "inverse_rectangle_area_to_k"
+              inputs:
+                rectangle_area: "8:Area"
+                sign_filter: "第一象限:Constraint"
+              outputs:
+                inverse_function: "y=8/x:InverseProportionalFunction"
+              constraints_checked:
+                - "面积非负"
+                - "第一象限确定 k>0"
+            - step: 2
+              relation_id: "fallback:linear_inverse_intersections"
+              consumes:
+                inverse_function: "step1.outputs.inverse_function"
+              inputs:
+                linear_function: "y=x+2:LinearFunction"
+              outputs:
+                intersection_points: "{(2,4),(-4,-2)}:CandidateSet<Point2D>"
+              constraints_checked:
+                - "两点都代回两条函数"
+            - step: 3
+              relation_id: "fallback:first_quadrant_selector"
+              consumes:
+                candidates: "step2.outputs.intersection_points"
+              selector: "取第一象限点"
+              outputs:
+                point: "(2,4):Point2D"
+              constraints_checked:
+                - "x>0,y>0"
+            - step: 4
+              relation_id: "fallback:axis_rectangle_area_from_point"
+              consumes:
+                point: "step3.outputs.point"
+              outputs:
+                area: "8:Area"
+              constraints_checked:
+                - "面积 = |xy|"
+          expected_blocker: "只求交点，没看交点继续进入面积模型。"
+          entry_point: "transfer"
+          scaffold_level: "medium"
+          variation_depth: "changed_representation"
+          complexity_note: "选择题承载 4 步 chain，但计算是整数。"
+          upgrade_rule: "能复述每一步输出喂给下一步。"
+          fallback_move: "先写 k=8，再求交点。"
+
+      - type: "fillin"
+        id: "q2"
+        points: 8
+        fillin_type: "line"
+        stem_latex: |
+          点 $P$ 在第一象限，过 $P$ 分别作两坐标轴的垂线，所得矩形面积为 $12$。若 $P$ 还在直线 $y=x+1$ 上，以 $A(0,0)$，$B(3,0)$，$C=P$ 为相邻顶点作矩形 $ABCD$，则 $D=$ \underline{\hspace{2cm}}。
+        answer: "$(0,4)$"
+        explanation: "面积给出 $k=12$。解 $x+1=\\dfrac{12}{x}$，第一象限交点为 $P(3,4)$。固定顺序矩形中 $D=A+C-B=(0,4)$。"
+        teaching:
+          teaching_goal: "训练 inverse area 输出函数，函数交点输出点，点再进入矩形第四点 relation。"
+          source_relations:
+            - "inverse_rectangle_area_to_k"
+            - "fallback:linear_inverse_intersections"
+            - "fallback:fixed_order_rectangle_fourth_point"
+          model_fusion:
+            model_count: 3
+            models:
+              - "inverse_area_invariant"
+              - "function_intersection"
+              - "coordinate_rectangle_existence"
+            fusion_role: "target_transform"
+          relation_chain:
+            - step: 1
+              relation_id: "inverse_rectangle_area_to_k"
+              inputs:
+                rectangle_area: "12:Area"
+                sign_filter: "第一象限:Constraint"
+              outputs:
+                inverse_function: "y=12/x:InverseProportionalFunction"
+              constraints_checked:
+                - "第一象限确定 k=12"
+            - step: 2
+              relation_id: "fallback:linear_inverse_intersections"
+              consumes:
+                inverse_function: "step1.outputs.inverse_function"
+              inputs:
+                linear_function: "y=x+1:LinearFunction"
+              outputs:
+                intersection_points: "{(3,4),(-4,-3)}:CandidateSet<Point2D>"
+              constraints_checked:
+                - "交点代回验证"
+            - step: 3
+              relation_id: "fallback:first_quadrant_selector"
+              consumes:
+                candidates: "step2.outputs.intersection_points"
+              selector: "取第一象限点 P"
+              outputs:
+                point: "(3,4):Point2D"
+              constraints_checked:
+                - "P 与 B 的横坐标一致，能作固定顺序矩形"
+            - step: 4
+              relation_id: "fallback:fixed_order_rectangle_fourth_point"
+              consumes:
+                C: "step3.outputs.point"
+              inputs:
+                A: "(0,0):Point2D"
+                B: "(3,0):Point2D"
+              outputs:
+                D: "(0,4):Point2D"
+              constraints_checked:
+                - "D=A+C-B"
+          expected_blocker: "把 P 求出来后没有继续求 D。"
+          entry_point: "transfer"
+          scaffold_level: "medium"
+          variation_depth: "packaged_condition"
+          complexity_note: "填空题只要求最终 D。"
+          upgrade_rule: "能说出 P 是上游输出、C 是下游输入。"
+          fallback_move: "先求 $k$ 和交点 P。"
+
+      - type: "fillin"
+        id: "q3"
+        points: 8
+        fillin_type: "line"
+        stem_latex: |
+          已知 $A(0,0)$，$B(6,0)$，点 $C$ 在直线 $y=x$ 上。若以 $A,B,C,D$ 为四个顶点可以组成一个面积为 $18$ 的矩形，且点 $C$ 在反比例函数 $y=\dfrac{k}{x}$ 上，则 $k=$ \underline{\hspace{2cm}}。
+        answer: "$9$"
+        explanation: "构成矩形候选中，面积为 $18$ 的是 $C(3,3),D(3,-3)$。再由 $C$ 在 $y=\\dfrac{k}{x}$ 上得 $k=3\\cdot3=9$。"
+        teaching:
+          teaching_goal: "训练 CandidateSet<PointPair2D> 经面积 selector 后进入反比例参数 relation。"
+          source_relations:
+            - "rectangle_candidate_point_pairs_on_linear_locus"
+            - "fallback:area_filter_selector"
+            - "fallback:point_on_inverse_to_k"
+          model_fusion:
+            model_count: 3
+            models:
+              - "coordinate_quadrilateral_existence:rectangle"
+              - "coordinate_area_filter"
+              - "inverse_function_parameter"
+            fusion_role: "constraint"
+          relation_chain:
+            - step: 1
+              relation_id: "rectangle_candidate_point_pairs_on_linear_locus"
+              inputs:
+                fixed_points: "A(0,0),B(6,0):Point2D[]"
+                moving_locus: "y=x:LinearFunction"
+                quadrilateral_condition: "unordered rectangle:QuadrilateralConstraint"
+                position_filters: "none:PositionConstraint[]"
+              outputs:
+                candidate_point_pairs: "{(C(6,6),D(0,6)),(C(3,3),D(3,-3))}:CandidateSet<PointPair2D>"
+              constraints_checked:
+                - "无固定顺序分支"
+                - "排除 C=A 退化"
+            - step: 2
+              relation_id: "fallback:area_filter_selector"
+              consumes:
+                candidates: "step1.outputs.candidate_point_pairs"
+              selector: "矩形面积 = 18"
+              outputs:
+                selected_pair: "(C(3,3),D(3,-3)):PointPair2D"
+              constraints_checked:
+                - "CandidateSet<PointPair2D> 接 PointPair2D 使用了 selector"
+            - step: 3
+              relation_id: "fallback:point_on_inverse_to_k"
+              consumes:
+                point: "step2.outputs.selected_pair.C"
+              outputs:
+                inverse_parameter: "k=9:Parameter"
+              constraints_checked:
+                - "k=xy"
+          expected_blocker: "未先得到候选集就直接猜 k。"
+          entry_point: "transfer"
+          scaffold_level: "medium"
+          variation_depth: "reverse_construct"
+          complexity_note: "候选集只有两个，筛选清晰。"
+          upgrade_rule: "能写出 CandidateSet 到单点的筛选规则。"
+          fallback_move: "先列出构成矩形的两个非退化候选。"
+
+  - id: "two-step-chain"
+    title: "二、函数条件下的矩形与菱形（每题 12 分，共 36 分）"
+    type: "practice"
+    visibility: "both"
+    blocks:
+      - type: "problem"
+        id: "q4"
+        points: 12
+        stem_latex: |
+          点 $P$ 在反比例函数 $y=\dfrac{k}{x}$ 的第一象限图象上。过 $P$ 分别作两坐标轴的垂线，所得矩形面积为 $20$，且 $x_P=4$。设 $A(0,0)$，$B(4,0)$，$C=P$，点 $D$ 在 $y$ 轴上，使四边形 $ABCD$ 为矩形。求 $k$、直线 $OP$ 的解析式以及点 $C,D$。
+        hints:
+          - content: "先由矩形面积确定点 $P$ 的纵坐标。"
+        answer_space:
+          type: "steps"
+          height: "55mm"
+          step_count: 5
+        answer: "$k=20$，$C(4,5)$，$D(0,5)$，$OP:y=\\dfrac54x$"
+        solution_steps:
+          - title: "由面积确定反比例函数"
+            content: "第一象限坐标轴矩形面积为 $20$，所以 $k=20$，反比例函数为 $y=\\dfrac{20}{x}$。"
+          - title: "确定点P"
+            content: "当 $x_P=4$ 时，$y_P=5$，所以 $P(4,5)$。"
+          - title: "求直线和矩形顶点"
+            content: "直线 $OP$ 为 $y=\\dfrac54x$。又 $C=P$，所以 $C(4,5)$，$D=A+C-B=(0,5)$。"
+        teaching:
+          teaching_goal: "面积 -> 反比例函数 -> 点 -> 直线/矩形，是严格 typed chain。"
+          source_relations:
+            - "inverse_rectangle_area_to_k"
+            - "fallback:evaluate_inverse_at_x"
+            - "fallback:fixed_order_rectangle_fourth_point"
+          model_fusion:
+            model_count: 3
+            models:
+              - "inverse_area_invariant"
+              - "function_evaluation"
+              - "coordinate_rectangle_existence"
+            fusion_role: "target_transform"
+          relation_chain:
+            - step: 1
+              relation_id: "inverse_rectangle_area_to_k"
+              inputs:
+                rectangle_area: "20:Area"
+                sign_filter: "第一象限:Constraint"
+              outputs:
+                inverse_function: "y=20/x:InverseProportionalFunction"
+              constraints_checked:
+                - "k>0"
+            - step: 2
+              relation_id: "fallback:evaluate_inverse_at_x"
+              consumes:
+                inverse_function: "step1.outputs.inverse_function"
+              inputs:
+                x_value: "4:Number"
+              outputs:
+                point: "(4,5):Point2D"
+              constraints_checked:
+                - "x不为0"
+            - step: 3
+              relation_id: "fallback:line_through_origin_and_point"
+              consumes:
+                point: "step2.outputs.point"
+              outputs:
+                linear_function: "y=5/4 x:LinearFunction"
+              constraints_checked:
+                - "点不为原点"
+            - step: 4
+              relation_id: "fallback:fixed_order_rectangle_fourth_point"
+              consumes:
+                C: "step2.outputs.point"
+              inputs:
+                A: "(0,0):Point2D"
+                B: "(4,0):Point2D"
+              outputs:
+                D: "(0,5):Point2D"
+              constraints_checked:
+                - "BC垂直AB"
+          expected_blocker: "把直线 OP 和矩形第四点当成无关计算。"
+          entry_point: "transfer"
+          scaffold_level: "medium"
+          variation_depth: "reverse_construct"
+          complexity_note: "四步 chain 但数字小。"
+          upgrade_rule: "能说明 step2.outputs.point 被两个后续 relation 消费。"
+          fallback_move: "先只求出 $P(4,5)$。"
+
+      - type: "problem"
+        id: "q5"
+        points: 12
+        stem_latex: |
+          在直线 $y=x+2$ 上取点 $C$，使 $A(0,0)$，$B(2,0)$，$C,D$ 能构成矩形。若还要求点 $C$ 所在的位置满足 $x_C+2\ge\dfrac{8}{x_C}$，求所有可能的 $C,D$。
+        hints:
+          - content: "先判断直线上的哪些位置符合不等式，再检查矩形条件。"
+        answer_space:
+          type: "steps"
+          height: "65mm"
+          step_count: 6
+        answer: "$C(2,4)$，$D(0,4)$"
+        solution_steps:
+          - title: "先确定允许的位置"
+            content: "由 $x+2=\\dfrac8x$ 得交点横坐标 $x=-4,2$。分段比较得 $x+2\\ge\\dfrac8x$ 的解集为 $\\left[-4,0\\right)\\cup\\left[2,+\\infty\\right)$。"
+          - title: "再代入矩形条件"
+            content: "设 $C(t,t+2)$。若直角在 $A$，得 $t=0$，但 $0$ 不在筛选区间；若直角在 $B$，得 $t=2$，所以 $C(2,4)$，$D=A+C-B=(0,4)$；直角在 $C$ 无实数解。"
+        teaching:
+          teaching_goal: "不等式 relation 输出 IntervalSet，作为矩形候选 relation 的 position_filter。"
+          source_relations:
+            - "linear_inverse_function_inequality_by_graph"
+            - "rectangle_candidate_point_pairs_on_linear_locus"
+          model_fusion:
+            model_count: 2
+            models:
+              - "linear_inverse_graph_inequality"
+              - "coordinate_quadrilateral_existence:rectangle"
+            fusion_role: "constraint"
+          relation_chain:
+            - step: 1
+              relation_id: "linear_inverse_function_inequality_by_graph"
+              inputs:
+                linear_function: "y=x+2:LinearFunction"
+                inverse_function: "y=8/x:InverseProportionalFunction"
+                constraint: "linear >= inverse:Constraint"
+              outputs:
+                solution_set: "[-4,0)∪[2,+∞):IntervalSet"
+              constraints_checked:
+                - "x=0 分段边界"
+            - step: 2
+              relation_id: "rectangle_candidate_point_pairs_on_linear_locus"
+              consumes:
+                position_filters: "step1.outputs.solution_set"
+              inputs:
+                fixed_points: "A(0,0),B(2,0):Point2D[]"
+                moving_locus: "y=x+2:LinearFunction"
+                quadrilateral_condition: "unordered rectangle:QuadrilateralConstraint"
+              outputs:
+                candidate_point_pairs: "{(C(2,4),D(0,4))}:CandidateSet<PointPair2D>"
+              constraints_checked:
+                - "position filter 已筛掉 t=0"
+                - "候选点不退化"
+          expected_blocker: "把不等式和矩形分开做，没有把区间作为筛选条件。"
+          entry_point: "transfer"
+          scaffold_level: "medium"
+          variation_depth: "partially_hidden"
+          complexity_note: "函数分段 + 矩形分类，均为整数。"
+          upgrade_rule: "能把 IntervalSet 写入 position_filters。"
+          fallback_move: "先只求不等式解集。"
+
+      - type: "problem"
+        id: "q6"
+        points: 12
+        stem_latex: |
+          已知 $A(0,0)$，$B(4,0)$，点 $C$ 在直线 $y=x$ 上。若四边形 $ABCD$ 是菱形，求点 $C,D$；并判断所得菱形是否也是矩形。
+        hints:
+          - content: "先利用邻边相等确定点 $C$，再检验是否有直角。"
+        answer_space:
+          type: "steps"
+          height: "55mm"
+          step_count: 5
+        answer: "$C(4,4)$，$D(0,4)$；也是矩形"
+        solution_steps:
+          - title: "求菱形顶点"
+            content: "设 $C(t,t)$。固定顺序菱形用 $AB=BC$，列 $(t-4)^2+t^2=16$，得 $t=0$ 或 $t=4$。舍去退化解，得 $C(4,4)$，$D=A+C-B=(0,4)$。"
+          - title: "检验是否为矩形"
+            content: "$AB$ 水平，$BC$ 竖直，所以 $AB\\perp BC$。该候选四边形也是矩形。"
+        teaching:
+          teaching_goal: "菱形候选点对输出后，进入矩形验证 relation。"
+          source_relations:
+            - "rhombus_candidate_point_pairs_on_linear_locus"
+            - "fallback:rectangle_verification_from_point_pair"
+          model_fusion:
+            model_count: 2
+            models:
+              - "coordinate_quadrilateral_existence:rhombus"
+              - "coordinate_quadrilateral_existence:rectangle"
+            fusion_role: "verification"
+          relation_chain:
+            - step: 1
+              relation_id: "rhombus_candidate_point_pairs_on_linear_locus"
+              inputs:
+                fixed_points: "A(0,0),B(4,0):Point2D[]"
+                moving_locus: "y=x:LinearFunction"
+                quadrilateral_condition: "fixed-order rhombus:QuadrilateralConstraint"
+              outputs:
+                candidate_point_pairs: "{(C(4,4),D(0,4))}:CandidateSet<PointPair2D>"
+              constraints_checked:
+                - "排除 C=A 退化"
+            - step: 2
+              relation_id: "fallback:rectangle_verification_from_point_pair"
+              consumes:
+                pair: "step1.outputs.candidate_point_pairs"
+              selector: "唯一非退化候选点对"
+              outputs:
+                verification: "true:Boolean"
+              constraints_checked:
+                - "AB ⟂ BC"
+          expected_blocker: "分别解菱形和矩形，而不是验证同一个候选点对。"
+          entry_point: "hidden_structure"
+          scaffold_level: "medium"
+          variation_depth: "partially_hidden"
+          complexity_note: "候选唯一，验证轻量。"
+          upgrade_rule: "能说明验证消费的是 step1 的候选点对。"
+          fallback_move: "先只求菱形候选。"
+
+  - id: "three-step-chain"
+    title: "三、综合应用（每题 10 分，共 40 分）"
+    type: "practice"
+    visibility: "both"
+    blocks:
+      - type: "problem"
+        id: "q7"
+        points: 10
+        stem_latex: |
+          已知 $A(0,0)$，$B(8,0)$。矩形 $ABCD$ 的面积为 $16$，点 $C$ 在第一象限。若点 $C$ 同时在直线 $y=mx$ 与反比例函数 $y=\dfrac{k}{x}$ 上，求点 $C,D$ 以及 $m,k$ 的值。
+        hints:
+          - content: "先由矩形面积确定点 $C$，再分别代入两个函数。"
+        answer_space:
+          type: "steps"
+          height: "58mm"
+          step_count: 6
+        answer: "$C(8,2)$，$D(0,2)$，$m=\\dfrac14$，$k=16$"
+        solution_steps:
+          - title: "由矩形面积确定点C"
+            content: "$AB=8$，面积为 $16$，且 $C$ 在第一象限，所以 $BC=2$，得 $C(8,2)$，$D(0,2)$。"
+          - title: "代入函数求参数"
+            content: "$C$ 在 $y=mx$ 上，得 $m=\\dfrac{2}{8}=\\dfrac14$；在 $y=\\dfrac{k}{x}$ 上，得 $k=8\\times2=16$。"
+        teaching:
+          teaching_goal: "矩形面积 relation 输出 Point2D，分别进入一次函数参数和反比例参数 relation。"
+          source_relations:
+            - "fallback:fixed_order_rectangle_area_to_point"
+            - "fallback:linear_function_parameter_from_point"
+            - "fallback:point_on_inverse_to_k"
+          model_fusion:
+            model_count: 3
+            models:
+              - "coordinate_rectangle_area"
+              - "linear_function_parameter"
+              - "inverse_function_parameter"
+            fusion_role: "target_transform"
+          relation_chain:
+            - step: 1
+              relation_id: "fallback:fixed_order_rectangle_area_to_point"
+              inputs:
+                A: "(0,0):Point2D"
+                B: "(8,0):Point2D"
+                area: "16:Area"
+                position_filter: "C 第一象限:Constraint"
+              outputs:
+                C: "(8,2):Point2D"
+                D: "(0,2):Point2D"
+              constraints_checked:
+                - "固定顺序矩形"
+                - "面积非负且第一象限定正高"
+            - step: 2
+              relation_id: "fallback:linear_function_parameter_from_point"
+              consumes:
+                point: "step1.outputs.C"
+              inputs:
+                line_form: "y=mx"
+              outputs:
+                m: "1/4:Parameter"
+              constraints_checked:
+                - "x_C ≠ 0"
+            - step: 3
+              relation_id: "fallback:point_on_inverse_to_k"
+              consumes:
+                point: "step1.outputs.C"
+              outputs:
+                k: "16:Parameter"
+              constraints_checked:
+                - "k=x_C y_C"
+          expected_blocker: "求出 C 后没把 C 继续喂给两个函数模型。"
+          entry_point: "transfer"
+          scaffold_level: "medium"
+          variation_depth: "reverse_construct"
+          complexity_note: "三模型，只有一次除法和一次乘法。"
+          upgrade_rule: "能画出 C 分别进入两个参数模型的分叉。"
+          fallback_move: "先只由面积求 C。"
+
+      - type: "problem"
+        id: "q8"
+        points: 10
+        stem_latex: |
+          已知 $A(0,0)$，$B(4,0)$，点 $C$ 在直线 $y=2x$ 上。是否存在点 $C,D$，使四边形 $ABCD$ 既是矩形又是菱形？请说明理由。
+        hints:
+          - content: "可以先按矩形条件确定可能的点，再检查邻边是否相等。"
+        answer_space:
+          type: "steps"
+          height: "52mm"
+          step_count: 5
+        answer: "不存在"
+        solution_steps:
+          - title: "先按矩形条件求点"
+            content: "固定顺序矩形中 $BC\\perp AB$，所以 $x_C=4$。又 $C$ 在 $y=2x$ 上，得 $C(4,8)$，$D(0,8)$。"
+          - title: "再检验菱形条件"
+            content: "$AB=4$，$BC=8$，不满足邻边相等。因此不存在同一组 $C,D$ 同时满足矩形和菱形。"
+        teaching:
+          teaching_goal: "矩形 CandidateSet 输出后进入菱形验证，不是两个独立小问。"
+          source_relations:
+            - "rectangle_candidate_point_pairs_on_linear_locus"
+            - "fallback:rhombus_verification_from_point_pair"
+          model_fusion:
+            model_count: 2
+            models:
+              - "coordinate_quadrilateral_existence:rectangle"
+              - "coordinate_quadrilateral_existence:rhombus"
+            fusion_role: "verification"
+          relation_chain:
+            - step: 1
+              relation_id: "rectangle_candidate_point_pairs_on_linear_locus"
+              inputs:
+                fixed_points: "A(0,0),B(4,0):Point2D[]"
+                moving_locus: "y=2x:LinearFunction"
+                quadrilateral_condition: "fixed-order rectangle:QuadrilateralConstraint"
+              outputs:
+                candidate_point_pairs: "{(C(4,8),D(0,8))}:CandidateSet<PointPair2D>"
+              constraints_checked:
+                - "固定顺序明确"
+            - step: 2
+              relation_id: "fallback:rhombus_verification_from_point_pair"
+              consumes:
+                pair: "step1.outputs.candidate_point_pairs"
+              selector: "唯一候选点对"
+              outputs:
+                verification: "false:Boolean"
+              constraints_checked:
+                - "AB ≠ BC"
+          expected_blocker: "以为只要分别存在矩形和菱形答案即可。"
+          entry_point: "hidden_structure"
+          scaffold_level: "medium"
+          variation_depth: "partially_hidden"
+          complexity_note: "验证型 fusion，计算轻。"
+          upgrade_rule: "能说明同一个候选点对被下游验证。"
+          fallback_move: "先求矩形唯一候选。"
+
+      - type: "problem"
+        id: "q9"
+        points: 10
+        stem_latex: |
+          点 $P$ 在第一象限，过 $P$ 分别作两坐标轴的垂线，所得矩形面积为 $18$。若点 $P$ 又在直线 $y=x+3$ 上，连接 $O(0,0)$ 与 $P$ 得直线 $OP$。现有 $A(0,0)$，$B(6,0)$，在直线 $OP$ 上取点 $E$，使四边形 $ABEF$ 为菱形。求点 $P$、直线 $OP$ 的解析式以及点 $E,F$。
+        hints:
+          - content: "先确定点 $P$，再用直线 $OP$ 上的点表示 $E$。"
+        answer_space:
+          type: "steps"
+          height: "75mm"
+          step_count: 8
+        answer: "$P(3,6)$，$OP:y=2x$；$E\\left(\\dfrac{12}{5},\\dfrac{24}{5}\\right)$，$F\\left(-\\dfrac{18}{5},\\dfrac{24}{5}\\right)$"
+        solution_steps:
+          - title: "由面积确定反比例函数"
+            content: "第一象限面积为 $18$，得 $k=18$，反比例函数为 $y=\\dfrac{18}{x}$。"
+          - title: "求第一象限交点"
+            content: "解 $x+3=\\dfrac{18}{x}$，得 $x=3$ 或 $x=-6$。第一象限点为 $P(3,6)$。"
+          - title: "求直线OP"
+            content: "直线 $OP$ 为 $y=2x$。"
+          - title: "求菱形顶点"
+            content: "设 $E(t,2t)$。菱形 $ABEF$ 中 $AB=BE$，列 $(t-6)^2+(2t)^2=36$，得 $t=0$ 或 $t=\\dfrac{12}{5}$。舍去退化解，得 $E\\left(\\dfrac{12}{5},\\dfrac{24}{5}\\right)$，$F=A+E-B=\\left(-\\dfrac{18}{5},\\dfrac{24}{5}\\right)$。"
+        teaching:
+          teaching_goal: "四段 typed chain：area -> inverse -> intersection -> line -> rhombus candidates。"
+          source_relations:
+            - "inverse_rectangle_area_to_k"
+            - "fallback:linear_inverse_intersections"
+            - "fallback:line_through_origin_and_point"
+            - "rhombus_candidate_point_pairs_on_linear_locus"
+          model_fusion:
+            model_count: 4
+            models:
+              - "inverse_area_invariant"
+              - "function_intersection"
+              - "linear_function_from_point"
+              - "coordinate_quadrilateral_existence:rhombus"
+            fusion_role: "target_transform"
+          relation_chain:
+            - step: 1
+              relation_id: "inverse_rectangle_area_to_k"
+              inputs:
+                rectangle_area: "18:Area"
+                sign_filter: "第一象限:Constraint"
+              outputs:
+                inverse_function: "y=18/x:InverseProportionalFunction"
+              constraints_checked:
+                - "k>0"
+            - step: 2
+              relation_id: "fallback:linear_inverse_intersections"
+              consumes:
+                inverse_function: "step1.outputs.inverse_function"
+              inputs:
+                linear_function: "y=x+3:LinearFunction"
+              outputs:
+                intersection_points: "{(3,6),(-6,-3)}:CandidateSet<Point2D>"
+              constraints_checked:
+                - "交点代回验证"
+            - step: 3
+              relation_id: "fallback:first_quadrant_selector"
+              consumes:
+                candidates: "step2.outputs.intersection_points"
+              selector: "取第一象限点"
+              outputs:
+                point: "(3,6):Point2D"
+              constraints_checked:
+                - "CandidateSet<Point2D> 接 Point2D 使用 selector"
+            - step: 4
+              relation_id: "fallback:line_through_origin_and_point"
+              consumes:
+                point: "step3.outputs.point"
+              outputs:
+                linear_function: "y=2x:LinearFunction"
+              constraints_checked:
+                - "点不为原点"
+            - step: 5
+              relation_id: "rhombus_candidate_point_pairs_on_linear_locus"
+              consumes:
+                moving_locus: "step4.outputs.linear_function"
+              inputs:
+                fixed_points: "A(0,0),B(6,0):Point2D[]"
+                quadrilateral_condition: "fixed-order rhombus:QuadrilateralConstraint"
+              outputs:
+                candidate_point_pairs: "{(E(12/5,24/5),F(-18/5,24/5))}:CandidateSet<PointPair2D>"
+              constraints_checked:
+                - "排除 E=A 退化"
+          expected_blocker: "把交点 P 和菱形直线割裂开。"
+          entry_point: "transfer"
+          scaffold_level: "low"
+          variation_depth: "reverse_construct"
+          complexity_note: "链长较长，但每段都是小整数或简单分数。"
+          upgrade_rule: "能画出 step4 输出的直线喂给 step5。"
+          fallback_move: "先求出 P 和直线 OP。"
+
+      - type: "problem"
+        id: "q10"
+        points: 10
+        stem_latex: |
+          点 $P$ 在反比例函数 $y=\dfrac{k}{x}$ 的第一象限图象上。过 $P$ 分别作两坐标轴的垂线，所得矩形面积为 $12$。若点 $P$ 又在直线 $y=x+1$ 上，设 $A(0,0)$，$B(x_P,0)$，$C=P$，四边形 $ABCD$ 为矩形。若直线 $OC$ 的解析式为 $y=mx$，求 $k$、点 $P,D$ 以及 $m$ 的值。
+        hints:
+          - content: "先确定 $P$，再利用 $P$ 的横、纵坐标处理矩形和直线。"
+        answer_space:
+          type: "steps"
+          height: "75mm"
+          step_count: 8
+        answer: "$k=12$，$P(3,4)$，$D(0,4)$，$m=\\dfrac43$"
+        solution_steps:
+          - title: "由面积确定反比例函数"
+            content: "第一象限面积为 $12$，得 $k=12$。"
+          - title: "求第一象限交点"
+            content: "解 $x+1=\\dfrac{12}{x}$，得 $x=3$ 或 $x=-4$，第一象限点 $P(3,4)$。"
+          - title: "求矩形顶点"
+            content: "$B(x_P,0)=B(3,0)$，$C=P(3,4)$，所以 $D=A+C-B=(0,4)$。"
+          - title: "求一次函数参数"
+            content: "$C$ 在 $y=mx$ 上，所以 $m=\\dfrac43$。"
+        teaching:
+          teaching_goal: "要求学生显式说明 typed chain 的输入输出传递。"
+          source_relations:
+            - "inverse_rectangle_area_to_k"
+            - "fallback:linear_inverse_intersections"
+            - "fallback:fixed_order_rectangle_fourth_point"
+            - "fallback:linear_function_parameter_from_point"
+          model_fusion:
+            model_count: 4
+            models:
+              - "inverse_area_invariant"
+              - "function_intersection"
+              - "coordinate_rectangle_existence"
+              - "linear_function_parameter"
+            fusion_role: "target_transform"
+          relation_chain:
+            - step: 1
+              relation_id: "inverse_rectangle_area_to_k"
+              inputs:
+                rectangle_area: "12:Area"
+                sign_filter: "第一象限:Constraint"
+              outputs:
+                inverse_function: "y=12/x:InverseProportionalFunction"
+              constraints_checked:
+                - "k>0"
+            - step: 2
+              relation_id: "fallback:linear_inverse_intersections"
+              consumes:
+                inverse_function: "step1.outputs.inverse_function"
+              inputs:
+                linear_function: "y=x+1:LinearFunction"
+              outputs:
+                intersection_points: "{(3,4),(-4,-3)}:CandidateSet<Point2D>"
+              constraints_checked:
+                - "交点代回验证"
+            - step: 3
+              relation_id: "fallback:first_quadrant_selector"
+              consumes:
+                candidates: "step2.outputs.intersection_points"
+              selector: "取第一象限点 P"
+              outputs:
+                point: "(3,4):Point2D"
+              constraints_checked:
+                - "CandidateSet<Point2D> 接 Point2D 使用 selector"
+            - step: 4
+              relation_id: "fallback:fixed_order_rectangle_fourth_point"
+              consumes:
+                C: "step3.outputs.point"
+              inputs:
+                A: "(0,0):Point2D"
+                B: "(3,0):Point2D, where x_B=x_P"
+              outputs:
+                D: "(0,4):Point2D"
+              constraints_checked:
+                - "BC垂直AB"
+            - step: 5
+              relation_id: "fallback:linear_function_parameter_from_point"
+              consumes:
+                point: "step3.outputs.point"
+              inputs:
+                line_form: "y=mx"
+              outputs:
+                m: "4/3:Parameter"
+              constraints_checked:
+                - "x_P ≠ 0"
+          expected_blocker: "不能说明 B 的横坐标来自上游 P。"
+          entry_point: "reverse_construct"
+          scaffold_level: "low"
+          variation_depth: "reverse_construct"
+          complexity_note: "作为收束题，要求口头说明 chain。"
+          upgrade_rule: "能写出 consumes 字段对应关系。"
+          fallback_move: "先画箭头：面积 -> 函数 -> P -> D 和 m。"
+
+  - id: "answer-key"
+    title: "答案速查"
+    type: "answer_key"
+    visibility: "teacher"
+    blocks:
+      - type: "answers"
+        id: "answers-main"
+        items:
+          - number: "1"
+            answer: "A"
+          - number: "2"
+            answer: "$(0,4)$"
+          - number: "3"
+            answer: "$9$"
+          - number: "4"
+            answer: "$k=20$，$C(4,5)$，$D(0,5)$，$OP:y=\\dfrac54x$"
+          - number: "5"
+            answer: "$C(2,4)$，$D(0,4)$"
+          - number: "6"
+            answer: "$C(4,4)$，$D(0,4)$；也是矩形"
+          - number: "7"
+            answer: "$C(8,2)$，$D(0,2)$，$m=\\dfrac14$，$k=16$"
+          - number: "8"
+            answer: "不存在"
+          - number: "9"
+            answer: "$P(3,6)$，$OP:y=2x$；$E\\left(\\dfrac{12}{5},\\dfrac{24}{5}\\right)$，$F\\left(-\\dfrac{18}{5},\\dfrac{24}{5}\\right)$"
+          - number: "10"
+            answer: "$k=12$，$P(3,4)$，$D(0,4)$，$m=\\dfrac43$"

@@ -1,0 +1,157 @@
+meta:
+  title: 数学试卷22摘录
+  subtitle: PDF第7-8页：第3、4、5、9、11、12、13、15、16、20题
+  grade: 八年级
+  subject: 数学
+  version: student
+  show_answers: false
+  assignment_id: 2026-06-20-math-paper-22-selected
+  source_artifacts:
+    source_pdf: /Users/gaochong/Library/Containers/com.tencent.xinWeChat/Data/Documents/xwechat_files/wxid_jfjy52m4e8io21_6e3d/msg/attach/09899e5742fd62a1adbebbd865d3868d/2026-06/Rec/5824422c869e62f2/F/0/数学试卷18～22答案.pdf
+    source_pdf_pages: PDF第7-8页为数学试卷22；对应试卷内页码1-4
+    transcription_note: source-transcription.md 记录页码确认与题干判读；diagram-coordinate-derivations.md
+      记录几何图坐标来源。
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  show_seal_line: false
+sections:
+- id: selected
+  title: 摘录题目
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: q3
+    stem_latex: （原第3题）若一个四边形顶点的横坐标变为原来的相反数，而纵坐标不变，此时图形位置也不变，则这个四边形不可能是（\quad）。
+    choices:
+      A: 矩形
+      B: 直角梯形
+      C: 正方形
+      D: 菱形
+    answer: B
+  - type: choice
+    id: q4
+    stem_latex: （原第4题）在四边形 $ABCD$ 中，$AD\parallel BC$，$AC,BD$ 交于点 $O$，下列说法错误的是（\quad）。
+    choices:
+      A: 如果 $AB=CD$，$\angle ABC=\angle BAD$，那么四边形 $ABCD$ 是矩形
+      B: 如果 $AB=CD$，$AC=BD$，那么四边形 $ABCD$ 是矩形
+      C: 如果 $OB=OD$，$AC\perp BD$，那么四边形 $ABCD$ 是菱形
+      D: 如果 $AD=BC$，$\angle ABD=\angle CBD$，那么四边形 $ABCD$ 是菱形
+    answer: B
+  - type: choice
+    id: q5
+    stem_latex: （原第5题）如图，在矩形 $ABCD$ 中，$\angle BAD$ 的平分线 $AE$ 交 $BC$ 于点 $E$，且 $AD=\sqrt{2}AB$，$DH\perp
+      AE$ 于点 $H$，连接 $BH$ 并延长，交 $CD$ 于点 $F$，连接 $DE$。下列结论：① $BC=\sqrt{2}AB$；② $\angle
+      AHD=\angle CED$；③ $DH=BF$；④ $DC=2BH+CF$。其中正确的有（\quad）。
+    choices:
+      A: 1个
+      B: 2个
+      C: 3个
+      D: 4个
+    answer: D
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/q5-prompt/rendered/prompt.fragment.tex
+      diagram_ref: q5.prompt
+      diagram_job_id: q5-prompt
+      width: 60mm
+      caption: 矩形中的角平分线与垂线
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:f484592705eff32bbfe1502256330ba7063dff6ea42c09559a9040dfa0f29f80
+      packages:
+      - tikz
+      libraries: []
+  - type: fillin
+    id: q9
+    fillin_type: line
+    stem_latex: （原第9题）在平面直角坐标系 $xOy$ 中，若一次函数 $y=kx+2k+3\ (k\ne0)$ 对于除 $0$ 之外的任意实数
+      $k$，其图象都经过一个定点 $A$，点 $A'$ 与点 $A$ 关于 $x$ 轴对称，则 $\triangle OAA'$ 的面积为\underline{\hspace{28mm}}。
+    answer: $6$
+  - type: fillin
+    id: q11
+    fillin_type: line
+    stem_latex: （原第11题）若一元二次方程 $x^2-5x+a=0$ 无实数根，则一次函数 $y=(a-5)x+a$ 的图象不经过\underline{\hspace{28mm}}。
+    answer: 第四象限
+  - type: fillin
+    id: q12
+    fillin_type: line
+    stem_latex: （原第12题）在平面直角坐标系中，若点 $A(3,0)$，点 $B(0,1)$，点 $P$ 在 $y$ 轴上，且三角形 $PAB$
+      的面积为 $6$，则点 $P$ 的坐标为\underline{\hspace{36mm}}。
+    answer: $(0,5)$ 或 $(0,-3)$
+  - type: problem
+    id: q13
+    points: 4
+    stem_latex: （原第13题）已知一次函数 $y_1=kx+b$ 与 $y_2=x+a$ 的图象如图所示，有下列结论：① $a<0$；② $b>0$；③
+      关于 $x$ 的方程 $kx+b=x+a$ 的解为 $x=3$；④ 当 $x\le3$ 时，$y_2\ge y_1$。其中正确的结论有\underline{\hspace{18mm}}个。
+    answer: $3$
+    answer_space:
+      type: lines
+      height: 36mm
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/q13-prompt/rendered/prompt.fragment.tex
+        diagram_ref: q13.prompt
+        diagram_job_id: q13-prompt
+        width: 60mm
+        caption: 两条一次函数图象
+        variant: prompt
+        disclosure_policy: clean
+        artifact_hash: sha256:1bbbdee77c2fe8f3bcb53c7bb5ab6c5974fd7c7ca181b9503d4aa070af0f0b01
+        packages:
+        - tikz
+        libraries: []
+  - type: problem
+    id: q15
+    points: 4
+    stem_latex: （原第15题）如图，在矩形 $ABCD$ 中，$AD=5$，$AB=8$，点 $E$ 为射线 $DC$ 上一个动点，将 $\triangle
+      ADE$ 沿直线 $AE$ 折叠，当点 $D$ 的对应点 $F$ 刚好落在线段 $AB$ 的垂直平分线上时，$DE$ 的长为\underline{\hspace{28mm}}。
+    answer: $\dfrac52$ 或 $10$
+    answer_space:
+      type: lines
+      height: 44mm
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/q15-prompt/rendered/prompt.fragment.tex
+        diagram_ref: q15.prompt
+        diagram_job_id: q15-prompt
+        width: 60mm
+        caption: 矩形折叠示意
+        variant: prompt
+        disclosure_policy: clean
+        artifact_hash: sha256:43b12b54a1dca5debe90ad91ca8fd6e28b4f8381447608d9acc07b0e71da0126
+        packages:
+        - tikz
+        libraries: []
+  - type: fillin
+    id: q16
+    fillin_type: line
+    stem_latex: （原第16题）新定义：有一组对角相等而另一组对角不相等的四边形叫做“等对角四边形”。在“等对角四边形” $ABCD$ 中，$\angle
+      DAB=60^\circ$，$\angle ABC=90^\circ$，$AB=5$，$AD=7$，对角线 $AC$ 的长为\underline{\hspace{28mm}}。
+    answer: $2\sqrt3$ 或 $\sqrt{13}$
+  - type: problem
+    id: q20
+    stem_latex: （原第20题）如图，在 $\triangle ABC$ 中，$D$ 是边 $BC$ 的中点，点 $P,E$ 分别在线段 $AD$ 及其延长线上，$DE=DP$，连接
+      $BP,CP,BE,CE$。\par (1) 若 $BC=EP$，求证：四边形 $BECP$ 是矩形；\par (2) 已知 $AB=5$，$BC=6$。\par
+      ① 当 $AC$ 的长为多少时，四边形 $BECP$ 是菱形？并加以证明；\par ② 请直接写出当 $AP$ 的长为多少时，四边形 $BECP$ 是正方形。
+    answer_space:
+      type: lines
+      height: 76mm
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/q20-prompt/rendered/prompt.fragment.tex
+        diagram_ref: q20.prompt
+        diagram_job_id: q20-prompt
+        width: 60mm
+        caption: 中点与延长线构型
+        variant: prompt
+        disclosure_policy: clean
+        artifact_hash: sha256:0c2501ed664014d4c124f218dbf8b44edd665ca0f85c7e0a094d91ef953d0d94
+        packages:
+        - tikz
+        libraries: []

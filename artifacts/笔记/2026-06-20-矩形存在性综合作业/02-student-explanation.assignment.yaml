@@ -1,0 +1,199 @@
+meta:
+  title: "矩形存在性专题讲解"
+  subtitle: "学生讲义"
+  grade: "八年级"
+  subject: "数学"
+  version: "student"
+  source_artifacts:
+    structure_analysis: "artifacts/笔记/2026-06-20-矩形存在性综合作业/01-structure-analysis.md"
+
+render:
+  template: "exam-zh-explanation"
+  paper_size: "a4paper"
+
+sections:
+  - id: "fixed-order"
+    title: "模型一：固定顺序矩形与相邻边垂直"
+    show_title: true
+    type: "explanation"
+    visibility: "student"
+    blocks:
+      - type: "solution"
+        id: "fixed-knowledge"
+        title: "核心结论：先定直角，再求第四点"
+        items:
+          - latex: '\textbf{固定顺序：} 题目写“四边形 $ABCD$ 是矩形”，相邻边是 $AB$ 与 $BC$，所以先用 $AB\perp BC$。'
+          - latex: '\textbf{第四点：} 求出 $C$ 后，矩形也是平行四边形，所以 $D=A+C-B$。'
+          - latex: '\textbf{坐标工具：} 水平边看横坐标，斜边用向量点积 $\overrightarrow{AB}\cdot\overrightarrow{BC}=0$。'
+
+      - type: "problemcard"
+        id: "fixed-example"
+        label: "例题 1"
+        stem_latex: |
+          已知 $A(0,0)$，$B(4,0)$，点 $C$ 在反比例函数 $y=\dfrac{12}{x}$ 的图像上，且 $x_C>0$。
+          若四边形 $ABCD$ 是矩形，求点 $C,D$ 的坐标。
+
+      - type: "route"
+        id: "fixed-route"
+        steps:
+          - id: "fixed-step-right-angle"
+            latex: "固定顺序找 $\angle B$"
+            content_latex: '$AB$ 水平，且矩形 $ABCD$ 中 $BC\perp AB$，所以 $x_C=x_B=4$。'
+          - id: "fixed-step-locus"
+            latex: "代入轨迹求 $C$"
+            content_latex: '代入 $y=\dfrac{12}{x}$，得 $C(4,3)$。'
+          - id: "fixed-step-d"
+            latex: "用平行四边形公式求 $D$"
+            content_latex: '$D=A+C-B=(0+4-4,0+3-0)=(0,3)$。'
+
+      - type: "dual_explanation"
+        id: "fixed-solution"
+        label: "例题 1"
+        stem_latex: "固定顺序矩形怎样快速确定动点？"
+        side_title: "小贴士"
+        side_items:
+          - kind: "hint"
+            title: "先圈题干顺序"
+            content_latex: "看到“四边形 $ABCD$”，先把 $AB$ 和 $BC$ 当相邻边。"
+          - kind: "mistake"
+            title: "不要先猜 $D$"
+            content_latex: "矩形条件先限制 $C$，$D$ 通常最后用坐标和求。"
+        solution_title: "解答"
+        solution_step_ids:
+          - "fixed-step-right-angle"
+          - "fixed-step-locus"
+          - "fixed-step-d"
+
+      - type: "method_reminder"
+        id: "fixed-method"
+        title: "方法提醒"
+        items:
+          - latex: "水平边：垂线是竖直线，直接确定横坐标。"
+          - latex: "斜边：写两个相邻边向量，点积为 $0$。"
+          - latex: "求完动点后，第四点用 $D=A+C-B$。"
+
+  - id: "unordered"
+    title: "模型二：四点构成矩形与三类直角"
+    show_title: true
+    type: "explanation"
+    visibility: "student"
+    layout:
+      break_before: true
+    blocks:
+      - type: "solution"
+        id: "unordered-knowledge"
+        title: "核心结论：构成题必须分类"
+        items:
+          - latex: '\textbf{无固定顺序：} 题目只说 $A,B,C,D$ 构成矩形，不能默认顺序是 $ABCD$。'
+          - latex: '\textbf{三类直角：} 依次检查 $\angle A=90^\circ$、$\angle B=90^\circ$、$\angle C=90^\circ$。'
+          - latex: '\textbf{对应第四点：} 直角在 $A$ 时 $D=B+C-A$；直角在 $B$ 时 $D=A+C-B$；直角在 $C$ 时 $D=A+B-C$。'
+
+      - type: "problemcard"
+        id: "unordered-example"
+        label: "例题 2"
+        stem_latex: |
+          已知 $A(0,0)$，$B(6,0)$，点 $C$ 在直线 $y=2x$ 上。
+          若 $A,B,C,D$ 构成矩形，求所有可能的点 $C,D$。
+
+      - type: "route"
+        id: "unordered-route"
+        steps:
+          - id: "unordered-set"
+            latex: "设动点"
+            content_latex: "设 $C(t,2t)$。"
+          - id: "unordered-case-a"
+            latex: "直角在 $A$"
+            content_latex: "$AC\\perp AB$ 时 $t=0$，此时 $C=A$，退化，舍去。"
+          - id: "unordered-case-b"
+            latex: "直角在 $B$"
+            content_latex: "$BC\\perp AB$ 时 $t=6$，所以 $C(6,12)$，$D=A+C-B=(0,12)$。"
+          - id: "unordered-case-c"
+            latex: "直角在 $C$"
+            content_latex: "列 $(A-C)\\cdot(B-C)=0$，得 $(-t,-2t)\\cdot(6-t,-2t)=0$，解得 $t=0$ 或 $t=\\dfrac65$。舍去 $t=0$，得 $C\\left(\\dfrac65,\\dfrac{12}{5}\\right)$，$D=A+B-C=\\left(\\dfrac{24}{5},-\\dfrac{12}{5}\\right)$。"
+
+      - type: "dual_explanation"
+        id: "unordered-solution"
+        label: "例题 2"
+        stem_latex: "构成矩形时怎样保证不漏解？"
+        side_title: "小贴士"
+        side_items:
+          - kind: "hint"
+            title: "分类不是装饰"
+            content_latex: "每一种直角位置都对应不同的第四点公式。"
+          - kind: "mistake"
+            title: "退化要舍去"
+            content_latex: "$C=A$ 或 $C=B$ 时不能构成四边形。"
+        solution_title: "解答"
+        solution_step_ids:
+          - "unordered-set"
+          - "unordered-case-a"
+          - "unordered-case-b"
+          - "unordered-case-c"
+
+      - type: "method_reminder"
+        id: "unordered-method"
+        title: "方法提醒"
+        items:
+          - latex: "先写三行：直角在 $A$、直角在 $B$、直角在 $C$。"
+          - latex: "每行求出 $C$ 后，立刻匹配对应的 $D$ 公式。"
+          - latex: "最后检查点是否重合、是否满足原轨迹。"
+
+  - id: "parameter"
+    title: "模型三：轨迹包装、参数反求与范围检查"
+    show_title: true
+    type: "explanation"
+    visibility: "student"
+    layout:
+      break_before: true
+    blocks:
+      - type: "solution"
+        id: "parameter-knowledge"
+        title: "核心结论：参数题也先回到矩形条件"
+        items:
+          - latex: "动点在函数图像上，先写成 $C(t,f(t))$ 或先用垂直关系确定某个坐标。"
+          - latex: "出现面积时，注意高度或边长可能要取绝对值。"
+          - latex: "出现参数时，先由矩形关系确定结构，再用面积、轨迹或参数条件筛选。"
+
+      - type: "problemcard"
+        id: "parameter-example"
+        label: "例题 3"
+        stem_latex: |
+          已知 $A(0,0)$，$B(6,0)$，点 $C$ 在直线 $y=kx$ 上。
+          若四边形 $ABCD$ 是矩形，且矩形面积为 $36$，求 $k$ 的值以及点 $C,D$ 的坐标。
+
+      - type: "route"
+        id: "parameter-route"
+        steps:
+          - id: "parameter-c"
+            latex: "先由直角确定 $C$ 的形式"
+            content_latex: "固定顺序下 $BC\\perp AB$，所以 $x_C=6$。又 $C$ 在 $y=kx$ 上，故 $C(6,6k)$。"
+          - id: "parameter-area"
+            latex: "用面积反求参数"
+            content_latex: "矩形面积为 $6\\cdot |6k|=36$，所以 $|k|=1$。"
+          - id: "parameter-answer"
+            latex: "写出两种情况"
+            content_latex: "$k=1$ 时 $C(6,6),D(0,6)$；$k=-1$ 时 $C(6,-6),D(0,-6)$。"
+
+      - type: "dual_explanation"
+        id: "parameter-solution"
+        label: "例题 3"
+        stem_latex: "参数题怎样避免漏掉正负情况？"
+        side_title: "小贴士"
+        side_items:
+          - kind: "hint"
+            title: "先结构，后参数"
+            content_latex: "不要先猜 $k$，先用矩形确定 $C$ 的横坐标。"
+          - kind: "mistake"
+            title: "面积要看绝对值"
+            content_latex: "点 $C$ 可以在 $x$ 轴上方，也可以在下方。"
+        solution_title: "解答"
+        solution_step_ids:
+          - "parameter-c"
+          - "parameter-area"
+          - "parameter-answer"
+
+      - type: "mistake"
+        id: "global-mistake"
+        title: "总易错提醒"
+        content_latex: |
+          做矩形存在性题，先问自己：题目是否固定了顶点顺序？如果固定，用相邻边垂直；如果只说“构成”，先分类。最后一定检查退化、定义域和附加条件。

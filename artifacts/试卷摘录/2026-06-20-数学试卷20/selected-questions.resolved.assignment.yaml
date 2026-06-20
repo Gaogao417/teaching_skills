@@ -1,0 +1,264 @@
+meta:
+  title: 数学试卷20摘录
+  subtitle: PDF第5-6页：第4、5、6、11、12、13、14、15、16、17、18、19、20、21题
+  grade: 八年级
+  subject: 数学
+  version: student
+  show_answers: false
+  assignment_id: 2026-06-20-math-paper-20-selected
+  source_artifacts:
+    source_pdf: /Users/gaochong/Library/Containers/com.tencent.xinWeChat/Data/Documents/xwechat_files/wxid_jfjy52m4e8io21_6e3d/msg/attach/09899e5742fd62a1adbebbd865d3868d/2026-06/Rec/5824422c869e62f2/F/0/数学试卷18～22答案.pdf
+    source_pdf_pages: PDF第5-6页为数学试卷20；对应试卷内页码1-4
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  show_seal_line: false
+sections:
+- id: selected
+  title: 摘录题目
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: q4
+    stem_latex: （原第4题）下列命题，其中是假命题的是（\quad）。
+    choices:
+      A: 对角线相等的菱形是正方形
+      B: 对角线互相垂直平分的四边形是菱形
+      C: 有一个角是直角且对角线互相平分的四边形是矩形
+      D: 一组对角相等且一组对边相等的四边形是平行四边形
+    answer: ''
+  - type: choice
+    id: q5
+    stem_latex: （原第5题）已知直线 $l_1:y=hx+b\ (h\ne0)$ 与直线 $l_2:y=kx-6\ (k<0)$ 在第三象限交于点 $M$，若直线 $l_1$ 与 $x$ 轴的交点为 $B(3,0)$，则 $h$
+      的取值范围是（\quad）。
+    choices:
+      A: $-2<h<2$
+      B: $-2<h<0$
+      C: $0<h<4$
+      D: $0<h<2$
+    answer: ''
+  - type: choice
+    id: q6
+    stem_latex: （原第6题）如图，在平行四边形 $ABCD$ 中，$AD=2AB$，$M$ 是 $AD$ 中点，作 $BE\perp CD$ 交 $CD$ 于 $E$，连接 $EM$ 并延长，与 $BA$ 的延长线交于 $F$。下列结论中，不正确的是（\quad）。
+    choices:
+      A: $BM$ 平分 $\angle ABC$
+      B: $BM=MF$
+      C: $\angle AMB=3\angle MED$
+      D: $S_{\triangle BCE}=2S_{\triangle ABE}$
+    answer: ''
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/q6-prompt/rendered/prompt.fragment.tex
+      diagram_ref: q6.prompt
+      diagram_job_id: q6-prompt
+      width: 60mm
+      caption: 平行四边形与延长线
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:6bd4ee15e812ea12783026d49cd05357b483b95f449d166cf977484b4d00e2fc
+      packages:
+      - tikz
+      libraries: []
+  - type: fillin
+    id: q11
+    fillin_type: line
+    stem_latex: （原第11题）已知函数 $y=\dfrac{2}{3}x+1$，如果函数值 $y>5$，那么相应的自变量 $x$ 的取值范围是\underline{\hspace{32mm}}。
+    answer: ''
+  - type: fillin
+    id: q12
+    fillin_type: line
+    stem_latex: （原第12题）我国古代数学著作《算法统宗》中有这样一个问题：平地竿子未起，斜竿离地一尺。送行二步与人齐，五尺人高曾记。良工商士张好奇，算出竿长有几？（$1$ 步 $=5$ 尺）这段话的意思是：竿子静止时，斜竿离地面
+      $1$ 尺高；将竿子的脚跟向前推动 $2$ 步 $10$ 尺时，斜竿就和推竿子的人一样高，同为 $5$ 尺。小明根据上述信息画出了如图所示的示意图，则可求竿子的长度为\underline{\hspace{28mm}}尺。
+    answer: ''
+  - type: fillin
+    id: q13
+    fillin_type: line
+    stem_latex: （原第13题）如图，在平面直角坐标系 $xOy$ 中，已知点 $A(4,3)$，$AB\perp y$ 轴于点 $B$。以 $AB$ 为边作菱形 $ABCD$，若点 $C$ 在 $x$ 轴上，则点 $D$ 的坐标为\underline{\hspace{36mm}}。
+    answer: ''
+  - type: fillin
+    id: q14
+    fillin_type: line
+    stem_latex: （原第14题）如图，在矩形 $ABCD$ 中，$AB=3$，$BC=4$，点 $P$ 是边 $AB$ 上一动点，连接 $CP$，将 $\triangle BCP$ 沿着 $CP$ 翻折后得到 $\triangle
+      ECP$，若 $BE$、$EC$ 与边 $AD$ 分别交于点 $F$、$G$，且 $AP=BF$，则 $AP$ 的长为\underline{\hspace{28mm}}。
+    answer: ''
+  - type: diagram_row
+    id: fillin-diagrams-q12-q14
+    needspace: 17\baselineskip
+    items:
+    - kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/q12-prompt/rendered/prompt.fragment.tex
+      diagram_ref: q12.prompt
+      diagram_job_id: q12-prompt
+      width: 0.28\linewidth
+      caption: 斜竿移动示意
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:afbf2e332d3b80b9daf7daf90123c89e3660659ac5828f415e31135d6327d86f
+      packages:
+      - tikz
+      libraries: []
+      label: 原第12题图
+    - kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/q13-prompt/rendered/prompt.fragment.tex
+      diagram_ref: q13.prompt
+      diagram_job_id: q13-prompt
+      width: 0.28\linewidth
+      caption: 坐标系中的点A和点B
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:131dd326a9116625d1e18a29359f86218c8e529dfc558613aa2c75ecbb8632f6
+      packages:
+      - tikz
+      libraries: []
+      label: 原第13题图
+    - kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/q14-prompt/rendered/prompt.fragment.tex
+      diagram_ref: q14.prompt
+      diagram_job_id: q14-prompt
+      width: 0.28\linewidth
+      caption: 矩形折叠示意
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:36a58f8154297a1311d14bc08e0c45927cc9e32ca91d16fe5697e90a8e3e9d2a
+      packages:
+      - tikz
+      libraries: []
+      label: 原第14题图
+  - type: fillin
+    id: q15
+    fillin_type: line
+    stem_latex: （原第15题）定义：如果直线 $y_1=k_1x+b_1\ (k_1\ne0)$ 与直线 $y_2=k_2x+b_2\ (k_2\ne0)$ 满足如下条件：$k_1\cdot k_2=-1$ 且 $b_1+b_2=0$，那么我们就说这两条直线具有“和谐关系”。例如，直线
+      $y_1=2x+3$ 与直线 $y_2=-\dfrac12x-3$，它们具有“和谐关系”。如果直线 $y_1=h_1x+2\ (h_1>0)$ 与直线 $y_2=kx-2$ 具有“和谐关系”，且这两条直线与 $y$ 轴围成的三角形面积为
+      $\dfrac{16}{5}$，则 $h_1=$\underline{\hspace{28mm}}。
+    answer: ''
+  - type: fillin
+    id: q16
+    fillin_type: line
+    stem_latex: （原第16题）如图所示，以 $Rt\triangle ABC$ 的斜边 $BC$ 为一边在 $\triangle ABC$ 的同侧作正方形 $BCEP$，设正方形的中心为 $O$，连接 $AO$。如果 $AB=4$，$AO=6\sqrt2$，那么
+      $AC=$\underline{\hspace{28mm}}。
+    answer: ''
+  - type: fillin
+    id: q17
+    fillin_type: line
+    stem_latex: （原第17题）在矩形 $ABCD$ 中，$AB=a$，$BC=4$，$\angle B$ 与 $\angle C$ 的平分线相交于点 $P$，如果点 $P$ 在这个矩形的内部（不在边 $AD$ 上），那么 $a$
+      的取值范围为\underline{\hspace{28mm}}。
+    answer: ''
+  - type: fillin
+    id: q18
+    fillin_type: line
+    stem_latex: （原第18题）如图，在正方形纸片 $ABCD$ 中，$AB=6$，点 $E$ 在 $CD$ 边上，且 $CD=3DE$，将 $\triangle ADE$ 沿 $AE$ 所在直线折叠，点 $D$ 的对应点为点 $F$，延长
+      $BF$ 交边 $BC$ 于点 $G$，连接 $AG,CF$，则 $BG$ 的长是\underline{\hspace{28mm}}。
+    answer: ''
+  - type: diagram_row
+    id: fillin-diagrams-q16-q18
+    needspace: 17\baselineskip
+    items:
+    - kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/q16-prompt/rendered/prompt.fragment.tex
+      diagram_ref: q16.prompt
+      diagram_job_id: q16-prompt
+      width: 0.28\linewidth
+      caption: 直角三角形与正方形
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:85f16bc1ebea401f54da794b68f75e98734a1a5568eb142467c9442ddeac61e5
+      packages:
+      - tikz
+      libraries: []
+      label: 原第16题图
+    - kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/q17-prompt/rendered/prompt.fragment.tex
+      diagram_ref: q17.prompt
+      diagram_job_id: q17-prompt
+      width: 0.28\linewidth
+      caption: 矩形内角平分线
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:b712b5f477604f91788021b46ef7ecedc38f56f576c96a59b3438f7c7f526d64
+      packages:
+      - tikz
+      libraries: []
+      label: 原第17题图
+    - kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/q18-prompt/rendered/prompt.fragment.tex
+      diagram_ref: q18.prompt
+      diagram_job_id: q18-prompt
+      width: 0.28\linewidth
+      caption: 正方形纸片折叠
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:a1cabc8108b6e87f20177568ec965ba73cfe67f7708fc0759e844b47453609f0
+      packages:
+      - tikz
+      libraries: []
+      label: 原第18题图
+  - type: problem
+    id: q19
+    stem_latex: （原第19题）已知，如图，点 $A$ 坐标为 $(0,4)$，点 $B$ 在双曲线 $y=-\dfrac8x\ (x>0)$ 的图象上。\par (1) 当 $\triangle AOB$ 面积为 $12$ 时，求点
+      $B$ 的坐标；\par (2) 点 $C$ 在 $y$ 轴负半轴，点 $D$ 在线段 $BO$ 的延长线上，当四边形 $ABCD$ 为矩形时，求直线 $AB$ 解析式。
+    answer_space:
+      type: lines
+      height: 62mm
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/q19-prompt/rendered/prompt.fragment.tex
+        diagram_ref: q19.prompt
+        diagram_job_id: q19-prompt
+        width: 60mm
+        caption: 一次图形与反比例函数
+        variant: prompt
+        disclosure_policy: clean
+        artifact_hash: sha256:7b021d6d5683bccb5cf566fb7eb65d34adb9e5a174e9e385d19b8000790b7148
+        packages:
+        - tikz
+        libraries: []
+  - type: problem
+    id: q20
+    stem_latex: （原第20题）如图，在边长为 $2$ 的正方形 $ABCD$ 中，点 $E$ 为边 $BC$ 的中点，点 $F$ 在边 $DC$ 上，$FH$ 垂直平分线段 $AE$，垂足为点 $H$，求 $DF$ 的长。
+    answer_space:
+      type: lines
+      height: 48mm
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/q20-prompt/rendered/prompt.fragment.tex
+        diagram_ref: q20.prompt
+        diagram_job_id: q20-prompt
+        width: 60mm
+        caption: 正方形中的中点与垂直平分线
+        variant: prompt
+        disclosure_policy: clean
+        artifact_hash: sha256:3668032086c7d3f380bb58a8a8ffb6f05ed2d864ed9158559fa84037af6b5435
+        packages:
+        - tikz
+        libraries: []
+  - type: problem
+    id: q21
+    stem_latex: （原第21题）如图，一次函数 $y=2x+4$ 的图象与 $x$ 轴、$y$ 轴分别交于 $A,B$ 两点，与反比例函数 $y=\dfrac{k}{x}\ (k\ne0,x>0)$ 的图象交于点 $C$，过点 $B$
+      作 $x$ 轴的平行线与反比例函数 $y=\dfrac{k}{x}$ 的图象交于点 $D$，连接 $CD$。\par (1) 求 $A,B$ 两点的坐标；\par (2) 如果 $BC=DC$，求 $k$ 的值。
+    answer_space:
+      type: lines
+      height: 68mm
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/q21-prompt/rendered/prompt.fragment.tex
+        diagram_ref: q21.prompt
+        diagram_job_id: q21-prompt
+        width: 60mm
+        caption: 一次函数与反比例函数
+        variant: prompt
+        disclosure_policy: clean
+        artifact_hash: sha256:8a2bac7ecf9f54d1c8d95e8d89ee1c09e2be06612a258196ab608d172738cb96
+        packages:
+        - tikz
+        libraries: []

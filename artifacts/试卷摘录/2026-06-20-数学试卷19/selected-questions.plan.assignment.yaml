@@ -1,0 +1,365 @@
+meta:
+  title: "数学试卷19摘录"
+  subtitle: "PDF第3-4页：第2、5、6、9、13、14、15、16、19题"
+  grade: "八年级"
+  subject: "数学"
+  version: "student"
+  show_answers: false
+  assignment_id: "2026-06-20-math-paper-19-selected"
+  source_artifacts:
+    source_pdf: "/Users/gaochong/Library/Containers/com.tencent.xinWeChat/Data/Documents/xwechat_files/wxid_jfjy52m4e8io21_6e3d/msg/attach/09899e5742fd62a1adbebbd865d3868d/2026-06/Rec/5824422c869e62f2/F/0/数学试卷18～22答案.pdf"
+    source_pdf_pages: "PDF第3-4页为数学试卷19；对应试卷内页码1-4"
+render:
+  template: "exam-zh-practice"
+  paper_size: "a4paper"
+  show_seal_line: false
+sections:
+  - id: "selected"
+    title: "摘录题目"
+    type: "practice"
+    visibility: "both"
+    blocks:
+      - type: "choice"
+        id: "q2"
+        stem_latex: "（原第2题）直线 $y=\\dfrac12x+n$ 经过点 $A(m,y_1)$，$B(n,y_2)$，且 $m>n$，下列结论正确的是（\\quad）。"
+        choices:
+          A: "$y_1>y_2$"
+          B: "$y_1=y_2$"
+          C: "$y_1<y_2$"
+          D: "$y_1,y_2$ 的大小不能确定"
+        answer: "A"
+
+      - type: "choice"
+        id: "q5"
+        stem_latex: "（原第5题）如图，菱形 $ABCD$ 的对角线 $AC,BD$ 相交于点 $O$，过点 $D$ 作 $DH\\perp AB$ 于点 $H$，连接 $OH$。若 $OA=6$，$OB=4$，则菱形 $ABCD$ 的面积为（\\quad）。"
+        choices:
+          A: "$24\\sqrt7$"
+          B: "$48\\sqrt7$"
+          C: "$48$"
+          D: "$96$"
+        answer: "C"
+        diagram_slot:
+          slot_id: "q5.prompt"
+          diagram_ref: "q5.prompt"
+          variant: "prompt"
+          disclosure_policy: "clean"
+          required: true
+          on_failure: "fail_assignment"
+          placement: "diagram_col"
+          layout_role: "question_sidecar"
+          display_profile: "worksheet_geometry_sidecar"
+          caption: "菱形对角线与垂线"
+          engine: "geometric_scene"
+          diagram_kind: "synthetic_geometry"
+          teaching_intent: "practice_prompt"
+          problem_context:
+            stem_latex: "菱形 $ABCD$ 的对角线 $AC,BD$ 相交于点 $O$，过点 $D$ 作 $DH\\perp AB$ 于点 $H$，连接 $OH$。若 $OA=6$，$OB=4$。"
+            source_problem_text: "原题图只画已知对象：菱形ABCD，A在左、C在右、D在上、B在下；AC与BD相交于O；H在AB上，DH垂直AB，连接OH。不要画面积或答案提示。"
+          engine_options:
+            max_retries: 2
+            wolfram_timeout_s: 45
+            wolfram_hard_timeout_s: 90
+            engine_model_config:
+              base_url: "https://dashscope.aliyuncs.com/compatible-mode/v1"
+              api_key_env: "DASHSCOPE_API_KEY"
+              text_models: ["qwen3.5-plus", "qwen3.5-flash"]
+              vision_models: ["qwen-vl-max-latest", "qwen-vl-plus-latest"]
+              temperature: 0.2
+              vision_temperature: 0.0
+              request_timeout_s: 90
+              vision_request_timeout_s: 90
+          semantic_constraints:
+            given_objects: ["A", "B", "C", "D", "O", "H"]
+            given_constraints:
+              - "ABCD是菱形"
+              - "A、O、C共线，B、O、D共线"
+              - "AC与BD交于O，且O是两条对角线的中点"
+              - "OA=OC=6"
+              - "OB=OD=4"
+              - "H在AB上"
+              - "DH垂直AB于H"
+              - "连接OH"
+              - "点位顺序按原题图：A左、C右、D上、B下"
+
+      - type: "choice"
+        id: "q6"
+        stem_latex: "（原第6题）如图，在 $\\triangle ABC$ 中，$AB=3$，$AC=4$，$BC=5$，$\\triangle ABD$、$\\triangle ACE$、$\\triangle BCF$ 都是等边三角形。下列结论中：① $AB\\perp AC$；② $\\triangle DEF\\cong\\triangle ABC$；③ 四边形 $AEFD$ 是平行四边形；④ $\\angle DFE=110^\\circ$；⑤ $S_{\\triangle DEF}-S_{\\triangle ABC}=5$。正确的个数是（\\quad）。"
+        choices:
+          A: "2个"
+          B: "3个"
+          C: "4个"
+          D: "5个"
+        answer: "B"
+        diagram_slot:
+          slot_id: "q6.prompt"
+          diagram_ref: "q6.prompt"
+          variant: "prompt"
+          disclosure_policy: "clean"
+          required: true
+          on_failure: "fail_assignment"
+          placement: "diagram_col"
+          layout_role: "question_sidecar"
+          display_profile: "worksheet_geometry_sidecar"
+          caption: "三边外作等边三角形"
+          engine: "geometric_scene"
+          diagram_kind: "synthetic_geometry"
+          teaching_intent: "practice_prompt"
+          problem_context:
+            stem_latex: "在 $\\triangle ABC$ 中，$AB=3$，$AC=4$，$BC=5$，$\\triangle ABD$、$\\triangle ACE$、$\\triangle BCF$ 都是等边三角形。"
+            source_problem_text: "原题图只画已知构型：以三角形ABC的三边AB、AC、BC分别作等边三角形ABD、ACE、BCF，并连接D、E、F形成三角形DEF。B在左下，C在右下，A在图形内部，D在左上，F在上方，E在右上。不要画结论或答案提示。"
+          visual_requirements:
+            label_density: "dense"
+          engine_options:
+            max_retries: 2
+            wolfram_timeout_s: 45
+            wolfram_hard_timeout_s: 90
+            engine_model_config:
+              base_url: "https://dashscope.aliyuncs.com/compatible-mode/v1"
+              api_key_env: "DASHSCOPE_API_KEY"
+              text_models: ["qwen3.5-plus", "qwen3.5-flash"]
+              vision_models: ["qwen-vl-max-latest", "qwen-vl-plus-latest"]
+              temperature: 0.2
+              vision_temperature: 0.0
+              request_timeout_s: 90
+              vision_request_timeout_s: 90
+          semantic_constraints:
+            given_objects: ["A", "B", "C", "D", "E", "F"]
+            given_constraints:
+              - "AB=3"
+              - "AC=4"
+              - "BC=5"
+              - "三角形ABD是等边三角形，D在AB外侧"
+              - "三角形ACE是等边三角形，E在AC外侧"
+              - "三角形BCF是等边三角形，F在BC上方"
+              - "可见边包括AB、AC、BC、AD、BD、AE、CE、BF、CF、DE、EF、DF"
+              - "点位顺序按原题图：B左下，C右下，D左上，F上方，E右上，A在内部"
+
+      - type: "fillin"
+        id: "q9"
+        fillin_type: "line"
+        stem_latex: "（原第9题）将直线 $y=5x-3\\sqrt3$ 向上平移 $5$ 个单位，得到的直线的解析式是\\underline{\\hspace{36mm}}。"
+        answer: "$y=5x-3\\sqrt3+5$"
+
+      - type: "fillin"
+        id: "q13"
+        fillin_type: "line"
+        stem_latex: "（原第13题）在平行四边形 $ABCD$ 中，$AB=12$，$DC=7$，点 $E$ 在 $CD$ 边上，点 $F$ 在 $AB$ 边上。连接 $EF,DF$，若 $CG=3\\sqrt6$，$EF=5\\sqrt2$，则 $DF$ 的长为\\underline{\\hspace{24mm}}。"
+        answer: ""
+
+      - type: "fillin"
+        id: "q14"
+        fillin_type: "line"
+        stem_latex: "（原第14题）我们把直角坐标系平面内到 $x$ 轴和到 $y$ 轴距离之比的值为 $2$ 的点称为“特殊点”，那么一次函数 $y=-2x+4$ 的图象上的“特殊点”坐标为\\underline{\\hspace{24mm}}。"
+        answer: "$(1,2)$"
+
+      - type: "problem"
+        id: "q15"
+        stem_latex: "（原第15题）如图，直线 $y_1=-2x$ 与 $y_2=ax+3$ 的图象相交于点 $A(-1,2)$，则当 $y_1<y_2$ 时，$x$ 的取值范围是\\underline{\\hspace{24mm}}。"
+        answer: "$x>-1$"
+        answer_space:
+          type: "lines"
+          height: "34mm"
+          diagram_slot:
+            slot_id: "q15.prompt"
+            diagram_ref: "q15.prompt"
+            variant: "prompt"
+            disclosure_policy: "clean"
+            required: true
+            on_failure: "fail_assignment"
+            placement: "answer_space.diagram_col"
+            layout_role: "answer_area_sidecar"
+            display_profile: "worksheet_geometry_sidecar"
+            caption: "两条一次函数图象"
+            engine: "renderer_spec"
+            diagram_kind: "coordinate_geometry"
+            teaching_intent: "practice_prompt"
+            problem_context:
+              source_problem_text: "坐标来源：题干给出直线y1=-2x，交点A(-1,2)，y2=ax+3由A代入得a=1，即y2=x+3。"
+            engine_options:
+              renderer_spec:
+                viewport:
+                  x_min: -3.2
+                  x_max: 3.2
+                  y_min: -2.0
+                  y_max: 5.0
+                  preserve_aspect: true
+                axes:
+                  x: true
+                  y: true
+                  grid: false
+                  show_ticks: false
+                  x_label: "x"
+                  y_label: "y"
+                functions:
+                  - id: "y1"
+                    variable: "x"
+                    expression_wl: "-2*x"
+                    label: "y_1=-2x"
+                  - id: "y2"
+                    variable: "x"
+                    expression_wl: "x+3"
+                    label: "y_2=ax+3"
+                samples:
+                  y1:
+                    - [-2.2, 4.4]
+                    - [1.8, -3.6]
+                  y2:
+                    - [-3.0, 0.0]
+                    - [1.8, 4.8]
+                objects:
+                  - type: "point"
+                    id: "A"
+                    x: -1
+                    y: 2
+                    label: "A"
+                    style: {label_dx: -18, label_dy: 14}
+            semantic_constraints:
+              given_objects: ["x-axis", "y-axis", "line y1", "line y2", "A"]
+              given_constraints: ["y1=-2x", "y2=ax+3", "A=(-1,2)"]
+
+      - type: "problem"
+        id: "q16"
+        stem_latex: "（原第16题）动手操作是学习数学的一种好方法。如图，小明同学在一次折纸活动中，将一张 $A4$ 纸（长宽比为 $\\sqrt2:1$）$ABCD$ 沿 $AP$ 折叠，使点 $B$ 落在 $AD$ 边上的点 $G$ 处，再沿 $FI$ 折叠，使点 $C$ 落在 $FG$ 边上的点 $H$ 处，则矩形 $GHID$ 的长与宽的比值为\\underline{\\hspace{24mm}}。"
+        answer: "$\\sqrt2-1$"
+        answer_space:
+          type: "lines"
+          height: "44mm"
+          diagram_slot:
+            slot_id: "q16.prompt"
+            diagram_ref: "q16.prompt"
+            variant: "prompt"
+            disclosure_policy: "clean"
+            required: true
+            on_failure: "fail_assignment"
+            placement: "answer_space.diagram_col"
+            layout_role: "answer_area_sidecar"
+            display_profile: "worksheet_geometry_sidecar"
+            caption: "A4纸折叠示意"
+            engine: "geometric_scene"
+            diagram_kind: "synthetic_geometry"
+            teaching_intent: "practice_prompt"
+            problem_context:
+              stem_latex: "A4纸长宽比为 $\\sqrt2:1$，矩形 $ABCD$ 沿折痕 $AF$ 折叠，使点 $B$ 落在 $AD$ 边上的点 $G$ 处；再沿 $FI$ 折叠，使点 $C$ 落在 $FG$ 边上的点 $H$ 处，$GHID$ 是矩形。"
+              source_problem_text: "原题图只画折叠后的示意：ABCD为矩形，A左上、B左下、C右下、D右上；G在AD上，F在BC上，I在CD上，H在FG上；画折痕AF和FI，画折后边AG、GF、GH、HI、ID，左侧AB和底边BC可用虚线表示原纸边。不要写比值或答案。"
+            visual_requirements:
+              label_density: "dense"
+            engine_options:
+              max_retries: 2
+              wolfram_timeout_s: 45
+              wolfram_hard_timeout_s: 90
+              engine_model_config:
+                base_url: "https://dashscope.aliyuncs.com/compatible-mode/v1"
+                api_key_env: "DASHSCOPE_API_KEY"
+                text_models: ["qwen3.5-plus", "qwen3.5-flash"]
+                vision_models: ["qwen-vl-max-latest", "qwen-vl-plus-latest"]
+                temperature: 0.2
+                vision_temperature: 0.0
+                request_timeout_s: 90
+                vision_request_timeout_s: 90
+            semantic_constraints:
+              given_objects: ["A", "B", "C", "D", "F", "G", "H", "I"]
+              given_constraints:
+                - "ABCD为矩形"
+                - "AD:AB=sqrt(2):1"
+                - "G在AD上"
+                - "F在BC上"
+                - "沿AF折叠时B落到G，所以AB=AG，AF是BG的垂直平分线"
+                - "I在CD上"
+                - "H在FG上"
+                - "沿FI折叠时C落到H，所以FC=FH，FI是CH的垂直平分线"
+                - "GHID是矩形，GH平行ID，HI平行GD"
+                - "点位顺序按原题图：A左上、B左下、C右下、D右上、G在AD上、F在BC上、I在CD上、H在FG上"
+
+      - type: "problem"
+        id: "q19"
+        stem_latex: "（原第19题）如图，一次函数 $y_1=2x-2$ 的图象与 $y$ 轴交于点 $A$，一次函数 $y_2$ 的图象与 $y$ 轴交于点 $B(0,6)$，$C$ 为两函数图象的交点，且点 $C$ 的横坐标为 $2$。\\par (1) 求 $C$ 点坐标及一次函数 $y_2$ 的函数解析式；\\par (2) 求 $\\triangle ABC$ 的面积；\\par (3) 在坐标轴上，是否存在一点 $P$，使得 $S_{\\triangle ACP}=2S_{\\triangle ABC}$？若存在，请直接写出点 $P$ 的坐标；若不存在，请说明理由。"
+        answer_space:
+          type: "lines"
+          height: "72mm"
+          diagram_slot:
+            slot_id: "q19.prompt"
+            diagram_ref: "q19.prompt"
+            variant: "prompt"
+            disclosure_policy: "clean"
+            required: true
+            on_failure: "fail_assignment"
+            placement: "answer_space.diagram_col"
+            layout_role: "answer_area_sidecar"
+            display_profile: "worksheet_geometry_sidecar"
+            caption: "两条一次函数与坐标轴"
+            engine: "renderer_spec"
+            diagram_kind: "coordinate_geometry"
+            teaching_intent: "practice_prompt"
+            visual_requirements:
+              label_density: "dense"
+            problem_context:
+              source_problem_text: "坐标来源：题干给出y1=2x-2、B=(0,6)、C横坐标2；代入y1得C=(2,2)，由B、C确定y2=-2x+6。"
+            engine_options:
+              renderer_spec:
+                viewport:
+                  x_min: -0.8
+                  x_max: 4.4
+                  y_min: -2.8
+                  y_max: 6.8
+                  preserve_aspect: true
+                axes:
+                  x: true
+                  y: true
+                  grid: false
+                  show_ticks: false
+                  x_label: "x"
+                  y_label: "y"
+                functions:
+                  - id: "y1"
+                    variable: "x"
+                    expression_wl: "2*x-2"
+                    label: "y_1=2x-2"
+                  - id: "y2"
+                    variable: "x"
+                    expression_wl: "-2*x+6"
+                    label: "y_2"
+                samples:
+                  y1:
+                    - [-0.2, -2.4]
+                    - [4.2, 6.4]
+                  y2:
+                    - [-0.2, 6.4]
+                    - [4.2, -2.4]
+                objects:
+                  - type: "point"
+                    id: "O"
+                    x: 0
+                    y: 0
+                    label: "O"
+                    style: {label_dx: -16, label_dy: -18}
+                  - type: "point"
+                    id: "A"
+                    x: 0
+                    y: -2
+                    label: "A"
+                    style: {label_dx: -18, label_dy: -8}
+                  - type: "point"
+                    id: "B"
+                    x: 0
+                    y: 6
+                    label: "B"
+                    style: {label_dx: -18, label_dy: 10}
+                  - type: "point"
+                    id: "C"
+                    x: 2
+                    y: 2
+                    label: "C"
+                    style: {label_dx: 16, label_dy: 8}
+                annotations:
+                  - type: "segment"
+                    from: [0, 2]
+                    to: [2, 2]
+                    style: "dashed"
+                  - type: "segment"
+                    from: [2, 0]
+                    to: [2, 2]
+                    style: "dashed"
+          height: "72mm"
+        semantic_constraints:
+          given_objects: ["A", "B", "C", "x-axis", "y-axis", "line y1", "line y2"]
+          given_constraints: ["y1=2x-2", "B=(0,6)", "C is intersection", "x_C=2"]

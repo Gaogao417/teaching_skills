@@ -1,0 +1,342 @@
+meta:
+  title: "矩形存在性融合练习"
+  subtitle: "教师版"
+  grade: "八年级"
+  subject: "数学"
+  duration: "60分钟"
+  total_points: 100
+  version: "teacher"
+  source_artifacts:
+    structure_analysis: "artifacts/笔记/2026-06-20-矩形存在性综合作业/01-structure-analysis.md"
+    explanation: "artifacts/笔记/2026-06-20-矩形存在性综合作业/02-student-explanation.assignment.yaml"
+    model_rules:
+      - "inverse_rectangle_area_to_k"
+      - "linear_inverse_function_inequality_by_graph"
+      - "rectangle_candidate_point_pairs_on_linear_locus"
+      - "rhombus_candidate_point_pairs_on_linear_locus"
+
+render:
+  template: "exam-zh-practice"
+  paper_size: "a4paper"
+  answer_key_position: "after_page_break"
+
+sections:
+  - id: "basic"
+    title: "一、关键点与参数（每题 8 分，共 24 分）"
+    type: "practice"
+    visibility: "both"
+    blocks:
+      - type: "choice"
+        id: "q1"
+        points: 8
+        stem_latex: |
+          点 $P(x,y)$ 在第一象限，满足 $xy=8$，且 $P$ 在直线 $y=x+2$ 上。点 $P$ 的坐标为（\quad）。
+        choices:
+          A: "$P(2,4)$"
+          B: "$P(4,2)$"
+          C: "$P(1,8)$"
+          D: "$P(-4,-2)$"
+        answer: "A"
+        explanation: "由 $y=x+2$ 和 $xy=8$ 得 $x(x+2)=8$，解得 $x=2$ 或 $x=-4$。第一象限取 $P(2,4)$。"
+        teaching:
+          source_relations: ["inverse_rectangle_area_to_k", "fallback:linear_inverse_intersections", "fallback:first_quadrant_selector"]
+          model_fusion:
+            model_count: 2
+            models: ["inverse_area_invariant", "function_intersection"]
+            fusion_role: "target_transform"
+          relation_chain:
+            - step: 1
+              relation_id: "inverse_rectangle_area_to_k"
+              inputs: { area: "8:Area" }
+              outputs: { inverse_function: "xy=8:Relation" }
+            - step: 2
+              relation_id: "fallback:linear_inverse_intersections"
+              consumes: { inverse_function: "step1.outputs.inverse_function" }
+              inputs: { linear_function: "y=x+2:LinearFunction" }
+              outputs: { candidates: "{(2,4),(-4,-2)}:CandidateSet<Point2D>" }
+            - step: 3
+              relation_id: "fallback:first_quadrant_selector"
+              consumes: { candidates: "step2.outputs.candidates" }
+              selector: "第一象限"
+              outputs: { point: "(2,4):Point2D" }
+
+      - type: "fillin"
+        id: "q2"
+        points: 8
+        fillin_type: "line"
+        stem_latex: |
+          点 $P(x,y)$ 在第一象限，满足 $xy=12$，且 $P$ 在直线 $y=x+1$ 上。若 $A(0,0)$，$B(3,0)$，$C=P$，四边形 $ABCD$ 为矩形，则 $D=$ \underline{\hspace{2cm}}。
+        answer: "$(0,4)$"
+        explanation: "由 $x(x+1)=12$ 得第一象限点 $P(3,4)$，故 $C(3,4)$，$D(0,4)$。"
+        teaching:
+          source_relations: ["inverse_rectangle_area_to_k", "fallback:linear_inverse_intersections", "fallback:fixed_order_rectangle_fourth_point"]
+          model_fusion:
+            model_count: 3
+            models: ["inverse_area_invariant", "function_intersection", "coordinate_rectangle_existence"]
+            fusion_role: "target_transform"
+          relation_chain:
+            - step: 1
+              relation_id: "inverse_rectangle_area_to_k"
+              inputs: { area: "12:Area" }
+              outputs: { inverse_function: "xy=12:Relation" }
+            - step: 2
+              relation_id: "fallback:linear_inverse_intersections"
+              consumes: { inverse_function: "step1.outputs.inverse_function" }
+              inputs: { linear_function: "y=x+1:LinearFunction" }
+              outputs: { candidates: "{(3,4),(-4,-3)}:CandidateSet<Point2D>" }
+            - step: 3
+              relation_id: "fallback:first_quadrant_selector"
+              consumes: { candidates: "step2.outputs.candidates" }
+              selector: "第一象限"
+              outputs: { C: "(3,4):Point2D" }
+            - step: 4
+              relation_id: "fallback:fixed_order_rectangle_fourth_point"
+              consumes: { C: "step3.outputs.C" }
+              inputs: { A: "(0,0):Point2D", B: "(3,0):Point2D" }
+              outputs: { D: "(0,4):Point2D" }
+
+      - type: "fillin"
+        id: "q3"
+        points: 8
+        fillin_type: "line"
+        stem_latex: |
+          $A(0,0)$，$B(6,0)$，点 $C$ 在直线 $y=x$ 上。若 $A,B,C,D$ 可组成面积为 $18$ 的矩形，且 $C$ 在 $y=k/x$ 上，则 $k=$ \underline{\hspace{2cm}}。
+        answer: "$9$"
+        explanation: "矩形候选中，面积为 $18$ 的点为 $C(3,3)$，所以 $k=xy=9$。"
+        teaching:
+          source_relations: ["rectangle_candidate_point_pairs_on_linear_locus", "fallback:area_filter_selector", "fallback:point_on_inverse_to_k"]
+          model_fusion:
+            model_count: 3
+            models: ["coordinate_quadrilateral_existence:rectangle", "coordinate_area_filter", "inverse_function_parameter"]
+            fusion_role: "constraint"
+          relation_chain:
+            - step: 1
+              relation_id: "rectangle_candidate_point_pairs_on_linear_locus"
+              inputs: { fixed_points: "A(0,0),B(6,0):Point2D[]", moving_locus: "y=x:LinearFunction" }
+              outputs: { candidates: "{C(6,6),C(3,3)}:CandidateSet<Point2D>" }
+            - step: 2
+              relation_id: "fallback:area_filter_selector"
+              consumes: { candidates: "step1.outputs.candidates" }
+              selector: "面积18"
+              outputs: { C: "(3,3):Point2D" }
+            - step: 3
+              relation_id: "fallback:point_on_inverse_to_k"
+              consumes: { point: "step2.outputs.C" }
+              outputs: { k: "9:Parameter" }
+
+  - id: "filter"
+    title: "二、条件筛选（每题 12 分，共 36 分）"
+    type: "practice"
+    visibility: "both"
+    blocks:
+      - type: "problem"
+        id: "q4"
+        points: 12
+        stem_latex: |
+          点 $P(4,y)$ 在 $y=k/x$ 的第一象限图象上，且 $4y=20$。设 $A(0,0)$，$B(4,0)$，$C=P$，四边形 $ABCD$ 为矩形。
+          \begin{enumerate}[label=(\arabic*)]
+            \item 求 $P,k$；
+            \item 求直线 $OP$；
+            \item 求 $D$。
+          \end{enumerate}
+        answer_space: { type: "steps", height: "55mm", step_count: 5 }
+        answer: "$P(4,5)$，$k=20$；$OP:y=\\dfrac54x$；$D(0,5)$"
+        solution_steps:
+          - title: "求P和k"
+            content: "$4y=20$，得 $y=5$，所以 $P(4,5)$，$k=4\\cdot5=20$。"
+          - title: "求直线OP"
+            content: "直线 $OP$ 过原点和 $P(4,5)$，故 $OP:y=\\dfrac54x$。"
+          - title: "求D"
+            content: "矩形 $ABCD$ 中 $D(0,5)$。"
+        teaching:
+          source_relations: ["inverse_rectangle_area_to_k", "fallback:line_through_origin_and_point", "fallback:fixed_order_rectangle_fourth_point"]
+          model_fusion: { model_count: 3, models: ["inverse_area_invariant", "linear_function_from_point", "coordinate_rectangle_existence"], fusion_role: "target_transform" }
+          relation_chain:
+            - { step: 1, relation_id: "inverse_rectangle_area_to_k", inputs: { area: "20:Area", x: "4:Number" }, outputs: { point: "(4,5):Point2D", k: "20:Parameter" } }
+            - { step: 2, relation_id: "fallback:line_through_origin_and_point", consumes: { point: "step1.outputs.point" }, outputs: { linear_function: "y=5/4x:LinearFunction" } }
+            - { step: 3, relation_id: "fallback:fixed_order_rectangle_fourth_point", consumes: { C: "step1.outputs.point" }, inputs: { A: "(0,0)", B: "(4,0)" }, outputs: { D: "(0,5):Point2D" } }
+
+      - type: "problem"
+        id: "q5"
+        points: 12
+        stem_latex: |
+          点 $C$ 在直线 $y=x+2$ 上，且满足 $x_C+2\ge 8/x_C$。已知 $A(0,0)$，$B(2,0)$，$A,B,C,D$ 可组成矩形。
+          \begin{enumerate}[label=(\arabic*)]
+            \item 求不等式的解集；
+            \item 求所有 $C,D$。
+          \end{enumerate}
+        answer_space: { type: "steps", height: "65mm", step_count: 6 }
+        answer: "$[-4,0)\\cup[2,+\\infty)$；$C(2,4)$，$D(0,4)$"
+        solution_steps:
+          - title: "求解集"
+            content: "由 $x+2=\\dfrac8x$ 得 $x=-4,2$，分段比较得 $[-4,0)\\cup[2,+\\infty)$。"
+          - title: "筛选矩形"
+            content: "矩形候选中 $C(0,2)$ 被 $x=0$ 排除，保留 $C(2,4)$，此时 $D(0,4)$。"
+        teaching:
+          source_relations: ["linear_inverse_function_inequality_by_graph", "rectangle_candidate_point_pairs_on_linear_locus"]
+          model_fusion: { model_count: 2, models: ["function_inequality", "coordinate_rectangle_existence"], fusion_role: "constraint" }
+          relation_chain:
+            - { step: 1, relation_id: "linear_inverse_function_inequality_by_graph", inputs: { inequality: "x+2>=8/x" }, outputs: { solution_set: "[-4,0)∪[2,+∞):IntervalSet" } }
+            - { step: 2, relation_id: "rectangle_candidate_point_pairs_on_linear_locus", consumes: { position_filters: "step1.outputs.solution_set" }, inputs: { fixed_points: "A(0,0),B(2,0)", moving_locus: "y=x+2" }, outputs: { pair: "(C(2,4),D(0,4)):PointPair2D" } }
+
+      - type: "problem"
+        id: "q6"
+        points: 12
+        stem_latex: |
+          $A(0,0)$，$B(4,0)$，点 $C$ 在直线 $y=x$ 上。若四边形 $ABCD$ 为菱形，
+          \begin{enumerate}[label=(\arabic*)]
+            \item 求 $C,D$；
+            \item 判断它是否为矩形。
+          \end{enumerate}
+        answer_space: { type: "steps", height: "50mm", step_count: 5 }
+        answer: "$C(4,4)$，$D(0,4)$；是矩形"
+        solution_steps:
+          - title: "求菱形"
+            content: "设 $C(t,t)$。由 $AB=BC$ 得 $(t-4)^2+t^2=16$，取非退化解 $t=4$，所以 $C(4,4)$，$D(0,4)$。"
+          - title: "验矩形"
+            content: "$AB$ 水平，$BC$ 竖直，故 $AB\\perp BC$，所以它也是矩形。"
+        teaching:
+          source_relations: ["rhombus_candidate_point_pairs_on_linear_locus", "fallback:rectangle_verification_from_point_pair"]
+          model_fusion: { model_count: 2, models: ["coordinate_rhombus_existence", "coordinate_rectangle_verification"], fusion_role: "verification" }
+          relation_chain:
+            - { step: 1, relation_id: "rhombus_candidate_point_pairs_on_linear_locus", inputs: { fixed_points: "A(0,0),B(4,0)", moving_locus: "y=x" }, outputs: { pair: "(C(4,4),D(0,4)):PointPair2D" } }
+            - { step: 2, relation_id: "fallback:rectangle_verification_from_point_pair", consumes: { pair: "step1.outputs.pair" }, outputs: { verification: "true:Boolean" } }
+
+  - id: "fusion"
+    title: "三、综合应用（每题 10 分，共 40 分）"
+    type: "practice"
+    visibility: "both"
+    blocks:
+      - type: "problem"
+        id: "q7"
+        points: 10
+        stem_latex: |
+          $A(0,0)$，$B(8,0)$。矩形 $ABCD$ 面积为 $16$，点 $C$ 在第一象限，且 $C$ 同时在 $y=mx$ 与 $y=k/x$ 上。
+          \begin{enumerate}[label=(\arabic*)]
+            \item 求 $C,D$；
+            \item 求 $m,k$。
+          \end{enumerate}
+        answer_space: { type: "steps", height: "50mm", step_count: 5 }
+        answer: "$C(8,2)$，$D(0,2)$；$m=\\dfrac14$，$k=16$"
+        solution_steps:
+          - title: "求矩形"
+            content: "$AB=8$，面积 $16$，故高为 $2$，所以 $C(8,2)$，$D(0,2)$。"
+          - title: "求参数"
+            content: "$m=\\dfrac{2}{8}=\\dfrac14$，$k=8\\cdot2=16$。"
+        teaching:
+          source_relations: ["fallback:fixed_order_rectangle_area_to_point", "fallback:linear_function_parameter_from_point", "fallback:point_on_inverse_to_k"]
+          model_fusion: { model_count: 3, models: ["rectangle_area", "linear_parameter", "inverse_parameter"], fusion_role: "target_transform" }
+          relation_chain:
+            - { step: 1, relation_id: "fallback:fixed_order_rectangle_area_to_point", inputs: { A: "(0,0)", B: "(8,0)", area: "16" }, outputs: { C: "(8,2):Point2D", D: "(0,2):Point2D" } }
+            - { step: 2, relation_id: "fallback:linear_function_parameter_from_point", consumes: { point: "step1.outputs.C" }, outputs: { m: "1/4:Parameter" } }
+            - { step: 3, relation_id: "fallback:point_on_inverse_to_k", consumes: { point: "step1.outputs.C" }, outputs: { k: "16:Parameter" } }
+
+      - type: "problem"
+        id: "q8"
+        points: 10
+        stem_latex: |
+          $A(0,0)$，$B(4,0)$，点 $C$ 在直线 $y=2x$ 上。
+          \begin{enumerate}[label=(\arabic*)]
+            \item 若 $ABCD$ 为矩形，求 $C,D$；
+            \item 判断这个矩形是否为菱形。
+          \end{enumerate}
+        answer_space: { type: "steps", height: "48mm", step_count: 5 }
+        answer: "$C(4,8)$，$D(0,8)$；不是菱形"
+        solution_steps:
+          - title: "求矩形"
+            content: "矩形中 $BC\\perp AB$，故 $x_C=4$。由 $y=2x$ 得 $C(4,8)$，$D(0,8)$。"
+          - title: "验菱形"
+            content: "$AB=4$，$BC=8$，邻边不相等，不是菱形。"
+        teaching:
+          source_relations: ["rectangle_candidate_point_pairs_on_linear_locus", "fallback:rhombus_verification_from_point_pair"]
+          model_fusion: { model_count: 2, models: ["coordinate_rectangle_existence", "coordinate_rhombus_verification"], fusion_role: "verification" }
+          relation_chain:
+            - { step: 1, relation_id: "rectangle_candidate_point_pairs_on_linear_locus", inputs: { fixed_points: "A(0,0),B(4,0)", moving_locus: "y=2x" }, outputs: { pair: "(C(4,8),D(0,8)):PointPair2D" } }
+            - { step: 2, relation_id: "fallback:rhombus_verification_from_point_pair", consumes: { pair: "step1.outputs.pair" }, outputs: { verification: "false:Boolean" } }
+
+      - type: "problem"
+        id: "q9"
+        points: 10
+        stem_latex: |
+          点 $P(x,y)$ 在第一象限，满足 $xy=18$，且 $P$ 在直线 $y=x+3$ 上。设 $A(0,0)$，$B(6,0)$，在直线 $OP$ 上取点 $E$，使 $ABEF$ 为菱形。
+          \begin{enumerate}[label=(\arabic*)]
+            \item 求 $P$；
+            \item 求直线 $OP$；
+            \item 求 $E,F$。
+          \end{enumerate}
+        answer_space: { type: "steps", height: "68mm", step_count: 7 }
+        answer: "$P(3,6)$；$OP:y=2x$；$E\\left(\\dfrac{12}{5},\\dfrac{24}{5}\\right)$，$F\\left(-\\dfrac{18}{5},\\dfrac{24}{5}\\right)$"
+        solution_steps:
+          - title: "求P"
+            content: "由 $x(x+3)=18$ 得 $x=3$ 或 $x=-6$，第一象限取 $P(3,6)$。"
+          - title: "求OP"
+            content: "直线 $OP$ 为 $y=2x$。"
+          - title: "求E,F"
+            content: "设 $E(t,2t)$。由 $AB=BE$ 得 $(t-6)^2+(2t)^2=36$，非退化解 $t=\\dfrac{12}{5}$。故 $E\\left(\\dfrac{12}{5},\\dfrac{24}{5}\\right)$，$F=A+E-B=\\left(-\\dfrac{18}{5},\\dfrac{24}{5}\\right)$。"
+        teaching:
+          source_relations: ["inverse_rectangle_area_to_k", "fallback:linear_inverse_intersections", "fallback:line_through_origin_and_point", "rhombus_candidate_point_pairs_on_linear_locus"]
+          model_fusion: { model_count: 4, models: ["inverse_area_invariant", "function_intersection", "linear_function_from_point", "coordinate_rhombus_existence"], fusion_role: "target_transform" }
+          relation_chain:
+            - { step: 1, relation_id: "inverse_rectangle_area_to_k", inputs: { area: "18" }, outputs: { inverse_function: "xy=18:Relation" } }
+            - { step: 2, relation_id: "fallback:linear_inverse_intersections", consumes: { inverse_function: "step1.outputs.inverse_function" }, inputs: { linear_function: "y=x+3" }, outputs: { candidates: "{(3,6),(-6,-3)}:CandidateSet<Point2D>" } }
+            - { step: 3, relation_id: "fallback:first_quadrant_selector", consumes: { candidates: "step2.outputs.candidates" }, selector: "第一象限", outputs: { P: "(3,6):Point2D" } }
+            - { step: 4, relation_id: "fallback:line_through_origin_and_point", consumes: { point: "step3.outputs.P" }, outputs: { line: "y=2x:LinearFunction" } }
+            - { step: 5, relation_id: "rhombus_candidate_point_pairs_on_linear_locus", consumes: { moving_locus: "step4.outputs.line" }, inputs: { fixed_points: "A(0,0),B(6,0)" }, outputs: { pair: "(E(12/5,24/5),F(-18/5,24/5)):PointPair2D" } }
+
+      - type: "problem"
+        id: "q10"
+        points: 10
+        stem_latex: |
+          点 $P(x,y)$ 在 $y=k/x$ 的第一象限图象上，满足 $xy=12$，且 $P$ 在直线 $y=x+1$ 上。设 $A(0,0)$，$B(x_P,0)$，$C=P$，四边形 $ABCD$ 为矩形，直线 $OC$ 为 $y=mx$。
+          \begin{enumerate}[label=(\arabic*)]
+            \item 求 $k,P$；
+            \item 求 $D$；
+            \item 求 $m$。
+          \end{enumerate}
+        answer_space: { type: "steps", height: "62mm", step_count: 6 }
+        answer: "$k=12$，$P(3,4)$；$D(0,4)$；$m=\\dfrac43$"
+        solution_steps:
+          - title: "求k和P"
+            content: "$xy=12$，故 $k=12$。由 $x(x+1)=12$ 得第一象限点 $P(3,4)$。"
+          - title: "求D"
+            content: "$B(3,0)$，$C(3,4)$，故 $D(0,4)$。"
+          - title: "求m"
+            content: "直线 $OC$ 过 $C(3,4)$，所以 $m=\\dfrac43$。"
+        teaching:
+          source_relations: ["inverse_rectangle_area_to_k", "fallback:linear_inverse_intersections", "fallback:fixed_order_rectangle_fourth_point", "fallback:linear_function_parameter_from_point"]
+          model_fusion: { model_count: 4, models: ["inverse_area_invariant", "function_intersection", "coordinate_rectangle_existence", "linear_parameter"], fusion_role: "target_transform" }
+          relation_chain:
+            - { step: 1, relation_id: "inverse_rectangle_area_to_k", inputs: { area: "12" }, outputs: { k: "12:Parameter", inverse_function: "xy=12:Relation" } }
+            - { step: 2, relation_id: "fallback:linear_inverse_intersections", consumes: { inverse_function: "step1.outputs.inverse_function" }, inputs: { linear_function: "y=x+1" }, outputs: { candidates: "{(3,4),(-4,-3)}:CandidateSet<Point2D>" } }
+            - { step: 3, relation_id: "fallback:first_quadrant_selector", consumes: { candidates: "step2.outputs.candidates" }, selector: "第一象限", outputs: { P: "(3,4):Point2D" } }
+            - { step: 4, relation_id: "fallback:fixed_order_rectangle_fourth_point", consumes: { C: "step3.outputs.P" }, inputs: { A: "(0,0)", B: "(3,0)" }, outputs: { D: "(0,4):Point2D" } }
+            - { step: 5, relation_id: "fallback:linear_function_parameter_from_point", consumes: { point: "step3.outputs.P" }, inputs: { line_form: "y=mx" }, outputs: { m: "4/3:Parameter" } }
+
+  - id: "answer-key"
+    title: "答案速查"
+    type: "answer_key"
+    visibility: "teacher"
+    blocks:
+      - type: "answers"
+        id: "answers-main"
+        items:
+          - number: "1"
+            answer: "A"
+          - number: "2"
+            answer: "$(0,4)$"
+          - number: "3"
+            answer: "$9$"
+          - number: "4"
+            answer: "$P(4,5)$，$k=20$；$OP:y=\\dfrac54x$；$D(0,5)$"
+          - number: "5"
+            answer: "$[-4,0)\\cup[2,+\\infty)$；$C(2,4)$，$D(0,4)$"
+          - number: "6"
+            answer: "$C(4,4)$，$D(0,4)$；是矩形"
+          - number: "7"
+            answer: "$C(8,2)$，$D(0,2)$；$m=\\dfrac14$，$k=16$"
+          - number: "8"
+            answer: "$C(4,8)$，$D(0,8)$；不是菱形"
+          - number: "9"
+            answer: "$P(3,6)$；$OP:y=2x$；$E\\left(\\dfrac{12}{5},\\dfrac{24}{5}\\right)$，$F\\left(-\\dfrac{18}{5},\\dfrac{24}{5}\\right)$"
+          - number: "10"
+            answer: "$k=12$，$P(3,4)$；$D(0,4)$；$m=\\dfrac43$"
