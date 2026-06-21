@@ -1,0 +1,125 @@
+meta:
+  title: "函数求点坐标条件专题 09 · 等腰与垂直条件"
+  subtitle: "学生讲义"
+  grade: "八年级"
+  subject: "数学"
+  version: "student"
+  source_artifacts:
+    structure_analysis: "artifacts/函数求点坐标条件专题/09-等腰与垂直条件/01-structure-analysis.md"
+
+render:
+  template: "exam-zh-explanation"
+  paper_size: "a4paper"
+
+sections:
+  - id: "isosceles-perpendicular-model"
+    title: "模型九：等腰与垂直条件怎样变成坐标方程"
+    show_title: true
+    type: "explanation"
+    visibility: "student"
+    blocks:
+      - type: "solution"
+        id: "iso-perp-knowledge"
+        title: "核心结论：等长和垂直都要先方程化"
+        items:
+          - latex: '等腰条件要先分类：$PA=PB$，$PA=AB$，$PB=AB$。'
+          - latex: '距离相等通常用平方表示，例如 $PA^2=PB^2$，可以避免根号。'
+          - latex: '垂直条件优先用数量积：$\vec{PA}\cdot\vec{PB}=0$，这样不容易漏掉竖直线情况。'
+          - latex: '点在函数图像上时，先设 $P(t,f(t))$，再把几何条件转成关于 $t$ 的方程。'
+
+      - type: "problemcard"
+        id: "iso-example-1"
+        label: "例题 1"
+        stem_latex: |
+          已知 $A(0,0)$，$B(5,0)$，点 $P$ 在直线 $y=3$ 上。
+          若 $\triangle ABP$ 是等腰三角形，求所有可能的点 $P$，并说明对应哪两条边相等。
+
+      - type: "route"
+        id: "iso-route-1"
+        steps:
+          - id: "iso-1-set"
+            latex: "设点并写距离平方"
+            content_latex: "设 $P(t,3)$，则 $PA^2=t^2+9$，$PB^2=(t-5)^2+9$，$AB^2=25$。"
+          - id: "iso-1-pa-pb"
+            latex: "第一类：$PA=PB$"
+            content_latex: "$t^2+9=(t-5)^2+9$，解得 $t=\\dfrac52$，所以 $P\\left(\\dfrac52,3\\right)$。"
+          - id: "iso-1-pa-ab"
+            latex: "第二类：$PA=AB$"
+            content_latex: "$t^2+9=25$，解得 $t=4$ 或 $t=-4$，所以 $P(4,3)$ 或 $P(-4,3)$。"
+          - id: "iso-1-pb-ab"
+            latex: "第三类：$PB=AB$"
+            content_latex: "$(t-5)^2+9=25$，解得 $t=1$ 或 $t=9$，所以 $P(1,3)$ 或 $P(9,3)$。"
+
+      - type: "dual_explanation"
+        id: "iso-solution-1"
+        label: "例题 1"
+        stem_latex: "等腰条件怎样不漏分类？"
+        side_title: "小贴士"
+        side_items:
+          - kind: "hint"
+            title: "先列三类"
+            content_latex: "题目只说等腰，没有指定哪两边相等，就要三类都列。"
+          - kind: "mistake"
+            title: "别默认左右对称"
+            content_latex: "$PA=PB$ 只是其中一类，不能代表所有等腰情况。"
+        solution_title: "解答"
+        solution_step_ids:
+          - "iso-1-set"
+          - "iso-1-pa-pb"
+          - "iso-1-pa-ab"
+          - "iso-1-pb-ab"
+
+      - type: "problemcard"
+        id: "perp-example-2"
+        label: "例题 2"
+        stem_latex: |
+          已知 $A(0,2)$，$B(4,0)$，点 $P$ 在一次函数 $y=x$ 的图像上。
+          若 $AP\perp BP$，求点 $P$ 的坐标。
+
+      - type: "route"
+        id: "perp-route-2"
+        steps:
+          - id: "perp-2-set"
+            latex: "设函数图像上的点"
+            content_latex: "设 $P(t,t)$。"
+          - id: "perp-2-vector"
+            latex: "写两个方向向量"
+            content_latex: "$\\overrightarrow{PA}=(-t,2-t)$，$\\overrightarrow{PB}=(4-t,-t)$。"
+          - id: "perp-2-equation"
+            latex: "用数量积列垂直方程"
+            content_latex: "$(-t)(4-t)+(2-t)(-t)=0$，化简得 $2t^2-6t=0$。"
+          - id: "perp-2-answer"
+            latex: "解方程并写点"
+            content_latex: "$t=0$ 或 $t=3$，所以 $P(0,0)$ 或 $P(3,3)$。"
+
+      - type: "dual_explanation"
+        id: "perp-solution-2"
+        label: "例题 2"
+        stem_latex: "垂直条件怎样转成坐标方程？"
+        side_title: "小贴士"
+        side_items:
+          - kind: "hint"
+            title: "数量积更稳"
+            content_latex: "用斜率时可能遇到竖直线；数量积为 $0$ 可以统一处理。"
+          - kind: "mistake"
+            title: "答案要代回"
+            content_latex: "$P(0,0)$ 时一条线竖直、一条线水平，也满足垂直。"
+        solution_title: "解答"
+        solution_step_ids:
+          - "perp-2-set"
+          - "perp-2-vector"
+          - "perp-2-equation"
+          - "perp-2-answer"
+
+      - type: "mistake"
+        id: "iso-perp-mistake"
+        title: "易错提醒"
+        content_latex: "等腰题先分类，垂直题先确认对象。用距离平方和数量积时，解出来的候选点还要代回轨迹和题意检查。"
+
+      - type: "method_reminder"
+        id: "iso-perp-method"
+        title: "方法提醒"
+        items:
+          - latex: "动点在函数上：先设 $P(t,f(t))$。"
+          - latex: "等腰：先列相等边分类，再写距离平方方程。"
+          - latex: "垂直：优先写方向向量，令数量积为 $0$。"

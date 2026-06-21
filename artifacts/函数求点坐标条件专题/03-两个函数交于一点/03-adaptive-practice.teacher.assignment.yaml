@@ -1,0 +1,206 @@
+meta:
+  title: "函数求点坐标条件专题 3：两个函数交于一点"
+  subtitle: "自适应练习教师版"
+  grade: "八年级"
+  subject: "数学"
+  duration: "20分钟"
+  total_points: 30
+  version: "teacher"
+  source_artifacts:
+    structure_analysis: "artifacts/函数求点坐标条件专题/03-两个函数交于一点/01-structure-analysis.md"
+    explanation: "artifacts/函数求点坐标条件专题/03-两个函数交于一点/02-student-explanation.assignment.yaml"
+
+render:
+  template: "exam-zh-practice"
+  paper_size: "a4paper"
+  answer_key_position: "after_page_break"
+
+sections:
+  - id: "problems"
+    title: "练习题（每题 10 分，共 30 分）"
+    type: "practice"
+    visibility: "both"
+    blocks:
+      - type: "problem"
+        id: "p1"
+        points: 10
+        label: "第 1 题"
+        stem_latex: |
+          一次函数 $y=2x+1$ 与一次函数 $y=-x+7$ 的图像交于点 $P$。求点 $P$ 的坐标。
+        hints:
+          - content: "交点处两个函数的 $y$ 值相等。"
+        answer_space:
+          type: "steps"
+          height: "38mm"
+          step_count: 3
+        answer: "$P(2,5)$。"
+        explanation: "交点处同一个横坐标对应同一个纵坐标，所以令两个解析式相等。"
+        solution_steps:
+          - title: "列交点方程"
+            content: "$2x+1=-x+7$。"
+          - title: "求交点"
+            content: "解得 $x=2$，代入 $y=2x+1$ 得 $y=5$，所以 $P(2,5)$。"
+          - title: "验算"
+            content: "代入 $y=-x+7$，得 $5$，两式一致。"
+        teaching:
+          teaching_goal: "训练交点等价于两个函数值相等。"
+          source_relations:
+            - "intersection_of_two_linear_functions"
+          model_fusion:
+            model_count: 1
+            models:
+              - "linear_function_intersection"
+            fusion_role: "single_model"
+          relation_chain:
+            - step: 1
+              relation_id: "intersection_of_two_linear_functions"
+              inputs:
+                L1: "LinearFunction y=2x+1"
+                L2: "LinearFunction y=-x+7"
+              outputs:
+                P: "Point2D P(2,5)"
+              constraints_checked:
+                - "两函数斜率不同"
+                - "交点坐标计算干净"
+          expected_blocker: "没有令两个函数值相等。"
+          entry_point: "find_entry"
+          scaffold_level: "high"
+          variation_depth: "same_structure"
+          complexity_note: "一个一元一次方程。"
+          upgrade_rule: "能主动写出 $2x+1=-x+7$。"
+          fallback_move: "先说交点同时在两条图像上。"
+
+      - type: "problem"
+        id: "p2"
+        points: 10
+        label: "第 2 题"
+        stem_latex: |
+          一次函数 $y=mx+3$ 与一次函数 $y=-x+9$ 的图像交于点 $P$。已知点 $P$ 的纵坐标为 $5$，求 $m$ 的值和点 $P$ 的坐标。
+        hints:
+          - content: "先用已知纵坐标在参数较少的函数上求横坐标。"
+        answer_space:
+          type: "steps"
+          height: "46mm"
+          step_count: 4
+        answer: "$m=\\dfrac12$，$P(4,5)$。"
+        explanation: "已知交点纵坐标时，先用不含参数的函数定位交点，再代入含参函数。"
+        solution_steps:
+          - title: "定位交点"
+            content: "点 $P$ 在 $y=-x+9$ 上且纵坐标为 $5$，所以 $5=-x+9$，解得 $x=4$，即 $P(4,5)$。"
+          - title: "反求参数"
+            content: "$P(4,5)$ 也在 $y=mx+3$ 上，所以 $5=4m+3$，解得 $m=\\dfrac12$。"
+        teaching:
+          teaching_goal: "训练已知交点部分坐标时反求参数。"
+          source_relations:
+            - "intersection_of_two_linear_functions"
+            - "partial_intersection_coordinate_to_parameter"
+          model_fusion:
+            model_count: 2
+            models:
+              - "linear_function_intersection"
+              - "function_coordinate_conditions"
+            fusion_role: "target_transform"
+          relation_chain:
+            - step: 1
+              relation_id: "partial_intersection_coordinate_to_parameter"
+              inputs:
+                L1: "LinearFunction y=mx+3"
+                L2: "LinearFunction y=-x+9"
+                known_intersection_condition: "交点纵坐标为 5"
+              outputs:
+                intersection_point: "Point2D P(4,5)"
+                parameter_value: "Equation m=1/2"
+              constraints_checked:
+                - "交点必须同时在两条函数图像上"
+                - "两函数有唯一交点"
+          expected_blocker: "急着联立含参式，忽略纵坐标可先定位点。"
+          entry_point: "solve_and_check"
+          scaffold_level: "medium"
+          variation_depth: "changed_question"
+          complexity_note: "两步均为一元一次方程。"
+          upgrade_rule: "能选择参数较少的函数先求交点坐标。"
+          fallback_move: "先把“纵坐标为 5”写成 $y=5$。"
+
+      - type: "problem"
+        id: "p3"
+        points: 10
+        label: "第 3 题"
+        stem_latex: |
+          设 $f(x)=x+1$，$g(x)=-x+b$。已知当 $x<3$ 时，$f(x)<g(x)$；当 $x>3$ 时，$f(x)>g(x)$。求 $b$ 的值，并求两个函数图像的交点坐标。
+        hints:
+          - content: "不等式大小关系发生改变的分界点，就是两个函数值相等的位置。"
+        answer_space:
+          type: "steps"
+          height: "50mm"
+          step_count: 4
+        answer: "$b=7$，交点为 $(3,4)$。"
+        explanation: "不等式范围在 $x=3$ 两侧改变，说明 $x=3$ 是交点横坐标。"
+        solution_steps:
+          - title: "找分界点"
+            content: "大小关系在 $x=3$ 两侧改变，所以 $x=3$ 是两函数相等的位置。"
+          - title: "求参数"
+            content: "$f(3)=4$，$g(3)=-3+b$。由 $f(3)=g(3)$ 得 $4=-3+b$，所以 $b=7$。"
+          - title: "写交点"
+            content: "交点横坐标为 $3$，纵坐标为 $4$，所以交点为 $(3,4)$。"
+        teaching:
+          teaching_goal: "训练从图像不等式分界识别交点。"
+          source_relations:
+            - "linear_inequality_by_graph"
+            - "intersection_of_two_linear_functions"
+            - "partial_intersection_coordinate_to_parameter"
+          model_fusion:
+            model_count: 3
+            models:
+              - "linear_inequality_graph"
+              - "linear_function_intersection"
+              - "function_coordinate_conditions"
+            fusion_role: "discriminator"
+          relation_chain:
+            - step: 1
+              relation_id: "linear_inequality_by_graph"
+              inputs:
+                L1: "f(x)=x+1"
+                L2: "g(x)=-x+b"
+                comparison: "x<3 时 f<g，x>3 时 f>g"
+                intersection_point: "Point2D with x=3"
+              outputs:
+                solution: "IntervalSet endpoint x=3"
+              constraints_checked:
+                - "题面明确比较方向"
+                - "大小关系端点来自唯一交点"
+            - step: 2
+              relation_id: "partial_intersection_coordinate_to_parameter"
+              consumes:
+                known_intersection_condition: "step1 的分界横坐标 x=3"
+              inputs:
+                L1: "f(x)=x+1"
+                L2: "g(x)=-x+b"
+              outputs:
+                intersection_point: "Point2D (3,4)"
+                parameter_value: "Equation b=7"
+              constraints_checked:
+                - "分界处两个函数值相等"
+          expected_blocker: "只看不等号，不知道分界处要相等。"
+          entry_point: "hidden_structure"
+          scaffold_level: "medium"
+          variation_depth: "packaged_condition"
+          complexity_note: "用分界点求一个整数参数。"
+          upgrade_rule: "能把不等式解集端点转化为交点横坐标。"
+          fallback_move: "先问大小关系从哪里改变。"
+
+  - id: "answer-key"
+    title: "参考答案"
+    type: "answer_key"
+    visibility: "teacher"
+    layout:
+      break_before: true
+    blocks:
+      - type: "step"
+        id: "ak-main"
+        title: "答案汇总"
+        content: |
+          第 1 题：$P(2,5)$。
+
+          第 2 题：$m=\dfrac12$，$P(4,5)$。
+
+          第 3 题：$b=7$，交点为 $(3,4)$。

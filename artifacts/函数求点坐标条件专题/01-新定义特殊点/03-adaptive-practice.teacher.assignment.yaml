@@ -1,0 +1,201 @@
+meta:
+  title: "函数求点坐标条件专题 1：新定义特殊点"
+  subtitle: "自适应练习教师版"
+  grade: "八年级"
+  subject: "数学"
+  duration: "20分钟"
+  total_points: 30
+  version: "teacher"
+  source_artifacts:
+    structure_analysis: "artifacts/函数求点坐标条件专题/01-新定义特殊点/01-structure-analysis.md"
+    explanation: "artifacts/函数求点坐标条件专题/01-新定义特殊点/02-student-explanation.assignment.yaml"
+
+render:
+  template: "exam-zh-practice"
+  paper_size: "a4paper"
+  answer_key_position: "after_page_break"
+
+sections:
+  - id: "problems"
+    title: "练习题（每题 10 分，共 30 分）"
+    type: "practice"
+    visibility: "both"
+    blocks:
+      - type: "problem"
+        id: "p1"
+        points: 10
+        label: "第 1 题"
+        stem_latex: |
+          我们把到 $x$ 轴和到 $y$ 轴距离相等的点叫做“等轴点”。已知点 $P(a,-3)$ 是等轴点，且 $a>0$，求点 $P$ 的坐标。
+        hints:
+          - content: "先分别写出点到两条坐标轴的距离。"
+        answer_space:
+          type: "steps"
+          height: "36mm"
+          step_count: 3
+        answer: "$P(3,-3)$。"
+        explanation: "等轴点给出 $|a|=|-3|$，再由 $a>0$ 选出 $a=3$。"
+        solution_steps:
+          - title: "翻译定义"
+            content: "点 $P(a,-3)$ 到 $x$ 轴距离为 $3$，到 $y$ 轴距离为 $|a|$。"
+          - title: "筛选符号"
+            content: "由 $|a|=3$ 得 $a=\\pm3$。又 $a>0$，所以 $a=3$，$P(3,-3)$。"
+        teaching:
+          teaching_goal: "训练把新定义距离条件翻译成绝对值关系。"
+          source_relations:
+            - "special_definition_point_on_linear_function"
+          model_fusion:
+            model_count: 1
+            models:
+              - "function_coordinate_conditions"
+            fusion_role: "single_model"
+          relation_chain:
+            - step: 1
+              relation_id: "special_definition_point_on_linear_function"
+              inputs:
+                moving_locus: "退化为横坐标未知的点 P(a,-3)"
+                definition_condition: "等轴点：到两轴距离相等"
+                position_filter: "a>0"
+              outputs:
+                candidate_points: "CandidateSet<Point2D>: (3,-3)"
+              constraints_checked:
+                - "新定义翻译为 |a|=3"
+                - "候选点集接入单点时用 a>0 筛选"
+          expected_blocker: "忘记距离是绝对值。"
+          entry_point: "read_context"
+          scaffold_level: "high"
+          variation_depth: "same_structure"
+          complexity_note: "一个绝对值条件和一个正负筛选。"
+          upgrade_rule: "能主动写出到两轴距离。"
+          fallback_move: "先单独写两个距离，再令它们相等。"
+
+      - type: "problem"
+        id: "p2"
+        points: 10
+        label: "第 2 题"
+        stem_latex: |
+          我们仍把到 $x$ 轴和到 $y$ 轴距离相等的点叫做“等轴点”。点 $P(x,y)$ 在一次函数 $y=2x-3$ 的图像上，且 $P$ 是第一象限内的等轴点。求点 $P$ 的坐标。
+        hints:
+          - content: "第一象限内可以把 $|x|=|y|$ 写成 $x=y$。"
+        answer_space:
+          type: "steps"
+          height: "40mm"
+          step_count: 4
+        answer: "$P(3,3)$。"
+        explanation: "点要同时满足函数图像和新定义。第一象限把等轴条件化成 $x=y$。"
+        solution_steps:
+          - title: "写定义条件"
+            content: "第一象限内 $x>0,y>0$，等轴点条件 $|x|=|y|$ 可写成 $x=y$。"
+          - title: "联立函数条件"
+            content: "又 $y=2x-3$，联立得 $x=2x-3$，所以 $x=3$，$y=3$。"
+          - title: "验算"
+            content: "$P(3,3)$ 在第一象限，且 $3=2\\times3-3$，满足题意。"
+        teaching:
+          teaching_goal: "训练新定义坐标约束与一次函数轨迹联立。"
+          source_relations:
+            - "special_definition_point_on_linear_function"
+          model_fusion:
+            model_count: 1
+            models:
+              - "function_coordinate_conditions"
+            fusion_role: "constraint"
+          relation_chain:
+            - step: 1
+              relation_id: "special_definition_point_on_linear_function"
+              inputs:
+                moving_locus: "LinearFunction y=2x-3"
+                definition_condition: "等轴点 |x|=|y|"
+                position_filter: "第一象限"
+              outputs:
+                candidate_points: "CandidateSet<Point2D>: (3,3)"
+              constraints_checked:
+                - "第一象限筛选允许写成 x=y"
+                - "候选点代回函数和定义"
+          expected_blocker: "会写绝对值，但不会结合象限去掉绝对值。"
+          entry_point: "build_relation"
+          scaffold_level: "medium"
+          variation_depth: "changed_question"
+          complexity_note: "只解一个一元一次方程。"
+          upgrade_rule: "能说出为什么此处取 $x=y$ 而不是 $x=-y$。"
+          fallback_move: "先写 $|x|=|y|$，再看象限。"
+
+      - type: "problem"
+        id: "p3"
+        points: 10
+        label: "第 3 题"
+        stem_latex: |
+          对一次函数 $y=ax+2$，若它的图像上横坐标为 $2$ 的点是等轴点，则称 $a$ 为这个函数的“等轴参数”。求所有等轴参数 $a$，并分别写出对应点所在的象限。
+        hints:
+          - content: "先把横坐标为 $2$ 的点写成 $(2,2a+2)$。"
+        answer_space:
+          type: "steps"
+          height: "46mm"
+          step_count: 4
+        answer: "$a=0$，对应点 $(2,2)$，在第一象限；$a=-2$，对应点 $(2,-2)$，在第四象限。"
+        explanation: "参数题先把点坐标参数化，再用绝对值方程保留两个分支。"
+        solution_steps:
+          - title: "表示点"
+            content: "横坐标为 $2$，代入 $y=ax+2$ 得点 $(2,2a+2)$。"
+          - title: "列定义方程"
+            content: "等轴点满足 $|2|=|2a+2|$，即 $|2a+2|=2$。"
+          - title: "分类求解"
+            content: "$2a+2=2$ 得 $a=0$，点 $(2,2)$；$2a+2=-2$ 得 $a=-2$，点 $(2,-2)$。"
+          - title: "判断象限"
+            content: "$(2,2)$ 在第一象限，$(2,-2)$ 在第四象限。"
+        teaching:
+          teaching_goal: "训练含参函数中的特殊点条件和分支检查。"
+          source_relations:
+            - "special_definition_point_on_linear_function"
+            - "point_on_linear_function_forward"
+          model_fusion:
+            model_count: 2
+            models:
+              - "linear_function_point"
+              - "function_coordinate_conditions"
+            fusion_role: "target_transform"
+          relation_chain:
+            - step: 1
+              relation_id: "point_on_linear_function_forward"
+              inputs:
+                L: "LinearFunction y=ax+2"
+                x_value: "x=2"
+              outputs:
+                P: "Point2D: (2,2a+2)"
+              constraints_checked:
+                - "横坐标在函数定义域内"
+            - step: 2
+              relation_id: "special_definition_point_on_linear_function"
+              consumes:
+                moving_locus: "step1.outputs.P 的参数化坐标"
+              inputs:
+                definition_condition: "等轴点 |x|=|y|"
+                position_filter: "无额外筛选，保留分支"
+              outputs:
+                candidate_points: "CandidateSet<Point2D>: (2,2),(2,-2)"
+              selector: "无唯一筛选，教师版保留两个分支并分别判断象限"
+              constraints_checked:
+                - "输出候选点集不能直接当作单点"
+          expected_blocker: "只解出一个参数或忘记回代判断象限。"
+          entry_point: "solve_and_check"
+          scaffold_level: "medium"
+          variation_depth: "packaged_condition"
+          complexity_note: "一个绝对值方程，两种整数参数。"
+          upgrade_rule: "能完整写出两个分支并回代。"
+          fallback_move: "先只解 $|2a+2|=2$。"
+
+  - id: "answer-key"
+    title: "参考答案"
+    type: "answer_key"
+    visibility: "teacher"
+    layout:
+      break_before: true
+    blocks:
+      - type: "step"
+        id: "ak-main"
+        title: "答案汇总"
+        content: |
+          第 1 题：$P(3,-3)$。
+
+          第 2 题：$P(3,3)$。
+
+          第 3 题：$a=0$，点 $(2,2)$，第一象限；$a=-2$，点 $(2,-2)$，第四象限。

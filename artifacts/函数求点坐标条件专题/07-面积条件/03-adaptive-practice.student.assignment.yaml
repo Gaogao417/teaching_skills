@@ -1,0 +1,61 @@
+meta:
+  title: "函数求点坐标条件专题 07 · 面积条件"
+  subtitle: "学生版"
+  grade: "八年级"
+  subject: "数学"
+  duration: "20分钟"
+  total_points: 30
+  version: "student"
+  source_artifacts:
+    structure_analysis: "artifacts/函数求点坐标条件专题/07-面积条件/01-structure-analysis.md"
+    explanation: "artifacts/函数求点坐标条件专题/07-面积条件/02-student-explanation.assignment.yaml"
+
+render:
+  template: "exam-zh-practice"
+  paper_size: "a4paper"
+  answer_key_position: "after_page_break"
+
+sections:
+  - id: "area-condition-practice"
+    title: "一、面积条件怎么变成坐标方程"
+    type: "practice"
+    visibility: "student"
+    blocks:
+      - type: "problem"
+        id: "q1"
+        points: 10
+        stem_latex: |
+          已知 $A(2,0)$，$B(8,0)$，点 $P$ 在 $y$ 轴上。
+          若 $\triangle ABP$ 的面积为 $18$，求点 $P$ 的坐标。
+        hints:
+          - content: "先把 $AB$ 看成底边，面积条件会变成点 $P$ 到 $x$ 轴的距离。"
+        answer_space:
+          type: "steps"
+          height: "34mm"
+          step_count: 3
+
+      - type: "problem"
+        id: "q2"
+        points: 10
+        stem_latex: |
+          已知 $A(1,0)$，$B(5,0)$，点 $P$ 在一次函数 $y=2x-1$ 的图像上。
+          若 $\triangle ABP$ 的面积为 $10$，求点 $P$ 的坐标。
+        hints:
+          - content: "设 $P(t,2t-1)$，再把面积写成关于 $|2t-1|$ 的方程。"
+        answer_space:
+          type: "steps"
+          height: "42mm"
+          step_count: 4
+
+      - type: "problem"
+        id: "q3"
+        points: 10
+        stem_latex: |
+          已知 $A(0,0)$，$B(6,0)$，$C(2,4)$，点 $P$ 在一次函数 $y=x-2$ 的图像上。
+          若 $\triangle ABP$ 与 $\triangle ABC$ 的面积相等，求所有可能的点 $P$，并说明这些点分别在直线 $AB$ 的哪一侧。
+        hints:
+          - content: "等底等面积时，先比较到直线 $AB$ 的距离，再代入函数关系。"
+        answer_space:
+          type: "steps"
+          height: "48mm"
+          step_count: 5

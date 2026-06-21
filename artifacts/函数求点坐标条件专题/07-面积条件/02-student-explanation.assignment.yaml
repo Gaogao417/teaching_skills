@@ -1,0 +1,125 @@
+meta:
+  title: "函数求点坐标条件专题 07 · 面积条件"
+  subtitle: "学生讲义"
+  grade: "八年级"
+  subject: "数学"
+  version: "student"
+  source_artifacts:
+    structure_analysis: "artifacts/函数求点坐标条件专题/07-面积条件/01-structure-analysis.md"
+
+render:
+  template: "exam-zh-explanation"
+  paper_size: "a4paper"
+
+sections:
+  - id: "area-condition-model"
+    title: "模型七：面积条件怎样变成坐标方程"
+    show_title: true
+    type: "explanation"
+    visibility: "student"
+    blocks:
+      - type: "solution"
+        id: "area-knowledge"
+        title: "核心结论：面积给的是距离方程"
+        items:
+          - latex: '三角形面积公式：$S=\dfrac12\times \text{底}\times \text{高}$。'
+          - latex: '当底边在 $x$ 轴或水平线上时，高通常是纵坐标差的绝对值。'
+          - latex: '点在一次函数 $y=kx+b$ 上时，先设 $P(t,kt+b)$，再把面积条件写成关于 $t$ 的方程。'
+          - latex: '面积反求点常出现两个候选点；题目没有筛选条件时，要保留所有可能点。'
+
+      - type: "problemcard"
+        id: "area-example-1"
+        label: "例题 1"
+        stem_latex: |
+          已知 $A(1,0)$，$B(5,0)$，点 $P$ 在一次函数 $y=2x-1$ 的图像上。
+          若 $\triangle ABP$ 的面积为 $10$，求点 $P$ 的坐标。
+
+      - type: "route"
+        id: "area-route-1"
+        steps:
+          - id: "area-1-set"
+            latex: "设函数图像上的点"
+            content_latex: "设 $P(t,2t-1)$。"
+          - id: "area-1-equation"
+            latex: "用面积反求高"
+            content_latex: "$AB=4$，点 $P$ 到 $x$ 轴的距离为 $|2t-1|$，所以 $\\dfrac12\\times4\\times|2t-1|=10$。"
+          - id: "area-1-solve"
+            latex: "解绝对值方程"
+            content_latex: "$|2t-1|=5$，所以 $t=3$ 或 $t=-2$。"
+          - id: "area-1-answer"
+            latex: "写出候选点"
+            content_latex: "当 $t=3$ 时 $P(3,5)$；当 $t=-2$ 时 $P(-2,-5)$。"
+
+      - type: "dual_explanation"
+        id: "area-solution-1"
+        label: "例题 1"
+        stem_latex: "由定面积求函数图像上的动点。"
+        side_title: "小贴士"
+        side_items:
+          - kind: "hint"
+            title: "先看底边"
+            content_latex: "$A,B$ 都在 $x$ 轴上，所以把 $AB$ 当底边最省事。"
+          - kind: "mistake"
+            title: "别漏绝对值"
+            content_latex: "点可以在 $x$ 轴上方，也可以在下方，距离要写成绝对值。"
+        solution_title: "解答"
+        solution_step_ids:
+          - "area-1-set"
+          - "area-1-equation"
+          - "area-1-solve"
+          - "area-1-answer"
+
+      - type: "problemcard"
+        id: "area-example-2"
+        label: "例题 2"
+        stem_latex: |
+          已知 $A(0,0)$，$B(6,0)$，$C(2,4)$，点 $P$ 在一次函数 $y=x-2$ 的图像上。
+          若 $\triangle ABP$ 与 $\triangle ABC$ 的面积相等，求所有可能的点 $P$。
+
+      - type: "route"
+        id: "area-route-2"
+        steps:
+          - id: "area-2-reference"
+            latex: "先求参照面积"
+            content_latex: "$AB=6$，点 $C$ 到 $x$ 轴的距离为 $4$，所以 $S_{\\triangle ABC}=\\dfrac12\\times6\\times4=12$。"
+          - id: "area-2-set"
+            latex: "设动点并列方程"
+            content_latex: "设 $P(t,t-2)$，则 $\\dfrac12\\times6\\times|t-2|=12$。"
+          - id: "area-2-solve"
+            latex: "分两侧求点"
+            content_latex: "$|t-2|=4$，解得 $t=6$ 或 $t=-2$。"
+          - id: "area-2-answer"
+            latex: "写出答案并验算"
+            content_latex: "所以 $P(6,4)$ 或 $P(-2,-4)$，两点到 $AB$ 所在直线的距离都为 $4$。"
+
+      - type: "dual_explanation"
+        id: "area-solution-2"
+        label: "例题 2"
+        stem_latex: "等面积条件怎样转成两侧候选点？"
+        side_title: "小贴士"
+        side_items:
+          - kind: "hint"
+            title: "等面积先等高"
+            content_latex: "同一底边下，面积相等就是到这条底边的距离相等。"
+          - kind: "mistake"
+            title: "两侧都要看"
+            content_latex: "同样的距离可能在底边上方，也可能在底边下方。"
+        solution_title: "解答"
+        solution_step_ids:
+          - "area-2-reference"
+          - "area-2-set"
+          - "area-2-solve"
+          - "area-2-answer"
+
+      - type: "mistake"
+        id: "area-mistake"
+        title: "易错提醒"
+        content_latex: "面积条件最容易漏的是绝对值和筛选。先写距离方程，再看题目是否给了象限、线段范围或同侧条件。"
+
+      - type: "method_reminder"
+        id: "area-method"
+        title: "方法提醒"
+        items:
+          - latex: "第一步找底边，优先选水平、竖直或已知长度的边。"
+          - latex: "第二步把动点写成 $P(t,f(t))$。"
+          - latex: "第三步列面积方程，保留所有候选点并逐一验算。"

@@ -1,0 +1,198 @@
+meta:
+  title: "函数求点坐标条件专题 07 · 面积条件"
+  subtitle: "教师版"
+  grade: "八年级"
+  subject: "数学"
+  duration: "20分钟"
+  total_points: 30
+  version: "teacher"
+  source_artifacts:
+    structure_analysis: "artifacts/函数求点坐标条件专题/07-面积条件/01-structure-analysis.md"
+    explanation: "artifacts/函数求点坐标条件专题/07-面积条件/02-student-explanation.assignment.yaml"
+
+render:
+  template: "exam-zh-practice"
+  paper_size: "a4paper"
+  answer_key_position: "after_page_break"
+
+sections:
+  - id: "area-condition-practice"
+    title: "一、面积条件怎么变成坐标方程"
+    type: "practice"
+    visibility: "both"
+    blocks:
+      - type: "problem"
+        id: "q1"
+        points: 10
+        stem_latex: |
+          已知 $A(2,0)$，$B(8,0)$，点 $P$ 在 $y$ 轴上。
+          若 $\triangle ABP$ 的面积为 $18$，求点 $P$ 的坐标。
+        hints:
+          - content: "先把 $AB$ 看成底边，面积条件会变成点 $P$ 到 $x$ 轴的距离。"
+        answer_space:
+          type: "steps"
+          height: "34mm"
+          step_count: 3
+        answer: "$P(0,6)$ 或 $P(0,-6)$"
+        explanation: "点在坐标轴上时，面积条件通常先转成横向底边与纵向距离的乘积。"
+        solution_steps:
+          - title: "确定底和高"
+            content: "$AB=8-2=6$。点 $P$ 在 $y$ 轴上，设 $P(0,t)$，则到 $x$ 轴的距离为 $|t|$。"
+          - title: "列面积方程"
+            content: "$\\dfrac12\\times6\\times|t|=18$，所以 $|t|=6$。"
+          - title: "写出两种位置"
+            content: "$t=6$ 或 $t=-6$，所以 $P(0,6)$ 或 $P(0,-6)$。"
+        teaching:
+          teaching_goal: "训练把坐标轴上动点面积条件转成横竖距离。"
+          source_relations:
+            - "vertical_area_forward"
+            - "needs_review:axis_locus_area_inverse"
+          model_fusion:
+            model_count: 1
+            models:
+              - "坐标面积条件"
+            fusion_role: "single_model"
+          expected_blocker: "只写 $t=6$，漏掉点在 $x$ 轴下方的情况。"
+          entry_point: "build_relation"
+          scaffold_level: "medium"
+          variation_depth: "same_structure"
+          complexity_note: "只含一个绝对值方程，数值为整数。"
+          upgrade_rule: "能主动把距离写成绝对值。"
+          fallback_move: "先写底边长度，再问点到 $x$ 轴的距离是哪一个坐标。"
+
+      - type: "problem"
+        id: "q2"
+        points: 10
+        stem_latex: |
+          已知 $A(1,0)$，$B(5,0)$，点 $P$ 在一次函数 $y=2x-1$ 的图像上。
+          若 $\triangle ABP$ 的面积为 $10$，求点 $P$ 的坐标。
+        hints:
+          - content: "设 $P(t,2t-1)$，再把面积写成关于 $|2t-1|$ 的方程。"
+        answer_space:
+          type: "steps"
+          height: "42mm"
+          step_count: 4
+        answer: "$P(3,5)$ 或 $P(-2,-5)$"
+        explanation: "点在函数图像上时，先参数化点，再把面积条件转成纵坐标的绝对值。"
+        solution_steps:
+          - title: "设函数图像上的点"
+            content: "设 $P(t,2t-1)$。"
+          - title: "列面积方程"
+            content: "$AB=5-1=4$，点 $P$ 到 $x$ 轴的距离为 $|2t-1|$，所以 $\\dfrac12\\times4\\times|2t-1|=10$。"
+          - title: "解绝对值方程"
+            content: "$|2t-1|=5$，所以 $2t-1=5$ 或 $2t-1=-5$，解得 $t=3$ 或 $t=-2$。"
+          - title: "回到坐标"
+            content: "当 $t=3$ 时 $P(3,5)$；当 $t=-2$ 时 $P(-2,-5)$。"
+        teaching:
+          teaching_goal: "训练函数图像上动点的参数化与面积方程。"
+          source_relations:
+            - "vertical_area_inverse_on_linear_locus"
+            - "vertical_area_inverse_with_position_filter"
+          model_fusion:
+            model_count: 2
+            models:
+              - "一次函数图像上点"
+              - "坐标面积条件"
+            fusion_role: "target_transform"
+          relation_chain:
+            - step: 1
+              relation_id: "point_on_linear_function_forward"
+              inputs:
+                function: "$y=2x-1$"
+              outputs:
+                point: "$P(t,2t-1)$"
+              constraints_checked:
+                - "点必须满足函数解析式"
+            - step: 2
+              relation_id: "vertical_area_inverse_on_linear_locus"
+              consumes:
+                point: "step1.outputs.point"
+              outputs:
+                equation: "$|2t-1|=5$"
+              constraints_checked:
+                - "底边 $AB$ 在 $x$ 轴上"
+          expected_blocker: "把点到 $x$ 轴距离误写成横坐标。"
+          entry_point: "build_relation"
+          scaffold_level: "medium"
+          variation_depth: "changed_representation"
+          complexity_note: "绝对值方程给出两个整数点。"
+          upgrade_rule: "能对任意一次函数点写出 $P(t,kt+b)$。"
+          fallback_move: "先只写 $P(t,2t-1)$，再找高。"
+
+      - type: "problem"
+        id: "q3"
+        points: 10
+        stem_latex: |
+          已知 $A(0,0)$，$B(6,0)$，$C(2,4)$，点 $P$ 在一次函数 $y=x-2$ 的图像上。
+          若 $\triangle ABP$ 与 $\triangle ABC$ 的面积相等，求所有可能的点 $P$，并说明这些点分别在直线 $AB$ 的哪一侧。
+        hints:
+          - content: "等底等面积时，先比较到直线 $AB$ 的距离，再代入函数关系。"
+        answer_space:
+          type: "steps"
+          height: "48mm"
+          step_count: 5
+        answer: "$P(6,4)$ 或 $P(-2,-4)$；$P(6,4)$ 在 $AB$ 上方，$P(-2,-4)$ 在 $AB$ 下方。"
+        explanation: "等面积不是只对应一个点，而是对应同一条底边两侧距离相等的两类位置。"
+        solution_steps:
+          - title: "求原三角形面积"
+            content: "$AB=6$，点 $C(2,4)$ 到 $AB$ 所在的 $x$ 轴距离为 $4$，所以 $S_{\\triangle ABC}=\\dfrac12\\times6\\times4=12$。"
+          - title: "把等面积转成距离"
+            content: "设 $P(t,t-2)$，则 $\\dfrac12\\times6\\times|t-2|=12$，所以 $|t-2|=4$。"
+          - title: "分类求点"
+            content: "$t-2=4$ 得 $t=6$，$P(6,4)$；$t-2=-4$ 得 $t=-2$，$P(-2,-4)$。"
+          - title: "说明位置"
+            content: "$P(6,4)$ 的纵坐标为正，在 $AB$ 上方；$P(-2,-4)$ 的纵坐标为负，在 $AB$ 下方。"
+        teaching:
+          teaching_goal: "训练等面积条件对应同底两侧的候选点分类。"
+          source_relations:
+            - "vertical_area_inverse_on_linear_locus"
+            - "patch:equal_base_area_inverse_on_linear_locus"
+          model_fusion:
+            model_count: 2
+            models:
+              - "等底等面积"
+              - "一次函数图像上点"
+            fusion_role: "discriminator"
+          relation_chain:
+            - step: 1
+              relation_id: "patch:equal_base_area_inverse_on_linear_locus"
+              inputs:
+                base: "$AB$"
+                reference_point: "$C(2,4)$"
+              outputs:
+                distance_candidates: "$|y_P|=4$"
+              constraints_checked:
+                - "两个三角形共用底边 $AB$"
+            - step: 2
+              relation_id: "point_on_linear_function_forward"
+              consumes:
+                distance_candidates: "step1.outputs.distance_candidates"
+              inputs:
+                function: "$y=x-2$"
+              selector: "按 $y_P=4$ 和 $y_P=-4$ 两类分别求点"
+              outputs:
+                point_set: "$P(6,4)$，$P(-2,-4)$"
+              constraints_checked:
+                - "候选点必须在函数图像上"
+          expected_blocker: "只找与 $C$ 同侧的点，漏掉另一侧等距离点。"
+          entry_point: "find_entry"
+          scaffold_level: "medium"
+          variation_depth: "packaged_condition"
+          complexity_note: "分类只来自绝对值正负，不增加复杂计算。"
+          upgrade_rule: "能说明等面积对应两条平行于底边的直线。"
+          fallback_move: "先不代函数，只写 $|y_P|=4$。"
+
+  - id: "answer-key"
+    title: "答案速查"
+    type: "answer_key"
+    visibility: "teacher"
+    blocks:
+      - type: "answers"
+        id: "answers-main"
+        items:
+          - number: "1"
+            answer: "$P(0,6)$ 或 $P(0,-6)$"
+          - number: "2"
+            answer: "$P(3,5)$ 或 $P(-2,-5)$"
+          - number: "3"
+            answer: "$P(6,4)$ 或 $P(-2,-4)$；分别在 $AB$ 上方、下方。"

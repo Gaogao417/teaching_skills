@@ -1,0 +1,61 @@
+meta:
+  title: "函数求点坐标条件专题 09 · 等腰与垂直条件"
+  subtitle: "学生版"
+  grade: "八年级"
+  subject: "数学"
+  duration: "20分钟"
+  total_points: 30
+  version: "student"
+  source_artifacts:
+    structure_analysis: "artifacts/函数求点坐标条件专题/09-等腰与垂直条件/01-structure-analysis.md"
+    explanation: "artifacts/函数求点坐标条件专题/09-等腰与垂直条件/02-student-explanation.assignment.yaml"
+
+render:
+  template: "exam-zh-practice"
+  paper_size: "a4paper"
+  answer_key_position: "after_page_break"
+
+sections:
+  - id: "isosceles-perpendicular-practice"
+    title: "一、等腰与垂直条件怎么给坐标"
+    type: "practice"
+    visibility: "student"
+    blocks:
+      - type: "problem"
+        id: "q1"
+        points: 10
+        stem_latex: |
+          已知 $A(0,0)$，$B(5,0)$，点 $P$ 在直线 $y=3$ 上。
+          若 $\triangle ABP$ 是等腰三角形，求所有可能的点 $P$，并说明对应哪两条边相等。
+        hints:
+          - content: "等腰要分三类：$PA=PB$，$PA=AB$，$PB=AB$。"
+        answer_space:
+          type: "steps"
+          height: "62mm"
+          step_count: 6
+
+      - type: "problem"
+        id: "q2"
+        points: 10
+        stem_latex: |
+          已知 $A(0,2)$，$B(4,0)$，点 $P$ 在一次函数 $y=x$ 的图像上。
+          若 $AP\perp BP$，求点 $P$ 的坐标。
+        hints:
+          - content: "设 $P(t,t)$，可以用两条线段的斜率乘积为 $-1$，也可以用向量数量积为 $0$。"
+        answer_space:
+          type: "steps"
+          height: "44mm"
+          step_count: 4
+
+      - type: "problem"
+        id: "q3"
+        points: 10
+        stem_latex: |
+          已知直线 $l_1:y=-\dfrac43x+4$ 与直线 $l_2:y=-\dfrac34x+4$ 交于点 $A$，直线 $l_1$ 与 $x$ 轴交于点 $B$。
+          点 $P$ 在 $x$ 轴上，且 $AP\perp l_2$。求 $A,B,P$ 的坐标，并判断 $\triangle ABP$ 是否为等腰三角形。
+        hints:
+          - content: "先求交点和截距，再用垂直斜率找到过 $A$ 的直线。"
+        answer_space:
+          type: "steps"
+          height: "58mm"
+          step_count: 6

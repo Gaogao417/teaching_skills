@@ -1,0 +1,114 @@
+meta:
+  title: "函数求点坐标条件专题：函数平移后的点"
+  subtitle: "学生讲义"
+  grade: "八年级"
+  subject: "数学"
+  version: "student"
+  source_artifacts:
+    structure_analysis: "artifacts/函数求点坐标条件专题/04-函数平移后的点/01-structure-analysis.md"
+
+render:
+  template: "exam-zh-explanation"
+  paper_size: "a4paper"
+
+sections:
+  - id: "function-translation-point"
+    title: "模型四：函数平移后先定新直线"
+    show_title: true
+    type: "explanation"
+    visibility: "student"
+    blocks:
+      - type: "solution"
+        id: "translation-knowledge"
+        title: "核心结论：平移后的点在新直线上"
+        items:
+          - latex: "一次函数图像平移后，斜率不变。"
+          - latex: "向上平移 $c$ 个单位：$y=kx+b+c$；向下平移 $c$ 个单位：$y=kx+b-c$。"
+          - latex: "向右平移 $a$ 个单位：把原式中的 $x$ 换成 $x-a$；向左平移 $a$ 个单位：把 $x$ 换成 $x+a$。"
+          - latex: "看到“平移后经过点”，要把点代入平移后的直线，不代入原函数。"
+
+      - type: "problemcard"
+        id: "ex1-card"
+        label: "例题 1"
+        stem_latex: |
+          将一次函数 $y=2x-3$ 的图像向上平移 $5$ 个单位，得到直线 $l$。
+          求直线 $l$ 与 $y$ 轴的交点坐标。
+
+      - type: "route"
+        id: "ex1-route"
+        steps:
+          - id: "ex1-new-line"
+            latex: "先写平移后的直线"
+            content_latex: "$y=2x-3$ 向上平移 $5$ 个单位，得到 $l:y=2x+2$。"
+          - id: "ex1-y-axis"
+            latex: "再求 $y$ 轴交点"
+            content_latex: "与 $y$ 轴交点满足 $x=0$，代入得 $y=2$，所以交点为 $(0,2)$。"
+
+      - type: "dual_explanation"
+        id: "ex1-solution"
+        label: "例题 1"
+        stem_latex: "求平移后直线 $l$ 与 $y$ 轴的交点。"
+        side_title: "小贴士"
+        side_items:
+          - kind: "hint"
+            title: "先看哪条直线"
+            content_latex: "题目要求的是 $l$ 的交点，所以第一步必须写 $l$ 的解析式。"
+          - kind: "mistake"
+            title: "交 $y$ 轴"
+            content_latex: "与 $y$ 轴交点的横坐标是 $0$。"
+        solution_title: "解答"
+        solution_step_ids:
+          - "ex1-new-line"
+          - "ex1-y-axis"
+
+      - type: "problemcard"
+        id: "ex2-card"
+        label: "例题 2"
+        stem_latex: |
+          一次函数 $y=-x+b$ 的图像向右平移 $3$ 个单位后，所得直线经过点 $A(5,1)$。
+          求原函数的解析式。
+
+      - type: "route"
+        id: "ex2-route"
+        steps:
+          - id: "ex2-new-line"
+            latex: "右移后写新直线"
+            content_latex: "向右平移 $3$ 个单位，把 $x$ 换成 $x-3$，得 $y=-(x-3)+b=-x+b+3$。"
+          - id: "ex2-substitute"
+            latex: "把经过点代入新直线"
+            content_latex: "点 $A(5,1)$ 在平移后的直线上，所以 $1=-5+b+3$。"
+          - id: "ex2-answer"
+            latex: "求原函数"
+            content_latex: "解得 $b=3$，原函数为 $y=-x+3$。"
+
+      - type: "dual_explanation"
+        id: "ex2-solution"
+        label: "例题 2"
+        stem_latex: "由平移后经过点反求原函数。"
+        side_title: "小贴士"
+        side_items:
+          - kind: "hint"
+            title: "点在哪里"
+            content_latex: "$A(5,1)$ 在平移后的图像上，不一定在原函数图像上。"
+          - kind: "hint"
+            title: "右移符号"
+            content_latex: "向右移 $3$ 个单位时，用 $x-3$ 代替原来的 $x$。"
+        solution_title: "解答"
+        solution_step_ids:
+          - "ex2-new-line"
+          - "ex2-substitute"
+          - "ex2-answer"
+
+      - type: "mistake"
+        id: "translation-mistake"
+        title: "易错提醒"
+        content_latex: |
+          本模型最容易错在代入对象：题目说“平移后经过点”，点就属于新直线；题目说“原函数经过点”，点才属于原直线。左右平移还要先替换 $x$，不能直接把常数项加减平移量。
+
+      - type: "method_reminder"
+        id: "translation-method"
+        title: "方法提醒"
+        items:
+          - latex: "第一行固定写：原函数 $\\rightarrow$ 平移后的函数。"
+          - latex: "第二行再处理：经过点、给横坐标、交 $x$ 轴或交 $y$ 轴。"
+          - latex: "最后把答案代回平移后的函数验算。"

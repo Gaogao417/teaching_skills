@@ -1,0 +1,130 @@
+meta:
+  title: "函数求点坐标条件专题 08 · 平行四边形与特殊平行四边形"
+  subtitle: "学生讲义"
+  grade: "八年级"
+  subject: "数学"
+  version: "student"
+  source_artifacts:
+    structure_analysis: "artifacts/函数求点坐标条件专题/08-平行四边形与特殊平行四边形/01-structure-analysis.md"
+
+render:
+  template: "exam-zh-explanation"
+  paper_size: "a4paper"
+
+sections:
+  - id: "parallelogram-special-model"
+    title: "模型八：平行四边形条件怎样给点坐标"
+    show_title: true
+    type: "explanation"
+    visibility: "student"
+    blocks:
+      - type: "solution"
+        id: "parallelogram-knowledge"
+        title: "核心结论：先判顺序，再用对角线"
+        items:
+          - latex: '固定顺序 $ABCD$ 是平行四边形时，$A,C$ 为对角点，$B,D$ 为对角点，所以 $D=A+C-B$。'
+          - latex: '只说 $A,B,C,D$ 构成平行四边形时，三种候选第四点都要讨论：$A+B-C$，$A+C-B$，$B+C-A$。'
+          - latex: '矩形在平行四边形基础上筛垂直，菱形筛邻边相等，正方形同时满足两者。'
+
+      - type: "problemcard"
+        id: "para-example-1"
+        label: "例题 1"
+        stem_latex: |
+          已知 $A(1,2)$，$B(5,2)$，$C(7,5)$。
+          \begin{enumerate}[label=(\arabic*)]
+            \item 若四边形 $ABCD$ 是平行四边形，求点 $D$；
+            \item 若 $A,B,C,D$ 构成平行四边形，求所有可能的点 $D$。
+          \end{enumerate}
+
+      - type: "route"
+        id: "para-route-1"
+        steps:
+          - id: "para-1-fixed"
+            latex: "固定顺序求第四点"
+            content_latex: "$ABCD$ 中 $A,C$ 对角，所以 $D=A+C-B=(1+7-5,2+5-2)=(3,5)$。"
+          - id: "para-1-case-a"
+            latex: "构成题：$A,B$ 对角"
+            content_latex: "$D=A+B-C=(1+5-7,2+2-5)=(-1,-1)$。"
+          - id: "para-1-case-b"
+            latex: "构成题：$A,C$ 对角"
+            content_latex: "$D=A+C-B=(3,5)$。"
+          - id: "para-1-case-c"
+            latex: "构成题：$A,D$ 对角"
+            content_latex: "$D=B+C-A=(5+7-1,2+5-2)=(11,5)$。"
+
+      - type: "dual_explanation"
+        id: "para-solution-1"
+        label: "例题 1"
+        stem_latex: "比较固定顺序和无序构成的平行四边形求点。"
+        side_title: "小贴士"
+        side_items:
+          - kind: "hint"
+            title: "先读题面"
+            content_latex: "写出 $ABCD$ 时顺序固定；只说“构成”时顺序没有固定。"
+          - kind: "mistake"
+            title: "构成题要三类"
+            content_latex: "无序构成不能只套 $D=A+C-B$。"
+        solution_title: "解答"
+        solution_step_ids:
+          - "para-1-fixed"
+          - "para-1-case-a"
+          - "para-1-case-b"
+          - "para-1-case-c"
+
+      - type: "problemcard"
+        id: "para-example-2"
+        label: "例题 2"
+        stem_latex: |
+          已知 $A(0,0)$，$B(5,0)$。从候选点
+          \[
+          C_1(2,4),\quad C_2(5,4),\quad C_3(5,5)
+          \]
+          中选取点 $C$，并按固定顺序构造平行四边形 $ABCD$。分别求使 $ABCD$ 成为矩形、菱形、正方形的点 $C$ 和对应的点 $D$。
+
+      - type: "route"
+        id: "para-route-2"
+        steps:
+          - id: "para-2-d"
+            latex: "先统一求 $D$"
+            content_latex: "固定顺序下 $D=A+C-B$。三点分别对应 $D_1(-3,4)$，$D_2(0,4)$，$D_3(0,5)$。"
+          - id: "para-2-rectangle"
+            latex: "矩形筛垂直"
+            content_latex: "$AB$ 是水平线段，矩形要求 $BC\\perp AB$，所以 $x_C=5$，得到 $C_2,C_3$。"
+          - id: "para-2-rhombus"
+            latex: "菱形筛等长"
+            content_latex: "$AB=5$，$BC_1=5$，$BC_2=4$，$BC_3=5$，所以 $C_1,C_3$。"
+          - id: "para-2-square"
+            latex: "正方形取交集"
+            content_latex: "正方形同时是矩形和菱形，所以只有 $C_3(5,5)$，对应 $D_3(0,5)$。"
+
+      - type: "dual_explanation"
+        id: "para-solution-2"
+        label: "例题 2"
+        stem_latex: "特殊平行四边形怎样从候选点中筛出来？"
+        side_title: "小贴士"
+        side_items:
+          - kind: "hint"
+            title: "先平行四边形"
+            content_latex: "先保证每个候选点能构造平行四边形，再检查特殊条件。"
+          - kind: "mistake"
+            title: "正方形不是只看直角"
+            content_latex: "正方形要同时满足矩形和菱形条件。"
+        solution_title: "解答"
+        solution_step_ids:
+          - "para-2-d"
+          - "para-2-rectangle"
+          - "para-2-rhombus"
+          - "para-2-square"
+
+      - type: "mistake"
+        id: "para-mistake"
+        title: "易错提醒"
+        content_latex: "平行四边形题最容易错在顺序。先判断固定顺序还是无序构成，再决定是一种公式还是三种候选。"
+
+      - type: "method_reminder"
+        id: "para-method"
+        title: "方法提醒"
+        items:
+          - latex: "固定顺序：先找两组对角点。"
+          - latex: "无序构成：先列三种对角分类。"
+          - latex: "特殊类型：在平行四边形候选上继续筛垂直、等长或两者交集。"

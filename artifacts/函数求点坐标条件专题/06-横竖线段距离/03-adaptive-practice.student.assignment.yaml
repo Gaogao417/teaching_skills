@@ -1,0 +1,60 @@
+meta:
+  title: "函数求点坐标条件专题：横竖线段距离"
+  subtitle: "学生版"
+  grade: "八年级"
+  subject: "数学"
+  duration: "20分钟"
+  total_points: 30
+  version: "student"
+  source_artifacts:
+    structure_analysis: "artifacts/函数求点坐标条件专题/06-横竖线段距离/01-structure-analysis.md"
+    explanation: "artifacts/函数求点坐标条件专题/06-横竖线段距离/02-student-explanation.assignment.yaml"
+
+render:
+  template: "exam-zh-practice"
+  paper_size: "a4paper"
+  answer_key_position: "after_page_break"
+
+sections:
+  - id: "practice"
+    title: "一、核心练习（每题 10 分，共 30 分）"
+    type: "practice"
+    visibility: "student"
+    blocks:
+      - type: "problem"
+        id: "q1"
+        points: 10
+        stem_latex: |
+          点 $A(-2,3)$，点 $B$ 与点 $A$ 在同一条水平线上，且 $AB=6$。若点 $B$ 在点 $A$ 的右侧，求点 $B$ 的坐标。
+        hints:
+          - content: "水平线段看横坐标差，右侧表示横坐标增加。"
+        answer_space:
+          type: "steps"
+          height: "32mm"
+          step_count: 3
+
+      - type: "problem"
+        id: "q2"
+        points: 10
+        stem_latex: |
+          点 $P$ 在一次函数 $y=-2x+7$ 的图像上，且点 $P$ 到 $x$ 轴的距离为 $3$。
+          若点 $P$ 在第一象限，求点 $P$ 的坐标。
+        hints:
+          - content: "到 $x$ 轴的距离看纵坐标的绝对值。"
+        answer_space:
+          type: "steps"
+          height: "40mm"
+          step_count: 4
+
+      - type: "problem"
+        id: "q3"
+        points: 10
+        stem_latex: |
+          在平面直角坐标系中，学校记为 $S(1,2)$，书店记为 $B(7,2)$。小明从学校出发，先沿水平方向走到书店，再沿竖直方向走到图书馆 $L$。已知书店到图书馆的竖直距离为 $5$，且图书馆在书店上方。
+          求图书馆 $L$ 的坐标，并求小明一共走了多少个单位长度。
+        hints:
+          - content: "水平走看横坐标差，竖直走看纵坐标差。"
+        answer_space:
+          type: "steps"
+          height: "44mm"
+          step_count: 5

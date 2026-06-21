@@ -1,0 +1,116 @@
+meta:
+  title: "函数求点坐标条件专题 2：函数与坐标轴交点"
+  subtitle: "学生讲义"
+  grade: "八年级"
+  subject: "数学"
+  version: "student"
+  source_artifacts:
+    structure_analysis: "artifacts/函数求点坐标条件专题/02-函数与坐标轴交点/01-structure-analysis.md"
+
+render:
+  template: "exam-zh-explanation"
+  paper_size: "a4paper"
+
+sections:
+  - id: "model-intercepts"
+    title: "模型二：坐标轴交点与零坐标条件"
+    show_title: true
+    type: "explanation"
+    visibility: "student"
+    blocks:
+      - type: "solution"
+        id: "intercepts-knowledge"
+        title: "核心结论：哪条轴就给哪个零坐标"
+        items:
+          - latex: '与 $x$ 轴交点的纵坐标为 $0$，所以令 $y=0$。'
+          - latex: '与 $y$ 轴交点的横坐标为 $0$，所以令 $x=0$。'
+          - latex: '若点 $B(0,b)$ 在 $y=kx+b$ 上，$b$ 就是 $y$ 轴截距。'
+          - latex: '截距点求出后，可以继续作为后续点的横坐标或纵坐标条件。'
+
+      - type: "problemcard"
+        id: "example-1"
+        label: "例题 1"
+        stem_latex: |
+          一次函数 $y=-2x+6$ 的图像分别与 $x$ 轴、$y$ 轴交于点 $A,B$。求点 $A,B$ 的坐标。
+
+      - type: "route"
+        id: "route-example-1"
+        steps:
+          - id: "ex1-x-axis"
+            latex: "求 $x$ 轴交点"
+            content_latex: "令 $y=0$，得 $0=-2x+6$，解得 $x=3$，所以 $A(3,0)$。"
+          - id: "ex1-y-axis"
+            latex: "求 $y$ 轴交点"
+            content_latex: "令 $x=0$，得 $y=6$，所以 $B(0,6)$。"
+          - id: "ex1-check"
+            latex: "代回检查"
+            content_latex: "$A,B$ 都满足 $y=-2x+6$，且分别在对应坐标轴上。"
+
+      - type: "dual_explanation"
+        id: "solution-example-1"
+        label: "例题 1"
+        stem_latex: "求一次函数与两条坐标轴的交点坐标。"
+        side_title: "小贴士"
+        side_items:
+          - kind: "hint"
+            title: "别记反"
+            content_latex: "$x$ 轴上点形如 $(a,0)$，所以是 $y=0$。"
+          - kind: "hint"
+            title: "快算 $y$ 轴"
+            content_latex: "令 $x=0$ 时，$y=kx+b$ 直接变成 $y=b$。"
+        solution_title: "解答"
+        solution_step_ids:
+          - "ex1-x-axis"
+          - "ex1-y-axis"
+          - "ex1-check"
+
+      - type: "problemcard"
+        id: "example-2"
+        label: "例题 2"
+        stem_latex: |
+          已知直线 $l:y=-2x+6$ 与 $x$ 轴交于点 $A$，与 $y$ 轴交于点 $B$。点 $P$ 在直线 $y=x+1$ 上，且点 $P$ 的横坐标等于点 $A$ 的横坐标；点 $Q$ 在直线 $y=-x+8$ 上，且点 $Q$ 的纵坐标等于点 $B$ 的纵坐标。求点 $P,Q$ 的坐标。
+
+      - type: "route"
+        id: "route-example-2"
+        steps:
+          - id: "ex2-intercepts"
+            latex: "先求截距点"
+            content_latex: "由 $l:y=-2x+6$ 得 $A(3,0)$，$B(0,6)$。"
+          - id: "ex2-point-p"
+            latex: "把 $A$ 的横坐标传给 $P$"
+            content_latex: "$x_P=3$，代入 $y=x+1$，得 $y_P=4$，所以 $P(3,4)$。"
+          - id: "ex2-point-q"
+            latex: "把 $B$ 的纵坐标传给 $Q$"
+            content_latex: "$y_Q=6$，代入 $y=-x+8$，得 $6=-x+8$，解得 $x=2$，所以 $Q(2,6)$。"
+
+      - type: "dual_explanation"
+        id: "solution-example-2"
+        label: "例题 2"
+        stem_latex: "先求截距，再求点 $P,Q$。"
+        side_title: "小贴士"
+        side_items:
+          - kind: "hint"
+            title: "截距不是终点"
+            content_latex: "本题的 $A,B$ 是后续条件来源，求出后要继续读题。"
+          - kind: "mistake"
+            title: "传递方向"
+            content_latex: "$P$ 继承的是 $A$ 的横坐标，$Q$ 继承的是 $B$ 的纵坐标，不能混用。"
+        solution_title: "解答"
+        solution_step_ids:
+          - "ex2-intercepts"
+          - "ex2-point-p"
+          - "ex2-point-q"
+
+      - type: "mistake"
+        id: "intercepts-mistake"
+        title: "易错提醒"
+        content_latex: |
+          与 $x$ 轴交点令 $y=0$，与 $y$ 轴交点令 $x=0$。后续题若说“横坐标等于”“纵坐标等于”，要把已求截距点的对应坐标单独标出来。
+
+      - type: "method_reminder"
+        id: "intercepts-method"
+        title: "方法提醒"
+        items:
+          - latex: "先写坐标轴点形式：$x$ 轴 $(a,0)$，$y$ 轴 $(0,b)$。"
+          - latex: "正向求截距用代入 $0$；反向求解析式把截距点代入。"
+          - latex: "传递型题目先求 $A,B$，再把对应坐标交给新点。"

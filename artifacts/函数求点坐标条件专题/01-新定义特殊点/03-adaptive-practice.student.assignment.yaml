@@ -1,0 +1,61 @@
+meta:
+  title: "函数求点坐标条件专题 1：新定义特殊点"
+  subtitle: "自适应练习"
+  grade: "八年级"
+  subject: "数学"
+  duration: "20分钟"
+  total_points: 30
+  version: "student"
+  source_artifacts:
+    structure_analysis: "artifacts/函数求点坐标条件专题/01-新定义特殊点/01-structure-analysis.md"
+    explanation: "artifacts/函数求点坐标条件专题/01-新定义特殊点/02-student-explanation.assignment.yaml"
+
+render:
+  template: "exam-zh-practice"
+  paper_size: "a4paper"
+  answer_key_position: "after_page_break"
+
+sections:
+  - id: "problems"
+    title: "练习题（每题 10 分，共 30 分）"
+    type: "practice"
+    visibility: "student"
+    blocks:
+      - type: "problem"
+        id: "p1"
+        points: 10
+        label: "第 1 题"
+        stem_latex: |
+          我们把到 $x$ 轴和到 $y$ 轴距离相等的点叫做“等轴点”。已知点 $P(a,-3)$ 是等轴点，且 $a>0$，求点 $P$ 的坐标。
+        hints:
+          - content: "先分别写出点到两条坐标轴的距离。"
+        answer_space:
+          type: "steps"
+          height: "36mm"
+          step_count: 3
+
+      - type: "problem"
+        id: "p2"
+        points: 10
+        label: "第 2 题"
+        stem_latex: |
+          我们仍把到 $x$ 轴和到 $y$ 轴距离相等的点叫做“等轴点”。点 $P(x,y)$ 在一次函数 $y=2x-3$ 的图像上，且 $P$ 是第一象限内的等轴点。求点 $P$ 的坐标。
+        hints:
+          - content: "第一象限内可以把 $|x|=|y|$ 写成 $x=y$。"
+        answer_space:
+          type: "steps"
+          height: "40mm"
+          step_count: 4
+
+      - type: "problem"
+        id: "p3"
+        points: 10
+        label: "第 3 题"
+        stem_latex: |
+          对一次函数 $y=ax+2$，若它的图像上横坐标为 $2$ 的点是等轴点，则称 $a$ 为这个函数的“等轴参数”。求所有等轴参数 $a$，并分别写出对应点所在的象限。
+        hints:
+          - content: "先把横坐标为 $2$ 的点写成 $(2,2a+2)$。"
+        answer_space:
+          type: "steps"
+          height: "46mm"
+          step_count: 4

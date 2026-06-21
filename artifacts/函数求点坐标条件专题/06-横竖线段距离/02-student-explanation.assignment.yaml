@@ -1,0 +1,118 @@
+meta:
+  title: "函数求点坐标条件专题：横竖线段距离"
+  subtitle: "学生讲义"
+  grade: "八年级"
+  subject: "数学"
+  version: "student"
+  source_artifacts:
+    structure_analysis: "artifacts/函数求点坐标条件专题/06-横竖线段距离/01-structure-analysis.md"
+
+render:
+  template: "exam-zh-explanation"
+  paper_size: "a4paper"
+
+sections:
+  - id: "horizontal-vertical-distance"
+    title: "模型六：横竖距离转成坐标差"
+    show_title: true
+    type: "explanation"
+    visibility: "student"
+    blocks:
+      - type: "solution"
+        id: "distance-knowledge"
+        title: "核心结论：先判断看哪个坐标"
+        items:
+          - latex: "水平距离只看横坐标差：$|x_1-x_2|$。"
+          - latex: "竖直距离只看纵坐标差：$|y_1-y_2|$。"
+          - latex: "点到 $x$ 轴的距离是 $|y|$；点到 $y$ 轴的距离是 $|x|$。"
+          - latex: "如果题目没有给方向、象限或范围，距离条件常常产生两个候选点。"
+
+      - type: "problemcard"
+        id: "ex1-card"
+        label: "例题 1"
+        stem_latex: |
+          点 $A(-2,3)$，点 $B$ 与点 $A$ 在同一条水平线上，且 $AB=6$。
+          若点 $B$ 在点 $A$ 的右侧，求点 $B$ 的坐标。
+
+      - type: "route"
+        id: "ex1-route"
+        steps:
+          - id: "ex1-y"
+            latex: "同水平先定纵坐标"
+            content_latex: "$B$ 与 $A$ 在同一条水平线上，所以 $B$ 的纵坐标也是 $3$。"
+          - id: "ex1-x"
+            latex: "右侧距离定横坐标"
+            content_latex: "$B$ 在 $A$ 的右侧，且 $AB=6$，所以横坐标为 $-2+6=4$。"
+          - id: "ex1-answer"
+            latex: "写出点坐标"
+            content_latex: "因此 $B(4,3)$。"
+
+      - type: "dual_explanation"
+        id: "ex1-solution"
+        label: "例题 1"
+        stem_latex: "用水平距离和方向求点坐标。"
+        side_title: "小贴士"
+        side_items:
+          - kind: "hint"
+            title: "水平看横"
+            content_latex: "同一水平线说明纵坐标不变，距离只改变横坐标。"
+          - kind: "mistake"
+            title: "方向决定加减"
+            content_latex: "右侧是横坐标增加，左侧才是横坐标减少。"
+        solution_title: "解答"
+        solution_step_ids:
+          - "ex1-y"
+          - "ex1-x"
+          - "ex1-answer"
+
+      - type: "problemcard"
+        id: "ex2-card"
+        label: "例题 2"
+        stem_latex: |
+          点 $P$ 在一次函数 $y=-2x+7$ 的图像上，且点 $P$ 到 $x$ 轴的距离为 $3$。
+          若点 $P$ 在第一象限，求点 $P$ 的坐标。
+
+      - type: "route"
+        id: "ex2-route"
+        steps:
+          - id: "ex2-y"
+            latex: "把到 $x$ 轴距离转成纵坐标"
+            content_latex: "点到 $x$ 轴距离为 $3$，得 $|y|=3$。第一象限中 $y>0$，所以 $y=3$。"
+          - id: "ex2-function"
+            latex: "代入函数求横坐标"
+            content_latex: "将 $y=3$ 代入 $y=-2x+7$，得 $3=-2x+7$，解得 $x=2$。"
+          - id: "ex2-answer"
+            latex: "写点并验算"
+            content_latex: "所以 $P(2,3)$，它在第一象限且到 $x$ 轴距离为 $3$。"
+
+      - type: "dual_explanation"
+        id: "ex2-solution"
+        label: "例题 2"
+        stem_latex: "用点到轴距离和函数轨迹求点。"
+        side_title: "小贴士"
+        side_items:
+          - kind: "hint"
+            title: "到 $x$ 轴看纵"
+            content_latex: "离 $x$ 轴有多远，是看点的纵坐标离 $0$ 有多远。"
+          - kind: "mistake"
+            title: "绝对值要筛选"
+            content_latex: "$|y|=3$ 原本有 $y=3$ 或 $y=-3$，第一象限帮我们选 $y=3$。"
+        solution_title: "解答"
+        solution_step_ids:
+          - "ex2-y"
+          - "ex2-function"
+          - "ex2-answer"
+
+      - type: "mistake"
+        id: "distance-mistake"
+        title: "易错提醒"
+        content_latex: |
+          看到“距离”不要马上套两点距离公式。先判断这段距离是不是水平或竖直：水平只看横坐标，竖直只看纵坐标。点到 $x$ 轴看 $|y|$，点到 $y$ 轴看 $|x|$。
+
+      - type: "method_reminder"
+        id: "distance-method"
+        title: "方法提醒"
+        items:
+          - latex: "第一步写清：水平、竖直，还是到哪条坐标轴。"
+          - latex: "第二步列绝对值方程，再用方向、象限或范围筛选。"
+          - latex: "若点在函数图像上，筛选后的坐标还要代入函数。"

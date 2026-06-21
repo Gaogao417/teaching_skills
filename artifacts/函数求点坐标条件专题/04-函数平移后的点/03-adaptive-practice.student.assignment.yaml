@@ -1,0 +1,61 @@
+meta:
+  title: "函数求点坐标条件专题：函数平移后的点"
+  subtitle: "学生版"
+  grade: "八年级"
+  subject: "数学"
+  duration: "20分钟"
+  total_points: 30
+  version: "student"
+  source_artifacts:
+    structure_analysis: "artifacts/函数求点坐标条件专题/04-函数平移后的点/01-structure-analysis.md"
+    explanation: "artifacts/函数求点坐标条件专题/04-函数平移后的点/02-student-explanation.assignment.yaml"
+
+render:
+  template: "exam-zh-practice"
+  paper_size: "a4paper"
+  answer_key_position: "after_page_break"
+
+sections:
+  - id: "practice"
+    title: "一、核心练习（每题 10 分，共 30 分）"
+    type: "practice"
+    visibility: "student"
+    blocks:
+      - type: "problem"
+        id: "q1"
+        points: 10
+        stem_latex: |
+          将一次函数 $y=2x-3$ 的图像向上平移 $5$ 个单位，得到直线 $l$。
+          求直线 $l$ 与 $y$ 轴的交点坐标。
+        hints:
+          - content: "向上平移只改变常数项，不改变斜率。"
+        answer_space:
+          type: "steps"
+          height: "32mm"
+          step_count: 3
+
+      - type: "problem"
+        id: "q2"
+        points: 10
+        stem_latex: |
+          一次函数 $y=-x+b$ 的图像向右平移 $3$ 个单位后，所得直线经过点 $A(5,1)$。
+          求原函数的解析式。
+        hints:
+          - content: "先写出向右平移后的解析式，再代入点 $A$。"
+        answer_space:
+          type: "steps"
+          height: "38mm"
+          step_count: 4
+
+      - type: "problem"
+        id: "q3"
+        points: 10
+        stem_latex: |
+          直线 $l: y=kx+2$ 向下平移 $4$ 个单位后得到直线 $m$。已知 $m$ 经过点 $P(3,1)$，且与 $x$ 轴交于点 $B$。
+          求点 $B$ 的坐标。
+        hints:
+          - content: "平移后斜率仍是 $k$，先用点 $P$ 求出 $k$。"
+        answer_space:
+          type: "steps"
+          height: "42mm"
+          step_count: 5

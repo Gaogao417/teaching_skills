@@ -1,0 +1,204 @@
+meta:
+  title: "函数求点坐标条件专题 08 · 平行四边形与特殊平行四边形"
+  subtitle: "教师版"
+  grade: "八年级"
+  subject: "数学"
+  duration: "20分钟"
+  total_points: 30
+  version: "teacher"
+  source_artifacts:
+    structure_analysis: "artifacts/函数求点坐标条件专题/08-平行四边形与特殊平行四边形/01-structure-analysis.md"
+    explanation: "artifacts/函数求点坐标条件专题/08-平行四边形与特殊平行四边形/02-student-explanation.assignment.yaml"
+
+render:
+  template: "exam-zh-practice"
+  paper_size: "a4paper"
+  answer_key_position: "after_page_break"
+
+sections:
+  - id: "parallelogram-condition-practice"
+    title: "一、平行四边形条件怎么给坐标"
+    type: "practice"
+    visibility: "both"
+    blocks:
+      - type: "problem"
+        id: "q1"
+        points: 10
+        stem_latex: |
+          已知 $A(1,2)$，$B(5,2)$，$C(7,5)$。
+          若四边形 $ABCD$ 是平行四边形，求点 $D$ 的坐标。
+        hints:
+          - content: "固定顺序 $ABCD$ 时，对角线 $AC$ 与 $BD$ 的中点相同。"
+        answer_space:
+          type: "steps"
+          height: "34mm"
+          step_count: 3
+        answer: "$D(3,5)$"
+        explanation: "固定顺序的平行四边形第四点可用对角线中点相同，也就是 $A+C=B+D$。"
+        solution_steps:
+          - title: "写出对角关系"
+            content: "平行四边形 $ABCD$ 中，$A,C$ 是一组对角顶点，所以 $A+C=B+D$。"
+          - title: "求 $D$"
+            content: "$D=A+C-B=(1+7-5,2+5-2)=(3,5)$。"
+          - title: "验算"
+            content: "$AC$ 中点为 $(4,\\frac72)$，$BD$ 中点也为 $(4,\\frac72)$。"
+        teaching:
+          teaching_goal: "训练固定顺序平行四边形第四点的坐标条件。"
+          source_relations:
+            - "parallelogram_fourth_point_fixed_order"
+          model_fusion:
+            model_count: 1
+            models:
+              - "平行四边形中点条件"
+            fusion_role: "single_model"
+          expected_blocker: "把固定顺序题误当成三种情况讨论。"
+          entry_point: "build_relation"
+          scaffold_level: "medium"
+          variation_depth: "same_structure"
+          complexity_note: "只做坐标加减。"
+          upgrade_rule: "能先判断哪两个点是对角顶点。"
+          fallback_move: "先写 $AC$ 和 $BD$ 的中点相同。"
+
+      - type: "problem"
+        id: "q2"
+        points: 10
+        stem_latex: |
+          已知 $A(1,1)$，$C(7,5)$，点 $B$ 在直线 $y=x$ 上，点 $D$ 在直线 $y=2x-5$ 上。
+          若四边形 $ABCD$ 是平行四边形，求点 $B,D$ 的坐标。
+        hints:
+          - content: "先求 $AC$ 的中点，再让 $BD$ 的中点也等于这个点。"
+        answer_space:
+          type: "steps"
+          height: "48mm"
+          step_count: 5
+        answer: "$B(5,5)$，$D(3,1)$"
+        explanation: "两个动点分别在函数图像上时，中点相同可以直接转成两个坐标方程。"
+        solution_steps:
+          - title: "求已知对角线中点"
+            content: "$AC$ 的中点是 $\\left(\\dfrac{1+7}{2},\\dfrac{1+5}{2}\\right)=(4,3)$。"
+          - title: "设动点"
+            content: "设 $B(t,t)$。因为 $BD$ 的中点也是 $(4,3)$，所以 $D=(8-t,6-t)$。"
+          - title: "代入 $D$ 的函数条件"
+            content: "$D$ 在 $y=2x-5$ 上，所以 $6-t=2(8-t)-5$，解得 $t=5$。"
+          - title: "写出坐标"
+            content: "$B(5,5)$，$D(3,1)$。"
+        teaching:
+          teaching_goal: "训练用对角线中点相同处理两个函数图像上的动点。"
+          source_relations:
+            - "parallelogram_fourth_point_fixed_order"
+            - "point_on_linear_function_forward"
+            - "patch:parallelogram_point_pair_on_linear_loci"
+          model_fusion:
+            model_count: 2
+            models:
+              - "平行四边形中点条件"
+              - "一次函数图像上点"
+            fusion_role: "target_transform"
+          relation_chain:
+            - step: 1
+              relation_id: "parallelogram_fourth_point_fixed_order"
+              inputs:
+                diagonal: "$AC$"
+              outputs:
+                midpoint: "$(4,3)$"
+              constraints_checked:
+                - "固定顺序 $ABCD$ 中 $AC$ 与 $BD$ 为对角线"
+            - step: 2
+              relation_id: "patch:parallelogram_point_pair_on_linear_loci"
+              consumes:
+                midpoint: "step1.outputs.midpoint"
+              inputs:
+                B_track: "$y=x$"
+                D_track: "$y=2x-5$"
+              outputs:
+                point_pair: "$B(5,5)$，$D(3,1)$"
+              constraints_checked:
+                - "两个动点都满足各自函数图像"
+          expected_blocker: "只设一个点后不知道另一个点怎么表示。"
+          entry_point: "build_relation"
+          scaffold_level: "medium"
+          variation_depth: "changed_representation"
+          complexity_note: "一元一次方程，结果为整数。"
+          upgrade_rule: "能由中点直接反写另一个端点坐标。"
+          fallback_move: "先把 $BD$ 的中点公式完整写出来。"
+
+      - type: "problem"
+        id: "q3"
+        points: 10
+        stem_latex: |
+          已知 $A(0,0)$，$B(5,0)$。从候选点
+          \[
+          C_1(2,4),\quad C_2(5,4),\quad C_3(5,5)
+          \]
+          中选取点 $C$，并按固定顺序构造平行四边形 $ABCD$。分别求使 $ABCD$ 成为矩形、菱形、正方形的点 $C$ 和对应的点 $D$。
+        hints:
+          - content: "先用平行四边形求 $D$，再分别检查直角、邻边相等、两者同时成立。"
+        answer_space:
+          type: "steps"
+          height: "58mm"
+          step_count: 6
+        answer: "矩形：$C_2(5,4),D_2(0,4)$ 和 $C_3(5,5),D_3(0,5)$；菱形：$C_1(2,4),D_1(-3,4)$ 和 $C_3(5,5),D_3(0,5)$；正方形：$C_3(5,5),D_3(0,5)$。"
+        explanation: "特殊平行四边形筛点时，要先有平行四边形，再用矩形的直角条件、菱形的邻边相等条件，正方形同时满足两者。"
+        solution_steps:
+          - title: "统一求对应 $D$"
+            content: "固定顺序下 $D=A+C-B$。所以 $C_1$ 对应 $D_1(-3,4)$，$C_2$ 对应 $D_2(0,4)$，$C_3$ 对应 $D_3(0,5)$。"
+          - title: "筛矩形"
+            content: "$AB$ 是水平线段。要使 $AB\\perp BC$，点 $C$ 的横坐标应与 $B$ 相同，即 $x_C=5$，所以 $C_2,C_3$ 都使四边形成为矩形。"
+          - title: "筛菱形"
+            content: "$AB=5$。$BC_1=\\sqrt{(2-5)^2+4^2}=5$，$BC_2=4$，$BC_3=5$，所以 $C_1,C_3$ 使四边形成为菱形。"
+          - title: "筛正方形"
+            content: "正方形要同时是矩形和菱形，只有 $C_3(5,5)$，对应 $D_3(0,5)$。"
+        teaching:
+          teaching_goal: "训练特殊平行四边形坐标条件的分层筛选。"
+          source_relations:
+            - "parallelogram_fourth_point_fixed_order"
+            - "rectangle_candidate_point_pairs_on_linear_locus"
+            - "rhombus_candidate_point_pairs_on_linear_locus"
+            - "patch:special_parallelogram_filter_from_candidates"
+          model_fusion:
+            model_count: 3
+            models:
+              - "平行四边形第四点"
+              - "矩形直角条件"
+              - "菱形边长条件"
+            fusion_role: "discriminator"
+          relation_chain:
+            - step: 1
+              relation_id: "parallelogram_fourth_point_fixed_order"
+              inputs:
+                candidates: "$C_1,C_2,C_3$"
+              outputs:
+                parallelogram_candidates: "$D_1,D_2,D_3$"
+              constraints_checked:
+                - "每个候选点先构成平行四边形"
+            - step: 2
+              relation_id: "patch:special_parallelogram_filter_from_candidates"
+              consumes:
+                parallelogram_candidates: "step1.outputs.parallelogram_candidates"
+              selector: "分别按直角、邻边相等、两者同时成立筛选"
+              outputs:
+                classified_points: "矩形、菱形、正方形对应候选"
+              constraints_checked:
+                - "正方形必须同时满足矩形与菱形条件"
+          expected_blocker: "把正方形只当成矩形，漏掉边长条件。"
+          entry_point: "solve_and_check"
+          scaffold_level: "medium"
+          variation_depth: "packaged_condition"
+          complexity_note: "只计算三组距离，均为整数或平方和。"
+          upgrade_rule: "能用同一批候选点分别做多个条件筛选。"
+          fallback_move: "先只列 $AB\\perp BC$ 和 $AB=BC$ 两个条件。"
+
+  - id: "answer-key"
+    title: "答案速查"
+    type: "answer_key"
+    visibility: "teacher"
+    blocks:
+      - type: "answers"
+        id: "answers-main"
+        items:
+          - number: "1"
+            answer: "$D(3,5)$"
+          - number: "2"
+            answer: "$B(5,5)$，$D(3,1)$"
+          - number: "3"
+            answer: "矩形：$C_2(5,4),D_2(0,4)$ 和 $C_3(5,5),D_3(0,5)$；菱形：$C_1(2,4),D_1(-3,4)$ 和 $C_3(5,5),D_3(0,5)$；正方形：$C_3(5,5),D_3(0,5)$。"

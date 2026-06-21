@@ -1,0 +1,61 @@
+meta:
+  title: "函数求点坐标条件专题 2：函数与坐标轴交点"
+  subtitle: "自适应练习"
+  grade: "八年级"
+  subject: "数学"
+  duration: "20分钟"
+  total_points: 30
+  version: "student"
+  source_artifacts:
+    structure_analysis: "artifacts/函数求点坐标条件专题/02-函数与坐标轴交点/01-structure-analysis.md"
+    explanation: "artifacts/函数求点坐标条件专题/02-函数与坐标轴交点/02-student-explanation.assignment.yaml"
+
+render:
+  template: "exam-zh-practice"
+  paper_size: "a4paper"
+  answer_key_position: "after_page_break"
+
+sections:
+  - id: "problems"
+    title: "练习题（每题 10 分，共 30 分）"
+    type: "practice"
+    visibility: "student"
+    blocks:
+      - type: "problem"
+        id: "p1"
+        points: 10
+        label: "第 1 题"
+        stem_latex: |
+          一次函数 $y=-2x+6$ 的图像分别与 $x$ 轴、$y$ 轴交于点 $A,B$。求点 $A,B$ 的坐标。
+        hints:
+          - content: "与 $x$ 轴交点令 $y=0$，与 $y$ 轴交点令 $x=0$。"
+        answer_space:
+          type: "steps"
+          height: "38mm"
+          step_count: 3
+
+      - type: "problem"
+        id: "p2"
+        points: 10
+        label: "第 2 题"
+        stem_latex: |
+          一次函数 $y=kx+b$ 的图像与 $x$ 轴交于 $A(-2,0)$，与 $y$ 轴交于 $B(0,3)$。求这个一次函数的解析式。
+        hints:
+          - content: "先由 $B(0,3)$ 读出 $b$，再把 $A(-2,0)$ 代入。"
+        answer_space:
+          type: "steps"
+          height: "42mm"
+          step_count: 4
+
+      - type: "problem"
+        id: "p3"
+        points: 10
+        label: "第 3 题"
+        stem_latex: |
+          已知直线 $l:y=-2x+6$ 与 $x$ 轴交于点 $A$，与 $y$ 轴交于点 $B$。点 $P$ 在直线 $y=x+1$ 上，且点 $P$ 的横坐标等于点 $A$ 的横坐标；点 $Q$ 在直线 $y=-x+8$ 上，且点 $Q$ 的纵坐标等于点 $B$ 的纵坐标。求点 $P,Q$ 的坐标。
+        hints:
+          - content: "先求 $A,B$，再把截距坐标当作后续求点的条件。"
+        answer_space:
+          type: "steps"
+          height: "52mm"
+          step_count: 5

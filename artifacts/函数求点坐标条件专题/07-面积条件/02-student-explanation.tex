@@ -1,0 +1,738 @@
+% preamble-exam-zh.tex — 极简讲解页共享 preamble
+% 目标：复刻「题目独立、提示轻框、路线箭头、主体双栏、答案轻收束」的讲义风格。
+
+\documentclass{exam-zh}
+
+% ---------- 基础配置 ----------
+\examsetup{
+  page/size = a4paper,
+  page/show-head = false,
+  page/show-foot = false,
+  sealline/show = false,
+  font = none,
+  math-font = none,
+}
+
+% ---------- 包 ----------
+\usepackage{geometry}
+\geometry{top=10mm,bottom=14mm,left=12mm,right=10mm}
+\AtBeginDocument{\newgeometry{top=10mm,bottom=14mm,left=12mm,right=10mm}}
+
+\usepackage{xcolor}
+\usepackage{needspace}
+\usepackage{enumitem}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{tcolorbox}
+\tcbuselibrary{skins,breakable}
+\usepackage{paracol}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{calc,intersections,angles,quotes,arrows.meta,decorations.markings,patterns.meta,backgrounds}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+
+% ---------- 打印/屏幕颜色切换 ----------
+% 用法：\documentclass[monochrome]{exam-zh} 可降级为灰度。
+% 注意：不要使用 \if@xxx 放在 makeatother 外部；这里改成普通条件名。
+\newif\ifeduprintcolor
+\eduprintcolortrue
+\makeatletter
+\@ifclasswith{exam-zh}{monochrome}{\eduprintcolorfalse}{}
+\makeatother
+
+% ---------- 语义颜色 ----------
+\ifeduprintcolor
+  \definecolor{edu-blue}{RGB}{31,62,126}
+  \definecolor{edu-blue-soft}{RGB}{232,238,250}
+  \definecolor{edu-blue-bg}{RGB}{248,250,254}
+  \definecolor{edu-ink}{RGB}{30,35,45}
+  \definecolor{edu-muted}{RGB}{118,124,136}
+  \definecolor{edu-line}{RGB}{209,218,235}
+  \definecolor{edu-soft-bg}{RGB}{250,251,253}
+  \definecolor{edu-red}{RGB}{168,58,58}
+  \definecolor{edu-red-bg}{RGB}{255,247,245}
+\else
+  \definecolor{edu-blue}{gray}{0.15}
+  \definecolor{edu-blue-soft}{gray}{0.90}
+  \definecolor{edu-blue-bg}{gray}{0.98}
+  \definecolor{edu-ink}{gray}{0.10}
+  \definecolor{edu-muted}{gray}{0.45}
+  \definecolor{edu-line}{gray}{0.82}
+  \definecolor{edu-soft-bg}{gray}{0.97}
+  \definecolor{edu-red}{gray}{0.28}
+  \definecolor{edu-red-bg}{gray}{0.97}
+\fi
+\colorlet{edu-diagram-muted}{edu-muted}
+
+% ---------- TikZ diagram semantic macros ----------
+\definecolor{edu-diagram-ink}{RGB}{17,24,39}
+\definecolor{edu-diagram-marker}{RGB}{220,38,38}
+\definecolor{edu-diagram-angle}{RGB}{5,150,105}
+\tikzset{
+  diagram point/.style={fill=edu-diagram-ink},
+  diagram tick/.style={draw=edu-diagram-marker,line width=0.9pt,line cap=round},
+  diagram segment/.style={draw=edu-diagram-ink,line cap=round},
+  point label/.style={inner sep=1pt},
+  condition label/.style={inner sep=1pt}
+}
+\providecommand{\DrawSegment}[3][]{\draw[diagram segment,#1] (#2) -- (#3);}
+\providecommand{\DrawDashedSegment}[3][]{\draw[diagram segment,dashed,#1] (#2) -- (#3);}
+\providecommand{\Triangle}[4][]{\path[#1] (#2) -- (#3) -- (#4) -- cycle;}
+\providecommand{\Quadrilateral}[5][]{\path[#1] (#2) -- (#3) -- (#4) -- (#5) -- cycle;}
+\providecommand{\PolygonPath}[2][]{\path[#1] #2 -- cycle;}
+\providecommand{\DiagramPointRadius}{0.052cm}
+\providecommand{\PointDot}[2][]{\fill[diagram point,#1] (#2) circle[radius=\DiagramPointRadius];}
+\providecommand{\PointLabel}[3][]{\node[point label,#1] at (#2) {#3};}
+\providecommand{\SegmentLabel}[4][]{\node[condition label,#1] at ($(#2)!0.5!(#3)$) {#4};}
+\providecommand{\CoordinateTag}[3][]{\node[condition label,#1] at (#2) {#3};}
+\providecommand{\AngleMark}[4][]{\pic[draw=edu-diagram-angle,line width=0.9pt,angle radius=0.48cm,#1] {angle=#2--#3--#4};}
+\providecommand{\AngleLabel}[5][]{\pic["{#5}",draw=none,angle radius=0.64cm,#1] {angle=#2--#3--#4};}
+\providecommand{\RightAngleMark}[4][]{\pic[draw=edu-diagram-marker,line width=0.9pt,angle radius=0.28cm,#1] {right angle=#2--#3--#4};}
+\providecommand{\EqualTick}[3][]{%
+  \path[postaction={decorate},decoration={markings,mark=at position .5 with {\draw[diagram tick,#1] (0pt,-4pt) -- (0pt,4pt);}}] (#2) -- (#3);%
+}
+\providecommand{\DoubleEqualTick}[3][]{%
+  \path[postaction={decorate},decoration={markings,mark=at position .46 with {\draw[diagram tick,#1] (0pt,-4pt) -- (0pt,4pt);},mark=at position .54 with {\draw[diagram tick,#1] (0pt,-4pt) -- (0pt,4pt);}}] (#2) -- (#3);%
+}
+\providecommand{\TripleEqualTick}[3][]{%
+  \path[postaction={decorate},decoration={markings,mark=at position .43 with {\draw[diagram tick,#1] (0pt,-4pt) -- (0pt,4pt);},mark=at position .5 with {\draw[diagram tick,#1] (0pt,-4pt) -- (0pt,4pt);},mark=at position .57 with {\draw[diagram tick,#1] (0pt,-4pt) -- (0pt,4pt);}}] (#2) -- (#3);%
+}
+\providecommand{\ParallelMark}[3][]{\EqualTick[#1]{#2}{#3}}
+\providecommand{\NamedSegmentPath}[3]{\path[name path=#1] (#2) -- (#3);}
+\providecommand{\IntersectPaths}[3]{\path[name intersections={of=#2 and #3, by=#1}];}
+
+% ---------- 全局排版 ----------
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\linespread{1.16}
+\renewcommand{\arraystretch}{1.15}
+
+% ctex 通常提供 \kaishu；这里用它做教师旁白感。
+\newcommand{\edukai}{\kaishu}
+
+% ---------- 顶部元信息 ----------
+\newcommand{\eduTopBar}[2]{%
+  \noindent
+  \begin{tabularx}{\linewidth}{@{}Xr@{}}
+    {\color{edu-blue}\bfseries #1} &
+    {\color{edu-blue}\bfseries #2}
+  \end{tabularx}
+  \vspace{8mm}
+}
+
+% ---------- 轻标题体系 ----------
+% 只有真正的大结构才用它；不要给提示/路线滥用标题。
+\newcommand{\eduSectionTitle}[1]{%
+  \needspace{5\baselineskip}%
+  \vspace{2mm}
+  {\color{edu-blue}\bfseries\large #1}\par
+  \vspace{3mm}
+}
+
+\newcommand{\eduSubTitle}[1]{%
+  \needspace{4\baselineskip}%
+  \vspace{1mm}
+  {\color{edu-blue}\bfseries #1}\par
+  \vspace{1mm}
+}
+
+% ---------- 小问题干：复用 exam (1)(2)(3) 格式 ----------
+\newenvironment{eduSubQuestionItem}[1]{%
+  \needspace{4\baselineskip}%
+  \vspace{2mm}
+  \par\noindent
+  \hangindent=8mm\hangafter=1
+  {\color{edu-blue}\bfseries #1}\enspace
+  \begingroup
+  \color{edu-ink}
+}{%
+  \endgroup
+  \par
+  \vspace{3mm}
+}
+
+% ---------- 辅助信息条（解题流程/关键想法/思考）楷体 ----------
+\newenvironment{eduAuxItem}[1]{%
+  \needspace{4\baselineskip}%
+  \vspace{2mm}
+  \par\noindent
+  \hangindent=8mm\hangafter=1
+  {\color{edu-blue}\edukai $\triangleright$~#1}\enspace
+  \begingroup
+  \color{edu-ink}
+  \edukai
+}{%
+  \endgroup
+  \par
+  \vspace{4mm}
+}
+
+\newcommand{\eduColumnTitle}[2]{%
+  {\color{edu-blue}\bfseries #1\hspace{1.5mm}#2}\par
+  \vspace{2.5mm}
+}
+
+% ---------- 图标：不用外部 icon 字体，保证可移植 ----------
+\newcommand{\eduIconBulb}{\(\circ\)}
+\newcommand{\eduIconBook}{\(\square\)}
+\newcommand{\eduIconCheck}{\(\checkmark\)}
+\newcommand{\eduIconPin}{\(\diamond\)}
+\newcommand{\eduIconNote}{\(\triangleright\)}
+
+% ---------- 题目区 ----------
+% 题目区是页面入口：弱标签 + 一条长蓝线 + 大题干。
+\newenvironment{eduProblemBlock}[1][题目]{%
+  \needspace{8\baselineskip}
+  {\small\color{edu-muted}#1}\par
+  \vspace{1.5mm}
+  {\color{edu-blue}\hrule height 0.55pt}
+  \vspace{4.5mm}
+  \begingroup
+  \color{edu-ink}
+  \large
+  \setlength{\parskip}{2.2mm}
+  \linespread{1.20}\selectfont
+}{%
+  \par
+  \endgroup
+  \vspace{6mm}
+}
+
+\newenvironment{eduSubQuestions}{%
+  \begin{enumerate}[
+    label=(\arabic*),
+    leftmargin=8mm,
+    itemsep=2.0mm,
+    topsep=2.0mm,
+    parsep=0pt
+  ]
+}{%
+  \end{enumerate}
+}
+
+% ---------- 读题提示：轻框，不做同级标题 ----------
+\newtcolorbox{eduReadTipBox}{
+  enhanced,
+  breakable,
+  colback=white,
+  colframe=edu-blue!45,
+  boxrule=0.45pt,
+  arc=1.6mm,
+  left=10mm,
+  right=4mm,
+  top=5mm,
+  bottom=5mm,
+  before skip=1mm,
+  after skip=7mm,
+  fontupper=\edukai\normalsize,
+  colupper=edu-ink,
+  overlay={
+    \node[anchor=north west, text=edu-blue] at ([xshift=3.2mm,yshift=-3.2mm]frame.north west)
+    {\small\eduIconNote};
+  }
+}
+
+\newenvironment{eduTipList}{%
+  \begin{itemize}[
+    label=\textbullet,
+    leftmargin=5mm,
+    itemsep=1.2mm,
+    topsep=0pt,
+    parsep=0pt
+  ]
+}{%
+  \end{itemize}
+}
+
+% ---------- 解题路线：虚线框 + 文字箭头 ----------
+\newenvironment{eduRouteFlow}{%
+  \needspace{4\baselineskip}%
+  \vspace{1mm}
+  \begin{center}
+  \normalsize
+}{%
+  \end{center}
+  \vspace{7mm}
+}
+\newcommand{\eduRouteStep}[1]{%
+  {\color{edu-ink}#1}%
+}
+\newcommand{\eduRouteArrow}{%
+  \;$\boldsymbol{\to}$\;%
+}
+
+% ---------- 主体讲解：使用 paracol 实现跨页自适应双栏 ----------
+\newenvironment{eduDualExplain}{%
+  \needspace{6\baselineskip}% 防止标题孤行
+  \columnratio{0.26, 0.74}%
+  \setlength{\columnsep}{8mm}%
+  \columnseprule=0.45pt%
+  \colseprulecolor{edu-blue}%
+  \begin{paracol}{2}% 开启双栏
+}{%
+  \end{paracol}% 结束双栏
+  \vspace{5mm}
+}
+
+\newenvironment{eduExplainLeft}{%
+  \setlength{\linewidth}{\columnwidth}%
+  \hsize=\columnwidth
+  \normalsize\color{edu-ink}%
+}{%
+  \switchcolumn
+}
+
+\newcommand{\eduColumnDivider}{}
+
+\newenvironment{eduExplainRight}{%
+  \setlength{\linewidth}{\columnwidth}%
+  \hsize=\columnwidth
+  \normalsize\color{edu-ink}%
+}{%
+}
+
+\newtcolorbox{eduSideHintBox}[1]{
+  enhanced,
+  breakable,
+  colback=edu-blue-bg,
+  colframe=edu-line,
+  boxrule=0.35pt,
+  borderline west={1.5pt}{0pt}{edu-blue},
+  arc=0.8mm,
+  left=2.4mm,
+  right=2.4mm,
+  top=2mm,
+  bottom=2mm,
+  before skip=1mm,
+  after skip=1.5mm,
+  title={\color{edu-blue}\bfseries\small #1},
+  coltitle=edu-blue,
+  attach title to upper={\par\vspace{0.7mm}},
+  fontupper=\small
+}
+
+\newtcolorbox{eduSideMistakeBox}[1]{
+  enhanced,
+  breakable,
+  colback=edu-red-bg,
+  colframe=edu-red!35,
+  boxrule=0.35pt,
+  borderline west={1.5pt}{0pt}{edu-red},
+  arc=0.8mm,
+  left=2.4mm,
+  right=2.4mm,
+  top=2mm,
+  bottom=2mm,
+  before skip=1mm,
+  after skip=1.5mm,
+  title={\color{edu-red}\bfseries\small #1},
+  coltitle=edu-red,
+  attach title to upper={\par\vspace{0.7mm}},
+  fontupper=\small
+}
+
+\newtcolorbox{eduSideNoteBox}[1]{
+  enhanced,
+  breakable,
+  colback=edu-soft-bg,
+  colframe=edu-line,
+  boxrule=0.35pt,
+  borderline west={1.5pt}{0pt}{edu-muted},
+  arc=0.8mm,
+  left=2.4mm,
+  right=2.4mm,
+  top=2mm,
+  bottom=2mm,
+  before skip=1mm,
+  after skip=1.5mm,
+  title={\color{edu-muted}\bfseries\small #1},
+  coltitle=edu-muted,
+  attach title to upper={\par\vspace{0.7mm}},
+  fontupper=\small
+}
+
+\newcommand{\eduSideHint}[2]{%
+  \begin{eduSideHintBox}{#1}#2\end{eduSideHintBox}%
+}
+\newcommand{\eduSideMistake}[2]{%
+  \begin{eduSideMistakeBox}{#1}#2\end{eduSideMistakeBox}%
+}
+\newcommand{\eduSideNote}[2]{%
+  \begin{eduSideNoteBox}{#1}#2\end{eduSideNoteBox}%
+}
+
+\newcommand{\eduExplainStep}[3]{%
+  \needspace{3\baselineskip}%
+  \vspace{1.2mm}%
+  {\color{edu-blue}\bfseries step#1.\enspace #2}\par
+  \vspace{0.8mm}%
+  \begingroup
+  \color{edu-ink}#3\par
+  \endgroup
+  \vspace{2.2mm}%
+}
+
+\newenvironment{eduNumberList}{%
+  \begin{enumerate}[
+    label=\arabic*.,
+    leftmargin=6mm,
+    itemsep=4.8mm,
+    topsep=0pt,
+    parsep=0pt
+  ]
+}{%
+  \end{enumerate}
+}
+
+\newenvironment{eduBulletList}{%
+  \begin{itemize}[
+    label=\textbullet,
+    leftmargin=5mm,
+    itemsep=1.2mm,
+    topsep=0pt,
+    parsep=0pt
+  ]
+}{%
+  \end{itemize}
+}
+
+% ---------- 底部双栏：答案 + 方法提醒 ----------
+\newenvironment{eduBottomGrid}{%
+  \columnratio{0.32, 0.68}%
+  \setlength{\columnsep}{11mm}%
+  \columnseprule=0pt%
+  \begin{paracol}{2}%
+}{%
+  \end{paracol}%
+}
+
+\newenvironment{eduSummaryLeft}{%
+}{%
+}
+
+\newcommand{\eduSummaryDivider}{%
+  \switchcolumn
+}
+
+\newenvironment{eduSummaryRight}{%
+}{%
+}
+
+% ---------- 答案/方法提醒：轻量收束 ----------
+\newtcolorbox{eduSummaryBlock}[2]{
+  enhanced,
+  breakable,
+  colback=edu-blue-bg,
+  colframe=edu-line,
+  boxrule=0.45pt,
+  arc=1.2mm,
+  left=3.5mm,
+  right=3.5mm,
+  top=3mm,
+  bottom=3mm,
+  before skip=1mm,
+  after skip=2.5mm,
+  title={\color{edu-blue}\bfseries #1\hspace{1.5mm}#2},
+  coltitle=edu-blue,
+  attach title to upper={\par\vspace{1.5mm}},
+  fontupper=\normalsize
+}
+
+% ---------- 例题单栏解答卡片 ----------
+\newtcolorbox{eduSolutionBox}[1]{
+  enhanced,
+  breakable,
+  colback=white,
+  colframe=edu-blue!40,
+  boxrule=0.55pt,
+  arc=1.2mm,
+  left=4mm,
+  right=4mm,
+  top=3.5mm,
+  bottom=3.5mm,
+  before skip=2mm,
+  after skip=3mm,
+  title={\color{edu-blue}\bfseries \eduIconBook\hspace{1.5mm}#1},
+  coltitle=edu-blue,
+  attach title to upper={\par\vspace{1.5mm}},
+  fontupper=\normalsize
+}
+
+% ---------- 变式训练：完整题目 + 学生留白 ----------
+\newtcolorbox{eduVariationTraining}[1]{
+  enhanced,
+  breakable,
+  colback=white,
+  colframe=edu-blue!45,
+  boxrule=0.5pt,
+  borderline west={1.8pt}{0pt}{edu-blue},
+  arc=1.2mm,
+  left=4mm,
+  right=4mm,
+  top=3.2mm,
+  bottom=3.2mm,
+  before skip=2mm,
+  after skip=4mm,
+  title={\color{edu-blue}\bfseries #1},
+  coltitle=edu-blue,
+  attach title to upper={\par\vspace{1.8mm}},
+  fontupper=\normalsize,
+  colupper=edu-ink
+}
+
+\newenvironment{eduPlainList}{%
+  \begin{enumerate}[
+    label=(\arabic*),
+    leftmargin=7mm,
+    itemsep=1.2mm,
+    topsep=0pt,
+    parsep=0pt
+  ]
+}{%
+  \end{enumerate}
+}
+
+% ---------- 兼容旧 block 的轻量盒子 ----------
+\newtcolorbox{eduSoftBox}{
+  enhanced,
+  breakable,
+  colback=edu-soft-bg,
+  colframe=edu-line,
+  boxrule=0.35pt,
+  arc=1mm,
+  left=3mm,
+  right=3mm,
+  top=2mm,
+  bottom=2mm,
+  before skip=1mm,
+  after skip=2mm,
+  fontupper=\small
+}
+
+\newtcolorbox{eduMistakeBox}{
+  enhanced,
+  breakable,
+  colback=edu-red-bg,
+  colframe=edu-red!40,
+  boxrule=0.35pt,
+  arc=1mm,
+  left=3mm,
+  right=3mm,
+  top=2.5mm,
+  bottom=2.5mm,
+  before skip=1mm,
+  after skip=2mm,
+  fontupper=\normalsize
+}
+
+\newtcolorbox{eduLegacySolution}{
+  enhanced,
+  breakable,
+  colback=edu-soft-bg,
+  colframe=edu-line,
+  boxrule=0.35pt,
+  arc=1mm,
+  left=3mm,
+  right=3mm,
+  top=2mm,
+  bottom=2mm,
+  before skip=-2mm,
+  after skip=4mm,
+  fontupper=\small
+}
+
+\newtcolorbox{eduTeacherNote}{
+  enhanced,
+  breakable,
+  colback=edu-soft-bg,
+  colframe=edu-line,
+  boxrule=0pt,
+  borderline west={1.5pt}{0pt}{edu-muted},
+  left=2.5mm,
+  right=2.5mm,
+  top=2mm,
+  bottom=2mm,
+  before skip=1mm,
+  after skip=2mm,
+  fontupper=\footnotesize,
+  colupper=edu-muted
+}
+
+% ---------- 答题区 ----------
+\newcommand{\answerarea}[1][40mm]{%
+  \vspace{3mm}%
+  \begin{tcolorbox}[
+    enhanced,
+    breakable,
+    colback=white,
+    colframe=edu-line,
+    boxrule=0.55pt,
+    arc=0.8mm,
+    height=#1,
+    valign=top,
+  ]
+  \end{tcolorbox}%
+}
+
+\newsavebox{\diagramtikzbox}
+
+\newenvironment{diagramcoltikz}[2]{%
+  \begin{minipage}[t]{#1}
+    \vspace{0pt}\centering
+    \def\diagramcaption{#2}%
+    \begin{lrbox}{\diagramtikzbox}%
+}{%
+    \end{lrbox}%
+    \usebox{\diagramtikzbox}%
+    \ifx\diagramcaption\empty\else
+      \par\vspace{1mm}{\scriptsize\color{edu-diagram-muted}\diagramcaption}
+    \fi
+  \end{minipage}%
+}
+
+\newenvironment{diagramrowtikz}[3]{%
+  \begin{minipage}[t]{#1}
+    \vspace{0pt}\centering
+    \def\diagramlabel{#2}%
+    \def\diagramcaption{#3}%
+    \begin{lrbox}{\diagramtikzbox}%
+}{%
+    \end{lrbox}%
+    \usebox{\diagramtikzbox}%
+    \ifx\diagramlabel\empty\else
+      \par\vspace{1mm}{\scriptsize\bfseries\diagramlabel}
+    \fi
+    \ifx\diagramcaption\empty\else
+      \par\vspace{0.5mm}{\scriptsize\color{edu-diagram-muted}\diagramcaption}
+    \fi
+  \end{minipage}%
+}
+
+\newenvironment{answerareawithdiagramtikz}[3]{%
+  \par\vspace{3mm}%
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-#2-6mm\relax}
+    \vspace{0pt}\rule{0pt}{#1}
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{#2}{#3}
+}{%
+  \end{diagramcoltikz}
+  \par\vspace{2mm}%
+}
+
+\examsetup{
+  question/show-answer = true,
+  fillin/show-answer = true,
+  solution/show-solution = show-stay,
+}
+
+\begin{document}
+
+\eduSectionTitle{模型七：面积条件怎样变成坐标方程}
+
+
+\begin{eduSolutionBox}{核心结论：面积给的是距离方程}
+  \begingroup
+  \setlength{\parskip}{2.5mm}
+三角形面积公式：$S=\dfrac12\times \text{底}\times \text{高}$。\par
+当底边在 $x$ 轴或水平线上时，高通常是纵坐标差的绝对值。\par
+点在一次函数 $y=kx+b$ 上时，先设 $P(t,kt+b)$，再把面积条件写成关于 $t$ 的方程。\par
+面积反求点常出现两个候选点；题目没有筛选条件时，要保留所有可能点。\par
+  \endgroup
+\end{eduSolutionBox}
+
+
+
+
+\begin{eduProblemBlock}[例题 1]
+已知 $A(1,0)$，$B(5,0)$，点 $P$ 在一次函数 $y=2x-1$ 的图像上。
+若 $\triangle ABP$ 的面积为 $10$，求点 $P$ 的坐标。
+
+\end{eduProblemBlock}
+
+
+
+
+
+\begin{eduAuxItem}{思路导航}
+设函数图像上的点$\;\to\;$用面积反求高$\;\to\;$解绝对值方程$\;\to\;$写出候选点\end{eduAuxItem}
+
+
+
+
+\begin{eduSubQuestionItem}{例题 1}
+由定面积求函数图像上的动点。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{小贴士}
+        \eduSideHint{先看底边}{$A,B$ 都在 $x$ 轴上，所以把 $AB$ 当底边最省事。}
+        \eduSideMistake{别漏绝对值}{点可以在 $x$ 轴上方，也可以在下方，距离要写成绝对值。}
+  \end{eduExplainLeft}
+
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{解答}
+      \eduExplainStep{1}{设函数图像上的点}{设 $P(t,2t-1)$。}
+      \eduExplainStep{2}{用面积反求高}{$AB=4$，点 $P$ 到 $x$ 轴的距离为 $|2t-1|$，所以 $\dfrac12\times4\times|2t-1|=10$。}
+      \eduExplainStep{3}{解绝对值方程}{$|2t-1|=5$，所以 $t=3$ 或 $t=-2$。}
+      \eduExplainStep{4}{写出候选点}{当 $t=3$ 时 $P(3,5)$；当 $t=-2$ 时 $P(-2,-5)$。}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduProblemBlock}[例题 2]
+已知 $A(0,0)$，$B(6,0)$，$C(2,4)$，点 $P$ 在一次函数 $y=x-2$ 的图像上。
+若 $\triangle ABP$ 与 $\triangle ABC$ 的面积相等，求所有可能的点 $P$。
+
+\end{eduProblemBlock}
+
+
+
+
+
+\begin{eduAuxItem}{思路导航}
+先求参照面积$\;\to\;$设动点并列方程$\;\to\;$分两侧求点$\;\to\;$写出答案并验算\end{eduAuxItem}
+
+
+
+
+\begin{eduSubQuestionItem}{例题 2}
+等面积条件怎样转成两侧候选点？\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{小贴士}
+        \eduSideHint{等面积先等高}{同一底边下，面积相等就是到这条底边的距离相等。}
+        \eduSideMistake{两侧都要看}{同样的距离可能在底边上方，也可能在底边下方。}
+  \end{eduExplainLeft}
+
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{解答}
+      \eduExplainStep{1}{先求参照面积}{$AB=6$，点 $C$ 到 $x$ 轴的距离为 $4$，所以 $S_{\triangle ABC}=\dfrac12\times6\times4=12$。}
+      \eduExplainStep{2}{设动点并列方程}{设 $P(t,t-2)$，则 $\dfrac12\times6\times|t-2|=12$。}
+      \eduExplainStep{3}{分两侧求点}{$|t-2|=4$，解得 $t=6$ 或 $t=-2$。}
+      \eduExplainStep{4}{写出答案并验算}{所以 $P(6,4)$ 或 $P(-2,-4)$，两点到 $AB$ 所在直线的距离都为 $4$。}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduMistakeBox}
+\eduSubTitle{易错提醒}面积条件最容易漏的是绝对值和筛选。先写距离方程，再看题目是否给了象限、线段范围或同侧条件。\end{eduMistakeBox}
+
+
+
+
+\begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
+\begin{eduBulletList}
+  \item 第一步找底边，优先选水平、竖直或已知长度的边。  \item 第二步把动点写成 $P(t,f(t))$。  \item 第三步列面积方程，保留所有候选点并逐一验算。\end{eduBulletList}
+\end{eduSummaryBlock}
+
+
+
+
+\end{document}

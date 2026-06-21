@@ -1,0 +1,61 @@
+meta:
+  title: "函数求点坐标条件专题 3：两个函数交于一点"
+  subtitle: "自适应练习"
+  grade: "八年级"
+  subject: "数学"
+  duration: "20分钟"
+  total_points: 30
+  version: "student"
+  source_artifacts:
+    structure_analysis: "artifacts/函数求点坐标条件专题/03-两个函数交于一点/01-structure-analysis.md"
+    explanation: "artifacts/函数求点坐标条件专题/03-两个函数交于一点/02-student-explanation.assignment.yaml"
+
+render:
+  template: "exam-zh-practice"
+  paper_size: "a4paper"
+  answer_key_position: "after_page_break"
+
+sections:
+  - id: "problems"
+    title: "练习题（每题 10 分，共 30 分）"
+    type: "practice"
+    visibility: "student"
+    blocks:
+      - type: "problem"
+        id: "p1"
+        points: 10
+        label: "第 1 题"
+        stem_latex: |
+          一次函数 $y=2x+1$ 与一次函数 $y=-x+7$ 的图像交于点 $P$。求点 $P$ 的坐标。
+        hints:
+          - content: "交点处两个函数的 $y$ 值相等。"
+        answer_space:
+          type: "steps"
+          height: "38mm"
+          step_count: 3
+
+      - type: "problem"
+        id: "p2"
+        points: 10
+        label: "第 2 题"
+        stem_latex: |
+          一次函数 $y=mx+3$ 与一次函数 $y=-x+9$ 的图像交于点 $P$。已知点 $P$ 的纵坐标为 $5$，求 $m$ 的值和点 $P$ 的坐标。
+        hints:
+          - content: "先用已知纵坐标在参数较少的函数上求横坐标。"
+        answer_space:
+          type: "steps"
+          height: "46mm"
+          step_count: 4
+
+      - type: "problem"
+        id: "p3"
+        points: 10
+        label: "第 3 题"
+        stem_latex: |
+          设 $f(x)=x+1$，$g(x)=-x+b$。已知当 $x<3$ 时，$f(x)<g(x)$；当 $x>3$ 时，$f(x)>g(x)$。求 $b$ 的值，并求两个函数图像的交点坐标。
+        hints:
+          - content: "不等式大小关系发生改变的分界点，就是两个函数值相等的位置。"
+        answer_space:
+          type: "steps"
+          height: "50mm"
+          step_count: 4

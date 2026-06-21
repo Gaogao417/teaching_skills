@@ -1,0 +1,145 @@
+meta:
+  title: "函数求点坐标条件专题：对称点与中点条件"
+  subtitle: "教师版"
+  grade: "八年级"
+  subject: "数学"
+  duration: "20分钟"
+  total_points: 30
+  version: "teacher"
+  source_artifacts:
+    structure_analysis: "artifacts/函数求点坐标条件专题/05-对称点与中点条件/01-structure-analysis.md"
+    explanation: "artifacts/函数求点坐标条件专题/05-对称点与中点条件/02-student-explanation.assignment.yaml"
+
+render:
+  template: "exam-zh-practice"
+  paper_size: "a4paper"
+  answer_key_position: "after_page_break"
+
+sections:
+  - id: "practice"
+    title: "一、核心练习（每题 10 分，共 30 分）"
+    type: "practice"
+    visibility: "both"
+    blocks:
+      - type: "problem"
+        id: "q1"
+        points: 10
+        stem_latex: |
+          点 $A(3,-4)$ 关于 $y$ 轴的对称点为 $B$，点 $B$ 关于原点的对称点为 $C$。
+          求点 $B$、$C$ 的坐标。
+        hints:
+          - content: "关于 $y$ 轴对称变横坐标，关于原点对称两个坐标都变。"
+        answer_space:
+          type: "steps"
+          height: "35mm"
+          step_count: 3
+        answer: "$B(-3,-4)$，$C(3,4)$"
+        explanation: "关于 $y$ 轴对称，横坐标相反，纵坐标不变；关于原点对称，横、纵坐标都相反。"
+        solution_steps:
+          - title: "求B"
+            content: "$A(3,-4)$ 关于 $y$ 轴对称，得到 $B(-3,-4)$。"
+          - title: "求C"
+            content: "$B(-3,-4)$ 关于原点对称，得到 $C(3,4)$。"
+        teaching:
+          teaching_goal: "训练把不同对称条件转成坐标符号变化。"
+          source_relations: ["coordinate_symmetry_transform_point"]
+          model_fusion:
+            model_count: 1
+            models: ["function_coordinate_conditions"]
+            fusion_role: "target_transform"
+          expected_blocker: "混淆关于 $x$ 轴、$y$ 轴和原点对称时哪些坐标变号。"
+          entry_point: "find_entry"
+          scaffold_level: "high"
+          variation_depth: "changed_question"
+          complexity_note: "无函数代入，先稳住坐标规则。"
+          upgrade_rule: "能用一句话说明每种对称的变号规则。"
+          fallback_move: "分别写出“变横”“变纵”“都变”。"
+
+      - type: "problem"
+        id: "q2"
+        points: 10
+        stem_latex: |
+          已知点 $A(-2,5)$，点 $B$ 与点 $A$ 的中点是 $M(1,2)$。
+          求点 $B$ 的坐标。
+        hints:
+          - content: "中点的横坐标、纵坐标分别是两端点坐标的平均数。"
+        answer_space:
+          type: "steps"
+          height: "35mm"
+          step_count: 4
+        answer: "$B(4,-1)$"
+        explanation: "设 $B(x,y)$，由中点公式得 $\\dfrac{-2+x}{2}=1$，$\\dfrac{5+y}{2}=2$，解得 $x=4$，$y=-1$。"
+        solution_steps:
+          - title: "设未知点"
+            content: "设 $B(x,y)$。"
+          - title: "列中点公式"
+            content: "$M(1,2)$ 是 $A(-2,5)$ 与 $B(x,y)$ 的中点，所以 $\\dfrac{-2+x}{2}=1$，$\\dfrac{5+y}{2}=2$。"
+          - title: "解坐标"
+            content: "解得 $x=4$，$y=-1$，故 $B(4,-1)$。"
+        teaching:
+          teaching_goal: "训练已知中点反求另一端点。"
+          source_relations: ["midpoint_condition_to_target_point"]
+          model_fusion:
+            model_count: 1
+            models: ["function_coordinate_conditions"]
+            fusion_role: "target_transform"
+          expected_blocker: "把中点当成端点，或只会正向求中点。"
+          entry_point: "build_relation"
+          scaffold_level: "medium"
+          variation_depth: "reverse_construct"
+          complexity_note: "两个一元一次方程，数值为整数。"
+          upgrade_rule: "能不用公式也能说出另一端点相对中点再走同样远。"
+          fallback_move: "先设 $B(x,y)$，把横纵坐标分开列式。"
+
+      - type: "problem"
+        id: "q3"
+        points: 10
+        stem_latex: |
+          点 $A(a,4)$ 在一次函数 $y=2x-2$ 的图像上。点 $B$ 与点 $A$ 关于 $x$ 轴对称，点 $C$ 是 $A$、$B$ 的中点。
+          求点 $C$ 的坐标。
+        hints:
+          - content: "先由函数图像求 $a$，再处理对称和中点。"
+        answer_space:
+          type: "steps"
+          height: "44mm"
+          step_count: 5
+        answer: "$C(3,0)$"
+        explanation: "由 $4=2a-2$ 得 $a=3$，所以 $A(3,4)$。关于 $x$ 轴对称得 $B(3,-4)$，中点 $C\\left(\\dfrac{3+3}{2},\\dfrac{4+(-4)}{2}\\right)=(3,0)$。"
+        solution_steps:
+          - title: "用函数条件求A"
+            content: "点 $A(a,4)$ 在 $y=2x-2$ 上，代入得 $4=2a-2$，所以 $a=3$，$A(3,4)$。"
+          - title: "求对称点B"
+            content: "关于 $x$ 轴对称，横坐标不变，纵坐标相反，所以 $B(3,-4)$。"
+          - title: "求中点C"
+            content: "$C\\left(\\dfrac{3+3}{2},\\dfrac{4+(-4)}{2}\\right)=(3,0)$。"
+        teaching:
+          teaching_goal: "训练函数图像条件先定点，再接对称与中点条件。"
+          source_relations: ["point_on_linear_function_forward", "coordinate_symmetry_transform_point", "midpoint_condition_to_target_point"]
+          model_fusion:
+            model_count: 2
+            models: ["linear_function_point", "function_coordinate_conditions"]
+            fusion_role: "prerequisite"
+          expected_blocker: "题面条件较多时，不知道先由函数求出完整点坐标。"
+          entry_point: "solve_and_check"
+          scaffold_level: "medium"
+          variation_depth: "packaged_condition"
+          complexity_note: "一步函数代入，加对称和中点公式。"
+          upgrade_rule: "能把“点在图像上”排在解题第一步。"
+          fallback_move: "先只看 $A(a,4)$ 和 $y=2x-2$。"
+
+  - id: "answer-key"
+    title: "答案速查"
+    type: "answer_key"
+    visibility: "teacher"
+    layout:
+      break_before: true
+    blocks:
+      - type: "answers"
+        id: "answers-main"
+        items:
+          - number: "1"
+            answer: "$B(-3,-4)$，$C(3,4)$"
+          - number: "2"
+            answer: "$B(4,-1)$"
+          - number: "3"
+            answer: "$C(3,0)$"

@@ -1,0 +1,116 @@
+meta:
+  title: "函数求点坐标条件专题 3：两个函数交于一点"
+  subtitle: "学生讲义"
+  grade: "八年级"
+  subject: "数学"
+  version: "student"
+  source_artifacts:
+    structure_analysis: "artifacts/函数求点坐标条件专题/03-两个函数交于一点/01-structure-analysis.md"
+
+render:
+  template: "exam-zh-explanation"
+  paper_size: "a4paper"
+
+sections:
+  - id: "model-intersection"
+    title: "模型三：两个函数交点与相等关系"
+    show_title: true
+    type: "explanation"
+    visibility: "student"
+    blocks:
+      - type: "solution"
+        id: "intersection-knowledge"
+        title: "核心结论：交点处两个函数值相等"
+        items:
+          - latex: '点 $P$ 是 $y=f(x)$ 与 $y=g(x)$ 的交点，说明 $P$ 同时在两条图像上。'
+          - latex: '求交点横坐标时，先令 $f(x)=g(x)$。'
+          - latex: '求出 $x$ 后，代回任意一个函数求 $y$。'
+          - latex: '若不等式大小关系在某个 $x$ 两侧改变，这个 $x$ 通常就是交点横坐标。'
+
+      - type: "problemcard"
+        id: "example-1"
+        label: "例题 1"
+        stem_latex: |
+          一次函数 $y=2x+1$ 与一次函数 $y=-x+7$ 的图像交于点 $P$。求点 $P$ 的坐标。
+
+      - type: "route"
+        id: "route-example-1"
+        steps:
+          - id: "ex1-equal"
+            latex: "列交点方程"
+            content_latex: "交点处两个函数值相等，所以 $2x+1=-x+7$。"
+          - id: "ex1-x"
+            latex: "求横坐标"
+            content_latex: "解得 $3x=6$，所以 $x=2$。"
+          - id: "ex1-y"
+            latex: "求纵坐标并验算"
+            content_latex: "代入 $y=2x+1$ 得 $y=5$；代入 $y=-x+7$ 也得 $5$，所以 $P(2,5)$。"
+
+      - type: "dual_explanation"
+        id: "solution-example-1"
+        label: "例题 1"
+        stem_latex: "求两个一次函数图像的交点坐标。"
+        side_title: "小贴士"
+        side_items:
+          - kind: "hint"
+            title: "同一个点"
+            content_latex: "交点不是两边各求一个点，而是同一个 $x$ 对应同一个 $y$。"
+          - kind: "mistake"
+            title: "先求横坐标"
+            content_latex: "令两个解析式相等得到的是交点横坐标，不要把它直接当纵坐标。"
+        solution_title: "解答"
+        solution_step_ids:
+          - "ex1-equal"
+          - "ex1-x"
+          - "ex1-y"
+
+      - type: "problemcard"
+        id: "example-2"
+        label: "例题 2"
+        stem_latex: |
+          设 $f(x)=x+1$，$g(x)=-x+b$。已知当 $x<3$ 时，$f(x)<g(x)$；当 $x>3$ 时，$f(x)>g(x)$。求 $b$ 的值，并求两个函数图像的交点坐标。
+
+      - type: "route"
+        id: "route-example-2"
+        steps:
+          - id: "ex2-boundary"
+            latex: "确定分界点"
+            content_latex: "大小关系在 $x=3$ 两侧改变，说明 $x=3$ 是两函数值相等的位置。"
+          - id: "ex2-parameter"
+            latex: "列相等关系求参数"
+            content_latex: "$f(3)=4$，$g(3)=-3+b$。由 $f(3)=g(3)$ 得 $4=-3+b$，所以 $b=7$。"
+          - id: "ex2-point"
+            latex: "写交点"
+            content_latex: "交点横坐标为 $3$，纵坐标为 $4$，所以交点为 $(3,4)$。"
+
+      - type: "dual_explanation"
+        id: "solution-example-2"
+        label: "例题 2"
+        stem_latex: "由不等式分界反求参数和交点。"
+        side_title: "小贴士"
+        side_items:
+          - kind: "hint"
+            title: "分界就是相等"
+            content_latex: "从 $<$ 变成 $>$ 的位置，正是两个函数图像相交的位置。"
+          - kind: "mistake"
+            title: "别只求参数"
+            content_latex: "题目还要求交点坐标，求出 $b$ 后要写出完整点坐标。"
+        solution_title: "解答"
+        solution_step_ids:
+          - "ex2-boundary"
+          - "ex2-parameter"
+          - "ex2-point"
+
+      - type: "mistake"
+        id: "intersection-mistake"
+        title: "易错提醒"
+        content_latex: |
+          交点题的入口不是分别代入两个函数，而是让两个函数值相等。若题目给的是不等式范围，先找大小关系改变的分界点，再把它当作交点横坐标。
+
+      - type: "method_reminder"
+        id: "intersection-method"
+        title: "方法提醒"
+        items:
+          - latex: "直接求交点：写 $f(x)=g(x)$，解 $x$，代回求 $y$。"
+          - latex: "已知一个坐标：先用参数少的一条函数定位交点。"
+          - latex: '图像不等式：交点横坐标是区间分界，端点取舍看 $<,>,\le,\ge$。'

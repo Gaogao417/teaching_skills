@@ -1,0 +1,146 @@
+meta:
+  title: "函数求点坐标条件专题：横竖线段距离"
+  subtitle: "教师版"
+  grade: "八年级"
+  subject: "数学"
+  duration: "20分钟"
+  total_points: 30
+  version: "teacher"
+  source_artifacts:
+    structure_analysis: "artifacts/函数求点坐标条件专题/06-横竖线段距离/01-structure-analysis.md"
+    explanation: "artifacts/函数求点坐标条件专题/06-横竖线段距离/02-student-explanation.assignment.yaml"
+
+render:
+  template: "exam-zh-practice"
+  paper_size: "a4paper"
+  answer_key_position: "after_page_break"
+
+sections:
+  - id: "practice"
+    title: "一、核心练习（每题 10 分，共 30 分）"
+    type: "practice"
+    visibility: "both"
+    blocks:
+      - type: "problem"
+        id: "q1"
+        points: 10
+        stem_latex: |
+          点 $A(-2,3)$，点 $B$ 与点 $A$ 在同一条水平线上，且 $AB=6$。若点 $B$ 在点 $A$ 的右侧，求点 $B$ 的坐标。
+        hints:
+          - content: "水平线段看横坐标差，右侧表示横坐标增加。"
+        answer_space:
+          type: "steps"
+          height: "32mm"
+          step_count: 3
+        answer: "$B(4,3)$"
+        explanation: "同一水平线说明纵坐标相同，右侧且距离为 $6$，横坐标为 $-2+6=4$。"
+        solution_steps:
+          - title: "确定纵坐标"
+            content: "$B$ 与 $A$ 在同一条水平线上，所以 $B$ 的纵坐标也是 $3$。"
+          - title: "确定横坐标"
+            content: "$B$ 在 $A$ 的右侧，且 $AB=6$，所以横坐标为 $-2+6=4$。"
+          - title: "写坐标"
+            content: "$B(4,3)$。"
+        teaching:
+          teaching_goal: "训练水平距离只看横坐标差，方向决定加减。"
+          source_relations: ["horizontal_vertical_distance_to_candidate_points"]
+          model_fusion:
+            model_count: 1
+            models: ["function_coordinate_conditions"]
+            fusion_role: "single_model"
+          expected_blocker: "把距离同时加到横纵坐标上，或忽略右侧方向。"
+          entry_point: "find_entry"
+          scaffold_level: "high"
+          variation_depth: "changed_numbers"
+          complexity_note: "只用整数加法。"
+          upgrade_rule: "能判断水平线段的纵坐标不变。"
+          fallback_move: "先写 $B(x,3)$。"
+
+      - type: "problem"
+        id: "q2"
+        points: 10
+        stem_latex: |
+          点 $P$ 在一次函数 $y=-2x+7$ 的图像上，且点 $P$ 到 $x$ 轴的距离为 $3$。
+          若点 $P$ 在第一象限，求点 $P$ 的坐标。
+        hints:
+          - content: "到 $x$ 轴的距离看纵坐标的绝对值。"
+        answer_space:
+          type: "steps"
+          height: "40mm"
+          step_count: 4
+        answer: "$P(2,3)$"
+        explanation: "到 $x$ 轴距离为 $3$，得 $|y|=3$。第一象限取 $y=3$，代入 $3=-2x+7$，得 $x=2$。"
+        solution_steps:
+          - title: "把距离转成纵坐标"
+            content: "点到 $x$ 轴的距离是 $|y|$。第一象限中 $y>0$，所以 $y=3$。"
+          - title: "代入函数"
+            content: "将 $y=3$ 代入 $y=-2x+7$，得 $3=-2x+7$。"
+          - title: "求点坐标"
+            content: "解得 $x=2$，所以 $P(2,3)$。"
+        teaching:
+          teaching_goal: "训练点到坐标轴距离要转成绝对值，再用象限筛选。"
+          source_relations: ["axis_distance_on_linear_function_to_candidate_points", "point_on_linear_function_forward"]
+          model_fusion:
+            model_count: 2
+            models: ["function_coordinate_conditions", "linear_function_point"]
+            fusion_role: "constraint"
+          expected_blocker: "只写 $y=3$ 但不知道理由，或漏掉绝对值与象限筛选。"
+          entry_point: "build_relation"
+          scaffold_level: "medium"
+          variation_depth: "packaged_condition"
+          complexity_note: "绝对值由第一象限化简，计算保持整数。"
+          upgrade_rule: "能先写 $|y|=3$，再说明为什么取 $y=3$。"
+          fallback_move: "先判断点到哪条轴，距离对应哪个坐标。"
+
+      - type: "problem"
+        id: "q3"
+        points: 10
+        stem_latex: |
+          在平面直角坐标系中，学校记为 $S(1,2)$，书店记为 $B(7,2)$。小明从学校出发，先沿水平方向走到书店，再沿竖直方向走到图书馆 $L$。已知书店到图书馆的竖直距离为 $5$，且图书馆在书店上方。
+          求图书馆 $L$ 的坐标，并求小明一共走了多少个单位长度。
+        hints:
+          - content: "水平走看横坐标差，竖直走看纵坐标差。"
+        answer_space:
+          type: "steps"
+          height: "44mm"
+          step_count: 5
+        answer: "$L(7,7)$，一共走 $11$ 个单位长度"
+        explanation: "从 $B(7,2)$ 向上走 $5$ 个单位，得到 $L(7,7)$。水平距离 $SB=|7-1|=6$，竖直距离 $BL=5$，总路程为 $11$。"
+        solution_steps:
+          - title: "求L坐标"
+            content: "$L$ 在 $B$ 的上方，且竖直距离为 $5$，所以横坐标仍为 $7$，纵坐标为 $2+5=7$，即 $L(7,7)$。"
+          - title: "求水平路程"
+            content: "$S(1,2)$ 到 $B(7,2)$ 是水平移动，距离为 $|7-1|=6$。"
+          - title: "求总路程"
+            content: "再竖直走 $5$ 个单位，所以一共走 $6+5=11$ 个单位长度。"
+        teaching:
+          teaching_goal: "训练实际语境中把横竖移动分别转成坐标差。"
+          source_relations: ["horizontal_vertical_distance_to_candidate_points"]
+          model_fusion:
+            model_count: 1
+            models: ["function_coordinate_conditions"]
+            fusion_role: "single_model"
+          expected_blocker: "用两点距离公式，或把直线距离当成沿路走的距离。"
+          entry_point: "read_context"
+          scaffold_level: "medium"
+          variation_depth: "changed_representation"
+          complexity_note: "实际语境包装，但只需横竖坐标差。"
+          upgrade_rule: "能说明这里求的是沿水平和竖直方向走的总路程。"
+          fallback_move: "先标出第一段水平、第二段竖直。"
+
+  - id: "answer-key"
+    title: "答案速查"
+    type: "answer_key"
+    visibility: "teacher"
+    layout:
+      break_before: true
+    blocks:
+      - type: "answers"
+        id: "answers-main"
+        items:
+          - number: "1"
+            answer: "$B(4,3)$"
+          - number: "2"
+            answer: "$P(2,3)$"
+          - number: "3"
+            answer: "$L(7,7)$，一共走 $11$ 个单位长度"
