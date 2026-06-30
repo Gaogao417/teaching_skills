@@ -25,6 +25,8 @@ Supporting modules:
 - `renderer_bindings.py`: shared loader that reads `diagram_jobs.json` plus
   per-job `renderer_result.json` and produces the bindable TikZ facts consumed
   by gate and resolver.
+- `diagram_gate/`: gate checks grouped by responsibility: artifact bindings,
+  policy safety, layout floors, SVG preview readability, and analytic specs.
 - `run_diagram_workflow.py`: single-job engine router.
 - `analytic_diagram_workflow.py`: coordinate/function diagram branch.
 - `render_geometry_spec.py`: deterministic TikZ compiler; writes the bindable
