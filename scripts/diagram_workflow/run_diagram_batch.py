@@ -40,6 +40,13 @@ from diagram_contracts import (  # noqa: E402
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 
+# Routing constants mirror run_diagram_workflow.py so the batch runner dispatches
+# each job to exactly the same branch as the single-job engine router.
+SUPPORTED_GSB_TYPES = {"synthetic_geometry"}
+SUPPORTED_ANALYTIC_TYPES = {"coordinate_geometry", "function_graph"}
+SUPPORTED_ANALYTIC_ENGINES = {"wolfram_client", "wolfram_plot", "coordinate_renderer"}
+RENDERER_SPEC_ENGINE = "renderer_spec"
+
 
 # ---------------------------------------------------------------------------
 # I/O helpers
@@ -221,6 +228,114 @@ def _extract_problem_context(
 # Single-job execution
 # ---------------------------------------------------------------------------
 
+def _is_renderer_spec_route(request: DiagramJobRequest) -> bool:
+    return request.engine.value == RENDERER_SPEC_ENGINE
+
+
+def _is_analytic_route(request: DiagramJobRequest) -> bool:
+    diagram_kind = request.diagram_kind.value
+    engine = request.engine.value
+    return diagram_kind in SUPPORTED_ANALYTIC_TYPES or engine in SUPPORTED_ANALYTIC_ENGINES
+
+
+def _run_workflow_in_process(
+    request: DiagramJobRequest,
+    request_path: Path,
+    job_build_dir: Path,
+    build_dir: Path,
+) -> str:
+    """Dispatch the workflow stage in-process and return its status string.
+
+    Mirrors the routing in run_diagram_workflow.py:main() for the
+    renderer_spec and analytic (coordinate_renderer / wolfram_client /
+    wolfram_plot) branches. The geometric_scene / synthetic branch is handled
+    by the subprocess path in _run_workflow_subprocess instead, so the
+    GeometricScene LLM and Wolfram synthetic-geometry runtime stay isolated
+    from the main process.
+    """
+    # Lazy imports keep the CLI lightweight and avoid importing heavy modules
+    # (wolframclient, tikz_renderer) unless a job actually needs them.
+    if _is_renderer_spec_route(request):
+        from run_diagram_workflow import run_renderer_spec_workflow
+
+        request_payload = read_json(request_path)
+        run_renderer_spec_workflow(request_payload, job_build_dir, emit_result=False)
+    elif _is_analytic_route(request):
+        from analytic_diagram_workflow import run_analytic_workflow
+
+        run_analytic_workflow(request_path, job_build_dir)
+    else:
+        raise ValueError(
+            f"in-process workflow dispatch only handles renderer_spec and analytic "
+            f"routes; engine={request.engine.value} kind={request.diagram_kind.value} "
+            f"requires the subprocess path"
+        )
+
+    wf_result_path = job_build_dir / "workflow_result.json"
+    if wf_result_path.exists():
+        return str(read_json(wf_result_path).get("status", "unknown"))
+    return "missing_result"
+
+
+def _run_workflow_subprocess(
+    request_path: Path,
+    job_id: str,
+    build_dir: Path,
+    job_build_dir: Path,
+    python_executable: str,
+) -> tuple[str, str]:
+    """Run the GeometricScene/Wolfram workflow via the isolated subprocess.
+
+    Returns (workflow_status, captured_diagnostic). subprocess isolation keeps
+    the LLM/Wolfram/runtime state from polluting the main process.
+    """
+    workflow_script = SCRIPT_DIR / "run_diagram_workflow.py"
+    workflow_cmd = [
+        python_executable,
+        str(workflow_script),
+        str(request_path),
+        "--job-id", job_id,
+        "--out", str(build_dir),
+        "--python", python_executable,
+    ]
+    completed = subprocess.run(
+        workflow_cmd, cwd=str(SCRIPT_DIR.parent),
+        text=True, capture_output=True, check=False,
+    )
+    wf_result_path = job_build_dir / "workflow_result.json"
+    if wf_result_path.exists():
+        status = str(read_json(wf_result_path).get("status", "unknown"))
+    else:
+        status = "missing_result"
+    diagnostic = (completed.stderr or completed.stdout or "")[-500:]
+    return status, diagnostic
+
+
+def _run_tikz_renderer(
+    spec_path: Path,
+    job_build_dir: Path,
+    variant: str,
+) -> tuple[str, str, str]:
+    """Compile the renderer spec to a TikZ fragment.
+
+    Returns (status, tikz_fragment_path, tikz_source_path). The TikZ compiler
+    runs in-process; it still shells out to the TeX/pdf toolchain for previews
+    only. If spec compilation raises, returns process_failed with the message.
+    """
+    rr_result_path = job_build_dir / "renderer_result.json"
+    if rr_result_path.exists():
+        rr_result_path.unlink()
+    try:
+        from render_geometry_spec import render_geometry_spec
+
+        rr_data = render_geometry_spec(spec_path, job_build_dir, variant=variant)
+    except Exception as exc:  # pragma: no cover - defensive guard for renderer import/compile
+        return "process_failed", "", str(exc)[-500:]
+
+    status = str(rr_data.get("status", "unknown"))
+    return status, str(rr_data.get("tikz_fragment_path", "")), str(rr_data.get("tikz_source_path", ""))
+
+
 def run_one_job(
     job: DiagramJob,
     request: DiagramJobRequest,
@@ -228,7 +343,14 @@ def run_one_job(
     python_executable: str,
     dry_run: bool,
 ) -> DiagramBatchJobResult:
-    """Execute a single diagram job: write request → workflow → renderer."""
+    """Execute a single diagram job: write request → workflow → renderer.
+
+    renderer_spec and analytic (coordinate_renderer / wolfram_client /
+    wolfram_plot) jobs run in-process. The geometric_scene / synthetic route
+    stays subprocess-isolated to keep the LLM and Wolfram runtime out of the
+    main process. All on-disk artifacts are identical to the legacy subprocess
+    path.
+    """
     job_id = job.job_id
     build_dir = artifact_dir / "build" / "diagram"
     job_build_dir = build_dir / "jobs" / job_id
@@ -247,27 +369,13 @@ def run_one_job(
             renderer_status="dry_run",
         )
 
-    # Run workflow
-    workflow_script = SCRIPT_DIR / "run_diagram_workflow.py"
-    workflow_cmd = [
-        python_executable,
-        str(workflow_script),
-        str(request_path),
-        "--job-id", job_id,
-        "--out", str(build_dir),
-        "--python", python_executable,
-    ]
-    subprocess.run(
-        workflow_cmd, cwd=str(SCRIPT_DIR.parent),
-        text=True, capture_output=True, check=False,
-    )
-
-    # Read workflow result
-    wf_result_path = job_build_dir / "workflow_result.json"
-    wf_status = "missing_result"
-    if wf_result_path.exists():
-        wf_data = read_json(wf_result_path)
-        wf_status = wf_data.get("status", "unknown")
+    # Workflow stage
+    if _is_renderer_spec_route(request) or _is_analytic_route(request):
+        wf_status = _run_workflow_in_process(request, request_path, job_build_dir, build_dir)
+    else:
+        wf_status, _diag = _run_workflow_subprocess(
+            request_path, job_id, build_dir, job_build_dir, python_executable
+        )
 
     if wf_status != "ok":
         return DiagramBatchJobResult(
@@ -279,7 +387,7 @@ def run_one_job(
             failure_reason=f"workflow status: {wf_status}",
         )
 
-    # Run renderer
+    # Renderer stage
     spec_path = job_build_dir / "final_renderer_spec.json"
     if not spec_path.exists():
         return DiagramBatchJobResult(
@@ -291,32 +399,11 @@ def run_one_job(
             renderer_status="no_spec",
         )
 
-    renderer_script = SCRIPT_DIR / "render_geometry_spec.py"
-    renderer_cmd = [
-        python_executable,
-        str(renderer_script),
-        str(spec_path),
-        "--out-dir", str(job_build_dir),
-        "--variant", job.variant.value,
-    ]
-    rr_result_path = job_build_dir / "renderer_result.json"
-    if rr_result_path.exists():
-        rr_result_path.unlink()
-    renderer_completed = subprocess.run(
-        renderer_cmd, cwd=str(SCRIPT_DIR.parent),
-        text=True, capture_output=True, check=False,
+    rr_status, rr_tikz_fragment_path, rr_tikz_source_path = _run_tikz_renderer(
+        spec_path, job_build_dir, job.variant.value
     )
 
-    # Read renderer result
-    rr_status = "missing_result"
-    rr_tikz_fragment_path = ""
-    rr_tikz_source_path = ""
-    if rr_result_path.exists():
-        rr_data = read_json(rr_result_path)
-        rr_status = rr_data.get("status", "unknown")
-        rr_tikz_fragment_path = rr_data.get("tikz_fragment_path", "")
-        rr_tikz_source_path = rr_data.get("tikz_source_path", "")
-    elif renderer_completed.returncode != 0:
+    if rr_status == "process_failed":
         return DiagramBatchJobResult(
             job_id=job_id,
             slot_id=job.slot_id,
@@ -324,9 +411,8 @@ def run_one_job(
             status="renderer_failed",
             workflow_status="ok",
             renderer_status="process_failed",
-            failure_reason=(renderer_completed.stderr or renderer_completed.stdout or "renderer process failed")[-500:],
+            failure_reason=rr_tikz_source_path or "renderer process failed",
         )
-
     if rr_status == "ok":
         return DiagramBatchJobResult(
             job_id=job_id,

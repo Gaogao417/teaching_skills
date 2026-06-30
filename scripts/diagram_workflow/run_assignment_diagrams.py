@@ -4,6 +4,17 @@
 This is the deterministic wrapper used by the math-geometry-diagram-renderer
 skill. It expects a plan YAML containing diagram_slot declarations and writes a
 resolved assignment YAML after generated renderer results pass the gate.
+
+By default the four stages run in-process through
+``assignment_pipeline.run_assignment_diagram_pipeline``: fewer Python
+interpreors are spawned and the same library functions drive every stage. The
+on-disk artifacts are identical to the legacy script-chained path.
+
+``--process-isolation`` restores the legacy four-subprocess chain
+(collect_diagram_jobs.py → run_diagram_batch.py → check_diagram_gate.py →
+resolve_assignment_diagrams.py). It exists for debugging, localization, and
+temporary rollback; the single-stage CLIs remain independently runnable for
+the same reason.
 """
 
 from __future__ import annotations
@@ -27,30 +38,8 @@ def default_resolved_path(plan_yaml: Path) -> Path:
     return plan_yaml.with_suffix(".resolved.yaml")
 
 
-def run(cmd: list[str], cwd: Path, dry_run: bool) -> None:
-    printable = " ".join(cmd)
-    print(f"+ {printable}")
-    if dry_run:
-        return
-    subprocess.run(cmd, cwd=cwd, check=True)
-
-
-def main() -> None:
-    parser = argparse.ArgumentParser(
-        description="Run diagram jobs for an assignment plan YAML and resolve diagram slots."
-    )
-    parser.add_argument("plan_yaml", type=Path, help="Path to *.plan.assignment.yaml")
-    parser.add_argument("--out", type=Path, help="Resolved assignment YAML path")
-    parser.add_argument("--max-workers", type=int, default=4, help="Parallel jobs per dependency wave")
-    parser.add_argument("--python", default=sys.executable, help="Python executable for subprocesses")
-    parser.add_argument("--dry-run", action="store_true", help="Print commands without running them")
-    parser.add_argument(
-        "--skip-gate",
-        action="store_true",
-        help="Resolve without running check_diagram_gate.py; use only for debugging.",
-    )
-    args = parser.parse_args()
-
+def _run_process_isolation(args: argparse.Namespace) -> None:
+    """Legacy four-subprocess chain; kept for debugging and rollback."""
     plan_yaml = args.plan_yaml.resolve()
     if not plan_yaml.exists():
         raise SystemExit(f"Plan YAML not found: {plan_yaml}")
@@ -62,57 +51,38 @@ def main() -> None:
     out_yaml = (args.out.resolve() if args.out else default_resolved_path(plan_yaml).resolve())
 
     py = args.python
-    common_cwd = ROOT
 
-    run(
-        [
-            py,
-            str(SCRIPT_DIR / "collect_diagram_jobs.py"),
-            str(plan_yaml),
-            "--out-dir",
-            str(build_dir),
-        ],
-        cwd=common_cwd,
-        dry_run=args.dry_run,
-    )
-    run(
-        [
-            py,
-            str(SCRIPT_DIR / "run_diagram_batch.py"),
-            str(jobs_json),
-            "--artifact-dir",
-            str(artifact_dir),
-            "--plan-yaml",
-            str(plan_yaml),
-            "--max-workers",
-            str(args.max_workers),
-            "--python",
-            py,
-        ],
-        cwd=common_cwd,
-        dry_run=args.dry_run,
-    )
+    def run(cmd: list[str]) -> None:
+        print(f"+ {' '.join(cmd)}")
+        if args.dry_run:
+            return
+        subprocess.run(cmd, cwd=ROOT, check=True)
+
+    run([
+        py,
+        str(SCRIPT_DIR / "collect_diagram_jobs.py"),
+        str(plan_yaml),
+        "--out-dir",
+        str(build_dir),
+    ])
+    run([
+        py,
+        str(SCRIPT_DIR / "run_diagram_batch.py"),
+        str(jobs_json),
+        "--artifact-dir",
+        str(artifact_dir),
+        "--plan-yaml",
+        str(plan_yaml),
+        "--max-workers",
+        str(args.max_workers),
+        "--python",
+        py,
+    ])
     if not args.skip_gate:
-        run(
-            [
-                py,
-                str(SCRIPT_DIR / "check_diagram_gate.py"),
-                "--plan",
-                str(plan_yaml),
-                "--jobs",
-                str(jobs_json),
-                "--jobs-dir",
-                str(jobs_dir),
-                "--artifact-dir",
-                str(artifact_dir),
-            ],
-            cwd=common_cwd,
-            dry_run=args.dry_run,
-        )
-    run(
-        [
+        run([
             py,
-            str(SCRIPT_DIR / "resolve_assignment_diagrams.py"),
+            str(SCRIPT_DIR / "check_diagram_gate.py"),
+            "--plan",
             str(plan_yaml),
             "--jobs",
             str(jobs_json),
@@ -120,14 +90,67 @@ def main() -> None:
             str(jobs_dir),
             "--artifact-dir",
             str(artifact_dir),
-            "--out",
-            str(out_yaml),
-        ],
-        cwd=common_cwd,
-        dry_run=args.dry_run,
-    )
+        ])
+    run([
+        py,
+        str(SCRIPT_DIR / "resolve_assignment_diagrams.py"),
+        str(plan_yaml),
+        "--jobs",
+        str(jobs_json),
+        "--jobs-dir",
+        str(jobs_dir),
+        "--artifact-dir",
+        str(artifact_dir),
+        "--out",
+        str(out_yaml),
+    ])
 
     print(f"Resolved YAML: {out_yaml}")
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(
+        description="Run diagram jobs for an assignment plan YAML and resolve diagram slots."
+    )
+    parser.add_argument("plan_yaml", type=Path, help="Path to *.plan.assignment.yaml")
+    parser.add_argument("--out", type=Path, help="Resolved assignment YAML path")
+    parser.add_argument("--max-workers", type=int, default=4, help="Parallel jobs per dependency wave")
+    parser.add_argument("--python", default=sys.executable, help="Python executable for subprocesses")
+    parser.add_argument("--dry-run", action="store_true", help="Print commands/phases without running them")
+    parser.add_argument(
+        "--skip-gate",
+        action="store_true",
+        help="Resolve without running check_diagram_gate.py; use only for debugging.",
+    )
+    parser.add_argument(
+        "--process-isolation",
+        action="store_true",
+        help=(
+            "Use the legacy four-subprocess chain (collect/batch/gate/resolve "
+            "each as a separate Python interpreter). Default runs in-process. "
+            "Only use this for debugging, localizing, or temporary rollback."
+        ),
+    )
+    args = parser.parse_args()
+
+    if args.process_isolation:
+        _run_process_isolation(args)
+        return
+
+    # Default: in-process orchestration. Imported lazily so that --help and the
+    # process-isolation path do not pay the import cost or surface import errors
+    # (e.g. missing PyYAML) unnecessarily.
+    sys.path.insert(0, str(SCRIPT_DIR))
+    from assignment_pipeline import run_assignment_diagram_pipeline
+
+    run_assignment_diagram_pipeline(
+        args.plan_yaml,
+        out=args.out,
+        max_workers=args.max_workers,
+        python=args.python,
+        skip_gate=args.skip_gate,
+        dry_run=args.dry_run,
+    )
 
 
 if __name__ == "__main__":

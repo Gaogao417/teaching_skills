@@ -159,32 +159,21 @@ class CoordinateFunctionDiagramE2ETest(unittest.TestCase):
         )
 
     def test_coordinate_ir_function_graph_pipeline_outputs_tikz_and_auditable_artifacts(self) -> None:
-        collect = run_script([
-            "scripts/diagram_workflow/collect_diagram_jobs.py",
+        pipeline = run_script([
+            "scripts/diagram_workflow/run_assignment_diagrams.py",
             str(self.plan_path),
-            "--out-dir",
-            str(self.build_dir),
+            "--out",
+            str(self.resolved_path),
+            "--max-workers",
+            "1",
         ])
-        self.assertEqual(collect.returncode, 0, collect.stderr)
+        self.assertEqual(pipeline.returncode, 0, pipeline.stderr)
 
         jobs = json.loads(self.jobs_path.read_text(encoding="utf-8"))
         self.assertEqual([job["job_id"] for job in jobs["jobs"]], ["q1-prompt"])
         self.assertEqual(jobs["jobs"][0]["engine"], "coordinate_renderer")
         self.assertEqual(jobs["jobs"][0]["diagram_kind"], "coordinate_geometry")
 
-        batch = run_script([
-            "scripts/diagram_workflow/run_diagram_batch.py",
-            str(self.jobs_path),
-            "--artifact-dir",
-            str(OUT_DIR),
-            "--plan-yaml",
-            str(self.plan_path),
-            "--python",
-            PYTHON,
-            "--max-workers",
-            "1",
-        ])
-        self.assertEqual(batch.returncode, 0, batch.stderr)
         batch_report = json.loads((self.build_dir / "diagram_batch_report.json").read_text(encoding="utf-8"))
         self.assertEqual(batch_report["ok_count"], 1)
 
@@ -237,33 +226,6 @@ class CoordinateFunctionDiagramE2ETest(unittest.TestCase):
         self.assertIn(r"{$\mathit{A}$}", fragment)
         self.assertIn(r"{$\mathit{B}$}", fragment)
 
-        gate = run_script([
-            "scripts/diagram_workflow/check_diagram_gate.py",
-            "--plan",
-            str(self.plan_path),
-            "--jobs",
-            str(self.jobs_path),
-            "--jobs-dir",
-            str(self.jobs_dir),
-            "--artifact-dir",
-            str(OUT_DIR),
-        ])
-        self.assertEqual(gate.returncode, 0, gate.stderr)
-        self.assertEqual(json.loads(gate.stdout)["status"], "pass")
-
-        resolve = run_script([
-            "scripts/diagram_workflow/resolve_assignment_diagrams.py",
-            str(self.plan_path),
-            "--jobs",
-            str(self.jobs_path),
-            "--jobs-dir",
-            str(self.jobs_dir),
-            "--artifact-dir",
-            str(OUT_DIR),
-            "--out",
-            str(self.resolved_path),
-        ])
-        self.assertEqual(resolve.returncode, 0, resolve.stderr)
         resolved = yaml.safe_load(self.resolved_path.read_text(encoding="utf-8"))
         diagram_col = resolved["sections"][0]["blocks"][0]["diagram_col"]
         self.assertEqual(diagram_col["kind"], "tikz")

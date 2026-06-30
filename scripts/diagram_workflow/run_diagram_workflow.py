@@ -114,8 +114,15 @@ def _safe_renderer_spec_payload(value: object) -> dict[str, Any]:
 def run_renderer_spec_workflow(
     request: dict[str, Any],
     out_dir: Path,
+    *,
+    emit_result: bool = True,
 ) -> dict[str, Any]:
-    """Deterministic workflow route for tests and precomputed renderer specs."""
+    """Deterministic workflow route for tests and precomputed renderer specs.
+
+    ``emit_result`` controls whether the result JSON is echoed to stdout. The
+    CLI path keeps it on; the in-process batch runner passes ``emit_result=False``
+    so the per-job print does not interleave with the batch report on stdout.
+    """
     try:
         request_model = DiagramJobRequest(**request)
         write_json(out_dir / "request.json", request_model.model_dump(mode="json", by_alias=True))
@@ -169,7 +176,8 @@ def run_renderer_spec_workflow(
         if not (out_dir / "request.json").exists():
             write_json(out_dir / "request.json", request)
     write_json(out_dir / "workflow_result.json", result)
-    print(json.dumps(result, ensure_ascii=False))
+    if emit_result:
+        print(json.dumps(result, ensure_ascii=False))
     return result
 
 

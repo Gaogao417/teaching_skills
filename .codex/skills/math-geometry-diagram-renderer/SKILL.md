@@ -42,7 +42,8 @@ python3 scripts/diagram_workflow/run_assignment_diagrams.py <plan.yaml> --out <r
 python3 scripts/diagram_workflow/run_assignment_diagrams.py <plan.yaml> --dry-run
 ```
 
-脚本内部顺序为：
+默认四阶段在同一 Python 进程内依次调用库函数运行，磁盘产物与旧式
+四子进程链路完全一致。脚本内部顺序为：
 
 ```text
 collect_diagram_jobs.py
@@ -50,6 +51,15 @@ run_diagram_batch.py
 check_diagram_gate.py
 resolve_assignment_diagrams.py
 ```
+
+批处理内部按引擎路由：`renderer_spec` 与 analytic
+（`coordinate_renderer` / `wolfram_client` / `wolfram_plot`）走进程内；
+`geometric_scene` 合成几何仍保持子进程隔离，避免 LLM/Wolfram 运行时
+污染主进程。TikZ 编译器默认进程内调用，仅预览仍通过 TeX/pdf 子进程。
+
+调试或临时回退旧式四子进程链路时加 `--process-isolation`：
+`collect` / `batch` / `gate` / `resolve` 各自作为独立 Python 解释器运行。
+单阶段脚本也继续保留，可独立运行用于定位问题。
 
 不要跳过 gate，除非正在调试脚本本身。
 
