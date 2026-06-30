@@ -43,6 +43,8 @@ class DiagramBatchV2Test(unittest.TestCase):
                             "stem_latex": r"如图，$AB=AC$，点 $D$ 在 $BC$ 上。",
                             "diagram_slot": {
                                 "slot_id": "q1.prompt",
+                                "engine": "geometric_scene",
+                                "diagram_kind": "synthetic_geometry",
                                 "placement": "diagram_col",
                                 "layout_role": "question_sidecar",
                                 "semantic_constraints": {

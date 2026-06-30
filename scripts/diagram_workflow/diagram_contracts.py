@@ -13,7 +13,7 @@ from enum import Enum
 import re
 from typing import Annotated, Literal, TypeAlias
 
-from pydantic import AliasChoices, BaseModel, ConfigDict, Field, field_validator, model_validator
+from pydantic import AliasChoices, BaseModel, ConfigDict, Field, TypeAdapter, field_validator, model_validator
 
 
 NonEmptyStr = Annotated[str, Field(min_length=1)]
@@ -397,8 +397,8 @@ class DiagramEngineOptions(DiagramModel):
         return self
 
 
-class DiagramSlot(DiagramModel):
-    """Plan-stage declaration embedded under assignment.plan.yaml."""
+class DiagramSlotBase(DiagramModel):
+    """Shared plan-stage declaration fields for one diagram slot."""
 
     slot_id: NonEmptyStr
     diagram_ref: str = ""
@@ -414,18 +414,15 @@ class DiagramSlot(DiagramModel):
     display_profile: DiagramDisplayProfile = DiagramDisplayProfile.AUTO
     render_profile: DiagramRenderProfile | None = None
     caption: str = ""
-    engine: DiagramEngine = DiagramEngine.GEOMETRIC_SCENE
-    diagram_kind: DiagramKind = DiagramKind.SYNTHETIC_GEOMETRY
     teaching_intent: str = "practice_prompt"
     problem_context: DiagramProblemContext = Field(default_factory=DiagramProblemContext)
     semantic_constraints: DiagramSemanticConstraints = Field(default_factory=DiagramSemanticConstraints)
-    analytic_requirements: DiagramAnalyticRequirements = Field(default_factory=DiagramAnalyticRequirements)
     visual_requirements: DiagramVisualRequirements = Field(default_factory=DiagramVisualRequirements)
     reuse_geometry_from: str = ""
     engine_options: DiagramEngineOptions = Field(default_factory=DiagramEngineOptions)
 
     @model_validator(mode="after")
-    def enforce_slot_policy(self) -> DiagramSlot:
+    def enforce_slot_policy(self) -> DiagramSlotBase:
         if not self.diagram_ref:
             self.diagram_ref = self.slot_id
         if self.width_hint:
@@ -464,6 +461,57 @@ class DiagramSlot(DiagramModel):
             base.width = self.width_hint
         base.display_profile = self.resolved_display_profile()
         return base
+
+
+class SyntheticGeometryDiagramSlot(DiagramSlotBase):
+    """Slot payload for synthetic geometry solved through GeometricScene."""
+
+    engine: Literal["geometric_scene", "renderer_spec"] = "geometric_scene"
+    diagram_kind: Literal["synthetic_geometry"] = "synthetic_geometry"
+
+
+class CoordinateGeometryDiagramSlot(DiagramSlotBase):
+    """Slot payload for coordinate-plane diagrams."""
+
+    engine: Literal["wolfram_client", "wolfram_plot", "coordinate_renderer", "renderer_spec"] = "coordinate_renderer"
+    diagram_kind: Literal["coordinate_geometry"] = "coordinate_geometry"
+    analytic_requirements: DiagramAnalyticRequirements = Field(default_factory=DiagramAnalyticRequirements)
+
+    @model_validator(mode="after")
+    def require_coordinate_payload(self) -> CoordinateGeometryDiagramSlot:
+        if self.engine == DiagramEngine.RENDERER_SPEC.value and self.engine_options.renderer_spec:
+            return self
+        if not self.analytic_requirements.objects:
+            raise ValueError("coordinate_geometry diagram slots require analytic_requirements.objects")
+        return self
+
+
+class FunctionGraphDiagramSlot(DiagramSlotBase):
+    """Slot payload for function graphs sampled by the analytic route."""
+
+    engine: Literal["wolfram_client", "wolfram_plot", "coordinate_renderer", "renderer_spec"] = "wolfram_client"
+    diagram_kind: Literal["function_graph"] = "function_graph"
+    analytic_requirements: DiagramAnalyticRequirements = Field(default_factory=DiagramAnalyticRequirements)
+
+    @model_validator(mode="after")
+    def require_function_payload(self) -> FunctionGraphDiagramSlot:
+        if self.engine == DiagramEngine.RENDERER_SPEC.value and self.engine_options.renderer_spec:
+            return self
+        if not self.analytic_requirements.functions:
+            raise ValueError("function_graph diagram slots require analytic_requirements.functions")
+        return self
+
+
+DiagramSlot: TypeAlias = Annotated[
+    SyntheticGeometryDiagramSlot | CoordinateGeometryDiagramSlot | FunctionGraphDiagramSlot,
+    Field(discriminator="diagram_kind"),
+]
+DiagramSlotAdapter = TypeAdapter(DiagramSlot)
+
+
+def validate_diagram_slot(data: object) -> DiagramSlot:
+    """Validate one diagram_slot payload outside an assignment model."""
+    return DiagramSlotAdapter.validate_python(data)
 
 
 class DiagramJob(DiagramModel):

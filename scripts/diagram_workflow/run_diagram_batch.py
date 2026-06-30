@@ -172,7 +172,10 @@ def build_request(
 
     semantic_constraints = slot.semantic_constraints if slot else DiagramSemanticConstraints()
     visual_requirements = slot.visual_requirements if slot else DiagramVisualRequirements()
-    analytic_requirements = slot.analytic_requirements if slot else DiagramAnalyticRequirements()
+    analytic_requirements = (
+        getattr(slot, "analytic_requirements", DiagramAnalyticRequirements())
+        if slot else DiagramAnalyticRequirements()
+    )
     engine_options = slot.engine_options if slot else DiagramEngineOptions()
     render_profile = slot.resolved_render_profile() if slot else None
 

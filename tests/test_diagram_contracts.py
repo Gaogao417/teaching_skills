@@ -10,19 +10,132 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts" / "diagram_workflow"))
 
 from diagram_contracts import (  # noqa: E402
+    CoordinateGeometryDiagramSlot,
     DiagramEngineOptions,
     DiagramModelConfig,
+    FunctionGraphDiagramSlot,
     GeometryRendererResult,
     GeometryRenderSpec,
     RendererBinding,
     ResolvedDiagramPlacement,
     ResolvedDiagramTikz,
     ScenePayload,
+    SyntheticGeometryDiagramSlot,
     WolframRenderResult,
+    validate_diagram_slot,
 )
 
 
 class DiagramContractsTest(unittest.TestCase):
+    def _base_slot_payload(self, **overrides: object) -> dict[str, object]:
+        payload: dict[str, object] = {
+            "slot_id": "q1.prompt",
+            "placement": "diagram_col",
+            "layout_role": "question_sidecar",
+        }
+        payload.update(overrides)
+        return payload
+
+    def test_diagram_slot_discriminates_synthetic_payload(self) -> None:
+        slot = validate_diagram_slot(
+            self._base_slot_payload(
+                engine="geometric_scene",
+                diagram_kind="synthetic_geometry",
+                semantic_constraints={"given_objects": ["A", "B"]},
+            )
+        )
+
+        self.assertIsInstance(slot, SyntheticGeometryDiagramSlot)
+        self.assertEqual(slot.diagram_kind, "synthetic_geometry")
+        self.assertEqual(slot.engine, "geometric_scene")
+        self.assertEqual(slot.semantic_constraints.given_objects, ["A", "B"])
+
+    def test_diagram_slot_discriminates_coordinate_payload(self) -> None:
+        slot = validate_diagram_slot(
+            self._base_slot_payload(
+                engine="coordinate_renderer",
+                diagram_kind="coordinate_geometry",
+                analytic_requirements={
+                    "objects": [
+                        {"type": "point", "id": "A", "x": 0, "y": 1, "label": "A"}
+                    ]
+                },
+            )
+        )
+
+        self.assertIsInstance(slot, CoordinateGeometryDiagramSlot)
+        self.assertEqual(slot.diagram_kind, "coordinate_geometry")
+        self.assertEqual(slot.analytic_requirements.objects[0].id, "A")
+
+    def test_diagram_slot_discriminates_function_graph_payload(self) -> None:
+        slot = validate_diagram_slot(
+            self._base_slot_payload(
+                engine="wolfram_client",
+                diagram_kind="function_graph",
+                analytic_requirements={
+                    "functions": [{"id": "f", "expression_wl": "x^2"}]
+                },
+            )
+        )
+
+        self.assertIsInstance(slot, FunctionGraphDiagramSlot)
+        self.assertEqual(slot.diagram_kind, "function_graph")
+        self.assertEqual(slot.analytic_requirements.functions[0].id, "f")
+
+    def test_function_graph_slot_requires_functions(self) -> None:
+        with self.assertRaises(ValidationError):
+            validate_diagram_slot(
+                self._base_slot_payload(
+                    engine="wolfram_client",
+                    diagram_kind="function_graph",
+                    analytic_requirements={
+                        "objects": [{"type": "point", "id": "A", "x": 0, "y": 1}]
+                    },
+                )
+            )
+
+    def test_coordinate_slot_requires_coordinate_objects(self) -> None:
+        with self.assertRaises(ValidationError):
+            validate_diagram_slot(
+                self._base_slot_payload(
+                    engine="coordinate_renderer",
+                    diagram_kind="coordinate_geometry",
+                    analytic_requirements={},
+                )
+            )
+
+    def test_synthetic_slot_rejects_analytic_requirements(self) -> None:
+        with self.assertRaises(ValidationError):
+            validate_diagram_slot(
+                self._base_slot_payload(
+                    engine="geometric_scene",
+                    diagram_kind="synthetic_geometry",
+                    analytic_requirements={
+                        "objects": [{"type": "point", "id": "A"}]
+                    },
+                )
+            )
+
+    def test_synthetic_slot_rejects_analytic_engine(self) -> None:
+        with self.assertRaises(ValidationError):
+            validate_diagram_slot(
+                self._base_slot_payload(
+                    engine="coordinate_renderer",
+                    diagram_kind="synthetic_geometry",
+                )
+            )
+
+    def test_plan_slot_rejects_unrouted_diagram_kind_values(self) -> None:
+        for diagram_kind in ("hybrid", "auto"):
+            with self.subTest(diagram_kind=diagram_kind):
+                with self.assertRaises(ValidationError):
+                    validate_diagram_slot(
+                        self._base_slot_payload(
+                            engine="geometric_scene",
+                            diagram_kind=diagram_kind,
+                        )
+                    )
+
     def test_scene_payload_requires_scene_code_and_valid_diagram_spec(self) -> None:
         payload = ScenePayload(
             scene_code="GeometricScene[{A, B}, {EuclideanDistance[A, B] == 1}]",

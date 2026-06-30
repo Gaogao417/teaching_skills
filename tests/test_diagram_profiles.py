@@ -17,9 +17,9 @@ from diagram_contracts import (  # noqa: E402
     GeometryRenderSpec,
     DiagramJob,
     DiagramJobsManifest,
-    DiagramSlot,
     RendererBinding,
     RendererBindingManifest,
+    validate_diagram_slot,
 )
 from resolve_assignment_diagrams import resolve_assignment, validate_batch_report_allows_resolution  # noqa: E402
 from tikz_renderer import compile_geometry_render_spec  # noqa: E402
@@ -29,6 +29,8 @@ from tikz_renderer.writer import render_fragment  # noqa: E402
 def slot_payload(**overrides: object) -> dict[str, object]:
     payload: dict[str, object] = {
         "slot_id": "q1.prompt",
+        "engine": "geometric_scene",
+        "diagram_kind": "synthetic_geometry",
         "placement": "diagram_col",
         "layout_role": "question_sidecar",
     }
@@ -38,7 +40,7 @@ def slot_payload(**overrides: object) -> dict[str, object]:
 
 class DiagramProfileTest(unittest.TestCase):
     def test_slot_resolves_sidecar_profile_defaults_and_width_override(self) -> None:
-        slot = DiagramSlot(**slot_payload())
+        slot = validate_diagram_slot(slot_payload())
         profile = slot.resolved_render_profile()
 
         self.assertEqual(profile.display_profile, DiagramDisplayProfile.WORKSHEET_GEOMETRY_SIDECAR)
@@ -50,14 +52,14 @@ class DiagramProfileTest(unittest.TestCase):
         self.assertEqual(profile.condition_label_px, 36)
         self.assertEqual(profile.point_label_font_weight, "normal")
 
-        dense = DiagramSlot(**slot_payload(visual_requirements={"label_density": "dense"}))
+        dense = validate_diagram_slot(slot_payload(visual_requirements={"label_density": "dense"}))
         self.assertEqual(dense.resolved_render_profile().point_label_px, 52)
 
-        overridden = DiagramSlot(**slot_payload(width_hint=r"0.32\linewidth"))
+        overridden = validate_diagram_slot(slot_payload(width_hint=r"0.32\linewidth"))
         self.assertEqual(overridden.resolved_render_profile().width, r"0.32\linewidth")
 
         with self.assertRaises(ValidationError):
-            DiagramSlot(**slot_payload(width_hint="60 px"))
+            validate_diagram_slot(slot_payload(width_hint="60 px"))
 
     def test_resolver_uses_profile_width_when_width_hint_is_absent(self) -> None:
         plan_data = {
@@ -151,7 +153,7 @@ class DiagramProfileTest(unittest.TestCase):
                 validate_batch_report_allows_resolution(report_path)
 
     def test_renderers_use_profile_label_style_and_value_only_conditions(self) -> None:
-        profile = DiagramSlot(**slot_payload()).resolved_render_profile().model_dump(mode="json")
+        profile = validate_diagram_slot(slot_payload()).resolved_render_profile().model_dump(mode="json")
         synthetic_tikz = render_fragment(
             compile_geometry_render_spec(
                 GeometryRenderSpec(
