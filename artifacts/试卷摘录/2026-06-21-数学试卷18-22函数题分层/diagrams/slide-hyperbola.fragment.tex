@@ -1,0 +1,12 @@
+\begin{tikzpicture}[scale=0.38,>=stealth]
+  \draw[->] (-0.5,0)--(9.5,0) node[right] {$x$};
+  \draw[->] (0,-0.5)--(0,7.2) node[above] {$y$};
+  \draw[thick] (0,0)--(0,6)--(2,6)--(2,0)--cycle;
+  \draw[domain=2:8.8,smooth,variable=\x,thick] plot ({\x},{12/\x});
+  \draw[dashed] (8,0)--(8,1.5);
+  \fill (2,6) circle (2pt) node[above right] {$B$};
+  \fill (8,1.5) circle (2pt) node[right] {$C$};
+  \node[left] at (0,6) {$A$}; \node[below left] at (0,0) {$O$};
+  \node[below] at (2,0) {$E$}; \node[below] at (8,0) {$D$};
+  \node[above right] at (5,2.6) {$BC$};
+\end{tikzpicture}

@@ -1,0 +1,272 @@
+meta:
+  title: 函数题分层练习
+  subtitle: 基础题与中等题
+  grade: 八年级
+  subject: 数学
+  duration: 60分钟
+  total_points: 138
+  version: student
+  show_answers: false
+  source_artifacts:
+    structure_analysis: artifacts/试卷摘录/2026-06-21-数学试卷18-22函数题分层/01-structure-analysis.md
+    question_bank: documents/八年级/函数题库/数学试卷18-22_函数求点坐标题库.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: fillin
+  title: 一、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: fillin
+    id: t18_q09
+    points: 4
+    fillin_type: line
+    answer: $x>2$
+    stem_latex: 已知直线 $y=kx+b$ 的图象经过第一、二、四象限，且过点 $(2,0)$，那么 $kx+b<0$ 的解集为（\qquad）。
+  - type: fillin
+    id: t18_q10
+    points: 4
+    fillin_type: line
+    answer: $y=-3x-6$
+    stem_latex: 已知一次函数 $y=kx+b$ 的图象经过点 $A(0,-6)$，且与直线 $y=-3x+2$ 平行，这个函数解析式为（\qquad）。
+  - type: fillin
+    id: t18_q12
+    points: 4
+    fillin_type: line
+    answer: $y=x-5$
+    stem_latex: 将直线 $y=x-2$ 沿 $y$ 轴方向向下平移 $3$ 个单位，平移后的直线表达式是（\qquad）。
+  - type: fillin
+    id: t18_q15
+    points: 4
+    fillin_type: line
+    answer: $x=1,y=2$
+    stem_latex: 直线 $y=-x+3$ 与 $y=mx+n$ 交点的横坐标为 $1$。求方程组 $\begin{cases}y=mx+n,\\ y=-x+3\end{cases}$ 的解（\qquad）。
+  - type: fillin
+    id: t19_q09
+    points: 4
+    fillin_type: line
+    answer: $y=5x-3\sqrt3+5$
+    stem_latex: 将直线 $y=5x-3\sqrt3$ 向上平移 $5$ 个单位，得到的直线解析式是（\qquad）。
+  - type: fillin
+    id: t19_q11
+    points: 4
+    fillin_type: line
+    answer: $5$
+    stem_latex: 直线 $y=5-2x$ 在 $y$ 轴上的截距是（\qquad）。
+  - type: problem
+    id: t19_q15
+    points: 6
+    fillin_type: line
+    answer: $x>-1$
+    stem_latex: 如图，直线 $y_1=-2x$ 与 $y_2=ax+3$ 的图象相交于点 $A(-1,2)$，则当 $y_1<y_2$ 时，$x$ 的取值范围是（\qquad）。
+    answer_space:
+      type: lines
+      height: 28mm
+      diagram_col:
+        kind: tikz
+        tikz_path: diagrams/line-cross-a.fragment.tex
+        diagram_job_id: line-cross-a
+        width: 70mm
+        caption: 两条直线交于点 A
+        variant: prompt
+        disclosure_policy: clean
+  - type: fillin
+    id: t20_q09
+    points: 4
+    fillin_type: line
+    answer: $x>-2$
+    stem_latex: 已知直线 $y=kx+b\ (k>0)$ 经过点 $(-2,0)$，那么不等式 $kx+b>0$ 的解集是（\qquad）。
+  - type: fillin
+    id: t20_q10
+    points: 4
+    fillin_type: line
+    answer: 第三象限
+    stem_latex: 与直线 $y=3x-1$ 平行且在 $y$ 轴上的截距为 $2$ 的直线一定不经过第（\qquad）象限。
+  - type: fillin
+    id: t20_q11
+    points: 4
+    fillin_type: line
+    answer: $x>6$
+    stem_latex: 已知函数 $y=\dfrac23x+1$，如果函数值 $y>5$，那么相应的自变量 $x$ 的取值范围是（\qquad）。
+  - type: fillin
+    id: t22_q07
+    points: 4
+    fillin_type: line
+    answer: $1$
+    stem_latex: 若一次函数 $y=2x+k+4$ 的图象在 $y$ 轴上的截距是 $5$，则 $k=$（\qquad）。
+  - type: fillin
+    id: t22_q10
+    points: 4
+    fillin_type: line
+    answer: $-2$
+    stem_latex: 当 $m=$（\qquad）时，函数 $y=(2-m)x+m^2-4$（$m$ 是常数）是正比例函数。
+  - type: fillin
+    id: t18_q07
+    points: 4
+    fillin_type: line
+    answer: $0<k\le1$
+    stem_latex: 已知一次函数 $y=kx+k-1$（其中 $k$ 为常数且 $k\ne0$）的图象不经过第二象限，则 $k$ 的取值范围是（\qquad）。
+  - type: fillin
+    id: t19_q10
+    points: 4
+    fillin_type: line
+    answer: $-1<m<1$
+    stem_latex: 已知一次函数 $y=(2m-2)x+m+1$ 中，$y$ 随 $x$ 的增大而减小，且其图象与 $y$ 轴交点在 $x$ 轴上方，求 $m$ 的取值范围（\qquad）。
+  - type: fillin
+    id: t19_q14
+    points: 4
+    fillin_type: line
+    answer: $(1,2)$
+    stem_latex: 我们把直角坐标平面内到 $x$ 轴和到 $y$ 轴距离相等的点称为“特殊点”，那么一次函数 $y=-2x+4$ 的图象上的“特殊点”坐标为（\qquad）。
+  - type: fillin
+    id: t19_q17
+    points: 4
+    fillin_type: line
+    answer: $3$
+    stem_latex: 秤的应用方便了人们的生活。实验时，若秤杆上秤砣到支点的水平距离为 $x$（厘米）时，对应的物体质量 $y$（斤）可看作 $x$ 的一次函数。表中有若干次实验数据：$x$ 为 $1,3,4,6$，$y$ 为 $0.8,1.2,1.6,1.8$。求当 $x=12$ 厘米时，对应的物体质量 $y$ 为（\qquad）斤。
+  - type: fillin
+    id: t20_q15
+    points: 4
+    fillin_type: line
+    answer: $h=\dfrac12$ 或 $h=2$
+    stem_latex: 定义：如果直线 $y_1=k_1x+b_1\ (k_1\ne0)$ 与直线 $y_2=k_2x+b_2\ (k_2\ne0)$ 满足 $k_1k_2=-1$ 且 $b_1+b_2=0$，那么称这两条直线具有“和谐关系”。例如，直线 $y_1=2x+3$ 与直线 $y_2=-\dfrac12x-3$ 具有“和谐关系”。如果直线 $y_1=hx+2\ (h>0)$ 与直线 $y_2=kx-2$ 具有“和谐关系”，且这两条直线与 $y$ 轴围成的三角形面积为 $\dfrac{16}{5}$，则 $h=$（\qquad）。
+  - type: fillin
+    id: t22_q09
+    points: 4
+    fillin_type: line
+    answer: $6$
+    stem_latex: 在平面直角坐标系 $xOy$ 中，若一次函数 $y=kx+2k+3\ (k\ne0)$ 对于除 $0$ 之外的任意实数 $k$，其图象都经过一个定点 $A$，点 $A'$ 与点 $A$ 关于 $x$ 轴对称，则 $\triangle OAA'$ 的面积为（\qquad）。
+  - type: fillin
+    id: t22_q11
+    points: 4
+    fillin_type: line
+    answer: 第四象限
+    stem_latex: 若一元二次方程 $x^2-5x+a=0$ 无实数根，则一次函数 $y=(a-5)x+a$ 的图象不经过第（\qquad）象限。
+  - type: problem
+    id: t22_q13
+    points: 6
+    fillin_type: line
+    answer: $3$
+    stem_latex: 已知一次函数 $y_1=kx+b$ 与 $y_2=x+a$ 的图象如图所示，有下列结论：① $a<0$；② $b>0$；③ 关于 $x$ 的方程 $kx+b=x+a$ 的解为 $x=3$；④ 当 $x\le3$ 时，$y_2\ge y_1$。其中正确的结论有（\qquad）个。
+    answer_space:
+      type: lines
+      height: 28mm
+      diagram_col:
+        kind: tikz
+        tikz_path: diagrams/two-lines-x3.fragment.tex
+        diagram_job_id: two-lines-x3
+        width: 70mm
+        caption: 两条一次函数图象
+        variant: prompt
+        disclosure_policy: clean
+- id: choice
+  title: 二、选择题
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: t19_q04
+    points: 4
+    choices:
+      A: $k<0$
+      B: 当 $x=2$ 时，$y=0$
+      C: $y$ 随 $x$ 的增大而减小
+      D: 当 $x>0$ 时，$y>0$
+    answer: B
+    stem_latex: 若一次函数 $y=kx+b$ 的图象如图所示，则下列结论中正确的是（\quad）。
+    diagram_col:
+      kind: tikz
+      tikz_path: diagrams/line-positive-basic.fragment.tex
+      diagram_job_id: line-positive-basic
+      width: 50mm
+      caption: 一次函数图象
+      variant: prompt
+      disclosure_policy: clean
+- id: problem
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: t18_q20
+    points: 10
+    stem_latex: "在平面直角坐标系中，已知直线 $y_1=-x+3$ 分别交 $x$ 轴、$y$ 轴于 $A,B$ 两点（如图），直线 $y_2=ax+b\\ (a>0)$ 交 $x$ 轴于点 $C$。\n\\begin{enumerate}[label=(\\arabic*)]\n  \\item 求点 $A,B$ 的坐标，并求出直线 $y_2$ 位于 $x$ 轴上方所有点的横坐标取值范围。\n  \\item 现将直线 $y_2$ 平移，使其经过点 $B$，交 $x$ 轴于点 $D$，如果 $BD=BA$，求 $a$ 的值。\n\\end{enumerate}"
+    answer_space:
+      type: lines
+      height: 48mm
+      diagram_col:
+        kind: tikz
+        tikz_path: diagrams/axes-y1-y2.fragment.tex
+        diagram_job_id: axes-y1-y2
+        width: 55mm
+        caption: 坐标轴交点示意
+        variant: prompt
+        disclosure_policy: clean
+    answer: (1) $A(3,0)$，$B(0,3)$，$x>-1$；(2) $a=1$。
+  - type: problem
+    id: t18_q22
+    points: 10
+    stem_latex: "某地区交通管理部门通过对道路流量的大数据分析可知，某东西路上车辆的平均速度 $y$（千米/时）与该条路上每百米车的数量 $x$（辆）的关系如图所示。\n\\begin{enumerate}[label=(\\arabic*)]\n  \\item 求 $y$ 关于 $x$ 的函数解析式（不必写 $x$ 的取值范围）。\n  \\item 如果某时刻监测到这一东西路上车辆的平均速度为 $30$ 千米/时，求此时这条路上每百米车的数量。\n  \\item 如果车辆的平均速度小于 $20$ 千米/时，将严重拥堵，需启动限流措施；若此时开始这一路段上每百米车的数量以每 $4$ 分钟增加 $1$ 辆，为避免严重拥堵，求约几分钟后需启动限流措施。\n\\end{enumerate}"
+    answer_space:
+      type: lines
+      height: 48mm
+      diagram_col:
+        kind: tikz
+        tikz_path: diagrams/speed-cars.fragment.tex
+        diagram_job_id: speed-cars
+        width: 60mm
+        caption: 速度与车辆数关系图
+        variant: prompt
+        disclosure_policy: clean
+    answer: (1) $y=-2x+80$；(2) $25$ 辆；(3) 约 $20$ 分钟后。
+  - type: problem
+    id: t20_q19
+    points: 10
+    stem_latex: "已知，如图，点 $A$ 的坐标为 $(0,4)$，点 $B$ 在反比例函数 $y=-\\dfrac8x$ 的图象上。\n\\begin{enumerate}[label=(\\arabic*)]\n  \\item 当 $\\triangle AOB$ 的面积为 $12$ 时，求点 $B$ 的坐标。\n  \\item 点 $C$ 在 $y$ 轴负半轴，点 $D$ 在线段 $BO$ 的延长线上，当四边形 $ABCD$ 为矩形时，求直线 $AB$ 的解析式。\n\\end{enumerate}"
+    answer_space:
+      type: lines
+      height: 48mm
+      diagram_col:
+        kind: tikz
+        tikz_path: diagrams/inverse-ab.fragment.tex
+        diagram_job_id: inverse-ab
+        width: 58mm
+        caption: 反比例函数与点 A、B
+        variant: prompt
+        disclosure_policy: clean
+    answer: (1) $B(6,-\dfrac43)$；(2) $y=-\dfrac89x+4$。
+  - type: problem
+    id: t20_q21
+    points: 10
+    stem_latex: "如图，一次函数 $y=2x+4$ 的图象与 $x$ 轴、$y$ 轴分别交于 $A,B$ 两点，与反比例函数 $y=\\dfrac{k}{x}\\ (k\\ne0,x>0)$ 的图象交于点 $C$，过点 $B$ 作 $x$ 轴的平行线与该反比例函数的图象交于点 $D$，连接 $CD$。\n\\begin{enumerate}[label=(\\arabic*)]\n  \\item 求 $A,B$ 两点的坐标。\n  \\item 如果 $BC=DC$，求 $k$ 的值。\n\\end{enumerate}"
+    answer_space:
+      type: lines
+      height: 48mm
+      diagram_col:
+        kind: tikz
+        tikz_path: diagrams/line-hyperbola.fragment.tex
+        diagram_job_id: line-hyperbola
+        width: 58mm
+        caption: 一次函数与反比例函数
+        variant: prompt
+        disclosure_policy: clean
+    answer: (1) $A(-2,0)$，$B(0,4)$；(2) $k=16$。
+  - type: problem
+    id: t22_q18
+    points: 10
+    stem_latex: "如图，为某公园“水上滑梯”的侧面图，其中 $BC$ 段可看成是一段双曲线。建立如图所示的坐标系后，矩形 $AOBE$ 为向上攀爬的梯子，$OA=6$ 米，进口 $AB\\parallel OD$，且 $AB=2$ 米，出口 $C$ 点距水面的距离为 $CD$。\n\\begin{enumerate}[label=(\\arabic*)]\n  \\item 求 $BC$ 段滑梯所在双曲线的表达式（$x\\ge2$）。\n  \\item 若 $CD$ 为 $1.5$ 米，求 $B,C$ 之间的水平距离 $DE$ 的长度。\n\\end{enumerate}"
+    answer_space:
+      type: lines
+      height: 48mm
+      diagram_col:
+        kind: tikz
+        tikz_path: diagrams/slide-hyperbola.fragment.tex
+        diagram_job_id: slide-hyperbola
+        width: 58mm
+        caption: 水上滑梯侧面示意
+        variant: prompt
+        disclosure_policy: clean
+    answer: (1) $y=\dfrac{12}{x}$；(2) $DE=6$ 米。

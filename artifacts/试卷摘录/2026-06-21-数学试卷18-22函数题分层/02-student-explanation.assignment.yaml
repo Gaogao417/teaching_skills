@@ -1,0 +1,295 @@
+meta:
+  title: 函数综合题讲解
+  subtitle: 图像建模、面积存在性与分段函数
+  grade: 八年级
+  subject: 数学
+  version: student
+  source_artifacts:
+    structure_analysis: artifacts/试卷摘录/2026-06-21-数学试卷18-22函数题分层/01-structure-analysis.md
+    question_bank: documents/八年级/函数题库/数学试卷18-22_函数求点坐标题库.yaml
+render:
+  template: exam-zh-explanation
+  paper_size: a4paper
+sections:
+- id: explanation-1
+  title: 例题一：交点解析式、面积与坐标轴存在性
+  show_title: true
+  type: explanation
+  visibility: student
+  blocks:
+  - type: solution
+    id: h1-knowledge
+    title: 核心结论：交点解析式、面积与坐标轴存在性
+    items:
+    - latex: 交点在两条直线上，先由已知横坐标代入已知解析式求出交点。
+    - latex: 坐标轴上的点分为 $x$ 轴点和 $y$ 轴点，存在性题要分类。
+  - type: problemcard
+    id: h1-problem
+    label: 例题 1
+    stem_latex: "如图，一次函数 $y_1=2x-2$ 的图象与 $y$ 轴交于点 $A$，一次函数 $y_2$ 的图象与 $y$ 轴交于点 $B(0,6)$，$C$ 为两函数图象的交点，且点 $C$ 的横坐标为 $2$。\n\\begin{enumerate}[label=(\\arabic*)]\n  \\item 求 $C$ 点坐标及一次函数 $y_2$ 的函数解析式。\n  \\item 求 $\\triangle ABC$ 的面积。\n  \\item 在坐标轴上，是否存在一点 $P$，使得 $S_{\\triangle AOP}=2S_{\\triangle BCP}$？若存在，请直接写出点 $P$ 的坐标；若不存在，请说明理由。\n\\end{enumerate}"
+    diagram_col:
+      kind: tikz
+      tikz_path: diagrams/intersection-area.fragment.tex
+      diagram_job_id: intersection-area
+      width: 60mm
+      caption: 两条一次函数与交点 C
+      variant: prompt
+      disclosure_policy: clean
+  - type: route
+    id: h1-route
+    steps:
+    - id: e1919-s1
+      latex: 求已知直线上的交点 $C$
+      content_latex: 由 $x_C=2$，代入 $y_1=2x-2$，得 $C(2,2)$。
+    - id: e1919-s2
+      latex: 用 $B,C$ 求 $y_2$
+      content_latex: 直线 $y_2$ 过 $B(0,6)$、$C(2,2)$，斜率为 $-2$，故 $y_2=-2x+6$。
+    - id: e1919-s3
+      latex: 用底高求面积
+      content_latex: $AB=8$，点 $C$ 到 $y$ 轴距离为 $2$，所以 $S_{\triangle ABC}=\dfrac12\times8\times2=8$。
+    - id: e1919-s4
+      latex: 分类讨论坐标轴上的 $P$
+      content_latex: 分别令 $P=(p,0)$ 与 $P=(0,p)$，按题目面积关系列方程，解得四个候选点。
+  - type: dual_explanation
+    id: h1-dual
+    label: 例题 1
+    stem_latex: 完成本题的关键求解过程。
+    side_title: 小贴士
+    side_items:
+    - kind: hint
+      title: 提示 1
+      content_latex: 先用横坐标求 $C$，不要先设未知直线。
+    - kind: hint
+      title: 提示 2
+      content_latex: 坐标轴上的点不是一种情况，$x$ 轴和 $y$ 轴要分开。
+    solution_title: 解答
+    solution_step_ids:
+    - e1919-s1
+    - e1919-s2
+    - e1919-s3
+    - e1919-s4
+    connection_title: 答案
+    connection_items:
+    - latex: (1) $C(2,2)$，$y_2=-2x+6$；(2) $8$；(3) $(-7,0),(9,0),(0,14),(0,-18)$。
+  - type: mistake
+    id: h1-mistake
+    title: 易错提醒
+    content_latex: 坐标轴上的点不是一种情况，$x$ 轴和 $y$ 轴要分开。
+  - type: method_reminder
+    id: h1-method
+    title: 方法提醒
+    items:
+    - latex: 先求交点，再求直线，再用面积条件分类找点。
+- id: explanation-2
+  title: 例题二：输液剩余量图像与实际流速
+  show_title: true
+  type: explanation
+  visibility: student
+  blocks:
+  - type: solution
+    id: h2-knowledge
+    title: 核心结论：输液剩余量图像与实际流速
+    items:
+    - latex: 剩余量 $y$ 随时间 $x$ 线性下降，斜率的绝对值就是每分钟实际流速。
+    - latex: 毫升/分钟与毫升/小时换算时要乘或除以 $60$。
+  - type: problemcard
+    id: h2-problem
+    label: 例题 2
+    stem_latex: "为提高控制输液从而减少因差异导致的药效不良事件，医疗输液器中的滴壶调节器从滚轮式改进为掣扣式的控制式。小明发现，在相同挡位下，不同粘度的液体流速存在差异，于是展开实验研究。（实验假设：对于掣扣式输液器设定的任意一个挡位，同样液体的输液速度保持恒定。）\n\\begin{enumerate}[label=(\\arabic*)]\n  \\item 小明用掣扣式输液器设定每小时 $120$ 毫升的档位测试液体 $A$ 的流速，输液段内初始药液量为 $250$ 毫升，得到输液段剩余药液量 $y$（毫升）和时间 $x$（分钟）之间的关系如图所示。求 $y$ 关于 $x$ 的函数解析式（不写定义域）。\n  \\item 判断液体 $A$ 的实际流速是否与设定流速（$120$ 毫升/小时）一致；若不一致，假设实际流速与设定流速成正比，求要达到每小时 $120$ 毫升的流速应设定为多少毫升/小时。\n  \\item 用相同档位测试液体 $B$ 和液体 $C$ 的实际流速，发现液体 $B$ 的流速比液体 $C$ 每小时快 $60$ 毫升，且输完 $250$ 毫升液体 $C$ 所需时间是输完 $200$ 毫升液体 $B$ 所需时间的 $2$ 倍，求该档位下液体 $B$ 和液体 $C$ 的实际流速。\n\\end{enumerate}"
+    diagram_col:
+      kind: tikz
+      tikz_path: diagrams/infusion-graph.fragment.tex
+      diagram_job_id: infusion-graph
+      width: 60mm
+      caption: 剩余药液量随时间变化
+      variant: prompt
+      disclosure_policy: clean
+  - type: route
+    id: h2-route
+    steps:
+    - id: e1922-s1
+      latex: 由图像求液体 A 的函数式
+      content_latex: 图像过 $(0,250)$ 与 $(20,220)$，斜率为 $-\dfrac32$，故 $y=-\dfrac32x+250$。
+    - id: e1922-s2
+      latex: 换算实际流速
+      content_latex: 每分钟减少 $1.5$ 毫升，实际流速为 $1.5\times60=90$ 毫升/小时。
+    - id: e1922-s3
+      latex: 按比例反推设定值
+      content_latex: 实际/设定为 $90/120=3/4$，要实际达到 $120$，设定值应为 $120\div\dfrac34=160$。
+    - id: e1922-s4
+      latex: 列方程求 B、C 流速
+      content_latex: 设液体 C 流速为 $v$，液体 B 为 $v+60$，由 $250/v=2\cdot200/(v+60)$ 解得 $v=100$。
+  - type: dual_explanation
+    id: h2-dual
+    label: 例题 2
+    stem_latex: 完成本题的关键求解过程。
+    side_title: 小贴士
+    side_items:
+    - kind: hint
+      title: 提示 1
+      content_latex: 图像纵轴是“剩余量”，不是“已经输完的量”。
+    - kind: hint
+      title: 提示 2
+      content_latex: 小时和分钟混在一起时，先统一单位。
+    solution_title: 解答
+    solution_step_ids:
+    - e1922-s1
+    - e1922-s2
+    - e1922-s3
+    - e1922-s4
+    connection_title: 答案
+    connection_items:
+    - latex: (1) $y=-\dfrac32x+250$；液体 A 实际流速 $90$ 毫升/小时，不一致；应设定为 $160$ 毫升/小时。(2) 液体 B 为 $160$ 毫升/小时，液体 C 为 $100$ 毫升/小时。
+  - type: mistake
+    id: h2-mistake
+    title: 易错提醒
+    content_latex: 小时和分钟混在一起时，先统一单位。
+  - type: method_reminder
+    id: h2-method
+    title: 方法提醒
+    items:
+    - latex: 实际问题先读斜率含义，再做单位换算和比例方程。
+  layout:
+    break_before: true
+- id: explanation-3
+  title: 例题三：交通流量一次函数与分段决策
+  show_title: true
+  type: explanation
+  visibility: student
+  blocks:
+  - type: solution
+    id: h3-knowledge
+    title: 核心结论：交通流量一次函数与分段决策
+    items:
+    - latex: 表格中等间隔数据可用两点求一次函数。
+    - latex: 决策条件要先判断哪个方向流量更大，再与总量比例比较。
+  - type: problemcard
+    id: h3-problem
+    label: 例题 3
+    stem_latex: "某条东西方向道路双向共有三条车道，在早晚高峰经常会拥堵。数学研究小组希望改善道路拥堵情况，他们对该路段的交通量（辆/分钟）和时间进行统计分析，得到表格，并发现时间和交通量的变化规律符合一次函数的特征。\n\\begin{enumerate}[label=(\\arabic*)]\n  \\item 请用一次函数分别表示 $y_1$ 与 $x$、$y_2$ 与 $x$ 之间的函数关系（不写定义域）。\n  \\item 如图，同学们希望设置可变车道来改善拥堵情况，根据车流量情况改变可变车道的行车方向。单位时间内东西向交通总量为 $y_0=y_1+y_2$，车流量大的方向交通量为 $v_m$；当 $v_m\\ge\\dfrac23y_0$，需使可变车道行车方向与拥挤方向相同。该路段从 $8$ 时至 $20$ 时，何时设置可变车道行车方向以缓解交通拥堵，并说明理由。\n\\end{enumerate}"
+    diagram_col:
+      kind: tikz
+      tikz_path: diagrams/road-flow.fragment.tex
+      diagram_job_id: road-flow
+      width: 60mm
+      caption: 可变车道示意
+      variant: prompt
+      disclosure_policy: clean
+  - type: route
+    id: h3-route
+    steps:
+    - id: e2022-s1
+      latex: 由表格写出两个函数
+      content_latex: $y_1$ 每 3 小时增加 6，斜率为 $2$，故 $y_1=2x-6$；$y_2$ 每 3 小时减少 3，故 $y_2=-x+33$。
+    - id: e2022-s2
+      latex: 写出总量与阈值
+      content_latex: $y_0=y_1+y_2=x+27$，阈值为 $\dfrac23y_0=\dfrac23(x+27)$。
+    - id: e2022-s3
+      latex: 自东向西占优时判断
+      content_latex: 当 $8\le x\le13$，$y_2\ge y_1$。解 $y_2\ge\dfrac23y_0$，得 $x\le9$。
+    - id: e2022-s4
+      latex: 自西向东占优时判断
+      content_latex: 当 $13\le x\le20$，$y_1\ge y_2$。解 $y_1\ge\dfrac23y_0$，得 $x\ge18$。
+  - type: dual_explanation
+    id: h3-dual
+    label: 例题 3
+    stem_latex: 完成本题的关键求解过程。
+    side_title: 小贴士
+    side_items:
+    - kind: hint
+      title: 提示 1
+      content_latex: 不要只比较 $y_1,y_2$，还要满足“至少占总量三分之二”。
+    - kind: hint
+      title: 提示 2
+      content_latex: 方向判断和比例判断是两步，不要合成一步。
+    solution_title: 解答
+    solution_step_ids:
+    - e2022-s1
+    - e2022-s2
+    - e2022-s3
+    - e2022-s4
+    connection_title: 答案
+    connection_items:
+    - latex: $y_1=2x-6$，$y_2=-x+33$；$8\le x\le9$ 时设置为自东向西，$18\le x\le20$ 时设置为自西向东。
+  - type: mistake
+    id: h3-mistake
+    title: 易错提醒
+    content_latex: 方向判断和比例判断是两步，不要合成一步。
+  - type: method_reminder
+    id: h3-method
+    title: 方法提醒
+    items:
+    - latex: 表格建模后，先分方向，再用比例不等式筛选时间段。
+  layout:
+    break_before: true
+- id: explanation-4
+  title: 例题四：分移函数与矩形交点分类
+  show_title: true
+  type: explanation
+  visibility: student
+  blocks:
+  - type: solution
+    id: h4-knowledge
+    title: 核心结论：分移函数与矩形交点分类
+    items:
+    - latex: 分段函数先看 $x\ge0$ 还是 $x<0$，再代入对应表达式。
+    - latex: 与矩形恰好有几个交点，本质是直线段穿过矩形边界的分类。
+  - type: problemcard
+    id: h4-problem
+    label: 例题 4
+    stem_latex: "定义：形如 $y=\\begin{cases}kx+b,&x\\ge0,\\\\kx-b,&x<0\\end{cases}$ 的函数称为正比例函数 $y=kx\\ (k\\ne0)$ 的“分移函数”，其中 $b$ 叫“分移值”。\n\\begin{enumerate}[label=(\\arabic*)]\n  \\item 函数 $y=x$ 的“分移函数”为 $y=\\begin{cases}x+3,&x\\ge0,\\\\x-3,&x<0\\end{cases}$，其中“分移值”为 $3$，在图中画出其图象；已知点 $(1,2k)$ 在 $y=kx\\ (k\\ne0)$ 的“分移函数” $y=\\begin{cases}kx+6,&x\\ge0,\\\\kx-6,&x<0\\end{cases}$ 的图象上，求 $k$。\n  \\item 已知点 $P_1(2,1-m)$、$P_2(-3,2m+1)$ 在函数 $y=2x$ 的“分移函数”的图象上，求 $m$ 的值。\n  \\item 已知矩形 $ABCD$ 顶点坐标为 $A(1,0)$，$B(1,2)$，$C(-2,2)$，$D(-2,0)$，函数 $y=kx$ 的“分移函数”的“分移值”为 $3$，且其图象与矩形 $ABCD$ 恰好有 $2$ 个交点，请直接写出 $k$ 的取值范围。\n\\end{enumerate}"
+    diagram_col:
+      kind: tikz
+      tikz_path: diagrams/piecewise-grid.fragment.tex
+      diagram_job_id: piecewise-grid
+      width: 60mm
+      caption: 分移函数与矩形窗口
+      variant: prompt
+      disclosure_policy: clean
+  - type: route
+    id: h4-route
+    steps:
+    - id: e2217-s1
+      latex: 按 $x$ 的符号代点
+      content_latex: 点 $(1,2k)$ 落在 $x\ge0$ 分支，代入 $2k=k+6$，得 $k=6$。
+    - id: e2217-s2
+      latex: 用两点反求分移值
+      content_latex: 对 $y=2x$ 的分移函数设分移值为 $b$，由 $P_1,P_2$ 分别代入两段，解得 $m=-4$。
+    - id: e2217-s3
+      latex: 分别看左右两段与矩形
+      content_latex: 右段 $y=kx+3$ 在 $0\le x\le1$，左段 $y=kx-3$ 在 $-2\le x<0$，分别判断是否穿过矩形 $0\le y\le2$。
+    - id: e2217-s4
+      latex: 合并恰好两个交点的范围
+      content_latex: 计数后只有右段穿过矩形、左段不穿过时恰好两个交点，得 $-\dfrac32<k<-1$。
+  - type: dual_explanation
+    id: h4-dual
+    label: 例题 4
+    stem_latex: 完成本题的关键求解过程。
+    side_title: 小贴士
+    side_items:
+    - kind: hint
+      title: 提示 1
+      content_latex: 新定义题不要急着套公式，先把定义拆成两段。
+    - kind: hint
+      title: 提示 2
+      content_latex: “恰好 2 个交点”要数边界交点，端点重合也只算一个点。
+    solution_title: 解答
+    solution_step_ids:
+    - e2217-s1
+    - e2217-s2
+    - e2217-s3
+    - e2217-s4
+    connection_title: 答案
+    connection_items:
+    - latex: (1) $k=6$；(2) $m=-4$；(3) $-\dfrac32<k<-1$。
+  - type: mistake
+    id: h4-mistake
+    title: 易错提醒
+    content_latex: “恰好 2 个交点”要数边界交点，端点重合也只算一个点。
+  - type: method_reminder
+    id: h4-method
+    title: 方法提醒
+    items:
+    - latex: 分段函数题先分段代入，再按图形边界做交点个数分类。
+  layout:
+    break_before: true

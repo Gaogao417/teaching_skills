@@ -1,0 +1,10 @@
+\begin{tikzpicture}[scale=0.52,>=stealth]
+  \draw[->] (-0.8,0)--(7,0) node[right] {$x$};
+  \draw[->] (0,-2.5)--(0,4.8) node[above] {$y$};
+  \draw[domain=1.9:6.8,smooth,variable=\x,thick] plot ({\x},{-8/\x});
+  \fill (0,4) circle (2pt) node[left] {$A(0,4)$};
+  \fill (6,-1.333) circle (2pt) node[below] {$B$};
+  \draw[thick] (0,4)--(6,-1.333);
+  \node[below left] at (0,0) {$O$};
+  \node[right] at (5.2,-2.0) {$y=-\frac{8}{x}$};
+\end{tikzpicture}

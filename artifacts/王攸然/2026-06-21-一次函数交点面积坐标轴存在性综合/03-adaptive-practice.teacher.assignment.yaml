@@ -1,0 +1,426 @@
+meta:
+  title: "一次函数交点、面积与坐标轴存在性综合 · 教师版"
+  subtitle: "从题库 hard 第一题过渡到上次作业最后一题"
+  grade: "八年级"
+  subject: "数学"
+  duration: "30分钟"
+  total_points: 30
+  version: "teacher"
+  show_answers: true
+  source_artifacts:
+    previous_assignment: "artifacts/王攸然/2026-06-14-一次函数反比例函数交点面积综合/03-adaptive-practice.teacher.assignment.yaml"
+    structure_analysis: "artifacts/王攸然/2026-06-14-一次函数反比例函数交点面积综合/01-structure-analysis.md"
+    explanation: "artifacts/王攸然/2026-06-14-一次函数反比例函数交点面积综合/02-student-explanation.assignment.yaml"
+    question_bank: "documents/八年级/函数题库/数学试卷18-22_函数求点坐标题库.yaml"
+    question_bank_item: "T19-Q19"
+
+render:
+  template: "exam-zh-practice"
+  paper_size: "a4paper"
+  answer_key_position: "after_page_break"
+
+sections:
+  - id: "problems"
+    title: "练习题（每题 10 分，共 30 分）"
+    type: "practice"
+    visibility: "both"
+    blocks:
+      - type: "problem"
+        id: "p1"
+        points: 10
+        label: "第 1 题"
+        stem_latex: |
+          如图意，一次函数 $y_1=x-2$ 的图像与 $y$ 轴交于点 $A$，一次函数 $y_2$ 的图像与 $y$ 轴交于点 $B(0,4)$，两函数图像交于点 $C$，且点 $C$ 的横坐标为 $3$。
+          \par\noindent (1) 求点 $A,C$ 的坐标及一次函数 $y_2$ 的解析式；
+          \par\noindent (2) 求 $\triangle ABC$ 的面积；
+          \par\noindent (3) 在坐标轴上，是否存在一点 $P$，使得 $S_{\triangle AOP}=2S_{\triangle BCP}$？若存在，直接写出点 $P$ 的坐标；若不存在，说明理由。
+        hints:
+          - content: "先把交点横坐标代入已知直线，得到 $C$ 的完整坐标。"
+          - content: "第 (3) 问先分 $P$ 在 $x$ 轴和 $y$ 轴两种情况。"
+        diagram_slot:
+          slot_id: "practice.teacher.p1.prompt"
+          diagram_ref: "practice.teacher.p1.prompt"
+          variant: "prompt"
+          disclosure_policy: "clean"
+          required: true
+          on_failure: "fail_assignment"
+          placement: "diagram_col"
+          layout_role: "question_sidecar"
+          display_profile: "worksheet_geometry_sidecar"
+          caption: "第1题图"
+          engine: "coordinate_renderer"
+          diagram_kind: "coordinate_geometry"
+          teaching_intent: "practice_prompt"
+          semantic_constraints:
+            given_objects: ["直线 y1=x-2", "直线 y2=-x+4", "点 A(0,-2)", "点 B(0,4)", "点 C(3,1)"]
+            given_constraints: ["P 在坐标轴上，但不画出具体答案点"]
+            clean_forbidden: ["不要画出 P 的具体位置", "不要标注面积答案"]
+          visual_requirements: {show_labels: true, show_given_markers: true, show_axes: true, preferred_orientation: "landscape"}
+          analytic_requirements:
+            viewport: {x_min: -1, x_max: 7, y_min: -4, y_max: 6, preserve_aspect: false}
+            axes: {x: true, y: true, grid: false, show_ticks: true, x_label: "x", y_label: "y"}
+            objects:
+              - type: "polyline"
+                id: "line_y1"
+                points: [[-1, -3], [7, 5]]
+                style: {stroke: "#2563eb", stroke_width: 2.4}
+              - type: "polyline"
+                id: "line_y2"
+                points: [[-1, 5], [7, -3]]
+                style: {stroke: "#dc2626", stroke_width: 2.4}
+              - type: "point"
+                id: "A"
+                x: 0
+                y: -2
+                label: "A"
+              - type: "point"
+                id: "B"
+                x: 0
+                y: 4
+                label: "B"
+              - type: "point"
+                id: "C"
+                x: 3
+                y: 1
+                label: "C"
+        answer_space:
+          type: "steps"
+          height: "70mm"
+          step_count: 5
+        layout:
+          avoid_break: true
+        answer: "(1) $A(0,-2)$，$C(3,1)$，$y_2=-x+4$；(2) $S_{\\triangle ABC}=9$；(3) 存在，$P(3,0)$ 或 $P(6,0)$。"
+        solution_steps:
+          - title: "求点和函数"
+            content: "由 $y_1=x-2$ 与 $y$ 轴相交，得 $A(0,-2)$。点 $C$ 的横坐标为 $3$，代入 $y_1=x-2$ 得 $C(3,1)$。直线 $y_2$ 过 $B(0,4)$ 和 $C(3,1)$，斜率为 $\\dfrac{1-4}{3-0}=-1$，所以 $y_2=-x+4$。"
+          - title: "求面积"
+            content: "$AB$ 在 $y$ 轴上，$AB=6$，点 $C$ 到 $y$ 轴的距离为 $3$，所以 $S_{\\triangle ABC}=\\dfrac12\\cdot6\\cdot3=9$。"
+          - title: "讨论 $P$ 在坐标轴上"
+            content: "若 $P$ 在 $y$ 轴上，则 $A,O,P$ 共线，$S_{\\triangle AOP}=0$，而 $S_{\\triangle BCP}>0$，不符合。若 $P$ 在 $x$ 轴上，设 $P(t,0)$，则 $S_{\\triangle AOP}=|t|$。"
+          - title: "列面积方程"
+            content: "由 $B(0,4),C(3,1),P(t,0)$，得 $S_{\\triangle BCP}=\\dfrac12|3t-12|$。条件 $S_{\\triangle AOP}=2S_{\\triangle BCP}$ 化为 $|t|=|3t-12|$，解得 $t=3$ 或 $t=6$。故 $P(3,0)$ 或 $P(6,0)$。"
+        teaching:
+          teaching_goal: "从题库 T19-Q19 的两直线交点、面积、坐标轴动点存在性入手，训练先定位点再列面积方程。"
+          source_relations:
+            - "intersection_of_two_linear_functions"
+            - "two_points_determine_linear_function"
+            - "vertical_area_forward"
+            - "fallback:T19-Q19_coordinate_axis_existence"
+          model_fusion:
+            model_count: 2
+            models:
+              - "linear_function_intersection"
+              - "vertical_line_area"
+            fusion_role: "target_transform"
+          relation_chain:
+            - step: 1
+              relation_id: "point_on_linear_function_forward"
+              inputs:
+                L: "y_1=x-2"
+                x_value: "3"
+              outputs:
+                P: "C(3,1)"
+              constraints_checked:
+                - "一次函数非竖直，横坐标可代入"
+            - step: 2
+              relation_id: "two_points_determine_linear_function"
+              inputs:
+                P: "B(0,4)"
+                Q: "C(3,1)"
+              outputs:
+                L: "y_2=-x+4"
+              constraints_checked:
+                - "B,C 横坐标不同"
+            - step: 3
+              relation_id: "vertical_area_forward"
+              inputs:
+                A: "B(0,4)"
+                B: "C(3,1)"
+                P: "P(t,0)"
+              outputs:
+                area: "S_{BCP}=|3t-12|/2"
+              constraints_checked:
+                - "B,C 横坐标不同"
+          expected_blocker: "会求交点和解析式，但到坐标轴动点时忘记按所在坐标轴分支。"
+          entry_point: "build_relation"
+          scaffold_level: "medium"
+          variation_depth: "changed_representation"
+          complexity_note: "延续题库 hard 第一题结构，数字保持整洁，面积方程只产生两个干净答案。"
+          upgrade_rule: "能主动把 $P$ 在坐标轴上拆成 $x$ 轴和 $y$ 轴两类。"
+          fallback_move: "先画出 $A,B,C$ 的大致位置，再分别写出两个三角形面积。"
+
+      - type: "problem"
+        id: "p2"
+        points: 10
+        label: "第 2 题"
+        stem_latex: |
+          已知一次函数 $y_1=kx+b$ 与反比例函数 $y_2=\dfrac{m}{x}$ 的图像交于点 $A,B$。已知：点 $A$ 的横坐标为 $3$，点 $B$ 的横坐标为 $-1$，一次函数图像与 $y$ 轴交于点 $C(0,-2)$。
+          \par\noindent (1) 求一次函数解析式、反比例函数解析式，以及点 $A,B$ 的坐标；
+          \par\noindent (2) 根据图像求不等式 $kx+b>\dfrac{m}{x}$ 的解集；
+          \par\noindent (3) 点 $P$ 在 $x$ 轴上，若 $S_{\triangle AOP}=S_{\triangle PAB}$，求点 $P$ 的坐标。
+        hints:
+          - content: "先由 $C(0,-2)$ 得到 $b$，再用两个交点在反比例函数上列 $xy$ 相等。"
+          - content: "第 (3) 问设 $P(t,0)$，把两个面积都写成含 $t$ 的式子。"
+        diagram_slot:
+          slot_id: "practice.teacher.p2.prompt"
+          diagram_ref: "practice.teacher.p2.prompt"
+          variant: "prompt"
+          disclosure_policy: "clean"
+          required: true
+          on_failure: "fail_assignment"
+          placement: "diagram_col"
+          layout_role: "question_sidecar"
+          display_profile: "worksheet_geometry_sidecar"
+          caption: "第2题图"
+          engine: "coordinate_renderer"
+          diagram_kind: "coordinate_geometry"
+          teaching_intent: "practice_prompt"
+          semantic_constraints:
+            given_objects: ["直线 y=x-2", "双曲线 y=3/x", "交点 A(3,1)", "交点 B(-1,-3)", "点 O(0,0)"]
+            given_constraints: ["x=0 为反比例函数断点", "P 在 x 轴上但不画出具体答案点"]
+            clean_forbidden: ["不要画出 P 的具体位置", "不要标注不等式解集或面积答案"]
+          visual_requirements: {show_labels: true, show_given_markers: true, show_axes: true, preferred_orientation: "landscape"}
+          analytic_requirements:
+            viewport: {x_min: -4, x_max: 5, y_min: -6, y_max: 5, preserve_aspect: false}
+            axes: {x: true, y: true, grid: false, show_ticks: true, x_label: "x", y_label: "y"}
+            objects:
+              - type: "polyline"
+                id: "line"
+                points: [[-3, -5], [5, 3]]
+                style: {stroke: "#2563eb", stroke_width: 2.4}
+              - type: "polyline"
+                id: "hyperbola_left"
+                points: [[-4, -0.75], [-3, -1], [-2, -1.5], [-1, -3], [-0.6, -5]]
+                style: {stroke: "#dc2626", stroke_width: 2.4}
+              - type: "polyline"
+                id: "hyperbola_right"
+                points: [[0.6, 5], [1, 3], [2, 1.5], [3, 1], [4, 0.75], [5, 0.6]]
+                style: {stroke: "#dc2626", stroke_width: 2.4}
+              - type: "point"
+                id: "O"
+                x: 0
+                y: 0
+                label: "O"
+              - type: "point"
+                id: "A"
+                x: 3
+                y: 1
+                label: "A"
+              - type: "point"
+                id: "B"
+                x: -1
+                y: -3
+                label: "B"
+        answer_space:
+          type: "steps"
+          height: "72mm"
+          step_count: 5
+        layout:
+          avoid_break: true
+        answer: "(1) $y_1=x-2$，$y_2=\\dfrac3x$，$A(3,1)$，$B(-1,-3)$；(2) $-1<x<0$ 或 $x>3$；(3) $P(\\dfrac85,0)$ 或 $P(\\dfrac83,0)$。"
+        solution_steps:
+          - title: "求函数和交点"
+            content: "由 $C(0,-2)$ 得 $b=-2$。设 $A(3,3k-2)$，$B(-1,-k-2)$。因为 $A,B$ 都在 $y=\\dfrac{m}{x}$ 上，所以 $3(3k-2)=(-1)(-k-2)$，解得 $k=1$。于是 $y_1=x-2$，$A(3,1)$，$B(-1,-3)$，$m=3$，$y_2=\\dfrac3x$。"
+          - title: "图像解不等式"
+            content: "$x-2>\\dfrac3x$ 表示一次函数图像在反比例函数图像上方。断点为 $-1,0,3$，取 $(-1,0)$ 和 $(3,+\\infty)$，所以解集为 $-1<x<0$ 或 $x>3$。"
+          - title: "设点并写面积"
+            content: "设 $P(t,0)$。则 $S_{\\triangle AOP}=\\dfrac12|t|$。又 $A(3,1),B(-1,-3)$，所以 $S_{\\triangle PAB}=\\dfrac12|4t-8|=2|t-2|$。"
+          - title: "解面积方程并验算"
+            content: "由 $S_{\\triangle AOP}=S_{\\triangle PAB}$，得 $\\dfrac12|t|=2|t-2|$，即 $|t|=4|t-2|$。解得 $t=\\dfrac85$ 或 $t=\\dfrac83$。故 $P(\\dfrac85,0)$ 或 $P(\\dfrac83,0)$。"
+        teaching:
+          teaching_goal: "把上次作业的求参、图像不等式、铅垂线面积，桥接到坐标轴动点面积方程。"
+          source_relations:
+            - "linear_inverse_function_inequality_by_graph"
+            - "vertical_area_forward"
+            - "fallback:previous_assignment_p1_and_T19-Q19"
+          model_fusion:
+            model_count: 3
+            models:
+              - "linear_inverse_graph_inequality"
+              - "vertical_line_area"
+              - "coordinate_axis_point_area"
+            fusion_role: "target_transform"
+          relation_chain:
+            - step: 1
+              relation_id: "linear_inverse_function_inequality_by_graph"
+              inputs:
+                linear_function: "y_1=x-2"
+                inverse_function: "y_2=3/x"
+                intersection_points: "A(3,1), B(-1,-3)"
+                comparison_direction: "y_1>y_2"
+                domain_restriction: "x != 0"
+              outputs:
+                solution_set: "(-1,0) union (3,+infty)"
+              constraints_checked:
+                - "交点横坐标排序为 -1,3"
+                - "反比例函数按 x=0 分段"
+            - step: 2
+              relation_id: "vertical_area_forward"
+              inputs:
+                A: "A(3,1)"
+                B: "B(-1,-3)"
+                P: "P(t,0)"
+              outputs:
+                area: "S_{PAB}=2|t-2|"
+              constraints_checked:
+                - "A,B 横坐标不同"
+                - "竖直距离用同横坐标纵坐标差表示"
+            - step: 3
+              relation_id: "fallback:axis_triangle_area"
+              inputs:
+                A: "A(3,1)"
+                O: "O(0,0)"
+                P: "P(t,0)"
+              outputs:
+                area: "S_{AOP}=|t|/2"
+              constraints_checked:
+                - "P 在 x 轴上，底 OP 与高 |y_A| 可直接计算"
+          expected_blocker: "能完成前两问，但第 (3) 问不会把 $P$ 设为 $(t,0)$ 并列两个面积。"
+          entry_point: "transfer"
+          scaffold_level: "medium"
+          variation_depth: "packaged_condition"
+          complexity_note: "保留上次作业近迁移数字，第 (3) 问只新增一个坐标轴面积方程，答案为简单分数。"
+          upgrade_rule: "能在不提示的情况下写出 $S_{\\triangle PAB}=2|t-2|$。"
+          fallback_move: "先只算 $S_{\\triangle AOP}$，再回到铅垂线法算 $S_{\\triangle PAB}$。"
+
+      - type: "problem"
+        id: "p3"
+        points: 10
+        label: "第 3 题"
+        stem_latex: |
+          已知一次函数 $y_1=kx+b$ 与反比例函数 $y_2=\dfrac{m}{x}$ 的图像交于点 $A,B$。已知：$k=-1$，$m=-2$，点 $A$ 的横坐标为 $1$。
+          \par\noindent (1) 求一次函数解析式、反比例函数解析式，以及点 $A,B$ 的坐标；
+          \par\noindent (2) 根据图像求不等式 $kx+b>\dfrac{m}{x}$ 的解集；
+          \par\noindent (3) 点 $P$ 在反比例函数第四象限分支上，且在点 $A$ 的右侧。若 $S_{\triangle PAB}=3$，求点 $P$ 的坐标。
+        hints:
+          - content: "先用点 $A$ 在反比例函数上求出 $A$ 的纵坐标，再代入一次函数求 $b$。"
+          - content: "第 (3) 问设 $P(t,-\\dfrac2t)$，其中 $t>1$。"
+        diagram_slot:
+          slot_id: "practice.teacher.p3.prompt"
+          diagram_ref: "practice.teacher.p3.prompt"
+          variant: "prompt"
+          disclosure_policy: "clean"
+          required: true
+          on_failure: "fail_assignment"
+          placement: "diagram_col"
+          layout_role: "question_sidecar"
+          display_profile: "worksheet_geometry_sidecar"
+          caption: "第3题图"
+          engine: "coordinate_renderer"
+          diagram_kind: "coordinate_geometry"
+          teaching_intent: "practice_prompt"
+          semantic_constraints:
+            given_objects: ["直线 y=-x-1", "双曲线 y=-2/x", "交点 A(1,-2)", "交点 B(-2,1)", "点 O(0,0)"]
+            given_constraints: ["x=0 为反比例函数断点", "P 在第四象限分支且在 A 的右侧，但不画出具体答案点"]
+            clean_forbidden: ["不要画出 P 的具体位置", "不要标注面积答案"]
+          visual_requirements: {show_labels: true, show_given_markers: true, show_axes: true, preferred_orientation: "landscape"}
+          analytic_requirements:
+            viewport: {x_min: -5, x_max: 5, y_min: -5, y_max: 5, preserve_aspect: false}
+            axes: {x: true, y: true, grid: false, show_ticks: true, x_label: "x", y_label: "y"}
+            objects:
+              - type: "polyline"
+                id: "line"
+                points: [[-5, 4], [5, -6]]
+                style: {stroke: "#2563eb", stroke_width: 2.4}
+              - type: "polyline"
+                id: "hyperbola_left"
+                points: [[-5, 0.4], [-4, 0.5], [-2, 1], [-1, 2], [-0.5, 4]]
+                style: {stroke: "#dc2626", stroke_width: 2.4}
+              - type: "polyline"
+                id: "hyperbola_right"
+                points: [[0.5, -4], [1, -2], [2, -1], [4, -0.5], [5, -0.4]]
+                style: {stroke: "#dc2626", stroke_width: 2.4}
+              - type: "point"
+                id: "O"
+                x: 0
+                y: 0
+                label: "O"
+              - type: "point"
+                id: "A"
+                x: 1
+                y: -2
+                label: "A"
+              - type: "point"
+                id: "B"
+                x: -2
+                y: 1
+                label: "B"
+        answer_space:
+          type: "steps"
+          height: "76mm"
+          step_count: 5
+        layout:
+          avoid_break: true
+        answer: "(1) $y_1=-x-1$，$y_2=-\\dfrac2x$，$A(1,-2)$，$B(-2,1)$；(2) $x<-2$ 或 $0<x<1$；(3) $P(2,-1)$。"
+        solution_steps:
+          - title: "求函数和交点"
+            content: "由 $m=-2$ 且 $x_A=1$，得 $A(1,-2)$。又 $k=-1$，代入 $y=-x+b$ 得 $-1+b=-2$，所以 $b=-1$，$y_1=-x-1$。解 $-x-1=-\\dfrac2x$，得 $x=1$ 或 $x=-2$，所以 $B(-2,1)$。"
+          - title: "图像解不等式"
+            content: "$-x-1>-\\dfrac2x$。两个交点横坐标为 $-2,1$，且 $x=0$ 不能取。由图像上下关系，直线在双曲线上方的区间为 $(-\\infty,-2)$ 和 $(0,1)$。"
+          - title: "设点并找竖直距离"
+            content: "点 $P$ 在第四象限分支且在 $A$ 右侧，设 $P(t,-\\dfrac2t)$，其中 $t>1$。直线 $AB$ 为 $y=-x-1$，过 $P$ 作铅垂线交 $AB$ 于 $H$，则 $H(t,-t-1)$。"
+          - title: "列面积方程"
+            content: "$PH=|(-t-1)-(-\\dfrac2t)|=|t+1-\\dfrac2t|$。因为 $t>1$，所以 $t+1-\\dfrac2t>0$。又 $|x_A-x_B|=3$，所以 $S_{\\triangle PAB}=\\dfrac12\\cdot3\\cdot(t+1-\\dfrac2t)=3$。"
+          - title: "求点并验算"
+            content: "由 $\\dfrac32(t+1-\\dfrac2t)=3$，得 $t+1-\\dfrac2t=2$，即 $t^2-t-2=0$。解得 $t=2$ 或 $t=-1$，结合 $t>1$，取 $t=2$，所以 $P(2,-1)$。代回面积为 $\\dfrac12\\cdot3\\cdot2=3$。"
+        teaching:
+          teaching_goal: "收束到王攸然上次 assignment 最后一题：在函数轨迹上设动点，由面积反求坐标。"
+          source_relations:
+            - "linear_inverse_function_inequality_by_graph"
+            - "vertical_area_forward"
+            - "fallback:previous_assignment_p4_inverse_locus_area_inverse"
+          model_fusion:
+            model_count: 2
+            models:
+              - "linear_inverse_graph_inequality"
+              - "vertical_line_area"
+            fusion_role: "target_transform"
+          relation_chain:
+            - step: 1
+              relation_id: "linear_inverse_function_inequality_by_graph"
+              inputs:
+                linear_function: "y_1=-x-1"
+                inverse_function: "y_2=-2/x"
+                intersection_points: "A(1,-2), B(-2,1)"
+                comparison_direction: "y_1>y_2"
+                domain_restriction: "x != 0"
+              outputs:
+                solution_set: "(-infty,-2) union (0,1)"
+              constraints_checked:
+                - "交点横坐标排序为 -2,1"
+                - "反比例函数按 x=0 分段"
+            - step: 2
+              relation_id: "vertical_area_forward"
+              inputs:
+                A: "A(1,-2)"
+                B: "B(-2,1)"
+                P: "P(t,-2/t), t>1"
+              outputs:
+                area: "3(t+1-2/t)/2"
+              constraints_checked:
+                - "A,B 横坐标不同"
+                - "位置条件 t>1 筛掉多余候选"
+          expected_blocker: "不会把点在反比例函数上转成 $P(t,-2/t)$，或不会用位置条件筛选。"
+          entry_point: "hidden_structure"
+          scaffold_level: "low"
+          variation_depth: "partially_hidden"
+          complexity_note: "复用上次最后一题的计算量，二次方程只有一个合法正向候选。"
+          upgrade_rule: "能说明为什么 $t=-1$ 要被位置条件排除。"
+          fallback_move: "先只设 $P(t,-2/t)$，再找过 $P$ 的铅垂线与 $AB$ 的交点。"
+
+  - id: "answer-key"
+    title: "参考答案"
+    type: "answer_key"
+    visibility: "teacher"
+    layout:
+      break_before: true
+    blocks:
+      - type: "step"
+        id: "ak-main"
+        title: "练习题"
+        content: |
+          第 1 题：$A(0,-2)$，$C(3,1)$，$y_2=-x+4$；$S_{\triangle ABC}=9$；存在，$P(3,0)$ 或 $P(6,0)$。
+
+          第 2 题：$y_1=x-2$，$y_2=\dfrac3x$，$A(3,1)$，$B(-1,-3)$；解集为 $-1<x<0$ 或 $x>3$；$P(\dfrac85,0)$ 或 $P(\dfrac83,0)$。
+
+          第 3 题：$y_1=-x-1$，$y_2=-\dfrac2x$，$A(1,-2)$，$B(-2,1)$；解集为 $x<-2$ 或 $0<x<1$；$P(2,-1)$。
