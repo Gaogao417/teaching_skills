@@ -83,7 +83,7 @@ sequenceDiagram
             alt synthetic_geometry
                 WF ->> WF: text model 写 GeometricScene
                 WF ->> WF: Wolfram 求解点位
-            else coordinate_geometry / function_graph
+            else coordinate_geometry
                 WF ->> WF: 生成/校验 analytic_requirements
                 WF ->> WF: WolframClient 计算采样、交点、零点和视窗所需数值
             end
@@ -230,7 +230,7 @@ math-homework-pipeline (skill, 调度器)
   │        ├── 内部调 workflow.py (python) × N
   │        └── 内部调 render_geometry_spec.py (python) × N
   │        └── 输出: per-job files [DiagramJobRequest → DiagramJobResult + GeometryRenderSpec → GeometryRendererResult]
-  │        └── 路由: synthetic_geometry → geometric_scene；function_graph/coordinate_geometry → wolfram_client 或 coordinate_renderer
+  │        └── 路由: synthetic_geometry → geometric_scene；coordinate_geometry → wolfram_client 或 coordinate_renderer
   │
   ├── S2.7 调用 build_diagram_artifacts.py (python)
   │        └── 输出: diagram_artifacts.json [DiagramArtifactsManifest]

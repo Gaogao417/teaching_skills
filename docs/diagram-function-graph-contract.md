@@ -1,17 +1,17 @@
-# Function Graph Diagram Contract
+# Coordinate Plane Function Diagram Contract
 
-本文档定义解析几何/函数图分支的最小 contract。它补充 `docs/diagram-workflow-architecture.md` 和 `docs/diagram-job-schema.md`，不改变综合几何的 `geometric_scene` 主线。
+本文档定义坐标平面图中带函数曲线时的最小 contract。它补充 `docs/diagram-workflow-architecture.md` 和 `docs/diagram-job-schema.md`，不改变综合几何的 `geometric_scene` 主线。
 
 ## 1. 适用范围
 
-使用 `diagram_kind: function_graph`：
+plan slot 统一使用 `diagram_kind: coordinate_geometry`。当需要函数曲线时，在 `analytic_requirements.functions` 中声明：
 
 - 一次函数、二次函数、反比例函数、三角函数等图像。
 - 判断点是否在函数图像上。
 - 求函数交点、零点、极值、对称轴、面积读图。
 - 题目明确要求坐标轴、网格、刻度或函数曲线。
 
-使用 `diagram_kind: coordinate_geometry`：
+同一个 `coordinate_geometry` slot 也覆盖：
 
 - 坐标系内的点、线段、直线、圆、多边形。
 - 点到直线距离、两点距离、面积、坐标变换。
@@ -45,7 +45,7 @@ diagram_slot:
   width_hint: "0.34\\linewidth"
   caption: "函数图像"
   engine: "wolfram_client"
-  diagram_kind: "function_graph"
+  diagram_kind: "coordinate_geometry"
   teaching_intent: "practice_prompt"
   analytic_requirements:
     viewport:
@@ -76,13 +76,13 @@ diagram_slot:
 
 ## 4. Workflow 输出要求
 
-`workflow.py` 对函数图输出：
+`workflow.py` 对含函数曲线的坐标平面图输出：
 
 - `workflow_result.json`：状态、失败类型、Wolfram summary、model attempts。
 - `final_renderer_spec.json`：可审计的函数图 spec。
 - `renderer_result.json`：最终 PNG/SVG 路径，由本地 coordinate renderer 输出。
 
-函数图 `final_renderer_spec.json` 至少满足：
+含函数曲线的 `final_renderer_spec.json` 至少满足。renderer spec 可继续使用 `type: "function_graph"` 作为渲染/诊断分类，但 plan slot 不再使用这个顶层 kind：
 
 ```json
 {
@@ -125,7 +125,7 @@ Solution 图：
 ## 6. 实现状态
 
 1. `run_diagram_batch.py` 从 plan slot 提取 `analytic_requirements`，写入 `DiagramJobRequest`。
-2. `run_diagram_workflow.py` 按 `engine + diagram_kind` 路由 `wolfram_client` / `coordinate_renderer`，不要 skip `function_graph`。
+2. `run_diagram_workflow.py` 对 `diagram_kind: coordinate_geometry` 使用 `wolfram_client` / `coordinate_renderer` 解析坐标平面图；函数曲线由 `analytic_requirements.functions` 决定。
 3. `scripts/diagram_workflow/analytic_diagram_workflow.py` 使用 WolframClient 做表达式安全校验、采样、交点与零点计算，不生成 `.wl` 文件。
 4. `render_geometry_spec.py` 对 `function_graph` / `coordinate_geometry` 使用坐标 renderer，画 axes、grid、ticks、function samples、point、line、circle、polyline/polygon。
 5. gate 和更复杂标注能力继续增强；`wolfram_plot` 只作为兼容 alias。

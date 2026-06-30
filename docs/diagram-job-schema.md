@@ -78,9 +78,9 @@ assignment.resolved.yaml
 - `RendererBinding.bindable: true` 要求 `status: ok`、TikZ source 非空且可访问、`hash` 非空。
 - 学生版 resolved YAML 不应引用 `variant: solution` 或 `disclosure_policy: annotated` 的图片；这是 gate 层检查。
 - `diagram_kind: synthetic_geometry` 默认搭配 `engine: geometric_scene`，走 Wolfram `GeometricScene` 求实例点位。
-- `diagram_kind: coordinate_geometry` 或 `function_graph` 不应强塞进 `GeometricScene`；优先使用 `engine: wolfram_client`，纯显式坐标对象也可使用 `engine: coordinate_renderer`。
+- `diagram_kind: coordinate_geometry` 表示坐标平面图，包括只画点/线/多边形，也包括需要画函数曲线的图；函数曲线通过 `analytic_requirements.functions` 表达，不再在 plan slot 顶层写 `diagram_kind: function_graph`。
 - `wolfram_plot` 仅保留为兼容 alias；新 plan 不推荐使用。
-- 函数图和坐标图的数学输入放在 `analytic_requirements`，包括 `viewport`、`axes`、`functions`、`objects`、`annotations` 与 `wolfram_client_options`；`wolfram_plot_options` 仅作兼容输入。
+- 坐标平面图的数学输入放在 `analytic_requirements`，包括 `viewport`、`axes`、`functions`、`objects`、`annotations` 与 `wolfram_client_options`；`wolfram_plot_options` 仅作兼容输入。
 - `GeometryRenderSpec` 对综合几何要求 `points`；对坐标/函数图要求 `points`、`objects`、`functions`、`curves` 或 `samples` 至少一种可渲染对象。
 
 ## 4. 最小对象示例
@@ -104,7 +104,7 @@ diagram_slot:
   teaching_intent: "practice_prompt"
 ```
 
-### FunctionGraph DiagramSlot
+### Coordinate Plane DiagramSlot With Functions
 
 ```yaml
 diagram_slot:
@@ -119,7 +119,7 @@ diagram_slot:
   width_hint: "0.34\\linewidth"
   caption: "函数图像"
   engine: "wolfram_client"
-  diagram_kind: "function_graph"
+  diagram_kind: "coordinate_geometry"
   teaching_intent: "practice_prompt"
   analytic_requirements:
     viewport:
@@ -224,7 +224,7 @@ diagram_slot:
 }
 ```
 
-### FunctionGraph DiagramJobRequest
+### Coordinate Plane DiagramJobRequest With Functions
 
 ```json
 {
@@ -236,7 +236,7 @@ diagram_slot:
   "variant": "prompt",
   "disclosure_policy": "clean",
   "engine": "wolfram_client",
-  "diagram_kind": "function_graph",
+  "diagram_kind": "coordinate_geometry",
   "teaching_intent": "practice_prompt",
   "problem_context": {
     "stem_latex": "画出函数 $y=2x-1$ 的图像，并判断点 $A(2,3)$ 是否在图像上。",

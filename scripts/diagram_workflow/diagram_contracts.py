@@ -470,40 +470,27 @@ class SyntheticGeometryDiagramSlot(DiagramSlotBase):
     diagram_kind: Literal["synthetic_geometry"] = "synthetic_geometry"
 
 
-class CoordinateGeometryDiagramSlot(DiagramSlotBase):
-    """Slot payload for coordinate-plane diagrams."""
+class CoordinatePlaneDiagramSlot(DiagramSlotBase):
+    """Slot payload for coordinate-plane diagrams, including function curves."""
 
     engine: Literal["wolfram_client", "wolfram_plot", "coordinate_renderer", "renderer_spec"] = "coordinate_renderer"
     diagram_kind: Literal["coordinate_geometry"] = "coordinate_geometry"
     analytic_requirements: DiagramAnalyticRequirements = Field(default_factory=DiagramAnalyticRequirements)
 
     @model_validator(mode="after")
-    def require_coordinate_payload(self) -> CoordinateGeometryDiagramSlot:
+    def require_coordinate_payload(self) -> CoordinatePlaneDiagramSlot:
         if self.engine == DiagramEngine.RENDERER_SPEC.value and self.engine_options.renderer_spec:
             return self
-        if not self.analytic_requirements.objects:
-            raise ValueError("coordinate_geometry diagram slots require analytic_requirements.objects")
-        return self
-
-
-class FunctionGraphDiagramSlot(DiagramSlotBase):
-    """Slot payload for function graphs sampled by the analytic route."""
-
-    engine: Literal["wolfram_client", "wolfram_plot", "coordinate_renderer", "renderer_spec"] = "wolfram_client"
-    diagram_kind: Literal["function_graph"] = "function_graph"
-    analytic_requirements: DiagramAnalyticRequirements = Field(default_factory=DiagramAnalyticRequirements)
-
-    @model_validator(mode="after")
-    def require_function_payload(self) -> FunctionGraphDiagramSlot:
-        if self.engine == DiagramEngine.RENDERER_SPEC.value and self.engine_options.renderer_spec:
-            return self
-        if not self.analytic_requirements.functions:
-            raise ValueError("function_graph diagram slots require analytic_requirements.functions")
+        if not (self.analytic_requirements.objects or self.analytic_requirements.functions):
+            raise ValueError(
+                "coordinate_geometry diagram slots require analytic_requirements.objects "
+                "or analytic_requirements.functions"
+            )
         return self
 
 
 DiagramSlot: TypeAlias = Annotated[
-    SyntheticGeometryDiagramSlot | CoordinateGeometryDiagramSlot | FunctionGraphDiagramSlot,
+    SyntheticGeometryDiagramSlot | CoordinatePlaneDiagramSlot,
     Field(discriminator="diagram_kind"),
 ]
 DiagramSlotAdapter = TypeAdapter(DiagramSlot)

@@ -10,10 +10,9 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts" / "diagram_workflow"))
 
 from diagram_contracts import (  # noqa: E402
-    CoordinateGeometryDiagramSlot,
+    CoordinatePlaneDiagramSlot,
     DiagramEngineOptions,
     DiagramModelConfig,
-    FunctionGraphDiagramSlot,
     GeometryRendererResult,
     GeometryRenderSpec,
     RendererBinding,
@@ -50,7 +49,7 @@ class DiagramContractsTest(unittest.TestCase):
         self.assertEqual(slot.engine, "geometric_scene")
         self.assertEqual(slot.semantic_constraints.given_objects, ["A", "B"])
 
-    def test_diagram_slot_discriminates_coordinate_payload(self) -> None:
+    def test_diagram_slot_discriminates_coordinate_plane_payload(self) -> None:
         slot = validate_diagram_slot(
             self._base_slot_payload(
                 engine="coordinate_renderer",
@@ -63,44 +62,44 @@ class DiagramContractsTest(unittest.TestCase):
             )
         )
 
-        self.assertIsInstance(slot, CoordinateGeometryDiagramSlot)
+        self.assertIsInstance(slot, CoordinatePlaneDiagramSlot)
         self.assertEqual(slot.diagram_kind, "coordinate_geometry")
         self.assertEqual(slot.analytic_requirements.objects[0].id, "A")
 
-    def test_diagram_slot_discriminates_function_graph_payload(self) -> None:
+    def test_coordinate_plane_slot_accepts_function_payload(self) -> None:
         slot = validate_diagram_slot(
             self._base_slot_payload(
                 engine="wolfram_client",
-                diagram_kind="function_graph",
+                diagram_kind="coordinate_geometry",
                 analytic_requirements={
                     "functions": [{"id": "f", "expression_wl": "x^2"}]
                 },
             )
         )
 
-        self.assertIsInstance(slot, FunctionGraphDiagramSlot)
-        self.assertEqual(slot.diagram_kind, "function_graph")
+        self.assertIsInstance(slot, CoordinatePlaneDiagramSlot)
+        self.assertEqual(slot.diagram_kind, "coordinate_geometry")
         self.assertEqual(slot.analytic_requirements.functions[0].id, "f")
 
-    def test_function_graph_slot_requires_functions(self) -> None:
-        with self.assertRaises(ValidationError):
-            validate_diagram_slot(
-                self._base_slot_payload(
-                    engine="wolfram_client",
-                    diagram_kind="function_graph",
-                    analytic_requirements={
-                        "objects": [{"type": "point", "id": "A", "x": 0, "y": 1}]
-                    },
-                )
-            )
-
-    def test_coordinate_slot_requires_coordinate_objects(self) -> None:
+    def test_coordinate_plane_slot_requires_objects_or_functions(self) -> None:
         with self.assertRaises(ValidationError):
             validate_diagram_slot(
                 self._base_slot_payload(
                     engine="coordinate_renderer",
                     diagram_kind="coordinate_geometry",
                     analytic_requirements={},
+                )
+            )
+
+    def test_plan_slot_rejects_function_graph_as_top_level_kind(self) -> None:
+        with self.assertRaises(ValidationError):
+            validate_diagram_slot(
+                self._base_slot_payload(
+                    engine="wolfram_client",
+                    diagram_kind="function_graph",
+                    analytic_requirements={
+                        "functions": [{"id": "f", "expression_wl": "x^2"}]
+                    },
                 )
             )
 

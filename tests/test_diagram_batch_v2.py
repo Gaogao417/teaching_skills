@@ -82,17 +82,17 @@ class DiagramBatchV2Test(unittest.TestCase):
         self.assertEqual(request.engine_options.max_retries, 1)
         self.assertEqual(request.engine_options.engine_model_config["text_model"], "test-model")
 
-    def test_build_request_preserves_function_graph_analytic_requirements(self) -> None:
+    def test_build_request_preserves_coordinate_plane_function_requirements(self) -> None:
         manifest = self._manifest()
         job_payload = manifest.jobs[0].model_dump(mode="json")
         job_payload["engine"] = "wolfram_client"
-        job_payload["diagram_kind"] = "function_graph"
+        job_payload["diagram_kind"] = "coordinate_geometry"
         manifest.jobs[0] = DiagramJob(**job_payload)
 
         plan_data = self._plan_data()
         slot = plan_data["sections"][0]["blocks"][0]["diagram_slot"]
         slot["engine"] = "wolfram_client"
-        slot["diagram_kind"] = "function_graph"
+        slot["diagram_kind"] = "coordinate_geometry"
         slot["analytic_requirements"] = {
             "viewport": {"x_min": -2, "x_max": 6, "y_min": -6, "y_max": 12},
             "axes": {"x": True, "y": True, "grid": True, "show_ticks": True},
@@ -116,7 +116,7 @@ class DiagramBatchV2Test(unittest.TestCase):
         payload = request.model_dump(mode="json")
 
         self.assertEqual(payload["engine"], "wolfram_client")
-        self.assertEqual(payload["diagram_kind"], "function_graph")
+        self.assertEqual(payload["diagram_kind"], "coordinate_geometry")
         analytic = payload["analytic_requirements"]
         self.assertEqual(analytic["viewport"]["x_min"], -2.0)
         self.assertEqual(analytic["viewport"]["y_max"], 12.0)

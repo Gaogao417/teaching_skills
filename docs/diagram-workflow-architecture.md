@@ -499,8 +499,7 @@ layout              TeX 排版，不属于 workflow.py
 | `diagram_kind` | 推荐 `engine` | 说明 |
 |---|---|---|
 | `synthetic_geometry` | `geometric_scene` | 综合几何，Wolfram `GeometricScene` 求实例点位 |
-| `coordinate_geometry` | `wolfram_client` / `coordinate_renderer` | 坐标系内的点、线、圆、多边形；用 WolframClient 计算关系，Python renderer 出图 |
-| `function_graph` | `wolfram_client` / `coordinate_renderer` | 函数图像、坐标轴、网格、交点、零点、关键点 |
+| `coordinate_geometry` | `wolfram_client` / `coordinate_renderer` | 坐标平面图，包括点、线、圆、多边形和函数曲线；函数曲线由 `analytic_requirements.functions` 表达 |
 | `hybrid` | 由 orchestrator 拆 job | 同一题同时需要综合几何示意和函数/坐标图时，拆成多个 slot/job |
 | `auto` | collector/workflow 路由 | 只在上游不确定时临时使用；进入执行前应收敛为明确 kind |
 
@@ -574,7 +573,7 @@ layout              TeX 排版，不属于 workflow.py
 - `layout_role`、`width`、`image_path` 不进入 `workflow.py`。
 - `workflow.py` 可以知道 `caption` 作为视觉意图，但不负责最终 LaTeX caption 排版。
 - `reuse_geometry_from` 只表达几何复用，不表达图片路径复用。
-- `analytic_requirements` 只在 `coordinate_geometry` / `function_graph` 中承载坐标轴、视窗、函数、点、直线、采样和兼容保留的 Wolfram plot 选项；综合几何可以为空。
+- `analytic_requirements` 只在 `coordinate_geometry` 中承载坐标轴、视窗、函数、点、直线、采样和兼容保留的 Wolfram plot 选项；综合几何可以为空。
 - 解析几何推荐路径是 Python 调 WolframClient 做数学计算，再由 Python renderer 输出 SVG/PNG；`wolfram_plot` 只作为兼容 alias。
 
 ### 8.3 `workflow.py` 内部职责
@@ -788,7 +787,7 @@ DiagramJobRequest
 | `width` | resolved YAML | 模板实际使用的 TeX 宽度 | resolver | LaTeX template |
 | `image_path` | resolved/artifact | 最终 PNG 路径，必须相对 `.tex` 可访问 | artifact builder / resolver | template / compiler |
 | `engine` | jobs/request | 图片生成引擎，如 `geometric_scene` / `wolfram_client` / `coordinate_renderer`；`wolfram_plot` 为兼容 alias | collector | orchestrator |
-| `diagram_kind` | jobs/request | 图类型，如 `synthetic_geometry` / `coordinate_geometry` / `function_graph` / `hybrid` | latex-data / collector | workflow adapter |
+| `diagram_kind` | jobs/request | plan 级图类型，如 `synthetic_geometry` / `coordinate_geometry`；`function_graph` 只作为 renderer spec 诊断分类，不作为 plan slot kind | latex-data / collector | workflow adapter |
 | `analytic_requirements` | slot/request | 坐标/函数图的 viewport、axes、functions、objects 和 WolframClient 计算输入 | latex-data / collector | workflow |
 | `reuse_geometry_from` | request/jobs | solution 图复用哪个 prompt job 的几何点位 | latex-data / collector | orchestrator / workflow |
 | `content_hash` | jobs/artifacts | 用于判断 job 是否 stale | collector | cache / gate |
