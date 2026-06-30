@@ -9,6 +9,7 @@ symbolic/numeric math such as function sampling and intersections.
 from __future__ import annotations
 
 import argparse
+import ast
 import json
 import math
 import re
@@ -75,6 +76,34 @@ ALLOWED_FUNCTIONS = {
     "x",
     "y",
 }
+LOCAL_EVAL_FUNCTIONS = {
+    "Abs": abs,
+    "Cos": math.cos,
+    "Exp": math.exp,
+    "Log": math.log,
+    "Max": max,
+    "Min": min,
+    "Sin": math.sin,
+    "Sqrt": math.sqrt,
+    "Tan": math.tan,
+}
+LOCAL_AST_NODES = (
+    ast.Expression,
+    ast.BinOp,
+    ast.UnaryOp,
+    ast.Call,
+    ast.Name,
+    ast.Load,
+    ast.Constant,
+    ast.Add,
+    ast.Sub,
+    ast.Mult,
+    ast.Div,
+    ast.Pow,
+    ast.Mod,
+    ast.USub,
+    ast.UAdd,
+)
 
 
 def read_json(path: Path) -> dict[str, object]:
@@ -150,6 +179,57 @@ def function_expression(function_spec: dict[str, object]) -> tuple[str, str]:
     variable = str(function_spec.get("variable") or "x")
     expr = function_spec.get("expression_wl") or wl_expr_from_latex(function_spec.get("expression_latex", ""))
     return sanitize_wl_expression(str(expr), variable), variable
+
+
+def _python_expr_from_wl(expr: str) -> str:
+    python_expr = expr.replace("^", "**")
+    for name in LOCAL_EVAL_FUNCTIONS:
+        python_expr = re.sub(rf"\b{name}\[", f"{name}(", python_expr)
+    return python_expr.replace("[", "(").replace("]", ")")
+
+
+def _validate_local_ast(node: ast.AST, variable: str) -> None:
+    for child in ast.walk(node):
+        if not isinstance(child, LOCAL_AST_NODES):
+            raise ValueError(f"unsupported local expression node: {type(child).__name__}")
+        if isinstance(child, ast.Name):
+            allowed_names = set(LOCAL_EVAL_FUNCTIONS) | {variable, "Pi"}
+            if child.id not in allowed_names:
+                raise ValueError(f"unsupported local expression name: {child.id}")
+        if isinstance(child, ast.Call):
+            if not isinstance(child.func, ast.Name) or child.func.id not in LOCAL_EVAL_FUNCTIONS:
+                raise ValueError("local expression calls must use allowed math functions")
+
+
+def evaluate_local_expression(expression: str, variable: str, value: float) -> float:
+    expr = _python_expr_from_wl(sanitize_wl_expression(expression, variable))
+    tree = ast.parse(expr, mode="eval")
+    _validate_local_ast(tree, variable)
+    scope = {**LOCAL_EVAL_FUNCTIONS, variable: value, "Pi": math.pi}
+    result = eval(compile(tree, "<coordinate-expression>", "eval"), {"__builtins__": {}}, scope)
+    return compact_float(result)
+
+
+def sample_function_locally(
+    expression: str,
+    variable: str,
+    x_min: float,
+    x_max: float,
+    sample_count: int,
+) -> list[tuple[float, float]]:
+    count = max(2, int(sample_count))
+    step = (x_max - x_min) / (count - 1)
+    samples: list[tuple[float, float]] = []
+    for index in range(count):
+        x_val = compact_float(x_min + step * index)
+        try:
+            y_val = evaluate_local_expression(expression, variable, x_val)
+        except (ArithmeticError, ValueError, ZeroDivisionError):
+            continue
+        samples.append((x_val, y_val))
+    if len(samples) < 2:
+        raise ValueError(f"local sampler produced fewer than two finite samples for {expression}")
+    return samples
 
 
 class WolframAnalyticKernel:
@@ -383,10 +463,22 @@ def equation_for_object(obj: dict[str, object]) -> str:
 
 
 def build_spec(request: DiagramJobRequest, out_dir: Path) -> GeometryRenderSpec:
-    analytic = request.analytic_requirements.model_dump(mode="json")
-    functions = list(analytic.get("functions") or [])
-    objects = [dict(obj) for obj in analytic.get("objects") or []]
-    viewport = viewport_bounds(analytic, functions, objects)
+    coordinate_ir = request.analytic_requirements.coordinate_ir
+    if coordinate_ir is None:
+        raise ValueError("coordinate analytic workflow requires CoordinateDiagramIR")
+    analytic = {
+        "viewport": coordinate_ir.viewport.model_dump(mode="json"),
+        "axes": coordinate_ir.axes.model_dump(mode="json"),
+    }
+    functions = [func.model_dump(mode="json", exclude_none=True) for func in coordinate_ir.function_specs()]
+    compute_functions = [
+        func.model_dump(mode="json", exclude_none=True)
+        for func in coordinate_ir.compute_function_specs()
+    ]
+    render_objects = [dict(obj) for obj in coordinate_ir.render_objects()]
+    compute_objects = [dict(obj) for obj in coordinate_ir.compute_objects()]
+    objects_for_viewport = render_objects + compute_objects
+    viewport = viewport_bounds(analytic, functions, objects_for_viewport)
     axes = analytic.get("axes") or {}
     samples: dict[str, list[tuple[float, float]]] = {}
     kernel_path = None
@@ -394,8 +486,19 @@ def build_spec(request: DiagramJobRequest, out_dir: Path) -> GeometryRenderSpec:
         kernel_path = request.engine_options.engine_model_config.get("wl_kernel")
 
     emit_event(out_dir, "analytic_start", job_id=request.job_id, engine=request.engine.value, kind=request.diagram_kind.value)
-    used_wolfram = needs_wolfram(functions, objects)
-    if used_wolfram:
+    local_sampling = request.engine == DiagramEngine.COORDINATE_RENDERER and bool(functions) and not compute_objects
+    used_wolfram = needs_wolfram(functions, compute_objects) and not local_sampling
+    if local_sampling:
+        for func in functions:
+            expr, variable = function_expression(func)
+            domain = func.get("domain") or {}
+            x_min = compact_float(domain.get("min", viewport["x_min"]))
+            x_max = compact_float(domain.get("max", viewport["x_max"]))
+            count = int(func.get("sample_count", 160))
+            samples[str(func["id"])] = sample_function_locally(expr, variable, x_min, x_max, count)
+            func["expression_wl"] = expr
+            emit_event(out_dir, "function_sampled_locally", function_id=func["id"], sample_count=len(samples[str(func["id"])]))
+    elif used_wolfram:
         with WolframAnalyticKernel(kernel_path) as kernel:
             emit_event(out_dir, "wolfram_kernel_ready", kernel=kernel.kernel_path)
             for func in functions:
@@ -407,8 +510,8 @@ def build_spec(request: DiagramJobRequest, out_dir: Path) -> GeometryRenderSpec:
                 samples[str(func["id"])] = kernel.sample_function(expr, variable, x_min, x_max, count)
                 func["expression_wl"] = expr
                 emit_event(out_dir, "function_sampled", function_id=func["id"], sample_count=len(samples[str(func["id"])]))
-            computed = compute_intersections(kernel, functions, objects)
-            objects.extend(computed)
+            computed = compute_intersections(kernel, compute_functions, render_objects + compute_objects)
+            render_objects.extend(computed)
             if computed:
                 emit_event(out_dir, "intersections_computed", count=len(computed))
     else:
@@ -428,10 +531,15 @@ def build_spec(request: DiagramJobRequest, out_dir: Path) -> GeometryRenderSpec:
         "axes": axes,
         "functions": functions,
         "samples": {key: [[x, y] for x, y in value] for key, value in samples.items()},
-        "objects": objects,
+        "objects": render_objects,
         "teaching_focus": request.semantic_constraints.given_objects
         or request.semantic_constraints.given_constraints,
-        "diagnostics": {"wolfram_used": used_wolfram},
+        "source": {"coordinate_ir": coordinate_ir.model_dump(mode="json")},
+        "diagnostics": {
+            "wolfram_used": used_wolfram,
+            "local_sampler_used": local_sampling,
+            "coordinate_ir_has_function": bool(functions),
+        },
     }
     return GeometryRenderSpec.model_validate(spec)
 

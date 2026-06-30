@@ -37,6 +37,38 @@ def wolfram_available() -> bool:
     return True
 
 
+class FakeAnalyticKernel:
+    def __init__(self, kernel_path: str | None = None):
+        self.kernel_path = kernel_path or "fake-wolfram"
+
+    def __enter__(self) -> FakeAnalyticKernel:
+        return self
+
+    def __exit__(self, exc_type: object, exc: object, tb: object) -> None:
+        return None
+
+    def sample_function(
+        self,
+        expression: str,
+        variable: str,
+        x_min: float,
+        x_max: float,
+        sample_count: int,
+    ) -> list[tuple[float, float]]:
+        del variable
+        step = (x_max - x_min) / (sample_count - 1)
+        xs = [x_min + step * index for index in range(sample_count)]
+        if expression == "1/x":
+            return [(x, 1 / x) for x in xs]
+        return [(x, 2 * x - 1) for x in xs]
+
+    def solve_points(self, equations: list[str], variables: tuple[str, str] = ("x", "y")) -> list[tuple[float, float]]:
+        del variables
+        if any(eq == "y == 0" for eq in equations):
+            return [(0.5, 0.0)]
+        return [(2.0, 3.0)]
+
+
 class AnalyticDiagramWorkflowTest(unittest.TestCase):
     def test_contract_supports_wolfram_client_and_plot_alias(self) -> None:
         request = DiagramJobRequest(
@@ -123,6 +155,73 @@ class AnalyticDiagramWorkflowTest(unittest.TestCase):
             self.assertEqual(spec["objects"][0]["id"], "A")
             events = (job_dir / "workflow_events.jsonl").read_text(encoding="utf-8")
             self.assertIn("wolfram_skipped", events)
+
+    def test_typed_coordinate_ir_generates_segmented_function_samples_and_computed_points(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            request_path = root / "request.json"
+            request = {
+                "schema_version": "diagram-job-request/v2",
+                "job_id": "coord-ir-prompt",
+                "assignment_id": "coord-ir",
+                "slot_id": "coord.prompt",
+                "variant": "prompt",
+                "disclosure_policy": "clean",
+                "engine": "wolfram_client",
+                "diagram_kind": "coordinate_geometry",
+                "analytic_requirements": {
+                    "coordinate_ir": {
+                        "viewport": {"x_min": -4, "x_max": 4, "y_min": -5, "y_max": 5},
+                        "axes": {"x": True, "y": True, "grid": True, "show_ticks": True},
+                        "objects": [
+                            {
+                                "type": "function_curve",
+                                "id": "f",
+                                "expression_wl": "2*x - 1",
+                                "domain_segments": [{"min": -2, "max": 6}],
+                                "sample_count": 80,
+                                "label": "y=2x-1",
+                            },
+                            {
+                                "type": "function_curve",
+                                "id": "g",
+                                "expression_wl": "1/x",
+                                "domain_segments": [
+                                    {"min": -4, "max": -0.5},
+                                    {"min": 0.5, "max": 4},
+                                ],
+                                "sample_count": 80,
+                            },
+                            {"type": "point", "id": "A", "x": 2, "y": 3, "label": "A"},
+                            {"type": "line", "id": "l1", "equation": "y=3"},
+                            {"type": "derived_point", "id": "J", "derive": "intersection", "of": ["f", "l1"]},
+                            {"type": "derived_point", "id": "Z", "derive": "zero", "of": "f"},
+                            {"type": "projection_guide", "id": "J_x", "point": "J", "to_axis": "x"},
+                            {"type": "projection_guide", "id": "J_y", "point": "J", "to_axis": "y"},
+                        ],
+                    }
+                },
+            }
+            request_path.write_text(json.dumps(request), encoding="utf-8")
+
+            job_dir = root / "job"
+            with patch("analytic_diagram_workflow.WolframAnalyticKernel", FakeAnalyticKernel):
+                result = run_analytic_workflow(request_path, job_dir)
+
+            self.assertEqual(result["status"], "ok")
+            spec = json.loads((job_dir / "final_renderer_spec.json").read_text(encoding="utf-8"))
+            self.assertEqual([func["id"] for func in spec["functions"]], ["f", "g__seg1", "g__seg2"])
+            self.assertEqual(set(spec["samples"]), {"f", "g__seg1", "g__seg2"})
+            self.assertNotIn("g", spec["samples"])
+            self.assertEqual(spec["diagnostics"]["coordinate_ir_has_function"], True)
+            computed = {obj["id"]: obj for obj in spec["objects"] if obj.get("computed")}
+            self.assertEqual(computed["J"]["x"], 2.0)
+            self.assertEqual(computed["Z"]["x"], 0.5)
+            projections = {obj["id"]: obj for obj in spec["objects"] if obj["type"] == "projection_guide"}
+            self.assertEqual(projections["J_x"]["point"], "J")
+            self.assertEqual(projections["J_x"]["to_axis"], "x")
+            self.assertEqual(projections["J_y"]["to_axis"], "y")
+            self.assertNotIn("derived_point", {obj["type"] for obj in spec["objects"]})
 
     def test_coordinate_renderer_outputs_function_objects_and_tikz_fragment(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -252,6 +351,38 @@ class AnalyticDiagramWorkflowTest(unittest.TestCase):
             spec_path.write_text(json.dumps(data), encoding="utf-8")
             self.assertEqual(_check_analytic_renderer_specs(jobs, artifacts, artifact_dir), [])
 
+            data["functions"] = []
+            data["source"] = {
+                "coordinate_ir": {
+                    "objects": [
+                        {
+                            "type": "function_curve",
+                            "id": "f",
+                            "expression_wl": "2*x - 1",
+                            "domain_segments": [{"min": -2, "max": 6}],
+                        }
+                    ]
+                }
+            }
+            spec_path.write_text(json.dumps(data), encoding="utf-8")
+            checks = _check_analytic_renderer_specs(jobs, artifacts, artifact_dir)
+            self.assertEqual(checks[0].status, "block")
+            self.assertIn("function_curve", checks[0].message)
+
+            data["source"] = {}
+            data["objects"] = [
+                {
+                    "type": "polyline",
+                    "id": "fake-f",
+                    "expression_wl": "2*x - 1",
+                    "points": [[-2, -5], [2, 3]],
+                }
+            ]
+            spec_path.write_text(json.dumps(data), encoding="utf-8")
+            checks = _check_analytic_renderer_specs(jobs, artifacts, artifact_dir)
+            self.assertEqual(checks[0].status, "block")
+            self.assertIn("polyline cannot carry function expression", checks[0].message)
+
     @unittest.skipUnless(wolfram_available(), "Wolfram kernel or wolframclient is unavailable")
     def test_wolfram_client_workflow_samples_roots_intersections_and_renders(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -277,7 +408,7 @@ class AnalyticDiagramWorkflowTest(unittest.TestCase):
                             "variable": "x",
                             "expression_wl": "2*x - 1",
                             "domain": {"min": -2, "max": 6},
-                            "sample_count": 16,
+                            "sample_count": 80,
                         }
                     ],
                     "objects": [
@@ -299,7 +430,7 @@ class AnalyticDiagramWorkflowTest(unittest.TestCase):
             self.assertEqual(result["status"], "ok")
 
             spec = json.loads((job_dir / "final_renderer_spec.json").read_text(encoding="utf-8"))
-            self.assertEqual(len(spec["samples"]["f"]), 16)
+            self.assertEqual(len(spec["samples"]["f"]), 80)
             computed = {obj["id"]: obj for obj in spec["objects"] if obj.get("computed")}
             self.assertIn("I1", computed)
             self.assertIn("I2", computed)

@@ -78,9 +78,10 @@ assignment.resolved.yaml
 - `RendererBinding.bindable: true` 要求 `status: ok`、TikZ source 非空且可访问、`hash` 非空。
 - 学生版 resolved YAML 不应引用 `variant: solution` 或 `disclosure_policy: annotated` 的图片；这是 gate 层检查。
 - `diagram_kind: synthetic_geometry` 默认搭配 `engine: geometric_scene`，走 Wolfram `GeometricScene` 求实例点位。
-- `diagram_kind: coordinate_geometry` 表示坐标平面图，包括只画点/线/多边形，也包括需要画函数曲线的图；函数曲线通过 `analytic_requirements.functions` 表达，不再在 plan slot 顶层写 `diagram_kind: function_graph`。
+- `diagram_kind: coordinate_geometry` 表示坐标平面图，包括只画点/线/多边形，也包括需要画函数曲线的图；函数曲线通过 `analytic_requirements.coordinate_ir.objects[].type=function_curve` 表达，不再在 plan slot 顶层写 `diagram_kind: function_graph`。
 - `wolfram_plot` 仅保留为兼容 alias；新 plan 不推荐使用。
-- 坐标平面图的数学输入放在 `analytic_requirements`，包括 `viewport`、`axes`、`functions`、`objects`、`annotations` 与 `wolfram_client_options`；`wolfram_plot_options` 仅作兼容输入。
+- 坐标平面图的数学输入放在 `analytic_requirements.coordinate_ir`，包括 `viewport`、`axes`、`objects` 与 `annotations`；旧 `functions` / `objects` 只作为短期 normalize 入口。
+- `coordinate_ir.objects` 是 tagged union，常用类型为 `point`、`function_curve`、`line`、`segment`、`polygon_region`、`derived_point`、`guide_line`、`projection_guide`、`text_label`；函数不得用 plan 层 `polyline` 冒充。
 - `GeometryRenderSpec` 对综合几何要求 `points`；对坐标/函数图要求 `points`、`objects`、`functions`、`curves` 或 `samples` 至少一种可渲染对象。
 
 ## 4. 最小对象示例
@@ -122,34 +123,62 @@ diagram_slot:
   diagram_kind: "coordinate_geometry"
   teaching_intent: "practice_prompt"
   analytic_requirements:
-    viewport:
-      x_min: -2
-      x_max: 6
-      y_min: -6
-      y_max: 12
-      preserve_aspect: true
-    axes:
-      x: true
-      y: true
-      grid: true
-      show_ticks: true
-      x_label: "x"
-      y_label: "y"
-    functions:
-      - id: "f"
-        variable: "x"
-        expression_latex: "2x-1"
-        expression_wl: "2*x - 1"
-        domain:
-          min: -2
-          max: 6
-        label: "y=2x-1"
-    objects:
-      - type: "point"
-        id: "A"
-        x: 2
-        y: 3
-        label: "A"
+    coordinate_ir:
+      viewport:
+        x_min: -2
+        x_max: 6
+        y_min: -6
+        y_max: 12
+        preserve_aspect: true
+      axes:
+        x: true
+        y: true
+        grid: true
+        show_ticks: true
+        x_label: "x"
+        y_label: "y"
+        # optional explicit tick control; labels are rendered as TikZ nodes at axis cs positions.
+        # x_ticks: [-2, 0, 2, 4, 6]
+        # y_ticks: [-6, -4, -2, 2, 4, 6, 8, 10, 12]
+        # x_tick_labels:
+        #   - { value: 2 }
+        #   - { value: 4, dy_pt: -5 }
+        # y_tick_labels:
+        #   - { value: 2, dx_pt: -5 }
+        #   - { value: 4 }
+      objects:
+        - type: "function_curve"
+          id: "f"
+          variable: "x"
+          expression_latex: "2x-1"
+          expression_wl: "2*x - 1"
+          domain_segments:
+            - { min: -2, max: 6 }
+          label: "y=2x-1"
+        - type: "function_curve"
+          id: "g"
+          variable: "x"
+          expression_latex: "-x+4"
+          expression_wl: "-x + 4"
+          domain_segments:
+            - { min: -2, max: 6 }
+          label: "y=-x+4"
+        - type: "point"
+          id: "A"
+          x: 2
+          y: 3
+          label: "A"
+        - type: "derived_point"
+          id: "P"
+          derive: "intersection"
+          of: ["f", "g"]
+          label: "P"
+        - type: "projection_guide"
+          id: "P_x"
+          point: "P"
+          to_axis: "x"
+          label_style: { label: "1", dy_pt: -5 }
+          style: { dash: "5 4" }
 ```
 
 ### DiagramJob
@@ -248,35 +277,36 @@ diagram_slot:
     "clean_forbidden": ["不要标出判断结论", "不要用颜色暗示 A 一定在图像上"]
   },
   "analytic_requirements": {
-    "viewport": {
-      "x_min": -2,
-      "x_max": 6,
-      "y_min": -6,
-      "y_max": 12,
-      "preserve_aspect": true
+    "coordinate_ir": {
+      "viewport": {
+        "x_min": -2,
+        "x_max": 6,
+        "y_min": -6,
+        "y_max": 12,
+        "preserve_aspect": true
+      },
+      "axes": {
+        "x": true,
+        "y": true,
+        "grid": true,
+        "show_ticks": true,
+        "x_label": "x",
+        "y_label": "y"
+      },
+      "objects": [
+        {
+          "type": "function_curve",
+          "id": "f",
+          "variable": "x",
+          "expression_latex": "2x-1",
+          "expression_wl": "2*x - 1",
+          "domain_segments": [{"min": -2, "max": 6}],
+          "label": "y=2x-1",
+          "sample_count": 160
+        },
+        {"type": "point", "id": "A", "x": 2, "y": 3, "label": "A"}
+      ]
     },
-    "axes": {
-      "x": true,
-      "y": true,
-      "grid": true,
-      "show_ticks": true,
-      "x_label": "x",
-      "y_label": "y"
-    },
-    "functions": [
-      {
-        "id": "f",
-        "variable": "x",
-        "expression_latex": "2x-1",
-        "expression_wl": "2*x - 1",
-        "domain": {"min": -2, "max": 6},
-        "label": "y=2x-1",
-        "sample_count": 160
-      }
-    ],
-    "objects": [
-      {"type": "point", "id": "A", "x": 2, "y": 3, "label": "A"}
-    ],
     "wolfram_client_options": {
       "aspect_ratio": "Automatic",
       "plot_range_padding": "Scaled[0.04]"

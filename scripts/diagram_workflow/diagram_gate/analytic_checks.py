@@ -84,6 +84,13 @@ def _analytic_spec_errors(spec: dict[str, object]) -> list[str]:
     if not has_payload:
         errors.append("analytic spec requires points, objects, functions, curves, or samples")
 
+    source = spec.get("source") if isinstance(spec.get("source"), dict) else {}
+    coordinate_ir = source.get("coordinate_ir") if isinstance(source, dict) else {}
+    ir_objects = coordinate_ir.get("objects") if isinstance(coordinate_ir, dict) else []
+    ir_has_function = any(isinstance(obj, dict) and obj.get("type") == "function_curve" for obj in ir_objects or [])
+    if ir_has_function and not spec.get("functions"):
+        errors.append("coordinate IR contains function_curve but renderer spec has no functions")
+
     samples = spec.get("samples") if isinstance(spec.get("samples"), dict) else {}
     for func in spec.get("functions") or []:
         if not isinstance(func, dict):
@@ -100,6 +107,10 @@ def _analytic_spec_errors(spec: dict[str, object]) -> list[str]:
             errors.append(f"objects[{index}] must be an object")
             continue
         kind = obj.get("type")
+        if kind == "function_curve":
+            errors.append(f"objects[{index}] function_curve belongs in functions, not objects")
+        if kind == "polyline" and (obj.get("expression_latex") or obj.get("expression_wl")):
+            errors.append(f"objects[{index}] polyline cannot carry function expression")
         if kind == "point" and not {"x", "y"} <= set(obj):
             errors.append(f"objects[{index}] point requires x and y")
         elif kind == "line" and not (obj.get("equation") or {"slope", "intercept"} <= set(obj)):

@@ -215,6 +215,10 @@ class TikzRendererTest(unittest.TestCase):
             self.assertIn(r"\begin{axis}", fragment)
             self.assertIn("grid=both", fragment)
             self.assertIn("clip=false", fragment)
+            self.assertNotIn("xlabel=", fragment)
+            self.assertNotIn("ylabel=", fragment)
+            self.assertIn(r"at (axis cs:6,0) {$x$};", fragment)
+            self.assertIn(r"at (axis cs:0,12) {$y$};", fragment)
             self.assertIn(r"\addplot+", fragment)
             self.assertIn("dash pattern=on 5pt off 4pt", fragment)
             self.assertIn("axis cs:2,3", fragment)
@@ -222,6 +226,103 @@ class TikzRendererTest(unittest.TestCase):
             self.assertLess(fragment.index("coordinates {(1,1) (2,3) (3,1) (1,1)}"), fragment.index(r"{$\mathit{A}$}"))
             self.assertIn("{19}", fragment)
             self.assertNotIn("CD=19", fragment)
+
+    def test_coordinate_tick_labels_can_be_overridden(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            out_dir = Path(tmp)
+            spec_path = out_dir / "final_renderer_spec.json"
+            spec_path.write_text(
+                json.dumps(
+                    {
+                        "schema_version": "geometry-render-spec/v1",
+                        "job_id": "coordinate-axis-labels",
+                        "variant": "prompt",
+                        "type": "coordinate_geometry",
+                        "viewport": {"x_min": -2, "x_max": 6, "y_min": -6, "y_max": 12},
+                        "axes": {
+                            "x": True,
+                            "y": True,
+                            "grid": False,
+                            "show_ticks": True,
+                            "x_ticks": [-2, 0, 2, 4],
+                            "y_tick_values": [-4, -2, 2],
+                            "x_tick_labels": [
+                                {"value": 2},
+                                {"value": 4, "label": "$4$", "anchor": "north", "dy_pt": -6},
+                            ],
+                            "y_tick_labels": [
+                                {"value": -2, "label": "-2", "anchor": "east", "dx_pt": -5},
+                                {"value": 2, "at": [-0.15, 2], "anchor": "east"},
+                            ],
+                        },
+                        "objects": [
+                            {"type": "point", "id": "O", "x": 0, "y": 0}
+                        ],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            with patch("render_geometry_spec.build_previews", return_value=PreviewResult()):
+                result = render_geometry_spec(spec_path, out_dir)
+
+            fragment = (out_dir / result["tikz_fragment_path"]).read_text(encoding="utf-8")
+            self.assertNotIn("xlabel=", fragment)
+            self.assertNotIn("ylabel=", fragment)
+            self.assertIn("xtick={-2,0,2,4}", fragment)
+            self.assertIn("ytick={-4,-2,2}", fragment)
+            self.assertIn(r"xticklabel=\empty", fragment)
+            self.assertIn(r"yticklabel=\empty", fragment)
+            self.assertIn(r"at (axis cs:2,0) {$2$};", fragment)
+            self.assertIn(r"yshift=-6pt] at (axis cs:4,0) {$4$};", fragment)
+            self.assertIn(r"xshift=-5pt] at (axis cs:0,-2) {$-2$};", fragment)
+            self.assertIn(r"at (axis cs:-0.15,2) {$2$};", fragment)
+
+    def test_coordinate_projection_guides_read_point_coordinates_on_axes(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            out_dir = Path(tmp)
+            spec_path = out_dir / "final_renderer_spec.json"
+            spec_path.write_text(
+                json.dumps(
+                    {
+                        "schema_version": "geometry-render-spec/v1",
+                        "job_id": "coordinate-projection-guides",
+                        "variant": "prompt",
+                        "type": "coordinate_geometry",
+                        "viewport": {"x_min": -2, "x_max": 5, "y_min": -1, "y_max": 5},
+                        "axes": {"x": True, "y": True, "grid": False, "show_ticks": True},
+                        "objects": [
+                            {"type": "point", "id": "P", "x": 1, "y": 3, "label": "P", "computed": True},
+                            {
+                                "type": "projection_guide",
+                                "id": "P_x",
+                                "point": "P",
+                                "to_axis": "x",
+                                "label_style": {"label": "1"},
+                            },
+                            {
+                                "type": "projection_guide",
+                                "id": "P_y",
+                                "point": "P",
+                                "to_axis": "y",
+                                "label_style": {"label": "3", "dx_pt": -6},
+                            },
+                        ],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            with patch("render_geometry_spec.build_previews", return_value=PreviewResult()):
+                result = render_geometry_spec(spec_path, out_dir)
+
+            fragment = (out_dir / result["tikz_fragment_path"]).read_text(encoding="utf-8")
+            self.assertIn("coordinates {(1,3) (1,0)}", fragment)
+            self.assertIn("coordinates {(1,3) (0,3)}", fragment)
+            self.assertIn(r"at (axis cs:1,0) {$1$};", fragment)
+            self.assertIn(r"xshift=-6pt] at (axis cs:0,3) {$3$};", fragment)
+            self.assertIn(r"++(0pt,-2.4pt) -- ++(0pt,4.8pt);", fragment)
+            self.assertIn(r"++(-2.4pt,0pt) -- ++(4.8pt,0pt);", fragment)
 
     def test_invalid_spec_writes_failed_renderer_result(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

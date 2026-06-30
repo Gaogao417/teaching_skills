@@ -21,6 +21,19 @@ JsonScalar: TypeAlias = str | int | float | bool | None
 JsonValue: TypeAlias = object
 JsonObject: TypeAlias = dict[str, object]
 Point2D: TypeAlias = tuple[float, float]
+TikzAnchor: TypeAlias = Literal[
+    "",
+    "center",
+    "north",
+    "south",
+    "east",
+    "west",
+    "north east",
+    "north west",
+    "south east",
+    "south west",
+]
+MIN_FUNCTION_SAMPLE_COUNT = 80
 
 
 class DiagramVariant(str, Enum):
@@ -205,6 +218,16 @@ class DiagramCoordinateViewport(DiagramModel):
         return self
 
 
+class DiagramAxisTickLabel(DiagramModel):
+    value: float
+    label: str = ""
+    at: Point2D | None = Field(default=None, validation_alias=AliasChoices("at", "label_at"))
+    anchor: TikzAnchor = ""
+    dx_pt: float | None = Field(default=None, validation_alias=AliasChoices("dx_pt", "dx"))
+    dy_pt: float | None = Field(default=None, validation_alias=AliasChoices("dy_pt", "dy"))
+    show: bool = True
+
+
 class DiagramAxesSpec(DiagramModel):
     x: bool = True
     y: bool = True
@@ -214,6 +237,30 @@ class DiagramAxesSpec(DiagramModel):
     y_label: str = "y"
     x_tick_step: float | None = Field(default=None, gt=0)
     y_tick_step: float | None = Field(default=None, gt=0)
+    x_ticks: list[float] | None = Field(default=None, validation_alias=AliasChoices("x_ticks", "x_tick_values"))
+    y_ticks: list[float] | None = Field(default=None, validation_alias=AliasChoices("y_ticks", "y_tick_values"))
+    x_tick_labels: list[DiagramAxisTickLabel] = Field(default_factory=list)
+    y_tick_labels: list[DiagramAxisTickLabel] = Field(default_factory=list)
+
+    @field_validator("x_ticks", "y_ticks")
+    @classmethod
+    def validate_unique_tick_values(cls, value: list[float] | None) -> list[float] | None:
+        if value is None:
+            return value
+        if not value:
+            raise ValueError("tick value list must not be empty")
+        normalized = [float(item) for item in value]
+        if len(set(normalized)) != len(normalized):
+            raise ValueError("tick values must be unique")
+        return normalized
+
+    @model_validator(mode="after")
+    def validate_unique_manual_tick_labels(self) -> DiagramAxesSpec:
+        for axis, labels in (("x", self.x_tick_labels), ("y", self.y_tick_labels)):
+            values = [float(item.value) for item in labels if item.show]
+            if len(set(values)) != len(values):
+                raise ValueError(f"{axis}_tick_labels values must be unique")
+        return self
 
 
 class DiagramFunctionSpec(DiagramModel):
@@ -223,7 +270,7 @@ class DiagramFunctionSpec(DiagramModel):
     expression_wl: str = ""
     domain: DiagramNumericDomain | None = None
     label: str = ""
-    sample_count: int = Field(default=160, ge=2)
+    sample_count: int = Field(default=160, ge=MIN_FUNCTION_SAMPLE_COUNT)
     style: JsonObject = Field(default_factory=dict)
 
     @model_validator(mode="after")
@@ -231,6 +278,368 @@ class DiagramFunctionSpec(DiagramModel):
         if not self.expression_latex and not self.expression_wl:
             raise ValueError("function specs require expression_latex or expression_wl")
         return self
+
+
+class CoordinatePoint(DiagramModel):
+    type: Literal["point"] = "point"
+    id: NonEmptyStr
+    x: float
+    y: float
+    label: str = ""
+    style: JsonObject = Field(default_factory=dict)
+
+    def render_object(self) -> JsonObject:
+        return self.model_dump(mode="json")
+
+
+class CoordinateLine(DiagramModel):
+    type: Literal["line"] = "line"
+    id: NonEmptyStr
+    equation: str = ""
+    slope: float | None = None
+    intercept: float | None = None
+    label: str = ""
+    style: JsonObject = Field(default_factory=dict)
+
+    @model_validator(mode="after")
+    def require_line_definition(self) -> CoordinateLine:
+        if not self.equation and (self.slope is None or self.intercept is None):
+            raise ValueError("line objects require equation or slope/intercept")
+        return self
+
+    def render_object(self) -> JsonObject:
+        payload = self.model_dump(mode="json", exclude_none=True)
+        if not payload.get("label"):
+            payload.pop("label", None)
+        return payload
+
+
+class CoordinateSegment(DiagramModel):
+    type: Literal["segment"] = "segment"
+    id: NonEmptyStr
+    start: str | Point2D = Field(validation_alias=AliasChoices("from", "start", "a"), serialization_alias="from")
+    end: str | Point2D = Field(validation_alias=AliasChoices("to", "end", "b"), serialization_alias="to")
+    label: str = ""
+    style: JsonObject = Field(default_factory=dict)
+
+    def render_object(self) -> JsonObject:
+        return {
+            "type": "polyline",
+            "id": self.id,
+            "points": [
+                self.start if isinstance(self.start, str) else list(self.start),
+                self.end if isinstance(self.end, str) else list(self.end),
+            ],
+            "style": self.style,
+        }
+
+
+class CoordinatePolyline(DiagramModel):
+    type: Literal["polyline"] = "polyline"
+    id: NonEmptyStr
+    points: list[str | Point2D] = Field(min_length=2)
+    style: JsonObject = Field(default_factory=dict)
+    purpose: Literal["explicit_polyline", "sample_trace"] = "explicit_polyline"
+
+    def render_object(self) -> JsonObject:
+        return {
+            "type": "polyline",
+            "id": self.id,
+            "points": [point if isinstance(point, str) else list(point) for point in self.points],
+            "style": self.style,
+        }
+
+
+class CoordinatePolygonRegion(DiagramModel):
+    type: Literal["polygon_region"] = "polygon_region"
+    id: NonEmptyStr
+    points: list[str | Point2D] = Field(min_length=3)
+    label: str = ""
+    style: JsonObject = Field(default_factory=dict)
+
+    def render_object(self) -> JsonObject:
+        return {
+            "type": "polygon",
+            "id": self.id,
+            "points": [point if isinstance(point, str) else list(point) for point in self.points],
+            "label": self.label,
+            "style": self.style,
+        }
+
+
+class CoordinateCircle(DiagramModel):
+    type: Literal["circle"] = "circle"
+    id: NonEmptyStr
+    center: str | Point2D | JsonObject
+    radius: float = Field(gt=0)
+    label: str = ""
+    style: JsonObject = Field(default_factory=dict)
+
+    def render_object(self) -> JsonObject:
+        center: object = self.center
+        if isinstance(center, tuple):
+            center = list(center)
+        return {
+            "type": "circle",
+            "id": self.id,
+            "center": center,
+            "radius": self.radius,
+            "label": self.label,
+            "style": self.style,
+        }
+
+
+class CoordinateGuideLine(DiagramModel):
+    type: Literal["guide_line"] = "guide_line"
+    id: NonEmptyStr
+    equation: str = ""
+    slope: float | None = None
+    intercept: float | None = None
+    style: JsonObject = Field(default_factory=lambda: {"dash": "5 4"})
+
+    @model_validator(mode="after")
+    def require_guide_definition(self) -> CoordinateGuideLine:
+        if not self.equation and (self.slope is None or self.intercept is None):
+            raise ValueError("guide_line objects require equation or slope/intercept")
+        return self
+
+    def render_object(self) -> JsonObject:
+        payload: JsonObject = {
+            "type": "line",
+            "id": self.id,
+            "style": self.style,
+        }
+        if self.equation:
+            payload["equation"] = self.equation
+        else:
+            payload["slope"] = self.slope
+            payload["intercept"] = self.intercept
+        return payload
+
+
+class CoordinateProjectionLabelStyle(DiagramModel):
+    show: bool = True
+    label: str = ""
+    at: Point2D | None = Field(default=None, validation_alias=AliasChoices("at", "label_at"))
+    anchor: TikzAnchor = ""
+    dx_pt: float | None = Field(default=None, validation_alias=AliasChoices("dx_pt", "dx"))
+    dy_pt: float | None = Field(default=None, validation_alias=AliasChoices("dy_pt", "dy"))
+
+
+class CoordinateProjectionGuide(DiagramModel):
+    type: Literal["projection_guide"] = "projection_guide"
+    id: NonEmptyStr
+    point: str = Field(validation_alias=AliasChoices("point", "from", "source"))
+    to_axis: Literal["x", "y"]
+    style: JsonObject = Field(default_factory=lambda: {"dash": "5 4"})
+    label_style: CoordinateProjectionLabelStyle = Field(default_factory=CoordinateProjectionLabelStyle)
+    show_axis_tick: bool = True
+
+    def render_object(self) -> JsonObject:
+        return {
+            "type": "projection_guide",
+            "id": self.id,
+            "point": self.point,
+            "to_axis": self.to_axis,
+            "style": self.style,
+            "label_style": self.label_style.model_dump(mode="json", exclude_none=True),
+            "show_axis_tick": self.show_axis_tick,
+        }
+
+
+class CoordinateTextLabel(DiagramModel):
+    type: Literal["text_label"] = "text_label"
+    id: str = ""
+    text: NonEmptyStr
+    x: float
+    y: float
+    style: JsonObject = Field(default_factory=dict)
+
+    def render_object(self) -> JsonObject:
+        return {
+            "type": "text",
+            "id": self.id,
+            "text": self.text,
+            "x": self.x,
+            "y": self.y,
+            "style": self.style,
+        }
+
+
+class CoordinateFunctionCurve(DiagramModel):
+    type: Literal["function_curve"] = "function_curve"
+    id: NonEmptyStr
+    variable: str = "x"
+    expression_latex: str = ""
+    expression_wl: str = ""
+    domain_segments: list[DiagramNumericDomain] = Field(default_factory=list, min_length=1)
+    label: str = ""
+    sample_count: int = Field(default=160, ge=MIN_FUNCTION_SAMPLE_COUNT)
+    style_role: str = "function"
+    style: JsonObject = Field(default_factory=dict)
+
+    @model_validator(mode="before")
+    @classmethod
+    def normalize_domain(cls, value: object) -> object:
+        if isinstance(value, dict):
+            payload = dict(value)
+            if "domain_segments" not in payload and "domain" in payload:
+                payload["domain_segments"] = [payload.pop("domain")]
+            return payload
+        return value
+
+    @model_validator(mode="after")
+    def require_function_payload(self) -> CoordinateFunctionCurve:
+        if not self.expression_latex and not self.expression_wl:
+            raise ValueError("function_curve objects require expression_latex or expression_wl")
+        if not self.domain_segments:
+            raise ValueError("function_curve objects require domain_segments")
+        return self
+
+    def function_specs(self) -> list[DiagramFunctionSpec]:
+        specs: list[DiagramFunctionSpec] = []
+        multi_segment = len(self.domain_segments) > 1
+        for index, domain in enumerate(self.domain_segments, start=1):
+            specs.append(
+                DiagramFunctionSpec(
+                    id=self.id if not multi_segment else f"{self.id}__seg{index}",
+                    variable=self.variable,
+                    expression_latex=self.expression_latex,
+                    expression_wl=self.expression_wl,
+                    domain=domain,
+                    label=self.label if index == 1 else "",
+                    sample_count=self.sample_count,
+                    style=self.style,
+                )
+            )
+        return specs
+
+    def compute_function_spec(self) -> DiagramFunctionSpec:
+        return DiagramFunctionSpec(
+            id=self.id,
+            variable=self.variable,
+            expression_latex=self.expression_latex,
+            expression_wl=self.expression_wl,
+            domain=self.domain_segments[0],
+            label=self.label,
+            sample_count=self.sample_count,
+            style=self.style,
+        )
+
+
+class CoordinateDerivedPoint(DiagramModel):
+    type: Literal["derived_point"] = "derived_point"
+    id: NonEmptyStr
+    derive: Literal["intersection", "zero", "root", "x_intercept"]
+    of: str | list[str]
+    label: str = ""
+    style: JsonObject = Field(default_factory=dict)
+
+    def compute_object(self) -> JsonObject:
+        kind = "intersection" if self.derive == "intersection" else self.derive
+        return {
+            "type": kind,
+            "id": self.id,
+            "of": self.of,
+            "label": self.label,
+            "style": self.style,
+        }
+
+
+CoordinateObject: TypeAlias = Annotated[
+    CoordinatePoint
+    | CoordinateFunctionCurve
+    | CoordinateLine
+    | CoordinateSegment
+    | CoordinatePolygonRegion
+    | CoordinateDerivedPoint
+    | CoordinateGuideLine
+    | CoordinateProjectionGuide
+    | CoordinateTextLabel
+    | CoordinateCircle
+    | CoordinatePolyline,
+    Field(discriminator="type"),
+]
+
+
+def _object_refs(value: object) -> list[str]:
+    if isinstance(value, str):
+        return [value]
+    if isinstance(value, (list, tuple)):
+        return [item for item in value if isinstance(item, str)]
+    return []
+
+
+class CoordinateDiagramIR(DiagramModel):
+    """Typed plan/request IR for coordinate-plane diagrams."""
+
+    viewport: DiagramCoordinateViewport = Field(default_factory=DiagramCoordinateViewport)
+    axes: DiagramAxesSpec = Field(default_factory=DiagramAxesSpec)
+    objects: list[CoordinateObject] = Field(default_factory=list)
+    annotations: list[JsonObject] = Field(default_factory=list)
+
+    @model_validator(mode="after")
+    def validate_object_references(self) -> CoordinateDiagramIR:
+        if not self.viewport.preserve_aspect:
+            raise ValueError("coordinate diagram IR requires viewport.preserve_aspect=true")
+        known: set[str] = set()
+        for obj in self.objects:
+            obj_id = getattr(obj, "id", "")
+            if obj_id:
+                if obj_id in known:
+                    raise ValueError(f"coordinate object id must be unique: {obj_id}")
+                known.add(obj_id)
+
+        function_ids = {obj.id for obj in self.objects if isinstance(obj, CoordinateFunctionCurve)}
+        for obj in self.objects:
+            refs: list[str] = []
+            if isinstance(obj, CoordinateSegment):
+                refs.extend(_object_refs(obj.start))
+                refs.extend(_object_refs(obj.end))
+            elif isinstance(obj, CoordinatePolyline):
+                for point in obj.points:
+                    refs.extend(_object_refs(point))
+            elif isinstance(obj, CoordinatePolygonRegion):
+                for point in obj.points:
+                    refs.extend(_object_refs(point))
+            elif isinstance(obj, CoordinateCircle):
+                refs.extend(_object_refs(obj.center))
+            elif isinstance(obj, CoordinateProjectionGuide):
+                refs.append(obj.point)
+            elif isinstance(obj, CoordinateDerivedPoint):
+                refs.extend(_object_refs(obj.of))
+                if obj.derive != "intersection":
+                    ref = refs[0] if refs else ""
+                    if ref not in function_ids:
+                        raise ValueError(f"{obj.derive} derived_point requires a function_curve ref")
+                elif len(refs) != 2:
+                    raise ValueError("intersection derived_point requires exactly two object refs")
+
+            missing = [ref for ref in refs if ref not in known]
+            if missing:
+                raise ValueError(f"coordinate object '{getattr(obj, 'id', '')}' references missing object(s): {missing}")
+        return self
+
+    def function_specs(self) -> list[DiagramFunctionSpec]:
+        specs: list[DiagramFunctionSpec] = []
+        for obj in self.objects:
+            if isinstance(obj, CoordinateFunctionCurve):
+                specs.extend(obj.function_specs())
+        return specs
+
+    def compute_function_specs(self) -> list[DiagramFunctionSpec]:
+        return [obj.compute_function_spec() for obj in self.objects if isinstance(obj, CoordinateFunctionCurve)]
+
+    def render_objects(self) -> list[JsonObject]:
+        rendered: list[JsonObject] = []
+        for obj in self.objects:
+            if isinstance(obj, CoordinateFunctionCurve | CoordinateDerivedPoint):
+                continue
+            rendered.append(obj.render_object())
+        return rendered
+
+    def compute_objects(self) -> list[JsonObject]:
+        return [obj.compute_object() for obj in self.objects if isinstance(obj, CoordinateDerivedPoint)]
 
 
 class DiagramCoordinateObject(DiagramLooseModel):
@@ -243,6 +652,10 @@ class DiagramCoordinateObject(DiagramLooseModel):
 class DiagramAnalyticRequirements(DiagramModel):
     viewport: DiagramCoordinateViewport = Field(default_factory=DiagramCoordinateViewport)
     axes: DiagramAxesSpec = Field(default_factory=DiagramAxesSpec)
+    coordinate_ir: CoordinateDiagramIR | None = Field(
+        default=None,
+        validation_alias=AliasChoices("coordinate_ir", "ir", "coordinate_diagram"),
+    )
     functions: list[DiagramFunctionSpec] = Field(default_factory=list)
     objects: list[DiagramCoordinateObject] = Field(default_factory=list)
     annotations: list[JsonObject] = Field(default_factory=list)
@@ -253,7 +666,53 @@ class DiagramAnalyticRequirements(DiagramModel):
     def normalize_plot_options(self) -> DiagramAnalyticRequirements:
         if not self.wolfram_client_options and self.wolfram_plot_options:
             self.wolfram_client_options = dict(self.wolfram_plot_options)
+        if self.coordinate_ir is None and (self.functions or self.objects):
+            self.coordinate_ir = CoordinateDiagramIR(
+                viewport=self.viewport,
+                axes=self.axes,
+                objects=_legacy_coordinate_objects(self.functions, self.objects),
+                annotations=self.annotations,
+            )
+        if self.coordinate_ir is not None:
+            self.viewport = self.coordinate_ir.viewport
+            self.axes = self.coordinate_ir.axes
         return self
+
+
+def _legacy_coordinate_objects(
+    functions: list[DiagramFunctionSpec],
+    objects: list[DiagramCoordinateObject],
+) -> list[CoordinateObject]:
+    converted: list[object] = []
+    for func in functions:
+        payload = func.model_dump(mode="json", exclude_none=True)
+        payload["type"] = "function_curve"
+        if "domain" in payload:
+            payload["domain_segments"] = [payload.pop("domain")]
+        converted.append(payload)
+    for obj in objects:
+        data = obj.model_dump(mode="json", by_alias=True)
+        if not data.get("label"):
+            data.pop("label", None)
+        kind = data.get("type")
+        if kind in {"point", "line", "function_curve", "guide_line", "circle", "polyline"}:
+            converted.append(data)
+        elif kind == "polygon":
+            data["type"] = "polygon_region"
+            converted.append(data)
+        elif kind == "segment":
+            converted.append(data)
+        elif kind == "text":
+            data["type"] = "text_label"
+            data["text"] = data.get("text") or data.pop("label", "")
+            converted.append(data)
+        elif kind in {"intersection", "zero", "root", "x_intercept"}:
+            data["type"] = "derived_point"
+            data["derive"] = "intersection" if kind == "intersection" else kind
+            converted.append(data)
+        else:
+            raise ValueError(f"unsupported coordinate object type in plan IR: {kind}")
+    return [TypeAdapter(CoordinateObject).validate_python(item) for item in converted]
 
 
 class DiagramSemanticConstraints(DiagramModel):
@@ -481,10 +940,9 @@ class CoordinatePlaneDiagramSlot(DiagramSlotBase):
     def require_coordinate_payload(self) -> CoordinatePlaneDiagramSlot:
         if self.engine == DiagramEngine.RENDERER_SPEC.value and self.engine_options.renderer_spec:
             return self
-        if not (self.analytic_requirements.objects or self.analytic_requirements.functions):
+        if self.analytic_requirements.coordinate_ir is None:
             raise ValueError(
-                "coordinate_geometry diagram slots require analytic_requirements.objects "
-                "or analytic_requirements.functions"
+                "coordinate_geometry diagram slots require a valid analytic_requirements.coordinate_ir"
             )
         return self
 
@@ -627,6 +1085,12 @@ class DiagramJobRequest(DiagramModel):
             raise ValueError("prompt requests must use disclosure_policy='clean'")
         if self.variant == DiagramVariant.SOLUTION and not self.reuse.reuse_geometry_from:
             raise ValueError("solution requests must declare reuse.reuse_geometry_from")
+        if (
+            self.diagram_kind == DiagramKind.COORDINATE_GEOMETRY
+            and self.engine != DiagramEngine.RENDERER_SPEC
+            and self.analytic_requirements.coordinate_ir is None
+        ):
+            raise ValueError("coordinate_geometry requests require analytic_requirements.coordinate_ir")
         return self
 
 

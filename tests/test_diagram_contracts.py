@@ -10,6 +10,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts" / "diagram_workflow"))
 
 from diagram_contracts import (  # noqa: E402
+    CoordinateDiagramIR,
     CoordinatePlaneDiagramSlot,
     DiagramEngineOptions,
     DiagramModelConfig,
@@ -72,7 +73,9 @@ class DiagramContractsTest(unittest.TestCase):
                 engine="wolfram_client",
                 diagram_kind="coordinate_geometry",
                 analytic_requirements={
-                    "functions": [{"id": "f", "expression_wl": "x^2"}]
+                    "functions": [
+                        {"id": "f", "expression_wl": "x^2", "domain": {"min": -2, "max": 2}}
+                    ]
                 },
             )
         )
@@ -80,6 +83,182 @@ class DiagramContractsTest(unittest.TestCase):
         self.assertIsInstance(slot, CoordinatePlaneDiagramSlot)
         self.assertEqual(slot.diagram_kind, "coordinate_geometry")
         self.assertEqual(slot.analytic_requirements.functions[0].id, "f")
+        self.assertIsNotNone(slot.analytic_requirements.coordinate_ir)
+
+    def test_coordinate_plane_slot_accepts_typed_coordinate_ir(self) -> None:
+        slot = validate_diagram_slot(
+            self._base_slot_payload(
+                engine="wolfram_client",
+                diagram_kind="coordinate_geometry",
+                analytic_requirements={
+                    "coordinate_ir": {
+                        "viewport": {"x_min": -4, "x_max": 4, "y_min": -5, "y_max": 5},
+                        "objects": [
+                            {
+                                "type": "function_curve",
+                                "id": "f",
+                                "expression_wl": "1/x",
+                                "domain_segments": [
+                                    {"min": -4, "max": -0.5},
+                                    {"min": 0.5, "max": 4},
+                                ],
+                            },
+                            {"type": "point", "id": "A", "x": 1, "y": 1, "label": "A"},
+                            {"type": "line", "id": "l1", "equation": "y=1"},
+                            {"type": "derived_point", "id": "I", "derive": "intersection", "of": ["f", "l1"]},
+                            {"type": "projection_guide", "id": "I_x", "point": "I", "to_axis": "x"},
+                            {"type": "projection_guide", "id": "I_y", "from": "I", "to_axis": "y"},
+                        ],
+                    }
+                },
+            )
+        )
+
+        ir = slot.analytic_requirements.coordinate_ir
+        self.assertIsInstance(ir, CoordinateDiagramIR)
+        self.assertEqual([func.id for func in ir.function_specs()], ["f__seg1", "f__seg2"])
+        self.assertEqual([obj["id"] for obj in ir.render_objects() if obj["type"] == "projection_guide"], ["I_x", "I_y"])
+
+    def test_coordinate_ir_accepts_axis_tick_control(self) -> None:
+        slot = validate_diagram_slot(
+            self._base_slot_payload(
+                engine="coordinate_renderer",
+                diagram_kind="coordinate_geometry",
+                analytic_requirements={
+                    "coordinate_ir": {
+                        "viewport": {"x_min": -4, "x_max": 5, "y_min": -6, "y_max": 5},
+                        "axes": {
+                            "x_ticks": [-4, -2, 2, 4],
+                            "y_tick_values": [-6, -4, -2, 2, 4],
+                            "x_tick_labels": [
+                                {"value": 2},
+                                {"value": 4, "label": "4", "anchor": "north", "dy_pt": -6},
+                            ],
+                            "y_tick_labels": [
+                                {"value": 2, "at": [-0.12, 2], "anchor": "east", "dx": -1},
+                            ],
+                        },
+                        "objects": [
+                            {"type": "point", "id": "A", "x": 0, "y": 0}
+                        ],
+                    }
+                },
+            )
+        )
+
+        ir = slot.analytic_requirements.coordinate_ir
+        self.assertIsInstance(ir, CoordinateDiagramIR)
+        self.assertEqual(ir.axes.x_ticks, [-4.0, -2.0, 2.0, 4.0])
+        self.assertEqual(ir.axes.y_ticks, [-6.0, -4.0, -2.0, 2.0, 4.0])
+        self.assertEqual(ir.axes.x_tick_labels[1].value, 4.0)
+        self.assertEqual(ir.axes.x_tick_labels[1].dy_pt, -6)
+        self.assertEqual(ir.axes.y_tick_labels[0].at, (-0.12, 2.0))
+        self.assertEqual(ir.axes.y_tick_labels[0].dx_pt, -1)
+
+    def test_coordinate_ir_rejects_duplicate_manual_tick_labels(self) -> None:
+        with self.assertRaises(ValidationError):
+            validate_diagram_slot(
+                self._base_slot_payload(
+                    engine="coordinate_renderer",
+                    diagram_kind="coordinate_geometry",
+                    analytic_requirements={
+                        "coordinate_ir": {
+                            "axes": {
+                                "x_tick_labels": [
+                                    {"value": 2},
+                                    {"value": 2, "label": "$2$"},
+                                ]
+                            },
+                            "objects": [
+                                {"type": "point", "id": "A", "x": 0, "y": 0}
+                            ],
+                        }
+                    },
+                )
+            )
+
+    def test_coordinate_plane_function_payload_requires_domain(self) -> None:
+        with self.assertRaises(ValidationError):
+            validate_diagram_slot(
+                self._base_slot_payload(
+                    engine="wolfram_client",
+                    diagram_kind="coordinate_geometry",
+                    analytic_requirements={
+                        "functions": [{"id": "f", "expression_wl": "x^2"}]
+                    },
+                )
+            )
+
+    def test_coordinate_ir_rejects_polyline_function_expression(self) -> None:
+        with self.assertRaises(ValidationError):
+            validate_diagram_slot(
+                self._base_slot_payload(
+                    engine="coordinate_renderer",
+                    diagram_kind="coordinate_geometry",
+                    analytic_requirements={
+                        "coordinate_ir": {
+                            "objects": [
+                                {
+                                    "type": "polyline",
+                                    "id": "fake-f",
+                                    "expression_wl": "1/x",
+                                    "points": [[-1, -1], [1, 1]],
+                                }
+                            ]
+                        }
+                    },
+                )
+            )
+
+    def test_coordinate_ir_rejects_missing_derived_point_ref(self) -> None:
+        with self.assertRaises(ValidationError):
+            validate_diagram_slot(
+                self._base_slot_payload(
+                    engine="wolfram_client",
+                    diagram_kind="coordinate_geometry",
+                    analytic_requirements={
+                        "coordinate_ir": {
+                            "objects": [
+                                {
+                                    "type": "function_curve",
+                                    "id": "f",
+                                    "expression_wl": "x",
+                                    "domain_segments": [{"min": -1, "max": 1}],
+                                },
+                                {
+                                    "type": "derived_point",
+                                    "id": "I",
+                                    "derive": "intersection",
+                                    "of": ["f", "missing-line"],
+                                },
+                            ]
+                        }
+                    },
+                )
+            )
+
+    def test_coordinate_ir_requires_equal_axis_units(self) -> None:
+        with self.assertRaises(ValidationError):
+            validate_diagram_slot(
+                self._base_slot_payload(
+                    engine="coordinate_renderer",
+                    diagram_kind="coordinate_geometry",
+                    analytic_requirements={
+                        "coordinate_ir": {
+                            "viewport": {
+                                "x_min": -4,
+                                "x_max": 5,
+                                "y_min": -6,
+                                "y_max": 5,
+                                "preserve_aspect": False,
+                            },
+                            "objects": [
+                                {"type": "point", "id": "A", "x": 0, "y": 0}
+                            ],
+                        }
+                    },
+                )
+            )
 
     def test_coordinate_plane_slot_requires_objects_or_functions(self) -> None:
         with self.assertRaises(ValidationError):

@@ -38,6 +38,12 @@ def _style_dict(obj: dict[str, Any]) -> dict[str, Any]:
     return style if isinstance(style, dict) else {}
 
 
+def _model_or_dict(value: object) -> dict[str, Any]:
+    if hasattr(value, "model_dump"):
+        return value.model_dump(mode="json", exclude_none=True)
+    return dict(value) if isinstance(value, dict) else {}
+
+
 def _coordinate(value: object, point_objects: dict[str, Point]) -> Point | None:
     if isinstance(value, str) and value in point_objects:
         return point_objects[value]
@@ -48,8 +54,47 @@ def _coordinate(value: object, point_objects: dict[str, Point]) -> Point | None:
     return None
 
 
+def _style_coordinate(value: object) -> Point | None:
+    if isinstance(value, (list, tuple)) and len(value) == 2:
+        return (float(value[0]), float(value[1]))
+    if isinstance(value, dict) and "x" in value and "y" in value:
+        return (float(value["x"]), float(value["y"]))
+    return None
+
+
 def _coordinates_tex(points: list[Point]) -> str:
     return " ".join(f"({fmt_num(x)},{fmt_num(y)})" for x, y in points)
+
+
+def _axis_label_tex(value: object) -> str:
+    text = str(value).strip()
+    if not text:
+        return ""
+    if text.startswith("$") and text.endswith("$"):
+        return text
+    if re.fullmatch(r"[A-Za-z]", text):
+        return f"${escape_tex(text)}$"
+    return node_text_tex(text)
+
+
+def _axis_tick_label_tex(value: object, label: object | None = None) -> str:
+    text = str(label if label not in (None, "") else fmt_num(float(value))).strip()
+    if not text:
+        return ""
+    if text.startswith("$") and text.endswith("$"):
+        return text
+    if re.fullmatch(r"[+-]?(?:\d+(?:\.\d+)?|\.\d+)", text):
+        return f"${escape_tex(text)}$"
+    return node_text_tex(text)
+
+
+def _label_style_text(value: object, default_value: float) -> str:
+    style = _model_or_dict(value)
+    return _axis_tick_label_tex(default_value, style.get("label"))
+
+
+def _tick_values_tex(values: list[float]) -> str:
+    return ",".join(fmt_num(float(value)) for value in values)
 
 
 def _line_endpoints(obj: dict[str, Any], x_min: float, x_max: float, y_min: float, y_max: float) -> tuple[Point, Point] | None:
@@ -105,7 +150,11 @@ class CoordinateTikzCompiler:
         width_px = canvas.width_px or spec.render_profile.canvas_width_px or 720
         height_px = canvas.height_px or spec.render_profile.canvas_height_px or 520
         self.natural_width_cm = natural_width_cm_for_profile(spec.render_profile)
-        self.natural_height_cm = max(3.2, min(6.5, self.natural_width_cm * height_px / width_px))
+        if self.preserve_aspect and self.x_max > self.x_min and self.y_max > self.y_min:
+            viewport_ratio = (self.y_max - self.y_min) / (self.x_max - self.x_min)
+            self.natural_height_cm = max(3.2, min(7.5, self.natural_width_cm * viewport_ratio))
+        else:
+            self.natural_height_cm = max(3.2, min(6.5, self.natural_width_cm * height_px / width_px))
 
     def compile(self) -> TikzDiagramSpec:
         self._index_points()
@@ -113,6 +162,8 @@ class CoordinateTikzCompiler:
         self._draw_interval_bands()
         self._draw_functions()
         self._draw_objects()
+        self._draw_tick_labels()
+        self._draw_axis_labels()
         self.commands.append(TikzCommand(kind="axis:end", order=9000, tex=r"\end{axis}"))
         audit = TikzCompilerAudit(
             bbox_source={"x_min": self.x_min, "x_max": self.x_max, "y_min": self.y_min, "y_max": self.y_max},
@@ -182,18 +233,137 @@ class CoordinateTikzCompiler:
             axis_options.extend(["axis x line=none", "axis y line=middle"])
         else:
             axis_options.append("axis lines=none")
-        if axes and axes.x_tick_step:
+        x_ticks = list(axes.x_ticks or []) if axes else []
+        y_ticks = list(axes.y_ticks or []) if axes else []
+        if axes and not x_ticks and axes.x_tick_labels:
+            x_ticks = [label.value for label in axes.x_tick_labels if label.show]
+        if axes and not y_ticks and axes.y_tick_labels:
+            y_ticks = [label.value for label in axes.y_tick_labels if label.show]
+        if show_ticks and x_ticks:
+            axis_options.append(f"xtick={{{_tick_values_tex(x_ticks)}}}")
+        elif axes and axes.x_tick_step:
             axis_options.append(f"xtick distance={fmt_num(axes.x_tick_step)}")
-        if axes and axes.y_tick_step:
+        if show_ticks and y_ticks:
+            axis_options.append(f"ytick={{{_tick_values_tex(y_ticks)}}}")
+        elif axes and axes.y_tick_step:
             axis_options.append(f"ytick distance={fmt_num(axes.y_tick_step)}")
+        if show_ticks and axes and axes.x_tick_labels:
+            axis_options.append(r"xticklabel=\empty")
+        if show_ticks and axes and axes.y_tick_labels:
+            axis_options.append(r"yticklabel=\empty")
+        body = ",\n    ".join(axis_options)
+        self.commands.append(TikzCommand(kind="axis:begin", order=0, tex="\\begin{axis}[\n    " + body + "\n  ]"))
+
+    def _draw_axis_labels(self) -> None:
+        axes = self.spec.axes
+        draw_x = axes.x if axes else True
+        draw_y = axes.y if axes else True
         x_label = axes.x_label if axes else "x"
         y_label = axes.y_label if axes else "y"
         if draw_x and x_label:
-            axis_options.append(f"xlabel={{{escape_tex(x_label)}}}")
+            self._draw_axis_label("x", x_label)
         if draw_y and y_label:
-            axis_options.append(f"ylabel={{{escape_tex(y_label)}}}")
-        body = ",\n    ".join(axis_options)
-        self.commands.append(TikzCommand(kind="axis:begin", order=0, tex="\\begin{axis}[\n    " + body + "\n  ]"))
+            self._draw_axis_label("y", y_label)
+
+    def _draw_axis_label(self, axis: str, label: str) -> None:
+        label_tex = _axis_label_tex(label)
+        if not label_tex:
+            return
+        if axis == "x":
+            if self.y_min <= 0 <= self.y_max:
+                at = f"axis cs:{fmt_num(self.x_max)},0"
+                default_anchor = "west"
+                default_dx = 2.0
+                default_dy = -3.0
+            else:
+                at = "axis description cs:1.02,0.03"
+                default_anchor = "west"
+                default_dx = 0.0
+                default_dy = 0.0
+        else:
+            if self.x_min <= 0 <= self.x_max:
+                at = f"axis cs:0,{fmt_num(self.y_max)}"
+                default_anchor = "south west"
+                default_dx = 2.0
+                default_dy = 1.0
+            else:
+                at = "axis description cs:0.03,1.02"
+                default_anchor = "south"
+                default_dx = 0.0
+                default_dy = 0.0
+
+        anchor = default_anchor
+        dx = default_dx
+        dy = default_dy
+        label_font = f"font=\\fontsize{{{fmt_num(self.style.axis_label_pt, 2)}}}{{{fmt_num(self.style.axis_label_pt * 1.1, 2)}}}\\selectfont"
+        options = join_options(
+            f"anchor={anchor}",
+            "inner sep=1pt",
+            label_font,
+            f"xshift={fmt_num(dx, 3)}pt" if dx else "",
+            f"yshift={fmt_num(dy, 3)}pt" if dy else "",
+        )
+        self.commands.append(
+            TikzCommand(
+                kind=f"axis:label:{axis}",
+                order=8600 if axis == "x" else 8610,
+                tex=f"\\node[{options}] at ({at}) {{{label_tex}}};",
+            )
+        )
+
+    def _draw_tick_labels(self) -> None:
+        axes = self.spec.axes
+        if not axes or not axes.show_ticks:
+            return
+        if axes.x and axes.x_tick_labels:
+            for index, label in enumerate(axes.x_tick_labels):
+                self._draw_tick_label("x", index, label)
+        if axes.y and axes.y_tick_labels:
+            for index, label in enumerate(axes.y_tick_labels):
+                self._draw_tick_label("y", index, label)
+
+    def _draw_tick_label(self, axis: str, index: int, raw_label: object) -> None:
+        label = _model_or_dict(raw_label)
+        if label.get("show") is False:
+            return
+        value = float(label["value"])
+        custom_at = _style_coordinate(label.get("at") or label.get("label_at"))
+        if custom_at is not None:
+            at = f"axis cs:{fmt_num(custom_at[0])},{fmt_num(custom_at[1])}"
+            default_anchor = "north" if axis == "x" else "east"
+            default_dx = 0.0
+            default_dy = 0.0
+        elif axis == "x":
+            at = f"axis cs:{fmt_num(value)},0"
+            default_anchor = "north"
+            default_dx = 0.0
+            default_dy = -4.0
+        else:
+            at = f"axis cs:0,{fmt_num(value)}"
+            default_anchor = "east"
+            default_dx = -4.0
+            default_dy = 0.0
+        text = _axis_tick_label_tex(value, label.get("label"))
+        if not text:
+            return
+        anchor = str(label.get("anchor") or default_anchor)
+        dx = float(label.get("dx_pt", label.get("dx", default_dx)))
+        dy = float(label.get("dy_pt", label.get("dy", default_dy)))
+        tick_font = f"font=\\fontsize{{{fmt_num(self.style.tick_label_pt, 2)}}}{{{fmt_num(self.style.tick_label_pt * 1.1, 2)}}}\\selectfont"
+        options = join_options(
+            f"anchor={anchor}",
+            "inner sep=1pt",
+            tick_font,
+            f"xshift={fmt_num(dx, 3)}pt" if dx else "",
+            f"yshift={fmt_num(dy, 3)}pt" if dy else "",
+        )
+        self.commands.append(
+            TikzCommand(
+                kind=f"axis:tick_label:{axis}",
+                order=(8400 if axis == "x" else 8450) + index,
+                tex=f"\\node[{options}] at ({at}) {{{text}}};",
+            )
+        )
 
     def _draw_interval_bands(self) -> None:
         for index, obj in enumerate(self._objects()):
@@ -231,8 +401,19 @@ class CoordinateTikzCompiler:
             )
             tex = f"\\addplot+[{options}] coordinates {{{_coordinates_tex(points)}}};"
             if func.label:
-                mid = points[min(len(points) - 1, max(0, len(points) // 2))]
-                tex += f"\n\\node[anchor=south west, text={color}] at (axis cs:{fmt_num(mid[0])},{fmt_num(mid[1])}) {{{node_text_tex(func.label)}}};"
+                label_point = _style_coordinate(style.get("label_at"))
+                if label_point is None:
+                    label_point = points[min(len(points) - 1, max(0, len(points) // 2))]
+                label_anchor = str(style.get("label_anchor") or "south west")
+                dx = float(style.get("label_dx", 4))
+                dy = float(style.get("label_dy", 4))
+                label_options = join_options(
+                    f"anchor={label_anchor}",
+                    f"text={color}",
+                    f"xshift={fmt_num(dx, 3)}pt" if dx else "",
+                    f"yshift={fmt_num(dy, 3)}pt" if dy else "",
+                )
+                tex += f"\n\\node[{label_options}] at (axis cs:{fmt_num(label_point[0])},{fmt_num(label_point[1])}) {{{node_text_tex(func.label)}}};"
             self.commands.append(TikzCommand(kind="function", order=300 + index, tex=tex))
 
     def _draw_objects(self) -> None:
@@ -247,6 +428,8 @@ class CoordinateTikzCompiler:
                 self._draw_text_object(index, obj, style)
             elif kind == "circle":
                 self._draw_circle_object(index, obj, style)
+            elif kind == "projection_guide":
+                self._draw_projection_guide_object(index, obj, style)
             elif kind in {"polyline", "polygon"}:
                 self._draw_poly_object(index, obj, style, closed=kind == "polygon")
 
@@ -337,6 +520,87 @@ class CoordinateTikzCompiler:
             f"at (axis cs:{fmt_num(float(obj['x']))},{fmt_num(float(obj['y']))}) {{{node_text_tex(text)}}};"
         )
         self.commands.append(TikzCommand(kind="object:text", order=950 + index, tex=tex))
+
+    def _draw_projection_guide_object(self, index: int, obj: dict[str, Any], style: dict[str, Any]) -> None:
+        source = _coordinate(obj.get("point") or obj.get("from") or obj.get("source"), self.point_objects)
+        if source is None:
+            self.warnings.append(f"projection_guide references missing point: {obj.get('id') or index}")
+            return
+        to_axis = str(obj.get("to_axis") or "x")
+        if to_axis == "x":
+            foot = (source[0], 0.0)
+            value = source[0]
+        elif to_axis == "y":
+            foot = (0.0, source[1])
+            value = source[1]
+        else:
+            self.warnings.append(f"projection_guide has unsupported axis: {obj.get('id') or index}")
+            return
+
+        color = color_option(style.get("stroke") or "#6b7280")
+        options = join_options(
+            "no markers",
+            f"draw={color}",
+            stroke_width_option(style.get("stroke_width", 1.8)),
+            dash_option(style.get("dash", "5 4")),
+            "forget plot",
+        )
+        self.commands.append(
+            TikzCommand(
+                kind="object:projection_guide",
+                order=520 + index,
+                tex=f"\\addplot+[{options}] coordinates {{{_coordinates_tex([source, foot])}}};",
+            )
+        )
+        if obj.get("show_axis_tick", True):
+            if to_axis == "x":
+                tick_tex = (
+                    f"\\draw[draw={color}, line width=0.35pt] "
+                    f"(axis cs:{fmt_num(foot[0])},{fmt_num(foot[1])}) ++(0pt,-2.4pt) -- ++(0pt,4.8pt);"
+                )
+            else:
+                tick_tex = (
+                    f"\\draw[draw={color}, line width=0.35pt] "
+                    f"(axis cs:{fmt_num(foot[0])},{fmt_num(foot[1])}) ++(-2.4pt,0pt) -- ++(4.8pt,0pt);"
+                )
+            self.commands.append(TikzCommand(kind="object:projection_tick", order=8300 + index, tex=tick_tex))
+        self._draw_projection_coordinate_label(index, obj, to_axis, value, foot)
+
+    def _draw_projection_coordinate_label(self, index: int, obj: dict[str, Any], axis: str, value: float, foot: Point) -> None:
+        label_style = _model_or_dict(obj.get("label_style"))
+        if label_style.get("show") is False:
+            return
+        text = _label_style_text(label_style, value)
+        if not text:
+            return
+        custom_at = _style_coordinate(label_style.get("at") or label_style.get("label_at"))
+        at_point = custom_at if custom_at is not None else foot
+        if axis == "x":
+            default_anchor = "north"
+            default_dx = 0.0
+            default_dy = -4.0
+        else:
+            default_anchor = "east"
+            default_dx = -4.0
+            default_dy = 0.0
+        anchor = str(label_style.get("anchor") or default_anchor)
+        dx = float(label_style.get("dx_pt", label_style.get("dx", default_dx)))
+        dy = float(label_style.get("dy_pt", label_style.get("dy", default_dy)))
+        tick_font = f"font=\\fontsize{{{fmt_num(self.style.tick_label_pt, 2)}}}{{{fmt_num(self.style.tick_label_pt * 1.1, 2)}}}\\selectfont"
+        options = join_options(
+            f"anchor={anchor}",
+            "inner sep=1pt",
+            tick_font,
+            f"xshift={fmt_num(dx, 3)}pt" if dx else "",
+            f"yshift={fmt_num(dy, 3)}pt" if dy else "",
+        )
+        self.commands.append(
+            TikzCommand(
+                kind=f"object:projection_label:{axis}",
+                order=8350 + index,
+                tex=f"\\node[{options}] at (axis cs:{fmt_num(at_point[0])},{fmt_num(at_point[1])}) {{{text}}};",
+            )
+        )
 
     def _draw_circle_object(self, index: int, obj: dict[str, Any], style: dict[str, Any]) -> None:
         center = _coordinate(obj.get("center"), self.point_objects)

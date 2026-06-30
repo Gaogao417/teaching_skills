@@ -102,7 +102,7 @@ class DiagramBatchV2Test(unittest.TestCase):
                     "variable": "x",
                     "expression_wl": "2*x - 1",
                     "domain": {"min": -2, "max": 6},
-                    "sample_count": 32,
+                    "sample_count": 80,
                 }
             ],
             "objects": [
@@ -121,7 +121,9 @@ class DiagramBatchV2Test(unittest.TestCase):
         self.assertEqual(analytic["viewport"]["x_min"], -2.0)
         self.assertEqual(analytic["viewport"]["y_max"], 12.0)
         self.assertEqual(analytic["functions"][0]["expression_wl"], "2*x - 1")
-        self.assertEqual(analytic["functions"][0]["sample_count"], 32)
+        self.assertEqual(analytic["functions"][0]["sample_count"], 80)
+        self.assertEqual(analytic["coordinate_ir"]["objects"][0]["type"], "function_curve")
+        self.assertEqual(analytic["coordinate_ir"]["objects"][0]["domain_segments"][0]["min"], -2.0)
         self.assertEqual(analytic["objects"][1]["equation"], "y=0")
         self.assertEqual(analytic["wolfram_client_options"]["sample_method"], "table")
 
