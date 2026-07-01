@@ -58,6 +58,10 @@ def _has_runtime_value(value: object) -> bool:
     return value not in (None, "", [], {})
 
 
+def _job_engine_value(job: DiagramJob) -> str:
+    return str(getattr(job.engine, "value", job.engine))
+
+
 def request_payload_for_artifact(request: DiagramJobRequest) -> dict[str, object]:
     """Serialize a request while omitting empty runtime model config fields."""
     payload = request.model_dump(mode="json")
@@ -399,7 +403,14 @@ def run_batch(
             for job in runnable
         ]
 
-        with ThreadPoolExecutor(max_workers=max_workers) as executor:
+        # Wolfram-backed GeometricScene runs are not stable under concurrent
+        # kernel startup in this workflow. Keep those waves serial while still
+        # allowing renderer_spec/offline jobs to use the configured parallelism.
+        level_workers = max_workers
+        if any(_job_engine_value(job) == "geometric_scene" for job in runnable):
+            level_workers = 1
+
+        with ThreadPoolExecutor(max_workers=level_workers) as executor:
             futures = {
                 executor.submit(
                     run_one_job, job, req, artifact_dir, python_executable, dry_run

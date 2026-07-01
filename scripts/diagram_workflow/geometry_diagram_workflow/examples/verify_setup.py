@@ -64,7 +64,7 @@ def main() -> None:
     for path, desc in [
         (ROOT / "wl", "wl/"),
         (ROOT / "core", "core/"),
-        (ROOT / ".opencode" / "skills", ".opencode/skills/"),
+        (ROOT / ".codex" / "skills", ".codex/skills/"),
     ]:
         failures += 0 if check_file(path, desc) else 1
 
@@ -83,7 +83,7 @@ def main() -> None:
     print("Python packages:")
     for module, label in [
         ("yaml", "pyyaml"),
-        ("openai", "openai"),
+        ("openai_codex", "openai-codex"),
         ("wolframclient", "wolframclient"),
     ]:
         failures += 0 if check_import(module, label) else 1
