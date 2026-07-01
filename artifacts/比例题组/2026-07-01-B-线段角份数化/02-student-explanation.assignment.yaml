@@ -1,6 +1,6 @@
 meta:
   title: 线段和角：图上标份数
-  subtitle: 带圈数字、比例方程、目标长度
+  subtitle: 三格填空：标份数、写目标比例、填答案
   grade: 八年级
   subject: 数学
   version: student
@@ -22,8 +22,8 @@ sections:
     title: 图形题的三格填空
     items:
     - latex: 第一格：把比例或方程式翻成图上的带圈份数。
-    - latex: '第二格：用“目标量 : 整体 = 目标份数 : 总份数”写比例方程。'
-    - latex: 第三格：解出题目问的线段或角；不问的量不用作为最终答案。
+    - latex: '第二格：写“目标量 : 整体 = 目标份数 : 总份数”。'
+    - latex: 第三格：填出题目问的线段或角；不问的量不用作为最终答案。
     - latex: 若条件是 $ma=nb$，则 $a:b=n:m$，份数和系数交叉对应。
   - type: problemcard
     id: b-ex1
@@ -49,14 +49,14 @@ sections:
     id: b-route1
     steps:
     - id: b1-s1
-      latex: 图上标份数
-      content_latex: "在图上标 $AB$ 为 \textcircled{\\scriptsize 3}，$BC$ 为 \textcircled{\\scriptsize 5}，所以 $AC$ 共 $8$ 份。"
+      latex: 标份数
+      content_latex: "在图上标 $AB$ 为 \\textcircled{\\scriptsize 3}，$BC$ 为 \\textcircled{\\scriptsize 5}，所以 $AC$ 共 $8$ 份。"
     - id: b1-s2
-      latex: 写比例方程
+      latex: 写目标比例
       content_latex: $\dfrac{AB}{32}=\dfrac{3}{8}$。
     - id: b1-s3
-      latex: 求目标量
-      content_latex: "$AB=32\times\\dfrac{3}{8}=12$。"
+      latex: 填答案
+      content_latex: "$AB=32\\times\\dfrac{3}{8}=12$。"
   - type: dual_explanation
     id: b-dual1
     label: 例题 1
@@ -65,10 +65,10 @@ sections:
     side_items:
     - kind: hint
       title: 先标图
-      content_latex: "图上的 \textcircled{\\scriptsize 3} 和 \textcircled{\\scriptsize 5} 比直接写文字更稳。"
+      content_latex: "图上的 \\textcircled{\\scriptsize 3} 和 \\textcircled{\\scriptsize 5} 比文字说明更直观。"
     - kind: hint
-      title: 比例方程
-      content_latex: 目标量对整体，等于目标份数对总份数。
+      title: 只看目标
+      content_latex: 题目问 $AB$，就写 $AB$ 对整体 $AC$ 的份数。
     solution_title: 填法
     solution_step_ids:
     - b1-s1
@@ -98,14 +98,14 @@ sections:
     id: b-route2
     steps:
     - id: b2-s1
-      latex: 方程式转份数
-      content_latex: $5AB=3BC$，所以 $AB:BC=3:5$。
+      latex: 标份数
+      content_latex: $5AB=3BC$，所以 $AB:BC=3:5$，在图上标 $AB$ 为 ③，$BC$ 为 ⑤。
     - id: b2-s2
-      latex: 写比例方程
+      latex: 写目标比例
       content_latex: $\dfrac{AB}{56}=\dfrac{3}{8}$。
     - id: b2-s3
-      latex: 求目标量
-      content_latex: "$AB=56\times\\dfrac{3}{8}=21$。"
+      latex: 填答案
+      content_latex: "$AB=56\\times\\dfrac{3}{8}=21$。"
   - type: dual_explanation
     id: b-dual2
     label: 例题 2
@@ -116,17 +116,21 @@ sections:
       title: 交叉对应
       content_latex: $5AB=3BC$ 时，$AB$ 是 $3$ 份，不是 $5$ 份。
     - kind: hint
-      title: 再写方程
-      content_latex: 标完份数后，必须写 $AB:AC=3:8$ 或 $\dfrac{AB}{56}=\dfrac{3}{8}$。
+      title: 再写目标比例
+      content_latex: 标完份数后，只写目标量 $AB$ 和整体 $AC$ 的比例。
     solution_title: 填法
     solution_step_ids:
     - b2-s1
     - b2-s2
     - b2-s3
+  - type: mistake
+    id: b-mistake
+    title: 易错提醒
+    content_latex: 方程式关系要先转成份数。$ma=nb$ 时，$a:b=n:m$；份数和系数是交叉对应。
   - type: method_reminder
     id: b-method
     title: 方法提醒
     items:
-    - latex: 先在图上标带圈份数，再写比例方程。
-    - latex: "线段整体：$AC=AB+BC$；角整体：$\angle AOC=\angle AOB+\angle BOC$。"
+    - latex: 先在图上标带圈份数，再写目标量对整体的比例。
+    - latex: "线段整体：$AC=AB+BC$；角度题同构：$\angle AOC=\angle AOB+\angle BOC$。"
     - latex: '目标量 : 整体 = 目标份数 : 总份数。'

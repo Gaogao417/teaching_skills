@@ -1,6 +1,6 @@
 meta:
-  title: 比例方程：先识别结构，再选方法
-  subtitle: 诊断式讲解——看·转·防三栏
+  title: 比例方程：填空反应卡
+  subtitle: 关键式与答案自动化
   grade: 八年级
   subject: 数学
   version: student
@@ -11,167 +11,54 @@ render:
   paper_size: a4paper
   answer_key_position: after_page_break
 sections:
-- id: a-diagnostic-model
-  title: 比例方程：先识别结构，再选方法
+- id: a-reaction-cards
+  title: 比例方程：看信号，填关键式
   show_title: true
   type: explanation
   visibility: student
   blocks:
   - type: solution
     id: a-core
-    title: 先看结构，再决定方法
+    title: 核心定位：这是填空反应训练
     items:
-    - latex: '第一步永远是写比例式：没有比例式，就没有方法选择。'
-    - latex: '识别顺序：$a,b,c,x$ 成比例，就是 $a:b=c:x$，顺序不能乱配。'
-    - latex: '选方法看一组对应量：有明显整数倍 $\to$ 倍数法；有简单份数 $\to$ 份数法；都没有或含一次式 $\to$ 交叉相乘。'
-    - latex: '干扰项：不看倍数就机械交叉相乘；把第四比例项的顺序写错。'
-  - type: problemcard
-    id: a-card
-    label: 大题
-    stem_latex: |-
-      完成下列小题。每小问先写"结构识别"，再选方法计算。
-      \begin{enumerate}[label=(\arabic*)]
-        \item $2,4,3,x$ 成比例，求 $x$；
-        \item 求\ \ $3,12,5$ 的第四比例项 $x$；
-        \item $7:x=3:5$，求 $x$；
-        \item $\dfrac{x+2}{5}=\dfrac{3}{4}$，求 $x$。
-      \end{enumerate}
-  - type: route
-    id: a-route1
-    steps:
-    - id: a1-s1
-      latex: 识别顺序
-      content_latex: 入口信号"成比例"$\Rightarrow a:b=c:x$，即 $2:4=3:x$。
-    - id: a1-s2
-      latex: 选方法
-      content_latex: 看一组对应量 $2\to4$ 是 $\times2$（整数倍），优先倍数法。
-    - id: a1-s3
-      latex: 计算
-      content_latex: 所以 $3\to x$ 也是 $\times2$，$x=6$。
-  - type: dual_explanation
-    id: a-dual1
-    label: (1)
-    stem_latex: $2,4,3,x$ 成比例，求 $x$。
-    side_title: 看·转·防
-    side_items:
-    - kind: hint
-      title: 看结构
-      content_latex: 入口信号"成比例"$\to$ 先按顺序写成 $a:b=c:x$。
-    - kind: hint
-      title: 怎么转
-      content_latex: 圈一组对应量 $2,4$，看有无整数倍。
-    - kind: mistake
-      title: 易错
-      content_latex: 顺序不能配错，是 $2:4=3:x$，不是 $2:3=4:x$。
-    solution_title: 解答
-    solution_step_ids:
-    - a1-s1
-    - a1-s2
-    - a1-s3
-  - type: route
-    id: a-route2
-    steps:
-    - id: a2-s1
-      latex: 识别位置
-      content_latex: 第四比例项 = 第四个位置，即 $3:12=5:x$（不能随便配对）。
-    - id: a2-s2
-      latex: 选方法
-      content_latex: $3\to12$ 是 $\times4$（整数倍），用倍数法。
-    - id: a2-s3
-      latex: 计算
-      content_latex: $5\to x$ 也是 $\times4$，$x=20$。
-  - type: dual_explanation
-    id: a-dual2
-    label: (2)
-    stem_latex: 求 $3,12,5$ 的第四比例项 $x$。
-    side_title: 看·转·防
-    side_items:
-    - kind: hint
-      title: 看结构
-      content_latex: "第四比例项"$\to$ 前三个数顺序固定，$x$ 在第四位。
-    - kind: hint
-      title: 怎么转
-      content_latex: $3:12=5:x$，再圈 $3,12$ 看倍数。
-    - kind: mistake
-      title: 易错
-      content_latex: 不是 $3:5=12:x$，顺序由定义决定。
-    solution_title: 解答
-    solution_step_ids:
-    - a2-s1
-    - a2-s2
-    - a2-s3
-  - type: route
-    id: a-route3
-    steps:
-    - id: a3-s1
-      latex: 识别结构
-      content_latex: 已是比例式 $7:x=3:5$；圈对应量 $7,3$ 与 $x,5$，没有整数倍。
-    - id: a3-s2
-      latex: 选方法
-      content_latex: 无整数倍、无简单份数 $\to$ 交叉相乘。
-    - id: a3-s3
-      latex: 计算
-      content_latex: $3x=35$，$x=\dfrac{35}{3}$。
-  - type: dual_explanation
-    id: a-dual3
-    label: (3)
-    stem_latex: $7:x=3:5$，求 $x$。
-    side_title: 看·转·防
-    side_items:
-    - kind: hint
-      title: 看结构
-      content_latex: 已给比例式，直接进入方法选择。
-    - kind: hint
-      title: 怎么转
-      content_latex: 找不到一组整数倍 $\to$ 放弃倍数法，转交叉相乘。
-    - kind: mistake
-      title: 易错
-      content_latex: 别硬凑倍数；$7$ 和 $3$ 没有整数倍关系。
-    solution_title: 解答
-    solution_step_ids:
-    - a3-s1
-    - a3-s2
-    - a3-s3
-  - type: route
-    id: a-route4
-    steps:
-    - id: a4-s1
-      latex: 识别结构
-      content_latex: 分数式即比例 $\dfrac{x+2}{5}=\dfrac{3}{4}$，含一次式 $x+2$。
-    - id: a4-s2
-      latex: 选方法
-      content_latex: 含一次式 $\to$ 交叉相乘最稳。
-    - id: a4-s3
-      latex: 计算
-      content_latex: $4(x+2)=15$，$x+2=\dfrac{15}{4}$，$x=\dfrac{7}{4}$。
-  - type: dual_explanation
-    id: a-dual4
-    label: (4)
-    stem_latex: $\dfrac{x+2}{5}=\dfrac{3}{4}$，求 $x$。
-    side_title: 看·转·防
-    side_items:
-    - kind: hint
-      title: 看结构
-      content_latex: 分数式就是比例式；分子是 $x+2$（一次式）。
-    - kind: hint
-      title: 怎么转
-      content_latex: 含一次式没有整数倍入口 $\to$ 交叉相乘。
-    - kind: mistake
-      title: 易错
-      content_latex: $x+2$ 是整体，交叉相乘必须写 $4(x+2)$，不能漏括号。
-    solution_title: 解答
-    solution_step_ids:
-    - a4-s1
-    - a4-s2
-    - a4-s3
+    - latex: 比例方程先训练“看一眼填什么”，不要把观察过程写成完整推导。
+    - latex: 每题只保留三格：题面信号、关键式、答案。
+    - latex: 有明显倍数或份数，直接填目标量；没有明显入口，再填交叉相乘关键式。
+    - latex: 含一次式时，括号必须跟着整体走。
+  - type: summary_dual
+    id: a-signal-key
+    left_title: 题面信号
+    left_items:
+    - latex: $a,b,c,x$ 成比例 $\Rightarrow a:b=c:x$。
+    - latex: 第四比例项：前三个数顺序不换，$x$ 放第四位。
+    - latex: 分数式：上下位置照原式读成比例。
+    - latex: 正比例中项：正数 $x$ 满足 $a:x=x:b$。
+    right_title: 关键式
+    right_items:
+    - latex: 倍数法：$4:12=5:x$，看 $4\to12$ 是 $\times3$，直接 $x=15$。
+    - latex: 份数法：$x:24=5:8$，$24$ 对应 $8$ 份，$x$ 对应 $5$ 份。
+    - latex: 交叉相乘：$7:x=3:5$，只填 $3x=35$。
+    - latex: 含一次式：$\dfrac{x+2}{5}=\dfrac{3}{4}$，只填 $4(x+2)=15$。
+  - type: solution
+    id: a-fillin-table
+    title: 填空卡：只写最短反应
+    items:
+    - content_latex: |
+        \begin{tabular}{p{0.24\linewidth}p{0.34\linewidth}p{0.30\linewidth}}
+        类型 & 先填什么 & 直接反应\\
+        明显倍数 & 标出同乘几倍 & 同位置也乘几倍\\
+        简单份数 & 找总量对应几份 & 一份是多少，再取目标份数\\
+        无明显倍数 & 写交叉相乘式 & 解出空里的数\\
+        含一次式 & 把一次式当整体 & 先保留括号\\
+        \end{tabular}
   - type: mistake
     id: a-mistake
     title: 易错提醒
-    content_latex: 比例方程最容易错在"没判断就动手"。先写比例式，再圈一组对应量看倍数，最后才谈计算。
+    content_latex: 比例方程最容易错在顺序和整体。第四比例项不要随便换位置；$x+2$、$2x-1$ 这类一次式要整块参与交叉相乘。
   - type: method_reminder
     id: a-method
-    title: 方法提醒
+    title: 填法提醒
     items:
-    - latex: 先写比例式，再识别有无整数倍 / 简单份数。
-    - latex: 有明显倍数 $\to$ 倍数法；无倍数或含一次式 $\to$ 交叉相乘。
-    - latex: 第四比例项顺序由定义固定；比例中项先写 $a:x=x:b$。
+    - latex: 先看有没有明显倍数或份数，能直接填就直接填。
+    - latex: 看不出倍数或份数时，再写交叉相乘关键式。
+    - latex: 填空题只要关键式和答案稳，不把观察过程展开成完整推导。
