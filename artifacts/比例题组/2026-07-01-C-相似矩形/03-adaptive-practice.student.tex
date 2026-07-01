@@ -298,7 +298,7 @@
 
 \section*{相似矩形专题练习}
 
-\section*{第1组：判断相似}
+\section*{一、交错训练：先定对应，再列比例}
 
 \needspace{8\baselineskip}
 
@@ -306,7 +306,7 @@
   \noindent
   \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
     \vspace{0pt}
-    矩形甲的长为 $5$、宽为 $8$，矩形乙的长为 $10$、宽为 $16$。判断两个矩形是否相似。
+    矩形甲的长为 $8$、宽为 $5$，矩形乙的长为 $16$、宽为 $10$。判断两个矩形是否相似。
   \end{minipage}\hfill
   \begin{diagramcoltikz}{60mm}{矩形示意，边长以题干为准。}
   \input{\detokenize{build/diagram/jobs/cq1-prompt/rendered/prompt.fragment.tex}}
@@ -322,7 +322,23 @@
   \noindent
   \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
     \vspace{0pt}
-    矩形甲的长为 $4$、宽为 $7$，矩形乙的长为 $8$、宽为 $12$。判断两个矩形是否相似。
+    两个矩形相似。矩形甲的长为 $9$、宽为 $6$；矩形乙的长为 $x$、宽为 $10$。求 $x$。
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{矩形示意，边长以题干为准。}
+  \input{\detokenize{build/diagram/jobs/cq4-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[28mm]
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=6]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    矩形甲的长为 $7$、宽为 $4$，矩形乙的长为 $12$、宽为 $8$。判断两个矩形是否相似。
   \end{minipage}\hfill
   \begin{diagramcoltikz}{60mm}{矩形示意，边长以题干为准。}
   \input{\detokenize{build/diagram/jobs/cq2-prompt/rendered/prompt.fragment.tex}}
@@ -348,58 +364,6 @@
 \end{problem}
 
 
-\section*{第2组：已知相似求边}
-
-\needspace{8\baselineskip}
-
-\begin{problem}[points=6]
-  \noindent
-  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
-    \vspace{0pt}
-    两个矩形相似。矩形甲的长为 $6$、宽为 $9$；矩形乙的长为 $10$、宽为 $x$。求 $x$。
-  \end{minipage}\hfill
-  \begin{diagramcoltikz}{60mm}{矩形示意，边长以题干为准。}
-  \input{\detokenize{build/diagram/jobs/cq4-prompt/rendered/prompt.fragment.tex}}
-  \end{diagramcoltikz}
-  \par\medskip
-  \answerarea[28mm]
-\end{problem}
-
-
-\needspace{8\baselineskip}
-
-\begin{problem}[points=6]
-  \noindent
-  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
-    \vspace{0pt}
-    两个矩形相似。矩形甲的长为 $8$、宽为 $12$；矩形乙的长为 $x$、宽为 $18$。求 $x$。
-  \end{minipage}\hfill
-  \begin{diagramcoltikz}{60mm}{矩形示意，边长以题干为准。}
-  \input{\detokenize{build/diagram/jobs/cq5-prompt/rendered/prompt.fragment.tex}}
-  \end{diagramcoltikz}
-  \par\medskip
-  \answerarea[28mm]
-\end{problem}
-
-
-\needspace{8\baselineskip}
-
-\begin{problem}[points=6]
-  \noindent
-  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
-    \vspace{0pt}
-    两个矩形相似。矩形甲的长为 $x+2$、宽为 $10$；矩形乙的长为 $6$、宽为 $5$。求 $x$。
-  \end{minipage}\hfill
-  \begin{diagramcoltikz}{60mm}{矩形示意，边长以题干为准。}
-  \input{\detokenize{build/diagram/jobs/cq6-prompt/rendered/prompt.fragment.tex}}
-  \end{diagramcoltikz}
-  \par\medskip
-  \answerarea[28mm]
-\end{problem}
-
-
-\section*{第3组：未指定对应的多解}
-
 \needspace{8\baselineskip}
 
 \begin{problem}[points=6]
@@ -422,10 +386,42 @@
   \noindent
   \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
     \vspace{0pt}
+    两个矩形相似。矩形甲的长为 $12$、宽为 $8$；矩形乙的长为 $18$、宽为 $x$。求 $x$。
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{矩形示意，边长以题干为准。}
+  \input{\detokenize{build/diagram/jobs/cq5-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[28mm]
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=6]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
     一个矩形的两边长为 $4$ 和 $9$。另一个矩形的一边长为 $12$，另一边长为 $x$。若两个矩形相似，求 $x$。
   \end{minipage}\hfill
   \begin{diagramcoltikz}{60mm}{矩形示意，边长以题干为准。}
   \input{\detokenize{build/diagram/jobs/cq8-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[28mm]
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=6]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    两个矩形相似。矩形甲的长为 $x+2$、宽为 $10$；矩形乙的长为 $6$、宽为 $5$。求 $x$。
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{矩形示意，边长以题干为准。}
+  \input{\detokenize{build/diagram/jobs/cq6-prompt/rendered/prompt.fragment.tex}}
   \end{diagramcoltikz}
   \par\medskip
   \answerarea[28mm]

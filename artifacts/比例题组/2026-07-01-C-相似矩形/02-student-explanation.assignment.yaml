@@ -1,6 +1,6 @@
 meta:
-  title: 相似矩形：对应关系与多解
-  subtitle: 长宽比、对应边、未指定对应时分类
+  title: 相似矩形：先定对应，再列比例
+  subtitle: 诊断式讲解——看·转·防三栏
   grade: 八年级
   subject: 数学
   version: student
@@ -11,111 +11,210 @@ render:
   paper_size: a4paper
   answer_key_position: after_page_break
 sections:
-- id: c-model
-  title: 相似矩形：对应关系与多解
+- id: c-diagnostic-model
+  title: 相似矩形：先定对应，再列比例
   show_title: true
   type: explanation
   visibility: student
   blocks:
   - type: solution
-    id: c-knowledge
-    title: 核心结论：先确定对应，再列比例
+    id: c-core
+    title: 先定对应，再选择方法
     items:
-    - latex: 如果题目明确“长、宽”，通常长对长、宽对宽。
-    - latex: 如果只说“两边长为 $2$ 和 $3$”，没有指定哪条边对应，就要分类。
-    - latex: 判断相似先比较长宽比；求未知边先写对应边比例。
+    - latex: 判断相似可以比较各自长宽比：甲长:甲宽 是否等于 乙长:乙宽。
+    - latex: 也可以比较对应边倍率：甲长:乙长 是否等于 甲宽:乙宽。
+    - latex: 求未知边先定对应——题目说"长、宽"时通常长对长、宽对宽。
+    - latex: 列出比例后沿用比例方程的方法选择：先看明显倍数，再看份数，最后才交叉相乘。
+    - latex: 只说"两边长为 a 和 b"而未指定对应 $\to$ 要分类讨论（两种对应两种答案）。
+    - latex: 干扰项：图形旋转后对应混乱；没说 $6$ 对应哪条边时漏掉一种情况。
   - type: problemcard
     id: c-ex1
     label: 例题 1
-    stem_latex: 矩形甲的长为 $4$、宽为 $6$，矩形乙的长为 $8$、宽为 $12$。判断两个矩形是否相似。
+    stem_latex: 矩形甲的长为 $6$、宽为 $4$，矩形乙的长为 $12$、宽为 $8$。判断两个矩形是否相似。
     diagram_col:
       kind: tikz
-      tikz_code: ''
       tikz_path: build/diagram/jobs/c-ex1-prompt/rendered/prompt.fragment.tex
-      diagram_ref: c.ex1.prompt
-      diagram_job_id: c-ex1-prompt
       width: 60mm
-      caption: 两个矩形的长宽对应关系。
-      variant: prompt
-      disclosure_policy: clean
-      artifact_hash: sha256:c1ce790729b90a1617aec70b50cbcc5462e653559a74f97ee0e1f2596e7c0524
-      packages:
-      - tikz
-      libraries: []
+      caption: 先写两个长宽比再比较。
   - type: route
     id: c-route1
     steps:
     - id: c1-s1
-      latex: 写长宽比
-      content_latex: 甲的长宽比为 $4:6=2:3$，乙的长宽比为 $8:12=2:3$。
+      latex: 识别长宽比
+      content_latex: 甲长宽比 $6:4=3:2$，乙长宽比 $12:8=3:2$。
     - id: c1-s2
-      latex: 判断相似
-      content_latex: 两个长宽比相同，所以两个矩形相似。
+      latex: 比较判断
+      content_latex: 两个长宽比相同，故相似。
+    - id: c1-s3
+      latex: 结论
+      content_latex: 两个矩形相似。
   - type: dual_explanation
     id: c-dual1
     label: 例题 1
     stem_latex: 判断两个矩形是否相似。
-    side_title: 小贴士
+    side_title: 看·转·防
     side_items:
     - kind: hint
-      title: 判断入口
-      content_latex: 判断相似时先比较两个矩形的长宽比，不先列未知数。
+      title: 看结构
+      content_latex: 判断题先写两个长宽比，不先列未知数。
+    - kind: hint
+      title: 怎么转
+      content_latex: 长对长、宽对宽，分别化简后比较。
+    - kind: mistake
+      title: 易错
+      content_latex: 不要只看数字像不像，要算出化简比。
     solution_title: 解答
     solution_step_ids:
     - c1-s1
     - c1-s2
+    - c1-s3
   - type: problemcard
     id: c-ex2
     label: 例题 2
-    stem_latex: 一个矩形的两边长为 $2$ 和 $3$。另一个矩形的一边长为 $6$，另一边长为 $x$。若两个矩形相似，求 $x$。
+    stem_latex: 矩形甲的两边长为 $\dfrac{3}{2}$ 和 $\dfrac{5}{2}$，矩形乙的两边长为 $4$ 和 $7$。判断两个矩形是否相似。
     diagram_col:
       kind: tikz
-      tikz_code: ''
-      tikz_path: build/diagram/jobs/c-ex2-prompt/rendered/prompt.fragment.tex
-      diagram_ref: c.ex2.prompt
-      diagram_job_id: c-ex2-prompt
-      width: 60mm
-      caption: 没有指定 6 对应哪条边，要分类。
-      variant: prompt
-      disclosure_policy: clean
-      artifact_hash: sha256:c1ce790729b90a1617aec70b50cbcc5462e653559a74f97ee0e1f2596e7c0524
-      packages:
-      - tikz
-      libraries: []
+      tikz_code: |-
+        \begin{tikzpicture}[x=0.8cm,y=0.8cm,baseline=(current bounding box.center)]
+          \draw[line width=1pt] (0,0) rectangle (3.0,1.5);
+          \node at (1.5,-0.4) {\tiny 甲 $\frac{3}{2}\times\frac{5}{2}$};
+          \draw[line width=1pt] (4.2,0) rectangle (7.2,2.45);
+          \node at (5.7,-0.4) {\tiny 乙 $4\times 7$};
+        \end{tikzpicture}
+      width: 56mm
+      caption: 分数边长也写成长宽比再比较。
   - type: route
     id: c-route2
     steps:
     - id: c2-s1
-      latex: 情况一：$6$ 对应 $2$
-      content_latex: $2:3=6:x$，解得 $x=9$。
+      latex: 识别长宽比（含分数）
+      content_latex: 甲 $\dfrac{3}{2}:\dfrac{5}{2}=3:5$，乙 $4:7$。
     - id: c2-s2
-      latex: 情况二：$6$ 对应 $3$
-      content_latex: $2:3=x:6$，解得 $x=4$。
+      latex: 比较判断
+      content_latex: $3:5\ne 4:7$，两个长宽比不同。
     - id: c2-s3
-      latex: 写完整答案
-      content_latex: 所以 $x=9$ 或 $x=4$。
+      latex: 结论
+      content_latex: 两个矩形不相似。
   - type: dual_explanation
     id: c-dual2
     label: 例题 2
-    stem_latex: 求 $x$。
-    side_title: 小贴士
+    stem_latex: 判断两个矩形是否相似。
+    side_title: 看·转·防
     side_items:
+    - kind: hint
+      title: 看结构
+      content_latex: 分数边长照样写成长宽比，先约去分母。
+    - kind: hint
+      title: 怎么转
+      content_latex: $\dfrac{3}{2}:\dfrac{5}{2}$ 同乘 $2$ 得 $3:5$。
     - kind: mistake
-      title: 多解入口
-      content_latex: 题目没有说明 $6$ 是长边还是短边，所以不能只列一种比例。
+      title: 易错
+      content_latex: 不能因为数字差不多就判相似；$3:5$ 与 $4:7$ 实际不等。
     solution_title: 解答
     solution_step_ids:
     - c2-s1
     - c2-s2
     - c2-s3
+  - type: problemcard
+    id: c-ex3
+    label: 例题 3
+    stem_latex: 两个矩形相似。矩形甲的长为 $8$、宽为 $x+1$；矩形乙的长为 $4$、宽为 $3$。求 $x$。
+    diagram_col:
+      kind: tikz
+      tikz_code: |-
+        \begin{tikzpicture}[x=0.8cm,y=0.8cm,baseline=(current bounding box.center)]
+          \draw[line width=1pt] (0,0) rectangle (4.0,1.6);
+          \node at (2.0,-0.4) {\tiny 甲 长 $8$，宽 $x+1$};
+          \draw[line width=1pt] (5.2,0) rectangle (6.8,1.2);
+          \node at (6.0,-0.4) {\tiny 乙 $4\times 3$};
+        \end{tikzpicture}
+      width: 56mm
+      caption: 长对长、宽对宽，列比例后先选方法。
+  - type: route
+    id: c-route3
+    steps:
+    - id: c3-s1
+      latex: 定对应
+      content_latex: 相似 $\Rightarrow$ 长对长、宽对宽：$\dfrac{8}{4}=\dfrac{x+1}{3}$。
+    - id: c3-s2
+      latex: 选方法
+      content_latex: 先看明显倍数，$4\to 8$ 是 $\times 2$，所以 $3\to x+1$ 也应 $\times 2$。
+    - id: c3-s3
+      latex: 计算
+      content_latex: $x+1=6$，所以 $x=5$。
+  - type: dual_explanation
+    id: c-dual3
+    label: 例题 3
+    stem_latex: 求 $x$。
+    side_title: 看·转·防
+    side_items:
+    - kind: hint
+      title: 看结构
+      content_latex: 已知相似求边，先定对应——长对长、宽对宽。
+    - kind: hint
+      title: 怎么转
+      content_latex: 列出比例后先选方法；本题有明显倍数，优先用倍数法。
+    - kind: mistake
+      title: 易错
+      content_latex: $x+1$ 是整体；若没有明显倍数再交叉相乘，也要把括号保留。
+    solution_title: 解答
+    solution_step_ids:
+    - c3-s1
+    - c3-s2
+    - c3-s3
+  - type: problemcard
+    id: c-ex4
+    label: 例题 4
+    stem_latex: 一个矩形的两边长为 $2$ 和 $3$。另一个矩形的一边长为 $6$，另一边长为 $x$。若两个矩形相似，求 $x$。
+    diagram_col:
+      kind: tikz
+      tikz_path: build/diagram/jobs/c-ex2-prompt/rendered/prompt.fragment.tex
+      width: 60mm
+      caption: 没说 6 对应哪条边，要分两种情况。
+  - type: route
+    id: c-route4
+    steps:
+    - id: c4-s1
+      latex: 识别对应是否唯一
+      content_latex: 题目没说 $6$ 对应 $2$ 还是 $3$ $\Rightarrow$ 对应不唯一，要分类。
+    - id: c4-s2
+      latex: 情况一（6 对应 2）
+      content_latex: $2:3=6:x \Rightarrow x=9$。
+    - id: c4-s3
+      latex: 情况二（6 对应 3）
+      content_latex: $2:3=x:6 \Rightarrow x=4$。
+    - id: c4-s4
+      latex: 合并答案
+      content_latex: 所以 $x=9$ 或 $x=4$。
+  - type: dual_explanation
+    id: c-dual4
+    label: 例题 4
+    stem_latex: 求 $x$。
+    side_title: 看·转·防
+    side_items:
+    - kind: mistake
+      title: 看结构（核心）
+      content_latex: 只说两边长为 $2$ 和 $3$、没说 $6$ 对应谁 $\to$ 分类信号，不能只列一种。
+    - kind: hint
+      title: 怎么转
+      content_latex: 分别假设 $6$ 对应 $2$、$6$ 对应 $3$，各列一个比例。
+    - kind: mistake
+      title: 易错
+      content_latex: 漏掉第二种对应是最常见错误；答案要用"或"连接。
+    solution_title: 解答
+    solution_step_ids:
+    - c4-s1
+    - c4-s2
+    - c4-s3
+    - c4-s4
   - type: mistake
     id: c-mistake
     title: 易错提醒
-    content_latex: 相似矩形题最容易错在“对应关系没判定就计算”。如果题目没有明确长宽或对应边，先分类。
+    content_latex: 相似矩形题最容易错在对应关系没判定就计算。判断题先写长宽比；求边题先写谁对应谁；未指定对应先分类。
   - type: method_reminder
     id: c-method
     title: 方法提醒
     items:
-    - latex: 判断题：先写两个长宽比。
-    - latex: 求边题：先写对应边关系。
-    - latex: 未指定对应：分两种情况。
+    - latex: 判断题——先写两个长宽比，化简后比较。
+    - latex: 求边题——先写对应边关系（长对长、宽对宽），再选倍数、份数或交叉相乘。
+    - latex: 未指定对应——分两种情况，答案用"或"连接。

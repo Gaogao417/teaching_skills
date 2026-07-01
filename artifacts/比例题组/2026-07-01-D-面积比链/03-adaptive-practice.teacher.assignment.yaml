@@ -43,7 +43,7 @@ sections:
       variation_depth: changed_numbers
       complexity_note: 小整数、手算可验算
       upgrade_rule: 能先写出关键比例或对应关系
-      fallback_move: "先写 $S_{OECD}=S_{\triangle OEC}+S_{\triangle OCD}$。"
+      fallback_move: 先找同高三角形，面积比等于底边比。
     diagram_col:
       kind: tikz
       tikz_code: ''
@@ -82,7 +82,7 @@ sections:
       variation_depth: changed_numbers
       complexity_note: 小整数、手算可验算
       upgrade_rule: 能先写出关键比例或对应关系
-      fallback_move: "先写 $S_{OECD}=S_{\triangle OEC}+S_{\triangle OCD}$。"
+      fallback_move: 先找共底三角形，面积比等于对应高的比。
     diagram_col:
       kind: tikz
       tikz_code: ''
@@ -148,15 +148,15 @@ sections:
     points: 8
     label: 题目
     stem_latex: 在 $\triangle ABC$ 中，点 $D$ 在边 $BC$ 上，点 $E$ 在边 $AC$ 上，线段 $AD$ 与 $BE$
-      交于点 $O$。若 $AO:OD=2:1$，$BO:OE=2:1$，$AE:EC=1:3$，求 $S_{OECD}:S_{\triangle OAB}$。
+      交于点 $O$。若 $AO:OD=1:1$，$BO:OE=2:1$，$AE:EC=1:3$，求 $S_{OECD}:S_{\triangle OAB}$。
     answer_space:
       type: lines
       height: 42mm
-    answer: $5:2$
+    answer: $7:2$
     solution_steps:
     - title: 统一份数
       content: 设 $S_{\triangle OAE}=1$，则 $S_{\triangle OAB}=2$，$S_{\triangle OEC}=3$，$S_{\triangle
-        OAC}=4$。由 $AO:OD=2:1$ 得 $S_{\triangle OCD}=2$，所以 $S_{OECD}=5$，目标比为 $5:2$。
+        OAC}=4$。由 $AO:OD=1:1$ 得 $S_{\triangle OCD}=4$，所以 $S_{OECD}=7$，目标比为 $7:2$。
     teaching:
       teaching_goal: 训练面积比链和四边形拆分
       source_relations:
@@ -178,7 +178,7 @@ sections:
       caption: 根据题干观察点的位置关系。
       variant: prompt
       disclosure_policy: clean
-      artifact_hash: sha256:803323214e1df252334ed38e93f1c0ed1e93ab70af4fcd97cfdf99422dc6b27b
+      artifact_hash: sha256:8373c30b8b51f7e37e66253a52dd10b3b5c3ee394eefcfc2fbf30a0f7a8fa368
       packages:
       - tikz
       libraries: []
@@ -187,15 +187,15 @@ sections:
     points: 8
     label: 题目
     stem_latex: 在 $\triangle ABC$ 中，点 $D$ 在边 $BC$ 上，点 $E$ 在边 $AC$ 上，线段 $AD$ 与 $BE$
-      交于点 $O$。若 $BO:OE=2:1$，$AE:EC=1:2$，且 $S_{OECD}:S_{\triangle OAB}=7:2$，求 $AO:OD$。
+      交于点 $O$。若 $BO:OE=2:1$，$AE:EC=1:2$，且 $S_{OECD}:S_{\triangle OAB}=11:5$，求 $AO:OD$。
     answer_space:
       type: lines
       height: 42mm
-    answer: $3:5$
+    answer: $5:4$
     solution_steps:
     - title: 反推
-      content: 设 $S_{\triangle OAE}=1$，则 $S_{\triangle OAB}=2$，$S_{\triangle OEC}=2$，$S_{\triangle
-        OAC}=3$。目标比给出 $S_{OECD}=7$，故 $S_{\triangle OCD}=5$，所以 $AO:OD=3:5$。
+      content: 为避免分数，设 $S_{\triangle OAE}=5$，则 $S_{\triangle OAB}=10$，$S_{\triangle OEC}=10$，$S_{\triangle
+        OAC}=15$。由 $S_{OECD}:S_{\triangle OAB}=11:5$ 得 $S_{OECD}=22$，故 $S_{\triangle OCD}=12$，所以 $AO:OD=15:12=5:4$。
     teaching:
       teaching_goal: 训练面积比链和四边形拆分
       source_relations:
@@ -217,7 +217,7 @@ sections:
       caption: 根据题干观察点的位置关系。
       variant: prompt
       disclosure_policy: clean
-      artifact_hash: sha256:803323214e1df252334ed38e93f1c0ed1e93ab70af4fcd97cfdf99422dc6b27b
+      artifact_hash: sha256:97828b910479746510afffafc0d84e6302ced738af6d21b8667e094d03e398d4
       packages:
       - tikz
       libraries: []
@@ -233,5 +233,5 @@ sections:
     - latex: 1. $9$
     - latex: 2. $10$
     - latex: 3. $5:3$
-    - latex: 4. $5:2$
-    - latex: 5. $3:5$
+    - latex: 4. $7:2$
+    - latex: 5. $5:4$

@@ -1,6 +1,6 @@
 meta:
   title: 相似矩形专题练习（教师版）
-  subtitle: 对应关系与多解分类
+  subtitle: 交错训练——先定对应，再列比例
   grade: 八年级
   subject: 数学
   version: teacher
@@ -14,8 +14,8 @@ render:
   paper_size: a4paper
   answer_key_position: after_page_break
 sections:
-- id: group-1
-  title: 第1组：判断相似
+- id: mixed
+  title: 一、交错训练：先定对应，再列比例
   type: practice
   visibility: both
   blocks:
@@ -23,25 +23,28 @@ sections:
     id: cq1
     points: 6
     label: 题目
-    stem_latex: 矩形甲的长为 $5$、宽为 $8$，矩形乙的长为 $10$、宽为 $16$。判断两个矩形是否相似。
+    stem_latex: 矩形甲的长为 $8$、宽为 $5$，矩形乙的长为 $16$、宽为 $10$。判断两个矩形是否相似。
     answer_space:
       type: lines
       height: 28mm
     answer: 相似
     solution_steps:
-    - title: 比较长宽比
-      content: $5:8=10:16$，所以相似。
+    - title: 识别长宽比
+      content: 甲 $8:5$，乙 $16:10=8:5$。
+    - title: 比较判断
+      content: 两个长宽比相同，故相似。
     teaching:
-      teaching_goal: 训练相似矩形对应关系
+      teaching_goal: 判断相似——先写两个长宽比再比较
       source_relations:
       - fallback:structure_analysis
-      expected_blocker: 未先判断对应边，漏多解
-      entry_point: build_relation
+      expected_blocker: 直接看数字像不像就判相似，不写化简比
+      entry_point: identify_aspect_ratio
       scaffold_level: medium
       variation_depth: changed_numbers
-      complexity_note: 小整数、手算可验算
-      upgrade_rule: 能先写出关键比例或对应关系
-      fallback_move: 先写“谁对应谁”。
+      complexity_note: 小整数、可化简
+      upgrade_rule: 能先写长宽比再判断时，可迁移到分数边长判断
+      fallback_move: 先写两个长宽比，化简后再比较。
+      checks: [P2长宽比, R1判断]
     diagram_col:
       kind: tikz
       tikz_code: ''
@@ -57,28 +60,73 @@ sections:
       - tikz
       libraries: []
   - type: problem
+    id: cq4
+    points: 6
+    label: 题目
+    stem_latex: 两个矩形相似。矩形甲的长为 $9$、宽为 $6$；矩形乙的长为 $x$、宽为 $10$。求 $x$。
+    answer_space:
+      type: lines
+      height: 28mm
+    answer: $x=15$
+    solution_steps:
+    - title: 定对应并列比例
+      content: 长对长、宽对宽，$9:6=x:10$。
+    - title: 选方法
+      content: 没有明显整数倍，改用交叉相乘。
+    - title: 计算
+      content: $6x=90$，$x=15$。
+    teaching:
+      teaching_goal: 已知相似求边——先写对应边比例
+      source_relations:
+      - fallback:structure_analysis
+      expected_blocker: 不先定对应就硬列比例，或长宽对应错
+      entry_point: identify_correspondence
+      scaffold_level: medium
+      variation_depth: changed_question
+      complexity_note: 小整数，交叉相乘
+      upgrade_rule: 能先写谁对应谁时，可迁移到含一次式求边
+      fallback_move: 先写"长对长、宽对宽"四个字，再列比例。
+      checks: [P3对应边, R2列比例, R3解比例]
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/cq4-prompt/rendered/prompt.fragment.tex
+      diagram_ref: cq4.prompt
+      diagram_job_id: cq4-prompt
+      width: 60mm
+      caption: 矩形示意，边长以题干为准。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:c1ce790729b90a1617aec70b50cbcc5462e653559a74f97ee0e1f2596e7c0524
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
     id: cq2
     points: 6
     label: 题目
-    stem_latex: 矩形甲的长为 $4$、宽为 $7$，矩形乙的长为 $8$、宽为 $12$。判断两个矩形是否相似。
+    stem_latex: 矩形甲的长为 $7$、宽为 $4$，矩形乙的长为 $12$、宽为 $8$。判断两个矩形是否相似。
     answer_space:
       type: lines
       height: 28mm
     answer: 不相似
     solution_steps:
-    - title: 比较长宽比
-      content: $4:7\ne8:12$，所以不相似。
+    - title: 识别长宽比
+      content: 甲 $7:4$，乙 $12:8=3:2$。
+    - title: 比较判断
+      content: $7:4\ne 3:2$，两个长宽比不同，故不相似。
     teaching:
-      teaching_goal: 训练相似矩形对应关系
+      teaching_goal: 判断不相似——化简比后比较
       source_relations:
       - fallback:structure_analysis
-      expected_blocker: 未先判断对应边，漏多解
-      entry_point: build_relation
+      expected_blocker: 不化简直接比，或看数字差不多就判相似
+      entry_point: identify_aspect_ratio
       scaffold_level: medium
       variation_depth: changed_numbers
-      complexity_note: 小整数、手算可验算
-      upgrade_rule: 能先写出关键比例或对应关系
-      fallback_move: 先写“谁对应谁”。
+      complexity_note: 需化简才能比较
+      upgrade_rule: 能稳定化简比后判断时，可迁移到分数边长判断
+      fallback_move: 先把两个长宽比都化简，再比较。
+      checks: [P2长宽比, R1判断]
     diagram_col:
       kind: tikz
       tikz_code: ''
@@ -97,25 +145,28 @@ sections:
     id: cq3
     points: 6
     label: 题目
-    stem_latex: 矩形甲的两边长为 $\frac32$ 和 $\frac52$，矩形乙的两边长为 $3$ 和 $5$。判断两个矩形是否相似。
+    stem_latex: 矩形甲的两边长为 $\frac{3}{2}$ 和 $\frac{5}{2}$，矩形乙的两边长为 $3$ 和 $5$。判断两个矩形是否相似。
     answer_space:
       type: lines
       height: 28mm
     answer: 相似
     solution_steps:
-    - title: 比较长宽比
-      content: $\frac32:\frac52=3:5$，乙也是 $3:5$，所以相似。
+    - title: 识别长宽比（含分数）
+      content: 甲 $\frac{3}{2}:\frac{5}{2}=3:5$，乙 $3:5$。
+    - title: 比较判断
+      content: 两个长宽比相同，故相似。
     teaching:
-      teaching_goal: 训练相似矩形对应关系
+      teaching_goal: 分数边长判断——先把分数比约成整数比
       source_relations:
       - fallback:structure_analysis
-      expected_blocker: 未先判断对应边，漏多解
-      entry_point: build_relation
+      expected_blocker: 看到分数边长就卡住，不会约分母
+      entry_point: identify_aspect_ratio
       scaffold_level: medium
-      variation_depth: changed_numbers
-      complexity_note: 小整数、手算可验算
-      upgrade_rule: 能先写出关键比例或对应关系
-      fallback_move: 先写“谁对应谁”。
+      variation_depth: changed_representation
+      complexity_note: 分数边长，需约去分母
+      upgrade_rule: 能稳定处理分数长宽比时，可迁移到含一次式求边
+      fallback_move: 分数比同乘分母，先变成整数比再比较。
+      checks: [P2长宽比, R1判断]
     diagram_col:
       kind: tikz
       tikz_code: ''
@@ -130,42 +181,42 @@ sections:
       packages:
       - tikz
       libraries: []
-- id: group-2
-  title: 第2组：已知相似求边
-  type: practice
-  visibility: both
-  blocks:
   - type: problem
-    id: cq4
+    id: cq7
     points: 6
     label: 题目
-    stem_latex: 两个矩形相似。矩形甲的长为 $6$、宽为 $9$；矩形乙的长为 $10$、宽为 $x$。求 $x$。
+    stem_latex: 一个矩形的两边长为 $3$ 和 $5$。另一个矩形的一边长为 $15$，另一边长为 $x$。若两个矩形相似，求 $x$。
     answer_space:
       type: lines
       height: 28mm
-    answer: $15$
+    answer: $x=25$ 或 $x=9$
     solution_steps:
-    - title: 对应比例
-      content: $6:9=10:x$，解得 $x=15$。
+    - title: 识别对应是否唯一
+      content: 没说 $15$ 对应 $3$ 还是 $5$，对应不唯一，要分类。
+    - title: 情况一（15 对应 3）
+      content: $3:5=15:x$，选倍数法，$3\to15$ 是 $\times5$，所以 $x=25$。
+    - title: 情况二（15 对应 5）
+      content: $3:5=x:15$，选倍数法，$5\to15$ 是 $\times3$，所以 $x=9$。
     teaching:
-      teaching_goal: 训练相似矩形对应关系
+      teaching_goal: 未指定对应多解——识别分类信号
       source_relations:
       - fallback:structure_analysis
-      expected_blocker: 未先判断对应边，漏多解
-      entry_point: build_relation
+      expected_blocker: 默认 15 只对应 3，漏掉第二种对应
+      entry_point: identify_correspondence
       scaffold_level: medium
-      variation_depth: changed_numbers
-      complexity_note: 小整数、手算可验算
-      upgrade_rule: 能先写出关键比例或对应关系
-      fallback_move: 先写“谁对应谁”。
+      variation_depth: changed_representation
+      complexity_note: 两种对应两个答案
+      upgrade_rule: 能主动分类不漏解时，可迁移到更复杂的多对应题
+      fallback_move: 先问"$15$ 对应哪条边？题目说了吗？"
+      checks: [P3对应边, R2列比例]
     diagram_col:
       kind: tikz
       tikz_code: ''
-      tikz_path: build/diagram/jobs/cq4-prompt/rendered/prompt.fragment.tex
-      diagram_ref: cq4.prompt
-      diagram_job_id: cq4-prompt
+      tikz_path: build/diagram/jobs/cq7-prompt/rendered/prompt.fragment.tex
+      diagram_ref: cq7.prompt
+      diagram_job_id: cq7-prompt
       width: 60mm
-      caption: 矩形示意，边长以题干为准。
+      caption: 15 可能对应 3，也可能对应 5，要分两种情况。
       variant: prompt
       disclosure_policy: clean
       artifact_hash: sha256:c1ce790729b90a1617aec70b50cbcc5462e653559a74f97ee0e1f2596e7c0524
@@ -176,110 +227,36 @@ sections:
     id: cq5
     points: 6
     label: 题目
-    stem_latex: 两个矩形相似。矩形甲的长为 $8$、宽为 $12$；矩形乙的长为 $x$、宽为 $18$。求 $x$。
+    stem_latex: 两个矩形相似。矩形甲的长为 $12$、宽为 $8$；矩形乙的长为 $18$、宽为 $x$。求 $x$。
     answer_space:
       type: lines
       height: 28mm
-    answer: $12$
+    answer: $x=12$
     solution_steps:
-    - title: 对应比例
-      content: $8:12=x:18$，解得 $x=12$。
+    - title: 定对应并列比例
+      content: 长对长、宽对宽，$12:8=18:x$。
+    - title: 选方法
+      content: 没有明显整数倍，改用交叉相乘。
+    - title: 计算
+      content: $12x=144$，$x=12$。
     teaching:
-      teaching_goal: 训练相似矩形对应关系
+      teaching_goal: 已知相似求边（未知在长边）
       source_relations:
       - fallback:structure_analysis
-      expected_blocker: 未先判断对应边，漏多解
-      entry_point: build_relation
+      expected_blocker: 对应边写反，或忘记化简比例
+      entry_point: identify_correspondence
       scaffold_level: medium
-      variation_depth: changed_numbers
-      complexity_note: 小整数、手算可验算
-      upgrade_rule: 能先写出关键比例或对应关系
-      fallback_move: 先写“谁对应谁”。
+      variation_depth: changed_question
+      complexity_note: 小整数，交叉相乘
+      upgrade_rule: 能稳定定对应后，可迁移到含一次式求边
+      fallback_move: 先写"长对长、宽对宽"，再列比例。
+      checks: [P3对应边, R2列比例, R3解比例]
     diagram_col:
       kind: tikz
       tikz_code: ''
       tikz_path: build/diagram/jobs/cq5-prompt/rendered/prompt.fragment.tex
       diagram_ref: cq5.prompt
       diagram_job_id: cq5-prompt
-      width: 60mm
-      caption: 矩形示意，边长以题干为准。
-      variant: prompt
-      disclosure_policy: clean
-      artifact_hash: sha256:c1ce790729b90a1617aec70b50cbcc5462e653559a74f97ee0e1f2596e7c0524
-      packages:
-      - tikz
-      libraries: []
-  - type: problem
-    id: cq6
-    points: 6
-    label: 题目
-    stem_latex: 两个矩形相似。矩形甲的长为 $x+2$、宽为 $10$；矩形乙的长为 $6$、宽为 $5$。求 $x$。
-    answer_space:
-      type: lines
-      height: 28mm
-    answer: $10$
-    solution_steps:
-    - title: 对应比例
-      content: $(x+2):10=6:5$，得 $5(x+2)=60$，所以 $x=10$。
-    teaching:
-      teaching_goal: 训练相似矩形对应关系
-      source_relations:
-      - fallback:structure_analysis
-      expected_blocker: 未先判断对应边，漏多解
-      entry_point: build_relation
-      scaffold_level: medium
-      variation_depth: changed_numbers
-      complexity_note: 小整数、手算可验算
-      upgrade_rule: 能先写出关键比例或对应关系
-      fallback_move: 先写“谁对应谁”。
-    diagram_col:
-      kind: tikz
-      tikz_code: ''
-      tikz_path: build/diagram/jobs/cq6-prompt/rendered/prompt.fragment.tex
-      diagram_ref: cq6.prompt
-      diagram_job_id: cq6-prompt
-      width: 60mm
-      caption: 矩形示意，边长以题干为准。
-      variant: prompt
-      disclosure_policy: clean
-      artifact_hash: sha256:c1ce790729b90a1617aec70b50cbcc5462e653559a74f97ee0e1f2596e7c0524
-      packages:
-      - tikz
-      libraries: []
-- id: group-3
-  title: 第3组：未指定对应的多解
-  type: practice
-  visibility: both
-  blocks:
-  - type: problem
-    id: cq7
-    points: 6
-    label: 题目
-    stem_latex: 一个矩形的两边长为 $3$ 和 $5$。另一个矩形的一边长为 $15$，另一边长为 $x$。若两个矩形相似，求 $x$。
-    answer_space:
-      type: lines
-      height: 28mm
-    answer: $25$ 或 $9$
-    solution_steps:
-    - title: 分类
-      content: 若 $15$ 对应 $3$，则 $x=25$；若 $15$ 对应 $5$，则 $x=9$。
-    teaching:
-      teaching_goal: 训练相似矩形对应关系
-      source_relations:
-      - fallback:structure_analysis
-      expected_blocker: 未先判断对应边，漏多解
-      entry_point: build_relation
-      scaffold_level: medium
-      variation_depth: changed_numbers
-      complexity_note: 小整数、手算可验算
-      upgrade_rule: 能先写出关键比例或对应关系
-      fallback_move: 先写“谁对应谁”。
-    diagram_col:
-      kind: tikz
-      tikz_code: ''
-      tikz_path: build/diagram/jobs/cq7-prompt/rendered/prompt.fragment.tex
-      diagram_ref: cq7.prompt
-      diagram_job_id: cq7-prompt
       width: 60mm
       caption: 矩形示意，边长以题干为准。
       variant: prompt
@@ -296,27 +273,74 @@ sections:
     answer_space:
       type: lines
       height: 28mm
-    answer: $27$ 或 $\dfrac{16}{3}$
+    answer: $x=27$ 或 $x=\dfrac{16}{3}$
     solution_steps:
-    - title: 分类
-      content: 若 $12$ 对应 $4$，则 $x=27$；若 $12$ 对应 $9$，则 $x=\dfrac{16}{3}$。
+    - title: 识别对应是否唯一
+      content: 没说 $12$ 对应 $4$ 还是 $9$，要分类。
+    - title: 情况一（12 对应 4）
+      content: $4:9=12:x$，选倍数法，$4\to12$ 是 $\times3$，所以 $x=27$。
+    - title: 情况二（12 对应 9）
+      content: $4:9=x:12$，无明显整数倍，交叉相乘得 $x=\dfrac{16}{3}$。
     teaching:
-      teaching_goal: 训练相似矩形对应关系
+      teaching_goal: 未指定对应多解（含分数答案）
       source_relations:
       - fallback:structure_analysis
-      expected_blocker: 未先判断对应边，漏多解
-      entry_point: build_relation
+      expected_blocker: 漏掉第二种对应，或分数答案算错
+      entry_point: identify_correspondence
       scaffold_level: medium
-      variation_depth: changed_numbers
-      complexity_note: 小整数、手算可验算
-      upgrade_rule: 能先写出关键比例或对应关系
-      fallback_move: 先写“谁对应谁”。
+      variation_depth: changed_representation
+      complexity_note: 一种对应产生分数答案
+      upgrade_rule: 能稳定分类且算对分数时，可迁移到更大多对应比
+      fallback_move: 先问"$12$ 对应哪条边？"
+      checks: [P3对应边, R2列比例]
     diagram_col:
       kind: tikz
       tikz_code: ''
       tikz_path: build/diagram/jobs/cq8-prompt/rendered/prompt.fragment.tex
       diagram_ref: cq8.prompt
       diagram_job_id: cq8-prompt
+      width: 60mm
+      caption: 12 可能对应 4，也可能对应 9，要分两种情况。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:c1ce790729b90a1617aec70b50cbcc5462e653559a74f97ee0e1f2596e7c0524
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: cq6
+    points: 6
+    label: 题目
+    stem_latex: 两个矩形相似。矩形甲的长为 $x+2$、宽为 $10$；矩形乙的长为 $6$、宽为 $5$。求 $x$。
+    answer_space:
+      type: lines
+      height: 28mm
+    answer: $x=10$
+    solution_steps:
+    - title: 定对应并列比例
+      content: 长对长、宽对宽，$(x+2):10=6:5$。
+    - title: 选方法
+      content: 先看明显倍数，$5\to10$ 是 $\times2$，所以 $6\to x+2$ 也应 $\times2$。
+    - title: 计算
+      content: $x+2=12$，$x=10$。
+    teaching:
+      teaching_goal: 含一次式求边——先看倍数，注意整体
+      source_relations:
+      - fallback:structure_analysis
+      expected_blocker: 忘记给 $x+2$ 加括号，或对应边写反
+      entry_point: identify_correspondence
+      scaffold_level: medium
+      variation_depth: changed_question
+      complexity_note: 含一次式，但可优先用倍数法
+      upgrade_rule: 能稳定处理一次式括号时，可迁移到更复杂代数式
+      fallback_move: 先写对应比例，再圈出 $x+2$ 提醒加括号。
+      checks: [P3对应边, R2列比例, R3解比例]
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/cq6-prompt/rendered/prompt.fragment.tex
+      diagram_ref: cq6.prompt
+      diagram_job_id: cq6-prompt
       width: 60mm
       caption: 矩形示意，边长以题干为准。
       variant: prompt
@@ -333,21 +357,26 @@ sections:
     answer_space:
       type: lines
       height: 28mm
-    answer: $49$ 或 $4$
+    answer: $x=49$ 或 $x=4$
     solution_steps:
-    - title: 分类
-      content: 若 $14$ 对应 $2$，则 $x=49$；若 $14$ 对应 $7$，则 $x=4$。
+    - title: 识别对应是否唯一
+      content: 没说 $14$ 对应 $2$ 还是 $7$，要分类。
+    - title: 情况一（14 对应 2）
+      content: $2:7=14:x$，选倍数法，$2\to14$ 是 $\times7$，所以 $x=49$。
+    - title: 情况二（14 对应 7）
+      content: $2:7=x:14$，选倍数法，$7\to14$ 是 $\times2$，所以 $x=4$。
     teaching:
-      teaching_goal: 训练相似矩形对应关系
+      teaching_goal: 未指定对应多解（综合）
       source_relations:
       - fallback:structure_analysis
-      expected_blocker: 未先判断对应边，漏多解
-      entry_point: build_relation
+      expected_blocker: 漏掉第二种对应
+      entry_point: identify_correspondence
       scaffold_level: medium
-      variation_depth: changed_numbers
-      complexity_note: 小整数、手算可验算
-      upgrade_rule: 能先写出关键比例或对应关系
-      fallback_move: 先写“谁对应谁”。
+      variation_depth: changed_representation
+      complexity_note: 两种对应两个答案
+      upgrade_rule: 能稳定主动分类时，表明对应唯一性判断已自动化
+      fallback_move: 先问"$14$ 对应哪条边？"
+      checks: [P3对应边, R2列比例]
     diagram_col:
       kind: tikz
       tikz_code: ''
@@ -355,7 +384,7 @@ sections:
       diagram_ref: cq9.prompt
       diagram_job_id: cq9-prompt
       width: 60mm
-      caption: 矩形示意，边长以题干为准。
+      caption: 14 可能对应 2，也可能对应 7，要分两种情况。
       variant: prompt
       disclosure_policy: clean
       artifact_hash: sha256:c1ce790729b90a1617aec70b50cbcc5462e653559a74f97ee0e1f2596e7c0524
@@ -366,17 +395,19 @@ sections:
   title: 参考答案
   type: answer_key
   visibility: teacher
+  layout:
+    break_before: true
   blocks:
-  - type: answer
-    id: answers
-    title: 答案
+  - type: solution
+    id: c-answers
+    title: 答案汇总
     items:
     - latex: 1. 相似
-    - latex: 2. 不相似
-    - latex: 3. 相似
-    - latex: 4. $15$
-    - latex: 5. $12$
-    - latex: 6. $10$
-    - latex: 7. $25$ 或 $9$
-    - latex: 8. $27$ 或 $\dfrac{16}{3}$
-    - latex: 9. $49$ 或 $4$
+    - latex: 2. $x=15$
+    - latex: 3. 不相似
+    - latex: 4. 相似
+    - latex: 5. $x=25$ 或 $x=9$
+    - latex: 6. $x=12$
+    - latex: 7. $x=27$ 或 $x=\dfrac{16}{3}$
+    - latex: 8. $x=10$
+    - latex: 9. $x=49$ 或 $x=4$

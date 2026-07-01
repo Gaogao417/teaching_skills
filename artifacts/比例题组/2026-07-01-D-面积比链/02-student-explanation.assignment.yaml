@@ -43,6 +43,19 @@ sections:
       packages:
       - tikz
       libraries: []
+  - type: solution
+    id: d-task-card
+    title: 面积任务卡：先把要求量放进份数系统
+    items:
+    - content_latex: |
+        \begin{tabular}{p{0.28\linewidth}p{0.62\linewidth}}
+        目标面积 & $S_{OECD}$，它是四边形面积。\\
+        参照面积 & $S_{\triangle OAB}$，最后要和它作比。\\
+        是否要拆 & 要拆，$S_{OECD}=S_{\triangle OEC}+S_{\triangle OCD}$。\\
+        中间面积 & 设 $S_{\triangle OAE}=1$ 份。\\
+        比例来源 & $BO:OE$ 控制 $OAB$ 与 $OAE$；$AE:EC$ 控制 $OAE$ 与 $OEC$；$AO:OD$ 控制 $OAC$ 与 $OCD$。\\
+        份数表 & $OAE=1$，$OAB=3$，$OEC=2$，$OAC=3$，$OCD=3$，$OECD=5$。\\
+        \end{tabular}
   - type: route
     id: d-route
     steps:
