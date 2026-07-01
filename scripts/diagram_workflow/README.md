@@ -58,6 +58,14 @@ Supporting modules:
   `rendered/<variant>.fragment.tex` plus optional preview files.
 - `tikz_renderer/`: typed compiler modules for synthetic geometry and
   coordinate/function render specs.
-- `geometry_diagram_workflow/`: local GeometricScene workflow branch.
+- `geometry_diagram_workflow/`: local Codex SDK + Wolfram GeometricScene
+  workflow branch for synthetic geometry.
 - `build_diagram_artifacts.py`: debug dump for renderer bindings; no longer a
   required production step.
+
+Synthetic geometry generation uses the local Codex SDK, started with
+`geometry_diagram_workflow/` as its working directory. The Wolfram/GeometricScene
+skills live under `geometry_diagram_workflow/.codex/skills`; the old
+`geometry_diagram_workflow/.opencode` path and DashScope/OpenAI-compatible
+provider path are not fallbacks for this branch. Install the workflow
+dependencies from `geometry_diagram_workflow/requirements.txt`.

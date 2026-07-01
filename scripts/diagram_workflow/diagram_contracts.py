@@ -812,23 +812,12 @@ class DiagramReuseSpec(DiagramModel):
 
 
 class DiagramModelConfig(DiagramLooseModel):
-    """OpenAI-compatible model/runtime config consumed by workflow.py."""
+    """Codex SDK runtime config consumed by geometric_scene workflow.py."""
 
-    base_url: str = ""
-    vision_base_url: str = ""
-    api_key: str = ""
-    vision_api_key: str = ""
-    api_key_env: str = ""
-    vision_api_key_env: str = ""
     model: str = ""
-    text_model: str = ""
-    vision_model: str = ""
-    text_models: list[str] = Field(default_factory=list)
-    vision_models: list[str] = Field(default_factory=list)
-    temperature: float | None = None
-    vision_temperature: float | None = None
-    request_timeout_s: float | None = Field(default=None, gt=0)
-    vision_request_timeout_s: float | None = Field(default=None, gt=0)
+    codex_model: str = ""
+    codex_bin: str = ""
+    codex_timeout_s: float | None = Field(default=None, gt=0)
 
     def get(self, key: str, default: JsonValue | None = None) -> JsonValue | None:
         return self.model_dump(mode="python").get(key, default)

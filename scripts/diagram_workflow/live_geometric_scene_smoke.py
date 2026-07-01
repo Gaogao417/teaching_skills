@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Live GeometricScene smoke test.
+"""Live Codex SDK + GeometricScene smoke test.
 
-This script intentionally calls the real text-model route and Wolfram-backed
+This script intentionally calls the real Codex SDK route and Wolfram-backed
 synthetic geometry workflow. It is not imported by normal unit tests.
 """
 
@@ -9,7 +9,6 @@ from __future__ import annotations
 
 import argparse
 import json
-import os
 import shutil
 import subprocess
 import sys
@@ -23,21 +22,6 @@ DEFAULT_REQUEST = (
     REPO_ROOT
     / "artifacts/试卷摘录/2026-06-20-数学试卷20/build/diagram/jobs/q6-prompt/request.json"
 )
-
-
-def load_local_env() -> None:
-    for env_path in (REPO_ROOT / ".env", REPO_ROOT.parent / ".env"):
-        if not env_path.exists():
-            continue
-        for line in env_path.read_text(encoding="utf-8").splitlines():
-            stripped = line.strip()
-            if not stripped or stripped.startswith("#") or "=" not in stripped:
-                continue
-            key, value = stripped.split("=", 1)
-            key = key.strip()
-            value = value.strip().strip('"').strip("'")
-            if key and key not in os.environ:
-                os.environ[key] = value
 
 
 def read_json(path: Path) -> dict[str, Any]:
@@ -84,34 +68,15 @@ def run(cmd: list[str], cwd: Path, timeout: int) -> subprocess.CompletedProcess[
     )
 
 
-def preflight_dashscope(model: str, timeout_s: int) -> None:
-    load_local_env()
-    api_key = os.getenv("DASHSCOPE_API_KEY") or os.getenv("GSB_API_KEY")
-    require(bool(api_key), "DASHSCOPE_API_KEY/GSB_API_KEY is not set")
-    try:
-        import httpx
-    except ImportError as exc:
-        raise RuntimeError("httpx is required for live API preflight") from exc
-    try:
-        response = httpx.post(
-            "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions",
-            headers={
-                "Authorization": f"Bearer {api_key}",
-                "Content-Type": "application/json",
-            },
-            json={
-                "model": model,
-                "messages": [{"role": "user", "content": "ping"}],
-                "max_tokens": 8,
-            },
-            timeout=timeout_s,
-        )
-    except Exception as exc:
-        raise RuntimeError(f"DashScope preflight connection failed: {exc.__class__.__name__}: {exc}") from exc
-    if response.status_code >= 400:
-        raise RuntimeError(
-            f"DashScope preflight returned HTTP {response.status_code}: {response.text[:500]}"
-        )
+def resolve_job_dir(out_root: Path, job_id: str) -> Path:
+    nested = out_root / "jobs" / job_id
+    if (nested / "workflow_result.json").exists():
+        return nested
+    if (out_root / "workflow_result.json").exists():
+        return out_root
+    raise FileNotFoundError(
+        f"workflow_result.json not found under {nested} or {out_root}"
+    )
 
 
 def main() -> None:
@@ -126,18 +91,10 @@ def main() -> None:
     parser.add_argument("--out", type=Path, help="Output root; defaults to a temporary directory")
     parser.add_argument("--python", default=sys.executable)
     parser.add_argument("--timeout-s", type=int, default=420)
-    parser.add_argument("--skip-api-preflight", action="store_true")
-    parser.add_argument("--preflight-model", default="qwen-plus")
     args = parser.parse_args()
 
     request_path = args.request.resolve()
     require(request_path.exists(), f"request not found: {request_path}")
-    if not args.skip_api_preflight:
-        try:
-            preflight_dashscope(args.preflight_model, min(args.timeout_s, 30))
-        except RuntimeError as exc:
-            print(str(exc), file=sys.stderr)
-            raise SystemExit(1) from exc
 
     with tempfile.TemporaryDirectory(prefix="diagram-live-smoke-") as tmp:
         out_root = args.out.resolve() if args.out else Path(tmp)
@@ -163,14 +120,14 @@ def main() -> None:
             print(workflow.stderr[-4000:], file=sys.stderr)
             raise SystemExit(workflow.returncode)
 
-        job_dir = out_root / "jobs" / args.job_id
+        job_dir = resolve_job_dir(out_root, args.job_id)
         workflow_result = read_json(job_dir / "workflow_result.json")
         events = read_events(job_dir / "workflow_events.jsonl")
         render_result_path = latest_round_file(job_dir, "render_result.json")
         scene_payload_path = latest_round_file(job_dir, "scene_payload.json")
         require(workflow_result.get("status") == "ok", "workflow_result.status is not ok")
-        require(event_ok(events, "generate.end"), "generate.end did not finish ok")
-        require(event_ok(events, "render.end"), "render.end did not finish ok")
+        require(event_ok(events, "agent.end"), "agent.end did not finish ok")
+        require(event_ok(events, "workflow.finalize"), "workflow.finalize did not finish ok")
         require(scene_payload_path is not None, "scene_payload.json missing")
         require(render_result_path is not None, "render_result.json missing")
 
