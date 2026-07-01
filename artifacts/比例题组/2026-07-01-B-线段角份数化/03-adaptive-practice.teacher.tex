@@ -296,9 +296,9 @@
 
 \begin{document}
 
-\section*{线段和角份数化专题练习（教师版）}
+\section*{线段和角份数化填空练习（教师版）}
 
-\section*{一、交错训练：几何条件翻译成份数}
+\section*{一、看图标份数并填比例方程}
 
 \needspace{8\baselineskip}
 
@@ -306,18 +306,26 @@
   \noindent
   \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
     \vspace{0pt}
-    点 $A,B,C$ 在同一直线上，$B$ 在 $A,C$ 之间。若 $AB:BC=2:3$，且 $AC=25$，求 $AB$。
+    点 $A,B,C$ 在同一直线上，$B$ 在 $A,C$ 之间。若 $AB:BC=2:5$，且 $AC=49$，求 $AB$。  图上份数：____；比例方程：________________；答案：____。
   \end{minipage}\hfill
-  \begin{diagramcoltikz}{60mm}{观察整体 AC 由 AB 和 BC 组成。}
-  \input{\detokenize{build/diagram/jobs/bq1-prompt/rendered/prompt.fragment.tex}}
+  \begin{diagramcoltikz}{60mm}{在图上标：左段 2 份，右段 5 份。}
+  \begin{tikzpicture}[x=1cm,y=1cm,baseline=(current bounding box.center)]
+  \draw[line width=1.05pt] (0,0) -- (5.0,0);
+  \fill (0,0) circle (1.7pt) node[below] {$A$};
+  \fill (1.9,0) circle (1.7pt) node[below] {$B$};
+  \fill (5.0,0) circle (1.7pt) node[below] {$C$};
+  \draw[decorate,decoration={brace,amplitude=4pt,mirror}] (0,-0.35) -- (2.1,-0.35) node[midway,below=5pt] {$AB$};
+  \draw[decorate,decoration={brace,amplitude=4pt,mirror}] (2.1,-0.35) -- (5.6,-0.35) node[midway,below=5pt] {$BC$};
+  \node[above=4pt] at (0.95,0) {\textcircled{\scriptsize 2}};
+  \node[above=4pt] at (3.45,0) {\textcircled{\scriptsize 5}};
+  \node[above=13pt] at (2.5,0) {$AC=49$};
+\end{tikzpicture}
   \end{diagramcoltikz}
   \par\medskip
-  \answerarea[28mm]
   \setcounter{solstep}{0}
   \begin{solutionblock}
-    \textbf{答案：}$AB=10$\par\medskip
-    \solstep{找整体}{先写出整体由两个部分组成。}
-    \solstep{条件转份数}{比例已给出，$AC$ 为 $5$ 份，$1$ 份为 $5$，$AB=2$ 份为 $10$。}
+    \textbf{答案：}$AB=14$\par\medskip
+    \solstep{填法}{$AB:AC=2:7$，$\dfrac{AB}{49}=\dfrac{2}{7}$，$AB=14$。}
   \end{solutionblock}
 \end{problem}
 
@@ -328,18 +336,26 @@
   \noindent
   \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
     \vspace{0pt}
-    点 $A,B,C$ 在同一直线上，$B$ 在 $A,C$ 之间。若 $AB=3BC$，且 $AC=28$，求 $BC$。
+    点 $A,B,C$ 在同一直线上，$B$ 在 $A,C$ 之间。若 $AB:BC=3:4$，且 $AC=63$，求 $BC$。  图上份数：____；比例方程：________________；答案：____。
   \end{minipage}\hfill
-  \begin{diagramcoltikz}{60mm}{观察整体 AC 由 AB 和 BC 组成。}
-  \input{\detokenize{build/diagram/jobs/bq2-prompt/rendered/prompt.fragment.tex}}
+  \begin{diagramcoltikz}{60mm}{在图上标：左段 3 份，右段 4 份。}
+  \begin{tikzpicture}[x=1cm,y=1cm,baseline=(current bounding box.center)]
+  \draw[line width=1.05pt] (0,0) -- (5.0,0);
+  \fill (0,0) circle (1.7pt) node[below] {$A$};
+  \fill (1.9,0) circle (1.7pt) node[below] {$B$};
+  \fill (5.0,0) circle (1.7pt) node[below] {$C$};
+  \draw[decorate,decoration={brace,amplitude=4pt,mirror}] (0,-0.35) -- (2.1,-0.35) node[midway,below=5pt] {$AB$};
+  \draw[decorate,decoration={brace,amplitude=4pt,mirror}] (2.1,-0.35) -- (5.6,-0.35) node[midway,below=5pt] {$BC$};
+  \node[above=4pt] at (0.95,0) {\textcircled{\scriptsize 3}};
+  \node[above=4pt] at (3.45,0) {\textcircled{\scriptsize 4}};
+  \node[above=13pt] at (2.5,0) {$AC=63$};
+\end{tikzpicture}
   \end{diagramcoltikz}
   \par\medskip
-  \answerarea[28mm]
   \setcounter{solstep}{0}
   \begin{solutionblock}
-    \textbf{答案：}$BC=7$\par\medskip
-    \solstep{找整体}{先写出整体由两个部分组成。}
-    \solstep{条件转份数}{$AB:BC=3:1$，总 $4$ 份，$BC=1$ 份为 $7$。}
+    \textbf{答案：}$BC=36$\par\medskip
+    \solstep{填法}{$BC:AC=4:7$，$\dfrac{BC}{63}=\dfrac{4}{7}$，$BC=36$。}
   \end{solutionblock}
 \end{problem}
 
@@ -350,18 +366,26 @@
   \noindent
   \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
     \vspace{0pt}
-    射线 $OB$ 在 $\angle AOC$ 内部。若 $\angle AOB:\angle BOC=1:4$，且 $\angle AOC=125^\circ$，求 $\angle BOC$。
+    点 $A,B,C$ 在同一直线上，$B$ 在 $A,C$ 之间。若 $7AB=2BC$，且 $AC=54$，求 $AB$。  图上份数：____；比例方程：________________；答案：____。
   \end{minipage}\hfill
-  \begin{diagramcoltikz}{60mm}{观察两个相邻角合成角 AOC。}
-  \input{\detokenize{build/diagram/jobs/bq3-prompt/rendered/prompt.fragment.tex}}
+  \begin{diagramcoltikz}{60mm}{在图上标：左段 2 份，右段 7 份。}
+  \begin{tikzpicture}[x=1cm,y=1cm,baseline=(current bounding box.center)]
+  \draw[line width=1.05pt] (0,0) -- (5.0,0);
+  \fill (0,0) circle (1.7pt) node[below] {$A$};
+  \fill (1.9,0) circle (1.7pt) node[below] {$B$};
+  \fill (5.0,0) circle (1.7pt) node[below] {$C$};
+  \draw[decorate,decoration={brace,amplitude=4pt,mirror}] (0,-0.35) -- (2.1,-0.35) node[midway,below=5pt] {$AB$};
+  \draw[decorate,decoration={brace,amplitude=4pt,mirror}] (2.1,-0.35) -- (5.6,-0.35) node[midway,below=5pt] {$BC$};
+  \node[above=4pt] at (0.95,0) {\textcircled{\scriptsize 2}};
+  \node[above=4pt] at (3.45,0) {\textcircled{\scriptsize 7}};
+  \node[above=13pt] at (2.5,0) {$AC=54$};
+\end{tikzpicture}
   \end{diagramcoltikz}
   \par\medskip
-  \answerarea[28mm]
   \setcounter{solstep}{0}
   \begin{solutionblock}
-    \textbf{答案：}$100^\circ$\par\medskip
-    \solstep{找整体}{先写出整体由两个部分组成。}
-    \solstep{条件转份数}{总 $5$ 份，每份 $25^\circ$，$\angle BOC=4$ 份为 $100^\circ$。}
+    \textbf{答案：}$AB=12$\par\medskip
+    \solstep{填法}{$AB:BC=2:7$，$\dfrac{AB}{54}=\dfrac{2}{9}$，$AB=12$。}
   \end{solutionblock}
 \end{problem}
 
@@ -372,18 +396,26 @@
   \noindent
   \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
     \vspace{0pt}
-    点 $A,B,C$ 在同一直线上，$B$ 在 $A,C$ 之间。若 $5AB-2BC=0$，且 $AC=21$，求 $AB$。
+    点 $A,B,C$ 在同一直线上，$B$ 在 $A,C$ 之间。若 $3AB=5BC$，且 $AC=48$，求 $BC$。  图上份数：____；比例方程：________________；答案：____。
   \end{minipage}\hfill
-  \begin{diagramcoltikz}{60mm}{观察整体 AC 由 AB 和 BC 组成。}
-  \input{\detokenize{build/diagram/jobs/bq4-prompt/rendered/prompt.fragment.tex}}
+  \begin{diagramcoltikz}{60mm}{在图上标：左段 5 份，右段 3 份。}
+  \begin{tikzpicture}[x=1cm,y=1cm,baseline=(current bounding box.center)]
+  \draw[line width=1.05pt] (0,0) -- (5.0,0);
+  \fill (0,0) circle (1.7pt) node[below] {$A$};
+  \fill (1.9,0) circle (1.7pt) node[below] {$B$};
+  \fill (5.0,0) circle (1.7pt) node[below] {$C$};
+  \draw[decorate,decoration={brace,amplitude=4pt,mirror}] (0,-0.35) -- (2.1,-0.35) node[midway,below=5pt] {$AB$};
+  \draw[decorate,decoration={brace,amplitude=4pt,mirror}] (2.1,-0.35) -- (5.6,-0.35) node[midway,below=5pt] {$BC$};
+  \node[above=4pt] at (0.95,0) {\textcircled{\scriptsize 5}};
+  \node[above=4pt] at (3.45,0) {\textcircled{\scriptsize 3}};
+  \node[above=13pt] at (2.5,0) {$AC=48$};
+\end{tikzpicture}
   \end{diagramcoltikz}
   \par\medskip
-  \answerarea[28mm]
   \setcounter{solstep}{0}
   \begin{solutionblock}
-    \textbf{答案：}$6$\par\medskip
-    \solstep{找整体}{先写出整体由两个部分组成。}
-    \solstep{条件转份数}{$5AB=2BC$，所以 $AB:BC=2:5$，总 $7$ 份，每份 $3$，$AB=6$。}
+    \textbf{答案：}$BC=18$\par\medskip
+    \solstep{填法}{$AB:BC=5:3$，$\dfrac{BC}{48}=\dfrac{3}{8}$，$BC=18$。}
   \end{solutionblock}
 \end{problem}
 
@@ -394,18 +426,31 @@
   \noindent
   \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
     \vspace{0pt}
-    点 $A,B,C$ 在同一直线上，$B$ 在 $A,C$ 之间。若 $3AB=4BC$，且 $AC=35$，求 $BC$。
+    射线 $OB$ 在 $\angle AOC$ 内部。若 $4\angle AOB=3\angle BOC$，且 $\angle AOC=91^\circ$，求 $\angle AOB$。  图上份数：____；比例方程：________________；答案：____。
   \end{minipage}\hfill
-  \begin{diagramcoltikz}{60mm}{观察整体 AC 由 AB 和 BC 组成。}
-  \input{\detokenize{build/diagram/jobs/bq5-prompt/rendered/prompt.fragment.tex}}
+  \begin{diagramcoltikz}{60mm}{在图上标：左角 3 份，右角 4 份。}
+  \begin{tikzpicture}[x=1cm,y=1cm,baseline=(current bounding box.center)]
+  \coordinate (O) at (0,0);
+  \coordinate (A) at (3.4,0);
+  \coordinate (B) at (2.45,1.15);
+  \coordinate (C) at (0.95,2.95);
+  \draw[line width=1.05pt] (O) -- (A);
+  \draw[line width=1.05pt] (O) -- (B);
+  \draw[line width=1.05pt] (O) -- (C);
+  \fill (O) circle (1.7pt) node[below left] {$O$};
+  \fill (A) circle (1.7pt) node[right] {$A$};
+  \fill (B) circle (1.7pt) node[right] {$B$};
+  \fill (C) circle (1.7pt) node[above] {$C$};
+  \node at (1.28,0.28) {\textcircled{\scriptsize 3}};
+  \node at (0.78,1.12) {\textcircled{\scriptsize 4}};
+  \node[right] at (1.25,1.45) {$\angle AOC=91^\circ$};
+\end{tikzpicture}
   \end{diagramcoltikz}
   \par\medskip
-  \answerarea[28mm]
   \setcounter{solstep}{0}
   \begin{solutionblock}
-    \textbf{答案：}$15$\par\medskip
-    \solstep{找整体}{先写出整体由两个部分组成。}
-    \solstep{条件转份数}{$AB:BC=4:3$，总 $7$ 份，每份 $5$，$BC=15$。}
+    \textbf{答案：}$39^\circ$\par\medskip
+    \solstep{填法}{$\angle AOB:\angle BOC=3:4$，$\dfrac{\angle AOB}{91^\circ}=\dfrac{3}{7}$，$\angle AOB=39^\circ$。}
   \end{solutionblock}
 \end{problem}
 
@@ -416,18 +461,31 @@
   \noindent
   \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
     \vspace{0pt}
-    射线 $OB$ 在 $\angle AOC$ 内部。若 $4\angle AOB-3\angle BOC=0$，且 $\angle AOC=98^\circ$，求 $\angle AOB$。
+    射线 $OB$ 在 $\angle AOC$ 内部。若 $5\angle AOB=2\angle BOC$，且 $\angle AOC=112^\circ$，求 $\angle BOC$。  图上份数：____；比例方程：________________；答案：____。
   \end{minipage}\hfill
-  \begin{diagramcoltikz}{60mm}{观察两个相邻角合成角 AOC。}
-  \input{\detokenize{build/diagram/jobs/bq6-prompt/rendered/prompt.fragment.tex}}
+  \begin{diagramcoltikz}{60mm}{在图上标：左角 2 份，右角 5 份。}
+  \begin{tikzpicture}[x=1cm,y=1cm,baseline=(current bounding box.center)]
+  \coordinate (O) at (0,0);
+  \coordinate (A) at (3.4,0);
+  \coordinate (B) at (2.45,1.15);
+  \coordinate (C) at (0.95,2.95);
+  \draw[line width=1.05pt] (O) -- (A);
+  \draw[line width=1.05pt] (O) -- (B);
+  \draw[line width=1.05pt] (O) -- (C);
+  \fill (O) circle (1.7pt) node[below left] {$O$};
+  \fill (A) circle (1.7pt) node[right] {$A$};
+  \fill (B) circle (1.7pt) node[right] {$B$};
+  \fill (C) circle (1.7pt) node[above] {$C$};
+  \node at (1.28,0.28) {\textcircled{\scriptsize 2}};
+  \node at (0.78,1.12) {\textcircled{\scriptsize 5}};
+  \node[right] at (1.25,1.45) {$\angle AOC=112^\circ$};
+\end{tikzpicture}
   \end{diagramcoltikz}
   \par\medskip
-  \answerarea[28mm]
   \setcounter{solstep}{0}
   \begin{solutionblock}
-    \textbf{答案：}$42^\circ$\par\medskip
-    \solstep{找整体}{先写出整体由两个部分组成。}
-    \solstep{条件转份数}{$4A=3B$，故 $A:B=3:4$，总 $7$ 份，每份 $14^\circ$，$A=42^\circ$。}
+    \textbf{答案：}$80^\circ$\par\medskip
+    \solstep{填法}{$\angle AOB:\angle BOC=2:5$，$\dfrac{\angle BOC}{112^\circ}=\dfrac{5}{7}$，$\angle BOC=80^\circ$。}
   \end{solutionblock}
 \end{problem}
 
@@ -438,18 +496,26 @@
   \noindent
   \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
     \vspace{0pt}
-    点 $A,B,C$ 在同一直线上，$B$ 在 $A,C$ 之间。若 $AB:BC=5:2$，且 $AB=20$，求 $AC$。
+    点 $A,B,C$ 在同一直线上，$B$ 在 $A,C$ 之间。若 $AB:BC=4:5$，且 $AC=72$，求 $AB$。  图上份数：____；比例方程：________________；答案：____。
   \end{minipage}\hfill
-  \begin{diagramcoltikz}{60mm}{观察整体 AC 由 AB 和 BC 组成。}
-  \input{\detokenize{build/diagram/jobs/bq7-prompt/rendered/prompt.fragment.tex}}
+  \begin{diagramcoltikz}{60mm}{在图上标：左段 4 份，右段 5 份。}
+  \begin{tikzpicture}[x=1cm,y=1cm,baseline=(current bounding box.center)]
+  \draw[line width=1.05pt] (0,0) -- (5.0,0);
+  \fill (0,0) circle (1.7pt) node[below] {$A$};
+  \fill (1.9,0) circle (1.7pt) node[below] {$B$};
+  \fill (5.0,0) circle (1.7pt) node[below] {$C$};
+  \draw[decorate,decoration={brace,amplitude=4pt,mirror}] (0,-0.35) -- (2.1,-0.35) node[midway,below=5pt] {$AB$};
+  \draw[decorate,decoration={brace,amplitude=4pt,mirror}] (2.1,-0.35) -- (5.6,-0.35) node[midway,below=5pt] {$BC$};
+  \node[above=4pt] at (0.95,0) {\textcircled{\scriptsize 4}};
+  \node[above=4pt] at (3.45,0) {\textcircled{\scriptsize 5}};
+  \node[above=13pt] at (2.5,0) {$AC=72$};
+\end{tikzpicture}
   \end{diagramcoltikz}
   \par\medskip
-  \answerarea[28mm]
   \setcounter{solstep}{0}
   \begin{solutionblock}
-    \textbf{答案：}$28$\par\medskip
-    \solstep{找整体}{先写出整体由两个部分组成。}
-    \solstep{条件转份数}{$AB=5$ 份为 $20$，$1$ 份为 $4$，$AC=7$ 份为 $28$。}
+    \textbf{答案：}$AB=32$\par\medskip
+    \solstep{填法}{$AB:AC=4:9$，$\dfrac{AB}{72}=\dfrac{4}{9}$，$AB=32$。}
   \end{solutionblock}
 \end{problem}
 
@@ -460,18 +526,26 @@
   \noindent
   \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
     \vspace{0pt}
-    射线 $OB$ 在 $\angle AOC$ 内部。若 $\angle AOB:\angle BOC=3:2$，且 $\angle AOB=54^\circ$，求 $\angle AOC$。
+    点 $A,B,C$ 在同一直线上，$B$ 在 $A,C$ 之间。若 $8AB=3BC$，且 $AC=88$，求 $BC$。  图上份数：____；比例方程：________________；答案：____。
   \end{minipage}\hfill
-  \begin{diagramcoltikz}{60mm}{观察两个相邻角合成角 AOC。}
-  \input{\detokenize{build/diagram/jobs/bq8-prompt/rendered/prompt.fragment.tex}}
+  \begin{diagramcoltikz}{60mm}{在图上标：左段 3 份，右段 8 份。}
+  \begin{tikzpicture}[x=1cm,y=1cm,baseline=(current bounding box.center)]
+  \draw[line width=1.05pt] (0,0) -- (5.0,0);
+  \fill (0,0) circle (1.7pt) node[below] {$A$};
+  \fill (1.9,0) circle (1.7pt) node[below] {$B$};
+  \fill (5.0,0) circle (1.7pt) node[below] {$C$};
+  \draw[decorate,decoration={brace,amplitude=4pt,mirror}] (0,-0.35) -- (2.1,-0.35) node[midway,below=5pt] {$AB$};
+  \draw[decorate,decoration={brace,amplitude=4pt,mirror}] (2.1,-0.35) -- (5.6,-0.35) node[midway,below=5pt] {$BC$};
+  \node[above=4pt] at (0.95,0) {\textcircled{\scriptsize 3}};
+  \node[above=4pt] at (3.45,0) {\textcircled{\scriptsize 8}};
+  \node[above=13pt] at (2.5,0) {$AC=88$};
+\end{tikzpicture}
   \end{diagramcoltikz}
   \par\medskip
-  \answerarea[28mm]
   \setcounter{solstep}{0}
   \begin{solutionblock}
-    \textbf{答案：}$90^\circ$\par\medskip
-    \solstep{找整体}{先写出整体由两个部分组成。}
-    \solstep{条件转份数}{$\angle AOB=3$ 份为 $54^\circ$，$1$ 份 $18^\circ$，整体 $5$ 份为 $90^\circ$。}
+    \textbf{答案：}$BC=64$\par\medskip
+    \solstep{填法}{$AB:BC=3:8$，$\dfrac{BC}{88}=\dfrac{8}{11}$，$BC=64$。}
   \end{solutionblock}
 \end{problem}
 
@@ -482,18 +556,31 @@
   \noindent
   \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
     \vspace{0pt}
-    点 $A,B,C$ 在同一直线上，$B$ 在 $A,C$ 之间。若 $2AB-5BC=0$，且 $BC=8$，求 $AC$。
+    射线 $OB$ 在 $\angle AOC$ 内部。若 $\angle AOB:\angle BOC=5:6$，且 $\angle AOC=132^\circ$，求 $\angle AOB$。  图上份数：____；比例方程：________________；答案：____。
   \end{minipage}\hfill
-  \begin{diagramcoltikz}{60mm}{观察整体 AC 由 AB 和 BC 组成。}
-  \input{\detokenize{build/diagram/jobs/bq9-prompt/rendered/prompt.fragment.tex}}
+  \begin{diagramcoltikz}{60mm}{在图上标：左角 5 份，右角 6 份。}
+  \begin{tikzpicture}[x=1cm,y=1cm,baseline=(current bounding box.center)]
+  \coordinate (O) at (0,0);
+  \coordinate (A) at (3.4,0);
+  \coordinate (B) at (2.45,1.15);
+  \coordinate (C) at (0.95,2.95);
+  \draw[line width=1.05pt] (O) -- (A);
+  \draw[line width=1.05pt] (O) -- (B);
+  \draw[line width=1.05pt] (O) -- (C);
+  \fill (O) circle (1.7pt) node[below left] {$O$};
+  \fill (A) circle (1.7pt) node[right] {$A$};
+  \fill (B) circle (1.7pt) node[right] {$B$};
+  \fill (C) circle (1.7pt) node[above] {$C$};
+  \node at (1.28,0.28) {\textcircled{\scriptsize 5}};
+  \node at (0.78,1.12) {\textcircled{\scriptsize 6}};
+  \node[right] at (1.25,1.45) {$\angle AOC=132^\circ$};
+\end{tikzpicture}
   \end{diagramcoltikz}
   \par\medskip
-  \answerarea[28mm]
   \setcounter{solstep}{0}
   \begin{solutionblock}
-    \textbf{答案：}$28$\par\medskip
-    \solstep{找整体}{先写出整体由两个部分组成。}
-    \solstep{条件转份数}{$2AB=5BC$，$AB:BC=5:2$；$BC=2$ 份为 $8$，整体 $7$ 份为 $28$。}
+    \textbf{答案：}$60^\circ$\par\medskip
+    \solstep{填法}{$\dfrac{\angle AOB}{132^\circ}=\dfrac{5}{11}$，$\angle AOB=60^\circ$。}
   \end{solutionblock}
 \end{problem}
 
@@ -504,18 +591,26 @@
   \noindent
   \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
     \vspace{0pt}
-    射线 $OB$ 在 $\angle AOC$ 内部。若 $2\angle AOB=5\angle BOC$，且 $\angle AOC=84^\circ$，求 $\angle BOC$。
+    点 $A,B,C$ 在同一直线上，$B$ 在 $A,C$ 之间。若 $6AB=5BC$，且 $AC=99$，求 $AB$。  图上份数：____；比例方程：________________；答案：____。
   \end{minipage}\hfill
-  \begin{diagramcoltikz}{60mm}{观察两个相邻角合成角 AOC。}
-  \input{\detokenize{build/diagram/jobs/bq10-prompt/rendered/prompt.fragment.tex}}
+  \begin{diagramcoltikz}{60mm}{在图上标：左段 5 份，右段 6 份。}
+  \begin{tikzpicture}[x=1cm,y=1cm,baseline=(current bounding box.center)]
+  \draw[line width=1.05pt] (0,0) -- (5.0,0);
+  \fill (0,0) circle (1.7pt) node[below] {$A$};
+  \fill (1.9,0) circle (1.7pt) node[below] {$B$};
+  \fill (5.0,0) circle (1.7pt) node[below] {$C$};
+  \draw[decorate,decoration={brace,amplitude=4pt,mirror}] (0,-0.35) -- (2.1,-0.35) node[midway,below=5pt] {$AB$};
+  \draw[decorate,decoration={brace,amplitude=4pt,mirror}] (2.1,-0.35) -- (5.6,-0.35) node[midway,below=5pt] {$BC$};
+  \node[above=4pt] at (0.95,0) {\textcircled{\scriptsize 5}};
+  \node[above=4pt] at (3.45,0) {\textcircled{\scriptsize 6}};
+  \node[above=13pt] at (2.5,0) {$AC=99$};
+\end{tikzpicture}
   \end{diagramcoltikz}
   \par\medskip
-  \answerarea[28mm]
   \setcounter{solstep}{0}
   \begin{solutionblock}
-    \textbf{答案：}$24^\circ$\par\medskip
-    \solstep{找整体}{先写出整体由两个部分组成。}
-    \solstep{条件转份数}{$\angle AOB:\angle BOC=5:2$，总 $7$ 份，每份 $12^\circ$，$\angle BOC=24^\\ circ$。}
+    \textbf{答案：}$AB=45$\par\medskip
+    \solstep{填法}{$AB:BC=5:6$，$\dfrac{AB}{99}=\dfrac{5}{11}$，$AB=45$。}
   \end{solutionblock}
 \end{problem}
 
@@ -526,18 +621,26 @@
   \noindent
   \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
     \vspace{0pt}
-    点 $A,B,C$ 在同一直线上，$B$ 在 $A,C$ 之间。若 $AB:AC=3:8$，且 $AC=40$，求 $BC$。
+    点 $A,B,C$ 在同一直线上，$B$ 在 $A,C$ 之间。若 $AB:BC=7:4$，且 $AC=77$，求 $BC$。  图上份数：____；比例方程：________________；答案：____。
   \end{minipage}\hfill
-  \begin{diagramcoltikz}{60mm}{观察整体 AC 由 AB 和 BC 组成。}
-  \input{\detokenize{build/diagram/jobs/bq11-prompt/rendered/prompt.fragment.tex}}
+  \begin{diagramcoltikz}{60mm}{在图上标：左段 7 份，右段 4 份。}
+  \begin{tikzpicture}[x=1cm,y=1cm,baseline=(current bounding box.center)]
+  \draw[line width=1.05pt] (0,0) -- (5.0,0);
+  \fill (0,0) circle (1.7pt) node[below] {$A$};
+  \fill (1.9,0) circle (1.7pt) node[below] {$B$};
+  \fill (5.0,0) circle (1.7pt) node[below] {$C$};
+  \draw[decorate,decoration={brace,amplitude=4pt,mirror}] (0,-0.35) -- (2.1,-0.35) node[midway,below=5pt] {$AB$};
+  \draw[decorate,decoration={brace,amplitude=4pt,mirror}] (2.1,-0.35) -- (5.6,-0.35) node[midway,below=5pt] {$BC$};
+  \node[above=4pt] at (0.95,0) {\textcircled{\scriptsize 7}};
+  \node[above=4pt] at (3.45,0) {\textcircled{\scriptsize 4}};
+  \node[above=13pt] at (2.5,0) {$AC=77$};
+\end{tikzpicture}
   \end{diagramcoltikz}
   \par\medskip
-  \answerarea[28mm]
   \setcounter{solstep}{0}
   \begin{solutionblock}
-    \textbf{答案：}$25$\par\medskip
-    \solstep{找整体}{先写出整体由两个部分组成。}
-    \solstep{条件转份数}{$AB=3$ 份，$AC=8$ 份，则 $BC=5$ 份；$1$ 份为 $5$，$BC=25$。}
+    \textbf{答案：}$BC=28$\par\medskip
+    \solstep{填法}{$\dfrac{BC}{77}=\dfrac{4}{11}$，$BC=28$。}
   \end{solutionblock}
 \end{problem}
 
@@ -548,24 +651,37 @@
   \noindent
   \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
     \vspace{0pt}
-    射线 $OB$ 在 $\angle AOC$ 内部。若 $\angle AOB:\angle AOC=2:7$，且 $\angle BOC=75^\circ$，求 $\angle AOB$。
+    射线 $OB$ 在 $\angle AOC$ 内部。若 $7\angle AOB=4\angle BOC$，且 $\angle AOC=121^\circ$，求 $\angle BOC$。  图上份数：____；比例方程：________________；答案：____。
   \end{minipage}\hfill
-  \begin{diagramcoltikz}{60mm}{观察两个相邻角合成角 AOC。}
-  \input{\detokenize{build/diagram/jobs/bq12-prompt/rendered/prompt.fragment.tex}}
+  \begin{diagramcoltikz}{60mm}{在图上标：左角 4 份，右角 7 份。}
+  \begin{tikzpicture}[x=1cm,y=1cm,baseline=(current bounding box.center)]
+  \coordinate (O) at (0,0);
+  \coordinate (A) at (3.4,0);
+  \coordinate (B) at (2.45,1.15);
+  \coordinate (C) at (0.95,2.95);
+  \draw[line width=1.05pt] (O) -- (A);
+  \draw[line width=1.05pt] (O) -- (B);
+  \draw[line width=1.05pt] (O) -- (C);
+  \fill (O) circle (1.7pt) node[below left] {$O$};
+  \fill (A) circle (1.7pt) node[right] {$A$};
+  \fill (B) circle (1.7pt) node[right] {$B$};
+  \fill (C) circle (1.7pt) node[above] {$C$};
+  \node at (1.28,0.28) {\textcircled{\scriptsize 4}};
+  \node at (0.78,1.12) {\textcircled{\scriptsize 7}};
+  \node[right] at (1.25,1.45) {$\angle AOC=121^\circ$};
+\end{tikzpicture}
   \end{diagramcoltikz}
   \par\medskip
-  \answerarea[28mm]
   \setcounter{solstep}{0}
   \begin{solutionblock}
-    \textbf{答案：}$30^\circ$\par\medskip
-    \solstep{找整体}{先写出整体由两个部分组成。}
-    \solstep{条件转份数}{$\angle AOC=7$ 份，$\angle AOB=2$ 份，则 $\angle BOC=5$ 份；$1$ 份 $15^\\ circ$，$\angle AOB=30^\circ$。}
+    \textbf{答案：}$77^\circ$\par\medskip
+    \solstep{填法}{$\angle AOB:\angle BOC=4:7$，$\dfrac{\angle BOC}{121^\circ}=\dfrac{7}{11}$，$\angle BOC=77^\circ$。}
   \end{solutionblock}
 \end{problem}
 
 
 \clearpage
-\section*{参考答案}
+\section*{答案}
 
 
 

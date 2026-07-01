@@ -1,344 +1,369 @@
 meta:
-  title: 纯比例方程专题练习（教师版）
-  subtitle: 交错训练：倍数/份数、第四比例项、比例中项、交叉相乘
+  title: 纯比例方程填空练习（教师版）
+  subtitle: 关键式与答案自动化
   grade: 八年级
   subject: 数学
   version: teacher
   source_artifacts:
     structure_analysis: artifacts/比例题组/2026-07-01-A-纯比例方程/01-structure-analysis.md
     explanation: artifacts/比例题组/2026-07-01-A-纯比例方程/02-student-explanation.assignment.yaml
-  duration: 35分钟
-  total_points: 72
+  duration: 30分钟
+  total_points: 64
 render:
   template: exam-zh-practice
   paper_size: a4paper
   answer_key_position: after_page_break
 sections:
-- id: mixed
-  title: 一、交错训练：先选方法再计算
+- id: mixed-fillin
+  title: 一、比例方程填空题
   type: practice
   visibility: teacher
   blocks:
   - type: problem
     id: a1
-    points: 6
-    label: 题目
-    stem_latex: $4,12,5,x$ 成比例，求 $x$。
-    answer_space:
-      type: lines
-      height: 24mm
-    answer: $x=15$
-    solution_steps:
-    - title: 方法选择
-      content: 先写比例式，判断是否能用倍数/份数法；不合适时交叉相乘。
-    - title: 计算
-      content: "倍数法：$4:12=5:x$，$4\to12$ 为 $\times3$，所以 $x=15$。"
+    points: 4
+    answer: $15$
+    explanation: "$4\to12$ 是 $\times3$，所以 $5\to15$。"
     teaching:
-      teaching_goal: 交错训练比例方程的方法选择
+      teaching_goal: 把比例方程训练成填空反应，而不是解答题长步骤
       source_relations:
       - fallback:structure_analysis
-      expected_blocker: 不判断方法，机械交叉相乘或写错文字比例顺序
-      entry_point: find_entry
+      expected_blocker: 把观察过程写成长步骤，或比例顺序写错
+      entry_point: build_relation
       scaffold_level: medium
-      variation_depth: changed_representation
-      complexity_note: 小整数、简单分数和一次式，不引入复杂方程
-      upgrade_rule: 能先写方法理由再计算时，可迁移到 B 组几何份数
-      fallback_move: 先写标准比例式，再圈出一组对应量看是否有倍数。
+      variation_depth: changed_numbers
+      complexity_note: 小整数、简单分数、一层一次式
+      upgrade_rule: 能稳定填关键式和答案后，进入图形份数标注
+      fallback_move: 先补出标准比例式，再填目标空。
+    label: 填空题
+    stem_latex: $4:12=5:x$，$x=\underline{\hspace{1.5cm}}$。
+    solution_steps:
+    - title: 填法
+      content: "$4\to12$ 是 $\times3$，所以 $5\to15$。"
   - type: problem
     id: a2
-    points: 6
-    label: 题目
-    stem_latex: 求 $5,15,4$ 的第四比例项 $x$。
-    answer_space:
-      type: lines
-      height: 24mm
-    answer: $x=12$
-    solution_steps:
-    - title: 方法选择
-      content: 先写比例式，判断是否能用倍数/份数法；不合适时交叉相乘。
-    - title: 计算
-      content: 第四比例项：$5:15=4:x$，所以 $x=12$。
+    points: 4
+    answer: $21$
+    explanation: "$6\to18$ 是 $\times3$。"
     teaching:
-      teaching_goal: 交错训练比例方程的方法选择
+      teaching_goal: 把比例方程训练成填空反应，而不是解答题长步骤
       source_relations:
       - fallback:structure_analysis
-      expected_blocker: 不判断方法，机械交叉相乘或写错文字比例顺序
-      entry_point: find_entry
+      expected_blocker: 把观察过程写成长步骤，或比例顺序写错
+      entry_point: build_relation
       scaffold_level: medium
-      variation_depth: changed_representation
-      complexity_note: 小整数、简单分数和一次式，不引入复杂方程
-      upgrade_rule: 能先写方法理由再计算时，可迁移到 B 组几何份数
-      fallback_move: 先写标准比例式，再圈出一组对应量看是否有倍数。
+      variation_depth: changed_numbers
+      complexity_note: 小整数、简单分数、一层一次式
+      upgrade_rule: 能稳定填关键式和答案后，进入图形份数标注
+      fallback_move: 先补出标准比例式，再填目标空。
+    label: 填空题
+    stem_latex: $6:18=7:x$，$x=\underline{\hspace{1.5cm}}$。
+    solution_steps:
+    - title: 填法
+      content: "$6\to18$ 是 $\times3$。"
   - type: problem
     id: a3
-    points: 6
-    label: 题目
-    stem_latex: $\dfrac{x}{24}=\dfrac{5}{8}$，求 $x$。
-    answer_space:
-      type: lines
-      height: 24mm
-    answer: $x=15$
-    solution_steps:
-    - title: 方法选择
-      content: 先写比例式，判断是否能用倍数/份数法；不合适时交叉相乘。
-    - title: 计算
-      content: 份数法或倍数法：$24$ 对应 $8$ 份，$x$ 对应 $5$ 份，$x=15$。
+    points: 4
+    answer: $12$
+    explanation: "$5\to20$ 是 $\times4$。"
     teaching:
-      teaching_goal: 交错训练比例方程的方法选择
+      teaching_goal: 把比例方程训练成填空反应，而不是解答题长步骤
       source_relations:
       - fallback:structure_analysis
-      expected_blocker: 不判断方法，机械交叉相乘或写错文字比例顺序
-      entry_point: find_entry
+      expected_blocker: 把观察过程写成长步骤，或比例顺序写错
+      entry_point: build_relation
       scaffold_level: medium
-      variation_depth: changed_representation
-      complexity_note: 小整数、简单分数和一次式，不引入复杂方程
-      upgrade_rule: 能先写方法理由再计算时，可迁移到 B 组几何份数
-      fallback_move: 先写标准比例式，再圈出一组对应量看是否有倍数。
+      variation_depth: changed_numbers
+      complexity_note: 小整数、简单分数、一层一次式
+      upgrade_rule: 能稳定填关键式和答案后，进入图形份数标注
+      fallback_move: 先补出标准比例式，再填目标空。
+    label: 填空题
+    stem_latex: 求 $5,20,3$ 的第四比例项 $x$：$5:20=3:x$，$x=\underline{\hspace{1.5cm}}$。
+    solution_steps:
+    - title: 填法
+      content: "$5\to20$ 是 $\times4$。"
   - type: problem
     id: a4
-    points: 6
-    label: 题目
-    stem_latex: 正数 $x$ 是 $4$ 和 $9$ 的比例中项，求 $x$。
-    answer_space:
-      type: lines
-      height: 24mm
-    answer: $x=6$
-    solution_steps:
-    - title: 方法选择
-      content: 先写比例式，判断是否能用倍数/份数法；不合适时交叉相乘。
-    - title: 计算
-      content: 正比例中项：$4:x=x:9$，$x^2=36$，$x$ 为正数，所以 $x=6$。
+    points: 4
+    answer: $15$
+    explanation: $8:12=2:3$，所以 $10:x=2:3$。
     teaching:
-      teaching_goal: 交错训练比例方程的方法选择
+      teaching_goal: 把比例方程训练成填空反应，而不是解答题长步骤
       source_relations:
       - fallback:structure_analysis
-      expected_blocker: 不判断方法，机械交叉相乘或写错文字比例顺序
-      entry_point: find_entry
+      expected_blocker: 把观察过程写成长步骤，或比例顺序写错
+      entry_point: build_relation
       scaffold_level: medium
-      variation_depth: changed_representation
-      complexity_note: 小整数、简单分数和一次式，不引入复杂方程
-      upgrade_rule: 能先写方法理由再计算时，可迁移到 B 组几何份数
-      fallback_move: 先写标准比例式，再圈出一组对应量看是否有倍数。
+      variation_depth: changed_numbers
+      complexity_note: 小整数、简单分数、一层一次式
+      upgrade_rule: 能稳定填关键式和答案后，进入图形份数标注
+      fallback_move: 先补出标准比例式，再填目标空。
+    label: 填空题
+    stem_latex: 求 $8,12,10$ 的第四比例项 $x$：$8:12=10:x$，$x=\underline{\hspace{1.5cm}}$。
+    solution_steps:
+    - title: 填法
+      content: $8:12=2:3$，所以 $10:x=2:3$。
   - type: problem
     id: a5
-    points: 6
-    label: 题目
-    stem_latex: $8:x=2:5$，求 $x$。
-    answer_space:
-      type: lines
-      height: 24mm
-    answer: $x=20$
-    solution_steps:
-    - title: 方法选择
-      content: 先写比例式，判断是否能用倍数/份数法；不合适时交叉相乘。
-    - title: 计算
-      content: 交叉相乘：$2x=40$，$x=20$。
+    points: 4
+    answer: $15$
+    explanation: $24$ 对应 $8$ 份，$x$ 对应 $5$ 份。
     teaching:
-      teaching_goal: 交错训练比例方程的方法选择
+      teaching_goal: 把比例方程训练成填空反应，而不是解答题长步骤
       source_relations:
       - fallback:structure_analysis
-      expected_blocker: 不判断方法，机械交叉相乘或写错文字比例顺序
-      entry_point: find_entry
+      expected_blocker: 把观察过程写成长步骤，或比例顺序写错
+      entry_point: build_relation
       scaffold_level: medium
-      variation_depth: changed_representation
-      complexity_note: 小整数、简单分数和一次式，不引入复杂方程
-      upgrade_rule: 能先写方法理由再计算时，可迁移到 B 组几何份数
-      fallback_move: 先写标准比例式，再圈出一组对应量看是否有倍数。
+      variation_depth: changed_numbers
+      complexity_note: 小整数、简单分数、一层一次式
+      upgrade_rule: 能稳定填关键式和答案后，进入图形份数标注
+      fallback_move: 先补出标准比例式，再填目标空。
+    label: 填空题
+    stem_latex: $x:24=5:8$，$x=\underline{\hspace{1.5cm}}$。
+    solution_steps:
+    - title: 填法
+      content: $24$ 对应 $8$ 份，$x$ 对应 $5$ 份。
   - type: problem
     id: a6
-    points: 6
-    label: 题目
-    stem_latex: $\dfrac{x+1}{6}=\dfrac{2}{3}$，求 $x$。
-    answer_space:
-      type: lines
-      height: 24mm
-    answer: $x=3$
-    solution_steps:
-    - title: 方法选择
-      content: 先写比例式，判断是否能用倍数/份数法；不合适时交叉相乘。
-    - title: 计算
-      content: 交叉相乘：$3(x+1)=12$，$x=3$。
+    points: 4
+    answer: $24$
+    explanation: $18$ 对应 $3$ 份，一份 $6$。
     teaching:
-      teaching_goal: 交错训练比例方程的方法选择
+      teaching_goal: 把比例方程训练成填空反应，而不是解答题长步骤
       source_relations:
       - fallback:structure_analysis
-      expected_blocker: 不判断方法，机械交叉相乘或写错文字比例顺序
-      entry_point: find_entry
+      expected_blocker: 把观察过程写成长步骤，或比例顺序写错
+      entry_point: build_relation
       scaffold_level: medium
-      variation_depth: changed_representation
-      complexity_note: 小整数、简单分数和一次式，不引入复杂方程
-      upgrade_rule: 能先写方法理由再计算时，可迁移到 B 组几何份数
-      fallback_move: 先写标准比例式，再圈出一组对应量看是否有倍数。
+      variation_depth: changed_numbers
+      complexity_note: 小整数、简单分数、一层一次式
+      upgrade_rule: 能稳定填关键式和答案后，进入图形份数标注
+      fallback_move: 先补出标准比例式，再填目标空。
+    label: 填空题
+    stem_latex: $18:x=3:4$，$x=\underline{\hspace{1.5cm}}$。
+    solution_steps:
+    - title: 填法
+      content: $18$ 对应 $3$ 份，一份 $6$。
   - type: problem
     id: a7
-    points: 6
-    label: 题目
-    stem_latex: 求 $7,14,6$ 的第四比例项 $x$。
-    answer_space:
-      type: lines
-      height: 24mm
-    answer: $x=12$
-    solution_steps:
-    - title: 方法选择
-      content: 先写比例式，判断是否能用倍数/份数法；不合适时交叉相乘。
-    - title: 计算
-      content: 第四比例项：$7:14=6:x$，$x=12$。
+    points: 4
+    answer: $3x=35;\ x=\dfrac{35}{3}$
+    explanation: $7\cdot5=3x$。
     teaching:
-      teaching_goal: 交错训练比例方程的方法选择
+      teaching_goal: 把比例方程训练成填空反应，而不是解答题长步骤
       source_relations:
       - fallback:structure_analysis
-      expected_blocker: 不判断方法，机械交叉相乘或写错文字比例顺序
-      entry_point: find_entry
+      expected_blocker: 把观察过程写成长步骤，或比例顺序写错
+      entry_point: build_relation
       scaffold_level: medium
-      variation_depth: changed_representation
-      complexity_note: 小整数、简单分数和一次式，不引入复杂方程
-      upgrade_rule: 能先写方法理由再计算时，可迁移到 B 组几何份数
-      fallback_move: 先写标准比例式，再圈出一组对应量看是否有倍数。
+      variation_depth: changed_numbers
+      complexity_note: 小整数、简单分数、一层一次式
+      upgrade_rule: 能稳定填关键式和答案后，进入图形份数标注
+      fallback_move: 先补出标准比例式，再填目标空。
+    label: 填空题
+    stem_latex: $7:x=3:5$，交叉相乘得 $\underline{\hspace{2.2cm}}$，$x=\underline{\hspace{1.5cm}}$。
+    solution_steps:
+    - title: 填法
+      content: $7\cdot5=3x$。
   - type: problem
     id: a8
-    points: 6
-    label: 题目
-    stem_latex: 正数 $x$ 是 $16$ 和 $25$ 的比例中项，求 $x$。
-    answer_space:
-      type: lines
-      height: 24mm
-    answer: $x=20$
-    solution_steps:
-    - title: 方法选择
-      content: 先写比例式，判断是否能用倍数/份数法；不合适时交叉相乘。
-    - title: 计算
-      content: 正比例中项：$16:x=x:25$，$x^2=400$，$x=20$。
+    points: 4
+    answer: $4x=63;\ x=\dfrac{63}{4}$
+    explanation: $9\cdot7=4x$。
     teaching:
-      teaching_goal: 交错训练比例方程的方法选择
+      teaching_goal: 把比例方程训练成填空反应，而不是解答题长步骤
       source_relations:
       - fallback:structure_analysis
-      expected_blocker: 不判断方法，机械交叉相乘或写错文字比例顺序
-      entry_point: find_entry
+      expected_blocker: 把观察过程写成长步骤，或比例顺序写错
+      entry_point: build_relation
       scaffold_level: medium
-      variation_depth: changed_representation
-      complexity_note: 小整数、简单分数和一次式，不引入复杂方程
-      upgrade_rule: 能先写方法理由再计算时，可迁移到 B 组几何份数
-      fallback_move: 先写标准比例式，再圈出一组对应量看是否有倍数。
+      variation_depth: changed_numbers
+      complexity_note: 小整数、简单分数、一层一次式
+      upgrade_rule: 能稳定填关键式和答案后，进入图形份数标注
+      fallback_move: 先补出标准比例式，再填目标空。
+    label: 填空题
+    stem_latex: $9:x=4:7$，交叉相乘得 $\underline{\hspace{2.2cm}}$，$x=\underline{\hspace{1.5cm}}$。
+    solution_steps:
+    - title: 填法
+      content: $9\cdot7=4x$。
   - type: problem
     id: a9
-    points: 6
-    label: 题目
-    stem_latex: $7:x=14:10$，求 $x$。
-    answer_space:
-      type: lines
-      height: 24mm
-    answer: $x=5$
-    solution_steps:
-    - title: 方法选择
-      content: 先写比例式，判断是否能用倍数/份数法；不合适时交叉相乘。
-    - title: 计算
-      content: 交叉相乘：$14x=70$，$x=5$。
+    points: 4
+    answer: $4(x+2)=15;\ x=\dfrac{7}{4}$
+    explanation: $x+2$ 要整体乘。
     teaching:
-      teaching_goal: 交错训练比例方程的方法选择
+      teaching_goal: 把比例方程训练成填空反应，而不是解答题长步骤
       source_relations:
       - fallback:structure_analysis
-      expected_blocker: 不判断方法，机械交叉相乘或写错文字比例顺序
-      entry_point: find_entry
+      expected_blocker: 把观察过程写成长步骤，或比例顺序写错
+      entry_point: build_relation
       scaffold_level: medium
-      variation_depth: changed_representation
-      complexity_note: 小整数、简单分数和一次式，不引入复杂方程
-      upgrade_rule: 能先写方法理由再计算时，可迁移到 B 组几何份数
-      fallback_move: 先写标准比例式，再圈出一组对应量看是否有倍数。
+      variation_depth: changed_numbers
+      complexity_note: 小整数、简单分数、一层一次式
+      upgrade_rule: 能稳定填关键式和答案后，进入图形份数标注
+      fallback_move: 先补出标准比例式，再填目标空。
+    label: 填空题
+    stem_latex: $\dfrac{x+2}{5}=\dfrac{3}{4}$，交叉相乘得 $\underline{\hspace{2.6cm}}$，$x=\underline{\hspace{1.5cm}}$。
+    solution_steps:
+    - title: 填法
+      content: $x+2$ 要整体乘。
   - type: problem
     id: a10
-    points: 6
-    label: 题目
-    stem_latex: $\dfrac{2x-1}{5}=\dfrac{3}{4}$，求 $x$。
-    answer_space:
-      type: lines
-      height: 24mm
-    answer: $x=\dfrac{19}{8}$
-    solution_steps:
-    - title: 方法选择
-      content: 先写比例式，判断是否能用倍数/份数法；不合适时交叉相乘。
-    - title: 计算
-      content: 交叉相乘：$4(2x-1)=15$，$x=19/8$。
+    points: 4
+    answer: $9(2x-1)=30;\ x=\dfrac{13}{6}$
+    explanation: 交叉后解一次方程。
     teaching:
-      teaching_goal: 交错训练比例方程的方法选择
+      teaching_goal: 把比例方程训练成填空反应，而不是解答题长步骤
       source_relations:
       - fallback:structure_analysis
-      expected_blocker: 不判断方法，机械交叉相乘或写错文字比例顺序
-      entry_point: find_entry
+      expected_blocker: 把观察过程写成长步骤，或比例顺序写错
+      entry_point: build_relation
       scaffold_level: medium
-      variation_depth: changed_representation
-      complexity_note: 小整数、简单分数和一次式，不引入复杂方程
-      upgrade_rule: 能先写方法理由再计算时，可迁移到 B 组几何份数
-      fallback_move: 先写标准比例式，再圈出一组对应量看是否有倍数。
+      variation_depth: changed_numbers
+      complexity_note: 小整数、简单分数、一层一次式
+      upgrade_rule: 能稳定填关键式和答案后，进入图形份数标注
+      fallback_move: 先补出标准比例式，再填目标空。
+    label: 填空题
+    stem_latex: $\dfrac{2x-1}{6}=\dfrac{5}{9}$，交叉相乘得 $\underline{\hspace{2.6cm}}$，$x=\underline{\hspace{1.5cm}}$。
+    solution_steps:
+    - title: 填法
+      content: 交叉后解一次方程。
   - type: problem
     id: a11
-    points: 6
-    label: 题目
-    stem_latex: $12,x,3,8$ 成比例，求 $x$。
-    answer_space:
-      type: lines
-      height: 24mm
-    answer: $x=32$
-    solution_steps:
-    - title: 方法选择
-      content: 先写比例式，判断是否能用倍数/份数法；不合适时交叉相乘。
-    - title: 计算
-      content: $12:x=3:8$，交叉得 $3x=96$，$x=32$。
+    points: 4
+    answer: $12$
+    explanation: $x^2=144$，取正数。
     teaching:
-      teaching_goal: 交错训练比例方程的方法选择
+      teaching_goal: 把比例方程训练成填空反应，而不是解答题长步骤
       source_relations:
       - fallback:structure_analysis
-      expected_blocker: 不判断方法，机械交叉相乘或写错文字比例顺序
-      entry_point: find_entry
+      expected_blocker: 把观察过程写成长步骤，或比例顺序写错
+      entry_point: build_relation
       scaffold_level: medium
-      variation_depth: changed_representation
-      complexity_note: 小整数、简单分数和一次式，不引入复杂方程
-      upgrade_rule: 能先写方法理由再计算时，可迁移到 B 组几何份数
-      fallback_move: 先写标准比例式，再圈出一组对应量看是否有倍数。
+      variation_depth: changed_numbers
+      complexity_note: 小整数、简单分数、一层一次式
+      upgrade_rule: 能稳定填关键式和答案后，进入图形份数标注
+      fallback_move: 先补出标准比例式，再填目标空。
+    label: 填空题
+    stem_latex: 正数 $x$ 是 $9$ 和 $16$ 的比例中项：$9:x=x:16$，$x=\underline{\hspace{1.5cm}}$。
+    solution_steps:
+    - title: 填法
+      content: $x^2=144$，取正数。
   - type: problem
     id: a12
-    points: 6
-    label: 题目
-    stem_latex: $x:18=2:3$，求 $x$。
-    answer_space:
-      type: lines
-      height: 24mm
-    answer: $x=12$
-    solution_steps:
-    - title: 方法选择
-      content: 先写比例式，判断是否能用倍数/份数法；不合适时交叉相乘。
-    - title: 计算
-      content: "倍数法：$3\to18$ 为 $\times6$，所以 $2\to x$ 也为 $\times6$。"
+    points: 4
+    answer: $10$
+    explanation: $x^2=100$，取正数。
     teaching:
-      teaching_goal: 交错训练比例方程的方法选择
+      teaching_goal: 把比例方程训练成填空反应，而不是解答题长步骤
       source_relations:
       - fallback:structure_analysis
-      expected_blocker: 不判断方法，机械交叉相乘或写错文字比例顺序
-      entry_point: find_entry
+      expected_blocker: 把观察过程写成长步骤，或比例顺序写错
+      entry_point: build_relation
       scaffold_level: medium
-      variation_depth: changed_representation
-      complexity_note: 小整数、简单分数和一次式，不引入复杂方程
-      upgrade_rule: 能先写方法理由再计算时，可迁移到 B 组几何份数
-      fallback_move: 先写标准比例式，再圈出一组对应量看是否有倍数。
+      variation_depth: changed_numbers
+      complexity_note: 小整数、简单分数、一层一次式
+      upgrade_rule: 能稳定填关键式和答案后，进入图形份数标注
+      fallback_move: 先补出标准比例式，再填目标空。
+    label: 填空题
+    stem_latex: 正数 $x$ 是 $4$ 和 $25$ 的比例中项：$4:x=x:25$，$x=\underline{\hspace{1.5cm}}$。
+    solution_steps:
+    - title: 填法
+      content: $x^2=100$，取正数。
+  - type: problem
+    id: a13
+    points: 4
+    answer: $32$
+    explanation: $3x=96$。
+    teaching:
+      teaching_goal: 把比例方程训练成填空反应，而不是解答题长步骤
+      source_relations:
+      - fallback:structure_analysis
+      expected_blocker: 把观察过程写成长步骤，或比例顺序写错
+      entry_point: build_relation
+      scaffold_level: medium
+      variation_depth: changed_numbers
+      complexity_note: 小整数、简单分数、一层一次式
+      upgrade_rule: 能稳定填关键式和答案后，进入图形份数标注
+      fallback_move: 先补出标准比例式，再填目标空。
+    label: 填空题
+    stem_latex: $12,x,3,8$ 成比例：$12:x=3:8$，$x=\underline{\hspace{1.5cm}}$。
+    solution_steps:
+    - title: 填法
+      content: $3x=96$。
+  - type: problem
+    id: a14
+    points: 4
+    answer: $6$
+    explanation: $10x=60$。
+    teaching:
+      teaching_goal: 把比例方程训练成填空反应，而不是解答题长步骤
+      source_relations:
+      - fallback:structure_analysis
+      expected_blocker: 把观察过程写成长步骤，或比例顺序写错
+      entry_point: build_relation
+      scaffold_level: medium
+      variation_depth: changed_numbers
+      complexity_note: 小整数、简单分数、一层一次式
+      upgrade_rule: 能稳定填关键式和答案后，进入图形份数标注
+      fallback_move: 先补出标准比例式，再填目标空。
+    label: 填空题
+    stem_latex: $x,15,4,10$ 成比例：$x:15=4:10$，$x=\underline{\hspace{1.5cm}}$。
+    solution_steps:
+    - title: 填法
+      content: $10x=60$。
+  - type: problem
+    id: a15
+    points: 4
+    answer: $21$
+    explanation: $30$ 对应 $10$ 份。
+    teaching:
+      teaching_goal: 把比例方程训练成填空反应，而不是解答题长步骤
+      source_relations:
+      - fallback:structure_analysis
+      expected_blocker: 把观察过程写成长步骤，或比例顺序写错
+      entry_point: build_relation
+      scaffold_level: medium
+      variation_depth: changed_numbers
+      complexity_note: 小整数、简单分数、一层一次式
+      upgrade_rule: 能稳定填关键式和答案后，进入图形份数标注
+      fallback_move: 先补出标准比例式，再填目标空。
+    label: 填空题
+    stem_latex: $\dfrac{x}{30}=\dfrac{7}{10}$，$x=\underline{\hspace{1.5cm}}$。
+    solution_steps:
+    - title: 填法
+      content: $30$ 对应 $10$ 份。
+  - type: problem
+    id: a16
+    points: 4
+    answer: $4(x-3)=40;\ x=13$
+    explanation: $x-3$ 要整体乘。
+    teaching:
+      teaching_goal: 把比例方程训练成填空反应，而不是解答题长步骤
+      source_relations:
+      - fallback:structure_analysis
+      expected_blocker: 把观察过程写成长步骤，或比例顺序写错
+      entry_point: build_relation
+      scaffold_level: medium
+      variation_depth: changed_numbers
+      complexity_note: 小整数、简单分数、一层一次式
+      upgrade_rule: 能稳定填关键式和答案后，进入图形份数标注
+      fallback_move: 先补出标准比例式，再填目标空。
+    label: 填空题
+    stem_latex: $\dfrac{x-3}{8}=\dfrac{5}{4}$，交叉相乘得 $\underline{\hspace{2.6cm}}$，$x=\underline{\hspace{1.5cm}}$。
+    solution_steps:
+    - title: 填法
+      content: $x-3$ 要整体乘。
 - id: answer-key
-  title: 参考答案
+  title: 答案
   type: answer_key
   visibility: teacher
   layout:
     break_before: true
   blocks:
   - type: solution
-    id: a-answers
-    title: 答案汇总
+    id: a-answer-list
+    title: 答案速查
     items:
-    - latex: 1. $x=15$
-    - latex: 2. $x=12$
-    - latex: 3. $x=15$
-    - latex: 4. $x=6$
-    - latex: 5. $x=20$
-    - latex: 6. $x=3$
-    - latex: 7. $x=12$
-    - latex: 8. $x=20$
-    - latex: 9. $x=5$
-    - latex: 10. $x=\dfrac{19}{8}$
-    - latex: 11. $x=32$
-    - latex: 12. $x=12$
+    - latex: a1. $15$；a2. $21$；a3. $12$；a4. $15$；a5. $15$；a6. $24$；a7. $3x=35;\ x=\dfrac{35}{3}$；a8. $4x=63;\ x=\dfrac{63}{4}$；a9. $4(x+2)=15;\ x=\dfrac{7}{4}$；a10. $9(2x-1)=30;\ x=\dfrac{13}{6}$；a11. $12$；a12. $10$；a13. $32$；a14. $6$；a15. $21$；a16. $4(x-3)=40;\ x=13$
