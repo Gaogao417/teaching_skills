@@ -1,0 +1,543 @@
+meta:
+  title: 面积比链专题练习（教师版）
+  subtitle: 同底同高与 OECD 四边形拆分
+  grade: 八年级
+  subject: 数学
+  version: teacher
+  source_artifacts:
+    structure_analysis: artifacts/比例题组/2026-07-01-D-面积比链/01-structure-analysis.md
+    explanation: artifacts/比例题组/2026-07-01-D-面积比链/02-student-explanation.assignment.yaml
+  duration: 30分钟
+  total_points: 40
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: group-1
+  title: 第1组：基础面积转换
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: dq1
+    points: 8
+    label: 题目
+    stem_latex: |-
+      在 $\triangle ABC$ 中，点 $E$ 在边 $AC$ 上，点 $O$ 不在直线 $AC$ 上。若 $AE:EC=2:3$，且 $S_{\triangle OAE}=6$，求 $S_{\triangle OEC}$。
+    answer_space:
+      type: lines
+      height: 42mm
+    diagram_slot:
+      slot_id: dq1.prompt
+      diagram_ref: dq1.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 根据题干观察点的位置关系。
+      engine: renderer_spec
+      diagram_kind: synthetic_geometry
+      teaching_intent: practice_prompt
+      semantic_constraints:
+        given_objects:
+        - A
+        - E
+        - C
+        - O
+        given_constraints: &id001
+        - E 在 AC 上
+      engine_options:
+        renderer_spec:
+          points:
+            A:
+            - 0
+            - 0
+            E:
+            - 1.8
+            - 0
+            C:
+            - 4.5
+            - 0
+            O:
+            - 1.8
+            - 2.2
+          segments:
+          - from: A
+            to: E
+          - from: E
+            to: C
+          - from: O
+            to: A
+          - from: O
+            to: E
+          - from: O
+            to: C
+          polygons: []
+          labels:
+            A:
+              text: A
+              placement: below
+            E:
+              text: E
+              placement: below
+            C:
+              text: C
+              placement: below
+            O:
+              text: O
+              placement: above
+          constraints: *id001
+    answer: $9$
+    solution_steps:
+    - title: 同高转底
+      content: $\triangle OAE$ 与 $\triangle OEC$ 同高，面积比为 $2:3$。$6$ 对应 $2$ 份，所以 $S_{\triangle OEC}=9$。
+    teaching:
+      teaching_goal: 训练面积比链和四边形拆分
+      source_relations:
+      - fallback:structure_analysis
+      expected_blocker: 把 OECD 看成 OEC 或漏掉三角形 OCD
+      entry_point: build_relation
+      scaffold_level: medium
+      variation_depth: changed_numbers
+      complexity_note: 小整数、手算可验算
+      upgrade_rule: 能先写出关键比例或对应关系
+      fallback_move: "先写 $S_{OECD}=S_{\triangle OEC}+S_{\triangle OCD}$。"
+  - type: problem
+    id: dq2
+    points: 8
+    label: 题目
+    stem_latex: |-
+      在 $\triangle ABE$ 中，点 $O$ 在边 $BE$ 上。若 $BO:OE=5:2$，且 $S_{\triangle OAE}=4$，求 $S_{\triangle OAB}$。
+    answer_space:
+      type: lines
+      height: 42mm
+    diagram_slot:
+      slot_id: dq2.prompt
+      diagram_ref: dq2.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 根据题干观察点的位置关系。
+      engine: renderer_spec
+      diagram_kind: synthetic_geometry
+      teaching_intent: practice_prompt
+      semantic_constraints:
+        given_objects:
+        - A
+        - B
+        - O
+        - E
+        given_constraints: &id002
+        - O 在 BE 上
+      engine_options:
+        renderer_spec:
+          points:
+            A:
+            - 1.8
+            - 2.2
+            B:
+            - 0
+            - 0
+            O:
+            - 2.2
+            - 0
+            E:
+            - 3.2
+            - 0
+          segments:
+          - from: A
+            to: B
+          - from: B
+            to: O
+          - from: O
+            to: E
+          - from: A
+            to: O
+          - from: A
+            to: E
+          polygons: []
+          labels:
+            A:
+              text: A
+              placement: above
+            B:
+              text: B
+              placement: below
+            O:
+              text: O
+              placement: below
+            E:
+              text: E
+              placement: below
+          constraints: *id002
+    answer: $10$
+    solution_steps:
+    - title: 共底转高
+      content: $\triangle OAB$ 与 $\triangle OAE$ 共底 $AO$，面积比为 $BO:OE=5:2$，所以 $S_{\triangle OAB}=10$。
+    teaching:
+      teaching_goal: 训练面积比链和四边形拆分
+      source_relations:
+      - fallback:structure_analysis
+      expected_blocker: 把 OECD 看成 OEC 或漏掉三角形 OCD
+      entry_point: build_relation
+      scaffold_level: medium
+      variation_depth: changed_numbers
+      complexity_note: 小整数、手算可验算
+      upgrade_rule: 能先写出关键比例或对应关系
+      fallback_move: "先写 $S_{OECD}=S_{\triangle OEC}+S_{\triangle OCD}$。"
+- id: group-2
+  title: 第2组：四边形拆分综合
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: dq3
+    points: 8
+    label: 题目
+    stem_latex: |-
+      在 $\triangle ABC$ 中，点 $D$ 在边 $BC$ 上，点 $E$ 在边 $AC$ 上，线段 $AD$ 与 $BE$ 交于点 $O$。若 $AO:OD=1:1$，$BO:OE=3:1$，$AE:EC=1:2$，求 $S_{OECD}:S_{\triangle OAB}$。
+    answer_space:
+      type: lines
+      height: 42mm
+    diagram_slot:
+      slot_id: dq3.prompt
+      diagram_ref: dq3.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 根据题干观察点的位置关系。
+      engine: renderer_spec
+      diagram_kind: synthetic_geometry
+      teaching_intent: practice_prompt
+      semantic_constraints:
+        given_objects:
+        - A
+        - B
+        - C
+        - D
+        - E
+        - O
+        given_constraints: &id003
+        - D 在 BC 上
+        - E 在 AC 上
+        - AD 与 BE 交于 O
+      engine_options:
+        renderer_spec:
+          points:
+            A:
+            - 0
+            - 0
+            B:
+            - 0
+            - 3
+            C:
+            - 4
+            - 0
+            D:
+            - 2
+            - 1.5
+            E:
+            - 1.333
+            - 0
+            O:
+            - 1
+            - 0.75
+          segments:
+          - from: A
+            to: B
+          - from: B
+            to: C
+          - from: C
+            to: A
+          - from: A
+            to: D
+          - from: B
+            to: E
+          polygons:
+          - points:
+            - A
+            - B
+            - C
+            fill: '#f8fafc'
+          labels:
+            A:
+              text: A
+              placement: below left
+            B:
+              text: B
+              placement: above left
+            C:
+              text: C
+              placement: below right
+            D:
+              text: D
+              placement: above right
+            E:
+              text: E
+              placement: below
+            O:
+              text: O
+              placement: above
+          constraints: *id003
+    answer: $5:3$
+    solution_steps:
+    - title: 拆四边形
+      content: $S_{OECD}=S_{\triangle OEC}+S_{\triangle OCD}$。
+    - title: 统一份数
+      content: 设 $S_{\triangle OAE}=1$，则 $S_{\triangle OAB}=3$，$S_{\triangle OEC}=2$，$S_{\triangle OAC}=3$，$S_{\triangle OCD}=3$。所以目标比为
+        $5:3$。
+    teaching:
+      teaching_goal: 训练面积比链和四边形拆分
+      source_relations:
+      - fallback:structure_analysis
+      expected_blocker: 把 OECD 看成 OEC 或漏掉三角形 OCD
+      entry_point: build_relation
+      scaffold_level: medium
+      variation_depth: changed_numbers
+      complexity_note: 小整数、手算可验算
+      upgrade_rule: 能先写出关键比例或对应关系
+      fallback_move: "先写 $S_{OECD}=S_{\triangle OEC}+S_{\triangle OCD}$。"
+  - type: problem
+    id: dq4
+    points: 8
+    label: 题目
+    stem_latex: |-
+      在 $\triangle ABC$ 中，点 $D$ 在边 $BC$ 上，点 $E$ 在边 $AC$ 上，线段 $AD$ 与 $BE$ 交于点 $O$。若 $AO:OD=2:1$，$BO:OE=2:1$，$AE:EC=1:3$，求 $S_{OECD}:S_{\triangle OAB}$。
+    answer_space:
+      type: lines
+      height: 42mm
+    diagram_slot:
+      slot_id: dq4.prompt
+      diagram_ref: dq4.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 根据题干观察点的位置关系。
+      engine: renderer_spec
+      diagram_kind: synthetic_geometry
+      teaching_intent: practice_prompt
+      semantic_constraints:
+        given_objects:
+        - A
+        - B
+        - C
+        - D
+        - E
+        - O
+        given_constraints: &id004
+        - D 在 BC 上
+        - E 在 AC 上
+        - AD 与 BE 交于 O
+      engine_options:
+        renderer_spec:
+          points:
+            A:
+            - 0
+            - 0
+            B:
+            - 0
+            - 3
+            C:
+            - 4
+            - 0
+            D:
+            - 2
+            - 1.5
+            E:
+            - 1.333
+            - 0
+            O:
+            - 1
+            - 0.75
+          segments:
+          - from: A
+            to: B
+          - from: B
+            to: C
+          - from: C
+            to: A
+          - from: A
+            to: D
+          - from: B
+            to: E
+          polygons:
+          - points:
+            - A
+            - B
+            - C
+            fill: '#f8fafc'
+          labels:
+            A:
+              text: A
+              placement: below left
+            B:
+              text: B
+              placement: above left
+            C:
+              text: C
+              placement: below right
+            D:
+              text: D
+              placement: above right
+            E:
+              text: E
+              placement: below
+            O:
+              text: O
+              placement: above
+          constraints: *id004
+    answer: $5:2$
+    solution_steps:
+    - title: 统一份数
+      content: 设 $S_{\triangle OAE}=1$，则 $S_{\triangle OAB}=2$，$S_{\triangle OEC}=3$，$S_{\triangle OAC}=4$。由 $AO:OD=2:1$ 得
+        $S_{\triangle OCD}=2$，所以 $S_{OECD}=5$，目标比为 $5:2$。
+    teaching:
+      teaching_goal: 训练面积比链和四边形拆分
+      source_relations:
+      - fallback:structure_analysis
+      expected_blocker: 把 OECD 看成 OEC 或漏掉三角形 OCD
+      entry_point: build_relation
+      scaffold_level: medium
+      variation_depth: changed_numbers
+      complexity_note: 小整数、手算可验算
+      upgrade_rule: 能先写出关键比例或对应关系
+      fallback_move: "先写 $S_{OECD}=S_{\triangle OEC}+S_{\triangle OCD}$。"
+  - type: problem
+    id: dq5
+    points: 8
+    label: 题目
+    stem_latex: |-
+      在 $\triangle ABC$ 中，点 $D$ 在边 $BC$ 上，点 $E$ 在边 $AC$ 上，线段 $AD$ 与 $BE$ 交于点 $O$。若 $BO:OE=2:1$，$AE:EC=1:2$，且 $S_{OECD}:S_{\triangle OAB}=7:2$，求 $AO:OD$。
+    answer_space:
+      type: lines
+      height: 42mm
+    diagram_slot:
+      slot_id: dq5.prompt
+      diagram_ref: dq5.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 根据题干观察点的位置关系。
+      engine: renderer_spec
+      diagram_kind: synthetic_geometry
+      teaching_intent: practice_prompt
+      semantic_constraints:
+        given_objects:
+        - A
+        - B
+        - C
+        - D
+        - E
+        - O
+        given_constraints: &id005
+        - D 在 BC 上
+        - E 在 AC 上
+        - AD 与 BE 交于 O
+      engine_options:
+        renderer_spec:
+          points:
+            A:
+            - 0
+            - 0
+            B:
+            - 0
+            - 3
+            C:
+            - 4
+            - 0
+            D:
+            - 2
+            - 1.5
+            E:
+            - 1.333
+            - 0
+            O:
+            - 1
+            - 0.75
+          segments:
+          - from: A
+            to: B
+          - from: B
+            to: C
+          - from: C
+            to: A
+          - from: A
+            to: D
+          - from: B
+            to: E
+          polygons:
+          - points:
+            - A
+            - B
+            - C
+            fill: '#f8fafc'
+          labels:
+            A:
+              text: A
+              placement: below left
+            B:
+              text: B
+              placement: above left
+            C:
+              text: C
+              placement: below right
+            D:
+              text: D
+              placement: above right
+            E:
+              text: E
+              placement: below
+            O:
+              text: O
+              placement: above
+          constraints: *id005
+    answer: $3:5$
+    solution_steps:
+    - title: 反推
+      content: 设 $S_{\triangle OAE}=1$，则 $S_{\triangle OAB}=2$，$S_{\triangle OEC}=2$，$S_{\triangle OAC}=3$。目标比给出 $S_{OECD}=7$，故
+        $S_{\triangle OCD}=5$，所以 $AO:OD=3:5$。
+    teaching:
+      teaching_goal: 训练面积比链和四边形拆分
+      source_relations:
+      - fallback:structure_analysis
+      expected_blocker: 把 OECD 看成 OEC 或漏掉三角形 OCD
+      entry_point: build_relation
+      scaffold_level: medium
+      variation_depth: changed_numbers
+      complexity_note: 小整数、手算可验算
+      upgrade_rule: 能先写出关键比例或对应关系
+      fallback_move: "先写 $S_{OECD}=S_{\triangle OEC}+S_{\triangle OCD}$。"
+- id: answer-key
+  title: 参考答案
+  type: answer_key
+  visibility: teacher
+  blocks:
+  - type: answer
+    id: answers
+    title: 答案
+    items:
+    - latex: 1. $9$
+    - latex: 2. $10$
+    - latex: 3. $5:3$
+    - latex: 4. $5:2$
+    - latex: 5. $3:5$

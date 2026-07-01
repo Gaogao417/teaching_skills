@@ -1,0 +1,97 @@
+meta:
+  title: 面积比链：先拆四边形，再串中间面积
+  subtitle: 同底同高、分点比与 OECD 四边形
+  grade: 八年级
+  subject: 数学
+  version: student
+  source_artifacts:
+    structure_analysis: artifacts/比例题组/2026-07-01-D-面积比链/01-structure-analysis.md
+render:
+  template: exam-zh-explanation
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: d-model
+  title: 面积比链：先拆四边形，再串中间面积
+  show_title: true
+  type: explanation
+  visibility: student
+  blocks:
+  - type: solution
+    id: d-knowledge
+    title: 核心结论：面积比必须有底高依据
+    items:
+    - latex: 同高三角形面积比等于底边比；同底三角形面积比等于高的比。
+    - latex: 四边形 $OECD$ 要先拆：$S_{OECD}=S_{\triangle OEC}+S_{\triangle OCD}$。
+    - latex: 本类题使用 $AO:OD$、$BO:OE$、$AE:EC$ 这样的同线分点比；不能只给 $AD:BE$。
+  - type: problemcard
+    id: d-ex
+    label: 综合例题
+    stem_latex: 在 $\triangle ABC$ 中，点 $D$ 在边 $BC$ 上，点 $E$ 在边 $AC$ 上，线段 $AD$ 与 $BE$
+      交于点 $O$。若 $AO:OD=1:1$，$BO:OE=3:1$，$AE:EC=1:2$，求 $S_{OECD}:S_{\triangle OAB}$。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/d-ex-prompt/rendered/prompt.fragment.tex
+      diagram_ref: d.ex.prompt
+      diagram_job_id: d-ex-prompt
+      width: 60mm
+      caption: 已知点 D、E、O 的位置，目标是四边形 OECD。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:803323214e1df252334ed38e93f1c0ed1e93ab70af4fcd97cfdf99422dc6b27b
+      packages:
+      - tikz
+      libraries: []
+  - type: route
+    id: d-route
+    steps:
+    - id: d-s1
+      latex: 拆四边形
+      content_latex: $S_{OECD}=S_{\triangle OEC}+S_{\triangle OCD}$。
+    - id: d-s2
+      latex: 设中间面积
+      content_latex: 设 $S_{\triangle OAE}=1$ 份。
+    - id: d-s3
+      latex: 由 $BO:OE$ 求 $OAB$
+      content_latex: $\triangle OAB$ 与 $\triangle OAE$ 共底 $AO$，得 $S_{\triangle OAB}=3$
+        份。
+    - id: d-s4
+      latex: 由 $AE:EC$ 求 $OEC$
+      content_latex: $\triangle OAE$ 与 $\triangle OEC$ 同高，得 $S_{\triangle OEC}=2$
+        份。
+    - id: d-s5
+      latex: 由 $AO:OD$ 求 $OCD$
+      content_latex: $S_{\triangle OAC}=1+2=3$ 份，且 $S_{\triangle OAC}:S_{\triangle
+        OCD}=AO:OD=1:1$，所以 $S_{\triangle OCD}=3$ 份。
+    - id: d-s6
+      latex: 合并
+      content_latex: $S_{OECD}=2+3=5$ 份，$S_{\triangle OAB}=3$ 份，所以目标比为 $5:3$。
+  - type: dual_explanation
+    id: d-dual
+    label: 综合例题
+    stem_latex: 求 $S_{OECD}:S_{\triangle OAB}$。
+    side_title: 小贴士
+    side_items:
+    - kind: mistake
+      title: 目标对象
+      content_latex: $OECD$ 是四边形，不是 $\triangle OEC$。
+    solution_title: 解答
+    solution_step_ids:
+    - d-s1
+    - d-s2
+    - d-s3
+    - d-s4
+    - d-s5
+    - d-s6
+  - type: mistake
+    id: d-mistake
+    title: 易错提醒
+    content_latex: 只算 $\triangle OEC$ 会少掉 $\triangle OCD$。第一步必须先写四边形拆分式。
+  - type: method_reminder
+    id: d-method
+    title: 方法提醒
+    items:
+    - latex: 先拆目标面积。
+    - latex: 再找中间面积。
+    - latex: 每一步都检查同底或同高依据。

@@ -1,0 +1,1291 @@
+meta:
+  title: 相似矩形专题练习（教师版）
+  subtitle: 对应关系与多解分类
+  grade: 八年级
+  subject: 数学
+  version: teacher
+  source_artifacts:
+    structure_analysis: artifacts/比例题组/2026-07-01-C-相似矩形/01-structure-analysis.md
+    explanation: artifacts/比例题组/2026-07-01-C-相似矩形/02-student-explanation.assignment.yaml
+  duration: 35分钟
+  total_points: 54
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: group-1
+  title: 第1组：判断相似
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: cq1
+    points: 6
+    label: 题目
+    stem_latex: |-
+      矩形甲的长为 $5$、宽为 $8$，矩形乙的长为 $10$、宽为 $16$。判断两个矩形是否相似。
+    answer_space:
+      type: lines
+      height: 28mm
+    diagram_slot:
+      slot_id: cq1.prompt
+      diagram_ref: cq1.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 矩形示意，边长以题干为准。
+      engine: renderer_spec
+      diagram_kind: synthetic_geometry
+      teaching_intent: practice_prompt
+      semantic_constraints:
+        given_objects:
+        - A
+        - B
+        - C
+        - D
+        - E
+        - F
+        - G
+        - H
+        given_constraints: &id001
+        - 两个矩形示意，尺寸以题干为准
+      engine_options:
+        renderer_spec:
+          points:
+            A:
+            - 0
+            - 0
+            B:
+            - 2
+            - 0
+            C:
+            - 2
+            - 1.2
+            D:
+            - 0
+            - 1.2
+            E:
+            - 3.2
+            - 0
+            F:
+            - 6.0
+            - 0
+            G:
+            - 6.0
+            - 1.68
+            H:
+            - 3.2
+            - 1.68
+          segments:
+          - from: A
+            to: B
+          - from: B
+            to: C
+          - from: C
+            to: D
+          - from: D
+            to: A
+          - from: E
+            to: F
+          - from: F
+            to: G
+          - from: G
+            to: H
+          - from: H
+            to: E
+          polygons:
+          - points:
+            - A
+            - B
+            - C
+            - D
+            fill: '#eef2ff'
+          - points:
+            - E
+            - F
+            - G
+            - H
+            fill: '#ecfeff'
+          labels:
+            A:
+              text: A
+              placement: below left
+            B:
+              text: B
+              placement: below
+            C:
+              text: C
+              placement: above
+            D:
+              text: D
+              placement: above left
+            E:
+              text: E
+              placement: below left
+            F:
+              text: F
+              placement: below
+            G:
+              text: G
+              placement: above
+            H:
+              text: H
+              placement: above left
+            T1:
+              text: 甲
+              placement: above
+              dx: 0
+              dy: 10
+          constraints: *id001
+    answer: 相似
+    solution_steps:
+    - title: 比较长宽比
+      content: $5:8=10:16$，所以相似。
+    teaching:
+      teaching_goal: 训练相似矩形对应关系
+      source_relations:
+      - fallback:structure_analysis
+      expected_blocker: 未先判断对应边，漏多解
+      entry_point: build_relation
+      scaffold_level: medium
+      variation_depth: changed_numbers
+      complexity_note: 小整数、手算可验算
+      upgrade_rule: 能先写出关键比例或对应关系
+      fallback_move: 先写“谁对应谁”。
+  - type: problem
+    id: cq2
+    points: 6
+    label: 题目
+    stem_latex: |-
+      矩形甲的长为 $4$、宽为 $7$，矩形乙的长为 $8$、宽为 $12$。判断两个矩形是否相似。
+    answer_space:
+      type: lines
+      height: 28mm
+    diagram_slot:
+      slot_id: cq2.prompt
+      diagram_ref: cq2.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 矩形示意，边长以题干为准。
+      engine: renderer_spec
+      diagram_kind: synthetic_geometry
+      teaching_intent: practice_prompt
+      semantic_constraints:
+        given_objects:
+        - A
+        - B
+        - C
+        - D
+        - E
+        - F
+        - G
+        - H
+        given_constraints: &id002
+        - 两个矩形示意，尺寸以题干为准
+      engine_options:
+        renderer_spec:
+          points:
+            A:
+            - 0
+            - 0
+            B:
+            - 2
+            - 0
+            C:
+            - 2
+            - 1.2
+            D:
+            - 0
+            - 1.2
+            E:
+            - 3.2
+            - 0
+            F:
+            - 6.0
+            - 0
+            G:
+            - 6.0
+            - 1.68
+            H:
+            - 3.2
+            - 1.68
+          segments:
+          - from: A
+            to: B
+          - from: B
+            to: C
+          - from: C
+            to: D
+          - from: D
+            to: A
+          - from: E
+            to: F
+          - from: F
+            to: G
+          - from: G
+            to: H
+          - from: H
+            to: E
+          polygons:
+          - points:
+            - A
+            - B
+            - C
+            - D
+            fill: '#eef2ff'
+          - points:
+            - E
+            - F
+            - G
+            - H
+            fill: '#ecfeff'
+          labels:
+            A:
+              text: A
+              placement: below left
+            B:
+              text: B
+              placement: below
+            C:
+              text: C
+              placement: above
+            D:
+              text: D
+              placement: above left
+            E:
+              text: E
+              placement: below left
+            F:
+              text: F
+              placement: below
+            G:
+              text: G
+              placement: above
+            H:
+              text: H
+              placement: above left
+            T1:
+              text: 甲
+              placement: above
+              dx: 0
+              dy: 10
+          constraints: *id002
+    answer: 不相似
+    solution_steps:
+    - title: 比较长宽比
+      content: $4:7\ne8:12$，所以不相似。
+    teaching:
+      teaching_goal: 训练相似矩形对应关系
+      source_relations:
+      - fallback:structure_analysis
+      expected_blocker: 未先判断对应边，漏多解
+      entry_point: build_relation
+      scaffold_level: medium
+      variation_depth: changed_numbers
+      complexity_note: 小整数、手算可验算
+      upgrade_rule: 能先写出关键比例或对应关系
+      fallback_move: 先写“谁对应谁”。
+  - type: problem
+    id: cq3
+    points: 6
+    label: 题目
+    stem_latex: |-
+      矩形甲的两边长为 $\frac32$ 和 $\frac52$，矩形乙的两边长为 $3$ 和 $5$。判断两个矩形是否相似。
+    answer_space:
+      type: lines
+      height: 28mm
+    diagram_slot:
+      slot_id: cq3.prompt
+      diagram_ref: cq3.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 矩形示意，边长以题干为准。
+      engine: renderer_spec
+      diagram_kind: synthetic_geometry
+      teaching_intent: practice_prompt
+      semantic_constraints:
+        given_objects:
+        - A
+        - B
+        - C
+        - D
+        - E
+        - F
+        - G
+        - H
+        given_constraints: &id003
+        - 两个矩形示意，尺寸以题干为准
+      engine_options:
+        renderer_spec:
+          points:
+            A:
+            - 0
+            - 0
+            B:
+            - 2
+            - 0
+            C:
+            - 2
+            - 1.2
+            D:
+            - 0
+            - 1.2
+            E:
+            - 3.2
+            - 0
+            F:
+            - 6.0
+            - 0
+            G:
+            - 6.0
+            - 1.68
+            H:
+            - 3.2
+            - 1.68
+          segments:
+          - from: A
+            to: B
+          - from: B
+            to: C
+          - from: C
+            to: D
+          - from: D
+            to: A
+          - from: E
+            to: F
+          - from: F
+            to: G
+          - from: G
+            to: H
+          - from: H
+            to: E
+          polygons:
+          - points:
+            - A
+            - B
+            - C
+            - D
+            fill: '#eef2ff'
+          - points:
+            - E
+            - F
+            - G
+            - H
+            fill: '#ecfeff'
+          labels:
+            A:
+              text: A
+              placement: below left
+            B:
+              text: B
+              placement: below
+            C:
+              text: C
+              placement: above
+            D:
+              text: D
+              placement: above left
+            E:
+              text: E
+              placement: below left
+            F:
+              text: F
+              placement: below
+            G:
+              text: G
+              placement: above
+            H:
+              text: H
+              placement: above left
+            T1:
+              text: 甲
+              placement: above
+              dx: 0
+              dy: 10
+          constraints: *id003
+    answer: 相似
+    solution_steps:
+    - title: 比较长宽比
+      content: $\frac32:\frac52=3:5$，乙也是 $3:5$，所以相似。
+    teaching:
+      teaching_goal: 训练相似矩形对应关系
+      source_relations:
+      - fallback:structure_analysis
+      expected_blocker: 未先判断对应边，漏多解
+      entry_point: build_relation
+      scaffold_level: medium
+      variation_depth: changed_numbers
+      complexity_note: 小整数、手算可验算
+      upgrade_rule: 能先写出关键比例或对应关系
+      fallback_move: 先写“谁对应谁”。
+- id: group-2
+  title: 第2组：已知相似求边
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: cq4
+    points: 6
+    label: 题目
+    stem_latex: |-
+      两个矩形相似。矩形甲的长为 $6$、宽为 $9$；矩形乙的长为 $10$、宽为 $x$。求 $x$。
+    answer_space:
+      type: lines
+      height: 28mm
+    diagram_slot:
+      slot_id: cq4.prompt
+      diagram_ref: cq4.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 矩形示意，边长以题干为准。
+      engine: renderer_spec
+      diagram_kind: synthetic_geometry
+      teaching_intent: practice_prompt
+      semantic_constraints:
+        given_objects:
+        - A
+        - B
+        - C
+        - D
+        - E
+        - F
+        - G
+        - H
+        given_constraints: &id004
+        - 两个矩形示意，尺寸以题干为准
+      engine_options:
+        renderer_spec:
+          points:
+            A:
+            - 0
+            - 0
+            B:
+            - 2
+            - 0
+            C:
+            - 2
+            - 1.2
+            D:
+            - 0
+            - 1.2
+            E:
+            - 3.2
+            - 0
+            F:
+            - 6.0
+            - 0
+            G:
+            - 6.0
+            - 1.68
+            H:
+            - 3.2
+            - 1.68
+          segments:
+          - from: A
+            to: B
+          - from: B
+            to: C
+          - from: C
+            to: D
+          - from: D
+            to: A
+          - from: E
+            to: F
+          - from: F
+            to: G
+          - from: G
+            to: H
+          - from: H
+            to: E
+          polygons:
+          - points:
+            - A
+            - B
+            - C
+            - D
+            fill: '#eef2ff'
+          - points:
+            - E
+            - F
+            - G
+            - H
+            fill: '#ecfeff'
+          labels:
+            A:
+              text: A
+              placement: below left
+            B:
+              text: B
+              placement: below
+            C:
+              text: C
+              placement: above
+            D:
+              text: D
+              placement: above left
+            E:
+              text: E
+              placement: below left
+            F:
+              text: F
+              placement: below
+            G:
+              text: G
+              placement: above
+            H:
+              text: H
+              placement: above left
+            T1:
+              text: 甲
+              placement: above
+              dx: 0
+              dy: 10
+          constraints: *id004
+    answer: $15$
+    solution_steps:
+    - title: 对应比例
+      content: $6:9=10:x$，解得 $x=15$。
+    teaching:
+      teaching_goal: 训练相似矩形对应关系
+      source_relations:
+      - fallback:structure_analysis
+      expected_blocker: 未先判断对应边，漏多解
+      entry_point: build_relation
+      scaffold_level: medium
+      variation_depth: changed_numbers
+      complexity_note: 小整数、手算可验算
+      upgrade_rule: 能先写出关键比例或对应关系
+      fallback_move: 先写“谁对应谁”。
+  - type: problem
+    id: cq5
+    points: 6
+    label: 题目
+    stem_latex: |-
+      两个矩形相似。矩形甲的长为 $8$、宽为 $12$；矩形乙的长为 $x$、宽为 $18$。求 $x$。
+    answer_space:
+      type: lines
+      height: 28mm
+    diagram_slot:
+      slot_id: cq5.prompt
+      diagram_ref: cq5.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 矩形示意，边长以题干为准。
+      engine: renderer_spec
+      diagram_kind: synthetic_geometry
+      teaching_intent: practice_prompt
+      semantic_constraints:
+        given_objects:
+        - A
+        - B
+        - C
+        - D
+        - E
+        - F
+        - G
+        - H
+        given_constraints: &id005
+        - 两个矩形示意，尺寸以题干为准
+      engine_options:
+        renderer_spec:
+          points:
+            A:
+            - 0
+            - 0
+            B:
+            - 2
+            - 0
+            C:
+            - 2
+            - 1.2
+            D:
+            - 0
+            - 1.2
+            E:
+            - 3.2
+            - 0
+            F:
+            - 6.0
+            - 0
+            G:
+            - 6.0
+            - 1.68
+            H:
+            - 3.2
+            - 1.68
+          segments:
+          - from: A
+            to: B
+          - from: B
+            to: C
+          - from: C
+            to: D
+          - from: D
+            to: A
+          - from: E
+            to: F
+          - from: F
+            to: G
+          - from: G
+            to: H
+          - from: H
+            to: E
+          polygons:
+          - points:
+            - A
+            - B
+            - C
+            - D
+            fill: '#eef2ff'
+          - points:
+            - E
+            - F
+            - G
+            - H
+            fill: '#ecfeff'
+          labels:
+            A:
+              text: A
+              placement: below left
+            B:
+              text: B
+              placement: below
+            C:
+              text: C
+              placement: above
+            D:
+              text: D
+              placement: above left
+            E:
+              text: E
+              placement: below left
+            F:
+              text: F
+              placement: below
+            G:
+              text: G
+              placement: above
+            H:
+              text: H
+              placement: above left
+            T1:
+              text: 甲
+              placement: above
+              dx: 0
+              dy: 10
+          constraints: *id005
+    answer: $12$
+    solution_steps:
+    - title: 对应比例
+      content: $8:12=x:18$，解得 $x=12$。
+    teaching:
+      teaching_goal: 训练相似矩形对应关系
+      source_relations:
+      - fallback:structure_analysis
+      expected_blocker: 未先判断对应边，漏多解
+      entry_point: build_relation
+      scaffold_level: medium
+      variation_depth: changed_numbers
+      complexity_note: 小整数、手算可验算
+      upgrade_rule: 能先写出关键比例或对应关系
+      fallback_move: 先写“谁对应谁”。
+  - type: problem
+    id: cq6
+    points: 6
+    label: 题目
+    stem_latex: |-
+      两个矩形相似。矩形甲的长为 $x+2$、宽为 $10$；矩形乙的长为 $6$、宽为 $5$。求 $x$。
+    answer_space:
+      type: lines
+      height: 28mm
+    diagram_slot:
+      slot_id: cq6.prompt
+      diagram_ref: cq6.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 矩形示意，边长以题干为准。
+      engine: renderer_spec
+      diagram_kind: synthetic_geometry
+      teaching_intent: practice_prompt
+      semantic_constraints:
+        given_objects:
+        - A
+        - B
+        - C
+        - D
+        - E
+        - F
+        - G
+        - H
+        given_constraints: &id006
+        - 两个矩形示意，尺寸以题干为准
+      engine_options:
+        renderer_spec:
+          points:
+            A:
+            - 0
+            - 0
+            B:
+            - 2
+            - 0
+            C:
+            - 2
+            - 1.2
+            D:
+            - 0
+            - 1.2
+            E:
+            - 3.2
+            - 0
+            F:
+            - 6.0
+            - 0
+            G:
+            - 6.0
+            - 1.68
+            H:
+            - 3.2
+            - 1.68
+          segments:
+          - from: A
+            to: B
+          - from: B
+            to: C
+          - from: C
+            to: D
+          - from: D
+            to: A
+          - from: E
+            to: F
+          - from: F
+            to: G
+          - from: G
+            to: H
+          - from: H
+            to: E
+          polygons:
+          - points:
+            - A
+            - B
+            - C
+            - D
+            fill: '#eef2ff'
+          - points:
+            - E
+            - F
+            - G
+            - H
+            fill: '#ecfeff'
+          labels:
+            A:
+              text: A
+              placement: below left
+            B:
+              text: B
+              placement: below
+            C:
+              text: C
+              placement: above
+            D:
+              text: D
+              placement: above left
+            E:
+              text: E
+              placement: below left
+            F:
+              text: F
+              placement: below
+            G:
+              text: G
+              placement: above
+            H:
+              text: H
+              placement: above left
+            T1:
+              text: 甲
+              placement: above
+              dx: 0
+              dy: 10
+          constraints: *id006
+    answer: $10$
+    solution_steps:
+    - title: 对应比例
+      content: $(x+2):10=6:5$，得 $5(x+2)=60$，所以 $x=10$。
+    teaching:
+      teaching_goal: 训练相似矩形对应关系
+      source_relations:
+      - fallback:structure_analysis
+      expected_blocker: 未先判断对应边，漏多解
+      entry_point: build_relation
+      scaffold_level: medium
+      variation_depth: changed_numbers
+      complexity_note: 小整数、手算可验算
+      upgrade_rule: 能先写出关键比例或对应关系
+      fallback_move: 先写“谁对应谁”。
+- id: group-3
+  title: 第3组：未指定对应的多解
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: cq7
+    points: 6
+    label: 题目
+    stem_latex: |-
+      一个矩形的两边长为 $3$ 和 $5$。另一个矩形的一边长为 $15$，另一边长为 $x$。若两个矩形相似，求 $x$。
+    answer_space:
+      type: lines
+      height: 28mm
+    diagram_slot:
+      slot_id: cq7.prompt
+      diagram_ref: cq7.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 矩形示意，边长以题干为准。
+      engine: renderer_spec
+      diagram_kind: synthetic_geometry
+      teaching_intent: practice_prompt
+      semantic_constraints:
+        given_objects:
+        - A
+        - B
+        - C
+        - D
+        - E
+        - F
+        - G
+        - H
+        given_constraints: &id007
+        - 两个矩形示意，尺寸以题干为准
+      engine_options:
+        renderer_spec:
+          points:
+            A:
+            - 0
+            - 0
+            B:
+            - 2
+            - 0
+            C:
+            - 2
+            - 1.2
+            D:
+            - 0
+            - 1.2
+            E:
+            - 3.2
+            - 0
+            F:
+            - 6.0
+            - 0
+            G:
+            - 6.0
+            - 1.68
+            H:
+            - 3.2
+            - 1.68
+          segments:
+          - from: A
+            to: B
+          - from: B
+            to: C
+          - from: C
+            to: D
+          - from: D
+            to: A
+          - from: E
+            to: F
+          - from: F
+            to: G
+          - from: G
+            to: H
+          - from: H
+            to: E
+          polygons:
+          - points:
+            - A
+            - B
+            - C
+            - D
+            fill: '#eef2ff'
+          - points:
+            - E
+            - F
+            - G
+            - H
+            fill: '#ecfeff'
+          labels:
+            A:
+              text: A
+              placement: below left
+            B:
+              text: B
+              placement: below
+            C:
+              text: C
+              placement: above
+            D:
+              text: D
+              placement: above left
+            E:
+              text: E
+              placement: below left
+            F:
+              text: F
+              placement: below
+            G:
+              text: G
+              placement: above
+            H:
+              text: H
+              placement: above left
+            T1:
+              text: 甲
+              placement: above
+              dx: 0
+              dy: 10
+          constraints: *id007
+    answer: $25$ 或 $9$
+    solution_steps:
+    - title: 分类
+      content: 若 $15$ 对应 $3$，则 $x=25$；若 $15$ 对应 $5$，则 $x=9$。
+    teaching:
+      teaching_goal: 训练相似矩形对应关系
+      source_relations:
+      - fallback:structure_analysis
+      expected_blocker: 未先判断对应边，漏多解
+      entry_point: build_relation
+      scaffold_level: medium
+      variation_depth: changed_numbers
+      complexity_note: 小整数、手算可验算
+      upgrade_rule: 能先写出关键比例或对应关系
+      fallback_move: 先写“谁对应谁”。
+  - type: problem
+    id: cq8
+    points: 6
+    label: 题目
+    stem_latex: |-
+      一个矩形的两边长为 $4$ 和 $9$。另一个矩形的一边长为 $12$，另一边长为 $x$。若两个矩形相似，求 $x$。
+    answer_space:
+      type: lines
+      height: 28mm
+    diagram_slot:
+      slot_id: cq8.prompt
+      diagram_ref: cq8.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 矩形示意，边长以题干为准。
+      engine: renderer_spec
+      diagram_kind: synthetic_geometry
+      teaching_intent: practice_prompt
+      semantic_constraints:
+        given_objects:
+        - A
+        - B
+        - C
+        - D
+        - E
+        - F
+        - G
+        - H
+        given_constraints: &id008
+        - 两个矩形示意，尺寸以题干为准
+      engine_options:
+        renderer_spec:
+          points:
+            A:
+            - 0
+            - 0
+            B:
+            - 2
+            - 0
+            C:
+            - 2
+            - 1.2
+            D:
+            - 0
+            - 1.2
+            E:
+            - 3.2
+            - 0
+            F:
+            - 6.0
+            - 0
+            G:
+            - 6.0
+            - 1.68
+            H:
+            - 3.2
+            - 1.68
+          segments:
+          - from: A
+            to: B
+          - from: B
+            to: C
+          - from: C
+            to: D
+          - from: D
+            to: A
+          - from: E
+            to: F
+          - from: F
+            to: G
+          - from: G
+            to: H
+          - from: H
+            to: E
+          polygons:
+          - points:
+            - A
+            - B
+            - C
+            - D
+            fill: '#eef2ff'
+          - points:
+            - E
+            - F
+            - G
+            - H
+            fill: '#ecfeff'
+          labels:
+            A:
+              text: A
+              placement: below left
+            B:
+              text: B
+              placement: below
+            C:
+              text: C
+              placement: above
+            D:
+              text: D
+              placement: above left
+            E:
+              text: E
+              placement: below left
+            F:
+              text: F
+              placement: below
+            G:
+              text: G
+              placement: above
+            H:
+              text: H
+              placement: above left
+            T1:
+              text: 甲
+              placement: above
+              dx: 0
+              dy: 10
+          constraints: *id008
+    answer: $27$ 或 $\dfrac{16}{3}$
+    solution_steps:
+    - title: 分类
+      content: 若 $12$ 对应 $4$，则 $x=27$；若 $12$ 对应 $9$，则 $x=\dfrac{16}{3}$。
+    teaching:
+      teaching_goal: 训练相似矩形对应关系
+      source_relations:
+      - fallback:structure_analysis
+      expected_blocker: 未先判断对应边，漏多解
+      entry_point: build_relation
+      scaffold_level: medium
+      variation_depth: changed_numbers
+      complexity_note: 小整数、手算可验算
+      upgrade_rule: 能先写出关键比例或对应关系
+      fallback_move: 先写“谁对应谁”。
+  - type: problem
+    id: cq9
+    points: 6
+    label: 题目
+    stem_latex: |-
+      一个矩形的两边长为 $2$ 和 $7$。另一个矩形的一边长为 $14$，另一边长为 $x$。若两个矩形相似，求 $x$。
+    answer_space:
+      type: lines
+      height: 28mm
+    diagram_slot:
+      slot_id: cq9.prompt
+      diagram_ref: cq9.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 矩形示意，边长以题干为准。
+      engine: renderer_spec
+      diagram_kind: synthetic_geometry
+      teaching_intent: practice_prompt
+      semantic_constraints:
+        given_objects:
+        - A
+        - B
+        - C
+        - D
+        - E
+        - F
+        - G
+        - H
+        given_constraints: &id009
+        - 两个矩形示意，尺寸以题干为准
+      engine_options:
+        renderer_spec:
+          points:
+            A:
+            - 0
+            - 0
+            B:
+            - 2
+            - 0
+            C:
+            - 2
+            - 1.2
+            D:
+            - 0
+            - 1.2
+            E:
+            - 3.2
+            - 0
+            F:
+            - 6.0
+            - 0
+            G:
+            - 6.0
+            - 1.68
+            H:
+            - 3.2
+            - 1.68
+          segments:
+          - from: A
+            to: B
+          - from: B
+            to: C
+          - from: C
+            to: D
+          - from: D
+            to: A
+          - from: E
+            to: F
+          - from: F
+            to: G
+          - from: G
+            to: H
+          - from: H
+            to: E
+          polygons:
+          - points:
+            - A
+            - B
+            - C
+            - D
+            fill: '#eef2ff'
+          - points:
+            - E
+            - F
+            - G
+            - H
+            fill: '#ecfeff'
+          labels:
+            A:
+              text: A
+              placement: below left
+            B:
+              text: B
+              placement: below
+            C:
+              text: C
+              placement: above
+            D:
+              text: D
+              placement: above left
+            E:
+              text: E
+              placement: below left
+            F:
+              text: F
+              placement: below
+            G:
+              text: G
+              placement: above
+            H:
+              text: H
+              placement: above left
+            T1:
+              text: 甲
+              placement: above
+              dx: 0
+              dy: 10
+          constraints: *id009
+    answer: $49$ 或 $4$
+    solution_steps:
+    - title: 分类
+      content: 若 $14$ 对应 $2$，则 $x=49$；若 $14$ 对应 $7$，则 $x=4$。
+    teaching:
+      teaching_goal: 训练相似矩形对应关系
+      source_relations:
+      - fallback:structure_analysis
+      expected_blocker: 未先判断对应边，漏多解
+      entry_point: build_relation
+      scaffold_level: medium
+      variation_depth: changed_numbers
+      complexity_note: 小整数、手算可验算
+      upgrade_rule: 能先写出关键比例或对应关系
+      fallback_move: 先写“谁对应谁”。
+- id: answer-key
+  title: 参考答案
+  type: answer_key
+  visibility: teacher
+  blocks:
+  - type: answer
+    id: answers
+    title: 答案
+    items:
+    - latex: 1. 相似
+    - latex: 2. 不相似
+    - latex: 3. 相似
+    - latex: 4. $15$
+    - latex: 5. $12$
+    - latex: 6. $10$
+    - latex: 7. $25$ 或 $9$
+    - latex: 8. $27$ 或 $\dfrac{16}{3}$
+    - latex: 9. $49$ 或 $4$

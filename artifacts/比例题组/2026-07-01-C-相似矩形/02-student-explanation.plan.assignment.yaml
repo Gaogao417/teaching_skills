@@ -1,0 +1,321 @@
+meta:
+  title: 相似矩形：对应关系与多解
+  subtitle: 长宽比、对应边、未指定对应时分类
+  grade: 八年级
+  subject: 数学
+  version: student
+  source_artifacts:
+    structure_analysis: artifacts/比例题组/2026-07-01-C-相似矩形/01-structure-analysis.md
+render:
+  template: exam-zh-explanation
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: c-model
+  title: 相似矩形：对应关系与多解
+  show_title: true
+  type: explanation
+  visibility: student
+  blocks:
+  - type: solution
+    id: c-knowledge
+    title: 核心结论：先确定对应，再列比例
+    items:
+    - latex: 如果题目明确“长、宽”，通常长对长、宽对宽。
+    - latex: 如果只说“两边长为 $2$ 和 $3$”，没有指定哪条边对应，就要分类。
+    - latex: 判断相似先比较长宽比；求未知边先写对应边比例。
+  - type: problemcard
+    id: c-ex1
+    label: 例题 1
+    stem_latex: 矩形甲的长为 $4$、宽为 $6$，矩形乙的长为 $8$、宽为 $12$。判断两个矩形是否相似。
+    diagram_slot:
+      slot_id: c.ex1.prompt
+      diagram_ref: c.ex1.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 两个矩形的长宽对应关系。
+      engine: renderer_spec
+      diagram_kind: synthetic_geometry
+      teaching_intent: practice_prompt
+      semantic_constraints:
+        given_objects:
+        - A
+        - B
+        - C
+        - D
+        - E
+        - F
+        - G
+        - H
+        given_constraints: &id001
+        - 两个矩形示意，尺寸以题干为准
+      engine_options:
+        renderer_spec:
+          points:
+            A:
+            - 0
+            - 0
+            B:
+            - 2
+            - 0
+            C:
+            - 2
+            - 1.2
+            D:
+            - 0
+            - 1.2
+            E:
+            - 3.2
+            - 0
+            F:
+            - 6.0
+            - 0
+            G:
+            - 6.0
+            - 1.68
+            H:
+            - 3.2
+            - 1.68
+          segments:
+          - from: A
+            to: B
+          - from: B
+            to: C
+          - from: C
+            to: D
+          - from: D
+            to: A
+          - from: E
+            to: F
+          - from: F
+            to: G
+          - from: G
+            to: H
+          - from: H
+            to: E
+          polygons:
+          - points:
+            - A
+            - B
+            - C
+            - D
+            fill: '#eef2ff'
+          - points:
+            - E
+            - F
+            - G
+            - H
+            fill: '#ecfeff'
+          labels:
+            A:
+              text: A
+              placement: below left
+            B:
+              text: B
+              placement: below
+            C:
+              text: C
+              placement: above
+            D:
+              text: D
+              placement: above left
+            E:
+              text: E
+              placement: below left
+            F:
+              text: F
+              placement: below
+            G:
+              text: G
+              placement: above
+            H:
+              text: H
+              placement: above left
+            T1:
+              text: 甲
+              placement: above
+              dx: 0
+              dy: 10
+          constraints: *id001
+  - type: route
+    id: c-route1
+    steps:
+    - id: c1-s1
+      latex: 写长宽比
+      content_latex: 甲的长宽比为 $4:6=2:3$，乙的长宽比为 $8:12=2:3$。
+    - id: c1-s2
+      latex: 判断相似
+      content_latex: 两个长宽比相同，所以两个矩形相似。
+  - type: dual_explanation
+    id: c-dual1
+    label: 例题 1
+    stem_latex: 判断两个矩形是否相似。
+    side_title: 小贴士
+    side_items:
+    - kind: hint
+      title: 判断入口
+      content_latex: 判断相似时先比较两个矩形的长宽比，不先列未知数。
+    solution_title: 解答
+    solution_step_ids:
+    - c1-s1
+    - c1-s2
+  - type: problemcard
+    id: c-ex2
+    label: 例题 2
+    stem_latex: 一个矩形的两边长为 $2$ 和 $3$。另一个矩形的一边长为 $6$，另一边长为 $x$。若两个矩形相似，求 $x$。
+    diagram_slot:
+      slot_id: c.ex2.prompt
+      diagram_ref: c.ex2.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 没有指定 6 对应哪条边，要分类。
+      engine: renderer_spec
+      diagram_kind: synthetic_geometry
+      teaching_intent: practice_prompt
+      semantic_constraints:
+        given_objects:
+        - A
+        - B
+        - C
+        - D
+        - E
+        - F
+        - G
+        - H
+        given_constraints: &id002
+        - 两个矩形示意，尺寸以题干为准
+      engine_options:
+        renderer_spec:
+          points:
+            A:
+            - 0
+            - 0
+            B:
+            - 2
+            - 0
+            C:
+            - 2
+            - 1.2
+            D:
+            - 0
+            - 1.2
+            E:
+            - 3.2
+            - 0
+            F:
+            - 6.0
+            - 0
+            G:
+            - 6.0
+            - 1.68
+            H:
+            - 3.2
+            - 1.68
+          segments:
+          - from: A
+            to: B
+          - from: B
+            to: C
+          - from: C
+            to: D
+          - from: D
+            to: A
+          - from: E
+            to: F
+          - from: F
+            to: G
+          - from: G
+            to: H
+          - from: H
+            to: E
+          polygons:
+          - points:
+            - A
+            - B
+            - C
+            - D
+            fill: '#eef2ff'
+          - points:
+            - E
+            - F
+            - G
+            - H
+            fill: '#ecfeff'
+          labels:
+            A:
+              text: A
+              placement: below left
+            B:
+              text: B
+              placement: below
+            C:
+              text: C
+              placement: above
+            D:
+              text: D
+              placement: above left
+            E:
+              text: E
+              placement: below left
+            F:
+              text: F
+              placement: below
+            G:
+              text: G
+              placement: above
+            H:
+              text: H
+              placement: above left
+            T1:
+              text: 甲
+              placement: above
+              dx: 0
+              dy: 10
+          constraints: *id002
+  - type: route
+    id: c-route2
+    steps:
+    - id: c2-s1
+      latex: 情况一：$6$ 对应 $2$
+      content_latex: $2:3=6:x$，解得 $x=9$。
+    - id: c2-s2
+      latex: 情况二：$6$ 对应 $3$
+      content_latex: $2:3=x:6$，解得 $x=4$。
+    - id: c2-s3
+      latex: 写完整答案
+      content_latex: 所以 $x=9$ 或 $x=4$。
+  - type: dual_explanation
+    id: c-dual2
+    label: 例题 2
+    stem_latex: 求 $x$。
+    side_title: 小贴士
+    side_items:
+    - kind: mistake
+      title: 多解入口
+      content_latex: 题目没有说明 $6$ 是长边还是短边，所以不能只列一种比例。
+    solution_title: 解答
+    solution_step_ids:
+    - c2-s1
+    - c2-s2
+    - c2-s3
+  - type: mistake
+    id: c-mistake
+    title: 易错提醒
+    content_latex: 相似矩形题最容易错在“对应关系没判定就计算”。如果题目没有明确长宽或对应边，先分类。
+  - type: method_reminder
+    id: c-method
+    title: 方法提醒
+    items:
+    - latex: 判断题：先写两个长宽比。
+    - latex: 求边题：先写对应边关系。
+    - latex: 未指定对应：分两种情况。

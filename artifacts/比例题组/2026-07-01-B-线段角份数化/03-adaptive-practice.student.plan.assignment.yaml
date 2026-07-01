@@ -1,0 +1,788 @@
+meta:
+  title: 线段和角份数化专题练习
+  subtitle: 交错训练：整体-部分、方程式转比例、只求目标量
+  grade: 八年级
+  subject: 数学
+  version: student
+  source_artifacts:
+    structure_analysis: artifacts/比例题组/2026-07-01-B-线段角份数化/01-structure-analysis.md
+    explanation: artifacts/比例题组/2026-07-01-B-线段角份数化/02-student-explanation.assignment.yaml
+  duration: 40分钟
+  total_points: 72
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: mixed
+  title: 一、交错训练：几何条件翻译成份数
+  type: practice
+  visibility: student
+  blocks:
+  - type: problem
+    id: bq1
+    points: 6
+    label: 题目
+    stem_latex: 点 $A,B,C$ 在同一直线上，$B$ 在 $A,C$ 之间。若 $AB:BC=2:3$，且 $AC=25$，求 $AB$。
+    answer_space:
+      type: lines
+      height: 28mm
+    diagram_slot:
+      slot_id: bq1.prompt
+      diagram_ref: bq1.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 观察整体 AC 由 AB 和 BC 组成。
+      engine: renderer_spec
+      diagram_kind: synthetic_geometry
+      teaching_intent: practice_prompt
+      semantic_constraints:
+        given_objects:
+        - A
+        - B
+        - C
+        given_constraints:
+        - A,B,C 共线
+        - B 在 A,C 之间
+      engine_options:
+        renderer_spec:
+          points:
+            A:
+            - 0
+            - 0
+            B:
+            - 1.8
+            - 0
+            C:
+            - 4.6
+            - 0
+          segments:
+          - from: A
+            to: B
+          - from: B
+            to: C
+          polygons: []
+          labels:
+            A:
+              text: A
+              placement: below
+            B:
+              text: B
+              placement: below
+            C:
+              text: C
+              placement: below
+          constraints:
+          - A,B,C 共线
+          - B 在 A,C 之间
+  - type: problem
+    id: bq2
+    points: 6
+    label: 题目
+    stem_latex: 点 $A,B,C$ 在同一直线上，$B$ 在 $A,C$ 之间。若 $AB=3BC$，且 $AC=28$，求 $BC$。
+    answer_space:
+      type: lines
+      height: 28mm
+    diagram_slot:
+      slot_id: bq2.prompt
+      diagram_ref: bq2.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 观察整体 AC 由 AB 和 BC 组成。
+      engine: renderer_spec
+      diagram_kind: synthetic_geometry
+      teaching_intent: practice_prompt
+      semantic_constraints:
+        given_objects:
+        - A
+        - B
+        - C
+        given_constraints:
+        - A,B,C 共线
+        - B 在 A,C 之间
+      engine_options:
+        renderer_spec:
+          points:
+            A:
+            - 0
+            - 0
+            B:
+            - 1.8
+            - 0
+            C:
+            - 4.6
+            - 0
+          segments:
+          - from: A
+            to: B
+          - from: B
+            to: C
+          polygons: []
+          labels:
+            A:
+              text: A
+              placement: below
+            B:
+              text: B
+              placement: below
+            C:
+              text: C
+              placement: below
+          constraints:
+          - A,B,C 共线
+          - B 在 A,C 之间
+  - type: problem
+    id: bq3
+    points: 6
+    label: 题目
+    stem_latex: 射线 $OB$ 在 $\angle AOC$ 内部。若 $\angle AOB:\angle BOC=1:4$，且 $\angle AOC=125^\circ$，求 $\angle BOC$。
+    answer_space:
+      type: lines
+      height: 28mm
+    diagram_slot:
+      slot_id: bq3.prompt
+      diagram_ref: bq3.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 观察两个相邻角合成角 AOC。
+      engine: renderer_spec
+      diagram_kind: synthetic_geometry
+      teaching_intent: practice_prompt
+      semantic_constraints:
+        given_objects:
+        - O
+        - A
+        - B
+        - C
+        given_constraints:
+        - OB 在 角 AOC 内部
+      engine_options:
+        renderer_spec:
+          points:
+            O:
+            - 0
+            - 0
+            A:
+            - 3.0
+            - 0
+            B:
+            - 2.25
+            - 1.35
+            C:
+            - 0.75
+            - 2.65
+          segments:
+          - from: O
+            to: A
+          - from: O
+            to: B
+          - from: O
+            to: C
+          polygons: []
+          labels:
+            O:
+              text: O
+              placement: below left
+            A:
+              text: A
+              placement: right
+            B:
+              text: B
+              placement: above right
+            C:
+              text: C
+              placement: above
+          constraints:
+          - OB 在 角 AOC 内部
+  - type: problem
+    id: bq4
+    points: 6
+    label: 题目
+    stem_latex: 点 $A,B,C$ 在同一直线上，$B$ 在 $A,C$ 之间。若 $5AB-2BC=0$，且 $AC=21$，求 $AB$。
+    answer_space:
+      type: lines
+      height: 28mm
+    diagram_slot:
+      slot_id: bq4.prompt
+      diagram_ref: bq4.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 观察整体 AC 由 AB 和 BC 组成。
+      engine: renderer_spec
+      diagram_kind: synthetic_geometry
+      teaching_intent: practice_prompt
+      semantic_constraints:
+        given_objects:
+        - A
+        - B
+        - C
+        given_constraints:
+        - A,B,C 共线
+        - B 在 A,C 之间
+      engine_options:
+        renderer_spec:
+          points:
+            A:
+            - 0
+            - 0
+            B:
+            - 1.8
+            - 0
+            C:
+            - 4.6
+            - 0
+          segments:
+          - from: A
+            to: B
+          - from: B
+            to: C
+          polygons: []
+          labels:
+            A:
+              text: A
+              placement: below
+            B:
+              text: B
+              placement: below
+            C:
+              text: C
+              placement: below
+          constraints:
+          - A,B,C 共线
+          - B 在 A,C 之间
+  - type: problem
+    id: bq5
+    points: 6
+    label: 题目
+    stem_latex: 点 $A,B,C$ 在同一直线上，$B$ 在 $A,C$ 之间。若 $3AB=4BC$，且 $AC=35$，求 $BC$。
+    answer_space:
+      type: lines
+      height: 28mm
+    diagram_slot:
+      slot_id: bq5.prompt
+      diagram_ref: bq5.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 观察整体 AC 由 AB 和 BC 组成。
+      engine: renderer_spec
+      diagram_kind: synthetic_geometry
+      teaching_intent: practice_prompt
+      semantic_constraints:
+        given_objects:
+        - A
+        - B
+        - C
+        given_constraints:
+        - A,B,C 共线
+        - B 在 A,C 之间
+      engine_options:
+        renderer_spec:
+          points:
+            A:
+            - 0
+            - 0
+            B:
+            - 1.8
+            - 0
+            C:
+            - 4.6
+            - 0
+          segments:
+          - from: A
+            to: B
+          - from: B
+            to: C
+          polygons: []
+          labels:
+            A:
+              text: A
+              placement: below
+            B:
+              text: B
+              placement: below
+            C:
+              text: C
+              placement: below
+          constraints:
+          - A,B,C 共线
+          - B 在 A,C 之间
+  - type: problem
+    id: bq6
+    points: 6
+    label: 题目
+    stem_latex: 射线 $OB$ 在 $\angle AOC$ 内部。若 $4\angle AOB-3\angle BOC=0$，且 $\angle AOC=98^\circ$，求 $\angle AOB$。
+    answer_space:
+      type: lines
+      height: 28mm
+    diagram_slot:
+      slot_id: bq6.prompt
+      diagram_ref: bq6.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 观察两个相邻角合成角 AOC。
+      engine: renderer_spec
+      diagram_kind: synthetic_geometry
+      teaching_intent: practice_prompt
+      semantic_constraints:
+        given_objects:
+        - O
+        - A
+        - B
+        - C
+        given_constraints:
+        - OB 在 角 AOC 内部
+      engine_options:
+        renderer_spec:
+          points:
+            O:
+            - 0
+            - 0
+            A:
+            - 3.0
+            - 0
+            B:
+            - 2.25
+            - 1.35
+            C:
+            - 0.75
+            - 2.65
+          segments:
+          - from: O
+            to: A
+          - from: O
+            to: B
+          - from: O
+            to: C
+          polygons: []
+          labels:
+            O:
+              text: O
+              placement: below left
+            A:
+              text: A
+              placement: right
+            B:
+              text: B
+              placement: above right
+            C:
+              text: C
+              placement: above
+          constraints:
+          - OB 在 角 AOC 内部
+  - type: problem
+    id: bq7
+    points: 6
+    label: 题目
+    stem_latex: 点 $A,B,C$ 在同一直线上，$B$ 在 $A,C$ 之间。若 $AB:BC=5:2$，且 $AB=20$，求 $AC$。
+    answer_space:
+      type: lines
+      height: 28mm
+    diagram_slot:
+      slot_id: bq7.prompt
+      diagram_ref: bq7.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 观察整体 AC 由 AB 和 BC 组成。
+      engine: renderer_spec
+      diagram_kind: synthetic_geometry
+      teaching_intent: practice_prompt
+      semantic_constraints:
+        given_objects:
+        - A
+        - B
+        - C
+        given_constraints:
+        - A,B,C 共线
+        - B 在 A,C 之间
+      engine_options:
+        renderer_spec:
+          points:
+            A:
+            - 0
+            - 0
+            B:
+            - 1.8
+            - 0
+            C:
+            - 4.6
+            - 0
+          segments:
+          - from: A
+            to: B
+          - from: B
+            to: C
+          polygons: []
+          labels:
+            A:
+              text: A
+              placement: below
+            B:
+              text: B
+              placement: below
+            C:
+              text: C
+              placement: below
+          constraints:
+          - A,B,C 共线
+          - B 在 A,C 之间
+  - type: problem
+    id: bq8
+    points: 6
+    label: 题目
+    stem_latex: 射线 $OB$ 在 $\angle AOC$ 内部。若 $\angle AOB:\angle BOC=3:2$，且 $\angle AOB=54^\circ$，求 $\angle AOC$。
+    answer_space:
+      type: lines
+      height: 28mm
+    diagram_slot:
+      slot_id: bq8.prompt
+      diagram_ref: bq8.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 观察两个相邻角合成角 AOC。
+      engine: renderer_spec
+      diagram_kind: synthetic_geometry
+      teaching_intent: practice_prompt
+      semantic_constraints:
+        given_objects:
+        - O
+        - A
+        - B
+        - C
+        given_constraints:
+        - OB 在 角 AOC 内部
+      engine_options:
+        renderer_spec:
+          points:
+            O:
+            - 0
+            - 0
+            A:
+            - 3.0
+            - 0
+            B:
+            - 2.25
+            - 1.35
+            C:
+            - 0.75
+            - 2.65
+          segments:
+          - from: O
+            to: A
+          - from: O
+            to: B
+          - from: O
+            to: C
+          polygons: []
+          labels:
+            O:
+              text: O
+              placement: below left
+            A:
+              text: A
+              placement: right
+            B:
+              text: B
+              placement: above right
+            C:
+              text: C
+              placement: above
+          constraints:
+          - OB 在 角 AOC 内部
+  - type: problem
+    id: bq9
+    points: 6
+    label: 题目
+    stem_latex: 点 $A,B,C$ 在同一直线上，$B$ 在 $A,C$ 之间。若 $2AB-5BC=0$，且 $BC=8$，求 $AC$。
+    answer_space:
+      type: lines
+      height: 28mm
+    diagram_slot:
+      slot_id: bq9.prompt
+      diagram_ref: bq9.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 观察整体 AC 由 AB 和 BC 组成。
+      engine: renderer_spec
+      diagram_kind: synthetic_geometry
+      teaching_intent: practice_prompt
+      semantic_constraints:
+        given_objects:
+        - A
+        - B
+        - C
+        given_constraints:
+        - A,B,C 共线
+        - B 在 A,C 之间
+      engine_options:
+        renderer_spec:
+          points:
+            A:
+            - 0
+            - 0
+            B:
+            - 1.8
+            - 0
+            C:
+            - 4.6
+            - 0
+          segments:
+          - from: A
+            to: B
+          - from: B
+            to: C
+          polygons: []
+          labels:
+            A:
+              text: A
+              placement: below
+            B:
+              text: B
+              placement: below
+            C:
+              text: C
+              placement: below
+          constraints:
+          - A,B,C 共线
+          - B 在 A,C 之间
+  - type: problem
+    id: bq10
+    points: 6
+    label: 题目
+    stem_latex: 射线 $OB$ 在 $\angle AOC$ 内部。若 $2\angle AOB=5\angle BOC$，且 $\angle AOC=84^\circ$，求 $\angle BOC$。
+    answer_space:
+      type: lines
+      height: 28mm
+    diagram_slot:
+      slot_id: bq10.prompt
+      diagram_ref: bq10.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 观察两个相邻角合成角 AOC。
+      engine: renderer_spec
+      diagram_kind: synthetic_geometry
+      teaching_intent: practice_prompt
+      semantic_constraints:
+        given_objects:
+        - O
+        - A
+        - B
+        - C
+        given_constraints:
+        - OB 在 角 AOC 内部
+      engine_options:
+        renderer_spec:
+          points:
+            O:
+            - 0
+            - 0
+            A:
+            - 3.0
+            - 0
+            B:
+            - 2.25
+            - 1.35
+            C:
+            - 0.75
+            - 2.65
+          segments:
+          - from: O
+            to: A
+          - from: O
+            to: B
+          - from: O
+            to: C
+          polygons: []
+          labels:
+            O:
+              text: O
+              placement: below left
+            A:
+              text: A
+              placement: right
+            B:
+              text: B
+              placement: above right
+            C:
+              text: C
+              placement: above
+          constraints:
+          - OB 在 角 AOC 内部
+  - type: problem
+    id: bq11
+    points: 6
+    label: 题目
+    stem_latex: 点 $A,B,C$ 在同一直线上，$B$ 在 $A,C$ 之间。若 $AB:AC=3:8$，且 $AC=40$，求 $BC$。
+    answer_space:
+      type: lines
+      height: 28mm
+    diagram_slot:
+      slot_id: bq11.prompt
+      diagram_ref: bq11.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 观察整体 AC 由 AB 和 BC 组成。
+      engine: renderer_spec
+      diagram_kind: synthetic_geometry
+      teaching_intent: practice_prompt
+      semantic_constraints:
+        given_objects:
+        - A
+        - B
+        - C
+        given_constraints:
+        - A,B,C 共线
+        - B 在 A,C 之间
+      engine_options:
+        renderer_spec:
+          points:
+            A:
+            - 0
+            - 0
+            B:
+            - 1.8
+            - 0
+            C:
+            - 4.6
+            - 0
+          segments:
+          - from: A
+            to: B
+          - from: B
+            to: C
+          polygons: []
+          labels:
+            A:
+              text: A
+              placement: below
+            B:
+              text: B
+              placement: below
+            C:
+              text: C
+              placement: below
+          constraints:
+          - A,B,C 共线
+          - B 在 A,C 之间
+  - type: problem
+    id: bq12
+    points: 6
+    label: 题目
+    stem_latex: 射线 $OB$ 在 $\angle AOC$ 内部。若 $\angle AOB:\angle AOC=2:7$，且 $\angle BOC=75^\circ$，求 $\angle AOB$。
+    answer_space:
+      type: lines
+      height: 28mm
+    diagram_slot:
+      slot_id: bq12.prompt
+      diagram_ref: bq12.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 观察两个相邻角合成角 AOC。
+      engine: renderer_spec
+      diagram_kind: synthetic_geometry
+      teaching_intent: practice_prompt
+      semantic_constraints:
+        given_objects:
+        - O
+        - A
+        - B
+        - C
+        given_constraints:
+        - OB 在 角 AOC 内部
+      engine_options:
+        renderer_spec:
+          points:
+            O:
+            - 0
+            - 0
+            A:
+            - 3.0
+            - 0
+            B:
+            - 2.25
+            - 1.35
+            C:
+            - 0.75
+            - 2.65
+          segments:
+          - from: O
+            to: A
+          - from: O
+            to: B
+          - from: O
+            to: C
+          polygons: []
+          labels:
+            O:
+              text: O
+              placement: below left
+            A:
+              text: A
+              placement: right
+            B:
+              text: B
+              placement: above right
+            C:
+              text: C
+              placement: above
+          constraints:
+          - OB 在 角 AOC 内部

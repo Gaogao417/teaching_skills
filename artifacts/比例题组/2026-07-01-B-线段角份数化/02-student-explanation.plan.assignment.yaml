@@ -1,0 +1,301 @@
+meta:
+  title: 线段和角：先翻译，再调用比例工具
+  subtitle: 整体-部分、条件转比例、只求目标量
+  grade: 八年级
+  subject: 数学
+  version: student
+  source_artifacts:
+    structure_analysis: artifacts/比例题组/2026-07-01-B-线段角份数化/01-structure-analysis.md
+render:
+  template: exam-zh-explanation
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: b-translate
+  title: 线段和角：先翻译，再调用比例工具
+  show_title: true
+  type: explanation
+  visibility: student
+  blocks:
+  - type: solution
+    id: b-core
+    title: 从 A 组接过来的动作
+    items:
+    - latex: B 组不是新计算；新动作是把几何条件翻译成比例式或份数。
+    - latex: 线段入口：$B$ 在 $A,C$ 之间，则 $AC=AB+BC$。
+    - latex: 角度入口：射线 $OB$ 在 $\angle AOC$ 内部，则 $\angle AOC=\angle AOB+\angle BOC$。
+    - latex: 方程式入口：$4a=3b$ 推出 $a:b=3:4$，比例份数与系数交叉对应。
+  - type: problemcard
+    id: b-ex1
+    label: 例题 1
+    stem_latex: 点 $A,B,C$ 在同一直线上，$B$ 在 $A,C$ 之间。若 $AB=2BC$，且 $AC=18$，求 $BC$。
+    diagram_slot:
+      slot_id: b.ex1.prompt
+      diagram_ref: b.ex1.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 观察整体 AC 由 AB 和 BC 组成。
+      engine: renderer_spec
+      diagram_kind: synthetic_geometry
+      teaching_intent: practice_prompt
+      semantic_constraints:
+        given_objects:
+        - A
+        - B
+        - C
+        given_constraints:
+        - A,B,C 共线
+        - B 在 A,C 之间
+      engine_options:
+        renderer_spec:
+          points:
+            A:
+            - 0
+            - 0
+            B:
+            - 1.8
+            - 0
+            C:
+            - 4.6
+            - 0
+          segments:
+          - from: A
+            to: B
+          - from: B
+            to: C
+          polygons: []
+          labels:
+            A:
+              text: A
+              placement: below
+            B:
+              text: B
+              placement: below
+            C:
+              text: C
+              placement: below
+          constraints:
+          - A,B,C 共线
+          - B 在 A,C 之间
+  - type: route
+    id: b-route1
+    steps:
+    - id: b1-s1
+      latex: 找整体
+      content_latex: $AC=AB+BC$。
+    - id: b1-s2
+      latex: 翻译份数
+      content_latex: $AB=2BC$，所以 $AB:BC=2:1$，总共 $3$ 份。
+    - id: b1-s3
+      latex: 只求目标量
+      content_latex: $18\div3=6$，目标 $BC$ 是 $1$ 份，所以 $BC=6$。
+  - type: dual_explanation
+    id: b-dual1
+    label: 例题 1
+    stem_latex: 求 $BC$。
+    side_title: 策略判断
+    side_items:
+    - kind: hint
+      title: 承接 A 组
+      content_latex: 几何题先翻译成“几份”，计算部分仍是比例工具。
+    - kind: mistake
+      title: 目标量
+      content_latex: 题目只求 $BC$，不用把 $AB$ 也作为最终答案写出。
+    solution_title: 解答
+    solution_step_ids:
+    - b1-s1
+    - b1-s2
+    - b1-s3
+  - type: problemcard
+    id: b-ex2
+    label: 例题 2
+    stem_latex: 点 $A,B,C$ 在同一直线上，$B$ 在 $A,C$ 之间。若 $4AB-3BC=0$，且 $AC=21$，求 $AB$。
+    diagram_slot:
+      slot_id: b.ex2.prompt
+      diagram_ref: b.ex2.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 观察整体 AC 由 AB 和 BC 组成。
+      engine: renderer_spec
+      diagram_kind: synthetic_geometry
+      teaching_intent: practice_prompt
+      semantic_constraints:
+        given_objects:
+        - A
+        - B
+        - C
+        given_constraints:
+        - A,B,C 共线
+        - B 在 A,C 之间
+      engine_options:
+        renderer_spec:
+          points:
+            A:
+            - 0
+            - 0
+            B:
+            - 1.8
+            - 0
+            C:
+            - 4.6
+            - 0
+          segments:
+          - from: A
+            to: B
+          - from: B
+            to: C
+          polygons: []
+          labels:
+            A:
+              text: A
+              placement: below
+            B:
+              text: B
+              placement: below
+            C:
+              text: C
+              placement: below
+          constraints:
+          - A,B,C 共线
+          - B 在 A,C 之间
+  - type: route
+    id: b-route2
+    steps:
+    - id: b2-s1
+      latex: 方程式转比例
+      content_latex: $4AB=3BC$，所以 $AB:BC=3:4$。
+    - id: b2-s2
+      latex: 整体对应总份数
+      content_latex: $AC=AB+BC$，总共 $7$ 份，$21\div7=3$。
+    - id: b2-s3
+      latex: 求目标量
+      content_latex: $AB$ 是 $3$ 份，所以 $AB=9$。
+  - type: dual_explanation
+    id: b-dual2
+    label: 例题 2
+    stem_latex: 求 $AB$。
+    side_title: 策略判断
+    side_items:
+    - kind: mistake
+      title: 比例顺序
+      content_latex: $4AB=3BC$ 时，$AB$ 不是 $4$ 份，而是 $3$ 份。
+    - kind: hint
+      title: 底层工具
+      content_latex: 转出 $AB:BC=3:4$ 后，剩下就是 A 组的份数计算。
+    solution_title: 解答
+    solution_step_ids:
+    - b2-s1
+    - b2-s2
+    - b2-s3
+  - type: problemcard
+    id: b-ex3
+    label: 例题 3
+    stem_latex: 射线 $OB$ 在 $\angle AOC$ 内部。若 $5\angle AOB-2\angle BOC=0$，且 $\angle AOC=112^\circ$，求 $\angle AOB$。
+    diagram_slot:
+      slot_id: b.ex3.prompt
+      diagram_ref: b.ex3.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 观察两个相邻角合成角 AOC。
+      engine: renderer_spec
+      diagram_kind: synthetic_geometry
+      teaching_intent: practice_prompt
+      semantic_constraints:
+        given_objects:
+        - O
+        - A
+        - B
+        - C
+        given_constraints:
+        - OB 在 角 AOC 内部
+      engine_options:
+        renderer_spec:
+          points:
+            O:
+            - 0
+            - 0
+            A:
+            - 3.0
+            - 0
+            B:
+            - 2.25
+            - 1.35
+            C:
+            - 0.75
+            - 2.65
+          segments:
+          - from: O
+            to: A
+          - from: O
+            to: B
+          - from: O
+            to: C
+          polygons: []
+          labels:
+            O:
+              text: O
+              placement: below left
+            A:
+              text: A
+              placement: right
+            B:
+              text: B
+              placement: above right
+            C:
+              text: C
+              placement: above
+          constraints:
+          - OB 在 角 AOC 内部
+  - type: route
+    id: b-route3
+    steps:
+    - id: b3-s1
+      latex: 角度也先找整体
+      content_latex: $\angle AOC=\angle AOB+\angle BOC$。
+    - id: b3-s2
+      latex: 方程式转比例
+      content_latex: $5\angle AOB=2\angle BOC$，所以 $\angle AOB:\angle BOC=2:5$。
+    - id: b3-s3
+      latex: 求目标角
+      content_latex: 总共 $7$ 份，$112^\circ\div7=16^\circ$，故 $\angle AOB=32^\circ$。
+  - type: dual_explanation
+    id: b-dual3
+    label: 例题 3
+    stem_latex: 求 $\angle AOB$。
+    side_title: 策略判断
+    side_items:
+    - kind: hint
+      title: 同构
+      content_latex: 线段换成角，底层还是“整体由两个部分组成”。
+    solution_title: 解答
+    solution_step_ids:
+    - b3-s1
+    - b3-s2
+    - b3-s3
+  - type: mistake
+    id: b-mistake
+    title: 易错提醒
+    content_latex: 做 B 组题时不要急着设未知数。先写整体式，再把条件翻译成比例；如果条件是 $ma=nb$，份数是 $a:b=n:m$。
+  - type: method_reminder
+    id: b-method
+    title: 方法提醒
+    items:
+    - latex: 读目标：本题只求哪一个量？
+    - latex: 找整体：线段整体或角整体。
+    - latex: 翻译条件：倍数、比例、方程式都转成份数。
+    - latex: 调用 A 组：总份数、一份、目标份数。
