@@ -8,89 +8,133 @@
   </head>
   <body>
     <main class="shell">
-      <section class="source-panel" aria-label="题目来源">
-        <header>
-          <h1 id="problem-title">Skill Trace Review</h1>
-          <p id="draft-meta"></p>
+      <section class="source-panel panel" aria-label="题目来源">
+        <header class="workspace-header">
+          <div>
+            <p class="eyebrow">Skill Trace Review</p>
+            <h1 id="problem-title">Skill Trace Review</h1>
+          </div>
+          <div class="meta-cluster">
+            <span id="draft-id" class="meta-pill"></span>
+            <span id="case-id" class="meta-pill"></span>
+          </div>
           <p id="thread-warning" class="warning" hidden></p>
         </header>
-        <article>
-          <h2>题目</h2>
+
+        <div class="source-tabs" aria-label="源材料">
+          <button class="tab is-active" type="button" data-source-target="raw-problem-panel">题目</button>
+          <button class="tab" type="button" data-source-target="provided-solution-panel">参考解答</button>
+          <button class="tab" type="button" data-source-target="expected-thinking-panel">预期思路</button>
+        </div>
+
+        <article id="raw-problem-panel" class="source-card">
+          <div class="section-heading">
+            <h2>题目</h2>
+            <span id="student-level" class="soft-label"></span>
+          </div>
           <pre id="raw-problem"></pre>
         </article>
-        <article>
+        <article id="provided-solution-panel" class="source-card" hidden>
           <h2>参考解答</h2>
           <pre id="provided-solution"></pre>
         </article>
-        <article>
+        <article id="expected-thinking-panel" class="source-card" hidden>
           <h2>预期思路</h2>
           <pre id="expected-thinking"></pre>
         </article>
+
+        <section class="summary-block" aria-label="Trace 摘要">
+          <div class="section-heading">
+            <h2>Trace 摘要</h2>
+            <span id="topic-tags" class="tag-row"></span>
+          </div>
+          <dl id="trace-summary" class="summary-list"></dl>
+        </section>
       </section>
 
-      <section class="steps-panel" aria-label="步骤列表">
+      <section class="steps-panel panel" aria-label="Trace step 动作链">
         <div class="panel-heading">
-          <h2>Trace Steps</h2>
-          <button id="add-step" type="button">新增</button>
-        </div>
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>序</th>
-                <th>名称</th>
-                <th>层级</th>
-                <th>复用</th>
-              </tr>
-            </thead>
-            <tbody id="steps-body"></tbody>
-          </table>
-        </div>
-      </section>
-
-      <section class="editor-panel" aria-label="步骤编辑">
-        <div class="panel-heading">
-          <h2>Step Editor</h2>
+          <div>
+            <p class="eyebrow">Action Chain</p>
+            <h2>Trace Steps</h2>
+          </div>
           <div class="button-row">
-            <button id="move-up" type="button">上移</button>
-            <button id="move-down" type="button">下移</button>
-            <button id="delete-step" type="button">删除</button>
+            <button id="add-step" class="btn btn-primary" type="button">新增</button>
           </div>
         </div>
 
-        <label>名称
-          <input id="step-name" type="text">
-        </label>
-        <label>认知层级
-          <select id="cognitive-layer"></select>
-        </label>
-        <label>复用层级
-          <select id="reuse-level"></select>
-        </label>
-        <label>学生动作
-          <textarea id="student-action" rows="4"></textarea>
-        </label>
-        <label>教师依据
-          <textarea id="teacher-rationale" rows="3"></textarea>
-        </label>
-        <label>输入状态
-          <textarea id="input-state" rows="2"></textarea>
-        </label>
-        <label>输出状态
-          <textarea id="output-state" rows="2"></textarea>
-        </label>
-        <label>常见错误
-          <textarea id="common-errors" rows="2" placeholder="每行一个"></textarea>
-        </label>
-        <label>Reviewer Note
-          <textarea id="reviewer-note" rows="3"></textarea>
-        </label>
-        <div class="check-row">
-          <label class="inline"><input id="is-core-step" type="checkbox"> Core step</label>
-          <button id="validate" type="button">校验</button>
-          <button id="submit-review" type="button">提交</button>
+        <div class="review-meter" aria-label="校验概览">
+          <div>
+            <span id="review-status-dot" class="status-dot"></span>
+            <strong id="review-status-text">待校验</strong>
+          </div>
+          <div class="metric-row">
+            <span id="step-count" class="metric"></span>
+            <span id="core-count" class="metric"></span>
+          </div>
         </div>
-        <pre id="validation-output"></pre>
+
+        <div id="steps-list" class="steps-list"></div>
+      </section>
+
+      <section class="editor-panel panel" aria-label="步骤编辑">
+        <div class="panel-heading">
+          <div>
+            <p class="eyebrow">Selected Step</p>
+            <h2 id="editor-title">Step Editor</h2>
+          </div>
+          <div class="button-row">
+            <button id="move-up" class="btn btn-icon" type="button" title="上移">↑</button>
+            <button id="move-down" class="btn btn-icon" type="button" title="下移">↓</button>
+            <button id="delete-step" class="btn btn-danger" type="button">删除</button>
+          </div>
+        </div>
+
+        <div class="editor-scroll">
+          <section class="editor-group">
+            <div class="field-grid two-col">
+              <label class="field">名称
+                <input id="step-name" type="text">
+              </label>
+              <label class="field">领域
+                <input id="domain" type="text">
+              </label>
+              <label class="field">认知层级
+                <select id="cognitive-layer"></select>
+              </label>
+              <label class="field">复用层级
+                <select id="reuse-level"></select>
+              </label>
+            </div>
+            <label class="toggle-line"><input id="is-core-step" type="checkbox"> 核心路径 step</label>
+          </section>
+
+          <section class="editor-group">
+            <h3>学生动作</h3>
+            <label class="field">学生动作
+              <textarea id="student-action" rows="4"></textarea>
+            </label>
+          </section>
+
+          <section class="editor-group">
+            <h3>常见错误</h3>
+            <label class="field">常见错误
+              <textarea id="common-errors" rows="3" placeholder="每行一个"></textarea>
+            </label>
+          </section>
+
+          <section class="editor-group">
+            <h3>提交</h3>
+            <label class="field">Reviewer Note
+              <textarea id="reviewer-note" rows="3"></textarea>
+            </label>
+            <div class="check-row">
+              <button id="validate" class="btn" type="button">校验</button>
+              <button id="submit-review" class="btn btn-primary" type="button">全部提交入库</button>
+            </div>
+            <pre id="validation-output"></pre>
+          </section>
+        </div>
       </section>
     </main>
     <script src="/static/review.js"></script>
