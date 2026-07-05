@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import socket
+import sqlite3
 import subprocess
 import sys
 import tempfile
@@ -23,7 +24,7 @@ from tests.skill_trace.test_contracts import valid_payload  # noqa: E402
 
 
 class ReviewServerTest(unittest.TestCase):
-    def test_prepare_review_overrides_thread_and_inserts_draft(self) -> None:
+    def test_prepare_review_overrides_thread_without_inserting_draft(self) -> None:
         payload = valid_payload(codex_thread_id="old_thread")
         with tempfile.TemporaryDirectory() as tmp_dir:
             tmp_path = Path(tmp_dir)
@@ -37,12 +38,12 @@ class ReviewServerTest(unittest.TestCase):
                 db_path=db_path,
                 port=8765,
             )
-            draft = get_draft("draft_demo", db_path=db_path)
 
-        self.assertEqual(result["status"], "review_ui_opened")
+            with self.assertRaises((KeyError, sqlite3.Error)):
+                get_draft("draft_demo", db_path=db_path)
+
+        self.assertEqual(result["status"], "review_ui_ready")
         self.assertEqual(result["codex_thread_id"], "thr_from_cli")
-        self.assertEqual(draft["codex_thread_id"], "thr_from_cli")
-        self.assertEqual(draft["draft_json"]["codex_thread_id"], "thr_from_cli")
 
     def test_prepare_review_generates_manual_thread_when_missing(self) -> None:
         payload = valid_payload()
@@ -54,11 +55,12 @@ class ReviewServerTest(unittest.TestCase):
             draft_path.write_text(json.dumps(payload, ensure_ascii=False), encoding="utf-8")
 
             result = prepare_review(draft_path=draft_path, db_path=db_path)
-            draft = get_draft("draft_demo", db_path=db_path)
+
+            with self.assertRaises((KeyError, sqlite3.Error)):
+                get_draft("draft_demo", db_path=db_path)
 
         self.assertTrue(result["codex_thread_id"].startswith("manual_"))
         self.assertEqual(result["warnings"], [MANUAL_THREAD_WARNING])
-        self.assertEqual(draft["draft_json"]["codex_thread_id"], result["codex_thread_id"])
 
     def test_submit_review_payload_persists_review(self) -> None:
         payload = valid_payload()
@@ -114,6 +116,42 @@ class ReviewServerTest(unittest.TestCase):
         self.assertEqual(review["status"], "reviewed")
         self.assertEqual(fetched["reviewed_json"]["draft_id"], "draft_demo")
 
+    def test_http_routes_can_serve_unpersisted_draft_and_submit_review(self) -> None:
+        payload = valid_payload()
+        reviewed_payload = json.loads(json.dumps(payload))
+        reviewed_steps = reviewed_payload["steps"]
+        assert isinstance(reviewed_steps, list)
+        reviewed_steps[0]["student_action_norm"] = "页面编辑后的动作"
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            db_path = Path(tmp_dir) / "skill_trace.db"
+            server, thread, port = _start_uvicorn_test_server(db_path, draft_payloads={"draft_demo": payload})
+            try:
+                draft = _request_json(port, "GET", "/api/drafts/draft_demo")
+                with self.assertRaises((KeyError, sqlite3.Error)):
+                    get_draft("draft_demo", db_path=db_path)
+                review = _request_json(
+                    port,
+                    "POST",
+                    "/api/reviews",
+                    {
+                        "draft_id": "draft_demo",
+                        "codex_thread_id": "thr_demo",
+                        "reviewed_json": reviewed_payload,
+                        "reviewer_note": "",
+                    },
+                )
+                persisted = get_draft("draft_demo", db_path=db_path)
+                fetched_review = _request_json(port, "GET", f"/api/reviews/{review['reviewed_trace_id']}")
+            finally:
+                server.should_exit = True
+                thread.join(timeout=5)
+
+        self.assertEqual(draft["source"], "memory")
+        self.assertEqual(review["status"], "reviewed")
+        self.assertEqual(persisted["draft_json"]["draft_id"], "draft_demo")
+        self.assertEqual(persisted["draft_json"]["steps"][0]["student_action_norm"], "先确定题目要求的是 ED")
+        self.assertEqual(fetched_review["reviewed_json"]["steps"][0]["student_action_norm"], "页面编辑后的动作")
+
     def test_open_review_prepare_only_cli(self) -> None:
         with tempfile.TemporaryDirectory() as tmp_dir:
             tmp_path = Path(tmp_dir)
@@ -138,12 +176,20 @@ class ReviewServerTest(unittest.TestCase):
             )
 
         self.assertEqual(completed.returncode, 0, completed.stderr)
-        self.assertEqual(json.loads(completed.stdout)["status"], "review_ui_opened")
+        self.assertEqual(json.loads(completed.stdout)["status"], "review_ui_ready")
 
 
-def _start_uvicorn_test_server(db_path: Path) -> tuple[uvicorn.Server, threading.Thread, int]:
+def _start_uvicorn_test_server(
+    db_path: Path,
+    draft_payloads: dict[str, dict[str, object]] | None = None,
+) -> tuple[uvicorn.Server, threading.Thread, int]:
     port = _free_port()
-    config = uvicorn.Config(create_app(db_path=db_path), host="127.0.0.1", port=port, log_level="warning")
+    config = uvicorn.Config(
+        create_app(db_path=db_path, draft_payloads=draft_payloads),
+        host="127.0.0.1",
+        port=port,
+        log_level="warning",
+    )
     server = uvicorn.Server(config)
     thread = threading.Thread(target=server.run, daemon=True)
     thread.start()

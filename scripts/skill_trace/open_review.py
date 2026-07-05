@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate a SkillTraceDraft, insert it, and open the local review UI."""
+"""Validate a SkillTraceDraft and open the local review UI."""
 
 from __future__ import annotations
 
@@ -15,12 +15,10 @@ from typing import Any
 from pydantic import ValidationError
 
 try:
-    from .contracts import SkillTraceDraft
-    from .db import insert_draft
+    from .contracts import SkillTraceDraft, prune_deprecated_step_fields
     from .review_server import run_server
 except ImportError:  # pragma: no cover - supports direct script execution.
-    from contracts import SkillTraceDraft
-    from db import insert_draft
+    from contracts import SkillTraceDraft, prune_deprecated_step_fields
     from review_server import run_server
 
 
@@ -36,14 +34,10 @@ def prepare_review(
     host: str = "127.0.0.1",
     port: int = 8765,
 ) -> dict[str, Any]:
-    payload = _load_json_file(draft_path)
-    resolved_thread_id, is_manual_thread_id = _resolve_codex_thread_id(payload, codex_thread_id)
-    payload["codex_thread_id"] = resolved_thread_id
-    draft = SkillTraceDraft.model_validate(payload)
-    insert_draft(draft, db_path=db_path)
+    draft, is_manual_thread_id = load_review_draft(draft_path=draft_path, codex_thread_id=codex_thread_id)
     review_url = f"http://{host}:{port}/review/{draft.draft_id}"
     result = {
-        "status": "review_ui_opened",
+        "status": "review_ui_ready",
         "review_url": review_url,
         "codex_thread_id": draft.codex_thread_id,
         "draft_id": draft.draft_id,
@@ -51,6 +45,15 @@ def prepare_review(
     if is_manual_thread_id:
         result["warnings"] = [MANUAL_THREAD_WARNING]
     return result
+
+
+def load_review_draft(*, draft_path: Path, codex_thread_id: str | None = None) -> tuple[SkillTraceDraft, bool]:
+    payload = _load_json_file(draft_path)
+    resolved_thread_id, is_manual_thread_id = _resolve_codex_thread_id(payload, codex_thread_id)
+    payload["codex_thread_id"] = resolved_thread_id
+    payload = prune_deprecated_step_fields(payload)
+    draft = SkillTraceDraft.model_validate(payload)
+    return draft, is_manual_thread_id
 
 
 def _resolve_codex_thread_id(payload: dict[str, Any], codex_thread_id: str | None) -> tuple[str, bool]:
@@ -80,21 +83,24 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--host", default="127.0.0.1")
     parser.add_argument("--port", type=int, default=8765)
     parser.add_argument("--no-browser", action="store_true")
-    parser.add_argument("--prepare-only", action="store_true", help="Validate and insert the draft without starting the server")
+    parser.add_argument("--prepare-only", action="store_true", help="Validate the draft without starting the server")
     args = parser.parse_args(argv)
 
     try:
-        result = prepare_review(
-            draft_path=args.draft,
-            codex_thread_id=args.codex_thread_id,
-            db_path=args.db,
-            host=args.host,
-            port=args.port,
-        )
+        draft, is_manual_thread_id = load_review_draft(draft_path=args.draft, codex_thread_id=args.codex_thread_id)
     except (OSError, ValueError, ValidationError) as exc:
         json.dump({"ok": False, "error": str(exc)}, sys.stdout, ensure_ascii=False, indent=2)
         sys.stdout.write("\n")
         return 1
+
+    result = {
+        "status": "review_ui_ready",
+        "review_url": f"http://{args.host}:{args.port}/review/{draft.draft_id}",
+        "codex_thread_id": draft.codex_thread_id,
+        "draft_id": draft.draft_id,
+    }
+    if is_manual_thread_id:
+        result["warnings"] = [MANUAL_THREAD_WARNING]
 
     json.dump(result, sys.stdout, ensure_ascii=False, indent=2)
     sys.stdout.write("\n")
@@ -107,7 +113,12 @@ def main(argv: list[str] | None = None) -> int:
         threading.Timer(0.2, webbrowser.open, args=(result["review_url"],)).start()
 
     try:
-        run_server(host=args.host, port=args.port, db_path=args.db)
+        run_server(
+            host=args.host,
+            port=args.port,
+            db_path=args.db,
+            draft_payloads={draft.draft_id: draft.model_dump(mode="json")},
+        )
     except KeyboardInterrupt:
         return 0
     return 0

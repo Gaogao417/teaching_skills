@@ -34,8 +34,12 @@ class ReviewSubmission(BaseModel):
     reviewer_note: str = ""
 
 
-def create_app(db_path: str | Path | None = None) -> FastAPI:
+def create_app(
+    db_path: str | Path | None = None,
+    draft_payloads: dict[str, dict[str, Any]] | None = None,
+) -> FastAPI:
     resolved_db_path = resolve_db_path(db_path)
+    in_memory_drafts = draft_payloads or {}
     app = FastAPI(title="Skill Trace Review", version="0.1.0")
     app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
@@ -49,6 +53,16 @@ def create_app(db_path: str | Path | None = None) -> FastAPI:
 
     @app.get("/api/drafts/{draft_id}")
     def api_get_draft(draft_id: str) -> dict[str, Any]:
+        if draft_id in in_memory_drafts:
+            draft_json = in_memory_drafts[draft_id]
+            return {
+                "draft_id": draft_id,
+                "problem_case_id": f"case_{draft_id}",
+                "codex_thread_id": draft_json["codex_thread_id"],
+                "created_at": "",
+                "draft_json": draft_json,
+                "source": "memory",
+            }
         try:
             return get_draft(draft_id, db_path=resolved_db_path)
         except KeyError as exc:
@@ -59,7 +73,11 @@ def create_app(db_path: str | Path | None = None) -> FastAPI:
     @app.post("/api/reviews")
     def api_submit_review(submission: ReviewSubmission) -> dict[str, Any]:
         try:
-            return submit_review_payload(submission.model_dump(), db_path=resolved_db_path)
+            return submit_review_payload(
+                submission.model_dump(),
+                db_path=resolved_db_path,
+                original_draft_json=in_memory_drafts.get(submission.draft_id),
+            )
         except KeyError as exc:
             raise HTTPException(status_code=404, detail=str(exc)) from exc
         except (ValueError, ValidationError, sqlite3.Error) as exc:
@@ -77,7 +95,11 @@ def create_app(db_path: str | Path | None = None) -> FastAPI:
     return app
 
 
-def submit_review_payload(payload: dict[str, Any], db_path: str | Path | None = None) -> dict[str, Any]:
+def submit_review_payload(
+    payload: dict[str, Any],
+    db_path: str | Path | None = None,
+    original_draft_json: dict[str, Any] | None = None,
+) -> dict[str, Any]:
     draft_id = _required_text(payload, "draft_id")
     codex_thread_id = _required_text(payload, "codex_thread_id")
     reviewed_json = payload.get("reviewed_json")
@@ -97,13 +119,19 @@ def submit_review_payload(payload: dict[str, Any], db_path: str | Path | None = 
     return insert_review(
         draft_id=draft_id,
         reviewed_json=reviewed_json,
+        original_draft_json=original_draft_json,
         reviewer_note=reviewer_note,
         db_path=db_path,
     )
 
 
-def run_server(host: str = "127.0.0.1", port: int = 8765, db_path: str | Path | None = None) -> None:
-    uvicorn.run(create_app(db_path=db_path), host=host, port=port, log_level="info")
+def run_server(
+    host: str = "127.0.0.1",
+    port: int = 8765,
+    db_path: str | Path | None = None,
+    draft_payloads: dict[str, dict[str, Any]] | None = None,
+) -> None:
+    uvicorn.run(create_app(db_path=db_path, draft_payloads=draft_payloads), host=host, port=port, log_level="info")
 
 
 def _required_text(payload: dict[str, Any], key: str) -> str:

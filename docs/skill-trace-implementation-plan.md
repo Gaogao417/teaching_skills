@@ -122,12 +122,7 @@ class SkillTraceStep(BaseModel):
     reuse_level: ReuseLevel
     domain: str = "general"
     student_action_norm: str
-    teacher_rationale: str = ""
-    input_state: str = ""
-    output_state: str = ""
-    source_evidence: str = ""
     common_errors: List[str] = []
-    hint_intent: str = ""
     is_core_step: bool = True
 
 class SkillTraceDraft(BaseModel):
@@ -184,7 +179,7 @@ pytest tests/skill_trace/test_contracts.py tests/skill_trace/test_validate_trace
 实现：
 
 - 初始化数据库。
-- 插入 draft。
+- 插入 draft（仅用于手动调试或 reviewed trace 提交兜底）。
 - 插入 reviewed trace。
 - 查询 reviewed trace。
 - 查询 thread handoff。
@@ -251,15 +246,17 @@ CREATE TABLE IF NOT EXISTS skill_trace_steps (
   reuse_level TEXT NOT NULL,
   domain TEXT NOT NULL DEFAULT 'general',
   student_action_norm TEXT NOT NULL,
-  teacher_rationale TEXT NOT NULL DEFAULT '',
-  input_state TEXT NOT NULL DEFAULT '',
-  output_state TEXT NOT NULL DEFAULT '',
-  source_evidence TEXT NOT NULL DEFAULT '',
   common_errors_json TEXT NOT NULL DEFAULT '[]',
-  hint_intent TEXT NOT NULL DEFAULT '',
   is_core_step INTEGER NOT NULL DEFAULT 1
 );
 ```
+
+表语义：
+
+- `skill_trace_drafts.draft_json` 保存 agent 生成的原始 draft。打开 review 页时不提前写入；用户点击“全部提交入库”时，如果 DB 中还没有 draft，再把原始 draft 写入该表。
+- `skill_trace_reviews.reviewed_json` 保存用户在页面中编辑后提交的 reviewed trace。
+- `skill_trace_steps` 保存 reviewed trace 中每个 step 的结构化展开。
+- 自动生成的 `reviewed_trace_id` 使用 `trace_` + 完整 `uuid4().hex`，并在生成时查重，避免自动提交覆盖已有 review。
 
 ### 5.3 CLI
 
@@ -296,7 +293,7 @@ GET  /healthz
 职责：
 
 1. 校验 draft。
-2. 将 draft 插入数据库。
+2. 将 draft 暂存在本次 review server 进程内存中，不提前写数据库。
 3. 启动 review server。
 4. 自动打开浏览器。
 5. 在终端打印 handoff 信息。
@@ -314,7 +311,7 @@ GET  /healthz
 
 ```json
 {
-  "status": "review_ui_opened",
+  "status": "review_ui_ready",
   "review_url": "http://127.0.0.1:8765/review/draft_demo",
   "codex_thread_id": "thr_demo",
   "draft_id": "draft_demo"
@@ -420,7 +417,7 @@ prompts/skill_trace_draft_prompt.md
 命令：
 
 ```bash
-python3 scripts/skill_trace/export_for_pipeline.py \
+./.venv/bin/python scripts/skill_trace/export_for_pipeline.py \
   --reviewed-trace-id trace_xxx \
   --out-dir artifacts/<学生名>/YYYY-MM-DD-<内容>
 ```
@@ -683,7 +680,7 @@ thread_handoff.json
 
 ```json
 {
-  "status": "review_ui_opened",
+  "status": "review_ui_ready",
   "codex_thread_id": "thr_xxx",
   "draft_id": "draft_xxx",
   "review_url": "http://127.0.0.1:8765/review/draft_xxx",

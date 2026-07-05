@@ -152,6 +152,8 @@ Codex 产出 `SkillTraceDraft` JSON，并调用：
 http://127.0.0.1:8765/review/<draft_id>
 ```
 
+打开审阅页前只校验 draft，并把 draft 暂存在本次 review server 进程内存中；不要提前写入 SQLite/PostgreSQL。
+
 ### 6.3 审阅阶段
 
 审阅界面展示：
@@ -166,18 +168,20 @@ http://127.0.0.1:8765/review/<draft_id>
 - 增加或删除 step。
 - 调整 step 顺序。
 - 标记 core step / support step。
-- 添加 common error 和 hint intent。
-- 提交入库。
+- 添加 common error。
+- 点击“全部提交入库”，一次性提交页面中的全部 steps。
 
 ### 6.4 入库阶段
 
-提交后写入 SQLite/PostgreSQL：
+点击“全部提交入库”后写入 SQLite/PostgreSQL：
 
 - `problem_cases`
 - `codex_threads`
-- `skill_trace_drafts`
-- `skill_trace_reviews`
-- `skill_trace_steps`
+- `skill_trace_drafts`：保存 agent 生成的原始 draft。
+- `skill_trace_reviews`：保存用户在页面提交后的 reviewed trace。
+- `skill_trace_steps`：保存 reviewed trace 中每个 step 的结构化展开。
+
+自动生成的 `reviewed_trace_id` 使用 `trace_` + 完整 `uuid4().hex`；自动生成时必须先查重，不能因为 id 冲突覆盖已有 review。
 
 提交成功后 UI 和 CLI 返回：
 
@@ -246,12 +250,7 @@ steps:
     reuse_level: generic_action | domain_action | pattern_step | instance_step
     domain: string
     student_action_norm: string
-    teacher_rationale: string
-    input_state: string
-    output_state: string
-    source_evidence: string
     common_errors: string[]
-    hint_intent: string
     is_core_step: boolean
 validation:
   warnings: string[]
@@ -340,12 +339,7 @@ skill_trace_steps(
   reuse_level TEXT,
   domain TEXT,
   student_action_norm TEXT,
-  teacher_rationale TEXT,
-  input_state TEXT,
-  output_state TEXT,
-  source_evidence TEXT,
   common_errors_json TEXT,
-  hint_intent TEXT,
   is_core_step INTEGER
 );
 ```
@@ -457,12 +451,7 @@ artifacts/<学生名>/YYYY-MM-DD-<内容>/01-structure-analysis.md
 - reuse_level
 - domain
 - student_action_norm
-- teacher_rationale
-- input_state
-- output_state
-- source_evidence
 - common_errors
-- hint_intent
 - is_core_step
 
 ## 10. 后续 explanation / assignment 生成接口
