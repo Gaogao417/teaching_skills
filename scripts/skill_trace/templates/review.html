@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Skill Trace Review</title>
+    <link rel="stylesheet" href="/static/review.css">
+  </head>
+  <body>
+    <main class="shell">
+      <section class="source-panel" aria-label="题目来源">
+        <header>
+          <h1 id="problem-title">Skill Trace Review</h1>
+          <p id="draft-meta"></p>
+          <p id="thread-warning" class="warning" hidden></p>
+        </header>
+        <article>
+          <h2>题目</h2>
+          <pre id="raw-problem"></pre>
+        </article>
+        <article>
+          <h2>参考解答</h2>
+          <pre id="provided-solution"></pre>
+        </article>
+        <article>
+          <h2>预期思路</h2>
+          <pre id="expected-thinking"></pre>
+        </article>
+      </section>
+
+      <section class="steps-panel" aria-label="步骤列表">
+        <div class="panel-heading">
+          <h2>Trace Steps</h2>
+          <button id="add-step" type="button">新增</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>序</th>
+                <th>名称</th>
+                <th>层级</th>
+                <th>复用</th>
+              </tr>
+            </thead>
+            <tbody id="steps-body"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="editor-panel" aria-label="步骤编辑">
+        <div class="panel-heading">
+          <h2>Step Editor</h2>
+          <div class="button-row">
+            <button id="move-up" type="button">上移</button>
+            <button id="move-down" type="button">下移</button>
+            <button id="delete-step" type="button">删除</button>
+          </div>
+        </div>
+
+        <label>名称
+          <input id="step-name" type="text">
+        </label>
+        <label>认知层级
+          <select id="cognitive-layer"></select>
+        </label>
+        <label>复用层级
+          <select id="reuse-level"></select>
+        </label>
+        <label>学生动作
+          <textarea id="student-action" rows="4"></textarea>
+        </label>
+        <label>教师依据
+          <textarea id="teacher-rationale" rows="3"></textarea>
+        </label>
+        <label>输入状态
+          <textarea id="input-state" rows="2"></textarea>
+        </label>
+        <label>输出状态
+          <textarea id="output-state" rows="2"></textarea>
+        </label>
+        <label>常见错误
+          <textarea id="common-errors" rows="2" placeholder="每行一个"></textarea>
+        </label>
+        <label>Reviewer Note
+          <textarea id="reviewer-note" rows="3"></textarea>
+        </label>
+        <div class="check-row">
+          <label class="inline"><input id="is-core-step" type="checkbox"> Core step</label>
+          <button id="validate" type="button">校验</button>
+          <button id="submit-review" type="button">提交</button>
+        </div>
+        <pre id="validation-output"></pre>
+      </section>
+    </main>
+    <script src="/static/review.js"></script>
+  </body>
+</html>

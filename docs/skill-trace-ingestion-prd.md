@@ -141,7 +141,7 @@ problem_input:
 Codex 产出 `SkillTraceDraft` JSON，并调用：
 
 ```bash
-python3 scripts/skill_trace/open_review.py \
+./.venv/bin/python scripts/skill_trace/open_review.py \
   --draft artifacts/skill-trace-drafts/<draft_id>.json \
   --codex-thread-id <thread_id>
 ```

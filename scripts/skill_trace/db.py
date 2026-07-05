@@ -129,6 +129,28 @@ def insert_draft(draft_payload: dict[str, Any] | SkillTraceDraft, db_path: str |
     }
 
 
+def get_draft(draft_id: str, db_path: str | Path | None = None) -> dict[str, Any]:
+    with connect(db_path) as connection:
+        row = connection.execute(
+            """
+            SELECT id, problem_case_id, codex_thread_id, draft_json, created_at
+            FROM skill_trace_drafts
+            WHERE id = ?
+            """,
+            (draft_id,),
+        ).fetchone()
+        if row is None:
+            raise KeyError(f"draft not found: {draft_id}")
+
+    return {
+        "draft_id": row["id"],
+        "problem_case_id": row["problem_case_id"],
+        "codex_thread_id": row["codex_thread_id"],
+        "created_at": row["created_at"],
+        "draft_json": json.loads(row["draft_json"]),
+    }
+
+
 def insert_review(
     *,
     draft_id: str,
@@ -458,6 +480,9 @@ def main(argv: list[str] | None = None) -> int:
     insert_draft_parser = subparsers.add_parser("insert-draft", help="Insert a SkillTraceDraft JSON file")
     insert_draft_parser.add_argument("--draft", type=Path, required=True)
 
+    get_draft_parser = subparsers.add_parser("get-draft", help="Read a draft")
+    get_draft_parser.add_argument("--draft-id", required=True)
+
     insert_review_parser = subparsers.add_parser("insert-review", help="Insert a reviewed trace JSON file")
     insert_review_parser.add_argument("--draft-id", required=True)
     insert_review_parser.add_argument("--reviewed-json", type=Path, required=True)
@@ -479,6 +504,8 @@ def main(argv: list[str] | None = None) -> int:
             result = initialize_database(args.db)
         elif args.command == "insert-draft":
             result = insert_draft(_load_json_file(args.draft), db_path=args.db)
+        elif args.command == "get-draft":
+            result = get_draft(args.draft_id, db_path=args.db)
         elif args.command == "insert-review":
             result = insert_review(
                 draft_id=args.draft_id,

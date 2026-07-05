@@ -1,0 +1,170 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #f4f5f7;
+  color: #1f2933;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button {
+  border: 1px solid #b8c2cc;
+  border-radius: 6px;
+  background: #ffffff;
+  padding: 7px 10px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #edf2f7;
+}
+
+.shell {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.9fr) minmax(360px, 1.1fr) minmax(320px, 1fr);
+  gap: 12px;
+  min-height: 100vh;
+  padding: 12px;
+}
+
+.source-panel,
+.steps-panel,
+.editor-panel {
+  background: #ffffff;
+  border: 1px solid #d9e2ec;
+  border-radius: 8px;
+  padding: 14px;
+  min-width: 0;
+}
+
+h1,
+h2 {
+  margin: 0 0 8px;
+}
+
+h1 {
+  font-size: 21px;
+}
+
+h2 {
+  font-size: 15px;
+}
+
+#draft-meta {
+  margin: 0 0 12px;
+  color: #52606d;
+  font-size: 13px;
+}
+
+.warning {
+  margin: 0 0 12px;
+  border: 1px solid #f0b429;
+  border-radius: 6px;
+  background: #fffbea;
+  color: #8d2b0b;
+  padding: 8px 10px;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+pre {
+  margin: 0 0 14px;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.panel-heading,
+.button-row,
+.check-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.panel-heading {
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.table-wrap {
+  overflow: auto;
+  max-height: calc(100vh - 92px);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  font-size: 13px;
+}
+
+th,
+td {
+  border-bottom: 1px solid #e4e7eb;
+  padding: 8px;
+  text-align: left;
+  vertical-align: top;
+  word-break: break-word;
+}
+
+tr.selected {
+  background: #e6f6ff;
+}
+
+label {
+  display: block;
+  margin-bottom: 10px;
+  color: #334e68;
+  font-size: 13px;
+}
+
+label.inline {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 auto 0 0;
+}
+
+input[type="text"],
+select,
+textarea {
+  display: block;
+  width: 100%;
+  margin-top: 4px;
+  border: 1px solid #bcccdc;
+  border-radius: 6px;
+  padding: 8px;
+  background: #ffffff;
+  color: #1f2933;
+}
+
+#validation-output {
+  margin-top: 12px;
+  border: 1px solid #d9e2ec;
+  border-radius: 6px;
+  background: #f8fafc;
+  padding: 10px;
+  min-height: 90px;
+}
+
+@media (max-width: 980px) {
+  .shell {
+    grid-template-columns: 1fr;
+  }
+
+  .table-wrap {
+    max-height: none;
+  }
+}

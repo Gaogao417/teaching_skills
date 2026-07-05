@@ -85,9 +85,7 @@ docs/skill-trace-implementation-plan.md
 
 ### 4.1 `contracts.py`
 
-实现 Pydantic 或 dataclass 合同。
-
-建议先用 Pydantic，如果不想加依赖，则用 dataclass + 手写校验。
+使用 Pydantic 实现合同。Milestone 1 不支持 dataclass 手写校验替代方案；如果依赖缺失，先在 `./.venv` 中安装 Pydantic。
 
 ```python
 # scripts/skill_trace/contracts.py
@@ -281,7 +279,7 @@ pytest tests/skill_trace/test_db_roundtrip.py
 
 ### 6.1 `review_server.py`
 
-使用 FastAPI 或 Python 标准库。建议先用 FastAPI，若避免依赖则用 Flask/stdlib。MVP 推荐 FastAPI：
+使用 FastAPI + uvicorn 实现本地审阅服务。Milestone 3 不支持标准库或 Flask 替代方案；如果依赖缺失，先安装 `scripts/skill_trace/requirements.txt`。
 
 接口：
 
@@ -306,7 +304,7 @@ GET  /healthz
 命令：
 
 ```bash
-python3 scripts/skill_trace/open_review.py \
+./.venv/bin/python scripts/skill_trace/open_review.py \
   --draft artifacts/skill-trace-drafts/demo.json \
   --codex-thread-id thr_demo \
   --port 8765
@@ -382,7 +380,7 @@ MVP 用原生 HTML + JS，不引入 React。
   2. 按 `docs/skill-graph-conceptual-model.md` 拆分 L3/L0/L1/L2 动作链。
   3. 生成 `SkillTraceDraft` JSON。
   4. 保存到 `artifacts/skill-trace-drafts/<draft_id>.json`。
-  5. 调用 `python3 scripts/skill_trace/open_review.py --draft ... --codex-thread-id <thread_id>`。
+  5. 调用 `./.venv/bin/python scripts/skill_trace/open_review.py --draft ... --codex-thread-id <thread_id>`。
   6. 返回 `codex_thread_id` 和 review URL。
 
 ### 7.2 Draft prompt
@@ -588,7 +586,7 @@ L2: ED = 7 × 3/5
 
 ```bash
 python3 scripts/skill_trace/seed_demo.py
-python3 scripts/skill_trace/open_review.py --draft artifacts/skill-trace-drafts/demo_ratio.json --codex-thread-id thr_demo
+./.venv/bin/python scripts/skill_trace/open_review.py --draft artifacts/skill-trace-drafts/demo_ratio.json --codex-thread-id thr_demo
 # 浏览器审阅并提交
 python3 scripts/skill_trace/export_for_pipeline.py --reviewed-trace-id trace_demo --out-dir artifacts/demo/2026-07-04-ratio-trace
 ```
