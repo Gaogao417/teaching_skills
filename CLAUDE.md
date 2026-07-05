@@ -18,6 +18,15 @@ Use the categories this way:
 
 Keep different categories in separate commits. For example, do not mix a generated homework artifact with a renderer or skill change in the same commit.
 
+## Python Environment Rules
+
+Use explicit virtualenv interpreters instead of the system `python3` when running repository scripts.
+
+- General repository tooling, Pydantic contracts, model rule scripts, and skill-trace ingestion use `./.venv/bin/python`.
+- Run Python tests through `./.venv/bin/python -m pytest ...`.
+- Geometry diagram workflow and live renderer work use `./.venv-diagram/bin/python` unless the task explicitly targets non-diagram tooling.
+- Before adding or changing Pydantic contracts, verify the selected environment can import Pydantic.
+
 ## Diagram Workflow Closeout Rules
 
 When working on the synthetic geometry diagram workflow, the most important
