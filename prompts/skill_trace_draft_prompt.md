@@ -30,7 +30,5 @@
 ## Step 写法
 
 - `student_action_norm` 写学生应该做的一个动作，不写教师评价。
-- `teacher_rationale` 写为什么这个动作是必要的。
-- `source_evidence` 写这个动作来自题干、用户预期思路、参考解答或学生错误中的哪部分。
 - `common_errors` 写学生容易错在哪里，尤其要覆盖用户提供的原解法问题点。
 - `is_core_step` 对主路径步骤设为 `true`，旁支检查或非关键提醒可设为 `false`。

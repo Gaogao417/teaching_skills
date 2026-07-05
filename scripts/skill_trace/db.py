@@ -14,9 +14,9 @@ from pathlib import Path
 from typing import Any
 
 try:
-    from .contracts import SkillTraceDraft
+    from .contracts import SkillTraceDraft, prune_deprecated_step_fields
 except ImportError:  # pragma: no cover - supports direct script execution.
-    from contracts import SkillTraceDraft
+    from contracts import SkillTraceDraft, prune_deprecated_step_fields
 
 
 DEFAULT_DB_PATH = Path("artifacts/skill_trace.db")
@@ -78,12 +78,7 @@ CREATE TABLE IF NOT EXISTS skill_trace_steps (
   reuse_level TEXT NOT NULL,
   domain TEXT NOT NULL DEFAULT 'general',
   student_action_norm TEXT NOT NULL,
-  teacher_rationale TEXT NOT NULL DEFAULT '',
-  input_state TEXT NOT NULL DEFAULT '',
-  output_state TEXT NOT NULL DEFAULT '',
-  source_evidence TEXT NOT NULL DEFAULT '',
   common_errors_json TEXT NOT NULL DEFAULT '[]',
-  hint_intent TEXT NOT NULL DEFAULT '',
   is_core_step INTEGER NOT NULL DEFAULT 1,
   FOREIGN KEY (reviewed_trace_id) REFERENCES skill_trace_reviews(id)
 );
@@ -155,6 +150,7 @@ def insert_review(
     *,
     draft_id: str,
     reviewed_json: dict[str, Any] | SkillTraceDraft,
+    original_draft_json: dict[str, Any] | SkillTraceDraft | None = None,
     reviewer_note: str = "",
     reviewed_trace_id: str | None = None,
     db_path: str | Path | None = None,
@@ -162,12 +158,20 @@ def insert_review(
     reviewed = _coerce_draft(reviewed_json)
     if reviewed.draft_id != draft_id:
         raise ValueError(f"reviewed_json.draft_id {reviewed.draft_id!r} does not match draft_id {draft_id!r}")
+    original_draft = _coerce_draft(original_draft_json) if original_draft_json is not None else reviewed
+    if original_draft.draft_id != draft_id:
+        raise ValueError(f"original_draft_json.draft_id {original_draft.draft_id!r} does not match draft_id {draft_id!r}")
+    if original_draft.codex_thread_id != reviewed.codex_thread_id:
+        raise ValueError(
+            f"original_draft_json.codex_thread_id {original_draft.codex_thread_id!r} does not match reviewed thread "
+            f"{reviewed.codex_thread_id!r}"
+        )
 
-    trace_id = reviewed_trace_id or f"trace_{uuid.uuid4().hex[:12]}"
     now = _now_iso()
 
     with connect(db_path) as connection:
         connection.executescript(SCHEMA_SQL)
+        trace_id = reviewed_trace_id or _generate_reviewed_trace_id(connection)
         draft_row = connection.execute(
             """
             SELECT id, problem_case_id, codex_thread_id
@@ -177,7 +181,7 @@ def insert_review(
             (draft_id,),
         ).fetchone()
         if draft_row is None:
-            _upsert_draft(connection, reviewed, _problem_case_id_for_draft(reviewed), now)
+            _upsert_draft(connection, original_draft, _problem_case_id_for_draft(original_draft), now)
             draft_row = connection.execute(
                 """
                 SELECT id, problem_case_id, codex_thread_id
@@ -224,10 +228,9 @@ def insert_review(
                 """
                 INSERT INTO skill_trace_steps (
                   id, reviewed_trace_id, step_order, name, cognitive_layer, reuse_level, domain,
-                  student_action_norm, teacher_rationale, input_state, output_state, source_evidence,
-                  common_errors_json, hint_intent, is_core_step
+                  student_action_norm, common_errors_json, is_core_step
                 )
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """,
                 (
                     f"{trace_id}:{step.step_id}",
@@ -238,12 +241,7 @@ def insert_review(
                     step.reuse_level.value,
                     step.domain,
                     step.student_action_norm,
-                    step.teacher_rationale,
-                    step.input_state,
-                    step.output_state,
-                    step.source_evidence,
                     _json_dumps(step.common_errors),
-                    step.hint_intent,
                     int(step.is_core_step),
                 ),
             )
@@ -255,6 +253,15 @@ def insert_review(
         "draft_id": draft_id,
         "reviewed_trace_id": trace_id,
     }
+
+
+def _generate_reviewed_trace_id(connection: sqlite3.Connection) -> str:
+    for _ in range(8):
+        trace_id = f"trace_{uuid.uuid4().hex}"
+        row = connection.execute("SELECT 1 FROM skill_trace_reviews WHERE id = ?", (trace_id,)).fetchone()
+        if row is None:
+            return trace_id
+    raise RuntimeError("failed to generate a unique reviewed_trace_id")
 
 
 def get_review(reviewed_trace_id: str, db_path: str | Path | None = None) -> dict[str, Any]:
@@ -273,8 +280,7 @@ def get_review(reviewed_trace_id: str, db_path: str | Path | None = None) -> dic
         step_rows = connection.execute(
             """
             SELECT id, step_order, name, cognitive_layer, reuse_level, domain, student_action_norm,
-                   teacher_rationale, input_state, output_state, source_evidence, common_errors_json,
-                   hint_intent, is_core_step
+                   common_errors_json, is_core_step
             FROM skill_trace_steps
             WHERE reviewed_trace_id = ?
             ORDER BY step_order ASC
@@ -424,7 +430,7 @@ def _upsert_problem_case(connection: sqlite3.Connection, problem_case_id: str, d
 def _coerce_draft(payload: dict[str, Any] | SkillTraceDraft) -> SkillTraceDraft:
     if isinstance(payload, SkillTraceDraft):
         return payload
-    return SkillTraceDraft.model_validate(payload)
+    return SkillTraceDraft.model_validate(prune_deprecated_step_fields(payload))
 
 
 def _draft_to_json(draft: SkillTraceDraft) -> dict[str, Any]:
@@ -452,12 +458,7 @@ def _step_row_to_dict(row: sqlite3.Row) -> dict[str, Any]:
         "reuse_level": row["reuse_level"],
         "domain": row["domain"],
         "student_action_norm": row["student_action_norm"],
-        "teacher_rationale": row["teacher_rationale"],
-        "input_state": row["input_state"],
-        "output_state": row["output_state"],
-        "source_evidence": row["source_evidence"],
         "common_errors": json.loads(row["common_errors_json"]),
-        "hint_intent": row["hint_intent"],
         "is_core_step": bool(row["is_core_step"]),
     }
 

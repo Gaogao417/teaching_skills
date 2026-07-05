@@ -11,6 +11,15 @@ from pydantic import BaseModel, ConfigDict, Field, field_validator, model_valida
 
 
 NonEmptyStr = Annotated[str, Field(min_length=1)]
+DEPRECATED_STEP_FIELDS = frozenset(
+    {
+        "teacher_rationale",
+        "input_state",
+        "output_state",
+        "source_evidence",
+        "hint_intent",
+    }
+)
 
 
 class CognitiveLayer(str, Enum):
@@ -55,12 +64,7 @@ class SkillTraceStep(SkillTraceModel):
     reuse_level: ReuseLevel
     domain: str = "general"
     student_action_norm: NonEmptyStr
-    teacher_rationale: str = ""
-    input_state: str = ""
-    output_state: str = ""
-    source_evidence: str = ""
     common_errors: list[str] = Field(default_factory=list)
-    hint_intent: str = ""
     is_core_step: bool = True
 
     @field_validator("step_id", "student_action_norm")
@@ -126,8 +130,20 @@ def find_compound_action_warnings(draft: SkillTraceDraft) -> list[str]:
 
 
 def validate_skill_trace_payload(payload: dict[str, Any]) -> dict[str, Any]:
-    draft = SkillTraceDraft.model_validate(payload)
+    draft = SkillTraceDraft.model_validate(prune_deprecated_step_fields(payload))
     warnings = list(draft.validation.warnings)
     warnings.extend(find_compound_action_warnings(draft))
     return {"ok": True, "errors": [], "warnings": warnings}
 
+
+def prune_deprecated_step_fields(payload: dict[str, Any]) -> dict[str, Any]:
+    cleaned = dict(payload)
+    steps = cleaned.get("steps")
+    if isinstance(steps, list):
+        cleaned["steps"] = [
+            {key: value for key, value in step.items() if key not in DEPRECATED_STEP_FIELDS}
+            if isinstance(step, dict)
+            else step
+            for step in steps
+        ]
+    return cleaned

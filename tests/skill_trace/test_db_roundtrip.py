@@ -83,6 +83,21 @@ class SkillTraceDbRoundtripTest(unittest.TestCase):
         self.assertEqual(handoff["codex_thread_id"], "thr_demo")
         self.assertEqual(handoff["reviewed_trace_id"], "trace_demo")
 
+    def test_auto_review_ids_use_full_uuid_and_do_not_overwrite(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            db_path = Path(tmp_dir) / "skill_trace.db"
+
+            first = insert_review(draft_id="draft_demo", reviewed_json=valid_payload(), db_path=db_path)
+            second = insert_review(draft_id="draft_demo", reviewed_json=valid_payload(), db_path=db_path)
+
+            with sqlite3.connect(db_path) as connection:
+                review_count = connection.execute("SELECT COUNT(*) FROM skill_trace_reviews").fetchone()[0]
+
+        self.assertRegex(first["reviewed_trace_id"], r"^trace_[0-9a-f]{32}$")
+        self.assertRegex(second["reviewed_trace_id"], r"^trace_[0-9a-f]{32}$")
+        self.assertNotEqual(first["reviewed_trace_id"], second["reviewed_trace_id"])
+        self.assertEqual(review_count, 2)
+
     def test_get_thread_handoff_falls_back_to_draft_when_not_reviewed(self) -> None:
         with tempfile.TemporaryDirectory() as tmp_dir:
             db_path = Path(tmp_dir) / "skill_trace.db"
