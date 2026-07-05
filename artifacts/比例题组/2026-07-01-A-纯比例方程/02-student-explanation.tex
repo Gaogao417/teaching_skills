@@ -181,6 +181,7 @@
 \newcommand{\eduIconNote}{\(\triangleright\)}
 
 % ---------- 题目区 ----------
+% 题目区是页面入口：弱标签 + 一条长蓝线 + 大题干。
 \newenvironment{eduProblemBlock}[1][题目]{%
   \needspace{8\baselineskip}
   {\small\color{edu-muted}#1}\par
@@ -438,6 +439,7 @@
   fontupper=\normalsize
 }
 
+% ---------- 例题单栏解答卡片 ----------
 \newtcolorbox{eduSolutionBox}[1]{
   enhanced,
   breakable,
@@ -630,66 +632,56 @@
 \eduSectionTitle{比例方程：看信号，填关键式}
 
 
-\begin{eduSolutionBox}{核心定位：这是填空反应训练}
+\begin{eduSolutionBox}{看信号：先判断能不能直接填}
   \begingroup
   \setlength{\parskip}{2.5mm}
-比例方程先训练“看一眼填什么”，不要把观察过程写成完整推导。\par
-每题只保留三格：题面信号、关键式、答案。\par
-有明显倍数或份数，直接填目标量；没有明显入口，再填交叉相乘关键式。\par
-含一次式时，括号必须跟着整体走。\par
+已经给出比例式时，先看同位置有没有明显倍数或份数。\par
+第四比例项题，前三个数顺序不乱，$x$ 是最后要补的数。\par
+比例中项题，$x$ 是夹在两个数中间的正数，可以先想“中间数平方等于两端乘积”。\par
+看不出倍数或份数时，再写交叉相乘关键式；含一次式时括号必须整体保留。\par
   \endgroup
 \end{eduSolutionBox}
 
 
 
 
-\begin{eduBottomGrid}
-  \begin{eduSummaryLeft}
-    \begin{eduSummaryBlock}{\eduIconCheck}{题面信号}
-    \begin{eduPlainList}
-      \item $a,b,c,x$ 成比例 $\Rightarrow a:b=c:x$。      \item 第四比例项：前三个数顺序不换，$x$ 放第四位。      \item 分数式：上下位置照原式读成比例。      \item 正比例中项：正数 $x$ 满足 $a:x=x:b$。    \end{eduPlainList}
-    \end{eduSummaryBlock}
-  \end{eduSummaryLeft}
-  \eduSummaryDivider
-  \begin{eduSummaryRight}
-    \begin{eduSummaryBlock}{\eduIconPin}{关键式}
-    \begin{eduBulletList}
-      \item 倍数法：$4:12=5:x$，看 $4\to12$ 是 $\times3$，直接 $x=15$。      \item 份数法：$x:24=5:8$，$24$ 对应 $8$ 份，$x$ 对应 $5$ 份。      \item 交叉相乘：$7:x=3:5$，只填 $3x=35$。      \item 含一次式：$\dfrac{x+2}{5}=\dfrac{3}{4}$，只填 $4(x+2)=15$。    \end{eduBulletList}
-    \end{eduSummaryBlock}
-  \end{eduSummaryRight}
-\end{eduBottomGrid}
+\begin{eduProblemBlock}[例题]
+\begin{enumerate}[label=(\arabic*)]
+  \item $4:12=5:x$，$x=\underline{\hspace{1.5cm}}$。
+  \item 求 $5,20,3$ 的第四比例项 $x$，$x=\underline{\hspace{1.5cm}}$。
+  \item 正数 $x$ 是 $9$ 和 $16$ 的比例中项，$x=\underline{\hspace{1.5cm}}$。
+  \item $\dfrac{x+2}{5}=\dfrac{3}{4}$，交叉相乘得 $\underline{\hspace{2.6cm}}$，$x=\underline{\hspace{1.5cm}}$。
+\end{enumerate}
+
+\end{eduProblemBlock}
 
 
 
 
 
-\begin{eduSolutionBox}{填空卡：只写最短反应}
-  \begingroup
-  \setlength{\parskip}{2.5mm}
-\begin{tabular}{p{0.24\linewidth}p{0.34\linewidth}p{0.30\linewidth}}
-类型 & 先填什么 & 直接反应\\
-明显倍数 & 标出同乘几倍 & 同位置也乘几倍\\
-简单份数 & 找总量对应几份 & 一份是多少，再取目标份数\\
-无明显倍数 & 写交叉相乘式 & 解出空里的数\\
-含一次式 & 把一次式当整体 & 先保留括号\\
-\end{tabular}
-\par
-  \endgroup
-\end{eduSolutionBox}
+\begin{eduAuxItem}{思路导航}
+比例式先看倍数$\;\to\;$第四比例项保顺序$\;\to\;$比例中项看两端$\;\to\;$一次式整体交叉\end{eduAuxItem}
 
 
 
 
-\begin{eduMistakeBox}
-\eduSubTitle{易错提醒}比例方程最容易错在顺序和整体。第四比例项不要随便换位置；$x+2$、$2x-1$ 这类一次式要整块参与交叉相乘。\end{eduMistakeBox}
+\begin{eduSubQuestionItem}{例题}
+完成上面四个填空。\end{eduSubQuestionItem}
 
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{小贴士}
+        \eduSideHint{先找入口}{能看倍数先看倍数；遇到“中项”看两端；含一次式先整体保留。}
+  \end{eduExplainLeft}
 
-
-
-\begin{eduSummaryBlock}{\eduIconPin}{填法提醒}
-\begin{eduBulletList}
-  \item 先看有没有明显倍数或份数，能直接填就直接填。  \item 看不出倍数或份数时，再写交叉相乘关键式。  \item 填空题只要关键式和答案稳，不把观察过程展开成完整推导。\end{eduBulletList}
-\end{eduSummaryBlock}
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{填法}
+      \eduExplainStep{1}{比例式先看倍数}{$4\to12$ 是 $\times3$，所以 $5\to x$ 也乘 $3$，$x=15$。}
+      \eduExplainStep{2}{第四比例项保顺序}{前两个数 $5\to20$ 是 $\times4$，所以 $3\to x$ 也乘 $4$，$x=12$。}
+      \eduExplainStep{3}{比例中项看两端}{两端乘积 $9\times16=144$，所以 $x^2=144$；$x$ 为正数，$x=12$。}
+      \eduExplainStep{4}{一次式整体交叉}{交叉相乘得 $4(x+2)=15$，解得 $x=\dfrac{7}{4}$。}
+  \end{eduExplainRight}
+\end{eduDualExplain}
 
 
 

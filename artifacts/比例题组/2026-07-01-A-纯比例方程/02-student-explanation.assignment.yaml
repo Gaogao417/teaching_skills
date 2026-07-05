@@ -19,46 +19,49 @@ sections:
   blocks:
   - type: solution
     id: a-core
-    title: 核心定位：这是填空反应训练
+    title: 看信号：先判断能不能直接填
     items:
-    - latex: 比例方程先训练“看一眼填什么”，不要把观察过程写成完整推导。
-    - latex: 每题只保留三格：题面信号、关键式、答案。
-    - latex: 有明显倍数或份数，直接填目标量；没有明显入口，再填交叉相乘关键式。
-    - latex: 含一次式时，括号必须跟着整体走。
-  - type: summary_dual
-    id: a-signal-key
-    left_title: 题面信号
-    left_items:
-    - latex: $a,b,c,x$ 成比例 $\Rightarrow a:b=c:x$。
-    - latex: 第四比例项：前三个数顺序不换，$x$ 放第四位。
-    - latex: 分数式：上下位置照原式读成比例。
-    - latex: 正比例中项：正数 $x$ 满足 $a:x=x:b$。
-    right_title: 关键式
-    right_items:
-    - latex: 倍数法：$4:12=5:x$，看 $4\to12$ 是 $\times3$，直接 $x=15$。
-    - latex: 份数法：$x:24=5:8$，$24$ 对应 $8$ 份，$x$ 对应 $5$ 份。
-    - latex: 交叉相乘：$7:x=3:5$，只填 $3x=35$。
-    - latex: 含一次式：$\dfrac{x+2}{5}=\dfrac{3}{4}$，只填 $4(x+2)=15$。
-  - type: solution
-    id: a-fillin-table
-    title: 填空卡：只写最短反应
-    items:
-    - content_latex: |
-        \begin{tabular}{p{0.24\linewidth}p{0.34\linewidth}p{0.30\linewidth}}
-        类型 & 先填什么 & 直接反应\\
-        明显倍数 & 标出同乘几倍 & 同位置也乘几倍\\
-        简单份数 & 找总量对应几份 & 一份是多少，再取目标份数\\
-        无明显倍数 & 写交叉相乘式 & 解出空里的数\\
-        含一次式 & 把一次式当整体 & 先保留括号\\
-        \end{tabular}
-  - type: mistake
-    id: a-mistake
-    title: 易错提醒
-    content_latex: 比例方程最容易错在顺序和整体。第四比例项不要随便换位置；$x+2$、$2x-1$ 这类一次式要整块参与交叉相乘。
-  - type: method_reminder
-    id: a-method
-    title: 填法提醒
-    items:
-    - latex: 先看有没有明显倍数或份数，能直接填就直接填。
-    - latex: 看不出倍数或份数时，再写交叉相乘关键式。
-    - latex: 填空题只要关键式和答案稳，不把观察过程展开成完整推导。
+    - latex: 已经给出比例式时，先看同位置有没有明显倍数或份数。
+    - latex: 第四比例项题，前三个数顺序不乱，$x$ 是最后要补的数。
+    - latex: 比例中项题，$x$ 是夹在两个数中间的正数，可以先想“中间数平方等于两端乘积”。
+    - latex: 看不出倍数或份数时，再写交叉相乘关键式；含一次式时括号必须整体保留。
+  - type: problemcard
+    id: a-example
+    label: 例题
+    stem_latex: |
+      \begin{enumerate}[label=(\arabic*)]
+        \item $4:12=5:x$，$x=\underline{\hspace{1.5cm}}$。
+        \item 求 $5,20,3$ 的第四比例项 $x$，$x=\underline{\hspace{1.5cm}}$。
+        \item 正数 $x$ 是 $9$ 和 $16$ 的比例中项，$x=\underline{\hspace{1.5cm}}$。
+        \item $\dfrac{x+2}{5}=\dfrac{3}{4}$，交叉相乘得 $\underline{\hspace{2.6cm}}$，$x=\underline{\hspace{1.5cm}}$。
+      \end{enumerate}
+  - type: route
+    id: a-example-route
+    steps:
+    - id: a-q1-ratio
+      latex: 比例式先看倍数
+      content_latex: $4\to12$ 是 $\times3$，所以 $5\to x$ 也乘 $3$，$x=15$。
+    - id: a-q2-fourth
+      latex: 第四比例项保顺序
+      content_latex: 前两个数 $5\to20$ 是 $\times4$，所以 $3\to x$ 也乘 $4$，$x=12$。
+    - id: a-q3-mean
+      latex: 比例中项看两端
+      content_latex: 两端乘积 $9\times16=144$，所以 $x^2=144$；$x$ 为正数，$x=12$。
+    - id: a-q4-whole
+      latex: 一次式整体交叉
+      content_latex: 交叉相乘得 $4(x+2)=15$，解得 $x=\dfrac{7}{4}$。
+  - type: dual_explanation
+    id: a-example-solution
+    label: 例题
+    stem_latex: 完成上面四个填空。
+    side_title: 小贴士
+    side_items:
+    - kind: hint
+      title: 先找入口
+      content_latex: 能看倍数先看倍数；遇到“中项”看两端；含一次式先整体保留。
+    solution_title: 填法
+    solution_step_ids:
+    - a-q1-ratio
+    - a-q2-fourth
+    - a-q3-mean
+    - a-q4-whole
