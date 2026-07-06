@@ -75,4 +75,10 @@ artifacts/<学生名>/YYYY-MM-DD-<内容>/02-student-explanation.assignment.yaml
 
 若 YAML 中存在 `diagram_slot`，下一步使用 `math-geometry-diagram-renderer` 生成 `02-student-explanation.resolved.assignment.yaml`。
 
-若无 `diagram_slot` 或已得到 resolved YAML，下一步使用 `math-assignment-latex` 渲染并编译 PDF。
+若无 `diagram_slot` 或已得到 resolved YAML，先打开讲义专用 review UI：
+
+```bash
+./.venv/bin/python math-assignment-latex/scripts/open_explanation_review.py <02-student-explanation.assignment.yaml 或 resolved YAML>
+```
+
+用户确认并保存 reviewed YAML 后，再使用 `math-assignment-latex` 渲染并编译 PDF。

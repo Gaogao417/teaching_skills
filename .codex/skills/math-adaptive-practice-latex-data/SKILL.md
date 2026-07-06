@@ -148,4 +148,10 @@ teaching:
 
 若任一 YAML 中存在 `diagram_slot`，下一步使用 `math-geometry-diagram-renderer` 生成 resolved YAML。
 
-得到 resolved YAML 后，或确认普通 assignment YAML 中不存在 `diagram_slot` 后，下一步使用 `math-assignment-latex` 渲染并编译 PDF。
+得到 resolved YAML 后，或确认普通 assignment YAML 中不存在 `diagram_slot` 后，先打开练习专用 review UI：
+
+```bash
+./.venv/bin/python math-assignment-latex/scripts/open_assignment_review.py <03-adaptive-practice.student.assignment.yaml> --teacher <03-adaptive-practice.teacher.assignment.yaml>
+```
+
+用户确认并保存 reviewed YAML 后，再使用 `math-assignment-latex` 渲染并编译 PDF。

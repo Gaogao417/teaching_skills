@@ -23,6 +23,15 @@ assignment.yaml -> Jinja2 template -> .tex -> PDF
 
 ## 工作流
 
+如果用户要先人工审改已有 YAML，打开对应 review UI：
+
+```bash
+./.venv/bin/python math-assignment-latex/scripts/open_explanation_review.py <02-student-explanation.assignment.yaml>
+./.venv/bin/python math-assignment-latex/scripts/open_assignment_review.py <03-adaptive-practice.student.assignment.yaml> --teacher <03-adaptive-practice.teacher.assignment.yaml>
+```
+
+Review UI 只负责结构化编辑、保存 reviewed YAML、调用验证/渲染/编译按钮，不生成教学内容。
+
 先验证 YAML：
 
 ```bash

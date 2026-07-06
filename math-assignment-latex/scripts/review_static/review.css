@@ -1,0 +1,281 @@
+:root {
+  --bg: #f3f6f7;
+  --panel: #ffffff;
+  --ink: #1f2933;
+  --muted: #64748b;
+  --line: #d8e0e6;
+  --accent: #176b87;
+  --accent-dark: #0f5065;
+  --soft: #eef6f8;
+  --danger: #9f2a2a;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.app-shell {
+  min-height: 100vh;
+  padding: 16px;
+}
+
+.topbar,
+.panel,
+.bottom-grid {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 16px 18px;
+}
+
+.topbar h1,
+.panel-title h2 {
+  margin: 0;
+}
+
+.eyebrow {
+  margin: 0 0 4px;
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.muted {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.toolbar,
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.btn {
+  min-height: 34px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #fff;
+  color: var(--ink);
+  cursor: pointer;
+  font-weight: 700;
+  padding: 7px 12px;
+}
+
+.btn.primary {
+  border-color: var(--accent-dark);
+  background: var(--accent);
+  color: #fff;
+}
+
+.btn.small {
+  min-height: 28px;
+  padding: 4px 9px;
+}
+
+.btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.workspace {
+  display: grid;
+  gap: 14px;
+  margin-top: 14px;
+}
+
+.three-pane {
+  grid-template-columns: 290px minmax(360px, 0.95fr) minmax(420px, 1.05fr);
+}
+
+.assignment-workspace {
+  grid-template-columns: 270px minmax(420px, 0.9fr) minmax(520px, 1.1fr);
+}
+
+.panel {
+  min-width: 0;
+  padding: 14px;
+}
+
+.panel-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.card-list,
+.block-flow,
+.question-table,
+.editor-body,
+.assignment-editor {
+  max-height: 66vh;
+  overflow: auto;
+}
+
+.section-card,
+.block-card,
+.question-row {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: #fff;
+  color: var(--ink);
+  cursor: pointer;
+  display: block;
+  margin-bottom: 8px;
+  padding: 10px;
+  text-align: left;
+}
+
+.section-card.is-selected,
+.block-card.is-selected,
+.question-row.is-selected {
+  border-color: var(--accent);
+  background: var(--soft);
+}
+
+.card-title {
+  display: block;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 8px;
+}
+
+.chip {
+  border-radius: 999px;
+  background: #edf2f4;
+  color: #425466;
+  font-size: 12px;
+  padding: 2px 7px;
+}
+
+.flow-type {
+  color: var(--accent-dark);
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.field {
+  display: grid;
+  gap: 5px;
+  margin-bottom: 12px;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #fbfcfd;
+  color: var(--ink);
+  font: 14px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  padding: 8px;
+}
+
+textarea.mono,
+pre {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 12px;
+}
+
+textarea {
+  resize: vertical;
+}
+
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.assignment-editor {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.editor-column {
+  min-width: 0;
+}
+
+.editor-column h3 {
+  margin: 0 0 10px;
+}
+
+.question-row {
+  display: grid;
+  grid-template-columns: 48px 70px 1fr 64px;
+  gap: 8px;
+  align-items: start;
+}
+
+.question-stem {
+  color: var(--ink);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.bottom-grid {
+  display: grid;
+  grid-template-columns: minmax(320px, 0.8fr) minmax(420px, 1.2fr);
+  gap: 14px;
+  margin-top: 14px;
+  padding: 14px;
+}
+
+#result-output {
+  min-height: 145px;
+  max-height: 260px;
+  overflow: auto;
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+.danger {
+  color: var(--danger);
+}
+
+@media (max-width: 1180px) {
+  .three-pane,
+  .assignment-workspace,
+  .bottom-grid,
+  .assignment-editor {
+    grid-template-columns: 1fr;
+  }
+
+  .topbar {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}

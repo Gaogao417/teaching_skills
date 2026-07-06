@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Assignment Review</title>
+    <link rel="stylesheet" href="/static/review.css">
+  </head>
+  <body>
+    <main class="app-shell assignment-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Assignment Review</p>
+          <h1 id="doc-title">练习审核</h1>
+          <p id="doc-path" class="muted"></p>
+        </div>
+        <div class="toolbar">
+          <button id="save-reviewed" class="btn primary" type="button">保存 reviewed YAML</button>
+          <button id="sync-teacher" class="btn" type="button">同步题干到教师版</button>
+          <button id="rebuild-answer-key" class="btn" type="button">重建 answer_key</button>
+          <button id="validate-yaml" class="btn" type="button">验证</button>
+          <button id="render-latex" class="btn" type="button">渲染 LaTeX</button>
+        </div>
+      </header>
+
+      <section class="workspace assignment-workspace">
+        <aside class="panel section-panel">
+          <div class="panel-title">
+            <h2>题组</h2>
+          </div>
+          <div id="section-list" class="card-list"></div>
+        </aside>
+
+        <section class="panel question-panel">
+          <div class="panel-title">
+            <h2 id="section-title">题目</h2>
+            <span id="section-meta" class="muted"></span>
+          </div>
+          <div id="question-table" class="question-table"></div>
+        </section>
+
+        <section class="panel editor-panel">
+          <div class="panel-title">
+            <h2 id="editor-title">题目编辑</h2>
+            <span id="editor-meta" class="muted"></span>
+          </div>
+          <div id="editor" class="assignment-editor"></div>
+        </section>
+      </section>
+
+      <section class="bottom-grid">
+        <section class="panel agent-panel">
+          <div class="panel-title">
+            <h2>给 agent 修改练习</h2>
+          </div>
+          <textarea id="agent-instruction" rows="4" placeholder="写清楚希望 agent 改哪道题、学生版还是教师版。"></textarea>
+          <button id="save-agent-request" class="btn" type="button">保存修改指令</button>
+        </section>
+
+        <section class="panel output-panel">
+          <div class="panel-title">
+            <h2>输出</h2>
+            <button id="compile-pdf" class="btn small" type="button" disabled>编译 PDF</button>
+          </div>
+          <pre id="result-output"></pre>
+        </section>
+      </section>
+    </main>
+    <script src="/static/assignment_review.js"></script>
+  </body>
+</html>
