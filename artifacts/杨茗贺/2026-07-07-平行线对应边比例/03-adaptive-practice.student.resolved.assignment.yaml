@@ -9,6 +9,8 @@ meta:
   source_artifacts:
     structure_analysis: artifacts/杨茗贺/2026-07-07-平行线对应边比例/01-structure-analysis.md
     explanation: artifacts/杨茗贺/2026-07-07-平行线对应边比例/02-student-explanation.resolved.assignment.yaml
+    diagram_plan_regenerated: writer-stage synthetic renderer_spec; no ordinary-assignment
+      mechanical slot reuse
 render:
   template: exam-zh-practice
   paper_size: a4paper
@@ -23,88 +25,92 @@ sections:
     id: q1
     points: 8
     label: 第 1 题
-    stem_latex: '如图，在 $\triangle ACE$ 中，点 $B$ 在线段 $AC$ 上，点 $D$ 在线段 $AE$ 上，且 $BD\parallel CE$。已知 $AD=4$，$AB=3$，$BC=6$，求 $DE$。
+    stem_latex: '如图，在 $\triangle ACE$ 中，点 $B$ 在线段 $AC$ 上，点 $D$ 在线段 $AE$ 上，且 $BD\parallel
+      CE$。已知 $AD=4$，$AB=3$，$BC=6$，求 $DE$。
 
       '
     answer_space:
       type: steps
       height: 34mm
       step_count: 4
+    hints:
+    - content_latex: 要求的边是 $DE$，这条边的对应边是 $BC$；先想 $DE:AD=BC:AB$。
     diagram_col:
       kind: tikz
       tikz_code: ''
       tikz_path: build/diagram/jobs/practice-student-q1-prompt/rendered/prompt.fragment.tex
       diagram_ref: practice.student.q1.prompt
       diagram_job_id: practice-student-q1-prompt
-      width: 56mm
-      caption: 第 1 题图：$BD\parallel CE$
+      width: 60mm
+      caption: 第 1 题图：观察对应边和已知长度。
       variant: prompt
       disclosure_policy: clean
-      artifact_hash: sha256:9fed073fa1a0994bb65e73649b4de14d1fd8e493968a6ce1702c6ffc70ea1801
+      artifact_hash: sha256:f32c3524004bec64931f8f59461100d0d3b5c4fc649f1aa4050f7c355e97cafc
       packages:
       - tikz
       libraries: []
-    hints:
-    - content_latex: 要求的边是 $DE$，这条边的对应边是 $BC$；先想 $DE:AD=BC:AB$。
   - type: problem
     id: q2
     points: 8
     label: 第 2 题
-    stem_latex: '如图，在 $\triangle ACE$ 中，点 $B$ 在线段 $AC$ 上，点 $D$ 在线段 $AE$ 上，且 $BD\parallel CE$。已知 $AB=5$，$BC=3$，$BD=10$，求 $CE$。
+    stem_latex: '如图，在 $\triangle ACE$ 中，点 $B$ 在线段 $AC$ 上，点 $D$ 在线段 $AE$ 上，且 $BD\parallel
+      CE$。已知 $AB=5$，$BC=3$，$BD=10$，求 $CE$。
 
       '
     answer_space:
       type: steps
       height: 34mm
       step_count: 4
+    hints:
+    - content_latex: 要求的边是 $CE$，这条边的对应边是 $BD$；先把 $AB$ 和 $AC$ 的比例写出来。
     diagram_col:
       kind: tikz
       tikz_code: ''
       tikz_path: build/diagram/jobs/practice-student-q2-prompt/rendered/prompt.fragment.tex
       diagram_ref: practice.student.q2.prompt
       diagram_job_id: practice-student-q2-prompt
-      width: 56mm
-      caption: 第 2 题图：$BD\parallel CE$
+      width: 60mm
+      caption: 第 2 题图：观察对应边和已知长度。
       variant: prompt
       disclosure_policy: clean
-      artifact_hash: sha256:9fed073fa1a0994bb65e73649b4de14d1fd8e493968a6ce1702c6ffc70ea1801
+      artifact_hash: sha256:aa47e638effece80be8c9c07ea17d88e60d48155f5603f810e09406ba873b43b
       packages:
       - tikz
       libraries: []
-    hints:
-    - content_latex: 要求的边是 $CE$，这条边的对应边是 $BD$；先把 $AB$ 和 $AC$ 的比例写出来。
   - type: problem
     id: q3
     points: 8
     label: 第 3 题
-    stem_latex: '如图，在 $\triangle ACE$ 中，点 $B$ 在线段 $AC$ 上，点 $D$ 在线段 $AE$ 上，且 $BD\parallel CE$。已知 $AD=6$，$DE=4$，$CE=15$，求 $BD$。
+    stem_latex: '如图，在 $\triangle ACE$ 中，点 $B$ 在线段 $AC$ 上，点 $D$ 在线段 $AE$ 上，且 $BD\parallel
+      CE$。已知 $AD=6$，$DE=4$，$CE=15$，求 $BD$。
 
       '
     answer_space:
       type: steps
       height: 34mm
       step_count: 4
+    hints:
+    - content_latex: 要求的边是 $BD$，这条边的对应边是 $CE$；先把 $AD$ 和 $AE$ 的比例写出来。
     diagram_col:
       kind: tikz
       tikz_code: ''
       tikz_path: build/diagram/jobs/practice-student-q3-prompt/rendered/prompt.fragment.tex
       diagram_ref: practice.student.q3.prompt
       diagram_job_id: practice-student-q3-prompt
-      width: 56mm
-      caption: 第 3 题图：$BD\parallel CE$
+      width: 60mm
+      caption: 第 3 题图：观察对应边和已知长度。
       variant: prompt
       disclosure_policy: clean
-      artifact_hash: sha256:9fed073fa1a0994bb65e73649b4de14d1fd8e493968a6ce1702c6ffc70ea1801
+      artifact_hash: sha256:371a1607f3d98e1d41c46b69394f558e7ba42d9ca6f81c7cf34512ea34185319
       packages:
       - tikz
       libraries: []
-    hints:
-    - content_latex: 要求的边是 $BD$，这条边的对应边是 $CE$；先把 $AD$ 和 $AE$ 的比例写出来。
   - type: problem
     id: q4
     points: 8
     label: 第 4 题
-    stem_latex: '如图，在 $\triangle ACE$ 中，点 $B$ 在线段 $AC$ 上，点 $D$ 在线段 $AE$ 上，且 $BD\parallel CE$。已知 $AB=4$，$AC=10$，$DE=9$，求 $AD$。
+    stem_latex: '如图，在 $\triangle ACE$ 中，点 $B$ 在线段 $AC$ 上，点 $D$ 在线段 $AE$ 上，且 $BD\parallel
+      CE$。已知 $AB=4$，$AC=10$，$DE=9$，求 $AD$。
 
       '
     answer_space:
@@ -117,11 +123,11 @@ sections:
       tikz_path: build/diagram/jobs/practice-student-q4-prompt/rendered/prompt.fragment.tex
       diagram_ref: practice.student.q4.prompt
       diagram_job_id: practice-student-q4-prompt
-      width: 56mm
-      caption: 第 4 题图：$BD\parallel CE$
+      width: 60mm
+      caption: 第 4 题图：观察对应边和已知长度。
       variant: prompt
       disclosure_policy: clean
-      artifact_hash: sha256:9fed073fa1a0994bb65e73649b4de14d1fd8e493968a6ce1702c6ffc70ea1801
+      artifact_hash: sha256:f59cb9b2cf8cf59f5407f7de0282ae3782d4821c86ed7dff0752359da5a958c2
       packages:
       - tikz
       libraries: []
@@ -129,7 +135,8 @@ sections:
     id: q5
     points: 8
     label: 第 5 题
-    stem_latex: '如图，在 $\triangle ACE$ 中，点 $B$ 在线段 $AC$ 上，点 $D$ 在线段 $AE$ 上，且 $BD\parallel CE$。已知 $AD=5$，$AE=8$，$BD=6$，求 $CE$，并求 $DE:AD$。
+    stem_latex: '如图，在 $\triangle ACE$ 中，点 $B$ 在线段 $AC$ 上，点 $D$ 在线段 $AE$ 上，且 $BD\parallel
+      CE$。已知 $AD=5$，$AE=8$，$BD=6$，求 $CE$，并求 $DE:AD$。
 
       '
     answer_space:
@@ -142,11 +149,11 @@ sections:
       tikz_path: build/diagram/jobs/practice-student-q5-prompt/rendered/prompt.fragment.tex
       diagram_ref: practice.student.q5.prompt
       diagram_job_id: practice-student-q5-prompt
-      width: 56mm
-      caption: 第 5 题图：$BD\parallel CE$
+      width: 60mm
+      caption: 第 5 题图：观察对应边和已知长度。
       variant: prompt
       disclosure_policy: clean
-      artifact_hash: sha256:9fed073fa1a0994bb65e73649b4de14d1fd8e493968a6ce1702c6ffc70ea1801
+      artifact_hash: sha256:4200cccaca804158bfe38f60eebc8f2c98e00def987c8fdc9aac2ac8873eefab
       packages:
       - tikz
       libraries: []
@@ -154,7 +161,8 @@ sections:
     id: q6
     points: 8
     label: 第 6 题
-    stem_latex: '如图，在 $\triangle ACE$ 中，点 $B$ 在线段 $AC$ 上，点 $D$ 在线段 $AE$ 上，且 $BD\parallel CE$。已知 $BD:CE=3:7$，$AD=6$，$BC=8$，求 $AB$ 和 $DE$。
+    stem_latex: '如图，在 $\triangle ACE$ 中，点 $B$ 在线段 $AC$ 上，点 $D$ 在线段 $AE$ 上，且 $BD\parallel
+      CE$。已知 $BD:CE=3:7$，$AD=6$，$BC=8$，求 $AB$ 和 $DE$。
 
       '
     answer_space:
@@ -167,11 +175,11 @@ sections:
       tikz_path: build/diagram/jobs/practice-student-q6-prompt/rendered/prompt.fragment.tex
       diagram_ref: practice.student.q6.prompt
       diagram_job_id: practice-student-q6-prompt
-      width: 56mm
-      caption: 第 6 题图：$BD\parallel CE$
+      width: 60mm
+      caption: 第 6 题图：观察对应边和已知长度。
       variant: prompt
       disclosure_policy: clean
-      artifact_hash: sha256:9fed073fa1a0994bb65e73649b4de14d1fd8e493968a6ce1702c6ffc70ea1801
+      artifact_hash: sha256:87d3307da9089390d6a9222517b99e2e8252037a8a243ab16d3dd87b43e4f524
       packages:
       - tikz
       libraries: []

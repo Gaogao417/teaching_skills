@@ -9,6 +9,8 @@ meta:
   source_artifacts:
     structure_analysis: artifacts/杨茗贺/2026-07-07-平行线对应边比例/01-structure-analysis.md
     explanation: artifacts/杨茗贺/2026-07-07-平行线对应边比例/02-student-explanation.resolved.assignment.yaml
+    diagram_plan_regenerated: writer-stage synthetic renderer_spec; no ordinary-assignment
+      mechanical slot reuse
 render:
   template: exam-zh-practice
   paper_size: a4paper
@@ -23,7 +25,8 @@ sections:
     id: q1
     points: 8
     label: 第 1 题
-    stem_latex: '如图，在 $\triangle ACE$ 中，点 $B$ 在线段 $AC$ 上，点 $D$ 在线段 $AE$ 上，且 $BD\parallel CE$。已知 $AD=4$，$AB=3$，$BC=6$，求 $DE$。
+    stem_latex: '如图，在 $\triangle ACE$ 中，点 $B$ 在线段 $AC$ 上，点 $D$ 在线段 $AE$ 上，且 $BD\parallel
+      CE$。已知 $AD=4$，$AB=3$，$BC=6$，求 $DE$。
 
       '
     answer_space:
@@ -50,27 +53,28 @@ sections:
       complexity_note: 只需一次比例和一次乘法。
       upgrade_rule: 能主动写出 $DE:AD=BC:AB$。
       fallback_move: 回到目标量和已知量组成目标比。
+    hints:
+    - content_latex: 要求的边是 $DE$，这条边的对应边是 $BC$；先想 $DE:AD=BC:AB$。
     diagram_col:
       kind: tikz
       tikz_code: ''
       tikz_path: build/diagram/jobs/practice-teacher-q1-prompt/rendered/prompt.fragment.tex
       diagram_ref: practice.teacher.q1.prompt
       diagram_job_id: practice-teacher-q1-prompt
-      width: 56mm
-      caption: 第 1 题图：$BD\parallel CE$
+      width: 60mm
+      caption: 第 1 题图：观察对应边和已知长度。
       variant: prompt
       disclosure_policy: clean
-      artifact_hash: sha256:9fed073fa1a0994bb65e73649b4de14d1fd8e493968a6ce1702c6ffc70ea1801
+      artifact_hash: sha256:f32c3524004bec64931f8f59461100d0d3b5c4fc649f1aa4050f7c355e97cafc
       packages:
       - tikz
       libraries: []
-    hints:
-    - content_latex: 要求的边是 $DE$，这条边的对应边是 $BC$；先想 $DE:AD=BC:AB$。
   - type: problem
     id: q2
     points: 8
     label: 第 2 题
-    stem_latex: '如图，在 $\triangle ACE$ 中，点 $B$ 在线段 $AC$ 上，点 $D$ 在线段 $AE$ 上，且 $BD\parallel CE$。已知 $AB=5$，$BC=3$，$BD=10$，求 $CE$。
+    stem_latex: '如图，在 $\triangle ACE$ 中，点 $B$ 在线段 $AC$ 上，点 $D$ 在线段 $AE$ 上，且 $BD\parallel
+      CE$。已知 $AB=5$，$BC=3$，$BD=10$，求 $CE$。
 
       '
     answer_space:
@@ -97,27 +101,28 @@ sections:
       complexity_note: 一加一乘，数值保持整数。
       upgrade_rule: 能说明 $BD$ 对应 $CE$，$AB$ 对应 $AC$。
       fallback_move: 先标出小三角形边和大三角形边。
+    hints:
+    - content_latex: 要求的边是 $CE$，这条边的对应边是 $BD$；先把 $AB$ 和 $AC$ 的比例写出来。
     diagram_col:
       kind: tikz
       tikz_code: ''
       tikz_path: build/diagram/jobs/practice-teacher-q2-prompt/rendered/prompt.fragment.tex
       diagram_ref: practice.teacher.q2.prompt
       diagram_job_id: practice-teacher-q2-prompt
-      width: 56mm
-      caption: 第 2 题图：$BD\parallel CE$
+      width: 60mm
+      caption: 第 2 题图：观察对应边和已知长度。
       variant: prompt
       disclosure_policy: clean
-      artifact_hash: sha256:9fed073fa1a0994bb65e73649b4de14d1fd8e493968a6ce1702c6ffc70ea1801
+      artifact_hash: sha256:aa47e638effece80be8c9c07ea17d88e60d48155f5603f810e09406ba873b43b
       packages:
       - tikz
       libraries: []
-    hints:
-    - content_latex: 要求的边是 $CE$，这条边的对应边是 $BD$；先把 $AB$ 和 $AC$ 的比例写出来。
   - type: problem
     id: q3
     points: 8
     label: 第 3 题
-    stem_latex: '如图，在 $\triangle ACE$ 中，点 $B$ 在线段 $AC$ 上，点 $D$ 在线段 $AE$ 上，且 $BD\parallel CE$。已知 $AD=6$，$DE=4$，$CE=15$，求 $BD$。
+    stem_latex: '如图，在 $\triangle ACE$ 中，点 $B$ 在线段 $AC$ 上，点 $D$ 在线段 $AE$ 上，且 $BD\parallel
+      CE$。已知 $AD=6$，$DE=4$，$CE=15$，求 $BD$。
 
       '
     answer_space:
@@ -144,27 +149,28 @@ sections:
       complexity_note: 一次求整段，一次比例乘法。
       upgrade_rule: 能主动选择 $AD:AE$，不依赖左侧边。
       fallback_move: 回看 $BD$ 和 $CE$ 分别在哪两个三角形中。
+    hints:
+    - content_latex: 要求的边是 $BD$，这条边的对应边是 $CE$；先把 $AD$ 和 $AE$ 的比例写出来。
     diagram_col:
       kind: tikz
       tikz_code: ''
       tikz_path: build/diagram/jobs/practice-teacher-q3-prompt/rendered/prompt.fragment.tex
       diagram_ref: practice.teacher.q3.prompt
       diagram_job_id: practice-teacher-q3-prompt
-      width: 56mm
-      caption: 第 3 题图：$BD\parallel CE$
+      width: 60mm
+      caption: 第 3 题图：观察对应边和已知长度。
       variant: prompt
       disclosure_policy: clean
-      artifact_hash: sha256:9fed073fa1a0994bb65e73649b4de14d1fd8e493968a6ce1702c6ffc70ea1801
+      artifact_hash: sha256:371a1607f3d98e1d41c46b69394f558e7ba42d9ca6f81c7cf34512ea34185319
       packages:
       - tikz
       libraries: []
-    hints:
-    - content_latex: 要求的边是 $BD$，这条边的对应边是 $CE$；先把 $AD$ 和 $AE$ 的比例写出来。
   - type: problem
     id: q4
     points: 8
     label: 第 4 题
-    stem_latex: '如图，在 $\triangle ACE$ 中，点 $B$ 在线段 $AC$ 上，点 $D$ 在线段 $AE$ 上，且 $BD\parallel CE$。已知 $AB=4$，$AC=10$，$DE=9$，求 $AD$。
+    stem_latex: '如图，在 $\triangle ACE$ 中，点 $B$ 在线段 $AC$ 上，点 $D$ 在线段 $AE$ 上，且 $BD\parallel
+      CE$。已知 $AB=4$，$AC=10$，$DE=9$，求 $AD$。
 
       '
     answer_space:
@@ -197,11 +203,11 @@ sections:
       tikz_path: build/diagram/jobs/practice-teacher-q4-prompt/rendered/prompt.fragment.tex
       diagram_ref: practice.teacher.q4.prompt
       diagram_job_id: practice-teacher-q4-prompt
-      width: 56mm
-      caption: 第 4 题图：$BD\parallel CE$
+      width: 60mm
+      caption: 第 4 题图：观察对应边和已知长度。
       variant: prompt
       disclosure_policy: clean
-      artifact_hash: sha256:9fed073fa1a0994bb65e73649b4de14d1fd8e493968a6ce1702c6ffc70ea1801
+      artifact_hash: sha256:f59cb9b2cf8cf59f5407f7de0282ae3782d4821c86ed7dff0752359da5a958c2
       packages:
       - tikz
       libraries: []
@@ -209,7 +215,8 @@ sections:
     id: q5
     points: 8
     label: 第 5 题
-    stem_latex: '如图，在 $\triangle ACE$ 中，点 $B$ 在线段 $AC$ 上，点 $D$ 在线段 $AE$ 上，且 $BD\parallel CE$。已知 $AD=5$，$AE=8$，$BD=6$，求 $CE$，并求 $DE:AD$。
+    stem_latex: '如图，在 $\triangle ACE$ 中，点 $B$ 在线段 $AC$ 上，点 $D$ 在线段 $AE$ 上，且 $BD\parallel
+      CE$。已知 $AD=5$，$AE=8$，$BD=6$，求 $CE$，并求 $DE:AD$。
 
       '
     answer_space:
@@ -217,7 +224,8 @@ sections:
       height: 34mm
       step_count: 5
     answer: $CE=\dfrac{48}{5}$，$DE:AD=3:5$。
-    explanation: $BD:CE=AD:AE=5:8$，故 $CE=6\times\dfrac85=\dfrac{48}{5}$；$DE=8-5=3$，所以 $DE:AD=3:5$。
+    explanation: $BD:CE=AD:AE=5:8$，故 $CE=6\times\dfrac85=\dfrac{48}{5}$；$DE=8-5=3$，所以
+      $DE:AD=3:5$。
     solution_steps:
     - title: 用平行线段比求 CE
       content: $BD:CE=AD:AE=5:8$，所以 $CE=BD\times\dfrac85=6\times\dfrac85=\dfrac{48}{5}$。
@@ -240,11 +248,11 @@ sections:
       tikz_path: build/diagram/jobs/practice-teacher-q5-prompt/rendered/prompt.fragment.tex
       diagram_ref: practice.teacher.q5.prompt
       diagram_job_id: practice-teacher-q5-prompt
-      width: 56mm
-      caption: 第 5 题图：$BD\parallel CE$
+      width: 60mm
+      caption: 第 5 题图：观察对应边和已知长度。
       variant: prompt
       disclosure_policy: clean
-      artifact_hash: sha256:9fed073fa1a0994bb65e73649b4de14d1fd8e493968a6ce1702c6ffc70ea1801
+      artifact_hash: sha256:4200cccaca804158bfe38f60eebc8f2c98e00def987c8fdc9aac2ac8873eefab
       packages:
       - tikz
       libraries: []
@@ -252,7 +260,8 @@ sections:
     id: q6
     points: 8
     label: 第 6 题
-    stem_latex: '如图，在 $\triangle ACE$ 中，点 $B$ 在线段 $AC$ 上，点 $D$ 在线段 $AE$ 上，且 $BD\parallel CE$。已知 $BD:CE=3:7$，$AD=6$，$BC=8$，求 $AB$ 和 $DE$。
+    stem_latex: '如图，在 $\triangle ACE$ 中，点 $B$ 在线段 $AC$ 上，点 $D$ 在线段 $AE$ 上，且 $BD\parallel
+      CE$。已知 $BD:CE=3:7$，$AD=6$，$BC=8$，求 $AB$ 和 $DE$。
 
       '
     answer_space:
@@ -260,7 +269,8 @@ sections:
       height: 36mm
       step_count: 5
     answer: $AB=6$，$DE=8$。
-    explanation: $BD:CE=3:7$，所以 $AB:AC=AD:AE=3:7$。差段占 $4$ 份，$BC=8$ 得每份 $2$，故 $AB=6$；$AD=6$ 也是 $3$ 份，每份 $2$，故 $DE=8$。
+    explanation: $BD:CE=3:7$，所以 $AB:AC=AD:AE=3:7$。差段占 $4$ 份，$BC=8$ 得每份 $2$，故 $AB=6$；$AD=6$
+      也是 $3$ 份，每份 $2$，故 $DE=8$。
     solution_steps:
     - title: 把平行线段比改成两侧比例
       content: $BD:CE=3:7$，所以 $AB:AC=3:7$，$AD:AE=3:7$。
@@ -285,11 +295,11 @@ sections:
       tikz_path: build/diagram/jobs/practice-teacher-q6-prompt/rendered/prompt.fragment.tex
       diagram_ref: practice.teacher.q6.prompt
       diagram_job_id: practice-teacher-q6-prompt
-      width: 56mm
-      caption: 第 6 题图：$BD\parallel CE$
+      width: 60mm
+      caption: 第 6 题图：观察对应边和已知长度。
       variant: prompt
       disclosure_policy: clean
-      artifact_hash: sha256:9fed073fa1a0994bb65e73649b4de14d1fd8e493968a6ce1702c6ffc70ea1801
+      artifact_hash: sha256:87d3307da9089390d6a9222517b99e2e8252037a8a243ab16d3dd87b43e4f524
       packages:
       - tikz
       libraries: []
