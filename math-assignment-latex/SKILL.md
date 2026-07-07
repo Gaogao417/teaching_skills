@@ -25,6 +25,13 @@ assignment.yaml → Jinja2 模板 → .tex → tectonic/XeLaTeX → .pdf
 
 如果 YAML 使用几何插图，确认所有 `diagram_col` / `diagram_row` / `answer_space.diagram_col` / `type: diagram` 的 `image_path` 相对最终 `.tex` 所在目录可访问；本 skill 只按结构化字段排版图片，不判断题目是否该有图，也不生成图片。
 
+## 路径约定
+
+- 编译必须以最终 `.tex` 所在目录作为 working directory。`compile_latex.sh` 会自动 `cd` 到该目录；编辑器或其它工具也必须等价配置，例如 LaTeX Workshop 使用 `cwd: "%DIR%"`。
+- YAML、渲染出的 `.tex`、最终 PDF 默认放在同一个 artifact 目录；构建日志和中间文件可以进入该目录下的 `build/` 或 `.latex-workshop/`。
+- `image_path` / `tikz_path` 必须相对最终 `.tex` 所在目录可访问，或使用绝对路径。不要按仓库根目录写相对路径。
+- 如果同名 `.tex` 旁存在对应 `*.assignment.yaml`，`compile_latex.sh` 会优先从该 YAML 重新渲染再编译，所以长期内容修改应落在 YAML，而不是只改生成的 `.tex`。
+
 ## 输出
 
 ```text
@@ -74,7 +81,7 @@ python3 math-assignment-latex/scripts/render_assignment.py <input.yaml> --out <o
 bash math-assignment-latex/scripts/compile_latex.sh <output.tex>
 ```
 
-脚本自动选择引擎：优先 `xelatex`，否则使用 `tectonic`。当前本地环境没有 `xelatex`，使用 `tectonic` 编译。
+脚本自动选择引擎：优先 `xelatex`，否则使用 `tectonic`。当前本机使用 Homebrew TeX Live 的 `xelatex`。
 
 ### 4. 报告结果
 

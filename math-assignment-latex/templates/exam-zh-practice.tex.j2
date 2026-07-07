@@ -1,7 +1,14 @@
 <# exam-zh-practice.tex.j2 — 练习页模板 #>
 <% include "preamble-exam-zh.tex" ignore missing %>
 <% macro diagram_tikz_body(diagram) -%>
-<% if diagram.tikz_code %><%= diagram.tikz_code %><% elif diagram.tikz_path %>\input{\detokenize{<%= diagram.tikz_path|latex_path %>}}<% endif %>
+<% if diagram.tikz_code %><%= diagram.tikz_code %><% elif diagram.tikz_path %>\input{\detokenize{<%= diagram.tikz_path|latex_path %>}}<% elif diagram.image_path %>\includegraphics[width=\linewidth]{\detokenize{<%= diagram.image_path|latex_path %>}}<% endif %>
+<%- endmacro %>
+<% macro render_hints(block) -%>
+<% for hint in block.hints|default([]) %>
+\begin{hintbox}
+  <% if hint.title %>\textbf{<%= hint.title|latex_escape %>：}<% elif hint.level %>\textbf{提示 <%= hint.level|latex_escape %>：}<% else %>\textbf{提示：}<% endif %><% if hint.content_latex %><%= hint.content_latex %><% elif hint.latex %><%= hint.latex %><% else %><%= hint.content|default("")|latex_escape %><% endif %>
+\end{hintbox}
+<% endfor %>
 <%- endmacro %>
 
 <% if meta.version == "student" %>
@@ -75,6 +82,7 @@
     <% else %>
     <%= block.stem|latex_escape %>
     <% endif %>
+    <%= render_hints(block) %>
     \par
     \begin{choices}[columns=1]
     <% for key, text in block.choices|dictsort %>
@@ -102,6 +110,7 @@
   <% else %>
   <%= block.stem|latex_escape %>
   <% endif %>
+  <%= render_hints(block) %>
   \begin{choices}
   <% for key, text in block.choices|dictsort %>
     \item <%= text|latex_escape %>
@@ -125,6 +134,7 @@
   <% else %>
   <%= block.stem|latex_escape %>
   <% endif %>
+  <%= render_hints(block) %>
   <% if meta.version != "student" and block.answer %>
   \paren[<%= block.answer|latex_escape %>]
   <% if block.explanation %>
@@ -148,13 +158,33 @@
 
 <% elif block.type == "problem" or block.type == "short_answer" %>
 \begin{problem}[points=<%= block.points|default(8) %>]
-  <% if block.stem_latex %>
-  <%= block.stem_latex %>
+  <% set problem_diagram_col = block.diagram_col or block.prompt_diagram %>
+  <% if problem_diagram_col %>
+  <% set problem_diagram_width = problem_diagram_col.width|default("60mm") %>
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-<%= problem_diagram_width %>-6mm\relax}
+    \vspace{0pt}
+    <% if block.stem_latex %>
+    <%= block.stem_latex %>
+    <% else %>
+    <%= block.stem|latex_escape %>
+    <% endif %>
+    <%= render_hints(block) %>
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{<%= problem_diagram_width %>}{<% if problem_diagram_col.caption %><%= problem_diagram_col.caption|latex_escape %><% endif %>}
+  <%= diagram_tikz_body(problem_diagram_col) %>
+  \end{diagramcoltikz}
+  \par\medskip
   <% else %>
-  <%= block.stem|latex_escape %>
+    <% if block.stem_latex %>
+    <%= block.stem_latex %>
+    <% else %>
+    <%= block.stem|latex_escape %>
+    <% endif %>
+    <%= render_hints(block) %>
   <% endif %>
   <% if block.answer_space %>
-  <% set default_diagram_col = block.answer_space.diagram_col or block.answer_space.diagram or block.diagram_col or block.prompt_diagram %>
+  <% set default_diagram_col = block.answer_space.diagram_col or block.answer_space.diagram %>
   <% if block.answer_space.parts %>
     <% for part in block.answer_space.parts %>
       <% set part_diagram_col = part.diagram_col or part.prompt_diagram or part.diagram or default_diagram_col %>

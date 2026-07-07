@@ -1,3 +1,5 @@
+% !TeX program = xelatex
+% !TeX TXS-program:compile = txs:///xelatex
 % preamble-exam-zh.tex — 共享 preamble
 % 用于所有 exam-zh 模板
 %
@@ -68,6 +70,7 @@
   \definecolor{edu-purple-bg}{gray}{0.98}
 \fi
 \colorlet{edu-diagram-muted}{edu-gray}
+\providecommand{\edukai}{\kaishu}
 
 % ---------- TikZ diagram semantic macros ----------
 \definecolor{edu-diagram-ink}{RGB}{17,24,39}
@@ -157,6 +160,7 @@
   boxrule=0pt,
   borderline west={2pt}{0pt}{edu-gray, dashed},
   left=3mm, right=3mm, top=2mm, bottom=2mm,
+  fontupper=\edukai\small,
 }
 
 % 思考题 — 紫色虚线左边线
