@@ -1,0 +1,90 @@
+meta:
+  title: 平行线对应边比例
+  subtitle: 杨茗贺 · 学生讲义
+  grade: 八年级
+  subject: 数学
+  version: student
+  source_artifacts:
+    structure_analysis: artifacts/杨茗贺/2026-07-07-平行线对应边比例/01-structure-analysis.md
+render:
+  template: exam-zh-explanation
+  paper_size: a4paper
+sections:
+- id: main
+  title: 模型：平行线对应边比例先定目标比
+  show_title: true
+  type: explanation
+  visibility: student
+  blocks:
+  - type: solution
+    id: knowledge
+    title: 核心结论：先找目标比，再找对应边
+    items:
+    - latex: 在 $\triangle ACE$ 中，若 $B$ 在线段 $AC$ 上，$D$ 在线段 $AE$ 上，且 $BD\parallel CE$，则
+        $\triangle ABD\sim\triangle ACE$。
+    - latex: 对应边比例：$\dfrac{AB}{AC}=\dfrac{AD}{AE}=\dfrac{BD}{CE}$。
+    - latex: 差段也可以配对：$\dfrac{BC}{AB}=\dfrac{DE}{AD}$，$\dfrac{BC}{AC}=\dfrac{DE}{AE}$。
+    - latex: 固定动作：先定目标比，再把已知改成目标比，最后乘已知量。
+  - type: problemcard
+    id: example
+    label: 例题
+    stem_latex: '如图，在 $\triangle ACE$ 中，点 $B$ 在线段 $AC$ 上，点 $D$ 在线段 $AE$ 上，且 $BD\parallel
+      CE$。
+
+      已知 $AD=3$，$BC=5$，$AC=7$，求 $DE$。
+
+      '
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/explanation-orig-prompt/rendered/prompt.fragment.tex
+      diagram_ref: explanation.orig.prompt
+      diagram_job_id: explanation-orig-prompt
+      width: 58mm
+      caption: 例题图：观察 $BD\parallel CE$ 与对应边。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:35345892b783c21077b3f64a8e5d842f5d3c10567d0e83ef18a5c24a6adefcb5
+      packages:
+      - tikz
+      libraries: []
+  - type: route
+    id: example-route
+    steps:
+    - id: step-target-ratio
+      latex: 先定目标比
+      content_latex: 要求 $DE$，已知同一直线上的 $AD=3$，先想 $DE:AD$。
+    - id: step-change-known
+      latex: 把已知改成目标比
+      content_latex: 由 $BD\parallel CE$ 得对应差段成比例，$DE:AD=BC:AB$。又 $AB=AC-BC=7-5=2$，所以
+        $DE:AD=5:2$。
+    - id: step-multiply
+      latex: 乘已知量
+      content_latex: $DE=AD\cdot\dfrac{5}{2}=3\cdot\dfrac{5}{2}=\dfrac{15}{2}$。
+  - type: dual_explanation
+    id: example-solution
+    label: 例题
+    stem_latex: 求线段 $DE$ 的长。
+    side_title: 小贴士
+    side_items:
+    - kind: hint
+      title: 第一步想什么
+      content_latex: '不会做时，先想“目标量 : 已知量”。本题目标量是 $DE$，已知同一直线上的 $AD$，所以先想 $DE:AD$。'
+    - kind: hint
+      title: 怎么找对应边
+      content_latex: 遇到三角形中一条线段平行一边的问题，对应边一般就是共线、共三角形的边：$DE$ 对应 $BC$，$AD$ 对应 $AB$。
+    - kind: mistake
+      title: 先改已知
+      content_latex: 已知里没有 $AB$，不能停住；先用 $AB=AC-BC$ 把已知改成目标比需要的边。
+    solution_title: 解答
+    solution_step_ids:
+    - step-target-ratio
+    - step-change-known
+    - step-multiply
+  - type: method_reminder
+    id: method
+    title: 方法提醒
+    items:
+    - latex: 求哪条边，就先给它找一条已知边组成目标比。
+    - latex: 对应边从两个地方找：一是共线的边，二是同一个小三角形/大三角形里的边。
+    - latex: 若已知量不能直接进目标比，先用整段减小段，把它改成需要的边。

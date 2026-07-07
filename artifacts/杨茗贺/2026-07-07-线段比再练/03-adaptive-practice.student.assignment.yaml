@@ -1,0 +1,117 @@
+meta:
+  title: 线段比再练
+  subtitle: 先定目标比，再改已知量，最后乘已知量
+  grade: 八年级
+  subject: 数学
+  duration: 25分钟
+  total_points: 48
+  version: student
+  source_artifacts:
+    style_reference_structure: artifacts/比例题组/2026-07-01-B-线段角份数化/01-structure-analysis.md
+    style_reference_explanation: artifacts/比例题组/2026-07-01-B-线段角份数化/02-student-explanation.assignment.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: segment-ratio-practice
+  title: 一、线段比练习（每题 8 分，共 48 分）
+  type: practice
+  visibility: student
+  blocks:
+  - type: problem
+    id: q1
+    points: 8
+    label: 第 1 题
+    stem_latex: '点 $A,B,C$ 在同一直线上，顺序为 $A-B-C$。若 $AB:BC=3:5$，且 $AC=64$，求 $BC$。
+
+      '
+    diagram_col:
+      kind: tikz
+      tikz_code: "\\begin{tikzpicture}[x=1cm,y=1cm,baseline=(current bounding box.center)]\n  \\draw[line width=1pt] (0,0) -- (5.6,0);\n  \\fill (0,0) circle (1.6pt) node[below] {$A$};\n  \\fill (2.1,0) circle (1.6pt) node[below] {$B$};\n  \\fill (5.6,0) circle (1.6pt) node[below] {$C$};\n  \\node[above=8pt] at (2.8,0) {$AB:BC=3:5,\\ AC=64$};\n\\end{tikzpicture}"
+      width: 64mm
+      caption: 第 1 题图
+    answer_space:
+      type: steps
+      height: 30mm
+    hints:
+    - content_latex: 要求 $BC$，已知 $AC$，先想 $BC:AC$。\par 再把 $AC$ 改成总份数 $3+5$。
+  - type: problem
+    id: q2
+    points: 8
+    label: 第 2 题
+    stem_latex: '点 $A,B,C$ 在同一直线上，顺序为 $A-B-C$。若 $4AB=7BC$，且 $AC=55$，求 $AB$。
+
+      '
+    diagram_col:
+      kind: tikz
+      tikz_code: "\\begin{tikzpicture}[x=1cm,y=1cm,baseline=(current bounding box.center)]\n  \\draw[line width=1pt] (0,0) -- (5.6,0);\n  \\fill (0,0) circle (1.6pt) node[below] {$A$};\n  \\fill (3.55,0) circle (1.6pt) node[below] {$B$};\n  \\fill (5.6,0) circle (1.6pt) node[below] {$C$};\n  \\node[above=8pt] at (2.8,0) {$4AB=7BC,\\ AC=55$};\n\\end{tikzpicture}"
+      width: 64mm
+      caption: 第 2 题图
+    answer_space:
+      type: steps
+      height: 30mm
+    hints:
+    - content_latex: 先把 $4AB=7BC$ 改成线段比。\par 乘法式里，份数和系数是交叉对应的。
+  - type: problem
+    id: q3
+    points: 8
+    label: 第 3 题
+    stem_latex: '点 $A,B,C,D$ 在同一直线上，顺序为 $A-B-C-D$。若 $AB:BC:CD=2:3:4$，且 $AD=72$，求 $BD$。
+
+      '
+    diagram_col:
+      kind: tikz
+      tikz_code: "\\begin{tikzpicture}[x=1cm,y=1cm,baseline=(current bounding box.center)]\n  \\draw[line width=1pt] (0,0) -- (6.0,0);\n  \\fill (0,0) circle (1.6pt) node[below] {$A$};\n  \\fill (1.35,0) circle (1.6pt) node[below] {$B$};\n  \\fill (3.35,0) circle (1.6pt) node[below] {$C$};\n  \\fill (6.0,0) circle (1.6pt) node[below] {$D$};\n  \\node[above=8pt] at (3.0,0) {$AB:BC:CD=2:3:4,\\ AD=72$};\n\\end{tikzpicture}"
+      width: 68mm
+      caption: 第 3 题图
+    answer_space:
+      type: steps
+      height: 32mm
+    hints:
+    - content_latex: $BD$ 是从 $B$ 到 $D$，包含 $BC$ 和 $CD$。\par 把 $BD$ 的份数和 $AD$ 的总份数相比。
+  - type: problem
+    id: q4
+    points: 8
+    label: 第 4 题
+    stem_latex: '点 $A,B,C$ 在同一直线上，顺序为 $A-B-C$。若 $AB:BC=5:7$，且 $AB=30$，求 $AC$。
+
+      '
+    diagram_col:
+      kind: tikz
+      tikz_code: "\\begin{tikzpicture}[x=1cm,y=1cm,baseline=(current bounding box.center)]\n  \\draw[line width=1pt] (0,0) -- (5.8,0);\n  \\fill (0,0) circle (1.6pt) node[below] {$A$};\n  \\fill (2.35,0) circle (1.6pt) node[below] {$B$};\n  \\fill (5.8,0) circle (1.6pt) node[below] {$C$};\n  \\node[above=8pt] at (2.9,0) {$AB:BC=5:7,\\ AB=30$};\n\\end{tikzpicture}"
+      width: 64mm
+      caption: 第 4 题图
+    answer_space:
+      type: steps
+      height: 30mm
+  - type: problem
+    id: q5
+    points: 8
+    label: 第 5 题
+    stem_latex: '点 $A,B,C,D$ 在同一直线上，顺序为 $A-B-C-D$。若 $AB:BC:CD=4:6:5$，且 $AD=75$，求 $AC$。
+
+      '
+    diagram_col:
+      kind: tikz
+      tikz_code: "\\begin{tikzpicture}[x=1cm,y=1cm,baseline=(current bounding box.center)]\n  \\draw[line width=1pt] (0,0) -- (6.0,0);\n  \\fill (0,0) circle (1.6pt) node[below] {$A$};\n  \\fill (1.6,0) circle (1.6pt) node[below] {$B$};\n  \\fill (4.0,0) circle (1.6pt) node[below] {$C$};\n  \\fill (6.0,0) circle (1.6pt) node[below] {$D$};\n  \\node[above=8pt] at (3.0,0) {$AB:BC:CD=4:6:5,\\ AD=75$};\n\\end{tikzpicture}"
+      width: 68mm
+      caption: 第 5 题图
+    answer_space:
+      type: steps
+      height: 30mm
+  - type: problem
+    id: q6
+    points: 8
+    label: 第 6 题
+    stem_latex: '点 $A,B,C,D$ 在同一直线上，顺序为 $A-B-C-D$。若 $AB=18$，$BC:CD=2:5$，且 $AD=81$，求 $CD$。
+
+      '
+    diagram_col:
+      kind: tikz
+      tikz_code: "\\begin{tikzpicture}[x=1cm,y=1cm,baseline=(current bounding box.center)]\n  \\draw[line width=1pt] (0,0) -- (6.0,0);\n  \\fill (0,0) circle (1.6pt) node[below] {$A$};\n  \\fill (1.6,0) circle (1.6pt) node[below] {$B$};\n  \\fill (3.1,0) circle (1.6pt) node[below] {$C$};\n  \\fill (6.0,0) circle (1.6pt) node[below] {$D$};\n  \\node[above=8pt] at (3.0,0) {$AB=18,\\ BC:CD=2:5,\\ AD=81$};\n\\end{tikzpicture}"
+      width: 68mm
+      caption: 第 6 题图
+    answer_space:
+      type: steps
+      height: 34mm

@@ -1,0 +1,73 @@
+meta:
+  title: 黄金分割比专项讲解
+  subtitle: 杨茗贺 · 方法页
+  grade: 八年级
+  subject: 数学
+  duration: 15分钟
+  version: student
+render:
+  template: exam-zh-explanation
+  paper_size: a4paper
+sections:
+- id: golden-ratio-explanation
+  title: 黄金分割比：先看边，再列式
+  show_title: true
+  type: explanation
+  visibility: student
+  blocks:
+  - type: problemcard
+    id: intro-problem
+    label: 入口题
+    stem_latex: |
+      一条线段被分成较长一段和较短一段。如果按黄金分割来安排，常用关系是：
+      \[
+        \frac{\text{长段}}{\text{全长}}=\frac{\sqrt5-1}{2},\qquad
+        \frac{\text{短段}}{\text{长段}}=\frac{\sqrt5-1}{2}.
+      \]
+      做题时不要一看到黄金分割就直接套乘法，先判断题目给的是哪一段、求的是哪一段。
+  - type: route
+    id: three-step-route
+    steps:
+    - id: identify-edges
+      text: 识别已知边和要求的边
+      content_latex: "已知边：全长 $30\\text{ cm}$；要求边：较长一段。"
+    - id: classify-edges
+      text: 判断这两条边分别是长段、短段还是全长
+      content_latex: "已知是全长，所求是长段，对应关系是 $\\text{长段}:\\text{全长}=\\dfrac{\\sqrt5-1}{2}$。"
+    - id: calculate
+      text: 选择关系并列式计算
+      content_latex: "长段 $=30\\times\\dfrac{\\sqrt5-1}{2}=15(\\sqrt5-1)\\text{ cm}$。"
+  - type: solution
+    id: relation-summary
+    title: 常用关系
+    items:
+    - latex: "已知全长，求长段：长段 $=\\text{全长}\\times\\dfrac{\\sqrt5-1}{2}$。"
+    - latex: "已知长段，求短段：短段 $=\\text{长段}\\times\\dfrac{\\sqrt5-1}{2}$。"
+    - latex: "已知短段，求长段：长段 $=\\text{短段}\\div\\dfrac{\\sqrt5-1}{2}$。"
+    - latex: "已知全长，求短段：可以先求长段，再用全长减长段。"
+    - latex: "已知长段或短段，求全长：先把另一段求出来，再相加；或按对应关系列方程。"
+  - type: dual_explanation
+    id: worked-example
+    label: 例题
+    stem_latex: |
+      例：一条装饰线全长 $30\text{ cm}$，按黄金分割分成两段。求较长一段的长度。（结果保留一位小数）
+    side_title: 读题提示
+    side_items:
+    - kind: hint
+      title: 先圈边
+      content_latex: "题目给的是整条装饰线，所以已知边是\\textbf{全长}；要求的是较长一段，所以要求边是\\textbf{长段}。"
+    - kind: mistake
+      title: 易错点
+      content_latex: "不要把 $\\dfrac{\\sqrt5-1}{2}$ 固定理解成“答案”。它表示的是某两类边之间的比，要先看清楚是哪两类边。"
+    solution_title: 示例解法
+    solution_step_ids:
+    - identify-edges
+    - classify-edges
+    - calculate
+  - type: method_reminder
+    id: method-reminder
+    title: 做题提醒
+    items:
+    - text: 每题先写清“已知边”和“要求边”，再决定乘还是除。
+    - text: 求短段或全长时，常常要先求出另一段，再作差或相加。
+    - latex: "算完可以粗略检查：长段应大于短段；全长应大于长段。"

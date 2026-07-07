@@ -1,0 +1,258 @@
+meta:
+  title: 线段比再练（教师版）
+  subtitle: 先定目标比，再改已知量，最后乘已知量
+  grade: 八年级
+  subject: 数学
+  duration: 25分钟
+  total_points: 48
+  version: teacher
+  source_artifacts:
+    style_reference_structure: artifacts/比例题组/2026-07-01-B-线段角份数化/01-structure-analysis.md
+    style_reference_explanation: artifacts/比例题组/2026-07-01-B-线段角份数化/02-student-explanation.assignment.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: segment-ratio-practice
+  title: 一、线段比练习（每题 8 分，共 48 分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: q1
+    points: 8
+    label: 第 1 题
+    stem_latex: '点 $A,B,C$ 在同一直线上，顺序为 $A-B-C$。若 $AB:BC=3:5$，且 $AC=64$，求 $BC$。
+
+      '
+    diagram_col:
+      kind: tikz
+      tikz_code: "\\begin{tikzpicture}[x=1cm,y=1cm,baseline=(current bounding box.center)]\n  \\draw[line width=1pt] (0,0) -- (5.6,0);\n  \\fill (0,0) circle (1.6pt) node[below] {$A$};\n  \\fill (2.1,0) circle (1.6pt) node[below] {$B$};\n  \\fill (5.6,0) circle (1.6pt) node[below] {$C$};\n  \\node[above=8pt] at (2.8,0) {$AB:BC=3:5,\\ AC=64$};\n\\end{tikzpicture}"
+      width: 64mm
+      caption: 第 1 题图
+    answer_space:
+      type: steps
+      height: 30mm
+    answer: $BC=40$
+    explanation: $BC:AC=5:(3+5)=5:8$，所以 $BC=64\times\dfrac{5}{8}=40$。
+    solution_steps:
+    - title: 先定目标比
+      content: 题目要求 $BC$，已知 $AC$，所以先定 $BC:AC$。
+    - title: 改成可比较的份数
+      content: $AB:BC=3:5$，$AC$ 共 $3+5=8$ 份，所以 $BC:AC=5:8$。
+    - title: 乘已知量
+      content: $BC=64\times\dfrac{5}{8}=40$。
+    teaching:
+      teaching_goal: 训练从目标量和已知量出发，先定目标比。
+      source_relations:
+      - fallback:line_segment_ratio_shares
+      expected_blocker: 只看 $AB:BC$，没有把已知的 $AC$ 改成总份数。
+      entry_point: build_relation
+      scaffold_level: high
+      variation_depth: changed_numbers
+      complexity_note: 单层整体-部分线段比，数字可整除。
+      upgrade_rule: 能主动写出目标量与已知量的比。
+      fallback_move: 先圈出题目问什么、已知什么，再写目标比。
+    hints:
+    - content_latex: 要求 $BC$，已知 $AC$，先想 $BC:AC$。\par 再把 $AC$ 改成总份数 $3+5$。
+  - type: problem
+    id: q2
+    points: 8
+    label: 第 2 题
+    stem_latex: '点 $A,B,C$ 在同一直线上，顺序为 $A-B-C$。若 $4AB=7BC$，且 $AC=55$，求 $AB$。
+
+      '
+    diagram_col:
+      kind: tikz
+      tikz_code: "\\begin{tikzpicture}[x=1cm,y=1cm,baseline=(current bounding box.center)]\n  \\draw[line width=1pt] (0,0) -- (5.6,0);\n  \\fill (0,0) circle (1.6pt) node[below] {$A$};\n  \\fill (3.55,0) circle (1.6pt) node[below] {$B$};\n  \\fill (5.6,0) circle (1.6pt) node[below] {$C$};\n  \\node[above=8pt] at (2.8,0) {$4AB=7BC,\\ AC=55$};\n\\end{tikzpicture}"
+      width: 64mm
+      caption: 第 2 题图
+    answer_space:
+      type: steps
+      height: 30mm
+    answer: $AB=35$
+    explanation: 由 $4AB=7BC$ 得 $AB:BC=7:4$，所以 $AB:AC=7:11$，$AB=55\times\dfrac{7}{11}=35$。
+    solution_steps:
+    - title: 方程改比例
+      content: $4AB=7BC$，所以 $AB:BC=7:4$。
+    - title: 目标比
+      content: $AC=AB+BC$，共 $7+4=11$ 份，故 $AB:AC=7:11$。
+    - title: 求值
+      content: $AB=55\times\dfrac{7}{11}=35$。
+    teaching:
+      teaching_goal: 训练把乘法式线段关系改成线段比，再接目标比。
+      source_relations:
+      - fallback:line_segment_ratio_shares
+      expected_blocker: 把 $4AB=7BC$ 误读成 $AB:BC=4:7$。
+      entry_point: build_relation
+      scaffold_level: high
+      variation_depth: changed_representation
+      complexity_note: 加入方程式比例转换，但仍是一层整体-部分。
+      upgrade_rule: 能说出份数和系数交叉对应。
+      fallback_move: 先用一个小例子检查：左边乘得一样大，较长的线段对应较小的系数。
+    hints:
+    - content_latex: 先把 $4AB=7BC$ 改成线段比。\par 乘法式里，份数和系数是交叉对应的。
+  - type: problem
+    id: q3
+    points: 8
+    label: 第 3 题
+    stem_latex: '点 $A,B,C,D$ 在同一直线上，顺序为 $A-B-C-D$。若 $AB:BC:CD=2:3:4$，且 $AD=72$，求 $BD$。
+
+      '
+    diagram_col:
+      kind: tikz
+      tikz_code: "\\begin{tikzpicture}[x=1cm,y=1cm,baseline=(current bounding box.center)]\n  \\draw[line width=1pt] (0,0) -- (6.0,0);\n  \\fill (0,0) circle (1.6pt) node[below] {$A$};\n  \\fill (1.35,0) circle (1.6pt) node[below] {$B$};\n  \\fill (3.35,0) circle (1.6pt) node[below] {$C$};\n  \\fill (6.0,0) circle (1.6pt) node[below] {$D$};\n  \\node[above=8pt] at (3.0,0) {$AB:BC:CD=2:3:4,\\ AD=72$};\n\\end{tikzpicture}"
+      width: 68mm
+      caption: 第 3 题图
+    answer_space:
+      type: steps
+      height: 32mm
+    answer: $BD=56$
+    explanation: $BD=BC+CD$，对应 $3+4=7$ 份；$AD$ 对应 $2+3+4=9$ 份，所以 $BD=72\times\dfrac{7}{9}=56$。
+    solution_steps:
+    - title: 看点的顺序
+      content: 顺序为 $A-B-C-D$，所以 $BD$ 包含 $BC$ 与 $CD$。
+    - title: 改份数
+      content: $BD$ 是 $3+4=7$ 份，$AD$ 是 $2+3+4=9$ 份。
+    - title: 乘已知量
+      content: $BD=72\times\dfrac{7}{9}=56$。
+    teaching:
+      teaching_goal: 训练三段线段中目标量不是单段时，先把目标量拆成相邻线段和。
+      source_relations:
+      - fallback:line_segment_ratio_shares
+      expected_blocker: 把 $BD$ 看成一段新线段，没有回到 $BC+CD$。
+      entry_point: find_entry
+      scaffold_level: medium
+      variation_depth: changed_question
+      complexity_note: 三段比，目标为相邻两段和。
+      upgrade_rule: 能根据点的顺序说出每个复合线段包含哪些小段。
+      fallback_move: 先写 $AD=AB+BC+CD$，再写 $BD=BC+CD$。
+    hints:
+    - content_latex: $BD$ 是从 $B$ 到 $D$，包含 $BC$ 和 $CD$。\par 把 $BD$ 的份数和 $AD$ 的总份数相比。
+  - type: problem
+    id: q4
+    points: 8
+    label: 第 4 题
+    stem_latex: '点 $A,B,C$ 在同一直线上，顺序为 $A-B-C$。若 $AB:BC=5:7$，且 $AB=30$，求 $AC$。
+
+      '
+    diagram_col:
+      kind: tikz
+      tikz_code: "\\begin{tikzpicture}[x=1cm,y=1cm,baseline=(current bounding box.center)]\n  \\draw[line width=1pt] (0,0) -- (5.8,0);\n  \\fill (0,0) circle (1.6pt) node[below] {$A$};\n  \\fill (2.35,0) circle (1.6pt) node[below] {$B$};\n  \\fill (5.8,0) circle (1.6pt) node[below] {$C$};\n  \\node[above=8pt] at (2.9,0) {$AB:BC=5:7,\\ AB=30$};\n\\end{tikzpicture}"
+      width: 64mm
+      caption: 第 4 题图
+    answer_space:
+      type: steps
+      height: 30mm
+    answer: $AC=72$
+    explanation: $AB:AC=5:(5+7)=5:12$，所以 $AC=30\times\dfrac{12}{5}=72$。
+    solution_steps:
+    - title: 定比较对象
+      content: 题目已知 $AB=30$，要求 $AC$，所以用 $AC:AB$ 或 $AB:AC$。
+    - title: 写比例
+      content: $AB:AC=5:12$。
+    - title: 求整体
+      content: $AC=30\times\dfrac{12}{5}=72$。
+    teaching:
+      teaching_goal: 减少提示后，训练从已知部分反求整体。
+      source_relations:
+      - fallback:line_segment_ratio_shares
+      expected_blocker: 只会整体求部分，遇到部分求整体时不知道把比例倒过来。
+      entry_point: solve_and_check
+      scaffold_level: medium
+      variation_depth: changed_question
+      complexity_note: 部分反求整体，仍保持整除。
+      upgrade_rule: 能自由切换 $AB:AC$ 与 $AC:AB$。
+      fallback_move: 先写 $AB$ 是 $5$ 份，对应 $30$，再求 $12$ 份。
+  - type: problem
+    id: q5
+    points: 8
+    label: 第 5 题
+    stem_latex: '点 $A,B,C,D$ 在同一直线上，顺序为 $A-B-C-D$。若 $AB:BC:CD=4:6:5$，且 $AD=75$，求 $AC$。
+
+      '
+    diagram_col:
+      kind: tikz
+      tikz_code: "\\begin{tikzpicture}[x=1cm,y=1cm,baseline=(current bounding box.center)]\n  \\draw[line width=1pt] (0,0) -- (6.0,0);\n  \\fill (0,0) circle (1.6pt) node[below] {$A$};\n  \\fill (1.6,0) circle (1.6pt) node[below] {$B$};\n  \\fill (4.0,0) circle (1.6pt) node[below] {$C$};\n  \\fill (6.0,0) circle (1.6pt) node[below] {$D$};\n  \\node[above=8pt] at (3.0,0) {$AB:BC:CD=4:6:5,\\ AD=75$};\n\\end{tikzpicture}"
+      width: 68mm
+      caption: 第 5 题图
+    answer_space:
+      type: steps
+      height: 30mm
+    answer: $AC=50$
+    explanation: $AC=AB+BC$，对应 $4+6=10$ 份；$AD$ 对应 $4+6+5=15$ 份，所以 $AC=75\times\dfrac{10}{15}=50$。
+    solution_steps:
+    - title: 目标拆段
+      content: 顺序为 $A-B-C-D$，所以 $AC=AB+BC$。
+    - title: 目标比
+      content: $AC:AD=(4+6):(4+6+5)=10:15=2:3$。
+    - title: 求值
+      content: $AC=75\times\dfrac{2}{3}=50$。
+    teaching:
+      teaching_goal: 训练无提示条件下，把复合目标线段转成份数和。
+      source_relations:
+      - fallback:line_segment_ratio_shares
+      expected_blocker: 没有根据点序判断 $AC$ 到底包含哪几段。
+      entry_point: find_entry
+      scaffold_level: low
+      variation_depth: changed_question
+      complexity_note: 三段比，目标为前两段和。
+      upgrade_rule: 能先画一条简线辅助分段。
+      fallback_move: 让学生口述点序：从 $A$ 到 $C$ 会经过哪些小段。
+  - type: problem
+    id: q6
+    points: 8
+    label: 第 6 题
+    stem_latex: '点 $A,B,C,D$ 在同一直线上，顺序为 $A-B-C-D$。若 $AB=18$，$BC:CD=2:5$，且 $AD=81$，求 $CD$。
+
+      '
+    diagram_col:
+      kind: tikz
+      tikz_code: "\\begin{tikzpicture}[x=1cm,y=1cm,baseline=(current bounding box.center)]\n  \\draw[line width=1pt] (0,0) -- (6.0,0);\n  \\fill (0,0) circle (1.6pt) node[below] {$A$};\n  \\fill (1.6,0) circle (1.6pt) node[below] {$B$};\n  \\fill (3.1,0) circle (1.6pt) node[below] {$C$};\n  \\fill (6.0,0) circle (1.6pt) node[below] {$D$};\n  \\node[above=8pt] at (3.0,0) {$AB=18,\\ BC:CD=2:5,\\ AD=81$};\n\\end{tikzpicture}"
+      width: 68mm
+      caption: 第 6 题图
+    answer_space:
+      type: steps
+      height: 34mm
+    answer: $CD=45$
+    explanation: 先由 $AD-AB=81-18=63$ 得 $BD=63$。又 $BD=BC+CD$，对应 $2+5=7$ 份，$CD$ 为 $5$ 份，所以 $CD=63\times\dfrac{5}{7}=45$。
+    solution_steps:
+    - title: 先改已知量
+      content: $BC:CD$ 只管 $BD$ 这一段，因此先求 $BD=AD-AB=81-18=63$。
+    - title: 写目标比
+      content: $CD:BD=5:(2+5)=5:7$。
+    - title: 求值
+      content: $CD=63\times\dfrac{5}{7}=45$。
+    teaching:
+      teaching_goal: 训练已知量不能直接做比例时，先把已知改成同一范围内的线段。
+      source_relations:
+      - fallback:line_segment_ratio_shares
+      expected_blocker: 直接把 $CD$ 和 $AD$ 做比，忽略 $BC:CD$ 只覆盖 $BD$。
+      entry_point: transfer
+      scaffold_level: low
+      variation_depth: packaged_condition
+      complexity_note: 先减后比，两步计算但数字保持干净。
+      upgrade_rule: 能判断一个比例覆盖的是整条线段还是局部线段。
+      fallback_move: 先问：$BC:CD$ 能不能告诉我们 $AB$ 的份数？不能，就先求 $BD$。
+- id: answer-key
+  title: 参考答案
+  type: answer_key
+  visibility: teacher
+  blocks:
+  - type: step
+    id: ak-main
+    title: 线段比再练
+    content: '第 1 题：$BC=40$。
+
+      第 2 题：$AB=35$。
+
+      第 3 题：$BD=56$。
+
+      第 4 题：$AC=72$。
+
+      第 5 题：$AC=50$。
+
+      第 6 题：$CD=45$。
+
+      '
