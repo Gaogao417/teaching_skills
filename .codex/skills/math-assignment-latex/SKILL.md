@@ -21,6 +21,13 @@ assignment.yaml -> Jinja2 template -> .tex -> PDF
 - `03-adaptive-practice.student.assignment.yaml` / `.teacher.assignment.yaml`
 - 任意合法的 `*.assignment.yaml`
 
+## 路径约定
+
+- 编译必须以最终 `.tex` 所在目录作为 working directory。`compile_latex.sh` 会自动 `cd` 到该目录；编辑器或其它工具也必须等价配置，例如 LaTeX Workshop 使用 `cwd: "%DIR%"`。
+- YAML、渲染出的 `.tex`、最终 PDF 默认放在同一个 artifact 目录；构建日志和中间文件可以进入该目录下的 `build/` 或 `.latex-workshop/`。
+- `image_path` / `tikz_path` 必须相对最终 `.tex` 所在目录可访问，或使用绝对路径。不要按仓库根目录写相对路径。
+- 如果同名 `.tex` 旁存在对应 `*.assignment.yaml`，`compile_latex.sh` 会优先从该 YAML 重新渲染再编译，所以长期内容修改应落在 YAML，而不是只改生成的 `.tex`。
+
 ## 工作流
 
 如果用户要先人工审改已有 YAML，打开对应 review UI：

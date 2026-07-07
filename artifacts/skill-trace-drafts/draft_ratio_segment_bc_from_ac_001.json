@@ -1,0 +1,151 @@
+{
+  "draft_id": "draft_ratio_segment_bc_from_ac_001",
+  "schema_version": "skill_trace_draft.v0",
+  "codex_thread_id": "manual_ratio_segment_bc_from_ac_001",
+  "problem_case": {
+    "title": "线段比例中由整体AC求部分BC",
+    "raw_problem": "点 A、B、C 在同一直线上，B 在 A、C 之间。若 AB:AC=3:8，且 AC=40，求 BC。",
+    "provided_solution": "本题不是直接套 AB:AC 中的某一个数，而是先识别为比例/份数问题：要求 BC，已知整体 AC，所以用 BC 与 AC 的份数比乘以 AC。由 B 在 A、C 之间可知 AC 是 AB 与 BC 的整体；由 AB:AC=3:8 可知 AB 是 3 份，AC 是 8 份，因此 BC 对应 8-3=5 份。于是 BC=AC×(BC 的份数)/(AC 的份数)=40×5/8=25。",
+    "expected_thinking": "学生需要先识别这是比例/份数建模问题：求目标量 BC，已知参照量 AC，所以要建立 BC 到 AC 的份数比。核心不是把解题步骤逐句记住，而是掌握目标量到已知量的参照建模、整体部分份数识别、比例对象校准和目标量比例表达。",
+    "topic_tags": [
+      "线段比例",
+      "整体与部分",
+      "份数法"
+    ],
+    "target_student_level": "初中"
+  },
+  "trace_summary": {
+    "trace_kind": "skill_trace_not_solution_step_trace",
+    "target_quantity": "BC",
+    "known_reference_quantity": "AC=40",
+    "core_skill_chain": [
+      "比例结构识别",
+      "目标参照量建模",
+      "整体部分结构识别",
+      "比例对象校准",
+      "目标份数表达",
+      "目标参照比例表达"
+    ],
+    "support_details": [
+      "8-3=5",
+      "40×5/8=25"
+    ],
+    "student_risk_summary": "学生可能会把 AB:AC 的 3 或 8 直接套给 BC，或把题目做成逐步设元计算，而没有形成目标量到已知参照量的比例建模 skill。"
+  },
+  "steps": [
+    {
+      "step_id": "step_01_ratio_structure_recognition",
+      "order": 1,
+      "name": "比例结构识别",
+      "cognitive_layer": "L0_structure",
+      "reuse_level": "domain_action",
+      "domain": "比例线段",
+      "student_action_norm": "识别本题是用目标量与已知量的份数比来求线段长度的比例问题。",
+      "common_errors": [
+        "把题目当成普通线段加减题或直接套数字题，没有激活比例/份数模型。"
+      ],
+      "is_core_step": true
+    },
+    {
+      "step_id": "step_02_target_reference_modeling",
+      "order": 2,
+      "name": "目标参照量建模",
+      "cognitive_layer": "L3_strategy",
+      "reuse_level": "generic_action",
+      "domain": "比例线段",
+      "student_action_norm": "确定要求量是 BC，已知参照量是 AC，因此要用 BC 相对 AC 的份数比表示 BC。",
+      "common_errors": [
+        "只看见要求 BC，却没有追问 BC 应该和哪个已知量作参照。",
+        "一上来设未知数，绕开目标量到已知量的参照关系。"
+      ],
+      "is_core_step": true
+    },
+    {
+      "step_id": "step_03_whole_part_structure_recognition",
+      "order": 3,
+      "name": "整体部分结构识别",
+      "cognitive_layer": "L0_structure",
+      "reuse_level": "domain_action",
+      "domain": "比例线段",
+      "student_action_norm": "识别 B 在 A、C 之间，所以 AC 是整体，AB 和 BC 是它的两个部分。",
+      "common_errors": [
+        "没有把 AC 看成整体，导致不知道 BC 的份数需要从整体中扣出来。"
+      ],
+      "is_core_step": true
+    },
+    {
+      "step_id": "step_04_ratio_object_calibration",
+      "order": 4,
+      "name": "比例对象校准",
+      "cognitive_layer": "L1_encoding",
+      "reuse_level": "domain_action",
+      "domain": "比例线段",
+      "student_action_norm": "把 AB:AC=3:8 校准为 AB 与整体 AC 的份数关系。",
+      "common_errors": [
+        "把 AB:AC 误看成 AB:BC。",
+        "只记住 3 和 8，没有绑定到对应的线段对象。"
+      ],
+      "is_core_step": true
+    },
+    {
+      "step_id": "step_05_target_share_expression",
+      "order": 5,
+      "name": "目标份数表达",
+      "cognitive_layer": "L1_encoding",
+      "reuse_level": "pattern_step",
+      "domain": "比例线段",
+      "student_action_norm": "用整体 AC 的份数减去已知部分 AB 的份数来表达 BC 的份数。",
+      "common_errors": [
+        "把 BC 的份数直接写成 3 或 8。",
+        "知道 AC=AB+BC，但没有转成份数关系。"
+      ],
+      "is_core_step": true
+    },
+    {
+      "step_id": "step_06_share_difference_calculation",
+      "order": 6,
+      "name": "份数差计算",
+      "cognitive_layer": "L2_execution",
+      "reuse_level": "instance_step",
+      "domain": "比例线段",
+      "student_action_norm": "计算 8-3=5，得到 BC 是 5 份。",
+      "common_errors": [
+        "简单减法出错或整体减部分顺序写反。"
+      ],
+      "is_core_step": false
+    },
+    {
+      "step_id": "step_07_target_reference_ratio_expression",
+      "order": 7,
+      "name": "目标参照比例表达",
+      "cognitive_layer": "L1_encoding",
+      "reuse_level": "pattern_step",
+      "domain": "比例线段",
+      "student_action_norm": "写出 BC=AC×(BC 的份数)/(AC 的份数)。",
+      "common_errors": [
+        "分子分母放反。",
+        "把 AB 的份数放进分子，而不是目标量 BC 的份数。"
+      ],
+      "is_core_step": true
+    },
+    {
+      "step_id": "step_08_ratio_value_calculation",
+      "order": 8,
+      "name": "比例值计算",
+      "cognitive_layer": "L2_execution",
+      "reuse_level": "instance_step",
+      "domain": "比例线段",
+      "student_action_norm": "代入 AC=40、BC 为 5 份、AC 为 8 份，计算 40×5/8=25。",
+      "common_errors": [
+        "代入错误份数或乘除计算出错。"
+      ],
+      "is_core_step": false
+    }
+  ],
+  "validation": {
+    "warnings": [],
+    "unresolved_questions": [
+      "本 draft 按用户最新要求重写为 skill trace：AI 负责拆可训练 skill；讲解分步由用户在 explanation 输入中手写指定。"
+    ]
+  }
+}
