@@ -24,6 +24,7 @@ sections:
         \frac{\text{长段}}{\text{全长}}=\frac{\sqrt5-1}{2},\qquad
         \frac{\text{短段}}{\text{长段}}=\frac{\sqrt5-1}{2}.
       \]
+      也就是说，黄金分割里常见的两种对应关系是：\textbf{长比全}，以及\textbf{短比长}。题目说“较短一段和较长一段成黄金分割比”时，用的就是短段:长段。
       做题时不要一看到黄金分割就直接套乘法，先判断题目给的是哪一段、求的是哪一段。
   - type: route
     id: three-step-route
@@ -42,7 +43,7 @@ sections:
     title: 常用关系
     items:
     - latex: "已知全长，求长段：长段 $=\\text{全长}\\times\\dfrac{\\sqrt5-1}{2}$。"
-    - latex: "已知长段，求短段：短段 $=\\text{长段}\\times\\dfrac{\\sqrt5-1}{2}$。"
+    - latex: "\\textbf{短比长：}已知长段，求短段时，短段 $=\\text{长段}\\times\\dfrac{\\sqrt5-1}{2}$。"
     - latex: "已知短段，求长段：长段 $=\\text{短段}\\div\\dfrac{\\sqrt5-1}{2}$。"
     - latex: "已知全长，求短段：可以先求长段，再用全长减长段。"
     - latex: "已知长段或短段，求全长：先把另一段求出来，再相加；或按对应关系列方程。"
@@ -50,12 +51,15 @@ sections:
     id: worked-example
     label: 例题
     stem_latex: |
-      例：一条装饰线全长 $30\text{ cm}$，按黄金分割分成两段。求较长一段的长度。（结果保留一位小数）
+      例：一条装饰线全长 $30\text{ cm}$，按黄金分割分成两段。求较长一段的长度。
     side_title: 读题提示
     side_items:
     - kind: hint
       title: 先圈边
       content_latex: "题目给的是整条装饰线，所以已知边是\\textbf{全长}；要求的是较长一段，所以要求边是\\textbf{长段}。"
+    - kind: note
+      title: 短比长
+      content_latex: "如果题目说“短段和长段成黄金分割比”，就写 $\\text{短段}:\\text{长段}=\\dfrac{\\sqrt5-1}{2}$。"
     - kind: mistake
       title: 易错点
       content_latex: "不要把 $\\dfrac{\\sqrt5-1}{2}$ 固定理解成“答案”。它表示的是某两类边之间的比，要先看清楚是哪两类边。"
