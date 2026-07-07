@@ -9,8 +9,7 @@ meta:
   source_artifacts:
     style_reference_structure: artifacts/比例题组/2026-07-01-B-线段角份数化/01-structure-analysis.md
     style_reference_explanation: artifacts/比例题组/2026-07-01-B-线段角份数化/02-student-explanation.assignment.yaml
-    diagram_plan_regenerated: writer-stage synthetic renderer_spec; old inline TikZ
-      not used as plan source
+    diagram_plan_regenerated: writer-stage synthetic renderer_spec; old inline TikZ not used as plan source
 render:
   template: exam-zh-practice
   paper_size: a4paper
@@ -53,20 +52,64 @@ sections:
       fallback_move: 先圈出题目问什么、已知什么，再写目标比。
     hints:
     - content_latex: 要求 $BC$，已知 $AC$，先想 $BC:AC$。\par 再把 $AC$ 改成总份数 $3+5$。
-    diagram_col:
-      kind: tikz
-      tikz_code: ''
-      tikz_path: build/diagram/jobs/segment-teacher-q1-prompt/rendered/prompt.fragment.tex
+    diagram_slot:
+      slot_id: segment.teacher.q1.prompt
       diagram_ref: segment.teacher.q1.prompt
-      diagram_job_id: segment-teacher-q1-prompt
-      width: 60mm
-      caption: 第 1 题图：先看点的顺序。
       variant: prompt
       disclosure_policy: clean
-      artifact_hash: sha256:8b33c3d66802cff98231ff848cc41d8a2c1a9e29fc3bb2c2085c2ea5466b5f2d
-      packages:
-      - tikz
-      libraries: []
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 第 1 题图：先看点的顺序。
+      engine: renderer_spec
+      diagram_kind: synthetic_geometry
+      teaching_intent: practice_prompt
+      semantic_constraints:
+        given_objects:
+        - A
+        - B
+        - C
+        given_constraints:
+        - A, B, C are collinear in order A-B-C
+        - AB:BC=3:5
+        - AC=64
+        - BC target
+        clean_forbidden:
+        - 不要写答案
+        - 不要标注推理结论
+      engine_options:
+        renderer_spec:
+          type: synthetic_geometry
+          points:
+            A:
+            - 0.0
+            - 0
+            B:
+            - 3.0
+            - 0
+            C:
+            - 8.0
+            - 0
+          segments:
+          - from: A
+            to: B
+          - from: B
+            to: C
+          labels:
+            A: A
+            B: B
+            C: C
+          constraints:
+          - A-B-C
+          - AB:BC=3:5
+          - AC=64
+          - BC target
+          - segment-regression-q1
+          teaching_focus:
+          - read the point order first
+          - convert target segment to shares
   - type: problem
     id: q2
     points: 8
@@ -99,20 +142,66 @@ sections:
       fallback_move: 先用一个小例子检查：左边乘得一样大，较长的线段对应较小的系数。
     hints:
     - content_latex: 先把 $4AB=7BC$ 改成线段比。\par 乘法式里，份数和系数是交叉对应的。
-    diagram_col:
-      kind: tikz
-      tikz_code: ''
-      tikz_path: build/diagram/jobs/segment-teacher-q2-prompt/rendered/prompt.fragment.tex
+    diagram_slot:
+      slot_id: segment.teacher.q2.prompt
       diagram_ref: segment.teacher.q2.prompt
-      diagram_job_id: segment-teacher-q2-prompt
-      width: 60mm
-      caption: 第 2 题图：先看点的顺序。
       variant: prompt
       disclosure_policy: clean
-      artifact_hash: sha256:91b41a2c524f14b8925c3ce1fd59794c01f6edb23142c82e929363c6f4a9541c
-      packages:
-      - tikz
-      libraries: []
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 第 2 题图：先看点的顺序。
+      engine: renderer_spec
+      diagram_kind: synthetic_geometry
+      teaching_intent: practice_prompt
+      semantic_constraints:
+        given_objects:
+        - A
+        - B
+        - C
+        given_constraints:
+        - A, B, C are collinear in order A-B-C
+        - 4AB=7BC
+        - AB:BC=7:4
+        - AC=55
+        - AB target
+        clean_forbidden:
+        - 不要写答案
+        - 不要标注推理结论
+      engine_options:
+        renderer_spec:
+          type: synthetic_geometry
+          points:
+            A:
+            - 0.0
+            - 0
+            B:
+            - 7.0
+            - 0
+            C:
+            - 11.0
+            - 0
+          segments:
+          - from: A
+            to: B
+          - from: B
+            to: C
+          labels:
+            A: A
+            B: B
+            C: C
+          constraints:
+          - A-B-C
+          - 4AB=7BC
+          - AB:BC=7:4
+          - AC=55
+          - AB target
+          - segment-regression-q2
+          teaching_focus:
+          - read the point order first
+          - convert target segment to shares
   - type: problem
     id: q3
     points: 8
@@ -145,20 +234,71 @@ sections:
       fallback_move: 先写 $AD=AB+BC+CD$，再写 $BD=BC+CD$。
     hints:
     - content_latex: $BD$ 是从 $B$ 到 $D$，包含 $BC$ 和 $CD$。\par 把 $BD$ 的份数和 $AD$ 的总份数相比。
-    diagram_col:
-      kind: tikz
-      tikz_code: ''
-      tikz_path: build/diagram/jobs/segment-teacher-q3-prompt/rendered/prompt.fragment.tex
+    diagram_slot:
+      slot_id: segment.teacher.q3.prompt
       diagram_ref: segment.teacher.q3.prompt
-      diagram_job_id: segment-teacher-q3-prompt
-      width: 60mm
-      caption: 第 3 题图：先看点的顺序。
       variant: prompt
       disclosure_policy: clean
-      artifact_hash: sha256:11207813c58ce6dbafdc8f8bdab4e19ef57d4d1d327f95f617925a9eccd0189e
-      packages:
-      - tikz
-      libraries: []
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 第 3 题图：先看点的顺序。
+      engine: renderer_spec
+      diagram_kind: synthetic_geometry
+      teaching_intent: practice_prompt
+      semantic_constraints:
+        given_objects:
+        - A
+        - B
+        - C
+        - D
+        given_constraints:
+        - A, B, C, D are collinear in order A-B-C-D
+        - AB:BC:CD=2:3:4
+        - AD=72
+        - BD target
+        clean_forbidden:
+        - 不要写答案
+        - 不要标注推理结论
+      engine_options:
+        renderer_spec:
+          type: synthetic_geometry
+          points:
+            A:
+            - 0.0
+            - 0
+            B:
+            - 2.0
+            - 0
+            C:
+            - 5.0
+            - 0
+            D:
+            - 9.0
+            - 0
+          segments:
+          - from: A
+            to: B
+          - from: B
+            to: C
+          - from: C
+            to: D
+          labels:
+            A: A
+            B: B
+            C: C
+            D: D
+          constraints:
+          - A-B-C-D
+          - AB:BC:CD=2:3:4
+          - AD=72
+          - BD target
+          - segment-regression-q3
+          teaching_focus:
+          - read the point order first
+          - convert target segment to shares
   - type: problem
     id: q4
     points: 8
@@ -189,20 +329,64 @@ sections:
       complexity_note: 部分反求整体，仍保持整除。
       upgrade_rule: 能自由切换 $AB:AC$ 与 $AC:AB$。
       fallback_move: 先写 $AB$ 是 $5$ 份，对应 $30$，再求 $12$ 份。
-    diagram_col:
-      kind: tikz
-      tikz_code: ''
-      tikz_path: build/diagram/jobs/segment-teacher-q4-prompt/rendered/prompt.fragment.tex
+    diagram_slot:
+      slot_id: segment.teacher.q4.prompt
       diagram_ref: segment.teacher.q4.prompt
-      diagram_job_id: segment-teacher-q4-prompt
-      width: 60mm
-      caption: 第 4 题图：先看点的顺序。
       variant: prompt
       disclosure_policy: clean
-      artifact_hash: sha256:a634397e2af69518c00d8ece97121bab4d4b85f33e9474ef4a571c1743cb5859
-      packages:
-      - tikz
-      libraries: []
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 第 4 题图：先看点的顺序。
+      engine: renderer_spec
+      diagram_kind: synthetic_geometry
+      teaching_intent: practice_prompt
+      semantic_constraints:
+        given_objects:
+        - A
+        - B
+        - C
+        given_constraints:
+        - A, B, C are collinear in order A-B-C
+        - AB:BC=5:7
+        - AB=30
+        - AC target
+        clean_forbidden:
+        - 不要写答案
+        - 不要标注推理结论
+      engine_options:
+        renderer_spec:
+          type: synthetic_geometry
+          points:
+            A:
+            - 0.0
+            - 0
+            B:
+            - 5.0
+            - 0
+            C:
+            - 12.0
+            - 0
+          segments:
+          - from: A
+            to: B
+          - from: B
+            to: C
+          labels:
+            A: A
+            B: B
+            C: C
+          constraints:
+          - A-B-C
+          - AB:BC=5:7
+          - AB=30
+          - AC target
+          - segment-regression-q4
+          teaching_focus:
+          - read the point order first
+          - convert target segment to shares
   - type: problem
     id: q5
     points: 8
@@ -233,34 +417,83 @@ sections:
       complexity_note: 三段比，目标为前两段和。
       upgrade_rule: 能先画一条简线辅助分段。
       fallback_move: 让学生口述点序：从 $A$ 到 $C$ 会经过哪些小段。
-    diagram_col:
-      kind: tikz
-      tikz_code: ''
-      tikz_path: build/diagram/jobs/segment-teacher-q5-prompt/rendered/prompt.fragment.tex
+    diagram_slot:
+      slot_id: segment.teacher.q5.prompt
       diagram_ref: segment.teacher.q5.prompt
-      diagram_job_id: segment-teacher-q5-prompt
-      width: 60mm
-      caption: 第 5 题图：先看点的顺序。
       variant: prompt
       disclosure_policy: clean
-      artifact_hash: sha256:d3998149eb22d010a55099e3f34c28a068a0ce43ac31c82312ed71ac4854f466
-      packages:
-      - tikz
-      libraries: []
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 第 5 题图：先看点的顺序。
+      engine: renderer_spec
+      diagram_kind: synthetic_geometry
+      teaching_intent: practice_prompt
+      semantic_constraints:
+        given_objects:
+        - A
+        - B
+        - C
+        - D
+        given_constraints:
+        - A, B, C, D are collinear in order A-B-C-D
+        - AB:BC:CD=4:6:5
+        - AD=75
+        - AC target
+        clean_forbidden:
+        - 不要写答案
+        - 不要标注推理结论
+      engine_options:
+        renderer_spec:
+          type: synthetic_geometry
+          points:
+            A:
+            - 0.0
+            - 0
+            B:
+            - 4.0
+            - 0
+            C:
+            - 10.0
+            - 0
+            D:
+            - 15.0
+            - 0
+          segments:
+          - from: A
+            to: B
+          - from: B
+            to: C
+          - from: C
+            to: D
+          labels:
+            A: A
+            B: B
+            C: C
+            D: D
+          constraints:
+          - A-B-C-D
+          - AB:BC:CD=4:6:5
+          - AD=75
+          - AC target
+          - segment-regression-q5
+          teaching_focus:
+          - read the point order first
+          - convert target segment to shares
   - type: problem
     id: q6
     points: 8
     label: 第 6 题
-    stem_latex: '点 $A,B,C,D$ 在同一直线上，顺序为 $A-B-C-D$。若 $AB=18$，$BC:CD=2:5$，且 $AD=81$，求
-      $CD$。
+    stem_latex: '点 $A,B,C,D$ 在同一直线上，顺序为 $A-B-C-D$。若 $AB=18$，$BC:CD=2:5$，且 $AD=81$，求 $CD$。
 
       '
     answer_space:
       type: steps
       height: 34mm
     answer: $CD=45$
-    explanation: 先由 $AD-AB=81-18=63$ 得 $BD=63$。又 $BD=BC+CD$，对应 $2+5=7$ 份，$CD$ 为 $5$
-      份，所以 $CD=63\times\dfrac{5}{7}=45$。
+    explanation: 先由 $AD-AB=81-18=63$ 得 $BD=63$。又 $BD=BC+CD$，对应 $2+5=7$ 份，$CD$ 为 $5$ 份，所以 $CD=63\times\dfrac{5}{7}=45$。
     solution_steps:
     - title: 先改已知量
       content: $BC:CD$ 只管 $BD$ 这一段，因此先求 $BD=AD-AB=81-18=63$。
@@ -279,20 +512,73 @@ sections:
       complexity_note: 先减后比，两步计算但数字保持干净。
       upgrade_rule: 能判断一个比例覆盖的是整条线段还是局部线段。
       fallback_move: 先问：$BC:CD$ 能不能告诉我们 $AB$ 的份数？不能，就先求 $BD$。
-    diagram_col:
-      kind: tikz
-      tikz_code: ''
-      tikz_path: build/diagram/jobs/segment-teacher-q6-prompt/rendered/prompt.fragment.tex
+    diagram_slot:
+      slot_id: segment.teacher.q6.prompt
       diagram_ref: segment.teacher.q6.prompt
-      diagram_job_id: segment-teacher-q6-prompt
-      width: 60mm
-      caption: 第 6 题图：先看点的顺序。
       variant: prompt
       disclosure_policy: clean
-      artifact_hash: sha256:f76af5820164a5bb4263d9c44bfacc34fac3896722364515c031dccfb4bc595b
-      packages:
-      - tikz
-      libraries: []
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 第 6 题图：先看点的顺序。
+      engine: renderer_spec
+      diagram_kind: synthetic_geometry
+      teaching_intent: practice_prompt
+      semantic_constraints:
+        given_objects:
+        - A
+        - B
+        - C
+        - D
+        given_constraints:
+        - A, B, C, D are collinear in order A-B-C-D
+        - AB=18
+        - BC:CD=2:5
+        - AD=81
+        - CD target
+        clean_forbidden:
+        - 不要写答案
+        - 不要标注推理结论
+      engine_options:
+        renderer_spec:
+          type: synthetic_geometry
+          points:
+            A:
+            - 0.0
+            - 0
+            B:
+            - 2.0
+            - 0
+            C:
+            - 4.0
+            - 0
+            D:
+            - 9.0
+            - 0
+          segments:
+          - from: A
+            to: B
+          - from: B
+            to: C
+          - from: C
+            to: D
+          labels:
+            A: A
+            B: B
+            C: C
+            D: D
+          constraints:
+          - A-B-C-D
+          - AB=18
+          - BC:CD=2:5
+          - AD=81
+          - CD target
+          - segment-regression-q6
+          teaching_focus:
+          - read the point order first
+          - convert target segment to shares
 - id: answer-key
   title: 参考答案
   type: answer_key

@@ -1,0 +1,461 @@
+meta:
+  title: 线段比再练
+  subtitle: 先定目标比，再改已知量，最后乘已知量
+  grade: 八年级
+  subject: 数学
+  duration: 25分钟
+  total_points: 48
+  version: student
+  source_artifacts:
+    style_reference_structure: artifacts/比例题组/2026-07-01-B-线段角份数化/01-structure-analysis.md
+    style_reference_explanation: artifacts/比例题组/2026-07-01-B-线段角份数化/02-student-explanation.assignment.yaml
+    diagram_plan_regenerated: writer-stage synthetic renderer_spec; old inline TikZ not used as plan source
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: segment-ratio-practice
+  title: 一、线段比练习（每题 8 分，共 48 分）
+  type: practice
+  visibility: student
+  blocks:
+  - type: problem
+    id: q1
+    points: 8
+    label: 第 1 题
+    stem_latex: '点 $A,B,C$ 在同一直线上，顺序为 $A-B-C$。若 $AB:BC=3:5$，且 $AC=64$，求 $BC$。
+
+      '
+    answer_space:
+      type: steps
+      height: 30mm
+    hints:
+    - content_latex: 要求 $BC$，已知 $AC$，先想 $BC:AC$。\par 再把 $AC$ 改成总份数 $3+5$。
+    diagram_slot:
+      slot_id: segment.student.q1.prompt
+      diagram_ref: segment.student.q1.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 第 1 题图：先看点的顺序。
+      engine: renderer_spec
+      diagram_kind: synthetic_geometry
+      teaching_intent: practice_prompt
+      semantic_constraints:
+        given_objects:
+        - A
+        - B
+        - C
+        given_constraints:
+        - A, B, C are collinear in order A-B-C
+        - AB:BC=3:5
+        - AC=64
+        - BC target
+        clean_forbidden:
+        - 不要写答案
+        - 不要标注推理结论
+      engine_options:
+        renderer_spec:
+          type: synthetic_geometry
+          points:
+            A:
+            - 0.0
+            - 0
+            B:
+            - 3.0
+            - 0
+            C:
+            - 8.0
+            - 0
+          segments:
+          - from: A
+            to: B
+          - from: B
+            to: C
+          labels:
+            A: A
+            B: B
+            C: C
+          constraints:
+          - A-B-C
+          - AB:BC=3:5
+          - AC=64
+          - BC target
+          - segment-regression-q1
+          teaching_focus:
+          - read the point order first
+          - convert target segment to shares
+  - type: problem
+    id: q2
+    points: 8
+    label: 第 2 题
+    stem_latex: '点 $A,B,C$ 在同一直线上，顺序为 $A-B-C$。若 $4AB=7BC$，且 $AC=55$，求 $AB$。
+
+      '
+    answer_space:
+      type: steps
+      height: 30mm
+    hints:
+    - content_latex: 先把 $4AB=7BC$ 改成线段比。\par 乘法式里，份数和系数是交叉对应的。
+    diagram_slot:
+      slot_id: segment.student.q2.prompt
+      diagram_ref: segment.student.q2.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 第 2 题图：先看点的顺序。
+      engine: renderer_spec
+      diagram_kind: synthetic_geometry
+      teaching_intent: practice_prompt
+      semantic_constraints:
+        given_objects:
+        - A
+        - B
+        - C
+        given_constraints:
+        - A, B, C are collinear in order A-B-C
+        - 4AB=7BC
+        - AB:BC=7:4
+        - AC=55
+        - AB target
+        clean_forbidden:
+        - 不要写答案
+        - 不要标注推理结论
+      engine_options:
+        renderer_spec:
+          type: synthetic_geometry
+          points:
+            A:
+            - 0.0
+            - 0
+            B:
+            - 7.0
+            - 0
+            C:
+            - 11.0
+            - 0
+          segments:
+          - from: A
+            to: B
+          - from: B
+            to: C
+          labels:
+            A: A
+            B: B
+            C: C
+          constraints:
+          - A-B-C
+          - 4AB=7BC
+          - AB:BC=7:4
+          - AC=55
+          - AB target
+          - segment-regression-q2
+          teaching_focus:
+          - read the point order first
+          - convert target segment to shares
+  - type: problem
+    id: q3
+    points: 8
+    label: 第 3 题
+    stem_latex: '点 $A,B,C,D$ 在同一直线上，顺序为 $A-B-C-D$。若 $AB:BC:CD=2:3:4$，且 $AD=72$，求 $BD$。
+
+      '
+    answer_space:
+      type: steps
+      height: 32mm
+    hints:
+    - content_latex: $BD$ 是从 $B$ 到 $D$，包含 $BC$ 和 $CD$。\par 把 $BD$ 的份数和 $AD$ 的总份数相比。
+    diagram_slot:
+      slot_id: segment.student.q3.prompt
+      diagram_ref: segment.student.q3.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 第 3 题图：先看点的顺序。
+      engine: renderer_spec
+      diagram_kind: synthetic_geometry
+      teaching_intent: practice_prompt
+      semantic_constraints:
+        given_objects:
+        - A
+        - B
+        - C
+        - D
+        given_constraints:
+        - A, B, C, D are collinear in order A-B-C-D
+        - AB:BC:CD=2:3:4
+        - AD=72
+        - BD target
+        clean_forbidden:
+        - 不要写答案
+        - 不要标注推理结论
+      engine_options:
+        renderer_spec:
+          type: synthetic_geometry
+          points:
+            A:
+            - 0.0
+            - 0
+            B:
+            - 2.0
+            - 0
+            C:
+            - 5.0
+            - 0
+            D:
+            - 9.0
+            - 0
+          segments:
+          - from: A
+            to: B
+          - from: B
+            to: C
+          - from: C
+            to: D
+          labels:
+            A: A
+            B: B
+            C: C
+            D: D
+          constraints:
+          - A-B-C-D
+          - AB:BC:CD=2:3:4
+          - AD=72
+          - BD target
+          - segment-regression-q3
+          teaching_focus:
+          - read the point order first
+          - convert target segment to shares
+  - type: problem
+    id: q4
+    points: 8
+    label: 第 4 题
+    stem_latex: '点 $A,B,C$ 在同一直线上，顺序为 $A-B-C$。若 $AB:BC=5:7$，且 $AB=30$，求 $AC$。
+
+      '
+    answer_space:
+      type: steps
+      height: 30mm
+    diagram_slot:
+      slot_id: segment.student.q4.prompt
+      diagram_ref: segment.student.q4.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 第 4 题图：先看点的顺序。
+      engine: renderer_spec
+      diagram_kind: synthetic_geometry
+      teaching_intent: practice_prompt
+      semantic_constraints:
+        given_objects:
+        - A
+        - B
+        - C
+        given_constraints:
+        - A, B, C are collinear in order A-B-C
+        - AB:BC=5:7
+        - AB=30
+        - AC target
+        clean_forbidden:
+        - 不要写答案
+        - 不要标注推理结论
+      engine_options:
+        renderer_spec:
+          type: synthetic_geometry
+          points:
+            A:
+            - 0.0
+            - 0
+            B:
+            - 5.0
+            - 0
+            C:
+            - 12.0
+            - 0
+          segments:
+          - from: A
+            to: B
+          - from: B
+            to: C
+          labels:
+            A: A
+            B: B
+            C: C
+          constraints:
+          - A-B-C
+          - AB:BC=5:7
+          - AB=30
+          - AC target
+          - segment-regression-q4
+          teaching_focus:
+          - read the point order first
+          - convert target segment to shares
+  - type: problem
+    id: q5
+    points: 8
+    label: 第 5 题
+    stem_latex: '点 $A,B,C,D$ 在同一直线上，顺序为 $A-B-C-D$。若 $AB:BC:CD=4:6:5$，且 $AD=75$，求 $AC$。
+
+      '
+    answer_space:
+      type: steps
+      height: 30mm
+    diagram_slot:
+      slot_id: segment.student.q5.prompt
+      diagram_ref: segment.student.q5.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 第 5 题图：先看点的顺序。
+      engine: renderer_spec
+      diagram_kind: synthetic_geometry
+      teaching_intent: practice_prompt
+      semantic_constraints:
+        given_objects:
+        - A
+        - B
+        - C
+        - D
+        given_constraints:
+        - A, B, C, D are collinear in order A-B-C-D
+        - AB:BC:CD=4:6:5
+        - AD=75
+        - AC target
+        clean_forbidden:
+        - 不要写答案
+        - 不要标注推理结论
+      engine_options:
+        renderer_spec:
+          type: synthetic_geometry
+          points:
+            A:
+            - 0.0
+            - 0
+            B:
+            - 4.0
+            - 0
+            C:
+            - 10.0
+            - 0
+            D:
+            - 15.0
+            - 0
+          segments:
+          - from: A
+            to: B
+          - from: B
+            to: C
+          - from: C
+            to: D
+          labels:
+            A: A
+            B: B
+            C: C
+            D: D
+          constraints:
+          - A-B-C-D
+          - AB:BC:CD=4:6:5
+          - AD=75
+          - AC target
+          - segment-regression-q5
+          teaching_focus:
+          - read the point order first
+          - convert target segment to shares
+  - type: problem
+    id: q6
+    points: 8
+    label: 第 6 题
+    stem_latex: '点 $A,B,C,D$ 在同一直线上，顺序为 $A-B-C-D$。若 $AB=18$，$BC:CD=2:5$，且 $AD=81$，求 $CD$。
+
+      '
+    answer_space:
+      type: steps
+      height: 34mm
+    diagram_slot:
+      slot_id: segment.student.q6.prompt
+      diagram_ref: segment.student.q6.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 第 6 题图：先看点的顺序。
+      engine: renderer_spec
+      diagram_kind: synthetic_geometry
+      teaching_intent: practice_prompt
+      semantic_constraints:
+        given_objects:
+        - A
+        - B
+        - C
+        - D
+        given_constraints:
+        - A, B, C, D are collinear in order A-B-C-D
+        - AB=18
+        - BC:CD=2:5
+        - AD=81
+        - CD target
+        clean_forbidden:
+        - 不要写答案
+        - 不要标注推理结论
+      engine_options:
+        renderer_spec:
+          type: synthetic_geometry
+          points:
+            A:
+            - 0.0
+            - 0
+            B:
+            - 2.0
+            - 0
+            C:
+            - 4.0
+            - 0
+            D:
+            - 9.0
+            - 0
+          segments:
+          - from: A
+            to: B
+          - from: B
+            to: C
+          - from: C
+            to: D
+          labels:
+            A: A
+            B: B
+            C: C
+            D: D
+          constraints:
+          - A-B-C-D
+          - AB=18
+          - BC:CD=2:5
+          - AD=81
+          - CD target
+          - segment-regression-q6
+          teaching_focus:
+          - read the point order first
+          - convert target segment to shares

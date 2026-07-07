@@ -1,0 +1,90 @@
+meta:
+  title: 线段比再练-出图回归
+  subtitle: Codex SDK + GeometricScene live E2E
+  grade: 八年级
+  subject: 数学
+  duration: 15分钟
+  total_points: 16
+  version: student
+  assignment_id: 2026-07-07-segment-ratio-live-diagram-e2e
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: live-segment-ratio
+  title: 一、线段比出图回归
+  type: practice
+  visibility: student
+  blocks:
+  - type: problem
+    id: q1
+    points: 8
+    label: 第 1 题
+    stem_latex: 如图，点 $A,B,C$ 在同一直线上，顺序为 $A-B-C$。若 $AB:BC=3:5$，且 $AC=64$，求 $BC$。
+    diagram_slot:
+      slot_id: live.q1.prompt
+      diagram_ref: live.q1.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 观察点在线段上的顺序和份数。
+      engine: geometric_scene
+      diagram_kind: synthetic_geometry
+      teaching_intent: practice_prompt
+      semantic_constraints:
+        given_objects:
+        - A
+        - B
+        - C
+        - D
+        given_constraints:
+        - A, B, C are collinear in order A-B-C
+        - AB:BC=3:5
+        - AC=64
+        clean_forbidden:
+        - 不要写答案
+        - 不要标注推理结论
+    answer_space:
+      type: steps
+      height: 28mm
+  - type: problem
+    id: q2
+    points: 8
+    label: 第 2 题
+    stem_latex: 如图，点 $A,B,C,D$ 在同一直线上，顺序为 $A-B-C-D$。若 $AB:BC:CD=2:3:4$，且 $AD=72$，求
+      $BD$。
+    diagram_slot:
+      slot_id: live.q2.prompt
+      diagram_ref: live.q2.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 观察点在线段上的顺序和份数。
+      engine: geometric_scene
+      diagram_kind: synthetic_geometry
+      teaching_intent: practice_prompt
+      semantic_constraints:
+        given_objects:
+        - A
+        - B
+        - C
+        - D
+        given_constraints:
+        - A, B, C, D are collinear in order A-B-C-D
+        - AB:BC:CD=2:3:4
+        - AD=72
+        - BD target
+        clean_forbidden:
+        - 不要写答案
+        - 不要标注推理结论
+    answer_space:
+      type: steps
+      height: 30mm

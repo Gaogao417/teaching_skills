@@ -1,0 +1,63 @@
+meta:
+  title: 线段比再练-出图回归
+  subtitle: Codex SDK + GeometricScene live E2E
+  grade: 八年级
+  subject: 数学
+  duration: 15分钟
+  total_points: 16
+  version: student
+  assignment_id: 2026-07-07-segment-ratio-live-diagram-e2e
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: live-segment-ratio
+  title: 一、线段比出图回归
+  type: practice
+  visibility: student
+  blocks:
+  - type: problem
+    id: q1
+    points: 8
+    label: 第 1 题
+    stem_latex: 如图，点 $A,B,C$ 在同一直线上，顺序为 $A-B-C$。若 $AB:BC=3:5$，且 $AC=64$，求 $BC$。
+    answer_space:
+      type: steps
+      height: 28mm
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/live-q1-prompt/rendered/prompt.fragment.tex
+      diagram_ref: live.q1.prompt
+      diagram_job_id: live-q1-prompt
+      width: 60mm
+      caption: 观察点在线段上的顺序和份数。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:8e25f2258913c03d8ddd9c8893382ae474be0d83245c0bee6a487a0733f009a3
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: q2
+    points: 8
+    label: 第 2 题
+    stem_latex: 如图，点 $A,B,C,D$ 在同一直线上，顺序为 $A-B-C-D$。若 $AB:BC:CD=2:3:4$，且 $AD=72$，求
+      $BD$。
+    answer_space:
+      type: steps
+      height: 30mm
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/live-q2-prompt/rendered/prompt.fragment.tex
+      diagram_ref: live.q2.prompt
+      diagram_job_id: live-q2-prompt
+      width: 60mm
+      caption: 观察点在线段上的顺序和份数。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:25bb9a3d7a1862a5fbfdf247bac2bac820136f60acc984edf4b9d50805f17d62
+      packages:
+      - tikz
+      libraries: []
