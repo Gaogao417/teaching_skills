@@ -9,6 +9,18 @@ Primary entry point:
 python3 scripts/diagram_workflow/run_assignment_diagrams.py <plan.assignment.yaml>
 ```
 
+Live SDK assignment regression (opt-in only; requires Codex SDK credentials and
+a working Wolfram kernel):
+
+```bash
+./.venv-diagram/bin/python scripts/diagram_workflow/live_assignment_diagram_e2e.py
+```
+
+This writes a small assignment under
+`artifacts/杨茗贺/2026-07-07-线段比再练-出图回归/`, runs the real
+Codex SDK + GeometricScene route, verifies Wolfram/TikZ evidence, and compiles a
+PDF. It is intentionally excluded from default pytest.
+
 By default the four stages run in-process through
 `assignment_pipeline.run_assignment_diagram_pipeline`: one Python interpreter
 drives collect → batch → gate → resolve by calling library functions directly,

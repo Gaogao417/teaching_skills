@@ -28,3 +28,11 @@ Use explicit virtualenv interpreters instead of the system `python3` when runnin
 - Run Python tests through `./.venv/bin/python -m pytest ...`.
 - Geometry diagram workflow and live renderer work use `./.venv-diagram/bin/python` unless the task explicitly targets non-diagram tooling.
 - Before adding or changing Pydantic contracts, verify the selected environment can import Pydantic.
+
+## Diagram Workflow Rules
+
+- Do not tell math YAML writers to avoid `diagram_slot` when a geometry problem needs a figure. If the stem says “如图/图中/下图”, or if a geometry condition would be hard to parse without a figure, the writer must declare a `diagram_slot`.
+- Adding or repairing diagrams means returning to the relevant latex-data writer and regenerating `*.plan.assignment.yaml`. Do not mechanically convert ordinary `*.assignment.yaml` into plan YAML with inline scripts.
+- Plan YAML must contain only `diagram_slot` declarations for figures. It must not contain final `image_path`, `diagram_col`, `diagram_row`, `diagram_job_id`, or hand-written TikZ payloads.
+- Ordinary Euclidean geometry, including triangles, parallel lines, similarity, and collinear segment ratios, defaults to `engine: geometric_scene` with `diagram_kind: synthetic_geometry`.
+- Use `diagram_kind: coordinate_geometry` only for coordinate planes, axes/ticks, function graphs, explicit coordinate or analytic geometry, or graph-reading tasks.
