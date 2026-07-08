@@ -1,5 +1,6 @@
 <# exam-zh-homework.tex.j2 — 作业页模板 #>
-<% include "preamble-exam-zh.tex" ignore missing %>
+\documentclass{exam-zh}
+\usepackage{edu-practice}
 <% macro diagram_tikz_body(diagram) -%>
 <% if diagram.tikz_code %><%= diagram.tikz_code %><% elif diagram.tikz_path %>\input{\detokenize{<%= diagram.tikz_path|latex_path %>}}<% endif %>
 <%- endmacro %>

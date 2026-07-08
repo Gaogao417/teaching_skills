@@ -24,6 +24,11 @@ fi
 
 # Add local texmf tree so tectonic/xelatex finds exam-zh and other local packages
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+REPO_ROOT="$(cd "${SCRIPT_DIR}/../.." && pwd)"
+PYTHON_BIN="${REPO_ROOT}/.venv/bin/python"
+if [ ! -x "$PYTHON_BIN" ]; then
+    PYTHON_BIN="python3"
+fi
 LOCAL_TEXMF="${SCRIPT_DIR}/../texmf"
 export TEXINPUTS="${LOCAL_TEXMF}/tex/latex//:${TEXINPUTS-}"
 
@@ -148,7 +153,7 @@ done
 
 if [ -n "$FOUND_YAML" ] && [ -f "$RENDER_SCRIPT" ]; then
     echo "--- Re-rendering from $(basename "$FOUND_YAML") ---"
-    if python3 "$RENDER_SCRIPT" "$FOUND_YAML" --out "$TEX_FILE"; then
+    if "$PYTHON_BIN" "$RENDER_SCRIPT" "$FOUND_YAML" --out "$TEX_FILE"; then
         echo "Re-render complete."
     else
         echo "⚠ Re-render failed. Compiling with existing .tex."
@@ -158,7 +163,7 @@ fi
 # Pre-compile LaTeX syntax check
 CHECK_SCRIPT="${SCRIPT_DIR}/check_latex.py"
 if [ -f "$CHECK_SCRIPT" ]; then
-    if python3 "$CHECK_SCRIPT" "$TEX_FILE"; then
+    if "$PYTHON_BIN" "$CHECK_SCRIPT" "$TEX_FILE"; then
         : # check passed
     else
         echo "--- LaTeX syntax issues detected (see above) ---"
@@ -180,11 +185,11 @@ echo "Engine: $ENGINE"
 
 # Tectonic ignores TEXINPUTS, so copy local packages to the working directory.
 # xelatex uses TEXINPUTS (set above) so no copy needed.
-LOCAL_PKG_DIR="${LOCAL_TEXMF}/tex/latex/exam-zh"
-if [ "$ENGINE" = "tectonic" ] && [ -d "$LOCAL_PKG_DIR" ]; then
-    for f in "$LOCAL_PKG_DIR"/*.cls "$LOCAL_PKG_DIR"/*.sty; do
-        [ -f "$f" ] && cp "$f" "$TEX_DIR/"
-    done
+LOCAL_LATEX_DIR="${LOCAL_TEXMF}/tex/latex"
+if [ "$ENGINE" = "tectonic" ] && [ -d "$LOCAL_LATEX_DIR" ]; then
+    while IFS= read -r -d '' f; do
+        cp "$f" "$TEX_DIR/"
+    done < <(find "$LOCAL_LATEX_DIR" -type f \( -name '*.cls' -o -name '*.sty' \) -print0)
 fi
 
 # Initialize log
@@ -216,8 +221,8 @@ if [ -f "$TEX_DIR/$PDF_NAME" ]; then
     TEX_LOG="${TEX_NAME%.tex}.log"
     [ -f "$TEX_DIR/$TEX_LOG" ] && mv "$TEX_DIR/$TEX_LOG" "$BUILD_DIR/"
 
-    # Move exam-zh packages (only present when using tectonic)
-    for f in "$TEX_DIR"/exam-zh.cls "$TEX_DIR"/exam-zh-*.sty; do
+    # Move local packages copied for tectonic.
+    for f in "$TEX_DIR"/exam-zh.cls "$TEX_DIR"/exam-zh-*.sty "$TEX_DIR"/edu-*.sty; do
         [ -f "$f" ] && mv "$f" "$BUILD_DIR/"
     done
 
