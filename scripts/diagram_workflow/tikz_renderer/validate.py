@@ -14,6 +14,12 @@ def validate_render_spec(spec: GeometryRenderSpec) -> list[str]:
             elif len(spec.samples.get(func.id) or []) < 2:
                 errors.append(f"function '{func.id}' requires at least two samples")
         return errors
+    if spec.type == DiagramKind.SPATIAL_GEOMETRY.value:
+        if not spec.points3d:
+            errors.append("spatial geometry spec requires points3d")
+        if spec.projection is None:
+            errors.append("spatial geometry spec requires projection")
+        return errors
     if not spec.points:
         errors.append("synthetic geometry spec requires points")
     return errors

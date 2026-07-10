@@ -38,5 +38,8 @@ diagram_slot:
 - plan YAML 不得出现 `image_path`、`diagram_job_id`、`diagram_col`、`diagram_row`、`answer_space.diagram_col` 或最终 `type: diagram` 图片对象。
 - 普通欧氏几何（如三角形、平行线、相似、角平分线、共线线段比例）默认使用 `engine: "geometric_scene"` 与 `diagram_kind: "synthetic_geometry"`。
 - 只有题目明确涉及坐标轴、坐标点、函数图像、解析式、交点/读图或坐标平面面积时，才使用 `diagram_kind: "coordinate_geometry"`。
+- 空间点线面、棱柱棱锥、二面角、异面直线距离等使用 `engine: "spatial_renderer"` 与 `diagram_kind: "spatial_geometry"`，三维输入写入 `engine_options.spatial_spec`。一般关系图用 `textbook_oblique`，两面相交用 `hinge_planes`，空间坐标/向量用 `orthographic_3d`。
+- 空间图必须声明 `points3d`、`segments`/`polygons`、结构化 `relations`、`projection` 和 `quality_focus`。两个平面相交时用 `derived_segments.relation: plane_intersection_line`，不要手估交线端点。
+- 空间 prompt 图不得声明 `role: auxiliary`；讲解辅助线放在 solution/annotated slot，并复用 prompt 构型。
 - 如果图形暂不支持，不补额外提示 block，也不制造空 slot。
 - 必需图使用 `required: true` 和 `on_failure: "fail_assignment"` 让流程显式失败；非必需图直接跳过图位。

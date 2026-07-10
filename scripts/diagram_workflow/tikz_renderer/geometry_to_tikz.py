@@ -172,6 +172,8 @@ class SyntheticGeometryTikzCompiler:
                 tex = self._right_angle_tex(marker)
             elif marker.type == "equal_ticks":
                 tex = self._equal_ticks_tex(marker)
+            elif marker.type == "parallel":
+                tex = self._parallel_mark_tex(marker)
             elif marker.type == "angle_arc":
                 tex = self._angle_arc_tex(marker)
             else:
@@ -198,6 +200,16 @@ class SyntheticGeometryTikzCompiler:
             if start not in self.coord_names or end not in self.coord_names:
                 continue
             lines.append(f"\\{macro_name}[{options}]{{{self.coord_names[start]}}}{{{self.coord_names[end]}}}")
+        return "\n".join(lines)
+
+    def _parallel_mark_tex(self, marker: object) -> str:
+        segments = list(getattr(marker, "segments", []) or [])
+        lines: list[str] = []
+        options = join_options(f"draw={color_option(getattr(marker, 'stroke', '') or '#2563eb')}")
+        for start, end in segments:
+            if start not in self.coord_names or end not in self.coord_names:
+                continue
+            lines.append(f"\\ParallelMark[{options}]{{{self.coord_names[start]}}}{{{self.coord_names[end]}}}")
         return "\n".join(lines)
 
     def _angle_arc_tex(self, marker: object) -> str:

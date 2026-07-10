@@ -20,6 +20,7 @@ from diagram_contracts import (  # noqa: E402
     ResolvedDiagramPlacement,
     ResolvedDiagramTikz,
     ScenePayload,
+    SpatialGeometryDiagramSlot,
     SyntheticGeometryDiagramSlot,
     WolframRenderResult,
     validate_diagram_slot,
@@ -66,6 +67,25 @@ class DiagramContractsTest(unittest.TestCase):
         self.assertIsInstance(slot, CoordinatePlaneDiagramSlot)
         self.assertEqual(slot.diagram_kind, "coordinate_geometry")
         self.assertEqual(slot.analytic_requirements.objects[0].id, "A")
+
+    def test_diagram_slot_discriminates_spatial_payload(self) -> None:
+        slot = validate_diagram_slot(
+            self._base_slot_payload(
+                engine="spatial_renderer",
+                diagram_kind="spatial_geometry",
+                engine_options={
+                    "spatial_spec": {
+                        "points3d": {"A": [0, 0, 0], "B": [1, 0, 0]},
+                        "segments": [{"id": "AB", "from": "A", "to": "B"}],
+                        "projection": {"mode": "textbook_oblique"},
+                    }
+                },
+            )
+        )
+
+        self.assertIsInstance(slot, SpatialGeometryDiagramSlot)
+        self.assertEqual(slot.diagram_kind, "spatial_geometry")
+        self.assertEqual(slot.engine, "spatial_renderer")
 
     def test_coordinate_plane_slot_accepts_function_payload(self) -> None:
         slot = validate_diagram_slot(

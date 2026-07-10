@@ -39,6 +39,7 @@ from diagram_gate.policy_checks import (  # noqa: E402
 )
 from diagram_gate.runner import run_gate  # noqa: E402
 from diagram_gate.svg_preview_checks import _check_svg_readability  # noqa: E402
+from diagram_gate.spatial_checks import _check_spatial_renderer_specs  # noqa: E402
 from renderer_bindings import manifest_from_paths  # noqa: E402
 
 

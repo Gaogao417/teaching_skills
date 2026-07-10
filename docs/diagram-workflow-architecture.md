@@ -329,7 +329,7 @@ assignment.resolved.yaml → Jinja2 template → .tex → XeLaTeX / tectonic →
 
 | 模块 | 当前职责 | 目标职责 | 备注 |
 |---|---|---|---|
-| `scripts/diagram_workflow/run_diagram_workflow.py` | 读取单个 `DiagramJobRequest` v2 并调用本地 `geometry_diagram_workflow/core/workflow.py`；只显式支持 `synthetic_geometry` | engine adapter；只负责 request 传递、engine 路由和调用 workflow.py | 不应做 clean policy 的业务修补 |
+| `scripts/diagram_workflow/run_diagram_workflow.py` | 读取单个 `DiagramJobRequest` v2，路由 synthetic / spatial / coordinate workflow | engine adapter；只负责 request 传递和 engine 路由 | 不应做 clean policy 的业务修补 |
 | `scripts/diagram_workflow/geometry_diagram_workflow/core/workflow.py` | agentic GeometricScene workflow：文本模型写/revise Wolfram GeometricScene，Wolfram 求解，产出 renderer-friendly spec | 单 job executor；生产输入是一个 `DiagramJobRequest` v2 | 核心图片生成工作流，不扫描或修改 assignment YAML |
 | `scripts/diagram_workflow/render_geometry_spec.py` | `geometry-render-spec/v1` → SVG → PNG，输出 `renderer_result.json` | deterministic renderer；只消费 renderer spec，输出图片 | 不理解 assignment，不改 YAML |
 | `scripts/workflow_gate.py` | run manifest、preflight、review ledger、render gate、final review | 增加 diagram stage 记录和 diagram gate | 不直接生成图 |
@@ -499,6 +499,7 @@ layout              TeX 排版，不属于 workflow.py
 | `diagram_kind` | 推荐 `engine` | 说明 |
 |---|---|---|
 | `synthetic_geometry` | `geometric_scene` | 综合几何，Wolfram `GeometricScene` 求实例点位 |
+| `spatial_geometry` | `spatial_renderer` | 立体几何；校验三维点线面关系，保留 `points3d`，由教材斜二测坐标基或 `tikz-3dplot` 投影 |
 | `coordinate_geometry` | `wolfram_client` / `coordinate_renderer` | 坐标平面图，包括点、线、圆、多边形和函数曲线；函数曲线由 `analytic_requirements.coordinate_ir.objects[].type=function_curve` 表达 |
 | `hybrid` | 由 orchestrator 拆 job | 同一题同时需要综合几何示意和函数/坐标图时，拆成多个 slot/job |
 | `auto` | collector/workflow 路由 | 只在上游不确定时临时使用；进入执行前应收敛为明确 kind |
@@ -591,6 +592,7 @@ layout              TeX 排版，不属于 workflow.py
 DiagramJobRequest
   → route by engine + diagram_kind
   → synthetic_geometry: text model produces GeometricScene payload
+  → spatial_geometry: deterministic 3D validation, intersection solving, projection audit
   → coordinate/function: text model or parser produces analytic payload
   → validate Wolfram code / expression safety
   → Wolfram solves GeometricScene or validates/samples analytic graph

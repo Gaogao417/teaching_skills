@@ -79,10 +79,12 @@ assignment.resolved.yaml
 - 学生版 resolved YAML 不应引用 `variant: solution` 或 `disclosure_policy: annotated` 的图片；这是 gate 层检查。
 - `diagram_kind: synthetic_geometry` 默认搭配 `engine: geometric_scene`，走 Wolfram `GeometricScene` 求实例点位。
 - `diagram_kind: coordinate_geometry` 表示坐标平面图，包括只画点/线/多边形，也包括需要画函数曲线的图；函数曲线通过 `analytic_requirements.coordinate_ir.objects[].type=function_curve` 表达，不再在 plan slot 顶层写 `diagram_kind: function_graph`。
+- `diagram_kind: spatial_geometry` 搭配 `engine: spatial_renderer`；三维输入写入 `engine_options.spatial_spec`，final renderer spec 必须保留 `points3d` 和 `projection`，不得提前改写成二维 `points`。
 - `wolfram_plot` 仅保留为兼容 alias；新 plan 不推荐使用。
 - 坐标平面图的数学输入放在 `analytic_requirements.coordinate_ir`，包括 `viewport`、`axes`、`objects` 与 `annotations`；旧 `functions` / `objects` 只作为短期 normalize 入口。
 - `coordinate_ir.objects` 是 tagged union，常用类型为 `point`、`function_curve`、`line`、`segment`、`polygon_region`、`derived_point`、`guide_line`、`projection_guide`、`text_label`；函数不得用 plan 层 `polyline` 冒充。
-- `GeometryRenderSpec` 对综合几何要求 `points`；对坐标/函数图要求 `points`、`objects`、`functions`、`curves` 或 `samples` 至少一种可渲染对象。
+- `GeometryRenderSpec` 对平面综合几何要求 `points`；对空间几何要求 `points3d + projection`；对坐标/函数图要求 `points`、`objects`、`functions`、`curves` 或 `samples` 至少一种可渲染对象。
+- 空间图的投影与 gate 细则见 `docs/spatial-geometry-diagram-workflow.md`。
 
 ## 4. 最小对象示例
 

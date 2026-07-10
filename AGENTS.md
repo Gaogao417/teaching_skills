@@ -36,3 +36,6 @@ Use explicit virtualenv interpreters instead of the system `python3` when runnin
 - Plan YAML must contain only `diagram_slot` declarations for figures. It must not contain final `image_path`, `diagram_col`, `diagram_row`, `diagram_job_id`, or hand-written TikZ payloads.
 - Ordinary Euclidean geometry, including triangles, parallel lines, similarity, and collinear segment ratios, defaults to `engine: geometric_scene` with `diagram_kind: synthetic_geometry`.
 - Use `diagram_kind: coordinate_geometry` only for coordinate planes, axes/ticks, function graphs, explicit coordinate or analytic geometry, or graph-reading tasks.
+- Solid geometry involving spatial point-line-plane relations, polyhedra, dihedral angles, skew lines, sections, or spatial distances uses `engine: spatial_renderer` with `diagram_kind: spatial_geometry`.
+- Spatial plan specs keep `points3d` through the final renderer spec. Do not pre-project them into 2D `points`; the TikZ compiler selects `textbook_oblique`, `hinge_planes`, `orthographic_3d`, or `axial_solid`.
+- Spatial prompt diagrams may use `main`, `secondary`, `intersection`, and `hidden` roles, but not `auxiliary`. Solution spatial diagrams must reuse the prompt geometry before adding auxiliary objects.

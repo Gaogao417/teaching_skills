@@ -20,6 +20,7 @@ from tikz_renderer.result import write_failure_result, write_json, write_success
 from tikz_renderer.toolchain import build_previews  # noqa: E402
 from tikz_renderer.validate import validate_render_spec  # noqa: E402
 from tikz_renderer.writer import render_fragment, render_standalone  # noqa: E402
+from workflow_timing import StageTimer, write_profile_section  # noqa: E402
 
 
 def read_json(path: Path) -> dict[str, object]:
@@ -41,9 +42,11 @@ def render_geometry_spec(
     spec_path = spec_path.resolve()
     out_dir = out_dir.resolve()
     out_dir.mkdir(parents=True, exist_ok=True)
+    timer = StageTimer()
 
     try:
-        raw_spec = read_json(spec_path)
+        with timer.measure("read_renderer_spec"):
+            raw_spec = read_json(spec_path)
     except Exception as exc:
         return write_failure_result(
             out_dir=out_dir,
@@ -58,7 +61,8 @@ def render_geometry_spec(
     raw_spec["variant"] = diagram_variant
 
     try:
-        spec_model = GeometryRenderSpec.model_validate(raw_spec)
+        with timer.measure("validate_renderer_spec"):
+            spec_model = GeometryRenderSpec.model_validate(raw_spec)
     except Exception as exc:
         return write_failure_result(
             out_dir=out_dir,
@@ -69,7 +73,8 @@ def render_geometry_spec(
             variant=diagram_variant,
         )
 
-    validation_errors = validate_render_spec(spec_model)
+    with timer.measure("semantic_renderer_checks"):
+        validation_errors = validate_render_spec(spec_model)
     if validation_errors:
         return write_failure_result(
             out_dir=out_dir,
@@ -81,8 +86,10 @@ def render_geometry_spec(
         )
 
     try:
-        diagram_spec = compile_geometry_render_spec(spec_model)
-        fragment = render_fragment(diagram_spec)
+        with timer.measure("compile_tikz_spec"):
+            diagram_spec = compile_geometry_render_spec(spec_model)
+        with timer.measure("serialize_tikz"):
+            fragment = render_fragment(diagram_spec)
     except Exception as exc:
         return write_failure_result(
             out_dir=out_dir,
@@ -102,15 +109,22 @@ def render_geometry_spec(
     preview_svg_path = rendered_dir / f"{diagram_variant}.preview.svg"
     tikz_spec_path = rendered_dir / f"{diagram_variant}.tikz_spec.json"
 
-    for stale_path in (preview_pdf_path, preview_png_path, preview_svg_path):
-        if stale_path.exists():
-            stale_path.unlink()
-    fragment_path.write_text(fragment, encoding="utf-8")
-    standalone_path.write_text(render_standalone(fragment, diagram_spec.libraries), encoding="utf-8")
-    write_json(tikz_spec_path, diagram_spec)
+    with timer.measure("write_tikz_artifacts"):
+        for stale_path in (preview_pdf_path, preview_png_path, preview_svg_path):
+            if stale_path.exists():
+                stale_path.unlink()
+        fragment_path.write_text(fragment, encoding="utf-8")
+        standalone_path.write_text(
+            render_standalone(fragment, diagram_spec.libraries, diagram_spec.required_packages),
+            encoding="utf-8",
+        )
+        write_json(tikz_spec_path, diagram_spec)
 
-    preview = build_previews(standalone_path, preview_pdf_path, preview_png_path, preview_svg_path)
-    return write_success_result(
+    with timer.measure("build_previews"):
+        preview = build_previews(standalone_path, preview_pdf_path, preview_png_path, preview_svg_path)
+    for name, elapsed_ms in preview.timings_ms.items():
+        timer.stages.append({"name": f"preview.{name}", "elapsed_ms": elapsed_ms})
+    result = write_success_result(
         out_dir=out_dir,
         renderer_spec_path=spec_path,
         diagram_spec=diagram_spec,
@@ -121,6 +135,14 @@ def render_geometry_spec(
         preview_svg_path=preview_svg_path,
         preview=preview,
     )
+    write_profile_section(
+        out_dir,
+        "renderer",
+        timer,
+        job_id=spec_model.job_id,
+        route="tikz_renderer",
+    )
+    return result
 
 
 def main() -> None:

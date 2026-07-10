@@ -53,3 +53,7 @@ id: "fig-main-fallback"
 content: "本题建议先手动画出题干中的三角形和辅助线，再观察底边与高的对应关系。"
 level: 1
 ```
+
+## Spatial Gate
+
+立体几何 job 还要检查：final spec 保留 `points3d`、不存在预投影 `points`、投影 backend 合法、基准面展开度和核心夹角达标、prompt 图不含 `role: auxiliary`。详细规则见 `spatial-geometry.md`。

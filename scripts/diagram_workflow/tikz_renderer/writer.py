@@ -147,15 +147,16 @@ def join_options(*items: str) -> str:
 
 
 def render_fragment(spec: TikzDiagramSpec) -> str:
-    lines: list[str] = [
-        r"\begin{tikzpicture}[x=1cm,y=1cm,baseline=(current bounding box.center)]"
-    ]
+    lines: list[str] = list(spec.before_picture)
+    lines.append(r"\begin{tikzpicture}[" + spec.picture_options + "]")
     for style in spec.styles:
         lines.append(f"  \\tikzset{{{style.name}/.style={{{style.options}}}}}")
     for coordinate in spec.coordinates:
-        lines.append(
-            f"  \\coordinate ({coordinate.name}) at ({fmt_num(coordinate.x)},{fmt_num(coordinate.y)});"
-        )
+        if coordinate.z is None:
+            value = f"{fmt_num(coordinate.x)},{fmt_num(coordinate.y)}"
+        else:
+            value = f"{fmt_num(coordinate.x)},{fmt_num(coordinate.y)},{fmt_num(coordinate.z)}"
+        lines.append(f"  \\coordinate ({coordinate.name}) at ({value});")
     for command in sorted(spec.commands, key=lambda item: item.order):
         for line in command.tex.splitlines():
             lines.append(f"  {line}" if line else "")
@@ -163,12 +164,19 @@ def render_fragment(spec: TikzDiagramSpec) -> str:
     return "\n".join(lines) + "\n"
 
 
-def render_standalone(fragment: str, libraries: list[str]) -> str:
+def render_standalone(
+    fragment: str,
+    libraries: list[str],
+    required_packages: list[str] | None = None,
+) -> str:
     library_text = ",".join(dict.fromkeys(libraries))
     lines = [
         r"\documentclass[tikz,border=2pt]{standalone}",
         r"\usepackage{tikz}",
     ]
+    for package in dict.fromkeys(required_packages or []):
+        if package and package != "tikz":
+            lines.append(r"\usepackage{" + package + "}")
     if library_text:
         lines.append(r"\usetikzlibrary{" + library_text + "}")
     lines.extend(

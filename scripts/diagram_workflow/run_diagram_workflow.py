@@ -23,6 +23,8 @@ from diagram_contracts import DiagramJobRequest, DiagramJobResult, GeometryRende
 SUPPORTED_GSB_TYPES = {"synthetic_geometry"}
 SUPPORTED_ANALYTIC_TYPES = {"coordinate_geometry", "function_graph"}
 SUPPORTED_ANALYTIC_ENGINES = {"wolfram_client", "wolfram_plot", "coordinate_renderer"}
+SUPPORTED_SPATIAL_TYPES = {"spatial_geometry"}
+SUPPORTED_SPATIAL_ENGINES = {"spatial_renderer"}
 
 
 def read_json(path: Path) -> dict[str, Any]:
@@ -98,6 +100,17 @@ def run_analytic_workflow(
     print(json.dumps(result, ensure_ascii=False))
     if completed.returncode != 0:
         sys.exit(completed.returncode)
+    return result
+
+
+def run_spatial_workflow(
+    request_path: Path,
+    out_dir: Path,
+) -> dict[str, Any]:
+    from spatial_diagram_workflow import run_spatial_workflow as _run_spatial_workflow
+
+    result = _run_spatial_workflow(request_path, out_dir)
+    print(json.dumps(result, ensure_ascii=False))
     return result
 
 
@@ -308,6 +321,11 @@ def main() -> None:
         return
     if diagram_type in SUPPORTED_ANALYTIC_TYPES or engine in SUPPORTED_ANALYTIC_ENGINES:
         result = run_analytic_workflow(request_path, out_dir, args.python)
+        if args.strict and result.get("status") != "ok":
+            sys.exit(1)
+        return
+    if diagram_type in SUPPORTED_SPATIAL_TYPES or engine in SUPPORTED_SPATIAL_ENGINES:
+        result = run_spatial_workflow(request_path, out_dir)
         if args.strict and result.get("status") != "ok":
             sys.exit(1)
         return

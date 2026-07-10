@@ -47,6 +47,7 @@ from run_diagram_batch import (  # noqa: E402
     run_batch,
     write_json as write_batch_json,
 )
+from workflow_timing import StageTimer, write_profile_section  # noqa: E402
 
 
 # ---------------------------------------------------------------------------
@@ -102,45 +103,49 @@ def run_assignment_diagram_pipeline(
 
     if dry_run:
         return out_yaml
+    timer = StageTimer()
 
     # Stage 1: collect
-    raw_plan = yaml.safe_load(plan_yaml.read_text(encoding="utf-8"))
-    if not isinstance(raw_plan, dict):
-        raise ValueError(f"{plan_yaml} must contain a YAML mapping")
-    plan_view = AssignmentPlanDiagramView.model_validate(raw_plan)
-    manifest = collect_jobs(plan_view, plan_yaml, build_dir)
-    build_dir.mkdir(parents=True, exist_ok=True)
-    jobs_json.write_text(
-        json.dumps(manifest.model_dump(), ensure_ascii=False, indent=2) + "\n",
-        encoding="utf-8",
-    )
+    with timer.measure("collect"):
+        raw_plan = yaml.safe_load(plan_yaml.read_text(encoding="utf-8"))
+        if not isinstance(raw_plan, dict):
+            raise ValueError(f"{plan_yaml} must contain a YAML mapping")
+        plan_view = AssignmentPlanDiagramView.model_validate(raw_plan)
+        manifest = collect_jobs(plan_view, plan_yaml, build_dir)
+        build_dir.mkdir(parents=True, exist_ok=True)
+        jobs_json.write_text(
+            json.dumps(manifest.model_dump(), ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8",
+        )
 
     # Stage 2: batch (in-process for renderer_spec / coordinate_renderer /
     # analytic; subprocess-isolated for geometric_scene / Wolfram)
-    report = run_batch(
-        manifest,
-        artifact_dir,
-        python,
-        max(1, max_workers),
-        dry_run=False,
-        jobs_filter=None,
-        plan_data=plan_view,
-    )
-    report_path = jobs_json.parent / "diagram_batch_report.json"
-    write_batch_json(report_path, report.model_dump(mode="json"))
+    with timer.measure("batch"):
+        report = run_batch(
+            manifest,
+            artifact_dir,
+            python,
+            max(1, max_workers),
+            dry_run=False,
+            jobs_filter=None,
+            plan_data=plan_view,
+        )
+        report_path = jobs_json.parent / "diagram_batch_report.json"
+        write_batch_json(report_path, report.model_dump(mode="json"))
     print(json.dumps(report.model_dump(mode="json"), ensure_ascii=False, indent=2))
     if report.failed_count > 0:
         raise SystemExit(1)
 
     # Stage 3: gate
     if not skip_gate:
-        gate_report = _run_gate(
-            plan_view,
-            manifest,
-            manifest_from_paths(jobs_json, jobs_dir, artifact_dir),
-            artifact_dir,
-            None,
-        )
+        with timer.measure("gate"):
+            gate_report = _run_gate(
+                plan_view,
+                manifest,
+                manifest_from_paths(jobs_json, jobs_dir, artifact_dir),
+                artifact_dir,
+                None,
+            )
         print(json.dumps(gate_report.model_dump(mode="json"), ensure_ascii=False, indent=2))
         if gate_report.status == "block":
             print(
@@ -151,11 +156,19 @@ def run_assignment_diagram_pipeline(
             raise SystemExit(2)
 
     # Stage 4: resolve
-    validate_batch_report_allows_resolution(report_path)
-    artifacts_manifest = manifest_from_paths(jobs_json, jobs_dir, artifact_dir)
-    # Resolve from the original YAML mapping so the final document preserves
-    # non-diagram fields exactly as the standalone resolver CLI does.
-    resolved = resolve_assignment(raw_plan, artifacts_manifest)
-    write_yaml(out_yaml, resolved)
+    with timer.measure("resolve"):
+        validate_batch_report_allows_resolution(report_path)
+        artifacts_manifest = manifest_from_paths(jobs_json, jobs_dir, artifact_dir)
+        # Resolve from the original YAML mapping so the final document preserves
+        # non-diagram fields exactly as the standalone resolver CLI does.
+        resolved = resolve_assignment(raw_plan, artifacts_manifest)
+        write_yaml(out_yaml, resolved)
+    write_profile_section(
+        build_dir,
+        "assignment_pipeline",
+        timer,
+        route="assignment_diagram_pipeline",
+        filename="pipeline_performance.json",
+    )
     print(f"Resolved YAML: {out_yaml}")
     return out_yaml

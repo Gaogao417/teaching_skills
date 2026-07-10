@@ -21,6 +21,7 @@ JsonScalar: TypeAlias = str | int | float | bool | None
 JsonValue: TypeAlias = object
 JsonObject: TypeAlias = dict[str, object]
 Point2D: TypeAlias = tuple[float, float]
+Point3D: TypeAlias = tuple[float, float, float]
 TikzAnchor: TypeAlias = Literal[
     "",
     "center",
@@ -51,6 +52,7 @@ class DiagramEngine(str, Enum):
     WOLFRAM_CLIENT = "wolfram_client"
     WOLFRAM_PLOT = "wolfram_plot"
     COORDINATE_RENDERER = "coordinate_renderer"
+    SPATIAL_RENDERER = "spatial_renderer"
     RENDERER_SPEC = "renderer_spec"
 
 
@@ -79,9 +81,28 @@ class TikzExportTool(str, Enum):
 class DiagramKind(str, Enum):
     SYNTHETIC_GEOMETRY = "synthetic_geometry"
     COORDINATE_GEOMETRY = "coordinate_geometry"
+    SPATIAL_GEOMETRY = "spatial_geometry"
     FUNCTION_GRAPH = "function_graph"
     HYBRID = "hybrid"
     AUTO = "auto"
+
+
+class SpatialProjectionMode(str, Enum):
+    """Printed projection families for solid-geometry diagrams."""
+
+    TEXTBOOK_OBLIQUE = "textbook_oblique"
+    HINGE_PLANES = "hinge_planes"
+    ORTHOGRAPHIC_3D = "orthographic_3d"
+    AXIAL_SOLID = "axial_solid"
+
+
+class SpatialObjectRole(str, Enum):
+    MAIN = "main"
+    SECONDARY = "secondary"
+    AUXILIARY = "auxiliary"
+    HIDDEN = "hidden"
+    INTERSECTION = "intersection"
+    PROJECTION = "projection"
 
 
 class DiagramOnFailure(str, Enum):
@@ -722,6 +743,7 @@ class DiagramSemanticConstraints(DiagramModel):
     derived_constraints: list[str] = Field(default_factory=list)
     clean_forbidden: list[str] = Field(default_factory=list)
     solution_allowed_annotations: list[str] = Field(default_factory=list)
+    annotate: list[str] = Field(default_factory=list)
 
 
 class DiagramProblemContext(DiagramModel):
@@ -833,6 +855,7 @@ class DiagramEngineOptions(DiagramModel):
     wolfram_timeout_s: int = Field(default=30, ge=1)
     wolfram_hard_timeout_s: int = Field(default=60, ge=1)
     renderer_spec: JsonObject = Field(default_factory=dict)
+    spatial_spec: JsonObject = Field(default_factory=dict)
     engine_model_config: DiagramModelConfig = Field(
         default_factory=DiagramModelConfig,
         validation_alias=AliasChoices("engine_model_config", "model_config"),
@@ -918,6 +941,19 @@ class SyntheticGeometryDiagramSlot(DiagramSlotBase):
     diagram_kind: Literal["synthetic_geometry"] = "synthetic_geometry"
 
 
+class SpatialGeometryDiagramSlot(DiagramSlotBase):
+    """Slot payload for solid-geometry diagrams drawn from hidden 3D coordinates."""
+
+    engine: Literal["spatial_renderer"] = "spatial_renderer"
+    diagram_kind: Literal["spatial_geometry"] = "spatial_geometry"
+
+    @model_validator(mode="after")
+    def require_spatial_payload(self) -> SpatialGeometryDiagramSlot:
+        if not self.engine_options.spatial_spec:
+            raise ValueError("spatial_geometry diagram slots require engine_options.spatial_spec")
+        return self
+
+
 class CoordinatePlaneDiagramSlot(DiagramSlotBase):
     """Slot payload for coordinate-plane diagrams, including function curves."""
 
@@ -937,7 +973,7 @@ class CoordinatePlaneDiagramSlot(DiagramSlotBase):
 
 
 DiagramSlot: TypeAlias = Annotated[
-    SyntheticGeometryDiagramSlot | CoordinatePlaneDiagramSlot,
+    SyntheticGeometryDiagramSlot | SpatialGeometryDiagramSlot | CoordinatePlaneDiagramSlot,
     Field(discriminator="diagram_kind"),
 ]
 DiagramSlotAdapter = TypeAdapter(DiagramSlot)
@@ -1080,6 +1116,12 @@ class DiagramJobRequest(DiagramModel):
             and self.analytic_requirements.coordinate_ir is None
         ):
             raise ValueError("coordinate_geometry requests require analytic_requirements.coordinate_ir")
+        if (
+            self.diagram_kind == DiagramKind.SPATIAL_GEOMETRY
+            and self.engine == DiagramEngine.SPATIAL_RENDERER
+            and not self.engine_options.spatial_spec
+        ):
+            raise ValueError("spatial_geometry requests require engine_options.spatial_spec")
         return self
 
 
@@ -1100,6 +1142,7 @@ class RenderCanvas(DiagramLooseModel):
 
 
 class RenderSegment(DiagramLooseModel):
+    id: str = ""
     start: NonEmptyStr = Field(
         validation_alias=AliasChoices("from", "start", "a"),
         serialization_alias="from",
@@ -1111,6 +1154,7 @@ class RenderSegment(DiagramLooseModel):
     stroke: str = "#111827"
     stroke_width: float = Field(default=2.6, gt=0)
     dash: str | None = None
+    role: SpatialObjectRole = SpatialObjectRole.MAIN
 
     @model_validator(mode="before")
     @classmethod
@@ -1121,10 +1165,13 @@ class RenderSegment(DiagramLooseModel):
 
 
 class RenderPolygon(DiagramLooseModel):
+    id: str = ""
     points: list[NonEmptyStr] = Field(min_length=3)
     stroke: str = "#374151"
     stroke_width: float = Field(default=2.0, gt=0)
     fill: str = "none"
+    fill_opacity: float = Field(default=1.0, ge=0, le=1)
+    role: SpatialObjectRole = SpatialObjectRole.SECONDARY
 
     @model_validator(mode="before")
     @classmethod
@@ -1146,6 +1193,8 @@ class RenderMarker(DiagramLooseModel):
         marker_type = self.type.lower()
         if marker_type == "equal_tick":
             marker_type = "equal_ticks"
+        if marker_type in {"parallel_mark", "parallel_marks"}:
+            marker_type = "parallel"
         self.type = marker_type
         return self
 
@@ -1155,6 +1204,7 @@ class RenderLabel(DiagramLooseModel):
     placement: DiagramLabelPlacement | None = None
     dx: float = 0
     dy: float = -24
+    show_point: bool = True
 
     @field_validator("placement", mode="before")
     @classmethod
@@ -1170,6 +1220,39 @@ class RenderLabel(DiagramLooseModel):
             return {"text": value}
         return value
 
+
+class SpatialProjectionSpec(DiagramModel):
+    """Projection controls that remain explicit in the final TikZ fragment."""
+
+    mode: SpatialProjectionMode = SpatialProjectionMode.TEXTBOOK_OBLIQUE
+    theta: float = Field(default=50, ge=0, le=90)
+    phi: float = Field(default=120, ge=-360, le=360)
+    depth_angle_deg: float = Field(default=45, ge=15, le=75)
+    depth_scale: float = Field(default=0.5, gt=0, le=1)
+    vertical_scale: float = Field(default=1.0, gt=0, le=2)
+    flip_depth: bool = False
+    min_plane_opening: float = Field(default=0.16, ge=0, le=1)
+    min_core_angle_deg: float = Field(default=18, ge=0, le=90)
+
+    @model_validator(mode="after")
+    def apply_mode_defaults(self) -> SpatialProjectionSpec:
+        fields_set = self.model_fields_set
+        if self.mode == SpatialProjectionMode.HINGE_PLANES:
+            if "theta" not in fields_set:
+                self.theta = 50
+            if "phi" not in fields_set:
+                self.phi = 120
+        elif self.mode == SpatialProjectionMode.ORTHOGRAPHIC_3D:
+            if "theta" not in fields_set:
+                self.theta = 55
+            if "phi" not in fields_set:
+                self.phi = 120
+        elif self.mode == SpatialProjectionMode.AXIAL_SOLID:
+            if "theta" not in fields_set:
+                self.theta = 58
+            if "phi" not in fields_set:
+                self.phi = 115
+        return self
 
 class SceneDiagramSpec(DiagramLooseModel):
     """Model-generated renderer intent before Wolfram coordinates are solved."""
@@ -1298,6 +1381,8 @@ class GeometryRenderSpec(DiagramLooseModel):
     viewport: DiagramCoordinateViewport | None = None
     axes: DiagramAxesSpec | None = None
     points: dict[str, Point2D] = Field(default_factory=dict)
+    points3d: dict[str, Point3D] = Field(default_factory=dict)
+    projection: SpatialProjectionSpec | None = None
     segments: list[RenderSegment] = Field(default_factory=list)
     polygons: list[RenderPolygon] = Field(default_factory=list)
     markers: list[RenderMarker] = Field(default_factory=list)
@@ -1318,6 +1403,13 @@ class GeometryRenderSpec(DiagramLooseModel):
             return self
         if diagram_type == DiagramKind.SYNTHETIC_GEOMETRY.value and not self.points:
             raise ValueError("synthetic geometry render specs require points")
+        if diagram_type == DiagramKind.SPATIAL_GEOMETRY.value:
+            if not self.points3d:
+                raise ValueError("spatial geometry render specs require points3d")
+            if self.points:
+                raise ValueError("spatial geometry render specs must not contain pre-projected points")
+            if self.projection is None:
+                self.projection = SpatialProjectionSpec()
         if diagram_type in {
             DiagramKind.COORDINATE_GEOMETRY.value,
             DiagramKind.FUNCTION_GRAPH.value,
@@ -1326,7 +1418,7 @@ class GeometryRenderSpec(DiagramLooseModel):
                 raise ValueError(
                     "coordinate/function render specs require points, objects, functions, curves, or samples"
                 )
-        point_names = set(self.points)
+        point_names = set(self.points3d if diagram_type == DiagramKind.SPATIAL_GEOMETRY.value else self.points)
         for index, segment in enumerate(self.segments):
             if point_names and (segment.start not in point_names or segment.end not in point_names):
                 raise ValueError(f"segments[{index}] references missing point")

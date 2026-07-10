@@ -129,6 +129,35 @@
 <% endif %>
 
 <% elif block.type == "fillin" %>
+<% set fillin_diagram_col = block.diagram_col or block.prompt_diagram %>
+<% if fillin_diagram_col %>
+<% set fillin_diagram_width = fillin_diagram_col.width|default("60mm") %>
+\needspace{12\baselineskip}
+\begin{question}[points=<%= block.points|default(4) %>]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-<%= fillin_diagram_width %>-6mm\relax}
+    \vspace{0pt}
+    <% if block.stem_latex %>
+    <%= block.stem_latex %>
+    <% else %>
+    <%= block.stem|latex_escape %>
+    <% endif %>
+    <%= render_hints(block) %>
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{<%= fillin_diagram_width %>}{<% if fillin_diagram_col.caption %><%= fillin_diagram_col.caption|latex_escape %><% endif %>}
+  <%= diagram_tikz_body(fillin_diagram_col) %>
+  \end{diagramcoltikz}
+  <% if meta.version != "student" and block.answer %>
+  \paren[<%= block.answer|latex_escape %>]
+  <% if block.explanation %>
+  \begin{solutionblock}
+    <%= block.explanation %>
+  \end{solutionblock}
+  <% endif %>
+  <% endif %>
+\end{question}
+
+<% else %>
 \begin{question}[points=<%= block.points|default(4) %>]
   <% if block.stem_latex %>
   <%= block.stem_latex %>
@@ -145,6 +174,7 @@
   <% endif %>
   <% endif %>
 \end{question}
+<% endif %>
 
 <% elif block.type == "diagram_row" %>
 <% set diagram_items = block.get("items") or block.get("diagrams") %>

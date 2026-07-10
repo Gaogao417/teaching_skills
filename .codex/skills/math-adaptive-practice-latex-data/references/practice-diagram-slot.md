@@ -20,6 +20,9 @@
 - 普通欧氏几何（如三角形、平行线、相似、角平分线、共线线段比例）默认使用 `engine: "geometric_scene"` 与 `diagram_kind: "synthetic_geometry"`。
 - 坐标平面图使用 `diagram_kind: "coordinate_geometry"`，数学输入写入 `analytic_requirements.coordinate_ir`。
 - 只有题目明确涉及坐标轴、坐标点、函数图像、解析式、交点/读图或坐标平面面积时，才使用 `coordinate_geometry`。
+- 立体几何题使用 `engine: "spatial_renderer"` 与 `diagram_kind: "spatial_geometry"`。一般线面/多面体优先 `textbook_oblique`，两面相交或二面角用 `hinge_planes`，空间坐标/向量用 `orthographic_3d`。
+- `engine_options.spatial_spec` 必须保留三维 `points3d`，声明结构化 `relations`、`projection` 和 `quality_focus`；不得由 writer 先投影成二维点。
+- 两平面交线通过 `derived_segments.relation: plane_intersection_line` 求解。学生 prompt 图不得包含 `role: auxiliary`，教师 solution 图必须复用对应 prompt 构型。
 - 函数图像必须写 `type: "function_curve"`，包含 `expression_latex` 或 `expression_wl`，并写 `domain_segments`；不要用 `polyline` 冒充函数图像。
 - `polyline` 只用于题面明确给出的折线或低层渲染结果，不承载函数解析式。
 

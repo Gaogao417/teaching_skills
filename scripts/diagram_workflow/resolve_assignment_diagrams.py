@@ -117,14 +117,12 @@ def _resolved_field_for_placement(placement: str) -> str:
     Examples:
         "diagram_col" or "answer_space.parts[].diagram_col" → "diagram_col"
         "diagram_row.items[]" → "diagram_row_item" (special)
-        "block_center" → "diagram" (standalone block)
+        "block_center" → "diagram_col" (block-level prompt diagram)
     """
     if "diagram_col" in placement:
         return "diagram_col"
     if "diagram_row" in placement:
         return "diagram_row_item"
-    if "block_center" in placement or "center" in placement:
-        return "diagram"
     return "diagram_col"  # default
 
 

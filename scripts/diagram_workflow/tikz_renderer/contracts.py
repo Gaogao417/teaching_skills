@@ -11,8 +11,10 @@ class TikzCoordinate(DiagramModel):
     name: NonEmptyStr
     x: float
     y: float
+    z: float | None = None
     source_x: float | None = None
     source_y: float | None = None
+    source_z: float | None = None
 
 
 class TikzStyleRole(DiagramModel):
@@ -43,6 +45,9 @@ class TikzDiagramSpec(DiagramModel):
     variant: DiagramVariant = DiagramVariant.PROMPT
     diagram_type: str = "synthetic_geometry"
     libraries: list[str] = Field(default_factory=list)
+    required_packages: list[str] = Field(default_factory=list)
+    before_picture: list[str] = Field(default_factory=list)
+    picture_options: str = "x=1cm,y=1cm,baseline=(current bounding box.center)"
     natural_width_cm: float = Field(gt=0)
     natural_height_cm: float = Field(gt=0)
     styles: list[TikzStyleRole] = Field(default_factory=list)

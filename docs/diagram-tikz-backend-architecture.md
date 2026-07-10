@@ -150,6 +150,20 @@ DiagramJobRequest
   -> explicit viewport, axes, objects, samples, intersections
 ```
 
+For spatial geometry:
+
+```text
+DiagramJobRequest
+  -> spatial_diagram_workflow.py
+  -> points3d + structured relations + derived plane intersections
+  -> projection profile and readability diagnostics
+```
+
+Spatial coordinates remain three-dimensional through `GeometryRenderSpec`.
+Python may calculate projected metrics for gate checks, but the final TikZ
+fragment uses a textbook oblique coordinate basis or `tikz-3dplot`; it does not
+consume pre-projected 2D points. See `docs/spatial-geometry-diagram-workflow.md`.
+
 Important boundary: GeometricScene or WolframClient computes geometry facts.
 TikZ does not become the mathematical solver.
 
@@ -159,6 +173,8 @@ The workflow compiles solved facts into `GeometryRenderSpec`:
 
 ```text
 points
+points3d
+projection
 segments
 polygons
 markers

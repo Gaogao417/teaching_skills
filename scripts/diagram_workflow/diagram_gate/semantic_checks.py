@@ -124,6 +124,7 @@ def _slot_fingerprint(slot: DiagramSlot) -> str:
         "semantic_constraints": data.get("semantic_constraints") or {},
         "analytic_requirements": data.get("analytic_requirements") or {},
         "renderer_spec": ((data.get("engine_options") or {}).get("renderer_spec") if isinstance(data.get("engine_options"), dict) else {}),
+        "spatial_spec": ((data.get("engine_options") or {}).get("spatial_spec") if isinstance(data.get("engine_options"), dict) else {}),
     }
     return _canonical_hash(focused)
 

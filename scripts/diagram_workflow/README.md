@@ -43,7 +43,7 @@ single-stage CLIs above remain independently runnable for the same reason.
 
 Per-job routing inside `run_diagram_batch.py`:
 
-- `renderer_spec` and analytic (`coordinate_renderer` / `wolfram_client` /
+- `renderer_spec`, `spatial_renderer`, and analytic (`coordinate_renderer` / `wolfram_client` /
   `wolfram_plot`) jobs run in-process.
 - `geometric_scene` / synthetic geometry keeps subprocess isolation, so the
   GeometricScene LLM and Wolfram runtime cannot pollute the main process.
@@ -60,16 +60,22 @@ Supporting modules:
   per-job `renderer_result.json` and produces the bindable TikZ facts consumed
   by gate and resolver.
 - `diagram_gate/`: gate checks grouped by responsibility: artifact bindings,
-  policy safety, layout floors, SVG preview readability, and analytic specs.
+  policy safety, layout floors, SVG preview readability, analytic specs, and
+  spatial projection readability.
 - `run_diagram_workflow.py`: single-job engine router (also exposes
   `run_renderer_spec_workflow` for the in-process batch path).
 - `analytic_diagram_workflow.py`: coordinate/function diagram branch
   (`run_analytic_workflow` runs in-process from the batch runner).
+- `spatial_diagram_workflow.py`: solid-geometry branch that validates 3D
+  conditions and preserves `points3d` for the TikZ compiler.
+- `spatial_geometry.py`: deterministic plane/line geometry, plane-intersection
+  derivation, projection profiles, and readability metrics.
 - `render_geometry_spec.py`: deterministic TikZ compiler (`render_geometry_spec`
   runs in-process from the batch runner); writes the bindable
   `rendered/<variant>.fragment.tex` plus optional preview files.
-- `tikz_renderer/`: typed compiler modules for synthetic geometry and
-  coordinate/function render specs.
+- `tikz_renderer/`: typed compiler modules for synthetic, spatial, and
+  coordinate/function render specs. Spatial output uses either a textbook
+  oblique TikZ coordinate basis or `tikz-3dplot`.
 - `geometry_diagram_workflow/`: local Codex SDK + Wolfram GeometricScene
   workflow branch for synthetic geometry.
 - `build_diagram_artifacts.py`: debug dump for renderer bindings; no longer a

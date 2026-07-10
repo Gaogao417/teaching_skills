@@ -45,6 +45,8 @@ SCRIPT_DIR = Path(__file__).resolve().parent
 SUPPORTED_GSB_TYPES = {"synthetic_geometry"}
 SUPPORTED_ANALYTIC_TYPES = {"coordinate_geometry", "function_graph"}
 SUPPORTED_ANALYTIC_ENGINES = {"wolfram_client", "wolfram_plot", "coordinate_renderer"}
+SUPPORTED_SPATIAL_TYPES = {"spatial_geometry"}
+SUPPORTED_SPATIAL_ENGINES = {"spatial_renderer"}
 RENDERER_SPEC_ENGINE = "renderer_spec"
 
 
@@ -242,6 +244,12 @@ def _is_analytic_route(request: DiagramJobRequest) -> bool:
     return diagram_kind in SUPPORTED_ANALYTIC_TYPES or engine in SUPPORTED_ANALYTIC_ENGINES
 
 
+def _is_spatial_route(request: DiagramJobRequest) -> bool:
+    diagram_kind = request.diagram_kind.value
+    engine = request.engine.value
+    return diagram_kind in SUPPORTED_SPATIAL_TYPES or engine in SUPPORTED_SPATIAL_ENGINES
+
+
 def _run_workflow_in_process(
     request: DiagramJobRequest,
     request_path: Path,
@@ -251,11 +259,11 @@ def _run_workflow_in_process(
     """Dispatch the workflow stage in-process and return its status string.
 
     Mirrors the routing in run_diagram_workflow.py:main() for the
-    renderer_spec and analytic (coordinate_renderer / wolfram_client /
-    wolfram_plot) branches. The geometric_scene / synthetic branch is handled
-    by the subprocess path in _run_workflow_subprocess instead, so the
-    GeometricScene LLM and Wolfram synthetic-geometry runtime stay isolated
-    from the main process.
+    renderer_spec, spatial_renderer, and analytic (coordinate_renderer /
+    wolfram_client / wolfram_plot) branches. The geometric_scene / synthetic
+    branch is handled by the subprocess path in _run_workflow_subprocess
+    instead, so the GeometricScene LLM and Wolfram synthetic-geometry runtime
+    stay isolated from the main process.
     """
     # Lazy imports keep the CLI lightweight and avoid importing heavy modules
     # (wolframclient, tikz_renderer) unless a job actually needs them.
@@ -268,9 +276,13 @@ def _run_workflow_in_process(
         from analytic_diagram_workflow import run_analytic_workflow
 
         run_analytic_workflow(request_path, job_build_dir)
+    elif _is_spatial_route(request):
+        from spatial_diagram_workflow import run_spatial_workflow
+
+        run_spatial_workflow(request_path, job_build_dir)
     else:
         raise ValueError(
-            f"in-process workflow dispatch only handles renderer_spec and analytic "
+            f"in-process workflow dispatch only handles renderer_spec, spatial, and analytic "
             f"routes; engine={request.engine.value} kind={request.diagram_kind.value} "
             f"requires the subprocess path"
         )
@@ -349,11 +361,11 @@ def run_one_job(
 ) -> DiagramBatchJobResult:
     """Execute a single diagram job: write request → workflow → renderer.
 
-    renderer_spec and analytic (coordinate_renderer / wolfram_client /
-    wolfram_plot) jobs run in-process. The geometric_scene / synthetic route
-    stays subprocess-isolated to keep the LLM and Wolfram runtime out of the
-    main process. All on-disk artifacts are identical to the legacy subprocess
-    path.
+    renderer_spec, spatial_renderer, and analytic (coordinate_renderer /
+    wolfram_client / wolfram_plot) jobs run in-process. The geometric_scene /
+    synthetic route stays subprocess-isolated to keep the LLM and Wolfram
+    runtime out of the main process. All on-disk artifacts are identical to the
+    legacy subprocess path.
     """
     job_id = job.job_id
     build_dir = artifact_dir / "build" / "diagram"
@@ -374,7 +386,7 @@ def run_one_job(
         )
 
     # Workflow stage
-    if _is_renderer_spec_route(request) or _is_analytic_route(request):
+    if _is_renderer_spec_route(request) or _is_analytic_route(request) or _is_spatial_route(request):
         wf_status = _run_workflow_in_process(request, request_path, job_build_dir, build_dir)
     else:
         wf_status, _diag = _run_workflow_subprocess(

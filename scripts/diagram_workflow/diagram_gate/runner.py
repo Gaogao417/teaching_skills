@@ -21,6 +21,7 @@ from .artifact_checks import (
 from .layout_checks import _check_slot_layout_profiles
 from .policy_checks import _check_prompt_clean, _check_student_no_solution
 from .semantic_checks import check_semantic_diagram_policy
+from .spatial_checks import _check_spatial_renderer_specs
 from .svg_preview_checks import _check_svg_readability
 
 
@@ -44,6 +45,7 @@ def run_gate(
     all_checks.extend(_check_slot_layout_profiles(plan_data))
     all_checks.extend(_check_svg_readability(jobs, artifacts, artifact_dir))
     all_checks.extend(_check_analytic_renderer_specs(jobs, artifacts, artifact_dir))
+    all_checks.extend(_check_spatial_renderer_specs(jobs, artifacts, artifact_dir))
     all_checks.extend(check_semantic_diagram_policy(plan_data, jobs, artifacts, artifact_dir))
 
     statuses = [c.status for c in all_checks]
