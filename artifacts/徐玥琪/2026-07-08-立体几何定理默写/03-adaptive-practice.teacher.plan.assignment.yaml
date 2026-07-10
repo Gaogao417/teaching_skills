@@ -1,0 +1,710 @@
+meta:
+  title: 立体几何定理库默写 · 全覆盖竖式版
+  subtitle: 徐玥琪 · 教师版
+  grade: 高一
+  subject: 数学
+  duration: 35分钟
+  total_points: 175
+  version: teacher
+  source_artifacts:
+    structure_analysis: docs/立体几何学习规划/01-默写题作业方案.md
+    parallel_plan: docs/立体几何学习规划/03-平行证明讲义方案.md
+    perpendicular_plan: docs/立体几何学习规划/04-垂直证明讲义方案.md
+    angle_distance_plan: docs/立体几何学习规划/05-距离与角讲义方案.md
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: incidence
+  title: 一、点线面基本事实与分类
+  type: practice
+  visibility: both
+  blocks:
+  - type: fillin
+    id: a01-symbols
+    points: 5
+    stem_latex: |
+      \textbf{符号约定}\par
+      \[
+      \left.
+      \begin{aligned}
+      A&\ \underline{\hspace{9mm}}\ l\\
+      l&\ \underline{\hspace{9mm}}\ \alpha\\
+      \alpha&\ \underline{\hspace{9mm}}\ \beta=m
+      \end{aligned}
+      \right\}
+      \Longrightarrow
+      \begin{aligned}
+      &\text{点在线上；}\\
+      &\text{线在面内；}\\
+      &\text{两面交于直线 }m
+      \end{aligned}
+      \]
+    answer: $A\in l$，$l\subset\alpha$，$\alpha\cap\beta=m$
+    explanation: 分清点属于直线、直线包含于平面、两个平面的交集是直线。
+  - type: fillin
+    id: a02-position-types
+    points: 5
+    stem_latex: |
+      \textbf{位置关系分类}\par
+      \[
+      \left.
+      \begin{aligned}
+      \text{线线}&:\ \text{相交、平行、}\underline{\hspace{12mm}}\\
+      \text{线面}&:\ \text{在面内、相交、}\underline{\hspace{12mm}}\\
+      \text{面面}&:\ \text{平行、}\underline{\hspace{12mm}}
+      \end{aligned}
+      \right\}
+      \Longrightarrow \text{先判对象，再选定理}
+      \]
+    answer: 异面；平行；相交
+    explanation: 先判断对象属于线线、线面还是面面，再调用对应定理。
+  - type: fillin
+    id: a03-three-points-plane
+    points: 5
+    stem_latex: |
+      \textbf{基本事实1：三点定面}\par
+      \[
+      \left.
+      \begin{aligned}
+      A,B,C&\ \underline{\hspace{18mm}}
+      \end{aligned}
+      \right\}
+      \Longrightarrow
+      \text{过 }A,B,C\text{ 有且只有一个平面}
+      \]
+    answer: 不共线
+    explanation: 三点定面必须强调三点不共线。
+  - type: fillin
+    id: a04-line-in-plane
+    points: 5
+    stem_latex: |
+      \textbf{基本事实2：点线面从属}\par
+      \[
+      \left.
+      \begin{aligned}
+      A,B&\in l\\
+      A,B&\in\alpha\\
+      A&\ne B
+      \end{aligned}
+      \right\}
+      \Longrightarrow
+      \underline{\hspace{24mm}}
+      \]
+    answer: $l\subset\alpha$
+    explanation: 两个不同点同时在直线和平面内，整条直线在该平面内。
+  - type: fillin
+    id: a05-common-point-line
+    points: 5
+    stem_latex: |
+      \textbf{基本事实3：公共点推出交线}\par
+      \[
+      \left.
+      \begin{aligned}
+      P&\in\alpha\\
+      P&\in\beta\\
+      \alpha&\ne\beta
+      \end{aligned}
+      \right\}
+      \Longrightarrow
+      \alpha\cap\beta=\underline{\hspace{12mm}},\quad P\in\underline{\hspace{10mm}}
+      \]
+    answer: $l$；$l$
+    explanation: 两个不重合平面有公共点时，它们相交于过该点的一条直线。
+  - type: fillin
+    id: a06-line-point-plane
+    points: 5
+    stem_latex: |
+      \textbf{推论1：直线与线外一点定面}\par
+      \[
+      \left.
+      \begin{aligned}
+      a&\text{ 是直线}\\
+      P&\notin a
+      \end{aligned}
+      \right\}
+      \Longrightarrow
+      \underline{\hspace{42mm}}
+      \]
+    answer: 直线 $a$ 与点 $P$ 确定唯一平面
+    explanation: 一条直线和直线外一点确定一个平面。
+  - type: fillin
+    id: a07-intersecting-lines-plane
+    points: 5
+    stem_latex: |
+      \textbf{推论2：相交直线定面}\par
+      \[
+      \left.
+      \begin{aligned}
+      a\cap b&=P
+      \end{aligned}
+      \right\}
+      \Longrightarrow
+      \underline{\hspace{38mm}}
+      \]
+    answer: $a,b$ 确定唯一平面
+    explanation: 两条相交直线确定一个平面。
+  - type: fillin
+    id: a08-parallel-lines-plane
+    points: 5
+    stem_latex: |
+      \textbf{推论3：平行直线定面}\par
+      \[
+      \left.
+      \begin{aligned}
+      a&\parallel b\\
+      a&\ne b
+      \end{aligned}
+      \right\}
+      \Longrightarrow
+      \underline{\hspace{38mm}}
+      \]
+    answer: $a,b$ 确定唯一平面
+    explanation: 两条平行直线确定一个平面。
+- id: parallel
+  title: 二、平行关系定理
+  type: practice
+  visibility: both
+  blocks:
+  - type: fillin
+    id: b01-parallel-transitive
+    points: 5
+    stem_latex: |
+      \textbf{平行传递性}\par
+      \[
+      \left.
+      \begin{aligned}
+      a&\parallel b\\
+      b&\parallel c
+      \end{aligned}
+      \right\}
+      \Longrightarrow
+      \underline{\hspace{20mm}}
+      \]
+    answer: $a\parallel c$
+    explanation: 平行传递性是许多中位线、平行四边形证明后的最后一步。
+  - type: fillin
+    id: b02-equal-angle
+    points: 5
+    stem_latex: |
+      \textbf{等角定理}\par
+      \[
+      \left.
+      \begin{aligned}
+      a&\parallel a'\\
+      b&\parallel b'
+      \end{aligned}
+      \right\}
+      \Longrightarrow
+      \angle(a,b)\text{ 与 }\angle(a',b')\ \underline{\hspace{26mm}}
+      \]
+    answer: 相等或互补
+    explanation: 两边分别对应平行的两个角相等或互补；求异面角时再取锐角或直角。
+  - type: fillin
+    id: b03-line-plane-parallel-judge
+    points: 5
+    stem_latex: |
+      \textbf{线面平行判定}\par
+      \[
+      \left.
+      \begin{aligned}
+      a&\parallel b\\
+      b&\subset\alpha\\
+      a&\not\subset\alpha
+      \end{aligned}
+      \right\}
+      \Longrightarrow
+      \underline{\hspace{22mm}}
+      \]
+    answer: $a\parallel\alpha$
+    explanation: 平面外一条直线与平面内一条直线平行，则该直线平行于此平面。
+  - type: fillin
+    id: b04-line-plane-parallel-property
+    points: 5
+    stem_latex: |
+      \textbf{线面平行性质}\par
+      \[
+      \left.
+      \begin{aligned}
+      a&\parallel\alpha\\
+      a&\subset\beta\\
+      \alpha\cap\beta&=b
+      \end{aligned}
+      \right\}
+      \Longrightarrow
+      \underline{\hspace{22mm}}
+      \]
+    answer: $a\parallel b$
+    explanation: 已知线面平行，过这条线作平面，所得交线与这条线平行。
+  - type: fillin
+    id: b05-plane-plane-parallel-judge
+    points: 5
+    stem_latex: |
+      \textbf{面面平行判定}\par
+      \[
+      \left.
+      \begin{aligned}
+      a,b&\subset\alpha\\
+      a\cap b&=P\\
+      a&\parallel\beta\\
+      b&\parallel\beta
+      \end{aligned}
+      \right\}
+      \Longrightarrow
+      \underline{\hspace{22mm}}
+      \]
+    answer: $\alpha\parallel\beta$
+    explanation: 一个平面内两条相交直线分别平行另一个平面，则两平面平行。
+  - type: fillin
+    id: b06-plane-plane-parallel-property
+    points: 5
+    stem_latex: |
+      \textbf{面面平行性质}\par
+      \[
+      \left.
+      \begin{aligned}
+      \alpha&\parallel\beta\\
+      \gamma\cap\alpha&=a\\
+      \gamma\cap\beta&=b
+      \end{aligned}
+      \right\}
+      \Longrightarrow
+      \underline{\hspace{22mm}}
+      \]
+    answer: $a\parallel b$
+    explanation: 两个平行平面被第三个平面所截，截得的两条交线平行。
+  - type: fillin
+    id: b07-plane-plane-parallel-extra
+    points: 5
+    stem_latex: |
+      \textbf{面面平行的常用性质}\par
+      \[
+      \left.
+      \begin{aligned}
+      \alpha&\parallel\beta\\
+      a&\subset\alpha
+      \end{aligned}
+      \right\}
+      \Longrightarrow
+      \underline{\hspace{22mm}}
+      \]
+    answer: $a\parallel\beta$
+    explanation: 一条直线在两个平行平面中的一个平面内，则它平行于另一个平面。
+- id: perpendicular
+  title: 三、垂直关系定理
+  type: practice
+  visibility: both
+  blocks:
+  - type: fillin
+    id: c01-skew-perpendicular
+    points: 5
+    stem_latex: |
+      \textbf{异面直线垂直定义}\par
+      \[
+      \left.
+      \begin{aligned}
+      a'&\parallel a\\
+      a'\cap b&=O\\
+      \angle(a',b)&=90^\circ
+      \end{aligned}
+      \right\}
+      \Longrightarrow
+      \underline{\hspace{20mm}}
+      \]
+    answer: $a\perp b$
+    explanation: 把异面直线平移成相交直线，若所成角为直角，则异面直线垂直。
+  - type: fillin
+    id: c02-line-plane-perp-definition
+    points: 5
+    stem_latex: |
+      \textbf{线面垂直定义推论}\par
+      \[
+      \left.
+      \begin{aligned}
+      a&\perp\alpha\\
+      b&\subset\alpha
+      \end{aligned}
+      \right\}
+      \Longrightarrow
+      \underline{\hspace{20mm}}
+      \]
+    answer: $a\perp b$
+    explanation: 直线垂直于平面，则它垂直于这个平面内的任意直线。
+  - type: fillin
+    id: c03-line-plane-perp-judge
+    points: 5
+    stem_latex: |
+      \textbf{线面垂直判定}\par
+      \[
+      \left.
+      \begin{aligned}
+      l&\perp m\\
+      l&\perp n\\
+      m,n&\subset\alpha\\
+      m\cap n&=P
+      \end{aligned}
+      \right\}
+      \Longrightarrow
+      \underline{\hspace{20mm}}
+      \]
+    answer: $l\perp\alpha$
+    explanation: 垂直于平面内两条相交直线，才能推出线面垂直。
+  - type: fillin
+    id: c04-line-plane-perp-property
+    points: 5
+    stem_latex: |
+      \textbf{线面垂直性质}\par
+      \[
+      \left.
+      \begin{aligned}
+      a&\perp\alpha\\
+      b&\perp\alpha
+      \end{aligned}
+      \right\}
+      \Longrightarrow
+      \underline{\hspace{20mm}}
+      \]
+    answer: $a\parallel b$
+    explanation: 同垂直于一个平面的两条直线平行，这是垂直章里的跨类结论。
+  - type: fillin
+    id: c05-plane-plane-perp-judge
+    points: 5
+    stem_latex: |
+      \textbf{面面垂直判定}\par
+      \[
+      \left.
+      \begin{aligned}
+      l&\perp\alpha\\
+      l&\subset\beta
+      \end{aligned}
+      \right\}
+      \Longrightarrow
+      \underline{\hspace{20mm}}
+      \]
+    answer: $\alpha\perp\beta$
+    explanation: 一个平面过另一个平面的垂线，则这两个平面垂直。
+  - type: fillin
+    id: c06-plane-plane-perp-property
+    points: 5
+    stem_latex: |
+      \textbf{面面垂直性质}\par
+      \[
+      \left.
+      \begin{aligned}
+      \alpha&\perp\beta\\
+      \alpha\cap\beta&=l\\
+      a&\subset\alpha\\
+      a&\perp l
+      \end{aligned}
+      \right\}
+      \Longrightarrow
+      \underline{\hspace{20mm}}
+      \]
+    answer: $a\perp\beta$
+    explanation: 面面垂直时，一个面内垂直于交线的直线垂直另一个面。
+  - type: fillin
+    id: c07-three-perpendicular
+    points: 5
+    stem_latex: |
+      \textbf{三垂线定理}\par
+      \[
+      \left.
+      \begin{aligned}
+      PA&\perp\alpha\\
+      AB&\subset\alpha\\
+      l&\subset\alpha\\
+      AB&\perp l
+      \end{aligned}
+      \right\}
+      \Longrightarrow
+      \underline{\hspace{20mm}}
+      \]
+    answer: $PB\perp l$
+    explanation: 面内直线若垂直于斜线在平面内的射影，则也垂直于这条斜线。
+  - type: fillin
+    id: c08-three-perpendicular-converse
+    points: 5
+    stem_latex: |
+      \textbf{三垂线逆定理}\par
+      \[
+      \left.
+      \begin{aligned}
+      PA&\perp\alpha\\
+      AB&\subset\alpha\\
+      l&\subset\alpha\\
+      PB&\perp l
+      \end{aligned}
+      \right\}
+      \Longrightarrow
+      \underline{\hspace{20mm}}
+      \]
+    answer: $AB\perp l$
+    explanation: 面内直线若垂直于斜线，则也垂直于这条斜线在平面内的射影。
+  - type: fillin
+    id: c09-min-angle
+    points: 5
+    stem_latex: |
+      \textbf{最小角定理}\par
+      \[
+      \left.
+      \begin{aligned}
+      l\cap\alpha&=A\\
+      AH&\text{ 是 }l\text{ 在 }\alpha\text{ 内的射影}\\
+      b&\subset\alpha,\ A\in b
+      \end{aligned}
+      \right\}
+      \Longrightarrow
+      \angle(l,AH)\ \underline{\hspace{16mm}}\ \angle(l,b)
+      \]
+    answer: $\le$
+    explanation: 斜线与平面所成角，是斜线与平面内所有直线所成角中的最小角。
+- id: angle-distance
+  title: 四、距离与角的化归规则
+  type: practice
+  visibility: both
+  blocks:
+  - type: fillin
+    id: d01-point-line-distance
+    points: 5
+    stem_latex: |
+      \textbf{点到直线距离}\par
+      \[
+      \left.
+      \begin{aligned}
+      PH&\perp l\\
+      H&\in l
+      \end{aligned}
+      \right\}
+      \Longrightarrow
+      d(P,l)=\underline{\hspace{16mm}}
+      \]
+    answer: $PH$
+    explanation: 点到直线的距离是点到直线的垂线段长。
+  - type: fillin
+    id: d02-point-plane-distance
+    points: 5
+    stem_latex: |
+      \textbf{点到平面距离}\par
+      \[
+      \left.
+      \begin{aligned}
+      PH&\perp\alpha\\
+      H&\in\alpha
+      \end{aligned}
+      \right\}
+      \Longrightarrow
+      d(P,\alpha)=\underline{\hspace{16mm}}
+      \]
+    answer: $PH$
+    explanation: 点到平面的距离是点到平面的垂线段长。
+  - type: fillin
+    id: d03-line-plane-distance
+    points: 5
+    stem_latex: |
+      \textbf{线面距转点面距}\par
+      \[
+      \left.
+      \begin{aligned}
+      a&\parallel\alpha\\
+      P&\in a
+      \end{aligned}
+      \right\}
+      \Longrightarrow
+      d(a,\alpha)=\underline{\hspace{20mm}}
+      \]
+    answer: $d(P,\alpha)$
+    explanation: 线和平面平行时，线面距可转为线上任一点到该平面的距离。
+  - type: fillin
+    id: d04-plane-plane-distance
+    points: 5
+    stem_latex: |
+      \textbf{面面距转点面距}\par
+      \[
+      \left.
+      \begin{aligned}
+      \alpha&\parallel\beta\\
+      P&\in\alpha
+      \end{aligned}
+      \right\}
+      \Longrightarrow
+      d(\alpha,\beta)=\underline{\hspace{20mm}}
+      \]
+    answer: $d(P,\beta)$
+    explanation: 两平行平面的距离可转为其中一个平面内任一点到另一个平面的距离。
+  - type: fillin
+    id: d05-skew-distance
+    points: 5
+    stem_latex: |
+      \textbf{异面直线距离}\par
+      \[
+      \left.
+      \begin{aligned}
+      M&\in a,\ N\in b\\
+      MN&\perp a\\
+      MN&\perp b
+      \end{aligned}
+      \right\}
+      \Longrightarrow
+      d(a,b)=\underline{\hspace{16mm}}
+      \]
+    answer: $MN$
+    explanation: 异面直线距离是它们的公垂线段长。
+  - type: fillin
+    id: d06-volume-distance
+    points: 5
+    stem_latex: |
+      \textbf{等体积法求点面距}\par
+      \[
+      \left.
+      \begin{aligned}
+      V_{P-ABC}&=\frac13 S_{\triangle ABC}\cdot h
+      \end{aligned}
+      \right\}
+      \Longrightarrow
+      h=\underline{\hspace{28mm}}
+      \]
+    answer: $\dfrac{3V_{P-ABC}}{S_{\triangle ABC}}$
+    explanation: 把待求点面距看作锥体高，由体积公式反求。
+  - type: fillin
+    id: d07-skew-angle
+    points: 5
+    stem_latex: |
+      \textbf{异面直线所成角}\par
+      \[
+      \left.
+      \begin{aligned}
+      a'&\parallel a\\
+      b'&\parallel b\\
+      a'\cap b'&=O
+      \end{aligned}
+      \right\}
+      \Longrightarrow
+      \angle(a,b)=\underline{\hspace{24mm}}
+      \]
+    answer: $\angle(a',b')$ 的锐角或直角
+    explanation: 异面直线角通过平移化为相交直线角，并取锐角或直角。
+  - type: fillin
+    id: d08-line-plane-angle
+    points: 5
+    stem_latex: |
+      \textbf{线面角定义}\par
+      \[
+      \left.
+      \begin{aligned}
+      l\cap\alpha&=A\\
+      P&\in l\\
+      P\text{ 在 }\alpha\text{ 上的射影为 }H
+      \end{aligned}
+      \right\}
+      \Longrightarrow
+      \angle(l,\alpha)=\underline{\hspace{18mm}}
+      \]
+    answer: $\angle PAH$
+    explanation: 线面角是斜线与其在平面内射影所成的角。
+  - type: fillin
+    id: d09-distance-to-angle
+    points: 5
+    stem_latex: |
+      \textbf{点面距法求线面角}\par
+      \[
+      \left.
+      \begin{aligned}
+      \theta&=\angle(l,\alpha)\\
+      P&\in l,\ A=l\cap\alpha\\
+      d(P,\alpha)&=d\\
+      PA&=s
+      \end{aligned}
+      \right\}
+      \Longrightarrow
+      \sin\theta=\underline{\hspace{18mm}}
+      \]
+    answer: $\dfrac{d}{s}$
+    explanation: 线面角的正弦等于斜线上一点到平面的距离除以该点到斜足的距离。
+  - type: fillin
+    id: d10-dihedral-angle
+    points: 5
+    stem_latex: |
+      \textbf{二面角平面角定义}\par
+      \[
+      \left.
+      \begin{aligned}
+      \alpha\cap\beta&=l\\
+      O&\in l\\
+      OA&\subset\alpha,\ OB\subset\beta\\
+      OA&\perp l,\ OB\perp l
+      \end{aligned}
+      \right\}
+      \Longrightarrow
+      \underline{\hspace{16mm}}\text{ 是二面角 }\alpha-l-\beta\text{ 的平面角}
+      \]
+    answer: $\angle AOB$
+    explanation: 平面角的顶点在棱上，两边分别在两个半平面内，且都垂直于棱。
+  - type: fillin
+    id: d11-area-projection
+    points: 5
+    stem_latex: |
+      \textbf{二面角面积射影法}\par
+      \[
+      \left.
+      \begin{aligned}
+      S_{\text{射影}}&=S_{\text{原}}\cos\theta
+      \end{aligned}
+      \right\}
+      \Longrightarrow
+      \cos\theta=\underline{\hspace{28mm}}
+      \]
+    answer: $\dfrac{S_{\text{射影}}}{S_{\text{原}}}$
+    explanation: 面积射影法常用于二面角，先分清原图形面积和射影面积。
+- id: answer-key
+  title: 参考答案与覆盖清单
+  type: answer_key
+  visibility: teacher
+  blocks:
+  - type: answer
+    id: key
+    title: 参考答案
+    items:
+    - latex: 第1题：$A\in l$，$l\subset\alpha$，$\alpha\cap\beta=m$
+    - latex: 第2题：异面；平行；相交
+    - latex: 第3题：不共线
+    - latex: 第4题：$l\subset\alpha$
+    - latex: 第5题：$l$；$l$
+    - latex: 第6题：直线 $a$ 与点 $P$ 确定唯一平面
+    - latex: 第7题：$a,b$ 确定唯一平面
+    - latex: 第8题：$a,b$ 确定唯一平面
+    - latex: 第9题：$a\parallel c$
+    - latex: 第10题：相等或互补
+    - latex: 第11题：$a\parallel\alpha$
+    - latex: 第12题：$a\parallel b$
+    - latex: 第13题：$\alpha\parallel\beta$
+    - latex: 第14题：$a\parallel b$
+    - latex: 第15题：$a\parallel\beta$
+    - latex: 第16题：$a\perp b$
+    - latex: 第17题：$a\perp b$
+    - latex: 第18题：$l\perp\alpha$
+    - latex: 第19题：$a\parallel b$
+    - latex: 第20题：$\alpha\perp\beta$
+    - latex: 第21题：$a\perp\beta$
+    - latex: 第22题：$PB\perp l$
+    - latex: 第23题：$AB\perp l$
+    - latex: 第24题：$\le$
+    - latex: 第25题：$PH$
+    - latex: 第26题：$PH$
+    - latex: 第27题：$d(P,\alpha)$
+    - latex: 第28题：$d(P,\beta)$
+    - latex: 第29题：$MN$
+    - latex: 第30题：$\dfrac{3V_{P-ABC}}{S_{\triangle ABC}}$
+    - latex: 第31题：$\angle(a',b')$ 的锐角或直角
+    - latex: 第32题：$\angle PAH$
+    - latex: 第33题：$\dfrac{d}{s}$
+    - latex: 第34题：$\angle AOB$
+    - latex: 第35题：$\dfrac{S_{\text{射影}}}{S_{\text{原}}}$
+  - type: answer
+    id: coverage
+    title: 覆盖清单
+    items:
+    - latex: A类覆盖：符号约定、位置关系分类、基本事实1/2/3、直线+线外一点定面、相交直线定面、平行直线定面。
+    - latex: 平行覆盖：平行传递性、等角定理、线面平行判定/性质、面面平行判定/性质、面面平行推出线面平行的常用性质。
+    - latex: 垂直覆盖：异面垂直定义、线面垂直定义推论、线面垂直判定/性质、面面垂直判定/性质、三垂线定理及逆定理、最小角定理。
+    - latex: 距离与角覆盖：点线距、点面距、线面距、面面距、异面距、等体积法、异面角、线面角、点面距法求线面角、二面角平面角、面积射影法。

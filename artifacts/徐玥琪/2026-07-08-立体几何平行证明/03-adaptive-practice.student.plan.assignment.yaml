@@ -1,0 +1,1598 @@
+meta:
+  title: 立体几何平行证明 · 分层练习
+  subtitle: 徐玥琪 · 学生版
+  grade: 高一
+  subject: 数学
+  duration: 45分钟
+  total_points: 90
+  version: student
+  source_artifacts:
+    plan: docs/立体几何学习规划/03-平行证明讲义方案.md
+    explanation: artifacts/徐玥琪/2026-07-08-立体几何平行证明/02-student-explanation.plan.assignment.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: basic
+  title: 一、基础档：正方体中直接套判定（共 21 分）
+  type: practice
+  visibility: student
+  blocks:
+  - type: choice
+    id: q1
+    points: 5
+    stem: 给出四个判断：① 若直线 $a\parallel b$，$b\subset$ 平面 $\alpha$，$a\not\subset\alpha$，则
+      $a\parallel\alpha$；② 若直线 $a\parallel$ 平面 $\alpha$，则 $a$ 与 $\alpha$ 内任意一条直线都平行；③
+      若 $a\parallel\alpha$，过 $a$ 作平面 $\beta$ 交 $\alpha$ 于直线 $b$，则 $a\parallel b$；④
+      若 $a\parallel b$，$b\subset\alpha$，$a\subset\alpha$，则 $a\parallel\alpha$。其中正确的个数是（    ）。
+    choices:
+      A: '1'
+      B: '2'
+      C: '3'
+      D: '4'
+    hints:
+    - content: 逐条对照判定与性质定理的前提；注意 $a$ 是否在平面内。
+    answer: ''
+  - type: fillin
+    id: q2
+    points: 6
+    stem: 如图，在正方体 $ABCD$-$A_{1}B_{1}C_{1}D_{1}$ 中，$M$、$N$ 分别是 $A_{1}B_{1}$、$B_{1}C_{1}$
+      的中点。线段 $MN$ 与面对角线 \underline{\hspace{3em}} 平行（填一条面对角线的字母）。
+    hints:
+    - content: $MN$ 是哪个三角形的中位线？再看它和哪条对角线共端点。
+    answer: ''
+    diagram_slot:
+      slot_id: q2.prompt
+      diagram_ref: q2.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: $MN$ 是 $\triangle A_{1}B_{1}C_{1}$ 的中位线。
+      engine: spatial_renderer
+      diagram_kind: spatial_geometry
+      teaching_intent: practice_prompt
+      semantic_constraints:
+        given_objects:
+        - A1
+        - B1
+        - C1
+        - D1
+        - M
+        - N
+        given_constraints:
+        - M midpoint of A1B1
+        - N midpoint of B1C1
+      engine_options:
+        spatial_spec:
+          projection: isometric_hidden_axes
+          points3d:
+            A:
+            - 0
+            - 0
+            - 0
+            B:
+            - 3
+            - 0
+            - 0
+            C:
+            - 3
+            - 2.1
+            - 0
+            D:
+            - 0
+            - 2.1
+            - 0
+            A1:
+            - 0
+            - 0
+            - 2.0
+            B1:
+            - 3
+            - 0
+            - 2.0
+            C1:
+            - 3
+            - 2.1
+            - 2.0
+            D1:
+            - 0
+            - 2.1
+            - 2.0
+            M:
+            - 1.5
+            - 0.0
+            - 2.0
+            N:
+            - 3.0
+            - 1.05
+            - 2.0
+          segments:
+          - from: A
+            to: B
+          - from: B
+            to: C
+          - from: C
+            to: D
+          - from: D
+            to: A
+          - from: A1
+            to: B1
+          - from: B1
+            to: C1
+          - from: C1
+            to: D1
+          - from: D1
+            to: A1
+          - from: A
+            to: A1
+          - from: B
+            to: B1
+          - from: C
+            to: C1
+          - from: D
+            to: D1
+          - from: A1
+            to: B1
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: B1
+            to: C1
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: M
+            to: N
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          polygons:
+          - points:
+            - A
+            - B
+            - C
+            - D
+            fill: '#eff6ff'
+            stroke: '#94a3b8'
+            stroke_width: 1.2
+          - points:
+            - A1
+            - B1
+            - C1
+            - D1
+            fill: '#f8fafc'
+            stroke: '#94a3b8'
+            stroke_width: 1.2
+          markers: []
+          labels:
+            A:
+              text: A
+            B:
+              text: B
+            C:
+              text: C
+            D:
+              text: D
+            A1:
+              text: A_1
+            B1:
+              text: B_1
+            C1:
+              text: C_1
+            D1:
+              text: D_1
+            M:
+              text: M
+            N:
+              text: N
+          constraints:
+          - A1
+          - B1
+          - C1
+          - D1
+          - M
+          - N
+          - M midpoint of A1B1
+          - N midpoint of B1C1
+          teaching_focus:
+          - $MN$ 是 $\triangle A_{1}B_{1}C_{1}$ 的中位线。
+  - type: problem
+    id: q3
+    points: 10
+    label: 第 3 题
+    stem_latex: '如图，在正方体 $ABCD$-$A_{1}B_{1}C_{1}D_{1}$ 中，$E$ 为棱 $DD_{1}$ 的中点。求证：$BD_{1}\parallel$
+      平面 $AEC$。
+
+      '
+    hints:
+    - content: 证线面平行用判定（凑）。在平面 $AEC$ 里找一条与 $BD_{1}$ 平行的线——取 $AC\cap BD=O$，连 $OE$。
+    answer_space:
+      type: steps
+      height: 55mm
+      step_count: 4
+    diagram_slot:
+      slot_id: q3.prompt
+      diagram_ref: q3.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: $O$ 是 $AC$ 与 $BD$ 的交点，连 $OE$ 看中位线。
+      engine: spatial_renderer
+      diagram_kind: spatial_geometry
+      teaching_intent: practice_prompt
+      semantic_constraints:
+        given_objects:
+        - A
+        - B
+        - C
+        - D
+        - D1
+        - E
+        - O
+        given_constraints:
+        - ABCD-A1B1C1D1 cube
+        - E midpoint of DD1
+        - O midpoint of AC and BD
+      engine_options:
+        spatial_spec:
+          projection: isometric_hidden_axes
+          points3d:
+            A:
+            - 0
+            - 0
+            - 0
+            B:
+            - 3
+            - 0
+            - 0
+            C:
+            - 3
+            - 2.1
+            - 0
+            D:
+            - 0
+            - 2.1
+            - 0
+            A1:
+            - 0
+            - 0
+            - 2.0
+            B1:
+            - 3
+            - 0
+            - 2.0
+            C1:
+            - 3
+            - 2.1
+            - 2.0
+            D1:
+            - 0
+            - 2.1
+            - 2.0
+            E:
+            - 0.0
+            - 2.1
+            - 1.0
+            O:
+            - 1.5
+            - 1.05
+            - 0.0
+          segments:
+          - from: A
+            to: B
+          - from: B
+            to: C
+          - from: C
+            to: D
+          - from: D
+            to: A
+          - from: A1
+            to: B1
+          - from: B1
+            to: C1
+          - from: C1
+            to: D1
+          - from: D1
+            to: A1
+          - from: A
+            to: A1
+          - from: B
+            to: B1
+          - from: C
+            to: C1
+          - from: D
+            to: D1
+          - from: A
+            to: C
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: B
+            to: D
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: B
+            to: D1
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: D
+            to: D1
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: O
+            to: E
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          polygons:
+          - points:
+            - A
+            - B
+            - C
+            - D
+            fill: '#eff6ff'
+            stroke: '#94a3b8'
+            stroke_width: 1.2
+          - points:
+            - A1
+            - B1
+            - C1
+            - D1
+            fill: '#f8fafc'
+            stroke: '#94a3b8'
+            stroke_width: 1.2
+          markers: []
+          labels:
+            A:
+              text: A
+            B:
+              text: B
+            C:
+              text: C
+            D:
+              text: D
+            A1:
+              text: A_1
+            B1:
+              text: B_1
+            C1:
+              text: C_1
+            D1:
+              text: D_1
+            E:
+              text: E
+            O:
+              text: O
+          constraints:
+          - A
+          - B
+          - C
+          - D
+          - D1
+          - E
+          - O
+          - ABCD-A1B1C1D1 cube
+          - E midpoint of DD1
+          - O midpoint of AC and BD
+          teaching_focus:
+          - $O$ 是 $AC$ 与 $BD$ 的交点，连 $OE$ 看中位线。
+- id: medium
+  title: 二、中档档：取中点连线，造面内平行线（共 39 分）
+  type: practice
+  visibility: student
+  layout:
+    break_before: true
+  blocks:
+  - type: fillin
+    id: q4
+    points: 7
+    stem: 如图，在三棱柱 $ABC$-$A_{1}B_{1}C_{1}$ 中，$D$、$E$ 分别是棱 $CC_{1}$、$AB$ 的中点。要在平面 $AB_{1}C_{1}$
+      内找到与 $DE$ 平行的直线，应取 \underline{\hspace{3em}} 的中点 $H$，再连 $HC_{1}$。
+    hints:
+    - content: 想平行四边形：$H$ 取好后，四边形 $EHC_{1}D$ 要能证成平行四边形。
+    answer: ''
+    diagram_slot:
+      slot_id: q4.prompt
+      diagram_ref: q4.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 三棱柱中 $D$、$E$ 为中点，构造平行四边形 $EHC_{1}D$。
+      engine: spatial_renderer
+      diagram_kind: spatial_geometry
+      teaching_intent: practice_prompt
+      semantic_constraints:
+        given_objects:
+        - A
+        - B
+        - C
+        - A1
+        - B1
+        - C1
+        - D
+        - E
+        given_constraints:
+        - ABC-A1B1C1 prism
+        - D midpoint of CC1
+        - E midpoint of AB
+      engine_options:
+        spatial_spec:
+          projection: isometric_hidden_axes
+          points3d:
+            A:
+            - 0
+            - 0
+            - 0
+            B:
+            - 3
+            - 0
+            - 0
+            C:
+            - 0.8
+            - 2.1
+            - 0
+            A1:
+            - 0
+            - 0
+            - 2.1
+            B1:
+            - 3
+            - 0
+            - 2.1
+            C1:
+            - 0.8
+            - 2.1
+            - 2.1
+            D:
+            - 0.8
+            - 2.1
+            - 1.05
+            E:
+            - 1.5
+            - 0.0
+            - 0.0
+            H:
+            - 1.5
+            - 0.0
+            - 0.0
+          segments:
+          - from: A
+            to: B
+          - from: B
+            to: C
+          - from: C
+            to: A
+          - from: A1
+            to: B1
+          - from: B1
+            to: C1
+          - from: C1
+            to: A1
+          - from: A
+            to: A1
+          - from: B
+            to: B1
+          - from: C
+            to: C1
+          - from: A
+            to: B
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: C
+            to: C1
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: D
+            to: E
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: H
+            to: C1
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          polygons:
+          - points:
+            - A
+            - B
+            - C
+            fill: '#eff6ff'
+            stroke: '#94a3b8'
+            stroke_width: 1.2
+          - points:
+            - A1
+            - B1
+            - C1
+            fill: '#f8fafc'
+            stroke: '#94a3b8'
+            stroke_width: 1.2
+          markers: []
+          labels:
+            A:
+              text: A
+            B:
+              text: B
+            C:
+              text: C
+            A1:
+              text: A_1
+            B1:
+              text: B_1
+            C1:
+              text: C_1
+            D:
+              text: D
+            E:
+              text: E
+            H:
+              text: H
+          constraints:
+          - A
+          - B
+          - C
+          - A1
+          - B1
+          - C1
+          - D
+          - E
+          - ABC-A1B1C1 prism
+          - D midpoint of CC1
+          - E midpoint of AB
+          teaching_focus:
+          - 三棱柱中 $D$、$E$ 为中点，构造平行四边形 $EHC_{1}D$。
+  - type: problem
+    id: q5
+    points: 11
+    label: 第 5 题
+    stem_latex: '如图，在三棱柱 $ABC$-$A_{1}B_{1}C_{1}$ 中，$D$、$E$ 分别是棱 $CC_{1}$、$AB$ 的中点。求证：$DE\parallel$
+      平面 $AB_{1}C_{1}$。
+
+      '
+    hints:
+    - content: 取 $AB_{1}$ 的中点 $H$，连 $EH$、$HC_{1}$，先证四边形 $EHC_{1}D$ 是平行四边形。
+    answer_space:
+      type: steps
+      height: 65mm
+      step_count: 5
+    diagram_slot:
+      slot_id: q5.prompt
+      diagram_ref: q5.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 取 $H$ 为 $AB_{1}$ 中点，证 $EHC_{1}D$ 为平行四边形。
+      engine: spatial_renderer
+      diagram_kind: spatial_geometry
+      teaching_intent: practice_prompt
+      semantic_constraints:
+        given_objects:
+        - A
+        - B
+        - C
+        - A1
+        - B1
+        - C1
+        - D
+        - E
+        given_constraints:
+        - ABC-A1B1C1 prism
+        - D midpoint of CC1
+        - E midpoint of AB
+      engine_options:
+        spatial_spec:
+          projection: isometric_hidden_axes
+          points3d:
+            A:
+            - 0
+            - 0
+            - 0
+            B:
+            - 3
+            - 0
+            - 0
+            C:
+            - 0.8
+            - 2.1
+            - 0
+            A1:
+            - 0
+            - 0
+            - 2.1
+            B1:
+            - 3
+            - 0
+            - 2.1
+            C1:
+            - 0.8
+            - 2.1
+            - 2.1
+            D:
+            - 0.8
+            - 2.1
+            - 1.05
+            E:
+            - 1.5
+            - 0.0
+            - 0.0
+            H:
+            - 1.1601
+            - 1.8511
+            - 0.3
+          segments:
+          - from: A
+            to: B
+          - from: B
+            to: C
+          - from: C
+            to: A
+          - from: A1
+            to: B1
+          - from: B1
+            to: C1
+          - from: C1
+            to: A1
+          - from: A
+            to: A1
+          - from: B
+            to: B1
+          - from: C
+            to: C1
+          - from: A
+            to: B
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: A
+            to: B1
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: C
+            to: C1
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: D
+            to: E
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          polygons:
+          - points:
+            - A
+            - B
+            - C
+            fill: '#eff6ff'
+            stroke: '#94a3b8'
+            stroke_width: 1.2
+          - points:
+            - A1
+            - B1
+            - C1
+            fill: '#f8fafc'
+            stroke: '#94a3b8'
+            stroke_width: 1.2
+          markers: []
+          labels:
+            A:
+              text: A
+            B:
+              text: B
+            C:
+              text: C
+            A1:
+              text: A_1
+            B1:
+              text: B_1
+            C1:
+              text: C_1
+            D:
+              text: D
+            E:
+              text: E
+            H:
+              text: H
+          constraints:
+          - A
+          - B
+          - C
+          - A1
+          - B1
+          - C1
+          - D
+          - E
+          - ABC-A1B1C1 prism
+          - D midpoint of CC1
+          - E midpoint of AB
+          teaching_focus:
+          - 取 $H$ 为 $AB_{1}$ 中点，证 $EHC_{1}D$ 为平行四边形。
+  - type: problem
+    id: q6
+    points: 11
+    label: 第 6 题
+    stem_latex: '如图，在四棱锥 $P$-$ABCD$ 中，底面 $ABCD$ 为平行四边形，$O$ 为 $AC$ 与 $BD$ 的交点，$M$ 为
+      $PC$ 的中点。已知 $AP\parallel$ 平面 $BDM$，过 $A$、$P$ 的平面交平面 $BDM$ 于直线 $l$。求证：$AP\parallel
+      l$。
+
+      '
+    hints:
+    - content: 这是性质定理（向下用）：连 $MO$ 看中位线，再写出两个平面的交线。
+    answer_space:
+      type: steps
+      height: 60mm
+      step_count: 5
+    diagram_slot:
+      slot_id: q6.prompt
+      diagram_ref: q6.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: $MO$ 是 $\triangle PAC$ 的中位线，$MO\parallel AP$ 且在面 $BDM$ 内。
+      engine: spatial_renderer
+      diagram_kind: spatial_geometry
+      teaching_intent: practice_prompt
+      semantic_constraints:
+        given_objects:
+        - P
+        - A
+        - B
+        - C
+        - D
+        - O
+        - M
+        given_constraints:
+        - ABCD parallelogram
+        - O midpoint of AC and BD
+        - M midpoint of PC
+        - AP parallel plane BDM
+      engine_options:
+        spatial_spec:
+          projection: isometric_hidden_axes
+          points3d:
+            A:
+            - 0
+            - 0
+            - 0
+            B:
+            - 3
+            - 0
+            - 0
+            C:
+            - 0.8
+            - 2.1
+            - 0
+            S:
+            - 1.0
+            - 0.75
+            - 2.4
+            O:
+            - 0.4
+            - 1.05
+            - 0.0
+            P:
+            - 2.2778
+            - 1.6071
+            - 0.0
+            M:
+            - 0.7222
+            - 1.6071
+            - 0.3
+            D:
+            - 2.2778
+            - 0.1929
+            - 0.0
+          segments:
+          - from: A
+            to: B
+          - from: B
+            to: C
+          - from: C
+            to: A
+          - from: P
+            to: A
+          - from: P
+            to: B
+            dash: dashed
+          - from: P
+            to: C
+            dash: dashed
+          - from: S
+            to: A
+          - from: S
+            to: B
+            dash: dashed
+          - from: S
+            to: C
+            dash: dashed
+          - from: A
+            to: C
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: A
+            to: P
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: B
+            to: D
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: M
+            to: O
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: P
+            to: C
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          polygons:
+          - points:
+            - A
+            - B
+            - C
+            fill: '#eff6ff'
+            stroke: '#94a3b8'
+            stroke_width: 1.2
+          markers:
+          - type: parallel
+            segments:
+            - - M
+              - O
+            - - A
+              - P
+          labels:
+            A:
+              text: A
+            B:
+              text: B
+            C:
+              text: C
+            S:
+              text: S
+            O:
+              text: O
+            P:
+              text: P
+            M:
+              text: M
+            D:
+              text: D
+          constraints:
+          - P
+          - A
+          - B
+          - C
+          - D
+          - O
+          - M
+          - ABCD parallelogram
+          - O midpoint of AC and BD
+          - M midpoint of PC
+          - AP parallel plane BDM
+          teaching_focus:
+          - $MO$ 是 $\triangle PAC$ 的中位线，$MO\parallel AP$ 且在面 $BDM$ 内。
+  - type: choice
+    id: q7
+    points: 10
+    stem: 如图，在四棱锥 $P$-$ABCD$ 中，$M$、$N$ 分别在 $AC$、$PC$ 上，且 $MN\parallel$ 平面 $PAD$，则
+      $MN$ 与 $PA$ 的位置关系是（    ）。
+    choices:
+      A: $MN\parallel PD$
+      B: $MN\parallel PA$
+      C: $MN\parallel AD$
+      D: 都有可能
+    hints:
+    - content: $MN\subset$ 平面 $PAC$，平面 $PAC\cap$ 平面 $PAD=PA$，由线面平行性质得结论。
+    answer: ''
+    diagram_slot:
+      slot_id: q7.prompt
+      diagram_ref: q7.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 找到含 $MN$ 的辅助面与平面 $PAD$ 的交线。
+      engine: spatial_renderer
+      diagram_kind: spatial_geometry
+      teaching_intent: practice_prompt
+      semantic_constraints:
+        given_objects:
+        - P
+        - A
+        - B
+        - C
+        - D
+        - M
+        - N
+        given_constraints:
+        - M on AC
+        - N on PC
+        - MN parallel plane PAD
+      engine_options:
+        spatial_spec:
+          projection: isometric_hidden_axes
+          points3d:
+            A:
+            - 0
+            - 0
+            - 0
+            B:
+            - 3
+            - 0
+            - 0
+            C:
+            - 0.8
+            - 2.1
+            - 0
+            S:
+            - 1.0
+            - 0.75
+            - 2.4
+            P:
+            - 2.2778
+            - 1.6071
+            - 0.0
+            M:
+            - 1.5
+            - 1.9
+            - 0.15
+            N:
+            - 0.7222
+            - 1.6071
+            - 0.3
+            D:
+            - 2.2778
+            - 0.1929
+            - 0.0
+          segments:
+          - from: A
+            to: B
+          - from: B
+            to: C
+          - from: C
+            to: A
+          - from: P
+            to: A
+          - from: P
+            to: B
+            dash: dashed
+          - from: P
+            to: C
+            dash: dashed
+          - from: S
+            to: A
+          - from: S
+            to: B
+            dash: dashed
+          - from: S
+            to: C
+            dash: dashed
+          - from: A
+            to: C
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: M
+            to: N
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: P
+            to: A
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: P
+            to: C
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          polygons:
+          - points:
+            - A
+            - B
+            - C
+            fill: '#eff6ff'
+            stroke: '#94a3b8'
+            stroke_width: 1.2
+          markers: []
+          labels:
+            A:
+              text: A
+            B:
+              text: B
+            C:
+              text: C
+            S:
+              text: S
+            P:
+              text: P
+            M:
+              text: M
+            N:
+              text: N
+            D:
+              text: D
+          constraints:
+          - P
+          - A
+          - B
+          - C
+          - D
+          - M
+          - N
+          - M on AC
+          - N on PC
+          - MN parallel plane PAD
+          teaching_focus:
+          - 找到含 $MN$ 的辅助面与平面 $PAD$ 的交线。
+- id: advanced
+  title: 三、提高档：面面与线面混用 + 中点比例（共 30 分）
+  type: practice
+  visibility: student
+  layout:
+    break_before: true
+  blocks:
+  - type: problem
+    id: q8
+    points: 10
+    label: 第 8 题
+    stem_latex: '如图，在四棱锥 $P$-$ABCD$ 中，底面四边形 $ABCD$ 满足 $AB\parallel CD$ 且 $AB=2CD$，$E$
+      为 $PB$ 的中点。求证：$CE\parallel$ 平面 $PAD$。
+
+      '
+    hints:
+    - content: 取 $AB$ 中点 $F$，连 $EF$、$CF$。证 $AD\parallel CF$、$EF\parallel PA$，凑出面面平行，再用面面平行的性质。
+    answer_space:
+      type: steps
+      height: 75mm
+      step_count: 6
+    diagram_slot:
+      slot_id: q8.prompt
+      diagram_ref: q8.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 取 $F$ 为 $AB$ 中点，证面 $PAD\parallel$ 面 $CEF$，再用其他性质。
+      engine: spatial_renderer
+      diagram_kind: spatial_geometry
+      teaching_intent: practice_prompt
+      semantic_constraints:
+        given_objects:
+        - P
+        - A
+        - B
+        - C
+        - D
+        - E
+        given_constraints:
+        - AB parallel CD
+        - AB=2*CD
+        - E midpoint of PB
+      engine_options:
+        spatial_spec:
+          projection: isometric_hidden_axes
+          points3d:
+            A:
+            - 0
+            - 0
+            - 0
+            B:
+            - 3
+            - 0
+            - 0
+            C:
+            - 0.8
+            - 2.1
+            - 0
+            S:
+            - 1.0
+            - 0.75
+            - 2.4
+            P:
+            - 2.2778
+            - 1.6071
+            - 0.0
+            E:
+            - 1.5
+            - 1.9
+            - 0.15
+            F:
+            - 0.7222
+            - 1.6071
+            - 0.3
+            D:
+            - 2.2778
+            - 0.1929
+            - 0.0
+          segments:
+          - from: A
+            to: B
+          - from: B
+            to: C
+          - from: C
+            to: A
+          - from: P
+            to: A
+          - from: P
+            to: B
+            dash: dashed
+          - from: P
+            to: C
+            dash: dashed
+          - from: S
+            to: A
+          - from: S
+            to: B
+            dash: dashed
+          - from: S
+            to: C
+            dash: dashed
+          - from: A
+            to: B
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: C
+            to: D
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: C
+            to: E
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: P
+            to: B
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          polygons:
+          - points:
+            - A
+            - B
+            - C
+            fill: '#eff6ff'
+            stroke: '#94a3b8'
+            stroke_width: 1.2
+          markers:
+          - type: parallel
+            segments:
+            - - A
+              - B
+            - - C
+              - D
+          - type: parallel
+            segments:
+            - - A
+              - B
+            - - C
+              - D
+          labels:
+            A:
+              text: A
+            B:
+              text: B
+            C:
+              text: C
+            S:
+              text: S
+            P:
+              text: P
+            E:
+              text: E
+            F:
+              text: F
+            D:
+              text: D
+          constraints:
+          - P
+          - A
+          - B
+          - C
+          - D
+          - E
+          - AB parallel CD
+          - AB=2*CD
+          - E midpoint of PB
+          teaching_focus:
+          - 取 $F$ 为 $AB$ 中点，证面 $PAD\parallel$ 面 $CEF$，再用其他性质。
+  - type: problem
+    id: q9
+    points: 10
+    label: 第 9 题
+    stem_latex: '如图，在四棱柱 $ABCD$-$A_{1}B_{1}C_{1}D_{1}$ 中，底面 $ABCD$ 为梯形且 $AD\parallel
+      BC$。设过 $A_{1}$、$D$、$C$ 三点的平面与棱 $BB_{1}$ 交于点 $E$。求证：$EC\parallel A_{1}D$。
+
+      '
+    hints:
+    - content: 用 $BE\parallel AA_{1}$、$BC\parallel AD$ 证面 $BCE\parallel$ 面 $AA_{1}D$（判定），再用面面平行性质。注意相交前提。
+    answer_space:
+      type: steps
+      height: 75mm
+      step_count: 6
+    diagram_slot:
+      slot_id: q9.prompt
+      diagram_ref: q9.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 证面 $BCE\parallel$ 面 $AA_{1}D$，两面被面 $A_{1}DCE$ 截出两条平行交线。
+      engine: spatial_renderer
+      diagram_kind: spatial_geometry
+      teaching_intent: practice_prompt
+      semantic_constraints:
+        given_objects:
+        - A
+        - B
+        - C
+        - D
+        - A1
+        - B1
+        - E
+        given_constraints:
+        - ABCD-A1B1C1D1 prism
+        - ABCD trapezoid AD parallel BC
+        - E on BB1
+      engine_options:
+        spatial_spec:
+          projection: isometric_hidden_axes
+          points3d:
+            A:
+            - 0
+            - 0
+            - 0
+            B:
+            - 3
+            - 0
+            - 0
+            C:
+            - 3
+            - 2.1
+            - 0
+            D:
+            - 0
+            - 2.1
+            - 0
+            A1:
+            - 0
+            - 0
+            - 2.0
+            B1:
+            - 3
+            - 0
+            - 2.0
+            C1:
+            - 3
+            - 2.1
+            - 2.0
+            D1:
+            - 0
+            - 2.1
+            - 2.0
+            E:
+            - 0.4
+            - 0.9
+            - 0.0
+          segments:
+          - from: A
+            to: B
+          - from: B
+            to: C
+          - from: C
+            to: D
+          - from: D
+            to: A
+          - from: A1
+            to: B1
+          - from: B1
+            to: C1
+          - from: C1
+            to: D1
+          - from: D1
+            to: A1
+          - from: A
+            to: A1
+          - from: B
+            to: B1
+          - from: C
+            to: C1
+          - from: D
+            to: D1
+          - from: A
+            to: D
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: A1
+            to: D
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: B
+            to: B1
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: B
+            to: C
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: E
+            to: C
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          polygons:
+          - points:
+            - A
+            - B
+            - C
+            - D
+            fill: '#eff6ff'
+            stroke: '#94a3b8'
+            stroke_width: 1.2
+          - points:
+            - A1
+            - B1
+            - C1
+            - D1
+            fill: '#f8fafc'
+            stroke: '#94a3b8'
+            stroke_width: 1.2
+          markers:
+          - type: parallel
+            segments:
+            - - A
+              - D
+            - - B
+              - C
+          - type: parallel
+            segments:
+            - - E
+              - C
+            - - A1
+              - D
+          - type: parallel
+            segments:
+            - - A
+              - D
+            - - B
+              - C
+          labels:
+            A:
+              text: A
+            B:
+              text: B
+            C:
+              text: C
+            D:
+              text: D
+            A1:
+              text: A_1
+            B1:
+              text: B_1
+            C1:
+              text: C_1
+            D1:
+              text: D_1
+            E:
+              text: E
+          constraints:
+          - A
+          - B
+          - C
+          - D
+          - A1
+          - B1
+          - E
+          - ABCD-A1B1C1D1 prism
+          - ABCD trapezoid AD parallel BC
+          - E on BB1
+          teaching_focus:
+          - 证面 $BCE\parallel$ 面 $AA_{1}D$，两面被面 $A_{1}DCE$ 截出两条平行交线。
+  - type: problem
+    id: q10
+    points: 10
+    label: 第 10 题
+    stem_latex: "如图，在平行六面体 $ABCD$-$A_{1}B_{1}C_{1}D_{1}$ 中，$E$ 为棱 $AA_{1}$ 的中点，$O$\
+      \ 为 $A_{1}C_{1}$ 与 $B_{1}D_{1}$ 的交点。求证：\n\\begin{enumerate}[label=(\\arabic*)]\n\
+      \  \\item $EO\\parallel AC_{1}$；\n  \\item $AC_{1}\\parallel$ 平面 $EB_{1}D_{1}$。\n\
+      \\end{enumerate}\n"
+    hints:
+    - content: (1) $E$、$O$ 分别是 $AA_{1}$、$A_{1}C_{1}$ 的中点，$EO$ 是 $\triangle AA_{1}C_{1}$
+        的中位线；(2) 由 (1) 在面 $EB_{1}D_{1}$ 内找到平行线，套判定。
+    answer_space:
+      type: steps
+      height: 70mm
+      step_count: 6
+    diagram_slot:
+      slot_id: q10.prompt
+      diagram_ref: q10.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: $O$ 是上底面对角线交点，$EO$ 中位线平行 $AC_{1}$。
+      engine: spatial_renderer
+      diagram_kind: spatial_geometry
+      teaching_intent: practice_prompt
+      semantic_constraints:
+        given_objects:
+        - A
+        - B
+        - C
+        - D
+        - A1
+        - B1
+        - C1
+        - D1
+        - E
+        - O
+        given_constraints:
+        - ABCD-A1B1C1D1 parallelepiped
+        - E midpoint of AA1
+        - O midpoint of A1C1 and B1D1
+      engine_options:
+        spatial_spec:
+          projection: isometric_hidden_axes
+          points3d:
+            A:
+            - 0
+            - 0
+            - 0
+            B:
+            - 3
+            - 0
+            - 0
+            C:
+            - 3
+            - 2.1
+            - 0
+            D:
+            - 0
+            - 2.1
+            - 0
+            A1:
+            - 0
+            - 0
+            - 2.0
+            B1:
+            - 3
+            - 0
+            - 2.0
+            C1:
+            - 3
+            - 2.1
+            - 2.0
+            D1:
+            - 0
+            - 2.1
+            - 2.0
+            E:
+            - 0.0
+            - 0.0
+            - 1.0
+            O:
+            - 1.5
+            - 1.05
+            - 2.0
+          segments:
+          - from: A
+            to: B
+          - from: B
+            to: C
+          - from: C
+            to: D
+          - from: D
+            to: A
+          - from: A1
+            to: B1
+          - from: B1
+            to: C1
+          - from: C1
+            to: D1
+          - from: D1
+            to: A1
+          - from: A
+            to: A1
+          - from: B
+            to: B1
+          - from: C
+            to: C1
+          - from: D
+            to: D1
+          - from: A
+            to: A1
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: A
+            to: C1
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: A1
+            to: C1
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: B1
+            to: D1
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: E
+            to: O
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          polygons:
+          - points:
+            - A
+            - B
+            - C
+            - D
+            fill: '#eff6ff'
+            stroke: '#94a3b8'
+            stroke_width: 1.2
+          - points:
+            - A1
+            - B1
+            - C1
+            - D1
+            fill: '#f8fafc'
+            stroke: '#94a3b8'
+            stroke_width: 1.2
+          markers:
+          - type: parallel
+            segments:
+            - - E
+              - O
+            - - A
+              - C1
+          labels:
+            A:
+              text: A
+            B:
+              text: B
+            C:
+              text: C
+            D:
+              text: D
+            A1:
+              text: A_1
+            B1:
+              text: B_1
+            C1:
+              text: C_1
+            D1:
+              text: D_1
+            E:
+              text: E
+            O:
+              text: O
+          constraints:
+          - A
+          - B
+          - C
+          - D
+          - A1
+          - B1
+          - C1
+          - D1
+          - E
+          - O
+          - ABCD-A1B1C1D1 parallelepiped
+          - E midpoint of AA1
+          - O midpoint of A1C1 and B1D1
+          teaching_focus:
+          - $O$ 是上底面对角线交点，$EO$ 中位线平行 $AC_{1}$。

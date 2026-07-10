@@ -1,0 +1,1058 @@
+version: fixed-theorem-diagram-specs/v1
+scope: 立体几何定理默写
+rules:
+  - 左侧竖式条件组是标准，固定图必须从同一条件对象生成。
+  - 每张图先声明立体几何条件，再声明三维坐标，最后由脚本生成 tikz-3dplot。
+  - renderer 必须在 3D 层校验平行、垂直、共面、交线和从属关系。
+  - 已入库定理直接引用生成后的 tikz_path，不再声明 diagram_slot。
+diagrams:
+  - theorem_id: a01-symbols
+    title: 符号约定
+    tikz_path: fixed_theorem_diagrams/tikz/a01-symbols.fragment.tex
+    diagram_labels: [A, l, alpha, beta, m]
+    points:
+      _a1: [0.4, 0.7, 0]
+      _a2: [3.1, 0.7, 0]
+      _b1: [0.0, 0.0, -0.4]
+      _b2: [3.4, 0.0, -0.4]
+      _b3: [3.4, 0.0, 1.0]
+      _b4: [0.0, 0.0, 1.0]
+      _p1: [0.0, 0.0, 0]
+      _p2: [3.6, 0.0, 0]
+      _p3: [3.6, 1.4, 0]
+      _p4: [0.0, 1.4, 0]
+      A: [1.5, 0.7, 0]
+    planes:
+      alpha: {polygon: [_p1, _p2, _p3, _p4], style: plane, label: {at: _p3}}
+      beta: {polygon: [_b1, _b2, _b3, _b4], style: planeB, label: {at: _b3}}
+    lines:
+      l: {through: [_a1, _a2], style: main, label: {at: _a2, pos: right}}
+      m: {through: [_b1, _b2], style: third, label: {at: _b2, pos: right}}
+    visible_points: [A]
+    point_labels:
+      A: {pos: above}
+    conditions:
+      - {relation: symbol_example, objects: [A, l, alpha, beta, m]}
+      - {relation: point_on_line, objects: [A, l]}
+      - {relation: line_in_plane, objects: [l, alpha]}
+
+  - theorem_id: a02-position-types
+    title: 位置关系分类
+    tikz_path: fixed_theorem_diagrams/tikz/a02-position-types.fragment.tex
+    diagram_labels: [a, b, alpha, beta]
+    points:
+      _p1: [0.0, 0.0, 0]
+      _p2: [3.6, 0.0, 0]
+      _p3: [3.6, 1.2, 0]
+      _p4: [0.0, 1.2, 0]
+      _q1: [0.3, 0.2, 0.9]
+      _q2: [3.3, 0.2, 0.9]
+      _q3: [3.3, 1.2, 0.9]
+      _q4: [0.3, 1.2, 0.9]
+      _a1: [0.5, 0.3, 0]
+      _a2: [2.9, 0.3, 0]
+      _b1: [0.6, 0.95, 0.9]
+      _b2: [3.0, 0.95, 0.9]
+    planes:
+      alpha: {polygon: [_p1, _p2, _p3, _p4], style: plane, label: {at: _p3}}
+      beta: {polygon: [_q1, _q2, _q3, _q4], style: planeB, label: {at: _q3}}
+    lines:
+      a: {through: [_a1, _a2], style: main, label: {at: _a2, pos: right}}
+      b: {through: [_b1, _b2], style: second, label: {at: _b2, pos: right}}
+    conditions:
+      - {relation: classification, objects: [a, b, alpha, beta]}
+      - {relation: line_in_plane, objects: [a, alpha]}
+      - {relation: line_in_plane, objects: [b, beta]}
+
+  - theorem_id: a03-three-points-plane
+    title: 基本事实1：三点定面
+    tikz_path: fixed_theorem_diagrams/tikz/a03-three-points-plane.fragment.tex
+    diagram_labels: [A, B, C, alpha]
+    points:
+      _p1: [0, 0, 0]
+      _p2: [3.6, 0, 0]
+      _p3: [3.6, 1.25, 0]
+      _p4: [0, 1.25, 0]
+      A: [0.75, 0.35, 0]
+      B: [2.65, 0.35, 0]
+      C: [1.65, 0.95, 0]
+    planes:
+      alpha: {polygon: [_p1, _p2, _p3, _p4], style: plane, label: {at: _p3}}
+    visible_points: [A, B, C]
+    point_labels:
+      A: {pos: below}
+      B: {pos: below}
+      C: {pos: above}
+    conditions:
+      - {relation: non_collinear, objects: [A, B, C]}
+      - {relation: point_in_plane, objects: [A, alpha]}
+      - {relation: point_in_plane, objects: [B, alpha]}
+      - {relation: point_in_plane, objects: [C, alpha]}
+
+  - theorem_id: a04-line-in-plane
+    title: 基本事实2：点线面从属
+    tikz_path: fixed_theorem_diagrams/tikz/a04-line-in-plane.fragment.tex
+    diagram_labels: [A, B, l, alpha]
+    points:
+      _p1: [0, 0, 0]
+      _p2: [3.7, 0, 0]
+      _p3: [3.7, 1.2, 0]
+      _p4: [0, 1.2, 0]
+      A: [0.85, 0.45, 0]
+      B: [2.75, 0.8, 0]
+    planes:
+      alpha: {polygon: [_p1, _p2, _p3, _p4], style: plane, label: {at: _p3}}
+    lines:
+      l: {through: [A, B], style: main, label: {at: B, pos: right}}
+    visible_points: [A, B]
+    point_labels:
+      A: {pos: below}
+      B: {pos: above}
+    conditions:
+      - {relation: point_on_line, objects: [A, l]}
+      - {relation: point_on_line, objects: [B, l]}
+      - {relation: point_in_plane, objects: [A, alpha]}
+      - {relation: point_in_plane, objects: [B, alpha]}
+      - {relation: line_in_plane, objects: [l, alpha]}
+
+  - theorem_id: a05-common-point-line
+    title: 基本事实3：公共点推出交线
+    tikz_path: fixed_theorem_diagrams/tikz/a05-common-point-line.fragment.tex
+    diagram_labels: [P, alpha, beta, m]
+    points:
+      _a1: [0, -0.7, 0]
+      _a2: [3.6, -0.7, 0]
+      _a3: [3.6, 1.0, 0]
+      _a4: [0, 1.0, 0]
+      _b1: [0, 0, -0.55]
+      _b2: [3.6, 0, -0.55]
+      _b3: [3.6, 0, 1.05]
+      _b4: [0, 0, 1.05]
+      _m1: [0.35, 0, 0]
+      _m2: [3.2, 0, 0]
+      P: [1.75, 0, 0]
+    planes:
+      alpha: {polygon: [_a1, _a2, _a3, _a4], style: plane, label: {at: _a3}}
+      beta: {polygon: [_b1, _b2, _b3, _b4], style: planeB, label: {at: _b3}}
+    lines:
+      m: {through: [_m1, _m2], style: third, label: {at: _m2, pos: right}}
+    visible_points: [P]
+    point_labels:
+      P: {pos: above}
+    conditions:
+      - {relation: point_in_plane, objects: [P, alpha]}
+      - {relation: point_in_plane, objects: [P, beta]}
+      - {relation: plane_intersection_line, objects: [alpha, beta, m]}
+      - {relation: point_on_line, objects: [P, m]}
+
+  - theorem_id: a06-line-point-plane
+    title: 推论1：直线与线外一点定面
+    tikz_path: fixed_theorem_diagrams/tikz/a06-line-point-plane.fragment.tex
+    diagram_labels: [a, P, alpha]
+    points:
+      _p1: [0, 0, 0]
+      _p2: [3.7, 0, 0]
+      _p3: [3.7, 1.2, 0]
+      _p4: [0, 1.2, 0]
+      _a1: [0.65, 0.35, 0]
+      _a2: [2.8, 0.35, 0]
+      P: [1.75, 0.95, 0]
+    planes:
+      alpha: {polygon: [_p1, _p2, _p3, _p4], style: plane, label: {at: _p3}}
+    lines:
+      a: {through: [_a1, _a2], style: main, label: {at: _a2, pos: right}}
+    visible_points: [P]
+    point_labels:
+      P: {pos: above}
+    conditions:
+      - {relation: line_in_plane, objects: [a, alpha]}
+      - {relation: point_in_plane, objects: [P, alpha]}
+      - {relation: point_not_on_line, objects: [P, a]}
+
+  - theorem_id: a07-intersecting-lines-plane
+    title: 推论2：相交直线定面
+    tikz_path: fixed_theorem_diagrams/tikz/a07-intersecting-lines-plane.fragment.tex
+    diagram_labels: [a, b, P, alpha]
+    points:
+      _p1: [0, 0, 0]
+      _p2: [3.7, 0, 0]
+      _p3: [3.7, 1.2, 0]
+      _p4: [0, 1.2, 0]
+      _a1: [0.65, 0.35, 0]
+      _a2: [3.0, 0.35, 0]
+      _b1: [1.6, 0.05, 0]
+      _b2: [1.6, 1.05, 0]
+      P: [1.6, 0.35, 0]
+    planes:
+      alpha: {polygon: [_p1, _p2, _p3, _p4], style: plane, label: {at: _p3}}
+    lines:
+      a: {through: [_a1, _a2], style: main, label: {at: _a2, pos: right}}
+      b: {through: [_b1, _b2], style: second, label: {at: _b2, pos: above}}
+    visible_points: [P]
+    point_labels:
+      P: {pos: below right}
+    conditions:
+      - {relation: line_in_plane, objects: [a, alpha]}
+      - {relation: line_in_plane, objects: [b, alpha]}
+      - {relation: intersect_at, objects: [a, b, P]}
+
+  - theorem_id: a08-parallel-lines-plane
+    title: 推论3：平行直线定面
+    tikz_path: fixed_theorem_diagrams/tikz/a08-parallel-lines-plane.fragment.tex
+    diagram_labels: [a, b, alpha]
+    points:
+      _p1: [0, 0, 0]
+      _p2: [3.7, 0, 0]
+      _p3: [3.7, 1.25, 0]
+      _p4: [0, 1.25, 0]
+      _a1: [0.65, 0.38, 0]
+      _a2: [3.0, 0.38, 0]
+      _b1: [0.85, 0.9, 0]
+      _b2: [3.2, 0.9, 0]
+    planes:
+      alpha: {polygon: [_p1, _p2, _p3, _p4], style: plane, label: {at: _p3}}
+    lines:
+      a: {through: [_a1, _a2], style: main, label: {at: _a2, pos: right}}
+      b: {through: [_b1, _b2], style: second, label: {at: _b2, pos: right}}
+    conditions:
+      - {relation: line_in_plane, objects: [a, alpha]}
+      - {relation: line_in_plane, objects: [b, alpha]}
+      - {relation: parallel, objects: [a, b]}
+
+  - theorem_id: b01-parallel-transitive
+    title: 平行传递性
+    tikz_path: fixed_theorem_diagrams/tikz/b01-parallel-transitive.fragment.tex
+    diagram_labels: [a, b, c]
+    points:
+      _a1: [0.45, 0.2, 0.8]
+      _a2: [3.1, 0.2, 0.8]
+      _b1: [0.35, 0.65, 0.35]
+      _b2: [3.0, 0.65, 0.35]
+      _c1: [0.6, 1.05, 0]
+      _c2: [3.25, 1.05, 0]
+    lines:
+      a: {through: [_a1, _a2], style: main, label: {at: _a2, pos: right}}
+      b: {through: [_b1, _b2], style: second, label: {at: _b2, pos: right}}
+      c: {through: [_c1, _c2], style: third, label: {at: _c2, pos: right}}
+    conditions:
+      - {relation: parallel, objects: [a, b]}
+      - {relation: parallel, objects: [b, c]}
+      - {relation: parallel, objects: [a, c]}
+
+  - theorem_id: b02-equal-angle
+    title: 等角定理
+    tikz_path: fixed_theorem_diagrams/tikz/b02-equal-angle.fragment.tex
+    diagram_labels: [a, b, a_prime, b_prime]
+    points:
+      O: [0.9, 0.35, 0]
+      O2: [2.55, 0.35, 0]
+      _a1: [0.25, 0.35, 0]
+      _a2: [1.5, 0.35, 0]
+      _b1: [0.9, 0.35, 0]
+      _b2: [1.55, 1.0, 0]
+      _ap1: [1.9, 0.35, 0]
+      _ap2: [3.15, 0.35, 0]
+      _bp1: [2.55, 0.35, 0]
+      _bp2: [3.2, 1.0, 0]
+    lines:
+      a: {through: [_a1, _a2], style: main, label: {at: _a2, pos: right}}
+      b: {through: [_b1, _b2], style: second, label: {at: _b2, pos: above}}
+      a_prime: {through: [_ap1, _ap2], style: main, label: {at: _ap2, pos: right}}
+      b_prime: {through: [_bp1, _bp2], style: second, label: {at: _bp2, pos: above}}
+    marks:
+      - {type: arc, at: O, lines: [a, b], radius: 0.34}
+      - {type: arc, at: O2, lines: [a_prime, b_prime], radius: 0.34}
+    conditions:
+      - {relation: parallel, objects: [a, a_prime]}
+      - {relation: parallel, objects: [b, b_prime]}
+      - {relation: angle_between, objects: [a, b]}
+      - {relation: angle_between, objects: [a_prime, b_prime]}
+
+  - theorem_id: b03-line-plane-parallel-judge
+    title: 线面平行判定
+    tikz_path: fixed_theorem_diagrams/tikz/b03-line-plane-parallel-judge.fragment.tex
+    diagram_labels: [a, b, alpha]
+    points:
+      _p1: [0, 0, 0]
+      _p2: [3.7, 0, 0]
+      _p3: [3.7, 1.2, 0]
+      _p4: [0, 1.2, 0]
+      _b1: [0.75, 0.55, 0]
+      _b2: [3.0, 0.55, 0]
+      _a1: [0.85, 0.55, 0.8]
+      _a2: [3.1, 0.55, 0.8]
+    planes:
+      alpha: {polygon: [_p1, _p2, _p3, _p4], style: plane, label: {at: _p3}}
+    lines:
+      b: {through: [_b1, _b2], style: main, label: {at: _b2, pos: right}}
+      a: {through: [_a1, _a2], style: second, label: {at: _a2, pos: right}}
+    conditions:
+      - {relation: line_in_plane, objects: [b, alpha]}
+      - {relation: line_not_in_plane, objects: [a, alpha]}
+      - {relation: parallel, objects: [a, b]}
+
+  - theorem_id: b04-line-plane-parallel-property
+    title: 线面平行性质
+    tikz_path: fixed_theorem_diagrams/tikz/b04-line-plane-parallel-property.fragment.tex
+    diagram_labels: [a, b, alpha, beta]
+    points:
+      _a1: [0, 0, 0]
+      _a2: [3.8, 0, 0]
+      _a3: [3.8, 1.25, 0]
+      _a4: [0, 1.25, 0]
+      _b1: [0.35, 0.62, 0]
+      _b2: [3.35, 0.62, 0]
+      _b3: [3.35, 0.62, 1.2]
+      _b4: [0.35, 0.62, 1.2]
+      _l1: [0.65, 0.62, 0]
+      _l2: [3.1, 0.62, 0]
+      _u1: [0.8, 0.62, 0.8]
+      _u2: [3.25, 0.62, 0.8]
+    planes:
+      alpha: {polygon: [_a1, _a2, _a3, _a4], style: plane, label: {at: _a3}}
+      beta: {polygon: [_b1, _b2, _b3, _b4], style: planeB, label: {at: _b3}}
+    lines:
+      b: {through: [_l1, _l2], style: third, label: {at: _l2, pos: right}}
+      a: {through: [_u1, _u2], style: main, label: {at: _u2, pos: right}}
+    conditions:
+      - {relation: plane_intersection_line, objects: [alpha, beta, b]}
+      - {relation: line_in_plane, objects: [a, beta]}
+      - {relation: line_not_in_plane, objects: [a, alpha]}
+      - {relation: parallel, objects: [a, b]}
+
+  - theorem_id: b05-plane-plane-parallel-judge
+    title: 面面平行判定
+    tikz_path: fixed_theorem_diagrams/tikz/b05-plane-plane-parallel-judge.fragment.tex
+    diagram_labels: [a, b, a_prime, b_prime, alpha, beta]
+    points:
+      _ap1: [0, 0, 0]
+      _ap2: [3.5, 0, 0]
+      _ap3: [3.5, 1.05, 0]
+      _ap4: [0, 1.05, 0]
+      _bp1: [0, 0, 1.05]
+      _bp2: [3.5, 0, 1.05]
+      _bp3: [3.5, 1.05, 1.05]
+      _bp4: [0, 1.05, 1.05]
+      P: [1.45, 0.52, 0]
+      _a1: [0.65, 0.52, 0]
+      _a2: [2.65, 0.52, 0]
+      _b1: [1.45, 0.15, 0]
+      _b2: [1.45, 0.95, 0]
+      _aa1: [0.65, 0.52, 1.05]
+      _aa2: [2.65, 0.52, 1.05]
+      _bb1: [1.45, 0.15, 1.05]
+      _bb2: [1.45, 0.95, 1.05]
+    planes:
+      alpha: {polygon: [_ap1, _ap2, _ap3, _ap4], style: plane, label: {at: _ap3}}
+      beta: {polygon: [_bp1, _bp2, _bp3, _bp4], style: planeB, label: {at: _bp3}}
+    lines:
+      a: {through: [_a1, _a2], style: main, label: {at: _a2, pos: right}}
+      b: {through: [_b1, _b2], style: second, label: {at: _b2, pos: above}}
+      a_prime: {through: [_aa1, _aa2], style: main, label: {at: _aa2, pos: right}}
+      b_prime: {through: [_bb1, _bb2], style: second, label: {at: _bb2, pos: above}}
+    conditions:
+      - {relation: line_in_plane, objects: [a, alpha]}
+      - {relation: line_in_plane, objects: [b, alpha]}
+      - {relation: intersect_at, objects: [a, b, P]}
+      - {relation: line_in_plane, objects: [a_prime, beta]}
+      - {relation: line_in_plane, objects: [b_prime, beta]}
+      - {relation: parallel, objects: [a, a_prime]}
+      - {relation: parallel, objects: [b, b_prime]}
+      - {relation: parallel, objects: [alpha, beta]}
+
+  - theorem_id: b06-plane-plane-parallel-property
+    title: 面面平行性质
+    tikz_path: fixed_theorem_diagrams/tikz/b06-plane-plane-parallel-property.fragment.tex
+    diagram_labels: [alpha, beta, gamma, a, b]
+    points:
+      _ap1: [0, 0, 0]
+      _ap2: [3.6, 0, 0]
+      _ap3: [3.6, 1.1, 0]
+      _ap4: [0, 1.1, 0]
+      _bp1: [0, 0, 1.0]
+      _bp2: [3.6, 0, 1.0]
+      _bp3: [3.6, 1.1, 1.0]
+      _bp4: [0, 1.1, 1.0]
+      _gp1: [0.45, 0.55, -0.25]
+      _gp2: [3.25, 0.55, -0.25]
+      _gp3: [3.25, 0.55, 1.35]
+      _gp4: [0.45, 0.55, 1.35]
+      _a1: [0.55, 0.55, 0]
+      _a2: [3.1, 0.55, 0]
+      _b1: [0.55, 0.55, 1.0]
+      _b2: [3.1, 0.55, 1.0]
+    planes:
+      alpha: {polygon: [_ap1, _ap2, _ap3, _ap4], style: plane, label: {at: _ap3}}
+      beta: {polygon: [_bp1, _bp2, _bp3, _bp4], style: planeB, label: {at: _bp3}}
+      gamma: {polygon: [_gp1, _gp2, _gp3, _gp4], style: planeC, label: {at: _gp3}}
+    lines:
+      a: {through: [_a1, _a2], style: main, label: {at: _a2, pos: right}}
+      b: {through: [_b1, _b2], style: second, label: {at: _b2, pos: right}}
+    conditions:
+      - {relation: parallel, objects: [alpha, beta]}
+      - {relation: plane_intersection_line, objects: [alpha, gamma, a]}
+      - {relation: plane_intersection_line, objects: [beta, gamma, b]}
+      - {relation: parallel, objects: [a, b]}
+
+  - theorem_id: b07-plane-plane-parallel-extra
+    title: 面面平行的常用性质
+    tikz_path: fixed_theorem_diagrams/tikz/b07-plane-plane-parallel-extra.fragment.tex
+    diagram_labels: [a, alpha, beta]
+    points:
+      _ap1: [0, 0, 0]
+      _ap2: [3.6, 0, 0]
+      _ap3: [3.6, 1.1, 0]
+      _ap4: [0, 1.1, 0]
+      _bp1: [0, 0, 1.0]
+      _bp2: [3.6, 0, 1.0]
+      _bp3: [3.6, 1.1, 1.0]
+      _bp4: [0, 1.1, 1.0]
+      _l1: [0.65, 0.55, 0]
+      _l2: [2.95, 0.55, 0]
+    planes:
+      alpha: {polygon: [_ap1, _ap2, _ap3, _ap4], style: plane, label: {at: _ap3}}
+      beta: {polygon: [_bp1, _bp2, _bp3, _bp4], style: planeB, label: {at: _bp3}}
+    lines:
+      a: {through: [_l1, _l2], style: main, label: {at: _l2, pos: right}}
+    conditions:
+      - {relation: parallel, objects: [alpha, beta]}
+      - {relation: line_in_plane, objects: [a, alpha]}
+
+  - theorem_id: b08-intersection-line-parallel
+    title: 相交两平面内平行线与交线
+    tikz_path: fixed_theorem_diagrams/tikz/b08-intersection-line-parallel.fragment.tex
+    diagram_labels: [alpha, beta, m, l_1, l_2]
+    points:
+      _a1: [0, 0, 0]
+      _a2: [3.7, 0, 0]
+      _a3: [3.7, 1.2, 0]
+      _a4: [0, 1.2, 0]
+      _b1: [0, 0, -0.45]
+      _b2: [3.7, 0, -0.45]
+      _b3: [3.7, 0, 1.1]
+      _b4: [0, 0, 1.1]
+      _m1: [0.45, 0, 0]
+      _m2: [3.2, 0, 0]
+      _l11: [0.65, 0.75, 0]
+      _l12: [3.0, 0.75, 0]
+      _l21: [0.75, 0, 0.75]
+      _l22: [3.1, 0, 0.75]
+    planes:
+      alpha: {polygon: [_a1, _a2, _a3, _a4], style: plane, label: {at: _a3}}
+      beta: {polygon: [_b1, _b2, _b3, _b4], style: planeB, label: {at: _b3}}
+    lines:
+      m: {through: [_m1, _m2], style: third, label: {at: _m2, pos: right}}
+      l_1: {through: [_l11, _l12], style: main, label: {at: _l12, text: "$l_1$", pos: right}}
+      l_2: {through: [_l21, _l22], style: second, label: {at: _l22, text: "$l_2$", pos: right}}
+    conditions:
+      - {relation: plane_intersection_line, objects: [alpha, beta, m]}
+      - {relation: line_in_plane, objects: [l_1, alpha]}
+      - {relation: line_in_plane, objects: [l_2, beta]}
+      - {relation: parallel, objects: [l_1, l_2]}
+      - {relation: parallel, objects: [l_1, m]}
+      - {relation: parallel, objects: [l_2, m]}
+
+  - theorem_id: c01-skew-perpendicular
+    title: 异面直线垂直定义
+    tikz_path: fixed_theorem_diagrams/tikz/c01-skew-perpendicular.fragment.tex
+    diagram_labels: [a, a_prime, b, O]
+    points:
+      O: [1.7, 0.65, 0]
+      _ap1: [0.8, 0.65, 0]
+      _ap2: [2.65, 0.65, 0]
+      _b1: [1.7, -0.15, 0]
+      _b2: [1.7, 1.35, 0]
+      _a1: [0.7, 0.1, 0.95]
+      _a2: [2.55, 0.1, 0.95]
+    lines:
+      a_prime: {through: [_ap1, _ap2], style: main, label: {at: _ap2, pos: right}}
+      b: {through: [_b1, _b2], style: second, label: {at: _b2, pos: above}}
+      a: {through: [_a1, _a2], style: main, label: {at: _a2, pos: right}}
+    visible_points: [O]
+    point_labels:
+      O: {pos: below right}
+    marks:
+      - {type: right_angle, at: O, lines: [a_prime, b], size: 0.16}
+    conditions:
+      - {relation: parallel, objects: [a, a_prime]}
+      - {relation: intersect_at, objects: [a_prime, b, O]}
+      - {relation: perpendicular, objects: [a_prime, b]}
+
+  - theorem_id: c02-line-plane-perp-definition
+    title: 线面垂直定义推论
+    tikz_path: fixed_theorem_diagrams/tikz/c02-line-plane-perp-definition.fragment.tex
+    diagram_labels: [a, b, alpha]
+    points:
+      _p1: [0, 0, 0]
+      _p2: [3.6, 0, 0]
+      _p3: [3.6, 1.2, 0]
+      _p4: [0, 1.2, 0]
+      O: [1.7, 0.6, 0]
+      _u: [1.7, 0.6, 1.35]
+      _b1: [0.85, 0.6, 0]
+      _b2: [2.85, 0.6, 0]
+    planes:
+      alpha: {polygon: [_p1, _p2, _p3, _p4], style: plane, label: {at: _p3}}
+    lines:
+      a: {through: [O, _u], style: main, label: {at: _u, pos: above}}
+      b: {through: [_b1, _b2], style: second, label: {at: _b2, pos: right}}
+    marks:
+      - {type: right_angle, at: O, lines: [a, b], size: 0.16}
+    conditions:
+      - {relation: perpendicular, objects: [a, alpha]}
+      - {relation: line_in_plane, objects: [b, alpha]}
+      - {relation: perpendicular, objects: [a, b]}
+
+  - theorem_id: c03-line-plane-perp-judge
+    title: 线面垂直判定
+    tikz_path: fixed_theorem_diagrams/tikz/c03-line-plane-perp-judge.fragment.tex
+    diagram_labels: [l, m, n, P, alpha]
+    points:
+      _p1: [0, 0, 0]
+      _p2: [3.6, 0, 0]
+      _p3: [3.6, 1.25, 0]
+      _p4: [0, 1.25, 0]
+      P: [1.7, 0.65, 0]
+      _u: [1.7, 0.65, 1.35]
+      _m1: [0.65, 0.65, 0]
+      _m2: [2.85, 0.65, 0]
+      _n1: [1.7, 0.15, 0]
+      _n2: [1.7, 1.12, 0]
+    planes:
+      alpha: {polygon: [_p1, _p2, _p3, _p4], style: plane, label: {at: _p3}}
+    lines:
+      l: {through: [P, _u], style: main, label: {at: _u, pos: above}}
+      m: {through: [_m1, _m2], style: second, label: {at: _m2, pos: right}}
+      n: {through: [_n1, _n2], style: third, label: {at: _n2, pos: above}}
+    visible_points: [P]
+    point_labels:
+      P: {pos: below right}
+    marks:
+      - {type: right_angle, at: P, lines: [l, m], size: 0.15}
+      - {type: right_angle, at: P, lines: [l, n], size: 0.2, reverse2: true}
+    conditions:
+      - {relation: line_in_plane, objects: [m, alpha]}
+      - {relation: line_in_plane, objects: [n, alpha]}
+      - {relation: intersect_at, objects: [m, n, P]}
+      - {relation: perpendicular, objects: [l, m]}
+      - {relation: perpendicular, objects: [l, n]}
+      - {relation: perpendicular, objects: [l, alpha]}
+
+  - theorem_id: c04-line-plane-perp-property
+    title: 线面垂直性质
+    tikz_path: fixed_theorem_diagrams/tikz/c04-line-plane-perp-property.fragment.tex
+    diagram_labels: [a, b, alpha]
+    points:
+      _p1: [0, 0, 0]
+      _p2: [3.6, 0, 0]
+      _p3: [3.6, 1.2, 0]
+      _p4: [0, 1.2, 0]
+      _a0: [1.1, 0.45, 0]
+      _a1: [1.1, 0.45, 1.2]
+      _b0: [2.4, 0.75, 0]
+      _b1: [2.4, 0.75, 1.2]
+    planes:
+      alpha: {polygon: [_p1, _p2, _p3, _p4], style: plane, label: {at: _p3}}
+    lines:
+      a: {through: [_a0, _a1], style: main, label: {at: _a1, pos: above}}
+      b: {through: [_b0, _b1], style: second, label: {at: _b1, pos: above}}
+    conditions:
+      - {relation: perpendicular, objects: [a, alpha]}
+      - {relation: perpendicular, objects: [b, alpha]}
+      - {relation: parallel, objects: [a, b]}
+
+  - theorem_id: c05-plane-plane-perp-judge
+    title: 面面垂直判定
+    tikz_path: fixed_theorem_diagrams/tikz/c05-plane-plane-perp-judge.fragment.tex
+    diagram_labels: [l, alpha, beta]
+    points:
+      _a1: [0, 0, 0]
+      _a2: [3.6, 0, 0]
+      _a3: [3.6, 1.2, 0]
+      _a4: [0, 1.2, 0]
+      _b1: [1.55, 0, -0.35]
+      _b2: [1.55, 1.2, -0.35]
+      _b3: [1.55, 1.2, 1.25]
+      _b4: [1.55, 0, 1.25]
+      _l1: [1.55, 0.25, 0]
+      _l2: [1.55, 0.95, 0]
+    planes:
+      alpha: {polygon: [_a1, _a2, _a3, _a4], style: plane, label: {at: _a3}}
+      beta: {polygon: [_b1, _b2, _b3, _b4], style: planeB, label: {at: _b3}}
+    lines:
+      l: {through: [_l1, _l2], style: main, label: {at: _l2, pos: above}}
+    conditions:
+      - {relation: line_in_plane, objects: [l, alpha]}
+      - {relation: line_in_plane, objects: [l, beta]}
+      - {relation: plane_intersection_line, objects: [alpha, beta, l]}
+      - {relation: perpendicular, objects: [beta, alpha]}
+
+  - theorem_id: c06-plane-plane-perp-property
+    title: 面面垂直性质
+    tikz_path: fixed_theorem_diagrams/tikz/c06-plane-plane-perp-property.fragment.tex
+    diagram_labels: [a, l, alpha, beta]
+    points:
+      _b1: [0, 0, 0]
+      _b2: [3.6, 0, 0]
+      _b3: [3.6, 1.2, 0]
+      _b4: [0, 1.2, 0]
+      _a1: [1.55, 0, -0.35]
+      _a2: [1.55, 1.2, -0.35]
+      _a3: [1.55, 1.2, 1.25]
+      _a4: [1.55, 0, 1.25]
+      _l1: [1.55, 0.25, 0]
+      _l2: [1.55, 0.95, 0]
+      _u0: [1.55, 0.6, 0]
+      _u1: [1.55, 0.6, 1.15]
+    planes:
+      beta: {polygon: [_b1, _b2, _b3, _b4], style: plane, label: {at: _b3}}
+      alpha: {polygon: [_a1, _a2, _a3, _a4], style: planeB, label: {at: _a4, pos: above}}
+    lines:
+      l: {through: [_l1, _l2], style: third, label: {at: _l2, pos: above}}
+      a: {through: [_u0, _u1], style: main, label: {at: _u1, pos: left}}
+    marks:
+      - {type: right_angle, at: _u0, lines: [a, l], size: 0.16}
+    conditions:
+      - {relation: perpendicular, objects: [alpha, beta]}
+      - {relation: plane_intersection_line, objects: [alpha, beta, l]}
+      - {relation: line_in_plane, objects: [a, alpha]}
+      - {relation: perpendicular, objects: [a, l]}
+      - {relation: perpendicular, objects: [a, beta]}
+
+  - theorem_id: c07-three-perpendicular
+    title: 三垂线定理
+    tikz_path: fixed_theorem_diagrams/tikz/c07-three-perpendicular.fragment.tex
+    diagram_labels: [P, A, B, l, alpha]
+    points:
+      _p1: [0, 0, 0]
+      _p2: [3.8, 0, 0]
+      _p3: [3.8, 1.25, 0]
+      _p4: [0, 1.25, 0]
+      A: [1.15, 0.65, 0]
+      P: [1.15, 0.65, 1.15]
+      B: [2.55, 0.65, 0]
+      _l1: [2.55, 0.1, 0]
+      _l2: [2.55, 1.12, 0]
+    planes:
+      alpha: {polygon: [_p1, _p2, _p3, _p4], style: plane, label: {at: _p3}}
+    lines:
+      PA: {through: [P, A], style: ghost, label: false}
+      AB: {through: [A, B], style: third, label: false}
+      PB: {through: [P, B], style: main, label: false}
+      l: {through: [_l1, _l2], style: second, label: {at: _l2, pos: above}}
+    visible_points: [P, A, B]
+    point_labels:
+      P: {pos: above}
+      A: {pos: below}
+      B: {pos: below}
+    marks:
+      - {type: right_angle, at: A, lines: [PA, AB], size: 0.15}
+      - {type: right_angle, at: B, lines: [AB, l], size: 0.15}
+    conditions:
+      - {relation: perpendicular, objects: [PA, alpha]}
+      - {relation: line_in_plane, objects: [AB, alpha]}
+      - {relation: line_in_plane, objects: [l, alpha]}
+      - {relation: perpendicular, objects: [l, AB]}
+      - {relation: perpendicular, objects: [l, PB]}
+
+  - theorem_id: c08-three-perpendicular-converse
+    title: 三垂线逆定理
+    tikz_path: fixed_theorem_diagrams/tikz/c08-three-perpendicular-converse.fragment.tex
+    diagram_labels: [P, A, B, l, alpha]
+    points:
+      _p1: [0, 0, 0]
+      _p2: [3.8, 0, 0]
+      _p3: [3.8, 1.25, 0]
+      _p4: [0, 1.25, 0]
+      A: [1.15, 0.65, 0]
+      P: [1.15, 0.65, 1.15]
+      B: [2.55, 0.65, 0]
+      _l1: [2.55, 0.1, 0]
+      _l2: [2.55, 1.12, 0]
+    planes:
+      alpha: {polygon: [_p1, _p2, _p3, _p4], style: plane, label: {at: _p3}}
+    lines:
+      PA: {through: [P, A], style: ghost, label: false}
+      AB: {through: [A, B], style: third, label: false}
+      PB: {through: [P, B], style: main, label: false}
+      l: {through: [_l1, _l2], style: second, label: {at: _l2, pos: above}}
+    visible_points: [P, A, B]
+    point_labels:
+      P: {pos: above}
+      A: {pos: below}
+      B: {pos: below}
+    marks:
+      - {type: right_angle, at: A, lines: [PA, AB], size: 0.15}
+      - {type: right_angle, at: B, lines: [PB, l], size: 0.15}
+    conditions:
+      - {relation: perpendicular, objects: [PA, alpha]}
+      - {relation: line_in_plane, objects: [AB, alpha]}
+      - {relation: line_in_plane, objects: [l, alpha]}
+      - {relation: perpendicular, objects: [l, PB]}
+      - {relation: perpendicular, objects: [l, AB]}
+
+  - theorem_id: c09-min-angle
+    title: 最小角定理
+    tikz_path: fixed_theorem_diagrams/tikz/c09-min-angle.fragment.tex
+    diagram_labels: [l, A, H, AH, b, alpha]
+    points:
+      _p1: [0, 0, 0]
+      _p2: [3.8, 0, 0]
+      _p3: [3.8, 1.25, 0]
+      _p4: [0, 1.25, 0]
+      A: [0.9, 0.65, 0]
+      H: [2.25, 0.65, 0]
+      P: [2.25, 0.65, 1.05]
+      _b2: [2.55, 1.1, 0]
+    planes:
+      alpha: {polygon: [_p1, _p2, _p3, _p4], style: plane, label: {at: _p3}}
+    lines:
+      l: {through: [A, P], style: main, label: {at: P, pos: above}}
+      AH: {through: [A, H], style: third, label: {at: [1.58, 0.65, 0], pos: below}}
+      b: {through: [A, _b2], style: second, label: {at: _b2, pos: right}}
+      PH: {through: [P, H], style: ghost, label: false}
+    visible_points: [A, H]
+    point_labels:
+      A: {pos: below left}
+      H: {pos: below right}
+    marks:
+      - {type: arc, at: A, lines: [l, b], radius: 0.34}
+    conditions:
+      - {relation: perpendicular, objects: [PH, alpha]}
+      - {relation: line_in_plane, objects: [AH, alpha]}
+      - {relation: line_in_plane, objects: [b, alpha]}
+      - {relation: angle_between, objects: [l, AH]}
+      - {relation: angle_between, objects: [l, b]}
+
+  - theorem_id: d01-point-line-distance
+    title: 点到直线距离
+    tikz_path: fixed_theorem_diagrams/tikz/d01-point-line-distance.fragment.tex
+    diagram_labels: [P, H, l]
+    points:
+      _l1: [0.55, 0, 0]
+      _l2: [3.0, 0, 0]
+      H: [1.75, 0, 0]
+      P: [1.75, 0, 1.05]
+    lines:
+      l: {through: [_l1, _l2], style: main, label: {at: _l2, pos: above right}}
+      PH: {through: [P, H], style: second, label: false}
+    visible_points: [P, H]
+    point_labels:
+      P: {pos: above}
+      H: {pos: below left}
+    marks:
+      - {type: right_angle, at: H, lines: [PH, l], size: 0.16}
+    conditions:
+      - {relation: point_on_line, objects: [H, l]}
+      - {relation: perpendicular, objects: [PH, l]}
+      - {relation: distance_between, objects: [P, l]}
+
+  - theorem_id: d02-point-plane-distance
+    title: 点到平面距离
+    tikz_path: fixed_theorem_diagrams/tikz/d02-point-plane-distance.fragment.tex
+    diagram_labels: [P, H, alpha]
+    points:
+      _p1: [0, 0, 0]
+      _p2: [3.6, 0, 0]
+      _p3: [3.6, 1.2, 0]
+      _p4: [0, 1.2, 0]
+      H: [1.8, 0.6, 0]
+      P: [1.8, 0.6, 1.25]
+    planes:
+      alpha: {polygon: [_p1, _p2, _p3, _p4], style: plane, label: {at: _p3}}
+    lines:
+      PH: {through: [P, H], style: main, label: false}
+    visible_points: [P, H]
+    point_labels:
+      P: {pos: above}
+      H: {pos: below}
+    conditions:
+      - {relation: point_in_plane, objects: [H, alpha]}
+      - {relation: perpendicular, objects: [PH, alpha]}
+      - {relation: distance_between, objects: [P, alpha]}
+
+  - theorem_id: d03-line-plane-distance
+    title: 线面距转点面距
+    tikz_path: fixed_theorem_diagrams/tikz/d03-line-plane-distance.fragment.tex
+    diagram_labels: [a, P, alpha]
+    points:
+      _p1: [0, 0, 0]
+      _p2: [3.7, 0, 0]
+      _p3: [3.7, 1.2, 0]
+      _p4: [0, 1.2, 0]
+      _a1: [0.7, 0.62, 0.95]
+      _a2: [3.0, 0.62, 0.95]
+      P: [1.7, 0.62, 0.95]
+      H: [1.7, 0.62, 0]
+    planes:
+      alpha: {polygon: [_p1, _p2, _p3, _p4], style: plane, label: {at: _p3}}
+    lines:
+      a: {through: [_a1, _a2], style: main, label: {at: _a2, pos: right}}
+      PH: {through: [P, H], style: ghost, label: false}
+    visible_points: [P]
+    point_labels:
+      P: {pos: above}
+    conditions:
+      - {relation: line_not_in_plane, objects: [a, alpha]}
+      - {relation: point_on_line, objects: [P, a]}
+      - {relation: perpendicular, objects: [PH, alpha]}
+      - {relation: distance_between, objects: [a, alpha]}
+
+  - theorem_id: d04-plane-plane-distance
+    title: 面面距转点面距
+    tikz_path: fixed_theorem_diagrams/tikz/d04-plane-plane-distance.fragment.tex
+    diagram_labels: [P, alpha, beta]
+    points:
+      _a1: [0, 0, 0]
+      _a2: [3.6, 0, 0]
+      _a3: [3.6, 1.15, 0]
+      _a4: [0, 1.15, 0]
+      _b1: [0, 0, 1.0]
+      _b2: [3.6, 0, 1.0]
+      _b3: [3.6, 1.15, 1.0]
+      _b4: [0, 1.15, 1.0]
+      P: [1.75, 0.55, 1.0]
+      H: [1.75, 0.55, 0]
+    planes:
+      alpha: {polygon: [_a1, _a2, _a3, _a4], style: plane, label: {at: _a3}}
+      beta: {polygon: [_b1, _b2, _b3, _b4], style: planeB, label: {at: _b3}}
+    lines:
+      PH: {through: [P, H], style: ghost, label: false}
+    visible_points: [P]
+    point_labels:
+      P: {pos: above}
+    conditions:
+      - {relation: parallel, objects: [alpha, beta]}
+      - {relation: point_in_plane, objects: [P, beta]}
+      - {relation: perpendicular, objects: [PH, alpha]}
+      - {relation: distance_between, objects: [alpha, beta]}
+
+  - theorem_id: d05-skew-distance
+    title: 异面直线距离
+    tikz_path: fixed_theorem_diagrams/tikz/d05-skew-distance.fragment.tex
+    diagram_labels: [a, b, M, N]
+    points:
+      _a1: [0.5, 0, 0]
+      _a2: [3.1, 0, 0]
+      _b1: [1.8, -0.8, 1.0]
+      _b2: [1.8, 1.0, 1.0]
+      M: [1.8, 0, 0]
+      N: [1.8, 0, 1.0]
+    lines:
+      a: {through: [_a1, _a2], style: main, label: {at: _a2, pos: right}}
+      b: {through: [_b1, _b2], style: second, label: {at: _b2, pos: above}}
+      MN: {through: [M, N], style: third, label: false}
+    visible_points: [M, N]
+    point_labels:
+      M: {pos: below}
+      N: {pos: above}
+    marks:
+      - {type: right_angle, at: M, lines: [MN, a], size: 0.14}
+      - {type: right_angle, at: N, lines: [MN, b], size: 0.14}
+    conditions:
+      - {relation: point_on_line, objects: [M, a]}
+      - {relation: point_on_line, objects: [N, b]}
+      - {relation: perpendicular, objects: [MN, a]}
+      - {relation: perpendicular, objects: [MN, b]}
+      - {relation: distance_between, objects: [a, b]}
+
+  - theorem_id: d06-volume-distance
+    title: 等体积法求点面距
+    tikz_path: fixed_theorem_diagrams/tikz/d06-volume-distance.fragment.tex
+    diagram_labels: [P, A, B, C, H, h]
+    view: {theta: 66, phi: 118}
+    points:
+      A: [0.25, 0.12, 0]
+      B: [3.35, 0.18, 0]
+      C: [1.48, 1.55, 0]
+      H: [1.78, 0.64, 0]
+      P: [1.78, 0.64, 1.45]
+    polygons:
+      ABC: {points: [A, B, C], style: surfaceB, label: false}
+    lines:
+      PA: {through: [P, A], style: second, label: false}
+      PB: {through: [P, B], style: second, label: false}
+      PC: {through: [P, C], style: second, label: false}
+      h: {through: [P, H], style: aux, label: {at: [1.95, 0.68, 0.7], text: "$h$", pos: right}}
+      AH: {through: [A, H], draw: false, label: false}
+    visible_points: [P, A, B, C, H]
+    point_labels:
+      P: {pos: above}
+      A: {pos: below left}
+      B: {pos: below}
+      C: {pos: right}
+      H: {pos: below right}
+    marks:
+      - {type: right_angle, at: H, lines: [h, AH], size: 0.14}
+    conditions:
+      - {relation: volume_height, objects: [P, A, B, C, h]}
+
+  - theorem_id: d07-skew-angle
+    title: 异面直线所成角
+    tikz_path: fixed_theorem_diagrams/tikz/d07-skew-angle.fragment.tex
+    diagram_labels: [a, b, a_prime, b_prime, O]
+    points:
+      O: [1.7, 0.55, 0]
+      _ap1: [0.85, 0.55, 0]
+      _ap2: [2.55, 0.55, 0]
+      _bp1: [1.7, 0.55, 0]
+      _bp2: [2.45, 1.25, 0]
+      _a1: [0.55, 0.1, 0.95]
+      _a2: [2.25, 0.1, 0.95]
+      _b1: [1.0, -0.15, 1.15]
+      _b2: [1.75, 0.55, 1.15]
+    lines:
+      a_prime: {through: [_ap1, _ap2], style: main, label: {at: _ap2, pos: right}}
+      b_prime: {through: [_bp1, _bp2], style: second, label: {at: _bp2, pos: above}}
+      a: {through: [_a1, _a2], style: main, label: {at: _a2, pos: right}}
+      b: {through: [_b1, _b2], style: second, label: {at: _b2, pos: above}}
+    visible_points: [O]
+    point_labels:
+      O: {pos: below}
+    marks:
+      - {type: arc, at: O, lines: [a_prime, b_prime], radius: 0.34}
+    conditions:
+      - {relation: parallel, objects: [a, a_prime]}
+      - {relation: parallel, objects: [b, b_prime]}
+      - {relation: angle_between, objects: [a_prime, b_prime]}
+
+  - theorem_id: d08-line-plane-angle
+    title: 线面角定义
+    tikz_path: fixed_theorem_diagrams/tikz/d08-line-plane-angle.fragment.tex
+    diagram_labels: [l, A, P, H, alpha]
+    points:
+      _p1: [0, 0, 0]
+      _p2: [3.8, 0, 0]
+      _p3: [3.8, 1.25, 0]
+      _p4: [0, 1.25, 0]
+      A: [0.9, 0.62, 0]
+      H: [2.45, 0.62, 0]
+      P: [2.45, 0.62, 1.1]
+    planes:
+      alpha: {polygon: [_p1, _p2, _p3, _p4], style: plane, label: {at: _p3}}
+    lines:
+      l: {through: [A, P], style: main, label: {at: P, pos: above}}
+      AH: {through: [A, H], style: third, label: false}
+      PH: {through: [P, H], style: ghost, label: false}
+    visible_points: [A, P, H]
+    point_labels:
+      A: {pos: below}
+      P: {pos: above}
+      H: {pos: below}
+    marks:
+      - {type: right_angle, at: H, lines: [PH, AH], size: 0.14}
+      - {type: arc, at: A, lines: [l, AH], radius: 0.34}
+    conditions:
+      - {relation: line_in_plane, objects: [AH, alpha]}
+      - {relation: perpendicular, objects: [PH, alpha]}
+      - {relation: angle_between, objects: [l, AH]}
+
+  - theorem_id: d09-distance-to-angle
+    title: 点面距法求线面角
+    tikz_path: fixed_theorem_diagrams/tikz/d09-distance-to-angle.fragment.tex
+    diagram_labels: [l, P, A, d, s, alpha]
+    points:
+      _p1: [0, 0, 0]
+      _p2: [3.8, 0, 0]
+      _p3: [3.8, 1.25, 0]
+      _p4: [0, 1.25, 0]
+      A: [0.9, 0.62, 0]
+      H: [2.45, 0.62, 0]
+      P: [2.45, 0.62, 1.1]
+    planes:
+      alpha: {polygon: [_p1, _p2, _p3, _p4], style: plane, label: {at: _p3}}
+    lines:
+      l: {through: [A, P], style: main, label: {at: P, pos: above}}
+      s: {through: [A, P], style: main, label: {at: P, text: "$s$", pos: right}}
+      d: {through: [P, H], style: second, label: {at: H, text: "$d$", pos: right}}
+      AH: {through: [A, H], style: third, label: false}
+    visible_points: [P, A]
+    point_labels:
+      P: {pos: above}
+      A: {pos: below}
+    marks:
+      - {type: right_angle, at: H, lines: [d, AH], size: 0.14}
+      - {type: arc, at: A, lines: [l, AH], radius: 0.34}
+    conditions:
+      - {relation: perpendicular, objects: [d, alpha]}
+      - {relation: angle_between, objects: [l, AH]}
+      - {relation: distance_between, objects: [P, alpha]}
+
+  - theorem_id: d10-dihedral-angle
+    title: 二面角平面角定义
+    tikz_path: fixed_theorem_diagrams/tikz/d10-dihedral-angle.fragment.tex
+    diagram_labels: [alpha, beta, l, O, A, B]
+    view: {theta: 58, phi: 130}
+    points:
+      _a1: [0, 0, 0]
+      _a2: [3.7, 0, 0]
+      _a3: [3.7, 1.2, 0]
+      _a4: [0, 1.2, 0]
+      _b1: [0, 0, -0.45]
+      _b2: [3.7, 0, -0.45]
+      _b3: [3.7, 0, 1.15]
+      _b4: [0, 0, 1.15]
+      _l1: [0.45, 0, 0]
+      _l2: [3.2, 0, 0]
+      O: [1.75, 0, 0]
+      A: [1.75, 0.75, 0]
+      B: [1.75, 0, 0.85]
+    planes:
+      alpha: {polygon: [_a1, _a2, _a3, _a4], style: plane, label: {at: _a3}}
+      beta: {polygon: [_b1, _b2, _b3, _b4], style: planeB, label: {at: _b3}}
+    lines:
+      l: {through: [_l1, _l2], style: third, label: {at: _l2, pos: right}}
+      OA: {through: [O, A], style: main, label: false}
+      OB: {through: [O, B], style: second, label: false}
+    visible_points: [O, A, B]
+    point_labels:
+      O: {pos: below}
+      A: {pos: above}
+      B: {pos: right}
+    marks:
+      - {type: right_angle, at: O, lines: [OA, l], size: 0.16}
+      - {type: right_angle, at: O, lines: [OB, l], size: 0.22, reverse2: true}
+      - {type: arc, at: O, lines: [OA, OB], radius: 0.36}
+    conditions:
+      - {relation: plane_intersection_line, objects: [alpha, beta, l]}
+      - {relation: line_in_plane, objects: [OA, alpha]}
+      - {relation: line_in_plane, objects: [OB, beta]}
+      - {relation: perpendicular, objects: [OA, l]}
+      - {relation: perpendicular, objects: [OB, l]}
+      - {relation: angle_between, objects: [OA, OB]}
+
+  - theorem_id: d11-area-projection
+    title: 二面角面积射影法
+    tikz_path: fixed_theorem_diagrams/tikz/d11-area-projection.fragment.tex
+    diagram_labels: [S_original, S_projection, alpha, beta]
+    view: {theta: 64, phi: 108}
+    points:
+      _a1: [0, 0, 0]
+      _a2: [3.7, 0, 0]
+      _a3: [3.7, 1.2, 0]
+      _a4: [0, 1.2, 0]
+      _b1: [0.15, 0, 0.65]
+      _b2: [3.55, 0, 0.65]
+      _b3: [3.55, 1.2, 1.15]
+      _b4: [0.15, 1.2, 1.15]
+      T1: [0.75, 0.22, 0.742]
+      T2: [2.55, 0.22, 0.742]
+      T3: [1.55, 0.98, 1.058]
+      U1: [0.75, 0.22, 0]
+      U2: [2.55, 0.22, 0]
+      U3: [1.55, 0.98, 0]
+    planes:
+      alpha: {polygon: [_a1, _a2, _a3, _a4], style: plane, label: {at: _a3}}
+      beta: {polygon: [_b1, _b2, _b3, _b4], style: planeB, label: {at: _b3}}
+    polygons:
+      S_original: {points: [T1, T2, T3], style: surface, label: {at: T3, text: "$S$", pos: above}}
+      S_projection: {points: [U1, U2, U3], style: projectionSurface, label: {at: U3, text: "$S'$", pos: below}}
+    lines:
+      T1U1: {through: [T1, U1], style: ghost, label: false}
+      T2U2: {through: [T2, U2], style: ghost, label: false}
+      T3U3: {through: [T3, U3], style: ghost, label: false}
+    conditions:
+      - {relation: point_in_plane, objects: [U1, alpha]}
+      - {relation: point_in_plane, objects: [U2, alpha]}
+      - {relation: point_in_plane, objects: [U3, alpha]}
+      - {relation: area_projection, objects: [S_original, S_projection, alpha, beta]}

@@ -1,0 +1,313 @@
+\documentclass{exam-zh}
+\usepackage{edu-practice}
+
+\examsetup{
+  question/show-answer = true,
+  fillin/show-answer = true,
+  solution/show-solution = show-stay,
+}
+
+% ---------- 教师版解答样式 ----------
+\newtcolorbox{solutionblock}{
+  enhanced, breakable,
+  colback=edu-blue-bg,
+  colframe=edu-blue!25,
+  boxrule=0pt,
+  borderline west={2pt}{0pt}{edu-blue!50},
+  arc=0pt,
+  left=3mm, right=3mm, top=2mm, bottom=2mm,
+  before skip=2mm,
+  after skip=3mm,
+  fontupper=\small,
+}
+
+% 解答步骤编号
+\newcounter{solstep}
+\newcommand{\solstep}[2]{%
+  \stepcounter{solstep}%
+  \par\medskip
+  \noindent\hangindent=6mm
+  {\color{edu-blue}\bfseries\textcircled{\scriptsize\thesolstep}\enspace #1}\enspace #2\par
+}
+
+\begin{document}
+
+\section*{立体几何平行证明 · 分层练习}
+
+\section*{一、基础档：正方体中直接套判定（共 21 分）}
+
+
+\begin{question}[points=5]
+  给出四个判断：① 若直线 $a\parallel b$，$b\subset$ 平面 $\alpha$，$a\not\subset\alpha$，则 $a\parallel\alpha$；② 若直线 $a\parallel$ 平面 $\alpha$，则 $a$ 与 $\alpha$ 内任意一条直线都平行；③ 若 $a\parallel\alpha$，过 $a$ 作平面 $\beta$ 交 $\alpha$ 于直线 $b$，则 $a\parallel b$；④ 若 $a\parallel b$，$b\subset\alpha$，$a\subset\alpha$，则 $a\parallel\alpha$。其中正确的个数是（    ）。
+  \begin{hintbox}
+\textbf{提示：}逐条对照判定与性质定理的前提；注意 $a$ 是否在平面内。\end{hintbox}
+
+  \begin{choices}
+    \item 1
+    \item 2
+    \item 3
+    \item 4
+  \end{choices}
+  \paren[B]
+  \begin{solutionblock}
+    ①是线面平行判定三件套（$a\not\subset\alpha$，$b\subset\alpha$，$a\parallel b$），正确；②漏了"过 $a$ 作面找交线"这步，$a$ 只与 $\alpha$ 内过交线的直线平行，错；③是线面平行性质定理，正确；④$a\subset\alpha$ 时不能说 $a\parallel\alpha$，错。故正确为①③，共 2 个，选 B。
+  \end{solutionblock}
+\end{question}
+
+
+
+\needspace{12\baselineskip}
+\begin{question}[points=6]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，在正方体 $ABCD$-$A_{1}B_{1}C_{1}D_{1}$ 中，$M$、$N$ 分别是 $A_{1}B_{1}$、$B_{1}C_{1}$ 的中点。线段 $MN$ 与面对角线 \underline{\hspace{3em}} 平行（填一条面对角线的字母）。
+    \begin{hintbox}
+\textbf{提示：}$MN$ 是哪个三角形的中位线？再看它和哪条对角线共端点。\end{hintbox}
+
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{$MN$ 是 $\triangle A_{1}B_{1}C_{1}$ 的中位线。}
+  \input{\detokenize{build/diagram/jobs/q2-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \paren[$A_{1}C_{1}$]
+  \begin{solutionblock}
+    $M$、$N$ 分别是 $A_{1}B_{1}$、$B_{1}C_{1}$ 的中点，故 $MN$ 是 $\triangle A_{1}B_{1}C_{1}$ 的中位线，$MN\parallel A_{1}C_{1}$。
+  \end{solutionblock}
+\end{question}
+
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，在正方体 $ABCD$-$A_{1}B_{1}C_{1}D_{1}$ 中，$E$ 为棱 $DD_{1}$ 的中点。求证：$BD_{1}\parallel$ 平面 $AEC$。
+
+    \begin{hintbox}
+\textbf{提示：}证线面平行用判定（凑）。在平面 $AEC$ 里找一条与 $BD_{1}$ 平行的线——取 $AC\cap BD=O$，连 $OE$。\end{hintbox}
+
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{$O$ 是 $AC$ 与 $BD$ 的交点，连 $OE$ 看中位线。}
+  \input{\detokenize{build/diagram/jobs/q3-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[55mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}证明见解析：$OE\parallel BD_{1}$（中位线），套判定得 $BD_{1}\parallel$ 平面 $AEC$。\par\medskip
+    \solstep{取中点连 $OE$}{设 $AC\cap BD=O$（正方形对角线交点，$O$ 为 $BD$ 中点），连 $OE$。}
+    \solstep{证 $OE\parallel BD_{1}$}{$O$、$E$ 分别是 $BD$、$DD_{1}$ 的中点，$OE$ 是 $\triangle BDD_{1}$ 的中位线，故 $OE\parallel BD_{1}$。}
+    \solstep{套判定三件套}{$OE\subset$ 平面 $AEC$，$BD_{1}\not\subset$ 平面 $AEC$，$OE\parallel BD_{1}$，由线面平行判定定理得 $BD_{1}\parallel$ 平面 $AEC$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\clearpage
+\section*{二、中档档：取中点连线，造面内平行线（共 39 分）}
+
+
+\needspace{12\baselineskip}
+\begin{question}[points=7]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，在三棱柱 $ABC$-$A_{1}B_{1}C_{1}$ 中，$D$、$E$ 分别是棱 $CC_{1}$、$AB$ 的中点。要在平面 $AB_{1}C_{1}$ 内找到与 $DE$ 平行的直线，应取 \underline{\hspace{3em}} 的中点 $H$，再连 $HC_{1}$。
+    \begin{hintbox}
+\textbf{提示：}想平行四边形：$H$ 取好后，四边形 $EHC_{1}D$ 要能证成平行四边形。\end{hintbox}
+
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{三棱柱中 $D$、$E$ 为中点，构造平行四边形 $EHC_{1}D$。}
+  \input{\detokenize{build/diagram/jobs/q4-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \paren[$AB_{1}$]
+  \begin{solutionblock}
+    取 $AB_{1}$ 的中点 $H$。$E$、$H$ 分别是 $AB$、$AB_{1}$ 中点，$EH\parallel BB_{1}$ 且 $EH=\tfrac12 BB_{1}$；$D$ 是 $CC_{1}$ 中点，$DC_{1}=\tfrac12 CC_{1}=\tfrac12 BB_{1}$ 且 $DC_{1}\parallel BB_{1}$，故 $EH\parallel DC_{1}$ 且 $EH=DC_{1}$，四边形 $EHC_{1}D$ 为平行四边形，$DE\parallel HC_{1}$。
+  \end{solutionblock}
+\end{question}
+
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=11]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，在三棱柱 $ABC$-$A_{1}B_{1}C_{1}$ 中，$D$、$E$ 分别是棱 $CC_{1}$、$AB$ 的中点。求证：$DE\parallel$ 平面 $AB_{1}C_{1}$。
+
+    \begin{hintbox}
+\textbf{提示：}取 $AB_{1}$ 的中点 $H$，连 $EH$、$HC_{1}$，先证四边形 $EHC_{1}D$ 是平行四边形。\end{hintbox}
+
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{取 $H$ 为 $AB_{1}$ 中点，证 $EHC_{1}D$ 为平行四边形。}
+  \input{\detokenize{build/diagram/jobs/q5-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[65mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}证明见解析：$DE\parallel HC_{1}$（平行四边形），套判定得 $DE\parallel$ 平面 $AB_{1}C_{1}$。\par\medskip
+    \solstep{取 $AB_{1}$ 中点 $H$}{取 $AB_{1}$ 中点 $H$，连 $EH$、$HC_{1}$。}
+    \solstep{证 $EH\parallel DC_{1}$ 且 $EH=DC_{1}$}{$E$、$H$ 分别是 $AB$、$AB_{1}$ 中点，$EH\parallel BB_{1}$，$EH=\tfrac12 BB_{1}$；$D$ 是 $CC_{1}$ 中点，$DC_{1}=\tfrac12 CC_{1}$。棱柱中 $BB_{1}\parallel CC_{1}$ 且 $BB_{1}=CC_{1}$，故 $DC_{1}\parallel BB_{1}$ 且 $DC_{1}=\tfrac12 BB_{1}$，得 $EH\parallel DC_{1}$ 且 $EH=DC_{1}$。}
+    \solstep{证平行四边形}{$EH\parallel DC_{1}$ 且 $EH=DC_{1}$，四边形 $EHC_{1}D$ 为平行四边形，$DE\parallel HC_{1}$。}
+    \solstep{套判定三件套}{$HC_{1}\subset$ 平面 $AB_{1}C_{1}$，$DE\not\subset$ 平面 $AB_{1}C_{1}$，$DE\parallel HC_{1}$，由线面平行判定定理得 $DE\parallel$ 平面 $AB_{1}C_{1}$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=11]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，在四棱锥 $P$-$ABCD$ 中，底面 $ABCD$ 为平行四边形，$O$ 为 $AC$ 与 $BD$ 的交点，$M$ 为 $PC$ 的中点。已知 $AP\parallel$ 平面 $BDM$，过 $A$、$P$ 的平面交平面 $BDM$ 于直线 $l$。求证：$AP\parallel l$。
+
+    \begin{hintbox}
+\textbf{提示：}这是性质定理（向下用）：连 $MO$ 看中位线，再写出两个平面的交线。\end{hintbox}
+
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{$MO$ 是 $\triangle PAC$ 的中位线，$MO\parallel AP$ 且在面 $BDM$ 内。}
+  \input{\detokenize{build/diagram/jobs/q6-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[60mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}证明见解析：$AP\parallel$ 平面 $BDM$，过 $AP$ 的面交平面 $BDM$ 于 $l$，由性质得 $AP\parallel l$。\par\medskip
+    \solstep{连 $MO$ 证中位线}{连 $MO$。$M$、$O$ 分别是 $PC$、$AC$ 中点，$MO$ 为 $\triangle PAC$ 中位线，$MO\parallel AP$。}
+    \solstep{确认 $AP\parallel$ 平面 $BDM$}{$MO\subset$ 平面 $BDM$，$AP\not\subset$ 平面 $BDM$，$AP\parallel MO$，故 $AP\parallel$ 平面 $BDM$。}
+    \solstep{写出交线，套性质}{设过 $A$、$P$ 的平面为 $\beta$，$\beta\cap$ 平面 $BDM=l$，$AP\subset\beta$，由线面平行性质定理得 $AP\parallel l$。}
+  \end{solutionblock}
+\end{problem}
+
+
+
+\needspace{14\baselineskip}
+\begin{question}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，在四棱锥 $P$-$ABCD$ 中，$M$、$N$ 分别在 $AC$、$PC$ 上，且 $MN\parallel$ 平面 $PAD$，则 $MN$ 与 $PA$ 的位置关系是（    ）。
+    \begin{hintbox}
+\textbf{提示：}$MN\subset$ 平面 $PAC$，平面 $PAC\cap$ 平面 $PAD=PA$，由线面平行性质得结论。\end{hintbox}
+
+    \par
+    \begin{choices}[columns=1]
+      \item $MN\parallel PD$
+      \item $MN\parallel PA$
+      \item $MN\parallel AD$
+      \item 都有可能
+    \end{choices}
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{找到含 $MN$ 的辅助面与平面 $PAD$ 的交线。}
+  \input{\detokenize{build/diagram/jobs/q7-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \paren[B]
+  \begin{solutionblock}
+    $M\in AC$、$N\in PC$，故 $MN\subset$ 平面 $PAC$。已知 $MN\parallel$ 平面 $PAD$，又平面 $PAC\cap$ 平面 $PAD=PA$，由线面平行性质定理得 $MN\parallel PA$。故选 B。
+  \end{solutionblock}
+\end{question}
+
+
+
+\clearpage
+\section*{三、提高档：面面与线面混用 + 中点比例（共 30 分）}
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，在四棱锥 $P$-$ABCD$ 中，底面四边形 $ABCD$ 满足 $AB\parallel CD$ 且 $AB=2CD$，$E$ 为 $PB$ 的中点。求证：$CE\parallel$ 平面 $PAD$。
+
+    \begin{hintbox}
+\textbf{提示：}取 $AB$ 中点 $F$，连 $EF$、$CF$。证 $AD\parallel CF$、$EF\parallel PA$，凑出面面平行，再用面面平行的性质。\end{hintbox}
+
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{取 $F$ 为 $AB$ 中点，证面 $PAD\parallel$ 面 $CEF$，再用其他性质。}
+  \input{\detokenize{build/diagram/jobs/q8-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[75mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}证明见解析：证面 $CEF\parallel$ 面 $PAD$，$CE\subset$ 面 $CEF$，由面面平行其他性质得 $CE\parallel$ 面 $PAD$。\par\medskip
+    \solstep{取 $AB$ 中点 $F$}{取 $AB$ 中点 $F$，连 $EF$、$CF$。}
+    \solstep{证 $AD\parallel CF$}{$AF=\tfrac12 AB=CD$ 且 $AF\parallel CD$，四边形 $ADCF$ 为平行四边形，$AD\parallel CF$。}
+    \solstep{证 $EF\parallel PA$}{$E$、$F$ 分别为 $PB$、$AB$ 中点，$EF$ 为 $\triangle PAB$ 中位线，$EF\parallel PA$。}
+    \solstep{套面面判定（相交前提）}{$EF\cap CF=F$，$PA\cap AD=A$，$EF\parallel$ 平面 $PAD$，$CF\parallel$ 平面 $PAD$，由面面平行判定得平面 $CEF\parallel$ 平面 $PAD$。}
+    \solstep{用面面平行其他性质}{$CE\subset$ 平面 $CEF$，平面 $CEF\parallel$ 平面 $PAD$，故 $CE\parallel$ 平面 $PAD$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，在四棱柱 $ABCD$-$A_{1}B_{1}C_{1}D_{1}$ 中，底面 $ABCD$ 为梯形且 $AD\parallel BC$。设过 $A_{1}$、$D$、$C$ 三点的平面与棱 $BB_{1}$ 交于点 $E$。求证：$EC\parallel A_{1}D$。
+
+    \begin{hintbox}
+\textbf{提示：}用 $BE\parallel AA_{1}$、$BC\parallel AD$ 证面 $BCE\parallel$ 面 $AA_{1}D$（判定），再用面面平行性质。注意相交前提。\end{hintbox}
+
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{证面 $BCE\parallel$ 面 $AA_{1}D$，两面被面 $A_{1}DCE$ 截出两条平行交线。}
+  \input{\detokenize{build/diagram/jobs/q9-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[75mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}证明见解析：证面 $BCE\parallel$ 面 $AA_{1}D$，两面被面 $A_{1}DCE$ 截得 $EC\parallel A_{1}D$。\par\medskip
+    \solstep{证 $BE\parallel$ 平面 $AA_{1}D$}{棱柱中 $BE\parallel AA_{1}$，$AA_{1}\subset$ 平面 $AA_{1}D$，$BE\not\subset$ 平面 $AA_{1}D$，故 $BE\parallel$ 平面 $AA_{1}D$。}
+    \solstep{证 $BC\parallel$ 平面 $AA_{1}D$}{$BC\parallel AD$（梯形），$AD\subset$ 平面 $AA_{1}D$，$BC\not\subset$ 平面 $AA_{1}D$，故 $BC\parallel$ 平面 $AA_{1}D$。}
+    \solstep{套面面判定（相交前提）}{$BE\cap BC=B$，$BE$、$BC\subset$ 平面 $BCE$，$BE\parallel$ 平面 $AA_{1}D$，$BC\parallel$ 平面 $AA_{1}D$，由面面平行判定得平面 $BCE\parallel$ 平面 $AA_{1}D$。}
+    \solstep{用面面平行性质}{平面 $A_{1}DCE\cap$ 平面 $BCE=EC$，平面 $A_{1}DCE\cap$ 平面 $AA_{1}D=A_{1}D$，由面面平行性质定理得 $EC\parallel A_{1}D$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，在平行六面体 $ABCD$-$A_{1}B_{1}C_{1}D_{1}$ 中，$E$ 为棱 $AA_{1}$ 的中点，$O$\ \ 为 $A_{1}C_{1}$ 与 $B_{1}D_{1}$ 的交点。求证：
+\begin{enumerate}[label=(\arabic*)]
+\ \  \item $EO\parallel AC_{1}$；
+  \item $AC_{1}\parallel$ 平面 $EB_{1}D_{1}$。
+\ \end{enumerate}
+
+    \begin{hintbox}
+\textbf{提示：}(1) $E$、$O$ 分别是 $AA_{1}$、$A_{1}C_{1}$ 的中点，$EO$ 是 $\triangle AA_{1}C_{1}$ 的中位线；(2) 由 (1) 在面 $EB_{1}D_{1}$ 内找到平行线，套判定。\end{hintbox}
+
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{$O$ 是上底面对角线交点，$EO$ 中位线平行 $AC_{1}$。}
+  \input{\detokenize{build/diagram/jobs/q10-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[70mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}(1) $EO\parallel AC_{1}$；(2) $AC_{1}\parallel$ 平面 $EB_{1}D_{1}$。证明见解析。\par\medskip
+    \solstep{(1) 证 $EO\parallel AC_{1}$}{$E$、$O$ 分别是 $AA_{1}$、$A_{1}C_{1}$ 的中点，$EO$ 是 $\triangle AA_{1}C_{1}$ 的中位线，故 $EO\parallel AC_{1}$。}
+    \solstep{(2) 确认 $EO\subset$ 平面 $EB_{1}D_{1}$}{$E\in$ 平面 $EB_{1}D_{1}$，$O$ 在 $B_{1}D_{1}$ 上故 $O\in$ 平面 $EB_{1}D_{1}$，所以 $EO\subset$ 平面 $EB_{1}D_{1}$。}
+    \solstep{(2) 套判定三件套}{$EO\parallel AC_{1}$，$EO\subset$ 平面 $EB_{1}D_{1}$，$AC_{1}\not\subset$ 平面 $EB_{1}D_{1}$，由线面平行判定定理得 $AC_{1}\parallel$ 平面 $EB_{1}D_{1}$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\clearpage
+\section*{参考答案}
+
+
+
+
+\end{document}

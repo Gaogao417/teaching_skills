@@ -1,0 +1,146 @@
+\documentclass{exam-zh}
+\usepackage{edu-practice}
+
+\examsetup{
+  question/show-answer = false,
+  fillin/show-answer = false,
+  solution/show-solution = hide,
+}
+
+% ---------- 教师版解答样式 ----------
+\newtcolorbox{solutionblock}{
+  enhanced, breakable,
+  colback=edu-blue-bg,
+  colframe=edu-blue!25,
+  boxrule=0pt,
+  borderline west={2pt}{0pt}{edu-blue!50},
+  arc=0pt,
+  left=3mm, right=3mm, top=2mm, bottom=2mm,
+  before skip=2mm,
+  after skip=3mm,
+  fontupper=\small,
+}
+
+% 解答步骤编号
+\newcounter{solstep}
+\newcommand{\solstep}[2]{%
+  \stepcounter{solstep}%
+  \par\medskip
+  \noindent\hangindent=6mm
+  {\color{edu-blue}\bfseries\textcircled{\scriptsize\thesolstep}\enspace #1}\enspace #2\par
+}
+
+\begin{document}
+
+\section*{立体几何截面与共面练习}
+
+\section*{一、基础档（判定确定平面）}
+
+
+\begin{question}[points=6]
+  下列条件中，能够确定一个平面的是（    ）
+  \begin{hintbox}
+\textbf{提示：}先看每个选项缺哪个前提——三点是否不共线？点是否在线外？三条线是否共面？两个点能不能定面？\end{hintbox}
+
+  \begin{choices}
+    \item 空间中的三个点
+    \item 一条直线和直线外的一个点
+    \item 空间中两两相交的三条直线
+    \item 两个公共点
+  \end{choices}
+\end{question}
+
+
+
+\begin{question}[points=6]
+  已知直线 $l$ 和 $l$ 外不共线的三点 $A,B,C$。由 $l$ 与这三个点最多能确定 \underline{\quad\quad} 个平面；其中 $l$ 与每个点各确定 \underline{\quad} 个，三点本身还能再确定 \underline{\quad} 个。
+  \begin{hintbox}
+\textbf{提示：}先固定"线+点"这条主路数（推论①），再单独看三点之间能不能再凑出平面（三点不共线）。\end{hintbox}
+
+\end{question}
+
+
+
+\begin{question}[points=6]
+  已知点 $M$ 在直线 $a$ 上，直线 $a$ 在平面 $\alpha$ 内，则 $M,a,\alpha$ 的关系记作 $M$ \underline{\quad} $a$ \underline{\quad} $\alpha$；
+若直线 $a\subset$ 平面 $\alpha$，直线 $b\subset$ 平面 $\alpha$，$M\in a$，$N\in b$，且 $M,N$ 都在直线 $l$ 上，则 $l$ 与 $\alpha$ 的关系是 $l$ \underline{\quad} $\alpha$。（填 $\in$ 或 $\subset$）
+  \begin{hintbox}
+\textbf{提示：}点用 $\in$、线面用 $\subset$；线上两点都在面内，整条线在面内。\end{hintbox}
+
+\end{question}
+
+
+\section*{二、中档档（画简单截面 + 延长线找交点）}
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=9]
+    如图，在正方体 $ABCD\text{-}A_1B_1C_1D_1$ 中，$E$ 为棱 $B_1C_1$ 的中点。画出过 $A,C,E$ 三点的平面与正方体表面相交所得到的截面，并简述每条边分别落在哪个表面上。
+
+    \begin{hintbox}
+\textbf{提示：}先找截面与每个表面已有的公共点：$A,C$ 在底面，$E$ 在上底面；同在一个面内的两个公共点直接连线即一条边。截面边必须落在表面上。\end{hintbox}
+
+  \answerarea[52mm]
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+    如图，在长方体 $ABCD\text{-}A_1B_1C_1D_1$ 中，$E$、$F$ 分别为棱 $DD_1$、$C_1D_1$ 的中点。画出平面 $AEF$ 与底面 $ABCD$ 的交线。（要求：画出必要的延长线，并标出辅助交点。）
+
+    \begin{hintbox}
+\textbf{提示：}截面和底面已有一个公共点 $A$；要找第二个公共点，注意 $E,F$ 都在侧面 $CDD_1C_1$ 所在平面内——在该平面内延长 $EF$，交点会落在哪条底面棱（或其延长线）上？\end{hintbox}
+
+  \answerarea[60mm]
+\end{problem}
+
+
+
+\begin{question}[points=6]
+  用一个平面去截一个四棱锥，截面形状不可能是（    ）
+  \begin{hintbox}
+\textbf{提示：}截面边数不超过"截面能切到的面数"。四棱锥一共有几个面（含底面）？最多能切到几个面，截面边数上限就是几。\end{hintbox}
+
+  \begin{choices}
+    \item 三角形
+    \item 四边形
+    \item 五边形
+    \item 六边形
+  \end{choices}
+\end{question}
+
+
+\section*{三、提高档（证明两线共面）}
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+    如图，在正方体 $ABCD\text{-}A_1B_1C_1D_1$ 中，$E$、$F$ 分别为棱 $AB$、$AA_1$ 的中点。
+求证：$E,F,D_1,C$ 四点共面。
+
+    \begin{hintbox}
+\textbf{提示：}把四点配成两条线 $EF$ 和 $CD_1$，只需证它们平行（推论③）。$EF$ 在哪个三角形里是中位线？它和哪条棱平行？这条棱又和 $CD_1$ 什么关系？\end{hintbox}
+
+  \answerarea[56mm]
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=13]
+    如图，在空间四边形 $ABCD$ 中，$E$、$F$ 分别是 $AB$、$AD$ 的中点，$G$、$H$ 分别是 $BC$、$CD$ 上的点，且 $CG:GB=CH:HD=1:2$。
+\begin{enumerate}[label=(\arabic*)]
+  \item 求证：$E,F,H,G$ 四点共面；
+  \item 设直线 $EH$ 与 $FG$ 所确定的平面为 $\alpha$，判断直线 $BD$ 与平面 $\alpha$ 的位置关系（相交、平行或在平面内），并说明理由。
+\end{enumerate}
+
+    \begin{hintbox}
+\textbf{提示：}(1) $E,F$ 是中点 ⇒ $EF\parallel BD$ 且 $EF=\tfrac12BD$；$G,H$ 按同比取点 ⇒ $GH\parallel BD$。两条线都平行于 $BD$ ⇒ 它们互相平行 ⇒ 共面（推论③）。(2) $EH$（或 $FG$）和 $BD$ 在 $\triangle ABD$（或相关）所在平面内，它们会不会相交？\end{hintbox}
+
+  \answerarea[68mm]
+\end{problem}
+
+
+
+\end{document}

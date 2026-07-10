@@ -1,0 +1,16 @@
+\input{fixed_theorem_diagrams/tikz/_fixed_diagram_styles.tex}
+\tdplotsetmaincoords{65}{115}
+\begin{tikzpicture}[tdplot_main_coords,theorem diagram]
+  \coordinate (ptl1) at (0.55,0,0);
+  \coordinate (ptl2) at (3,0,0);
+  \coordinate (ptH) at (1.75,0,0);
+  \coordinate (ptP) at (1.75,0,1.05);
+  \draw[main] (ptl1) -- (ptl2);
+  \node[label,above right] at (ptl2) {$l$};
+  \draw[second] (ptP) -- (ptH);
+  \fill (ptH) circle (1.1pt);
+  \node[label,below left] at (ptH) {$H$};
+  \fill (ptP) circle (1.1pt);
+  \node[label,above] at (ptP) {$P$};
+  \draw[aux] (1.75,0,0.16) -- (1.91,0,0.16) -- (1.91,0,0);
+\end{tikzpicture}

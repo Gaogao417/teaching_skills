@@ -1,0 +1,440 @@
+\documentclass{exam-zh}
+\usepackage{edu-explanation}
+
+\examsetup{
+  question/show-answer = true,
+  fillin/show-answer = true,
+  solution/show-solution = show-stay,
+}
+
+\begin{document}
+
+\eduSectionTitle{单元一：垂直关系转化环——判定向上、性质向下}
+
+
+\begin{eduSolutionBox}{结构图：垂直证明的四个入口}
+  \begingroup
+  \setlength{\parskip}{2.5mm}
+\begin{center}
+\begin{tikzpicture}[x=1cm,y=1cm,>=stealth, font=\small]
+\node[draw=edu-blue!80, fill=edu-blue!10, rounded corners=3pt, align=center, inner sep=5pt, font=\bfseries] (root) at (0,0) {垂直证明的四个入口};
+\node[draw=green!70, fill=green!8, rounded corners=2pt, align=center, inner sep=4pt, minimum width=28mm] (ll) at (-4,1.5) {线线垂直\\勾股逆/等腰/定义};
+\node[draw=orange!70, fill=orange!8, rounded corners=2pt, align=center, inner sep=4pt, minimum width=28mm] (lpj) at (0,1.9) {线面判定\\面内两条相交垂线};
+\node[draw=purple!70, fill=purple!8, rounded corners=2pt, align=center, inner sep=4pt, minimum width=28mm] (ppj) at (4,1.5) {面面判定\\一面含另一面垂线};
+\node[draw=teal!70, fill=teal!8, rounded corners=2pt, align=center, inner sep=4pt, minimum width=28mm] (prop) at (0,-1.9) {性质向下\\线面定义\\面面性质};
+\draw[->, thick, edu-blue!70] (ll) -- node[above, sloped, font=\scriptsize] {凑两条} (lpj);
+\draw[->, thick, edu-blue!70] (lpj) -- node[above, sloped, font=\scriptsize] {线在面内} (ppj);
+\draw[->, thick, edu-blue!70] (ppj) -- node[above, sloped, font=\scriptsize] {用性质} (prop);
+\draw[->, thick, edu-blue!70] (prop) -- node[above, sloped, font=\scriptsize] {回线线} (ll);
+\end{tikzpicture}
+\end{center}\par
+\textbf{总口令：}线面垂直判定必须有“面内两条相交线”；面面垂直性质必须有“垂直交线”。\par
+  \endgroup
+\end{eduSolutionBox}
+
+
+
+
+
+\begin{eduSolutionBox}{核心总图：线线 / 线面 / 面面 的转化环}
+  \begingroup
+  \setlength{\parskip}{2.5mm}
+三种垂直（线线、线面、面面）构成一个环：\textbf{判定定理"向上"}，\textbf{性质 / 定义"向下"}。\par
+判定方向（向上，凑条件出结论）：线线 $\Rightarrow$ 线面推出面面。\par
+向下方向（用性质或定义）：面面推出线面 $\Rightarrow$ 线线。\par
+\begin{tabular}{p{0.30\linewidth}p{0.40\linewidth}p{0.22\linewidth}}
+转化箭头 & 用的定理 & 方向\\
+线线到线面 & 线面垂直判定（找面内两条相交线） & 判定向上\\
+线面 $\to$ 面面 & 面面垂直判定（一面含另一面垂线） & 判定向上\\
+面面到线面 & 面面垂直性质（面内交线垂线 $\Rightarrow$ 线面垂直） & 性质向下\\
+线面到线线 & 线面垂直定义（$a\perp\alpha,\ b\subset\alpha\Rightarrow a\perp b$） & 定义向下
+\end{tabular}
+\par
+\textbf{总口令：}判对象（线线 / 线面 / 面面）$\to$ 找面 $\to$ 写格式（相交前提、垂足字母、标注定理）。\par
+  \endgroup
+\end{eduSolutionBox}
+
+
+
+
+\begin{eduProblemBlock}[关键差异 · 对比判断]
+下面两个判断，请分别回答"能不能下结论"，并说出理由。
+\begin{enumerate}[label=(\arabic*)]
+\item 已知 $a\perp b$，$b\subset\alpha$，能否得到 $a\perp\alpha$？
+\item 已知 $a\perp m$，$a\perp n$，$m\cap n=P$，$m,n\subset\alpha$，能否得到 $a\perp\alpha$？
+\end{enumerate}
+\end{eduProblemBlock}
+
+
+
+
+
+\begin{eduAuxItem}{思路导航}
+判断 (1)：只给一条线垂直$\;\to\;$判断 (2)：给两条相交线垂直\end{eduAuxItem}
+
+
+
+
+\begin{eduSubQuestionItem}{关键差异}
+区分"垂直于面内一条线"与"垂直于面内两条相交线"。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{小贴士}
+        \eduSideMistake{最大陷阱：线面垂直性质推的是平行}{线面垂直的\textbf{性质定理}给的是 $a\perp\alpha,\ b\perp\alpha\Rightarrow a\parallel b$——由线面垂直推出的是\textbf{平行线}，不是垂直线！这是跨类结论（线面垂直 $\to$ 线线平行）。}
+        \eduSideNote{别和平行环混}{平行环上"线面到线线"（性质定理）给的是线线\textbf{平行}；垂直环上"线面到线线"（定义推论）给的是线线\textbf{垂直}。看到 $a\perp\alpha,\ b\subset\alpha$ 要写 $a\perp b$，不要惯性写 $a\parallel b$。}
+        \eduSideHint{一条 vs 两条相交}{从线线跳到线面，必须补齐"两条相交线"这个台阶：一条不够，两条平行也不够，只有两条\textbf{相交}线都垂直才行。}
+  \end{eduExplainLeft}
+
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{解答}
+      \eduExplainStep{1}{判断 (1)：只给一条线垂直}{不能。$a\perp b$ 且 $b\subset\alpha$ 只说明 $a$ 垂直于 $\alpha$ 内的\textbf{一条}线 $b$，不足以推出 $a\perp\alpha$。线面垂直判定需要面内\textbf{两条相交}线都垂直，缺一不可。}
+      \eduExplainStep{2}{判断 (2)：给两条相交线垂直}{能。$a\perp m$，$a\perp n$，$m\cap n=P$，$m,n\subset\alpha$ 四个前提齐全，由\textbf{线面垂直判定}得 $a\perp\alpha$。差别就在"相交"二字：$m,n$ 必须相交于一点 $P$。}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduMistakeBox}
+\eduSubTitle{易错提醒}看到 $a\perp b,\ b\subset\alpha$ 就写 $a\perp\alpha$，是最常见的跳级错误——少的是"第二条相交垂线"。
+另一处易混：线面垂直性质定理 $a\perp\alpha,\ b\perp\alpha\Rightarrow a\parallel b$ 推出的是\textbf{平行}，别写成垂直。
+\end{eduMistakeBox}
+
+
+
+
+\begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
+\begin{eduBulletList}
+  \item 判对象在先：先说清要证的是线线、线面还是面面垂直。  \item 线线到线面，必凑"面内两条相交线"；缺相交前提不下结论。  \item 线面到线线，分清是定义推论（得垂直）还是性质定理（得平行）。\end{eduBulletList}
+\end{eduSummaryBlock}
+
+
+
+\clearpage
+\eduSectionTitle{单元二：线面垂直判定——找面内两条相交线}
+
+
+\begin{eduSolutionBox}{判定定理与格式模板卡}
+  \begingroup
+  \setlength{\parskip}{2.5mm}
+\textbf{线面垂直判定定理：}一条直线与一个平面内的\textbf{两条相交直线}都垂直，则该直线与此平面垂直。\par
+\textbf{格式模板卡（按填空写，再脱模板）：} $\begin{cases} a\perp m \\ a\perp n \\ m\cap n=P \\ m,n\subset\alpha \end{cases} \Rightarrow a\perp\alpha\quad(\text{线面垂直判定})$\par
+五个前提缺一不可：$a\perp m$、$a\perp n$、$m\subset\alpha$、$n\subset\alpha$、$m\cap n=P$。其中"相交"是关键。\par
+\textbf{找面动作：}定下目标平面 $\alpha$ 后，在 $\alpha$ 内锁定两条与 $a$ 都垂直、且彼此相交的直线；直接找不到时，用勾股逆定理 / 等腰三角形三线合一 / 中位线先把"线线垂直"凑出来，再升级为线面垂直。\par
+  \endgroup
+\end{eduSolutionBox}
+
+
+
+
+\begin{eduProblemBlock}[例题 1]
+\noindent
+\begin{minipage}[t]{\dimexpr\linewidth-70mm-6mm\relax}
+\vspace{0pt}
+如图，在三棱锥 $P\text{-}ABC$ 中，$PA\perp AB$，$PA\perp AC$，且 $AB\cap\ \ AC=A$。
+\begin{enumerate}[label=(\arabic*)]
+  \item 求证：$PA\perp$ 平面 $ABC$；
+\ \  \item 若 $D$ 为 $BC$ 上一点，求证：$PA\perp AD$。
+\end{enumerate}
+
+\end{minipage}\hfill
+\begin{diagramcoltikz}{70mm}{三棱锥 P-ABC，观察 PA 与面 ABC 内两条相交线。}
+\input{\detokenize{build/diagram/jobs/explanation-example1-prompt/rendered/prompt.fragment.tex}}
+\end{diagramcoltikz}
+\end{eduProblemBlock}
+
+
+
+
+
+\begin{eduAuxItem}{思路导航}
+判对象：要证 $PA\perp$ 面 $ABC$$\;\to\;$锁定面内两条相交线$\;\to\;$写格式下结论$\;\to\;$(2) 用线面垂直性质\end{eduAuxItem}
+
+
+
+
+\begin{eduSubQuestionItem}{(1)}
+求证：$PA\perp$ 平面 $ABC$。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{小贴士}
+        \eduSideHint{先想什么}{要证 $PA\perp$ 面 $ABC$，就到面 $ABC$ 里找两条与 $PA$ 垂直且相交的线。}
+        \eduSideHint{题设已经给足}{$PA\perp AB$，$PA\perp AC$ 已经是两条垂线；只要补写 $AB,AC\subset$ 面 $ABC$ 与 $AB\cap AC=A$。}
+        \eduSideMistake{漏相交前提}{下结论前必须写 $AB\cap AC=A$，且 $AB,AC\subset$ 面 $ABC$。相交前提漏写是扣分重灾区。}
+  \end{eduExplainLeft}
+
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{解答}
+      \eduExplainStep{1}{判对象：要证 $PA\perp$ 面 $ABC$}{目标是线面垂直，回到面 $ABC$ 内找两条与 $PA$ 都垂直且相交的直线。}
+      \eduExplainStep{2}{锁定面内两条相交线}{$AB\subset$ 面 $ABC$，$AC\subset$ 面 $ABC$，且 $AB\cap AC=A$；题设给出 $PA\perp AB$，$PA\perp AC$。}
+      \eduExplainStep{3}{写格式下结论}{$PA\perp AB$，$PA\perp AC$，$AB\cap AC=A$，$AB,AC\subset$ 面 $ABC$，由线面垂直判定得 $PA\perp$ 面 $ABC$。}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduSubQuestionItem}{(2)}
+若 $D$ 为 $BC$ 上一点，求证：$PA\perp AD$。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{小贴士}
+        \eduSideHint{从面回到线}{已经有 $PA\perp$ 面 $ABC$，要证 $PA\perp AD$，只需确认 $AD$ 在面 $ABC$ 内。}
+        \eduSideNote{复用 (1) 的结论}{$D\in BC$，所以 $A,D$ 都在面 $ABC$ 内，进而 $AD\subset$ 面 $ABC$。}
+  \end{eduExplainLeft}
+
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{解答}
+      \eduExplainStep{1}{(2) 用线面垂直性质}{由 (1) 得 $PA\perp$ 面 $ABC$；又 $D\in BC$，所以 $AD\subset$ 面 $ABC$。由线面垂直性质得 $PA\perp AD$。}
+      \begin{center}
+        \begin{diagramcoltikz}{70mm}{标出 A 处两条相交线 AB、AC，PA 同时垂直这两条线。}
+        \input{\detokenize{build/diagram/jobs/explanation-example1-solution-annotated/rendered/solution.fragment.tex}}
+        \end{diagramcoltikz}
+      \end{center}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduMistakeBox}
+\eduSubTitle{易错提醒}线面垂直判定最常见的两类错：①只写"两条线都垂直"就下结论，漏写 $m\cap n=P$；
+②把 $a\perp b$（$b\subset\alpha$）直接当成 $a\perp\alpha$，跳过"第二条相交垂线"台阶。
+垂足必须落到字母上（写"垂足为 $D$"），相交前提要显式写出。
+\end{eduMistakeBox}
+
+
+
+
+\begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
+\begin{eduBulletList}
+  \item 线面垂直找面内两条相交线；找不到先用勾股逆 / 等腰三线合一 / 中位线凑线线垂直。  \item 下结论四件套：$a\perp m$、$a\perp n$、$m\cap n=P$、$m,n\subset\alpha$，缺一不可。  \item 垂足标字母，相交前提显式写，行末标注〔线面垂直判定〕。\end{eduBulletList}
+\end{eduSummaryBlock}
+
+
+
+\clearpage
+\eduSectionTitle{单元三：面面垂直判定与性质——一线串两面}
+
+
+\begin{eduSolutionBox}{判定定理与性质定理（方向不能反）}
+  \begingroup
+  \setlength{\parskip}{2.5mm}
+\textbf{面面垂直判定定理（线面 $\to$ 面面，向上）：}一个平面过另一个平面的垂线，则这两个平面垂直。即 $\begin{cases} l\perp\alpha \\ l\subset\beta \end{cases}\Rightarrow\alpha\perp\beta$。\par
+\textbf{面面垂直性质定理（面面到线面，向下）：}两个平面垂直，则其中一个平面内\textbf{垂直于交线}的直线垂直于另一个平面。即 $\alpha\perp\beta$，$\alpha\cap\beta=l$，$AB\subset\alpha$，$AB\perp l\Rightarrow AB\perp\beta$。\par
+\begin{tabular}{p{0.18\linewidth}p{0.40\linewidth}p{0.18\linewidth}}
+定理 & 关键动作 & 方向\\
+面面垂直判定 & 在 $\beta$ 内找（或证）一条垂直 $\alpha$ 的线 $l$，$l\subset\beta\Rightarrow\alpha\perp\beta$ & 线面 $\to$ 面面\\
+面面垂直性质 & 已知 $\alpha\perp\beta$，在 $\alpha$ 内找\textbf{垂直于交线}的线 $\Rightarrow$ 该线垂直 $\beta$ & 面面到线面
+\end{tabular}
+\par
+\textbf{方向记忆：}判定是"有线垂面推出两面垂"；性质是"两面垂推出面内交线垂线也垂另一面"。一个找线出面面，一个用面面出线面。\par
+  \endgroup
+\end{eduSolutionBox}
+
+
+
+
+\begin{eduProblemBlock}[例题 2（面面垂直判定）]
+\noindent
+\begin{minipage}[t]{\dimexpr\linewidth-70mm-6mm\relax}
+\vspace{0pt}
+在平行四边形 $ABCD$ 中，$AD=2AB=2$，$\angle BAC=90^{\circ}$。将 $\triangle ACD$ 沿 $AC$ 折起，使 $BD=\sqrt{5}$，得到三棱锥 $D\text{-}ABC$。判断面 $ABD$ 与面 $ACD$ 是否垂直，并说明理由。
+
+\end{minipage}\hfill
+\begin{diagramcoltikz}{70mm}{折起后的三棱锥 D-ABC，观察 AB 与面 ACD 内两条相交线。}
+\input{\detokenize{build/diagram/jobs/explanation-example2-prompt/rendered/prompt.fragment.tex}}
+\end{diagramcoltikz}
+\end{eduProblemBlock}
+
+
+
+
+
+\begin{eduAuxItem}{思路导航}
+判对象：证面 $ABD\perp$ 面 $ACD$$\;\to\;$先证 $AB\perp$ 面 $ACD$$\;\to\;$一面含垂线下结论\end{eduAuxItem}
+
+
+
+
+\begin{eduSubQuestionItem}{例题 2}
+判断面 $ABD$ 与面 $ACD$ 是否垂直，并说明理由。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{小贴士}
+        \eduSideHint{面面判定怎么下手}{面面垂直判定 = 在一面里找一条垂直另一面的线。本题自然想到 $AB$，先证 $AB\perp$ 面 $ACD$。}
+        \eduSideHint{凑线线垂直}{$\angle BAC=90^{\circ}$ 已给 $AB\perp AC$；折起后的 $BD=\sqrt{5}$ 配合 $AB=1,AD=2$ 是勾股逆的信号，得 $AB\perp AD$。两条相交垂线凑齐。}
+        \eduSideMistake{别把方向用反}{判定是"先有 AB 垂直一个面，且 AB 在另一个面里，才能推出两面垂直"，不是反过来。先证线面，再出面面。}
+  \end{eduExplainLeft}
+
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{解答}
+      \eduExplainStep{1}{判对象：证面 $ABD\perp$ 面 $ACD$}{目标是面面垂直，到一面 $ABD$ 内找一条垂直另一面 $ACD$ 的线，找 $AB$。}
+      \eduExplainStep{2}{先证 $AB\perp$ 面 $ACD$}{由原平行四边形 $AD=2AB=2$ 得 $AB=1$；$\angle BAC=90^{\circ}$ 得 $AB\perp AC$。折起后 $AD=2$，$AB=1$，$BD=\sqrt{5}$，由 $AB^2+AD^2=1+4=5=BD^2$ 用勾股逆定理得 $AB\perp AD$。又 $AC\cap AD=A$，$AC,AD\subset$ 面 $ACD$，由线面垂直判定得 $AB\perp$ 面 $ACD$。}
+      \eduExplainStep{3}{一面含垂线下结论}{$AB\perp$ 面 $ACD$，且 $AB\subset$ 面 $ABD$，由\textbf{面面垂直判定}得面 $ABD\perp$ 面 $ACD$。}
+      \begin{center}
+        \begin{diagramcoltikz}{70mm}{AB 同时垂直 AC、AD（交于 A），故 AB⊥面 ACD，AB 在面 ABD 内。}
+        \input{\detokenize{build/diagram/jobs/explanation-example2-solution-annotated/rendered/solution.fragment.tex}}
+        \end{diagramcoltikz}
+      \end{center}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduProblemBlock}[例题 3（面面垂直性质链）]
+\noindent
+\begin{minipage}[t]{\dimexpr\linewidth-70mm-6mm\relax}
+\vspace{0pt}
+如图，在三棱锥 $P\text{-}ABC$ 中，$PA\perp$ 平面 $ABC$，平面 $PAB\perp$ 平面 $PBC$。求证：$BC\perp AB$。
+
+\end{minipage}\hfill
+\begin{diagramcoltikz}{70mm}{三棱锥 P-ABC，PA⊥面 ABC，面 PAB⊥面 PBC，找 BC 的两条相交垂线。}
+\input{\detokenize{build/diagram/jobs/explanation-example3-prompt/rendered/prompt.fragment.tex}}
+\end{diagramcoltikz}
+\end{eduProblemBlock}
+
+
+
+
+
+\begin{eduAuxItem}{思路导航}
+判对象：证 $BC\perp AB$（线线）$\;\to\;$面面垂直性质：作 $AD\perp PB$$\;\to\;$定义推论得 $AD\perp BC$$\;\to\;$再凑第二条 $PA\perp BC$$\;\to\;$两条相交垂线下结论\end{eduAuxItem}
+
+
+
+
+\begin{eduSubQuestionItem}{例题 3}
+求证：$BC\perp AB$。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{小贴士}
+        \eduSideHint{线线怎么证}{要证 $BC\perp AB$，转成证 $BC\perp$ 某个含 $AB$ 的面。哪个面？面 $PAB$ 里已经有"面面垂直"的条件，用它。}
+        \eduSideHint{面面性质怎么用}{面 $PAB\perp$ 面 $PBC$，要在面 $PAB$ 内找一条\textbf{垂直于交线 $PB$}的线，才能由性质得它垂直面 $PBC$。所以作 $AD\perp PB$。}
+        \eduSideMistake{漏"垂直于交线"}{面面垂直性质必须满足"该直线垂直于两面的交线"。只写"面面垂直则一面内任一直线垂直另一面"是错的。}
+  \end{eduExplainLeft}
+
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{解答}
+      \eduExplainStep{1}{判对象：证 $BC\perp AB$（线线）}{目标是线线垂直，常用途径是先证 $BC\perp$ 某个面，再由定义推论得到 $BC$ 垂直该面内的 $AB$。}
+      \eduExplainStep{2}{面面垂直性质：作 $AD\perp PB$}{在面 $PAB$ 内作 $AD\perp PB$，垂足为 $D$。由\textbf{面面垂直性质}（$AD\subset$ 面 $PAB$，面 $PAB\perp$ 面 $PBC$，交线为 $PB$，$AD\perp PB$）得 $AD\perp$ 面 $PBC$。}
+      \eduExplainStep{3}{定义推论得 $AD\perp BC$}{由 $AD\perp$ 面 $PBC$，$BC\subset$ 面 $PBC$，据线面垂直定义得 $AD\perp BC$。}
+      \eduExplainStep{4}{再凑第二条 $PA\perp BC$}{由 $PA\perp$ 面 $ABC$，$BC\subset$ 面 $ABC$，据定义得 $PA\perp BC$。}
+      \eduExplainStep{5}{两条相交垂线下结论}{$AD\perp BC$，$PA\perp BC$，$AD\cap PA=A$，$AD,PA\subset$ 面 $PAB$，由线面垂直判定得 $BC\perp$ 面 $PAB$；又 $AB\subset$ 面 $PAB$，据定义得 $BC\perp AB$。}
+      \begin{center}
+        \begin{diagramcoltikz}{70mm}{在面 PAB 内作 AD⊥PB（垂足 D），BC 与 PA、AD 都垂直，交于 A。}
+        \input{\detokenize{build/diagram/jobs/explanation-example3-solution-annotated/rendered/solution.fragment.tex}}
+        \end{diagramcoltikz}
+      \end{center}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduMistakeBox}
+\eduSubTitle{易错提醒}①判定与性质方向混用：判定是"线面推出面面"，性质是"面面推出线面"，方向不能反。
+②性质定理漏写"垂直于交线"：必须是面内\textbf{垂直于交线}的线才垂直另一面。
+③只凑一条垂线就下结论：性质链里凑线面垂直仍需"两条相交线"，别只靠一条。
+\end{eduMistakeBox}
+
+
+
+
+\begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
+\begin{eduBulletList}
+  \item 证面面垂直：到一面里找（或证）一条垂直另一面的线，再下判定。  \item 用面面垂直：在面内找垂直于交线的线，由性质得它垂直另一面。  \item 每步标注用的是判定还是性质，向上还是向下，钉回转化环。\end{eduBulletList}
+\end{eduSummaryBlock}
+
+
+
+\clearpage
+\eduSectionTitle{单元四：二面角平面角——只找角、不计算}
+
+
+\begin{eduSolutionBox}{二面角的平面角：三要素与作图口诀}
+  \begingroup
+  \setlength{\parskip}{2.5mm}
+\textbf{二面角 $\alpha\text{-}l\text{-}\beta$：}从一条直线 $l$（棱）出发的两个半平面组成的图形。\par
+\textbf{平面角三要素（缺一即非平面角）：}\textcircled{1} 顶点在棱 $l$ 上；\textcircled{2} 两边分别在两个半平面内；\textcircled{3} 两边都垂直于棱 $l$。\par
+\textbf{作图口诀（本题只到"找出角"，不算大小）：}若能证棱 $l\perp$ 某个面，则该面与两半平面的两条交线就是平面角的两边，交点（棱与该面的交点）就是平面角顶点。\par
+本题阶段只做"定平面角顶点 + 核验三要素"，不进行数值计算（计算留到后续）。\par
+  \endgroup
+\end{eduSolutionBox}
+
+
+
+
+\begin{eduProblemBlock}[例题 4]
+\noindent
+\begin{minipage}[t]{\dimexpr\linewidth-70mm-6mm\relax}
+\vspace{0pt}
+如图，$AB$ 是 $\odot O$ 的直径，$PA$ 垂直于 $\odot O$ 所在平面，$C$ 是圆上一点（不同于 $A,B$）。指出二面角 $P\text{-}BC\text{-}A$ 的平面角，并核验三要素。（只找角，不计算大小。）
+
+\end{minipage}\hfill
+\begin{diagramcoltikz}{70mm}{PA⊥圆面，AB 为直径，C 在圆上，找二面角 P-BC-A 的平面角顶点。}
+\input{\detokenize{build/diagram/jobs/explanation-example4-prompt/rendered/prompt.fragment.tex}}
+\end{diagramcoltikz}
+\end{eduProblemBlock}
+
+
+
+
+
+\begin{eduAuxItem}{思路导航}
+认棱：二面角的棱是 $BC$$\;\to\;$证棱 $BC\perp$ 面 $PAC$$\;\to\;$定平面角顶点与两边$\;\to\;$核验三要素\end{eduAuxItem}
+
+
+
+
+\begin{eduSubQuestionItem}{例题 4}
+指出二面角 $P\text{-}BC\text{-}A$ 的平面角，并核验三要素。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{小贴士}
+        \eduSideHint{平面角顶点怎么定}{若能证棱 $\perp$ 某个面，棱与该面的交点就是平面角顶点，该面与两半平面的两条交线就是两边。本题先证 $BC\perp$ 面 $PAC$。}
+        \eduSideHint{凑棱的垂线}{$PA\perp$ 圆面给一条 $PA\perp BC$；直径对圆周角 $90^{\circ}$ 给一条 $AC\perp BC$。两条相交垂线凑齐棱的线面垂直。}
+        \eduSideMistake{三要素不全}{顶点不在棱上、两边不全在两个半平面内、两边不都垂直于棱，任一条不满足都不是平面角。核验要逐项写。}
+  \end{eduExplainLeft}
+
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{解答}
+      \eduExplainStep{1}{认棱：二面角的棱是 $BC$}{二面角 $P\text{-}BC\text{-}A$ 的棱为 $BC$，两个半平面是 $PBC$ 与 $ABC$。平面角顶点要在 $BC$ 上。}
+      \eduExplainStep{2}{证棱 $BC\perp$ 面 $PAC$}{由 $PA\perp$ 圆面 $ABC$，$BC\subset$ 圆面，据定义得 $PA\perp BC$；又 $AB$ 为直径，$C$ 在圆上，由直径所对圆周角为 $90^{\circ}$ 得 $AC\perp BC$。$PA\cap AC=A$，$PA,AC\subset$ 面 $PAC$，由线面垂直判定得 $BC\perp$ 面 $PAC$。}
+      \eduExplainStep{3}{定平面角顶点与两边}{棱 $BC\perp$ 面 $PAC$，垂足为 $C$（$C\in BC$ 且 $C\in$ 面 $PAC$）。面 $PAC$ 与两个半平面的交线分别为 $PC$、$AC$，故 $\angle PCA$ 为二面角 $P\text{-}BC\text{-}A$ 的平面角。}
+      \eduExplainStep{4}{核验三要素}{\textcircled{1} 顶点 $C$ 在棱 $BC$ 上；\textcircled{2} $CP\subset$ 半平面 $PBC$，$CA\subset$ 半平面 $ABC$；\textcircled{3} $CP\perp BC$、$CA\perp BC$（由 $BC\perp$ 面 $PAC$）。三要素齐全，$\angle PCA$ 是平面角。}
+      \begin{center}
+        \begin{diagramcoltikz}{70mm}{BC⊥面 PAC，垂足 C；CP、CA 分别在两半平面且都⊥BC，∠PCA 为平面角。}
+        \input{\detokenize{build/diagram/jobs/explanation-example4-solution-annotated/rendered/solution.fragment.tex}}
+        \end{diagramcoltikz}
+      \end{center}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduMistakeBox}
+\eduSubTitle{易错提醒}二面角平面角三要素常缺：①顶点画到棱外（应在棱上）；②两边画到同一半平面（应分别在两个半平面）；③只画一边垂直于棱（两边都要⊥棱）。
+本专题只找角、核验三要素，不进行数值计算。
+\end{eduMistakeBox}
+
+
+
+
+\begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
+\begin{eduBulletList}
+  \item 认棱 → 证棱⊥某面 → 该面与两半平面交线即平面角两边，交点即顶点。  \item 三要素逐项核验：顶点在棱上、两边在两半平面、两边都⊥棱。  \item 本阶段只找角不算大小，计算留到后续。\end{eduBulletList}
+\end{eduSummaryBlock}
+
+
+
+
+\end{document}

@@ -1,0 +1,30 @@
+\input{fixed_theorem_diagrams/tikz/_fixed_diagram_styles.tex}
+\tdplotsetmaincoords{65}{115}
+\begin{tikzpicture}[tdplot_main_coords,theorem diagram]
+  \coordinate (ptap1) at (0,0,0);
+  \coordinate (ptap2) at (3.6,0,0);
+  \coordinate (ptap3) at (3.6,1.1,0);
+  \coordinate (ptap4) at (0,1.1,0);
+  \coordinate (ptbp1) at (0,0,1);
+  \coordinate (ptbp2) at (3.6,0,1);
+  \coordinate (ptbp3) at (3.6,1.1,1);
+  \coordinate (ptbp4) at (0,1.1,1);
+  \coordinate (ptgp1) at (0.45,0.55,-0.25);
+  \coordinate (ptgp2) at (3.25,0.55,-0.25);
+  \coordinate (ptgp3) at (3.25,0.55,1.35);
+  \coordinate (ptgp4) at (0.45,0.55,1.35);
+  \coordinate (pta1) at (0.45,0.55,0);
+  \coordinate (pta2) at (3.25,0.55,0);
+  \coordinate (ptb1) at (0.45,0.55,1);
+  \coordinate (ptb2) at (3.25,0.55,1);
+  \draw[plane] (ptap1) -- (ptap2) -- (ptap3) -- (ptap4) -- cycle;
+  \draw[planeB] (ptbp1) -- (ptbp2) -- (ptbp3) -- (ptbp4) -- cycle;
+  \draw[planeC] (ptgp1) -- (ptgp2) -- (ptgp3) -- (ptgp4) -- cycle;
+  \node[label] at (ptap3) {$\alpha$};
+  \node[label] at (ptbp3) {$\beta$};
+  \node[label] at (ptgp3) {$\gamma$};
+  \draw[main,intersection line] (pta1) -- (pta2);
+  \node[label,right] at (pta2) {$a$};
+  \draw[second,intersection line] (ptb1) -- (ptb2);
+  \node[label,right] at (ptb2) {$b$};
+\end{tikzpicture}

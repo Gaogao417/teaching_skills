@@ -1,0 +1,418 @@
+version: fixed-theorem-diagrams/v3
+scope: 立体几何定理默写
+source: fixed_theorem_diagrams/specs.yaml
+usage:
+  diagram_field: diagram_col
+  kind: tikz
+  width: 55mm
+  variant: prompt
+  disclosure_policy: clean
+  path_base: artifact_dir
+rules:
+- 左侧竖式条件组是标准，固定图必须从同一条件对象生成。
+- 每张图先声明立体几何条件，再声明三维坐标，最后由脚本生成 tikz-3dplot。
+- renderer 必须在 3D 层校验平行、垂直、共面、交线和从属关系。
+- 已入库定理直接引用生成后的 tikz_path，不再声明 diagram_slot。
+diagrams:
+- theorem_id: a01-symbols
+  title: 符号约定
+  tikz_path: fixed_theorem_diagrams/tikz/a01-symbols.fragment.tex
+  spec_source: fixed_theorem_diagrams/specs.yaml
+  renderer: tikz-3dplot
+  condition_count: 3
+  diagram_labels:
+  - A
+  - l
+  - alpha
+  - beta
+  - m
+- theorem_id: a02-position-types
+  title: 位置关系分类
+  tikz_path: fixed_theorem_diagrams/tikz/a02-position-types.fragment.tex
+  spec_source: fixed_theorem_diagrams/specs.yaml
+  renderer: tikz-3dplot
+  condition_count: 3
+  diagram_labels:
+  - a
+  - b
+  - alpha
+  - beta
+- theorem_id: a03-three-points-plane
+  title: 基本事实1：三点定面
+  tikz_path: fixed_theorem_diagrams/tikz/a03-three-points-plane.fragment.tex
+  spec_source: fixed_theorem_diagrams/specs.yaml
+  renderer: tikz-3dplot
+  condition_count: 4
+  diagram_labels:
+  - A
+  - B
+  - C
+  - alpha
+- theorem_id: a04-line-in-plane
+  title: 基本事实2：点线面从属
+  tikz_path: fixed_theorem_diagrams/tikz/a04-line-in-plane.fragment.tex
+  spec_source: fixed_theorem_diagrams/specs.yaml
+  renderer: tikz-3dplot
+  condition_count: 5
+  diagram_labels:
+  - A
+  - B
+  - l
+  - alpha
+- theorem_id: a05-common-point-line
+  title: 基本事实3：公共点推出交线
+  tikz_path: fixed_theorem_diagrams/tikz/a05-common-point-line.fragment.tex
+  spec_source: fixed_theorem_diagrams/specs.yaml
+  renderer: tikz-3dplot
+  condition_count: 4
+  diagram_labels:
+  - P
+  - alpha
+  - beta
+  - m
+- theorem_id: a06-line-point-plane
+  title: 推论1：直线与线外一点定面
+  tikz_path: fixed_theorem_diagrams/tikz/a06-line-point-plane.fragment.tex
+  spec_source: fixed_theorem_diagrams/specs.yaml
+  renderer: tikz-3dplot
+  condition_count: 3
+  diagram_labels:
+  - a
+  - P
+  - alpha
+- theorem_id: a07-intersecting-lines-plane
+  title: 推论2：相交直线定面
+  tikz_path: fixed_theorem_diagrams/tikz/a07-intersecting-lines-plane.fragment.tex
+  spec_source: fixed_theorem_diagrams/specs.yaml
+  renderer: tikz-3dplot
+  condition_count: 3
+  diagram_labels:
+  - a
+  - b
+  - P
+  - alpha
+- theorem_id: a08-parallel-lines-plane
+  title: 推论3：平行直线定面
+  tikz_path: fixed_theorem_diagrams/tikz/a08-parallel-lines-plane.fragment.tex
+  spec_source: fixed_theorem_diagrams/specs.yaml
+  renderer: tikz-3dplot
+  condition_count: 3
+  diagram_labels:
+  - a
+  - b
+  - alpha
+- theorem_id: b01-parallel-transitive
+  title: 平行传递性
+  tikz_path: fixed_theorem_diagrams/tikz/b01-parallel-transitive.fragment.tex
+  spec_source: fixed_theorem_diagrams/specs.yaml
+  renderer: tikz-3dplot
+  condition_count: 3
+  diagram_labels:
+  - a
+  - b
+  - c
+- theorem_id: b02-equal-angle
+  title: 等角定理
+  tikz_path: fixed_theorem_diagrams/tikz/b02-equal-angle.fragment.tex
+  spec_source: fixed_theorem_diagrams/specs.yaml
+  renderer: tikz-3dplot
+  condition_count: 4
+  diagram_labels:
+  - a
+  - b
+  - a_prime
+  - b_prime
+- theorem_id: b03-line-plane-parallel-judge
+  title: 线面平行判定
+  tikz_path: fixed_theorem_diagrams/tikz/b03-line-plane-parallel-judge.fragment.tex
+  spec_source: fixed_theorem_diagrams/specs.yaml
+  renderer: tikz-3dplot
+  condition_count: 3
+  diagram_labels:
+  - a
+  - b
+  - alpha
+- theorem_id: b04-line-plane-parallel-property
+  title: 线面平行性质
+  tikz_path: fixed_theorem_diagrams/tikz/b04-line-plane-parallel-property.fragment.tex
+  spec_source: fixed_theorem_diagrams/specs.yaml
+  renderer: tikz-3dplot
+  condition_count: 4
+  diagram_labels:
+  - a
+  - b
+  - alpha
+  - beta
+- theorem_id: b05-plane-plane-parallel-judge
+  title: 面面平行判定
+  tikz_path: fixed_theorem_diagrams/tikz/b05-plane-plane-parallel-judge.fragment.tex
+  spec_source: fixed_theorem_diagrams/specs.yaml
+  renderer: tikz-3dplot
+  condition_count: 8
+  diagram_labels:
+  - a
+  - b
+  - a_prime
+  - b_prime
+  - alpha
+  - beta
+- theorem_id: b06-plane-plane-parallel-property
+  title: 面面平行性质
+  tikz_path: fixed_theorem_diagrams/tikz/b06-plane-plane-parallel-property.fragment.tex
+  spec_source: fixed_theorem_diagrams/specs.yaml
+  renderer: tikz-3dplot
+  condition_count: 4
+  diagram_labels:
+  - alpha
+  - beta
+  - gamma
+  - a
+  - b
+- theorem_id: b07-plane-plane-parallel-extra
+  title: 面面平行的常用性质
+  tikz_path: fixed_theorem_diagrams/tikz/b07-plane-plane-parallel-extra.fragment.tex
+  spec_source: fixed_theorem_diagrams/specs.yaml
+  renderer: tikz-3dplot
+  condition_count: 2
+  diagram_labels:
+  - a
+  - alpha
+  - beta
+- theorem_id: b08-intersection-line-parallel
+  title: 相交两平面内平行线与交线
+  tikz_path: fixed_theorem_diagrams/tikz/b08-intersection-line-parallel.fragment.tex
+  spec_source: fixed_theorem_diagrams/specs.yaml
+  renderer: tikz-3dplot
+  condition_count: 6
+  diagram_labels:
+  - alpha
+  - beta
+  - m
+  - l_1
+  - l_2
+- theorem_id: c01-skew-perpendicular
+  title: 异面直线垂直定义
+  tikz_path: fixed_theorem_diagrams/tikz/c01-skew-perpendicular.fragment.tex
+  spec_source: fixed_theorem_diagrams/specs.yaml
+  renderer: tikz-3dplot
+  condition_count: 3
+  diagram_labels:
+  - a
+  - a_prime
+  - b
+  - O
+- theorem_id: c02-line-plane-perp-definition
+  title: 线面垂直定义推论
+  tikz_path: fixed_theorem_diagrams/tikz/c02-line-plane-perp-definition.fragment.tex
+  spec_source: fixed_theorem_diagrams/specs.yaml
+  renderer: tikz-3dplot
+  condition_count: 3
+  diagram_labels:
+  - a
+  - b
+  - alpha
+- theorem_id: c03-line-plane-perp-judge
+  title: 线面垂直判定
+  tikz_path: fixed_theorem_diagrams/tikz/c03-line-plane-perp-judge.fragment.tex
+  spec_source: fixed_theorem_diagrams/specs.yaml
+  renderer: tikz-3dplot
+  condition_count: 6
+  diagram_labels:
+  - l
+  - m
+  - n
+  - P
+  - alpha
+- theorem_id: c04-line-plane-perp-property
+  title: 线面垂直性质
+  tikz_path: fixed_theorem_diagrams/tikz/c04-line-plane-perp-property.fragment.tex
+  spec_source: fixed_theorem_diagrams/specs.yaml
+  renderer: tikz-3dplot
+  condition_count: 3
+  diagram_labels:
+  - a
+  - b
+  - alpha
+- theorem_id: c05-plane-plane-perp-judge
+  title: 面面垂直判定
+  tikz_path: fixed_theorem_diagrams/tikz/c05-plane-plane-perp-judge.fragment.tex
+  spec_source: fixed_theorem_diagrams/specs.yaml
+  renderer: tikz-3dplot
+  condition_count: 4
+  diagram_labels:
+  - l
+  - alpha
+  - beta
+- theorem_id: c06-plane-plane-perp-property
+  title: 面面垂直性质
+  tikz_path: fixed_theorem_diagrams/tikz/c06-plane-plane-perp-property.fragment.tex
+  spec_source: fixed_theorem_diagrams/specs.yaml
+  renderer: tikz-3dplot
+  condition_count: 5
+  diagram_labels:
+  - a
+  - l
+  - alpha
+  - beta
+- theorem_id: c07-three-perpendicular
+  title: 三垂线定理
+  tikz_path: fixed_theorem_diagrams/tikz/c07-three-perpendicular.fragment.tex
+  spec_source: fixed_theorem_diagrams/specs.yaml
+  renderer: tikz-3dplot
+  condition_count: 5
+  diagram_labels:
+  - P
+  - A
+  - B
+  - l
+  - alpha
+- theorem_id: c08-three-perpendicular-converse
+  title: 三垂线逆定理
+  tikz_path: fixed_theorem_diagrams/tikz/c08-three-perpendicular-converse.fragment.tex
+  spec_source: fixed_theorem_diagrams/specs.yaml
+  renderer: tikz-3dplot
+  condition_count: 5
+  diagram_labels:
+  - P
+  - A
+  - B
+  - l
+  - alpha
+- theorem_id: c09-min-angle
+  title: 最小角定理
+  tikz_path: fixed_theorem_diagrams/tikz/c09-min-angle.fragment.tex
+  spec_source: fixed_theorem_diagrams/specs.yaml
+  renderer: tikz-3dplot
+  condition_count: 5
+  diagram_labels:
+  - l
+  - A
+  - H
+  - AH
+  - b
+  - alpha
+- theorem_id: d01-point-line-distance
+  title: 点到直线距离
+  tikz_path: fixed_theorem_diagrams/tikz/d01-point-line-distance.fragment.tex
+  spec_source: fixed_theorem_diagrams/specs.yaml
+  renderer: tikz-3dplot
+  condition_count: 3
+  diagram_labels:
+  - P
+  - H
+  - l
+- theorem_id: d02-point-plane-distance
+  title: 点到平面距离
+  tikz_path: fixed_theorem_diagrams/tikz/d02-point-plane-distance.fragment.tex
+  spec_source: fixed_theorem_diagrams/specs.yaml
+  renderer: tikz-3dplot
+  condition_count: 3
+  diagram_labels:
+  - P
+  - H
+  - alpha
+- theorem_id: d03-line-plane-distance
+  title: 线面距转点面距
+  tikz_path: fixed_theorem_diagrams/tikz/d03-line-plane-distance.fragment.tex
+  spec_source: fixed_theorem_diagrams/specs.yaml
+  renderer: tikz-3dplot
+  condition_count: 4
+  diagram_labels:
+  - a
+  - P
+  - alpha
+- theorem_id: d04-plane-plane-distance
+  title: 面面距转点面距
+  tikz_path: fixed_theorem_diagrams/tikz/d04-plane-plane-distance.fragment.tex
+  spec_source: fixed_theorem_diagrams/specs.yaml
+  renderer: tikz-3dplot
+  condition_count: 4
+  diagram_labels:
+  - P
+  - alpha
+  - beta
+- theorem_id: d05-skew-distance
+  title: 异面直线距离
+  tikz_path: fixed_theorem_diagrams/tikz/d05-skew-distance.fragment.tex
+  spec_source: fixed_theorem_diagrams/specs.yaml
+  renderer: tikz-3dplot
+  condition_count: 5
+  diagram_labels:
+  - a
+  - b
+  - M
+  - N
+- theorem_id: d06-volume-distance
+  title: 等体积法求点面距
+  tikz_path: fixed_theorem_diagrams/tikz/d06-volume-distance.fragment.tex
+  spec_source: fixed_theorem_diagrams/specs.yaml
+  renderer: tikz-3dplot
+  condition_count: 1
+  diagram_labels:
+  - P
+  - A
+  - B
+  - C
+  - H
+  - h
+- theorem_id: d07-skew-angle
+  title: 异面直线所成角
+  tikz_path: fixed_theorem_diagrams/tikz/d07-skew-angle.fragment.tex
+  spec_source: fixed_theorem_diagrams/specs.yaml
+  renderer: tikz-3dplot
+  condition_count: 3
+  diagram_labels:
+  - a
+  - b
+  - a_prime
+  - b_prime
+  - O
+- theorem_id: d08-line-plane-angle
+  title: 线面角定义
+  tikz_path: fixed_theorem_diagrams/tikz/d08-line-plane-angle.fragment.tex
+  spec_source: fixed_theorem_diagrams/specs.yaml
+  renderer: tikz-3dplot
+  condition_count: 3
+  diagram_labels:
+  - l
+  - A
+  - P
+  - H
+  - alpha
+- theorem_id: d09-distance-to-angle
+  title: 点面距法求线面角
+  tikz_path: fixed_theorem_diagrams/tikz/d09-distance-to-angle.fragment.tex
+  spec_source: fixed_theorem_diagrams/specs.yaml
+  renderer: tikz-3dplot
+  condition_count: 3
+  diagram_labels:
+  - l
+  - P
+  - A
+  - d
+  - s
+  - alpha
+- theorem_id: d10-dihedral-angle
+  title: 二面角平面角定义
+  tikz_path: fixed_theorem_diagrams/tikz/d10-dihedral-angle.fragment.tex
+  spec_source: fixed_theorem_diagrams/specs.yaml
+  renderer: tikz-3dplot
+  condition_count: 6
+  diagram_labels:
+  - alpha
+  - beta
+  - l
+  - O
+  - A
+  - B
+- theorem_id: d11-area-projection
+  title: 二面角面积射影法
+  tikz_path: fixed_theorem_diagrams/tikz/d11-area-projection.fragment.tex
+  spec_source: fixed_theorem_diagrams/specs.yaml
+  renderer: tikz-3dplot
+  condition_count: 4
+  diagram_labels:
+  - S_original
+  - S_projection
+  - alpha
+  - beta

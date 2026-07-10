@@ -1,0 +1,345 @@
+\documentclass{exam-zh}
+\usepackage{edu-explanation}
+
+\examsetup{
+  question/show-answer = true,
+  fillin/show-answer = true,
+  solution/show-solution = show-stay,
+}
+
+\begin{document}
+
+\eduSectionTitle{单元一：从属关系链——判断一条线是否落在面上}
+
+
+\begin{eduSolutionBox}{结构图：截面与共面的四步链}
+  \begingroup
+  \setlength{\parskip}{2.5mm}
+\begin{center}
+\begin{tikzpicture}[x=1cm,y=1cm,>=stealth, font=\small]
+\node[draw=edu-blue!80, fill=edu-blue!10, rounded corners=3pt, align=center, inner sep=5pt, font=\bfseries] (root) at (0,0) {截面与共面的四步链};
+\node[draw=green!70, fill=green!8, rounded corners=2pt, align=center, inner sep=4pt, minimum width=28mm] (inc) at (-4,1.5) {从属关系\\点 $\in$ 线\\线 $\subset$ 面};
+\node[draw=orange!70, fill=orange!8, rounded corners=2pt, align=center, inner sep=4pt, minimum width=28mm] (plane) at (0,1.9) {确定平面\\三点不共线\\线+点\\相交/平行线};
+\node[draw=purple!70, fill=purple!8, rounded corners=2pt, align=center, inner sep=4pt, minimum width=28mm] (inter) at (4,1.5) {找交线\\两个公共点\\延长找第二点};
+\node[draw=teal!70, fill=teal!8, rounded corners=2pt, align=center, inner sep=4pt, minimum width=28mm] (section) at (0,-1.9) {画截面\\边在表面上\\逐面核验};
+\draw[->, thick, edu-blue!70] (root) -- node[above, sloped, font=\scriptsize] {会写} (inc);
+\draw[->, thick, edu-blue!70] (root) -- node[above, sloped, font=\scriptsize] {会定} (plane);
+\draw[->, thick, edu-blue!70] (root) -- node[above, sloped, font=\scriptsize] {会找} (inter);
+\draw[->, thick, edu-blue!70] (root) -- node[above, sloped, font=\scriptsize] {会画} (section);
+\end{tikzpicture}
+\end{center}\par
+\textbf{总口令：}截面题只做三件事：找公共点、连交线、核验每条边落在哪个表面。\par
+  \endgroup
+\end{eduSolutionBox}
+
+
+
+
+
+\begin{eduSolutionBox}{核心结论：两点∈线∈面 ⇒ 线⊂面}
+  \begingroup
+  \setlength{\parskip}{2.5mm}
+\textbf{基本事实2：} 若 $A\in l$，$B\in l$，$A\in\alpha$，$B\in\alpha$，则 $l\subset\alpha$。\par
+\textbf{唯一判据：} 判断“一条直线是否落在某个面上”，只看线上是否有两点都落在该面内。截面作图里每一条边都靠它落实“属于哪个面”。\par
+\begin{tabular}{p{0.30\linewidth}p{0.60\linewidth}}
+符号 & 区分\\
+点在直线/面上 & 用 $\in$，如 $A\in l$、$A\in\alpha$\\
+直线在面内 & 用 $\subset$，如 $l\subset\alpha$\\
+两面交于线 & $\alpha\cap\beta=m$\\
+\end{tabular}
+\par
+  \endgroup
+\end{eduSolutionBox}
+
+
+
+
+\begin{eduProblemBlock}[例题 1]
+如图，两个平面 $\alpha$、$\beta$ 相交于直线 $m$，直线 $n\subset\alpha$，$m$ 与 $n$ 相交于点 $A$。
+下列符号表达中，正确的是哪一个？
+\begin{enumerate}[label=(\Alph*)]
+  \item $\alpha\cap\beta=m$，$n\in\alpha$，$m\cap n=A$
+  \item $\alpha\cap\beta=m$，$n\subset\alpha$，$m\cap n=A$
+  \item $\alpha\cap\beta=m$，$n\subset\alpha$，$A\subset m$，$A\subset n$
+  \item $\alpha\cap\beta=m$，$n\in\alpha$，$A\in m$，$A\in n$
+\end{enumerate}
+
+\end{eduProblemBlock}
+
+
+
+
+
+\begin{eduAuxItem}{思路导航}
+把题意逐句翻成符号$\;\to\;$区分点用 $\in$、线用 $\subset$\end{eduAuxItem}
+
+
+
+
+\begin{eduSubQuestionItem}{例题 1}
+选出正确的符号表达。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{小贴士}
+        \eduSideHint{先想哪个符号}{“直线在面内”为什么用 $\subset$ 而不是 $\in$？因为直线看成点的集合，面也是点的集合，集合之间用包含关系。}
+        \eduSideMistake{易混点}{把 $A\in m$ 写成 $A\subset m$ 是错的：点不是集合。}
+  \end{eduExplainLeft}
+
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{解答}
+      \eduExplainStep{1}{把题意逐句翻成符号}{两面相交于 $m$ 写 $\alpha\cap\beta=m$；$n$ 在 $\alpha$ 内写 $n\subset\alpha$；$m,n$ 交于 $A$ 写 $m\cap n=A$。}
+      \eduExplainStep{2}{区分点用 $\in$、线用 $\subset$}{直线在面内只能写 $n\subset\alpha$，不能写 $n\in\alpha$；点在直线/面上写 $A\in m$、$A\in n$，不能写 $A\subset m$。}
+    \vspace{1mm}
+    {\color{edu-blue}\bfseries\small 一句话收束}\par\vspace{1mm}
+    \begin{eduBulletList}
+      \item 点用 $\in$、线面用 $\subset$；两面交线写 $\alpha\cap\beta=m$。    \end{eduBulletList}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduMistakeBox}
+\eduSubTitle{易错提醒}判断“线在面上”时，常见错误是凭感觉，没去找线上两点都在面内。
+记住：线上有两点都在同一面内，整条线才在该面内，这就是基本事实2。
+\end{eduMistakeBox}
+
+
+
+
+\begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
+\begin{eduBulletList}
+  \item 判断线在面内，只看线上是否有两点都在该面内。  \item 点用 $\in$，线面用 $\subset$，两面交线写 $\cap$。\end{eduBulletList}
+\end{eduSummaryBlock}
+
+
+
+\clearpage
+\eduSectionTitle{单元二：定面链——四条定面主路与共面证明的出口}
+
+
+\begin{eduSolutionBox}{核心结论：四条定面主路并列对比}
+  \begingroup
+  \setlength{\parskip}{2.5mm}
+\textbf{基本事实1：} 过不在一条直线上的三点，有且只有一个平面（最根本的定面公理）。\par
+\begin{tabular}{p{0.22\linewidth}p{0.40\linewidth}p{0.28\linewidth}}
+主路 & 条件 & 用途\\
+推论① & 一条直线 + 直线外一点 & 线+点定面\\
+推论② & 两条相交直线 & 相交定面（共面证明出口一）\\
+推论③ & 两条平行直线 & 平行定面（共面证明出口二）\\
+\end{tabular}
+\par
+\textbf{共面证明的本质：} 找到一个能把两条线都装进去的平面——优先用推论②（相交）或推论③（平行）。\par
+  \endgroup
+\end{eduSolutionBox}
+
+
+
+
+\begin{eduProblemBlock}[例题 2]
+已知一条直线 $l$ 和 $l$ 外三个点 $A,B,C$。这三个点与直线 $l$
+最多能确定多少个平面？说明理由。
+
+\end{eduProblemBlock}
+
+
+
+
+
+\begin{eduAuxItem}{思路导航}
+线 + 一个点定一面（推论①）$\;\to\;$三个点能否再定面$\;\to\;$求最多\end{eduAuxItem}
+
+
+
+
+\begin{eduSubQuestionItem}{例题 2}
+求一条直线与线外三点最多确定的平面个数。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{小贴士}
+        \eduSideHint{怎么数才不漏不重}{先固定“线+点”这条主路数，再单独看三点之间能不能再凑出平面，两数相加即最多。}
+        \eduSideMistake{为什么最多要加 1}{若误以为三点不能再定面，就会漏算那 $1$ 个；前提是三点不共线且所在面不过 $l$。}
+  \end{eduExplainLeft}
+
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{解答}
+      \eduExplainStep{1}{线 + 一个点定一面（推论①）}{直线 $l$ 与线外一点确定一个平面。$A,B,C$ 各与 $l$ 最多各定一个面，共 $3$ 个。}
+      \eduExplainStep{2}{三个点能否再定面}{若 $A,B,C$ 不共线，且三点所在平面不经过 $l$，则它们还能再定 $1$ 个面。}
+      \eduExplainStep{3}{求最多}{最多时 $3+1=4$ 个平面。关键判据：哪个点能与 $l$ 落在同一面里就少算一个。}
+    \vspace{1mm}
+    {\color{edu-blue}\bfseries\small 一句话收束}\par\vspace{1mm}
+    \begin{eduBulletList}
+      \item 枚举定面个数：先数线+点，再数点之间，最多 $4$ 个。    \end{eduBulletList}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduMistakeBox}
+\eduSubTitle{易错提醒}把“三点定面”记成“任意三点定面”是错的——必须不共线。
+共线的三点不能定面，能定面的是不共线的三点。
+\end{eduMistakeBox}
+
+
+
+
+\begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
+\begin{eduBulletList}
+  \item 定面四主路：三点、线+点、两相交线、两平行线。  \item 共面证明优先往“相交定面”或“平行定面”两条主路上靠。\end{eduBulletList}
+\end{eduSummaryBlock}
+
+
+
+\clearpage
+\eduSectionTitle{单元三：交线链与截面作图——三句操作口令}
+
+
+\begin{eduSolutionBox}{核心结论：两个公共点定交线 + 三句操作口令}
+  \begingroup
+  \setlength{\parskip}{2.5mm}
+\textbf{基本事实3：} 若 $P\in\alpha$ 且 $P\in\beta$，则 $\alpha\cap\beta=l$，且 $P\in l$。\par
+\textbf{口令一·两个公共点定交线：} 截平面与几何体表面有两个公共点，交线就被唯一确定。\par
+\textbf{口令二·同一平面内延长找交点：} 公共点不直接可见时，在某个表面所在的平面内延长两条已有线，交点必落在该面上。\par
+\textbf{口令三·截面边落在表面上：} 截面与某表面的交线就是截面的一条边；落在空中的线一律判错。\par
+  \endgroup
+\end{eduSolutionBox}
+
+
+
+
+\begin{eduProblemBlock}[例题 3]
+如图，在正方体 $ABCD-A_1B_1C_1D_1$ 中，$P$、$Q$ 分别为棱 $BB_1$、$CC_1$ 的中点。
+画出过 $A$、$P$、$Q$ 三点的平面与底面 $ABCD$ 的交线。
+
+\end{eduProblemBlock}
+
+
+
+
+
+\begin{eduAuxItem}{思路导航}
+找第一个公共点$\;\to\;$在侧面所在平面内延长找第二个公共点$\;\to\;$两个公共点连线即交线\end{eduAuxItem}
+
+
+
+
+\begin{eduSubQuestionItem}{例题 3}
+画出过 $A,P,Q$ 的截面与底面 $ABCD$ 的交线。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{小贴士}
+        \eduSideHint{为什么要延长}{$A$ 在底面、$P,Q$ 不在底面，直接连没有第二个公共点；只能在某个侧面所在平面内延长，把交点“逼”到底面上去。}
+        \eduSideHint{延长线画在哪}{延长 $AP$ 必须在面 $ABB_1A_1$ 所在平面内画，落点 $M$ 一定在棱 $CB$（或其延长线）上。}
+        \eduSideMistake{截面画到几何体外}{若把交线连到几何体外面、或连了不在表面上的点，就是漏了“截面边落在表面上”这句口令。}
+  \end{eduExplainLeft}
+
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{解答}
+      \eduExplainStep{1}{找第一个公共点}{点 $A$ 同时在截面（过 $A$）和底面 $ABCD$ 上，是第一个公共点。}
+      \eduExplainStep{2}{在侧面所在平面内延长找第二个公共点}{在侧面 $BCC_1B_1$ 所在平面内，$PQ\parallel BC$，$PQ$ 与 $BC$ 不相交，故改在面 $ABB_1A_1$ 内：
+连 $AP$ 并延长，与 $CB$ 的延长线交于 $M$（$M$ 落在底面 $ABCD$ 上），$M$ 即第二个公共点。
+}
+      \eduExplainStep{3}{两个公共点连线即交线}{连接 $AM$，则 $AM$ 为截面与底面 $ABCD$ 的交线。}
+    \vspace{1mm}
+    {\color{edu-blue}\bfseries\small 一句话收束}\par\vspace{1mm}
+    \begin{eduBulletList}
+      \item 先找一个公共点，再在表面所在平面内延长找第二个公共点，两点连线即交线。    \end{eduBulletList}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduMistakeBox}
+\eduSubTitle{易错提醒}做复杂截面时最常犯两条：一是把截面边画到几何体外面，二是漏画延长线、
+直接连两个不该连的点。强制要求先画延长线、再定交线，每条边都追问“落在哪个表面”。
+\end{eduMistakeBox}
+
+
+
+
+\begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
+\begin{eduBulletList}
+  \item 截面三口令：两个公共点定交线、同一平面内延长找交点、截面边落在表面上。  \item 延长线一律画在某个表面所在的平面内，落点在棱上。\end{eduBulletList}
+\end{eduSummaryBlock}
+
+
+
+\clearpage
+\eduSectionTitle{单元四：共面证明——相交/平行两直线定面}
+
+
+\begin{eduSolutionBox}{核心结论：共面证明的两条主路}
+  \begingroup
+  \setlength{\parskip}{2.5mm}
+\textbf{主路一·相交定面（推论②）：} 若 $a\cap b=P$，则 $a,b$ 共面于由它们确定的平面。\par
+\textbf{主路二·平行定面（推论③）：} 若 $a\parallel b$，则 $a,b$ 共面于由它们确定的平面。\par
+\textbf{证四点共面：} 把四点连成两条线，说明这两条线相交或平行即可。\par
+  \endgroup
+\end{eduSolutionBox}
+
+
+
+
+\begin{eduProblemBlock}[例题 4]
+如图，在正方体 $ABCD-A_1B_1C_1D_1$ 中，$E$、$F$ 分别为棱 $AA_1$、$AB$ 的中点。
+求证：$E,F,C_1,D_1$ 四点共面。
+
+\end{eduProblemBlock}
+
+
+
+
+
+\begin{eduAuxItem}{思路导航}
+把四点配成两条线$\;\to\;$用中位线证平行$\;\to\;$由推论③定面\end{eduAuxItem}
+
+
+
+
+\begin{eduSubQuestionItem}{例题 4}
+证明 $E,F,C_1,D_1$ 四点共面。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{小贴士}
+        \eduSideHint{为什么往平行上靠}{四点分别在上、下底面附近，$EF$ 与 $D_1C$ 走向一致，自然想到用平行定面（推论③）。}
+        \eduSideMistake{缺判定依据}{只说“它们在一个面里”不算证明，必须写出相交或平行前提，再由推论定面。}
+  \end{eduExplainLeft}
+
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{解答}
+      \eduExplainStep{1}{把四点配成两条线}{连 $EF$ 与 $D_1C$，只需证 $EF\parallel D_1C$。}
+      \eduExplainStep{2}{用中位线证平行}{在 $\triangle AA_1B$ 中，$E,F$ 为 $AA_1,AB$ 中点，故 $EF\parallel A_1B$ 且 $EF=\tfrac12A_1B$；又 $A_1B\parallel D_1C$，故 $EF\parallel D_1C$。}
+      \eduExplainStep{3}{由推论③定面}{$EF\parallel D_1C$，由推论③ $EF$ 与 $D_1C$ 确定一个平面，故 $E,F,C_1,D_1$ 四点共面。}
+    \vspace{1mm}
+    {\color{edu-blue}\bfseries\small 一句话收束}\par\vspace{1mm}
+    \begin{eduBulletList}
+      \item 证四点共面：配成两条线，证相交或平行，再由推论定面。    \end{eduBulletList}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduMistakeBox}
+\eduSubTitle{易错提醒}共面证明最常犯的错误是凭直觉，没走“相交定面”或“平行定面”两条主路。
+一定先判两线是相交还是平行，再写“由推论②/③定面”。
+\end{eduMistakeBox}
+
+
+
+
+\begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
+\begin{eduBulletList}
+  \item 共面证明两条主路：相交定面（推论②）、平行定面（推论③）。  \item 证四点共面：先配成两条线，再判它们相交或平行。\end{eduBulletList}
+\end{eduSummaryBlock}
+
+
+
+
+\end{document}

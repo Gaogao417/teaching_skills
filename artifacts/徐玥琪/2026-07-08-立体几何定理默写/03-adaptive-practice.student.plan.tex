@@ -1,0 +1,701 @@
+\documentclass{exam-zh}
+\usepackage{edu-practice}
+
+\examsetup{
+  question/show-answer = false,
+  fillin/show-answer = false,
+  solution/show-solution = hide,
+}
+
+% ---------- 教师版解答样式 ----------
+\newtcolorbox{solutionblock}{
+  enhanced, breakable,
+  colback=edu-blue-bg,
+  colframe=edu-blue!25,
+  boxrule=0pt,
+  borderline west={2pt}{0pt}{edu-blue!50},
+  arc=0pt,
+  left=3mm, right=3mm, top=2mm, bottom=2mm,
+  before skip=2mm,
+  after skip=3mm,
+  fontupper=\small,
+}
+
+% 解答步骤编号
+\newcounter{solstep}
+\newcommand{\solstep}[2]{%
+  \stepcounter{solstep}%
+  \par\medskip
+  \noindent\hangindent=6mm
+  {\color{edu-blue}\bfseries\textcircled{\scriptsize\thesolstep}\enspace #1}\enspace #2\par
+}
+
+\begin{document}
+
+\section*{立体几何定理库默写 · 全覆盖竖式版}
+
+\section*{一、点线面基本事实与分类}
+
+
+\begin{question}[points=5]
+  \textbf{符号约定}\par
+\[
+\left.
+\begin{aligned}
+A&\ \underline{\hspace{9mm}}\ l\\
+l&\ \underline{\hspace{9mm}}\ \alpha\\
+\alpha&\ \underline{\hspace{9mm}}\ \beta=m
+\end{aligned}
+\right\}
+\Longrightarrow
+\begin{aligned}
+&\text{点在线上；}\\
+&\text{线在面内；}\\
+&\text{两面交于直线 }m
+\end{aligned}
+\]
+
+
+\end{question}
+
+
+
+\begin{question}[points=5]
+  \textbf{位置关系分类}\par
+\[
+\left.
+\begin{aligned}
+\text{线线}&:\ \text{相交、平行、}\underline{\hspace{12mm}}\\
+\text{线面}&:\ \text{在面内、相交、}\underline{\hspace{12mm}}\\
+\text{面面}&:\ \text{平行、}\underline{\hspace{12mm}}
+\end{aligned}
+\right\}
+\Longrightarrow \text{先判对象，再选定理}
+\]
+
+
+\end{question}
+
+
+
+\begin{question}[points=5]
+  \textbf{基本事实1：三点定面}\par
+\[
+\left.
+\begin{aligned}
+A,B,C&\ \underline{\hspace{18mm}}
+\end{aligned}
+\right\}
+\Longrightarrow
+\text{过 }A,B,C\text{ 有且只有一个平面}
+\]
+
+
+\end{question}
+
+
+
+\begin{question}[points=5]
+  \textbf{基本事实2：点线面从属}\par
+\[
+\left.
+\begin{aligned}
+A,B&\in l\\
+A,B&\in\alpha\\
+A&\ne B
+\end{aligned}
+\right\}
+\Longrightarrow
+\underline{\hspace{24mm}}
+\]
+
+
+\end{question}
+
+
+
+\begin{question}[points=5]
+  \textbf{基本事实3：公共点推出交线}\par
+\[
+\left.
+\begin{aligned}
+P&\in\alpha\\
+P&\in\beta\\
+\alpha&\ne\beta
+\end{aligned}
+\right\}
+\Longrightarrow
+\alpha\cap\beta=\underline{\hspace{12mm}},\quad P\in\underline{\hspace{10mm}}
+\]
+
+
+\end{question}
+
+
+
+\begin{question}[points=5]
+  \textbf{推论1：直线与线外一点定面}\par
+\[
+\left.
+\begin{aligned}
+a&\text{ 是直线}\\
+P&\notin a
+\end{aligned}
+\right\}
+\Longrightarrow
+\underline{\hspace{42mm}}
+\]
+
+
+\end{question}
+
+
+
+\begin{question}[points=5]
+  \textbf{推论2：相交直线定面}\par
+\[
+\left.
+\begin{aligned}
+a\cap b&=P
+\end{aligned}
+\right\}
+\Longrightarrow
+\underline{\hspace{38mm}}
+\]
+
+
+\end{question}
+
+
+
+\begin{question}[points=5]
+  \textbf{推论3：平行直线定面}\par
+\[
+\left.
+\begin{aligned}
+a&\parallel b\\
+a&\ne b
+\end{aligned}
+\right\}
+\Longrightarrow
+\underline{\hspace{38mm}}
+\]
+
+
+\end{question}
+
+
+\section*{二、平行关系定理}
+
+
+\begin{question}[points=5]
+  \textbf{平行传递性}\par
+\[
+\left.
+\begin{aligned}
+a&\parallel b\\
+b&\parallel c
+\end{aligned}
+\right\}
+\Longrightarrow
+\underline{\hspace{20mm}}
+\]
+
+
+\end{question}
+
+
+
+\begin{question}[points=5]
+  \textbf{等角定理}\par
+\[
+\left.
+\begin{aligned}
+a&\parallel a'\\
+b&\parallel b'
+\end{aligned}
+\right\}
+\Longrightarrow
+\angle(a,b)\text{ 与 }\angle(a',b')\ \underline{\hspace{26mm}}
+\]
+
+
+\end{question}
+
+
+
+\begin{question}[points=5]
+  \textbf{线面平行判定}\par
+\[
+\left.
+\begin{aligned}
+a&\parallel b\\
+b&\subset\alpha\\
+a&\not\subset\alpha
+\end{aligned}
+\right\}
+\Longrightarrow
+\underline{\hspace{22mm}}
+\]
+
+
+\end{question}
+
+
+
+\begin{question}[points=5]
+  \textbf{线面平行性质}\par
+\[
+\left.
+\begin{aligned}
+a&\parallel\alpha\\
+a&\subset\beta\\
+\alpha\cap\beta&=b
+\end{aligned}
+\right\}
+\Longrightarrow
+\underline{\hspace{22mm}}
+\]
+
+
+\end{question}
+
+
+
+\begin{question}[points=5]
+  \textbf{面面平行判定}\par
+\[
+\left.
+\begin{aligned}
+a,b&\subset\alpha\\
+a\cap b&=P\\
+a&\parallel\beta\\
+b&\parallel\beta
+\end{aligned}
+\right\}
+\Longrightarrow
+\underline{\hspace{22mm}}
+\]
+
+
+\end{question}
+
+
+
+\begin{question}[points=5]
+  \textbf{面面平行性质}\par
+\[
+\left.
+\begin{aligned}
+\alpha&\parallel\beta\\
+\gamma\cap\alpha&=a\\
+\gamma\cap\beta&=b
+\end{aligned}
+\right\}
+\Longrightarrow
+\underline{\hspace{22mm}}
+\]
+
+
+\end{question}
+
+
+
+\begin{question}[points=5]
+  \textbf{面面平行的常用性质}\par
+\[
+\left.
+\begin{aligned}
+\alpha&\parallel\beta\\
+a&\subset\alpha
+\end{aligned}
+\right\}
+\Longrightarrow
+\underline{\hspace{22mm}}
+\]
+
+
+\end{question}
+
+
+\section*{三、垂直关系定理}
+
+
+\begin{question}[points=5]
+  \textbf{异面直线垂直定义}\par
+\[
+\left.
+\begin{aligned}
+a'&\parallel a\\
+a'\cap b&=O\\
+\angle(a',b)&=90^\circ
+\end{aligned}
+\right\}
+\Longrightarrow
+\underline{\hspace{20mm}}
+\]
+
+
+\end{question}
+
+
+
+\begin{question}[points=5]
+  \textbf{线面垂直定义推论}\par
+\[
+\left.
+\begin{aligned}
+a&\perp\alpha\\
+b&\subset\alpha
+\end{aligned}
+\right\}
+\Longrightarrow
+\underline{\hspace{20mm}}
+\]
+
+
+\end{question}
+
+
+
+\begin{question}[points=5]
+  \textbf{线面垂直判定}\par
+\[
+\left.
+\begin{aligned}
+l&\perp m\\
+l&\perp n\\
+m,n&\subset\alpha\\
+m\cap n&=P
+\end{aligned}
+\right\}
+\Longrightarrow
+\underline{\hspace{20mm}}
+\]
+
+
+\end{question}
+
+
+
+\begin{question}[points=5]
+  \textbf{线面垂直性质}\par
+\[
+\left.
+\begin{aligned}
+a&\perp\alpha\\
+b&\perp\alpha
+\end{aligned}
+\right\}
+\Longrightarrow
+\underline{\hspace{20mm}}
+\]
+
+
+\end{question}
+
+
+
+\begin{question}[points=5]
+  \textbf{面面垂直判定}\par
+\[
+\left.
+\begin{aligned}
+l&\perp\alpha\\
+l&\subset\beta
+\end{aligned}
+\right\}
+\Longrightarrow
+\underline{\hspace{20mm}}
+\]
+
+
+\end{question}
+
+
+
+\begin{question}[points=5]
+  \textbf{面面垂直性质}\par
+\[
+\left.
+\begin{aligned}
+\alpha&\perp\beta\\
+\alpha\cap\beta&=l\\
+a&\subset\alpha\\
+a&\perp l
+\end{aligned}
+\right\}
+\Longrightarrow
+\underline{\hspace{20mm}}
+\]
+
+
+\end{question}
+
+
+
+\begin{question}[points=5]
+  \textbf{三垂线定理}\par
+\[
+\left.
+\begin{aligned}
+PA&\perp\alpha\\
+AB&\subset\alpha\\
+l&\subset\alpha\\
+AB&\perp l
+\end{aligned}
+\right\}
+\Longrightarrow
+\underline{\hspace{20mm}}
+\]
+
+
+\end{question}
+
+
+
+\begin{question}[points=5]
+  \textbf{三垂线逆定理}\par
+\[
+\left.
+\begin{aligned}
+PA&\perp\alpha\\
+AB&\subset\alpha\\
+l&\subset\alpha\\
+PB&\perp l
+\end{aligned}
+\right\}
+\Longrightarrow
+\underline{\hspace{20mm}}
+\]
+
+
+\end{question}
+
+
+
+\begin{question}[points=5]
+  \textbf{最小角定理}\par
+\[
+\left.
+\begin{aligned}
+l\cap\alpha&=A\\
+AH&\text{ 是 }l\text{ 在 }\alpha\text{ 内的射影}\\
+b&\subset\alpha,\ A\in b
+\end{aligned}
+\right\}
+\Longrightarrow
+\angle(l,AH)\ \underline{\hspace{16mm}}\ \angle(l,b)
+\]
+
+
+\end{question}
+
+
+\section*{四、距离与角的化归规则}
+
+
+\begin{question}[points=5]
+  \textbf{点到直线距离}\par
+\[
+\left.
+\begin{aligned}
+PH&\perp l\\
+H&\in l
+\end{aligned}
+\right\}
+\Longrightarrow
+d(P,l)=\underline{\hspace{16mm}}
+\]
+
+
+\end{question}
+
+
+
+\begin{question}[points=5]
+  \textbf{点到平面距离}\par
+\[
+\left.
+\begin{aligned}
+PH&\perp\alpha\\
+H&\in\alpha
+\end{aligned}
+\right\}
+\Longrightarrow
+d(P,\alpha)=\underline{\hspace{16mm}}
+\]
+
+
+\end{question}
+
+
+
+\begin{question}[points=5]
+  \textbf{线面距转点面距}\par
+\[
+\left.
+\begin{aligned}
+a&\parallel\alpha\\
+P&\in a
+\end{aligned}
+\right\}
+\Longrightarrow
+d(a,\alpha)=\underline{\hspace{20mm}}
+\]
+
+
+\end{question}
+
+
+
+\begin{question}[points=5]
+  \textbf{面面距转点面距}\par
+\[
+\left.
+\begin{aligned}
+\alpha&\parallel\beta\\
+P&\in\alpha
+\end{aligned}
+\right\}
+\Longrightarrow
+d(\alpha,\beta)=\underline{\hspace{20mm}}
+\]
+
+
+\end{question}
+
+
+
+\begin{question}[points=5]
+  \textbf{异面直线距离}\par
+\[
+\left.
+\begin{aligned}
+M&\in a,\ N\in b\\
+MN&\perp a\\
+MN&\perp b
+\end{aligned}
+\right\}
+\Longrightarrow
+d(a,b)=\underline{\hspace{16mm}}
+\]
+
+
+\end{question}
+
+
+
+\begin{question}[points=5]
+  \textbf{等体积法求点面距}\par
+\[
+\left.
+\begin{aligned}
+V_{P-ABC}&=\frac13 S_{\triangle ABC}\cdot h
+\end{aligned}
+\right\}
+\Longrightarrow
+h=\underline{\hspace{28mm}}
+\]
+
+
+\end{question}
+
+
+
+\begin{question}[points=5]
+  \textbf{异面直线所成角}\par
+\[
+\left.
+\begin{aligned}
+a'&\parallel a\\
+b'&\parallel b\\
+a'\cap b'&=O
+\end{aligned}
+\right\}
+\Longrightarrow
+\angle(a,b)=\underline{\hspace{24mm}}
+\]
+
+
+\end{question}
+
+
+
+\begin{question}[points=5]
+  \textbf{线面角定义}\par
+\[
+\left.
+\begin{aligned}
+l\cap\alpha&=A\\
+P&\in l\\
+P\text{ 在 }\alpha\text{ 上的射影为 }H
+\end{aligned}
+\right\}
+\Longrightarrow
+\angle(l,\alpha)=\underline{\hspace{18mm}}
+\]
+
+
+\end{question}
+
+
+
+\begin{question}[points=5]
+  \textbf{点面距法求线面角}\par
+\[
+\left.
+\begin{aligned}
+\theta&=\angle(l,\alpha)\\
+P&\in l,\ A=l\cap\alpha\\
+d(P,\alpha)&=d\\
+PA&=s
+\end{aligned}
+\right\}
+\Longrightarrow
+\sin\theta=\underline{\hspace{18mm}}
+\]
+
+
+\end{question}
+
+
+
+\begin{question}[points=5]
+  \textbf{二面角平面角定义}\par
+\[
+\left.
+\begin{aligned}
+\alpha\cap\beta&=l\\
+O&\in l\\
+OA&\subset\alpha,\ OB\subset\beta\\
+OA&\perp l,\ OB\perp l
+\end{aligned}
+\right\}
+\Longrightarrow
+\underline{\hspace{16mm}}\text{ 是二面角 }\alpha-l-\beta\text{ 的平面角}
+\]
+
+
+\end{question}
+
+
+
+\begin{question}[points=5]
+  \textbf{二面角面积射影法}\par
+\[
+\left.
+\begin{aligned}
+S_{\text{射影}}&=S_{\text{原}}\cos\theta
+\end{aligned}
+\right\}
+\Longrightarrow
+\cos\theta=\underline{\hspace{28mm}}
+\]
+
+
+\end{question}
+
+
+
+\end{document}

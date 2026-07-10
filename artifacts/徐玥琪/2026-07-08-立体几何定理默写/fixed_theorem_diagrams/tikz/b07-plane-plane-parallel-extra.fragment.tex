@@ -1,0 +1,20 @@
+\input{fixed_theorem_diagrams/tikz/_fixed_diagram_styles.tex}
+\tdplotsetmaincoords{65}{115}
+\begin{tikzpicture}[tdplot_main_coords,theorem diagram]
+  \coordinate (ptap1) at (0,0,0);
+  \coordinate (ptap2) at (3.6,0,0);
+  \coordinate (ptap3) at (3.6,1.1,0);
+  \coordinate (ptap4) at (0,1.1,0);
+  \coordinate (ptbp1) at (0,0,1);
+  \coordinate (ptbp2) at (3.6,0,1);
+  \coordinate (ptbp3) at (3.6,1.1,1);
+  \coordinate (ptbp4) at (0,1.1,1);
+  \coordinate (ptl1) at (0.65,0.55,0);
+  \coordinate (ptl2) at (2.95,0.55,0);
+  \draw[plane] (ptap1) -- (ptap2) -- (ptap3) -- (ptap4) -- cycle;
+  \draw[planeB] (ptbp1) -- (ptbp2) -- (ptbp3) -- (ptbp4) -- cycle;
+  \node[label] at (ptap3) {$\alpha$};
+  \node[label] at (ptbp3) {$\beta$};
+  \draw[main] (ptl1) -- (ptl2);
+  \node[label,right] at (ptl2) {$a$};
+\end{tikzpicture}

@@ -1,0 +1,170 @@
+\documentclass{exam-zh}
+\usepackage{edu-practice}
+
+\examsetup{
+  question/show-answer = false,
+  fillin/show-answer = false,
+  solution/show-solution = hide,
+}
+
+% ---------- 教师版解答样式 ----------
+\newtcolorbox{solutionblock}{
+  enhanced, breakable,
+  colback=edu-blue-bg,
+  colframe=edu-blue!25,
+  boxrule=0pt,
+  borderline west={2pt}{0pt}{edu-blue!50},
+  arc=0pt,
+  left=3mm, right=3mm, top=2mm, bottom=2mm,
+  before skip=2mm,
+  after skip=3mm,
+  fontupper=\small,
+}
+
+% 解答步骤编号
+\newcounter{solstep}
+\newcommand{\solstep}[2]{%
+  \stepcounter{solstep}%
+  \par\medskip
+  \noindent\hangindent=6mm
+  {\color{edu-blue}\bfseries\textcircled{\scriptsize\thesolstep}\enspace #1}\enspace #2\par
+}
+
+\begin{document}
+
+\section*{立体几何平行证明 · 分层练习}
+
+\section*{一、基础档：正方体中直接套判定（共 21 分）}
+
+
+\begin{question}[points=5]
+  给出四个判断：① 若直线 $a\parallel b$，$b\subset$ 平面 $\alpha$，$a\not\subset\alpha$，则 $a\parallel\alpha$；② 若直线 $a\parallel$ 平面 $\alpha$，则 $a$ 与 $\alpha$ 内任意一条直线都平行；③ 若 $a\parallel\alpha$，过 $a$ 作平面 $\beta$ 交 $\alpha$ 于直线 $b$，则 $a\parallel b$；④ 若 $a\parallel b$，$b\subset\alpha$，$a\subset\alpha$，则 $a\parallel\alpha$。其中正确的个数是（    ）。
+  \begin{hintbox}
+\textbf{提示：}逐条对照判定与性质定理的前提；注意 $a$ 是否在平面内。\end{hintbox}
+
+  \begin{choices}
+    \item 1
+    \item 2
+    \item 3
+    \item 4
+  \end{choices}
+\end{question}
+
+
+
+\begin{question}[points=6]
+  如图，在正方体 $ABCD$-$A_{1}B_{1}C_{1}D_{1}$ 中，$M$、$N$ 分别是 $A_{1}B_{1}$、$B_{1}C_{1}$ 的中点。线段 $MN$ 与面对角线 \underline{\hspace{3em}} 平行（填一条面对角线的字母）。
+  \begin{hintbox}
+\textbf{提示：}$MN$ 是哪个三角形的中位线？再看它和哪条对角线共端点。\end{hintbox}
+
+\end{question}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+    如图，在正方体 $ABCD$-$A_{1}B_{1}C_{1}D_{1}$ 中，$E$ 为棱 $DD_{1}$ 的中点。求证：$BD_{1}\parallel$ 平面 $AEC$。
+
+    \begin{hintbox}
+\textbf{提示：}证线面平行用判定（凑）。在平面 $AEC$ 里找一条与 $BD_{1}$ 平行的线——取 $AC\cap BD=O$，连 $OE$。\end{hintbox}
+
+  \answerarea[55mm]
+\end{problem}
+
+
+\clearpage
+\section*{二、中档档：取中点连线，造面内平行线（共 39 分）}
+
+
+\begin{question}[points=7]
+  如图，在三棱柱 $ABC$-$A_{1}B_{1}C_{1}$ 中，$D$、$E$ 分别是棱 $CC_{1}$、$AB$ 的中点。要在平面 $AB_{1}C_{1}$ 内找到与 $DE$ 平行的直线，应取 \underline{\hspace{3em}} 的中点 $H$，再连 $HC_{1}$。
+  \begin{hintbox}
+\textbf{提示：}想平行四边形：$H$ 取好后，四边形 $EHC_{1}D$ 要能证成平行四边形。\end{hintbox}
+
+\end{question}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=11]
+    如图，在三棱柱 $ABC$-$A_{1}B_{1}C_{1}$ 中，$D$、$E$ 分别是棱 $CC_{1}$、$AB$ 的中点。求证：$DE\parallel$ 平面 $AB_{1}C_{1}$。
+
+    \begin{hintbox}
+\textbf{提示：}取 $AB_{1}$ 的中点 $H$，连 $EH$、$HC_{1}$，先证四边形 $EHC_{1}D$ 是平行四边形。\end{hintbox}
+
+  \answerarea[65mm]
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=11]
+    如图，在四棱锥 $P$-$ABCD$ 中，底面 $ABCD$ 为平行四边形，$O$ 为 $AC$ 与 $BD$ 的交点，$M$ 为 $PC$ 的中点。已知 $AP\parallel$ 平面 $BDM$，过 $A$、$P$ 的平面交平面 $BDM$ 于直线 $l$。求证：$AP\parallel l$。
+
+    \begin{hintbox}
+\textbf{提示：}这是性质定理（向下用）：连 $MO$ 看中位线，再写出两个平面的交线。\end{hintbox}
+
+  \answerarea[60mm]
+\end{problem}
+
+
+
+\begin{question}[points=10]
+  如图，在四棱锥 $P$-$ABCD$ 中，$M$、$N$ 分别在 $AC$、$PC$ 上，且 $MN\parallel$ 平面 $PAD$，则 $MN$ 与 $PA$ 的位置关系是（    ）。
+  \begin{hintbox}
+\textbf{提示：}$MN\subset$ 平面 $PAC$，平面 $PAC\cap$ 平面 $PAD=PA$，由线面平行性质得结论。\end{hintbox}
+
+  \begin{choices}
+    \item $MN\parallel PD$
+    \item $MN\parallel PA$
+    \item $MN\parallel AD$
+    \item 都有可能
+  \end{choices}
+\end{question}
+
+
+\clearpage
+\section*{三、提高档：面面与线面混用 + 中点比例（共 30 分）}
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+    如图，在四棱锥 $P$-$ABCD$ 中，底面四边形 $ABCD$ 满足 $AB\parallel CD$ 且 $AB=2CD$，$E$ 为 $PB$ 的中点。求证：$CE\parallel$ 平面 $PAD$。
+
+    \begin{hintbox}
+\textbf{提示：}取 $AB$ 中点 $F$，连 $EF$、$CF$。证 $AD\parallel CF$、$EF\parallel PA$，凑出面面平行，再用面面平行的性质。\end{hintbox}
+
+  \answerarea[75mm]
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+    如图，在四棱柱 $ABCD$-$A_{1}B_{1}C_{1}D_{1}$ 中，底面 $ABCD$ 为梯形且 $AD\parallel BC$。设过 $A_{1}$、$D$、$C$ 三点的平面与棱 $BB_{1}$ 交于点 $E$。求证：$EC\parallel A_{1}D$。
+
+    \begin{hintbox}
+\textbf{提示：}用 $BE\parallel AA_{1}$、$BC\parallel AD$ 证面 $BCE\parallel$ 面 $AA_{1}D$（判定），再用面面平行性质。注意相交前提。\end{hintbox}
+
+  \answerarea[75mm]
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+    如图，在平行六面体 $ABCD$-$A_{1}B_{1}C_{1}D_{1}$ 中，$E$ 为棱 $AA_{1}$ 的中点，$O$ 为 $A_{1}C_{1}$ 与 $B_{1}D_{1}$ 的交点。求证：
+\begin{enumerate}[label=(\arabic*)]
+  \item $EO\parallel AC_{1}$；
+  \item $AC_{1}\parallel$ 平面 $EB_{1}D_{1}$。
+\end{enumerate}
+
+    \begin{hintbox}
+\textbf{提示：}(1) $E$、$O$ 分别是 $AA_{1}$、$A_{1}C_{1}$ 的中点，$EO$ 是 $\triangle AA_{1}C_{1}$ 的中位线；(2) 由 (1) 在面 $EB_{1}D_{1}$ 内找到平行线，套判定。\end{hintbox}
+
+  \answerarea[70mm]
+\end{problem}
+
+
+
+\end{document}

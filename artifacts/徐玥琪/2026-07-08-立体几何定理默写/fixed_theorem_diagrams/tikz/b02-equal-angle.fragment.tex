@@ -1,0 +1,24 @@
+\input{fixed_theorem_diagrams/tikz/_fixed_diagram_styles.tex}
+\tdplotsetmaincoords{65}{115}
+\begin{tikzpicture}[tdplot_main_coords,theorem diagram]
+  \coordinate (ptO) at (0.9,0.35,0);
+  \coordinate (ptO2) at (2.55,0.35,0);
+  \coordinate (pta1) at (0.25,0.35,0);
+  \coordinate (pta2) at (1.5,0.35,0);
+  \coordinate (ptb1) at (0.9,0.35,0);
+  \coordinate (ptb2) at (1.55,1,0);
+  \coordinate (ptap1) at (1.9,0.35,0);
+  \coordinate (ptap2) at (3.15,0.35,0);
+  \coordinate (ptbp1) at (2.55,0.35,0);
+  \coordinate (ptbp2) at (3.2,1,0);
+  \draw[main] (pta1) -- (pta2);
+  \node[label,right] at (pta2) {$a$};
+  \draw[second] (ptb1) -- (ptb2);
+  \node[label,above] at (ptb2) {$b$};
+  \draw[main] (ptap1) -- (ptap2);
+  \node[label,right] at (ptap2) {$a'$};
+  \draw[second] (ptbp1) -- (ptbp2);
+  \node[label,above] at (ptbp2) {$b'$};
+  \draw[aux] (0.56,0.35,0) -- (0.561,0.379,0) -- (0.568,0.421,0) -- (0.588,0.486,0) -- (0.646,0.576,0) -- (0.77,0.664,0) -- (0.919,0.689,0) -- (1.025,0.666,0) -- (1.085,0.636,0) -- (1.119,0.61,0) -- (1.14,0.59,0);
+  \draw[aux] (2.21,0.35,0) -- (2.211,0.379,0) -- (2.218,0.421,0) -- (2.238,0.486,0) -- (2.296,0.576,0) -- (2.42,0.664,0) -- (2.569,0.689,0) -- (2.675,0.666,0) -- (2.735,0.636,0) -- (2.769,0.61,0) -- (2.79,0.59,0);
+\end{tikzpicture}

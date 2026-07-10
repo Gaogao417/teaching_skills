@@ -1,0 +1,1461 @@
+meta:
+  title: 立体几何平行证明
+  subtitle: 徐玥琪 · 学生讲义
+  grade: 高一
+  subject: 数学
+  version: student
+  source_artifacts:
+    structure_analysis: docs/立体几何学习规划/03-平行证明讲义方案.md
+render:
+  template: exam-zh-explanation
+  paper_size: a4paper
+sections:
+- id: unit-0-chain
+  title: 开篇：平行关系的转化链（判对象、找目标、写格式）
+  show_title: true
+  type: explanation
+  visibility: student
+  blocks:
+  - type: solution
+    id: knowledge-map
+    title: 结构图：平行证明的四条转化
+    items:
+    - content_latex: '\begin{center}
+
+        \begin{tikzpicture}[x=1cm,y=1cm,>=stealth, font=\small]
+
+        \node[draw=edu-blue!80, fill=edu-blue!10, rounded corners=3pt, align=center, inner sep=5pt, font=\bfseries] (root) at (0,0) {平行证明的四条转化};
+
+        \node[draw=green!70, fill=green!8, rounded corners=2pt, align=center, inner sep=4pt, minimum width=28mm] (ll) at (-4,1.5) {线线平行\\中位线/平行四边形};
+
+        \node[draw=orange!70, fill=orange!8, rounded corners=2pt, align=center, inner sep=4pt, minimum width=28mm] (lpj) at (0,1.9) {线面判定\\面内找平行线};
+
+        \node[draw=purple!70, fill=purple!8, rounded corners=2pt, align=center, inner sep=4pt, minimum width=28mm] (lpp) at (4,1.5) {线面性质\\过线作面找交线};
+
+        \node[draw=teal!70, fill=teal!8, rounded corners=2pt, align=center, inner sep=4pt, minimum width=28mm] (pp) at (0,-1.9) {面面平行\\两条相交线分别平行};
+
+        \draw[->, thick, edu-blue!70] (ll) -- node[above, sloped, font=\scriptsize] {判定} (lpj);
+
+        \draw[->, thick, edu-blue!70] (lpj) -- node[above, sloped, font=\scriptsize] {判定} (pp);
+
+        \draw[->, thick, edu-blue!70] (pp) -- node[above, sloped, font=\scriptsize] {性质} (lpp);
+
+        \draw[->, thick, edu-blue!70] (lpp) -- node[above, sloped, font=\scriptsize] {性质} (ll);
+
+        \end{tikzpicture}
+
+        \end{center}'
+    - latex: \textbf{总口令：}要证明更高一层平行，用判定去“凑”；要拆开已知平行，用性质去“用”。
+  - type: solution
+    id: chain-knowledge
+    title: 核心口诀：判定是凑，性质是用
+    items:
+    - latex: 三种平行不是三个孤立定理，而是一条\textbf{有向转化链}：线线 $\rightleftharpoons$ 线面 $\rightleftharpoons$ 面面。
+    - content_latex: '\begin{tabular}{p{0.18\linewidth}p{0.30\linewidth}p{0.30\linewidth}p{0.12\linewidth}}
+
+        转化方向 & 用哪条定理 & 动作口诀 & 方向\\
+
+        线线到线面 & 线面平行判定（在面内找一条平行线） & 向上凑 & 判定\\
+
+        线面 $\to$ 面面 & 面面平行判定（面内两条相交线） & 向上凑 & 判定\\
+
+        线面到线线 & 线面平行性质（过线作面找交线） & 向下用 & 性质\\
+
+        面面 $\to$ 线线 & 面面平行性质（两面与第三面相交） & 向下用 & 性质\\
+
+        \end{tabular}
+
+        '
+    - latex: \textbf{每道题先问自己：这一步是凑还是用？}要得到更高一层的平行——上判定（凑）；要打开一个已知平行——上性质（用）。
+    - latex: 三步固定动作：①判对象（线线/线面/面面）；②转化目标（倒推找中间结论）；③写格式（前提"相交""平面内"不漏，每步标定理名）。
+  - type: mistake
+    id: chain-mistake
+    title: 易错提醒
+    content_latex: '最常犯的两类方向错误：①已知 $a\parallel\alpha$ 就直接说 $a$ 平行于 $\alpha$ 内任意直线（缺了"过 $a$ 作面找交线"这一步，性质定理没用对）；②要证线面平行却去找线线平行后忘记套判定定理，停在中途。先判对象、再选方向，就不会走反。
+
+      '
+  - type: method_reminder
+    id: chain-method
+    title: 方法提醒
+    items:
+    - latex: 判对象看结论里的两个对象：两个直线=线线，一直线一平面=线面，两个平面=面面。
+    - latex: 判定用来凑出平行，性质用来用掉平行——口诀"判定是凑，性质是用"。
+    - latex: 书写三段式：写前提 $\to$ 写中间平行（标定理名）$\to$ 写结论（标判定/性质定理名）。
+- id: unit-1-lineface
+  title: 单元一：线线到线面（线面平行判定——在面内找平行线）
+  show_title: true
+  type: explanation
+  visibility: student
+  layout:
+    break_before: true
+  blocks:
+  - type: solution
+    id: lineface-knowledge
+    title: 判定定理：三件套缺一不可
+    items:
+    - latex: \textbf{线面平行判定定理：}若 $a\not\subset\alpha$，$b\subset\alpha$，$a\parallel b$，则 $a\parallel\alpha$。
+    - latex: 三件套：①$ a\not\subset\alpha $（线在面外）；②$ b\subset\alpha $（在面内找到一条直线）；③$ a\parallel b $（两线平行）。三条全凑齐，才能下结论。
+    - latex: 难点不在写定理，而在\textbf{怎么在平面 $\alpha$ 内造出那条平行线 $b$}：常用中位线（取中点连线）或平行四边形（证一组对边平行且相等）。
+  - type: problemcard
+    id: ex1-card
+    label: 例题 1
+    stem_latex: '如图，在正方体 $ABCD$-$A_{1}B_{1}C_{1}D_{1}$ 中，$E$、$F$ 分别是棱 $AA_{1}$、$BB_{1}$ 的中点。求证：$EF\parallel$ 平面 $ABCD$。
+
+      '
+    diagram_slot:
+      slot_id: explanation.ex1.prompt
+      diagram_ref: explanation.ex1.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: block_center
+      layout_role: center_block
+      display_profile: worksheet_geometry_center
+      caption: 正方体中观察 E、F 与底面边 AB 的平行关系。
+      engine: spatial_renderer
+      diagram_kind: spatial_geometry
+      teaching_intent: explanation_prompt
+      semantic_constraints:
+        given_objects:
+        - A
+        - B
+        - C
+        - D
+        - A1
+        - B1
+        - C1
+        - D1
+        - E
+        - F
+        given_constraints:
+        - ABCD-A1B1C1D1 is a cube
+        - E midpoint of AA1
+        - F midpoint of BB1
+        clean_forbidden:
+        - 不要画辅助线
+        - 不要标注推理结论
+      engine_options:
+        spatial_spec:
+          projection: isometric_hidden_axes
+          points3d:
+            A:
+            - 0
+            - 0
+            - 0
+            B:
+            - 3
+            - 0
+            - 0
+            C:
+            - 3
+            - 2.1
+            - 0
+            D:
+            - 0
+            - 2.1
+            - 0
+            A1:
+            - 0
+            - 0
+            - 2.0
+            B1:
+            - 3
+            - 0
+            - 2.0
+            C1:
+            - 3
+            - 2.1
+            - 2.0
+            D1:
+            - 0
+            - 2.1
+            - 2.0
+            E:
+            - 0.0
+            - 0.0
+            - 1.0
+            F:
+            - 3.0
+            - 0.0
+            - 1.0
+          segments:
+          - from: A
+            to: B
+          - from: B
+            to: C
+          - from: C
+            to: D
+          - from: D
+            to: A
+          - from: A1
+            to: B1
+          - from: B1
+            to: C1
+          - from: C1
+            to: D1
+          - from: D1
+            to: A1
+          - from: A
+            to: A1
+          - from: B
+            to: B1
+          - from: C
+            to: C1
+          - from: D
+            to: D1
+          - from: A
+            to: A1
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: A
+            to: B
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: B
+            to: B1
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: E
+            to: F
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          polygons:
+          - points:
+            - A
+            - B
+            - C
+            - D
+            fill: '#eff6ff'
+            stroke: '#94a3b8'
+            stroke_width: 1.2
+          - points:
+            - A1
+            - B1
+            - C1
+            - D1
+            fill: '#f8fafc'
+            stroke: '#94a3b8'
+            stroke_width: 1.2
+          markers: []
+          labels:
+            A:
+              text: A
+            B:
+              text: B
+            C:
+              text: C
+            D:
+              text: D
+            A1:
+              text: A_1
+            B1:
+              text: B_1
+            C1:
+              text: C_1
+            D1:
+              text: D_1
+            E:
+              text: E
+            F:
+              text: F
+          constraints:
+          - A
+          - B
+          - C
+          - D
+          - A1
+          - B1
+          - C1
+          - D1
+          - E
+          - F
+          - ABCD-A1B1C1D1 is a cube
+          - E midpoint of AA1
+          - F midpoint of BB1
+          - 不要画辅助线
+          - 不要标注推理结论
+          teaching_focus:
+          - 正方体中观察 E、F 与底面边 AB 的平行关系。
+  - type: route
+    id: ex1-route
+    steps:
+    - id: ex1-judge
+      latex: 判对象 + 选方向
+      content_latex: 要证 $EF\parallel$ 平面 $ABCD$，在平面 $ABCD$ 内找与 $EF$ 平行的直线。
+    - id: ex1-find
+      latex: 找面内平行线 $AB$
+      content_latex: $E,F$ 分别为 $AA_1,BB_1$ 中点，故 $EF\parallel AB$。
+      diagram_slot:
+        slot_id: explanation.ex1.solution
+        diagram_ref: explanation.ex1.solution
+        variant: solution
+        disclosure_policy: annotated
+        reuse_geometry_from: explanation.ex1.prompt
+        required: true
+        on_failure: fail_assignment
+        placement: step_diagram
+        layout_role: solution_annotation
+        display_profile: worksheet_geometry_center
+        caption: 连接 $EF$，它与底面内的 $AB$ 平行。
+        engine: spatial_renderer
+        diagram_kind: spatial_geometry
+        teaching_intent: explanation_solution
+        semantic_constraints:
+          given_objects:
+          - A
+          - B
+          - C
+          - D
+          - A1
+          - B1
+          - C1
+          - D1
+          - E
+          - F
+          derived_constraints:
+          - EF parallel AB
+          - AB contained in plane ABCD
+        engine_options:
+          spatial_spec:
+            projection: isometric_hidden_axes
+            segments:
+            - from: A
+              to: B
+              stroke: '#dc2626'
+              stroke_width: 2.4
+            - from: E
+              to: F
+              stroke: '#dc2626'
+              stroke_width: 2.4
+            markers: []
+            teaching_focus:
+            - 连接 $EF$，它与底面内的 $AB$ 平行。
+    - id: ex1-write
+      latex: 三件套套判定
+      content_latex: $AB\subset$ 平面 $ABCD$，$EF\not\subset$ 平面 $ABCD$，且 $EF\parallel AB$，由线面平行判定得 $EF\parallel$ 平面 $ABCD$。
+  - type: dual_explanation
+    id: ex1-solution
+    label: 例题 1
+    stem_latex: 求证 $EF\parallel$ 平面 $ABCD$。
+    side_title: 小贴士
+    side_items:
+    - kind: hint
+      title: 第一步想什么
+      content_latex: 结论是线面平行，先在目标平面 $ABCD$ 内找一条与 $EF$ 平行的线。
+    - kind: hint
+      title: 怎么造面内平行线
+      content_latex: $E,F$ 是两条平行侧棱上的对应中点，直接得到 $EF\parallel AB$。
+    - kind: mistake
+      title: 三件套不要漏
+      content_latex: 套判定时要写全"$AB\subset$ 面 $ABCD$""$EF\not\subset$ 面 $ABCD$"两条，不能只写 $EF\parallel AB$ 就下结论。
+    solution_title: 解答
+    solution_step_ids:
+    - ex1-judge
+    - ex1-find
+    - ex1-write
+  - type: mistake
+    id: unit1-mistake
+    title: 易错提醒
+    content_latex: 线面平行判定不能只写“看起来平行”。必须写出三件套：面内线、面外线、两线平行。
+  - type: method_reminder
+    id: unit1-method
+    title: 方法提醒
+    items:
+    - latex: 证线面平行 $\Rightarrow$ 在面内找一条平行线（判定，向上凑）。
+    - latex: 造面内平行线的两把刀：中位线、平行四边形。
+    - latex: 套判定三件套（$a\not\subset\alpha$，$b\subset\alpha$，$a\parallel b$）一条不漏。
+- id: unit-2-property
+  title: 单元二：线面到线线（线面平行性质——作辅助面找交线）
+  show_title: true
+  type: explanation
+  visibility: student
+  layout:
+    break_before: true
+  blocks:
+  - type: solution
+    id: property-knowledge
+    title: 性质定理：必须写出交线这一步
+    items:
+    - latex: \textbf{线面平行性质定理：}若 $a\parallel\alpha$，$a\subset\beta$，$\alpha\cap\beta=b$，则 $a\parallel b$。
+    - latex: 性质定理的方向是\textbf{向下用}：已知线面平行，要推出线线平行，必须\textbf{过 $a$ 作一个平面 $\beta$}与 $\alpha$ 相交，交线 $b$ 才与 $a$ 平行。
+    - latex: 易错点：已知 $a\parallel\alpha$ 不能直接说 $a$ 平行于 $\alpha$ 内任意直线；必须先写出 $\alpha\cap\beta=b$ 这一步，才能得 $a\parallel b$。
+  - type: problemcard
+    id: ex2-card
+    label: 例题 2
+    stem_latex: '如图，在四棱锥 $P$-$ABCD$ 中，底面 $ABCD$ 为平行四边形，$O$ 为对角线 $AC$ 与 $BD$ 的交点，$M$ 为 $PC$ 的中点。已知 $AP\parallel$ 平面 $BDM$，过 $A$、$P$ 作一个平面交平面 $BDM$ 于直线 $l$。求证：$AP\parallel l$。
+
+      '
+    diagram_slot:
+      slot_id: explanation.ex2.prompt
+      diagram_ref: explanation.ex2.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: block_center
+      layout_role: center_block
+      display_profile: worksheet_geometry_center
+      caption: 四棱锥中观察 AP 与平面 BDM，已知线面平行要推线线平行。
+      engine: spatial_renderer
+      diagram_kind: spatial_geometry
+      teaching_intent: explanation_prompt
+      semantic_constraints:
+        given_objects:
+        - P
+        - A
+        - B
+        - C
+        - D
+        - O
+        - M
+        given_constraints:
+        - P-ABCD pyramid, ABCD is a parallelogram
+        - O intersection of AC and BD (midpoint)
+        - M midpoint of PC
+        - AP parallel to plane BDM
+        clean_forbidden:
+        - 不要画辅助线
+        - 不要标注推理结论
+      engine_options:
+        spatial_spec:
+          projection: isometric_hidden_axes
+          points3d:
+            A:
+            - 0
+            - 0
+            - 0
+            B:
+            - 3
+            - 0
+            - 0
+            C:
+            - 0.8
+            - 2.1
+            - 0
+            S:
+            - 1.0
+            - 0.75
+            - 2.4
+            O:
+            - 0.4
+            - 1.05
+            - 0.0
+            P:
+            - 2.2778
+            - 1.6071
+            - 0.0
+            M:
+            - 0.7222
+            - 1.6071
+            - 0.3
+            D:
+            - 2.2778
+            - 0.1929
+            - 0.0
+          segments:
+          - from: A
+            to: B
+          - from: B
+            to: C
+          - from: C
+            to: A
+          - from: P
+            to: A
+          - from: P
+            to: B
+            dash: dashed
+          - from: P
+            to: C
+            dash: dashed
+          - from: S
+            to: A
+          - from: S
+            to: B
+            dash: dashed
+          - from: S
+            to: C
+            dash: dashed
+          - from: A
+            to: C
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: A
+            to: P
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: B
+            to: D
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: P
+            to: C
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          polygons:
+          - points:
+            - A
+            - B
+            - C
+            fill: '#eff6ff'
+            stroke: '#94a3b8'
+            stroke_width: 1.2
+          markers: []
+          labels:
+            A:
+              text: A
+            B:
+              text: B
+            C:
+              text: C
+            S:
+              text: S
+            O:
+              text: O
+            P:
+              text: P
+            M:
+              text: M
+            D:
+              text: D
+          constraints:
+          - P
+          - A
+          - B
+          - C
+          - D
+          - O
+          - M
+          - P-ABCD pyramid, ABCD is a parallelogram
+          - O intersection of AC and BD (midpoint)
+          - M midpoint of PC
+          - AP parallel to plane BDM
+          - 不要画辅助线
+          - 不要标注推理结论
+          teaching_focus:
+          - 四棱锥中观察 AP 与平面 BDM，已知线面平行要推线线平行。
+  - type: route
+    id: ex2-route
+    steps:
+    - id: ex2-judge
+      latex: 判对象 + 选方向
+      content_latex: 要证 $AP\parallel l$，是线线平行。已知 $AP\parallel$ 平面 $BDM$，方向是\textbf{性质}（向下用）：过 $AP$ 作辅助面，找它与平面 $BDM$ 的交线。
+    - id: ex2-helper
+      latex: 连 $AC$、$BD$ 交于 $O$，连 $MO$
+      content_latex: 连 $AC$ 交 $BD$ 于 $O$（$O$ 是平行四边形对角线交点，即 $AC$ 中点），连 $MO$。因 $M$、$O$ 分别是 $PC$、$AC$ 的中点，故 $MO$ 为 $\triangle PAC$ 的中位线，$MO\parallel AP$。
+      diagram_slot:
+        slot_id: explanation.ex2.solution
+        diagram_ref: explanation.ex2.solution
+        variant: solution
+        disclosure_policy: annotated
+        reuse_geometry_from: explanation.ex2.prompt
+        required: true
+        on_failure: fail_assignment
+        placement: step_diagram
+        layout_role: solution_annotation
+        display_profile: worksheet_geometry_center
+        caption: 连 $MO$，$MO$ 是 $\triangle PAC$ 中位线，$MO\parallel AP$ 且在面 $BDM$ 内。
+        engine: spatial_renderer
+        diagram_kind: spatial_geometry
+        teaching_intent: explanation_solution
+        semantic_constraints:
+          given_objects:
+          - P
+          - A
+          - B
+          - C
+          - D
+          - O
+          - M
+          derived_objects:
+          - O
+          - M
+          - l
+          derived_constraints:
+          - O midpoint of AC and BD
+          - M midpoint of PC
+          - MO midpoint-line of triangle PAC, MO parallel AP
+          - MO contained in plane BDM
+          - plane through AP meets plane BDM at line l
+          - AP parallel l
+        engine_options:
+          spatial_spec:
+            projection: isometric_hidden_axes
+            segments:
+            - from: A
+              to: P
+              stroke: '#dc2626'
+              stroke_width: 2.4
+            - from: M
+              to: O
+              stroke: '#dc2626'
+              stroke_width: 2.4
+            markers: []
+            teaching_focus:
+            - 连 $MO$，$MO$ 是 $\triangle PAC$ 中位线，$MO\parallel AP$ 且在面 $BDM$ 内。
+    - id: ex2-write
+      latex: 写出交线，套性质
+      content_latex: 由 $MO\parallel AP$，$MO\subset$ 平面 $BDM$，$AP\not\subset$ 平面 $BDM$，得 $AP\parallel$ 平面 $BDM$。又 $AP\subset$ 过 $A$、$P$ 的平面，该平面 $\cap$ 平面 $BDM=l$，由线面平行性质定理得 $AP\parallel l$。
+  - type: dual_explanation
+    id: ex2-solution
+    label: 例题 2
+    stem_latex: 已知 $AP\parallel$ 平面 $BDM$，过 $A$、$P$ 作平面交平面 $BDM$ 于 $l$，求证 $AP\parallel l$。
+    side_title: 小贴士
+    side_items:
+    - kind: hint
+      title: 方向别走反
+      content_latex: 已知的是"线面平行"，结论是"线线平行"，这是\textbf{性质定理}方向（向下用），不是判定。要做的是"把已知的线面平行用掉"。
+    - kind: hint
+      title: 关键那一步
+      content_latex: 性质定理必须写出"作辅助面 + 找交线"这一步。这里 $MO$ 在面 $BDM$ 内又与 $AP$ 平行，交线 $l$ 就是 $MO$ 所在直线方向，于是 $AP\parallel l$。
+    - kind: mistake
+      title: 不能跳过交线
+      content_latex: 不能由 $AP\parallel$ 平面 $BDM$ 直接写 $AP\parallel l$；必须先点明 $l$ 是两个平面的交线，再由性质定理得结论。
+    solution_title: 解答
+    solution_step_ids:
+    - ex2-judge
+    - ex2-helper
+    - ex2-write
+  - type: mistake
+    id: unit2-mistake
+    title: 易错提醒
+    content_latex: '把线面平行直接当线线平行用是本单元最高频错误。性质定理要求"过直线 a 作辅助面，并写出它与已知面的交线 b"，\textbf{交线 $b$ 这一步必须在书写里出现}，缺了它整条论证链就断。批改时优先盯这条交线是否写出。
+
+      '
+  - type: method_reminder
+    id: unit2-method
+    title: 方法提醒
+    items:
+    - latex: 已知线面平行 $\Rightarrow$ 推线线平行，用性质（向下用）。
+    - latex: 性质必经一步：过直线作辅助面，写明两面的交线。
+    - latex: 找交线常用中位线/平行四边形确定交线方向。
+- id: unit-3-planeplane
+  title: 单元三：面面平行（判定 + 性质——相交前提不漏）
+  show_title: true
+  type: explanation
+  visibility: student
+  layout:
+    break_before: true
+  blocks:
+  - type: solution
+    id: planeplane-knowledge
+    title: 面面平行判定：两条相交线（相交二字是命门）
+    items:
+    - latex: \textbf{面面平行判定定理：}若 $a\subset\alpha$，$b\subset\alpha$，$a\cap b=A$，$a\parallel\beta$，$b\parallel\beta$，则 $\alpha\parallel\beta$。
+    - latex: 关键前提：两条直线必须\textbf{相交}（$a\cap b=A$）。只证"两条平行线分别与另一面平行"不行——平行的两条线共面，定不出一个平面，判定失效。
+    - content_latex: '\begin{tabular}{p{0.26\linewidth}p{0.42\linewidth}p{0.18\linewidth}}
+
+        转化 & 动作 & 方向\\
+
+        面面判定 & 在一面内找两条\textbf{相交}线，分别证与另一面平行 & 向上凑\\
+
+        面面性质 & 两平行面与第三个面相交，两条交线平行 & 向下用\\
+
+        \end{tabular}
+
+        '
+    - latex: 走法：先证 $a\parallel\beta$、$b\parallel\beta$（各用一次线面判定），再补“a 与 b 相交于 A”，最后套面面判定。
+  - type: problemcard
+    id: ex3-card
+    label: 例题 3
+    stem_latex: '如图，在正方体 $ABCD$-$A_{1}B_{1}C_{1}D_{1}$ 中，$M$、$N$、$E$、$F$ 分别是棱 $A_{1}B_{1}$、$A_{1}D_{1}$、$B_{1}C_{1}$、$C_{1}D_{1}$ 的中点。求证：平面 $AMN\parallel$ 平面 $EFDB$。
+
+      '
+    diagram_slot:
+      slot_id: explanation.ex3.prompt
+      diagram_ref: explanation.ex3.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: block_center
+      layout_role: center_block
+      display_profile: worksheet_geometry_center
+      caption: 正方体上底面四个中点，先想哪两条相交线分别与另一面平行。
+      engine: spatial_renderer
+      diagram_kind: spatial_geometry
+      teaching_intent: explanation_prompt
+      semantic_constraints:
+        given_objects:
+        - A
+        - B
+        - C
+        - D
+        - A1
+        - B1
+        - C1
+        - D1
+        - M
+        - N
+        - E
+        - F
+        given_constraints:
+        - ABCD-A1B1C1D1 is a cube
+        - M midpoint of A1B1
+        - N midpoint of A1D1
+        - E midpoint of B1C1
+        - F midpoint of C1D1
+        clean_forbidden:
+        - 不要画辅助线
+        - 不要标注推理结论
+      engine_options:
+        spatial_spec:
+          projection: isometric_hidden_axes
+          points3d:
+            A:
+            - 0
+            - 0
+            - 0
+            B:
+            - 3
+            - 0
+            - 0
+            C:
+            - 3
+            - 2.1
+            - 0
+            D:
+            - 0
+            - 2.1
+            - 0
+            A1:
+            - 0
+            - 0
+            - 2.0
+            B1:
+            - 3
+            - 0
+            - 2.0
+            C1:
+            - 3
+            - 2.1
+            - 2.0
+            D1:
+            - 0
+            - 2.1
+            - 2.0
+            M:
+            - 1.5
+            - 0.0
+            - 2.0
+            N:
+            - 0.0
+            - 1.05
+            - 2.0
+            E:
+            - 3.0
+            - 1.05
+            - 2.0
+            F:
+            - 1.5
+            - 2.1
+            - 2.0
+          segments:
+          - from: A
+            to: B
+          - from: B
+            to: C
+          - from: C
+            to: D
+          - from: D
+            to: A
+          - from: A1
+            to: B1
+          - from: B1
+            to: C1
+          - from: C1
+            to: D1
+          - from: D1
+            to: A1
+          - from: A
+            to: A1
+          - from: B
+            to: B1
+          - from: C
+            to: C1
+          - from: D
+            to: D1
+          - from: A1
+            to: B1
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: A1
+            to: D1
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: B1
+            to: C1
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: C1
+            to: D1
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          polygons:
+          - points:
+            - A
+            - B
+            - C
+            - D
+            fill: '#eff6ff'
+            stroke: '#94a3b8'
+            stroke_width: 1.2
+          - points:
+            - A1
+            - B1
+            - C1
+            - D1
+            fill: '#f8fafc'
+            stroke: '#94a3b8'
+            stroke_width: 1.2
+          markers: []
+          labels:
+            A:
+              text: A
+            B:
+              text: B
+            C:
+              text: C
+            D:
+              text: D
+            A1:
+              text: A_1
+            B1:
+              text: B_1
+            C1:
+              text: C_1
+            D1:
+              text: D_1
+            M:
+              text: M
+            N:
+              text: N
+            E:
+              text: E
+            F:
+              text: F
+          constraints:
+          - A
+          - B
+          - C
+          - D
+          - A1
+          - B1
+          - C1
+          - D1
+          - M
+          - N
+          - E
+          - F
+          - ABCD-A1B1C1D1 is a cube
+          - M midpoint of A1B1
+          - N midpoint of A1D1
+          - E midpoint of B1C1
+          - F midpoint of C1D1
+          - 不要画辅助线
+          - 不要标注推理结论
+          teaching_focus:
+          - 正方体上底面四个中点，先想哪两条相交线分别与另一面平行。
+  - type: route
+    id: ex3-route
+    steps:
+    - id: ex3-judge
+      latex: 判对象 + 选方向
+      content_latex: 要证平面 $AMN\parallel$ 平面 $EFDB$，是面面平行，方向是\textbf{判定}（向上凑）：在平面 $AMN$ 内找两条\textbf{相交}直线 $AM$、$AN$，分别证它们与平面 $EFDB$ 平行。
+    - id: ex3-line1
+      latex: 证 $AM\parallel$ 平面 $EFDB$
+      content_latex: 连 $MF$，由 $M$、$F$ 分别是 $A_{1}B_{1}$、$C_{1}D_{1}$ 中点，正方形 $A_{1}B_{1}C_{1}D_{1}$ 中 $MF\parallel A_{1}D_{1}$ 且 $MF=A_{1}D_{1}$；又 $A_{1}D_{1}\parallel AD$，故四边形 $AMFD$ 为平行四边形，$AM\parallel DF$。$DF\subset$ 面 $EFDB$，$AM\not\subset$ 面 $EFDB$，由线面判定 $AM\parallel$ 面 $EFDB$。
+      diagram_slot:
+        slot_id: explanation.ex3.solution
+        diagram_ref: explanation.ex3.solution
+        variant: solution
+        disclosure_policy: annotated
+        reuse_geometry_from: explanation.ex3.prompt
+        required: true
+        on_failure: fail_assignment
+        placement: step_diagram
+        layout_role: solution_annotation
+        display_profile: worksheet_geometry_center
+        caption: 连 $MF$ 证 $AM\parallel DF$，同理 $AN\parallel BE$；$AM\cap AN=A$。
+        engine: spatial_renderer
+        diagram_kind: spatial_geometry
+        teaching_intent: explanation_solution
+        semantic_constraints:
+          given_objects:
+          - A
+          - B
+          - C
+          - D
+          - A1
+          - B1
+          - C1
+          - D1
+          - M
+          - N
+          - E
+          - F
+          derived_objects:
+          - AM
+          - AN
+          - DF
+          - BE
+          derived_constraints:
+          - AM parallel DF (AMFD parallelogram)
+          - AN parallel BE (ANEB parallelogram)
+          - AM parallel plane EFDB
+          - AN parallel plane EFDB
+          - AM intersects AN at A
+          - plane AMN parallel plane EFDB
+        engine_options:
+          spatial_spec:
+            projection: isometric_hidden_axes
+            segments:
+            - from: A
+              to: D
+              stroke: '#dc2626'
+              stroke_width: 2.4
+            - from: A
+              to: M
+              stroke: '#dc2626'
+              stroke_width: 2.4
+            - from: A
+              to: N
+              stroke: '#dc2626'
+              stroke_width: 2.4
+            - from: A1
+              to: D1
+              stroke: '#dc2626'
+              stroke_width: 2.4
+            - from: B
+              to: E
+              stroke: '#dc2626'
+              stroke_width: 2.4
+            - from: D
+              to: F
+              stroke: '#dc2626'
+              stroke_width: 2.4
+            - from: M
+              to: F
+              stroke: '#dc2626'
+              stroke_width: 2.4
+            markers: []
+            teaching_focus:
+            - 连 $MF$ 证 $AM\parallel DF$，同理 $AN\parallel BE$；$AM\cap AN=A$。
+    - id: ex3-line2
+      latex: 证 $AN\parallel$ 平面 $EFDB$
+      content_latex: 同理连 $NE$，$NE\parallel A_{1}B_{1}$ 且 $NE=A_{1}B_{1}$，$A_{1}B_{1}\parallel AB$，四边形 $ANEB$ 为平行四边形，$AN\parallel BE$。$BE\subset$ 面 $EFDB$，$AN\not\subset$ 面 $EFDB$，由线面判定 $AN\parallel$ 面 $EFDB$。
+    - id: ex3-write
+      latex: 补相交前提，套面面判定
+      content_latex: $AM\subset$ 平面 $AMN$，$AN\subset$ 平面 $AMN$，$AM\cap AN=A$，且 $AM\parallel$ 面 $EFDB$，$AN\parallel$ 面 $EFDB$，由面面平行判定定理得平面 $AMN\parallel$ 平面 $EFDB$。
+  - type: dual_explanation
+    id: ex3-solution
+    label: 例题 3
+    stem_latex: 求证平面 $AMN\parallel$ 平面 $EFDB$。
+    side_title: 小贴士
+    side_items:
+    - kind: hint
+      title: 先判对象再倒推
+      content_latex: 结论是"面 $\parallel$ 面"，是面面平行，用判定（凑）。倒推：在一面内找两条相交线，分别证与另一面平行。
+    - kind: hint
+      title: 两条线从哪来
+      content_latex: 平面 $AMN$ 里现成的两条线是 $AM$、$AN$。每条都要单独证"与面 $EFDB$ 平行"——回到线面判定，在面 $EFDB$ 里各找一条平行线。
+    - kind: mistake
+      title: 相交二字不能漏
+      content_latex: 套面面判定时必须写 $AM\cap AN=A$。漏了"相交"，即使两条线都平行于另一面，判定也不成立。
+    solution_title: 解答
+    solution_step_ids:
+    - ex3-judge
+    - ex3-line1
+    - ex3-line2
+    - ex3-write
+  - type: mistake
+    id: unit3-mistake
+    title: 易错提醒
+    content_latex: '面面平行判定最高频失分点是\textbf{漏写"相交"前提}。两条直线若平行，则它们共面但不唯一确定平面，判定定理不适用。批改归因：只要结论写“两面平行”而过程里没有“两条线相交于某点”，就判为漏前提。
+
+      '
+  - type: method_reminder
+    id: unit3-method
+    title: 方法提醒
+    items:
+    - latex: 证面面平行 $\Rightarrow$ 在一面内找两条相交线分别与另一面平行（判定，向上凑）。
+    - latex: 每条线分别用线面判定；最后补"相交"前提再套面面判定。
+    - latex: “相交”两字必须落在纸上。
+- id: unit-4-comprehensive
+  title: 单元四：综合倒推（判定与性质交替，一题走完三层）
+  show_title: true
+  type: explanation
+  visibility: student
+  layout:
+    break_before: true
+  blocks:
+  - type: solution
+    id: comprehensive-knowledge
+    title: 综合题：判定与性质交替切换
+    items:
+    - latex: 综合题不是一条线走到底，而是\textbf{反复在判定与性质之间切换}（判定 $\Rightarrow$ 性质 $\Rightarrow$ 判定 $\Rightarrow \cdots$）。
+    - latex: 每一步先判对象（线线/线面/面面），再选方向：要"得到"更高一层的平行——上判定；要"打开"已知平行——上性质。
+    - content_latex: '\begin{tabular}{p{0.20\linewidth}p{0.30\linewidth}p{0.30\linewidth}}
+
+        小问 & 目标 & 用的方向\\
+
+        (1) 线线平行 & $MN\parallel B_{1}D_{1}$ & 中位线 + 平行四边形\\
+
+        (2) 线面平行 & $AC_{1}\parallel$ 面 $EB_{1}D_{1}$ & 判定（在面内找平行线）\\
+
+        (3) 面面平行 & 面 $EB_{1}D_{1}\parallel$ 面 $BDG$ & 判定（两相交线分别平行）\\
+
+        \end{tabular}
+
+        '
+    - latex: 一题走完线线到线面 $\to$ 面面三层，正是转化链的完整演练。
+  - type: problemcard
+    id: ex4-card
+    label: 例题 4
+    stem_latex: "如图，在平行六面体 $ABCD$-$A_{1}B_{1}C_{1}D_{1}$ 中，$E$、$M$、$N$、$G$ 分别是 $AA_{1}$、$CD$、$CB$、$CC_{1}$ 的中点。求证：\n\\begin{enumerate}[label=(\\arabic*)]\n  \\item $MN\\parallel B_{1}D_{1}$；\n  \\item $AC_{1}\\parallel$ 平面 $EB_{1}D_{1}$；\n  \\item 平面 $EB_{1}D_{1}\\parallel$ 平面 $BDG$。\n\\end{enumerate}\n"
+    diagram_slot:
+      slot_id: explanation.ex4.prompt
+      diagram_ref: explanation.ex4.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: block_center
+      layout_role: center_block
+      display_profile: worksheet_geometry_center
+      caption: 平行六面体四个中点，(1)(2)(3) 三问分别对应线线、线面、面面三层。
+      engine: spatial_renderer
+      diagram_kind: spatial_geometry
+      teaching_intent: explanation_prompt
+      semantic_constraints:
+        given_objects:
+        - A
+        - B
+        - C
+        - D
+        - A1
+        - B1
+        - C1
+        - D1
+        - E
+        - M
+        - N
+        - G
+        given_constraints:
+        - ABCD-A1B1C1D1 parallelepiped
+        - E midpoint of AA1
+        - M midpoint of CD
+        - N midpoint of CB
+        - G midpoint of CC1
+        clean_forbidden:
+        - 不要画辅助线
+        - 不要标注推理结论
+      engine_options:
+        spatial_spec:
+          projection: isometric_hidden_axes
+          points3d:
+            A:
+            - 0
+            - 0
+            - 0
+            B:
+            - 3
+            - 0
+            - 0
+            C:
+            - 3
+            - 2.1
+            - 0
+            D:
+            - 0
+            - 2.1
+            - 0
+            A1:
+            - 0
+            - 0
+            - 2.0
+            B1:
+            - 3
+            - 0
+            - 2.0
+            C1:
+            - 3
+            - 2.1
+            - 2.0
+            D1:
+            - 0
+            - 2.1
+            - 2.0
+            E:
+            - 0.0
+            - 0.0
+            - 1.0
+            M:
+            - 1.5
+            - 2.1
+            - 0.0
+            N:
+            - 3.0
+            - 1.05
+            - 0.0
+            G:
+            - 3.0
+            - 2.1
+            - 1.0
+            O:
+            - 1.5
+            - -1.05
+            - -2.0
+          segments:
+          - from: A
+            to: B
+          - from: B
+            to: C
+          - from: C
+            to: D
+          - from: D
+            to: A
+          - from: A1
+            to: B1
+          - from: B1
+            to: C1
+          - from: C1
+            to: D1
+          - from: D1
+            to: A1
+          - from: A
+            to: A1
+          - from: B
+            to: B1
+          - from: C
+            to: C1
+          - from: D
+            to: D1
+          - from: A
+            to: A1
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: A
+            to: C1
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: B1
+            to: D1
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: C
+            to: B
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: C
+            to: C1
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: C
+            to: D
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: M
+            to: N
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          polygons:
+          - points:
+            - A
+            - B
+            - C
+            - D
+            fill: '#eff6ff'
+            stroke: '#94a3b8'
+            stroke_width: 1.2
+          - points:
+            - A1
+            - B1
+            - C1
+            - D1
+            fill: '#f8fafc'
+            stroke: '#94a3b8'
+            stroke_width: 1.2
+          markers:
+          - type: parallel
+            segments:
+            - - M
+              - N
+            - - B1
+              - D1
+          labels:
+            A:
+              text: A
+            B:
+              text: B
+            C:
+              text: C
+            D:
+              text: D
+            A1:
+              text: A_1
+            B1:
+              text: B_1
+            C1:
+              text: C_1
+            D1:
+              text: D_1
+            E:
+              text: E
+            M:
+              text: M
+            N:
+              text: N
+            G:
+              text: G
+          constraints:
+          - A
+          - B
+          - C
+          - D
+          - A1
+          - B1
+          - C1
+          - D1
+          - E
+          - M
+          - N
+          - G
+          - ABCD-A1B1C1D1 parallelepiped
+          - E midpoint of AA1
+          - M midpoint of CD
+          - N midpoint of CB
+          - G midpoint of CC1
+          - 不要画辅助线
+          - 不要标注推理结论
+          - O midpoint of A1C1 and B1D1
+          teaching_focus:
+          - 平行六面体四个中点，(1)(2)(3) 三问分别对应线线、线面、面面三层。
+  - type: route
+    id: ex4-route
+    steps:
+    - id: ex4-p1
+      latex: (1) 中位线 + 平行四边形得 $MN\parallel B_{1}D_{1}$
+      content_latex: $M$、$N$ 分别是 $CD$、$CB$ 中点，$MN$ 为 $\triangle BCD$ 中位线，$MN\parallel BD$；平行六面体中 $BB_{1}\parallel DD_{1}$ 且 $BB_{1}=DD_{1}$，四边形 $BB_{1}D_{1}D$ 为平行四边形，$B_{1}D_{1}\parallel BD$；由传递性 $MN\parallel B_{1}D_{1}$。
+      diagram_slot:
+        slot_id: explanation.ex4.p1
+        diagram_ref: explanation.ex4.p1
+        variant: solution
+        disclosure_policy: annotated
+        reuse_geometry_from: explanation.ex4.prompt
+        required: true
+        on_failure: fail_assignment
+        placement: step_diagram
+        layout_role: solution_annotation
+        display_profile: worksheet_geometry_center
+        caption: $MN$ 是 $\triangle BCD$ 中位线，$B_{1}D_{1}\parallel BD$，传递得 $MN\parallel B_{1}D_{1}$。
+        engine: spatial_renderer
+        diagram_kind: spatial_geometry
+        teaching_intent: explanation_solution
+        semantic_constraints:
+          given_objects:
+          - A
+          - B
+          - C
+          - D
+          - A1
+          - B1
+          - C1
+          - D1
+          - E
+          - M
+          - N
+          - G
+          derived_objects:
+          - MN
+          - BD
+          - B1D1
+          derived_constraints:
+          - MN midpoint-line of triangle BCD, MN parallel BD
+          - BB1D1D parallelogram, B1D1 parallel BD
+          - MN parallel B1D1 by transitivity
+        engine_options:
+          spatial_spec:
+            projection: isometric_hidden_axes
+            segments:
+            - from: B
+              to: B1
+              stroke: '#dc2626'
+              stroke_width: 2.4
+            - from: B
+              to: D
+              stroke: '#dc2626'
+              stroke_width: 2.4
+            - from: B1
+              to: D1
+              stroke: '#dc2626'
+              stroke_width: 2.4
+            - from: C
+              to: B
+              stroke: '#dc2626'
+              stroke_width: 2.4
+            - from: C
+              to: D
+              stroke: '#dc2626'
+              stroke_width: 2.4
+            - from: D
+              to: D1
+              stroke: '#dc2626'
+              stroke_width: 2.4
+            - from: M
+              to: N
+              stroke: '#dc2626'
+              stroke_width: 2.4
+            markers:
+            - type: parallel
+              segments:
+              - - B
+                - B1
+              - - D
+                - D1
+            - type: parallel
+              segments:
+              - - B1
+                - D1
+              - - B
+                - D
+            - type: parallel
+              segments:
+              - - B1
+                - D1
+              - - B
+                - D
+            - type: parallel
+              segments:
+              - - B1
+                - D1
+              - - B
+                - D
+            teaching_focus:
+            - $MN$ 是 $\triangle BCD$ 中位线，$B_{1}D_{1}\parallel BD$，传递得 $MN\parallel B_{1}D_{1}$。
+    - id: ex4-p2
+      latex: (2) 在面 $EB_{1}D_{1}$ 内找平行线，证 $AC_{1}\parallel$ 面 $EB_{1}D_{1}$
+      content_latex: 连 $A_{1}C_{1}$ 交 $B_{1}D_{1}$ 于 $O$，四边形 $A_{1}B_{1}C_{1}D_{1}$ 为平行四边形，$O$ 为 $A_{1}C_{1}$ 中点；又 $E$ 为 $AA_{1}$ 中点，$EO$ 为 $\triangle AA_{1}C_{1}$ 中位线，$EO\parallel AC_{1}$。$EO\subset$ 面 $EB_{1}D_{1}$，$AC_{1}\not\subset$ 面 $EB_{1}D_{1}$，由线面判定 $AC_{1}\parallel$ 面 $EB_{1}D_{1}$。
+      diagram_slot:
+        slot_id: explanation.ex4.p2
+        diagram_ref: explanation.ex4.p2
+        variant: solution
+        disclosure_policy: annotated
+        reuse_geometry_from: explanation.ex4.prompt
+        required: true
+        on_failure: fail_assignment
+        placement: step_diagram
+        layout_role: solution_annotation
+        display_profile: worksheet_geometry_center
+        caption: 取 $O$ 为 $A_{1}C_{1}$ 中点，$EO$ 中位线平行 $AC_{1}$，在面 $EB_{1}D_{1}$ 内。
+        engine: spatial_renderer
+        diagram_kind: spatial_geometry
+        teaching_intent: explanation_solution
+        semantic_constraints:
+          given_objects:
+          - A
+          - B
+          - C
+          - D
+          - A1
+          - B1
+          - C1
+          - D1
+          - E
+          - M
+          - N
+          - G
+          - O
+          derived_objects:
+          - O
+          - EO
+          - AC1
+          derived_constraints:
+          - O midpoint of A1C1 and B1D1
+          - EO midpoint-line of triangle AA1C1, EO parallel AC1
+          - EO contained in plane EB1D1
+          - AC1 parallel plane EB1D1
+        engine_options:
+          spatial_spec:
+            projection: isometric_hidden_axes
+            segments:
+            - from: A
+              to: C1
+              stroke: '#dc2626'
+              stroke_width: 2.4
+            - from: E
+              to: O
+              stroke: '#dc2626'
+              stroke_width: 2.4
+            markers: []
+            teaching_focus:
+            - 取 $O$ 为 $A_{1}C_{1}$ 中点，$EO$ 中位线平行 $AC_{1}$，在面 $EB_{1}D_{1}$ 内。
+    - id: ex4-p3
+      latex: (3) 两条相交线分别平行，证面 $EB_{1}D_{1}\parallel$ 面 $BDG$
+      content_latex: 连 $AC$ 交 $BD$ 于 $P$（$P$ 为 $AC$ 中点），连 $PG$。由 $B_{1}D_{1}\parallel BD$，$B_{1}D_{1}\not\subset$ 面 $BDG$，$BD\subset$ 面 $BDG$，得 $B_{1}D_{1}\parallel$ 面 $BDG$；由(2) $EO\parallel AC_{1}$，又 $P$、$G$ 为 $AC$、$CC_{1}$ 中点，$PG\parallel AC_{1}$，故 $EO\parallel PG$，$EO\not\subset$ 面 $BDG$，$PG\subset$ 面 $BDG$，$EO\parallel$ 面 $BDG$。$EO\subset$ 面 $EB_{1}D_{1}$，$B_{1}D_{1}\subset$ 面 $EB_{1}D_{1}$，$EO\cap B_{1}D_{1}=O$，由面面判定得面 $EB_{1}D_{1}\parallel$ 面 $BDG$。
+    - id: ex4-sum
+      latex: 三问汇总
+      content_latex: (1) 线线（中位线+传递）；(2) 线面（判定，面内找平行线）；(3) 面面（判定，两相交线分别平行）。一题走完线线到线面 $\to$ 面面三层。
+  - type: dual_explanation
+    id: ex4-sol-p1
+    label: (1)
+    stem_latex: 求证 $MN\parallel B_{1}D_{1}$。
+    side_title: 小贴士
+    side_items:
+    - kind: hint
+      title: 判对象
+      content_latex: 结论是线线平行。$M$、$N$ 都是中点，先想中位线。
+    - kind: hint
+      title: 关键桥
+      content_latex: $MN\parallel BD$ 后，还需要 $BD\parallel B_{1}D_{1}$ 才能传递。$BB_{1}D_{1}D$ 是平行四边形提供这座桥。
+    solution_title: 解答
+    solution_step_ids:
+    - ex4-p1
+  - type: dual_explanation
+    id: ex4-sol-p2
+    label: (2)
+    stem_latex: 求证 $AC_{1}\parallel$ 平面 $EB_{1}D_{1}$。
+    side_title: 小贴士
+    side_items:
+    - kind: hint
+      title: 方向
+      content_latex: 线面平行用判定（凑）。在面 $EB_{1}D_{1}$ 里找一条和 $AC_{1}$ 平行的线。
+    - kind: hint
+      title: 怎么找
+      content_latex: $E$ 已是 $AA_{1}$ 中点；再取 $A_{1}C_{1}$ 中点 $O$，$EO$ 就成 $\triangle AA_{1}C_{1}$ 的中位线，$EO\parallel AC_{1}$。
+    solution_title: 解答
+    solution_step_ids:
+    - ex4-p2
+  - type: dual_explanation
+    id: ex4-sol-p3
+    label: (3)
+    stem_latex: 求证平面 $EB_{1}D_{1}\parallel$ 平面 $BDG$。
+    side_title: 小贴士
+    side_items:
+    - kind: hint
+      title: 方向
+      content_latex: 面面平行用判定（凑）：在面 $EB_{1}D_{1}$ 内找两条相交线分别平行于面 $BDG$。
+    - kind: mistake
+      title: 借前面结论
+      content_latex: (2) 里已得 $EO\parallel AC_{1}$，再用 $PG\parallel AC_{1}$ 传到 $EO\parallel PG$。综合题就是\textbf{前后小问接力}，不要每问从头证。
+    - kind: mistake
+      title: 相交前提
+      content_latex: $EO$ 与 $B_{1}D_{1}$ 在 $O$ 点相交，“相交”这个条件必须写出来。
+    solution_title: 解答
+    solution_step_ids:
+    - ex4-p3
+    - ex4-sum
+  - type: mistake
+    id: unit4-mistake
+    title: 易错提醒
+    content_latex: '综合题三类高频错：①\textbf{判定性质方向搞反}——要凑平行却去用性质，或要用平行却去套判定；②\textbf{不接力前问}——每问独立重证，错过(2)的结论做(3)的桥；③\textbf{跳步}——从中点直接跳到平行，省略"证平行四边形/中位线"和定理标注。批改时先看每步是否标了定理名与方向。
+
+      '
+  - type: method_reminder
+    id: unit4-method
+    title: 方法提醒
+    items:
+    - latex: 综合题每步先判对象，再选判定（凑）或性质（用）。
+    - latex: 前一小问的结论是后一小问的桥，主动接力。
+    - latex: 中点条件是辅助线信号：取中点连线造中位线或平行四边形。
+    - latex: 每步写全前提、标定理名，不跳步。

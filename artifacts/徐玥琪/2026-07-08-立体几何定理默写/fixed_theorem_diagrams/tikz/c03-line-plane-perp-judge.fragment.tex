@@ -1,0 +1,26 @@
+\input{fixed_theorem_diagrams/tikz/_fixed_diagram_styles.tex}
+\tdplotsetmaincoords{65}{115}
+\begin{tikzpicture}[tdplot_main_coords,theorem diagram]
+  \coordinate (ptp1) at (0,0,0);
+  \coordinate (ptp2) at (3.6,0,0);
+  \coordinate (ptp3) at (3.6,1.25,0);
+  \coordinate (ptp4) at (0,1.25,0);
+  \coordinate (ptP) at (1.7,0.65,0);
+  \coordinate (ptu) at (1.7,0.65,1.35);
+  \coordinate (ptm1) at (0.65,0.65,0);
+  \coordinate (ptm2) at (2.85,0.65,0);
+  \coordinate (ptn1) at (1.7,0.15,0);
+  \coordinate (ptn2) at (1.7,1.12,0);
+  \draw[plane] (ptp1) -- (ptp2) -- (ptp3) -- (ptp4) -- cycle;
+  \node[label] at (ptp3) {$\alpha$};
+  \draw[main] (ptP) -- (ptu);
+  \node[label,above] at (ptu) {$l$};
+  \draw[second] (ptm1) -- (ptm2);
+  \node[label,right] at (ptm2) {$m$};
+  \draw[third] (ptn1) -- (ptn2);
+  \node[label,above] at (ptn2) {$n$};
+  \fill (ptP) circle (1.1pt);
+  \node[label,below right] at (ptP) {$P$};
+  \draw[aux] (1.7,0.65,0.15) -- (1.85,0.65,0.15) -- (1.85,0.65,0);
+  \draw[aux] (1.7,0.65,0.2) -- (1.7,0.85,0.2) -- (1.7,0.85,0);
+\end{tikzpicture}

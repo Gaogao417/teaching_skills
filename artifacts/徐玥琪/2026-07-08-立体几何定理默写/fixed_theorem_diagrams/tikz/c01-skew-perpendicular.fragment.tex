@@ -1,0 +1,20 @@
+\input{fixed_theorem_diagrams/tikz/_fixed_diagram_styles.tex}
+\tdplotsetmaincoords{65}{115}
+\begin{tikzpicture}[tdplot_main_coords,theorem diagram]
+  \coordinate (ptO) at (1.7,0.65,0);
+  \coordinate (ptap1) at (0.8,0.65,0);
+  \coordinate (ptap2) at (2.65,0.65,0);
+  \coordinate (ptb1) at (1.7,-0.15,0);
+  \coordinate (ptb2) at (1.7,1.35,0);
+  \coordinate (pta1) at (0.7,0.1,0.95);
+  \coordinate (pta2) at (2.55,0.1,0.95);
+  \draw[main] (ptap1) -- (ptap2);
+  \node[label,right] at (ptap2) {$a'$};
+  \draw[second] (ptb1) -- (ptb2);
+  \node[label,above] at (ptb2) {$b$};
+  \draw[main] (pta1) -- (pta2);
+  \node[label,right] at (pta2) {$a$};
+  \fill (ptO) circle (1.1pt);
+  \node[label,below right] at (ptO) {$O$};
+  \draw[aux] (1.86,0.65,0) -- (1.86,0.49,0) -- (1.7,0.49,0);
+\end{tikzpicture}

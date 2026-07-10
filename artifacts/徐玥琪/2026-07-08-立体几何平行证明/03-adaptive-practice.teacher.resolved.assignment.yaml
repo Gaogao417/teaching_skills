@@ -1,0 +1,703 @@
+meta:
+  title: 立体几何平行证明 · 分层练习
+  subtitle: 徐玥琪 · 教师版
+  grade: 高一
+  subject: 数学
+  duration: 45分钟
+  total_points: 90
+  version: teacher
+  source_artifacts:
+    plan: docs/立体几何学习规划/03-平行证明讲义方案.md
+    explanation: artifacts/徐玥琪/2026-07-08-立体几何平行证明/02-student-explanation.plan.assignment.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: basic
+  title: 一、基础档：正方体中直接套判定（共 21 分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: q1
+    points: 5
+    stem: 给出四个判断：① 若直线 $a\parallel b$，$b\subset$ 平面 $\alpha$，$a\not\subset\alpha$，则
+      $a\parallel\alpha$；② 若直线 $a\parallel$ 平面 $\alpha$，则 $a$ 与 $\alpha$ 内任意一条直线都平行；③
+      若 $a\parallel\alpha$，过 $a$ 作平面 $\beta$ 交 $\alpha$ 于直线 $b$，则 $a\parallel b$；④
+      若 $a\parallel b$，$b\subset\alpha$，$a\subset\alpha$，则 $a\parallel\alpha$。其中正确的个数是（    ）。
+    choices:
+      A: '1'
+      B: '2'
+      C: '3'
+      D: '4'
+    hints:
+    - content: 逐条对照判定与性质定理的前提；注意 $a$ 是否在平面内。
+    answer: B
+    explanation: ①是线面平行判定三件套（$a\not\subset\alpha$，$b\subset\alpha$，$a\parallel b$），正确；②漏了"过
+      $a$ 作面找交线"这步，$a$ 只与 $\alpha$ 内过交线的直线平行，错；③是线面平行性质定理，正确；④$a\subset\alpha$ 时不能说
+      $a\parallel\alpha$，错。故正确为①③，共 2 个，选 B。
+    teaching:
+      teaching_goal: 辨析线面平行判定与性质的方向和前提，区分'凑'与'用'。
+      source_relations:
+      - fallback:structure_analysis
+      model_fusion:
+        model_count: 1
+        models:
+        - 线面平行判定/性质定理辨析
+        fusion_role: single_model
+      expected_blocker: 把性质当判定用——已知 $a\parallel\alpha$ 就说 $a$ 平行于 $\alpha$ 内任意直线；漏写交线。
+      entry_point: build_relation
+      scaffold_level: medium
+      variation_depth: same_structure
+      complexity_note: 纯辨析，无计算。
+      upgrade_rule: 能口头说出每条判的是'凑'还是'用'。
+      fallback_move: 回到讲义转化链总图，逐条标方向。
+  - type: fillin
+    id: q2
+    points: 6
+    stem: 如图，在正方体 $ABCD$-$A_{1}B_{1}C_{1}D_{1}$ 中，$M$、$N$ 分别是 $A_{1}B_{1}$、$B_{1}C_{1}$
+      的中点。线段 $MN$ 与面对角线 \underline{\hspace{3em}} 平行（填一条面对角线的字母）。
+    hints:
+    - content: $MN$ 是哪个三角形的中位线？再看它和哪条对角线共端点。
+    answer: $A_{1}C_{1}$
+    explanation: $M$、$N$ 分别是 $A_{1}B_{1}$、$B_{1}C_{1}$ 的中点，故 $MN$ 是 $\triangle A_{1}B_{1}C_{1}$
+      的中位线，$MN\parallel A_{1}C_{1}$。
+    teaching:
+      teaching_goal: 用中位线造第一条平行，是线线平行的入口动作。
+      source_relations:
+      - fallback:structure_analysis
+      model_fusion:
+        model_count: 1
+        models:
+        - 三角形中位线造线线平行
+        fusion_role: single_model
+      expected_blocker: 看不出 $MN$ 是哪个三角形的中位线。
+      entry_point: find_entry
+      scaffold_level: high
+      variation_depth: same_structure
+      complexity_note: 中位线直接读，无计算。
+      upgrade_rule: 能联想到基本事实4，把 $MN\parallel A_{1}C_{1}$ 再传到下底面 $AC$。
+      fallback_move: 在图上连 $A_{1}C_{1}$，指认 $\triangle A_{1}B_{1}C_{1}$。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/q2-prompt/rendered/prompt.fragment.tex
+      diagram_ref: q2.prompt
+      diagram_job_id: q2-prompt
+      width: 60mm
+      caption: $MN$ 是 $\triangle A_{1}B_{1}C_{1}$ 的中位线。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:24babee1dbfec17d6378b57e8fc75ec336f9b558be8deca4ba0d45a363f7471f
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: q3
+    points: 10
+    label: 第 3 题
+    stem_latex: '如图，在正方体 $ABCD$-$A_{1}B_{1}C_{1}D_{1}$ 中，$E$ 为棱 $DD_{1}$ 的中点。求证：$BD_{1}\parallel$
+      平面 $AEC$。
+
+      '
+    hints:
+    - content: 证线面平行用判定（凑）。在平面 $AEC$ 里找一条与 $BD_{1}$ 平行的线——取 $AC\cap BD=O$，连 $OE$。
+    answer: 证明见解析：$OE\parallel BD_{1}$（中位线），套判定得 $BD_{1}\parallel$ 平面 $AEC$。
+    explanation: 设 $AC\cap BD=O$，连 $OE$。$O$、$E$ 分别是 $BD$、$DD_{1}$ 的中点，$OE$ 是 $\triangle
+      BDD_{1}$ 的中位线，$OE\parallel BD_{1}$。又 $OE\subset$ 平面 $AEC$，$BD_{1}\not\subset$
+      平面 $AEC$，由线面平行判定定理得 $BD_{1}\parallel$ 平面 $AEC$。
+    solution_steps:
+    - title: 取中点连 $OE$
+      content: 设 $AC\cap BD=O$（正方形对角线交点，$O$ 为 $BD$ 中点），连 $OE$。
+    - title: 证 $OE\parallel BD_{1}$
+      content: $O$、$E$ 分别是 $BD$、$DD_{1}$ 的中点，$OE$ 是 $\triangle BDD_{1}$ 的中位线，故 $OE\parallel
+        BD_{1}$。
+    - title: 套判定三件套
+      content: $OE\subset$ 平面 $AEC$，$BD_{1}\not\subset$ 平面 $AEC$，$OE\parallel BD_{1}$，由线面平行判定定理得
+        $BD_{1}\parallel$ 平面 $AEC$。
+    teaching:
+      teaching_goal: 正方体中位线 + 线面判定三件套，钉死书写格式。
+      source_relations:
+      - fallback:structure_analysis
+      model_fusion:
+        model_count: 1
+        models:
+        - 线面平行判定（在面内找平行线）
+        fusion_role: single_model
+      expected_blocker: 辅助线 $OE$ 没落在目标平面 $AEC$ 内，或漏写 $BD_{1}\not\subset$ 面。
+      entry_point: build_relation
+      scaffold_level: high
+      variation_depth: same_structure
+      complexity_note: 中位线直接给平行，无计算。
+      upgrade_rule: 三件套（$a\not\subset\alpha$，$b\subset\alpha$，$a\parallel b$）一条不漏写出。
+      fallback_move: 先在图上指认 $OE$ 确实在平面 $AEC$ 内。
+    answer_space:
+      type: steps
+      height: 55mm
+      step_count: 4
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/q3-prompt/rendered/prompt.fragment.tex
+      diagram_ref: q3.prompt
+      diagram_job_id: q3-prompt
+      width: 60mm
+      caption: $O$ 是 $AC$ 与 $BD$ 的交点，连 $OE$ 看中位线。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:db6de26770f65fa5064a4924db7bed439ca2d08f77c339ccc24535f6e3767e0c
+      packages:
+      - tikz
+      libraries: []
+- id: medium
+  title: 二、中档档：取中点连线，造面内平行线（共 39 分）
+  type: practice
+  visibility: both
+  layout:
+    break_before: true
+  blocks:
+  - type: fillin
+    id: q4
+    points: 7
+    stem: 如图，在三棱柱 $ABC$-$A_{1}B_{1}C_{1}$ 中，$D$、$E$ 分别是棱 $CC_{1}$、$AB$ 的中点。要在平面 $AB_{1}C_{1}$
+      内找到与 $DE$ 平行的直线，应取 \underline{\hspace{3em}} 的中点 $H$，再连 $HC_{1}$。
+    hints:
+    - content: 想平行四边形：$H$ 取好后，四边形 $EHC_{1}D$ 要能证成平行四边形。
+    answer: $AB_{1}$
+    explanation: 取 $AB_{1}$ 的中点 $H$。$E$、$H$ 分别是 $AB$、$AB_{1}$ 中点，$EH\parallel BB_{1}$
+      且 $EH=\tfrac12 BB_{1}$；$D$ 是 $CC_{1}$ 中点，$DC_{1}=\tfrac12 CC_{1}=\tfrac12 BB_{1}$
+      且 $DC_{1}\parallel BB_{1}$，故 $EH\parallel DC_{1}$ 且 $EH=DC_{1}$，四边形 $EHC_{1}D$
+      为平行四边形，$DE\parallel HC_{1}$。
+    teaching:
+      teaching_goal: 训练'目标倒推'：知道要凑平行四边形，反推该取哪个中点。
+      source_relations:
+      - fallback:structure_analysis
+      model_fusion:
+        model_count: 1
+        models:
+        - 构造平行四边形造面内平行线
+        fusion_role: single_model
+      expected_blocker: 取错中点——把 $H$ 取到不在平面 $AB_{1}C_{1}$ 内的位置。
+      entry_point: find_entry
+      scaffold_level: medium
+      variation_depth: changed_question
+      complexity_note: 只填中点字母，无计算。
+      upgrade_rule: 能独立说明为什么必须取 $AB_{1}$ 中点。
+      fallback_move: 先在图上画出平面 $AB_{1}C_{1}$，再找哪个中点能让 $EHC_{1}D$ 共面。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/q4-prompt/rendered/prompt.fragment.tex
+      diagram_ref: q4.prompt
+      diagram_job_id: q4-prompt
+      width: 60mm
+      caption: 三棱柱中 $D$、$E$ 为中点，构造平行四边形 $EHC_{1}D$。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:710a6e2a3653ec190da7910362f6a72ce3cb524db249da5c413401c1ff1696ba
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: q5
+    points: 11
+    label: 第 5 题
+    stem_latex: '如图，在三棱柱 $ABC$-$A_{1}B_{1}C_{1}$ 中，$D$、$E$ 分别是棱 $CC_{1}$、$AB$ 的中点。求证：$DE\parallel$
+      平面 $AB_{1}C_{1}$。
+
+      '
+    hints:
+    - content: 取 $AB_{1}$ 的中点 $H$，连 $EH$、$HC_{1}$，先证四边形 $EHC_{1}D$ 是平行四边形。
+    answer: 证明见解析：$DE\parallel HC_{1}$（平行四边形），套判定得 $DE\parallel$ 平面 $AB_{1}C_{1}$。
+    explanation: 取 $AB_{1}$ 中点 $H$，连 $EH$、$HC_{1}$。$EH\parallel BB_{1}$ 且 $EH=\tfrac12
+      BB_{1}$；$DC_{1}\parallel BB_{1}$ 且 $DC_{1}=\tfrac12 CC_{1}=\tfrac12 BB_{1}$，故
+      $EH\parallel DC_{1}$ 且 $EH=DC_{1}$，四边形 $EHC_{1}D$ 为平行四边形，$DE\parallel HC_{1}$。$HC_{1}\subset$
+      平面 $AB_{1}C_{1}$，$DE\not\subset$ 平面 $AB_{1}C_{1}$，由线面平行判定定理得 $DE\parallel$ 平面
+      $AB_{1}C_{1}$。
+    solution_steps:
+    - title: 取 $AB_{1}$ 中点 $H$
+      content: 取 $AB_{1}$ 中点 $H$，连 $EH$、$HC_{1}$。
+    - title: 证 $EH\parallel DC_{1}$ 且 $EH=DC_{1}$
+      content: $E$、$H$ 分别是 $AB$、$AB_{1}$ 中点，$EH\parallel BB_{1}$，$EH=\tfrac12 BB_{1}$；$D$
+        是 $CC_{1}$ 中点，$DC_{1}=\tfrac12 CC_{1}$。棱柱中 $BB_{1}\parallel CC_{1}$ 且 $BB_{1}=CC_{1}$，故
+        $DC_{1}\parallel BB_{1}$ 且 $DC_{1}=\tfrac12 BB_{1}$，得 $EH\parallel DC_{1}$
+        且 $EH=DC_{1}$。
+    - title: 证平行四边形
+      content: $EH\parallel DC_{1}$ 且 $EH=DC_{1}$，四边形 $EHC_{1}D$ 为平行四边形，$DE\parallel
+        HC_{1}$。
+    - title: 套判定三件套
+      content: $HC_{1}\subset$ 平面 $AB_{1}C_{1}$，$DE\not\subset$ 平面 $AB_{1}C_{1}$，$DE\parallel
+        HC_{1}$，由线面平行判定定理得 $DE\parallel$ 平面 $AB_{1}C_{1}$。
+    teaching:
+      teaching_goal: 中档主力：自己造面内平行线（平行四边形），再套判定。
+      source_relations:
+      - fallback:structure_analysis
+      model_fusion:
+        model_count: 2
+        models:
+        - 构造平行四边形造线线平行
+        - 线面平行判定
+        fusion_role: prerequisite
+      relation_chain:
+      - step: 1
+        relation_id: fallback:parallelogram_midpoints
+        inputs:
+          midpoints: E(mid AB), H(mid AB1), D(mid CC1)
+        outputs:
+          parallel_pair: DE parallel HC1
+        constraints_checked:
+        - EH=DC1 且 EH∥DC1（中位线 + 棱柱侧棱平行）
+      - step: 2
+        relation_id: fallback:line_plane_parallel_criterion
+        consumes:
+          parallel_pair: step1.outputs.parallel_pair
+        inputs:
+          contained_line: HC1 in plane AB1C1
+          outside_line: DE not in plane AB1C1
+        outputs:
+          conclusion: DE parallel plane AB1C1
+        constraints_checked:
+        - HC1⊂面 AB1C1，DE⊄面 AB1C1，DE∥HC1
+      expected_blocker: 辅助线作错平面——把 $H$ 连到不在面 $AB_{1}C_{1}$ 的点；或证平行四边形时漏'且相等'。
+      entry_point: build_relation
+      scaffold_level: medium
+      variation_depth: changed_representation
+      complexity_note: 比例均为 1/2，手算。
+      upgrade_rule: 能独立选对中点并完整写出平行四边形证明。
+      fallback_move: 先只连 $EH$、$HC_{1}$，在图上确认 $HC_{1}$ 在面 $AB_{1}C_{1}$ 内。
+    answer_space:
+      type: steps
+      height: 65mm
+      step_count: 5
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/q5-prompt/rendered/prompt.fragment.tex
+      diagram_ref: q5.prompt
+      diagram_job_id: q5-prompt
+      width: 60mm
+      caption: 取 $H$ 为 $AB_{1}$ 中点，证 $EHC_{1}D$ 为平行四边形。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:5ac2e89119fd4af42aef50b43b0d6efe6e03759df220b8a5f043f1c40943db0c
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: q6
+    points: 11
+    label: 第 6 题
+    stem_latex: '如图，在四棱锥 $P$-$ABCD$ 中，底面 $ABCD$ 为平行四边形，$O$ 为 $AC$ 与 $BD$ 的交点，$M$ 为
+      $PC$ 的中点。已知 $AP\parallel$ 平面 $BDM$，过 $A$、$P$ 的平面交平面 $BDM$ 于直线 $l$。求证：$AP\parallel
+      l$。
+
+      '
+    hints:
+    - content: 这是性质定理（向下用）：连 $MO$ 看中位线，再写出两个平面的交线。
+    answer: 证明见解析：$AP\parallel$ 平面 $BDM$，过 $AP$ 的面交平面 $BDM$ 于 $l$，由性质得 $AP\parallel
+      l$。
+    explanation: 连 $MO$。$M$、$O$ 分别是 $PC$、$AC$ 的中点，$MO$ 为 $\triangle PAC$ 中位线，$MO\parallel
+      AP$。又 $MO\subset$ 平面 $BDM$，$AP\not\subset$ 平面 $BDM$，故 $AP\parallel$ 平面 $BDM$。设过
+      $A$、$P$ 的平面为 $\beta$，则 $\beta\cap$ 平面 $BDM=l$，$AP\subset\beta$，由线面平行性质定理得 $AP\parallel
+      l$。
+    solution_steps:
+    - title: 连 $MO$ 证中位线
+      content: 连 $MO$。$M$、$O$ 分别是 $PC$、$AC$ 中点，$MO$ 为 $\triangle PAC$ 中位线，$MO\parallel
+        AP$。
+    - title: 确认 $AP\parallel$ 平面 $BDM$
+      content: $MO\subset$ 平面 $BDM$，$AP\not\subset$ 平面 $BDM$，$AP\parallel MO$，故 $AP\parallel$
+        平面 $BDM$。
+    - title: 写出交线，套性质
+      content: 设过 $A$、$P$ 的平面为 $\beta$，$\beta\cap$ 平面 $BDM=l$，$AP\subset\beta$，由线面平行性质定理得
+        $AP\parallel l$。
+    teaching:
+      teaching_goal: 性质定理（向下用）的标准书写：必须写出交线这一步。
+      source_relations:
+      - fallback:structure_analysis
+      model_fusion:
+        model_count: 2
+        models:
+        - 线面平行判定（凑出 AP∥面）
+        - 线面平行性质（用掉 AP∥面得 AP∥l）
+        fusion_role: target_transform
+      relation_chain:
+      - step: 1
+        relation_id: fallback:line_plane_parallel_criterion
+        inputs:
+          parallel_pair: MO parallel AP
+          contained_line: MO in plane BDM
+          outside_line: AP not in plane BDM
+        outputs:
+          conclusion: AP parallel plane BDM
+        constraints_checked:
+        - MO⊂面 BDM，AP⊄面 BDM，MO∥AP
+      - step: 2
+        relation_id: fallback:line_plane_parallel_property
+        consumes:
+          conclusion: step1.outputs.conclusion
+        inputs:
+          intersecting_planes: beta meets plane BDM at line l
+          line_in_beta: AP in beta
+        outputs:
+          parallel_pair: AP parallel l
+        constraints_checked:
+        - β∩面 BDM=l，AP⊂β
+      expected_blocker: 判定性质方向搞反；或跳过交线 $l$ 这步，直接写 $AP\parallel l$。
+      entry_point: build_relation
+      scaffold_level: medium
+      variation_depth: changed_representation
+      complexity_note: 中位线给平行，无计算。
+      upgrade_rule: 能独立说明为什么必须写'交线'这一步。
+      fallback_move: 在图上画出 $\beta\cap$ 面 $BDM=l$，指认 $l$。
+    answer_space:
+      type: steps
+      height: 60mm
+      step_count: 5
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/q6-prompt/rendered/prompt.fragment.tex
+      diagram_ref: q6.prompt
+      diagram_job_id: q6-prompt
+      width: 60mm
+      caption: $MO$ 是 $\triangle PAC$ 的中位线，$MO\parallel AP$ 且在面 $BDM$ 内。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:8cd318cc0716cf8e2236b45a660cad22381a1200e2a079ab6aea6f0de0646d0a
+      packages:
+      - tikz
+      libraries: []
+  - type: choice
+    id: q7
+    points: 10
+    stem: 如图，在四棱锥 $P$-$ABCD$ 中，$M$、$N$ 分别在 $AC$、$PC$ 上，且 $MN\parallel$ 平面 $PAD$，则
+      $MN$ 与 $PA$ 的位置关系是（    ）。
+    choices:
+      A: $MN\parallel PD$
+      B: $MN\parallel PA$
+      C: $MN\parallel AD$
+      D: 都有可能
+    hints:
+    - content: $MN\subset$ 平面 $PAC$，平面 $PAC\cap$ 平面 $PAD=PA$，由线面平行性质得结论。
+    answer: B
+    explanation: $M\in AC$、$N\in PC$，故 $MN\subset$ 平面 $PAC$。已知 $MN\parallel$ 平面 $PAD$，又平面
+      $PAC\cap$ 平面 $PAD=PA$，由线面平行性质定理得 $MN\parallel PA$。故选 B。
+    teaching:
+      teaching_goal: 性质定理直接套：找含 $MN$ 的辅助面与目标面的交线。
+      source_relations:
+      - fallback:structure_analysis
+      model_fusion:
+        model_count: 1
+        models:
+        - 线面平行性质（找交线）
+        fusion_role: single_model
+      expected_blocker: 找错交线——把平面 $PAC$ 与平面 $PAD$ 的交线写成 $AD$ 或 $PD$。
+      entry_point: find_entry
+      scaffold_level: medium
+      variation_depth: same_structure
+      complexity_note: 纯辨析，无计算。
+      upgrade_rule: 能说出'交线是两面公共的过 $P$ 的直线 $PA$'。
+      fallback_move: 在图上标出平面 $PAC$ 与平面 $PAD$ 的公共边。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/q7-prompt/rendered/prompt.fragment.tex
+      diagram_ref: q7.prompt
+      diagram_job_id: q7-prompt
+      width: 60mm
+      caption: 找到含 $MN$ 的辅助面与平面 $PAD$ 的交线。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:5e2f3de12872b0aee04565f54ca09202c7a7825d3dbcdcb533c3534e066fb4b8
+      packages:
+      - tikz
+      libraries: []
+- id: advanced
+  title: 三、提高档：面面与线面混用 + 中点比例（共 30 分）
+  type: practice
+  visibility: both
+  layout:
+    break_before: true
+  blocks:
+  - type: problem
+    id: q8
+    points: 10
+    label: 第 8 题
+    stem_latex: '如图，在四棱锥 $P$-$ABCD$ 中，底面四边形 $ABCD$ 满足 $AB\parallel CD$ 且 $AB=2CD$，$E$
+      为 $PB$ 的中点。求证：$CE\parallel$ 平面 $PAD$。
+
+      '
+    hints:
+    - content: 取 $AB$ 中点 $F$，连 $EF$、$CF$。证 $AD\parallel CF$、$EF\parallel PA$，凑出面面平行，再用面面平行的性质。
+    answer: 证明见解析：证面 $CEF\parallel$ 面 $PAD$，$CE\subset$ 面 $CEF$，由面面平行其他性质得 $CE\parallel$
+      面 $PAD$。
+    explanation: 取 $AB$ 中点 $F$，连 $EF$、$CF$。$AF=\tfrac12 AB=CD$ 且 $AB\parallel CD$，故
+      $AF\parallel CD$ 且 $AF=CD$，四边形 $ADCF$ 为平行四边形，$AD\parallel CF$。又 $E$、$F$ 分别为
+      $PB$、$AB$ 中点，$EF\parallel PA$。$EF\cap CF=F$，$PA\cap AD=A$，由面面平行判定定理得平面 $CEF\parallel$
+      平面 $PAD$。又 $CE\subset$ 平面 $CEF$，由面面平行的其他性质（一面内任一直线平行于另一平行面）得 $CE\parallel$ 平面
+      $PAD$。
+    solution_steps:
+    - title: 取 $AB$ 中点 $F$
+      content: 取 $AB$ 中点 $F$，连 $EF$、$CF$。
+    - title: 证 $AD\parallel CF$
+      content: $AF=\tfrac12 AB=CD$ 且 $AF\parallel CD$，四边形 $ADCF$ 为平行四边形，$AD\parallel
+        CF$。
+    - title: 证 $EF\parallel PA$
+      content: $E$、$F$ 分别为 $PB$、$AB$ 中点，$EF$ 为 $\triangle PAB$ 中位线，$EF\parallel PA$。
+    - title: 套面面判定（相交前提）
+      content: $EF\cap CF=F$，$PA\cap AD=A$，$EF\parallel$ 平面 $PAD$，$CF\parallel$ 平面
+        $PAD$，由面面平行判定得平面 $CEF\parallel$ 平面 $PAD$。
+    - title: 用面面平行其他性质
+      content: $CE\subset$ 平面 $CEF$，平面 $CEF\parallel$ 平面 $PAD$，故 $CE\parallel$ 平面
+        $PAD$。
+    teaching:
+      teaching_goal: 提高档：面面判定（两相交线）+ 面面平行其他性质，走完'凑出面面再用性质'。
+      source_relations:
+      - fallback:structure_analysis
+      model_fusion:
+        model_count: 3
+        models:
+        - 平行四边形造线线平行
+        - 面面平行判定（相交前提）
+        - 面面平行其他性质（面内线平行于平行面）
+        fusion_role: target_transform
+      relation_chain:
+      - step: 1
+        relation_id: fallback:plane_plane_parallel_criterion
+        inputs:
+          intersecting_lines: EF, CF in plane CEF with EF∩CF=F
+          parallel_to_target: EF∥PA∥面 PAD, CF∥AD∥面 PAD
+        outputs:
+          conclusion: plane CEF parallel plane PAD
+        constraints_checked:
+        - EF∩CF=F（相交前提）
+        - EF∥面 PAD，CF∥面 PAD
+      - step: 2
+        relation_id: fallback:plane_plane_other_property
+        consumes:
+          conclusion: step1.outputs.conclusion
+        inputs:
+          line_in_plane: CE in plane CEF
+        outputs:
+          conclusion: CE parallel plane PAD
+        constraints_checked:
+        - CE⊂面 CEF，面 CEF∥面 PAD
+      expected_blocker: 漏写相交前提 $EF\cap CF=F$；或不会想到用面面平行其他性质，卡在最后一步。
+      entry_point: build_relation
+      scaffold_level: low
+      variation_depth: changed_representation
+      complexity_note: 比例 $AB=2CD$，手算。
+      upgrade_rule: 能独立选择'凑面面再用性质'这条路径，而不是硬凑线面判定。
+      fallback_move: 先只证 $AD\parallel CF$ 和 $EF\parallel PA$，再问'两条相交线分别平行于另一面能得什么'。
+    answer_space:
+      type: steps
+      height: 75mm
+      step_count: 6
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/q8-prompt/rendered/prompt.fragment.tex
+      diagram_ref: q8.prompt
+      diagram_job_id: q8-prompt
+      width: 60mm
+      caption: 取 $F$ 为 $AB$ 中点，证面 $PAD\parallel$ 面 $CEF$，再用其他性质。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:92ba6daa4efbe4bb76fa182dd4726216b45533006e336b3db25b6719661a1b19
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: q9
+    points: 10
+    label: 第 9 题
+    stem_latex: '如图，在四棱柱 $ABCD$-$A_{1}B_{1}C_{1}D_{1}$ 中，底面 $ABCD$ 为梯形且 $AD\parallel
+      BC$。设过 $A_{1}$、$D$、$C$ 三点的平面与棱 $BB_{1}$ 交于点 $E$。求证：$EC\parallel A_{1}D$。
+
+      '
+    hints:
+    - content: 用 $BE\parallel AA_{1}$、$BC\parallel AD$ 证面 $BCE\parallel$ 面 $AA_{1}D$（判定），再用面面平行性质。注意相交前提。
+    answer: 证明见解析：证面 $BCE\parallel$ 面 $AA_{1}D$，两面被面 $A_{1}DCE$ 截得 $EC\parallel A_{1}D$。
+    explanation: 棱柱中 $BE\parallel AA_{1}$，$AA_{1}\subset$ 平面 $AA_{1}D$，$BE\not\subset$
+      平面 $AA_{1}D$，故 $BE\parallel$ 平面 $AA_{1}D$。又 $BC\parallel AD$，$AD\subset$ 平面
+      $AA_{1}D$，$BC\not\subset$ 平面 $AA_{1}D$，故 $BC\parallel$ 平面 $AA_{1}D$。$BE\cap
+      BC=B$，$BE$、$BC\subset$ 平面 $BCE$，由面面平行判定得平面 $BCE\parallel$ 平面 $AA_{1}D$。又平面 $A_{1}DCE\cap$
+      平面 $BCE=EC$，平面 $A_{1}DCE\cap$ 平面 $AA_{1}D=A_{1}D$，由面面平行性质定理得 $EC\parallel A_{1}D$。
+    solution_steps:
+    - title: 证 $BE\parallel$ 平面 $AA_{1}D$
+      content: 棱柱中 $BE\parallel AA_{1}$，$AA_{1}\subset$ 平面 $AA_{1}D$，$BE\not\subset$
+        平面 $AA_{1}D$，故 $BE\parallel$ 平面 $AA_{1}D$。
+    - title: 证 $BC\parallel$ 平面 $AA_{1}D$
+      content: $BC\parallel AD$（梯形），$AD\subset$ 平面 $AA_{1}D$，$BC\not\subset$ 平面 $AA_{1}D$，故
+        $BC\parallel$ 平面 $AA_{1}D$。
+    - title: 套面面判定（相交前提）
+      content: $BE\cap BC=B$，$BE$、$BC\subset$ 平面 $BCE$，$BE\parallel$ 平面 $AA_{1}D$，$BC\parallel$
+        平面 $AA_{1}D$，由面面平行判定得平面 $BCE\parallel$ 平面 $AA_{1}D$。
+    - title: 用面面平行性质
+      content: 平面 $A_{1}DCE\cap$ 平面 $BCE=EC$，平面 $A_{1}DCE\cap$ 平面 $AA_{1}D=A_{1}D$，由面面平行性质定理得
+        $EC\parallel A_{1}D$。
+    teaching:
+      teaching_goal: 提高档综合：面面判定凑出平行面，再用面面性质开成线线，判定⇒性质交替。
+      source_relations:
+      - fallback:structure_analysis
+      model_fusion:
+        model_count: 3
+        models:
+        - 线面平行判定（凑 BE∥面、BC∥面）
+        - 面面平行判定（相交前提）
+        - 面面平行性质（两面被第三面截得平行交线）
+        fusion_role: target_transform
+      relation_chain:
+      - step: 1
+        relation_id: fallback:plane_plane_parallel_criterion
+        inputs:
+          intersecting_lines: BE, BC in plane BCE with BE∩BC=B
+          parallel_to_target: BE∥面 AA1D, BC∥面 AA1D
+        outputs:
+          conclusion: plane BCE parallel plane AA1D
+        constraints_checked:
+        - BE∩BC=B（相交前提）
+        - BE∥面 AA1D，BC∥面 AA1D
+      - step: 2
+        relation_id: fallback:plane_plane_parallel_property
+        consumes:
+          conclusion: step1.outputs.conclusion
+        inputs:
+          intersecting_plane: plane A1DCE cuts both parallel planes
+        outputs:
+          parallel_pair: EC parallel A1D
+        constraints_checked:
+        - 面 A1DCE∩面 BCE=EC，面 A1DCE∩面 AA1D=A1D
+      expected_blocker: 漏相交前提 $BE\cap BC=B$；或性质定理里没写出两个交线 $EC$、$A_{1}D$。
+      entry_point: build_relation
+      scaffold_level: low
+      variation_depth: changed_representation
+      complexity_note: 无数值计算，纯论证链。
+      upgrade_rule: 能独立规划'先凑面面、再用面面性质'的两步路径。
+      fallback_move: 先只证面 $BCE\parallel$ 面 $AA_{1}D$，再问'面面平行能推出什么'。
+    answer_space:
+      type: steps
+      height: 75mm
+      step_count: 6
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/q9-prompt/rendered/prompt.fragment.tex
+      diagram_ref: q9.prompt
+      diagram_job_id: q9-prompt
+      width: 60mm
+      caption: 证面 $BCE\parallel$ 面 $AA_{1}D$，两面被面 $A_{1}DCE$ 截出两条平行交线。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:314b1ae1d5eab19830b230020cb053b9466b62aa0d8f9e5f273dfc4a8440b695
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: q10
+    points: 10
+    label: 第 10 题
+    stem_latex: "如图，在平行六面体 $ABCD$-$A_{1}B_{1}C_{1}D_{1}$ 中，$E$ 为棱 $AA_{1}$ 的中点，$O$\
+      \ 为 $A_{1}C_{1}$ 与 $B_{1}D_{1}$ 的交点。求证：\n\\begin{enumerate}[label=(\\arabic*)]\n\
+      \  \\item $EO\\parallel AC_{1}$；\n  \\item $AC_{1}\\parallel$ 平面 $EB_{1}D_{1}$。\n\
+      \\end{enumerate}\n"
+    hints:
+    - content: (1) $E$、$O$ 分别是 $AA_{1}$、$A_{1}C_{1}$ 的中点，$EO$ 是 $\triangle AA_{1}C_{1}$
+        的中位线；(2) 由 (1) 在面 $EB_{1}D_{1}$ 内找到平行线，套判定。
+    answer: (1) $EO\parallel AC_{1}$；(2) $AC_{1}\parallel$ 平面 $EB_{1}D_{1}$。证明见解析。
+    explanation: (1) $E$、$O$ 分别为 $AA_{1}$、$A_{1}C_{1}$ 中点，$EO$ 为 $\triangle AA_{1}C_{1}$
+      中位线，$EO\parallel AC_{1}$。(2) 由 (1) $EO\parallel AC_{1}$，又 $EO\subset$ 平面 $EB_{1}D_{1}$（$E$、$O$
+      均在该面内，$O$ 在 $B_{1}D_{1}$ 上），$AC_{1}\not\subset$ 平面 $EB_{1}D_{1}$，由线面平行判定定理得
+      $AC_{1}\parallel$ 平面 $EB_{1}D_{1}$。
+    solution_steps:
+    - title: (1) 证 $EO\parallel AC_{1}$
+      content: $E$、$O$ 分别是 $AA_{1}$、$A_{1}C_{1}$ 的中点，$EO$ 是 $\triangle AA_{1}C_{1}$
+        的中位线，故 $EO\parallel AC_{1}$。
+    - title: (2) 确认 $EO\subset$ 平面 $EB_{1}D_{1}$
+      content: $E\in$ 平面 $EB_{1}D_{1}$，$O$ 在 $B_{1}D_{1}$ 上故 $O\in$ 平面 $EB_{1}D_{1}$，所以
+        $EO\subset$ 平面 $EB_{1}D_{1}$。
+    - title: (2) 套判定三件套
+      content: $EO\parallel AC_{1}$，$EO\subset$ 平面 $EB_{1}D_{1}$，$AC_{1}\not\subset$
+        平面 $EB_{1}D_{1}$，由线面平行判定定理得 $AC_{1}\parallel$ 平面 $EB_{1}D_{1}$。
+    teaching:
+      teaching_goal: 综合倒推：(1) 中位线造线线平行，(2) 接力前问套线面判定。练前后小问接力。
+      source_relations:
+      - fallback:structure_analysis
+      model_fusion:
+        model_count: 2
+        models:
+        - 三角形中位线造线线平行
+        - 线面平行判定（接力前问结论）
+        fusion_role: prerequisite
+      relation_chain:
+      - step: 1
+        relation_id: fallback:midline_parallel
+        inputs:
+          midpoints: E(mid AA1), O(mid A1C1)
+        outputs:
+          parallel_pair: EO parallel AC1
+        constraints_checked:
+        - E、O 分别是 AA1、A1C1 中点（中位线条件）
+      - step: 2
+        relation_id: fallback:line_plane_parallel_criterion
+        consumes:
+          parallel_pair: step1.outputs.parallel_pair
+        inputs:
+          contained_line: EO in plane EB1D1
+          outside_line: AC1 not in plane EB1D1
+        outputs:
+          conclusion: AC1 parallel plane EB1D1
+        constraints_checked:
+        - EO⊂面 EB1D1（O 在 B1D1 上），AC1⊄面 EB1D1
+      expected_blocker: (2) 不接力 (1) 的结论，从头找面内平行线；或没意识到 $O$ 在平面 $EB_{1}D_{1}$ 内。
+      entry_point: build_relation
+      scaffold_level: low
+      variation_depth: changed_question
+      complexity_note: 中位线给平行，无数值计算。
+      upgrade_rule: 能主动用 (1) 的结论做 (2) 的桥。
+      fallback_move: 先在 (2) 里把 $EO$ 画出来，确认它在面 $EB_{1}D_{1}$ 内。
+    answer_space:
+      type: steps
+      height: 70mm
+      step_count: 6
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/q10-prompt/rendered/prompt.fragment.tex
+      diagram_ref: q10.prompt
+      diagram_job_id: q10-prompt
+      width: 60mm
+      caption: $O$ 是上底面对角线交点，$EO$ 中位线平行 $AC_{1}$。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:79e8c7b53024618e8ec5ff1caf2634b49d4bdae8d725d3709978c98769aac11f
+      packages:
+      - tikz
+      libraries: []
+- id: answer_key
+  title: 参考答案
+  type: answer_key
+  visibility: teacher
+  layout:
+    break_before: true
+  blocks:
+  - type: answer
+    id: ak
+    title: 参考答案
+    items:
+    - latex: 第 1 题：B（①③ 正确，共 2 个）
+    - latex: 第 2 题：$A_{1}C_{1}$
+    - latex: 第 3 题：连 $OE$（中位线，$OE\parallel BD_{1}$），套线面判定得 $BD_{1}\parallel$ 平面 $AEC$。
+    - latex: 第 4 题：$AB_{1}$
+    - latex: 第 5 题：取 $AB_{1}$ 中点 $H$，证 $EHC_{1}D$ 为平行四边形得 $DE\parallel HC_{1}$，套判定得
+        $DE\parallel$ 平面 $AB_{1}C_{1}$。
+    - latex: 第 6 题：连 $MO$（中位线，$MO\parallel AP$），得 $AP\parallel$ 平面 $BDM$；过 $AP$ 的面交平面
+        $BDM$ 于 $l$，由性质得 $AP\parallel l$。
+    - latex: 第 7 题：B（$MN\parallel PA$）
+    - latex: 第 8 题：取 $AB$ 中点 $F$，证面 $CEF\parallel$ 面 $PAD$，$CE\subset$ 面 $CEF$，由面面平行其他性质得
+        $CE\parallel$ 平面 $PAD$。
+    - latex: 第 9 题：证面 $BCE\parallel$ 面 $AA_{1}D$，两面被面 $A_{1}DCE$ 截得 $EC\parallel A_{1}D$。
+    - latex: 第 10 题：(1) $EO$ 是 $\triangle AA_{1}C_{1}$ 中位线，$EO\parallel AC_{1}$；(2)
+        $EO\subset$ 面 $EB_{1}D_{1}$，$AC_{1}\not\subset$ 该面，套判定得 $AC_{1}\parallel$
+        平面 $EB_{1}D_{1}$。

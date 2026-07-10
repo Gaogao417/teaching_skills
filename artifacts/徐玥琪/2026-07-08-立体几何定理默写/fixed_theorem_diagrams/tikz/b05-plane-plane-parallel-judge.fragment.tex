@@ -1,0 +1,33 @@
+\input{fixed_theorem_diagrams/tikz/_fixed_diagram_styles.tex}
+\tdplotsetmaincoords{65}{115}
+\begin{tikzpicture}[tdplot_main_coords,theorem diagram]
+  \coordinate (ptap1) at (0,0,0);
+  \coordinate (ptap2) at (3.5,0,0);
+  \coordinate (ptap3) at (3.5,1.05,0);
+  \coordinate (ptap4) at (0,1.05,0);
+  \coordinate (ptbp1) at (0,0,1.05);
+  \coordinate (ptbp2) at (3.5,0,1.05);
+  \coordinate (ptbp3) at (3.5,1.05,1.05);
+  \coordinate (ptbp4) at (0,1.05,1.05);
+  \coordinate (ptP) at (1.45,0.52,0);
+  \coordinate (pta1) at (0.65,0.52,0);
+  \coordinate (pta2) at (2.65,0.52,0);
+  \coordinate (ptb1) at (1.45,0.15,0);
+  \coordinate (ptb2) at (1.45,0.95,0);
+  \coordinate (ptaa1) at (0.65,0.52,1.05);
+  \coordinate (ptaa2) at (2.65,0.52,1.05);
+  \coordinate (ptbb1) at (1.45,0.15,1.05);
+  \coordinate (ptbb2) at (1.45,0.95,1.05);
+  \draw[plane] (ptap1) -- (ptap2) -- (ptap3) -- (ptap4) -- cycle;
+  \draw[planeB] (ptbp1) -- (ptbp2) -- (ptbp3) -- (ptbp4) -- cycle;
+  \node[label] at (ptap3) {$\alpha$};
+  \node[label] at (ptbp3) {$\beta$};
+  \draw[main] (pta1) -- (pta2);
+  \node[label,right] at (pta2) {$a$};
+  \draw[second] (ptb1) -- (ptb2);
+  \node[label,above] at (ptb2) {$b$};
+  \draw[main] (ptaa1) -- (ptaa2);
+  \node[label,right] at (ptaa2) {$a'$};
+  \draw[second] (ptbb1) -- (ptbb2);
+  \node[label,above] at (ptbb2) {$b'$};
+\end{tikzpicture}

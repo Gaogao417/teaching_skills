@@ -1,0 +1,28 @@
+\input{fixed_theorem_diagrams/tikz/_fixed_diagram_styles.tex}
+\tdplotsetmaincoords{65}{115}
+\begin{tikzpicture}[tdplot_main_coords,theorem diagram]
+  \coordinate (pta1) at (0,0,0);
+  \coordinate (pta2) at (3.7,0,0);
+  \coordinate (pta3) at (3.7,1.2,0);
+  \coordinate (pta4) at (0,1.2,0);
+  \coordinate (ptb1) at (0,0,-0.45);
+  \coordinate (ptb2) at (3.7,0,-0.45);
+  \coordinate (ptb3) at (3.7,0,1.1);
+  \coordinate (ptb4) at (0,0,1.1);
+  \coordinate (ptm1) at (0,0,0);
+  \coordinate (ptm2) at (3.7,0,0);
+  \coordinate (ptl11) at (0.65,0.75,0);
+  \coordinate (ptl12) at (3,0.75,0);
+  \coordinate (ptl21) at (0.75,0,0.75);
+  \coordinate (ptl22) at (3.1,0,0.75);
+  \draw[plane] (pta1) -- (pta2) -- (pta3) -- (pta4) -- cycle;
+  \draw[planeB] (ptb1) -- (ptb2) -- (ptb3) -- (ptb4) -- cycle;
+  \node[label] at (pta3) {$\alpha$};
+  \node[label] at (ptb3) {$\beta$};
+  \draw[main] (ptl11) -- (ptl12);
+  \node[label,right] at (ptl12) {$l_1$};
+  \draw[second] (ptl21) -- (ptl22);
+  \node[label,right] at (ptl22) {$l_2$};
+  \draw[third,intersection line] (ptm1) -- (ptm2);
+  \node[label,right] at (ptm2) {$m$};
+\end{tikzpicture}

@@ -1,0 +1,29 @@
+\input{fixed_theorem_diagrams/tikz/_fixed_diagram_styles.tex}
+\tdplotsetmaincoords{64}{108}
+\begin{tikzpicture}[tdplot_main_coords,theorem diagram]
+  \coordinate (pta1) at (0,0,0);
+  \coordinate (pta2) at (3.7,0,0);
+  \coordinate (pta3) at (3.7,1.2,0);
+  \coordinate (pta4) at (0,1.2,0);
+  \coordinate (ptb1) at (0.15,0,0.65);
+  \coordinate (ptb2) at (3.55,0,0.65);
+  \coordinate (ptb3) at (3.55,1.2,1.15);
+  \coordinate (ptb4) at (0.15,1.2,1.15);
+  \coordinate (ptT1) at (0.75,0.22,0.742);
+  \coordinate (ptT2) at (2.55,0.22,0.742);
+  \coordinate (ptT3) at (1.55,0.98,1.058);
+  \coordinate (ptU1) at (0.75,0.22,0);
+  \coordinate (ptU2) at (2.55,0.22,0);
+  \coordinate (ptU3) at (1.55,0.98,0);
+  \draw[plane] (pta1) -- (pta2) -- (pta3) -- (pta4) -- cycle;
+  \draw[planeB] (ptb1) -- (ptb2) -- (ptb3) -- (ptb4) -- cycle;
+  \node[label] at (pta3) {$\alpha$};
+  \node[label] at (ptb3) {$\beta$};
+  \draw[surface] (ptT1) -- (ptT2) -- (ptT3) -- cycle;
+  \node[label,above] at (ptT3) {$S$};
+  \draw[projectionSurface] (ptU1) -- (ptU2) -- (ptU3) -- cycle;
+  \node[label,below] at (ptU3) {$S'$};
+  \draw[ghost] (ptT1) -- (ptU1);
+  \draw[ghost] (ptT2) -- (ptU2);
+  \draw[ghost] (ptT3) -- (ptU3);
+\end{tikzpicture}

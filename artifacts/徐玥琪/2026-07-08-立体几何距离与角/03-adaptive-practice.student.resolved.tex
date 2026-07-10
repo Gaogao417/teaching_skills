@@ -1,0 +1,232 @@
+\documentclass{exam-zh}
+\usepackage{edu-practice}
+
+\examsetup{
+  question/show-answer = false,
+  fillin/show-answer = false,
+  solution/show-solution = hide,
+}
+
+% ---------- 教师版解答样式 ----------
+\newtcolorbox{solutionblock}{
+  enhanced, breakable,
+  colback=edu-blue-bg,
+  colframe=edu-blue!25,
+  boxrule=0pt,
+  borderline west={2pt}{0pt}{edu-blue!50},
+  arc=0pt,
+  left=3mm, right=3mm, top=2mm, bottom=2mm,
+  before skip=2mm,
+  after skip=3mm,
+  fontupper=\small,
+}
+
+% 解答步骤编号
+\newcounter{solstep}
+\newcommand{\solstep}[2]{%
+  \stepcounter{solstep}%
+  \par\medskip
+  \noindent\hangindent=6mm
+  {\color{edu-blue}\bfseries\textcircled{\scriptsize\thesolstep}\enspace #1}\enspace #2\par
+}
+
+\begin{document}
+
+\section*{立体几何距离与角 · 练习}
+
+\section*{一、选择题（每题 8 分，共 16 分）}
+
+
+\needspace{14\baselineskip}
+\begin{question}[points=8]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-70mm-6mm\relax}
+    \vspace{0pt}
+    直线 $l$ 与平面 $\alpha$ 斜交，$l$ 上一点 $P$（斜足外）在 $\alpha$ 内的射影为 $P'$，斜足为 $A$。下列说法正确的是（　　）。
+    \begin{hintbox}
+\textbf{提示：}线面角 = 斜线与其在面内射影的夹角。先有垂线才有射影。\end{hintbox}
+
+    \par
+    \begin{choices}[columns=1]
+      \item 直线 $l$ 与平面 $\alpha$ 所成的角是 $\angle PAP'$
+      \item 直线 $l$ 与平面 $\alpha$ 所成的角是 $\angle lAA'$，其中 $AA'\perp\alpha$
+      \item 直线 $l$ 与平面 $\alpha$ 所成的角是 $l$ 与 $\alpha$ 内任意一条直线的夹角
+      \item 线面角可以大于 $90^\circ$
+    \end{choices}
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{70mm}{斜线 $l$、斜足 $A$、射影 $AP'$。}
+  \input{\detokenize{build/diagram/jobs/practice-c1-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+\end{question}
+
+
+
+
+\begin{question}[points=8]
+  用余弦定理算得两条异面直线平移后的夹角 $\theta$ 满足 $\cos\theta=-\dfrac{\sqrt2}{2}$。则这两条异面直线所成角为（　　）。
+  \begin{hintbox}
+\textbf{提示：}异面直线所成角范围是 $(0^\circ,90^\circ]$，算出钝角要取补角。\end{hintbox}
+
+  \begin{choices}
+    \item $45^\circ$
+    \item $135^\circ$
+    \item $60^\circ$
+    \item $120^\circ$
+  \end{choices}
+\end{question}
+
+
+\section*{二、填空题（每题 10 分，共 20 分）}
+
+
+\needspace{12\baselineskip}
+\begin{question}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-70mm-6mm\relax}
+    \vspace{0pt}
+    正方体 $ABCD\text{-}A_1B_1C_1D_1$ 的棱长为 $2$。则顶点 $A_1$ 到对角面 $BDD_1B_1$ 的距离为 $\underline{\hspace{2em}}$。
+    \begin{hintbox}
+\textbf{提示：}点面距、垂足位置不显然时，用等体积法：选一个三棱锥列 $V$ 相等。可试 $V_{A_1\text{-}BDD_1}=V_{D\text{-}A_1BD_1}$。\end{hintbox}
+
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{70mm}{正方体，标出 $A_1$ 与对角面 $BDD_1B_1$。}
+  \input{\detokenize{build/diagram/jobs/practice-f2-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+\end{question}
+
+
+
+
+\needspace{12\baselineskip}
+\begin{question}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-70mm-6mm\relax}
+    \vspace{0pt}
+    正四棱锥 $P\text{-}ABCD$ 的底面边长为 $2$，侧棱 $PA=3$，$O$ 为底面中心。则侧棱 $PA$ 与底面 $ABCD$ 所成角的正切值为 $\underline{\hspace{2em}}$。
+    \begin{hintbox}
+\textbf{提示：}侧棱与底面的线面角 = 斜线 $PA$ 与射影 $AO$ 的夹角。先求高 $PO$ 和 $AO$。\end{hintbox}
+
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{70mm}{正四棱锥，标出侧棱 $PA$、底面中心 $O$ 与高 $PO$。}
+  \input{\detokenize{build/diagram/jobs/practice-f4-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+\end{question}
+
+
+
+\section*{三、解答题（共 60 分）}
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=12]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-70mm-6mm\relax}
+    \vspace{0pt}
+    正方体 $ABCD\text{-}A_1B_1C_1D_1$ 的棱长为 $2$，$O$ 为 $AC$ 与 $BD$ 的交点。
+\ \begin{enumerate}[label=(\arabic*)]
+  \item 证明 $BD_1\perp AC$；
+  \item\ \ 求截面 $AB_1C$ 与底面 $ABCD$ 所成二面角 $A\text{-}AC\text{-}B_1$ 的余弦值。
+\end{enumerate}
+
+    \begin{hintbox}
+\textbf{提示：}（1）用三垂线定理：$BD\perp AC$（正方形对角线互相垂直），$D_1D\perp$ 底面，得 $BD_1\perp AC$。（2）截面 $AB_1C$ 与底面的棱为 $AC$，取 $AC$ 中点 $O$，$OB\perp AC$，由三垂线 $OB_1\perp AC$，$\angle B_1OB$ 是平面角。\end{hintbox}
+
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{70mm}{正方体，标出截面 $AB_1C$ 与对角线 $BD_1$。}
+  \input{\detokenize{build/diagram/jobs/practice-p3-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[62mm]
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=14]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-70mm-6mm\relax}
+    \vspace{0pt}
+    在三棱锥 $P\text{-}ABC$ 中，$PA\perp$ 平面 $ABC$，$PA=2$，$AB=AC=2$，$\angle BAC=120^{\circ}$。求点 $A$ 到平面 $PBC$ 的距离。
+
+    \begin{hintbox}
+\textbf{提示：}点 $A$ 到面 $PBC$ 的距离用等体积法：$V_{P\text{-}ABC}=V_{A\text{-}PBC}$。先算 $S_{\triangle ABC}$ 和 $S_{\triangle PBC}$。注意 $PA\perp$ 底面，可先算 $PB$、$PC$。\end{hintbox}
+
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{70mm}{三棱锥，标出 $PA\perp$ 底面及点 $A$ 到面 $PBC$ 的距离。}
+  \input{\detokenize{build/diagram/jobs/practice-p5-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[70mm]
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=12]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-70mm-6mm\relax}
+    \vspace{0pt}
+    在正三棱柱 $ABC\text{-}A_1B_1C_1$ 中，底面边长为 $2$，侧棱 $AA_1=2$，$D$ 为 $BC$\ \ 的中点。
+\begin{enumerate}[label=(\arabic*)]
+  \item 证明 $A_1D\perp BC$；
+\ \  \item 求直线 $A_1B$ 与底面 $ABC$ 所成角的正切值。
+\end{enumerate}
+
+    \begin{hintbox}
+\textbf{提示：}（1）$AD\perp BC$（正三角形中线即高），$A_1A\perp$ 底面，由三垂线定理得 $A_1D\perp BC$。（2）$A_1B$ 与底面所成角 = $A_1B$ 与射影 $AB$ 的夹角，在 $\text{Rt}\triangle A_1AB$ 中算。\end{hintbox}
+
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{70mm}{正三棱柱，标出 $A_1D$、$BC$ 及 $A_1B$ 与底面的线面角。}
+  \input{\detokenize{build/diagram/jobs/practice-p6-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[62mm]
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-70mm-6mm\relax}
+    \vspace{0pt}
+    正方体 $ABCD\text{-}A_1B_1C_1D_1$ 的棱长为 $2$。求点 $D_1$ 到直线 $AC$ 的距离。
+
+    \begin{hintbox}
+\textbf{提示：}连 $BD$ 交 $AC$ 于 $O$。$D_1D\perp$ 底面，$BD\perp AC$，由三垂线定理 $D_1O\perp AC$，$D_1O$ 即为所求。\end{hintbox}
+
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{70mm}{正方体，标出 $D_1$ 到 $AC$ 的垂线段 $D_1O$。}
+  \input{\detokenize{build/diagram/jobs/practice-p8-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[55mm]
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=12]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-70mm-6mm\relax}
+    \vspace{0pt}
+    在棱长为 $2$ 的正四面体 $P\text{-}ABC$ 中，$O$ 为底面 $\triangle ABC$ 的中心。
+\\ begin{enumerate}[label=(\arabic*)]
+  \item 求点 $P$ 到平面 $ABC$ 的距离；
+  \item\ \ 设 $E$、$F$ 分别为 $PA$、$BC$ 的中点，求异面直线 $PA$ 与 $BC$ 的距离。
+\end{enumerate}
+
+    \begin{hintbox}
+\textbf{提示：}（1）$PO\perp$ 底面，在 $\text{Rt}\triangle PAM$（$M$ 为 $BC$ 中点）里算 $PO$。（2）$E$、$F$ 为 $PA$、$BC$ 中点，$EF$ 为异面直线 $PA$ 与 $BC$ 的公垂线段，在 $\triangle PAM$ 里求 $EF$。\end{hintbox}
+
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{70mm}{正四面体，标出高 $PO$ 与中点 $E$、$F$。}
+  \input{\detokenize{build/diagram/jobs/practice-p9-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[70mm]
+\end{problem}
+
+
+
+\end{document}

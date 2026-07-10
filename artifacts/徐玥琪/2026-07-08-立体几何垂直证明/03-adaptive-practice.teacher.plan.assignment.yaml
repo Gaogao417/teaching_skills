@@ -1,0 +1,1420 @@
+meta:
+  title: 立体几何垂直证明练习
+  subtitle: 徐玥琪 · 教师版
+  grade: 高一
+  subject: 数学
+  duration: 45分钟
+  total_points: 64
+  version: teacher
+  source_artifacts:
+    plan: docs/立体几何学习规划/04-垂直证明讲义方案.md
+    explanation: artifacts/徐玥琪/2026-07-08-立体几何垂直证明/02-student-explanation.plan.assignment.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: basic
+  title: 一、基础档（直套判定）
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: q1
+    points: 5
+    stem: 如图，在正方体 $ABCD\text{-}A_1B_1C_1D_1$ 中，下列“能直接作为线面垂直判定”的是（    ）
+    choices:
+      A: 由 $A_1A\perp AB$，得 $A_1A\perp$ 平面 $ABCD$
+      B: 由 $A_1A\perp AB$，$A_1A\perp AD$，且 $AB\cap AD=A$，得 $A_1A\perp$ 平面 $ABCD$
+      C: 由 $A_1A\perp$ 平面 $ABCD$，得 $A_1A\perp BD$
+      D: 由 $AB\perp AD$，得 $AB\perp$ 平面 $ADD_1A_1$
+    hints:
+    - content: 先看每个选项里"垂直"的对象是线线、线面还是面面；再数条件里有没有"两条相交线"。
+    diagram_slot:
+      slot_id: practice.teacher.q1.prompt
+      diagram_ref: practice.teacher.q1.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 正方体，观察侧棱与底面内两条相交棱的关系。
+      engine: spatial_renderer
+      diagram_kind: spatial_geometry
+      teaching_intent: practice_prompt
+      semantic_constraints:
+        given_objects:
+        - A
+        - B
+        - C
+        - D
+        - A1
+        - B1
+        - C1
+        - D1
+        given_constraints:
+        - unit cube ABCD-A1B1C1D1
+        - A1A perpendicular to AB and AD
+      engine_options:
+        spatial_spec:
+          projection: isometric_hidden_axes
+          points3d:
+            A:
+            - 0
+            - 0
+            - 0
+            B:
+            - 3
+            - 0
+            - 0
+            C:
+            - 3
+            - 2.1
+            - 0
+            D:
+            - 0
+            - 2.1
+            - 0
+            A1:
+            - 0
+            - 0
+            - 2.0
+            B1:
+            - 3
+            - 0
+            - 2.0
+            C1:
+            - 3
+            - 2.1
+            - 2.0
+            D1:
+            - 0
+            - 2.1
+            - 2.0
+          segments:
+          - from: A
+            to: B
+          - from: B
+            to: C
+          - from: C
+            to: D
+          - from: D
+            to: A
+          - from: A1
+            to: B1
+          - from: B1
+            to: C1
+          - from: C1
+            to: D1
+          - from: D1
+            to: A1
+          - from: A
+            to: A1
+          - from: B
+            to: B1
+          - from: C
+            to: C1
+          - from: D
+            to: D1
+          - from: A
+            to: B
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: A
+            to: D
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: A1
+            to: A
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          polygons:
+          - points:
+            - A
+            - B
+            - C
+            - D
+            fill: '#eff6ff'
+            stroke: '#94a3b8'
+            stroke_width: 1.2
+          - points:
+            - A1
+            - B1
+            - C1
+            - D1
+            fill: '#f8fafc'
+            stroke: '#94a3b8'
+            stroke_width: 1.2
+          markers:
+          - type: right_angle
+            vertex: A
+            arms:
+            - A1
+            - B
+          labels:
+            A:
+              text: A
+            B:
+              text: B
+            C:
+              text: C
+            D:
+              text: D
+            A1:
+              text: A_1
+            B1:
+              text: B_1
+            C1:
+              text: C_1
+            D1:
+              text: D_1
+          constraints:
+          - A
+          - B
+          - C
+          - D
+          - A1
+          - B1
+          - C1
+          - D1
+          - unit cube ABCD-A1B1C1D1
+          - A1A perpendicular to AB and AD
+          teaching_focus:
+          - 正方体，观察侧棱与底面内两条相交棱的关系。
+    answer: B
+    explanation: 线面垂直判定需要同一平面内两条相交直线。B 给出 $AB,AD\subset$ 平面 $ABCD$、$AB\cap AD=A$，且 $A_1A$ 垂直这两条线，故可直接判定。A 少一条相交垂线；C 是定义推论；D 少另一条面内相交垂线。
+    teaching:
+      teaching_goal: 区分"垂直于面内一条线"与"垂直于面内两条相交线"，练判定四件套。
+      source_relations:
+      - fallback:structure_analysis
+      expected_blocker: 漏相交前提——只数垂直线的条数，不看是否相交；把定义推论与判定混用。
+      entry_point: find_entry
+      scaffold_level: high
+      variation_depth: same_structure
+      complexity_note: 纯辨析，无计算。
+      upgrade_rule: 能主动写出四件套并标注"相交"。
+      fallback_move: 回格式模板卡，逐项数前提。
+  - type: fillin
+    id: q2
+    points: 5
+    stem: 在线面垂直判定中，要证直线 $l\perp$ 平面 $\alpha$，需要在 $\alpha$ 内找到两条直线 $m,n$，使 $l\perp m$，$l\perp n$，并且必须补充的关键前提是 $m\cap n=$ \underline{\quad\quad\quad}（写出交点），且 $m,n\subset$ \underline{\quad\quad\quad}（写出平面）。
+    hints:
+    - content: 回忆格式模板卡里的四个前提，重点补"相交"和"在面内"。
+    answer: 第一空填 $P$（或任意一个点字母，表示 $m,n$ 相交于一点）；第二空填 $\alpha$。
+    explanation: 线面垂直判定四件套：$l\perp m$、$l\perp n$、$m\cap n=P$、$m,n\subset\alpha$，缺一不可。其中"相交"（$m\cap n=P$）是学生最易漏的前提。
+    teaching:
+      teaching_goal: 强化"相交"前提与"在面内"前提的显式书写。
+      source_relations:
+      - fallback:structure_analysis
+      expected_blocker: 漏相交前提；只写"两条线都垂直"就下结论。
+      entry_point: build_relation
+      scaffold_level: high
+      variation_depth: same_structure
+      complexity_note: 纯填空，无计算。
+      upgrade_rule: 在证明里自动补全 $m\cap n=P$。
+      fallback_move: 抄写格式模板卡一遍。
+  - type: problem
+    id: q3
+    points: 8
+    label: 第 3 题
+    stem_latex: "如图，在正三棱柱 $ABC\\text{-}A_1B_1C_1$ 中，$D$ 是 $BC$ 的中点。\n\\begin{enumerate}[label=(\\arabic*)]\n  \\item 求证：$A_1D\\perp BC$；\n  \\item 求证：$A_1A\\perp$ 平面 $ABC$。\n\\end{enumerate}\n"
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+    hints:
+    - content_latex: (1) 正三棱柱底面是正三角形，$D$ 是 $BC$ 中点，想到等腰三线合一。(2) 正棱柱的侧棱与底面什么关系？在底面找两条与侧棱都垂直的相交线。
+    diagram_slot:
+      slot_id: practice.teacher.q3.prompt
+      diagram_ref: practice.teacher.q3.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 正三棱柱，D 为 BC 中点，观察 A1D 与 BC、侧棱与底面。
+      engine: spatial_renderer
+      diagram_kind: spatial_geometry
+      teaching_intent: practice_prompt
+      semantic_constraints:
+        given_objects:
+        - A
+        - B
+        - C
+        - A1
+        - B1
+        - C1
+        - D
+        given_constraints:
+        - regular triangular prism
+        - D is midpoint of BC
+        - equilateral triangle base ABC
+      engine_options:
+        spatial_spec:
+          projection: isometric_hidden_axes
+          points3d:
+            A:
+            - 0
+            - 0
+            - 0
+            B:
+            - 3
+            - 0
+            - 0
+            C:
+            - 0.8
+            - 2.1
+            - 0
+            A1:
+            - 0
+            - 0
+            - 2.1
+            B1:
+            - 3
+            - 0
+            - 2.1
+            C1:
+            - 0.8
+            - 2.1
+            - 2.1
+            D:
+            - 1.9
+            - 1.05
+            - 0.0
+          segments:
+          - from: A
+            to: B
+          - from: B
+            to: C
+          - from: C
+            to: A
+          - from: A1
+            to: B1
+          - from: B1
+            to: C1
+          - from: C1
+            to: A1
+          - from: A
+            to: A1
+          - from: B
+            to: B1
+          - from: C
+            to: C1
+          - from: A1
+            to: A
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: A1
+            to: D
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: B
+            to: C
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          polygons:
+          - points:
+            - A
+            - B
+            - C
+            fill: '#eff6ff'
+            stroke: '#94a3b8'
+            stroke_width: 1.2
+          - points:
+            - A1
+            - B1
+            - C1
+            fill: '#f8fafc'
+            stroke: '#94a3b8'
+            stroke_width: 1.2
+          markers: []
+          labels:
+            A:
+              text: A
+            B:
+              text: B
+            C:
+              text: C
+            A1:
+              text: A_1
+            B1:
+              text: B_1
+            C1:
+              text: C_1
+            D:
+              text: D
+          constraints:
+          - A
+          - B
+          - C
+          - A1
+          - B1
+          - C1
+          - D
+          - regular triangular prism
+          - D is midpoint of BC
+          - equilateral triangle base ABC
+          teaching_focus:
+          - 正三棱柱，D 为 BC 中点，观察 A1D 与 BC、侧棱与底面。
+    answer: (1) 见解析；(2) 见解析。
+    explanation: (1) 正三角形 $ABC$ 中，$D$ 为 $BC$ 中点，得 $AD\perp BC$。正三棱柱中 $AA_1\perp$ 平面 $ABC$，故 $AA_1\perp BC$。$AD\cap AA_1=A$，$AD,AA_1\subset$ 平面 $AA_1D$，由线面垂直判定得 $BC\perp$ 平面 $AA_1D$，所以 $A_1D\perp BC$。 (2) 在底面内取 $AB,AC$，由正棱柱性质 $A_1A\perp AB$，$A_1A\perp AC$，且 $AB\cap AC=A$，由线面垂直判定得 $A_1A\perp$ 平面 $ABC$。
+    solution_steps:
+    - title: (1) 先证 $BC\perp$ 一个面
+      content: 正三角形中 $AD\perp BC$；正棱柱中 $AA_1\perp$ 面 $ABC$，故 $AA_1\perp BC$。
+    - title: (1) 套线面垂直判定
+      content: $AD\cap AA_1=A$，$AD,AA_1\subset$ 面 $AA_1D$，得 $BC\perp$ 面 $AA_1D$，从而 $A_1D\perp BC$。
+    - title: (2) 找底面内两条相交线
+      content: $A_1A\perp AB$，$A_1A\perp AC$，$AB\cap AC=A$，$AB,AC\subset$ 面 $ABC$。
+    - title: (2) 下结论
+      content: 由线面垂直判定得 $A_1A\perp$ 面 $ABC$。
+    teaching:
+      teaching_goal: 基础档直套判定，练"找面内两条相交线 + 写格式"的完整动作。
+      source_relations:
+      - fallback:structure_analysis
+      expected_blocker: 漏写 $AB\cap AC=A$；只写"侧棱垂直底面"不回到判定格式。
+      entry_point: build_relation
+      scaffold_level: high
+      variation_depth: changed_numbers
+      complexity_note: 无计算，纯格式。
+      upgrade_rule: 能独立写出完整四件套并标注定理。
+      fallback_move: 回格式模板卡，按填空补全。
+- id: medium
+  title: 二、中档档（先凑线线再升级）
+  type: practice
+  visibility: both
+  blocks:
+  - type: fillin
+    id: q4
+    points: 5
+    stem: 如图，正四棱锥 $P\text{-}ABCD$ 的底面是正方形，$O$ 是底面中心。设侧棱 $PA=PC=\sqrt{2}$，$AC=2$，则 $PO$ 与 $AC$ 的关系是 $PO\perp AC$，理由是 $PA=PC$ 且 $O$ 是 $AC$ 中点，由 \underline{\quad\quad\quad\quad\quad\quad}（填定理名）得到；进而若再由对称性得 $PO\perp BD$（$O$ 也是 $BD$ 中点，$PB=PD$），由 $AC\cap BD=$ \underline{\quad}，便可由线面垂直判定得 $PO\perp$ 平面 $ABCD$。
+    hints:
+    - content: 等腰三角形顶角顶点向底边中点连线，得到的是什么？这条线叫三线合一中的"高"。
+    diagram_slot:
+      slot_id: practice.teacher.q4.prompt
+      diagram_ref: practice.teacher.q4.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 正四棱锥，O 为底面中心，观察 PO 与两条对角线的关系。
+      engine: spatial_renderer
+      diagram_kind: spatial_geometry
+      teaching_intent: practice_prompt
+      semantic_constraints:
+        given_objects:
+        - P
+        - A
+        - B
+        - C
+        - D
+        - O
+        given_constraints:
+        - regular square pyramid P-ABCD
+        - O is center of square base
+        - PA=PC, PB=PD
+        derived_objects:
+        - AC
+        - BD
+      engine_options:
+        spatial_spec:
+          projection: isometric_hidden_axes
+          points3d:
+            A:
+            - 0
+            - 0
+            - 0
+            B:
+            - 3
+            - 0
+            - 0
+            C:
+            - 0.8
+            - 2.1
+            - 0
+            S:
+            - 1.0
+            - 0.75
+            - 2.4
+            O:
+            - 0.4
+            - 1.05
+            - 0.0
+            P:
+            - 2.1858
+            - 1.6818
+            - 0.0
+            D:
+            - 2.1858
+            - 0.1182
+            - 0.3
+          segments:
+          - from: A
+            to: B
+          - from: B
+            to: C
+          - from: C
+            to: A
+          - from: P
+            to: A
+          - from: P
+            to: B
+            dash: dashed
+          - from: P
+            to: C
+            dash: dashed
+          - from: S
+            to: A
+          - from: S
+            to: B
+            dash: dashed
+          - from: S
+            to: C
+            dash: dashed
+          - from: A
+            to: C
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: B
+            to: D
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: P
+            to: A
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: P
+            to: B
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: P
+            to: C
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: P
+            to: D
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: P
+            to: O
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          polygons:
+          - points:
+            - A
+            - B
+            - C
+            fill: '#eff6ff'
+            stroke: '#94a3b8'
+            stroke_width: 1.2
+          markers: []
+          labels:
+            A:
+              text: A
+            B:
+              text: B
+            C:
+              text: C
+            S:
+              text: S
+            O:
+              text: O
+            P:
+              text: P
+            D:
+              text: D
+          constraints:
+          - P
+          - A
+          - B
+          - C
+          - D
+          - O
+          - regular square pyramid P-ABCD
+          - O is center of square base
+          - PA=PC, PB=PD
+          - AC
+          - BD
+          teaching_focus:
+          - 正四棱锥，O 为底面中心，观察 PO 与两条对角线的关系。
+    answer: 第一空填"等腰三角形三线合一"（或"等腰三角形底边上的中线、高线合一"）；第二空填 $O$。
+    explanation: $PA=PC$ 且 $O$ 为 $AC$ 中点，在等腰 $\triangle PAC$ 中由三线合一直接得 $PO\perp AC$。同理 $PB=PD$、$O$ 为 $BD$ 中点，得 $PO\perp BD$。两条相交线 $AC,BD$ 交于底面中心 $O$，故 $AC\cap BD=O$，由线面垂直判定得 $PO\perp$ 平面 $ABCD$。
+    teaching:
+      teaching_goal: 中档档，练"等腰三线合一凑线线垂直，再升级为线面垂直"的核心动作。
+      source_relations:
+      - fallback:structure_analysis
+      expected_blocker: 第二空漏填 $O$（写成 $A$ 或 $C$），或忘了 $AC,BD$ 必须相交于一点。
+      entry_point: build_relation
+      scaffold_level: medium
+      variation_depth: changed_numbers
+      complexity_note: 无计算，正四棱锥标准构型。
+      upgrade_rule: 能主动识别等腰配中点是三线合一信号。
+      fallback_move: 画 $\triangle PAC$，标 $O$ 为 $AC$ 中点，看 $PO$ 是哪条线。
+  - type: problem
+    id: q5
+    points: 9
+    label: 第 5 题
+    stem_latex: "如图，在三棱锥 $S\\text{-}ABC$ 中，$SA\\perp AB$，$SA\\perp AC$，$AB\\cap AC=A$。\n\\begin{enumerate}[label=(\\arabic*)]\n  \\item 求证：$SA\\perp$ 平面 $ABC$；\n  \\item 若 $D$ 是 $BC$ 上一点，求证：$SA\\perp AD$。\n\\end{enumerate}\n"
+    answer_space:
+      type: steps
+      height: 56mm
+      step_count: 5
+    hints:
+    - content: 先用线面垂直判定，再用定义推出线线垂直。
+    diagram_slot:
+      slot_id: practice.teacher.q5.prompt
+      diagram_ref: practice.teacher.q5.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 三棱锥 S-ABC，∠ABC=90°，D 为 AC 中点，观察 SD 与面 ABC 内两条相交线。
+      engine: spatial_renderer
+      diagram_kind: spatial_geometry
+      teaching_intent: practice_prompt
+      semantic_constraints:
+        given_objects:
+        - S
+        - A
+        - B
+        - C
+        - D
+        given_constraints:
+        - angle ABC = 90 degrees
+        - D is midpoint of AC
+        - SA=SB=SC
+        derived_objects:
+        - AD
+      engine_options:
+        spatial_spec:
+          projection: isometric_hidden_axes
+          points3d:
+            A:
+            - 0
+            - 0
+            - 0
+            B:
+            - 3
+            - 0
+            - 0
+            C:
+            - 0.8
+            - 2.1
+            - 0
+            S:
+            - 1.0
+            - 0.75
+            - 2.4
+            D:
+            - 1.9
+            - 1.05
+            - 0.0
+          segments:
+          - from: A
+            to: B
+          - from: B
+            to: C
+          - from: C
+            to: A
+          - from: S
+            to: A
+          - from: S
+            to: B
+            dash: dashed
+          - from: S
+            to: C
+            dash: dashed
+          - from: A
+            to: B
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: A
+            to: C
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: A
+            to: D
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: B
+            to: C
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: S
+            to: A
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: S
+            to: B
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: S
+            to: C
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: S
+            to: D
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          polygons:
+          - points:
+            - A
+            - B
+            - C
+            fill: '#eff6ff'
+            stroke: '#94a3b8'
+            stroke_width: 1.2
+          markers:
+          - type: right_angle
+            vertex: A
+            arms:
+            - S
+            - B
+          - type: right_angle
+            vertex: A
+            arms:
+            - S
+            - C
+          - type: right_angle
+            vertex: A
+            arms:
+            - S
+            - D
+          labels:
+            A:
+              text: A
+            B:
+              text: B
+            C:
+              text: C
+            S:
+              text: S
+            D:
+              text: D
+          constraints:
+          - S
+          - A
+          - B
+          - C
+          - D
+          - angle ABC = 90 degrees
+          - D is midpoint of AC
+          - SA=SB=SC
+          - AD
+          teaching_focus:
+          - 三棱锥 S-ABC，∠ABC=90°，D 为 AC 中点，观察 SD 与面 ABC 内两条相交线。
+    answer: (1) 见解析；(2) 见解析。
+    explanation: (1) $AB,AC\subset$ 平面 $ABC$，$AB\cap AC=A$，且 $SA\perp AB$，$SA\perp AC$，由线面垂直判定得 $SA\perp$ 平面 $ABC$。 (2) $AD\subset$ 平面 $ABC$，由线面垂直定义得 $SA\perp AD$。
+    solution_steps:
+    - title: (1) 写判定四件套
+      content: $SA\perp AB$，$SA\perp AC$，$AB\cap AC=A$，$AB,AC\subset$ 面 $ABC$。
+    - title: (1) 判定线面垂直
+      content: 由线面垂直判定得 $SA\perp$ 面 $ABC$。
+    - title: (2) 用定义推线线垂直
+      content: $AD\subset$ 面 $ABC$，所以 $SA\perp AD$。
+    teaching:
+      teaching_goal: 中档核心题，练"等腰三线合一 + 全等"凑两条相交垂线，再升级线面垂直。
+      source_relations:
+      - fallback:structure_analysis
+      expected_blocker: 只凑出一条 $SD\perp AC$ 就想下结论，漏第二条 $BD$；不会用斜边中线把 $AD=BD$ 拿出来配全等。
+      entry_point: build_relation
+      scaffold_level: medium
+      variation_depth: changed_question
+      complexity_note: 一步全等，无代数计算。
+      upgrade_rule: 能独立想到"斜边中线 + 全等"凑第二条相交垂线。
+      fallback_move: 在面 $ABC$ 内逐条找与 $SD$ 垂直的线，先 $AC$ 后 $BD$。
+  - type: problem
+    id: q6
+    points: 9
+    label: 第 6 题
+    stem_latex: '如图，在长方体 $ABCD\text{-}A_1B_1C_1D_1$ 中，$AD=AA_1=1$，$AB=2$，$E$ 为 $AB$ 的中点。求证：$D_1E\perp CE$。
+
+      '
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+    hints:
+    - content_latex: 要证 $D_1E\perp CE$（线线），转成证 $CE\perp$ 含 $D_1E$ 的面 $D_1DE$。$DD_1\perp$ 底面给一条；$DE$ 与 $CE$ 的垂直怎么证？算 $DE^2+CE^2$ 是否等于 $DC^2$（勾股逆）。
+    diagram_slot:
+      slot_id: practice.teacher.q6.prompt
+      diagram_ref: practice.teacher.q6.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 长方体，E 为 AB 中点，观察 CE 与 D1E 是否垂直。
+      engine: spatial_renderer
+      diagram_kind: spatial_geometry
+      teaching_intent: practice_prompt
+      semantic_constraints:
+        given_objects:
+        - A
+        - B
+        - C
+        - D
+        - A1
+        - B1
+        - C1
+        - D1
+        - E
+        given_constraints:
+        - cuboid with AD=AA1=1, AB=2
+        - E is midpoint of AB
+      engine_options:
+        spatial_spec:
+          projection: isometric_hidden_axes
+          points3d:
+            A:
+            - 0
+            - 0
+            - 0
+            B:
+            - 3
+            - 0
+            - 0
+            C:
+            - 3
+            - 2.1
+            - 0
+            D:
+            - 0
+            - 2.1
+            - 0
+            A1:
+            - 0
+            - 0
+            - 2.0
+            B1:
+            - 3
+            - 0
+            - 2.0
+            C1:
+            - 3
+            - 2.1
+            - 2.0
+            D1:
+            - 0
+            - 2.1
+            - 2.0
+            E:
+            - 1.5
+            - 0.0
+            - 0.0
+          segments:
+          - from: A
+            to: B
+          - from: B
+            to: C
+          - from: C
+            to: D
+          - from: D
+            to: A
+          - from: A1
+            to: B1
+          - from: B1
+            to: C1
+          - from: C1
+            to: D1
+          - from: D1
+            to: A1
+          - from: A
+            to: A1
+          - from: B
+            to: B1
+          - from: C
+            to: C1
+          - from: D
+            to: D1
+          - from: A
+            to: A1
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: A
+            to: B
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: A
+            to: D
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: C
+            to: E
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: D1
+            to: E
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          polygons:
+          - points:
+            - A
+            - B
+            - C
+            - D
+            fill: '#eff6ff'
+            stroke: '#94a3b8'
+            stroke_width: 1.2
+          - points:
+            - A1
+            - B1
+            - C1
+            - D1
+            fill: '#f8fafc'
+            stroke: '#94a3b8'
+            stroke_width: 1.2
+          markers:
+          - type: right_angle
+            vertex: E
+            arms:
+            - D1
+            - C
+          labels:
+            A:
+              text: A
+            B:
+              text: B
+            C:
+              text: C
+            D:
+              text: D
+            A1:
+              text: A_1
+            B1:
+              text: B_1
+            C1:
+              text: C_1
+            D1:
+              text: D_1
+            E:
+              text: E
+          constraints:
+          - A
+          - B
+          - C
+          - D
+          - A1
+          - B1
+          - C1
+          - D1
+          - E
+          - cuboid with AD=AA1=1, AB=2
+          - E is midpoint of AB
+          teaching_focus:
+          - 长方体，E 为 AB 中点，观察 CE 与 D1E 是否垂直。
+    answer: 见解析。
+    explanation: '$E$ 为 $AB$ 中点，$AB=2$，故 $AE=BE=1$；$AD=1$，$DC=AB=2$，$DD_1=AA_1=1$。
+
+      $DD_1\perp$ 底面 $ABCD$，$CE\subset$ 底面，故 $DD_1\perp CE$（第一条垂线）。
+
+      在底面内：$DE^2=AD^2+AE^2=1+1=2$，$CE^2=BC^2+BE^2=1+1=2$，$DC^2=4$，故 $DE^2+CE^2=2+2=4=DC^2$，由勾股逆定理得 $DE\perp CE$（第二条垂线）。
+
+      $DD_1\cap DE=D$，$DD_1,DE\subset$ 面 $D_1DE$，由线面垂直判定得 $CE\perp$ 面 $D_1DE$；又 $D_1E\subset$ 面 $D_1DE$，由定义推论得 $CE\perp D_1E$。
+
+      '
+    solution_steps:
+    - title: 找含 $D_1E$ 的面
+      content: $D_1E\subset$ 面 $D_1DE$（$D,D_1,E$ 共面），转证 $CE\perp$ 面 $D_1DE$。
+    - title: 第一条垂线 $DD_1\perp CE$
+      content: $DD_1\perp$ 底面 $ABCD$，$CE\subset$ 底面，由定义得 $DD_1\perp CE$。
+    - title: 第二条垂线 $DE\perp CE$（勾股逆）
+      content: $DE^2=1^2+1^2=2$，$CE^2=1^2+1^2=2$，$DC^2=2^2=4$，$DE^2+CE^2=DC^2$，由勾股逆得 $DE\perp CE$。
+    - title: 判定 + 定义推论下结论
+      content: $DD_1\perp CE$，$DE\perp CE$，$DD_1\cap DE=D$，$DD_1,DE\subset$ 面 $D_1DE$，由线面垂直判定得 $CE\perp$ 面 $D_1DE$；又 $D_1E\subset$ 该面，由定义推论得 $CE\perp D_1E$。
+    teaching:
+      teaching_goal: 中档题，练"勾股逆凑线线 + 判定 + 定义推论"的完整链条。
+      source_relations:
+      - fallback:structure_analysis
+      expected_blocker: 不会用勾股逆算 $DE\perp CE$；把目标线面定错（找不到含 $D_1E$ 的面）。
+      entry_point: build_relation
+      scaffold_level: medium
+      variation_depth: changed_numbers
+      complexity_note: 两步勾股，小整数。
+      upgrade_rule: 能主动算 $DE^2,CE^2,DC^2$ 并识别勾股逆。
+      fallback_move: 在底面画出 $\triangle DEC$，标各边长度。
+  - type: choice
+    id: q7
+    points: 5
+    stem: 已知直线 $a,b$ 和平面 $\alpha$，下列判断正确的是（    ）
+    choices:
+      A: 若 $a\perp b$，$b\subset\alpha$，则 $a\perp\alpha$
+      B: 若 $a\perp\alpha$，$b\subset\alpha$，则 $a\parallel b$
+      C: 若 $a\perp\alpha$，$b\perp\alpha$，则 $a\parallel b$
+      D: 若 $a\perp\alpha$，$b\subset\alpha$，则 $a\perp b$，这叫线面垂直的"性质定理"
+    hints:
+    - content: 记住：$a\perp\alpha,\ b\subset\alpha\Rightarrow a\perp b$ 是定义推论；$a\perp\alpha,\ b\perp\alpha\Rightarrow a\parallel b$ 才是性质定理。别把定义推论当成性质定理。
+    diagram_slot:
+      slot_id: practice.teacher.q7.prompt
+      diagram_ref: practice.teacher.q7.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 区分线面垂直的"定义推论"与"性质定理"。
+      engine: spatial_renderer
+      diagram_kind: spatial_geometry
+      teaching_intent: practice_prompt
+      semantic_constraints:
+        given_objects:
+        - a
+        - b
+        - alpha
+        given_constraints:
+        - generic plane alpha
+        - lines a, b
+      engine_options:
+        spatial_spec:
+          projection: isometric_hidden_axes
+          points3d:
+            U:
+            - -0.355
+            - -0.35
+            - 0
+            V:
+            - 3.045
+            - -0.35
+            - 0
+            W:
+            - 3.445
+            - 1.82
+            - 0
+            X:
+            - 0.045
+            - 1.82
+            - 0
+            aL:
+            - 0.295
+            - 2.0
+            - 0.88
+            aR:
+            - 2.795
+            - 2.0
+            - 0.88
+            bL:
+            - 0.395
+            - 0.45
+            - 0
+            bR:
+            - 2.795
+            - 0.45
+            - 0
+            P:
+            - 1.545
+            - 0.45
+            - 0
+          segments:
+          - from: U
+            to: V
+          - from: V
+            to: W
+          - from: W
+            to: X
+          - from: X
+            to: U
+          - from: aL
+            to: aR
+          - from: bL
+            to: bR
+          polygons:
+          - points:
+            - U
+            - V
+            - W
+            - X
+            fill: '#eff6ff'
+            stroke: '#94a3b8'
+            stroke_width: 1.2
+          markers: []
+          labels:
+            U:
+              text: ' '
+            V:
+              text: ' '
+            W:
+              text: ' '
+            X:
+              text: ' '
+            aL:
+              text: a
+            aR:
+              text: ' '
+            bL:
+              text: b
+            bR:
+              text: ' '
+            P:
+              text: P
+          constraints:
+          - a
+          - b
+          - alpha
+          - generic plane alpha
+          - lines a, b
+          teaching_focus:
+          - 区分线面垂直的"定义推论"与"性质定理"。
+    answer: C
+    explanation: A 错：$a\perp b,\ b\subset\alpha$ 只是一条线垂直，缺第二条相交垂线。B 错：$a\perp\alpha,\ b\subset\alpha$ 应得 $a\perp b$（定义推论），不是平行。C 正确：$a\perp\alpha,\ b\perp\alpha$，由线面垂直性质定理得 $a\parallel b$。D 错：结论 $a\perp b$ 正确，但它叫"线面垂直的定义（推论）"，不是"性质定理"；性质定理推出的是平行（即 C）。
+    teaching:
+      teaching_goal: 辨析关键差异——线面垂直性质定理推出的是平行（跨类结论），定义推论推出的才是垂直。
+      source_relations:
+      - fallback:structure_analysis
+      expected_blocker: 判定性质方向反；把定义推论误称性质定理；混淆平行环与垂直环。
+      entry_point: find_entry
+      scaffold_level: high
+      variation_depth: changed_question
+      complexity_note: 纯辨析，无计算。
+      upgrade_rule: 能口述"性质定理得平行，定义推论得垂直"。
+      fallback_move: 回转化环总图，标"线面→线线"的两个不同箭头。
+- id: advanced
+  title: 三、提高档（判定性质混用 + 二面角作图）
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: q8
+    points: 9
+    label: 第 8 题
+    stem_latex: '如图，在三棱锥 $P\text{-}ABC$ 中，$PA\perp$ 平面 $ABC$，平面 $PAB\perp$ 平面 $PBC$。求证：$BC\perp AB$。
+
+      '
+    answer_space:
+      type: steps
+      height: 56mm
+      step_count: 5
+    hints:
+    - content_latex: 要证 $BC\perp AB$（线线），转成证 $BC\perp$ 含 $AB$ 的面 $PAB$。面 $PAB\perp$ 面 $PBC$ 是已知，在面 $PAB$ 内作 $AD\perp$ 交线 $PB$，由面面垂直性质得什么？再补 $PA\perp BC$，凑两条相交垂线。
+    diagram_slot:
+      slot_id: practice.teacher.q8.prompt
+      diagram_ref: practice.teacher.q8.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 三棱锥 P-ABC，PA⊥面 ABC，面 PAB⊥面 PBC，找 BC 的两条相交垂线。
+      engine: spatial_renderer
+      diagram_kind: spatial_geometry
+      teaching_intent: practice_prompt
+      semantic_constraints:
+        given_objects:
+        - P
+        - A
+        - B
+        - C
+        given_constraints:
+        - PA perpendicular to plane ABC
+        - plane PAB perpendicular to plane PBC
+      engine_options:
+        spatial_spec:
+          projection: isometric_hidden_axes
+          points3d:
+            A:
+            - 0
+            - 0
+            - 0
+            B:
+            - 3
+            - 0
+            - 0
+            C:
+            - 0.8
+            - 2.1
+            - 0
+            S:
+            - 1.0
+            - 0.75
+            - 2.4
+            P:
+            - 2.05
+            - 1.766
+            - 0.0
+          segments:
+          - from: A
+            to: B
+          - from: B
+            to: C
+          - from: C
+            to: A
+          - from: P
+            to: A
+          - from: P
+            to: B
+            dash: dashed
+          - from: P
+            to: C
+            dash: dashed
+          - from: S
+            to: A
+          - from: S
+            to: B
+            dash: dashed
+          - from: S
+            to: C
+            dash: dashed
+          - from: A
+            to: B
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: B
+            to: C
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: P
+            to: A
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          polygons:
+          - points:
+            - A
+            - B
+            - C
+            fill: '#eff6ff'
+            stroke: '#94a3b8'
+            stroke_width: 1.2
+          markers:
+          - type: right_angle
+            vertex: B
+            arms:
+            - C
+            - A
+          labels:
+            A:
+              text: A
+            B:
+              text: B
+            C:
+              text: C
+            S:
+              text: S
+            P:
+              text: P
+          constraints:
+          - P
+          - A
+          - B
+          - C
+          - PA perpendicular to plane ABC
+          - plane PAB perpendicular to plane PBC
+          teaching_focus:
+          - 三棱锥 P-ABC，PA⊥面 ABC，面 PAB⊥面 PBC，找 BC 的两条相交垂线。
+    answer: 见解析。
+    explanation: '要证 $BC\perp AB$（线线），转证 $BC\perp$ 含 $AB$ 的面 $PAB$。
+
+      在面 $PAB$ 内作 $AD\perp PB$，垂足为 $D$。由面面垂直性质（$AD\subset$ 面 $PAB$，面 $PAB\perp$ 面 $PBC$，交线为 $PB$，$AD\perp PB$）得 $AD\perp$ 面 $PBC$；又 $BC\subset$ 面 $PBC$，由定义推论得 $AD\perp BC$（第一条相交垂线）。
+
+      又 $PA\perp$ 面 $ABC$，$BC\subset$ 面 $ABC$，由定义推论得 $PA\perp BC$（第二条相交垂线）。
+
+      $AD\cap PA=A$，$AD,PA\subset$ 面 $PAB$，由线面垂直判定得 $BC\perp$ 面 $PAB$；又 $AB\subset$ 面 $PAB$，由定义推论得 $BC\perp AB$。
+
+      '
+    solution_steps:
+    - title: 转目标为证 $BC\perp$ 面 $PAB$
+      content: 要证 $BC\perp AB$（线线），$AB\subset$ 面 $PAB$，转证 $BC\perp$ 面 $PAB$，需在面 $PAB$ 内找两条与 $BC$ 垂直且相交的线。
+    - title: 面面垂直性质得 $AD\perp BC$
+      content: 在面 $PAB$ 内作 $AD\perp PB$，垂足 $D$。由面面垂直性质（面 $PAB\perp$ 面 $PBC$，交线 $PB$，$AD\subset$ 面 $PAB$，$AD\perp PB$）得 $AD\perp$ 面 $PBC$；$BC\subset$ 面 $PBC$，由定义推论得 $AD\perp BC$。
+    - title: 定义推论得 $PA\perp BC$
+      content: $PA\perp$ 面 $ABC$，$BC\subset$ 面 $ABC$，由定义推论得 $PA\perp BC$。
+    - title: 凑两条相交垂线下结论
+      content: $AD\perp BC$，$PA\perp BC$，$AD\cap PA=A$，$AD,PA\subset$ 面 $PAB$，由线面垂直判定得 $BC\perp$ 面 $PAB$；$AB\subset$ 面 $PAB$，由定义推论得 $BC\perp AB$（行末标注〔面面垂直性质〕〔线面垂直判定〕）。
+    teaching:
+      teaching_goal: 提高档，练"面面垂直性质 → 定义推论 → 判定 → 定义推论"的完整性质链。
+      source_relations:
+      - fallback:structure_analysis
+      expected_blocker: 性质定理漏写"垂直于交线 $PB$"；只凑一条 $PA\perp BC$ 就想下判定结论；判定性质方向反。
+      entry_point: build_relation
+      scaffold_level: low
+      variation_depth: changed_representation
+      complexity_note: 无计算，纯逻辑链。
+      upgrade_rule: 能独立说出每步用的是判定还是性质、向上还是向下。
+      fallback_move: 回转化环图，标"面面→线面（性质）→线线（定义）→线面（判定）"。
+  - type: problem
+    id: q9
+    points: 9
+    label: 第 9 题
+    stem_latex: '如图，$AB$ 是 $\odot O$ 的直径，$PA$ 垂直于 $\odot O$ 所在平面，$C$ 是圆上一点（不同于 $A,B$）。指出二面角 $P\text{-}BC\text{-}A$ 的平面角，并核验平面角三要素。（只找角，不计算大小。）
+
+      '
+    answer_space:
+      type: steps
+      height: 52mm
+      step_count: 4
+    hints:
+    - content_latex: 认棱 $BC$；证 $BC\perp$ 某个面定出平面角顶点。$PA\perp$ 圆面给一条 $PA\perp BC$；直径对圆周角 $90^{\circ}$ 给一条 $AC\perp BC$。交点即顶点，核验三要素。
+    diagram_slot:
+      slot_id: practice.teacher.q9.prompt
+      diagram_ref: practice.teacher.q9.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: PA⊥圆面，AB 为直径，C 在圆上，找二面角 P-BC-A 的平面角顶点。
+      engine: spatial_renderer
+      diagram_kind: spatial_geometry
+      teaching_intent: practice_prompt
+      semantic_constraints:
+        given_objects:
+        - P
+        - A
+        - B
+        - C
+        - O
+        given_constraints:
+        - AB is diameter of circle O
+        - PA perpendicular to plane of circle O
+        - C on circle O, distinct from A and B
+      engine_options:
+        spatial_spec:
+          projection: isometric_hidden_axes
+          points3d:
+            O:
+            - 0
+            - 0
+            - 0
+            A:
+            - -1.6
+            - 0
+            - 0
+            B:
+            - 1.6
+            - 0
+            - 0
+            C:
+            - 0.65
+            - 1.1
+            - 0
+            P:
+            - -1.6
+            - 0
+            - 2.2
+          segments:
+          - from: A
+            to: B
+          - from: B
+            to: C
+          - from: C
+            to: A
+          - from: P
+            to: A
+          - from: P
+            to: B
+            dash: dashed
+          - from: P
+            to: C
+            dash: dashed
+          - from: A
+            to: B
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: B
+            to: C
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: P
+            to: A
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          polygons: []
+          markers: []
+          labels:
+            O:
+              text: O
+            A:
+              text: A
+            B:
+              text: B
+            C:
+              text: C
+            P:
+              text: P
+          constraints:
+          - P
+          - A
+          - B
+          - C
+          - O
+          - AB is diameter of circle O
+          - PA perpendicular to plane of circle O
+          - C on circle O, distinct from A and B
+          teaching_focus:
+          - PA⊥圆面，AB 为直径，C 在圆上，找二面角 P-BC-A 的平面角顶点。
+          - circle plane represented by hidden-coordinate ellipse in context
+    answer: 平面角为 $\angle PCA$。
+    explanation: '二面角 $P\text{-}BC\text{-}A$ 的棱为 $BC$。
+
+      $PA\perp$ 圆面 $ABC$，$BC\subset$ 圆面，由定义推论得 $PA\perp BC$。又 $AB$ 为直径，$C$ 在圆上，由直径所对圆周角为 $90^{\circ}$ 得 $\angle ACB=90^{\circ}$，即 $AC\perp BC$。
+
+      $PA\cap AC=A$，$PA,AC\subset$ 面 $PAC$，由线面垂直判定得 $BC\perp$ 面 $PAC$（垂足为 $C$，即 $BC\cap$ 面 $PAC=C$）。
+
+      面 $PAC$ 与两个半平面 $PBC$、$ABC$ 的交线分别为 $PC$、$AC$，故 $\angle PCA$ 为二面角 $P\text{-}BC\text{-}A$ 的平面角。
+
+      三要素核验：①顶点 $C$ 在棱 $BC$ 上；②$CP\subset$ 半平面 $PBC$，$CA\subset$ 半平面 $ABC$；③$CP\perp BC$、$CA\perp BC$（由 $BC\perp$ 面 $PAC$）。三要素齐全。
+
+      '
+    solution_steps:
+    - title: 认棱
+      content: 二面角 $P\text{-}BC\text{-}A$ 的棱为 $BC$，两半平面为 $PBC$ 与 $ABC$，平面角顶点须在 $BC$ 上。
+    - title: 证棱 $BC\perp$ 面 $PAC$
+      content: $PA\perp$ 圆面 $ABC$，$BC\subset$ 圆面，得 $PA\perp BC$；$AB$ 为直径、$C$ 在圆上，圆周角 $\angle ACB=90^{\circ}$，得 $AC\perp BC$。$PA\cap AC=A$，$PA,AC\subset$ 面 $PAC$，由线面垂直判定得 $BC\perp$ 面 $PAC$，垂足为 $C$。
+    - title: 定平面角
+      content: 棱 $BC\perp$ 面 $PAC$，垂足 $C$。面 $PAC$ 与半平面 $PBC$ 交线为 $PC$，与半平面 $ABC$ 交线为 $AC$，故 $\angle PCA$ 为平面角。
+    - title: 核验三要素
+      content: ①顶点 $C\in BC$；②$CP\subset$ 半平面 $PBC$，$CA\subset$ 半平面 $ABC$；③$CP\perp BC$、$CA\perp BC$（由 $BC\perp$ 面 $PAC$）。三要素齐全，$\angle PCA$ 是平面角。
+    teaching:
+      teaching_goal: 提高档，练"证棱⊥某面定平面角顶点 + 核验三要素"，只找角不计算。
+      source_relations:
+      - fallback:structure_analysis
+      expected_blocker: 二面角三要素不全（顶点画到棱外、两边不分在两半平面、只验一边垂直棱）；漏证棱的线面垂直。
+      entry_point: build_relation
+      scaffold_level: low
+      variation_depth: changed_representation
+      complexity_note: 无数值计算，只作图与核验。
+      upgrade_rule: 能独立说清"证棱垂一面 → 定顶点 → 三要素逐项核验"。
+      fallback_move: 回平面角三要素定义，逐项对照 $\angle PCA$。
+- id: answer-key
+  title: 答案速查
+  type: answer_key
+  visibility: teacher
+  layout:
+    break_before: true
+  blocks:
+  - type: answers
+    id: answers
+    items:
+    - number: '1'
+      answer: C
+    - number: '2'
+      answer: 第一空 $P$（相交点），第二空 $\alpha$
+    - number: '3'
+      answer: (1)(2) 见解析，关键写全 $AB\cap AC=A$ 等相交前提
+    - number: '4'
+      answer: 第一空"等腰三角形三线合一"，第二空 $O$
+    - number: '5'
+      answer: (1)(2) 见解析，$SD\perp AC$ 且 $SD\perp BD$，$AC\cap BD=D$
+    - number: '6'
+      answer: $CE\perp$ 面 $D_1DE$，由定义推论得 $CE\perp D_1E$
+    - number: '7'
+      answer: C
+    - number: '8'
+      answer: $BC\perp$ 面 $PAB$，由定义推论得 $BC\perp AB$
+    - number: '9'
+      answer: 平面角为 $\angle PCA$

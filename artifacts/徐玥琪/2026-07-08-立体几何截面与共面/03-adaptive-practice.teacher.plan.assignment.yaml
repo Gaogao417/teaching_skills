@@ -1,0 +1,1268 @@
+meta:
+  title: 立体几何截面与共面练习
+  subtitle: 徐玥琪 · 教师版
+  grade: 高一
+  subject: 数学
+  duration: 40分钟
+  total_points: 66
+  version: teacher
+  source_artifacts:
+    plan: docs/立体几何学习规划/02-截面与共面方案.md
+    explanation: artifacts/徐玥琪/2026-07-08-立体几何截面与共面/02-student-explanation.plan.assignment.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: basic
+  title: 一、基础档（判定确定平面）
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: q1
+    points: 6
+    stem: 下列条件中，能够确定一个平面的是（    ）
+    choices:
+      A: 空间中的三个点
+      B: 一条直线和直线外的一个点
+      C: 空间中两两相交的三条直线
+      D: 两个公共点
+    answer: B
+    explanation: 'A 错：三点共线时不能确定平面（有无数个面过该直线）；
+
+      B 对：由推论①，一条直线与直线外一点确定唯一平面；
+
+      C 错：三条直线若交于同一点（共点），可确定 $1$ 个或 $3$ 个平面，不唯一；
+
+      D 错：两个点只能确定一条直线，不能确定平面。
+
+      故选 B。'
+    teaching:
+      teaching_goal: 训练"定面四主路"的判定——三条推论+基本事实1的前提条件辨析。
+      source_relations:
+      - fallback:structure_analysis
+      model_fusion:
+        model_count: 1
+        models:
+        - 平面确定推论辨析
+        fusion_role: single_model
+      expected_blocker: 把"三点定面"记成"任意三点定面"，漏掉不共线前提；或把"两条相交直线定面"扩大到"任意两条相交直线"。
+      entry_point: find_entry
+      scaffold_level: high
+      variation_depth: changed_question
+      complexity_note: 纯判定辨析，无计算。
+      upgrade_rule: 能主动写出每个错误选项的反例。
+      fallback_move: 回到基本事实1"不共线三点"前提逐条排查。
+    hints:
+    - content: 先看每个选项缺哪个前提——三点是否不共线？点是否在线外？三条线是否共面？两个点能不能定面？
+    diagram_slot:
+      slot_id: practice.teacher.q1.prompt
+      diagram_ref: practice.teacher.q1.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 四个选项分别画出示意图，数各自能定几个面。
+      engine: spatial_renderer
+      diagram_kind: spatial_geometry
+      teaching_intent: practice_prompt
+      semantic_constraints:
+        given_objects:
+        - 点集
+        - 直线集
+        given_constraints:
+        - 四幅示意：三点、线+点、三线相交、两点
+      engine_options:
+        spatial_spec:
+          projection: isometric_hidden_axes
+          points3d:
+            U:
+            - -0.445
+            - -0.35
+            - 0
+            V:
+            - 2.955
+            - -0.35
+            - 0
+            W:
+            - 3.355
+            - 1.6
+            - 0
+            X:
+            - -0.045
+            - 1.6
+            - 0
+            aL:
+            - 0.205
+            - 2.0
+            - 0.65
+            aR:
+            - 2.705
+            - 2.0
+            - 0.65
+            bL:
+            - 0.305
+            - 0.45
+            - 0
+            bR:
+            - 2.705
+            - 0.45
+            - 0
+            P:
+            - 1.455
+            - 0.45
+            - 0
+          segments:
+          - from: U
+            to: V
+          - from: V
+            to: W
+          - from: W
+            to: X
+          - from: X
+            to: U
+          - from: aL
+            to: aR
+          - from: bL
+            to: bR
+          polygons:
+          - points:
+            - U
+            - V
+            - W
+            - X
+            fill: '#eff6ff'
+            stroke: '#94a3b8'
+            stroke_width: 1.2
+          markers: []
+          labels:
+            U:
+              text: ' '
+            V:
+              text: ' '
+            W:
+              text: ' '
+            X:
+              text: ' '
+            aL:
+              text: a
+            aR:
+              text: ' '
+            bL:
+              text: b
+            bR:
+              text: ' '
+            P:
+              text: P
+          constraints:
+          - 点集
+          - 直线集
+          - 四幅示意：三点、线+点、三线相交、两点
+          teaching_focus:
+          - 四个选项分别画出示意图，数各自能定几个面。
+  - type: fillin
+    id: q2
+    points: 6
+    stem: 已知直线 $l$ 和 $l$ 外不共线的三点 $A,B,C$。由 $l$ 与这三个点最多能确定 \underline{\quad\quad} 个平面；其中 $l$ 与每个点各确定 \underline{\quad} 个，三点本身还能再确定 \underline{\quad} 个。
+    fillin_type: blank
+    answer: 4；1；1
+    explanation: '由推论①，直线 $l$ 与线外一点确定一个平面，$A,B,C$ 各与 $l$ 最多各定 $1$ 个面，共 $3$ 个；
+
+      又 $A,B,C$ 不共线，由基本事实1还能再确定 $1$ 个面（且该面不过 $l$）。
+
+      最多 $3+1=4$ 个。关键判据：哪个点能与 $l$ 落在同一面里就少算一个。'
+    teaching:
+      teaching_goal: 训练定面枚举——先用"线+点"主路数，再单独看点之间能否凑面。
+      source_relations:
+      - fallback:structure_analysis
+      expected_blocker: 漏算三点本身定的那 $1$ 个面，或把"最多"算成"恰好"。
+      entry_point: find_entry
+      scaffold_level: medium
+      variation_depth: changed_numbers
+      complexity_note: 枚举计数，无坐标计算。
+      upgrade_rule: 能说清"为什么最多要加 1"的前提条件。
+      fallback_move: 固定一条主路（线+点）先数，再单独数点之间。
+    hints:
+    - content: 先固定"线+点"这条主路数（推论①），再单独看三点之间能不能再凑出平面（三点不共线）。
+  - type: fillin
+    id: q3
+    points: 6
+    stem: '已知点 $M$ 在直线 $a$ 上，直线 $a$ 在平面 $\alpha$ 内，则 $M,a,\alpha$ 的关系记作 $M$ \underline{\quad} $a$ \underline{\quad} $\alpha$；
+
+      若直线 $a\subset$ 平面 $\alpha$，直线 $b\subset$ 平面 $\alpha$，$M\in a$，$N\in b$，且 $M,N$ 都在直线 $l$ 上，则 $l$ 与 $\alpha$ 的关系是 $l$ \underline{\quad} $\alpha$。（填 $\in$ 或 $\subset$）'
+    fillin_type: blank
+    answer: $\in$；$\subset$；$\subset$
+    explanation: '点 $M$ 在直线 $a$ 上写 $M\in a$；直线 $a$ 在面 $\alpha$ 内写 $a\subset\alpha$，故 $M\in a\subset\alpha$。
+
+      第二问：$M\in a\subset\alpha\Rightarrow M\in\alpha$，同理 $N\in\alpha$；$M,N$ 都在直线 $l$ 上且都在 $\alpha$ 内，由基本事实2得 $l\subset\alpha$。'
+    teaching:
+      teaching_goal: 训练从属关系链——点用 $\in$、线面用 $\subset$，线上两点都在面内则整条线在面内。
+      source_relations:
+      - fallback:structure_analysis
+      expected_blocker: 把 $M\in a$ 误写成 $M\subset a$（点不是集合），或把 $l\subset\alpha$ 漏证两点都在面内。
+      entry_point: build_relation
+      scaffold_level: high
+      variation_depth: changed_representation
+      complexity_note: 符号翻译，无计算。
+      upgrade_rule: 能独立把"线在面内"的判据写成"线上两点都在面内"。
+      fallback_move: 回到基本事实2的符号定义逐字翻译。
+    hints:
+    - content: 点用 $\in$、线面用 $\subset$；线上两点都在面内，整条线在面内。
+- id: medium
+  title: 二、中档档（画简单截面 + 延长线找交点）
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: q4
+    points: 9
+    label: 第 4 题
+    stem_latex: '如图，在正方体 $ABCD\text{-}A_1B_1C_1D_1$ 中，$E$ 为棱 $B_1C_1$ 的中点。画出过 $A,C,E$ 三点的平面与正方体表面相交所得到的截面，并简述每条边分别落在哪个表面上。
+
+      '
+    answer_space:
+      type: steps
+      height: 52mm
+      step_count: 4
+    answer: '截面为四边形 $ACEF$，其中 $F$ 为 $A_1B_1$ 的中点（满足 $EF\parallel AC$）。
+
+      四条边分别落在：$AC$ 落在底面 $ABCD$；$CE$ 落在侧面 $BCC_1B_1$；$EF$ 落在上底面 $A_1B_1C_1D_1$；$FA$ 落在侧面 $ABB_1A_1$。'
+    explanation: '$A,C$ 都在底面 $ABCD$，连线 $AC$ 是截面与底面的交边；
+
+      $C,E$ 都在侧面 $BCC_1B_1$，连线 $CE$ 是截面与该侧面的交边；
+
+      截面与上底面 $A_1B_1C_1D_1$ 的交线过 $E$，又 $AC\parallel A_1C_1$（上下底面平行），故该交线 $\parallel AC$，过 $E$ 作 $EF\parallel A_1C_1$ 交 $A_1B_1$ 于中点 $F$；
+
+      $A,F$ 都在侧面 $ABB_1A_1$，连线 $AF$ 是截面与该侧面的交边。
+
+      截面边都落在表面上，得四边形 $ACEF$。'
+    solution_steps:
+    - title: 找底面上的边
+      content: $A,C\in$ 底面 $ABCD$，连 $AC$，是截面与底面的交边。
+    - title: 找含 E 的侧面边
+      content: $C,E\in$ 侧面 $BCC_1B_1$，连 $CE$，是截面与该侧面的交边。
+    - title: 定上底面交线
+      content: 截面与上底面交线过 $E$ 且 $\parallel AC$，过 $E$ 作 $EF\parallel A_1C_1$ 交 $A_1B_1$ 于中点 $F$。
+    - title: 补第四条边并核验
+      content: $A,F\in$ 侧面 $ABB_1A_1$，连 $AF$；截面四边形 $ACEF$ 四条边分别落在四个表面上。
+    teaching:
+      teaching_goal: 训练"截面边落在表面上"——同在一个面内的两个公共点直接连线即一条边。
+      source_relations:
+      - fallback:structure_analysis
+      expected_blocker: 截面画到几何体外，或漏掉"交线与平行面平行"这一步只画三角形。
+      entry_point: build_relation
+      scaffold_level: medium
+      variation_depth: changed_question
+      complexity_note: 纯作图，无计算。
+      upgrade_rule: 能主动说出每条边落在哪个表面、为什么这样连。
+      fallback_move: 回到"两个公共点定交线"，逐个面找公共点。
+    hints:
+    - content_latex: 先找截面与每个表面已有的公共点：$A,C$ 在底面，$E$ 在上底面；同在一个面内的两个公共点直接连线即一条边。截面边必须落在表面上。
+    diagram_slot:
+      slot_id: practice.teacher.q4.prompt
+      diagram_ref: practice.teacher.q4.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 正方体，E 为 B1C1 中点，过 A、C、E 画截面。
+      engine: spatial_renderer
+      diagram_kind: spatial_geometry
+      teaching_intent: practice_prompt
+      semantic_constraints:
+        given_objects:
+        - A
+        - B
+        - C
+        - D
+        - A1
+        - B1
+        - C1
+        - D1
+        - E
+        given_constraints:
+        - unit cube ABCD-A1B1C1D1
+        - E is midpoint of B1C1
+        clean_forbidden:
+        - 不要画截面四边形或交线
+      engine_options:
+        spatial_spec:
+          projection: isometric_hidden_axes
+          points3d:
+            A:
+            - 0
+            - 0
+            - 0
+            B:
+            - 3
+            - 0
+            - 0
+            C:
+            - 3
+            - 2.1
+            - 0
+            D:
+            - 0
+            - 2.1
+            - 0
+            A1:
+            - 0
+            - 0
+            - 2.0
+            B1:
+            - 3
+            - 0
+            - 2.0
+            C1:
+            - 3
+            - 2.1
+            - 2.0
+            D1:
+            - 0
+            - 2.1
+            - 2.0
+            E:
+            - 3.0
+            - 1.05
+            - 2.0
+          segments:
+          - from: A
+            to: B
+          - from: B
+            to: C
+          - from: C
+            to: D
+          - from: D
+            to: A
+          - from: A1
+            to: B1
+          - from: B1
+            to: C1
+          - from: C1
+            to: D1
+          - from: D1
+            to: A1
+          - from: A
+            to: A1
+          - from: B
+            to: B1
+          - from: C
+            to: C1
+          - from: D
+            to: D1
+          - from: B1
+            to: C1
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          polygons:
+          - points:
+            - A
+            - B
+            - C
+            - D
+            fill: '#eff6ff'
+            stroke: '#94a3b8'
+            stroke_width: 1.2
+          - points:
+            - A1
+            - B1
+            - C1
+            - D1
+            fill: '#f8fafc'
+            stroke: '#94a3b8'
+            stroke_width: 1.2
+          markers: []
+          labels:
+            A:
+              text: A
+            B:
+              text: B
+            C:
+              text: C
+            D:
+              text: D
+            A1:
+              text: A_1
+            B1:
+              text: B_1
+            C1:
+              text: C_1
+            D1:
+              text: D_1
+            E:
+              text: E
+          constraints:
+          - A
+          - B
+          - C
+          - D
+          - A1
+          - B1
+          - C1
+          - D1
+          - E
+          - unit cube ABCD-A1B1C1D1
+          - E is midpoint of B1C1
+          - 不要画截面四边形或交线
+          teaching_focus:
+          - 正方体，E 为 B1C1 中点，过 A、C、E 画截面。
+  - type: problem
+    id: q5
+    points: 10
+    label: 第 5 题
+    stem_latex: '如图，在长方体 $ABCD\text{-}A_1B_1C_1D_1$ 中，$E$、$F$ 分别为棱 $DD_1$、$C_1D_1$ 的中点。画出平面 $AEF$ 与底面 $ABCD$ 的交线。（要求：画出必要的延长线，并标出辅助交点。）
+
+      '
+    answer_space:
+      type: steps
+      height: 60mm
+      step_count: 5
+    answer: '在侧面 $CDD_1C_1$ 所在平面内延长 $EF$，与底面棱 $CD$ 的延长线交于点 $M$（$M$ 在 $D$ 的一侧，$DM=\tfrac12 CD$）；
+
+      连接 $AM$，则直线 $AM$ 即平面 $AEF$ 与底面 $ABCD$ 的交线。'
+    explanation: '$A$ 在截面（过 $A$）又在底面 $ABCD$，是第一个公共点；
+
+      $E,F$ 都在侧面 $CDD_1C_1$ 所在平面内，在该平面内延长 $EF$，与 $CD$ 所在直线交于 $M$。
+
+      因 $M\in EF\subset$ 平面 $AEF$，且 $M\in CD\subset$ 底面 $ABCD$，故 $M$ 是第二个公共点；
+
+      由基本事实3，过 $A,M$ 的直线即两面的交线，故交线为 $AM$。'
+    solution_steps:
+    - title: 找第一个公共点
+      content: $A$ 同时在截面（过 $A$）和底面 $ABCD$ 上，是第一个公共点。
+    - title: 选延长所在的侧面平面
+      content: $E,F$ 都在侧面 $CDD_1C_1$ 所在平面内，在该平面内可延长 $EF$ 找交点。
+    - title: 延长找第二个公共点
+      content: 在侧面 $CDD_1C_1$ 所在平面内延长 $EF$，交 $CD$ 的延长线于 $M$；$M\in$ 底面 $ABCD$。
+    - title: 核验 M 是公共点
+      content: $M\in EF\subset$ 平面 $AEF$，且 $M\in CD\subset$ 底面 $ABCD$，故 $M$ 是第二个公共点。
+    - title: 两点连线即交线
+      content: 由基本事实3，连接 $AM$，直线 $AM$ 即平面 $AEF$ 与底面 $ABCD$ 的交线。
+    teaching:
+      teaching_goal: 训练"同一平面内延长找交点"——截面与底面只有一个公共点时，在某个表面所在平面内延长两条线把交点逼到底面上。
+      source_relations:
+      - fallback:structure_analysis
+      expected_blocker: 漏画延长线直接连两个不该连的点；或截面画到几何体外；或延长线画错所在平面。
+      entry_point: build_relation
+      scaffold_level: low
+      variation_depth: changed_representation
+      complexity_note: 改写自题集第 25 题，换长方体载体、字母与点位，保留"侧面内延长找底面棱交点"骨架。
+      upgrade_rule: 能独立说出延长线必须画在哪个表面所在平面内、落点在哪条棱上。
+      fallback_move: 回到"两个公共点定交线"——先找一个公共点，再想延长哪条线能把第二个点逼到底面。
+    hints:
+    - content_latex: 截面和底面已有一个公共点 $A$；要找第二个公共点，注意 $E,F$ 都在侧面 $CDD_1C_1$ 所在平面内——在该平面内延长 $EF$，交点会落在哪条底面棱（或其延长线）上？
+    diagram_slot:
+      slot_id: practice.teacher.q5.prompt
+      diagram_ref: practice.teacher.q5.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 长方体，E 为 DD1 中点、F 为 C1D1 中点，画平面 AEF 与底面 ABCD 的交线。
+      engine: spatial_renderer
+      diagram_kind: spatial_geometry
+      teaching_intent: practice_prompt
+      semantic_constraints:
+        given_objects:
+        - A
+        - B
+        - C
+        - D
+        - A1
+        - B1
+        - C1
+        - D1
+        - E
+        - F
+        given_constraints:
+        - cuboid ABCD-A1B1C1D1
+        - E is midpoint of DD1
+        - F is midpoint of C1D1
+        clean_forbidden:
+        - 不要画延长线 EF、交点 M、交线 AM
+      engine_options:
+        spatial_spec:
+          projection: isometric_hidden_axes
+          points3d:
+            A:
+            - 0
+            - 0
+            - 0
+            B:
+            - 3
+            - 0
+            - 0
+            C:
+            - 3
+            - 2.1
+            - 0
+            D:
+            - 0
+            - 2.1
+            - 0
+            A1:
+            - 0
+            - 0
+            - 2.0
+            B1:
+            - 3
+            - 0
+            - 2.0
+            C1:
+            - 3
+            - 2.1
+            - 2.0
+            D1:
+            - 0
+            - 2.1
+            - 2.0
+            E:
+            - 0.0
+            - 2.1
+            - 1.0
+            F:
+            - 1.5
+            - 2.1
+            - 2.0
+            M:
+            - 2.4526
+            - 0.4
+            - 0.15
+          segments:
+          - from: A
+            to: B
+          - from: B
+            to: C
+          - from: C
+            to: D
+          - from: D
+            to: A
+          - from: A1
+            to: B1
+          - from: B1
+            to: C1
+          - from: C1
+            to: D1
+          - from: D1
+            to: A1
+          - from: A
+            to: A1
+          - from: B
+            to: B1
+          - from: C
+            to: C1
+          - from: D
+            to: D1
+          - from: A
+            to: M
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: C1
+            to: D1
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: D
+            to: D1
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: E
+            to: F
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          polygons:
+          - points:
+            - A
+            - B
+            - C
+            - D
+            fill: '#eff6ff'
+            stroke: '#94a3b8'
+            stroke_width: 1.2
+          - points:
+            - A1
+            - B1
+            - C1
+            - D1
+            fill: '#f8fafc'
+            stroke: '#94a3b8'
+            stroke_width: 1.2
+          markers: []
+          labels:
+            A:
+              text: A
+            B:
+              text: B
+            C:
+              text: C
+            D:
+              text: D
+            A1:
+              text: A_1
+            B1:
+              text: B_1
+            C1:
+              text: C_1
+            D1:
+              text: D_1
+            E:
+              text: E
+            F:
+              text: F
+            M:
+              text: M
+          constraints:
+          - A
+          - B
+          - C
+          - D
+          - A1
+          - B1
+          - C1
+          - D1
+          - E
+          - F
+          - cuboid ABCD-A1B1C1D1
+          - E is midpoint of DD1
+          - F is midpoint of C1D1
+          - 不要画延长线 EF、交点 M、交线 AM
+          teaching_focus:
+          - 长方体，E 为 DD1 中点、F 为 C1D1 中点，画平面 AEF 与底面 ABCD 的交线。
+  - type: choice
+    id: q6
+    points: 6
+    stem: 用一个平面去截一个四棱锥，截面形状不可能是（    ）
+    choices:
+      A: 三角形
+      B: 四边形
+      C: 五边形
+      D: 六边形
+    answer: D
+    explanation: '四棱锥共有 $5$ 个面（$1$ 个底面 $+4$ 个侧面）。截面与几何体表面的交线（截面边）最多等于截面能切到的面数，故截面边数最多为 $5$（五边形）。
+
+      六边形需要切到 $6$ 个面，而四棱锥只有 $5$ 个面，不可能。
+
+      故选 D。'
+    teaching:
+      teaching_goal: 训练"截面边落在表面上"的反向应用——截面边数不超过几何体的面数。
+      source_relations:
+      - fallback:structure_analysis
+      expected_blocker: 以为截面可以任意多边，漏掉"截面边数≤面数"这一上限。
+      entry_point: find_entry
+      scaffold_level: medium
+      variation_depth: changed_question
+      complexity_note: 计面数，无坐标计算。
+      upgrade_rule: 能推广到棱柱、棱台的截面边数上限。
+      fallback_move: 数几何体一共有几个面，截面边数不超过这个数。
+    hints:
+    - content: 截面边数不超过"截面能切到的面数"。四棱锥一共有几个面（含底面）？最多能切到几个面，截面边数上限就是几。
+    diagram_slot:
+      slot_id: practice.teacher.q6.prompt
+      diagram_ref: practice.teacher.q6.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 四棱锥有 5 个面（1 底面 + 4 侧面），截面边数最多 5。
+      engine: spatial_renderer
+      diagram_kind: spatial_geometry
+      teaching_intent: practice_prompt
+      semantic_constraints:
+        given_objects:
+        - 四棱锥
+        given_constraints:
+        - square pyramid with 4 lateral faces and 1 base
+      engine_options:
+        spatial_spec:
+          projection: isometric_hidden_axes
+          points3d:
+            A:
+            - 0
+            - 0
+            - 0
+            B:
+            - 3
+            - 0
+            - 0
+            C:
+            - 3
+            - 2.1
+            - 0
+            D:
+            - 0
+            - 2.1
+            - 0
+            O:
+            - 1.5
+            - 1.05
+            - 0
+            P:
+            - 1.5
+            - 1.05
+            - 2.5
+          segments:
+          - from: A
+            to: B
+          - from: B
+            to: C
+          - from: C
+            to: D
+          - from: D
+            to: A
+          - from: P
+            to: A
+          - from: P
+            to: B
+            dash: dashed
+          - from: P
+            to: C
+            dash: dashed
+          - from: P
+            to: D
+            dash: dashed
+          polygons:
+          - points:
+            - A
+            - B
+            - C
+            - D
+            fill: '#eff6ff'
+            stroke: '#94a3b8'
+            stroke_width: 1.2
+          markers: []
+          labels:
+            A:
+              text: A
+            B:
+              text: B
+            C:
+              text: C
+            D:
+              text: D
+            O:
+              text: O
+            P:
+              text: P
+          constraints:
+          - 四棱锥
+          - square pyramid with 4 lateral faces and 1 base
+          teaching_focus:
+          - 四棱锥有 5 个面（1 底面 + 4 侧面），截面边数最多 5。
+- id: advanced
+  title: 三、提高档（证明两线共面）
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: q7
+    points: 10
+    label: 第 7 题
+    stem_latex: '如图，在正方体 $ABCD\text{-}A_1B_1C_1D_1$ 中，$E$、$F$ 分别为棱 $AB$、$AA_1$ 的中点。
+
+      求证：$E,F,D_1,C$ 四点共面。
+
+      '
+    answer_space:
+      type: steps
+      height: 56mm
+      step_count: 5
+    answer: 见解析，结论成立（$EF\parallel D_1C$，由推论③共面）。
+    explanation: '连 $EF$、$D_1C$。在 $\triangle AA_1B$ 中，$E,F$ 分别为 $AB,AA_1$ 的中点，
+
+      故 $EF\parallel A_1B$（中位线）；
+
+      又正方体中 $A_1B\parallel D_1C$（面 $ABB_1A_1\parallel$ 面 $DCC_1D_1$ 的对应线），
+
+      故 $EF\parallel D_1C$。
+
+      由推论③，两条平行直线确定一个平面，故 $E,F,D_1,C$ 四点共面。'
+    solution_steps:
+    - title: 把四点配成两条线
+      content: 连 $EF$ 与 $D_1C$，目标证 $EF\parallel D_1C$。
+    - title: 用中位线证 EF 平行
+      content: 在 $\triangle AA_1B$ 中，$E,F$ 为 $AB,AA_1$ 中点，故 $EF\parallel A_1B$。
+    - title: 桥接到 D1C
+      content: 正方体中面 $ABB_1A_1\parallel$ 面 $DCC_1D_1$，对应线 $A_1B\parallel D_1C$。
+    - title: 传递得平行
+      content: 由 $EF\parallel A_1B\parallel D_1C$，得 $EF\parallel D_1C$。
+    - title: 由推论③定面
+      content: $EF\parallel D_1C$，由推论③确定一个平面，故 $E,F,D_1,C$ 共面。
+    teaching:
+      teaching_goal: 训练共面证明主路二——平行定面（推论③），配中位线+对应线平行桥接。
+      source_relations:
+      - fallback:structure_analysis
+      expected_blocker: 共面证明没走相交/平行两条主路，凭直觉说"在一个面里"；或漏写中位线前提。
+      entry_point: build_relation
+      scaffold_level: low
+      variation_depth: changed_numbers
+      complexity_note: 改写自经典例题3(1)，换点位，保留"中位线→对应线平行→推论③"骨架。
+      upgrade_rule: 能独立判断该走平行定面还是相交定面，并写出完整依据链。
+      fallback_move: 回到"把四点配成两条线，证相交或平行"。
+    hints:
+    - content_latex: 把四点配成两条线 $EF$ 和 $CD_1$，只需证它们平行（推论③）。$EF$ 在哪个三角形里是中位线？它和哪条棱平行？这条棱又和 $CD_1$ 什么关系？
+    diagram_slot:
+      slot_id: practice.teacher.q7.prompt
+      diagram_ref: practice.teacher.q7.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 正方体，E、F 为中点，证 E,F,D1,C 共面。
+      engine: spatial_renderer
+      diagram_kind: spatial_geometry
+      teaching_intent: practice_prompt
+      semantic_constraints:
+        given_objects:
+        - A
+        - B
+        - C
+        - D
+        - A1
+        - B1
+        - C1
+        - D1
+        - E
+        - F
+        given_constraints:
+        - unit cube ABCD-A1B1C1D1
+        - E is midpoint of AB
+        - F is midpoint of AA1
+        clean_forbidden:
+        - 不要画辅助线 EF、CD1、BA1
+      engine_options:
+        spatial_spec:
+          projection: isometric_hidden_axes
+          points3d:
+            A:
+            - 0
+            - 0
+            - 0
+            B:
+            - 3
+            - 0
+            - 0
+            C:
+            - 3
+            - 2.1
+            - 0
+            D:
+            - 0
+            - 2.1
+            - 0
+            A1:
+            - 0
+            - 0
+            - 2.0
+            B1:
+            - 3
+            - 0
+            - 2.0
+            C1:
+            - 3
+            - 2.1
+            - 2.0
+            D1:
+            - 0
+            - 2.1
+            - 2.0
+            E:
+            - 1.5
+            - 0.0
+            - 0.0
+            F:
+            - 0.0
+            - 0.0
+            - 1.0
+          segments:
+          - from: A
+            to: B
+          - from: B
+            to: C
+          - from: C
+            to: D
+          - from: D
+            to: A
+          - from: A1
+            to: B1
+          - from: B1
+            to: C1
+          - from: C1
+            to: D1
+          - from: D1
+            to: A1
+          - from: A
+            to: A1
+          - from: B
+            to: B1
+          - from: C
+            to: C1
+          - from: D
+            to: D1
+          - from: A
+            to: A1
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: A
+            to: B
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: B
+            to: A1
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: C
+            to: D1
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: E
+            to: F
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          polygons:
+          - points:
+            - A
+            - B
+            - C
+            - D
+            fill: '#eff6ff'
+            stroke: '#94a3b8'
+            stroke_width: 1.2
+          - points:
+            - A1
+            - B1
+            - C1
+            - D1
+            fill: '#f8fafc'
+            stroke: '#94a3b8'
+            stroke_width: 1.2
+          markers: []
+          labels:
+            A:
+              text: A
+            B:
+              text: B
+            C:
+              text: C
+            D:
+              text: D
+            A1:
+              text: A_1
+            B1:
+              text: B_1
+            C1:
+              text: C_1
+            D1:
+              text: D_1
+            E:
+              text: E
+            F:
+              text: F
+          constraints:
+          - A
+          - B
+          - C
+          - D
+          - A1
+          - B1
+          - C1
+          - D1
+          - E
+          - F
+          - unit cube ABCD-A1B1C1D1
+          - E is midpoint of AB
+          - F is midpoint of AA1
+          - 不要画辅助线 EF、CD1、BA1
+          teaching_focus:
+          - 正方体，E、F 为中点，证 E,F,D1,C 共面。
+  - type: problem
+    id: q8
+    points: 13
+    label: 第 8 题
+    stem_latex: "如图，在空间四边形 $ABCD$ 中，$E$、$F$ 分别是 $AB$、$AD$ 的中点，$G$、$H$ 分别是 $BC$、$CD$ 上的点，且 $CG:GB=CH:HD=1:2$。\n\\begin{enumerate}[label=(\\arabic*)]\n  \\item 求证：$E,F,H,G$ 四点共面；\n  \\item 设直线 $EH$ 与 $FG$ 所确定的平面为 $\\alpha$，判断直线 $BD$ 与平面 $\\alpha$ 的位置关系（相交、平行或在平面内），并说明理由。\n\\end{enumerate}\n"
+    answer_space:
+      type: steps
+      height: 68mm
+      step_count: 6
+    answer: '(1) $E,F,H,G$ 四点共面（证明见解析）。
+
+      (2) 直线 $BD$ 与平面 $\alpha$ 平行（$BD\parallel\alpha$）。'
+    explanation: '(1) 在 $\triangle ABD$ 中，$E,F$ 分别为 $AB,AD$ 的中点，故 $EF\parallel BD$ 且 $EF=\tfrac12 BD$。
+
+      又在 $\triangle BCD$ 中，$\dfrac{CG}{CB}=\dfrac{CH}{CD}=\dfrac13$，故 $GH\parallel BD$。
+
+      于是 $EF\parallel GH$，由推论③，$EF$ 与 $GH$ 确定一个平面，故 $E,F,H,G$ 四点共面。
+
+      (2) 由 (1) 知 $EF\parallel BD$ 且 $EF\subset\alpha$；又 $E$ 为 $AB$ 中点，$E\notin BD$，故 $BD$ 与 $EF$ 不重合，
+
+      即 $BD$ 上没有点落在 $\alpha$ 内，故 $BD\not\subset\alpha$。
+
+      由线面平行的判定（$EF\subset\alpha$，$BD\parallel EF$，$BD\not\subset\alpha$），得 $BD\parallel\alpha$。'
+    solution_steps:
+    - title: (1) 证 EF∥BD
+      content: 在 $\triangle ABD$ 中，$E,F$ 为 $AB,AD$ 中点，故 $EF\parallel BD$。
+    - title: (1) 证 GH∥BD
+      content: 在 $\triangle BCD$ 中，$\tfrac{CG}{CB}=\tfrac{CH}{CD}=\tfrac13$，故 $GH\parallel BD$。
+    - title: (1) 传递平行并定面
+      content: $EF\parallel BD\parallel GH$，故 $EF\parallel GH$，由推论③ $E,F,H,G$ 共面。
+    - title: (2) 找面内的平行线
+      content: 由 (1) $EF\subset\alpha$ 且 $BD\parallel EF$。
+    - title: (2) 排除 BD 在面内
+      content: $E$ 为 $AB$ 中点，$E\notin BD$，故 $BD$ 与 $EF$ 不重合，$BD\not\subset\alpha$。
+    - title: (2) 下结论
+      content: 由线面平行判定（$EF\subset\alpha$，$BD\parallel EF$，$BD\not\subset\alpha$），得 $BD\parallel\alpha$。
+    teaching:
+      teaching_goal: 训练共面证明平行主路 + 线面平行判定的承接——平行定面后再判线面位置。
+      source_relations:
+      - fallback:structure_analysis
+      model_fusion:
+        model_count: 2
+        models:
+        - 平行定面（推论③）
+        - 线面平行判定
+        fusion_role: prerequisite
+      relation_chain:
+      - step: 1
+        relation_id: parallel_determination_coplanar
+        inputs:
+          four_points: E,F,G,H
+          line_a: EF
+          line_b: GH
+        outputs:
+          coplanar_plane: alpha (含 E,F,H,G)
+        constraints_checked:
+        - EF∥BD（中位线）
+        - GH∥BD（同比分点）
+      - step: 2
+        relation_id: line_plane_parallel_criterion
+        consumes:
+          coplanar_plane: step1.outputs.coplanar_plane
+        inputs:
+          line: BD
+          in_plane_line: EF
+        selector: EF∥BD 且 BD 与 EF 不重合
+        outputs:
+          position: BD∥alpha
+        constraints_checked:
+        - EF⊂alpha
+        - BD∥EF
+        - BD⊄alpha
+      expected_blocker: 第 (2) 问漏判"BD 是否在面内"，直接说平行；或第 (1) 问 GH∥BD 的比例写反。
+      entry_point: hidden_structure
+      scaffold_level: low
+      variation_depth: partially_hidden
+      complexity_note: 共面证明主路 + 线面平行判定承接，无坐标计算。
+      upgrade_rule: 能独立完成"平行定面→线面位置判断"的完整链条并写清排除理由。
+      fallback_move: 第 (2) 问回到线面平行判定三前提（面内一条线、线外平行、不在面内）。
+    hints:
+    - content_latex: (1) $E,F$ 是中点 ⇒ $EF\parallel BD$ 且 $EF=\tfrac12BD$；$G,H$ 按同比取点 ⇒ $GH\parallel BD$。两条线都平行于 $BD$ ⇒ 它们互相平行 ⇒ 共面（推论③）。(2) $EH$（或 $FG$）和 $BD$ 在 $\triangle ABD$（或相关）所在平面内，它们会不会相交？
+    diagram_slot:
+      slot_id: practice.teacher.q8.prompt
+      diagram_ref: practice.teacher.q8.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 空间四边形 ABCD，E、F 为 AB、AD 中点，G、H 按 1:2 分 BC、CD。
+      engine: spatial_renderer
+      diagram_kind: spatial_geometry
+      teaching_intent: practice_prompt
+      semantic_constraints:
+        given_objects:
+        - A
+        - B
+        - C
+        - D
+        - E
+        - F
+        - G
+        - H
+        given_constraints:
+        - spatial quadrilateral ABCD
+        - E midpoint of AB
+        - F midpoint of AD
+        - CG:GB = CH:HD = 1:2
+        clean_forbidden:
+        - 不要画辅助线 EF、GH、EH、FG
+        derived_objects:
+        - BD
+        derived_constraints:
+        - EF parallel BD
+        - GH parallel BD
+      engine_options:
+        spatial_spec:
+          projection: isometric_hidden_axes
+          points3d:
+            A:
+            - 0
+            - 0
+            - 0
+            B:
+            - 3
+            - 0
+            - 0.1
+            C:
+            - 2.4
+            - 1.9
+            - 1.0
+            D:
+            - -0.1
+            - 1.65
+            - 0.5
+            E:
+            - 1.5
+            - 0.0
+            - 0.05
+            F:
+            - -0.05
+            - 0.825
+            - 0.25
+            G:
+            - 0.95
+            - 1.766
+            - 0.3
+            H:
+            - 0.4663
+            - 1.242
+            - 0.0
+          segments:
+          - from: A
+            to: B
+          - from: B
+            to: C
+          - from: C
+            to: D
+          - from: D
+            to: A
+          - from: A
+            to: B
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: A
+            to: D
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: B
+            to: C
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: B
+            to: D
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: C
+            to: D
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: C
+            to: G
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: C
+            to: H
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: E
+            to: F
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: E
+            to: H
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: F
+            to: G
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: G
+            to: B
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: G
+            to: H
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: H
+            to: D
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          polygons: []
+          markers: []
+          labels:
+            A:
+              text: A
+            B:
+              text: B
+            C:
+              text: C
+            D:
+              text: D
+            E:
+              text: E
+            F:
+              text: F
+            G:
+              text: G
+            H:
+              text: H
+          constraints:
+          - A
+          - B
+          - C
+          - D
+          - E
+          - F
+          - G
+          - H
+          - spatial quadrilateral ABCD
+          - E midpoint of AB
+          - F midpoint of AD
+          - CG:GB = CH:HD = 1:2
+          - 不要画辅助线 EF、GH、EH、FG
+          - BD
+          - EF parallel BD
+          - GH parallel BD
+          - parallel
+          teaching_focus:
+          - 空间四边形 ABCD，E、F 为 AB、AD 中点，G、H 按 1:2 分 BC、CD。
+- id: answer-key
+  title: 答案速查
+  type: answer_key
+  visibility: teacher
+  blocks:
+  - type: answers
+    id: answers
+    items:
+    - number: '1'
+      answer: B
+    - number: '2'
+      answer: 最多 4 个；各 1 个；三点本身再 1 个
+    - number: '3'
+      answer: $M\in a\subset\alpha$；$l\subset\alpha$
+    - number: '4'
+      answer: 四边形 $ACEF$（$F$ 为 $A_1B_1$ 中点），四边落在底面、侧面 $BCC_1B_1$、上底面、侧面 $ABB_1A_1$
+    - number: '5'
+      answer: 延长 $EF$ 交 $CD$ 延长线于 $M$，交线为 $AM$
+    - number: '6'
+      answer: D（六边形不可能）
+    - number: '7'
+      answer: $EF\parallel D_1C$，由推论③共面
+    - number: '8'
+      answer: (1) 共面；(2) $BD\parallel\alpha$

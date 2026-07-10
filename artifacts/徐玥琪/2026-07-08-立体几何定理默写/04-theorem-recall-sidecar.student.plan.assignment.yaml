@@ -1,0 +1,3068 @@
+meta:
+  title: 立体几何定理默写 · 图式竖排版
+  subtitle: 徐玥琪 · 学生版
+  grade: 高一
+  subject: 数学
+  duration: 30分钟
+  total_points: 90
+  version: student
+  source_artifacts:
+    style_guide: artifacts/徐玥琪/2026-07-08-立体几何定理默写/assignment样式说明.md
+    recall_plan: docs/立体几何学习规划/01-默写题作业方案.md
+    parallel_plan: docs/立体几何学习规划/03-平行证明讲义方案.md
+    perpendicular_plan: docs/立体几何学习规划/04-垂直证明讲义方案.md
+    angle_distance_plan: docs/立体几何学习规划/05-距离与角讲义方案.md
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: basic
+  title: 一、基本事实与位置关系
+  type: practice
+  visibility: student
+  blocks:
+  - type: problem
+    id: q01-symbol-membership
+    points: 5
+    stem_latex: '若点在线上，线在面内，则点在这个平面内；符号语言也要能互译。
+
+      \[
+
+      \left.
+
+      \begin{aligned}
+
+      A&\in l\\
+
+      l&\subset \alpha
+
+      \end{aligned}
+
+      \right\}
+
+      \Longrightarrow
+
+      A\ \underline{\hspace{10mm}}\ \alpha
+
+      \]
+
+      '
+    diagram_slot:
+      slot_id: q01-symbol-membership.prompt
+      diagram_ref: q01-symbol-membership.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: ''
+      engine: spatial_renderer
+      diagram_kind: spatial_geometry
+      teaching_intent: theorem_recall_prompt
+      semantic_constraints:
+        given_objects:
+        - A
+        - l
+        - alpha
+        given_constraints:
+        - A on l
+        - l in alpha
+      engine_options:
+        spatial_spec:
+          projection: isometric_hidden_axes
+          points3d:
+            U:
+            - -0.4
+            - -0.35
+            - 0
+            V:
+            - 3.1
+            - -0.35
+            - 0
+            W:
+            - 3.5
+            - 1.45
+            - 0
+            X:
+            - 0.0
+            - 1.45
+            - 0
+            alpha:
+            - 3.15
+            - 1.28
+            - 0
+            L1:
+            - 0.35
+            - 0.45
+            - 0
+            L2:
+            - 2.55
+            - 0.45
+            - 0
+            A:
+            - 1.25
+            - 0.45
+            - 0
+            l:
+            - 2.8
+            - 0.45
+            - 0
+          segments:
+          - from: U
+            to: V
+          - from: V
+            to: W
+          - from: W
+            to: X
+          - from: X
+            to: U
+          - from: L1
+            to: L2
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          polygons:
+          - points:
+            - U
+            - V
+            - W
+            - X
+            fill: '#eff6ff'
+            stroke: '#94a3b8'
+            stroke_width: 1.2
+          markers: []
+          labels:
+            alpha:
+              text: α
+            A:
+              text: A
+            l:
+              text: l
+            X:
+              text: ''
+            V:
+              text: ''
+            W:
+              text: ''
+            L2:
+              text: ''
+            U:
+              text: ''
+            L1:
+              text: ''
+          constraints:
+          - plane alpha
+          - A on l
+          - l in alpha
+      width_hint: 55mm
+  - type: problem
+    id: q02-three-points-plane
+    points: 5
+    stem_latex: '过不在同一直线上的三点，有且只有一个平面。
+
+      \[
+
+      \left.
+
+      \begin{aligned}
+
+      A,B,C&\ \underline{\hspace{30mm}}
+
+      \end{aligned}
+
+      \right\}
+
+      \Longrightarrow
+
+      \text{确定}\ \underline{\hspace{22mm}}
+
+      \]
+
+      '
+    diagram_slot:
+      slot_id: q02-three-points-plane.prompt
+      diagram_ref: q02-three-points-plane.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: ''
+      engine: spatial_renderer
+      diagram_kind: spatial_geometry
+      teaching_intent: theorem_recall_prompt
+      semantic_constraints:
+        given_objects:
+        - A
+        - B
+        - C
+        - alpha
+        given_constraints:
+        - A B C non-collinear in alpha
+      engine_options:
+        spatial_spec:
+          projection: isometric_hidden_axes
+          points3d:
+            U:
+            - -0.4
+            - -0.35
+            - 0
+            V:
+            - 3.1
+            - -0.35
+            - 0
+            W:
+            - 3.5
+            - 1.45
+            - 0
+            X:
+            - 0.0
+            - 1.45
+            - 0
+            alpha:
+            - 3.15
+            - 1.28
+            - 0
+            A:
+            - 0.55
+            - 0.35
+            - 0
+            B:
+            - 2.45
+            - 0.45
+            - 0
+            C:
+            - 1.35
+            - 1.15
+            - 0
+          segments:
+          - from: U
+            to: V
+          - from: V
+            to: W
+          - from: W
+            to: X
+          - from: X
+            to: U
+          - from: A
+            to: B
+            stroke: '#2563eb'
+            stroke_width: 2.2
+          - from: B
+            to: C
+            stroke: '#2563eb'
+            stroke_width: 2.2
+          - from: C
+            to: A
+            stroke: '#2563eb'
+            stroke_width: 2.2
+          polygons:
+          - points:
+            - U
+            - V
+            - W
+            - X
+            fill: '#eff6ff'
+            stroke: '#94a3b8'
+            stroke_width: 1.2
+          markers: []
+          labels:
+            alpha:
+              text: α
+            A:
+              text: A
+            B:
+              text: B
+            C:
+              text: C
+            X:
+              text: ''
+            V:
+              text: ''
+            W:
+              text: ''
+            U:
+              text: ''
+          constraints:
+          - plane alpha
+      width_hint: 55mm
+  - type: problem
+    id: q03-lines-plane
+    points: 5
+    stem_latex: '一条直线和这条直线外一点、两条相交直线、两条平行直线，都可以确定一个平面。
+
+      \[
+
+      \left.
+
+      \begin{aligned}
+
+      a&\parallel b\\
+
+      a&\ne b
+
+      \end{aligned}
+
+      \right\}
+
+      \Longrightarrow
+
+      \underline{\hspace{42mm}}
+
+      \]
+
+      '
+    diagram_slot:
+      slot_id: q03-lines-plane.prompt
+      diagram_ref: q03-lines-plane.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: ''
+      engine: spatial_renderer
+      diagram_kind: spatial_geometry
+      teaching_intent: theorem_recall_prompt
+      semantic_constraints:
+        given_objects:
+        - a
+        - b
+        - P
+        - alpha
+        given_constraints:
+        - a parallel b in alpha
+      engine_options:
+        spatial_spec:
+          projection: isometric_hidden_axes
+          points3d:
+            U:
+            - -0.4
+            - -0.35
+            - 0
+            V:
+            - 3.1
+            - -0.35
+            - 0
+            W:
+            - 3.5
+            - 1.45
+            - 0
+            X:
+            - 0.0
+            - 1.45
+            - 0
+            alpha:
+            - 3.15
+            - 1.28
+            - 0
+            A1:
+            - 0.45
+            - 0.45
+            - 0
+            A2:
+            - 2.55
+            - 0.45
+            - 0
+            B1:
+            - 0.75
+            - 1.05
+            - 0
+            B2:
+            - 2.85
+            - 1.05
+            - 0
+            P:
+            - 1.45
+            - 0.95
+            - 0
+            a:
+            - 2.75
+            - 0.45
+            - 0
+            b:
+            - 3.0
+            - 1.05
+            - 0
+          segments:
+          - from: U
+            to: V
+          - from: V
+            to: W
+          - from: W
+            to: X
+          - from: X
+            to: U
+          - from: A1
+            to: A2
+            stroke: '#2563eb'
+            stroke_width: 2.2
+          - from: B1
+            to: B2
+            stroke: '#16a34a'
+            stroke_width: 2.2
+          polygons:
+          - points:
+            - U
+            - V
+            - W
+            - X
+            fill: '#eff6ff'
+            stroke: '#94a3b8'
+            stroke_width: 1.2
+          markers: []
+          labels:
+            alpha:
+              text: α
+            P:
+              text: P
+            a:
+              text: a
+            b:
+              text: b
+            X:
+              text: ''
+            V:
+              text: ''
+            B1:
+              text: ''
+            W:
+              text: ''
+            U:
+              text: ''
+            A2:
+              text: ''
+            B2:
+              text: ''
+            A1:
+              text: ''
+          constraints:
+          - plane alpha
+      width_hint: 55mm
+- id: parallel
+  title: 二、平行关系定理
+  type: practice
+  visibility: student
+  blocks:
+  - type: problem
+    id: q04-line-plane-parallel-judge
+    points: 5
+    stem_latex: '如果平面外一条直线与这个平面内的一条直线平行，那么这条直线与这个平面平行。
+
+      \[
+
+      \left.
+
+      \begin{aligned}
+
+      a&\parallel b\\
+
+      b&\subset\alpha\\
+
+      a&\not\subset\alpha
+
+      \end{aligned}
+
+      \right\}
+
+      \Longrightarrow
+
+      \underline{\hspace{24mm}}
+
+      \]
+
+      '
+    diagram_slot:
+      slot_id: q04-line-plane-parallel-judge.prompt
+      diagram_ref: q04-line-plane-parallel-judge.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: ''
+      engine: spatial_renderer
+      diagram_kind: spatial_geometry
+      teaching_intent: theorem_recall_prompt
+      semantic_constraints:
+        given_objects:
+        - a
+        - b
+        - alpha
+        given_constraints:
+        - a parallel b
+        - b in alpha
+        - a not in alpha
+      engine_options:
+        spatial_spec:
+          projection: isometric_hidden_axes
+          points3d:
+            U:
+            - -0.4
+            - -0.35
+            - 0
+            V:
+            - 3.1
+            - -0.35
+            - 0
+            W:
+            - 3.5
+            - 1.45
+            - 0
+            X:
+            - 0.0
+            - 1.45
+            - 0
+            alpha:
+            - 3.15
+            - 1.28
+            - 0
+            B1:
+            - 0.55
+            - 0.55
+            - 0
+            B2:
+            - 2.45
+            - 0.55
+            - 0
+            A1:
+            - 0.65
+            - 0.55
+            - 1.0
+            A2:
+            - 2.55
+            - 0.55
+            - 1.0
+            a:
+            - 2.75
+            - 0.55
+            - 1.0
+            b:
+            - 2.65
+            - 0.55
+            - 0
+          segments:
+          - from: U
+            to: V
+          - from: V
+            to: W
+          - from: W
+            to: X
+          - from: X
+            to: U
+          - from: B1
+            to: B2
+            stroke: '#2563eb'
+            stroke_width: 2.3
+          - from: A1
+            to: A2
+            stroke: '#f97316'
+            stroke_width: 2.3
+          polygons:
+          - points:
+            - U
+            - V
+            - W
+            - X
+            fill: '#eff6ff'
+            stroke: '#94a3b8'
+            stroke_width: 1.2
+          markers: []
+          labels:
+            alpha:
+              text: α
+            a:
+              text: a
+            b:
+              text: b
+            X:
+              text: ''
+            V:
+              text: ''
+            B1:
+              text: ''
+            W:
+              text: ''
+            U:
+              text: ''
+            A2:
+              text: ''
+            B2:
+              text: ''
+            A1:
+              text: ''
+          constraints:
+          - plane alpha
+      width_hint: 55mm
+  - type: problem
+    id: q05-line-plane-parallel-property
+    points: 5
+    stem_latex: '一条直线与一个平面平行，过这条直线的平面与已知平面相交，则这条直线与交线平行。
+
+      \[
+
+      \left.
+
+      \begin{aligned}
+
+      a&\parallel\alpha\\
+
+      a&\subset\beta\\
+
+      \alpha\cap\beta&=b
+
+      \end{aligned}
+
+      \right\}
+
+      \Longrightarrow
+
+      \underline{\hspace{22mm}}
+
+      \]
+
+      '
+    diagram_slot:
+      slot_id: q05-line-plane-parallel-property.prompt
+      diagram_ref: q05-line-plane-parallel-property.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: ''
+      engine: spatial_renderer
+      diagram_kind: spatial_geometry
+      teaching_intent: theorem_recall_prompt
+      semantic_constraints:
+        given_objects:
+        - a
+        - b
+        - alpha
+        - beta
+        given_constraints:
+        - a parallel alpha
+        - a in beta
+        - alpha intersects beta at b
+      engine_options:
+        spatial_spec:
+          projection: isometric_hidden_axes
+          points3d:
+            M1:
+            - 0
+            - 0
+            - 0
+            M2:
+            - 3.2
+            - 0
+            - 0
+            A:
+            - 0.15
+            - 1.3
+            - 0
+            B:
+            - 3.1
+            - 1.3
+            - 0
+            C:
+            - 0.15
+            - -1.2
+            - 1.2
+            D:
+            - 3.1
+            - -1.2
+            - 1.2
+            alpha:
+            - 2.9
+            - 1.1
+            - 0
+            beta:
+            - 2.9
+            - -1.05
+            - 1.05
+            m:
+            - 1.7
+            - 0
+            - 0
+            A1:
+            - 0.25
+            - 0.85
+            - 0
+            A2:
+            - 2.65
+            - 0.85
+            - 0
+            l1:
+            - 0.25
+            - -0.75
+            - 0.75
+            l2:
+            - 2.65
+            - -0.75
+            - 0.75
+            a:
+            - 2.85
+            - -0.75
+            - 0.75
+          segments:
+          - from: M1
+            to: M2
+            stroke: '#2563eb'
+            stroke_width: 2.3
+          - from: A
+            to: B
+          - from: B
+            to: M2
+          - from: M2
+            to: M1
+          - from: M1
+            to: A
+          - from: C
+            to: D
+          - from: D
+            to: M2
+          - from: M2
+            to: M1
+          - from: M1
+            to: C
+          - from: A1
+            to: A2
+            stroke: '#2563eb'
+            stroke_width: 2.3
+          - from: l1
+            to: l2
+            stroke: '#f97316'
+            stroke_width: 2.3
+          polygons:
+          - points:
+            - M1
+            - M2
+            - B
+            - A
+            fill: '#eef2ff'
+            stroke: '#94a3b8'
+            stroke_width: 1.1
+          - points:
+            - M1
+            - M2
+            - D
+            - C
+            fill: '#ecfeff'
+            stroke: '#94a3b8'
+            stroke_width: 1.1
+          markers: []
+          labels:
+            M1:
+              text: ''
+            M2:
+              text: ''
+            alpha:
+              text: α
+            beta:
+              text: β
+            m:
+              text: m
+            a:
+              text: a
+            b:
+              text: b
+            l2:
+              text: ''
+            l1:
+              text: ''
+            A2:
+              text: ''
+            B:
+              text: ''
+            A1:
+              text: ''
+            D:
+              text: ''
+            A:
+              text: ''
+            C:
+              text: ''
+          constraints:
+          - alpha intersects beta at m
+          - a in beta
+          - a parallel alpha
+          - beta intersects alpha at b
+      width_hint: 55mm
+  - type: problem
+    id: q06-plane-plane-parallel-judge
+    points: 5
+    stem_latex: '如果一个平面内两条相交直线分别平行于另一个平面内两条相交直线，那么这两个平面平行。
+
+      \[
+
+      \left.
+
+      \begin{aligned}
+
+      a,b&\subset\alpha,\quad a\cap b=P\\
+
+      a'',b''&\subset\beta,\quad a''\cap b''=P''\\
+
+      a&\parallel a'',\quad b\parallel b''
+
+      \end{aligned}
+
+      \right\}
+
+      \Longrightarrow
+
+      \underline{\hspace{24mm}}
+
+      \]
+
+      '
+    diagram_slot:
+      slot_id: q06-plane-plane-parallel-judge.prompt
+      diagram_ref: q06-plane-plane-parallel-judge.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: ''
+      engine: spatial_renderer
+      diagram_kind: spatial_geometry
+      teaching_intent: theorem_recall_prompt
+      semantic_constraints:
+        given_objects:
+        - a
+        - b
+        - alpha
+        - beta
+        given_constraints:
+        - two intersecting lines in alpha parallel two intersecting lines in beta
+      engine_options:
+        spatial_spec:
+          projection: isometric_hidden_axes
+          points3d:
+            A:
+            - 0
+            - 0
+            - 0
+            B:
+            - 3
+            - 0
+            - 0
+            C:
+            - 3
+            - 1.6
+            - 0
+            D:
+            - 0
+            - 1.6
+            - 0
+            A1:
+            - 0
+            - 0
+            - 1.25
+            B1:
+            - 3
+            - 0
+            - 1.25
+            C1:
+            - 3
+            - 1.6
+            - 1.25
+            D1:
+            - 0
+            - 1.6
+            - 1.25
+            alpha:
+            - 2.8
+            - 1.35
+            - 0
+            beta:
+            - 2.8
+            - 1.35
+            - 1.25
+          segments:
+          - from: A
+            to: B
+          - from: B
+            to: C
+          - from: C
+            to: D
+          - from: D
+            to: A
+          - from: A1
+            to: B1
+          - from: B1
+            to: C1
+          - from: C1
+            to: D1
+          - from: D1
+            to: A1
+          - from: A
+            to: B
+            stroke: '#2563eb'
+            stroke_width: 2.2
+          - from: A
+            to: D
+            stroke: '#16a34a'
+            stroke_width: 2.2
+          - from: A1
+            to: B1
+            stroke: '#2563eb'
+            stroke_width: 2.2
+          - from: A1
+            to: D1
+            stroke: '#16a34a'
+            stroke_width: 2.2
+          polygons:
+          - points:
+            - A
+            - B
+            - C
+            - D
+            fill: '#ecfeff'
+            stroke: '#94a3b8'
+            stroke_width: 1.1
+          - points:
+            - A1
+            - B1
+            - C1
+            - D1
+            fill: '#eef2ff'
+            stroke: '#94a3b8'
+            stroke_width: 1.1
+          markers: []
+          labels:
+            A:
+              text: A
+            B:
+              text: B
+            C:
+              text: C
+            D:
+              text: D
+            A1:
+              text: A_1
+            B1:
+              text: ''
+            C1:
+              text: ''
+            D1:
+              text: D_1
+            alpha:
+              text: α
+            beta:
+              text: β
+          constraints:
+          - alpha parallel beta
+          - AB parallel A1B1
+          - AD parallel A1D1
+      width_hint: 55mm
+  - type: problem
+    id: q07-plane-plane-parallel-property
+    points: 5
+    stem_latex: '两个平行平面被第三个平面所截，所得两条交线平行。
+
+      \[
+
+      \left.
+
+      \begin{aligned}
+
+      \alpha&\parallel\beta\\
+
+      \gamma\cap\alpha&=a\\
+
+      \gamma\cap\beta&=b
+
+      \end{aligned}
+
+      \right\}
+
+      \Longrightarrow
+
+      \underline{\hspace{20mm}}
+
+      \]
+
+      '
+    diagram_slot:
+      slot_id: q07-plane-plane-parallel-property.prompt
+      diagram_ref: q07-plane-plane-parallel-property.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: ''
+      engine: spatial_renderer
+      diagram_kind: spatial_geometry
+      teaching_intent: theorem_recall_prompt
+      semantic_constraints:
+        given_objects:
+        - alpha
+        - beta
+        - gamma
+        - a
+        - b
+        given_constraints:
+        - alpha parallel beta
+        - gamma cuts alpha beta
+      engine_options:
+        spatial_spec:
+          projection: isometric_hidden_axes
+          points3d:
+            A:
+            - 0
+            - 0
+            - 0
+            B:
+            - 3
+            - 0
+            - 0
+            C:
+            - 3
+            - 1.6
+            - 0
+            D:
+            - 0
+            - 1.6
+            - 0
+            A1:
+            - 0
+            - 0
+            - 1.25
+            B1:
+            - 3
+            - 0
+            - 1.25
+            C1:
+            - 3
+            - 1.6
+            - 1.25
+            D1:
+            - 0
+            - 1.6
+            - 1.25
+            alpha:
+            - 2.8
+            - 1.35
+            - 0
+            beta:
+            - 2.8
+            - 1.35
+            - 1.25
+            G1:
+            - 0.45
+            - -0.3
+            - 0
+            G2:
+            - 2.65
+            - -0.3
+            - 0
+            G3:
+            - 0.45
+            - -0.3
+            - 1.25
+            G4:
+            - 2.65
+            - -0.3
+            - 1.25
+            a:
+            - 2.85
+            - -0.3
+            - 0
+            b:
+            - 2.85
+            - -0.3
+            - 1.25
+          segments:
+          - from: A
+            to: B
+          - from: B
+            to: C
+          - from: C
+            to: D
+          - from: D
+            to: A
+          - from: A1
+            to: B1
+          - from: B1
+            to: C1
+          - from: C1
+            to: D1
+          - from: D1
+            to: A1
+          - from: G1
+            to: G2
+            stroke: '#2563eb'
+            stroke_width: 2.3
+          - from: G3
+            to: G4
+            stroke: '#f97316'
+            stroke_width: 2.3
+          polygons:
+          - points:
+            - A
+            - B
+            - C
+            - D
+            fill: '#ecfeff'
+            stroke: '#94a3b8'
+            stroke_width: 1.1
+          - points:
+            - A1
+            - B1
+            - C1
+            - D1
+            fill: '#eef2ff'
+            stroke: '#94a3b8'
+            stroke_width: 1.1
+          markers: []
+          labels:
+            A:
+              text: A
+            B:
+              text: B
+            C:
+              text: C
+            D:
+              text: D
+            A1:
+              text: A_1
+            B1:
+              text: ''
+            C1:
+              text: ''
+            D1:
+              text: D_1
+            alpha:
+              text: α
+            beta:
+              text: β
+            a:
+              text: a
+            b:
+              text: b
+            G1:
+              text: ''
+            G2:
+              text: ''
+            G4:
+              text: ''
+            G3:
+              text: ''
+          constraints:
+          - alpha parallel beta
+          - gamma cuts alpha at a
+          - gamma cuts beta at b
+      width_hint: 55mm
+  - type: problem
+    id: q08-intersection-line-parallel
+    points: 5
+    stem_latex: '两个平面相交，若两平面内各有一条直线互相平行，则这两条直线都平行于交线。
+
+      \[
+
+      \left.
+
+      \begin{aligned}
+
+      \alpha\cap\beta&=m\\
+
+      l_1&\subset\alpha,\quad l_2\subset\beta\\
+
+      l_1&\parallel l_2
+
+      \end{aligned}
+
+      \right\}
+
+      \Longrightarrow
+
+      \underline{\hspace{34mm}}
+
+      \]
+
+      '
+    diagram_slot:
+      slot_id: q08-intersection-line-parallel.prompt
+      diagram_ref: q08-intersection-line-parallel.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: ''
+      engine: spatial_renderer
+      diagram_kind: spatial_geometry
+      teaching_intent: theorem_recall_prompt
+      semantic_constraints:
+        given_objects:
+        - alpha
+        - beta
+        - m
+        - l1
+        - l2
+        given_constraints:
+        - alpha intersects beta at m
+        - l1 in alpha
+        - l2 in beta
+        - l1 parallel l2
+      engine_options:
+        spatial_spec:
+          projection: isometric_hidden_axes
+          points3d:
+            M1:
+            - 0
+            - 0
+            - 0
+            M2:
+            - 3.2
+            - 0
+            - 0
+            A:
+            - 0.15
+            - 1.3
+            - 0
+            B:
+            - 3.1
+            - 1.3
+            - 0
+            C:
+            - 0.15
+            - -1.2
+            - 1.2
+            D:
+            - 3.1
+            - -1.2
+            - 1.2
+            alpha:
+            - 2.9
+            - 1.1
+            - 0
+            beta:
+            - 2.9
+            - -1.05
+            - 1.05
+            m:
+            - 1.7
+            - 0
+            - 0
+            L11:
+            - 0.35
+            - 0.8
+            - 0
+            L12:
+            - 2.8
+            - 0.8
+            - 0
+            L21:
+            - 0.35
+            - -0.8
+            - 1.0
+            L22:
+            - 2.8
+            - -0.8
+            - 1.0
+            l1:
+            - 2.95
+            - 0.8
+            - 0
+            l2:
+            - 2.95
+            - -0.8
+            - 1.0
+          segments:
+          - from: M1
+            to: M2
+            stroke: '#2563eb'
+            stroke_width: 2.3
+          - from: A
+            to: B
+          - from: B
+            to: M2
+          - from: M2
+            to: M1
+          - from: M1
+            to: A
+          - from: C
+            to: D
+          - from: D
+            to: M2
+          - from: M2
+            to: M1
+          - from: M1
+            to: C
+          - from: L11
+            to: L12
+            stroke: '#f97316'
+            stroke_width: 2.3
+          - from: L21
+            to: L22
+            stroke: '#16a34a'
+            stroke_width: 2.3
+          polygons:
+          - points:
+            - M1
+            - M2
+            - B
+            - A
+            fill: '#eef2ff'
+            stroke: '#94a3b8'
+            stroke_width: 1.1
+          - points:
+            - M1
+            - M2
+            - D
+            - C
+            fill: '#ecfeff'
+            stroke: '#94a3b8'
+            stroke_width: 1.1
+          markers: []
+          labels:
+            M1:
+              text: ''
+            M2:
+              text: ''
+            alpha:
+              text: α
+            beta:
+              text: β
+            m:
+              text: m
+            l1:
+              text: ''
+            l2:
+              text: ''
+            L11:
+              text: ''
+            L21:
+              text: ''
+            L22:
+              text: ''
+            L12:
+              text: ''
+            B:
+              text: ''
+            D:
+              text: ''
+            A:
+              text: ''
+            C:
+              text: ''
+          constraints:
+          - alpha intersects beta at m
+          - l1 in alpha
+          - l2 in beta
+          - l1 parallel l2
+      width_hint: 55mm
+- id: perpendicular
+  title: 三、垂直关系定理
+  type: practice
+  visibility: student
+  blocks:
+  - type: problem
+    id: q09-line-plane-perp-definition
+    points: 5
+    stem_latex: '如果一条直线垂直于一个平面，那么它垂直于这个平面内过垂足的任意直线。
+
+      \[
+
+      \left.
+
+      \begin{aligned}
+
+      l&\perp\alpha\\
+
+      m&\subset\alpha,\quad P\in m\\
+
+      l\cap\alpha&=P
+
+      \end{aligned}
+
+      \right\}
+
+      \Longrightarrow
+
+      \underline{\hspace{20mm}}
+
+      \]
+
+      '
+    diagram_slot:
+      slot_id: q09-line-plane-perp-definition.prompt
+      diagram_ref: q09-line-plane-perp-definition.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: ''
+      engine: spatial_renderer
+      diagram_kind: spatial_geometry
+      teaching_intent: theorem_recall_prompt
+      semantic_constraints:
+        given_objects:
+        - l
+        - m
+        - alpha
+        - P
+        given_constraints:
+        - l perpendicular alpha at P
+        - m in alpha through P
+      engine_options:
+        spatial_spec:
+          projection: isometric_hidden_axes
+          points3d:
+            U:
+            - -0.4
+            - -0.35
+            - 0
+            V:
+            - 3.1
+            - -0.35
+            - 0
+            W:
+            - 3.5
+            - 1.45
+            - 0
+            X:
+            - 0.0
+            - 1.45
+            - 0
+            alpha:
+            - 3.15
+            - 1.28
+            - 0
+            P:
+            - 1.45
+            - 0.7
+            - 0
+            L:
+            - 1.45
+            - 0.7
+            - 1.45
+            M1:
+            - 0.5
+            - 0.7
+            - 0
+            M2:
+            - 2.5
+            - 0.7
+            - 0
+            N1:
+            - 1.45
+            - 0.15
+            - 0
+            N2:
+            - 1.45
+            - 1.25
+            - 0
+            l:
+            - 1.45
+            - 0.7
+            - 1.65
+            m:
+            - 2.7
+            - 0.7
+            - 0
+            n:
+            - 1.45
+            - 1.38
+            - 0
+          segments:
+          - from: U
+            to: V
+          - from: V
+            to: W
+          - from: W
+            to: X
+          - from: X
+            to: U
+          - from: P
+            to: L
+            stroke: '#f97316'
+            stroke_width: 2.4
+          - from: M1
+            to: M2
+            stroke: '#2563eb'
+            stroke_width: 2.0
+          - from: N1
+            to: N2
+            stroke: '#16a34a'
+            stroke_width: 2.0
+          polygons:
+          - points:
+            - U
+            - V
+            - W
+            - X
+            fill: '#eff6ff'
+            stroke: '#94a3b8'
+            stroke_width: 1.2
+          markers:
+          - type: right_angle
+            vertex: P
+            arms:
+            - L
+            - M2
+          labels:
+            alpha:
+              text: α
+            P:
+              text: P
+            l:
+              text: l
+            m:
+              text: m
+            n:
+              text: n
+            N2:
+              text: ''
+            X:
+              text: ''
+            V:
+              text: ''
+            M2:
+              text: ''
+            W:
+              text: ''
+            N1:
+              text: ''
+            U:
+              text: ''
+            M1:
+              text: ''
+          constraints:
+          - plane alpha
+      width_hint: 55mm
+  - type: problem
+    id: q10-line-plane-perp-judge
+    points: 5
+    stem_latex: '如果一条直线垂直于一个平面内的两条相交直线，那么这条直线垂直于这个平面。
+
+      \[
+
+      \left.
+
+      \begin{aligned}
+
+      m,n&\subset\alpha\\
+
+      m\cap n&=P\\
+
+      l&\perp m,\quad l\perp n
+
+      \end{aligned}
+
+      \right\}
+
+      \Longrightarrow
+
+      \underline{\hspace{22mm}}
+
+      \]
+
+      '
+    diagram_slot:
+      slot_id: q10-line-plane-perp-judge.prompt
+      diagram_ref: q10-line-plane-perp-judge.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: ''
+      engine: spatial_renderer
+      diagram_kind: spatial_geometry
+      teaching_intent: theorem_recall_prompt
+      semantic_constraints:
+        given_objects:
+        - l
+        - m
+        - n
+        - alpha
+        - P
+        given_constraints:
+        - m n in alpha intersect at P
+        - l perpendicular m and n
+      engine_options:
+        spatial_spec:
+          projection: isometric_hidden_axes
+          points3d:
+            U:
+            - -0.4
+            - -0.35
+            - 0
+            V:
+            - 3.1
+            - -0.35
+            - 0
+            W:
+            - 3.5
+            - 1.45
+            - 0
+            X:
+            - 0.0
+            - 1.45
+            - 0
+            alpha:
+            - 3.15
+            - 1.28
+            - 0
+            P:
+            - 1.45
+            - 0.75
+            - 0
+            L:
+            - 1.45
+            - 0.75
+            - 1.45
+            M1:
+            - 0.45
+            - 0.75
+            - 0
+            M2:
+            - 2.45
+            - 0.75
+            - 0
+            N1:
+            - 1.45
+            - 0.2
+            - 0
+            N2:
+            - 1.45
+            - 1.3
+            - 0
+            l:
+            - 1.45
+            - 0.75
+            - 1.62
+            m:
+            - 2.65
+            - 0.75
+            - 0
+            n:
+            - 1.45
+            - 1.43
+            - 0
+          segments:
+          - from: U
+            to: V
+          - from: V
+            to: W
+          - from: W
+            to: X
+          - from: X
+            to: U
+          - from: P
+            to: L
+            stroke: '#f97316'
+            stroke_width: 2.4
+          - from: M1
+            to: M2
+            stroke: '#2563eb'
+            stroke_width: 2.0
+          - from: N1
+            to: N2
+            stroke: '#16a34a'
+            stroke_width: 2.0
+          polygons:
+          - points:
+            - U
+            - V
+            - W
+            - X
+            fill: '#eff6ff'
+            stroke: '#94a3b8'
+            stroke_width: 1.2
+          markers:
+          - type: right_angle
+            vertex: P
+            arms:
+            - L
+            - M2
+          - type: right_angle
+            vertex: P
+            arms:
+            - L
+            - N2
+          labels:
+            alpha:
+              text: α
+            P:
+              text: P
+            l:
+              text: l
+            m:
+              text: m
+            n:
+              text: n
+            N2:
+              text: ''
+            X:
+              text: ''
+            V:
+              text: ''
+            M2:
+              text: ''
+            W:
+              text: ''
+            N1:
+              text: ''
+            U:
+              text: ''
+            M1:
+              text: ''
+          constraints:
+          - plane alpha
+      width_hint: 55mm
+  - type: problem
+    id: q11-line-plane-perp-property
+    points: 5
+    stem_latex: '垂直于同一个平面的两条直线互相平行。
+
+      \[
+
+      \left.
+
+      \begin{aligned}
+
+      l&\perp\alpha\\
+
+      m&\perp\alpha
+
+      \end{aligned}
+
+      \right\}
+
+      \Longrightarrow
+
+      \underline{\hspace{18mm}}
+
+      \]
+
+      '
+    diagram_slot:
+      slot_id: q11-line-plane-perp-property.prompt
+      diagram_ref: q11-line-plane-perp-property.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: ''
+      engine: spatial_renderer
+      diagram_kind: spatial_geometry
+      teaching_intent: theorem_recall_prompt
+      semantic_constraints:
+        given_objects:
+        - l
+        - m
+        - alpha
+        given_constraints:
+        - two lines perpendicular to alpha
+      engine_options:
+        spatial_spec:
+          projection: isometric_hidden_axes
+          points3d:
+            A:
+            - 0
+            - 0
+            - 0
+            B:
+            - 3
+            - 0
+            - 0
+            C:
+            - 3
+            - 2.1
+            - 0
+            D:
+            - 0
+            - 2.1
+            - 0
+            A1:
+            - 0
+            - 0
+            - 2.0
+            B1:
+            - 3
+            - 0
+            - 2.0
+            C1:
+            - 3
+            - 2.1
+            - 2.0
+            D1:
+            - 0
+            - 2.1
+            - 2.0
+          segments:
+          - from: A
+            to: B
+          - from: B
+            to: C
+          - from: C
+            to: D
+          - from: D
+            to: A
+          - from: A1
+            to: B1
+          - from: B1
+            to: C1
+          - from: C1
+            to: D1
+          - from: D1
+            to: A1
+          - from: A
+            to: A1
+          - from: B
+            to: B1
+          - from: C
+            to: C1
+          - from: D
+            to: D1
+          - from: A
+            to: A1
+            stroke: '#f97316'
+            stroke_width: 2.5
+          - from: C
+            to: C1
+            stroke: '#16a34a'
+            stroke_width: 2.5
+          polygons:
+          - points:
+            - A
+            - B
+            - C
+            - D
+            fill: '#eff6ff'
+            stroke: '#94a3b8'
+            stroke_width: 1.2
+          - points:
+            - A1
+            - B1
+            - C1
+            - D1
+            fill: '#f8fafc'
+            stroke: '#94a3b8'
+            stroke_width: 1.2
+          markers: []
+          labels:
+            A:
+              text: A
+            B:
+              text: B
+            C:
+              text: C
+            D:
+              text: D
+            A1:
+              text: A_1
+            B1:
+              text: ''
+            C1:
+              text: ''
+            D1:
+              text: D_1
+          constraints:
+          - AA1 perpendicular base plane
+          - CC1 perpendicular base plane
+      width_hint: 55mm
+  - type: problem
+    id: q12-plane-plane-perp-judge
+    points: 5
+    stem_latex: '如果一个平面经过另一个平面的一条垂线，那么这两个平面互相垂直。
+
+      \[
+
+      \left.
+
+      \begin{aligned}
+
+      a&\subset\beta\\
+
+      a&\perp\alpha
+
+      \end{aligned}
+
+      \right\}
+
+      \Longrightarrow
+
+      \underline{\hspace{24mm}}
+
+      \]
+
+      '
+    diagram_slot:
+      slot_id: q12-plane-plane-perp-judge.prompt
+      diagram_ref: q12-plane-plane-perp-judge.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: ''
+      engine: spatial_renderer
+      diagram_kind: spatial_geometry
+      teaching_intent: theorem_recall_prompt
+      semantic_constraints:
+        given_objects:
+        - a
+        - alpha
+        - beta
+        given_constraints:
+        - a in beta
+        - a perpendicular alpha
+      engine_options:
+        spatial_spec:
+          projection: isometric_hidden_axes
+          points3d:
+            M1:
+            - 0
+            - 0
+            - 0
+            M2:
+            - 3.1
+            - 0
+            - 0
+            A:
+            - 0.1
+            - 1.35
+            - 0
+            B:
+            - 3.0
+            - 1.35
+            - 0
+            C:
+            - 0
+            - 0
+            - 1.8
+            D:
+            - 3.1
+            - 0
+            - 1.8
+            alpha:
+            - 2.85
+            - 1.1
+            - 0
+            beta:
+            - 2.75
+            - 0
+            - 1.55
+            m:
+            - 1.6
+            - 0
+            - 0
+            A0:
+            - 1.1
+            - 0
+            - 0
+            A1p:
+            - 1.1
+            - 0
+            - 1.55
+            a:
+            - 1.1
+            - 0
+            - 1.72
+          segments:
+          - from: M1
+            to: M2
+            stroke: '#2563eb'
+            stroke_width: 2.3
+          - from: A
+            to: B
+          - from: B
+            to: M2
+          - from: M2
+            to: M1
+          - from: M1
+            to: A
+          - from: C
+            to: D
+          - from: D
+            to: M2
+          - from: M2
+            to: M1
+          - from: M1
+            to: C
+          - from: A0
+            to: A1p
+            stroke: '#f97316'
+            stroke_width: 2.5
+          polygons:
+          - points:
+            - M1
+            - M2
+            - B
+            - A
+            fill: '#ecfeff'
+            stroke: '#94a3b8'
+            stroke_width: 1.1
+          - points:
+            - M1
+            - M2
+            - D
+            - C
+            fill: '#fef3c7'
+            stroke: '#94a3b8'
+            stroke_width: 1.1
+          markers:
+          - type: right_angle
+            vertex: A0
+            arms:
+            - A1p
+            - M2
+          labels:
+            M1:
+              text: ''
+            M2:
+              text: ''
+            alpha:
+              text: α
+            beta:
+              text: β
+            m:
+              text: m
+            a:
+              text: a
+            A0:
+              text: ''
+            A1p:
+              text: ''
+            B:
+              text: ''
+            D:
+              text: ''
+            A:
+              text: ''
+            C:
+              text: ''
+          constraints:
+          - alpha perpendicular beta at line m
+          - a in beta
+          - a perpendicular alpha
+      width_hint: 55mm
+  - type: problem
+    id: q13-plane-plane-perp-property
+    points: 5
+    stem_latex: '两个平面垂直，在一个平面内垂直于交线的直线，垂直于另一个平面。
+
+      \[
+
+      \left.
+
+      \begin{aligned}
+
+      \alpha&\perp\beta\\
+
+      \alpha\cap\beta&=m\\
+
+      a&\subset\alpha,\quad a\perp m
+
+      \end{aligned}
+
+      \right\}
+
+      \Longrightarrow
+
+      \underline{\hspace{22mm}}
+
+      \]
+
+      '
+    diagram_slot:
+      slot_id: q13-plane-plane-perp-property.prompt
+      diagram_ref: q13-plane-plane-perp-property.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: ''
+      engine: spatial_renderer
+      diagram_kind: spatial_geometry
+      teaching_intent: theorem_recall_prompt
+      semantic_constraints:
+        given_objects:
+        - alpha
+        - beta
+        - m
+        - a
+        given_constraints:
+        - alpha perpendicular beta
+        - a in alpha perpendicular intersection line m
+      engine_options:
+        spatial_spec:
+          projection: isometric_hidden_axes
+          points3d:
+            M1:
+            - 0
+            - 0
+            - 0
+            M2:
+            - 3.1
+            - 0
+            - 0
+            A:
+            - 0.1
+            - 1.35
+            - 0
+            B:
+            - 3.0
+            - 1.35
+            - 0
+            C:
+            - 0
+            - 0
+            - 1.8
+            D:
+            - 3.1
+            - 0
+            - 1.8
+            alpha:
+            - 2.85
+            - 1.1
+            - 0
+            beta:
+            - 2.75
+            - 0
+            - 1.55
+            m:
+            - 1.6
+            - 0
+            - 0
+            P:
+            - 1.4
+            - 0
+            - 0
+            Q:
+            - 1.4
+            - 1.15
+            - 0
+            a:
+            - 1.4
+            - 1.32
+            - 0
+          segments:
+          - from: M1
+            to: M2
+            stroke: '#2563eb'
+            stroke_width: 2.3
+          - from: A
+            to: B
+          - from: B
+            to: M2
+          - from: M2
+            to: M1
+          - from: M1
+            to: A
+          - from: C
+            to: D
+          - from: D
+            to: M2
+          - from: M2
+            to: M1
+          - from: M1
+            to: C
+          - from: P
+            to: Q
+            stroke: '#f97316'
+            stroke_width: 2.5
+          polygons:
+          - points:
+            - M1
+            - M2
+            - B
+            - A
+            fill: '#ecfeff'
+            stroke: '#94a3b8'
+            stroke_width: 1.1
+          - points:
+            - M1
+            - M2
+            - D
+            - C
+            fill: '#fef3c7'
+            stroke: '#94a3b8'
+            stroke_width: 1.1
+          markers:
+          - type: right_angle
+            vertex: P
+            arms:
+            - Q
+            - M2
+          labels:
+            M1:
+              text: ''
+            M2:
+              text: ''
+            alpha:
+              text: α
+            beta:
+              text: β
+            m:
+              text: m
+            P:
+              text: P
+            a:
+              text: a
+            B:
+              text: ''
+            D:
+              text: ''
+            A:
+              text: ''
+            C:
+              text: ''
+          constraints:
+          - alpha perpendicular beta at line m
+          - a in alpha
+          - a perpendicular m at P
+      width_hint: 55mm
+  - type: problem
+    id: q14-three-perpendicular
+    points: 5
+    stem_latex: '三垂线定理：平面内一条直线若垂直于斜线在这个平面内的射影，则它垂直于这条斜线。
+
+      \[
+
+      \left.
+
+      \begin{aligned}
+
+      PA&\perp\alpha\\
+
+      AB&\text{ 是 }PB\text{ 在 }\alpha\text{ 内的射影}\\
+
+      l&\subset\alpha,\quad l\perp AB
+
+      \end{aligned}
+
+      \right\}
+
+      \Longrightarrow
+
+      \underline{\hspace{20mm}}
+
+      \]
+
+      '
+    diagram_slot:
+      slot_id: q14-three-perpendicular.prompt
+      diagram_ref: q14-three-perpendicular.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: ''
+      engine: spatial_renderer
+      diagram_kind: spatial_geometry
+      teaching_intent: theorem_recall_prompt
+      semantic_constraints:
+        given_objects:
+        - P
+        - A
+        - B
+        - l
+        - alpha
+        given_constraints:
+        - PA perpendicular alpha
+        - AB projection of PB
+        - l in alpha perpendicular AB
+      engine_options:
+        spatial_spec:
+          projection: isometric_hidden_axes
+          points3d:
+            U:
+            - -0.4
+            - -0.35
+            - 0
+            V:
+            - 3.1
+            - -0.35
+            - 0
+            W:
+            - 3.5
+            - 1.45
+            - 0
+            X:
+            - 0.0
+            - 1.45
+            - 0
+            alpha:
+            - 3.15
+            - 1.28
+            - 0
+            A:
+            - 1.45
+            - 0.65
+            - 0
+            P:
+            - 1.45
+            - 0.65
+            - 1.45
+            B:
+            - 2.45
+            - 0.95
+            - 0
+            L1:
+            - 0.7
+            - 0.95
+            - 0
+            L2:
+            - 3.0
+            - 0.95
+            - 0
+            l:
+            - 3.12
+            - 0.95
+            - 0
+          segments:
+          - from: U
+            to: V
+          - from: V
+            to: W
+          - from: W
+            to: X
+          - from: X
+            to: U
+          - from: A
+            to: P
+            stroke: '#f97316'
+            stroke_width: 2.3
+          - from: A
+            to: B
+            stroke: '#2563eb'
+            stroke_width: 2.3
+          - from: B
+            to: P
+            stroke: '#7c3aed'
+            stroke_width: 2.3
+          - from: L1
+            to: L2
+            stroke: '#16a34a'
+            stroke_width: 2.2
+          polygons:
+          - points:
+            - U
+            - V
+            - W
+            - X
+            fill: '#eff6ff'
+            stroke: '#94a3b8'
+            stroke_width: 1.2
+          markers:
+          - type: right_angle
+            vertex: B
+            arms:
+            - A
+            - L2
+          labels:
+            alpha:
+              text: α
+            A:
+              text: A
+            B:
+              text: B
+            P:
+              text: P
+            l:
+              text: l
+            X:
+              text: ''
+            V:
+              text: ''
+            W:
+              text: ''
+            L2:
+              text: ''
+            U:
+              text: ''
+            L1:
+              text: ''
+          constraints:
+          - plane alpha
+      width_hint: 55mm
+- id: angle
+  title: 四、角与距离
+  type: practice
+  visibility: student
+  blocks:
+  - type: problem
+    id: q15-skew-angle
+    points: 5
+    stem_latex: '求异面直线所成的角，可以把其中一条直线平移到与另一条相交的位置，再取锐角或直角。
+
+      \[
+
+      \left.
+
+      \begin{aligned}
+
+      a''&\parallel a\\
+
+      a''\cap b&=O
+
+      \end{aligned}
+
+      \right\}
+
+      \Longrightarrow
+
+      \angle(a,b)=\underline{\hspace{28mm}}
+
+      \]
+
+      '
+    diagram_slot:
+      slot_id: q15-skew-angle.prompt
+      diagram_ref: q15-skew-angle.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: ''
+      engine: spatial_renderer
+      diagram_kind: spatial_geometry
+      teaching_intent: theorem_recall_prompt
+      semantic_constraints:
+        given_objects:
+        - a
+        - b
+        - a_prime
+        - O
+        given_constraints:
+        - translate one skew line to intersect the other
+      engine_options:
+        spatial_spec:
+          projection: isometric_hidden_axes
+          points3d:
+            A:
+            - 0
+            - 0
+            - 0
+            B:
+            - 3
+            - 0
+            - 0
+            C:
+            - 3
+            - 2.1
+            - 0
+            D:
+            - 0
+            - 2.1
+            - 0
+            A1:
+            - 0
+            - 0
+            - 2.0
+            B1:
+            - 3
+            - 0
+            - 2.0
+            C1:
+            - 3
+            - 2.1
+            - 2.0
+            D1:
+            - 0
+            - 2.1
+            - 2.0
+          segments:
+          - from: A
+            to: B
+          - from: B
+            to: C
+          - from: C
+            to: D
+          - from: D
+            to: A
+          - from: A1
+            to: B1
+          - from: B1
+            to: C1
+          - from: C1
+            to: D1
+          - from: D1
+            to: A1
+          - from: A
+            to: A1
+          - from: B
+            to: B1
+          - from: C
+            to: C1
+          - from: D
+            to: D1
+          - from: A
+            to: B
+            stroke: '#2563eb'
+            stroke_width: 2.3
+          - from: C
+            to: D1
+            stroke: '#f97316'
+            stroke_width: 2.3
+          - from: C
+            to: D
+            stroke: '#16a34a'
+            stroke_width: 2.0
+          polygons:
+          - points:
+            - A
+            - B
+            - C
+            - D
+            fill: '#eff6ff'
+            stroke: '#94a3b8'
+            stroke_width: 1.2
+          - points:
+            - A1
+            - B1
+            - C1
+            - D1
+            fill: '#f8fafc'
+            stroke: '#94a3b8'
+            stroke_width: 1.2
+          markers: []
+          labels:
+            A:
+              text: A
+            B:
+              text: B
+            C:
+              text: C
+            D:
+              text: D
+            A1:
+              text: A_1
+            B1:
+              text: ''
+            C1:
+              text: ''
+            D1:
+              text: D_1
+          constraints:
+          - AB and CD1 are skew lines
+          - CD parallel AB through C
+      width_hint: 55mm
+  - type: problem
+    id: q16-line-plane-angle
+    points: 5
+    stem_latex: '一条斜线和它在平面内的射影所成的锐角，叫做这条直线和平面所成的角。
+
+      \[
+
+      \left.
+
+      \begin{aligned}
+
+      AB&\text{ 是 }l\text{ 在 }\alpha\text{ 内的射影}
+
+      \end{aligned}
+
+      \right\}
+
+      \Longrightarrow
+
+      \angle(l,\alpha)=\underline{\hspace{24mm}}
+
+      \]
+
+      '
+    diagram_slot:
+      slot_id: q16-line-plane-angle.prompt
+      diagram_ref: q16-line-plane-angle.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: ''
+      engine: spatial_renderer
+      diagram_kind: spatial_geometry
+      teaching_intent: theorem_recall_prompt
+      semantic_constraints:
+        given_objects:
+        - l
+        - alpha
+        - projection
+        given_constraints:
+        - line and its projection on alpha
+      engine_options:
+        spatial_spec:
+          projection: isometric_hidden_axes
+          points3d:
+            U:
+            - -0.4
+            - -0.35
+            - 0
+            V:
+            - 3.1
+            - -0.35
+            - 0
+            W:
+            - 3.5
+            - 1.45
+            - 0
+            X:
+            - 0.0
+            - 1.45
+            - 0
+            alpha:
+            - 3.15
+            - 1.28
+            - 0
+            A:
+            - 0.75
+            - 0.75
+            - 0
+            B:
+            - 2.35
+            - 0.95
+            - 0
+            P:
+            - 2.35
+            - 0.95
+            - 1.35
+            l:
+            - 2.5
+            - 1.05
+            - 1.48
+            proj:
+            - 1.65
+            - 0.86
+            - 0
+          segments:
+          - from: U
+            to: V
+          - from: V
+            to: W
+          - from: W
+            to: X
+          - from: X
+            to: U
+          - from: A
+            to: P
+            stroke: '#f97316'
+            stroke_width: 2.4
+          - from: P
+            to: B
+            stroke: '#16a34a'
+            stroke_width: 2.1
+          - from: A
+            to: B
+            stroke: '#2563eb'
+            stroke_width: 2.3
+          polygons:
+          - points:
+            - U
+            - V
+            - W
+            - X
+            fill: '#eff6ff'
+            stroke: '#94a3b8'
+            stroke_width: 1.2
+          markers:
+          - type: right_angle
+            vertex: B
+            arms:
+            - P
+            - A
+          labels:
+            alpha:
+              text: α
+            A:
+              text: A
+            B:
+              text: B
+            P:
+              text: P
+            l:
+              text: l
+            proj:
+              text: l'
+            X:
+              text: ''
+            V:
+              text: ''
+            W:
+              text: ''
+            U:
+              text: ''
+          constraints:
+          - plane alpha
+      width_hint: 55mm
+  - type: problem
+    id: q17-dihedral-angle
+    points: 5
+    stem_latex: '在二面角的棱上取一点，在两个半平面内分别作垂直于棱的射线，这两条射线所成的角叫二面角的平面角。
+
+      \[
+
+      \left.
+
+      \begin{aligned}
+
+      O&\in l\\
+
+      OA&\subset\alpha,\quad OA\perp l\\
+
+      OB&\subset\beta,\quad OB\perp l
+
+      \end{aligned}
+
+      \right\}
+
+      \Longrightarrow
+
+      \angle AOB=\underline{\hspace{28mm}}
+
+      \]
+
+      '
+    diagram_slot:
+      slot_id: q17-dihedral-angle.prompt
+      diagram_ref: q17-dihedral-angle.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: ''
+      engine: spatial_renderer
+      diagram_kind: spatial_geometry
+      teaching_intent: theorem_recall_prompt
+      semantic_constraints:
+        given_objects:
+        - alpha
+        - beta
+        - l
+        - O
+        - A
+        - B
+        given_constraints:
+        - OA and OB perpendicular to edge l
+      engine_options:
+        spatial_spec:
+          projection: isometric_hidden_axes
+          points3d:
+            M1:
+            - 0
+            - 0
+            - 0
+            M2:
+            - 3.1
+            - 0
+            - 0
+            A:
+            - 1.55
+            - 1.05
+            - 0
+            B:
+            - 1.55
+            - 0
+            - 1.25
+            C:
+            - 0
+            - 0
+            - 1.8
+            D:
+            - 3.1
+            - 0
+            - 1.8
+            alpha:
+            - 2.85
+            - 1.1
+            - 0
+            beta:
+            - 2.75
+            - 0
+            - 1.55
+            m:
+            - 1.6
+            - 0
+            - 0
+            O:
+            - 1.55
+            - 0
+            - 0
+          segments:
+          - from: M1
+            to: M2
+            stroke: '#2563eb'
+            stroke_width: 2.3
+          - from: A
+            to: B
+          - from: B
+            to: M2
+          - from: M2
+            to: M1
+          - from: M1
+            to: A
+          - from: C
+            to: D
+          - from: D
+            to: M2
+          - from: M2
+            to: M1
+          - from: M1
+            to: C
+          - from: O
+            to: A
+            stroke: '#f97316'
+            stroke_width: 2.4
+          - from: O
+            to: B
+            stroke: '#16a34a'
+            stroke_width: 2.4
+          polygons:
+          - points:
+            - M1
+            - M2
+            - B
+            - A
+            fill: '#ecfeff'
+            stroke: '#94a3b8'
+            stroke_width: 1.1
+          - points:
+            - M1
+            - M2
+            - D
+            - C
+            fill: '#fef3c7'
+            stroke: '#94a3b8'
+            stroke_width: 1.1
+          markers:
+          - type: right_angle
+            vertex: O
+            arms:
+            - A
+            - M2
+          - type: right_angle
+            vertex: O
+            arms:
+            - B
+            - M2
+          labels:
+            M1:
+              text: ''
+            M2:
+              text: ''
+            alpha:
+              text: α
+            beta:
+              text: β
+            m:
+              text: m
+            O:
+              text: O
+            A:
+              text: A
+            B:
+              text: B
+            D:
+              text: ''
+            C:
+              text: ''
+          constraints:
+          - alpha perpendicular beta at line m
+          - OA perpendicular m in alpha
+          - OB perpendicular m in beta
+      width_hint: 55mm
+  - type: problem
+    id: q18-distance-projection
+    points: 5
+    stem_latex: '点到平面的距离是点到这个平面的垂线段长；平面图形在另一个平面上的射影面积满足 $S''=S\cos\theta$。
+
+      \[
+
+      \left.
+
+      \begin{aligned}
+
+      PH&\perp\alpha\\
+
+      H&\in\alpha
+
+      \end{aligned}
+
+      \right\}
+
+      \Longrightarrow
+
+      d(P,\alpha)=\underline{\hspace{18mm}},\quad S''=\underline{\hspace{20mm}}
+
+      \]
+
+      '
+    diagram_slot:
+      slot_id: q18-distance-projection.prompt
+      diagram_ref: q18-distance-projection.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: ''
+      engine: spatial_renderer
+      diagram_kind: spatial_geometry
+      teaching_intent: theorem_recall_prompt
+      semantic_constraints:
+        given_objects:
+        - P
+        - H
+        - alpha
+        - triangle ABC
+        given_constraints:
+        - PH perpendicular alpha
+        - H in alpha
+      engine_options:
+        spatial_spec:
+          projection: isometric_hidden_axes
+          points3d:
+            U:
+            - -0.4
+            - -0.35
+            - 0
+            V:
+            - 3.1
+            - -0.35
+            - 0
+            W:
+            - 3.5
+            - 1.45
+            - 0
+            X:
+            - 0.0
+            - 1.45
+            - 0
+            alpha:
+            - 3.15
+            - 1.28
+            - 0
+            P:
+            - 1.4
+            - 0.7
+            - 1.35
+            H:
+            - 1.4
+            - 0.7
+            - 0
+            A:
+            - 0.75
+            - 0.55
+            - 0
+            B:
+            - 2.35
+            - 0.55
+            - 0
+            C:
+            - 1.55
+            - 1.18
+            - 0
+          segments:
+          - from: U
+            to: V
+          - from: V
+            to: W
+          - from: W
+            to: X
+          - from: X
+            to: U
+          - from: P
+            to: H
+            stroke: '#f97316'
+            stroke_width: 2.4
+          - from: A
+            to: B
+            stroke: '#2563eb'
+            stroke_width: 2.1
+          - from: B
+            to: C
+            stroke: '#2563eb'
+            stroke_width: 2.1
+          - from: C
+            to: A
+            stroke: '#2563eb'
+            stroke_width: 2.1
+          polygons:
+          - points:
+            - U
+            - V
+            - W
+            - X
+            fill: '#eff6ff'
+            stroke: '#94a3b8'
+            stroke_width: 1.2
+          markers:
+          - type: right_angle
+            vertex: H
+            arms:
+            - P
+            - B
+          labels:
+            alpha:
+              text: α
+            P:
+              text: P
+            H:
+              text: H
+            A:
+              text: A
+            B:
+              text: B
+            C:
+              text: C
+            X:
+              text: ''
+            V:
+              text: ''
+            W:
+              text: ''
+            U:
+              text: ''
+          constraints:
+          - plane alpha
+      width_hint: 55mm

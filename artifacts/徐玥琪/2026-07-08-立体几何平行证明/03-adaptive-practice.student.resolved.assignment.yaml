@@ -1,0 +1,291 @@
+meta:
+  title: 立体几何平行证明 · 分层练习
+  subtitle: 徐玥琪 · 学生版
+  grade: 高一
+  subject: 数学
+  duration: 45分钟
+  total_points: 90
+  version: student
+  source_artifacts:
+    plan: docs/立体几何学习规划/03-平行证明讲义方案.md
+    explanation: artifacts/徐玥琪/2026-07-08-立体几何平行证明/02-student-explanation.plan.assignment.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: basic
+  title: 一、基础档：正方体中直接套判定（共 21 分）
+  type: practice
+  visibility: student
+  blocks:
+  - type: choice
+    id: q1
+    points: 5
+    stem: 给出四个判断：① 若直线 $a\parallel b$，$b\subset$ 平面 $\alpha$，$a\not\subset\alpha$，则
+      $a\parallel\alpha$；② 若直线 $a\parallel$ 平面 $\alpha$，则 $a$ 与 $\alpha$ 内任意一条直线都平行；③
+      若 $a\parallel\alpha$，过 $a$ 作平面 $\beta$ 交 $\alpha$ 于直线 $b$，则 $a\parallel b$；④
+      若 $a\parallel b$，$b\subset\alpha$，$a\subset\alpha$，则 $a\parallel\alpha$。其中正确的个数是（    ）。
+    choices:
+      A: '1'
+      B: '2'
+      C: '3'
+      D: '4'
+    hints:
+    - content: 逐条对照判定与性质定理的前提；注意 $a$ 是否在平面内。
+    answer: ''
+  - type: fillin
+    id: q2
+    points: 6
+    stem: 如图，在正方体 $ABCD$-$A_{1}B_{1}C_{1}D_{1}$ 中，$M$、$N$ 分别是 $A_{1}B_{1}$、$B_{1}C_{1}$
+      的中点。线段 $MN$ 与面对角线 \underline{\hspace{3em}} 平行（填一条面对角线的字母）。
+    hints:
+    - content: $MN$ 是哪个三角形的中位线？再看它和哪条对角线共端点。
+    answer: ''
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/q2-prompt/rendered/prompt.fragment.tex
+      diagram_ref: q2.prompt
+      diagram_job_id: q2-prompt
+      width: 60mm
+      caption: $MN$ 是 $\triangle A_{1}B_{1}C_{1}$ 的中位线。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:24babee1dbfec17d6378b57e8fc75ec336f9b558be8deca4ba0d45a363f7471f
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: q3
+    points: 10
+    label: 第 3 题
+    stem_latex: '如图，在正方体 $ABCD$-$A_{1}B_{1}C_{1}D_{1}$ 中，$E$ 为棱 $DD_{1}$ 的中点。求证：$BD_{1}\parallel$
+      平面 $AEC$。
+
+      '
+    hints:
+    - content: 证线面平行用判定（凑）。在平面 $AEC$ 里找一条与 $BD_{1}$ 平行的线——取 $AC\cap BD=O$，连 $OE$。
+    answer_space:
+      type: steps
+      height: 55mm
+      step_count: 4
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/q3-prompt/rendered/prompt.fragment.tex
+      diagram_ref: q3.prompt
+      diagram_job_id: q3-prompt
+      width: 60mm
+      caption: $O$ 是 $AC$ 与 $BD$ 的交点，连 $OE$ 看中位线。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:db6de26770f65fa5064a4924db7bed439ca2d08f77c339ccc24535f6e3767e0c
+      packages:
+      - tikz
+      libraries: []
+- id: medium
+  title: 二、中档档：取中点连线，造面内平行线（共 39 分）
+  type: practice
+  visibility: student
+  layout:
+    break_before: true
+  blocks:
+  - type: fillin
+    id: q4
+    points: 7
+    stem: 如图，在三棱柱 $ABC$-$A_{1}B_{1}C_{1}$ 中，$D$、$E$ 分别是棱 $CC_{1}$、$AB$ 的中点。要在平面 $AB_{1}C_{1}$
+      内找到与 $DE$ 平行的直线，应取 \underline{\hspace{3em}} 的中点 $H$，再连 $HC_{1}$。
+    hints:
+    - content: 想平行四边形：$H$ 取好后，四边形 $EHC_{1}D$ 要能证成平行四边形。
+    answer: ''
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/q4-prompt/rendered/prompt.fragment.tex
+      diagram_ref: q4.prompt
+      diagram_job_id: q4-prompt
+      width: 60mm
+      caption: 三棱柱中 $D$、$E$ 为中点，构造平行四边形 $EHC_{1}D$。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:710a6e2a3653ec190da7910362f6a72ce3cb524db249da5c413401c1ff1696ba
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: q5
+    points: 11
+    label: 第 5 题
+    stem_latex: '如图，在三棱柱 $ABC$-$A_{1}B_{1}C_{1}$ 中，$D$、$E$ 分别是棱 $CC_{1}$、$AB$ 的中点。求证：$DE\parallel$
+      平面 $AB_{1}C_{1}$。
+
+      '
+    hints:
+    - content: 取 $AB_{1}$ 的中点 $H$，连 $EH$、$HC_{1}$，先证四边形 $EHC_{1}D$ 是平行四边形。
+    answer_space:
+      type: steps
+      height: 65mm
+      step_count: 5
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/q5-prompt/rendered/prompt.fragment.tex
+      diagram_ref: q5.prompt
+      diagram_job_id: q5-prompt
+      width: 60mm
+      caption: 取 $H$ 为 $AB_{1}$ 中点，证 $EHC_{1}D$ 为平行四边形。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:5ac2e89119fd4af42aef50b43b0d6efe6e03759df220b8a5f043f1c40943db0c
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: q6
+    points: 11
+    label: 第 6 题
+    stem_latex: '如图，在四棱锥 $P$-$ABCD$ 中，底面 $ABCD$ 为平行四边形，$O$ 为 $AC$ 与 $BD$ 的交点，$M$ 为
+      $PC$ 的中点。已知 $AP\parallel$ 平面 $BDM$，过 $A$、$P$ 的平面交平面 $BDM$ 于直线 $l$。求证：$AP\parallel
+      l$。
+
+      '
+    hints:
+    - content: 这是性质定理（向下用）：连 $MO$ 看中位线，再写出两个平面的交线。
+    answer_space:
+      type: steps
+      height: 60mm
+      step_count: 5
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/q6-prompt/rendered/prompt.fragment.tex
+      diagram_ref: q6.prompt
+      diagram_job_id: q6-prompt
+      width: 60mm
+      caption: $MO$ 是 $\triangle PAC$ 的中位线，$MO\parallel AP$ 且在面 $BDM$ 内。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:8cd318cc0716cf8e2236b45a660cad22381a1200e2a079ab6aea6f0de0646d0a
+      packages:
+      - tikz
+      libraries: []
+  - type: choice
+    id: q7
+    points: 10
+    stem: 如图，在四棱锥 $P$-$ABCD$ 中，$M$、$N$ 分别在 $AC$、$PC$ 上，且 $MN\parallel$ 平面 $PAD$，则
+      $MN$ 与 $PA$ 的位置关系是（    ）。
+    choices:
+      A: $MN\parallel PD$
+      B: $MN\parallel PA$
+      C: $MN\parallel AD$
+      D: 都有可能
+    hints:
+    - content: $MN\subset$ 平面 $PAC$，平面 $PAC\cap$ 平面 $PAD=PA$，由线面平行性质得结论。
+    answer: ''
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/q7-prompt/rendered/prompt.fragment.tex
+      diagram_ref: q7.prompt
+      diagram_job_id: q7-prompt
+      width: 60mm
+      caption: 找到含 $MN$ 的辅助面与平面 $PAD$ 的交线。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:5e2f3de12872b0aee04565f54ca09202c7a7825d3dbcdcb533c3534e066fb4b8
+      packages:
+      - tikz
+      libraries: []
+- id: advanced
+  title: 三、提高档：面面与线面混用 + 中点比例（共 30 分）
+  type: practice
+  visibility: student
+  layout:
+    break_before: true
+  blocks:
+  - type: problem
+    id: q8
+    points: 10
+    label: 第 8 题
+    stem_latex: '如图，在四棱锥 $P$-$ABCD$ 中，底面四边形 $ABCD$ 满足 $AB\parallel CD$ 且 $AB=2CD$，$E$
+      为 $PB$ 的中点。求证：$CE\parallel$ 平面 $PAD$。
+
+      '
+    hints:
+    - content: 取 $AB$ 中点 $F$，连 $EF$、$CF$。证 $AD\parallel CF$、$EF\parallel PA$，凑出面面平行，再用面面平行的性质。
+    answer_space:
+      type: steps
+      height: 75mm
+      step_count: 6
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/q8-prompt/rendered/prompt.fragment.tex
+      diagram_ref: q8.prompt
+      diagram_job_id: q8-prompt
+      width: 60mm
+      caption: 取 $F$ 为 $AB$ 中点，证面 $PAD\parallel$ 面 $CEF$，再用其他性质。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:92ba6daa4efbe4bb76fa182dd4726216b45533006e336b3db25b6719661a1b19
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: q9
+    points: 10
+    label: 第 9 题
+    stem_latex: '如图，在四棱柱 $ABCD$-$A_{1}B_{1}C_{1}D_{1}$ 中，底面 $ABCD$ 为梯形且 $AD\parallel
+      BC$。设过 $A_{1}$、$D$、$C$ 三点的平面与棱 $BB_{1}$ 交于点 $E$。求证：$EC\parallel A_{1}D$。
+
+      '
+    hints:
+    - content: 用 $BE\parallel AA_{1}$、$BC\parallel AD$ 证面 $BCE\parallel$ 面 $AA_{1}D$（判定），再用面面平行性质。注意相交前提。
+    answer_space:
+      type: steps
+      height: 75mm
+      step_count: 6
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/q9-prompt/rendered/prompt.fragment.tex
+      diagram_ref: q9.prompt
+      diagram_job_id: q9-prompt
+      width: 60mm
+      caption: 证面 $BCE\parallel$ 面 $AA_{1}D$，两面被面 $A_{1}DCE$ 截出两条平行交线。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:314b1ae1d5eab19830b230020cb053b9466b62aa0d8f9e5f273dfc4a8440b695
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: q10
+    points: 10
+    label: 第 10 题
+    stem_latex: "如图，在平行六面体 $ABCD$-$A_{1}B_{1}C_{1}D_{1}$ 中，$E$ 为棱 $AA_{1}$ 的中点，$O$\
+      \ 为 $A_{1}C_{1}$ 与 $B_{1}D_{1}$ 的交点。求证：\n\\begin{enumerate}[label=(\\arabic*)]\n\
+      \  \\item $EO\\parallel AC_{1}$；\n  \\item $AC_{1}\\parallel$ 平面 $EB_{1}D_{1}$。\n\
+      \\end{enumerate}\n"
+    hints:
+    - content: (1) $E$、$O$ 分别是 $AA_{1}$、$A_{1}C_{1}$ 的中点，$EO$ 是 $\triangle AA_{1}C_{1}$
+        的中位线；(2) 由 (1) 在面 $EB_{1}D_{1}$ 内找到平行线，套判定。
+    answer_space:
+      type: steps
+      height: 70mm
+      step_count: 6
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/q10-prompt/rendered/prompt.fragment.tex
+      diagram_ref: q10.prompt
+      diagram_job_id: q10-prompt
+      width: 60mm
+      caption: $O$ 是上底面对角线交点，$EO$ 中位线平行 $AC_{1}$。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:79e8c7b53024618e8ec5ff1caf2634b49d4bdae8d725d3709978c98769aac11f
+      packages:
+      - tikz
+      libraries: []

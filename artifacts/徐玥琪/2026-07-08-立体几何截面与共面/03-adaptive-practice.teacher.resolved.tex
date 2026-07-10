@@ -1,0 +1,267 @@
+\documentclass{exam-zh}
+\usepackage{edu-practice}
+
+\examsetup{
+  question/show-answer = true,
+  fillin/show-answer = true,
+  solution/show-solution = show-stay,
+}
+
+% ---------- 教师版解答样式 ----------
+\newtcolorbox{solutionblock}{
+  enhanced, breakable,
+  colback=edu-blue-bg,
+  colframe=edu-blue!25,
+  boxrule=0pt,
+  borderline west={2pt}{0pt}{edu-blue!50},
+  arc=0pt,
+  left=3mm, right=3mm, top=2mm, bottom=2mm,
+  before skip=2mm,
+  after skip=3mm,
+  fontupper=\small,
+}
+
+% 解答步骤编号
+\newcounter{solstep}
+\newcommand{\solstep}[2]{%
+  \stepcounter{solstep}%
+  \par\medskip
+  \noindent\hangindent=6mm
+  {\color{edu-blue}\bfseries\textcircled{\scriptsize\thesolstep}\enspace #1}\enspace #2\par
+}
+
+\begin{document}
+
+\section*{立体几何截面与共面练习}
+
+\section*{一、基础档（判定确定平面）}
+
+
+\needspace{14\baselineskip}
+\begin{question}[points=6]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    下列条件中，能够确定一个平面的是（    ）
+    \begin{hintbox}
+\textbf{提示：}先看每个选项缺哪个前提——三点是否不共线？点是否在线外？三条线是否共面？两个点能不能定面？\end{hintbox}
+
+    \par
+    \begin{choices}[columns=1]
+      \item 空间中的三个点
+      \item 一条直线和直线外的一个点
+      \item 空间中两两相交的三条直线
+      \item 两个公共点
+    \end{choices}
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{四个选项分别画出示意图，数各自能定几个面。}
+  \input{\detokenize{build/diagram/jobs/practice-teacher-q1-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \paren[B]
+  \begin{solutionblock}
+    A 错：三点共线时不能确定平面（有无数个面过该直线）；
+B 对：由推论①，一条直线与直线外一点确定唯一平面；
+C 错：三条直线若交于同一点（共点），可确定 $1$ 个或 $3$ 个平面，不唯一；
+D 错：两个点只能确定一条直线，不能确定平面。
+故选 B。
+  \end{solutionblock}
+\end{question}
+
+
+
+
+\begin{question}[points=6]
+  已知直线 $l$ 和 $l$ 外不共线的三点 $A,B,C$。由 $l$ 与这三个点最多能确定 \underline{\quad\quad} 个平面；其中 $l$ 与每个点各确定 \underline{\quad} 个，三点本身还能再确定 \underline{\quad} 个。
+  \begin{hintbox}
+\textbf{提示：}先固定"线+点"这条主路数（推论①），再单独看三点之间能不能再凑出平面（三点不共线）。\end{hintbox}
+
+  \paren[4；1；1]
+  \begin{solutionblock}
+    由推论①，直线 $l$ 与线外一点确定一个平面，$A,B,C$ 各与 $l$ 最多各定 $1$ 个面，共 $3$ 个；
+又 $A,B,C$ 不共线，由基本事实1还能再确定 $1$ 个面（且该面不过 $l$）。
+最多 $3+1=4$ 个。关键判据：哪个点能与 $l$ 落在同一面里就少算一个。
+  \end{solutionblock}
+\end{question}
+
+
+
+\begin{question}[points=6]
+  已知点 $M$ 在直线 $a$ 上，直线 $a$ 在平面 $\alpha$ 内，则 $M,a,\alpha$ 的关系记作 $M$ \underline{\quad} $a$ \underline{\quad} $\alpha$；
+若直线 $a\subset$ 平面 $\alpha$，直线 $b\subset$ 平面 $\alpha$，$M\in a$，$N\in b$，且 $M,N$ 都在直线 $l$ 上，则 $l$ 与 $\alpha$ 的关系是 $l$ \underline{\quad} $\alpha$。（填 $\in$ 或 $\subset$）
+  \begin{hintbox}
+\textbf{提示：}点用 $\in$、线面用 $\subset$；线上两点都在面内，整条线在面内。\end{hintbox}
+
+  \paren[$\in$；$\subset$；$\subset$]
+  \begin{solutionblock}
+    点 $M$ 在直线 $a$ 上写 $M\in a$；直线 $a$ 在面 $\alpha$ 内写 $a\subset\alpha$，故 $M\in a\subset\alpha$。
+第二问：$M\in a\subset\alpha\Rightarrow M\in\alpha$，同理 $N\in\alpha$；$M,N$ 都在直线 $l$ 上且都在 $\alpha$ 内，由基本事实2得 $l\subset\alpha$。
+  \end{solutionblock}
+\end{question}
+
+
+\section*{二、中档档（画简单截面 + 延长线找交点）}
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=9]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，在正方体 $ABCD\text{-}A_1B_1C_1D_1$ 中，$E$ 为棱 $B_1C_1$ 的中点。画出过 $A,C,E$ 三点的平面与正方体表面相交所得到的截面，并简述每条边分别落在哪个表面上。
+
+    \begin{hintbox}
+\textbf{提示：}先找截面与每个表面已有的公共点：$A,C$ 在底面，$E$ 在上底面；同在一个面内的两个公共点直接连线即一条边。截面边必须落在表面上。\end{hintbox}
+
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{正方体，E 为 B1C1 中点，过 A、C、E 画截面。}
+  \input{\detokenize{build/diagram/jobs/practice-teacher-q4-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[52mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}截面为四边形 $ACEF$，其中 $F$ 为 $A_1B_1$ 的中点（满足 $EF\parallel AC$）。
+四条边分别落在：$AC$ 落在底面 $ABCD$；$CE$ 落在侧面 $BCC_1B_1$；$EF$ 落在上底面 $A_1B_1C_1D_1$；$FA$ 落在侧面 $ABB_1A_1$。\par\medskip
+    \solstep{找底面上的边}{$A,C\in$ 底面 $ABCD$，连 $AC$，是截面与底面的交边。}
+    \solstep{找含 E 的侧面边}{$C,E\in$ 侧面 $BCC_1B_1$，连 $CE$，是截面与该侧面的交边。}
+    \solstep{定上底面交线}{截面与上底面交线过 $E$ 且 $\parallel AC$，过 $E$ 作 $EF\parallel A_1C_1$ 交 $A_1B_1$ 于中点 $F$。}
+    \solstep{补第四条边并核验}{$A,F\in$ 侧面 $ABB_1A_1$，连 $AF$；截面四边形 $ACEF$ 四条边分别落在四个表面上。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，在长方体 $ABCD\text{-}A_1B_1C_1D_1$ 中，$E$、$F$ 分别为棱 $DD_1$、$C_1D_1$ 的中点。画出平面 $AEF$ 与底面 $ABCD$ 的交线。（要求：画出必要的延长线，并标出辅助交点。）
+
+    \begin{hintbox}
+\textbf{提示：}截面和底面已有一个公共点 $A$；要找第二个公共点，注意 $E,F$ 都在侧面 $CDD_1C_1$ 所在平面内——在该平面内延长 $EF$，交点会落在哪条底面棱（或其延长线）上？\end{hintbox}
+
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{长方体，E 为 DD1 中点、F 为 C1D1 中点，画平面 AEF 与底面 ABCD 的交线。}
+  \input{\detokenize{build/diagram/jobs/practice-teacher-q5-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[60mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}在侧面 $CDD_1C_1$ 所在平面内延长 $EF$，与底面棱 $CD$ 的延长线交于点 $M$（$M$ 在 $D$ 的一侧，$DM=\tfrac12 CD$）；
+连接 $AM$，则直线 $AM$ 即平面 $AEF$ 与底面 $ABCD$ 的交线。\par\medskip
+    \solstep{找第一个公共点}{$A$ 同时在截面（过 $A$）和底面 $ABCD$ 上，是第一个公共点。}
+    \solstep{选延长所在的侧面平面}{$E,F$ 都在侧面 $CDD_1C_1$ 所在平面内，在该平面内可延长 $EF$ 找交点。}
+    \solstep{延长找第二个公共点}{在侧面 $CDD_1C_1$ 所在平面内延长 $EF$，交 $CD$ 的延长线于 $M$；$M\in$ 底面 $ABCD$。}
+    \solstep{核验 M 是公共点}{$M\in EF\subset$ 平面 $AEF$，且 $M\in CD\subset$ 底面 $ABCD$，故 $M$ 是第二个公共点。}
+    \solstep{两点连线即交线}{由基本事实3，连接 $AM$，直线 $AM$ 即平面 $AEF$ 与底面 $ABCD$ 的交线。}
+  \end{solutionblock}
+\end{problem}
+
+
+
+\needspace{14\baselineskip}
+\begin{question}[points=6]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    用一个平面去截一个四棱锥，截面形状不可能是（    ）
+    \begin{hintbox}
+\textbf{提示：}截面边数不超过"截面能切到的面数"。四棱锥一共有几个面（含底面）？最多能切到几个面，截面边数上限就是几。\end{hintbox}
+
+    \par
+    \begin{choices}[columns=1]
+      \item 三角形
+      \item 四边形
+      \item 五边形
+      \item 六边形
+    \end{choices}
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{四棱锥有 5 个面（1 底面 + 4 侧面），截面边数最多 5。}
+  \input{\detokenize{build/diagram/jobs/practice-teacher-q6-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \paren[D]
+  \begin{solutionblock}
+    四棱锥共有 $5$ 个面（$1$ 个底面 $+4$ 个侧面）。截面与几何体表面的交线（截面边）最多等于截面能切到的面数，故截面边数最多为 $5$（五边形）。
+六边形需要切到 $6$ 个面，而四棱锥只有 $5$ 个面，不可能。
+故选 D。
+  \end{solutionblock}
+\end{question}
+
+
+
+\section*{三、提高档（证明两线共面）}
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，在正方体 $ABCD\text{-}A_1B_1C_1D_1$ 中，$E$、$F$ 分别为棱 $AB$、$AA_1$ 的中点。
+求证：$E,F,D_1,C$ 四点共面。
+
+    \begin{hintbox}
+\textbf{提示：}把四点配成两条线 $EF$ 和 $CD_1$，只需证它们平行（推论③）。$EF$ 在哪个三角形里是中位线？它和哪条棱平行？这条棱又和 $CD_1$ 什么关系？\end{hintbox}
+
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{正方体，E、F 为中点，证 E,F,D1,C 共面。}
+  \input{\detokenize{build/diagram/jobs/practice-teacher-q7-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[56mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}见解析，结论成立（$EF\parallel D_1C$，由推论③共面）。\par\medskip
+    \solstep{把四点配成两条线}{连 $EF$ 与 $D_1C$，目标证 $EF\parallel D_1C$。}
+    \solstep{用中位线证 EF 平行}{在 $\triangle AA_1B$ 中，$E,F$ 为 $AB,AA_1$ 中点，故 $EF\parallel A_1B$。}
+    \solstep{桥接到 D1C}{正方体中面 $ABB_1A_1\parallel$ 面 $DCC_1D_1$，对应线 $A_1B\parallel D_1C$。}
+    \solstep{传递得平行}{由 $EF\parallel A_1B\parallel D_1C$，得 $EF\parallel D_1C$。}
+    \solstep{由推论③定面}{$EF\parallel D_1C$，由推论③确定一个平面，故 $E,F,D_1,C$ 共面。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=13]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，在空间四边形 $ABCD$ 中，$E$、$F$ 分别是 $AB$、$AD$ 的中点，$G$、$H$ 分别是 $BC$、$CD$\ \ 上的点，且 $CG:GB=CH:HD=1:2$。
+\begin{enumerate}[label=(\arabic*)]
+  \item\ \ 求证：$E,F,H,G$ 四点共面；
+  \item 设直线 $EH$ 与 $FG$ 所确定的平面为 $\alpha$，判断直线 $BD$ 与平面\ \ $\alpha$ 的位置关系（相交、平行或在平面内），并说明理由。
+\end{enumerate}
+
+    \begin{hintbox}
+\textbf{提示：}(1) $E,F$ 是中点 ⇒ $EF\parallel BD$ 且 $EF=\tfrac12BD$；$G,H$ 按同比取点 ⇒ $GH\parallel BD$。两条线都平行于 $BD$ ⇒ 它们互相平行 ⇒ 共面（推论③）。(2) $EH$（或 $FG$）和 $BD$ 在 $\triangle ABD$（或相关）所在平面内，它们会不会相交？\end{hintbox}
+
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{空间四边形 ABCD，E、F 为 AB、AD 中点，G、H 按 1:2 分 BC、CD。}
+  \input{\detokenize{build/diagram/jobs/practice-teacher-q8-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[68mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}(1) $E,F,H,G$ 四点共面（证明见解析）。
+(2) 直线 $BD$ 与平面 $\alpha$ 平行（$BD\parallel\alpha$）。\par\medskip
+    \solstep{(1) 证 EF∥BD}{在 $\triangle ABD$ 中，$E,F$ 为 $AB,AD$ 中点，故 $EF\parallel BD$。}
+    \solstep{(1) 证 GH∥BD}{在 $\triangle BCD$ 中，$\tfrac{CG}{CB}=\tfrac{CH}{CD}=\tfrac13$，故 $GH\parallel BD$。}
+    \solstep{(1) 传递平行并定面}{$EF\parallel BD\parallel GH$，故 $EF\parallel GH$，由推论③ $E,F,H,G$ 共面。}
+    \solstep{(2) 找面内的平行线}{由 (1) $EF\subset\alpha$ 且 $BD\parallel EF$。}
+    \solstep{(2) 排除 BD 在面内}{$E$ 为 $AB$ 中点，$E\notin BD$，故 $BD$ 与 $EF$ 不重合，$BD\not\subset\alpha$。}
+    \solstep{(2) 下结论}{由线面平行判定（$EF\subset\alpha$，$BD\parallel EF$，$BD\not\subset\alpha$），得 $BD\parallel\alpha$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\clearpage
+\section*{答案速查}
+
+
+
+
+\end{document}

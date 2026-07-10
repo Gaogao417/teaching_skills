@@ -1,0 +1,24 @@
+\input{fixed_theorem_diagrams/tikz/_fixed_diagram_styles.tex}
+\tdplotsetmaincoords{65}{115}
+\begin{tikzpicture}[tdplot_main_coords,theorem diagram]
+  \coordinate (pta1) at (0,0,0);
+  \coordinate (pta2) at (3.8,0,0);
+  \coordinate (pta3) at (3.8,1.25,0);
+  \coordinate (pta4) at (0,1.25,0);
+  \coordinate (ptb1) at (0.35,0.62,0);
+  \coordinate (ptb2) at (3.35,0.62,0);
+  \coordinate (ptb3) at (3.35,0.62,1.2);
+  \coordinate (ptb4) at (0.35,0.62,1.2);
+  \coordinate (ptl1) at (0.35,0.62,0);
+  \coordinate (ptl2) at (3.35,0.62,0);
+  \coordinate (ptu1) at (0.8,0.62,0.8);
+  \coordinate (ptu2) at (3.25,0.62,0.8);
+  \draw[plane] (pta1) -- (pta2) -- (pta3) -- (pta4) -- cycle;
+  \draw[planeB] (ptb1) -- (ptb2) -- (ptb3) -- (ptb4) -- cycle;
+  \node[label] at (pta3) {$\alpha$};
+  \node[label] at (ptb3) {$\beta$};
+  \draw[main] (ptu1) -- (ptu2);
+  \node[label,right] at (ptu2) {$a$};
+  \draw[third,intersection line] (ptl1) -- (ptl2);
+  \node[label,right] at (ptl2) {$b$};
+\end{tikzpicture}

@@ -1,0 +1,1381 @@
+meta:
+  title: 立体几何距离与角 · 练习（教师版）
+  subtitle: 距离找高（等体积法），角找截面（射影、平面角）
+  grade: 高一
+  subject: 数学
+  duration: 45分钟
+  total_points: 96
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    plan: docs/立体几何学习规划/05-距离与角讲义方案.md
+    explanation: artifacts/徐玥琪/2026-07-08-立体几何距离与角/02-student-explanation.plan.assignment.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: choice
+  title: 一、选择题（每题 8 分，共 16 分）
+  type: practice
+  visibility: teacher
+  blocks:
+  - type: choice
+    id: c1
+    points: 8
+    label: 第 1 题（基础）
+    stem: 直线 $l$ 与平面 $\alpha$ 斜交，$l$ 上一点 $P$（斜足外）在 $\alpha$ 内的射影为 $P'$，斜足为 $A$。下列说法正确的是（　　）。
+    choices:
+      A: 直线 $l$ 与平面 $\alpha$ 所成的角是 $\angle PAP'$
+      B: 直线 $l$ 与平面 $\alpha$ 所成的角是 $\angle lAA'$，其中 $AA'\perp\alpha$
+      C: 直线 $l$ 与平面 $\alpha$ 所成的角是 $l$ 与 $\alpha$ 内任意一条直线的夹角
+      D: 线面角可以大于 $90^\circ$
+    hints:
+    - content: 线面角 = 斜线与其在面内射影的夹角。先有垂线才有射影。
+    diagram_slot:
+      slot_id: practice.c1.prompt
+      diagram_ref: practice.c1.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: false
+      on_failure: omit_diagram
+      placement: block_center
+      layout_role: center_block
+      display_profile: worksheet_geometry_center
+      caption: 斜线 $l$、斜足 $A$、射影 $AP'$。
+      engine: spatial_renderer
+      diagram_kind: spatial_geometry
+      teaching_intent: practice_prompt
+      semantic_constraints:
+        given_objects:
+        - l
+        - alpha
+        - P
+        - A
+        given_constraints:
+        - PA斜交alpha于A
+        - PP'垂直alpha
+      engine_options:
+        spatial_spec:
+          projection: isometric_hidden_axes
+          points3d:
+            U:
+            - -0.4
+            - -0.35
+            - 0
+            V:
+            - 3.0
+            - -0.35
+            - 0
+            W:
+            - 3.4
+            - 1.6
+            - 0
+            X:
+            - 0.0
+            - 1.6
+            - 0
+            aL:
+            - 0.25
+            - 2.0
+            - 0.65
+            aR:
+            - 2.75
+            - 2.0
+            - 0.65
+            bL:
+            - 0.35
+            - 0.45
+            - 0
+            bR:
+            - 2.75
+            - 0.45
+            - 0
+            P:
+            - 1.5
+            - 0.45
+            - 0
+            A:
+            - 0.95
+            - 1.766
+            - 0.15
+          segments:
+          - from: U
+            to: V
+          - from: V
+            to: W
+          - from: W
+            to: X
+          - from: X
+            to: U
+          - from: aL
+            to: aR
+          - from: bL
+            to: bR
+          - from: A
+            to: P
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          polygons:
+          - points:
+            - U
+            - V
+            - W
+            - X
+            fill: '#eff6ff'
+            stroke: '#94a3b8'
+            stroke_width: 1.2
+          markers: []
+          labels:
+            U:
+              text: ' '
+            V:
+              text: ' '
+            W:
+              text: ' '
+            X:
+              text: ' '
+            aL:
+              text: a
+            aR:
+              text: ' '
+            bL:
+              text: b
+            bR:
+              text: ' '
+            P:
+              text: P
+            A:
+              text: A
+          constraints:
+          - l
+          - alpha
+          - P
+          - A
+          - PA斜交alpha于A
+          - PP'垂直alpha
+          teaching_focus:
+          - 斜线 $l$、斜足 $A$、射影 $AP'$。
+    answer: A
+    explanation: 线面角定义为斜线与其在面内射影的夹角。$P$ 的射影为 $P'$，斜足为 $A$，射影即 $AP'$，故线面角为 $\angle PAP'$，选 A。B 误在再作垂线混淆对象；C 射影是唯一确定的，不是任意直线；D 线面角范围为 $[0^\circ,90^\circ]$。
+    teaching:
+      teaching_goal: 辨析线面角定义：斜线与射影的夹角
+      source_relations:
+      - fallback:structure_analysis
+      expected_blocker: 线面角取成斜线与面内某条棱的夹角
+      entry_point: read_context
+      scaffold_level: high
+      variation_depth: changed_representation
+      complexity_note: 概念辨析，无计算
+      fallback_move: 回到"先有垂线才有射影"
+  - type: choice
+    id: c7
+    points: 8
+    label: 第 7 题（提高）
+    stem: 用余弦定理算得两条异面直线平移后的夹角 $\theta$ 满足 $\cos\theta=-\dfrac{\sqrt2}{2}$。则这两条异面直线所成角为（　　）。
+    choices:
+      A: $45^\circ$
+      B: $135^\circ$
+      C: $60^\circ$
+      D: $120^\circ$
+    hints:
+    - content: 异面直线所成角范围是 $(0^\circ,90^\circ]$，算出钝角要取补角。
+    answer: A
+    explanation: 异面直线所成角规定为锐角或直角，范围 $(0^\circ,90^\circ]$。$\cos\theta=-\dfrac{\sqrt2}{2}$ 对应 $\theta=135^\circ$（钝角），须取补角 $180^\circ-135^\circ=45^\circ$（等价于对余弦取绝对值 $\left|-\dfrac{\sqrt2}{2}\right|=\dfrac{\sqrt2}{2}$）。故所成角为 $45^\circ$，选 A。
+    teaching:
+      teaching_goal: 异面直线所成角取锐角/直角的补角规则
+      source_relations:
+      - fallback:structure_analysis
+      expected_blocker: 异面角取钝角没补角，直接选 135°
+      entry_point: solve_and_check
+      scaffold_level: medium
+      variation_depth: changed_numbers
+      complexity_note: 单步判断
+      fallback_move: 复习异面角范围 $(0^\circ,90^\circ]$
+- id: fillin
+  title: 二、填空题（每题 10 分，共 20 分）
+  type: practice
+  visibility: teacher
+  blocks:
+  - type: fillin
+    id: f2
+    points: 10
+    label: 第 2 题（基础）
+    stem: 正方体 $ABCD\text{-}A_1B_1C_1D_1$ 的棱长为 $2$。则顶点 $A_1$ 到对角面 $BDD_1B_1$ 的距离为 $\underline{\hspace{2em}}$。
+    hints:
+    - content: 点面距、垂足位置不显然时，用等体积法：选一个三棱锥列 $V$ 相等。可试 $V_{A_1\text{-}BDD_1}=V_{D\text{-}A_1BD_1}$。
+    diagram_slot:
+      slot_id: practice.f2.prompt
+      diagram_ref: practice.f2.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: false
+      on_failure: omit_diagram
+      placement: block_center
+      layout_role: center_block
+      display_profile: worksheet_geometry_center
+      caption: 正方体，标出 $A_1$ 与对角面 $BDD_1B_1$。
+      engine: spatial_renderer
+      diagram_kind: spatial_geometry
+      teaching_intent: practice_prompt
+      semantic_constraints:
+        given_objects:
+        - A1
+        - B
+        - D
+        - D1
+        - B1
+        given_constraints:
+        - 正方体棱长2
+      engine_options:
+        spatial_spec:
+          projection: isometric_hidden_axes
+          points3d:
+            A:
+            - 0
+            - 0
+            - 0
+            B:
+            - 3
+            - 0
+            - 0
+            C:
+            - 3
+            - 2.1
+            - 0
+            D:
+            - 0
+            - 2.1
+            - 0
+            A1:
+            - 0
+            - 0
+            - 2.0
+            B1:
+            - 3
+            - 0
+            - 2.0
+            C1:
+            - 3
+            - 2.1
+            - 2.0
+            D1:
+            - 0
+            - 2.1
+            - 2.0
+          segments:
+          - from: A
+            to: B
+          - from: B
+            to: C
+          - from: C
+            to: D
+          - from: D
+            to: A
+          - from: A1
+            to: B1
+          - from: B1
+            to: C1
+          - from: C1
+            to: D1
+          - from: D1
+            to: A1
+          - from: A
+            to: A1
+          - from: B
+            to: B1
+          - from: C
+            to: C1
+          - from: D
+            to: D1
+          polygons:
+          - points:
+            - A
+            - B
+            - C
+            - D
+            fill: '#eff6ff'
+            stroke: '#94a3b8'
+            stroke_width: 1.2
+          - points:
+            - A1
+            - B1
+            - C1
+            - D1
+            fill: '#f8fafc'
+            stroke: '#94a3b8'
+            stroke_width: 1.2
+          markers: []
+          labels:
+            A:
+              text: A
+            B:
+              text: B
+            C:
+              text: C
+            D:
+              text: D
+            A1:
+              text: A_1
+            B1:
+              text: B_1
+            C1:
+              text: C_1
+            D1:
+              text: D_1
+          constraints:
+          - A1
+          - B
+          - D
+          - D1
+          - B1
+          - 正方体棱长2
+          teaching_focus:
+          - 正方体，标出 $A_1$ 与对角面 $BDD_1B_1$。
+    answer: $\sqrt{2}$
+    explanation: 设正方体坐标为 $A(0,0,0)$，$B(2,0,0)$，$D(0,2,0)$，$A_1(0,0,2)$，$D_1(0,2,2)$。平面 $BDD_1B_1$ 由 $B,D,D_1$ 确定，法向量可取 $(1,1,0)$，方程为 $x+y=2$。点 $A_1(0,0,2)$ 到该平面的距离为 $\dfrac{|0+0-2|}{\sqrt{1^2+1^2}}=\sqrt2$。
+    teaching:
+      teaching_goal: 等体积法/坐标法求点面距
+      source_relations:
+      - fallback:structure_analysis
+      expected_blocker: 硬猜垂足位置，或等积方程底—高配错
+      entry_point: build_relation
+      scaffold_level: medium
+      variation_depth: changed_numbers
+      complexity_note: 等体积法一次，小整数
+      fallback_move: 垂足不显然立刻转等体积
+    solution_steps:
+    - title: 建系写平面方程
+      content: 取 $B(2,0,0)$，$D(0,2,0)$，$D_1(0,2,2)$，平面 $BDD_1B_1$ 的方程为 $x+y=2$。
+    - title: 点面距离公式
+      content: $A_1(0,0,2)$ 到 $x+y=2$ 的距离为 $\dfrac{2}{\sqrt2}=\sqrt2$。
+  - type: fillin
+    id: f4
+    points: 10
+    label: 第 4 题（中档）
+    stem: 正四棱锥 $P\text{-}ABCD$ 的底面边长为 $2$，侧棱 $PA=3$，$O$ 为底面中心。则侧棱 $PA$ 与底面 $ABCD$ 所成角的正切值为 $\underline{\hspace{2em}}$。
+    hints:
+    - content: 侧棱与底面的线面角 = 斜线 $PA$ 与射影 $AO$ 的夹角。先求高 $PO$ 和 $AO$。
+    diagram_slot:
+      slot_id: practice.f4.prompt
+      diagram_ref: practice.f4.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: false
+      on_failure: omit_diagram
+      placement: block_center
+      layout_role: center_block
+      display_profile: worksheet_geometry_center
+      caption: 正四棱锥，标出侧棱 $PA$、底面中心 $O$ 与高 $PO$。
+      engine: spatial_renderer
+      diagram_kind: spatial_geometry
+      teaching_intent: practice_prompt
+      semantic_constraints:
+        given_objects:
+        - P
+        - A
+        - B
+        - C
+        - D
+        - O
+        given_constraints:
+        - ABCD正方形边长2
+        - PA=3
+      engine_options:
+        spatial_spec:
+          projection: isometric_hidden_axes
+          points3d:
+            A:
+            - 0
+            - 0
+            - 0
+            B:
+            - 3
+            - 0
+            - 0
+            C:
+            - 0.8
+            - 2.1
+            - 0
+            S:
+            - 1.0
+            - 0.75
+            - 2.4
+            O:
+            - 0.4
+            - 1.05
+            - 0.0
+            P:
+            - 2.1858
+            - 1.6818
+            - 0.0
+            D:
+            - 2.1858
+            - 0.1182
+            - 0.3
+          segments:
+          - from: A
+            to: B
+          - from: B
+            to: C
+          - from: C
+            to: A
+          - from: P
+            to: A
+          - from: P
+            to: B
+            dash: dashed
+          - from: P
+            to: C
+            dash: dashed
+          - from: S
+            to: A
+          - from: S
+            to: B
+            dash: dashed
+          - from: S
+            to: C
+            dash: dashed
+          - from: P
+            to: A
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: P
+            to: O
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          polygons:
+          - points:
+            - A
+            - B
+            - C
+            fill: '#eff6ff'
+            stroke: '#94a3b8'
+            stroke_width: 1.2
+          markers: []
+          labels:
+            A:
+              text: A
+            B:
+              text: B
+            C:
+              text: C
+            S:
+              text: S
+            O:
+              text: O
+            P:
+              text: P
+            D:
+              text: D
+          constraints:
+          - P
+          - A
+          - B
+          - C
+          - D
+          - O
+          - ABCD正方形边长2
+          - PA=3
+          teaching_focus:
+          - 正四棱锥，标出侧棱 $PA$、底面中心 $O$ 与高 $PO$。
+    answer: $\dfrac{\sqrt{14}}{2}$
+    explanation: 正四棱锥顶点在底面射影为底面中心 $O$，$PO\perp$ 底面，$AO$ 为 $PA$ 在底面射影，$\angle PAO$ 即所求线面角。$AO=\dfrac12 AC=\dfrac12\cdot 2\sqrt2=\sqrt2$，$PO=\sqrt{PA^2-AO^2}=\sqrt{9-2}=\sqrt7$。故 $\tan\angle PAO=\dfrac{PO}{AO}=\dfrac{\sqrt7}{\sqrt2}=\dfrac{\sqrt{14}}{2}$。
+    teaching:
+      teaching_goal: 线面角：找射影，直角三角形里算正切
+      source_relations:
+      - fallback:structure_analysis
+      expected_blocker: 线面角取成 $PA$ 与棱 $AB$ 的夹角，或把正余弦搞反
+      entry_point: find_entry
+      scaffold_level: medium
+      variation_depth: changed_numbers
+      complexity_note: 一次勾股，简单根式
+      fallback_move: 先写 $PO\perp$ 底面得射影 $AO$
+- id: problem
+  title: 三、解答题（共 60 分）
+  type: practice
+  visibility: teacher
+  blocks:
+  - type: problem
+    id: p3
+    points: 12
+    label: 第 3 题（基础，12 分）
+    stem_latex: "正方体 $ABCD\\text{-}A_1B_1C_1D_1$ 的棱长为 $2$，$O$ 为 $AC$ 与 $BD$ 的交点。\n\\begin{enumerate}[label=(\\arabic*)]\n  \\item 证明 $BD_1\\perp AC$；\n  \\item 求截面 $AB_1C$ 与底面 $ABCD$ 所成二面角 $A\\text{-}AC\\text{-}B_1$ 的余弦值。\n\\end{enumerate}\n"
+    hints:
+    - content: （1）用三垂线定理：$BD\perp AC$，$D_1D\perp$ 底面，得 $BD_1\perp AC$。（2）$BD_1\perp AC$，$BD\perp AC$，$\angle D_1BD$ 是平面角。
+    diagram_slot:
+      slot_id: practice.p3.prompt
+      diagram_ref: practice.p3.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: false
+      on_failure: omit_diagram
+      placement: block_center
+      layout_role: center_block
+      display_profile: worksheet_geometry_center
+      caption: 正方体，标出截面 $AB_1C$ 与对角线 $BD_1$。
+      engine: spatial_renderer
+      diagram_kind: spatial_geometry
+      teaching_intent: practice_prompt
+      semantic_constraints:
+        given_objects:
+        - A
+        - B1
+        - C
+        - BD1
+        - B
+        - D
+        - A1
+        - C1
+        - D1
+        - O
+        - AB1C
+        given_constraints:
+        - 正方体棱长2
+      engine_options:
+        spatial_spec:
+          projection: isometric_hidden_axes
+          points3d:
+            A:
+            - 0
+            - 0
+            - 0
+            B:
+            - 3.0
+            - 0
+            - 0
+            C:
+            - 3.0
+            - -2.1
+            - 0
+            D:
+            - 0
+            - -2.1
+            - 0
+            A1:
+            - 0
+            - 0
+            - -2.0
+            B1:
+            - 3.0
+            - 0
+            - -2.0
+            C1:
+            - 3.0
+            - -2.1
+            - -2.0
+            D1:
+            - 0
+            - -2.1
+            - -2.0
+            O:
+            - 1.5
+            - -1.05
+            - 0
+          segments:
+          - from: A
+            to: B
+          - from: B
+            to: C
+          - from: C
+            to: D
+          - from: D
+            to: A
+          - from: A1
+            to: B1
+          - from: B1
+            to: C1
+          - from: C1
+            to: D1
+          - from: D1
+            to: A1
+          - from: A
+            to: A1
+          - from: B
+            to: B1
+          - from: C
+            to: C1
+          - from: D
+            to: D1
+          - from: A
+            to: C
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: B
+            to: D1
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: A
+            to: B1
+            stroke: '#16a34a'
+            stroke_width: 2.0
+          - from: B1
+            to: C
+            stroke: '#16a34a'
+            stroke_width: 2.0
+          - from: O
+            to: B
+            stroke: '#64748b'
+            stroke_width: 1.6
+            dash: dashed
+          - from: O
+            to: B1
+            stroke: '#64748b'
+            stroke_width: 1.6
+            dash: dashed
+          polygons:
+          - points:
+            - A
+            - B
+            - C
+            - D
+            fill: '#eff6ff'
+            stroke: '#94a3b8'
+            stroke_width: 1.2
+          - points:
+            - A
+            - B1
+            - C
+            fill: '#ecfdf5'
+            stroke: '#16a34a'
+            stroke_width: 1.2
+          markers: []
+          labels:
+            A:
+              text: A
+            B:
+              text: B
+            C:
+              text: C
+            D:
+              text: D
+            A1:
+              text: A_1
+            B1:
+              text: B_1
+            C1:
+              text: C_1
+            D1:
+              text: D_1
+            O:
+              text: O
+          constraints:
+          - A
+          - B
+          - C
+          - D
+          - A1
+          - B1
+          - C1
+          - D1
+          - O
+          - BD1
+          - AB1C
+          - 正方体棱长2
+          - O midpoint of AC and BD
+          teaching_focus:
+          - 正方体，标出截面 $AB_1C$ 与对角线 $BD_1$。
+    answer: (1) 见解析；(2) $\dfrac{\sqrt3}{3}$。
+    solution_steps:
+    - title: (1) 三垂线定理证 $BD_1\perp AC$
+      content: 正方形对角线 $BD\perp AC$，$D_1D\perp$ 底面 $ABCD$，$BD$ 为 $BD_1$ 在底面射影，由三垂线定理得 $BD_1\perp AC$。
+    - title: (2) 定棱与平面角顶点
+      content: 截面 $AB_1C$ 与底面 $ABCD$ 的棱为 $AC$。取 $AC$ 中点 $O$（$O$ 在棱上）。正方形中 $OB\perp AC$（对角线互相垂直平分）；$BB_1\perp$ 底面，$OB$ 为 $OB_1$ 在底面射影，由三垂线定理 $OB_1\perp AC$。故 $\angle B_1OB$ 为平面角（两边 $OB$、$OB_1$ 都 $\perp$ 棱 $AC$，顶点 $O$ 在棱上）。
+    - title: (2) 在直角三角形里算
+      content: $OB=\dfrac12 BD=\dfrac12\cdot2\sqrt2=\sqrt2$；$\text{Rt}\triangle B_1OB$ 中 $B_1B=2$，$OB_1=\sqrt{B_1B^2+OB^2}=\sqrt{4+2}=\sqrt6$。
+    - title: (2) 解余弦
+      content: $\cos\angle B_1OB=\dfrac{OB}{OB_1}=\dfrac{\sqrt2}{\sqrt6}=\dfrac{\sqrt3}{3}$，即所求二面角余弦值为 $\dfrac{\sqrt3}{3}$。
+    teaching:
+      teaching_goal: 二面角：垂线法作平面角 + 直角三角形计算
+      source_relations:
+      - fallback:structure_analysis
+      expected_blocker: 平面角两边不都垂直于棱，或取错棱
+      entry_point: build_relation
+      scaffold_level: medium
+      variation_depth: changed_numbers
+      complexity_note: 一次勾股 + 一次三角
+      fallback_move: 平面角必须两边都 $\perp$ 棱
+  - type: problem
+    id: p5
+    points: 14
+    label: 第 5 题（中档，14 分）
+    stem_latex: '在三棱锥 $P\text{-}ABC$ 中，$PA\perp$ 平面 $ABC$，$PA=2$，$AB=AC=2$，$\angle BAC=120^{\circ}$。求点 $A$ 到平面 $PBC$ 的距离。
+
+      '
+    hints:
+    - content: 点 $A$ 到面 $PBC$ 的距离用等体积法：$V_{P\text{-}ABC}=V_{A\text{-}PBC}$。先算 $S_{\triangle ABC}$ 和 $S_{\triangle PBC}$。注意 $PA\perp$ 底面，可先算 $PB$、$PC$。
+    diagram_slot:
+      slot_id: practice.p5.prompt
+      diagram_ref: practice.p5.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: false
+      on_failure: omit_diagram
+      placement: block_center
+      layout_role: center_block
+      display_profile: worksheet_geometry_center
+      caption: 三棱锥，标出 $PA\perp$ 底面及点 $A$ 到面 $PBC$ 的距离。
+      engine: spatial_renderer
+      diagram_kind: spatial_geometry
+      teaching_intent: practice_prompt
+      semantic_constraints:
+        given_objects:
+        - P
+        - A
+        - B
+        - C
+        given_constraints:
+        - PA垂直面ABC
+        - PA=2
+        - AB=AC=2
+        - angleBAC=120
+      engine_options:
+        spatial_spec:
+          projection: isometric_hidden_axes
+          points3d:
+            A:
+            - 0
+            - 0
+            - 0
+            B:
+            - 3
+            - 0
+            - 0
+            C:
+            - 0.8
+            - 2.1
+            - 0
+            S:
+            - 1.0
+            - 0.75
+            - 2.4
+            P:
+            - 2.05
+            - 1.766
+            - 0.0
+          segments:
+          - from: A
+            to: B
+          - from: B
+            to: C
+          - from: C
+            to: A
+          - from: P
+            to: A
+          - from: P
+            to: B
+            dash: dashed
+          - from: P
+            to: C
+            dash: dashed
+          - from: S
+            to: A
+          - from: S
+            to: B
+            dash: dashed
+          - from: S
+            to: C
+            dash: dashed
+          - from: A
+            to: B
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: A
+            to: C
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: P
+            to: A
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          polygons:
+          - points:
+            - A
+            - B
+            - C
+            fill: '#eff6ff'
+            stroke: '#94a3b8'
+            stroke_width: 1.2
+          markers: []
+          labels:
+            A:
+              text: A
+            B:
+              text: B
+            C:
+              text: C
+            S:
+              text: S
+            P:
+              text: P
+          constraints:
+          - P
+          - A
+          - B
+          - C
+          - PA垂直面ABC
+          - PA=2
+          - AB=AC=2
+          - angleBAC=120
+          teaching_focus:
+          - 三棱锥，标出 $PA\perp$ 底面及点 $A$ 到面 $PBC$ 的距离。
+    answer: $\dfrac{2\sqrt5}{5}$
+    solution_steps:
+    - title: 算 $S_{\triangle ABC}$
+      content: $S_{\triangle ABC}=\dfrac12\cdot AB\cdot AC\cdot\sin120^\circ=\dfrac12\cdot2\cdot2\cdot\dfrac{\sqrt3}{2}=\sqrt3$。
+    - title: 算 $PB$、$PC$、$BC$
+      content: $PA\perp$ 底面，$PB=PC=\sqrt{PA^2+AB^2}=\sqrt{4+4}=2\sqrt2$；$BC=\sqrt{AB^2+AC^2-2AB\cdot AC\cos120^\circ}=\sqrt{4+4+4}=2\sqrt3$。
+    - title: 算 $S_{\triangle PBC}$
+      content: $\triangle PBC$ 等腰（$PB=PC=2\sqrt2$），取 $BC$ 中点 $M$，$PM=\sqrt{PB^2-\left(\dfrac{BC}{2}\right)^2}=\sqrt{8-3}=\sqrt5$，$S_{\triangle PBC}=\dfrac12\cdot BC\cdot PM=\dfrac12\cdot2\sqrt3\cdot\sqrt5=\sqrt{15}$。
+    - title: 等体积法列方程
+      content: 设 $A$ 到面 $PBC$ 距离为 $d$。$V_{P\text{-}ABC}=\dfrac13 S_{\triangle ABC}\cdot PA=\dfrac13\cdot\sqrt3\cdot2=\dfrac{2\sqrt3}{3}$；$V_{A\text{-}PBC}=\dfrac13 S_{\triangle PBC}\cdot d=\dfrac13\cdot\sqrt{15}\cdot d$。
+    - title: 解 $d$
+      content: 由 $\dfrac{2\sqrt3}{3}=\dfrac13\cdot\sqrt{15}\cdot d$，得 $d=\dfrac{2\sqrt3}{\sqrt{15}}=\dfrac{2}{\sqrt5}=\dfrac{2\sqrt5}{5}$。
+    teaching:
+      teaching_goal: 等体积法求点面距（核心基本元）
+      source_relations:
+      - fallback:structure_analysis
+      expected_blocker: 等积方程底—高配错，或硬作垂线段猜垂足
+      entry_point: build_relation
+      scaffold_level: medium
+      variation_depth: changed_numbers
+      complexity_note: 等体积一次，根式化简
+      fallback_move: 点面距垂足不显然立刻转等体积
+  - type: problem
+    id: p6
+    points: 12
+    label: 第 6 题（中档，12 分）
+    stem_latex: "在正三棱柱 $ABC\\text{-}A_1B_1C_1$ 中，底面边长为 $2$，侧棱 $AA_1=2$，$D$ 为 $BC$ 的中点。\n\\begin{enumerate}[label=(\\arabic*)]\n  \\item 证明 $A_1D\\perp BC$；\n  \\item 求直线 $A_1B$ 与底面 $ABC$ 所成角的正切值。\n\\end{enumerate}\n"
+    hints:
+    - content: （1）$AD\perp BC$（正三角形中线即高），$A_1A\perp$ 底面，由三垂线定理得 $A_1D\perp BC$。（2）$A_1B$ 与底面所成角 = $A_1B$ 与射影 $AB$ 的夹角，在 $\text{Rt}\triangle A_1AB$ 中算。
+    diagram_slot:
+      slot_id: practice.p6.prompt
+      diagram_ref: practice.p6.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: false
+      on_failure: omit_diagram
+      placement: block_center
+      layout_role: center_block
+      display_profile: worksheet_geometry_center
+      caption: 正三棱柱，标出 $A_1D$、$BC$ 及 $A_1B$ 与底面的线面角。
+      engine: spatial_renderer
+      diagram_kind: spatial_geometry
+      teaching_intent: practice_prompt
+      semantic_constraints:
+        given_objects:
+        - A
+        - B
+        - C
+        - A1
+        - B1
+        - C1
+        - D
+        given_constraints:
+        - 正三棱柱底边2侧棱2
+        - D为BC中点
+      engine_options:
+        spatial_spec:
+          projection: isometric_hidden_axes
+          points3d:
+            A:
+            - 0
+            - 0
+            - 0
+            B:
+            - 3
+            - 0
+            - 0
+            C:
+            - 0.8
+            - 2.1
+            - 0
+            A1:
+            - 0
+            - 0
+            - 2.1
+            B1:
+            - 3
+            - 0
+            - 2.1
+            C1:
+            - 0.8
+            - 2.1
+            - 2.1
+            D:
+            - 1.9
+            - 1.05
+            - 0.0
+          segments:
+          - from: A
+            to: B
+          - from: B
+            to: C
+          - from: C
+            to: A
+          - from: A1
+            to: B1
+          - from: B1
+            to: C1
+          - from: C1
+            to: A1
+          - from: A
+            to: A1
+          - from: B
+            to: B1
+          - from: C
+            to: C1
+          - from: A
+            to: A1
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: A1
+            to: B
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: A1
+            to: D
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: B
+            to: C
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          polygons:
+          - points:
+            - A
+            - B
+            - C
+            fill: '#eff6ff'
+            stroke: '#94a3b8'
+            stroke_width: 1.2
+          - points:
+            - A1
+            - B1
+            - C1
+            fill: '#f8fafc'
+            stroke: '#94a3b8'
+            stroke_width: 1.2
+          markers: []
+          labels:
+            A:
+              text: A
+            B:
+              text: B
+            C:
+              text: C
+            A1:
+              text: A_1
+            B1:
+              text: B_1
+            C1:
+              text: C_1
+            D:
+              text: D
+          constraints:
+          - A
+          - B
+          - C
+          - A1
+          - B1
+          - C1
+          - D
+          - 正三棱柱底边2侧棱2
+          - D为BC中点
+          teaching_focus:
+          - 正三棱柱，标出 $A_1D$、$BC$ 及 $A_1B$ 与底面的线面角。
+    answer: (1) 见解析；(2) $\tan=1$（即 $45^\circ$）。
+    solution_steps:
+    - title: (1) 三垂线定理证 $A_1D\perp BC$
+      content: 正三角形中 $AD$ 为 $BC$ 边中线即高，$AD\perp BC$；侧棱 $AA_1\perp$ 底面 $ABC$，$AD$ 为 $A_1D$ 在底面射影，由三垂线定理得 $A_1D\perp BC$。
+    - title: (2) 定射影与线面角
+      content: $AA_1\perp$ 底面，$B$ 为斜足，$AB$ 为 $A_1B$ 在底面射影，$\angle A_1BA$ 即直线 $A_1B$ 与底面所成角。
+    - title: (2) 在直角三角形里算
+      content: $\text{Rt}\triangle A_1AB$ 中 $A_1A=2$（对边）、$AB=2$（邻边）。
+    - title: (2) 解正切
+      content: $\tan\angle A_1BA=\dfrac{A_1A}{AB}=\dfrac{2}{2}=1$，即线面角为 $45^\circ$。
+    teaching:
+      teaching_goal: 线面角：射影法 + 三垂线定理证垂直
+      source_relations:
+      - fallback:structure_analysis
+      expected_blocker: 线面角取成 $A_1B$ 与 $AD$ 或其他棱的夹角
+      entry_point: build_relation
+      scaffold_level: medium
+      variation_depth: changed_numbers
+      complexity_note: 两小问，简单根式
+      fallback_move: 先证侧棱⊥底面得射影
+  - type: problem
+    id: p8
+    points: 10
+    label: 第 8 题（提高，10 分）
+    stem_latex: '正方体 $ABCD\text{-}A_1B_1C_1D_1$ 的棱长为 $2$。求点 $D_1$ 到直线 $AC$ 的距离。
+
+      '
+    hints:
+    - content: 连 $BD$ 交 $AC$ 于 $O$。$D_1D\perp$ 底面，$BD\perp AC$，由三垂线定理 $D_1O\perp AC$，$D_1O$ 即为所求。
+    diagram_slot:
+      slot_id: practice.p8.prompt
+      diagram_ref: practice.p8.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: false
+      on_failure: omit_diagram
+      placement: block_center
+      layout_role: center_block
+      display_profile: worksheet_geometry_center
+      caption: 正方体，标出 $D_1$ 到 $AC$ 的垂线段 $D_1O$。
+      engine: spatial_renderer
+      diagram_kind: spatial_geometry
+      teaching_intent: practice_prompt
+      semantic_constraints:
+        given_objects:
+        - D1
+        - A
+        - C
+        - O
+        given_constraints:
+        - 正方体棱长2
+        - D1O垂直AC
+      engine_options:
+        spatial_spec:
+          projection: isometric_hidden_axes
+          points3d:
+            A:
+            - 0
+            - 0
+            - 0
+            B:
+            - 3
+            - 0
+            - 0
+            C:
+            - 3
+            - 2.1
+            - 0
+            D:
+            - 0
+            - 2.1
+            - 0
+            A1:
+            - 0
+            - 0
+            - 2.0
+            B1:
+            - 3
+            - 0
+            - 2.0
+            C1:
+            - 3
+            - 2.1
+            - 2.0
+            D1:
+            - 0
+            - 2.1
+            - 2.0
+            O:
+            - 0.95
+            - 0.034
+            - 0.0
+          segments:
+          - from: A
+            to: B
+          - from: B
+            to: C
+          - from: C
+            to: D
+          - from: D
+            to: A
+          - from: A1
+            to: B1
+          - from: B1
+            to: C1
+          - from: C1
+            to: D1
+          - from: D1
+            to: A1
+          - from: A
+            to: A1
+          - from: B
+            to: B1
+          - from: C
+            to: C1
+          - from: D
+            to: D1
+          - from: A
+            to: C
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: D1
+            to: O
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          polygons:
+          - points:
+            - A
+            - B
+            - C
+            - D
+            fill: '#eff6ff'
+            stroke: '#94a3b8'
+            stroke_width: 1.2
+          - points:
+            - A1
+            - B1
+            - C1
+            - D1
+            fill: '#f8fafc'
+            stroke: '#94a3b8'
+            stroke_width: 1.2
+          markers: []
+          labels:
+            A:
+              text: A
+            B:
+              text: B
+            C:
+              text: C
+            D:
+              text: D
+            A1:
+              text: A_1
+            B1:
+              text: B_1
+            C1:
+              text: C_1
+            D1:
+              text: D_1
+            O:
+              text: O
+          constraints:
+          - D1
+          - A
+          - C
+          - O
+          - 正方体棱长2
+          - D1O垂直AC
+          teaching_focus:
+          - 正方体，标出 $D_1$ 到 $AC$ 的垂线段 $D_1O$。
+    answer: $\sqrt{6}$
+    solution_steps:
+    - title: 找垂足 $O$
+      content: 连 $BD$ 交 $AC$ 于 $O$（正方形对角线交点），则 $O$ 为 $AC$ 中点。
+    - title: 三垂线定理定垂线
+      content: $D_1D\perp$ 底面，$BD\perp AC$，$DO$ 为 $D_1O$ 在底面射影，由三垂线定理得 $D_1O\perp AC$，$D_1O$ 即 $D_1$ 到 $AC$ 的距离。
+    - title: 在直角三角形里算
+      content: $\text{Rt}\triangle D_1DO$ 中 $D_1D=2$，$DO=\dfrac12 BD=\dfrac12\cdot2\sqrt2=\sqrt2$，故 $D_1O=\sqrt{D_1D^2+DO^2}=\sqrt{4+2}=\sqrt6$。
+    teaching:
+      teaching_goal: 点到线距离：三垂线定理找垂足
+      source_relations:
+      - fallback:structure_analysis
+      expected_blocker: 找不到垂足，或把 $D_1A$ 当距离
+      entry_point: find_entry
+      scaffold_level: low
+      variation_depth: changed_representation
+      complexity_note: 一次勾股
+      fallback_move: 点到线距离用三垂线找垂足
+  - type: problem
+    id: p9
+    points: 12
+    label: 第 9 题（提高，12 分）
+    stem_latex: "在棱长为 $2$ 的正四面体 $P\\text{-}ABC$ 中，$O$ 为底面 $\\triangle ABC$ 的中心。\n\\begin{enumerate}[label=(\\arabic*)]\n  \\item 求点 $P$ 到平面 $ABC$ 的距离；\n  \\item 设 $E$、$F$ 分别为 $PA$、$BC$ 的中点，求异面直线 $PA$ 与 $BC$ 的距离。\n\\end{enumerate}\n"
+    hints:
+    - content: （1）$PO\perp$ 底面，在 $\text{Rt}\triangle PAM$（$M$ 为 $BC$ 中点）里算 $PO$。（2）$E$、$F$ 为 $PA$、$BC$ 中点，$EF$ 为异面直线 $PA$ 与 $BC$ 的公垂线段，在 $\triangle PAM$ 里求 $EF$。
+    diagram_slot:
+      slot_id: practice.p9.prompt
+      diagram_ref: practice.p9.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: false
+      on_failure: omit_diagram
+      placement: block_center
+      layout_role: center_block
+      display_profile: worksheet_geometry_center
+      caption: 正四面体，标出高 $PO$ 与中点 $E$、$F$。
+      engine: spatial_renderer
+      diagram_kind: spatial_geometry
+      teaching_intent: practice_prompt
+      semantic_constraints:
+        given_objects:
+        - P
+        - A
+        - B
+        - C
+        - O
+        - E
+        - F
+        given_constraints:
+        - 正四面体棱长2
+      engine_options:
+        spatial_spec:
+          projection: isometric_hidden_axes
+          points3d:
+            A:
+            - 0
+            - 0
+            - 0
+            B:
+            - 3
+            - 0
+            - 0
+            C:
+            - 0.8
+            - 2.1
+            - 0
+            S:
+            - 1.0
+            - 0.75
+            - 2.4
+            F:
+            - 1.9
+            - 1.05
+            - 0.0
+            O:
+            - 0.4
+            - 1.05
+            - 0.0
+            P:
+            - 2.2778
+            - 1.6071
+            - 0.0
+            E:
+            - 0.7222
+            - 1.6071
+            - 0.3
+          segments:
+          - from: A
+            to: B
+          - from: B
+            to: C
+          - from: C
+            to: A
+          - from: P
+            to: A
+          - from: P
+            to: B
+            dash: dashed
+          - from: P
+            to: C
+            dash: dashed
+          - from: S
+            to: A
+          - from: S
+            to: B
+            dash: dashed
+          - from: S
+            to: C
+            dash: dashed
+          - from: B
+            to: C
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: P
+            to: A
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: P
+            to: O
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          polygons:
+          - points:
+            - A
+            - B
+            - C
+            fill: '#eff6ff'
+            stroke: '#94a3b8'
+            stroke_width: 1.2
+          markers: []
+          labels:
+            A:
+              text: A
+            B:
+              text: B
+            C:
+              text: C
+            S:
+              text: S
+            F:
+              text: F
+            O:
+              text: O
+            P:
+              text: P
+            E:
+              text: E
+          constraints:
+          - P
+          - A
+          - B
+          - C
+          - O
+          - E
+          - F
+          - 正四面体棱长2
+          teaching_focus:
+          - 正四面体，标出高 $PO$ 与中点 $E$、$F$。
+    answer: (1) $\dfrac{2\sqrt6}{3}$；(2) $\sqrt2$。
+    solution_steps:
+    - title: (1) 找高 $PO$
+      content: 正四面体顶点射影为底面中心 $O$，$PO\perp$ 底面。设 $M$ 为 $BC$ 中点，$AM=\dfrac{\sqrt3}{2}\cdot2=\sqrt3$，$AO=\dfrac23 AM=\dfrac{2\sqrt3}{3}$。
+    - title: (1) 在直角三角形里算
+      content: $\text{Rt}\triangle PAO$ 中 $PO=\sqrt{PA^2-AO^2}=\sqrt{4-\dfrac{12}{9}}=\sqrt{4-\dfrac43}=\sqrt{\dfrac83}=\dfrac{2\sqrt6}{3}$。
+    - title: (2) 证 $EF$ 为公垂线
+      content: $AM\perp BC$（正三角形中线），$PM\perp BC$（$PM=\sqrt{PO^2+OM^2}$，$OM=\dfrac{\sqrt3}{3}$，$PM=\sqrt{\dfrac83+\dfrac13}=\sqrt3$），故 $BC\perp$ 面 $PAM$。$E$ 为 $PA$ 中点，$M(=F)$ 在面 $PAM$ 内。$\triangle PAM$ 等腰（$PM=AM=\sqrt3$），$E$ 为底 $PA$ 中点，$EM\perp PA$；又 $EM\subset$ 面 $PAM$，$BC\perp EM$。故 $EF=EM$ 为 $PA$ 与 $BC$ 的公垂线段。
+    - title: (2) 求 $EF$
+      content: $\text{Rt}\triangle EAM$ 中 $AM=\sqrt3$，$AE=\dfrac12 PA=1$，$EF=EM=\sqrt{AM^2-AE^2}=\sqrt{3-1}=\sqrt2$。
+    teaching:
+      teaching_goal: 正四面体高 + 异面直线公垂线距离（综合）
+      source_relations:
+      - fallback:structure_analysis
+      model_fusion:
+        model_count: 2
+        models:
+        - 点面距(高)
+        - 异面直线公垂线距离
+        fusion_role: target_transform
+      relation_chain:
+      - step: 1
+        relation_id: fallback:点面距
+        inputs:
+          P: 顶点
+          ABC: 底面
+        outputs:
+          PO: 高=2√6/3
+        constraints_checked:
+        - PO⊥底面
+        - O为底面中心
+      - step: 2
+        relation_id: fallback:异面公垂线
+        consumes:
+          PO: step1.outputs.PO
+        inputs:
+          E: PA中点
+          F: BC中点
+        outputs:
+          EF: 公垂线段=√2
+        constraints_checked:
+        - BC⊥面PAM
+        - EM⊥PA
+      expected_blocker: 看不出 $BC\perp$ 面 $PAM$，或把 $EF$ 当成普通线段而非公垂线
+      entry_point: build_relation
+      scaffold_level: low
+      variation_depth: packaged_condition
+      complexity_note: 两小问综合，根式化简
+      fallback_move: 异面距离先证一面垂直找公垂线
+- id: answer-key
+  title: 答案速查
+  type: practice
+  visibility: teacher
+  layout:
+    break_before: true
+  blocks:
+  - type: fillin
+    id: key
+    points: 0
+    stem: 参考答案：第1题 A；第2题 $\sqrt2$；第4题 $\dfrac{\sqrt{14}}{2}$；第7题 A。
+    answer: —
+  - type: fillin
+    id: key2
+    points: 0
+    stem: 第3题 (1) 三垂线定理 $BD_1\perp AC$；(2) 余弦 $\dfrac{\sqrt3}{3}$（平面角 $\angle B_1OB$）。第5题 $\dfrac{2\sqrt5}{5}$。第6题 (1) 三垂线定理；(2) $\tan=1$。第8题 $\sqrt6$。第9题 (1) $\dfrac{2\sqrt6}{3}$；(2) $\sqrt2$。
+    answer: —

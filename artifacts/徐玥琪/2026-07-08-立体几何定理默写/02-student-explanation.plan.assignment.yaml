@@ -1,0 +1,1826 @@
+meta:
+  title: 立体几何默写定理库 · 讲义
+  subtitle: 徐玥琪 · 学生讲义
+  grade: 高一
+  subject: 数学
+  version: student
+  source_artifacts:
+    structure_analysis: docs/立体几何学习规划/01-默写题作业方案.md
+render:
+  template: exam-zh-explanation
+  paper_size: a4paper
+sections:
+- id: category-a-arrange
+  title: A 类整理：点线面关系的三条逻辑主线
+  show_title: true
+  type: explanation
+  visibility: student
+  blocks:
+  - type: solution
+    id: knowledge-map
+    title: 结构图：立体几何定理库的三条主线
+    items:
+    - content_latex: '\begin{center}
+
+        \begin{tikzpicture}[x=1cm,y=1cm,>=stealth, font=\small]
+
+        \node[draw=edu-blue!80, fill=edu-blue!10, rounded corners=3pt, align=center, inner sep=5pt, font=\bfseries] (root) at (0,0) {立体几何定理库的三条主线};
+
+        \node[draw=green!70, fill=green!8, rounded corners=2pt, align=center, inner sep=4pt, minimum width=28mm] (inc) at (-4,1.6) {从属\\点在线上\\两点在面内};
+
+        \node[draw=orange!70, fill=orange!8, rounded corners=2pt, align=center, inner sep=4pt, minimum width=28mm] (plane) at (0,1.9) {定面\\不共线三点\\线+点/相交线/平行线};
+
+        \node[draw=purple!70, fill=purple!8, rounded corners=2pt, align=center, inner sep=4pt, minimum width=28mm] (rel) at (4,1.6) {关系转化\\平行\\垂直};
+
+        \node[draw=teal!70, fill=teal!8, rounded corners=2pt, align=center, inner sep=4pt, minimum width=28mm] (angle) at (0,-1.9) {角与距离\\射影\\垂线\\平面角};
+
+        \draw[->, thick, edu-blue!70] (root) -- node[above, sloped, font=\scriptsize] {记符号} (inc);
+
+        \draw[->, thick, edu-blue!70] (root) -- node[above, sloped, font=\scriptsize] {定对象} (plane);
+
+        \draw[->, thick, edu-blue!70] (root) -- node[above, sloped, font=\scriptsize] {补条件} (rel);
+
+        \draw[->, thick, edu-blue!70] (root) -- node[above, sloped, font=\scriptsize] {找垂线} (angle);
+
+        \end{tikzpicture}
+
+        \end{center}'
+    - latex: \textbf{总口令：}先判对象，再补中间条件；写成“条件组 $\Rightarrow$ 结论”，不要写成长段解释。
+  - type: solution
+    id: a-main-lines
+    title: 三条主线：从属关系（基本事实2是桥）／公共点→交线（基本事实3）／定面（基本事实1+推论①②③）
+    items:
+    - latex: \textbf{主线一·从属关系：}点属于线、线属于面，靠基本事实2搭桥。$A\in l$，$B\in l$，$A\in\alpha$，$B\in\alpha\Rightarrow l\subset\alpha$。即“点在线上 + 两点在面内 $\Rightarrow$ 整条线在面内”。
+    - latex: \textbf{主线二·公共点$\to$交线：}两个不重合的平面有一个公共点 $\Rightarrow$ 有且只有一条过该点的交线。$P\in\alpha$，$P\in\beta\Rightarrow\alpha\cap\beta=l$，$P\in l$。这是“面和面怎么发生关系”的入口。
+    - latex: \textbf{主线三·定面：}基本事实1（3 个不共线点$\Rightarrow$平面）+ 推论①（直线+外一点）、推论②（两条相交直线）、推论③（两条平行直线），四条都在回答“多少东西能确定一个平面”。
+    - content_latex: '\begin{tabular}{p{0.20\linewidth}p{0.62\linewidth}}
+
+        \textbf{符号} & \textbf{含义}\\
+
+        $A\in l$ & 点 $A$ 在直线 $l$ 上\\
+
+        $l\subset\alpha$ & 直线 $l$ 在平面 $\alpha$ 内（$\alpha$ 经过 $l$）\\
+
+        $\alpha\cap\beta=l$ & 平面 $\alpha$ 与 $\beta$ 相交于直线 $l$\\
+
+        \end{tabular}
+
+        '
+    - content_latex: '\begin{tabular}{p{0.18\linewidth}p{0.24\linewidth}p{0.40\linewidth}}
+
+        \textbf{分类} & \textbf{对象} & \textbf{三类情况}\\
+
+        线线 & 直线与直线 & 相交 / 平行 / 异面\\
+
+        线面 & 直线与平面 & 在面内 / 相交 / 平行\\
+
+        面面 & 平面与平面 & 平行 / 相交\\
+
+        \end{tabular}
+
+        '
+  - type: mistake
+    id: a-mistake
+    title: 易错提醒
+    content_latex: 别把“从属关系（$\in/\subset$，讲归属）”和“位置关系分类（相交/平行/异面，讲怎么摆）”混在一起。判断时先问一句：这条定理讲的是“谁属于谁”还是“怎么摆”？基本事实 2 是从属关系的桥，基本事实 3 是交线的入口。
+- id: category-b-parallel
+  title: B 类定理卡·平行：给图、一步推理、补中间条件
+  show_title: true
+  type: explanation
+  visibility: student
+  layout:
+    break_before: true
+  blocks:
+  - type: solution
+    id: card-line-plane-parallel-judge
+    title: 定理卡·线面平行判定：在面内找平行线
+    items:
+    - latex: \textbf{几何语言：}$a\not\subset\alpha$，$b\subset\alpha$，$a\parallel b\Rightarrow a\parallel\alpha$。
+    - latex: \textbf{口令：}线线平行 $\Rightarrow$ 线面平行。在面内找一条与已知直线平行的线。
+    - latex: \textbf{易错前提：}$a\not\subset\alpha$（线在面外）与 $b\subset\alpha$（线在面内）两条缺一不可；少写“平面内”判定不成立。
+  - type: problemcard
+    id: ex-lp-parallel-judge
+    label: 例1·线面平行判定
+    stem_latex: '如图，$a\parallel b$，$b\subset\alpha$。求证：$a\parallel\alpha$。
+
+      \par\noindent 留空：中间需要补的前提条件是 \underline{\hspace{20mm}}。
+
+      '
+    diagram_slot:
+      slot_id: explanation.ex-lp-parallel-judge.prompt
+      diagram_ref: explanation.ex-lp-parallel-judge.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: block_center
+      layout_role: center_block
+      display_profile: worksheet_geometry_center
+      caption: 直线 a 在平面外、b 在平面内，且 a 与 b 平行。
+      engine: spatial_renderer
+      diagram_kind: spatial_geometry
+      teaching_intent: explanation_prompt
+      semantic_constraints:
+        given_objects:
+        - a
+        - b
+        - alpha
+        given_constraints:
+        - b 在平面 alpha 内
+        - a 在平面 alpha 外
+        - a 平行 b
+        clean_forbidden:
+        - 不要写答案或结论
+      engine_options:
+        spatial_spec:
+          projection: isometric_hidden_axes
+          points3d:
+            U:
+            - -0.4
+            - -0.35
+            - 0
+            V:
+            - 3.0
+            - -0.35
+            - 0
+            W:
+            - 3.45
+            - 1.55
+            - 0
+            X:
+            - 0.05
+            - 1.55
+            - 0
+            aL:
+            - 0.25
+            - 1.85
+            - 0.75
+            aR:
+            - 2.8
+            - 1.85
+            - 0.75
+            bL:
+            - 0.35
+            - 0.55
+            - 0
+            bR:
+            - 2.65
+            - 0.55
+            - 0
+          segments:
+          - from: U
+            to: V
+          - from: V
+            to: W
+          - from: W
+            to: X
+          - from: X
+            to: U
+          - from: aL
+            to: aR
+            stroke: '#2563eb'
+            stroke_width: 2.2
+          - from: bL
+            to: bR
+            stroke: '#2563eb'
+            stroke_width: 2.2
+          polygons:
+          - points:
+            - U
+            - V
+            - W
+            - X
+            fill: '#eff6ff'
+            stroke: '#94a3b8'
+            stroke_width: 1.2
+          markers:
+          - type: parallel
+            segments:
+            - - aL
+              - aR
+            - - bL
+              - bR
+          labels:
+            U:
+              text: ' '
+            V:
+              text: ' '
+            W:
+              text: ' '
+            X:
+              text: ' '
+            aL:
+              text: ' '
+            bL:
+              text: ' '
+            aR:
+              text: a
+            bR:
+              text: b
+          constraints:
+          - a
+          - b
+          - alpha
+          - a parallel b
+          - b in alpha
+          - a outside alpha
+          - parallel
+          teaching_focus:
+          - 直线 a 在平面外、b 在平面内，且 a 与 b 平行。
+  - type: route
+    id: route-lp-parallel-judge
+    steps:
+    - id: lp-judge-obj
+      latex: 判对象
+      content_latex: 线线（$a\parallel b$）$\to$ 线面（$a\parallel\alpha$），用线面平行判定。
+    - id: lp-judge-bridge
+      latex: 补中间前提
+      content_latex: 补 $a\not\subset\alpha$（线在面外），与 $b\subset\alpha$、$a\parallel b$ 合起来。
+    - id: lp-judge-conclude
+      latex: 写结论
+      content_latex: $a\not\subset\alpha$，$b\subset\alpha$，$a\parallel b\Rightarrow a\parallel\alpha$。
+  - type: dual_explanation
+    id: sol-lp-parallel-judge
+    label: 例1·线面平行判定
+    stem_latex: 已知 $a\parallel b$，$b\subset\alpha$，补出中间前提后证明 $a\parallel\alpha$。
+    side_title: 小贴士
+    side_items:
+    - kind: hint
+      title: 先判对象
+      content_latex: 这是由线线平行推线面平行，属于线面平行判定。
+    - kind: mistake
+      title: 最易漏
+      content_latex: 最容易漏 $a\not\subset\alpha$，没写“线在面外”判定不成立。
+    solution_title: 解答
+    solution_step_ids:
+    - lp-judge-obj
+    - lp-judge-bridge
+    - lp-judge-conclude
+  - type: solution
+    id: card-line-plane-parallel-prop
+    title: 定理卡·线面平行性质：过线作面找交线
+    items:
+    - latex: \textbf{几何语言：}$a\parallel\alpha$，$a\subset\beta$，$\alpha\cap\beta=b\Rightarrow a\parallel b$。
+    - latex: \textbf{口令：}线面平行 $\Rightarrow$ 线线平行。过该直线作辅助面，找它与已知面的交线。
+    - latex: \textbf{易错前提：}$a\subset\beta$ 与 $\alpha\cap\beta=b$（交线）是最常漏的“桥”，不能直接由 $a\parallel\alpha$ 跳到 $a\parallel b$。
+  - type: problemcard
+    id: ex-lp-parallel-prop
+    label: 例2·线面平行性质
+    stem_latex: '如图，$AB\parallel\alpha$，过 $AB$ 的平面 $\beta$ 交 $\alpha$ 于 $CD$。求证：$AB\parallel CD$。
+
+      \par\noindent 留空：连接已知与结论的“桥”是 \underline{\hspace{20mm}}。
+
+      '
+    diagram_slot:
+      slot_id: explanation.ex-lp-parallel-prop.prompt
+      diagram_ref: explanation.ex-lp-parallel-prop.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: block_center
+      layout_role: center_block
+      display_profile: worksheet_geometry_center
+      caption: AB 在面外平行于平面 α，过 AB 作平面 β 与 α 交于 CD。
+      engine: spatial_renderer
+      diagram_kind: spatial_geometry
+      teaching_intent: explanation_prompt
+      semantic_constraints:
+        given_objects:
+        - A
+        - B
+        - C
+        - D
+        - alpha
+        - beta
+        given_constraints:
+        - AB 平行平面 alpha
+        - 过 AB 的平面 beta 与 alpha 相交于直线 CD
+        - A,B 在 beta 内；C,D 在 alpha 内
+        clean_forbidden:
+        - 不要写答案或结论
+      engine_options:
+        spatial_spec:
+          projection: isometric_hidden_axes
+          points3d:
+            U:
+            - -0.4
+            - -0.35
+            - 0
+            V:
+            - 3.0
+            - -0.35
+            - 0
+            W:
+            - 3.4
+            - 1.6
+            - 0
+            X:
+            - 0.0
+            - 1.6
+            - 0
+            aL:
+            - 0.25
+            - 2.0
+            - 0.65
+            aR:
+            - 2.75
+            - 2.0
+            - 0.65
+            bL:
+            - 0.35
+            - 0.45
+            - 0
+            bR:
+            - 2.75
+            - 0.45
+            - 0
+            P:
+            - 1.5
+            - 0.45
+            - 0
+            A:
+            - 2.05
+            - 1.766
+            - 0.0
+            B:
+            - 0.95
+            - 1.766
+            - 0.15
+            C:
+            - 0.4
+            - 0.9
+            - 0.3
+            D:
+            - 0.95
+            - 0.034
+            - 0.0
+          segments:
+          - from: U
+            to: V
+          - from: V
+            to: W
+          - from: W
+            to: X
+          - from: X
+            to: U
+          - from: aL
+            to: aR
+          - from: bL
+            to: bR
+          - from: A
+            to: B
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: C
+            to: D
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          polygons:
+          - points:
+            - U
+            - V
+            - W
+            - X
+            fill: '#eff6ff'
+            stroke: '#94a3b8'
+            stroke_width: 1.2
+          markers:
+          - type: parallel
+            segments:
+            - - A
+              - B
+            - - C
+              - D
+          labels:
+            U:
+              text: ' '
+            V:
+              text: ' '
+            W:
+              text: ' '
+            X:
+              text: ' '
+            aL:
+              text: a
+            aR:
+              text: ' '
+            bL:
+              text: b
+            bR:
+              text: ' '
+            P:
+              text: P
+            A:
+              text: A
+            B:
+              text: B
+            C:
+              text: C
+            D:
+              text: D
+          constraints:
+          - A
+          - B
+          - C
+          - D
+          - alpha
+          - beta
+          - AB 平行平面 alpha
+          - 过 AB 的平面 beta 与 alpha 相交于直线 CD
+          - A,B 在 beta 内；C,D 在 alpha 内
+          - 不要写答案或结论
+          teaching_focus:
+          - AB 在面外平行于平面 α，过 AB 作平面 β 与 α 交于 CD。
+  - type: route
+    id: route-lp-parallel-prop
+    steps:
+    - id: lp-prop-obj
+      latex: 判对象
+      content_latex: 线面平行（$AB\parallel\alpha$）$\to$ 线线平行（$AB\parallel CD$），用线面平行性质。
+    - id: lp-prop-bridge
+      latex: 补交线（桥）
+      content_latex: 补 $AB\subset\beta$，$\alpha\cap\beta=CD$，这一步是桥，不能跳。
+    - id: lp-prop-conclude
+      latex: 写结论
+      content_latex: $AB\parallel\alpha$，$AB\subset\beta$，$\alpha\cap\beta=CD\Rightarrow AB\parallel CD$。
+  - type: dual_explanation
+    id: sol-lp-parallel-prop
+    label: 例2·线面平行性质
+    stem_latex: 已知 $AB\parallel\alpha$，过 $AB$ 的平面 $\beta$ 交 $\alpha$ 于 $CD$，补出桥后证明 $AB\parallel CD$。
+    side_title: 小贴士
+    side_items:
+    - kind: hint
+      title: 这步找什么
+      content_latex: 线面平行要推出线线平行，必须靠“辅助面+交线”搭桥。
+    - kind: mistake
+      title: 别跳步
+      content_latex: 不能直接由 $AB\parallel\alpha$ 写 $AB\parallel CD$，必须补 $\alpha\cap\beta=CD$。
+    solution_title: 解答
+    solution_step_ids:
+    - lp-prop-obj
+    - lp-prop-bridge
+    - lp-prop-conclude
+  - type: solution
+    id: card-plane-plane-parallel-judge
+    title: 定理卡·面面平行判定：一面内两条相交线都平行另一面
+    items:
+    - latex: \textbf{几何语言：}$a\subset\alpha$，$b\subset\alpha$，$a\cap b=A$，$a\parallel\beta$，$b\parallel\beta\Rightarrow\alpha\parallel\beta$。
+    - latex: \textbf{口令：}线面平行 $\Rightarrow$ 面面平行。在一个面内找两条相交线，分别平行另一面。
+    - latex: \textbf{易错前提：}“两条相交线”$a\cap b=A$ 是头号失分点，写两条平行线不行。
+  - type: problemcard
+    id: ex-pp-parallel-judge
+    label: 例3·面面平行判定
+    stem_latex: '如图，$a\subset\alpha$，$b\subset\alpha$，$a\parallel\beta$，$b\parallel\beta$。求证：$\alpha\parallel\beta$。
+
+      \par\noindent 留空：还差的前提是 \underline{\hspace{20mm}}。
+
+      '
+    diagram_slot:
+      slot_id: explanation.ex-pp-parallel-judge.prompt
+      diagram_ref: explanation.ex-pp-parallel-judge.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: block_center
+      layout_role: center_block
+      display_profile: worksheet_geometry_center
+      caption: 平面 α 内有直线 a、b，都平行于平面 β。
+      engine: spatial_renderer
+      diagram_kind: spatial_geometry
+      teaching_intent: explanation_prompt
+      semantic_constraints:
+        given_objects:
+        - a
+        - b
+        - alpha
+        - beta
+        given_constraints:
+        - a 在平面 alpha 内
+        - b 在平面 alpha 内
+        - a 平行平面 beta
+        - b 平行平面 beta
+        clean_forbidden:
+        - 不要写答案或结论
+      engine_options:
+        spatial_spec:
+          projection: isometric_hidden_axes
+          points3d:
+            U:
+            - -0.4
+            - -0.35
+            - 0
+            V:
+            - 3.0
+            - -0.35
+            - 0
+            W:
+            - 3.35
+            - 1.35
+            - 0
+            X:
+            - -0.05
+            - 1.35
+            - 0
+            U2:
+            - -0.15
+            - -0.15
+            - 1.25
+            V2:
+            - 3.25
+            - -0.15
+            - 1.25
+            W2:
+            - 3.6
+            - 1.55
+            - 1.25
+            X2:
+            - 0.2
+            - 1.55
+            - 1.25
+            aL:
+            - 0.35
+            - 0.35
+            - 1.25
+            aR:
+            - 2.7
+            - 0.35
+            - 1.25
+            bL:
+            - 0.65
+            - 1.0
+            - 1.25
+            bR:
+            - 2.35
+            - 1.0
+            - 1.25
+          segments:
+          - from: U
+            to: V
+          - from: V
+            to: W
+          - from: W
+            to: X
+          - from: X
+            to: U
+          - from: U2
+            to: V2
+          - from: V2
+            to: W2
+          - from: W2
+            to: X2
+          - from: X2
+            to: U2
+          - from: aL
+            to: aR
+            stroke: '#2563eb'
+            stroke_width: 2.2
+          - from: bL
+            to: bR
+            stroke: '#2563eb'
+            stroke_width: 2.2
+          polygons:
+          - points:
+            - U
+            - V
+            - W
+            - X
+            fill: '#f8fafc'
+            stroke: '#94a3b8'
+            stroke_width: 1.1
+          - points:
+            - U2
+            - V2
+            - W2
+            - X2
+            fill: '#eff6ff'
+            stroke: '#94a3b8'
+            stroke_width: 1.2
+          markers: []
+          labels:
+            U:
+              text: ' '
+            V:
+              text: ' '
+            W:
+              text: ' '
+            X:
+              text: ' '
+            U2:
+              text: ' '
+            V2:
+              text: ' '
+            W2:
+              text: ' '
+            X2:
+              text: ' '
+            aL:
+              text: ' '
+            bL:
+              text: ' '
+            aR:
+              text: a
+            bR:
+              text: b
+          constraints:
+          - a
+          - b
+          - alpha
+          - beta
+          - a in alpha
+          - b in alpha
+          - a parallel beta
+          - b parallel beta
+          - parallel
+          teaching_focus:
+          - 平面 α 内有直线 a、b，都平行于平面 β。
+  - type: route
+    id: route-pp-parallel-judge
+    steps:
+    - id: pp-judge-obj
+      latex: 判对象
+      content_latex: 线面平行 $\to$ 面面平行，用面面平行判定。
+    - id: pp-judge-bridge
+      latex: 补相交前提
+      content_latex: 补 $a\cap b=A$，即这两条面内直线必须相交。
+    - id: pp-judge-conclude
+      latex: 写结论
+      content_latex: $a\subset\alpha$，$b\subset\alpha$，$a\cap b=A$，$a\parallel\beta$，$b\parallel\beta\Rightarrow\alpha\parallel\beta$。
+  - type: dual_explanation
+    id: sol-pp-parallel-judge
+    label: 例3·面面平行判定
+    stem_latex: 已知 $\alpha$ 内直线 $a,b$ 都平行 $\beta$，补相交前提后证明 $\alpha\parallel\beta$。
+    side_title: 小贴士
+    side_items:
+    - kind: hint
+      title: 一面内几条线
+      content_latex: 面面平行判定要在一个面内找两条线，不是一条。
+    - kind: mistake
+      title: 相交不能漏
+      content_latex: $a\cap b=A$ 是头号失分点，两条平行线推不出面面平行。
+    solution_title: 解答
+    solution_step_ids:
+    - pp-judge-obj
+    - pp-judge-bridge
+    - pp-judge-conclude
+  - type: solution
+    id: card-plane-plane-parallel-prop
+    title: 定理卡·面面平行性质：第三个面截出两条平行交线
+    items:
+    - latex: \textbf{几何语言：}$\alpha\parallel\beta$，$\alpha\cap\gamma=a$，$\beta\cap\gamma=b\Rightarrow a\parallel b$。
+    - latex: \textbf{口令：}面面平行 $\Rightarrow$ 线线平行。两平行面被第三个面截，两条交线平行。
+    - latex: \textbf{易错前提：}要写清第三个面 $\gamma$，以及 $\alpha\cap\gamma=a$、$\beta\cap\gamma=b$ 两条交线。
+  - type: problemcard
+    id: ex-pp-parallel-prop
+    label: 例4·面面平行性质
+    stem_latex: '如图，$\alpha\parallel\beta$，平面 $\gamma$ 分别交 $\alpha,\beta$ 于 $a,b$。求证：$a\parallel b$。
+
+      \par\noindent 留空：用到的两条交线是 \underline{\hspace{20mm}}。
+
+      '
+    diagram_slot:
+      slot_id: explanation.ex-pp-parallel-prop.prompt
+      diagram_ref: explanation.ex-pp-parallel-prop.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: block_center
+      layout_role: center_block
+      display_profile: worksheet_geometry_center
+      caption: 两平行平面 α、β 被第三个面 γ 截出交线 a、b。
+      engine: spatial_renderer
+      diagram_kind: spatial_geometry
+      teaching_intent: explanation_prompt
+      semantic_constraints:
+        given_objects:
+        - a
+        - b
+        - alpha
+        - beta
+        - gamma
+        given_constraints:
+        - alpha 平行 beta
+        - gamma 与 alpha 相交于直线 a
+        - gamma 与 beta 相交于直线 b
+        clean_forbidden:
+        - 不要写答案或结论
+      engine_options:
+        spatial_spec:
+          projection: isometric_hidden_axes
+          points3d:
+            U:
+            - -0.45
+            - -0.45
+            - 0
+            V:
+            - 2.75
+            - -0.45
+            - 0
+            W:
+            - 3.15
+            - 1.05
+            - 0
+            X:
+            - -0.05
+            - 1.05
+            - 0
+            U2:
+            - -0.2
+            - -0.25
+            - 1.25
+            V2:
+            - 3.0
+            - -0.25
+            - 1.25
+            W2:
+            - 3.4
+            - 1.25
+            - 1.25
+            X2:
+            - 0.2
+            - 1.25
+            - 1.25
+            G1:
+            - 0.25
+            - -0.15
+            - -0.15
+            G2:
+            - 2.65
+            - -0.15
+            - -0.15
+            G3:
+            - 2.95
+            - 0.95
+            - 1.45
+            G4:
+            - 0.55
+            - 0.95
+            - 1.45
+            aL:
+            - 0.45
+            - 0.0
+            - 1.25
+            aR:
+            - 2.75
+            - 0.0
+            - 1.25
+            bL:
+            - 0.25
+            - 0.0
+            - 0
+            bR:
+            - 2.55
+            - 0.0
+            - 0
+          segments:
+          - from: U
+            to: V
+          - from: V
+            to: W
+          - from: W
+            to: X
+          - from: X
+            to: U
+          - from: U2
+            to: V2
+          - from: V2
+            to: W2
+          - from: W2
+            to: X2
+          - from: X2
+            to: U2
+          - from: G1
+            to: G2
+          - from: G2
+            to: G3
+          - from: G3
+            to: G4
+          - from: G4
+            to: G1
+          - from: aL
+            to: aR
+            stroke: '#2563eb'
+            stroke_width: 2.2
+          - from: bL
+            to: bR
+            stroke: '#2563eb'
+            stroke_width: 2.2
+          polygons:
+          - points:
+            - U
+            - V
+            - W
+            - X
+            fill: '#f8fafc'
+            stroke: '#94a3b8'
+            stroke_width: 1.0
+          - points:
+            - U2
+            - V2
+            - W2
+            - X2
+            fill: '#eff6ff'
+            stroke: '#94a3b8'
+            stroke_width: 1.1
+          - points:
+            - G1
+            - G2
+            - G3
+            - G4
+            fill: '#ecfdf5'
+            stroke: '#16a34a'
+            stroke_width: 1.0
+          markers:
+          - type: parallel
+            segments:
+            - - aL
+              - aR
+            - - bL
+              - bR
+          labels:
+            U:
+              text: ' '
+            V:
+              text: ' '
+            W:
+              text: ' '
+            X:
+              text: ' '
+            U2:
+              text: ' '
+            V2:
+              text: ' '
+            W2:
+              text: ' '
+            X2:
+              text: ' '
+            G1:
+              text: ' '
+            G2:
+              text: ' '
+            G3:
+              text: ' '
+            G4:
+              text: ' '
+            aL:
+              text: ' '
+            bL:
+              text: ' '
+            aR:
+              text: a
+            bR:
+              text: b
+          constraints:
+          - a
+          - b
+          - alpha
+          - beta
+          - gamma
+          - alpha parallel beta
+          - gamma intersects alpha at a
+          - gamma intersects beta at b
+          - parallel
+          teaching_focus:
+          - 两平行平面 α、β 被第三个面 γ 截出交线 a、b。
+  - type: route
+    id: route-pp-parallel-prop
+    steps:
+    - id: pp-prop-obj
+      latex: 判对象
+      content_latex: 面面平行（$\alpha\parallel\beta$）$\to$ 线线平行（$a\parallel b$），用面面平行性质。
+    - id: pp-prop-bridge
+      latex: 补第三个面与交线
+      content_latex: 补 $\alpha\cap\gamma=a$，$\beta\cap\gamma=b$，第三个面 $\gamma$ 截出两条交线。
+    - id: pp-prop-conclude
+      latex: 写结论
+      content_latex: $\alpha\parallel\beta$，$\alpha\cap\gamma=a$，$\beta\cap\gamma=b\Rightarrow a\parallel b$。
+  - type: dual_explanation
+    id: sol-pp-parallel-prop
+    label: 例4·面面平行性质
+    stem_latex: 已知 $\alpha\parallel\beta$，$\gamma$ 截 $\alpha,\beta$ 于 $a,b$，补交线后证明 $a\parallel b$。
+    side_title: 小贴士
+    side_items:
+    - kind: hint
+      title: 关键动作
+      content_latex: 面面平行推线线平行，靠的是“第三个面截出两条交线”。
+    - kind: mistake
+      title: 交线要写全
+      content_latex: 两条交线 $\alpha\cap\gamma=a$、$\beta\cap\gamma=b$ 都要写，缺一条结论不成立。
+    solution_title: 解答
+    solution_step_ids:
+    - pp-prop-obj
+    - pp-prop-bridge
+    - pp-prop-conclude
+  - type: mistake
+    id: b-parallel-mistake
+    title: 平行定理易错提醒
+    content_latex: 平行类最常漏两类前提：判定定理漏“相交”（$a\cap b=A$）或“平面内/面外”（$a\not\subset\alpha$、$b\subset\alpha$）；性质定理漏“辅助面+交线”。补中间条件时先问：这座桥是交线，还是面内/相交前提？
+- id: category-b-perpendicular
+  title: B 类定理卡·垂直：给图、一步推理、补中间条件
+  show_title: true
+  type: explanation
+  visibility: student
+  layout:
+    break_before: true
+  blocks:
+  - type: solution
+    id: card-line-plane-perp-judge
+    title: 定理卡·线面垂直判定：面内两条相交线都垂直
+    items:
+    - latex: \textbf{几何语言：}$l\perp m$，$l\perp n$，$m\subset\alpha$，$n\subset\alpha$，$m\cap n=A\Rightarrow l\perp\alpha$。
+    - latex: \textbf{口令：}线线垂直 $\Rightarrow$ 线面垂直。在面内找两条与已知直线都垂直的相交线。
+    - latex: \textbf{易错前提：}$m\cap n=A$（两条相交线）是头号失分点；两条不相交的线垂直推不出线面垂直。
+  - type: problemcard
+    id: ex-lp-perp-judge
+    label: 例5·线面垂直判定
+    stem_latex: '如图，$l\perp m$，$l\perp n$，$m\subset\alpha$，$n\subset\alpha$。求证：$l\perp\alpha$。
+
+      \par\noindent 留空：还差的前提是 \underline{\hspace{20mm}}。
+
+      '
+    diagram_slot:
+      slot_id: explanation.ex-lp-perp-judge.prompt
+      diagram_ref: explanation.ex-lp-perp-judge.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: block_center
+      layout_role: center_block
+      display_profile: worksheet_geometry_center
+      caption: 直线 l 与平面 α 内的直线 m、n 都垂直。
+      engine: spatial_renderer
+      diagram_kind: spatial_geometry
+      teaching_intent: explanation_prompt
+      semantic_constraints:
+        given_objects:
+        - l
+        - m
+        - n
+        - A
+        - alpha
+        given_constraints:
+        - m 在平面 alpha 内
+        - n 在平面 alpha 内
+        - l 垂直 m
+        - l 垂直 n
+        clean_forbidden:
+        - 不要写答案或结论
+      engine_options:
+        spatial_spec:
+          projection: isometric_hidden_axes
+          points3d:
+            U:
+            - -0.385
+            - -0.35
+            - 0
+            V:
+            - 3.015
+            - -0.35
+            - 0
+            W:
+            - 3.415
+            - 1.6
+            - 0
+            X:
+            - 0.015
+            - 1.6
+            - 0
+            aL:
+            - 0.265
+            - 2.0
+            - 0.65
+            aR:
+            - 2.765
+            - 2.0
+            - 0.65
+            bL:
+            - 0.365
+            - 0.45
+            - 0
+            bR:
+            - 2.765
+            - 0.45
+            - 0
+            P:
+            - 1.515
+            - 0.45
+            - 0
+            A:
+            - 2.065
+            - 1.766
+            - 0.0
+          segments:
+          - from: U
+            to: V
+          - from: V
+            to: W
+          - from: W
+            to: X
+          - from: X
+            to: U
+          - from: aL
+            to: aR
+          - from: bL
+            to: bR
+          polygons:
+          - points:
+            - U
+            - V
+            - W
+            - X
+            fill: '#eff6ff'
+            stroke: '#94a3b8'
+            stroke_width: 1.2
+          markers: []
+          labels:
+            U:
+              text: ' '
+            V:
+              text: ' '
+            W:
+              text: ' '
+            X:
+              text: ' '
+            aL:
+              text: a
+            aR:
+              text: ' '
+            bL:
+              text: b
+            bR:
+              text: ' '
+            P:
+              text: P
+            A:
+              text: A
+          constraints:
+          - l
+          - m
+          - n
+          - A
+          - alpha
+          - m 在平面 alpha 内
+          - n 在平面 alpha 内
+          - l 垂直 m
+          - l 垂直 n
+          - 不要写答案或结论
+          teaching_focus:
+          - 直线 l 与平面 α 内的直线 m、n 都垂直。
+  - type: route
+    id: route-lp-perp-judge
+    steps:
+    - id: lp-perp-judge-obj
+      latex: 判对象
+      content_latex: 线线垂直（$l\perp m$，$l\perp n$）$\to$ 线面垂直（$l\perp\alpha$），用线面垂直判定。
+    - id: lp-perp-judge-bridge
+      latex: 补相交前提
+      content_latex: 补 $m\cap n=A$，两条面内垂线必须相交。
+    - id: lp-perp-judge-conclude
+      latex: 写结论
+      content_latex: $l\perp m$，$l\perp n$，$m\subset\alpha$，$n\subset\alpha$，$m\cap n=A\Rightarrow l\perp\alpha$。
+  - type: dual_explanation
+    id: sol-lp-perp-judge
+    label: 例5·线面垂直判定
+    stem_latex: 已知 $l$ 与 $\alpha$ 内 $m,n$ 都垂直，补相交前提后证明 $l\perp\alpha$。
+    side_title: 小贴士
+    side_items:
+    - kind: hint
+      title: 面内找几条
+      content_latex: 线面垂直判定要在面内找两条与已知线都垂直的线。
+    - kind: mistake
+      title: 头号失分点
+      content_latex: $m\cap n=A$ 最易漏，两条不相交的线推不出线面垂直。
+    solution_title: 解答
+    solution_step_ids:
+    - lp-perp-judge-obj
+    - lp-perp-judge-bridge
+    - lp-perp-judge-conclude
+  - type: solution
+    id: card-line-plane-perp-prop
+    title: 定理卡·线面垂直性质：同垂直一面则两线平行
+    items:
+    - latex: \textbf{几何语言：}$a\perp\alpha$，$b\perp\alpha\Rightarrow a\parallel b$。
+    - latex: \textbf{口令：}线面垂直 $\Rightarrow$ 线线平行。两条都垂直同一个面的线互相平行（跨类结论）。
+    - latex: \textbf{易错前提：}必须同一个平面 $\alpha$；若垂直不同的面，结论不成立。
+  - type: problemcard
+    id: ex-lp-perp-prop
+    label: 例6·线面垂直性质
+    stem_latex: '如图，$a\perp\alpha$，$b\perp\alpha$。求证：$a\parallel b$。
+
+      \par\noindent 留空：两线共同的条件是 \underline{\hspace{20mm}}。
+
+      '
+    diagram_slot:
+      slot_id: explanation.ex-lp-perp-prop.prompt
+      diagram_ref: explanation.ex-lp-perp-prop.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: block_center
+      layout_role: center_block
+      display_profile: worksheet_geometry_center
+      caption: 直线 a、b 都垂直于平面 α。
+      engine: spatial_renderer
+      diagram_kind: spatial_geometry
+      teaching_intent: explanation_prompt
+      semantic_constraints:
+        given_objects:
+        - a
+        - b
+        - alpha
+        given_constraints:
+        - a 垂直平面 alpha
+        - b 垂直平面 alpha
+        clean_forbidden:
+        - 不要写答案或结论
+        derived_constraints:
+        - a parallel b
+        derived_objects:
+        - parallel
+      engine_options:
+        spatial_spec:
+          projection: isometric_hidden_axes
+          points3d:
+            U:
+            - -0.5
+            - -0.3
+            - 0
+            V:
+            - 3.0
+            - -0.3
+            - 0
+            W:
+            - 3.25
+            - 1.5
+            - 0
+            X:
+            - -0.25
+            - 1.5
+            - 0
+            a0:
+            - 0.9
+            - 0.45
+            - 0
+            a1:
+            - 0.9
+            - 0.45
+            - 1.75
+            b0:
+            - 2.15
+            - 0.95
+            - 0
+            b1:
+            - 2.15
+            - 0.95
+            - 1.75
+          segments:
+          - from: U
+            to: V
+          - from: V
+            to: W
+          - from: W
+            to: X
+          - from: X
+            to: U
+          - from: a0
+            to: a1
+            stroke: '#dc2626'
+            stroke_width: 2.3
+          - from: b0
+            to: b1
+            stroke: '#dc2626'
+            stroke_width: 2.3
+          polygons:
+          - points:
+            - U
+            - V
+            - W
+            - X
+            fill: '#eff6ff'
+            stroke: '#94a3b8'
+            stroke_width: 1.2
+          markers:
+          - type: parallel
+            segments:
+            - - a0
+              - a1
+            - - b0
+              - b1
+          labels:
+            U:
+              text: ' '
+            V:
+              text: ' '
+            W:
+              text: ' '
+            X:
+              text: ' '
+            a0:
+              text: ' '
+            b0:
+              text: ' '
+            a1:
+              text: a
+            b1:
+              text: b
+          constraints:
+          - a
+          - b
+          - alpha
+          - a perpendicular alpha
+          - b perpendicular alpha
+          - a parallel b
+          - parallel
+          teaching_focus:
+          - 直线 a、b 都垂直于平面 α。
+  - type: route
+    id: route-lp-perp-prop
+    steps:
+    - id: lp-perp-prop-obj
+      latex: 判对象
+      content_latex: 线面垂直（$a\perp\alpha$，$b\perp\alpha$）$\to$ 线线平行（$a\parallel b$），用线面垂直性质。
+    - id: lp-perp-prop-bridge
+      latex: 确认同面
+      content_latex: 两条线都垂直同一个平面 $\alpha$，这是结论成立的前提。
+    - id: lp-perp-prop-conclude
+      latex: 写结论
+      content_latex: $a\perp\alpha$，$b\perp\alpha\Rightarrow a\parallel b$。
+  - type: dual_explanation
+    id: sol-lp-perp-prop
+    label: 例6·线面垂直性质
+    stem_latex: 已知 $a,b$ 都垂直 $\alpha$，证明 $a\parallel b$。
+    side_title: 小贴士
+    side_items:
+    - kind: hint
+      title: 这是跨类结论
+      content_latex: 由线面垂直推出线线平行，是垂直章节里少见的“推平行”。
+    - kind: mistake
+      title: 必须同面
+      content_latex: 两条线要垂直同一个面；垂直不同面时结论不成立。
+    solution_title: 解答
+    solution_step_ids:
+    - lp-perp-prop-obj
+    - lp-perp-prop-bridge
+    - lp-perp-prop-conclude
+  - type: solution
+    id: card-plane-plane-perp-judge
+    title: 定理卡·面面垂直判定：一面过另一面的垂线
+    items:
+    - latex: \textbf{几何语言：}$l\perp\alpha$，$l\subset\beta\Rightarrow\alpha\perp\beta$。
+    - latex: \textbf{口令：}线面垂直 $\Rightarrow$ 面面垂直。一个面内有一条线垂直另一个面。
+    - latex: \textbf{易错前提：}垂线 $l$ 必须在某一面内（$l\subset\beta$），且垂直另一面（$l\perp\alpha$），两条缺一不可。
+  - type: problemcard
+    id: ex-pp-perp-judge
+    label: 例7·面面垂直判定
+    stem_latex: '如图，$l\perp\alpha$，$l\subset\beta$。求证：$\alpha\perp\beta$。
+
+      \par\noindent 留空：垂线在哪个面内？\underline{\hspace{20mm}}。
+
+      '
+    diagram_slot:
+      slot_id: explanation.ex-pp-perp-judge.prompt
+      diagram_ref: explanation.ex-pp-perp-judge.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: block_center
+      layout_role: center_block
+      display_profile: worksheet_geometry_center
+      caption: 直线 l 在平面 β 内且垂直于平面 α。
+      engine: spatial_renderer
+      diagram_kind: spatial_geometry
+      teaching_intent: explanation_prompt
+      semantic_constraints:
+        given_objects:
+        - l
+        - alpha
+        - beta
+        given_constraints:
+        - l 垂直平面 alpha
+        - l 在平面 beta 内
+        clean_forbidden:
+        - 不要写答案或结论
+      engine_options:
+        spatial_spec:
+          projection: isometric_hidden_axes
+          points3d:
+            U:
+            - -0.5
+            - -0.35
+            - 0
+            V:
+            - 3.0
+            - -0.35
+            - 0
+            W:
+            - 3.35
+            - 1.4
+            - 0
+            X:
+            - -0.15
+            - 1.4
+            - 0
+            Y:
+            - 0.85
+            - -0.35
+            - 0
+            Z:
+            - 2.25
+            - -0.35
+            - 0
+            T:
+            - 2.25
+            - -0.35
+            - 1.9
+            Q:
+            - 0.85
+            - -0.35
+            - 1.9
+            l0:
+            - 1.55
+            - -0.35
+            - 0
+            l1:
+            - 1.55
+            - -0.35
+            - 1.75
+          segments:
+          - from: U
+            to: V
+          - from: V
+            to: W
+          - from: W
+            to: X
+          - from: X
+            to: U
+          - from: Y
+            to: Z
+          - from: Z
+            to: T
+          - from: T
+            to: Q
+          - from: Q
+            to: Y
+          - from: l0
+            to: l1
+            stroke: '#dc2626'
+            stroke_width: 2.3
+          polygons:
+          - points:
+            - U
+            - V
+            - W
+            - X
+            fill: '#eff6ff'
+            stroke: '#94a3b8'
+            stroke_width: 1.0
+          - points:
+            - Y
+            - Z
+            - T
+            - Q
+            fill: '#fef2f2'
+            stroke: '#fca5a5'
+            stroke_width: 1.0
+          markers: []
+          labels:
+            U:
+              text: ' '
+            V:
+              text: ' '
+            W:
+              text: ' '
+            X:
+              text: ' '
+            Y:
+              text: ' '
+            Z:
+              text: ' '
+            T:
+              text: ' '
+            Q:
+              text: ' '
+            l0:
+              text: ' '
+            l1:
+              text: l
+          constraints:
+          - l
+          - alpha
+          - beta
+          - l perpendicular alpha
+          - l in beta
+          - alpha perpendicular beta
+          teaching_focus:
+          - 直线 l 在平面 β 内且垂直于平面 α。
+  - type: route
+    id: route-pp-perp-judge
+    steps:
+    - id: pp-perp-judge-obj
+      latex: 判对象
+      content_latex: 线面垂直（$l\perp\alpha$）$\to$ 面面垂直（$\alpha\perp\beta$），用面面垂直判定。
+    - id: pp-perp-judge-bridge
+      latex: 补垂线在面内
+      content_latex: 补 $l\subset\beta$，垂线必须在某一个面内。
+    - id: pp-perp-judge-conclude
+      latex: 写结论
+      content_latex: $l\perp\alpha$，$l\subset\beta\Rightarrow\alpha\perp\beta$。
+  - type: dual_explanation
+    id: sol-pp-perp-judge
+    label: 例7·面面垂直判定
+    stem_latex: 已知 $l\perp\alpha$ 且 $l\subset\beta$，证明 $\alpha\perp\beta$。
+    side_title: 小贴士
+    side_items:
+    - kind: hint
+      title: 找什么
+      content_latex: 面面垂直判定要在一个面内找一条垂直另一个面的线。
+    - kind: mistake
+      title: 两条前提
+      content_latex: $l\perp\alpha$ 和 $l\subset\beta$ 都要写，少一条结论不成立。
+    solution_title: 解答
+    solution_step_ids:
+    - pp-perp-judge-obj
+    - pp-perp-judge-bridge
+    - pp-perp-judge-conclude
+  - type: solution
+    id: card-plane-plane-perp-prop
+    title: 定理卡·面面垂直性质：四件套（面面垂直+交线+面内+垂直于棱）
+    items:
+    - latex: \textbf{几何语言：}$\alpha\perp\beta$，$\alpha\cap\beta=l$，$AB\subset\alpha$，$AB\perp l\Rightarrow AB\perp\beta$。
+    - latex: \textbf{口令：}面面垂直 $\Rightarrow$ 线面垂直。一个面内垂直于交线（棱）的线，垂直另一个面。
+    - latex: \textbf{易错前提（四件套缺一不可）：}①$\alpha\perp\beta$；②$\alpha\cap\beta=l$（交线/棱）；③$AB\subset\alpha$（线在面内）；④$AB\perp l$（垂直于棱）。
+  - type: problemcard
+    id: ex-pp-perp-prop
+    label: 例8·面面垂直性质
+    stem_latex: '如图，$\alpha\perp\beta$，$\alpha\cap\beta=l$，$AB\subset\alpha$。求证：$AB\perp\beta$。
+
+      \par\noindent 留空：四件套还差哪一条？\underline{\hspace{20mm}}。
+
+      '
+    diagram_slot:
+      slot_id: explanation.ex-pp-perp-prop.prompt
+      diagram_ref: explanation.ex-pp-perp-prop.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: block_center
+      layout_role: center_block
+      display_profile: worksheet_geometry_center
+      caption: 平面 α⊥β 交于 l，AB 在 α 内。
+      engine: spatial_renderer
+      diagram_kind: spatial_geometry
+      teaching_intent: explanation_prompt
+      semantic_constraints:
+        given_objects:
+        - A
+        - B
+        - l
+        - alpha
+        - beta
+        given_constraints:
+        - alpha 垂直 beta
+        - alpha 与 beta 相交于直线 l
+        - AB 在平面 alpha 内
+        clean_forbidden:
+        - 不要写答案或结论
+      engine_options:
+        spatial_spec:
+          projection: isometric_hidden_axes
+          points3d:
+            U:
+            - -0.445
+            - -0.35
+            - 0
+            V:
+            - 2.955
+            - -0.35
+            - 0
+            W:
+            - 3.355
+            - 1.6
+            - 0
+            X:
+            - -0.045
+            - 1.6
+            - 0
+            aL:
+            - 0.205
+            - 2.0
+            - 0.65
+            aR:
+            - 2.705
+            - 2.0
+            - 0.65
+            bL:
+            - 0.305
+            - 0.45
+            - 0
+            bR:
+            - 2.705
+            - 0.45
+            - 0
+            P:
+            - 1.455
+            - 0.45
+            - 0
+            A:
+            - 2.005
+            - 1.766
+            - 0.0
+            B:
+            - 0.905
+            - 1.766
+            - 0.15
+          segments:
+          - from: U
+            to: V
+          - from: V
+            to: W
+          - from: W
+            to: X
+          - from: X
+            to: U
+          - from: aL
+            to: aR
+          - from: bL
+            to: bR
+          - from: A
+            to: B
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          polygons:
+          - points:
+            - U
+            - V
+            - W
+            - X
+            fill: '#eff6ff'
+            stroke: '#94a3b8'
+            stroke_width: 1.2
+          markers: []
+          labels:
+            U:
+              text: ' '
+            V:
+              text: ' '
+            W:
+              text: ' '
+            X:
+              text: ' '
+            aL:
+              text: a
+            aR:
+              text: ' '
+            bL:
+              text: b
+            bR:
+              text: ' '
+            P:
+              text: P
+            A:
+              text: A
+            B:
+              text: B
+          constraints:
+          - A
+          - B
+          - l
+          - alpha
+          - beta
+          - alpha 垂直 beta
+          - alpha 与 beta 相交于直线 l
+          - AB 在平面 alpha 内
+          - 不要写答案或结论
+          teaching_focus:
+          - 平面 α⊥β 交于 l，AB 在 α 内。
+  - type: route
+    id: route-pp-perp-prop
+    steps:
+    - id: pp-perp-prop-obj
+      latex: 判对象
+      content_latex: 面面垂直（$\alpha\perp\beta$）$\to$ 线面垂直（$AB\perp\beta$），用面面垂直性质。
+    - id: pp-perp-prop-bridge
+      latex: 补垂直于棱
+      content_latex: 补 $AB\perp l$，凑齐四件套（$\alpha\perp\beta$、$\alpha\cap\beta=l$、$AB\subset\alpha$、$AB\perp l$）。
+    - id: pp-perp-prop-conclude
+      latex: 写结论
+      content_latex: $\alpha\perp\beta$，$\alpha\cap\beta=l$，$AB\subset\alpha$，$AB\perp l\Rightarrow AB\perp\beta$。
+  - type: dual_explanation
+    id: sol-pp-perp-prop
+    label: 例8·面面垂直性质
+    stem_latex: 已知 $\alpha\perp\beta$，$\alpha\cap\beta=l$，$AB\subset\alpha$，补齐四件套后证明 $AB\perp\beta$。
+    side_title: 小贴士
+    side_items:
+    - kind: hint
+      title: 四件套
+      content_latex: 面面垂直性质要凑齐：面面垂直、交线、面内、垂直于棱。
+    - kind: mistake
+      title: 最易漏
+      content_latex: $AB\perp l$（垂直于棱）最易漏，没有它推不出线面垂直。
+    solution_title: 解答
+    solution_step_ids:
+    - pp-perp-prop-obj
+    - pp-perp-prop-bridge
+    - pp-perp-prop-conclude
+  - type: solution
+    id: card-dihedral-angle
+    title: 定理卡·二面角平面角定义：顶点在棱上、两边在两面内、两边垂直于棱
+    items:
+    - latex: \textbf{几何语言：}$\alpha\cap\beta=l$，$O\in l$，$OA\subset\alpha$，$OB\subset\beta$，$OA\perp l$，$OB\perp l\Rightarrow\angle AOB$ 为二面角 $\alpha\!-\!l\!-\!\beta$ 的平面角。
+    - latex: \textbf{口令：}三要素——顶点在棱上、两边分别在两个半平面内、两边都垂直于棱。
+    - latex: \textbf{易错点：}平面角的顶点 $O$ 必须在棱 $l$ 上；$OA,OB$ 必须都垂直于棱 $l$，且分别在两个面内。
+  - type: problemcard
+    id: ex-dihedral
+    label: 例9·二面角平面角
+    stem_latex: '如图，二面角 $\alpha\!-\!l\!-\!\beta$ 中，$O\in l$，$OA\subset\alpha$，$OB\subset\beta$。要使 $\angle AOB$ 为该二面角的平面角，还需满足 \underline{\hspace{24mm}}。
+
+      '
+    diagram_slot:
+      slot_id: explanation.ex-dihedral.prompt
+      diagram_ref: explanation.ex-dihedral.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: block_center
+      layout_role: center_block
+      display_profile: worksheet_geometry_center
+      caption: 二面角 α-l-β，O 在棱 l 上，OA、OB 分别在两个面内。
+      engine: spatial_renderer
+      diagram_kind: spatial_geometry
+      teaching_intent: explanation_prompt
+      semantic_constraints:
+        given_objects:
+        - O
+        - A
+        - B
+        - l
+        - alpha
+        - beta
+        given_constraints:
+        - alpha 与 beta 相交于直线 l
+        - O 在棱 l 上
+        - OA 在平面 alpha 内
+        - OB 在平面 beta 内
+        clean_forbidden:
+        - 不要写答案或结论
+      engine_options:
+        spatial_spec:
+          projection: isometric_hidden_axes
+          points3d:
+            L:
+            - -1.7
+            - 0
+            - 0
+            R:
+            - 1.9
+            - 0
+            - 0
+            A:
+            - -0.45
+            - 1.25
+            - 0.65
+            B:
+            - 0.75
+            - -1.2
+            - 0.35
+            O:
+            - 0
+            - 0
+            - 0
+            U:
+            - -1.9
+            - 0.35
+            - 0.25
+            V:
+            - 2.1
+            - 0.35
+            - 0.25
+            W:
+            - 2.0
+            - -1.1
+            - 0.0
+            X:
+            - -1.8
+            - -1.1
+            - 0.0
+          segments:
+          - from: L
+            to: R
+          - from: O
+            to: A
+          - from: O
+            to: B
+          - from: O
+            to: A
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: O
+            to: B
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          polygons:
+          - points:
+            - L
+            - R
+            - V
+            - U
+            fill: '#eff6ff'
+            stroke: '#94a3b8'
+            stroke_width: 1.2
+          - points:
+            - L
+            - R
+            - W
+            - X
+            fill: '#ecfdf5'
+            stroke: '#94a3b8'
+            stroke_width: 1.2
+          markers: []
+          labels:
+            L:
+              text: L
+            R:
+              text: R
+            A:
+              text: A
+            B:
+              text: B
+            O:
+              text: O
+            U:
+              text: ' '
+            V:
+              text: ' '
+            W:
+              text: ' '
+            X:
+              text: ' '
+          constraints:
+          - O
+          - A
+          - B
+          - l
+          - alpha
+          - beta
+          - alpha 与 beta 相交于直线 l
+          - O 在棱 l 上
+          - OA 在平面 alpha 内
+          - OB 在平面 beta 内
+          - 不要写答案或结论
+          teaching_focus:
+          - 二面角 α-l-β，O 在棱 l 上，OA、OB 分别在两个面内。
+  - type: route
+    id: route-dihedral
+    steps:
+    - id: dihedral-obj
+      latex: 判对象
+      content_latex: 这是二面角平面角的定义（三要素），属于填空型定义默写。
+    - id: dihedral-bridge
+      latex: 补垂直于棱
+      content_latex: 补 $OA\perp l$，$OB\perp l$，即两边都垂直于棱。
+    - id: dihedral-conclude
+      latex: 写结论
+      content_latex: $O\in l$，$OA\subset\alpha$，$OB\subset\beta$，$OA\perp l$，$OB\perp l\Rightarrow\angle AOB$ 为二面角 $\alpha\!-\!l\!-\!\beta$ 的平面角。
+  - type: dual_explanation
+    id: sol-dihedral
+    label: 例9·二面角平面角
+    stem_latex: 说明使 $\angle AOB$ 成为二面角平面角还需满足的条件。
+    side_title: 小贴士
+    side_items:
+    - kind: hint
+      title: 三要素
+      content_latex: 顶点在棱上、两边在两面内、两边垂直于棱，三条都要满足。
+    - kind: mistake
+      title: 垂直于棱
+      content_latex: 最易漏的是 $OA\perp l$、$OB\perp l$；只在一个面内不垂直于棱不行。
+    solution_title: 解答
+    solution_step_ids:
+    - dihedral-obj
+    - dihedral-bridge
+    - dihedral-conclude
+  - type: mistake
+    id: b-perp-mistake
+    title: 垂直定理易错提醒
+    content_latex: 垂直类头号失分点是“相交/棱”前提：线面垂直判定漏 $m\cap n=A$，面面垂直性质漏“垂直于棱 $AB\perp l$”。补中间条件时先问：要凑的是相交，还是四件套里的某一件？
+- id: closing
+  title: 总口令与批改归因
+  show_title: true
+  type: explanation
+  visibility: student
+  layout:
+    break_before: true
+  blocks:
+  - type: method_reminder
+    id: closing-method
+    title: 方法提醒
+    items:
+    - latex: 总口令：判对象、找桥、写格式。先判线线/线面/面面，再补中间那座桥（交线或相交/面内前提），最后按符号写全前提。
+    - latex: 批改三秒归因：对象错（线线/线面/面面搞混，整题重做）＞中间漏（补一条交线或相交前提即可）＞符号错（只改 $\subset/\in/\cap$）。
+    - latex: B 类每题一律按“判对象 $\to$ 补中间 $\to$ 写结论”三段；空白按这三段排版，绝不抄现成几何语言。

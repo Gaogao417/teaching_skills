@@ -1,0 +1,26 @@
+\input{fixed_theorem_diagrams/tikz/_fixed_diagram_styles.tex}
+\tdplotsetmaincoords{65}{115}
+\begin{tikzpicture}[tdplot_main_coords,theorem diagram]
+  \coordinate (ptp1) at (0,0,0);
+  \coordinate (ptp2) at (3.8,0,0);
+  \coordinate (ptp3) at (3.8,1.25,0);
+  \coordinate (ptp4) at (0,1.25,0);
+  \coordinate (ptA) at (0.9,0.65,0);
+  \coordinate (ptH) at (2.25,0.65,0);
+  \coordinate (ptP) at (2.25,0.65,1.05);
+  \coordinate (ptb2) at (2.55,1.1,0);
+  \draw[plane] (ptp1) -- (ptp2) -- (ptp3) -- (ptp4) -- cycle;
+  \node[label] at (ptp3) {$\alpha$};
+  \draw[main] (ptA) -- (ptP);
+  \node[label,above] at (ptP) {$l$};
+  \draw[third] (ptA) -- (ptH);
+  \node[label,below] at (1.58,0.65,0) {$AH$};
+  \draw[second] (ptA) -- (ptb2);
+  \node[label,right] at (ptb2) {$b$};
+  \draw[ghost] (ptP) -- (ptH);
+  \fill (ptA) circle (1.1pt);
+  \node[label,below left] at (ptA) {$A$};
+  \fill (ptH) circle (1.1pt);
+  \node[label,below right] at (ptH) {$H$};
+  \draw[aux] (1.168,0.65,0.209) -- (1.18,0.659,0.192) -- (1.192,0.669,0.174) -- (1.202,0.678,0.154) -- (1.211,0.688,0.133) -- (1.218,0.698,0.111) -- (1.223,0.707,0.089) -- (1.227,0.716,0.066) -- (1.229,0.724,0.043) -- (1.229,0.732,0.021) -- (1.228,0.739,0);
+\end{tikzpicture}

@@ -1,0 +1,19 @@
+\input{fixed_theorem_diagrams/tikz/_fixed_diagram_styles.tex}
+\tdplotsetmaincoords{65}{115}
+\begin{tikzpicture}[tdplot_main_coords,theorem diagram]
+  \coordinate (ptp1) at (0,0,0);
+  \coordinate (ptp2) at (3.6,0,0);
+  \coordinate (ptp3) at (3.6,1.25,0);
+  \coordinate (ptp4) at (0,1.25,0);
+  \coordinate (ptA) at (0.75,0.35,0);
+  \coordinate (ptB) at (2.65,0.35,0);
+  \coordinate (ptC) at (1.65,0.95,0);
+  \draw[plane] (ptp1) -- (ptp2) -- (ptp3) -- (ptp4) -- cycle;
+  \node[label] at (ptp3) {$\alpha$};
+  \fill (ptA) circle (1.1pt);
+  \node[label,below] at (ptA) {$A$};
+  \fill (ptB) circle (1.1pt);
+  \node[label,below] at (ptB) {$B$};
+  \fill (ptC) circle (1.1pt);
+  \node[label,above] at (ptC) {$C$};
+\end{tikzpicture}

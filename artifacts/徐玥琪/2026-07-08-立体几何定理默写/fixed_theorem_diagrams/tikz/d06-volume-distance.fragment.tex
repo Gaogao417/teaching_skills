@@ -1,0 +1,26 @@
+\input{fixed_theorem_diagrams/tikz/_fixed_diagram_styles.tex}
+\tdplotsetmaincoords{66}{118}
+\begin{tikzpicture}[tdplot_main_coords,theorem diagram]
+  \coordinate (ptA) at (0.25,0.12,0);
+  \coordinate (ptB) at (3.35,0.18,0);
+  \coordinate (ptC) at (1.48,1.55,0);
+  \coordinate (ptH) at (1.78,0.64,0);
+  \coordinate (ptP) at (1.78,0.64,1.45);
+  \draw[surfaceB] (ptA) -- (ptB) -- (ptC) -- cycle;
+  \draw[second] (ptP) -- (ptA);
+  \draw[second] (ptP) -- (ptB);
+  \draw[second] (ptP) -- (ptC);
+  \draw[aux] (ptP) -- (ptH);
+  \node[label,right] at (1.95,0.68,0.7) {$h$};
+  \fill (ptA) circle (1.1pt);
+  \node[label,below left] at (ptA) {$A$};
+  \fill (ptB) circle (1.1pt);
+  \node[label,below] at (ptB) {$B$};
+  \fill (ptC) circle (1.1pt);
+  \node[label,right] at (ptC) {$C$};
+  \fill (ptH) circle (1.1pt);
+  \node[label,below right] at (ptH) {$H$};
+  \fill (ptP) circle (1.1pt);
+  \node[label,above] at (ptP) {$P$};
+  \draw[aux] (1.78,0.64,0.14) -- (1.647,0.595,0.14) -- (1.647,0.595,0);
+\end{tikzpicture}

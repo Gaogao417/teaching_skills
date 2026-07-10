@@ -1,0 +1,258 @@
+meta:
+  title: 立体几何距离与角 · 练习
+  subtitle: 距离找高（等体积法），角找截面（射影、平面角）
+  grade: 高一
+  subject: 数学
+  duration: 45分钟
+  total_points: 96
+  version: student
+  source_artifacts:
+    plan: docs/立体几何学习规划/05-距离与角讲义方案.md
+    explanation: artifacts/徐玥琪/2026-07-08-立体几何距离与角/02-student-explanation.plan.assignment.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: choice
+  title: 一、选择题（每题 8 分，共 16 分）
+  type: practice
+  visibility: student
+  blocks:
+  - type: choice
+    id: c1
+    points: 8
+    label: 第 1 题（基础）
+    stem: 直线 $l$ 与平面 $\alpha$ 斜交，$l$ 上一点 $P$（斜足外）在 $\alpha$ 内的射影为 $P'$，斜足为 $A$。下列说法正确的是（　　）。
+    choices:
+      A: 直线 $l$ 与平面 $\alpha$ 所成的角是 $\angle PAP'$
+      B: 直线 $l$ 与平面 $\alpha$ 所成的角是 $\angle lAA'$，其中 $AA'\perp\alpha$
+      C: 直线 $l$ 与平面 $\alpha$ 所成的角是 $l$ 与 $\alpha$ 内任意一条直线的夹角
+      D: 线面角可以大于 $90^\circ$
+    hints:
+    - content: 线面角 = 斜线与其在面内射影的夹角。先有垂线才有射影。
+    answer: ''
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/practice-c1-prompt/rendered/prompt.fragment.tex
+      diagram_ref: practice.c1.prompt
+      diagram_job_id: practice-c1-prompt
+      width: 70mm
+      caption: 斜线 $l$、斜足 $A$、射影 $AP'$。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:ea0bf78da55f86bb2d8a3bc345134e2df98ffec41842182174582b73dfb13395
+      packages:
+      - tikz
+      libraries: []
+  - type: choice
+    id: c7
+    points: 8
+    label: 第 7 题（提高）
+    stem: 用余弦定理算得两条异面直线平移后的夹角 $\theta$ 满足 $\cos\theta=-\dfrac{\sqrt2}{2}$。则这两条异面直线所成角为（　　）。
+    choices:
+      A: $45^\circ$
+      B: $135^\circ$
+      C: $60^\circ$
+      D: $120^\circ$
+    hints:
+    - content: 异面直线所成角范围是 $(0^\circ,90^\circ]$，算出钝角要取补角。
+    answer: ''
+- id: fillin
+  title: 二、填空题（每题 10 分，共 20 分）
+  type: practice
+  visibility: student
+  blocks:
+  - type: fillin
+    id: f2
+    points: 10
+    label: 第 2 题（基础）
+    stem: 正方体 $ABCD\text{-}A_1B_1C_1D_1$ 的棱长为 $2$。则顶点 $A_1$ 到对角面 $BDD_1B_1$ 的距离为 $\underline{\hspace{2em}}$。
+    hints:
+    - content: 点面距、垂足位置不显然时，用等体积法：选一个三棱锥列 $V$ 相等。可试 $V_{A_1\text{-}BDD_1}=V_{D\text{-}A_1BD_1}$。
+    answer: ''
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/practice-f2-prompt/rendered/prompt.fragment.tex
+      diagram_ref: practice.f2.prompt
+      diagram_job_id: practice-f2-prompt
+      width: 70mm
+      caption: 正方体，标出 $A_1$ 与对角面 $BDD_1B_1$。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:f3c80710371e01243afd8acdbf4edb2fcf0515b4d774c2307da4242be2c14b48
+      packages:
+      - tikz
+      libraries: []
+  - type: fillin
+    id: f4
+    points: 10
+    label: 第 4 题（中档）
+    stem: 正四棱锥 $P\text{-}ABCD$ 的底面边长为 $2$，侧棱 $PA=3$，$O$ 为底面中心。则侧棱 $PA$ 与底面 $ABCD$
+      所成角的正切值为 $\underline{\hspace{2em}}$。
+    hints:
+    - content: 侧棱与底面的线面角 = 斜线 $PA$ 与射影 $AO$ 的夹角。先求高 $PO$ 和 $AO$。
+    answer: ''
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/practice-f4-prompt/rendered/prompt.fragment.tex
+      diagram_ref: practice.f4.prompt
+      diagram_job_id: practice-f4-prompt
+      width: 70mm
+      caption: 正四棱锥，标出侧棱 $PA$、底面中心 $O$ 与高 $PO$。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:e724160d46464b429c3d1c41d2bf57d261a57ebac417417b9baa763ca2fc3e4f
+      packages:
+      - tikz
+      libraries: []
+- id: problem
+  title: 三、解答题（共 60 分）
+  type: practice
+  visibility: student
+  blocks:
+  - type: problem
+    id: p3
+    points: 12
+    label: 第 3 题（基础，12 分）
+    stem_latex: "正方体 $ABCD\\text{-}A_1B_1C_1D_1$ 的棱长为 $2$，$O$ 为 $AC$ 与 $BD$ 的交点。\n\
+      \\begin{enumerate}[label=(\\arabic*)]\n  \\item 证明 $BD_1\\perp AC$；\n  \\item\
+      \ 求截面 $AB_1C$ 与底面 $ABCD$ 所成二面角 $A\\text{-}AC\\text{-}B_1$ 的余弦值。\n\\end{enumerate}\n"
+    hints:
+    - content: （1）用三垂线定理：$BD\perp AC$（正方形对角线互相垂直），$D_1D\perp$ 底面，得 $BD_1\perp AC$。（2）截面
+        $AB_1C$ 与底面的棱为 $AC$，取 $AC$ 中点 $O$，$OB\perp AC$，由三垂线 $OB_1\perp AC$，$\angle
+        B_1OB$ 是平面角。
+    answer_space:
+      type: steps
+      height: 62mm
+      step_count: 4
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/practice-p3-prompt/rendered/prompt.fragment.tex
+      diagram_ref: practice.p3.prompt
+      diagram_job_id: practice-p3-prompt
+      width: 70mm
+      caption: 正方体，标出截面 $AB_1C$ 与对角线 $BD_1$。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:207c52152a93103980fe030ae0a9d280dfb9ab7eb2f6eedb2a2431e47e070c10
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: p5
+    points: 14
+    label: 第 5 题（中档，14 分）
+    stem_latex: '在三棱锥 $P\text{-}ABC$ 中，$PA\perp$ 平面 $ABC$，$PA=2$，$AB=AC=2$，$\angle
+      BAC=120^{\circ}$。求点 $A$ 到平面 $PBC$ 的距离。
+
+      '
+    hints:
+    - content: 点 $A$ 到面 $PBC$ 的距离用等体积法：$V_{P\text{-}ABC}=V_{A\text{-}PBC}$。先算 $S_{\triangle
+        ABC}$ 和 $S_{\triangle PBC}$。注意 $PA\perp$ 底面，可先算 $PB$、$PC$。
+    answer_space:
+      type: steps
+      height: 70mm
+      step_count: 5
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/practice-p5-prompt/rendered/prompt.fragment.tex
+      diagram_ref: practice.p5.prompt
+      diagram_job_id: practice-p5-prompt
+      width: 70mm
+      caption: 三棱锥，标出 $PA\perp$ 底面及点 $A$ 到面 $PBC$ 的距离。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:7c91afdaafb3a82d3cc313d159afac776ec3ed67606bd2ba24e17595eca59562
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: p6
+    points: 12
+    label: 第 6 题（中档，12 分）
+    stem_latex: "在正三棱柱 $ABC\\text{-}A_1B_1C_1$ 中，底面边长为 $2$，侧棱 $AA_1=2$，$D$ 为 $BC$\
+      \ 的中点。\n\\begin{enumerate}[label=(\\arabic*)]\n  \\item 证明 $A_1D\\perp BC$；\n\
+      \  \\item 求直线 $A_1B$ 与底面 $ABC$ 所成角的正切值。\n\\end{enumerate}\n"
+    hints:
+    - content: （1）$AD\perp BC$（正三角形中线即高），$A_1A\perp$ 底面，由三垂线定理得 $A_1D\perp BC$。（2）$A_1B$
+        与底面所成角 = $A_1B$ 与射影 $AB$ 的夹角，在 $\text{Rt}\triangle A_1AB$ 中算。
+    answer_space:
+      type: steps
+      height: 62mm
+      step_count: 4
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/practice-p6-prompt/rendered/prompt.fragment.tex
+      diagram_ref: practice.p6.prompt
+      diagram_job_id: practice-p6-prompt
+      width: 70mm
+      caption: 正三棱柱，标出 $A_1D$、$BC$ 及 $A_1B$ 与底面的线面角。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:4c9403834292fa36827755369708c5d180344e89b36005d665feec61fb75e2d3
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: p8
+    points: 10
+    label: 第 8 题（提高，10 分）
+    stem_latex: '正方体 $ABCD\text{-}A_1B_1C_1D_1$ 的棱长为 $2$。求点 $D_1$ 到直线 $AC$ 的距离。
+
+      '
+    hints:
+    - content: 连 $BD$ 交 $AC$ 于 $O$。$D_1D\perp$ 底面，$BD\perp AC$，由三垂线定理 $D_1O\perp AC$，$D_1O$
+        即为所求。
+    answer_space:
+      type: steps
+      height: 55mm
+      step_count: 3
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/practice-p8-prompt/rendered/prompt.fragment.tex
+      diagram_ref: practice.p8.prompt
+      diagram_job_id: practice-p8-prompt
+      width: 70mm
+      caption: 正方体，标出 $D_1$ 到 $AC$ 的垂线段 $D_1O$。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:e71c7b457427e3c9f704b074f872ec757184ca65655dccd1f0097ad0a226a2d7
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: p9
+    points: 12
+    label: 第 9 题（提高，12 分）
+    stem_latex: "在棱长为 $2$ 的正四面体 $P\\text{-}ABC$ 中，$O$ 为底面 $\\triangle ABC$ 的中心。\n\\\
+      begin{enumerate}[label=(\\arabic*)]\n  \\item 求点 $P$ 到平面 $ABC$ 的距离；\n  \\item\
+      \ 设 $E$、$F$ 分别为 $PA$、$BC$ 的中点，求异面直线 $PA$ 与 $BC$ 的距离。\n\\end{enumerate}\n"
+    hints:
+    - content: （1）$PO\perp$ 底面，在 $\text{Rt}\triangle PAM$（$M$ 为 $BC$ 中点）里算 $PO$。（2）$E$、$F$
+        为 $PA$、$BC$ 中点，$EF$ 为异面直线 $PA$ 与 $BC$ 的公垂线段，在 $\triangle PAM$ 里求 $EF$。
+    answer_space:
+      type: steps
+      height: 70mm
+      step_count: 5
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/practice-p9-prompt/rendered/prompt.fragment.tex
+      diagram_ref: practice.p9.prompt
+      diagram_job_id: practice-p9-prompt
+      width: 70mm
+      caption: 正四面体，标出高 $PO$ 与中点 $E$、$F$。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:5a05b6c0c70df4cc1b9cad99d07096d84c3885f2f31de5e8f2a440d63eac01ee
+      packages:
+      - tikz
+      libraries: []

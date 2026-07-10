@@ -1,0 +1,860 @@
+meta:
+  title: 立体几何定理默写 · 图式竖排版
+  subtitle: 徐玥琪 · 教师版
+  grade: 高一
+  subject: 数学
+  duration: 30分钟
+  total_points: 90
+  version: teacher
+  source_artifacts:
+    style_guide: artifacts/徐玥琪/2026-07-08-立体几何定理默写/assignment样式说明.md
+    recall_plan: docs/立体几何学习规划/01-默写题作业方案.md
+    parallel_plan: docs/立体几何学习规划/03-平行证明讲义方案.md
+    perpendicular_plan: docs/立体几何学习规划/04-垂直证明讲义方案.md
+    angle_distance_plan: docs/立体几何学习规划/05-距离与角讲义方案.md
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: basic
+  title: 一、基本事实与位置关系
+  type: practice
+  visibility: teacher
+  blocks:
+  - type: problem
+    id: q01-symbol-membership
+    points: 5
+    stem_latex: '若点在线上，线在面内，则点在这个平面内；符号语言也要能互译。
+
+      \[
+
+      \left.
+
+      \begin{aligned}
+
+      A&\in l\\
+
+      l&\subset \alpha
+
+      \end{aligned}
+
+      \right\}
+
+      \Longrightarrow
+
+      A\ \underline{\hspace{10mm}}\ \alpha
+
+      \]
+
+      '
+    answer: $A\in\alpha$。
+    solution_steps:
+    - title: 默写答案
+      content: $A\in\alpha$。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/q01-symbol-membership-prompt/rendered/prompt.fragment.tex
+      diagram_ref: q01-symbol-membership.prompt
+      diagram_job_id: q01-symbol-membership-prompt
+      width: 55mm
+      caption: ''
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:338d449d80cf697d910d5bcf369e37173a4fb1dccef751647b09c8745f35e1cf
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: q02-three-points-plane
+    points: 5
+    stem_latex: '过不在同一直线上的三点，有且只有一个平面。
+
+      \[
+
+      \left.
+
+      \begin{aligned}
+
+      A,B,C&\ \underline{\hspace{30mm}}
+
+      \end{aligned}
+
+      \right\}
+
+      \Longrightarrow
+
+      \text{确定}\ \underline{\hspace{22mm}}
+
+      \]
+
+      '
+    answer: $A,B,C$ 不共线；确定一个平面。
+    solution_steps:
+    - title: 默写答案
+      content: $A,B,C$ 不共线；确定一个平面。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/q02-three-points-plane-prompt/rendered/prompt.fragment.tex
+      diagram_ref: q02-three-points-plane.prompt
+      diagram_job_id: q02-three-points-plane-prompt
+      width: 55mm
+      caption: ''
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:8317986fcc9d85dfbc231edafcd3e736bc75a8deb7faf7377946f158490de0da
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: q03-lines-plane
+    points: 5
+    stem_latex: '一条直线和这条直线外一点、两条相交直线、两条平行直线，都可以确定一个平面。
+
+      \[
+
+      \left.
+
+      \begin{aligned}
+
+      a&\parallel b\\
+
+      a&\ne b
+
+      \end{aligned}
+
+      \right\}
+
+      \Longrightarrow
+
+      \underline{\hspace{42mm}}
+
+      \]
+
+      '
+    answer: 过两条平行直线有且只有一个平面。
+    solution_steps:
+    - title: 默写答案
+      content: 过两条平行直线有且只有一个平面。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/q03-lines-plane-prompt/rendered/prompt.fragment.tex
+      diagram_ref: q03-lines-plane.prompt
+      diagram_job_id: q03-lines-plane-prompt
+      width: 55mm
+      caption: ''
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:62e817dbe5846385cf1c1cff52af383f542e7786c2b92a4214f08ec97713ed04
+      packages:
+      - tikz
+      libraries: []
+- id: parallel
+  title: 二、平行关系定理
+  type: practice
+  visibility: teacher
+  blocks:
+  - type: problem
+    id: q04-line-plane-parallel-judge
+    points: 5
+    stem_latex: '如果平面外一条直线与这个平面内的一条直线平行，那么这条直线与这个平面平行。
+
+      \[
+
+      \left.
+
+      \begin{aligned}
+
+      a&\parallel b\\
+
+      b&\subset\alpha\\
+
+      a&\not\subset\alpha
+
+      \end{aligned}
+
+      \right\}
+
+      \Longrightarrow
+
+      \underline{\hspace{24mm}}
+
+      \]
+
+      '
+    answer: $a\parallel\alpha$。
+    solution_steps:
+    - title: 默写答案
+      content: $a\parallel\alpha$。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/q04-line-plane-parallel-judge-prompt/rendered/prompt.fragment.tex
+      diagram_ref: q04-line-plane-parallel-judge.prompt
+      diagram_job_id: q04-line-plane-parallel-judge-prompt
+      width: 55mm
+      caption: ''
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:bd5dd1b53ec3f24348847e853e48cc67443d18620f52031b926bfb9ad8c69cf2
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: q05-line-plane-parallel-property
+    points: 5
+    stem_latex: '一条直线与一个平面平行，过这条直线的平面与已知平面相交，则这条直线与交线平行。
+
+      \[
+
+      \left.
+
+      \begin{aligned}
+
+      a&\parallel\alpha\\
+
+      a&\subset\beta\\
+
+      \alpha\cap\beta&=b
+
+      \end{aligned}
+
+      \right\}
+
+      \Longrightarrow
+
+      \underline{\hspace{22mm}}
+
+      \]
+
+      '
+    answer: $a\parallel b$。
+    solution_steps:
+    - title: 默写答案
+      content: $a\parallel b$。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/q05-line-plane-parallel-property-prompt/rendered/prompt.fragment.tex
+      diagram_ref: q05-line-plane-parallel-property.prompt
+      diagram_job_id: q05-line-plane-parallel-property-prompt
+      width: 55mm
+      caption: ''
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:0b88086edd0b2284d5938f02c72386e95a74b93024120982d1d1ad39a8667c2b
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: q06-plane-plane-parallel-judge
+    points: 5
+    stem_latex: '如果一个平面内两条相交直线分别平行于另一个平面内两条相交直线，那么这两个平面平行。
+
+      \[
+
+      \left.
+
+      \begin{aligned}
+
+      a,b&\subset\alpha,\quad a\cap b=P\\
+
+      a'',b''&\subset\beta,\quad a''\cap b''=P''\\
+
+      a&\parallel a'',\quad b\parallel b''
+
+      \end{aligned}
+
+      \right\}
+
+      \Longrightarrow
+
+      \underline{\hspace{24mm}}
+
+      \]
+
+      '
+    answer: $\alpha\parallel\beta$。
+    solution_steps:
+    - title: 默写答案
+      content: $\alpha\parallel\beta$。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/q06-plane-plane-parallel-judge-prompt/rendered/prompt.fragment.tex
+      diagram_ref: q06-plane-plane-parallel-judge.prompt
+      diagram_job_id: q06-plane-plane-parallel-judge-prompt
+      width: 55mm
+      caption: ''
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:cd88b40e909356d5dea86b301b06b090ba3af61cefab14effa085cb103dc8b3a
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: q07-plane-plane-parallel-property
+    points: 5
+    stem_latex: '两个平行平面被第三个平面所截，所得两条交线平行。
+
+      \[
+
+      \left.
+
+      \begin{aligned}
+
+      \alpha&\parallel\beta\\
+
+      \gamma\cap\alpha&=a\\
+
+      \gamma\cap\beta&=b
+
+      \end{aligned}
+
+      \right\}
+
+      \Longrightarrow
+
+      \underline{\hspace{20mm}}
+
+      \]
+
+      '
+    answer: $a\parallel b$。
+    solution_steps:
+    - title: 默写答案
+      content: $a\parallel b$。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/q07-plane-plane-parallel-property-prompt/rendered/prompt.fragment.tex
+      diagram_ref: q07-plane-plane-parallel-property.prompt
+      diagram_job_id: q07-plane-plane-parallel-property-prompt
+      width: 55mm
+      caption: ''
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:dd9d0e9a2b971e31afc6ac30456a52300b3694e4feb35b510adc953156d3e069
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: q08-intersection-line-parallel
+    points: 5
+    stem_latex: '两个平面相交，若两平面内各有一条直线互相平行，则这两条直线都平行于交线。
+
+      \[
+
+      \left.
+
+      \begin{aligned}
+
+      \alpha\cap\beta&=m\\
+
+      l_1&\subset\alpha,\quad l_2\subset\beta\\
+
+      l_1&\parallel l_2
+
+      \end{aligned}
+
+      \right\}
+
+      \Longrightarrow
+
+      \underline{\hspace{34mm}}
+
+      \]
+
+      '
+    answer: $l_1\parallel m$，$l_2\parallel m$。
+    solution_steps:
+    - title: 默写答案
+      content: $l_1\parallel m$，$l_2\parallel m$。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/q08-intersection-line-parallel-prompt/rendered/prompt.fragment.tex
+      diagram_ref: q08-intersection-line-parallel.prompt
+      diagram_job_id: q08-intersection-line-parallel-prompt
+      width: 55mm
+      caption: ''
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:e3aea89273fca679c0f33e688044fb6a6d1fdf1d09646d627ab817108131da01
+      packages:
+      - tikz
+      libraries: []
+- id: perpendicular
+  title: 三、垂直关系定理
+  type: practice
+  visibility: teacher
+  blocks:
+  - type: problem
+    id: q09-line-plane-perp-definition
+    points: 5
+    stem_latex: '如果一条直线垂直于一个平面，那么它垂直于这个平面内过垂足的任意直线。
+
+      \[
+
+      \left.
+
+      \begin{aligned}
+
+      l&\perp\alpha\\
+
+      m&\subset\alpha,\quad P\in m\\
+
+      l\cap\alpha&=P
+
+      \end{aligned}
+
+      \right\}
+
+      \Longrightarrow
+
+      \underline{\hspace{20mm}}
+
+      \]
+
+      '
+    answer: $l\perp m$。
+    solution_steps:
+    - title: 默写答案
+      content: $l\perp m$。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/q09-line-plane-perp-definition-prompt/rendered/prompt.fragment.tex
+      diagram_ref: q09-line-plane-perp-definition.prompt
+      diagram_job_id: q09-line-plane-perp-definition-prompt
+      width: 55mm
+      caption: ''
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:e903f9b509e2bfb6ef95624213a3d05b4fb692729025191cf78e148a99f1f02c
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: q10-line-plane-perp-judge
+    points: 5
+    stem_latex: '如果一条直线垂直于一个平面内的两条相交直线，那么这条直线垂直于这个平面。
+
+      \[
+
+      \left.
+
+      \begin{aligned}
+
+      m,n&\subset\alpha\\
+
+      m\cap n&=P\\
+
+      l&\perp m,\quad l\perp n
+
+      \end{aligned}
+
+      \right\}
+
+      \Longrightarrow
+
+      \underline{\hspace{22mm}}
+
+      \]
+
+      '
+    answer: $l\perp\alpha$。
+    solution_steps:
+    - title: 默写答案
+      content: $l\perp\alpha$。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/q10-line-plane-perp-judge-prompt/rendered/prompt.fragment.tex
+      diagram_ref: q10-line-plane-perp-judge.prompt
+      diagram_job_id: q10-line-plane-perp-judge-prompt
+      width: 55mm
+      caption: ''
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:db2cff51b032afca23e719aaa6c990062278c06522c7dfb5c32a00e8980405c1
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: q11-line-plane-perp-property
+    points: 5
+    stem_latex: '垂直于同一个平面的两条直线互相平行。
+
+      \[
+
+      \left.
+
+      \begin{aligned}
+
+      l&\perp\alpha\\
+
+      m&\perp\alpha
+
+      \end{aligned}
+
+      \right\}
+
+      \Longrightarrow
+
+      \underline{\hspace{18mm}}
+
+      \]
+
+      '
+    answer: $l\parallel m$。
+    solution_steps:
+    - title: 默写答案
+      content: $l\parallel m$。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/q11-line-plane-perp-property-prompt/rendered/prompt.fragment.tex
+      diagram_ref: q11-line-plane-perp-property.prompt
+      diagram_job_id: q11-line-plane-perp-property-prompt
+      width: 55mm
+      caption: ''
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:bc1acdb81125014c67225800e1b76274ea718246bb7a16041302f40d8b56b459
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: q12-plane-plane-perp-judge
+    points: 5
+    stem_latex: '如果一个平面经过另一个平面的一条垂线，那么这两个平面互相垂直。
+
+      \[
+
+      \left.
+
+      \begin{aligned}
+
+      a&\subset\beta\\
+
+      a&\perp\alpha
+
+      \end{aligned}
+
+      \right\}
+
+      \Longrightarrow
+
+      \underline{\hspace{24mm}}
+
+      \]
+
+      '
+    answer: $\alpha\perp\beta$。
+    solution_steps:
+    - title: 默写答案
+      content: $\alpha\perp\beta$。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/q12-plane-plane-perp-judge-prompt/rendered/prompt.fragment.tex
+      diagram_ref: q12-plane-plane-perp-judge.prompt
+      diagram_job_id: q12-plane-plane-perp-judge-prompt
+      width: 55mm
+      caption: ''
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:31a54e0456ce62e339cb20d27d159c8ed8c80ba216e46a346b6bc7da8ed469d1
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: q13-plane-plane-perp-property
+    points: 5
+    stem_latex: '两个平面垂直，在一个平面内垂直于交线的直线，垂直于另一个平面。
+
+      \[
+
+      \left.
+
+      \begin{aligned}
+
+      \alpha&\perp\beta\\
+
+      \alpha\cap\beta&=m\\
+
+      a&\subset\alpha,\quad a\perp m
+
+      \end{aligned}
+
+      \right\}
+
+      \Longrightarrow
+
+      \underline{\hspace{22mm}}
+
+      \]
+
+      '
+    answer: $a\perp\beta$。
+    solution_steps:
+    - title: 默写答案
+      content: $a\perp\beta$。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/q13-plane-plane-perp-property-prompt/rendered/prompt.fragment.tex
+      diagram_ref: q13-plane-plane-perp-property.prompt
+      diagram_job_id: q13-plane-plane-perp-property-prompt
+      width: 55mm
+      caption: ''
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:fa20f1bac073a418969f74bfdbfea07dd414832c2eccbaabbb90d93038a426d6
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: q14-three-perpendicular
+    points: 5
+    stem_latex: '三垂线定理：平面内一条直线若垂直于斜线在这个平面内的射影，则它垂直于这条斜线。
+
+      \[
+
+      \left.
+
+      \begin{aligned}
+
+      PA&\perp\alpha\\
+
+      AB&\text{ 是 }PB\text{ 在 }\alpha\text{ 内的射影}\\
+
+      l&\subset\alpha,\quad l\perp AB
+
+      \end{aligned}
+
+      \right\}
+
+      \Longrightarrow
+
+      \underline{\hspace{20mm}}
+
+      \]
+
+      '
+    answer: $l\perp PB$。
+    solution_steps:
+    - title: 默写答案
+      content: $l\perp PB$。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/q14-three-perpendicular-prompt/rendered/prompt.fragment.tex
+      diagram_ref: q14-three-perpendicular.prompt
+      diagram_job_id: q14-three-perpendicular-prompt
+      width: 55mm
+      caption: ''
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:e6f938f51ae2e387951e918348cc60708f283fa251370e3cf66869485bdd98c2
+      packages:
+      - tikz
+      libraries: []
+- id: angle
+  title: 四、角与距离
+  type: practice
+  visibility: teacher
+  blocks:
+  - type: problem
+    id: q15-skew-angle
+    points: 5
+    stem_latex: '求异面直线所成的角，可以把其中一条直线平移到与另一条相交的位置，再取锐角或直角。
+
+      \[
+
+      \left.
+
+      \begin{aligned}
+
+      a''&\parallel a\\
+
+      a''\cap b&=O
+
+      \end{aligned}
+
+      \right\}
+
+      \Longrightarrow
+
+      \angle(a,b)=\underline{\hspace{28mm}}
+
+      \]
+
+      '
+    answer: $a'$ 与 $b$ 所成的锐角或直角。
+    solution_steps:
+    - title: 默写答案
+      content: $a'$ 与 $b$ 所成的锐角或直角。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/q15-skew-angle-prompt/rendered/prompt.fragment.tex
+      diagram_ref: q15-skew-angle.prompt
+      diagram_job_id: q15-skew-angle-prompt
+      width: 55mm
+      caption: ''
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:9d280c68f2698dccf57f04d8891e5484ccb026dd6aaf89dc0b0f20f14c5d6199
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: q16-line-plane-angle
+    points: 5
+    stem_latex: '一条斜线和它在平面内的射影所成的锐角，叫做这条直线和平面所成的角。
+
+      \[
+
+      \left.
+
+      \begin{aligned}
+
+      AB&\text{ 是 }l\text{ 在 }\alpha\text{ 内的射影}
+
+      \end{aligned}
+
+      \right\}
+
+      \Longrightarrow
+
+      \angle(l,\alpha)=\underline{\hspace{24mm}}
+
+      \]
+
+      '
+    answer: $l$ 与它在 $\alpha$ 内的射影所成的锐角。
+    solution_steps:
+    - title: 默写答案
+      content: $l$ 与它在 $\alpha$ 内的射影所成的锐角。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/q16-line-plane-angle-prompt/rendered/prompt.fragment.tex
+      diagram_ref: q16-line-plane-angle.prompt
+      diagram_job_id: q16-line-plane-angle-prompt
+      width: 55mm
+      caption: ''
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:982d9dd9144b62e652e2d5816f9f768740776e1fb63fbf1c87e84c3e1fa7ec90
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: q17-dihedral-angle
+    points: 5
+    stem_latex: '在二面角的棱上取一点，在两个半平面内分别作垂直于棱的射线，这两条射线所成的角叫二面角的平面角。
+
+      \[
+
+      \left.
+
+      \begin{aligned}
+
+      O&\in l\\
+
+      OA&\subset\alpha,\quad OA\perp l\\
+
+      OB&\subset\beta,\quad OB\perp l
+
+      \end{aligned}
+
+      \right\}
+
+      \Longrightarrow
+
+      \angle AOB=\underline{\hspace{28mm}}
+
+      \]
+
+      '
+    answer: 二面角 $\alpha-l-\beta$ 的平面角。
+    solution_steps:
+    - title: 默写答案
+      content: 二面角 $\alpha-l-\beta$ 的平面角。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/q17-dihedral-angle-prompt/rendered/prompt.fragment.tex
+      diagram_ref: q17-dihedral-angle.prompt
+      diagram_job_id: q17-dihedral-angle-prompt
+      width: 55mm
+      caption: ''
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:8f6db57950c4fc5463575a2ccb8da7f707c2c38bbfff0c1cd64f051dd6325bba
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: q18-distance-projection
+    points: 5
+    stem_latex: '点到平面的距离是点到这个平面的垂线段长；平面图形在另一个平面上的射影面积满足 $S''=S\cos\theta$。
+
+      \[
+
+      \left.
+
+      \begin{aligned}
+
+      PH&\perp\alpha\\
+
+      H&\in\alpha
+
+      \end{aligned}
+
+      \right\}
+
+      \Longrightarrow
+
+      d(P,\alpha)=\underline{\hspace{18mm}},\quad S''=\underline{\hspace{20mm}}
+
+      \]
+
+      '
+    answer: $d(P,\alpha)=PH$，$S'=S\cos\theta$。
+    solution_steps:
+    - title: 默写答案
+      content: $d(P,\alpha)=PH$，$S'=S\cos\theta$。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/q18-distance-projection-prompt/rendered/prompt.fragment.tex
+      diagram_ref: q18-distance-projection.prompt
+      diagram_job_id: q18-distance-projection-prompt
+      width: 55mm
+      caption: ''
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:63660b09cf6d4ede16a7e3a114bccf307075287151a4f8d71118e7aa4b88ac46
+      packages:
+      - tikz
+      libraries: []
+- id: answer-key
+  title: 答案与覆盖清单
+  type: answer_key
+  visibility: teacher
+  blocks:
+  - type: answer
+    id: coverage-summary
+    title: 覆盖清单
+    items:
+    - latex: 基本事实：符号互译、三点定面、直线/相交线/平行线定面。
+    - latex: 平行：线面判定与性质、面面判定与性质、交线平行推论。
+    - latex: 垂直：线面定义/判定/性质、面面判定/性质、三垂线定理。
+    - latex: 角与距离：异面直线角、线面角、二面角、点面距、面积射影。

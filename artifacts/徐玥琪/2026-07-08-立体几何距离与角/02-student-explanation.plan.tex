@@ -1,0 +1,468 @@
+\documentclass{exam-zh}
+\usepackage{edu-explanation}
+
+\examsetup{
+  question/show-answer = true,
+  fillin/show-answer = true,
+  solution/show-solution = show-stay,
+}
+
+\begin{document}
+
+\eduSectionTitle{单元一：距离化归阶梯——一切距离归于点面距}
+
+
+\begin{eduSolutionBox}{结构图：距离与角的化归路线}
+  \begingroup
+  \setlength{\parskip}{2.5mm}
+\begin{center}
+\begin{tikzpicture}[x=1cm,y=1cm,>=stealth, font=\small]
+\node[draw=edu-blue!80, fill=edu-blue!10, rounded corners=3pt, align=center, inner sep=5pt, font=\bfseries] (root) at (0,0) {距离与角的化归路线};
+\node[draw=green!70, fill=green!8, rounded corners=2pt, align=center, inner sep=4pt, minimum width=28mm] (dist) at (-4,1.5) {距离\\点面距\\点线距\\异面距};
+\node[draw=orange!70, fill=orange!8, rounded corners=2pt, align=center, inner sep=4pt, minimum width=28mm] (perp) at (0,1.9) {找垂线\\高/射影\\公垂线};
+\node[draw=purple!70, fill=purple!8, rounded corners=2pt, align=center, inner sep=4pt, minimum width=28mm] (angle) at (4,1.5) {空间角\\线面角\\二面角\\异面角};
+\node[draw=teal!70, fill=teal!8, rounded corners=2pt, align=center, inner sep=4pt, minimum width=28mm] (tri) at (0,-1.9) {平面三角形\\勾股\\面积\\余弦定理};
+\draw[->, thick, edu-blue!70] (dist) -- node[above, sloped, font=\scriptsize] {先找} (perp);
+\draw[->, thick, edu-blue!70] (angle) -- node[above, sloped, font=\scriptsize] {先作} (perp);
+\draw[->, thick, edu-blue!70] (perp) -- node[above, sloped, font=\scriptsize] {化归} (tri);
+\draw[->, thick, edu-blue!70] (tri) -- node[above, sloped, font=\scriptsize] {计算} (dist);
+\end{tikzpicture}
+\end{center}\par
+\textbf{总口令：}距离先找高，角先找射影；最后都回到一个平面三角形里算。\par
+  \endgroup
+\end{eduSolutionBox}
+
+
+
+
+
+\begin{eduSolutionBox}{核心结论：所有距离最终都化为"点面距"}
+  \begingroup
+  \setlength{\parskip}{2.5mm}
+口令是 \textbf{"距离找高"}。立体几何里凡是要算"距离"，先问"这个距离是不是点面距，或能不能转成点面距"。\par
+\begin{tabular}{p{0.30\linewidth}p{0.60\linewidth}}
+距离类型 & 化归路径\\
+点到面距离 & 直接是点面距 $\to$ \textbf{等体积法}（最底层基本元）\\
+线到面距离 & 取线上任一点 $\to$ 该点的点面距\\
+面到面距离 & 取一面任一点 $\to$ 该点到另一面的点面距\\
+异面直线距离 & 找公垂线段；或一线平行于另一线所在面 $\to$ 线面距 $\to$ 点面距\\
+点到线距离 & 三垂线定理作垂足，或三角形面积等积法反求高
+\end{tabular}
+\par
+\textbf{等体积法是压箱底的基本元。}垂线段难直接作时，先想等体积，不要硬猜垂足位置。\par
+  \endgroup
+\end{eduSolutionBox}
+
+
+
+\clearpage
+\eduSectionTitle{单元二：等体积法求点面距（核心基本元）}
+
+
+\begin{eduSolutionBox}{操作要点：换一个易算的高}
+  \begingroup
+  \setlength{\parskip}{2.5mm}
+当点面距的垂线段不易直接作、垂足位置不显然时，选一个三棱锥，用 $V_{A\text{-}BCD}=V_{?\text{-}BCD}$ 列等积方程，把\textbf{难作的高}换成\textbf{易算的高}。\par
+\begin{tabbing}
+\hspace{2em}\=\kill
+\textbf{三步：}\\
+\>① 选一个三棱锥，确定两个等体积的写法（两边底面三角形不同、高也不同）；\\
+\>② 一边的高是待求的点面距 $d$（未知），另一边的高是已知/易算的线段；\\
+\>③ 列 $\dfrac13 S_{\text{难面}}\cdot d=\dfrac13 S_{\text{易面}}\cdot h_{\text{易}}$，反求 $d$。
+\end{tabbing}
+\par
+\textbf{关键检查：}等积方程两边，"底面三角形"与"对应的高"必须配套，不能写成 $V_{A\text{-}BCD}=V_{A\text{-}BCD}$ 自等自。\par
+  \endgroup
+\end{eduSolutionBox}
+
+
+
+
+\begin{eduProblemBlock}[例题 1]
+在三棱锥 $P\text{-}ABC$ 中，三条侧棱 $PA$、$PB$、$PC$ 两两垂直，且 $PA=PB=PC=1$。求点 $P$ 到平面 $ABC$ 的距离。
+\end{eduProblemBlock}
+
+
+
+
+
+\begin{eduAuxItem}{思路导航}
+判对象$\;\to\;$选三棱锥列等积$\;\to\;$算两边底面积$\;\to\;$解方程求 $d$\end{eduAuxItem}
+
+
+
+
+\begin{eduSubQuestionItem}{例题 1}
+求点 $P$ 到平面 $ABC$ 的距离。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{小贴士}
+        \eduSideHint{先想什么}{为什么要写 $V_{A\text{-}PBC}=V_{P\text{-}ABC}$ 而不是硬作垂线？}
+        \eduSideMistake{对应配套}{等积方程两边"底面三角形"和"高"必须配套：左边的底是 $\triangle PBC$、高是 $PA$。}
+  \end{eduExplainLeft}
+
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{解答}
+      \eduExplainStep{1}{判对象}{所求"点 $P$ 到面 $ABC$ 的距离"是点面距，垂足位置不显然 $\to$ 用等体积法。}
+      \eduExplainStep{2}{选三棱锥列等积}{用 $V_{A\text{-}PBC}=V_{P\text{-}ABC}$：左边的高 $PA=1$ 易算，右边的高为待求距离 $d$。}
+      \eduExplainStep{3}{算两边底面积}{$S_{\triangle PBC}=\dfrac12\cdot PB\cdot PC=\dfrac12$；由 $AB=BC=AC=\sqrt{1+1}=\sqrt2$，得 $S_{\triangle ABC}=\dfrac{\sqrt3}{4}\times(\sqrt2)^2=\dfrac{\sqrt3}{2}$。}
+      \eduExplainStep{4}{解方程求 $d$}{由 $\dfrac13 S_{\triangle PBC}\cdot PA=\dfrac13 S_{\triangle ABC}\cdot d$，得 $\dfrac13\times\dfrac12\times1=\dfrac13\times\dfrac{\sqrt3}{2}\times d$，解得 $d=\dfrac{\sqrt3}{3}$。}
+    \vspace{1mm}
+    {\color{edu-blue}\bfseries\small 注意}\par\vspace{1mm}
+    \begin{eduBulletList}
+      \item 算 $S_{\triangle ABC}$ 用 $PA=PB=PC=1\Rightarrow AB=BC=CA=\sqrt2$，不是 $\triangle PBC$ 的面积。    \end{eduBulletList}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduMistakeBox}
+\eduSubTitle{易错提醒}点面距题垂足不显然时，硬作垂线段、猜垂足位置必错。正确入口：立刻转等体积法，列 $V$ 相等的方程。同时等积两边"底—高"要配套，不能自等自。\end{eduMistakeBox}
+
+
+
+
+\begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
+\begin{eduBulletList}
+  \item 距离题先判对象——是点面距吗？是 $\to$ 等体积法。  \item 等积方程：难作的高 $d$ 配难底，易算的高配易底。  \item 算完 $d$ 回代体积方程验一遍。\end{eduBulletList}
+\end{eduSummaryBlock}
+
+
+
+\clearpage
+\eduSectionTitle{单元三：点到线、异面直线距离}
+
+
+\begin{eduSolutionBox}{两类距离：三垂线/面积法 与 公垂线+等面积法}
+  \begingroup
+  \setlength{\parskip}{2.5mm}
+\textbf{点到线的距离}：用三垂线定理找垂足（斜线在面内的射影与某线垂直 $\Rightarrow$ 斜线与该线垂直），或用三角形面积等积法 $\dfrac12\cdot 底\cdot 高$ 反求高。\par
+\textbf{异面直线的距离}：先找公垂线段（与两条异面直线都垂直相交）；当公垂线段不易直接看出，用等面积法 $S_{\triangle}=\dfrac12\cdot 底\cdot 高_1=\dfrac12\cdot 底\cdot 高_2$ 反求。\par
+找公垂线的常见依据：先证一条直线 $\perp$ 一个面，则它与面内所有直线垂直，再证它同时与另一条相交。\par
+  \endgroup
+\end{eduSolutionBox}
+
+
+
+
+\begin{eduProblemBlock}[例题 2]
+在正三棱锥 $P\text{-}ABC$ 中，侧棱 $PA=3$，底面边长为 $2$，$E$ 为 $BC$ 的中点，$EF\perp PA$ 于 $F$。已知 $EF$ 为异面直线 $PA$ 与 $BC$ 的公垂线。
+\begin{enumerate}[label=(\arabic*)]
+  \item 求异面直线 $PA$ 与 $BC$ 的距离 $EF$；
+  \item 求点 $B$ 到平面 $APC$ 的距离。
+\end{enumerate}
+\end{eduProblemBlock}
+
+
+
+
+
+\begin{eduAuxItem}{思路导航}
+(1) 算 $AE$、$PQ$ 套等面积$\;\to\;$(1) 等面积求 $EF$$\;\to\;$(2) 等体积 $V_{P\text{-}ABC}=V_{B\text{-}APC}$$\;\to\;$(2) 解得点 $B$ 到面 $APC$ 距离\end{eduAuxItem}
+
+
+
+
+\begin{eduSubQuestionItem}{(1)}
+求异面直线 $PA$ 与 $BC$ 的距离 $EF$。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{小贴士}
+        \eduSideHint{先想什么}{为什么能先证 $EF$ 是公垂线？依据是 $BC\perp$ 面 $APE$。}
+        \eduSideMistake{等面积配对}{等面积 $\dfrac12 AE\cdot PQ=\dfrac12 AP\cdot EF$ 里，$PQ$ 与 $AE$ 配、$EF$ 与 $AP$ 配，别配错。}
+  \end{eduExplainLeft}
+
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{解答}
+      \eduExplainStep{1}{(1) 算 $AE$、$PQ$ 套等面积}{$AE=\sqrt{AB^2-BE^2}=\sqrt{4-1}=\sqrt3$；$Q$ 为 $\triangle ABC$ 重心，$AQ=\dfrac23 AE=\dfrac{2\sqrt3}{3}$，$PQ=\sqrt{PA^2-AQ^2}=\sqrt{9-\dfrac43}=\dfrac{\sqrt{69}}{3}$。}
+      \eduExplainStep{2}{(1) 等面积求 $EF$}{对 $\triangle APE$ 用 $\dfrac12 AE\cdot PQ=\dfrac12 AP\cdot EF$，得 $EF=\dfrac{AE\cdot PQ}{AP}=\dfrac{\sqrt3\times\dfrac{\sqrt{69}}{3}}{3}=\dfrac{\sqrt{23}}{3}$。}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduSubQuestionItem}{(2)}
+求点 $B$ 到平面 $APC$ 的距离。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{小贴士}
+        \eduSideHint{转化目标}{这又是点面距——直接套单元二的等体积法 $V_{P\text{-}ABC}=V_{B\text{-}APC}$。}
+  \end{eduExplainLeft}
+
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{解答}
+      \eduExplainStep{1}{(2) 等体积 $V_{P\text{-}ABC}=V_{B\text{-}APC}$}{$S_{\triangle ABC}=\dfrac12\cdot AE\cdot BC=\dfrac12\times\sqrt3\times2=\sqrt3$；$AC$ 上高 $=\sqrt{AC^2-1^2}$（此处用等腰）算得 $S_{\triangle APC}$，列等积方程。}
+      \eduExplainStep{2}{(2) 解得点 $B$ 到面 $APC$ 距离}{由 $\dfrac13 S_{\triangle ABC}\cdot PQ=\dfrac13 S_{\triangle APC}\cdot h$，代入得 $h=\dfrac{\sqrt{46}}{4}$。}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduMistakeBox}
+\eduSubTitle{易错提醒}找公垂线时只证了"垂直"却忘了"相交"。公垂线必须与两条异面直线都垂直且都相交。另外异面直线距离也可化成线面距（一线平行于另一线所在面），再转点面距。\end{eduMistakeBox}
+
+
+
+
+\begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
+\begin{eduBulletList}
+  \item 异面直线距离：先找公垂线段，难直接看时用等面积法反求。  \item 点到线距离：三垂线定理找垂足，或面积等积法。\end{eduBulletList}
+\end{eduSummaryBlock}
+
+
+
+\clearpage
+\eduSectionTitle{单元四：角化归阶梯——一切空间角归于平面三角形}
+
+
+\begin{eduSolutionBox}{核心结论：把空间角搬到平面里再算}
+  \begingroup
+  \setlength{\parskip}{2.5mm}
+口令是 \textbf{"角找截面"}。所有空间角都要"搬到平面里"，在平面三角形中用三角函数或余弦定理算。\par
+\begin{tabular}{p{0.28\linewidth}p{0.62\linewidth}}
+角类型 & "截面"找什么\\
+异面直线夹角 & 平移其中一条到与另一条相交，取\textbf{锐角或直角}\\
+线面角 & 找斜线在面内的\textbf{射影}（先要有垂线才有射影）\\
+二面角 & 找/作\textbf{垂直于棱}的截面里的平面角
+\end{tabular}
+\par
+\textbf{距离与角的交汇点}：线面角里那条"垂线"正是距离体系的"高"。$\sin\theta=\dfrac{d}{l}$，其中 $d$ 是斜线上一点到面的距离（可用等体积法求），$l$ 是该点到斜足的距离。这就是 \textbf{"找截面前先找高"}。\par
+  \endgroup
+\end{eduSolutionBox}
+
+
+
+\clearpage
+\eduSectionTitle{单元五：线面角——先有垂线才有射影}
+
+
+\begin{eduSolutionBox}{找垂线得射影，距离↔角交汇 $\sin\theta=d/l$}
+  \begingroup
+  \setlength{\parskip}{2.5mm}
+求线面角：在斜线上取一点（斜足外）向平面作垂线（高！），连垂足与斜足得\textbf{射影}，则斜线与射影的夹角即线面角。\par
+\textbf{距离↔角公式}：$\sin\theta=\dfrac{d}{l}$，$d$ 用等体积法求。当射影不易直接作时，改求点面距 $d$ 再算 $\sin\theta$。\par
+\textbf{关键}：线面角是斜线与\textbf{射影}的夹角，不是斜线与面内某条棱的夹角。\par
+  \endgroup
+\end{eduSolutionBox}
+
+
+
+
+\begin{eduProblemBlock}[例题 3]
+在四棱锥 $P\text{-}ABCD$ 中，$PA\perp$ 面 $ABCD$，底面 $ABCD$ 为直角梯形，$AD\parallel BC$，$CD\perp AD$，$BC=CD=1$，$AD=2$，$PA=2\sqrt2$，$M$ 为 $PD$ 的中点。求直线 $CM$ 与平面 $PAD$ 所成的角。
+\end{eduProblemBlock}
+
+
+
+
+
+\begin{eduAuxItem}{思路导航}
+判对象 + 找垂线$\;\to\;$定射影$\;\to\;$在直角三角形里算$\;\to\;$解角\end{eduAuxItem}
+
+
+
+
+\begin{eduSubQuestionItem}{例题 3}
+求直线 $CM$ 与平面 $PAD$ 所成的角。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{小贴士}
+        \eduSideHint{先想什么}{为什么先证 $CD\perp$ 面 $PAD$？——射影就是靠这条垂线撑起来的（找截面前先找高）。}
+        \eduSideMistake{易错}{线面角是 $CM$ 与射影 $DM$ 的夹角 $\angle CMD$，不是 $CM$ 与棱 $AD$ 的夹角。}
+  \end{eduExplainLeft}
+
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{解答}
+      \eduExplainStep{1}{判对象 + 找垂线}{要求 $CM$ 与面 $PAD$ 所成角。先证 $CD\perp$ 面 $PAD$：$CD\perp AD$（已知），$CD\perp PA$（$PA\perp$ 面 $ABCD$），$AD\cap PA=A$，故 $CD\perp$ 面 $PAD$。}
+      \eduExplainStep{2}{定射影}{因 $CD\perp$ 面 $PAD$，$D$ 为斜足，$DM$ 即 $CM$ 在面 $PAD$ 内的射影，故 $\angle CMD$ 为所求线面角。}
+      \eduExplainStep{3}{在直角三角形里算}{$PD=\sqrt{PA^2+AD^2}=\sqrt{8+4}=2\sqrt3$，$DM=\dfrac12 PD=\sqrt3$，$CD=1$。}
+      \eduExplainStep{4}{解角}{$\tan\angle CMD=\dfrac{CD}{DM}=\dfrac{1}{\sqrt3}=\dfrac{\sqrt3}{3}$，故 $\angle CMD=30^\circ$，即直线 $CM$ 与面 $PAD$ 所成角为 $30^\circ$。}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduMistakeBox}
+\eduSubTitle{易错提醒}把"斜线与面内某条棱的夹角"当成线面角。线面角必须是斜线与其\textbf{射影}的夹角，而射影的前提是先有垂线（高）。找不到射影就改用 $\sin\theta=d/l$（$d$ 用等体积法）。\end{eduMistakeBox}
+
+
+
+
+\begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
+\begin{eduBulletList}
+  \item 先证线面垂直得射影，再在直角三角形里算。  \item 射影难作时用 $\sin\theta=d/l$，$d$ 转等体积法。\end{eduBulletList}
+\end{eduSummaryBlock}
+
+
+
+\clearpage
+\eduSectionTitle{单元六：二面角——垂线法与面积射影法}
+
+
+\begin{eduSolutionBox}{垂线法作平面角 + 面积射影法 $\cos\theta=S_{\text{射影}}/S_{\text{原}}$}
+  \begingroup
+  \setlength{\parskip}{2.5mm}
+\textbf{垂线法}：在棱 $l$ 上取一点 $O$，在两个半平面内各作棱的垂线 $OA$、$OB$，则 $\angle AOB$ 为平面角（两边都 $\perp$ 棱）。常借"棱 $\\perp$ 某面"找截面。\par
+\textbf{面积射影法}：若一个面（面积 $S_{\text{原}}$）在另一面上的射影面积为 $S_{\text{射影}}$，则 $\cos\theta=\dfrac{S_{\text{射影}}}{S_{\text{原}}}$。\par
+\textbf{关键}：平面角的两边必须都垂直于棱，即落在"垂直于棱的截面"里；随便取两条线不一定是平面角。\par
+  \endgroup
+\end{eduSolutionBox}
+
+
+
+
+\begin{eduProblemBlock}[例题 4]
+在正四棱锥 $P\text{-}ABCD$ 中，底面 $ABCD$ 是边长为 $2$ 的正方形，侧棱 $PA=PB=PC=PD=2$。求二面角 $P\text{-}AB\text{-}D$ 的余弦值。
+\end{eduProblemBlock}
+
+
+
+
+
+\begin{eduAuxItem}{思路导航}
+找高 $PO$$\;\to\;$作垂直于棱 $AB$ 的截面$\;\to\;$在直角三角形里算$\;\to\;$解余弦\end{eduAuxItem}
+
+
+
+
+\begin{eduSubQuestionItem}{例题 4}
+求二面角 $P\text{-}AB\text{-}D$ 的余弦值。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{小贴士}
+        \eduSideHint{先想什么}{平面角的两边为什么都垂直于 $AB$？一边 $OH\perp AB$，另一边靠三垂线定理得 $PH\perp AB$。}
+        \eduSideMistake{易错}{平面角必须落在"垂直于棱 $AB$ 的截面"里；取 $PA$、$PB$ 当两边不满足都 $\perp AB$，是错的。}
+  \end{eduExplainLeft}
+
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{解答}
+      \eduExplainStep{1}{找高 $PO$}{设 $O$ 为正方形中心，则 $PO\perp$ 面 $ABCD$。$AO=\dfrac12 AC=\sqrt2$，$PO=\sqrt{PA^2-AO^2}=\sqrt{4-2}=\sqrt2$。}
+      \eduExplainStep{2}{作垂直于棱 $AB$ 的截面}{取 $AB$ 中点 $H$，连 $OH$、$PH$。因 $PO\perp$ 面 $ABCD$，$OH\perp AB$，由三垂线定理 $PH\perp AB$，故 $\angle PHO$ 为二面角 $P\text{-}AB\text{-}D$ 的平面角。}
+      \eduExplainStep{3}{在直角三角形里算}{$OH=\dfrac12 AD=1$，$PH=\sqrt{PO^2+OH^2}=\sqrt{2+1}=\sqrt3$。}
+      \eduExplainStep{4}{解余弦}{$\cos\angle PHO=\dfrac{OH}{PH}=\dfrac{1}{\sqrt3}=\dfrac{\sqrt3}{3}$，故二面角余弦值为 $\dfrac{\sqrt3}{3}$。}
+    \vspace{1mm}
+    {\color{edu-blue}\bfseries\small 另法：面积射影法}\par\vspace{1mm}
+    \begin{eduBulletList}
+      \item 侧面 $\triangle PAB$ 在底面的射影即 $\triangle OAB$，$\cos\theta=\dfrac{S_{\triangle OAB}}{S_{\triangle PAB}}=\dfrac{1}{\sqrt3}=\dfrac{\sqrt3}{3}$，结果一致。    \end{eduBulletList}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduMistakeBox}
+\eduSubTitle{易错提醒}二面角的平面角没放在"垂直于棱的截面"里——在两个面里随便取两条线就当平面角，不满足"都垂直于棱"的前提。每写一个平面角都要先交代两边为何都 $\perp$ 棱。\end{eduMistakeBox}
+
+
+
+
+\begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
+\begin{eduBulletList}
+  \item 垂线法：找棱 $\perp$ 某面，在垂面里得平面角，直角三角形里算。  \item 面积射影法：$\cos\theta=S_{\text{射影}}/S_{\text{原}}$，适合图形对称、射影易求。\end{eduBulletList}
+\end{eduSummaryBlock}
+
+
+
+\clearpage
+\eduSectionTitle{单元七：异面直线夹角——平移取锐角}
+
+
+\begin{eduSolutionBox}{平移到同一平面，取锐角或直角}
+  \begingroup
+  \setlength{\parskip}{2.5mm}
+平移其中一条直线到与另一条相交，所得平面角 $\theta$（或其补角）即异面直线所成角，再用余弦定理或三角函数算。\par
+\textbf{范围 $\theta\in(0^\circ,90^\circ]$}。若算出钝角（$\cos\theta<0$），必须取补角，即取 $|\cos\theta|$ 或 $\pi-\theta$。\par
+常用平移工具：中位线（取中点构造平行线段）、平行四边形对边。\par
+  \endgroup
+\end{eduSolutionBox}
+
+
+
+
+\begin{eduProblemBlock}[例题 5]
+在四面体 $ABCD$ 中，$M$、$N$ 分别是棱 $AD$、$BC$ 的中点，$AB=6$，$CD=4$，$MN=\sqrt{19}$。求异面直线 $AB$ 与 $CD$ 所成角的余弦值。
+\end{eduProblemBlock}
+
+
+
+
+
+\begin{eduAuxItem}{思路导航}
+取中点平移$\;\to\;$定平面角$\;\to\;$余弦定理$\;\to\;$取补角\end{eduAuxItem}
+
+
+
+
+\begin{eduSubQuestionItem}{例题 5}
+求异面直线 $AB$ 与 $CD$ 所成角的余弦值。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{小贴士}
+        \eduSideHint{先想什么}{为什么取 $BD$ 中点 $E$？——中位线能同时把 $AB$、$CD$ 平移过来。}
+        \eduSideMistake{易错}{算出 $\cos\angle MEN=-\dfrac12$（钝角）后，异面直线所成角必须取补角，余弦取绝对值 $\dfrac12$。}
+  \end{eduExplainLeft}
+
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{解答}
+      \eduExplainStep{1}{取中点平移}{取 $BD$ 中点 $E$，连 $ME$、$NE$。由中位线，$ME\parallel AB$ 且 $ME=\dfrac12 AB=3$；$NE\parallel CD$ 且 $NE=\dfrac12 CD=2$。}
+      \eduExplainStep{2}{定平面角}{$\angle MEN$（或其补角）为异面直线 $AB$ 与 $CD$ 所成角。}
+      \eduExplainStep{3}{余弦定理}{$\cos\angle MEN=\dfrac{ME^2+NE^2-MN^2}{2\cdot ME\cdot NE}=\dfrac{9+4-19}{2\times3\times2}=\dfrac{-6}{12}=-\dfrac12$。}
+      \eduExplainStep{4}{取补角}{因异面直线所成角为锐角或直角，取补角，故余弦值为 $\left|-\dfrac12\right|=\dfrac12$。}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduMistakeBox}
+\eduSubTitle{易错提醒}异面直线所成角规定为锐角或直角，范围 $(0^\circ,90^\circ]$。余弦定理算出钝角（$\cos<0$）后忘了取补角，直接把负值当答案——这是最常见失分点，必须取绝对值或补角。\end{eduMistakeBox}
+
+
+
+
+\begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
+\begin{eduBulletList}
+  \item 平移（中位线/平行四边形）$\to$ 同一平面的夹角 $\to$ 余弦定理。  \item 算出钝角取补角，余弦取绝对值；范围 $(0^\circ,90^\circ]$。\end{eduBulletList}
+\end{eduSummaryBlock}
+
+
+
+\clearpage
+\eduSectionTitle{总口令与化归链}
+
+\begin{eduBottomGrid}
+  \begin{eduSummaryLeft}
+    \begin{eduSummaryBlock}{\eduIconCheck}{总口令}
+    \begin{eduPlainList}
+      \item \textbf{距离找高，角找截面；找截面前先找高。}      \item 距离：一切距离 $\to$ 点面距 $\to$ 等体积法。      \item 角：一切空间角 $\to$ 平面三角形 $\to$ 三角函数/余弦定理。    \end{eduPlainList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryLeft}
+  \eduSummaryDivider
+  \begin{eduSummaryRight}
+    \begin{eduSummaryBlock}{\eduIconPin}{三步书写}
+    \begin{eduBulletList}
+      \item ① 判对象（线线/线面/面面，或哪类距离）。      \item ② 转化目标（找高/找截面）。      \item ③ 写格式（等积方程/平面角的构造依据，标注定理）。    \end{eduBulletList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryRight}
+\end{eduBottomGrid}
+
+
+
+
+\begin{eduMistakeBox}
+\eduSubTitle{距离与角混算时的共同失分}距离和角混着算时跳过"找高/找截面"，直接套三角公式，结果边长取错。回到三步第一步"判对象"：先确定高在哪、射影在哪，再动公式。\end{eduMistakeBox}
+
+
+
+
+\end{document}

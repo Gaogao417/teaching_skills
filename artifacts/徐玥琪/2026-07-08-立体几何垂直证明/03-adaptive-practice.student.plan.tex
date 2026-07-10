@@ -1,0 +1,160 @@
+\documentclass{exam-zh}
+\usepackage{edu-practice}
+
+\examsetup{
+  question/show-answer = false,
+  fillin/show-answer = false,
+  solution/show-solution = hide,
+}
+
+% ---------- 教师版解答样式 ----------
+\newtcolorbox{solutionblock}{
+  enhanced, breakable,
+  colback=edu-blue-bg,
+  colframe=edu-blue!25,
+  boxrule=0pt,
+  borderline west={2pt}{0pt}{edu-blue!50},
+  arc=0pt,
+  left=3mm, right=3mm, top=2mm, bottom=2mm,
+  before skip=2mm,
+  after skip=3mm,
+  fontupper=\small,
+}
+
+% 解答步骤编号
+\newcounter{solstep}
+\newcommand{\solstep}[2]{%
+  \stepcounter{solstep}%
+  \par\medskip
+  \noindent\hangindent=6mm
+  {\color{edu-blue}\bfseries\textcircled{\scriptsize\thesolstep}\enspace #1}\enspace #2\par
+}
+
+\begin{document}
+
+\section*{立体几何垂直证明练习}
+
+\section*{一、基础档（直套判定）}
+
+
+\begin{question}[points=5]
+  如图，在正方体 $ABCD\text{-}A_1B_1C_1D_1$ 中，下列“能直接作为线面垂直判定”的是（    ）
+  \begin{hintbox}
+\textbf{提示：}先看每个选项里"垂直"的对象是线线、线面还是面面；再数条件里有没有"两条相交线"。\end{hintbox}
+
+  \begin{choices}
+    \item 由 $A_1A\perp AB$，得 $A_1A\perp$ 平面 $ABCD$
+    \item 由 $A_1A\perp AB$，$A_1A\perp AD$，且 $AB\cap AD=A$，得 $A_1A\perp$ 平面 $ABCD$
+    \item 由 $A_1A\perp$ 平面 $ABCD$，得 $A_1A\perp BD$
+    \item 由 $AB\perp AD$，得 $AB\perp$ 平面 $ADD_1A_1$
+  \end{choices}
+\end{question}
+
+
+
+\begin{question}[points=5]
+  在线面垂直判定中，要证直线 $l\perp$ 平面 $\alpha$，需要在 $\alpha$ 内找到两条直线 $m,n$，使 $l\perp m$，$l\perp n$，并且必须补充的关键前提是 $m\cap n=$ \underline{\quad\quad\quad}（写出交点），且 $m,n\subset$ \underline{\quad\quad\quad}（写出平面）。
+  \begin{hintbox}
+\textbf{提示：}回忆格式模板卡里的四个前提，重点补"相交"和"在面内"。\end{hintbox}
+
+\end{question}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=8]
+    如图，在正三棱柱 $ABC\text{-}A_1B_1C_1$ 中，$D$ 是 $BC$ 的中点。
+\begin{enumerate}[label=(\arabic*)]
+  \item 求证：$A_1D\perp BC$；
+  \item 求证：$A_1A\perp$ 平面 $ABC$。
+\end{enumerate}
+
+    \begin{hintbox}
+\textbf{提示：}(1) 正三棱柱底面是正三角形，$D$ 是 $BC$ 中点，想到等腰三线合一。(2) 正棱柱的侧棱与底面什么关系？在底面找两条与侧棱都垂直的相交线。\end{hintbox}
+
+  \answerarea[48mm]
+\end{problem}
+
+
+\section*{二、中档档（先凑线线再升级）}
+
+
+\begin{question}[points=5]
+  如图，正四棱锥 $P\text{-}ABCD$ 的底面是正方形，$O$ 是底面中心。设侧棱 $PA=PC=\sqrt{2}$，$AC=2$，则 $PO$ 与 $AC$ 的关系是 $PO\perp AC$，理由是 $PA=PC$ 且 $O$ 是 $AC$ 中点，由 \underline{\quad\quad\quad\quad\quad\quad}（填定理名）得到；进而若再由对称性得 $PO\perp BD$（$O$ 也是 $BD$ 中点，$PB=PD$），由 $AC\cap BD=$ \underline{\quad}，便可由线面垂直判定得 $PO\perp$ 平面 $ABCD$。
+  \begin{hintbox}
+\textbf{提示：}等腰三角形顶角顶点向底边中点连线，得到的是什么？这条线叫三线合一中的"高"。\end{hintbox}
+
+\end{question}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=9]
+    如图，在三棱锥 $S\text{-}ABC$ 中，$SA\perp AB$，$SA\perp AC$，$AB\cap AC=A$。
+\begin{enumerate}[label=(\arabic*)]
+  \item 求证：$SA\perp$ 平面 $ABC$；
+  \item 若 $D$ 是 $BC$ 上一点，求证：$SA\perp AD$。
+\end{enumerate}
+
+    \begin{hintbox}
+\textbf{提示：}先用线面垂直判定，再用定义推出线线垂直。\end{hintbox}
+
+  \answerarea[56mm]
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=9]
+    如图，在长方体 $ABCD\text{-}A_1B_1C_1D_1$ 中，$AD=AA_1=1$，$AB=2$，$E$ 为 $AB$ 的中点。求证：$D_1E\perp CE$。
+
+    \begin{hintbox}
+\textbf{提示：}要证 $D_1E\perp CE$（线线），转成证 $CE\perp$ 含 $D_1E$ 的面 $D_1DE$。$DD_1\perp$ 底面给一条；$DE$ 与 $CE$ 的垂直怎么证？算 $DE^2+CE^2$ 是否等于 $DC^2$（勾股逆）。\end{hintbox}
+
+  \answerarea[48mm]
+\end{problem}
+
+
+
+\begin{question}[points=5]
+  已知直线 $a,b$ 和平面 $\alpha$，下列判断正确的是（    ）
+  \begin{hintbox}
+\textbf{提示：}记住：$a\perp\alpha,\ b\subset\alpha\Rightarrow a\perp b$ 是定义推论；$a\perp\alpha,\ b\perp\alpha\Rightarrow a\parallel b$ 才是性质定理。别把定义推论当成性质定理。\end{hintbox}
+
+  \begin{choices}
+    \item 若 $a\perp b$，$b\subset\alpha$，则 $a\perp\alpha$
+    \item 若 $a\perp\alpha$，$b\subset\alpha$，则 $a\parallel b$
+    \item 若 $a\perp\alpha$，$b\perp\alpha$，则 $a\parallel b$
+    \item 若 $a\perp\alpha$，$b\subset\alpha$，则 $a\perp b$，这叫线面垂直的"性质定理"
+  \end{choices}
+\end{question}
+
+
+\section*{三、提高档（判定性质混用 + 二面角作图）}
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=9]
+    如图，在三棱锥 $P\text{-}ABC$ 中，$PA\perp$ 平面 $ABC$，平面 $PAB\perp$ 平面 $PBC$。求证：$BC\perp AB$。
+
+    \begin{hintbox}
+\textbf{提示：}要证 $BC\perp AB$（线线），转成证 $BC\perp$ 含 $AB$ 的面 $PAB$。面 $PAB\perp$ 面 $PBC$ 是已知，在面 $PAB$ 内作 $AD\perp$ 交线 $PB$，由面面垂直性质得什么？再补 $PA\perp BC$，凑两条相交垂线。\end{hintbox}
+
+  \answerarea[56mm]
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=9]
+    如图，$AB$ 是 $\odot O$ 的直径，$PA$ 垂直于 $\odot O$ 所在平面，$C$ 是圆上一点（不同于 $A,B$）。指出二面角 $P\text{-}BC\text{-}A$ 的平面角，并核验平面角三要素。（只找角，不计算大小。）
+
+    \begin{hintbox}
+\textbf{提示：}认棱 $BC$；证 $BC\perp$ 某个面定出平面角顶点。$PA\perp$ 圆面给一条 $PA\perp BC$；直径对圆周角 $90^{\circ}$ 给一条 $AC\perp BC$。交点即顶点，核验三要素。\end{hintbox}
+
+  \answerarea[52mm]
+\end{problem}
+
+
+
+\end{document}

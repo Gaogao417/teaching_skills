@@ -1,0 +1,908 @@
+meta:
+  title: 立体几何截面与共面
+  subtitle: 学生讲义：从属关系·定面·交线截面·共面证明
+  grade: 高一
+  subject: 数学
+  version: student
+  assignment_id: 2026-07-08-solid-geo-section-coplanar-explanation
+  source_artifacts:
+    plan: docs/立体几何学习规划/02-截面与共面方案.md
+render:
+  template: exam-zh-explanation
+  paper_size: a4paper
+sections:
+- id: unit-1-incidence
+  title: 单元一：从属关系链——判断一条线是否落在面上
+  show_title: true
+  type: explanation
+  visibility: student
+  blocks:
+  - type: solution
+    id: knowledge-map
+    title: 结构图：截面与共面的四步链
+    items:
+    - content_latex: '\begin{center}
+
+        \begin{tikzpicture}[x=1cm,y=1cm,>=stealth, font=\small]
+
+        \node[draw=edu-blue!80, fill=edu-blue!10, rounded corners=3pt, align=center, inner sep=5pt, font=\bfseries] (root) at (0,0) {截面与共面的四步链};
+
+        \node[draw=green!70, fill=green!8, rounded corners=2pt, align=center, inner sep=4pt, minimum width=28mm] (inc) at (-4,1.5) {从属关系\\点 $\in$ 线\\线 $\subset$ 面};
+
+        \node[draw=orange!70, fill=orange!8, rounded corners=2pt, align=center, inner sep=4pt, minimum width=28mm] (plane) at (0,1.9) {确定平面\\三点不共线\\线+点\\相交/平行线};
+
+        \node[draw=purple!70, fill=purple!8, rounded corners=2pt, align=center, inner sep=4pt, minimum width=28mm] (inter) at (4,1.5) {找交线\\两个公共点\\延长找第二点};
+
+        \node[draw=teal!70, fill=teal!8, rounded corners=2pt, align=center, inner sep=4pt, minimum width=28mm] (section) at (0,-1.9) {画截面\\边在表面上\\逐面核验};
+
+        \draw[->, thick, edu-blue!70] (root) -- node[above, sloped, font=\scriptsize] {会写} (inc);
+
+        \draw[->, thick, edu-blue!70] (root) -- node[above, sloped, font=\scriptsize] {会定} (plane);
+
+        \draw[->, thick, edu-blue!70] (root) -- node[above, sloped, font=\scriptsize] {会找} (inter);
+
+        \draw[->, thick, edu-blue!70] (root) -- node[above, sloped, font=\scriptsize] {会画} (section);
+
+        \end{tikzpicture}
+
+        \end{center}'
+    - latex: \textbf{总口令：}截面题只做三件事：找公共点、连交线、核验每条边落在哪个表面。
+  - type: solution
+    id: unit-1-knowledge
+    title: 核心结论：两点∈线∈面 ⇒ 线⊂面
+    items:
+    - latex: \textbf{基本事实2：} 若 $A\in l$，$B\in l$，$A\in\alpha$，$B\in\alpha$，则 $l\subset\alpha$。
+    - latex: \textbf{唯一判据：} 判断“一条直线是否落在某个面上”，只看线上是否有两点都落在该面内。截面作图里每一条边都靠它落实“属于哪个面”。
+    - content_latex: '\begin{tabular}{p{0.30\linewidth}p{0.60\linewidth}}
+
+        符号 & 区分\\
+
+        点在直线/面上 & 用 $\in$，如 $A\in l$、$A\in\alpha$\\
+
+        直线在面内 & 用 $\subset$，如 $l\subset\alpha$\\
+
+        两面交于线 & $\alpha\cap\beta=m$\\
+
+        \end{tabular}
+
+        '
+  - type: problemcard
+    id: unit-1-ex1
+    label: 例题 1
+    stem_latex: '如图，两个平面 $\alpha$、$\beta$ 相交于直线 $m$，直线 $n\subset\alpha$，$m$ 与 $n$ 相交于点 $A$。
+
+      下列符号表达中，正确的是哪一个？
+
+      \begin{enumerate}[label=(\Alph*)]
+
+      \item $\alpha\cap\beta=m$，$n\in\alpha$，$m\cap n=A$
+
+      \item $\alpha\cap\beta=m$，$n\subset\alpha$，$m\cap n=A$
+
+      \item $\alpha\cap\beta=m$，$n\subset\alpha$，$A\subset m$，$A\subset n$
+
+      \item $\alpha\cap\beta=m$，$n\in\alpha$，$A\in m$，$A\in n$
+
+      \end{enumerate}'
+    diagram_slot:
+      slot_id: explanation.unit1.ex1.prompt
+      diagram_ref: explanation.unit1.ex1.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: block_center
+      layout_role: center_block
+      display_profile: worksheet_geometry_center
+      caption: 看清两面的交线 $m$ 与直线 $n$。
+      engine: spatial_renderer
+      diagram_kind: spatial_geometry
+      teaching_intent: explanation_prompt
+      problem_context:
+        source_problem_text: 两个相交平面 α、β，交线为水平直线 m；直线 n 在平面 α 内，与 m 相交于点 A。
+      semantic_constraints:
+        given_objects:
+        - 平面 α
+        - 平面 β
+        - 交线 m
+        - 直线 n
+        - 点 A
+        given_constraints:
+        - α∩β=m
+        - n⊂α
+        - m 与 n 相交于点 A
+      engine_options:
+        spatial_spec:
+          projection: isometric_hidden_axes
+          points3d:
+            U:
+            - -0.415
+            - -0.35
+            - 0
+            V:
+            - 2.985
+            - -0.35
+            - 0
+            W:
+            - 3.385
+            - 1.6
+            - 0
+            X:
+            - -0.015
+            - 1.6
+            - 0
+            aL:
+            - 0.235
+            - 2.0
+            - 0.65
+            aR:
+            - 2.735
+            - 2.0
+            - 0.65
+            bL:
+            - 0.335
+            - 0.45
+            - 0
+            bR:
+            - 2.735
+            - 0.45
+            - 0
+            P:
+            - 1.485
+            - 0.45
+            - 0
+            A:
+            - 2.035
+            - 1.766
+            - 0.0
+          segments:
+          - from: U
+            to: V
+          - from: V
+            to: W
+          - from: W
+            to: X
+          - from: X
+            to: U
+          - from: aL
+            to: aR
+          - from: bL
+            to: bR
+          polygons:
+          - points:
+            - U
+            - V
+            - W
+            - X
+            fill: '#eff6ff'
+            stroke: '#94a3b8'
+            stroke_width: 1.2
+          markers: []
+          labels:
+            U:
+              text: ' '
+            V:
+              text: ' '
+            W:
+              text: ' '
+            X:
+              text: ' '
+            aL:
+              text: a
+            aR:
+              text: ' '
+            bL:
+              text: b
+            bR:
+              text: ' '
+            P:
+              text: P
+            A:
+              text: A
+          constraints:
+          - 平面 α
+          - 平面 β
+          - 交线 m
+          - 直线 n
+          - 点 A
+          - α∩β=m
+          - n⊂α
+          - m 与 n 相交于点 A
+          teaching_focus:
+          - 看清两面的交线 $m$ 与直线 $n$。
+  - type: route
+    id: unit-1-route-1
+    steps:
+    - id: unit-1-route-1-translate
+      latex: 把题意逐句翻成符号
+      content_latex: 两面相交于 $m$ 写 $\alpha\cap\beta=m$；$n$ 在 $\alpha$ 内写 $n\subset\alpha$；$m,n$ 交于 $A$ 写 $m\cap n=A$。
+    - id: unit-1-route-1-distinguish
+      latex: 区分点用 $\in$、线用 $\subset$
+      content_latex: 直线在面内只能写 $n\subset\alpha$，不能写 $n\in\alpha$；点在直线/面上写 $A\in m$、$A\in n$，不能写 $A\subset m$。
+  - type: dual_explanation
+    id: unit-1-sol-1
+    label: 例题 1
+    stem_latex: 选出正确的符号表达。
+    side_title: 小贴士
+    side_items:
+    - kind: hint
+      title: 先想哪个符号
+      content_latex: “直线在面内”为什么用 $\subset$ 而不是 $\in$？因为直线看成点的集合，面也是点的集合，集合之间用包含关系。
+    - kind: mistake
+      title: 易混点
+      content_latex: 把 $A\in m$ 写成 $A\subset m$ 是错的：点不是集合。
+    solution_title: 解答
+    solution_step_ids:
+    - unit-1-route-1-translate
+    - unit-1-route-1-distinguish
+    connection_title: 一句话收束
+    connection_items:
+    - latex: 点用 $\in$、线面用 $\subset$；两面交线写 $\alpha\cap\beta=m$。
+  - type: mistake
+    id: unit-1-mistake
+    title: 易错提醒
+    content_latex: '判断“线在面上”时，常见错误是凭感觉，没去找线上两点都在面内。
+
+      记住：线上有两点都在同一面内，整条线才在该面内，这就是基本事实2。
+
+      '
+  - type: method_reminder
+    id: unit-1-method
+    title: 方法提醒
+    items:
+    - latex: 判断线在面内，只看线上是否有两点都在该面内。
+    - latex: 点用 $\in$，线面用 $\subset$，两面交线写 $\cap$。
+- id: unit-2-plane-determination
+  title: 单元二：定面链——四条定面主路与共面证明的出口
+  show_title: true
+  type: explanation
+  visibility: student
+  layout:
+    break_before: true
+  blocks:
+  - type: solution
+    id: unit-2-knowledge
+    title: 核心结论：四条定面主路并列对比
+    items:
+    - latex: \textbf{基本事实1：} 过不在一条直线上的三点，有且只有一个平面（最根本的定面公理）。
+    - content_latex: '\begin{tabular}{p{0.22\linewidth}p{0.40\linewidth}p{0.28\linewidth}}
+
+        主路 & 条件 & 用途\\
+
+        推论① & 一条直线 + 直线外一点 & 线+点定面\\
+
+        推论② & 两条相交直线 & 相交定面（共面证明出口一）\\
+
+        推论③ & 两条平行直线 & 平行定面（共面证明出口二）\\
+
+        \end{tabular}
+
+        '
+    - latex: \textbf{共面证明的本质：} 找到一个能把两条线都装进去的平面——优先用推论②（相交）或推论③（平行）。
+  - type: problemcard
+    id: unit-2-ex1
+    label: 例题 2
+    stem_latex: '已知一条直线 $l$ 和 $l$ 外三个点 $A,B,C$。这三个点与直线 $l$
+
+      最多能确定多少个平面？说明理由。
+
+      '
+  - type: route
+    id: unit-2-route-1
+    steps:
+    - id: unit-2-route-1-line-point
+      latex: 线 + 一个点定一面（推论①）
+      content_latex: 直线 $l$ 与线外一点确定一个平面。$A,B,C$ 各与 $l$ 最多各定一个面，共 $3$ 个。
+    - id: unit-2-route-1-three-points
+      latex: 三个点能否再定面
+      content_latex: 若 $A,B,C$ 不共线，且三点所在平面不经过 $l$，则它们还能再定 $1$ 个面。
+    - id: unit-2-route-1-max
+      latex: 求最多
+      content_latex: 最多时 $3+1=4$ 个平面。关键判据：哪个点能与 $l$ 落在同一面里就少算一个。
+  - type: dual_explanation
+    id: unit-2-sol-1
+    label: 例题 2
+    stem_latex: 求一条直线与线外三点最多确定的平面个数。
+    side_title: 小贴士
+    side_items:
+    - kind: hint
+      title: 怎么数才不漏不重
+      content_latex: 先固定“线+点”这条主路数，再单独看三点之间能不能再凑出平面，两数相加即最多。
+    - kind: mistake
+      title: 为什么最多要加 1
+      content_latex: 若误以为三点不能再定面，就会漏算那 $1$ 个；前提是三点不共线且所在面不过 $l$。
+    solution_title: 解答
+    solution_step_ids:
+    - unit-2-route-1-line-point
+    - unit-2-route-1-three-points
+    - unit-2-route-1-max
+    connection_title: 一句话收束
+    connection_items:
+    - latex: 枚举定面个数：先数线+点，再数点之间，最多 $4$ 个。
+  - type: mistake
+    id: unit-2-mistake
+    title: 易错提醒
+    content_latex: '把“三点定面”记成“任意三点定面”是错的——必须不共线。
+
+      共线的三点不能定面，能定面的是不共线的三点。
+
+      '
+  - type: method_reminder
+    id: unit-2-method
+    title: 方法提醒
+    items:
+    - latex: 定面四主路：三点、线+点、两相交线、两平行线。
+    - latex: 共面证明优先往“相交定面”或“平行定面”两条主路上靠。
+- id: unit-3-intersection-section
+  title: 单元三：交线链与截面作图——三句操作口令
+  show_title: true
+  type: explanation
+  visibility: student
+  layout:
+    break_before: true
+  blocks:
+  - type: solution
+    id: unit-3-knowledge
+    title: 核心结论：两个公共点定交线 + 三句操作口令
+    items:
+    - latex: \textbf{基本事实3：} 若 $P\in\alpha$ 且 $P\in\beta$，则 $\alpha\cap\beta=l$，且 $P\in l$。
+    - latex: \textbf{口令一·两个公共点定交线：} 截平面与几何体表面有两个公共点，交线就被唯一确定。
+    - latex: \textbf{口令二·同一平面内延长找交点：} 公共点不直接可见时，在某个表面所在的平面内延长两条已有线，交点必落在该面上。
+    - latex: \textbf{口令三·截面边落在表面上：} 截面与某表面的交线就是截面的一条边；落在空中的线一律判错。
+  - type: problemcard
+    id: unit-3-ex1
+    label: 例题 3
+    stem_latex: '如图，在正方体 $ABCD-A_1B_1C_1D_1$ 中，$P$、$Q$ 分别为棱 $BB_1$、$CC_1$ 的中点。
+
+      画出过 $A$、$P$、$Q$ 三点的平面与底面 $ABCD$ 的交线。
+
+      '
+    diagram_slot:
+      slot_id: explanation.unit3.ex1.prompt
+      diagram_ref: explanation.unit3.ex1.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: block_center
+      layout_role: center_block
+      display_profile: worksheet_geometry_center
+      caption: 原题图：看清 $A$ 与中点 $P,Q$。
+      engine: spatial_renderer
+      diagram_kind: spatial_geometry
+      teaching_intent: explanation_prompt
+      problem_context:
+        source_problem_text: 正方体 ABCD-A1B1C1D1，P 为 BB1 中点，Q 为 CC1 中点；不画结论交线。
+      semantic_constraints:
+        given_objects:
+        - 正方体 ABCD-A1B1C1D1
+        - P 为 BB1 的中点
+        - Q 为 CC1 的中点
+        given_constraints:
+        - P、Q 在侧面 BCC1B1 上
+        - 点 A 在底面 ABCD 上
+        - 只画已知，不画交线
+        clean_forbidden:
+        - 不要画交线及其延长线
+        - 不要标注交点 M
+      engine_options:
+        spatial_spec:
+          projection: isometric_hidden_axes
+          points3d:
+            A:
+            - 0
+            - 0
+            - 0
+            B:
+            - 3
+            - 0
+            - 0
+            C:
+            - 3
+            - 2.1
+            - 0
+            D:
+            - 0
+            - 2.1
+            - 0
+            A1:
+            - 0
+            - 0
+            - 2.0
+            B1:
+            - 3
+            - 0
+            - 2.0
+            C1:
+            - 3
+            - 2.1
+            - 2.0
+            D1:
+            - 0
+            - 2.1
+            - 2.0
+            P:
+            - 3.0
+            - 0.0
+            - 1.0
+            Q:
+            - 3.0
+            - 2.1
+            - 1.0
+            M:
+            - 0.95
+            - 0.034
+            - 0.0
+          segments:
+          - from: A
+            to: B
+          - from: B
+            to: C
+          - from: C
+            to: D
+          - from: D
+            to: A
+          - from: A1
+            to: B1
+          - from: B1
+            to: C1
+          - from: C1
+            to: D1
+          - from: D1
+            to: A1
+          - from: A
+            to: A1
+          - from: B
+            to: B1
+          - from: C
+            to: C1
+          - from: D
+            to: D1
+          - from: B
+            to: B1
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: C
+            to: C1
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          polygons:
+          - points:
+            - A
+            - B
+            - C
+            - D
+            fill: '#eff6ff'
+            stroke: '#94a3b8'
+            stroke_width: 1.2
+          - points:
+            - A1
+            - B1
+            - C1
+            - D1
+            fill: '#f8fafc'
+            stroke: '#94a3b8'
+            stroke_width: 1.2
+          markers: []
+          labels:
+            A:
+              text: A
+            B:
+              text: B
+            C:
+              text: C
+            D:
+              text: D
+            A1:
+              text: A_1
+            B1:
+              text: B_1
+            C1:
+              text: C_1
+            D1:
+              text: D_1
+            P:
+              text: P
+            Q:
+              text: Q
+            M:
+              text: M
+          constraints:
+          - 正方体 ABCD-A1B1C1D1
+          - P 为 BB1 的中点
+          - Q 为 CC1 的中点
+          - P、Q 在侧面 BCC1B1 上
+          - 点 A 在底面 ABCD 上
+          - 只画已知，不画交线
+          - 不要画交线及其延长线
+          - 不要标注交点 M
+          teaching_focus:
+          - 原题图：看清 $A$ 与中点 $P,Q$。
+  - type: route
+    id: unit-3-route-1
+    steps:
+    - id: unit-3-route-1-find-first
+      latex: 找第一个公共点
+      content_latex: 点 $A$ 同时在截面（过 $A$）和底面 $ABCD$ 上，是第一个公共点。
+    - id: unit-3-route-1-extend
+      latex: 在侧面所在平面内延长找第二个公共点
+      content_latex: '在侧面 $BCC_1B_1$ 所在平面内，$PQ\parallel BC$，$PQ$ 与 $BC$ 不相交，故改在面 $ABB_1A_1$ 内：
+
+        连 $AP$ 并延长，与 $CB$ 的延长线交于 $M$（$M$ 落在底面 $ABCD$ 上），$M$ 即第二个公共点。
+
+        '
+      diagram_slot:
+        slot_id: explanation.unit3.ex1.solution.annotated
+        diagram_ref: explanation.unit3.ex1.solution.annotated
+        variant: solution
+        disclosure_policy: annotated
+        reuse_geometry_from: explanation.unit3.ex1.prompt
+        required: true
+        on_failure: fail_assignment
+        placement: step_diagram
+        layout_role: solution_annotation
+        display_profile: worksheet_geometry_center
+        caption: 延长 $AP$ 找到底面上的 $M$，连线 $AM$ 即交线。
+        engine: spatial_renderer
+        diagram_kind: spatial_geometry
+        teaching_intent: explanation_solution
+        problem_context:
+          source_problem_text: 在原正方体图上，连接 AP 并延长，与 CB 的延长线交于点 M；连线 AM 即所求交线。延长线用点划线/浅色细线区分。
+        semantic_constraints:
+          given_objects:
+          - 正方体 ABCD-A1B1C1D1
+          - P、Q 为中点
+          - 辅助交点 M
+          given_constraints:
+          - A、P、M 共线，M 在 CB 的延长线上
+          - M 落在底面 ABCD 上
+          derived_objects:
+          - 辅助线 AP 的延长线
+          - 交点 M
+          - 交线 AM
+          derived_constraints:
+          - M 同时在截面和底面 ABCD 上
+          - AM = 截面 ∩ 底面 ABCD
+          solution_allowed_annotations:
+          - 标出延长线 AP 与交点 M
+          - 加粗交线 AM
+        engine_options:
+          spatial_spec:
+            projection: isometric_hidden_axes
+            segments:
+            - from: B
+              to: C
+              stroke: '#dc2626'
+              stroke_width: 2.4
+            - from: C
+              to: B
+              stroke: '#dc2626'
+              stroke_width: 2.4
+            - from: P
+              to: Q
+              stroke: '#dc2626'
+              stroke_width: 2.4
+            markers: []
+            teaching_focus:
+            - 延长 $AP$ 找到底面上的 $M$，连线 $AM$ 即交线。
+    - id: unit-3-route-1-connect
+      latex: 两个公共点连线即交线
+      content_latex: 连接 $AM$，则 $AM$ 为截面与底面 $ABCD$ 的交线。
+  - type: dual_explanation
+    id: unit-3-sol-1
+    label: 例题 3
+    stem_latex: 画出过 $A,P,Q$ 的截面与底面 $ABCD$ 的交线。
+    side_title: 小贴士
+    side_items:
+    - kind: hint
+      title: 为什么要延长
+      content_latex: $A$ 在底面、$P,Q$ 不在底面，直接连没有第二个公共点；只能在某个侧面所在平面内延长，把交点“逼”到底面上去。
+    - kind: hint
+      title: 延长线画在哪
+      content_latex: 延长 $AP$ 必须在面 $ABB_1A_1$ 所在平面内画，落点 $M$ 一定在棱 $CB$（或其延长线）上。
+    - kind: mistake
+      title: 截面画到几何体外
+      content_latex: 若把交线连到几何体外面、或连了不在表面上的点，就是漏了“截面边落在表面上”这句口令。
+    solution_title: 解答
+    solution_step_ids:
+    - unit-3-route-1-find-first
+    - unit-3-route-1-extend
+    - unit-3-route-1-connect
+    connection_title: 一句话收束
+    connection_items:
+    - latex: 先找一个公共点，再在表面所在平面内延长找第二个公共点，两点连线即交线。
+  - type: mistake
+    id: unit-3-mistake
+    title: 易错提醒
+    content_latex: '做复杂截面时最常犯两条：一是把截面边画到几何体外面，二是漏画延长线、
+
+      直接连两个不该连的点。强制要求先画延长线、再定交线，每条边都追问“落在哪个表面”。
+
+      '
+  - type: method_reminder
+    id: unit-3-method
+    title: 方法提醒
+    items:
+    - latex: 截面三口令：两个公共点定交线、同一平面内延长找交点、截面边落在表面上。
+    - latex: 延长线一律画在某个表面所在的平面内，落点在棱上。
+- id: unit-4-coplanar-proof
+  title: 单元四：共面证明——相交/平行两直线定面
+  show_title: true
+  type: explanation
+  visibility: student
+  layout:
+    break_before: true
+  blocks:
+  - type: solution
+    id: unit-4-knowledge
+    title: 核心结论：共面证明的两条主路
+    items:
+    - latex: \textbf{主路一·相交定面（推论②）：} 若 $a\cap b=P$，则 $a,b$ 共面于由它们确定的平面。
+    - latex: \textbf{主路二·平行定面（推论③）：} 若 $a\parallel b$，则 $a,b$ 共面于由它们确定的平面。
+    - latex: \textbf{证四点共面：} 把四点连成两条线，说明这两条线相交或平行即可。
+  - type: problemcard
+    id: unit-4-ex1
+    label: 例题 4
+    stem_latex: '如图，在正方体 $ABCD-A_1B_1C_1D_1$ 中，$E$、$F$ 分别为棱 $AA_1$、$AB$ 的中点。
+
+      求证：$E,F,C_1,D_1$ 四点共面。
+
+      '
+    diagram_slot:
+      slot_id: explanation.unit4.ex1.prompt
+      diagram_ref: explanation.unit4.ex1.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: block_center
+      layout_role: center_block
+      display_profile: worksheet_geometry_center
+      caption: 看清中点 $E,F$ 与 $C_1,D_1$。
+      engine: spatial_renderer
+      diagram_kind: spatial_geometry
+      teaching_intent: explanation_prompt
+      problem_context:
+        source_problem_text: 正方体 ABCD-A1B1C1D1，E 为 AA1 中点，F 为 AB 中点；只画已知，不画证明辅助线。
+      semantic_constraints:
+        given_objects:
+        - 正方体 ABCD-A1B1C1D1
+        - E 为 AA1 的中点
+        - F 为 AB 的中点
+        given_constraints:
+        - 只画已知点和棱，不画 EF、D1C、A1B 等辅助线
+        clean_forbidden:
+        - 不要画辅助线 EF、D1C、A1B
+      engine_options:
+        spatial_spec:
+          projection: isometric_hidden_axes
+          points3d:
+            A:
+            - 0
+            - 0
+            - 0
+            B:
+            - 3
+            - 0
+            - 0
+            C:
+            - 3
+            - 2.1
+            - 0
+            D:
+            - 0
+            - 2.1
+            - 0
+            A1:
+            - 0
+            - 0
+            - 2.0
+            B1:
+            - 3
+            - 0
+            - 2.0
+            C1:
+            - 3
+            - 2.1
+            - 2.0
+            D1:
+            - 0
+            - 2.1
+            - 2.0
+            E:
+            - 0.0
+            - 0.0
+            - 1.0
+            F:
+            - 1.5
+            - 0.0
+            - 0.0
+          segments:
+          - from: A
+            to: B
+          - from: B
+            to: C
+          - from: C
+            to: D
+          - from: D
+            to: A
+          - from: A1
+            to: B1
+          - from: B1
+            to: C1
+          - from: C1
+            to: D1
+          - from: D1
+            to: A1
+          - from: A
+            to: A1
+          - from: B
+            to: B1
+          - from: C
+            to: C1
+          - from: D
+            to: D1
+          - from: A
+            to: A1
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: A
+            to: B
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: A1
+            to: B
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: D1
+            to: C
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          - from: E
+            to: F
+            stroke: '#2563eb'
+            stroke_width: 2.4
+          polygons:
+          - points:
+            - A
+            - B
+            - C
+            - D
+            fill: '#eff6ff'
+            stroke: '#94a3b8'
+            stroke_width: 1.2
+          - points:
+            - A1
+            - B1
+            - C1
+            - D1
+            fill: '#f8fafc'
+            stroke: '#94a3b8'
+            stroke_width: 1.2
+          markers: []
+          labels:
+            A:
+              text: A
+            B:
+              text: B
+            C:
+              text: C
+            D:
+              text: D
+            A1:
+              text: A_1
+            B1:
+              text: B_1
+            C1:
+              text: C_1
+            D1:
+              text: D_1
+            E:
+              text: E
+            F:
+              text: F
+          constraints:
+          - 正方体 ABCD-A1B1C1D1
+          - E 为 AA1 的中点
+          - F 为 AB 的中点
+          - 只画已知点和棱，不画 EF、D1C、A1B 等辅助线
+          - 不要画辅助线 EF、D1C、A1B
+          teaching_focus:
+          - 看清中点 $E,F$ 与 $C_1,D_1$。
+  - type: route
+    id: unit-4-route-1
+    steps:
+    - id: unit-4-route-1-pair
+      latex: 把四点配成两条线
+      content_latex: 连 $EF$ 与 $D_1C$，只需证 $EF\parallel D_1C$。
+    - id: unit-4-route-1-parallel
+      latex: 用中位线证平行
+      content_latex: 在 $\triangle AA_1B$ 中，$E,F$ 为 $AA_1,AB$ 中点，故 $EF\parallel A_1B$ 且 $EF=\tfrac12A_1B$；又 $A_1B\parallel D_1C$，故 $EF\parallel D_1C$。
+    - id: unit-4-route-1-conclude
+      latex: 由推论③定面
+      content_latex: $EF\parallel D_1C$，由推论③ $EF$ 与 $D_1C$ 确定一个平面，故 $E,F,C_1,D_1$ 四点共面。
+      diagram_slot:
+        slot_id: explanation.unit4.ex1.solution.annotated
+        diagram_ref: explanation.unit4.ex1.solution.annotated
+        variant: solution
+        disclosure_policy: annotated
+        reuse_geometry_from: explanation.unit4.ex1.prompt
+        required: true
+        on_failure: fail_assignment
+        placement: step_diagram
+        layout_role: solution_annotation
+        display_profile: worksheet_geometry_center
+        caption: 连 $EF\parallel A_1B\parallel D_1C$，由推论③定面。
+        engine: spatial_renderer
+        diagram_kind: spatial_geometry
+        teaching_intent: explanation_solution
+        problem_context:
+          source_problem_text: 在原正方体图上，画出辅助线 EF、A1B、D1C，标示三者平行关系。
+        semantic_constraints:
+          given_objects:
+          - 正方体 ABCD-A1B1C1D1
+          - E、F 为中点
+          given_constraints:
+          - EF∥A1B∥D1C
+          derived_objects:
+          - 辅助线 EF
+          - 辅助线 A1B
+          - 辅助线 D1C
+          derived_constraints:
+          - EF∥A1B∥D1C
+          - EF 与 D1C 确定一个平面
+          solution_allowed_annotations:
+          - 画出 EF、A1B、D1C 并标示平行
+        engine_options:
+          spatial_spec:
+            projection: isometric_hidden_axes
+            segments:
+            - from: A1
+              to: B
+              stroke: '#dc2626'
+              stroke_width: 2.4
+            - from: D1
+              to: C
+              stroke: '#dc2626'
+              stroke_width: 2.4
+            - from: E
+              to: F
+              stroke: '#dc2626'
+              stroke_width: 2.4
+            markers: []
+            teaching_focus:
+            - 连 $EF\parallel A_1B\parallel D_1C$，由推论③定面。
+  - type: dual_explanation
+    id: unit-4-sol-1
+    label: 例题 4
+    stem_latex: 证明 $E,F,C_1,D_1$ 四点共面。
+    side_title: 小贴士
+    side_items:
+    - kind: hint
+      title: 为什么往平行上靠
+      content_latex: 四点分别在上、下底面附近，$EF$ 与 $D_1C$ 走向一致，自然想到用平行定面（推论③）。
+    - kind: mistake
+      title: 缺判定依据
+      content_latex: 只说“它们在一个面里”不算证明，必须写出相交或平行前提，再由推论定面。
+    solution_title: 解答
+    solution_step_ids:
+    - unit-4-route-1-pair
+    - unit-4-route-1-parallel
+    - unit-4-route-1-conclude
+    connection_title: 一句话收束
+    connection_items:
+    - latex: 证四点共面：配成两条线，证相交或平行，再由推论定面。
+  - type: mistake
+    id: unit-4-mistake
+    title: 易错提醒
+    content_latex: '共面证明最常犯的错误是凭直觉，没走“相交定面”或“平行定面”两条主路。
+
+      一定先判两线是相交还是平行，再写“由推论②/③定面”。
+
+      '
+  - type: method_reminder
+    id: unit-4-method
+    title: 方法提醒
+    items:
+    - latex: 共面证明两条主路：相交定面（推论②）、平行定面（推论③）。
+    - latex: 证四点共面：先配成两条线，再判它们相交或平行。

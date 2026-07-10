@@ -1,0 +1,635 @@
+\documentclass{exam-zh}
+\usepackage{edu-practice}
+
+\examsetup{
+  question/show-answer = true,
+  fillin/show-answer = true,
+  solution/show-solution = show-stay,
+}
+
+% ---------- 教师版解答样式 ----------
+\newtcolorbox{solutionblock}{
+  enhanced, breakable,
+  colback=edu-blue-bg,
+  colframe=edu-blue!25,
+  boxrule=0pt,
+  borderline west={2pt}{0pt}{edu-blue!50},
+  arc=0pt,
+  left=3mm, right=3mm, top=2mm, bottom=2mm,
+  before skip=2mm,
+  after skip=3mm,
+  fontupper=\small,
+}
+
+% 解答步骤编号
+\newcounter{solstep}
+\newcommand{\solstep}[2]{%
+  \stepcounter{solstep}%
+  \par\medskip
+  \noindent\hangindent=6mm
+  {\color{edu-blue}\bfseries\textcircled{\scriptsize\thesolstep}\enspace #1}\enspace #2\par
+}
+
+\begin{document}
+
+\section*{立体几何定理默写 · 图式竖排版}
+
+\section*{一、基本事实与位置关系}
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=5]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-55mm-6mm\relax}
+    \vspace{0pt}
+    若点在线上，线在面内，则点在这个平面内；符号语言也要能互译。
+\[
+\left.
+\begin{aligned}
+A&\in l\\
+l&\subset \alpha
+\end{aligned}
+\right\}
+\Longrightarrow
+A\ \underline{\hspace{10mm}}\ \alpha
+\]
+
+
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{55mm}{}
+  \input{\detokenize{build/diagram/jobs/q01-symbol-membership-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$A\in\alpha$。\par\medskip
+    \solstep{默写答案}{$A\in\alpha$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=5]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-55mm-6mm\relax}
+    \vspace{0pt}
+    过不在同一直线上的三点，有且只有一个平面。
+\[
+\left.
+\begin{aligned}
+A,B,C&\ \underline{\hspace{30mm}}
+\end{aligned}
+\right\}
+\Longrightarrow
+\text{确定}\ \underline{\hspace{22mm}}
+\]
+
+
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{55mm}{}
+  \input{\detokenize{build/diagram/jobs/q02-three-points-plane-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$A,B,C$ 不共线；确定一个平面。\par\medskip
+    \solstep{默写答案}{$A,B,C$ 不共线；确定一个平面。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=5]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-55mm-6mm\relax}
+    \vspace{0pt}
+    一条直线和这条直线外一点、两条相交直线、两条平行直线，都可以确定一个平面。
+\[
+\left.
+\begin{aligned}
+a&\parallel b\\
+a&\ne b
+\end{aligned}
+\right\}
+\Longrightarrow
+\underline{\hspace{42mm}}
+\]
+
+
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{55mm}{}
+  \input{\detokenize{build/diagram/jobs/q03-lines-plane-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}过两条平行直线有且只有一个平面。\par\medskip
+    \solstep{默写答案}{过两条平行直线有且只有一个平面。}
+  \end{solutionblock}
+\end{problem}
+
+
+\section*{二、平行关系定理}
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=5]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-55mm-6mm\relax}
+    \vspace{0pt}
+    如果平面外一条直线与这个平面内的一条直线平行，那么这条直线与这个平面平行。
+\[
+\left.
+\begin{aligned}
+a&\parallel b\\
+b&\subset\alpha\\
+a&\not\subset\alpha
+\end{aligned}
+\right\}
+\Longrightarrow
+\underline{\hspace{24mm}}
+\]
+
+
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{55mm}{}
+  \input{\detokenize{build/diagram/jobs/q04-line-plane-parallel-judge-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$a\parallel\alpha$。\par\medskip
+    \solstep{默写答案}{$a\parallel\alpha$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=5]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-55mm-6mm\relax}
+    \vspace{0pt}
+    一条直线与一个平面平行，过这条直线的平面与已知平面相交，则这条直线与交线平行。
+\[
+\left.
+\begin{aligned}
+a&\parallel\alpha\\
+a&\subset\beta\\
+\alpha\cap\beta&=b
+\end{aligned}
+\right\}
+\Longrightarrow
+\underline{\hspace{22mm}}
+\]
+
+
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{55mm}{}
+  \input{\detokenize{build/diagram/jobs/q05-line-plane-parallel-property-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$a\parallel b$。\par\medskip
+    \solstep{默写答案}{$a\parallel b$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=5]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-55mm-6mm\relax}
+    \vspace{0pt}
+    如果一个平面内两条相交直线分别平行于另一个平面内两条相交直线，那么这两个平面平行。
+\[
+\left.
+\begin{aligned}
+a,b&\subset\alpha,\quad a\cap b=P\\
+a',b'&\subset\beta,\quad a'\cap b'=P'\\
+a&\parallel a',\quad b\parallel b'
+\end{aligned}
+\right\}
+\Longrightarrow
+\underline{\hspace{24mm}}
+\]
+
+
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{55mm}{}
+  \input{\detokenize{build/diagram/jobs/q06-plane-plane-parallel-judge-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$\alpha\parallel\beta$。\par\medskip
+    \solstep{默写答案}{$\alpha\parallel\beta$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=5]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-55mm-6mm\relax}
+    \vspace{0pt}
+    两个平行平面被第三个平面所截，所得两条交线平行。
+\[
+\left.
+\begin{aligned}
+\alpha&\parallel\beta\\
+\gamma\cap\alpha&=a\\
+\gamma\cap\beta&=b
+\end{aligned}
+\right\}
+\Longrightarrow
+\underline{\hspace{20mm}}
+\]
+
+
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{55mm}{}
+  \input{\detokenize{build/diagram/jobs/q07-plane-plane-parallel-property-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$a\parallel b$。\par\medskip
+    \solstep{默写答案}{$a\parallel b$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=5]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-55mm-6mm\relax}
+    \vspace{0pt}
+    两个平面相交，若两平面内各有一条直线互相平行，则这两条直线都平行于交线。
+\[
+\left.
+\begin{aligned}
+\alpha\cap\beta&=m\\
+l_1&\subset\alpha,\quad l_2\subset\beta\\
+l_1&\parallel l_2
+\end{aligned}
+\right\}
+\Longrightarrow
+\underline{\hspace{34mm}}
+\]
+
+
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{55mm}{}
+  \input{\detokenize{build/diagram/jobs/q08-intersection-line-parallel-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$l_1\parallel m$，$l_2\parallel m$。\par\medskip
+    \solstep{默写答案}{$l_1\parallel m$，$l_2\parallel m$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\section*{三、垂直关系定理}
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=5]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-55mm-6mm\relax}
+    \vspace{0pt}
+    如果一条直线垂直于一个平面，那么它垂直于这个平面内过垂足的任意直线。
+\[
+\left.
+\begin{aligned}
+l&\perp\alpha\\
+m&\subset\alpha,\quad P\in m\\
+l\cap\alpha&=P
+\end{aligned}
+\right\}
+\Longrightarrow
+\underline{\hspace{20mm}}
+\]
+
+
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{55mm}{}
+  \input{\detokenize{build/diagram/jobs/q09-line-plane-perp-definition-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$l\perp m$。\par\medskip
+    \solstep{默写答案}{$l\perp m$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=5]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-55mm-6mm\relax}
+    \vspace{0pt}
+    如果一条直线垂直于一个平面内的两条相交直线，那么这条直线垂直于这个平面。
+\[
+\left.
+\begin{aligned}
+m,n&\subset\alpha\\
+m\cap n&=P\\
+l&\perp m,\quad l\perp n
+\end{aligned}
+\right\}
+\Longrightarrow
+\underline{\hspace{22mm}}
+\]
+
+
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{55mm}{}
+  \input{\detokenize{build/diagram/jobs/q10-line-plane-perp-judge-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$l\perp\alpha$。\par\medskip
+    \solstep{默写答案}{$l\perp\alpha$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=5]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-55mm-6mm\relax}
+    \vspace{0pt}
+    垂直于同一个平面的两条直线互相平行。
+\[
+\left.
+\begin{aligned}
+l&\perp\alpha\\
+m&\perp\alpha
+\end{aligned}
+\right\}
+\Longrightarrow
+\underline{\hspace{18mm}}
+\]
+
+
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{55mm}{}
+  \input{\detokenize{build/diagram/jobs/q11-line-plane-perp-property-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$l\parallel m$。\par\medskip
+    \solstep{默写答案}{$l\parallel m$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=5]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-55mm-6mm\relax}
+    \vspace{0pt}
+    如果一个平面经过另一个平面的一条垂线，那么这两个平面互相垂直。
+\[
+\left.
+\begin{aligned}
+a&\subset\beta\\
+a&\perp\alpha
+\end{aligned}
+\right\}
+\Longrightarrow
+\underline{\hspace{24mm}}
+\]
+
+
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{55mm}{}
+  \input{\detokenize{build/diagram/jobs/q12-plane-plane-perp-judge-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$\alpha\perp\beta$。\par\medskip
+    \solstep{默写答案}{$\alpha\perp\beta$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=5]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-55mm-6mm\relax}
+    \vspace{0pt}
+    两个平面垂直，在一个平面内垂直于交线的直线，垂直于另一个平面。
+\[
+\left.
+\begin{aligned}
+\alpha&\perp\beta\\
+\alpha\cap\beta&=m\\
+a&\subset\alpha,\quad a\perp m
+\end{aligned}
+\right\}
+\Longrightarrow
+\underline{\hspace{22mm}}
+\]
+
+
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{55mm}{}
+  \input{\detokenize{build/diagram/jobs/q13-plane-plane-perp-property-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$a\perp\beta$。\par\medskip
+    \solstep{默写答案}{$a\perp\beta$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=5]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-55mm-6mm\relax}
+    \vspace{0pt}
+    三垂线定理：平面内一条直线若垂直于斜线在这个平面内的射影，则它垂直于这条斜线。
+\[
+\left.
+\begin{aligned}
+PA&\perp\alpha\\
+AB&\text{ 是 }PB\text{ 在 }\alpha\text{ 内的射影}\\
+l&\subset\alpha,\quad l\perp AB
+\end{aligned}
+\right\}
+\Longrightarrow
+\underline{\hspace{20mm}}
+\]
+
+
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{55mm}{}
+  \input{\detokenize{build/diagram/jobs/q14-three-perpendicular-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$l\perp PB$。\par\medskip
+    \solstep{默写答案}{$l\perp PB$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\section*{四、角与距离}
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=5]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-55mm-6mm\relax}
+    \vspace{0pt}
+    求异面直线所成的角，可以把其中一条直线平移到与另一条相交的位置，再取锐角或直角。
+\[
+\left.
+\begin{aligned}
+a'&\parallel a\\
+a'\cap b&=O
+\end{aligned}
+\right\}
+\Longrightarrow
+\angle(a,b)=\underline{\hspace{28mm}}
+\]
+
+
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{55mm}{}
+  \input{\detokenize{build/diagram/jobs/q15-skew-angle-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$a'$ 与 $b$ 所成的锐角或直角。\par\medskip
+    \solstep{默写答案}{$a'$ 与 $b$ 所成的锐角或直角。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=5]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-55mm-6mm\relax}
+    \vspace{0pt}
+    一条斜线和它在平面内的射影所成的锐角，叫做这条直线和平面所成的角。
+\[
+\left.
+\begin{aligned}
+AB&\text{ 是 }l\text{ 在 }\alpha\text{ 内的射影}
+\end{aligned}
+\right\}
+\Longrightarrow
+\angle(l,\alpha)=\underline{\hspace{24mm}}
+\]
+
+
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{55mm}{}
+  \input{\detokenize{build/diagram/jobs/q16-line-plane-angle-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$l$ 与它在 $\alpha$ 内的射影所成的锐角。\par\medskip
+    \solstep{默写答案}{$l$ 与它在 $\alpha$ 内的射影所成的锐角。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=5]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-55mm-6mm\relax}
+    \vspace{0pt}
+    在二面角的棱上取一点，在两个半平面内分别作垂直于棱的射线，这两条射线所成的角叫二面角的平面角。
+\[
+\left.
+\begin{aligned}
+O&\in l\\
+OA&\subset\alpha,\quad OA\perp l\\
+OB&\subset\beta,\quad OB\perp l
+\end{aligned}
+\right\}
+\Longrightarrow
+\angle AOB=\underline{\hspace{28mm}}
+\]
+
+
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{55mm}{}
+  \input{\detokenize{build/diagram/jobs/q17-dihedral-angle-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}二面角 $\alpha-l-\beta$ 的平面角。\par\medskip
+    \solstep{默写答案}{二面角 $\alpha-l-\beta$ 的平面角。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=5]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-55mm-6mm\relax}
+    \vspace{0pt}
+    点到平面的距离是点到这个平面的垂线段长；平面图形在另一个平面上的射影面积满足 $S'=S\cos\theta$。
+\[
+\left.
+\begin{aligned}
+PH&\perp\alpha\\
+H&\in\alpha
+\end{aligned}
+\right\}
+\Longrightarrow
+d(P,\alpha)=\underline{\hspace{18mm}},\quad S'=\underline{\hspace{20mm}}
+\]
+
+
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{55mm}{}
+  \input{\detokenize{build/diagram/jobs/q18-distance-projection-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$d(P,\alpha)=PH$，$S'=S\cos\theta$。\par\medskip
+    \solstep{默写答案}{$d(P,\alpha)=PH$，$S'=S\cos\theta$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\clearpage
+\section*{答案与覆盖清单}
+
+
+
+
+\end{document}

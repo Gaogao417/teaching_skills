@@ -1,0 +1,21 @@
+\input{fixed_theorem_diagrams/tikz/_fixed_diagram_styles.tex}
+\tdplotsetmaincoords{65}{115}
+\begin{tikzpicture}[tdplot_main_coords,theorem diagram]
+  \coordinate (pta1) at (0.5,0,0);
+  \coordinate (pta2) at (3.1,0,0);
+  \coordinate (ptb1) at (1.8,-0.8,1);
+  \coordinate (ptb2) at (1.8,1,1);
+  \coordinate (ptM) at (1.8,0,0);
+  \coordinate (ptN) at (1.8,0,1);
+  \draw[main] (pta1) -- (pta2);
+  \node[label,right] at (pta2) {$a$};
+  \draw[second] (ptb1) -- (ptb2);
+  \node[label,above] at (ptb2) {$b$};
+  \draw[third] (ptM) -- (ptN);
+  \fill (ptM) circle (1.1pt);
+  \node[label,below] at (ptM) {$M$};
+  \fill (ptN) circle (1.1pt);
+  \node[label,above] at (ptN) {$N$};
+  \draw[aux] (1.8,0,0.14) -- (1.66,0,0.14) -- (1.66,0,0);
+  \draw[aux] (1.8,0,0.86) -- (1.8,0.14,0.86) -- (1.8,0.14,1);
+\end{tikzpicture}

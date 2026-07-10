@@ -1,0 +1,450 @@
+\documentclass{exam-zh}
+\usepackage{edu-explanation}
+
+\examsetup{
+  question/show-answer = true,
+  fillin/show-answer = true,
+  solution/show-solution = show-stay,
+}
+
+\begin{document}
+
+\eduSectionTitle{开篇：平行关系的转化链（判对象、找目标、写格式）}
+
+
+\begin{eduSolutionBox}{结构图：平行证明的四条转化}
+  \begingroup
+  \setlength{\parskip}{2.5mm}
+\begin{center}
+\begin{tikzpicture}[x=1cm,y=1cm,>=stealth, font=\small]
+\node[draw=edu-blue!80, fill=edu-blue!10, rounded corners=3pt, align=center, inner sep=5pt, font=\bfseries] (root) at (0,0) {平行证明的四条转化};
+\node[draw=green!70, fill=green!8, rounded corners=2pt, align=center, inner sep=4pt, minimum width=28mm] (ll) at (-4,1.5) {线线平行\\中位线/平行四边形};
+\node[draw=orange!70, fill=orange!8, rounded corners=2pt, align=center, inner sep=4pt, minimum width=28mm] (lpj) at (0,1.9) {线面判定\\面内找平行线};
+\node[draw=purple!70, fill=purple!8, rounded corners=2pt, align=center, inner sep=4pt, minimum width=28mm] (lpp) at (4,1.5) {线面性质\\过线作面找交线};
+\node[draw=teal!70, fill=teal!8, rounded corners=2pt, align=center, inner sep=4pt, minimum width=28mm] (pp) at (0,-1.9) {面面平行\\两条相交线分别平行};
+\draw[->, thick, edu-blue!70] (ll) -- node[above, sloped, font=\scriptsize] {判定} (lpj);
+\draw[->, thick, edu-blue!70] (lpj) -- node[above, sloped, font=\scriptsize] {判定} (pp);
+\draw[->, thick, edu-blue!70] (pp) -- node[above, sloped, font=\scriptsize] {性质} (lpp);
+\draw[->, thick, edu-blue!70] (lpp) -- node[above, sloped, font=\scriptsize] {性质} (ll);
+\end{tikzpicture}
+\end{center}\par
+\textbf{总口令：}要证明更高一层平行，用判定去“凑”；要拆开已知平行，用性质去“用”。\par
+  \endgroup
+\end{eduSolutionBox}
+
+
+
+
+
+\begin{eduSolutionBox}{核心口诀：判定是凑，性质是用}
+  \begingroup
+  \setlength{\parskip}{2.5mm}
+三种平行不是三个孤立定理，而是一条\textbf{有向转化链}：线线 $\rightleftharpoons$ 线面 $\rightleftharpoons$ 面面。\par
+\begin{tabular}{p{0.18\linewidth}p{0.30\linewidth}p{0.30\linewidth}p{0.12\linewidth}}
+转化方向 & 用哪条定理 & 动作口诀 & 方向\\
+线线到线面 & 线面平行判定（在面内找一条平行线） & 向上凑 & 判定\\
+线面 $\to$ 面面 & 面面平行判定（面内两条相交线） & 向上凑 & 判定\\
+线面到线线 & 线面平行性质（过线作面找交线） & 向下用 & 性质\\
+面面 $\to$ 线线 & 面面平行性质（两面与第三面相交） & 向下用 & 性质\\
+\end{tabular}
+\par
+\textbf{每道题先问自己：这一步是凑还是用？}要得到更高一层的平行——上判定（凑）；要打开一个已知平行——上性质（用）。\par
+三步固定动作：①判对象（线线/线面/面面）；②转化目标（倒推找中间结论）；③写格式（前提"相交""平面内"不漏，每步标定理名）。\par
+  \endgroup
+\end{eduSolutionBox}
+
+
+
+
+\begin{eduMistakeBox}
+\eduSubTitle{易错提醒}最常犯的两类方向错误：①已知 $a\parallel\alpha$ 就直接说 $a$ 平行于 $\alpha$ 内任意直线（缺了"过 $a$ 作面找交线"这一步，性质定理没用对）；②要证线面平行却去找线线平行后忘记套判定定理，停在中途。先判对象、再选方向，就不会走反。
+\end{eduMistakeBox}
+
+
+
+
+\begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
+\begin{eduBulletList}
+  \item 判对象看结论里的两个对象：两个直线=线线，一直线一平面=线面，两个平面=面面。  \item 判定用来凑出平行，性质用来用掉平行——口诀"判定是凑，性质是用"。  \item 书写三段式：写前提 $\to$ 写中间平行（标定理名）$\to$ 写结论（标判定/性质定理名）。\end{eduBulletList}
+\end{eduSummaryBlock}
+
+
+
+\clearpage
+\eduSectionTitle{单元一：线线到线面（线面平行判定——在面内找平行线）}
+
+
+\begin{eduSolutionBox}{判定定理：三件套缺一不可}
+  \begingroup
+  \setlength{\parskip}{2.5mm}
+\textbf{线面平行判定定理：}若 $a\not\subset\alpha$，$b\subset\alpha$，$a\parallel b$，则 $a\parallel\alpha$。\par
+三件套：①$ a\not\subset\alpha $（线在面外）；②$ b\subset\alpha $（在面内找到一条直线）；③$ a\parallel b $（两线平行）。三条全凑齐，才能下结论。\par
+难点不在写定理，而在\textbf{怎么在平面 $\alpha$ 内造出那条平行线 $b$}：常用中位线（取中点连线）或平行四边形（证一组对边平行且相等）。\par
+  \endgroup
+\end{eduSolutionBox}
+
+
+
+
+\begin{eduProblemBlock}[例题 1]
+\noindent
+\begin{minipage}[t]{\dimexpr\linewidth-70mm-6mm\relax}
+\vspace{0pt}
+如图，在正方体 $ABCD$-$A_{1}B_{1}C_{1}D_{1}$ 中，$E$、$F$ 分别是棱 $AA_{1}$、$BB_{1}$ 的中点。求证：$EF\parallel$ 平面 $ABCD$。
+
+\end{minipage}\hfill
+\begin{diagramcoltikz}{70mm}{正方体中观察 E、F 与底面边 AB 的平行关系。}
+\input{\detokenize{build/diagram/jobs/explanation-ex1-prompt/rendered/prompt.fragment.tex}}
+\end{diagramcoltikz}
+\end{eduProblemBlock}
+
+
+
+
+
+\begin{eduAuxItem}{思路导航}
+判对象 + 选方向$\;\to\;$找面内平行线 $AB$$\;\to\;$三件套套判定\end{eduAuxItem}
+
+
+
+
+\begin{eduSubQuestionItem}{例题 1}
+求证 $EF\parallel$ 平面 $ABCD$。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{小贴士}
+        \eduSideHint{第一步想什么}{结论是线面平行，先在目标平面 $ABCD$ 内找一条与 $EF$ 平行的线。}
+        \eduSideHint{怎么造面内平行线}{$E,F$ 是两条平行侧棱上的对应中点，直接得到 $EF\parallel AB$。}
+        \eduSideMistake{三件套不要漏}{套判定时要写全"$AB\\subset$ 面 $ABCD$""$EF\\not\\subset$ 面 $ABCD$"两条，不能只写 $EF\parallel AB$ 就下结论。}
+  \end{eduExplainLeft}
+
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{解答}
+      \eduExplainStep{1}{判对象 + 选方向}{要证 $EF\parallel$ 平面 $ABCD$，在平面 $ABCD$ 内找与 $EF$ 平行的直线。}
+      \eduExplainStep{2}{找面内平行线 $AB$}{$E,F$ 分别为 $AA_1,BB_1$ 中点，故 $EF\parallel AB$。}
+      \begin{center}
+        \begin{diagramcoltikz}{70mm}{连接 $EF$，它与底面内的 $AB$ 平行。}
+        \input{\detokenize{build/diagram/jobs/explanation-ex1-solution/rendered/solution.fragment.tex}}
+        \end{diagramcoltikz}
+      \end{center}
+      \eduExplainStep{3}{三件套套判定}{$AB\subset$ 平面 $ABCD$，$EF\not\subset$ 平面 $ABCD$，且 $EF\parallel AB$，由线面平行判定得 $EF\parallel$ 平面 $ABCD$。}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduMistakeBox}
+\eduSubTitle{易错提醒}线面平行判定不能只写“看起来平行”。必须写出三件套：面内线、面外线、两线平行。\end{eduMistakeBox}
+
+
+
+
+\begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
+\begin{eduBulletList}
+  \item 证线面平行 $\Rightarrow$ 在面内找一条平行线（判定，向上凑）。  \item 造面内平行线的两把刀：中位线、平行四边形。  \item 套判定三件套（$a\not\subset\alpha$，$b\subset\alpha$，$a\parallel b$）一条不漏。\end{eduBulletList}
+\end{eduSummaryBlock}
+
+
+
+\clearpage
+\eduSectionTitle{单元二：线面到线线（线面平行性质——作辅助面找交线）}
+
+
+\begin{eduSolutionBox}{性质定理：必须写出交线这一步}
+  \begingroup
+  \setlength{\parskip}{2.5mm}
+\textbf{线面平行性质定理：}若 $a\parallel\alpha$，$a\subset\beta$，$\alpha\cap\beta=b$，则 $a\parallel b$。\par
+性质定理的方向是\textbf{向下用}：已知线面平行，要推出线线平行，必须\textbf{过 $a$ 作一个平面 $\beta$}与 $\alpha$ 相交，交线 $b$ 才与 $a$ 平行。\par
+易错点：已知 $a\parallel\alpha$ 不能直接说 $a$ 平行于 $\alpha$ 内任意直线；必须先写出 $\alpha\cap\beta=b$ 这一步，才能得 $a\parallel b$。\par
+  \endgroup
+\end{eduSolutionBox}
+
+
+
+
+\begin{eduProblemBlock}[例题 2]
+\noindent
+\begin{minipage}[t]{\dimexpr\linewidth-70mm-6mm\relax}
+\vspace{0pt}
+如图，在四棱锥 $P$-$ABCD$ 中，底面 $ABCD$ 为平行四边形，$O$ 为对角线 $AC$ 与 $BD$ 的交点，$M$ 为 $PC$ 的中点。已知 $AP\parallel$ 平面 $BDM$，过 $A$、$P$ 作一个平面交平面 $BDM$ 于直线 $l$。求证：$AP\parallel l$。
+
+\end{minipage}\hfill
+\begin{diagramcoltikz}{70mm}{四棱锥中观察 AP 与平面 BDM，已知线面平行要推线线平行。}
+\input{\detokenize{build/diagram/jobs/explanation-ex2-prompt/rendered/prompt.fragment.tex}}
+\end{diagramcoltikz}
+\end{eduProblemBlock}
+
+
+
+
+
+\begin{eduAuxItem}{思路导航}
+判对象 + 选方向$\;\to\;$连 $AC$、$BD$ 交于 $O$，连 $MO$$\;\to\;$写出交线，套性质\end{eduAuxItem}
+
+
+
+
+\begin{eduSubQuestionItem}{例题 2}
+已知 $AP\parallel$ 平面 $BDM$，过 $A$、$P$ 作平面交平面 $BDM$ 于 $l$，求证 $AP\parallel l$。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{小贴士}
+        \eduSideHint{方向别走反}{已知的是"线面平行"，结论是"线线平行"，这是\textbf{性质定理}方向（向下用），不是判定。要做的是"把已知的线面平行用掉"。}
+        \eduSideHint{关键那一步}{性质定理必须写出"作辅助面 + 找交线"这一步。这里 $MO$ 在面 $BDM$ 内又与 $AP$ 平行，交线 $l$ 就是 $MO$ 所在直线方向，于是 $AP\parallel l$。}
+        \eduSideMistake{不能跳过交线}{不能由 $AP\parallel$ 平面 $BDM$ 直接写 $AP\parallel l$；必须先点明 $l$ 是两个平面的交线，再由性质定理得结论。}
+  \end{eduExplainLeft}
+
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{解答}
+      \eduExplainStep{1}{判对象 + 选方向}{要证 $AP\parallel l$，是线线平行。已知 $AP\parallel$ 平面 $BDM$，方向是\textbf{性质}（向下用）：过 $AP$ 作辅助面，找它与平面 $BDM$ 的交线。}
+      \eduExplainStep{2}{连 $AC$、$BD$ 交于 $O$，连 $MO$}{连 $AC$ 交 $BD$ 于 $O$（$O$ 是平行四边形对角线交点，即 $AC$ 中点），连 $MO$。因 $M$、$O$ 分别是 $PC$、$AC$ 的中点，故 $MO$ 为 $\triangle PAC$ 的中位线，$MO\parallel AP$。}
+      \begin{center}
+        \begin{diagramcoltikz}{70mm}{连 $MO$，$MO$ 是 $\triangle PAC$ 中位线，$MO\parallel AP$ 且在面 $BDM$ 内。}
+        \input{\detokenize{build/diagram/jobs/explanation-ex2-solution/rendered/solution.fragment.tex}}
+        \end{diagramcoltikz}
+      \end{center}
+      \eduExplainStep{3}{写出交线，套性质}{由 $MO\parallel AP$，$MO\subset$ 平面 $BDM$，$AP\not\subset$ 平面 $BDM$，得 $AP\parallel$ 平面 $BDM$。又 $AP\subset$ 过 $A$、$P$ 的平面，该平面 $\cap$ 平面 $BDM=l$，由线面平行性质定理得 $AP\parallel l$。}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduMistakeBox}
+\eduSubTitle{易错提醒}把线面平行直接当线线平行用是本单元最高频错误。性质定理要求"过直线 a 作辅助面，并写出它与已知面的交线 b"，\textbf{交线 $b$ 这一步必须在书写里出现}，缺了它整条论证链就断。批改时优先盯这条交线是否写出。
+\end{eduMistakeBox}
+
+
+
+
+\begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
+\begin{eduBulletList}
+  \item 已知线面平行 $\Rightarrow$ 推线线平行，用性质（向下用）。  \item 性质必经一步：过直线作辅助面，写明两面的交线。  \item 找交线常用中位线/平行四边形确定交线方向。\end{eduBulletList}
+\end{eduSummaryBlock}
+
+
+
+\clearpage
+\eduSectionTitle{单元三：面面平行（判定 + 性质——相交前提不漏）}
+
+
+\begin{eduSolutionBox}{面面平行判定：两条相交线（相交二字是命门）}
+  \begingroup
+  \setlength{\parskip}{2.5mm}
+\textbf{面面平行判定定理：}若 $a\subset\alpha$，$b\subset\alpha$，$a\cap b=A$，$a\parallel\beta$，$b\parallel\beta$，则 $\alpha\parallel\beta$。\par
+关键前提：两条直线必须\textbf{相交}（$a\cap b=A$）。只证"两条平行线分别与另一面平行"不行——平行的两条线共面，定不出一个平面，判定失效。\par
+\begin{tabular}{p{0.26\linewidth}p{0.42\linewidth}p{0.18\linewidth}}
+转化 & 动作 & 方向\\
+面面判定 & 在一面内找两条\textbf{相交}线，分别证与另一面平行 & 向上凑\\
+面面性质 & 两平行面与第三个面相交，两条交线平行 & 向下用\\
+\end{tabular}
+\par
+走法：先证 $a\parallel\beta$、$b\parallel\beta$（各用一次线面判定），再补“a 与 b 相交于 A”，最后套面面判定。\par
+  \endgroup
+\end{eduSolutionBox}
+
+
+
+
+\begin{eduProblemBlock}[例题 3]
+\noindent
+\begin{minipage}[t]{\dimexpr\linewidth-70mm-6mm\relax}
+\vspace{0pt}
+如图，在正方体 $ABCD$-$A_{1}B_{1}C_{1}D_{1}$ 中，$M$、$N$、$E$、$F$ 分别是棱 $A_{1}B_{1}$、$A_{1}D_{1}$、$B_{1}C_{1}$、$C_{1}D_{1}$ 的中点。求证：平面 $AMN\parallel$ 平面 $EFDB$。
+
+\end{minipage}\hfill
+\begin{diagramcoltikz}{70mm}{正方体上底面四个中点，先想哪两条相交线分别与另一面平行。}
+\input{\detokenize{build/diagram/jobs/explanation-ex3-prompt/rendered/prompt.fragment.tex}}
+\end{diagramcoltikz}
+\end{eduProblemBlock}
+
+
+
+
+
+\begin{eduAuxItem}{思路导航}
+判对象 + 选方向$\;\to\;$证 $AM\parallel$ 平面 $EFDB$$\;\to\;$证 $AN\parallel$ 平面 $EFDB$$\;\to\;$补相交前提，套面面判定\end{eduAuxItem}
+
+
+
+
+\begin{eduSubQuestionItem}{例题 3}
+求证平面 $AMN\parallel$ 平面 $EFDB$。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{小贴士}
+        \eduSideHint{先判对象再倒推}{结论是"面 $\\parallel$ 面"，是面面平行，用判定（凑）。倒推：在一面内找两条相交线，分别证与另一面平行。}
+        \eduSideHint{两条线从哪来}{平面 $AMN$ 里现成的两条线是 $AM$、$AN$。每条都要单独证"与面 $EFDB$ 平行"——回到线面判定，在面 $EFDB$ 里各找一条平行线。}
+        \eduSideMistake{相交二字不能漏}{套面面判定时必须写 $AM\cap AN=A$。漏了"相交"，即使两条线都平行于另一面，判定也不成立。}
+  \end{eduExplainLeft}
+
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{解答}
+      \eduExplainStep{1}{判对象 + 选方向}{要证平面 $AMN\parallel$ 平面 $EFDB$，是面面平行，方向是\textbf{判定}（向上凑）：在平面 $AMN$ 内找两条\textbf{相交}直线 $AM$、$AN$，分别证它们与平面 $EFDB$ 平行。}
+      \eduExplainStep{2}{证 $AM\parallel$ 平面 $EFDB$}{连 $MF$，由 $M$、$F$ 分别是 $A_{1}B_{1}$、$C_{1}D_{1}$ 中点，正方形 $A_{1}B_{1}C_{1}D_{1}$ 中 $MF\parallel A_{1}D_{1}$ 且 $MF=A_{1}D_{1}$；又 $A_{1}D_{1}\parallel AD$，故四边形 $AMFD$ 为平行四边形，$AM\parallel DF$。$DF\subset$ 面 $EFDB$，$AM\not\subset$ 面 $EFDB$，由线面判定 $AM\parallel$ 面 $EFDB$。}
+      \begin{center}
+        \begin{diagramcoltikz}{70mm}{连 $MF$ 证 $AM\parallel DF$，同理 $AN\parallel BE$；$AM\cap AN=A$。}
+        \input{\detokenize{build/diagram/jobs/explanation-ex3-solution/rendered/solution.fragment.tex}}
+        \end{diagramcoltikz}
+      \end{center}
+      \eduExplainStep{3}{证 $AN\parallel$ 平面 $EFDB$}{同理连 $NE$，$NE\parallel A_{1}B_{1}$ 且 $NE=A_{1}B_{1}$，$A_{1}B_{1}\parallel AB$，四边形 $ANEB$ 为平行四边形，$AN\parallel BE$。$BE\subset$ 面 $EFDB$，$AN\not\subset$ 面 $EFDB$，由线面判定 $AN\parallel$ 面 $EFDB$。}
+      \eduExplainStep{4}{补相交前提，套面面判定}{$AM\subset$ 平面 $AMN$，$AN\subset$ 平面 $AMN$，$AM\cap AN=A$，且 $AM\parallel$ 面 $EFDB$，$AN\parallel$ 面 $EFDB$，由面面平行判定定理得平面 $AMN\parallel$ 平面 $EFDB$。}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduMistakeBox}
+\eduSubTitle{易错提醒}面面平行判定最高频失分点是\textbf{漏写"相交"前提}。两条直线若平行，则它们共面但不唯一确定平面，判定定理不适用。批改归因：只要结论写“两面平行”而过程里没有“两条线相交于某点”，就判为漏前提。
+\end{eduMistakeBox}
+
+
+
+
+\begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
+\begin{eduBulletList}
+  \item 证面面平行 $\Rightarrow$ 在一面内找两条相交线分别与另一面平行（判定，向上凑）。  \item 每条线分别用线面判定；最后补"相交"前提再套面面判定。  \item “相交”两字必须落在纸上。\end{eduBulletList}
+\end{eduSummaryBlock}
+
+
+
+\clearpage
+\eduSectionTitle{单元四：综合倒推（判定与性质交替，一题走完三层）}
+
+
+\begin{eduSolutionBox}{综合题：判定与性质交替切换}
+  \begingroup
+  \setlength{\parskip}{2.5mm}
+综合题不是一条线走到底，而是\textbf{反复在判定与性质之间切换}（判定 $\Rightarrow$ 性质 $\Rightarrow$ 判定 $\Rightarrow \cdots$）。\par
+每一步先判对象（线线/线面/面面），再选方向：要"得到"更高一层的平行——上判定；要"打开"已知平行——上性质。\par
+\begin{tabular}{p{0.20\linewidth}p{0.30\linewidth}p{0.30\linewidth}}
+小问 & 目标 & 用的方向\\
+(1) 线线平行 & $MN\parallel B_{1}D_{1}$ & 中位线 + 平行四边形\\
+(2) 线面平行 & $AC_{1}\parallel$ 面 $EB_{1}D_{1}$ & 判定（在面内找平行线）\\
+(3) 面面平行 & 面 $EB_{1}D_{1}\parallel$ 面 $BDG$ & 判定（两相交线分别平行）\\
+\end{tabular}
+\par
+一题走完线线到线面 $\to$ 面面三层，正是转化链的完整演练。\par
+  \endgroup
+\end{eduSolutionBox}
+
+
+
+
+\begin{eduProblemBlock}[例题 4]
+\noindent
+\begin{minipage}[t]{\dimexpr\linewidth-70mm-6mm\relax}
+\vspace{0pt}
+如图，在平行六面体 $ABCD$-$A_{1}B_{1}C_{1}D_{1}$ 中，$E$、$M$、$N$、$G$ 分别是 $AA_{1}$、$CD$、$CB$、$CC_{1}$\ \ 的中点。求证：
+\begin{enumerate}[label=(\arabic*)]
+  \item $MN\parallel B_{1}D_{1}$；
+\ \  \item $AC_{1}\parallel$ 平面 $EB_{1}D_{1}$；
+  \item 平面 $EB_{1}D_{1}\parallel$\ \ 平面 $BDG$。
+\end{enumerate}
+
+\end{minipage}\hfill
+\begin{diagramcoltikz}{70mm}{平行六面体四个中点，(1)(2)(3) 三问分别对应线线、线面、面面三层。}
+\input{\detokenize{build/diagram/jobs/explanation-ex4-prompt/rendered/prompt.fragment.tex}}
+\end{diagramcoltikz}
+\end{eduProblemBlock}
+
+
+
+
+
+\begin{eduAuxItem}{思路导航}
+(1) 中位线 + 平行四边形得 $MN\parallel B_{1}D_{1}$$\;\to\;$(2) 在面 $EB_{1}D_{1}$ 内找平行线，证 $AC_{1}\parallel$ 面 $EB_{1}D_{1}$$\;\to\;$(3) 两条相交线分别平行，证面 $EB_{1}D_{1}\parallel$ 面 $BDG$$\;\to\;$三问汇总\end{eduAuxItem}
+
+
+
+
+\begin{eduSubQuestionItem}{(1)}
+求证 $MN\parallel B_{1}D_{1}$。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{小贴士}
+        \eduSideHint{判对象}{结论是线线平行。$M$、$N$ 都是中点，先想中位线。}
+        \eduSideHint{关键桥}{$MN\parallel BD$ 后，还需要 $BD\parallel B_{1}D_{1}$ 才能传递。$BB_{1}D_{1}D$ 是平行四边形提供这座桥。}
+  \end{eduExplainLeft}
+
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{解答}
+      \eduExplainStep{1}{(1) 中位线 + 平行四边形得 $MN\parallel B_{1}D_{1}$}{$M$、$N$ 分别是 $CD$、$CB$ 中点，$MN$ 为 $\triangle BCD$ 中位线，$MN\parallel BD$；平行六面体中 $BB_{1}\parallel DD_{1}$ 且 $BB_{1}=DD_{1}$，四边形 $BB_{1}D_{1}D$ 为平行四边形，$B_{1}D_{1}\parallel BD$；由传递性 $MN\parallel B_{1}D_{1}$。}
+      \begin{center}
+        \begin{diagramcoltikz}{70mm}{$MN$ 是 $\triangle BCD$ 中位线，$B_{1}D_{1}\parallel BD$，传递得 $MN\parallel B_{1}D_{1}$。}
+        \input{\detokenize{build/diagram/jobs/explanation-ex4-p1/rendered/solution.fragment.tex}}
+        \end{diagramcoltikz}
+      \end{center}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduSubQuestionItem}{(2)}
+求证 $AC_{1}\parallel$ 平面 $EB_{1}D_{1}$。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{小贴士}
+        \eduSideHint{方向}{线面平行用判定（凑）。在面 $EB_{1}D_{1}$ 里找一条和 $AC_{1}$ 平行的线。}
+        \eduSideHint{怎么找}{$E$ 已是 $AA_{1}$ 中点；再取 $A_{1}C_{1}$ 中点 $O$，$EO$ 就成 $\triangle AA_{1}C_{1}$ 的中位线，$EO\parallel AC_{1}$。}
+  \end{eduExplainLeft}
+
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{解答}
+      \eduExplainStep{1}{(2) 在面 $EB_{1}D_{1}$ 内找平行线，证 $AC_{1}\parallel$ 面 $EB_{1}D_{1}$}{连 $A_{1}C_{1}$ 交 $B_{1}D_{1}$ 于 $O$，四边形 $A_{1}B_{1}C_{1}D_{1}$ 为平行四边形，$O$ 为 $A_{1}C_{1}$ 中点；又 $E$ 为 $AA_{1}$ 中点，$EO$ 为 $\triangle AA_{1}C_{1}$ 中位线，$EO\parallel AC_{1}$。$EO\subset$ 面 $EB_{1}D_{1}$，$AC_{1}\not\subset$ 面 $EB_{1}D_{1}$，由线面判定 $AC_{1}\parallel$ 面 $EB_{1}D_{1}$。}
+      \begin{center}
+        \begin{diagramcoltikz}{70mm}{取 $O$ 为 $A_{1}C_{1}$ 中点，$EO$ 中位线平行 $AC_{1}$，在面 $EB_{1}D_{1}$ 内。}
+        \input{\detokenize{build/diagram/jobs/explanation-ex4-p2/rendered/solution.fragment.tex}}
+        \end{diagramcoltikz}
+      \end{center}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduSubQuestionItem}{(3)}
+求证平面 $EB_{1}D_{1}\parallel$ 平面 $BDG$。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{小贴士}
+        \eduSideHint{方向}{面面平行用判定（凑）：在面 $EB_{1}D_{1}$ 内找两条相交线分别平行于面 $BDG$。}
+        \eduSideMistake{借前面结论}{(2) 里已得 $EO\parallel AC_{1}$，再用 $PG\parallel AC_{1}$ 传到 $EO\parallel PG$。综合题就是\textbf{前后小问接力}，不要每问从头证。}
+        \eduSideMistake{相交前提}{$EO$ 与 $B_{1}D_{1}$ 在 $O$ 点相交，“相交”这个条件必须写出来。}
+  \end{eduExplainLeft}
+
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{解答}
+      \eduExplainStep{1}{(3) 两条相交线分别平行，证面 $EB_{1}D_{1}\parallel$ 面 $BDG$}{连 $AC$ 交 $BD$ 于 $P$（$P$ 为 $AC$ 中点），连 $PG$。由 $B_{1}D_{1}\parallel BD$，$B_{1}D_{1}\not\subset$ 面 $BDG$，$BD\subset$ 面 $BDG$，得 $B_{1}D_{1}\parallel$ 面 $BDG$；由(2) $EO\parallel AC_{1}$，又 $P$、$G$ 为 $AC$、$CC_{1}$ 中点，$PG\parallel AC_{1}$，故 $EO\parallel PG$，$EO\not\subset$ 面 $BDG$，$PG\subset$ 面 $BDG$，$EO\parallel$ 面 $BDG$。$EO\subset$ 面 $EB_{1}D_{1}$，$B_{1}D_{1}\subset$ 面 $EB_{1}D_{1}$，$EO\cap B_{1}D_{1}=O$，由面面判定得面 $EB_{1}D_{1}\parallel$ 面 $BDG$。}
+      \eduExplainStep{2}{三问汇总}{(1) 线线（中位线+传递）；(2) 线面（判定，面内找平行线）；(3) 面面（判定，两相交线分别平行）。一题走完线线到线面 $\to$ 面面三层。}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduMistakeBox}
+\eduSubTitle{易错提醒}综合题三类高频错：①\textbf{判定性质方向搞反}——要凑平行却去用性质，或要用平行却去套判定；②\textbf{不接力前问}——每问独立重证，错过(2)的结论做(3)的桥；③\textbf{跳步}——从中点直接跳到平行，省略"证平行四边形/中位线"和定理标注。批改时先看每步是否标了定理名与方向。
+\end{eduMistakeBox}
+
+
+
+
+\begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
+\begin{eduBulletList}
+  \item 综合题每步先判对象，再选判定（凑）或性质（用）。  \item 前一小问的结论是后一小问的桥，主动接力。  \item 中点条件是辅助线信号：取中点连线造中位线或平行四边形。  \item 每步写全前提、标定理名，不跳步。\end{eduBulletList}
+\end{eduSummaryBlock}
+
+
+
+
+\end{document}

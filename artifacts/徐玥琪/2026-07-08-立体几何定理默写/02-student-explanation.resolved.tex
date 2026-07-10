@@ -1,0 +1,609 @@
+\documentclass{exam-zh}
+\usepackage{edu-explanation}
+
+\examsetup{
+  question/show-answer = true,
+  fillin/show-answer = true,
+  solution/show-solution = show-stay,
+}
+
+\begin{document}
+
+\eduSectionTitle{A 类整理：点线面关系的三条逻辑主线}
+
+
+\begin{eduSolutionBox}{结构图：立体几何定理库的三条主线}
+  \begingroup
+  \setlength{\parskip}{2.5mm}
+\begin{center}
+\begin{tikzpicture}[x=1cm,y=1cm,>=stealth, font=\small]
+\node[draw=edu-blue!80, fill=edu-blue!10, rounded corners=3pt, align=center, inner sep=5pt, font=\bfseries] (root) at (0,0) {立体几何定理库的三条主线};
+\node[draw=green!70, fill=green!8, rounded corners=2pt, align=center, inner sep=4pt, minimum width=28mm] (inc) at (-4,1.6) {从属\\点在线上\\两点在面内};
+\node[draw=orange!70, fill=orange!8, rounded corners=2pt, align=center, inner sep=4pt, minimum width=28mm] (plane) at (0,1.9) {定面\\不共线三点\\线+点/相交线/平行线};
+\node[draw=purple!70, fill=purple!8, rounded corners=2pt, align=center, inner sep=4pt, minimum width=28mm] (rel) at (4,1.6) {关系转化\\平行\\垂直};
+\node[draw=teal!70, fill=teal!8, rounded corners=2pt, align=center, inner sep=4pt, minimum width=28mm] (angle) at (0,-1.9) {角与距离\\射影\\垂线\\平面角};
+\draw[->, thick, edu-blue!70] (root) -- node[above, sloped, font=\scriptsize] {记符号} (inc);
+\draw[->, thick, edu-blue!70] (root) -- node[above, sloped, font=\scriptsize] {定对象} (plane);
+\draw[->, thick, edu-blue!70] (root) -- node[above, sloped, font=\scriptsize] {补条件} (rel);
+\draw[->, thick, edu-blue!70] (root) -- node[above, sloped, font=\scriptsize] {找垂线} (angle);
+\end{tikzpicture}
+\end{center}\par
+\textbf{总口令：}先判对象，再补中间条件；写成“条件组 $\Rightarrow$ 结论”，不要写成长段解释。\par
+  \endgroup
+\end{eduSolutionBox}
+
+
+
+
+
+\begin{eduSolutionBox}{三条主线：从属关系（基本事实2是桥）／公共点→交线（基本事实3）／定面（基本事实1+推论①②③）}
+  \begingroup
+  \setlength{\parskip}{2.5mm}
+\textbf{主线一·从属关系：}点属于线、线属于面，靠基本事实2搭桥。$A\in l$，$B\in l$，$A\in\alpha$，$B\in\alpha\Rightarrow l\subset\alpha$。即“点在线上 + 两点在面内 $\Rightarrow$ 整条线在面内”。\par
+\textbf{主线二·公共点$\to$交线：}两个不重合的平面有一个公共点 $\Rightarrow$ 有且只有一条过该点的交线。$P\in\alpha$，$P\in\beta\Rightarrow\alpha\cap\beta=l$，$P\in l$。这是“面和面怎么发生关系”的入口。\par
+\textbf{主线三·定面：}基本事实1（3 个不共线点$\Rightarrow$平面）+ 推论①（直线+外一点）、推论②（两条相交直线）、推论③（两条平行直线），四条都在回答“多少东西能确定一个平面”。\par
+\begin{tabular}{p{0.20\linewidth}p{0.62\linewidth}}
+\textbf{符号} & \textbf{含义}\\
+$A\in l$ & 点 $A$ 在直线 $l$ 上\\
+$l\subset\alpha$ & 直线 $l$ 在平面 $\alpha$ 内（$\alpha$ 经过 $l$）\\
+$\alpha\cap\beta=l$ & 平面 $\alpha$ 与 $\beta$ 相交于直线 $l$\\
+\end{tabular}
+\par
+\begin{tabular}{p{0.18\linewidth}p{0.24\linewidth}p{0.40\linewidth}}
+\textbf{分类} & \textbf{对象} & \textbf{三类情况}\\
+线线 & 直线与直线 & 相交 / 平行 / 异面\\
+线面 & 直线与平面 & 在面内 / 相交 / 平行\\
+面面 & 平面与平面 & 平行 / 相交\\
+\end{tabular}
+\par
+  \endgroup
+\end{eduSolutionBox}
+
+
+
+
+\begin{eduMistakeBox}
+\eduSubTitle{易错提醒}别把“从属关系（$\in/\subset$，讲归属）”和“位置关系分类（相交/平行/异面，讲怎么摆）”混在一起。判断时先问一句：这条定理讲的是“谁属于谁”还是“怎么摆”？基本事实 2 是从属关系的桥，基本事实 3 是交线的入口。\end{eduMistakeBox}
+
+
+
+\clearpage
+\eduSectionTitle{B 类定理卡·平行：给图、一步推理、补中间条件}
+
+
+\begin{eduSolutionBox}{定理卡·线面平行判定：在面内找平行线}
+  \begingroup
+  \setlength{\parskip}{2.5mm}
+\textbf{几何语言：}$a\not\subset\alpha$，$b\subset\alpha$，$a\parallel b\Rightarrow a\parallel\alpha$。\par
+\textbf{口令：}线线平行 $\Rightarrow$ 线面平行。在面内找一条与已知直线平行的线。\par
+\textbf{易错前提：}$a\not\subset\alpha$（线在面外）与 $b\subset\alpha$（线在面内）两条缺一不可；少写“平面内”判定不成立。\par
+  \endgroup
+\end{eduSolutionBox}
+
+
+
+
+\begin{eduProblemBlock}[例1·线面平行判定]
+\noindent
+\begin{minipage}[t]{\dimexpr\linewidth-70mm-6mm\relax}
+\vspace{0pt}
+如图，$a\parallel b$，$b\subset\alpha$。求证：$a\parallel\alpha$。
+\par\noindent 留空：中间需要补的前提条件是 \underline{\hspace{20mm}}。
+
+\end{minipage}\hfill
+\begin{diagramcoltikz}{70mm}{直线 a 在平面外、b 在平面内，且 a 与 b 平行。}
+\input{\detokenize{build/diagram/jobs/explanation-ex-lp-parallel-judge-prompt/rendered/prompt.fragment.tex}}
+\end{diagramcoltikz}
+\end{eduProblemBlock}
+
+
+
+
+
+\begin{eduAuxItem}{思路导航}
+判对象$\;\to\;$补中间前提$\;\to\;$写结论\end{eduAuxItem}
+
+
+
+
+\begin{eduSubQuestionItem}{例1·线面平行判定}
+已知 $a\parallel b$，$b\subset\alpha$，补出中间前提后证明 $a\parallel\alpha$。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{小贴士}
+        \eduSideHint{先判对象}{这是由线线平行推线面平行，属于线面平行判定。}
+        \eduSideMistake{最易漏}{最容易漏 $a\not\subset\alpha$，没写“线在面外”判定不成立。}
+  \end{eduExplainLeft}
+
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{解答}
+      \eduExplainStep{1}{判对象}{线线（$a\parallel b$）$\to$ 线面（$a\parallel\alpha$），用线面平行判定。}
+      \eduExplainStep{2}{补中间前提}{补 $a\not\subset\alpha$（线在面外），与 $b\subset\alpha$、$a\parallel b$ 合起来。}
+      \eduExplainStep{3}{写结论}{$a\not\subset\alpha$，$b\subset\alpha$，$a\parallel b\Rightarrow a\parallel\alpha$。}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+
+\begin{eduSolutionBox}{定理卡·线面平行性质：过线作面找交线}
+  \begingroup
+  \setlength{\parskip}{2.5mm}
+\textbf{几何语言：}$a\parallel\alpha$，$a\subset\beta$，$\alpha\cap\beta=b\Rightarrow a\parallel b$。\par
+\textbf{口令：}线面平行 $\Rightarrow$ 线线平行。过该直线作辅助面，找它与已知面的交线。\par
+\textbf{易错前提：}$a\subset\beta$ 与 $\alpha\cap\beta=b$（交线）是最常漏的“桥”，不能直接由 $a\parallel\alpha$ 跳到 $a\parallel b$。\par
+  \endgroup
+\end{eduSolutionBox}
+
+
+
+
+\begin{eduProblemBlock}[例2·线面平行性质]
+\noindent
+\begin{minipage}[t]{\dimexpr\linewidth-70mm-6mm\relax}
+\vspace{0pt}
+如图，$AB\parallel\alpha$，过 $AB$ 的平面 $\beta$ 交 $\alpha$ 于 $CD$。求证：$AB\parallel CD$。
+\par\noindent 留空：连接已知与结论的“桥”是 \underline{\hspace{20mm}}。
+
+\end{minipage}\hfill
+\begin{diagramcoltikz}{70mm}{AB 在面外平行于平面 α，过 AB 作平面 β 与 α 交于 CD。}
+\input{\detokenize{build/diagram/jobs/explanation-ex-lp-parallel-prop-prompt/rendered/prompt.fragment.tex}}
+\end{diagramcoltikz}
+\end{eduProblemBlock}
+
+
+
+
+
+\begin{eduAuxItem}{思路导航}
+判对象$\;\to\;$补交线（桥）$\;\to\;$写结论\end{eduAuxItem}
+
+
+
+
+\begin{eduSubQuestionItem}{例2·线面平行性质}
+已知 $AB\parallel\alpha$，过 $AB$ 的平面 $\beta$ 交 $\alpha$ 于 $CD$，补出桥后证明 $AB\parallel CD$。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{小贴士}
+        \eduSideHint{这步找什么}{线面平行要推出线线平行，必须靠“辅助面+交线”搭桥。}
+        \eduSideMistake{别跳步}{不能直接由 $AB\parallel\alpha$ 写 $AB\parallel CD$，必须补 $\alpha\cap\beta=CD$。}
+  \end{eduExplainLeft}
+
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{解答}
+      \eduExplainStep{1}{判对象}{线面平行（$AB\parallel\alpha$）$\to$ 线线平行（$AB\parallel CD$），用线面平行性质。}
+      \eduExplainStep{2}{补交线（桥）}{补 $AB\subset\beta$，$\alpha\cap\beta=CD$，这一步是桥，不能跳。}
+      \eduExplainStep{3}{写结论}{$AB\parallel\alpha$，$AB\subset\beta$，$\alpha\cap\beta=CD\Rightarrow AB\parallel CD$。}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+
+\begin{eduSolutionBox}{定理卡·面面平行判定：一面内两条相交线都平行另一面}
+  \begingroup
+  \setlength{\parskip}{2.5mm}
+\textbf{几何语言：}$a\subset\alpha$，$b\subset\alpha$，$a\cap b=A$，$a\parallel\beta$，$b\parallel\beta\Rightarrow\alpha\parallel\beta$。\par
+\textbf{口令：}线面平行 $\Rightarrow$ 面面平行。在一个面内找两条相交线，分别平行另一面。\par
+\textbf{易错前提：}“两条相交线”$a\cap b=A$ 是头号失分点，写两条平行线不行。\par
+  \endgroup
+\end{eduSolutionBox}
+
+
+
+
+\begin{eduProblemBlock}[例3·面面平行判定]
+\noindent
+\begin{minipage}[t]{\dimexpr\linewidth-70mm-6mm\relax}
+\vspace{0pt}
+如图，$a\subset\alpha$，$b\subset\alpha$，$a\parallel\beta$，$b\parallel\beta$。求证：$\alpha\parallel\beta$。
+\par\noindent 留空：还差的前提是 \underline{\hspace{20mm}}。
+
+\end{minipage}\hfill
+\begin{diagramcoltikz}{70mm}{平面 α 内有直线 a、b，都平行于平面 β。}
+\input{\detokenize{build/diagram/jobs/explanation-ex-pp-parallel-judge-prompt/rendered/prompt.fragment.tex}}
+\end{diagramcoltikz}
+\end{eduProblemBlock}
+
+
+
+
+
+\begin{eduAuxItem}{思路导航}
+判对象$\;\to\;$补相交前提$\;\to\;$写结论\end{eduAuxItem}
+
+
+
+
+\begin{eduSubQuestionItem}{例3·面面平行判定}
+已知 $\alpha$ 内直线 $a,b$ 都平行 $\beta$，补相交前提后证明 $\alpha\parallel\beta$。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{小贴士}
+        \eduSideHint{一面内几条线}{面面平行判定要在一个面内找两条线，不是一条。}
+        \eduSideMistake{相交不能漏}{$a\cap b=A$ 是头号失分点，两条平行线推不出面面平行。}
+  \end{eduExplainLeft}
+
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{解答}
+      \eduExplainStep{1}{判对象}{线面平行 $\to$ 面面平行，用面面平行判定。}
+      \eduExplainStep{2}{补相交前提}{补 $a\cap b=A$，即这两条面内直线必须相交。}
+      \eduExplainStep{3}{写结论}{$a\subset\alpha$，$b\subset\alpha$，$a\cap b=A$，$a\parallel\beta$，$b\parallel\beta\Rightarrow\alpha\parallel\beta$。}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+
+\begin{eduSolutionBox}{定理卡·面面平行性质：第三个面截出两条平行交线}
+  \begingroup
+  \setlength{\parskip}{2.5mm}
+\textbf{几何语言：}$\alpha\parallel\beta$，$\alpha\cap\gamma=a$，$\beta\cap\gamma=b\Rightarrow a\parallel b$。\par
+\textbf{口令：}面面平行 $\Rightarrow$ 线线平行。两平行面被第三个面截，两条交线平行。\par
+\textbf{易错前提：}要写清第三个面 $\gamma$，以及 $\alpha\cap\gamma=a$、$\beta\cap\gamma=b$ 两条交线。\par
+  \endgroup
+\end{eduSolutionBox}
+
+
+
+
+\begin{eduProblemBlock}[例4·面面平行性质]
+\noindent
+\begin{minipage}[t]{\dimexpr\linewidth-70mm-6mm\relax}
+\vspace{0pt}
+如图，$\alpha\parallel\beta$，平面 $\gamma$ 分别交 $\alpha,\beta$ 于 $a,b$。求证：$a\parallel b$。
+\par\noindent 留空：用到的两条交线是 \underline{\hspace{20mm}}。
+
+\end{minipage}\hfill
+\begin{diagramcoltikz}{70mm}{两平行平面 α、β 被第三个面 γ 截出交线 a、b。}
+\input{\detokenize{build/diagram/jobs/explanation-ex-pp-parallel-prop-prompt/rendered/prompt.fragment.tex}}
+\end{diagramcoltikz}
+\end{eduProblemBlock}
+
+
+
+
+
+\begin{eduAuxItem}{思路导航}
+判对象$\;\to\;$补第三个面与交线$\;\to\;$写结论\end{eduAuxItem}
+
+
+
+
+\begin{eduSubQuestionItem}{例4·面面平行性质}
+已知 $\alpha\parallel\beta$，$\gamma$ 截 $\alpha,\beta$ 于 $a,b$，补交线后证明 $a\parallel b$。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{小贴士}
+        \eduSideHint{关键动作}{面面平行推线线平行，靠的是“第三个面截出两条交线”。}
+        \eduSideMistake{交线要写全}{两条交线 $\alpha\cap\gamma=a$、$\beta\cap\gamma=b$ 都要写，缺一条结论不成立。}
+  \end{eduExplainLeft}
+
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{解答}
+      \eduExplainStep{1}{判对象}{面面平行（$\alpha\parallel\beta$）$\to$ 线线平行（$a\parallel b$），用面面平行性质。}
+      \eduExplainStep{2}{补第三个面与交线}{补 $\alpha\cap\gamma=a$，$\beta\cap\gamma=b$，第三个面 $\gamma$ 截出两条交线。}
+      \eduExplainStep{3}{写结论}{$\alpha\parallel\beta$，$\alpha\cap\gamma=a$，$\beta\cap\gamma=b\Rightarrow a\parallel b$。}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduMistakeBox}
+\eduSubTitle{平行定理易错提醒}平行类最常漏两类前提：判定定理漏“相交”（$a\cap b=A$）或“平面内/面外”（$a\not\subset\alpha$、$b\subset\alpha$）；性质定理漏“辅助面+交线”。补中间条件时先问：这座桥是交线，还是面内/相交前提？\end{eduMistakeBox}
+
+
+
+\clearpage
+\eduSectionTitle{B 类定理卡·垂直：给图、一步推理、补中间条件}
+
+
+\begin{eduSolutionBox}{定理卡·线面垂直判定：面内两条相交线都垂直}
+  \begingroup
+  \setlength{\parskip}{2.5mm}
+\textbf{几何语言：}$l\perp m$，$l\perp n$，$m\subset\alpha$，$n\subset\alpha$，$m\cap n=A\Rightarrow l\perp\alpha$。\par
+\textbf{口令：}线线垂直 $\Rightarrow$ 线面垂直。在面内找两条与已知直线都垂直的相交线。\par
+\textbf{易错前提：}$m\cap n=A$（两条相交线）是头号失分点；两条不相交的线垂直推不出线面垂直。\par
+  \endgroup
+\end{eduSolutionBox}
+
+
+
+
+\begin{eduProblemBlock}[例5·线面垂直判定]
+\noindent
+\begin{minipage}[t]{\dimexpr\linewidth-70mm-6mm\relax}
+\vspace{0pt}
+如图，$l\perp m$，$l\perp n$，$m\subset\alpha$，$n\subset\alpha$。求证：$l\perp\alpha$。
+\par\noindent 留空：还差的前提是 \underline{\hspace{20mm}}。
+
+\end{minipage}\hfill
+\begin{diagramcoltikz}{70mm}{直线 l 与平面 α 内的直线 m、n 都垂直。}
+\input{\detokenize{build/diagram/jobs/explanation-ex-lp-perp-judge-prompt/rendered/prompt.fragment.tex}}
+\end{diagramcoltikz}
+\end{eduProblemBlock}
+
+
+
+
+
+\begin{eduAuxItem}{思路导航}
+判对象$\;\to\;$补相交前提$\;\to\;$写结论\end{eduAuxItem}
+
+
+
+
+\begin{eduSubQuestionItem}{例5·线面垂直判定}
+已知 $l$ 与 $\alpha$ 内 $m,n$ 都垂直，补相交前提后证明 $l\perp\alpha$。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{小贴士}
+        \eduSideHint{面内找几条}{线面垂直判定要在面内找两条与已知线都垂直的线。}
+        \eduSideMistake{头号失分点}{$m\cap n=A$ 最易漏，两条不相交的线推不出线面垂直。}
+  \end{eduExplainLeft}
+
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{解答}
+      \eduExplainStep{1}{判对象}{线线垂直（$l\perp m$，$l\perp n$）$\to$ 线面垂直（$l\perp\alpha$），用线面垂直判定。}
+      \eduExplainStep{2}{补相交前提}{补 $m\cap n=A$，两条面内垂线必须相交。}
+      \eduExplainStep{3}{写结论}{$l\perp m$，$l\perp n$，$m\subset\alpha$，$n\subset\alpha$，$m\cap n=A\Rightarrow l\perp\alpha$。}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+
+\begin{eduSolutionBox}{定理卡·线面垂直性质：同垂直一面则两线平行}
+  \begingroup
+  \setlength{\parskip}{2.5mm}
+\textbf{几何语言：}$a\perp\alpha$，$b\perp\alpha\Rightarrow a\parallel b$。\par
+\textbf{口令：}线面垂直 $\Rightarrow$ 线线平行。两条都垂直同一个面的线互相平行（跨类结论）。\par
+\textbf{易错前提：}必须同一个平面 $\alpha$；若垂直不同的面，结论不成立。\par
+  \endgroup
+\end{eduSolutionBox}
+
+
+
+
+\begin{eduProblemBlock}[例6·线面垂直性质]
+\noindent
+\begin{minipage}[t]{\dimexpr\linewidth-70mm-6mm\relax}
+\vspace{0pt}
+如图，$a\perp\alpha$，$b\perp\alpha$。求证：$a\parallel b$。
+\par\noindent 留空：两线共同的条件是 \underline{\hspace{20mm}}。
+
+\end{minipage}\hfill
+\begin{diagramcoltikz}{70mm}{直线 a、b 都垂直于平面 α。}
+\input{\detokenize{build/diagram/jobs/explanation-ex-lp-perp-prop-prompt/rendered/prompt.fragment.tex}}
+\end{diagramcoltikz}
+\end{eduProblemBlock}
+
+
+
+
+
+\begin{eduAuxItem}{思路导航}
+判对象$\;\to\;$确认同面$\;\to\;$写结论\end{eduAuxItem}
+
+
+
+
+\begin{eduSubQuestionItem}{例6·线面垂直性质}
+已知 $a,b$ 都垂直 $\alpha$，证明 $a\parallel b$。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{小贴士}
+        \eduSideHint{这是跨类结论}{由线面垂直推出线线平行，是垂直章节里少见的“推平行”。}
+        \eduSideMistake{必须同面}{两条线要垂直同一个面；垂直不同面时结论不成立。}
+  \end{eduExplainLeft}
+
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{解答}
+      \eduExplainStep{1}{判对象}{线面垂直（$a\perp\alpha$，$b\perp\alpha$）$\to$ 线线平行（$a\parallel b$），用线面垂直性质。}
+      \eduExplainStep{2}{确认同面}{两条线都垂直同一个平面 $\alpha$，这是结论成立的前提。}
+      \eduExplainStep{3}{写结论}{$a\perp\alpha$，$b\perp\alpha\Rightarrow a\parallel b$。}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+
+\begin{eduSolutionBox}{定理卡·面面垂直判定：一面过另一面的垂线}
+  \begingroup
+  \setlength{\parskip}{2.5mm}
+\textbf{几何语言：}$l\perp\alpha$，$l\subset\beta\Rightarrow\alpha\perp\beta$。\par
+\textbf{口令：}线面垂直 $\Rightarrow$ 面面垂直。一个面内有一条线垂直另一个面。\par
+\textbf{易错前提：}垂线 $l$ 必须在某一面内（$l\subset\beta$），且垂直另一面（$l\perp\alpha$），两条缺一不可。\par
+  \endgroup
+\end{eduSolutionBox}
+
+
+
+
+\begin{eduProblemBlock}[例7·面面垂直判定]
+\noindent
+\begin{minipage}[t]{\dimexpr\linewidth-70mm-6mm\relax}
+\vspace{0pt}
+如图，$l\perp\alpha$，$l\subset\beta$。求证：$\alpha\perp\beta$。
+\par\noindent 留空：垂线在哪个面内？\underline{\hspace{20mm}}。
+
+\end{minipage}\hfill
+\begin{diagramcoltikz}{70mm}{直线 l 在平面 β 内且垂直于平面 α。}
+\input{\detokenize{build/diagram/jobs/explanation-ex-pp-perp-judge-prompt/rendered/prompt.fragment.tex}}
+\end{diagramcoltikz}
+\end{eduProblemBlock}
+
+
+
+
+
+\begin{eduAuxItem}{思路导航}
+判对象$\;\to\;$补垂线在面内$\;\to\;$写结论\end{eduAuxItem}
+
+
+
+
+\begin{eduSubQuestionItem}{例7·面面垂直判定}
+已知 $l\perp\alpha$ 且 $l\subset\beta$，证明 $\alpha\perp\beta$。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{小贴士}
+        \eduSideHint{找什么}{面面垂直判定要在一个面内找一条垂直另一个面的线。}
+        \eduSideMistake{两条前提}{$l\perp\alpha$ 和 $l\subset\beta$ 都要写，少一条结论不成立。}
+  \end{eduExplainLeft}
+
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{解答}
+      \eduExplainStep{1}{判对象}{线面垂直（$l\perp\alpha$）$\to$ 面面垂直（$\alpha\perp\beta$），用面面垂直判定。}
+      \eduExplainStep{2}{补垂线在面内}{补 $l\subset\beta$，垂线必须在某一个面内。}
+      \eduExplainStep{3}{写结论}{$l\perp\alpha$，$l\subset\beta\Rightarrow\alpha\perp\beta$。}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+
+\begin{eduSolutionBox}{定理卡·面面垂直性质：四件套（面面垂直+交线+面内+垂直于棱）}
+  \begingroup
+  \setlength{\parskip}{2.5mm}
+\textbf{几何语言：}$\alpha\perp\beta$，$\alpha\cap\beta=l$，$AB\subset\alpha$，$AB\perp l\Rightarrow AB\perp\beta$。\par
+\textbf{口令：}面面垂直 $\Rightarrow$ 线面垂直。一个面内垂直于交线（棱）的线，垂直另一个面。\par
+\textbf{易错前提（四件套缺一不可）：}①$\alpha\perp\beta$；②$\alpha\cap\beta=l$（交线/棱）；③$AB\subset\alpha$（线在面内）；④$AB\perp l$（垂直于棱）。\par
+  \endgroup
+\end{eduSolutionBox}
+
+
+
+
+\begin{eduProblemBlock}[例8·面面垂直性质]
+\noindent
+\begin{minipage}[t]{\dimexpr\linewidth-70mm-6mm\relax}
+\vspace{0pt}
+如图，$\alpha\perp\beta$，$\alpha\cap\beta=l$，$AB\subset\alpha$。求证：$AB\perp\beta$。
+\par\noindent 留空：四件套还差哪一条？\underline{\hspace{20mm}}。
+
+\end{minipage}\hfill
+\begin{diagramcoltikz}{70mm}{平面 α⊥β 交于 l，AB 在 α 内。}
+\input{\detokenize{build/diagram/jobs/explanation-ex-pp-perp-prop-prompt/rendered/prompt.fragment.tex}}
+\end{diagramcoltikz}
+\end{eduProblemBlock}
+
+
+
+
+
+\begin{eduAuxItem}{思路导航}
+判对象$\;\to\;$补垂直于棱$\;\to\;$写结论\end{eduAuxItem}
+
+
+
+
+\begin{eduSubQuestionItem}{例8·面面垂直性质}
+已知 $\alpha\perp\beta$，$\alpha\cap\beta=l$，$AB\subset\alpha$，补齐四件套后证明 $AB\perp\beta$。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{小贴士}
+        \eduSideHint{四件套}{面面垂直性质要凑齐：面面垂直、交线、面内、垂直于棱。}
+        \eduSideMistake{最易漏}{$AB\perp l$（垂直于棱）最易漏，没有它推不出线面垂直。}
+  \end{eduExplainLeft}
+
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{解答}
+      \eduExplainStep{1}{判对象}{面面垂直（$\alpha\perp\beta$）$\to$ 线面垂直（$AB\perp\beta$），用面面垂直性质。}
+      \eduExplainStep{2}{补垂直于棱}{补 $AB\perp l$，凑齐四件套（$\alpha\perp\beta$、$\alpha\cap\beta=l$、$AB\subset\alpha$、$AB\perp l$）。}
+      \eduExplainStep{3}{写结论}{$\alpha\perp\beta$，$\alpha\cap\beta=l$，$AB\subset\alpha$，$AB\perp l\Rightarrow AB\perp\beta$。}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+
+\begin{eduSolutionBox}{定理卡·二面角平面角定义：顶点在棱上、两边在两面内、两边垂直于棱}
+  \begingroup
+  \setlength{\parskip}{2.5mm}
+\textbf{几何语言：}$\alpha\cap\beta=l$，$O\in l$，$OA\subset\alpha$，$OB\subset\beta$，$OA\perp l$，$OB\perp l\Rightarrow\angle AOB$ 为二面角 $\alpha\!-\!l\!-\!\beta$ 的平面角。\par
+\textbf{口令：}三要素——顶点在棱上、两边分别在两个半平面内、两边都垂直于棱。\par
+\textbf{易错点：}平面角的顶点 $O$ 必须在棱 $l$ 上；$OA,OB$ 必须都垂直于棱 $l$，且分别在两个面内。\par
+  \endgroup
+\end{eduSolutionBox}
+
+
+
+
+\begin{eduProblemBlock}[例9·二面角平面角]
+\noindent
+\begin{minipage}[t]{\dimexpr\linewidth-70mm-6mm\relax}
+\vspace{0pt}
+如图，二面角 $\alpha\!-\!l\!-\!\beta$ 中，$O\in l$，$OA\subset\alpha$，$OB\subset\beta$。要使 $\angle AOB$ 为该二面角的平面角，还需满足 \underline{\hspace{24mm}}。
+
+\end{minipage}\hfill
+\begin{diagramcoltikz}{70mm}{二面角 α-l-β，O 在棱 l 上，OA、OB 分别在两个面内。}
+\input{\detokenize{build/diagram/jobs/explanation-ex-dihedral-prompt/rendered/prompt.fragment.tex}}
+\end{diagramcoltikz}
+\end{eduProblemBlock}
+
+
+
+
+
+\begin{eduAuxItem}{思路导航}
+判对象$\;\to\;$补垂直于棱$\;\to\;$写结论\end{eduAuxItem}
+
+
+
+
+\begin{eduSubQuestionItem}{例9·二面角平面角}
+说明使 $\angle AOB$ 成为二面角平面角还需满足的条件。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{小贴士}
+        \eduSideHint{三要素}{顶点在棱上、两边在两面内、两边垂直于棱，三条都要满足。}
+        \eduSideMistake{垂直于棱}{最易漏的是 $OA\perp l$、$OB\perp l$；只在一个面内不垂直于棱不行。}
+  \end{eduExplainLeft}
+
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{解答}
+      \eduExplainStep{1}{判对象}{这是二面角平面角的定义（三要素），属于填空型定义默写。}
+      \eduExplainStep{2}{补垂直于棱}{补 $OA\perp l$，$OB\perp l$，即两边都垂直于棱。}
+      \eduExplainStep{3}{写结论}{$O\in l$，$OA\subset\alpha$，$OB\subset\beta$，$OA\perp l$，$OB\perp l\Rightarrow\angle AOB$ 为二面角 $\alpha\!-\!l\!-\!\beta$ 的平面角。}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduMistakeBox}
+\eduSubTitle{垂直定理易错提醒}垂直类头号失分点是“相交/棱”前提：线面垂直判定漏 $m\cap n=A$，面面垂直性质漏“垂直于棱 $AB\perp l$”。补中间条件时先问：要凑的是相交，还是四件套里的某一件？\end{eduMistakeBox}
+
+
+
+\clearpage
+\eduSectionTitle{总口令与批改归因}
+
+\begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
+\begin{eduBulletList}
+  \item 总口令：判对象、找桥、写格式。先判线线/线面/面面，再补中间那座桥（交线或相交/面内前提），最后按符号写全前提。  \item 批改三秒归因：对象错（线线/线面/面面搞混，整题重做）＞中间漏（补一条交线或相交前提即可）＞符号错（只改 $\subset/\in/\cap$）。  \item B 类每题一律按“判对象 $\to$ 补中间 $\to$ 写结论”三段；空白按这三段排版，绝不抄现成几何语言。\end{eduBulletList}
+\end{eduSummaryBlock}
+
+
+
+
+\end{document}

@@ -1,0 +1,623 @@
+meta:
+  title: 立体几何定理库默写 · 全覆盖竖式版
+  subtitle: 徐玥琪 · 学生版
+  grade: 高一
+  subject: 数学
+  duration: 35分钟
+  total_points: 175
+  version: student
+  source_artifacts:
+    structure_analysis: docs/立体几何学习规划/01-默写题作业方案.md
+    parallel_plan: docs/立体几何学习规划/03-平行证明讲义方案.md
+    perpendicular_plan: docs/立体几何学习规划/04-垂直证明讲义方案.md
+    angle_distance_plan: docs/立体几何学习规划/05-距离与角讲义方案.md
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: incidence
+  title: 一、点线面基本事实与分类
+  type: practice
+  visibility: student
+  blocks:
+  - type: fillin
+    id: a01-symbols
+    points: 5
+    stem_latex: |
+      \textbf{符号约定}\par
+      \[
+      \left.
+      \begin{aligned}
+      A&\ \underline{\hspace{9mm}}\ l\\
+      l&\ \underline{\hspace{9mm}}\ \alpha\\
+      \alpha&\ \underline{\hspace{9mm}}\ \beta=m
+      \end{aligned}
+      \right\}
+      \Longrightarrow
+      \begin{aligned}
+      &\text{点在线上；}\\
+      &\text{线在面内；}\\
+      &\text{两面交于直线 }m
+      \end{aligned}
+      \]
+    answer: ''
+  - type: fillin
+    id: a02-position-types
+    points: 5
+    stem_latex: |
+      \textbf{位置关系分类}\par
+      \[
+      \left.
+      \begin{aligned}
+      \text{线线}&:\ \text{相交、平行、}\underline{\hspace{12mm}}\\
+      \text{线面}&:\ \text{在面内、相交、}\underline{\hspace{12mm}}\\
+      \text{面面}&:\ \text{平行、}\underline{\hspace{12mm}}
+      \end{aligned}
+      \right\}
+      \Longrightarrow \text{先判对象，再选定理}
+      \]
+    answer: ''
+  - type: fillin
+    id: a03-three-points-plane
+    points: 5
+    stem_latex: |
+      \textbf{基本事实1：三点定面}\par
+      \[
+      \left.
+      \begin{aligned}
+      A,B,C&\ \underline{\hspace{18mm}}
+      \end{aligned}
+      \right\}
+      \Longrightarrow
+      \text{过 }A,B,C\text{ 有且只有一个平面}
+      \]
+    answer: ''
+  - type: fillin
+    id: a04-line-in-plane
+    points: 5
+    stem_latex: |
+      \textbf{基本事实2：点线面从属}\par
+      \[
+      \left.
+      \begin{aligned}
+      A,B&\in l\\
+      A,B&\in\alpha\\
+      A&\ne B
+      \end{aligned}
+      \right\}
+      \Longrightarrow
+      \underline{\hspace{24mm}}
+      \]
+    answer: ''
+  - type: fillin
+    id: a05-common-point-line
+    points: 5
+    stem_latex: |
+      \textbf{基本事实3：公共点推出交线}\par
+      \[
+      \left.
+      \begin{aligned}
+      P&\in\alpha\\
+      P&\in\beta\\
+      \alpha&\ne\beta
+      \end{aligned}
+      \right\}
+      \Longrightarrow
+      \alpha\cap\beta=\underline{\hspace{12mm}},\quad P\in\underline{\hspace{10mm}}
+      \]
+    answer: ''
+  - type: fillin
+    id: a06-line-point-plane
+    points: 5
+    stem_latex: |
+      \textbf{推论1：直线与线外一点定面}\par
+      \[
+      \left.
+      \begin{aligned}
+      a&\text{ 是直线}\\
+      P&\notin a
+      \end{aligned}
+      \right\}
+      \Longrightarrow
+      \underline{\hspace{42mm}}
+      \]
+    answer: ''
+  - type: fillin
+    id: a07-intersecting-lines-plane
+    points: 5
+    stem_latex: |
+      \textbf{推论2：相交直线定面}\par
+      \[
+      \left.
+      \begin{aligned}
+      a\cap b&=P
+      \end{aligned}
+      \right\}
+      \Longrightarrow
+      \underline{\hspace{38mm}}
+      \]
+    answer: ''
+  - type: fillin
+    id: a08-parallel-lines-plane
+    points: 5
+    stem_latex: |
+      \textbf{推论3：平行直线定面}\par
+      \[
+      \left.
+      \begin{aligned}
+      a&\parallel b\\
+      a&\ne b
+      \end{aligned}
+      \right\}
+      \Longrightarrow
+      \underline{\hspace{38mm}}
+      \]
+    answer: ''
+- id: parallel
+  title: 二、平行关系定理
+  type: practice
+  visibility: student
+  blocks:
+  - type: fillin
+    id: b01-parallel-transitive
+    points: 5
+    stem_latex: |
+      \textbf{平行传递性}\par
+      \[
+      \left.
+      \begin{aligned}
+      a&\parallel b\\
+      b&\parallel c
+      \end{aligned}
+      \right\}
+      \Longrightarrow
+      \underline{\hspace{20mm}}
+      \]
+    answer: ''
+  - type: fillin
+    id: b02-equal-angle
+    points: 5
+    stem_latex: |
+      \textbf{等角定理}\par
+      \[
+      \left.
+      \begin{aligned}
+      a&\parallel a'\\
+      b&\parallel b'
+      \end{aligned}
+      \right\}
+      \Longrightarrow
+      \angle(a,b)\text{ 与 }\angle(a',b')\ \underline{\hspace{26mm}}
+      \]
+    answer: ''
+  - type: fillin
+    id: b03-line-plane-parallel-judge
+    points: 5
+    stem_latex: |
+      \textbf{线面平行判定}\par
+      \[
+      \left.
+      \begin{aligned}
+      a&\parallel b\\
+      b&\subset\alpha\\
+      a&\not\subset\alpha
+      \end{aligned}
+      \right\}
+      \Longrightarrow
+      \underline{\hspace{22mm}}
+      \]
+    answer: ''
+  - type: fillin
+    id: b04-line-plane-parallel-property
+    points: 5
+    stem_latex: |
+      \textbf{线面平行性质}\par
+      \[
+      \left.
+      \begin{aligned}
+      a&\parallel\alpha\\
+      a&\subset\beta\\
+      \alpha\cap\beta&=b
+      \end{aligned}
+      \right\}
+      \Longrightarrow
+      \underline{\hspace{22mm}}
+      \]
+    answer: ''
+  - type: fillin
+    id: b05-plane-plane-parallel-judge
+    points: 5
+    stem_latex: |
+      \textbf{面面平行判定}\par
+      \[
+      \left.
+      \begin{aligned}
+      a,b&\subset\alpha\\
+      a\cap b&=P\\
+      a&\parallel\beta\\
+      b&\parallel\beta
+      \end{aligned}
+      \right\}
+      \Longrightarrow
+      \underline{\hspace{22mm}}
+      \]
+    answer: ''
+  - type: fillin
+    id: b06-plane-plane-parallel-property
+    points: 5
+    stem_latex: |
+      \textbf{面面平行性质}\par
+      \[
+      \left.
+      \begin{aligned}
+      \alpha&\parallel\beta\\
+      \gamma\cap\alpha&=a\\
+      \gamma\cap\beta&=b
+      \end{aligned}
+      \right\}
+      \Longrightarrow
+      \underline{\hspace{22mm}}
+      \]
+    answer: ''
+  - type: fillin
+    id: b07-plane-plane-parallel-extra
+    points: 5
+    stem_latex: |
+      \textbf{面面平行的常用性质}\par
+      \[
+      \left.
+      \begin{aligned}
+      \alpha&\parallel\beta\\
+      a&\subset\alpha
+      \end{aligned}
+      \right\}
+      \Longrightarrow
+      \underline{\hspace{22mm}}
+      \]
+    answer: ''
+- id: perpendicular
+  title: 三、垂直关系定理
+  type: practice
+  visibility: student
+  blocks:
+  - type: fillin
+    id: c01-skew-perpendicular
+    points: 5
+    stem_latex: |
+      \textbf{异面直线垂直定义}\par
+      \[
+      \left.
+      \begin{aligned}
+      a'&\parallel a\\
+      a'\cap b&=O\\
+      \angle(a',b)&=90^\circ
+      \end{aligned}
+      \right\}
+      \Longrightarrow
+      \underline{\hspace{20mm}}
+      \]
+    answer: ''
+  - type: fillin
+    id: c02-line-plane-perp-definition
+    points: 5
+    stem_latex: |
+      \textbf{线面垂直定义推论}\par
+      \[
+      \left.
+      \begin{aligned}
+      a&\perp\alpha\\
+      b&\subset\alpha
+      \end{aligned}
+      \right\}
+      \Longrightarrow
+      \underline{\hspace{20mm}}
+      \]
+    answer: ''
+  - type: fillin
+    id: c03-line-plane-perp-judge
+    points: 5
+    stem_latex: |
+      \textbf{线面垂直判定}\par
+      \[
+      \left.
+      \begin{aligned}
+      l&\perp m\\
+      l&\perp n\\
+      m,n&\subset\alpha\\
+      m\cap n&=P
+      \end{aligned}
+      \right\}
+      \Longrightarrow
+      \underline{\hspace{20mm}}
+      \]
+    answer: ''
+  - type: fillin
+    id: c04-line-plane-perp-property
+    points: 5
+    stem_latex: |
+      \textbf{线面垂直性质}\par
+      \[
+      \left.
+      \begin{aligned}
+      a&\perp\alpha\\
+      b&\perp\alpha
+      \end{aligned}
+      \right\}
+      \Longrightarrow
+      \underline{\hspace{20mm}}
+      \]
+    answer: ''
+  - type: fillin
+    id: c05-plane-plane-perp-judge
+    points: 5
+    stem_latex: |
+      \textbf{面面垂直判定}\par
+      \[
+      \left.
+      \begin{aligned}
+      l&\perp\alpha\\
+      l&\subset\beta
+      \end{aligned}
+      \right\}
+      \Longrightarrow
+      \underline{\hspace{20mm}}
+      \]
+    answer: ''
+  - type: fillin
+    id: c06-plane-plane-perp-property
+    points: 5
+    stem_latex: |
+      \textbf{面面垂直性质}\par
+      \[
+      \left.
+      \begin{aligned}
+      \alpha&\perp\beta\\
+      \alpha\cap\beta&=l\\
+      a&\subset\alpha\\
+      a&\perp l
+      \end{aligned}
+      \right\}
+      \Longrightarrow
+      \underline{\hspace{20mm}}
+      \]
+    answer: ''
+  - type: fillin
+    id: c07-three-perpendicular
+    points: 5
+    stem_latex: |
+      \textbf{三垂线定理}\par
+      \[
+      \left.
+      \begin{aligned}
+      PA&\perp\alpha\\
+      AB&\subset\alpha\\
+      l&\subset\alpha\\
+      AB&\perp l
+      \end{aligned}
+      \right\}
+      \Longrightarrow
+      \underline{\hspace{20mm}}
+      \]
+    answer: ''
+  - type: fillin
+    id: c08-three-perpendicular-converse
+    points: 5
+    stem_latex: |
+      \textbf{三垂线逆定理}\par
+      \[
+      \left.
+      \begin{aligned}
+      PA&\perp\alpha\\
+      AB&\subset\alpha\\
+      l&\subset\alpha\\
+      PB&\perp l
+      \end{aligned}
+      \right\}
+      \Longrightarrow
+      \underline{\hspace{20mm}}
+      \]
+    answer: ''
+  - type: fillin
+    id: c09-min-angle
+    points: 5
+    stem_latex: |
+      \textbf{最小角定理}\par
+      \[
+      \left.
+      \begin{aligned}
+      l\cap\alpha&=A\\
+      AH&\text{ 是 }l\text{ 在 }\alpha\text{ 内的射影}\\
+      b&\subset\alpha,\ A\in b
+      \end{aligned}
+      \right\}
+      \Longrightarrow
+      \angle(l,AH)\ \underline{\hspace{16mm}}\ \angle(l,b)
+      \]
+    answer: ''
+- id: angle-distance
+  title: 四、距离与角的化归规则
+  type: practice
+  visibility: student
+  blocks:
+  - type: fillin
+    id: d01-point-line-distance
+    points: 5
+    stem_latex: |
+      \textbf{点到直线距离}\par
+      \[
+      \left.
+      \begin{aligned}
+      PH&\perp l\\
+      H&\in l
+      \end{aligned}
+      \right\}
+      \Longrightarrow
+      d(P,l)=\underline{\hspace{16mm}}
+      \]
+    answer: ''
+  - type: fillin
+    id: d02-point-plane-distance
+    points: 5
+    stem_latex: |
+      \textbf{点到平面距离}\par
+      \[
+      \left.
+      \begin{aligned}
+      PH&\perp\alpha\\
+      H&\in\alpha
+      \end{aligned}
+      \right\}
+      \Longrightarrow
+      d(P,\alpha)=\underline{\hspace{16mm}}
+      \]
+    answer: ''
+  - type: fillin
+    id: d03-line-plane-distance
+    points: 5
+    stem_latex: |
+      \textbf{线面距转点面距}\par
+      \[
+      \left.
+      \begin{aligned}
+      a&\parallel\alpha\\
+      P&\in a
+      \end{aligned}
+      \right\}
+      \Longrightarrow
+      d(a,\alpha)=\underline{\hspace{20mm}}
+      \]
+    answer: ''
+  - type: fillin
+    id: d04-plane-plane-distance
+    points: 5
+    stem_latex: |
+      \textbf{面面距转点面距}\par
+      \[
+      \left.
+      \begin{aligned}
+      \alpha&\parallel\beta\\
+      P&\in\alpha
+      \end{aligned}
+      \right\}
+      \Longrightarrow
+      d(\alpha,\beta)=\underline{\hspace{20mm}}
+      \]
+    answer: ''
+  - type: fillin
+    id: d05-skew-distance
+    points: 5
+    stem_latex: |
+      \textbf{异面直线距离}\par
+      \[
+      \left.
+      \begin{aligned}
+      M&\in a,\ N\in b\\
+      MN&\perp a\\
+      MN&\perp b
+      \end{aligned}
+      \right\}
+      \Longrightarrow
+      d(a,b)=\underline{\hspace{16mm}}
+      \]
+    answer: ''
+  - type: fillin
+    id: d06-volume-distance
+    points: 5
+    stem_latex: |
+      \textbf{等体积法求点面距}\par
+      \[
+      \left.
+      \begin{aligned}
+      V_{P-ABC}&=\frac13 S_{\triangle ABC}\cdot h
+      \end{aligned}
+      \right\}
+      \Longrightarrow
+      h=\underline{\hspace{28mm}}
+      \]
+    answer: ''
+  - type: fillin
+    id: d07-skew-angle
+    points: 5
+    stem_latex: |
+      \textbf{异面直线所成角}\par
+      \[
+      \left.
+      \begin{aligned}
+      a'&\parallel a\\
+      b'&\parallel b\\
+      a'\cap b'&=O
+      \end{aligned}
+      \right\}
+      \Longrightarrow
+      \angle(a,b)=\underline{\hspace{24mm}}
+      \]
+    answer: ''
+  - type: fillin
+    id: d08-line-plane-angle
+    points: 5
+    stem_latex: |
+      \textbf{线面角定义}\par
+      \[
+      \left.
+      \begin{aligned}
+      l\cap\alpha&=A\\
+      P&\in l\\
+      P\text{ 在 }\alpha\text{ 上的射影为 }H
+      \end{aligned}
+      \right\}
+      \Longrightarrow
+      \angle(l,\alpha)=\underline{\hspace{18mm}}
+      \]
+    answer: ''
+  - type: fillin
+    id: d09-distance-to-angle
+    points: 5
+    stem_latex: |
+      \textbf{点面距法求线面角}\par
+      \[
+      \left.
+      \begin{aligned}
+      \theta&=\angle(l,\alpha)\\
+      P&\in l,\ A=l\cap\alpha\\
+      d(P,\alpha)&=d\\
+      PA&=s
+      \end{aligned}
+      \right\}
+      \Longrightarrow
+      \sin\theta=\underline{\hspace{18mm}}
+      \]
+    answer: ''
+  - type: fillin
+    id: d10-dihedral-angle
+    points: 5
+    stem_latex: |
+      \textbf{二面角平面角定义}\par
+      \[
+      \left.
+      \begin{aligned}
+      \alpha\cap\beta&=l\\
+      O&\in l\\
+      OA&\subset\alpha,\ OB\subset\beta\\
+      OA&\perp l,\ OB\perp l
+      \end{aligned}
+      \right\}
+      \Longrightarrow
+      \underline{\hspace{16mm}}\text{ 是二面角 }\alpha-l-\beta\text{ 的平面角}
+      \]
+    answer: ''
+  - type: fillin
+    id: d11-area-projection
+    points: 5
+    stem_latex: |
+      \textbf{二面角面积射影法}\par
+      \[
+      \left.
+      \begin{aligned}
+      S_{\text{射影}}&=S_{\text{原}}\cos\theta
+      \end{aligned}
+      \right\}
+      \Longrightarrow
+      \cos\theta=\underline{\hspace{28mm}}
+      \]
+    answer: ''
