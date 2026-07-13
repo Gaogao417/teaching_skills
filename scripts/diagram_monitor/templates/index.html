@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Diagram Pipeline Monitor</title>
+  <link rel="stylesheet" href="/static/monitor.css">
+</head>
+<body>
+  <main class="app-shell">
+    <header class="topbar">
+      <div class="brand">
+        <p class="eyebrow">Teaching Skills · Read-only</p>
+        <h1>Diagram Pipeline Monitor</h1>
+        <p class="subtitle">从作业目录追踪到每一轮 GeometricScene、TikZ 与预览产物</p>
+      </div>
+      <form class="toolbar" id="search-form" role="search">
+        <label class="search-field">
+          <span class="sr-only">搜索作业目录</span>
+          <span class="search-icon" aria-hidden="true">⌕</span>
+          <input id="search-input" aria-label="搜索作业目录" type="search" placeholder="输入关键词，例如：比例辅助线" autocomplete="off">
+          <kbd>↵</kbd>
+        </label>
+        <label class="compact-field">
+          <span>状态</span>
+          <select id="status-filter">
+            <option value="">全部</option>
+            <option value="running">运行中</option>
+            <option value="stalled">疑似卡住</option>
+            <option value="failed">失败</option>
+            <option value="incomplete">产物不完整</option>
+            <option value="conflict">状态冲突</option>
+            <option value="success">成功</option>
+          </select>
+        </label>
+        <label class="switch-label"><input id="problems-only" type="checkbox"><span>仅看问题</span></label>
+        <label class="switch-label"><input id="auto-refresh" type="checkbox" checked><span>自动刷新</span></label>
+      </form>
+      <div class="refresh-meta" aria-live="polite">
+        <strong id="result-count">0 个目录</strong>
+        <span id="refresh-time">尚未刷新</span>
+      </div>
+    </header>
+
+    <div id="global-alert" class="global-alert" hidden></div>
+
+    <section class="workspace" aria-label="Diagram pipeline monitor workspace">
+      <aside class="pane folder-pane" id="folder-pane" aria-labelledby="folder-title">
+        <div class="pane-heading">
+          <div><p class="pane-kicker">01</p><h2 id="folder-title">作业目录</h2></div>
+          <span class="live-indicator"><i></i>LIVE</span>
+        </div>
+        <p class="pane-help">按目录内最新文件活动时间排序</p>
+        <div class="folder-list" id="folder-list" aria-live="polite"></div>
+      </aside>
+
+      <section class="pane job-pane" id="job-pane" aria-labelledby="job-title">
+        <div class="pane-heading">
+          <div><p class="pane-kicker">02</p><h2 id="job-title">图片生成看板</h2></div>
+          <button class="icon-button" id="manual-refresh" type="button" title="立即刷新" aria-label="立即刷新">↻</button>
+        </div>
+        <div id="folder-summary" class="folder-summary"></div>
+        <div class="job-grid" id="job-grid" aria-live="polite"></div>
+      </section>
+
+      <aside class="pane detail-pane" id="detail-pane" aria-labelledby="detail-title">
+        <div class="pane-heading detail-heading">
+          <div><p class="pane-kicker">03</p><h2 id="detail-title">Job 详情</h2></div>
+          <button class="text-button" id="copy-path" type="button" disabled>复制路径</button>
+        </div>
+        <nav class="detail-tabs" id="detail-tabs" aria-label="Job 详情标签"></nav>
+        <div class="detail-body" id="detail-body"></div>
+      </aside>
+    </section>
+  </main>
+
+  <dialog id="artifact-dialog" class="artifact-dialog">
+    <header>
+      <div><p class="pane-kicker" id="artifact-kind">ARTIFACT</p><h2 id="artifact-title">中间产物</h2></div>
+      <button class="icon-button" id="artifact-close" type="button" aria-label="关闭">×</button>
+    </header>
+    <p class="artifact-meta" id="artifact-meta"></p>
+    <div class="artifact-content" id="artifact-content"></div>
+  </dialog>
+
+  <script src="/static/monitor.js" defer></script>
+</body>
+</html>
+
