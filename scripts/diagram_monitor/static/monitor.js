@@ -27,6 +27,15 @@ const TABS = [
   ["performance", "性能"],
 ];
 
+const REVIEW_LABELS = {
+  unreviewed: "未复核",
+  accepted: "已接受",
+  queued: "排队中",
+  revision_running: "Agent 修订中",
+  revision_completed: "新版本待复核",
+  revision_failed: "修订失败",
+};
+
 const state = {
   folders: [],
   folder: null,
@@ -35,6 +44,9 @@ const state = {
   tab: "overview",
   timer: null,
   loading: false,
+  reviewDrafts: {},
+  reviewActions: {},
+  reviewSubmitting: false,
 };
 
 const el = (id) => document.getElementById(id);
@@ -109,6 +121,7 @@ async function loadFolder(path, selectFirst = true) {
 }
 
 async function loadJob(jobId, resetTab = false) {
+  preserveCurrentReviewDraft();
   if (resetTab) state.tab = "overview";
   state.job = state.folder.jobs.find((item) => item.job_id === jobId) || state.job;
   renderJobs();
@@ -191,15 +204,108 @@ function renderDetail() {
 }
 
 function renderOverview(job) {
-  const preview = job.preview_path ? `<img src="${fileUrl(job.preview_path)}" alt="${escapeAttr(job.job_id)} 最终预览">` : `<div class="preview-placeholder"><strong>${STATUS_LABELS[job.status] || job.status}</strong><span>${escapeHtml(job.status_reasons?.[0] || "尚未生成最终图片")}</span></div>`;
+  const candidateRound = selectedCandidateRound(job);
+  const candidate = (job.rounds || []).find((item) => item.round_index === candidateRound);
+  const candidatePreview = candidate?.preview_path || (candidateRound === job.selected_round ? job.preview_path : "");
+  const preview = candidatePreview ? `<img src="${fileUrl(candidatePreview)}" alt="${escapeAttr(job.job_id)} 当前候选 Round ${candidateRound}">` : `<div class="preview-placeholder"><strong>${STATUS_LABELS[job.status] || job.status}</strong><span>Round ${candidateRound} 尚未生成可预览图片</span></div>`;
   const reasons = job.status_reasons?.length ? `<section class="detail-section"><h3>状态说明</h3><ul class="reason-list">${job.status_reasons.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul></section>` : "";
   const warnings = job.status_warnings?.length ? `<section class="detail-section evidence-warning"><h3>证据提醒</h3><ul>${job.status_warnings.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul></section>` : "";
-  el("detail-body").innerHTML = `<div class="detail-preview">${preview}</div>
+  el("detail-body").innerHTML = `<div class="candidate-label"><strong>当前候选 Round ${candidateRound}</strong><span>确定性审核：${escapeHtml(candidateAudit(job))}</span></div><div class="detail-preview">${preview}</div>
+    ${humanReviewPanel(job, candidateRound)}
     <section class="detail-section"><h3><span>运行摘要</span>${statusBadge(job.status)}</h3><div class="key-grid">
       ${keyItem("Slot", job.slot_id || "—")}${keyItem("Variant", job.variant || "—")}${keyItem("Engine", job.engine || "—")}${keyItem("Diagram kind", job.diagram_kind || "—")}
       ${keyItem("Rounds", String(job.round_count || 0))}${keyItem("Selected", job.selected_round ?? "—")}${keyItem("Agent", formatDuration(job.agent_duration_ms))}${keyItem("Wolfram", job.wolfram_solve_time_s != null ? `${job.wolfram_solve_time_s}s` : "—")}
     </div></section>${reasons}${warnings}<section class="detail-section"><h3>阶段证据</h3>${stageDetail(job.stages)}</section>`;
+  bindHumanReviewActions(job, candidateRound);
 }
+
+function humanReviewPanel(job, candidateRound) {
+  const review = job.human_review || {};
+  const status = review.status || "unreviewed";
+  const deterministicAudit = candidateAudit(job);
+  const controls = DiagramReviewState.reviewControls({ status, deterministicAudit });
+  const key = reviewDraftKey();
+  const draft = DiagramReviewState.preserveReviewDraft(state.reviewDrafts, key, "");
+  const accepted = status === "accepted" ? `<span class="review-accepted">已接受 Round ${review.base_round}</span>` : "";
+  const message = review.message ? `<p class="review-error">${escapeHtml(review.message)}</p>` : "";
+  const reason = controls.acceptReason ? `<p class="review-audit-reason">${escapeHtml(controls.acceptReason)}（当前：${escapeHtml(deterministicAudit)}）</p>` : "";
+  return `<section class="human-review-panel" aria-live="polite">
+    <div class="human-review-heading"><div><p class="pane-kicker">HUMAN IN THE LOOP</p><h3>人工复核</h3></div><span class="review-state review-${escapeAttr(status)}">${escapeHtml(REVIEW_LABELS[status] || REVIEW_LABELS.unreviewed)}</span></div>
+    <p class="review-rule">接受后结束；提交修改建议只生成一个新 Round，Agent 不会自审，也不会自动重试。</p>
+    <div class="review-candidate"><span>当前候选</span><strong>Round ${candidateRound}</strong><span>audit ${escapeHtml(deterministicAudit)}</span>${accepted}</div>
+    <label class="review-feedback"><span>修改建议</span><textarea id="review-feedback" placeholder="例如：把点 E 的标签向左移，删除遮挡辅助线的说明文字。" ${controls.feedbackDisabled ? "disabled" : ""}>${escapeHtml(draft)}</textarea></label>
+    ${reason}${message}
+    <div class="human-review-actions">
+      <button class="review-button review-accept" id="review-accept" type="button" ${controls.acceptDisabled || state.reviewSubmitting ? "disabled" : ""}>接受当前图</button>
+      <button class="review-button review-submit" id="review-submit" type="button" ${controls.submitDisabled || state.reviewSubmitting ? "disabled" : ""}>提交给 Agent</button>
+    </div>
+  </section>`;
+}
+
+function bindHumanReviewActions(job, candidateRound) {
+  const textarea = el("review-feedback");
+  if (!textarea) return;
+  textarea.addEventListener("input", () => {
+    state.reviewDrafts[reviewDraftKey()] = textarea.value;
+  });
+  el("review-accept")?.addEventListener("click", () => submitHumanReview("accepted", candidateRound));
+  el("review-submit")?.addEventListener("click", () => submitHumanReview("changes_requested", candidateRound));
+}
+
+async function submitHumanReview(decision, baseRound) {
+  const feedback = el("review-feedback")?.value.trim() || "";
+  if (decision === "changes_requested" && !feedback) {
+    showAlert("请输入修改建议");
+    el("review-feedback")?.focus();
+    return;
+  }
+  const actionKey = `${reviewDraftKey()}:${decision}`;
+  const actionId = state.reviewActions[actionKey] || newActionId();
+  state.reviewActions[actionKey] = actionId;
+  state.reviewSubmitting = true;
+  renderDetail();
+  try {
+    await api("/api/human-review", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        folder: state.folder.path,
+        job_id: state.job.job_id,
+        action_id: actionId,
+        decision,
+        feedback: decision === "accepted" ? "" : feedback,
+        base_round: baseRound,
+      }),
+    });
+    delete state.reviewActions[actionKey];
+    if (decision === "changes_requested") state.reviewDrafts[reviewDraftKey()] = "";
+    clearAlert();
+    await loadJob(state.job.job_id, false);
+  } catch (error) {
+    showAlert(`人工复核提交失败：${error.message}`);
+  } finally {
+    state.reviewSubmitting = false;
+    renderDetail();
+  }
+}
+
+function selectedCandidateRound(job) {
+  return DiagramReviewState.candidateRound(job);
+}
+
+function candidateAudit(job) {
+  const selected = selectedCandidateRound(job);
+  const round = (job.rounds || []).find((item) => item.round_index === selected);
+  const status = String(round?.audit?.status || "").toLowerCase();
+  return ["pass", "ok", "success"].includes(status) ? "pass" : (round?.audit && Object.keys(round.audit).length ? "block" : "missing");
+}
+
+function reviewDraftKey() { return `${state.folder?.path || ""}/${state.job?.job_id || ""}`; }
+function preserveCurrentReviewDraft() {
+  const textarea = el("review-feedback");
+  if (textarea && state.folder && state.job) DiagramReviewState.preserveReviewDraft(state.reviewDrafts, reviewDraftKey(), textarea.value);
+}
+function newActionId() { return globalThis.crypto?.randomUUID?.() || `review-${Date.now()}-${Math.random().toString(16).slice(2)}`; }
 
 function renderRounds(job) {
   if (!job.rounds?.length) { el("detail-body").innerHTML = emptyState("○", "还没有轮次产物", "Round 生成后会在这里逐轮出现"); return; }
@@ -275,8 +381,8 @@ function keyItem(label, value) { return `<div class="key-item"><span>${escapeHtm
 function emptyState(symbol, title, hint) { return `<div class="empty-state"><span class="empty-symbol">${symbol}</span><strong>${escapeHtml(title)}</strong><span>${escapeHtml(hint)}</span></div>`; }
 function fileUrl(path) { return `/api/file?folder=${encodeURIComponent(state.folder.path)}&path=${encodeURIComponent(path)}`; }
 
-async function api(url) {
-  const response = await fetch(url, { headers: { Accept: "application/json" } });
+async function api(url, options = {}) {
+  const response = await fetch(url, { ...options, headers: { Accept: "application/json", ...(options.headers || {}) } });
   if (!response.ok) {
     let message = `${response.status} ${response.statusText}`;
     try { message = (await response.json()).detail || message; } catch (_) { /* keep HTTP message */ }

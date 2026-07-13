@@ -851,7 +851,7 @@ class DiagramModelConfig(DiagramLooseModel):
 
 class DiagramEngineOptions(DiagramModel):
     seed: int | None = None
-    max_retries: int = Field(default=3, ge=0)
+    max_retries: int = Field(default=0, ge=0)
     wolfram_timeout_s: int = Field(default=30, ge=1)
     wolfram_hard_timeout_s: int = Field(default=60, ge=1)
     renderer_spec: JsonObject = Field(default_factory=dict)
@@ -1081,6 +1081,22 @@ class DiagramJobsManifest(DiagramModel):
         return ordered
 
 
+class DiagramHumanRevision(DiagramModel):
+    """One human-triggered revision of an existing diagram candidate."""
+
+    action_id: NonEmptyStr
+    review_id: NonEmptyStr
+    feedback: NonEmptyStr
+    base_round: int = Field(ge=0)
+    requested_round: int = Field(ge=0)
+
+    @model_validator(mode="after")
+    def requested_round_follows_base(self) -> DiagramHumanRevision:
+        if self.requested_round <= self.base_round:
+            raise ValueError("requested_round must be greater than base_round")
+        return self
+
+
 class DiagramJobRequest(DiagramModel):
     """workflow.py input. It describes one image, never a whole assignment."""
 
@@ -1103,9 +1119,14 @@ class DiagramJobRequest(DiagramModel):
     )
     reuse: DiagramReuseSpec = Field(default_factory=DiagramReuseSpec)
     engine_options: DiagramEngineOptions = Field(default_factory=DiagramEngineOptions)
+    human_revision: DiagramHumanRevision | None = None
 
     @model_validator(mode="after")
     def enforce_request_policy(self) -> DiagramJobRequest:
+        if self.human_revision is not None:
+            # A human submission authorizes exactly one new candidate Round.
+            # It must never re-enable the legacy autonomous repair loop.
+            self.engine_options.max_retries = 0
         if self.variant == DiagramVariant.PROMPT and self.disclosure_policy != DisclosurePolicy.CLEAN:
             raise ValueError("prompt requests must use disclosure_policy='clean'")
         if self.variant == DiagramVariant.SOLUTION and not self.reuse.reuse_geometry_from:

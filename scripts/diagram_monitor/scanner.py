@@ -242,6 +242,13 @@ class DiagramArtifactScanner:
             raise FileNotFoundError(relative_path)
         return path
 
+    def resolve_job_dir(self, relative_folder: str, job_id: str) -> Path:
+        artifact_dir = safe_resolve(self.artifacts_root, relative_folder)
+        job_dir = safe_resolve(artifact_dir / "build" / "diagram" / "jobs", job_id)
+        if not job_dir.is_dir():
+            raise FileNotFoundError(job_id)
+        return job_dir
+
     def _artifact_dirs(self) -> list[Path]:
         cached_at, cached = self._candidate_cache
         if time.time() - cached_at < 5:

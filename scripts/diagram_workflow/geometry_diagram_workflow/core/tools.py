@@ -192,7 +192,7 @@ def _normalize_workflow_request(request: Dict[str, object]) -> Dict[str, object]
             "reuse_geometry_from": reuse.get("reuse_geometry_from", ""),
             "base_job_dir": reuse.get("base_job_dir", ""),
             "model_config": model_config,
-            "max_retries": engine_options.get("max_retries", 3),
+            "max_retries": engine_options.get("max_retries", 0),
             "wolfram_timeout_s": engine_options.get("wolfram_timeout_s", 30),
             "wolfram_hard_timeout_s": engine_options.get("wolfram_hard_timeout_s", 60),
             "wolfram_render_image": False,
