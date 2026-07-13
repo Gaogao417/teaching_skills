@@ -5,7 +5,9 @@ import multiprocessing as mp
 import os
 import shutil
 import tempfile
+import time
 from pathlib import Path
+from queue import Empty
 from typing import Dict, List
 
 from agent_prompt import agent_result_schema, diagram_agent_prompt
@@ -16,8 +18,116 @@ from tools import (
     _all_skill_names,
     _extract_json_object,
     _float_config,
+    _emit_event,
     _resolved_codex_config,
 )
+
+
+def _value(value: object) -> object:
+    return getattr(value, "value", value)
+
+
+def _item_root(item: object) -> object:
+    return getattr(item, "root", item)
+
+
+def _stage_for_item(item: object) -> str:
+    item_type = str(_value(getattr(item, "type", "unknown")))
+    if item_type == "commandExecution":
+        command = str(getattr(item, "command", ""))
+        if "--action render" in command:
+            return "wolfram_render"
+        if "--action compile_spec" in command:
+            return "tikz_compile"
+        if "--action audit" in command:
+            return "audit"
+        if "--action finalize_round" in command:
+            return "finalize_round"
+        if "render_geometry_spec.py" in command:
+            return "preview_render"
+        return "tool_execution"
+    return {
+        "reasoning": "agent_reasoning",
+        "agentMessage": "agent_message",
+        "mcpToolCall": "mcp_tool",
+        "dynamicToolCall": "dynamic_tool",
+        "fileChange": "file_change",
+        "webSearch": "web_search",
+        "imageView": "preview_inspection",
+        "imageGeneration": "image_generation",
+        "plan": "agent_plan",
+    }.get(item_type, item_type or "unknown")
+
+
+def _notification_progress_event(notification: object) -> Dict[str, object] | None:
+    """Translate SDK lifecycle notifications into safe operational events.
+
+    Reasoning text, command strings, tool arguments, and command output are
+    deliberately excluded.  The event stream is for progress monitoring, not
+    for replaying the subagent's private working context.
+    """
+
+    method = str(getattr(notification, "method", ""))
+    if method not in {"item/started", "item/completed"}:
+        return None
+    payload = getattr(notification, "payload", None)
+    item = _item_root(getattr(payload, "item", None))
+    item_type = str(_value(getattr(item, "type", "unknown")))
+    lifecycle = "started" if method == "item/started" else "completed"
+    event: Dict[str, object] = {
+        "event": f"agent.stage.{lifecycle}",
+        "stage": _stage_for_item(item),
+        "item_type": item_type,
+        "item_id": str(getattr(item, "id", "")),
+    }
+    if lifecycle == "completed":
+        status = _value(getattr(item, "status", "completed"))
+        event["status"] = str(status or "completed")
+        for source, target in (("duration_ms", "duration_ms"), ("exit_code", "exit_code")):
+            value = getattr(item, source, None)
+            if value is not None:
+                event[target] = value
+    return event
+
+
+def _heartbeat_fields(
+    *,
+    started_at: float,
+    last_progress_at: float,
+    now: float,
+    process_pid: int | None,
+    stage: str,
+) -> Dict[str, object]:
+    idle_s = max(0.0, now - last_progress_at)
+    if idle_s >= 300:
+        health = "suspected_stall"
+    elif idle_s >= 120:
+        health = "quiet"
+    else:
+        health = "active"
+    return {
+        "elapsed_s": round(max(0.0, now - started_at), 1),
+        "idle_s": round(idle_s, 1),
+        "pid": process_pid,
+        "stage": stage,
+        "status": "running",
+        "health": health,
+    }
+
+
+def _final_agent_response(items: List[object]) -> str | None:
+    unknown_phase_response: str | None = None
+    for wrapped in reversed(items):
+        item = _item_root(wrapped)
+        if str(_value(getattr(item, "type", ""))) != "agentMessage":
+            continue
+        text = str(getattr(item, "text", ""))
+        phase = _value(getattr(item, "phase", None))
+        if phase == "final_answer":
+            return text
+        if phase in (None, "") and unknown_phase_response is None:
+            unknown_phase_response = text
+    return unknown_phase_response
 
 
 def _codex_agent_worker(
@@ -39,6 +149,11 @@ def _codex_agent_worker(
             Sandbox,
             SkillInput,
             TextInput,
+        )
+        from openai_codex.generated.v2_all import (
+            ItemCompletedNotification,
+            ThreadTokenUsageUpdatedNotification,
+            TurnCompletedNotification,
         )
 
         temp_codex_home = tempfile.mkdtemp(prefix="diagram-agent-codex-home-")
@@ -69,7 +184,14 @@ def _codex_agent_worker(
                 model=model or None,
                 sandbox=Sandbox.full_access,
             )
-            result = thread.run(
+            queue.put(
+                {
+                    "kind": "progress",
+                    "event": "agent.thread.started",
+                    "thread_id": thread.id,
+                }
+            )
+            turn = thread.turn(
                 run_input,
                 approval_mode=ApprovalMode.deny_all,
                 cwd=cwd,
@@ -77,18 +199,67 @@ def _codex_agent_worker(
                 output_schema=output_schema,
                 sandbox=Sandbox.full_access,
             )
+            queue.put(
+                {
+                    "kind": "progress",
+                    "event": "agent.turn.started",
+                    "thread_id": thread.id,
+                    "turn_id": turn.id,
+                }
+            )
+            items: List[object] = []
+            completed = None
+            usage = None
+            stream = turn.stream()
+            try:
+                for notification in stream:
+                    progress = _notification_progress_event(notification)
+                    if progress is not None:
+                        queue.put({"kind": "progress", **progress})
+                    payload = notification.payload
+                    if isinstance(payload, ItemCompletedNotification) and payload.turn_id == turn.id:
+                        items.append(payload.item)
+                    elif (
+                        isinstance(payload, ThreadTokenUsageUpdatedNotification)
+                        and payload.turn_id == turn.id
+                    ):
+                        usage = payload.token_usage
+                    elif isinstance(payload, TurnCompletedNotification) and payload.turn.id == turn.id:
+                        completed = payload.turn
+            finally:
+                stream.close()
+            if completed is None:
+                raise RuntimeError("turn completed event not received")
+            status = str(_value(completed.status))
+            queue.put(
+                {
+                    "kind": "progress",
+                    "event": "agent.turn.completed",
+                    "thread_id": thread.id,
+                    "turn_id": turn.id,
+                    "status": status,
+                    "duration_ms": completed.duration_ms,
+                }
+            )
+            if status == "failed":
+                message = getattr(getattr(completed, "error", None), "message", "")
+                raise RuntimeError(message or f"turn failed with status {status}")
+            final_response = _final_agent_response(items)
         queue.put(
             {
+                "kind": "result",
                 "status": "ok",
                 "thread_id": thread.id,
-                "turn_id": result.id,
-                "duration_ms": result.duration_ms,
-                "final_response": result.final_response or "{}",
+                "turn_id": turn.id,
+                "duration_ms": completed.duration_ms,
+                "final_response": final_response or "{}",
+                "usage": usage.model_dump(mode="json", by_alias=True) if usage else None,
             }
         )
     except Exception as exc:
         queue.put(
             {
+                "kind": "result",
                 "status": "failed",
                 "error_type": exc.__class__.__name__,
                 "error": redact_secrets(exc),
@@ -110,6 +281,7 @@ def run_codex_diagram_agent(
         model_config = {}
     config = _resolved_codex_config(model_config)
     timeout_s = _float_config(model_config, "codex_timeout_s", 600)
+    heartbeat_s = max(5.0, _float_config(model_config, "progress_heartbeat_s", 30))
     queue: mp.Queue = mp.Queue()
     prompt = diagram_agent_prompt(
         request,
@@ -130,14 +302,71 @@ def run_codex_diagram_agent(
         },
     )
     process.start()
-    process.join(timeout_s)
-    if process.is_alive():
-        process.terminate()
-        process.join(5)
-        raise TimeoutError(f"Codex diagram agent timed out after {timeout_s:g}s")
-    if queue.empty():
+    started_at = time.monotonic()
+    last_progress_at = started_at
+    last_heartbeat_at = started_at
+    current_stage = "agent_starting"
+    result: Dict[str, object] | None = None
+    while result is None:
+        now = time.monotonic()
+        remaining = timeout_s - (now - started_at)
+        if remaining <= 0:
+            process.terminate()
+            process.join(5)
+            _emit_event(
+                out_dir,
+                "agent.timeout",
+                **_heartbeat_fields(
+                    started_at=started_at,
+                    last_progress_at=last_progress_at,
+                    now=now,
+                    process_pid=process.pid,
+                    stage=current_stage,
+                ),
+                timeout_s=timeout_s,
+            )
+            raise TimeoutError(f"Codex diagram agent timed out after {timeout_s:g}s")
+        try:
+            message = queue.get(timeout=min(1.0, remaining))
+        except Empty:
+            message = None
+        now = time.monotonic()
+        if isinstance(message, dict):
+            if message.get("kind") == "progress":
+                event_name = str(message.get("event") or "agent.progress")
+                fields = {
+                    key: value
+                    for key, value in message.items()
+                    if key not in {"kind", "event"}
+                }
+                _emit_event(out_dir, event_name, **fields)
+                current_stage = str(message.get("stage") or event_name)
+                last_progress_at = now
+            elif message.get("kind") == "result":
+                result = message
+        if result is None and now - last_heartbeat_at >= heartbeat_s:
+            _emit_event(
+                out_dir,
+                "agent.heartbeat",
+                **_heartbeat_fields(
+                    started_at=started_at,
+                    last_progress_at=last_progress_at,
+                    now=now,
+                    process_pid=process.pid,
+                    stage=current_stage,
+                ),
+            )
+            last_heartbeat_at = now
+        if result is None and not process.is_alive():
+            try:
+                message = queue.get(timeout=0.2)
+            except Empty:
+                break
+            if isinstance(message, dict) and message.get("kind") == "result":
+                result = message
+    process.join(5)
+    if result is None:
         raise RuntimeError("Codex diagram agent produced no result")
-    result = queue.get()
     if result.get("status") != "ok":
         raise RuntimeError(
             "Codex diagram agent failed: "

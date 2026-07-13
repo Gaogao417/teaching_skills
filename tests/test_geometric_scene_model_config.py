@@ -1,14 +1,17 @@
 from __future__ import annotations
 
+import os
 import sys
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts" / "diagram_workflow"))
 sys.path.insert(0, str(ROOT / "scripts" / "diagram_workflow" / "geometry_diagram_workflow" / "core"))
 
 from tools import (  # noqa: E402
+    DEFAULT_CODEX_DIAGRAM_MODEL,
     _float_config,
     _resolved_codex_config,
     _skill_inputs_for_group,
@@ -19,20 +22,33 @@ from agent_prompt import agent_result_schema  # noqa: E402
 
 
 class GeometricSceneCodexConfigTest(unittest.TestCase):
-    def test_empty_runtime_values_use_codex_defaults(self) -> None:
-        config = _resolved_codex_config(
-            {
-                "codex_model": "",
-                "codex_bin": "",
-                "codex_timeout_s": None,
-            }
-        )
+    def test_empty_runtime_values_use_pipeline_diagram_default(self) -> None:
+        with patch.dict(os.environ, {"CODEX_DIAGRAM_BIN": ""}):
+            config = _resolved_codex_config(
+                {
+                    "codex_model": "",
+                    "codex_bin": "",
+                    "codex_timeout_s": None,
+                }
+            )
 
-        self.assertEqual(config["codex_model"], "")
+        self.assertEqual(config["codex_model"], DEFAULT_CODEX_DIAGRAM_MODEL)
         self.assertEqual(config["codex_bin"], "")
         self.assertEqual(config["codex_timeout_s"], 120.0)
         self.assertNotIn("base_url", config)
         self.assertNotIn("api_key_env", config)
+
+    def test_codex_bin_accepts_environment_override(self) -> None:
+        with patch.dict(os.environ, {"CODEX_DIAGRAM_BIN": "/opt/codex"}):
+            config = _resolved_codex_config({"codex_bin": ""})
+
+        self.assertEqual(config["codex_bin"], "/opt/codex")
+
+    def test_codex_bin_slot_config_overrides_environment(self) -> None:
+        with patch.dict(os.environ, {"CODEX_DIAGRAM_BIN": "/opt/codex"}):
+            config = _resolved_codex_config({"codex_bin": "/custom/codex"})
+
+        self.assertEqual(config["codex_bin"], "/custom/codex")
 
     def test_codex_model_accepts_legacy_model_alias(self) -> None:
         config = _resolved_codex_config({"model": "gpt-test", "codex_timeout_s": "30"})

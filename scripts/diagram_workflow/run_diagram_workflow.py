@@ -12,12 +12,12 @@ from __future__ import annotations
 
 import argparse
 import json
-import subprocess
 import sys
 from pathlib import Path
 from typing import Any
 
 from diagram_contracts import DiagramJobRequest, DiagramJobResult, GeometryRenderSpec
+from progress_subprocess import run_subprocess_streaming
 
 
 SUPPORTED_GSB_TYPES = {"synthetic_geometry"}
@@ -79,7 +79,7 @@ def run_analytic_workflow(
         "--out",
         str(out_dir),
     ]
-    completed = subprocess.run(cmd, text=True, capture_output=True, check=False)
+    completed = run_subprocess_streaming(cmd)
     (out_dir / "wrapper_stdout.txt").write_text(completed.stdout, encoding="utf-8")
     (out_dir / "wrapper_stderr.txt").write_text(completed.stderr, encoding="utf-8")
     result_path = out_dir / "workflow_result.json"
@@ -363,7 +363,10 @@ def main() -> None:
         "--out",
         str(out_dir),
     ]
-    completed = subprocess.run(cmd, text=True, capture_output=True, check=False)
+    completed = run_subprocess_streaming(
+        cmd,
+        event_context={"job_id": str(job_id or request.get("job_id") or "")},
+    )
     (out_dir / "wrapper_stdout.txt").write_text(completed.stdout, encoding="utf-8")
     (out_dir / "wrapper_stderr.txt").write_text(completed.stderr, encoding="utf-8")
 

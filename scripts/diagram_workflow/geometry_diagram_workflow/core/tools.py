@@ -303,6 +303,9 @@ def _float_config(config: Dict[str, object], key: str, default: float) -> float:
     if not _configured_value(value):
         return float(default)
     return float(value)
+DEFAULT_CODEX_DIAGRAM_MODEL = "gpt-5.6-luna"
+
+
 def _resolved_codex_config(model_config: Dict[str, object]) -> Dict[str, object]:
     """归一化 Codex SDK 运行配置。"""
     load_local_env()
@@ -316,10 +319,22 @@ def _resolved_codex_config(model_config: Dict[str, object]) -> Dict[str, object]
         "codex_bin": config_model.codex_bin,
         "codex_timeout_s": config_model.codex_timeout_s,
     }
+    # Keep the diagram runtime deterministic when a plan omits a model.  A
+    # slot can still override this with engine_model_config.codex_model (or
+    # the legacy model alias), but the SDK must never fall back to whichever
+    # model the local Codex installation happens to select by default.
     config["codex_model"] = str(
-        resolved.get("codex_model") or resolved.get("model") or ""
+        resolved.get("codex_model")
+        or resolved.get("model")
+        or DEFAULT_CODEX_DIAGRAM_MODEL
     )
-    config["codex_bin"] = str(resolved.get("codex_bin") or "")
+    # 仅在题目配置或环境变量明确指定时覆盖 SDK runtime；留空时由
+    # openai_codex 选择随 SDK 安装、适配当前平台的固定版本。
+    config["codex_bin"] = str(
+        resolved.get("codex_bin")
+        or os.environ.get("CODEX_DIAGRAM_BIN")
+        or ""
+    )
     config["codex_timeout_s"] = _float_config(resolved, "codex_timeout_s", 120)
     return config
 def _extract_json_object(text: str) -> Dict[str, object]:

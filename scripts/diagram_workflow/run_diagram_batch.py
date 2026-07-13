@@ -15,10 +15,11 @@ from __future__ import annotations
 
 import argparse
 import json
-import subprocess
 import sys
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
+
+from progress_subprocess import run_subprocess_streaming
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from diagram_contracts import (  # noqa: E402
@@ -314,9 +315,10 @@ def _run_workflow_subprocess(
         "--out", str(build_dir),
         "--python", python_executable,
     ]
-    completed = subprocess.run(
-        workflow_cmd, cwd=str(SCRIPT_DIR.parent),
-        text=True, capture_output=True, check=False,
+    completed = run_subprocess_streaming(
+        workflow_cmd,
+        cwd=SCRIPT_DIR.parent,
+        event_context={"job_id": job_id},
     )
     wf_result_path = job_build_dir / "workflow_result.json"
     if wf_result_path.exists():
@@ -325,8 +327,6 @@ def _run_workflow_subprocess(
         status = "missing_result"
     diagnostic = (completed.stderr or completed.stdout or "")[-500:]
     return status, diagnostic
-
-
 def _run_tikz_renderer(
     spec_path: Path,
     job_build_dir: Path,
