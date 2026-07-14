@@ -1,0 +1,57 @@
+meta:
+  title: 比例辅助线两组比例 · Q027 · 学生版
+  grade: 八年级
+  subject: 数学
+  total_points: 10
+  version: student
+  show_answers: false
+  source_artifacts:
+    explanation: ../../专题/2026-07-12-比例辅助线两组比例-待审核/02-student-explanation.resolved.assignment.yaml
+    diagram_policy: 一题一图：每题独立生成 prompt 与 solution 图形资产
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: question
+  title: 专题题
+  type: practice
+  visibility: student
+  blocks:
+  - type: problem
+    id: Q027
+    points: 10
+    label: 判断三组比例是否一致
+    stem_latex: 如图，在 $\triangle ABC$ 中，$D\in BC$，$E\in AC$，$P=AD\cap BE$。给出 $AE:EC=1:2$、$AP:PD=3:4$、$BP:PE=5:1$。判断三组比例能否同时成立。
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: ../../build/diagram/jobs/question_bank-auxiliary-q027-solution/rendered/solution.fragment.tex
+        diagram_ref: question_bank.auxiliary.q027.solution
+        diagram_job_id: question_bank-auxiliary-q027-solution
+        width: 60mm
+        caption: Q027 教师图：过 P 作 PF 平行 DB，交 AC 于 F。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:da621228a8b2c687eaeda99c3c86d930004f0afc4dd5c04230054b9a2f70fa02
+        packages:
+        - tikz
+        libraries: []
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../build/diagram/jobs/question_bank-auxiliary-q027-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.auxiliary.q027.prompt
+      diagram_job_id: question_bank-auxiliary-q027-prompt
+      width: 60mm
+      caption: Q027 学生图：本题原始三角形与两条交线。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:547623027547dce068c5ecbdc0e9b4e5a7a6e2fbfee8287bbac041112a5acff2
+      packages:
+      - tikz
+      libraries: []

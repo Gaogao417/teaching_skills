@@ -1,0 +1,78 @@
+meta:
+  title: 平行线对应边比例 · Q023 · 教师版
+  grade: 八年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    explanation: ../../专题/2026-07-12-平行线对应边比例-待审核/02-student-explanation.resolved.assignment.yaml
+    diagram_policy: 一题一图：每题独立生成 prompt 与 solution 图形资产
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: question
+  title: 专题题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q023
+    points: 10
+    label: 由截线比和整段求两段
+    stem_latex: '如图，直线 $AC$ 与 $BD$ 相交于点 $P$，点序分别为 $A-P-C$、$B-P-D$，且 $AB\parallel CD$。
+
+
+      已知 $BP:PD=2:3$，且 $BD=25$，求 $BP$ 与 $PD$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: ../../build/diagram/jobs/question_bank-parallel-q023-solution/rendered/solution.fragment.tex
+        diagram_ref: question_bank.parallel.q023.solution
+        diagram_job_id: question_bank-parallel-q023-solution
+        width: 60mm
+        caption: Q023 教师图：标出本题实际使用的对应边和整段关系。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:4ce1cd89ef4fafe742be9bb9d2723ec7ef8caa4b8c554f92ffcbd603c3f8eeb0
+        packages:
+        - tikz
+        libraries: []
+    answer: $BP=10$，$PD=15$。
+    explanation: $BP=25\times\frac25=10$，$PD=15$。
+    solution_steps:
+    - title: 看总份数
+      content: $BD=BP+PD$，共 $2+3=5$ 份。
+    - title: 分别求长
+      content: $BP=25\times\frac25=10$，$PD=15$。
+    teaching:
+      teaching_goal: 8 字型中先拆整段，再写对应边比
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      expected_blocker: 沿用 A 字型的加法，没有识别交点在整段中间。
+      entry_point: solve_and_check
+      scaffold_level: medium
+      variation_depth: packaged_condition
+      complexity_note: 只使用小整数比例、一次整段转换或一次比例方程。
+      upgrade_rule: 能先写出点序或两组相似导出的比例关系，再计算。
+      fallback_move: 先写 $AC=AP+PC$ 或 $BD=BP+PD$。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../build/diagram/jobs/question_bank-parallel-q023-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.parallel.q023.prompt
+      diagram_job_id: question_bank-parallel-q023-prompt
+      width: 60mm
+      caption: Q023 学生图：按本题条件读点序和对应线段。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:6a0b1333ef87969b81a6e88b7282f81e02820b6179c37a7121ca17f39752804d
+      packages:
+      - tikz
+      libraries: []

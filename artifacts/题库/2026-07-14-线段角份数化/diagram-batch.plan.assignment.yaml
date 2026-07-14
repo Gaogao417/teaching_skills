@@ -1,0 +1,3229 @@
+meta:
+  title: 线段角份数化题库 · 图形批处理
+  grade: 八年级
+  subject: 数学
+  total_points: 300
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    explanation: ../../比例题组/2026-07-01-B-线段角份数化/02-student-explanation.assignment.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: question-bank
+  title: 题库
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q001
+    points: 10
+    label: 直接比例求第一部分
+    stem_latex: '点 $A,B,C$ 在同一直线上，$B$ 在 $A,C$ 之间。若 $AB:BC=3:5$，且 $AC=32$，求 $AB$。
+
+
+      完成三格填空：
+
+
+      ① 在图上把 $AB$ 标为 \underline{\qquad} 份，把 $BC$ 标为 \underline{\qquad} 份；
+
+
+      ② 目标比例：\underline{\qquad\qquad\qquad}；\n\n③ 答案：\underline{\qquad\qquad}。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 3
+    answer: ① 3，5；② $\dfrac{AB}{AC}=\dfrac{3}{8}$；③ $12$。
+    explanation: 先把两部分标成 3 份和 5 份，再写目标量对已知对应量的比例。
+    solution_steps:
+    - title: 标份数
+      content: 第一部分标 3 份，第二部分标 5 份，总份数为 8。
+    - title: 写目标比例
+      content: $\dfrac{AB}{AC}=\dfrac{3}{8}$。
+    - title: 填答案
+      content: 所求为 $12$。
+    teaching:
+      teaching_goal: 由部分比得到总份数，再求第一部分
+      source_relations:
+      - segment_angle_share_with_proportion_tool
+      expected_blocker: 没有先看目标量，或把方程系数直接抄成份数。
+      entry_point: mark_shares_then_ratio
+      scaffold_level: medium
+      variation_depth: changed_numbers
+      complexity_note: 每题只求一个量，只用一层份数或一次反向转换。
+      upgrade_rule: 能在图上正确标份数，并写出目标量对已知对应量的比例。
+      fallback_move: 先圈出整体，再确认两个部分是否组成这个整体。
+    diagram_slot:
+      slot_id: question_bank.segment_angle.q001.prompt
+      diagram_ref: question_bank.segment.angle.q001.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: Q001 学生图：先确认整体，再在图上自行标份数。
+      engine: geometric_scene
+      diagram_kind: synthetic_geometry
+      engine_options:
+        scene_payload:
+          scene_code: GeometricScene[{A, B, C}, {A == {-5.25, -0.2}, C == {5.2, -0.166667}, Element[B, Line[{A, C}]], 5 EuclideanDistance[A, B] == 3 EuclideanDistance[B, C], EuclideanDistance[A, B] > 0, EuclideanDistance[B, C] > 0}]
+          points:
+          - A
+          - B
+          - C
+          point_roles:
+            anchors:
+            - A
+            - C
+            constructed:
+            - B
+            auxiliary: []
+          diagram_spec:
+            type: synthetic_geometry
+            segments:
+            - from: A
+              to: C
+            labels:
+              A:
+                text: A
+                placement: below left
+              B:
+                text: B
+                placement: below
+              C:
+                text: C
+                placement: below right
+            constraints:
+            - B lies strictly between A and C
+            teaching_focus:
+            - identify the whole AC and its two parts AB, BC
+          rationale: 题干已知对象构成独立 prompt 场景；不显示份数、推导或答案。
+          model_used: deterministic-segment-angle-question-bank
+          model_attempts: []
+        seed: 31001
+      teaching_intent: practice_prompt
+      problem_context:
+        stem_latex: 点 $A,B,C$ 在同一直线上，$B$ 在 $A,C$ 之间。若 $AB:BC=3:5$，且 $AC=32$，求 $AB$。
+        source_problem_text: 本题独立生成干净题图。只画题干给出的整体与两个部分，不标份数、比例式、推导或答案。
+      semantic_constraints:
+        given_objects:
+        - A
+        - B
+        - C
+        given_constraints:
+        - the two parts form the stated whole
+        - render this item as its own diagram job
+        clean_forbidden:
+        - do not show shares
+        - do not show the final answer
+        - do not add solution annotations
+  - type: problem
+    id: Q002
+    points: 10
+    label: 直接比例求第二部分
+    stem_latex: '点 $A,B,C$ 在同一直线上，$B$ 在 $A,C$ 之间。若 $AB:BC=2:7$，且 $AC=45$，求 $BC$。
+
+
+      完成三格填空：
+
+
+      ① 在图上把 $AB$ 标为 \underline{\qquad} 份，把 $BC$ 标为 \underline{\qquad} 份；
+
+
+      ② 目标比例：\underline{\qquad\qquad\qquad}；\n\n③ 答案：\underline{\qquad\qquad}。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 3
+    answer: ① 2，7；② $\dfrac{BC}{AC}=\dfrac{7}{9}$；③ $35$。
+    explanation: 先把两部分标成 2 份和 7 份，再写目标量对已知对应量的比例。
+    solution_steps:
+    - title: 标份数
+      content: 第一部分标 2 份，第二部分标 7 份，总份数为 9。
+    - title: 写目标比例
+      content: $\dfrac{BC}{AC}=\dfrac{7}{9}$。
+    - title: 填答案
+      content: 所求为 $35$。
+    teaching:
+      teaching_goal: 看清目标量，把第二部分份数放在分子
+      source_relations:
+      - segment_angle_share_with_proportion_tool
+      expected_blocker: 没有先看目标量，或把方程系数直接抄成份数。
+      entry_point: mark_shares_then_ratio
+      scaffold_level: medium
+      variation_depth: changed_question
+      complexity_note: 每题只求一个量，只用一层份数或一次反向转换。
+      upgrade_rule: 能在图上正确标份数，并写出目标量对已知对应量的比例。
+      fallback_move: 先圈出整体，再确认两个部分是否组成这个整体。
+    diagram_slot:
+      slot_id: question_bank.segment_angle.q002.prompt
+      diagram_ref: question_bank.segment.angle.q002.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: Q002 学生图：先确认整体，再在图上自行标份数。
+      engine: geometric_scene
+      diagram_kind: synthetic_geometry
+      engine_options:
+        scene_payload:
+          scene_code: GeometricScene[{A, B, C}, {A == {-5.5, 0}, C == {5.4, 0.166667}, Element[B, Line[{A, C}]], 7 EuclideanDistance[A, B] == 2 EuclideanDistance[B, C], EuclideanDistance[A, B] > 0, EuclideanDistance[B, C] > 0}]
+          points:
+          - A
+          - B
+          - C
+          point_roles:
+            anchors:
+            - A
+            - C
+            constructed:
+            - B
+            auxiliary: []
+          diagram_spec:
+            type: synthetic_geometry
+            segments:
+            - from: A
+              to: C
+            labels:
+              A:
+                text: A
+                placement: below left
+              B:
+                text: B
+                placement: below
+              C:
+                text: C
+                placement: below right
+            constraints:
+            - B lies strictly between A and C
+            teaching_focus:
+            - identify the whole AC and its two parts AB, BC
+          rationale: 题干已知对象构成独立 prompt 场景；不显示份数、推导或答案。
+          model_used: deterministic-segment-angle-question-bank
+          model_attempts: []
+        seed: 31002
+      teaching_intent: practice_prompt
+      problem_context:
+        stem_latex: 点 $A,B,C$ 在同一直线上，$B$ 在 $A,C$ 之间。若 $AB:BC=2:7$，且 $AC=45$，求 $BC$。
+        source_problem_text: 本题独立生成干净题图。只画题干给出的整体与两个部分，不标份数、比例式、推导或答案。
+      semantic_constraints:
+        given_objects:
+        - A
+        - B
+        - C
+        given_constraints:
+        - the two parts form the stated whole
+        - render this item as its own diagram job
+        clean_forbidden:
+        - do not show shares
+        - do not show the final answer
+        - do not add solution annotations
+  - type: problem
+    id: Q003
+    points: 10
+    label: 倍数关系转份数
+    stem_latex: '点 $A,B,C$ 在同一直线上，$B$ 在 $A,C$ 之间。若 $AB=2BC$，且 $AC=27$，求 $BC$。
+
+
+      完成三格填空：
+
+
+      ① 在图上把 $AB$ 标为 \underline{\qquad} 份，把 $BC$ 标为 \underline{\qquad} 份；
+
+
+      ② 目标比例：\underline{\qquad\qquad\qquad}；\n\n③ 答案：\underline{\qquad\qquad}。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 3
+    answer: ① 2，1；② $\dfrac{BC}{AC}=\dfrac{1}{3}$；③ $9$。
+    explanation: 先把两部分标成 2 份和 1 份，再写目标量对已知对应量的比例。
+    solution_steps:
+    - title: 标份数
+      content: 第一部分标 2 份，第二部分标 1 份，总份数为 3。
+    - title: 写目标比例
+      content: $\dfrac{BC}{AC}=\dfrac{1}{3}$。
+    - title: 填答案
+      content: 所求为 $9$。
+    teaching:
+      teaching_goal: 把倍数关系翻译成两部分的份数
+      source_relations:
+      - segment_angle_share_with_proportion_tool
+      expected_blocker: 没有先看目标量，或把方程系数直接抄成份数。
+      entry_point: mark_shares_then_ratio
+      scaffold_level: medium
+      variation_depth: changed_representation
+      complexity_note: 每题只求一个量，只用一层份数或一次反向转换。
+      upgrade_rule: 能在图上正确标份数，并写出目标量对已知对应量的比例。
+      fallback_move: 先圈出整体，再确认两个部分是否组成这个整体。
+    diagram_slot:
+      slot_id: question_bank.segment_angle.q003.prompt
+      diagram_ref: question_bank.segment.angle.q003.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: Q003 学生图：先确认整体，再在图上自行标份数。
+      engine: geometric_scene
+      diagram_kind: synthetic_geometry
+      engine_options:
+        scene_payload:
+          scene_code: GeometricScene[{A, B, C}, {A == {-5, 0.2}, C == {5.6, 0.5}, Element[B, Line[{A, C}]], 1 EuclideanDistance[A, B] == 2 EuclideanDistance[B, C], EuclideanDistance[A, B] > 0, EuclideanDistance[B, C] > 0}]
+          points:
+          - A
+          - B
+          - C
+          point_roles:
+            anchors:
+            - A
+            - C
+            constructed:
+            - B
+            auxiliary: []
+          diagram_spec:
+            type: synthetic_geometry
+            segments:
+            - from: A
+              to: C
+            labels:
+              A:
+                text: A
+                placement: below left
+              B:
+                text: B
+                placement: below
+              C:
+                text: C
+                placement: below right
+            constraints:
+            - B lies strictly between A and C
+            teaching_focus:
+            - identify the whole AC and its two parts AB, BC
+          rationale: 题干已知对象构成独立 prompt 场景；不显示份数、推导或答案。
+          model_used: deterministic-segment-angle-question-bank
+          model_attempts: []
+        seed: 31003
+      teaching_intent: practice_prompt
+      problem_context:
+        stem_latex: 点 $A,B,C$ 在同一直线上，$B$ 在 $A,C$ 之间。若 $AB=2BC$，且 $AC=27$，求 $BC$。
+        source_problem_text: 本题独立生成干净题图。只画题干给出的整体与两个部分，不标份数、比例式、推导或答案。
+      semantic_constraints:
+        given_objects:
+        - A
+        - B
+        - C
+        given_constraints:
+        - the two parts form the stated whole
+        - render this item as its own diagram job
+        clean_forbidden:
+        - do not show shares
+        - do not show the final answer
+        - do not add solution annotations
+  - type: problem
+    id: Q004
+    points: 10
+    label: 等式系数交叉对应
+    stem_latex: '点 $A,B,C$ 在同一直线上，$B$ 在 $A,C$ 之间。若 $5AB=3BC$，且 $AC=56$，求 $AB$。
+
+
+      完成三格填空：
+
+
+      ① 在图上把 $AB$ 标为 \underline{\qquad} 份，把 $BC$ 标为 \underline{\qquad} 份；
+
+
+      ② 目标比例：\underline{\qquad\qquad\qquad}；\n\n③ 答案：\underline{\qquad\qquad}。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 3
+    answer: ① 3，5；② $\dfrac{AB}{AC}=\dfrac{3}{8}$；③ $21$。
+    explanation: 先把两部分标成 3 份和 5 份，再写目标量对已知对应量的比例。
+    solution_steps:
+    - title: 标份数
+      content: 第一部分标 3 份，第二部分标 5 份，总份数为 8。
+    - title: 写目标比例
+      content: $\dfrac{AB}{AC}=\dfrac{3}{8}$。
+    - title: 填答案
+      content: 所求为 $21$。
+    teaching:
+      teaching_goal: 把方程式系数交叉翻译成份数
+      source_relations:
+      - segment_angle_share_with_proportion_tool
+      expected_blocker: 没有先看目标量，或把方程系数直接抄成份数。
+      entry_point: mark_shares_then_ratio
+      scaffold_level: medium
+      variation_depth: packaged_condition
+      complexity_note: 每题只求一个量，只用一层份数或一次反向转换。
+      upgrade_rule: 能在图上正确标份数，并写出目标量对已知对应量的比例。
+      fallback_move: 先圈出整体，再确认两个部分是否组成这个整体。
+    diagram_slot:
+      slot_id: question_bank.segment_angle.q004.prompt
+      diagram_ref: question_bank.segment.angle.q004.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: Q004 学生图：先确认整体，再在图上自行标份数。
+      engine: geometric_scene
+      diagram_kind: synthetic_geometry
+      engine_options:
+        scene_payload:
+          scene_code: GeometricScene[{A, B, C}, {A == {-5.25, 0.4}, C == {5, -0.333333}, Element[B, Line[{A, C}]], 5 EuclideanDistance[A, B] == 3 EuclideanDistance[B, C], EuclideanDistance[A, B] > 0, EuclideanDistance[B, C] > 0}]
+          points:
+          - A
+          - B
+          - C
+          point_roles:
+            anchors:
+            - A
+            - C
+            constructed:
+            - B
+            auxiliary: []
+          diagram_spec:
+            type: synthetic_geometry
+            segments:
+            - from: A
+              to: C
+            labels:
+              A:
+                text: A
+                placement: below left
+              B:
+                text: B
+                placement: below
+              C:
+                text: C
+                placement: below right
+            constraints:
+            - B lies strictly between A and C
+            teaching_focus:
+            - identify the whole AC and its two parts AB, BC
+          rationale: 题干已知对象构成独立 prompt 场景；不显示份数、推导或答案。
+          model_used: deterministic-segment-angle-question-bank
+          model_attempts: []
+        seed: 31004
+      teaching_intent: practice_prompt
+      problem_context:
+        stem_latex: 点 $A,B,C$ 在同一直线上，$B$ 在 $A,C$ 之间。若 $5AB=3BC$，且 $AC=56$，求 $AB$。
+        source_problem_text: 本题独立生成干净题图。只画题干给出的整体与两个部分，不标份数、比例式、推导或答案。
+      semantic_constraints:
+        given_objects:
+        - A
+        - B
+        - C
+        given_constraints:
+        - the two parts form the stated whole
+        - render this item as its own diagram job
+        clean_forbidden:
+        - do not show shares
+        - do not show the final answer
+        - do not add solution annotations
+  - type: problem
+    id: Q005
+    points: 10
+    label: 部分对整体补份数
+    stem_latex: '点 $A,B,C$ 在同一直线上，$B$ 在 $A,C$ 之间。若 $AB:AC=3:8$，且 $AC=40$，求 $BC$。
+
+
+      完成三格填空：
+
+
+      ① 在图上把 $AB$ 标为 \underline{\qquad} 份，把 $BC$ 标为 \underline{\qquad} 份；
+
+
+      ② 目标比例：\underline{\qquad\qquad\qquad}；\n\n③ 答案：\underline{\qquad\qquad}。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 3
+    answer: ① 3，5；② $\dfrac{BC}{AC}=\dfrac{5}{8}$；③ $25$。
+    explanation: 先把两部分标成 3 份和 5 份，再写目标量对已知对应量的比例。
+    solution_steps:
+    - title: 标份数
+      content: 第一部分标 3 份，第二部分标 5 份，总份数为 8。
+    - title: 写目标比例
+      content: $\dfrac{BC}{AC}=\dfrac{5}{8}$。
+    - title: 填答案
+      content: 所求为 $25$。
+    teaching:
+      teaching_goal: 由部分对整体的份数补出另一部分
+      source_relations:
+      - segment_angle_share_with_proportion_tool
+      expected_blocker: 没有先看目标量，或把方程系数直接抄成份数。
+      entry_point: mark_shares_then_ratio
+      scaffold_level: medium
+      variation_depth: changed_question
+      complexity_note: 每题只求一个量，只用一层份数或一次反向转换。
+      upgrade_rule: 能在图上正确标份数，并写出目标量对已知对应量的比例。
+      fallback_move: 先圈出整体，再确认两个部分是否组成这个整体。
+    diagram_slot:
+      slot_id: question_bank.segment_angle.q005.prompt
+      diagram_ref: question_bank.segment.angle.q005.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: Q005 学生图：先确认整体，再在图上自行标份数。
+      engine: geometric_scene
+      diagram_kind: synthetic_geometry
+      engine_options:
+        scene_payload:
+          scene_code: GeometricScene[{A, B, C}, {A == {-5.5, -0.4}, C == {5.2, 0}, Element[B, Line[{A, C}]], 5 EuclideanDistance[A, B] == 3 EuclideanDistance[B, C], EuclideanDistance[A, B] > 0, EuclideanDistance[B, C] > 0}]
+          points:
+          - A
+          - B
+          - C
+          point_roles:
+            anchors:
+            - A
+            - C
+            constructed:
+            - B
+            auxiliary: []
+          diagram_spec:
+            type: synthetic_geometry
+            segments:
+            - from: A
+              to: C
+            labels:
+              A:
+                text: A
+                placement: below left
+              B:
+                text: B
+                placement: below
+              C:
+                text: C
+                placement: below right
+            constraints:
+            - B lies strictly between A and C
+            teaching_focus:
+            - identify the whole AC and its two parts AB, BC
+          rationale: 题干已知对象构成独立 prompt 场景；不显示份数、推导或答案。
+          model_used: deterministic-segment-angle-question-bank
+          model_attempts: []
+        seed: 31005
+      teaching_intent: practice_prompt
+      problem_context:
+        stem_latex: 点 $A,B,C$ 在同一直线上，$B$ 在 $A,C$ 之间。若 $AB:AC=3:8$，且 $AC=40$，求 $BC$。
+        source_problem_text: 本题独立生成干净题图。只画题干给出的整体与两个部分，不标份数、比例式、推导或答案。
+      semantic_constraints:
+        given_objects:
+        - A
+        - B
+        - C
+        given_constraints:
+        - the two parts form the stated whole
+        - render this item as its own diagram job
+        clean_forbidden:
+        - do not show shares
+        - do not show the final answer
+        - do not add solution annotations
+  - type: problem
+    id: Q006
+    points: 10
+    label: 角的直接比例求第一部分
+    stem_latex: '射线 $OB$ 在 $\angle AOC$ 内部。若 $\angle AOB:\angle BOC=2:3$，且 $\angle AOC=100^\circ$，求 $\angle AOB$。
+
+
+      完成三格填空：
+
+
+      ① 在图上把 $\angle AOB$ 标为 \underline{\qquad} 份，把 $\angle BOC$ 标为 \underline{\qquad} 份；
+
+
+      ② 目标比例：\underline{\qquad\qquad\qquad}；\n\n③ 答案：\underline{\qquad\qquad}。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 3
+    answer: ① 2，3；② $\dfrac{\angle AOB}{\angle AOC}=\dfrac{2}{5}$；③ $40^\circ$。
+    explanation: 先把两部分标成 2 份和 3 份，再写目标量对已知对应量的比例。
+    solution_steps:
+    - title: 标份数
+      content: 第一部分标 2 份，第二部分标 3 份，总份数为 5。
+    - title: 写目标比例
+      content: $\dfrac{\angle AOB}{\angle AOC}=\dfrac{2}{5}$。
+    - title: 填答案
+      content: 所求为 $40^\circ$。
+    teaching:
+      teaching_goal: 把线段份数法迁移到相邻角
+      source_relations:
+      - segment_angle_share_with_proportion_tool
+      expected_blocker: 没有先看目标量，或把方程系数直接抄成份数。
+      entry_point: mark_shares_then_ratio
+      scaffold_level: medium
+      variation_depth: changed_representation
+      complexity_note: 每题只求一个量，只用一层份数或一次反向转换。
+      upgrade_rule: 能在图上正确标份数，并写出目标量对已知对应量的比例。
+      fallback_move: 先圈出整体，再确认两个部分是否组成这个整体。
+    diagram_slot:
+      slot_id: question_bank.segment_angle.q006.prompt
+      diagram_ref: question_bank.segment.angle.q006.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: Q006 学生图：先确认整体，再在图上自行标份数。
+      engine: geometric_scene
+      diagram_kind: synthetic_geometry
+      engine_options:
+        scene_payload:
+          scene_code: GeometricScene[{O, A, B, C}, {O == {0, 0}, A == {6 Cos[12 Degree], 6 Sin[12 Degree]}, B == {4.9 Cos[52 Degree], 4.9 Sin[52 Degree]}, C == {6.4 Cos[112 Degree], 6.4 Sin[112 Degree]}}]
+          points: &id001
+          - O
+          - A
+          - B
+          - C
+          point_roles:
+            anchors: *id001
+            constructed: []
+            auxiliary: []
+          diagram_spec:
+            type: synthetic_geometry
+            segments:
+            - from: O
+              to: A
+            - from: O
+              to: B
+            - from: O
+              to: C
+            labels:
+              O:
+                text: O
+                placement: below left
+              A:
+                text: A
+                placement: below right
+              B:
+                text: B
+                placement: above right
+              C:
+                text: C
+                placement: above left
+            constraints:
+            - ray OB lies inside angle AOC
+            teaching_focus:
+            - identify the whole angle AOC and its two adjacent angles
+          rationale: 题干已知对象构成独立 prompt 场景；不显示份数、推导或答案。
+          model_used: deterministic-segment-angle-question-bank
+          model_attempts: []
+        seed: 31006
+      teaching_intent: practice_prompt
+      problem_context:
+        stem_latex: 射线 $OB$ 在 $\angle AOC$ 内部。若 $\angle AOB:\angle BOC=2:3$，且 $\angle AOC=100^\circ$，求 $\angle AOB$。
+        source_problem_text: 本题独立生成干净题图。只画题干给出的整体与两个部分，不标份数、比例式、推导或答案。
+      semantic_constraints:
+        given_objects:
+        - O
+        - A
+        - B
+        - C
+        given_constraints:
+        - the two parts form the stated whole
+        - render this item as its own diagram job
+        clean_forbidden:
+        - do not show shares
+        - do not show the final answer
+        - do not add solution annotations
+  - type: problem
+    id: Q007
+    points: 10
+    label: 角的直接比例求第二部分
+    stem_latex: '射线 $OB$ 在 $\angle AOC$ 内部。若 $\angle AOB:\angle BOC=3:5$，且 $\angle AOC=128^\circ$，求 $\angle BOC$。
+
+
+      完成三格填空：
+
+
+      ① 在图上把 $\angle AOB$ 标为 \underline{\qquad} 份，把 $\angle BOC$ 标为 \underline{\qquad} 份；
+
+
+      ② 目标比例：\underline{\qquad\qquad\qquad}；\n\n③ 答案：\underline{\qquad\qquad}。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 3
+    answer: ① 3，5；② $\dfrac{\angle BOC}{\angle AOC}=\dfrac{5}{8}$；③ $80^\circ$。
+    explanation: 先把两部分标成 3 份和 5 份，再写目标量对已知对应量的比例。
+    solution_steps:
+    - title: 标份数
+      content: 第一部分标 3 份，第二部分标 5 份，总份数为 8。
+    - title: 写目标比例
+      content: $\dfrac{\angle BOC}{\angle AOC}=\dfrac{5}{8}$。
+    - title: 填答案
+      content: 所求为 $80^\circ$。
+    teaching:
+      teaching_goal: 看清目标角，把对应份数放在分子
+      source_relations:
+      - segment_angle_share_with_proportion_tool
+      expected_blocker: 没有先看目标量，或把方程系数直接抄成份数。
+      entry_point: mark_shares_then_ratio
+      scaffold_level: medium
+      variation_depth: changed_question
+      complexity_note: 每题只求一个量，只用一层份数或一次反向转换。
+      upgrade_rule: 能在图上正确标份数，并写出目标量对已知对应量的比例。
+      fallback_move: 先圈出整体，再确认两个部分是否组成这个整体。
+    diagram_slot:
+      slot_id: question_bank.segment_angle.q007.prompt
+      diagram_ref: question_bank.segment.angle.q007.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: Q007 学生图：先确认整体，再在图上自行标份数。
+      engine: geometric_scene
+      diagram_kind: synthetic_geometry
+      engine_options:
+        scene_payload:
+          scene_code: GeometricScene[{O, A, B, C}, {O == {0, 0}, A == {6.25 Cos[0 Degree], 6.25 Sin[0 Degree]}, B == {5 Cos[48 Degree], 5 Sin[48 Degree]}, C == {6.6 Cos[128 Degree], 6.6 Sin[128 Degree]}}]
+          points: &id002
+          - O
+          - A
+          - B
+          - C
+          point_roles:
+            anchors: *id002
+            constructed: []
+            auxiliary: []
+          diagram_spec:
+            type: synthetic_geometry
+            segments:
+            - from: O
+              to: A
+            - from: O
+              to: B
+            - from: O
+              to: C
+            labels:
+              O:
+                text: O
+                placement: below left
+              A:
+                text: A
+                placement: below right
+              B:
+                text: B
+                placement: above right
+              C:
+                text: C
+                placement: above left
+            constraints:
+            - ray OB lies inside angle AOC
+            teaching_focus:
+            - identify the whole angle AOC and its two adjacent angles
+          rationale: 题干已知对象构成独立 prompt 场景；不显示份数、推导或答案。
+          model_used: deterministic-segment-angle-question-bank
+          model_attempts: []
+        seed: 31007
+      teaching_intent: practice_prompt
+      problem_context:
+        stem_latex: 射线 $OB$ 在 $\angle AOC$ 内部。若 $\angle AOB:\angle BOC=3:5$，且 $\angle AOC=128^\circ$，求 $\angle BOC$。
+        source_problem_text: 本题独立生成干净题图。只画题干给出的整体与两个部分，不标份数、比例式、推导或答案。
+      semantic_constraints:
+        given_objects:
+        - O
+        - A
+        - B
+        - C
+        given_constraints:
+        - the two parts form the stated whole
+        - render this item as its own diagram job
+        clean_forbidden:
+        - do not show shares
+        - do not show the final answer
+        - do not add solution annotations
+  - type: problem
+    id: Q008
+    points: 10
+    label: 角的倍数关系转份数
+    stem_latex: '射线 $OB$ 在 $\angle AOC$ 内部。若 $\angle AOB=2\angle BOC$，且 $\angle AOC=96^\circ$，求 $\angle BOC$。
+
+
+      完成三格填空：
+
+
+      ① 在图上把 $\angle AOB$ 标为 \underline{\qquad} 份，把 $\angle BOC$ 标为 \underline{\qquad} 份；
+
+
+      ② 目标比例：\underline{\qquad\qquad\qquad}；\n\n③ 答案：\underline{\qquad\qquad}。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 3
+    answer: ① 2，1；② $\dfrac{\angle BOC}{\angle AOC}=\dfrac{1}{3}$；③ $32^\circ$。
+    explanation: 先把两部分标成 2 份和 1 份，再写目标量对已知对应量的比例。
+    solution_steps:
+    - title: 标份数
+      content: 第一部分标 2 份，第二部分标 1 份，总份数为 3。
+    - title: 写目标比例
+      content: $\dfrac{\angle BOC}{\angle AOC}=\dfrac{1}{3}$。
+    - title: 填答案
+      content: 所求为 $32^\circ$。
+    teaching:
+      teaching_goal: 把角的倍数关系翻译成份数
+      source_relations:
+      - segment_angle_share_with_proportion_tool
+      expected_blocker: 没有先看目标量，或把方程系数直接抄成份数。
+      entry_point: mark_shares_then_ratio
+      scaffold_level: medium
+      variation_depth: changed_representation
+      complexity_note: 每题只求一个量，只用一层份数或一次反向转换。
+      upgrade_rule: 能在图上正确标份数，并写出目标量对已知对应量的比例。
+      fallback_move: 先圈出整体，再确认两个部分是否组成这个整体。
+    diagram_slot:
+      slot_id: question_bank.segment_angle.q008.prompt
+      diagram_ref: question_bank.segment.angle.q008.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: Q008 学生图：先确认整体，再在图上自行标份数。
+      engine: geometric_scene
+      diagram_kind: synthetic_geometry
+      engine_options:
+        scene_payload:
+          scene_code: GeometricScene[{O, A, B, C}, {O == {0, 0}, A == {6.5 Cos[2 Degree], 6.5 Sin[2 Degree]}, B == {5.1 Cos[66 Degree], 5.1 Sin[66 Degree]}, C == {6 Cos[98 Degree], 6 Sin[98 Degree]}}]
+          points: &id003
+          - O
+          - A
+          - B
+          - C
+          point_roles:
+            anchors: *id003
+            constructed: []
+            auxiliary: []
+          diagram_spec:
+            type: synthetic_geometry
+            segments:
+            - from: O
+              to: A
+            - from: O
+              to: B
+            - from: O
+              to: C
+            labels:
+              O:
+                text: O
+                placement: below left
+              A:
+                text: A
+                placement: below right
+              B:
+                text: B
+                placement: above right
+              C:
+                text: C
+                placement: above left
+            constraints:
+            - ray OB lies inside angle AOC
+            teaching_focus:
+            - identify the whole angle AOC and its two adjacent angles
+          rationale: 题干已知对象构成独立 prompt 场景；不显示份数、推导或答案。
+          model_used: deterministic-segment-angle-question-bank
+          model_attempts: []
+        seed: 31008
+      teaching_intent: practice_prompt
+      problem_context:
+        stem_latex: 射线 $OB$ 在 $\angle AOC$ 内部。若 $\angle AOB=2\angle BOC$，且 $\angle AOC=96^\circ$，求 $\angle BOC$。
+        source_problem_text: 本题独立生成干净题图。只画题干给出的整体与两个部分，不标份数、比例式、推导或答案。
+      semantic_constraints:
+        given_objects:
+        - O
+        - A
+        - B
+        - C
+        given_constraints:
+        - the two parts form the stated whole
+        - render this item as its own diagram job
+        clean_forbidden:
+        - do not show shares
+        - do not show the final answer
+        - do not add solution annotations
+  - type: problem
+    id: Q009
+    points: 10
+    label: 角的等式系数交叉对应
+    stem_latex: '射线 $OB$ 在 $\angle AOC$ 内部。若 $5\angle AOB=2\angle BOC$，且 $\angle AOC=126^\circ$，求 $\angle AOB$。
+
+
+      完成三格填空：
+
+
+      ① 在图上把 $\angle AOB$ 标为 \underline{\qquad} 份，把 $\angle BOC$ 标为 \underline{\qquad} 份；
+
+
+      ② 目标比例：\underline{\qquad\qquad\qquad}；\n\n③ 答案：\underline{\qquad\qquad}。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 3
+    answer: ① 2，5；② $\dfrac{\angle AOB}{\angle AOC}=\dfrac{2}{7}$；③ $36^\circ$。
+    explanation: 先把两部分标成 2 份和 5 份，再写目标量对已知对应量的比例。
+    solution_steps:
+    - title: 标份数
+      content: 第一部分标 2 份，第二部分标 5 份，总份数为 7。
+    - title: 写目标比例
+      content: $\dfrac{\angle AOB}{\angle AOC}=\dfrac{2}{7}$。
+    - title: 填答案
+      content: 所求为 $36^\circ$。
+    teaching:
+      teaching_goal: 把角的方程式系数交叉翻译成份数
+      source_relations:
+      - segment_angle_share_with_proportion_tool
+      expected_blocker: 没有先看目标量，或把方程系数直接抄成份数。
+      entry_point: mark_shares_then_ratio
+      scaffold_level: medium
+      variation_depth: packaged_condition
+      complexity_note: 每题只求一个量，只用一层份数或一次反向转换。
+      upgrade_rule: 能在图上正确标份数，并写出目标量对已知对应量的比例。
+      fallback_move: 先圈出整体，再确认两个部分是否组成这个整体。
+    diagram_slot:
+      slot_id: question_bank.segment_angle.q009.prompt
+      diagram_ref: question_bank.segment.angle.q009.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: Q009 学生图：先确认整体，再在图上自行标份数。
+      engine: geometric_scene
+      diagram_kind: synthetic_geometry
+      engine_options:
+        scene_payload:
+          scene_code: GeometricScene[{O, A, B, C}, {O == {0, 0}, A == {6 Cos[4 Degree], 6 Sin[4 Degree]}, B == {5.2 Cos[40 Degree], 5.2 Sin[40 Degree]}, C == {6.2 Cos[130 Degree], 6.2 Sin[130 Degree]}}]
+          points: &id004
+          - O
+          - A
+          - B
+          - C
+          point_roles:
+            anchors: *id004
+            constructed: []
+            auxiliary: []
+          diagram_spec:
+            type: synthetic_geometry
+            segments:
+            - from: O
+              to: A
+            - from: O
+              to: B
+            - from: O
+              to: C
+            labels:
+              O:
+                text: O
+                placement: below left
+              A:
+                text: A
+                placement: below right
+              B:
+                text: B
+                placement: above right
+              C:
+                text: C
+                placement: above left
+            constraints:
+            - ray OB lies inside angle AOC
+            teaching_focus:
+            - identify the whole angle AOC and its two adjacent angles
+          rationale: 题干已知对象构成独立 prompt 场景；不显示份数、推导或答案。
+          model_used: deterministic-segment-angle-question-bank
+          model_attempts: []
+        seed: 31009
+      teaching_intent: practice_prompt
+      problem_context:
+        stem_latex: 射线 $OB$ 在 $\angle AOC$ 内部。若 $5\angle AOB=2\angle BOC$，且 $\angle AOC=126^\circ$，求 $\angle AOB$。
+        source_problem_text: 本题独立生成干净题图。只画题干给出的整体与两个部分，不标份数、比例式、推导或答案。
+      semantic_constraints:
+        given_objects:
+        - O
+        - A
+        - B
+        - C
+        given_constraints:
+        - the two parts form the stated whole
+        - render this item as its own diagram job
+        clean_forbidden:
+        - do not show shares
+        - do not show the final answer
+        - do not add solution annotations
+  - type: problem
+    id: Q010
+    points: 10
+    label: 角的部分对整体补份数
+    stem_latex: '射线 $OB$ 在 $\angle AOC$ 内部。若 $\angle AOB:\angle AOC=3:8$，且 $\angle AOC=120^\circ$，求 $\angle BOC$。
+
+
+      完成三格填空：
+
+
+      ① 在图上把 $\angle AOB$ 标为 \underline{\qquad} 份，把 $\angle BOC$ 标为 \underline{\qquad} 份；
+
+
+      ② 目标比例：\underline{\qquad\qquad\qquad}；\n\n③ 答案：\underline{\qquad\qquad}。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 3
+    answer: ① 3，5；② $\dfrac{\angle BOC}{\angle AOC}=\dfrac{5}{8}$；③ $75^\circ$。
+    explanation: 先把两部分标成 3 份和 5 份，再写目标量对已知对应量的比例。
+    solution_steps:
+    - title: 标份数
+      content: 第一部分标 3 份，第二部分标 5 份，总份数为 8。
+    - title: 写目标比例
+      content: $\dfrac{\angle BOC}{\angle AOC}=\dfrac{5}{8}$。
+    - title: 填答案
+      content: 所求为 $75^\circ$。
+    teaching:
+      teaching_goal: 由部分角对总角的份数补出另一部分
+      source_relations:
+      - segment_angle_share_with_proportion_tool
+      expected_blocker: 没有先看目标量，或把方程系数直接抄成份数。
+      entry_point: mark_shares_then_ratio
+      scaffold_level: medium
+      variation_depth: changed_question
+      complexity_note: 每题只求一个量，只用一层份数或一次反向转换。
+      upgrade_rule: 能在图上正确标份数，并写出目标量对已知对应量的比例。
+      fallback_move: 先圈出整体，再确认两个部分是否组成这个整体。
+    diagram_slot:
+      slot_id: question_bank.segment_angle.q010.prompt
+      diagram_ref: question_bank.segment.angle.q010.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: Q010 学生图：先确认整体，再在图上自行标份数。
+      engine: geometric_scene
+      diagram_kind: synthetic_geometry
+      engine_options:
+        scene_payload:
+          scene_code: GeometricScene[{O, A, B, C}, {O == {0, 0}, A == {6.25 Cos[6 Degree], 6.25 Sin[6 Degree]}, B == {4.8 Cos[51 Degree], 4.8 Sin[51 Degree]}, C == {6.4 Cos[126 Degree], 6.4 Sin[126 Degree]}}]
+          points: &id005
+          - O
+          - A
+          - B
+          - C
+          point_roles:
+            anchors: *id005
+            constructed: []
+            auxiliary: []
+          diagram_spec:
+            type: synthetic_geometry
+            segments:
+            - from: O
+              to: A
+            - from: O
+              to: B
+            - from: O
+              to: C
+            labels:
+              O:
+                text: O
+                placement: below left
+              A:
+                text: A
+                placement: below right
+              B:
+                text: B
+                placement: above right
+              C:
+                text: C
+                placement: above left
+            constraints:
+            - ray OB lies inside angle AOC
+            teaching_focus:
+            - identify the whole angle AOC and its two adjacent angles
+          rationale: 题干已知对象构成独立 prompt 场景；不显示份数、推导或答案。
+          model_used: deterministic-segment-angle-question-bank
+          model_attempts: []
+        seed: 31010
+      teaching_intent: practice_prompt
+      problem_context:
+        stem_latex: 射线 $OB$ 在 $\angle AOC$ 内部。若 $\angle AOB:\angle AOC=3:8$，且 $\angle AOC=120^\circ$，求 $\angle BOC$。
+        source_problem_text: 本题独立生成干净题图。只画题干给出的整体与两个部分，不标份数、比例式、推导或答案。
+      semantic_constraints:
+        given_objects:
+        - O
+        - A
+        - B
+        - C
+        given_constraints:
+        - the two parts form the stated whole
+        - render this item as its own diagram job
+        clean_forbidden:
+        - do not show shares
+        - do not show the final answer
+        - do not add solution annotations
+  - type: problem
+    id: Q011
+    points: 10
+    label: 已知部分反求整体
+    stem_latex: '点 $A,B,C$ 在同一直线上，$B$ 在 $A,C$ 之间。若 $AB:BC=3:4$，且 $AB=18$，求 $AC$。
+
+
+      完成三格填空：
+
+
+      ① 在图上把 $AB$ 标为 \underline{\qquad} 份，把 $BC$ 标为 \underline{\qquad} 份；
+
+
+      ② 目标比例：\underline{\qquad\qquad\qquad}；\n\n③ 答案：\underline{\qquad\qquad}。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 3
+    answer: ① 3，4；② $\dfrac{AC}{AB}=\dfrac{7}{3}$；③ $42$。
+    explanation: 先把两部分标成 3 份和 4 份，再写目标量对已知对应量的比例。
+    solution_steps:
+    - title: 标份数
+      content: 第一部分标 3 份，第二部分标 4 份，总份数为 7。
+    - title: 写目标比例
+      content: $\dfrac{AC}{AB}=\dfrac{7}{3}$。
+    - title: 填答案
+      content: 所求为 $42$。
+    teaching:
+      teaching_goal: 已知一个部分，反向求整体
+      source_relations:
+      - segment_angle_share_with_proportion_tool
+      expected_blocker: 没有先看目标量，或把方程系数直接抄成份数。
+      entry_point: mark_shares_then_ratio
+      scaffold_level: medium
+      variation_depth: changed_question
+      complexity_note: 每题只求一个量，只用一层份数或一次反向转换。
+      upgrade_rule: 能在图上正确标份数，并写出目标量对已知对应量的比例。
+      fallback_move: 先圈出整体，再确认两个部分是否组成这个整体。
+    diagram_slot:
+      slot_id: question_bank.segment_angle.q011.prompt
+      diagram_ref: question_bank.segment.angle.q011.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: Q011 学生图：先确认整体，再在图上自行标份数。
+      engine: geometric_scene
+      diagram_kind: synthetic_geometry
+      engine_options:
+        scene_payload:
+          scene_code: GeometricScene[{A, B, C}, {A == {-5.5, -0.2}, C == {5.6, -0.333333}, Element[B, Line[{A, C}]], 4 EuclideanDistance[A, B] == 3 EuclideanDistance[B, C], EuclideanDistance[A, B] > 0, EuclideanDistance[B, C] > 0}]
+          points:
+          - A
+          - B
+          - C
+          point_roles:
+            anchors:
+            - A
+            - C
+            constructed:
+            - B
+            auxiliary: []
+          diagram_spec:
+            type: synthetic_geometry
+            segments:
+            - from: A
+              to: C
+            labels:
+              A:
+                text: A
+                placement: below left
+              B:
+                text: B
+                placement: below
+              C:
+                text: C
+                placement: below right
+            constraints:
+            - B lies strictly between A and C
+            teaching_focus:
+            - identify the whole AC and its two parts AB, BC
+          rationale: 题干已知对象构成独立 prompt 场景；不显示份数、推导或答案。
+          model_used: deterministic-segment-angle-question-bank
+          model_attempts: []
+        seed: 31011
+      teaching_intent: practice_prompt
+      problem_context:
+        stem_latex: 点 $A,B,C$ 在同一直线上，$B$ 在 $A,C$ 之间。若 $AB:BC=3:4$，且 $AB=18$，求 $AC$。
+        source_problem_text: 本题独立生成干净题图。只画题干给出的整体与两个部分，不标份数、比例式、推导或答案。
+      semantic_constraints:
+        given_objects:
+        - A
+        - B
+        - C
+        given_constraints:
+        - the two parts form the stated whole
+        - render this item as its own diagram job
+        clean_forbidden:
+        - do not show shares
+        - do not show the final answer
+        - do not add solution annotations
+  - type: problem
+    id: Q012
+    points: 10
+    label: 已知第二部分求第一部分
+    stem_latex: '点 $A,B,C$ 在同一直线上，$B$ 在 $A,C$ 之间。若 $AB:BC=5:7$，且 $BC=28$，求 $AB$。
+
+
+      完成三格填空：
+
+
+      ① 在图上把 $AB$ 标为 \underline{\qquad} 份，把 $BC$ 标为 \underline{\qquad} 份；
+
+
+      ② 目标比例：\underline{\qquad\qquad\qquad}；\n\n③ 答案：\underline{\qquad\qquad}。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 3
+    answer: ① 5，7；② $\dfrac{AB}{BC}=\dfrac{5}{7}$；③ $20$。
+    explanation: 先把两部分标成 5 份和 7 份，再写目标量对已知对应量的比例。
+    solution_steps:
+    - title: 标份数
+      content: 第一部分标 5 份，第二部分标 7 份，总份数为 12。
+    - title: 写目标比例
+      content: $\dfrac{AB}{BC}=\dfrac{5}{7}$。
+    - title: 填答案
+      content: 所求为 $20$。
+    teaching:
+      teaching_goal: 选择已知部分作对应量
+      source_relations:
+      - segment_angle_share_with_proportion_tool
+      expected_blocker: 没有先看目标量，或把方程系数直接抄成份数。
+      entry_point: mark_shares_then_ratio
+      scaffold_level: medium
+      variation_depth: changed_question
+      complexity_note: 每题只求一个量，只用一层份数或一次反向转换。
+      upgrade_rule: 能在图上正确标份数，并写出目标量对已知对应量的比例。
+      fallback_move: 先圈出整体，再确认两个部分是否组成这个整体。
+    diagram_slot:
+      slot_id: question_bank.segment_angle.q012.prompt
+      diagram_ref: question_bank.segment.angle.q012.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: Q012 学生图：先确认整体，再在图上自行标份数。
+      engine: geometric_scene
+      diagram_kind: synthetic_geometry
+      engine_options:
+        scene_payload:
+          scene_code: GeometricScene[{A, B, C}, {A == {-5, 0}, C == {5, 0}, Element[B, Line[{A, C}]], 7 EuclideanDistance[A, B] == 5 EuclideanDistance[B, C], EuclideanDistance[A, B] > 0, EuclideanDistance[B, C] > 0}]
+          points:
+          - A
+          - B
+          - C
+          point_roles:
+            anchors:
+            - A
+            - C
+            constructed:
+            - B
+            auxiliary: []
+          diagram_spec:
+            type: synthetic_geometry
+            segments:
+            - from: A
+              to: C
+            labels:
+              A:
+                text: A
+                placement: below left
+              B:
+                text: B
+                placement: below
+              C:
+                text: C
+                placement: below right
+            constraints:
+            - B lies strictly between A and C
+            teaching_focus:
+            - identify the whole AC and its two parts AB, BC
+          rationale: 题干已知对象构成独立 prompt 场景；不显示份数、推导或答案。
+          model_used: deterministic-segment-angle-question-bank
+          model_attempts: []
+        seed: 31012
+      teaching_intent: practice_prompt
+      problem_context:
+        stem_latex: 点 $A,B,C$ 在同一直线上，$B$ 在 $A,C$ 之间。若 $AB:BC=5:7$，且 $BC=28$，求 $AB$。
+        source_problem_text: 本题独立生成干净题图。只画题干给出的整体与两个部分，不标份数、比例式、推导或答案。
+      semantic_constraints:
+        given_objects:
+        - A
+        - B
+        - C
+        given_constraints:
+        - the two parts form the stated whole
+        - render this item as its own diagram job
+        clean_forbidden:
+        - do not show shares
+        - do not show the final answer
+        - do not add solution annotations
+  - type: problem
+    id: Q013
+    points: 10
+    label: 移项后再转份数
+    stem_latex: '点 $A,B,C$ 在同一直线上，$B$ 在 $A,C$ 之间。若 $4AB-3BC=0$，且 $AC=35$，求 $BC$。
+
+
+      完成三格填空：
+
+
+      ① 在图上把 $AB$ 标为 \underline{\qquad} 份，把 $BC$ 标为 \underline{\qquad} 份；
+
+
+      ② 目标比例：\underline{\qquad\qquad\qquad}；\n\n③ 答案：\underline{\qquad\qquad}。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 3
+    answer: ① 3，4；② $\dfrac{BC}{AC}=\dfrac{4}{7}$；③ $20$。
+    explanation: 先把两部分标成 3 份和 4 份，再写目标量对已知对应量的比例。
+    solution_steps:
+    - title: 标份数
+      content: 第一部分标 3 份，第二部分标 4 份，总份数为 7。
+    - title: 写目标比例
+      content: $\dfrac{BC}{AC}=\dfrac{4}{7}$。
+    - title: 填答案
+      content: 所求为 $20$。
+    teaching:
+      teaching_goal: 先移项，再把系数交叉翻译成份数
+      source_relations:
+      - segment_angle_share_with_proportion_tool
+      expected_blocker: 没有先看目标量，或把方程系数直接抄成份数。
+      entry_point: mark_shares_then_ratio
+      scaffold_level: medium
+      variation_depth: packaged_condition
+      complexity_note: 每题只求一个量，只用一层份数或一次反向转换。
+      upgrade_rule: 能在图上正确标份数，并写出目标量对已知对应量的比例。
+      fallback_move: 先圈出整体，再确认两个部分是否组成这个整体。
+    diagram_slot:
+      slot_id: question_bank.segment_angle.q013.prompt
+      diagram_ref: question_bank.segment.angle.q013.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: Q013 学生图：先确认整体，再在图上自行标份数。
+      engine: geometric_scene
+      diagram_kind: synthetic_geometry
+      engine_options:
+        scene_payload:
+          scene_code: GeometricScene[{A, B, C}, {A == {-5.25, 0.2}, C == {5.2, 0.333333}, Element[B, Line[{A, C}]], 4 EuclideanDistance[A, B] == 3 EuclideanDistance[B, C], EuclideanDistance[A, B] > 0, EuclideanDistance[B, C] > 0}]
+          points:
+          - A
+          - B
+          - C
+          point_roles:
+            anchors:
+            - A
+            - C
+            constructed:
+            - B
+            auxiliary: []
+          diagram_spec:
+            type: synthetic_geometry
+            segments:
+            - from: A
+              to: C
+            labels:
+              A:
+                text: A
+                placement: below left
+              B:
+                text: B
+                placement: below
+              C:
+                text: C
+                placement: below right
+            constraints:
+            - B lies strictly between A and C
+            teaching_focus:
+            - identify the whole AC and its two parts AB, BC
+          rationale: 题干已知对象构成独立 prompt 场景；不显示份数、推导或答案。
+          model_used: deterministic-segment-angle-question-bank
+          model_attempts: []
+        seed: 31013
+      teaching_intent: practice_prompt
+      problem_context:
+        stem_latex: 点 $A,B,C$ 在同一直线上，$B$ 在 $A,C$ 之间。若 $4AB-3BC=0$，且 $AC=35$，求 $BC$。
+        source_problem_text: 本题独立生成干净题图。只画题干给出的整体与两个部分，不标份数、比例式、推导或答案。
+      semantic_constraints:
+        given_objects:
+        - A
+        - B
+        - C
+        given_constraints:
+        - the two parts form the stated whole
+        - render this item as its own diagram job
+        clean_forbidden:
+        - do not show shares
+        - do not show the final answer
+        - do not add solution annotations
+  - type: problem
+    id: Q014
+    points: 10
+    label: 隐藏比例的线段题
+    stem_latex: '点 $A,B,C$ 在同一直线上，$B$ 在 $A,C$ 之间。若 $5AB=4BC$，且 $AC=54$，求 $BC$。
+
+
+      完成三格填空：
+
+
+      ① 在图上把 $AB$ 标为 \underline{\qquad} 份，把 $BC$ 标为 \underline{\qquad} 份；
+
+
+      ② 目标比例：\underline{\qquad\qquad\qquad}；\n\n③ 答案：\underline{\qquad\qquad}。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 3
+    answer: ① 4，5；② $\dfrac{BC}{AC}=\dfrac{5}{9}$；③ $30$。
+    explanation: 先把两部分标成 4 份和 5 份，再写目标量对已知对应量的比例。
+    solution_steps:
+    - title: 标份数
+      content: 第一部分标 4 份，第二部分标 5 份，总份数为 9。
+    - title: 写目标比例
+      content: $\dfrac{BC}{AC}=\dfrac{5}{9}$。
+    - title: 填答案
+      content: 所求为 $30$。
+    teaching:
+      teaching_goal: 从等式中找出目标量对应份数
+      source_relations:
+      - segment_angle_share_with_proportion_tool
+      expected_blocker: 没有先看目标量，或把方程系数直接抄成份数。
+      entry_point: mark_shares_then_ratio
+      scaffold_level: medium
+      variation_depth: partially_hidden
+      complexity_note: 每题只求一个量，只用一层份数或一次反向转换。
+      upgrade_rule: 能在图上正确标份数，并写出目标量对已知对应量的比例。
+      fallback_move: 先圈出整体，再确认两个部分是否组成这个整体。
+    diagram_slot:
+      slot_id: question_bank.segment_angle.q014.prompt
+      diagram_ref: question_bank.segment.angle.q014.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: Q014 学生图：先确认整体，再在图上自行标份数。
+      engine: geometric_scene
+      diagram_kind: synthetic_geometry
+      engine_options:
+        scene_payload:
+          scene_code: GeometricScene[{A, B, C}, {A == {-5.5, 0.4}, C == {5.4, -0.5}, Element[B, Line[{A, C}]], 5 EuclideanDistance[A, B] == 4 EuclideanDistance[B, C], EuclideanDistance[A, B] > 0, EuclideanDistance[B, C] > 0}]
+          points:
+          - A
+          - B
+          - C
+          point_roles:
+            anchors:
+            - A
+            - C
+            constructed:
+            - B
+            auxiliary: []
+          diagram_spec:
+            type: synthetic_geometry
+            segments:
+            - from: A
+              to: C
+            labels:
+              A:
+                text: A
+                placement: below left
+              B:
+                text: B
+                placement: below
+              C:
+                text: C
+                placement: below right
+            constraints:
+            - B lies strictly between A and C
+            teaching_focus:
+            - identify the whole AC and its two parts AB, BC
+          rationale: 题干已知对象构成独立 prompt 场景；不显示份数、推导或答案。
+          model_used: deterministic-segment-angle-question-bank
+          model_attempts: []
+        seed: 31014
+      teaching_intent: practice_prompt
+      problem_context:
+        stem_latex: 点 $A,B,C$ 在同一直线上，$B$ 在 $A,C$ 之间。若 $5AB=4BC$，且 $AC=54$，求 $BC$。
+        source_problem_text: 本题独立生成干净题图。只画题干给出的整体与两个部分，不标份数、比例式、推导或答案。
+      semantic_constraints:
+        given_objects:
+        - A
+        - B
+        - C
+        given_constraints:
+        - the two parts form the stated whole
+        - render this item as its own diagram job
+        clean_forbidden:
+        - do not show shares
+        - do not show the final answer
+        - do not add solution annotations
+  - type: problem
+    id: Q015
+    points: 10
+    label: 整体比例直接求部分
+    stem_latex: '点 $A,B,C$ 在同一直线上，$B$ 在 $A,C$ 之间。若 $AB:AC=7:12$，且 $AC=60$，求 $AB$。
+
+
+      完成三格填空：
+
+
+      ① 在图上把 $AB$ 标为 \underline{\qquad} 份，把 $BC$ 标为 \underline{\qquad} 份；
+
+
+      ② 目标比例：\underline{\qquad\qquad\qquad}；\n\n③ 答案：\underline{\qquad\qquad}。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 3
+    answer: ① 7，5；② $\dfrac{AB}{AC}=\dfrac{7}{12}$；③ $35$。
+    explanation: 先把两部分标成 7 份和 5 份，再写目标量对已知对应量的比例。
+    solution_steps:
+    - title: 标份数
+      content: 第一部分标 7 份，第二部分标 5 份，总份数为 12。
+    - title: 写目标比例
+      content: $\dfrac{AB}{AC}=\dfrac{7}{12}$。
+    - title: 填答案
+      content: 所求为 $35$。
+    teaching:
+      teaching_goal: 识别已给出的目标量对整体比例
+      source_relations:
+      - segment_angle_share_with_proportion_tool
+      expected_blocker: 没有先看目标量，或把方程系数直接抄成份数。
+      entry_point: mark_shares_then_ratio
+      scaffold_level: medium
+      variation_depth: changed_representation
+      complexity_note: 每题只求一个量，只用一层份数或一次反向转换。
+      upgrade_rule: 能在图上正确标份数，并写出目标量对已知对应量的比例。
+      fallback_move: 先圈出整体，再确认两个部分是否组成这个整体。
+    diagram_slot:
+      slot_id: question_bank.segment_angle.q015.prompt
+      diagram_ref: question_bank.segment.angle.q015.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: Q015 学生图：先确认整体，再在图上自行标份数。
+      engine: geometric_scene
+      diagram_kind: synthetic_geometry
+      engine_options:
+        scene_payload:
+          scene_code: GeometricScene[{A, B, C}, {A == {-5, -0.4}, C == {5.6, -0.166667}, Element[B, Line[{A, C}]], 5 EuclideanDistance[A, B] == 7 EuclideanDistance[B, C], EuclideanDistance[A, B] > 0, EuclideanDistance[B, C] > 0}]
+          points:
+          - A
+          - B
+          - C
+          point_roles:
+            anchors:
+            - A
+            - C
+            constructed:
+            - B
+            auxiliary: []
+          diagram_spec:
+            type: synthetic_geometry
+            segments:
+            - from: A
+              to: C
+            labels:
+              A:
+                text: A
+                placement: below left
+              B:
+                text: B
+                placement: below
+              C:
+                text: C
+                placement: below right
+            constraints:
+            - B lies strictly between A and C
+            teaching_focus:
+            - identify the whole AC and its two parts AB, BC
+          rationale: 题干已知对象构成独立 prompt 场景；不显示份数、推导或答案。
+          model_used: deterministic-segment-angle-question-bank
+          model_attempts: []
+        seed: 31015
+      teaching_intent: practice_prompt
+      problem_context:
+        stem_latex: 点 $A,B,C$ 在同一直线上，$B$ 在 $A,C$ 之间。若 $AB:AC=7:12$，且 $AC=60$，求 $AB$。
+        source_problem_text: 本题独立生成干净题图。只画题干给出的整体与两个部分，不标份数、比例式、推导或答案。
+      semantic_constraints:
+        given_objects:
+        - A
+        - B
+        - C
+        given_constraints:
+        - the two parts form the stated whole
+        - render this item as its own diagram job
+        clean_forbidden:
+        - do not show shares
+        - do not show the final answer
+        - do not add solution annotations
+  - type: problem
+    id: Q016
+    points: 10
+    label: 已知部分角反求总角
+    stem_latex: '射线 $OB$ 在 $\angle AOC$ 内部。若 $\angle AOB:\angle BOC=3:4$，且 $\angle AOB=42^\circ$，求 $\angle AOC$。
+
+
+      完成三格填空：
+
+
+      ① 在图上把 $\angle AOB$ 标为 \underline{\qquad} 份，把 $\angle BOC$ 标为 \underline{\qquad} 份；
+
+
+      ② 目标比例：\underline{\qquad\qquad\qquad}；\n\n③ 答案：\underline{\qquad\qquad}。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 3
+    answer: ① 3，4；② $\dfrac{\angle AOC}{\angle AOB}=\dfrac{7}{3}$；③ $98^\circ$。
+    explanation: 先把两部分标成 3 份和 4 份，再写目标量对已知对应量的比例。
+    solution_steps:
+    - title: 标份数
+      content: 第一部分标 3 份，第二部分标 4 份，总份数为 7。
+    - title: 写目标比例
+      content: $\dfrac{\angle AOC}{\angle AOB}=\dfrac{7}{3}$。
+    - title: 填答案
+      content: 所求为 $98^\circ$。
+    teaching:
+      teaching_goal: 已知一个部分角，反向求总角
+      source_relations:
+      - segment_angle_share_with_proportion_tool
+      expected_blocker: 没有先看目标量，或把方程系数直接抄成份数。
+      entry_point: mark_shares_then_ratio
+      scaffold_level: medium
+      variation_depth: reverse_construct
+      complexity_note: 每题只求一个量，只用一层份数或一次反向转换。
+      upgrade_rule: 能在图上正确标份数，并写出目标量对已知对应量的比例。
+      fallback_move: 先圈出整体，再确认两个部分是否组成这个整体。
+    diagram_slot:
+      slot_id: question_bank.segment_angle.q016.prompt
+      diagram_ref: question_bank.segment.angle.q016.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: Q016 学生图：先确认整体，再在图上自行标份数。
+      engine: geometric_scene
+      diagram_kind: synthetic_geometry
+      engine_options:
+        scene_payload:
+          scene_code: GeometricScene[{O, A, B, C}, {O == {0, 0}, A == {6.25 Cos[4 Degree], 6.25 Sin[4 Degree]}, B == {4.9 Cos[46 Degree], 4.9 Sin[46 Degree]}, C == {6 Cos[102 Degree], 6 Sin[102 Degree]}}]
+          points: &id006
+          - O
+          - A
+          - B
+          - C
+          point_roles:
+            anchors: *id006
+            constructed: []
+            auxiliary: []
+          diagram_spec:
+            type: synthetic_geometry
+            segments:
+            - from: O
+              to: A
+            - from: O
+              to: B
+            - from: O
+              to: C
+            labels:
+              O:
+                text: O
+                placement: below left
+              A:
+                text: A
+                placement: below right
+              B:
+                text: B
+                placement: above right
+              C:
+                text: C
+                placement: above left
+            constraints:
+            - ray OB lies inside angle AOC
+            teaching_focus:
+            - identify the whole angle AOC and its two adjacent angles
+          rationale: 题干已知对象构成独立 prompt 场景；不显示份数、推导或答案。
+          model_used: deterministic-segment-angle-question-bank
+          model_attempts: []
+        seed: 31016
+      teaching_intent: practice_prompt
+      problem_context:
+        stem_latex: 射线 $OB$ 在 $\angle AOC$ 内部。若 $\angle AOB:\angle BOC=3:4$，且 $\angle AOB=42^\circ$，求 $\angle AOC$。
+        source_problem_text: 本题独立生成干净题图。只画题干给出的整体与两个部分，不标份数、比例式、推导或答案。
+      semantic_constraints:
+        given_objects:
+        - O
+        - A
+        - B
+        - C
+        given_constraints:
+        - the two parts form the stated whole
+        - render this item as its own diagram job
+        clean_forbidden:
+        - do not show shares
+        - do not show the final answer
+        - do not add solution annotations
+  - type: problem
+    id: Q017
+    points: 10
+    label: 已知第二部分角求第一部分
+    stem_latex: '射线 $OB$ 在 $\angle AOC$ 内部。若 $\angle AOB:\angle BOC=2:5$，且 $\angle BOC=70^\circ$，求 $\angle AOB$。
+
+
+      完成三格填空：
+
+
+      ① 在图上把 $\angle AOB$ 标为 \underline{\qquad} 份，把 $\angle BOC$ 标为 \underline{\qquad} 份；
+
+
+      ② 目标比例：\underline{\qquad\qquad\qquad}；\n\n③ 答案：\underline{\qquad\qquad}。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 3
+    answer: ① 2，5；② $\dfrac{\angle AOB}{\angle BOC}=\dfrac{2}{5}$；③ $28^\circ$。
+    explanation: 先把两部分标成 2 份和 5 份，再写目标量对已知对应量的比例。
+    solution_steps:
+    - title: 标份数
+      content: 第一部分标 2 份，第二部分标 5 份，总份数为 7。
+    - title: 写目标比例
+      content: $\dfrac{\angle AOB}{\angle BOC}=\dfrac{2}{5}$。
+    - title: 填答案
+      content: 所求为 $28^\circ$。
+    teaching:
+      teaching_goal: 选择已知部分角作对应量
+      source_relations:
+      - segment_angle_share_with_proportion_tool
+      expected_blocker: 没有先看目标量，或把方程系数直接抄成份数。
+      entry_point: mark_shares_then_ratio
+      scaffold_level: medium
+      variation_depth: changed_question
+      complexity_note: 每题只求一个量，只用一层份数或一次反向转换。
+      upgrade_rule: 能在图上正确标份数，并写出目标量对已知对应量的比例。
+      fallback_move: 先圈出整体，再确认两个部分是否组成这个整体。
+    diagram_slot:
+      slot_id: question_bank.segment_angle.q017.prompt
+      diagram_ref: question_bank.segment.angle.q017.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: Q017 学生图：先确认整体，再在图上自行标份数。
+      engine: geometric_scene
+      diagram_kind: synthetic_geometry
+      engine_options:
+        scene_payload:
+          scene_code: GeometricScene[{O, A, B, C}, {O == {0, 0}, A == {6.5 Cos[6 Degree], 6.5 Sin[6 Degree]}, B == {5 Cos[34 Degree], 5 Sin[34 Degree]}, C == {6.2 Cos[104 Degree], 6.2 Sin[104 Degree]}}]
+          points: &id007
+          - O
+          - A
+          - B
+          - C
+          point_roles:
+            anchors: *id007
+            constructed: []
+            auxiliary: []
+          diagram_spec:
+            type: synthetic_geometry
+            segments:
+            - from: O
+              to: A
+            - from: O
+              to: B
+            - from: O
+              to: C
+            labels:
+              O:
+                text: O
+                placement: below left
+              A:
+                text: A
+                placement: below right
+              B:
+                text: B
+                placement: above right
+              C:
+                text: C
+                placement: above left
+            constraints:
+            - ray OB lies inside angle AOC
+            teaching_focus:
+            - identify the whole angle AOC and its two adjacent angles
+          rationale: 题干已知对象构成独立 prompt 场景；不显示份数、推导或答案。
+          model_used: deterministic-segment-angle-question-bank
+          model_attempts: []
+        seed: 31017
+      teaching_intent: practice_prompt
+      problem_context:
+        stem_latex: 射线 $OB$ 在 $\angle AOC$ 内部。若 $\angle AOB:\angle BOC=2:5$，且 $\angle BOC=70^\circ$，求 $\angle AOB$。
+        source_problem_text: 本题独立生成干净题图。只画题干给出的整体与两个部分，不标份数、比例式、推导或答案。
+      semantic_constraints:
+        given_objects:
+        - O
+        - A
+        - B
+        - C
+        given_constraints:
+        - the two parts form the stated whole
+        - render this item as its own diagram job
+        clean_forbidden:
+        - do not show shares
+        - do not show the final answer
+        - do not add solution annotations
+  - type: problem
+    id: Q018
+    points: 10
+    label: 角关系移项后转份数
+    stem_latex: '射线 $OB$ 在 $\angle AOC$ 内部。若 $4\angle AOB-3\angle BOC=0$，且 $\angle AOC=140^\circ$，求 $\angle BOC$。
+
+
+      完成三格填空：
+
+
+      ① 在图上把 $\angle AOB$ 标为 \underline{\qquad} 份，把 $\angle BOC$ 标为 \underline{\qquad} 份；
+
+
+      ② 目标比例：\underline{\qquad\qquad\qquad}；\n\n③ 答案：\underline{\qquad\qquad}。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 3
+    answer: ① 3，4；② $\dfrac{\angle BOC}{\angle AOC}=\dfrac{4}{7}$；③ $80^\circ$。
+    explanation: 先把两部分标成 3 份和 4 份，再写目标量对已知对应量的比例。
+    solution_steps:
+    - title: 标份数
+      content: 第一部分标 3 份，第二部分标 4 份，总份数为 7。
+    - title: 写目标比例
+      content: $\dfrac{\angle BOC}{\angle AOC}=\dfrac{4}{7}$。
+    - title: 填答案
+      content: 所求为 $80^\circ$。
+    teaching:
+      teaching_goal: 先移项，再把角的系数交叉翻译
+      source_relations:
+      - segment_angle_share_with_proportion_tool
+      expected_blocker: 没有先看目标量，或把方程系数直接抄成份数。
+      entry_point: mark_shares_then_ratio
+      scaffold_level: medium
+      variation_depth: packaged_condition
+      complexity_note: 每题只求一个量，只用一层份数或一次反向转换。
+      upgrade_rule: 能在图上正确标份数，并写出目标量对已知对应量的比例。
+      fallback_move: 先圈出整体，再确认两个部分是否组成这个整体。
+    diagram_slot:
+      slot_id: question_bank.segment_angle.q018.prompt
+      diagram_ref: question_bank.segment.angle.q018.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: Q018 学生图：先确认整体，再在图上自行标份数。
+      engine: geometric_scene
+      diagram_kind: synthetic_geometry
+      engine_options:
+        scene_payload:
+          scene_code: GeometricScene[{O, A, B, C}, {O == {0, 0}, A == {6 Cos[8 Degree], 6 Sin[8 Degree]}, B == {5.1 Cos[68 Degree], 5.1 Sin[68 Degree]}, C == {6.4 Cos[148 Degree], 6.4 Sin[148 Degree]}}]
+          points: &id008
+          - O
+          - A
+          - B
+          - C
+          point_roles:
+            anchors: *id008
+            constructed: []
+            auxiliary: []
+          diagram_spec:
+            type: synthetic_geometry
+            segments:
+            - from: O
+              to: A
+            - from: O
+              to: B
+            - from: O
+              to: C
+            labels:
+              O:
+                text: O
+                placement: below left
+              A:
+                text: A
+                placement: below right
+              B:
+                text: B
+                placement: above right
+              C:
+                text: C
+                placement: above left
+            constraints:
+            - ray OB lies inside angle AOC
+            teaching_focus:
+            - identify the whole angle AOC and its two adjacent angles
+          rationale: 题干已知对象构成独立 prompt 场景；不显示份数、推导或答案。
+          model_used: deterministic-segment-angle-question-bank
+          model_attempts: []
+        seed: 31018
+      teaching_intent: practice_prompt
+      problem_context:
+        stem_latex: 射线 $OB$ 在 $\angle AOC$ 内部。若 $4\angle AOB-3\angle BOC=0$，且 $\angle AOC=140^\circ$，求 $\angle BOC$。
+        source_problem_text: 本题独立生成干净题图。只画题干给出的整体与两个部分，不标份数、比例式、推导或答案。
+      semantic_constraints:
+        given_objects:
+        - O
+        - A
+        - B
+        - C
+        given_constraints:
+        - the two parts form the stated whole
+        - render this item as its own diagram job
+        clean_forbidden:
+        - do not show shares
+        - do not show the final answer
+        - do not add solution annotations
+  - type: problem
+    id: Q019
+    points: 10
+    label: 交换系数位置读份数
+    stem_latex: '射线 $OB$ 在 $\angle AOC$ 内部。若 $7\angle AOB=5\angle BOC$，且 $\angle AOC=144^\circ$，求 $\angle AOB$。
+
+
+      完成三格填空：
+
+
+      ① 在图上把 $\angle AOB$ 标为 \underline{\qquad} 份，把 $\angle BOC$ 标为 \underline{\qquad} 份；
+
+
+      ② 目标比例：\underline{\qquad\qquad\qquad}；\n\n③ 答案：\underline{\qquad\qquad}。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 3
+    answer: ① 5，7；② $\dfrac{\angle AOB}{\angle AOC}=\dfrac{5}{12}$；③ $60^\circ$。
+    explanation: 先把两部分标成 5 份和 7 份，再写目标量对已知对应量的比例。
+    solution_steps:
+    - title: 标份数
+      content: 第一部分标 5 份，第二部分标 7 份，总份数为 12。
+    - title: 写目标比例
+      content: $\dfrac{\angle AOB}{\angle AOC}=\dfrac{5}{12}$。
+    - title: 填答案
+      content: 所求为 $60^\circ$。
+    teaching:
+      teaching_goal: 防止把等式系数原顺序抄成角的份数
+      source_relations:
+      - segment_angle_share_with_proportion_tool
+      expected_blocker: 没有先看目标量，或把方程系数直接抄成份数。
+      entry_point: mark_shares_then_ratio
+      scaffold_level: medium
+      variation_depth: packaged_condition
+      complexity_note: 每题只求一个量，只用一层份数或一次反向转换。
+      upgrade_rule: 能在图上正确标份数，并写出目标量对已知对应量的比例。
+      fallback_move: 先圈出整体，再确认两个部分是否组成这个整体。
+    diagram_slot:
+      slot_id: question_bank.segment_angle.q019.prompt
+      diagram_ref: question_bank.segment.angle.q019.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: Q019 学生图：先确认整体，再在图上自行标份数。
+      engine: geometric_scene
+      diagram_kind: synthetic_geometry
+      engine_options:
+        scene_payload:
+          scene_code: GeometricScene[{O, A, B, C}, {O == {0, 0}, A == {6.25 Cos[10 Degree], 6.25 Sin[10 Degree]}, B == {5.2 Cos[70 Degree], 5.2 Sin[70 Degree]}, C == {6.6 Cos[154 Degree], 6.6 Sin[154 Degree]}}]
+          points: &id009
+          - O
+          - A
+          - B
+          - C
+          point_roles:
+            anchors: *id009
+            constructed: []
+            auxiliary: []
+          diagram_spec:
+            type: synthetic_geometry
+            segments:
+            - from: O
+              to: A
+            - from: O
+              to: B
+            - from: O
+              to: C
+            labels:
+              O:
+                text: O
+                placement: below left
+              A:
+                text: A
+                placement: below right
+              B:
+                text: B
+                placement: above right
+              C:
+                text: C
+                placement: above left
+            constraints:
+            - ray OB lies inside angle AOC
+            teaching_focus:
+            - identify the whole angle AOC and its two adjacent angles
+          rationale: 题干已知对象构成独立 prompt 场景；不显示份数、推导或答案。
+          model_used: deterministic-segment-angle-question-bank
+          model_attempts: []
+        seed: 31019
+      teaching_intent: practice_prompt
+      problem_context:
+        stem_latex: 射线 $OB$ 在 $\angle AOC$ 内部。若 $7\angle AOB=5\angle BOC$，且 $\angle AOC=144^\circ$，求 $\angle AOB$。
+        source_problem_text: 本题独立生成干净题图。只画题干给出的整体与两个部分，不标份数、比例式、推导或答案。
+      semantic_constraints:
+        given_objects:
+        - O
+        - A
+        - B
+        - C
+        given_constraints:
+        - the two parts form the stated whole
+        - render this item as its own diagram job
+        clean_forbidden:
+        - do not show shares
+        - do not show the final answer
+        - do not add solution annotations
+  - type: problem
+    id: Q020
+    points: 10
+    label: 第二部分对整体补份数
+    stem_latex: '射线 $OB$ 在 $\angle AOC$ 内部。若 $\angle BOC:\angle AOC=5:9$，且 $\angle AOC=162^\circ$，求 $\angle AOB$。
+
+
+      完成三格填空：
+
+
+      ① 在图上把 $\angle AOB$ 标为 \underline{\qquad} 份，把 $\angle BOC$ 标为 \underline{\qquad} 份；
+
+
+      ② 目标比例：\underline{\qquad\qquad\qquad}；\n\n③ 答案：\underline{\qquad\qquad}。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 3
+    answer: ① 4，5；② $\dfrac{\angle AOB}{\angle AOC}=\dfrac{4}{9}$；③ $72^\circ$。
+    explanation: 先把两部分标成 4 份和 5 份，再写目标量对已知对应量的比例。
+    solution_steps:
+    - title: 标份数
+      content: 第一部分标 4 份，第二部分标 5 份，总份数为 9。
+    - title: 写目标比例
+      content: $\dfrac{\angle AOB}{\angle AOC}=\dfrac{4}{9}$。
+    - title: 填答案
+      content: 所求为 $72^\circ$。
+    teaching:
+      teaching_goal: 从第二部分对整体的比例补出第一部分
+      source_relations:
+      - segment_angle_share_with_proportion_tool
+      expected_blocker: 没有先看目标量，或把方程系数直接抄成份数。
+      entry_point: mark_shares_then_ratio
+      scaffold_level: medium
+      variation_depth: changed_question
+      complexity_note: 每题只求一个量，只用一层份数或一次反向转换。
+      upgrade_rule: 能在图上正确标份数，并写出目标量对已知对应量的比例。
+      fallback_move: 先圈出整体，再确认两个部分是否组成这个整体。
+    diagram_slot:
+      slot_id: question_bank.segment_angle.q020.prompt
+      diagram_ref: question_bank.segment.angle.q020.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: Q020 学生图：先确认整体，再在图上自行标份数。
+      engine: geometric_scene
+      diagram_kind: synthetic_geometry
+      engine_options:
+        scene_payload:
+          scene_code: GeometricScene[{O, A, B, C}, {O == {0, 0}, A == {6.5 Cos[12 Degree], 6.5 Sin[12 Degree]}, B == {4.8 Cos[84 Degree], 4.8 Sin[84 Degree]}, C == {6 Cos[174 Degree], 6 Sin[174 Degree]}}]
+          points: &id010
+          - O
+          - A
+          - B
+          - C
+          point_roles:
+            anchors: *id010
+            constructed: []
+            auxiliary: []
+          diagram_spec:
+            type: synthetic_geometry
+            segments:
+            - from: O
+              to: A
+            - from: O
+              to: B
+            - from: O
+              to: C
+            labels:
+              O:
+                text: O
+                placement: below left
+              A:
+                text: A
+                placement: below right
+              B:
+                text: B
+                placement: above right
+              C:
+                text: C
+                placement: above left
+            constraints:
+            - ray OB lies inside angle AOC
+            teaching_focus:
+            - identify the whole angle AOC and its two adjacent angles
+          rationale: 题干已知对象构成独立 prompt 场景；不显示份数、推导或答案。
+          model_used: deterministic-segment-angle-question-bank
+          model_attempts: []
+        seed: 31020
+      teaching_intent: practice_prompt
+      problem_context:
+        stem_latex: 射线 $OB$ 在 $\angle AOC$ 内部。若 $\angle BOC:\angle AOC=5:9$，且 $\angle AOC=162^\circ$，求 $\angle AOB$。
+        source_problem_text: 本题独立生成干净题图。只画题干给出的整体与两个部分，不标份数、比例式、推导或答案。
+      semantic_constraints:
+        given_objects:
+        - O
+        - A
+        - B
+        - C
+        given_constraints:
+        - the two parts form the stated whole
+        - render this item as its own diagram job
+        clean_forbidden:
+        - do not show shares
+        - do not show the final answer
+        - do not add solution annotations
+  - type: problem
+    id: Q021
+    points: 10
+    label: 分数形式表示部分角
+    stem_latex: '射线 $OB$ 在 $\angle AOC$ 内部，且 $\angle AOB=\dfrac{3}{8}\angle AOC$。若 $\angle AOC=160^\circ$，求 $\angle BOC$。
+
+
+      完成三格填空：
+
+
+      ① 在图上把 $\angle AOB$ 标为 \underline{\qquad} 份，把 $\angle BOC$ 标为 \underline{\qquad} 份；
+
+
+      ② 目标比例：\underline{\qquad\qquad\qquad}；\n\n③ 答案：\underline{\qquad\qquad}。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 3
+    answer: ① 3，5；② $\dfrac{\angle BOC}{\angle AOC}=\dfrac{5}{8}$；③ $100^\circ$。
+    explanation: 先把两部分标成 3 份和 5 份，再写目标量对已知对应量的比例。
+    solution_steps:
+    - title: 标份数
+      content: 第一部分标 3 份，第二部分标 5 份，总份数为 8。
+    - title: 写目标比例
+      content: $\dfrac{\angle BOC}{\angle AOC}=\dfrac{5}{8}$。
+    - title: 填答案
+      content: 所求为 $100^\circ$。
+    teaching:
+      teaching_goal: 把分数关系还原成部分与总份数
+      source_relations:
+      - segment_angle_share_with_proportion_tool
+      expected_blocker: 没有先看目标量，或把方程系数直接抄成份数。
+      entry_point: mark_shares_then_ratio
+      scaffold_level: medium
+      variation_depth: changed_representation
+      complexity_note: 每题只求一个量，只用一层份数或一次反向转换。
+      upgrade_rule: 能在图上正确标份数，并写出目标量对已知对应量的比例。
+      fallback_move: 先圈出整体，再确认两个部分是否组成这个整体。
+    diagram_slot:
+      slot_id: question_bank.segment_angle.q021.prompt
+      diagram_ref: question_bank.segment.angle.q021.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: Q021 学生图：先确认整体，再在图上自行标份数。
+      engine: geometric_scene
+      diagram_kind: synthetic_geometry
+      engine_options:
+        scene_payload:
+          scene_code: GeometricScene[{O, A, B, C}, {O == {0, 0}, A == {6 Cos[0 Degree], 6 Sin[0 Degree]}, B == {4.9 Cos[60 Degree], 4.9 Sin[60 Degree]}, C == {6.2 Cos[160 Degree], 6.2 Sin[160 Degree]}}]
+          points: &id011
+          - O
+          - A
+          - B
+          - C
+          point_roles:
+            anchors: *id011
+            constructed: []
+            auxiliary: []
+          diagram_spec:
+            type: synthetic_geometry
+            segments:
+            - from: O
+              to: A
+            - from: O
+              to: B
+            - from: O
+              to: C
+            labels:
+              O:
+                text: O
+                placement: below left
+              A:
+                text: A
+                placement: below right
+              B:
+                text: B
+                placement: above right
+              C:
+                text: C
+                placement: above left
+            constraints:
+            - ray OB lies inside angle AOC
+            teaching_focus:
+            - identify the whole angle AOC and its two adjacent angles
+          rationale: 题干已知对象构成独立 prompt 场景；不显示份数、推导或答案。
+          model_used: deterministic-segment-angle-question-bank
+          model_attempts: []
+        seed: 31021
+      teaching_intent: practice_prompt
+      problem_context:
+        stem_latex: 射线 $OB$ 在 $\angle AOC$ 内部，且 $\angle AOB=\dfrac{3}{8}\angle AOC$。若 $\angle AOC=160^\circ$，求 $\angle BOC$。
+        source_problem_text: 本题独立生成干净题图。只画题干给出的整体与两个部分，不标份数、比例式、推导或答案。
+      semantic_constraints:
+        given_objects:
+        - O
+        - A
+        - B
+        - C
+        given_constraints:
+        - the two parts form the stated whole
+        - render this item as its own diagram job
+        clean_forbidden:
+        - do not show shares
+        - do not show the final answer
+        - do not add solution annotations
+  - type: problem
+    id: Q022
+    points: 10
+    label: 角方程中的目标份数
+    stem_latex: '射线 $OB$ 在 $\angle AOC$ 内部。若 $6\angle AOB-5\angle BOC=0$，且 $\angle AOC=132^\circ$，求 $\angle AOB$。
+
+
+      完成三格填空：
+
+
+      ① 在图上把 $\angle AOB$ 标为 \underline{\qquad} 份，把 $\angle BOC$ 标为 \underline{\qquad} 份；
+
+
+      ② 目标比例：\underline{\qquad\qquad\qquad}；\n\n③ 答案：\underline{\qquad\qquad}。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 3
+    answer: ① 5，6；② $\dfrac{\angle AOB}{\angle AOC}=\dfrac{5}{11}$；③ $60^\circ$。
+    explanation: 先把两部分标成 5 份和 6 份，再写目标量对已知对应量的比例。
+    solution_steps:
+    - title: 标份数
+      content: 第一部分标 5 份，第二部分标 6 份，总份数为 11。
+    - title: 写目标比例
+      content: $\dfrac{\angle AOB}{\angle AOC}=\dfrac{5}{11}$。
+    - title: 填答案
+      content: 所求为 $60^\circ$。
+    teaching:
+      teaching_goal: 从方程中提取目标角与总角的份数
+      source_relations:
+      - segment_angle_share_with_proportion_tool
+      expected_blocker: 没有先看目标量，或把方程系数直接抄成份数。
+      entry_point: mark_shares_then_ratio
+      scaffold_level: medium
+      variation_depth: partially_hidden
+      complexity_note: 每题只求一个量，只用一层份数或一次反向转换。
+      upgrade_rule: 能在图上正确标份数，并写出目标量对已知对应量的比例。
+      fallback_move: 先圈出整体，再确认两个部分是否组成这个整体。
+    diagram_slot:
+      slot_id: question_bank.segment_angle.q022.prompt
+      diagram_ref: question_bank.segment.angle.q022.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: Q022 学生图：先确认整体，再在图上自行标份数。
+      engine: geometric_scene
+      diagram_kind: synthetic_geometry
+      engine_options:
+        scene_payload:
+          scene_code: GeometricScene[{O, A, B, C}, {O == {0, 0}, A == {6.25 Cos[2 Degree], 6.25 Sin[2 Degree]}, B == {5 Cos[62 Degree], 5 Sin[62 Degree]}, C == {6.4 Cos[134 Degree], 6.4 Sin[134 Degree]}}]
+          points: &id012
+          - O
+          - A
+          - B
+          - C
+          point_roles:
+            anchors: *id012
+            constructed: []
+            auxiliary: []
+          diagram_spec:
+            type: synthetic_geometry
+            segments:
+            - from: O
+              to: A
+            - from: O
+              to: B
+            - from: O
+              to: C
+            labels:
+              O:
+                text: O
+                placement: below left
+              A:
+                text: A
+                placement: below right
+              B:
+                text: B
+                placement: above right
+              C:
+                text: C
+                placement: above left
+            constraints:
+            - ray OB lies inside angle AOC
+            teaching_focus:
+            - identify the whole angle AOC and its two adjacent angles
+          rationale: 题干已知对象构成独立 prompt 场景；不显示份数、推导或答案。
+          model_used: deterministic-segment-angle-question-bank
+          model_attempts: []
+        seed: 31022
+      teaching_intent: practice_prompt
+      problem_context:
+        stem_latex: 射线 $OB$ 在 $\angle AOC$ 内部。若 $6\angle AOB-5\angle BOC=0$，且 $\angle AOC=132^\circ$，求 $\angle AOB$。
+        source_problem_text: 本题独立生成干净题图。只画题干给出的整体与两个部分，不标份数、比例式、推导或答案。
+      semantic_constraints:
+        given_objects:
+        - O
+        - A
+        - B
+        - C
+        given_constraints:
+        - the two parts form the stated whole
+        - render this item as its own diagram job
+        clean_forbidden:
+        - do not show shares
+        - do not show the final answer
+        - do not add solution annotations
+  - type: problem
+    id: Q023
+    points: 10
+    label: 复杂系数仍先交叉
+    stem_latex: '点 $A,B,C$ 在同一直线上，$B$ 在 $A,C$ 之间。若 $7AB-5BC=0$，且 $AC=72$，求 $BC$。
+
+
+      完成三格填空：
+
+
+      ① 在图上把 $AB$ 标为 \underline{\qquad} 份，把 $BC$ 标为 \underline{\qquad} 份；
+
+
+      ② 目标比例：\underline{\qquad\qquad\qquad}；\n\n③ 答案：\underline{\qquad\qquad}。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 3
+    answer: ① 5，7；② $\dfrac{BC}{AC}=\dfrac{7}{12}$；③ $42$。
+    explanation: 先把两部分标成 5 份和 7 份，再写目标量对已知对应量的比例。
+    solution_steps:
+    - title: 标份数
+      content: 第一部分标 5 份，第二部分标 7 份，总份数为 12。
+    - title: 写目标比例
+      content: $\dfrac{BC}{AC}=\dfrac{7}{12}$。
+    - title: 填答案
+      content: 所求为 $42$。
+    teaching:
+      teaching_goal: 在较大系数中保持交叉对应
+      source_relations:
+      - segment_angle_share_with_proportion_tool
+      expected_blocker: 没有先看目标量，或把方程系数直接抄成份数。
+      entry_point: mark_shares_then_ratio
+      scaffold_level: medium
+      variation_depth: partially_hidden
+      complexity_note: 每题只求一个量，只用一层份数或一次反向转换。
+      upgrade_rule: 能在图上正确标份数，并写出目标量对已知对应量的比例。
+      fallback_move: 先圈出整体，再确认两个部分是否组成这个整体。
+    diagram_slot:
+      slot_id: question_bank.segment_angle.q023.prompt
+      diagram_ref: question_bank.segment.angle.q023.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: Q023 学生图：先确认整体，再在图上自行标份数。
+      engine: geometric_scene
+      diagram_kind: synthetic_geometry
+      engine_options:
+        scene_payload:
+          scene_code: GeometricScene[{A, B, C}, {A == {-5.5, 0.2}, C == {5.6, 0.166667}, Element[B, Line[{A, C}]], 7 EuclideanDistance[A, B] == 5 EuclideanDistance[B, C], EuclideanDistance[A, B] > 0, EuclideanDistance[B, C] > 0}]
+          points:
+          - A
+          - B
+          - C
+          point_roles:
+            anchors:
+            - A
+            - C
+            constructed:
+            - B
+            auxiliary: []
+          diagram_spec:
+            type: synthetic_geometry
+            segments:
+            - from: A
+              to: C
+            labels:
+              A:
+                text: A
+                placement: below left
+              B:
+                text: B
+                placement: below
+              C:
+                text: C
+                placement: below right
+            constraints:
+            - B lies strictly between A and C
+            teaching_focus:
+            - identify the whole AC and its two parts AB, BC
+          rationale: 题干已知对象构成独立 prompt 场景；不显示份数、推导或答案。
+          model_used: deterministic-segment-angle-question-bank
+          model_attempts: []
+        seed: 31023
+      teaching_intent: practice_prompt
+      problem_context:
+        stem_latex: 点 $A,B,C$ 在同一直线上，$B$ 在 $A,C$ 之间。若 $7AB-5BC=0$，且 $AC=72$，求 $BC$。
+        source_problem_text: 本题独立生成干净题图。只画题干给出的整体与两个部分，不标份数、比例式、推导或答案。
+      semantic_constraints:
+        given_objects:
+        - A
+        - B
+        - C
+        given_constraints:
+        - the two parts form the stated whole
+        - render this item as its own diagram job
+        clean_forbidden:
+        - do not show shares
+        - do not show the final answer
+        - do not add solution annotations
+  - type: problem
+    id: Q024
+    points: 10
+    label: 整体等式隐藏部分比例
+    stem_latex: '点 $A,B,C$ 在同一直线上，$B$ 在 $A,C$ 之间。若 $3AC=8AB$，且 $AC=64$，求 $BC$。
+
+
+      完成三格填空：
+
+
+      ① 在图上把 $AB$ 标为 \underline{\qquad} 份，把 $BC$ 标为 \underline{\qquad} 份；
+
+
+      ② 目标比例：\underline{\qquad\qquad\qquad}；\n\n③ 答案：\underline{\qquad\qquad}。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 3
+    answer: ① 3，5；② $\dfrac{BC}{AC}=\dfrac{5}{8}$；③ $40$。
+    explanation: 先把两部分标成 3 份和 5 份，再写目标量对已知对应量的比例。
+    solution_steps:
+    - title: 标份数
+      content: 第一部分标 3 份，第二部分标 5 份，总份数为 8。
+    - title: 写目标比例
+      content: $\dfrac{BC}{AC}=\dfrac{5}{8}$。
+    - title: 填答案
+      content: 所求为 $40$。
+    teaching:
+      teaching_goal: 从整体与部分的等式补出另一部分份数
+      source_relations:
+      - segment_angle_share_with_proportion_tool
+      expected_blocker: 没有先看目标量，或把方程系数直接抄成份数。
+      entry_point: mark_shares_then_ratio
+      scaffold_level: medium
+      variation_depth: packaged_condition
+      complexity_note: 每题只求一个量，只用一层份数或一次反向转换。
+      upgrade_rule: 能在图上正确标份数，并写出目标量对已知对应量的比例。
+      fallback_move: 先圈出整体，再确认两个部分是否组成这个整体。
+    diagram_slot:
+      slot_id: question_bank.segment_angle.q024.prompt
+      diagram_ref: question_bank.segment.angle.q024.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: Q024 学生图：先确认整体，再在图上自行标份数。
+      engine: geometric_scene
+      diagram_kind: synthetic_geometry
+      engine_options:
+        scene_payload:
+          scene_code: GeometricScene[{A, B, C}, {A == {-5, 0.4}, C == {5, 0.5}, Element[B, Line[{A, C}]], 5 EuclideanDistance[A, B] == 3 EuclideanDistance[B, C], EuclideanDistance[A, B] > 0, EuclideanDistance[B, C] > 0}]
+          points:
+          - A
+          - B
+          - C
+          point_roles:
+            anchors:
+            - A
+            - C
+            constructed:
+            - B
+            auxiliary: []
+          diagram_spec:
+            type: synthetic_geometry
+            segments:
+            - from: A
+              to: C
+            labels:
+              A:
+                text: A
+                placement: below left
+              B:
+                text: B
+                placement: below
+              C:
+                text: C
+                placement: below right
+            constraints:
+            - B lies strictly between A and C
+            teaching_focus:
+            - identify the whole AC and its two parts AB, BC
+          rationale: 题干已知对象构成独立 prompt 场景；不显示份数、推导或答案。
+          model_used: deterministic-segment-angle-question-bank
+          model_attempts: []
+        seed: 31024
+      teaching_intent: practice_prompt
+      problem_context:
+        stem_latex: 点 $A,B,C$ 在同一直线上，$B$ 在 $A,C$ 之间。若 $3AC=8AB$，且 $AC=64$，求 $BC$。
+        source_problem_text: 本题独立生成干净题图。只画题干给出的整体与两个部分，不标份数、比例式、推导或答案。
+      semantic_constraints:
+        given_objects:
+        - A
+        - B
+        - C
+        given_constraints:
+        - the two parts form the stated whole
+        - render this item as its own diagram job
+        clean_forbidden:
+        - do not show shares
+        - do not show the final answer
+        - do not add solution annotations
+  - type: problem
+    id: Q025
+    points: 10
+    label: 辨析份数标反
+    stem_latex: '点 $A,B,C$ 在同一直线上，$B$ 在 $A,C$ 之间。已知 $AB:BC=4:5$，$AC=45$。小明把 $AB$ 标成 $5$ 份、$BC$ 标成 $4$ 份。判断他的标法并求 $AB$。
+
+
+      完成三格填空：
+
+
+      ① 在图上把 $AB$ 标为 \underline{\qquad} 份，把 $BC$ 标为 \underline{\qquad} 份；
+
+
+      ② 目标比例：\underline{\qquad\qquad\qquad}；\n\n③ 答案：\underline{\qquad\qquad}。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 3
+    answer: ① 4，5；小明的标法错误；② $\dfrac{AB}{AC}=\dfrac{4}{9}$；③ $20$。
+    explanation: 先把两部分标成 4 份和 5 份，再写目标量对已知对应量的比例。
+    solution_steps:
+    - title: 标份数
+      content: 第一部分标 4 份，第二部分标 5 份，总份数为 9。
+    - title: 写目标比例
+      content: $\dfrac{AB}{AC}=\dfrac{4}{9}$。
+    - title: 填答案
+      content: 所求为 $20$。
+    teaching:
+      teaching_goal: 辨析比例份数是否被交换
+      source_relations:
+      - segment_angle_share_with_proportion_tool
+      expected_blocker: 没有先看目标量，或把方程系数直接抄成份数。
+      entry_point: mark_shares_then_ratio
+      scaffold_level: medium
+      variation_depth: non_example_discrimination
+      complexity_note: 每题只求一个量，只用一层份数或一次反向转换。
+      upgrade_rule: 能在图上正确标份数，并写出目标量对已知对应量的比例。
+      fallback_move: 先圈出整体，再确认两个部分是否组成这个整体。
+    diagram_slot:
+      slot_id: question_bank.segment_angle.q025.prompt
+      diagram_ref: question_bank.segment.angle.q025.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: Q025 学生图：先确认整体，再在图上自行标份数。
+      engine: geometric_scene
+      diagram_kind: synthetic_geometry
+      engine_options:
+        scene_payload:
+          scene_code: GeometricScene[{A, B, C}, {A == {-5.25, -0.4}, C == {5.2, -0.333333}, Element[B, Line[{A, C}]], 5 EuclideanDistance[A, B] == 4 EuclideanDistance[B, C], EuclideanDistance[A, B] > 0, EuclideanDistance[B, C] > 0}]
+          points:
+          - A
+          - B
+          - C
+          point_roles:
+            anchors:
+            - A
+            - C
+            constructed:
+            - B
+            auxiliary: []
+          diagram_spec:
+            type: synthetic_geometry
+            segments:
+            - from: A
+              to: C
+            labels:
+              A:
+                text: A
+                placement: below left
+              B:
+                text: B
+                placement: below
+              C:
+                text: C
+                placement: below right
+            constraints:
+            - B lies strictly between A and C
+            teaching_focus:
+            - identify the whole AC and its two parts AB, BC
+          rationale: 题干已知对象构成独立 prompt 场景；不显示份数、推导或答案。
+          model_used: deterministic-segment-angle-question-bank
+          model_attempts: []
+        seed: 31025
+      teaching_intent: practice_prompt
+      problem_context:
+        stem_latex: 点 $A,B,C$ 在同一直线上，$B$ 在 $A,C$ 之间。已知 $AB:BC=4:5$，$AC=45$。小明把 $AB$ 标成 $5$ 份、$BC$ 标成 $4$ 份。判断他的标法并求 $AB$。
+        source_problem_text: 本题独立生成干净题图。只画题干给出的整体与两个部分，不标份数、比例式、推导或答案。
+      semantic_constraints:
+        given_objects:
+        - A
+        - B
+        - C
+        given_constraints:
+        - the two parts form the stated whole
+        - render this item as its own diagram job
+        clean_forbidden:
+        - do not show shares
+        - do not show the final answer
+        - do not add solution annotations
+  - type: problem
+    id: Q026
+    points: 10
+    label: 由两段长度反写份数比
+    stem_latex: '点 $A,B,C$ 在同一直线上，$B$ 在 $A,C$ 之间。若 $AC=63$，$AB=27$，求 $AB:BC$。
+
+
+      完成三格填空：
+
+
+      ① 在图上把 $AB$ 标为 \underline{\qquad} 份，把 $BC$ 标为 \underline{\qquad} 份；
+
+
+      ② 目标比例：\underline{\qquad\qquad\qquad}；\n\n③ 答案：\underline{\qquad\qquad}。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 3
+    answer: ① 3，4；② $AB:BC=3:4$；③ $3:4$。
+    explanation: 先把两部分标成 3 份和 4 份，再写目标量对已知对应量的比例。
+    solution_steps:
+    - title: 标份数
+      content: 第一部分标 3 份，第二部分标 4 份，总份数为 7。
+    - title: 写目标比例
+      content: $AB:BC=3:4$。
+    - title: 填答案
+      content: 所求为 $3:4$。
+    teaching:
+      teaching_goal: 由整体和一个部分反写两部分份数比
+      source_relations:
+      - segment_angle_share_with_proportion_tool
+      expected_blocker: 没有先看目标量，或把方程系数直接抄成份数。
+      entry_point: mark_shares_then_ratio
+      scaffold_level: medium
+      variation_depth: reverse_construct
+      complexity_note: 每题只求一个量，只用一层份数或一次反向转换。
+      upgrade_rule: 能在图上正确标份数，并写出目标量对已知对应量的比例。
+      fallback_move: 先圈出整体，再确认两个部分是否组成这个整体。
+    diagram_slot:
+      slot_id: question_bank.segment_angle.q026.prompt
+      diagram_ref: question_bank.segment.angle.q026.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: Q026 学生图：先确认整体，再在图上自行标份数。
+      engine: geometric_scene
+      diagram_kind: synthetic_geometry
+      engine_options:
+        scene_payload:
+          scene_code: GeometricScene[{A, B, C}, {A == {-5.5, -0.2}, C == {5.4, 0}, Element[B, Line[{A, C}]], 4 EuclideanDistance[A, B] == 3 EuclideanDistance[B, C], EuclideanDistance[A, B] > 0, EuclideanDistance[B, C] > 0}]
+          points:
+          - A
+          - B
+          - C
+          point_roles:
+            anchors:
+            - A
+            - C
+            constructed:
+            - B
+            auxiliary: []
+          diagram_spec:
+            type: synthetic_geometry
+            segments:
+            - from: A
+              to: C
+            labels:
+              A:
+                text: A
+                placement: below left
+              B:
+                text: B
+                placement: below
+              C:
+                text: C
+                placement: below right
+            constraints:
+            - B lies strictly between A and C
+            teaching_focus:
+            - identify the whole AC and its two parts AB, BC
+          rationale: 题干已知对象构成独立 prompt 场景；不显示份数、推导或答案。
+          model_used: deterministic-segment-angle-question-bank
+          model_attempts: []
+        seed: 31026
+      teaching_intent: practice_prompt
+      problem_context:
+        stem_latex: 点 $A,B,C$ 在同一直线上，$B$ 在 $A,C$ 之间。若 $AC=63$，$AB=27$，求 $AB:BC$。
+        source_problem_text: 本题独立生成干净题图。只画题干给出的整体与两个部分，不标份数、比例式、推导或答案。
+      semantic_constraints:
+        given_objects:
+        - A
+        - B
+        - C
+        given_constraints:
+        - the two parts form the stated whole
+        - render this item as its own diagram job
+        clean_forbidden:
+        - do not show shares
+        - do not show the final answer
+        - do not add solution annotations
+  - type: problem
+    id: Q027
+    points: 10
+    label: 分数条件补出另一段
+    stem_latex: '点 $A,B,C$ 在同一直线上，$B$ 在 $A,C$ 之间，且 $AB=\dfrac{3}{7}AC$。若 $AC=49$，求 $BC$。
+
+
+      完成三格填空：
+
+
+      ① 在图上把 $AB$ 标为 \underline{\qquad} 份，把 $BC$ 标为 \underline{\qquad} 份；
+
+
+      ② 目标比例：\underline{\qquad\qquad\qquad}；\n\n③ 答案：\underline{\qquad\qquad}。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 3
+    answer: ① 3，4；② $\dfrac{BC}{AC}=\dfrac{4}{7}$；③ $28$。
+    explanation: 先把两部分标成 3 份和 4 份，再写目标量对已知对应量的比例。
+    solution_steps:
+    - title: 标份数
+      content: 第一部分标 3 份，第二部分标 4 份，总份数为 7。
+    - title: 写目标比例
+      content: $\dfrac{BC}{AC}=\dfrac{4}{7}$。
+    - title: 填答案
+      content: 所求为 $28$。
+    teaching:
+      teaching_goal: 由部分占整体的分数补出剩余份数
+      source_relations:
+      - segment_angle_share_with_proportion_tool
+      expected_blocker: 没有先看目标量，或把方程系数直接抄成份数。
+      entry_point: mark_shares_then_ratio
+      scaffold_level: medium
+      variation_depth: changed_representation
+      complexity_note: 每题只求一个量，只用一层份数或一次反向转换。
+      upgrade_rule: 能在图上正确标份数，并写出目标量对已知对应量的比例。
+      fallback_move: 先圈出整体，再确认两个部分是否组成这个整体。
+    diagram_slot:
+      slot_id: question_bank.segment_angle.q027.prompt
+      diagram_ref: question_bank.segment.angle.q027.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: Q027 学生图：先确认整体，再在图上自行标份数。
+      engine: geometric_scene
+      diagram_kind: synthetic_geometry
+      engine_options:
+        scene_payload:
+          scene_code: GeometricScene[{A, B, C}, {A == {-5, 0}, C == {5.6, 0.333333}, Element[B, Line[{A, C}]], 4 EuclideanDistance[A, B] == 3 EuclideanDistance[B, C], EuclideanDistance[A, B] > 0, EuclideanDistance[B, C] > 0}]
+          points:
+          - A
+          - B
+          - C
+          point_roles:
+            anchors:
+            - A
+            - C
+            constructed:
+            - B
+            auxiliary: []
+          diagram_spec:
+            type: synthetic_geometry
+            segments:
+            - from: A
+              to: C
+            labels:
+              A:
+                text: A
+                placement: below left
+              B:
+                text: B
+                placement: below
+              C:
+                text: C
+                placement: below right
+            constraints:
+            - B lies strictly between A and C
+            teaching_focus:
+            - identify the whole AC and its two parts AB, BC
+          rationale: 题干已知对象构成独立 prompt 场景；不显示份数、推导或答案。
+          model_used: deterministic-segment-angle-question-bank
+          model_attempts: []
+        seed: 31027
+      teaching_intent: practice_prompt
+      problem_context:
+        stem_latex: 点 $A,B,C$ 在同一直线上，$B$ 在 $A,C$ 之间，且 $AB=\dfrac{3}{7}AC$。若 $AC=49$，求 $BC$。
+        source_problem_text: 本题独立生成干净题图。只画题干给出的整体与两个部分，不标份数、比例式、推导或答案。
+      semantic_constraints:
+        given_objects:
+        - A
+        - B
+        - C
+        given_constraints:
+        - the two parts form the stated whole
+        - render this item as its own diagram job
+        clean_forbidden:
+        - do not show shares
+        - do not show the final answer
+        - do not add solution annotations
+  - type: problem
+    id: Q028
+    points: 10
+    label: 总角等式隐藏角份数
+    stem_latex: '射线 $OB$ 在 $\angle AOC$ 内部。若 $3\angle AOC=8\angle AOB$，且 $\angle AOC=144^\circ$，求 $\angle BOC$。
+
+
+      完成三格填空：
+
+
+      ① 在图上把 $\angle AOB$ 标为 \underline{\qquad} 份，把 $\angle BOC$ 标为 \underline{\qquad} 份；
+
+
+      ② 目标比例：\underline{\qquad\qquad\qquad}；\n\n③ 答案：\underline{\qquad\qquad}。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 3
+    answer: ① 3，5；② $\dfrac{\angle BOC}{\angle AOC}=\dfrac{5}{8}$；③ $90^\circ$。
+    explanation: 先把两部分标成 3 份和 5 份，再写目标量对已知对应量的比例。
+    solution_steps:
+    - title: 标份数
+      content: 第一部分标 3 份，第二部分标 5 份，总份数为 8。
+    - title: 写目标比例
+      content: $\dfrac{\angle BOC}{\angle AOC}=\dfrac{5}{8}$。
+    - title: 填答案
+      content: 所求为 $90^\circ$。
+    teaching:
+      teaching_goal: 从总角与部分角的等式补出另一部分
+      source_relations:
+      - segment_angle_share_with_proportion_tool
+      expected_blocker: 没有先看目标量，或把方程系数直接抄成份数。
+      entry_point: mark_shares_then_ratio
+      scaffold_level: medium
+      variation_depth: packaged_condition
+      complexity_note: 每题只求一个量，只用一层份数或一次反向转换。
+      upgrade_rule: 能在图上正确标份数，并写出目标量对已知对应量的比例。
+      fallback_move: 先圈出整体，再确认两个部分是否组成这个整体。
+    diagram_slot:
+      slot_id: question_bank.segment_angle.q028.prompt
+      diagram_ref: question_bank.segment.angle.q028.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: Q028 学生图：先确认整体，再在图上自行标份数。
+      engine: geometric_scene
+      diagram_kind: synthetic_geometry
+      engine_options:
+        scene_payload:
+          scene_code: GeometricScene[{O, A, B, C}, {O == {0, 0}, A == {6.25 Cos[0 Degree], 6.25 Sin[0 Degree]}, B == {5.1 Cos[54 Degree], 5.1 Sin[54 Degree]}, C == {6 Cos[144 Degree], 6 Sin[144 Degree]}}]
+          points: &id013
+          - O
+          - A
+          - B
+          - C
+          point_roles:
+            anchors: *id013
+            constructed: []
+            auxiliary: []
+          diagram_spec:
+            type: synthetic_geometry
+            segments:
+            - from: O
+              to: A
+            - from: O
+              to: B
+            - from: O
+              to: C
+            labels:
+              O:
+                text: O
+                placement: below left
+              A:
+                text: A
+                placement: below right
+              B:
+                text: B
+                placement: above right
+              C:
+                text: C
+                placement: above left
+            constraints:
+            - ray OB lies inside angle AOC
+            teaching_focus:
+            - identify the whole angle AOC and its two adjacent angles
+          rationale: 题干已知对象构成独立 prompt 场景；不显示份数、推导或答案。
+          model_used: deterministic-segment-angle-question-bank
+          model_attempts: []
+        seed: 31028
+      teaching_intent: practice_prompt
+      problem_context:
+        stem_latex: 射线 $OB$ 在 $\angle AOC$ 内部。若 $3\angle AOC=8\angle AOB$，且 $\angle AOC=144^\circ$，求 $\angle BOC$。
+        source_problem_text: 本题独立生成干净题图。只画题干给出的整体与两个部分，不标份数、比例式、推导或答案。
+      semantic_constraints:
+        given_objects:
+        - O
+        - A
+        - B
+        - C
+        given_constraints:
+        - the two parts form the stated whole
+        - render this item as its own diagram job
+        clean_forbidden:
+        - do not show shares
+        - do not show the final answer
+        - do not add solution annotations
+  - type: problem
+    id: Q029
+    points: 10
+    label: 辨析角的份数标反
+    stem_latex: '射线 $OB$ 在 $\angle AOC$ 内部。已知 $4\angle AOB=3\angle BOC$，$\angle AOC=98^\circ$。小明把 $\angle AOB$ 标成 $4$ 份、$\angle BOC$ 标成 $3$ 份。判断他的标法并求 $\angle BOC$。
+
+
+      完成三格填空：
+
+
+      ① 在图上把 $\angle AOB$ 标为 \underline{\qquad} 份，把 $\angle BOC$ 标为 \underline{\qquad} 份；
+
+
+      ② 目标比例：\underline{\qquad\qquad\qquad}；\n\n③ 答案：\underline{\qquad\qquad}。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 3
+    answer: ① 3，4；小明的标法错误；② $\dfrac{\angle BOC}{\angle AOC}=\dfrac{4}{7}$；③ $56^\circ$。
+    explanation: 先把两部分标成 3 份和 4 份，再写目标量对已知对应量的比例。
+    solution_steps:
+    - title: 标份数
+      content: 第一部分标 3 份，第二部分标 4 份，总份数为 7。
+    - title: 写目标比例
+      content: $\dfrac{\angle BOC}{\angle AOC}=\dfrac{4}{7}$。
+    - title: 填答案
+      content: 所求为 $56^\circ$。
+    teaching:
+      teaching_goal: 辨析角方程的系数与份数是否交叉
+      source_relations:
+      - segment_angle_share_with_proportion_tool
+      expected_blocker: 没有先看目标量，或把方程系数直接抄成份数。
+      entry_point: mark_shares_then_ratio
+      scaffold_level: medium
+      variation_depth: non_example_discrimination
+      complexity_note: 每题只求一个量，只用一层份数或一次反向转换。
+      upgrade_rule: 能在图上正确标份数，并写出目标量对已知对应量的比例。
+      fallback_move: 先圈出整体，再确认两个部分是否组成这个整体。
+    diagram_slot:
+      slot_id: question_bank.segment_angle.q029.prompt
+      diagram_ref: question_bank.segment.angle.q029.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: Q029 学生图：先确认整体，再在图上自行标份数。
+      engine: geometric_scene
+      diagram_kind: synthetic_geometry
+      engine_options:
+        scene_payload:
+          scene_code: GeometricScene[{O, A, B, C}, {O == {0, 0}, A == {6.5 Cos[2 Degree], 6.5 Sin[2 Degree]}, B == {5.2 Cos[44 Degree], 5.2 Sin[44 Degree]}, C == {6.2 Cos[100 Degree], 6.2 Sin[100 Degree]}}]
+          points: &id014
+          - O
+          - A
+          - B
+          - C
+          point_roles:
+            anchors: *id014
+            constructed: []
+            auxiliary: []
+          diagram_spec:
+            type: synthetic_geometry
+            segments:
+            - from: O
+              to: A
+            - from: O
+              to: B
+            - from: O
+              to: C
+            labels:
+              O:
+                text: O
+                placement: below left
+              A:
+                text: A
+                placement: below right
+              B:
+                text: B
+                placement: above right
+              C:
+                text: C
+                placement: above left
+            constraints:
+            - ray OB lies inside angle AOC
+            teaching_focus:
+            - identify the whole angle AOC and its two adjacent angles
+          rationale: 题干已知对象构成独立 prompt 场景；不显示份数、推导或答案。
+          model_used: deterministic-segment-angle-question-bank
+          model_attempts: []
+        seed: 31029
+      teaching_intent: practice_prompt
+      problem_context:
+        stem_latex: 射线 $OB$ 在 $\angle AOC$ 内部。已知 $4\angle AOB=3\angle BOC$，$\angle AOC=98^\circ$。小明把 $\angle AOB$ 标成 $4$ 份、$\angle BOC$ 标成 $3$ 份。判断他的标法并求 $\angle BOC$。
+        source_problem_text: 本题独立生成干净题图。只画题干给出的整体与两个部分，不标份数、比例式、推导或答案。
+      semantic_constraints:
+        given_objects:
+        - O
+        - A
+        - B
+        - C
+        given_constraints:
+        - the two parts form the stated whole
+        - render this item as its own diagram job
+        clean_forbidden:
+        - do not show shares
+        - do not show the final answer
+        - do not add solution annotations
+  - type: problem
+    id: Q030
+    points: 10
+    label: 由已知角反写份数比
+    stem_latex: '射线 $OB$ 在 $\angle AOC$ 内部。若 $\angle AOC=150^\circ$，$\angle AOB=60^\circ$，求 $\angle AOB:\angle BOC$。
+
+
+      完成三格填空：
+
+
+      ① 在图上把 $\angle AOB$ 标为 \underline{\qquad} 份，把 $\angle BOC$ 标为 \underline{\qquad} 份；
+
+
+      ② 目标比例：\underline{\qquad\qquad\qquad}；\n\n③ 答案：\underline{\qquad\qquad}。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 3
+    answer: ① 2，3；② $\angle AOB:\angle BOC=2:3$；③ $2:3$。
+    explanation: 先把两部分标成 2 份和 3 份，再写目标量对已知对应量的比例。
+    solution_steps:
+    - title: 标份数
+      content: 第一部分标 2 份，第二部分标 3 份，总份数为 5。
+    - title: 写目标比例
+      content: $\angle AOB:\angle BOC=2:3$。
+    - title: 填答案
+      content: 所求为 $2:3$。
+    teaching:
+      teaching_goal: 由总角和一个部分角反写两部分份数比
+      source_relations:
+      - segment_angle_share_with_proportion_tool
+      expected_blocker: 没有先看目标量，或把方程系数直接抄成份数。
+      entry_point: mark_shares_then_ratio
+      scaffold_level: medium
+      variation_depth: reverse_construct
+      complexity_note: 每题只求一个量，只用一层份数或一次反向转换。
+      upgrade_rule: 能在图上正确标份数，并写出目标量对已知对应量的比例。
+      fallback_move: 先圈出整体，再确认两个部分是否组成这个整体。
+    diagram_slot:
+      slot_id: question_bank.segment_angle.q030.prompt
+      diagram_ref: question_bank.segment.angle.q030.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: Q030 学生图：先确认整体，再在图上自行标份数。
+      engine: geometric_scene
+      diagram_kind: synthetic_geometry
+      engine_options:
+        scene_payload:
+          scene_code: GeometricScene[{O, A, B, C}, {O == {0, 0}, A == {6 Cos[4 Degree], 6 Sin[4 Degree]}, B == {4.8 Cos[64 Degree], 4.8 Sin[64 Degree]}, C == {6.4 Cos[154 Degree], 6.4 Sin[154 Degree]}}]
+          points: &id015
+          - O
+          - A
+          - B
+          - C
+          point_roles:
+            anchors: *id015
+            constructed: []
+            auxiliary: []
+          diagram_spec:
+            type: synthetic_geometry
+            segments:
+            - from: O
+              to: A
+            - from: O
+              to: B
+            - from: O
+              to: C
+            labels:
+              O:
+                text: O
+                placement: below left
+              A:
+                text: A
+                placement: below right
+              B:
+                text: B
+                placement: above right
+              C:
+                text: C
+                placement: above left
+            constraints:
+            - ray OB lies inside angle AOC
+            teaching_focus:
+            - identify the whole angle AOC and its two adjacent angles
+          rationale: 题干已知对象构成独立 prompt 场景；不显示份数、推导或答案。
+          model_used: deterministic-segment-angle-question-bank
+          model_attempts: []
+        seed: 31030
+      teaching_intent: practice_prompt
+      problem_context:
+        stem_latex: 射线 $OB$ 在 $\angle AOC$ 内部。若 $\angle AOC=150^\circ$，$\angle AOB=60^\circ$，求 $\angle AOB:\angle BOC$。
+        source_problem_text: 本题独立生成干净题图。只画题干给出的整体与两个部分，不标份数、比例式、推导或答案。
+      semantic_constraints:
+        given_objects:
+        - O
+        - A
+        - B
+        - C
+        given_constraints:
+        - the two parts form the stated whole
+        - render this item as its own diagram job
+        clean_forbidden:
+        - do not show shares
+        - do not show the final answer
+        - do not add solution annotations

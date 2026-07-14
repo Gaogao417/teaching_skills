@@ -1,0 +1,72 @@
+meta:
+  title: 线段角份数化 · Q009 · 教师版
+  grade: 八年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    explanation: ../../比例题组/2026-07-01-B-线段角份数化/02-student-explanation.assignment.yaml
+    diagram_policy: 一题一张独立 prompt 图；学生在图上自行标份数
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: question
+  title: 专题题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q009
+    points: 10
+    label: 角的等式系数交叉对应
+    stem_latex: '射线 $OB$ 在 $\angle AOC$ 内部。若 $5\angle AOB=2\angle BOC$，且 $\angle AOC=126^\circ$，求 $\angle AOB$。
+
+
+      完成三格填空：
+
+
+      ① 在图上把 $\angle AOB$ 标为 \underline{\qquad} 份，把 $\angle BOC$ 标为 \underline{\qquad} 份；
+
+
+      ② 目标比例：\underline{\qquad\qquad\qquad}；\n\n③ 答案：\underline{\qquad\qquad}。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 3
+    answer: ① 2，5；② $\dfrac{\angle AOB}{\angle AOC}=\dfrac{2}{7}$；③ $36^\circ$。
+    explanation: 先把两部分标成 2 份和 5 份，再写目标量对已知对应量的比例。
+    solution_steps:
+    - title: 标份数
+      content: 第一部分标 2 份，第二部分标 5 份，总份数为 7。
+    - title: 写目标比例
+      content: $\dfrac{\angle AOB}{\angle AOC}=\dfrac{2}{7}$。
+    - title: 填答案
+      content: 所求为 $36^\circ$。
+    teaching:
+      teaching_goal: 把角的方程式系数交叉翻译成份数
+      source_relations:
+      - segment_angle_share_with_proportion_tool
+      expected_blocker: 没有先看目标量，或把方程系数直接抄成份数。
+      entry_point: mark_shares_then_ratio
+      scaffold_level: medium
+      variation_depth: packaged_condition
+      complexity_note: 每题只求一个量，只用一层份数或一次反向转换。
+      upgrade_rule: 能在图上正确标份数，并写出目标量对已知对应量的比例。
+      fallback_move: 先圈出整体，再确认两个部分是否组成这个整体。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../build/diagram/jobs/question_bank-segment_angle-q009-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.segment.angle.q009.prompt
+      diagram_job_id: question_bank-segment_angle-q009-prompt
+      width: 60mm
+      caption: Q009 学生图：先确认整体，再在图上自行标份数。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:ea5f4fe08d23ef3281ee604d9a1641c3d0f3af994de5a71861d9faa490e0be99
+      packages:
+      - tikz
+      libraries: []

@@ -1,0 +1,52 @@
+meta:
+  title: 线段角份数化 · Q019 · 学生版
+  grade: 八年级
+  subject: 数学
+  total_points: 10
+  version: student
+  show_answers: false
+  source_artifacts:
+    explanation: ../../比例题组/2026-07-01-B-线段角份数化/02-student-explanation.assignment.yaml
+    diagram_policy: 一题一张独立 prompt 图；学生在图上自行标份数
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: question
+  title: 专题题
+  type: practice
+  visibility: student
+  blocks:
+  - type: problem
+    id: Q019
+    points: 10
+    label: 交换系数位置读份数
+    stem_latex: '射线 $OB$ 在 $\angle AOC$ 内部。若 $7\angle AOB=5\angle BOC$，且 $\angle AOC=144^\circ$，求 $\angle AOB$。
+
+
+      完成三格填空：
+
+
+      ① 在图上把 $\angle AOB$ 标为 \underline{\qquad} 份，把 $\angle BOC$ 标为 \underline{\qquad} 份；
+
+
+      ② 目标比例：\underline{\qquad\qquad\qquad}；\n\n③ 答案：\underline{\qquad\qquad}。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 3
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../build/diagram/jobs/question_bank-segment_angle-q019-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.segment.angle.q019.prompt
+      diagram_job_id: question_bank-segment_angle-q019-prompt
+      width: 60mm
+      caption: Q019 学生图：先确认整体，再在图上自行标份数。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:760773705fb72933059d87a827aff2e284ffb798d5f174dc18fa206eb389bd80
+      packages:
+      - tikz
+      libraries: []

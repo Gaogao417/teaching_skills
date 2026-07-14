@@ -1,0 +1,87 @@
+meta:
+  title: 比例辅助线两组比例 · Q020 · 教师版
+  grade: 八年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    explanation: ../../专题/2026-07-12-比例辅助线两组比例-待审核/02-student-explanation.resolved.assignment.yaml
+    diagram_policy: 一题一图：每题独立生成 prompt 与 solution 图形资产
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: question
+  title: 专题题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q020
+    points: 10
+    label: 由两组比例求 AP:PD
+    stem_latex: '如图，在 $\triangle ABC$ 中，$D$ 在线段 $BC$ 上，$E$ 在线段 $AC$ 上，$AD$ 与 $BE$
+      交于点 $P$。已知
+
+      \[
+
+      BP:PE=3:2，\qquad BD:DC=1:2，
+
+      \]
+
+      求 $AP:PD$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: ../../build/diagram/jobs/question_bank-auxiliary-q020-solution/rendered/solution.fragment.tex
+        diagram_ref: question_bank.auxiliary.q020.solution
+        diagram_job_id: question_bank-auxiliary-q020-solution
+        width: 60mm
+        caption: Q020 教师图：过 C 作 CF 平行 AD，交 BE 于 F。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:69c81ed89c3f1dccdfaecbcb3628849bcd4d77bd57bfb60bdde83d2b967b942f
+        packages:
+        - tikz
+        libraries: []
+    answer: $AP:PD=3:2$。
+    explanation: 代入已知比例，得 $AP:PD=3:2$。
+    solution_steps:
+    - title: 围三角形并作辅助线
+      content: 已知比和所求比分别位于三条比例线上；按讲解中的统一动作作平行辅助线，得到两组相似三角形。
+    - title: 写出比例关系
+      content: 记 $x=AE/EC$，$y=AP/PD$，$z=BP/PE$，$w=BD/DC$。由两组相似消去共同的中间线段，得到 $ y=\dfrac{w+1}{z-w}
+        $。
+    - title: 代入并化简
+      content: 代入已知比例，得 $AP:PD=3:2$。
+    teaching:
+      teaching_goal: 根据两条已知比例线和所求比例线现场选择辅助线
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      expected_blocker: 只使用一组相似，或者没有把两组比例统一到同一条中间线段。
+      entry_point: solve_and_check
+      scaffold_level: medium
+      variation_depth: changed_numbers
+      complexity_note: 只使用小整数比例、一次整段转换或一次比例方程。
+      upgrade_rule: 能先写出点序或两组相似导出的比例关系，再计算。
+      fallback_move: 先标出两条已知比例线和所求比例线，再围出它们形成的三角形。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../build/diagram/jobs/question_bank-auxiliary-q020-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.auxiliary.q020.prompt
+      diagram_job_id: question_bank-auxiliary-q020-prompt
+      width: 60mm
+      caption: Q020 学生图：本题原始三角形与两条交线。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:ba7cd5b4c68e04dedfa88d85b337a5ff30f52cac514176064873b477fd5670c1
+      packages:
+      - tikz
+      libraries: []

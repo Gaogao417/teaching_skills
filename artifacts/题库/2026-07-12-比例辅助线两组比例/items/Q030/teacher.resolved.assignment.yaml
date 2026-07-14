@@ -1,0 +1,76 @@
+meta:
+  title: 比例辅助线两组比例 · Q030 · 教师版
+  grade: 八年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    explanation: ../../专题/2026-07-12-比例辅助线两组比例-待审核/02-student-explanation.resolved.assignment.yaml
+    diagram_policy: 一题一图：每题独立生成 prompt 与 solution 图形资产
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: question
+  title: 专题题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q030
+    points: 10
+    label: 联立比例筛选唯一解
+    stem_latex: 如图，在 $\triangle ABC$ 中，$D\in BC$，$E\in AC$，$P=AD\cap BE$。已知 $AP:PD=3:2$、$BP:PE=3:2$。若
+      $AE:EC=t:1$，求 $t$。
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: ../../build/diagram/jobs/question_bank-auxiliary-q030-solution/rendered/solution.fragment.tex
+        diagram_ref: question_bank.auxiliary.q030.solution
+        diagram_job_id: question_bank-auxiliary-q030-solution
+        width: 60mm
+        caption: Q030 教师图：过 E 作 EF 平行 CB，交 AD 于 F。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:7558ebb5b60e997171910ba246e665984843df648359585f6f07cd3900625e8f
+        packages:
+        - tikz
+        libraries: []
+    answer: $t=1/2$。
+    explanation: 联立得 $t=w=1/2$，且均为正，符合点在线段内部的条件。
+    solution_steps:
+    - title: 由两条关系消去底边比
+      content: 设 $w=BD/DC$，则 $3/2=t(w+1)/w$ 且 $3/2=w(t+1)/t$。
+    - title: 求解并验算
+      content: 联立得 $t=w=1/2$，且均为正，符合点在线段内部的条件。
+    teaching:
+      teaching_goal: 联立两组相似并筛选正比例
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      expected_blocker: 得到代数候选后没有检查比例必须为正。
+      entry_point: solve_and_check
+      scaffold_level: medium
+      variation_depth: partially_hidden
+      complexity_note: 只使用小整数比例、一次整段转换或一次比例方程。
+      upgrade_rule: 能先写出点序或两组相似导出的比例关系，再计算。
+      fallback_move: 先设 $w=BD/DC$，把两个已知比各写成一个方程。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../build/diagram/jobs/question_bank-auxiliary-q030-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.auxiliary.q030.prompt
+      diagram_job_id: question_bank-auxiliary-q030-prompt
+      width: 60mm
+      caption: Q030 学生图：本题原始三角形与两条交线。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:5a383dbeef42f2f205ef67c84d449ff8372d64c27994bcaffa87b3a5c74b923f
+      packages:
+      - tikz
+      libraries: []

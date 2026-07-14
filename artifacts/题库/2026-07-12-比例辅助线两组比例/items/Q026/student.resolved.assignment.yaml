@@ -1,0 +1,57 @@
+meta:
+  title: 比例辅助线两组比例 · Q026 · 学生版
+  grade: 八年级
+  subject: 数学
+  total_points: 10
+  version: student
+  show_answers: false
+  source_artifacts:
+    explanation: ../../专题/2026-07-12-比例辅助线两组比例-待审核/02-student-explanation.resolved.assignment.yaml
+    diagram_policy: 一题一图：每题独立生成 prompt 与 solution 图形资产
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: question
+  title: 专题题
+  type: practice
+  visibility: student
+  blocks:
+  - type: problem
+    id: Q026
+    points: 10
+    label: 由目标比例反求底边参数
+    stem_latex: 如图，在 $\triangle ABC$ 中，$D\in BC$，$E\in AC$，$P=AD\cap BE$。已知 $AE:EC=1:2$，$BD:DC=t:1$，且 $BP:PE=6:1$，求 $t$。
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: ../../build/diagram/jobs/question_bank-auxiliary-q026-solution/rendered/solution.fragment.tex
+        diagram_ref: question_bank.auxiliary.q026.solution
+        diagram_job_id: question_bank-auxiliary-q026-solution
+        width: 60mm
+        caption: Q026 教师图：过 P 作 PF 平行 DB，交 AC 于 F。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:c4fd366ed8b1feb784c20446c5ed1e0eac325ed4a2cbff70a672dac7a9a99020
+        packages:
+        - tikz
+        libraries: []
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../build/diagram/jobs/question_bank-auxiliary-q026-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.auxiliary.q026.prompt
+      diagram_job_id: question_bank-auxiliary-q026-prompt
+      width: 60mm
+      caption: Q026 学生图：本题原始三角形与两条交线。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:318db65468a6db9e4ac2cb69f85d5b757af0e989e07963fca317e71185e69f64
+      packages:
+      - tikz
+      libraries: []

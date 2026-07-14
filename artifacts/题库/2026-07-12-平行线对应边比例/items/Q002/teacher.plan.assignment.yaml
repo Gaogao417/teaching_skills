@@ -1,0 +1,257 @@
+meta:
+  title: 平行线对应边比例 · Q002 · 教师版
+  grade: 八年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    explanation: ../../专题/2026-07-12-平行线对应边比例-待审核/02-student-explanation.resolved.assignment.yaml
+    diagram_policy: 一题一图：每题独立生成 prompt 与 solution 图形资产
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: question
+  title: 专题题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q002
+    points: 10
+    label: 分段比转平行边比
+    stem_latex: '如图，直线 $AC$ 与 $BD$ 相交于点 $P$，点序分别为 $P-A-C$、$P-B-D$，且 $AB\parallel CD$。
+
+
+      已知 $PA:AC=1:3$，求 $AB:CD$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+      diagram_slot:
+        slot_id: question_bank.parallel.q002.solution
+        diagram_ref: question_bank.parallel.q002.solution
+        variant: solution
+        disclosure_policy: annotated
+        required: true
+        on_failure: fail_assignment
+        placement: diagram_col
+        layout_role: solution_annotation
+        display_profile: worksheet_geometry_sidecar
+        caption: Q002 教师图：标出本题实际使用的对应边和整段关系。
+        engine: geometric_scene
+        diagram_kind: synthetic_geometry
+        engine_options:
+          scene_payload:
+            scene_code: GeometricScene[{P, A, B, C, D}, {P == {0, 7.16129495823}, A == {-1.02703118282, 5.37097247044}, B
+              == {1.16463782335, 5.37097251271}, C == {-4.1081115659, -2.39740163712*^-06}, D == {4.65854012385, -2.2382508087*^-06}}]
+            points: &id001
+            - P
+            - A
+            - B
+            - C
+            - D
+            point_roles:
+              anchors: *id001
+              constructed: []
+              auxiliary: []
+            diagram_spec:
+              type: synthetic_geometry
+              segments:
+              - from: P
+                to: C
+              - from: P
+                to: D
+              - from: A
+                to: B
+              - from: C
+                to: D
+              polygons:
+              - points:
+                - P
+                - A
+                - B
+                fill: '#dbeafe'
+                opacity: 0.48
+              - points:
+                - P
+                - C
+                - D
+                fill: '#fef3c7'
+                opacity: 0.42
+              markers:
+              - type: parallel
+                segments:
+                - - A
+                  - B
+                - - C
+                  - D
+              labels:
+                P:
+                  text: P
+                  placement: above
+                A:
+                  text: A
+                  placement: left
+                B:
+                  text: B
+                  placement: right
+                C:
+                  text: C
+                  placement: below left
+                D:
+                  text: D
+                  placement: below right
+              constraints:
+              - triangle PAB similar triangle PCD
+              - PA corresponds PC
+              - PB corresponds PD
+              - AB corresponds CD
+              teaching_focus:
+              - A 字型中先补整段，再写对应边比
+            rationale: 复用本题 Wolfram 已求出的 prompt 点位；仅新增辅助点继续由原生几何约束求解。
+            model_used: deterministic-question-bank-template
+            model_attempts: []
+          seed: 22002
+        teaching_intent: practice_solution
+        reuse_geometry_from: question_bank.parallel.q002.prompt
+        problem_context:
+          stem_latex: '如图，直线 $AC$ 与 $BD$ 相交于点 $P$，点序分别为 $P-A-C$、$P-B-D$，且 $AB\parallel CD$。
+
+
+            已知 $PA:AC=1:3$，求 $AB:CD$。'
+          source_problem_text: 只复用 Q002 自己的 prompt 点位。在原图上标出三角形 PAB 与 PCD 的对应关系，并按本题解法强调需要的整段加法或减法；允许教师标注，但不要改动原图点序。
+        semantic_constraints:
+          given_objects:
+          - A
+          - B
+          - C
+          - D
+          - P
+          given_constraints:
+          - reuse the complete original geometry from question_bank.parallel.q002.prompt
+          - triangle PAB is similar to triangle PCD
+          - show PA corresponding to PC, PB corresponding to PD, and AB corresponding to CD
+          - annotate only the whole-part relation used by this item's solution
+    answer: $AB:CD=1:4$。
+    explanation: $AB:CD=PA:PC=1:4$。
+    solution_steps:
+    - title: 补整段
+      content: $PC=PA+AC$，故 $PA:PC=1:4$。
+    - title: 转到平行边
+      content: $AB:CD=PA:PC=1:4$。
+    teaching:
+      teaching_goal: A 字型中先补整段，再写对应边比
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      expected_blocker: 把分段比直接当成对应边比，没有先判断整段关系。
+      entry_point: solve_and_check
+      scaffold_level: medium
+      variation_depth: changed_numbers
+      complexity_note: 只使用小整数比例、一次整段转换或一次比例方程。
+      upgrade_rule: 能先写出点序或两组相似导出的比例关系，再计算。
+      fallback_move: 先按点序写出整段等于哪两段之和。
+    diagram_slot:
+      slot_id: question_bank.parallel.q002.prompt
+      diagram_ref: question_bank.parallel.q002.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: Q002 学生图：按本题条件读点序和对应线段。
+      engine: geometric_scene
+      diagram_kind: synthetic_geometry
+      engine_options:
+        scene_payload:
+          scene_code: GeometricScene[{P, A, B, C, D}, {P == {0, 222/31}, C == {-(152/37), 0}, D == {191/41, 0}, Element[A,
+            Line[{P, C}]], Element[B, Line[{P, D}]], 4 EuclideanDistance[P, A] == 1 EuclideanDistance[P, C], 4 EuclideanDistance[P,
+            B] == 1 EuclideanDistance[P, D], GeometricAssertion[{Line[{A, B}], Line[{C, D}]}, "Parallel"]}]
+          points:
+          - P
+          - A
+          - B
+          - C
+          - D
+          point_roles:
+            anchors:
+            - P
+            - C
+            - D
+            constructed:
+            - A
+            - B
+            auxiliary: []
+          diagram_spec:
+            type: synthetic_geometry
+            segments:
+            - from: P
+              to: C
+            - from: P
+              to: D
+            - from: A
+              to: B
+            - from: C
+              to: D
+            polygons: []
+            markers:
+            - type: parallel
+              segments:
+              - - A
+                - B
+              - - C
+                - D
+            labels:
+              P:
+                text: P
+                placement: above
+              A:
+                text: A
+                placement: left
+              B:
+                text: B
+                placement: right
+              C:
+                text: C
+                placement: below left
+              D:
+                text: D
+                placement: below right
+            constraints:
+            - AB parallel CD
+            - A,P,C collinear
+            - B,P,D collinear
+            teaching_focus:
+            - 读取本题点序和已知线段
+          rationale: 少量版面锚点固定；截线构造点及平行关系由 Wolfram GeometricScene 原生约束求解。
+          model_used: deterministic-question-bank-template
+          model_attempts: []
+        seed: 12002
+      teaching_intent: practice_prompt
+      problem_context:
+        stem_latex: '如图，直线 $AC$ 与 $BD$ 相交于点 $P$，点序分别为 $P-A-C$、$P-B-D$，且 $AB\parallel CD$。
+
+
+          已知 $PA:AC=1:3$，求 $AB:CD$。'
+        source_problem_text: 为题库 Q002 单独绘制 A 字型嵌套三角形，P 在两条平行线同侧。严格保持 P-A-C、P-B-D，AB 平行 CD。根据本题题干，仅突出已知比涉及的线段和所求线段；不同题必须生成独立构图和独立预览。学生图只写点名、平行符号和题干明确给出的数值或比例，不写相似结论、推导或答案。
+      semantic_constraints:
+        given_objects:
+        - A
+        - B
+        - C
+        - D
+        - P
+        given_constraints:
+        - A, P, C are collinear with exact order P-A-C
+        - B, P, D are collinear with exact order P-B-D
+        - AB is parallel to CD
+        - render this item as its own diagram job; do not reuse another question's renderer output
+        - use the item stem as the source of which segments and ratios are given or requested
+        clean_forbidden:
+        - do not show the final answer
+        - do not label similar triangles
+        - do not draw correspondence arrows in the prompt

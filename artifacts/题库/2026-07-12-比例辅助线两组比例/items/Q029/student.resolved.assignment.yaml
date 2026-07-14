@@ -1,0 +1,57 @@
+meta:
+  title: 比例辅助线两组比例 · Q029 · 学生版
+  grade: 八年级
+  subject: 数学
+  total_points: 10
+  version: student
+  show_answers: false
+  source_artifacts:
+    explanation: ../../专题/2026-07-12-比例辅助线两组比例-待审核/02-student-explanation.resolved.assignment.yaml
+    diagram_policy: 一题一图：每题独立生成 prompt 与 solution 图形资产
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: question
+  title: 专题题
+  type: practice
+  visibility: student
+  blocks:
+  - type: problem
+    id: Q029
+    points: 10
+    label: 由两个内部比反求边上两比
+    stem_latex: 如图，在 $\triangle ABC$ 中，$D\in BC$，$E\in AC$，$P=AD\cap BE$。已知 $AP:PD=3:2$、$BP:PE=3:2$，求 $AE:EC$ 与 $BD:DC$。
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: ../../build/diagram/jobs/question_bank-auxiliary-q029-solution/rendered/solution.fragment.tex
+        diagram_ref: question_bank.auxiliary.q029.solution
+        diagram_job_id: question_bank-auxiliary-q029-solution
+        width: 60mm
+        caption: Q029 教师图：过 E 作 EF 平行 CB，交 AD 于 F。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:baf94f82e6f0fbf2adf1fa0cb1cdc1871c46987ba7ff5f353c8fa99d4aed221f
+        packages:
+        - tikz
+        libraries: []
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../build/diagram/jobs/question_bank-auxiliary-q029-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.auxiliary.q029.prompt
+      diagram_job_id: question_bank-auxiliary-q029-prompt
+      width: 60mm
+      caption: Q029 学生图：本题原始三角形与两条交线。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:cb2be5ba05fee15dac3ecc6c5810f9682ad038dcd5fee67630891da0d624ecdc
+      packages:
+      - tikz
+      libraries: []

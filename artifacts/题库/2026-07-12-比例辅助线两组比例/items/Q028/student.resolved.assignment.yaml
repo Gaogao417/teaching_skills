@@ -1,0 +1,57 @@
+meta:
+  title: 比例辅助线两组比例 · Q028 · 学生版
+  grade: 八年级
+  subject: 数学
+  total_points: 10
+  version: student
+  show_answers: false
+  source_artifacts:
+    explanation: ../../专题/2026-07-12-比例辅助线两组比例-待审核/02-student-explanation.resolved.assignment.yaml
+    diagram_policy: 一题一图：每题独立生成 prompt 与 solution 图形资产
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: question
+  title: 专题题
+  type: practice
+  visibility: student
+  blocks:
+  - type: problem
+    id: Q028
+    points: 10
+    label: 改正整段比例错误
+    stem_latex: 如图，在 $\triangle ABC$ 中，$D\in BC$，$E\in AC$，$P=AD\cap BE$。已知 $AE:EC=2:3$、$BD:DC=1:1$。小明算得 $AP:PD=2:3$。判断并改正。
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: ../../build/diagram/jobs/question_bank-auxiliary-q028-solution/rendered/solution.fragment.tex
+        diagram_ref: question_bank.auxiliary.q028.solution
+        diagram_job_id: question_bank-auxiliary-q028-solution
+        width: 60mm
+        caption: Q028 教师图：过 C 作 CF 平行 AD，交 BE 于 F。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:85d4eacdcd2fb42bb70bcb70e2f802e74429321b0a73385abb3b02e62c2512f4
+        packages:
+        - tikz
+        libraries: []
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../build/diagram/jobs/question_bank-auxiliary-q028-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.auxiliary.q028.prompt
+      diagram_job_id: question_bank-auxiliary-q028-prompt
+      width: 60mm
+      caption: Q028 学生图：本题原始三角形与两条交线。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:719c5f3b351eb1f6a27892a17507663c150641fdeea95bcbcc031942d26f6eba
+      packages:
+      - tikz
+      libraries: []

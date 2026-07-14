@@ -1,0 +1,60 @@
+meta:
+  title: 平行线对应边比例 · Q020 · 学生版
+  grade: 八年级
+  subject: 数学
+  total_points: 10
+  version: student
+  show_answers: false
+  source_artifacts:
+    explanation: ../../专题/2026-07-12-平行线对应边比例-待审核/02-student-explanation.resolved.assignment.yaml
+    diagram_policy: 一题一图：每题独立生成 prompt 与 solution 图形资产
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: question
+  title: 专题题
+  type: practice
+  visibility: student
+  blocks:
+  - type: problem
+    id: Q020
+    points: 10
+    label: 识别交叉图对应边
+    stem_latex: '如图，直线 $AC$ 与 $BD$ 相交于点 $P$，点序分别为 $A-P-C$、$B-P-D$，且 $AB\parallel CD$。
+
+
+      已知 $AB:CD=5:8$，求 $AP:PC$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: ../../build/diagram/jobs/question_bank-parallel-q020-solution/rendered/solution.fragment.tex
+        diagram_ref: question_bank.parallel.q020.solution
+        diagram_job_id: question_bank-parallel-q020-solution
+        width: 60mm
+        caption: Q020 教师图：标出本题实际使用的对应边和整段关系。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:604a666a94850dd1e3c079913111634e5789972c3115b7b727fe1c69c5b5a071
+        packages:
+        - tikz
+        libraries: []
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../build/diagram/jobs/question_bank-parallel-q020-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.parallel.q020.prompt
+      diagram_job_id: question_bank-parallel-q020-prompt
+      width: 60mm
+      caption: Q020 学生图：按本题条件读点序和对应线段。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:a55f761ee8aeca2c555f303b8234f4049ac67acdae220922a1fa4eaf6682a7e6
+      packages:
+      - tikz
+      libraries: []

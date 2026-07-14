@@ -1,0 +1,52 @@
+meta:
+  title: 线段角份数化 · Q015 · 学生版
+  grade: 八年级
+  subject: 数学
+  total_points: 10
+  version: student
+  show_answers: false
+  source_artifacts:
+    explanation: ../../比例题组/2026-07-01-B-线段角份数化/02-student-explanation.assignment.yaml
+    diagram_policy: 一题一张独立 prompt 图；学生在图上自行标份数
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: question
+  title: 专题题
+  type: practice
+  visibility: student
+  blocks:
+  - type: problem
+    id: Q015
+    points: 10
+    label: 整体比例直接求部分
+    stem_latex: '点 $A,B,C$ 在同一直线上，$B$ 在 $A,C$ 之间。若 $AB:AC=7:12$，且 $AC=60$，求 $AB$。
+
+
+      完成三格填空：
+
+
+      ① 在图上把 $AB$ 标为 \underline{\qquad} 份，把 $BC$ 标为 \underline{\qquad} 份；
+
+
+      ② 目标比例：\underline{\qquad\qquad\qquad}；\n\n③ 答案：\underline{\qquad\qquad}。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 3
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../build/diagram/jobs/question_bank-segment_angle-q015-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.segment.angle.q015.prompt
+      diagram_job_id: question_bank-segment_angle-q015-prompt
+      width: 60mm
+      caption: Q015 学生图：先确认整体，再在图上自行标份数。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:950d8e3634a991782b40ab01e5d05082fc50eb7b92181f090e3774948cbdcc48
+      packages:
+      - tikz
+      libraries: []

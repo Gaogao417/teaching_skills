@@ -1,0 +1,285 @@
+meta:
+  title: 比例辅助线两组比例 · Q029 · 教师版
+  grade: 八年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    explanation: ../../专题/2026-07-12-比例辅助线两组比例-待审核/02-student-explanation.resolved.assignment.yaml
+    diagram_policy: 一题一图：每题独立生成 prompt 与 solution 图形资产
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: question
+  title: 专题题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q029
+    points: 10
+    label: 由两个内部比反求边上两比
+    stem_latex: 如图，在 $\triangle ABC$ 中，$D\in BC$，$E\in AC$，$P=AD\cap BE$。已知 $AP:PD=3:2$、$BP:PE=3:2$，求 $AE:EC$ 与 $BD:DC$。
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+      diagram_slot:
+        slot_id: question_bank.auxiliary.q029.solution
+        diagram_ref: question_bank.auxiliary.q029.solution
+        variant: solution
+        disclosure_policy: annotated
+        required: true
+        on_failure: fail_assignment
+        placement: diagram_col
+        layout_role: solution_annotation
+        display_profile: worksheet_geometry_sidecar
+        caption: Q029 教师图：过 E 作 EF 平行 CB，交 AD 于 F。
+        engine: geometric_scene
+        diagram_kind: synthetic_geometry
+        engine_options:
+          scene_payload:
+            scene_code: GeometricScene[{A, B, C, D, E, P, F}, {A == {0, 7.54054054054}, B == {-5.3023255814, 0}, C == {22.3829787234,
+              0}, D == {3.92610918687, 0}, E == {7.4609929078, 5.02702702703}, P == {2.35566550096, 3.01621622248}, Element[F,
+              InfiniteLine[{A, D}]], GeometricAssertion[{Line[{E, F}], Line[{B, C}]}, "Parallel"]}]
+            points:
+            - A
+            - B
+            - C
+            - D
+            - E
+            - P
+            - F
+            point_roles:
+              anchors:
+              - A
+              - B
+              - C
+              - D
+              - E
+              - P
+              constructed: []
+              auxiliary:
+              - F
+            diagram_spec:
+              type: synthetic_geometry
+              segments:
+              - from: A
+                to: B
+              - from: B
+                to: C
+              - from: C
+                to: A
+              - from: A
+                to: D
+              - from: B
+                to: E
+              - from: E
+                to: F
+              polygons:
+              - points:
+                - A
+                - E
+                - F
+                fill: '#dbeafe'
+                opacity: 0.28
+              - points:
+                - A
+                - C
+                - D
+                fill: '#fef3c7'
+                opacity: 0.28
+              - points:
+                - P
+                - E
+                - F
+                fill: '#dbeafe'
+                opacity: 0.28
+              - points:
+                - P
+                - B
+                - D
+                fill: '#fef3c7'
+                opacity: 0.28
+              markers:
+              - type: parallel
+                segments:
+                - - E
+                  - F
+                - - B
+                  - C
+              labels:
+                A:
+                  text: A
+                  placement: above
+                B:
+                  text: B
+                  placement: below left
+                C:
+                  text: C
+                  placement: below right
+                D:
+                  text: D
+                  placement: below
+                E:
+                  text: E
+                  placement: above right
+                P:
+                  text: P
+                  placement: left
+                F:
+                  text: F
+                  placement: above left
+              constraints:
+              - 过 E 作 EF 平行 CB，交 AD 于 F
+              - preserve original point order
+              teaching_focus:
+              - 联立两条比例关系反求两个分段比
+            rationale: 复用本题 Wolfram 已求出的 prompt 点位；仅新增辅助点继续由原生几何约束求解。
+            model_used: deterministic-question-bank-template
+            model_attempts: []
+          seed: 22029
+        teaching_intent: practice_solution
+        reuse_geometry_from: question_bank.auxiliary.q029.prompt
+        problem_context:
+          stem_latex: 如图，在 $\triangle ABC$ 中，$D\in BC$，$E\in AC$，$P=AD\cap BE$。已知 $AP:PD=3:2$、$BP:PE=3:2$，求 $AE:EC$ 与 $BD:DC$。
+          source_problem_text: 只复用 Q029 自己的 prompt 点位。新增点 F，过 E 作 EF 平行 CB，交 AD 于 F。完整画出辅助线和平行符号，并用浅色轮廓标出本题解法使用的两组相似三角形；不写最终比例答案。
+        semantic_constraints:
+          given_objects:
+          - A
+          - B
+          - C
+          - D
+          - E
+          - P
+          - F
+          given_constraints:
+          - reuse the complete original geometry from question_bank.auxiliary.q029.prompt
+          - E-F is parallel to C-B
+          - F lies on line AD
+          - show the auxiliary line and its parallel marker
+          - preserve all original points and point order
+    answer: $AE:EC=1:2$，$BD:DC=1:2$。
+    explanation: 两式相除得 $x=w$，代回得 $x=w=1/2$，所以两比分别为 $1:2$。
+    solution_steps:
+    - title: 设未知比
+      content: 设 $x=AE/EC$，$w=BD/DC$，则 $3/2=x(w+1)/w$，$3/2=w(x+1)/x$。
+    - title: 利用对称性并验算
+      content: 两式相除得 $x=w$，代回得 $x=w=1/2$，所以两比分别为 $1:2$。
+    teaching:
+      teaching_goal: 联立两条比例关系反求两个分段比
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      expected_blocker: 只列出一条关系，无法同时确定两个未知比。
+      entry_point: solve_and_check
+      scaffold_level: medium
+      variation_depth: reverse_construct
+      complexity_note: 只使用小整数比例、一次整段转换或一次比例方程。
+      upgrade_rule: 能先写出点序或两组相似导出的比例关系，再计算。
+      fallback_move: 分别写出 $AP:PD$ 与 $BP:PE$ 的两条公式。
+    diagram_slot:
+      slot_id: question_bank.auxiliary.q029.prompt
+      diagram_ref: question_bank.auxiliary.q029.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: Q029 学生图：本题原始三角形与两条交线。
+      engine: geometric_scene
+      diagram_kind: synthetic_geometry
+      engine_options:
+        scene_payload:
+          scene_code: GeometricScene[{A, B, C, D, E, P}, {A == {0, 279/37}, B == {-(228/43), 0}, C == {1052/47, 0}, Element[D,
+            Line[{B, C}]], Element[E, Line[{A, C}]], 2 EuclideanDistance[B, D] == 1 EuclideanDistance[D, C], 2 EuclideanDistance[A,
+            E] == 1 EuclideanDistance[E, C], Element[P, Line[{A, D}]], Element[P, Line[{B, E}]]}]
+          points:
+          - A
+          - B
+          - C
+          - D
+          - E
+          - P
+          point_roles:
+            anchors:
+            - A
+            - B
+            - C
+            constructed:
+            - D
+            - E
+            - P
+            auxiliary: []
+          diagram_spec:
+            type: synthetic_geometry
+            segments:
+            - from: A
+              to: B
+            - from: B
+              to: C
+            - from: C
+              to: A
+            - from: A
+              to: D
+            - from: B
+              to: E
+            polygons: []
+            markers: []
+            labels:
+              A:
+                text: A
+                placement: above
+              B:
+                text: B
+                placement: below left
+              C:
+                text: C
+                placement: below right
+              D:
+                text: D
+                placement: below
+              E:
+                text: E
+                placement: above right
+              P:
+                text: P
+                placement: left
+            constraints:
+            - D on BC
+            - E on AC
+            - P intersection AD BE
+            teaching_focus:
+            - 定位本题两条已知比例线和所求比例线
+          rationale: 仅固定三角形版面锚点；分点 D、E 与交点 P 由 Wolfram GeometricScene 原生约束求解。
+          model_used: deterministic-question-bank-template
+          model_attempts: []
+        seed: 12029
+      teaching_intent: practice_prompt
+      problem_context:
+        stem_latex: 如图，在 $\triangle ABC$ 中，$D\in BC$，$E\in AC$，$P=AD\cap BE$。已知 $AP:PD=3:2$、$BP:PE=3:2$，求 $AE:EC$ 与 $BD:DC$。
+        source_problem_text: 为题库 Q029 单独绘制三角形 ABC：D 在线段 BC 上，E 在线段 AC 上，AD 与 BE 交于 P。严格显示 A-E-C、B-D-C、A-P-D、B-P-E 的点序。根据本题题干突出已知比例涉及的线段和所求线段。学生图不得出现
+          F、辅助平行线、相似标记、推导或答案。即使题目用于条件辨析，也保持清晰非退化的母构型。
+      semantic_constraints:
+        given_objects:
+        - A
+        - B
+        - C
+        - D
+        - E
+        - P
+        given_constraints:
+        - A, E, C are collinear with E between A and C
+        - B, D, C are collinear with D between B and C
+        - A, P, D are collinear with P between A and D
+        - B, P, E are collinear with P between B and E
+        - render this item as its own diagram job; do not reuse another question's renderer output
+        - use the item stem as the source of which segment ratios are given or requested
+        clean_forbidden:
+        - do not draw F or any auxiliary line
+        - do not show the final answer
+        - do not mark similar triangles

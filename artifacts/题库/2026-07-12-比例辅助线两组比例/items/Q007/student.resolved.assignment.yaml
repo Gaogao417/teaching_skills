@@ -1,0 +1,65 @@
+meta:
+  title: 比例辅助线两组比例 · Q007 · 学生版
+  grade: 八年级
+  subject: 数学
+  total_points: 10
+  version: student
+  show_answers: false
+  source_artifacts:
+    explanation: ../../专题/2026-07-12-比例辅助线两组比例-待审核/02-student-explanation.resolved.assignment.yaml
+    diagram_policy: 一题一图：每题独立生成 prompt 与 solution 图形资产
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: question
+  title: 专题题
+  type: practice
+  visibility: student
+  blocks:
+  - type: problem
+    id: Q007
+    points: 10
+    label: 由两组比例求 BD:DC
+    stem_latex: '如图，在 $\triangle ABC$ 中，$D$ 在线段 $BC$ 上，$E$ 在线段 $AC$ 上，$AD$ 与 $BE$ 交于点 $P$。已知
+
+      \[
+
+      AE:EC=3:1，\qquad BP:PE=8:3，
+
+      \]
+
+      求 $BD:DC$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: ../../build/diagram/jobs/question_bank-auxiliary-q007-solution/rendered/solution.fragment.tex
+        diagram_ref: question_bank.auxiliary.q007.solution
+        diagram_job_id: question_bank-auxiliary-q007-solution
+        width: 60mm
+        caption: Q007 教师图：过 P 作 PF 平行 DB，交 AC 于 F。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:a74b356b510aeae12671b23c42029454a4541449617a3d21d8f8b003794b7cd1
+        packages:
+        - tikz
+        libraries: []
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../build/diagram/jobs/question_bank-auxiliary-q007-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.auxiliary.q007.prompt
+      diagram_job_id: question_bank-auxiliary-q007-prompt
+      width: 60mm
+      caption: Q007 学生图：本题原始三角形与两条交线。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:4671b61b17a8a813279b344c83f6081df4597591300b8d923b2e7a4cd396351d
+      packages:
+      - tikz
+      libraries: []

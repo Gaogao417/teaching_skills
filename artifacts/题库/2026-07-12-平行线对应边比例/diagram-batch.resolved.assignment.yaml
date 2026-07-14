@@ -1,0 +1,1757 @@
+meta:
+  title: 平行线对应边比例题库独立图形批处理
+  grade: 八年级
+  subject: 数学
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    explanation: ../../专题/2026-07-12-平行线对应边比例-待审核/02-student-explanation.resolved.assignment.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: questions
+  title: 题库题目
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q001
+    points: 10
+    label: 直接转移截线比
+    stem_latex: '如图，直线 $AC$ 与 $BD$ 相交于点 $P$，点序分别为 $P-A-C$、$P-B-D$，且 $AB\parallel CD$。
+
+
+      已知 $PA:PC=2:5$，求 $PB:PD$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/question_bank-parallel-q001-solution/rendered/solution.fragment.tex
+        diagram_ref: question_bank.parallel.q001.solution
+        diagram_job_id: question_bank-parallel-q001-solution
+        width: 60mm
+        caption: Q001 教师图：标出本题实际使用的对应边和整段关系。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:55fa3f1b0df9bfa5a9d6d4ac1e16adfbdb1f934c27a5db934569f57ae8601955
+        packages:
+        - tikz
+        libraries: []
+    answer: $PB:PD=2:5$。
+    explanation: $PA:PC=PB:PD$，所以 $PB:PD=2:5$。
+    solution_steps:
+    - title: 找相似
+      content: 由 $AB\parallel CD$，$\triangle PAB\sim\triangle PCD$。
+    - title: 按对应边转移
+      content: $PA:PC=PB:PD$，所以 $PB:PD=2:5$。
+    teaching:
+      teaching_goal: A 字型中先补整段，再写对应边比
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      expected_blocker: 把分段比直接当成对应边比，没有先判断整段关系。
+      entry_point: solve_and_check
+      scaffold_level: medium
+      variation_depth: changed_question
+      complexity_note: 只使用小整数比例、一次整段转换或一次比例方程。
+      upgrade_rule: 能先写出点序或两组相似导出的比例关系，再计算。
+      fallback_move: 先按点序写出整段等于哪两段之和。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-parallel-q001-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.parallel.q001.prompt
+      diagram_job_id: question_bank-parallel-q001-prompt
+      width: 60mm
+      caption: Q001 学生图：按本题条件读点序和对应线段。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:7f105d061ee5fc9136eec68a4971d9f372f674257bb15585b5330ff85a7233b3
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q002
+    points: 10
+    label: 分段比转平行边比
+    stem_latex: '如图，直线 $AC$ 与 $BD$ 相交于点 $P$，点序分别为 $P-A-C$、$P-B-D$，且 $AB\parallel CD$。
+
+
+      已知 $PA:AC=1:3$，求 $AB:CD$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/question_bank-parallel-q002-solution/rendered/solution.fragment.tex
+        diagram_ref: question_bank.parallel.q002.solution
+        diagram_job_id: question_bank-parallel-q002-solution
+        width: 60mm
+        caption: Q002 教师图：标出本题实际使用的对应边和整段关系。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:c9e46c92087a0160d29cf92ca3d9680dc80412cbb667ef0fb82cf51bf7564988
+        packages:
+        - tikz
+        libraries: []
+    answer: $AB:CD=1:4$。
+    explanation: $AB:CD=PA:PC=1:4$。
+    solution_steps:
+    - title: 补整段
+      content: $PC=PA+AC$，故 $PA:PC=1:4$。
+    - title: 转到平行边
+      content: $AB:CD=PA:PC=1:4$。
+    teaching:
+      teaching_goal: A 字型中先补整段，再写对应边比
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      expected_blocker: 把分段比直接当成对应边比，没有先判断整段关系。
+      entry_point: solve_and_check
+      scaffold_level: medium
+      variation_depth: changed_numbers
+      complexity_note: 只使用小整数比例、一次整段转换或一次比例方程。
+      upgrade_rule: 能先写出点序或两组相似导出的比例关系，再计算。
+      fallback_move: 先按点序写出整段等于哪两段之和。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-parallel-q002-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.parallel.q002.prompt
+      diagram_job_id: question_bank-parallel-q002-prompt
+      width: 60mm
+      caption: Q002 学生图：按本题条件读点序和对应线段。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:9143360fea8d3751cf34d9ffc21186ca5cb822b71da1525f577da2f3830519a2
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q003
+    points: 10
+    label: 另一截线补整段
+    stem_latex: '如图，直线 $AC$ 与 $BD$ 相交于点 $P$，点序分别为 $P-A-C$、$P-B-D$，且 $AB\parallel CD$。
+
+
+      已知 $PB:BD=3:5$，求 $PA:PC$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/question_bank-parallel-q003-solution/rendered/solution.fragment.tex
+        diagram_ref: question_bank.parallel.q003.solution
+        diagram_job_id: question_bank-parallel-q003-solution
+        width: 60mm
+        caption: Q003 教师图：标出本题实际使用的对应边和整段关系。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:b8cfbd712b5d4379a60f0ab8e71674b10e40521fccf47e5748c99db98280e05d
+        packages:
+        - tikz
+        libraries: []
+    answer: $PA:PC=3:8$。
+    explanation: $PA:PC=PB:PD=3:8$。
+    solution_steps:
+    - title: 补整段
+      content: $PD=PB+BD$，故 $PB:PD=3:8$。
+    - title: 转移比例
+      content: $PA:PC=PB:PD=3:8$。
+    teaching:
+      teaching_goal: A 字型中先补整段，再写对应边比
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      expected_blocker: 把分段比直接当成对应边比，没有先判断整段关系。
+      entry_point: solve_and_check
+      scaffold_level: medium
+      variation_depth: changed_representation
+      complexity_note: 只使用小整数比例、一次整段转换或一次比例方程。
+      upgrade_rule: 能先写出点序或两组相似导出的比例关系，再计算。
+      fallback_move: 先按点序写出整段等于哪两段之和。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-parallel-q003-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.parallel.q003.prompt
+      diagram_job_id: question_bank-parallel-q003-prompt
+      width: 60mm
+      caption: Q003 学生图：按本题条件读点序和对应线段。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:8bc248ae10746c147b862f73ed2ff2c1bf980624c2408473b17b0f0f2342736b
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q004
+    points: 10
+    label: 由一条截线转到另一条
+    stem_latex: '如图，直线 $AC$ 与 $BD$ 相交于点 $P$，点序分别为 $P-A-C$、$P-B-D$，且 $AB\parallel CD$。
+
+
+      已知 $PA:AC=2:3$，求 $PB:PD$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/question_bank-parallel-q004-solution/rendered/solution.fragment.tex
+        diagram_ref: question_bank.parallel.q004.solution
+        diagram_job_id: question_bank-parallel-q004-solution
+        width: 60mm
+        caption: Q004 教师图：标出本题实际使用的对应边和整段关系。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:2b1a371d6002aeb1ecfebe62ae28629dd6234e129a85930060737b6f039fd600
+        packages:
+        - tikz
+        libraries: []
+    answer: $PB:PD=2:5$。
+    explanation: $PB:PD=PA:PC=2:5$。
+    solution_steps:
+    - title: 先求相似比
+      content: $PC=PA+AC$，所以 $PA:PC=2:5$。
+    - title: 转到另一截线
+      content: $PB:PD=PA:PC=2:5$。
+    teaching:
+      teaching_goal: A 字型中先补整段，再写对应边比
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      expected_blocker: 把分段比直接当成对应边比，没有先判断整段关系。
+      entry_point: solve_and_check
+      scaffold_level: medium
+      variation_depth: changed_numbers
+      complexity_note: 只使用小整数比例、一次整段转换或一次比例方程。
+      upgrade_rule: 能先写出点序或两组相似导出的比例关系，再计算。
+      fallback_move: 先按点序写出整段等于哪两段之和。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-parallel-q004-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.parallel.q004.prompt
+      diagram_job_id: question_bank-parallel-q004-prompt
+      width: 60mm
+      caption: Q004 学生图：按本题条件读点序和对应线段。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:2c6431cb845918ee2465e1926c38b611a5d0cc0367bc78700d8980bc9d6b8064
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q005
+    points: 10
+    label: 识别三组对应边
+    stem_latex: '如图，直线 $AC$ 与 $BD$ 相交于点 $P$，点序分别为 $P-A-C$、$P-B-D$，且 $AB\parallel CD$。
+
+
+      已知 $AB:CD=3:7$，求 $PA:PC$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/question_bank-parallel-q005-solution/rendered/solution.fragment.tex
+        diagram_ref: question_bank.parallel.q005.solution
+        diagram_job_id: question_bank-parallel-q005-solution
+        width: 60mm
+        caption: Q005 教师图：标出本题实际使用的对应边和整段关系。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:888a1de2005a7803449b4548393848c07bb054dcf04e661f5d007462c8308cef
+        packages:
+        - tikz
+        libraries: []
+    answer: $PA:PC=3:7$。
+    explanation: $PA:PC=AB:CD=3:7$。
+    solution_steps:
+    - title: 写相似
+      content: $\triangle PAB\sim\triangle PCD$。
+    - title: 对应边同序
+      content: $PA:PC=AB:CD=3:7$。
+    teaching:
+      teaching_goal: A 字型中先补整段，再写对应边比
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      expected_blocker: 把分段比直接当成对应边比，没有先判断整段关系。
+      entry_point: solve_and_check
+      scaffold_level: medium
+      variation_depth: changed_question
+      complexity_note: 只使用小整数比例、一次整段转换或一次比例方程。
+      upgrade_rule: 能先写出点序或两组相似导出的比例关系，再计算。
+      fallback_move: 先按点序写出整段等于哪两段之和。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-parallel-q005-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.parallel.q005.prompt
+      diagram_job_id: question_bank-parallel-q005-prompt
+      width: 60mm
+      caption: Q005 学生图：按本题条件读点序和对应线段。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:7a6bcd75ad4bb683364d60098abd6f6719fecd0791c2ff30abb2fb412ea43ba7
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q006
+    points: 10
+    label: 由相似比反求外段
+    stem_latex: '如图，直线 $AC$ 与 $BD$ 相交于点 $P$，点序分别为 $P-A-C$、$P-B-D$，且 $AB\parallel CD$。
+
+
+      已知 $AB:CD=2:5$，且 $PA=6$，求 $AC$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/question_bank-parallel-q006-solution/rendered/solution.fragment.tex
+        diagram_ref: question_bank.parallel.q006.solution
+        diagram_job_id: question_bank-parallel-q006-solution
+        width: 60mm
+        caption: Q006 教师图：标出本题实际使用的对应边和整段关系。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:8c1dd39de7d2686ee3658028b90f0d3e7d1ec19eacbf8af6eea9e4d2bb3660a4
+        packages:
+        - tikz
+        libraries: []
+    answer: $AC=9$。
+    explanation: $AC=PC-PA=15-6=9$。
+    solution_steps:
+    - title: 求整段
+      content: $PA:PC=2:5$，由 $PA=6$ 得 $PC=15$。
+    - title: 求外段
+      content: $AC=PC-PA=15-6=9$。
+    teaching:
+      teaching_goal: A 字型中先补整段，再写对应边比
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      expected_blocker: 把分段比直接当成对应边比，没有先判断整段关系。
+      entry_point: solve_and_check
+      scaffold_level: medium
+      variation_depth: changed_question
+      complexity_note: 只使用小整数比例、一次整段转换或一次比例方程。
+      upgrade_rule: 能先写出点序或两组相似导出的比例关系，再计算。
+      fallback_move: 先按点序写出整段等于哪两段之和。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-parallel-q006-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.parallel.q006.prompt
+      diagram_job_id: question_bank-parallel-q006-prompt
+      width: 60mm
+      caption: Q006 学生图：按本题条件读点序和对应线段。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:906d49442908586be9edb2f67b83bcd767264bb84b16c78d4ee931a7070f6c63
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q007
+    points: 10
+    label: 由大截线长度求小截线
+    stem_latex: '如图，直线 $AC$ 与 $BD$ 相交于点 $P$，点序分别为 $P-A-C$、$P-B-D$，且 $AB\parallel CD$。
+
+
+      已知 $PA:PC=3:8$，且 $PD=24$，求 $PB$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/question_bank-parallel-q007-solution/rendered/solution.fragment.tex
+        diagram_ref: question_bank.parallel.q007.solution
+        diagram_job_id: question_bank-parallel-q007-solution
+        width: 60mm
+        caption: Q007 教师图：标出本题实际使用的对应边和整段关系。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:988da07bde8ca1baf6a59193e88bdcff3790f559a91e5cc22dc5c7bf0ab73d36
+        packages:
+        - tikz
+        libraries: []
+    answer: $PB=9$。
+    explanation: $PB=24\times\frac38=9$。
+    solution_steps:
+    - title: 转移比例
+      content: $PB:PD=PA:PC=3:8$。
+    - title: 求长度
+      content: $PB=24\times\frac38=9$。
+    teaching:
+      teaching_goal: A 字型中先补整段，再写对应边比
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      expected_blocker: 把分段比直接当成对应边比，没有先判断整段关系。
+      entry_point: solve_and_check
+      scaffold_level: medium
+      variation_depth: changed_representation
+      complexity_note: 只使用小整数比例、一次整段转换或一次比例方程。
+      upgrade_rule: 能先写出点序或两组相似导出的比例关系，再计算。
+      fallback_move: 先按点序写出整段等于哪两段之和。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-parallel-q007-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.parallel.q007.prompt
+      diagram_job_id: question_bank-parallel-q007-prompt
+      width: 60mm
+      caption: Q007 学生图：按本题条件读点序和对应线段。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:384a8b6752a385ea67c5fc7f70d4b1360e136d39119fd323e33890a580918861
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q008
+    points: 10
+    label: 由分段比和对应边求整段
+    stem_latex: '如图，直线 $AC$ 与 $BD$ 相交于点 $P$，点序分别为 $P-A-C$、$P-B-D$，且 $AB\parallel CD$。
+
+
+      已知 $PA:AC=2:5$，且 $PB=6$，求 $PD$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/question_bank-parallel-q008-solution/rendered/solution.fragment.tex
+        diagram_ref: question_bank.parallel.q008.solution
+        diagram_job_id: question_bank-parallel-q008-solution
+        width: 60mm
+        caption: Q008 教师图：标出本题实际使用的对应边和整段关系。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:74aefc46f91a2299822498790ce8bc658e2ee9c4ad8fe8e426784609d506f299
+        packages:
+        - tikz
+        libraries: []
+    answer: $PD=21$。
+    explanation: $PB:PD=2:7$，所以 $PD=6\times\frac72=21$。
+    solution_steps:
+    - title: 求相似比
+      content: $PA:PC=2:(2+5)=2:7$。
+    - title: 转移并求长
+      content: $PB:PD=2:7$，所以 $PD=6\times\frac72=21$。
+    teaching:
+      teaching_goal: A 字型中先补整段，再写对应边比
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      expected_blocker: 把分段比直接当成对应边比，没有先判断整段关系。
+      entry_point: solve_and_check
+      scaffold_level: medium
+      variation_depth: packaged_condition
+      complexity_note: 只使用小整数比例、一次整段转换或一次比例方程。
+      upgrade_rule: 能先写出点序或两组相似导出的比例关系，再计算。
+      fallback_move: 先按点序写出整段等于哪两段之和。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-parallel-q008-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.parallel.q008.prompt
+      diagram_job_id: question_bank-parallel-q008-prompt
+      width: 60mm
+      caption: Q008 学生图：按本题条件读点序和对应线段。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:8d5c32ffa4d624410833925c5f517a13997d6315eb5411bf774bf0811985e8bc
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q009
+    points: 10
+    label: 由外段反求内段
+    stem_latex: '如图，直线 $AC$ 与 $BD$ 相交于点 $P$，点序分别为 $P-A-C$、$P-B-D$，且 $AB\parallel CD$。
+
+
+      已知 $AB:CD=3:5$，且 $AC=8$，求 $PA$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/question_bank-parallel-q009-solution/rendered/solution.fragment.tex
+        diagram_ref: question_bank.parallel.q009.solution
+        diagram_job_id: question_bank-parallel-q009-solution
+        width: 60mm
+        caption: Q009 教师图：标出本题实际使用的对应边和整段关系。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:04d62e5930f86a9adddb9edfc7b5a102699a7bdbb17137bbd776655f0e589024
+        packages:
+        - tikz
+        libraries: []
+    answer: $PA=12$。
+    explanation: $5PA=3PA+24$，故 $PA=12$。
+    solution_steps:
+    - title: 列比例
+      content: $PA:(PA+8)=3:5$。
+    - title: 解方程
+      content: $5PA=3PA+24$，故 $PA=12$。
+    teaching:
+      teaching_goal: A 字型中先补整段，再写对应边比
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      expected_blocker: 把分段比直接当成对应边比，没有先判断整段关系。
+      entry_point: solve_and_check
+      scaffold_level: medium
+      variation_depth: changed_question
+      complexity_note: 只使用小整数比例、一次整段转换或一次比例方程。
+      upgrade_rule: 能先写出点序或两组相似导出的比例关系，再计算。
+      fallback_move: 先按点序写出整段等于哪两段之和。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-parallel-q009-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.parallel.q009.prompt
+      diagram_job_id: question_bank-parallel-q009-prompt
+      width: 60mm
+      caption: Q009 学生图：按本题条件读点序和对应线段。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:cea838705db43fee5ba71baff09d9b80f415b3e1a436f3e4fc58dbb0ac06f505
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q010
+    points: 10
+    label: 比例方程求未知线段
+    stem_latex: '如图，直线 $AC$ 与 $BD$ 相交于点 $P$，点序分别为 $P-A-C$、$P-B-D$，且 $AB\parallel CD$。
+
+
+      已知 $PA=x$，$AC=6$，且 $AB:CD=2:5$，求 $x$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/question_bank-parallel-q010-solution/rendered/solution.fragment.tex
+        diagram_ref: question_bank.parallel.q010.solution
+        diagram_job_id: question_bank-parallel-q010-solution
+        width: 60mm
+        caption: Q010 教师图：标出本题实际使用的对应边和整段关系。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:e60e5a314c282f77fdeb51c505f3e4bfd0129771f797a4266a4c6d0d568f0ff6
+        packages:
+        - tikz
+        libraries: []
+    answer: $x=4$。
+    explanation: $5x=2x+12$，所以 $x=4$。
+    solution_steps:
+    - title: 列比例
+      content: $x:(x+6)=2:5$。
+    - title: 解方程
+      content: $5x=2x+12$，所以 $x=4$。
+    teaching:
+      teaching_goal: A 字型中先补整段，再写对应边比
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      expected_blocker: 把分段比直接当成对应边比，没有先判断整段关系。
+      entry_point: solve_and_check
+      scaffold_level: medium
+      variation_depth: partially_hidden
+      complexity_note: 只使用小整数比例、一次整段转换或一次比例方程。
+      upgrade_rule: 能先写出点序或两组相似导出的比例关系，再计算。
+      fallback_move: 先按点序写出整段等于哪两段之和。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-parallel-q010-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.parallel.q010.prompt
+      diagram_job_id: question_bank-parallel-q010-prompt
+      width: 60mm
+      caption: Q010 学生图：按本题条件读点序和对应线段。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:da435abe358615780d743f9628c41c95aef6e576e5348f2976c02c95b3fd8fc4
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q011
+    points: 10
+    label: 两条截线联动求外段
+    stem_latex: '如图，直线 $AC$ 与 $BD$ 相交于点 $P$，点序分别为 $P-A-C$、$P-B-D$，且 $AB\parallel CD$。
+
+
+      已知 $PA:AC=3:4$，且 $PB=6$，求 $BD$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/question_bank-parallel-q011-solution/rendered/solution.fragment.tex
+        diagram_ref: question_bank.parallel.q011.solution
+        diagram_job_id: question_bank-parallel-q011-solution
+        width: 60mm
+        caption: Q011 教师图：标出本题实际使用的对应边和整段关系。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:ca30aaa1c14007cfddcb760aeb69f0d797da46c2460c7122f287910273d1534c
+        packages:
+        - tikz
+        libraries: []
+    answer: $BD=8$。
+    explanation: $PD=14$，所以 $BD=PD-PB=8$。
+    solution_steps:
+    - title: 求相似比
+      content: $PA:PC=3:7$，故 $PB:PD=3:7$。
+    - title: 求外段
+      content: $PD=14$，所以 $BD=PD-PB=8$。
+    teaching:
+      teaching_goal: A 字型中先补整段，再写对应边比
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      expected_blocker: 把分段比直接当成对应边比，没有先判断整段关系。
+      entry_point: solve_and_check
+      scaffold_level: medium
+      variation_depth: packaged_condition
+      complexity_note: 只使用小整数比例、一次整段转换或一次比例方程。
+      upgrade_rule: 能先写出点序或两组相似导出的比例关系，再计算。
+      fallback_move: 先按点序写出整段等于哪两段之和。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-parallel-q011-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.parallel.q011.prompt
+      diagram_job_id: question_bank-parallel-q011-prompt
+      width: 60mm
+      caption: Q011 学生图：按本题条件读点序和对应线段。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:f0c1e69c1e9041f89b32cf4b8102ffe5e35af3cff9288b825f3304f1b7e489ce
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q012
+    points: 10
+    label: 辨析错误比例
+    stem_latex: '如图，直线 $AC$ 与 $BD$ 相交于点 $P$，点序分别为 $P-A-C$、$P-B-D$，且 $AB\parallel CD$。
+
+
+      已知 $PA:AC=2:3$。小明写出 $AB:CD=2:3$。判断并改正。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/question_bank-parallel-q012-solution/rendered/solution.fragment.tex
+        diagram_ref: question_bank.parallel.q012.solution
+        diagram_job_id: question_bank-parallel-q012-solution
+        width: 60mm
+        caption: Q012 教师图：标出本题实际使用的对应边和整段关系。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:28c42cf7f6e46b445c580fa2699ccb2fe713d2b0ca702939e86d3a1049a48e41
+        packages:
+        - tikz
+        libraries: []
+    answer: 错误，$AB:CD=2:5$。
+    explanation: $PC=PA+AC$，故 $AB:CD=PA:PC=2:5$。
+    solution_steps:
+    - title: 指出错误
+      content: $AC$ 不是与 $PA$ 对应的整段，不能直接把 $PA:AC$ 转到平行边。
+    - title: 改正
+      content: $PC=PA+AC$，故 $AB:CD=PA:PC=2:5$。
+    teaching:
+      teaching_goal: A 字型中先补整段，再写对应边比
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      expected_blocker: 把分段比直接当成对应边比，没有先判断整段关系。
+      entry_point: solve_and_check
+      scaffold_level: medium
+      variation_depth: non_example_discrimination
+      complexity_note: 只使用小整数比例、一次整段转换或一次比例方程。
+      upgrade_rule: 能先写出点序或两组相似导出的比例关系，再计算。
+      fallback_move: 先按点序写出整段等于哪两段之和。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-parallel-q012-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.parallel.q012.prompt
+      diagram_job_id: question_bank-parallel-q012-prompt
+      width: 60mm
+      caption: Q012 学生图：按本题条件读点序和对应线段。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:f1809c3a60c5ed44398dc2aedf2bce11504a6599c0045471750cd64efc7429ba
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q013
+    points: 10
+    label: 含字母线段的比例方程
+    stem_latex: '如图，直线 $AC$ 与 $BD$ 相交于点 $P$，点序分别为 $P-A-C$、$P-B-D$，且 $AB\parallel CD$。
+
+
+      已知 $PA=x-1$，$AC=x+2$，且 $AB:CD=2:5$，求 $x$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/question_bank-parallel-q013-solution/rendered/solution.fragment.tex
+        diagram_ref: question_bank.parallel.q013.solution
+        diagram_job_id: question_bank-parallel-q013-solution
+        width: 60mm
+        caption: Q013 教师图：标出本题实际使用的对应边和整段关系。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:370f859ed309d076d606fc5c80f871675a0729da530cbf30b19b94995f89dd56
+        packages:
+        - tikz
+        libraries: []
+    answer: $x=7$。
+    explanation: $(x-1):(2x+1)=2:5$，解得 $x=7$。
+    solution_steps:
+    - title: 写整段
+      content: $PC=(x-1)+(x+2)=2x+1$。
+    - title: 列式求解
+      content: $(x-1):(2x+1)=2:5$，解得 $x=7$。
+    teaching:
+      teaching_goal: A 字型中先补整段，再写对应边比
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      expected_blocker: 把分段比直接当成对应边比，没有先判断整段关系。
+      entry_point: solve_and_check
+      scaffold_level: medium
+      variation_depth: partially_hidden
+      complexity_note: 只使用小整数比例、一次整段转换或一次比例方程。
+      upgrade_rule: 能先写出点序或两组相似导出的比例关系，再计算。
+      fallback_move: 先按点序写出整段等于哪两段之和。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-parallel-q013-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.parallel.q013.prompt
+      diagram_job_id: question_bank-parallel-q013-prompt
+      width: 60mm
+      caption: Q013 学生图：按本题条件读点序和对应线段。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:01b5fa210318ea60ee7f01ecc56b7a6c4ab1321b8df9c51be45a1d8d38a17a20
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q014
+    points: 10
+    label: 对应边比转相邻分段比
+    stem_latex: '如图，直线 $AC$ 与 $BD$ 相交于点 $P$，点序分别为 $P-A-C$、$P-B-D$，且 $AB\parallel CD$。
+
+
+      已知 $PA:PC=3:5$，求 $PB:BD$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/question_bank-parallel-q014-solution/rendered/solution.fragment.tex
+        diagram_ref: question_bank.parallel.q014.solution
+        diagram_job_id: question_bank-parallel-q014-solution
+        width: 60mm
+        caption: Q014 教师图：标出本题实际使用的对应边和整段关系。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:32322a4acc690d4c434fdcfd874a8e805fe986c00c35b1868bca32d28205eaa0
+        packages:
+        - tikz
+        libraries: []
+    answer: $PB:BD=3:2$。
+    explanation: $BD=PD-PB$ 占 $5-3=2$ 份，所以 $PB:BD=3:2$。
+    solution_steps:
+    - title: 转移对应边
+      content: $PB:PD=3:5$。
+    - title: 拆整段
+      content: $BD=PD-PB$ 占 $5-3=2$ 份，所以 $PB:BD=3:2$。
+    teaching:
+      teaching_goal: A 字型中先补整段，再写对应边比
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      expected_blocker: 把分段比直接当成对应边比，没有先判断整段关系。
+      entry_point: solve_and_check
+      scaffold_level: medium
+      variation_depth: reverse_construct
+      complexity_note: 只使用小整数比例、一次整段转换或一次比例方程。
+      upgrade_rule: 能先写出点序或两组相似导出的比例关系，再计算。
+      fallback_move: 先按点序写出整段等于哪两段之和。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-parallel-q014-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.parallel.q014.prompt
+      diagram_job_id: question_bank-parallel-q014-prompt
+      width: 60mm
+      caption: Q014 学生图：按本题条件读点序和对应线段。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:07d5b6dcfb21e8dcf43ae4b5b9f29a74bab97a85ea216d104a6f981d19ff64e8
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q015
+    points: 10
+    label: 判断两组条件能否共存
+    stem_latex: '如图，直线 $AC$ 与 $BD$ 相交于点 $P$，点序分别为 $P-A-C$、$P-B-D$，且 $AB\parallel CD$。
+
+
+      已知 $PA:AC=2:3$，同时又给出 $PB:PD=3:7$。判断这两组条件能否同时成立。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/question_bank-parallel-q015-solution/rendered/solution.fragment.tex
+        diagram_ref: question_bank.parallel.q015.solution
+        diagram_job_id: question_bank-parallel-q015-solution
+        width: 60mm
+        caption: Q015 教师图：标出本题实际使用的对应边和整段关系。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:c18cdc1d4e6091e915280a8155725426d7bd84815a9be3411a53de0303ffc55a
+        packages:
+        - tikz
+        libraries: []
+    answer: 不能同时成立。
+    explanation: 相似要求 $PB:PD=PA:PC=2:5$，与 $3:7$ 不同，所以条件矛盾。
+    solution_steps:
+    - title: 由第一组条件
+      content: $PA:PC=2:(2+3)=2:5$。
+    - title: 检查对应边
+      content: 相似要求 $PB:PD=PA:PC=2:5$，与 $3:7$ 不同，所以条件矛盾。
+    teaching:
+      teaching_goal: A 字型中先补整段，再写对应边比
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      expected_blocker: 把分段比直接当成对应边比，没有先判断整段关系。
+      entry_point: solve_and_check
+      scaffold_level: medium
+      variation_depth: non_example_discrimination
+      complexity_note: 只使用小整数比例、一次整段转换或一次比例方程。
+      upgrade_rule: 能先写出点序或两组相似导出的比例关系，再计算。
+      fallback_move: 先按点序写出整段等于哪两段之和。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-parallel-q015-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.parallel.q015.prompt
+      diagram_job_id: question_bank-parallel-q015-prompt
+      width: 60mm
+      caption: Q015 学生图：按本题条件读点序和对应线段。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:9f765a11a327ff3f499c4002906e13a942743dd6fef87db7bed8381afe11d81b
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q016
+    points: 10
+    label: 8 字型直接转移截线比
+    stem_latex: '如图，直线 $AC$ 与 $BD$ 相交于点 $P$，点序分别为 $A-P-C$、$B-P-D$，且 $AB\parallel CD$。
+
+
+      已知 $BP:PD=4:7$，求 $AP:PC$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/question_bank-parallel-q016-solution/rendered/solution.fragment.tex
+        diagram_ref: question_bank.parallel.q016.solution
+        diagram_job_id: question_bank-parallel-q016-solution
+        width: 60mm
+        caption: Q016 教师图：标出本题实际使用的对应边和整段关系。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:e4df006754218eda075f2d43612f718cdb656aea46b7c1ac6715a21b88488fe6
+        packages:
+        - tikz
+        libraries: []
+    answer: $AP:PC=4:7$。
+    explanation: $AP:PC=BP:PD=4:7$。
+    solution_steps:
+    - title: 找相似
+      content: 由 $AB\parallel CD$，$\triangle PAB\sim\triangle PCD$。
+    - title: 转移
+      content: $AP:PC=BP:PD=4:7$。
+    teaching:
+      teaching_goal: 8 字型中先拆整段，再写对应边比
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      expected_blocker: 沿用 A 字型的加法，没有识别交点在整段中间。
+      entry_point: solve_and_check
+      scaffold_level: medium
+      variation_depth: changed_question
+      complexity_note: 只使用小整数比例、一次整段转换或一次比例方程。
+      upgrade_rule: 能先写出点序或两组相似导出的比例关系，再计算。
+      fallback_move: 先写 $AC=AP+PC$ 或 $BD=BP+PD$。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-parallel-q016-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.parallel.q016.prompt
+      diagram_job_id: question_bank-parallel-q016-prompt
+      width: 60mm
+      caption: Q016 学生图：按本题条件读点序和对应线段。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:c3e5897d8a6815b11f3667482ef91f306a703f330ed30c93e9c18dc1134ac5af
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q017
+    points: 10
+    label: 整段比转平行边比
+    stem_latex: '如图，直线 $AC$ 与 $BD$ 相交于点 $P$，点序分别为 $A-P-C$、$B-P-D$，且 $AB\parallel CD$。
+
+
+      已知 $AP:AC=2:5$，求 $AB:CD$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/question_bank-parallel-q017-solution/rendered/solution.fragment.tex
+        diagram_ref: question_bank.parallel.q017.solution
+        diagram_job_id: question_bank-parallel-q017-solution
+        width: 60mm
+        caption: Q017 教师图：标出本题实际使用的对应边和整段关系。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:236177148b2d433314d9c2e28d7ac6eeebc2e5aeb128836e582634964e978188
+        packages:
+        - tikz
+        libraries: []
+    answer: $AB:CD=2:3$。
+    explanation: $AB:CD=AP:PC=2:3$。
+    solution_steps:
+    - title: 拆整段
+      content: $PC$ 占 $5-2=3$ 份，故 $AP:PC=2:3$。
+    - title: 转到平行边
+      content: $AB:CD=AP:PC=2:3$。
+    teaching:
+      teaching_goal: 8 字型中先拆整段，再写对应边比
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      expected_blocker: 沿用 A 字型的加法，没有识别交点在整段中间。
+      entry_point: solve_and_check
+      scaffold_level: medium
+      variation_depth: changed_numbers
+      complexity_note: 只使用小整数比例、一次整段转换或一次比例方程。
+      upgrade_rule: 能先写出点序或两组相似导出的比例关系，再计算。
+      fallback_move: 先写 $AC=AP+PC$ 或 $BD=BP+PD$。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-parallel-q017-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.parallel.q017.prompt
+      diagram_job_id: question_bank-parallel-q017-prompt
+      width: 60mm
+      caption: Q017 学生图：按本题条件读点序和对应线段。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:1ec0f062a74675200f3e1c44b70312b8ecf74648527f0cbec401b7051050bb40
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q018
+    points: 10
+    label: 另一截线拆整段
+    stem_latex: '如图，直线 $AC$ 与 $BD$ 相交于点 $P$，点序分别为 $A-P-C$、$B-P-D$，且 $AB\parallel CD$。
+
+
+      已知 $BP:BD=3:8$，求 $AP:PC$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/question_bank-parallel-q018-solution/rendered/solution.fragment.tex
+        diagram_ref: question_bank.parallel.q018.solution
+        diagram_job_id: question_bank-parallel-q018-solution
+        width: 60mm
+        caption: Q018 教师图：标出本题实际使用的对应边和整段关系。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:9875d31e87f555a15eeadb307b2198543fecaa688886e0288220013bfa418eca
+        packages:
+        - tikz
+        libraries: []
+    answer: $AP:PC=3:5$。
+    explanation: $AP:PC=3:5$。
+    solution_steps:
+    - title: 拆整段
+      content: $PD$ 占 $8-3=5$ 份，故 $BP:PD=3:5$。
+    - title: 转移
+      content: $AP:PC=3:5$。
+    teaching:
+      teaching_goal: 8 字型中先拆整段，再写对应边比
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      expected_blocker: 沿用 A 字型的加法，没有识别交点在整段中间。
+      entry_point: solve_and_check
+      scaffold_level: medium
+      variation_depth: changed_representation
+      complexity_note: 只使用小整数比例、一次整段转换或一次比例方程。
+      upgrade_rule: 能先写出点序或两组相似导出的比例关系，再计算。
+      fallback_move: 先写 $AC=AP+PC$ 或 $BD=BP+PD$。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-parallel-q018-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.parallel.q018.prompt
+      diagram_job_id: question_bank-parallel-q018-prompt
+      width: 60mm
+      caption: Q018 学生图：按本题条件读点序和对应线段。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:f000d95b1307063a5918327d195b192432a0da9d997be1e47cd2acfc4320dcd2
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q019
+    points: 10
+    label: 由一条整段比转到另一截线
+    stem_latex: '如图，直线 $AC$ 与 $BD$ 相交于点 $P$，点序分别为 $A-P-C$、$B-P-D$，且 $AB\parallel CD$。
+
+
+      已知 $AP:AC=3:7$，求 $BP:PD$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/question_bank-parallel-q019-solution/rendered/solution.fragment.tex
+        diagram_ref: question_bank.parallel.q019.solution
+        diagram_job_id: question_bank-parallel-q019-solution
+        width: 60mm
+        caption: Q019 教师图：标出本题实际使用的对应边和整段关系。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:be64624d1b856787e84a4e4072ddc1e267438e3d413c4117d286dabfd195d9d4
+        packages:
+        - tikz
+        libraries: []
+    answer: $BP:PD=3:4$。
+    explanation: $BP:PD=AP:PC=3:4$。
+    solution_steps:
+    - title: 拆整段
+      content: $AP:PC=3:(7-3)=3:4$。
+    - title: 转移
+      content: $BP:PD=AP:PC=3:4$。
+    teaching:
+      teaching_goal: 8 字型中先拆整段，再写对应边比
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      expected_blocker: 沿用 A 字型的加法，没有识别交点在整段中间。
+      entry_point: solve_and_check
+      scaffold_level: medium
+      variation_depth: changed_numbers
+      complexity_note: 只使用小整数比例、一次整段转换或一次比例方程。
+      upgrade_rule: 能先写出点序或两组相似导出的比例关系，再计算。
+      fallback_move: 先写 $AC=AP+PC$ 或 $BD=BP+PD$。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-parallel-q019-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.parallel.q019.prompt
+      diagram_job_id: question_bank-parallel-q019-prompt
+      width: 60mm
+      caption: Q019 学生图：按本题条件读点序和对应线段。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:b47922b7f5a651e95e2c2657fae6a64d60e2183c694a04fe93b00e81abf1ba2d
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q020
+    points: 10
+    label: 识别交叉图对应边
+    stem_latex: '如图，直线 $AC$ 与 $BD$ 相交于点 $P$，点序分别为 $A-P-C$、$B-P-D$，且 $AB\parallel CD$。
+
+
+      已知 $AB:CD=5:8$，求 $AP:PC$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/question_bank-parallel-q020-solution/rendered/solution.fragment.tex
+        diagram_ref: question_bank.parallel.q020.solution
+        diagram_job_id: question_bank-parallel-q020-solution
+        width: 60mm
+        caption: Q020 教师图：标出本题实际使用的对应边和整段关系。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:604a666a94850dd1e3c079913111634e5789972c3115b7b727fe1c69c5b5a071
+        packages:
+        - tikz
+        libraries: []
+    answer: $AP:PC=5:8$。
+    explanation: $AP:PC=AB:CD=5:8$。
+    solution_steps:
+    - title: 写相似
+      content: $\triangle PAB\sim\triangle PCD$。
+    - title: 对应边同序
+      content: $AP:PC=AB:CD=5:8$。
+    teaching:
+      teaching_goal: 8 字型中先拆整段，再写对应边比
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      expected_blocker: 沿用 A 字型的加法，没有识别交点在整段中间。
+      entry_point: solve_and_check
+      scaffold_level: medium
+      variation_depth: changed_question
+      complexity_note: 只使用小整数比例、一次整段转换或一次比例方程。
+      upgrade_rule: 能先写出点序或两组相似导出的比例关系，再计算。
+      fallback_move: 先写 $AC=AP+PC$ 或 $BD=BP+PD$。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-parallel-q020-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.parallel.q020.prompt
+      diagram_job_id: question_bank-parallel-q020-prompt
+      width: 60mm
+      caption: Q020 学生图：按本题条件读点序和对应线段。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:a55f761ee8aeca2c555f303b8234f4049ac67acdae220922a1fa4eaf6682a7e6
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q021
+    points: 10
+    label: 由相似比和整段求分段
+    stem_latex: '如图，直线 $AC$ 与 $BD$ 相交于点 $P$，点序分别为 $A-P-C$、$B-P-D$，且 $AB\parallel CD$。
+
+
+      已知 $AB:CD=2:3$，且 $AC=25$，求 $AP$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/question_bank-parallel-q021-solution/rendered/solution.fragment.tex
+        diagram_ref: question_bank.parallel.q021.solution
+        diagram_job_id: question_bank-parallel-q021-solution
+        width: 60mm
+        caption: Q021 教师图：标出本题实际使用的对应边和整段关系。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:7b54aa1de25a2b3e93716faa8db2fd8d0cb853daa341005957174c78310ddf35
+        packages:
+        - tikz
+        libraries: []
+    answer: $AP=10$。
+    explanation: $AP=25\times\frac25=10$。
+    solution_steps:
+    - title: 写分段比
+      content: $AP:PC=2:3$，所以 $AP:AC=2:5$。
+    - title: 求长度
+      content: $AP=25\times\frac25=10$。
+    teaching:
+      teaching_goal: 8 字型中先拆整段，再写对应边比
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      expected_blocker: 沿用 A 字型的加法，没有识别交点在整段中间。
+      entry_point: solve_and_check
+      scaffold_level: medium
+      variation_depth: changed_question
+      complexity_note: 只使用小整数比例、一次整段转换或一次比例方程。
+      upgrade_rule: 能先写出点序或两组相似导出的比例关系，再计算。
+      fallback_move: 先写 $AC=AP+PC$ 或 $BD=BP+PD$。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-parallel-q021-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.parallel.q021.prompt
+      diagram_job_id: question_bank-parallel-q021-prompt
+      width: 60mm
+      caption: Q021 学生图：按本题条件读点序和对应线段。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:431f97cb287693af6958773f8277a14f916b84f1f57ff50ac4e1000089d23e98
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q022
+    points: 10
+    label: 由平行边长求另一边
+    stem_latex: '如图，直线 $AC$ 与 $BD$ 相交于点 $P$，点序分别为 $A-P-C$、$B-P-D$，且 $AB\parallel CD$。
+
+
+      已知 $AP:PC=3:5$，且 $CD=20$，求 $AB$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/question_bank-parallel-q022-solution/rendered/solution.fragment.tex
+        diagram_ref: question_bank.parallel.q022.solution
+        diagram_job_id: question_bank-parallel-q022-solution
+        width: 60mm
+        caption: Q022 教师图：标出本题实际使用的对应边和整段关系。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:de883b6364c5aebcc50634f97d44917bbfce00b362d89e890ecf676ed2eed495
+        packages:
+        - tikz
+        libraries: []
+    answer: $AB=12$。
+    explanation: $AB=20\times\frac35=12$。
+    solution_steps:
+    - title: 转到平行边
+      content: $AB:CD=AP:PC=3:5$。
+    - title: 求长度
+      content: $AB=20\times\frac35=12$。
+    teaching:
+      teaching_goal: 8 字型中先拆整段，再写对应边比
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      expected_blocker: 沿用 A 字型的加法，没有识别交点在整段中间。
+      entry_point: solve_and_check
+      scaffold_level: medium
+      variation_depth: changed_representation
+      complexity_note: 只使用小整数比例、一次整段转换或一次比例方程。
+      upgrade_rule: 能先写出点序或两组相似导出的比例关系，再计算。
+      fallback_move: 先写 $AC=AP+PC$ 或 $BD=BP+PD$。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-parallel-q022-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.parallel.q022.prompt
+      diagram_job_id: question_bank-parallel-q022-prompt
+      width: 60mm
+      caption: Q022 学生图：按本题条件读点序和对应线段。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:17437de2bd438ec3ef28ce3d0fba8d43a4bdca8fe436842ee3b2294d1c316485
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q023
+    points: 10
+    label: 由截线比和整段求两段
+    stem_latex: '如图，直线 $AC$ 与 $BD$ 相交于点 $P$，点序分别为 $A-P-C$、$B-P-D$，且 $AB\parallel CD$。
+
+
+      已知 $BP:PD=2:3$，且 $BD=25$，求 $BP$ 与 $PD$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/question_bank-parallel-q023-solution/rendered/solution.fragment.tex
+        diagram_ref: question_bank.parallel.q023.solution
+        diagram_job_id: question_bank-parallel-q023-solution
+        width: 60mm
+        caption: Q023 教师图：标出本题实际使用的对应边和整段关系。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:4ce1cd89ef4fafe742be9bb9d2723ec7ef8caa4b8c554f92ffcbd603c3f8eeb0
+        packages:
+        - tikz
+        libraries: []
+    answer: $BP=10$，$PD=15$。
+    explanation: $BP=25\times\frac25=10$，$PD=15$。
+    solution_steps:
+    - title: 看总份数
+      content: $BD=BP+PD$，共 $2+3=5$ 份。
+    - title: 分别求长
+      content: $BP=25\times\frac25=10$，$PD=15$。
+    teaching:
+      teaching_goal: 8 字型中先拆整段，再写对应边比
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      expected_blocker: 沿用 A 字型的加法，没有识别交点在整段中间。
+      entry_point: solve_and_check
+      scaffold_level: medium
+      variation_depth: packaged_condition
+      complexity_note: 只使用小整数比例、一次整段转换或一次比例方程。
+      upgrade_rule: 能先写出点序或两组相似导出的比例关系，再计算。
+      fallback_move: 先写 $AC=AP+PC$ 或 $BD=BP+PD$。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-parallel-q023-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.parallel.q023.prompt
+      diagram_job_id: question_bank-parallel-q023-prompt
+      width: 60mm
+      caption: Q023 学生图：按本题条件读点序和对应线段。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:6a0b1333ef87969b81a6e88b7282f81e02820b6179c37a7121ca17f39752804d
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q024
+    points: 10
+    label: 整段比联动另一截线
+    stem_latex: '如图，直线 $AC$ 与 $BD$ 相交于点 $P$，点序分别为 $A-P-C$、$B-P-D$，且 $AB\parallel CD$。
+
+
+      已知 $AP:AC=3:8$，且 $BP=6$，求 $PD$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/question_bank-parallel-q024-solution/rendered/solution.fragment.tex
+        diagram_ref: question_bank.parallel.q024.solution
+        diagram_job_id: question_bank-parallel-q024-solution
+        width: 60mm
+        caption: Q024 教师图：标出本题实际使用的对应边和整段关系。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:ce7c6fe49b53b07cc11acc6e3937d5c771f736aba00ee59d0defba485a1ab126
+        packages:
+        - tikz
+        libraries: []
+    answer: $PD=10$。
+    explanation: $PD=6\times\frac53=10$。
+    solution_steps:
+    - title: 拆整段
+      content: $AP:PC=3:5$，故 $BP:PD=3:5$。
+    - title: 求长度
+      content: $PD=6\times\frac53=10$。
+    teaching:
+      teaching_goal: 8 字型中先拆整段，再写对应边比
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      expected_blocker: 沿用 A 字型的加法，没有识别交点在整段中间。
+      entry_point: solve_and_check
+      scaffold_level: medium
+      variation_depth: packaged_condition
+      complexity_note: 只使用小整数比例、一次整段转换或一次比例方程。
+      upgrade_rule: 能先写出点序或两组相似导出的比例关系，再计算。
+      fallback_move: 先写 $AC=AP+PC$ 或 $BD=BP+PD$。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-parallel-q024-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.parallel.q024.prompt
+      diagram_job_id: question_bank-parallel-q024-prompt
+      width: 60mm
+      caption: Q024 学生图：按本题条件读点序和对应线段。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:c166170fc1a4f86552fc3a0898947256176436f2a1b0ab0d446a8f944a8e3ede
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q025
+    points: 10
+    label: 由内段求另一内段和整段
+    stem_latex: '如图，直线 $AC$ 与 $BD$ 相交于点 $P$，点序分别为 $A-P-C$、$B-P-D$，且 $AB\parallel CD$。
+
+
+      已知 $AB:CD=4:7$，且 $AP=12$，求 $PC$ 与 $AC$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/question_bank-parallel-q025-solution/rendered/solution.fragment.tex
+        diagram_ref: question_bank.parallel.q025.solution
+        diagram_job_id: question_bank-parallel-q025-solution
+        width: 60mm
+        caption: Q025 教师图：标出本题实际使用的对应边和整段关系。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:494dd097128f41b0af3c26b1c947e6ab9a8662f0e8091ddda0791e6d9afbb03e
+        packages:
+        - tikz
+        libraries: []
+    answer: $PC=21$，$AC=33$。
+    explanation: $AC=AP+PC=33$。
+    solution_steps:
+    - title: 求对应段
+      content: $AP:PC=4:7$，所以 $PC=12\times\frac74=21$。
+    - title: 求整段
+      content: $AC=AP+PC=33$。
+    teaching:
+      teaching_goal: 8 字型中先拆整段，再写对应边比
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      expected_blocker: 沿用 A 字型的加法，没有识别交点在整段中间。
+      entry_point: solve_and_check
+      scaffold_level: medium
+      variation_depth: changed_question
+      complexity_note: 只使用小整数比例、一次整段转换或一次比例方程。
+      upgrade_rule: 能先写出点序或两组相似导出的比例关系，再计算。
+      fallback_move: 先写 $AC=AP+PC$ 或 $BD=BP+PD$。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-parallel-q025-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.parallel.q025.prompt
+      diagram_job_id: question_bank-parallel-q025-prompt
+      width: 60mm
+      caption: Q025 学生图：按本题条件读点序和对应线段。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:f91e1fe4d107217ba66bffd3b8d09e84ca1aacbca05892c559995edc67d57a41
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q026
+    points: 10
+    label: 含未知数的截线比例
+    stem_latex: '如图，直线 $AC$ 与 $BD$ 相交于点 $P$，点序分别为 $A-P-C$、$B-P-D$，且 $AB\parallel CD$。
+
+
+      已知 $AP=x$，$PC=x+4$，且 $AB:CD=2:3$，求 $x$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/question_bank-parallel-q026-solution/rendered/solution.fragment.tex
+        diagram_ref: question_bank.parallel.q026.solution
+        diagram_job_id: question_bank-parallel-q026-solution
+        width: 60mm
+        caption: Q026 教师图：标出本题实际使用的对应边和整段关系。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:91f40845e99698a9570f8e2a6c86d8781f020994378b97f8bb4b88d1c4cdec17
+        packages:
+        - tikz
+        libraries: []
+    answer: $x=8$。
+    explanation: $3x=2x+8$，所以 $x=8$。
+    solution_steps:
+    - title: 列比例
+      content: $x:(x+4)=2:3$。
+    - title: 解方程
+      content: $3x=2x+8$，所以 $x=8$。
+    teaching:
+      teaching_goal: 8 字型中先拆整段，再写对应边比
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      expected_blocker: 沿用 A 字型的加法，没有识别交点在整段中间。
+      entry_point: solve_and_check
+      scaffold_level: medium
+      variation_depth: partially_hidden
+      complexity_note: 只使用小整数比例、一次整段转换或一次比例方程。
+      upgrade_rule: 能先写出点序或两组相似导出的比例关系，再计算。
+      fallback_move: 先写 $AC=AP+PC$ 或 $BD=BP+PD$。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-parallel-q026-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.parallel.q026.prompt
+      diagram_job_id: question_bank-parallel-q026-prompt
+      width: 60mm
+      caption: Q026 学生图：按本题条件读点序和对应线段。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:91ff7e715966f8423dea3e59efc0a9cf3a5e9bff4c0689368e59304df9380731
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q027
+    points: 10
+    label: 辨析加减方向
+    stem_latex: '如图，直线 $AC$ 与 $BD$ 相交于点 $P$，点序分别为 $A-P-C$、$B-P-D$，且 $AB\parallel CD$。
+
+
+      已知 $AP:AC=2:7$。小明写出 $AB:CD=2:9$。判断并改正。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/question_bank-parallel-q027-solution/rendered/solution.fragment.tex
+        diagram_ref: question_bank.parallel.q027.solution
+        diagram_job_id: question_bank-parallel-q027-solution
+        width: 60mm
+        caption: Q027 教师图：标出本题实际使用的对应边和整段关系。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:c6757c0125967956030c4557a7b3b0ae316741be36f025eaa3cfeececec78b8b
+        packages:
+        - tikz
+        libraries: []
+    answer: 错误，$AB:CD=2:5$。
+    explanation: $PC$ 占 $7-2=5$ 份，所以 $AB:CD=AP:PC=2:5$。
+    solution_steps:
+    - title: 指出点序
+      content: $P$ 在 $A,C$ 之间，$AC=AP+PC$，应使用减法求 $PC$。
+    - title: 改正
+      content: $PC$ 占 $7-2=5$ 份，所以 $AB:CD=AP:PC=2:5$。
+    teaching:
+      teaching_goal: 8 字型中先拆整段，再写对应边比
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      expected_blocker: 沿用 A 字型的加法，没有识别交点在整段中间。
+      entry_point: solve_and_check
+      scaffold_level: medium
+      variation_depth: non_example_discrimination
+      complexity_note: 只使用小整数比例、一次整段转换或一次比例方程。
+      upgrade_rule: 能先写出点序或两组相似导出的比例关系，再计算。
+      fallback_move: 先写 $AC=AP+PC$ 或 $BD=BP+PD$。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-parallel-q027-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.parallel.q027.prompt
+      diagram_job_id: question_bank-parallel-q027-prompt
+      width: 60mm
+      caption: Q027 学生图：按本题条件读点序和对应线段。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:f5937eefb28bb4015aacfa3ed5349abb325aed5048cc46ab17161f499c81e281
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q028
+    points: 10
+    label: 字母线段反求参数
+    stem_latex: '如图，直线 $AC$ 与 $BD$ 相交于点 $P$，点序分别为 $A-P-C$、$B-P-D$，且 $AB\parallel CD$。
+
+
+      已知 $AP=x-1$，$PC=x+3$，且 $AB:CD=2:3$，求 $x$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/question_bank-parallel-q028-solution/rendered/solution.fragment.tex
+        diagram_ref: question_bank.parallel.q028.solution
+        diagram_job_id: question_bank-parallel-q028-solution
+        width: 60mm
+        caption: Q028 教师图：标出本题实际使用的对应边和整段关系。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:358de61c53f5b792cb1595284a8f23ce13bb1f2a513bab0559c9723f9b4e525a
+        packages:
+        - tikz
+        libraries: []
+    answer: $x=9$。
+    explanation: $3x-3=2x+6$，所以 $x=9$。
+    solution_steps:
+    - title: 列比例
+      content: $(x-1):(x+3)=2:3$。
+    - title: 解方程
+      content: $3x-3=2x+6$，所以 $x=9$。
+    teaching:
+      teaching_goal: 8 字型中先拆整段，再写对应边比
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      expected_blocker: 沿用 A 字型的加法，没有识别交点在整段中间。
+      entry_point: solve_and_check
+      scaffold_level: medium
+      variation_depth: partially_hidden
+      complexity_note: 只使用小整数比例、一次整段转换或一次比例方程。
+      upgrade_rule: 能先写出点序或两组相似导出的比例关系，再计算。
+      fallback_move: 先写 $AC=AP+PC$ 或 $BD=BP+PD$。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-parallel-q028-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.parallel.q028.prompt
+      diagram_job_id: question_bank-parallel-q028-prompt
+      width: 60mm
+      caption: Q028 学生图：按本题条件读点序和对应线段。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:54ba1bbd66d53f64ce0b1d028f3bb3748f347fb514e20f0a5b5486c1e99b39ce
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q029
+    points: 10
+    label: 对应边比转整段比
+    stem_latex: '如图，直线 $AC$ 与 $BD$ 相交于点 $P$，点序分别为 $A-P-C$、$B-P-D$，且 $AB\parallel CD$。
+
+
+      已知 $AB:CD=4:7$，求 $BP:BD$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/question_bank-parallel-q029-solution/rendered/solution.fragment.tex
+        diagram_ref: question_bank.parallel.q029.solution
+        diagram_job_id: question_bank-parallel-q029-solution
+        width: 60mm
+        caption: Q029 教师图：标出本题实际使用的对应边和整段关系。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:22ef3dbf3499a49fcb30c7ee51ce85f3de8725ebb28c86c48fda347908db6c22
+        packages:
+        - tikz
+        libraries: []
+    answer: $BP:BD=4:11$。
+    explanation: $BD=BP+PD$ 共 $11$ 份，所以 $BP:BD=4:11$。
+    solution_steps:
+    - title: 转到截线
+      content: $BP:PD=4:7$。
+    - title: 合成整段
+      content: $BD=BP+PD$ 共 $11$ 份，所以 $BP:BD=4:11$。
+    teaching:
+      teaching_goal: 8 字型中先拆整段，再写对应边比
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      expected_blocker: 沿用 A 字型的加法，没有识别交点在整段中间。
+      entry_point: solve_and_check
+      scaffold_level: medium
+      variation_depth: reverse_construct
+      complexity_note: 只使用小整数比例、一次整段转换或一次比例方程。
+      upgrade_rule: 能先写出点序或两组相似导出的比例关系，再计算。
+      fallback_move: 先写 $AC=AP+PC$ 或 $BD=BP+PD$。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-parallel-q029-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.parallel.q029.prompt
+      diagram_job_id: question_bank-parallel-q029-prompt
+      width: 60mm
+      caption: Q029 学生图：按本题条件读点序和对应线段。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:9504fe899f224492b20b7cca2930c612a99b9c5c6f652affc29d222fb2f29763
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q030
+    points: 10
+    label: 检验交叉图条件一致性
+    stem_latex: '如图，直线 $AC$ 与 $BD$ 相交于点 $P$，点序分别为 $A-P-C$、$B-P-D$，且 $AB\parallel CD$。
+
+
+      已知 $AP:AC=2:5$，同时又给出 $BP:PD=3:5$。判断能否同时成立。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/question_bank-parallel-q030-solution/rendered/solution.fragment.tex
+        diagram_ref: question_bank.parallel.q030.solution
+        diagram_job_id: question_bank-parallel-q030-solution
+        width: 60mm
+        caption: Q030 教师图：标出本题实际使用的对应边和整段关系。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:386d0b3db75b64989e582cb55e132551254842cca3bf8717c488a7ff1f6cf0d8
+        packages:
+        - tikz
+        libraries: []
+    answer: 不能同时成立。
+    explanation: 相似要求 $BP:PD=2:3$，与 $3:5$ 不同，所以条件矛盾。
+    solution_steps:
+    - title: 由整段比
+      content: $AP:PC=2:(5-2)=2:3$。
+    - title: 检查相似
+      content: 相似要求 $BP:PD=2:3$，与 $3:5$ 不同，所以条件矛盾。
+    teaching:
+      teaching_goal: 8 字型中先拆整段，再写对应边比
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      expected_blocker: 沿用 A 字型的加法，没有识别交点在整段中间。
+      entry_point: solve_and_check
+      scaffold_level: medium
+      variation_depth: non_example_discrimination
+      complexity_note: 只使用小整数比例、一次整段转换或一次比例方程。
+      upgrade_rule: 能先写出点序或两组相似导出的比例关系，再计算。
+      fallback_move: 先写 $AC=AP+PC$ 或 $BD=BP+PD$。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-parallel-q030-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.parallel.q030.prompt
+      diagram_job_id: question_bank-parallel-q030-prompt
+      width: 60mm
+      caption: Q030 学生图：按本题条件读点序和对应线段。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:67b427d6017fce3a48bd01ca6d585b521c65a9eea64b1017a4539bac2fdbfe7f
+      packages:
+      - tikz
+      libraries: []

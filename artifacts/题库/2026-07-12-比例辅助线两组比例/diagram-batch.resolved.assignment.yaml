@@ -1,0 +1,1960 @@
+meta:
+  title: 比例辅助线两组比例题库独立图形批处理
+  grade: 八年级
+  subject: 数学
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    explanation: ../../专题/2026-07-12-比例辅助线两组比例-待审核/02-student-explanation.resolved.assignment.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: questions
+  title: 题库题目
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q001
+    points: 10
+    label: 由两组比例求 AP:PD
+    stem_latex: '如图，在 $\triangle ABC$ 中，$D$ 在线段 $BC$ 上，$E$ 在线段 $AC$ 上，$AD$ 与 $BE$
+      交于点 $P$。已知
+
+      \[
+
+      AE:EC=1:2，\qquad BD:DC=2:1，
+
+      \]
+
+      求 $AP:PD$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/question_bank-auxiliary-q001-solution/rendered/solution.fragment.tex
+        diagram_ref: question_bank.auxiliary.q001.solution
+        diagram_job_id: question_bank-auxiliary-q001-solution
+        width: 60mm
+        caption: Q001 教师图：过 C 作 CF 平行 AD，交 BE 于 F。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:cf706a535e9d5787c03832577679805ed6d0605bd6453c78f65a53e630114465
+        packages:
+        - tikz
+        libraries: []
+    answer: $AP:PD=3:4$。
+    explanation: 代入已知比例，得 $AP:PD=3:4$。
+    solution_steps:
+    - title: 围三角形并作辅助线
+      content: 已知比和所求比分别位于三条比例线上；按讲解中的统一动作作平行辅助线，得到两组相似三角形。
+    - title: 写出比例关系
+      content: 记 $x=AE/EC$，$y=AP/PD$，$z=BP/PE$，$w=BD/DC$。由两组相似消去共同的中间线段，得到 $ \dfrac{AP}{PD}=\dfrac{AE}{EC}\cdot\dfrac{BC}{BD}
+        $。
+    - title: 代入并化简
+      content: 代入已知比例，得 $AP:PD=3:4$。
+    teaching:
+      teaching_goal: 根据两条已知比例线和所求比例线现场选择辅助线
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      expected_blocker: 只使用一组相似，或者没有把两组比例统一到同一条中间线段。
+      entry_point: solve_and_check
+      scaffold_level: medium
+      variation_depth: changed_question
+      complexity_note: 只使用小整数比例、一次整段转换或一次比例方程。
+      upgrade_rule: 能先写出点序或两组相似导出的比例关系，再计算。
+      fallback_move: 先标出两条已知比例线和所求比例线，再围出它们形成的三角形。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-auxiliary-q001-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.auxiliary.q001.prompt
+      diagram_job_id: question_bank-auxiliary-q001-prompt
+      width: 60mm
+      caption: Q001 学生图：本题原始三角形与两条交线。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:cfcad8a97154d6a88786eb8dee5bfd082416d4587ebed0211f24a30e20d893a6
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q002
+    points: 10
+    label: 由两组比例求 AP:PD
+    stem_latex: '如图，在 $\triangle ABC$ 中，$D$ 在线段 $BC$ 上，$E$ 在线段 $AC$ 上，$AD$ 与 $BE$
+      交于点 $P$。已知
+
+      \[
+
+      AE:EC=2:1，\qquad BD:DC=1:1，
+
+      \]
+
+      求 $AP:PD$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/question_bank-auxiliary-q002-solution/rendered/solution.fragment.tex
+        diagram_ref: question_bank.auxiliary.q002.solution
+        diagram_job_id: question_bank-auxiliary-q002-solution
+        width: 60mm
+        caption: Q002 教师图：过 C 作 CF 平行 AD，交 BE 于 F。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:13fda2487e77944ffe18782f0da0d5a5953b8df8034010061ea73c939a15341c
+        packages:
+        - tikz
+        libraries: []
+    answer: $AP:PD=4:1$。
+    explanation: 代入已知比例，得 $AP:PD=4:1$。
+    solution_steps:
+    - title: 围三角形并作辅助线
+      content: 已知比和所求比分别位于三条比例线上；按讲解中的统一动作作平行辅助线，得到两组相似三角形。
+    - title: 写出比例关系
+      content: 记 $x=AE/EC$，$y=AP/PD$，$z=BP/PE$，$w=BD/DC$。由两组相似消去共同的中间线段，得到 $ \dfrac{AP}{PD}=\dfrac{AE}{EC}\cdot\dfrac{BC}{BD}
+        $。
+    - title: 代入并化简
+      content: 代入已知比例，得 $AP:PD=4:1$。
+    teaching:
+      teaching_goal: 根据两条已知比例线和所求比例线现场选择辅助线
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      expected_blocker: 只使用一组相似，或者没有把两组比例统一到同一条中间线段。
+      entry_point: solve_and_check
+      scaffold_level: medium
+      variation_depth: changed_numbers
+      complexity_note: 只使用小整数比例、一次整段转换或一次比例方程。
+      upgrade_rule: 能先写出点序或两组相似导出的比例关系，再计算。
+      fallback_move: 先标出两条已知比例线和所求比例线，再围出它们形成的三角形。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-auxiliary-q002-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.auxiliary.q002.prompt
+      diagram_job_id: question_bank-auxiliary-q002-prompt
+      width: 60mm
+      caption: Q002 学生图：本题原始三角形与两条交线。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:c0209cfbfb8fa5de2e074797123b2b254f1e64f8d2b83e19489a93381b328f4e
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q003
+    points: 10
+    label: 由两组比例求 BP:PE
+    stem_latex: '如图，在 $\triangle ABC$ 中，$D$ 在线段 $BC$ 上，$E$ 在线段 $AC$ 上，$AD$ 与 $BE$
+      交于点 $P$。已知
+
+      \[
+
+      AE:EC=1:1，\qquad BD:DC=1:1，
+
+      \]
+
+      求 $BP:PE$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/question_bank-auxiliary-q003-solution/rendered/solution.fragment.tex
+        diagram_ref: question_bank.auxiliary.q003.solution
+        diagram_job_id: question_bank-auxiliary-q003-solution
+        width: 60mm
+        caption: Q003 教师图：过 A 作 AF 平行 EP，交 BC 于 F。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:946de0e8d78d7ceefc87f0ca84b466ebb8a65fd69ed1c875544fa6d53b1a93be
+        packages:
+        - tikz
+        libraries: []
+    answer: $BP:PE=2:1$。
+    explanation: 代入已知比例，得 $BP:PE=2:1$。
+    solution_steps:
+    - title: 围三角形并作辅助线
+      content: 已知比和所求比分别位于三条比例线上；按讲解中的统一动作作平行辅助线，得到两组相似三角形。
+    - title: 写出比例关系
+      content: 记 $x=AE/EC$，$y=AP/PD$，$z=BP/PE$，$w=BD/DC$。由两组相似消去共同的中间线段，得到 $ \dfrac{BP}{PE}=\dfrac{BD}{DC}\cdot\dfrac{AC}{AE}
+        $。
+    - title: 代入并化简
+      content: 代入已知比例，得 $BP:PE=2:1$。
+    teaching:
+      teaching_goal: 根据两条已知比例线和所求比例线现场选择辅助线
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      expected_blocker: 只使用一组相似，或者没有把两组比例统一到同一条中间线段。
+      entry_point: solve_and_check
+      scaffold_level: medium
+      variation_depth: changed_question
+      complexity_note: 只使用小整数比例、一次整段转换或一次比例方程。
+      upgrade_rule: 能先写出点序或两组相似导出的比例关系，再计算。
+      fallback_move: 先标出两条已知比例线和所求比例线，再围出它们形成的三角形。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-auxiliary-q003-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.auxiliary.q003.prompt
+      diagram_job_id: question_bank-auxiliary-q003-prompt
+      width: 60mm
+      caption: Q003 学生图：本题原始三角形与两条交线。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:d66af0b20a304641c681084796f2ff980ca13b9745164cfaf2efa200dfff3150
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q004
+    points: 10
+    label: 由两组比例求 BP:PE
+    stem_latex: '如图，在 $\triangle ABC$ 中，$D$ 在线段 $BC$ 上，$E$ 在线段 $AC$ 上，$AD$ 与 $BE$
+      交于点 $P$。已知
+
+      \[
+
+      AE:EC=2:3，\qquad BD:DC=2:1，
+
+      \]
+
+      求 $BP:PE$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/question_bank-auxiliary-q004-solution/rendered/solution.fragment.tex
+        diagram_ref: question_bank.auxiliary.q004.solution
+        diagram_job_id: question_bank-auxiliary-q004-solution
+        width: 60mm
+        caption: Q004 教师图：过 A 作 AF 平行 EP，交 BC 于 F。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:342d239787c981947d5c035f562d18132b174325021c1a59a442089f1f648562
+        packages:
+        - tikz
+        libraries: []
+    answer: $BP:PE=5:1$。
+    explanation: 代入已知比例，得 $BP:PE=5:1$。
+    solution_steps:
+    - title: 围三角形并作辅助线
+      content: 已知比和所求比分别位于三条比例线上；按讲解中的统一动作作平行辅助线，得到两组相似三角形。
+    - title: 写出比例关系
+      content: 记 $x=AE/EC$，$y=AP/PD$，$z=BP/PE$，$w=BD/DC$。由两组相似消去共同的中间线段，得到 $ \dfrac{BP}{PE}=\dfrac{BD}{DC}\cdot\dfrac{AC}{AE}
+        $。
+    - title: 代入并化简
+      content: 代入已知比例，得 $BP:PE=5:1$。
+    teaching:
+      teaching_goal: 根据两条已知比例线和所求比例线现场选择辅助线
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      expected_blocker: 只使用一组相似，或者没有把两组比例统一到同一条中间线段。
+      entry_point: solve_and_check
+      scaffold_level: medium
+      variation_depth: changed_numbers
+      complexity_note: 只使用小整数比例、一次整段转换或一次比例方程。
+      upgrade_rule: 能先写出点序或两组相似导出的比例关系，再计算。
+      fallback_move: 先标出两条已知比例线和所求比例线，再围出它们形成的三角形。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-auxiliary-q004-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.auxiliary.q004.prompt
+      diagram_job_id: question_bank-auxiliary-q004-prompt
+      width: 60mm
+      caption: Q004 学生图：本题原始三角形与两条交线。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:6747aeff2924bfa3fa6f7ff68f1bec0f808a35a3b3fdd30fa74fc0feb60aade2
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q005
+    points: 10
+    label: 由两组比例求 BD:DC
+    stem_latex: '如图，在 $\triangle ABC$ 中，$D$ 在线段 $BC$ 上，$E$ 在线段 $AC$ 上，$AD$ 与 $BE$
+      交于点 $P$。已知
+
+      \[
+
+      AE:EC=3:2，\qquad AP:PD=2:1，
+
+      \]
+
+      求 $BD:DC$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/question_bank-auxiliary-q005-solution/rendered/solution.fragment.tex
+        diagram_ref: question_bank.auxiliary.q005.solution
+        diagram_job_id: question_bank-auxiliary-q005-solution
+        width: 60mm
+        caption: Q005 教师图：过 P 作 PF 平行 DB，交 AC 于 F。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:8a5f603b94c329eb4321407803e45db1fa707727896cda2817b656041dc986cd
+        packages:
+        - tikz
+        libraries: []
+    answer: $BD:DC=3:1$。
+    explanation: 代入已知比例，得 $BD:DC=3:1$。
+    solution_steps:
+    - title: 围三角形并作辅助线
+      content: 已知比和所求比分别位于三条比例线上；按讲解中的统一动作作平行辅助线，得到两组相似三角形。
+    - title: 写出比例关系
+      content: 记 $x=AE/EC$，$y=AP/PD$，$z=BP/PE$，$w=BD/DC$。由两组相似消去共同的中间线段，得到 $ w=\dfrac{x}{y-x}
+        $。
+    - title: 代入并化简
+      content: 代入已知比例，得 $BD:DC=3:1$。
+    teaching:
+      teaching_goal: 根据两条已知比例线和所求比例线现场选择辅助线
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      expected_blocker: 只使用一组相似，或者没有把两组比例统一到同一条中间线段。
+      entry_point: solve_and_check
+      scaffold_level: medium
+      variation_depth: changed_question
+      complexity_note: 只使用小整数比例、一次整段转换或一次比例方程。
+      upgrade_rule: 能先写出点序或两组相似导出的比例关系，再计算。
+      fallback_move: 先标出两条已知比例线和所求比例线，再围出它们形成的三角形。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-auxiliary-q005-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.auxiliary.q005.prompt
+      diagram_job_id: question_bank-auxiliary-q005-prompt
+      width: 60mm
+      caption: Q005 学生图：本题原始三角形与两条交线。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:751ab722f8f37d0948d18e37b1cda01e4346450f8f06f1917a5a530d256bcf36
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q006
+    points: 10
+    label: 由两组比例求 BD:DC
+    stem_latex: '如图，在 $\triangle ABC$ 中，$D$ 在线段 $BC$ 上，$E$ 在线段 $AC$ 上，$AD$ 与 $BE$
+      交于点 $P$。已知
+
+      \[
+
+      AE:EC=1:3，\qquad AP:PD=1:1，
+
+      \]
+
+      求 $BD:DC$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/question_bank-auxiliary-q006-solution/rendered/solution.fragment.tex
+        diagram_ref: question_bank.auxiliary.q006.solution
+        diagram_job_id: question_bank-auxiliary-q006-solution
+        width: 60mm
+        caption: Q006 教师图：过 P 作 PF 平行 DB，交 AC 于 F。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:53c459bacd1cc903f54fe09999cff15473866169af28ca21e1fc692c931d2168
+        packages:
+        - tikz
+        libraries: []
+    answer: $BD:DC=1:2$。
+    explanation: 代入已知比例，得 $BD:DC=1:2$。
+    solution_steps:
+    - title: 围三角形并作辅助线
+      content: 已知比和所求比分别位于三条比例线上；按讲解中的统一动作作平行辅助线，得到两组相似三角形。
+    - title: 写出比例关系
+      content: 记 $x=AE/EC$，$y=AP/PD$，$z=BP/PE$，$w=BD/DC$。由两组相似消去共同的中间线段，得到 $ w=\dfrac{x}{y-x}
+        $。
+    - title: 代入并化简
+      content: 代入已知比例，得 $BD:DC=1:2$。
+    teaching:
+      teaching_goal: 根据两条已知比例线和所求比例线现场选择辅助线
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      expected_blocker: 只使用一组相似，或者没有把两组比例统一到同一条中间线段。
+      entry_point: solve_and_check
+      scaffold_level: medium
+      variation_depth: changed_numbers
+      complexity_note: 只使用小整数比例、一次整段转换或一次比例方程。
+      upgrade_rule: 能先写出点序或两组相似导出的比例关系，再计算。
+      fallback_move: 先标出两条已知比例线和所求比例线，再围出它们形成的三角形。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-auxiliary-q006-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.auxiliary.q006.prompt
+      diagram_job_id: question_bank-auxiliary-q006-prompt
+      width: 60mm
+      caption: Q006 学生图：本题原始三角形与两条交线。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:8badf8e0392e8db8a0fc8405c7cb871508f0da202f2ffedb1152aa6293243cd9
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q007
+    points: 10
+    label: 由两组比例求 BD:DC
+    stem_latex: '如图，在 $\triangle ABC$ 中，$D$ 在线段 $BC$ 上，$E$ 在线段 $AC$ 上，$AD$ 与 $BE$
+      交于点 $P$。已知
+
+      \[
+
+      AE:EC=3:1，\qquad BP:PE=8:3，
+
+      \]
+
+      求 $BD:DC$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/question_bank-auxiliary-q007-solution/rendered/solution.fragment.tex
+        diagram_ref: question_bank.auxiliary.q007.solution
+        diagram_job_id: question_bank-auxiliary-q007-solution
+        width: 60mm
+        caption: Q007 教师图：过 P 作 PF 平行 DB，交 AC 于 F。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:a74b356b510aeae12671b23c42029454a4541449617a3d21d8f8b003794b7cd1
+        packages:
+        - tikz
+        libraries: []
+    answer: $BD:DC=2:1$。
+    explanation: 代入已知比例，得 $BD:DC=2:1$。
+    solution_steps:
+    - title: 围三角形并作辅助线
+      content: 已知比和所求比分别位于三条比例线上；按讲解中的统一动作作平行辅助线，得到两组相似三角形。
+    - title: 写出比例关系
+      content: 记 $x=AE/EC$，$y=AP/PD$，$z=BP/PE$，$w=BD/DC$。由两组相似消去共同的中间线段，得到 $ w=\dfrac{zx}{x+1}
+        $。
+    - title: 代入并化简
+      content: 代入已知比例，得 $BD:DC=2:1$。
+    teaching:
+      teaching_goal: 根据两条已知比例线和所求比例线现场选择辅助线
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      expected_blocker: 只使用一组相似，或者没有把两组比例统一到同一条中间线段。
+      entry_point: solve_and_check
+      scaffold_level: medium
+      variation_depth: changed_question
+      complexity_note: 只使用小整数比例、一次整段转换或一次比例方程。
+      upgrade_rule: 能先写出点序或两组相似导出的比例关系，再计算。
+      fallback_move: 先标出两条已知比例线和所求比例线，再围出它们形成的三角形。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-auxiliary-q007-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.auxiliary.q007.prompt
+      diagram_job_id: question_bank-auxiliary-q007-prompt
+      width: 60mm
+      caption: Q007 学生图：本题原始三角形与两条交线。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:4671b61b17a8a813279b344c83f6081df4597591300b8d923b2e7a4cd396351d
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q008
+    points: 10
+    label: 由两组比例求 BD:DC
+    stem_latex: '如图，在 $\triangle ABC$ 中，$D$ 在线段 $BC$ 上，$E$ 在线段 $AC$ 上，$AD$ 与 $BE$
+      交于点 $P$。已知
+
+      \[
+
+      AE:EC=1:2，\qquad BP:PE=3:2，
+
+      \]
+
+      求 $BD:DC$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/question_bank-auxiliary-q008-solution/rendered/solution.fragment.tex
+        diagram_ref: question_bank.auxiliary.q008.solution
+        diagram_job_id: question_bank-auxiliary-q008-solution
+        width: 60mm
+        caption: Q008 教师图：过 P 作 PF 平行 DB，交 AC 于 F。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:f9c046724ac01e22d073f593db35f4f896913ce6069be3ea833bbeb536354614
+        packages:
+        - tikz
+        libraries: []
+    answer: $BD:DC=1:2$。
+    explanation: 代入已知比例，得 $BD:DC=1:2$。
+    solution_steps:
+    - title: 围三角形并作辅助线
+      content: 已知比和所求比分别位于三条比例线上；按讲解中的统一动作作平行辅助线，得到两组相似三角形。
+    - title: 写出比例关系
+      content: 记 $x=AE/EC$，$y=AP/PD$，$z=BP/PE$，$w=BD/DC$。由两组相似消去共同的中间线段，得到 $ w=\dfrac{zx}{x+1}
+        $。
+    - title: 代入并化简
+      content: 代入已知比例，得 $BD:DC=1:2$。
+    teaching:
+      teaching_goal: 根据两条已知比例线和所求比例线现场选择辅助线
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      expected_blocker: 只使用一组相似，或者没有把两组比例统一到同一条中间线段。
+      entry_point: solve_and_check
+      scaffold_level: medium
+      variation_depth: changed_numbers
+      complexity_note: 只使用小整数比例、一次整段转换或一次比例方程。
+      upgrade_rule: 能先写出点序或两组相似导出的比例关系，再计算。
+      fallback_move: 先标出两条已知比例线和所求比例线，再围出它们形成的三角形。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-auxiliary-q008-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.auxiliary.q008.prompt
+      diagram_job_id: question_bank-auxiliary-q008-prompt
+      width: 60mm
+      caption: Q008 学生图：本题原始三角形与两条交线。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:71c45d48ae0cfb1e98d9e5ee73ba18d643f55b2166d733e12d883e024d693885
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q009
+    points: 10
+    label: 由两组比例求 AE:EC
+    stem_latex: '如图，在 $\triangle ABC$ 中，$D$ 在线段 $BC$ 上，$E$ 在线段 $AC$ 上，$AD$ 与 $BE$
+      交于点 $P$。已知
+
+      \[
+
+      AP:PD=3:1，\qquad BD:DC=2:1，
+
+      \]
+
+      求 $AE:EC$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/question_bank-auxiliary-q009-solution/rendered/solution.fragment.tex
+        diagram_ref: question_bank.auxiliary.q009.solution
+        diagram_job_id: question_bank-auxiliary-q009-solution
+        width: 60mm
+        caption: Q009 教师图：过 E 作 EF 平行 CB，交 AD 于 F。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:a3a44440d9d5008321a7a2cf679fae57e221245a718df0e86a4e6b853b83c1b4
+        packages:
+        - tikz
+        libraries: []
+    answer: $AE:EC=2:1$。
+    explanation: 代入已知比例，得 $AE:EC=2:1$。
+    solution_steps:
+    - title: 围三角形并作辅助线
+      content: 已知比和所求比分别位于三条比例线上；按讲解中的统一动作作平行辅助线，得到两组相似三角形。
+    - title: 写出比例关系
+      content: 记 $x=AE/EC$，$y=AP/PD$，$z=BP/PE$，$w=BD/DC$。由两组相似消去共同的中间线段，得到 $ x=\dfrac{yw}{w+1}
+        $。
+    - title: 代入并化简
+      content: 代入已知比例，得 $AE:EC=2:1$。
+    teaching:
+      teaching_goal: 根据两条已知比例线和所求比例线现场选择辅助线
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      expected_blocker: 只使用一组相似，或者没有把两组比例统一到同一条中间线段。
+      entry_point: solve_and_check
+      scaffold_level: medium
+      variation_depth: changed_question
+      complexity_note: 只使用小整数比例、一次整段转换或一次比例方程。
+      upgrade_rule: 能先写出点序或两组相似导出的比例关系，再计算。
+      fallback_move: 先标出两条已知比例线和所求比例线，再围出它们形成的三角形。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-auxiliary-q009-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.auxiliary.q009.prompt
+      diagram_job_id: question_bank-auxiliary-q009-prompt
+      width: 60mm
+      caption: Q009 学生图：本题原始三角形与两条交线。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:a7c5bea011a364f975078a4716c1e61e267afb846232da86cb625e1347252901
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q010
+    points: 10
+    label: 由两组比例求 AE:EC
+    stem_latex: '如图，在 $\triangle ABC$ 中，$D$ 在线段 $BC$ 上，$E$ 在线段 $AC$ 上，$AD$ 与 $BE$
+      交于点 $P$。已知
+
+      \[
+
+      AP:PD=5:4，\qquad BD:DC=3:2，
+
+      \]
+
+      求 $AE:EC$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/question_bank-auxiliary-q010-solution/rendered/solution.fragment.tex
+        diagram_ref: question_bank.auxiliary.q010.solution
+        diagram_job_id: question_bank-auxiliary-q010-solution
+        width: 60mm
+        caption: Q010 教师图：过 E 作 EF 平行 CB，交 AD 于 F。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:f1e73d01360a3f9bed1398b718e2d76bed0bfbc91d8c3e7c3341ffb50c697f60
+        packages:
+        - tikz
+        libraries: []
+    answer: $AE:EC=3:4$。
+    explanation: 代入已知比例，得 $AE:EC=3:4$。
+    solution_steps:
+    - title: 围三角形并作辅助线
+      content: 已知比和所求比分别位于三条比例线上；按讲解中的统一动作作平行辅助线，得到两组相似三角形。
+    - title: 写出比例关系
+      content: 记 $x=AE/EC$，$y=AP/PD$，$z=BP/PE$，$w=BD/DC$。由两组相似消去共同的中间线段，得到 $ x=\dfrac{yw}{w+1}
+        $。
+    - title: 代入并化简
+      content: 代入已知比例，得 $AE:EC=3:4$。
+    teaching:
+      teaching_goal: 根据两条已知比例线和所求比例线现场选择辅助线
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      expected_blocker: 只使用一组相似，或者没有把两组比例统一到同一条中间线段。
+      entry_point: solve_and_check
+      scaffold_level: medium
+      variation_depth: changed_numbers
+      complexity_note: 只使用小整数比例、一次整段转换或一次比例方程。
+      upgrade_rule: 能先写出点序或两组相似导出的比例关系，再计算。
+      fallback_move: 先标出两条已知比例线和所求比例线，再围出它们形成的三角形。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-auxiliary-q010-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.auxiliary.q010.prompt
+      diagram_job_id: question_bank-auxiliary-q010-prompt
+      width: 60mm
+      caption: Q010 学生图：本题原始三角形与两条交线。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:1b1c8425704f50a82488d74700405e90c8093fa28f0ceaf57b7162bd061dd45e
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q011
+    points: 10
+    label: 由两组比例求 BP:PE
+    stem_latex: '如图，在 $\triangle ABC$ 中，$D$ 在线段 $BC$ 上，$E$ 在线段 $AC$ 上，$AD$ 与 $BE$
+      交于点 $P$。已知
+
+      \[
+
+      AE:EC=4:3，\qquad AP:PD=2:1，
+
+      \]
+
+      求 $BP:PE$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/question_bank-auxiliary-q011-solution/rendered/solution.fragment.tex
+        diagram_ref: question_bank.auxiliary.q011.solution
+        diagram_job_id: question_bank-auxiliary-q011-solution
+        width: 60mm
+        caption: Q011 教师图：过 A 作 AF 平行 EP，交 BC 于 F。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:eeb59d6ec24b6970c61c0163aa258a211568005bcff7fd78ec6a69878f584d8a
+        packages:
+        - tikz
+        libraries: []
+    answer: $BP:PE=7:2$。
+    explanation: 代入已知比例，得 $BP:PE=7:2$。
+    solution_steps:
+    - title: 围三角形并作辅助线
+      content: 已知比和所求比分别位于三条比例线上；按讲解中的统一动作作平行辅助线，得到两组相似三角形。
+    - title: 写出比例关系
+      content: 记 $x=AE/EC$，$y=AP/PD$，$z=BP/PE$，$w=BD/DC$。由两组相似消去共同的中间线段，得到 $ z=\dfrac{x+1}{y-x}
+        $。
+    - title: 代入并化简
+      content: 代入已知比例，得 $BP:PE=7:2$。
+    teaching:
+      teaching_goal: 根据两条已知比例线和所求比例线现场选择辅助线
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      expected_blocker: 只使用一组相似，或者没有把两组比例统一到同一条中间线段。
+      entry_point: solve_and_check
+      scaffold_level: medium
+      variation_depth: changed_question
+      complexity_note: 只使用小整数比例、一次整段转换或一次比例方程。
+      upgrade_rule: 能先写出点序或两组相似导出的比例关系，再计算。
+      fallback_move: 先标出两条已知比例线和所求比例线，再围出它们形成的三角形。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-auxiliary-q011-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.auxiliary.q011.prompt
+      diagram_job_id: question_bank-auxiliary-q011-prompt
+      width: 60mm
+      caption: Q011 学生图：本题原始三角形与两条交线。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:6d3f7a1e534ccaa13999da900e93a1e572b4945e6f223ecfbc0ddec5c227dd2d
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q012
+    points: 10
+    label: 由两组比例求 BP:PE
+    stem_latex: '如图，在 $\triangle ABC$ 中，$D$ 在线段 $BC$ 上，$E$ 在线段 $AC$ 上，$AD$ 与 $BE$
+      交于点 $P$。已知
+
+      \[
+
+      AE:EC=2:5，\qquad AP:PD=2:3，
+
+      \]
+
+      求 $BP:PE$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/question_bank-auxiliary-q012-solution/rendered/solution.fragment.tex
+        diagram_ref: question_bank.auxiliary.q012.solution
+        diagram_job_id: question_bank-auxiliary-q012-solution
+        width: 60mm
+        caption: Q012 教师图：过 A 作 AF 平行 EP，交 BC 于 F。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:838a05a1a81e0f47f322b8e0ded1ff1e09adb97ea2da529f596d625e2b7a1017
+        packages:
+        - tikz
+        libraries: []
+    answer: $BP:PE=21:4$。
+    explanation: 代入已知比例，得 $BP:PE=21:4$。
+    solution_steps:
+    - title: 围三角形并作辅助线
+      content: 已知比和所求比分别位于三条比例线上；按讲解中的统一动作作平行辅助线，得到两组相似三角形。
+    - title: 写出比例关系
+      content: 记 $x=AE/EC$，$y=AP/PD$，$z=BP/PE$，$w=BD/DC$。由两组相似消去共同的中间线段，得到 $ z=\dfrac{x+1}{y-x}
+        $。
+    - title: 代入并化简
+      content: 代入已知比例，得 $BP:PE=21:4$。
+    teaching:
+      teaching_goal: 根据两条已知比例线和所求比例线现场选择辅助线
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      expected_blocker: 只使用一组相似，或者没有把两组比例统一到同一条中间线段。
+      entry_point: solve_and_check
+      scaffold_level: medium
+      variation_depth: changed_numbers
+      complexity_note: 只使用小整数比例、一次整段转换或一次比例方程。
+      upgrade_rule: 能先写出点序或两组相似导出的比例关系，再计算。
+      fallback_move: 先标出两条已知比例线和所求比例线，再围出它们形成的三角形。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-auxiliary-q012-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.auxiliary.q012.prompt
+      diagram_job_id: question_bank-auxiliary-q012-prompt
+      width: 60mm
+      caption: Q012 学生图：本题原始三角形与两条交线。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:a9bee72adab6ace2138af3081140a8d176f5b13a752a8630e9ce6de4b37db974
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q013
+    points: 10
+    label: 由两组比例求 AP:PD
+    stem_latex: '如图，在 $\triangle ABC$ 中，$D$ 在线段 $BC$ 上，$E$ 在线段 $AC$ 上，$AD$ 与 $BE$
+      交于点 $P$。已知
+
+      \[
+
+      AE:EC=1:2，\qquad BP:PE=6:1，
+
+      \]
+
+      求 $AP:PD$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/question_bank-auxiliary-q013-solution/rendered/solution.fragment.tex
+        diagram_ref: question_bank.auxiliary.q013.solution
+        diagram_job_id: question_bank-auxiliary-q013-solution
+        width: 60mm
+        caption: Q013 教师图：过 C 作 CF 平行 AD，交 BE 于 F。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:b83e5a3140f130156f0a46e4a277aa025d7cbe1ae0ed65b3a391597495a0707e
+        packages:
+        - tikz
+        libraries: []
+    answer: $AP:PD=3:4$。
+    explanation: 代入已知比例，得 $AP:PD=3:4$。
+    solution_steps:
+    - title: 围三角形并作辅助线
+      content: 已知比和所求比分别位于三条比例线上；按讲解中的统一动作作平行辅助线，得到两组相似三角形。
+    - title: 写出比例关系
+      content: 记 $x=AE/EC$，$y=AP/PD$，$z=BP/PE$，$w=BD/DC$。由两组相似消去共同的中间线段，得到 $ y=x+\dfrac{x+1}{z}
+        $。
+    - title: 代入并化简
+      content: 代入已知比例，得 $AP:PD=3:4$。
+    teaching:
+      teaching_goal: 根据两条已知比例线和所求比例线现场选择辅助线
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      expected_blocker: 只使用一组相似，或者没有把两组比例统一到同一条中间线段。
+      entry_point: solve_and_check
+      scaffold_level: medium
+      variation_depth: changed_question
+      complexity_note: 只使用小整数比例、一次整段转换或一次比例方程。
+      upgrade_rule: 能先写出点序或两组相似导出的比例关系，再计算。
+      fallback_move: 先标出两条已知比例线和所求比例线，再围出它们形成的三角形。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-auxiliary-q013-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.auxiliary.q013.prompt
+      diagram_job_id: question_bank-auxiliary-q013-prompt
+      width: 60mm
+      caption: Q013 学生图：本题原始三角形与两条交线。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:967c2000d9a97bed8655347eade73271b750caa93b6150a99a85aa13138380ff
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q014
+    points: 10
+    label: 由两组比例求 AP:PD
+    stem_latex: '如图，在 $\triangle ABC$ 中，$D$ 在线段 $BC$ 上，$E$ 在线段 $AC$ 上，$AD$ 与 $BE$
+      交于点 $P$。已知
+
+      \[
+
+      AE:EC=2:1，\qquad BP:PE=3:2，
+
+      \]
+
+      求 $AP:PD$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/question_bank-auxiliary-q014-solution/rendered/solution.fragment.tex
+        diagram_ref: question_bank.auxiliary.q014.solution
+        diagram_job_id: question_bank-auxiliary-q014-solution
+        width: 60mm
+        caption: Q014 教师图：过 C 作 CF 平行 AD，交 BE 于 F。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:936dfef523c2dde7a549cb5d65ac48c8da0527bf7b04e04d3f6fbc50dd375ad6
+        packages:
+        - tikz
+        libraries: []
+    answer: $AP:PD=4:1$。
+    explanation: 代入已知比例，得 $AP:PD=4:1$。
+    solution_steps:
+    - title: 围三角形并作辅助线
+      content: 已知比和所求比分别位于三条比例线上；按讲解中的统一动作作平行辅助线，得到两组相似三角形。
+    - title: 写出比例关系
+      content: 记 $x=AE/EC$，$y=AP/PD$，$z=BP/PE$，$w=BD/DC$。由两组相似消去共同的中间线段，得到 $ y=x+\dfrac{x+1}{z}
+        $。
+    - title: 代入并化简
+      content: 代入已知比例，得 $AP:PD=4:1$。
+    teaching:
+      teaching_goal: 根据两条已知比例线和所求比例线现场选择辅助线
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      expected_blocker: 只使用一组相似，或者没有把两组比例统一到同一条中间线段。
+      entry_point: solve_and_check
+      scaffold_level: medium
+      variation_depth: changed_numbers
+      complexity_note: 只使用小整数比例、一次整段转换或一次比例方程。
+      upgrade_rule: 能先写出点序或两组相似导出的比例关系，再计算。
+      fallback_move: 先标出两条已知比例线和所求比例线，再围出它们形成的三角形。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-auxiliary-q014-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.auxiliary.q014.prompt
+      diagram_job_id: question_bank-auxiliary-q014-prompt
+      width: 60mm
+      caption: Q014 学生图：本题原始三角形与两条交线。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:ee1cdc2d29aaad8831cd3ad579d088052e7d299513d45be92c996fb9dcd830ac
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q015
+    points: 10
+    label: 由两组比例求 BP:PE
+    stem_latex: '如图，在 $\triangle ABC$ 中，$D$ 在线段 $BC$ 上，$E$ 在线段 $AC$ 上，$AD$ 与 $BE$
+      交于点 $P$。已知
+
+      \[
+
+      AP:PD=2:1，\qquad BD:DC=1:1，
+
+      \]
+
+      求 $BP:PE$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/question_bank-auxiliary-q015-solution/rendered/solution.fragment.tex
+        diagram_ref: question_bank.auxiliary.q015.solution
+        diagram_job_id: question_bank-auxiliary-q015-solution
+        width: 60mm
+        caption: Q015 教师图：过 A 作 AF 平行 EP，交 BC 于 F。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:324f05390eb810d2bbdb8eb662642471584f7eb56b35915cfb71930734c29a3b
+        packages:
+        - tikz
+        libraries: []
+    answer: $BP:PE=2:1$。
+    explanation: 代入已知比例，得 $BP:PE=2:1$。
+    solution_steps:
+    - title: 围三角形并作辅助线
+      content: 已知比和所求比分别位于三条比例线上；按讲解中的统一动作作平行辅助线，得到两组相似三角形。
+    - title: 写出比例关系
+      content: 记 $x=AE/EC$，$y=AP/PD$，$z=BP/PE$，$w=BD/DC$。由两组相似消去共同的中间线段，得到 $ z=w+\dfrac{w+1}{y}
+        $。
+    - title: 代入并化简
+      content: 代入已知比例，得 $BP:PE=2:1$。
+    teaching:
+      teaching_goal: 根据两条已知比例线和所求比例线现场选择辅助线
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      expected_blocker: 只使用一组相似，或者没有把两组比例统一到同一条中间线段。
+      entry_point: solve_and_check
+      scaffold_level: medium
+      variation_depth: changed_question
+      complexity_note: 只使用小整数比例、一次整段转换或一次比例方程。
+      upgrade_rule: 能先写出点序或两组相似导出的比例关系，再计算。
+      fallback_move: 先标出两条已知比例线和所求比例线，再围出它们形成的三角形。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-auxiliary-q015-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.auxiliary.q015.prompt
+      diagram_job_id: question_bank-auxiliary-q015-prompt
+      width: 60mm
+      caption: Q015 学生图：本题原始三角形与两条交线。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:7768da0382a1631369874c4de7e9dbc1ad79ce5b5720fb36d4ce40f3c4ac10e4
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q016
+    points: 10
+    label: 由两组比例求 BP:PE
+    stem_latex: '如图，在 $\triangle ABC$ 中，$D$ 在线段 $BC$ 上，$E$ 在线段 $AC$ 上，$AD$ 与 $BE$
+      交于点 $P$。已知
+
+      \[
+
+      AP:PD=1:1，\qquad BD:DC=2:1，
+
+      \]
+
+      求 $BP:PE$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/question_bank-auxiliary-q016-solution/rendered/solution.fragment.tex
+        diagram_ref: question_bank.auxiliary.q016.solution
+        diagram_job_id: question_bank-auxiliary-q016-solution
+        width: 60mm
+        caption: Q016 教师图：过 A 作 AF 平行 EP，交 BC 于 F。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:13ee4c2d8527f6b767830e885ce5a150b6b8960ccb24845d79bcc17a9ca6ae87
+        packages:
+        - tikz
+        libraries: []
+    answer: $BP:PE=5:1$。
+    explanation: 代入已知比例，得 $BP:PE=5:1$。
+    solution_steps:
+    - title: 围三角形并作辅助线
+      content: 已知比和所求比分别位于三条比例线上；按讲解中的统一动作作平行辅助线，得到两组相似三角形。
+    - title: 写出比例关系
+      content: 记 $x=AE/EC$，$y=AP/PD$，$z=BP/PE$，$w=BD/DC$。由两组相似消去共同的中间线段，得到 $ z=w+\dfrac{w+1}{y}
+        $。
+    - title: 代入并化简
+      content: 代入已知比例，得 $BP:PE=5:1$。
+    teaching:
+      teaching_goal: 根据两条已知比例线和所求比例线现场选择辅助线
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      expected_blocker: 只使用一组相似，或者没有把两组比例统一到同一条中间线段。
+      entry_point: solve_and_check
+      scaffold_level: medium
+      variation_depth: changed_numbers
+      complexity_note: 只使用小整数比例、一次整段转换或一次比例方程。
+      upgrade_rule: 能先写出点序或两组相似导出的比例关系，再计算。
+      fallback_move: 先标出两条已知比例线和所求比例线，再围出它们形成的三角形。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-auxiliary-q016-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.auxiliary.q016.prompt
+      diagram_job_id: question_bank-auxiliary-q016-prompt
+      width: 60mm
+      caption: Q016 学生图：本题原始三角形与两条交线。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:a3277f41f8dbcd433b218fd6784ec4b671eeb14f1686ec5d252b0ef069d32a63
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q017
+    points: 10
+    label: 由两组比例求 AE:EC
+    stem_latex: '如图，在 $\triangle ABC$ 中，$D$ 在线段 $BC$ 上，$E$ 在线段 $AC$ 上，$AD$ 与 $BE$
+      交于点 $P$。已知
+
+      \[
+
+      BP:PE=5:1，\qquad BD:DC=3:1，
+
+      \]
+
+      求 $AE:EC$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/question_bank-auxiliary-q017-solution/rendered/solution.fragment.tex
+        diagram_ref: question_bank.auxiliary.q017.solution
+        diagram_job_id: question_bank-auxiliary-q017-solution
+        width: 60mm
+        caption: Q017 教师图：过 E 作 EF 平行 CB，交 AD 于 F。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:b6023bfd664f94cb7fab47485ab6f214ca7cacb6bed48d5cf0f3c72dc69267f5
+        packages:
+        - tikz
+        libraries: []
+    answer: $AE:EC=3:2$。
+    explanation: 代入已知比例，得 $AE:EC=3:2$。
+    solution_steps:
+    - title: 围三角形并作辅助线
+      content: 已知比和所求比分别位于三条比例线上；按讲解中的统一动作作平行辅助线，得到两组相似三角形。
+    - title: 写出比例关系
+      content: 记 $x=AE/EC$，$y=AP/PD$，$z=BP/PE$，$w=BD/DC$。由两组相似消去共同的中间线段，得到 $ x=\dfrac{w}{z-w}
+        $。
+    - title: 代入并化简
+      content: 代入已知比例，得 $AE:EC=3:2$。
+    teaching:
+      teaching_goal: 根据两条已知比例线和所求比例线现场选择辅助线
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      expected_blocker: 只使用一组相似，或者没有把两组比例统一到同一条中间线段。
+      entry_point: solve_and_check
+      scaffold_level: medium
+      variation_depth: changed_question
+      complexity_note: 只使用小整数比例、一次整段转换或一次比例方程。
+      upgrade_rule: 能先写出点序或两组相似导出的比例关系，再计算。
+      fallback_move: 先标出两条已知比例线和所求比例线，再围出它们形成的三角形。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-auxiliary-q017-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.auxiliary.q017.prompt
+      diagram_job_id: question_bank-auxiliary-q017-prompt
+      width: 60mm
+      caption: Q017 学生图：本题原始三角形与两条交线。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:47c9b7083185c7732690dcc567a58873807b26900cf821a48958f2b8bd953bbc
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q018
+    points: 10
+    label: 由两组比例求 AE:EC
+    stem_latex: '如图，在 $\triangle ABC$ 中，$D$ 在线段 $BC$ 上，$E$ 在线段 $AC$ 上，$AD$ 与 $BE$
+      交于点 $P$。已知
+
+      \[
+
+      BP:PE=2:1，\qquad BD:DC=1:2，
+
+      \]
+
+      求 $AE:EC$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/question_bank-auxiliary-q018-solution/rendered/solution.fragment.tex
+        diagram_ref: question_bank.auxiliary.q018.solution
+        diagram_job_id: question_bank-auxiliary-q018-solution
+        width: 60mm
+        caption: Q018 教师图：过 E 作 EF 平行 CB，交 AD 于 F。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:f2714193f316886b048bb17085c6f0e015dcf6a2b725d0d9bc1450d41094052f
+        packages:
+        - tikz
+        libraries: []
+    answer: $AE:EC=1:3$。
+    explanation: 代入已知比例，得 $AE:EC=1:3$。
+    solution_steps:
+    - title: 围三角形并作辅助线
+      content: 已知比和所求比分别位于三条比例线上；按讲解中的统一动作作平行辅助线，得到两组相似三角形。
+    - title: 写出比例关系
+      content: 记 $x=AE/EC$，$y=AP/PD$，$z=BP/PE$，$w=BD/DC$。由两组相似消去共同的中间线段，得到 $ x=\dfrac{w}{z-w}
+        $。
+    - title: 代入并化简
+      content: 代入已知比例，得 $AE:EC=1:3$。
+    teaching:
+      teaching_goal: 根据两条已知比例线和所求比例线现场选择辅助线
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      expected_blocker: 只使用一组相似，或者没有把两组比例统一到同一条中间线段。
+      entry_point: solve_and_check
+      scaffold_level: medium
+      variation_depth: changed_numbers
+      complexity_note: 只使用小整数比例、一次整段转换或一次比例方程。
+      upgrade_rule: 能先写出点序或两组相似导出的比例关系，再计算。
+      fallback_move: 先标出两条已知比例线和所求比例线，再围出它们形成的三角形。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-auxiliary-q018-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.auxiliary.q018.prompt
+      diagram_job_id: question_bank-auxiliary-q018-prompt
+      width: 60mm
+      caption: Q018 学生图：本题原始三角形与两条交线。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:121495d5a19b7b8324b958f654689061ada834a6df734f37b4d5e37812fa1656
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q019
+    points: 10
+    label: 由两组比例求 AP:PD
+    stem_latex: '如图，在 $\triangle ABC$ 中，$D$ 在线段 $BC$ 上，$E$ 在线段 $AC$ 上，$AD$ 与 $BE$
+      交于点 $P$。已知
+
+      \[
+
+      BP:PE=8:3，\qquad BD:DC=2:1，
+
+      \]
+
+      求 $AP:PD$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/question_bank-auxiliary-q019-solution/rendered/solution.fragment.tex
+        diagram_ref: question_bank.auxiliary.q019.solution
+        diagram_job_id: question_bank-auxiliary-q019-solution
+        width: 60mm
+        caption: Q019 教师图：过 C 作 CF 平行 AD，交 BE 于 F。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:06359fad59cc238ceae9359c4c1b217d72745466149aed717d62e6fbd5e8aa8a
+        packages:
+        - tikz
+        libraries: []
+    answer: $AP:PD=9:2$。
+    explanation: 代入已知比例，得 $AP:PD=9:2$。
+    solution_steps:
+    - title: 围三角形并作辅助线
+      content: 已知比和所求比分别位于三条比例线上；按讲解中的统一动作作平行辅助线，得到两组相似三角形。
+    - title: 写出比例关系
+      content: 记 $x=AE/EC$，$y=AP/PD$，$z=BP/PE$，$w=BD/DC$。由两组相似消去共同的中间线段，得到 $ y=\dfrac{w+1}{z-w}
+        $。
+    - title: 代入并化简
+      content: 代入已知比例，得 $AP:PD=9:2$。
+    teaching:
+      teaching_goal: 根据两条已知比例线和所求比例线现场选择辅助线
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      expected_blocker: 只使用一组相似，或者没有把两组比例统一到同一条中间线段。
+      entry_point: solve_and_check
+      scaffold_level: medium
+      variation_depth: changed_question
+      complexity_note: 只使用小整数比例、一次整段转换或一次比例方程。
+      upgrade_rule: 能先写出点序或两组相似导出的比例关系，再计算。
+      fallback_move: 先标出两条已知比例线和所求比例线，再围出它们形成的三角形。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-auxiliary-q019-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.auxiliary.q019.prompt
+      diagram_job_id: question_bank-auxiliary-q019-prompt
+      width: 60mm
+      caption: Q019 学生图：本题原始三角形与两条交线。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:aacf88a69277e942d216026054886c8588adb709363bb608e01b566bfd07204b
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q020
+    points: 10
+    label: 由两组比例求 AP:PD
+    stem_latex: '如图，在 $\triangle ABC$ 中，$D$ 在线段 $BC$ 上，$E$ 在线段 $AC$ 上，$AD$ 与 $BE$
+      交于点 $P$。已知
+
+      \[
+
+      BP:PE=3:2，\qquad BD:DC=1:2，
+
+      \]
+
+      求 $AP:PD$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/question_bank-auxiliary-q020-solution/rendered/solution.fragment.tex
+        diagram_ref: question_bank.auxiliary.q020.solution
+        diagram_job_id: question_bank-auxiliary-q020-solution
+        width: 60mm
+        caption: Q020 教师图：过 C 作 CF 平行 AD，交 BE 于 F。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:69c81ed89c3f1dccdfaecbcb3628849bcd4d77bd57bfb60bdde83d2b967b942f
+        packages:
+        - tikz
+        libraries: []
+    answer: $AP:PD=3:2$。
+    explanation: 代入已知比例，得 $AP:PD=3:2$。
+    solution_steps:
+    - title: 围三角形并作辅助线
+      content: 已知比和所求比分别位于三条比例线上；按讲解中的统一动作作平行辅助线，得到两组相似三角形。
+    - title: 写出比例关系
+      content: 记 $x=AE/EC$，$y=AP/PD$，$z=BP/PE$，$w=BD/DC$。由两组相似消去共同的中间线段，得到 $ y=\dfrac{w+1}{z-w}
+        $。
+    - title: 代入并化简
+      content: 代入已知比例，得 $AP:PD=3:2$。
+    teaching:
+      teaching_goal: 根据两条已知比例线和所求比例线现场选择辅助线
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      expected_blocker: 只使用一组相似，或者没有把两组比例统一到同一条中间线段。
+      entry_point: solve_and_check
+      scaffold_level: medium
+      variation_depth: changed_numbers
+      complexity_note: 只使用小整数比例、一次整段转换或一次比例方程。
+      upgrade_rule: 能先写出点序或两组相似导出的比例关系，再计算。
+      fallback_move: 先标出两条已知比例线和所求比例线，再围出它们形成的三角形。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-auxiliary-q020-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.auxiliary.q020.prompt
+      diagram_job_id: question_bank-auxiliary-q020-prompt
+      width: 60mm
+      caption: Q020 学生图：本题原始三角形与两条交线。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:ba7cd5b4c68e04dedfa88d85b337a5ff30f52cac514176064873b477fd5670c1
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q021
+    points: 10
+    label: 由两组比例求 AE:EC
+    stem_latex: '如图，在 $\triangle ABC$ 中，$D$ 在线段 $BC$ 上，$E$ 在线段 $AC$ 上，$AD$ 与 $BE$
+      交于点 $P$。已知
+
+      \[
+
+      AP:PD=3:1，\qquad BP:PE=3:1，
+
+      \]
+
+      求 $AE:EC$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/question_bank-auxiliary-q021-solution/rendered/solution.fragment.tex
+        diagram_ref: question_bank.auxiliary.q021.solution
+        diagram_job_id: question_bank-auxiliary-q021-solution
+        width: 60mm
+        caption: Q021 教师图：过 E 作 EF 平行 CB，交 AD 于 F。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:3989ae51ef5faf3ad41d811ea5cfd77c56308c5b9d149161b86c5b9931908da3
+        packages:
+        - tikz
+        libraries: []
+    answer: $AE:EC=2:1$。
+    explanation: 代入已知比例，得 $AE:EC=2:1$。
+    solution_steps:
+    - title: 围三角形并作辅助线
+      content: 已知比和所求比分别位于三条比例线上；按讲解中的统一动作作平行辅助线，得到两组相似三角形。
+    - title: 写出比例关系
+      content: 记 $x=AE/EC$，$y=AP/PD$，$z=BP/PE$，$w=BD/DC$。由两组相似消去共同的中间线段，得到 $ x=\dfrac{zy-1}{z+1}
+        $。
+    - title: 代入并化简
+      content: 代入已知比例，得 $AE:EC=2:1$。
+    teaching:
+      teaching_goal: 根据两条已知比例线和所求比例线现场选择辅助线
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      expected_blocker: 只使用一组相似，或者没有把两组比例统一到同一条中间线段。
+      entry_point: solve_and_check
+      scaffold_level: medium
+      variation_depth: changed_question
+      complexity_note: 只使用小整数比例、一次整段转换或一次比例方程。
+      upgrade_rule: 能先写出点序或两组相似导出的比例关系，再计算。
+      fallback_move: 先标出两条已知比例线和所求比例线，再围出它们形成的三角形。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-auxiliary-q021-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.auxiliary.q021.prompt
+      diagram_job_id: question_bank-auxiliary-q021-prompt
+      width: 60mm
+      caption: Q021 学生图：本题原始三角形与两条交线。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:f41a9b717eaf48eb8293c3df2c837dd579bf9fadeee7dd1e9fd2033ed7496be2
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q022
+    points: 10
+    label: 由两组比例求 AE:EC
+    stem_latex: '如图，在 $\triangle ABC$ 中，$D$ 在线段 $BC$ 上，$E$ 在线段 $AC$ 上，$AD$ 与 $BE$
+      交于点 $P$。已知
+
+      \[
+
+      AP:PD=5:4，\qquad BP:PE=7:2，
+
+      \]
+
+      求 $AE:EC$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/question_bank-auxiliary-q022-solution/rendered/solution.fragment.tex
+        diagram_ref: question_bank.auxiliary.q022.solution
+        diagram_job_id: question_bank-auxiliary-q022-solution
+        width: 60mm
+        caption: Q022 教师图：过 E 作 EF 平行 CB，交 AD 于 F。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:0c9bc2f72fdb1bf7d9ab85e6a181c091767a50f5c4f851e835b4ed405f4f0773
+        packages:
+        - tikz
+        libraries: []
+    answer: $AE:EC=3:4$。
+    explanation: 代入已知比例，得 $AE:EC=3:4$。
+    solution_steps:
+    - title: 围三角形并作辅助线
+      content: 已知比和所求比分别位于三条比例线上；按讲解中的统一动作作平行辅助线，得到两组相似三角形。
+    - title: 写出比例关系
+      content: 记 $x=AE/EC$，$y=AP/PD$，$z=BP/PE$，$w=BD/DC$。由两组相似消去共同的中间线段，得到 $ x=\dfrac{zy-1}{z+1}
+        $。
+    - title: 代入并化简
+      content: 代入已知比例，得 $AE:EC=3:4$。
+    teaching:
+      teaching_goal: 根据两条已知比例线和所求比例线现场选择辅助线
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      expected_blocker: 只使用一组相似，或者没有把两组比例统一到同一条中间线段。
+      entry_point: solve_and_check
+      scaffold_level: medium
+      variation_depth: changed_numbers
+      complexity_note: 只使用小整数比例、一次整段转换或一次比例方程。
+      upgrade_rule: 能先写出点序或两组相似导出的比例关系，再计算。
+      fallback_move: 先标出两条已知比例线和所求比例线，再围出它们形成的三角形。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-auxiliary-q022-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.auxiliary.q022.prompt
+      diagram_job_id: question_bank-auxiliary-q022-prompt
+      width: 60mm
+      caption: Q022 学生图：本题原始三角形与两条交线。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:05e168e5dd158792e19e32724ab097715fe7394e09e540c5f3e83a33c70f62c6
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q023
+    points: 10
+    label: 由两组比例求 BD:DC
+    stem_latex: '如图，在 $\triangle ABC$ 中，$D$ 在线段 $BC$ 上，$E$ 在线段 $AC$ 上，$AD$ 与 $BE$
+      交于点 $P$。已知
+
+      \[
+
+      AP:PD=2:1，\qquad BP:PE=7:2，
+
+      \]
+
+      求 $BD:DC$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/question_bank-auxiliary-q023-solution/rendered/solution.fragment.tex
+        diagram_ref: question_bank.auxiliary.q023.solution
+        diagram_job_id: question_bank-auxiliary-q023-solution
+        width: 60mm
+        caption: Q023 教师图：过 P 作 PF 平行 DB，交 AC 于 F。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:d4c4f7541e4a39bd83151bb7568dcc3202c03c54a2cea509d6de01f187a60cf4
+        packages:
+        - tikz
+        libraries: []
+    answer: $BD:DC=2:1$。
+    explanation: 代入已知比例，得 $BD:DC=2:1$。
+    solution_steps:
+    - title: 围三角形并作辅助线
+      content: 已知比和所求比分别位于三条比例线上；按讲解中的统一动作作平行辅助线，得到两组相似三角形。
+    - title: 写出比例关系
+      content: 记 $x=AE/EC$，$y=AP/PD$，$z=BP/PE$，$w=BD/DC$。由两组相似消去共同的中间线段，得到 $ w=\dfrac{zy-1}{y+1}
+        $。
+    - title: 代入并化简
+      content: 代入已知比例，得 $BD:DC=2:1$。
+    teaching:
+      teaching_goal: 根据两条已知比例线和所求比例线现场选择辅助线
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      expected_blocker: 只使用一组相似，或者没有把两组比例统一到同一条中间线段。
+      entry_point: solve_and_check
+      scaffold_level: medium
+      variation_depth: changed_question
+      complexity_note: 只使用小整数比例、一次整段转换或一次比例方程。
+      upgrade_rule: 能先写出点序或两组相似导出的比例关系，再计算。
+      fallback_move: 先标出两条已知比例线和所求比例线，再围出它们形成的三角形。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-auxiliary-q023-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.auxiliary.q023.prompt
+      diagram_job_id: question_bank-auxiliary-q023-prompt
+      width: 60mm
+      caption: Q023 学生图：本题原始三角形与两条交线。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:20ef7e29baf6d27526bfeb7255323aa16789ddf2b808b23eafad0544eebd9c09
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q024
+    points: 10
+    label: 由两组比例求 BD:DC
+    stem_latex: '如图，在 $\triangle ABC$ 中，$D$ 在线段 $BC$ 上，$E$ 在线段 $AC$ 上，$AD$ 与 $BE$
+      交于点 $P$。已知
+
+      \[
+
+      AP:PD=2:3，\qquad BP:PE=21:4，
+
+      \]
+
+      求 $BD:DC$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/question_bank-auxiliary-q024-solution/rendered/solution.fragment.tex
+        diagram_ref: question_bank.auxiliary.q024.solution
+        diagram_job_id: question_bank-auxiliary-q024-solution
+        width: 60mm
+        caption: Q024 教师图：过 P 作 PF 平行 DB，交 AC 于 F。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:ef5f7b586f26326a0c7cb5e4b0498963c8cbd41fd5d8e39ec69e69c3fefe840e
+        packages:
+        - tikz
+        libraries: []
+    answer: $BD:DC=3:2$。
+    explanation: 代入已知比例，得 $BD:DC=3:2$。
+    solution_steps:
+    - title: 围三角形并作辅助线
+      content: 已知比和所求比分别位于三条比例线上；按讲解中的统一动作作平行辅助线，得到两组相似三角形。
+    - title: 写出比例关系
+      content: 记 $x=AE/EC$，$y=AP/PD$，$z=BP/PE$，$w=BD/DC$。由两组相似消去共同的中间线段，得到 $ w=\dfrac{zy-1}{y+1}
+        $。
+    - title: 代入并化简
+      content: 代入已知比例，得 $BD:DC=3:2$。
+    teaching:
+      teaching_goal: 根据两条已知比例线和所求比例线现场选择辅助线
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      expected_blocker: 只使用一组相似，或者没有把两组比例统一到同一条中间线段。
+      entry_point: solve_and_check
+      scaffold_level: medium
+      variation_depth: changed_numbers
+      complexity_note: 只使用小整数比例、一次整段转换或一次比例方程。
+      upgrade_rule: 能先写出点序或两组相似导出的比例关系，再计算。
+      fallback_move: 先标出两条已知比例线和所求比例线，再围出它们形成的三角形。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-auxiliary-q024-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.auxiliary.q024.prompt
+      diagram_job_id: question_bank-auxiliary-q024-prompt
+      width: 60mm
+      caption: Q024 学生图：本题原始三角形与两条交线。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:77dc76813fd8c7a58b96810911c091b32bac28f027a28ba480e2e059c7431377
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q025
+    points: 10
+    label: 含参数的分段比
+    stem_latex: 如图，在 $\triangle ABC$ 中，$D\in BC$，$E\in AC$，$P=AD\cap BE$。已知 $AE:EC=t:1$，$BD:DC=2:1$，且
+      $AP:PD=3:1$，求 $t$。
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/question_bank-auxiliary-q025-solution/rendered/solution.fragment.tex
+        diagram_ref: question_bank.auxiliary.q025.solution
+        diagram_job_id: question_bank-auxiliary-q025-solution
+        width: 60mm
+        caption: Q025 教师图：过 E 作 EF 平行 CB，交 AD 于 F。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:ca99e6c824af72adb5e3ecc4d68620680b6dc0dd146d51b68fe51c460942b340
+        packages:
+        - tikz
+        libraries: []
+    answer: $t=2$。
+    explanation: $3=t\cdot\frac32$，所以 $t=2$。
+    solution_steps:
+    - title: 写关系
+      content: $AP:PD=(AE:EC)\cdot(BC:BD)$。
+    - title: 代入
+      content: $3=t\cdot\frac32$，所以 $t=2$。
+    teaching:
+      teaching_goal: 从比例方程反求未知分段比
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      expected_blocker: 把 $BD:DC$ 直接当成 $BD:BC$。
+      entry_point: solve_and_check
+      scaffold_level: medium
+      variation_depth: partially_hidden
+      complexity_note: 只使用小整数比例、一次整段转换或一次比例方程。
+      upgrade_rule: 能先写出点序或两组相似导出的比例关系，再计算。
+      fallback_move: 先由 $BD:DC=2:1$ 写出 $BC:BD=3:2$。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-auxiliary-q025-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.auxiliary.q025.prompt
+      diagram_job_id: question_bank-auxiliary-q025-prompt
+      width: 60mm
+      caption: Q025 学生图：本题原始三角形与两条交线。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:3e78ecc89284dd2b7ac26fc9b58cf3ce085c18781127b4b511b6d9ac2264406e
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q026
+    points: 10
+    label: 由目标比例反求底边参数
+    stem_latex: 如图，在 $\triangle ABC$ 中，$D\in BC$，$E\in AC$，$P=AD\cap BE$。已知 $AE:EC=1:2$，$BD:DC=t:1$，且
+      $BP:PE=6:1$，求 $t$。
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/question_bank-auxiliary-q026-solution/rendered/solution.fragment.tex
+        diagram_ref: question_bank.auxiliary.q026.solution
+        diagram_job_id: question_bank-auxiliary-q026-solution
+        width: 60mm
+        caption: Q026 教师图：过 P 作 PF 平行 DB，交 AC 于 F。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:c4fd366ed8b1feb784c20446c5ed1e0eac325ed4a2cbff70a672dac7a9a99020
+        packages:
+        - tikz
+        libraries: []
+    answer: $t=2$。
+    explanation: $6=t\cdot3$，所以 $t=2$。
+    solution_steps:
+    - title: 写关系
+      content: $BP:PE=(BD:DC)\cdot(AC:AE)$。
+    - title: 代入
+      content: $6=t\cdot3$，所以 $t=2$。
+    teaching:
+      teaching_goal: 用第二组相似反求未知底边比
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      expected_blocker: 漏掉 $AC:AE=3:1$ 的整段转换。
+      entry_point: solve_and_check
+      scaffold_level: medium
+      variation_depth: reverse_construct
+      complexity_note: 只使用小整数比例、一次整段转换或一次比例方程。
+      upgrade_rule: 能先写出点序或两组相似导出的比例关系，再计算。
+      fallback_move: 把 $AE:EC=1:2$ 先改写成 $AC:AE=3:1$。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-auxiliary-q026-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.auxiliary.q026.prompt
+      diagram_job_id: question_bank-auxiliary-q026-prompt
+      width: 60mm
+      caption: Q026 学生图：本题原始三角形与两条交线。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:318db65468a6db9e4ac2cb69f85d5b757af0e989e07963fca317e71185e69f64
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q027
+    points: 10
+    label: 判断三组比例是否一致
+    stem_latex: 如图，在 $\triangle ABC$ 中，$D\in BC$，$E\in AC$，$P=AD\cap BE$。给出 $AE:EC=1:2$、$AP:PD=3:4$、$BP:PE=5:1$。判断三组比例能否同时成立。
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/question_bank-auxiliary-q027-solution/rendered/solution.fragment.tex
+        diagram_ref: question_bank.auxiliary.q027.solution
+        diagram_job_id: question_bank-auxiliary-q027-solution
+        width: 60mm
+        caption: Q027 教师图：过 P 作 PF 平行 DB，交 AC 于 F。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:da621228a8b2c687eaeda99c3c86d930004f0afc4dd5c04230054b9a2f70fa02
+        packages:
+        - tikz
+        libraries: []
+    answer: 不能同时成立；应有 $BP:PE=6:1$。
+    explanation: $BP:PE=(BD:DC)\cdot(AC:AE)=2\times3=6:1$，与 $5:1$ 矛盾。
+    solution_steps:
+    - title: 由前两组反求底边比
+      content: $3/4=(1/2)\cdot(BC/BD)$，得 $BD:DC=2:1$。
+    - title: 检验第三组
+      content: $BP:PE=(BD:DC)\cdot(AC:AE)=2\times3=6:1$，与 $5:1$ 矛盾。
+    teaching:
+      teaching_goal: 检验两组相似导出的比例是否相容
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      expected_blocker: 只看数值接近就判断可能，没有用完整比例链验算。
+      entry_point: solve_and_check
+      scaffold_level: medium
+      variation_depth: non_example_discrimination
+      complexity_note: 只使用小整数比例、一次整段转换或一次比例方程。
+      upgrade_rule: 能先写出点序或两组相似导出的比例关系，再计算。
+      fallback_move: 先任选两组比例求出第四条比例线上的比。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-auxiliary-q027-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.auxiliary.q027.prompt
+      diagram_job_id: question_bank-auxiliary-q027-prompt
+      width: 60mm
+      caption: Q027 学生图：本题原始三角形与两条交线。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:547623027547dce068c5ecbdc0e9b4e5a7a6e2fbfee8287bbac041112a5acff2
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q028
+    points: 10
+    label: 改正整段比例错误
+    stem_latex: 如图，在 $\triangle ABC$ 中，$D\in BC$，$E\in AC$，$P=AD\cap BE$。已知 $AE:EC=2:3$、$BD:DC=1:1$。小明算得
+      $AP:PD=2:3$。判断并改正。
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/question_bank-auxiliary-q028-solution/rendered/solution.fragment.tex
+        diagram_ref: question_bank.auxiliary.q028.solution
+        diagram_job_id: question_bank-auxiliary-q028-solution
+        width: 60mm
+        caption: Q028 教师图：过 C 作 CF 平行 AD，交 BE 于 F。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:85d4eacdcd2fb42bb70bcb70e2f802e74429321b0a73385abb3b02e62c2512f4
+        packages:
+        - tikz
+        libraries: []
+    answer: 错误，$AP:PD=4:3$。
+    explanation: $AP:PD=(2:3)\times(2:1)=4:3$。
+    solution_steps:
+    - title: 指出错误
+      content: $BD:DC=1:1$ 时，$BC:BD=2:1$，不能把 $BD:DC$ 直接接入。
+    - title: 正确计算
+      content: $AP:PD=(2:3)\times(2:1)=4:3$。
+    teaching:
+      teaching_goal: 辨析分段比与整段比
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      expected_blocker: 把 $BD:DC$ 和 $BC:BD$ 混为一谈。
+      entry_point: solve_and_check
+      scaffold_level: medium
+      variation_depth: non_example_discrimination
+      complexity_note: 只使用小整数比例、一次整段转换或一次比例方程。
+      upgrade_rule: 能先写出点序或两组相似导出的比例关系，再计算。
+      fallback_move: 先把底边三段关系写成份数。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-auxiliary-q028-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.auxiliary.q028.prompt
+      diagram_job_id: question_bank-auxiliary-q028-prompt
+      width: 60mm
+      caption: Q028 学生图：本题原始三角形与两条交线。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:719c5f3b351eb1f6a27892a17507663c150641fdeea95bcbcc031942d26f6eba
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q029
+    points: 10
+    label: 由两个内部比反求边上两比
+    stem_latex: 如图，在 $\triangle ABC$ 中，$D\in BC$，$E\in AC$，$P=AD\cap BE$。已知 $AP:PD=3:2$、$BP:PE=3:2$，求
+      $AE:EC$ 与 $BD:DC$。
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/question_bank-auxiliary-q029-solution/rendered/solution.fragment.tex
+        diagram_ref: question_bank.auxiliary.q029.solution
+        diagram_job_id: question_bank-auxiliary-q029-solution
+        width: 60mm
+        caption: Q029 教师图：过 E 作 EF 平行 CB，交 AD 于 F。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:baf94f82e6f0fbf2adf1fa0cb1cdc1871c46987ba7ff5f353c8fa99d4aed221f
+        packages:
+        - tikz
+        libraries: []
+    answer: $AE:EC=1:2$，$BD:DC=1:2$。
+    explanation: 两式相除得 $x=w$，代回得 $x=w=1/2$，所以两比分别为 $1:2$。
+    solution_steps:
+    - title: 设未知比
+      content: 设 $x=AE/EC$，$w=BD/DC$，则 $3/2=x(w+1)/w$，$3/2=w(x+1)/x$。
+    - title: 利用对称性并验算
+      content: 两式相除得 $x=w$，代回得 $x=w=1/2$，所以两比分别为 $1:2$。
+    teaching:
+      teaching_goal: 联立两条比例关系反求两个分段比
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      expected_blocker: 只列出一条关系，无法同时确定两个未知比。
+      entry_point: solve_and_check
+      scaffold_level: medium
+      variation_depth: reverse_construct
+      complexity_note: 只使用小整数比例、一次整段转换或一次比例方程。
+      upgrade_rule: 能先写出点序或两组相似导出的比例关系，再计算。
+      fallback_move: 分别写出 $AP:PD$ 与 $BP:PE$ 的两条公式。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-auxiliary-q029-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.auxiliary.q029.prompt
+      diagram_job_id: question_bank-auxiliary-q029-prompt
+      width: 60mm
+      caption: Q029 学生图：本题原始三角形与两条交线。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:cb2be5ba05fee15dac3ecc6c5810f9682ad038dcd5fee67630891da0d624ecdc
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q030
+    points: 10
+    label: 联立比例筛选唯一解
+    stem_latex: 如图，在 $\triangle ABC$ 中，$D\in BC$，$E\in AC$，$P=AD\cap BE$。已知 $AP:PD=3:2$、$BP:PE=3:2$。若
+      $AE:EC=t:1$，求 $t$。
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/question_bank-auxiliary-q030-solution/rendered/solution.fragment.tex
+        diagram_ref: question_bank.auxiliary.q030.solution
+        diagram_job_id: question_bank-auxiliary-q030-solution
+        width: 60mm
+        caption: Q030 教师图：过 E 作 EF 平行 CB，交 AD 于 F。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:7558ebb5b60e997171910ba246e665984843df648359585f6f07cd3900625e8f
+        packages:
+        - tikz
+        libraries: []
+    answer: $t=1/2$。
+    explanation: 联立得 $t=w=1/2$，且均为正，符合点在线段内部的条件。
+    solution_steps:
+    - title: 由两条关系消去底边比
+      content: 设 $w=BD/DC$，则 $3/2=t(w+1)/w$ 且 $3/2=w(t+1)/t$。
+    - title: 求解并验算
+      content: 联立得 $t=w=1/2$，且均为正，符合点在线段内部的条件。
+    teaching:
+      teaching_goal: 联立两组相似并筛选正比例
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      expected_blocker: 得到代数候选后没有检查比例必须为正。
+      entry_point: solve_and_check
+      scaffold_level: medium
+      variation_depth: partially_hidden
+      complexity_note: 只使用小整数比例、一次整段转换或一次比例方程。
+      upgrade_rule: 能先写出点序或两组相似导出的比例关系，再计算。
+      fallback_move: 先设 $w=BD/DC$，把两个已知比各写成一个方程。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-auxiliary-q030-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.auxiliary.q030.prompt
+      diagram_job_id: question_bank-auxiliary-q030-prompt
+      width: 60mm
+      caption: Q030 学生图：本题原始三角形与两条交线。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:5a383dbeef42f2f205ef67c84d449ff8372d64c27994bcaffa87b3a5c74b923f
+      packages:
+      - tikz
+      libraries: []

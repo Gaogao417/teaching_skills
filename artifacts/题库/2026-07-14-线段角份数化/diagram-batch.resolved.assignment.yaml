@@ -1,0 +1,1611 @@
+meta:
+  title: 线段角份数化题库 · 图形批处理
+  grade: 八年级
+  subject: 数学
+  total_points: 300
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    explanation: ../../比例题组/2026-07-01-B-线段角份数化/02-student-explanation.assignment.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: question-bank
+  title: 题库
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q001
+    points: 10
+    label: 直接比例求第一部分
+    stem_latex: '点 $A,B,C$ 在同一直线上，$B$ 在 $A,C$ 之间。若 $AB:BC=3:5$，且 $AC=32$，求 $AB$。
+
+
+      完成三格填空：
+
+
+      ① 在图上把 $AB$ 标为 \underline{\qquad} 份，把 $BC$ 标为 \underline{\qquad} 份；
+
+
+      ② 目标比例：\underline{\qquad\qquad\qquad}；\n\n③ 答案：\underline{\qquad\qquad}。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 3
+    answer: ① 3，5；② $\dfrac{AB}{AC}=\dfrac{3}{8}$；③ $12$。
+    explanation: 先把两部分标成 3 份和 5 份，再写目标量对已知对应量的比例。
+    solution_steps:
+    - title: 标份数
+      content: 第一部分标 3 份，第二部分标 5 份，总份数为 8。
+    - title: 写目标比例
+      content: $\dfrac{AB}{AC}=\dfrac{3}{8}$。
+    - title: 填答案
+      content: 所求为 $12$。
+    teaching:
+      teaching_goal: 由部分比得到总份数，再求第一部分
+      source_relations:
+      - segment_angle_share_with_proportion_tool
+      expected_blocker: 没有先看目标量，或把方程系数直接抄成份数。
+      entry_point: mark_shares_then_ratio
+      scaffold_level: medium
+      variation_depth: changed_numbers
+      complexity_note: 每题只求一个量，只用一层份数或一次反向转换。
+      upgrade_rule: 能在图上正确标份数，并写出目标量对已知对应量的比例。
+      fallback_move: 先圈出整体，再确认两个部分是否组成这个整体。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-segment_angle-q001-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.segment.angle.q001.prompt
+      diagram_job_id: question_bank-segment_angle-q001-prompt
+      width: 60mm
+      caption: Q001 学生图：先确认整体，再在图上自行标份数。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:332d20ea95a15816756ae69c3b6962d05e4466382c06b123990aaf0b792e957c
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q002
+    points: 10
+    label: 直接比例求第二部分
+    stem_latex: '点 $A,B,C$ 在同一直线上，$B$ 在 $A,C$ 之间。若 $AB:BC=2:7$，且 $AC=45$，求 $BC$。
+
+
+      完成三格填空：
+
+
+      ① 在图上把 $AB$ 标为 \underline{\qquad} 份，把 $BC$ 标为 \underline{\qquad} 份；
+
+
+      ② 目标比例：\underline{\qquad\qquad\qquad}；\n\n③ 答案：\underline{\qquad\qquad}。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 3
+    answer: ① 2，7；② $\dfrac{BC}{AC}=\dfrac{7}{9}$；③ $35$。
+    explanation: 先把两部分标成 2 份和 7 份，再写目标量对已知对应量的比例。
+    solution_steps:
+    - title: 标份数
+      content: 第一部分标 2 份，第二部分标 7 份，总份数为 9。
+    - title: 写目标比例
+      content: $\dfrac{BC}{AC}=\dfrac{7}{9}$。
+    - title: 填答案
+      content: 所求为 $35$。
+    teaching:
+      teaching_goal: 看清目标量，把第二部分份数放在分子
+      source_relations:
+      - segment_angle_share_with_proportion_tool
+      expected_blocker: 没有先看目标量，或把方程系数直接抄成份数。
+      entry_point: mark_shares_then_ratio
+      scaffold_level: medium
+      variation_depth: changed_question
+      complexity_note: 每题只求一个量，只用一层份数或一次反向转换。
+      upgrade_rule: 能在图上正确标份数，并写出目标量对已知对应量的比例。
+      fallback_move: 先圈出整体，再确认两个部分是否组成这个整体。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-segment_angle-q002-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.segment.angle.q002.prompt
+      diagram_job_id: question_bank-segment_angle-q002-prompt
+      width: 60mm
+      caption: Q002 学生图：先确认整体，再在图上自行标份数。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:fa1ac3d93ebe2e1476db8bb0b989bb07b225865982dd42b06a64513e4234b8e6
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q003
+    points: 10
+    label: 倍数关系转份数
+    stem_latex: '点 $A,B,C$ 在同一直线上，$B$ 在 $A,C$ 之间。若 $AB=2BC$，且 $AC=27$，求 $BC$。
+
+
+      完成三格填空：
+
+
+      ① 在图上把 $AB$ 标为 \underline{\qquad} 份，把 $BC$ 标为 \underline{\qquad} 份；
+
+
+      ② 目标比例：\underline{\qquad\qquad\qquad}；\n\n③ 答案：\underline{\qquad\qquad}。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 3
+    answer: ① 2，1；② $\dfrac{BC}{AC}=\dfrac{1}{3}$；③ $9$。
+    explanation: 先把两部分标成 2 份和 1 份，再写目标量对已知对应量的比例。
+    solution_steps:
+    - title: 标份数
+      content: 第一部分标 2 份，第二部分标 1 份，总份数为 3。
+    - title: 写目标比例
+      content: $\dfrac{BC}{AC}=\dfrac{1}{3}$。
+    - title: 填答案
+      content: 所求为 $9$。
+    teaching:
+      teaching_goal: 把倍数关系翻译成两部分的份数
+      source_relations:
+      - segment_angle_share_with_proportion_tool
+      expected_blocker: 没有先看目标量，或把方程系数直接抄成份数。
+      entry_point: mark_shares_then_ratio
+      scaffold_level: medium
+      variation_depth: changed_representation
+      complexity_note: 每题只求一个量，只用一层份数或一次反向转换。
+      upgrade_rule: 能在图上正确标份数，并写出目标量对已知对应量的比例。
+      fallback_move: 先圈出整体，再确认两个部分是否组成这个整体。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-segment_angle-q003-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.segment.angle.q003.prompt
+      diagram_job_id: question_bank-segment_angle-q003-prompt
+      width: 60mm
+      caption: Q003 学生图：先确认整体，再在图上自行标份数。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:68f1cf06ea0489db78f5db1151a4359970957beb7082b5a46f7010c7d67bc869
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q004
+    points: 10
+    label: 等式系数交叉对应
+    stem_latex: '点 $A,B,C$ 在同一直线上，$B$ 在 $A,C$ 之间。若 $5AB=3BC$，且 $AC=56$，求 $AB$。
+
+
+      完成三格填空：
+
+
+      ① 在图上把 $AB$ 标为 \underline{\qquad} 份，把 $BC$ 标为 \underline{\qquad} 份；
+
+
+      ② 目标比例：\underline{\qquad\qquad\qquad}；\n\n③ 答案：\underline{\qquad\qquad}。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 3
+    answer: ① 3，5；② $\dfrac{AB}{AC}=\dfrac{3}{8}$；③ $21$。
+    explanation: 先把两部分标成 3 份和 5 份，再写目标量对已知对应量的比例。
+    solution_steps:
+    - title: 标份数
+      content: 第一部分标 3 份，第二部分标 5 份，总份数为 8。
+    - title: 写目标比例
+      content: $\dfrac{AB}{AC}=\dfrac{3}{8}$。
+    - title: 填答案
+      content: 所求为 $21$。
+    teaching:
+      teaching_goal: 把方程式系数交叉翻译成份数
+      source_relations:
+      - segment_angle_share_with_proportion_tool
+      expected_blocker: 没有先看目标量，或把方程系数直接抄成份数。
+      entry_point: mark_shares_then_ratio
+      scaffold_level: medium
+      variation_depth: packaged_condition
+      complexity_note: 每题只求一个量，只用一层份数或一次反向转换。
+      upgrade_rule: 能在图上正确标份数，并写出目标量对已知对应量的比例。
+      fallback_move: 先圈出整体，再确认两个部分是否组成这个整体。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-segment_angle-q004-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.segment.angle.q004.prompt
+      diagram_job_id: question_bank-segment_angle-q004-prompt
+      width: 60mm
+      caption: Q004 学生图：先确认整体，再在图上自行标份数。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:2e26876a74a1a4a85221a7e7f2d990407b85c024c6535bc08248bff76d73372a
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q005
+    points: 10
+    label: 部分对整体补份数
+    stem_latex: '点 $A,B,C$ 在同一直线上，$B$ 在 $A,C$ 之间。若 $AB:AC=3:8$，且 $AC=40$，求 $BC$。
+
+
+      完成三格填空：
+
+
+      ① 在图上把 $AB$ 标为 \underline{\qquad} 份，把 $BC$ 标为 \underline{\qquad} 份；
+
+
+      ② 目标比例：\underline{\qquad\qquad\qquad}；\n\n③ 答案：\underline{\qquad\qquad}。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 3
+    answer: ① 3，5；② $\dfrac{BC}{AC}=\dfrac{5}{8}$；③ $25$。
+    explanation: 先把两部分标成 3 份和 5 份，再写目标量对已知对应量的比例。
+    solution_steps:
+    - title: 标份数
+      content: 第一部分标 3 份，第二部分标 5 份，总份数为 8。
+    - title: 写目标比例
+      content: $\dfrac{BC}{AC}=\dfrac{5}{8}$。
+    - title: 填答案
+      content: 所求为 $25$。
+    teaching:
+      teaching_goal: 由部分对整体的份数补出另一部分
+      source_relations:
+      - segment_angle_share_with_proportion_tool
+      expected_blocker: 没有先看目标量，或把方程系数直接抄成份数。
+      entry_point: mark_shares_then_ratio
+      scaffold_level: medium
+      variation_depth: changed_question
+      complexity_note: 每题只求一个量，只用一层份数或一次反向转换。
+      upgrade_rule: 能在图上正确标份数，并写出目标量对已知对应量的比例。
+      fallback_move: 先圈出整体，再确认两个部分是否组成这个整体。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-segment_angle-q005-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.segment.angle.q005.prompt
+      diagram_job_id: question_bank-segment_angle-q005-prompt
+      width: 60mm
+      caption: Q005 学生图：先确认整体，再在图上自行标份数。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:967ad4773068e41c464c1a3ef42e8f8ba1e774936f865187337fc7b4952f9d77
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q006
+    points: 10
+    label: 角的直接比例求第一部分
+    stem_latex: '射线 $OB$ 在 $\angle AOC$ 内部。若 $\angle AOB:\angle BOC=2:3$，且 $\angle
+      AOC=100^\circ$，求 $\angle AOB$。
+
+
+      完成三格填空：
+
+
+      ① 在图上把 $\angle AOB$ 标为 \underline{\qquad} 份，把 $\angle BOC$ 标为 \underline{\qquad}
+      份；
+
+
+      ② 目标比例：\underline{\qquad\qquad\qquad}；\n\n③ 答案：\underline{\qquad\qquad}。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 3
+    answer: ① 2，3；② $\dfrac{\angle AOB}{\angle AOC}=\dfrac{2}{5}$；③ $40^\circ$。
+    explanation: 先把两部分标成 2 份和 3 份，再写目标量对已知对应量的比例。
+    solution_steps:
+    - title: 标份数
+      content: 第一部分标 2 份，第二部分标 3 份，总份数为 5。
+    - title: 写目标比例
+      content: $\dfrac{\angle AOB}{\angle AOC}=\dfrac{2}{5}$。
+    - title: 填答案
+      content: 所求为 $40^\circ$。
+    teaching:
+      teaching_goal: 把线段份数法迁移到相邻角
+      source_relations:
+      - segment_angle_share_with_proportion_tool
+      expected_blocker: 没有先看目标量，或把方程系数直接抄成份数。
+      entry_point: mark_shares_then_ratio
+      scaffold_level: medium
+      variation_depth: changed_representation
+      complexity_note: 每题只求一个量，只用一层份数或一次反向转换。
+      upgrade_rule: 能在图上正确标份数，并写出目标量对已知对应量的比例。
+      fallback_move: 先圈出整体，再确认两个部分是否组成这个整体。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-segment_angle-q006-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.segment.angle.q006.prompt
+      diagram_job_id: question_bank-segment_angle-q006-prompt
+      width: 60mm
+      caption: Q006 学生图：先确认整体，再在图上自行标份数。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:1294c43a9e5106929e803ef26cf9974fb57bb808a5a0c3ff38e94220eb21b92d
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q007
+    points: 10
+    label: 角的直接比例求第二部分
+    stem_latex: '射线 $OB$ 在 $\angle AOC$ 内部。若 $\angle AOB:\angle BOC=3:5$，且 $\angle
+      AOC=128^\circ$，求 $\angle BOC$。
+
+
+      完成三格填空：
+
+
+      ① 在图上把 $\angle AOB$ 标为 \underline{\qquad} 份，把 $\angle BOC$ 标为 \underline{\qquad}
+      份；
+
+
+      ② 目标比例：\underline{\qquad\qquad\qquad}；\n\n③ 答案：\underline{\qquad\qquad}。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 3
+    answer: ① 3，5；② $\dfrac{\angle BOC}{\angle AOC}=\dfrac{5}{8}$；③ $80^\circ$。
+    explanation: 先把两部分标成 3 份和 5 份，再写目标量对已知对应量的比例。
+    solution_steps:
+    - title: 标份数
+      content: 第一部分标 3 份，第二部分标 5 份，总份数为 8。
+    - title: 写目标比例
+      content: $\dfrac{\angle BOC}{\angle AOC}=\dfrac{5}{8}$。
+    - title: 填答案
+      content: 所求为 $80^\circ$。
+    teaching:
+      teaching_goal: 看清目标角，把对应份数放在分子
+      source_relations:
+      - segment_angle_share_with_proportion_tool
+      expected_blocker: 没有先看目标量，或把方程系数直接抄成份数。
+      entry_point: mark_shares_then_ratio
+      scaffold_level: medium
+      variation_depth: changed_question
+      complexity_note: 每题只求一个量，只用一层份数或一次反向转换。
+      upgrade_rule: 能在图上正确标份数，并写出目标量对已知对应量的比例。
+      fallback_move: 先圈出整体，再确认两个部分是否组成这个整体。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-segment_angle-q007-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.segment.angle.q007.prompt
+      diagram_job_id: question_bank-segment_angle-q007-prompt
+      width: 60mm
+      caption: Q007 学生图：先确认整体，再在图上自行标份数。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:45aa82da265619dd9b1233bd67fc9096e1e2c6c55a71590f9efaa34fef780a22
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q008
+    points: 10
+    label: 角的倍数关系转份数
+    stem_latex: '射线 $OB$ 在 $\angle AOC$ 内部。若 $\angle AOB=2\angle BOC$，且 $\angle AOC=96^\circ$，求
+      $\angle BOC$。
+
+
+      完成三格填空：
+
+
+      ① 在图上把 $\angle AOB$ 标为 \underline{\qquad} 份，把 $\angle BOC$ 标为 \underline{\qquad}
+      份；
+
+
+      ② 目标比例：\underline{\qquad\qquad\qquad}；\n\n③ 答案：\underline{\qquad\qquad}。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 3
+    answer: ① 2，1；② $\dfrac{\angle BOC}{\angle AOC}=\dfrac{1}{3}$；③ $32^\circ$。
+    explanation: 先把两部分标成 2 份和 1 份，再写目标量对已知对应量的比例。
+    solution_steps:
+    - title: 标份数
+      content: 第一部分标 2 份，第二部分标 1 份，总份数为 3。
+    - title: 写目标比例
+      content: $\dfrac{\angle BOC}{\angle AOC}=\dfrac{1}{3}$。
+    - title: 填答案
+      content: 所求为 $32^\circ$。
+    teaching:
+      teaching_goal: 把角的倍数关系翻译成份数
+      source_relations:
+      - segment_angle_share_with_proportion_tool
+      expected_blocker: 没有先看目标量，或把方程系数直接抄成份数。
+      entry_point: mark_shares_then_ratio
+      scaffold_level: medium
+      variation_depth: changed_representation
+      complexity_note: 每题只求一个量，只用一层份数或一次反向转换。
+      upgrade_rule: 能在图上正确标份数，并写出目标量对已知对应量的比例。
+      fallback_move: 先圈出整体，再确认两个部分是否组成这个整体。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-segment_angle-q008-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.segment.angle.q008.prompt
+      diagram_job_id: question_bank-segment_angle-q008-prompt
+      width: 60mm
+      caption: Q008 学生图：先确认整体，再在图上自行标份数。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:ff60201d5f92d0d00f9e69949e9be423cef315f17c0de777cd12fd8e136a7c16
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q009
+    points: 10
+    label: 角的等式系数交叉对应
+    stem_latex: '射线 $OB$ 在 $\angle AOC$ 内部。若 $5\angle AOB=2\angle BOC$，且 $\angle AOC=126^\circ$，求
+      $\angle AOB$。
+
+
+      完成三格填空：
+
+
+      ① 在图上把 $\angle AOB$ 标为 \underline{\qquad} 份，把 $\angle BOC$ 标为 \underline{\qquad}
+      份；
+
+
+      ② 目标比例：\underline{\qquad\qquad\qquad}；\n\n③ 答案：\underline{\qquad\qquad}。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 3
+    answer: ① 2，5；② $\dfrac{\angle AOB}{\angle AOC}=\dfrac{2}{7}$；③ $36^\circ$。
+    explanation: 先把两部分标成 2 份和 5 份，再写目标量对已知对应量的比例。
+    solution_steps:
+    - title: 标份数
+      content: 第一部分标 2 份，第二部分标 5 份，总份数为 7。
+    - title: 写目标比例
+      content: $\dfrac{\angle AOB}{\angle AOC}=\dfrac{2}{7}$。
+    - title: 填答案
+      content: 所求为 $36^\circ$。
+    teaching:
+      teaching_goal: 把角的方程式系数交叉翻译成份数
+      source_relations:
+      - segment_angle_share_with_proportion_tool
+      expected_blocker: 没有先看目标量，或把方程系数直接抄成份数。
+      entry_point: mark_shares_then_ratio
+      scaffold_level: medium
+      variation_depth: packaged_condition
+      complexity_note: 每题只求一个量，只用一层份数或一次反向转换。
+      upgrade_rule: 能在图上正确标份数，并写出目标量对已知对应量的比例。
+      fallback_move: 先圈出整体，再确认两个部分是否组成这个整体。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-segment_angle-q009-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.segment.angle.q009.prompt
+      diagram_job_id: question_bank-segment_angle-q009-prompt
+      width: 60mm
+      caption: Q009 学生图：先确认整体，再在图上自行标份数。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:ea5f4fe08d23ef3281ee604d9a1641c3d0f3af994de5a71861d9faa490e0be99
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q010
+    points: 10
+    label: 角的部分对整体补份数
+    stem_latex: '射线 $OB$ 在 $\angle AOC$ 内部。若 $\angle AOB:\angle AOC=3:8$，且 $\angle
+      AOC=120^\circ$，求 $\angle BOC$。
+
+
+      完成三格填空：
+
+
+      ① 在图上把 $\angle AOB$ 标为 \underline{\qquad} 份，把 $\angle BOC$ 标为 \underline{\qquad}
+      份；
+
+
+      ② 目标比例：\underline{\qquad\qquad\qquad}；\n\n③ 答案：\underline{\qquad\qquad}。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 3
+    answer: ① 3，5；② $\dfrac{\angle BOC}{\angle AOC}=\dfrac{5}{8}$；③ $75^\circ$。
+    explanation: 先把两部分标成 3 份和 5 份，再写目标量对已知对应量的比例。
+    solution_steps:
+    - title: 标份数
+      content: 第一部分标 3 份，第二部分标 5 份，总份数为 8。
+    - title: 写目标比例
+      content: $\dfrac{\angle BOC}{\angle AOC}=\dfrac{5}{8}$。
+    - title: 填答案
+      content: 所求为 $75^\circ$。
+    teaching:
+      teaching_goal: 由部分角对总角的份数补出另一部分
+      source_relations:
+      - segment_angle_share_with_proportion_tool
+      expected_blocker: 没有先看目标量，或把方程系数直接抄成份数。
+      entry_point: mark_shares_then_ratio
+      scaffold_level: medium
+      variation_depth: changed_question
+      complexity_note: 每题只求一个量，只用一层份数或一次反向转换。
+      upgrade_rule: 能在图上正确标份数，并写出目标量对已知对应量的比例。
+      fallback_move: 先圈出整体，再确认两个部分是否组成这个整体。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-segment_angle-q010-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.segment.angle.q010.prompt
+      diagram_job_id: question_bank-segment_angle-q010-prompt
+      width: 60mm
+      caption: Q010 学生图：先确认整体，再在图上自行标份数。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:62059596de9528a1d25ada172667a17db365cbef7a3e3c11cac61445f42ce4ec
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q011
+    points: 10
+    label: 已知部分反求整体
+    stem_latex: '点 $A,B,C$ 在同一直线上，$B$ 在 $A,C$ 之间。若 $AB:BC=3:4$，且 $AB=18$，求 $AC$。
+
+
+      完成三格填空：
+
+
+      ① 在图上把 $AB$ 标为 \underline{\qquad} 份，把 $BC$ 标为 \underline{\qquad} 份；
+
+
+      ② 目标比例：\underline{\qquad\qquad\qquad}；\n\n③ 答案：\underline{\qquad\qquad}。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 3
+    answer: ① 3，4；② $\dfrac{AC}{AB}=\dfrac{7}{3}$；③ $42$。
+    explanation: 先把两部分标成 3 份和 4 份，再写目标量对已知对应量的比例。
+    solution_steps:
+    - title: 标份数
+      content: 第一部分标 3 份，第二部分标 4 份，总份数为 7。
+    - title: 写目标比例
+      content: $\dfrac{AC}{AB}=\dfrac{7}{3}$。
+    - title: 填答案
+      content: 所求为 $42$。
+    teaching:
+      teaching_goal: 已知一个部分，反向求整体
+      source_relations:
+      - segment_angle_share_with_proportion_tool
+      expected_blocker: 没有先看目标量，或把方程系数直接抄成份数。
+      entry_point: mark_shares_then_ratio
+      scaffold_level: medium
+      variation_depth: changed_question
+      complexity_note: 每题只求一个量，只用一层份数或一次反向转换。
+      upgrade_rule: 能在图上正确标份数，并写出目标量对已知对应量的比例。
+      fallback_move: 先圈出整体，再确认两个部分是否组成这个整体。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-segment_angle-q011-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.segment.angle.q011.prompt
+      diagram_job_id: question_bank-segment_angle-q011-prompt
+      width: 60mm
+      caption: Q011 学生图：先确认整体，再在图上自行标份数。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:af3acc3825f8d5899337755250c86135cf12d947c0f3fd74543295792015e0c6
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q012
+    points: 10
+    label: 已知第二部分求第一部分
+    stem_latex: '点 $A,B,C$ 在同一直线上，$B$ 在 $A,C$ 之间。若 $AB:BC=5:7$，且 $BC=28$，求 $AB$。
+
+
+      完成三格填空：
+
+
+      ① 在图上把 $AB$ 标为 \underline{\qquad} 份，把 $BC$ 标为 \underline{\qquad} 份；
+
+
+      ② 目标比例：\underline{\qquad\qquad\qquad}；\n\n③ 答案：\underline{\qquad\qquad}。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 3
+    answer: ① 5，7；② $\dfrac{AB}{BC}=\dfrac{5}{7}$；③ $20$。
+    explanation: 先把两部分标成 5 份和 7 份，再写目标量对已知对应量的比例。
+    solution_steps:
+    - title: 标份数
+      content: 第一部分标 5 份，第二部分标 7 份，总份数为 12。
+    - title: 写目标比例
+      content: $\dfrac{AB}{BC}=\dfrac{5}{7}$。
+    - title: 填答案
+      content: 所求为 $20$。
+    teaching:
+      teaching_goal: 选择已知部分作对应量
+      source_relations:
+      - segment_angle_share_with_proportion_tool
+      expected_blocker: 没有先看目标量，或把方程系数直接抄成份数。
+      entry_point: mark_shares_then_ratio
+      scaffold_level: medium
+      variation_depth: changed_question
+      complexity_note: 每题只求一个量，只用一层份数或一次反向转换。
+      upgrade_rule: 能在图上正确标份数，并写出目标量对已知对应量的比例。
+      fallback_move: 先圈出整体，再确认两个部分是否组成这个整体。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-segment_angle-q012-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.segment.angle.q012.prompt
+      diagram_job_id: question_bank-segment_angle-q012-prompt
+      width: 60mm
+      caption: Q012 学生图：先确认整体，再在图上自行标份数。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:88fd5638267c270bc288f0d46639c156c5b7473b8223315cc144add21c09924c
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q013
+    points: 10
+    label: 移项后再转份数
+    stem_latex: '点 $A,B,C$ 在同一直线上，$B$ 在 $A,C$ 之间。若 $4AB-3BC=0$，且 $AC=35$，求 $BC$。
+
+
+      完成三格填空：
+
+
+      ① 在图上把 $AB$ 标为 \underline{\qquad} 份，把 $BC$ 标为 \underline{\qquad} 份；
+
+
+      ② 目标比例：\underline{\qquad\qquad\qquad}；\n\n③ 答案：\underline{\qquad\qquad}。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 3
+    answer: ① 3，4；② $\dfrac{BC}{AC}=\dfrac{4}{7}$；③ $20$。
+    explanation: 先把两部分标成 3 份和 4 份，再写目标量对已知对应量的比例。
+    solution_steps:
+    - title: 标份数
+      content: 第一部分标 3 份，第二部分标 4 份，总份数为 7。
+    - title: 写目标比例
+      content: $\dfrac{BC}{AC}=\dfrac{4}{7}$。
+    - title: 填答案
+      content: 所求为 $20$。
+    teaching:
+      teaching_goal: 先移项，再把系数交叉翻译成份数
+      source_relations:
+      - segment_angle_share_with_proportion_tool
+      expected_blocker: 没有先看目标量，或把方程系数直接抄成份数。
+      entry_point: mark_shares_then_ratio
+      scaffold_level: medium
+      variation_depth: packaged_condition
+      complexity_note: 每题只求一个量，只用一层份数或一次反向转换。
+      upgrade_rule: 能在图上正确标份数，并写出目标量对已知对应量的比例。
+      fallback_move: 先圈出整体，再确认两个部分是否组成这个整体。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-segment_angle-q013-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.segment.angle.q013.prompt
+      diagram_job_id: question_bank-segment_angle-q013-prompt
+      width: 60mm
+      caption: Q013 学生图：先确认整体，再在图上自行标份数。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:669dcb930b56af884b7def07bd1c21faf0e1aa24434f9303d2b81c84470667ec
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q014
+    points: 10
+    label: 隐藏比例的线段题
+    stem_latex: '点 $A,B,C$ 在同一直线上，$B$ 在 $A,C$ 之间。若 $5AB=4BC$，且 $AC=54$，求 $BC$。
+
+
+      完成三格填空：
+
+
+      ① 在图上把 $AB$ 标为 \underline{\qquad} 份，把 $BC$ 标为 \underline{\qquad} 份；
+
+
+      ② 目标比例：\underline{\qquad\qquad\qquad}；\n\n③ 答案：\underline{\qquad\qquad}。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 3
+    answer: ① 4，5；② $\dfrac{BC}{AC}=\dfrac{5}{9}$；③ $30$。
+    explanation: 先把两部分标成 4 份和 5 份，再写目标量对已知对应量的比例。
+    solution_steps:
+    - title: 标份数
+      content: 第一部分标 4 份，第二部分标 5 份，总份数为 9。
+    - title: 写目标比例
+      content: $\dfrac{BC}{AC}=\dfrac{5}{9}$。
+    - title: 填答案
+      content: 所求为 $30$。
+    teaching:
+      teaching_goal: 从等式中找出目标量对应份数
+      source_relations:
+      - segment_angle_share_with_proportion_tool
+      expected_blocker: 没有先看目标量，或把方程系数直接抄成份数。
+      entry_point: mark_shares_then_ratio
+      scaffold_level: medium
+      variation_depth: partially_hidden
+      complexity_note: 每题只求一个量，只用一层份数或一次反向转换。
+      upgrade_rule: 能在图上正确标份数，并写出目标量对已知对应量的比例。
+      fallback_move: 先圈出整体，再确认两个部分是否组成这个整体。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-segment_angle-q014-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.segment.angle.q014.prompt
+      diagram_job_id: question_bank-segment_angle-q014-prompt
+      width: 60mm
+      caption: Q014 学生图：先确认整体，再在图上自行标份数。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:b3c21481fd7493190cb4e22eecf17e11e40feac341cf2914267286041099d305
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q015
+    points: 10
+    label: 整体比例直接求部分
+    stem_latex: '点 $A,B,C$ 在同一直线上，$B$ 在 $A,C$ 之间。若 $AB:AC=7:12$，且 $AC=60$，求 $AB$。
+
+
+      完成三格填空：
+
+
+      ① 在图上把 $AB$ 标为 \underline{\qquad} 份，把 $BC$ 标为 \underline{\qquad} 份；
+
+
+      ② 目标比例：\underline{\qquad\qquad\qquad}；\n\n③ 答案：\underline{\qquad\qquad}。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 3
+    answer: ① 7，5；② $\dfrac{AB}{AC}=\dfrac{7}{12}$；③ $35$。
+    explanation: 先把两部分标成 7 份和 5 份，再写目标量对已知对应量的比例。
+    solution_steps:
+    - title: 标份数
+      content: 第一部分标 7 份，第二部分标 5 份，总份数为 12。
+    - title: 写目标比例
+      content: $\dfrac{AB}{AC}=\dfrac{7}{12}$。
+    - title: 填答案
+      content: 所求为 $35$。
+    teaching:
+      teaching_goal: 识别已给出的目标量对整体比例
+      source_relations:
+      - segment_angle_share_with_proportion_tool
+      expected_blocker: 没有先看目标量，或把方程系数直接抄成份数。
+      entry_point: mark_shares_then_ratio
+      scaffold_level: medium
+      variation_depth: changed_representation
+      complexity_note: 每题只求一个量，只用一层份数或一次反向转换。
+      upgrade_rule: 能在图上正确标份数，并写出目标量对已知对应量的比例。
+      fallback_move: 先圈出整体，再确认两个部分是否组成这个整体。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-segment_angle-q015-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.segment.angle.q015.prompt
+      diagram_job_id: question_bank-segment_angle-q015-prompt
+      width: 60mm
+      caption: Q015 学生图：先确认整体，再在图上自行标份数。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:950d8e3634a991782b40ab01e5d05082fc50eb7b92181f090e3774948cbdcc48
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q016
+    points: 10
+    label: 已知部分角反求总角
+    stem_latex: '射线 $OB$ 在 $\angle AOC$ 内部。若 $\angle AOB:\angle BOC=3:4$，且 $\angle
+      AOB=42^\circ$，求 $\angle AOC$。
+
+
+      完成三格填空：
+
+
+      ① 在图上把 $\angle AOB$ 标为 \underline{\qquad} 份，把 $\angle BOC$ 标为 \underline{\qquad}
+      份；
+
+
+      ② 目标比例：\underline{\qquad\qquad\qquad}；\n\n③ 答案：\underline{\qquad\qquad}。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 3
+    answer: ① 3，4；② $\dfrac{\angle AOC}{\angle AOB}=\dfrac{7}{3}$；③ $98^\circ$。
+    explanation: 先把两部分标成 3 份和 4 份，再写目标量对已知对应量的比例。
+    solution_steps:
+    - title: 标份数
+      content: 第一部分标 3 份，第二部分标 4 份，总份数为 7。
+    - title: 写目标比例
+      content: $\dfrac{\angle AOC}{\angle AOB}=\dfrac{7}{3}$。
+    - title: 填答案
+      content: 所求为 $98^\circ$。
+    teaching:
+      teaching_goal: 已知一个部分角，反向求总角
+      source_relations:
+      - segment_angle_share_with_proportion_tool
+      expected_blocker: 没有先看目标量，或把方程系数直接抄成份数。
+      entry_point: mark_shares_then_ratio
+      scaffold_level: medium
+      variation_depth: reverse_construct
+      complexity_note: 每题只求一个量，只用一层份数或一次反向转换。
+      upgrade_rule: 能在图上正确标份数，并写出目标量对已知对应量的比例。
+      fallback_move: 先圈出整体，再确认两个部分是否组成这个整体。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-segment_angle-q016-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.segment.angle.q016.prompt
+      diagram_job_id: question_bank-segment_angle-q016-prompt
+      width: 60mm
+      caption: Q016 学生图：先确认整体，再在图上自行标份数。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:6aeb13a5f4b65670ece3ef1e77c99c792a59a2694d9782c00aa7fa6799ef8216
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q017
+    points: 10
+    label: 已知第二部分角求第一部分
+    stem_latex: '射线 $OB$ 在 $\angle AOC$ 内部。若 $\angle AOB:\angle BOC=2:5$，且 $\angle
+      BOC=70^\circ$，求 $\angle AOB$。
+
+
+      完成三格填空：
+
+
+      ① 在图上把 $\angle AOB$ 标为 \underline{\qquad} 份，把 $\angle BOC$ 标为 \underline{\qquad}
+      份；
+
+
+      ② 目标比例：\underline{\qquad\qquad\qquad}；\n\n③ 答案：\underline{\qquad\qquad}。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 3
+    answer: ① 2，5；② $\dfrac{\angle AOB}{\angle BOC}=\dfrac{2}{5}$；③ $28^\circ$。
+    explanation: 先把两部分标成 2 份和 5 份，再写目标量对已知对应量的比例。
+    solution_steps:
+    - title: 标份数
+      content: 第一部分标 2 份，第二部分标 5 份，总份数为 7。
+    - title: 写目标比例
+      content: $\dfrac{\angle AOB}{\angle BOC}=\dfrac{2}{5}$。
+    - title: 填答案
+      content: 所求为 $28^\circ$。
+    teaching:
+      teaching_goal: 选择已知部分角作对应量
+      source_relations:
+      - segment_angle_share_with_proportion_tool
+      expected_blocker: 没有先看目标量，或把方程系数直接抄成份数。
+      entry_point: mark_shares_then_ratio
+      scaffold_level: medium
+      variation_depth: changed_question
+      complexity_note: 每题只求一个量，只用一层份数或一次反向转换。
+      upgrade_rule: 能在图上正确标份数，并写出目标量对已知对应量的比例。
+      fallback_move: 先圈出整体，再确认两个部分是否组成这个整体。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-segment_angle-q017-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.segment.angle.q017.prompt
+      diagram_job_id: question_bank-segment_angle-q017-prompt
+      width: 60mm
+      caption: Q017 学生图：先确认整体，再在图上自行标份数。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:57cbc548d373e9186d81997adec7bbe7b12643f18cf004934da249ee1860e3e3
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q018
+    points: 10
+    label: 角关系移项后转份数
+    stem_latex: '射线 $OB$ 在 $\angle AOC$ 内部。若 $4\angle AOB-3\angle BOC=0$，且 $\angle
+      AOC=140^\circ$，求 $\angle BOC$。
+
+
+      完成三格填空：
+
+
+      ① 在图上把 $\angle AOB$ 标为 \underline{\qquad} 份，把 $\angle BOC$ 标为 \underline{\qquad}
+      份；
+
+
+      ② 目标比例：\underline{\qquad\qquad\qquad}；\n\n③ 答案：\underline{\qquad\qquad}。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 3
+    answer: ① 3，4；② $\dfrac{\angle BOC}{\angle AOC}=\dfrac{4}{7}$；③ $80^\circ$。
+    explanation: 先把两部分标成 3 份和 4 份，再写目标量对已知对应量的比例。
+    solution_steps:
+    - title: 标份数
+      content: 第一部分标 3 份，第二部分标 4 份，总份数为 7。
+    - title: 写目标比例
+      content: $\dfrac{\angle BOC}{\angle AOC}=\dfrac{4}{7}$。
+    - title: 填答案
+      content: 所求为 $80^\circ$。
+    teaching:
+      teaching_goal: 先移项，再把角的系数交叉翻译
+      source_relations:
+      - segment_angle_share_with_proportion_tool
+      expected_blocker: 没有先看目标量，或把方程系数直接抄成份数。
+      entry_point: mark_shares_then_ratio
+      scaffold_level: medium
+      variation_depth: packaged_condition
+      complexity_note: 每题只求一个量，只用一层份数或一次反向转换。
+      upgrade_rule: 能在图上正确标份数，并写出目标量对已知对应量的比例。
+      fallback_move: 先圈出整体，再确认两个部分是否组成这个整体。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-segment_angle-q018-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.segment.angle.q018.prompt
+      diagram_job_id: question_bank-segment_angle-q018-prompt
+      width: 60mm
+      caption: Q018 学生图：先确认整体，再在图上自行标份数。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:0d5376632074540cec5d96222130fdcdf3b1d894fe71e40c97338e1e5d75c5ab
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q019
+    points: 10
+    label: 交换系数位置读份数
+    stem_latex: '射线 $OB$ 在 $\angle AOC$ 内部。若 $7\angle AOB=5\angle BOC$，且 $\angle AOC=144^\circ$，求
+      $\angle AOB$。
+
+
+      完成三格填空：
+
+
+      ① 在图上把 $\angle AOB$ 标为 \underline{\qquad} 份，把 $\angle BOC$ 标为 \underline{\qquad}
+      份；
+
+
+      ② 目标比例：\underline{\qquad\qquad\qquad}；\n\n③ 答案：\underline{\qquad\qquad}。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 3
+    answer: ① 5，7；② $\dfrac{\angle AOB}{\angle AOC}=\dfrac{5}{12}$；③ $60^\circ$。
+    explanation: 先把两部分标成 5 份和 7 份，再写目标量对已知对应量的比例。
+    solution_steps:
+    - title: 标份数
+      content: 第一部分标 5 份，第二部分标 7 份，总份数为 12。
+    - title: 写目标比例
+      content: $\dfrac{\angle AOB}{\angle AOC}=\dfrac{5}{12}$。
+    - title: 填答案
+      content: 所求为 $60^\circ$。
+    teaching:
+      teaching_goal: 防止把等式系数原顺序抄成角的份数
+      source_relations:
+      - segment_angle_share_with_proportion_tool
+      expected_blocker: 没有先看目标量，或把方程系数直接抄成份数。
+      entry_point: mark_shares_then_ratio
+      scaffold_level: medium
+      variation_depth: packaged_condition
+      complexity_note: 每题只求一个量，只用一层份数或一次反向转换。
+      upgrade_rule: 能在图上正确标份数，并写出目标量对已知对应量的比例。
+      fallback_move: 先圈出整体，再确认两个部分是否组成这个整体。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-segment_angle-q019-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.segment.angle.q019.prompt
+      diagram_job_id: question_bank-segment_angle-q019-prompt
+      width: 60mm
+      caption: Q019 学生图：先确认整体，再在图上自行标份数。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:760773705fb72933059d87a827aff2e284ffb798d5f174dc18fa206eb389bd80
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q020
+    points: 10
+    label: 第二部分对整体补份数
+    stem_latex: '射线 $OB$ 在 $\angle AOC$ 内部。若 $\angle BOC:\angle AOC=5:9$，且 $\angle
+      AOC=162^\circ$，求 $\angle AOB$。
+
+
+      完成三格填空：
+
+
+      ① 在图上把 $\angle AOB$ 标为 \underline{\qquad} 份，把 $\angle BOC$ 标为 \underline{\qquad}
+      份；
+
+
+      ② 目标比例：\underline{\qquad\qquad\qquad}；\n\n③ 答案：\underline{\qquad\qquad}。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 3
+    answer: ① 4，5；② $\dfrac{\angle AOB}{\angle AOC}=\dfrac{4}{9}$；③ $72^\circ$。
+    explanation: 先把两部分标成 4 份和 5 份，再写目标量对已知对应量的比例。
+    solution_steps:
+    - title: 标份数
+      content: 第一部分标 4 份，第二部分标 5 份，总份数为 9。
+    - title: 写目标比例
+      content: $\dfrac{\angle AOB}{\angle AOC}=\dfrac{4}{9}$。
+    - title: 填答案
+      content: 所求为 $72^\circ$。
+    teaching:
+      teaching_goal: 从第二部分对整体的比例补出第一部分
+      source_relations:
+      - segment_angle_share_with_proportion_tool
+      expected_blocker: 没有先看目标量，或把方程系数直接抄成份数。
+      entry_point: mark_shares_then_ratio
+      scaffold_level: medium
+      variation_depth: changed_question
+      complexity_note: 每题只求一个量，只用一层份数或一次反向转换。
+      upgrade_rule: 能在图上正确标份数，并写出目标量对已知对应量的比例。
+      fallback_move: 先圈出整体，再确认两个部分是否组成这个整体。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-segment_angle-q020-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.segment.angle.q020.prompt
+      diagram_job_id: question_bank-segment_angle-q020-prompt
+      width: 60mm
+      caption: Q020 学生图：先确认整体，再在图上自行标份数。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:10d673615fe2bddab5a0236f6482e36a3ecf9b10b3581109ec509ea2c90108ba
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q021
+    points: 10
+    label: 分数形式表示部分角
+    stem_latex: '射线 $OB$ 在 $\angle AOC$ 内部，且 $\angle AOB=\dfrac{3}{8}\angle AOC$。若
+      $\angle AOC=160^\circ$，求 $\angle BOC$。
+
+
+      完成三格填空：
+
+
+      ① 在图上把 $\angle AOB$ 标为 \underline{\qquad} 份，把 $\angle BOC$ 标为 \underline{\qquad}
+      份；
+
+
+      ② 目标比例：\underline{\qquad\qquad\qquad}；\n\n③ 答案：\underline{\qquad\qquad}。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 3
+    answer: ① 3，5；② $\dfrac{\angle BOC}{\angle AOC}=\dfrac{5}{8}$；③ $100^\circ$。
+    explanation: 先把两部分标成 3 份和 5 份，再写目标量对已知对应量的比例。
+    solution_steps:
+    - title: 标份数
+      content: 第一部分标 3 份，第二部分标 5 份，总份数为 8。
+    - title: 写目标比例
+      content: $\dfrac{\angle BOC}{\angle AOC}=\dfrac{5}{8}$。
+    - title: 填答案
+      content: 所求为 $100^\circ$。
+    teaching:
+      teaching_goal: 把分数关系还原成部分与总份数
+      source_relations:
+      - segment_angle_share_with_proportion_tool
+      expected_blocker: 没有先看目标量，或把方程系数直接抄成份数。
+      entry_point: mark_shares_then_ratio
+      scaffold_level: medium
+      variation_depth: changed_representation
+      complexity_note: 每题只求一个量，只用一层份数或一次反向转换。
+      upgrade_rule: 能在图上正确标份数，并写出目标量对已知对应量的比例。
+      fallback_move: 先圈出整体，再确认两个部分是否组成这个整体。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-segment_angle-q021-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.segment.angle.q021.prompt
+      diagram_job_id: question_bank-segment_angle-q021-prompt
+      width: 60mm
+      caption: Q021 学生图：先确认整体，再在图上自行标份数。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:ccc71b172ee5a9027aaa188ee84206e5672114e51b590813c05625c2befc343f
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q022
+    points: 10
+    label: 角方程中的目标份数
+    stem_latex: '射线 $OB$ 在 $\angle AOC$ 内部。若 $6\angle AOB-5\angle BOC=0$，且 $\angle
+      AOC=132^\circ$，求 $\angle AOB$。
+
+
+      完成三格填空：
+
+
+      ① 在图上把 $\angle AOB$ 标为 \underline{\qquad} 份，把 $\angle BOC$ 标为 \underline{\qquad}
+      份；
+
+
+      ② 目标比例：\underline{\qquad\qquad\qquad}；\n\n③ 答案：\underline{\qquad\qquad}。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 3
+    answer: ① 5，6；② $\dfrac{\angle AOB}{\angle AOC}=\dfrac{5}{11}$；③ $60^\circ$。
+    explanation: 先把两部分标成 5 份和 6 份，再写目标量对已知对应量的比例。
+    solution_steps:
+    - title: 标份数
+      content: 第一部分标 5 份，第二部分标 6 份，总份数为 11。
+    - title: 写目标比例
+      content: $\dfrac{\angle AOB}{\angle AOC}=\dfrac{5}{11}$。
+    - title: 填答案
+      content: 所求为 $60^\circ$。
+    teaching:
+      teaching_goal: 从方程中提取目标角与总角的份数
+      source_relations:
+      - segment_angle_share_with_proportion_tool
+      expected_blocker: 没有先看目标量，或把方程系数直接抄成份数。
+      entry_point: mark_shares_then_ratio
+      scaffold_level: medium
+      variation_depth: partially_hidden
+      complexity_note: 每题只求一个量，只用一层份数或一次反向转换。
+      upgrade_rule: 能在图上正确标份数，并写出目标量对已知对应量的比例。
+      fallback_move: 先圈出整体，再确认两个部分是否组成这个整体。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-segment_angle-q022-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.segment.angle.q022.prompt
+      diagram_job_id: question_bank-segment_angle-q022-prompt
+      width: 60mm
+      caption: Q022 学生图：先确认整体，再在图上自行标份数。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:df7656c4f2ffd939ff6e95b9592aa22b97688e672988c2a474539ce1c3813e67
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q023
+    points: 10
+    label: 复杂系数仍先交叉
+    stem_latex: '点 $A,B,C$ 在同一直线上，$B$ 在 $A,C$ 之间。若 $7AB-5BC=0$，且 $AC=72$，求 $BC$。
+
+
+      完成三格填空：
+
+
+      ① 在图上把 $AB$ 标为 \underline{\qquad} 份，把 $BC$ 标为 \underline{\qquad} 份；
+
+
+      ② 目标比例：\underline{\qquad\qquad\qquad}；\n\n③ 答案：\underline{\qquad\qquad}。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 3
+    answer: ① 5，7；② $\dfrac{BC}{AC}=\dfrac{7}{12}$；③ $42$。
+    explanation: 先把两部分标成 5 份和 7 份，再写目标量对已知对应量的比例。
+    solution_steps:
+    - title: 标份数
+      content: 第一部分标 5 份，第二部分标 7 份，总份数为 12。
+    - title: 写目标比例
+      content: $\dfrac{BC}{AC}=\dfrac{7}{12}$。
+    - title: 填答案
+      content: 所求为 $42$。
+    teaching:
+      teaching_goal: 在较大系数中保持交叉对应
+      source_relations:
+      - segment_angle_share_with_proportion_tool
+      expected_blocker: 没有先看目标量，或把方程系数直接抄成份数。
+      entry_point: mark_shares_then_ratio
+      scaffold_level: medium
+      variation_depth: partially_hidden
+      complexity_note: 每题只求一个量，只用一层份数或一次反向转换。
+      upgrade_rule: 能在图上正确标份数，并写出目标量对已知对应量的比例。
+      fallback_move: 先圈出整体，再确认两个部分是否组成这个整体。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-segment_angle-q023-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.segment.angle.q023.prompt
+      diagram_job_id: question_bank-segment_angle-q023-prompt
+      width: 60mm
+      caption: Q023 学生图：先确认整体，再在图上自行标份数。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:63565eda3b3d4003429c3ebfdb37739234a458a9d1d26d36065fa1d9ba8a8de2
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q024
+    points: 10
+    label: 整体等式隐藏部分比例
+    stem_latex: '点 $A,B,C$ 在同一直线上，$B$ 在 $A,C$ 之间。若 $3AC=8AB$，且 $AC=64$，求 $BC$。
+
+
+      完成三格填空：
+
+
+      ① 在图上把 $AB$ 标为 \underline{\qquad} 份，把 $BC$ 标为 \underline{\qquad} 份；
+
+
+      ② 目标比例：\underline{\qquad\qquad\qquad}；\n\n③ 答案：\underline{\qquad\qquad}。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 3
+    answer: ① 3，5；② $\dfrac{BC}{AC}=\dfrac{5}{8}$；③ $40$。
+    explanation: 先把两部分标成 3 份和 5 份，再写目标量对已知对应量的比例。
+    solution_steps:
+    - title: 标份数
+      content: 第一部分标 3 份，第二部分标 5 份，总份数为 8。
+    - title: 写目标比例
+      content: $\dfrac{BC}{AC}=\dfrac{5}{8}$。
+    - title: 填答案
+      content: 所求为 $40$。
+    teaching:
+      teaching_goal: 从整体与部分的等式补出另一部分份数
+      source_relations:
+      - segment_angle_share_with_proportion_tool
+      expected_blocker: 没有先看目标量，或把方程系数直接抄成份数。
+      entry_point: mark_shares_then_ratio
+      scaffold_level: medium
+      variation_depth: packaged_condition
+      complexity_note: 每题只求一个量，只用一层份数或一次反向转换。
+      upgrade_rule: 能在图上正确标份数，并写出目标量对已知对应量的比例。
+      fallback_move: 先圈出整体，再确认两个部分是否组成这个整体。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-segment_angle-q024-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.segment.angle.q024.prompt
+      diagram_job_id: question_bank-segment_angle-q024-prompt
+      width: 60mm
+      caption: Q024 学生图：先确认整体，再在图上自行标份数。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:6b725414e84232555a8e7d205ce860ee974f59c20786aaed3230903af187f8e1
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q025
+    points: 10
+    label: 辨析份数标反
+    stem_latex: '点 $A,B,C$ 在同一直线上，$B$ 在 $A,C$ 之间。已知 $AB:BC=4:5$，$AC=45$。小明把 $AB$ 标成
+      $5$ 份、$BC$ 标成 $4$ 份。判断他的标法并求 $AB$。
+
+
+      完成三格填空：
+
+
+      ① 在图上把 $AB$ 标为 \underline{\qquad} 份，把 $BC$ 标为 \underline{\qquad} 份；
+
+
+      ② 目标比例：\underline{\qquad\qquad\qquad}；\n\n③ 答案：\underline{\qquad\qquad}。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 3
+    answer: ① 4，5；小明的标法错误；② $\dfrac{AB}{AC}=\dfrac{4}{9}$；③ $20$。
+    explanation: 先把两部分标成 4 份和 5 份，再写目标量对已知对应量的比例。
+    solution_steps:
+    - title: 标份数
+      content: 第一部分标 4 份，第二部分标 5 份，总份数为 9。
+    - title: 写目标比例
+      content: $\dfrac{AB}{AC}=\dfrac{4}{9}$。
+    - title: 填答案
+      content: 所求为 $20$。
+    teaching:
+      teaching_goal: 辨析比例份数是否被交换
+      source_relations:
+      - segment_angle_share_with_proportion_tool
+      expected_blocker: 没有先看目标量，或把方程系数直接抄成份数。
+      entry_point: mark_shares_then_ratio
+      scaffold_level: medium
+      variation_depth: non_example_discrimination
+      complexity_note: 每题只求一个量，只用一层份数或一次反向转换。
+      upgrade_rule: 能在图上正确标份数，并写出目标量对已知对应量的比例。
+      fallback_move: 先圈出整体，再确认两个部分是否组成这个整体。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-segment_angle-q025-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.segment.angle.q025.prompt
+      diagram_job_id: question_bank-segment_angle-q025-prompt
+      width: 60mm
+      caption: Q025 学生图：先确认整体，再在图上自行标份数。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:99c3d45b689f32fbbf3e77cdb6b28a3ca34b15f5b2d9a0909b43a749e905d6a1
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q026
+    points: 10
+    label: 由两段长度反写份数比
+    stem_latex: '点 $A,B,C$ 在同一直线上，$B$ 在 $A,C$ 之间。若 $AC=63$，$AB=27$，求 $AB:BC$。
+
+
+      完成三格填空：
+
+
+      ① 在图上把 $AB$ 标为 \underline{\qquad} 份，把 $BC$ 标为 \underline{\qquad} 份；
+
+
+      ② 目标比例：\underline{\qquad\qquad\qquad}；\n\n③ 答案：\underline{\qquad\qquad}。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 3
+    answer: ① 3，4；② $AB:BC=3:4$；③ $3:4$。
+    explanation: 先把两部分标成 3 份和 4 份，再写目标量对已知对应量的比例。
+    solution_steps:
+    - title: 标份数
+      content: 第一部分标 3 份，第二部分标 4 份，总份数为 7。
+    - title: 写目标比例
+      content: $AB:BC=3:4$。
+    - title: 填答案
+      content: 所求为 $3:4$。
+    teaching:
+      teaching_goal: 由整体和一个部分反写两部分份数比
+      source_relations:
+      - segment_angle_share_with_proportion_tool
+      expected_blocker: 没有先看目标量，或把方程系数直接抄成份数。
+      entry_point: mark_shares_then_ratio
+      scaffold_level: medium
+      variation_depth: reverse_construct
+      complexity_note: 每题只求一个量，只用一层份数或一次反向转换。
+      upgrade_rule: 能在图上正确标份数，并写出目标量对已知对应量的比例。
+      fallback_move: 先圈出整体，再确认两个部分是否组成这个整体。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-segment_angle-q026-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.segment.angle.q026.prompt
+      diagram_job_id: question_bank-segment_angle-q026-prompt
+      width: 60mm
+      caption: Q026 学生图：先确认整体，再在图上自行标份数。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:57869495d374ac065a2e601dacabf5d4fc1068d679c4c317153d236b9117a602
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q027
+    points: 10
+    label: 分数条件补出另一段
+    stem_latex: '点 $A,B,C$ 在同一直线上，$B$ 在 $A,C$ 之间，且 $AB=\dfrac{3}{7}AC$。若 $AC=49$，求
+      $BC$。
+
+
+      完成三格填空：
+
+
+      ① 在图上把 $AB$ 标为 \underline{\qquad} 份，把 $BC$ 标为 \underline{\qquad} 份；
+
+
+      ② 目标比例：\underline{\qquad\qquad\qquad}；\n\n③ 答案：\underline{\qquad\qquad}。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 3
+    answer: ① 3，4；② $\dfrac{BC}{AC}=\dfrac{4}{7}$；③ $28$。
+    explanation: 先把两部分标成 3 份和 4 份，再写目标量对已知对应量的比例。
+    solution_steps:
+    - title: 标份数
+      content: 第一部分标 3 份，第二部分标 4 份，总份数为 7。
+    - title: 写目标比例
+      content: $\dfrac{BC}{AC}=\dfrac{4}{7}$。
+    - title: 填答案
+      content: 所求为 $28$。
+    teaching:
+      teaching_goal: 由部分占整体的分数补出剩余份数
+      source_relations:
+      - segment_angle_share_with_proportion_tool
+      expected_blocker: 没有先看目标量，或把方程系数直接抄成份数。
+      entry_point: mark_shares_then_ratio
+      scaffold_level: medium
+      variation_depth: changed_representation
+      complexity_note: 每题只求一个量，只用一层份数或一次反向转换。
+      upgrade_rule: 能在图上正确标份数，并写出目标量对已知对应量的比例。
+      fallback_move: 先圈出整体，再确认两个部分是否组成这个整体。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-segment_angle-q027-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.segment.angle.q027.prompt
+      diagram_job_id: question_bank-segment_angle-q027-prompt
+      width: 60mm
+      caption: Q027 学生图：先确认整体，再在图上自行标份数。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:bdbd62a364e3dc5581ec9b91a04d78746e9a47182c38d2eed34ed8224e5bbf12
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q028
+    points: 10
+    label: 总角等式隐藏角份数
+    stem_latex: '射线 $OB$ 在 $\angle AOC$ 内部。若 $3\angle AOC=8\angle AOB$，且 $\angle AOC=144^\circ$，求
+      $\angle BOC$。
+
+
+      完成三格填空：
+
+
+      ① 在图上把 $\angle AOB$ 标为 \underline{\qquad} 份，把 $\angle BOC$ 标为 \underline{\qquad}
+      份；
+
+
+      ② 目标比例：\underline{\qquad\qquad\qquad}；\n\n③ 答案：\underline{\qquad\qquad}。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 3
+    answer: ① 3，5；② $\dfrac{\angle BOC}{\angle AOC}=\dfrac{5}{8}$；③ $90^\circ$。
+    explanation: 先把两部分标成 3 份和 5 份，再写目标量对已知对应量的比例。
+    solution_steps:
+    - title: 标份数
+      content: 第一部分标 3 份，第二部分标 5 份，总份数为 8。
+    - title: 写目标比例
+      content: $\dfrac{\angle BOC}{\angle AOC}=\dfrac{5}{8}$。
+    - title: 填答案
+      content: 所求为 $90^\circ$。
+    teaching:
+      teaching_goal: 从总角与部分角的等式补出另一部分
+      source_relations:
+      - segment_angle_share_with_proportion_tool
+      expected_blocker: 没有先看目标量，或把方程系数直接抄成份数。
+      entry_point: mark_shares_then_ratio
+      scaffold_level: medium
+      variation_depth: packaged_condition
+      complexity_note: 每题只求一个量，只用一层份数或一次反向转换。
+      upgrade_rule: 能在图上正确标份数，并写出目标量对已知对应量的比例。
+      fallback_move: 先圈出整体，再确认两个部分是否组成这个整体。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-segment_angle-q028-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.segment.angle.q028.prompt
+      diagram_job_id: question_bank-segment_angle-q028-prompt
+      width: 60mm
+      caption: Q028 学生图：先确认整体，再在图上自行标份数。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:c2ce127e95c445f2ce651e1f8798a9c8711e435b293d231f582d34f19940400c
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q029
+    points: 10
+    label: 辨析角的份数标反
+    stem_latex: '射线 $OB$ 在 $\angle AOC$ 内部。已知 $4\angle AOB=3\angle BOC$，$\angle AOC=98^\circ$。小明把
+      $\angle AOB$ 标成 $4$ 份、$\angle BOC$ 标成 $3$ 份。判断他的标法并求 $\angle BOC$。
+
+
+      完成三格填空：
+
+
+      ① 在图上把 $\angle AOB$ 标为 \underline{\qquad} 份，把 $\angle BOC$ 标为 \underline{\qquad}
+      份；
+
+
+      ② 目标比例：\underline{\qquad\qquad\qquad}；\n\n③ 答案：\underline{\qquad\qquad}。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 3
+    answer: ① 3，4；小明的标法错误；② $\dfrac{\angle BOC}{\angle AOC}=\dfrac{4}{7}$；③ $56^\circ$。
+    explanation: 先把两部分标成 3 份和 4 份，再写目标量对已知对应量的比例。
+    solution_steps:
+    - title: 标份数
+      content: 第一部分标 3 份，第二部分标 4 份，总份数为 7。
+    - title: 写目标比例
+      content: $\dfrac{\angle BOC}{\angle AOC}=\dfrac{4}{7}$。
+    - title: 填答案
+      content: 所求为 $56^\circ$。
+    teaching:
+      teaching_goal: 辨析角方程的系数与份数是否交叉
+      source_relations:
+      - segment_angle_share_with_proportion_tool
+      expected_blocker: 没有先看目标量，或把方程系数直接抄成份数。
+      entry_point: mark_shares_then_ratio
+      scaffold_level: medium
+      variation_depth: non_example_discrimination
+      complexity_note: 每题只求一个量，只用一层份数或一次反向转换。
+      upgrade_rule: 能在图上正确标份数，并写出目标量对已知对应量的比例。
+      fallback_move: 先圈出整体，再确认两个部分是否组成这个整体。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-segment_angle-q029-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.segment.angle.q029.prompt
+      diagram_job_id: question_bank-segment_angle-q029-prompt
+      width: 60mm
+      caption: Q029 学生图：先确认整体，再在图上自行标份数。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:3321a38c5e4b962386dd81998be53307e5a5f8a8b8d522526e50a01271eee6bf
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q030
+    points: 10
+    label: 由已知角反写份数比
+    stem_latex: '射线 $OB$ 在 $\angle AOC$ 内部。若 $\angle AOC=150^\circ$，$\angle AOB=60^\circ$，求
+      $\angle AOB:\angle BOC$。
+
+
+      完成三格填空：
+
+
+      ① 在图上把 $\angle AOB$ 标为 \underline{\qquad} 份，把 $\angle BOC$ 标为 \underline{\qquad}
+      份；
+
+
+      ② 目标比例：\underline{\qquad\qquad\qquad}；\n\n③ 答案：\underline{\qquad\qquad}。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 3
+    answer: ① 2，3；② $\angle AOB:\angle BOC=2:3$；③ $2:3$。
+    explanation: 先把两部分标成 2 份和 3 份，再写目标量对已知对应量的比例。
+    solution_steps:
+    - title: 标份数
+      content: 第一部分标 2 份，第二部分标 3 份，总份数为 5。
+    - title: 写目标比例
+      content: $\angle AOB:\angle BOC=2:3$。
+    - title: 填答案
+      content: 所求为 $2:3$。
+    teaching:
+      teaching_goal: 由总角和一个部分角反写两部分份数比
+      source_relations:
+      - segment_angle_share_with_proportion_tool
+      expected_blocker: 没有先看目标量，或把方程系数直接抄成份数。
+      entry_point: mark_shares_then_ratio
+      scaffold_level: medium
+      variation_depth: reverse_construct
+      complexity_note: 每题只求一个量，只用一层份数或一次反向转换。
+      upgrade_rule: 能在图上正确标份数，并写出目标量对已知对应量的比例。
+      fallback_move: 先圈出整体，再确认两个部分是否组成这个整体。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-segment_angle-q030-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.segment.angle.q030.prompt
+      diagram_job_id: question_bank-segment_angle-q030-prompt
+      width: 60mm
+      caption: Q030 学生图：先确认整体，再在图上自行标份数。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:f05569456edc05ed478cdfe817fa170f250311e6859c29b0a820f2db4d556a7a
+      packages:
+      - tikz
+      libraries: []

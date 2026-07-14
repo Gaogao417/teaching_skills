@@ -1,0 +1,57 @@
+meta:
+  title: 比例辅助线两组比例 · Q030 · 学生版
+  grade: 八年级
+  subject: 数学
+  total_points: 10
+  version: student
+  show_answers: false
+  source_artifacts:
+    explanation: ../../专题/2026-07-12-比例辅助线两组比例-待审核/02-student-explanation.resolved.assignment.yaml
+    diagram_policy: 一题一图：每题独立生成 prompt 与 solution 图形资产
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: question
+  title: 专题题
+  type: practice
+  visibility: student
+  blocks:
+  - type: problem
+    id: Q030
+    points: 10
+    label: 联立比例筛选唯一解
+    stem_latex: 如图，在 $\triangle ABC$ 中，$D\in BC$，$E\in AC$，$P=AD\cap BE$。已知 $AP:PD=3:2$、$BP:PE=3:2$。若 $AE:EC=t:1$，求 $t$。
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: ../../build/diagram/jobs/question_bank-auxiliary-q030-solution/rendered/solution.fragment.tex
+        diagram_ref: question_bank.auxiliary.q030.solution
+        diagram_job_id: question_bank-auxiliary-q030-solution
+        width: 60mm
+        caption: Q030 教师图：过 E 作 EF 平行 CB，交 AD 于 F。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:7558ebb5b60e997171910ba246e665984843df648359585f6f07cd3900625e8f
+        packages:
+        - tikz
+        libraries: []
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../build/diagram/jobs/question_bank-auxiliary-q030-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.auxiliary.q030.prompt
+      diagram_job_id: question_bank-auxiliary-q030-prompt
+      width: 60mm
+      caption: Q030 学生图：本题原始三角形与两条交线。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:5a383dbeef42f2f205ef67c84d449ff8372d64c27994bcaffa87b3a5c74b923f
+      packages:
+      - tikz
+      libraries: []

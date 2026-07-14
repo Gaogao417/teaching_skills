@@ -1,0 +1,60 @@
+meta:
+  title: 平行线对应边比例 · Q008 · 学生版
+  grade: 八年级
+  subject: 数学
+  total_points: 10
+  version: student
+  show_answers: false
+  source_artifacts:
+    explanation: ../../专题/2026-07-12-平行线对应边比例-待审核/02-student-explanation.resolved.assignment.yaml
+    diagram_policy: 一题一图：每题独立生成 prompt 与 solution 图形资产
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: question
+  title: 专题题
+  type: practice
+  visibility: student
+  blocks:
+  - type: problem
+    id: Q008
+    points: 10
+    label: 由分段比和对应边求整段
+    stem_latex: '如图，直线 $AC$ 与 $BD$ 相交于点 $P$，点序分别为 $P-A-C$、$P-B-D$，且 $AB\parallel CD$。
+
+
+      已知 $PA:AC=2:5$，且 $PB=6$，求 $PD$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: ../../build/diagram/jobs/question_bank-parallel-q008-solution/rendered/solution.fragment.tex
+        diagram_ref: question_bank.parallel.q008.solution
+        diagram_job_id: question_bank-parallel-q008-solution
+        width: 60mm
+        caption: Q008 教师图：标出本题实际使用的对应边和整段关系。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:74aefc46f91a2299822498790ce8bc658e2ee9c4ad8fe8e426784609d506f299
+        packages:
+        - tikz
+        libraries: []
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../build/diagram/jobs/question_bank-parallel-q008-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.parallel.q008.prompt
+      diagram_job_id: question_bank-parallel-q008-prompt
+      width: 60mm
+      caption: Q008 学生图：按本题条件读点序和对应线段。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:8d5c32ffa4d624410833925c5f517a13997d6315eb5411bf774bf0811985e8bc
+      packages:
+      - tikz
+      libraries: []
