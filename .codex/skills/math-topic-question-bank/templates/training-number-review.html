@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>题库数值审核</title>
+    <link rel="stylesheet" href="/static/training-number-review.css">
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">QUESTION BANK · NUMBER REVIEW</p>
+        <h1>题库数值审核</h1>
+        <p class="subtitle">按钮凹下表示禁用；再次点击恢复可用。</p>
+      </div>
+      <div class="summary" aria-live="polite">
+        <a class="game-link" href="/game">打开倍数快找 →</a>
+        <span><strong id="total-count">—</strong> 组</span>
+        <span class="disabled-summary"><strong id="disabled-count">—</strong> 已禁用</span>
+      </div>
+    </header>
+
+    <main>
+      <section class="toolbar" aria-label="筛选">
+        <label class="search-field">
+          <span>搜索</span>
+          <input id="search" type="search" placeholder="如 3/4、sqrt(3)、pythagorean">
+        </label>
+        <label>
+          <span>数值族</span>
+          <select id="family-filter"><option value="">全部</option></select>
+        </label>
+        <label>
+          <span>状态</span>
+          <select id="status-filter">
+            <option value="">全部</option>
+            <option value="enabled">只看可用</option>
+            <option value="disabled">只看禁用</option>
+          </select>
+        </label>
+        <p id="visible-count" class="visible-count"></p>
+      </section>
+
+      <section id="families" class="families" aria-live="polite"></section>
+    </main>
+
+    <div id="toast" class="toast" role="status" hidden></div>
+    <script src="/static/training-number-review.js"></script>
+  </body>
+</html>

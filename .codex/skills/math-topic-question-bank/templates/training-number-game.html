@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>倍数快找</title>
+    <link rel="stylesheet" href="/static/training-number-game.css?v=20260714-pairs">
+  </head>
+  <body>
+    <main class="game-shell">
+      <header class="brandbar">
+        <a class="back-link" href="/">← 数值审核</a>
+        <div class="brand">
+          <span class="brand-mark">÷</span>
+          <div><strong>倍数快找</strong><small>FRACTION MATCH</small></div>
+        </div>
+        <div class="header-actions">
+          <button id="history-button" class="quiet-button" type="button">训练记录</button>
+          <button id="settings-button" class="quiet-button" type="button" hidden>设置</button>
+        </div>
+      </header>
+
+      <section id="setup-screen" class="screen setup-screen" aria-labelledby="setup-title">
+        <div class="intro">
+          <p class="eyebrow">看准倍数，快速配对</p>
+          <h1 id="setup-title">从四对分数中<br>找出正确的一对</h1>
+          <p>四个选项各是一对数，选出较大数除以较小数等于目标倍数的那一对。</p>
+          <div class="demo" aria-label="示例：四分之三乘二等于二分之三">
+            <span class="fraction"><i>3</i><i>4</i></span><b>× 2</b><span class="fraction"><i>3</i><i>2</i></span>
+          </div>
+        </div>
+
+        <form id="setup-form" class="setup-card">
+          <fieldset>
+            <legend><span>01</span> 选择难度</legend>
+            <div class="difficulty-grid">
+              <label class="choice-card">
+                <input type="radio" name="difficulty" value="novice" checked>
+                <span><b>新手</b><small>每题 20 秒</small></span>
+              </label>
+              <label class="choice-card">
+                <input type="radio" name="difficulty" value="intermediate">
+                <span><b>进阶</b><small>每题 12 秒</small></span>
+              </label>
+              <label class="choice-card">
+                <input type="radio" name="difficulty" value="expert">
+                <span><b>高手</b><small>每题 7 秒</small></span>
+              </label>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend><span>02</span> 练习内容</legend>
+            <div class="content-list">
+              <label class="check-row">
+                <input type="checkbox" name="subcategory" value="numerator_multiple_only" checked>
+                <span class="fake-check">✓</span><span><b>只有分子成倍数关系</b><small>例如 2/3 和 4/3</small></span>
+              </label>
+              <label class="check-row">
+                <input type="checkbox" name="subcategory" value="denominator_multiple_only" checked>
+                <span class="fake-check">✓</span><span><b>只有分母成倍数关系</b><small>例如 3/4 和 3/2</small></span>
+              </label>
+              <label class="check-row">
+                <input type="checkbox" name="subcategory" value="numerator_and_denominator_multiple" checked>
+                <span class="fake-check">✓</span><span><b>分子、分母同时成倍数关系</b><small>例如 1/2 和 3/4</small></span>
+              </label>
+            </div>
+            <p id="setup-error" class="form-error" role="alert" hidden>请至少选择一种练习内容。</p>
+          </fieldset>
+          <button class="start-button" type="submit">开始挑战 <span>→</span></button>
+          <p class="round-note">每轮 10 题 · 题目来自审核后可用的数值组</p>
+          <details class="scoring-rules">
+            <summary>计分规则</summary>
+            <p>答对基础 100 分；按剩余时间加 0–50 分；连续答对从第 2 题起每题多 10 分，最高多 50 分。答错或超时不加分。</p>
+          </details>
+        </form>
+      </section>
+
+      <section id="play-screen" class="screen play-screen" hidden aria-live="polite">
+        <div class="hud">
+          <div><small>题目</small><strong><span id="question-number">1</span> / 10</strong></div>
+          <div><small>得分</small><strong id="score">0</strong></div>
+          <div><small>连对</small><strong><span id="streak">0</span> 🔥</strong></div>
+        </div>
+        <div class="timer-track"><span id="timer-bar"></span></div>
+
+        <div class="question-stage">
+          <p class="instruction">选出一对数，使较大数 ÷ 较小数等于</p>
+          <div class="target"><span>倍数</span><strong id="target-multiplier">2</strong></div>
+          <div id="options" class="option-grid" aria-label="四对分数选项"></div>
+          <p id="feedback" class="feedback" aria-live="assertive">请选择一对分数</p>
+        </div>
+        <div class="time-readout"><span>剩余时间</span><strong id="time-left">20.0</strong><small>秒</small></div>
+      </section>
+
+      <section id="result-screen" class="screen result-screen" hidden>
+        <div class="result-card">
+          <div id="result-medal" class="medal">★</div>
+          <p class="eyebrow">本轮完成</p>
+          <h2 id="result-title">反应很快！</h2>
+          <div class="final-score"><strong id="final-score">0</strong><span>分</span></div>
+          <div class="result-stats">
+            <div><strong id="correct-count">0 / 10</strong><small>答对题数</small></div>
+            <div><strong id="accuracy">0%</strong><small>正确率</small></div>
+            <div><strong id="average-time">0.0 秒</strong><small>平均用时</small></div>
+          </div>
+          <div class="result-actions">
+            <button id="replay-button" class="start-button" type="button">再来一轮 <span>↻</span></button>
+            <button id="result-history-button" class="secondary-button" type="button">查看训练记录</button>
+            <button id="back-settings-button" class="secondary-button" type="button">重新设置</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="history-screen" class="screen history-screen" hidden>
+        <div class="history-heading">
+          <div>
+            <p class="eyebrow">TRAINING HISTORY</p>
+            <h2>训练成绩变化</h2>
+            <p>每一轮都会留下记录，看看稳定性和速度训练带来的变化。</p>
+          </div>
+          <button id="history-back-button" class="secondary-button compact" type="button">← 返回</button>
+        </div>
+
+        <div class="history-summary">
+          <div><small>完成轮数</small><strong id="history-rounds">0</strong></div>
+          <div><small>最高正确率</small><strong id="history-best-accuracy">0%</strong></div>
+          <div><small>最快平均用时</small><strong id="history-fastest-time">—</strong></div>
+          <div><small>最高得分</small><strong id="history-best-score">0</strong></div>
+        </div>
+
+        <div id="history-empty" class="history-empty" hidden>
+          <strong>还没有训练记录</strong>
+          <p>完成第一轮后，这里就会出现成绩折线。</p>
+        </div>
+
+        <div id="history-content" class="history-content" hidden>
+          <section class="chart-card" aria-labelledby="chart-title">
+            <div class="chart-header">
+              <div><h3 id="chart-title">成绩趋势</h3><p>最近 20 轮，左侧较早，右侧最新</p></div>
+              <div class="metric-switch" role="group" aria-label="图表指标">
+                <button type="button" data-metric="accuracy" class="is-active">正确率</button>
+                <button type="button" data-metric="average_response_seconds">平均用时</button>
+                <button type="button" data-metric="score">得分</button>
+              </div>
+            </div>
+            <div class="chart-wrap">
+              <svg id="history-chart" viewBox="0 0 720 270" role="img" aria-label="训练成绩折线图">
+                <g id="chart-grid"></g>
+                <polyline id="chart-area" class="chart-area" points=""></polyline>
+                <polyline id="chart-line" class="chart-line" points=""></polyline>
+                <g id="chart-points"></g>
+                <g id="chart-labels"></g>
+              </svg>
+            </div>
+          </section>
+
+          <section class="records-card">
+            <h3>最近记录</h3>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>时间</th><th>难度</th><th>练习内容</th><th>正确率</th><th>平均用时</th><th>得分</th></tr></thead>
+                <tbody id="history-table-body"></tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+      </section>
+    </main>
+    <script src="/static/training-number-game.js?v=20260714-pairs"></script>
+  </body>
+</html>
