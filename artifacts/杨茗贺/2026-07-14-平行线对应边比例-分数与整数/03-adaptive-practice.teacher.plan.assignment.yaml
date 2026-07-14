@@ -1,0 +1,708 @@
+meta:
+  title: 分数倍数热身与平行线对应边比例
+  subtitle: 杨茗贺 · 教师版
+  grade: 八年级
+  subject: 数学
+  duration: 60分钟
+  total_points: 150
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    structure_analysis: ../2026-07-11-平行线对应边比例再练/01-structure-analysis.md
+    explanation: ../../专题/2026-07-12-平行线对应边比例-待审核/02-student-explanation.resolved.assignment.yaml
+    number_selection: 00-number-selection.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: fraction-warmup
+  title: 一、分母相同分子相除（5 道）
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: w1
+    points: 5
+    label: 第 1 题
+    stem_latex: '计算：$\dfrac{5}{12}\div\dfrac{25}{12}$。'
+    answer_space: {type: steps, height: 22mm, step_count: 2}
+    answer: $\dfrac{1}{5}$。
+    explanation: 分母相同，分子相除：$5\div25=\frac15$。
+    solution_steps:
+    - {title: 直接计算, content: '$5\div25=\frac15$。'}
+    teaching:
+      teaching_goal: 识别同分母时只比较分子
+      source_relations: [training-number-database:rational_multiple_pairs]
+      number_selection: {database_id: question-bank-training-numbers, family_id: rational_multiple_pairs, entry_id: rational-5-over-12-x-5, subcategory: numerator_multiple_only}
+      expected_blocker: 先把两个分数通分，增加无效计算。
+      entry_point: solve_and_check
+      scaffold_level: medium
+      variation_depth: changed_numbers
+      complexity_note: 只做一次倒数转换和整除。
+      upgrade_rule: 能直接看出同分母时结果等于分子之比。
+      fallback_move: 先把除法改写成乘第二个分数的倒数。
+  - type: problem
+    id: w2
+    points: 5
+    label: 第 2 题
+    stem_latex: '计算：$\dfrac{4}{7}\div\dfrac{20}{7}$。'
+    answer_space: {type: steps, height: 22mm, step_count: 2}
+    answer: $\dfrac{1}{5}$。
+    explanation: 同分母，$\frac{4}{7}\div\frac{20}{7}=4\div20=\frac15$。
+    solution_steps:
+    - {title: 直接计算, content: '$4\div20=\frac15$。'}
+    teaching:
+      teaching_goal: 识别同分母时只比较分子
+      source_relations: [training-number-database:rational_multiple_pairs]
+      number_selection: {database_id: question-bank-training-numbers, family_id: rational_multiple_pairs, entry_id: rational-4-over-7-x-5, subcategory: numerator_multiple_only}
+      expected_blocker: 忽略 20 与 4 的整倍数关系。
+      entry_point: solve_and_check
+      scaffold_level: medium
+      variation_depth: changed_numbers
+      complexity_note: 只做一次倒数转换和整除。
+      upgrade_rule: 能口算得到 5。
+      fallback_move: 先写成乘倒数，再分别约 20 与 4、7 与 7。
+  - type: problem
+    id: w3
+    points: 5
+    label: 第 3 题
+    stem_latex: '计算：$\dfrac{9}{7}\div\dfrac{36}{7}$。'
+    answer_space: {type: steps, height: 22mm, step_count: 2}
+    answer: $\dfrac{1}{4}$。
+    explanation: 分母相同，分子相除：$9\div36=\frac14$。
+    solution_steps:
+    - {title: 直接计算, content: '$9\div36=\frac14$。'}
+    teaching:
+      teaching_goal: 识别同分母时只比较分子
+      source_relations: [training-number-database:rational_multiple_pairs]
+      number_selection: {database_id: question-bank-training-numbers, family_id: rational_multiple_pairs, entry_id: rational-9-over-7-x-4, subcategory: numerator_multiple_only}
+      expected_blocker: 没有先看相同分母。
+      entry_point: solve_and_check
+      scaffold_level: medium
+      variation_depth: changed_numbers
+      complexity_note: 直接做整数除法。
+      upgrade_rule: 能直接口算分子之比。
+      fallback_move: 先遮住相同分母，只看两个分子。
+  - type: problem
+    id: w4
+    points: 5
+    label: 第 4 题
+    stem_latex: '计算：$\dfrac{3}{8}\div\dfrac{9}{8}$。'
+    answer_space: {type: steps, height: 22mm, step_count: 2}
+    answer: $\dfrac{1}{3}$。
+    explanation: 分母相同，分子相除：$3\div9=\frac13$。
+    solution_steps:
+    - {title: 直接计算, content: '$3\div9=\frac13$。'}
+    teaching:
+      teaching_goal: 识别同分母时只比较分子
+      source_relations: [training-number-database:rational_multiple_pairs]
+      number_selection: {database_id: question-bank-training-numbers, family_id: rational_multiple_pairs, entry_id: rational-3-over-8-x-3, subcategory: numerator_multiple_only}
+      expected_blocker: 没有先看相同分母。
+      entry_point: solve_and_check
+      scaffold_level: low
+      variation_depth: changed_numbers
+      complexity_note: 只做一次倒数转换和整除。
+      upgrade_rule: 能直接口算分子之比。
+      fallback_move: 先遮住相同分母，只看两个分子。
+  - type: problem
+    id: w5
+    points: 5
+    label: 第 5 题
+    stem_latex: '计算：$\dfrac{5}{4}\div\dfrac{25}{4}$。'
+    answer_space: {type: steps, height: 22mm, step_count: 2}
+    answer: $\dfrac{1}{5}$。
+    explanation: 分母相同，分子相除：$5\div25=\frac15$。
+    solution_steps:
+    - {title: 直接计算, content: '$5\div25=\frac15$。'}
+    teaching:
+      teaching_goal: 识别同分母时只比较分子
+      source_relations: [training-number-database:rational_multiple_pairs]
+      number_selection: {database_id: question-bank-training-numbers, family_id: rational_multiple_pairs, entry_id: rational-5-over-4-x-5, subcategory: numerator_multiple_only}
+      expected_blocker: 没有先看相同分母。
+      entry_point: solve_and_check
+      scaffold_level: low
+      variation_depth: changed_numbers
+      complexity_note: 直接做整数除法。
+      upgrade_rule: 能直接口算分子之比。
+      fallback_move: 先遮住相同分母，只看两个分子。
+- id: same-numerator
+  title: 二、分子相同，分母相除（5 道）
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: w6
+    points: 5
+    label: 第 1 题
+    stem_latex: '计算：$\dfrac{7}{10}\div\dfrac{7}{5}$。'
+    answer_space: {type: steps, height: 22mm, step_count: 2}
+    answer: $\dfrac{1}{2}$。
+    explanation: 分子相同，分母反过来相除：$5\div10=\frac12$。
+    solution_steps:
+    - {title: 直接计算, content: '$5\div10=\frac12$。'}
+    teaching: &same_num_teaching
+      teaching_goal: 识别同分子时分母反过来相除
+      source_relations: [training-number-database:rational_multiple_pairs]
+      number_selection: {database_id: question-bank-training-numbers, family_id: rational_multiple_pairs, entry_id: rational-7-over-10-x-2, subcategory: denominator_multiple_only}
+      expected_blocker: 分母仍按原顺序相除。
+      entry_point: solve_and_check
+      scaffold_level: medium
+      variation_depth: changed_numbers
+      complexity_note: 直接做整数除法。
+      upgrade_rule: 能直接口算反向的分母之比。
+      fallback_move: 先标出第二个分母除以第一个分母。
+  - type: problem
+    id: w7
+    points: 5
+    label: 第 2 题
+    stem_latex: '计算：$\dfrac{5}{6}\div\dfrac{5}{3}$。'
+    answer_space: {type: steps, height: 22mm, step_count: 2}
+    answer: $\dfrac{1}{2}$。
+    explanation: 分子相同，分母反过来相除：$3\div6=\frac12$。
+    solution_steps:
+    - {title: 直接计算, content: '$3\div6=\frac12$。'}
+    teaching:
+      <<: *same_num_teaching
+      number_selection: {database_id: question-bank-training-numbers, family_id: rational_multiple_pairs, entry_id: rational-5-over-6-x-2, subcategory: denominator_multiple_only}
+  - type: problem
+    id: w8
+    points: 5
+    label: 第 3 题
+    stem_latex: '计算：$\dfrac{7}{3}\div7$。'
+    answer_space: {type: steps, height: 22mm, step_count: 2}
+    answer: $\dfrac{1}{3}$。
+    explanation: 把 $7$ 看成 $\frac{7}{1}$，分母反过来相除：$1\div3=\frac13$。
+    solution_steps:
+    - {title: 直接计算, content: '$1\div3=\frac13$。'}
+    teaching:
+      <<: *same_num_teaching
+      number_selection: {database_id: question-bank-training-numbers, family_id: rational_multiple_pairs, entry_id: rational-7-over-3-x-3, subcategory: denominator_multiple_only}
+      variation_depth: changed_representation
+  - type: problem
+    id: w9
+    points: 5
+    label: 第 4 题
+    stem_latex: '计算：$\dfrac{7}{12}\div\dfrac{7}{6}$。'
+    answer_space: {type: steps, height: 22mm, step_count: 2}
+    answer: $\dfrac{1}{2}$。
+    explanation: 分子相同，分母反过来相除：$6\div12=\frac12$。
+    solution_steps:
+    - {title: 直接计算, content: '$6\div12=\frac12$。'}
+    teaching:
+      <<: *same_num_teaching
+      number_selection: {database_id: question-bank-training-numbers, family_id: rational_multiple_pairs, entry_id: rational-7-over-12-x-2, subcategory: denominator_multiple_only}
+  - type: problem
+    id: w10
+    points: 5
+    label: 第 5 题
+    stem_latex: '计算：$\dfrac{2}{3}\div2$。'
+    answer_space: {type: steps, height: 22mm, step_count: 2}
+    answer: $\dfrac{1}{3}$。
+    explanation: 把 $2$ 看成 $\frac{2}{1}$，分母反过来相除：$1\div3=\frac13$。
+    solution_steps:
+    - {title: 直接计算, content: '$1\div3=\frac13$。'}
+    teaching:
+      <<: *same_num_teaching
+      number_selection: {database_id: question-bank-training-numbers, family_id: rational_multiple_pairs, entry_id: rational-2-over-3-x-3, subcategory: denominator_multiple_only}
+      variation_depth: changed_representation
+- id: mixed-parallel
+  title: 三、平行线比例：已知三条线求第四条线（10 道）
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: q1
+    points: 10
+    label: 平行线求线段
+    stem_latex: |
+      如图，点序分别为 $P-A-C$、$P-B-D$，且 $AB\parallel CD$。
+      已知 $PA=\frac{5}{12}$，$PC=\frac{25}{12}$，$CD=10$，求 $AB$。
+    answer_space: {type: steps, height: 38mm, step_count: 4}
+    answer: $AB=2$。
+    explanation: $\frac{AB}{CD}=\frac{PA}{PC}=\frac15$，所以 $AB=10\times\frac15=2$。
+    solution_steps:
+    - {title: 写比例, content: '$\frac{AB}{10}=\frac{5/12}{25/12}=\frac15$。'}
+    - {title: 求第四条线, content: '$AB=10\times\frac15=2$。'}
+    teaching:
+      teaching_goal: A 字型中已知三条线段求第四条线段
+      source_relations: [fallback:approved_2026_07_12_explanation]
+      number_selection: {database_id: question-bank-training-numbers, family_id: rational_multiple_pairs, entry_id: rational-5-over-12-x-5, integer: 10}
+      expected_blocker: 忘记把外段 AC 加到 PA 上。
+      entry_point: solve_and_check
+      scaffold_level: medium
+      variation_depth: changed_numbers
+      complexity_note: 直接复用热身第 1 题的分数商，再乘整数 10。
+      upgrade_rule: 能先写整段关系，再写同序比例。
+      fallback_move: 沿点序 P-A-C 写出 PC=PA+AC。
+    diagram_slot:
+      slot_id: parallel.fraction.q1.prompt
+      diagram_ref: parallel.fraction.q1.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 本题图
+      engine: geometric_scene
+      diagram_kind: synthetic_geometry
+      engine_options:
+        seed: 31401
+        scene_payload:
+          scene_code: 'GeometricScene[{P,A,B,C,D},{P=={0,7},C=={-4,0},D=={5,0},Element[A,Line[{P,C}]],Element[B,Line[{P,D}]],5 EuclideanDistance[P,A]==EuclideanDistance[P,C],5 EuclideanDistance[P,B]==EuclideanDistance[P,D],GeometricAssertion[{Line[{A,B}],Line[{C,D}]},"Parallel"]}]'
+          points: [P, A, B, C, D]
+          point_roles: {anchors: [P, C, D], constructed: [A, B], auxiliary: []}
+          diagram_spec: &a_spec
+            type: synthetic_geometry
+            segments: [{from: P, to: C}, {from: P, to: D}, {from: A, to: B}, {from: C, to: D}]
+            polygons: []
+            markers: [{type: parallel, segments: [[A, B], [C, D]]}]
+            labels:
+              P: {text: P, placement: above}
+              A: {text: A, placement: left}
+              B: {text: B, placement: right}
+              C: {text: C, placement: below left}
+              D: {text: D, placement: below right}
+            constraints: [AB parallel CD, 'exact order P-A-C', 'exact order P-B-D']
+            teaching_focus: [识别 A 字型的内段与整段]
+          rationale: 少量版面锚点固定，内分点与平行关系由 GeometricScene 原生约束求解。
+          model_used: deterministic-parallel-fraction-template
+          model_attempts: []
+      teaching_intent: practice_prompt
+      problem_context:
+        stem_latex: 'P-A-C、P-B-D，AB 平行 CD；PA=5/12，PC=25/12，CD=10，求 AB。'
+        source_problem_text: 画 A 字型嵌套三角形，严格保持 P-A-C、P-B-D 与 AB 平行 CD。学生图只写点名和平行符号，不写答案或相似结论。
+      semantic_constraints:
+        given_objects: [P, A, B, C, D]
+        given_constraints: ['A lies inside segment PC', 'B lies inside segment PD', 'AB is parallel to CD']
+        clean_forbidden: [do not show the final answer, do not label similar triangles]
+  - type: problem
+    id: q6
+    points: 10
+    label: 平行线求线段
+    stem_latex: |
+      如图，点序分别为 $A-P-C$、$B-P-D$，且 $AB\parallel CD$。
+      已知 $AP=\frac{7}{10}$，$PC=\frac{7}{5}$，$CD=12$，求 $AB$。
+    answer_space: {type: steps, height: 38mm, step_count: 3}
+    answer: $AB=6$。
+    explanation: $\frac{AB}{CD}=\frac{AP}{PC}=\frac12$，所以 $AB=12\times\frac12=6$。
+    solution_steps:
+    - {title: 写比例, content: '$\frac{AB}{12}=\frac{7/10}{7/5}=\frac12$。'}
+    - {title: 求第四条线, content: '$AB=12\times\frac12=6$。'}
+    teaching:
+      teaching_goal: 8 字型中已知三条线段求第四条线段
+      source_relations: [fallback:approved_2026_07_12_explanation]
+      number_selection: {database_id: question-bank-training-numbers, family_id: rational_multiple_pairs, entry_id: rational-7-over-10-x-2, integer: 12}
+      expected_blocker: 把交点两侧的对应顺序写反。
+      entry_point: solve_and_check
+      scaffold_level: medium
+      variation_depth: changed_numbers
+      complexity_note: 一个分数与一个整数，直接化简比。
+      upgrade_rule: 能先标出 AP 对应 PC，再写同序比例。
+      fallback_move: 先圈出交点 P 两侧的两个三角形。
+    diagram_slot:
+      slot_id: parallel.fraction.q6.prompt
+      diagram_ref: parallel.fraction.q6.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 本题图
+      engine: geometric_scene
+      diagram_kind: synthetic_geometry
+      engine_options:
+        seed: 31406
+        scene_payload:
+          scene_code: 'GeometricScene[{P,A,B,C,D},{P=={0,0},A=={-6,4},B=={3,5},Element[C,InfiniteLine[{A,P}]],Element[D,InfiniteLine[{B,P}]],Element[P,Line[{A,C}]],Element[P,Line[{B,D}]],2 EuclideanDistance[P,A]==EuclideanDistance[P,C],2 EuclideanDistance[P,B]==EuclideanDistance[P,D],GeometricAssertion[{Line[{A,B}],Line[{C,D}]},"Parallel"]}]'
+          points: [P, A, B, C, D]
+          point_roles: {anchors: [P, A, B], constructed: [C, D], auxiliary: []}
+          diagram_spec: &e_spec
+            type: synthetic_geometry
+            segments: [{from: A, to: C}, {from: B, to: D}, {from: A, to: B}, {from: C, to: D}]
+            polygons: []
+            markers: [{type: parallel, segments: [[A, B], [C, D]]}]
+            labels:
+              P: {text: P, placement: above}
+              A: {text: A, placement: above left}
+              B: {text: B, placement: above right}
+              C: {text: C, placement: below right}
+              D: {text: D, placement: below left}
+            constraints: [AB parallel CD, 'exact order A-P-C', 'exact order B-P-D']
+            teaching_focus: [识别 8 字型交点两侧的对应边]
+          rationale: 少量版面锚点固定，对侧点与平行关系由 GeometricScene 原生约束求解。
+          model_used: deterministic-parallel-fraction-template
+          model_attempts: []
+      teaching_intent: practice_prompt
+      problem_context: {stem_latex: 'A-P-C、B-P-D，AB 平行 CD；AP=7/10，PC=7/5，CD=12，求 AB。', source_problem_text: '画交叉 8 字型，严格保持 A-P-C、B-P-D 与 AB 平行 CD；只标点名和平行符号。'}
+      semantic_constraints: {given_objects: [P, A, B, C, D], given_constraints: ['exact order A-P-C', 'exact order B-P-D', 'AB parallel CD'], clean_forbidden: [do not show the final answer, do not label similar triangles]}
+  - type: problem
+    id: q2
+    points: 10
+    label: 平行线求线段
+    stem_latex: |
+      如图，点序分别为 $P-A-C$、$P-B-D$，且 $AB\parallel CD$。
+      已知 $PA=\frac{4}{7}$，$PC=\frac{20}{7}$，$CD=15$，求 $AB$。
+    answer_space: {type: steps, height: 38mm, step_count: 4}
+    answer: $AB=3$。
+    explanation: $\frac{AB}{CD}=\frac{PA}{PC}=\frac15$，所以 $AB=15\times\frac15=3$。
+    solution_steps:
+    - {title: 写比例, content: '$\frac{AB}{15}=\frac{4/7}{20/7}=\frac15$。'}
+    - {title: 求第四条线, content: '$AB=15\times\frac15=3$。'}
+    teaching: &a_teach
+      teaching_goal: A 字型中先补整段，再写对应边比
+      source_relations: [fallback:approved_2026_07_12_explanation]
+      number_selection: {database_id: question-bank-training-numbers, family_id: rational_multiple_pairs, entry_id: rational-4-over-7-x-5, integer: 15}
+      expected_blocker: 把分段比直接当成对应边比。
+      entry_point: solve_and_check
+      scaffold_level: medium
+      variation_depth: changed_representation
+      complexity_note: 一个分数与一个整数，只做一次加法和约分。
+      upgrade_rule: 能在另一条截线上完成相同动作。
+      fallback_move: 沿点序 P-B-D 写出 PD=PB+BD。
+    diagram_slot:
+      slot_id: parallel.fraction.q2.prompt
+      diagram_ref: parallel.fraction.q2.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 本题图
+      engine: geometric_scene
+      diagram_kind: synthetic_geometry
+      engine_options:
+        seed: 31402
+        scene_payload:
+          scene_code: 'GeometricScene[{P,A,B,C,D},{P=={0,7},C=={-5,0},D=={4,0},Element[A,Line[{P,C}]],Element[B,Line[{P,D}]],5 EuclideanDistance[P,A]==EuclideanDistance[P,C],5 EuclideanDistance[P,B]==EuclideanDistance[P,D],GeometricAssertion[{Line[{A,B}],Line[{C,D}]},"Parallel"]}]'
+          points: [P, A, B, C, D]
+          point_roles: {anchors: [P, C, D], constructed: [A, B], auxiliary: []}
+          diagram_spec: *a_spec
+          rationale: 内分点与平行关系由 GeometricScene 原生约束求解。
+          model_used: deterministic-parallel-fraction-template
+          model_attempts: []
+      teaching_intent: practice_prompt
+      problem_context: {stem_latex: 'P-A-C、P-B-D，AB 平行 CD；PA=4/7，PC=20/7，CD=15，求 AB。', source_problem_text: '独立绘制 A 字型；只标点名和平行符号。'}
+      semantic_constraints: {given_objects: [P, A, B, C, D], given_constraints: ['exact order P-A-C', 'exact order P-B-D', 'AB parallel CD'], clean_forbidden: [do not show the final answer]}
+  - type: problem
+    id: q7
+    points: 10
+    label: 平行线求线段
+    stem_latex: |
+      如图，点序分别为 $A-P-C$、$B-P-D$，且 $AB\parallel CD$。
+      已知 $AP=\frac{5}{6}$，$PC=\frac{5}{3}$，$CD=14$，求 $AB$。
+    answer_space: {type: steps, height: 38mm, step_count: 3}
+    answer: $AB=7$。
+    explanation: $\frac{AB}{CD}=\frac{AP}{PC}=\frac12$，所以 $AB=14\times\frac12=7$。
+    solution_steps:
+    - {title: 写比例, content: '$\frac{AB}{14}=\frac{5/6}{5/3}=\frac12$。'}
+    - {title: 求第四条线, content: '$AB=14\times\frac12=7$。'}
+    teaching: &e_teach
+      teaching_goal: 8 字型中按交点两侧写对应边比
+      source_relations: [fallback:approved_2026_07_12_explanation]
+      number_selection: {database_id: question-bank-training-numbers, family_id: rational_multiple_pairs, entry_id: rational-5-over-6-x-2, integer: 14}
+      expected_blocker: 把交点两侧的对应顺序写反。
+      entry_point: solve_and_check
+      scaffold_level: medium
+      variation_depth: changed_representation
+      complexity_note: 一个分数与一个整数，直接化简比。
+      upgrade_rule: 能在另一条截线上保持同序。
+      fallback_move: 先圈出交点 P 两侧的两个三角形。
+    diagram_slot:
+      slot_id: parallel.fraction.q7.prompt
+      diagram_ref: parallel.fraction.q7.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 本题图
+      engine: geometric_scene
+      diagram_kind: synthetic_geometry
+      engine_options:
+        seed: 31407
+        scene_payload:
+          scene_code: 'GeometricScene[{P,A,B,C,D},{P=={0,0},A=={-5,4},B=={4,5},Element[C,InfiniteLine[{A,P}]],Element[D,InfiniteLine[{B,P}]],Element[P,Line[{A,C}]],Element[P,Line[{B,D}]],2 EuclideanDistance[P,A]==EuclideanDistance[P,C],2 EuclideanDistance[P,B]==EuclideanDistance[P,D],GeometricAssertion[{Line[{A,B}],Line[{C,D}]},"Parallel"]}]'
+          points: [P, A, B, C, D]
+          point_roles: {anchors: [P, A, B], constructed: [C, D], auxiliary: []}
+          diagram_spec: *e_spec
+          rationale: 对侧点与平行关系由 GeometricScene 原生约束求解。
+          model_used: deterministic-parallel-fraction-template
+          model_attempts: []
+      teaching_intent: practice_prompt
+      problem_context: {stem_latex: 'A-P-C、B-P-D，AB 平行 CD；AP=5/6，PC=5/3，CD=14，求 AB。', source_problem_text: '独立绘制 8 字型；只标点名和平行符号。'}
+      semantic_constraints: {given_objects: [P, A, B, C, D], given_constraints: ['exact order A-P-C', 'exact order B-P-D', 'AB parallel CD'], clean_forbidden: [do not show the final answer]}
+  - type: problem
+    id: q3
+    points: 10
+    label: 平行线求线段
+    stem_latex: |
+      如图，点序分别为 $P-A-C$、$P-B-D$，且 $AB\parallel CD$。
+      已知 $PA=\frac{9}{7}$，$PC=\frac{36}{7}$，$CD=12$，求 $AB$。
+    answer_space: {type: steps, height: 38mm, step_count: 3}
+    answer: $AB=3$。
+    explanation: $\frac{AB}{CD}=\frac{PA}{PC}=\frac14$，所以 $AB=12\times\frac14=3$。
+    solution_steps:
+    - {title: 写比例, content: '$\frac{AB}{12}=\frac{9/7}{36/7}=\frac14$。'}
+    - {title: 求第四条线, content: '$AB=12\times\frac14=3$。'}
+    teaching:
+      <<: *a_teach
+      number_selection: {database_id: question-bank-training-numbers, family_id: rational_multiple_pairs, entry_id: rational-9-over-7-x-4, integer: 12}
+      variation_depth: changed_question
+      complexity_note: 一个分数与一个整数，直接化简比。
+    diagram_slot:
+      slot_id: parallel.fraction.q3.prompt
+      diagram_ref: parallel.fraction.q3.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 本题图
+      engine: geometric_scene
+      diagram_kind: synthetic_geometry
+      engine_options:
+        seed: 31403
+        scene_payload:
+          scene_code: 'GeometricScene[{P,A,B,C,D},{P=={0,7},C=={-4,0},D=={5,0},Element[A,Line[{P,C}]],Element[B,Line[{P,D}]],4 EuclideanDistance[P,A]==EuclideanDistance[P,C],4 EuclideanDistance[P,B]==EuclideanDistance[P,D],GeometricAssertion[{Line[{A,B}],Line[{C,D}]},"Parallel"]}]'
+          points: [P, A, B, C, D]
+          point_roles: {anchors: [P, C, D], constructed: [A, B], auxiliary: []}
+          diagram_spec: *a_spec
+          rationale: 内分点与平行关系由 GeometricScene 原生约束求解。
+          model_used: deterministic-parallel-fraction-template
+          model_attempts: []
+      teaching_intent: practice_prompt
+      problem_context: {stem_latex: 'P-A-C、P-B-D，AB 平行 CD；PA=9/7，PC=36/7，CD=12，求 AB。', source_problem_text: '独立绘制 A 字型；只标点名和平行符号。'}
+      semantic_constraints: {given_objects: [P, A, B, C, D], given_constraints: ['exact order P-A-C', 'exact order P-B-D', 'AB parallel CD'], clean_forbidden: [do not show the final answer]}
+  - type: problem
+    id: q8
+    points: 10
+    label: 平行线求线段
+    stem_latex: |
+      如图，点序分别为 $A-P-C$、$B-P-D$，且 $AB\parallel CD$。
+      已知 $AP=\frac{7}{3}$，$PC=7$，$CD=15$，求 $AB$。
+    answer_space: {type: steps, height: 38mm, step_count: 3}
+    answer: $AB=5$。
+    explanation: $\frac{AB}{CD}=\frac{AP}{PC}=\frac13$，所以 $AB=15\times\frac13=5$。
+    solution_steps:
+    - {title: 写比例, content: '$\frac{AB}{15}=\frac{7/3}{7}=\frac13$。'}
+    - {title: 求第四条线, content: '$AB=15\times\frac13=5$。'}
+    teaching:
+      <<: *e_teach
+      number_selection: {database_id: question-bank-training-numbers, family_id: rational_multiple_pairs, entry_id: rational-7-over-3-x-3, integer: 15}
+      variation_depth: changed_question
+      complexity_note: 一个分数与一个整数，由平行边反推截线比。
+    diagram_slot:
+      slot_id: parallel.fraction.q8.prompt
+      diagram_ref: parallel.fraction.q8.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 本题图
+      engine: geometric_scene
+      diagram_kind: synthetic_geometry
+      engine_options:
+        seed: 31408
+        scene_payload:
+          scene_code: 'GeometricScene[{P,A,B,C,D},{P=={0,0},A=={-4,5},B=={5,4},Element[C,InfiniteLine[{A,P}]],Element[D,InfiniteLine[{B,P}]],Element[P,Line[{A,C}]],Element[P,Line[{B,D}]],3 EuclideanDistance[P,A]==EuclideanDistance[P,C],3 EuclideanDistance[P,B]==EuclideanDistance[P,D],GeometricAssertion[{Line[{A,B}],Line[{C,D}]},"Parallel"]}]'
+          points: [P, A, B, C, D]
+          point_roles: {anchors: [P, A, B], constructed: [C, D], auxiliary: []}
+          diagram_spec: *e_spec
+          rationale: 对侧点与平行关系由 GeometricScene 原生约束求解。
+          model_used: deterministic-parallel-fraction-template
+          model_attempts: []
+      teaching_intent: practice_prompt
+      problem_context: {stem_latex: 'A-P-C、B-P-D，AB 平行 CD；AP=7/3，PC=7，CD=15，求 AB。', source_problem_text: '独立绘制 8 字型；只标点名和平行符号。'}
+      semantic_constraints: {given_objects: [P, A, B, C, D, AP, PC], given_constraints: ['exact order A-P-C', 'exact order B-P-D', 'AB parallel CD', 'AP and PC are the requested corresponding segments'], clean_forbidden: [do not show the final answer]}
+  - type: problem
+    id: q4
+    points: 10
+    label: 平行线求线段
+    stem_latex: |
+      如图，点序分别为 $P-A-C$、$P-B-D$，且 $AB\parallel CD$。
+      已知 $PA=\frac{3}{8}$，$PC=\frac{9}{8}$，$CD=9$，求 $AB$。
+    answer_space: {type: steps, height: 38mm, step_count: 3}
+    answer: $AB=3$。
+    explanation: $\frac{AB}{CD}=\frac{PA}{PC}=\frac13$，所以 $AB=9\times\frac13=3$。
+    solution_steps:
+    - {title: 写比例, content: '$\frac{AB}{9}=\frac{3/8}{9/8}=\frac13$。'}
+    - {title: 求第四条线, content: '$AB=9\times\frac13=3$。'}
+    teaching:
+      <<: *a_teach
+      number_selection: {database_id: question-bank-training-numbers, family_id: rational_multiple_pairs, entry_id: rational-3-over-8-x-3, integer: 9}
+      variation_depth: changed_question
+      complexity_note: 一个分数与一个整数，训练由平行边反推截线比。
+    diagram_slot:
+      slot_id: parallel.fraction.q4.prompt
+      diagram_ref: parallel.fraction.q4.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 本题图
+      engine: geometric_scene
+      diagram_kind: synthetic_geometry
+      engine_options:
+        seed: 31404
+        scene_payload:
+          scene_code: 'GeometricScene[{P,A,B,C,D},{P=={0,7},C=={-5,0},D=={4,0},Element[A,Line[{P,C}]],Element[B,Line[{P,D}]],3 EuclideanDistance[P,A]==EuclideanDistance[P,C],3 EuclideanDistance[P,B]==EuclideanDistance[P,D],GeometricAssertion[{Line[{A,B}],Line[{C,D}]},"Parallel"]}]'
+          points: [P, A, B, C, D]
+          point_roles: {anchors: [P, C, D], constructed: [A, B], auxiliary: []}
+          diagram_spec: *a_spec
+          rationale: 内分点与平行关系由 GeometricScene 原生约束求解。
+          model_used: deterministic-parallel-fraction-template
+          model_attempts: []
+      teaching_intent: practice_prompt
+      problem_context: {stem_latex: 'P-A-C、P-B-D，AB 平行 CD；PA=3/8，PC=9/8，CD=9，求 AB。', source_problem_text: '独立绘制 A 字型；只标点名和平行符号。'}
+      semantic_constraints: {given_objects: [P, A, B, C, D], given_constraints: ['exact order P-A-C', 'exact order P-B-D', 'AB parallel CD'], clean_forbidden: [do not show the final answer]}
+  - type: problem
+    id: q9
+    points: 10
+    label: 平行线求线段
+    stem_latex: |
+      如图，点序分别为 $A-P-C$、$B-P-D$，且 $AB\parallel CD$。
+      已知 $AP=\frac{7}{12}$，$PC=\frac{7}{6}$，$CD=16$，求 $AB$。
+    answer_space: {type: steps, height: 38mm, step_count: 4}
+    answer: $AB=8$。
+    explanation: $\frac{AB}{CD}=\frac{AP}{PC}=\frac12$，所以 $AB=16\times\frac12=8$。
+    solution_steps:
+    - {title: 写比例, content: '$\frac{AB}{16}=\frac{7/12}{7/6}=\frac12$。'}
+    - {title: 求第四条线, content: '$AB=16\times\frac12=8$。'}
+    teaching:
+      <<: *e_teach
+      number_selection: {database_id: question-bank-training-numbers, family_id: rational_multiple_pairs, entry_id: rational-7-over-12-x-2, integer: 16}
+      variation_depth: packaged_condition
+      complexity_note: 一个分数与一个整数，先做整段减法再化简比。
+      fallback_move: 沿点序 A-P-C 写出 AC=AP+PC。
+    diagram_slot:
+      slot_id: parallel.fraction.q9.prompt
+      diagram_ref: parallel.fraction.q9.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 本题图
+      engine: geometric_scene
+      diagram_kind: synthetic_geometry
+      engine_options:
+        seed: 31409
+        scene_payload:
+          scene_code: 'GeometricScene[{P,A,B,C,D},{P=={0,0},A=={-4,5},B=={5,4},Element[C,InfiniteLine[{A,P}]],Element[D,InfiniteLine[{B,P}]],Element[P,Line[{A,C}]],Element[P,Line[{B,D}]],2 EuclideanDistance[P,A]==EuclideanDistance[P,C],2 EuclideanDistance[P,B]==EuclideanDistance[P,D],GeometricAssertion[{Line[{A,B}],Line[{C,D}]},"Parallel"]}]'
+          points: [P, A, B, C, D]
+          point_roles: {anchors: [P, A, B], constructed: [C, D], auxiliary: []}
+          diagram_spec: *e_spec
+          rationale: 对侧点与平行关系由 GeometricScene 原生约束求解。
+          model_used: deterministic-parallel-fraction-template
+          model_attempts: []
+      teaching_intent: practice_prompt
+      problem_context: {stem_latex: 'A-P-C、B-P-D，AB 平行 CD；AP=7/12，PC=7/6，CD=16，求 AB。', source_problem_text: '独立绘制 8 字型；只标点名和平行符号。'}
+      semantic_constraints: {given_objects: [P, A, B, C, D], given_constraints: ['exact order A-P-C', 'exact order B-P-D', 'AB parallel CD'], clean_forbidden: [do not show the final answer]}
+  - type: problem
+    id: q5
+    points: 10
+    label: 平行线求线段
+    stem_latex: |
+      如图，点序分别为 $P-A-C$、$P-B-D$，且 $AB\parallel CD$。
+      已知 $PA=\frac{5}{4}$，$PC=\frac{25}{4}$，$CD=15$，求 $AB$。
+    answer_space: {type: steps, height: 38mm, step_count: 3}
+    answer: $AB=3$。
+    explanation: $\frac{AB}{CD}=\frac{PA}{PC}=\frac15$，所以 $AB=15\times\frac15=3$。
+    solution_steps:
+    - {title: 写比例, content: '$\frac{AB}{15}=\frac{5/4}{25/4}=\frac15$。'}
+    - {title: 求第四条线, content: '$AB=15\times\frac15=3$。'}
+    teaching:
+      <<: *a_teach
+      number_selection: {database_id: question-bank-training-numbers, family_id: rational_multiple_pairs, entry_id: rational-5-over-4-x-5, integer: 15}
+      variation_depth: changed_representation
+      complexity_note: 一个分数与一个整数，直接化简比。
+    diagram_slot:
+      slot_id: parallel.fraction.q5.prompt
+      diagram_ref: parallel.fraction.q5.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 本题图
+      engine: geometric_scene
+      diagram_kind: synthetic_geometry
+      engine_options:
+        seed: 31405
+        scene_payload:
+          scene_code: 'GeometricScene[{P,A,B,C,D},{P=={0,7},C=={-4,0},D=={5,0},Element[A,Line[{P,C}]],Element[B,Line[{P,D}]],5 EuclideanDistance[P,A]==EuclideanDistance[P,C],5 EuclideanDistance[P,B]==EuclideanDistance[P,D],GeometricAssertion[{Line[{A,B}],Line[{C,D}]},"Parallel"]}]'
+          points: [P, A, B, C, D]
+          point_roles: {anchors: [P, C, D], constructed: [A, B], auxiliary: []}
+          diagram_spec: *a_spec
+          rationale: 内分点与平行关系由 GeometricScene 原生约束求解。
+          model_used: deterministic-parallel-fraction-template
+          model_attempts: []
+      teaching_intent: practice_prompt
+      problem_context: {stem_latex: 'P-A-C、P-B-D，AB 平行 CD；PA=5/4，PC=25/4，CD=15，求 AB。', source_problem_text: '独立绘制 A 字型；只标点名和平行符号。'}
+      semantic_constraints: {given_objects: [P, A, B, C, D], given_constraints: ['exact order P-A-C', 'exact order P-B-D', 'AB parallel CD'], clean_forbidden: [do not show the final answer]}
+  - type: problem
+    id: q10
+    points: 10
+    label: 平行线求线段
+    stem_latex: |
+      如图，点序分别为 $A-P-C$、$B-P-D$，且 $AB\parallel CD$。
+      已知 $AP=\frac{2}{3}$，$PC=2$，$CD=18$，求 $AB$。
+    answer_space: {type: steps, height: 38mm, step_count: 4}
+    answer: $AB=6$。
+    explanation: $\frac{AB}{CD}=\frac{AP}{PC}=\frac13$，所以 $AB=18\times\frac13=6$。
+    solution_steps:
+    - {title: 写比例, content: '$\frac{AB}{18}=\frac{2/3}{2}=\frac13$。'}
+    - {title: 求第四条线, content: '$AB=18\times\frac13=6$。'}
+    teaching:
+      <<: *e_teach
+      number_selection: {database_id: question-bank-training-numbers, family_id: rational_multiple_pairs, entry_id: rational-2-over-3-x-3, integer: 18}
+      variation_depth: packaged_condition
+      complexity_note: 一个分数与一个整数，先做整段减法再化简比。
+      fallback_move: 沿点序 B-P-D 写出 BD=BP+PD。
+    diagram_slot:
+      slot_id: parallel.fraction.q10.prompt
+      diagram_ref: parallel.fraction.q10.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 本题图
+      engine: geometric_scene
+      diagram_kind: synthetic_geometry
+      engine_options:
+        seed: 31410
+        scene_payload:
+          scene_code: 'GeometricScene[{P,A,B,C,D},{P=={0,0},A=={-5,4},B=={4,5},Element[C,InfiniteLine[{A,P}]],Element[D,InfiniteLine[{B,P}]],Element[P,Line[{A,C}]],Element[P,Line[{B,D}]],3 EuclideanDistance[P,A]==EuclideanDistance[P,C],3 EuclideanDistance[P,B]==EuclideanDistance[P,D],GeometricAssertion[{Line[{A,B}],Line[{C,D}]},"Parallel"]}]'
+          points: [P, A, B, C, D]
+          point_roles: {anchors: [P, A, B], constructed: [C, D], auxiliary: []}
+          diagram_spec: *e_spec
+          rationale: 对侧点与平行关系由 GeometricScene 原生约束求解。
+          model_used: deterministic-parallel-fraction-template
+          model_attempts: []
+      teaching_intent: practice_prompt
+      problem_context: {stem_latex: 'A-P-C、B-P-D，AB 平行 CD；AP=2/3，PC=2，CD=18，求 AB。', source_problem_text: '独立绘制 8 字型；只标点名和平行符号。'}
+      semantic_constraints: {given_objects: [P, A, B, C, D], given_constraints: ['exact order A-P-C', 'exact order B-P-D', 'AB parallel CD'], clean_forbidden: [do not show the final answer]}

@@ -1,0 +1,667 @@
+meta:
+  title: 平行线对应边比例再练
+  subtitle: 杨茗贺 · 教师版
+  grade: 八年级
+  subject: 数学
+  duration: 25分钟
+  total_points: 32
+  version: teacher
+  source_artifacts:
+    structure_analysis: artifacts/杨茗贺/2026-07-11-平行线对应边比例再练/01-structure-analysis.md
+    explanation: artifacts/杨茗贺/2026-07-11-平行线对应边比例再练/02-student-explanation.plan.assignment.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: main
+  title: 一、平行线对应边比例（A 字型 2 题，8 字型 2 题）
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: q1
+    points: 8
+    label: 第 1 题（A 字型）
+    stem_latex: 如图，$l_1\parallel l_2$，点 $A$ 在两条平行线外侧，直线 $AC$、$AD$ 分别交 $l_1$、$l_2$ 于 $C,E$ 和 $D,F$。已知 $AC:CE=2:3$，$AD=8$，求
+      $DF$。
+    answer_space:
+      type: steps
+      height: 30mm
+      step_count: 4
+    answer: $DF=12$。
+    explanation: $AC:CE=2:3$ 是同一条截线上的分段比，对应得到 $AD:DF=2:3$。$AD=8$ 为 2 份，每份 4，故 $DF=3\times4=12$。
+    solution_steps:
+    - title: 先看已知比的对象
+      content: $AC:CE$ 是同一条截线上的分段比；图形是 A 字型。
+    - title: 写成对应份数
+      content: $AD:DF=AC:CE=2:3$。
+    - title: 用份数求解
+      content: $AD=8$ 是 2 份，每份 $8\div2=4$，所以 $DF=3\times4=12$。
+    teaching:
+      teaching_goal: 先辨认同一条截线上的分段比，再用对应份数求目标段。
+      source_relations:
+      - fallback:parallel_line_ratio_parts
+      expected_blocker: 把 $AC:CE$ 误写成两个三角形的对应边比。
+      entry_point: find_entry
+      scaffold_level: high
+      variation_depth: changed_representation
+      complexity_note: 一次对应关系和一次份数计算，答案为整数。
+      upgrade_rule: 能指出 $CE$ 是分段而不是整段三角形边。
+      fallback_move: 先在图上圈出 $AC,CE$ 是否共线。
+    diagram_slot:
+      slot_id: practice.ratio.teacher.q1.prompt
+      diagram_ref: practice.ratio.teacher.q1.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 第 1 题图
+      engine: renderer_spec
+      diagram_kind: synthetic_geometry
+      teaching_intent: practice_prompt
+      problem_context:
+        stem_latex: A 字型平行线图，已知 $AC:CE=2:3$，$AD=8$。
+        source_problem_text: 画两条水平平行线 l_1、l_2。A 在 l_1 上方外侧；直线 AC 经过 A、C、E，直线 AD 经过 A、D、F；C、D 在 l_1 上，E、F 在 l_2 上。标出 A、C、D、E、F、l_1、l_2，不标数字和答案。
+      semantic_constraints:
+        given_objects:
+        - A
+        - C
+        - D
+        - E
+        - F
+        given_constraints:
+        - l1 and l2 are parallel horizontal lines
+        - A is above l1
+        - A-C-E collinear
+        - A-D-F collinear
+        - C-D on l1
+        - E-F on l2
+        clean_forbidden:
+        - 不要写比例答案
+        - 不要写辅助线
+      engine_options:
+        renderer_spec:
+          schema_version: geometry-render-spec/v1
+          job_id: practice-ratio-teacher-q1-prompt
+          variant: prompt
+          disclosure_policy: clean
+          type: synthetic_geometry
+          status: ready
+          points:
+            l1L:
+            - -4.2
+            - 2
+            l1R:
+            - 4.2
+            - 2
+            l2L:
+            - -4.2
+            - 0
+            l2R:
+            - 4.2
+            - 0
+            A:
+            - 0
+            - 4
+            C:
+            - -1.4
+            - 2
+            D:
+            - 1.4
+            - 2
+            E:
+            - -2.8
+            - 0
+            F:
+            - 2.8
+            - 0
+          segments:
+          - from: l1L
+            to: l1R
+          - from: l2L
+            to: l2R
+          - from: C
+            to: E
+          - from: D
+            to: F
+          polygons: []
+          markers:
+          - type: parallel
+            segments:
+            - - l1L
+              - l1R
+            - - l2L
+              - l2R
+          labels:
+            l1L:
+              text: l1
+              placement: left
+            l1R:
+              text: ' '
+            l2L:
+              text: l2
+              placement: left
+            l2R:
+              text: ' '
+            A:
+              text: A
+              placement: above
+            C:
+              text: C
+              placement: above left
+            D:
+              text: D
+              placement: above right
+            E:
+              text: E
+              placement: below right
+            F:
+              text: F
+              placement: below left
+          constraints:
+          - l1 parallel l2
+          - A,C,E collinear
+          - A,D,F collinear
+          - AC
+          - AD
+          - CE
+          - DF
+          - AE
+          - AF
+          - CD
+          - EF
+          teaching_focus:
+          - 识别两条平行线、点 A 和两条截线
+  - type: problem
+    id: q2
+    points: 8
+    label: 第 2 题（A 字型）
+    stem_latex: 如图，$l_1\parallel l_2$，点 $A$ 在两条平行线外侧，直线 $AC$、$AD$ 分别交 $l_1$、$l_2$ 于 $C,E$ 和 $D,F$。已知 $AC:AE=3:5$，$CD=9$，求
+      $EF$。
+    answer_space:
+      type: steps
+      height: 30mm
+      step_count: 4
+    answer: $EF=15$。
+    explanation: $AC:AE=3:5$ 是两个相似三角形的对应边比，故 $CD:EF=3:5$。$CD=9$ 为 3 份，每份 3，故 $EF=5\times3=15$。
+    solution_steps:
+    - title: 先看已知比的对象
+      content: $AC$、$AE$ 分属两个相似三角形，是对应边比。
+    - title: 配对对应边
+      content: 由 $\triangle ACD\sim\triangle AEF$，得 $CD:EF=AC:AE=3:5$。
+    - title: 用份数求解
+      content: $CD=9$ 是 3 份，每份 3，所以 $EF=5\times3=15$。
+    teaching:
+      teaching_goal: 识别两个相似三角形的对应边比，并迁移到另一组对应边。
+      source_relations:
+      - fallback:parallel_line_ratio_parts
+      expected_blocker: 把 $AC:AE$ 与 $CD:EF$ 的对应顺序写反。
+      entry_point: build_relation
+      scaffold_level: high
+      variation_depth: changed_representation
+      complexity_note: 一次相似对应和一次份数计算，答案为整数。
+      upgrade_rule: 能写出 $AC\leftrightarrow AE$、$CD\leftrightarrow EF$。
+      fallback_move: 先写 $\triangle ACD\sim\triangle AEF$。
+    diagram_slot:
+      slot_id: practice.ratio.teacher.q2.prompt
+      diagram_ref: practice.ratio.teacher.q2.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 第 2 题图
+      engine: renderer_spec
+      diagram_kind: synthetic_geometry
+      teaching_intent: practice_prompt
+      problem_context:
+        stem_latex: A 字型平行线图，已知 $AC:AE=3:5$，$CD=9$。
+        source_problem_text: 画两条水平平行线 l_1、l_2。A 在 l_1 上方外侧；直线 AC 经过 A、C、E，直线 AD 经过 A、D、F；C、D 在 l_1 上，E、F 在 l_2 上。标出 A、C、D、E、F、l_1、l_2，不标数字和答案。
+      semantic_constraints:
+        given_objects:
+        - A
+        - C
+        - D
+        - E
+        - F
+        given_constraints:
+        - l1 and l2 are parallel horizontal lines
+        - A is above l1
+        - A-C-E collinear
+        - A-D-F collinear
+        - C-D on l1
+        - E-F on l2
+        clean_forbidden:
+        - 不要写比例答案
+        - 不要写辅助线
+      engine_options:
+        renderer_spec:
+          schema_version: geometry-render-spec/v1
+          job_id: practice-ratio-teacher-q2-prompt
+          variant: prompt
+          disclosure_policy: clean
+          type: synthetic_geometry
+          status: ready
+          points:
+            l1L:
+            - -4.2
+            - 2
+            l1R:
+            - 4.2
+            - 2
+            l2L:
+            - -4.2
+            - 0
+            l2R:
+            - 4.2
+            - 0
+            A:
+            - 0.3
+            - 4
+            C:
+            - -1.1
+            - 2
+            D:
+            - 1.7
+            - 2
+            E:
+            - -2.5
+            - 0
+            F:
+            - 3.1
+            - 0
+          segments:
+          - from: l1L
+            to: l1R
+          - from: l2L
+            to: l2R
+          - from: C
+            to: E
+          - from: D
+            to: F
+          polygons: []
+          markers:
+          - type: parallel
+            segments:
+            - - l1L
+              - l1R
+            - - l2L
+              - l2R
+          labels:
+            l1L:
+              text: l1
+              placement: left
+            l1R:
+              text: ' '
+            l2L:
+              text: l2
+              placement: left
+            l2R:
+              text: ' '
+            A:
+              text: A
+              placement: above
+            C:
+              text: C
+              placement: above left
+            D:
+              text: D
+              placement: above right
+            E:
+              text: E
+              placement: below right
+            F:
+              text: F
+              placement: below left
+          constraints:
+          - l1 parallel l2
+          - A,C,E collinear
+          - A,D,F collinear
+          - AC
+          - AD
+          - CE
+          - DF
+          - AE
+          - AF
+          - CD
+          - EF
+          teaching_focus:
+          - 识别两条平行线、点 A 和两条截线
+  - type: problem
+    id: q3
+    points: 8
+    label: 第 3 题（8 字型）
+    stem_latex: 如图，$l_1\parallel l_2$，点 $A$ 在两条平行线之间，直线 $AC$、$AD$ 分别交两条平行线于 $C,E$ 和 $D,F$。已知 $AC:AE=2:3$，$AD=10$，求 $AF$。
+    answer_space:
+      type: steps
+      height: 30mm
+      step_count: 4
+    answer: $AF=15$。
+    explanation: 8 字型中 $\triangle ACD\sim\triangle AEF$，所以 $AD:AF=AC:AE=2:3$。$AD=10$ 为 2 份，每份 5，故 $AF=3\times5=15$。
+    solution_steps:
+    - title: 先观察图形位置
+      content: 点 $A$ 在两条平行线之间，构成 8 字型；$AC:AE$ 是两个三角形的对应边比。
+    - title: 写出对应关系
+      content: 由 $\triangle ACD\sim\triangle AEF$，得 $AD:AF=2:3$。
+    - title: 用份数求解
+      content: $AD=10$ 是 2 份，每份 5，所以 $AF=3\times5=15$。
+    teaching:
+      teaching_goal: 在 8 字型中保持对应关系不变，训练图形方向变化后的迁移。
+      source_relations:
+      - fallback:parallel_line_ratio_parts
+      expected_blocker: 只凭图形方向套 A 字型公式，漏看对应点。
+      entry_point: transfer
+      scaffold_level: medium
+      variation_depth: changed_representation
+      complexity_note: 与第 2 题同一计算层级，只改变相似图形位置。
+      upgrade_rule: 能说明 A 字型和 8 字型都按对应边比例处理。
+      fallback_move: 先标出 $AC\leftrightarrow AE$。
+    diagram_slot:
+      slot_id: practice.ratio.teacher.q3.prompt
+      diagram_ref: practice.ratio.teacher.q3.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 第 3 题图
+      engine: renderer_spec
+      diagram_kind: synthetic_geometry
+      teaching_intent: practice_prompt
+      problem_context:
+        stem_latex: 8 字型平行线图，已知 $AC:AE=2:3$，$AD=10$。
+        source_problem_text: 画两条水平平行线 l_1、l_2。A 在两条平行线之间；直线 AC 经过 A、C、E，直线 AD 经过 A、D、F，二线交叉形成 8 字型；C、D 在 l_1 上，E、F 在 l_2 上。标出
+          A、C、D、E、F、l_1、l_2，不标数字和答案。
+      semantic_constraints:
+        given_objects:
+        - A
+        - C
+        - D
+        - E
+        - F
+        given_constraints:
+        - l1 and l2 are parallel horizontal lines
+        - A lies between l1 and l2
+        - A-C-E collinear
+        - A-D-F collinear
+        - C-D on l1
+        - E-F on l2
+        clean_forbidden:
+        - 不要写比例答案
+        - 不要写辅助线
+      engine_options:
+        renderer_spec:
+          schema_version: geometry-render-spec/v1
+          job_id: practice-ratio-teacher-q3-prompt
+          variant: prompt
+          disclosure_policy: clean
+          type: synthetic_geometry
+          status: ready
+          points:
+            l1L:
+            - -4.2
+            - 2
+            l1R:
+            - 4.2
+            - 2
+            l2L:
+            - -4.2
+            - 0
+            l2R:
+            - 4.2
+            - 0
+            A:
+            - 0.4
+            - 1
+            C:
+            - -1.4
+            - 2
+            D:
+            - 1.8
+            - 2
+            E:
+            - 2.2
+            - 0
+            F:
+            - -1.0
+            - 0
+          segments:
+          - from: l1L
+            to: l1R
+          - from: l2L
+            to: l2R
+          - from: C
+            to: E
+          - from: D
+            to: F
+          polygons: []
+          markers:
+          - type: parallel
+            segments:
+            - - l1L
+              - l1R
+            - - l2L
+              - l2R
+          labels:
+            l1L:
+              text: l1
+              placement: left
+            l1R:
+              text: ' '
+            l2L:
+              text: l2
+              placement: left
+            l2R:
+              text: ' '
+            A:
+              text: A
+              placement: above
+            C:
+              text: C
+              placement: above left
+            D:
+              text: D
+              placement: above right
+            E:
+              text: E
+              placement: below right
+            F:
+              text: F
+              placement: below left
+          constraints:
+          - l1 parallel l2
+          - A,C,E collinear
+          - A,D,F collinear
+          - AC
+          - AD
+          - CE
+          - DF
+          - AE
+          - AF
+          - CD
+          - EF
+          teaching_focus:
+          - 识别两条平行线、点 A 和两条截线
+  - type: problem
+    id: q4
+    points: 8
+    label: 第 4 题（8 字型）
+    stem_latex: 如图，$l_1\parallel l_2$，点 $A$ 在两条平行线之间，直线 $AC$、$AD$ 分别交两条平行线于 $C,E$ 和 $D,F$。已知 $AC:AE=3:5$，$CD=12$，求 $EF$。
+    answer_space:
+      type: steps
+      height: 30mm
+      step_count: 4
+    answer: $EF=20$。
+    explanation: $AC:AE=3:5$，对应有 $CD:EF=3:5$。$CD=12$ 为 3 份，每份 4，故 $EF=5\times4=20$。
+    solution_steps:
+    - title: 观察已知条件
+      content: $AC:AE$ 是两个相似三角形的对应边比。
+    - title: 配对目标边
+      content: 由 $\triangle ACD\sim\triangle AEF$，得 $CD:EF=3:5$。
+    - title: 用份数求解
+      content: $CD=12$ 是 3 份，每份 4，所以 $EF=5\times4=20$。
+    teaching:
+      teaching_goal: 巩固 8 字型对应边比与份数求解。
+      source_relations:
+      - fallback:parallel_line_ratio_parts
+      expected_blocker: 把 $CD$、$EF$ 与斜边对应关系混淆。
+      entry_point: solve_and_check
+      scaffold_level: low
+      variation_depth: changed_numbers
+      complexity_note: 一次对应关系和一次份数计算，答案为整数。
+      upgrade_rule: 能独立写出 $CD:EF=AC:AE$。
+      fallback_move: 在图上沿两条平行线找 $CD$、$EF$。
+    diagram_slot:
+      slot_id: practice.ratio.teacher.q4.prompt
+      diagram_ref: practice.ratio.teacher.q4.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 第 4 题图
+      engine: renderer_spec
+      diagram_kind: synthetic_geometry
+      teaching_intent: practice_prompt
+      problem_context:
+        stem_latex: 8 字型平行线图，已知 $AC:AE=3:5$，$CD=12$。
+        source_problem_text: 画两条水平平行线 l_1、l_2。A 在两条平行线之间；直线 AC 经过 A、C、E，直线 AD 经过 A、D、F，二线交叉形成 8 字型；C、D 在 l_1 上，E、F 在 l_2 上。标出
+          A、C、D、E、F、l_1、l_2，不标数字和答案。
+      semantic_constraints:
+        given_objects:
+        - A
+        - C
+        - D
+        - E
+        - F
+        given_constraints:
+        - l1 and l2 are parallel horizontal lines
+        - A lies between l1 and l2
+        - A-C-E collinear
+        - A-D-F collinear
+        - C-D on l1
+        - E-F on l2
+        clean_forbidden:
+        - 不要写比例答案
+        - 不要写辅助线
+      engine_options:
+        renderer_spec:
+          schema_version: geometry-render-spec/v1
+          job_id: practice-ratio-teacher-q4-prompt
+          variant: prompt
+          disclosure_policy: clean
+          type: synthetic_geometry
+          status: ready
+          points:
+            l1L:
+            - -4.2
+            - 2
+            l1R:
+            - 4.2
+            - 2
+            l2L:
+            - -4.2
+            - 0
+            l2R:
+            - 4.2
+            - 0
+            A:
+            - 0
+            - 1
+            C:
+            - -1.4
+            - 2
+            D:
+            - 1.4
+            - 2
+            E:
+            - 1.4
+            - 0
+            F:
+            - -1.4
+            - 0
+          segments:
+          - from: l1L
+            to: l1R
+          - from: l2L
+            to: l2R
+          - from: C
+            to: E
+          - from: D
+            to: F
+          polygons: []
+          markers:
+          - type: parallel
+            segments:
+            - - l1L
+              - l1R
+            - - l2L
+              - l2R
+          labels:
+            l1L:
+              text: l1
+              placement: left
+            l1R:
+              text: ' '
+            l2L:
+              text: l2
+              placement: left
+            l2R:
+              text: ' '
+            A:
+              text: A
+              placement: above
+            C:
+              text: C
+              placement: above left
+            D:
+              text: D
+              placement: above right
+            E:
+              text: E
+              placement: below right
+            F:
+              text: F
+              placement: below left
+          constraints:
+          - l1 parallel l2
+          - A,C,E collinear
+          - A,D,F collinear
+          - AC
+          - AD
+          - CE
+          - DF
+          - AE
+          - AF
+          - CD
+          - EF
+          teaching_focus:
+          - 识别两条平行线、点 A 和两条截线
+- id: answer-key
+  title: 答案速查
+  type: answer_key
+  visibility: teacher
+  layout:
+    break_before: true
+  blocks:
+  - type: answers
+    id: answers
+    items:
+    - number: '1'
+      answer: $DF=12$
+    - number: '2'
+      answer: $EF=15$
+    - number: '3'
+      answer: $AF=15$
+    - number: '4'
+      answer: $EF=20$

@@ -1,0 +1,145 @@
+meta:
+  title: 平行线对应边比例：先看条件，再用份数
+  subtitle: 杨茗贺 · 学生讲义
+  grade: 八年级
+  subject: 数学
+  version: student
+  source_artifacts:
+    structure_analysis: artifacts/杨茗贺/2026-07-11-平行线对应边比例再练/01-structure-analysis.md
+render:
+  template: exam-zh-explanation
+  paper_size: a4paper
+sections:
+- id: main
+  title: 平行线对应边比例：先看条件，再用份数
+  show_title: true
+  type: explanation
+  visibility: student
+  blocks:
+  - type: solution
+    id: observe-first
+    title: 核心动作：先判断已知比的对象
+    items:
+    - latex: 第一眼先找 $l_1\parallel l_2$，再看点 $A$ 的位置：$A$ 在两条平行线外侧，是 A 字型；$A$ 在两条平行线之间，是
+        8 字型。
+    - latex: 如果条件给的是两条截线上的分段比，例如 A 字型中的 $AC:CE$ 与 $AD:DF$，先把每条截线分成对应的份数。
+    - latex: 如果条件给的是两个三角形的对应边比，先写 $\triangle ACD\sim\triangle AEF$，再用 $AC:AE=AD:AF=CD:EF$。
+    - latex: 份数求解固定三步：比例写成份数 → 用已知量求一份 → 用目标量的份数相乘。
+  - type: problemcard
+    id: a-example
+    label: 例题 1
+    stem_latex: '如图，$l_1\parallel l_2$，点 $A$ 在两条平行线外侧，直线 $AC$、$AD$ 分别交 $l_1$、$l_2$
+      于 $C,E$ 和 $D,F$。
+
+      已知 $AC:CE=2:3$，$AD=8$，求 $DF$。
+
+      '
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/explanation-a-example-prompt/rendered/prompt.fragment.tex
+      diagram_ref: explanation.a-example.prompt
+      diagram_job_id: explanation-a-example-prompt
+      width: 70mm
+      caption: 例题 1：A 字型中先看两条截线上的分段比。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:13e3c47fdd73e0c0a363d19f852a4d30973db4f25ddcfc9e19647a07ec09c37e
+      packages:
+      - tikz
+      libraries: []
+  - type: route
+    id: a-route
+    steps:
+    - id: a-observe
+      latex: 先判断已知比属于哪一类
+      content_latex: 已知 $AC:CE$，这是同一条截线上的分段比；图形中 $A$ 在平行线外侧，是 A 字型。
+    - id: a-parts
+      latex: 把对应分段看成份数
+      content_latex: $AC:CE=2:3$，所以对应的 $AD:DF=2:3$。$AD=8$ 对应 2 份，每份为 $8\div2=4$。
+    - id: a-solve
+      latex: 求目标线段
+      content_latex: $DF$ 是 3 份，所以 $DF=3\times4=12$。
+  - type: dual_explanation
+    id: a-solution
+    label: 例题 1
+    stem_latex: 求 $DF$。
+    side_title: 小贴士
+    side_items:
+    - kind: hint
+      title: 先看比的对象
+      content_latex: $AC:CE$ 不是两个三角形的对应边比；$AC$、$CE$ 在同一条截线上，是一条线段被平行线分出的两段。
+    - kind: hint
+      title: 份数怎么用
+      content_latex: 先用已知的 $AD=8$ 求 1 份，再用 $DF$ 的 3 份求目标。
+    - kind: mistake
+      title: 不要把整段看成分段
+      content_latex: 这里的 $AE$ 是整段，$CE$ 只是其中一段；题目给的是 $AC:CE$，不能直接写成 $AC:AE=2:3$。
+    solution_title: 解答
+    solution_step_ids:
+    - a-observe
+    - a-parts
+    - a-solve
+  - type: problemcard
+    id: eight-example
+    label: 例题 2
+    stem_latex: '如图，$l_1\parallel l_2$，点 $A$ 在两条平行线之间，直线 $AC$、$AD$ 分别交两条平行线于 $C,E$
+      和 $D,F$。
+
+      已知 $AC:AE=3:5$，$CD=12$，求 $EF$。
+
+      '
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/explanation-eight-example-prompt/rendered/prompt.fragment.tex
+      diagram_ref: explanation.eight-example.prompt
+      diagram_job_id: explanation-eight-example-prompt
+      width: 70mm
+      caption: 例题 2：8 字型中先找两个三角形的对应边。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:12516e3e3b8c4ab01259cd5f224a09282cde21456f731e5147e738d9e793dbb7
+      packages:
+      - tikz
+      libraries: []
+  - type: route
+    id: eight-route
+    steps:
+    - id: eight-observe
+      latex: 先判断是分段比还是对应边比
+      content_latex: 已知 $AC:AE$，这两个线段分别属于上、下两个三角形，是相似三角形的对应边比；点 $A$ 在两平行线之间，是 8 字型。
+    - id: eight-correspond
+      latex: 写出对应边关系
+      content_latex: 由 $\triangle ACD\sim\triangle AEF$，得 $CD:EF=AC:AE=3:5$。
+    - id: eight-parts
+      latex: 用份数求目标
+      content_latex: $CD=12$ 是 3 份，每份为 $12\div3=4$；$EF$ 是 5 份，所以 $EF=5\times4=20$。
+  - type: dual_explanation
+    id: eight-solution
+    label: 例题 2
+    stem_latex: 求 $EF$。
+    side_title: 小贴士
+    side_items:
+    - kind: hint
+      title: 先找两个三角形
+      content_latex: 8 字型的两个三角形分别在点 $A$ 的两侧，底边 $CD$ 与 $EF$ 在两条平行线上。
+    - kind: hint
+      title: 对应边不要乱配
+      content_latex: $AC$ 与 $AE$ 在同一条直线 $CE$ 上，$CD$ 与 $EF$ 在平行线 $l_1,l_2$ 上，因此 $AC\leftrightarrow
+        AE$、$CD\leftrightarrow EF$。
+    - kind: mistake
+      title: 不要先套图形名称
+      content_latex: A 字型和 8 字型的关键对应关系相同，先看点和线段的位置，再写对应边。
+    solution_title: 解答
+    solution_step_ids:
+    - eight-observe
+    - eight-correspond
+    - eight-parts
+  - type: method_reminder
+    id: method
+    title: 方法提醒：先辨对象，再按份数算
+    items:
+    - latex: 先看题目给的是同一条截线上的分段比，还是两个相似三角形的对应边比。
+    - latex: 先写出对应关系，再把比例解释成份数；已知几份，先求一份。
+    - latex: A 字型和 8 字型只是位置不同，不能只凭图形方向乱套比例。

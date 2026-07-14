@@ -1,0 +1,126 @@
+\documentclass{exam-zh}
+\usepackage{edu-explanation}
+
+\examsetup{
+  question/show-answer = true,
+  fillin/show-answer = true,
+  solution/show-solution = show-stay,
+}
+
+\begin{document}
+
+\eduSectionTitle{平行线对应边比例：先看条件，再用份数}
+
+
+\begin{eduSolutionBox}{核心动作：先判断已知比的对象}
+  \begingroup
+  \setlength{\parskip}{2.5mm}
+第一眼先找 $l_1\parallel l_2$，再看点 $A$ 的位置：$A$ 在两条平行线外侧，是 A 字型；$A$ 在两条平行线之间，是 8 字型。\par
+如果条件给的是两条截线上的分段比，例如 A 字型中的 $AC:CE$ 与 $AD:DF$，先把每条截线分成对应的份数。\par
+如果条件给的是两个三角形的对应边比，先写 $\triangle ACD\sim\triangle AEF$，再用 $AC:AE=AD:AF=CD:EF$。\par
+份数求解固定三步：比例写成份数 → 用已知量求一份 → 用目标量的份数相乘。\par
+  \endgroup
+\end{eduSolutionBox}
+
+
+
+
+\begin{eduProblemBlock}[例题 1]
+\noindent
+\begin{minipage}[t]{\dimexpr\linewidth-70mm-6mm\relax}
+\vspace{0pt}
+如图，$l_1\parallel l_2$，点 $A$ 在两条平行线外侧，直线 $AC$、$AD$ 分别交 $l_1$、$l_2$ 于 $C,E$ 和 $D,F$。
+已知 $AC:CE=2:3$，$AD=8$，求 $DF$。
+
+\end{minipage}\hfill
+\begin{diagramcoltikz}{70mm}{例题 1：A 字型中先看两条截线上的分段比。}
+\input{\detokenize{build/diagram/jobs/explanation-a-example-prompt/rendered/prompt.fragment.tex}}
+\end{diagramcoltikz}
+\end{eduProblemBlock}
+
+
+
+
+
+\begin{eduAuxItem}{思路导航}
+先判断已知比属于哪一类$\;\to\;$把对应分段看成份数$\;\to\;$求目标线段\end{eduAuxItem}
+
+
+
+
+\begin{eduSubQuestionItem}{例题 1}
+求 $DF$。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{小贴士}
+        \eduSideHint{先看比的对象}{$AC:CE$ 不是两个三角形的对应边比；$AC$、$CE$ 在同一条截线上，是一条线段被平行线分出的两段。}
+        \eduSideHint{份数怎么用}{先用已知的 $AD=8$ 求 1 份，再用 $DF$ 的 3 份求目标。}
+        \eduSideMistake{不要把整段看成分段}{这里的 $AE$ 是整段，$CE$ 只是其中一段；题目给的是 $AC:CE$，不能直接写成 $AC:AE=2:3$。}
+  \end{eduExplainLeft}
+
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{解答}
+      \eduExplainStep{1}{先判断已知比属于哪一类}{已知 $AC:CE$，这是同一条截线上的分段比；图形中 $A$ 在平行线外侧，是 A 字型。}
+      \eduExplainStep{2}{把对应分段看成份数}{$AC:CE=2:3$，所以对应的 $AD:DF=2:3$。$AD=8$ 对应 2 份，每份为 $8\div2=4$。}
+      \eduExplainStep{3}{求目标线段}{$DF$ 是 3 份，所以 $DF=3\times4=12$。}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduProblemBlock}[例题 2]
+\noindent
+\begin{minipage}[t]{\dimexpr\linewidth-70mm-6mm\relax}
+\vspace{0pt}
+如图，$l_1\parallel l_2$，点 $A$ 在两条平行线之间，直线 $AC$、$AD$ 分别交两条平行线于 $C,E$ 和 $D,F$。
+已知 $AC:AE=3:5$，$CD=12$，求 $EF$。
+
+\end{minipage}\hfill
+\begin{diagramcoltikz}{70mm}{例题 2：8 字型中先找两个三角形的对应边。}
+\input{\detokenize{build/diagram/jobs/explanation-eight-example-prompt/rendered/prompt.fragment.tex}}
+\end{diagramcoltikz}
+\end{eduProblemBlock}
+
+
+
+
+
+\begin{eduAuxItem}{思路导航}
+先判断是分段比还是对应边比$\;\to\;$写出对应边关系$\;\to\;$用份数求目标\end{eduAuxItem}
+
+
+
+
+\begin{eduSubQuestionItem}{例题 2}
+求 $EF$。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{小贴士}
+        \eduSideHint{先找两个三角形}{8 字型的两个三角形分别在点 $A$ 的两侧，底边 $CD$ 与 $EF$ 在两条平行线上。}
+        \eduSideHint{对应边不要乱配}{$AC$ 与 $AE$ 在同一条直线 $CE$ 上，$CD$ 与 $EF$ 在平行线 $l_1,l_2$ 上，因此 $AC\leftrightarrow AE$、$CD\leftrightarrow EF$。}
+        \eduSideMistake{不要先套图形名称}{A 字型和 8 字型的关键对应关系相同，先看点和线段的位置，再写对应边。}
+  \end{eduExplainLeft}
+
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{解答}
+      \eduExplainStep{1}{先判断是分段比还是对应边比}{已知 $AC:AE$，这两个线段分别属于上、下两个三角形，是相似三角形的对应边比；点 $A$ 在两平行线之间，是 8 字型。}
+      \eduExplainStep{2}{写出对应边关系}{由 $\triangle ACD\sim\triangle AEF$，得 $CD:EF=AC:AE=3:5$。}
+      \eduExplainStep{3}{用份数求目标}{$CD=12$ 是 3 份，每份为 $12\div3=4$；$EF$ 是 5 份，所以 $EF=5\times4=20$。}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduSummaryBlock}{\eduIconPin}{方法提醒：先辨对象，再按份数算}
+\begin{eduBulletList}
+  \item 先看题目给的是同一条截线上的分段比，还是两个相似三角形的对应边比。  \item 先写出对应关系，再把比例解释成份数；已知几份，先求一份。  \item A 字型和 8 字型只是位置不同，不能只凭图形方向乱套比例。\end{eduBulletList}
+\end{eduSummaryBlock}
+
+
+
+
+\end{document}

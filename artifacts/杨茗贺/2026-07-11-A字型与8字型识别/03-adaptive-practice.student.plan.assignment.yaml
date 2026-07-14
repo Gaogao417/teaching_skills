@@ -1,0 +1,600 @@
+meta:
+  title: A 字型和 8 字型相似模型识别
+  subtitle: 杨茗贺 · 学生版
+  grade: 八年级
+  subject: 数学
+  duration: 20分钟
+  total_points: 40
+  version: student
+  source_artifacts:
+    structure_analysis: artifacts/杨茗贺/2026-07-11-A字型与8字型识别/01-structure-analysis.md
+    explanation: artifacts/杨茗贺/2026-07-11-平行线对应边比例再练/02-student-explanation.plan.assignment.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: main
+  title: 一、找出 A 字型和 8 字型
+  type: practice
+  visibility: student
+  blocks:
+  - type: problem
+    id: q1
+    points: 10
+    label: 第 1 题
+    stem_latex: '观察下图，填写：
+
+
+      （1）两条平行线为：$\underline{\hspace{2cm}}$；
+
+      （2）平行线外侧的点为：$\underline{\hspace{2cm}}$；
+
+      （3）过该点且同时与 $l_1,l_2$ 相交的两条直线为：$\underline{\hspace{2cm}}$、$\underline{\hspace{2cm}}$；
+
+      （4）写出相似三角形：$\underline{\hspace{4cm}}$；
+
+      （5）这是 A 字型还是 8 字型：$\underline{\hspace{2cm}}$。
+
+      '
+    diagram_slot:
+      slot_id: recognition.student.q1.prompt
+      diagram_ref: recognition.student.q1.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 第 1 题图
+      engine: renderer_spec
+      diagram_kind: synthetic_geometry
+      teaching_intent: practice_prompt
+      problem_context:
+        stem_latex: A 字型识别图。
+        source_problem_text: 画两条水平平行线 l_1、l_2，标在左侧。A 在 l_1 上方外侧。画两条经过 A 的截线：一条依次经过 C、E，另一条依次经过 D、F；C、D 在 l_1 上，E、F 在 l_2 上。显示
+          A、C、D、E、F 和两条平行线，不写相似结论和模型名称。
+      semantic_constraints:
+        given_objects:
+        - A
+        - C
+        - D
+        - E
+        - F
+        given_constraints:
+        - l1 and l2 are parallel horizontal lines
+        - A is outside the strip and above l1
+        - A, C, E are collinear
+        - A, D, F are collinear
+        - C and D lie on l1; E and F lie on l2
+        clean_forbidden:
+        - 不要写 A 字型
+        - 不要写 8 字型
+        - 不要写相似三角形
+      engine_options:
+        renderer_spec:
+          schema_version: geometry-render-spec/v1
+          job_id: recognition-student-q1-prompt
+          variant: prompt
+          disclosure_policy: clean
+          type: synthetic_geometry
+          status: ready
+          points:
+            l1L:
+            - -4.2
+            - 2
+            l1R:
+            - 4.2
+            - 2
+            l2L:
+            - -4.2
+            - 0
+            l2R:
+            - 4.2
+            - 0
+            A:
+            - 0
+            - 4
+            C:
+            - -1.4
+            - 2
+            D:
+            - 1.4
+            - 2
+            E:
+            - -2.8
+            - 0
+            F:
+            - 2.8
+            - 0
+          segments:
+          - from: l1L
+            to: l1R
+          - from: l2L
+            to: l2R
+          - from: C
+            to: E
+          - from: D
+            to: F
+          polygons: []
+          markers:
+          - type: parallel
+            segments:
+            - - l1L
+              - l1R
+            - - l2L
+              - l2R
+          labels:
+            l1L:
+              text: l1
+              placement: left
+            l1R:
+              text: ' '
+            l2L:
+              text: l2
+              placement: left
+            l2R:
+              text: ' '
+            A:
+              text: A
+              placement: above
+            C:
+              text: C
+              placement: above left
+            D:
+              text: D
+              placement: above right
+            E:
+              text: E
+              placement: below right
+            F:
+              text: F
+              placement: below left
+          constraints:
+          - l1 parallel l2
+          - A,C,E collinear
+          - A,D,F collinear
+          - AC
+          - AD
+          - CE
+          - DF
+          - AE
+          - AF
+          - CD
+          - EF
+          teaching_focus:
+          - 识别两条平行线、点 A 和两条截线
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 5
+  - type: problem
+    id: q2
+    points: 10
+    label: 第 2 题
+    stem_latex: '观察下图，填写：
+
+
+      （1）两条平行线为：$\underline{\hspace{2cm}}$；
+
+      （2）两条平行线之间的交点为：$\underline{\hspace{2cm}}$；
+
+      （3）过该点且同时与 $l_1,l_2$ 相交的两条直线为：$\underline{\hspace{2cm}}$、$\underline{\hspace{2cm}}$；
+
+      （4）写出相似三角形：$\underline{\hspace{4cm}}$；
+
+      （5）这是 A 字型还是 8 字型：$\underline{\hspace{2cm}}$。
+
+      '
+    diagram_slot:
+      slot_id: recognition.student.q2.prompt
+      diagram_ref: recognition.student.q2.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 第 2 题图
+      engine: renderer_spec
+      diagram_kind: synthetic_geometry
+      teaching_intent: practice_prompt
+      problem_context:
+        stem_latex: 8 字型识别图。
+        source_problem_text: 画两条水平平行线 l_1、l_2，标在左侧。A 在两条平行线之间。画两条经过 A 且交叉的截线：一条经过 C、E，另一条经过 D、F；C、D 在 l_1 上，E、F 在 l_2 上。显示
+          A、C、D、E、F 和两条平行线，不写相似结论和模型名称。
+      semantic_constraints:
+        given_objects:
+        - A
+        - C
+        - D
+        - E
+        - F
+        given_constraints:
+        - l1 and l2 are parallel horizontal lines
+        - A lies between l1 and l2
+        - A, C, E are collinear
+        - A, D, F are collinear
+        - C and D lie on l1; E and F lie on l2
+        clean_forbidden:
+        - 不要写 A 字型
+        - 不要写 8 字型
+        - 不要写相似三角形
+      engine_options:
+        renderer_spec:
+          schema_version: geometry-render-spec/v1
+          job_id: recognition-student-q2-prompt
+          variant: prompt
+          disclosure_policy: clean
+          type: synthetic_geometry
+          status: ready
+          points:
+            l1L:
+            - -4.2
+            - 2
+            l1R:
+            - 4.2
+            - 2
+            l2L:
+            - -4.2
+            - 0
+            l2R:
+            - 4.2
+            - 0
+            A:
+            - 0.4
+            - 1
+            C:
+            - -1.4
+            - 2
+            D:
+            - 1.8
+            - 2
+            E:
+            - 2.2
+            - 0
+            F:
+            - -1.0
+            - 0
+          segments:
+          - from: l1L
+            to: l1R
+          - from: l2L
+            to: l2R
+          - from: C
+            to: E
+          - from: D
+            to: F
+          polygons: []
+          markers:
+          - type: parallel
+            segments:
+            - - l1L
+              - l1R
+            - - l2L
+              - l2R
+          labels:
+            l1L:
+              text: l1
+              placement: left
+            l1R:
+              text: ' '
+            l2L:
+              text: l2
+              placement: left
+            l2R:
+              text: ' '
+            A:
+              text: A
+              placement: above
+            C:
+              text: C
+              placement: above left
+            D:
+              text: D
+              placement: above right
+            E:
+              text: E
+              placement: below right
+            F:
+              text: F
+              placement: below left
+          constraints:
+          - l1 parallel l2
+          - A,C,E collinear
+          - A,D,F collinear
+          - AC
+          - AD
+          - CE
+          - DF
+          - AE
+          - AF
+          - CD
+          - EF
+          teaching_focus:
+          - 识别两条平行线、点 A 和两条截线
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 5
+  - type: problem
+    id: q3
+    points: 10
+    label: 第 3 题
+    stem_latex: '观察下图，填写：两条平行线 $\underline{\hspace{2cm}}$；点 $A$ 在平行线的 $\underline{\hspace{2cm}}$；过 $A$ 的两条截线为 $\underline{\hspace{2cm}}$、$\underline{\hspace{2cm}}$；相似三角形为
+      $\underline{\hspace{4cm}}$；模型是 $\underline{\hspace{2cm}}$。
+
+      '
+    diagram_slot:
+      slot_id: recognition.student.q3.prompt
+      diagram_ref: recognition.student.q3.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 第 3 题图
+      engine: renderer_spec
+      diagram_kind: synthetic_geometry
+      teaching_intent: practice_prompt
+      problem_context:
+        stem_latex: 另一幅 A 字型识别图。
+        source_problem_text: 画 A 字型平行线图，但把 A 放在 l_1 上方偏左的外侧；两条截线从 A 向右下方展开，分别经过 C、E 和 D、F；C、D 在上方平行线 l_1，E、F 在下方平行线 l_2。标出
+          l_1、l_2、A、C、D、E、F，不写结论。
+      semantic_constraints:
+        given_objects:
+        - A
+        - C
+        - D
+        - E
+        - F
+        given_constraints:
+        - l1 parallel l2
+        - A outside above l1
+        - A-C-E collinear
+        - A-D-F collinear
+        - C-D on l1
+        - E-F on l2
+        clean_forbidden:
+        - 不要写模型名称
+        - 不要写相似三角形
+      engine_options:
+        renderer_spec:
+          schema_version: geometry-render-spec/v1
+          job_id: recognition-student-q3-prompt
+          variant: prompt
+          disclosure_policy: clean
+          type: synthetic_geometry
+          status: ready
+          points:
+            l1L:
+            - -4.2
+            - 2
+            l1R:
+            - 4.2
+            - 2
+            l2L:
+            - -4.2
+            - 0
+            l2R:
+            - 4.2
+            - 0
+            A:
+            - 0.3
+            - 4
+            C:
+            - -1.1
+            - 2
+            D:
+            - 1.7
+            - 2
+            E:
+            - -2.5
+            - 0
+            F:
+            - 3.1
+            - 0
+          segments:
+          - from: l1L
+            to: l1R
+          - from: l2L
+            to: l2R
+          - from: C
+            to: E
+          - from: D
+            to: F
+          polygons: []
+          markers:
+          - type: parallel
+            segments:
+            - - l1L
+              - l1R
+            - - l2L
+              - l2R
+          labels:
+            l1L:
+              text: l1
+              placement: left
+            l1R:
+              text: ' '
+            l2L:
+              text: l2
+              placement: left
+            l2R:
+              text: ' '
+            A:
+              text: A
+              placement: above
+            C:
+              text: C
+              placement: above left
+            D:
+              text: D
+              placement: above right
+            E:
+              text: E
+              placement: below right
+            F:
+              text: F
+              placement: below left
+          constraints:
+          - l1 parallel l2
+          - A,C,E collinear
+          - A,D,F collinear
+          - AC
+          - AD
+          - CE
+          - DF
+          - AE
+          - AF
+          - CD
+          - EF
+          teaching_focus:
+          - 识别两条平行线、点 A 和两条截线
+    answer_space:
+      type: steps
+      height: 38mm
+      step_count: 5
+  - type: problem
+    id: q4
+    points: 10
+    label: 第 4 题
+    stem_latex: '观察下图，填写：两条平行线 $\underline{\hspace{2cm}}$；点 $A$ 在平行线的 $\underline{\hspace{2cm}}$；过 $A$ 的两条截线为 $\underline{\hspace{2cm}}$、$\underline{\hspace{2cm}}$；相似三角形为
+      $\underline{\hspace{4cm}}$；模型是 $\underline{\hspace{2cm}}$。
+
+      '
+    diagram_slot:
+      slot_id: recognition.student.q4.prompt
+      diagram_ref: recognition.student.q4.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 第 4 题图
+      engine: renderer_spec
+      diagram_kind: synthetic_geometry
+      teaching_intent: practice_prompt
+      problem_context:
+        stem_latex: 另一幅 8 字型识别图。
+        source_problem_text: 画 8 字型平行线图，两条水平平行线 l_1、l_2，A 在两条平行线之间偏右；两条截线交叉通过 A，分别经过 C、E 和 D、F；C、D 在 l_1，E、F 在 l_2。标出 l_1、l_2、A、C、D、E、F，不写结论。
+      semantic_constraints:
+        given_objects:
+        - A
+        - C
+        - D
+        - E
+        - F
+        given_constraints:
+        - l1 parallel l2
+        - A between l1 and l2
+        - A-C-E collinear
+        - A-D-F collinear
+        - C-D on l1
+        - E-F on l2
+        clean_forbidden:
+        - 不要写模型名称
+        - 不要写相似三角形
+      engine_options:
+        renderer_spec:
+          schema_version: geometry-render-spec/v1
+          job_id: recognition-student-q4-prompt
+          variant: prompt
+          disclosure_policy: clean
+          type: synthetic_geometry
+          status: ready
+          points:
+            l1L:
+            - -4.2
+            - 2
+            l1R:
+            - 4.2
+            - 2
+            l2L:
+            - -4.2
+            - 0
+            l2R:
+            - 4.2
+            - 0
+            A:
+            - 0
+            - 1
+            C:
+            - -1.4
+            - 2
+            D:
+            - 1.4
+            - 2
+            E:
+            - 1.4
+            - 0
+            F:
+            - -1.4
+            - 0
+          segments:
+          - from: l1L
+            to: l1R
+          - from: l2L
+            to: l2R
+          - from: C
+            to: E
+          - from: D
+            to: F
+          polygons: []
+          markers:
+          - type: parallel
+            segments:
+            - - l1L
+              - l1R
+            - - l2L
+              - l2R
+          labels:
+            l1L:
+              text: l1
+              placement: left
+            l1R:
+              text: ' '
+            l2L:
+              text: l2
+              placement: left
+            l2R:
+              text: ' '
+            A:
+              text: A
+              placement: above
+            C:
+              text: C
+              placement: above left
+            D:
+              text: D
+              placement: above right
+            E:
+              text: E
+              placement: below right
+            F:
+              text: F
+              placement: below left
+          constraints:
+          - l1 parallel l2
+          - A,C,E collinear
+          - A,D,F collinear
+          - AC
+          - AD
+          - CE
+          - DF
+          - AE
+          - AF
+          - CD
+          - EF
+          teaching_focus:
+          - 识别两条平行线、点 A 和两条截线
+    answer_space:
+      type: steps
+      height: 38mm
+      step_count: 5

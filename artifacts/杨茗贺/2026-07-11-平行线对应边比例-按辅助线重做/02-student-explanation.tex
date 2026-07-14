@@ -1,0 +1,58 @@
+\documentclass{exam-zh}
+\usepackage{edu-explanation}
+
+\examsetup{
+  question/show-answer = true,
+  fillin/show-answer = true,
+  solution/show-solution = show-stay,
+}
+
+\begin{document}
+
+\eduSectionTitle{模型一：完整辅助线图要先抽出相似三角形}
+
+
+\begin{eduSolutionBox}{固定顺序：模型在前，比例在后}
+  \begingroup
+  \setlength{\parskip}{2.5mm}
+$\text{完整辅助线图}\to\text{找 A/8 字型}\to\text{写相似三角形}\to\text{判已知比}\to\text{换份数}\to\text{计算}$。\par
+先在图中写出 $l_1\parallel l_2$、模型顶点和两条截线；没有这一步，不能只看一条平行线就套比例。\par
+  \endgroup
+\end{eduSolutionBox}
+
+
+
+
+
+\begin{eduSolutionBox}{分段比与对应边比不是一回事}
+  \begingroup
+  \setlength{\parskip}{2.5mm}
+若 $AD:DB=2:3$，这是同一截线上的两段比：$AD=2$ 份，$DB=3$ 份，$AB=5$ 份，所以 $AD:AB=2:5$。\par
+若 $DF:BC=2:5$，这是相似三角形的小边:大边。若求剩余段 $FC$，则 $AF:FC=2:(5-2)=2:3$。\par
+  \endgroup
+\end{eduSolutionBox}
+
+
+
+
+
+\begin{eduSolutionBox}{8 字型：先对齐对应顺序}
+  \begingroup
+  \setlength{\parskip}{2.5mm}
+$\triangle EAB\sim\triangle ECF$：$EA:EC=EB:EF=AB:CF$。已知哪一组，就转成同一组份数。\par
+$\triangle PDB\sim\triangle PCF$：$PD:PC=PB:PF=DB:CF$。若给 $CP:PD=4:1$，先倒为 $PD:PC=1:4$。\par
+  \endgroup
+\end{eduSolutionBox}
+
+
+
+
+\begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
+\begin{eduBulletList}
+  \item 分段比先相加成整段；对应边比求剩余段时用大份数减小份数。  \item 比例顺序必须按相似三角形的对应关系写，不能照抄题目顺序。\end{eduBulletList}
+\end{eduSummaryBlock}
+
+
+
+
+\end{document}

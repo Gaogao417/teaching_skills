@@ -1,0 +1,124 @@
+\documentclass{exam-zh}
+\usepackage{edu-practice}
+
+\examsetup{
+  question/show-answer = false,
+  fillin/show-answer = false,
+  solution/show-solution = hide,
+}
+
+% ---------- 教师版解答样式 ----------
+\newtcolorbox{solutionblock}{
+  enhanced, breakable,
+  colback=edu-blue-bg,
+  colframe=edu-blue!25,
+  boxrule=0pt,
+  borderline west={2pt}{0pt}{edu-blue!50},
+  arc=0pt,
+  left=3mm, right=3mm, top=2mm, bottom=2mm,
+  before skip=2mm,
+  after skip=3mm,
+  fontupper=\small,
+}
+
+% 解答步骤编号
+\newcounter{solstep}
+\newcommand{\solstep}[2]{%
+  \stepcounter{solstep}%
+  \par\medskip
+  \noindent\hangindent=6mm
+  {\color{edu-blue}\bfseries\textcircled{\scriptsize\thesolstep}\enspace #1}\enspace #2\par
+}
+
+\begin{document}
+
+\section*{平行辅助线图中的对应边比例}
+
+\section*{一、先辨已知比，再用份数求解}
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，$DG\parallel BC$。已知 $AD:DB=2:1$，$AC=18$。
+
+已知比属于：\quad □ 截线上的分段比 \quad □ 相似三角形的对应边比。
+请用份数求 $AG$。
+
+
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{第 1 题图}
+  \input{\detokenize{build/diagram/jobs/ratio-student-q1-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[33mm]
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，$DG\parallel BC$。已知 $DG:BC=3:5$，$GC=8$。
+
+已知比属于：\quad □ 截线上的分段比 \quad □ 相似三角形的对应边比。
+请用份数求 $AG$。
+
+
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{第 2 题图}
+  \input{\detokenize{build/diagram/jobs/ratio-student-q2-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[33mm]
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，$AB\parallel CF$。已知 $AE:EC=5:6$，$AB=15$。
+
+已知比属于：\quad □ 截线上的分段比 \quad □ 相似三角形的对应边比。
+请用对应边比例求 $CF$。
+
+
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{第 3 题图}
+  \input{\detokenize{build/diagram/jobs/ratio-student-q3-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[33mm]
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，$DB\parallel CF$。已知 $CP:PD=4:1$，$DB=6$。
+
+已知比属于：\quad □ 截线上的分段比 \quad □ 相似三角形的对应边比。
+先把比例顺序改成与对应边一致的顺序，再求 $CF$。
+
+
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{第 4 题图}
+  \input{\detokenize{build/diagram/jobs/ratio-student-q4-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[33mm]
+\end{problem}
+
+
+
+\end{document}

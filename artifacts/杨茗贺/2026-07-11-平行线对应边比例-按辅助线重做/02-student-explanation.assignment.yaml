@@ -1,0 +1,87 @@
+meta:
+  title: 平行线对应边比例
+  subtitle: 杨茗贺 · 例题讲解
+  grade: 八年级
+  subject: 数学
+  version: student
+  source_artifacts:
+    structure_analysis: artifacts/杨茗贺/2026-07-11-平行线对应边比例-按辅助线重做/01-structure-analysis.md
+render:
+  template: exam-zh-explanation
+  paper_size: a4paper
+sections:
+- id: example
+  title: 例题：在完整图中找两组 8 字型相似三角形
+  show_title: true
+  type: explanation
+  visibility: student
+  blocks:
+  - type: problemcard
+    id: example-card
+    label: 例题
+    stem_latex: "如图，在 $\triangle ABC$ 中，点 $D$ 在边 $AB$ 上，点 $E$ 在边 $AC$ 上，$CD$ 与 $BE$\
+      \ 相交于点 $P$。\n过点 $C$ 作 $CF\\parallel AB$，交 $PE$ 的延长线于点 $F$。\n\n已知 $AD:DB=2:3$，$DP:PC=2:5$，求\
+      \ $AE:EC$。\n"
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/explanation-example-prompt/rendered/prompt.fragment.tex
+      diagram_ref: explanation.example.prompt
+      diagram_job_id: explanation-example-prompt
+      width: 70mm
+      caption: 平行线已经作好，先从图中找相似三角形。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:a86b83e30d6c27fcca2b4d18925feb5ffdcecac363ef904ad8005fe31a65c1cc
+      packages:
+      - tikz
+      libraries: []
+  - type: route
+    id: example-route
+    steps:
+    - id: step1
+      latex: 先找交点 $E$ 处的 8 字型
+      content_latex: 由 $AB\parallel CF$，两条截线为 $AC, BF$，所以 $\triangle EAB\sim\triangle
+        ECF$。
+    - id: step2
+      latex: 再找交点 $P$ 处的 8 字型
+      content_latex: 由 $DB\parallel CF$，两条截线为 $CD, BF$，所以 $\triangle PDB\sim\triangle
+        PCF$。
+    - id: step3
+      latex: 先用 $P$ 处的相似三角形
+      content_latex: 由 $DP:PC=2:5$，得 $DB:CF=2:5$，所以 $CF:DB=5:2$。
+    - id: step4
+      latex: 把分段比变成整段比
+      content_latex: 由 $AD:DB=2:3$，得 $AB:DB=(2+3):3=5:3$。
+    - id: step5
+      latex: 再用 $E$ 处的相似三角形
+      content_latex: 由 $\triangle EAB\sim\triangle ECF$，$CE:AE=CF:AB=(5:2)\div(5:3)=3:2$。
+    - id: step6
+      latex: 写出答案
+      content_latex: 所以 $AE:EC=2:3$。
+  - type: dual_explanation
+    id: example-solution
+    label: 例题讲解
+    stem_latex: 求 $AE:EC$。
+    side_title: 小贴士
+    side_items:
+    - kind: hint
+      title: 不要先算
+      content_latex: 先把图中两个 8 字型找全：一个顶点是 $E$，一个顶点是 $P$。
+    - kind: mistake
+      title: 注意方向
+      content_latex: 最后先得到的是 $CE:AE$，所求是 $AE:EC$，要把比倒过来。
+    solution_title: 解答
+    solution_step_ids:
+    - step1
+    - step2
+    - step3
+    - step4
+    - step5
+    - step6
+  - type: method_reminder
+    id: reminder
+    title: 做题顺序
+    items:
+    - latex: 先找两组 8 字型相似三角形，再写对应边。
+    - latex: 分段比要先合成整段；最后看清所求比的前后顺序。

@@ -1,0 +1,71 @@
+\documentclass{exam-zh}
+\usepackage{edu-explanation}
+
+\examsetup{
+  question/show-answer = true,
+  fillin/show-answer = true,
+  solution/show-solution = show-stay,
+}
+
+\begin{document}
+
+\eduSectionTitle{例题：在完整图中找两组 8 字型相似三角形}
+
+\begin{eduProblemBlock}[例题]
+\noindent
+\begin{minipage}[t]{\dimexpr\linewidth-70mm-6mm\relax}
+\vspace{0pt}
+如图，在 $\triangle ABC$ 中，点 $D$ 在边 $AB$ 上，点 $E$ 在边 $AC$ 上，$CD$ 与 $BE$\ \ 相交于点 $P$。
+过点 $C$ 作 $CF\parallel AB$，交 $PE$ 的延长线于点 $F$。
+
+已知 $AD:DB=2:3$，$DP:PC=2:5$，求\ \ $AE:EC$。
+
+\end{minipage}\hfill
+\begin{diagramcoltikz}{70mm}{平行线已经作好，先从图中找相似三角形。}
+\input{\detokenize{build/diagram/jobs/explanation-example-prompt/rendered/prompt.fragment.tex}}
+\end{diagramcoltikz}
+\end{eduProblemBlock}
+
+
+
+
+
+\begin{eduAuxItem}{思路导航}
+先找交点 $E$ 处的 8 字型$\;\to\;$再找交点 $P$ 处的 8 字型$\;\to\;$先用 $P$ 处的相似三角形$\;\to\;$把分段比变成整段比$\;\to\;$再用 $E$ 处的相似三角形$\;\to\;$写出答案\end{eduAuxItem}
+
+
+
+
+\begin{eduSubQuestionItem}{例题讲解}
+求 $AE:EC$。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{小贴士}
+        \eduSideHint{不要先算}{先把图中两个 8 字型找全：一个顶点是 $E$，一个顶点是 $P$。}
+        \eduSideMistake{注意方向}{最后先得到的是 $CE:AE$，所求是 $AE:EC$，要把比倒过来。}
+  \end{eduExplainLeft}
+
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{解答}
+      \eduExplainStep{1}{先找交点 $E$ 处的 8 字型}{由 $AB\parallel CF$，两条截线为 $AC, BF$，所以 $\triangle EAB\sim\triangle ECF$。}
+      \eduExplainStep{2}{再找交点 $P$ 处的 8 字型}{由 $DB\parallel CF$，两条截线为 $CD, BF$，所以 $\triangle PDB\sim\triangle PCF$。}
+      \eduExplainStep{3}{先用 $P$ 处的相似三角形}{由 $DP:PC=2:5$，得 $DB:CF=2:5$，所以 $CF:DB=5:2$。}
+      \eduExplainStep{4}{把分段比变成整段比}{由 $AD:DB=2:3$，得 $AB:DB=(2+3):3=5:3$。}
+      \eduExplainStep{5}{再用 $E$ 处的相似三角形}{由 $\triangle EAB\sim\triangle ECF$，$CE:AE=CF:AB=(5:2)\div(5:3)=3:2$。}
+      \eduExplainStep{6}{写出答案}{所以 $AE:EC=2:3$。}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduSummaryBlock}{\eduIconPin}{做题顺序}
+\begin{eduBulletList}
+  \item 先找两组 8 字型相似三角形，再写对应边。  \item 分段比要先合成整段；最后看清所求比的前后顺序。\end{eduBulletList}
+\end{eduSummaryBlock}
+
+
+
+
+\end{document}

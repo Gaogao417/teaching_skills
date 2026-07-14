@@ -1,0 +1,218 @@
+meta:
+  title: A 字型和 8 字型相似模型识别
+  subtitle: 杨茗贺 · 教师版
+  grade: 八年级
+  subject: 数学
+  duration: 20分钟
+  total_points: 40
+  version: teacher
+  source_artifacts:
+    structure_analysis: artifacts/杨茗贺/2026-07-11-A字型与8字型识别/01-structure-analysis.md
+    explanation: artifacts/杨茗贺/2026-07-11-平行线对应边比例再练/02-student-explanation.plan.assignment.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: main
+  title: 一、找出 A 字型和 8 字型
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: q1
+    points: 10
+    label: 第 1 题
+    stem_latex: 观察下图，填写：（1）两条平行线；（2）平行线外侧的点；（3）过该点且同时与 $l_1,l_2$ 相交的两条直线；（4）相似三角形；（5）模型名称。
+    answer_space:
+      type: steps
+      height: 34mm
+      step_count: 5
+    answer: $l_1\parallel l_2$；点 $A$；直线 $AC$、$AD$；$\triangle ACD\sim\triangle AEF$；A
+      字型。
+    explanation: 点 $A$ 在两条平行线外侧，$AC$、$AD$ 分别经过 $A$ 并交两条平行线，底边 $CD\parallel EF$，故为
+      A 字型相似模型。
+    solution_steps:
+    - title: 找平行线
+      content: $l_1\parallel l_2$。
+    - title: 找外点和两条截线
+      content: 外侧点为 $A$，过 $A$ 的两条截线为 $AC$、$AD$。
+    - title: 写相似模型
+      content: $\triangle ACD\sim\triangle AEF$，且 A 在平行线外侧，所以是 A 字型。
+    teaching:
+      teaching_goal: 识别 A 字型的平行线、外点和两条截线
+      source_relations:
+      - fallback:similarity_shape_identification
+      expected_blocker: 漏找平行线或把截线写成 CE、DF
+      entry_point: find_entry
+      scaffold_level: high
+      variation_depth: changed_representation
+      complexity_note: 只做图形识别
+      upgrade_rule: 能完整写出平行关系与相似三角形
+      fallback_move: 先看哪两条直线保持同方向
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/recognition-teacher-q1-prompt/rendered/prompt.fragment.tex
+      diagram_ref: recognition.teacher.q1.prompt
+      diagram_job_id: recognition-teacher-q1-prompt
+      width: 60mm
+      caption: 第 1 题图
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:3c771f2085ea63056205e1064d5db5449a7d42f0dd3895ca618bbae061dffd1e
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: q2
+    points: 10
+    label: 第 2 题
+    stem_latex: 观察下图，填写：（1）两条平行线；（2）两条平行线之间的交点；（3）过该点且同时与 $l_1,l_2$ 相交的两条直线；（4）相似三角形；（5）模型名称。
+    answer_space:
+      type: steps
+      height: 34mm
+      step_count: 5
+    answer: $l_1\parallel l_2$；点 $A$；直线 $AC$、$AD$；$\triangle ACD\sim\triangle AEF$；8
+      字型。
+    explanation: 点 $A$ 位于两条平行线之间，$AC$、$AD$ 是两条交叉截线，故两侧三角形构成 8 字型相似模型。
+    solution_steps:
+    - title: 找平行线
+      content: $l_1\parallel l_2$。
+    - title: 找交点和截线
+      content: 两平行线之间的交点为 $A$，过 $A$ 的两条截线为 $AC$、$AD$。
+    - title: 写相似模型
+      content: $\triangle ACD\sim\triangle AEF$，且 A 在两平行线之间，所以是 8 字型。
+    teaching:
+      teaching_goal: 识别 8 字型的内部交点和两条截线
+      source_relations:
+      - fallback:similarity_shape_identification
+      expected_blocker: 把 8 字型误判为 A 字型
+      entry_point: build_relation
+      scaffold_level: high
+      variation_depth: changed_representation
+      complexity_note: 只做图形识别
+      upgrade_rule: 能用点 A 的位置判断模型
+      fallback_move: 先判断 A 在两条平行线的哪一侧
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/recognition-teacher-q2-prompt/rendered/prompt.fragment.tex
+      diagram_ref: recognition.teacher.q2.prompt
+      diagram_job_id: recognition-teacher-q2-prompt
+      width: 60mm
+      caption: 第 2 题图
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:b0c2f05d273c0821cc52c3d5ea8c73374681755c2f6887444c74d437ae3b190e
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: q3
+    points: 10
+    label: 第 3 题
+    stem_latex: 观察下图，写出两条平行线、点 $A$ 的位置、过 $A$ 的两条截线、相似三角形，并判断模型。
+    answer_space:
+      type: steps
+      height: 32mm
+      step_count: 5
+    answer: $l_1\parallel l_2$；$A$ 在平行线外侧；$AC$、$AD$；$\triangle ACD\sim\triangle AEF$；A
+      字型。
+    explanation: 判断依据仍是点 $A$ 位于两条平行线外侧。
+    solution_steps:
+    - title: 观察位置
+      content: 点 $A$ 在两条平行线外侧。
+    - title: 写对象
+      content: $l_1\parallel l_2$，过 $A$ 的截线为 $AC$、$AD$。
+    - title: 判断模型
+      content: $\triangle ACD\sim\triangle AEF$，这是 A 字型。
+    teaching:
+      teaching_goal: 在变换方向后的图中保持识别顺序
+      source_relations:
+      - fallback:similarity_shape_identification
+      expected_blocker: 只按图形倾斜方向认模型
+      entry_point: transfer
+      scaffold_level: medium
+      variation_depth: changed_representation
+      complexity_note: 不增加计算
+      upgrade_rule: 依据点 A 位置而不是图形朝向判断
+      fallback_move: 先找 l1、l2
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/recognition-teacher-q3-prompt/rendered/prompt.fragment.tex
+      diagram_ref: recognition.teacher.q3.prompt
+      diagram_job_id: recognition-teacher-q3-prompt
+      width: 60mm
+      caption: 第 3 题图
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:e786b93cfe770b2f823cc7c05925cd1bb768ebe3161fc1c806328ff303113fec
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: q4
+    points: 10
+    label: 第 4 题
+    stem_latex: 观察下图，写出两条平行线、点 $A$ 的位置、过 $A$ 的两条截线、相似三角形，并判断模型。
+    answer_space:
+      type: steps
+      height: 32mm
+      step_count: 5
+    answer: $l_1\parallel l_2$；$A$ 在两条平行线之间；$AC$、$AD$；$\triangle ACD\sim\triangle
+      AEF$；8 字型。
+    explanation: 判断依据是点 $A$ 位于两条平行线之间，两条截线在 $A$ 处交叉。
+    solution_steps:
+    - title: 观察位置
+      content: 点 $A$ 在两条平行线之间。
+    - title: 写对象
+      content: $l_1\parallel l_2$，过 $A$ 的截线为 $AC$、$AD$。
+    - title: 判断模型
+      content: $\triangle ACD\sim\triangle AEF$，这是 8 字型。
+    teaching:
+      teaching_goal: 巩固 8 字型相似模型识别
+      source_relations:
+      - fallback:similarity_shape_identification
+      expected_blocker: 漏写点 A 的位置
+      entry_point: solve_and_check
+      scaffold_level: low
+      variation_depth: changed_numbers
+      complexity_note: 不增加计算
+      upgrade_rule: 能写全结构对象和模型名称
+      fallback_move: 先写点 A 在两平行线之间
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/recognition-teacher-q4-prompt/rendered/prompt.fragment.tex
+      diagram_ref: recognition.teacher.q4.prompt
+      diagram_job_id: recognition-teacher-q4-prompt
+      width: 60mm
+      caption: 第 4 题图
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:e0472f9418d8486b7597ced4e090936638b612fdc72914461954ba7d6e888f00
+      packages:
+      - tikz
+      libraries: []
+- id: answer-key
+  title: 答案速查
+  type: answer_key
+  visibility: teacher
+  layout:
+    break_before: true
+  blocks:
+  - type: answers
+    id: answers
+    items:
+    - number: '1'
+      answer: A 字型：$l_1\parallel l_2$；$A$；$AC,AD$；$\triangle ACD\sim\triangle AEF$。
+    - number: '2'
+      answer: 8 字型：$l_1\parallel l_2$；$A$；$AC,AD$；$\triangle ACD\sim\triangle AEF$。
+    - number: '3'
+      answer: A 字型：$l_1\parallel l_2$；$A$ 在平行线外侧；$AC,AD$；$\triangle ACD\sim\triangle
+        AEF$。
+    - number: '4'
+      answer: 8 字型：$l_1\parallel l_2$；$A$ 在两平行线之间；$AC,AD$；$\triangle ACD\sim\triangle
+        AEF$。

@@ -1,0 +1,141 @@
+\documentclass{exam-zh}
+\usepackage{edu-practice}
+
+\examsetup{
+  question/show-answer = true,
+  fillin/show-answer = true,
+  solution/show-solution = show-stay,
+}
+
+% ---------- 教师版解答样式 ----------
+\newtcolorbox{solutionblock}{
+  enhanced, breakable,
+  colback=edu-blue-bg,
+  colframe=edu-blue!25,
+  boxrule=0pt,
+  borderline west={2pt}{0pt}{edu-blue!50},
+  arc=0pt,
+  left=3mm, right=3mm, top=2mm, bottom=2mm,
+  before skip=2mm,
+  after skip=3mm,
+  fontupper=\small,
+}
+
+% 解答步骤编号
+\newcounter{solstep}
+\newcommand{\solstep}[2]{%
+  \stepcounter{solstep}%
+  \par\medskip
+  \noindent\hangindent=6mm
+  {\color{edu-blue}\bfseries\textcircled{\scriptsize\thesolstep}\enspace #1}\enspace #2\par
+}
+
+\begin{document}
+
+\section*{平行线对应边比例再练}
+
+\section*{一、平行线对应边比例（A 字型 2 题，8 字型 2 题）}
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=8]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，$l_1\parallel l_2$，点 $A$ 在两条平行线外侧，直线 $AC$、$AD$ 分别交 $l_1$、$l_2$ 于 $C,E$ 和 $D,F$。已知 $AC:CE=2:3$，$AD=8$，求 $DF$。
+
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{第 1 题图}
+  \input{\detokenize{build/diagram/jobs/practice-ratio-teacher-q1-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[30mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$DF=12$。\par\medskip
+    \solstep{先看已知比的对象}{$AC:CE$ 是同一条截线上的分段比；图形是 A 字型。}
+    \solstep{写成对应份数}{$AD:DF=AC:CE=2:3$。}
+    \solstep{用份数求解}{$AD=8$ 是 2 份，每份 $8\div2=4$，所以 $DF=3\times4=12$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=8]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，$l_1\parallel l_2$，点 $A$ 在两条平行线外侧，直线 $AC$、$AD$ 分别交 $l_1$、$l_2$ 于 $C,E$ 和 $D,F$。已知 $AC:AE=3:5$，$CD=9$，求 $EF$。
+
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{第 2 题图}
+  \input{\detokenize{build/diagram/jobs/practice-ratio-teacher-q2-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[30mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$EF=15$。\par\medskip
+    \solstep{先看已知比的对象}{$AC$、$AE$ 分属两个相似三角形，是对应边比。}
+    \solstep{配对对应边}{由 $\triangle ACD\sim\triangle AEF$，得 $CD:EF=AC:AE=3:5$。}
+    \solstep{用份数求解}{$CD=9$ 是 3 份，每份 3，所以 $EF=5\times3=15$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=8]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，$l_1\parallel l_2$，点 $A$ 在两条平行线之间，直线 $AC$、$AD$ 分别交两条平行线于 $C,E$ 和 $D,F$。已知 $AC:AE=2:3$，$AD=10$，求 $AF$。
+
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{第 3 题图}
+  \input{\detokenize{build/diagram/jobs/practice-ratio-teacher-q3-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[30mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$AF=15$。\par\medskip
+    \solstep{先观察图形位置}{点 $A$ 在两条平行线之间，构成 8 字型；$AC:AE$ 是两个三角形的对应边比。}
+    \solstep{写出对应关系}{由 $\triangle ACD\sim\triangle AEF$，得 $AD:AF=2:3$。}
+    \solstep{用份数求解}{$AD=10$ 是 2 份，每份 5，所以 $AF=3\times5=15$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=8]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，$l_1\parallel l_2$，点 $A$ 在两条平行线之间，直线 $AC$、$AD$ 分别交两条平行线于 $C,E$ 和 $D,F$。已知 $AC:AE=3:5$，$CD=12$，求 $EF$。
+
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{第 4 题图}
+  \input{\detokenize{build/diagram/jobs/practice-ratio-teacher-q4-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[30mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$EF=20$。\par\medskip
+    \solstep{观察已知条件}{$AC:AE$ 是两个相似三角形的对应边比。}
+    \solstep{配对目标边}{由 $\triangle ACD\sim\triangle AEF$，得 $CD:EF=3:5$。}
+    \solstep{用份数求解}{$CD=12$ 是 3 份，每份 4，所以 $EF=5\times4=20$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\clearpage
+\section*{答案速查}
+
+
+
+
+\end{document}
