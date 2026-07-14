@@ -35,5 +35,29 @@
     return indexes.length ? Math.max(...indexes) : 0;
   }
 
-  return { candidateRound, reviewControls, preserveReviewDraft };
+  function candidatePreview(job = {}, roundIndex = candidateRound(job)) {
+    const rounds = Array.isArray(job.rounds) ? job.rounds : [];
+    const round = rounds.find((item) => item.round_index === roundIndex);
+    if (round?.preview_path) return round.preview_path;
+
+    const isRecordedFinal = roundIndex === job.selected_round || roundIndex === job.effective_round;
+    const isUnversionedInitial = (
+      rounds.length === 1
+      && rounds[0]?.round_index === roundIndex
+      && !Number.isInteger(job.selected_round)
+      && !Number.isInteger(job.effective_round)
+    );
+    return (isRecordedFinal || isUnversionedInitial) ? (job.preview_path || "") : "";
+  }
+
+  function codexTaskBinding(review = {}, submitting = false) {
+    const threadId = String(review.agent_thread_id || "").trim();
+    if (threadId) return { status: "created", label: "已创建", threadId };
+    const status = submitting ? "creating" : String(review.codex_task_status || "");
+    if (status === "creating") return { status, label: "正在创建", threadId: "" };
+    if (status === "failed") return { status, label: "创建失败", threadId: "" };
+    return null;
+  }
+
+  return { candidatePreview, candidateRound, codexTaskBinding, reviewControls, preserveReviewDraft };
 });

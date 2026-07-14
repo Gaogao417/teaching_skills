@@ -239,6 +239,10 @@ def _is_renderer_spec_route(request: DiagramJobRequest) -> bool:
     return request.engine.value == RENDERER_SPEC_ENGINE
 
 
+def _is_scene_payload_route(request: DiagramJobRequest) -> bool:
+    return request.engine.value == "geometric_scene" and bool(request.engine_options.scene_payload)
+
+
 def _is_analytic_route(request: DiagramJobRequest) -> bool:
     diagram_kind = request.diagram_kind.value
     engine = request.engine.value
@@ -268,7 +272,12 @@ def _run_workflow_in_process(
     """
     # Lazy imports keep the CLI lightweight and avoid importing heavy modules
     # (wolframclient, tikz_renderer) unless a job actually needs them.
-    if _is_renderer_spec_route(request):
+    if _is_scene_payload_route(request):
+        from run_diagram_workflow import run_scene_payload_workflow
+
+        request_payload = read_json(request_path)
+        run_scene_payload_workflow(request_payload, job_build_dir, emit_result=False)
+    elif _is_renderer_spec_route(request):
         from run_diagram_workflow import run_renderer_spec_workflow
 
         request_payload = read_json(request_path)
@@ -283,7 +292,7 @@ def _run_workflow_in_process(
         run_spatial_workflow(request_path, job_build_dir)
     else:
         raise ValueError(
-            f"in-process workflow dispatch only handles renderer_spec, spatial, and analytic "
+            f"in-process workflow dispatch only handles scene_payload, renderer_spec, spatial, and analytic "
             f"routes; engine={request.engine.value} kind={request.diagram_kind.value} "
             f"requires the subprocess path"
         )
@@ -386,7 +395,7 @@ def run_one_job(
         )
 
     # Workflow stage
-    if _is_renderer_spec_route(request) or _is_analytic_route(request) or _is_spatial_route(request):
+    if _is_scene_payload_route(request) or _is_renderer_spec_route(request) or _is_analytic_route(request) or _is_spatial_route(request):
         wf_status = _run_workflow_in_process(request, request_path, job_build_dir, build_dir)
     else:
         wf_status, _diag = _run_workflow_subprocess(

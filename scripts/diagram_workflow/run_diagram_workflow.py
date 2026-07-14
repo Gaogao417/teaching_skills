@@ -16,7 +16,7 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from diagram_contracts import DiagramJobRequest, DiagramJobResult, GeometryRenderSpec
+from diagram_contracts import DiagramJobRequest, DiagramJobResult, GeometryRenderSpec, ScenePayload
 from progress_subprocess import run_subprocess_streaming
 
 
@@ -194,6 +194,92 @@ def run_renderer_spec_workflow(
     return result
 
 
+def run_scene_payload_workflow(
+    request: dict[str, Any],
+    out_dir: Path,
+    *,
+    emit_result: bool = True,
+) -> dict[str, Any]:
+    """Run a pre-authored GeometricScene through Wolfram without an LLM agent."""
+    request_model = DiagramJobRequest(**request)
+    payload = ScenePayload.model_validate(request_model.engine_options.scene_payload)
+    request_payload = request_model.model_dump(mode="json", by_alias=True)
+    # The teaching renderer consumes coordinates, so Wolfram need not export a
+    # second bitmap preview.  TikZ still produces PDF/PNG/SVG previews later.
+    request_payload["wolfram_render_image"] = False
+    request_payload.update(
+        {
+            "seed": request_model.engine_options.seed or 1,
+            "wolfram_timeout_s": request_model.engine_options.wolfram_timeout_s,
+            "wolfram_hard_timeout_s": request_model.engine_options.wolfram_hard_timeout_s,
+        }
+    )
+    reuse_payload = request_payload.get("reuse")
+    if isinstance(reuse_payload, dict):
+        request_payload["reuse_geometry_from"] = reuse_payload.get("reuse_geometry_from", "")
+        request_payload["base_job_dir"] = reuse_payload.get("base_job_dir", "")
+    write_json(out_dir / "request.json", request_payload)
+    round_dir = out_dir / "rounds" / "round_0"
+    scene_path = round_dir / "scene_payload.json"
+    write_json(scene_path, payload.model_dump(mode="json", by_alias=True))
+
+    core_dir = default_gsb_root() / "core"
+    if str(core_dir) not in sys.path:
+        sys.path.insert(0, str(core_dir))
+    from tools import compile_spec_action, render_candidate_action  # type: ignore
+
+    render_action = render_candidate_action(request_payload, scene_path, out_dir, 0)
+    render_result = render_action.get("render_result") or {}
+    if render_action.get("status") != "ok":
+        result = DiagramJobResult(
+            job_id=request_model.job_id,
+            status="failed",
+            fail_type=str(render_result.get("fail_type") or "wolfram_scene_failed"),
+            message=str(render_result.get("message") or "Wolfram GeometricScene solve failed"),
+            wolfram={
+                "success": False,
+                "solve_time_s": render_result.get("solve_time_s", 0) or 0,
+                "seed": render_result.get("seed"),
+            },
+            model={"text_model_used": "", "attempts": []},
+        ).model_dump(mode="json", by_alias=True)
+    else:
+        render_result_path = round_dir / "render_result.json"
+        compile_action = compile_spec_action(
+            request_payload, scene_path, render_result_path, out_dir, 0
+        )
+        if compile_action.get("status") != "ok":
+            result = DiagramJobResult(
+                job_id=request_model.job_id,
+                status="failed",
+                fail_type="scene_spec_compile_failed",
+                message="Wolfram solved the scene but renderer spec compilation failed",
+                wolfram={"success": True, "solve_time_s": render_result.get("solve_time_s", 0) or 0},
+                model={"text_model_used": "", "attempts": []},
+            ).model_dump(mode="json", by_alias=True)
+        else:
+            spec = GeometryRenderSpec.model_validate(compile_action["renderer_spec"])
+            write_json(out_dir / "scene_payload.json", payload.model_dump(mode="json", by_alias=True))
+            (out_dir / "final_geometric_scene.wl").write_text(payload.scene_code, encoding="utf-8")
+            write_json(out_dir / "final_renderer_spec.json", spec.model_dump(mode="json", by_alias=True))
+            result = DiagramJobResult(
+                job_id=request_model.job_id,
+                status="ok",
+                scene_payload="scene_payload.json",
+                final_renderer_spec="final_renderer_spec.json",
+                wolfram={
+                    "success": True,
+                    "solve_time_s": render_result.get("solve_time_s", 0) or 0,
+                    "seed": render_result.get("seed"),
+                },
+                model={"text_model_used": "", "attempts": []},
+            ).model_dump(mode="json", by_alias=True)
+    write_json(out_dir / "workflow_result.json", result)
+    if emit_result:
+        print(json.dumps(result, ensure_ascii=False))
+    return result
+
+
 def normalize_for_gsb(request: dict[str, Any]) -> dict[str, Any]:
     if request.get("schema_version") == "diagram-job-request/v2":
         normalized = dict(request)
@@ -363,6 +449,8 @@ def main() -> None:
         "--out",
         str(out_dir),
     ]
+    result_path = out_dir / "workflow_result.json"
+    result_path.unlink(missing_ok=True)
     completed = run_subprocess_streaming(
         cmd,
         event_context={"job_id": str(job_id or request.get("job_id") or "")},
@@ -370,8 +458,19 @@ def main() -> None:
     (out_dir / "wrapper_stdout.txt").write_text(completed.stdout, encoding="utf-8")
     (out_dir / "wrapper_stderr.txt").write_text(completed.stderr, encoding="utf-8")
 
-    result_path = out_dir / "workflow_result.json"
-    if result_path.exists():
+    if completed.returncode != 0:
+        result = {
+            "status": "failed",
+            "error": "GSB workflow process failed",
+            "returncode": completed.returncode,
+            "stdout": completed.stdout,
+            "stderr": completed.stderr,
+            "out_dir": str(out_dir),
+            "teaching_request": "teaching_request.json",
+            "gsb_request": "request.gsb.json",
+        }
+        write_json(result_path, result)
+    elif result_path.exists():
         result = read_json(result_path)
         result["teaching_request"] = "teaching_request.json"
         result["gsb_request"] = "request.gsb.json"

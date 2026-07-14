@@ -130,6 +130,50 @@ def _final_agent_response(items: List[object]) -> str | None:
     return unknown_phase_response
 
 
+def _write_codex_task_sidecar(out_dir: str, review_id: str, thread_id: str) -> None:
+    if not out_dir or not review_id or not thread_id:
+        return
+    payload = {
+        "schema_version": "diagram-codex-task/v1",
+        "review_id": review_id,
+        "agent_thread_id": thread_id,
+        "created_at": time.strftime("%Y-%m-%dT%H:%M:%S%z"),
+    }
+    path = Path(out_dir) / "human_reviews" / f"{review_id}.codex-task.json"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    encoded = (json.dumps(payload, ensure_ascii=False, indent=2) + "\n").encode("utf-8")
+    temporary = path.with_name(f".{path.name}.{os.getpid()}.{time.time_ns()}.tmp")
+    temporary.write_bytes(encoded)
+    try:
+        try:
+            os.link(temporary, path)
+            return
+        except FileExistsError:
+            existing = json.loads(path.read_text(encoding="utf-8"))
+            if existing == payload:
+                return
+            raise RuntimeError(f"Codex task sidecar conflict for {review_id}")
+    finally:
+        temporary.unlink(missing_ok=True)
+
+
+def _human_revision_context(request: Dict[str, object]) -> Dict[str, object]:
+    revision = request.get("human_revision")
+    if request.get("schema_version") != "diagram-job-request/v2" or not isinstance(revision, dict):
+        return {}
+    review_id = str(revision.get("review_id") or "")
+    requested_round = revision.get("requested_round")
+    job_id = str(request.get("job_id") or request.get("diagram_job_id") or "")
+    if not review_id.startswith("review_") or not job_id or not isinstance(requested_round, int):
+        return {}
+    return {
+        "out_dir": str(request.get("_agent_out_dir") or ""),
+        "job_id": job_id,
+        "review_id": review_id,
+        "requested_round": requested_round,
+    }
+
+
 def _codex_agent_worker(
     queue: mp.Queue,
     *,
@@ -139,6 +183,10 @@ def _codex_agent_worker(
     model: str,
     codex_bin: str,
     skill_inputs: List[Dict[str, str]],
+    out_dir: str = "",
+    job_id: str = "",
+    review_id: str = "",
+    requested_round: int | None = None,
 ) -> None:
     temp_codex_home = ""
     try:
@@ -152,18 +200,23 @@ def _codex_agent_worker(
         )
         from openai_codex.generated.v2_all import (
             ItemCompletedNotification,
+            ThreadSource,
             ThreadTokenUsageUpdatedNotification,
             TurnCompletedNotification,
         )
 
-        temp_codex_home = tempfile.mkdtemp(prefix="diagram-agent-codex-home-")
         source_codex_home = Path(os.environ.get("CODEX_HOME") or (Path.home() / ".codex"))
-        for name in ("auth.json", "config.toml"):
-            source_path = source_codex_home / name
-            if source_path.exists():
-                shutil.copy2(source_path, Path(temp_codex_home) / name)
         env = os.environ.copy()
-        env["CODEX_HOME"] = temp_codex_home
+        persistent_thread = bool(review_id and out_dir and requested_round is not None)
+        if persistent_thread:
+            env["CODEX_HOME"] = str(source_codex_home)
+        else:
+            temp_codex_home = tempfile.mkdtemp(prefix="diagram-agent-codex-home-")
+            for name in ("auth.json", "config.toml"):
+                source_path = source_codex_home / name
+                if source_path.exists():
+                    shutil.copy2(source_path, Path(temp_codex_home) / name)
+            env["CODEX_HOME"] = temp_codex_home
 
         config = CodexConfig(
             codex_bin=codex_bin or None,
@@ -177,13 +230,20 @@ def _codex_agent_worker(
         run_input.append(TextInput(prompt))
 
         with Codex(config=config) as codex:
+            thread_start_options = {
+                "approval_mode": ApprovalMode.deny_all,
+                "cwd": cwd,
+                "ephemeral": not persistent_thread,
+                "model": model or None,
+                "sandbox": Sandbox.full_access,
+            }
+            if persistent_thread:
+                thread_start_options["thread_source"] = ThreadSource.user
             thread = codex.thread_start(
-                approval_mode=ApprovalMode.deny_all,
-                cwd=cwd,
-                ephemeral=True,
-                model=model or None,
-                sandbox=Sandbox.full_access,
+                **thread_start_options,
             )
+            if persistent_thread:
+                _write_codex_task_sidecar(out_dir, review_id, str(thread.id))
             queue.put(
                 {
                     "kind": "progress",
@@ -191,6 +251,10 @@ def _codex_agent_worker(
                     "thread_id": thread.id,
                 }
             )
+            if persistent_thread:
+                safe_job_id = job_id[:42]
+                task_name = f"几何图修订 · {safe_job_id} · Round {requested_round}"[:80]
+                thread.set_name(task_name)
             turn = thread.turn(
                 run_input,
                 approval_mode=ApprovalMode.deny_all,
@@ -289,6 +353,7 @@ def run_codex_diagram_agent(
         request_path,
         skill_names=_all_skill_names(),
     )
+    revision_context = _human_revision_context({**request, "_agent_out_dir": str(out_dir)})
     process = mp.Process(
         target=_codex_agent_worker,
         kwargs={
@@ -299,6 +364,7 @@ def run_codex_diagram_agent(
             "model": str(config.get("codex_model") or ""),
             "codex_bin": str(config.get("codex_bin") or ""),
             "skill_inputs": _all_skill_inputs(),
+            **revision_context,
         },
     )
     process.start()

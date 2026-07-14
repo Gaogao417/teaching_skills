@@ -124,6 +124,7 @@ def _slot_fingerprint(slot: DiagramSlot) -> str:
         "semantic_constraints": data.get("semantic_constraints") or {},
         "analytic_requirements": data.get("analytic_requirements") or {},
         "renderer_spec": ((data.get("engine_options") or {}).get("renderer_spec") if isinstance(data.get("engine_options"), dict) else {}),
+        "scene_payload": ((data.get("engine_options") or {}).get("scene_payload") if isinstance(data.get("engine_options"), dict) else {}),
         "spatial_spec": ((data.get("engine_options") or {}).get("spatial_spec") if isinstance(data.get("engine_options"), dict) else {}),
     }
     return _canonical_hash(focused)
@@ -348,6 +349,168 @@ def _check_slot_semantic_coverage(
     return checks
 
 
+def _check_solution_auxiliary_geometry(
+    jobs: DiagramJobsManifest,
+    artifacts: RendererBindingManifest,
+    artifact_dir: Path,
+) -> list[DiagramGateCheck]:
+    """Require Wolfram construction constraints for solution-only points."""
+    checks: list[DiagramGateCheck] = []
+    job_by_id = {job.job_id: job for job in jobs.jobs}
+    for job in jobs.jobs:
+        if job.variant != DiagramVariant.SOLUTION or not job.reuse_geometry_from:
+            continue
+        base_job = job_by_id.get(job.reuse_geometry_from)
+        solution_art = artifacts.bindings.get(job.diagram_ref)
+        base_art = artifacts.bindings.get(base_job.diagram_ref) if base_job else None
+        if not solution_art or not base_art:
+            continue
+        solution_spec = _spec_for_binding(artifact_dir, solution_art.final_renderer_spec)
+        base_spec = _spec_for_binding(artifact_dir, base_art.final_renderer_spec)
+        if not isinstance(solution_spec, dict) or not isinstance(base_spec, dict):
+            continue
+        solution_points = solution_spec.get("points")
+        base_points = base_spec.get("points")
+        if not isinstance(solution_points, dict) or not isinstance(base_points, dict):
+            continue
+        auxiliary_points = sorted(set(solution_points) - set(base_points))
+        if not auxiliary_points:
+            continue
+
+        scene_path = artifact_dir / "build" / "diagram" / "jobs" / job.job_id / "scene_payload.json"
+        scene_payload = _read_json(scene_path)
+        scene_code = str(scene_payload.get("scene_code") or "") if isinstance(scene_payload, dict) else ""
+        if not scene_code:
+            checks.append(DiagramGateCheck(
+                name="solution_auxiliary_geometric_scene",
+                status="block",
+                message="Solution-only points require a GeometricScene scene_payload",
+                refs=[job.slot_id, *auxiliary_points],
+            ))
+            continue
+
+        for point in auxiliary_points:
+            escaped = re.escape(point)
+            fixed_coordinate = re.search(
+                rf"(?<![A-Za-z0-9_`]){escaped}\s*(?:==|->)\s*\{{\s*-?\d",
+                scene_code,
+            )
+            structural_constraint = re.search(
+                rf"Element\s*\[\s*{escaped}\s*,|"
+                rf"(?<![A-Za-z0-9_`]){escaped}\s*==\s*(?:Midpoint|TriangleCenter|"
+                rf"RegionNearest|RegionCentroid|RegionIntersection)\s*\[",
+                scene_code,
+            )
+            constructor_constraint = re.search(
+                rf"(?<![A-Za-z0-9_`]){escaped}\s*==\s*(?:Midpoint|TriangleCenter|"
+                rf"RegionNearest|RegionCentroid|RegionIntersection)\s*\[",
+                scene_code,
+            )
+            incidence_count = len(re.findall(rf"Element\s*\[\s*{escaped}\s*,", scene_code))
+            relation_constraint = re.search(
+                rf"GeometricAssertion\s*\[[^\]]*\b{escaped}\b|"
+                rf"(?:EuclideanDistance|PlanarAngle|Area|RegionDistance)\s*\[[^\]]*\b{escaped}\b",
+                scene_code,
+            )
+            if fixed_coordinate:
+                checks.append(DiagramGateCheck(
+                    name="solution_auxiliary_fixed_coordinates",
+                    status="block",
+                    message=(
+                        f"Solution-only point {point} is fixed by coordinates; "
+                        "derive it with Element/GeometricScene construction constraints"
+                    ),
+                    refs=[job.slot_id, point],
+                ))
+            elif not structural_constraint:
+                checks.append(DiagramGateCheck(
+                    name="solution_auxiliary_missing_constraint",
+                    status="block",
+                    message=(
+                        f"Solution-only point {point} has no recognized GeometricScene "
+                        "incidence or construction constraint"
+                    ),
+                    refs=[job.slot_id, point],
+                ))
+            elif not constructor_constraint and incidence_count < 2 and not relation_constraint:
+                checks.append(DiagramGateCheck(
+                    name="solution_auxiliary_underconstrained",
+                    status="block",
+                    message=(
+                        f"Solution-only point {point} needs a second independent GeometricScene "
+                        "relation such as parallel, perpendicular, another incidence, or a metric constraint"
+                    ),
+                    refs=[job.slot_id, point],
+                ))
+    return checks
+
+
+def _check_scene_point_roles(
+    jobs: DiagramJobsManifest,
+    artifact_dir: Path,
+) -> list[DiagramGateCheck]:
+    """Prevent prompt or solution constructed points from becoming fixed coordinates."""
+    checks: list[DiagramGateCheck] = []
+    for job in jobs.jobs:
+        scene_path = artifact_dir / "build" / "diagram" / "jobs" / job.job_id / "scene_payload.json"
+        scene_payload = _read_json(scene_path)
+        if not isinstance(scene_payload, dict):
+            continue
+        scene_code = str(scene_payload.get("scene_code") or "")
+        point_roles = scene_payload.get("point_roles")
+        if not scene_code or not isinstance(point_roles, dict):
+            continue
+        for role in ("constructed", "auxiliary"):
+            role_points = point_roles.get(role)
+            if not isinstance(role_points, list):
+                continue
+            for raw_point in role_points:
+                point = str(raw_point).strip()
+                if not point:
+                    continue
+                escaped = re.escape(point)
+                fixed_coordinate = re.search(
+                    rf"(?<![A-Za-z0-9_`]){escaped}\s*(?:==|->)\s*\{{\s*-?\d",
+                    scene_code,
+                )
+                constructor_constraint = re.search(
+                    rf"(?<![A-Za-z0-9_`]){escaped}\s*==\s*(?:Midpoint|TriangleCenter|"
+                    rf"RegionNearest|RegionCentroid|RegionIntersection)\s*\[",
+                    scene_code,
+                )
+                incidence_count = len(re.findall(rf"Element\s*\[\s*{escaped}\s*,", scene_code))
+                relation_constraint = re.search(
+                    rf"GeometricAssertion\s*\[[^\]]*\b{escaped}\b|"
+                    rf"(?:EuclideanDistance|PlanarAngle|Area|RegionDistance)\s*\[[^\]]*\b{escaped}\b",
+                    scene_code,
+                )
+                if fixed_coordinate:
+                    checks.append(DiagramGateCheck(
+                        name="constructed_point_fixed_coordinates",
+                        status="block",
+                        message=(
+                            f"{role} point {point} is fixed by coordinates; only point_roles.anchors "
+                            "may be coordinate anchors"
+                        ),
+                        refs=[job.slot_id, point],
+                    ))
+                elif not constructor_constraint and incidence_count == 0:
+                    checks.append(DiagramGateCheck(
+                        name="constructed_point_missing_constraint",
+                        status="block",
+                        message=f"{role} point {point} has no native GeometricScene construction constraint",
+                        refs=[job.slot_id, point],
+                    ))
+                elif not constructor_constraint and incidence_count < 2 and not relation_constraint:
+                    checks.append(DiagramGateCheck(
+                        name="constructed_point_underconstrained",
+                        status="block",
+                        message=f"{role} point {point} needs a second independent GeometricScene constraint",
+                        refs=[job.slot_id, point],
+                    ))
+    return checks
+
+
 def check_semantic_diagram_policy(
     plan_data: AssignmentPlanDiagramView | dict[str, object],
     jobs: DiagramJobsManifest,
@@ -359,4 +522,6 @@ def check_semantic_diagram_policy(
     checks.extend(_check_duplicate_prompt_geometry(plan_data, jobs, artifacts, artifact_dir))
     checks.extend(_check_coordinate_geometry_scope(plan_data, jobs))
     checks.extend(_check_slot_semantic_coverage(plan_data, jobs, artifacts, artifact_dir))
+    checks.extend(_check_scene_point_roles(jobs, artifact_dir))
+    checks.extend(_check_solution_auxiliary_geometry(jobs, artifacts, artifact_dir))
     return checks

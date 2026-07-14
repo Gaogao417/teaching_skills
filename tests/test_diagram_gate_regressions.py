@@ -89,6 +89,35 @@ def synthetic_slot(slot_id: str, *, reuse: str = "") -> dict[str, object]:
     return slot
 
 
+def solution_slot(slot_id: str, reuse: str, scene_code: str) -> dict[str, object]:
+    return {
+        "slot_id": slot_id,
+        "diagram_ref": slot_id,
+        "variant": "solution",
+        "disclosure_policy": "annotated",
+        "required": True,
+        "on_failure": "fail_assignment",
+        "placement": "diagram_col",
+        "layout_role": "solution_annotation",
+        "display_profile": "worksheet_geometry_sidecar",
+        "caption": "教师辅助图",
+        "engine": "geometric_scene",
+        "diagram_kind": "synthetic_geometry",
+        "teaching_intent": "practice_solution",
+        "reuse_geometry_from": reuse,
+        "engine_options": {
+            "scene_payload": {
+                "scene_code": scene_code,
+                "points": ["A", "B", "C", "F"],
+                "diagram_spec": {
+                    "segments": [{"from": "A", "to": "F"}],
+                    "labels": {"A": {"text": "A"}, "F": {"text": "F"}},
+                },
+            }
+        },
+    }
+
+
 def plan_with_blocks(blocks: list[dict[str, object]]) -> dict[str, object]:
     return {
         "meta": {"title": "diagram gate regression", "assignment_id": "diagram-gate-regression"},
@@ -141,7 +170,194 @@ def write_fake_job_artifacts(artifact_dir: Path, manifest, *, same_spec: bool = 
     )
 
 
+def write_solution_artifacts(artifact_dir: Path, manifest, scene_code: str) -> RendererBindingManifest:
+    bindings = {}
+    for index, job in enumerate(manifest.jobs):
+        job_dir = artifact_dir / "build" / "diagram" / "jobs" / job.job_id
+        rendered = job_dir / "rendered"
+        rendered.mkdir(parents=True, exist_ok=True)
+        points = {"A": [0, 2], "B": [-2, 0], "C": [2, 0]}
+        if job.variant.value == "solution":
+            points["F"] = [0, 0]
+            write_json(job_dir / "scene_payload.json", {"scene_code": scene_code})
+        spec = {
+            "type": "synthetic_geometry",
+            "points": points,
+            "segments": [{"from": "A", "to": "B"}, {"from": "A", "to": "C"}],
+            "labels": {name: {"text": name} for name in points},
+        }
+        write_json(job_dir / "final_renderer_spec.json", spec)
+        fragment_name = f"{job.variant.value}.fragment.tex"
+        (rendered / fragment_name).write_text(
+            rf"\begin{{tikzpicture}}\draw (0,0)--({index + 1},0);\end{{tikzpicture}}",
+            encoding="utf-8",
+        )
+        bindings[job.diagram_ref] = RendererBinding(
+            slot_id=job.slot_id,
+            diagram_ref=job.diagram_ref,
+            job_id=job.job_id,
+            status="ok",
+            bindable=True,
+            variant=job.variant,
+            disclosure_policy=job.disclosure_policy,
+            tikz_fragment_path=f"build/diagram/jobs/{job.job_id}/rendered/{fragment_name}",
+            final_renderer_spec=f"build/diagram/jobs/{job.job_id}/final_renderer_spec.json",
+            hash=f"sha256:solution-{index}",
+        )
+    return RendererBindingManifest(
+        assignment_id=manifest.assignment_id,
+        source_jobs="build/diagram/diagram_jobs.json",
+        bindings=bindings,
+    )
+
+
 class DiagramGateRegressionTest(unittest.TestCase):
+    def test_declared_constructed_point_fixed_coordinates_block(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            artifact_dir = Path(tmp)
+            scene_code = (
+                "GeometricScene[{A,B,C,P},{A=={0,2},B=={-2,0},C=={2,0},P=={0,1}}]"
+            )
+            plan_data = plan_with_blocks([{
+                "type": "problem",
+                "id": "q1",
+                "stem_latex": r"AD 与 BE 交于 P。",
+                "diagram_slot": synthetic_slot("q1.prompt"),
+                "answer_space": {
+                    "diagram_slot": solution_slot("q1.solution", "q1.prompt", scene_code)
+                },
+            }])
+            plan_view, manifest = collect(plan_data, artifact_dir)
+            artifacts = write_solution_artifacts(artifact_dir, manifest, scene_code)
+            solution_job = next(job for job in manifest.jobs if job.variant.value == "solution")
+            write_json(
+                artifact_dir / "build" / "diagram" / "jobs" / solution_job.job_id / "scene_payload.json",
+                {
+                    "scene_code": scene_code,
+                    "point_roles": {"anchors": ["A", "B", "C"], "constructed": ["P"]},
+                },
+            )
+
+            report = run_gate(plan_view, manifest, artifacts, artifact_dir, None)
+            blocks = {check.name for check in report.checks if check.status == "block"}
+
+            self.assertIn("constructed_point_fixed_coordinates", blocks)
+
+    def test_declared_constructed_intersection_constraints_pass(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            artifact_dir = Path(tmp)
+            scene_code = (
+                "GeometricScene[{A,B,C,D,E,P},{A=={0,2},B=={-2,0},C=={2,0},"
+                "Element[P,Line[{A,D}]],Element[P,Line[{B,E}]]}]"
+            )
+            plan_data = plan_with_blocks([{
+                "type": "problem",
+                "id": "q1",
+                "stem_latex": r"AD 与 BE 交于 P。",
+                "diagram_slot": synthetic_slot("q1.prompt"),
+                "answer_space": {
+                    "diagram_slot": solution_slot("q1.solution", "q1.prompt", scene_code)
+                },
+            }])
+            plan_view, manifest = collect(plan_data, artifact_dir)
+            artifacts = write_solution_artifacts(artifact_dir, manifest, scene_code)
+            solution_job = next(job for job in manifest.jobs if job.variant.value == "solution")
+            write_json(
+                artifact_dir / "build" / "diagram" / "jobs" / solution_job.job_id / "scene_payload.json",
+                {
+                    "scene_code": scene_code,
+                    "point_roles": {"anchors": ["A", "B", "C", "D", "E"], "constructed": ["P"]},
+                },
+            )
+
+            report = run_gate(plan_view, manifest, artifacts, artifact_dir, None)
+            role_blocks = {
+                check.name for check in report.checks
+                if check.status == "block" and check.name.startswith("constructed_point")
+            }
+
+            self.assertEqual(role_blocks, set())
+
+    def test_solution_auxiliary_fixed_coordinates_block(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            artifact_dir = Path(tmp)
+            plan_data = plan_with_blocks([{
+                "type": "problem",
+                "id": "q1",
+                "stem_latex": r"在三角形 ABC 中，作辅助线 AF。",
+                "diagram_slot": synthetic_slot("q1.prompt"),
+                "answer_space": {
+                    "diagram_slot": solution_slot(
+                        "q1.solution",
+                        "q1.prompt",
+                        "GeometricScene[{A,B,C,F},{A=={0,2},B=={-2,0},C=={2,0},F=={0,0}}]",
+                    )
+                },
+            }])
+            plan_view, manifest = collect(plan_data, artifact_dir)
+            artifacts = write_solution_artifacts(
+                artifact_dir,
+                manifest,
+                "GeometricScene[{A,B,C,F},{A=={0,2},B=={-2,0},C=={2,0},F=={0,0}}]",
+            )
+
+            report = run_gate(plan_view, manifest, artifacts, artifact_dir, None)
+            blocks = {check.name for check in report.checks if check.status == "block"}
+
+            self.assertIn("solution_auxiliary_fixed_coordinates", blocks)
+
+    def test_solution_auxiliary_element_constraint_passes_policy(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            artifact_dir = Path(tmp)
+            scene_code = (
+                'GeometricScene[{A,B,C,F},{A=={0,2},B=={-2,0},C=={2,0},'
+                'Element[F,InfiniteLine[{B,C}]],'
+                'GeometricAssertion[{Line[{A,F}],Line[{B,C}]},"Perpendicular"]}]'
+            )
+            plan_data = plan_with_blocks([{
+                "type": "problem",
+                "id": "q1",
+                "stem_latex": r"在三角形 ABC 中，作辅助线 AF。",
+                "diagram_slot": synthetic_slot("q1.prompt"),
+                "answer_space": {
+                    "diagram_slot": solution_slot("q1.solution", "q1.prompt", scene_code)
+                },
+            }])
+            plan_view, manifest = collect(plan_data, artifact_dir)
+            artifacts = write_solution_artifacts(artifact_dir, manifest, scene_code)
+
+            report = run_gate(plan_view, manifest, artifacts, artifact_dir, None)
+            auxiliary_blocks = {
+                check.name for check in report.checks
+                if check.status == "block" and check.name.startswith("solution_auxiliary")
+            }
+
+            self.assertEqual(auxiliary_blocks, set())
+
+    def test_solution_auxiliary_single_incidence_is_underconstrained(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            artifact_dir = Path(tmp)
+            scene_code = (
+                "GeometricScene[{A,B,C,F},{A=={0,2},B=={-2,0},C=={2,0},"
+                "Element[F,InfiniteLine[{B,C}]]}]"
+            )
+            plan_data = plan_with_blocks([{
+                "type": "problem",
+                "id": "q1",
+                "stem_latex": r"在三角形 ABC 中，作辅助线 AF。",
+                "diagram_slot": synthetic_slot("q1.prompt"),
+                "answer_space": {
+                    "diagram_slot": solution_slot("q1.solution", "q1.prompt", scene_code)
+                },
+            }])
+            plan_view, manifest = collect(plan_data, artifact_dir)
+            artifacts = write_solution_artifacts(artifact_dir, manifest, scene_code)
+
+            report = run_gate(plan_view, manifest, artifacts, artifact_dir, None)
+            blocks = {check.name for check in report.checks if check.status == "block"}
+
+            self.assertIn("solution_auxiliary_underconstrained", blocks)
+
     def test_duplicate_coordinate_geometry_regression_blocks(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             artifact_dir = Path(tmp)

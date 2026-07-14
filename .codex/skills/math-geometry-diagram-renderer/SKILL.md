@@ -26,7 +26,11 @@ latex-data skill 只负责声明图位和教学语义；本 skill 负责确认 T
 - `prompt` / `clean`: 原题图，只画题干已知对象和必要顶点标签；不画辅助线、不写推理标注、不泄露答案。
 - `solution` / `annotated`: 讲解图或教师版答案图，可画辅助线、垂足、角标、相等标记和关键推理标注。
 
-solution 图必须复用 prompt 图构型，不让 Python 成为第二套几何求解器。需要写辅助约束时读取 `references/solution-reuse-contract.md`。
+solution 图必须复用 prompt 图构型，不让 Python 成为第二套几何求解器。这个边界同样适用于 prompt：
+Python 可以选择少量版面锚点和确定性种子，但题设中的在线点、内外分点、交点、垂足、中点等构造点必须由
+`GeometricScene` 原生约束求出，不能先算坐标再写成 `P == {x,y}`。`scene_payload` 应声明
+`point_roles.anchors`、`point_roles.constructed`、`point_roles.auxiliary`。需要写辅助约束时读取
+`references/solution-reuse-contract.md`。
 
 ## 工作流
 
@@ -110,6 +114,15 @@ gate 通过后仍要抽查图义；不要只看 `usable=true`。
 
 详细检查文件见 `references/gate-and-output.md`。
 
+## Wolfram scene 编写
+
+生成或审查 `GeometricScene[...]`、`scene_payload`、`hypotheses_wl` 时，必须全文读取
+`references/wolfram-geometricscene-authoring.md`。共线/在线/交点使用 `Element[point, region]`；
+不要使用自然语言伪 DSL，也不要用 `GeometricAssertion[..., "Collinear"]` 代替点对线或线段的隶属关系。
+只有 `point_roles.anchors` 中的版面锚点可以直接固定坐标；`constructed` 与 `auxiliary` 点必须各有足够的
+隶属、构造或度量约束。若使用含标量参数的第一参数形式，必须写成
+`GeometricScene[{{points...}, {scalars...}}, hypotheses]`。
+
 ## 输出
 
 成功时输出：
@@ -130,4 +143,5 @@ build/diagram/jobs/<job_id>/rendered/<variant>.fragment.tex
 
 - `references/solution-reuse-contract.md`: solution/annotated 图如何复用 prompt 构型。
 - `references/gate-and-output.md`: gate 后检查、输出文件、resolved YAML TikZ 字段和布局尺寸。
+- `references/wolfram-geometricscene-authoring.md`: 出题常见平面几何对象、原生 WL 约束、辅助构造、防退化与错误写法。
 - `references/spatial-geometry.md`: 立体几何三维 spec、投影分类、对象角色与质量门禁。

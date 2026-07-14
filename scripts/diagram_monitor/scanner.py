@@ -183,7 +183,20 @@ class DiagramArtifactScanner:
         artifact_dir = safe_resolve(self.artifacts_root, relative_folder)
         job_dir = safe_resolve(artifact_dir, Path("build") / "diagram" / "jobs" / job_id)
         if not job_dir.is_dir():
-            return {**job, "events": [], "rounds": [], "artifact_groups": [], "performance": {}}
+            return {
+                **job,
+                "stem_latex": "",
+                "events": [],
+                "rounds": [],
+                "artifact_groups": [],
+                "performance": {},
+            }
+
+        request = _read_json(job_dir / "request.json")
+        problem_context = request.get("problem_context")
+        stem_latex = problem_context.get("stem_latex") if isinstance(problem_context, dict) else ""
+        if not isinstance(stem_latex, str):
+            stem_latex = ""
 
         rounds: list[dict[str, Any]] = []
         rounds_dir = job_dir / "rounds"
@@ -208,6 +221,7 @@ class DiagramArtifactScanner:
 
         return {
             **job,
+            "stem_latex": stem_latex,
             "events": _read_events(job_dir / "workflow_events.jsonl"),
             "rounds": rounds,
             "artifact_groups": self._artifact_groups(job_dir, artifact_dir),
@@ -244,10 +258,7 @@ class DiagramArtifactScanner:
 
     def resolve_job_dir(self, relative_folder: str, job_id: str) -> Path:
         artifact_dir = safe_resolve(self.artifacts_root, relative_folder)
-        job_dir = safe_resolve(artifact_dir / "build" / "diagram" / "jobs", job_id)
-        if not job_dir.is_dir():
-            raise FileNotFoundError(job_id)
-        return job_dir
+        return safe_resolve(artifact_dir / "build" / "diagram" / "jobs", job_id)
 
     def _artifact_dirs(self) -> list[Path]:
         cached_at, cached = self._candidate_cache

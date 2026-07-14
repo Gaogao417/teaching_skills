@@ -855,6 +855,10 @@ class DiagramEngineOptions(DiagramModel):
     wolfram_timeout_s: int = Field(default=30, ge=1)
     wolfram_hard_timeout_s: int = Field(default=60, ge=1)
     renderer_spec: JsonObject = Field(default_factory=dict)
+    # A deterministic GeometricScene payload.  When present on a
+    # geometric_scene job, the batch runner skips the LLM scene-authoring
+    # agent but still executes the Wolfram solve/validation stage.
+    scene_payload: JsonObject = Field(default_factory=dict)
     spatial_spec: JsonObject = Field(default_factory=dict)
     engine_model_config: DiagramModelConfig = Field(
         default_factory=DiagramModelConfig,
@@ -1295,6 +1299,7 @@ class SceneDiagramSpec(DiagramLooseModel):
 class ScenePayload(DiagramLooseModel):
     scene_code: NonEmptyStr
     points: list[str] = Field(default_factory=list)
+    point_roles: dict[str, list[str]] = Field(default_factory=dict)
     diagram_spec: SceneDiagramSpec = Field(default_factory=SceneDiagramSpec)
     rationale: str = ""
     solution_reuse: JsonObject = Field(default_factory=dict)

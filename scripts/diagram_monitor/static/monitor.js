@@ -36,6 +36,12 @@ const REVIEW_LABELS = {
   revision_failed: "修订失败",
 };
 
+const CODEX_TASK_LABELS = {
+  creating: "正在创建",
+  created: "已创建",
+  failed: "创建失败",
+};
+
 const state = {
   folders: [],
   folder: null,
@@ -47,6 +53,7 @@ const state = {
   reviewDrafts: {},
   reviewActions: {},
   reviewSubmitting: false,
+  reviewSubmittingDecision: "",
 };
 
 const el = (id) => document.getElementById(id);
@@ -205,12 +212,14 @@ function renderDetail() {
 
 function renderOverview(job) {
   const candidateRound = selectedCandidateRound(job);
-  const candidate = (job.rounds || []).find((item) => item.round_index === candidateRound);
-  const candidatePreview = candidate?.preview_path || (candidateRound === job.selected_round ? job.preview_path : "");
+  const candidatePreview = DiagramReviewState.candidatePreview(job, candidateRound);
   const preview = candidatePreview ? `<img src="${fileUrl(candidatePreview)}" alt="${escapeAttr(job.job_id)} 当前候选 Round ${candidateRound}">` : `<div class="preview-placeholder"><strong>${STATUS_LABELS[job.status] || job.status}</strong><span>Round ${candidateRound} 尚未生成可预览图片</span></div>`;
+  const stem = typeof job.stem_latex === "string" && job.stem_latex.trim()
+    ? `<section class="question-stem"><h3>题干</h3><div class="question-stem-body">${escapeHtml(job.stem_latex)}</div></section>`
+    : "";
   const reasons = job.status_reasons?.length ? `<section class="detail-section"><h3>状态说明</h3><ul class="reason-list">${job.status_reasons.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul></section>` : "";
   const warnings = job.status_warnings?.length ? `<section class="detail-section evidence-warning"><h3>证据提醒</h3><ul>${job.status_warnings.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul></section>` : "";
-  el("detail-body").innerHTML = `<div class="candidate-label"><strong>当前候选 Round ${candidateRound}</strong><span>确定性审核：${escapeHtml(candidateAudit(job))}</span></div><div class="detail-preview">${preview}</div>
+  el("detail-body").innerHTML = `${stem}<div class="candidate-label"><strong>当前候选 Round ${candidateRound}</strong><span>确定性审核：${escapeHtml(candidateAudit(job))}</span></div><div class="detail-preview">${preview}</div>
     ${humanReviewPanel(job, candidateRound)}
     <section class="detail-section"><h3><span>运行摘要</span>${statusBadge(job.status)}</h3><div class="key-grid">
       ${keyItem("Slot", job.slot_id || "—")}${keyItem("Variant", job.variant || "—")}${keyItem("Engine", job.engine || "—")}${keyItem("Diagram kind", job.diagram_kind || "—")}
@@ -239,7 +248,21 @@ function humanReviewPanel(job, candidateRound) {
       <button class="review-button review-accept" id="review-accept" type="button" ${controls.acceptDisabled || state.reviewSubmitting ? "disabled" : ""}>接受当前图</button>
       <button class="review-button review-submit" id="review-submit" type="button" ${controls.submitDisabled || state.reviewSubmitting ? "disabled" : ""}>提交给 Agent</button>
     </div>
+    ${codexTaskBinding(review)}
   </section>`;
+}
+
+function codexTaskBinding(review) {
+  const creating = state.reviewSubmitting && state.reviewSubmittingDecision === "changes_requested";
+  const task = DiagramReviewState.codexTaskBinding(review, creating);
+  if (!task) return "";
+  const persistedThreadId = String(review.agent_thread_id || task.threadId || "");
+  const thread = persistedThreadId
+    ? `<span class="codex-task-thread"><span>Thread ID</span><code class="codex-task-id" title="${escapeAttr(persistedThreadId)}">${escapeHtml(persistedThreadId)}</code></span>`
+    : `<span class="codex-task-thread"><span>Thread ID</span><code class="codex-task-id">—</code></span>`;
+  return `<div class="codex-task-binding codex-task-${escapeAttr(task.status)}" role="status">
+    <span class="codex-task-summary"><strong>Codex 任务</strong><span>${escapeHtml(CODEX_TASK_LABELS[task.status] || task.label)}</span></span>${thread}
+  </div>`;
 }
 
 function bindHumanReviewActions(job, candidateRound) {
@@ -263,6 +286,7 @@ async function submitHumanReview(decision, baseRound) {
   const actionId = state.reviewActions[actionKey] || newActionId();
   state.reviewActions[actionKey] = actionId;
   state.reviewSubmitting = true;
+  state.reviewSubmittingDecision = decision;
   renderDetail();
   try {
     await api("/api/human-review", {
@@ -285,6 +309,7 @@ async function submitHumanReview(decision, baseRound) {
     showAlert(`人工复核提交失败：${error.message}`);
   } finally {
     state.reviewSubmitting = false;
+    state.reviewSubmittingDecision = "";
     renderDetail();
   }
 }

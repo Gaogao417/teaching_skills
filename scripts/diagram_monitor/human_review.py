@@ -4,6 +4,7 @@ import json
 import hashlib
 import subprocess
 import shutil
+import sys
 import tempfile
 import threading
 from datetime import datetime
@@ -14,6 +15,14 @@ try:
     from .scanner import safe_resolve
 except ImportError:  # pragma: no cover - direct script execution
     from scanner import safe_resolve
+
+try:
+    from diagram_workflow.diagram_contracts import DiagramJobRequest
+except ImportError:  # pragma: no cover - direct script execution
+    scripts_dir = Path(__file__).resolve().parents[1]
+    if str(scripts_dir) not in sys.path:
+        sys.path.insert(0, str(scripts_dir))
+    from diagram_workflow.diagram_contracts import DiagramJobRequest
 
 
 RevisionRunner = Callable[..., dict[str, Any] | None]
@@ -102,6 +111,8 @@ class HumanReviewService:
                 "updated_at": now,
                 "message": "",
             }
+            if decision == "changes_requested":
+                record["codex_task_status"] = "creating"
             self._persist_record(job_dir, record)
             if decision == "accepted":
                 return record, False, None, None
@@ -142,7 +153,7 @@ class HumanReviewService:
                     if round_error:
                         self._restore_rounds(job_dir, backup_dir, request)
                         message = f"{message}; {round_error}; unauthorized round changes rolled back"
-                    self._finish(job_dir, review_id, "revision_failed", message)
+                    self._finish(job_dir, review_id, "revision_failed", message, request=request)
                     return
                 if result is None:
                     return
@@ -163,9 +174,10 @@ class HumanReviewService:
                     review_id,
                     "revision_completed" if ok else "revision_failed",
                     message,
+                    request=request,
                 )
         except Exception as exc:
-            self._finish(job_dir, review_id, "revision_failed", str(exc))
+            self._finish(job_dir, review_id, "revision_failed", str(exc), request=request)
         finally:
             with lock:
                 self._active_review_ids.discard(review_id)
@@ -175,6 +187,8 @@ class HumanReviewService:
         lock = self._job_lock(job_dir)
         with lock:
             record = self._read_json(job_dir / "human_review.json")
+            if self._sync_codex_task(job_dir, record):
+                self._persist_record(job_dir, record)
             if (
                 recover
                 and record.get("status") in NONTERMINAL_STATUSES
@@ -182,16 +196,29 @@ class HumanReviewService:
             ):
                 record["status"] = "revision_failed"
                 record["message"] = "monitor restart interrupted the queued/running revision"
+                if not record.get("agent_thread_id"):
+                    record["codex_task_status"] = "failed"
                 record["updated_at"] = self._now()
                 self._persist_record(job_dir, record)
             return record
 
-    def _finish(self, job_dir: Path, review_id: str, status: str, message: str) -> None:
+    def _finish(
+        self,
+        job_dir: Path,
+        review_id: str,
+        status: str,
+        message: str,
+        *,
+        request: dict[str, Any] | None = None,
+    ) -> None:
         lock = self._job_lock(job_dir)
         with lock:
             record = self._read_json(job_dir / "human_review.json")
             if record.get("review_id") != review_id:
                 return
+            bound = self._sync_codex_task(job_dir, record, request=request)
+            if record.get("decision") == "changes_requested" and not bound:
+                record["codex_task_status"] = "failed"
             record["status"] = status
             record["message"] = message
             record["updated_at"] = self._now()
@@ -251,7 +278,7 @@ class HumanReviewService:
     def _next_review_id(self, job_dir: Path) -> str:
         numbers: list[int] = []
         for path in (job_dir / "human_reviews").glob("review_*.json"):
-            if path.name.endswith(".request.json"):
+            if path.name.endswith((".request.json", ".codex-task.json")):
                 continue
             try:
                 numbers.append(int(path.stem.removeprefix("review_")))
@@ -261,16 +288,54 @@ class HumanReviewService:
 
     def _find_action(self, job_dir: Path, action_id: str) -> dict[str, Any]:
         for path in sorted((job_dir / "human_reviews").glob("review_*.json")):
-            if path.name.endswith(".request.json"):
+            if path.name.endswith((".request.json", ".codex-task.json")):
                 continue
             record = self._read_json(path)
             if record.get("action_id") == action_id:
                 return record
         return {}
 
+    def _sync_codex_task(
+        self,
+        job_dir: Path,
+        record: dict[str, Any],
+        *,
+        request: dict[str, Any] | None = None,
+    ) -> bool:
+        review_id = str(record.get("review_id") or "")
+        if not review_id:
+            return False
+        if request is None:
+            request = self._read_json(job_dir / "human_reviews" / f"{review_id}.request.json")
+        diagram_request = request.get("diagram_request") if isinstance(request, dict) else None
+        human_revision = (
+            diagram_request.get("human_revision") if isinstance(diagram_request, dict) else None
+        )
+        if (
+            not isinstance(request, dict)
+            or request.get("review_id") != review_id
+            or not isinstance(human_revision, dict)
+            or human_revision.get("review_id") != review_id
+        ):
+            return False
+        path = job_dir / "human_reviews" / f"{review_id}.codex-task.json"
+        task = self._read_json(path)
+        thread_id = str(task.get("agent_thread_id") or "").strip()
+        if (
+            task.get("schema_version") != "diagram-codex-task/v1"
+            or task.get("review_id") != review_id
+            or not thread_id
+        ):
+            return False
+        existing = str(record.get("agent_thread_id") or "")
+        if existing and existing != thread_id:
+            raise ReviewConflict(f"Codex task binding changed for {review_id}")
+        record["agent_thread_id"] = thread_id
+        record["codex_task_status"] = "created"
+        return True
+
     def _revision_envelope(self, job_dir: Path, record: dict[str, Any]) -> dict[str, Any]:
         base = self._read_json(job_dir / "teaching_request.json") or self._read_json(job_dir / "request.json")
-        engine_options = base.get("engine_options") if isinstance(base.get("engine_options"), dict) else {}
         human_revision = {
             "action_id": record["action_id"],
             "review_id": record["review_id"],
@@ -278,11 +343,7 @@ class HumanReviewService:
             "base_round": record["base_round"],
             "requested_round": record["requested_round"],
         }
-        diagram_request = {
-            **base,
-            "engine_options": {**engine_options, "max_retries": 0},
-            "human_revision": human_revision,
-        }
+        diagram_request = self._canonical_revision_request(base, human_revision)
         return {
             "schema_version": "diagram-human-revision-request/v1",
             "review_id": record["review_id"],
@@ -295,6 +356,37 @@ class HumanReviewService:
             "existing_round_fingerprints": self._round_fingerprints(job_dir),
             "diagram_request": diagram_request,
         }
+
+    @staticmethod
+    def _canonical_revision_request(
+        base: dict[str, Any],
+        human_revision: dict[str, Any],
+    ) -> dict[str, Any]:
+        allowed = set(DiagramJobRequest.model_fields)
+        projected = {key: value for key, value in base.items() if key in allowed}
+        if not projected.get("job_id") and base.get("diagram_job_id"):
+            projected["job_id"] = base["diagram_job_id"]
+
+        engine_options = (
+            dict(projected["engine_options"])
+            if isinstance(projected.get("engine_options"), dict)
+            else {}
+        )
+        for key in ("seed", "wolfram_timeout_s", "wolfram_hard_timeout_s"):
+            if key not in engine_options and base.get(key) is not None:
+                engine_options[key] = base[key]
+        engine_options["max_retries"] = 0
+        projected["engine_options"] = engine_options
+
+        reuse = dict(projected["reuse"]) if isinstance(projected.get("reuse"), dict) else {}
+        for key in ("reuse_geometry_from", "base_job_dir"):
+            if key not in reuse and base.get(key) is not None:
+                reuse[key] = base[key]
+        projected["reuse"] = reuse
+        projected["human_revision"] = human_revision
+
+        request = DiagramJobRequest.model_validate(projected)
+        return request.model_dump(mode="json", by_alias=True)
 
     def _validate_round_mutation(self, job_dir: Path, request: dict[str, Any]) -> str:
         before = {int(value) for value in request.get("existing_rounds", [])}
@@ -389,7 +481,10 @@ class HumanReviewService:
         ]
         completed = subprocess.run(command, cwd=self.repo_root, text=True, capture_output=True, check=False)
         if completed.returncode != 0:
-            raise RuntimeError(completed.stderr.strip() or completed.stdout.strip() or "diagram revision failed")
+            diagnostics = "\n".join(
+                part for part in (completed.stdout.strip(), completed.stderr.strip()) if part
+            )
+            raise RuntimeError(diagnostics or "diagram revision failed")
         result = self._read_json(job_dir / "agent_result.json")
         return {
             "status": result.get("status"),

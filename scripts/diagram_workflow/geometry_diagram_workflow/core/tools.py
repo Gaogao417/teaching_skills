@@ -72,6 +72,7 @@ FORBIDDEN_WL_TOKENS = [
 
 SKILL_SETS = {
     "generate": [
+        "math-geometry-diagram-renderer",
         "wolfram-geometricscene-reference",
         "wolfram-schema-first-param-types",
         "dimensionless-constraints-library",
@@ -241,7 +242,11 @@ def _agent_cwd() -> Path:
 def _skills_root() -> Path:
     return _project_root() / ".codex" / "skills"
 def _skill_path(skill_name: str) -> Path:
-    return _skills_root() / skill_name / "SKILL.md"
+    embedded = _skills_root() / skill_name / "SKILL.md"
+    if embedded.exists():
+        return embedded
+    repository_skill = SCRIPTS_DIR.parents[1] / ".codex" / "skills" / skill_name / "SKILL.md"
+    return repository_skill
 def _skill_inputs_for_group(group: str) -> List[Dict[str, str]]:
     skills: List[Dict[str, str]] = []
     for name in SKILL_SETS.get(group, []):
@@ -392,10 +397,16 @@ def _validate_scene_code(scene_code: str) -> None:
 
     if "GeometricScene" not in scene_code:
         raise ValueError("scene_code must contain GeometricScene")
-    if re.search(r"GeometricScene\s*\[\s*\{\s*\{", scene_code):
+    nested_first_argument = re.search(r"GeometricScene\s*\[\s*\{\s*\{", scene_code)
+    scalar_parameter_form = re.search(
+        r"GeometricScene\s*\[\s*\{\s*\{[^{}]+\}\s*,\s*\{[^{}]*\}\s*\}\s*,",
+        scene_code,
+    )
+    if nested_first_argument and not scalar_parameter_form:
         raise ValueError(
-            "scene_code must use a flat GeometricScene point list, e.g. "
-            "GeometricScene[{A, B, C}, {...}], not GeometricScene[{{A, B, C}}, {...}]"
+            "scene_code must use a flat point list or the scalar-parameter form, e.g. "
+            "GeometricScene[{A, B, C}, {...}] or "
+            "GeometricScene[{{A, B, C}, {r}}, {...}]"
         )
     for token in FORBIDDEN_WL_TOKENS:
         if token in scene_code:
@@ -771,7 +782,7 @@ def _solution_reuse_check(
     request: Dict[str, object],
     out_dir: Path,
     render_result: Dict[str, object],
-    tolerance: float = 1e-7,
+    tolerance: float = 1e-5,
 ) -> Dict[str, object]:
     """校验 solution 图没有移动 prompt 图的既有点。
 

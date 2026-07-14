@@ -87,9 +87,12 @@ class GeometricSceneCodexConfigTest(unittest.TestCase):
 
         inputs = _skill_inputs_for_group("generate")
 
-        self.assertEqual(inputs[0]["name"], "wolfram-geometricscene-reference")
-        self.assertTrue(Path(inputs[0]["path"]).exists())
-        self.assertEqual(Path(inputs[0]["path"]).parents[1], expected_root)
+        inputs_by_name = {item["name"]: item for item in inputs}
+        self.assertIn("math-geometry-diagram-renderer", inputs_by_name)
+        self.assertIn("wolfram-geometricscene-reference", inputs_by_name)
+        reference_path = Path(inputs_by_name["wolfram-geometricscene-reference"]["path"])
+        self.assertTrue(reference_path.exists())
+        self.assertEqual(reference_path.parents[1], expected_root)
 
     def test_agent_output_schema_is_strict(self) -> None:
         schema = agent_result_schema()
@@ -100,7 +103,11 @@ class GeometricSceneCodexConfigTest(unittest.TestCase):
     def test_scene_code_rejects_nested_point_list(self) -> None:
         _validate_scene_code("GeometricScene[{A, B, C}, {A == {0, 1}}]")
 
-        with self.assertRaisesRegex(ValueError, "flat GeometricScene point list"):
+        _validate_scene_code(
+            "GeometricScene[{{A, B, C}, {r}}, {r > 0, Element[A, Circle[B, r]]}]"
+        )
+
+        with self.assertRaisesRegex(ValueError, "flat point list or the scalar-parameter form"):
             _validate_scene_code("GeometricScene[{{A, B, C}}, {A == {0, 1}}]")
 
 

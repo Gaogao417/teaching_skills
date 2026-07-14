@@ -14,6 +14,7 @@ solution 图可以引用 prompt 图并追加辅助对象。workflow 会读取 pr
     "add_points": ["H"],
     "hypotheses_wl": [
       "H == TriangleCenter[{A, B, D}, {\"Foot\", A}]",
+      "Element[H, InfiniteLine[{B, D}]]",
       "GeometricAssertion[{Line[{A, H}], Line[{B, D}]}, \"Perpendicular\"]"
     ],
     "diagram_spec_delta": {

@@ -148,6 +148,7 @@ Required per-round workflow:
 1. Create rounds/round_{round_token}/scene_payload.json yourself. It must contain:
    - scene_code: complete Wolfram GeometricScene expression.
    - points: point labels.
+   - point_roles: anchors, constructed, and auxiliary point-label lists.
    - diagram_spec: visible segments, polygons, markers, labels if needed.
    - rationale: short reason.
 2. Run Wolfram solve:
@@ -168,8 +169,20 @@ GeometricScene requirements:
 - Correct point-only syntax: GeometricScene[{{A, B, C}}, {{hypotheses}}]
 - Wrong nested point-list syntax: GeometricScene[{{{{A, B, C}}}}, {{hypotheses}}]
 - If you are unsure, inspect scene_payload.json and make sure it does not
-  contain the substring "GeometricScene[{{{{". The workflow rejects nested point lists.
-- Avoid scalar parameter forms in v1; use concrete point constraints instead.
+  contain a point list with one accidental extra wrapper.
+- Scalar parameters are allowed with the exact form
+  GeometricScene[{{{{A, B, C}}, {{r, s}}}}, {{hypotheses}}].
+- Classify points in point_roles. Only anchors may receive fixed coordinates.
+  Any point defined by the stem as lying on a line/segment/circle, an intersection,
+  midpoint, foot, center, or ratio point is constructed and must be solved from
+  native GeometricScene constraints. Do not calculate it in Python or in prose and
+  write the result back as P == {{x, y}}.
+- For a solution/annotated request with reuse_geometry_from, lock only the base
+  prompt points. Never calculate or assign fixed coordinates to a solution-only
+  auxiliary point. Declare it as a free GeometricScene point and derive it with
+  Element plus the required parallel/perpendicular/incidence/metric constraints.
+- Read the attached math-geometry-diagram-renderer Wolfram authoring and
+  solution-reuse references before writing a solution scene.
 
 Deterministic audit priorities:
 - renderer_result.status must be ok.
