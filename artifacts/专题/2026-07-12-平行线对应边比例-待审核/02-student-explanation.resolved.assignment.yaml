@@ -1,0 +1,223 @@
+meta:
+  title: 平行线对应边比例：先判断本问要用哪一组比
+  subtitle: 学生讲义
+  grade: 八年级
+  subject: 数学
+  version: student
+  source_artifacts:
+    review_draft: artifacts/专题/2026-07-12-平行线对应边比例-待审核/02-student-explanation.review.md
+render:
+  template: exam-zh-explanation
+  paper_size: a4paper
+sections:
+- id: a-shape
+  title: A 字型：先判断是否涉及 $AB:CD$
+  show_title: true
+  type: explanation
+  visibility: student
+  blocks:
+  - type: solution
+    id: a-core-rule
+    title: 两类问法：求平行边比，或只转移截线比
+    items:
+    - latex: 若题目给出或要求 $AB:CD$，先由截线上的已知线段求出两个相似三角形的比。
+    - latex: 若题目不把 $AB:CD$ 作为已知或所求，只在 $AC,BD$ 两条截线上找对应边并转移比例。
+    - latex: 点序 $P-A-C$、$P-B-D$ 只负责判断 $PC=PA+AC$、$PD=PB+BD$。
+    - latex: 由 $AB\parallel CD$，得 $\triangle PAB\sim\triangle PCD$。
+    - latex: 对应边是 $PA\leftrightarrow PC$、$PB\leftrightarrow PD$、$AB\leftrightarrow
+        CD$。
+  - type: problemcard
+    id: a-example-card
+    label: A 字型例题
+    stem_latex: "如图，直线 $AC$ 与 $BD$ 相交于点 $P$，点序分别为 $P-A-C$、$P-B-D$，\n且 $AB\\parallel\
+      \ CD$。\n\\begin{enumerate}[label=(\\arabic*)]\n  \\item 已知 $PA:AC=2:3$，求 $AB:CD$；\n\
+      \  \\item 已知 $PA:PC=3:4$，求 $PB:PD$。\n\\end{enumerate}\n"
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/explanation-a-prompt/rendered/prompt.fragment.tex
+      diagram_ref: explanation.a.prompt
+      diagram_job_id: explanation-a-prompt
+      width: 70mm
+      caption: 看清 $P,A,C$ 和 $P,B,D$ 的先后顺序。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:8fc2c44fbbe43cca7b8f398e8cf7376b58ff64ce0fe7615740629f96c4cfb924
+      packages:
+      - tikz
+      libraries: []
+  - type: route
+    id: a-route
+    steps:
+    - id: a-step-order
+      latex: 第（1）问先求两个三角形的比
+      content_latex: 由 $P-A-C$，得 $PC=PA+AC$；因此 $PA:AC=2:3$ 时，$PA:PC=2:5$。
+    - id: a-step-similar
+      latex: 两类题都先写清相似三角形和对应边
+      content_latex: 由 $AB\parallel CD$，得 $\triangle PAB\sim\triangle PCD$，其中 $PA\leftrightarrow
+        PC$、$PB\leftrightarrow PD$、$AB\leftrightarrow CD$。
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/explanation-a-solution/rendered/solution.fragment.tex
+        diagram_ref: explanation.a.solution
+        diagram_job_id: explanation-a-solution
+        width: 70mm
+        caption: 内层和外层三角形的三组对应边。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:0526f0527f00162bfae457f71b13c43c1dc97afc315de4afa7776e3e208688e4
+        packages:
+        - tikz
+        libraries: []
+    - id: a-step-answer-1
+      latex: 求第（1）问
+      content_latex: 由对应边比得 $AB:CD=PA:PC=2:5$。
+    - id: a-step-answer-2
+      latex: 第（2）问只在两条截线上转移比例
+      content_latex: 由 $PA:PC=3:4$，直接得到 $PB:PD=3:4$。
+  - type: dual_explanation
+    id: a-solution-1
+    label: (1)
+    stem_latex: 已知 $PA:AC=2:3$，求 $AB:CD$；
+    side_title: 小贴士
+    side_items:
+    - kind: hint
+      title: 先问点序
+      content_latex: 这里 $A$ 在 $P,C$ 中间，所以 $PC$ 是 $PA$ 和 $AC$ 的和。
+    solution_title: 解答
+    solution_step_ids:
+    - a-step-order
+    - a-step-similar
+    - a-step-answer-1
+  - type: dual_explanation
+    id: a-solution-2
+    label: (2)
+    stem_latex: 已知 $PA:PC=3:4$，求 $PB:PD$。
+    side_title: 小贴士
+    side_items:
+    - kind: hint
+      title: 本问不需要什么
+      content_latex: 平行条件用来保证相似，但不需要计算 $AB:CD$。
+    solution_title: 解答
+    solution_step_ids:
+    - a-step-similar
+    - a-step-answer-2
+  - type: mistake
+    id: a-mistake
+    title: 易错提醒
+    content_latex: A 字型中若点序是 $P-A-C$，就应写 $PC=PA+AC$，不能写成 $AC=PA+PC$。
+  - type: method_reminder
+    id: a-method
+    title: 方法提醒
+    items:
+    - latex: 先读点序，再决定“加”还是“减”。
+    - latex: 写相似时，三组对应边必须保持同一顺序。
+- id: eight-shape
+  title: 8 字型：仍先判断是否涉及 $AB:CD$
+  show_title: true
+  type: explanation
+  visibility: student
+  layout:
+    break_before: true
+  blocks:
+  - type: solution
+    id: eight-core-rule
+    title: 问法不变，点序改变
+    items:
+    - latex: 涉及 $AB:CD$ 时，先把题目给的分段比改成两个相似三角形的比。
+    - latex: 不涉及 $AB:CD$ 时，直接在 $AC,BD$ 两条截线上转移对应边比。
+    - latex: 点序变为 $A-P-C$、$B-P-D$，所以计算时使用 $AC=AP+PC$、$BD=BP+PD$。
+    - latex: 仍有 $\triangle PAB\sim\triangle PCD$，对应边仍是 $PA\leftrightarrow PC$、$PB\leftrightarrow
+        PD$、$AB\leftrightarrow CD$。
+  - type: problemcard
+    id: eight-example-card
+    label: 8 字型例题
+    stem_latex: "如图，直线 $AC$ 与 $BD$ 相交于点 $P$，点序分别为 $A-P-C$、$B-P-D$，\n且 $AB\\parallel\
+      \ CD$。\n\\begin{enumerate}[label=(\\arabic*)]\n  \\item 已知 $PA:AC=2:5$，求 $AB:CD$；\n\
+      \  \\item 已知 $PB:BD=3:8$，求 $PA:PC$。\n\\end{enumerate}\n"
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/explanation-eight-prompt/rendered/prompt.fragment.tex
+      diagram_ref: explanation.eight.prompt
+      diagram_job_id: explanation-eight-prompt
+      width: 70mm
+      caption: 交点 $P$ 在两条平行线之间，先看清两条截线的点序。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:9b07b2a552128914706b4ffb7da78873279a5d116ee30d9358f8902b0d058980
+      packages:
+      - tikz
+      libraries: []
+  - type: route
+    id: eight-route
+    steps:
+    - id: eight-step-order-1
+      latex: 第（1）问先求两个三角形的比
+      content_latex: 由 $AP:AC=2:5$，得 $PC:AC=3:5$，所以 $AP:PC=2:3$。
+    - id: eight-step-order-2
+      latex: 第（2）问先把截线上的比改好
+      content_latex: 由 $BP:BD=3:8$，得 $PD:BD=5:8$，所以 $BP:PD=3:5$。
+    - id: eight-step-similar
+      latex: 两类题都先写清相似三角形和对应边
+      content_latex: 由 $AB\parallel CD$，得 $\triangle PAB\sim\triangle PCD$，其中 $PA\leftrightarrow
+        PC$、$PB\leftrightarrow PD$、$AB\leftrightarrow CD$。
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/explanation-eight-solution/rendered/solution.fragment.tex
+        diagram_ref: explanation.eight.solution
+        diagram_job_id: explanation-eight-solution
+        width: 70mm
+        caption: 交叉的两条截线中，仍按同一顺序找三组对应边。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:dd46d48b4e060acfd36cf91720217302f98e627175d8e08a23f83b9309a6f755
+        packages:
+        - tikz
+        libraries: []
+    - id: eight-step-answer-1
+      latex: 求第（1）问
+      content_latex: 由对应边比得 $AB:CD=AP:PC=2:3$。
+    - id: eight-step-answer-2
+      latex: 第（2）问只在两条截线上转移比例
+      content_latex: 由 $BP:PD=3:5$，直接得到 $PA:PC=3:5$。
+  - type: dual_explanation
+    id: eight-solution-1
+    label: (1)
+    stem_latex: 已知 $PA:AC=2:5$，求 $AB:CD$；
+    side_title: 小贴士
+    side_items:
+    - kind: hint
+      title: 这里为什么是减法
+      content_latex: 因为点序是 $A-P-C$，整段 $AC$ 已经包括 $AP$ 和 $PC$。
+    solution_title: 解答
+    solution_step_ids:
+    - eight-step-order-1
+    - eight-step-similar
+    - eight-step-answer-1
+  - type: dual_explanation
+    id: eight-solution-2
+    label: (2)
+    stem_latex: 已知 $PB:BD=3:8$，求 $PA:PC$。
+    side_title: 小贴士
+    side_items:
+    - kind: hint
+      title: 先把哪一个比改好
+      content_latex: 先由 $BD=BP+PD$ 求出 $BP:PD$，再转移到另一条截线。
+    solution_title: 解答
+    solution_step_ids:
+    - eight-step-order-2
+    - eight-step-similar
+    - eight-step-answer-2
+  - type: mistake
+    id: eight-mistake
+    title: 易错提醒
+    content_latex: 8 字型中若点序是 $A-P-C$，就应写 $AC=AP+PC$；不能沿用 A 字型的 $PC=PA+AC$。
+  - type: method_reminder
+    id: eight-method
+    title: 方法提醒
+    items:
+    - latex: 先用点序判断整段和两段的关系。
+    - latex: 再用平行线得到相似三角形，按对应边顺序写比例。

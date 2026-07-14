@@ -1,0 +1,144 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1050" viewBox="0 0 1600 1050">
+  <defs>
+    <style>
+      .bg { fill: #ffffff; }
+      .panel { fill: #fbfbf8; stroke: #d9d6c8; stroke-width: 2; rx: 14; }
+      .title { font-family: "PingFang SC", "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; font-size: 28px; font-weight: 700; fill: #172033; }
+      .note { font-family: "PingFang SC", "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; font-size: 20px; fill: #344054; }
+      .small { font-family: "PingFang SC", "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; font-size: 17px; fill: #475467; }
+      .formula { font-family: "Times New Roman", "PingFang SC", serif; font-size: 22px; fill: #172033; }
+      .edge { stroke: #111827; stroke-width: 3.2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .thin { stroke: #667085; stroke-width: 2.2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .known { stroke: #2e7d32; stroke-width: 6; fill: none; stroke-linecap: round; opacity: 0.72; }
+      .target { stroke: #d92d20; stroke-width: 6; fill: none; stroke-linecap: round; opacity: 0.74; }
+      .helper { stroke: #1d4ed8; stroke-width: 3.2; fill: none; stroke-linecap: round; stroke-dasharray: 9 7; }
+      .sim1 { stroke: #8b5cf6; stroke-width: 4; fill: rgba(139,92,246,0.07); stroke-linejoin: round; }
+      .sim2 { stroke: #f97316; stroke-width: 4; fill: rgba(249,115,22,0.08); stroke-linejoin: round; }
+      .point { fill: #111827; }
+      .label { font-family: "Times New Roman", serif; font-size: 24px; font-weight: 700; fill: #111827; }
+      .label-blue { font-family: "Times New Roman", serif; font-size: 24px; font-weight: 700; fill: #1d4ed8; }
+      .badge { fill: #eff8ff; stroke: #1d4ed8; stroke-width: 1.5; }
+      .badge-text { font-family: "PingFang SC", "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; font-size: 18px; fill: #1d4ed8; font-weight: 700; }
+    </style>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="1600" height="1050"/>
+  <text class="title" x="64" y="58">辅助线进入比例题的 5 步图</text>
+  <text class="note" x="64" y="94">例：在三角形 ABC 中，D 在 AB 上，E 在 AC 上，P 是 CD 与 BE 的交点；已知 AD:DB 与 AE:EC，求 CP:PD。</text>
+
+  <!-- panel frames -->
+  <rect class="panel" x="52" y="130" width="470" height="390"/>
+  <rect class="panel" x="565" y="130" width="470" height="390"/>
+  <rect class="panel" x="1078" y="130" width="470" height="390"/>
+  <rect class="panel" x="52" y="575" width="720" height="400"/>
+  <rect class="panel" x="828" y="575" width="720" height="400"/>
+
+  <!-- reusable coordinate comments:
+       A(140,420), B(340,420), C(190,220), D(240,420), E(171.25,295), P(217.25,329), F(70,220)
+       The first three panels use local translations. -->
+
+  <!-- Panel 1 -->
+  <g transform="translate(70,40)">
+    <text class="title" x="0" y="140">1. 先圈出要用的三角形</text>
+    <text class="note" x="0" y="173">目标在 CD 上，所以先看三角形 ACD。</text>
+    <path class="sim1" d="M140,420 L190,220 L240,420 Z"/>
+    <path class="edge" d="M140,420 L340,420 L190,220 Z"/>
+    <path class="edge" d="M190,220 L240,420"/>
+    <path class="edge" d="M340,420 L171.25,295"/>
+    <path class="known" d="M140,420 L240,420"/>
+    <path class="known" d="M140,420 L156.7,353.3"/>
+    <path class="target" d="M190,220 L240,420"/>
+    <circle class="point" cx="140" cy="420" r="4.5"/><text class="label" x="122" y="448">A</text>
+    <circle class="point" cx="340" cy="420" r="4.5"/><text class="label" x="348" y="448">B</text>
+    <circle class="point" cx="190" cy="220" r="4.5"/><text class="label" x="177" y="210">C</text>
+    <circle class="point" cx="240" cy="420" r="4.5"/><text class="label" x="232" y="448">D</text>
+    <circle class="point" cx="171.25" cy="295" r="4.5"/><text class="label" x="146" y="292">E</text>
+    <circle class="point" cx="217.25" cy="329" r="4.5"/><text class="label" x="223" y="326">P</text>
+    <text class="small" x="12" y="475">绿色：已知边上的比例；红色：要求的比例。</text>
+  </g>
+
+  <!-- Panel 2 -->
+  <g transform="translate(583,40)">
+    <text class="title" x="0" y="140">2. 过顶点作对边平行线</text>
+    <text class="note" x="0" y="173">过 C 作 CF ∥ AB，也就是 CF ∥ DB。</text>
+    <path class="edge" d="M140,420 L340,420 L190,220 Z"/>
+    <path class="edge" d="M190,220 L240,420"/>
+    <path class="edge" d="M340,420 L171.25,295"/>
+    <path class="helper" d="M70,220 L190,220"/>
+    <circle class="point" cx="140" cy="420" r="4.5"/><text class="label" x="122" y="448">A</text>
+    <circle class="point" cx="340" cy="420" r="4.5"/><text class="label" x="348" y="448">B</text>
+    <circle class="point" cx="190" cy="220" r="4.5"/><text class="label" x="177" y="210">C</text>
+    <circle class="point" cx="240" cy="420" r="4.5"/><text class="label" x="232" y="448">D</text>
+    <circle class="point" cx="171.25" cy="295" r="4.5"/><text class="label" x="146" y="292">E</text>
+    <circle class="point" cx="217.25" cy="329" r="4.5"/><text class="label" x="223" y="326">P</text>
+    <rect class="badge" x="18" y="238" width="130" height="34" rx="17"/>
+    <text class="badge-text" x="38" y="262">CF ∥ AB</text>
+  </g>
+
+  <!-- Panel 3 -->
+  <g transform="translate(1096,40)">
+    <text class="title" x="0" y="140">3. 找到平行线上的交点 F</text>
+    <text class="note" x="0" y="173">让 CF 与 BE 的延长线相交于 F。</text>
+    <path class="edge" d="M140,420 L340,420 L190,220 Z"/>
+    <path class="edge" d="M190,220 L240,420"/>
+    <path class="thin" d="M340,420 L70,220"/>
+    <path class="helper" d="M70,220 L190,220"/>
+    <circle class="point" cx="140" cy="420" r="4.5"/><text class="label" x="122" y="448">A</text>
+    <circle class="point" cx="340" cy="420" r="4.5"/><text class="label" x="348" y="448">B</text>
+    <circle class="point" cx="190" cy="220" r="4.5"/><text class="label" x="177" y="210">C</text>
+    <circle class="point" cx="240" cy="420" r="4.5"/><text class="label" x="232" y="448">D</text>
+    <circle class="point" cx="171.25" cy="295" r="4.5"/><text class="label" x="146" y="292">E</text>
+    <circle class="point" cx="217.25" cy="329" r="4.5"/><text class="label" x="223" y="326">P</text>
+    <circle class="point" cx="70" cy="220" r="5"/><text class="label-blue" x="48" y="212">F</text>
+    <text class="small" x="0" y="475">现在 B、P、E、F 在同一条线上。</text>
+  </g>
+
+  <!-- Panel 4 -->
+  <g transform="translate(80,470)">
+    <text class="title" x="0" y="140">4. 平行线外的两点分别组成相似三角形</text>
+    <text class="note" x="0" y="173">外点 E 看到一组：△EAB 与 △ECF；外点 P 看到另一组：△PDB 与 △PCF。</text>
+    <path class="sim1" d="M171.25,295 L140,420 L340,420 Z"/>
+    <path class="sim1" d="M171.25,295 L190,220 L70,220 Z"/>
+    <path class="sim2" d="M217.25,329 L240,420 L340,420 Z"/>
+    <path class="sim2" d="M217.25,329 L190,220 L70,220 Z"/>
+    <path class="edge" d="M140,420 L340,420 L190,220 Z"/>
+    <path class="edge" d="M190,220 L240,420"/>
+    <path class="thin" d="M340,420 L70,220"/>
+    <path class="helper" d="M70,220 L190,220"/>
+    <circle class="point" cx="140" cy="420" r="4.5"/><text class="label" x="122" y="448">A</text>
+    <circle class="point" cx="340" cy="420" r="4.5"/><text class="label" x="348" y="448">B</text>
+    <circle class="point" cx="190" cy="220" r="4.5"/><text class="label" x="177" y="210">C</text>
+    <circle class="point" cx="240" cy="420" r="4.5"/><text class="label" x="232" y="448">D</text>
+    <circle class="point" cx="171.25" cy="295" r="4.5"/><text class="label" x="146" y="292">E</text>
+    <circle class="point" cx="217.25" cy="329" r="4.5"/><text class="label" x="223" y="326">P</text>
+    <circle class="point" cx="70" cy="220" r="5"/><text class="label-blue" x="48" y="212">F</text>
+    <text class="formula" x="430" y="250">△EAB ∼ △ECF</text>
+    <text class="formula" x="430" y="290">CF : AB = CE : AE</text>
+    <text class="formula" x="430" y="350">△PDB ∼ △PCF</text>
+    <text class="formula" x="430" y="390">CP : PD = CF : DB</text>
+  </g>
+
+  <!-- Panel 5 -->
+  <g transform="translate(856,470)">
+    <text class="title" x="0" y="140">5. 把两组比例接起来</text>
+    <text class="note" x="0" y="173">先用已知边推出 CF，再用 CF 推出目标边。</text>
+    <path class="edge" d="M140,420 L340,420 L190,220 Z"/>
+    <path class="target" d="M190,220 L240,420"/>
+    <path class="thin" d="M340,420 L70,220"/>
+    <path class="helper" d="M70,220 L190,220"/>
+    <circle class="point" cx="140" cy="420" r="4.5"/><text class="label" x="122" y="448">A</text>
+    <circle class="point" cx="340" cy="420" r="4.5"/><text class="label" x="348" y="448">B</text>
+    <circle class="point" cx="190" cy="220" r="4.5"/><text class="label" x="177" y="210">C</text>
+    <circle class="point" cx="240" cy="420" r="4.5"/><text class="label" x="232" y="448">D</text>
+    <circle class="point" cx="171.25" cy="295" r="4.5"/><text class="label" x="146" y="292">E</text>
+    <circle class="point" cx="217.25" cy="329" r="4.5"/><text class="label" x="223" y="326">P</text>
+    <circle class="point" cx="70" cy="220" r="5"/><text class="label-blue" x="48" y="212">F</text>
+    <text class="formula" x="430" y="235">CF : AB = CE : AE</text>
+    <text class="formula" x="430" y="280">CP : PD = CF : DB</text>
+    <text class="formula" x="430" y="340">所以：</text>
+    <text class="formula" x="410" y="382">CP : PD</text>
+    <text class="formula" x="410" y="420">= (AB : DB) × (CE : AE)</text>
+    <text class="small" x="410" y="458">例：AD:DB=1:1，AE:EC=1:2</text>
+    <text class="small" x="410" y="488">AB:DB=2:1，CE:AE=2:1，所以 CP:PD=4:1。</text>
+  </g>
+</svg>

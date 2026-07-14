@@ -1,0 +1,226 @@
+\documentclass{exam-zh}
+\usepackage{edu-explanation}
+
+\examsetup{
+  question/show-answer = true,
+  fillin/show-answer = true,
+  solution/show-solution = show-stay,
+}
+
+\begin{document}
+
+\eduSectionTitle{A 字型：先判断是否涉及 $AB:CD$}
+
+
+\begin{eduSolutionBox}{两类问法：求平行边比，或只转移截线比}
+  \begingroup
+  \setlength{\parskip}{2.5mm}
+若题目给出或要求 $AB:CD$，先由截线上的已知线段求出两个相似三角形的比。\par
+若题目不把 $AB:CD$ 作为已知或所求，只在 $AC,BD$ 两条截线上找对应边并转移比例。\par
+点序 $P-A-C$、$P-B-D$ 只负责判断 $PC=PA+AC$、$PD=PB+BD$。\par
+由 $AB\parallel CD$，得 $\triangle PAB\sim\triangle PCD$。\par
+对应边是 $PA\leftrightarrow PC$、$PB\leftrightarrow PD$、$AB\leftrightarrow CD$。\par
+  \endgroup
+\end{eduSolutionBox}
+
+
+
+
+\begin{eduProblemBlock}[A 字型例题]
+\noindent
+\begin{minipage}[t]{\dimexpr\linewidth-70mm-6mm\relax}
+\vspace{0pt}
+如图，直线 $AC$ 与 $BD$ 相交于点 $P$，点序分别为 $P-A-C$、$P-B-D$，
+且 $AB\parallel\ \ CD$。
+\begin{enumerate}[label=(\arabic*)]
+  \item 已知 $PA:AC=2:3$，求 $AB:CD$；
+\ \  \item 已知 $PA:PC=3:4$，求 $PB:PD$。
+\end{enumerate}
+
+\end{minipage}\hfill
+\begin{diagramcoltikz}{70mm}{看清 $P,A,C$ 和 $P,B,D$ 的先后顺序。}
+\input{\detokenize{build/diagram/jobs/explanation-a-prompt/rendered/prompt.fragment.tex}}
+\end{diagramcoltikz}
+\end{eduProblemBlock}
+
+
+
+
+
+\begin{eduAuxItem}{思路导航}
+第（1）问先求两个三角形的比$\;\to\;$两类题都先写清相似三角形和对应边$\;\to\;$求第（1）问$\;\to\;$第（2）问只在两条截线上转移比例\end{eduAuxItem}
+
+
+
+
+\begin{eduSubQuestionItem}{(1)}
+已知 $PA:AC=2:3$，求 $AB:CD$；\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{小贴士}
+        \eduSideHint{先问点序}{这里 $A$ 在 $P,C$ 中间，所以 $PC$ 是 $PA$ 和 $AC$ 的和。}
+  \end{eduExplainLeft}
+
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{解答}
+      \eduExplainStep{1}{第（1）问先求两个三角形的比}{由 $P-A-C$，得 $PC=PA+AC$；因此 $PA:AC=2:3$ 时，$PA:PC=2:5$。}
+      \eduExplainStep{2}{两类题都先写清相似三角形和对应边}{由 $AB\parallel CD$，得 $\triangle PAB\sim\triangle PCD$，其中 $PA\leftrightarrow PC$、$PB\leftrightarrow PD$、$AB\leftrightarrow CD$。}
+      \begin{center}
+        \begin{diagramcoltikz}{70mm}{内层和外层三角形的三组对应边。}
+        \input{\detokenize{build/diagram/jobs/explanation-a-solution/rendered/solution.fragment.tex}}
+        \end{diagramcoltikz}
+      \end{center}
+      \eduExplainStep{3}{求第（1）问}{由对应边比得 $AB:CD=PA:PC=2:5$。}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduSubQuestionItem}{(2)}
+已知 $PA:PC=3:4$，求 $PB:PD$。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{小贴士}
+        \eduSideHint{本问不需要什么}{平行条件用来保证相似，但不需要计算 $AB:CD$。}
+  \end{eduExplainLeft}
+
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{解答}
+      \eduExplainStep{1}{两类题都先写清相似三角形和对应边}{由 $AB\parallel CD$，得 $\triangle PAB\sim\triangle PCD$，其中 $PA\leftrightarrow PC$、$PB\leftrightarrow PD$、$AB\leftrightarrow CD$。}
+      \begin{center}
+        \begin{diagramcoltikz}{70mm}{内层和外层三角形的三组对应边。}
+        \input{\detokenize{build/diagram/jobs/explanation-a-solution/rendered/solution.fragment.tex}}
+        \end{diagramcoltikz}
+      \end{center}
+      \eduExplainStep{2}{第（2）问只在两条截线上转移比例}{由 $PA:PC=3:4$，直接得到 $PB:PD=3:4$。}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduMistakeBox}
+\eduSubTitle{易错提醒}A 字型中若点序是 $P-A-C$，就应写 $PC=PA+AC$，不能写成 $AC=PA+PC$。\end{eduMistakeBox}
+
+
+
+
+\begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
+\begin{eduBulletList}
+  \item 先读点序，再决定“加”还是“减”。  \item 写相似时，三组对应边必须保持同一顺序。\end{eduBulletList}
+\end{eduSummaryBlock}
+
+
+
+\clearpage
+\eduSectionTitle{8 字型：仍先判断是否涉及 $AB:CD$}
+
+
+\begin{eduSolutionBox}{问法不变，点序改变}
+  \begingroup
+  \setlength{\parskip}{2.5mm}
+涉及 $AB:CD$ 时，先把题目给的分段比改成两个相似三角形的比。\par
+不涉及 $AB:CD$ 时，直接在 $AC,BD$ 两条截线上转移对应边比。\par
+点序变为 $A-P-C$、$B-P-D$，所以计算时使用 $AC=AP+PC$、$BD=BP+PD$。\par
+仍有 $\triangle PAB\sim\triangle PCD$，对应边仍是 $PA\leftrightarrow PC$、$PB\leftrightarrow PD$、$AB\leftrightarrow CD$。\par
+  \endgroup
+\end{eduSolutionBox}
+
+
+
+
+\begin{eduProblemBlock}[8 字型例题]
+\noindent
+\begin{minipage}[t]{\dimexpr\linewidth-70mm-6mm\relax}
+\vspace{0pt}
+如图，直线 $AC$ 与 $BD$ 相交于点 $P$，点序分别为 $A-P-C$、$B-P-D$，
+且 $AB\parallel\ \ CD$。
+\begin{enumerate}[label=(\arabic*)]
+  \item 已知 $PA:AC=2:5$，求 $AB:CD$；
+\ \  \item 已知 $PB:BD=3:8$，求 $PA:PC$。
+\end{enumerate}
+
+\end{minipage}\hfill
+\begin{diagramcoltikz}{70mm}{交点 $P$ 在两条平行线之间，先看清两条截线的点序。}
+\input{\detokenize{build/diagram/jobs/explanation-eight-prompt/rendered/prompt.fragment.tex}}
+\end{diagramcoltikz}
+\end{eduProblemBlock}
+
+
+
+
+
+\begin{eduAuxItem}{思路导航}
+第（1）问先求两个三角形的比$\;\to\;$第（2）问先把截线上的比改好$\;\to\;$两类题都先写清相似三角形和对应边$\;\to\;$求第（1）问$\;\to\;$第（2）问只在两条截线上转移比例\end{eduAuxItem}
+
+
+
+
+\begin{eduSubQuestionItem}{(1)}
+已知 $PA:AC=2:5$，求 $AB:CD$；\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{小贴士}
+        \eduSideHint{这里为什么是减法}{因为点序是 $A-P-C$，整段 $AC$ 已经包括 $AP$ 和 $PC$。}
+  \end{eduExplainLeft}
+
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{解答}
+      \eduExplainStep{1}{第（1）问先求两个三角形的比}{由 $AP:AC=2:5$，得 $PC:AC=3:5$，所以 $AP:PC=2:3$。}
+      \eduExplainStep{2}{两类题都先写清相似三角形和对应边}{由 $AB\parallel CD$，得 $\triangle PAB\sim\triangle PCD$，其中 $PA\leftrightarrow PC$、$PB\leftrightarrow PD$、$AB\leftrightarrow CD$。}
+      \begin{center}
+        \begin{diagramcoltikz}{70mm}{交叉的两条截线中，仍按同一顺序找三组对应边。}
+        \input{\detokenize{build/diagram/jobs/explanation-eight-solution/rendered/solution.fragment.tex}}
+        \end{diagramcoltikz}
+      \end{center}
+      \eduExplainStep{3}{求第（1）问}{由对应边比得 $AB:CD=AP:PC=2:3$。}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduSubQuestionItem}{(2)}
+已知 $PB:BD=3:8$，求 $PA:PC$。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{小贴士}
+        \eduSideHint{先把哪一个比改好}{先由 $BD=BP+PD$ 求出 $BP:PD$，再转移到另一条截线。}
+  \end{eduExplainLeft}
+
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{解答}
+      \eduExplainStep{1}{第（2）问先把截线上的比改好}{由 $BP:BD=3:8$，得 $PD:BD=5:8$，所以 $BP:PD=3:5$。}
+      \eduExplainStep{2}{两类题都先写清相似三角形和对应边}{由 $AB\parallel CD$，得 $\triangle PAB\sim\triangle PCD$，其中 $PA\leftrightarrow PC$、$PB\leftrightarrow PD$、$AB\leftrightarrow CD$。}
+      \begin{center}
+        \begin{diagramcoltikz}{70mm}{交叉的两条截线中，仍按同一顺序找三组对应边。}
+        \input{\detokenize{build/diagram/jobs/explanation-eight-solution/rendered/solution.fragment.tex}}
+        \end{diagramcoltikz}
+      \end{center}
+      \eduExplainStep{3}{第（2）问只在两条截线上转移比例}{由 $BP:PD=3:5$，直接得到 $PA:PC=3:5$。}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduMistakeBox}
+\eduSubTitle{易错提醒}8 字型中若点序是 $A-P-C$，就应写 $AC=AP+PC$；不能沿用 A 字型的 $PC=PA+AC$。\end{eduMistakeBox}
+
+
+
+
+\begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
+\begin{eduBulletList}
+  \item 先用点序判断整段和两段的关系。  \item 再用平行线得到相似三角形，按对应边顺序写比例。\end{eduBulletList}
+\end{eduSummaryBlock}
+
+
+
+
+\end{document}

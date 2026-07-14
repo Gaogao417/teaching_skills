@@ -1,0 +1,206 @@
+meta:
+  title: 比例辅助线：用平行线接两组相似
+  subtitle: 学生讲义
+  grade: 八年级
+  subject: 数学
+  version: student
+  source_artifacts:
+    structure_analysis: artifacts/专题/2026-07-09-比例辅助线边比/01-structure-analysis.md
+render:
+  template: exam-zh-explanation
+  paper_size: a4paper
+sections:
+- id: helper-ratio
+  title: 比例辅助线：先选三角形，再接两组相似
+  show_title: true
+  type: explanation
+  visibility: student
+  blocks:
+  - type: solution
+    id: core-action
+    title: 核心动作：把交点比例转成平行线比例
+    items:
+    - latex: 目标在 $CD$ 上时，先看 $\triangle ACD$，过 $C$ 作 $CF\parallel AB$。
+    - latex: 外点 $E$ 看到一组相似：$\triangle EAB\sim\triangle ECF$，所以 $CF:AB=CE:AE$。
+    - latex: 外点 $P$ 看到另一组相似：$\triangle PDB\sim\triangle PCF$，所以 $CP:PD=CF:DB$。
+    - latex: 中间量 $CF$ 把两组比例接起来：$CP:PD=(AB:DB)\times(CE:AE)$。
+  - type: problemcard
+    id: example-card
+    label: 例题
+    stem_latex: |
+      如图，在 $\triangle ABC$ 中，点 $D$ 在边 $AB$ 上，点 $E$ 在边 $AC$ 上，$CD$ 与 $BE$ 相交于点 $P$。
+      已知 $AD:DB=1:1$，$AE:EC=1:2$，求 $CP:PD$。
+    diagram_slot:
+      slot_id: explanation.step1.prompt
+      diagram_ref: explanation.step1.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: block_center
+      layout_role: center_block
+      display_profile: worksheet_geometry_center
+      caption: 第 1 步：先标出已知线和目标线。
+      engine: geometric_scene
+      diagram_kind: synthetic_geometry
+      teaching_intent: explanation_prompt
+      problem_context:
+        stem_latex: 在 $\triangle ABC$ 中，点 $D$ 在边 $AB$ 上，点 $E$ 在边 $AC$ 上，$CD$ 与 $BE$ 相交于点 $P$。已知 $AD:DB=1:1$，$AE:EC=1:2$，求 $CP:PD$。
+        source_problem_text: 画三角形 ABC，D 在 AB 上且 AD:DB=1:1，E 在 AC 上且 AE:EC=1:2，连接 CD 与 BE 交于 P。只画题设对象；用绿色轻标 AD、DB、AE、EC 所在边，用红色轻标 CP、PD 所在目标线，不要画辅助线和答案。
+      semantic_constraints:
+        given_objects: [A, B, C, D, E, P]
+        given_constraints:
+        - D lies on AB with AD:DB=1:1
+        - E lies on AC with AE:EC=1:2
+        - P is the intersection of CD and BE
+        - highlight known side-ratio locations on AB and AC
+        - highlight target ratio location on CD
+        clean_forbidden:
+        - 不要画辅助点 F
+        - 不要画平行线
+        - 不要写答案
+  - type: route
+    id: example-route
+    steps:
+    - id: ex-s1
+      latex: 先圈出要用的三角形
+      content_latex: 已知在 $AB$、$AC$ 上，目标在 $CD$ 上；目标线 $CD$ 属于 $\triangle ACD$。
+    - id: ex-s2
+      latex: 过顶点作对边平行线
+      content_latex: 过 $C$ 作 $CF\parallel AB$，也就是 $CF\parallel DB$。
+      diagram_slot:
+        slot_id: explanation.step2.solution
+        diagram_ref: explanation.step2.solution
+        variant: solution
+        disclosure_policy: annotated
+        reuse_geometry_from: explanation.step1.prompt
+        required: true
+        on_failure: fail_assignment
+        placement: step_diagram
+        layout_role: solution_annotation
+        display_profile: worksheet_geometry_center
+        caption: 第 2 步：过 $C$ 作 $CF\parallel AB$。
+        engine: geometric_scene
+        diagram_kind: synthetic_geometry
+        teaching_intent: explanation_solution
+        problem_context:
+          stem_latex: 在第 1 步题图基础上，过点 $C$ 作 $CF\parallel AB$。
+          source_problem_text: 复用原构型，新增辅助点 F，使 F 在 BE 延长线上，并画 CF 平行 AB。突出 CF 与 AB 平行，不要写答案。
+        semantic_constraints:
+          given_objects: [A, B, C, D, E, P, F]
+          given_constraints:
+          - reuse original triangle ABC with D on AB, E on AC, P=CD∩BE
+          - F lies on the extension of BE
+          - CF is parallel to AB
+          - CF is parallel to DB
+    - id: ex-s3
+      latex: 找到平行线上的交点
+      content_latex: 令 $F=CF\cap BE$，这时 $B,P,E,F$ 在同一条直线上。
+      diagram_slot:
+        slot_id: explanation.step3.solution
+        diagram_ref: explanation.step3.solution
+        variant: solution
+        disclosure_policy: annotated
+        reuse_geometry_from: explanation.step1.prompt
+        required: true
+        on_failure: fail_assignment
+        placement: step_diagram
+        layout_role: solution_annotation
+        display_profile: worksheet_geometry_center
+        caption: 第 3 步：让 $CF$ 与 $BE$ 的延长线相交于 $F$。
+        engine: geometric_scene
+        diagram_kind: synthetic_geometry
+        teaching_intent: explanation_solution
+        problem_context:
+          stem_latex: 让 $CF$ 与 $BE$ 的延长线相交于 $F$。
+          source_problem_text: 复用原构型，画出 F 点，清楚显示 B、P、E、F 共线，CF 平行 AB。
+        semantic_constraints:
+          given_objects: [A, B, C, D, E, P, F]
+          given_constraints:
+          - B, P, E, F are collinear
+          - CF is parallel to AB
+          - P is the intersection of CD and BE
+    - id: ex-s4
+      latex: 读两组相似比例
+      content_latex: $\triangle EAB\sim\triangle ECF$，所以 $CF:AB=CE:AE$；$\triangle PDB\sim\triangle PCF$，所以 $CP:PD=CF:DB$。
+      diagram_slot:
+        slot_id: explanation.step4.solution
+        diagram_ref: explanation.step4.solution
+        variant: solution
+        disclosure_policy: annotated
+        reuse_geometry_from: explanation.step1.prompt
+        required: true
+        on_failure: fail_assignment
+        placement: step_diagram
+        layout_role: solution_annotation
+        display_profile: worksheet_geometry_center
+        caption: 第 4 步：外点 $E$ 和外点 $P$ 分别看到一组相似三角形。
+        engine: geometric_scene
+        diagram_kind: synthetic_geometry
+        teaching_intent: explanation_solution
+        problem_context:
+          stem_latex: 标出两组相似三角形：$\triangle EAB$ 与 $\triangle ECF$，$\triangle PDB$ 与 $\triangle PCF$。
+          source_problem_text: 复用原构型，画 F 与 CF 平行 AB。用两种颜色轻标三角形 EAB/ECF 和 PDB/PCF，让学生能看到两组相似。
+        semantic_constraints:
+          given_objects: [A, B, C, D, E, P, F]
+          given_constraints:
+          - triangle EAB is similar to triangle ECF
+          - triangle PDB is similar to triangle PCF
+          - CF is parallel to AB
+          - B, P, E, F are collinear
+    - id: ex-s5
+      latex: 把比例接起来
+      content_latex: $CP:PD=(AB:DB)\times(CE:AE)$。由 $AD:DB=1:1$ 得 $AB:DB=2:1$；由 $AE:EC=1:2$ 得 $CE:AE=2:1$，所以 $CP:PD=4:1$。
+      diagram_slot:
+        slot_id: explanation.step5.solution
+        diagram_ref: explanation.step5.solution
+        variant: solution
+        disclosure_policy: annotated
+        reuse_geometry_from: explanation.step1.prompt
+        required: true
+        on_failure: fail_assignment
+        placement: step_diagram
+        layout_role: solution_annotation
+        display_profile: worksheet_geometry_center
+        caption: 第 5 步：用 $CF$ 把两组比例接起来。
+        engine: geometric_scene
+        diagram_kind: synthetic_geometry
+        teaching_intent: explanation_solution
+        problem_context:
+          stem_latex: 用 $CF$ 把 $CF:AB=CE:AE$ 与 $CP:PD=CF:DB$ 接起来。
+          source_problem_text: 复用原构型，保留 F 和 CF 平行 AB，突出 CP、PD 与 CF、DB 的对应关系；可以标出 CF:AB=CE:AE 和 CP:PD=CF:DB，不要只写最终答案。
+        semantic_constraints:
+          given_objects: [A, B, C, D, E, P, F]
+          given_constraints:
+          - CF:AB = CE:AE
+          - CP:PD = CF:DB
+          - CP:PD=(AB:DB)*(CE:AE)
+  - type: dual_explanation
+    id: example-solution
+    label: 例题
+    stem_latex: 求 $CP:PD$。
+    side_title: 小贴士
+    side_items:
+    - kind: hint
+      title: 先看目标线
+      content_latex: 目标是 $CP:PD$，它在 $CD$ 上，所以先看包含 $CD$ 的 $\triangle ACD$。
+    - kind: hint
+      title: 为什么作平行线
+      content_latex: 作 $CF\parallel AB$ 后，$CF$ 同时和 $AB$、$DB$ 对应，能把两组相似接起来。
+    - kind: mistake
+      title: 整段比不要漏
+      content_latex: 已知 $AD:DB$ 时，要求的是 $AB:DB$，要先把 $AD+DB$ 合成整段 $AB$。
+    solution_title: 解答
+    solution_step_ids:
+    - ex-s1
+    - ex-s2
+    - ex-s3
+    - ex-s4
+    - ex-s5
+  - type: method_reminder
+    id: method-card
+    title: 方法提醒
+    items:
+    - latex: 目标在 $CD$ 上：用 $CP:PD=(AB:DB)\times(CE:AE)$。
+    - latex: 目标在 $BE$ 上：用 $BP:PE=(AC:CE)\times(BD:AD)$。
+    - latex: 每次先把小段比转成需要的整段比，再相乘或反解。

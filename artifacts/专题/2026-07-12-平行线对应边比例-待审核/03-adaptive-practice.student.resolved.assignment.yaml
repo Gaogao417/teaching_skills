@@ -1,0 +1,162 @@
+meta:
+  title: 平行线对应边比例专项练习
+  subtitle: A 字型与 8 字型·学生版
+  grade: 八年级
+  subject: 数学
+  duration: 30分钟
+  total_points: 60
+  version: student
+  source_artifacts:
+    review_draft: artifacts/专题/2026-07-12-平行线对应边比例-待审核/03-adaptive-practice.review.md
+    explanation: artifacts/专题/2026-07-12-平行线对应边比例-待审核/02-student-explanation.plan.assignment.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: a-shape
+  title: 一、A 字型（3 题）
+  type: practice
+  visibility: student
+  blocks:
+  - type: problem
+    id: a1
+    points: 10
+    label: 第 1 题
+    stem_latex: '如图，直线 $AC$ 与 $BD$ 相交于点 $P$，点序分别为 $P-A-C$、$P-B-D$，且 $AB\parallel CD$。
+
+      已知 $PA:AC=1:2$，求 $AB:CD$。
+
+      '
+    answer_space:
+      type: steps
+      height: 38mm
+      step_count: 4
+  - type: problem
+    id: a2
+    points: 10
+    label: 第 2 题
+    stem_latex: '如图，直线 $AC$ 与 $BD$ 相交于点 $P$，点序分别为 $P-A-C$、$P-B-D$，且 $AB\parallel CD$。
+
+      已知 $PA:PC=2:5$，求 $PB:PD$。
+
+      '
+    answer_space:
+      type: steps
+      height: 38mm
+      step_count: 4
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/practice-parallel-student-a3-prompt/rendered/prompt.fragment.tex
+      diagram_ref: practice.parallel.student.a3.prompt
+      diagram_job_id: practice-parallel-student-a3-prompt
+      width: 60mm
+      caption: 第 2 题图
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:e7c6a38ebe5b2e2fa3486aff81625d7165a8b0a1b5bd9afc07524d5f96df2679
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: a3
+    points: 10
+    label: 第 3 题
+    stem_latex: '如图，直线 $AC$ 与 $BD$ 相交于点 $P$，点序分别为 $P-A-C$、$P-B-D$，且 $AB\parallel CD$。
+
+      已知 $PB:BD=3:5$，求 $PA:PC$。
+
+      '
+    answer_space:
+      type: steps
+      height: 38mm
+      step_count: 4
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/practice-parallel-student-a2-prompt/rendered/prompt.fragment.tex
+      diagram_ref: practice.parallel.student.a2.prompt
+      diagram_job_id: practice-parallel-student-a2-prompt
+      width: 60mm
+      caption: 第 3 题图
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:f3d36cb755d98141ecbaabd51f30f2fad859eb01284af47f4f97ba252b0b724e
+      packages:
+      - tikz
+      libraries: []
+- id: eight-shape
+  title: 二、8 字型（3 题）
+  type: practice
+  visibility: student
+  layout:
+    break_before: true
+  blocks:
+  - type: problem
+    id: b1
+    points: 10
+    label: 第 4 题
+    stem_latex: '如图，直线 $AC$ 与 $BD$ 相交于点 $P$，点序分别为 $A-P-C$、$B-P-D$，且 $AB\parallel CD$。
+
+      已知 $AP:AC=2:5$，求 $AB:CD$。
+
+      '
+    answer_space:
+      type: steps
+      height: 38mm
+      step_count: 4
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/practice-parallel-student-b1-prompt/rendered/prompt.fragment.tex
+      diagram_ref: practice.parallel.student.b1.prompt
+      diagram_job_id: practice-parallel-student-b1-prompt
+      width: 60mm
+      caption: 第 4 题图
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:758f984ad402f214d98f93eca7f66a1ba99acfdc961d9e5a0a6a525548e49da5
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: b2
+    points: 10
+    label: 第 5 题
+    stem_latex: '如图，直线 $AC$ 与 $BD$ 相交于点 $P$，点序分别为 $A-P-C$、$B-P-D$，且 $AB\parallel CD$。
+
+      已知 $BP:PD=4:7$，求 $AP:PC$。
+
+      '
+    answer_space:
+      type: steps
+      height: 38mm
+      step_count: 4
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/practice-parallel-student-b2-prompt/rendered/prompt.fragment.tex
+      diagram_ref: practice.parallel.student.b2.prompt
+      diagram_job_id: practice-parallel-student-b2-prompt
+      width: 60mm
+      caption: 第 5 题图
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:e62129ab72173cd3e0087b1c3abf7589d4979a02c0d77b159384139c07b80c99
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: b3
+    points: 10
+    label: 第 6 题
+    stem_latex: '如图，直线 $AC$ 与 $BD$ 相交于点 $P$，点序分别为 $A-P-C$、$B-P-D$，且 $AB\parallel CD$。
+
+      已知 $BP:BD=3:8$，求 $AP:PC$。
+
+      '
+    answer_space:
+      type: steps
+      height: 38mm
+      step_count: 4

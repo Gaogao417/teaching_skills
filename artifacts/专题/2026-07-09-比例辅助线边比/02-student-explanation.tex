@@ -1,0 +1,103 @@
+\documentclass{exam-zh}
+\usepackage{edu-explanation}
+
+\examsetup{
+  question/show-answer = true,
+  fillin/show-answer = true,
+  solution/show-solution = show-stay,
+}
+
+\begin{document}
+
+\eduSectionTitle{比例辅助线：先选三角形，再接两组相似}
+
+
+\begin{eduSolutionBox}{核心动作：把交点比例转成平行线比例}
+  \begingroup
+  \setlength{\parskip}{2.5mm}
+目标在 $CD$ 上时，先看 $\triangle ACD$，过 $C$ 作 $CF\parallel AB$。\par
+外点 $E$ 看到一组相似：$\triangle EAB\sim\triangle ECF$，所以 $CF:AB=CE:AE$。\par
+外点 $P$ 看到另一组相似：$\triangle PDB\sim\triangle PCF$，所以 $CP:PD=CF:DB$。\par
+中间量 $CF$ 把两组比例接起来：$CP:PD=(AB:DB)\times(CE:AE)$。\par
+  \endgroup
+\end{eduSolutionBox}
+
+
+
+
+\begin{eduProblemBlock}[例题]
+\noindent
+\begin{minipage}[t]{\dimexpr\linewidth-70mm-6mm\relax}
+\vspace{0pt}
+如图，在 $\triangle ABC$ 中，点 $D$ 在边 $AB$ 上，点 $E$ 在边 $AC$ 上，$CD$ 与 $BE$ 相交于点 $P$。
+已知 $AD:DB=1:1$，$AE:EC=1:2$，求 $CP:PD$。
+
+\end{minipage}\hfill
+\begin{diagramcoltikz}{70mm}{第 1 步：先标出已知线和目标线。}
+\input{\detokenize{build/diagram/jobs/explanation-step1-prompt/rendered/prompt.fragment.tex}}
+\end{diagramcoltikz}
+\end{eduProblemBlock}
+
+
+
+
+
+\begin{eduAuxItem}{思路导航}
+先圈出要用的三角形$\;\to\;$过顶点作对边平行线$\;\to\;$找到平行线上的交点$\;\to\;$读两组相似比例$\;\to\;$把比例接起来\end{eduAuxItem}
+
+
+
+
+\begin{eduSubQuestionItem}{例题}
+求 $CP:PD$。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{小贴士}
+        \eduSideHint{先看目标线}{目标是 $CP:PD$，它在 $CD$ 上，所以先看包含 $CD$ 的 $\triangle ACD$。}
+        \eduSideHint{为什么作平行线}{作 $CF\parallel AB$ 后，$CF$ 同时和 $AB$、$DB$ 对应，能把两组相似接起来。}
+        \eduSideMistake{整段比不要漏}{已知 $AD:DB$ 时，要求的是 $AB:DB$，要先把 $AD+DB$ 合成整段 $AB$。}
+  \end{eduExplainLeft}
+
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{解答}
+      \eduExplainStep{1}{先圈出要用的三角形}{已知在 $AB$、$AC$ 上，目标在 $CD$ 上；目标线 $CD$ 属于 $\triangle ACD$。}
+      \eduExplainStep{2}{过顶点作对边平行线}{过 $C$ 作 $CF\parallel AB$，也就是 $CF\parallel DB$。}
+      \begin{center}
+        \begin{diagramcoltikz}{70mm}{第 2 步：过 $C$ 作 $CF\parallel AB$。}
+        \input{\detokenize{build/diagram/jobs/explanation-step2-solution/rendered/solution.fragment.tex}}
+        \end{diagramcoltikz}
+      \end{center}
+      \eduExplainStep{3}{找到平行线上的交点}{令 $F=CF\cap BE$，这时 $B,P,E,F$ 在同一条直线上。}
+      \begin{center}
+        \begin{diagramcoltikz}{70mm}{第 3 步：让 $CF$ 与 $BE$ 的延长线相交于 $F$。}
+        \input{\detokenize{build/diagram/jobs/explanation-step3-solution/rendered/solution.fragment.tex}}
+        \end{diagramcoltikz}
+      \end{center}
+      \eduExplainStep{4}{读两组相似比例}{$\triangle EAB\sim\triangle ECF$，所以 $CF:AB=CE:AE$；$\triangle PDB\sim\triangle PCF$，所以 $CP:PD=CF:DB$。}
+      \begin{center}
+        \begin{diagramcoltikz}{70mm}{第 4 步：外点 $E$ 和外点 $P$ 分别看到一组相似三角形。}
+        \input{\detokenize{build/diagram/jobs/explanation-step4-solution/rendered/solution.fragment.tex}}
+        \end{diagramcoltikz}
+      \end{center}
+      \eduExplainStep{5}{把比例接起来}{$CP:PD=(AB:DB)\times(CE:AE)$。由 $AD:DB=1:1$ 得 $AB:DB=2:1$；由 $AE:EC=1:2$ 得 $CE:AE=2:1$，所以 $CP:PD=4:1$。}
+      \begin{center}
+        \begin{diagramcoltikz}{70mm}{第 5 步：用 $CF$ 把两组比例接起来。}
+        \input{\detokenize{build/diagram/jobs/explanation-step5-solution/rendered/solution.fragment.tex}}
+        \end{diagramcoltikz}
+      \end{center}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
+\begin{eduBulletList}
+  \item 目标在 $CD$ 上：用 $CP:PD=(AB:DB)\times(CE:AE)$。  \item 目标在 $BE$ 上：用 $BP:PE=(AC:CE)\times(BD:AD)$。  \item 每次先把小段比转成需要的整段比，再相乘或反解。\end{eduBulletList}
+\end{eduSummaryBlock}
+
+
+
+
+\end{document}

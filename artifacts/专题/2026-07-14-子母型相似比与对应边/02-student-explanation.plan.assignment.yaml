@@ -1,0 +1,165 @@
+meta:
+  title: "子母型相似：等角找相似与对应边"
+  subtitle: "学生讲义"
+  grade: "八年级"
+  subject: "数学"
+  version: "student"
+  source_artifacts:
+    structure_analysis: "artifacts/专题/2026-07-14-子母型相似比与对应边/01-structure-analysis.md"
+
+render:
+  template: "exam-zh-explanation"
+  paper_size: "a4paper"
+
+sections:
+  - id: "nested-similarity"
+    title: "子母型：看到等角先找相似，再认对应边"
+    show_title: true
+    type: "explanation"
+    visibility: "student"
+    blocks:
+      - type: "solution"
+        id: "nested-core"
+        title: "固定反应：看到等角找相似，相似以后找对应"
+        items:
+          - latex: '\textbf{看到题目给角相等：}先圈出这组角，再在两个候选三角形中寻找第二组等角，尝试用 AA 判定相似。'
+          - latex: '\textbf{判定相似以后：}按“等角顶点 $\to$ 对应顶点 $\to$ 对应边”填写，不能把图中醒目的线段直接拼成比例。'
+          - latex: '因为 $D$ 在线段 $AC$ 上，所以 $\angle BAD=\angle CAB$。结合 $\angle ABD=\angle ACB$，可得 $\triangle ABD\sim\triangle ACB$。'
+          - latex: '按三角形名称的顺序，对应顶点为 $A\leftrightarrow A$、$B\leftrightarrow C$、$D\leftrightarrow B$。'
+          - latex: '三组对应边为 $AB\leftrightarrow AC$、$AD\leftrightarrow AB$、$BD\leftrightarrow BC$。'
+          - latex: '因此大三角形与小三角形的相似比是 $\dfrac{AC}{AB}=\dfrac{AB}{AD}=\dfrac{BC}{BD}$。'
+          - latex: '$CD$ 不是 $\triangle ABD$ 的边，所以 $AC/CD$ 不能直接称为两个三角形的相似比。'
+
+      - type: "problemcard"
+        id: "nested-example"
+        label: "例题 1"
+        stem_latex: |
+          如图，在 $\triangle ABC$ 中，点 $D$ 在线段 $AC$ 上，且
+          $\angle ABD=\angle ACB$。已知 $AC=9$，$CD=5$。
+
+          （1）求 $AB$；
+
+          （2）若 $BC=12$，求 $BD$。
+        diagram_slot:
+          slot_id: "explanation.nested.prompt"
+          diagram_ref: "explanation.nested.prompt"
+          variant: "prompt"
+          disclosure_policy: "clean"
+          required: true
+          on_failure: "fail_assignment"
+          placement: "block_center"
+          layout_role: "center_block"
+          display_profile: "worksheet_geometry_center"
+          caption: "先找出两个相似三角形，再判断 $CD$ 属不属于它们的边。"
+          engine: "geometric_scene"
+          diagram_kind: "synthetic_geometry"
+          engine_options:
+            engine_model_config:
+              codex_model: "gpt-5.4"
+          teaching_intent: "explanation_prompt"
+          problem_context:
+            stem_latex: "在三角形 $ABC$ 中，$D$ 在线段 $AC$ 上，连接 $BD$，且 $\angle ABD=\angle ACB$；标出 $AC=9$、$CD=5$、$BC=12$。"
+            source_problem_text: "画一个一般的非等腰、非直角三角形 ABC。点 D 位于线段 AC 内部且明显不是中点，连接 BD。最终 TikZ 与预览中必须实际可见两处同样的单弧角标，分别标记角 ABD 和角 ACB；还必须实际可见三个纯数字长度标签：在线段 AC 附近标 9、在线段 CD 附近标 5、在线段 BC 附近标 12。不能只把这些条件写进 constraints 文本而不画出来。除此之外只显示题设点和线段，不显示相似结论、对应边箭头、相似比或答案。"
+          semantic_constraints:
+            given_objects: [A, B, C, D]
+            given_constraints:
+              - "D lies strictly inside segment AC with order A-D-C"
+              - "segment BD is drawn"
+              - "REQUIRED VISIBLE MARKERS: draw matching single angle arcs at angle ABD and angle ACB"
+              - "REQUIRED VISIBLE NUMERIC LABEL: place value 9 beside segment AC"
+              - "REQUIRED VISIBLE NUMERIC LABEL: place value 5 beside segment CD"
+              - "REQUIRED VISIBLE NUMERIC LABEL: place value 12 beside segment BC"
+            clean_forbidden:
+              - "do not mark any parallel lines"
+              - "do not imply an isosceles or right triangle"
+              - "do not place D at the midpoint of AC"
+              - "do not show triangle similarity, side correspondences, ratios, or answers"
+          visual_requirements:
+            show_labels: true
+            show_given_markers: true
+            preferred_orientation: "landscape"
+            label_density: "normal"
+
+      - type: "route"
+        id: "nested-route"
+        steps:
+          - id: "nested-step-similar"
+            latex: "看到题设等角，寻找第二组角"
+            content_latex: '由 $D\in AC$，得 $\angle BAD=\angle CAB$。又因为 $\angle ABD=\angle ACB$，所以 $\triangle ABD\sim\triangle ACB$。'
+          - id: "nested-step-correspondence"
+            latex: "写出三组对应边"
+            content_latex: '$AB\leftrightarrow AC$，$AD\leftrightarrow AB$，$BD\leftrightarrow BC$，故 $\dfrac{AC}{AB}=\dfrac{AB}{AD}=\dfrac{BC}{BD}$。'
+          - id: "nested-step-ad"
+            latex: "先把非对应线段转成对应边"
+            content_latex: '由 $D$ 在线段 $AC$ 上，得 $AD=AC-CD=9-5=4$。'
+          - id: "nested-step-ab"
+            latex: "用第一组比例求 $AB$"
+            content_latex: '由 $\dfrac{AC}{AB}=\dfrac{AB}{AD}$，得 $AB^2=AC\cdot AD=9\times4=36$，所以 $AB=6$。'
+          - id: "nested-step-bd"
+            latex: "沿同一相似比求 $BD$"
+            content_latex: '由 $\dfrac{BC}{BD}=\dfrac{AC}{AB}=\dfrac{9}{6}=\dfrac32$，得 $BD=8$。'
+
+      - type: "dual_explanation"
+        id: "nested-solution-1"
+        label: "(1)"
+        stem_latex: "已知 $AC=9$、$CD=5$，求 $AB$；"
+        side_title: "小贴士"
+        side_items:
+          - kind: "hint"
+            title: "看到等角先问什么"
+            content_latex: '题目已给 $\angle ABD=\angle ACB$。要找相似，还缺哪一组角？点 $A$ 处的同角可以补齐。'
+          - kind: "hint"
+            title: "写比例前再问一遍"
+            content_latex: '$CD$ 是 $\triangle ABD$ 的边吗？不是，所以不能直接把 $AC/CD$ 写进相似比。'
+          - kind: "hint"
+            title: "怎样找到 $AD$"
+            content_latex: '点序是 $A-D-C$，因此先用整段减去差段：$AD=AC-CD$。'
+          - kind: "hint"
+            title: "为什么只取正根"
+            content_latex: '$AB$ 是边长，必须为正数。'
+        solution_title: "解答"
+        solution_step_ids:
+          - "nested-step-similar"
+          - "nested-step-correspondence"
+          - "nested-step-ad"
+          - "nested-step-ab"
+
+      - type: "dual_explanation"
+        id: "nested-solution-2"
+        label: "(2)"
+        stem_latex: "若 $BC=12$，求 $BD$。"
+        side_title: "小贴士"
+        side_items:
+          - kind: "hint"
+            title: "对应的是哪两条边"
+            content_latex: '$BD\leftrightarrow BC$，所以应把 $BC/BD$ 与前面的大边/小边比放在同一条比例链中。'
+        solution_title: "解答"
+        solution_step_ids:
+          - "nested-step-similar"
+          - "nested-step-correspondence"
+          - "nested-step-bd"
+
+      - type: "solution"
+        id: "nested-ratio-distinction"
+        title: "进一步辨析：只知 $AC/CD=t$ 时，真正相似比是多少"
+        items:
+          - latex: '由 $AC/CD=t$，得 $AD/AC=(t-1)/t$，其中 $t>1$。'
+          - latex: '又因为 $AB^2=AC\cdot AD$，所以大三角形与小三角形的相似比为 $\dfrac{AC}{AB}=\sqrt{\dfrac{t}{t-1}}$。'
+          - latex: '结论：$AC/CD=t$ 是整段与剩余段之比，不是相似比；它必须先经过线段和差与对应边关系的转换。'
+
+      - type: "mistake"
+        id: "nested-mistake"
+        title: "易错提醒"
+        content_latex: |
+          不要因为 $AC$、$CD$ 都画在同一直线上，就把它们当成一组对应边。
+          写比例前先检查：每条边是否真的属于相似三角形？两个顶点是否按相似顺序对应？
+
+      - type: "method_reminder"
+        id: "nested-method"
+        title: "方法提醒"
+        items:
+          - latex: '见等角：圈出题设等角，主动寻找第二组等角。'
+          - latex: '判相似：两组角齐全后，写出同序的相似三角形。'
+          - latex: '找对应：按等角顶点写对应点，再由两个端点写对应边。'
+          - latex: '看见 $AC,CD$，先用 $AD=AC-CD$，不要直接拼比例。'
+          - latex: '最后用三组比是否相等进行验算。'

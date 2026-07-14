@@ -1,0 +1,142 @@
+\documentclass{exam-zh}
+\usepackage{edu-practice}
+
+\examsetup{
+  question/show-answer = false,
+  fillin/show-answer = false,
+  solution/show-solution = hide,
+}
+
+% ---------- 教师版解答样式 ----------
+\newtcolorbox{solutionblock}{
+  enhanced, breakable,
+  colback=edu-blue-bg,
+  colframe=edu-blue!25,
+  boxrule=0pt,
+  borderline west={2pt}{0pt}{edu-blue!50},
+  arc=0pt,
+  left=3mm, right=3mm, top=2mm, bottom=2mm,
+  before skip=2mm,
+  after skip=3mm,
+  fontupper=\small,
+}
+
+% 解答步骤编号
+\newcounter{solstep}
+\newcommand{\solstep}[2]{%
+  \stepcounter{solstep}%
+  \par\medskip
+  \noindent\hangindent=6mm
+  {\color{edu-blue}\bfseries\textcircled{\scriptsize\thesolstep}\enspace #1}\enspace #2\par
+}
+
+\begin{document}
+
+\section*{比例辅助线：根据已知和所求现场作线}
+
+\section*{一、先围三角形，再作平行线接两组比例}
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，在 $\triangle ABC$ 中，点 $D$ 在线段 $BC$ 上，点 $E$ 在线段 $AC$ 上，
+线段 $AD$\ \ 与 $BE$ 相交于点 $P$。已知
+\[
+AE:EC=1:2,\qquad AP:PD=3:4,
+\]
+求 $BP:PE$。
+
+\ \begin{enumerate}[label=(\arabic*)]
+  \item 写出两条已知比和所求比分别在哪三条直线上，并指出这三条直线围成的三角形；
+\ \  \item 选择这个三角形的一个顶点，在图中作对边的平行线，并写清它与第四条比例线相交于哪一点；
+  \item 写出辅助线形成的两组 A/8\ \ 字型相似三角形；
+  \item 用两组相似所得的比例求 $BP:PE$。
+\end{enumerate}
+
+    \begin{hintbox}
+\textbf{提示：}先把“两条已知比＋所求比”落到三条直线上，再看它们围成哪个三角形。\end{hintbox}
+\begin{hintbox}
+\textbf{提示：}作线后先找两组相似；两组比例要通过同一条中间线段接起来。\end{hintbox}
+
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{第 1 题原始构型，请在图上补作辅助线。}
+  \input{\detokenize{build/diagram/jobs/auxiliary-student-q1-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[68mm]
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，在 $\triangle ABC$ 中，点 $D$ 在线段 $BC$ 上，点 $E$ 在线段 $AC$ 上，
+线段 $AD$\ \ 与 $BE$ 相交于点 $P$。已知
+\[
+BP:PE=3:1,\qquad BD:DC=2:1,
+\]
+求 $AE:EC$。
+
+\ \begin{enumerate}[label=(\arabic*)]
+  \item 写出两条已知比和所求比分别在哪三条直线上，并指出这三条直线围成的三角形；
+\ \  \item 选择这个三角形的一个顶点，在图中作对边的平行线，并写清它与第四条比例线相交于哪一点；
+  \item 写出辅助线形成的两组 A/8\ \ 字型相似三角形；
+  \item 用两组相似所得的比例求 $AE:EC$。
+\end{enumerate}
+
+    \begin{hintbox}
+\textbf{提示：}先确认三条比例线围成的三角形；辅助线的方向应由这个三角形决定。\end{hintbox}
+\begin{hintbox}
+\textbf{提示：}新平行线必须与剩余的第四条比例线相交，交点不能随便选。\end{hintbox}
+
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{第 2 题原始构型，请在图上补作辅助线。}
+  \input{\detokenize{build/diagram/jobs/auxiliary-student-q2-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[68mm]
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，在 $\triangle ABC$ 中，点 $D$ 在线段 $BC$ 上，点 $E$ 在线段 $AC$ 上，
+线段 $AD$\ \ 与 $BE$ 相交于点 $P$。已知
+\[
+AP:PD=2:1,\qquad BP:PE=3:1,
+\]
+求 $BD:DC$。
+
+\ \begin{enumerate}[label=(\arabic*)]
+  \item 写出两条已知比和所求比分别在哪三条直线上，并指出这三条直线围成的三角形；
+\ \  \item 选择这个三角形的一个顶点，在图中作对边的平行线，并写清它与第四条比例线相交于哪一点；
+  \item 写出辅助线形成的两组 A/8\ \ 字型相似三角形；
+  \item 用两组相似所得的比例求 $BD:DC$。
+\end{enumerate}
+
+    \begin{hintbox}
+\textbf{提示：}本题的三个比例落在 $AD,BE,BC$ 上；先只看这三条直线围出的图形。\end{hintbox}
+\begin{hintbox}
+\textbf{提示：}两组相似都应含有新作出的平行线段，并通过它统一比例。\end{hintbox}
+
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{第 3 题原始构型，请在图上补作辅助线。}
+  \input{\detokenize{build/diagram/jobs/auxiliary-student-q3-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[68mm]
+\end{problem}
+
+
+
+\end{document}

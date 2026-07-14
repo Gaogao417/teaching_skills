@@ -1,0 +1,98 @@
+meta:
+  title: 绘图基准：平行线对应边比例（三套教师版）
+  subtitle: 复用学生版 clean 母图
+  grade: 八年级
+  subject: 数学
+  version: teacher
+  source_artifacts:
+    review_draft: artifacts/专题/2026-07-12-平行线对应边比例-待审核/03-adaptive-practice.review.md
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+  - id: benchmark-parallel
+    title: 平行线对应边比例绘图基准（教师版）
+    type: practice
+    visibility: teacher
+    blocks:
+      - type: problem
+        id: a1
+        points: 10
+        label: 第 1 套 A 字型
+        stem_latex: '如图，直线 $AC$ 与 $BD$ 相交于 $P$，点序为 $P-A-C$、$P-B-D$，且 $AB\parallel CD$。'
+        diagram_slot:
+          slot_id: benchmark.parallel.a1.prompt
+          diagram_ref: benchmark.parallel.a1.prompt
+          variant: prompt
+          disclosure_policy: clean
+          required: true
+          on_failure: fail_assignment
+          placement: diagram_col
+          layout_role: question_sidecar
+          display_profile: worksheet_geometry_sidecar
+          caption: A 字型基准图 1
+          engine: geometric_scene
+          diagram_kind: synthetic_geometry
+          engine_options: {engine_model_config: {codex_model: gpt-5.4}}
+          teaching_intent: practice_prompt
+          problem_context:
+            stem_latex: '$P-A-C$、$P-B-D$，$AB\parallel CD$。'
+            source_problem_text: '复用学生版 benchmark.parallel.a1.prompt 的固定坐标母图，只标点名和平行符号，不显示答案。'
+          semantic_constraints:
+            given_objects: [A, B, C, D, P]
+            given_constraints: [reuse the complete original geometry from benchmark.parallel.a1.prompt, AB is parallel to CD, show segments AC and BD clearly]
+            clean_forbidden: [do not label similar triangles, do not draw answers]
+      - type: problem
+        id: a2
+        points: 10
+        label: 第 2 套 A 字型
+        stem_latex: '如图，直线 $AC$ 与 $BD$ 相交于 $P$，点序为 $P-A-C$、$P-B-D$，且 $AB\parallel CD$。'
+        diagram_slot:
+          slot_id: benchmark.parallel.a2.prompt
+          diagram_ref: benchmark.parallel.a2.prompt
+          variant: prompt
+          disclosure_policy: clean
+          required: true
+          on_failure: fail_assignment
+          placement: diagram_col
+          layout_role: question_sidecar
+          display_profile: worksheet_geometry_sidecar
+          caption: A 字型基准图 2
+          engine: geometric_scene
+          diagram_kind: synthetic_geometry
+          engine_options: {engine_model_config: {codex_model: gpt-5.4}}
+          teaching_intent: practice_prompt
+          problem_context:
+            stem_latex: '$P-A-C$、$P-B-D$，$AB\parallel CD$。'
+            source_problem_text: '复用学生版 benchmark.parallel.a2.prompt 的固定坐标母图，只标点名和平行符号，不显示答案。'
+          semantic_constraints:
+            given_objects: [A, B, C, D, P]
+            given_constraints: [reuse the complete original geometry from benchmark.parallel.a2.prompt, AB is parallel to CD, show segments AC and BD clearly]
+            clean_forbidden: [do not label similar triangles, do not draw answers]
+      - type: problem
+        id: eight
+        points: 10
+        label: 第 3 套 8 字型
+        stem_latex: '如图，直线 $AC$ 与 $BD$ 相交于 $P$，点序为 $A-P-C$、$B-P-D$，且 $AB\parallel CD$。'
+        diagram_slot:
+          slot_id: benchmark.parallel.eight.prompt
+          diagram_ref: benchmark.parallel.eight.prompt
+          variant: prompt
+          disclosure_policy: clean
+          required: true
+          on_failure: fail_assignment
+          placement: diagram_col
+          layout_role: question_sidecar
+          display_profile: worksheet_geometry_sidecar
+          caption: 8 字型基准图
+          engine: geometric_scene
+          diagram_kind: synthetic_geometry
+          engine_options: {engine_model_config: {codex_model: gpt-5.4}}
+          teaching_intent: practice_prompt
+          problem_context:
+            stem_latex: '$A-P-C$、$B-P-D$，$AB\parallel CD$。'
+            source_problem_text: '复用学生版 benchmark.parallel.eight.prompt 的固定坐标母图，只标点名和平行符号，不显示答案。'
+          semantic_constraints:
+            given_objects: [A, B, C, D, P]
+            given_constraints: [reuse the complete original geometry from benchmark.parallel.eight.prompt, AB is parallel to CD, show segments AC and BD clearly]
+            clean_forbidden: [do not label similar triangles, do not draw answers]

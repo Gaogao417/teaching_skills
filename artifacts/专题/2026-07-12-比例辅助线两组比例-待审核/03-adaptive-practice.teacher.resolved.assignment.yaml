@@ -1,0 +1,288 @@
+meta:
+  title: 比例辅助线：根据已知和所求现场作线
+  subtitle: 教师版
+  grade: 八年级
+  subject: 数学
+  duration: 30分钟
+  total_points: 30
+  version: teacher
+  source_artifacts:
+    review_draft: artifacts/专题/2026-07-12-比例辅助线两组比例-待审核/03-adaptive-practice.review.md
+    explanation: artifacts/专题/2026-07-12-比例辅助线两组比例-待审核/02-student-explanation.plan.assignment.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: main
+  title: 一、先围三角形，再作平行线接两组比例
+  type: practice
+  visibility: teacher
+  blocks:
+  - type: problem
+    id: q1
+    points: 10
+    label: 第 1 题
+    stem_latex: "如图，在 $\\triangle ABC$ 中，点 $D$ 在线段 $BC$ 上，点 $E$ 在线段 $AC$ 上，\n线段 $AD$\
+      \ 与 $BE$ 相交于点 $P$。已知\n\\[\nAE:EC=1:2,\\qquad AP:PD=3:4,\n\\]\n求 $BP:PE$。\n\n\
+      \\begin{enumerate}[label=(\\arabic*)]\n  \\item 写出两条已知比和所求比分别在哪三条直线上，并指出这三条直线围成的三角形；\n\
+      \  \\item 选择这个三角形的一个顶点，在图中作对边的平行线，并写清它与第四条比例线相交于哪一点；\n  \\item 写出辅助线形成的两组 A/8\
+      \ 字型相似三角形；\n  \\item 用两组相似所得的比例求 $BP:PE$。\n\\end{enumerate}\n"
+    hints:
+    - content_latex: 先找 $AC,AD,BE$ 三条比例线围成的三角形，再决定平行线。
+    answer_space:
+      type: steps
+      height: 70mm
+      step_count: 5
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/auxiliary-teacher-q1-solution/rendered/prompt.fragment.tex
+        diagram_ref: auxiliary.teacher.q1.solution
+        diagram_job_id: auxiliary-teacher-q1-solution
+        width: 60mm
+        caption: 过 $A$ 作 $AF\parallel EP$，交直线 $BC$ 于 $F$。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:029e0a85f6b5e4b182e1bf41ca1f37a3b5bf8c113014244d59263ebd62a61b81
+        packages:
+        - tikz
+        libraries: []
+    answer: $BP:PE=6:1$。
+    explanation: 三个比在 $AC,AD,BE$ 上，围成 $\triangle AEP$。过 $A$ 作 $AF\parallel EP$，交直线
+      $BC$ 于 $F$。由两组相似通过 $AF$ 接比例，得到 $BP:PE=6:1$。
+    solution_steps:
+    - title: 围三角形并确定辅助线
+      content: $AE:EC$ 在 $AC$ 上，$AP:PD$ 在 $AD$ 上，$BP:PE$ 在 $BE$ 上，三条线围成 $\triangle
+        AEP$。过 $A$ 作 $AF\parallel EP$，交第四条比例线 $BC$ 于 $F$。
+    - title: 第一组相似
+      content: 由 $A,E,C$ 共线、$B,D,F,C$ 共线及 $AF\parallel EB$，得 $\triangle ACF\sim\triangle
+        ECB$，所以 $AF:EB=AC:EC=3:2$。
+    - title: 第二组相似
+      content: 由 $A,P,D$ 共线、$B,D,F$ 共线及 $AF\parallel PB$，得 $\triangle ADF\sim\triangle
+        PDB$。因为 $AP:PD=3:4$，所以 $AD:PD=7:4$，从而 $AF:PB=7:4$。
+    - title: 统一中间线段
+      content: 取 $AF=21$ 份，则 $EB=14$ 份、$PB=12$ 份，所以 $PE=EB-PB=2$ 份。
+    - title: 写出答案
+      content: $BP:PE=12:2=6:1$。
+    teaching:
+      teaching_goal: 训练由两条已知比和所求比围出三角形，再现场决定平行线与交点。
+      source_relations:
+      - fallback:approved_review:auxiliary_ratio_bridge
+      model_fusion:
+        model_count: 1
+        models:
+        - 比例辅助线接两组相似
+        fusion_role: single_model
+      relation_chain:
+      - step: 1
+        relation_id: fallback:approved_review:q1_aep
+        inputs:
+          AE_EC: '1:2'
+          AP_PD: '3:4'
+        outputs:
+          BP_PE: '6:1'
+        constraints_checked:
+        - $D\in BC$，$E\in AC$，$P=AD\cap BE$
+        - $AF\parallel EP$ 且 $F=AF\cap BC$
+      expected_blocker: 只看两个已知比围图，漏掉所求比所在的第三条线，或把交点随便放在一条边上。
+      entry_point: hidden_structure
+      scaffold_level: high
+      variation_depth: same_structure
+      complexity_note: 两次整段比转换、两组相似和一次同线段统一份数，数值均为小整数。
+      upgrade_rule: 能在不提示顶点和相交直线时独立写出 $AF\parallel EP$、$F\in BC$。
+      fallback_move: 先分别圈出 $AC,AD,BE$，只看它们围出的 $\triangle AEP$。
+    layout:
+      avoid_break: true
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/auxiliary-student-q1-prompt/rendered/prompt.fragment.tex
+      diagram_ref: auxiliary.student.q1.prompt
+      diagram_job_id: auxiliary-student-q1-prompt
+      width: 60mm
+      caption: 第 1 题原始构型，请在图上补作辅助线。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:e628e52f07172e4fa7b42af727d287747944af7f6978c6add7f9a99265f06359
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: q2
+    points: 10
+    label: 第 2 题
+    stem_latex: "如图，在 $\\triangle ABC$ 中，点 $D$ 在线段 $BC$ 上，点 $E$ 在线段 $AC$ 上，\n线段 $AD$\
+      \ 与 $BE$ 相交于点 $P$。已知\n\\[\nBP:PE=3:1,\\qquad BD:DC=2:1,\n\\]\n求 $AE:EC$。\n\n\
+      \\begin{enumerate}[label=(\\arabic*)]\n  \\item 写出两条已知比和所求比分别在哪三条直线上，并指出这三条直线围成的三角形；\n\
+      \  \\item 选择这个三角形的一个顶点，在图中作对边的平行线，并写清它与第四条比例线相交于哪一点；\n  \\item 写出辅助线形成的两组 A/8\
+      \ 字型相似三角形；\n  \\item 用两组相似所得的比例求 $AE:EC$。\n\\end{enumerate}\n"
+    hints:
+    - content_latex: 先找 $BE,BC,AC$ 三条比例线围成的三角形，再决定平行线。
+    answer_space:
+      type: steps
+      height: 70mm
+      step_count: 5
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/auxiliary-teacher-q2-solution/rendered/prompt.fragment.tex
+        diagram_ref: auxiliary.teacher.q2.solution
+        diagram_job_id: auxiliary-teacher-q2-solution
+        width: 60mm
+        caption: 过 $E$ 作 $EF\parallel CB$，交直线 $AD$ 于 $F$。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:06e6c97c90db5fb2ea12c20e7b516e90a5736a537e9ce7606f72bc116c1b8420
+        packages:
+        - tikz
+        libraries: []
+    answer: $AE:EC=2:1$。
+    explanation: 三个比在 $BE,BC,AC$ 上，围成 $\triangle ECB$。过 $E$ 作 $EF\parallel CB$，交直线
+      $AD$ 于 $F$。由两组相似通过 $EF$ 接比例，得到 $AE:EC=2:1$。
+    solution_steps:
+    - title: 围三角形并确定辅助线
+      content: $BP:PE$ 在 $BE$ 上，$BD:DC$ 在 $BC$ 上，$AE:EC$ 在 $AC$ 上，三条线围成 $\triangle
+        ECB$。过 $E$ 作 $EF\parallel CB$，交第四条比例线 $AD$ 于 $F$。
+    - title: 先用 $P$ 处的相似
+      content: 由 $P,E,B$ 共线、$P,F,D$ 共线及 $EF\parallel BD$，得 $\triangle PEF\sim\triangle
+        PBD$，所以 $EF:BD=PE:PB=1:3$。
+    - title: 接到底边比例
+      content: 由 $BD:DC=2:1$，取 $BD=6$ 份、$DC=3$ 份，则 $EF=2$ 份，所以 $EF:DC=2:3$。
+    - title: 再用 $A$ 处的相似
+      content: 由 $A,E,C$ 共线、$A,F,D$ 共线及 $EF\parallel CD$，得 $\triangle AEF\sim\triangle
+        ACD$，所以 $AE:AC=EF:DC=2:3$。
+    - title: 从整段转成分段
+      content: 取 $AE=2$ 份、$AC=3$ 份，则 $EC=1$ 份，因此 $AE:EC=2:1$。
+    teaching:
+      teaching_goal: 在所求比例线改变后，重新围三角形并重新选择顶点、平行方向和相交直线。
+      source_relations:
+      - fallback:approved_review:auxiliary_ratio_bridge
+      model_fusion:
+        model_count: 1
+        models:
+        - 比例辅助线接两组相似
+        fusion_role: single_model
+      relation_chain:
+      - step: 1
+        relation_id: fallback:approved_review:q2_ecb
+        inputs:
+          BP_PE: '3:1'
+          BD_DC: '2:1'
+        outputs:
+          AE_EC: '2:1'
+        constraints_checked:
+        - $D\in BC$，$E\in AC$，$P=AD\cap BE$
+        - $EF\parallel CB$ 且 $F=EF\cap AD$
+      expected_blocker: 机械沿用上一题的辅助线，或只写 $EF\parallel CB$ 而没有说明 $F$ 必须在 $AD$ 上。
+      entry_point: transfer
+      scaffold_level: medium
+      variation_depth: changed_question
+      complexity_note: 目标线和辅助线方向同时变化，但仍只用小整数份数。
+      upgrade_rule: 能先圈出 $BE,BC,AC$ 并独立判断 $F\in AD$。
+      fallback_move: 暂时遮住上一题，只写本题三条比例线并围出 $\triangle ECB$。
+    layout:
+      avoid_break: true
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/auxiliary-student-q2-prompt/rendered/prompt.fragment.tex
+      diagram_ref: auxiliary.student.q2.prompt
+      diagram_job_id: auxiliary-student-q2-prompt
+      width: 60mm
+      caption: 第 2 题原始构型，请在图上补作辅助线。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:4dde1369eb26e9a3cf0f0ec12c5d5a0f89972f54b1162eed494d0b41de0b49ca
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: q3
+    points: 10
+    label: 第 3 题
+    stem_latex: "如图，在 $\\triangle ABC$ 中，点 $D$ 在线段 $BC$ 上，点 $E$ 在线段 $AC$ 上，\n线段 $AD$\
+      \ 与 $BE$ 相交于点 $P$。已知\n\\[\nAP:PD=2:1,\\qquad BP:PE=3:1,\n\\]\n求 $BD:DC$。\n\n\
+      \\begin{enumerate}[label=(\\arabic*)]\n  \\item 写出两条已知比和所求比分别在哪三条直线上，并指出这三条直线围成的三角形；\n\
+      \  \\item 选择这个三角形的一个顶点，在图中作对边的平行线，并写清它与第四条比例线相交于哪一点；\n  \\item 写出辅助线形成的两组 A/8\
+      \ 字型相似三角形；\n  \\item 用两组相似所得的比例求 $BD:DC$。\n\\end{enumerate}\n"
+    hints:
+    - content_latex: 先找 $AD,BE,BC$ 三条比例线围成的三角形，再决定平行线。
+    answer_space:
+      type: steps
+      height: 70mm
+      step_count: 5
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/auxiliary-teacher-q3-solution/rendered/prompt.fragment.tex
+        diagram_ref: auxiliary.teacher.q3.solution
+        diagram_job_id: auxiliary-teacher-q3-solution
+        width: 60mm
+        caption: 过 $P$ 作 $PF\parallel DB$，交直线 $AC$ 于 $F$。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:b3ad830ffddc26a5413bfe54a8b2b3b434e2e7ddf53478dc03228de76993d915
+        packages:
+        - tikz
+        libraries: []
+    answer: $BD:DC=5:3$。
+    explanation: 三个比在 $AD,BE,BC$ 上，围成 $\triangle PDB$。过 $P$ 作 $PF\parallel DB$，交直线
+      $AC$ 于 $F$。由两组相似通过 $PF$ 接比例，得到 $BD:DC=5:3$。
+    solution_steps:
+    - title: 围三角形并确定辅助线
+      content: $AP:PD$ 在 $AD$ 上，$BP:PE$ 在 $BE$ 上，$BD:DC$ 在 $BC$ 上，三条线围成 $\triangle
+        PDB$。过 $P$ 作 $PF\parallel DB$，交第四条比例线 $AC$ 于 $F$。
+    - title: 用 $A$ 处的相似
+      content: 由 $A,P,D$ 共线、$A,F,C$ 共线及 $PF\parallel DC$，得 $\triangle APF\sim\triangle
+        ADC$。因为 $AP:PD=2:1$，所以 $AP:AD=2:3$，从而 $PF:DC=2:3$。
+    - title: 用 $E$ 处的相似
+      content: 由 $E,P,B$ 共线、$E,F,C$ 共线及 $PF\parallel BC$，得 $\triangle EPF\sim\triangle
+        EBC$。因为 $BP:PE=3:1$，所以 $PE:BE=1:4$，从而 $PF:BC=1:4$。
+    - title: 统一中间线段
+      content: 取 $PF=2$ 份。由 $PF:DC=2:3$ 得 $DC=3$ 份；由 $PF:BC=1:4$ 得 $BC=8$ 份。
+    - title: 写出答案
+      content: $BD=BC-DC=5$ 份，所以 $BD:DC=5:3$。
+    teaching:
+      teaching_goal: 在两个已知比都在内部交线附近时，仍从三条比例线围成的三角形反推出辅助线。
+      source_relations:
+      - fallback:approved_review:auxiliary_ratio_bridge
+      model_fusion:
+        model_count: 1
+        models:
+        - 比例辅助线接两组相似
+        fusion_role: single_model
+      relation_chain:
+      - step: 1
+        relation_id: fallback:approved_review:q3_pdb
+        inputs:
+          AP_PD: '2:1'
+          BP_PE: '3:1'
+        outputs:
+          BD_DC: '5:3'
+        constraints_checked:
+        - $D\in BC$，$E\in AC$，$P=AD\cap BE$
+        - $PF\parallel DB$ 且 $F=PF\cap AC$
+      expected_blocker: 看见 $P$ 就沿用前两题的外部顶点作线，或求出 $BC:DC$ 后忘记减去 $DC$。
+      entry_point: transfer
+      scaffold_level: low
+      variation_depth: changed_representation
+      complexity_note: 辅助线从内部交点作出，计算仍只涉及小整数份数和一次整段减法。
+      upgrade_rule: 能解释为什么本题必须过 $P$ 作线，并主动写出 $BD=BC-DC$。
+      fallback_move: 只保留 $AD,BE,BC$ 三条线，先看清 $\triangle PDB$ 的顶点和对边。
+    layout:
+      avoid_break: true
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/auxiliary-student-q3-prompt/rendered/prompt.fragment.tex
+      diagram_ref: auxiliary.student.q3.prompt
+      diagram_job_id: auxiliary-student-q3-prompt
+      width: 60mm
+      caption: 第 3 题原始构型，请在图上补作辅助线。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:0eb1a2cc719a9d3daadbb5824a8bccf13e7908a13c136d583e6a5eccd33c307b
+      packages:
+      - tikz
+      libraries: []

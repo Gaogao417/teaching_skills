@@ -1,0 +1,113 @@
+meta:
+  title: 绘图基准：比例辅助线（三套学生版）
+  subtitle: 固定比例母图
+  grade: 八年级
+  subject: 数学
+  version: student
+  source_artifacts:
+    review_draft: artifacts/专题/2026-07-12-比例辅助线两组比例-待审核/03-adaptive-practice.review.md
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+  - id: benchmark-auxiliary
+    title: 比例辅助线绘图基准
+    type: practice
+    visibility: student
+    blocks:
+      - type: problem
+        id: q1
+        points: 10
+        label: 第 1 套
+        stem_latex: '如图，在 $\triangle ABC$ 中，$D\in BC$、$E\in AC$，$P=AD\cap BE$。'
+        diagram_slot:
+          slot_id: benchmark.auxiliary.q1.prompt
+          diagram_ref: benchmark.auxiliary.q1.prompt
+          variant: prompt
+          disclosure_policy: clean
+          required: true
+          on_failure: fail_assignment
+          placement: diagram_col
+          layout_role: question_sidecar
+          display_profile: worksheet_geometry_sidecar
+          caption: 比例辅助线基准图 1
+          engine: geometric_scene
+          diagram_kind: synthetic_geometry
+          engine_options: {engine_model_config: {codex_model: gpt-5.4}}
+          teaching_intent: practice_prompt
+          problem_context:
+            stem_latex: '$D\in BC$、$E\in AC$、$P=AD\cap BE$。'
+            source_problem_text: '固定坐标 A=(0,6)、B=(-3,0)、C=(3,0)、D=(1,0)、E=(1,4)、P=(3/7,24/7)。只画原始三角形、D、E、AD、BE 和 P；不要画 F、辅助线或相似标记。'
+          semantic_constraints:
+            given_objects: [A, B, C, D, E, P]
+            given_constraints:
+              - A, E, C are collinear with E between A and C
+              - B, D, C are collinear with D between B and C
+              - A, P, D are collinear with P between A and D
+              - B, P, E are collinear with P between B and E
+              - use fixed nondegenerate seed A=(0,6), B=(-3,0), C=(3,0), D=(1,0), E=(1,4), P=(3/7,24/7)
+            clean_forbidden: [do not draw F, auxiliary lines, similar triangles, or answers]
+      - type: problem
+        id: q2
+        points: 10
+        label: 第 2 套
+        stem_latex: '如图，在 $\triangle ABC$ 中，$D\in BC$、$E\in AC$，$P=AD\cap BE$。'
+        diagram_slot:
+          slot_id: benchmark.auxiliary.q2.prompt
+          diagram_ref: benchmark.auxiliary.q2.prompt
+          variant: prompt
+          disclosure_policy: clean
+          required: true
+          on_failure: fail_assignment
+          placement: diagram_col
+          layout_role: question_sidecar
+          display_profile: worksheet_geometry_sidecar
+          caption: 比例辅助线基准图 2
+          engine: geometric_scene
+          diagram_kind: synthetic_geometry
+          engine_options: {engine_model_config: {codex_model: gpt-5.4}}
+          teaching_intent: practice_prompt
+          problem_context:
+            stem_latex: '$D\in BC$、$E\in AC$、$P=AD\cap BE$。'
+            source_problem_text: '固定坐标 A=(0,6)、B=(-3,0)、C=(3,0)、D=(1,0)、E=(2,2)、P=(3/4,3/2)。只画原始三角形、D、E、AD、BE 和 P；不要画 F、辅助线或相似标记。标签轻微靠近线段可以接受，只要点名和点序可辨认，不为像素级美化重做。'
+          semantic_constraints:
+            given_objects: [A, B, C, D, E, P]
+            given_constraints:
+              - A, E, C are collinear with E between A and C
+              - B, D, C are collinear with D between B and C
+              - A, P, D are collinear with P between A and D
+              - B, P, E are collinear with P between B and E
+              - use fixed nondegenerate seed A=(0,6), B=(-3,0), C=(3,0), D=(1,0), E=(2,2), P=(3/4,3/2)
+            clean_forbidden: [do not draw F, auxiliary lines, similar triangles, or answers]
+      - type: problem
+        id: q3
+        points: 10
+        label: 第 3 套
+        stem_latex: '如图，在 $\triangle ABC$ 中，$D\in BC$、$E\in AC$，$P=AD\cap BE$。'
+        diagram_slot:
+          slot_id: benchmark.auxiliary.q3.prompt
+          diagram_ref: benchmark.auxiliary.q3.prompt
+          variant: prompt
+          disclosure_policy: clean
+          required: true
+          on_failure: fail_assignment
+          placement: diagram_col
+          layout_role: question_sidecar
+          display_profile: worksheet_geometry_sidecar
+          caption: 比例辅助线基准图 3
+          engine: geometric_scene
+          diagram_kind: synthetic_geometry
+          engine_options: {engine_model_config: {codex_model: gpt-5.4}}
+          teaching_intent: practice_prompt
+          problem_context:
+            stem_latex: '$D\in BC$、$E\in AC$、$P=AD\cap BE$。'
+            source_problem_text: '固定坐标 A=(0,8)、B=(-3,0)、C=(5,0)、D=(2,0)、E=(25/9,32/9)、P=(4/3,8/3)。只画原始三角形、D、E、AD、BE 和 P；不要画 F、辅助线或相似标记。标签轻微靠近线段可以接受，只要点名和点序可辨认，不为像素级美化重做。'
+          semantic_constraints:
+            given_objects: [A, B, C, D, E, P]
+            given_constraints:
+              - A, E, C are collinear with E between A and C
+              - B, D, C are collinear with D between B and C
+              - A, P, D are collinear with P between A and D
+              - B, P, E are collinear with P between B and E
+              - use fixed nondegenerate seed A=(0,8), B=(-3,0), C=(5,0), D=(2,0), E=(25/9,32/9), P=(4/3,8/3)
+            clean_forbidden: [do not draw F, auxiliary lines, similar triangles, or answers]

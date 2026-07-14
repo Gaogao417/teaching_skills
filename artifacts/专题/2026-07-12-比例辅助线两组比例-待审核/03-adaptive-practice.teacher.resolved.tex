@@ -1,0 +1,169 @@
+\documentclass{exam-zh}
+\usepackage{edu-practice}
+
+\examsetup{
+  question/show-answer = true,
+  fillin/show-answer = true,
+  solution/show-solution = show-stay,
+}
+
+% ---------- 教师版解答样式 ----------
+\newtcolorbox{solutionblock}{
+  enhanced, breakable,
+  colback=edu-blue-bg,
+  colframe=edu-blue!25,
+  boxrule=0pt,
+  borderline west={2pt}{0pt}{edu-blue!50},
+  arc=0pt,
+  left=3mm, right=3mm, top=2mm, bottom=2mm,
+  before skip=2mm,
+  after skip=3mm,
+  fontupper=\small,
+}
+
+% 解答步骤编号
+\newcounter{solstep}
+\newcommand{\solstep}[2]{%
+  \stepcounter{solstep}%
+  \par\medskip
+  \noindent\hangindent=6mm
+  {\color{edu-blue}\bfseries\textcircled{\scriptsize\thesolstep}\enspace #1}\enspace #2\par
+}
+
+\begin{document}
+
+\section*{比例辅助线：根据已知和所求现场作线}
+
+\section*{一、先围三角形，再作平行线接两组比例}
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，在 $\triangle ABC$ 中，点 $D$ 在线段 $BC$ 上，点 $E$ 在线段 $AC$ 上，
+线段 $AD$\ \ 与 $BE$ 相交于点 $P$。已知
+\[
+AE:EC=1:2,\qquad AP:PD=3:4,
+\]
+求 $BP:PE$。
+
+\ \begin{enumerate}[label=(\arabic*)]
+  \item 写出两条已知比和所求比分别在哪三条直线上，并指出这三条直线围成的三角形；
+\ \  \item 选择这个三角形的一个顶点，在图中作对边的平行线，并写清它与第四条比例线相交于哪一点；
+  \item 写出辅助线形成的两组 A/8\ \ 字型相似三角形；
+  \item 用两组相似所得的比例求 $BP:PE$。
+\end{enumerate}
+
+    \begin{hintbox}
+\textbf{提示：}先找 $AC,AD,BE$ 三条比例线围成的三角形，再决定平行线。\end{hintbox}
+
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{第 1 题原始构型，请在图上补作辅助线。}
+  \input{\detokenize{build/diagram/jobs/auxiliary-student-q1-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \begin{answerareawithdiagramtikz}{70mm}{60mm}{过 $A$ 作 $AF\parallel EP$，交直线 $BC$ 于 $F$。}
+  \input{\detokenize{build/diagram/jobs/auxiliary-teacher-q1-solution/rendered/prompt.fragment.tex}}
+  \end{answerareawithdiagramtikz}
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$BP:PE=6:1$。\par\medskip
+    \solstep{围三角形并确定辅助线}{$AE:EC$ 在 $AC$ 上，$AP:PD$ 在 $AD$ 上，$BP:PE$ 在 $BE$ 上，三条线围成 $\triangle AEP$。过 $A$ 作 $AF\parallel EP$，交第四条比例线 $BC$ 于 $F$。}
+    \solstep{第一组相似}{由 $A,E,C$ 共线、$B,D,F,C$ 共线及 $AF\parallel EB$，得 $\triangle ACF\sim\triangle ECB$，所以 $AF:EB=AC:EC=3:2$。}
+    \solstep{第二组相似}{由 $A,P,D$ 共线、$B,D,F$ 共线及 $AF\parallel PB$，得 $\triangle ADF\sim\triangle PDB$。因为 $AP:PD=3:4$，所以 $AD:PD=7:4$，从而 $AF:PB=7:4$。}
+    \solstep{统一中间线段}{取 $AF=21$ 份，则 $EB=14$ 份、$PB=12$ 份，所以 $PE=EB-PB=2$ 份。}
+    \solstep{写出答案}{$BP:PE=12:2=6:1$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，在 $\triangle ABC$ 中，点 $D$ 在线段 $BC$ 上，点 $E$ 在线段 $AC$ 上，
+线段 $AD$\ \ 与 $BE$ 相交于点 $P$。已知
+\[
+BP:PE=3:1,\qquad BD:DC=2:1,
+\]
+求 $AE:EC$。
+
+\ \begin{enumerate}[label=(\arabic*)]
+  \item 写出两条已知比和所求比分别在哪三条直线上，并指出这三条直线围成的三角形；
+\ \  \item 选择这个三角形的一个顶点，在图中作对边的平行线，并写清它与第四条比例线相交于哪一点；
+  \item 写出辅助线形成的两组 A/8\ \ 字型相似三角形；
+  \item 用两组相似所得的比例求 $AE:EC$。
+\end{enumerate}
+
+    \begin{hintbox}
+\textbf{提示：}先找 $BE,BC,AC$ 三条比例线围成的三角形，再决定平行线。\end{hintbox}
+
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{第 2 题原始构型，请在图上补作辅助线。}
+  \input{\detokenize{build/diagram/jobs/auxiliary-student-q2-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \begin{answerareawithdiagramtikz}{70mm}{60mm}{过 $E$ 作 $EF\parallel CB$，交直线 $AD$ 于 $F$。}
+  \input{\detokenize{build/diagram/jobs/auxiliary-teacher-q2-solution/rendered/prompt.fragment.tex}}
+  \end{answerareawithdiagramtikz}
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$AE:EC=2:1$。\par\medskip
+    \solstep{围三角形并确定辅助线}{$BP:PE$ 在 $BE$ 上，$BD:DC$ 在 $BC$ 上，$AE:EC$ 在 $AC$ 上，三条线围成 $\triangle ECB$。过 $E$ 作 $EF\parallel CB$，交第四条比例线 $AD$ 于 $F$。}
+    \solstep{先用 $P$ 处的相似}{由 $P,E,B$ 共线、$P,F,D$ 共线及 $EF\parallel BD$，得 $\triangle PEF\sim\triangle PBD$，所以 $EF:BD=PE:PB=1:3$。}
+    \solstep{接到底边比例}{由 $BD:DC=2:1$，取 $BD=6$ 份、$DC=3$ 份，则 $EF=2$ 份，所以 $EF:DC=2:3$。}
+    \solstep{再用 $A$ 处的相似}{由 $A,E,C$ 共线、$A,F,D$ 共线及 $EF\parallel CD$，得 $\triangle AEF\sim\triangle ACD$，所以 $AE:AC=EF:DC=2:3$。}
+    \solstep{从整段转成分段}{取 $AE=2$ 份、$AC=3$ 份，则 $EC=1$ 份，因此 $AE:EC=2:1$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，在 $\triangle ABC$ 中，点 $D$ 在线段 $BC$ 上，点 $E$ 在线段 $AC$ 上，
+线段 $AD$\ \ 与 $BE$ 相交于点 $P$。已知
+\[
+AP:PD=2:1,\qquad BP:PE=3:1,
+\]
+求 $BD:DC$。
+
+\ \begin{enumerate}[label=(\arabic*)]
+  \item 写出两条已知比和所求比分别在哪三条直线上，并指出这三条直线围成的三角形；
+\ \  \item 选择这个三角形的一个顶点，在图中作对边的平行线，并写清它与第四条比例线相交于哪一点；
+  \item 写出辅助线形成的两组 A/8\ \ 字型相似三角形；
+  \item 用两组相似所得的比例求 $BD:DC$。
+\end{enumerate}
+
+    \begin{hintbox}
+\textbf{提示：}先找 $AD,BE,BC$ 三条比例线围成的三角形，再决定平行线。\end{hintbox}
+
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{第 3 题原始构型，请在图上补作辅助线。}
+  \input{\detokenize{build/diagram/jobs/auxiliary-student-q3-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \begin{answerareawithdiagramtikz}{70mm}{60mm}{过 $P$ 作 $PF\parallel DB$，交直线 $AC$ 于 $F$。}
+  \input{\detokenize{build/diagram/jobs/auxiliary-teacher-q3-solution/rendered/prompt.fragment.tex}}
+  \end{answerareawithdiagramtikz}
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$BD:DC=5:3$。\par\medskip
+    \solstep{围三角形并确定辅助线}{$AP:PD$ 在 $AD$ 上，$BP:PE$ 在 $BE$ 上，$BD:DC$ 在 $BC$ 上，三条线围成 $\triangle PDB$。过 $P$ 作 $PF\parallel DB$，交第四条比例线 $AC$ 于 $F$。}
+    \solstep{用 $A$ 处的相似}{由 $A,P,D$ 共线、$A,F,C$ 共线及 $PF\parallel DC$，得 $\triangle APF\sim\triangle ADC$。因为 $AP:PD=2:1$，所以 $AP:AD=2:3$，从而 $PF:DC=2:3$。}
+    \solstep{用 $E$ 处的相似}{由 $E,P,B$ 共线、$E,F,C$ 共线及 $PF\parallel BC$，得 $\triangle EPF\sim\triangle EBC$。因为 $BP:PE=3:1$，所以 $PE:BE=1:4$，从而 $PF:BC=1:4$。}
+    \solstep{统一中间线段}{取 $PF=2$ 份。由 $PF:DC=2:3$ 得 $DC=3$ 份；由 $PF:BC=1:4$ 得 $BC=8$ 份。}
+    \solstep{写出答案}{$BD=BC-DC=5$ 份，所以 $BD:DC=5:3$。}
+  \end{solutionblock}
+\end{problem}
+
+
+
+\end{document}

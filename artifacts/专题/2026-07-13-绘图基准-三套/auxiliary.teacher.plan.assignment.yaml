@@ -1,0 +1,176 @@
+meta:
+  title: 绘图基准：比例辅助线（三套教师版）
+  subtitle: clean 母图复用与辅助线 solution
+  grade: 八年级
+  subject: 数学
+  version: teacher
+  source_artifacts:
+    review_draft: artifacts/专题/2026-07-12-比例辅助线两组比例-待审核/03-adaptive-practice.review.md
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+  - id: benchmark-auxiliary
+    title: 比例辅助线绘图基准（教师版）
+    type: practice
+    visibility: teacher
+    blocks:
+      - type: problem
+        id: q1
+        points: 10
+        label: 第 1 套
+        stem_latex: '如图，在 $\triangle ABC$ 中，$D\in BC$、$E\in AC$，$P=AD\cap BE$。'
+        diagram_slot:
+          slot_id: benchmark.auxiliary.q1.prompt
+          diagram_ref: benchmark.auxiliary.q1.prompt
+          variant: prompt
+          disclosure_policy: clean
+          required: true
+          on_failure: fail_assignment
+          placement: diagram_col
+          layout_role: question_sidecar
+          display_profile: worksheet_geometry_sidecar
+          caption: 比例辅助线基准图 1
+          engine: geometric_scene
+          diagram_kind: synthetic_geometry
+          engine_options: {engine_model_config: {codex_model: gpt-5.4}}
+          teaching_intent: practice_prompt
+          problem_context:
+            stem_latex: '$D\in BC$、$E\in AC$、$P=AD\cap BE$。'
+            source_problem_text: '复用 benchmark.auxiliary.q1.prompt 的完整原始几何，不新增 F。'
+          semantic_constraints:
+            given_objects: [A, B, C, D, E, P]
+            given_constraints: [reuse the complete original geometry from benchmark.auxiliary.q1.prompt]
+            clean_forbidden: [do not draw F, auxiliary lines, similar triangles, or answers]
+        answer_space:
+          type: steps
+          height: 50mm
+          step_count: 5
+          diagram_slot:
+            slot_id: benchmark.auxiliary.q1.solution
+            diagram_ref: benchmark.auxiliary.q1.solution
+            variant: solution
+            disclosure_policy: annotated
+            reuse_geometry_from: benchmark.auxiliary.q1.prompt
+            required: true
+            on_failure: fail_assignment
+            placement: diagram_col
+            layout_role: solution_annotation
+            display_profile: worksheet_geometry_sidecar
+            caption: 过 A 作 AF 平行 EP，交 BC 于 F
+            engine: geometric_scene
+            diagram_kind: synthetic_geometry
+            engine_options: {engine_model_config: {codex_model: gpt-5.4}}
+            teaching_intent: practice_solution
+            problem_context:
+              stem_latex: '在原图上过 A 作 AF\parallel EP，F\in BC。'
+              source_problem_text: '复用 benchmark.auxiliary.q1.prompt 的 A、B、C、D、E、P，解析新增 F=AF∩BC，并标出 AF\parallel EP；可浅色高亮两组相似三角形。'
+            semantic_constraints:
+              given_objects: [A, B, C, D, E, P, F]
+              given_constraints: [reuse the complete original geometry from benchmark.auxiliary.q1.prompt, A-F line is parallel to E-P line, F lies on BC, F is the exact intersection]
+      - type: problem
+        id: q2
+        points: 10
+        label: 第 2 套
+        stem_latex: '如图，在 $\triangle ABC$ 中，$D\in BC$、$E\in AC$，$P=AD\cap BE$。'
+        diagram_slot:
+          slot_id: benchmark.auxiliary.q2.prompt
+          diagram_ref: benchmark.auxiliary.q2.prompt
+          variant: prompt
+          disclosure_policy: clean
+          required: true
+          on_failure: fail_assignment
+          placement: diagram_col
+          layout_role: question_sidecar
+          display_profile: worksheet_geometry_sidecar
+          caption: 比例辅助线基准图 2
+          engine: geometric_scene
+          diagram_kind: synthetic_geometry
+          engine_options: {engine_model_config: {codex_model: gpt-5.4}}
+          teaching_intent: practice_prompt
+          problem_context:
+            stem_latex: '$D\in BC$、$E\in AC$、$P=AD\cap BE$。'
+            source_problem_text: '复用 benchmark.auxiliary.q2.prompt 的完整原始几何，不新增 F。'
+          semantic_constraints:
+            given_objects: [A, B, C, D, E, P]
+            given_constraints: [reuse the complete original geometry from benchmark.auxiliary.q2.prompt]
+            clean_forbidden: [do not draw F, auxiliary lines, similar triangles, or answers]
+        answer_space:
+          type: steps
+          height: 50mm
+          step_count: 5
+          diagram_slot:
+            slot_id: benchmark.auxiliary.q2.solution
+            diagram_ref: benchmark.auxiliary.q2.solution
+            variant: solution
+            disclosure_policy: annotated
+            reuse_geometry_from: benchmark.auxiliary.q2.prompt
+            required: true
+            on_failure: fail_assignment
+            placement: diagram_col
+            layout_role: solution_annotation
+            display_profile: worksheet_geometry_sidecar
+            caption: 过 E 作 EF 平行 CB，交 AD 于 F
+            engine: geometric_scene
+            diagram_kind: synthetic_geometry
+            engine_options: {engine_model_config: {codex_model: gpt-5.4}}
+            teaching_intent: practice_solution
+            problem_context:
+              stem_latex: '在原图上过 E 作 EF\parallel CB，F\in AD。'
+              source_problem_text: '复用 benchmark.auxiliary.q2.prompt 的 A、B、C、D、E、P，解析新增 F=EF∩AD，并标出 EF\parallel CB。标签轻微靠近线段可以接受，只要 E、P、F 可区分，不为像素级美化重做。'
+            semantic_constraints:
+              given_objects: [A, B, C, D, E, P, F]
+              given_constraints: [reuse the complete original geometry from benchmark.auxiliary.q2.prompt, E-F line is parallel to C-B line, F lies on AD, F is the exact intersection]
+      - type: problem
+        id: q3
+        points: 10
+        label: 第 3 套
+        stem_latex: '如图，在 $\triangle ABC$ 中，$D\in BC$、$E\in AC$，$P=AD\cap BE$。'
+        diagram_slot:
+          slot_id: benchmark.auxiliary.q3.prompt
+          diagram_ref: benchmark.auxiliary.q3.prompt
+          variant: prompt
+          disclosure_policy: clean
+          required: true
+          on_failure: fail_assignment
+          placement: diagram_col
+          layout_role: question_sidecar
+          display_profile: worksheet_geometry_sidecar
+          caption: 比例辅助线基准图 3
+          engine: geometric_scene
+          diagram_kind: synthetic_geometry
+          engine_options: {engine_model_config: {codex_model: gpt-5.4}}
+          teaching_intent: practice_prompt
+          problem_context:
+            stem_latex: '$D\in BC$、$E\in AC$、$P=AD\cap BE$。'
+            source_problem_text: '复用 benchmark.auxiliary.q3.prompt 的完整原始几何，不新增 F。'
+          semantic_constraints:
+            given_objects: [A, B, C, D, E, P]
+            given_constraints: [reuse the complete original geometry from benchmark.auxiliary.q3.prompt]
+            clean_forbidden: [do not draw F, auxiliary lines, similar triangles, or answers]
+        answer_space:
+          type: steps
+          height: 50mm
+          step_count: 5
+          diagram_slot:
+            slot_id: benchmark.auxiliary.q3.solution
+            diagram_ref: benchmark.auxiliary.q3.solution
+            variant: solution
+            disclosure_policy: annotated
+            reuse_geometry_from: benchmark.auxiliary.q3.prompt
+            required: true
+            on_failure: fail_assignment
+            placement: diagram_col
+            layout_role: solution_annotation
+            display_profile: worksheet_geometry_sidecar
+            caption: 过 P 作 PF 平行 DB，交 AC 于 F
+            engine: geometric_scene
+            diagram_kind: synthetic_geometry
+            engine_options: {engine_model_config: {codex_model: gpt-5.4}}
+            teaching_intent: practice_solution
+            problem_context:
+              stem_latex: '在原图上过 P 作 PF\parallel DB，F\in AC。'
+              source_problem_text: '复用 benchmark.auxiliary.q3.prompt 的 A、B、C、D、E、P，解析新增 F=PF∩AC，并标出 PF\parallel DB；可浅色高亮两组相似三角形。标签轻微靠近线段可以接受，只要可辨认，不为像素级美化重做。'
+            semantic_constraints:
+              given_objects: [A, B, C, D, E, P, F]
+              given_constraints: [reuse the complete original geometry from benchmark.auxiliary.q3.prompt, P-F line is parallel to D-B line, F lies on AC, F is the exact intersection]

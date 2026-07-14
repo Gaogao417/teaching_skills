@@ -1,0 +1,197 @@
+meta:
+  title: 平行线对应边比例专项练习
+  subtitle: A 字型与 8 字型·学生版
+  grade: 八年级
+  subject: 数学
+  duration: 30分钟
+  total_points: 60
+  version: student
+  source_artifacts:
+    review_draft: artifacts/专题/2026-07-12-平行线对应边比例-待审核/03-adaptive-practice.review.md
+    explanation: artifacts/专题/2026-07-12-平行线对应边比例-待审核/02-student-explanation.plan.assignment.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+  - id: a-shape
+    title: 一、A 字型（3 题）
+    type: practice
+    visibility: student
+    blocks:
+      - type: problem
+        id: a1
+        points: 10
+        label: 第 1 题
+        stem_latex: |
+          如图，直线 $AC$ 与 $BD$ 相交于点 $P$，点序分别为 $P-A-C$、$P-B-D$，且 $AB\parallel CD$。
+          已知 $PA:AC=1:2$，求 $AB:CD$。
+        answer_space: {type: steps, height: 38mm, step_count: 4}
+      - type: problem
+        id: a2
+        points: 10
+        label: 第 2 题
+        stem_latex: |
+          如图，直线 $AC$ 与 $BD$ 相交于点 $P$，点序分别为 $P-A-C$、$P-B-D$，且 $AB\parallel CD$。
+          已知 $PA:PC=2:5$，求 $PB:PD$。
+        diagram_slot:
+          slot_id: practice.parallel.student.a3.prompt
+          diagram_ref: practice.parallel.student.a3.prompt
+          variant: prompt
+          disclosure_policy: clean
+          required: true
+          on_failure: fail_assignment
+          placement: diagram_col
+          layout_role: question_sidecar
+          display_profile: worksheet_geometry_sidecar
+          caption: 第 2 题图
+          engine: geometric_scene
+          diagram_kind: synthetic_geometry
+          engine_options:
+            engine_model_config:
+              codex_model: gpt-5.6-luna
+          teaching_intent: practice_prompt
+          problem_context:
+            stem_latex: '$AC$ 与 $BD$ 交于 $P$，$P-A-C$、$P-B-D$，$AB\parallel CD$。'
+            source_problem_text: 画 A 字型嵌套三角形：P 在两条平行线同侧，P-A-C 和 P-B-D 为严格点序，连接 AB 与 CD 并标平行符号。只标点名和平行符号，不显示比例推导或答案。
+          semantic_constraints:
+            given_objects: [A, B, C, D, P]
+            given_constraints:
+              - A, P, C are collinear with exact order P-A-C
+              - B, P, D are collinear with exact order P-B-D
+              - AB is parallel to CD
+              - P lies outside the strip between AB and CD
+            clean_forbidden:
+              - do not label similar triangles or A-shape
+              - do not draw correspondence arrows or answers
+        answer_space: {type: steps, height: 38mm, step_count: 4}
+      - type: problem
+        id: a3
+        points: 10
+        label: 第 3 题
+        stem_latex: |
+          如图，直线 $AC$ 与 $BD$ 相交于点 $P$，点序分别为 $P-A-C$、$P-B-D$，且 $AB\parallel CD$。
+          已知 $PB:BD=3:5$，求 $PA:PC$。
+        diagram_slot:
+          slot_id: practice.parallel.student.a2.prompt
+          diagram_ref: practice.parallel.student.a2.prompt
+          variant: prompt
+          disclosure_policy: clean
+          required: true
+          on_failure: fail_assignment
+          placement: diagram_col
+          layout_role: question_sidecar
+          display_profile: worksheet_geometry_sidecar
+          caption: 第 3 题图
+          engine: geometric_scene
+          diagram_kind: synthetic_geometry
+          engine_options:
+            engine_model_config:
+              codex_model: gpt-5.6-luna
+          teaching_intent: practice_prompt
+          problem_context:
+            stem_latex: '$AC$ 与 $BD$ 交于 $P$，$P-A-C$、$P-B-D$，$AB\parallel CD$。'
+            source_problem_text: 画 A 字型嵌套三角形：P 在两条平行线同侧，P-A-C 和 P-B-D 为严格点序，连接 AB 与 CD 并标平行符号。只标点名和平行符号，不显示比例推导或答案。
+          semantic_constraints:
+            given_objects: [A, B, C, D, P]
+            given_constraints:
+              - A, P, C are collinear with exact order P-A-C
+              - B, P, D are collinear with exact order P-B-D
+              - AB is parallel to CD
+              - P lies outside the strip between AB and CD
+            clean_forbidden:
+              - do not label similar triangles or A-shape
+              - do not draw correspondence arrows or answers
+        answer_space: {type: steps, height: 38mm, step_count: 4}
+  - id: eight-shape
+    title: 二、8 字型（3 题）
+    type: practice
+    visibility: student
+    layout: {break_before: true}
+    blocks:
+      - type: problem
+        id: b1
+        points: 10
+        label: 第 4 题
+        stem_latex: |
+          如图，直线 $AC$ 与 $BD$ 相交于点 $P$，点序分别为 $A-P-C$、$B-P-D$，且 $AB\parallel CD$。
+          已知 $AP:AC=2:5$，求 $AB:CD$。
+        diagram_slot:
+          slot_id: practice.parallel.student.b1.prompt
+          diagram_ref: practice.parallel.student.b1.prompt
+          variant: prompt
+          disclosure_policy: clean
+          required: true
+          on_failure: fail_assignment
+          placement: diagram_col
+          layout_role: question_sidecar
+          display_profile: worksheet_geometry_sidecar
+          caption: 第 4 题图
+          engine: geometric_scene
+          diagram_kind: synthetic_geometry
+          engine_options:
+            engine_model_config:
+              codex_model: gpt-5.6-luna
+          teaching_intent: practice_prompt
+          problem_context:
+            stem_latex: '$AC$ 与 $BD$ 交于 $P$，$A-P-C$、$B-P-D$，$AB\parallel CD$。'
+            source_problem_text: 画清晰、非退化的交叉 8 字型：采用坐标 A=(-3,2)、B=(3,2)、C=(3,-2)、D=(-3,-2)、P=(0,0)。AB 和 CD 是上下两条水平平行线段，AC 与 BD 在其间交于 P；A-P-C 和 B-P-D 为严格点序。上下平行线之间要保留明显高度，交叉角不能过小。只标点名和平行符号，不显示比例推导或答案。
+          semantic_constraints:
+            given_objects: [A, B, C, D, P]
+            given_constraints:
+              - A, P, C are collinear with exact order A-P-C
+              - B, P, D are collinear with exact order B-P-D
+              - AB is parallel to CD
+              - P lies inside both AC and BD and between AB and CD
+              - use a clear nondegenerate crossed layout with A=(-3,2), B=(3,2), C=(3,-2), D=(-3,-2), P=(0,0)
+              - vertical distance between AB and CD is visually substantial and the crossing angle is not flat
+            clean_forbidden:
+              - do not label similar triangles or 8-shape
+              - do not draw correspondence arrows or answers
+        answer_space: {type: steps, height: 38mm, step_count: 4}
+      - type: problem
+        id: b2
+        points: 10
+        label: 第 5 题
+        stem_latex: |
+          如图，直线 $AC$ 与 $BD$ 相交于点 $P$，点序分别为 $A-P-C$、$B-P-D$，且 $AB\parallel CD$。
+          已知 $BP:PD=4:7$，求 $AP:PC$。
+        diagram_slot:
+          slot_id: practice.parallel.student.b2.prompt
+          diagram_ref: practice.parallel.student.b2.prompt
+          variant: prompt
+          disclosure_policy: clean
+          required: true
+          on_failure: fail_assignment
+          placement: diagram_col
+          layout_role: question_sidecar
+          display_profile: worksheet_geometry_sidecar
+          caption: 第 5 题图
+          engine: geometric_scene
+          diagram_kind: synthetic_geometry
+          engine_options:
+            engine_model_config:
+              codex_model: gpt-5.6-luna
+          teaching_intent: practice_prompt
+          problem_context:
+            stem_latex: '$AC$ 与 $BD$ 交于 $P$，$A-P-C$、$B-P-D$，$AB\parallel CD$。'
+            source_problem_text: 画交叉的 8 字型：AB 和 CD 为上下两条平行线段，AC 与 BD 在其间交于 P；A-P-C 和 B-P-D 为严格点序。只标点名和平行符号，不显示比例推导或答案。
+          semantic_constraints:
+            given_objects: [A, B, C, D, P]
+            given_constraints:
+              - A, P, C are collinear with exact order A-P-C
+              - B, P, D are collinear with exact order B-P-D
+              - AB is parallel to CD
+              - P lies inside both AC and BD and between AB and CD
+            clean_forbidden:
+              - do not label similar triangles or 8-shape
+              - do not draw correspondence arrows or answers
+        answer_space: {type: steps, height: 38mm, step_count: 4}
+      - type: problem
+        id: b3
+        points: 10
+        label: 第 6 题
+        stem_latex: |
+          如图，直线 $AC$ 与 $BD$ 相交于点 $P$，点序分别为 $A-P-C$、$B-P-D$，且 $AB\parallel CD$。
+          已知 $BP:BD=3:8$，求 $AP:PC$。
+        answer_space: {type: steps, height: 38mm, step_count: 4}

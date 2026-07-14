@@ -1,0 +1,204 @@
+meta:
+  title: 比例辅助线：根据已知和所求现场作线
+  subtitle: 学生练习
+  grade: 八年级
+  subject: 数学
+  duration: 30分钟
+  total_points: 30
+  version: student
+  source_artifacts:
+    review_draft: artifacts/专题/2026-07-12-比例辅助线两组比例-待审核/03-adaptive-practice.review.md
+    explanation: artifacts/专题/2026-07-12-比例辅助线两组比例-待审核/02-student-explanation.plan.assignment.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+  - id: main
+    title: 一、先围三角形，再作平行线接两组比例
+    type: practice
+    visibility: student
+    blocks:
+      - type: problem
+        id: q1
+        points: 10
+        label: 第 1 题
+        stem_latex: |
+          如图，在 $\triangle ABC$ 中，点 $D$ 在线段 $BC$ 上，点 $E$ 在线段 $AC$ 上，
+          线段 $AD$ 与 $BE$ 相交于点 $P$。已知
+          \[
+          AE:EC=1:2,\qquad AP:PD=3:4,
+          \]
+          求 $BP:PE$。
+
+          \begin{enumerate}[label=(\arabic*)]
+            \item 写出两条已知比和所求比分别在哪三条直线上，并指出这三条直线围成的三角形；
+            \item 选择这个三角形的一个顶点，在图中作对边的平行线，并写清它与第四条比例线相交于哪一点；
+            \item 写出辅助线形成的两组 A/8 字型相似三角形；
+            \item 用两组相似所得的比例求 $BP:PE$。
+          \end{enumerate}
+        diagram_slot:
+          slot_id: auxiliary.student.q1.prompt
+          diagram_ref: auxiliary.student.q1.prompt
+          variant: prompt
+          disclosure_policy: clean
+          required: true
+          on_failure: fail_assignment
+          placement: diagram_col
+          layout_role: question_sidecar
+          display_profile: worksheet_geometry_sidecar
+          caption: 第 1 题原始构型，请在图上补作辅助线。
+          engine: geometric_scene
+          diagram_kind: synthetic_geometry
+          engine_options:
+            engine_model_config:
+              codex_model: gpt-5.6-luna
+          teaching_intent: practice_prompt
+          problem_context:
+            stem_latex: 在 $\triangle ABC$ 中，$D\in BC$，$E\in AC$，$P=AD\cap BE$。已知 $AE:EC=1:2$、$AP:PD=3:4$，求 $BP:PE$。
+            source_problem_text: 画原始三角形 ABC，D 在线段 BC 上，E 在线段 AC 上，AD 与 BE 交于 P。可采用视觉种子坐标 A=(0,6)、B=(-3,0)、C=(3,0)、D=(1,0)、E=(1,4)、P=(0.429,3.429)。只画题设构型，清楚显示 A-E-C、A-P-D、B-P-E、B-D-C 的点序；不要画 F、辅助线、相似标记、比例答案或任何解题提示。
+          semantic_constraints:
+            given_objects: [A, B, C, D, E, P]
+            given_constraints:
+              - A, E, C are collinear with E between A and C
+              - B, D, C are collinear with D between B and C
+              - A, P, D are collinear with P between A and D
+              - B, P, E are collinear with P between B and E
+              - AE:EC=1:2
+              - AP:PD=3:4
+              - show segments AE, EC, AP, PD, BP and PE clearly
+            clean_forbidden:
+              - do not draw point F or any auxiliary parallel line; the parallel line is the student's construction task
+              - do not mark similar triangles
+              - do not show BD:DC, intermediate ratios, or the answer
+        hints:
+          - content_latex: '先把“两条已知比＋所求比”落到三条直线上，再看它们围成哪个三角形。'
+          - content_latex: '作线后先找两组相似；两组比例要通过同一条中间线段接起来。'
+        answer_space:
+          type: steps
+          height: 68mm
+          step_count: 5
+        layout:
+          avoid_break: true
+      - type: problem
+        id: q2
+        points: 10
+        label: 第 2 题
+        stem_latex: |
+          如图，在 $\triangle ABC$ 中，点 $D$ 在线段 $BC$ 上，点 $E$ 在线段 $AC$ 上，
+          线段 $AD$ 与 $BE$ 相交于点 $P$。已知
+          \[
+          BP:PE=3:1,\qquad BD:DC=2:1,
+          \]
+          求 $AE:EC$。
+
+          \begin{enumerate}[label=(\arabic*)]
+            \item 写出两条已知比和所求比分别在哪三条直线上，并指出这三条直线围成的三角形；
+            \item 选择这个三角形的一个顶点，在图中作对边的平行线，并写清它与第四条比例线相交于哪一点；
+            \item 写出辅助线形成的两组 A/8 字型相似三角形；
+            \item 用两组相似所得的比例求 $AE:EC$。
+          \end{enumerate}
+        diagram_slot:
+          slot_id: auxiliary.student.q2.prompt
+          diagram_ref: auxiliary.student.q2.prompt
+          variant: prompt
+          disclosure_policy: clean
+          required: true
+          on_failure: fail_assignment
+          placement: diagram_col
+          layout_role: question_sidecar
+          display_profile: worksheet_geometry_sidecar
+          caption: 第 2 题原始构型，请在图上补作辅助线。
+          engine: geometric_scene
+          diagram_kind: synthetic_geometry
+          engine_options:
+            engine_model_config:
+              codex_model: gpt-5.6-luna
+          teaching_intent: practice_prompt
+          problem_context:
+            stem_latex: 在 $\triangle ABC$ 中，$D\in BC$，$E\in AC$，$P=AD\cap BE$。已知 $BP:PE=3:1$、$BD:DC=2:1$，求 $AE:EC$。
+            source_problem_text: 画原始三角形 ABC，D 在线段 BC 上，E 在线段 AC 上，AD 与 BE 交于 P。可采用视觉种子坐标 A=(0,6)、B=(-3,0)、C=(3,0)、D=(1,0)、E=(2,2)、P=(0.75,1.5)。只画题设构型，清楚显示 A-E-C、A-P-D、B-P-E、B-D-C 的点序；不要画 F、辅助线、相似标记、比例答案或任何解题提示。
+          semantic_constraints:
+            given_objects: [A, B, C, D, E, P]
+            given_constraints:
+              - A, E, C are collinear with E between A and C
+              - B, D, C are collinear with D between B and C
+              - A, P, D are collinear with P between A and D
+              - B, P, E are collinear with P between B and E
+              - BP:PE=3:1
+              - BD:DC=2:1
+              - show segments BP, PE, BD, DC, AE and EC clearly
+            clean_forbidden:
+              - do not draw point F or any auxiliary parallel line; the parallel line is the student's construction task
+              - do not mark similar triangles
+              - do not show AP:PD, intermediate ratios, or the answer
+        hints:
+          - content_latex: '先确认三条比例线围成的三角形；辅助线的方向应由这个三角形决定。'
+          - content_latex: '新平行线必须与剩余的第四条比例线相交，交点不能随便选。'
+        answer_space:
+          type: steps
+          height: 68mm
+          step_count: 5
+        layout:
+          avoid_break: true
+      - type: problem
+        id: q3
+        points: 10
+        label: 第 3 题
+        stem_latex: |
+          如图，在 $\triangle ABC$ 中，点 $D$ 在线段 $BC$ 上，点 $E$ 在线段 $AC$ 上，
+          线段 $AD$ 与 $BE$ 相交于点 $P$。已知
+          \[
+          AP:PD=2:1,\qquad BP:PE=3:1,
+          \]
+          求 $BD:DC$。
+
+          \begin{enumerate}[label=(\arabic*)]
+            \item 写出两条已知比和所求比分别在哪三条直线上，并指出这三条直线围成的三角形；
+            \item 选择这个三角形的一个顶点，在图中作对边的平行线，并写清它与第四条比例线相交于哪一点；
+            \item 写出辅助线形成的两组 A/8 字型相似三角形；
+            \item 用两组相似所得的比例求 $BD:DC$。
+          \end{enumerate}
+        diagram_slot:
+          slot_id: auxiliary.student.q3.prompt
+          diagram_ref: auxiliary.student.q3.prompt
+          variant: prompt
+          disclosure_policy: clean
+          required: true
+          on_failure: fail_assignment
+          placement: diagram_col
+          layout_role: question_sidecar
+          display_profile: worksheet_geometry_sidecar
+          caption: 第 3 题原始构型，请在图上补作辅助线。
+          engine: geometric_scene
+          diagram_kind: synthetic_geometry
+          engine_options:
+            engine_model_config:
+              codex_model: gpt-5.6-luna
+          teaching_intent: practice_prompt
+          problem_context:
+            stem_latex: 在 $\triangle ABC$ 中，$D\in BC$，$E\in AC$，$P=AD\cap BE$。已知 $AP:PD=2:1$、$BP:PE=3:1$，求 $BD:DC$。
+            source_problem_text: 画原始三角形 ABC，D 在线段 BC 上，E 在线段 AC 上，AD 与 BE 交于 P。可采用视觉种子坐标 A=(0,8)、B=(-3,0)、C=(5,0)、D=(2,0)、E=(2.778,3.556)、P=(1.333,2.667)。只画题设构型，清楚显示 A-E-C、A-P-D、B-P-E、B-D-C 的点序；不要画 F、辅助线、相似标记、比例答案或任何解题提示。
+          semantic_constraints:
+            given_objects: [A, B, C, D, E, P]
+            given_constraints:
+              - A, E, C are collinear with E between A and C
+              - B, D, C are collinear with D between B and C
+              - A, P, D are collinear with P between A and D
+              - B, P, E are collinear with P between B and E
+              - AP:PD=2:1
+              - BP:PE=3:1
+              - show segments AP, PD, BP, PE, BD and DC clearly
+            clean_forbidden:
+              - do not draw point F or any auxiliary parallel line; the parallel line is the student's construction task
+              - do not mark similar triangles
+              - do not show AE:EC, intermediate ratios, or the answer
+        hints:
+          - content_latex: '本题的三个比例落在 $AD,BE,BC$ 上；先只看这三条直线围出的图形。'
+          - content_latex: '两组相似都应含有新作出的平行线段，并通过它统一比例。'
+        answer_space:
+          type: steps
+          height: 68mm
+          step_count: 5
+        layout:
+          avoid_break: true

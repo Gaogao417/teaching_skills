@@ -1,0 +1,138 @@
+meta:
+  title: 反 A 形相似：等角找相似与对应边
+  subtitle: 学生讲义
+  grade: 八年级
+  subject: 数学
+  version: student
+  source_artifacts:
+    structure_analysis: artifacts/专题/2026-07-14-反A形相似求第四边/01-structure-analysis.md
+
+render:
+  template: exam-zh-explanation
+  paper_size: a4paper
+
+sections:
+  - id: reverse-a-similarity
+    title: 反 A 形：看到等角先找相似，再配对应边
+    show_title: true
+    type: explanation
+    visibility: student
+    blocks:
+      - type: solution
+        id: reverse-a-core
+        title: 固定反应：看到等角找相似，相似以后找对应
+        items:
+          - latex: '\textbf{看到题目给角相等：}先圈出这组角，再在两个候选三角形中寻找第二组等角，尝试用 AA 判定相似。'
+          - latex: '\textbf{判定相似以后：}按“等角顶点 $\to$ 对应顶点 $\to$ 对应边”的顺序填写，不能凭图上位置猜边。'
+          - latex: '由 $\angle APB=\angle DPC$、$\angle PAB=\angle PDC$，可得 $\triangle PAB\sim\triangle PDC$。'
+          - latex: '\textbf{顶点对应：}$P\leftrightarrow P$，$A\leftrightarrow D$，$B\leftrightarrow C$。'
+          - latex: '\textbf{对应边：}$PA\leftrightarrow PD$，$PB\leftrightarrow PC$，$AB\leftrightarrow DC$。'
+          - latex: '\textbf{对应边成比例：}$\displaystyle \frac{PA}{PD}=\frac{PB}{PC}=\frac{AB}{DC}$。'
+
+      - type: problemcard
+        id: reverse-a-example
+        label: 例题
+        stem_latex: |
+          如图，点 $P,A,C$ 依次共线，点 $P,B,D$ 依次共线，且
+          $\angle PAB=\angle PDC$。已知 $PA=6$，$PB=8$，$PD=9$，求 $PC$。
+        diagram_slot:
+          slot_id: explanation.reverse-a.prompt
+          diagram_ref: explanation.reverse-a.prompt
+          variant: prompt
+          disclosure_policy: clean
+          required: true
+          on_failure: fail_assignment
+          placement: block_center
+          layout_role: center_block
+          display_profile: worksheet_geometry_center
+          caption: 先沿两个角的顶点顺序，找出两个三角形的对应顶点。
+          engine: geometric_scene
+          diagram_kind: synthetic_geometry
+          engine_options:
+            engine_model_config:
+              codex_model: gpt-5.4
+          teaching_intent: explanation_prompt
+          problem_context:
+            stem_latex: '点 $P,A,C$ 依次共线，点 $P,B,D$ 依次共线，$\angle PAB=\angle PDC$，$PA=6$，$PB=8$，$PD=9$，求 $PC$。'
+            source_problem_text: '画反 A 形的一小一大两个三角形：从 P 引出两条不重合射线，第一条射线上依次为 P、A、C，第二条射线上依次为 P、B、D；连接 AB 和 CD。标出 PA=6、PB=8、PD=9，PC 用问号表示；对角 PAB 与 PDC 使用相同角标记。只画题设信息，不标相似结论、比例式或答案。'
+          semantic_constraints:
+            given_objects: [P, A, B, C, D]
+            given_constraints:
+              - P, A, C are collinear in that order
+              - P, B, D are collinear in that order
+              - angle PAB equals angle PDC
+              - PA=6
+              - PB=8
+              - PD=9
+              - PC is the unknown side
+              - draw segments AB and CD
+            clean_forbidden:
+              - do not mark triangle PAB similar to triangle PDC
+              - do not show any proportion or the value of PC
+              - do not imply AB is parallel to CD as a given condition
+              - do not draw an isosceles or right-angle mark
+
+      - type: route
+        id: reverse-a-route
+        steps:
+          - id: reverse-a-angle-p
+            latex: 看到题设等角，寻找第二组角
+            content_latex: '由 $P,A,C$ 依次共线，$P,B,D$ 依次共线，得 $\angle APB=\angle DPC$。'
+          - id: reverse-a-prove-similar
+            latex: 用两角对应相等判定相似
+            content_latex: '又 $\angle PAB=\angle PDC$，所以 $\triangle PAB\sim\triangle PDC$。'
+          - id: reverse-a-match-sides
+            latex: 按顶点顺序写对应边
+            content_latex: '$P\leftrightarrow P$，$A\leftrightarrow D$，$B\leftrightarrow C$，故 $PA\leftrightarrow PD$，$PB\leftrightarrow PC$。'
+          - id: reverse-a-equation
+            latex: 选两组对应边列比例
+            content_latex: '$\displaystyle \frac{PA}{PD}=\frac{PB}{PC}$，代入得 $\displaystyle \frac{6}{9}=\frac{8}{PC}$。'
+          - id: reverse-a-solve
+            latex: 交叉相乘并验算
+            content_latex: '$6PC=72$，解得 $PC=12$；且 $8:12=6:9=2:3$。'
+
+      - type: dual_explanation
+        id: reverse-a-solution
+        label: 例题
+        stem_latex: 求 $PC$。
+        side_title: 小贴士
+        side_items:
+          - kind: hint
+            title: 看到等角先问什么
+            content_latex: '题目已经给出 $\angle PAB=\angle PDC$。要找相似，先问：第二组等角在哪里？'
+          - kind: hint
+            title: 再看角的顶点
+            content_latex: '$\angle PAB$ 的顶点是 $A$，$\angle PDC$ 的顶点是 $D$，所以先确定 $A\leftrightarrow D$。'
+          - kind: hint
+            title: 剩下的顶点怎样配
+            content_latex: '共同顶点是 $P$，于是 $P\leftrightarrow P$；剩下自然是 $B\leftrightarrow C$。'
+          - kind: mistake
+            title: 比例方向要统一
+            content_latex: '若第一组写“小三角形边:大三角形边”，第二组也必须保持同一方向。'
+          - kind: note
+            title: 用大小关系排错
+            content_latex: '$PD>PA$，大三角形的对应边 $PC$ 也应大于 $PB$。'
+        solution_title: 解答
+        solution_step_ids:
+          - reverse-a-angle-p
+          - reverse-a-prove-similar
+          - reverse-a-match-sides
+          - reverse-a-equation
+          - reverse-a-solve
+        connection_title: 对应关系
+        connection_items:
+          - latex: '三角形名称必须按对应顶点的同一顺序书写：$\triangle PAB\sim\triangle PDC$。'
+
+      - type: mistake
+        id: reverse-a-mistake
+        title: 易错提醒：同一条射线上的边不一定互相对应
+        content_latex: '$PA$ 与 $PC$ 虽在同一条射线上，但它们不对应。对应关系由角的顶点决定：$PA\leftrightarrow PD$，$PB\leftrightarrow PC$。'
+
+      - type: method_reminder
+        id: reverse-a-method
+        title: 四步做法
+        items:
+          - latex: '见等角：圈出题设等角，主动寻找第二组等角。'
+          - latex: '判相似：两组角齐全后，写出同序的相似三角形。'
+          - latex: '找对应：按角的顶点写对应顶点，再由两个端点写对应边。'
+          - latex: '列比：统一“小:大”或“大:小”，求解后用大小关系验算。'

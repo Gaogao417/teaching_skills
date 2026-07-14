@@ -1,0 +1,411 @@
+meta:
+  title: 比例辅助线：根据已知和所求现场作线
+  subtitle: 教师版
+  grade: 八年级
+  subject: 数学
+  duration: 30分钟
+  total_points: 30
+  version: teacher
+  source_artifacts:
+    review_draft: artifacts/专题/2026-07-12-比例辅助线两组比例-待审核/03-adaptive-practice.review.md
+    explanation: artifacts/专题/2026-07-12-比例辅助线两组比例-待审核/02-student-explanation.plan.assignment.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+  - id: main
+    title: 一、先围三角形，再作平行线接两组比例
+    type: practice
+    visibility: teacher
+    blocks:
+      - type: problem
+        id: q1
+        points: 10
+        label: 第 1 题
+        stem_latex: |
+          如图，在 $\triangle ABC$ 中，点 $D$ 在线段 $BC$ 上，点 $E$ 在线段 $AC$ 上，
+          线段 $AD$ 与 $BE$ 相交于点 $P$。已知
+          \[
+          AE:EC=1:2,\qquad AP:PD=3:4,
+          \]
+          求 $BP:PE$。
+
+          \begin{enumerate}[label=(\arabic*)]
+            \item 写出两条已知比和所求比分别在哪三条直线上，并指出这三条直线围成的三角形；
+            \item 选择这个三角形的一个顶点，在图中作对边的平行线，并写清它与第四条比例线相交于哪一点；
+            \item 写出辅助线形成的两组 A/8 字型相似三角形；
+            \item 用两组相似所得的比例求 $BP:PE$。
+          \end{enumerate}
+        diagram_slot:
+          slot_id: auxiliary.student.q1.prompt
+          diagram_ref: auxiliary.student.q1.prompt
+          variant: prompt
+          disclosure_policy: clean
+          required: true
+          on_failure: fail_assignment
+          placement: diagram_col
+          layout_role: question_sidecar
+          display_profile: worksheet_geometry_sidecar
+          caption: 第 1 题原始构型，请在图上补作辅助线。
+          engine: geometric_scene
+          diagram_kind: synthetic_geometry
+          engine_options:
+            engine_model_config:
+              codex_model: gpt-5.6-luna
+          teaching_intent: practice_prompt
+          problem_context:
+            stem_latex: 在 $\triangle ABC$ 中，$D\in BC$，$E\in AC$，$P=AD\cap BE$。已知 $AE:EC=1:2$、$AP:PD=3:4$，求 $BP:PE$。
+            source_problem_text: 画原始三角形 ABC，D 在线段 BC 上，E 在线段 AC 上，AD 与 BE 交于 P。可采用视觉种子坐标 A=(0,6)、B=(-3,0)、C=(3,0)、D=(1,0)、E=(1,4)、P=(0.429,3.429)。只画题设构型，清楚显示 A-E-C、A-P-D、B-P-E、B-D-C 的点序；不要画 F、辅助线、相似标记、比例答案或任何解题提示。
+          semantic_constraints:
+            given_objects: [A, B, C, D, E, P]
+            given_constraints:
+              - A, E, C are collinear with E between A and C
+              - B, D, C are collinear with D between B and C
+              - A, P, D are collinear with P between A and D
+              - B, P, E are collinear with P between B and E
+              - AE:EC=1:2
+              - AP:PD=3:4
+              - show segments AE, EC, AP, PD, BP and PE clearly
+            clean_forbidden:
+              - do not draw point F or any auxiliary parallel line; the parallel line is the student's construction task
+              - do not mark similar triangles
+              - do not show BD:DC, intermediate ratios, or the answer
+        hints:
+          - content_latex: '先找 $AC,AD,BE$ 三条比例线围成的三角形，再决定平行线。'
+        answer_space:
+          type: steps
+          height: 70mm
+          step_count: 5
+          diagram_slot:
+            slot_id: auxiliary.teacher.q1.solution
+            diagram_ref: auxiliary.teacher.q1.solution
+            variant: solution
+            disclosure_policy: annotated
+            reuse_geometry_from: auxiliary.student.q1.prompt
+            required: true
+            on_failure: fail_assignment
+            placement: diagram_col
+            layout_role: solution_annotation
+            display_profile: worksheet_geometry_sidecar
+            caption: 过 $A$ 作 $AF\parallel EP$，交直线 $BC$ 于 $F$。
+            engine: geometric_scene
+            diagram_kind: synthetic_geometry
+            engine_options:
+              engine_model_config:
+                codex_model: gpt-5.6-luna
+            teaching_intent: practice_solution
+            problem_context:
+              stem_latex: 在原图上，过 $A$ 作 $AF\parallel EP$，交直线 $BC$ 于 $F$；标出两组相似三角形 $\triangle ACF\sim\triangle ECB$、$\triangle ADF\sim\triangle PDB$。
+              source_problem_text: 复用教师第1题 prompt 的原始点位。新增点 F，使 A-F 直线平行 E-P 直线，且 F 位于直线 BC 上；完整画出 AF 和平行标记。用两组可区分的浅色轮廓或边线标出三角形 ACF 与 ECB、三角形 ADF 与 PDB。保留所有原始点，不写最终比例答案。
+            semantic_constraints:
+              given_objects: [A, B, C, D, E, P, F]
+              given_constraints:
+                - reuse the complete original geometry from auxiliary.teacher.q1.prompt
+                - A, F line is parallel to E, P line
+                - B, D, F, C are collinear
+                - F is the intersection of line BC and the line through A parallel to EP
+                - triangle ACF is similar to triangle ECB
+                - triangle ADF is similar to triangle PDB
+                - show the auxiliary line AF and a parallel marker for AF and EP
+        answer: '$BP:PE=6:1$。'
+        explanation: '三个比在 $AC,AD,BE$ 上，围成 $\triangle AEP$。过 $A$ 作 $AF\parallel EP$，交直线 $BC$ 于 $F$。由两组相似通过 $AF$ 接比例，得到 $BP:PE=6:1$。'
+        solution_steps:
+          - title: 围三角形并确定辅助线
+            content: '$AE:EC$ 在 $AC$ 上，$AP:PD$ 在 $AD$ 上，$BP:PE$ 在 $BE$ 上，三条线围成 $\triangle AEP$。过 $A$ 作 $AF\parallel EP$，交第四条比例线 $BC$ 于 $F$。'
+          - title: 第一组相似
+            content: '由 $A,E,C$ 共线、$B,D,F,C$ 共线及 $AF\parallel EB$，得 $\triangle ACF\sim\triangle ECB$，所以 $AF:EB=AC:EC=3:2$。'
+          - title: 第二组相似
+            content: '由 $A,P,D$ 共线、$B,D,F$ 共线及 $AF\parallel PB$，得 $\triangle ADF\sim\triangle PDB$。因为 $AP:PD=3:4$，所以 $AD:PD=7:4$，从而 $AF:PB=7:4$。'
+          - title: 统一中间线段
+            content: '取 $AF=21$ 份，则 $EB=14$ 份、$PB=12$ 份，所以 $PE=EB-PB=2$ 份。'
+          - title: 写出答案
+            content: '$BP:PE=12:2=6:1$。'
+        teaching:
+          teaching_goal: 训练由两条已知比和所求比围出三角形，再现场决定平行线与交点。
+          source_relations:
+            - 'fallback:approved_review:auxiliary_ratio_bridge'
+          model_fusion:
+            model_count: 1
+            models: [比例辅助线接两组相似]
+            fusion_role: single_model
+          relation_chain:
+            - step: 1
+              relation_id: 'fallback:approved_review:q1_aep'
+              inputs:
+                AE_EC: '1:2'
+                AP_PD: '3:4'
+              outputs:
+                BP_PE: '6:1'
+              constraints_checked:
+                - '$D\in BC$，$E\in AC$，$P=AD\cap BE$'
+                - '$AF\parallel EP$ 且 $F=AF\cap BC$'
+          expected_blocker: 只看两个已知比围图，漏掉所求比所在的第三条线，或把交点随便放在一条边上。
+          entry_point: hidden_structure
+          scaffold_level: high
+          variation_depth: same_structure
+          complexity_note: 两次整段比转换、两组相似和一次同线段统一份数，数值均为小整数。
+          upgrade_rule: 能在不提示顶点和相交直线时独立写出 $AF\parallel EP$、$F\in BC$。
+          fallback_move: 先分别圈出 $AC,AD,BE$，只看它们围出的 $\triangle AEP$。
+        layout:
+          avoid_break: true
+      - type: problem
+        id: q2
+        points: 10
+        label: 第 2 题
+        stem_latex: |
+          如图，在 $\triangle ABC$ 中，点 $D$ 在线段 $BC$ 上，点 $E$ 在线段 $AC$ 上，
+          线段 $AD$ 与 $BE$ 相交于点 $P$。已知
+          \[
+          BP:PE=3:1,\qquad BD:DC=2:1,
+          \]
+          求 $AE:EC$。
+
+          \begin{enumerate}[label=(\arabic*)]
+            \item 写出两条已知比和所求比分别在哪三条直线上，并指出这三条直线围成的三角形；
+            \item 选择这个三角形的一个顶点，在图中作对边的平行线，并写清它与第四条比例线相交于哪一点；
+            \item 写出辅助线形成的两组 A/8 字型相似三角形；
+            \item 用两组相似所得的比例求 $AE:EC$。
+          \end{enumerate}
+        diagram_slot:
+          slot_id: auxiliary.student.q2.prompt
+          diagram_ref: auxiliary.student.q2.prompt
+          variant: prompt
+          disclosure_policy: clean
+          required: true
+          on_failure: fail_assignment
+          placement: diagram_col
+          layout_role: question_sidecar
+          display_profile: worksheet_geometry_sidecar
+          caption: 第 2 题原始构型，请在图上补作辅助线。
+          engine: geometric_scene
+          diagram_kind: synthetic_geometry
+          engine_options:
+            engine_model_config:
+              codex_model: gpt-5.6-luna
+          teaching_intent: practice_prompt
+          problem_context:
+            stem_latex: 在 $\triangle ABC$ 中，$D\in BC$，$E\in AC$，$P=AD\cap BE$。已知 $BP:PE=3:1$、$BD:DC=2:1$，求 $AE:EC$。
+            source_problem_text: 画原始三角形 ABC，D 在线段 BC 上，E 在线段 AC 上，AD 与 BE 交于 P。可采用视觉种子坐标 A=(0,6)、B=(-3,0)、C=(3,0)、D=(1,0)、E=(2,2)、P=(0.75,1.5)。只画题设构型，清楚显示 A-E-C、A-P-D、B-P-E、B-D-C 的点序；不要画 F、辅助线、相似标记、比例答案或任何解题提示。
+          semantic_constraints:
+            given_objects: [A, B, C, D, E, P]
+            given_constraints:
+              - A, E, C are collinear with E between A and C
+              - B, D, C are collinear with D between B and C
+              - A, P, D are collinear with P between A and D
+              - B, P, E are collinear with P between B and E
+              - BP:PE=3:1
+              - BD:DC=2:1
+              - show segments BP, PE, BD, DC, AE and EC clearly
+            clean_forbidden:
+              - do not draw point F or any auxiliary parallel line; the parallel line is the student's construction task
+              - do not mark similar triangles
+              - do not show AP:PD, intermediate ratios, or the answer
+        hints:
+          - content_latex: '先找 $BE,BC,AC$ 三条比例线围成的三角形，再决定平行线。'
+        answer_space:
+          type: steps
+          height: 70mm
+          step_count: 5
+          diagram_slot:
+            slot_id: auxiliary.teacher.q2.solution
+            diagram_ref: auxiliary.teacher.q2.solution
+            variant: solution
+            disclosure_policy: annotated
+            reuse_geometry_from: auxiliary.student.q2.prompt
+            required: true
+            on_failure: fail_assignment
+            placement: diagram_col
+            layout_role: solution_annotation
+            display_profile: worksheet_geometry_sidecar
+            caption: 过 $E$ 作 $EF\parallel CB$，交直线 $AD$ 于 $F$。
+            engine: geometric_scene
+            diagram_kind: synthetic_geometry
+            engine_options:
+              engine_model_config:
+                codex_model: gpt-5.6-luna
+            teaching_intent: practice_solution
+            problem_context:
+              stem_latex: 在原图上，过 $E$ 作 $EF\parallel CB$，交直线 $AD$ 于 $F$；标出两组相似三角形 $\triangle AEF\sim\triangle ACD$、$\triangle PEF\sim\triangle PBD$。
+              source_problem_text: 复用教师第2题 prompt 的原始点位。新增点 F，使 E-F 直线平行 C-B 直线，且 F 位于直线 AD 上；完整画出 EF 和平行标记。用两组可区分的浅色轮廓或边线标出三角形 AEF 与 ACD、三角形 PEF 与 PBD。保留所有原始点，不写最终比例答案。
+            semantic_constraints:
+              given_objects: [A, B, C, D, E, P, F]
+              given_constraints:
+                - reuse the complete original geometry from auxiliary.teacher.q2.prompt
+                - E, F line is parallel to C, B line
+                - A, F, P, D are collinear
+                - F is the intersection of line AD and the line through E parallel to CB
+                - triangle AEF is similar to triangle ACD
+                - triangle PEF is similar to triangle PBD
+                - show the auxiliary line EF and a parallel marker for EF and CB
+        answer: '$AE:EC=2:1$。'
+        explanation: '三个比在 $BE,BC,AC$ 上，围成 $\triangle ECB$。过 $E$ 作 $EF\parallel CB$，交直线 $AD$ 于 $F$。由两组相似通过 $EF$ 接比例，得到 $AE:EC=2:1$。'
+        solution_steps:
+          - title: 围三角形并确定辅助线
+            content: '$BP:PE$ 在 $BE$ 上，$BD:DC$ 在 $BC$ 上，$AE:EC$ 在 $AC$ 上，三条线围成 $\triangle ECB$。过 $E$ 作 $EF\parallel CB$，交第四条比例线 $AD$ 于 $F$。'
+          - title: 先用 $P$ 处的相似
+            content: '由 $P,E,B$ 共线、$P,F,D$ 共线及 $EF\parallel BD$，得 $\triangle PEF\sim\triangle PBD$，所以 $EF:BD=PE:PB=1:3$。'
+          - title: 接到底边比例
+            content: '由 $BD:DC=2:1$，取 $BD=6$ 份、$DC=3$ 份，则 $EF=2$ 份，所以 $EF:DC=2:3$。'
+          - title: 再用 $A$ 处的相似
+            content: '由 $A,E,C$ 共线、$A,F,D$ 共线及 $EF\parallel CD$，得 $\triangle AEF\sim\triangle ACD$，所以 $AE:AC=EF:DC=2:3$。'
+          - title: 从整段转成分段
+            content: '取 $AE=2$ 份、$AC=3$ 份，则 $EC=1$ 份，因此 $AE:EC=2:1$。'
+        teaching:
+          teaching_goal: 在所求比例线改变后，重新围三角形并重新选择顶点、平行方向和相交直线。
+          source_relations:
+            - 'fallback:approved_review:auxiliary_ratio_bridge'
+          model_fusion:
+            model_count: 1
+            models: [比例辅助线接两组相似]
+            fusion_role: single_model
+          relation_chain:
+            - step: 1
+              relation_id: 'fallback:approved_review:q2_ecb'
+              inputs:
+                BP_PE: '3:1'
+                BD_DC: '2:1'
+              outputs:
+                AE_EC: '2:1'
+              constraints_checked:
+                - '$D\in BC$，$E\in AC$，$P=AD\cap BE$'
+                - '$EF\parallel CB$ 且 $F=EF\cap AD$'
+          expected_blocker: 机械沿用上一题的辅助线，或只写 $EF\parallel CB$ 而没有说明 $F$ 必须在 $AD$ 上。
+          entry_point: transfer
+          scaffold_level: medium
+          variation_depth: changed_question
+          complexity_note: 目标线和辅助线方向同时变化，但仍只用小整数份数。
+          upgrade_rule: 能先圈出 $BE,BC,AC$ 并独立判断 $F\in AD$。
+          fallback_move: 暂时遮住上一题，只写本题三条比例线并围出 $\triangle ECB$。
+        layout:
+          avoid_break: true
+      - type: problem
+        id: q3
+        points: 10
+        label: 第 3 题
+        stem_latex: |
+          如图，在 $\triangle ABC$ 中，点 $D$ 在线段 $BC$ 上，点 $E$ 在线段 $AC$ 上，
+          线段 $AD$ 与 $BE$ 相交于点 $P$。已知
+          \[
+          AP:PD=2:1,\qquad BP:PE=3:1,
+          \]
+          求 $BD:DC$。
+
+          \begin{enumerate}[label=(\arabic*)]
+            \item 写出两条已知比和所求比分别在哪三条直线上，并指出这三条直线围成的三角形；
+            \item 选择这个三角形的一个顶点，在图中作对边的平行线，并写清它与第四条比例线相交于哪一点；
+            \item 写出辅助线形成的两组 A/8 字型相似三角形；
+            \item 用两组相似所得的比例求 $BD:DC$。
+          \end{enumerate}
+        diagram_slot:
+          slot_id: auxiliary.student.q3.prompt
+          diagram_ref: auxiliary.student.q3.prompt
+          variant: prompt
+          disclosure_policy: clean
+          required: true
+          on_failure: fail_assignment
+          placement: diagram_col
+          layout_role: question_sidecar
+          display_profile: worksheet_geometry_sidecar
+          caption: 第 3 题原始构型，请在图上补作辅助线。
+          engine: geometric_scene
+          diagram_kind: synthetic_geometry
+          engine_options:
+            engine_model_config:
+              codex_model: gpt-5.6-luna
+          teaching_intent: practice_prompt
+          problem_context:
+            stem_latex: 在 $\triangle ABC$ 中，$D\in BC$，$E\in AC$，$P=AD\cap BE$。已知 $AP:PD=2:1$、$BP:PE=3:1$，求 $BD:DC$。
+            source_problem_text: 画原始三角形 ABC，D 在线段 BC 上，E 在线段 AC 上，AD 与 BE 交于 P。可采用视觉种子坐标 A=(0,8)、B=(-3,0)、C=(5,0)、D=(2,0)、E=(2.778,3.556)、P=(1.333,2.667)。只画题设构型，清楚显示 A-E-C、A-P-D、B-P-E、B-D-C 的点序；不要画 F、辅助线、相似标记、比例答案或任何解题提示。
+          semantic_constraints:
+            given_objects: [A, B, C, D, E, P]
+            given_constraints:
+              - A, E, C are collinear with E between A and C
+              - B, D, C are collinear with D between B and C
+              - A, P, D are collinear with P between A and D
+              - B, P, E are collinear with P between B and E
+              - AP:PD=2:1
+              - BP:PE=3:1
+              - show segments AP, PD, BP, PE, BD and DC clearly
+            clean_forbidden:
+              - do not draw point F or any auxiliary parallel line; the parallel line is the student's construction task
+              - do not mark similar triangles
+              - do not show AE:EC, intermediate ratios, or the answer
+        hints:
+          - content_latex: '先找 $AD,BE,BC$ 三条比例线围成的三角形，再决定平行线。'
+        answer_space:
+          type: steps
+          height: 70mm
+          step_count: 5
+          diagram_slot:
+            slot_id: auxiliary.teacher.q3.solution
+            diagram_ref: auxiliary.teacher.q3.solution
+            variant: solution
+            disclosure_policy: annotated
+            reuse_geometry_from: auxiliary.student.q3.prompt
+            required: true
+            on_failure: fail_assignment
+            placement: diagram_col
+            layout_role: solution_annotation
+            display_profile: worksheet_geometry_sidecar
+            caption: 过 $P$ 作 $PF\parallel DB$，交直线 $AC$ 于 $F$。
+            engine: geometric_scene
+            diagram_kind: synthetic_geometry
+            engine_options:
+              engine_model_config:
+                codex_model: gpt-5.6-luna
+            teaching_intent: practice_solution
+            problem_context:
+              stem_latex: 在原图上，过 $P$ 作 $PF\parallel DB$，交直线 $AC$ 于 $F$；标出两组相似三角形 $\triangle APF\sim\triangle ADC$、$\triangle EPF\sim\triangle EBC$。
+              source_problem_text: 复用教师第3题 prompt 的原始点位。新增点 F，使 P-F 直线平行 D-B 直线，且 F 位于直线 AC 上；完整画出 PF 和平行标记。用两组可区分的浅色轮廓或边线标出三角形 APF 与 ADC、三角形 EPF 与 EBC。保留所有原始点，不写最终比例答案。
+            semantic_constraints:
+              given_objects: [A, B, C, D, E, P, F]
+              given_constraints:
+                - reuse the complete original geometry from auxiliary.teacher.q3.prompt
+                - P, F line is parallel to D, B line
+                - A, E, F, C are collinear
+                - F is the intersection of line AC and the line through P parallel to DB
+                - triangle APF is similar to triangle ADC
+                - triangle EPF is similar to triangle EBC
+                - show the auxiliary line PF and a parallel marker for PF and DB
+        answer: '$BD:DC=5:3$。'
+        explanation: '三个比在 $AD,BE,BC$ 上，围成 $\triangle PDB$。过 $P$ 作 $PF\parallel DB$，交直线 $AC$ 于 $F$。由两组相似通过 $PF$ 接比例，得到 $BD:DC=5:3$。'
+        solution_steps:
+          - title: 围三角形并确定辅助线
+            content: '$AP:PD$ 在 $AD$ 上，$BP:PE$ 在 $BE$ 上，$BD:DC$ 在 $BC$ 上，三条线围成 $\triangle PDB$。过 $P$ 作 $PF\parallel DB$，交第四条比例线 $AC$ 于 $F$。'
+          - title: 用 $A$ 处的相似
+            content: '由 $A,P,D$ 共线、$A,F,C$ 共线及 $PF\parallel DC$，得 $\triangle APF\sim\triangle ADC$。因为 $AP:PD=2:1$，所以 $AP:AD=2:3$，从而 $PF:DC=2:3$。'
+          - title: 用 $E$ 处的相似
+            content: '由 $E,P,B$ 共线、$E,F,C$ 共线及 $PF\parallel BC$，得 $\triangle EPF\sim\triangle EBC$。因为 $BP:PE=3:1$，所以 $PE:BE=1:4$，从而 $PF:BC=1:4$。'
+          - title: 统一中间线段
+            content: '取 $PF=2$ 份。由 $PF:DC=2:3$ 得 $DC=3$ 份；由 $PF:BC=1:4$ 得 $BC=8$ 份。'
+          - title: 写出答案
+            content: '$BD=BC-DC=5$ 份，所以 $BD:DC=5:3$。'
+        teaching:
+          teaching_goal: 在两个已知比都在内部交线附近时，仍从三条比例线围成的三角形反推出辅助线。
+          source_relations:
+            - 'fallback:approved_review:auxiliary_ratio_bridge'
+          model_fusion:
+            model_count: 1
+            models: [比例辅助线接两组相似]
+            fusion_role: single_model
+          relation_chain:
+            - step: 1
+              relation_id: 'fallback:approved_review:q3_pdb'
+              inputs:
+                AP_PD: '2:1'
+                BP_PE: '3:1'
+              outputs:
+                BD_DC: '5:3'
+              constraints_checked:
+                - '$D\in BC$，$E\in AC$，$P=AD\cap BE$'
+                - '$PF\parallel DB$ 且 $F=PF\cap AC$'
+          expected_blocker: 看见 $P$ 就沿用前两题的外部顶点作线，或求出 $BC:DC$ 后忘记减去 $DC$。
+          entry_point: transfer
+          scaffold_level: low
+          variation_depth: changed_representation
+          complexity_note: 辅助线从内部交点作出，计算仍只涉及小整数份数和一次整段减法。
+          upgrade_rule: 能解释为什么本题必须过 $P$ 作线，并主动写出 $BD=BC-DC$。
+          fallback_move: 只保留 $AD,BE,BC$ 三条线，先看清 $\triangle PDB$ 的顶点和对边。
+        layout:
+          avoid_break: true

@@ -1,0 +1,131 @@
+meta:
+  title: 蝶形相似：等角找相似与对应边
+  subtitle: 学生讲义
+  grade: 八年级
+  subject: 数学
+  version: student
+  source_artifacts:
+    structure_analysis: artifacts/专题/2026-07-14-蝶形相似求第四边/01-structure-analysis.md
+
+render:
+  template: exam-zh-explanation
+  paper_size: a4paper
+
+sections:
+  - id: butterfly-similarity
+    title: 蝶形：看到等角先找相似，再用角锁对应
+    show_title: true
+    type: explanation
+    visibility: student
+    blocks:
+      - type: solution
+        id: butterfly-core-rule
+        title: 固定反应：看到等角找相似，相似以后找对应
+        items:
+          - latex: '\textbf{看到题目给角相等：}先保留这组角，再去交点或公共顶点寻找第二组等角。'
+          - latex: '\textbf{判定相似以后：}按“等角顶点 $\to$ 对应顶点 $\to$ 对应边”书写，外形和左右位置都不能代替对应关系。'
+          - latex: '两条直线 $AB,CD$ 相交于 $O$，所以 $\angle AOC=\angle DOB$，这组角来自对顶角。'
+          - latex: '若题目再明确给出 $\angle OAC=\angle ODB$，则由两角分别相等，得 $\triangle AOC\sim\triangle DOB$。'
+          - latex: '对应顶点为 $A\leftrightarrow D$、$O\leftrightarrow O$、$C\leftrightarrow B$，所以 $\dfrac{AO}{DO}=\dfrac{OC}{OB}=\dfrac{AC}{DB}$。'
+          - latex: '即使图形看起来像“8 字形”，也不能默认 $AC\parallel BD$；本模型明确要求 $AC\nparallel BD$。'
+
+      - type: problemcard
+        id: butterfly-example-card
+        label: 例题
+        stem_latex: |
+          如图，直线 $AB$ 与 $CD$ 相交于点 $O$，点序分别为 $A-O-B$、$C-O-D$，
+          且 $\angle OAC=\angle ODB$，$AC\nparallel BD$。
+          已知 $AO=6$，$OC=8$，$OD=9$，求 $OB$。
+        diagram_slot:
+          slot_id: explanation.butterfly.prompt
+          diagram_ref: explanation.butterfly.prompt
+          variant: prompt
+          disclosure_policy: clean
+          required: true
+          on_failure: fail_assignment
+          placement: block_center
+          layout_role: center_block
+          display_profile: worksheet_geometry_center
+          caption: 先找交点处的对顶角，再核对题设标出的另一组等角。
+          engine: geometric_scene
+          diagram_kind: synthetic_geometry
+          engine_options:
+            engine_model_config:
+              codex_model: gpt-5.4
+          teaching_intent: explanation_prompt
+          problem_context:
+            stem_latex: '直线 $AB$ 与 $CD$ 相交于 $O$，$A-O-B$、$C-O-D$，$\angle OAC=\angle ODB$，且 $AC\nparallel BD$。已知 $AO=6$、$OC=8$、$OD=9$，求 $OB$。'
+            source_problem_text: '画一个非退化的蝶形：A、O、B 严格共线且 O 在 A、B 之间；B 是直线 AO 上由题设关系求出的构造点，scene 中必须给 B 自身添加原生在线约束，不能只用 O 在线段 AB 上间接表达；C、O、D 严格共线且 O 在 C、D 之间；连接 AC 与 BD。用同样的角弧标记角 OAC 与角 ODB 相等。AC 与 BD 必须明显不平行，不添加任何平行符号。标出 AO=6、OC=8、OD=9，OB 只标问号；不显示相似式、比例式或答案。'
+          semantic_constraints:
+            given_objects: [A, B, C, D, O]
+            given_constraints:
+              - A, O, B are collinear in strict order A-O-B
+              - B is a constructed point on the infinite line through A and O and must have its own native point-on-line construction constraint
+              - C, O, D are collinear in strict order C-O-D
+              - segments AC and BD are both visible
+              - angle OAC equals angle ODB and both angles carry matching arc marks
+              - AO=6
+              - OC=8
+              - OD=9
+              - OB is the target and must not show its value
+              - AC is not parallel to BD
+            clean_forbidden:
+              - must not imply AC is parallel to BD
+              - do not add parallel marks or use parallel-line styling
+              - do not mark A as corresponding to B
+              - do not show similar-triangle notation, proportions, or the answer
+
+      - type: route
+        id: butterfly-example-route
+        steps:
+          - id: butterfly-step-angles
+            latex: 看到题设等角，寻找第二组角
+            content_latex: '由对顶角相等，得 $\angle AOC=\angle DOB$；题设给出 $\angle OAC=\angle ODB$。'
+          - id: butterfly-step-similar
+            latex: 按角的顶点写相似顺序
+            content_latex: '由两角分别相等，得 $\triangle AOC\sim\triangle DOB$，其中 $A\leftrightarrow D$、$C\leftrightarrow B$。'
+          - id: butterfly-step-proportion
+            latex: 选含未知边的对应边比
+            content_latex: '由对应边成比例，得 $\dfrac{AO}{DO}=\dfrac{OC}{OB}$，即 $\dfrac69=\dfrac8{OB}$。'
+          - id: butterfly-step-answer
+            latex: 解比例并验算
+            content_latex: '解得 $OB=12$；验算 $6:9=8:12=2:3$。'
+
+      - type: dual_explanation
+        id: butterfly-example-solution
+        label: 例题
+        stem_latex: '已知 $AO=6$，$OC=8$，$OD=9$，求 $OB$。'
+        side_title: 小贴士
+        side_items:
+          - kind: hint
+            title: 看到等角先问什么
+            content_latex: '题目已给 $\angle OAC=\angle ODB$。要找相似，还需要哪一组角？交点 $O$ 处的对顶角正好补齐。'
+          - kind: hint
+            title: 怎么锁定对应点
+            content_latex: '$\angle OAC$ 的顶点是 $A$，$\angle ODB$ 的顶点是 $D$，所以 $A$ 对应 $D$，不是按左右位置把 $A$ 对到 $B$。'
+          - kind: mistake
+            title: 外形不能当条件
+            content_latex: '题目明确 $AC\nparallel BD$；不能因为图像像“8 字形”就使用平行线性质。'
+          - kind: hint
+            title: 为什么只列这一条比
+            content_latex: '未知边是 $OB$，与它对应的是 $OC$；再选一组全已知的 $AO,DO$ 即可。'
+        solution_title: 解答
+        solution_step_ids:
+          - butterfly-step-angles
+          - butterfly-step-similar
+          - butterfly-step-proportion
+          - butterfly-step-answer
+
+      - type: mistake
+        id: butterfly-mistake
+        title: 易错提醒
+        content_latex: '相似顺序由等角顶点决定。本题应写 $\triangle AOC\sim\triangle DOB$；若机械写成 $\triangle AOC\sim\triangle BOD$，对应边就会全部错位。'
+
+      - type: method_reminder
+        id: butterfly-method
+        title: 方法提醒
+        items:
+          - latex: '见等角：圈出题设等角，主动寻找第二组等角。'
+          - latex: '判相似：两组角齐全后，用 AA 写出相似三角形。'
+          - latex: '找对应：按等角顶点写对应点，再由两个端点写对应边。'
+          - latex: '三边已知求第四边时，只列含未知边和三条已知边的一条对应比例。'

@@ -1,0 +1,153 @@
+meta:
+  title: 比例辅助线：用已知比和所求比现场决定辅助线
+  subtitle: 学生讲义
+  grade: 八年级
+  subject: 数学
+  version: student
+  source_artifacts:
+    review_draft: artifacts/专题/2026-07-12-比例辅助线两组比例-待审核/02-student-explanation.review.md
+render:
+  template: exam-zh-explanation
+  paper_size: a4paper
+sections:
+- id: choose-helper-line
+  title: 先围三角形，再决定平行线和交点
+  show_title: true
+  type: explanation
+  visibility: student
+  blocks:
+  - type: solution
+    id: core-rule
+    title: 核心动作：已知和所求共同决定辅助线
+    items:
+    - latex: 题目中的四条比例线是 $AC$ 上的 $AE:EC$、$AD$ 上的 $AP:PD$、$BE$ 上的 $BP:PE$、$BC$ 上的 $BD:DC$。
+    - latex: 先找两条已知比和所求比所在的三条直线；它们围成的三角形，决定平行线从哪个顶点作出。
+    - latex: 过这个三角形的一个顶点作对边的平行线；再连接平行线外的两个点，让这条连线与新平行线相交。
+    - latex: 最后从完整图中找出两组 A/8 字型相似三角形，用共同的中间线段接比例。
+  - type: problemcard
+    id: example-card
+    label: 例题
+    stem_latex: '如图，在 $\triangle ABC$ 中，点 $D$ 在线段 $BC$ 上，点 $E$ 在线段 $AC$ 上，
+
+      线段 $AD$ 与 $BE$ 相交于点 $P$。已知
+
+      \[
+
+      AE:EC=1:2,\qquad BD:DC=2:1,
+
+      \]
+
+      求 $AP:PD$。
+
+      '
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/explanation-example-prompt/rendered/prompt.fragment.tex
+      diagram_ref: explanation.example.prompt
+      diagram_job_id: explanation-example-prompt
+      width: 70mm
+      caption: 先找两条已知比例线和所求比例线围成的三角形。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:4c2100e72c5935bc343bfee3f6ee950f69b8fe24a28306aaf56fcbc7cd61aedc
+      packages:
+      - tikz
+      libraries: []
+  - type: route
+    id: example-route
+    steps:
+    - id: step-select-triangle
+      latex: 找到三条比例线围成的三角形
+      content_latex: $AE:EC$ 在 $AC$ 上，$BD:DC$ 在 $BC$ 上，$AP:PD$ 在 $AD$ 上；所以先围 $\triangle
+        ACD$。
+    - id: step-add-parallel
+      latex: 过顶点 $C$ 作对边的平行线
+      content_latex: 过 $C$ 作 $CF\parallel AD$。点 $B,E$ 在这组平行线外，连接 $BE$，令它与 $CF$ 交于
+        $F$。
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/explanation-example-helper/rendered/solution.fragment.tex
+        diagram_ref: explanation.example.helper
+        diagram_job_id: explanation-example-helper
+        width: 70mm
+        caption: 围出 $\triangle ACD$ 后，过顶点 $C$ 作 $AD$ 的平行线。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:1f5bfc18e8abc4c011f1b7294dca4b43f469b3832f6f6eebd306e00faf7b76e4
+        packages:
+        - tikz
+        libraries: []
+    - id: step-first-similar
+      latex: 用 $E$ 处的相似三角形读第一个比例
+      content_latex: 由 $A,E,C$ 共线、$P,E,F$ 共线、$AP\parallel CF$，得 $\triangle EAP\sim\triangle
+        ECF$，所以 $AP:CF=AE:EC=1:2$。
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/explanation-example-similar-e/rendered/solution.fragment.tex
+        diagram_ref: explanation.example.similar-e
+        diagram_job_id: explanation-example-similar-e
+        width: 70mm
+        caption: 先在 $E$ 处找出第一组相似三角形。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:0a36f31791f72f16617a77a919f83600e62d802eac2fb0255da63328969cfdbe
+        packages:
+        - tikz
+        libraries: []
+    - id: step-second-similar
+      latex: 用 $B$ 处的相似三角形读第二个比例
+      content_latex: 由 $B,D,C$ 共线、$B,P,F$ 共线、$DP\parallel CF$，得 $\triangle BDP\sim\triangle
+        BCF$。又 $BD:BC=2:3$，所以 $DP:CF=2:3$。
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/explanation-example-similar-b/rendered/solution.fragment.tex
+        diagram_ref: explanation.example.similar-b
+        diagram_job_id: explanation-example-similar-b
+        width: 70mm
+        caption: 再在 $B$ 处找出第二组相似三角形。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:e6769bbbbc1ceedd8f2ab8e656f6aa537c434421f7a35987bac113e4169a62f8
+        packages:
+        - tikz
+        libraries: []
+    - id: step-connect-ratios
+      latex: 统一中间线段 $CF$，写出所求比
+      content_latex: 由 $AP:CF=1:2$、$DP:CF=2:3$，取 $CF=6$ 份，得 $AP=3$ 份、$DP=4$ 份，所以 $AP:PD=3:4$。
+  - type: dual_explanation
+    id: example-solution
+    label: 例题
+    stem_latex: 求 $AP:PD$。
+    side_title: 小贴士
+    side_items:
+    - kind: hint
+      title: 先围哪一个三角形
+      content_latex: 先看两条已知比和所求比分别在哪三条直线上；本题是 $AC,BC,AD$，所以围 $\triangle ACD$。
+    - kind: hint
+      title: 为什么交点不能随便选
+      content_latex: 先确定平行线外的两个点 $B,E$，连接 $BE$ 后，新交点 $F$ 才由图形关系确定。
+    - kind: mistake
+      title: 不要漏掉整段 $BC$
+      content_latex: $BD:DC=2:1$ 先变成 $BD:BC=2:3$，不能直接写成 $BD:BC=2:1$。
+    solution_title: 解答
+    solution_step_ids:
+    - step-select-triangle
+    - step-add-parallel
+    - step-first-similar
+    - step-second-similar
+    - step-connect-ratios
+  - type: mistake
+    id: common-mistake
+    title: 易错提醒：不是先背一条辅助线
+    content_latex: 先由“两条已知比和一个所求比”围三角形，再确定顶点、对边和平行线外两点的连线；不能先背一条固定辅助线，也不能随便选交点。
+  - type: method_reminder
+    id: method-card
+    title: 做题顺序
+    items:
+    - latex: 找三条比例线 $\rightarrow$ 围三角形 $\rightarrow$ 过顶点作对边平行线。
+    - latex: 找平行线外的两个点并连接 $\rightarrow$ 确定交点 $\rightarrow$ 找两组 A/8 字型。
+    - latex: 把两组比例中的中间线段统一份数，再求所需的分段比。

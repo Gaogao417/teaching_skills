@@ -1,0 +1,142 @@
+meta:
+  title: 比例辅助线边比练习
+  subtitle: 学生版
+  grade: 八年级
+  subject: 数学
+  duration: 20分钟
+  total_points: 30
+  version: student
+  source_artifacts:
+    structure_analysis: artifacts/专题/2026-07-09-比例辅助线边比/01-structure-analysis.md
+    explanation: artifacts/专题/2026-07-09-比例辅助线边比/02-student-explanation.resolved.assignment.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: main
+  title: 一、核心练习
+  type: practice
+  visibility: student
+  blocks:
+  - type: problem
+    id: q1
+    points: 10
+    label: 第 1 题
+    stem_latex: |
+      如图，在 $\triangle ABC$ 中，点 $D$ 在边 $AB$ 上，点 $E$ 在边 $AC$ 上，$CD$ 与 $BE$ 相交于点 $P$。
+      已知 $AD:DB=1:2$，$AE:EC=1:2$，求 $CP:PD$。
+    diagram_slot:
+      slot_id: practice.student.q1.prompt
+      diagram_ref: practice.student.q1.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 第 1 题图
+      engine: geometric_scene
+      diagram_kind: synthetic_geometry
+      teaching_intent: practice_prompt
+      problem_context:
+        stem_latex: 在 $\triangle ABC$ 中，点 $D$ 在边 $AB$ 上，点 $E$ 在边 $AC$ 上，$CD$ 与 $BE$ 相交于点 $P$。已知 $AD:DB=1:2$，$AE:EC=1:2$。
+        source_problem_text: 画三角形 ABC，D 在 AB 上且 AD:DB=1:2，E 在 AC 上且 AE:EC=1:2，连接 CD 与 BE 交于 P。P 必须清楚落在 CD 上，使学生能看到目标分段 CP 和 PD。只画题设对象，不画辅助线，不写答案。
+      semantic_constraints:
+        given_objects: [A, B, C, D, E, P]
+        given_constraints:
+        - D lies on AB with AD:DB=1:2
+        - E lies on AC with AE:EC=1:2
+        - P is the intersection of CD and BE
+        - target ratio is CP:PD; show C, P, D collinear so segments CP and PD are visible
+        clean_forbidden:
+        - 不要画辅助线
+        - 不要写答案
+    hints:
+    - content_latex: 目标在 $CD$ 上，先想 $CP:PD=(AB:DB)\times(CE:AE)$。
+    answer_space:
+      type: steps
+      height: 45mm
+      step_count: 4
+  - type: problem
+    id: q2
+    points: 10
+    label: 第 2 题
+    stem_latex: |
+      如图，在 $\triangle ABC$ 中，点 $D$ 在边 $AB$ 上，点 $E$ 在边 $AC$ 上，$CD$ 与 $BE$ 相交于点 $P$。
+      已知 $AD:DB=\frac{4}{3}:1$，$AE:EC=\frac{1}{2}:1$，求 $BP:PE$。
+    diagram_slot:
+      slot_id: practice.student.q2.prompt
+      diagram_ref: practice.student.q2.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 第 2 题图
+      engine: geometric_scene
+      diagram_kind: synthetic_geometry
+      teaching_intent: practice_prompt
+      problem_context:
+        stem_latex: 在 $\triangle ABC$ 中，点 $D$ 在边 $AB$ 上，点 $E$ 在边 $AC$ 上，$CD$ 与 $BE$ 相交于点 $P$。已知 $AD:DB=\frac{4}{3}:1$，$AE:EC=\frac{1}{2}:1$。
+        source_problem_text: 画三角形 ABC，D 在 AB 上且 AD:DB=4/3:1，E 在 AC 上且 AE:EC=1/2:1，连接 CD 与 BE 交于 P。P 必须清楚落在 BE 上，使学生能看到目标分段 BP 和 PE。只画题设对象，不画辅助线，不写答案。
+      semantic_constraints:
+        given_objects: [A, B, C, D, E, P]
+        given_constraints:
+        - D lies on AB with AD:DB=4/3:1
+        - E lies on AC with AE:EC=1/2:1
+        - P is the intersection of CD and BE
+        - target ratio is BP:PE; show B, P, E collinear so segments BP and PE are visible
+        clean_forbidden:
+        - 不要画辅助线
+        - 不要写答案
+    hints:
+    - content_latex: 目标在 $BE$ 上，先想 $BP:PE=(AC:CE)\times(BD:AD)$。
+    answer_space:
+      type: steps
+      height: 45mm
+      step_count: 4
+  - type: problem
+    id: q3
+    points: 10
+    label: 第 3 题
+    stem_latex: |
+      如图，在 $\triangle ABC$ 中，点 $D$ 在边 $AB$ 上，点 $E$ 在边 $AC$ 上，$CD$ 与 $BE$ 相交于点 $P$。
+      已知 $AE:EC=\sqrt{2}:1$，$CP:PD=2\sqrt{2}:1$，求 $AD:DB$。
+    diagram_slot:
+      slot_id: practice.student.q3.prompt
+      diagram_ref: practice.student.q3.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 第 3 题图
+      engine: geometric_scene
+      diagram_kind: synthetic_geometry
+      teaching_intent: practice_prompt
+      problem_context:
+        stem_latex: 在 $\triangle ABC$ 中，点 $D$ 在边 $AB$ 上，点 $E$ 在边 $AC$ 上，$CD$ 与 $BE$ 相交于点 $P$。已知 $AE:EC=\sqrt{2}:1$，$CP:PD=2\sqrt{2}:1$。
+        source_problem_text: 画三角形 ABC，题面比例保持 AE:EC=sqrt(2):1，CP:PD=2sqrt(2):1。为避免图形生成反解，可直接使用近似坐标 A=(0,0), B=(4,0), D=(3,0), C=(0,2.414), E=(0,1.414), P=(2.216,0.631)。这些坐标满足 E 在 AC 上且 AE:EC≈1.414:1，P 在 CD 上且 CP:PD≈2.828:1，B、P、E 共线。只画题设对象，不画辅助线，不写答案，不标出 AD:DB。
+      semantic_constraints:
+        given_objects: [A, B, C, D, E, P]
+        given_constraints:
+        - E lies on AC with AE:EC=sqrt(2):1, use drawing approximation AE:EC=1.414:1
+        - use approximate coordinates A=(0,0), B=(4,0), D=(3,0), C=(0,2.414), E=(0,1.414), P=(2.216,0.631)
+        - D lies on AB; do not label AD:DB
+        - P is the intersection of CD and BE
+        - CP:PD=2*sqrt(2):1, use drawing approximation CP:PD=2.828:1
+        clean_forbidden:
+        - 不要画辅助线
+        - 不要写答案
+    hints:
+    - content_latex: 反过来用 $CP:PD=(AB:DB)\times(CE:AE)$，先求 $AB:DB$。
+    answer_space:
+      type: steps
+      height: 45mm
+      step_count: 4

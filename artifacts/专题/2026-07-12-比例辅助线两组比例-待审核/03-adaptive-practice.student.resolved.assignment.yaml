@@ -1,0 +1,117 @@
+meta:
+  title: 比例辅助线：根据已知和所求现场作线
+  subtitle: 学生练习
+  grade: 八年级
+  subject: 数学
+  duration: 30分钟
+  total_points: 30
+  version: student
+  source_artifacts:
+    review_draft: artifacts/专题/2026-07-12-比例辅助线两组比例-待审核/03-adaptive-practice.review.md
+    explanation: artifacts/专题/2026-07-12-比例辅助线两组比例-待审核/02-student-explanation.plan.assignment.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: main
+  title: 一、先围三角形，再作平行线接两组比例
+  type: practice
+  visibility: student
+  blocks:
+  - type: problem
+    id: q1
+    points: 10
+    label: 第 1 题
+    stem_latex: "如图，在 $\\triangle ABC$ 中，点 $D$ 在线段 $BC$ 上，点 $E$ 在线段 $AC$ 上，\n线段 $AD$\
+      \ 与 $BE$ 相交于点 $P$。已知\n\\[\nAE:EC=1:2,\\qquad AP:PD=3:4,\n\\]\n求 $BP:PE$。\n\n\
+      \\begin{enumerate}[label=(\\arabic*)]\n  \\item 写出两条已知比和所求比分别在哪三条直线上，并指出这三条直线围成的三角形；\n\
+      \  \\item 选择这个三角形的一个顶点，在图中作对边的平行线，并写清它与第四条比例线相交于哪一点；\n  \\item 写出辅助线形成的两组 A/8\
+      \ 字型相似三角形；\n  \\item 用两组相似所得的比例求 $BP:PE$。\n\\end{enumerate}\n"
+    hints:
+    - content_latex: 先把“两条已知比＋所求比”落到三条直线上，再看它们围成哪个三角形。
+    - content_latex: 作线后先找两组相似；两组比例要通过同一条中间线段接起来。
+    answer_space:
+      type: steps
+      height: 68mm
+      step_count: 5
+    layout:
+      avoid_break: true
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/auxiliary-student-q1-prompt/rendered/prompt.fragment.tex
+      diagram_ref: auxiliary.student.q1.prompt
+      diagram_job_id: auxiliary-student-q1-prompt
+      width: 60mm
+      caption: 第 1 题原始构型，请在图上补作辅助线。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:d573d10fe4d129930f6e2f389733520bd2de2f17e7dd7dea3b766857d8c23523
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: q2
+    points: 10
+    label: 第 2 题
+    stem_latex: "如图，在 $\\triangle ABC$ 中，点 $D$ 在线段 $BC$ 上，点 $E$ 在线段 $AC$ 上，\n线段 $AD$\
+      \ 与 $BE$ 相交于点 $P$。已知\n\\[\nBP:PE=3:1,\\qquad BD:DC=2:1,\n\\]\n求 $AE:EC$。\n\n\
+      \\begin{enumerate}[label=(\\arabic*)]\n  \\item 写出两条已知比和所求比分别在哪三条直线上，并指出这三条直线围成的三角形；\n\
+      \  \\item 选择这个三角形的一个顶点，在图中作对边的平行线，并写清它与第四条比例线相交于哪一点；\n  \\item 写出辅助线形成的两组 A/8\
+      \ 字型相似三角形；\n  \\item 用两组相似所得的比例求 $AE:EC$。\n\\end{enumerate}\n"
+    hints:
+    - content_latex: 先确认三条比例线围成的三角形；辅助线的方向应由这个三角形决定。
+    - content_latex: 新平行线必须与剩余的第四条比例线相交，交点不能随便选。
+    answer_space:
+      type: steps
+      height: 68mm
+      step_count: 5
+    layout:
+      avoid_break: true
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/auxiliary-student-q2-prompt/rendered/prompt.fragment.tex
+      diagram_ref: auxiliary.student.q2.prompt
+      diagram_job_id: auxiliary-student-q2-prompt
+      width: 60mm
+      caption: 第 2 题原始构型，请在图上补作辅助线。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:116e446b72397155104bf6a0b0fd99b18d6d8d6d8d40f860f70bcf5678c1a304
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: q3
+    points: 10
+    label: 第 3 题
+    stem_latex: "如图，在 $\\triangle ABC$ 中，点 $D$ 在线段 $BC$ 上，点 $E$ 在线段 $AC$ 上，\n线段 $AD$\
+      \ 与 $BE$ 相交于点 $P$。已知\n\\[\nAP:PD=2:1,\\qquad BP:PE=3:1,\n\\]\n求 $BD:DC$。\n\n\
+      \\begin{enumerate}[label=(\\arabic*)]\n  \\item 写出两条已知比和所求比分别在哪三条直线上，并指出这三条直线围成的三角形；\n\
+      \  \\item 选择这个三角形的一个顶点，在图中作对边的平行线，并写清它与第四条比例线相交于哪一点；\n  \\item 写出辅助线形成的两组 A/8\
+      \ 字型相似三角形；\n  \\item 用两组相似所得的比例求 $BD:DC$。\n\\end{enumerate}\n"
+    hints:
+    - content_latex: 本题的三个比例落在 $AD,BE,BC$ 上；先只看这三条直线围出的图形。
+    - content_latex: 两组相似都应含有新作出的平行线段，并通过它统一比例。
+    answer_space:
+      type: steps
+      height: 68mm
+      step_count: 5
+    layout:
+      avoid_break: true
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/auxiliary-student-q3-prompt/rendered/prompt.fragment.tex
+      diagram_ref: auxiliary.student.q3.prompt
+      diagram_job_id: auxiliary-student-q3-prompt
+      width: 60mm
+      caption: 第 3 题原始构型，请在图上补作辅助线。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:0eb1a2cc719a9d3daadbb5824a8bccf13e7908a13c136d583e6a5eccd33c307b
+      packages:
+      - tikz
+      libraries: []

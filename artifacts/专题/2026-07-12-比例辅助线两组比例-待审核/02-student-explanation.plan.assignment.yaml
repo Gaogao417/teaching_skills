@@ -1,0 +1,207 @@
+meta:
+  title: 比例辅助线：用已知比和所求比现场决定辅助线
+  subtitle: 学生讲义
+  grade: 八年级
+  subject: 数学
+  version: student
+  source_artifacts:
+    review_draft: artifacts/专题/2026-07-12-比例辅助线两组比例-待审核/02-student-explanation.review.md
+render:
+  template: exam-zh-explanation
+  paper_size: a4paper
+sections:
+  - id: choose-helper-line
+    title: 先围三角形，再决定平行线和交点
+    show_title: true
+    type: explanation
+    visibility: student
+    blocks:
+      - type: solution
+        id: core-rule
+        title: 核心动作：已知和所求共同决定辅助线
+        items:
+          - latex: '题目中的四条比例线是 $AC$ 上的 $AE:EC$、$AD$ 上的 $AP:PD$、$BE$ 上的 $BP:PE$、$BC$ 上的 $BD:DC$。'
+          - latex: '先找两条已知比和所求比所在的三条直线；它们围成的三角形，决定平行线从哪个顶点作出。'
+          - latex: '过这个三角形的一个顶点作对边的平行线；再连接平行线外的两个点，让这条连线与新平行线相交。'
+          - latex: '最后从完整图中找出两组 A/8 字型相似三角形，用共同的中间线段接比例。'
+      - type: problemcard
+        id: example-card
+        label: 例题
+        stem_latex: |
+          如图，在 $\triangle ABC$ 中，点 $D$ 在线段 $BC$ 上，点 $E$ 在线段 $AC$ 上，
+          线段 $AD$ 与 $BE$ 相交于点 $P$。已知
+          \[
+          AE:EC=1:2,\qquad BD:DC=2:1,
+          \]
+          求 $AP:PD$。
+        diagram_slot:
+          slot_id: explanation.example.prompt
+          diagram_ref: explanation.example.prompt
+          variant: prompt
+          disclosure_policy: clean
+          required: true
+          on_failure: fail_assignment
+          placement: block_center
+          layout_role: center_block
+          display_profile: worksheet_geometry_center
+          caption: 先找两条已知比例线和所求比例线围成的三角形。
+          engine: geometric_scene
+          diagram_kind: synthetic_geometry
+          engine_options:
+            engine_model_config:
+              codex_model: gpt-5.6-luna
+          teaching_intent: explanation_prompt
+          problem_context:
+            stem_latex: 在 $\triangle ABC$ 中，$D\in BC$，$E\in AC$，$P=AD\cap BE$。已知 $AE:EC=1:2$、$BD:DC=2:1$，求 $AP:PD$。
+            source_problem_text: 画三角形 ABC。点 D 在线段 BC 上且 BD:DC=2:1；点 E 在线段 AC 上且 AE:EC=1:2；连接 AD 和 BE，交于 P。只画原始构型；清楚标出 AE、EC、BD、DC、AP、PD；不要画辅助线、相似三角形、比例式或答案。
+          semantic_constraints:
+            given_objects: [A, B, C, D, E, P]
+            given_constraints:
+              - A, E, C are collinear with E between A and C
+              - B, D, C are collinear with D between B and C
+              - A, P, D are collinear with P between A and D
+              - B, P, E are collinear with P between B and E
+              - AE:EC=1:2
+              - BD:DC=2:1
+              - highlight known segments AE, EC, BD, DC and target segments AP, PD
+            clean_forbidden:
+              - do not draw F or any auxiliary line
+              - do not mark similar triangles
+              - do not show intermediate ratios or the answer
+      - type: route
+        id: example-route
+        steps:
+          - id: step-select-triangle
+            latex: 找到三条比例线围成的三角形
+            content_latex: '$AE:EC$ 在 $AC$ 上，$BD:DC$ 在 $BC$ 上，$AP:PD$ 在 $AD$ 上；所以先围 $\triangle ACD$。'
+          - id: step-add-parallel
+            latex: 过顶点 $C$ 作对边的平行线
+            content_latex: '过 $C$ 作 $CF\parallel AD$。点 $B,E$ 在这组平行线外，连接 $BE$，令它与 $CF$ 交于 $F$。'
+            diagram_slot:
+              slot_id: explanation.example.helper
+              diagram_ref: explanation.example.helper
+              variant: solution
+              disclosure_policy: annotated
+              reuse_geometry_from: explanation.example.prompt
+              required: true
+              on_failure: fail_assignment
+              placement: step_diagram
+              layout_role: solution_annotation
+              display_profile: worksheet_geometry_center
+              caption: 围出 $\triangle ACD$ 后，过顶点 $C$ 作 $AD$ 的平行线。
+              engine: geometric_scene
+              diagram_kind: synthetic_geometry
+              engine_options:
+                engine_model_config:
+                  codex_model: gpt-5.6-luna
+              teaching_intent: explanation_solution
+              problem_context:
+                stem_latex: 在原图上，过 C 作 CF 平行 AD，交直线 BE 于 F。
+                source_problem_text: 复用原图的点位。新增点 F，要求 F 同时在直线 BE 与过 C 且平行 AD 的直线上。完整画出 CF，并明确 AD 与 CF 的平行标记；保留 B、P、E、F 共线关系。
+              semantic_constraints:
+                given_objects: [A, B, C, D, E, P, F]
+                given_constraints:
+                  - reuse original geometry with D on BC, E on AC, and P=AD∩BE
+                  - C, F line is parallel to A, D line
+                  - B, P, E, F are collinear
+                  - F is the intersection of line BE and the line through C parallel to AD
+                clean_forbidden:
+                  - do not show similar-triangle names or numerical answers
+          - id: step-first-similar
+            latex: 用 $E$ 处的相似三角形读第一个比例
+            content_latex: '由 $A,E,C$ 共线、$P,E,F$ 共线、$AP\parallel CF$，得 $\triangle EAP\sim\triangle ECF$，所以 $AP:CF=AE:EC=1:2$。'
+            diagram_slot:
+              slot_id: explanation.example.similar-e
+              diagram_ref: explanation.example.similar-e
+              variant: solution
+              disclosure_policy: annotated
+              reuse_geometry_from: explanation.example.prompt
+              required: true
+              on_failure: fail_assignment
+              placement: step_diagram
+              layout_role: solution_annotation
+              display_profile: worksheet_geometry_center
+              caption: 先在 $E$ 处找出第一组相似三角形。
+              engine: geometric_scene
+              diagram_kind: synthetic_geometry
+              engine_options:
+                engine_model_config:
+                  codex_model: gpt-5.6-luna
+              teaching_intent: explanation_solution
+              problem_context:
+                stem_latex: 标出 $\triangle EAP$ 与 $\triangle ECF$。
+                source_problem_text: 复用原图并新增 F：CF 平行 AD，F 在 BE 上。用两种浅色突出三角形 EAP 和 ECF；强调 AP 对应 CF、AE 对应 EC；不标最终答案。
+              semantic_constraints:
+                given_objects: [A, B, C, D, E, P, F]
+                given_constraints:
+                  - triangle EAP is similar to triangle ECF
+                  - AP is parallel to CF
+                  - A, E, C are collinear
+                  - P, E, F are collinear
+          - id: step-second-similar
+            latex: 用 $B$ 处的相似三角形读第二个比例
+            content_latex: '由 $B,D,C$ 共线、$B,P,F$ 共线、$DP\parallel CF$，得 $\triangle BDP\sim\triangle BCF$。又 $BD:BC=2:3$，所以 $DP:CF=2:3$。'
+            diagram_slot:
+              slot_id: explanation.example.similar-b
+              diagram_ref: explanation.example.similar-b
+              variant: solution
+              disclosure_policy: annotated
+              reuse_geometry_from: explanation.example.prompt
+              required: true
+              on_failure: fail_assignment
+              placement: step_diagram
+              layout_role: solution_annotation
+              display_profile: worksheet_geometry_center
+              caption: 再在 $B$ 处找出第二组相似三角形。
+              engine: geometric_scene
+              diagram_kind: synthetic_geometry
+              engine_options:
+                engine_model_config:
+                  codex_model: gpt-5.6-luna
+              teaching_intent: explanation_solution
+              problem_context:
+                stem_latex: 标出 $\triangle BDP$ 与 $\triangle BCF$。
+                source_problem_text: 复用原图并新增 F：CF 平行 AD，F 在 BE 上。用两种浅色突出三角形 BDP 和 BCF；强调 DP 对应 CF、BD 对应 BC；不标最终答案。
+              semantic_constraints:
+                given_objects: [A, B, C, D, E, P, F]
+                given_constraints:
+                  - triangle BDP is similar to triangle BCF
+                  - DP is parallel to CF
+                  - B, D, C are collinear
+                  - B, P, F are collinear
+          - id: step-connect-ratios
+            latex: 统一中间线段 $CF$，写出所求比
+            content_latex: '由 $AP:CF=1:2$、$DP:CF=2:3$，取 $CF=6$ 份，得 $AP=3$ 份、$DP=4$ 份，所以 $AP:PD=3:4$。'
+      - type: dual_explanation
+        id: example-solution
+        label: 例题
+        stem_latex: 求 $AP:PD$。
+        side_title: 小贴士
+        side_items:
+          - kind: hint
+            title: 先围哪一个三角形
+            content_latex: '先看两条已知比和所求比分别在哪三条直线上；本题是 $AC,BC,AD$，所以围 $\triangle ACD$。'
+          - kind: hint
+            title: 为什么交点不能随便选
+            content_latex: '先确定平行线外的两个点 $B,E$，连接 $BE$ 后，新交点 $F$ 才由图形关系确定。'
+          - kind: mistake
+            title: 不要漏掉整段 $BC$
+            content_latex: '$BD:DC=2:1$ 先变成 $BD:BC=2:3$，不能直接写成 $BD:BC=2:1$。'
+        solution_title: 解答
+        solution_step_ids:
+          - step-select-triangle
+          - step-add-parallel
+          - step-first-similar
+          - step-second-similar
+          - step-connect-ratios
+      - type: mistake
+        id: common-mistake
+        title: 易错提醒：不是先背一条辅助线
+        content_latex: '先由“两条已知比和一个所求比”围三角形，再确定顶点、对边和平行线外两点的连线；不能先背一条固定辅助线，也不能随便选交点。'
+      - type: method_reminder
+        id: method-card
+        title: 做题顺序
+        items:
+          - latex: '找三条比例线 $\rightarrow$ 围三角形 $\rightarrow$ 过顶点作对边平行线。'
+          - latex: '找平行线外的两个点并连接 $\rightarrow$ 确定交点 $\rightarrow$ 找两组 A/8 字型。'
+          - latex: '把两组比例中的中间线段统一份数，再求所需的分段比。'

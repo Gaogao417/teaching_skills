@@ -1,0 +1,74 @@
+meta:
+  title: 绘图基准：平行线对应边比例（三套学生版）
+  subtitle: 固定坐标 A/8 母图
+  grade: 八年级
+  subject: 数学
+  version: student
+  source_artifacts:
+    review_draft: artifacts/专题/2026-07-12-平行线对应边比例-待审核/03-adaptive-practice.review.md
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: benchmark-parallel
+  title: 平行线对应边比例绘图基准
+  type: practice
+  visibility: student
+  blocks:
+  - type: problem
+    id: a1
+    points: 10
+    label: 第 1 套 A 字型
+    stem_latex: 如图，直线 $AC$ 与 $BD$ 相交于 $P$，点序为 $P-A-C$、$P-B-D$，且 $AB\parallel CD$。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/benchmark-parallel-a1-prompt/rendered/prompt.fragment.tex
+      diagram_ref: benchmark.parallel.a1.prompt
+      diagram_job_id: benchmark-parallel-a1-prompt
+      width: 60mm
+      caption: A 字型基准图 1
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:06e603bd7249afdceba6d045cce5201869d85bf6602ece854cee947d25e90ff1
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: a2
+    points: 10
+    label: 第 2 套 A 字型
+    stem_latex: 如图，直线 $AC$ 与 $BD$ 相交于 $P$，点序为 $P-A-C$、$P-B-D$，且 $AB\parallel CD$。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/benchmark-parallel-a2-prompt/rendered/prompt.fragment.tex
+      diagram_ref: benchmark.parallel.a2.prompt
+      diagram_job_id: benchmark-parallel-a2-prompt
+      width: 60mm
+      caption: A 字型基准图 2
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:353b590a291dd065f7518fcc72a0d8d4f0117b207bc163b1e50765d7db4724b7
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: eight
+    points: 10
+    label: 第 3 套 8 字型
+    stem_latex: 如图，直线 $AC$ 与 $BD$ 相交于 $P$，点序为 $A-P-C$、$B-P-D$，且 $AB\parallel CD$。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/benchmark-parallel-eight-prompt/rendered/prompt.fragment.tex
+      diagram_ref: benchmark.parallel.eight.prompt
+      diagram_job_id: benchmark-parallel-eight-prompt
+      width: 60mm
+      caption: 8 字型基准图
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:d3e59a675a83166bb00762d05488c454f408680580a9986115ff65373d8297bf
+      packages:
+      - tikz
+      libraries: []
