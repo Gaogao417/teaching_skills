@@ -127,6 +127,7 @@ legend span { display: inline-grid; place-items: center; width: 31px; height: 31
 .result-stats small { margin-top: 5px; color: var(--muted); font-size: 11px; }
 .result-actions .start-button { margin-top: 19px; }
 .secondary-button { width: 100%; margin-top: 18px; border: 0; background: transparent; color: var(--muted); cursor: pointer; font-weight: 800; }
+.mistake-action-button { width: 100%; margin-top: 20px; padding: 12px 16px; border: 1px solid #df8b79; border-radius: 12px; color: #9b3e31; background: #fbe1db; cursor: pointer; font-weight: 900; }
 
 .history-screen { padding: 42px 3vw 80px; }
 .history-heading { display: flex; align-items: end; justify-content: space-between; gap: 30px; }
@@ -164,6 +165,27 @@ th { padding: 9px 8px; color: var(--muted); font-size: 10px; text-align: left; w
 td { padding: 12px 8px; border-top: 1px solid #e2e1da; vertical-align: top; }
 .difficulty-pill { display: inline-block; padding: 4px 7px; border-radius: 99px; color: #12665b; background: var(--mint); font-size: 10px; font-weight: 900; white-space: nowrap; }
 .content-cell { min-width: 116px; color: var(--muted); line-height: 1.5; }
+.mistake-link { padding: 5px 8px; border: 1px solid #df8b79; border-radius: 8px; color: #9b3e31; background: #fff4f1; cursor: pointer; font-size: 10px; font-weight: 900; white-space: nowrap; }
+.mistake-record-status { color: var(--muted); font-size: 10px; white-space: nowrap; }
+.mistake-review-card { grid-column: 1 / -1; padding: 27px; border: 1px solid rgba(16,47,59,.12); border-radius: 22px; background: rgba(255,255,255,.82); box-shadow: 0 14px 34px rgba(16,47,59,.08); }
+.mistake-review-header { display: flex; align-items: start; justify-content: space-between; gap: 24px; }
+.mistake-review-header h3 { margin: 0; font: 700 24px Georgia, "Songti SC", serif; }
+.mistake-review-header p:not(.eyebrow) { margin: 7px 0 0; color: var(--muted); font-size: 12px; }
+.mistake-review-list { display: grid; gap: 18px; margin-top: 22px; }
+.mistake-card { padding: 20px; border: 1px solid #e0ddd4; border-radius: 17px; background: #fffefa; }
+.mistake-card-header { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 15px; }
+.mistake-card-header h4 { margin: 0; font-size: 15px; }
+.mistake-card-header span { color: var(--muted); font-size: 11px; }
+.mistake-target { color: var(--coral); font-size: 18px; }
+.mistake-options { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+.mistake-option { position: relative; display: flex; align-items: center; justify-content: center; gap: 16px; min-height: 76px; padding: 12px 44px 12px 14px; border: 1px solid #ddd9cf; border-radius: 13px; background: white; }
+.mistake-option .fraction { font-size: 21px; }
+.mistake-option .whole-number { font-size: 25px; }
+.mistake-option.is-correct { border-color: #62b995; background: #dff4e8; }
+.mistake-option.is-selected-wrong { border-color: #df8b79; background: #fbe1db; }
+.mistake-option-badge { position: absolute; top: 8px; right: 8px; padding: 4px 6px; border-radius: 7px; color: white; background: var(--teal); font-size: 9px; font-weight: 900; }
+.mistake-option.is-selected-wrong .mistake-option-badge { background: var(--coral); }
+.mistake-empty { padding: 30px; color: var(--muted); text-align: center; }
 .history-empty { padding: 70px 30px; text-align: center; }
 .history-empty strong { font: 700 25px Georgia, "Songti SC", serif; }
 .history-empty p { margin: 9px 0 0; color: var(--muted); }
@@ -205,6 +227,8 @@ td { padding: 12px 8px; border-top: 1px solid #e2e1da; vertical-align: top; }
   .chart-card, .records-card { padding: 18px 13px; }
   .chart-header { align-items: stretch; flex-direction: column; }
   .metric-switch { align-self: start; }
+  .mistake-options { grid-template-columns: 1fr; }
+  .mistake-review-card { padding: 20px 14px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

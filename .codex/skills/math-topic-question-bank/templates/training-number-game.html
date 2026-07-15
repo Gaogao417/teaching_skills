@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>倍数快找</title>
-    <link rel="stylesheet" href="/static/training-number-game.css?v=20260714-pairs">
+    <link rel="stylesheet" href="/static/training-number-game.css?v=20260715-mistakes">
   </head>
   <body>
     <main class="game-shell">
@@ -106,6 +106,7 @@
           </div>
           <div class="result-actions">
             <button id="replay-button" class="start-button" type="button">再来一轮 <span>↻</span></button>
+            <button id="result-mistakes-button" class="mistake-action-button" type="button" hidden>查看本轮错题</button>
             <button id="result-history-button" class="secondary-button" type="button">查看训练记录</button>
             <button id="back-settings-button" class="secondary-button" type="button">重新设置</button>
           </div>
@@ -159,14 +160,26 @@
             <h3>最近记录</h3>
             <div class="table-wrap">
               <table>
-                <thead><tr><th>时间</th><th>难度</th><th>练习内容</th><th>正确率</th><th>平均用时</th><th>得分</th></tr></thead>
+                <thead><tr><th>时间</th><th>难度</th><th>练习内容</th><th>正确率</th><th>平均用时</th><th>错题</th><th>得分</th></tr></thead>
                 <tbody id="history-table-body"></tbody>
               </table>
             </div>
           </section>
+
+          <section id="mistake-review" class="mistake-review-card" hidden aria-labelledby="mistake-review-title">
+            <div class="mistake-review-header">
+              <div>
+                <p class="eyebrow">MISTAKE REVIEW</p>
+                <h3 id="mistake-review-title">错题回顾</h3>
+                <p id="mistake-review-meta"></p>
+              </div>
+              <button id="close-mistakes-button" class="secondary-button compact" type="button">收起</button>
+            </div>
+            <div id="mistake-review-list" class="mistake-review-list"></div>
+          </section>
         </div>
       </section>
     </main>
-    <script src="/static/training-number-game.js?v=20260714-pairs"></script>
+    <script src="/static/training-number-game.js?v=20260715-mistakes"></script>
   </body>
 </html>

@@ -61,6 +61,38 @@ class GameQuestionRequest(BaseModel):
     exclude_entry_ids: list[str] = Field(default_factory=list, max_length=20)
 
 
+class GameMistake(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    question_number: int = Field(ge=1, le=10)
+    entry_id: str = Field(min_length=1)
+    subcategory: GameSubcategory
+    multiplier: str = Field(pattern=r"^[2-6]$")
+    options: list[tuple[str, str]] = Field(min_length=4, max_length=4)
+    correct_index: int = Field(ge=0, le=3)
+    selected_index: int | None = Field(default=None, ge=0, le=3)
+    timed_out: bool
+    response_ms: int = Field(ge=0)
+
+    @model_validator(mode="after")
+    def validate_answer_state(self) -> "GameMistake":
+        matching_indices = []
+        target = Fraction(self.multiplier)
+        for index, pair in enumerate(self.options):
+            values = [Fraction(value) for value in pair]
+            if max(values) / min(values) == target:
+                matching_indices.append(index)
+        if matching_indices != [self.correct_index]:
+            raise ValueError("mistake options must contain exactly one answer at correct_index")
+        if self.timed_out and self.selected_index is not None:
+            raise ValueError("timed-out mistake cannot have selected_index")
+        if not self.timed_out and self.selected_index is None:
+            raise ValueError("answered mistake requires selected_index")
+        if self.selected_index == self.correct_index:
+            raise ValueError("mistake selected_index cannot equal correct_index")
+        return self
+
+
 class GameHistoryCreate(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
@@ -71,6 +103,7 @@ class GameHistoryCreate(BaseModel):
     correct_count: int = Field(ge=0, le=10)
     total_questions: Literal[10]
     average_response_ms: int = Field(ge=0)
+    mistakes: list[GameMistake] = Field(default_factory=list, max_length=10)
 
     @model_validator(mode="after")
     def validate_difficulty_duration(self) -> "GameHistoryCreate":
@@ -79,6 +112,8 @@ class GameHistoryCreate(BaseModel):
             raise ValueError("difficulty and duration_ms do not match")
         if self.average_response_ms > self.duration_ms:
             raise ValueError("average_response_ms cannot exceed the question duration")
+        if any(mistake.response_ms > self.duration_ms for mistake in self.mistakes):
+            raise ValueError("mistake response_ms cannot exceed the question duration")
         return self
 
 
@@ -96,7 +131,8 @@ def _init_history_database(path: Path) -> None:
                 score INTEGER NOT NULL,
                 correct_count INTEGER NOT NULL,
                 total_questions INTEGER NOT NULL,
-                average_response_ms INTEGER
+                average_response_ms INTEGER,
+                mistakes_json TEXT
             )
             """
         )
@@ -106,10 +142,14 @@ def _init_history_database(path: Path) -> None:
         }
         if "average_response_ms" not in columns:
             connection.execute("ALTER TABLE game_rounds ADD COLUMN average_response_ms INTEGER")
+        if "mistakes_json" not in columns:
+            connection.execute("ALTER TABLE game_rounds ADD COLUMN mistakes_json TEXT")
 
 
 def _history_row(row: sqlite3.Row) -> dict:
     average_response_ms = row["average_response_ms"]
+    mistakes_recorded = row["mistakes_json"] is not None
+    mistakes = json.loads(row["mistakes_json"]) if mistakes_recorded else []
     return {
         "id": row["id"],
         "completed_at": row["completed_at"],
@@ -126,6 +166,9 @@ def _history_row(row: sqlite3.Row) -> dict:
             if average_response_ms is not None
             else None
         ),
+        "mistakes_recorded": mistakes_recorded,
+        "mistake_count": len(mistakes),
+        "mistakes": mistakes,
     }
 
 
@@ -347,8 +390,8 @@ def create_app(
                 """
                 INSERT INTO game_rounds (
                     completed_at, difficulty, duration_ms, subcategories_json,
-                    score, correct_count, total_questions, average_response_ms
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                    score, correct_count, total_questions, average_response_ms, mistakes_json
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """,
                 (
                     completed_at,
@@ -359,6 +402,10 @@ def create_app(
                     payload.correct_count,
                     payload.total_questions,
                     payload.average_response_ms,
+                    json.dumps(
+                        [mistake.model_dump(mode="json") for mistake in payload.mistakes],
+                        ensure_ascii=False,
+                    ),
                 ),
             )
             row = connection.execute(

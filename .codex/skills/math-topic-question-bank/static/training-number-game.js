@@ -10,6 +10,7 @@ const state = {
   streak: 0,
   correctCount: 0,
   responseTimes: [],
+  mistakes: [],
   recentEntryIds: [],
   question: null,
   selected: [],
@@ -18,6 +19,7 @@ const state = {
   locked: false,
   roundSaved: false,
   savePromise: null,
+  savedRecordId: null,
   historyMetric: "accuracy",
   historyRecords: [],
   historyReturnScreen: null,
@@ -116,6 +118,19 @@ function judge(correct, timedOut) {
   const elapsed = Math.min(state.duration, Math.max(0, performance.now() - state.startedAt));
   const remaining = state.duration - elapsed;
   state.responseTimes.push(Math.round(elapsed));
+  if (!correct) {
+    state.mistakes.push({
+      question_number: state.questionIndex + 1,
+      entry_id: state.question.entry_id,
+      subcategory: state.question.subcategory,
+      multiplier: state.question.multiplier,
+      options: state.question.options.map((option) => option.values),
+      correct_index: state.question.correct_index,
+      selected_index: timedOut ? null : (state.selected[0] ?? null),
+      timed_out: timedOut,
+      response_ms: Math.round(elapsed),
+    });
+  }
   const buttons = [...document.querySelectorAll(".option-button")];
   buttons.forEach((button, index) => {
     button.disabled = true;
@@ -165,9 +180,11 @@ async function startRound() {
   state.streak = 0;
   state.correctCount = 0;
   state.responseTimes = [];
+  state.mistakes = [];
   state.recentEntryIds = [];
   state.roundSaved = false;
   state.savePromise = null;
+  state.savedRecordId = null;
   showScreen($("#play-screen"));
   try {
     state.question = await requestQuestion();
@@ -188,6 +205,8 @@ function finishRound() {
   $("#correct-count").textContent = `${state.correctCount} / ${ROUND_LENGTH}`;
   $("#accuracy").textContent = `${accuracy}%`;
   $("#average-time").textContent = `${(averageResponseMs / 1000).toFixed(1)} 秒`;
+  $("#result-mistakes-button").hidden = state.mistakes.length === 0;
+  $("#result-mistakes-button").textContent = `查看本轮错题（${state.mistakes.length}）`;
   $("#result-title").textContent = accuracy >= 90 ? "倍数达人！" : accuracy >= 60 ? "反应很快！" : "再来一轮就更稳了";
   $("#result-medal").textContent = accuracy >= 90 ? "★" : accuracy >= 60 ? "✓" : "↗";
   showScreen($("#result-screen"));
@@ -209,9 +228,13 @@ async function saveRound() {
         correct_count: state.correctCount,
         total_questions: ROUND_LENGTH,
         average_response_ms: Math.round(state.responseTimes.reduce((total, value) => total + value, 0) / ROUND_LENGTH),
+        mistakes: state.mistakes,
       }),
     });
     if (!response.ok) throw new Error("训练记录保存失败");
+    const savedRecord = await response.json();
+    state.savedRecordId = savedRecord.id;
+    return savedRecord;
   } catch (error) {
     state.roundSaved = false;
     console.error(error);
@@ -295,6 +318,7 @@ function renderHistory(payload) {
   $("#history-fastest-time").textContent = payload.summary.fastest_average_response_seconds === null ? "—" : `${payload.summary.fastest_average_response_seconds} 秒`;
   $("#history-best-score").textContent = payload.summary.best_score;
   const hasRecords = payload.records.length > 0;
+  $("#mistake-review").hidden = true;
   $("#history-empty").hidden = hasRecords;
   $("#history-content").hidden = !hasRecords;
   if (!hasRecords) return;
@@ -306,10 +330,69 @@ function renderHistory(payload) {
     const date = new Date(record.completed_at).toLocaleString("zh-CN", { month: "numeric", day: "numeric", hour: "2-digit", minute: "2-digit" });
     const content = record.subcategories.map((key) => SUBCATEGORY_SHORT_LABELS[key]).join("、");
     const averageTime = record.average_response_seconds === null ? "—" : `${record.average_response_seconds} 秒`;
-    row.innerHTML = `<td>${date}</td><td><span class="difficulty-pill">${DIFFICULTY_LABELS[record.difficulty]}</span></td><td class="content-cell">${content}</td><td><strong>${record.accuracy}%</strong></td><td><strong>${averageTime}</strong></td><td><strong>${record.score}</strong></td>`;
+    row.innerHTML = `<td>${date}</td><td><span class="difficulty-pill">${DIFFICULTY_LABELS[record.difficulty]}</span></td><td class="content-cell">${content}</td><td><strong>${record.accuracy}%</strong></td><td><strong>${averageTime}</strong></td><td class="mistake-cell"></td><td><strong>${record.score}</strong></td>`;
+    const mistakeCell = row.querySelector(".mistake-cell");
+    if (!record.mistakes_recorded) {
+      mistakeCell.innerHTML = '<span class="mistake-record-status">未记录</span>';
+    } else if (record.mistake_count === 0) {
+      mistakeCell.innerHTML = '<span class="mistake-record-status">0 题</span>';
+    } else {
+      const mistakeButton = document.createElement("button");
+      mistakeButton.type = "button";
+      mistakeButton.className = "mistake-link";
+      mistakeButton.textContent = `查看 ${record.mistake_count} 题`;
+      mistakeButton.addEventListener("click", () => showMistakes(record));
+      mistakeCell.append(mistakeButton);
+    }
     tableBody.append(row);
   });
   renderChart();
+}
+
+function showMistakes(record) {
+  const panel = $("#mistake-review");
+  const list = $("#mistake-review-list");
+  const date = new Date(record.completed_at).toLocaleString("zh-CN", { month: "numeric", day: "numeric", hour: "2-digit", minute: "2-digit" });
+  $("#mistake-review-meta").textContent = `${date} · ${DIFFICULTY_LABELS[record.difficulty]} · ${record.mistake_count} 道错题`;
+  list.replaceChildren();
+
+  if (!record.mistakes_recorded) {
+    const empty = document.createElement("p");
+    empty.className = "mistake-empty";
+    empty.textContent = "这轮训练完成于错题记录功能启用之前，无法还原当时的具体题目。";
+    list.append(empty);
+  } else if (!record.mistakes.length) {
+    const empty = document.createElement("p");
+    empty.className = "mistake-empty";
+    empty.textContent = "这一轮没有错题。";
+    list.append(empty);
+  } else {
+    record.mistakes.forEach((mistake) => {
+      const card = document.createElement("article");
+      card.className = "mistake-card";
+      const status = mistake.timed_out ? "超时" : "答错";
+      card.innerHTML = `<div class="mistake-card-header"><div><h4>第 ${mistake.question_number} 题 · <strong class="mistake-target">× ${mistake.multiplier}</strong></h4><span>${SUBCATEGORY_SHORT_LABELS[mistake.subcategory]}</span></div><span>${status} · ${(mistake.response_ms / 1000).toFixed(1)} 秒</span></div>`;
+      const options = document.createElement("div");
+      options.className = "mistake-options";
+      mistake.options.forEach((pair, index) => {
+        const option = document.createElement("div");
+        option.className = "mistake-option";
+        option.innerHTML = `${fractionMarkup(pair[0])}<span class="pair-divider">与</span>${fractionMarkup(pair[1])}`;
+        if (index === mistake.correct_index) {
+          option.classList.add("is-correct");
+          option.insertAdjacentHTML("beforeend", '<span class="mistake-option-badge">正确答案</span>');
+        } else if (index === mistake.selected_index) {
+          option.classList.add("is-selected-wrong");
+          option.insertAdjacentHTML("beforeend", '<span class="mistake-option-badge">你的选择</span>');
+        }
+        options.append(option);
+      });
+      card.append(options);
+      list.append(card);
+    });
+  }
+  panel.hidden = false;
+  panel.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
 async function openHistory(returnScreen = null) {
@@ -320,11 +403,14 @@ async function openHistory(returnScreen = null) {
     if (state.savePromise) await state.savePromise;
     const response = await fetch("/api/game/history?limit=50");
     if (!response.ok) throw new Error("训练记录加载失败");
-    renderHistory(await response.json());
+    const payload = await response.json();
+    renderHistory(payload);
+    return payload;
   } catch (error) {
     $("#history-empty").hidden = false;
     $("#history-content").hidden = true;
     $("#history-empty").innerHTML = `<strong>记录暂时无法加载</strong><p>${error.message}</p>`;
+    return null;
   }
 }
 
@@ -352,7 +438,14 @@ $("#back-settings-button").addEventListener("click", returnToSettings);
 $("#replay-button").addEventListener("click", startRound);
 $("#history-button").addEventListener("click", () => openHistory());
 $("#result-history-button").addEventListener("click", () => openHistory($("#result-screen")));
+$("#result-mistakes-button").addEventListener("click", async () => {
+  const payload = await openHistory($("#result-screen"));
+  if (!payload) return;
+  const record = payload.records.find((candidate) => candidate.id === state.savedRecordId) || payload.records[0];
+  if (record) showMistakes(record);
+});
 $("#history-back-button").addEventListener("click", () => showScreen(state.historyReturnScreen || $("#setup-screen")));
+$("#close-mistakes-button").addEventListener("click", () => { $("#mistake-review").hidden = true; });
 document.querySelectorAll("[data-metric]").forEach((button) => {
   button.addEventListener("click", () => {
     state.historyMetric = button.dataset.metric;

@@ -278,7 +278,7 @@ def test_game_page_and_assets_disable_stale_browser_cache(tmp_path: Path) -> Non
     assert script.status_code == 200
     assert page.headers["cache-control"] == "no-store, max-age=0"
     assert script.headers["cache-control"] == "no-store, max-age=0"
-    assert "training-number-game.js?v=20260714-pairs" in page.text
+    assert "training-number-game.js?v=20260715-mistakes" in page.text
 
 
 def test_game_history_persists_rounds_and_returns_summary(tmp_path: Path) -> None:
@@ -295,6 +295,19 @@ def test_game_history_persists_rounds_and_returns_summary(tmp_path: Path) -> Non
             "correct_count": 7,
             "total_questions": 10,
             "average_response_ms": 8500,
+            "mistakes": [
+                {
+                    "question_number": 3,
+                    "entry_id": "rational-1-over-2-x-2",
+                    "subcategory": "numerator_multiple_only",
+                    "multiplier": "2",
+                    "options": [["1/2", "1"], ["1/3", "1"], ["1/4", "1"], ["1/5", "1"]],
+                    "correct_index": 0,
+                    "selected_index": 1,
+                    "timed_out": False,
+                    "response_ms": 9200,
+                }
+            ],
         },
     )
     second = client.post(
@@ -314,8 +327,13 @@ def test_game_history_persists_rounds_and_returns_summary(tmp_path: Path) -> Non
     assert second.status_code == 201
     assert first.json()["accuracy"] == 70
     assert first.json()["average_response_seconds"] == 8.5
+    assert first.json()["mistakes_recorded"] is True
+    assert first.json()["mistake_count"] == 1
+    assert first.json()["mistakes"][0]["selected_index"] == 1
     history = client.get("/api/game/history").json()
     assert [record["score"] for record in history["records"]] == [1040, 780]
+    assert history["records"][0]["mistakes_recorded"] is True
+    assert history["records"][0]["mistake_count"] == 0
     assert history["summary"] == {
         "rounds": 2,
         "best_score": 1040,
@@ -357,8 +375,20 @@ def test_game_history_migrates_existing_database_for_average_time(tmp_path: Path
             )
             """
         )
+        connection.execute(
+            """
+            INSERT INTO game_rounds (
+                completed_at, difficulty, duration_ms, subcategories_json,
+                score, correct_count, total_questions
+            ) VALUES ('2026-07-14T00:00:00+00:00', 'novice', 20000, '[]', 0, 0, 10)
+            """
+        )
 
-    create_app(DATA / "training-number-database.yaml", tmp_path / "review.yaml", history_path)
+    client = TestClient(create_app(DATA / "training-number-database.yaml", tmp_path / "review.yaml", history_path))
     with sqlite3.connect(history_path) as connection:
         columns = {row[1] for row in connection.execute("PRAGMA table_info(game_rounds)")}
     assert "average_response_ms" in columns
+    assert "mistakes_json" in columns
+    legacy_record = client.get("/api/game/history").json()["records"][0]
+    assert legacy_record["mistakes_recorded"] is False
+    assert legacy_record["mistakes"] == []
