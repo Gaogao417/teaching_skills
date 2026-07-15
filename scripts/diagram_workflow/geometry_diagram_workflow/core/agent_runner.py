@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import json
 import multiprocessing as mp
 import os
@@ -14,12 +15,12 @@ from agent_prompt import agent_result_schema, diagram_agent_prompt
 from runtime import redact_secrets
 from tools import (
     _agent_cwd,
-    _all_skill_inputs,
     _all_skill_names,
     _extract_json_object,
     _float_config,
     _emit_event,
     _resolved_codex_config,
+    _skill_inputs_for_request,
 )
 
 
@@ -163,15 +164,60 @@ def _human_revision_context(request: Dict[str, object]) -> Dict[str, object]:
         return {}
     review_id = str(revision.get("review_id") or "")
     requested_round = revision.get("requested_round")
+    base_round = revision.get("base_round")
     job_id = str(request.get("job_id") or request.get("diagram_job_id") or "")
-    if not review_id.startswith("review_") or not job_id or not isinstance(requested_round, int):
+    if (
+        not review_id.startswith("review_")
+        or not job_id
+        or not isinstance(requested_round, int)
+        or not isinstance(base_round, int)
+    ):
         return {}
     return {
         "out_dir": str(request.get("_agent_out_dir") or ""),
         "job_id": job_id,
         "review_id": review_id,
+        "base_round": base_round,
         "requested_round": requested_round,
     }
+
+
+def _record_preview_inspection(
+    *,
+    out_dir: str,
+    base_round: int,
+    requested_round: int,
+    inspection_count: int,
+) -> None:
+    """Record SDK-observed image views against the exact preview bytes.
+
+    This sidecar is written by the host worker, not by the diagram agent. The
+    finalizer compares both hashes again, so rerendering invalidates stale
+    inspection evidence until the agent opens the new preview.
+    """
+
+    root = Path(out_dir)
+    base_preview = root / "rounds" / f"round_{base_round}" / "rendered" / "prompt.preview.png"
+    current_preview = (
+        root / "rounds" / f"round_{requested_round}" / "rendered" / "prompt.preview.png"
+    )
+    if inspection_count < 2 or not base_preview.is_file() or not current_preview.is_file():
+        return
+    payload = {
+        "schema_version": "diagram-visual-inspection/v1",
+        "status": "pass",
+        "base_round": base_round,
+        "requested_round": requested_round,
+        "inspection_count": inspection_count,
+        "base_preview_sha256": hashlib.sha256(base_preview.read_bytes()).hexdigest(),
+        "current_preview_sha256": hashlib.sha256(current_preview.read_bytes()).hexdigest(),
+        "recorded_at": time.strftime("%Y-%m-%dT%H:%M:%S%z"),
+    }
+    path = root / "rounds" / f"round_{requested_round}" / "visual_inspection.json"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = path.with_name(f".{path.name}.{os.getpid()}.{time.time_ns()}.tmp")
+    temporary.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    os.replace(temporary, path)
 
 
 def _codex_agent_worker(
@@ -186,6 +232,7 @@ def _codex_agent_worker(
     out_dir: str = "",
     job_id: str = "",
     review_id: str = "",
+    base_round: int | None = None,
     requested_round: int | None = None,
 ) -> None:
     temp_codex_home = ""
@@ -272,6 +319,7 @@ def _codex_agent_worker(
                 }
             )
             items: List[object] = []
+            preview_inspection_count = 0
             completed = None
             usage = None
             stream = turn.stream()
@@ -281,6 +329,23 @@ def _codex_agent_worker(
                     if progress is not None:
                         queue.put({"kind": "progress", **progress})
                     payload = notification.payload
+                    if (
+                        notification.method == "item/completed"
+                        and _stage_for_item(_item_root(getattr(payload, "item", None)))
+                        == "preview_inspection"
+                    ):
+                        preview_inspection_count += 1
+                        if (
+                            persistent_thread
+                            and base_round is not None
+                            and requested_round is not None
+                        ):
+                            _record_preview_inspection(
+                                out_dir=out_dir,
+                                base_round=base_round,
+                                requested_round=requested_round,
+                                inspection_count=preview_inspection_count,
+                            )
                     if isinstance(payload, ItemCompletedNotification) and payload.turn_id == turn.id:
                         items.append(payload.item)
                     elif (
@@ -347,11 +412,13 @@ def run_codex_diagram_agent(
     timeout_s = _float_config(model_config, "codex_timeout_s", 600)
     heartbeat_s = max(5.0, _float_config(model_config, "progress_heartbeat_s", 30))
     queue: mp.Queue = mp.Queue()
+    is_human_revision = isinstance(request.get("human_revision"), dict)
+    skill_inputs = _skill_inputs_for_request(request)
     prompt = diagram_agent_prompt(
         request,
         out_dir,
         request_path,
-        skill_names=_all_skill_names(),
+        skill_names=_all_skill_names(include_revision=is_human_revision),
     )
     revision_context = _human_revision_context({**request, "_agent_out_dir": str(out_dir)})
     process = mp.Process(
@@ -363,7 +430,7 @@ def run_codex_diagram_agent(
             "cwd": str(_agent_cwd()),
             "model": str(config.get("codex_model") or ""),
             "codex_bin": str(config.get("codex_bin") or ""),
-            "skill_inputs": _all_skill_inputs(),
+            "skill_inputs": skill_inputs,
             **revision_context,
         },
     )

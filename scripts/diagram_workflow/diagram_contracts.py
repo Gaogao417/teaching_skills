@@ -1210,6 +1210,7 @@ class RenderMarker(DiagramLooseModel):
     type: NonEmptyStr
     vertex: str = Field(default="", validation_alias=AliasChoices("vertex", "at"))
     arms: list[str] = Field(default_factory=list)
+    angle_mode: Literal["minor", "reflex"] = "minor"
     segments: list[tuple[str, str]] = Field(default_factory=list)
     stroke: str = ""
 

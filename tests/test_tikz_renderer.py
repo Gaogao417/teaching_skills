@@ -15,6 +15,70 @@ from tikz_renderer.toolchain import PreviewResult  # noqa: E402
 
 
 class TikzRendererTest(unittest.TestCase):
+    def test_degenerate_angle_marker_blocks_tikz_compilation(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            out_dir = Path(tmp)
+            spec_path = out_dir / "final_renderer_spec.json"
+            spec_path.write_text(
+                json.dumps(
+                    {
+                        "schema_version": "geometry-render-spec/v1",
+                        "job_id": "straight-angle-marker",
+                        "variant": "solution",
+                        "type": "synthetic_geometry",
+                        "points": {"A": [0, 0], "B": [1, 0], "C": [-1, 0]},
+                        "segments": [{"from": "A", "to": "B"}, {"from": "A", "to": "C"}],
+                        "markers": [
+                            {"type": "angle_arc", "vertex": "A", "arms": ["B", "C"]}
+                        ],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            with patch("render_geometry_spec.build_previews", return_value=PreviewResult()):
+                result = render_geometry_spec(spec_path, out_dir, variant="solution")
+
+            self.assertEqual(result["status"], "failed")
+            self.assertEqual(result["fail_type"], "tikz_compile_failed")
+            self.assertIn("degenerate", result["message"])
+
+    def test_minor_angle_marker_normalizes_reversed_arm_order(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            out_dir = Path(tmp)
+            spec_path = out_dir / "final_renderer_spec.json"
+            spec_path.write_text(
+                json.dumps(
+                    {
+                        "schema_version": "geometry-render-spec/v1",
+                        "job_id": "minor-angle-order",
+                        "variant": "solution",
+                        "type": "synthetic_geometry",
+                        "points": {"A": [0, 0], "B": [4, 0], "C": [1, 2]},
+                        "segments": [{"from": "A", "to": "B"}, {"from": "A", "to": "C"}],
+                        "markers": [
+                            {"type": "angle_arc", "vertex": "A", "arms": ["C", "B"]}
+                        ],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            with patch("render_geometry_spec.build_previews", return_value=PreviewResult()):
+                result = render_geometry_spec(spec_path, out_dir, variant="solution")
+
+            self.assertEqual(result["status"], "ok")
+            tikz_spec = json.loads((out_dir / "rendered/solution.tikz_spec.json").read_text(encoding="utf-8"))
+            angle_command = next(
+                command for command in tikz_spec["commands"] if command["kind"] == "marker:angle_arc"
+            )
+            self.assertTrue(angle_command["tex"].endswith(r"{B}{A}{C}"))
+            angle_audit = tikz_spec["audit"]["angle_markers"][0]
+            self.assertEqual(angle_audit["requested_arms"], ["C", "B"])
+            self.assertEqual(angle_audit["normalized_arms"], ["B", "C"])
+            self.assertTrue(angle_audit["swapped"])
+            self.assertLess(angle_audit["sweep_deg"], 180)
+
     def test_synthetic_geometry_outputs_tikz_markers_and_escaped_labels(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             out_dir = Path(tmp)

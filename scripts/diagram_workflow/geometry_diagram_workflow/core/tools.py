@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import hashlib
 import json
 import multiprocessing as mp
 import os
@@ -86,6 +87,9 @@ SKILL_SETS = {
     "finalize": [
         "agent-io-schema",
         "tool-output-standards",
+    ],
+    "revision": [
+        "diagram-human-revision",
     ],
 }
 
@@ -255,10 +259,13 @@ def _skill_inputs_for_group(group: str) -> List[Dict[str, str]]:
             raise FileNotFoundError(f"Required Codex skill not found: {path}")
         skills.append({"name": name, "path": str(path)})
     return skills
-def _all_skill_inputs() -> List[Dict[str, str]]:
+def _all_skill_inputs(*, include_revision: bool = False) -> List[Dict[str, str]]:
     skills: List[Dict[str, str]] = []
     seen: set[str] = set()
-    for group in ("generate", "evaluate", "finalize"):
+    groups = ["generate", "evaluate", "finalize"]
+    if include_revision:
+        groups.append("revision")
+    for group in groups:
         for item in _skill_inputs_for_group(group):
             if item["name"] in seen:
                 continue
@@ -267,8 +274,14 @@ def _all_skill_inputs() -> List[Dict[str, str]]:
     return skills
 def _skill_names_for_group(group: str) -> str:
     return ", ".join(SKILL_SETS.get(group, [])) or "none"
-def _all_skill_names() -> str:
-    return ", ".join(item["name"] for item in _all_skill_inputs())
+def _all_skill_names(*, include_revision: bool = False) -> str:
+    return ", ".join(
+        item["name"] for item in _all_skill_inputs(include_revision=include_revision)
+    )
+
+
+def _skill_inputs_for_request(request: Dict[str, object]) -> List[Dict[str, str]]:
+    return _all_skill_inputs(include_revision=isinstance(request.get("human_revision"), dict))
 def _default_out_dir(prefix: str = "workflow") -> Path:
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     return Path("outputs") / f"{prefix}_{timestamp}"
@@ -308,9 +321,6 @@ def _float_config(config: Dict[str, object], key: str, default: float) -> float:
     if not _configured_value(value):
         return float(default)
     return float(value)
-DEFAULT_CODEX_DIAGRAM_MODEL = "gpt-5.6-luna"
-
-
 def _resolved_codex_config(model_config: Dict[str, object]) -> Dict[str, object]:
     """归一化 Codex SDK 运行配置。"""
     load_local_env()
@@ -324,14 +334,13 @@ def _resolved_codex_config(model_config: Dict[str, object]) -> Dict[str, object]
         "codex_bin": config_model.codex_bin,
         "codex_timeout_s": config_model.codex_timeout_s,
     }
-    # Keep the diagram runtime deterministic when a plan omits a model.  A
-    # slot can still override this with engine_model_config.codex_model (or
-    # the legacy model alias), but the SDK must never fall back to whichever
-    # model the local Codex installation happens to select by default.
+    # Respect an explicit per-job override, but leave the SDK model unset when
+    # the request does not choose one. The diagram workflow must not pin a
+    # repository-wide Codex model.
     config["codex_model"] = str(
         resolved.get("codex_model")
         or resolved.get("model")
-        or DEFAULT_CODEX_DIAGRAM_MODEL
+        or ""
     )
     # 仅在题目配置或环境变量明确指定时覆盖 SDK runtime；留空时由
     # openai_codex 选择随 SDK 安装、适配当前平台的固定版本。
@@ -408,9 +417,25 @@ def _validate_scene_code(scene_code: str) -> None:
             "GeometricScene[{A, B, C}, {...}] or "
             "GeometricScene[{{A, B, C}, {r}}, {...}]"
         )
+    fixed_points = set(
+        re.findall(
+            r"\b([A-Za-z][A-Za-z0-9_]*)\s*==\s*\{\s*[^{},]+\s*,\s*[^{}]+\}",
+            scene_code,
+        )
+    )
+    repeated_metric_constraints = re.search(
+        r"\b(?:EuclideanDistance|PlanarAngle|TriangleMeasurement|Area)\s*\[",
+        scene_code,
+    )
+    if len(fixed_points) > 1 and repeated_metric_constraints:
+        raise ValueError(
+            "scene_code fixes multiple triangle vertices while also adding metric constraints; "
+            "keep the points symbolic and use a baseline orientation assertion"
+        )
     for token in FORBIDDEN_WL_TOKENS:
         if token in scene_code:
             raise ValueError(f"scene_code contains forbidden token: {token}")
+
 def _render_worker(
     queue: mp.Queue,
     wl_kernel: str,
@@ -988,6 +1013,43 @@ def finalize_round_action(
     audit_result = _read_json(audit_result_path)
     if audit_result.get("status") != "pass":
         raise ValueError(f"cannot finalize blocked round: {audit_result.get('issues', [])}")
+
+    human_revision = request.get("human_revision")
+    if isinstance(human_revision, dict):
+        requested_round = int(human_revision.get("requested_round", -1))
+        base_round = int(human_revision.get("base_round", -1))
+        if round_index != requested_round:
+            raise ValueError(
+                f"human revision must finalize requested Round {requested_round}, got {round_index}"
+            )
+        evidence_path = out_dir / "rounds" / f"round_{round_index}" / "visual_inspection.json"
+        evidence = _read_json_if_exists(evidence_path)
+        current_preview = (
+            out_dir / "rounds" / f"round_{round_index}" / "rendered" / "prompt.preview.png"
+        )
+        base_preview = (
+            out_dir / "rounds" / f"round_{base_round}" / "rendered" / "prompt.preview.png"
+        )
+        if (
+            evidence.get("status") != "pass"
+            or evidence.get("base_round") != base_round
+            or evidence.get("requested_round") != requested_round
+            or int(evidence.get("inspection_count", 0)) < 2
+        ):
+            raise ValueError(
+                "cannot finalize human revision before opening the base and current preview images"
+            )
+        for label, preview, field in (
+            ("base", base_preview, "base_preview_sha256"),
+            ("current", current_preview, "current_preview_sha256"),
+        ):
+            if not preview.is_file():
+                raise ValueError(f"cannot finalize human revision without {label} preview: {preview}")
+            digest = hashlib.sha256(preview.read_bytes()).hexdigest()
+            if evidence.get(field) != digest:
+                raise ValueError(
+                    f"cannot finalize human revision: {label} preview changed after visual inspection"
+                )
 
     out_dir.mkdir(parents=True, exist_ok=True)
     round_dir = out_dir / "rounds" / f"round_{round_index}"

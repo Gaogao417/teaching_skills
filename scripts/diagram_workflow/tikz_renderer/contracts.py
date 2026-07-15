@@ -36,6 +36,7 @@ class TikzCompilerAudit(DiagramModel):
     command_count: int = Field(default=0, ge=0)
     point_label_count: int = Field(default=0, ge=0)
     condition_label_count: int = Field(default=0, ge=0)
+    angle_markers: list[JsonObject] = Field(default_factory=list)
     warnings: list[str] = Field(default_factory=list)
 
 

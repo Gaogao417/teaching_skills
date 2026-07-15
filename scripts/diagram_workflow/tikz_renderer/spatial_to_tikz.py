@@ -15,6 +15,7 @@ from diagram_contracts import (
 )
 from spatial_geometry import project_point
 
+from .angle_markers import normalize_angle_marker
 from .contracts import TikzCommand, TikzCompilerAudit, TikzCoordinate, TikzDiagramSpec, TikzStyleRole
 from .styles import natural_width_cm_for_profile, profile_to_style
 from .writer import fmt_cm, fmt_num, join_options, node_text_tex, point_label_tex
@@ -47,6 +48,7 @@ class SpatialGeometryTikzCompiler:
             for name, point in spec.points3d.items()
         }
         self.commands: list[TikzCommand] = []
+        self.angle_marker_audit: list[dict[str, object]] = []
         self.scale = 1.0
         self.natural_width_cm = 1.0
         self.natural_height_cm = 1.0
@@ -110,6 +112,7 @@ class SpatialGeometryTikzCompiler:
                 coordinate_count=len(self.spec.points3d),
                 command_count=len(self.commands),
                 point_label_count=len(self.spec.labels),
+                angle_markers=self.angle_marker_audit,
                 warnings=warnings,
             ),
         )
@@ -233,6 +236,25 @@ class SpatialGeometryTikzCompiler:
             if marker.type in {"right_angle", "angle_arc"}:
                 if vertex in self.coord_names and len(arms) == 2 and all(name in self.coord_names for name in arms):
                     macro = "RightAngleMark" if marker.type == "right_angle" else "AngleMark"
+                    if marker.type == "angle_arc":
+                        mode = marker.angle_mode or "minor"
+                        normalized = normalize_angle_marker(
+                            self.projected,
+                            vertex=vertex,
+                            arms=(arms[0], arms[1]),
+                            mode=mode,
+                        )
+                        self.angle_marker_audit.append(
+                            {
+                                "vertex": vertex,
+                                "requested_arms": arms,
+                                "normalized_arms": list(normalized.arms),
+                                "angle_mode": mode,
+                                "sweep_deg": normalized.sweep_deg,
+                                "swapped": normalized.swapped,
+                            }
+                        )
+                        arms = list(normalized.arms)
                     tex = (
                         f"\\{macro}[draw=black!70]{{{self.coord_names[arms[0]]}}}"
                         f"{{{self.coord_names[vertex]}}}{{{self.coord_names[arms[1]]}}}"

@@ -48,7 +48,12 @@ def run_workflow(request: Dict[str, object], out_dir: Path, request_path: Path) 
         out_dir,
         "agent.start",
         cwd=str(_agent_cwd()),
-        skills=[item["name"] for item in _all_skill_inputs()],
+        skills=[
+            item["name"]
+            for item in _all_skill_inputs(
+                include_revision=isinstance(request.get("human_revision"), dict)
+            )
+        ],
     )
     try:
         agent_result = run_codex_diagram_agent(

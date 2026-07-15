@@ -119,8 +119,17 @@ gate 通过后仍要抽查图义；不要只看 `usable=true`。
 生成或审查 `GeometricScene[...]`、`scene_payload`、`hypotheses_wl` 时，必须全文读取
 `references/wolfram-geometricscene-authoring.md`。共线/在线/交点使用 `Element[point, region]`；
 不要使用自然语言伪 DSL，也不要用 `GeometricAssertion[..., "Collinear"]` 代替点对线或线段的隶属关系。
-只有 `point_roles.anchors` 中的版面锚点可以直接固定坐标；`constructed` 与 `auxiliary` 点必须各有足够的
-隶属、构造或度量约束。若使用含标量参数的第一参数形式，必须写成
+普通综合几何默认不手动指定点坐标。需要控制版面时，优先只给一条基准边添加
+`GeometricAssertion[Line[{B, C}], "Horizontal"]`，必要时再加 `"Rightward"`，其余位置交给
+边长、角、垂直、平行、共线等原生几何约束求解。严禁把同一三角形的三个顶点全部固定坐标后，
+又重复加入边长或角度条件；这会把版面选择误变成额外数学条件，并可能与题设冲突。
+
+`point_roles.anchors` 记录题设的基础点，但“属于 anchors”不表示必须写坐标；anchors 也应默认保持
+符号化。只有确有必要消除平移自由度时，才允许给极少量 anchor 写坐标。已经由题设的度量、隶属或
+构造关系确定的点必须保持符号化；
+`constructed` 与 `auxiliary` 点必须各有足够的隶属、构造或度量约束。提交 Wolfram 前必须检查
+`scene_code`：若一个三角形有多个顶点出现 `P == {x, y}` 一类坐标等式，必须先删除坐标并改用
+一条边的 `Horizontal`/`Rightward` 版面约束。若使用含标量参数的第一参数形式，必须写成
 `GeometricScene[{{points...}, {scalars...}}, hypotheses]`。
 
 ## 输出

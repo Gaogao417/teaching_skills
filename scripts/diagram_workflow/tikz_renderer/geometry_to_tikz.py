@@ -5,6 +5,7 @@ import re
 
 from diagram_contracts import DiagramLabelPlacement, DiagramVariant, GeometryRenderSpec, RenderLabel
 
+from .angle_markers import normalize_angle_marker
 from .contracts import TikzCommand, TikzCompilerAudit, TikzCoordinate, TikzDiagramSpec, TikzStyleRole
 from .styles import PX_TO_CM, natural_width_cm_for_profile, profile_to_style
 from .writer import color_option, dash_option, fmt_cm, fmt_num, join_options, point_label_tex, stroke_width_option
@@ -38,6 +39,7 @@ class SyntheticGeometryTikzCompiler:
         self.commands: list[TikzCommand] = []
         self.label_placements: dict[str, str] = {}
         self.warnings: list[str] = []
+        self.angle_marker_audit: list[dict[str, object]] = []
         self.natural_width_cm = 1.0
         self.natural_height_cm = 1.0
 
@@ -58,6 +60,7 @@ class SyntheticGeometryTikzCompiler:
             command_count=len(self.commands),
             point_label_count=point_label_count,
             condition_label_count=0,
+            angle_markers=self.angle_marker_audit,
             warnings=self.warnings,
         )
         return TikzDiagramSpec(
@@ -217,8 +220,25 @@ class SyntheticGeometryTikzCompiler:
         arms = list(getattr(marker, "arms", []) or [])[:2]
         if vertex not in self.coord_names or len(arms) < 2 or any(arm not in self.coord_names for arm in arms):
             return ""
+        mode = getattr(marker, "angle_mode", "minor") or "minor"
+        normalized = normalize_angle_marker(
+            self.source_points,
+            vertex=vertex,
+            arms=(arms[0], arms[1]),
+            mode=mode,
+        )
+        self.angle_marker_audit.append(
+            {
+                "vertex": vertex,
+                "requested_arms": arms,
+                "normalized_arms": list(normalized.arms),
+                "angle_mode": mode,
+                "sweep_deg": normalized.sweep_deg,
+                "swapped": normalized.swapped,
+            }
+        )
         options = join_options(f"draw={color_option(getattr(marker, 'stroke', '') or '#059669')}")
-        return f"\\AngleMark[{options}]{{{self.coord_names[arms[0]]}}}{{{self.coord_names[vertex]}}}{{{self.coord_names[arms[1]]}}}"
+        return f"\\AngleMark[{options}]{{{self.coord_names[normalized.arms[0]]}}}{{{self.coord_names[vertex]}}}{{{self.coord_names[normalized.arms[1]]}}}"
 
     def _draw_points(self) -> None:
         self.commands.append(

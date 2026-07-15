@@ -1,6 +1,8 @@
 from __future__ import annotations
 
+import json
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -12,14 +14,27 @@ sys.path.insert(0, str(WORKFLOW))
 sys.path.insert(0, str(CORE))
 
 from agent_prompt import diagram_agent_prompt  # noqa: E402
+from agent_runner import _record_preview_inspection  # noqa: E402
 from diagram_contracts import (  # noqa: E402
     DiagramEngineOptions,
     DiagramHumanRevision,
     DiagramJobRequest,
 )
+from tools import (  # noqa: E402
+    _resolved_codex_config,
+    _skill_inputs_for_request,
+    finalize_round_action,
+)
 
 
 class DiagramAgentReviewContractTest(unittest.TestCase):
+    def test_diagram_agent_does_not_pin_a_default_codex_model(self) -> None:
+        self.assertEqual(_resolved_codex_config({})["codex_model"], "")
+        self.assertEqual(
+            _resolved_codex_config({"codex_model": "explicit-model"})["codex_model"],
+            "explicit-model",
+        )
+
     def test_agent_review_retries_default_to_zero_but_remain_opt_in(self) -> None:
         self.assertEqual(DiagramEngineOptions().max_retries, 0)
         self.assertEqual(DiagramEngineOptions(max_retries=1).max_retries, 1)
@@ -66,6 +81,95 @@ class DiagramAgentReviewContractTest(unittest.TestCase):
         self.assertIn("Use exactly round index 4", prompt)
         self.assertIn("图例不要遮住辅助线，点 E 的标签向左移。", prompt)
         self.assertIn("base Round 3", prompt)
+        self.assertIn("round_3/rendered/prompt.preview.png", prompt)
+        self.assertIn("round_4/rendered/prompt.preview.png", prompt)
+        self.assertIn("image-view tool", prompt)
+        self.assertIn("overwrite and rerender", prompt)
+        self.assertIn("strictly below 180", prompt)
+        self.assertIn("near-circle", prompt)
+        self.assertNotIn("Agent visual review is disabled", prompt)
+        self.assertNotIn("finalize immediately", prompt)
+
+    def test_human_revision_skill_is_injected_only_for_revision_requests(self) -> None:
+        ordinary = _skill_inputs_for_request(_request().model_dump(mode="json"))
+        revision = DiagramHumanRevision(
+            action_id="action-1",
+            review_id="review_0001",
+            feedback="角标错了",
+            base_round=0,
+            requested_round=1,
+        )
+        revised = _skill_inputs_for_request(
+            _request(human_revision=revision).model_dump(mode="json")
+        )
+
+        self.assertNotIn("diagram-human-revision", [item["name"] for item in ordinary])
+        skill = next(item for item in revised if item["name"] == "diagram-human-revision")
+        self.assertTrue(Path(skill["path"]).is_file())
+        self.assertTrue(skill["path"].endswith("diagram-human-revision/SKILL.md"))
+
+    def test_visual_inspection_evidence_requires_two_image_views_and_tracks_preview_bytes(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            base = root / "rounds/round_0/rendered/prompt.preview.png"
+            current = root / "rounds/round_1/rendered/prompt.preview.png"
+            base.parent.mkdir(parents=True)
+            current.parent.mkdir(parents=True)
+            base.write_bytes(b"base-preview")
+            current.write_bytes(b"current-preview")
+
+            _record_preview_inspection(
+                out_dir=str(root), base_round=0, requested_round=1, inspection_count=1
+            )
+            evidence = root / "rounds/round_1/visual_inspection.json"
+            self.assertFalse(evidence.exists())
+
+            _record_preview_inspection(
+                out_dir=str(root), base_round=0, requested_round=1, inspection_count=2
+            )
+            payload = json.loads(evidence.read_text(encoding="utf-8"))
+            self.assertEqual(payload["status"], "pass")
+            self.assertEqual(payload["inspection_count"], 2)
+            self.assertEqual(len(payload["base_preview_sha256"]), 64)
+            self.assertEqual(len(payload["current_preview_sha256"]), 64)
+
+    def test_human_revision_cannot_finalize_without_preview_inspection_evidence(self) -> None:
+        revision = DiagramHumanRevision(
+            action_id="action-1",
+            review_id="review_0001",
+            feedback="角标错了",
+            base_round=0,
+            requested_round=1,
+        )
+        request = _request(human_revision=revision).model_dump(mode="json")
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            round_dir = root / "rounds/round_1"
+            round_dir.mkdir(parents=True)
+            files = {}
+            for name in (
+                "scene_payload.json",
+                "render_result.json",
+                "final_renderer_spec.json",
+                "renderer_result.json",
+            ):
+                path = round_dir / name
+                path.write_text("{}", encoding="utf-8")
+                files[name] = path
+            audit = round_dir / "audit_result.json"
+            audit.write_text('{"status":"pass"}', encoding="utf-8")
+
+            with self.assertRaisesRegex(ValueError, "opening the base and current preview"):
+                finalize_round_action(
+                    request,
+                    files["scene_payload.json"],
+                    files["render_result.json"],
+                    files["final_renderer_spec.json"],
+                    files["renderer_result.json"],
+                    audit,
+                    root,
+                    1,
+                )
 
 
 def _request(

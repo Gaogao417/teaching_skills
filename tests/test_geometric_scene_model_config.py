@@ -11,7 +11,6 @@ sys.path.insert(0, str(ROOT / "scripts" / "diagram_workflow"))
 sys.path.insert(0, str(ROOT / "scripts" / "diagram_workflow" / "geometry_diagram_workflow" / "core"))
 
 from tools import (  # noqa: E402
-    DEFAULT_CODEX_DIAGRAM_MODEL,
     _float_config,
     _resolved_codex_config,
     _skill_inputs_for_group,
@@ -22,7 +21,7 @@ from agent_prompt import agent_result_schema  # noqa: E402
 
 
 class GeometricSceneCodexConfigTest(unittest.TestCase):
-    def test_empty_runtime_values_use_pipeline_diagram_default(self) -> None:
+    def test_empty_runtime_values_leave_sdk_model_unset(self) -> None:
         with patch.dict(os.environ, {"CODEX_DIAGRAM_BIN": ""}):
             config = _resolved_codex_config(
                 {
@@ -32,7 +31,7 @@ class GeometricSceneCodexConfigTest(unittest.TestCase):
                 }
             )
 
-        self.assertEqual(config["codex_model"], DEFAULT_CODEX_DIAGRAM_MODEL)
+        self.assertEqual(config["codex_model"], "")
         self.assertEqual(config["codex_bin"], "")
         self.assertEqual(config["codex_timeout_s"], 120.0)
         self.assertNotIn("base_url", config)
@@ -109,6 +108,21 @@ class GeometricSceneCodexConfigTest(unittest.TestCase):
 
         with self.assertRaisesRegex(ValueError, "flat point list or the scalar-parameter form"):
             _validate_scene_code("GeometricScene[{{A, B, C}}, {A == {0, 1}}]")
+
+    def test_scene_code_rejects_multiple_fixed_triangle_vertices(self) -> None:
+        with self.assertRaisesRegex(ValueError, "fixes multiple triangle vertices"):
+            _validate_scene_code(
+                "GeometricScene[{A, B, C}, "
+                "{A == {0, 0}, B == {3, 4}, "
+                "EuclideanDistance[A, B] == 5}]"
+            )
+
+    def test_scene_code_accepts_symbolic_triangle_with_horizontal_base(self) -> None:
+        _validate_scene_code(
+            'GeometricScene[{A, B, C}, {'
+            'EuclideanDistance[A, B] == 10, '
+            'GeometricAssertion[Line[{A, C}], "Horizontal"]}]'
+        )
 
 
 if __name__ == "__main__":

@@ -23,6 +23,7 @@ from diagram_gate.spatial_checks import _check_spatial_renderer_specs  # noqa: E
 from assignment_pipeline import run_assignment_diagram_pipeline  # noqa: E402
 from render_geometry_spec import render_geometry_spec  # noqa: E402
 from spatial_diagram_workflow import build_spatial_render_spec  # noqa: E402
+from tikz_renderer import compile_geometry_render_spec  # noqa: E402
 from tikz_renderer.toolchain import PreviewResult  # noqa: E402
 
 
@@ -101,6 +102,21 @@ def _request(projection: str = "textbook_oblique") -> DiagramJobRequest:
 
 
 class SpatialDiagramWorkflowTest(unittest.TestCase):
+    def test_spatial_minor_angle_normalizes_after_projection(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            spec = build_spatial_render_spec(_request(), Path(tmp))
+        spec.markers[0].arms = ["Q", "P"]
+
+        tikz_spec = compile_geometry_render_spec(spec)
+
+        angle_command = next(
+            command for command in tikz_spec.commands if command.kind == "marker:angle_arc"
+        )
+        self.assertIn(r"\AngleMark[draw=black!70]{P}{O}{Q}", angle_command.tex)
+        self.assertEqual(tikz_spec.audit.angle_markers[0]["normalized_arms"], ["P", "Q"])
+        self.assertTrue(tikz_spec.audit.angle_markers[0]["swapped"])
+        self.assertLess(tikz_spec.audit.angle_markers[0]["sweep_deg"], 180)
+
     def test_workflow_preserves_3d_coordinates_and_derives_intersection(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             spec = build_spatial_render_spec(_request(), Path(tmp))

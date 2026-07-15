@@ -32,8 +32,12 @@
    `Perimeter`/`TriangleMeasurement`、`Area`。不要把 `AB`、`AC` 当成已经定义的数值变量。
 6. 所有出现在约束里的点必须在 `GeometricScene` 第一参数中声明。
 7. 固定专题的 scene spec 可由模板程序确定性生成，无需 LLM；仍必须运行 Wolfram 求解、TikZ、gate 和 resolve。
-8. 为每个点声明角色：`anchors` 是少量版面锚点，`constructed` 是题设构造点，`auxiliary` 是解答新增点。
-   只有 anchor 可以写固定坐标；后两类禁止由 Python/LLM 先算坐标再回填。
+8. 普通综合几何默认使用 **0 个固定坐标**。需要控制朝向时，优先只给一条基准边添加 `"Horizontal"`，
+   必要时再加 `"Rightward"`；不要用三个顶点坐标把三角形钉死。
+9. 为每个点声明角色：`anchors` 是题设的基础点，但 anchor 不等于固定坐标，默认仍保持符号化；
+   `constructed` 是题设构造点，`auxiliary` 是解答新增点。后两类禁止由 Python/LLM 先算坐标再回填。
+10. 固定坐标本身就是几何约束。若点的位置已经由边长、角、垂直、平行或隶属关系确定，不得再添加
+    坐标等式重复约束；尤其禁止同时固定三角形三个顶点坐标并再写边长、角度条件。
 
 ## 场景骨架与求解
 
@@ -73,6 +77,39 @@ scene = GeometricScene[
     "auxiliary": ["F"]
   }
 }
+```
+
+题设中的原始顶点可以列入 `anchors`，但这不授权为它们写坐标。是否固定坐标只看 `scene_code` 中
+有没有 `A == {x, y}`；角色名称本身不是坐标约束。例如，已知两边及夹角的三角形应直接由度量
+约束确定，只用一条边控制朝向：
+
+```wl
+GeometricScene[
+  {A, B, C},
+  {
+    EuclideanDistance[A, B] == 10,
+    EuclideanDistance[A, C] == 13,
+    PlanarAngle[{B, A, C}] == 30 Degree,
+    GeometricAssertion[Line[{A, C}], "Horizontal"],
+    GeometricAssertion[Line[{A, C}], "Rightward"],
+    GeometricAssertion[{A, C, B}, "Counterclockwise"]
+  }
+]
+```
+
+以下写法错误：三个顶点的坐标已经唯一决定三角形，又重复加入边长和角度约束；任何一处数值或方向
+不完全一致都会使场景不可解。
+
+```wl
+GeometricScene[
+  {A, B, C},
+  {
+    A == {0, 0}, B == {5 Sqrt[3], 5}, C == {13, 0},
+    EuclideanDistance[A, B] == 10,
+    EuclideanDistance[A, C] == 13,
+    PlanarAngle[{B, A, C}] == 30 Degree
+  }
+]
 ```
 
 标量参数不是点，不写入 `points` 或 `point_roles`。运行时允许上述双列表第一参数形式；单独把点列表
