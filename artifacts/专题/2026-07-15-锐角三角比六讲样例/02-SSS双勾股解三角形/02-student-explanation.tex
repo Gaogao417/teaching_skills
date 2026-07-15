@@ -1,0 +1,176 @@
+\documentclass{exam-zh}
+\usepackage{edu-explanation}
+
+\examsetup{
+  question/show-answer = true,
+  fillin/show-answer = true,
+  solution/show-solution = show-stay,
+}
+
+\begin{document}
+
+\eduSectionTitle{SSS 总路线：作高、判落足、双勾股}
+
+
+\begin{eduSolutionBox}{使用条件：三角比必须回到直角三角形}
+  \begingroup
+  \setlength{\parskip}{2.5mm}
+普通三角形里不能直接按“对边、邻边、斜边”写锐角三角比；先作高，把它拆成两个直角三角形。\par
+设底边的一段（如 $BD=x$），不要设高为 $x$；高在两个勾股式中都是同一个 $AD^2$，可以消去。\par
+\begin{tabular}{p{0.23\linewidth}p{0.28\linewidth}p{0.39\linewidth}}
+高的落足 & 点序 & 底边另一段\\
+$D$ 在线段 $BC$ 上 & $B-D-C$ & $DC=BC-BD$\\
+$D$ 在 $B$ 外侧 & $D-B-C$ & $DC=BD+BC$
+\end{tabular}
+\par
+  \endgroup
+\end{eduSolutionBox}
+
+
+
+
+\begin{eduSummaryBlock}{\eduIconPin}{固定顺序}
+\begin{eduBulletList}
+  \item 作 $AD\perp BC$ 所在直线 $\rightarrow$ 判断 $D$ 的位置 $\rightarrow$ 设 $BD=x$。  \item 表示 $DC$ $\rightarrow$ 列两个勾股式消去 $AD^2$ $\rightarrow$ 求高。  \item 只在两个 Rt 三角形中使用锐角三角比；遇到原三角形的钝角，再用补角还原。\end{eduBulletList}
+\end{eduSummaryBlock}
+
+
+
+\eduSectionTitle{锐角分支：高落在边内，底边分段用减法}
+
+\begin{eduProblemBlock}[例题 1]
+\noindent
+\begin{minipage}[t]{\dimexpr\linewidth-70mm-6mm\relax}
+\vspace{0pt}
+在 $\triangle ABC$ 中，$AB=13$，$AC=15$，$BC=14$，三个角均为锐角。
+过 $A$ 作 $AD\perp BC$ 于 $D$。求 $AD$ 及 $\triangle ABC$ 的三个角
+（角度保留一位小数）。
+
+\end{minipage}\hfill
+\begin{diagramcoltikz}{70mm}{先看三条已知边；高要由我们自己作出。}
+\input{\detokenize{build/diagram/jobs/explanation-sss_acute-prompt/rendered/prompt.fragment.tex}}
+\end{diagramcoltikz}
+\end{eduProblemBlock}
+
+
+
+
+
+\begin{eduAuxItem}{思路导航}
+作高，拆成两个 Rt 三角形$\;\to\;$设底边分段，不设高$\;\to\;$双勾股消去同一个 $AD^2$$\;\to\;$回到一个 Rt 三角形求高$\;\to\;$在两个 Rt 三角形中求锐角\end{eduAuxItem}
+
+
+
+
+\begin{eduSubQuestionItem}{例题 1}
+求高 $AD$ 及 $\triangle ABC$ 的三个角。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{小贴士}
+        \eduSideHint{为什么设 $BD=x$}{底边另一段能立刻写成 $14-x$；若设高为 $x$，还要另设底边分段。}
+        \eduSideHint{双勾股在消什么}{两个 Rt 三角形共用 $AD$，让两个 $AD^2$ 表达式相等即可消去高。}
+        \eduSideMistake{三角比写在哪里}{必须写在 Rt$\triangle ABD$ 或 Rt$\triangle ACD$ 中，不能直接把原三角形当直角三角形。}
+  \end{eduExplainLeft}
+
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{解答}
+      \eduExplainStep{1}{作高，拆成两个 Rt 三角形}{过 $A$ 作 $AD\perp BC$ 于 $D$，得到 Rt$\triangle ABD$ 与 Rt$\triangle ACD$。}
+      \begin{center}
+        \begin{diagramcoltikz}{70mm}{高落在线段 $BC$ 内，点序为 $B-D-C$。}
+        \input{\detokenize{build/diagram/jobs/explanation-sss_acute-altitude/rendered/solution.fragment.tex}}
+        \end{diagramcoltikz}
+      \end{center}
+      \eduExplainStep{2}{设底边分段，不设高}{设 $BD=x$。因点序为 $B-D-C$，所以 $DC=14-x$。}
+      \eduExplainStep{3}{双勾股消去同一个 $AD^2$}{$13^2-x^2=AD^2=15^2-(14-x)^2$，解得 $x=5$。}
+      \eduExplainStep{4}{回到一个 Rt 三角形求高}{$BD=5,DC=9$，故 $AD=\sqrt{13^2-5^2}=12$。}
+      \eduExplainStep{5}{在两个 Rt 三角形中求锐角}{$\tan B=\dfrac{12}{5}$，$\tan C=\dfrac{12}{9}=\dfrac43$，故 $B\approx67.4^\circ$，$C\approx53.1^\circ$，$A\approx59.5^\circ$。}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduMistakeBox}
+\eduSubTitle{易错提醒：内落高对应减法}垂足 $D$ 在线段 $BC$ 内时，$BC=BD+DC$，所以 $DC=BC-BD$。先写点序，再写线段式。\end{eduMistakeBox}
+
+
+
+
+\begin{eduSummaryBlock}{\eduIconPin}{锐角分支收束}
+\begin{eduBulletList}
+  \item $B-D-C$：设 $BD=x$，写 $DC=BC-x$。  \item 双勾股求分段与高，再分别进入两个 Rt 三角形求锐角。\end{eduBulletList}
+\end{eduSummaryBlock}
+
+
+
+\eduSectionTitle{钝角分支：高落在边外，底边分段用加法}
+
+\begin{eduProblemBlock}[例题 2]
+\noindent
+\begin{minipage}[t]{\dimexpr\linewidth-70mm-6mm\relax}
+\vspace{0pt}
+在 $\triangle ABC$ 中，$AB=13$，$AC=20$，$BC=11$，$\angle B$ 为钝角。
+过 $A$ 作 $AD\perp BC$ 所在直线于 $D$。求 $AD$ 及 $\triangle ABC$ 的三个角
+（角度保留一位小数）。
+
+\end{minipage}\hfill
+\begin{diagramcoltikz}{70mm}{先看 $\angle B$ 是钝角，想一想从 $A$ 作高会落在哪里。}
+\input{\detokenize{build/diagram/jobs/explanation-sss_obtuse-prompt/rendered/prompt.fragment.tex}}
+\end{diagramcoltikz}
+\end{eduProblemBlock}
+
+
+
+
+
+\begin{eduAuxItem}{思路导航}
+向反向延长线作高$\;\to\;$按点序写底边分段$\;\to\;$双勾股消去同一个 $AD^2$$\;\to\;$回到一个 Rt 三角形求高$\;\to\;$先求锐角，再还原钝角\end{eduAuxItem}
+
+
+
+
+\begin{eduSubQuestionItem}{例题 2}
+求高 $AD$ 及 $\triangle ABC$ 的三个角。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{小贴士}
+        \eduSideHint{为什么这里是加法}{点序是 $D-B-C$，整段 $DC$ 包含 $DB$ 和 $BC$，所以 $DC=DB+BC$。}
+        \eduSideHint{哪一个角能直接用三角比}{$\angle ABD$ 是 Rt$\triangle ABD$ 中的锐角；原 $\angle ABC$ 是它的补角。}
+        \eduSideMistake{不要把锐角当钝角}{计算器反求 $12/5$ 得到的是 $\angle ABD$，还要用 $180^\circ$ 减去它。}
+  \end{eduExplainLeft}
+
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{解答}
+      \eduExplainStep{1}{向反向延长线作高}{延长 $CB$，过 $A$ 作 $AD\perp BC$ 所在直线于 $D$；点序为 $D-B-C$。}
+      \begin{center}
+        \begin{diagramcoltikz}{70mm}{钝角顶点在 $B$，垂足落在 $B$ 外侧，点序为 $D-B-C$。}
+        \input{\detokenize{build/diagram/jobs/explanation-sss_obtuse-altitude/rendered/solution.fragment.tex}}
+        \end{diagramcoltikz}
+      \end{center}
+      \eduExplainStep{2}{按点序写底边分段}{设 $BD=x$。因点序为 $D-B-C$，所以 $DC=x+11$。}
+      \eduExplainStep{3}{双勾股消去同一个 $AD^2$}{$13^2-x^2=AD^2=20^2-(x+11)^2$，解得 $x=5$。}
+      \eduExplainStep{4}{回到一个 Rt 三角形求高}{$BD=5,DC=16$，故 $AD=\sqrt{13^2-5^2}=12$。}
+      \eduExplainStep{5}{先求锐角，再还原钝角}{$\tan\angle ABD=\dfrac{12}{5}$，故 $B=180^\circ-\angle ABD\approx112.6^\circ$；又 $\tan C=\dfrac{12}{16}=\dfrac34$，故 $C\approx36.9^\circ$，$A\approx30.5^\circ$。}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduMistakeBox}
+\eduSubTitle{易错提醒：外落高同时改变两件事}外落高时，底边另一段用加法；原钝角还要由延长线上的锐角取补角。只改其一，答案仍会错。\end{eduMistakeBox}
+
+
+
+
+\begin{eduSummaryBlock}{\eduIconPin}{钝角分支收束}
+\begin{eduBulletList}
+  \item $D-B-C$：设 $BD=x$，写 $DC=x+BC$。  \item 双勾股仍然不变；变化的是底边分段关系和钝角的还原。\end{eduBulletList}
+\end{eduSummaryBlock}
+
+
+
+
+\end{document}

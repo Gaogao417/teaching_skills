@@ -1,0 +1,167 @@
+meta:
+  title: 锐角三角比第五讲：AAS 作高解三角形
+  subtitle: 学生讲义样例
+  grade: 九年级
+  subject: 数学
+  version: student
+  source_artifacts:
+    structure_analysis: artifacts/专题/2026-07-15-锐角三角比六讲样例/05-AAS作高解三角形/01-structure-analysis.md
+render:
+  template: exam-zh-explanation
+  paper_size: a4paper
+sections:
+- id: aas-altitude-shared-height
+  title: AAS：从未给角的顶点作高，让公共高连接两个 Rt 三角形
+  show_title: true
+  type: explanation
+  visibility: student
+  blocks:
+  - type: solution
+    id: aas-core
+    title: 固定路线：圈出两个已知角，剩余顶点就是作高顶点
+    items:
+    - latex: \textbf{先辨型：}已知 $\angle A,\angle C$ 和非夹边 $AB$，这是 AAS，三角形唯一确定。
+    - latex: \textbf{再作高：}两个已知角顶点是 $A,C$，因此从唯一未给角的顶点 $B$ 作 $BH\perp AC$。
+    - latex: \textbf{先解第一个 Rt：}$\operatorname{Rt}\triangle ABH$ 含已知斜边 $AB$ 和已知锐角 $A$，先求公共高
+        $BH$ 与投影 $AH$。
+    - latex: \textbf{再解第二个 Rt：}把 $BH$ 带入 $\operatorname{Rt}\triangle BCH$，结合已知角 $C$
+        求 $CH,BC$。
+    - latex: \textbf{最后还原：}$AC=AH+CH$，再用内角和求 $\angle B$。
+    - content_latex: '\begin{center}
+
+        \begin{tabular}{c|c|c}
+
+        阶段 & 已知入口 & 求出的量 \\
+
+        \hline
+
+        $\operatorname{Rt}\triangle ABH$ & $AB$、$\angle A$ & $BH$、$AH$ \\
+
+        公共高传递 & $BH$ 同时属于两个 Rt & 把条件送入右侧 \\
+
+        $\operatorname{Rt}\triangle BCH$ & $BH$、$\angle C$ & $CH$、$BC$
+
+        \end{tabular}
+
+        \end{center}
+
+        '
+    - latex: \textbf{边界：}若已知边改为两角夹边 $AC$，题型就变为 ASA；AAS 与 ASA 都唯一解，但第一步可用的已知边位置不同。
+  - type: problemcard
+    id: aas-example
+    label: 例题
+    stem_latex: '在三角形 $ABC$ 中，已知 $\angle A=30^\circ$，$\angle C=45^\circ$，$AB=8$。
+
+      不使用正弦定理、余弦定理，从唯一未作为已知角顶点的点 $B$ 向 $AC$ 作高 $BH$，
+
+      求 $AC$、$BC$ 和 $\angle B$。
+
+      '
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/explanation-aas-prompt/rendered/prompt.fragment.tex
+      diagram_ref: explanation.aas.prompt
+      diagram_job_id: explanation-aas-prompt
+      width: 70mm
+      caption: 圈出 $A,C$ 两个已知角，观察唯一未给角的顶点是哪一个。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:57baa7f5154a24760977df2290bcdacc8ce5ce98bd2a5ebaa124c4d9a54c0e7e
+      packages:
+      - tikz
+      libraries: []
+  - type: route
+    id: aas-route
+    steps:
+    - id: aas-identify
+      latex: 确认 AAS 与作高顶点
+      content_latex: 已知 $\angle A,\angle C$ 和非夹边 $AB$；唯一未给角的顶点为 $B$。
+    - id: aas-draw-altitude
+      latex: 从 $B$ 向两角夹边 $AC$ 作高
+      content_latex: 作 $BH\perp AC$ 于 $H$，得到 $\operatorname{Rt}\triangle ABH$ 与 $\operatorname{Rt}\triangle
+        BCH$。
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/explanation-aas-altitude-solution/rendered/solution.fragment.tex
+        diagram_ref: explanation.aas.altitude-solution
+        diagram_job_id: explanation-aas-altitude-solution
+        width: 70mm
+        caption: 公共高 $BH$ 把两个已知角分别放进两个直角三角形。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:4ff07c1a7bf2edb5b0483c10184d93f441bcc1fe0187ea472e4b04dc0a7f0cc6
+        packages:
+        - tikz
+        libraries: []
+    - id: aas-first-right-triangle
+      latex: 在 $\triangle ABH$ 中求公共高和左投影
+      content_latex: $BH=8\sin30^\circ=4$，$AH=8\cos30^\circ=4\sqrt3$。
+    - id: aas-second-right-triangle-projection
+      latex: 在 $\triangle BCH$ 中求右投影
+      content_latex: $\tan45^\circ=\dfrac{BH}{CH}=1$，故 $CH=4$。
+    - id: aas-second-right-triangle-side
+      latex: 在 $\triangle BCH$ 中求 $BC$
+      content_latex: $BC=\dfrac{BH}{\sin45^\circ}=\dfrac{4}{\sqrt2/2}=4\sqrt2$。
+    - id: aas-restore-base
+      latex: 合并两段投影求 $AC$
+      content_latex: $AC=AH+CH=4\sqrt3+4$。
+    - id: aas-angle-sum-check
+      latex: 用内角和求 $\angle B$ 并验算
+      content_latex: $\angle B=180^\circ-30^\circ-45^\circ=105^\circ$；最大边 $AC$ 对应最大角
+        $B$。
+  - type: dual_explanation
+    id: aas-solution
+    label: 例题
+    stem_latex: 从未给角的顶点作高，依次解两个直角三角形，求 $AC$、$BC$ 和 $\angle B$。
+    side_title: 小贴士
+    side_items:
+    - kind: hint
+      title: 作高顶点怎么找
+      content_latex: 先圈两个已知角 $A,C$；剩下的顶点 $B$ 就是作高顶点。不要从已知角顶点作高。
+    - kind: hint
+      title: 为什么先解左侧
+      content_latex: $\triangle ABH$ 同时有已知斜边 $AB=8$ 和已知锐角 $A=30^\circ$，右侧此时只有角 $C$。
+    - kind: hint
+      title: 公共高有什么用
+      content_latex: 左侧求出的 $BH=4$，正好是右侧相对于 $\angle C$ 的对边，于是第二个直角三角形也能解。
+    - kind: hint
+      title: $AC$ 为什么用加法
+      content_latex: $H$ 在线段 $AC$ 上，且 $A,H,C$ 依次共线，所以 $AC=AH+CH$。
+    - kind: note
+      title: AAS 会有两解吗
+      content_latex: 不会。两个角先确定三角形形状，再由一条边确定大小，因此 AAS 唯一解。
+    solution_title: 解答
+    solution_step_ids:
+    - aas-identify
+    - aas-draw-altitude
+    - aas-first-right-triangle
+    - aas-second-right-triangle-projection
+    - aas-second-right-triangle-side
+    - aas-restore-base
+    - aas-angle-sum-check
+    connection_title: 检查
+    connection_items:
+    - latex: $30^\circ+45^\circ+105^\circ=180^\circ$。
+    - latex: $AC=4\sqrt3+4$ 为最大边，对应最大角 $\angle B=105^\circ$。
+    - latex: $AB=8>BC=4\sqrt2$，对应 $\angle C=45^\circ>\angle A=30^\circ$。
+  - type: mistake
+    id: aas-mistake
+    title: 易错提醒：AAS 的已知边不是两角夹边
+    content_latex: '两个已知角是 $A,C$，它们的夹边是 $AC$；题目给的是 $AB$，所以这是 AAS。
+
+      作高时先找唯一未给角的顶点 $B$，再向两角夹边 $AC$ 作垂线。若把已知边换成
+
+      $AC$，题型就成为 ASA，不能继续照搬“已知斜边 $AB$ 先解左侧”的入口。
+
+      '
+  - type: method_reminder
+    id: aas-method
+    title: AAS 作高的五步口令
+    items:
+    - latex: 辨：两角的夹边是哪条，已知边是否为非夹边。
+    - latex: 作：从唯一未给角的顶点向两角夹边作高。
+    - latex: 一：先解同时含已知边和已知角的第一个 $\operatorname{Rt}\triangle$。
+    - latex: 传：把求出的公共高带入第二个 $\operatorname{Rt}\triangle$。
+    - latex: 二：解第二个 Rt，合并投影还原原边，再用内角和验算。

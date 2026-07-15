@@ -1,0 +1,194 @@
+meta:
+  title: 锐角三角比第三讲：SAS 作高解三角形
+  subtitle: 学生讲义样例
+  grade: 九年级
+  subject: 数学
+  version: student
+  source_artifacts:
+    structure_analysis: artifacts/专题/2026-07-15-锐角三角比六讲样例/03-SAS作高解三角形/01-structure-analysis.md
+
+render:
+  template: exam-zh-explanation
+  paper_size: a4paper
+
+sections:
+  - id: sas-altitude-two-right-triangles
+    title: SAS：从非已知角顶点作高，顺次解两个 Rt 三角形
+    show_title: true
+    type: explanation
+    visibility: student
+    blocks:
+      - type: solution
+        id: sas-core
+        title: 固定路线：已知两边及夹角时，高要避开已知角顶点
+        items:
+          - latex: '\textbf{先辨型：}已知 $AB,AC$ 和它们的夹角 $\angle A$，这是标准 SAS，三角形唯一确定。'
+          - latex: '\textbf{再作高：}从不是已知角顶点的 $B$ 作 $BH\perp AC$，不要从 $A$ 作高。'
+          - latex: '\textbf{先解第一个 Rt：}在 $\operatorname{Rt}\triangle ABH$ 中，用已知斜边 $AB$ 和已知锐角 $A$ 求 $BH,AH$。'
+          - latex: '\textbf{再解第二个 Rt：}判定点序并求 $CH$ 后，在 $\operatorname{Rt}\triangle BCH$ 中求 $BC,\angle C$。'
+          - latex: '\textbf{最后收口：}用 $\angle B=180^\circ-\angle A-\angle C$，并检查大边是否对大角。'
+          - content_latex: |
+              \begin{center}
+              \begin{tabular}{c|c|c}
+              阶段 & 所在直角三角形 & 主要任务 \\
+              \hline
+              第一步 & $\operatorname{Rt}\triangle ABH$ & $BH=AB\sin A$，$AH=AB\cos A$ \\
+              传递量 & $AC$ 上的线段关系 & 判点序后求 $CH$ \\
+              第二步 & $\operatorname{Rt}\triangle BCH$ & 由 $BH,CH$ 求 $BC,\angle C$
+              \end{tabular}
+              \end{center}
+          - latex: '\textbf{边界：}“两边一角”不一定是 SAS；若角不是两条已知边的夹角，就是 SSA，要另行判断解数。'
+
+      - type: problemcard
+        id: sas-example
+        label: 例题
+        stem_latex: |
+          在三角形 $ABC$ 中，已知 $AB=10$，$AC=13$，夹角 $\angle A=30^\circ$。
+          不使用正弦定理、余弦定理，从点 $B$ 向 $AC$ 作高 $BH$，求边 $BC$ 以及
+          $\angle B$、$\angle C$（角度保留两位小数）。
+        diagram_slot:
+          slot_id: explanation.sas.prompt
+          diagram_ref: explanation.sas.prompt
+          variant: prompt
+          disclosure_policy: clean
+          required: true
+          on_failure: fail_assignment
+          placement: block_center
+          layout_role: center_block
+          display_profile: worksheet_geometry_center
+          caption: 先圈出两条已知边和它们的夹角，再决定从哪个顶点作高。
+          engine: geometric_scene
+          diagram_kind: synthetic_geometry
+          teaching_intent: explanation_prompt
+          problem_context:
+            stem_latex: '$AB=10$，$AC=13$，$\angle A=30^\circ$。'
+            source_problem_text: '画不等腰三角形 ABC，A 在左侧，AC 近似水平向右，B 在 AC 上方；标出 AB=10、AC=13、A 处 30 度。只画原题三角形，不画任何高，不标答案。'
+          semantic_constraints:
+            given_objects: [A, B, C]
+            given_constraints:
+              - AB has length 10
+              - AC has length 13
+              - angle BAC is 30 degrees
+              - triangle ABC is not isosceles
+              - draw segments AB, AC, BC
+            clean_forbidden:
+              - do not draw altitude BH
+              - do not add point H
+              - do not show any unknown side or angle value
+              - do not imply a right angle in triangle ABC
+
+      - type: route
+        id: sas-route
+        steps:
+          - id: sas-identify
+            latex: 确认标准 SAS 与唯一解
+            content_latex: '$AB,AC$ 及其夹角 $\angle A$ 已知，因此三角形由 SAS 唯一确定。'
+
+          - id: sas-draw-altitude
+            latex: 从非已知角顶点 $B$ 作高
+            content_latex: '作 $BH\perp AC$ 于 $H$，得到 $\operatorname{Rt}\triangle ABH$ 与 $\operatorname{Rt}\triangle BCH$。'
+            diagram_slot:
+              slot_id: explanation.sas.altitude-solution
+              diagram_ref: explanation.sas.altitude-solution
+              variant: solution
+              disclosure_policy: annotated
+              reuse_geometry_from: explanation.sas.prompt
+              required: true
+              on_failure: fail_assignment
+              placement: step_diagram
+              layout_role: solution_annotation
+              display_profile: worksheet_geometry_center
+              caption: 从 $B$ 向 $AC$ 作高后，先解左侧的 $\operatorname{Rt}\triangle ABH$。
+              engine: geometric_scene
+              diagram_kind: synthetic_geometry
+              teaching_intent: explanation_solution
+              problem_context:
+                stem_latex: '从 $B$ 向 $AC$ 作 $BH\perp AC$ 于 $H$。'
+                source_problem_text: '严格复用原题三角形。添加 H 在线段 AC 内部，连接 BH，并在 H 处标直角；突出两个直角三角形 ABH 与 BCH。保留 AB=10、AC=13、角A=30度，不标 BH、AH、CH、BC 的计算答案。'
+              semantic_constraints:
+                given_objects: [A, B, C, H]
+                given_constraints:
+                  - reuse the prompt geometry exactly
+                  - H lies strictly inside segment AC
+                  - BH is perpendicular to AC at H
+                  - draw segment BH
+                  - triangles ABH and BCH are right triangles at H
+                clean_forbidden:
+                  - do not label BH as 5
+                  - do not label AH as 5 sqrt 3
+                  - do not label CH or BC with answer values
+                  - do not add any other auxiliary segment
+
+          - id: sas-first-right-triangle
+            latex: 在 $\triangle ABH$ 中求高和投影
+            content_latex: '$BH=10\sin30^\circ=5$，$AH=10\cos30^\circ=5\sqrt3$。'
+
+          - id: sas-segment-difference
+            latex: 判断点序并求 $CH$
+            content_latex: '因 $0<5\sqrt3<13$，故 $H$ 在线段 $AC$ 上，$CH=13-5\sqrt3$。'
+
+          - id: sas-second-right-triangle-side
+            latex: 在 $\triangle BCH$ 中求 $BC$
+            content_latex: '$BC=\sqrt{5^2+(13-5\sqrt3)^2}=\sqrt{269-130\sqrt3}\approx6.62$。'
+
+          - id: sas-second-right-triangle-angle
+            latex: 在 $\triangle BCH$ 中求 $\angle C$
+            content_latex: '$\tan C=\dfrac{5}{13-5\sqrt3}$，故 $\angle C\approx49.04^\circ$。'
+
+          - id: sas-angle-sum-check
+            latex: 用内角和求 $\angle B$ 并验算
+            content_latex: '$\angle B=180^\circ-30^\circ-49.04^\circ\approx100.96^\circ$；最大边 $AC$ 对应最大角 $B$。'
+
+      - type: dual_explanation
+        id: sas-solution
+        label: 例题
+        stem_latex: '作高并依次解两个直角三角形，求 $BC$、$\angle B$、$\angle C$。'
+        side_title: 小贴士
+        side_items:
+          - kind: hint
+            title: 为什么不从 $A$ 作高
+            content_latex: '已知角就在 $A$。若从 $A$ 作高，已知角会被分开，第一个直角三角形不能直接用“斜边加锐角”求解。'
+          - kind: hint
+            title: 先解哪一个 Rt
+            content_latex: '$\triangle ABH$ 同时含已知斜边 $AB=10$ 和已知锐角 $A=30^\circ$，所以它必须先解。'
+          - kind: hint
+            title: 为什么先比较 $AH$ 与 $AC$
+            content_latex: '只有确认 $H$ 在线段 $AC$ 上，才能写 $CH=AC-AH$；垂足在延长线上时应改用线段和。'
+          - kind: note
+            title: 这里会有两解吗
+            content_latex: '不会。标准 SAS 唯一确定三角形；SSA 才需要讨论无解、一解或两解。'
+          - kind: hint
+            title: 第二个 Rt 得到了什么
+            content_latex: '$BH$ 是公共高，$CH$ 来自线段差；两条直角边齐全后，边和锐角都能求。'
+        solution_title: 解答
+        solution_step_ids:
+          - sas-identify
+          - sas-draw-altitude
+          - sas-first-right-triangle
+          - sas-segment-difference
+          - sas-second-right-triangle-side
+          - sas-second-right-triangle-angle
+          - sas-angle-sum-check
+        connection_title: 检查
+        connection_items:
+          - latex: '$30^\circ+49.04^\circ+100.96^\circ=180^\circ$。'
+          - latex: '$AC=13$ 是最大边，所对的 $\angle B\approx100.96^\circ$ 是最大角。'
+          - latex: '$|13-10|<6.62<13+10$，三边满足三角形两边之差与两边之和的范围。'
+
+      - type: mistake
+        id: sas-mistake
+        title: 易错提醒：SAS 的 S 必须夹着已知 A
+        content_latex: |
+          判断 SAS 不能只数“两个边长、一个角度”。必须检查这个角是否是两条已知边的夹角。
+          本题的 $\angle A$ 夹在 $AB,AC$ 之间，所以是标准 SAS，只有一个三角形；若已知的是
+          $AB,AC,\angle B$，则属于 SSA，应移到 SSA 单元分类讨论。
+
+      - type: method_reminder
+        id: sas-method
+        title: SAS 作高的五步口令
+        items:
+          - latex: '辨：所给角是不是两条已知边的夹角。'
+          - latex: '作：从非已知角顶点向另一条已知边所在直线作高。'
+          - latex: '一：先解含已知角和已知边的第一个 $\operatorname{Rt}\triangle$。'
+          - latex: '传：用高和投影，经线段和差把条件传给第二个 $\operatorname{Rt}\triangle$。'
+          - latex: '二：解第二个 $\operatorname{Rt}\triangle$，最后以内角和与边角关系验算。'

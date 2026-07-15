@@ -1,0 +1,278 @@
+meta:
+  title: "SSS：作高以后，用双勾股解三角形"
+  subtitle: "锐角三角比六讲样例·第三讲"
+  grade: "九年级"
+  subject: "数学"
+  version: "student"
+  source_artifacts:
+    structure_analysis: "artifacts/专题/2026-07-15-锐角三角比六讲样例/02-SSS双勾股解三角形/01-structure-analysis.md"
+
+render:
+  template: "exam-zh-explanation"
+  paper_size: "a4paper"
+
+sections:
+  - id: "sss-core"
+    title: "SSS 总路线：作高、判落足、双勾股"
+    show_title: true
+    type: "explanation"
+    visibility: "student"
+    blocks:
+      - type: "solution"
+        id: "sss-core-rule"
+        title: "使用条件：三角比必须回到直角三角形"
+        items:
+          - latex: '普通三角形里不能直接按“对边、邻边、斜边”写锐角三角比；先作高，把它拆成两个直角三角形。'
+          - latex: '设底边的一段（如 $BD=x$），不要设高为 $x$；高在两个勾股式中都是同一个 $AD^2$，可以消去。'
+          - content_latex: |
+              \begin{tabular}{p{0.23\linewidth}p{0.28\linewidth}p{0.39\linewidth}}
+              高的落足 & 点序 & 底边另一段\\
+              $D$ 在线段 $BC$ 上 & $B-D-C$ & $DC=BC-BD$\\
+              $D$ 在 $B$ 外侧 & $D-B-C$ & $DC=BD+BC$
+              \end{tabular}
+      - type: "method_reminder"
+        id: "sss-core-method"
+        title: "固定顺序"
+        items:
+          - latex: '作 $AD\perp BC$ 所在直线 $\rightarrow$ 判断 $D$ 的位置 $\rightarrow$ 设 $BD=x$。'
+          - latex: '表示 $DC$ $\rightarrow$ 列两个勾股式消去 $AD^2$ $\rightarrow$ 求高。'
+          - latex: '只在两个 Rt 三角形中使用锐角三角比；遇到原三角形的钝角，再用补角还原。'
+
+  - id: "sss-acute"
+    title: "锐角分支：高落在边内，底边分段用减法"
+    show_title: true
+    type: "explanation"
+    visibility: "student"
+    blocks:
+      - type: "problemcard"
+        id: "sss-acute-problem"
+        label: "例题 1"
+        stem_latex: |
+          在 $\triangle ABC$ 中，$AB=13$，$AC=15$，$BC=14$，三个角均为锐角。
+          过 $A$ 作 $AD\perp BC$ 于 $D$。求 $AD$ 及 $\triangle ABC$ 的三个角
+          （角度保留一位小数）。
+        diagram_slot:
+          slot_id: "explanation.sss_acute.prompt"
+          diagram_ref: "explanation.sss_acute.prompt"
+          variant: "prompt"
+          disclosure_policy: "clean"
+          required: true
+          on_failure: "fail_assignment"
+          placement: "block_center"
+          layout_role: "center_block"
+          display_profile: "worksheet_geometry_center"
+          caption: "先看三条已知边；高要由我们自己作出。"
+          engine: "geometric_scene"
+          diagram_kind: "synthetic_geometry"
+          teaching_intent: "explanation_prompt"
+          problem_context:
+            stem_latex: "在锐角三角形 $ABC$ 中，$AB=13$，$AC=15$，$BC=14$。"
+            source_problem_text: "画一个不等腰的锐角三角形 ABC，只标三边 AB=13、AC=15、BC=14。不要画高，不要添加点 D，不要标角度、三角比或答案。"
+          semantic_constraints:
+            given_objects: [A, B, C]
+            given_constraints:
+              - "triangle ABC is acute and scalene"
+              - "AB=13"
+              - "AC=15"
+              - "BC=14"
+            clean_forbidden:
+              - "do not draw altitude AD"
+              - "do not imply an isosceles or right triangle"
+              - "do not show angle values or answers"
+      - type: "route"
+        id: "sss-acute-route"
+        steps:
+          - id: "sss-acute-add-altitude"
+            latex: "作高，拆成两个 Rt 三角形"
+            content_latex: '过 $A$ 作 $AD\perp BC$ 于 $D$，得到 Rt$\triangle ABD$ 与 Rt$\triangle ACD$。'
+            diagram_slot:
+              slot_id: "explanation.sss_acute.altitude"
+              diagram_ref: "explanation.sss_acute.altitude"
+              variant: "solution"
+              disclosure_policy: "annotated"
+              reuse_geometry_from: "explanation.sss_acute.prompt"
+              required: true
+              on_failure: "fail_assignment"
+              placement: "step_diagram"
+              layout_role: "solution_annotation"
+              display_profile: "worksheet_geometry_center"
+              caption: "高落在线段 $BC$ 内，点序为 $B-D-C$。"
+              engine: "geometric_scene"
+              diagram_kind: "synthetic_geometry"
+              teaching_intent: "explanation_solution"
+              problem_context:
+                stem_latex: "在原图上过 A 作 AD 垂直 BC，D 在线段 BC 内。"
+                source_problem_text: "复用原三角形 ABC。新增垂足 D，D 在线段 BC 内，连接 AD 并标直角；保留三边数值。不要标出 BD、DC、AD 的答案。"
+              semantic_constraints:
+                given_objects: [A, B, C, D]
+                given_constraints:
+                  - "reuse original triangle ABC"
+                  - "B, D, C are collinear with D between B and C"
+                  - "AD is perpendicular to BC"
+                clean_forbidden:
+                  - "do not show BD=5, DC=9, or AD=12"
+                  - "do not show trigonometric ratios or angle answers"
+          - id: "sss-acute-set-segment"
+            latex: "设底边分段，不设高"
+            content_latex: '设 $BD=x$。因点序为 $B-D-C$，所以 $DC=14-x$。'
+          - id: "sss-acute-double-pythagoras"
+            latex: "双勾股消去同一个 $AD^2$"
+            content_latex: '$13^2-x^2=AD^2=15^2-(14-x)^2$，解得 $x=5$。'
+          - id: "sss-acute-find-height"
+            latex: "回到一个 Rt 三角形求高"
+            content_latex: '$BD=5,DC=9$，故 $AD=\sqrt{13^2-5^2}=12$。'
+          - id: "sss-acute-find-angles"
+            latex: "在两个 Rt 三角形中求锐角"
+            content_latex: '$\tan B=\dfrac{12}{5}$，$\tan C=\dfrac{12}{9}=\dfrac43$，故 $B\approx67.4^\circ$，$C\approx53.1^\circ$，$A\approx59.5^\circ$。'
+      - type: "dual_explanation"
+        id: "sss-acute-solution"
+        label: "例题 1"
+        stem_latex: '求高 $AD$ 及 $\triangle ABC$ 的三个角。'
+        side_title: "小贴士"
+        side_items:
+          - kind: "hint"
+            title: "为什么设 $BD=x$"
+            content_latex: '底边另一段能立刻写成 $14-x$；若设高为 $x$，还要另设底边分段。'
+          - kind: "hint"
+            title: "双勾股在消什么"
+            content_latex: '两个 Rt 三角形共用 $AD$，让两个 $AD^2$ 表达式相等即可消去高。'
+          - kind: "mistake"
+            title: "三角比写在哪里"
+            content_latex: '必须写在 Rt$\triangle ABD$ 或 Rt$\triangle ACD$ 中，不能直接把原三角形当直角三角形。'
+        solution_title: "解答"
+        solution_step_ids:
+          - "sss-acute-add-altitude"
+          - "sss-acute-set-segment"
+          - "sss-acute-double-pythagoras"
+          - "sss-acute-find-height"
+          - "sss-acute-find-angles"
+      - type: "mistake"
+        id: "sss-acute-mistake"
+        title: "易错提醒：内落高对应减法"
+        content_latex: '垂足 $D$ 在线段 $BC$ 内时，$BC=BD+DC$，所以 $DC=BC-BD$。先写点序，再写线段式。'
+      - type: "method_reminder"
+        id: "sss-acute-method"
+        title: "锐角分支收束"
+        items:
+          - latex: '$B-D-C$：设 $BD=x$，写 $DC=BC-x$。'
+          - latex: '双勾股求分段与高，再分别进入两个 Rt 三角形求锐角。'
+
+  - id: "sss-obtuse"
+    title: "钝角分支：高落在边外，底边分段用加法"
+    show_title: true
+    type: "explanation"
+    visibility: "student"
+    blocks:
+      - type: "problemcard"
+        id: "sss-obtuse-problem"
+        label: "例题 2"
+        stem_latex: |
+          在 $\triangle ABC$ 中，$AB=13$，$AC=20$，$BC=11$，$\angle B$ 为钝角。
+          过 $A$ 作 $AD\perp BC$ 所在直线于 $D$。求 $AD$ 及 $\triangle ABC$ 的三个角
+          （角度保留一位小数）。
+        diagram_slot:
+          slot_id: "explanation.sss_obtuse.prompt"
+          diagram_ref: "explanation.sss_obtuse.prompt"
+          variant: "prompt"
+          disclosure_policy: "clean"
+          required: true
+          on_failure: "fail_assignment"
+          placement: "block_center"
+          layout_role: "center_block"
+          display_profile: "worksheet_geometry_center"
+          caption: '先看 $\angle B$ 是钝角，想一想从 $A$ 作高会落在哪里。'
+          engine: "geometric_scene"
+          diagram_kind: "synthetic_geometry"
+          teaching_intent: "explanation_prompt"
+          problem_context:
+            stem_latex: '在钝角三角形 $ABC$ 中，$AB=13$，$AC=20$，$BC=11$，$\angle B$ 为钝角。'
+            source_problem_text: "画三角形 ABC，使角 B 明显为钝角，只标 AB=13、AC=20、BC=11。不要画高，不要添加点 D，不要标三角比或答案。"
+          semantic_constraints:
+            given_objects: [A, B, C]
+            given_constraints:
+              - "angle ABC is obtuse"
+              - "AB=13"
+              - "AC=20"
+              - "BC=11"
+            clean_forbidden:
+              - "do not draw altitude AD"
+              - "do not imply a right or isosceles triangle"
+              - "do not show angle values or answers"
+      - type: "route"
+        id: "sss-obtuse-route"
+        steps:
+          - id: "sss-obtuse-add-altitude"
+            latex: "向反向延长线作高"
+            content_latex: '延长 $CB$，过 $A$ 作 $AD\perp BC$ 所在直线于 $D$；点序为 $D-B-C$。'
+            diagram_slot:
+              slot_id: "explanation.sss_obtuse.altitude"
+              diagram_ref: "explanation.sss_obtuse.altitude"
+              variant: "solution"
+              disclosure_policy: "annotated"
+              reuse_geometry_from: "explanation.sss_obtuse.prompt"
+              required: true
+              on_failure: "fail_assignment"
+              placement: "step_diagram"
+              layout_role: "solution_annotation"
+              display_profile: "worksheet_geometry_center"
+              caption: "钝角顶点在 $B$，垂足落在 $B$ 外侧，点序为 $D-B-C$。"
+              engine: "geometric_scene"
+              diagram_kind: "synthetic_geometry"
+              teaching_intent: "explanation_solution"
+              problem_context:
+                stem_latex: "复用原图，向 CB 的反向延长线作 AD 垂直 BC，垂足为 D。"
+                source_problem_text: "复用原三角形 ABC。延长 CB 越过 B 到 D，使点序为 D-B-C；连接 AD 并标 AD 垂直 BC 所在直线。保留三边数值，不标最终分段、高和角度。"
+              semantic_constraints:
+                given_objects: [A, B, C, D]
+                given_constraints:
+                  - "reuse original triangle ABC"
+                  - "D, B, C are collinear in this order"
+                  - "AD is perpendicular to line BC"
+                clean_forbidden:
+                  - "do not place D between B and C"
+                  - "do not show BD=5, DC=16, or AD=12"
+                  - "do not show trigonometric ratios or angle answers"
+          - id: "sss-obtuse-set-segment"
+            latex: "按点序写底边分段"
+            content_latex: '设 $BD=x$。因点序为 $D-B-C$，所以 $DC=x+11$。'
+          - id: "sss-obtuse-double-pythagoras"
+            latex: "双勾股消去同一个 $AD^2$"
+            content_latex: '$13^2-x^2=AD^2=20^2-(x+11)^2$，解得 $x=5$。'
+          - id: "sss-obtuse-find-height"
+            latex: "回到一个 Rt 三角形求高"
+            content_latex: '$BD=5,DC=16$，故 $AD=\sqrt{13^2-5^2}=12$。'
+          - id: "sss-obtuse-find-angles"
+            latex: "先求锐角，再还原钝角"
+            content_latex: '$\tan\angle ABD=\dfrac{12}{5}$，故 $B=180^\circ-\angle ABD\approx112.6^\circ$；又 $\tan C=\dfrac{12}{16}=\dfrac34$，故 $C\approx36.9^\circ$，$A\approx30.5^\circ$。'
+      - type: "dual_explanation"
+        id: "sss-obtuse-solution"
+        label: "例题 2"
+        stem_latex: '求高 $AD$ 及 $\triangle ABC$ 的三个角。'
+        side_title: "小贴士"
+        side_items:
+          - kind: "hint"
+            title: "为什么这里是加法"
+            content_latex: '点序是 $D-B-C$，整段 $DC$ 包含 $DB$ 和 $BC$，所以 $DC=DB+BC$。'
+          - kind: "hint"
+            title: "哪一个角能直接用三角比"
+            content_latex: '$\angle ABD$ 是 Rt$\triangle ABD$ 中的锐角；原 $\angle ABC$ 是它的补角。'
+          - kind: "mistake"
+            title: "不要把锐角当钝角"
+            content_latex: '计算器反求 $12/5$ 得到的是 $\angle ABD$，还要用 $180^\circ$ 减去它。'
+        solution_title: "解答"
+        solution_step_ids:
+          - "sss-obtuse-add-altitude"
+          - "sss-obtuse-set-segment"
+          - "sss-obtuse-double-pythagoras"
+          - "sss-obtuse-find-height"
+          - "sss-obtuse-find-angles"
+      - type: "mistake"
+        id: "sss-obtuse-mistake"
+        title: "易错提醒：外落高同时改变两件事"
+        content_latex: '外落高时，底边另一段用加法；原钝角还要由延长线上的锐角取补角。只改其一，答案仍会错。'
+      - type: "method_reminder"
+        id: "sss-obtuse-method"
+        title: "钝角分支收束"
+        items:
+          - latex: '$D-B-C$：设 $BD=x$，写 $DC=x+BC$。'
+          - latex: '双勾股仍然不变；变化的是底边分段关系和钝角的还原。'

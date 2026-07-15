@@ -1,0 +1,126 @@
+meta:
+  title: ASA：先看高的份数，再解两个 Rt 三角形
+  subtitle: 锐角三角比六讲样例·ASA
+  grade: 九年级
+  subject: 数学
+  version: student
+  source_artifacts:
+    structure_analysis: artifacts/专题/2026-07-15-锐角三角比六讲样例/06-ASA高的份数法/01-structure-analysis.md
+render:
+  template: exam-zh-explanation
+  paper_size: a4paper
+sections:
+- id: asa-model
+  title: ASA：从第三顶点作高，让两个已知角共享高
+  show_title: true
+  type: explanation
+  visibility: student
+  blocks:
+  - type: solution
+    id: asa-core-rule
+    title: 核心动作：两个角都以高为对边
+    items:
+    - latex: 已知角在 $A,C$，夹边是 $AC$，所以从没有给已知角的顶点 $B$ 作 $BH\perp AC$。
+    - latex: 在 Rt$\triangle ABH$ 中，$\tan A=BH/AH$；在 Rt$\triangle BCH$ 中，$\tan C=BH/CH$。
+    - latex: 列式后先看同一条高 $BH$ 在两套比中各占几份，用最小公倍数统一份数，再用 $AH+CH=AC$ 定标。
+  - type: problemcard
+    id: asa-example-problem
+    label: 例题
+    stem_latex: '在 $\triangle ABC$ 中，已知 $\angle A$、$\angle C$ 及其夹边 $AC=25$，其中
+
+      \[
+
+      \tan A=\frac34,\qquad \tan C=\frac43.
+
+      \]
+
+      求 $BH,AB,BC$，并完整解出 $\triangle ABC$。
+
+      '
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/explanation-asa-prompt/rendered/prompt.fragment.tex
+      diagram_ref: explanation.asa.prompt
+      diagram_job_id: explanation-asa-prompt
+      width: 70mm
+      caption: 先圈出已知角 $A,C$；高应从剩下的顶点 $B$ 作出。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:1012286a686ee2a6fdc7949bfc00a7dc083f11d69dcbebffb78dd56abccab935
+      packages:
+      - tikz
+      libraries: []
+  - type: route
+    id: asa-example-route
+    steps:
+    - id: asa-choose-altitude
+      latex: 从未给已知角的顶点作高
+      content_latex: 过 $B$ 作 $BH\perp AC$ 于 $H$，得到 Rt$\triangle ABH$ 与 Rt$\triangle
+        BCH$。
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/explanation-asa-altitude/rendered/solution.fragment.tex
+        diagram_ref: explanation.asa.altitude
+        diagram_job_id: explanation-asa-altitude
+        width: 70mm
+        caption: 从 $B$ 作高后，$A,C$ 分别留在两个 Rt 三角形中。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:0f1214b922f6c7382fbfc2c4051dcbd6872184940eb1104a829d9070827e9a43
+        packages:
+        - tikz
+        libraries: []
+    - id: asa-write-tangent
+      latex: 写两个以高为对边的正切比
+      content_latex: $BH:AH=3:4$，$BH:CH=4:3$。
+    - id: asa-unify-height-shares
+      latex: 先统一高的份数
+      content_latex: $BH$ 既是 3 的倍数又是 4 的倍数，设 $BH=12x$，则 $AH=16x,CH=9x$。
+    - id: asa-use-included-side
+      latex: 用夹边总长定标
+      content_latex: $AC=AH+CH=16x+9x=25x=25$，所以 $x=1$。
+    - id: asa-solve-two-right-triangles
+      latex: 分别解两个 Rt 三角形
+      content_latex: $BH=12,AH=16,CH=9$；由勾股定理得 $AB=20,BC=15$。
+    - id: asa-complete-angles
+      latex: 补出第三角并验算
+      content_latex: $A\approx36.9^\circ,C\approx53.1^\circ$，故 $B=90^\circ$；且 $12^2+16^2=20^2$，$12^2+9^2=15^2$。
+  - type: dual_explanation
+    id: asa-example-solution
+    label: 例题
+    stem_latex: 求 $BH,AB,BC$，并完整解出 $\triangle ABC$。
+    side_title: 小贴士
+    side_items:
+    - kind: hint
+      title: 高从哪里作
+      content_latex: 已知角在 $A,C$，所以从第三个顶点 $B$ 作高；这样两个已知角都能直接使用。
+    - kind: hint
+      title: 为什么不是 $BH=x$
+      content_latex: 若设 $BH=x$，会得到 $AH=4x/3,CH=3x/4$；设 $BH=12x$ 可直接得到整数份数。
+    - kind: hint
+      title: 先看哪一条线
+      content_latex: 两个正切比都以 $BH$ 为分子；先统一这条公共高的份数，再拼 $AC$。
+    - kind: mistake
+      title: 不要写反正切比
+      content_latex: 对角 $A$，对边是 $BH$、邻边是 $AH$；对角 $C$，对边仍是 $BH$、邻边是 $CH$。
+    solution_title: 解答
+    solution_step_ids:
+    - asa-choose-altitude
+    - asa-write-tangent
+    - asa-unify-height-shares
+    - asa-use-included-side
+    - asa-solve-two-right-triangles
+    - asa-complete-angles
+  - type: mistake
+    id: asa-common-mistake
+    title: 易错提醒：先看高的份数
+    content_latex: 两个比中的 3 份高和 4 份高是同一条 $BH$，不能直接把两套份数相加。先统一成 12 份，再求两段底边。
+  - type: method_reminder
+    id: asa-method
+    title: ASA 做题顺序
+    items:
+    - latex: 圈出两个已知角和夹边 $\rightarrow$ 从第三顶点向夹边作高。
+    - latex: 两个已知角都以高为对边 $\rightarrow$ 看高的份数 $\rightarrow$ 取最小公倍数。
+    - latex: 两段底边拼成夹边 $\rightarrow$ 定标 $\rightarrow$ 分别解两个 Rt 三角形。

@@ -1,0 +1,144 @@
+\documentclass{exam-zh}
+\usepackage{edu-explanation}
+
+\examsetup{
+  question/show-answer = true,
+  fillin/show-answer = true,
+  solution/show-solution = show-stay,
+}
+
+\begin{document}
+
+\eduSectionTitle{看到 $\sin/\cos/\tan/\cot$，先找哪两条边？}
+
+
+\begin{eduSolutionBox}{第一反应：函数名决定分子和分母}
+  \begingroup
+  \setlength{\parskip}{2.5mm}
+\renewcommand{\arraystretch}{1.55}
+\begin{center}
+\begin{tabular}{c|c|c}
+\textbf{分子 $\backslash$ 分母} & \textbf{另一条直角边} & \textbf{斜边} \\
+\hline
+\textbf{对边} & $\tan=\dfrac{\text{对}}{\text{邻}}$ & $\sin=\dfrac{\text{对}}{\text{斜}}$ \\
+\hline
+\textbf{邻边} & $\cot=\dfrac{\text{邻}}{\text{对}}$ & $\cos=\dfrac{\text{邻}}{\text{斜}}$
+\end{tabular}
+\end{center}
+\par
+\textbf{动作：}先由函数名说出需要哪两类边，再找一个同时包含目标角和这两条边的 $\operatorname{Rt}\triangle$。\par
+\textbf{不必多做：}只认这次需要的边；只有缺少所需边时才用勾股。\par
+  \endgroup
+\end{eduSolutionBox}
+
+
+
+
+\begin{eduProblemBlock}[反应卡]
+\noindent
+\begin{minipage}[t]{\dimexpr\linewidth-70mm-6mm\relax}
+\vspace{0pt}
+如图，在 $\operatorname{Rt}\triangle ABC$ 中，$\angle A=90^\circ$，
+$AD\perp BC$ 于点 $D$。不计算，只写出下列三角比对应的线段比：
+\[
+\sin B,\qquad \cos\angle BAD,\qquad
+\tan\angle CAD,\qquad \cot\angle ABD.
+\]
+
+\end{minipage}\hfill
+\begin{diagramcoltikz}{70mm}{每看到一个函数名，先说要找哪两类边，再圈对应的直角三角形。}
+\input{\detokenize{build/diagram/jobs/explanation-ratio-reaction-prompt/rendered/prompt.fragment.tex}}
+\end{diagramcoltikz}
+\end{eduProblemBlock}
+
+
+
+
+
+\begin{eduAuxItem}{思路导航}
+由函数名确定两类边$\;\to\;$找到含目标角的直角三角形$\;\to\;$按分子、分母顺序写比\end{eduAuxItem}
+
+
+
+
+\begin{eduSubQuestionItem}{反应卡}
+根据函数名，在图中找到对应的两条边并写成线段比。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{小贴士}
+        \eduSideHint{先说边类}{例如看到 $\tan$，先说“对边除以邻边”，再回图中找线段。}
+        \eduSideHint{再找 Rt}{复合图中不要先认遍所有边，只找一个含目标角的直角三角形。}
+  \end{eduExplainLeft}
+
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{解答}
+      \eduExplainStep{1}{由函数名确定两类边}{$\sin$ 找对、斜；$\cos$ 找邻、斜；$\tan$ 找对、邻；$\cot$ 找邻、对。}
+      \eduExplainStep{2}{找到含目标角的直角三角形}{在对应的 $\operatorname{Rt}\triangle$ 中，按目标角认出所需线段。}
+      \eduExplainStep{3}{按分子、分母顺序写比}{$\sin B=\dfrac{AC}{BC}$，$\cos\angle BAD=\dfrac{AD}{AB}$，$\tan\angle CAD=\dfrac{CD}{AD}$，$\cot\angle ABD=\dfrac{BD}{AD}$。}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduProblemBlock}[例题]
+\noindent
+\begin{minipage}[t]{\dimexpr\linewidth-70mm-6mm\relax}
+\vspace{0pt}
+如图，在 $\operatorname{Rt}\triangle EFG$ 中，$\angle G=90^\circ$，
+$EG=\sqrt2$，$FG=\sqrt6$。求 $\sin E$。
+
+\end{minipage}\hfill
+\begin{diagramcoltikz}{70mm}{先找 $\sin E$ 所需的对边和斜边，再观察已知边的公因子。}
+\input{\detokenize{build/diagram/jobs/explanation-common-factor-prompt/rendered/prompt.fragment.tex}}
+\end{diagramcoltikz}
+\end{eduProblemBlock}
+
+
+
+
+
+\begin{eduAuxItem}{思路导航}
+先找 $\sin E$ 所需的边$\;\to\;$已知边先约公因子$\;\to\;$用简单边长做勾股$\;\to\;$列对边与斜边之比\end{eduAuxItem}
+
+
+
+
+\begin{eduSubQuestionItem}{例题}
+已知 $EG=\sqrt2$、$FG=\sqrt6$，求 $\sin E$。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{小贴士}
+        \eduSideHint{为什么能先约}{三角比只看边长之比；把各边同时除以同一个正数，角和三角比都不变。}
+        \eduSideHint{省在哪里}{先除以 $\sqrt2$，勾股就从根式运算变成 $1^2+(\sqrt3)^2$。}
+  \end{eduExplainLeft}
+
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{解答}
+      \eduExplainStep{1}{先找 $\sin E$ 所需的边}{相对 $\angle E$，$FG$ 是对边，$EF$ 是斜边。}
+      \eduExplainStep{2}{已知边先约公因子}{$EG:FG=\sqrt2:\sqrt6=1:\sqrt3$。三角形同倍缩小后，三角比不变。}
+      \eduExplainStep{3}{用简单边长做勾股}{归一后的两条直角边为 $1,\sqrt3$，故斜边为 $\sqrt{1^2+(\sqrt3)^2}=2$。}
+      \eduExplainStep{4}{列对边与斜边之比}{$\sin E=\dfrac{\sqrt3}{2}$。}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduMistakeBox}
+\eduSubTitle{易错提醒}“先约分”是把相关边长同倍缩小，不是只改其中一条边。若没有共同的正因子，就直接按原边长计算。\end{eduMistakeBox}
+
+
+
+
+\begin{eduSummaryBlock}{\eduIconPin}{这一讲只练一条动作链}
+\begin{eduBulletList}
+  \item 看函数名：$\sin$ 对斜，$\cos$ 邻斜，$\tan$ 对邻，$\cot$ 邻对。  \item 找 $\operatorname{Rt}\triangle$：必须同时包含目标角和所需的边。  \item 算边：有公因子先同倍约分；缺所需边再勾股。  \item 列比：按函数规定的分子、分母顺序代入并化简。\end{eduBulletList}
+\end{eduSummaryBlock}
+
+
+
+
+\end{document}

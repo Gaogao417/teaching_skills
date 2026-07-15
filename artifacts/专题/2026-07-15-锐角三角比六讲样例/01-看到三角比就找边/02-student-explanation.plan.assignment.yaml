@@ -1,0 +1,184 @@
+meta:
+  title: "锐角三角比第一讲：看到函数名就找边"
+  subtitle: "学生讲义样例"
+  grade: "九年级"
+  subject: "数学"
+  version: "student"
+  source_artifacts:
+    structure_analysis: "artifacts/专题/2026-07-15-锐角三角比六讲样例/01-看到三角比就找边/01-structure-analysis.md"
+
+render:
+  template: "exam-zh-explanation"
+  paper_size: "a4paper"
+
+sections:
+  - id: "ratio-reaction"
+    title: '看到 $\sin/\cos/\tan/\cot$，先找哪两条边？'
+    show_title: true
+    type: "explanation"
+    visibility: "student"
+    blocks:
+      - type: "solution"
+        id: "ratio-reaction-grid"
+        title: "第一反应：函数名决定分子和分母"
+        items:
+          - content_latex: |
+              \renewcommand{\arraystretch}{1.55}
+              \begin{center}
+              \begin{tabular}{c|c|c}
+              \textbf{分子 $\backslash$ 分母} & \textbf{另一条直角边} & \textbf{斜边} \\
+              \hline
+              \textbf{对边} & $\tan=\dfrac{\text{对}}{\text{邻}}$ & $\sin=\dfrac{\text{对}}{\text{斜}}$ \\
+              \hline
+              \textbf{邻边} & $\cot=\dfrac{\text{邻}}{\text{对}}$ & $\cos=\dfrac{\text{邻}}{\text{斜}}$
+              \end{tabular}
+              \end{center}
+          - latex: '\textbf{动作：}先由函数名说出需要哪两类边，再找一个同时包含目标角和这两条边的 $\operatorname{Rt}\triangle$。'
+          - latex: '\textbf{不必多做：}只认这次需要的边；只有缺少所需边时才用勾股。'
+
+      - type: "problemcard"
+        id: "ratio-reaction-example"
+        label: "反应卡"
+        stem_latex: |
+          如图，在 $\operatorname{Rt}\triangle ABC$ 中，$\angle A=90^\circ$，
+          $AD\perp BC$ 于点 $D$。不计算，只写出下列三角比对应的线段比：
+          \[
+          \sin B,\qquad \cos\angle BAD,\qquad
+          \tan\angle CAD,\qquad \cot\angle ABD.
+          \]
+        diagram_slot:
+          slot_id: "explanation.ratio-reaction.prompt"
+          diagram_ref: "explanation.ratio-reaction.prompt"
+          variant: "prompt"
+          disclosure_policy: "clean"
+          required: true
+          on_failure: "fail_assignment"
+          placement: "block_center"
+          layout_role: "center_block"
+          display_profile: "worksheet_geometry_center"
+          caption: "每看到一个函数名，先说要找哪两类边，再圈对应的直角三角形。"
+          engine: "geometric_scene"
+          diagram_kind: "synthetic_geometry"
+          teaching_intent: "explanation_prompt"
+          semantic_constraints:
+            given_objects: [A, B, C, D]
+            given_constraints:
+              - "angle BAC is 90 degrees"
+              - "D lies strictly inside segment BC"
+              - "AD is perpendicular to BC at D"
+              - "draw segments AB, AC, BC, AD"
+            clean_forbidden:
+              - "do not label opposite, adjacent, or hypotenuse"
+              - "do not imply BD equals DC"
+              - "do not show trigonometric ratios or answers"
+
+      - type: "route"
+        id: "ratio-reaction-route"
+        steps:
+          - id: "ratio-reaction-step-function"
+            latex: "由函数名确定两类边"
+            content_latex: '$\sin$ 找对、斜；$\cos$ 找邻、斜；$\tan$ 找对、邻；$\cot$ 找邻、对。'
+          - id: "ratio-reaction-step-triangle"
+            latex: "找到含目标角的直角三角形"
+            content_latex: '在对应的 $\operatorname{Rt}\triangle$ 中，按目标角认出所需线段。'
+          - id: "ratio-reaction-step-write"
+            latex: "按分子、分母顺序写比"
+            content_latex: '$\sin B=\dfrac{AC}{BC}$，$\cos\angle BAD=\dfrac{AD}{AB}$，$\tan\angle CAD=\dfrac{CD}{AD}$，$\cot\angle ABD=\dfrac{BD}{AD}$。'
+
+      - type: "dual_explanation"
+        id: "ratio-reaction-solution"
+        label: "反应卡"
+        stem_latex: "根据函数名，在图中找到对应的两条边并写成线段比。"
+        side_title: "小贴士"
+        side_items:
+          - kind: "hint"
+            title: "先说边类"
+            content_latex: '例如看到 $\tan$，先说“对边除以邻边”，再回图中找线段。'
+          - kind: "hint"
+            title: "再找 Rt"
+            content_latex: '复合图中不要先认遍所有边，只找一个含目标角的直角三角形。'
+        solution_title: "解答"
+        solution_step_ids:
+          - "ratio-reaction-step-function"
+          - "ratio-reaction-step-triangle"
+          - "ratio-reaction-step-write"
+
+      - type: "problemcard"
+        id: "common-factor-example"
+        label: "例题"
+        stem_latex: |
+          如图，在 $\operatorname{Rt}\triangle EFG$ 中，$\angle G=90^\circ$，
+          $EG=\sqrt2$，$FG=\sqrt6$。求 $\sin E$。
+        diagram_slot:
+          slot_id: "explanation.common-factor.prompt"
+          diagram_ref: "explanation.common-factor.prompt"
+          variant: "prompt"
+          disclosure_policy: "clean"
+          required: true
+          on_failure: "fail_assignment"
+          placement: "block_center"
+          layout_role: "center_block"
+          display_profile: "worksheet_geometry_center"
+          caption: '先找 $\sin E$ 所需的对边和斜边，再观察已知边的公因子。'
+          engine: "geometric_scene"
+          diagram_kind: "synthetic_geometry"
+          teaching_intent: "explanation_prompt"
+          semantic_constraints:
+            given_objects: [E, F, G]
+            given_constraints:
+              - "angle EGF is 90 degrees with a visible marker"
+              - "label segment EG with sqrt(2)"
+              - "label segment FG with sqrt(6)"
+            clean_forbidden:
+              - "do not show EF length"
+              - "do not label opposite, adjacent, or hypotenuse"
+              - "do not show the answer"
+
+      - type: "route"
+        id: "common-factor-route"
+        steps:
+          - id: "common-factor-step-find"
+            latex: '先找 $\sin E$ 所需的边'
+            content_latex: '相对 $\angle E$，$FG$ 是对边，$EF$ 是斜边。'
+          - id: "common-factor-step-reduce"
+            latex: "已知边先约公因子"
+            content_latex: '$EG:FG=\sqrt2:\sqrt6=1:\sqrt3$。三角形同倍缩小后，三角比不变。'
+          - id: "common-factor-step-pythagoras"
+            latex: "用简单边长做勾股"
+            content_latex: '归一后的两条直角边为 $1,\sqrt3$，故斜边为 $\sqrt{1^2+(\sqrt3)^2}=2$。'
+          - id: "common-factor-step-ratio"
+            latex: "列对边与斜边之比"
+            content_latex: '$\sin E=\dfrac{\sqrt3}{2}$。'
+
+      - type: "dual_explanation"
+        id: "common-factor-solution"
+        label: "例题"
+        stem_latex: '已知 $EG=\sqrt2$、$FG=\sqrt6$，求 $\sin E$。'
+        side_title: "小贴士"
+        side_items:
+          - kind: "hint"
+            title: "为什么能先约"
+            content_latex: '三角比只看边长之比；把各边同时除以同一个正数，角和三角比都不变。'
+          - kind: "hint"
+            title: "省在哪里"
+            content_latex: '先除以 $\sqrt2$，勾股就从根式运算变成 $1^2+(\sqrt3)^2$。'
+        solution_title: "解答"
+        solution_step_ids:
+          - "common-factor-step-find"
+          - "common-factor-step-reduce"
+          - "common-factor-step-pythagoras"
+          - "common-factor-step-ratio"
+
+      - type: "mistake"
+        id: "ratio-reaction-mistake"
+        title: "易错提醒"
+        content_latex: '“先约分”是把相关边长同倍缩小，不是只改其中一条边。若没有共同的正因子，就直接按原边长计算。'
+
+      - type: "method_reminder"
+        id: "ratio-reaction-method"
+        title: "这一讲只练一条动作链"
+        items:
+          - latex: '看函数名：$\sin$ 对斜，$\cos$ 邻斜，$\tan$ 对邻，$\cot$ 邻对。'
+          - latex: '找 $\operatorname{Rt}\triangle$：必须同时包含目标角和所需的边。'
+          - latex: '算边：有公因子先同倍约分；缺所需边再勾股。'
+          - latex: '列比：按函数规定的分子、分母顺序代入并化简。'

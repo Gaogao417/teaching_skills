@@ -1,0 +1,193 @@
+meta:
+  title: "锐角三角比第四讲：SSA 两解辨析"
+  subtitle: "学生讲义样例"
+  grade: "九年级"
+  subject: "数学"
+  version: "student"
+  source_artifacts:
+    structure_analysis: "artifacts/专题/2026-07-15-锐角三角比六讲样例/04-SSA两解辨析/01-structure-analysis.md"
+
+render:
+  template: "exam-zh-explanation"
+  paper_size: "a4paper"
+
+sections:
+  - id: "ssa-altitude-two-positions"
+    title: "SSA 不保证唯一：作高后检查垂足两侧"
+    show_title: true
+    type: "explanation"
+    visibility: "student"
+    blocks:
+      - type: "solution"
+        id: "ssa-core"
+        title: "锐角 SSA 的解数：先比较高、对边和另一已知边"
+        items:
+          - latex: '\textbf{先认条件：}已知两边及其中一边的对角，叫作 SSA。已知角不夹在两条已知边之间，所以三角形不一定唯一。'
+          - latex: '\textbf{统一作高：}若已知锐角 $A$、对边 $a=BC$、另一边 $c=AB$，从非已知角顶点 $B$ 向 $AC$ 所在直线作 $BH\perp AC$，则 $h=BH=c\sin A$。'
+          - content_latex: |
+              \renewcommand{\arraystretch}{1.45}
+              \begin{center}
+              \begin{tabular}{c|c|c}
+              \textbf{大小关系} & \textbf{解的个数} & \textbf{点的位置} \\
+              \hline
+              $a<h$ & $0$ & 定长边够不到角的另一边 \\
+              $a=h$ & $1$ & 恰好落在垂足，得到直角三角形 \\
+              $h<a<c$ & $2$ & 垂足两侧各有一个合法点 \\
+              $a\ge c$ & $1$ & 近点分支退化或落到反向延长线上
+              \end{tabular}
+              \end{center}
+          - latex: '\textbf{表格条件：}上表要求 $A$ 为锐角，且 $a$ 是 $A$ 的对边、$c$ 是另一条已知边。换字母时先重新认清这三个量。'
+
+      - type: "problemcard"
+        id: "ssa-example"
+        label: "例题"
+        stem_latex: |
+          在 $\triangle ABC$ 中，已知 $\angle A=30^\circ$，$AB=8$，$BC=5$。
+          不预设点 $C$ 的位置唯一，求所有可能的 $AC$，并说明为什么会出现两个三角形。
+        diagram_slot:
+          slot_id: "explanation.ssa.prompt"
+          diagram_ref: "explanation.ssa.prompt"
+          variant: "prompt"
+          disclosure_policy: "clean"
+          required: true
+          on_failure: "fail_assignment"
+          placement: "block_center"
+          layout_role: "center_block"
+          display_profile: "worksheet_geometry_center"
+          caption: '点 $C$ 既要在 $30^\circ$ 射线上，又要满足到 $B$ 的距离为 $5$；先判断这样的位置是否唯一。'
+          engine: "geometric_scene"
+          diagram_kind: "synthetic_geometry"
+          teaching_intent: "explanation_prompt"
+          problem_context:
+            stem_latex: '固定 $AB=8$，从 $A$ 作与 $AB$ 成 $30^\circ$ 的射线；点 $C$ 在该射线上且 $BC=5$。'
+            source_problem_text: "画固定线段 AB，在 A 处画与 AB 成 30 度的射线。以 B 为圆心、5 为半径的定长轨迹与该射线有两个候选交点 C_1、C_2；画出两条较淡的候选边 BC_1、BC_2。标出 AB 旁的纯数字 8、两条候选 BC 旁的纯数字 5 和 A 处 30 度。不要选择其中一个作为唯一三角形，不要作高，不要显示 AC 的值或答案。"
+          semantic_constraints:
+            given_objects: [A, B, C_1, C_2]
+            given_constraints:
+              - "AB has length 8"
+              - "C_1 and C_2 lie on the same ray from A making a 30-degree angle with AB"
+              - "BC_1 and BC_2 both have length 5"
+              - "C_1 and C_2 are distinct candidate positions on that ray"
+            clean_forbidden:
+              - "do not imply a unique position for C"
+              - "do not draw altitude BH"
+              - "do not label either value of AC"
+              - "do not add an isosceles marker or any extra right angle"
+              - "do not show trigonometric equations or answers"
+          visual_requirements:
+            show_labels: true
+            show_given_markers: true
+            preferred_orientation: "landscape"
+            label_density: "normal"
+
+      - type: "route"
+        id: "ssa-route"
+        steps:
+          - id: "ssa-step-identify"
+            latex: "识别 SSA，不先假定图形唯一"
+            content_latex: '已知 $AB,BC$ 及 $BC$ 的对角 $\angle A$；$\angle A$ 不是两条已知边的夹角，因此属于 SSA。'
+
+          - id: "ssa-step-altitude"
+            latex: "从非已知角顶点 $B$ 作高"
+            content_latex: '向 $AC$ 所在直线作 $BH\perp AC$ 于 $H$。在 $\operatorname{Rt}\triangle ABH$ 中，$BH=8\sin30^\circ=4$，$AH=8\cos30^\circ=4\sqrt3$。'
+            diagram_slot:
+              slot_id: "explanation.ssa.altitude"
+              diagram_ref: "explanation.ssa.altitude"
+              variant: "solution"
+              disclosure_policy: "annotated"
+              reuse_geometry_from: "explanation.ssa.prompt"
+              required: true
+              on_failure: "fail_assignment"
+              placement: "step_diagram"
+              layout_role: "solution_annotation"
+              display_profile: "worksheet_geometry_center"
+              caption: '两个候选点位于垂足 $H$ 两侧，点序分别给出线段差与线段和。'
+              engine: "geometric_scene"
+              diagram_kind: "synthetic_geometry"
+              teaching_intent: "explanation_solution"
+              problem_context:
+                stem_latex: '在两个候选构型的公共图上，从 $B$ 向 $AC$ 所在直线作 $BH\perp AC$。'
+                source_problem_text: "严格复用 prompt 的 A、B、C_1、C_2 点位和两条候选边。新增垂足 H，要求点序为 A-C_1-H-C_2，且 BH 垂直整条射线。标出 BH 旁纯数字 4、AH 旁 4√3、C_1H 和 HC_2 旁各标纯数字 3；保留 AB=8、BC_1=BC_2=5 和 A 处 30 度。用浅色分别突出三角形 ABC_1 与 ABC_2，但不要改变原始点位。"
+              semantic_constraints:
+                given_objects: [A, B, C_1, H, C_2]
+                given_constraints:
+                  - "reuse the prompt geometry exactly"
+                  - "A, C_1, H, C_2 are collinear in this strict order"
+                  - "BH is perpendicular to line AC at H"
+                  - "BH has length 4 and AH has length 4 sqrt(3)"
+                  - "C_1H and HC_2 both have length 3"
+                  - "BC_1 and BC_2 both have length 5"
+                  - "triangle ABC_1 and triangle ABC_2 are both nondegenerate"
+                clean_forbidden:
+                  - "do not merge C_1 and C_2"
+                  - "do not reverse the order A-C_1-H-C_2"
+                  - "do not mark BH as an angle bisector"
+                  - "do not display the final AC answers"
+
+          - id: "ssa-step-count"
+            latex: "先比较大小，确认有两个解"
+            content_latex: '因为 $BH=4<BC=5<AB=8$，即 $h<a<c$，所以点 $C$ 在垂足 $H$ 两侧各有一个合法位置。'
+
+          - id: "ssa-step-second-rt"
+            latex: "在第二个直角三角形中求 $HC$"
+            content_latex: '在 $\operatorname{Rt}\triangle BCH$ 中，由勾股定理得 $HC=\sqrt{BC^2-BH^2}=\sqrt{5^2-4^2}=3$。'
+
+          - id: "ssa-step-near"
+            latex: "近点分支：垂足在线段 $AC$ 的延长线上"
+            content_latex: '当点序为 $A-C_1-H$ 时，$AC_1=AH-C_1H=4\sqrt3-3$。'
+
+          - id: "ssa-step-far"
+            latex: "远点分支：垂足在线段 $AC$ 内"
+            content_latex: '当点序为 $A-H-C_2$ 时，$AC_2=AH+HC_2=4\sqrt3+3$。'
+
+          - id: "ssa-step-check"
+            latex: "检查两个候选三角形"
+            content_latex: '两个 $AC$ 均为正，且分别满足三角形不等式；故两种点序都对应合法三角形。'
+
+      - type: "dual_explanation"
+        id: "ssa-solution"
+        label: "例题"
+        stem_latex: '求所有可能的 $AC$，并说明两个三角形对应的点序。'
+        side_title: "小贴士"
+        side_items:
+          - kind: "hint"
+            title: "为什么从 $B$ 作高"
+            content_latex: '$B$ 不是已知角顶点；由 $AB$ 和 $\angle A$ 可直接求出高 $BH$ 与投影 $AH$。'
+          - kind: "hint"
+            title: "为什么先比较 $4,5,8$"
+            content_latex: '$4<5$ 表示定长 $BC$ 能跨过垂足两侧；$5<8$ 保证靠近 $A$ 的候选点仍留在射线上。'
+          - kind: "hint"
+            title: "两解从哪里来"
+            content_latex: '两解不是代数中的符号游戏，而是 $C_1,C_2$ 位于 $H$ 两侧的两个真实位置。'
+          - kind: "mistake"
+            title: "垂足在线段外仍可能合法"
+            content_latex: '在近点分支中，$H$ 位于 $AC_1$ 的延长线上；原三角形仍然存在，不能因此删解。'
+        solution_title: "解答"
+        solution_step_ids:
+          - "ssa-step-identify"
+          - "ssa-step-altitude"
+          - "ssa-step-count"
+          - "ssa-step-second-rt"
+          - "ssa-step-near"
+          - "ssa-step-far"
+          - "ssa-step-check"
+        connection_title: "结论"
+        connection_items:
+          - latex: '$\boxed{AC=4\sqrt3-3\quad\text{或}\quad AC=4\sqrt3+3}$，共有两个三角形。'
+
+      - type: "mistake"
+        id: "ssa-mistake"
+        title: "易错提醒：不要把 SSA 当成唯一条件"
+        content_latex: |
+          写出 $AC=AH\pm HC$ 还不够，必须说明两个符号各对应什么点序，并检查候选点是否仍在角的射线上。
+          只有在锐角 SSA 中满足 $h<a<c$ 时才有两解；不能见到 SSA 就固定写两个答案。
+
+      - type: "method_reminder"
+        id: "ssa-method"
+        title: "SSA 做题顺序"
+        items:
+          - latex: '\textbf{认：}已知角是不是两条已知边的夹角；若不是，先警惕 SSA 不唯一。'
+          - latex: '\textbf{作：}从非已知角顶点向已知角的另一边所在直线作高。'
+          - latex: '\textbf{比：}算 $h=c\sin A$，比较 $h,a,c$，先判 $0/1/2$ 解。'
+          - latex: '\textbf{拆：}分别解两个 $\operatorname{Rt}\triangle$，再按点序作线段和差。'
+          - latex: '\textbf{查：}检查正值、射线位置、点序和三角形不等式。'
