@@ -21,27 +21,37 @@ sections:
     visibility: "student"
 ```
 
-单元内推荐结构：
+聚焦单题型的最小默认结构：
 
 ```text
 section.title + show_title: true
-solution 知识点陈述（按需，但标题仍必须存在）
 problemcard + route + dual_explanation 例题 1
-problemcard + route + dual_explanation 例题 2（按需）
-mistake 易错提醒
-method_reminder 方法提醒
+例题 2（仅当它承担新分支、反例或迁移作用时）
+mistake / method_reminder（仅在确有独立作用时）
 ```
 
 规则：
 
 - `section.title` 负责学生看到的知识点/模型标题；不要只靠 `problemcard.label` 或 `solution.title` 充当标题。
 - 即使不写 `solution` block，也必须保留 `section.title` 和 `show_title: true`。
-- `solution` 用全宽 block 写核心结论、公式、使用条件和辨析表；不要用小字号 `step` 写核心公式。
+- 聚焦单题型默认例题优先；不要在首例之前自动放完整路线、分类表、边界说明或大段 `solution`。
+- `solution` 只在核心结论、公式或使用条件必须先于例题出现时使用；不要把例题本身已经能讲清的内容再总结一遍。
 - `problemcard` 放原题或例题题面，`route` 放规范解题动作，`dual_explanation` 放标准解答和左侧小贴士。
-- `mistake` 在每个单元末尾列出本单元最容易错的判断；极短单题型讲义可把易错点并入 `dual_explanation.side_items`。
-- `method_reminder` 只放本单元做题策略，不承担公式清单功能。
+- `mistake` 仅保留会造成错误分支、漏解、符号误读等关键提醒；普通计算提醒并入 `side_items` 或删除。
+- `method_reminder` 仅在需要收束一条跨题可复用方法时使用；若只是重复 route，不写。
 - `step` 只用于短过渡、临时说明或轻提示。
 - 若用户要求“每个知识点另起一面”，在该知识点 section 或该知识点第一个 block 上设置 `layout.break_before: true`。
+
+## 例题优先与密度预算
+
+- 标题直接说清“条件类型/结构 + 当前任务”，例如“SSA：已知两边一角（非夹角），解三角形”；不要把整条解题路线塞进标题。
+- 一节只训练一个核心动作时，题面后立即进入解答。必要定义最多用一条短提示，不先讲一页抽象方法。
+- 只求本节真正训练的量。若目标是三角比，就优先保留精确的比值；不要自动追加反三角函数近似角、完整解三角形和多组验算。
+- 精简后必须逐项覆盖题干所求。题干要求两个比值，就必须分别给出两个比值；不能以“保持简洁”为理由漏掉结果。
+- 多情形问题优先寻找统一设法，再用解的符号、范围或位置解释分支。能用一个例题结果说明的，不先放分类表。
+- 若要说明另一个情形，优先在 `side_items` 中加入一个短变式/反例；它必须改变判断，而不是重复主例数字。
+- `side_items` 通常只留 2--3 个真实卡点：作图入口、为何能传递条件、结果如何解释。删除与 route 正文同义的提示。
+- 不机械添加“检查”清单。只有验算承担排除分支、识别增根或验证关键限制时才保留。
 
 ## 标题规则
 
@@ -65,7 +75,7 @@ method_reminder 方法提醒
 - `route.steps[].diagram_slot`：若某一步需要讲解辅助图，图位放在对应 step 下；例如“作辅助线/补中点”这一步的 annotated 图应跟随该 step，不另起一个 `problemcard`。
 - `dual_explanation.label` / `dual_explanation.stem_latex`：现有 schema 要求必填。单问题可用 `label: "例题 1"` 或 `label: "解答"`，`stem_latex` 复述本题要解决的问题；多小问时用真实 `(1)(2)(3)` 小问标签和小问题干。
 - `dual_explanation.solution_step_ids`：引用 route step，决定本题/本小问的标准解答包含哪些步骤。
-- `dual_explanation.side_items`：放小贴士提问和易混提醒，用来讲 why 和“所以然”。每条要短，优先写成能让学生思考的提问或判断句。
+- `dual_explanation.side_items`：放小贴士提问和易混提醒，用来讲 why 和“所以然”。每条要短且不可由步骤正文直接替代，优先写成能让学生思考的提问、结果解释或短反例。
 - `connection_items`：放必要的承接说明；不要把步骤正文已经能表达清楚的内容重复写一遍。
 
 不要把教学步骤伪装成小问。题目只有一问时，只写一个 `dual_explanation`，并用 `label` / `stem_latex` 标出本题解答入口；题目有真实 `(1)(2)(3)` 小问时，才写多个 `dual_explanation`。
@@ -86,6 +96,18 @@ method_reminder 方法提醒
 - “这一步的本质是……”
 - “容易错在……”
 - “你可以先问自己……”
+
+## 初中几何表述与解三角形固定句式
+
+- YAML block scalar 里的普通回车会被 LaTeX 当成空格。学生解答必须在 `content_latex` 中显式写 `\\`，做到“一个推理动作一行”；禁止用 YAML 源码换行伪装可见分行。
+- 证明与连续推导的关键节点默认使用 `\because` 和 `\therefore`，两者必须各占一行，例如：`$\because AB=AC$，\\ $\therefore \angle B=\angle C$。`文字动作可继续用“作、连接、设”，但不要用连续的“由……故……所以……”取代数学因果链。
+- 若图中同时有多个等腰三角形，先在 `side_items` 中提醒学生标出每个三角形的顶角、底角、腰和底。若其中两个等腰三角形相似，先对齐顶角和底角，再写 `$\dfrac{腰}{底}=\dfrac{对应腰}{对应底}$`；能用腰底比直接得边长时，不重新使用余弦定理。
+- 默认用以下句式收紧“解三角形”步骤：
+  - 一般三角形：`\textbf{解 $\triangle ABC$}：已知……，……，……，得……。`三个已知量必须独立且至少有一边。
+  - 等腰三角形：`\textbf{解等腰 $\triangle ABC$}：已知 $AB=AC$，……，……，得……。`先写等腰性质，再写两个有效已知量。
+  - 直角三角形：`\textbf{解直角 $\triangle ABC$}：已知 $\angle C=90^\circ$，……，……，得……。`先写直角性质，再写两个有效已知量。
+- “得”后原则上给出其余边角；聚焦单题讲义为了密度可只列后续真正使用的结果，但不能漏掉题干所求。
+- 固定的“解 $\triangle XXX$：已知……，得……”句式要单独成行；后续作图、`\because`、`\therefore`、代入和结论不得挤回该行。
 
 ## solution
 
@@ -206,7 +228,7 @@ solution_step_ids:
 
 ## mistake
 
-用于每个知识点/模型单元末尾的独立易错提醒。
+用于确有独立价值的关键易错提醒，不是每个单元的必备收尾。
 
 ```yaml
 type: "mistake"
@@ -220,7 +242,7 @@ content_latex: |
 
 ## method_reminder
 
-用于每个知识点/模型单元末尾的方法总结。
+用于确需跨题复用的方法总结，不是每个知识点/模型单元的固定收尾。
 
 ```yaml
 type: "method_reminder"

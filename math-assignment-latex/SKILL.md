@@ -1,6 +1,6 @@
 ---
 name: math-assignment-latex
-description: "将已有 assignment.yaml 渲染为 exam-zh LaTeX 并编译为 PDF。Use when: 用户已有 assignment.yaml，需要渲染为 LaTeX、编译 PDF、检查 LaTeX 或从 YAML 生成作业 PDF。Skip when: 用户没有 assignment.yaml、要求生成题目内容、要求结构分析/讲解/练习内容，或要求 HTML 输出。本 skill 不做教学判断，不生成题目内容。"
+description: "将已定稿或 reviewed 的 assignment.yaml 渲染为 exam-zh LaTeX 并编译为 PDF。Use when: 用户已有可直接渲染的 assignment.yaml，需要渲染 LaTeX、编译 PDF 或检查 LaTeX。Skip when: 用户没有 assignment.yaml、要求生成或审改讲解/练习内容、要求打开 explanation/practice review UI，或要求 HTML 输出。本 skill 不做教学判断，不生成题目内容，也不编排 review。"
 ---
 
 # math-assignment-latex
@@ -15,6 +15,7 @@ assignment.yaml → Jinja2 模板 → .tex → tectonic/XeLaTeX → .pdf
 
 - 不做教学判断（那是 structure-analysis 的事）
 - 不生成题目内容（那是 latex-data skill 的事）
+- 不打开或编排 review UI（讲义归 explanation latex-data，练习归 practice latex-data）
 - 不直接写完整 .tex 页面（通过模板渲染）
 
 ## 输入
@@ -41,17 +42,6 @@ artifacts/<slug>/build.log            # 编译日志
 ```
 
 ## 步骤
-
-### 0. 可选：人工 review YAML
-
-如果用户要先审改已有 YAML，打开对应 review UI：
-
-```bash
-./.venv/bin/python math-assignment-latex/scripts/open_explanation_review.py <02-student-explanation.assignment.yaml>
-./.venv/bin/python math-assignment-latex/scripts/open_assignment_review.py <03-adaptive-practice.student.assignment.yaml> --teacher <03-adaptive-practice.teacher.assignment.yaml>
-```
-
-Review UI 只负责结构化编辑、保存 reviewed YAML、调用验证/渲染/编译按钮，不生成教学内容。
 
 ### 1. 验证 YAML
 

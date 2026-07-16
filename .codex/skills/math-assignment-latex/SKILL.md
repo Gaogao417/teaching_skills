@@ -1,6 +1,6 @@
 ---
 name: math-assignment-latex
-description: "将已有 assignment.yaml 渲染为 exam-zh LaTeX 并编译为 PDF。Use when: 用户已有 assignment.yaml，需要渲染为 LaTeX、编译 PDF、检查 LaTeX 或从 YAML 生成作业 PDF。Skip when: 用户没有 assignment.yaml、要求生成题目内容、要求结构分析/讲解/练习内容，或要求 HTML 输出。本 skill 不做教学判断，不生成题目内容。"
+description: "将已定稿或 reviewed 的 assignment.yaml 渲染为 exam-zh LaTeX 并编译为 PDF。Use when: 用户已有可直接渲染的 assignment.yaml，需要渲染 LaTeX、编译 PDF 或检查 LaTeX。Skip when: 用户没有 assignment.yaml、要求生成或审改讲解/练习内容、要求打开 explanation/practice review UI，或要求 HTML 输出。本 skill 不做教学判断，不生成题目内容，也不编排 review。"
 ---
 
 # math-assignment-latex
@@ -13,7 +13,9 @@ description: "将已有 assignment.yaml 渲染为 exam-zh LaTeX 并编译为 PDF
 assignment.yaml -> Jinja2 template -> .tex -> PDF
 ```
 
-本 skill 不做教学判断、不生成题目内容、不生成几何图。若 YAML 仍含 `diagram_slot`，先使用 `math-geometry-diagram-renderer` 生成 `*.resolved.assignment.yaml`。
+本 skill 不做教学判断、不生成题目内容、不生成几何图，也不负责打开或编排 review UI。讲义 review 属于
+`math-student-explanation-latex-data`，练习 review 属于 `math-adaptive-practice-latex-data`。若 YAML 仍含
+`diagram_slot`，先使用 `math-geometry-diagram-renderer` 生成 `*.resolved.assignment.yaml`。
 
 ## 输入
 
@@ -29,15 +31,6 @@ assignment.yaml -> Jinja2 template -> .tex -> PDF
 - 如果同名 `.tex` 旁存在对应 `*.assignment.yaml`，`compile_latex.sh` 会优先从该 YAML 重新渲染再编译，所以长期内容修改应落在 YAML，而不是只改生成的 `.tex`。
 
 ## 工作流
-
-如果用户要先人工审改已有 YAML，打开对应 review UI：
-
-```bash
-./.venv/bin/python math-assignment-latex/scripts/open_explanation_review.py <02-student-explanation.assignment.yaml>
-./.venv/bin/python math-assignment-latex/scripts/open_assignment_review.py <03-adaptive-practice.student.assignment.yaml> --teacher <03-adaptive-practice.teacher.assignment.yaml>
-```
-
-Review UI 只负责结构化编辑、保存 reviewed YAML、调用验证/渲染/编译按钮，不生成教学内容。
 
 先验证 YAML：
 

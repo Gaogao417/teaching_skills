@@ -10,7 +10,12 @@ import threading
 import webbrowser
 from pathlib import Path
 
-from review_server import create_explanation_app, run_explanation_server
+
+REPO_ROOT = Path(__file__).resolve().parents[4]
+SHARED_REVIEW_SCRIPTS = REPO_ROOT / "math-assignment-latex" / "scripts"
+sys.path.insert(0, str(SHARED_REVIEW_SCRIPTS))
+
+from review_server import create_explanation_app, run_explanation_server  # noqa: E402
 
 
 def main() -> int:

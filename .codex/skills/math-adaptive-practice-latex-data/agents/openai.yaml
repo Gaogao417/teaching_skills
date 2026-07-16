@@ -1,4 +1,4 @@
 interface:
-  display_name: "自适应练习YAML"
-  short_description: "根据结构分析和讲解内容生成自适应练习 plan assignment.yaml；需要图时只声明 diagram_slot。"
-  default_prompt: "请使用该技能读取结构分析和讲解内容，生成 03-adaptive-practice.student.plan.assignment.yaml 和 03-adaptive-practice.teacher.plan.assignment.yaml；如不需要图，可生成普通 assignment.yaml。"
+  display_name: "自适应练习 YAML 与审阅"
+  short_description: "生成学生/教师练习 YAML，并打开练习 review UI。"
+  default_prompt: "请使用 $math-adaptive-practice-latex-data 生成学生版和教师版练习 YAML，必要时完成 diagram resolve，然后打开练习专用 review UI。"

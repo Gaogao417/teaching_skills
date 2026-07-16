@@ -1,4 +1,4 @@
 interface:
-  display_name: "数学讲解YAML"
-  short_description: "根据结构分析生成统一讲义单元模板的学生讲解 YAML；需要图时只声明 diagram_slot。"
-  default_prompt: "请使用该技能读取结构分析，生成匹配 exam-zh-explanation 的 02-student-explanation.plan.assignment.yaml；如不需要图，可生成普通 assignment.yaml。先确定讲义规模：单题型、小专题型或复习型；每个知识点/模型单元必须有可见 section.title 并设置 show_title: true。每个单元按统一模板组织：可选 solution 知识点陈述 + 若干 problemcard/route/dual_explanation 例题讲解 + mistake 易错提醒 + method_reminder 方法提醒。solution.title 要写内容型标题，不写“知识点讲解”“例题讲解”“公式清单”等空泛功能名。输出后检查 route.steps[].content_latex 是否简洁、严谨、规范，只讲 how；把 why 和所以然改写到 dual_explanation.side_items 的小贴士提问中。"
+  display_name: "数学讲解 YAML 与审阅"
+  short_description: "生成例题优先、聚焦精简的讲解 YAML，并打开讲义 review UI。"
+  default_prompt: "请使用 $math-student-explanation-latex-data 生成例题优先、最小充分且逐项回答所求的讲解 YAML，必要时完成 diagram resolve，然后打开讲义专用 review UI。"

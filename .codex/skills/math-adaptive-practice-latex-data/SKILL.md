@@ -144,14 +144,20 @@ teaching:
 9. 若使用几何图，plan YAML 只写 `diagram_slot`，不写最终图片字段。
 10. YAML 通过 `python3 math-assignment-latex/scripts/validate_assignment.py <yaml>`。
 
-## Handoff
+## Diagram resolve
 
 若任一 YAML 中存在 `diagram_slot`，下一步使用 `math-geometry-diagram-renderer` 生成 resolved YAML。
 
-得到 resolved YAML 后，或确认普通 assignment YAML 中不存在 `diagram_slot` 后，先打开练习专用 review UI：
+## Review UI（本 skill 负责）
+
+练习内容生成后的 review 编排属于本 skill，不交给 `math-assignment-latex`。若有图，必须先完成学生版和
+教师版 diagram resolve；若无图，直接使用普通 assignment YAML。然后由本 skill 同时传入学生版和教师版，
+打开练习专用 review UI：
 
 ```bash
-./.venv/bin/python math-assignment-latex/scripts/open_assignment_review.py <03-adaptive-practice.student.assignment.yaml> --teacher <03-adaptive-practice.teacher.assignment.yaml>
+./.venv/bin/python .codex/skills/math-adaptive-practice-latex-data/scripts/open_assignment_review.py <student.assignment.yaml|student.resolved.assignment.yaml> --teacher <teacher.assignment.yaml|teacher.resolved.assignment.yaml>
 ```
 
-用户确认并保存 reviewed YAML 后，再使用 `math-assignment-latex` 渲染并编译 PDF。
+本 skill 自己持有打开 UI 的入口脚本；共享 review server、模板和前端资源仍由底层 LaTeX 工具复用。
+选择成对输入、启动 UI、等待用户确认和取得 reviewed YAML 的流程由本 skill 负责。用户确认并保存 reviewed YAML 后，才 handoff 给
+`math-assignment-latex` 做验证、渲染、检查或编译；若用户明确要求跳过 review，记录该选择后直接 handoff。

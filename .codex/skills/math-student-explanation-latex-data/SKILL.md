@@ -43,11 +43,18 @@ artifacts/<学生名>/YYYY-MM-DD-<内容>/02-student-explanation.assignment.yaml
    - 单题型：1 个知识点/模型单元，原题作为例题。
    - 小专题型：1-3 个知识点/模型单元，每个单元 1-2 个例题。
    - 复习型：多个知识点/模型单元，每个单元独立成组。
-7. 读取 `references/explanation-blocks.md`，按统一讲义单元模板设计内容。每个知识点/模型单元必须有 `section.title` 且设置 `show_title: true`；即使不写 `solution` 知识点陈述 block，也不能省略可见标题。
-8. 每个讲义单元默认采用：内容型标题 + 可选 `solution` 知识点陈述 + 若干例题讲解（`problemcard + route + dual_explanation`）+ `mistake` 易错提醒 + `method_reminder` 方法提醒。核心公式不要放进小字号 `step`；`solution.title` 要写内容型标题，`method_reminder` 只做节末策略总结。
+7. 读取 `references/explanation-blocks.md`，按统一讲义单元模板设计内容。每个知识点/模型单元必须有 `section.title` 且设置 `show_title: true`。聚焦单题型或单一动作训练时默认例题优先：标题后直接进入题面，不在第一道例题前堆放完整路线、分类表、边界说明或大段知识总结。
+8. 使用最小充分 block 组合：内容型标题 + `problemcard + route + dual_explanation` 是聚焦讲义的默认骨架；短定义或必要前置概念可用一条轻量提示。`solution`、`mistake`、`method_reminder` 都是按需 block，不得每个单元机械齐配。只有内容在例题步骤和 side items 中无法自然承载，且确实影响入口、分支判断或易错边界时才添加。
 9. 若需要几何图，读取 `references/diagram-slot-contract.md`，只声明 plan 阶段的 `diagram_slot`。
-10. 使用 `exam-zh-explanation` 模板输出 assignment YAML。输出后必须检查每个 `route.steps[].content_latex`：解答步骤只讲 how，要求简洁、严谨、规范；把讲 why、讲“所以然”、入口追问和易混判断移到 `dual_explanation.side_items` 的小贴士提问中。
-11. 输出 YAML 后运行 schema 校验；如果校验失败，修 YAML，不把错误留给渲染阶段。
+10. 锁定本节训练目标和例题所求：不要主动扩展成“完整解出所有边角”、近似角度、重复验算或额外分类，除非这些就是本节目标；同时逐项核对题干中的每个所求量都在解答中出现，不能因精简而漏答。
+11. 优先寻找一条能统一多个分支的可执行方法，让计算结果或几何条件承担分支判定；不要在学生尚未做例题前先给大而全的分类表。需要补充分支时，优先在 `side_items` 中放一个短反例/变式或用第二个例题解释结果含义。
+12. 使用 `exam-zh-explanation` 模板输出 assignment YAML。输出后必须检查每个 `route.steps[].content_latex`：解答步骤只讲 how，要求简洁、严谨、规范；把讲 why、讲“所以然”、入口追问和易混判断移到 `dual_explanation.side_items` 的小贴士提问中。每条 side item 必须解决一个真实卡点，删除与步骤正文重复的解释。
+   - 初中几何证明和连续推导默认用 `\because` / `\therefore` 组织“条件—结论”链；不要通篇只用“由、故、所以”的口语句式。
+   - YAML block scalar 中的源码换行渲染后只是空格，不是可见换行。解答正文必须“一个推理动作一行”：用显式 `\\` 分行，`\because` 条件与 `\therefore` 结论各占一行；“解 $\triangle XXX$”的固定句式也单独成行。禁止只在 YAML 源文本中敲回车却不写 LaTeX 换行命令。
+   - 出现“多个等腰三角形 + 相似”时，`side_items` 必须提醒学生先标顶角、底角、腰和底；两个等腰三角形相似时，对应关系确定后优先用“腰底比”，不重复倒角或重做一轮余弦计算。
+   - 出现“解三角形”动作且用户无特殊说明时，使用固定句式：`\textbf{解 $\triangle XXX$}：已知……，……，……，得……。`一般三角形列三个独立已知量且至少含一边；等腰或直角三角形先写特殊性质，再写两个有效已知量。“得”后给出其余边角，但讲义正文可只保留本题后续会使用的结果。
+13. 若用户直接修改了渲染后的 `.tex`，先用 Git diff 提取其结构性反馈，再把可复用调整落实到 assignment YAML 或 skill 规则；不要立即重渲染覆盖用户的 `.tex`。区分稳定偏好与单题临时改法，并检查用户精简稿是否仍完整回答题目。
+14. 输出 YAML 后运行 schema 校验；如果校验失败，修 YAML，不把错误留给渲染阶段。
 
 ## References
 
@@ -60,25 +67,36 @@ artifacts/<学生名>/YYYY-MM-DD-<内容>/02-student-explanation.assignment.yaml
 输出前检查：
 
 1. 所有 block 有唯一 `id` 和正确 `type`。
-2. 已按 `references/explanation-blocks.md` 使用统一讲义单元模板，并根据任务确定单题型、小专题型或复习型规模。
+2. 已按 `references/explanation-blocks.md` 使用最小充分讲义结构，并根据任务确定单题型、小专题型或复习型规模；聚焦讲义没有在首个例题前堆放大段总览。
 3. 每个讲义单元都有可见 `section.title` 和 `show_title: true`，标题不是“知识点讲解”“例题讲解”“公式清单”等空泛功能名。
 4. 每个讲解主块都能对应到 `核心结构`、`知识点/模型锚点`、`出题人逻辑`、`学生卡点预测`或`推荐讲题任务包`中的一个明确依据；不要只对着摘要标签填表。
 5. 若使用 canonical relation，讲解中的命题名称、条件和排除值与 relation propositions / constraints 一致。
 6. 重写版本不是从旧 YAML 复制后局部打补丁；旧 YAML 只作为反馈来源或版式参考。
 7. 已逐条检查 `route.steps[].content_latex`：每步只保留必要动作、公式和结论；删除冗长动机、类比、追问、口语解释。
-8. 已把必要的“为什么这样做”“下一步该想到什么”“容易混在哪里”改写为 `dual_explanation.side_items` 中的短小贴士提问，而不是塞进标准解答正文。
-9. 若写 `solution` block，核心公式和概念陈述已放入全宽 `solution` block，且 `solution.title` 是内容型标题；`step` 只用于短过渡；`method_reminder` 只放方法总结。
-10. 若有图，已按 `references/diagram-slot-contract.md` 约束只声明 plan 图位。
-11. YAML 通过 `python3 math-assignment-latex/scripts/validate_assignment.py <yaml>`。
+8. 已把必要的“为什么这样做”“下一步该想到什么”“容易混在哪里”改写为少量、不可重复的 `dual_explanation.side_items`；能由步骤直接看出的内容不再写一遍。
+9. 初中几何推导已在关键因果链中使用 `\because` / `\therefore`；若有等腰三角形之间的相似，已明示顶角/底角和腰/底，并优先检查腰底比路径。
+10. 已检查可见分行：不把 YAML 源码换行当成排版换行；每个推理动作显式使用 `\\` 分行，`\because` 与 `\therefore` 不挤在同一行。
+11. 出现“解三角形”时已使用固定句式，一般/等腰/直角三角形的已知量数量与特殊性质表述正确，且该句式单独成行。
+12. 已逐项核对题干所求全部得到回答；没有擅自扩展到本节不训练的边、角、近似值或完整验算。
+13. 若写 `solution`、`mistake` 或 `method_reminder`，每个 block 都有不可被例题步骤/side items 替代的独立作用；没有为了模板完整而机械添加。
+14. 若有多个情形，已优先考虑统一方法 + 结果判别；分类表确有必要时也没有放在首例之前压过例题入口。
+15. 若有图，已按 `references/diagram-slot-contract.md` 约束只声明 plan 图位。
+16. YAML 通过 `python3 math-assignment-latex/scripts/validate_assignment.py <yaml>`。
 
-## Handoff
+## Diagram resolve
 
 若 YAML 中存在 `diagram_slot`，下一步使用 `math-geometry-diagram-renderer` 生成 `02-student-explanation.resolved.assignment.yaml`。
 
-若无 `diagram_slot` 或已得到 resolved YAML，先打开讲义专用 review UI：
+## Review UI（本 skill 负责）
+
+讲义内容生成后的 review 编排属于本 skill，不交给 `math-assignment-latex`。若无 `diagram_slot`，使用普通
+assignment YAML；若有图，必须先完成 diagram resolve，再使用 resolved YAML。然后由本 skill 打开讲义专用
+review UI：
 
 ```bash
-./.venv/bin/python math-assignment-latex/scripts/open_explanation_review.py <02-student-explanation.assignment.yaml 或 resolved YAML>
+./.venv/bin/python .codex/skills/math-student-explanation-latex-data/scripts/open_explanation_review.py <02-student-explanation.assignment.yaml|02-student-explanation.resolved.assignment.yaml>
 ```
 
-用户确认并保存 reviewed YAML 后，再使用 `math-assignment-latex` 渲染并编译 PDF。
+本 skill 自己持有打开 UI 的入口脚本；共享 review server、模板和前端资源仍由底层 LaTeX 工具复用。
+选择输入、启动 UI、等待用户确认和取得 reviewed YAML 的流程由本 skill 负责。用户确认并保存 reviewed YAML 后，才 handoff 给
+`math-assignment-latex` 做验证、渲染、检查或编译；若用户明确要求跳过 review，记录该选择后直接 handoff。
