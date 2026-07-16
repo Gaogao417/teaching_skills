@@ -14,9 +14,15 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
+import os
+import shutil
 import sys
+import tempfile
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from datetime import datetime
+from functools import lru_cache
 from pathlib import Path
 
 from progress_subprocess import run_subprocess_streaming
@@ -49,6 +55,8 @@ SUPPORTED_ANALYTIC_ENGINES = {"wolfram_client", "wolfram_plot", "coordinate_rend
 SUPPORTED_SPATIAL_TYPES = {"spatial_geometry"}
 SUPPORTED_SPATIAL_ENGINES = {"spatial_renderer"}
 RENDERER_SPEC_ENGINE = "renderer_spec"
+CACHE_SCHEMA_VERSION = "diagram-artifact-cache/v1"
+SCENE_WRITER_SCHEMA_VERSION = "scene-writer-output/v1"
 
 
 # ---------------------------------------------------------------------------
@@ -62,6 +70,224 @@ def read_json(path: Path) -> dict[str, object]:
 def write_json(path: Path, data: dict[str, object]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+
+def _sha256_bytes(payload: bytes) -> str:
+    return "sha256:" + hashlib.sha256(payload).hexdigest()
+
+
+def _sha256_file(path: Path) -> str:
+    return _sha256_bytes(path.read_bytes())
+
+
+def _canonical_hash(value: object) -> str:
+    payload = json.dumps(
+        value,
+        ensure_ascii=False,
+        sort_keys=True,
+        separators=(",", ":"),
+    ).encode("utf-8")
+    return _sha256_bytes(payload)
+
+
+@lru_cache(maxsize=1)
+def _skill_bundle_version() -> str:
+    skill_paths = [
+        SCRIPT_DIR.parents[1] / ".codex" / "skills" / "math-geometry-diagram-renderer" / "SKILL.md",
+        SCRIPT_DIR / "geometry_diagram_workflow" / ".codex" / "skills" / "wolfram-geometricscene-reference" / "SKILL.md",
+        SCRIPT_DIR / "geometry_diagram_workflow" / ".codex" / "skills" / "dimensionless-constraints-library" / "SKILL.md",
+    ]
+    digest = hashlib.sha256()
+    for path in skill_paths:
+        digest.update(path.as_posix().encode("utf-8"))
+        digest.update(path.read_bytes())
+    return "sha256:" + digest.hexdigest()
+
+
+@lru_cache(maxsize=1)
+def _workflow_code_version() -> str:
+    paths = [
+        SCRIPT_DIR / "geometry_diagram_workflow" / "core" / name
+        for name in ("agent_prompt.py", "agent_runner.py", "workflow.py", "tools.py", "audit.py")
+    ]
+    paths.extend(
+        [
+            SCRIPT_DIR / "render_geometry_spec.py",
+            SCRIPT_DIR / "diagram_contracts.py",
+            SCRIPT_DIR / "run_diagram_batch.py",
+        ]
+    )
+    digest = hashlib.sha256()
+    for path in paths:
+        digest.update(path.name.encode("utf-8"))
+        digest.update(path.read_bytes())
+    return "sha256:" + digest.hexdigest()
+
+
+def _effective_model_cache_config(request: DiagramJobRequest) -> dict[str, object]:
+    config = request.engine_options.engine_model_config.model_dump(mode="json")
+    service_tier = str(config.get("service_tier") or "fast")
+    return {
+        "model": str(config.get("codex_model") or config.get("model") or "gpt-5.5"),
+        "model_reasoning_effort": str(config.get("model_reasoning_effort") or "medium"),
+        "service_tier": service_tier,
+        "fast_mode": bool(
+            config.get("fast_mode")
+            if config.get("fast_mode") is not None
+            else service_tier == "fast"
+        ),
+    }
+
+
+def _base_geometry_hash(request: DiagramJobRequest, artifact_dir: Path) -> str:
+    base_job_id = request.reuse.reuse_geometry_from
+    if not base_job_id:
+        return ""
+    path = artifact_dir / "build" / "diagram" / "jobs" / base_job_id / "final_renderer_spec.json"
+    if not path.is_file():
+        return ""
+    return _sha256_file(path)
+
+
+def _cache_identity(
+    job: DiagramJob,
+    request: DiagramJobRequest,
+    artifact_dir: Path,
+) -> tuple[str, dict[str, object]]:
+    identity = {
+        "request": request_payload_for_artifact(request),
+        "job_content_hash": job.content_hash,
+        "base_geometry_hash": _base_geometry_hash(request, artifact_dir),
+        "scene_writer_schema": SCENE_WRITER_SCHEMA_VERSION,
+        "model_config": _effective_model_cache_config(request),
+        "skill_bundle_version": _skill_bundle_version(),
+        "workflow_code_version": _workflow_code_version(),
+    }
+    return _canonical_hash(identity).removeprefix("sha256:"), identity
+
+
+def _cache_manifest(cache_dir: Path) -> dict[str, object]:
+    path = cache_dir / "manifest.json"
+    if not path.is_file():
+        return {}
+    try:
+        data = read_json(path)
+    except (OSError, ValueError, json.JSONDecodeError):
+        return {}
+    return data if data.get("schema_version") == CACHE_SCHEMA_VERSION else {}
+
+
+def _valid_cache_artifacts(cache_dir: Path, cache_key: str) -> bool:
+    manifest = _cache_manifest(cache_dir)
+    if manifest.get("cache_key") != cache_key:
+        return False
+    artifacts = cache_dir / "artifacts"
+    files = manifest.get("files")
+    if not isinstance(files, dict) or not files:
+        return False
+    for rel, expected in files.items():
+        path = artifacts / str(rel)
+        if not path.is_file() or _sha256_file(path) != expected:
+            return False
+    try:
+        workflow_result = read_json(artifacts / "workflow_result.json")
+        renderer_result = read_json(artifacts / "renderer_result.json")
+    except (OSError, ValueError, json.JSONDecodeError):
+        return False
+    if workflow_result.get("status") != "ok" or renderer_result.get("status") != "ok":
+        return False
+    fragment_rel = str(
+        renderer_result.get("tikz_fragment_path")
+        or renderer_result.get("tikz_source_path")
+        or ""
+    )
+    return bool(
+        (artifacts / "final_renderer_spec.json").is_file()
+        and fragment_rel
+        and (artifacts / fragment_rel).is_file()
+        and (artifacts / fragment_rel).stat().st_size > 0
+    )
+
+
+def _append_cache_event(job_dir: Path, event: str, cache_key: str) -> None:
+    payload = {
+        "ts": datetime.now().isoformat(timespec="seconds"),
+        "event": event,
+        "cache_key": cache_key,
+    }
+    job_dir.mkdir(parents=True, exist_ok=True)
+    with (job_dir / "workflow_events.jsonl").open("a", encoding="utf-8") as stream:
+        stream.write(json.dumps(payload, ensure_ascii=False) + "\n")
+
+
+def _restore_cached_job(
+    cache_dir: Path,
+    cache_key: str,
+    job_dir: Path,
+    request_payload: dict[str, object],
+) -> bool:
+    if not _valid_cache_artifacts(cache_dir, cache_key):
+        return False
+    job_parent = job_dir.parent
+    job_parent.mkdir(parents=True, exist_ok=True)
+    stage = Path(tempfile.mkdtemp(prefix=f".{job_dir.name}.cache-", dir=job_parent))
+    backup = job_parent / f".{job_dir.name}.previous-{os.getpid()}"
+    try:
+        shutil.copytree(cache_dir / "artifacts", stage, dirs_exist_ok=True)
+        write_json(stage / "request.json", request_payload)
+        _append_cache_event(stage, "cache.hit", cache_key)
+        profile_path = stage / "performance_profile.json"
+        try:
+            profile = read_json(profile_path) if profile_path.exists() else {}
+        except (OSError, ValueError, json.JSONDecodeError):
+            profile = {}
+        profile["cache"] = {"hit": True, "cache_key": cache_key}
+        write_json(profile_path, profile)
+        if backup.exists():
+            shutil.rmtree(backup)
+        if job_dir.exists():
+            os.replace(job_dir, backup)
+        os.replace(stage, job_dir)
+        shutil.rmtree(backup, ignore_errors=True)
+        return True
+    except Exception:
+        if backup.exists() and not job_dir.exists():
+            os.replace(backup, job_dir)
+        shutil.rmtree(stage, ignore_errors=True)
+        return False
+
+
+def _store_cached_job(
+    cache_dir: Path,
+    cache_key: str,
+    identity: dict[str, object],
+    job_dir: Path,
+) -> None:
+    cache_root = cache_dir.parent
+    cache_root.mkdir(parents=True, exist_ok=True)
+    temporary = Path(tempfile.mkdtemp(prefix=f".{cache_key[:12]}-", dir=cache_root))
+    artifacts = temporary / "artifacts"
+    try:
+        shutil.copytree(job_dir, artifacts)
+        files = {
+            path.relative_to(artifacts).as_posix(): _sha256_file(path)
+            for path in sorted(artifacts.rglob("*"))
+            if path.is_file()
+        }
+        write_json(
+            temporary / "manifest.json",
+            {
+                "schema_version": CACHE_SCHEMA_VERSION,
+                "cache_key": cache_key,
+                "identity": identity,
+                "files": files,
+            },
+        )
+        if cache_dir.exists():
+            shutil.rmtree(cache_dir)
+        os.replace(temporary, cache_dir)
+    finally:
+        shutil.rmtree(temporary, ignore_errors=True)
 
 
 def _has_runtime_value(value: object) -> bool:
@@ -379,10 +605,33 @@ def run_one_job(
     job_id = job.job_id
     build_dir = artifact_dir / "build" / "diagram"
     job_build_dir = build_dir / "jobs" / job_id
+    request_payload = request_payload_for_artifact(request)
+    cache_key, cache_identity = _cache_identity(job, request, artifact_dir)
+    cache_dir = build_dir / "cache" / cache_key
+
+    if not dry_run and request.human_revision is None and _restore_cached_job(
+        cache_dir,
+        cache_key,
+        job_build_dir,
+        request_payload,
+    ):
+        renderer_result = read_json(job_build_dir / "renderer_result.json")
+        return DiagramBatchJobResult(
+            job_id=job_id,
+            slot_id=job.slot_id,
+            variant=job.variant.value,
+            status="ok",
+            workflow_status="ok",
+            renderer_status="ok",
+            tikz_fragment_path=str(renderer_result.get("tikz_fragment_path") or ""),
+            tikz_source_path=str(renderer_result.get("tikz_source_path") or ""),
+            cache_hit=True,
+            cache_key=cache_key,
+        )
 
     # Write v2 request
     request_path = job_build_dir / "request.json"
-    write_json(request_path, request_payload_for_artifact(request))
+    write_json(request_path, request_payload)
 
     if dry_run:
         return DiagramBatchJobResult(
@@ -392,7 +641,10 @@ def run_one_job(
             status="dry_run",
             workflow_status="dry_run",
             renderer_status="dry_run",
+            cache_key=cache_key,
         )
+
+    _append_cache_event(job_build_dir, "cache.miss", cache_key)
 
     # Workflow stage
     if _is_scene_payload_route(request) or _is_renderer_spec_route(request) or _is_analytic_route(request) or _is_spatial_route(request):
@@ -439,7 +691,7 @@ def run_one_job(
             failure_reason=rr_tikz_source_path or "renderer process failed",
         )
     if rr_status == "ok":
-        return DiagramBatchJobResult(
+        result = DiagramBatchJobResult(
             job_id=job_id,
             slot_id=job.slot_id,
             variant=job.variant.value,
@@ -448,7 +700,16 @@ def run_one_job(
             renderer_status="ok",
             tikz_fragment_path=rr_tikz_fragment_path,
             tikz_source_path=rr_tikz_source_path,
+            cache_key=cache_key,
         )
+        if request.human_revision is None:
+            _store_cached_job(
+                cache_dir,
+                cache_key,
+                cache_identity,
+                job_build_dir,
+            )
+        return result
 
     return DiagramBatchJobResult(
         job_id=job_id,
@@ -485,6 +746,25 @@ def run_batch(
 
     results: list[DiagramBatchJobResult] = []
     completed_ok: set[str] = set()
+    if jobs_filter:
+        # A filtered repair run may intentionally omit an already-finalized
+        # dependency (for example, rerunning only solution diagrams after the
+        # prompt geometry has stabilized). Treat it as satisfied only when its
+        # durable workflow result and renderer spec are both present.
+        for job in manifest.jobs:
+            if job.job_id in jobs_filter:
+                continue
+            job_dir = artifact_dir / job.out_dir
+            workflow_result_path = job_dir / "workflow_result.json"
+            if not workflow_result_path.is_file():
+                continue
+            workflow_result = read_json(workflow_result_path)
+            if (
+                isinstance(workflow_result, dict)
+                and workflow_result.get("status") == "ok"
+                and (job_dir / "final_renderer_spec.json").exists()
+            ):
+                completed_ok.add(job.job_id)
 
     for level_ids in levels:
         runnable: list[DiagramJob] = []
