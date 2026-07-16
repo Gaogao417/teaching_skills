@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 import sys
 from pathlib import Path
-from typing import Dict
+from typing import Dict, Optional
 
 from tools import _json_default
 
@@ -31,6 +31,216 @@ def agent_result_schema() -> Dict[str, object]:
     }
 
 
+def scene_writer_output_schema() -> Dict[str, object]:
+    """Responses-API-compatible strict schema for the scene writer wire format.
+
+    Dynamic JSON maps cannot be represented in a strict response schema because
+    every object must set ``additionalProperties: false``. Labels therefore use
+    a list on the SDK boundary and are normalized to SceneDiagramSpec's label
+    map by the host.
+    """
+
+    point_name = {"type": "string", "minLength": 1}
+    segment = {
+        "type": "object",
+        "additionalProperties": False,
+        "properties": {
+            "from": point_name,
+            "to": point_name,
+            "role": {
+                "type": "string",
+                "enum": ["main", "secondary", "auxiliary", "hidden", "intersection", "projection"],
+            },
+            "stroke": {"type": "string"},
+            "dash": {"type": ["string", "null"]},
+        },
+        "required": ["from", "to", "role", "stroke", "dash"],
+    }
+    polygon = {
+        "type": "object",
+        "additionalProperties": False,
+        "properties": {
+            "points": {"type": "array", "items": point_name, "minItems": 3},
+            "role": {
+                "type": "string",
+                "enum": ["main", "secondary", "auxiliary", "hidden", "intersection", "projection"],
+            },
+            "stroke": {"type": "string"},
+            "fill": {"type": "string"},
+            "fill_opacity": {"type": "number", "minimum": 0, "maximum": 1},
+        },
+        "required": ["points", "role", "stroke", "fill", "fill_opacity"],
+    }
+    marker = {
+        "type": "object",
+        "additionalProperties": False,
+        "properties": {
+            "type": {"type": "string", "minLength": 1},
+            "vertex": {"type": "string"},
+            "arms": {"type": "array", "items": point_name},
+            "segments": {
+                "type": "array",
+                "items": {
+                    "type": "array",
+                    "items": point_name,
+                    "minItems": 2,
+                    "maxItems": 2,
+                },
+            },
+            "angle_mode": {"type": "string", "enum": ["minor", "reflex"]},
+            "stroke": {"type": "string"},
+        },
+        "required": ["type", "vertex", "arms", "segments", "angle_mode", "stroke"],
+    }
+    label = {
+        "type": "object",
+        "additionalProperties": False,
+        "properties": {
+            "name": point_name,
+            "text": {"type": "string"},
+            "placement": {
+                "type": ["string", "null"],
+                "enum": [
+                    "above", "below", "left", "right", "above left", "above right",
+                    "below left", "below right", "center", None,
+                ],
+            },
+            "dx": {"type": "number"},
+            "dy": {"type": "number"},
+            "show_point": {"type": "boolean"},
+        },
+        "required": ["name", "text", "placement", "dx", "dy", "show_point"],
+    }
+    annotation = {
+        "type": "object",
+        "additionalProperties": False,
+        "properties": {
+            "target": {"type": "array", "items": point_name},
+            "text": {"type": "string"},
+        },
+        "required": ["target", "text"],
+    }
+    diagram_spec = {
+        "type": "object",
+        "additionalProperties": False,
+        "properties": {
+            "segments": {"type": "array", "items": segment},
+            "polygons": {"type": "array", "items": polygon},
+            "markers": {"type": "array", "items": marker},
+            "labels": {"type": "array", "items": label},
+            "teaching_focus": {"type": "array", "items": {"type": "string"}},
+            "constraints": {"type": "array", "items": {"type": "string"}},
+            "annotations": {"type": "array", "items": annotation},
+        },
+        "required": [
+            "segments", "polygons", "markers", "labels", "teaching_focus",
+            "constraints", "annotations",
+        ],
+    }
+    point_roles = {
+        "type": "object",
+        "additionalProperties": False,
+        "properties": {
+            "anchors": {"type": "array", "items": point_name},
+            "constructed": {"type": "array", "items": point_name},
+            "auxiliary": {"type": "array", "items": point_name},
+        },
+        "required": ["anchors", "constructed", "auxiliary"],
+    }
+    return {
+        "type": "object",
+        "additionalProperties": False,
+        "properties": {
+            "scene_code": {"type": "string", "minLength": 1},
+            "points": {"type": "array", "items": point_name},
+            "point_roles": point_roles,
+            "diagram_spec": diagram_spec,
+            "rationale": {"type": "string"},
+        },
+        "required": ["scene_code", "points", "point_roles", "diagram_spec", "rationale"],
+    }
+
+
+def scene_writer_prompt(
+    request: Dict[str, object],
+    *,
+    skill_names: str,
+    repair_request: Optional[Dict[str, object]] = None,
+) -> str:
+    """Ask Codex only for the symbolic scene and renderer intent.
+
+    The Python host owns every executable step after this response. Keeping
+    commands and artifact paths out of this prompt prevents the normal Agent
+    from rediscovering and driving the workflow itself.
+    """
+
+    request_json = json.dumps(request, ensure_ascii=False, indent=2, default=_json_default)
+    repair_block = ""
+    if repair_request:
+        repair_json = json.dumps(
+            repair_request,
+            ensure_ascii=False,
+            indent=2,
+            default=_json_default,
+        )
+        repair_block = f"""
+
+This is the only automatic repair attempt. Revise the previous scene using the
+deterministic failure evidence below. Preserve every correct object and make the
+smallest change that addresses the failed checks.
+
+Repair evidence:
+{repair_json}
+"""
+
+    return f"""
+You are the scene-writer for one synthetic-geometry teaching diagram.
+Use the attached Codex skills: {skill_names}.
+
+Return exactly one JSON object matching the provided SceneWriterOutput schema:
+- scene_code: one complete Wolfram GeometricScene expression.
+- points: every point symbol used by the scene or visible diagram spec.
+- point_roles: anchors, constructed, and auxiliary point-label lists.
+- diagram_spec: visible segments, polygons, markers, labels, annotations, and
+  other renderer intent; it must not contain solved coordinates. Labels use the
+  schema's list form with an explicit name field. Supply every required nested
+  field; use empty strings/lists for marker fields that do not apply.
+- rationale: one short sentence explaining the construction choice.
+
+Do not execute Wolfram, Python, TeX, shell commands, or workflow actions. Do not
+write or read job artifacts. The Python host will validate the JSON, execute the
+scene, compile TikZ, audit the result, and finalize it.
+
+GeometricScene rules:
+- Use GeometricScene[{{A, B, C}}, hypotheses] only when the first argument is a
+  flat point list; with scalar parameters use
+  GeometricScene[{{{{A, B, C}}, {{r, s}}}}, hypotheses].
+- Use Element for incidence and native Wolfram geometry constraints for
+  intersections, midpoints, feet, centers, ratios, rotations, and other
+  constructed points. Never solve constructed-point coordinates yourself.
+- Wolfram segment membership is Element[P, Line[{{A, B}}]]; a full line uses
+  InfiniteLine and a ray uses HalfLine. Never emit LineSegment[...] or Ray[...].
+  Apply Horizontal/Rightward only to Line[{{A, B}}].
+- Ordinary synthetic geometry should keep points symbolic. At most use one
+  baseline Horizontal/Rightward assertion for layout; do not pin several
+  triangle vertices and repeat metric constraints.
+- anchors are the stem's base points, not an authorization to fix coordinates.
+- A point constrained to lie on another object, or defined as an intersection,
+  midpoint, foot, center, or ratio point, belongs in constructed rather than
+  anchors. Every constructed point needs native constraints that determine it.
+- A clean prompt shows only givens. A solution request must lock only the base
+  prompt points supplied by reuse_geometry_from and derive new auxiliary points
+  from native constraints.
+- Include every explicitly given length, angle, incidence, point order,
+  parallel, perpendicular, equality, and requested visible marker from the
+  normalized request. Do not add unproved special properties.
+
+Normalized request:
+{request_json}
+{repair_block}
+""".strip()
+
+
 def diagram_agent_prompt(
     request: Dict[str, object],
     out_dir: Path,
@@ -40,7 +250,10 @@ def diagram_agent_prompt(
 ) -> str:
     human_revision = request.get("human_revision")
     if not isinstance(human_revision, dict):
-        human_revision = {}
+        return scene_writer_prompt(
+            request,
+            skill_names=skill_names,
+        )
     engine_options = request.get("engine_options")
     if not isinstance(engine_options, dict):
         engine_options = {}

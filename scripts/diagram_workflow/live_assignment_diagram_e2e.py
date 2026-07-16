@@ -65,7 +65,11 @@ def _run(cmd: list[str], *, cwd: Path, timeout: int) -> subprocess.CompletedProc
     return completed
 
 
-def _segment_slot(slot_id: str, constraints: list[str]) -> dict[str, object]:
+def _segment_slot(
+    slot_id: str,
+    given_objects: list[str],
+    constraints: list[str],
+) -> dict[str, object]:
     return {
         "slot_id": slot_id,
         "diagram_ref": slot_id,
@@ -81,7 +85,7 @@ def _segment_slot(slot_id: str, constraints: list[str]) -> dict[str, object]:
         "diagram_kind": "synthetic_geometry",
         "teaching_intent": "practice_prompt",
         "semantic_constraints": {
-            "given_objects": ["A", "B", "C", "D"],
+            "given_objects": given_objects,
             "given_constraints": constraints,
             "clean_forbidden": ["不要写答案", "不要标注推理结论"],
         },
@@ -119,6 +123,7 @@ def _plan() -> dict[str, object]:
                         ),
                         "diagram_slot": _segment_slot(
                             "live.q1.prompt",
+                            ["A", "B", "C"],
                             ["A, B, C are collinear in order A-B-C", "AB:BC=3:5", "AC=64"],
                         ),
                         "answer_space": {"type": "steps", "height": "28mm"},
@@ -134,6 +139,7 @@ def _plan() -> dict[str, object]:
                         ),
                         "diagram_slot": _segment_slot(
                             "live.q2.prompt",
+                            ["A", "B", "C", "D"],
                             [
                                 "A, B, C, D are collinear in order A-B-C-D",
                                 "AB:BC:CD=2:3:4",

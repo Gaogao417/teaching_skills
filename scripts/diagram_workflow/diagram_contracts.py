@@ -839,6 +839,9 @@ class DiagramModelConfig(DiagramLooseModel):
     model: str = ""
     codex_model: str = ""
     codex_bin: str = ""
+    model_reasoning_effort: str = ""
+    service_tier: str = ""
+    fast_mode: bool | None = None
     codex_timeout_s: float | None = Field(default=None, gt=0)
 
     def get(self, key: str, default: JsonValue | None = None) -> JsonValue | None:
@@ -1307,6 +1310,28 @@ class ScenePayload(DiagramLooseModel):
     model_used: str = ""
     raw_response: str = ""
     model_attempts: list[ModelAttempt] = Field(default_factory=list)
+
+
+class SceneWriterOutput(DiagramModel):
+    """Strict Codex output at the normal scene-authoring boundary."""
+
+    scene_code: NonEmptyStr
+    points: list[str]
+    point_roles: dict[str, list[str]]
+    diagram_spec: SceneDiagramSpec
+    rationale: str
+
+
+class SceneRepairRequest(DiagramModel):
+    """Host-generated evidence for the single automatic scene repair."""
+
+    schema_version: Literal["diagram-scene-repair/v1"] = "diagram-scene-repair/v1"
+    round_index: Literal[1] = 1
+    failure_type: NonEmptyStr
+    message: NonEmptyStr
+    failed_checks: list[str] = Field(default_factory=list)
+    previous_scene_payload: ScenePayload
+    repair_instruction: NonEmptyStr
 
 
 class SolutionAuxiliaryPayload(DiagramLooseModel):
@@ -1799,6 +1824,8 @@ class DiagramBatchJobResult(DiagramModel):
     renderer_status: str = "not_run"
     tikz_fragment_path: str = ""
     tikz_source_path: str = ""
+    cache_hit: bool = False
+    cache_key: str = ""
     failure_reason: str = ""
 
 

@@ -11,7 +11,13 @@ from pathlib import Path
 from queue import Empty
 from typing import Dict, List
 
-from agent_prompt import agent_result_schema, diagram_agent_prompt
+from agent_prompt import (
+    agent_result_schema,
+    diagram_agent_prompt,
+    scene_writer_output_schema,
+    scene_writer_prompt,
+)
+from diagram_contracts import SceneWriterOutput
 from runtime import redact_secrets
 from tools import (
     _agent_cwd,
@@ -131,6 +137,33 @@ def _final_agent_response(items: List[object]) -> str | None:
     return unknown_phase_response
 
 
+def _normalize_scene_writer_wire_payload(payload: Dict[str, object]) -> Dict[str, object]:
+    """Convert the SDK-strict list label shape to SceneDiagramSpec's map."""
+
+    normalized = dict(payload)
+    diagram_spec = normalized.get("diagram_spec")
+    if not isinstance(diagram_spec, dict):
+        return normalized
+    diagram_spec = dict(diagram_spec)
+    labels = diagram_spec.get("labels")
+    if isinstance(labels, list):
+        label_map: Dict[str, object] = {}
+        for item in labels:
+            if not isinstance(item, dict):
+                continue
+            name = str(item.get("name") or "").strip()
+            if not name:
+                continue
+            label_map[name] = {
+                key: value
+                for key, value in item.items()
+                if key != "name"
+            }
+        diagram_spec["labels"] = label_map
+    normalized["diagram_spec"] = diagram_spec
+    return normalized
+
+
 def _write_codex_task_sidecar(out_dir: str, review_id: str, thread_id: str) -> None:
     if not out_dir or not review_id or not thread_id:
         return
@@ -229,6 +262,9 @@ def _codex_agent_worker(
     model: str,
     codex_bin: str,
     skill_inputs: List[Dict[str, str]],
+    model_reasoning_effort: str = "medium",
+    service_tier: str = "fast",
+    fast_mode: bool = True,
     out_dir: str = "",
     job_id: str = "",
     review_id: str = "",
@@ -277,12 +313,19 @@ def _codex_agent_worker(
         run_input.append(TextInput(prompt))
 
         with Codex(config=config) as codex:
+            thread_config: Dict[str, object] = {}
+            if model_reasoning_effort:
+                thread_config["model_reasoning_effort"] = model_reasoning_effort
+            if fast_mode:
+                thread_config["features"] = {"fast_mode": True}
             thread_start_options = {
                 "approval_mode": ApprovalMode.deny_all,
+                "config": thread_config or None,
                 "cwd": cwd,
                 "ephemeral": not persistent_thread,
                 "model": model or None,
                 "sandbox": Sandbox.full_access,
+                "service_tier": service_tier or None,
             }
             if persistent_thread:
                 thread_start_options["thread_source"] = ThreadSource.user
@@ -404,6 +447,7 @@ def run_codex_diagram_agent(
     request: Dict[str, object],
     out_dir: Path,
     request_path: Path,
+    repair_request: Dict[str, object] | None = None,
 ) -> Dict[str, object]:
     model_config = request.get("model_config", {})
     if not isinstance(model_config, dict):
@@ -414,22 +458,36 @@ def run_codex_diagram_agent(
     queue: mp.Queue = mp.Queue()
     is_human_revision = isinstance(request.get("human_revision"), dict)
     skill_inputs = _skill_inputs_for_request(request)
-    prompt = diagram_agent_prompt(
-        request,
-        out_dir,
-        request_path,
-        skill_names=_all_skill_names(include_revision=is_human_revision),
-    )
+    if is_human_revision:
+        prompt = diagram_agent_prompt(
+            request,
+            out_dir,
+            request_path,
+            skill_names=_all_skill_names(include_revision=True),
+        )
+        output_schema = agent_result_schema()
+    else:
+        prompt = scene_writer_prompt(
+            request,
+            skill_names=_all_skill_names(include_revision=False),
+            repair_request=repair_request,
+        )
+        output_schema = scene_writer_output_schema()
     revision_context = _human_revision_context({**request, "_agent_out_dir": str(out_dir)})
     process = mp.Process(
         target=_codex_agent_worker,
         kwargs={
             "queue": queue,
             "prompt": prompt,
-            "output_schema": agent_result_schema(),
+            "output_schema": output_schema,
             "cwd": str(_agent_cwd()),
             "model": str(config.get("codex_model") or ""),
             "codex_bin": str(config.get("codex_bin") or ""),
+            "model_reasoning_effort": str(
+                config.get("model_reasoning_effort") or ""
+            ),
+            "service_tier": str(config.get("service_tier") or ""),
+            "fast_mode": bool(config.get("fast_mode")),
             "skill_inputs": skill_inputs,
             **revision_context,
         },
@@ -507,6 +565,21 @@ def run_codex_diagram_agent(
         )
     content = str(result.get("final_response") or "{}")
     payload = _extract_json_object(content)
+    if not is_human_revision:
+        payload = _normalize_scene_writer_wire_payload(payload)
+        payload = SceneWriterOutput.model_validate(payload).model_dump(
+            mode="json",
+            by_alias=True,
+        )
+        payload["model_used"] = str(config.get("codex_model") or "")
+        payload["model_attempts"] = [
+            {
+                "role": "text",
+                "model": str(config.get("codex_model") or ""),
+                "status": "ok",
+                "raw_response": content,
+            }
+        ]
     payload["agent_thread_id"] = str(result.get("thread_id") or "")
     payload["agent_turn_id"] = str(result.get("turn_id") or "")
     payload["agent_duration_ms"] = result.get("duration_ms")

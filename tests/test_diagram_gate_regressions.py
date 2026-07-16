@@ -278,6 +278,113 @@ class DiagramGateRegressionTest(unittest.TestCase):
 
             self.assertEqual(role_blocks, set())
 
+    def test_declared_constructed_rotation_transform_passes(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            artifact_dir = Path(tmp)
+            scene_code = (
+                "GeometricScene[{{A,B,F},{theta}},{A=={0,2},B=={-2,0},"
+                "Equal[F,RotationTransform[theta,A][B]]}]"
+            )
+            plan_data = plan_with_blocks([{
+                "type": "problem",
+                "id": "q1",
+                "stem_latex": r"将 B 绕 A 旋转到 D。",
+                "diagram_slot": synthetic_slot("q1.prompt"),
+                "answer_space": {
+                    "diagram_slot": solution_slot("q1.solution", "q1.prompt", scene_code)
+                },
+            }])
+            plan_view, manifest = collect(plan_data, artifact_dir)
+            artifacts = write_solution_artifacts(artifact_dir, manifest, scene_code)
+            solution_job = next(job for job in manifest.jobs if job.variant.value == "solution")
+            write_json(
+                artifact_dir / "build" / "diagram" / "jobs" / solution_job.job_id / "scene_payload.json",
+                {
+                    "scene_code": scene_code,
+                    "point_roles": {"anchors": ["A", "B"], "constructed": ["F"]},
+                },
+            )
+
+            report = run_gate(plan_view, manifest, artifacts, artifact_dir, None)
+            role_blocks = {
+                check.name for check in report.checks
+                if check.status == "block" and (
+                    check.name.startswith("constructed_point")
+                    or check.name.startswith("solution_auxiliary")
+                )
+            }
+
+            self.assertEqual(role_blocks, set())
+
+    def test_constructed_point_with_two_metric_relations_passes(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            artifact_dir = Path(tmp)
+            scene_code = (
+                "GeometricScene[{A,B,C,F},{A=={0,2},B=={-2,0},C=={2,0},"
+                "EuclideanDistance[A,F]==EuclideanDistance[A,B],"
+                "PlanarAngle[{B,A,F}]==PlanarAngle[{F,A,C}]}]"
+            )
+            plan_data = plan_with_blocks([{
+                "type": "problem",
+                "id": "q1",
+                "stem_latex": r"由距离与角关系确定点 F。",
+                "diagram_slot": synthetic_slot("q1.prompt"),
+                "answer_space": {
+                    "diagram_slot": solution_slot("q1.solution", "q1.prompt", scene_code)
+                },
+            }])
+            plan_view, manifest = collect(plan_data, artifact_dir)
+            artifacts = write_solution_artifacts(artifact_dir, manifest, scene_code)
+            solution_job = next(job for job in manifest.jobs if job.variant.value == "solution")
+            write_json(
+                artifact_dir / "build" / "diagram" / "jobs" / solution_job.job_id / "scene_payload.json",
+                {
+                    "scene_code": scene_code,
+                    "point_roles": {"anchors": ["A", "B", "C"], "constructed": ["F"]},
+                },
+            )
+
+            report = run_gate(plan_view, manifest, artifacts, artifact_dir, None)
+            role_blocks = {
+                check.name for check in report.checks
+                if check.status == "block" and (
+                    check.name.startswith("constructed_point")
+                    or check.name.startswith("solution_auxiliary")
+                )
+            }
+
+            self.assertEqual(role_blocks, set())
+
+    def test_full_form_equal_fixed_coordinate_blocks(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            artifact_dir = Path(tmp)
+            scene_code = "GeometricScene[{A,B,F},{A=={0,2},B=={-2,0},Equal[F,{1,1}]}]"
+            plan_data = plan_with_blocks([{
+                "type": "problem",
+                "id": "q1",
+                "stem_latex": r"将 B 绕 A 旋转到 D。",
+                "diagram_slot": synthetic_slot("q1.prompt"),
+                "answer_space": {
+                    "diagram_slot": solution_slot("q1.solution", "q1.prompt", scene_code)
+                },
+            }])
+            plan_view, manifest = collect(plan_data, artifact_dir)
+            artifacts = write_solution_artifacts(artifact_dir, manifest, scene_code)
+            solution_job = next(job for job in manifest.jobs if job.variant.value == "solution")
+            write_json(
+                artifact_dir / "build" / "diagram" / "jobs" / solution_job.job_id / "scene_payload.json",
+                {
+                    "scene_code": scene_code,
+                    "point_roles": {"anchors": ["A", "B"], "constructed": ["F"]},
+                },
+            )
+
+            report = run_gate(plan_view, manifest, artifacts, artifact_dir, None)
+            blocks = {check.name for check in report.checks if check.status == "block"}
+
+            self.assertIn("constructed_point_fixed_coordinates", blocks)
+            self.assertIn("solution_auxiliary_fixed_coordinates", blocks)
+
     def test_solution_auxiliary_fixed_coordinates_block(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             artifact_dir = Path(tmp)

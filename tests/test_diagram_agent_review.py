@@ -13,7 +13,7 @@ CORE = WORKFLOW / "geometry_diagram_workflow" / "core"
 sys.path.insert(0, str(WORKFLOW))
 sys.path.insert(0, str(CORE))
 
-from agent_prompt import diagram_agent_prompt  # noqa: E402
+from agent_prompt import diagram_agent_prompt, scene_writer_prompt  # noqa: E402
 from agent_runner import _record_preview_inspection  # noqa: E402
 from diagram_contracts import (  # noqa: E402
     DiagramEngineOptions,
@@ -28,8 +28,8 @@ from tools import (  # noqa: E402
 
 
 class DiagramAgentReviewContractTest(unittest.TestCase):
-    def test_diagram_agent_does_not_pin_a_default_codex_model(self) -> None:
-        self.assertEqual(_resolved_codex_config({})["codex_model"], "")
+    def test_diagram_agent_uses_pinned_default_codex_model(self) -> None:
+        self.assertEqual(_resolved_codex_config({})["codex_model"], "gpt-5.5")
         self.assertEqual(
             _resolved_codex_config({"codex_model": "explicit-model"})["codex_model"],
             "explicit-model",
@@ -39,25 +39,32 @@ class DiagramAgentReviewContractTest(unittest.TestCase):
         self.assertEqual(DiagramEngineOptions().max_retries, 0)
         self.assertEqual(DiagramEngineOptions(max_retries=1).max_retries, 1)
 
-    def test_zero_retry_prompt_runs_one_fixed_round_without_visual_self_review(self) -> None:
+    def test_normal_scene_writer_prompt_has_no_workflow_commands_or_visual_review(self) -> None:
         request = _request().model_dump(mode="json")
 
-        prompt = diagram_agent_prompt(request, Path("/tmp/job"), Path("/tmp/job/request.json"), skill_names="test")
+        prompt = scene_writer_prompt(request, skill_names="test")
 
-        self.assertIn("Use exactly round index 0", prompt)
-        self.assertIn("Agent visual review is disabled", prompt)
-        self.assertIn("deterministic audit passes, finalize immediately", prompt)
+        self.assertIn("SceneWriterOutput", prompt)
+        self.assertIn("The Python host will", prompt)
+        self.assertNotIn("--action", prompt)
+        self.assertNotIn("render_geometry_spec.py", prompt)
         self.assertNotIn("inspect the rendered preview PNG yourself", prompt)
-        self.assertNotIn("repair the next round", prompt)
 
-    def test_positive_retry_explicitly_restores_visual_review_loop(self) -> None:
+    def test_normal_scene_writer_repair_prompt_contains_only_failure_evidence(self) -> None:
         request = _request(max_retries=1).model_dump(mode="json")
 
-        prompt = diagram_agent_prompt(request, Path("/tmp/job"), Path("/tmp/job/request.json"), skill_names="test")
+        prompt = scene_writer_prompt(
+            request,
+            skill_names="test",
+            repair_request={
+                "failure_type": "no_solution",
+                "failed_checks": ["wolfram_failed: no_solution"],
+            },
+        )
 
-        self.assertIn("initial + 1 repairs", prompt)
-        self.assertIn("inspect the rendered preview PNG yourself", prompt)
-        self.assertIn("repair the next round", prompt)
+        self.assertIn("only automatic repair attempt", prompt)
+        self.assertIn("wolfram_failed: no_solution", prompt)
+        self.assertNotIn("--action", prompt)
 
     def test_human_revision_is_typed_and_names_exact_next_round(self) -> None:
         revision = DiagramHumanRevision(
@@ -103,7 +110,14 @@ class DiagramAgentReviewContractTest(unittest.TestCase):
             _request(human_revision=revision).model_dump(mode="json")
         )
 
-        self.assertNotIn("diagram-human-revision", [item["name"] for item in ordinary])
+        self.assertEqual(
+            [item["name"] for item in ordinary],
+            [
+                "math-geometry-diagram-renderer",
+                "wolfram-geometricscene-reference",
+                "dimensionless-constraints-library",
+            ],
+        )
         skill = next(item for item in revised if item["name"] == "diagram-human-revision")
         self.assertTrue(Path(skill["path"]).is_file())
         self.assertTrue(skill["path"].endswith("diagram-human-revision/SKILL.md"))

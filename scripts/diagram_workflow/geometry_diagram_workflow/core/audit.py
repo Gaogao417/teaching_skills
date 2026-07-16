@@ -39,7 +39,14 @@ def audit_diagram_action(
     renderer_result = _read_json(renderer_result_path)
 
     try:
-        _validate_scene_code(str(scene_payload.get("scene_code", "")))
+        _validate_scene_code(
+            str(scene_payload.get("scene_code", "")),
+            allow_fixed_metrics=bool(
+                request.get("reuse_geometry_from")
+                or request.get("reuse_from")
+                or request.get("base_diagram_job_id")
+            ),
+        )
     except Exception as exc:
         issues.append(f"invalid_scene_code: {redact_secrets(exc)}")
 
@@ -121,5 +128,4 @@ def audit_diagram_action(
         "audit_result_path": str(audit_path),
         "audit_result": audit_result,
     }
-
 

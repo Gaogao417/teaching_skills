@@ -72,6 +72,11 @@ FORBIDDEN_WL_TOKENS = [
 ]
 
 SKILL_SETS = {
+    "scene_writer": [
+        "math-geometry-diagram-renderer",
+        "wolfram-geometricscene-reference",
+        "dimensionless-constraints-library",
+    ],
     "generate": [
         "math-geometry-diagram-renderer",
         "wolfram-geometricscene-reference",
@@ -260,11 +265,11 @@ def _skill_inputs_for_group(group: str) -> List[Dict[str, str]]:
         skills.append({"name": name, "path": str(path)})
     return skills
 def _all_skill_inputs(*, include_revision: bool = False) -> List[Dict[str, str]]:
+    if not include_revision:
+        return _skill_inputs_for_group("scene_writer")
     skills: List[Dict[str, str]] = []
     seen: set[str] = set()
-    groups = ["generate", "evaluate", "finalize"]
-    if include_revision:
-        groups.append("revision")
+    groups = ["generate", "evaluate", "finalize", "revision"]
     for group in groups:
         for item in _skill_inputs_for_group(group):
             if item["name"] in seen:
@@ -332,15 +337,26 @@ def _resolved_codex_config(model_config: Dict[str, object]) -> Dict[str, object]
         "model": config_model.model,
         "codex_model": config_model.codex_model,
         "codex_bin": config_model.codex_bin,
+        "model_reasoning_effort": config_model.model_reasoning_effort,
+        "service_tier": config_model.service_tier,
+        "fast_mode": config_model.fast_mode,
         "codex_timeout_s": config_model.codex_timeout_s,
     }
-    # Respect an explicit per-job override, but leave the SDK model unset when
-    # the request does not choose one. The diagram workflow must not pin a
-    # repository-wide Codex model.
+    # Keep diagram-agent latency and runtime compatibility deterministic. A
+    # per-job model config may still override these repository defaults.
     config["codex_model"] = str(
         resolved.get("codex_model")
         or resolved.get("model")
-        or ""
+        or "gpt-5.5"
+    )
+    config["model_reasoning_effort"] = str(
+        resolved.get("model_reasoning_effort") or "medium"
+    )
+    config["service_tier"] = str(resolved.get("service_tier") or "fast")
+    config["fast_mode"] = bool(
+        resolved.get("fast_mode")
+        if resolved.get("fast_mode") is not None
+        else config["service_tier"] == "fast"
     )
     # 仅在题目配置或环境变量明确指定时覆盖 SDK runtime；留空时由
     # openai_codex 选择随 SDK 安装、适配当前平台的固定版本。
@@ -401,11 +417,22 @@ def _merge_lists(base: object, delta: object) -> List[object]:
     elif delta not in (None, "", []):
         merged.append(delta)
     return merged
-def _validate_scene_code(scene_code: str) -> None:
+def _validate_scene_code(scene_code: str, *, allow_fixed_metrics: bool = False) -> None:
     """对模型生成的 Wolfram 代码做最小安全门禁。"""
 
     if "GeometricScene" not in scene_code:
         raise ValueError("scene_code must contain GeometricScene")
+    unsupported_regions = [
+        token
+        for token in ("LineSegment", "Ray")
+        if re.search(rf"\b{token}\s*\[", scene_code)
+    ]
+    if unsupported_regions:
+        raise ValueError(
+            "scene_code uses unsupported region constructor(s) "
+            f"{unsupported_regions}; use Line for segments, InfiniteLine for full lines, "
+            "and HalfLine for rays"
+        )
     nested_first_argument = re.search(r"GeometricScene\s*\[\s*\{\s*\{", scene_code)
     scalar_parameter_form = re.search(
         r"GeometricScene\s*\[\s*\{\s*\{[^{}]+\}\s*,\s*\{[^{}]*\}\s*\}\s*,",
@@ -427,7 +454,7 @@ def _validate_scene_code(scene_code: str) -> None:
         r"\b(?:EuclideanDistance|PlanarAngle|TriangleMeasurement|Area)\s*\[",
         scene_code,
     )
-    if len(fixed_points) > 1 and repeated_metric_constraints:
+    if len(fixed_points) > 1 and repeated_metric_constraints and not allow_fixed_metrics:
         raise ValueError(
             "scene_code fixes multiple triangle vertices while also adding metric constraints; "
             "keep the points symbolic and use a baseline orientation assertion"
@@ -738,7 +765,10 @@ def _render_scene(
     生成；Wolfram 相关调用都在 _render_worker 里完成。
     """
 
-    _validate_scene_code(scene_code)
+    _validate_scene_code(
+        scene_code,
+        allow_fixed_metrics=bool(_solution_reuse_id(request)),
+    )
     round_dir = out_dir / "rounds" / f"round_{round_index}"
     round_dir.mkdir(parents=True, exist_ok=True)
     scene_path = round_dir / "scene.wl"

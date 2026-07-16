@@ -196,6 +196,14 @@ class DiagramAgentProgressTest(unittest.TestCase):
             self.assertEqual(capture.thread_starts[0]["sandbox"], "full_access")
             self.assertEqual(capture.thread_starts[0]["cwd"], str(ROOT))
             self.assertEqual(capture.thread_starts[0]["model"], "gpt-test")
+            self.assertEqual(capture.thread_starts[0]["service_tier"], "fast")
+            self.assertEqual(
+                capture.thread_starts[0]["config"],
+                {
+                    "model_reasoning_effort": "medium",
+                    "features": {"fast_mode": True},
+                },
+            )
             self.assertEqual(len(capture.names), 1)
             self.assertIn("q1-prompt", capture.names[0])
             self.assertIn("Round 1", capture.names[0])

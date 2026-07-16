@@ -111,6 +111,37 @@ def _read_text(path: Path) -> str:
         return ""
 
 
+def _point_fixed_coordinate(scene_code: str, escaped_point: str) -> re.Match[str] | None:
+    """Match both infix and full-form Wolfram coordinate assignments."""
+    return re.search(
+        rf"(?:(?<![A-Za-z0-9_`]){escaped_point}\s*(?:==|->)|"
+        rf"Equal\s*\[\s*{escaped_point}\s*,)\s*\{{\s*-?\d",
+        scene_code,
+    )
+
+
+def _point_constructor_constraint(scene_code: str, escaped_point: str) -> re.Match[str] | None:
+    """Recognize native point constructors, including transformed-image points."""
+    constructors = (
+        r"Midpoint|TriangleCenter|RegionNearest|RegionCentroid|RegionIntersection|"
+        r"RotationTransform|TranslationTransform|ScalingTransform|ReflectionTransform"
+    )
+    return re.search(
+        rf"(?:(?<![A-Za-z0-9_`]){escaped_point}\s*==|"
+        rf"Equal\s*\[\s*{escaped_point}\s*,)\s*(?:{constructors})\s*\[",
+        scene_code,
+    )
+
+
+def _point_relation_count(scene_code: str, escaped_point: str) -> int:
+    """Count native geometric relations that involve a point."""
+    return len(re.findall(
+        rf"(?:GeometricAssertion|EuclideanDistance|PlanarAngle|Area|RegionDistance)\s*"
+        rf"\[[^\]]*\b{escaped_point}\b",
+        scene_code,
+    ))
+
+
 def _resolve_artifact_path(artifact_dir: Path, value: str) -> Path:
     path = Path(value)
     return path if path.is_absolute() else artifact_dir / path
@@ -391,27 +422,18 @@ def _check_solution_auxiliary_geometry(
 
         for point in auxiliary_points:
             escaped = re.escape(point)
-            fixed_coordinate = re.search(
-                rf"(?<![A-Za-z0-9_`]){escaped}\s*(?:==|->)\s*\{{\s*-?\d",
-                scene_code,
-            )
+            fixed_coordinate = _point_fixed_coordinate(scene_code, escaped)
+            constructor_constraint = _point_constructor_constraint(scene_code, escaped)
+            relation_count = _point_relation_count(scene_code, escaped)
             structural_constraint = re.search(
                 rf"Element\s*\[\s*{escaped}\s*,|"
-                rf"(?<![A-Za-z0-9_`]){escaped}\s*==\s*(?:Midpoint|TriangleCenter|"
-                rf"RegionNearest|RegionCentroid|RegionIntersection)\s*\[",
+                rf"(?:(?<![A-Za-z0-9_`]){escaped}\s*==|Equal\s*\[\s*{escaped}\s*,)\s*"
+                rf"(?:Midpoint|TriangleCenter|RegionNearest|RegionCentroid|RegionIntersection|"
+                rf"RotationTransform|TranslationTransform|ScalingTransform|ReflectionTransform)\s*\[",
                 scene_code,
-            )
-            constructor_constraint = re.search(
-                rf"(?<![A-Za-z0-9_`]){escaped}\s*==\s*(?:Midpoint|TriangleCenter|"
-                rf"RegionNearest|RegionCentroid|RegionIntersection)\s*\[",
-                scene_code,
-            )
+            ) or (relation_count >= 2)
             incidence_count = len(re.findall(rf"Element\s*\[\s*{escaped}\s*,", scene_code))
-            relation_constraint = re.search(
-                rf"GeometricAssertion\s*\[[^\]]*\b{escaped}\b|"
-                rf"(?:EuclideanDistance|PlanarAngle|Area|RegionDistance)\s*\[[^\]]*\b{escaped}\b",
-                scene_code,
-            )
+            relation_constraint = relation_count > 0
             if fixed_coordinate:
                 checks.append(DiagramGateCheck(
                     name="solution_auxiliary_fixed_coordinates",
@@ -469,21 +491,11 @@ def _check_scene_point_roles(
                 if not point:
                     continue
                 escaped = re.escape(point)
-                fixed_coordinate = re.search(
-                    rf"(?<![A-Za-z0-9_`]){escaped}\s*(?:==|->)\s*\{{\s*-?\d",
-                    scene_code,
-                )
-                constructor_constraint = re.search(
-                    rf"(?<![A-Za-z0-9_`]){escaped}\s*==\s*(?:Midpoint|TriangleCenter|"
-                    rf"RegionNearest|RegionCentroid|RegionIntersection)\s*\[",
-                    scene_code,
-                )
+                fixed_coordinate = _point_fixed_coordinate(scene_code, escaped)
+                constructor_constraint = _point_constructor_constraint(scene_code, escaped)
                 incidence_count = len(re.findall(rf"Element\s*\[\s*{escaped}\s*,", scene_code))
-                relation_constraint = re.search(
-                    rf"GeometricAssertion\s*\[[^\]]*\b{escaped}\b|"
-                    rf"(?:EuclideanDistance|PlanarAngle|Area|RegionDistance)\s*\[[^\]]*\b{escaped}\b",
-                    scene_code,
-                )
+                relation_count = _point_relation_count(scene_code, escaped)
+                relation_constraint = relation_count > 0
                 if fixed_coordinate:
                     checks.append(DiagramGateCheck(
                         name="constructed_point_fixed_coordinates",
@@ -494,7 +506,7 @@ def _check_scene_point_roles(
                         ),
                         refs=[job.slot_id, point],
                     ))
-                elif not constructor_constraint and incidence_count == 0:
+                elif not constructor_constraint and incidence_count == 0 and relation_count < 2:
                     checks.append(DiagramGateCheck(
                         name="constructed_point_missing_constraint",
                         status="block",
