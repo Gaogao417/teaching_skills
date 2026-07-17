@@ -1,0 +1,374 @@
+schema: function_question_bank/v1
+source:
+  pdf_path: /Users/gaochong/Library/Containers/com.tencent.xinWeChat/Data/Documents/xwechat_files/wxid_jfjy52m4e8io21_6e3d/msg/attach/09899e5742fd62a1adbebbd865d3868d/2026-06/Rec/5824422c869e62f2/F/0/数学试卷18～22答案.pdf
+  title: 数学试卷18～22答案
+  extracted_at: '2026-06-21'
+  extraction_method: PDF 渲染图像后人工/子 agent 分页读取，合并复核
+  note: 原 PDF 为扫描件，无可用文本层；本题库收录函数相关题目，不收录手写答案解析。
+coverage:
+  rendered_pdf_pages: 8
+  printed_tasks_seen:
+    - 18
+    - 19
+    - 20
+    - 22
+  missing_or_not_seen:
+    - 学习活动任务 21 的常规题面页未在本 PDF 的 8 张渲染页中看到
+  split_work:
+    - agent: subagent_front_half
+      pages: [1, 2, 3, 4]
+    - agent: subagent_back_half
+      pages: [5, 6, 7, 8]
+difficulty_scale:
+  easy: 直接读图、代入、截距/平移/简单不等式判断
+  medium: 需要组合两个以上条件，如参数范围、表格建模、坐标几何关系
+  hard: 综合建模、存在性、分段函数、复杂实际应用或分类讨论
+questions:
+  - id: T18-Q05
+    source_ref: {task: 18, rendered_page: 1, printed_page: 1, question_no: 5}
+    type: 选择题
+    topic_tags: [一次函数, 函数图像, 直线位置关系, 参数符号]
+    stem: 在同一平面直角坐标系中，直线 y=-x-a 和直线 y=ax 的图象可能是（ ）。
+    options_note: 选项为四个直线图像组合，需回看原图确认图像选项。
+    difficulty: easy
+    difficulty_reason: 判断两条一次函数图象的斜率、截距与参数符号关系。
+    review_flags: [option_review]
+
+  - id: T18-Q06
+    source_ref: {task: 18, rendered_page: 1, printed_page: 1, question_no: 6}
+    type: 选择题
+    topic_tags: [一次函数, 函数图像, 坐标规律, 点坐标]
+    stem: 正方形 A1B1C1O、A2B2C2C1、A3B3C3C2……按如图所示的方式放置，点 A1、A2、A3……和点 C1、C2、C3……分别在直线 y=x+1 和 x 轴上，则点 A2023 的坐标是（ ）。
+    options_note: 选项均为含 2 的指数形式坐标，扫描小字需回图复核。
+    difficulty: medium
+    difficulty_reason: 需要从函数图像与连续正方形边长变化中归纳坐标规律。
+    review_flags: [option_review, index_review]
+
+  - id: T18-Q07
+    source_ref: {task: 18, rendered_page: 1, printed_page: 1, question_no: 7}
+    type: 填空题
+    topic_tags: [一次函数, 象限, 参数范围]
+    stem: 已知一次函数 y=kx+k-1（其中 k 为常数且 k≠0）的图象不经过第二象限，则 k 的取值范围是______。
+    difficulty: medium
+    difficulty_reason: 需结合斜率、截距与不过第二象限的条件确定参数范围。
+
+  - id: T18-Q09
+    source_ref: {task: 18, rendered_page: 1, printed_page: 1, question_no: 9}
+    type: 填空题
+    topic_tags: [一次函数, 象限, 函数不等式]
+    stem: 已知直线 y=kx+b 的图象经过第一、二、四象限，且过点（2，0），那么 kx+b<0 的解集为______。
+    difficulty: easy
+    difficulty_reason: 由一次函数图象与 x 轴交点判断函数值为负时的 x 范围。
+
+  - id: T18-Q10
+    source_ref: {task: 18, rendered_page: 1, printed_page: 2, question_no: 10}
+    type: 填空题
+    topic_tags: [一次函数, 平行直线, 解析式]
+    stem: 已知一次函数 y=kx+b 的图象经过点 A(0，-6)，且与直线 y=-3x+2 平行，这个函数解析式为______。
+    difficulty: easy
+    difficulty_reason: 利用平行直线斜率相同和 y 轴交点求解析式。
+
+  - id: T18-Q12
+    source_ref: {task: 18, rendered_page: 1, printed_page: 2, question_no: 12}
+    type: 填空题
+    topic_tags: [一次函数, 图像平移, 解析式]
+    stem: 将直线 y=x-2 沿 y 轴方向向下平移 3 个单位，平移后的直线表达式是______。
+    difficulty: easy
+    difficulty_reason: 考查一次函数上下平移时常数项的变化。
+
+  - id: T18-Q15
+    source_ref: {task: 18, rendered_page: 1, printed_page: 2, question_no: 15}
+    type: 填空题
+    topic_tags: [一次函数, 交点, 二元一次方程组]
+    stem: 直线 y=-x+3 与 y=mx+n 交点的横坐标为 1，则关于 x、y 的二元一次方程组 { y=mx+n, y=-x+3 } 的解为______。
+    difficulty: easy
+    difficulty_reason: 函数交点坐标与方程组解的对应关系。
+
+  - id: T18-Q20
+    source_ref: {task: 18, rendered_page: 2, printed_page: 3, question_no: 20}
+    type: 解答题
+    topic_tags: [一次函数, 坐标轴交点, 图像平移, 参数]
+    stem: 在平面直角坐标系中，已知直线 y1=-x+3 分别交 x 轴、y 轴于 A、B 两点（如图所示），直线 y2=ax+b（a>0）交 x 轴于点 C。
+    subquestions:
+      - 点 A、B 的坐标，并求出直线 y2 位于 x 轴上方所有点的横坐标的取值范围。
+      - 现将直线 y2 平移，使其经过点 B，交 x 轴于点 D，如果 BD=BA，求 a 的值。
+    difficulty: medium
+    difficulty_reason: 综合坐标轴交点、函数正负区间、平移后斜率参数。
+    review_flags: [subquestion_text_review]
+
+  - id: T18-Q22
+    source_ref: {task: 18, rendered_page: 2, printed_page: 4, question_no: 22}
+    type: 解答题
+    topic_tags: [一次函数, 实际问题, 函数解析式, 不等式应用, 交通流量]
+    stem: 某地区交通管理部门通过对道路流量的大数据分析可知，某东西路上车辆的平均速度 y（千米/时）与该条路上每百米车的数量 x（辆）的关系如图所示。
+    subquestions:
+      - 求 y 关于 x 的函数解析式（不必写 x 的取值范围）。
+      - 如果某时刻监测到这一东西路上车辆的平均速度为 30 千米/时，求此时这条路上每百米车的数量。
+      - 如果车辆的平均速度小于 20 千米/时，将严重拥堵，需启动限流措施；若此时开始这一路段上每百米车的数量以每 4 分钟增加 1 辆，为避免严重拥堵，求约几分钟后需启动限流措施。
+    difficulty: medium
+    difficulty_reason: 从图像建立一次函数模型，并用不等式判断实际情境。
+
+  - id: T19-Q02
+    source_ref: {task: 19, rendered_page: 3, printed_page: 1, question_no: 2}
+    type: 选择题
+    topic_tags: [一次函数, 函数增减性, 比较大小]
+    stem: 直线 y=1/2x+n 经过点 A(x1，y1)、B(x2，y2)，且 x1>x2，下列结论正确的是（ ）。
+    difficulty: easy
+    difficulty_reason: 利用一次函数斜率为正判断 y 随 x 增大而增大。
+    review_flags: [stem_review, option_review]
+
+  - id: T19-Q04
+    source_ref: {task: 19, rendered_page: 3, printed_page: 1, question_no: 4}
+    type: 选择题
+    topic_tags: [一次函数, 函数图像, 增减性, 零点]
+    stem: 若一次函数 y=kx+b 的图象如图所示，则下列结论中正确的是（ ）。
+    options:
+      A: k<0
+      B: 当 x=2 时，y=0
+      C: y 随 x 的增大而减小
+      D: 当 x>0 时，y>0
+    difficulty: easy
+    difficulty_reason: 依据图像判断斜率、截距、零点和函数值符号。
+
+  - id: T19-Q09
+    source_ref: {task: 19, rendered_page: 3, printed_page: 1, question_no: 9}
+    type: 填空题
+    topic_tags: [一次函数, 图像平移, 解析式]
+    stem: 将直线 y=5x-3√3 向上平移 5 个单位，得到的直线解析式是______。
+    difficulty: easy
+    difficulty_reason: 考查一次函数上下平移。
+
+  - id: T19-Q10
+    source_ref: {task: 19, rendered_page: 3, printed_page: 1, question_no: 10}
+    type: 填空题
+    topic_tags: [一次函数, 增减性, 参数范围, 截距]
+    stem: 已知一次函数 y=(2m-2)x+m+1 中，y 随 x 的增大而减小，且其图象与 y 轴交点在 x 轴上方，求 m 的取值范围______。
+    difficulty: medium
+    difficulty_reason: 同时使用斜率负和 y 轴截距为正两个条件。
+
+  - id: T19-Q11
+    source_ref: {task: 19, rendered_page: 3, printed_page: 2, question_no: 11}
+    type: 填空题
+    topic_tags: [一次函数, 截距]
+    stem: 直线 y=5-2x 在 y 轴上的截距是______。
+    difficulty: easy
+    difficulty_reason: 直接读取一次函数常数项。
+
+  - id: T19-Q14
+    source_ref: {task: 19, rendered_page: 3, printed_page: 2, question_no: 14}
+    type: 填空题
+    topic_tags: [一次函数, 函数图像, 特殊点, 点坐标]
+    stem: 我们把直角坐标平面内到 x 轴和到 y 轴距离相等的点称为“特殊点”，那么一次函数 y=-2x+4 的图象上的“特殊点”坐标为______。
+    difficulty: medium
+    difficulty_reason: 需理解题目定义的“特殊点”并代入一次函数图像。
+    review_flags: [definition_text_review]
+
+  - id: T19-Q15
+    source_ref: {task: 19, rendered_page: 3, printed_page: 2, question_no: 15}
+    type: 填空题
+    topic_tags: [一次函数, 交点, 函数不等式]
+    stem: 如图，直线 y1=-2x 与 y2=ax+3 的图象相交于点 A(-1，2)，则当 y1<y2 时，x 的取值范围是______。
+    difficulty: easy
+    difficulty_reason: 利用两条直线交点判断函数大小关系。
+
+  - id: T19-Q17
+    source_ref: {task: 19, rendered_page: 3, printed_page: 2, question_no: 17}
+    type: 填空题
+    topic_tags: [一次函数, 表格数据, 实际问题, 函数值]
+    stem: 秤的应用方便了人们的生活。实验时，若秤杆上秤砣到支点的水平距离为 x（厘米）时，对应的物体质量 y（斤）可看作 x 的一次函数。表中有若干次实验数据：x 为 1、3、4、6，y 为 0.8、1.2、1.6、1.8。求当 x 为 12 厘米时，对应的物体质量 y 为______斤。
+    difficulty: medium
+    difficulty_reason: 由表格数据识别函数关系并进行预测。
+    review_flags: [stem_simplified_from_scan]
+
+  - id: T19-Q19
+    source_ref: {task: 19, rendered_page: 4, printed_page: 3, question_no: 19}
+    type: 解答题
+    topic_tags: [一次函数, 交点, 解析式, 面积, 存在性, 点坐标]
+    stem: 如图，一次函数 y1=2x-2 的图象与 y 轴交于点 A，一次函数 y2 的图象与 y 轴交于点 B(0，6)，C 为两函数图象的交点，且点 C 的横坐标为 2。
+    subquestions:
+      - 求 C 点坐标及一次函数 y2 的函数解析式。
+      - 求 △ABC 的面积。
+      - 在坐标轴上，是否存在一点 P，使得 S△AOP=2S△BCP？若存在，请直接写出点 P 的坐标；若不存在，请说明理由。
+    difficulty: hard
+    difficulty_reason: 一次函数解析式、交点面积和坐标轴上动点存在性综合。
+    review_flags: [subquestion_formula_review]
+
+  - id: T19-Q22
+    source_ref: {task: 19, rendered_page: 4, printed_page: 4, question_no: 22}
+    type: 解答题
+    topic_tags: [一次函数, 实际问题, 函数解析式, 速率问题, 输液模型]
+    stem: 为提高控制输液从而减少因差异导致的药效不良事件，医疗输液器中的滴壶调节器从滚轮式改进为掣扣式的控制式。小明发现，在相同挡位下，不同粘度的液体流速存在差异，于是展开实验研究。（实验假设：对于掣扣式输液器设定的任意一个挡位，同样液体的输液速度保持恒定。）
+    subquestions:
+      - 小明用掣扣式输液器设定每小时 120 毫升的档位测试液体 A 的流速，输液段内初始药液量为 250 毫升，得到输液段剩余药液量 y（毫升）和时间 x（分钟）之间的关系如图 3 所示。求 y 关于 x 的函数解析式（不写定义域）。
+      - 判断液体 A 的实际流速是否与设定流速（120 毫升/小时）一致；若不一致，假设实际流速与设定流速成正比，求要达到每小时 120 毫升的流速应设定为多少毫升/小时。
+      - 用相同档位测试液体 B 和液体 C 的实际流速，发现液体 B 的流速比液体 C 每小时快 60 毫升，且输完 250 毫升液体 C 所需时间是输完 200 毫升液体 B 所需时间的 2 倍，求该档位下液体 B 和液体 C 的实际流速。
+    difficulty: hard
+    difficulty_reason: 需要从图像建立一次函数，再结合单位换算、比例和方程解决实际速率问题。
+    review_flags: [device_name_review]
+
+  - id: T20-Q05
+    source_ref: {task: 20, rendered_page: 5, printed_page: 1, question_no: 5}
+    type: 选择题
+    topic_tags: [一次函数, 直线交点, 象限, 参数范围]
+    stem: "已知直线 l1: y=hx+b（h≠0）与直线 l2: y=kx-6（k<0）在第三象限交于点 M，若直线 l1 与 x 轴的交点为 B(3，0)，则 h 的取值范围是（ ）。"
+    difficulty: medium
+    difficulty_reason: 需要结合直线与 x 轴交点、第三象限交点位置和参数符号判断范围。
+    review_flags: [symbol_review, option_review]
+
+  - id: T20-Q09
+    source_ref: {task: 20, rendered_page: 5, printed_page: 1, question_no: 9}
+    type: 填空题
+    topic_tags: [一次函数, 函数不等式, 零点]
+    stem: 已知直线 y=kx+b（k>0）经过点（-2，0），那么不等式 kx+b>0 的解集是______。
+    difficulty: easy
+    difficulty_reason: 由一次函数零点和增减性直接判断。
+
+  - id: T20-Q10
+    source_ref: {task: 20, rendered_page: 5, printed_page: 1, question_no: 10}
+    type: 填空题
+    topic_tags: [一次函数, 平行直线, 象限]
+    stem: 与直线 y=3x-1 平行且在 y 轴上的截距为 2 的直线一定不经过第______象限。
+    difficulty: easy
+    difficulty_reason: 确定直线解析式后判断经过象限。
+
+  - id: T20-Q11
+    source_ref: {task: 20, rendered_page: 5, printed_page: 1, question_no: 11}
+    type: 填空题
+    topic_tags: [一次函数, 函数值, 自变量范围]
+    stem: 已知函数 y=2/3x+1，如果函数值 y>5，那么相应的自变量 x 的取值范围是______。
+    difficulty: easy
+    difficulty_reason: 代入不等式求解即可。
+
+  - id: T20-Q15
+    source_ref: {task: 20, rendered_page: 5, printed_page: 2, question_no: 15}
+    type: 填空题
+    topic_tags: [一次函数, 垂直直线, 新定义, 面积, 参数]
+    stem: 定义：如果直线 y1=k1x+b1（k1≠0）与直线 y2=k2x+b2（k2≠0）满足 k1·k2=-1 且 b1+b2=0，那么称这两条直线具有“和谐关系”。例如，直线 y1=2x+3 与直线 y2=-1/2x-3 具有“和谐关系”。如果直线 y1=hx+2（h>0）与直线 y2=kx-2 具有“和谐关系”，且这两条直线与 y 轴围成的三角形面积为 16/5，则 h=______。
+    difficulty: medium
+    difficulty_reason: 需要由新定义建立斜率关系，再结合两直线与坐标轴围成面积求参数。
+
+  - id: T20-Q19
+    source_ref: {task: 20, rendered_page: 6, printed_page: 3, question_no: 19}
+    type: 解答题
+    topic_tags: [反比例函数, 一次函数, 坐标, 矩形, 解析式, 面积]
+    stem: 已知，如图，点 A 坐标为（0，4），点 B 在反比例函数 y=-8/x 的图象上。
+    subquestions:
+      - 当 △AOB 面积为 12 时，求点 B 的坐标。
+      - 点 C 在 y 轴负半轴，点 D 在线段 BO 的延长线上，当四边形 ABCD 为矩形时，求直线 AB 解析式。
+    difficulty: medium
+    difficulty_reason: 综合反比例函数点坐标、面积关系、矩形性质和直线解析式。
+    review_flags: [function_formula_review]
+
+  - id: T20-Q21
+    source_ref: {task: 20, rendered_page: 6, printed_page: 3, question_no: 21}
+    type: 解答题
+    topic_tags: [一次函数, 反比例函数, 图像交点, 坐标, 参数]
+    stem: 如图，一次函数 y=2x+4 的图象与 x 轴、y 轴分别交于 A、B 两点，与反比例函数 y=k/x（k≠0，x>0）的图象交于点 C，过点 B 作 x 轴的平行线与该反比例函数 y=k/x 的图象交于点 D，连接 CD。
+    subquestions:
+      - 求 A、B 两点的坐标。
+      - 如果 BC=DC，求 k 的值。
+    difficulty: medium
+    difficulty_reason: 需要读图建立交点坐标，再用线段相等求反比例函数参数。
+    review_flags: [point_name_review]
+
+  - id: T20-Q22
+    source_ref: {task: 20, rendered_page: 6, printed_page: 4, question_no: 22}
+    type: 解答题
+    topic_tags: [一次函数, 数据建模, 分段决策, 交通流量]
+    stem: 某条东西方向道路双向共有三条车道，在早晚高峰经常会拥堵。数学研究小组希望改善道路拥堵情况，他们对该路段的交通量（辆/分钟）和时间进行统计分析，得到表格，并发现时间和交通量的变化规律符合一次函数的特征。
+    given_data:
+      time_x: [8时, 11时, 14时, 17时, 20时]
+      y1_自西向东交通量_辆每分钟: [10, 16, 22, 28, 34]
+      y2_自东向西交通量_辆每分钟: [25, 22, 19, 16, 13]
+    subquestions:
+      - 请用一次函数分别表示 y1 与 x、y2 与 x 之间的函数关系（不写定义域）。
+      - 如图，同学们希望设置可变车道来改善拥堵情况，根据车流量情况改变可变车道的行车方向。单位时间内东西向交通总量为 y0=y1+y2，车流量大的方向交通量为 vm；当 vm≥2/3y0，需使可变车道行车方向与拥挤方向相同。该路段从 8 时至 20 时，何时设置可变车道行车方向以缓解交通拥堵，并说明理由。
+    difficulty: hard
+    difficulty_reason: 需要由表格建一次函数模型，再比较不同时段方向流量并作决策。
+    review_flags: [condition_text_review]
+
+  - id: T22-Q02
+    source_ref: {task: 22, rendered_page: 7, printed_page: 1, question_no: 2}
+    type: 选择题
+    topic_tags: [一次函数, 解析式, 象限, 参数]
+    stem: 已知一次函数的解析式 y=(-m^2-1)x+m^2+2，则它的图象一定不经过的象限是（ ）。
+    difficulty: easy
+    difficulty_reason: 根据斜率恒负、截距恒正判断象限。
+    review_flags: [option_review]
+
+  - id: T22-Q07
+    source_ref: {task: 22, rendered_page: 7, printed_page: 1, question_no: 7}
+    type: 填空题
+    topic_tags: [一次函数, 截距, 参数]
+    stem: 若一次函数 y=2x+k+4 的图象在 y 轴上的截距是 5，则 k=______。
+    difficulty: easy
+    difficulty_reason: 直接由常数项等于截距求参数。
+
+  - id: T22-Q09
+    source_ref: {task: 22, rendered_page: 7, printed_page: 1, question_no: 9}
+    type: 填空题
+    topic_tags: [一次函数, 定点, 对称, 面积]
+    stem: 在平面直角坐标系 xOy 中，若一次函数 y=kx+2k+3（k≠0）对于除 0 之外的任意实数 k，其图象都经过一个定点 A，点 A' 与点 A 关于 x 轴对称，则 △OAA' 的面积为______。
+    difficulty: medium
+    difficulty_reason: 需要把解析式按参数整理求公共定点，再利用对称点求面积。
+
+  - id: T22-Q10
+    source_ref: {task: 22, rendered_page: 7, printed_page: 1, question_no: 10}
+    type: 填空题
+    topic_tags: [一次函数, 正比例函数, 参数]
+    stem: 当 m=______时，函数 y=(2-m)x+m^2-4（m 是常数）是正比例函数。
+    difficulty: easy
+    difficulty_reason: 令常数项为 0 且一次项系数不为 0。
+
+  - id: T22-Q11
+    source_ref: {task: 22, rendered_page: 7, printed_page: 1, question_no: 11}
+    type: 填空题
+    topic_tags: [一元二次方程, 一次函数, 无实数根, 象限]
+    stem: 若一元二次方程 x^2-5x+a=0 无实数根，则一次函数 y=(a-5)x+a 的图象不经过第______象限。
+    difficulty: medium
+    difficulty_reason: 先由判别式确定参数范围，再判断一次函数图象象限。
+
+  - id: T22-Q13
+    source_ref: {task: 22, rendered_page: 7, printed_page: 2, question_no: 13}
+    type: 填空题
+    topic_tags: [一次函数, 图像, 交点, 函数不等式, 结论判断]
+    stem: 已知一次函数 y1=kx+b 与 y2=x+a 的图象如图所示，有下列结论：①a<0；②b>0；③关于 x 的方程 kx+b=x+a 的解为 x=3；④当 x≤3 时，y2≥y1。其中正确的结论有______个。
+    difficulty: medium
+    difficulty_reason: 需要从两条直线图像读出截距、交点和函数大小关系。
+
+  - id: T22-Q17
+    source_ref: {task: 22, rendered_page: 7, printed_page: 2, question_no: 17}
+    type: 解答题
+    topic_tags: [分段函数, 正比例函数, 函数图像, 参数范围, 矩形交点, 新定义]
+    stem: 定义：形如 y={kx+b（x≥0），kx-b（x<0）} 的函数称为正比例函数 y=kx（k≠0）的“分移函数”，其中 b 叫“分移值”。
+    subquestions:
+      - 函数 y=x 的“分移函数”为 y={x+3（x≥0），x-3（x<0）}，其中“分移值”为 3，在图 1 中画出其图象；已知点（1，2k）在 y=kx（k≠0）的“分移函数” y={kx+6（x≥0），kx-6（x<0）} 的图象上，求 k。
+      - 已知点 P1(2，1-m)、P2(-3，2m+1) 在函数 y=2x 的“分移函数”的图象上，求 m 的值。
+      - 已知矩形 ABCD 顶点坐标为 A(1，0)，B(1，2)，C(-2，2)，D(-2，0)，函数 y=kx 的“分移函数”的“分移值”为 3，且其图象与矩形 ABCD 恰好有 2 个交点，请直接写出 k 的取值范围。
+    difficulty: hard
+    difficulty_reason: 新定义分段函数，包含作图、代点求参、以及图象与矩形交点个数的参数分类。
+    review_flags: [piecewise_format_review]
+
+  - id: T22-Q18
+    source_ref: {task: 22, rendered_page: 8, printed_page: 4, question_no: 18}
+    type: 解答题
+    topic_tags: [反比例函数, 双曲线, 实际应用, 解析式, 距离]
+    stem: 如图，为某公园“水上滑梯”的侧面图，其中 BC 段可看成是一段双曲线。建立如图所示的坐标系后，矩形 AOBE 为向上攀爬的梯子，OA=6 米，进口 AB∥OD，且 AB=2 米，出口 C 点距水面的距离为 CD。
+    subquestions:
+      - 求 BC 段滑梯所在双曲线的表达式（x≥2）。
+      - 若 CD 为 1.5 米，求 B、C 之间的水平距离 DE 的长度。
+    difficulty: medium
+    difficulty_reason: 需要根据实际图形读点坐标，建立反比例函数模型并求水平距离。
+    review_flags: [stem_text_review]
+summary:
+  total_questions: 35
+  by_task:
+    T18: 9
+    T19: 10
+    T20: 8
+    T22: 8
+  by_difficulty:
+    easy: 16
+    medium: 15
+    hard: 4
+  review_flags_note: 带 review_flags 的题目是扫描图或图形选项不够清晰处，题干主信息已整理，精确排版/选项可回原图复核。
