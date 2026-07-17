@@ -1,0 +1,46 @@
+meta:
+  title: 蝶形相似 · Q007 · 学生版
+  grade: 八年级
+  subject: 数学
+  total_points: 10
+  version: student
+  show_answers: false
+  source_artifacts:
+    explanation: ../../专题/2026-07-14-蝶形相似求第四边/02-student-explanation.resolved.assignment.yaml
+    diagram_policy: 一题一张独立 prompt 图；题图不泄露相似结论或答案
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: question
+  title: 专题题
+  type: practice
+  visibility: student
+  blocks:
+  - type: problem
+    id: Q007
+    points: 10
+    label: 三边求第四边
+    stem_latex: '如图，$\angle OAC=\angle ODB$。
+
+
+      已知 $AO=\frac{12}{7}$，$OD=\frac{48}{7}$，$DB=\frac{24}{7}$，求 $AC$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-butterfly-q007-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.butterfly.q007.prompt
+      diagram_job_id: question_bank-butterfly-q007-prompt
+      width: 60mm
+      caption: 先用对顶角补齐第二组等角，再按顶点顺序配边。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:b4ad0b8b41c6a831cd568107384b1b786263d75968f522da08bb829f7dc31d63
+      packages:
+      - tikz
+      libraries: []

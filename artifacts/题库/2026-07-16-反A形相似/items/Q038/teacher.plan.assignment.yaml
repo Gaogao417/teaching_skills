@@ -1,0 +1,162 @@
+meta:
+  title: 反A形相似 · Q038 · 教师版
+  grade: 八年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    explanation: ../../专题/2026-07-14-反A形相似求第四边/02-student-explanation.resolved.assignment.yaml
+    diagram_policy: 一题一张独立 prompt 图；题图不泄露相似结论或答案
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: question
+  title: 专题题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q038
+    points: 10
+    label: 先证相似再求边
+    stem_latex: '如图，$\angle PAB=\angle PDC$。
+
+
+      已知 $PB=\sqrt{7}$，$PC=\sqrt{35}$，$AB=\sqrt{7}$。求证 $\triangle PAB\sim\triangle PDC$，并求 $DC$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+    answer: $DC=\sqrt{35}$。
+    explanation: 先由等角判相似，再按同序顶点确定对应边；本题所用数值对来自 radical_multiple_pairs。
+    solution_steps:
+    - title: 见等角，找相似
+      content: 由题设等角和构型自带的第二组等角，得 $\triangle PAB\sim\triangle PDC$。
+    - title: 按顶点写对应边
+      content: 三组小边与大边依次为：$PA\leftrightarrow PD$，$PB\leftrightarrow PC$，$AB\leftrightarrow DC$。
+    - title: 保持比例方向一致
+      content: 取 小三角形边与大三角形对应边之比，可列 $\dfrac{PB}{PC}=\dfrac{AB}{DC}$。
+    - title: 代入并验算
+      content: 代入已知量解得 $DC=\sqrt{35}$；两组对应边的比均等于同一相似比。
+    teaching:
+      teaching_goal: 先补出第二组等角并证明相似，再求边
+      source_relations:
+      - explanation:reverse_a
+      - similar_triangles_corresponding_sides
+      expected_blocker: 没有先锁定等角顶点，或两组比例的大小方向不一致。
+      entry_point: equal_angles_to_similarity_to_correspondence
+      scaffold_level: low
+      variation_depth: partially_hidden
+      complexity_note: 只训练 AA 判定、对应边和一层比例；不引入面积、周长或额外辅助线。
+      upgrade_rule: 能独立写出同序相似式并用另一组对应边验算。
+      fallback_move: 先标出两个相等角的顶点，再逐个写出对应点。
+      number_selection:
+        database_id: question-bank-training-numbers
+        family_id: radical_multiple_pairs
+        entry_id: sqrt-ka-a7-k5
+        selection_class: irrational_pair
+    diagram_slot:
+      slot_id: question_bank.reverse_a.q038.prompt
+      diagram_ref: question_bank.reverse_a.q038.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 沿题设等角的顶点顺序，找出两组三角形的对应边。
+      engine: geometric_scene
+      diagram_kind: synthetic_geometry
+      engine_options:
+        scene_payload:
+          scene_code: GeometricScene[{P, A, B, C, D}, {Element[A, Line[{P, C}]], Element[B, Line[{P, D}]], EuclideanDistance[P,
+            A] > 0, EuclideanDistance[A, C] > 0, EuclideanDistance[P, B] > 0, EuclideanDistance[B, D] > 0, EuclideanDistance[P,
+            C] == EuclideanDistance[P, A] + EuclideanDistance[A, C], EuclideanDistance[P, D] == EuclideanDistance[P, B] +
+            EuclideanDistance[B, D], PlanarAngle[{P, A, B}] == PlanarAngle[{P, D, C}], TriangleMeasurement[{P, A, B}, {"InteriorAngle",
+            P}] >= 8 Degree, TriangleMeasurement[{P, A, B}, {"InteriorAngle", A}] >= 8 Degree, TriangleMeasurement[{P, A,
+            B}, {"InteriorAngle", B}] >= 8 Degree, GeometricAssertion[Line[{P, D}], "Horizontal"], GeometricAssertion[Line[{P,
+            D}], "Rightward"], GeometricAssertion[{P, D, C}, "Counterclockwise"], EuclideanDistance[P, B] == 2.683281573,
+            EuclideanDistance[P, C] == 6, EuclideanDistance[A, B] == 2.683281573}]
+          points:
+          - P
+          - A
+          - B
+          - C
+          - D
+          point_roles:
+            anchors:
+            - P
+            - C
+            - D
+            constructed:
+            - A
+            - B
+            auxiliary: []
+          diagram_spec:
+            type: synthetic_geometry
+            segments:
+            - from: P
+              to: C
+            - from: P
+              to: D
+            - from: A
+              to: B
+            - from: C
+              to: D
+            markers: []
+            labels:
+              P:
+                text: P
+                placement: below left
+              A:
+                text: A
+                placement: above left
+              B:
+                text: B
+                placement: below
+              C:
+                text: C
+                placement: above right
+              D:
+                text: D
+                placement: below right
+            constraints:
+            - A lies strictly between P and C
+            - B lies strictly between P and D
+            - angle PAB equals angle PDC
+            teaching_focus:
+            - identify equal angles
+            - match vertices before matching sides
+          rationale: 先用一组完整对应边锁定相似比，再约束目标小边；题干中的目标大边由相似关系等价确定。所有距离统一缩放，图中不标边长数值。
+          model_used: deterministic-similarity-model-question-bank
+          model_attempts: []
+        seed: 716037
+      teaching_intent: practice_prompt
+      problem_context:
+        stem_latex: '如图，$\angle PAB=\angle PDC$。
+
+
+          已知 $PB=\sqrt{7}$，$PC=\sqrt{35}$，$AB=\sqrt{7}$。求证 $\triangle PAB\sim\triangle PDC$，并求 $DC$。'
+        source_problem_text: 逐题独立生成干净题图。边长比例与题干一致；图中只保留点名和必要标记，不标边长数值、相似结论、对应箭头、比例式、推导或答案。
+      semantic_constraints:
+        given_objects:
+        - P
+        - A
+        - B
+        - C
+        - D
+        given_constraints:
+        - A lies strictly between P and C
+        - B lies strictly between P and D
+        - angle PAB equals angle PDC
+        - one full corresponding-side pair fixes the scale and the target small side fixes the shape; the stated target large
+          side is implied by similarity
+        clean_forbidden:
+        - do not show the final answer
+        - do not label the derived triangle similarity
+        - do not draw numeric side-length labels
+        - do not add auxiliary lines or solution annotations

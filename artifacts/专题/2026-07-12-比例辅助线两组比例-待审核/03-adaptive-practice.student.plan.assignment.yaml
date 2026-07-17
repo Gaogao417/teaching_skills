@@ -27,7 +27,7 @@ sections:
           如图，在 $\triangle ABC$ 中，点 $D$ 在线段 $BC$ 上，点 $E$ 在线段 $AC$ 上，
           线段 $AD$ 与 $BE$ 相交于点 $P$。已知
           \[
-          AE:EC=1:2,\qquad AP:PD=3:4,
+          AE:EC=1:4,\qquad AP:PD=2:3,
           \]
           求 $BP:PE$。
 
@@ -52,11 +52,11 @@ sections:
           diagram_kind: synthetic_geometry
           engine_options:
             engine_model_config:
-              codex_model: gpt-5.6-luna
+              codex_model: gpt-5.4
           teaching_intent: practice_prompt
           problem_context:
-            stem_latex: 在 $\triangle ABC$ 中，$D\in BC$，$E\in AC$，$P=AD\cap BE$。已知 $AE:EC=1:2$、$AP:PD=3:4$，求 $BP:PE$。
-            source_problem_text: 画原始三角形 ABC，D 在线段 BC 上，E 在线段 AC 上，AD 与 BE 交于 P。可采用视觉种子坐标 A=(0,6)、B=(-3,0)、C=(3,0)、D=(1,0)、E=(1,4)、P=(0.429,3.429)。只画题设构型，清楚显示 A-E-C、A-P-D、B-P-E、B-D-C 的点序；不要画 F、辅助线、相似标记、比例答案或任何解题提示。
+            stem_latex: 在 $\triangle ABC$ 中，$D\in BC$，$E\in AC$，$P=AD\cap BE$。已知 $AE:EC=1:4$、$AP:PD=2:3$，求 $BP:PE$。
+            source_problem_text: 画原始三角形 ABC，D 在线段 BC 上，E 在线段 AC 上，AD 与 BE 交于 P。由 AE:EC=1:4、AP:PD=2:3 确定一致母图，并保持 A-E-C、A-P-D、B-P-E、B-D-C 的点序清楚；不要画 F、辅助线、相似标记、比例答案或任何解题提示。标签必须逐点错开：A 上方，B 左下，C 右下，D 下方，E 在 AC 右上侧，P 在交点左下侧；禁止标签压在线段、交点或彼此重叠。
           semantic_constraints:
             given_objects: [A, B, C, D, E, P]
             given_constraints:
@@ -64,8 +64,8 @@ sections:
               - B, D, C are collinear with D between B and C
               - A, P, D are collinear with P between A and D
               - B, P, E are collinear with P between B and E
-              - AE:EC=1:2
-              - AP:PD=3:4
+              - AE:EC=1:4
+              - AP:PD=2:3
               - show segments AE, EC, AP, PD, BP and PE clearly
             clean_forbidden:
               - do not draw point F or any auxiliary parallel line; the parallel line is the student's construction task
@@ -88,7 +88,7 @@ sections:
           如图，在 $\triangle ABC$ 中，点 $D$ 在线段 $BC$ 上，点 $E$ 在线段 $AC$ 上，
           线段 $AD$ 与 $BE$ 相交于点 $P$。已知
           \[
-          BP:PE=3:1,\qquad BD:DC=2:1,
+          BP:PE=5:4,\qquad BD:DC=1:2,
           \]
           求 $AE:EC$。
 
@@ -113,11 +113,11 @@ sections:
           diagram_kind: synthetic_geometry
           engine_options:
             engine_model_config:
-              codex_model: gpt-5.6-luna
+              codex_model: gpt-5.4
           teaching_intent: practice_prompt
           problem_context:
-            stem_latex: 在 $\triangle ABC$ 中，$D\in BC$，$E\in AC$，$P=AD\cap BE$。已知 $BP:PE=3:1$、$BD:DC=2:1$，求 $AE:EC$。
-            source_problem_text: 画原始三角形 ABC，D 在线段 BC 上，E 在线段 AC 上，AD 与 BE 交于 P。可采用视觉种子坐标 A=(0,6)、B=(-3,0)、C=(3,0)、D=(1,0)、E=(2,2)、P=(0.75,1.5)。只画题设构型，清楚显示 A-E-C、A-P-D、B-P-E、B-D-C 的点序；不要画 F、辅助线、相似标记、比例答案或任何解题提示。
+            stem_latex: 在 $\triangle ABC$ 中，$D\in BC$，$E\in AC$，$P=AD\cap BE$。已知 $BP:PE=5:4$、$BD:DC=1:2$，求 $AE:EC$。
+            source_problem_text: 画原始三角形 ABC，D 在线段 BC 上，E 在线段 AC 上，AD 与 BE 交于 P。由 BP:PE=5:4、BD:DC=1:2 确定一致母图，并保持 A-E-C、A-P-D、B-P-E、B-D-C 的点序清楚；不要画 F、辅助线、相似标记、比例答案或任何解题提示。标签必须逐点错开：A 上方，B 左下，C 右下，D 下方，E 在 AC 右侧，P 在交点左下侧；禁止标签压在线段、交点或彼此重叠。
           semantic_constraints:
             given_objects: [A, B, C, D, E, P]
             given_constraints:
@@ -125,8 +125,8 @@ sections:
               - B, D, C are collinear with D between B and C
               - A, P, D are collinear with P between A and D
               - B, P, E are collinear with P between B and E
-              - BP:PE=3:1
-              - BD:DC=2:1
+              - BP:PE=5:4
+              - BD:DC=1:2
               - show segments BP, PE, BD, DC, AE and EC clearly
             clean_forbidden:
               - do not draw point F or any auxiliary parallel line; the parallel line is the student's construction task
@@ -149,7 +149,7 @@ sections:
           如图，在 $\triangle ABC$ 中，点 $D$ 在线段 $BC$ 上，点 $E$ 在线段 $AC$ 上，
           线段 $AD$ 与 $BE$ 相交于点 $P$。已知
           \[
-          AP:PD=2:1,\qquad BP:PE=3:1,
+          AP:PD=3:1,\qquad BP:PE=2:1,
           \]
           求 $BD:DC$。
 
@@ -174,11 +174,11 @@ sections:
           diagram_kind: synthetic_geometry
           engine_options:
             engine_model_config:
-              codex_model: gpt-5.6-luna
+              codex_model: gpt-5.4
           teaching_intent: practice_prompt
           problem_context:
-            stem_latex: 在 $\triangle ABC$ 中，$D\in BC$，$E\in AC$，$P=AD\cap BE$。已知 $AP:PD=2:1$、$BP:PE=3:1$，求 $BD:DC$。
-            source_problem_text: 画原始三角形 ABC，D 在线段 BC 上，E 在线段 AC 上，AD 与 BE 交于 P。可采用视觉种子坐标 A=(0,8)、B=(-3,0)、C=(5,0)、D=(2,0)、E=(2.778,3.556)、P=(1.333,2.667)。只画题设构型，清楚显示 A-E-C、A-P-D、B-P-E、B-D-C 的点序；不要画 F、辅助线、相似标记、比例答案或任何解题提示。
+            stem_latex: 在 $\triangle ABC$ 中，$D\in BC$，$E\in AC$，$P=AD\cap BE$。已知 $AP:PD=3:1$、$BP:PE=2:1$，求 $BD:DC$。
+            source_problem_text: 画原始三角形 ABC，D 在线段 BC 上，E 在线段 AC 上，AD 与 BE 交于 P。由 AP:PD=3:1、BP:PE=2:1 确定一致母图，并保持 A-E-C、A-P-D、B-P-E、B-D-C 的点序清楚；不要画 F、辅助线、相似标记、比例答案或任何解题提示。标签必须逐点错开：A 上方，B 左下，C 右下，D 下方，E 在 AC 右上侧，P 在交点左下侧；禁止标签压在线段、交点或彼此重叠。
           semantic_constraints:
             given_objects: [A, B, C, D, E, P]
             given_constraints:
@@ -186,8 +186,8 @@ sections:
               - B, D, C are collinear with D between B and C
               - A, P, D are collinear with P between A and D
               - B, P, E are collinear with P between B and E
-              - AP:PD=2:1
-              - BP:PE=3:1
+              - AP:PD=3:1
+              - BP:PE=2:1
               - show segments AP, PD, BP, PE, BD and DC clearly
             clean_forbidden:
               - do not draw point F or any auxiliary parallel line; the parallel line is the student's construction task

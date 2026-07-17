@@ -1,0 +1,325 @@
+\documentclass{exam-zh}
+\usepackage{edu-practice}
+
+\examsetup{
+  question/show-answer = true,
+  fillin/show-answer = true,
+  solution/show-solution = show-stay,
+}
+
+% ---------- 教师版解答样式 ----------
+\newtcolorbox{solutionblock}{
+  enhanced, breakable,
+  colback=edu-blue-bg,
+  colframe=edu-blue!25,
+  boxrule=0pt,
+  borderline west={2pt}{0pt}{edu-blue!50},
+  arc=0pt,
+  left=3mm, right=3mm, top=2mm, bottom=2mm,
+  before skip=2mm,
+  after skip=3mm,
+  fontupper=\small,
+}
+
+% 解答步骤编号
+\newcounter{solstep}
+\newcommand{\solstep}[2]{%
+  \stepcounter{solstep}%
+  \par\medskip
+  \noindent\hangindent=6mm
+  {\color{edu-blue}\bfseries\textcircled{\scriptsize\thesolstep}\enspace #1}\enspace #2\par
+}
+
+\begin{document}
+
+\section*{三角形一边平行线：三边求第四边 · 练习 1 · 教师版}
+
+\section*{练习 1（A字型、8字型交替，共10题）}
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，$P,A,C$ 三点共线，$P,B,D$ 三点共线，点序分别为 $P-A-C$、$P-B-D$，且 $AB\parallel CD$。
+已知 $PA=3$，$PC=6$，$CD=8$，求 $AB$。
+    \begin{hintbox}
+\textbf{起步提示：}先计算并约分 $\dfrac{PA}{PC}=\dfrac{3}{6}=\dfrac{1}{2}$；再按对应关系，把约分后的两份数分别标到未知边 $AB$ 和它对应的已知边 $CD$ 上。\end{hintbox}
+
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{先看平行边方向，再判断 A 字型或 8 字型及对应边。}
+  \input{\detokenize{../../../题库/2026-07-17-三边求第四边-A字型8字型/items/Q001/build/diagram/jobs/question-bank-three-known-q001-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[42mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$AB=4$。\par\medskip
+    \solstep{先判断}{已知边与未知边中出现平行线段 $CD$、$AB$，先求两个相似三角形的比。}
+    \solstep{计算并约分}{$\dfrac{PA}{PC}=\dfrac{3}{6}=\dfrac{1}{2}$。}
+    \solstep{标份数}{约分后，$AB$ 对应 1 份，$CD$ 对应 2 份。}
+    \solstep{按份数公式求边}{$AB=CD\times\dfrac{1}{2}=8\times\dfrac{1}{2}=4$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，$A,P,C$ 三点共线，$B,P,D$ 三点共线，点序分别为 $A-P-C$、$B-P-D$，且 $AB\parallel CD$。
+已知 $AP=4$，$PC=6$，$PD=6$，求 $BP$。
+    \begin{hintbox}
+\textbf{起步提示：}先计算并约分 $\dfrac{AP}{PC}=\dfrac{4}{6}=\dfrac{2}{3}$；再按对应关系，把约分后的两份数分别标到未知边 $BP$ 和它对应的已知边 $PD$ 上。\end{hintbox}
+
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{先看平行边方向，再判断 A 字型或 8 字型及对应边。}
+  \input{\detokenize{../../../题库/2026-07-17-三边求第四边-A字型8字型/items/Q002/build/diagram/jobs/question-bank-three-known-q002-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[42mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$BP=4$。\par\medskip
+    \solstep{先判断}{已知边与未知边都不在平行线段 $AB,CD$ 上，求两侧对应线段的比。}
+    \solstep{计算并约分}{$\dfrac{AP}{PC}=\dfrac{4}{6}=\dfrac{2}{3}$。}
+    \solstep{标份数}{约分后，$BP$ 对应 2 份，$PD$ 对应 3 份。}
+    \solstep{按份数公式求边}{$BP=PD\times\dfrac{2}{3}=6\times\dfrac{2}{3}=4$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，$P,A,C$ 三点共线，$P,B,D$ 三点共线，点序分别为 $P-A-C$、$P-B-D$，且 $AB\parallel CD$。
+已知 $PB=6$，$PD=8$，$PC=8$，求 $PA$。
+    \begin{hintbox}
+\textbf{起步提示：}先计算并约分 $\dfrac{PB}{PD}=\dfrac{6}{8}=\dfrac{3}{4}$；再按对应关系，把约分后的两份数分别标到未知边 $PA$ 和它对应的已知边 $PC$ 上。\end{hintbox}
+
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{先看平行边方向，再判断 A 字型或 8 字型及对应边。}
+  \input{\detokenize{../../../题库/2026-07-17-三边求第四边-A字型8字型/items/Q003/build/diagram/jobs/question-bank-three-known-q003-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[42mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$PA=6$。\par\medskip
+    \solstep{先判断}{已知边与未知边都不在平行线段 $AB,CD$ 上，求两侧对应线段的比。}
+    \solstep{计算并约分}{$\dfrac{PB}{PD}=\dfrac{6}{8}=\dfrac{3}{4}$。}
+    \solstep{标份数}{约分后，$PA$ 对应 3 份，$PC$ 对应 4 份。}
+    \solstep{按份数公式求边}{$PA=PC\times\dfrac{3}{4}=8\times\dfrac{3}{4}=6$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，$A,P,C$ 三点共线，$B,P,D$ 三点共线，点序分别为 $A-P-C$、$B-P-D$，且 $AB\parallel CD$。
+已知 $BP=6$，$PD=15$，$AB=4$，求 $CD$。
+    \begin{hintbox}
+\textbf{起步提示：}先计算并约分 $\dfrac{BP}{PD}=\dfrac{6}{15}=\dfrac{2}{5}$；再按对应关系，把约分后的两份数分别标到未知边 $CD$ 和它对应的已知边 $AB$ 上。\end{hintbox}
+
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{先看平行边方向，再判断 A 字型或 8 字型及对应边。}
+  \input{\detokenize{../../../题库/2026-07-17-三边求第四边-A字型8字型/items/Q004/build/diagram/jobs/question-bank-three-known-q004-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[42mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$CD=10$。\par\medskip
+    \solstep{先判断}{已知边与未知边中出现平行线段 $AB$、$CD$，先求两个相似三角形的比。}
+    \solstep{计算并约分}{$\dfrac{BP}{PD}=\dfrac{6}{15}=\dfrac{2}{5}$。}
+    \solstep{标份数}{约分后，$CD$ 对应 5 份，$AB$ 对应 2 份。}
+    \solstep{按份数公式求边}{$CD=AB\times\dfrac{5}{2}=4\times\dfrac{5}{2}=10$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，$P,A,C$ 三点共线，$P,B,D$ 三点共线，点序分别为 $P-A-C$、$P-B-D$，且 $AB\parallel CD$。
+已知 $PA=6$，$PC=10$，$AB=15$，求 $CD$。
+    \begin{hintbox}
+\textbf{起步提示：}先计算并约分 $\dfrac{PA}{PC}=\dfrac{6}{10}=\dfrac{3}{5}$；再按对应关系，把约分后的两份数分别标到未知边 $CD$ 和它对应的已知边 $AB$ 上。\end{hintbox}
+
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{先看平行边方向，再判断 A 字型或 8 字型及对应边。}
+  \input{\detokenize{../../../题库/2026-07-17-三边求第四边-A字型8字型/items/Q005/build/diagram/jobs/question-bank-three-known-q005-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[42mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$CD=25$。\par\medskip
+    \solstep{先判断}{已知边与未知边中出现平行线段 $AB$、$CD$，先求两个相似三角形的比。}
+    \solstep{计算并约分}{$\dfrac{PA}{PC}=\dfrac{6}{10}=\dfrac{3}{5}$。}
+    \solstep{标份数}{约分后，$CD$ 对应 5 份，$AB$ 对应 3 份。}
+    \solstep{按份数公式求边}{$CD=AB\times\dfrac{5}{3}=15\times\dfrac{5}{3}=25$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，$A,P,C$ 三点共线，$B,P,D$ 三点共线，点序分别为 $A-P-C$、$B-P-D$，且 $AB\parallel CD$。
+已知 $AP=8$，$PC=10$，$BP=8$，求 $PD$。
+    \begin{hintbox}
+\textbf{起步提示：}先计算并约分 $\dfrac{AP}{PC}=\dfrac{8}{10}=\dfrac{4}{5}$；再按对应关系，把约分后的两份数分别标到未知边 $PD$ 和它对应的已知边 $BP$ 上。\end{hintbox}
+
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{先看平行边方向，再判断 A 字型或 8 字型及对应边。}
+  \input{\detokenize{../../../题库/2026-07-17-三边求第四边-A字型8字型/items/Q006/build/diagram/jobs/question-bank-three-known-q006-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[42mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$PD=10$。\par\medskip
+    \solstep{先判断}{已知边与未知边都不在平行线段 $AB,CD$ 上，求两侧对应线段的比。}
+    \solstep{计算并约分}{$\dfrac{AP}{PC}=\dfrac{8}{10}=\dfrac{4}{5}$。}
+    \solstep{标份数}{约分后，$PD$ 对应 5 份，$BP$ 对应 4 份。}
+    \solstep{按份数公式求边}{$PD=BP\times\dfrac{5}{4}=8\times\dfrac{5}{4}=10$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，$P,A,C$ 三点共线，$P,B,D$ 三点共线，点序分别为 $P-A-C$、$P-B-D$，且 $AB\parallel CD$。
+已知 $PB=6$，$PD=14$，$PA=6$，求 $PC$。
+    \begin{hintbox}
+\textbf{起步提示：}先计算并约分 $\dfrac{PB}{PD}=\dfrac{6}{14}=\dfrac{3}{7}$；再按对应关系，把约分后的两份数分别标到未知边 $PC$ 和它对应的已知边 $PA$ 上。\end{hintbox}
+
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{先看平行边方向，再判断 A 字型或 8 字型及对应边。}
+  \input{\detokenize{../../../题库/2026-07-17-三边求第四边-A字型8字型/items/Q007/build/diagram/jobs/question-bank-three-known-q007-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[42mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$PC=14$。\par\medskip
+    \solstep{先判断}{已知边与未知边都不在平行线段 $AB,CD$ 上，求两侧对应线段的比。}
+    \solstep{计算并约分}{$\dfrac{PB}{PD}=\dfrac{6}{14}=\dfrac{3}{7}$。}
+    \solstep{标份数}{约分后，$PC$ 对应 7 份，$PA$ 对应 3 份。}
+    \solstep{按份数公式求边}{$PC=PA\times\dfrac{7}{3}=6\times\dfrac{7}{3}=14$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，$A,P,C$ 三点共线，$B,P,D$ 三点共线，点序分别为 $A-P-C$、$B-P-D$，且 $AB\parallel CD$。
+已知 $BP=8$，$PD=14$，$CD=28$，求 $AB$。
+    \begin{hintbox}
+\textbf{起步提示：}先计算并约分 $\dfrac{BP}{PD}=\dfrac{8}{14}=\dfrac{4}{7}$；再按对应关系，把约分后的两份数分别标到未知边 $AB$ 和它对应的已知边 $CD$ 上。\end{hintbox}
+
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{先看平行边方向，再判断 A 字型或 8 字型及对应边。}
+  \input{\detokenize{../../../题库/2026-07-17-三边求第四边-A字型8字型/items/Q008/build/diagram/jobs/question-bank-three-known-q008-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[42mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$AB=16$。\par\medskip
+    \solstep{先判断}{已知边与未知边中出现平行线段 $CD$、$AB$，先求两个相似三角形的比。}
+    \solstep{计算并约分}{$\dfrac{BP}{PD}=\dfrac{8}{14}=\dfrac{4}{7}$。}
+    \solstep{标份数}{约分后，$AB$ 对应 4 份，$CD$ 对应 7 份。}
+    \solstep{按份数公式求边}{$AB=CD\times\dfrac{4}{7}=28\times\dfrac{4}{7}=16$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，$P,A,C$ 三点共线，$P,B,D$ 三点共线，点序分别为 $P-A-C$、$P-B-D$，且 $AB\parallel CD$。
+已知 $PA=10$，$PC=16$，$CD=24$，求 $AB$。
+    \begin{hintbox}
+\textbf{起步提示：}先计算并约分 $\dfrac{PA}{PC}=\dfrac{10}{16}=\dfrac{5}{8}$；再按对应关系，把约分后的两份数分别标到未知边 $AB$ 和它对应的已知边 $CD$ 上。\end{hintbox}
+
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{先看平行边方向，再判断 A 字型或 8 字型及对应边。}
+  \input{\detokenize{../../../题库/2026-07-17-三边求第四边-A字型8字型/items/Q009/build/diagram/jobs/question-bank-three-known-q009-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[42mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$AB=15$。\par\medskip
+    \solstep{先判断}{已知边与未知边中出现平行线段 $CD$、$AB$，先求两个相似三角形的比。}
+    \solstep{计算并约分}{$\dfrac{PA}{PC}=\dfrac{10}{16}=\dfrac{5}{8}$。}
+    \solstep{标份数}{约分后，$AB$ 对应 5 份，$CD$ 对应 8 份。}
+    \solstep{按份数公式求边}{$AB=CD\times\dfrac{5}{8}=24\times\dfrac{5}{8}=15$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，$A,P,C$ 三点共线，$B,P,D$ 三点共线，点序分别为 $A-P-C$、$B-P-D$，且 $AB\parallel CD$。
+已知 $AP=10$，$PC=18$，$PD=18$，求 $BP$。
+    \begin{hintbox}
+\textbf{起步提示：}先计算并约分 $\dfrac{AP}{PC}=\dfrac{10}{18}=\dfrac{5}{9}$；再按对应关系，把约分后的两份数分别标到未知边 $BP$ 和它对应的已知边 $PD$ 上。\end{hintbox}
+
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{先看平行边方向，再判断 A 字型或 8 字型及对应边。}
+  \input{\detokenize{../../../题库/2026-07-17-三边求第四边-A字型8字型/items/Q010/build/diagram/jobs/question-bank-three-known-q010-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[42mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$BP=10$。\par\medskip
+    \solstep{先判断}{已知边与未知边都不在平行线段 $AB,CD$ 上，求两侧对应线段的比。}
+    \solstep{计算并约分}{$\dfrac{AP}{PC}=\dfrac{10}{18}=\dfrac{5}{9}$。}
+    \solstep{标份数}{约分后，$BP$ 对应 5 份，$PD$ 对应 9 份。}
+    \solstep{按份数公式求边}{$BP=PD\times\dfrac{5}{9}=18\times\dfrac{5}{9}=10$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\clearpage
+\section*{答案}
+
+
+
+
+\end{document}

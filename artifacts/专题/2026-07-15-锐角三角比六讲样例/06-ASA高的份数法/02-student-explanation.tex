@@ -9,17 +9,8 @@
 
 \begin{document}
 
-\eduSectionTitle{ASA：从第三顶点作高，让两个已知角共享高}
+\eduSectionTitle{ASA：已知两角一边（夹边），解三角形}
 
-
-\begin{eduSolutionBox}{核心动作：两个角都以高为对边}
-  \begingroup
-  \setlength{\parskip}{2.5mm}
-已知角在 $A,C$，夹边是 $AC$，所以从没有给已知角的顶点 $B$ 作 $BH\perp AC$。\par
-在 Rt$\triangle ABH$ 中，$\tan A=BH/AH$；在 Rt$\triangle BCH$ 中，$\tan C=BH/CH$。\par
-列式后先看同一条高 $BH$ 在两套比中各占几份，用最小公倍数统一份数，再用 $AH+CH=AC$ 定标。\par
-  \endgroup
-\end{eduSolutionBox}
 
 
 
@@ -32,7 +23,7 @@
 \[
 \tan A=\frac34,\qquad \tan C=\frac43.
 \]
-求 $BH,AB,BC$，并完整解出 $\triangle ABC$。
+过 $B$ 作 $BH\perp AC$ 于 $H$，求 $BH,AB,BC$。
 
 \end{minipage}\hfill
 \begin{diagramcoltikz}{70mm}{先圈出已知角 $A,C$；高应从剩下的顶点 $B$ 作出。}
@@ -45,13 +36,10 @@
 
 
 \begin{eduAuxItem}{思路导航}
-从未给已知角的顶点作高$\;\to\;$写两个以高为对边的正切比$\;\to\;$先统一高的份数$\;\to\;$用夹边总长定标$\;\to\;$分别解两个 Rt 三角形$\;\to\;$补出第三角并验算\end{eduAuxItem}
+从未给已知角的顶点作高$\;\to\;$写两个以高为对边的正切比$\;\to\;$先统一高的份数$\;\to\;$用夹边总长定标$\;\to\;$分别解两个 Rt 三角形\end{eduAuxItem}
 
 
 
-
-\begin{eduSubQuestionItem}{例题}
-求 $BH,AB,BC$，并完整解出 $\triangle ABC$。\end{eduSubQuestionItem}
 
 \begin{eduDualExplain}
   \begin{eduExplainLeft}
@@ -74,24 +62,8 @@
       \eduExplainStep{3}{先统一高的份数}{$BH$ 既是 3 的倍数又是 4 的倍数，设 $BH=12x$，则 $AH=16x,CH=9x$。}
       \eduExplainStep{4}{用夹边总长定标}{$AC=AH+CH=16x+9x=25x=25$，所以 $x=1$。}
       \eduExplainStep{5}{分别解两个 Rt 三角形}{$BH=12,AH=16,CH=9$；由勾股定理得 $AB=20,BC=15$。}
-      \eduExplainStep{6}{补出第三角并验算}{$A\approx36.9^\circ,C\approx53.1^\circ$，故 $B=90^\circ$；且 $12^2+16^2=20^2$，$12^2+9^2=15^2$。}
   \end{eduExplainRight}
 \end{eduDualExplain}
-
-
-
-
-\begin{eduMistakeBox}
-\eduSubTitle{易错提醒：先看高的份数}两个比中的 3 份高和 4 份高是同一条 $BH$，不能直接把两套份数相加。先统一成 12 份，再求两段底边。\end{eduMistakeBox}
-
-
-
-
-\begin{eduSummaryBlock}{\eduIconPin}{ASA 做题顺序}
-\begin{eduBulletList}
-  \item 圈出两个已知角和夹边 $\rightarrow$ 从第三顶点向夹边作高。  \item 两个已知角都以高为对边 $\rightarrow$ 看高的份数 $\rightarrow$ 取最小公倍数。  \item 两段底边拼成夹边 $\rightarrow$ 定标 $\rightarrow$ 分别解两个 Rt 三角形。\end{eduBulletList}
-\end{eduSummaryBlock}
-
 
 
 

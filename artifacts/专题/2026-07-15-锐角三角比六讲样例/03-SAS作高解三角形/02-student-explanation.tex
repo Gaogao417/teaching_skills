@@ -9,30 +9,9 @@
 
 \begin{document}
 
-\eduSectionTitle{SAS：从非已知角顶点作高，顺次解两个 Rt 三角形}
+\eduSectionTitle{SAS：已知两边一角（夹角），解三角形}
 
 
-\begin{eduSolutionBox}{固定路线：已知两边及夹角时，高要避开已知角顶点}
-  \begingroup
-  \setlength{\parskip}{2.5mm}
-\textbf{先辨型：}已知 $AB,AC$ 和它们的夹角 $\angle A$，这是标准 SAS，三角形唯一确定。\par
-\textbf{再作高：}从不是已知角顶点的 $B$ 作 $BH\perp AC$，不要从 $A$ 作高。\par
-\textbf{先解第一个 Rt：}在 $\operatorname{Rt}\triangle ABH$ 中，用已知斜边 $AB$ 和已知锐角 $A$ 求 $BH,AH$。\par
-\textbf{再解第二个 Rt：}判定点序并求 $CH$ 后，在 $\operatorname{Rt}\triangle BCH$ 中求 $BC,\angle C$。\par
-\textbf{最后收口：}用 $\angle B=180^\circ-\angle A-\angle C$，并检查大边是否对大角。\par
-\begin{center}
-\begin{tabular}{c|c|c}
-阶段 & 所在直角三角形 & 主要任务 \\
-\hline
-第一步 & $\operatorname{Rt}\triangle ABH$ & $BH=AB\sin A$，$AH=AB\cos A$ \\
-传递量 & $AC$ 上的线段关系 & 判点序后求 $CH$ \\
-第二步 & $\operatorname{Rt}\triangle BCH$ & 由 $BH,CH$ 求 $BC,\angle C$
-\end{tabular}
-\end{center}
-\par
-\textbf{边界：}“两边一角”不一定是 SAS；若角不是两条已知边的夹角，就是 SSA，要另行判断解数。\par
-  \endgroup
-\end{eduSolutionBox}
 
 
 
@@ -41,9 +20,8 @@
 \noindent
 \begin{minipage}[t]{\dimexpr\linewidth-70mm-6mm\relax}
 \vspace{0pt}
-在三角形 $ABC$ 中，已知 $AB=10$，$AC=13$，夹角 $\angle A=30^\circ$。
-不使用正弦定理、余弦定理，从点 $B$ 向 $AC$ 作高 $BH$，求边 $BC$ 以及
-$\angle B$、$\angle C$（角度保留两位小数）。
+在三角形 $ABC$ 中，已知 $AB=10$，$AC=13$，夹角 $\angle A=30^\circ$。求边 $BC$ 以及
+$\tan \angle C$。
 
 \end{minipage}\hfill
 \begin{diagramcoltikz}{70mm}{先圈出两条已知边和它们的夹角，再决定从哪个顶点作高。}
@@ -56,13 +34,13 @@ $\angle B$、$\angle C$（角度保留两位小数）。
 
 
 \begin{eduAuxItem}{思路导航}
-确认标准 SAS 与唯一解$\;\to\;$从非已知角顶点 $B$ 作高$\;\to\;$在 $\triangle ABH$ 中求高和投影$\;\to\;$判断点序并求 $CH$$\;\to\;$在 $\triangle BCH$ 中求 $BC$$\;\to\;$在 $\triangle BCH$ 中求 $\angle C$$\;\to\;$用内角和求 $\angle B$ 并验算\end{eduAuxItem}
+确认标准 SAS 与唯一解$\;\to\;$从非已知角顶点 $B$ 作高$\;\to\;$在 $\triangle ABH$ 中求高和投影$\;\to\;$判断点序并求 $CH$$\;\to\;$在 $\triangle BCH$ 中求 $BC$ 和 $\tan C$\end{eduAuxItem}
 
 
 
 
 \begin{eduSubQuestionItem}{例题}
-作高并依次解两个直角三角形，求 $BC$、$\angle B$、$\angle C$。\end{eduSubQuestionItem}
+作高并依次解两个直角三角形，求 $BC$ 和 $\tan C$。\end{eduSubQuestionItem}
 
 \begin{eduDualExplain}
   \begin{eduExplainLeft}
@@ -71,7 +49,7 @@ $\angle B$、$\angle C$（角度保留两位小数）。
         \eduSideHint{先解哪一个 Rt}{$\triangle ABH$ 同时含已知斜边 $AB=10$ 和已知锐角 $A=30^\circ$，所以它必须先解。}
         \eduSideHint{为什么先比较 $AH$ 与 $AC$}{只有确认 $H$ 在线段 $AC$ 上，才能写 $CH=AC-AH$；垂足在延长线上时应改用线段和。}
         \eduSideNote{这里会有两解吗}{不会。标准 SAS 唯一确定三角形；SSA 才需要讨论无解、一解或两解。}
-        \eduSideHint{第二个 Rt 得到了什么}{$BH$ 是公共高，$CH$ 来自线段差；两条直角边齐全后，边和锐角都能求。}
+        \eduSideHint{第二个 Rt 得到了什么}{$BH$ 是公共高，$CH$ 来自线段差；两条直角边齐全后，就能求 $BC$ 和 $\tan C$。}
   \end{eduExplainLeft}
 
   \begin{eduExplainRight}
@@ -84,33 +62,18 @@ $\angle B$、$\angle C$（角度保留两位小数）。
         \end{diagramcoltikz}
       \end{center}
       \eduExplainStep{3}{在 $\triangle ABH$ 中求高和投影}{$BH=10\sin30^\circ=5$，$AH=10\cos30^\circ=5\sqrt3$。}
-      \eduExplainStep{4}{判断点序并求 $CH$}{因 $0<5\sqrt3<13$，故 $H$ 在线段 $AC$ 上，$CH=13-5\sqrt3$。}
-      \eduExplainStep{5}{在 $\triangle BCH$ 中求 $BC$}{$BC=\sqrt{5^2+(13-5\sqrt3)^2}=\sqrt{269-130\sqrt3}\approx6.62$。}
-      \eduExplainStep{6}{在 $\triangle BCH$ 中求 $\angle C$}{$\tan C=\dfrac{5}{13-5\sqrt3}$，故 $\angle C\approx49.04^\circ$。}
-      \eduExplainStep{7}{用内角和求 $\angle B$ 并验算}{$\angle B=180^\circ-30^\circ-49.04^\circ\approx100.96^\circ$；最大边 $AC$ 对应最大角 $B$。}
-    \vspace{1mm}
-    {\color{edu-blue}\bfseries\small 检查}\par\vspace{1mm}
-    \begin{eduBulletList}
-      \item $30^\circ+49.04^\circ+100.96^\circ=180^\circ$。      \item $AC=13$ 是最大边，所对的 $\angle B\approx100.96^\circ$ 是最大角。      \item $|13-10|<6.62<13+10$，三边满足三角形两边之差与两边之和的范围。    \end{eduBulletList}
+      \eduExplainStep{4}{求 $CH$}{ $H$ 在线段 $AC$ 上，$CH=13-5\sqrt3$。}
+      \eduExplainStep{5}{在 $\triangle BCH$ 中求 $BC$}{$BC=\sqrt{5^2+(13-5\sqrt3)^2}=\sqrt{269-130\sqrt3}。$}
+      \eduExplainStep{6}{在 $\triangle BCH$ 中求 $\tan C$}{$\tan C=\dfrac{5}{13-5\sqrt3}=\dfrac{5(13+5\sqrt3)}{13^2-(5\sqrt3)^2}=\dfrac{65+25\sqrt3}{94}$。}
+
+
   \end{eduExplainRight}
 \end{eduDualExplain}
 
 
 
 
-\begin{eduMistakeBox}
-\eduSubTitle{易错提醒：SAS 的 S 必须夹着已知 A}判断 SAS 不能只数“两个边长、一个角度”。必须检查这个角是否是两条已知边的夹角。
-本题的 $\angle A$ 夹在 $AB,AC$ 之间，所以是标准 SAS，只有一个三角形；若已知的是
-$AB,AC,\angle B$，则属于 SSA，应移到 SSA 单元分类讨论。
-\end{eduMistakeBox}
 
-
-
-
-\begin{eduSummaryBlock}{\eduIconPin}{SAS 作高的五步口令}
-\begin{eduBulletList}
-  \item 辨：所给角是不是两条已知边的夹角。  \item 作：从非已知角顶点向另一条已知边所在直线作高。  \item 一：先解含已知角和已知边的第一个 $\operatorname{Rt}\triangle$。  \item 传：用高和投影，经线段和差把条件传给第二个 $\operatorname{Rt}\triangle$。  \item 二：解第二个 $\operatorname{Rt}\triangle$，最后以内角和与边角关系验算。\end{eduBulletList}
-\end{eduSummaryBlock}
 
 
 

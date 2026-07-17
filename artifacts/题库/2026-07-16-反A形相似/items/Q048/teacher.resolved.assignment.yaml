@@ -1,0 +1,76 @@
+meta:
+  title: 反A形相似 · Q048 · 教师版
+  grade: 八年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    explanation: ../../专题/2026-07-14-反A形相似求第四边/02-student-explanation.resolved.assignment.yaml
+    diagram_policy: 一题一张独立 prompt 图；题图不泄露相似结论或答案
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: question
+  title: 专题题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q048
+    points: 10
+    label: 先证相似再求边
+    stem_latex: '如图，$\angle PAB=\angle PDC$。
+
+
+      已知 $AB=\sqrt{10}$，$DC=4\sqrt{5}$，$PC=4\sqrt{5}$。求证 $\triangle PAB\sim\triangle
+      PDC$，并求 $PB$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+    answer: $PB=\sqrt{10}$。
+    explanation: 先由等角判相似，再按同序顶点确定对应边；本题所用数值对来自 radical_multiple_pairs。
+    solution_steps:
+    - title: 见等角，找相似
+      content: 由题设等角和构型自带的第二组等角，得 $\triangle PAB\sim\triangle PDC$。
+    - title: 按顶点写对应边
+      content: 三组小边与大边依次为：$PA\leftrightarrow PD$，$PB\leftrightarrow PC$，$AB\leftrightarrow
+        DC$。
+    - title: 保持比例方向一致
+      content: 取 大三角形边与小三角形对应边之比，可列 $\dfrac{DC}{AB}=\dfrac{PC}{PB}$。
+    - title: 代入并验算
+      content: 代入已知量解得 $PB=\sqrt{10}$；两组对应边的比均等于同一相似比。
+    teaching:
+      teaching_goal: 先补出第二组等角并证明相似，再求边
+      source_relations:
+      - explanation:reverse_a
+      - similar_triangles_corresponding_sides
+      expected_blocker: 没有先锁定等角顶点，或两组比例的大小方向不一致。
+      entry_point: equal_angles_to_similarity_to_correspondence
+      scaffold_level: low
+      variation_depth: partially_hidden
+      complexity_note: 只训练 AA 判定、对应边和一层比例；不引入面积、周长或额外辅助线。
+      upgrade_rule: 能独立写出同序相似式并用另一组对应边验算。
+      fallback_move: 先标出两个相等角的顶点，再逐个写出对应点。
+      number_selection:
+        database_id: question-bank-training-numbers
+        family_id: radical_multiple_pairs
+        entry_id: sqrt-ka-a10-k8
+        selection_class: irrational_pair
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-reverse_a-q048-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.reverse_a.q048.prompt
+      diagram_job_id: question_bank-reverse_a-q048-prompt
+      width: 60mm
+      caption: 沿题设等角的顶点顺序，找出两组三角形的对应边。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:1337af9a2d0a6119354cbf80ee82e3f4f72c038b90df71abd67b24097c394693
+      packages:
+      - tikz
+      libraries: []

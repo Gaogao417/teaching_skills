@@ -1,0 +1,46 @@
+meta:
+  title: 蝶形相似 · Q043 · 学生版
+  grade: 八年级
+  subject: 数学
+  total_points: 10
+  version: student
+  show_answers: false
+  source_artifacts:
+    explanation: ../../专题/2026-07-14-蝶形相似求第四边/02-student-explanation.resolved.assignment.yaml
+    diagram_policy: 一题一张独立 prompt 图；题图不泄露相似结论或答案
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: question
+  title: 专题题
+  type: practice
+  visibility: student
+  blocks:
+  - type: problem
+    id: Q043
+    points: 10
+    label: 先证相似再求边
+    stem_latex: '如图，$\angle OAC=\angle ODB$。
+
+
+      已知 $AC=\frac{1}{2}$，$DB=2$，$OD=6$。求证 $\triangle AOC\sim\triangle DOB$，并求 $AO$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-butterfly-q043-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.butterfly.q043.prompt
+      diagram_job_id: question_bank-butterfly-q043-prompt
+      width: 60mm
+      caption: 先用对顶角补齐第二组等角，再按顶点顺序配边。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:c1a92f697440e1918c60dbefeecba85c3cce2490494c58fe8470dd3c4628c615
+      packages:
+      - tikz
+      libraries: []

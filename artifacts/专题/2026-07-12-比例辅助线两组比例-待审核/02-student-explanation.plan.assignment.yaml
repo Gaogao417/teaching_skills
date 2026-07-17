@@ -31,7 +31,7 @@ sections:
           如图，在 $\triangle ABC$ 中，点 $D$ 在线段 $BC$ 上，点 $E$ 在线段 $AC$ 上，
           线段 $AD$ 与 $BE$ 相交于点 $P$。已知
           \[
-          AE:EC=1:2,\qquad BD:DC=2:1,
+          AE:EC=2:3,\qquad BD:DC=4:5,
           \]
           求 $AP:PD$。
         diagram_slot:
@@ -49,11 +49,11 @@ sections:
           diagram_kind: synthetic_geometry
           engine_options:
             engine_model_config:
-              codex_model: gpt-5.6-luna
+              codex_model: gpt-5.4
           teaching_intent: explanation_prompt
           problem_context:
-            stem_latex: 在 $\triangle ABC$ 中，$D\in BC$，$E\in AC$，$P=AD\cap BE$。已知 $AE:EC=1:2$、$BD:DC=2:1$，求 $AP:PD$。
-            source_problem_text: 画三角形 ABC。点 D 在线段 BC 上且 BD:DC=2:1；点 E 在线段 AC 上且 AE:EC=1:2；连接 AD 和 BE，交于 P。只画原始构型；清楚标出 AE、EC、BD、DC、AP、PD；不要画辅助线、相似三角形、比例式或答案。
+            stem_latex: 在 $\triangle ABC$ 中，$D\in BC$，$E\in AC$，$P=AD\cap BE$。已知 $AE:EC=2:3$、$BD:DC=4:5$，求 $AP:PD$。
+            source_problem_text: 画三角形 ABC。点 D 在线段 BC 上且 BD:DC=4:5；点 E 在线段 AC 上且 AE:EC=2:3；连接 AD 和 BE，交于 P。只画原始构型；清楚标出 AE、EC、BD、DC、AP、PD；不要画辅助线、相似三角形、比例式或答案。标签必须逐点错开：A 放在顶点上方，B/C 放在底边外侧，D 放在底边下方，E 放在 AC 右侧，P 放在交点左侧；任何标签都不得压在线段、交点或其他标签上。
           semantic_constraints:
             given_objects: [A, B, C, D, E, P]
             given_constraints:
@@ -61,8 +61,8 @@ sections:
               - B, D, C are collinear with D between B and C
               - A, P, D are collinear with P between A and D
               - B, P, E are collinear with P between B and E
-              - AE:EC=1:2
-              - BD:DC=2:1
+              - AE:EC=2:3
+              - BD:DC=4:5
               - highlight known segments AE, EC, BD, DC and target segments AP, PD
             clean_forbidden:
               - do not draw F or any auxiliary line
@@ -93,11 +93,11 @@ sections:
               diagram_kind: synthetic_geometry
               engine_options:
                 engine_model_config:
-                  codex_model: gpt-5.6-luna
+                  codex_model: gpt-5.4
               teaching_intent: explanation_solution
               problem_context:
                 stem_latex: 在原图上，过 C 作 CF 平行 AD，交直线 BE 于 F。
-                source_problem_text: 复用原图的点位。新增点 F，要求 F 同时在直线 BE 与过 C 且平行 AD 的直线上。完整画出 CF，并明确 AD 与 CF 的平行标记；保留 B、P、E、F 共线关系。
+                source_problem_text: 复用原图的点位。新增点 F，要求 F 同时在直线 BE 与过 C 且平行 AD 的直线上。完整画出 CF，并明确 AD 与 CF 的平行标记；保留 B、P、E、F 共线关系。标签沿折线两侧错开：P 放在交点左下，E 放在线段右下，F 放在端点右上；A、B、C、D 保持在三角形外侧，禁止标签贴线或相互重叠。
               semantic_constraints:
                 given_objects: [A, B, C, D, E, P, F]
                 given_constraints:
@@ -109,7 +109,7 @@ sections:
                   - do not show similar-triangle names or numerical answers
           - id: step-first-similar
             latex: 用 $E$ 处的相似三角形读第一个比例
-            content_latex: '由 $A,E,C$ 共线、$P,E,F$ 共线、$AP\parallel CF$，得 $\triangle EAP\sim\triangle ECF$，所以 $AP:CF=AE:EC=1:2$。'
+            content_latex: '由 $A,E,C$ 共线、$P,E,F$ 共线、$AP\parallel CF$，得 $\triangle EAP\sim\triangle ECF$，所以 $AP:CF=AE:EC=2:3$。'
             diagram_slot:
               slot_id: explanation.example.similar-e
               diagram_ref: explanation.example.similar-e
@@ -126,11 +126,11 @@ sections:
               diagram_kind: synthetic_geometry
               engine_options:
                 engine_model_config:
-                  codex_model: gpt-5.6-luna
+                  codex_model: gpt-5.4
               teaching_intent: explanation_solution
               problem_context:
                 stem_latex: 标出 $\triangle EAP$ 与 $\triangle ECF$。
-                source_problem_text: 复用原图并新增 F：CF 平行 AD，F 在 BE 上。用两种浅色突出三角形 EAP 和 ECF；强调 AP 对应 CF、AE 对应 EC；不标最终答案。
+                source_problem_text: 复用原图并新增 F：CF 平行 AD，F 在 BE 上。用两种浅色突出三角形 EAP 和 ECF；强调 AP 对应 CF、AE 对应 EC；不标最终答案。标签位置固定为 A 上方、B 左下、C 右下、D 下方、P 左下、E 右下、F 右上，保证 E/P/F 分居折线两侧且不遮挡高亮边。
               semantic_constraints:
                 given_objects: [A, B, C, D, E, P, F]
                 given_constraints:
@@ -140,7 +140,7 @@ sections:
                   - P, E, F are collinear
           - id: step-second-similar
             latex: 用 $B$ 处的相似三角形读第二个比例
-            content_latex: '由 $B,D,C$ 共线、$B,P,F$ 共线、$DP\parallel CF$，得 $\triangle BDP\sim\triangle BCF$。又 $BD:BC=2:3$，所以 $DP:CF=2:3$。'
+            content_latex: '由 $B,D,C$ 共线、$B,P,F$ 共线、$DP\parallel CF$，得 $\triangle BDP\sim\triangle BCF$。又 $BD:BC=4:9$，所以 $DP:CF=4:9$。'
             diagram_slot:
               slot_id: explanation.example.similar-b
               diagram_ref: explanation.example.similar-b
@@ -157,11 +157,11 @@ sections:
               diagram_kind: synthetic_geometry
               engine_options:
                 engine_model_config:
-                  codex_model: gpt-5.6-luna
+                  codex_model: gpt-5.4
               teaching_intent: explanation_solution
               problem_context:
                 stem_latex: 标出 $\triangle BDP$ 与 $\triangle BCF$。
-                source_problem_text: 复用原图并新增 F：CF 平行 AD，F 在 BE 上。用两种浅色突出三角形 BDP 和 BCF；强调 DP 对应 CF、BD 对应 BC；不标最终答案。
+                source_problem_text: 复用原图并新增 F：CF 平行 AD，F 在 BE 上。用两种浅色突出三角形 BDP 和 BCF；强调 DP 对应 CF、BD 对应 BC；不标最终答案。标签位置固定为 A 上方、B 左下、C 右下、D 下方、P 左下、E 右下、F 右上，保证 E/P/F 分居折线两侧且不遮挡高亮边。
               semantic_constraints:
                 given_objects: [A, B, C, D, E, P, F]
                 given_constraints:
@@ -171,7 +171,7 @@ sections:
                   - B, P, F are collinear
           - id: step-connect-ratios
             latex: 统一中间线段 $CF$，写出所求比
-            content_latex: '由 $AP:CF=1:2$、$DP:CF=2:3$，取 $CF=6$ 份，得 $AP=3$ 份、$DP=4$ 份，所以 $AP:PD=3:4$。'
+            content_latex: '由 $AP:CF=2:3$、$DP:CF=4:9$，取 $CF=9$ 份，得 $AP=6$ 份、$DP=4$ 份，所以 $AP:PD=3:2$。'
       - type: dual_explanation
         id: example-solution
         label: 例题
@@ -186,7 +186,7 @@ sections:
             content_latex: '先确定平行线外的两个点 $B,E$，连接 $BE$ 后，新交点 $F$ 才由图形关系确定。'
           - kind: mistake
             title: 不要漏掉整段 $BC$
-            content_latex: '$BD:DC=2:1$ 先变成 $BD:BC=2:3$，不能直接写成 $BD:BC=2:1$。'
+            content_latex: '$BD:DC=4:5$ 先变成 $BD:BC=4:9$，不能直接写成 $BD:BC=4:5$。'
         solution_title: 解答
         solution_step_ids:
           - step-select-triangle

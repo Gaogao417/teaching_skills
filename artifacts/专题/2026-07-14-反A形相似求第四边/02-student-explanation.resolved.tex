@@ -9,30 +9,13 @@
 
 \begin{document}
 
-\eduSectionTitle{反 A 形：看到等角先找相似，再配对应边}
-
-
-\begin{eduSolutionBox}{固定反应：看到等角找相似，相似以后找对应}
-  \begingroup
-  \setlength{\parskip}{2.5mm}
-\textbf{看到题目给角相等：}先圈出这组角，再在两个候选三角形中寻找第二组等角，尝试用 AA 判定相似。\par
-\textbf{判定相似以后：}按“等角顶点 $\to$ 对应顶点 $\to$ 对应边”的顺序填写，不能凭图上位置猜边。\par
-由 $\angle APB=\angle DPC$、$\angle PAB=\angle PDC$，可得 $\triangle PAB\sim\triangle PDC$。\par
-\textbf{顶点对应：}$P\leftrightarrow P$，$A\leftrightarrow D$，$B\leftrightarrow C$。\par
-\textbf{对应边：}$PA\leftrightarrow PD$，$PB\leftrightarrow PC$，$AB\leftrightarrow DC$。\par
-\textbf{对应边成比例：}$\displaystyle \frac{PA}{PD}=\frac{PB}{PC}=\frac{AB}{DC}$。\par
-  \endgroup
-\end{eduSolutionBox}
-
-
-
+\eduSectionTitle{反 A 形：证明相似后求第四边}
 
 \begin{eduProblemBlock}[例题]
 \noindent
 \begin{minipage}[t]{\dimexpr\linewidth-70mm-6mm\relax}
 \vspace{0pt}
-如图，点 $P,A,C$ 依次共线，点 $P,B,D$ 依次共线，且
-$\angle PAB=\angle PDC$。已知 $PA=6$，$PB=8$，$PD=9$，求 $PC$。
+如图，$\angle PAB=\angle PDC$。已知 $PA=6$，$PB=8$，$PD=9$，求 $PC$。
 
 \end{minipage}\hfill
 \begin{diagramcoltikz}{70mm}{先沿两个角的顶点顺序，找出两个三角形的对应顶点。}
@@ -45,7 +28,7 @@ $\angle PAB=\angle PDC$。已知 $PA=6$，$PB=8$，$PD=9$，求 $PC$。
 
 
 \begin{eduAuxItem}{思路导航}
-看到题设等角，寻找第二组角$\;\to\;$用两角对应相等判定相似$\;\to\;$按顶点顺序写对应边$\;\to\;$选两组对应边列比例$\;\to\;$交叉相乘并验算\end{eduAuxItem}
+先证明两个三角形相似$\;\to\;$再列对应边比例求边长\end{eduAuxItem}
 
 
 
@@ -56,40 +39,15 @@ $\angle PAB=\angle PDC$。已知 $PA=6$，$PB=8$，$PD=9$，求 $PC$。
 \begin{eduDualExplain}
   \begin{eduExplainLeft}
     \eduColumnTitle{\eduIconBulb}{小贴士}
-        \eduSideHint{看到等角先问什么}{题目已经给出 $\angle PAB=\angle PDC$。要找相似，先问：第二组等角在哪里？}
-        \eduSideHint{再看角的顶点}{$\angle PAB$ 的顶点是 $A$，$\angle PDC$ 的顶点是 $D$，所以先确定 $A\leftrightarrow D$。}
-        \eduSideHint{剩下的顶点怎样配}{共同顶点是 $P$，于是 $P\leftrightarrow P$；剩下自然是 $B\leftrightarrow C$。}
-        \eduSideMistake{比例方向要统一}{若第一组写“小三角形边:大三角形边”，第二组也必须保持同一方向。}
-        \eduSideNote{用大小关系排错}{$PD>PA$，大三角形的对应边 $PC$ 也应大于 $PB$。}
+        \eduSideHint{对应边怎么看}{先看等角的顶点：$A\leftrightarrow D$，公共顶点 $P\leftrightarrow P$，于是 $B\leftrightarrow C$；边由两个端点决定，所以 $PA\leftrightarrow PD$，$PB\leftrightarrow PC$。}
   \end{eduExplainLeft}
 
   \begin{eduExplainRight}
     \eduColumnTitle{\eduIconBook}{解答}
-      \eduExplainStep{1}{看到题设等角，寻找第二组角}{由 $P,A,C$ 依次共线，$P,B,D$ 依次共线，得 $\angle APB=\angle DPC$。}
-      \eduExplainStep{2}{用两角对应相等判定相似}{又 $\angle PAB=\angle PDC$，所以 $\triangle PAB\sim\triangle PDC$。}
-      \eduExplainStep{3}{按顶点顺序写对应边}{$P\leftrightarrow P$，$A\leftrightarrow D$，$B\leftrightarrow C$，故 $PA\leftrightarrow PD$，$PB\leftrightarrow PC$。}
-      \eduExplainStep{4}{选两组对应边列比例}{$\displaystyle \frac{PA}{PD}=\frac{PB}{PC}$，代入得 $\displaystyle \frac{6}{9}=\frac{8}{PC}$。}
-      \eduExplainStep{5}{交叉相乘并验算}{$6PC=72$，解得 $PC=12$；且 $8:12=6:9=2:3$。}
-    \vspace{1mm}
-    {\color{edu-blue}\bfseries\small 对应关系}\par\vspace{1mm}
-    \begin{eduBulletList}
-      \item 三角形名称必须按对应顶点的同一顺序书写：$\triangle PAB\sim\triangle PDC$。    \end{eduBulletList}
+      \eduExplainStep{1}{先证明两个三角形相似}{由共线关系，得 $\angle APB=\angle DPC$。又 $\angle PAB=\angle PDC$，所以 $\triangle PAB\sim\triangle PDC$。}
+      \eduExplainStep{2}{再列对应边比例求边长}{由对应边成比例，得 $\dfrac{PA}{PD}=\dfrac{PB}{PC}$，即 $\dfrac69=\dfrac8{PC}$，解得 $PC=12$。}
   \end{eduExplainRight}
 \end{eduDualExplain}
-
-
-
-
-\begin{eduMistakeBox}
-\eduSubTitle{易错提醒：同一条射线上的边不一定互相对应}$PA$ 与 $PC$ 虽在同一条射线上，但它们不对应。对应关系由角的顶点决定：$PA\leftrightarrow PD$，$PB\leftrightarrow PC$。\end{eduMistakeBox}
-
-
-
-
-\begin{eduSummaryBlock}{\eduIconPin}{四步做法}
-\begin{eduBulletList}
-  \item 见等角：圈出题设等角，主动寻找第二组等角。  \item 判相似：两组角齐全后，写出同序的相似三角形。  \item 找对应：按角的顶点写对应顶点，再由两个端点写对应边。  \item 列比：统一“小:大”或“大:小”，求解后用大小关系验算。\end{eduBulletList}
-\end{eduSummaryBlock}
 
 
 

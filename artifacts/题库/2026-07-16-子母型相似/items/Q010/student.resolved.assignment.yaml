@@ -1,0 +1,46 @@
+meta:
+  title: 子母型相似 · Q010 · 学生版
+  grade: 八年级
+  subject: 数学
+  total_points: 10
+  version: student
+  show_answers: false
+  source_artifacts:
+    explanation: ../../专题/2026-07-14-子母型相似比与对应边/02-student-explanation.resolved.assignment.yaml
+    diagram_policy: 一题一张独立 prompt 图；题图不泄露相似结论或答案
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: question
+  title: 专题题
+  type: practice
+  visibility: student
+  blocks:
+  - type: problem
+    id: Q010
+    points: 10
+    label: 先证相似再求边
+    stem_latex: '如图，在 $\triangle ABC$ 中，$\angle ABD=\angle ACB$。
+
+
+      已知 $AB=\sqrt{5}$，$AC=\sqrt{10}$，$BD=\sqrt{5}$。求证 $\triangle ABD\sim\triangle ACB$，并求 $BC$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-nested-q010-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.nested.q010.prompt
+      diagram_job_id: question_bank-nested-q010-prompt
+      width: 60mm
+      caption: 先确认对应边，再判断题中的线段是否属于相似三角形。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:8ef37d1e2233204246f5197c2a912eeee586c6f448b67558db16ab0a482ae25a
+      packages:
+      - tikz
+      libraries: []

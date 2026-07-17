@@ -1,0 +1,158 @@
+meta:
+  title: 三边求第四边 · Q034 · 教师版
+  grade: 八年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    explanation: ../../../../专题/2026-07-12-平行线对应边比例-待审核/02-student-explanation.resolved.assignment.yaml
+    diagram_policy: 一题一张独立 prompt 图；AB/CD 水平；图内无数值
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: question
+  title: 专题题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q034
+    points: 10
+    label: 已知三边求第四边
+    stem_latex: '如图，$A,P,C$ 三点共线，$B,P,D$ 三点共线，点序分别为 $A-P-C$、$B-P-D$，且 $AB\parallel CD$。
+
+      已知 $BP=\frac{1}{8}$，$PD=\frac{3}{8}$，$AB=\frac{1}{2}$，求 $CD$。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 4
+    answer: $CD=\frac{3}{2}$。
+    explanation: 已知边与未知边中出现平行线段 $AB$、$CD$，先求两个相似三角形的比。先算 $\dfrac{BP}{PD}=\dfrac{\frac{1}{8}}{\frac{3}{8}}=\dfrac{1}{3}$。约分后，$CD$ 对应 $3$ 份，$AB$ 对应 $1$ 份。$CD=AB\times\dfrac{3}{1}=\frac{1}{2}\times\dfrac{3}{1}=\frac{3}{2}$。
+    solution_steps:
+    - title: 先判断
+      content: 已知边与未知边中出现平行线段 $AB$、$CD$，先求两个相似三角形的比。
+    - title: 计算并约分
+      content: $\dfrac{BP}{PD}=\dfrac{\frac{1}{8}}{\frac{3}{8}}=\dfrac{1}{3}$。
+    - title: 标份数
+      content: 约分后，$CD$ 对应 $3$ 份，$AB$ 对应 $1$ 份。
+    - title: 按份数公式求边
+      content: $CD=AB\times\dfrac{3}{1}=\frac{1}{2}\times\dfrac{3}{1}=\frac{3}{2}$。
+    teaching:
+      teaching_goal: 已知三条对应边，先判断比例类型，再标份数求第四边
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      number_selection:
+        database_id: question-bank-training-numbers
+        family_id: rational_multiple_pairs
+        entry_id: rational-1-over-8-x-3
+      expected_blocker: 分数或根式没有先约分，就直接乱配比例。
+      entry_point: classify_ratio_then_mark_shares
+      scaffold_level: low
+      variation_depth: changed_representation
+      complexity_note: 恰好给三条长度，只求第四条；使用 review 后可用的分数或根式数值组。
+      fallback_move: 先把同一组对应边相除并化简，再把结果写成份数。
+    diagram_slot:
+      slot_id: question-bank-three-known-q034-prompt
+      diagram_ref: question.bank.three.known.q034.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 先看平行边方向，再判断 A 字型或 8 字型及对应边。
+      engine: geometric_scene
+      diagram_kind: synthetic_geometry
+      engine_options:
+        seed: 43034
+        scene_payload:
+          scene_code: GeometricScene[{P,A,B,C,D},{Element[C,InfiniteLine[{A,P}]],Element[D,InfiniteLine[{B,P}]],Element[P,Line[{A,C}]],Element[P,Line[{B,D}]],(Rational[3,8]) EuclideanDistance[A,P]==(Rational[1,8]) EuclideanDistance[P,C],(Rational[3,8]) EuclideanDistance[B,P]==(Rational[1,8]) EuclideanDistance[P,D],EuclideanDistance[A,B]==9,GeometricAssertion[{Line[{A,B}],Line[{C,D}]},"Parallel"],GeometricAssertion[Line[{A,B}],"Horizontal"],GeometricAssertion[Line[{A,B}],"Rightward"],GeometricAssertion[{A,P,B},"Counterclockwise"],TriangleMeasurement[{P,A,B},{"InteriorAngle",A}]>30 Degree,TriangleMeasurement[{P,A,B},{"InteriorAngle",B}]>30 Degree,TriangleMeasurement[{P,A,B},{"InteriorAngle",A}]<70 Degree,TriangleMeasurement[{P,A,B},{"InteriorAngle",B}]<70 Degree}]
+          points:
+          - P
+          - A
+          - B
+          - C
+          - D
+          point_roles:
+            anchors:
+            - A
+            - B
+            - P
+            constructed:
+            - C
+            - D
+            auxiliary: []
+          diagram_spec:
+            type: synthetic_geometry
+            segments:
+            - from: A
+              to: C
+            - from: B
+              to: D
+            - from: A
+              to: B
+            - from: C
+              to: D
+            polygons: []
+            markers:
+            - type: parallel
+              segments:
+              - - A
+                - B
+              - - C
+                - D
+            labels:
+              A:
+                text: A
+                placement: above left
+              B:
+                text: B
+                placement: above right
+              P:
+                text: P
+                placement: right
+              C:
+                text: C
+                placement: below right
+              D:
+                text: D
+                placement: below left
+            constraints:
+            - exact order A-P-C
+            - exact order B-P-D
+            - AB parallel CD
+            - AB and CD horizontal
+            teaching_focus:
+            - 区分平行边比例与两侧对应边比例
+            - AB/CD 保持水平
+          rationale: GeometricScene 使用数值库中的精确分数/根式比例；图形只显示点名和平行标记。
+          model_used: deterministic-three-known-number-bank-template
+          model_attempts: []
+      teaching_intent: practice_prompt
+      problem_context:
+        stem_latex: '如图，$A,P,C$ 三点共线，$B,P,D$ 三点共线，点序分别为 $A-P-C$、$B-P-D$，且 $AB\parallel CD$。
+
+          已知 $BP=\frac{1}{8}$，$PD=\frac{3}{8}$，$AB=\frac{1}{2}$，求 $CD$。'
+        source_problem_text: 绘制清晰的 A/8 字型；AB 与 CD 必须水平。图中不写数值、份数、比例式或答案。
+      semantic_constraints:
+        given_objects:
+        - P
+        - A
+        - B
+        - C
+        - D
+        given_constraints:
+        - exact order A-P-C
+        - exact order B-P-D
+        - AB parallel CD
+        - AB and CD horizontal
+        - ratio matches frozen number database entry
+        - independent diagram job
+        clean_forbidden:
+        - do not show numeric values
+        - do not show the final answer
+        - do not write share counts

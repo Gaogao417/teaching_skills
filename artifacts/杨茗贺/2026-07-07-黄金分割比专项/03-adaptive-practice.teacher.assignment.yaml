@@ -3,219 +3,218 @@ meta:
   subtitle: 杨茗贺 · 答案版
   grade: 八年级
   subject: 数学
-  duration: 30分钟
-  total_points: 48
+  duration: 35分钟
+  total_points: 56
   version: teacher
+  source_artifacts:
+    structure_analysis: artifacts/杨茗贺/2026-07-07-黄金分割比专项/01-structure-analysis.md
+    explanation: artifacts/杨茗贺/2026-07-07-黄金分割比专项/02-student-explanation.assignment.yaml
 render:
   template: exam-zh-practice
   paper_size: a4paper
   answer_key_position: after_page_break
 sections:
-- id: golden-ratio-practice
-  title: 一、黄金分割比专项（每题 8 分，共 48 分）
-  type: practice
-  visibility: teacher
-  blocks:
-  - type: problem
-    id: gr1
-    points: 8
-    label: 第 1 题
-    diagram_col:
-      image_path: images/gr1-sunflower.png
-      width: 42mm
-      caption: 花盘径向线
-    stem_latex: |
-      在自然观察手账中，同学想画一朵向日葵花盘的径向示意线。花心到花瓣外缘长 $20\text{ cm}$，为了让花瓣环的位置看起来更接近自然花序的疏密美感，准备让花瓣环成为这条径向线的黄金分割点，并且从花心到花瓣环为较长一段。求从花心到花瓣环的长度。
-    answer_space:
-      type: steps
-      height: 24mm
-    answer: $10(\sqrt5-1)\text{ cm}$
-    solution_steps:
-    - title: 已知与所求
-      content: 已知边是花心到外缘的整条径向线 $20\text{ cm}$，要求边是花心到花瓣环的较长一段。
-    - title: 所用关系
-      content: 已知边属于全长，要求边属于长段，使用 $\text{长段}:\text{全长}=\dfrac{\sqrt5-1}{2}$。
-    - title: 计算
-      content: 长段 $=20\times\dfrac{\sqrt5-1}{2}=10(\sqrt5-1)\text{ cm}$。
-    teaching:
-      teaching_goal: 训练从全长求长段
-      source_relations:
-      - fallback:golden_ratio
-      expected_blocker: 把 $\dfrac{\sqrt5-1}{2}$ 错用成长段:短段
-      entry_point: build_relation
-      scaffold_level: high
-      variation_depth: changed_numbers
-      complexity_note: 直接乘 $\dfrac{\sqrt5-1}{2}$
-      upgrade_rule: 能准确判断全长与长段
-      fallback_move: 先写“已知=全长，所求=长段”。
-  - type: problem
-    id: gr2
-    points: 8
-    label: 第 2 题
-    diagram_col:
-      image_path: images/gr2-bookmark.png
-      width: 42mm
-      caption: 书签分区
-    stem_latex: |
-      设计一张带传统纹样的书签时，较长的纹样区用来放莲花纹，长 $15\text{ cm}$；较短的留白区用来写姓名。为了让纹样和留白有更舒服的比例，设计师让较短留白区和较长纹样区成黄金分割比。求较短留白区的长度。
-    answer_space:
-      type: steps
-      height: 24mm
-    answer: $\dfrac{15(\sqrt5-1)}{2}\text{ cm}$
-    solution_steps:
-    - title: 已知与所求
-      content: 已知边是莲花纹样区 $15\text{ cm}$，它是长段；要求边是较短留白区。
-    - title: 所用关系
-      content: 已知边属于长段，要求边属于短段，使用 $\text{短段}:\text{长段}=\dfrac{\sqrt5-1}{2}$。
-    - title: 计算
-      content: 短段 $=15\times\dfrac{\sqrt5-1}{2}=\dfrac{15(\sqrt5-1)}{2}\text{ cm}$。
-    teaching:
-      teaching_goal: 训练从长段求短段
-      source_relations:
-      - fallback:golden_ratio
-      expected_blocker: 忘记本题给的是长段而不是全长
-      entry_point: build_relation
-      scaffold_level: high
-      variation_depth: changed_representation
-      complexity_note: 直接乘 $\dfrac{\sqrt5-1}{2}$
-      upgrade_rule: 能区分长段与全长
-      fallback_move: 圈出题干中的“较长”。
-  - type: problem
-    id: gr3
-    points: 8
-    label: 第 3 题
-    diagram_col:
-      image_path: images/gr3-stage.png
-      width: 42mm
-      caption: 舞台光带
-    stem_latex: |
-      舞蹈舞台的背景幕布上有一条横向光带，导演把它分成“静区”和“亮区”两段，让演员站位偏在黄金分割附近。较短的静区长 $6\text{ m}$，并且静区和较长的亮区成黄金分割比。求较长的亮区长度。
-    answer_space:
-      type: steps
-      height: 26mm
-    answer: $3(\sqrt5+1)\text{ m}$
-    solution_steps:
-    - title: 已知与所求
-      content: 已知边是较短静区 $6\text{ m}$，要求边是较长亮区。
-    - title: 所用关系
-      content: 已知边属于短段，要求边属于长段，使用 $\text{短段}:\text{长段}=\dfrac{\sqrt5-1}{2}$。
-    - title: 计算
-      content: 长段 $=6\div\dfrac{\sqrt5-1}{2}=\dfrac{12}{\sqrt5-1}=3(\sqrt5+1)\text{ m}$。
-    teaching:
-      teaching_goal: 训练从短段反求长段
-      source_relations:
-      - fallback:golden_ratio
-      expected_blocker: 看到 $\dfrac{\sqrt5-1}{2}$ 就只会乘，不会反求
-      entry_point: solve_and_check
-      scaffold_level: medium
-      variation_depth: changed_question
-      complexity_note: 一次除法并有理化
-      upgrade_rule: 能说出“短段=长段的 $\dfrac{\sqrt5-1}{2}$ 倍”
-      fallback_move: 先写 $6=\dfrac{\sqrt5-1}{2}\times 长段$。
-  - type: problem
-    id: gr4
-    points: 8
-    label: 第 4 题
-    diagram_col:
-      image_path: images/gr4-garden.png
-      width: 42mm
-      caption: 赏花小径
-    stem_latex: |
-      园林里一条总长 $34\text{ m}$ 的赏花小径，常把观景点放在不正中、但看起来很自然的位置。园艺师准备让观景点成为这条小径的黄金分割点，并且从入口到观景点为较短一段。求从入口到观景点的长度。
-    answer_space:
-      type: steps
-      height: 26mm
-    answer: $17(3-\sqrt5)\text{ m}$
-    solution_steps:
-    - title: 已知与所求
-      content: 已知边是赏花小径总长 $34\text{ m}$，要求边是入口到观景点的短段。
-    - title: 所用关系
-      content: 已知边属于全长，要求边属于短段，先由全长求长段，再用全长减长段。
-    - title: 计算
-      content: 长段 $=34\times\dfrac{\sqrt5-1}{2}=17(\sqrt5-1)\text{ m}$，短段 $=34-17(\sqrt5-1)=17(3-\sqrt5)\text{ m}$。
-    teaching:
-      teaching_goal: 训练从全长求短段
-      source_relations:
-      - fallback:golden_ratio
-      expected_blocker: 直接把全长乘 $\dfrac{\sqrt5-1}{2}$ 当短段
-      entry_point: transfer
-      scaffold_level: medium
-      variation_depth: changed_question
-      complexity_note: 先求长段再作差
-      upgrade_rule: 能区分长段:全长和短段:全长
-      fallback_move: 先求长段，再用全长减长段。
-  - type: problem
-    id: gr5
-    points: 8
-    label: 第 5 题
-    diagram_col:
-      image_path: images/gr5-photo.png
-      width: 42mm
-      caption: 摄影构图
-    stem_latex: |
-      摄影构图时，摄影师常把主体放在画面黄金分割线附近，而不是正中间。一张照片裁切后，主体所在位置是这条边上的黄金分割点；主体到较远边的长留白为 $18\text{ cm}$，并且这段长留白是较长一段。求原来整条边的长度。
-    answer_space:
-      type: steps
-      height: 26mm
-    answer: $9(\sqrt5+1)\text{ cm}$
-    solution_steps:
-    - title: 已知与所求
-      content: 已知边是主体到较远边的长留白 $18\text{ cm}$，要求边是原来整条边。
-    - title: 所用关系
-      content: 已知边属于长段，要求边属于全长，使用 $\text{长段}:\text{全长}=\dfrac{\sqrt5-1}{2}$。
-    - title: 计算
-      content: 全长 $=18\div\dfrac{\sqrt5-1}{2}=\dfrac{36}{\sqrt5-1}=9(\sqrt5+1)\text{ cm}$。
-    teaching:
-      teaching_goal: 训练从长段反求全长
-      source_relations:
-      - fallback:golden_ratio
-      expected_blocker: 把 $18$ 当全长直接乘
-      entry_point: hidden_structure
-      scaffold_level: medium
-      variation_depth: packaged_condition
-      complexity_note: 一次除法
-      upgrade_rule: 能把“长边与原来整条边的比为 $\dfrac{\sqrt5-1}{2}$”翻译成比例
-      fallback_move: 写方程 $18=\dfrac{\sqrt5-1}{2}\times 全长$。
-  - type: problem
-    id: gr6
-    points: 8
-    label: 第 6 题
-    diagram_col:
-      image_path: images/gr6-architecture.png
-      width: 42mm
-      caption: 窗格分段
-    stem_latex: |
-      古典建筑立面常用黄金分割的比例安排窗格，让墙面不显得呆板。一段窗格被分成长短两段，其中较短窗格长 $4\text{ m}$，且较短窗格和较长窗格成黄金分割比。求整段窗格的长度。
-    answer_space:
-      type: steps
-      height: 28mm
-    answer: $(6+2\sqrt5)\text{ m}$
-    solution_steps:
-    - title: 已知与所求
-      content: 已知边是较短窗格 $4\text{ m}$，要求边是整段窗格。
-    - title: 所用关系
-      content: 已知边属于短段，要求边属于全长，先由短段求长段，再相加。
-    - title: 计算
-      content: 长段 $=4\div\dfrac{\sqrt5-1}{2}=2(\sqrt5+1)\text{ m}$，全长 $=4+2(\sqrt5+1)=(6+2\sqrt5)\text{ m}$。
-    teaching:
-      teaching_goal: 训练从短段反求全长
-      source_relations:
-      - fallback:golden_ratio
-      expected_blocker: 只求出长段，忘记加上短段得到全长
-      entry_point: hidden_structure
-      scaffold_level: low
-      variation_depth: packaged_condition
-      complexity_note: 先除法并有理化，再相加
-      upgrade_rule: 能区分“求长段”和“求全长”
-      fallback_move: 先求长段，再把长段和短段相加。
-- id: answer-key
-  title: 二、答案速查
-  type: answer_key
-  visibility: teacher
-  blocks:
-  - type: step
-    id: key
-    title: 答案
-    content: |
-      第1题 $10(\sqrt5-1)\text{ cm}$；第2题 $\dfrac{15(\sqrt5-1)}{2}\text{ cm}$；第3题 $3(\sqrt5+1)\text{ m}$；
-      第4题 $17(3-\sqrt5)\text{ m}$；第5题 $9(\sqrt5+1)\text{ cm}$；第6题 $(6+2\sqrt5)\text{ m}$。
+  - id: golden-ratio-practice-1
+    title: 黄金分割比专项 · 第 1 题
+    type: practice
+    visibility: teacher
+    blocks:
+      - type: problem
+        id: gr1
+        points: 8
+        label: 第 1 题
+        diagram_col: {image_path: images/gr1-sunflower.png, width: 42mm, caption: 花盘径向线}
+        stem_latex: |
+          在自然观察手账中，同学想画一朵向日葵花盘的径向示意线。花心到花瓣外缘长 $20\text{ cm}$，为了让花瓣环的位置看起来更接近自然花序的疏密美感，准备让花瓣环成为这条径向线的黄金分割点，并且从花心到花瓣环为较长一段。求从花心到花瓣环的长度。
+        answer: '$10(\sqrt5-1)\text{ cm}$'
+        solution_steps:
+          - title: 列式
+            content: '$20\times\dfrac{\sqrt5-1}{2}=10(\sqrt5-1)\text{ cm}$。'
+        teaching:
+          teaching_goal: 训练从全长求长段
+          source_relations: [fallback:structure_analysis]
+          expected_blocker: 混淆长段与全长
+          entry_point: build_relation
+          scaffold_level: high
+          variation_depth: changed_numbers
+          complexity_note: 一次乘法
+          upgrade_rule: 能准确选出长比全
+          fallback_move: 先在提示中标出已知边和所求边
+  - id: golden-ratio-practice-2
+    title: 黄金分割比专项 · 第 2 题
+    type: practice
+    visibility: teacher
+    layout: {break_before: true}
+    blocks:
+      - type: problem
+        id: gr2
+        points: 8
+        label: 第 2 题
+        diagram_col: {image_path: images/gr2-bookmark.png, width: 42mm, caption: 书签分区}
+        stem_latex: |
+          设计一张带传统纹样的书签时，较长的纹样区用来放莲花纹，长 $15\text{ cm}$；较短的留白区用来写姓名。为了让纹样和留白有更舒服的比例，设计师让较短留白区和较长纹样区成黄金分割比。求较短留白区的长度。
+        answer: '$\dfrac{15(\sqrt5-1)}{2}\text{ cm}$'
+        solution_steps:
+          - title: 列式
+            content: '$15\times\dfrac{\sqrt5-1}{2}=\dfrac{15(\sqrt5-1)}{2}\text{ cm}$。'
+        teaching:
+          teaching_goal: 训练从长段求短段
+          source_relations: [fallback:structure_analysis]
+          expected_blocker: 把长段误认成全长
+          entry_point: build_relation
+          scaffold_level: high
+          variation_depth: changed_representation
+          complexity_note: 一次乘法
+          upgrade_rule: 能准确选出短比长
+          fallback_move: 圈出题干中的“较长”与“较短”
+  - id: golden-ratio-practice-3
+    title: 黄金分割比专项 · 第 3 题
+    type: practice
+    visibility: teacher
+    layout: {break_before: true}
+    blocks:
+      - type: problem
+        id: gr3
+        points: 8
+        label: 第 3 题
+        diagram_col: {image_path: images/gr3-stage.png, width: 42mm, caption: 舞台光带}
+        stem_latex: |
+          舞蹈舞台的背景幕布上有一条横向光带，导演把它分成“静区”和“亮区”两段，让演员站位偏在黄金分割附近。较短的静区长 $6\text{ m}$，并且静区和较长的亮区成黄金分割比。求较长的亮区长度。
+        answer: '$3(\sqrt5+1)\text{ m}$'
+        solution_steps:
+          - title: 列式
+            content: '$6\div\dfrac{\sqrt5-1}{2}=3(\sqrt5+1)\text{ m}$。'
+        teaching:
+          teaching_goal: 训练从短段反求长段
+          source_relations: [fallback:structure_analysis]
+          expected_blocker: 已知分子时仍乘比值
+          entry_point: solve_and_check
+          scaffold_level: medium
+          variation_depth: changed_question
+          complexity_note: 一次除法并有理化
+          upgrade_rule: 能根据分子分母判断除法
+          fallback_move: 对照提示判断已知量在分子还是分母
+  - id: golden-ratio-practice-4
+    title: 黄金分割比专项 · 第 4 题
+    type: practice
+    visibility: teacher
+    layout: {break_before: true}
+    blocks:
+      - type: problem
+        id: gr4
+        points: 8
+        label: 第 4 题
+        diagram_col: {image_path: images/gr4-garden.png, width: 42mm, caption: 赏花小径}
+        stem_latex: |
+          园林里一条总长 $34\text{ m}$ 的赏花小径，常把观景点放在不正中、但看起来很自然的位置。园艺师准备让观景点成为这条小径的黄金分割点，并且从入口到观景点为较短一段。求从入口到观景点的长度。
+        answer: '$17(3-\sqrt5)\text{ m}$'
+        solution_steps:
+          - title: 列式
+            content: '$34\times\dfrac{3-\sqrt5}{2}=17(3-\sqrt5)\text{ m}$。'
+        teaching:
+          teaching_goal: 训练从全长直接求短段
+          source_relations: [fallback:structure_analysis]
+          expected_blocker: 忽略短比全的直接关系
+          entry_point: transfer
+          scaffold_level: medium
+          variation_depth: changed_question
+          complexity_note: 一次乘法
+          upgrade_rule: 能准确选出短比全
+          fallback_move: 在三组比值中圈出短比全
+  - id: golden-ratio-practice-5
+    title: 黄金分割比专项 · 第 5 题
+    type: practice
+    visibility: teacher
+    layout: {break_before: true}
+    blocks:
+      - type: problem
+        id: gr5
+        points: 8
+        label: 第 5 题
+        diagram_col: {image_path: images/gr5-photo.png, width: 42mm, caption: 摄影构图}
+        stem_latex: |
+          摄影构图时，摄影师常把主体放在画面黄金分割线附近，而不是正中间。一张照片裁切后，主体所在位置是这条边上的黄金分割点；主体到较远边的长留白为 $18\text{ cm}$，并且这段长留白是较长一段。求原来整条边的长度。
+        answer: '$9(\sqrt5+1)\text{ cm}$'
+        solution_steps:
+          - title: 列式
+            content: '$18\div\dfrac{\sqrt5-1}{2}=9(\sqrt5+1)\text{ cm}$。'
+        teaching:
+          teaching_goal: 训练从长段反求全长
+          source_relations: [fallback:structure_analysis]
+          expected_blocker: 把长段当全长
+          entry_point: hidden_structure
+          scaffold_level: medium
+          variation_depth: packaged_condition
+          complexity_note: 一次除法并有理化
+          upgrade_rule: 能从情境中识别长段与全长
+          fallback_move: 把“原来整条边”标为全长
+  - id: golden-ratio-practice-6
+    title: 黄金分割比专项 · 第 6 题
+    type: practice
+    visibility: teacher
+    layout: {break_before: true}
+    blocks:
+      - type: problem
+        id: gr6
+        points: 8
+        label: 第 6 题
+        diagram_col: {image_path: images/gr6-architecture.png, width: 42mm, caption: 窗格分段}
+        stem_latex: |
+          古典建筑立面常用黄金分割的比例安排窗格，让墙面不显得呆板。一段窗格被分成长短两段，其中较短窗格长 $4\text{ m}$，且较短窗格和较长窗格成黄金分割比。求整段窗格的长度。
+        answer: '$(6+2\sqrt5)\text{ m}$'
+        solution_steps:
+          - title: 列式
+            content: '$4\div\dfrac{3-\sqrt5}{2}=(6+2\sqrt5)\text{ m}$。'
+        teaching:
+          teaching_goal: 训练从短段直接求全长
+          source_relations: [fallback:structure_analysis]
+          expected_blocker: 先绕道求长段造成步骤冗余
+          entry_point: hidden_structure
+          scaffold_level: low
+          variation_depth: packaged_condition
+          complexity_note: 一次除法并有理化
+          upgrade_rule: 能直接使用短比全
+          fallback_move: 在三组比值中圈出短比全
+  - id: golden-ratio-practice-7
+    title: 黄金分割比专项 · 第 7 题
+    type: practice
+    visibility: teacher
+    layout: {break_before: true}
+    blocks:
+      - type: problem
+        id: gr7
+        points: 8
+        label: 第 7 题
+        stem_latex: |
+          我们将宽和长之比为 $\dfrac{\sqrt5-1}{2}$（约为 $0.618$）的矩形称为“黄金矩形”，它可以通过折纸获得。
+
+          如图 1 所示，将长方形纸片第一次沿 $MC$ 折叠，使点 $N$ 和点 $B$ 重合；展开后再将纸片沿 $AG$ 对折，使点 $M$ 和点 $B$ 重合。如图 2 所示，展开后联结 $AB$，再将纸片第三次沿 $AF$ 折叠，使得 $AB$ 落在长方形纸片的边上且点 $B$ 落在点 $D$ 处；再次展开，过点 $D$ 作 $MB$ 的垂线，垂足为点 $E$。请写出图中的“黄金矩形”。
+
+          \begin{center}
+            \includegraphics[width=0.92\linewidth]{images/golden-rectangle-folding-source.png}
+          \end{center}
+        answer: 矩形 $BCDE$
+        solution_steps:
+          - title: 解答
+            content: '由折叠得 $MB=BC$，$AC=\dfrac12BC$，$AB=AD=\dfrac{\sqrt5}{2}BC$，所以 $CD=AD-AC=\dfrac{\sqrt5-1}{2}BC$。又 $DE\perp MB$，故黄金矩形为矩形 $BCDE$。'
+        teaching:
+          teaching_goal: 用折叠等距与勾股定理辨认黄金矩形
+          source_relations: [fallback:structure_analysis]
+          expected_blocker: 无法把三次折叠转成等长关系
+          entry_point: hidden_structure
+          scaffold_level: low
+          variation_depth: changed_representation
+          complexity_note: 一次勾股与一次线段相减
+          upgrade_rule: 能由折叠关系推出宽长比
+          fallback_move: 先写出每次折叠得到的对应点等距关系
+  - id: answer-key
+    title: 答案速查
+    type: answer_key
+    visibility: teacher
+    blocks:
+      - type: step
+        id: key
+        title: 答案
+        content: |
+          第1题 $10(\sqrt5-1)\text{ cm}$；第2题 $\dfrac{15(\sqrt5-1)}{2}\text{ cm}$；第3题 $3(\sqrt5+1)\text{ m}$；
+          第4题 $17(3-\sqrt5)\text{ m}$；第5题 $9(\sqrt5+1)\text{ cm}$；第6题 $(6+2\sqrt5)\text{ m}$；第7题 矩形 $BCDE$。

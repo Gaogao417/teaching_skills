@@ -1,0 +1,220 @@
+\documentclass{exam-zh}
+\usepackage{edu-practice}
+
+\examsetup{
+  question/show-answer = false,
+  fillin/show-answer = false,
+  solution/show-solution = hide,
+}
+
+% ---------- 教师版解答样式 ----------
+\newtcolorbox{solutionblock}{
+  enhanced, breakable,
+  colback=edu-blue-bg,
+  colframe=edu-blue!25,
+  boxrule=0pt,
+  borderline west={2pt}{0pt}{edu-blue!50},
+  arc=0pt,
+  left=3mm, right=3mm, top=2mm, bottom=2mm,
+  before skip=2mm,
+  after skip=3mm,
+  fontupper=\small,
+}
+
+% 解答步骤编号
+\newcounter{solstep}
+\newcommand{\solstep}[2]{%
+  \stepcounter{solstep}%
+  \par\medskip
+  \noindent\hangindent=6mm
+  {\color{edu-blue}\bfseries\textcircled{\scriptsize\thesolstep}\enspace #1}\enspace #2\par
+}
+
+\begin{document}
+
+\section*{三角形一边平行线：三边求第四边 · 练习 3 · 学生版}
+
+\section*{练习 3（A字型、8字型交替，共10题）}
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，$P,A,C$ 三点共线，$P,B,D$ 三点共线，点序分别为 $P-A-C$、$P-B-D$，且 $AB\parallel CD$。
+已知 $PB=\frac{1}{8}$，$PD=\frac{5}{8}$，$PC=\frac{15}{8}$，求 $PA$。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{先看平行边方向，再判断 A 字型或 8 字型及对应边。}
+  \input{\detokenize{../../../题库/2026-07-17-三边求第四边-A字型8字型/items/Q041/build/diagram/jobs/question-bank-three-known-q041-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[42mm]
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，$A,P,C$ 三点共线，$B,P,D$ 三点共线，点序分别为 $A-P-C$、$B-P-D$，且 $AB\parallel CD$。
+已知 $BP=\sqrt{7}$，$PD=7$，$AB=2\sqrt{7}$，求 $CD$。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{先看平行边方向，再判断 A 字型或 8 字型及对应边。}
+  \input{\detokenize{../../../题库/2026-07-17-三边求第四边-A字型8字型/items/Q042/build/diagram/jobs/question-bank-three-known-q042-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[42mm]
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，$P,A,C$ 三点共线，$P,B,D$ 三点共线，点序分别为 $P-A-C$、$P-B-D$，且 $AB\parallel CD$。
+已知 $PA=\sqrt{6}$，$PC=6$，$AB=4\sqrt{6}$，求 $CD$。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{先看平行边方向，再判断 A 字型或 8 字型及对应边。}
+  \input{\detokenize{../../../题库/2026-07-17-三边求第四边-A字型8字型/items/Q043/build/diagram/jobs/question-bank-three-known-q043-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[42mm]
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，$A,P,C$ 三点共线，$B,P,D$ 三点共线，点序分别为 $A-P-C$、$B-P-D$，且 $AB\parallel CD$。
+已知 $AP=\frac{7}{4}$，$PC=\frac{21}{2}$，$BP=\frac{7}{2}$，求 $PD$。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{先看平行边方向，再判断 A 字型或 8 字型及对应边。}
+  \input{\detokenize{../../../题库/2026-07-17-三边求第四边-A字型8字型/items/Q044/build/diagram/jobs/question-bank-three-known-q044-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[42mm]
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，$P,A,C$ 三点共线，$P,B,D$ 三点共线，点序分别为 $P-A-C$、$P-B-D$，且 $AB\parallel CD$。
+已知 $PB=\frac{1}{7}$，$PD=\frac{2}{7}$，$PA=\frac{3}{7}$，求 $PC$。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{先看平行边方向，再判断 A 字型或 8 字型及对应边。}
+  \input{\detokenize{../../../题库/2026-07-17-三边求第四边-A字型8字型/items/Q045/build/diagram/jobs/question-bank-three-known-q045-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[42mm]
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，$A,P,C$ 三点共线，$B,P,D$ 三点共线，点序分别为 $A-P-C$、$B-P-D$，且 $AB\parallel CD$。
+已知 $BP=\sqrt{3}$，$PD=3$，$CD=12$，求 $AB$。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{先看平行边方向，再判断 A 字型或 8 字型及对应边。}
+  \input{\detokenize{../../../题库/2026-07-17-三边求第四边-A字型8字型/items/Q046/build/diagram/jobs/question-bank-three-known-q046-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[42mm]
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，$P,A,C$ 三点共线，$P,B,D$ 三点共线，点序分别为 $P-A-C$、$P-B-D$，且 $AB\parallel CD$。
+已知 $PA=2\sqrt{2}$，$PC=8$，$CD=16$，求 $AB$。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{先看平行边方向，再判断 A 字型或 8 字型及对应边。}
+  \input{\detokenize{../../../题库/2026-07-17-三边求第四边-A字型8字型/items/Q047/build/diagram/jobs/question-bank-three-known-q047-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[42mm]
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，$A,P,C$ 三点共线，$B,P,D$ 三点共线，点序分别为 $A-P-C$、$B-P-D$，且 $AB\parallel CD$。
+已知 $AP=\frac{3}{7}$，$PC=\frac{12}{7}$，$PD=\frac{36}{7}$，求 $BP$。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{先看平行边方向，再判断 A 字型或 8 字型及对应边。}
+  \input{\detokenize{../../../题库/2026-07-17-三边求第四边-A字型8字型/items/Q048/build/diagram/jobs/question-bank-three-known-q048-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[42mm]
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，$P,A,C$ 三点共线，$P,B,D$ 三点共线，点序分别为 $P-A-C$、$P-B-D$，且 $AB\parallel CD$。
+已知 $PB=\frac{9}{5}$，$PD=9$，$PC=36$，求 $PA$。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{先看平行边方向，再判断 A 字型或 8 字型及对应边。}
+  \input{\detokenize{../../../题库/2026-07-17-三边求第四边-A字型8字型/items/Q049/build/diagram/jobs/question-bank-three-known-q049-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[42mm]
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，$A,P,C$ 三点共线，$B,P,D$ 三点共线，点序分别为 $A-P-C$、$B-P-D$，且 $AB\parallel CD$。
+已知 $BP=\sqrt{10}$，$PD=2\sqrt{10}$，$AB=2\sqrt{10}$，求 $CD$。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{先看平行边方向，再判断 A 字型或 8 字型及对应边。}
+  \input{\detokenize{../../../题库/2026-07-17-三边求第四边-A字型8字型/items/Q050/build/diagram/jobs/question-bank-three-known-q050-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[42mm]
+\end{problem}
+
+
+
+\end{document}

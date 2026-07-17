@@ -1,0 +1,126 @@
+\documentclass{exam-zh}
+\usepackage{edu-explanation}
+
+\examsetup{
+  question/show-answer = true,
+  fillin/show-answer = true,
+  solution/show-solution = show-stay,
+}
+
+\begin{document}
+
+\eduSectionTitle{黄金分割比：三组比值，三步列式}
+
+\begin{eduProblemBlock}[例题 1]
+一条装饰线全长 $30\text{ cm}$，按黄金分割分成较长、较短两段。
+求较长一段的长度。
+
+\end{eduProblemBlock}
+
+
+
+
+
+\begin{eduAuxItem}{思路导航}
+第一步：确定已知边和要求的边$\;\to\;$第二步：确定这两条边的比值$\;\to\;$第三步：确定乘还是除\end{eduAuxItem}
+
+
+
+
+\begin{eduSubQuestionItem}{例题 1}
+求较长一段的长度。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{小贴士}
+        \eduSideHint{比值要有方向}{“长比全”必须写成 $\dfrac{L}{T}$，不能只记“长、全都是 $0.618$”。
+}
+        \eduSideHint{已知分母就乘}{在 $\dfrac{L}{T}=k$ 中，已知的是分母 $T$，所以分子 $L=T\times k$。
+}
+  \end{eduExplainLeft}
+
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{解答}
+      \eduExplainStep{1}{第一步：确定已知边和要求的边}{已知全长 $T=30\text{ cm}$，要求长段 $L$。
+}
+      \eduExplainStep{2}{第二步：确定这两条边的比值}{记短段为 $S$，长段为 $L$，全长为 $T$。三组两两比值为
+\[
+  \frac{S}{L}=\frac{\sqrt5-1}{2},\qquad
+  \frac{L}{T}=\\ frac{\sqrt5-1}{2},\qquad
+  \frac{S}{T}=\frac{3-\sqrt5}{2}.
+\]
+本题是长段与全长，所以使用
+\[
+  \frac{L}{T}=\frac{\\ sqrt5-1}{2}.
+\]
+}
+      \eduExplainStep{3}{第三步：确定乘还是除}{已知分母 $T$，所以用全长乘比值：
+\[
+  L=30\times\frac{\sqrt5-1}{2}
+  =15(\sqrt5-1)\text{ cm}.
+\]
+}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduProblemBlock}[例题 2]
+一段窗格按黄金分割分成长、短两段，其中较短一段长 $6\text{ m}$。
+求整段窗格的长度。
+
+\end{eduProblemBlock}
+
+
+
+
+
+\begin{eduAuxItem}{思路导航}
+第一步：确定已知边和要求的边$\;\to\;$第二步：确定这两条边的比值$\;\to\;$第三步：确定乘还是除\end{eduAuxItem}
+
+
+
+
+\begin{eduSubQuestionItem}{例题 2}
+求整段窗格的长度。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{小贴士}
+        \eduSideHint{直接用“短比全”}{已知和所求正好是短段、全长，直接使用 $\dfrac{S}{T}=\dfrac{3-\sqrt5}{2}$，不必先求长段。
+}
+        \eduSideHint{已知分子就除}{在 $\dfrac{S}{T}=q$ 中，已知的是分子 $S$，所以分母 $T=S\div q$。
+}
+  \end{eduExplainLeft}
+
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{解答}
+      \eduExplainStep{1}{第一步：确定已知边和要求的边}{已知短段 $S=6\text{ m}$，要求全长 $T$。
+}
+      \eduExplainStep{2}{第二步：确定这两条边的比值}{短比全是：
+\[
+  \frac{S}{T}=\frac{3-\sqrt5}{2}.
+\]
+}
+      \eduExplainStep{3}{第三步：确定乘还是除}{已知分子 $S$，所以用短段除以比值：
+\[
+  T=6\div\frac{3-\sqrt5}{2}
+  =3(3+\sqrt5)\text{ m}.
+\]
+}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduSummaryBlock}{\eduIconPin}{每题固定三步}
+\begin{eduBulletList}
+  \item \textbf{第一步：}确定已知边和要求的边是哪两个。  \item \textbf{第二步：}确定这两条边的比值，并写清分子、分母。  \item \textbf{第三步：}已知分母就乘比值；已知分子就除以比值。\end{eduBulletList}
+\end{eduSummaryBlock}
+
+
+
+
+\end{document}

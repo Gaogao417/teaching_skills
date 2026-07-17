@@ -1,0 +1,48 @@
+meta:
+  title: 三边求第四边 · Q010 · 学生版
+  grade: 八年级
+  subject: 数学
+  total_points: 10
+  version: student
+  show_answers: false
+  source_artifacts:
+    explanation: ../../../../专题/2026-07-12-平行线对应边比例-待审核/02-student-explanation.resolved.assignment.yaml
+    diagram_policy: 一题一张独立 prompt 图；AB/CD 轴对齐，本批统一水平
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: question
+  title: 专题题
+  type: practice
+  visibility: student
+  blocks:
+  - type: problem
+    id: Q010
+    points: 10
+    label: 已知三边求第四边
+    stem_latex: '如图，$A,P,C$ 三点共线，$B,P,D$ 三点共线，点序分别为 $A-P-C$、$B-P-D$，且 $AB\parallel CD$。
+
+      已知 $AP=10$，$PC=18$，$PD=18$，求 $BP$。'
+    hints:
+    - title: 起步提示
+      content_latex: 先计算并约分 $\dfrac{AP}{PC}=\dfrac{10}{18}=\dfrac{5}{9}$；再按对应关系，把约分后的两份数分别标到未知边 $BP$ 和它对应的已知边 $PD$ 上。
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 4
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question-bank-three-known-q010-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question.bank.three.known.q010.prompt
+      diagram_job_id: question-bank-three-known-q010-prompt
+      width: 60mm
+      caption: 先看平行边方向，再判断 A 字型或 8 字型及对应边。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:918b9623735a4e21367bbea2dacb0f4665fa060f66b81bc9406a31f32b28ad21
+      packages:
+      - tikz
+      libraries: []

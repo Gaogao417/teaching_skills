@@ -1,0 +1,46 @@
+meta:
+  title: 反A形相似 · Q049 · 学生版
+  grade: 八年级
+  subject: 数学
+  total_points: 10
+  version: student
+  show_answers: false
+  source_artifacts:
+    explanation: ../../专题/2026-07-14-反A形相似求第四边/02-student-explanation.resolved.assignment.yaml
+    diagram_policy: 一题一张独立 prompt 图；题图不泄露相似结论或答案
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: question
+  title: 专题题
+  type: practice
+  visibility: student
+  blocks:
+  - type: problem
+    id: Q049
+    points: 10
+    label: 先写对应关系再求边
+    stem_latex: '如图，$\angle PAB=\angle PDC$。
+
+
+      已知 $PA=\frac{3}{10}$，$PD=\frac{9}{5}$，$PB=\frac{3}{10}$。写出三组对应边及相似比，并求 $PC$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-reverse_a-q049-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.reverse_a.q049.prompt
+      diagram_job_id: question_bank-reverse_a-q049-prompt
+      width: 60mm
+      caption: 沿题设等角的顶点顺序，找出两组三角形的对应边。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:bb27d61298d1312490ffeee0a2932750bca0f6d6f7dfd978be532f0f37cc06c4
+      packages:
+      - tikz
+      libraries: []

@@ -9,31 +9,13 @@
 
 \begin{document}
 
-\eduSectionTitle{蝶形：看到等角先找相似，再用角锁对应}
-
-
-\begin{eduSolutionBox}{固定反应：看到等角找相似，相似以后找对应}
-  \begingroup
-  \setlength{\parskip}{2.5mm}
-\textbf{看到题目给角相等：}先保留这组角，再去交点或公共顶点寻找第二组等角。\par
-\textbf{判定相似以后：}按“等角顶点 $\to$ 对应顶点 $\to$ 对应边”书写，外形和左右位置都不能代替对应关系。\par
-两条直线 $AB,CD$ 相交于 $O$，所以 $\angle AOC=\angle DOB$，这组角来自对顶角。\par
-若题目再明确给出 $\angle OAC=\angle ODB$，则由两角分别相等，得 $\triangle AOC\sim\triangle DOB$。\par
-对应顶点为 $A\leftrightarrow D$、$O\leftrightarrow O$、$C\leftrightarrow B$，所以 $\dfrac{AO}{DO}=\dfrac{OC}{OB}=\dfrac{AC}{DB}$。\par
-即使图形看起来像“8 字形”，也不能默认 $AC\parallel BD$；本模型明确要求 $AC\nparallel BD$。\par
-  \endgroup
-\end{eduSolutionBox}
-
-
-
+\eduSectionTitle{蝶形：证明相似后求第四边}
 
 \begin{eduProblemBlock}[例题]
 \noindent
 \begin{minipage}[t]{\dimexpr\linewidth-70mm-6mm\relax}
 \vspace{0pt}
-如图，直线 $AB$ 与 $CD$ 相交于点 $O$，点序分别为 $A-O-B$、$C-O-D$，
-且 $\angle OAC=\angle ODB$，$AC\nparallel BD$。
-已知 $AO=6$，$OC=8$，$OD=9$，求 $OB$。
+如图，$\angle OAC=\angle ODB$。已知 $AO=6$，$OC=8$，$OD=9$，求 $OB$。
 
 \end{minipage}\hfill
 \begin{diagramcoltikz}{70mm}{先找交点处的对顶角，再核对题设标出的另一组等角。}
@@ -46,7 +28,7 @@
 
 
 \begin{eduAuxItem}{思路导航}
-看到题设等角，寻找第二组角$\;\to\;$按角的顶点写相似顺序$\;\to\;$选含未知边的对应边比$\;\to\;$解比例并验算\end{eduAuxItem}
+先证明两个三角形相似$\;\to\;$再列对应边比例求边长\end{eduAuxItem}
 
 
 
@@ -57,34 +39,15 @@
 \begin{eduDualExplain}
   \begin{eduExplainLeft}
     \eduColumnTitle{\eduIconBulb}{小贴士}
-        \eduSideHint{看到等角先问什么}{题目已给 $\angle OAC=\angle ODB$。要找相似，还需要哪一组角？交点 $O$ 处的对顶角正好补齐。}
-        \eduSideHint{怎么锁定对应点}{$\angle OAC$ 的顶点是 $A$，$\angle ODB$ 的顶点是 $D$，所以 $A$ 对应 $D$，不是按左右位置把 $A$ 对到 $B$。}
-        \eduSideMistake{外形不能当条件}{题目明确 $AC\nparallel BD$；不能因为图像像“8 字形”就使用平行线性质。}
-        \eduSideHint{为什么只列这一条比}{未知边是 $OB$，与它对应的是 $OC$；再选一组全已知的 $AO,DO$ 即可。}
+        \eduSideHint{对应边怎么看}{先看等角的顶点：$A\leftrightarrow D$，交点 $O\leftrightarrow O$，于是 $C\leftrightarrow B$；边由两个端点决定，所以 $AO\leftrightarrow DO$，$OC\leftrightarrow OB$。}
   \end{eduExplainLeft}
 
   \begin{eduExplainRight}
     \eduColumnTitle{\eduIconBook}{解答}
-      \eduExplainStep{1}{看到题设等角，寻找第二组角}{由对顶角相等，得 $\angle AOC=\angle DOB$；题设给出 $\angle OAC=\angle ODB$。}
-      \eduExplainStep{2}{按角的顶点写相似顺序}{由两角分别相等，得 $\triangle AOC\sim\triangle DOB$，其中 $A\leftrightarrow D$、$C\leftrightarrow B$。}
-      \eduExplainStep{3}{选含未知边的对应边比}{由对应边成比例，得 $\dfrac{AO}{DO}=\dfrac{OC}{OB}$，即 $\dfrac69=\dfrac8{OB}$。}
-      \eduExplainStep{4}{解比例并验算}{解得 $OB=12$；验算 $6:9=8:12=2:3$。}
+      \eduExplainStep{1}{先证明两个三角形相似}{由对顶角相等，得 $\angle AOC=\angle DOB$。又 $\angle OAC=\angle ODB$，所以 $\triangle AOC\sim\triangle DOB$。}
+      \eduExplainStep{2}{再列对应边比例求边长}{由对应边成比例，得 $\dfrac{AO}{DO}=\dfrac{OC}{OB}$，即 $\dfrac69=\dfrac8{OB}$，解得 $OB=12$。}
   \end{eduExplainRight}
 \end{eduDualExplain}
-
-
-
-
-\begin{eduMistakeBox}
-\eduSubTitle{易错提醒}相似顺序由等角顶点决定。本题应写 $\triangle AOC\sim\triangle DOB$；若机械写成 $\triangle AOC\sim\triangle BOD$，对应边就会全部错位。\end{eduMistakeBox}
-
-
-
-
-\begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
-\begin{eduBulletList}
-  \item 见等角：圈出题设等角，主动寻找第二组等角。  \item 判相似：两组角齐全后，用 AA 写出相似三角形。  \item 找对应：按等角顶点写对应点，再由两个端点写对应边。  \item 三边已知求第四边时，只列含未知边和三条已知边的一条对应比例。\end{eduBulletList}
-\end{eduSummaryBlock}
 
 
 

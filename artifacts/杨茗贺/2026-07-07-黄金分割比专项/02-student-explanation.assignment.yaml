@@ -1,77 +1,113 @@
 meta:
   title: 黄金分割比专项讲解
-  subtitle: 杨茗贺 · 方法页
+  subtitle: 杨茗贺 · 确定两边、确定比值、确定乘除
   grade: 八年级
   subject: 数学
   duration: 15分钟
   version: student
+  assignment_id: 2026-07-07-yangminghe-golden-ratio-explanation-v2
+  source_artifacts:
+    structure_analysis: artifacts/杨茗贺/2026-07-07-黄金分割比专项/01-structure-analysis.md
+
 render:
   template: exam-zh-explanation
   paper_size: a4paper
+
 sections:
-- id: golden-ratio-explanation
-  title: 黄金分割比：先看边，再列式
-  show_title: true
-  type: explanation
-  visibility: student
-  blocks:
-  - type: problemcard
-    id: intro-problem
-    label: 入口题
-    stem_latex: |
-      一条线段被分成较长一段和较短一段。如果按黄金分割来安排，常用关系是：
-      \[
-        \frac{\text{长段}}{\text{全长}}=\frac{\sqrt5-1}{2},\qquad
-        \frac{\text{短段}}{\text{长段}}=\frac{\sqrt5-1}{2}.
-      \]
-      也就是说，黄金分割里常见的两种对应关系是：\textbf{长比全}，以及\textbf{短比长}。题目说“较短一段和较长一段成黄金分割比”时，用的就是短段:长段。
-      做题时不要一看到黄金分割就直接套乘法，先判断题目给的是哪一段、求的是哪一段。
-  - type: route
-    id: three-step-route
-    steps:
-    - id: identify-edges
-      text: 识别已知边和要求的边
-      content_latex: "已知边：全长 $30\\text{ cm}$；要求边：较长一段。"
-    - id: classify-edges
-      text: 判断这两条边分别是长段、短段还是全长
-      content_latex: "已知是全长，所求是长段，对应关系是 $\\text{长段}:\\text{全长}=\\dfrac{\\sqrt5-1}{2}$。"
-    - id: calculate
-      text: 选择关系并列式计算
-      content_latex: "长段 $=30\\times\\dfrac{\\sqrt5-1}{2}=15(\\sqrt5-1)\\text{ cm}$。"
-  - type: solution
-    id: relation-summary
-    title: 常用关系
-    items:
-    - latex: "已知全长，求长段：长段 $=\\text{全长}\\times\\dfrac{\\sqrt5-1}{2}$。"
-    - latex: "\\textbf{短比长：}已知长段，求短段时，短段 $=\\text{长段}\\times\\dfrac{\\sqrt5-1}{2}$。"
-    - latex: "已知短段，求长段：长段 $=\\text{短段}\\div\\dfrac{\\sqrt5-1}{2}$。"
-    - latex: "已知全长，求短段：可以先求长段，再用全长减长段。"
-    - latex: "已知长段或短段，求全长：先把另一段求出来，再相加；或按对应关系列方程。"
-  - type: dual_explanation
-    id: worked-example
-    label: 例题
-    stem_latex: |
-      例：一条装饰线全长 $30\text{ cm}$，按黄金分割分成两段。求较长一段的长度。
-    side_title: 读题提示
-    side_items:
-    - kind: hint
-      title: 先圈边
-      content_latex: "题目给的是整条装饰线，所以已知边是\\textbf{全长}；要求的是较长一段，所以要求边是\\textbf{长段}。"
-    - kind: note
-      title: 短比长
-      content_latex: "如果题目说“短段和长段成黄金分割比”，就写 $\\text{短段}:\\text{长段}=\\dfrac{\\sqrt5-1}{2}$。"
-    - kind: mistake
-      title: 易错点
-      content_latex: "不要把 $\\dfrac{\\sqrt5-1}{2}$ 固定理解成“答案”。它表示的是某两类边之间的比，要先看清楚是哪两类边。"
-    solution_title: 示例解法
-    solution_step_ids:
-    - identify-edges
-    - classify-edges
-    - calculate
-  - type: method_reminder
-    id: method-reminder
-    title: 做题提醒
-    items:
-    - text: 每题先写清“已知边”和“要求边”，再决定乘还是除。
-    - text: 求短段或全长时，常常要先求出另一段，再作差或相加。
-    - latex: "算完可以粗略检查：长段应大于短段；全长应大于长段。"
+  - id: total-to-long
+    title: 例题 1：已知全长，求长段
+    show_title: true
+    type: explanation
+    visibility: student
+    blocks:
+      - type: problemcard
+        id: example-total-to-long
+        label: 例题 1
+        stem_latex: |
+          一条装饰线全长 $30\text{ cm}$，按黄金分割分成较长、较短两段。
+          求较长一段的长度。
+      - type: route
+        id: route-total-to-long
+        steps:
+          - id: total-to-long-calculate
+            latex: 列式计算
+            content_latex: |
+              \[
+                30\times\frac{\sqrt5-1}{2}
+                =15(\sqrt5-1)\text{ cm}.
+              \]
+      - type: dual_explanation
+        id: explanation-total-to-long
+        label: 例题 1
+        stem_latex: 求较长一段的长度。
+        side_title: 小贴士
+        side_items:
+          - kind: hint
+            title: 第一步：确定两条边
+            content_latex: |
+              本题已知的是“全” $30\text{ cm}$，要求的是“长”。
+          - kind: hint
+            title: 第二步：确定比值
+            content_latex: |
+              三组两两比值为
+              \[
+                \begin{aligned}
+                  \frac{\text{短}}{\text{长}}&=\frac{\sqrt5-1}{2},\\
+                  \frac{\text{长}}{\text{全}}&=\frac{\sqrt5-1}{2},\\
+                  \frac{\text{短}}{\text{全}}&=\frac{3-\sqrt5}{2}.
+                \end{aligned}
+              \]
+              本题用“长比全” $\dfrac{\text{长}}{\text{全}}=\dfrac{\sqrt5-1}{2}$。
+          - kind: hint
+            title: 第三步：确定乘除
+            content_latex: |
+              已知的是分母“全”，所以用 $30\times\dfrac{\sqrt5-1}{2}$。
+        solution_title: 解答
+        solution_step_ids:
+          - total-to-long-calculate
+
+  - id: short-to-total
+    title: 例题 2：已知短段，求全长
+    show_title: true
+    type: explanation
+    visibility: student
+    layout:
+      break_before: true
+    blocks:
+      - type: problemcard
+        id: example-short-to-total
+        label: 例题 2
+        stem_latex: |
+          一段窗格按黄金分割分成长、短两段，其中较短一段长 $6\text{ m}$。
+          求整段窗格的长度。
+      - type: route
+        id: route-short-to-total
+        steps:
+          - id: short-to-total-calculate
+            latex: 列式计算
+            content_latex: |
+              \[
+                6\div\frac{3-\sqrt5}{2}
+                =3(3+\sqrt5)\text{ m}.
+              \]
+      - type: dual_explanation
+        id: explanation-short-to-total
+        label: 例题 2
+        stem_latex: 求整段窗格的长度。
+        side_title: 小贴士
+        side_items:
+          - kind: hint
+            title: 第一步：确定两条边
+            content_latex: |
+              本题已知的是“短” $6\text{ m}$，要求的是“全”。
+          - kind: hint
+            title: 第二步：确定比值
+            content_latex: |
+              直接使用“短比全” $\dfrac{\text{短}}{\text{全}}=\dfrac{3-\sqrt5}{2}$，不必先求长段。
+          - kind: hint
+            title: 第三步：确定乘除
+            content_latex: |
+              已知的是分子“短”，所以用 $6\div\dfrac{3-\sqrt5}{2}$。
+        solution_title: 解答
+        solution_step_ids:
+          - short-to-total-calculate

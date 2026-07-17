@@ -9,31 +9,13 @@
 
 \begin{document}
 
-\eduSectionTitle{子母型：看到等角先找相似，再认对应边}
-
-
-\begin{eduSolutionBox}{固定反应：看到等角找相似，相似以后找对应}
-  \begingroup
-  \setlength{\parskip}{2.5mm}
-\textbf{看到题目给角相等：}先圈出这组角，再在两个候选三角形中寻找第二组等角，尝试用 AA 判定相似。\par
-\textbf{判定相似以后：}按“等角顶点 $\to$ 对应顶点 $\to$ 对应边”填写，不能把图中醒目的线段直接拼成比例。\par
-因为 $D$ 在线段 $AC$ 上，所以 $\angle BAD=\angle CAB$。结合 $\angle ABD=\angle ACB$，可得 $\triangle ABD\sim\triangle ACB$。\par
-按三角形名称的顺序，对应顶点为 $A\leftrightarrow A$、$B\leftrightarrow C$、$D\leftrightarrow B$。\par
-三组对应边为 $AB\leftrightarrow AC$、$AD\leftrightarrow AB$、$BD\leftrightarrow BC$。\par
-因此大三角形与小三角形的相似比是 $\dfrac{AC}{AB}=\dfrac{AB}{AD}=\dfrac{BC}{BD}$。\par
-$CD$ 不是 $\triangle ABD$ 的边，所以 $AC/CD$ 不能直接称为两个三角形的相似比。\par
-  \endgroup
-\end{eduSolutionBox}
-
-
-
+\eduSectionTitle{子母型：证明相似后求边长}
 
 \begin{eduProblemBlock}[例题 1]
 \noindent
 \begin{minipage}[t]{\dimexpr\linewidth-70mm-6mm\relax}
 \vspace{0pt}
-如图，在 $\triangle ABC$ 中，点 $D$ 在线段 $AC$ 上，且
-$\angle ABD=\angle ACB$。已知 $AC=9$，$CD=5$。
+如图，在 $\triangle ABC$ 中，$\angle ABD=\angle ACB$。已知 $AC=9$，$CD=5$。
 
 （1）求 $AB$；
 
@@ -50,80 +32,26 @@ $\angle ABD=\angle ACB$。已知 $AC=9$，$CD=5$。
 
 
 \begin{eduAuxItem}{思路导航}
-看到题设等角，寻找第二组角$\;\to\;$写出三组对应边$\;\to\;$先把非对应线段转成对应边$\;\to\;$用第一组比例求 $AB$$\;\to\;$沿同一相似比求 $BD$\end{eduAuxItem}
+先证明两个三角形相似$\;\to\;$再列对应边比例求边长\end{eduAuxItem}
 
 
 
 
-\begin{eduSubQuestionItem}{(1)}
-已知 $AC=9$、$CD=5$，求 $AB$；\end{eduSubQuestionItem}
-
-\begin{eduDualExplain}
-  \begin{eduExplainLeft}
-    \eduColumnTitle{\eduIconBulb}{小贴士}
-        \eduSideHint{看到等角先问什么}{题目已给 $\angle ABD=\angle ACB$。要找相似，还缺哪一组角？点 $A$ 处的同角可以补齐。}
-        \eduSideHint{写比例前再问一遍}{$CD$ 是 $\triangle ABD$ 的边吗？不是，所以不能直接把 $AC/CD$ 写进相似比。}
-        \eduSideHint{怎样找到 $AD$}{点序是 $A-D-C$，因此先用整段减去差段：$AD=AC-CD$。}
-        \eduSideHint{为什么只取正根}{$AB$ 是边长，必须为正数。}
-  \end{eduExplainLeft}
-
-  \begin{eduExplainRight}
-    \eduColumnTitle{\eduIconBook}{解答}
-      \eduExplainStep{1}{看到题设等角，寻找第二组角}{由 $D\in AC$，得 $\angle BAD=\angle CAB$。又因为 $\angle ABD=\angle ACB$，所以 $\triangle ABD\sim\triangle ACB$。}
-      \eduExplainStep{2}{写出三组对应边}{$AB\leftrightarrow AC$，$AD\leftrightarrow AB$，$BD\leftrightarrow BC$，故 $\dfrac{AC}{AB}=\dfrac{AB}{AD}=\dfrac{BC}{BD}$。}
-      \eduExplainStep{3}{先把非对应线段转成对应边}{由 $D$ 在线段 $AC$ 上，得 $AD=AC-CD=9-5=4$。}
-      \eduExplainStep{4}{用第一组比例求 $AB$}{由 $\dfrac{AC}{AB}=\dfrac{AB}{AD}$，得 $AB^2=AC\cdot AD=9\times4=36$，所以 $AB=6$。}
-  \end{eduExplainRight}
-\end{eduDualExplain}
-
-
-
-
-\begin{eduSubQuestionItem}{(2)}
-若 $BC=12$，求 $BD$。\end{eduSubQuestionItem}
+\begin{eduSubQuestionItem}{例题}
+（1）求 $AB$；（2）若 $BC=12$，求 $BD$。\end{eduSubQuestionItem}
 
 \begin{eduDualExplain}
   \begin{eduExplainLeft}
     \eduColumnTitle{\eduIconBulb}{小贴士}
-        \eduSideHint{对应的是哪两条边}{$BD\leftrightarrow BC$，所以应把 $BC/BD$ 与前面的大边/小边比放在同一条比例链中。}
+        \eduSideHint{对应边怎么看}{先看等角的顶点：$A\leftrightarrow A$、$B\leftrightarrow C$，于是 $D\leftrightarrow B$；因此 $AB\leftrightarrow AC$、$AD\leftrightarrow AB$、$BD\leftrightarrow BC$。$CD$ 不在小三角形中，列比例前先换成 $AD=AC-CD$。}
   \end{eduExplainLeft}
 
   \begin{eduExplainRight}
     \eduColumnTitle{\eduIconBook}{解答}
-      \eduExplainStep{1}{看到题设等角，寻找第二组角}{由 $D\in AC$，得 $\angle BAD=\angle CAB$。又因为 $\angle ABD=\angle ACB$，所以 $\triangle ABD\sim\triangle ACB$。}
-      \eduExplainStep{2}{写出三组对应边}{$AB\leftrightarrow AC$，$AD\leftrightarrow AB$，$BD\leftrightarrow BC$，故 $\dfrac{AC}{AB}=\dfrac{AB}{AD}=\dfrac{BC}{BD}$。}
-      \eduExplainStep{3}{沿同一相似比求 $BD$}{由 $\dfrac{BC}{BD}=\dfrac{AC}{AB}=\dfrac{9}{6}=\dfrac32$，得 $BD=8$。}
+      \eduExplainStep{1}{先证明两个三角形相似}{由 $D\in AC$，得 $\angle BAD=\angle CAB$。又因为 $\angle ABD=\angle ACB$，所以 $\triangle ABD\sim\triangle ACB$。}
+      \eduExplainStep{2}{再列对应边比例求边长}{先得 $AD=AC-CD=4$。由 $\dfrac{AC}{AB}=\dfrac{AB}{AD}$，得 $AB^2=9\times4$，所以 $AB=6$；再由 $\dfrac{BC}{BD}=\dfrac{AC}{AB}=\dfrac96$，得 $BD=8$。}
   \end{eduExplainRight}
 \end{eduDualExplain}
-
-
-
-
-
-\begin{eduSolutionBox}{进一步辨析：只知 $AC/CD=t$ 时，真正相似比是多少}
-  \begingroup
-  \setlength{\parskip}{2.5mm}
-由 $AC/CD=t$，得 $AD/AC=(t-1)/t$，其中 $t>1$。\par
-又因为 $AB^2=AC\cdot AD$，所以大三角形与小三角形的相似比为 $\dfrac{AC}{AB}=\sqrt{\dfrac{t}{t-1}}$。\par
-结论：$AC/CD=t$ 是整段与剩余段之比，不是相似比；它必须先经过线段和差与对应边关系的转换。\par
-  \endgroup
-\end{eduSolutionBox}
-
-
-
-
-\begin{eduMistakeBox}
-\eduSubTitle{易错提醒}不要因为 $AC$、$CD$ 都画在同一直线上，就把它们当成一组对应边。
-写比例前先检查：每条边是否真的属于相似三角形？两个顶点是否按相似顺序对应？
-\end{eduMistakeBox}
-
-
-
-
-\begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
-\begin{eduBulletList}
-  \item 见等角：圈出题设等角，主动寻找第二组等角。  \item 判相似：两组角齐全后，写出同序的相似三角形。  \item 找对应：按等角顶点写对应点，再由两个端点写对应边。  \item 看见 $AC,CD$，先用 $AD=AC-CD$，不要直接拼比例。  \item 最后用三组比是否相等进行验算。\end{eduBulletList}
-\end{eduSummaryBlock}
 
 
 

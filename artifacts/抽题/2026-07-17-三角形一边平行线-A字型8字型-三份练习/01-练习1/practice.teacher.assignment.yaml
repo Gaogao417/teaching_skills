@@ -1,0 +1,543 @@
+meta:
+  title: 三角形一边平行线：三边求第四边 · 练习 1 · 教师版
+  grade: 八年级
+  subject: 数学
+  total_points: 100
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    question_bank: ../../../题库/2026-07-17-三边求第四边-A字型8字型/question-bank.yaml
+    selected_question_ids:
+    - Q001
+    - Q002
+    - Q003
+    - Q004
+    - Q005
+    - Q006
+    - Q007
+    - Q008
+    - Q009
+    - Q010
+    random_seed: 20260721
+    selection_mode: ordered_interleaving
+    hint_policy: 练习1逐题提示；练习2、3无提示
+  subtitle: 整数基础：先判断比例类型，再标份数计算
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: sampled-questions
+  title: 练习 1（A字型、8字型交替，共10题）
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q001
+    points: 10
+    label: 第 1 题
+    stem_latex: '如图，$P,A,C$ 三点共线，$P,B,D$ 三点共线，点序分别为 $P-A-C$、$P-B-D$，且 $AB\parallel CD$。
+
+      已知 $PA=3$，$PC=6$，$CD=8$，求 $AB$。'
+    hints:
+    - title: 起步提示
+      content_latex: 先计算并约分 $\dfrac{PA}{PC}=\dfrac{3}{6}=\dfrac{1}{2}$；再按对应关系，把约分后的两份数分别标到未知边 $AB$ 和它对应的已知边 $CD$ 上。
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 4
+    answer: $AB=4$。
+    explanation: 已知边与未知边中出现平行线段 $CD$、$AB$，先求两个相似三角形的比。先算 $\dfrac{PA}{PC}=\dfrac{3}{6}=\dfrac{1}{2}$。约分后，$AB$ 对应 1 份，$CD$ 对应 2 份。$AB=CD\times\dfrac{1}{2}=8\times\dfrac{1}{2}=4$。
+    solution_steps:
+    - title: 先判断
+      content: 已知边与未知边中出现平行线段 $CD$、$AB$，先求两个相似三角形的比。
+    - title: 计算并约分
+      content: $\dfrac{PA}{PC}=\dfrac{3}{6}=\dfrac{1}{2}$。
+    - title: 标份数
+      content: 约分后，$AB$ 对应 1 份，$CD$ 对应 2 份。
+    - title: 按份数公式求边
+      content: $AB=CD\times\dfrac{1}{2}=8\times\dfrac{1}{2}=4$。
+    teaching:
+      teaching_goal: 已知三条对应边，先判断比例类型，再标份数求第四边
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      expected_blocker: 没有先判断是否涉及平行线段，直接乱配比例。
+      entry_point: classify_ratio_then_mark_shares
+      scaffold_level: high
+      variation_depth: changed_numbers
+      complexity_note: 恰好给三条线段长度，只求第四条；比例可约分且答案为整数。
+      fallback_move: 圈出未知边及其对应的已知边，再标约分后的份数。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../../题库/2026-07-17-三边求第四边-A字型8字型/items/Q001/build/diagram/jobs/question-bank-three-known-q001-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question.bank.three.known.q001.prompt
+      diagram_job_id: question-bank-three-known-q001-prompt
+      width: 60mm
+      caption: 先看平行边方向，再判断 A 字型或 8 字型及对应边。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:12321961c2da97d1e40dedde9c4b94bce796a85eb32cb8adf2f6cca4a48cf2f6
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q002
+    points: 10
+    label: 第 2 题
+    stem_latex: '如图，$A,P,C$ 三点共线，$B,P,D$ 三点共线，点序分别为 $A-P-C$、$B-P-D$，且 $AB\parallel CD$。
+
+      已知 $AP=4$，$PC=6$，$PD=6$，求 $BP$。'
+    hints:
+    - title: 起步提示
+      content_latex: 先计算并约分 $\dfrac{AP}{PC}=\dfrac{4}{6}=\dfrac{2}{3}$；再按对应关系，把约分后的两份数分别标到未知边 $BP$ 和它对应的已知边 $PD$ 上。
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 4
+    answer: $BP=4$。
+    explanation: 已知边与未知边都不在平行线段 $AB,CD$ 上，求两侧对应线段的比。先算 $\dfrac{AP}{PC}=\dfrac{4}{6}=\dfrac{2}{3}$。约分后，$BP$ 对应 2 份，$PD$ 对应 3 份。$BP=PD\times\dfrac{2}{3}=6\times\dfrac{2}{3}=4$。
+    solution_steps:
+    - title: 先判断
+      content: 已知边与未知边都不在平行线段 $AB,CD$ 上，求两侧对应线段的比。
+    - title: 计算并约分
+      content: $\dfrac{AP}{PC}=\dfrac{4}{6}=\dfrac{2}{3}$。
+    - title: 标份数
+      content: 约分后，$BP$ 对应 2 份，$PD$ 对应 3 份。
+    - title: 按份数公式求边
+      content: $BP=PD\times\dfrac{2}{3}=6\times\dfrac{2}{3}=4$。
+    teaching:
+      teaching_goal: 已知三条对应边，先判断比例类型，再标份数求第四边
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      expected_blocker: 没有先判断是否涉及平行线段，直接乱配比例。
+      entry_point: classify_ratio_then_mark_shares
+      scaffold_level: high
+      variation_depth: changed_numbers
+      complexity_note: 恰好给三条线段长度，只求第四条；比例可约分且答案为整数。
+      fallback_move: 圈出未知边及其对应的已知边，再标约分后的份数。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../../题库/2026-07-17-三边求第四边-A字型8字型/items/Q002/build/diagram/jobs/question-bank-three-known-q002-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question.bank.three.known.q002.prompt
+      diagram_job_id: question-bank-three-known-q002-prompt
+      width: 60mm
+      caption: 先看平行边方向，再判断 A 字型或 8 字型及对应边。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:469c7aaf92631d4113b72b694ba558c18a211910e82a0f93792cda9eee5b3be5
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q003
+    points: 10
+    label: 第 3 题
+    stem_latex: '如图，$P,A,C$ 三点共线，$P,B,D$ 三点共线，点序分别为 $P-A-C$、$P-B-D$，且 $AB\parallel CD$。
+
+      已知 $PB=6$，$PD=8$，$PC=8$，求 $PA$。'
+    hints:
+    - title: 起步提示
+      content_latex: 先计算并约分 $\dfrac{PB}{PD}=\dfrac{6}{8}=\dfrac{3}{4}$；再按对应关系，把约分后的两份数分别标到未知边 $PA$ 和它对应的已知边 $PC$ 上。
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 4
+    answer: $PA=6$。
+    explanation: 已知边与未知边都不在平行线段 $AB,CD$ 上，求两侧对应线段的比。先算 $\dfrac{PB}{PD}=\dfrac{6}{8}=\dfrac{3}{4}$。约分后，$PA$ 对应 3 份，$PC$ 对应 4 份。$PA=PC\times\dfrac{3}{4}=8\times\dfrac{3}{4}=6$。
+    solution_steps:
+    - title: 先判断
+      content: 已知边与未知边都不在平行线段 $AB,CD$ 上，求两侧对应线段的比。
+    - title: 计算并约分
+      content: $\dfrac{PB}{PD}=\dfrac{6}{8}=\dfrac{3}{4}$。
+    - title: 标份数
+      content: 约分后，$PA$ 对应 3 份，$PC$ 对应 4 份。
+    - title: 按份数公式求边
+      content: $PA=PC\times\dfrac{3}{4}=8\times\dfrac{3}{4}=6$。
+    teaching:
+      teaching_goal: 已知三条对应边，先判断比例类型，再标份数求第四边
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      expected_blocker: 没有先判断是否涉及平行线段，直接乱配比例。
+      entry_point: classify_ratio_then_mark_shares
+      scaffold_level: high
+      variation_depth: changed_numbers
+      complexity_note: 恰好给三条线段长度，只求第四条；比例可约分且答案为整数。
+      fallback_move: 圈出未知边及其对应的已知边，再标约分后的份数。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../../题库/2026-07-17-三边求第四边-A字型8字型/items/Q003/build/diagram/jobs/question-bank-three-known-q003-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question.bank.three.known.q003.prompt
+      diagram_job_id: question-bank-three-known-q003-prompt
+      width: 60mm
+      caption: 先看平行边方向，再判断 A 字型或 8 字型及对应边。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:e9c75f9c7df2ddc61939a00bd0b3da479307373db254eeb6a8e15b8eed29d688
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q004
+    points: 10
+    label: 第 4 题
+    stem_latex: '如图，$A,P,C$ 三点共线，$B,P,D$ 三点共线，点序分别为 $A-P-C$、$B-P-D$，且 $AB\parallel CD$。
+
+      已知 $BP=6$，$PD=15$，$AB=4$，求 $CD$。'
+    hints:
+    - title: 起步提示
+      content_latex: 先计算并约分 $\dfrac{BP}{PD}=\dfrac{6}{15}=\dfrac{2}{5}$；再按对应关系，把约分后的两份数分别标到未知边 $CD$ 和它对应的已知边 $AB$ 上。
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 4
+    answer: $CD=10$。
+    explanation: 已知边与未知边中出现平行线段 $AB$、$CD$，先求两个相似三角形的比。先算 $\dfrac{BP}{PD}=\dfrac{6}{15}=\dfrac{2}{5}$。约分后，$CD$ 对应 5 份，$AB$ 对应 2 份。$CD=AB\times\dfrac{5}{2}=4\times\dfrac{5}{2}=10$。
+    solution_steps:
+    - title: 先判断
+      content: 已知边与未知边中出现平行线段 $AB$、$CD$，先求两个相似三角形的比。
+    - title: 计算并约分
+      content: $\dfrac{BP}{PD}=\dfrac{6}{15}=\dfrac{2}{5}$。
+    - title: 标份数
+      content: 约分后，$CD$ 对应 5 份，$AB$ 对应 2 份。
+    - title: 按份数公式求边
+      content: $CD=AB\times\dfrac{5}{2}=4\times\dfrac{5}{2}=10$。
+    teaching:
+      teaching_goal: 已知三条对应边，先判断比例类型，再标份数求第四边
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      expected_blocker: 没有先判断是否涉及平行线段，直接乱配比例。
+      entry_point: classify_ratio_then_mark_shares
+      scaffold_level: high
+      variation_depth: changed_numbers
+      complexity_note: 恰好给三条线段长度，只求第四条；比例可约分且答案为整数。
+      fallback_move: 圈出未知边及其对应的已知边，再标约分后的份数。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../../题库/2026-07-17-三边求第四边-A字型8字型/items/Q004/build/diagram/jobs/question-bank-three-known-q004-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question.bank.three.known.q004.prompt
+      diagram_job_id: question-bank-three-known-q004-prompt
+      width: 60mm
+      caption: 先看平行边方向，再判断 A 字型或 8 字型及对应边。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:d6e326140c8226457c66021f1047bed3aae3be7515c8e7d14ed1be1e59c1b76e
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q005
+    points: 10
+    label: 第 5 题
+    stem_latex: '如图，$P,A,C$ 三点共线，$P,B,D$ 三点共线，点序分别为 $P-A-C$、$P-B-D$，且 $AB\parallel CD$。
+
+      已知 $PA=6$，$PC=10$，$AB=15$，求 $CD$。'
+    hints:
+    - title: 起步提示
+      content_latex: 先计算并约分 $\dfrac{PA}{PC}=\dfrac{6}{10}=\dfrac{3}{5}$；再按对应关系，把约分后的两份数分别标到未知边 $CD$ 和它对应的已知边 $AB$ 上。
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 4
+    answer: $CD=25$。
+    explanation: 已知边与未知边中出现平行线段 $AB$、$CD$，先求两个相似三角形的比。先算 $\dfrac{PA}{PC}=\dfrac{6}{10}=\dfrac{3}{5}$。约分后，$CD$ 对应 5 份，$AB$ 对应 3 份。$CD=AB\times\dfrac{5}{3}=15\times\dfrac{5}{3}=25$。
+    solution_steps:
+    - title: 先判断
+      content: 已知边与未知边中出现平行线段 $AB$、$CD$，先求两个相似三角形的比。
+    - title: 计算并约分
+      content: $\dfrac{PA}{PC}=\dfrac{6}{10}=\dfrac{3}{5}$。
+    - title: 标份数
+      content: 约分后，$CD$ 对应 5 份，$AB$ 对应 3 份。
+    - title: 按份数公式求边
+      content: $CD=AB\times\dfrac{5}{3}=15\times\dfrac{5}{3}=25$。
+    teaching:
+      teaching_goal: 已知三条对应边，先判断比例类型，再标份数求第四边
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      expected_blocker: 没有先判断是否涉及平行线段，直接乱配比例。
+      entry_point: classify_ratio_then_mark_shares
+      scaffold_level: high
+      variation_depth: changed_numbers
+      complexity_note: 恰好给三条线段长度，只求第四条；比例可约分且答案为整数。
+      fallback_move: 圈出未知边及其对应的已知边，再标约分后的份数。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../../题库/2026-07-17-三边求第四边-A字型8字型/items/Q005/build/diagram/jobs/question-bank-three-known-q005-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question.bank.three.known.q005.prompt
+      diagram_job_id: question-bank-three-known-q005-prompt
+      width: 60mm
+      caption: 先看平行边方向，再判断 A 字型或 8 字型及对应边。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:991dd958b6b9ccebf1b7752c8a2ebf25104e18780c8415560d02b8b84389e284
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q006
+    points: 10
+    label: 第 6 题
+    stem_latex: '如图，$A,P,C$ 三点共线，$B,P,D$ 三点共线，点序分别为 $A-P-C$、$B-P-D$，且 $AB\parallel CD$。
+
+      已知 $AP=8$，$PC=10$，$BP=8$，求 $PD$。'
+    hints:
+    - title: 起步提示
+      content_latex: 先计算并约分 $\dfrac{AP}{PC}=\dfrac{8}{10}=\dfrac{4}{5}$；再按对应关系，把约分后的两份数分别标到未知边 $PD$ 和它对应的已知边 $BP$ 上。
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 4
+    answer: $PD=10$。
+    explanation: 已知边与未知边都不在平行线段 $AB,CD$ 上，求两侧对应线段的比。先算 $\dfrac{AP}{PC}=\dfrac{8}{10}=\dfrac{4}{5}$。约分后，$PD$ 对应 5 份，$BP$ 对应 4 份。$PD=BP\times\dfrac{5}{4}=8\times\dfrac{5}{4}=10$。
+    solution_steps:
+    - title: 先判断
+      content: 已知边与未知边都不在平行线段 $AB,CD$ 上，求两侧对应线段的比。
+    - title: 计算并约分
+      content: $\dfrac{AP}{PC}=\dfrac{8}{10}=\dfrac{4}{5}$。
+    - title: 标份数
+      content: 约分后，$PD$ 对应 5 份，$BP$ 对应 4 份。
+    - title: 按份数公式求边
+      content: $PD=BP\times\dfrac{5}{4}=8\times\dfrac{5}{4}=10$。
+    teaching:
+      teaching_goal: 已知三条对应边，先判断比例类型，再标份数求第四边
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      expected_blocker: 没有先判断是否涉及平行线段，直接乱配比例。
+      entry_point: classify_ratio_then_mark_shares
+      scaffold_level: high
+      variation_depth: changed_numbers
+      complexity_note: 恰好给三条线段长度，只求第四条；比例可约分且答案为整数。
+      fallback_move: 圈出未知边及其对应的已知边，再标约分后的份数。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../../题库/2026-07-17-三边求第四边-A字型8字型/items/Q006/build/diagram/jobs/question-bank-three-known-q006-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question.bank.three.known.q006.prompt
+      diagram_job_id: question-bank-three-known-q006-prompt
+      width: 60mm
+      caption: 先看平行边方向，再判断 A 字型或 8 字型及对应边。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:1bb4c6d9b68b9ce5aa1cb6d08f1143a42d33a0291f5fc943ae1ae922ea6a56c9
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q007
+    points: 10
+    label: 第 7 题
+    stem_latex: '如图，$P,A,C$ 三点共线，$P,B,D$ 三点共线，点序分别为 $P-A-C$、$P-B-D$，且 $AB\parallel CD$。
+
+      已知 $PB=6$，$PD=14$，$PA=6$，求 $PC$。'
+    hints:
+    - title: 起步提示
+      content_latex: 先计算并约分 $\dfrac{PB}{PD}=\dfrac{6}{14}=\dfrac{3}{7}$；再按对应关系，把约分后的两份数分别标到未知边 $PC$ 和它对应的已知边 $PA$ 上。
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 4
+    answer: $PC=14$。
+    explanation: 已知边与未知边都不在平行线段 $AB,CD$ 上，求两侧对应线段的比。先算 $\dfrac{PB}{PD}=\dfrac{6}{14}=\dfrac{3}{7}$。约分后，$PC$ 对应 7 份，$PA$ 对应 3 份。$PC=PA\times\dfrac{7}{3}=6\times\dfrac{7}{3}=14$。
+    solution_steps:
+    - title: 先判断
+      content: 已知边与未知边都不在平行线段 $AB,CD$ 上，求两侧对应线段的比。
+    - title: 计算并约分
+      content: $\dfrac{PB}{PD}=\dfrac{6}{14}=\dfrac{3}{7}$。
+    - title: 标份数
+      content: 约分后，$PC$ 对应 7 份，$PA$ 对应 3 份。
+    - title: 按份数公式求边
+      content: $PC=PA\times\dfrac{7}{3}=6\times\dfrac{7}{3}=14$。
+    teaching:
+      teaching_goal: 已知三条对应边，先判断比例类型，再标份数求第四边
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      expected_blocker: 没有先判断是否涉及平行线段，直接乱配比例。
+      entry_point: classify_ratio_then_mark_shares
+      scaffold_level: high
+      variation_depth: changed_numbers
+      complexity_note: 恰好给三条线段长度，只求第四条；比例可约分且答案为整数。
+      fallback_move: 圈出未知边及其对应的已知边，再标约分后的份数。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../../题库/2026-07-17-三边求第四边-A字型8字型/items/Q007/build/diagram/jobs/question-bank-three-known-q007-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question.bank.three.known.q007.prompt
+      diagram_job_id: question-bank-three-known-q007-prompt
+      width: 60mm
+      caption: 先看平行边方向，再判断 A 字型或 8 字型及对应边。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:9cae884b5d38e38dc64c538c25bb67917272ec3c68aaffec06342d823f30f1ef
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q008
+    points: 10
+    label: 第 8 题
+    stem_latex: '如图，$A,P,C$ 三点共线，$B,P,D$ 三点共线，点序分别为 $A-P-C$、$B-P-D$，且 $AB\parallel CD$。
+
+      已知 $BP=8$，$PD=14$，$CD=28$，求 $AB$。'
+    hints:
+    - title: 起步提示
+      content_latex: 先计算并约分 $\dfrac{BP}{PD}=\dfrac{8}{14}=\dfrac{4}{7}$；再按对应关系，把约分后的两份数分别标到未知边 $AB$ 和它对应的已知边 $CD$ 上。
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 4
+    answer: $AB=16$。
+    explanation: 已知边与未知边中出现平行线段 $CD$、$AB$，先求两个相似三角形的比。先算 $\dfrac{BP}{PD}=\dfrac{8}{14}=\dfrac{4}{7}$。约分后，$AB$ 对应 4 份，$CD$ 对应 7 份。$AB=CD\times\dfrac{4}{7}=28\times\dfrac{4}{7}=16$。
+    solution_steps:
+    - title: 先判断
+      content: 已知边与未知边中出现平行线段 $CD$、$AB$，先求两个相似三角形的比。
+    - title: 计算并约分
+      content: $\dfrac{BP}{PD}=\dfrac{8}{14}=\dfrac{4}{7}$。
+    - title: 标份数
+      content: 约分后，$AB$ 对应 4 份，$CD$ 对应 7 份。
+    - title: 按份数公式求边
+      content: $AB=CD\times\dfrac{4}{7}=28\times\dfrac{4}{7}=16$。
+    teaching:
+      teaching_goal: 已知三条对应边，先判断比例类型，再标份数求第四边
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      expected_blocker: 没有先判断是否涉及平行线段，直接乱配比例。
+      entry_point: classify_ratio_then_mark_shares
+      scaffold_level: high
+      variation_depth: changed_numbers
+      complexity_note: 恰好给三条线段长度，只求第四条；比例可约分且答案为整数。
+      fallback_move: 圈出未知边及其对应的已知边，再标约分后的份数。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../../题库/2026-07-17-三边求第四边-A字型8字型/items/Q008/build/diagram/jobs/question-bank-three-known-q008-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question.bank.three.known.q008.prompt
+      diagram_job_id: question-bank-three-known-q008-prompt
+      width: 60mm
+      caption: 先看平行边方向，再判断 A 字型或 8 字型及对应边。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:85d721d7d9662608ed4455ec4b7e00699be5a08b3224fe2615d9519143bde95d
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q009
+    points: 10
+    label: 第 9 题
+    stem_latex: '如图，$P,A,C$ 三点共线，$P,B,D$ 三点共线，点序分别为 $P-A-C$、$P-B-D$，且 $AB\parallel CD$。
+
+      已知 $PA=10$，$PC=16$，$CD=24$，求 $AB$。'
+    hints:
+    - title: 起步提示
+      content_latex: 先计算并约分 $\dfrac{PA}{PC}=\dfrac{10}{16}=\dfrac{5}{8}$；再按对应关系，把约分后的两份数分别标到未知边 $AB$ 和它对应的已知边 $CD$ 上。
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 4
+    answer: $AB=15$。
+    explanation: 已知边与未知边中出现平行线段 $CD$、$AB$，先求两个相似三角形的比。先算 $\dfrac{PA}{PC}=\dfrac{10}{16}=\dfrac{5}{8}$。约分后，$AB$ 对应 5 份，$CD$ 对应 8 份。$AB=CD\times\dfrac{5}{8}=24\times\dfrac{5}{8}=15$。
+    solution_steps:
+    - title: 先判断
+      content: 已知边与未知边中出现平行线段 $CD$、$AB$，先求两个相似三角形的比。
+    - title: 计算并约分
+      content: $\dfrac{PA}{PC}=\dfrac{10}{16}=\dfrac{5}{8}$。
+    - title: 标份数
+      content: 约分后，$AB$ 对应 5 份，$CD$ 对应 8 份。
+    - title: 按份数公式求边
+      content: $AB=CD\times\dfrac{5}{8}=24\times\dfrac{5}{8}=15$。
+    teaching:
+      teaching_goal: 已知三条对应边，先判断比例类型，再标份数求第四边
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      expected_blocker: 没有先判断是否涉及平行线段，直接乱配比例。
+      entry_point: classify_ratio_then_mark_shares
+      scaffold_level: high
+      variation_depth: changed_numbers
+      complexity_note: 恰好给三条线段长度，只求第四条；比例可约分且答案为整数。
+      fallback_move: 圈出未知边及其对应的已知边，再标约分后的份数。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../../题库/2026-07-17-三边求第四边-A字型8字型/items/Q009/build/diagram/jobs/question-bank-three-known-q009-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question.bank.three.known.q009.prompt
+      diagram_job_id: question-bank-three-known-q009-prompt
+      width: 60mm
+      caption: 先看平行边方向，再判断 A 字型或 8 字型及对应边。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:c327d681e444ff5ff3e701ab0a7790209e19a98cd0a7e8002bb835f03c4782e8
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q010
+    points: 10
+    label: 第 10 题
+    stem_latex: '如图，$A,P,C$ 三点共线，$B,P,D$ 三点共线，点序分别为 $A-P-C$、$B-P-D$，且 $AB\parallel CD$。
+
+      已知 $AP=10$，$PC=18$，$PD=18$，求 $BP$。'
+    hints:
+    - title: 起步提示
+      content_latex: 先计算并约分 $\dfrac{AP}{PC}=\dfrac{10}{18}=\dfrac{5}{9}$；再按对应关系，把约分后的两份数分别标到未知边 $BP$ 和它对应的已知边 $PD$ 上。
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 4
+    answer: $BP=10$。
+    explanation: 已知边与未知边都不在平行线段 $AB,CD$ 上，求两侧对应线段的比。先算 $\dfrac{AP}{PC}=\dfrac{10}{18}=\dfrac{5}{9}$。约分后，$BP$ 对应 5 份，$PD$ 对应 9 份。$BP=PD\times\dfrac{5}{9}=18\times\dfrac{5}{9}=10$。
+    solution_steps:
+    - title: 先判断
+      content: 已知边与未知边都不在平行线段 $AB,CD$ 上，求两侧对应线段的比。
+    - title: 计算并约分
+      content: $\dfrac{AP}{PC}=\dfrac{10}{18}=\dfrac{5}{9}$。
+    - title: 标份数
+      content: 约分后，$BP$ 对应 5 份，$PD$ 对应 9 份。
+    - title: 按份数公式求边
+      content: $BP=PD\times\dfrac{5}{9}=18\times\dfrac{5}{9}=10$。
+    teaching:
+      teaching_goal: 已知三条对应边，先判断比例类型，再标份数求第四边
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      expected_blocker: 没有先判断是否涉及平行线段，直接乱配比例。
+      entry_point: classify_ratio_then_mark_shares
+      scaffold_level: high
+      variation_depth: changed_numbers
+      complexity_note: 恰好给三条线段长度，只求第四条；比例可约分且答案为整数。
+      fallback_move: 圈出未知边及其对应的已知边，再标约分后的份数。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../../题库/2026-07-17-三边求第四边-A字型8字型/items/Q010/build/diagram/jobs/question-bank-three-known-q010-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question.bank.three.known.q010.prompt
+      diagram_job_id: question-bank-three-known-q010-prompt
+      width: 60mm
+      caption: 先看平行边方向，再判断 A 字型或 8 字型及对应边。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:918b9623735a4e21367bbea2dacb0f4665fa060f66b81bc9406a31f32b28ad21
+      packages:
+      - tikz
+      libraries: []
+- id: answer-key
+  title: 答案
+  type: answer_key
+  visibility: teacher
+  blocks:
+  - type: answer
+    id: sampled-answers
+    title: 答案速查
+    items:
+    - latex: 第 1 题：$AB=4$。
+    - latex: 第 2 题：$BP=4$。
+    - latex: 第 3 题：$PA=6$。
+    - latex: 第 4 题：$CD=10$。
+    - latex: 第 5 题：$CD=25$。
+    - latex: 第 6 题：$PD=10$。
+    - latex: 第 7 题：$PC=14$。
+    - latex: 第 8 题：$AB=16$。
+    - latex: 第 9 题：$AB=15$。
+    - latex: 第 10 题：$BP=10$。

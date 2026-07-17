@@ -3,94 +3,118 @@ meta:
   subtitle: 杨茗贺 · 学生版
   grade: 八年级
   subject: 数学
-  duration: 30分钟
-  total_points: 48
+  duration: 35分钟
+  total_points: 56
   version: student
+  source_artifacts:
+    structure_analysis: artifacts/杨茗贺/2026-07-07-黄金分割比专项/01-structure-analysis.md
+    explanation: artifacts/杨茗贺/2026-07-07-黄金分割比专项/02-student-explanation.assignment.yaml
 render:
   template: exam-zh-practice
   paper_size: a4paper
-  answer_key_position: after_page_break
 sections:
-- id: golden-ratio-practice
-  title: 一、黄金分割比专项（每题 8 分，共 48 分）
-  type: practice
-  visibility: student
-  blocks:
-  - type: problem
-    id: gr1
-    points: 8
-    label: 第 1 题
-    diagram_col:
-      image_path: images/gr1-sunflower.png
-      width: 42mm
-      caption: 花盘径向线
-    stem_latex: |
-      在自然观察手账中，同学想画一朵向日葵花盘的径向示意线。花心到花瓣外缘长 $20\text{ cm}$，为了让花瓣环的位置看起来更接近自然花序的疏密美感，准备让花瓣环成为这条径向线的黄金分割点，并且从花心到花瓣环为较长一段。求从花心到花瓣环的长度。
-    answer_space:
-      type: steps
-      height: 28mm
-  - type: problem
-    id: gr2
-    points: 8
-    label: 第 2 题
-    diagram_col:
-      image_path: images/gr2-bookmark.png
-      width: 42mm
-      caption: 书签分区
-    stem_latex: |
-      设计一张带传统纹样的书签时，较长的纹样区用来放莲花纹，长 $15\text{ cm}$；较短的留白区用来写姓名。为了让纹样和留白有更舒服的比例，设计师让较短留白区和较长纹样区成黄金分割比。求较短留白区的长度。
-    answer_space:
-      type: steps
-      height: 28mm
-  - type: problem
-    id: gr3
-    points: 8
-    label: 第 3 题
-    diagram_col:
-      image_path: images/gr3-stage.png
-      width: 42mm
-      caption: 舞台光带
-    stem_latex: |
-      舞蹈舞台的背景幕布上有一条横向光带，导演把它分成“静区”和“亮区”两段，让演员站位偏在黄金分割附近。较短的静区长 $6\text{ m}$，并且静区和较长的亮区成黄金分割比。求较长的亮区长度。
-    answer_space:
-      type: steps
-      height: 30mm
-  - type: problem
-    id: gr4
-    points: 8
-    label: 第 4 题
-    diagram_col:
-      image_path: images/gr4-garden.png
-      width: 42mm
-      caption: 赏花小径
-    stem_latex: |
-      园林里一条总长 $34\text{ m}$ 的赏花小径，常把观景点放在不正中、但看起来很自然的位置。园艺师准备让观景点成为这条小径的黄金分割点，并且从入口到观景点为较短一段。求从入口到观景点的长度。
-    answer_space:
-      type: steps
-      height: 30mm
-  - type: problem
-    id: gr5
-    points: 8
-    label: 第 5 题
-    diagram_col:
-      image_path: images/gr5-photo.png
-      width: 42mm
-      caption: 摄影构图
-    stem_latex: |
-      摄影构图时，摄影师常把主体放在画面黄金分割线附近，而不是正中间。一张照片裁切后，主体所在位置是这条边上的黄金分割点；主体到较远边的长留白为 $18\text{ cm}$，并且这段长留白是较长一段。求原来整条边的长度。
-    answer_space:
-      type: steps
-      height: 30mm
-  - type: problem
-    id: gr6
-    points: 8
-    label: 第 6 题
-    diagram_col:
-      image_path: images/gr6-architecture.png
-      width: 42mm
-      caption: 窗格分段
-    stem_latex: |
-      古典建筑立面常用黄金分割的比例安排窗格，让墙面不显得呆板。一段窗格被分成长短两段，其中较短窗格长 $4\text{ m}$，且较短窗格和较长窗格成黄金分割比。求整段窗格的长度。
-    answer_space:
-      type: steps
-      height: 32mm
+  - id: golden-ratio-practice-1
+    title: 黄金分割比专项 · 第 1 题
+    type: practice
+    visibility: student
+    blocks:
+      - type: problem
+        id: gr1
+        points: 8
+        label: 第 1 题
+        diagram_col:
+          image_path: images/gr1-sunflower.png
+          width: 42mm
+          caption: 花盘径向线
+        stem_latex: |
+          在自然观察手账中，同学想画一朵向日葵花盘的径向示意线。花心到花瓣外缘长 $20\text{ cm}$，为了让花瓣环的位置看起来更接近自然花序的疏密美感，准备让花瓣环成为这条径向线的黄金分割点，并且从花心到花瓣环为较长一段。求从花心到花瓣环的长度。
+        answer_space: {type: steps, height: 90mm}
+  - id: golden-ratio-practice-2
+    title: 黄金分割比专项 · 第 2 题
+    type: practice
+    visibility: student
+    layout: {break_before: true}
+    blocks:
+      - type: problem
+        id: gr2
+        points: 8
+        label: 第 2 题
+        diagram_col: {image_path: images/gr2-bookmark.png, width: 42mm, caption: 书签分区}
+        stem_latex: |
+          设计一张带传统纹样的书签时，较长的纹样区用来放莲花纹，长 $15\text{ cm}$；较短的留白区用来写姓名。为了让纹样和留白有更舒服的比例，设计师让较短留白区和较长纹样区成黄金分割比。求较短留白区的长度。
+        answer_space: {type: steps, height: 90mm}
+  - id: golden-ratio-practice-3
+    title: 黄金分割比专项 · 第 3 题
+    type: practice
+    visibility: student
+    layout: {break_before: true}
+    blocks:
+      - type: problem
+        id: gr3
+        points: 8
+        label: 第 3 题
+        diagram_col: {image_path: images/gr3-stage.png, width: 42mm, caption: 舞台光带}
+        stem_latex: |
+          舞蹈舞台的背景幕布上有一条横向光带，导演把它分成“静区”和“亮区”两段，让演员站位偏在黄金分割附近。较短的静区长 $6\text{ m}$，并且静区和较长的亮区成黄金分割比。求较长的亮区长度。
+        answer_space: {type: steps, height: 90mm}
+  - id: golden-ratio-practice-4
+    title: 黄金分割比专项 · 第 4 题
+    type: practice
+    visibility: student
+    layout: {break_before: true}
+    blocks:
+      - type: problem
+        id: gr4
+        points: 8
+        label: 第 4 题
+        diagram_col: {image_path: images/gr4-garden.png, width: 42mm, caption: 赏花小径}
+        stem_latex: |
+          园林里一条总长 $34\text{ m}$ 的赏花小径，常把观景点放在不正中、但看起来很自然的位置。园艺师准备让观景点成为这条小径的黄金分割点，并且从入口到观景点为较短一段。求从入口到观景点的长度。
+        answer_space: {type: steps, height: 90mm}
+  - id: golden-ratio-practice-5
+    title: 黄金分割比专项 · 第 5 题
+    type: practice
+    visibility: student
+    layout: {break_before: true}
+    blocks:
+      - type: problem
+        id: gr5
+        points: 8
+        label: 第 5 题
+        diagram_col: {image_path: images/gr5-photo.png, width: 42mm, caption: 摄影构图}
+        stem_latex: |
+          摄影构图时，摄影师常把主体放在画面黄金分割线附近，而不是正中间。一张照片裁切后，主体所在位置是这条边上的黄金分割点；主体到较远边的长留白为 $18\text{ cm}$，并且这段长留白是较长一段。求原来整条边的长度。
+        answer_space: {type: steps, height: 90mm}
+  - id: golden-ratio-practice-6
+    title: 黄金分割比专项 · 第 6 题
+    type: practice
+    visibility: student
+    layout: {break_before: true}
+    blocks:
+      - type: problem
+        id: gr6
+        points: 8
+        label: 第 6 题
+        diagram_col: {image_path: images/gr6-architecture.png, width: 42mm, caption: 窗格分段}
+        stem_latex: |
+          古典建筑立面常用黄金分割的比例安排窗格，让墙面不显得呆板。一段窗格被分成长短两段，其中较短窗格长 $4\text{ m}$，且较短窗格和较长窗格成黄金分割比。求整段窗格的长度。
+        answer_space: {type: steps, height: 90mm}
+  - id: golden-ratio-practice-7
+    title: 黄金分割比专项 · 第 7 题
+    type: practice
+    visibility: student
+    layout: {break_before: true}
+    blocks:
+      - type: problem
+        id: gr7
+        points: 8
+        label: 第 7 题
+        stem_latex: |
+          我们将宽和长之比为 $\dfrac{\sqrt5-1}{2}$（约为 $0.618$）的矩形称为“黄金矩形”，它可以通过折纸获得。
+
+          如图 1 所示，将长方形纸片第一次沿 $MC$ 折叠，使点 $N$ 和点 $B$ 重合；展开后再将纸片沿 $AG$ 对折，使点 $M$ 和点 $B$ 重合。如图 2 所示，展开后联结 $AB$，再将纸片第三次沿 $AF$ 折叠，使得 $AB$ 落在长方形纸片的边上且点 $B$ 落在点 $D$ 处；再次展开，过点 $D$ 作 $MB$ 的垂线，垂足为点 $E$。请写出图中的“黄金矩形”。
+
+          \begin{center}
+            \includegraphics[width=0.92\linewidth]{images/golden-rectangle-folding-source.png}
+          \end{center}
+        answer_space: {type: steps, height: 55mm}

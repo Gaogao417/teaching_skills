@@ -1,0 +1,71 @@
+meta:
+  title: 三边求第四边 · Q031 · 教师版
+  grade: 八年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    explanation: ../../../../专题/2026-07-12-平行线对应边比例-待审核/02-student-explanation.resolved.assignment.yaml
+    diagram_policy: 一题一张独立 prompt 图；AB/CD 水平；图内无数值
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: question
+  title: 专题题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q031
+    points: 10
+    label: 已知三边求第四边
+    stem_latex: |-
+      如图，$P,A,C$ 三点共线，$P,B,D$ 三点共线，点序分别为 $P-A-C$、$P-B-D$，且 $AB\parallel CD$。
+      已知 $PA=\frac{6}{7}$，$PC=\frac{36}{7}$，$CD=\frac{72}{7}$，求 $AB$。
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 4
+    answer: $AB=\frac{12}{7}$。
+    explanation: 已知边与未知边中出现平行线段 $CD$、$AB$，先求两个相似三角形的比。先算 $\dfrac{PA}{PC}=\dfrac{\frac{6}{7}}{\frac{36}{7}}=\dfrac{1}{6}$。约分后，$AB$
+      对应 $1$ 份，$CD$ 对应 $6$ 份。$AB=CD\times\dfrac{1}{6}=\frac{72}{7}\times\dfrac{1}{6}=\frac{12}{7}$。
+    solution_steps:
+    - title: 先判断
+      content: 已知边与未知边中出现平行线段 $CD$、$AB$，先求两个相似三角形的比。
+    - title: 计算并约分
+      content: $\dfrac{PA}{PC}=\dfrac{\frac{6}{7}}{\frac{36}{7}}=\dfrac{1}{6}$。
+    - title: 标份数
+      content: 约分后，$AB$ 对应 $1$ 份，$CD$ 对应 $6$ 份。
+    - title: 按份数公式求边
+      content: $AB=CD\times\dfrac{1}{6}=\frac{72}{7}\times\dfrac{1}{6}=\frac{12}{7}$。
+    teaching:
+      teaching_goal: 已知三条对应边，先判断比例类型，再标份数求第四边
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      number_selection:
+        database_id: question-bank-training-numbers
+        family_id: rational_multiple_pairs
+        entry_id: rational-6-over-7-x-6
+      expected_blocker: 分数或根式没有先约分，就直接乱配比例。
+      entry_point: classify_ratio_then_mark_shares
+      scaffold_level: low
+      variation_depth: changed_representation
+      complexity_note: 恰好给三条长度，只求第四条；使用 review 后可用的分数或根式数值组。
+      fallback_move: 先把同一组对应边相除并化简，再把结果写成份数。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question-bank-three-known-q031-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question.bank.three.known.q031.prompt
+      diagram_job_id: question-bank-three-known-q031-prompt
+      width: 60mm
+      caption: 先看平行边方向，再判断 A 字型或 8 字型及对应边。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:a8ba98190a7ddd3d15b2d571926123f15fd19148c81ec1ecc6d5db7a38dba756
+      packages:
+      - tikz
+      libraries: []

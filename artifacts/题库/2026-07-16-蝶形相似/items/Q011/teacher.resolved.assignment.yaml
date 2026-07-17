@@ -1,0 +1,75 @@
+meta:
+  title: 蝶形相似 · Q011 · 教师版
+  grade: 八年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    explanation: ../../专题/2026-07-14-蝶形相似求第四边/02-student-explanation.resolved.assignment.yaml
+    diagram_policy: 一题一张独立 prompt 图；题图不泄露相似结论或答案
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: question
+  title: 专题题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q011
+    points: 10
+    label: 三边求第四边
+    stem_latex: '如图，$\angle OAC=\angle ODB$。
+
+
+      已知 $OC=\frac{3}{5}$，$OB=\frac{18}{5}$，$OD=\frac{36}{5}$，求 $AO$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+    answer: $AO=\frac{6}{5}$。
+    explanation: 先由等角判相似，再按同序顶点确定对应边；本题所用数值对来自 rational_multiple_pairs。
+    solution_steps:
+    - title: 见等角，找相似
+      content: 由题设等角和构型自带的第二组等角，得 $\triangle AOC\sim\triangle DOB$。
+    - title: 按顶点写对应边
+      content: 三组小边与大边依次为：$AO\leftrightarrow OD$，$OC\leftrightarrow OB$，$AC\leftrightarrow
+        DB$。
+    - title: 保持比例方向一致
+      content: 取 大三角形边与小三角形对应边之比，可列 $\dfrac{OB}{OC}=\dfrac{OD}{AO}$。
+    - title: 代入并验算
+      content: 代入已知量解得 $AO=\frac{6}{5}$；两组对应边的比均等于同一相似比。
+    teaching:
+      teaching_goal: 由三条已知边求第四条对应边
+      source_relations:
+      - explanation:butterfly
+      - similar_triangles_corresponding_sides
+      expected_blocker: 没有先锁定等角顶点，或两组比例的大小方向不一致。
+      entry_point: equal_angles_to_similarity_to_correspondence
+      scaffold_level: medium
+      variation_depth: changed_question
+      complexity_note: 只训练 AA 判定、对应边和一层比例；不引入面积、周长或额外辅助线。
+      upgrade_rule: 能独立写出同序相似式并用另一组对应边验算。
+      fallback_move: 先标出两个相等角的顶点，再逐个写出对应点。
+      number_selection:
+        database_id: question-bank-training-numbers
+        family_id: rational_multiple_pairs
+        entry_id: rational-3-over-5-x-6
+        selection_class: fraction_pair
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-butterfly-q011-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.butterfly.q011.prompt
+      diagram_job_id: question_bank-butterfly-q011-prompt
+      width: 60mm
+      caption: 先用对顶角补齐第二组等角，再按顶点顺序配边。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:94d24b33d8eaaeb04fd8ba1ec6999585bc1ccd5ac4e196d27470bbe2437d8629
+      packages:
+      - tikz
+      libraries: []

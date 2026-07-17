@@ -27,7 +27,7 @@ sections:
           如图，在 $\triangle ABC$ 中，点 $D$ 在线段 $BC$ 上，点 $E$ 在线段 $AC$ 上，
           线段 $AD$ 与 $BE$ 相交于点 $P$。已知
           \[
-          AE:EC=1:2,\qquad AP:PD=3:4,
+          AE:EC=1:4,\qquad AP:PD=2:3,
           \]
           求 $BP:PE$。
 
@@ -52,11 +52,11 @@ sections:
           diagram_kind: synthetic_geometry
           engine_options:
             engine_model_config:
-              codex_model: gpt-5.6-luna
+              codex_model: gpt-5.4
           teaching_intent: practice_prompt
           problem_context:
-            stem_latex: 在 $\triangle ABC$ 中，$D\in BC$，$E\in AC$，$P=AD\cap BE$。已知 $AE:EC=1:2$、$AP:PD=3:4$，求 $BP:PE$。
-            source_problem_text: 画原始三角形 ABC，D 在线段 BC 上，E 在线段 AC 上，AD 与 BE 交于 P。可采用视觉种子坐标 A=(0,6)、B=(-3,0)、C=(3,0)、D=(1,0)、E=(1,4)、P=(0.429,3.429)。只画题设构型，清楚显示 A-E-C、A-P-D、B-P-E、B-D-C 的点序；不要画 F、辅助线、相似标记、比例答案或任何解题提示。
+            stem_latex: 在 $\triangle ABC$ 中，$D\in BC$，$E\in AC$，$P=AD\cap BE$。已知 $AE:EC=1:4$、$AP:PD=2:3$，求 $BP:PE$。
+            source_problem_text: 画原始三角形 ABC，D 在线段 BC 上，E 在线段 AC 上，AD 与 BE 交于 P。由 AE:EC=1:4、AP:PD=2:3 确定一致母图，并保持 A-E-C、A-P-D、B-P-E、B-D-C 的点序清楚；不要画 F、辅助线、相似标记、比例答案或任何解题提示。标签必须逐点错开：A 上方，B 左下，C 右下，D 下方，E 在 AC 右上侧，P 在交点左下侧；禁止标签压在线段、交点或彼此重叠。
           semantic_constraints:
             given_objects: [A, B, C, D, E, P]
             given_constraints:
@@ -64,8 +64,8 @@ sections:
               - B, D, C are collinear with D between B and C
               - A, P, D are collinear with P between A and D
               - B, P, E are collinear with P between B and E
-              - AE:EC=1:2
-              - AP:PD=3:4
+              - AE:EC=1:4
+              - AP:PD=2:3
               - show segments AE, EC, AP, PD, BP and PE clearly
             clean_forbidden:
               - do not draw point F or any auxiliary parallel line; the parallel line is the student's construction task
@@ -93,11 +93,11 @@ sections:
             diagram_kind: synthetic_geometry
             engine_options:
               engine_model_config:
-                codex_model: gpt-5.6-luna
+                codex_model: gpt-5.4
             teaching_intent: practice_solution
             problem_context:
               stem_latex: 在原图上，过 $A$ 作 $AF\parallel EP$，交直线 $BC$ 于 $F$；标出两组相似三角形 $\triangle ACF\sim\triangle ECB$、$\triangle ADF\sim\triangle PDB$。
-              source_problem_text: 复用教师第1题 prompt 的原始点位。新增点 F，使 A-F 直线平行 E-P 直线，且 F 位于直线 BC 上；完整画出 AF 和平行标记。用两组可区分的浅色轮廓或边线标出三角形 ACF 与 ECB、三角形 ADF 与 PDB。保留所有原始点，不写最终比例答案。
+              source_problem_text: 复用教师第1题 prompt 的原始点位。新增点 F，使 A-F 直线平行 E-P 直线，且 F 位于直线 BC 上；完整画出 AF 和平行标记。用两组可区分的浅色轮廓或边线标出三角形 ACF 与 ECB、三角形 ADF 与 PDB。保留所有原始点，不写最终比例答案。F 放在底边延长线左端并将标签置于左下；A 上方、B/D/C 下方错开，E 放右上、P 放左下，所有标签远离线段和高亮边界。
             semantic_constraints:
               given_objects: [A, B, C, D, E, P, F]
               given_constraints:
@@ -108,19 +108,19 @@ sections:
                 - triangle ACF is similar to triangle ECB
                 - triangle ADF is similar to triangle PDB
                 - show the auxiliary line AF and a parallel marker for AF and EP
-        answer: '$BP:PE=6:1$。'
-        explanation: '三个比在 $AC,AD,BE$ 上，围成 $\triangle AEP$。过 $A$ 作 $AF\parallel EP$，交直线 $BC$ 于 $F$。由两组相似通过 $AF$ 接比例，得到 $BP:PE=6:1$。'
+        answer: '$BP:PE=3:1$。'
+        explanation: '三个比在 $AC,AD,BE$ 上，围成 $\triangle AEP$。过 $A$ 作 $AF\parallel EP$，交直线 $BC$ 于 $F$。由两组相似通过 $AF$ 接比例，得到 $BP:PE=3:1$。'
         solution_steps:
           - title: 围三角形并确定辅助线
             content: '$AE:EC$ 在 $AC$ 上，$AP:PD$ 在 $AD$ 上，$BP:PE$ 在 $BE$ 上，三条线围成 $\triangle AEP$。过 $A$ 作 $AF\parallel EP$，交第四条比例线 $BC$ 于 $F$。'
           - title: 第一组相似
-            content: '由 $A,E,C$ 共线、$B,D,F,C$ 共线及 $AF\parallel EB$，得 $\triangle ACF\sim\triangle ECB$，所以 $AF:EB=AC:EC=3:2$。'
+            content: '由 $A,E,C$ 共线、$B,D,F,C$ 共线及 $AF\parallel EB$，得 $\triangle ACF\sim\triangle ECB$，所以 $AF:EB=AC:EC=5:4$。'
           - title: 第二组相似
-            content: '由 $A,P,D$ 共线、$B,D,F$ 共线及 $AF\parallel PB$，得 $\triangle ADF\sim\triangle PDB$。因为 $AP:PD=3:4$，所以 $AD:PD=7:4$，从而 $AF:PB=7:4$。'
+            content: '由 $A,P,D$ 共线、$B,D,F$ 共线及 $AF\parallel PB$，得 $\triangle ADF\sim\triangle PDB$。因为 $AP:PD=2:3$，所以 $AD:PD=5:3$，从而 $AF:PB=5:3$。'
           - title: 统一中间线段
-            content: '取 $AF=21$ 份，则 $EB=14$ 份、$PB=12$ 份，所以 $PE=EB-PB=2$ 份。'
+            content: '取 $AF=5$ 份，则 $EB=4$ 份、$PB=3$ 份，所以 $PE=EB-PB=1$ 份。'
           - title: 写出答案
-            content: '$BP:PE=12:2=6:1$。'
+            content: '$BP:PE=3:1$。'
         teaching:
           teaching_goal: 训练由两条已知比和所求比围出三角形，再现场决定平行线与交点。
           source_relations:
@@ -133,10 +133,10 @@ sections:
             - step: 1
               relation_id: 'fallback:approved_review:q1_aep'
               inputs:
-                AE_EC: '1:2'
-                AP_PD: '3:4'
+                AE_EC: '1:4'
+                AP_PD: '2:3'
               outputs:
-                BP_PE: '6:1'
+                BP_PE: '3:1'
               constraints_checked:
                 - '$D\in BC$，$E\in AC$，$P=AD\cap BE$'
                 - '$AF\parallel EP$ 且 $F=AF\cap BC$'
@@ -157,7 +157,7 @@ sections:
           如图，在 $\triangle ABC$ 中，点 $D$ 在线段 $BC$ 上，点 $E$ 在线段 $AC$ 上，
           线段 $AD$ 与 $BE$ 相交于点 $P$。已知
           \[
-          BP:PE=3:1,\qquad BD:DC=2:1,
+          BP:PE=5:4,\qquad BD:DC=1:2,
           \]
           求 $AE:EC$。
 
@@ -182,11 +182,11 @@ sections:
           diagram_kind: synthetic_geometry
           engine_options:
             engine_model_config:
-              codex_model: gpt-5.6-luna
+              codex_model: gpt-5.4
           teaching_intent: practice_prompt
           problem_context:
-            stem_latex: 在 $\triangle ABC$ 中，$D\in BC$，$E\in AC$，$P=AD\cap BE$。已知 $BP:PE=3:1$、$BD:DC=2:1$，求 $AE:EC$。
-            source_problem_text: 画原始三角形 ABC，D 在线段 BC 上，E 在线段 AC 上，AD 与 BE 交于 P。可采用视觉种子坐标 A=(0,6)、B=(-3,0)、C=(3,0)、D=(1,0)、E=(2,2)、P=(0.75,1.5)。只画题设构型，清楚显示 A-E-C、A-P-D、B-P-E、B-D-C 的点序；不要画 F、辅助线、相似标记、比例答案或任何解题提示。
+            stem_latex: 在 $\triangle ABC$ 中，$D\in BC$，$E\in AC$，$P=AD\cap BE$。已知 $BP:PE=5:4$、$BD:DC=1:2$，求 $AE:EC$。
+            source_problem_text: 画原始三角形 ABC，D 在线段 BC 上，E 在线段 AC 上，AD 与 BE 交于 P。由 BP:PE=5:4、BD:DC=1:2 确定一致母图，并保持 A-E-C、A-P-D、B-P-E、B-D-C 的点序清楚；不要画 F、辅助线、相似标记、比例答案或任何解题提示。标签必须逐点错开：A 上方，B 左下，C 右下，D 下方，E 在 AC 右侧，P 在交点左下侧；禁止标签压在线段、交点或彼此重叠。
           semantic_constraints:
             given_objects: [A, B, C, D, E, P]
             given_constraints:
@@ -194,8 +194,8 @@ sections:
               - B, D, C are collinear with D between B and C
               - A, P, D are collinear with P between A and D
               - B, P, E are collinear with P between B and E
-              - BP:PE=3:1
-              - BD:DC=2:1
+              - BP:PE=5:4
+              - BD:DC=1:2
               - show segments BP, PE, BD, DC, AE and EC clearly
             clean_forbidden:
               - do not draw point F or any auxiliary parallel line; the parallel line is the student's construction task
@@ -223,11 +223,11 @@ sections:
             diagram_kind: synthetic_geometry
             engine_options:
               engine_model_config:
-                codex_model: gpt-5.6-luna
+                codex_model: gpt-5.4
             teaching_intent: practice_solution
             problem_context:
               stem_latex: 在原图上，过 $E$ 作 $EF\parallel CB$，交直线 $AD$ 于 $F$；标出两组相似三角形 $\triangle AEF\sim\triangle ACD$、$\triangle PEF\sim\triangle PBD$。
-              source_problem_text: 复用教师第2题 prompt 的原始点位。新增点 F，使 E-F 直线平行 C-B 直线，且 F 位于直线 AD 上；完整画出 EF 和平行标记。用两组可区分的浅色轮廓或边线标出三角形 AEF 与 ACD、三角形 PEF 与 PBD。保留所有原始点，不写最终比例答案。
+              source_problem_text: 复用教师第2题 prompt 的原始点位。新增点 F，使 E-F 直线平行 C-B 直线，且 F 位于直线 AD 上；完整画出 EF 和平行标记。用两组可区分的浅色轮廓或边线标出三角形 AEF 与 ACD、三角形 PEF 与 PBD。保留所有原始点，不写最终比例答案。E 标签置于水平辅助线右上，F 置于左上，P 置于左下，三者分居不同象限；A/B/C/D 标签放在外侧，禁止与线或高亮边重叠。
             semantic_constraints:
               given_objects: [A, B, C, D, E, P, F]
               given_constraints:
@@ -238,19 +238,19 @@ sections:
                 - triangle AEF is similar to triangle ACD
                 - triangle PEF is similar to triangle PBD
                 - show the auxiliary line EF and a parallel marker for EF and CB
-        answer: '$AE:EC=2:1$。'
-        explanation: '三个比在 $BE,BC,AC$ 上，围成 $\triangle ECB$。过 $E$ 作 $EF\parallel CB$，交直线 $AD$ 于 $F$。由两组相似通过 $EF$ 接比例，得到 $AE:EC=2:1$。'
+        answer: '$AE:EC=2:3$。'
+        explanation: '三个比在 $BE,BC,AC$ 上，围成 $\triangle ECB$。过 $E$ 作 $EF\parallel CB$，交直线 $AD$ 于 $F$。由两组相似通过 $EF$ 接比例，得到 $AE:EC=2:3$。'
         solution_steps:
           - title: 围三角形并确定辅助线
             content: '$BP:PE$ 在 $BE$ 上，$BD:DC$ 在 $BC$ 上，$AE:EC$ 在 $AC$ 上，三条线围成 $\triangle ECB$。过 $E$ 作 $EF\parallel CB$，交第四条比例线 $AD$ 于 $F$。'
           - title: 先用 $P$ 处的相似
-            content: '由 $P,E,B$ 共线、$P,F,D$ 共线及 $EF\parallel BD$，得 $\triangle PEF\sim\triangle PBD$，所以 $EF:BD=PE:PB=1:3$。'
+            content: '由 $P,E,B$ 共线、$P,F,D$ 共线及 $EF\parallel BD$，得 $\triangle PEF\sim\triangle PBD$，所以 $EF:BD=PE:PB=4:5$。'
           - title: 接到底边比例
-            content: '由 $BD:DC=2:1$，取 $BD=6$ 份、$DC=3$ 份，则 $EF=2$ 份，所以 $EF:DC=2:3$。'
+            content: '由 $BD:DC=1:2$，取 $BD=5$ 份、$DC=10$ 份，则 $EF=4$ 份，所以 $EF:DC=2:5$。'
           - title: 再用 $A$ 处的相似
-            content: '由 $A,E,C$ 共线、$A,F,D$ 共线及 $EF\parallel CD$，得 $\triangle AEF\sim\triangle ACD$，所以 $AE:AC=EF:DC=2:3$。'
+            content: '由 $A,E,C$ 共线、$A,F,D$ 共线及 $EF\parallel CD$，得 $\triangle AEF\sim\triangle ACD$，所以 $AE:AC=EF:DC=2:5$。'
           - title: 从整段转成分段
-            content: '取 $AE=2$ 份、$AC=3$ 份，则 $EC=1$ 份，因此 $AE:EC=2:1$。'
+            content: '取 $AE=2$ 份、$AC=5$ 份，则 $EC=3$ 份，因此 $AE:EC=2:3$。'
         teaching:
           teaching_goal: 在所求比例线改变后，重新围三角形并重新选择顶点、平行方向和相交直线。
           source_relations:
@@ -263,10 +263,10 @@ sections:
             - step: 1
               relation_id: 'fallback:approved_review:q2_ecb'
               inputs:
-                BP_PE: '3:1'
-                BD_DC: '2:1'
+                BP_PE: '5:4'
+                BD_DC: '1:2'
               outputs:
-                AE_EC: '2:1'
+                AE_EC: '2:3'
               constraints_checked:
                 - '$D\in BC$，$E\in AC$，$P=AD\cap BE$'
                 - '$EF\parallel CB$ 且 $F=EF\cap AD$'
@@ -287,7 +287,7 @@ sections:
           如图，在 $\triangle ABC$ 中，点 $D$ 在线段 $BC$ 上，点 $E$ 在线段 $AC$ 上，
           线段 $AD$ 与 $BE$ 相交于点 $P$。已知
           \[
-          AP:PD=2:1,\qquad BP:PE=3:1,
+          AP:PD=3:1,\qquad BP:PE=2:1,
           \]
           求 $BD:DC$。
 
@@ -312,11 +312,11 @@ sections:
           diagram_kind: synthetic_geometry
           engine_options:
             engine_model_config:
-              codex_model: gpt-5.6-luna
+              codex_model: gpt-5.4
           teaching_intent: practice_prompt
           problem_context:
-            stem_latex: 在 $\triangle ABC$ 中，$D\in BC$，$E\in AC$，$P=AD\cap BE$。已知 $AP:PD=2:1$、$BP:PE=3:1$，求 $BD:DC$。
-            source_problem_text: 画原始三角形 ABC，D 在线段 BC 上，E 在线段 AC 上，AD 与 BE 交于 P。可采用视觉种子坐标 A=(0,8)、B=(-3,0)、C=(5,0)、D=(2,0)、E=(2.778,3.556)、P=(1.333,2.667)。只画题设构型，清楚显示 A-E-C、A-P-D、B-P-E、B-D-C 的点序；不要画 F、辅助线、相似标记、比例答案或任何解题提示。
+            stem_latex: 在 $\triangle ABC$ 中，$D\in BC$，$E\in AC$，$P=AD\cap BE$。已知 $AP:PD=3:1$、$BP:PE=2:1$，求 $BD:DC$。
+            source_problem_text: 画原始三角形 ABC，D 在线段 BC 上，E 在线段 AC 上，AD 与 BE 交于 P。由 AP:PD=3:1、BP:PE=2:1 确定一致母图，并保持 A-E-C、A-P-D、B-P-E、B-D-C 的点序清楚；不要画 F、辅助线、相似标记、比例答案或任何解题提示。标签必须逐点错开：A 上方，B 左下，C 右下，D 下方，E 在 AC 右上侧，P 在交点左下侧；禁止标签压在线段、交点或彼此重叠。
           semantic_constraints:
             given_objects: [A, B, C, D, E, P]
             given_constraints:
@@ -324,8 +324,8 @@ sections:
               - B, D, C are collinear with D between B and C
               - A, P, D are collinear with P between A and D
               - B, P, E are collinear with P between B and E
-              - AP:PD=2:1
-              - BP:PE=3:1
+              - AP:PD=3:1
+              - BP:PE=2:1
               - show segments AP, PD, BP, PE, BD and DC clearly
             clean_forbidden:
               - do not draw point F or any auxiliary parallel line; the parallel line is the student's construction task
@@ -353,11 +353,11 @@ sections:
             diagram_kind: synthetic_geometry
             engine_options:
               engine_model_config:
-                codex_model: gpt-5.6-luna
+                codex_model: gpt-5.4
             teaching_intent: practice_solution
             problem_context:
               stem_latex: 在原图上，过 $P$ 作 $PF\parallel DB$，交直线 $AC$ 于 $F$；标出两组相似三角形 $\triangle APF\sim\triangle ADC$、$\triangle EPF\sim\triangle EBC$。
-              source_problem_text: 复用教师第3题 prompt 的原始点位。新增点 F，使 P-F 直线平行 D-B 直线，且 F 位于直线 AC 上；完整画出 PF 和平行标记。用两组可区分的浅色轮廓或边线标出三角形 APF 与 ADC、三角形 EPF 与 EBC。保留所有原始点，不写最终比例答案。
+              source_problem_text: 复用教师第3题 prompt 的原始点位。新增点 F，使 P-F 直线平行 D-B 直线，且 F 位于直线 AC 上；完整画出 PF 和平行标记。用两组可区分的浅色轮廓或边线标出三角形 APF 与 ADC、三角形 EPF 与 EBC。保留所有原始点，不写最终比例答案。E 与 F 同在 AC 上，必须把 E 标签放在右上、F 放在右下，P 放在水平辅助线左下；A/B/C/D 标签保持外置，任何标签不得叠在线段或高亮边上。
             semantic_constraints:
               given_objects: [A, B, C, D, E, P, F]
               given_constraints:
@@ -368,19 +368,19 @@ sections:
                 - triangle APF is similar to triangle ADC
                 - triangle EPF is similar to triangle EBC
                 - show the auxiliary line PF and a parallel marker for PF and DB
-        answer: '$BD:DC=5:3$。'
-        explanation: '三个比在 $AD,BE,BC$ 上，围成 $\triangle PDB$。过 $P$ 作 $PF\parallel DB$，交直线 $AC$ 于 $F$。由两组相似通过 $PF$ 接比例，得到 $BD:DC=5:3$。'
+        answer: '$BD:DC=5:4$。'
+        explanation: '三个比在 $AD,BE,BC$ 上，围成 $\triangle PDB$。过 $P$ 作 $PF\parallel DB$，交直线 $AC$ 于 $F$。由两组相似通过 $PF$ 接比例，得到 $BD:DC=5:4$。'
         solution_steps:
           - title: 围三角形并确定辅助线
             content: '$AP:PD$ 在 $AD$ 上，$BP:PE$ 在 $BE$ 上，$BD:DC$ 在 $BC$ 上，三条线围成 $\triangle PDB$。过 $P$ 作 $PF\parallel DB$，交第四条比例线 $AC$ 于 $F$。'
           - title: 用 $A$ 处的相似
-            content: '由 $A,P,D$ 共线、$A,F,C$ 共线及 $PF\parallel DC$，得 $\triangle APF\sim\triangle ADC$。因为 $AP:PD=2:1$，所以 $AP:AD=2:3$，从而 $PF:DC=2:3$。'
+            content: '由 $A,P,D$ 共线、$A,F,C$ 共线及 $PF\parallel DC$，得 $\triangle APF\sim\triangle ADC$。因为 $AP:PD=3:1$，所以 $AP:AD=3:4$，从而 $PF:DC=3:4$。'
           - title: 用 $E$ 处的相似
-            content: '由 $E,P,B$ 共线、$E,F,C$ 共线及 $PF\parallel BC$，得 $\triangle EPF\sim\triangle EBC$。因为 $BP:PE=3:1$，所以 $PE:BE=1:4$，从而 $PF:BC=1:4$。'
+            content: '由 $E,P,B$ 共线、$E,F,C$ 共线及 $PF\parallel BC$，得 $\triangle EPF\sim\triangle EBC$。因为 $BP:PE=2:1$，所以 $PE:BE=1:3$，从而 $PF:BC=1:3$。'
           - title: 统一中间线段
-            content: '取 $PF=2$ 份。由 $PF:DC=2:3$ 得 $DC=3$ 份；由 $PF:BC=1:4$ 得 $BC=8$ 份。'
+            content: '取 $PF=3$ 份。由 $PF:DC=3:4$ 得 $DC=4$ 份；由 $PF:BC=1:3$ 得 $BC=9$ 份。'
           - title: 写出答案
-            content: '$BD=BC-DC=5$ 份，所以 $BD:DC=5:3$。'
+            content: '$BD=BC-DC=5$ 份，所以 $BD:DC=5:4$。'
         teaching:
           teaching_goal: 在两个已知比都在内部交线附近时，仍从三条比例线围成的三角形反推出辅助线。
           source_relations:
@@ -393,10 +393,10 @@ sections:
             - step: 1
               relation_id: 'fallback:approved_review:q3_pdb'
               inputs:
-                AP_PD: '2:1'
-                BP_PE: '3:1'
+                AP_PD: '3:1'
+                BP_PE: '2:1'
               outputs:
-                BD_DC: '5:3'
+                BD_DC: '5:4'
               constraints_checked:
                 - '$D\in BC$，$E\in AC$，$P=AD\cap BE$'
                 - '$PF\parallel DB$ 且 $F=PF\cap AC$'

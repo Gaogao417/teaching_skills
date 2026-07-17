@@ -1,0 +1,46 @@
+meta:
+  title: 子母型相似 · Q018 · 学生版
+  grade: 八年级
+  subject: 数学
+  total_points: 10
+  version: student
+  show_answers: false
+  source_artifacts:
+    explanation: ../../专题/2026-07-14-子母型相似比与对应边/02-student-explanation.resolved.assignment.yaml
+    diagram_policy: 一题一张独立 prompt 图；题图不泄露相似结论或答案
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: question
+  title: 专题题
+  type: practice
+  visibility: student
+  blocks:
+  - type: problem
+    id: Q018
+    points: 10
+    label: 先写对应关系再求边
+    stem_latex: '如图，在 $\triangle ABC$ 中，$\angle ABD=\angle ACB$。
+
+
+      已知 $AB=\sqrt{3}$，$AC=\sqrt{21}$，$BD=\sqrt{3}$。写出三组对应边及相似比，并求 $BC$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-nested-q018-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.nested.q018.prompt
+      diagram_job_id: question_bank-nested-q018-prompt
+      width: 60mm
+      caption: 先确认对应边，再判断题中的线段是否属于相似三角形。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:cfa9bafd054df567d510d9fa3b8ca2c790e966c4b1b1d1d5b4d54e4404c65b21
+      packages:
+      - tikz
+      libraries: []

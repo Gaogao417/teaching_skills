@@ -1,0 +1,154 @@
+meta:
+  title: 三边求第四边 · Q027 · 教师版
+  grade: 八年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    explanation: ../../../../专题/2026-07-12-平行线对应边比例-待审核/02-student-explanation.resolved.assignment.yaml
+    diagram_policy: 一题一张独立 prompt 图；AB/CD 轴对齐，本批统一水平
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: question
+  title: 专题题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q027
+    points: 10
+    label: 已知三边求第四边
+    stem_latex: '如图，$P,A,C$ 三点共线，$P,B,D$ 三点共线，点序分别为 $P-A-C$、$P-B-D$，且 $AB\parallel CD$。
+
+      已知 $PB=16$，$PD=30$，$PC=30$，求 $PA$。'
+    hints: []
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 4
+    answer: $PA=16$。
+    explanation: 已知边与未知边都不在平行线段 $AB,CD$ 上，求两侧对应线段的比。先算 $\dfrac{PB}{PD}=\dfrac{16}{30}=\dfrac{8}{15}$。约分后，$PA$ 对应 8 份，$PC$ 对应 15 份。$PA=PC\times\dfrac{8}{15}=30\times\dfrac{8}{15}=16$。
+    solution_steps:
+    - title: 先判断
+      content: 已知边与未知边都不在平行线段 $AB,CD$ 上，求两侧对应线段的比。
+    - title: 计算并约分
+      content: $\dfrac{PB}{PD}=\dfrac{16}{30}=\dfrac{8}{15}$。
+    - title: 标份数
+      content: 约分后，$PA$ 对应 8 份，$PC$ 对应 15 份。
+    - title: 按份数公式求边
+      content: $PA=PC\times\dfrac{8}{15}=30\times\dfrac{8}{15}=16$。
+    teaching:
+      teaching_goal: 已知三条对应边，先判断比例类型，再标份数求第四边
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      expected_blocker: 没有先判断是否涉及平行线段，直接乱配比例。
+      entry_point: classify_ratio_then_mark_shares
+      scaffold_level: low
+      variation_depth: changed_representation
+      complexity_note: 恰好给三条线段长度，只求第四条；比例可约分且答案为整数。
+      fallback_move: 圈出未知边及其对应的已知边，再标约分后的份数。
+    diagram_slot:
+      slot_id: question-bank-three-known-q027-prompt
+      diagram_ref: question.bank.three.known.q027.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 先看平行边方向，再判断 A 字型或 8 字型及对应边。
+      engine: geometric_scene
+      diagram_kind: synthetic_geometry
+      engine_options:
+        seed: 42027
+        scene_payload:
+          scene_code: GeometricScene[{P,A,B,C,D},{Element[A,Line[{P,C}]],Element[B,Line[{P,D}]],15 EuclideanDistance[P,A]==8 EuclideanDistance[P,C],15 EuclideanDistance[P,B]==8 EuclideanDistance[P,D],EuclideanDistance[C,D]==9,GeometricAssertion[{Line[{A,B}],Line[{C,D}]},"Parallel"],GeometricAssertion[Line[{C,D}],"Horizontal"],GeometricAssertion[Line[{C,D}],"Rightward"],GeometricAssertion[{C,D,P},"Counterclockwise"],TriangleMeasurement[{P,C,D},{"InteriorAngle",C}]>30 Degree,TriangleMeasurement[{P,C,D},{"InteriorAngle",D}]>30 Degree}]
+          points:
+          - P
+          - A
+          - B
+          - C
+          - D
+          point_roles:
+            anchors:
+            - P
+            - C
+            - D
+            constructed:
+            - A
+            - B
+            auxiliary: []
+          diagram_spec:
+            type: synthetic_geometry
+            segments:
+            - from: P
+              to: C
+            - from: P
+              to: D
+            - from: A
+              to: B
+            - from: C
+              to: D
+            polygons: []
+            markers:
+            - type: parallel
+              segments:
+              - - A
+                - B
+              - - C
+                - D
+            labels:
+              P:
+                text: P
+                placement: above
+              A:
+                text: A
+                placement: left
+              B:
+                text: B
+                placement: right
+              C:
+                text: C
+                placement: below left
+              D:
+                text: D
+                placement: below right
+            constraints:
+            - exact order P-A-C
+            - exact order P-B-D
+            - AB parallel CD
+            - AB and CD horizontal
+            teaching_focus:
+            - 区分平行边比例与两侧对应边比例
+            - AB/CD 保持水平
+          rationale: 固定 P 与水平底边 CD 作为最少版面锚点；A、B 的内分位置和平行关系由 GeometricScene 原生约束求解。
+          model_used: deterministic-three-known-parallel-template
+          model_attempts: []
+      teaching_intent: practice_prompt
+      problem_context:
+        stem_latex: '如图，$P,A,C$ 三点共线，$P,B,D$ 三点共线，点序分别为 $P-A-C$、$P-B-D$，且 $AB\parallel CD$。
+
+          已知 $PB=16$，$PD=30$，$PC=30$，求 $PA$。'
+        source_problem_text: 绘制 A 字型嵌套三角形。AB 与 CD 必须水平且互相平行；P-A-C、P-B-D 点序准确。 学生图只标点名和平行符号，不写数值、份数、比例式或答案。
+      semantic_constraints:
+        given_objects:
+        - P
+        - A
+        - B
+        - C
+        - D
+        given_constraints:
+        - exact order P-A-C
+        - exact order P-B-D
+        - AB parallel CD
+        - AB and CD horizontal
+        - each item has its own diagram job
+        clean_forbidden:
+        - do not show the final answer
+        - do not label similar triangles
+        - do not write share counts

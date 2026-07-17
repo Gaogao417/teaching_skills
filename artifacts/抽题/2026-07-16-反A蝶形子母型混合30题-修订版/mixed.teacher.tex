@@ -1,0 +1,855 @@
+\documentclass{exam-zh}
+\usepackage{edu-practice}
+
+\examsetup{
+  question/show-answer = true,
+  fillin/show-answer = true,
+  solution/show-solution = show-stay,
+}
+
+% ---------- 教师版解答样式 ----------
+\newtcolorbox{solutionblock}{
+  enhanced, breakable,
+  colback=edu-blue-bg,
+  colframe=edu-blue!25,
+  boxrule=0pt,
+  borderline west={2pt}{0pt}{edu-blue!50},
+  arc=0pt,
+  left=3mm, right=3mm, top=2mm, bottom=2mm,
+  before skip=2mm,
+  after skip=3mm,
+  fontupper=\small,
+}
+
+% 解答步骤编号
+\newcounter{solstep}
+\newcommand{\solstep}[2]{%
+  \stepcounter{solstep}%
+  \par\medskip
+  \noindent\hangindent=6mm
+  {\color{edu-blue}\bfseries\textcircled{\scriptsize\thesolstep}\enspace #1}\enspace #2\par
+}
+
+\begin{document}
+
+\section*{反A形、蝶形、子母型相似混合练习（30题） · 教师版}
+
+\section*{相似模型混合练习}
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，$\angle PAB=\angle PDC$。
+
+已知 $AB=\frac{10}{9}$，$DC=\frac{50}{9}$，$PA=\frac{10}{9}$，求 $PD$。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{沿题设等角的顶点顺序，找出两组三角形的对应边。}
+  \input{\detokenize{../../题库/2026-07-16-反A形相似/items/Q017/build/diagram/jobs/question_bank-reverse_a-q017-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[48mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$PD=\frac{50}{9}$。\par\medskip
+    \solstep{见等角，找相似}{由题设等角和构型自带的第二组等角，得 $\triangle PAB\sim\triangle PDC$。}
+    \solstep{按顶点写对应边}{三组小边与大边依次为：$PA\leftrightarrow PD$，$PB\leftrightarrow PC$，$AB\leftrightarrow DC$。}
+    \solstep{保持比例方向一致}{取 小三角形边与大三角形对应边之比，可列 $\dfrac{AB}{DC}=\dfrac{PA}{PD}$。}
+    \solstep{代入并验算}{代入已知量解得 $PD=\frac{50}{9}$；两组对应边的比均等于同一相似比。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，$\angle OAC=\angle ODB$。
+
+已知 $AC=\sqrt{7}$，$DB=\sqrt{70}$，$OC=2\sqrt{7}$，求 $OB$。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{先用对顶角补齐第二组等角，再按顶点顺序配边。}
+  \input{\detokenize{../../题库/2026-07-16-蝶形相似/items/Q022/build/diagram/jobs/question_bank-butterfly-q022-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[48mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$OB=2\sqrt{70}$。\par\medskip
+    \solstep{见等角，找相似}{由题设等角和构型自带的第二组等角，得 $\triangle AOC\sim\triangle DOB$。}
+    \solstep{按顶点写对应边}{三组小边与大边依次为：$AO\leftrightarrow OD$，$OC\leftrightarrow OB$，$AC\leftrightarrow DB$。}
+    \solstep{保持比例方向一致}{取 小三角形边与大三角形对应边之比，可列 $\dfrac{AC}{DB}=\dfrac{OC}{OB}$。}
+    \solstep{代入并验算}{代入已知量解得 $OB=2\sqrt{70}$；两组对应边的比均等于同一相似比。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，在 $\triangle ABC$ 中，$\angle ABD=\angle ACB$。
+
+已知 $BD=\frac{3}{10}$，$BC=\frac{3}{5}$，$AC=\frac{3}{5}$。求证 $\triangle ABD\sim\triangle ACB$，并求 $AB$。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{先确认对应边，再判断题中的线段是否属于相似三角形。}
+  \input{\detokenize{../../题库/2026-07-16-子母型相似/items/Q015/build/diagram/jobs/question_bank-nested-q015-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[48mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$AB=\frac{3}{10}$。\par\medskip
+    \solstep{见等角，找相似}{由题设等角和构型自带的第二组等角，得 $\triangle ABD\sim\triangle ACB$。}
+    \solstep{按顶点写对应边}{三组小边与大边依次为：$AB\leftrightarrow AC$，$AD\leftrightarrow AB$，$BD\leftrightarrow BC$。}
+    \solstep{保持比例方向一致}{取 大三角形边与小三角形对应边之比，可列 $\dfrac{BC}{BD}=\dfrac{AC}{AB}$。}
+    \solstep{代入并验算}{代入已知量解得 $AB=\frac{3}{10}$；两组对应边的比均等于同一相似比。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，$\angle PAB=\angle PDC$。
+
+已知 $PA=\sqrt{6}$，$PD=4\sqrt{3}$，$AB=\sqrt{6}$，求 $DC$。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{沿题设等角的顶点顺序，找出两组三角形的对应边。}
+  \input{\detokenize{../../题库/2026-07-16-反A形相似/items/Q006/build/diagram/jobs/question_bank-reverse_a-q006-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[48mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$DC=4\sqrt{3}$。\par\medskip
+    \solstep{见等角，找相似}{由题设等角和构型自带的第二组等角，得 $\triangle PAB\sim\triangle PDC$。}
+    \solstep{按顶点写对应边}{三组小边与大边依次为：$PA\leftrightarrow PD$，$PB\leftrightarrow PC$，$AB\leftrightarrow DC$。}
+    \solstep{保持比例方向一致}{取 小三角形边与大三角形对应边之比，可列 $\dfrac{PA}{PD}=\dfrac{AB}{DC}$。}
+    \solstep{代入并验算}{代入已知量解得 $DC=4\sqrt{3}$；两组对应边的比均等于同一相似比。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，$\angle PAB=\angle PDC$。
+
+已知 $AB=\frac{9}{8}$，$DC=\frac{27}{8}$，$PD=\frac{27}{8}$。求证 $\triangle PAB\sim\triangle PDC$，并求 $PA$。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{沿题设等角的顶点顺序，找出两组三角形的对应边。}
+  \input{\detokenize{../../题库/2026-07-16-反A形相似/items/Q043/build/diagram/jobs/question_bank-reverse_a-q043-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[48mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$PA=\frac{9}{8}$。\par\medskip
+    \solstep{见等角，找相似}{由题设等角和构型自带的第二组等角，得 $\triangle PAB\sim\triangle PDC$。}
+    \solstep{按顶点写对应边}{三组小边与大边依次为：$PA\leftrightarrow PD$，$PB\leftrightarrow PC$，$AB\leftrightarrow DC$。}
+    \solstep{保持比例方向一致}{取 大三角形边与小三角形对应边之比，可列 $\dfrac{DC}{AB}=\dfrac{PD}{PA}$。}
+    \solstep{代入并验算}{代入已知量解得 $PA=\frac{9}{8}$；两组对应边的比均等于同一相似比。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，$\angle PAB=\angle PDC$。
+
+已知 $AB=\sqrt{6}$，$DC=2\sqrt{15}$，$PD=2\sqrt{15}$，求 $PA$。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{沿题设等角的顶点顺序，找出两组三角形的对应边。}
+  \input{\detokenize{../../题库/2026-07-16-反A形相似/items/Q020/build/diagram/jobs/question_bank-reverse_a-q020-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[48mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$PA=\sqrt{6}$。\par\medskip
+    \solstep{见等角，找相似}{由题设等角和构型自带的第二组等角，得 $\triangle PAB\sim\triangle PDC$。}
+    \solstep{按顶点写对应边}{三组小边与大边依次为：$PA\leftrightarrow PD$，$PB\leftrightarrow PC$，$AB\leftrightarrow DC$。}
+    \solstep{保持比例方向一致}{取 大三角形边与小三角形对应边之比，可列 $\dfrac{DC}{AB}=\dfrac{PD}{PA}$。}
+    \solstep{代入并验算}{代入已知量解得 $PA=\sqrt{6}$；两组对应边的比均等于同一相似比。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，在 $\triangle ABC$ 中，$\angle ABD=\angle ACB$。
+
+已知 $AB=\sqrt{7}$，$AC=\sqrt{35}$，$BC=\sqrt{35}$。求证 $\triangle ABD\sim\triangle ACB$，并求 $BD$。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{先确认对应边，再判断题中的线段是否属于相似三角形。}
+  \input{\detokenize{../../题库/2026-07-16-子母型相似/items/Q012/build/diagram/jobs/question_bank-nested-q012-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[48mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$BD=\sqrt{7}$。\par\medskip
+    \solstep{见等角，找相似}{由题设等角和构型自带的第二组等角，得 $\triangle ABD\sim\triangle ACB$。}
+    \solstep{按顶点写对应边}{三组小边与大边依次为：$AB\leftrightarrow AC$，$AD\leftrightarrow AB$，$BD\leftrightarrow BC$。}
+    \solstep{保持比例方向一致}{取 大三角形边与小三角形对应边之比，可列 $\dfrac{AC}{AB}=\dfrac{BC}{BD}$。}
+    \solstep{代入并验算}{代入已知量解得 $BD=\sqrt{7}$；两组对应边的比均等于同一相似比。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，$\angle OAC=\angle ODB$。
+
+已知 $AC=\frac{2}{9}$，$DB=\frac{4}{3}$，$OB=\frac{2}{3}$。求证 $\triangle AOC\sim\triangle DOB$，并求 $OC$。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{先用对顶角补齐第二组等角，再按顶点顺序配边。}
+  \input{\detokenize{../../题库/2026-07-16-蝶形相似/items/Q047/build/diagram/jobs/question_bank-butterfly-q047-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[48mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$OC=\frac{1}{9}$。\par\medskip
+    \solstep{见等角，找相似}{由题设等角和构型自带的第二组等角，得 $\triangle AOC\sim\triangle DOB$。}
+    \solstep{按顶点写对应边}{三组小边与大边依次为：$AO\leftrightarrow OD$，$OC\leftrightarrow OB$，$AC\leftrightarrow DB$。}
+    \solstep{保持比例方向一致}{取 大三角形边与小三角形对应边之比，可列 $\dfrac{DB}{AC}=\dfrac{OB}{OC}$。}
+    \solstep{代入并验算}{代入已知量解得 $OC=\frac{1}{9}$；两组对应边的比均等于同一相似比。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，在 $\triangle ABC$ 中，$\angle ABD=\angle ACB$。
+
+已知 $BD=\sqrt{3}$，$BC=3\sqrt{2}$，$AB=\sqrt{3}$，求 $AC$。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{先确认对应边，再判断题中的线段是否属于相似三角形。}
+  \input{\detokenize{../../题库/2026-07-16-子母型相似/items/Q038/build/diagram/jobs/question_bank-nested-q038-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[48mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$AC=3\sqrt{2}$。\par\medskip
+    \solstep{见等角，找相似}{由题设等角和构型自带的第二组等角，得 $\triangle ABD\sim\triangle ACB$。}
+    \solstep{按顶点写对应边}{三组小边与大边依次为：$AB\leftrightarrow AC$，$AD\leftrightarrow AB$，$BD\leftrightarrow BC$。}
+    \solstep{保持比例方向一致}{取 小三角形边与大三角形对应边之比，可列 $\dfrac{BD}{BC}=\dfrac{AB}{AC}$。}
+    \solstep{代入并验算}{代入已知量解得 $AC=3\sqrt{2}$；两组对应边的比均等于同一相似比。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，在 $\triangle ABC$ 中，$\angle ABD=\angle ACB$。
+
+已知 $AB=\sqrt{7}$，$AC=2\sqrt{14}$，$BD=\sqrt{7}$。先证明 $\triangle ABD\sim\triangle ACB$，再写出对应关系并求 $BC$。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{先确认对应边，再判断题中的线段是否属于相似三角形。}
+  \input{\detokenize{../../题库/2026-07-16-子母型相似/items/Q026/build/diagram/jobs/question_bank-nested-q026-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[48mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$BC=2\sqrt{14}$。\par\medskip
+    \solstep{见等角，找相似}{由题设等角和构型自带的第二组等角，得 $\triangle ABD\sim\triangle ACB$。}
+    \solstep{按顶点写对应边}{三组小边与大边依次为：$AB\leftrightarrow AC$，$AD\leftrightarrow AB$，$BD\leftrightarrow BC$。}
+    \solstep{保持比例方向一致}{取 小三角形边与大三角形对应边之比，可列 $\dfrac{AB}{AC}=\dfrac{BD}{BC}$。}
+    \solstep{代入并验算}{代入已知量解得 $BC=2\sqrt{14}$；两组对应边的比均等于同一相似比。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，$\angle PAB=\angle PDC$。
+
+已知 $AB=\frac{7}{2}$，$DC=\frac{21}{2}$，$PA=\frac{7}{2}$。求证 $\triangle PAB\sim\triangle PDC$，并求 $PD$。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{沿题设等角的顶点顺序，找出两组三角形的对应边。}
+  \input{\detokenize{../../题库/2026-07-16-反A形相似/items/Q041/build/diagram/jobs/question_bank-reverse_a-q041-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[48mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$PD=\frac{21}{2}$。\par\medskip
+    \solstep{见等角，找相似}{由题设等角和构型自带的第二组等角，得 $\triangle PAB\sim\triangle PDC$。}
+    \solstep{按顶点写对应边}{三组小边与大边依次为：$PA\leftrightarrow PD$，$PB\leftrightarrow PC$，$AB\leftrightarrow DC$。}
+    \solstep{保持比例方向一致}{取 小三角形边与大三角形对应边之比，可列 $\dfrac{AB}{DC}=\dfrac{PA}{PD}$。}
+    \solstep{代入并验算}{代入已知量解得 $PD=\frac{21}{2}$；两组对应边的比均等于同一相似比。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，$\angle PAB=\angle PDC$。
+
+已知 $PA=\frac{7}{9}$，$PD=\frac{28}{9}$，$PC=\frac{28}{9}$。求证 $\triangle PAB\sim\triangle PDC$，并求 $PB$。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{沿题设等角的顶点顺序，找出两组三角形的对应边。}
+  \input{\detokenize{../../题库/2026-07-16-反A形相似/items/Q027/build/diagram/jobs/question_bank-reverse_a-q027-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[48mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$PB=\frac{7}{9}$。\par\medskip
+    \solstep{见等角，找相似}{由题设等角和构型自带的第二组等角，得 $\triangle PAB\sim\triangle PDC$。}
+    \solstep{按顶点写对应边}{三组小边与大边依次为：$PA\leftrightarrow PD$，$PB\leftrightarrow PC$，$AB\leftrightarrow DC$。}
+    \solstep{保持比例方向一致}{取 大三角形边与小三角形对应边之比，可列 $\dfrac{PD}{PA}=\dfrac{PC}{PB}$。}
+    \solstep{代入并验算}{代入已知量解得 $PB=\frac{7}{9}$；两组对应边的比均等于同一相似比。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，$\angle OAC=\angle ODB$。
+
+已知 $OC=\sqrt{6}$，$OB=\sqrt{30}$，$OD=4\sqrt{30}$。求证 $\triangle AOC\sim\triangle DOB$，并求 $AO$。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{先用对顶角补齐第二组等角，再按顶点顺序配边。}
+  \input{\detokenize{../../题库/2026-07-16-蝶形相似/items/Q036/build/diagram/jobs/question_bank-butterfly-q036-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[48mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$AO=4\sqrt{6}$。\par\medskip
+    \solstep{见等角，找相似}{由题设等角和构型自带的第二组等角，得 $\triangle AOC\sim\triangle DOB$。}
+    \solstep{按顶点写对应边}{三组小边与大边依次为：$AO\leftrightarrow OD$，$OC\leftrightarrow OB$，$AC\leftrightarrow DB$。}
+    \solstep{保持比例方向一致}{取 大三角形边与小三角形对应边之比，可列 $\dfrac{OB}{OC}=\dfrac{OD}{AO}$。}
+    \solstep{代入并验算}{代入已知量解得 $AO=4\sqrt{6}$；两组对应边的比均等于同一相似比。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，$\angle PAB=\angle PDC$。
+
+已知 $PB=2\sqrt{2}$，$PC=2\sqrt{14}$，$AB=2\sqrt{2}$，求 $DC$。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{沿题设等角的顶点顺序，找出两组三角形的对应边。}
+  \input{\detokenize{../../题库/2026-07-16-反A形相似/items/Q014/build/diagram/jobs/question_bank-reverse_a-q014-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[48mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$DC=2\sqrt{14}$。\par\medskip
+    \solstep{见等角，找相似}{由题设等角和构型自带的第二组等角，得 $\triangle PAB\sim\triangle PDC$。}
+    \solstep{按顶点写对应边}{三组小边与大边依次为：$PA\leftrightarrow PD$，$PB\leftrightarrow PC$，$AB\leftrightarrow DC$。}
+    \solstep{保持比例方向一致}{取 小三角形边与大三角形对应边之比，可列 $\dfrac{PB}{PC}=\dfrac{AB}{DC}$。}
+    \solstep{代入并验算}{代入已知量解得 $DC=2\sqrt{14}$；两组对应边的比均等于同一相似比。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，$\angle OAC=\angle ODB$。
+
+已知 $OC=\sqrt{5}$，$OB=2\sqrt{10}$，$OD=4\sqrt{10}$，求 $AO$。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{先用对顶角补齐第二组等角，再按顶点顺序配边。}
+  \input{\detokenize{../../题库/2026-07-16-蝶形相似/items/Q012/build/diagram/jobs/question_bank-butterfly-q012-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[48mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$AO=2\sqrt{5}$。\par\medskip
+    \solstep{见等角，找相似}{由题设等角和构型自带的第二组等角，得 $\triangle AOC\sim\triangle DOB$。}
+    \solstep{按顶点写对应边}{三组小边与大边依次为：$AO\leftrightarrow OD$，$OC\leftrightarrow OB$，$AC\leftrightarrow DB$。}
+    \solstep{保持比例方向一致}{取 大三角形边与小三角形对应边之比，可列 $\dfrac{OB}{OC}=\dfrac{OD}{AO}$。}
+    \solstep{代入并验算}{代入已知量解得 $AO=2\sqrt{5}$；两组对应边的比均等于同一相似比。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，$\angle PAB=\angle PDC$。
+
+已知 $PA=\frac{3}{10}$，$PD=\frac{9}{5}$，$PB=\frac{3}{10}$。写出三组对应边及相似比，并求 $PC$。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{沿题设等角的顶点顺序，找出两组三角形的对应边。}
+  \input{\detokenize{../../题库/2026-07-16-反A形相似/items/Q049/build/diagram/jobs/question_bank-reverse_a-q049-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[48mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$PC=\frac{9}{5}$。\par\medskip
+    \solstep{见等角，找相似}{由题设等角和构型自带的第二组等角，得 $\triangle PAB\sim\triangle PDC$。}
+    \solstep{按顶点写对应边}{三组小边与大边依次为：$PA\leftrightarrow PD$，$PB\leftrightarrow PC$，$AB\leftrightarrow DC$。}
+    \solstep{保持比例方向一致}{取 小三角形边与大三角形对应边之比，可列 $\dfrac{PA}{PD}=\dfrac{PB}{PC}$。}
+    \solstep{代入并验算}{代入已知量解得 $PC=\frac{9}{5}$；两组对应边的比均等于同一相似比。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，$\angle OAC=\angle ODB$。
+
+已知 $AO=\sqrt{10}$，$OD=2\sqrt{15}$，$OB=\sqrt{15}$。求证 $\triangle AOC\sim\triangle DOB$，并求 $OC$。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{先用对顶角补齐第二组等角，再按顶点顺序配边。}
+  \input{\detokenize{../../题库/2026-07-16-蝶形相似/items/Q028/build/diagram/jobs/question_bank-butterfly-q028-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[48mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$OC=\frac{1}{2}\sqrt{10}$。\par\medskip
+    \solstep{见等角，找相似}{由题设等角和构型自带的第二组等角，得 $\triangle AOC\sim\triangle DOB$。}
+    \solstep{按顶点写对应边}{三组小边与大边依次为：$AO\leftrightarrow OD$，$OC\leftrightarrow OB$，$AC\leftrightarrow DB$。}
+    \solstep{保持比例方向一致}{取 大三角形边与小三角形对应边之比，可列 $\dfrac{OD}{AO}=\dfrac{OB}{OC}$。}
+    \solstep{代入并验算}{代入已知量解得 $OC=\frac{1}{2}\sqrt{10}$；两组对应边的比均等于同一相似比。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，在 $\triangle ABC$ 中，$\angle ABD=\angle ACB$。
+
+已知 $BD=\frac{2}{5}$，$BC=\frac{8}{5}$，$AB=\frac{2}{5}$。求证 $\triangle ABD\sim\triangle ACB$，并求 $AC$。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{先确认对应边，再判断题中的线段是否属于相似三角形。}
+  \input{\detokenize{../../题库/2026-07-16-子母型相似/items/Q045/build/diagram/jobs/question_bank-nested-q045-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[48mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$AC=\frac{8}{5}$。\par\medskip
+    \solstep{见等角，找相似}{由题设等角和构型自带的第二组等角，得 $\triangle ABD\sim\triangle ACB$。}
+    \solstep{按顶点写对应边}{三组小边与大边依次为：$AB\leftrightarrow AC$，$AD\leftrightarrow AB$，$BD\leftrightarrow BC$。}
+    \solstep{保持比例方向一致}{取 小三角形边与大三角形对应边之比，可列 $\dfrac{BD}{BC}=\dfrac{AB}{AC}$。}
+    \solstep{代入并验算}{代入已知量解得 $AC=\frac{8}{5}$；两组对应边的比均等于同一相似比。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，$\angle PAB=\angle PDC$。
+
+已知 $AB=\sqrt{5}$，$DC=5\sqrt{2}$，$PA=\sqrt{5}$。求证 $\triangle PAB\sim\triangle PDC$，并求 $PD$。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{沿题设等角的顶点顺序，找出两组三角形的对应边。}
+  \input{\detokenize{../../题库/2026-07-16-反A形相似/items/Q042/build/diagram/jobs/question_bank-reverse_a-q042-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[48mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$PD=5\sqrt{2}$。\par\medskip
+    \solstep{见等角，找相似}{由题设等角和构型自带的第二组等角，得 $\triangle PAB\sim\triangle PDC$。}
+    \solstep{按顶点写对应边}{三组小边与大边依次为：$PA\leftrightarrow PD$，$PB\leftrightarrow PC$，$AB\leftrightarrow DC$。}
+    \solstep{保持比例方向一致}{取 小三角形边与大三角形对应边之比，可列 $\dfrac{AB}{DC}=\dfrac{PA}{PD}$。}
+    \solstep{代入并验算}{代入已知量解得 $PD=5\sqrt{2}$；两组对应边的比均等于同一相似比。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，$\angle OAC=\angle ODB$。
+
+已知 $AC=\frac{7}{10}$，$DB=\frac{21}{5}$，$OD=\frac{63}{10}$，求 $AO$。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{先用对顶角补齐第二组等角，再按顶点顺序配边。}
+  \input{\detokenize{../../题库/2026-07-16-蝶形相似/items/Q019/build/diagram/jobs/question_bank-butterfly-q019-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[48mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$AO=\frac{21}{20}$。\par\medskip
+    \solstep{见等角，找相似}{由题设等角和构型自带的第二组等角，得 $\triangle AOC\sim\triangle DOB$。}
+    \solstep{按顶点写对应边}{三组小边与大边依次为：$AO\leftrightarrow OD$，$OC\leftrightarrow OB$，$AC\leftrightarrow DB$。}
+    \solstep{保持比例方向一致}{取 大三角形边与小三角形对应边之比，可列 $\dfrac{DB}{AC}=\dfrac{OD}{AO}$。}
+    \solstep{代入并验算}{代入已知量解得 $AO=\frac{21}{20}$；两组对应边的比均等于同一相似比。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，$\angle OAC=\angle ODB$。
+
+已知 $OC=\frac{4}{9}$，$OB=\frac{8}{3}$，$OD=\frac{32}{3}$。求证 $\triangle AOC\sim\triangle DOB$，并求 $AO$。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{先用对顶角补齐第二组等角，再按顶点顺序配边。}
+  \input{\detokenize{../../题库/2026-07-16-蝶形相似/items/Q035/build/diagram/jobs/question_bank-butterfly-q035-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[48mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$AO=\frac{16}{9}$。\par\medskip
+    \solstep{见等角，找相似}{由题设等角和构型自带的第二组等角，得 $\triangle AOC\sim\triangle DOB$。}
+    \solstep{按顶点写对应边}{三组小边与大边依次为：$AO\leftrightarrow OD$，$OC\leftrightarrow OB$，$AC\leftrightarrow DB$。}
+    \solstep{保持比例方向一致}{取 大三角形边与小三角形对应边之比，可列 $\dfrac{OB}{OC}=\dfrac{OD}{AO}$。}
+    \solstep{代入并验算}{代入已知量解得 $AO=\frac{16}{9}$；两组对应边的比均等于同一相似比。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，在 $\triangle ABC$ 中，$\angle ABD=\angle ACB$。
+
+已知 $AB=\frac{1}{8}$，$AC=\frac{5}{8}$，$BC=\frac{5}{8}$，求 $BD$。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{先确认对应边，再判断题中的线段是否属于相似三角形。}
+  \input{\detokenize{../../题库/2026-07-16-子母型相似/items/Q035/build/diagram/jobs/question_bank-nested-q035-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[48mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$BD=\frac{1}{8}$。\par\medskip
+    \solstep{见等角，找相似}{由题设等角和构型自带的第二组等角，得 $\triangle ABD\sim\triangle ACB$。}
+    \solstep{按顶点写对应边}{三组小边与大边依次为：$AB\leftrightarrow AC$，$AD\leftrightarrow AB$，$BD\leftrightarrow BC$。}
+    \solstep{保持比例方向一致}{取 大三角形边与小三角形对应边之比，可列 $\dfrac{AC}{AB}=\dfrac{BC}{BD}$。}
+    \solstep{代入并验算}{代入已知量解得 $BD=\frac{1}{8}$；两组对应边的比均等于同一相似比。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，在 $\triangle ABC$ 中，$\angle ABD=\angle ACB$。
+
+已知 $AB=\frac{2}{5}$，$AC=2$，$BD=\frac{2}{5}$。先证明 $\triangle ABD\sim\triangle ACB$，再写出对应关系并求 $BC$。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{先确认对应边，再判断题中的线段是否属于相似三角形。}
+  \input{\detokenize{../../题库/2026-07-16-子母型相似/items/Q025/build/diagram/jobs/question_bank-nested-q025-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[48mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$BC=2$。\par\medskip
+    \solstep{见等角，找相似}{由题设等角和构型自带的第二组等角，得 $\triangle ABD\sim\triangle ACB$。}
+    \solstep{按顶点写对应边}{三组小边与大边依次为：$AB\leftrightarrow AC$，$AD\leftrightarrow AB$，$BD\leftrightarrow BC$。}
+    \solstep{保持比例方向一致}{取 小三角形边与大三角形对应边之比，可列 $\dfrac{AB}{AC}=\dfrac{BD}{BC}$。}
+    \solstep{代入并验算}{代入已知量解得 $BC=2$；两组对应边的比均等于同一相似比。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，$\angle PAB=\angle PDC$。
+
+已知 $PA=\frac{2}{9}$，$PD=\frac{4}{3}$，$DC=\frac{4}{3}$，求 $AB$。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{沿题设等角的顶点顺序，找出两组三角形的对应边。}
+  \input{\detokenize{../../题库/2026-07-16-反A形相似/items/Q007/build/diagram/jobs/question_bank-reverse_a-q007-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[48mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$AB=\frac{2}{9}$。\par\medskip
+    \solstep{见等角，找相似}{由题设等角和构型自带的第二组等角，得 $\triangle PAB\sim\triangle PDC$。}
+    \solstep{按顶点写对应边}{三组小边与大边依次为：$PA\leftrightarrow PD$，$PB\leftrightarrow PC$，$AB\leftrightarrow DC$。}
+    \solstep{保持比例方向一致}{取 大三角形边与小三角形对应边之比，可列 $\dfrac{PD}{PA}=\dfrac{DC}{AB}$。}
+    \solstep{代入并验算}{代入已知量解得 $AB=\frac{2}{9}$；两组对应边的比均等于同一相似比。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，$\angle OAC=\angle ODB$。
+
+已知 $OC=\frac{5}{6}$，$OB=\frac{10}{3}$，$AO=\frac{5}{4}$，求 $OD$。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{先用对顶角补齐第二组等角，再按顶点顺序配边。}
+  \input{\detokenize{../../题库/2026-07-16-蝶形相似/items/Q009/build/diagram/jobs/question_bank-butterfly-q009-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[48mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$OD=5$。\par\medskip
+    \solstep{见等角，找相似}{由题设等角和构型自带的第二组等角，得 $\triangle AOC\sim\triangle DOB$。}
+    \solstep{按顶点写对应边}{三组小边与大边依次为：$AO\leftrightarrow OD$，$OC\leftrightarrow OB$，$AC\leftrightarrow DB$。}
+    \solstep{保持比例方向一致}{取 小三角形边与大三角形对应边之比，可列 $\dfrac{OC}{OB}=\dfrac{AO}{OD}$。}
+    \solstep{代入并验算}{代入已知量解得 $OD=5$；两组对应边的比均等于同一相似比。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，在 $\triangle ABC$ 中，$\angle ABD=\angle ACB$。
+
+已知 $AB=\frac{3}{10}$，$AC=\frac{6}{5}$，$BD=\frac{3}{10}$。写出三组对应边及相似比，并求 $BC$。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{先确认对应边，再判断题中的线段是否属于相似三角形。}
+  \input{\detokenize{../../题库/2026-07-16-子母型相似/items/Q017/build/diagram/jobs/question_bank-nested-q017-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[48mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$BC=\frac{6}{5}$。\par\medskip
+    \solstep{见等角，找相似}{由题设等角和构型自带的第二组等角，得 $\triangle ABD\sim\triangle ACB$。}
+    \solstep{按顶点写对应边}{三组小边与大边依次为：$AB\leftrightarrow AC$，$AD\leftrightarrow AB$，$BD\leftrightarrow BC$。}
+    \solstep{保持比例方向一致}{取 小三角形边与大三角形对应边之比，可列 $\dfrac{AB}{AC}=\dfrac{BD}{BC}$。}
+    \solstep{代入并验算}{代入已知量解得 $BC=\frac{6}{5}$；两组对应边的比均等于同一相似比。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，$\angle OAC=\angle ODB$。
+
+已知 $AO=\frac{1}{7}$，$OD=\frac{6}{7}$，$DB=\frac{12}{7}$。求证 $\triangle AOC\sim\triangle DOB$，并求 $AC$。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{先用对顶角补齐第二组等角，再按顶点顺序配边。}
+  \input{\detokenize{../../题库/2026-07-16-蝶形相似/items/Q031/build/diagram/jobs/question_bank-butterfly-q031-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[48mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$AC=\frac{2}{7}$。\par\medskip
+    \solstep{见等角，找相似}{由题设等角和构型自带的第二组等角，得 $\triangle AOC\sim\triangle DOB$。}
+    \solstep{按顶点写对应边}{三组小边与大边依次为：$AO\leftrightarrow OD$，$OC\leftrightarrow OB$，$AC\leftrightarrow DB$。}
+    \solstep{保持比例方向一致}{取 大三角形边与小三角形对应边之比，可列 $\dfrac{OD}{AO}=\dfrac{DB}{AC}$。}
+    \solstep{代入并验算}{代入已知量解得 $AC=\frac{2}{7}$；两组对应边的比均等于同一相似比。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，在 $\triangle ABC$ 中，$\angle ABD=\angle ACB$。
+
+已知 $BD=\frac{2}{9}$，$BC=\frac{2}{3}$，$AB=\frac{2}{9}$。求证 $\triangle ABD\sim\triangle ACB$，并求 $AC$。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{先确认对应边，再判断题中的线段是否属于相似三角形。}
+  \input{\detokenize{../../题库/2026-07-16-子母型相似/items/Q013/build/diagram/jobs/question_bank-nested-q013-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[48mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$AC=\frac{2}{3}$。\par\medskip
+    \solstep{见等角，找相似}{由题设等角和构型自带的第二组等角，得 $\triangle ABD\sim\triangle ACB$。}
+    \solstep{按顶点写对应边}{三组小边与大边依次为：$AB\leftrightarrow AC$，$AD\leftrightarrow AB$，$BD\leftrightarrow BC$。}
+    \solstep{保持比例方向一致}{取 小三角形边与大三角形对应边之比，可列 $\dfrac{BD}{BC}=\dfrac{AB}{AC}$。}
+    \solstep{代入并验算}{代入已知量解得 $AC=\frac{2}{3}$；两组对应边的比均等于同一相似比。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，在 $\triangle ABC$ 中，$\angle ABD=\angle ACB$。
+
+已知 $BD=\sqrt{5}$，$BC=\sqrt{30}$，$AB=\sqrt{5}$。先证明 $\triangle ABD\sim\triangle ACB$，再写出对应关系并求 $AC$。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{先确认对应边，再判断题中的线段是否属于相似三角形。}
+  \input{\detokenize{../../题库/2026-07-16-子母型相似/items/Q030/build/diagram/jobs/question_bank-nested-q030-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[48mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$AC=\sqrt{30}$。\par\medskip
+    \solstep{见等角，找相似}{由题设等角和构型自带的第二组等角，得 $\triangle ABD\sim\triangle ACB$。}
+    \solstep{按顶点写对应边}{三组小边与大边依次为：$AB\leftrightarrow AC$，$AD\leftrightarrow AB$，$BD\leftrightarrow BC$。}
+    \solstep{保持比例方向一致}{取 小三角形边与大三角形对应边之比，可列 $\dfrac{BD}{BC}=\dfrac{AB}{AC}$。}
+    \solstep{代入并验算}{代入已知量解得 $AC=\sqrt{30}$；两组对应边的比均等于同一相似比。}
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，$\angle OAC=\angle ODB$。
+
+已知 $AO=2\sqrt{2}$，$OD=4\sqrt{5}$，$DB=2\sqrt{5}$，求 $AC$。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{先用对顶角补齐第二组等角，再按顶点顺序配边。}
+  \input{\detokenize{../../题库/2026-07-16-蝶形相似/items/Q008/build/diagram/jobs/question_bank-butterfly-q008-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[48mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$AC=\sqrt{2}$。\par\medskip
+    \solstep{见等角，找相似}{由题设等角和构型自带的第二组等角，得 $\triangle AOC\sim\triangle DOB$。}
+    \solstep{按顶点写对应边}{三组小边与大边依次为：$AO\leftrightarrow OD$，$OC\leftrightarrow OB$，$AC\leftrightarrow DB$。}
+    \solstep{保持比例方向一致}{取 大三角形边与小三角形对应边之比，可列 $\dfrac{OD}{AO}=\dfrac{DB}{AC}$。}
+    \solstep{代入并验算}{代入已知量解得 $AC=\sqrt{2}$；两组对应边的比均等于同一相似比。}
+  \end{solutionblock}
+\end{problem}
+
+
+\clearpage
+\section*{答案}
+
+
+
+
+\end{document}

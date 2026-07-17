@@ -9,29 +9,9 @@
 
 \begin{document}
 
-\eduSectionTitle{SSA 不保证唯一：作高后检查垂足两侧}
+\eduSectionTitle{SSA 已知两边一角（非夹角），解三角形}
 
 
-\begin{eduSolutionBox}{锐角 SSA 的解数：先比较高、对边和另一已知边}
-  \begingroup
-  \setlength{\parskip}{2.5mm}
-\textbf{先认条件：}已知两边及其中一边的对角，叫作 SSA。已知角不夹在两条已知边之间，所以三角形不一定唯一。\par
-\textbf{统一作高：}若已知锐角 $A$、对边 $a=BC$、另一边 $c=AB$，从非已知角顶点 $B$ 向 $AC$ 所在直线作 $BH\perp AC$，则 $h=BH=c\sin A$。\par
-\renewcommand{\arraystretch}{1.45}
-\begin{center}
-\begin{tabular}{c|c|c}
-\textbf{大小关系} & \textbf{解的个数} & \textbf{点的位置} \\
-\hline
-$a<h$ & $0$ & 定长边够不到角的另一边 \\
-$a=h$ & $1$ & 恰好落在垂足，得到直角三角形 \\
-$h<a<c$ & $2$ & 垂足两侧各有一个合法点 \\
-$a\ge c$ & $1$ & 近点分支退化或落到反向延长线上
-\end{tabular}
-\end{center}
-\par
-\textbf{表格条件：}上表要求 $A$ 为锐角，且 $a$ 是 $A$ 的对边、$c$ 是另一条已知边。换字母时先重新认清这三个量。\par
-  \endgroup
-\end{eduSolutionBox}
 
 
 
@@ -41,7 +21,7 @@ $a\ge c$ & $1$ & 近点分支退化或落到反向延长线上
 \begin{minipage}[t]{\dimexpr\linewidth-70mm-6mm\relax}
 \vspace{0pt}
 在 $\triangle ABC$ 中，已知 $\angle A=30^\circ$，$AB=8$，$BC=5$。
-不预设点 $C$ 的位置唯一，求所有可能的 $AC$，并说明为什么会出现两个三角形。
+求$AC$。
 
 \end{minipage}\hfill
 \begin{diagramcoltikz}{70mm}{点 $C$ 既要在 $30^\circ$ 射线上，又要满足到 $B$ 的距离为 $5$；先判断这样的位置是否唯一。}
@@ -59,16 +39,15 @@ $a\ge c$ & $1$ & 近点分支退化或落到反向延长线上
 
 
 
-\begin{eduSubQuestionItem}{例题}
-求所有可能的 $AC$，并说明两个三角形对应的点序。\end{eduSubQuestionItem}
 
 \begin{eduDualExplain}
   \begin{eduExplainLeft}
     \eduColumnTitle{\eduIconBulb}{小贴士}
         \eduSideHint{为什么从 $B$ 作高}{$B$ 不是已知角顶点；由 $AB$ 和 $\angle A$ 可直接求出高 $BH$ 与投影 $AH$。}
         \eduSideHint{为什么先比较 $4,5,8$}{$4<5$ 表示定长 $BC$ 能跨过垂足两侧；$5<8$ 保证靠近 $A$ 的候选点仍留在射线上。}
+        \eduSideHint{如果 $BC=9$ 呢}{这时 $AC$ 只有一个解：以 $B$ 为圆心、$BC$ 为半径作圆，它与射线 $AH$ 只有一个交点，因此只对应一个三角形。}
         \eduSideHint{两解从哪里来}{两解不是代数中的符号游戏，而是 $C_1,C_2$ 位于 $H$ 两侧的两个真实位置。}
-        \eduSideMistake{垂足在线段外仍可能合法}{在近点分支中，$H$ 位于 $AC_1$ 的延长线上；原三角形仍然存在，不能因此删解。}
+        
   \end{eduExplainLeft}
 
   \begin{eduExplainRight}
@@ -91,24 +70,5 @@ $a\ge c$ & $1$ & 近点分支退化或落到反向延长线上
       \item $\boxed{AC=4\sqrt3-3\quad\text{或}\quad AC=4\sqrt3+3}$，共有两个三角形。    \end{eduBulletList}
   \end{eduExplainRight}
 \end{eduDualExplain}
-
-
-
-
-\begin{eduMistakeBox}
-\eduSubTitle{易错提醒：不要把 SSA 当成唯一条件}写出 $AC=AH\pm HC$ 还不够，必须说明两个符号各对应什么点序，并检查候选点是否仍在角的射线上。
-只有在锐角 SSA 中满足 $h<a<c$ 时才有两解；不能见到 SSA 就固定写两个答案。
-\end{eduMistakeBox}
-
-
-
-
-\begin{eduSummaryBlock}{\eduIconPin}{SSA 做题顺序}
-\begin{eduBulletList}
-  \item \textbf{认：}已知角是不是两条已知边的夹角；若不是，先警惕 SSA 不唯一。  \item \textbf{作：}从非已知角顶点向已知角的另一边所在直线作高。  \item \textbf{比：}算 $h=c\sin A$，比较 $h,a,c$，先判 $0/1/2$ 解。  \item \textbf{拆：}分别解两个 $\operatorname{Rt}\triangle$，再按点序作线段和差。  \item \textbf{查：}检查正值、射线位置、点序和三角形不等式。\end{eduBulletList}
-\end{eduSummaryBlock}
-
-
-
 
 \end{document}

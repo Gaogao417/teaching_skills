@@ -1,5 +1,5 @@
 meta:
-  title: 蝶形相似：等角找相似与对应边
+  title: 蝶形相似：证明相似后求边长
   subtitle: 学生讲义
   grade: 八年级
   subject: 数学
@@ -13,29 +13,16 @@ render:
 
 sections:
   - id: butterfly-similarity
-    title: 蝶形：看到等角先找相似，再用角锁对应
+    title: 蝶形：证明相似后求第四边
     show_title: true
     type: explanation
     visibility: student
     blocks:
-      - type: solution
-        id: butterfly-core-rule
-        title: 固定反应：看到等角找相似，相似以后找对应
-        items:
-          - latex: '\textbf{看到题目给角相等：}先保留这组角，再去交点或公共顶点寻找第二组等角。'
-          - latex: '\textbf{判定相似以后：}按“等角顶点 $\to$ 对应顶点 $\to$ 对应边”书写，外形和左右位置都不能代替对应关系。'
-          - latex: '两条直线 $AB,CD$ 相交于 $O$，所以 $\angle AOC=\angle DOB$，这组角来自对顶角。'
-          - latex: '若题目再明确给出 $\angle OAC=\angle ODB$，则由两角分别相等，得 $\triangle AOC\sim\triangle DOB$。'
-          - latex: '对应顶点为 $A\leftrightarrow D$、$O\leftrightarrow O$、$C\leftrightarrow B$，所以 $\dfrac{AO}{DO}=\dfrac{OC}{OB}=\dfrac{AC}{DB}$。'
-          - latex: '即使图形看起来像“8 字形”，也不能默认 $AC\parallel BD$；本模型明确要求 $AC\nparallel BD$。'
-
       - type: problemcard
         id: butterfly-example-card
         label: 例题
         stem_latex: |
-          如图，直线 $AB$ 与 $CD$ 相交于点 $O$，点序分别为 $A-O-B$、$C-O-D$，
-          且 $\angle OAC=\angle ODB$，$AC\nparallel BD$。
-          已知 $AO=6$，$OC=8$，$OD=9$，求 $OB$。
+          如图，$\angle OAC=\angle ODB$。已知 $AO=6$，$OC=8$，$OD=9$，求 $OB$。
         diagram_slot:
           slot_id: explanation.butterfly.prompt
           diagram_ref: explanation.butterfly.prompt
@@ -78,18 +65,12 @@ sections:
       - type: route
         id: butterfly-example-route
         steps:
-          - id: butterfly-step-angles
-            latex: 看到题设等角，寻找第二组角
-            content_latex: '由对顶角相等，得 $\angle AOC=\angle DOB$；题设给出 $\angle OAC=\angle ODB$。'
           - id: butterfly-step-similar
-            latex: 按角的顶点写相似顺序
-            content_latex: '由两角分别相等，得 $\triangle AOC\sim\triangle DOB$，其中 $A\leftrightarrow D$、$C\leftrightarrow B$。'
-          - id: butterfly-step-proportion
-            latex: 选含未知边的对应边比
-            content_latex: '由对应边成比例，得 $\dfrac{AO}{DO}=\dfrac{OC}{OB}$，即 $\dfrac69=\dfrac8{OB}$。'
-          - id: butterfly-step-answer
-            latex: 解比例并验算
-            content_latex: '解得 $OB=12$；验算 $6:9=8:12=2:3$。'
+            latex: 先证明两个三角形相似
+            content_latex: '由对顶角相等，得 $\angle AOC=\angle DOB$。又 $\angle OAC=\angle ODB$，所以 $\triangle AOC\sim\triangle DOB$。'
+          - id: butterfly-step-use-proportion
+            latex: 再列对应边比例求边长
+            content_latex: '由对应边成比例，得 $\dfrac{AO}{DO}=\dfrac{OC}{OB}$，即 $\dfrac69=\dfrac8{OB}$，解得 $OB=12$。'
 
       - type: dual_explanation
         id: butterfly-example-solution
@@ -98,34 +79,9 @@ sections:
         side_title: 小贴士
         side_items:
           - kind: hint
-            title: 看到等角先问什么
-            content_latex: '题目已给 $\angle OAC=\angle ODB$。要找相似，还需要哪一组角？交点 $O$ 处的对顶角正好补齐。'
-          - kind: hint
-            title: 怎么锁定对应点
-            content_latex: '$\angle OAC$ 的顶点是 $A$，$\angle ODB$ 的顶点是 $D$，所以 $A$ 对应 $D$，不是按左右位置把 $A$ 对到 $B$。'
-          - kind: mistake
-            title: 外形不能当条件
-            content_latex: '题目明确 $AC\nparallel BD$；不能因为图像像“8 字形”就使用平行线性质。'
-          - kind: hint
-            title: 为什么只列这一条比
-            content_latex: '未知边是 $OB$，与它对应的是 $OC$；再选一组全已知的 $AO,DO$ 即可。'
+            title: 对应边怎么看
+            content_latex: '先看等角的顶点：$A\leftrightarrow D$，交点 $O\leftrightarrow O$，于是 $C\leftrightarrow B$；边由两个端点决定，所以 $AO\leftrightarrow DO$，$OC\leftrightarrow OB$。'
         solution_title: 解答
         solution_step_ids:
-          - butterfly-step-angles
           - butterfly-step-similar
-          - butterfly-step-proportion
-          - butterfly-step-answer
-
-      - type: mistake
-        id: butterfly-mistake
-        title: 易错提醒
-        content_latex: '相似顺序由等角顶点决定。本题应写 $\triangle AOC\sim\triangle DOB$；若机械写成 $\triangle AOC\sim\triangle BOD$，对应边就会全部错位。'
-
-      - type: method_reminder
-        id: butterfly-method
-        title: 方法提醒
-        items:
-          - latex: '见等角：圈出题设等角，主动寻找第二组等角。'
-          - latex: '判相似：两组角齐全后，用 AA 写出相似三角形。'
-          - latex: '找对应：按等角顶点写对应点，再由两个端点写对应边。'
-          - latex: '三边已知求第四边时，只列含未知边和三条已知边的一条对应比例。'
+          - butterfly-step-use-proportion

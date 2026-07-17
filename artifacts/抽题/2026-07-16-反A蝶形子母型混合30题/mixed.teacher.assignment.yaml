@@ -1,0 +1,1813 @@
+meta:
+  title: 反A·蝶形·子母型混合练习 · 教师版
+  grade: 八年级
+  subject: 数学
+  total_points: 300
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    question_banks:
+    - question_bank: ../../题库/2026-07-16-反A形相似/question-bank.yaml
+      topic: 反A形相似
+      selected_question_ids:
+      - Q011
+      - Q018
+      - Q022
+      - Q048
+      - Q019
+      - Q008
+      - Q042
+      - Q013
+      - Q005
+      - Q015
+      random_seed: 1066028411221102579
+    - question_bank: ../../题库/2026-07-16-蝶形相似/question-bank.yaml
+      topic: 蝶形相似
+      selected_question_ids:
+      - Q033
+      - Q007
+      - Q002
+      - Q001
+      - Q029
+      - Q038
+      - Q004
+      - Q011
+      - Q024
+      - Q027
+      random_seed: 3083724812076770829
+    - question_bank: ../../题库/2026-07-16-子母型相似/question-bank.yaml
+      topic: 子母型相似
+      selected_question_ids:
+      - Q009
+      - Q029
+      - Q016
+      - Q018
+      - Q003
+      - Q005
+      - Q011
+      - Q048
+      - Q024
+      - Q006
+      random_seed: 6815835000840089782
+    master_seed: 216190556483223136
+    shuffle_seed: 7024983502638553022
+    mixed_order:
+    - position: 1
+      topic: 子母型相似
+      question_id: Q009
+    - position: 2
+      topic: 反A形相似
+      question_id: Q015
+    - position: 3
+      topic: 蝶形相似
+      question_id: Q024
+    - position: 4
+      topic: 蝶形相似
+      question_id: Q001
+    - position: 5
+      topic: 蝶形相似
+      question_id: Q027
+    - position: 6
+      topic: 蝶形相似
+      question_id: Q004
+    - position: 7
+      topic: 子母型相似
+      question_id: Q011
+    - position: 8
+      topic: 蝶形相似
+      question_id: Q033
+    - position: 9
+      topic: 子母型相似
+      question_id: Q048
+    - position: 10
+      topic: 子母型相似
+      question_id: Q006
+    - position: 11
+      topic: 反A形相似
+      question_id: Q011
+    - position: 12
+      topic: 反A形相似
+      question_id: Q013
+    - position: 13
+      topic: 子母型相似
+      question_id: Q024
+    - position: 14
+      topic: 子母型相似
+      question_id: Q003
+    - position: 15
+      topic: 蝶形相似
+      question_id: Q011
+    - position: 16
+      topic: 子母型相似
+      question_id: Q018
+    - position: 17
+      topic: 子母型相似
+      question_id: Q005
+    - position: 18
+      topic: 反A形相似
+      question_id: Q005
+    - position: 19
+      topic: 反A形相似
+      question_id: Q018
+    - position: 20
+      topic: 反A形相似
+      question_id: Q008
+    - position: 21
+      topic: 蝶形相似
+      question_id: Q002
+    - position: 22
+      topic: 子母型相似
+      question_id: Q016
+    - position: 23
+      topic: 蝶形相似
+      question_id: Q007
+    - position: 24
+      topic: 蝶形相似
+      question_id: Q038
+    - position: 25
+      topic: 反A形相似
+      question_id: Q042
+    - position: 26
+      topic: 子母型相似
+      question_id: Q029
+    - position: 27
+      topic: 反A形相似
+      question_id: Q048
+    - position: 28
+      topic: 蝶形相似
+      question_id: Q029
+    - position: 29
+      topic: 反A形相似
+      question_id: Q019
+    - position: 30
+      topic: 反A形相似
+      question_id: Q022
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: mixed-sampled-questions
+  title: 相似模型混合练习
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: M001
+    points: 10
+    label: 第 1 题
+    stem_latex: '如图，在 $\triangle ABC$ 中，点 $D$ 在线段 $AC$ 上，且 $\angle ABD=\angle ACB$。
+
+
+      已知 $AB=\frac{2}{7}$，$AC=\frac{8}{7}$，$BD=\frac{2}{7}$。求证 $\triangle ABD\sim\triangle ACB$，并求 $BC$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+    answer: $BC=\frac{8}{7}$。
+    explanation: 先由等角判相似，再按同序顶点确定对应边；本题所用数值对来自 rational_multiple_pairs。
+    solution_steps:
+    - title: 见等角，找相似
+      content: 由题设等角和构型自带的第二组等角，得 $\triangle ABD\sim\triangle ACB$。
+    - title: 按顶点写对应边
+      content: 三组小边与大边依次为：$AB\leftrightarrow AC$，$AD\leftrightarrow AB$，$BD\leftrightarrow BC$。
+    - title: 保持比例方向一致
+      content: 取 小三角形边与大三角形对应边之比，可列 $\dfrac{AB}{AC}=\dfrac{BD}{BC}$。
+    - title: 代入并验算
+      content: 代入已知量解得 $BC=\frac{8}{7}$；两组对应边的比均等于同一相似比。
+    teaching:
+      teaching_goal: 先补出第二组等角并证明相似，再求边
+      source_relations:
+      - explanation:nested
+      - similar_triangles_corresponding_sides
+      expected_blocker: 没有先锁定等角顶点，或两组比例的大小方向不一致。
+      entry_point: equal_angles_to_similarity_to_correspondence
+      scaffold_level: medium
+      variation_depth: partially_hidden
+      complexity_note: 只训练 AA 判定、对应边和一层比例；不引入面积、周长或额外辅助线。
+      upgrade_rule: 能独立写出同序相似式并用另一组对应边验算。
+      fallback_move: 先标出两个相等角的顶点，再逐个写出对应点。
+      number_selection:
+        database_id: question-bank-training-numbers
+        family_id: rational_multiple_pairs
+        entry_id: rational-2-over-7-x-4
+        selection_class: fraction_pair
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../题库/2026-07-16-子母型相似/items/Q009/build/diagram/jobs/question_bank-nested-q009-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.nested.q009.prompt
+      diagram_job_id: question_bank-nested-q009-prompt
+      width: 60mm
+      caption: 先确认对应边，再判断题中的线段是否属于相似三角形。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:fd2bc22d1f25b0ed0507cece5446124381fa27c8d5f49ae56d3dad710c8c12e8
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: M002
+    points: 10
+    label: 第 2 题
+    stem_latex: '如图，点 $P,A,C$ 依次共线，点 $P,B,D$ 依次共线，且 $\angle PAB=\angle PDC$。
+
+
+      已知 $PB=\frac{8}{9}$，$PC=\frac{40}{9}$，$DC=\frac{160}{9}$，求 $AB$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+    answer: $AB=\frac{32}{9}$。
+    explanation: 先由等角判相似，再按同序顶点确定对应边；本题所用数值对来自 rational_multiple_pairs。
+    solution_steps:
+    - title: 见等角，找相似
+      content: 由题设等角和构型自带的第二组等角，得 $\triangle PAB\sim\triangle PDC$。
+    - title: 按顶点写对应边
+      content: 三组小边与大边依次为：$PA\leftrightarrow PD$，$PB\leftrightarrow PC$，$AB\leftrightarrow DC$。
+    - title: 保持比例方向一致
+      content: 取 大三角形边与小三角形对应边之比，可列 $\dfrac{PC}{PB}=\dfrac{DC}{AB}$。
+    - title: 代入并验算
+      content: 代入已知量解得 $AB=\frac{32}{9}$；两组对应边的比均等于同一相似比。
+    teaching:
+      teaching_goal: 由三条已知边求第四条对应边
+      source_relations:
+      - explanation:reverse_a
+      - similar_triangles_corresponding_sides
+      expected_blocker: 没有先锁定等角顶点，或两组比例的大小方向不一致。
+      entry_point: equal_angles_to_similarity_to_correspondence
+      scaffold_level: medium
+      variation_depth: changed_question
+      complexity_note: 只训练 AA 判定、对应边和一层比例；不引入面积、周长或额外辅助线。
+      upgrade_rule: 能独立写出同序相似式并用另一组对应边验算。
+      fallback_move: 先标出两个相等角的顶点，再逐个写出对应点。
+      number_selection:
+        database_id: question-bank-training-numbers
+        family_id: rational_multiple_pairs
+        entry_id: rational-8-over-9-x-5
+        selection_class: fraction_pair
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../题库/2026-07-16-反A形相似/items/Q015/build/diagram/jobs/question_bank-reverse_a-q015-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.reverse_a.q015.prompt
+      diagram_job_id: question_bank-reverse_a-q015-prompt
+      width: 60mm
+      caption: 沿题设等角的顶点顺序，找出两组三角形的对应边。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:fea3f62a2d2b88e68be56e157a6d6c92c0860fc7702f86d2c66c78bc179e8af2
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: M003
+    points: 10
+    label: 第 3 题
+    stem_latex: '如图，直线 $AB$ 与 $CD$ 相交于点 $O$，点序分别为 $A-O-B$、$C-O-D$，且 $\angle OAC=\angle ODB$，$AC\nparallel BD$。
+
+
+      已知 $AC=\sqrt{6}$，$DB=2\sqrt{15}$，$OB=6\sqrt{15}$，求 $OC$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+    answer: $OC=3\sqrt{6}$。
+    explanation: 先由等角判相似，再按同序顶点确定对应边；本题所用数值对来自 radical_multiple_pairs。
+    solution_steps:
+    - title: 见等角，找相似
+      content: 由题设等角和构型自带的第二组等角，得 $\triangle AOC\sim\triangle DOB$。
+    - title: 按顶点写对应边
+      content: 三组小边与大边依次为：$AO\leftrightarrow OD$，$OC\leftrightarrow OB$，$AC\leftrightarrow DB$。
+    - title: 保持比例方向一致
+      content: 取 大三角形边与小三角形对应边之比，可列 $\dfrac{DB}{AC}=\dfrac{OB}{OC}$。
+    - title: 代入并验算
+      content: 代入已知量解得 $OC=3\sqrt{6}$；两组对应边的比均等于同一相似比。
+    teaching:
+      teaching_goal: 由三条已知边求第四条对应边
+      source_relations:
+      - explanation:butterfly
+      - similar_triangles_corresponding_sides
+      expected_blocker: 没有先锁定等角顶点，或两组比例的大小方向不一致。
+      entry_point: equal_angles_to_similarity_to_correspondence
+      scaffold_level: medium
+      variation_depth: changed_question
+      complexity_note: 只训练 AA 判定、对应边和一层比例；不引入面积、周长或额外辅助线。
+      upgrade_rule: 能独立写出同序相似式并用另一组对应边验算。
+      fallback_move: 先标出两个相等角的顶点，再逐个写出对应点。
+      number_selection:
+        database_id: question-bank-training-numbers
+        family_id: radical_multiple_pairs
+        entry_id: sqrt-ka-a6-k10
+        selection_class: irrational_pair
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../题库/2026-07-16-蝶形相似/items/Q024/build/diagram/jobs/question_bank-butterfly-q024-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.butterfly.q024.prompt
+      diagram_job_id: question_bank-butterfly-q024-prompt
+      width: 60mm
+      caption: 先用对顶角补齐第二组等角，再按顶点顺序配边。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:c7b4b4a54076bf75089b0d2427c6eb312fd38477bfa288eb5eafb6c6c0ea98bc
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: M004
+    points: 10
+    label: 第 4 题
+    stem_latex: '如图，直线 $AB$ 与 $CD$ 相交于点 $O$，点序分别为 $A-O-B$、$C-O-D$，且 $\angle OAC=\angle ODB$，$AC\nparallel BD$。
+
+
+      已知 $AO=\frac{2}{7}$，$OD=\frac{12}{7}$，$OC=\frac{4}{7}$，求 $OB$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+    answer: $OB=\frac{24}{7}$。
+    explanation: 先由等角判相似，再按同序顶点确定对应边；本题所用数值对来自 rational_multiple_pairs。
+    solution_steps:
+    - title: 见等角，找相似
+      content: 由题设等角和构型自带的第二组等角，得 $\triangle AOC\sim\triangle DOB$。
+    - title: 按顶点写对应边
+      content: 三组小边与大边依次为：$AO\leftrightarrow OD$，$OC\leftrightarrow OB$，$AC\leftrightarrow DB$。
+    - title: 保持比例方向一致
+      content: 取 小三角形边与大三角形对应边之比，可列 $\dfrac{AO}{OD}=\dfrac{OC}{OB}$。
+    - title: 代入并验算
+      content: 代入已知量解得 $OB=\frac{24}{7}$；两组对应边的比均等于同一相似比。
+    teaching:
+      teaching_goal: 由三条已知边求第四条对应边
+      source_relations:
+      - explanation:butterfly
+      - similar_triangles_corresponding_sides
+      expected_blocker: 没有先锁定等角顶点，或两组比例的大小方向不一致。
+      entry_point: equal_angles_to_similarity_to_correspondence
+      scaffold_level: medium
+      variation_depth: changed_question
+      complexity_note: 只训练 AA 判定、对应边和一层比例；不引入面积、周长或额外辅助线。
+      upgrade_rule: 能独立写出同序相似式并用另一组对应边验算。
+      fallback_move: 先标出两个相等角的顶点，再逐个写出对应点。
+      number_selection:
+        database_id: question-bank-training-numbers
+        family_id: rational_multiple_pairs
+        entry_id: rational-2-over-7-x-6
+        selection_class: fraction_pair
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../题库/2026-07-16-蝶形相似/items/Q001/build/diagram/jobs/question_bank-butterfly-q001-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.butterfly.q001.prompt
+      diagram_job_id: question_bank-butterfly-q001-prompt
+      width: 60mm
+      caption: 先用对顶角补齐第二组等角，再按顶点顺序配边。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:106c4770fa0afdbfdf38e73123f6bb51cc88e6b6fb8c9dcb2e8dec87e5e54d54
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: M005
+    points: 10
+    label: 第 5 题
+    stem_latex: '如图，直线 $AB$ 与 $CD$ 相交于点 $O$，点序分别为 $A-O-B$、$C-O-D$，且 $\angle OAC=\angle ODB$，$AC\nparallel BD$。
+
+
+      已知 $AO=\frac{6}{5}$，$OD=\frac{36}{5}$，$OB=\frac{18}{5}$。求证 $\triangle AOC\sim\triangle DOB$，并求 $OC$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+    answer: $OC=\frac{3}{5}$。
+    explanation: 先由等角判相似，再按同序顶点确定对应边；本题所用数值对来自 rational_multiple_pairs。
+    solution_steps:
+    - title: 见等角，找相似
+      content: 由题设等角和构型自带的第二组等角，得 $\triangle AOC\sim\triangle DOB$。
+    - title: 按顶点写对应边
+      content: 三组小边与大边依次为：$AO\leftrightarrow OD$，$OC\leftrightarrow OB$，$AC\leftrightarrow DB$。
+    - title: 保持比例方向一致
+      content: 取 大三角形边与小三角形对应边之比，可列 $\dfrac{OD}{AO}=\dfrac{OB}{OC}$。
+    - title: 代入并验算
+      content: 代入已知量解得 $OC=\frac{3}{5}$；两组对应边的比均等于同一相似比。
+    teaching:
+      teaching_goal: 先补出第二组等角并证明相似，再求边
+      source_relations:
+      - explanation:butterfly
+      - similar_triangles_corresponding_sides
+      expected_blocker: 没有先锁定等角顶点，或两组比例的大小方向不一致。
+      entry_point: equal_angles_to_similarity_to_correspondence
+      scaffold_level: medium
+      variation_depth: partially_hidden
+      complexity_note: 只训练 AA 判定、对应边和一层比例；不引入面积、周长或额外辅助线。
+      upgrade_rule: 能独立写出同序相似式并用另一组对应边验算。
+      fallback_move: 先标出两个相等角的顶点，再逐个写出对应点。
+      number_selection:
+        database_id: question-bank-training-numbers
+        family_id: rational_multiple_pairs
+        entry_id: rational-6-over-5-x-6
+        selection_class: fraction_pair
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../题库/2026-07-16-蝶形相似/items/Q027/build/diagram/jobs/question_bank-butterfly-q027-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.butterfly.q027.prompt
+      diagram_job_id: question_bank-butterfly-q027-prompt
+      width: 60mm
+      caption: 先用对顶角补齐第二组等角，再按顶点顺序配边。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:f6365c8b89a3288eedb7292b42e878d04ad28f5bb2ceeb05f968e39cd276d8a9
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: M006
+    points: 10
+    label: 第 6 题
+    stem_latex: '如图，直线 $AB$ 与 $CD$ 相交于点 $O$，点序分别为 $A-O-B$、$C-O-D$，且 $\angle OAC=\angle ODB$，$AC\nparallel BD$。
+
+
+      已知 $AO=\sqrt{2}$，$OD=\sqrt{10}$，$OB=3\sqrt{10}$，求 $OC$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+    answer: $OC=3\sqrt{2}$。
+    explanation: 先由等角判相似，再按同序顶点确定对应边；本题所用数值对来自 radical_multiple_pairs。
+    solution_steps:
+    - title: 见等角，找相似
+      content: 由题设等角和构型自带的第二组等角，得 $\triangle AOC\sim\triangle DOB$。
+    - title: 按顶点写对应边
+      content: 三组小边与大边依次为：$AO\leftrightarrow OD$，$OC\leftrightarrow OB$，$AC\leftrightarrow DB$。
+    - title: 保持比例方向一致
+      content: 取 大三角形边与小三角形对应边之比，可列 $\dfrac{OD}{AO}=\dfrac{OB}{OC}$。
+    - title: 代入并验算
+      content: 代入已知量解得 $OC=3\sqrt{2}$；两组对应边的比均等于同一相似比。
+    teaching:
+      teaching_goal: 由三条已知边求第四条对应边
+      source_relations:
+      - explanation:butterfly
+      - similar_triangles_corresponding_sides
+      expected_blocker: 没有先锁定等角顶点，或两组比例的大小方向不一致。
+      entry_point: equal_angles_to_similarity_to_correspondence
+      scaffold_level: medium
+      variation_depth: changed_question
+      complexity_note: 只训练 AA 判定、对应边和一层比例；不引入面积、周长或额外辅助线。
+      upgrade_rule: 能独立写出同序相似式并用另一组对应边验算。
+      fallback_move: 先标出两个相等角的顶点，再逐个写出对应点。
+      number_selection:
+        database_id: question-bank-training-numbers
+        family_id: radical_multiple_pairs
+        entry_id: sqrt-ka-a2-k5
+        selection_class: irrational_pair
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../题库/2026-07-16-蝶形相似/items/Q004/build/diagram/jobs/question_bank-butterfly-q004-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.butterfly.q004.prompt
+      diagram_job_id: question_bank-butterfly-q004-prompt
+      width: 60mm
+      caption: 先用对顶角补齐第二组等角，再按顶点顺序配边。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:d055b3cb386a6c90fed08604a9eea383d676c03094bf3ebb14e7b67c2621c324
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: M007
+    points: 10
+    label: 第 7 题
+    stem_latex: '如图，在 $\triangle ABC$ 中，点 $D$ 在线段 $AC$ 上，且 $\angle ABD=\angle ACB$。
+
+
+      已知 $AB=\frac{8}{9}$，$AC=\frac{40}{9}$，$BC=\frac{40}{9}$。求证 $\triangle ABD\sim\triangle ACB$，并求 $BD$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+    answer: $BD=\frac{8}{9}$。
+    explanation: 先由等角判相似，再按同序顶点确定对应边；本题所用数值对来自 rational_multiple_pairs。
+    solution_steps:
+    - title: 见等角，找相似
+      content: 由题设等角和构型自带的第二组等角，得 $\triangle ABD\sim\triangle ACB$。
+    - title: 按顶点写对应边
+      content: 三组小边与大边依次为：$AB\leftrightarrow AC$，$AD\leftrightarrow AB$，$BD\leftrightarrow BC$。
+    - title: 保持比例方向一致
+      content: 取 大三角形边与小三角形对应边之比，可列 $\dfrac{AC}{AB}=\dfrac{BC}{BD}$。
+    - title: 代入并验算
+      content: 代入已知量解得 $BD=\frac{8}{9}$；两组对应边的比均等于同一相似比。
+    teaching:
+      teaching_goal: 先补出第二组等角并证明相似，再求边
+      source_relations:
+      - explanation:nested
+      - similar_triangles_corresponding_sides
+      expected_blocker: 没有先锁定等角顶点，或两组比例的大小方向不一致。
+      entry_point: equal_angles_to_similarity_to_correspondence
+      scaffold_level: medium
+      variation_depth: partially_hidden
+      complexity_note: 只训练 AA 判定、对应边和一层比例；不引入面积、周长或额外辅助线。
+      upgrade_rule: 能独立写出同序相似式并用另一组对应边验算。
+      fallback_move: 先标出两个相等角的顶点，再逐个写出对应点。
+      number_selection:
+        database_id: question-bank-training-numbers
+        family_id: rational_multiple_pairs
+        entry_id: rational-8-over-9-x-5
+        selection_class: fraction_pair
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../题库/2026-07-16-子母型相似/items/Q011/build/diagram/jobs/question_bank-nested-q011-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.nested.q011.prompt
+      diagram_job_id: question_bank-nested-q011-prompt
+      width: 60mm
+      caption: 先确认对应边，再判断题中的线段是否属于相似三角形。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:2d116eccbd127423178a8abe4f3a6537d13bee31879d6e002346f39715db39ec
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: M008
+    points: 10
+    label: 第 8 题
+    stem_latex: '如图，直线 $AB$ 与 $CD$ 相交于点 $O$，点序分别为 $A-O-B$、$C-O-D$，且 $\angle OAC=\angle ODB$，$AC\nparallel BD$。
+
+
+      已知 $OC=\frac{5}{2}$，$OB=10$，$AO=\frac{15}{2}$。求证 $\triangle AOC\sim\triangle DOB$，并求 $OD$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+    answer: $OD=30$。
+    explanation: 先由等角判相似，再按同序顶点确定对应边；本题所用数值对来自 rational_multiple_pairs。
+    solution_steps:
+    - title: 见等角，找相似
+      content: 由题设等角和构型自带的第二组等角，得 $\triangle AOC\sim\triangle DOB$。
+    - title: 按顶点写对应边
+      content: 三组小边与大边依次为：$AO\leftrightarrow OD$，$OC\leftrightarrow OB$，$AC\leftrightarrow DB$。
+    - title: 保持比例方向一致
+      content: 取 小三角形边与大三角形对应边之比，可列 $\dfrac{OC}{OB}=\dfrac{AO}{OD}$。
+    - title: 代入并验算
+      content: 代入已知量解得 $OD=30$；两组对应边的比均等于同一相似比。
+    teaching:
+      teaching_goal: 先补出第二组等角并证明相似，再求边
+      source_relations:
+      - explanation:butterfly
+      - similar_triangles_corresponding_sides
+      expected_blocker: 没有先锁定等角顶点，或两组比例的大小方向不一致。
+      entry_point: equal_angles_to_similarity_to_correspondence
+      scaffold_level: medium
+      variation_depth: partially_hidden
+      complexity_note: 只训练 AA 判定、对应边和一层比例；不引入面积、周长或额外辅助线。
+      upgrade_rule: 能独立写出同序相似式并用另一组对应边验算。
+      fallback_move: 先标出两个相等角的顶点，再逐个写出对应点。
+      number_selection:
+        database_id: question-bank-training-numbers
+        family_id: rational_multiple_pairs
+        entry_id: rational-5-over-2-x-4
+        selection_class: fraction_pair
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../题库/2026-07-16-蝶形相似/items/Q033/build/diagram/jobs/question_bank-butterfly-q033-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.butterfly.q033.prompt
+      diagram_job_id: question_bank-butterfly-q033-prompt
+      width: 60mm
+      caption: 先用对顶角补齐第二组等角，再按顶点顺序配边。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:9190754ea36531cbd173b2476be9ab2b3e15834562c57660b5dc931e8425d274
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: M009
+    points: 10
+    label: 第 9 题
+    stem_latex: '如图，在 $\triangle ABC$ 中，点 $D$ 在线段 $AC$ 上，且 $\angle ABD=\angle ACB$。
+
+
+      已知 $BD=\sqrt{6}$，$BC=\sqrt{42}$，$AC=\sqrt{42}$。求证 $\triangle ABD\sim\triangle ACB$，并求 $AB$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+    answer: $AB=\sqrt{6}$。
+    explanation: 先由等角判相似，再按同序顶点确定对应边；本题所用数值对来自 radical_multiple_pairs。
+    solution_steps:
+    - title: 见等角，找相似
+      content: 由题设等角和构型自带的第二组等角，得 $\triangle ABD\sim\triangle ACB$。
+    - title: 按顶点写对应边
+      content: 三组小边与大边依次为：$AB\leftrightarrow AC$，$AD\leftrightarrow AB$，$BD\leftrightarrow BC$。
+    - title: 保持比例方向一致
+      content: 取 大三角形边与小三角形对应边之比，可列 $\dfrac{BC}{BD}=\dfrac{AC}{AB}$。
+    - title: 代入并验算
+      content: 代入已知量解得 $AB=\sqrt{6}$；两组对应边的比均等于同一相似比。
+    teaching:
+      teaching_goal: 先补出第二组等角并证明相似，再求边
+      source_relations:
+      - explanation:nested
+      - similar_triangles_corresponding_sides
+      expected_blocker: 没有先锁定等角顶点，或两组比例的大小方向不一致。
+      entry_point: equal_angles_to_similarity_to_correspondence
+      scaffold_level: low
+      variation_depth: partially_hidden
+      complexity_note: 只训练 AA 判定、对应边和一层比例；不引入面积、周长或额外辅助线。
+      upgrade_rule: 能独立写出同序相似式并用另一组对应边验算。
+      fallback_move: 先标出两个相等角的顶点，再逐个写出对应点。
+      number_selection:
+        database_id: question-bank-training-numbers
+        family_id: radical_multiple_pairs
+        entry_id: sqrt-ka-a6-k7
+        selection_class: irrational_pair
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../题库/2026-07-16-子母型相似/items/Q048/build/diagram/jobs/question_bank-nested-q048-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.nested.q048.prompt
+      diagram_job_id: question_bank-nested-q048-prompt
+      width: 60mm
+      caption: 先确认对应边，再判断题中的线段是否属于相似三角形。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:98afdb471b3735c3a6a8683d9ac6fd7bbf0750004d6b18105de2b35c655ba509
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: M010
+    points: 10
+    label: 第 10 题
+    stem_latex: '如图，在 $\triangle ABC$ 中，点 $D$ 在线段 $AC$ 上，且 $\angle ABD=\angle ACB$。
+
+
+      已知 $BD=\sqrt{6}$，$BC=\sqrt{30}$，$AB=\sqrt{6}$，求 $AC$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+    answer: $AC=\sqrt{30}$。
+    explanation: 先由等角判相似，再按同序顶点确定对应边；本题所用数值对来自 radical_multiple_pairs。
+    solution_steps:
+    - title: 见等角，找相似
+      content: 由题设等角和构型自带的第二组等角，得 $\triangle ABD\sim\triangle ACB$。
+    - title: 按顶点写对应边
+      content: 三组小边与大边依次为：$AB\leftrightarrow AC$，$AD\leftrightarrow AB$，$BD\leftrightarrow BC$。
+    - title: 保持比例方向一致
+      content: 取 小三角形边与大三角形对应边之比，可列 $\dfrac{BD}{BC}=\dfrac{AB}{AC}$。
+    - title: 代入并验算
+      content: 代入已知量解得 $AC=\sqrt{30}$；两组对应边的比均等于同一相似比。
+    teaching:
+      teaching_goal: 由三条已知边求第四条对应边
+      source_relations:
+      - explanation:nested
+      - similar_triangles_corresponding_sides
+      expected_blocker: 没有先锁定等角顶点，或两组比例的大小方向不一致。
+      entry_point: equal_angles_to_similarity_to_correspondence
+      scaffold_level: medium
+      variation_depth: changed_question
+      complexity_note: 只训练 AA 判定、对应边和一层比例；不引入面积、周长或额外辅助线。
+      upgrade_rule: 能独立写出同序相似式并用另一组对应边验算。
+      fallback_move: 先标出两个相等角的顶点，再逐个写出对应点。
+      number_selection:
+        database_id: question-bank-training-numbers
+        family_id: radical_multiple_pairs
+        entry_id: sqrt-ka-a6-k5
+        selection_class: irrational_pair
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../题库/2026-07-16-子母型相似/items/Q006/build/diagram/jobs/question_bank-nested-q006-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.nested.q006.prompt
+      diagram_job_id: question_bank-nested-q006-prompt
+      width: 60mm
+      caption: 先确认对应边，再判断题中的线段是否属于相似三角形。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:109a60db138c57810c68086cbc9d51f593f6eb2926b745eef45a499cce652a65
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: M011
+    points: 10
+    label: 第 11 题
+    stem_latex: '如图，点 $P,A,C$ 依次共线，点 $P,B,D$ 依次共线，且 $\angle PAB=\angle PDC$。
+
+
+      已知 $PB=\frac{9}{10}$，$PC=\frac{9}{2}$，$PD=9$，求 $PA$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+    answer: $PA=\frac{9}{5}$。
+    explanation: 先由等角判相似，再按同序顶点确定对应边；本题所用数值对来自 rational_multiple_pairs。
+    solution_steps:
+    - title: 见等角，找相似
+      content: 由题设等角和构型自带的第二组等角，得 $\triangle PAB\sim\triangle PDC$。
+    - title: 按顶点写对应边
+      content: 三组小边与大边依次为：$PA\leftrightarrow PD$，$PB\leftrightarrow PC$，$AB\leftrightarrow DC$。
+    - title: 保持比例方向一致
+      content: 取 大三角形边与小三角形对应边之比，可列 $\dfrac{PC}{PB}=\dfrac{PD}{PA}$。
+    - title: 代入并验算
+      content: 代入已知量解得 $PA=\frac{9}{5}$；两组对应边的比均等于同一相似比。
+    teaching:
+      teaching_goal: 由三条已知边求第四条对应边
+      source_relations:
+      - explanation:reverse_a
+      - similar_triangles_corresponding_sides
+      expected_blocker: 没有先锁定等角顶点，或两组比例的大小方向不一致。
+      entry_point: equal_angles_to_similarity_to_correspondence
+      scaffold_level: medium
+      variation_depth: changed_question
+      complexity_note: 只训练 AA 判定、对应边和一层比例；不引入面积、周长或额外辅助线。
+      upgrade_rule: 能独立写出同序相似式并用另一组对应边验算。
+      fallback_move: 先标出两个相等角的顶点，再逐个写出对应点。
+      number_selection:
+        database_id: question-bank-training-numbers
+        family_id: rational_multiple_pairs
+        entry_id: rational-9-over-10-x-5
+        selection_class: fraction_pair
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../题库/2026-07-16-反A形相似/items/Q011/build/diagram/jobs/question_bank-reverse_a-q011-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.reverse_a.q011.prompt
+      diagram_job_id: question_bank-reverse_a-q011-prompt
+      width: 60mm
+      caption: 沿题设等角的顶点顺序，找出两组三角形的对应边。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:dd60df6cb6ab1a00345eea66dfe26ce4950c408c8864287bfcc2151dbd519c53
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: M012
+    points: 10
+    label: 第 12 题
+    stem_latex: '如图，点 $P,A,C$ 依次共线，点 $P,B,D$ 依次共线，且 $\angle PAB=\angle PDC$。
+
+
+      已知 $PB=\frac{3}{5}$，$PC=\frac{6}{5}$，$AB=\frac{9}{5}$，求 $DC$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+    answer: $DC=\frac{18}{5}$。
+    explanation: 先由等角判相似，再按同序顶点确定对应边；本题所用数值对来自 rational_multiple_pairs。
+    solution_steps:
+    - title: 见等角，找相似
+      content: 由题设等角和构型自带的第二组等角，得 $\triangle PAB\sim\triangle PDC$。
+    - title: 按顶点写对应边
+      content: 三组小边与大边依次为：$PA\leftrightarrow PD$，$PB\leftrightarrow PC$，$AB\leftrightarrow DC$。
+    - title: 保持比例方向一致
+      content: 取 小三角形边与大三角形对应边之比，可列 $\dfrac{PB}{PC}=\dfrac{AB}{DC}$。
+    - title: 代入并验算
+      content: 代入已知量解得 $DC=\frac{18}{5}$；两组对应边的比均等于同一相似比。
+    teaching:
+      teaching_goal: 由三条已知边求第四条对应边
+      source_relations:
+      - explanation:reverse_a
+      - similar_triangles_corresponding_sides
+      expected_blocker: 没有先锁定等角顶点，或两组比例的大小方向不一致。
+      entry_point: equal_angles_to_similarity_to_correspondence
+      scaffold_level: medium
+      variation_depth: changed_question
+      complexity_note: 只训练 AA 判定、对应边和一层比例；不引入面积、周长或额外辅助线。
+      upgrade_rule: 能独立写出同序相似式并用另一组对应边验算。
+      fallback_move: 先标出两个相等角的顶点，再逐个写出对应点。
+      number_selection:
+        database_id: question-bank-training-numbers
+        family_id: rational_multiple_pairs
+        entry_id: rational-3-over-5-x-2
+        selection_class: fraction_pair
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../题库/2026-07-16-反A形相似/items/Q013/build/diagram/jobs/question_bank-reverse_a-q013-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.reverse_a.q013.prompt
+      diagram_job_id: question_bank-reverse_a-q013-prompt
+      width: 60mm
+      caption: 沿题设等角的顶点顺序，找出两组三角形的对应边。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:799733242809e03cac8341089278d886bf897c16387ed25ed13a63db7cd6e48c
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: M013
+    points: 10
+    label: 第 13 题
+    stem_latex: '如图，在 $\triangle ABC$ 中，点 $D$ 在线段 $AC$ 上，且 $\angle ABD=\angle ACB$。
+
+
+      已知 $BD=\sqrt{2}$，$BC=\sqrt{14}$，$AC=\sqrt{14}$。写出三组对应边及相似比，并求 $AB$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+    answer: $AB=\sqrt{2}$。
+    explanation: 先由等角判相似，再按同序顶点确定对应边；本题所用数值对来自 radical_multiple_pairs。
+    solution_steps:
+    - title: 见等角，找相似
+      content: 由题设等角和构型自带的第二组等角，得 $\triangle ABD\sim\triangle ACB$。
+    - title: 按顶点写对应边
+      content: 三组小边与大边依次为：$AB\leftrightarrow AC$，$AD\leftrightarrow AB$，$BD\leftrightarrow BC$。
+    - title: 保持比例方向一致
+      content: 取 大三角形边与小三角形对应边之比，可列 $\dfrac{BC}{BD}=\dfrac{AC}{AB}$。
+    - title: 代入并验算
+      content: 代入已知量解得 $AB=\sqrt{2}$；两组对应边的比均等于同一相似比。
+    teaching:
+      teaching_goal: 先写三组对应边和相似比，再求边
+      source_relations:
+      - explanation:nested
+      - similar_triangles_corresponding_sides
+      expected_blocker: 没有先锁定等角顶点，或两组比例的大小方向不一致。
+      entry_point: equal_angles_to_similarity_to_correspondence
+      scaffold_level: medium
+      variation_depth: changed_representation
+      complexity_note: 只训练 AA 判定、对应边和一层比例；不引入面积、周长或额外辅助线。
+      upgrade_rule: 能独立写出同序相似式并用另一组对应边验算。
+      fallback_move: 先标出两个相等角的顶点，再逐个写出对应点。
+      number_selection:
+        database_id: question-bank-training-numbers
+        family_id: radical_multiple_pairs
+        entry_id: sqrt-ka-a2-k7
+        selection_class: irrational_pair
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../题库/2026-07-16-子母型相似/items/Q024/build/diagram/jobs/question_bank-nested-q024-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.nested.q024.prompt
+      diagram_job_id: question_bank-nested-q024-prompt
+      width: 60mm
+      caption: 先确认对应边，再判断题中的线段是否属于相似三角形。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:6b64d116ed50a85c491470793eef3b9e015f56c44391f5b18c79170adff4315a
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: M014
+    points: 10
+    label: 第 14 题
+    stem_latex: '如图，在 $\triangle ABC$ 中，点 $D$ 在线段 $AC$ 上，且 $\angle ABD=\angle ACB$。
+
+
+      已知 $AB=\frac{1}{10}$，$AC=\frac{3}{5}$，$BC=\frac{3}{5}$，求 $BD$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+    answer: $BD=\frac{1}{10}$。
+    explanation: 先由等角判相似，再按同序顶点确定对应边；本题所用数值对来自 rational_multiple_pairs。
+    solution_steps:
+    - title: 见等角，找相似
+      content: 由题设等角和构型自带的第二组等角，得 $\triangle ABD\sim\triangle ACB$。
+    - title: 按顶点写对应边
+      content: 三组小边与大边依次为：$AB\leftrightarrow AC$，$AD\leftrightarrow AB$，$BD\leftrightarrow BC$。
+    - title: 保持比例方向一致
+      content: 取 大三角形边与小三角形对应边之比，可列 $\dfrac{AC}{AB}=\dfrac{BC}{BD}$。
+    - title: 代入并验算
+      content: 代入已知量解得 $BD=\frac{1}{10}$；两组对应边的比均等于同一相似比。
+    teaching:
+      teaching_goal: 由三条已知边求第四条对应边
+      source_relations:
+      - explanation:nested
+      - similar_triangles_corresponding_sides
+      expected_blocker: 没有先锁定等角顶点，或两组比例的大小方向不一致。
+      entry_point: equal_angles_to_similarity_to_correspondence
+      scaffold_level: medium
+      variation_depth: changed_question
+      complexity_note: 只训练 AA 判定、对应边和一层比例；不引入面积、周长或额外辅助线。
+      upgrade_rule: 能独立写出同序相似式并用另一组对应边验算。
+      fallback_move: 先标出两个相等角的顶点，再逐个写出对应点。
+      number_selection:
+        database_id: question-bank-training-numbers
+        family_id: rational_multiple_pairs
+        entry_id: rational-1-over-10-x-6
+        selection_class: fraction_pair
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../题库/2026-07-16-子母型相似/items/Q003/build/diagram/jobs/question_bank-nested-q003-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.nested.q003.prompt
+      diagram_job_id: question_bank-nested-q003-prompt
+      width: 60mm
+      caption: 先确认对应边，再判断题中的线段是否属于相似三角形。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:280c4f9f7e802b270ff428b79cb55f39f28fd6e027aa5cea4902294cdb87dab5
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: M015
+    points: 10
+    label: 第 15 题
+    stem_latex: '如图，直线 $AB$ 与 $CD$ 相交于点 $O$，点序分别为 $A-O-B$、$C-O-D$，且 $\angle OAC=\angle ODB$，$AC\nparallel BD$。
+
+
+      已知 $OC=\frac{3}{5}$，$OB=\frac{18}{5}$，$OD=\frac{36}{5}$，求 $AO$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+    answer: $AO=\frac{6}{5}$。
+    explanation: 先由等角判相似，再按同序顶点确定对应边；本题所用数值对来自 rational_multiple_pairs。
+    solution_steps:
+    - title: 见等角，找相似
+      content: 由题设等角和构型自带的第二组等角，得 $\triangle AOC\sim\triangle DOB$。
+    - title: 按顶点写对应边
+      content: 三组小边与大边依次为：$AO\leftrightarrow OD$，$OC\leftrightarrow OB$，$AC\leftrightarrow DB$。
+    - title: 保持比例方向一致
+      content: 取 大三角形边与小三角形对应边之比，可列 $\dfrac{OB}{OC}=\dfrac{OD}{AO}$。
+    - title: 代入并验算
+      content: 代入已知量解得 $AO=\frac{6}{5}$；两组对应边的比均等于同一相似比。
+    teaching:
+      teaching_goal: 由三条已知边求第四条对应边
+      source_relations:
+      - explanation:butterfly
+      - similar_triangles_corresponding_sides
+      expected_blocker: 没有先锁定等角顶点，或两组比例的大小方向不一致。
+      entry_point: equal_angles_to_similarity_to_correspondence
+      scaffold_level: medium
+      variation_depth: changed_question
+      complexity_note: 只训练 AA 判定、对应边和一层比例；不引入面积、周长或额外辅助线。
+      upgrade_rule: 能独立写出同序相似式并用另一组对应边验算。
+      fallback_move: 先标出两个相等角的顶点，再逐个写出对应点。
+      number_selection:
+        database_id: question-bank-training-numbers
+        family_id: rational_multiple_pairs
+        entry_id: rational-3-over-5-x-6
+        selection_class: fraction_pair
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../题库/2026-07-16-蝶形相似/items/Q011/build/diagram/jobs/question_bank-butterfly-q011-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.butterfly.q011.prompt
+      diagram_job_id: question_bank-butterfly-q011-prompt
+      width: 60mm
+      caption: 先用对顶角补齐第二组等角，再按顶点顺序配边。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:fbd9f4cc1ab81eea5977118b3b05b22402e8085adbe37857b59235263350d96d
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: M016
+    points: 10
+    label: 第 16 题
+    stem_latex: '如图，在 $\triangle ABC$ 中，点 $D$ 在线段 $AC$ 上，且 $\angle ABD=\angle ACB$。
+
+
+      已知 $AB=\sqrt{3}$，$AC=\sqrt{21}$，$BD=\sqrt{3}$。写出三组对应边及相似比，并求 $BC$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+    answer: $BC=\sqrt{21}$。
+    explanation: 先由等角判相似，再按同序顶点确定对应边；本题所用数值对来自 radical_multiple_pairs。
+    solution_steps:
+    - title: 见等角，找相似
+      content: 由题设等角和构型自带的第二组等角，得 $\triangle ABD\sim\triangle ACB$。
+    - title: 按顶点写对应边
+      content: 三组小边与大边依次为：$AB\leftrightarrow AC$，$AD\leftrightarrow AB$，$BD\leftrightarrow BC$。
+    - title: 保持比例方向一致
+      content: 取 小三角形边与大三角形对应边之比，可列 $\dfrac{AB}{AC}=\dfrac{BD}{BC}$。
+    - title: 代入并验算
+      content: 代入已知量解得 $BC=\sqrt{21}$；两组对应边的比均等于同一相似比。
+    teaching:
+      teaching_goal: 先写三组对应边和相似比，再求边
+      source_relations:
+      - explanation:nested
+      - similar_triangles_corresponding_sides
+      expected_blocker: 没有先锁定等角顶点，或两组比例的大小方向不一致。
+      entry_point: equal_angles_to_similarity_to_correspondence
+      scaffold_level: medium
+      variation_depth: changed_representation
+      complexity_note: 只训练 AA 判定、对应边和一层比例；不引入面积、周长或额外辅助线。
+      upgrade_rule: 能独立写出同序相似式并用另一组对应边验算。
+      fallback_move: 先标出两个相等角的顶点，再逐个写出对应点。
+      number_selection:
+        database_id: question-bank-training-numbers
+        family_id: radical_multiple_pairs
+        entry_id: sqrt-ka-a3-k7
+        selection_class: irrational_pair
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../题库/2026-07-16-子母型相似/items/Q018/build/diagram/jobs/question_bank-nested-q018-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.nested.q018.prompt
+      diagram_job_id: question_bank-nested-q018-prompt
+      width: 60mm
+      caption: 先确认对应边，再判断题中的线段是否属于相似三角形。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:1c2ff03b870f6c8ff01364fa76a77fdc8bf06c1c1bc105312161394577250628
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: M017
+    points: 10
+    label: 第 17 题
+    stem_latex: '如图，在 $\triangle ABC$ 中，点 $D$ 在线段 $AC$ 上，且 $\angle ABD=\angle ACB$。
+
+
+      已知 $BD=\frac{5}{7}$，$BC=\frac{15}{7}$，$AB=\frac{5}{7}$，求 $AC$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+    answer: $AC=\frac{15}{7}$。
+    explanation: 先由等角判相似，再按同序顶点确定对应边；本题所用数值对来自 rational_multiple_pairs。
+    solution_steps:
+    - title: 见等角，找相似
+      content: 由题设等角和构型自带的第二组等角，得 $\triangle ABD\sim\triangle ACB$。
+    - title: 按顶点写对应边
+      content: 三组小边与大边依次为：$AB\leftrightarrow AC$，$AD\leftrightarrow AB$，$BD\leftrightarrow BC$。
+    - title: 保持比例方向一致
+      content: 取 小三角形边与大三角形对应边之比，可列 $\dfrac{BD}{BC}=\dfrac{AB}{AC}$。
+    - title: 代入并验算
+      content: 代入已知量解得 $AC=\frac{15}{7}$；两组对应边的比均等于同一相似比。
+    teaching:
+      teaching_goal: 由三条已知边求第四条对应边
+      source_relations:
+      - explanation:nested
+      - similar_triangles_corresponding_sides
+      expected_blocker: 没有先锁定等角顶点，或两组比例的大小方向不一致。
+      entry_point: equal_angles_to_similarity_to_correspondence
+      scaffold_level: medium
+      variation_depth: changed_question
+      complexity_note: 只训练 AA 判定、对应边和一层比例；不引入面积、周长或额外辅助线。
+      upgrade_rule: 能独立写出同序相似式并用另一组对应边验算。
+      fallback_move: 先标出两个相等角的顶点，再逐个写出对应点。
+      number_selection:
+        database_id: question-bank-training-numbers
+        family_id: rational_multiple_pairs
+        entry_id: rational-5-over-7-x-3
+        selection_class: fraction_pair
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../题库/2026-07-16-子母型相似/items/Q005/build/diagram/jobs/question_bank-nested-q005-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.nested.q005.prompt
+      diagram_job_id: question_bank-nested-q005-prompt
+      width: 60mm
+      caption: 先确认对应边，再判断题中的线段是否属于相似三角形。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:9515bb1b245582c236e533b7900d0bb61e599e88da7077330a5dcae38f112e43
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: M018
+    points: 10
+    label: 第 18 题
+    stem_latex: '如图，点 $P,A,C$ 依次共线，点 $P,B,D$ 依次共线，且 $\angle PAB=\angle PDC$。
+
+
+      已知 $PA=\frac{5}{3}$，$PD=10$，$AB=\frac{20}{3}$，求 $DC$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+    answer: $DC=40$。
+    explanation: 先由等角判相似，再按同序顶点确定对应边；本题所用数值对来自 rational_multiple_pairs。
+    solution_steps:
+    - title: 见等角，找相似
+      content: 由题设等角和构型自带的第二组等角，得 $\triangle PAB\sim\triangle PDC$。
+    - title: 按顶点写对应边
+      content: 三组小边与大边依次为：$PA\leftrightarrow PD$，$PB\leftrightarrow PC$，$AB\leftrightarrow DC$。
+    - title: 保持比例方向一致
+      content: 取 小三角形边与大三角形对应边之比，可列 $\dfrac{PA}{PD}=\dfrac{AB}{DC}$。
+    - title: 代入并验算
+      content: 代入已知量解得 $DC=40$；两组对应边的比均等于同一相似比。
+    teaching:
+      teaching_goal: 由三条已知边求第四条对应边
+      source_relations:
+      - explanation:reverse_a
+      - similar_triangles_corresponding_sides
+      expected_blocker: 没有先锁定等角顶点，或两组比例的大小方向不一致。
+      entry_point: equal_angles_to_similarity_to_correspondence
+      scaffold_level: medium
+      variation_depth: changed_question
+      complexity_note: 只训练 AA 判定、对应边和一层比例；不引入面积、周长或额外辅助线。
+      upgrade_rule: 能独立写出同序相似式并用另一组对应边验算。
+      fallback_move: 先标出两个相等角的顶点，再逐个写出对应点。
+      number_selection:
+        database_id: question-bank-training-numbers
+        family_id: rational_multiple_pairs
+        entry_id: rational-5-over-3-x-6
+        selection_class: fraction_pair
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../题库/2026-07-16-反A形相似/items/Q005/build/diagram/jobs/question_bank-reverse_a-q005-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.reverse_a.q005.prompt
+      diagram_job_id: question_bank-reverse_a-q005-prompt
+      width: 60mm
+      caption: 沿题设等角的顶点顺序，找出两组三角形的对应边。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:9d2796ff416cad6c1b760b88d25ffa7a8bfd03a80f5202f07b89b3ef93afb735
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: M019
+    points: 10
+    label: 第 19 题
+    stem_latex: '如图，点 $P,A,C$ 依次共线，点 $P,B,D$ 依次共线，且 $\angle PAB=\angle PDC$。
+
+
+      已知 $AB=\sqrt{2}$，$DC=\sqrt{6}$，$PA=\frac{1}{2}\sqrt{2}$，求 $PD$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+    answer: $PD=\frac{1}{2}\sqrt{6}$。
+    explanation: 先由等角判相似，再按同序顶点确定对应边；本题所用数值对来自 radical_multiple_pairs。
+    solution_steps:
+    - title: 见等角，找相似
+      content: 由题设等角和构型自带的第二组等角，得 $\triangle PAB\sim\triangle PDC$。
+    - title: 按顶点写对应边
+      content: 三组小边与大边依次为：$PA\leftrightarrow PD$，$PB\leftrightarrow PC$，$AB\leftrightarrow DC$。
+    - title: 保持比例方向一致
+      content: 取 小三角形边与大三角形对应边之比，可列 $\dfrac{AB}{DC}=\dfrac{PA}{PD}$。
+    - title: 代入并验算
+      content: 代入已知量解得 $PD=\frac{1}{2}\sqrt{6}$；两组对应边的比均等于同一相似比。
+    teaching:
+      teaching_goal: 由三条已知边求第四条对应边
+      source_relations:
+      - explanation:reverse_a
+      - similar_triangles_corresponding_sides
+      expected_blocker: 没有先锁定等角顶点，或两组比例的大小方向不一致。
+      entry_point: equal_angles_to_similarity_to_correspondence
+      scaffold_level: medium
+      variation_depth: changed_question
+      complexity_note: 只训练 AA 判定、对应边和一层比例；不引入面积、周长或额外辅助线。
+      upgrade_rule: 能独立写出同序相似式并用另一组对应边验算。
+      fallback_move: 先标出两个相等角的顶点，再逐个写出对应点。
+      number_selection:
+        database_id: question-bank-training-numbers
+        family_id: radical_multiple_pairs
+        entry_id: sqrt-ka-a2-k3
+        selection_class: irrational_pair
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../题库/2026-07-16-反A形相似/items/Q018/build/diagram/jobs/question_bank-reverse_a-q018-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.reverse_a.q018.prompt
+      diagram_job_id: question_bank-reverse_a-q018-prompt
+      width: 60mm
+      caption: 沿题设等角的顶点顺序，找出两组三角形的对应边。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:2a96dc9d653686a289345d0adbced71004c8765fe4de674c2ea53e65ae31349a
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: M020
+    points: 10
+    label: 第 20 题
+    stem_latex: '如图，点 $P,A,C$ 依次共线，点 $P,B,D$ 依次共线，且 $\angle PAB=\angle PDC$。
+
+
+      已知 $PA=\sqrt{5}$，$PD=\sqrt{35}$，$DC=\frac{1}{2}\sqrt{35}$，求 $AB$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+    answer: $AB=\frac{1}{2}\sqrt{5}$。
+    explanation: 先由等角判相似，再按同序顶点确定对应边；本题所用数值对来自 radical_multiple_pairs。
+    solution_steps:
+    - title: 见等角，找相似
+      content: 由题设等角和构型自带的第二组等角，得 $\triangle PAB\sim\triangle PDC$。
+    - title: 按顶点写对应边
+      content: 三组小边与大边依次为：$PA\leftrightarrow PD$，$PB\leftrightarrow PC$，$AB\leftrightarrow DC$。
+    - title: 保持比例方向一致
+      content: 取 大三角形边与小三角形对应边之比，可列 $\dfrac{PD}{PA}=\dfrac{DC}{AB}$。
+    - title: 代入并验算
+      content: 代入已知量解得 $AB=\frac{1}{2}\sqrt{5}$；两组对应边的比均等于同一相似比。
+    teaching:
+      teaching_goal: 由三条已知边求第四条对应边
+      source_relations:
+      - explanation:reverse_a
+      - similar_triangles_corresponding_sides
+      expected_blocker: 没有先锁定等角顶点，或两组比例的大小方向不一致。
+      entry_point: equal_angles_to_similarity_to_correspondence
+      scaffold_level: medium
+      variation_depth: changed_question
+      complexity_note: 只训练 AA 判定、对应边和一层比例；不引入面积、周长或额外辅助线。
+      upgrade_rule: 能独立写出同序相似式并用另一组对应边验算。
+      fallback_move: 先标出两个相等角的顶点，再逐个写出对应点。
+      number_selection:
+        database_id: question-bank-training-numbers
+        family_id: radical_multiple_pairs
+        entry_id: sqrt-ka-a5-k7
+        selection_class: irrational_pair
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../题库/2026-07-16-反A形相似/items/Q008/build/diagram/jobs/question_bank-reverse_a-q008-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.reverse_a.q008.prompt
+      diagram_job_id: question_bank-reverse_a-q008-prompt
+      width: 60mm
+      caption: 沿题设等角的顶点顺序，找出两组三角形的对应边。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:1979a5e32abb1e81deeac89cd40a43ad490e565107f0e132bf95ef3c000db8d4
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: M021
+    points: 10
+    label: 第 21 题
+    stem_latex: '如图，直线 $AB$ 与 $CD$ 相交于点 $O$，点序分别为 $A-O-B$、$C-O-D$，且 $\angle OAC=\angle ODB$，$AC\nparallel BD$。
+
+
+      已知 $AO=\sqrt{10}$，$OD=\sqrt{30}$，$OC=2\sqrt{10}$，求 $OB$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+    answer: $OB=2\sqrt{30}$。
+    explanation: 先由等角判相似，再按同序顶点确定对应边；本题所用数值对来自 radical_multiple_pairs。
+    solution_steps:
+    - title: 见等角，找相似
+      content: 由题设等角和构型自带的第二组等角，得 $\triangle AOC\sim\triangle DOB$。
+    - title: 按顶点写对应边
+      content: 三组小边与大边依次为：$AO\leftrightarrow OD$，$OC\leftrightarrow OB$，$AC\leftrightarrow DB$。
+    - title: 保持比例方向一致
+      content: 取 小三角形边与大三角形对应边之比，可列 $\dfrac{AO}{OD}=\dfrac{OC}{OB}$。
+    - title: 代入并验算
+      content: 代入已知量解得 $OB=2\sqrt{30}$；两组对应边的比均等于同一相似比。
+    teaching:
+      teaching_goal: 由三条已知边求第四条对应边
+      source_relations:
+      - explanation:butterfly
+      - similar_triangles_corresponding_sides
+      expected_blocker: 没有先锁定等角顶点，或两组比例的大小方向不一致。
+      entry_point: equal_angles_to_similarity_to_correspondence
+      scaffold_level: medium
+      variation_depth: changed_question
+      complexity_note: 只训练 AA 判定、对应边和一层比例；不引入面积、周长或额外辅助线。
+      upgrade_rule: 能独立写出同序相似式并用另一组对应边验算。
+      fallback_move: 先标出两个相等角的顶点，再逐个写出对应点。
+      number_selection:
+        database_id: question-bank-training-numbers
+        family_id: radical_multiple_pairs
+        entry_id: sqrt-ka-a10-k3
+        selection_class: irrational_pair
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../题库/2026-07-16-蝶形相似/items/Q002/build/diagram/jobs/question_bank-butterfly-q002-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.butterfly.q002.prompt
+      diagram_job_id: question_bank-butterfly-q002-prompt
+      width: 60mm
+      caption: 先用对顶角补齐第二组等角，再按顶点顺序配边。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:bbabc415cc17aef4daf1a8cf9b01ff5e4dfba7ac0dc8d220362824d1330afbfb
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: M022
+    points: 10
+    label: 第 22 题
+    stem_latex: '如图，在 $\triangle ABC$ 中，点 $D$ 在线段 $AC$ 上，且 $\angle ABD=\angle ACB$。
+
+
+      已知 $BD=\sqrt{10}$，$BC=5\sqrt{2}$，$AC=5\sqrt{2}$。求证 $\triangle ABD\sim\triangle ACB$，并求 $AB$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+    answer: $AB=\sqrt{10}$。
+    explanation: 先由等角判相似，再按同序顶点确定对应边；本题所用数值对来自 radical_multiple_pairs。
+    solution_steps:
+    - title: 见等角，找相似
+      content: 由题设等角和构型自带的第二组等角，得 $\triangle ABD\sim\triangle ACB$。
+    - title: 按顶点写对应边
+      content: 三组小边与大边依次为：$AB\leftrightarrow AC$，$AD\leftrightarrow AB$，$BD\leftrightarrow BC$。
+    - title: 保持比例方向一致
+      content: 取 大三角形边与小三角形对应边之比，可列 $\dfrac{BC}{BD}=\dfrac{AC}{AB}$。
+    - title: 代入并验算
+      content: 代入已知量解得 $AB=\sqrt{10}$；两组对应边的比均等于同一相似比。
+    teaching:
+      teaching_goal: 先补出第二组等角并证明相似，再求边
+      source_relations:
+      - explanation:nested
+      - similar_triangles_corresponding_sides
+      expected_blocker: 没有先锁定等角顶点，或两组比例的大小方向不一致。
+      entry_point: equal_angles_to_similarity_to_correspondence
+      scaffold_level: medium
+      variation_depth: partially_hidden
+      complexity_note: 只训练 AA 判定、对应边和一层比例；不引入面积、周长或额外辅助线。
+      upgrade_rule: 能独立写出同序相似式并用另一组对应边验算。
+      fallback_move: 先标出两个相等角的顶点，再逐个写出对应点。
+      number_selection:
+        database_id: question-bank-training-numbers
+        family_id: radical_multiple_pairs
+        entry_id: sqrt-ka-a10-k5
+        selection_class: irrational_pair
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../题库/2026-07-16-子母型相似/items/Q016/build/diagram/jobs/question_bank-nested-q016-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.nested.q016.prompt
+      diagram_job_id: question_bank-nested-q016-prompt
+      width: 60mm
+      caption: 先确认对应边，再判断题中的线段是否属于相似三角形。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:351473b15b48cd6ba39ddc7632ae07383e9b3651b676725fafa24f8afe6dccb7
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: M023
+    points: 10
+    label: 第 23 题
+    stem_latex: '如图，直线 $AB$ 与 $CD$ 相交于点 $O$，点序分别为 $A-O-B$、$C-O-D$，且 $\angle OAC=\angle ODB$，$AC\nparallel BD$。
+
+
+      已知 $AO=\frac{12}{7}$，$OD=\frac{48}{7}$，$DB=\frac{24}{7}$，求 $AC$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+    answer: $AC=\frac{6}{7}$。
+    explanation: 先由等角判相似，再按同序顶点确定对应边；本题所用数值对来自 rational_multiple_pairs。
+    solution_steps:
+    - title: 见等角，找相似
+      content: 由题设等角和构型自带的第二组等角，得 $\triangle AOC\sim\triangle DOB$。
+    - title: 按顶点写对应边
+      content: 三组小边与大边依次为：$AO\leftrightarrow OD$，$OC\leftrightarrow OB$，$AC\leftrightarrow DB$。
+    - title: 保持比例方向一致
+      content: 取 大三角形边与小三角形对应边之比，可列 $\dfrac{OD}{AO}=\dfrac{DB}{AC}$。
+    - title: 代入并验算
+      content: 代入已知量解得 $AC=\frac{6}{7}$；两组对应边的比均等于同一相似比。
+    teaching:
+      teaching_goal: 由三条已知边求第四条对应边
+      source_relations:
+      - explanation:butterfly
+      - similar_triangles_corresponding_sides
+      expected_blocker: 没有先锁定等角顶点，或两组比例的大小方向不一致。
+      entry_point: equal_angles_to_similarity_to_correspondence
+      scaffold_level: medium
+      variation_depth: changed_question
+      complexity_note: 只训练 AA 判定、对应边和一层比例；不引入面积、周长或额外辅助线。
+      upgrade_rule: 能独立写出同序相似式并用另一组对应边验算。
+      fallback_move: 先标出两个相等角的顶点，再逐个写出对应点。
+      number_selection:
+        database_id: question-bank-training-numbers
+        family_id: rational_multiple_pairs
+        entry_id: rational-12-over-7-x-4
+        selection_class: fraction_pair
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../题库/2026-07-16-蝶形相似/items/Q007/build/diagram/jobs/question_bank-butterfly-q007-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.butterfly.q007.prompt
+      diagram_job_id: question_bank-butterfly-q007-prompt
+      width: 60mm
+      caption: 先用对顶角补齐第二组等角，再按顶点顺序配边。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:7104014841f47fd11b08697397c9acc6ec05075df9ba62821c0ff4e8a23bfb52
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: M024
+    points: 10
+    label: 第 24 题
+    stem_latex: '如图，直线 $AB$ 与 $CD$ 相交于点 $O$，点序分别为 $A-O-B$、$C-O-D$，且 $\angle OAC=\angle ODB$，$AC\nparallel BD$。
+
+
+      已知 $OC=\sqrt{7}$，$OB=\sqrt{35}$，$AC=\frac{1}{2}\sqrt{7}$。求证 $\triangle AOC\sim\triangle DOB$，并求 $DB$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+    answer: $DB=\frac{1}{2}\sqrt{35}$。
+    explanation: 先由等角判相似，再按同序顶点确定对应边；本题所用数值对来自 radical_multiple_pairs。
+    solution_steps:
+    - title: 见等角，找相似
+      content: 由题设等角和构型自带的第二组等角，得 $\triangle AOC\sim\triangle DOB$。
+    - title: 按顶点写对应边
+      content: 三组小边与大边依次为：$AO\leftrightarrow OD$，$OC\leftrightarrow OB$，$AC\leftrightarrow DB$。
+    - title: 保持比例方向一致
+      content: 取 小三角形边与大三角形对应边之比，可列 $\dfrac{OC}{OB}=\dfrac{AC}{DB}$。
+    - title: 代入并验算
+      content: 代入已知量解得 $DB=\frac{1}{2}\sqrt{35}$；两组对应边的比均等于同一相似比。
+    teaching:
+      teaching_goal: 先补出第二组等角并证明相似，再求边
+      source_relations:
+      - explanation:butterfly
+      - similar_triangles_corresponding_sides
+      expected_blocker: 没有先锁定等角顶点，或两组比例的大小方向不一致。
+      entry_point: equal_angles_to_similarity_to_correspondence
+      scaffold_level: low
+      variation_depth: partially_hidden
+      complexity_note: 只训练 AA 判定、对应边和一层比例；不引入面积、周长或额外辅助线。
+      upgrade_rule: 能独立写出同序相似式并用另一组对应边验算。
+      fallback_move: 先标出两个相等角的顶点，再逐个写出对应点。
+      number_selection:
+        database_id: question-bank-training-numbers
+        family_id: radical_multiple_pairs
+        entry_id: sqrt-ka-a7-k5
+        selection_class: irrational_pair
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../题库/2026-07-16-蝶形相似/items/Q038/build/diagram/jobs/question_bank-butterfly-q038-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.butterfly.q038.prompt
+      diagram_job_id: question_bank-butterfly-q038-prompt
+      width: 60mm
+      caption: 先用对顶角补齐第二组等角，再按顶点顺序配边。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:686824570f6cd781624f556fdeaef43fe87e43e29e92e74174aedc69f1378171
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: M025
+    points: 10
+    label: 第 25 题
+    stem_latex: '如图，点 $P,A,C$ 依次共线，点 $P,B,D$ 依次共线，且 $\angle PAB=\angle PDC$。
+
+
+      已知 $AB=\sqrt{5}$，$DC=5\sqrt{2}$，$PA=2\sqrt{5}$。求证 $\triangle PAB\sim\triangle PDC$，并求 $PD$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+    answer: $PD=10\sqrt{2}$。
+    explanation: 先由等角判相似，再按同序顶点确定对应边；本题所用数值对来自 radical_multiple_pairs。
+    solution_steps:
+    - title: 见等角，找相似
+      content: 由题设等角和构型自带的第二组等角，得 $\triangle PAB\sim\triangle PDC$。
+    - title: 按顶点写对应边
+      content: 三组小边与大边依次为：$PA\leftrightarrow PD$，$PB\leftrightarrow PC$，$AB\leftrightarrow DC$。
+    - title: 保持比例方向一致
+      content: 取 小三角形边与大三角形对应边之比，可列 $\dfrac{AB}{DC}=\dfrac{PA}{PD}$。
+    - title: 代入并验算
+      content: 代入已知量解得 $PD=10\sqrt{2}$；两组对应边的比均等于同一相似比。
+    teaching:
+      teaching_goal: 先补出第二组等角并证明相似，再求边
+      source_relations:
+      - explanation:reverse_a
+      - similar_triangles_corresponding_sides
+      expected_blocker: 没有先锁定等角顶点，或两组比例的大小方向不一致。
+      entry_point: equal_angles_to_similarity_to_correspondence
+      scaffold_level: low
+      variation_depth: partially_hidden
+      complexity_note: 只训练 AA 判定、对应边和一层比例；不引入面积、周长或额外辅助线。
+      upgrade_rule: 能独立写出同序相似式并用另一组对应边验算。
+      fallback_move: 先标出两个相等角的顶点，再逐个写出对应点。
+      number_selection:
+        database_id: question-bank-training-numbers
+        family_id: radical_multiple_pairs
+        entry_id: sqrt-ka-a5-k10
+        selection_class: irrational_pair
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../题库/2026-07-16-反A形相似/items/Q042/build/diagram/jobs/question_bank-reverse_a-q042-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.reverse_a.q042.prompt
+      diagram_job_id: question_bank-reverse_a-q042-prompt
+      width: 60mm
+      caption: 沿题设等角的顶点顺序，找出两组三角形的对应边。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:35361242e674743d3b1c3b4b1ffbb0d663701f7425a87a9aa0184cd45eac62ed
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: M026
+    points: 10
+    label: 第 26 题
+    stem_latex: '如图，在 $\triangle ABC$ 中，点 $D$ 在线段 $AC$ 上，且 $\angle ABD=\angle ACB$。
+
+
+      已知 $BD=\frac{7}{3}$，$BC=\frac{28}{3}$，$AB=\frac{7}{3}$。先证明 $\triangle ABD\sim\triangle ACB$，再写出对应关系并求 $AC$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+    answer: $AC=\frac{28}{3}$。
+    explanation: 先由等角判相似，再按同序顶点确定对应边；本题所用数值对来自 rational_multiple_pairs。
+    solution_steps:
+    - title: 见等角，找相似
+      content: 由题设等角和构型自带的第二组等角，得 $\triangle ABD\sim\triangle ACB$。
+    - title: 按顶点写对应边
+      content: 三组小边与大边依次为：$AB\leftrightarrow AC$，$AD\leftrightarrow AB$，$BD\leftrightarrow BC$。
+    - title: 保持比例方向一致
+      content: 取 小三角形边与大三角形对应边之比，可列 $\dfrac{BD}{BC}=\dfrac{AB}{AC}$。
+    - title: 代入并验算
+      content: 代入已知量解得 $AC=\frac{28}{3}$；两组对应边的比均等于同一相似比。
+    teaching:
+      teaching_goal: 完整写出相似判定、对应关系、比例计算和验算
+      source_relations:
+      - explanation:nested
+      - similar_triangles_corresponding_sides
+      expected_blocker: 没有先锁定等角顶点，或两组比例的大小方向不一致。
+      entry_point: equal_angles_to_similarity_to_correspondence
+      scaffold_level: medium
+      variation_depth: packaged_condition
+      complexity_note: 只训练 AA 判定、对应边和一层比例；不引入面积、周长或额外辅助线。
+      upgrade_rule: 能独立写出同序相似式并用另一组对应边验算。
+      fallback_move: 先标出两个相等角的顶点，再逐个写出对应点。
+      number_selection:
+        database_id: question-bank-training-numbers
+        family_id: rational_multiple_pairs
+        entry_id: rational-7-over-3-x-4
+        selection_class: fraction_pair
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../题库/2026-07-16-子母型相似/items/Q029/build/diagram/jobs/question_bank-nested-q029-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.nested.q029.prompt
+      diagram_job_id: question_bank-nested-q029-prompt
+      width: 60mm
+      caption: 先确认对应边，再判断题中的线段是否属于相似三角形。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:a955afd6f82b9c2ee7b7ffa3df11fe74f7a408036b6dfd77ceccd145b89d5957
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: M027
+    points: 10
+    label: 第 27 题
+    stem_latex: '如图，点 $P,A,C$ 依次共线，点 $P,B,D$ 依次共线，且 $\angle PAB=\angle PDC$。
+
+
+      已知 $AB=\sqrt{10}$，$DC=4\sqrt{5}$，$PC=2\sqrt{5}$。求证 $\triangle PAB\sim\triangle PDC$，并求 $PB$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+    answer: $PB=\frac{1}{2}\sqrt{10}$。
+    explanation: 先由等角判相似，再按同序顶点确定对应边；本题所用数值对来自 radical_multiple_pairs。
+    solution_steps:
+    - title: 见等角，找相似
+      content: 由题设等角和构型自带的第二组等角，得 $\triangle PAB\sim\triangle PDC$。
+    - title: 按顶点写对应边
+      content: 三组小边与大边依次为：$PA\leftrightarrow PD$，$PB\leftrightarrow PC$，$AB\leftrightarrow DC$。
+    - title: 保持比例方向一致
+      content: 取 大三角形边与小三角形对应边之比，可列 $\dfrac{DC}{AB}=\dfrac{PC}{PB}$。
+    - title: 代入并验算
+      content: 代入已知量解得 $PB=\frac{1}{2}\sqrt{10}$；两组对应边的比均等于同一相似比。
+    teaching:
+      teaching_goal: 先补出第二组等角并证明相似，再求边
+      source_relations:
+      - explanation:reverse_a
+      - similar_triangles_corresponding_sides
+      expected_blocker: 没有先锁定等角顶点，或两组比例的大小方向不一致。
+      entry_point: equal_angles_to_similarity_to_correspondence
+      scaffold_level: low
+      variation_depth: partially_hidden
+      complexity_note: 只训练 AA 判定、对应边和一层比例；不引入面积、周长或额外辅助线。
+      upgrade_rule: 能独立写出同序相似式并用另一组对应边验算。
+      fallback_move: 先标出两个相等角的顶点，再逐个写出对应点。
+      number_selection:
+        database_id: question-bank-training-numbers
+        family_id: radical_multiple_pairs
+        entry_id: sqrt-ka-a10-k8
+        selection_class: irrational_pair
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../题库/2026-07-16-反A形相似/items/Q048/build/diagram/jobs/question_bank-reverse_a-q048-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.reverse_a.q048.prompt
+      diagram_job_id: question_bank-reverse_a-q048-prompt
+      width: 60mm
+      caption: 沿题设等角的顶点顺序，找出两组三角形的对应边。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:f5c2440f14057010f80e213d603d760ec3cee936ad4b2ddbc5708ec45da5597e
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: M028
+    points: 10
+    label: 第 28 题
+    stem_latex: '如图，直线 $AB$ 与 $CD$ 相交于点 $O$，点序分别为 $A-O-B$、$C-O-D$，且 $\angle OAC=\angle ODB$，$AC\nparallel BD$。
+
+
+      已知 $AO=\frac{5}{7}$，$OD=\frac{15}{7}$，$AC=\frac{15}{14}$。求证 $\triangle AOC\sim\triangle DOB$，并求 $DB$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+    answer: $DB=\frac{45}{14}$。
+    explanation: 先由等角判相似，再按同序顶点确定对应边；本题所用数值对来自 rational_multiple_pairs。
+    solution_steps:
+    - title: 见等角，找相似
+      content: 由题设等角和构型自带的第二组等角，得 $\triangle AOC\sim\triangle DOB$。
+    - title: 按顶点写对应边
+      content: 三组小边与大边依次为：$AO\leftrightarrow OD$，$OC\leftrightarrow OB$，$AC\leftrightarrow DB$。
+    - title: 保持比例方向一致
+      content: 取 小三角形边与大三角形对应边之比，可列 $\dfrac{AO}{OD}=\dfrac{AC}{DB}$。
+    - title: 代入并验算
+      content: 代入已知量解得 $DB=\frac{45}{14}$；两组对应边的比均等于同一相似比。
+    teaching:
+      teaching_goal: 先补出第二组等角并证明相似，再求边
+      source_relations:
+      - explanation:butterfly
+      - similar_triangles_corresponding_sides
+      expected_blocker: 没有先锁定等角顶点，或两组比例的大小方向不一致。
+      entry_point: equal_angles_to_similarity_to_correspondence
+      scaffold_level: medium
+      variation_depth: partially_hidden
+      complexity_note: 只训练 AA 判定、对应边和一层比例；不引入面积、周长或额外辅助线。
+      upgrade_rule: 能独立写出同序相似式并用另一组对应边验算。
+      fallback_move: 先标出两个相等角的顶点，再逐个写出对应点。
+      number_selection:
+        database_id: question-bank-training-numbers
+        family_id: rational_multiple_pairs
+        entry_id: rational-5-over-7-x-3
+        selection_class: fraction_pair
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../题库/2026-07-16-蝶形相似/items/Q029/build/diagram/jobs/question_bank-butterfly-q029-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.butterfly.q029.prompt
+      diagram_job_id: question_bank-butterfly-q029-prompt
+      width: 60mm
+      caption: 先用对顶角补齐第二组等角，再按顶点顺序配边。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:e22871959397aaa87f3712b88f4e697707990f7981b6911e122640dab4158c59
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: M029
+    points: 10
+    label: 第 29 题
+    stem_latex: '如图，点 $P,A,C$ 依次共线，点 $P,B,D$ 依次共线，且 $\angle PAB=\angle PDC$。
+
+
+      已知 $AB=\frac{9}{2}$，$DC=9$，$PD=\frac{27}{2}$，求 $PA$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+    answer: $PA=\frac{27}{4}$。
+    explanation: 先由等角判相似，再按同序顶点确定对应边；本题所用数值对来自 rational_multiple_pairs。
+    solution_steps:
+    - title: 见等角，找相似
+      content: 由题设等角和构型自带的第二组等角，得 $\triangle PAB\sim\triangle PDC$。
+    - title: 按顶点写对应边
+      content: 三组小边与大边依次为：$PA\leftrightarrow PD$，$PB\leftrightarrow PC$，$AB\leftrightarrow DC$。
+    - title: 保持比例方向一致
+      content: 取 大三角形边与小三角形对应边之比，可列 $\dfrac{DC}{AB}=\dfrac{PD}{PA}$。
+    - title: 代入并验算
+      content: 代入已知量解得 $PA=\frac{27}{4}$；两组对应边的比均等于同一相似比。
+    teaching:
+      teaching_goal: 由三条已知边求第四条对应边
+      source_relations:
+      - explanation:reverse_a
+      - similar_triangles_corresponding_sides
+      expected_blocker: 没有先锁定等角顶点，或两组比例的大小方向不一致。
+      entry_point: equal_angles_to_similarity_to_correspondence
+      scaffold_level: medium
+      variation_depth: changed_question
+      complexity_note: 只训练 AA 判定、对应边和一层比例；不引入面积、周长或额外辅助线。
+      upgrade_rule: 能独立写出同序相似式并用另一组对应边验算。
+      fallback_move: 先标出两个相等角的顶点，再逐个写出对应点。
+      number_selection:
+        database_id: question-bank-training-numbers
+        family_id: rational_multiple_pairs
+        entry_id: rational-9-over-2-x-2
+        selection_class: fraction_pair
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../题库/2026-07-16-反A形相似/items/Q019/build/diagram/jobs/question_bank-reverse_a-q019-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.reverse_a.q019.prompt
+      diagram_job_id: question_bank-reverse_a-q019-prompt
+      width: 60mm
+      caption: 沿题设等角的顶点顺序，找出两组三角形的对应边。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:fe02e7d92735a4ecd8ddf3cb8b89ac16034efc67a25999454c0b0694bb12adb7
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: M030
+    points: 10
+    label: 第 30 题
+    stem_latex: '如图，点 $P,A,C$ 依次共线，点 $P,B,D$ 依次共线，且 $\angle PAB=\angle PDC$。
+
+
+      已知 $AB=2\sqrt{2}$，$DC=4\sqrt{5}$，$PB=4\sqrt{2}$，求 $PC$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+    answer: $PC=8\sqrt{5}$。
+    explanation: 先由等角判相似，再按同序顶点确定对应边；本题所用数值对来自 radical_multiple_pairs。
+    solution_steps:
+    - title: 见等角，找相似
+      content: 由题设等角和构型自带的第二组等角，得 $\triangle PAB\sim\triangle PDC$。
+    - title: 按顶点写对应边
+      content: 三组小边与大边依次为：$PA\leftrightarrow PD$，$PB\leftrightarrow PC$，$AB\leftrightarrow DC$。
+    - title: 保持比例方向一致
+      content: 取 小三角形边与大三角形对应边之比，可列 $\dfrac{AB}{DC}=\dfrac{PB}{PC}$。
+    - title: 代入并验算
+      content: 代入已知量解得 $PC=8\sqrt{5}$；两组对应边的比均等于同一相似比。
+    teaching:
+      teaching_goal: 由三条已知边求第四条对应边
+      source_relations:
+      - explanation:reverse_a
+      - similar_triangles_corresponding_sides
+      expected_blocker: 没有先锁定等角顶点，或两组比例的大小方向不一致。
+      entry_point: equal_angles_to_similarity_to_correspondence
+      scaffold_level: medium
+      variation_depth: changed_question
+      complexity_note: 只训练 AA 判定、对应边和一层比例；不引入面积、周长或额外辅助线。
+      upgrade_rule: 能独立写出同序相似式并用另一组对应边验算。
+      fallback_move: 先标出两个相等角的顶点，再逐个写出对应点。
+      number_selection:
+        database_id: question-bank-training-numbers
+        family_id: radical_multiple_pairs
+        entry_id: sqrt-ka-a8-k10
+        selection_class: irrational_pair
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../题库/2026-07-16-反A形相似/items/Q022/build/diagram/jobs/question_bank-reverse_a-q022-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.reverse_a.q022.prompt
+      diagram_job_id: question_bank-reverse_a-q022-prompt
+      width: 60mm
+      caption: 沿题设等角的顶点顺序，找出两组三角形的对应边。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:f9698f6afd018903b5165642f6599618360efccdbf8154b8017605ddf25effb2
+      packages:
+      - tikz
+      libraries: []
+- id: answer-key
+  title: 答案
+  type: answer_key
+  visibility: teacher
+  blocks:
+  - type: answer
+    id: mixed-sampled-answers
+    title: 答案速查
+    items:
+    - latex: 第 1 题：$BC=\frac{8}{7}$。
+    - latex: 第 2 题：$AB=\frac{32}{9}$。
+    - latex: 第 3 题：$OC=3\sqrt{6}$。
+    - latex: 第 4 题：$OB=\frac{24}{7}$。
+    - latex: 第 5 题：$OC=\frac{3}{5}$。
+    - latex: 第 6 题：$OC=3\sqrt{2}$。
+    - latex: 第 7 题：$BD=\frac{8}{9}$。
+    - latex: 第 8 题：$OD=30$。
+    - latex: 第 9 题：$AB=\sqrt{6}$。
+    - latex: 第 10 题：$AC=\sqrt{30}$。
+    - latex: 第 11 题：$PA=\frac{9}{5}$。
+    - latex: 第 12 题：$DC=\frac{18}{5}$。
+    - latex: 第 13 题：$AB=\sqrt{2}$。
+    - latex: 第 14 题：$BD=\frac{1}{10}$。
+    - latex: 第 15 题：$AO=\frac{6}{5}$。
+    - latex: 第 16 题：$BC=\sqrt{21}$。
+    - latex: 第 17 题：$AC=\frac{15}{7}$。
+    - latex: 第 18 题：$DC=40$。
+    - latex: 第 19 题：$PD=\frac{1}{2}\sqrt{6}$。
+    - latex: 第 20 题：$AB=\frac{1}{2}\sqrt{5}$。
+    - latex: 第 21 题：$OB=2\sqrt{30}$。
+    - latex: 第 22 题：$AB=\sqrt{10}$。
+    - latex: 第 23 题：$AC=\frac{6}{7}$。
+    - latex: 第 24 题：$DB=\frac{1}{2}\sqrt{35}$。
+    - latex: 第 25 题：$PD=10\sqrt{2}$。
+    - latex: 第 26 题：$AC=\frac{28}{3}$。
+    - latex: 第 27 题：$PB=\frac{1}{2}\sqrt{10}$。
+    - latex: 第 28 题：$DB=\frac{45}{14}$。
+    - latex: 第 29 题：$PA=\frac{27}{4}$。
+    - latex: 第 30 题：$PC=8\sqrt{5}$。

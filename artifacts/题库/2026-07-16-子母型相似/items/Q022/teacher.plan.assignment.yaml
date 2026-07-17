@@ -1,0 +1,152 @@
+meta:
+  title: 子母型相似 · Q022 · 教师版
+  grade: 八年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    explanation: ../../专题/2026-07-14-子母型相似比与对应边/02-student-explanation.resolved.assignment.yaml
+    diagram_policy: 一题一张独立 prompt 图；题图不泄露相似结论或答案
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: question
+  title: 专题题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q022
+    points: 10
+    label: 先写对应关系再求边
+    stem_latex: '如图，在 $\triangle ABC$ 中，$\angle ABD=\angle ACB$。
+
+
+      已知 $BD=\sqrt{5}$，$BC=2\sqrt{10}$，$AB=\sqrt{5}$。写出三组对应边及相似比，并求 $AC$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+    answer: $AC=2\sqrt{10}$。
+    explanation: 先由等角判相似，再按同序顶点确定对应边；本题所用数值对来自 radical_multiple_pairs。
+    solution_steps:
+    - title: 见等角，找相似
+      content: 由题设等角和构型自带的第二组等角，得 $\triangle ABD\sim\triangle ACB$。
+    - title: 按顶点写对应边
+      content: 三组小边与大边依次为：$AB\leftrightarrow AC$，$AD\leftrightarrow AB$，$BD\leftrightarrow BC$。
+    - title: 保持比例方向一致
+      content: 取 小三角形边与大三角形对应边之比，可列 $\dfrac{BD}{BC}=\dfrac{AB}{AC}$。
+    - title: 代入并验算
+      content: 代入已知量解得 $AC=2\sqrt{10}$；两组对应边的比均等于同一相似比。
+    teaching:
+      teaching_goal: 先写三组对应边和相似比，再求边
+      source_relations:
+      - explanation:nested
+      - similar_triangles_corresponding_sides
+      expected_blocker: 没有先锁定等角顶点，或两组比例的大小方向不一致。
+      entry_point: equal_angles_to_similarity_to_correspondence
+      scaffold_level: medium
+      variation_depth: changed_representation
+      complexity_note: 只训练 AA 判定、对应边和一层比例；不引入面积、周长或额外辅助线。
+      upgrade_rule: 能独立写出同序相似式并用另一组对应边验算。
+      fallback_move: 先标出两个相等角的顶点，再逐个写出对应点。
+      number_selection:
+        database_id: question-bank-training-numbers
+        family_id: radical_multiple_pairs
+        entry_id: sqrt-ka-a5-k8
+        selection_class: irrational_pair
+    diagram_slot:
+      slot_id: question_bank.nested.q022.prompt
+      diagram_ref: question_bank.nested.q022.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: 先确认对应边，再判断题中的线段是否属于相似三角形。
+      engine: geometric_scene
+      diagram_kind: synthetic_geometry
+      engine_options:
+        scene_payload:
+          scene_code: GeometricScene[{A, B, C, D}, {Element[D, Line[{A, C}]], EuclideanDistance[A, D] > 0, EuclideanDistance[D,
+            C] > 0, EuclideanDistance[A, C] == EuclideanDistance[A, D] + EuclideanDistance[D, C], PlanarAngle[{A, B, D}] ==
+            PlanarAngle[{A, C, B}], TriangleMeasurement[{A, B, C}, {"InteriorAngle", A}] >= 8 Degree, TriangleMeasurement[{A,
+            B, C}, {"InteriorAngle", B}] >= 8 Degree, TriangleMeasurement[{A, B, C}, {"InteriorAngle", C}] >= 8 Degree, GeometricAssertion[Line[{A,
+            C}], "Horizontal"], GeometricAssertion[Line[{A, C}], "Rightward"], GeometricAssertion[{A, C, B}, "Counterclockwise"],
+            EuclideanDistance[B, D] == 2.121320344, EuclideanDistance[B, C] == 6, EuclideanDistance[A, B] == 2.121320344}]
+          points:
+          - A
+          - B
+          - C
+          - D
+          point_roles:
+            anchors:
+            - A
+            - B
+            - C
+            constructed:
+            - D
+            auxiliary: []
+          diagram_spec:
+            type: synthetic_geometry
+            segments:
+            - from: A
+              to: B
+            - from: B
+              to: C
+            - from: C
+              to: A
+            - from: B
+              to: D
+            markers: []
+            labels:
+              A:
+                text: A
+                placement: below left
+              B:
+                text: B
+                placement: above
+              C:
+                text: C
+                placement: below right
+              D:
+                text: D
+                placement: below
+            constraints:
+            - D lies strictly between A and C
+            - angle ABD equals angle ACB
+            teaching_focus:
+            - identify equal angles
+            - match vertices before matching sides
+          rationale: 先用一组完整对应边锁定相似比，再约束目标小边；题干中的目标大边由相似关系等价确定。所有距离统一缩放，图中不标边长数值。
+          model_used: deterministic-similarity-model-question-bank
+          model_attempts: []
+        seed: 716021
+      teaching_intent: practice_prompt
+      problem_context:
+        stem_latex: '如图，在 $\triangle ABC$ 中，$\angle ABD=\angle ACB$。
+
+
+          已知 $BD=\sqrt{5}$，$BC=2\sqrt{10}$，$AB=\sqrt{5}$。写出三组对应边及相似比，并求 $AC$。'
+        source_problem_text: 逐题独立生成干净题图。边长比例与题干一致；图中只保留点名和必要标记，不标边长数值、相似结论、对应箭头、比例式、推导或答案。
+      semantic_constraints:
+        given_objects:
+        - A
+        - B
+        - C
+        - D
+        given_constraints:
+        - D lies strictly between A and C
+        - angle ABD equals angle ACB
+        - one full corresponding-side pair fixes the scale and the target small side fixes the shape; the stated target large
+          side is implied by similarity
+        clean_forbidden:
+        - do not show the final answer
+        - do not label the derived triangle similarity
+        - do not draw numeric side-length labels
+        - do not add auxiliary lines or solution annotations

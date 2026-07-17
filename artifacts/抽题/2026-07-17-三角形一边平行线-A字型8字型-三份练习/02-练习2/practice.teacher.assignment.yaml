@@ -1,0 +1,553 @@
+meta:
+  title: 三角形一边平行线：三边求第四边 · 练习 2 · 教师版
+  grade: 八年级
+  subject: 数学
+  total_points: 100
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    question_bank: ../../../题库/2026-07-17-三边求第四边-A字型8字型/question-bank.yaml
+    selected_question_ids:
+    - Q031
+    - Q032
+    - Q033
+    - Q034
+    - Q035
+    - Q036
+    - Q037
+    - Q038
+    - Q039
+    - Q040
+    random_seed: 20260722
+    selection_mode: ordered_interleaving
+    hint_policy: 练习1逐题提示；练习2、3无提示
+  subtitle: 分数与根式：先化简对应边比，再标份数计算
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: sampled-questions
+  title: 练习 2（A字型、8字型交替，共10题）
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q031
+    points: 10
+    label: 第 1 题
+    stem_latex: '如图，$P,A,C$ 三点共线，$P,B,D$ 三点共线，点序分别为 $P-A-C$、$P-B-D$，且 $AB\parallel CD$。
+
+      已知 $PA=\frac{6}{7}$，$PC=\frac{36}{7}$，$CD=\frac{72}{7}$，求 $AB$。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 4
+    answer: $AB=\frac{12}{7}$。
+    explanation: 已知边与未知边中出现平行线段 $CD$、$AB$，先求两个相似三角形的比。先算 $\dfrac{PA}{PC}=\dfrac{\frac{6}{7}}{\frac{36}{7}}=\dfrac{1}{6}$。约分后，$AB$ 对应 $1$ 份，$CD$ 对应 $6$ 份。$AB=CD\times\dfrac{1}{6}=\frac{72}{7}\times\dfrac{1}{6}=\frac{12}{7}$。
+    solution_steps:
+    - title: 先判断
+      content: 已知边与未知边中出现平行线段 $CD$、$AB$，先求两个相似三角形的比。
+    - title: 计算并约分
+      content: $\dfrac{PA}{PC}=\dfrac{\frac{6}{7}}{\frac{36}{7}}=\dfrac{1}{6}$。
+    - title: 标份数
+      content: 约分后，$AB$ 对应 $1$ 份，$CD$ 对应 $6$ 份。
+    - title: 按份数公式求边
+      content: $AB=CD\times\dfrac{1}{6}=\frac{72}{7}\times\dfrac{1}{6}=\frac{12}{7}$。
+    teaching:
+      teaching_goal: 已知三条对应边，先判断比例类型，再标份数求第四边
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      number_selection:
+        database_id: question-bank-training-numbers
+        family_id: rational_multiple_pairs
+        entry_id: rational-6-over-7-x-6
+      expected_blocker: 分数或根式没有先约分，就直接乱配比例。
+      entry_point: classify_ratio_then_mark_shares
+      scaffold_level: low
+      variation_depth: changed_representation
+      complexity_note: 恰好给三条长度，只求第四条；使用 review 后可用的分数或根式数值组。
+      fallback_move: 先把同一组对应边相除并化简，再把结果写成份数。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../../题库/2026-07-17-三边求第四边-A字型8字型/items/Q031/build/diagram/jobs/question-bank-three-known-q031-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question.bank.three.known.q031.prompt
+      diagram_job_id: question-bank-three-known-q031-prompt
+      width: 60mm
+      caption: 先看平行边方向，再判断 A 字型或 8 字型及对应边。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:a8ba98190a7ddd3d15b2d571926123f15fd19148c81ec1ecc6d5db7a38dba756
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q032
+    points: 10
+    label: 第 2 题
+    stem_latex: '如图，$A,P,C$ 三点共线，$B,P,D$ 三点共线，点序分别为 $A-P-C$、$B-P-D$，且 $AB\parallel CD$。
+
+      已知 $AP=\sqrt{2}$，$PC=2\sqrt{2}$，$PD=6\sqrt{2}$，求 $BP$。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 4
+    answer: $BP=3\sqrt{2}$。
+    explanation: 已知边与未知边都不在平行线段 $AB,CD$ 上，先求两侧对应线段的比。先算 $\dfrac{AP}{PC}=\dfrac{\sqrt{2}}{2\sqrt{2}}=\dfrac{1}{2}$。约分后，$BP$ 对应 $1$ 份，$PD$ 对应 $2$ 份。$BP=PD\times\dfrac{1}{2}=6\sqrt{2}\times\dfrac{1}{2}=3\sqrt{2}$。
+    solution_steps:
+    - title: 先判断
+      content: 已知边与未知边都不在平行线段 $AB,CD$ 上，先求两侧对应线段的比。
+    - title: 计算并约分
+      content: $\dfrac{AP}{PC}=\dfrac{\sqrt{2}}{2\sqrt{2}}=\dfrac{1}{2}$。
+    - title: 标份数
+      content: 约分后，$BP$ 对应 $1$ 份，$PD$ 对应 $2$ 份。
+    - title: 按份数公式求边
+      content: $BP=PD\times\dfrac{1}{2}=6\sqrt{2}\times\dfrac{1}{2}=3\sqrt{2}$。
+    teaching:
+      teaching_goal: 已知三条对应边，先判断比例类型，再标份数求第四边
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      number_selection:
+        database_id: question-bank-training-numbers
+        family_id: radical_multiple_pairs
+        entry_id: sqrt-ka-a2-k4
+      expected_blocker: 分数或根式没有先约分，就直接乱配比例。
+      entry_point: classify_ratio_then_mark_shares
+      scaffold_level: low
+      variation_depth: changed_representation
+      complexity_note: 恰好给三条长度，只求第四条；使用 review 后可用的分数或根式数值组。
+      fallback_move: 先把同一组对应边相除并化简，再把结果写成份数。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../../题库/2026-07-17-三边求第四边-A字型8字型/items/Q032/build/diagram/jobs/question-bank-three-known-q032-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question.bank.three.known.q032.prompt
+      diagram_job_id: question-bank-three-known-q032-prompt
+      width: 60mm
+      caption: 先看平行边方向，再判断 A 字型或 8 字型及对应边。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:2b5ab32003e4121ea25404fb1399af984343f0ea1048e4145527b94628d03e31
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q033
+    points: 10
+    label: 第 3 题
+    stem_latex: '如图，$P,A,C$ 三点共线，$P,B,D$ 三点共线，点序分别为 $P-A-C$、$P-B-D$，且 $AB\parallel CD$。
+
+      已知 $PB=\sqrt{2}$，$PD=\sqrt{14}$，$PC=2\sqrt{14}$，求 $PA$。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 4
+    answer: $PA=2\sqrt{2}$。
+    explanation: 已知边与未知边都不在平行线段 $AB,CD$ 上，先求两侧对应线段的比。先算 $\dfrac{PB}{PD}=\dfrac{\sqrt{2}}{\sqrt{14}}=\dfrac{1}{\sqrt{7}}$。约分后，$PA$ 对应 $1$ 份，$PC$ 对应 $\sqrt{7}$ 份。$PA=PC\times\dfrac{1}{\sqrt{7}}=2\sqrt{14}\times\dfrac{1}{\sqrt{7}}=2\sqrt{2}$。
+    solution_steps:
+    - title: 先判断
+      content: 已知边与未知边都不在平行线段 $AB,CD$ 上，先求两侧对应线段的比。
+    - title: 计算并约分
+      content: $\dfrac{PB}{PD}=\dfrac{\sqrt{2}}{\sqrt{14}}=\dfrac{1}{\sqrt{7}}$。
+    - title: 标份数
+      content: 约分后，$PA$ 对应 $1$ 份，$PC$ 对应 $\sqrt{7}$ 份。
+    - title: 按份数公式求边
+      content: $PA=PC\times\dfrac{1}{\sqrt{7}}=2\sqrt{14}\times\dfrac{1}{\sqrt{7}}=2\sqrt{2}$。
+    teaching:
+      teaching_goal: 已知三条对应边，先判断比例类型，再标份数求第四边
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      number_selection:
+        database_id: question-bank-training-numbers
+        family_id: radical_multiple_pairs
+        entry_id: sqrt-ka-a2-k7
+      expected_blocker: 分数或根式没有先约分，就直接乱配比例。
+      entry_point: classify_ratio_then_mark_shares
+      scaffold_level: low
+      variation_depth: changed_representation
+      complexity_note: 恰好给三条长度，只求第四条；使用 review 后可用的分数或根式数值组。
+      fallback_move: 先把同一组对应边相除并化简，再把结果写成份数。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../../题库/2026-07-17-三边求第四边-A字型8字型/items/Q033/build/diagram/jobs/question-bank-three-known-q033-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question.bank.three.known.q033.prompt
+      diagram_job_id: question-bank-three-known-q033-prompt
+      width: 60mm
+      caption: 先看平行边方向，再判断 A 字型或 8 字型及对应边。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:796443cbb1a8897fa2ef644b4c60dda5f7119e0674bbc3df6f301e6883d78c85
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q034
+    points: 10
+    label: 第 4 题
+    stem_latex: '如图，$A,P,C$ 三点共线，$B,P,D$ 三点共线，点序分别为 $A-P-C$、$B-P-D$，且 $AB\parallel CD$。
+
+      已知 $BP=\frac{1}{8}$，$PD=\frac{3}{8}$，$AB=\frac{1}{2}$，求 $CD$。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 4
+    answer: $CD=\frac{3}{2}$。
+    explanation: 已知边与未知边中出现平行线段 $AB$、$CD$，先求两个相似三角形的比。先算 $\dfrac{BP}{PD}=\dfrac{\frac{1}{8}}{\frac{3}{8}}=\dfrac{1}{3}$。约分后，$CD$ 对应 $3$ 份，$AB$ 对应 $1$ 份。$CD=AB\times\dfrac{3}{1}=\frac{1}{2}\times\dfrac{3}{1}=\frac{3}{2}$。
+    solution_steps:
+    - title: 先判断
+      content: 已知边与未知边中出现平行线段 $AB$、$CD$，先求两个相似三角形的比。
+    - title: 计算并约分
+      content: $\dfrac{BP}{PD}=\dfrac{\frac{1}{8}}{\frac{3}{8}}=\dfrac{1}{3}$。
+    - title: 标份数
+      content: 约分后，$CD$ 对应 $3$ 份，$AB$ 对应 $1$ 份。
+    - title: 按份数公式求边
+      content: $CD=AB\times\dfrac{3}{1}=\frac{1}{2}\times\dfrac{3}{1}=\frac{3}{2}$。
+    teaching:
+      teaching_goal: 已知三条对应边，先判断比例类型，再标份数求第四边
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      number_selection:
+        database_id: question-bank-training-numbers
+        family_id: rational_multiple_pairs
+        entry_id: rational-1-over-8-x-3
+      expected_blocker: 分数或根式没有先约分，就直接乱配比例。
+      entry_point: classify_ratio_then_mark_shares
+      scaffold_level: low
+      variation_depth: changed_representation
+      complexity_note: 恰好给三条长度，只求第四条；使用 review 后可用的分数或根式数值组。
+      fallback_move: 先把同一组对应边相除并化简，再把结果写成份数。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../../题库/2026-07-17-三边求第四边-A字型8字型/items/Q034/build/diagram/jobs/question-bank-three-known-q034-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question.bank.three.known.q034.prompt
+      diagram_job_id: question-bank-three-known-q034-prompt
+      width: 60mm
+      caption: 先看平行边方向，再判断 A 字型或 8 字型及对应边。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:5af21c4b44f7e57811401621cb55269cec7b2d81e0d616368868e03d235b2c4a
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q035
+    points: 10
+    label: 第 5 题
+    stem_latex: '如图，$P,A,C$ 三点共线，$P,B,D$ 三点共线，点序分别为 $P-A-C$、$P-B-D$，且 $AB\parallel CD$。
+
+      已知 $PA=\frac{7}{8}$，$PC=\frac{21}{4}$，$AB=\frac{21}{8}$，求 $CD$。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 4
+    answer: $CD=\frac{63}{4}$。
+    explanation: 已知边与未知边中出现平行线段 $AB$、$CD$，先求两个相似三角形的比。先算 $\dfrac{PA}{PC}=\dfrac{\frac{7}{8}}{\frac{21}{4}}=\dfrac{1}{6}$。约分后，$CD$ 对应 $6$ 份，$AB$ 对应 $1$ 份。$CD=AB\times\dfrac{6}{1}=\frac{21}{8}\times\dfrac{6}{1}=\frac{63}{4}$。
+    solution_steps:
+    - title: 先判断
+      content: 已知边与未知边中出现平行线段 $AB$、$CD$，先求两个相似三角形的比。
+    - title: 计算并约分
+      content: $\dfrac{PA}{PC}=\dfrac{\frac{7}{8}}{\frac{21}{4}}=\dfrac{1}{6}$。
+    - title: 标份数
+      content: 约分后，$CD$ 对应 $6$ 份，$AB$ 对应 $1$ 份。
+    - title: 按份数公式求边
+      content: $CD=AB\times\dfrac{6}{1}=\frac{21}{8}\times\dfrac{6}{1}=\frac{63}{4}$。
+    teaching:
+      teaching_goal: 已知三条对应边，先判断比例类型，再标份数求第四边
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      number_selection:
+        database_id: question-bank-training-numbers
+        family_id: rational_multiple_pairs
+        entry_id: rational-7-over-8-x-6
+      expected_blocker: 分数或根式没有先约分，就直接乱配比例。
+      entry_point: classify_ratio_then_mark_shares
+      scaffold_level: low
+      variation_depth: changed_representation
+      complexity_note: 恰好给三条长度，只求第四条；使用 review 后可用的分数或根式数值组。
+      fallback_move: 先把同一组对应边相除并化简，再把结果写成份数。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../../题库/2026-07-17-三边求第四边-A字型8字型/items/Q035/build/diagram/jobs/question-bank-three-known-q035-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question.bank.three.known.q035.prompt
+      diagram_job_id: question-bank-three-known-q035-prompt
+      width: 60mm
+      caption: 先看平行边方向，再判断 A 字型或 8 字型及对应边。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:3e6355459a92d7fd0d97afe9490b668f5abb9022a57f145d6cefe80c81b683fa
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q036
+    points: 10
+    label: 第 6 题
+    stem_latex: '如图，$A,P,C$ 三点共线，$B,P,D$ 三点共线，点序分别为 $A-P-C$、$B-P-D$，且 $AB\parallel CD$。
+
+      已知 $AP=\sqrt{10}$，$PC=2\sqrt{15}$，$BP=2\sqrt{10}$，求 $PD$。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 4
+    answer: $PD=4\sqrt{15}$。
+    explanation: 已知边与未知边都不在平行线段 $AB,CD$ 上，先求两侧对应线段的比。先算 $\dfrac{AP}{PC}=\dfrac{\sqrt{10}}{2\sqrt{15}}=\dfrac{1}{\sqrt{6}}$。约分后，$PD$ 对应 $\sqrt{6}$ 份，$BP$ 对应 $1$ 份。$PD=BP\times\dfrac{\sqrt{6}}{1}=2\sqrt{10}\times\dfrac{\sqrt{6}}{1}=4\sqrt{15}$。
+    solution_steps:
+    - title: 先判断
+      content: 已知边与未知边都不在平行线段 $AB,CD$ 上，先求两侧对应线段的比。
+    - title: 计算并约分
+      content: $\dfrac{AP}{PC}=\dfrac{\sqrt{10}}{2\sqrt{15}}=\dfrac{1}{\sqrt{6}}$。
+    - title: 标份数
+      content: 约分后，$PD$ 对应 $\sqrt{6}$ 份，$BP$ 对应 $1$ 份。
+    - title: 按份数公式求边
+      content: $PD=BP\times\dfrac{\sqrt{6}}{1}=2\sqrt{10}\times\dfrac{\sqrt{6}}{1}=4\sqrt{15}$。
+    teaching:
+      teaching_goal: 已知三条对应边，先判断比例类型，再标份数求第四边
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      number_selection:
+        database_id: question-bank-training-numbers
+        family_id: radical_multiple_pairs
+        entry_id: sqrt-ka-a10-k6
+      expected_blocker: 分数或根式没有先约分，就直接乱配比例。
+      entry_point: classify_ratio_then_mark_shares
+      scaffold_level: low
+      variation_depth: changed_representation
+      complexity_note: 恰好给三条长度，只求第四条；使用 review 后可用的分数或根式数值组。
+      fallback_move: 先把同一组对应边相除并化简，再把结果写成份数。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../../题库/2026-07-17-三边求第四边-A字型8字型/items/Q036/build/diagram/jobs/question-bank-three-known-q036-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question.bank.three.known.q036.prompt
+      diagram_job_id: question-bank-three-known-q036-prompt
+      width: 60mm
+      caption: 先看平行边方向，再判断 A 字型或 8 字型及对应边。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:179f14fbf84b30e6c3ad226c6a5936bcae8d76f09f07bd1c56a8262f3b73ff7f
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q037
+    points: 10
+    label: 第 7 题
+    stem_latex: '如图，$P,A,C$ 三点共线，$P,B,D$ 三点共线，点序分别为 $P-A-C$、$P-B-D$，且 $AB\parallel CD$。
+
+      已知 $PB=\sqrt{5}$，$PD=\sqrt{30}$，$PA=3\sqrt{5}$，求 $PC$。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 4
+    answer: $PC=3\sqrt{30}$。
+    explanation: 已知边与未知边都不在平行线段 $AB,CD$ 上，先求两侧对应线段的比。先算 $\dfrac{PB}{PD}=\dfrac{\sqrt{5}}{\sqrt{30}}=\dfrac{1}{\sqrt{6}}$。约分后，$PC$ 对应 $\sqrt{6}$ 份，$PA$ 对应 $1$ 份。$PC=PA\times\dfrac{\sqrt{6}}{1}=3\sqrt{5}\times\dfrac{\sqrt{6}}{1}=3\sqrt{30}$。
+    solution_steps:
+    - title: 先判断
+      content: 已知边与未知边都不在平行线段 $AB,CD$ 上，先求两侧对应线段的比。
+    - title: 计算并约分
+      content: $\dfrac{PB}{PD}=\dfrac{\sqrt{5}}{\sqrt{30}}=\dfrac{1}{\sqrt{6}}$。
+    - title: 标份数
+      content: 约分后，$PC$ 对应 $\sqrt{6}$ 份，$PA$ 对应 $1$ 份。
+    - title: 按份数公式求边
+      content: $PC=PA\times\dfrac{\sqrt{6}}{1}=3\sqrt{5}\times\dfrac{\sqrt{6}}{1}=3\sqrt{30}$。
+    teaching:
+      teaching_goal: 已知三条对应边，先判断比例类型，再标份数求第四边
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      number_selection:
+        database_id: question-bank-training-numbers
+        family_id: radical_multiple_pairs
+        entry_id: sqrt-ka-a5-k6
+      expected_blocker: 分数或根式没有先约分，就直接乱配比例。
+      entry_point: classify_ratio_then_mark_shares
+      scaffold_level: low
+      variation_depth: changed_representation
+      complexity_note: 恰好给三条长度，只求第四条；使用 review 后可用的分数或根式数值组。
+      fallback_move: 先把同一组对应边相除并化简，再把结果写成份数。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../../题库/2026-07-17-三边求第四边-A字型8字型/items/Q037/build/diagram/jobs/question-bank-three-known-q037-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question.bank.three.known.q037.prompt
+      diagram_job_id: question-bank-three-known-q037-prompt
+      width: 60mm
+      caption: 先看平行边方向，再判断 A 字型或 8 字型及对应边。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:1e6b351f0eb08f2217577fd30092b63b5d7abcd85472365b0bca8dfba5eb953c
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q038
+    points: 10
+    label: 第 8 题
+    stem_latex: '如图，$A,P,C$ 三点共线，$B,P,D$ 三点共线，点序分别为 $A-P-C$、$B-P-D$，且 $AB\parallel CD$。
+
+      已知 $BP=\frac{5}{4}$，$PD=5$，$CD=20$，求 $AB$。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 4
+    answer: $AB=5$。
+    explanation: 已知边与未知边中出现平行线段 $CD$、$AB$，先求两个相似三角形的比。先算 $\dfrac{BP}{PD}=\dfrac{\frac{5}{4}}{5}=\dfrac{1}{4}$。约分后，$AB$ 对应 $1$ 份，$CD$ 对应 $4$ 份。$AB=CD\times\dfrac{1}{4}=20\times\dfrac{1}{4}=5$。
+    solution_steps:
+    - title: 先判断
+      content: 已知边与未知边中出现平行线段 $CD$、$AB$，先求两个相似三角形的比。
+    - title: 计算并约分
+      content: $\dfrac{BP}{PD}=\dfrac{\frac{5}{4}}{5}=\dfrac{1}{4}$。
+    - title: 标份数
+      content: 约分后，$AB$ 对应 $1$ 份，$CD$ 对应 $4$ 份。
+    - title: 按份数公式求边
+      content: $AB=CD\times\dfrac{1}{4}=20\times\dfrac{1}{4}=5$。
+    teaching:
+      teaching_goal: 已知三条对应边，先判断比例类型，再标份数求第四边
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      number_selection:
+        database_id: question-bank-training-numbers
+        family_id: rational_multiple_pairs
+        entry_id: rational-5-over-4-x-4
+      expected_blocker: 分数或根式没有先约分，就直接乱配比例。
+      entry_point: classify_ratio_then_mark_shares
+      scaffold_level: low
+      variation_depth: changed_representation
+      complexity_note: 恰好给三条长度，只求第四条；使用 review 后可用的分数或根式数值组。
+      fallback_move: 先把同一组对应边相除并化简，再把结果写成份数。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../../题库/2026-07-17-三边求第四边-A字型8字型/items/Q038/build/diagram/jobs/question-bank-three-known-q038-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question.bank.three.known.q038.prompt
+      diagram_job_id: question-bank-three-known-q038-prompt
+      width: 60mm
+      caption: 先看平行边方向，再判断 A 字型或 8 字型及对应边。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:26c9f95aa8da4ee767bac7ab5d9cfa65b1a8f17a368e7fc474dba97cec4086de
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q039
+    points: 10
+    label: 第 9 题
+    stem_latex: '如图，$P,A,C$ 三点共线，$P,B,D$ 三点共线，点序分别为 $P-A-C$、$P-B-D$，且 $AB\parallel CD$。
+
+      已知 $PA=\frac{7}{6}$，$PC=\frac{14}{3}$，$CD=\frac{28}{3}$，求 $AB$。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 4
+    answer: $AB=\frac{7}{3}$。
+    explanation: 已知边与未知边中出现平行线段 $CD$、$AB$，先求两个相似三角形的比。先算 $\dfrac{PA}{PC}=\dfrac{\frac{7}{6}}{\frac{14}{3}}=\dfrac{1}{4}$。约分后，$AB$ 对应 $1$ 份，$CD$ 对应 $4$ 份。$AB=CD\times\dfrac{1}{4}=\frac{28}{3}\times\dfrac{1}{4}=\frac{7}{3}$。
+    solution_steps:
+    - title: 先判断
+      content: 已知边与未知边中出现平行线段 $CD$、$AB$，先求两个相似三角形的比。
+    - title: 计算并约分
+      content: $\dfrac{PA}{PC}=\dfrac{\frac{7}{6}}{\frac{14}{3}}=\dfrac{1}{4}$。
+    - title: 标份数
+      content: 约分后，$AB$ 对应 $1$ 份，$CD$ 对应 $4$ 份。
+    - title: 按份数公式求边
+      content: $AB=CD\times\dfrac{1}{4}=\frac{28}{3}\times\dfrac{1}{4}=\frac{7}{3}$。
+    teaching:
+      teaching_goal: 已知三条对应边，先判断比例类型，再标份数求第四边
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      number_selection:
+        database_id: question-bank-training-numbers
+        family_id: rational_multiple_pairs
+        entry_id: rational-7-over-6-x-4
+      expected_blocker: 分数或根式没有先约分，就直接乱配比例。
+      entry_point: classify_ratio_then_mark_shares
+      scaffold_level: low
+      variation_depth: changed_representation
+      complexity_note: 恰好给三条长度，只求第四条；使用 review 后可用的分数或根式数值组。
+      fallback_move: 先把同一组对应边相除并化简，再把结果写成份数。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../../题库/2026-07-17-三边求第四边-A字型8字型/items/Q039/build/diagram/jobs/question-bank-three-known-q039-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question.bank.three.known.q039.prompt
+      diagram_job_id: question-bank-three-known-q039-prompt
+      width: 60mm
+      caption: 先看平行边方向，再判断 A 字型或 8 字型及对应边。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:89949d2b532fed0f654d72b37e9daa87206db39d050a927c4f4339927bb75d95
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q040
+    points: 10
+    label: 第 10 题
+    stem_latex: '如图，$A,P,C$ 三点共线，$B,P,D$ 三点共线，点序分别为 $A-P-C$、$B-P-D$，且 $AB\parallel CD$。
+
+      已知 $AP=\sqrt{3}$，$PC=3\sqrt{2}$，$PD=9\sqrt{2}$，求 $BP$。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 4
+    answer: $BP=3\sqrt{3}$。
+    explanation: 已知边与未知边都不在平行线段 $AB,CD$ 上，先求两侧对应线段的比。先算 $\dfrac{AP}{PC}=\dfrac{\sqrt{3}}{3\sqrt{2}}=\dfrac{1}{\sqrt{6}}$。约分后，$BP$ 对应 $1$ 份，$PD$ 对应 $\sqrt{6}$ 份。$BP=PD\times\dfrac{1}{\sqrt{6}}=9\sqrt{2}\times\dfrac{1}{\sqrt{6}}=3\sqrt{3}$。
+    solution_steps:
+    - title: 先判断
+      content: 已知边与未知边都不在平行线段 $AB,CD$ 上，先求两侧对应线段的比。
+    - title: 计算并约分
+      content: $\dfrac{AP}{PC}=\dfrac{\sqrt{3}}{3\sqrt{2}}=\dfrac{1}{\sqrt{6}}$。
+    - title: 标份数
+      content: 约分后，$BP$ 对应 $1$ 份，$PD$ 对应 $\sqrt{6}$ 份。
+    - title: 按份数公式求边
+      content: $BP=PD\times\dfrac{1}{\sqrt{6}}=9\sqrt{2}\times\dfrac{1}{\sqrt{6}}=3\sqrt{3}$。
+    teaching:
+      teaching_goal: 已知三条对应边，先判断比例类型，再标份数求第四边
+      source_relations:
+      - fallback:approved_2026_07_12_explanation
+      number_selection:
+        database_id: question-bank-training-numbers
+        family_id: radical_multiple_pairs
+        entry_id: sqrt-ka-a3-k6
+      expected_blocker: 分数或根式没有先约分，就直接乱配比例。
+      entry_point: classify_ratio_then_mark_shares
+      scaffold_level: low
+      variation_depth: changed_representation
+      complexity_note: 恰好给三条长度，只求第四条；使用 review 后可用的分数或根式数值组。
+      fallback_move: 先把同一组对应边相除并化简，再把结果写成份数。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../../题库/2026-07-17-三边求第四边-A字型8字型/items/Q040/build/diagram/jobs/question-bank-three-known-q040-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question.bank.three.known.q040.prompt
+      diagram_job_id: question-bank-three-known-q040-prompt
+      width: 60mm
+      caption: 先看平行边方向，再判断 A 字型或 8 字型及对应边。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:abe7258e85e974cf868be5f4b0775980d8d145edd780309657a354569b998849
+      packages:
+      - tikz
+      libraries: []
+- id: answer-key
+  title: 答案
+  type: answer_key
+  visibility: teacher
+  blocks:
+  - type: answer
+    id: sampled-answers
+    title: 答案速查
+    items:
+    - latex: 第 1 题：$AB=\frac{12}{7}$。
+    - latex: 第 2 题：$BP=3\sqrt{2}$。
+    - latex: 第 3 题：$PA=2\sqrt{2}$。
+    - latex: 第 4 题：$CD=\frac{3}{2}$。
+    - latex: 第 5 题：$CD=\frac{63}{4}$。
+    - latex: 第 6 题：$PD=4\sqrt{15}$。
+    - latex: 第 7 题：$PC=3\sqrt{30}$。
+    - latex: 第 8 题：$AB=5$。
+    - latex: 第 9 题：$AB=\frac{7}{3}$。
+    - latex: 第 10 题：$BP=3\sqrt{3}$。

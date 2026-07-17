@@ -1,0 +1,76 @@
+meta:
+  title: 子母型相似 · Q010 · 教师版
+  grade: 八年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    explanation: ../../专题/2026-07-14-子母型相似比与对应边/02-student-explanation.resolved.assignment.yaml
+    diagram_policy: 一题一张独立 prompt 图；题图不泄露相似结论或答案
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: question
+  title: 专题题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q010
+    points: 10
+    label: 先证相似再求边
+    stem_latex: '如图，在 $\triangle ABC$ 中，$\angle ABD=\angle ACB$。
+
+
+      已知 $AB=\sqrt{5}$，$AC=\sqrt{10}$，$BD=\sqrt{5}$。求证 $\triangle ABD\sim\triangle
+      ACB$，并求 $BC$。'
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+    answer: $BC=\sqrt{10}$。
+    explanation: 先由等角判相似，再按同序顶点确定对应边；本题所用数值对来自 radical_multiple_pairs。
+    solution_steps:
+    - title: 见等角，找相似
+      content: 由题设等角和构型自带的第二组等角，得 $\triangle ABD\sim\triangle ACB$。
+    - title: 按顶点写对应边
+      content: 三组小边与大边依次为：$AB\leftrightarrow AC$，$AD\leftrightarrow AB$，$BD\leftrightarrow
+        BC$。
+    - title: 保持比例方向一致
+      content: 取 小三角形边与大三角形对应边之比，可列 $\dfrac{AB}{AC}=\dfrac{BD}{BC}$。
+    - title: 代入并验算
+      content: 代入已知量解得 $BC=\sqrt{10}$；两组对应边的比均等于同一相似比。
+    teaching:
+      teaching_goal: 先补出第二组等角并证明相似，再求边
+      source_relations:
+      - explanation:nested
+      - similar_triangles_corresponding_sides
+      expected_blocker: 没有先锁定等角顶点，或两组比例的大小方向不一致。
+      entry_point: equal_angles_to_similarity_to_correspondence
+      scaffold_level: medium
+      variation_depth: partially_hidden
+      complexity_note: 只训练 AA 判定、对应边和一层比例；不引入面积、周长或额外辅助线。
+      upgrade_rule: 能独立写出同序相似式并用另一组对应边验算。
+      fallback_move: 先标出两个相等角的顶点，再逐个写出对应点。
+      number_selection:
+        database_id: question-bank-training-numbers
+        family_id: radical_multiple_pairs
+        entry_id: sqrt-ka-a5-k2
+        selection_class: irrational_pair
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-nested-q010-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.nested.q010.prompt
+      diagram_job_id: question_bank-nested-q010-prompt
+      width: 60mm
+      caption: 先确认对应边，再判断题中的线段是否属于相似三角形。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:8ef37d1e2233204246f5197c2a912eeee586c6f448b67558db16ab0a482ae25a
+      packages:
+      - tikz
+      libraries: []

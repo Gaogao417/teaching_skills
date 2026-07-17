@@ -1,0 +1,116 @@
+\documentclass{exam-zh}
+\usepackage{edu-explanation}
+
+\examsetup{
+  question/show-answer = true,
+  fillin/show-answer = true,
+  solution/show-solution = show-stay,
+}
+
+\begin{document}
+
+\eduSectionTitle{旋转相似：固定角 $D$ 是顶角还是底角}
+
+\begin{eduProblemBlock}[第 18 题]
+\noindent
+\begin{minipage}[t]{\dimexpr\linewidth-70mm-6mm\relax}
+\vspace{0pt}
+如图，在 $\triangle ABC$ 中，$AB=AC=5$，$\cos C=\dfrac45$。
+将 $\triangle ABC$ 绕点 $A$ 逆时针旋转得到 $\triangle ADE$，
+点 $B,C$ 分别与点 $D,E$ 对应，边 $AD,DE$ 分别与原三角形底边 $BC$ 交于点 $F,G$。
+当 $\triangle DFG$ 是等腰三角形时，求 $FG$ 的长。
+
+\end{minipage}\hfill
+\begin{diagramcoltikz}{70mm}{原图只给出 $\triangle ABC$；先由已知三角比解出底边。}
+\input{\detokenize{build/diagram/jobs/explanation-problem18-prompt/rendered/prompt.fragment.tex}}
+\end{diagramcoltikz}
+\end{eduProblemBlock}
+
+
+
+
+
+\begin{eduAuxItem}{思路导航}
+先解原三角形$\;\to\;$找到两个分支共用的相似$\;\to\;$情形一：$D$ 是顶角$\;\to\;$情形二：$D$ 是底角\end{eduAuxItem}
+
+
+
+
+\begin{eduSubQuestionItem}{第 18 题}
+当 $\triangle DFG$ 是等腰三角形时，求 $FG$ 的所有可能值。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{小贴士}
+        \eduSideHint{先找等腰，再写腰底比}{$\triangle ABC$、$\triangle ADE$ 本来就是等腰三角形；题设又给出等腰 $\triangle DFG$。由 $\triangle DFG\sim\triangle BFA$ 知 $\triangle BFA$ 也是等腰三角形。先对齐顶角和底角；情形一可直接写腰底比 $\dfrac{DF}{FG}=\dfrac{BF}{FA}$。}
+        \eduSideHint{底角情形为什么不取 $F$}{若 $D,F$ 是两个底角，相似会给出 $FA=BA=5$，从而 $F$ 与 $B$ 或 $C$ 重合，再由 $AD=5$ 得 $D=F$，$\triangle DFG$ 退化。}
+        \eduSideHint{$FD$ 为什么做减法}{两个有效构型的点序都是 $A-F-D$，所以 $AD=AF+FD$，必须用 $FD=AD-AF$。}
+  \end{eduExplainLeft}
+
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{解答}
+      \eduExplainStep{1}{先解原三角形}{\textbf{解等腰 $\triangle ABC$}：已知 $AB=AC$，$AC=5$，$\cos C=\dfrac45$。\\
+作 $AH\perp BC$。\\
+$\because AB=AC$，\\
+$\therefore BH=CH$。\\
+在 $\triangle ACH$ 中，\\
+$\because \dfrac{CH}{AC}=\cos C=\dfrac45$，\\
+$\therefore CH=BH=4$，$AH=3$。\\
+得 $BC=8$，$\angle B=\angle C$。
+}
+      \eduExplainStep{2}{找到两个分支共用的相似}{$\because$ 旋转保持角，\\
+$\therefore \angle FDG=\angle ADE=\angle ABC$。\\
+$\because \angle DFG=\angle BFA$（对顶角），\\
+$\therefore \triangle DFG\sim\triangle BFA$，\\
+对应顶点为 $D\leftrightarrow B$、$F\leftrightarrow F$、$G\leftrightarrow A$。
+}
+      \eduExplainStep{3}{情形一：$D$ 是顶角}{$\because DF=DG$，且 $\triangle DFG\sim\triangle BFA$，\\
+$\therefore BF=BA=5$。\\
+\textbf{解等腰 $\triangle BFA$}：已知 $BF=BA$，$BA=5$，$\cos\angle FBA=\dfrac45$，得
+\[
+  FA^2=BF^2+BA^2-2\cdot BF\cdot BA\cos C
+  =25+25-50\cdot\frac45=10,
+\]
+即 $FA=\sqrt{10}$，$FD=AD-AF=5-\sqrt{10}$。\\
+两个等腰三角形的顶角 $D\leftrightarrow B$，\\
+$\because \triangle DFG\sim\triangle BFA$，
+\[
+  \therefore \frac{DF}{FG}=\frac{BF}{FA}
+  =\frac{5}{\sqrt{10}},
+\]
+故 $FG=\dfrac{DF\cdot FA}{BF}=\sqrt{10}-2$。
+}
+      \begin{center}
+        \begin{diagramcoltikz}{70mm}{情形一：$D$ 为顶角，$DF=DG$，经相似传递为 $BF=BA$。}
+        \input{\detokenize{build/diagram/jobs/explanation-problem18-case-vertex/rendered/solution.fragment.tex}}
+        \end{diagramcoltikz}
+      \end{center}
+      \eduExplainStep{4}{情形二：$D$ 是底角}{非退化时另一底角为 $G$，即 $\angle D=\angle G$。\\
+$\because \triangle DFG\sim\triangle BFA$，\\
+$\therefore \angle B=\angle A$，$BF=FA$。\\
+\textbf{解等腰 $\triangle BFA$}：已知 $BF=FA$，$BA=5$，$\cos\angle FBA=\dfrac45$。\\
+设 $BF=FA=x$，得
+\[
+  x^2=5^2+x^2-2\cdot5\cdot x\cdot\frac45,
+\]
+即 $x=\dfrac{25}{8}$。\\
+因此 $FD=AD-AF=5-\dfrac{25}{8}=\dfrac{15}{8}$。\\
+$\because \angle D=\angle G$，\\
+$\therefore FG=FD=\dfrac{15}{8}$。
+}
+      \begin{center}
+        \begin{diagramcoltikz}{70mm}{情形二：$D,G$ 为两个底角，$DF=FG$，经相似传递为 $BF=FA$。}
+        \input{\detokenize{build/diagram/jobs/explanation-problem18-case-base/rendered/solution.fragment.tex}}
+        \end{diagramcoltikz}
+      \end{center}
+    \vspace{1mm}
+    {\color{edu-blue}\bfseries\small 答案}\par\vspace{1mm}
+    \begin{eduBulletList}
+      \item $FG=\sqrt{10}-2$ 或 $FG=\dfrac{15}{8}$。    \end{eduBulletList}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\end{document}
