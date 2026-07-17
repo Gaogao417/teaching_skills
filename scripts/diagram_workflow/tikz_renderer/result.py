@@ -75,6 +75,7 @@ def write_success_result(
         readability=TikzReadabilityAudit(
             display_width="",
             point_label_count=diagram_spec.audit.point_label_count,
+            condition_label_count=diagram_spec.audit.condition_label_count,
             condition_label_style=None,
             warnings=diagram_spec.audit.warnings,
         ),

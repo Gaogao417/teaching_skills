@@ -28,7 +28,17 @@ diagram_slot:
 - `slot_id` 必须唯一。
 - 原题图使用 `variant: "prompt"` 和 `disclosure_policy: "clean"`。
 - 辅助线讲解图使用 `variant: "solution"` 和 `disclosure_policy: "annotated"`，并显式写 `reuse_geometry_from`。
-- `prompt/clean` 默认只显示题干几何对象与必要顶点标签。长度、比例、相等、角度等 `given_constraints` 用于确定构型，不表示必须把数值、等式或符号重复画在图上；`problem_text` / `source_problem_text` 也不是可见标注清单。确需原题图显示某项标记时，另行声明 `visual_requirements.required_visible_annotations`。讲解标记放在 `solution/annotated` 的 `solution_allowed_annotations` 中。
+- `prompt/clean` 默认只显示题干几何对象与必要顶点标签。长度、比例、相等、角度等 `given_constraints` 用于确定构型，不表示必须把数值、等式或符号重复画在图上；`problem_text` / `source_problem_text` 也不是可见标注清单。确需显示的 prompt 或 solution 标注都必须写入 typed `visual_requirements.required_visible_annotations`；`solution_allowed_annotations` 只表示允许范围，不表示必须画出。
+- `required_visible_annotations.markers[].type` 只允许 `right_angle`、`equal_ticks`、`parallel`、`angle_arc`。等长/平行标记写 `segments`；角标记写 `vertex` 和两个 `arms`。文字写入 `texts[]`，target 只能是一个点或一条线段的两个端点。例如：
+
+```yaml
+visual_requirements:
+  required_visible_annotations:
+    markers:
+      - {type: equal_ticks, segments: [[D, F], [D, G]]}
+    texts:
+      - {id: df-value, target: [D, F], text: "7", placement: above, dx: 0, dy: 0}
+```
 - 给已有讲义补图时，必须回到本 writer 重新生成 plan YAML；不得把普通 assignment 机械转换成 plan YAML。
 - 若辅助图对应某个解答动作，如“作辅助线”“补中点”“连接某线段”，优先把 `diagram_slot` 写在对应 `route.steps[]` 下，并使用 `placement: "step_diagram"`；不要单独制造一个“辅助图” `problemcard`。
 - `caption` 写学生要观察的动作，不写调试信息。

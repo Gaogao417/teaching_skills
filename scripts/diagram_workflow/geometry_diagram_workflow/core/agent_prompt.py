@@ -75,7 +75,10 @@ def scene_writer_output_schema() -> Dict[str, object]:
         "type": "object",
         "additionalProperties": False,
         "properties": {
-            "type": {"type": "string", "minLength": 1},
+            "type": {
+                "type": "string",
+                "enum": ["right_angle", "equal_ticks", "parallel", "angle_arc"],
+            },
             "vertex": {"type": "string"},
             "arms": {"type": "array", "items": point_name},
             "segments": {
@@ -89,8 +92,9 @@ def scene_writer_output_schema() -> Dict[str, object]:
             },
             "angle_mode": {"type": "string", "enum": ["minor", "reflex"]},
             "stroke": {"type": "string"},
+            "count": {"type": "integer", "minimum": 1, "maximum": 3},
         },
-        "required": ["type", "vertex", "arms", "segments", "angle_mode", "stroke"],
+        "required": ["type", "vertex", "arms", "segments", "angle_mode", "stroke", "count"],
     }
     label = {
         "type": "object",
@@ -115,10 +119,25 @@ def scene_writer_output_schema() -> Dict[str, object]:
         "type": "object",
         "additionalProperties": False,
         "properties": {
-            "target": {"type": "array", "items": point_name},
-            "text": {"type": "string"},
+            "id": {"type": "string"},
+            "target": {
+                "type": "array",
+                "items": point_name,
+                "minItems": 1,
+                "maxItems": 2,
+            },
+            "text": {"type": "string", "minLength": 1},
+            "placement": {
+                "type": ["string", "null"],
+                "enum": [
+                    "above", "below", "left", "right", "above left", "above right",
+                    "below left", "below right", "center", None,
+                ],
+            },
+            "dx": {"type": "number"},
+            "dy": {"type": "number"},
         },
-        "required": ["target", "text"],
+        "required": ["id", "target", "text", "placement", "dx", "dy"],
     }
     diagram_spec = {
         "type": "object",

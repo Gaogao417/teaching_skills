@@ -396,6 +396,88 @@ class TikzRendererTest(unittest.TestCase):
             self.assertIn(r"++(0pt,-2.4pt) -- ++(0pt,4.8pt);", fragment)
             self.assertIn(r"++(-2.4pt,0pt) -- ++(4.8pt,0pt);", fragment)
 
+    def test_synthetic_text_annotations_are_rendered_at_segment_midpoint(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            out_dir = Path(tmp)
+            spec_path = out_dir / "final_renderer_spec.json"
+            spec_path.write_text(
+                json.dumps(
+                    {
+                        "schema_version": "geometry-render-spec/v1",
+                        "job_id": "annotation",
+                        "variant": "solution",
+                        "type": "synthetic_geometry",
+                        "points": {"D": [0, 0], "F": [2, 0]},
+                        "segments": [{"from": "D", "to": "F"}],
+                        "labels": {"D": {"text": "D"}, "F": {"text": "F"}},
+                        "annotations": [
+                            {
+                                "id": "df-value",
+                                "target": ["D", "F"],
+                                "text": "x+1",
+                                "placement": "above",
+                                "dx": 0,
+                                "dy": 0,
+                            }
+                        ],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            with patch("render_geometry_spec.build_previews", return_value=PreviewResult()):
+                result = render_geometry_spec(spec_path, out_dir, variant="solution")
+
+            fragment = (out_dir / result["tikz_fragment_path"]).read_text(encoding="utf-8")
+            audit = json.loads((out_dir / "renderer_audit.json").read_text(encoding="utf-8"))
+            self.assertIn("!0.5!", fragment)
+            self.assertIn("{$x+1$}", fragment)
+            self.assertEqual(audit["readability"]["condition_label_count"], 1)
+
+    def test_severe_label_overlap_is_reported_as_blocking_renderer_warning(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            out_dir = Path(tmp)
+            spec_path = out_dir / "final_renderer_spec.json"
+            spec_path.write_text(
+                json.dumps(
+                    {
+                        "schema_version": "geometry-render-spec/v1",
+                        "job_id": "label-overlap",
+                        "variant": "solution",
+                        "type": "synthetic_geometry",
+                        "points": {"F": [0, 0], "G": [0.01, 0], "H": [10, 10]},
+                        "segments": [{"from": "F", "to": "G"}, {"from": "G", "to": "H"}],
+                        "labels": {
+                            "F": {"text": "F", "placement": "below", "dx": 0, "dy": 0},
+                            "G": {"text": "G", "placement": "below", "dx": 0, "dy": 0},
+                            "H": {"text": "H", "placement": "above", "dx": 0, "dy": 0},
+                        },
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            with patch("render_geometry_spec.build_previews", return_value=PreviewResult()):
+                render_geometry_spec(spec_path, out_dir, variant="solution")
+
+            audit = json.loads((out_dir / "renderer_audit.json").read_text(encoding="utf-8"))
+            self.assertTrue(
+                any(item.startswith("blocking:label_overlap:F:G") for item in audit["warnings"])
+            )
+
+            corrected = json.loads(spec_path.read_text(encoding="utf-8"))
+            corrected["labels"]["F"].update({"placement": "below left", "dx": -12})
+            corrected["labels"]["G"].update({"placement": "below right", "dx": 12})
+            spec_path.write_text(json.dumps(corrected), encoding="utf-8")
+            with patch("render_geometry_spec.build_previews", return_value=PreviewResult()):
+                render_geometry_spec(spec_path, out_dir, variant="solution")
+            corrected_audit = json.loads(
+                (out_dir / "renderer_audit.json").read_text(encoding="utf-8")
+            )
+            self.assertFalse(
+                any(item.startswith("blocking:label_overlap:F:G") for item in corrected_audit["warnings"])
+            )
+
     def test_invalid_spec_writes_failed_renderer_result(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             out_dir = Path(tmp)

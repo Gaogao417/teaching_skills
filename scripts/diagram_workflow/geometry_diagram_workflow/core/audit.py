@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import re
+import math
 from pathlib import Path
 from typing import Dict, List
 
@@ -19,6 +20,96 @@ def _bad_label_text(value: object) -> str:
     if len(text) > 24:
         return f"label text too long: {text[:80]}"
     return ""
+
+
+def _normalized_segment(value: object) -> tuple[str, str]:
+    if not isinstance(value, (list, tuple)) or len(value) != 2:
+        return ("", "")
+    return tuple(sorted((str(value[0]), str(value[1]))))
+
+
+def _marker_signature(value: object) -> tuple[object, ...]:
+    if not isinstance(value, dict):
+        return ("invalid",)
+    marker_type = str(value.get("type") or "")
+    aliases = {
+        "equal_tick": "equal_ticks",
+        "equal_segment": "equal_ticks",
+        "equal_segments": "equal_ticks",
+        "parallel_mark": "parallel",
+        "parallel_marks": "parallel",
+    }
+    marker_type = aliases.get(marker_type, marker_type)
+    if marker_type in {"equal_ticks", "parallel"}:
+        segments = value.get("segments") if isinstance(value.get("segments"), list) else []
+        return (marker_type, tuple(sorted(_normalized_segment(item) for item in segments)))
+    arms = value.get("arms") if isinstance(value.get("arms"), list) else []
+    return (marker_type, str(value.get("vertex") or ""), tuple(sorted(str(item) for item in arms)))
+
+
+def _text_signature(value: object) -> tuple[object, ...]:
+    if not isinstance(value, dict):
+        return ("invalid",)
+    target = value.get("target") if isinstance(value.get("target"), list) else []
+    return (str(value.get("text") or ""), tuple(str(item) for item in target))
+
+
+def _visible_requirements(request: Dict[str, object]) -> tuple[list[object], list[object]]:
+    visual = request.get("visual_requirements")
+    if not isinstance(visual, dict):
+        return [], []
+    required = visual.get("required_visible_annotations")
+    if not isinstance(required, dict):
+        return [], []
+    markers = required.get("markers") if isinstance(required.get("markers"), list) else []
+    texts = required.get("texts") if isinstance(required.get("texts"), list) else []
+    return markers, texts
+
+
+def _audit_degenerate_geometry(
+    renderer_spec: Dict[str, object],
+    issues: List[str],
+    warnings: List[str],
+) -> None:
+    raw_points = renderer_spec.get("points")
+    if not isinstance(raw_points, dict) or len(raw_points) < 2:
+        return
+    points: dict[str, tuple[float, float]] = {}
+    for name, value in raw_points.items():
+        if isinstance(value, (list, tuple)) and len(value) >= 2:
+            points[str(name)] = (float(value[0]), float(value[1]))
+    if len(points) < 2:
+        return
+    xs = [point[0] for point in points.values()]
+    ys = [point[1] for point in points.values()]
+    diagonal = max(math.hypot(max(xs) - min(xs), max(ys) - min(ys)), 1e-9)
+    names = list(points)
+    for index, first_name in enumerate(names):
+        for second_name in names[index + 1 :]:
+            distance = math.dist(points[first_name], points[second_name])
+            if distance <= 1e-8:
+                issues.append(f"degenerate_coincident_points:{first_name}:{second_name}")
+            elif distance / diagonal < 0.012:
+                warnings.append(f"near_coincident_points:{first_name}:{second_name}")
+    polygons = renderer_spec.get("polygons")
+    if not isinstance(polygons, list):
+        return
+    bbox_area = max((max(xs) - min(xs)) * (max(ys) - min(ys)), 1e-9)
+    for index, polygon in enumerate(polygons):
+        if not isinstance(polygon, dict) or not isinstance(polygon.get("points"), list):
+            continue
+        vertices = [points[name] for name in polygon["points"] if name in points]
+        if len(vertices) < 3:
+            continue
+        area2 = abs(
+            sum(
+                vertices[item][0] * vertices[(item + 1) % len(vertices)][1]
+                - vertices[(item + 1) % len(vertices)][0] * vertices[item][1]
+                for item in range(len(vertices))
+            )
+        )
+        if area2 / 2 / bbox_area < 0.003:
+            issues.append(f"degenerate_polygon:{index}")
 
 
 def audit_diagram_action(
@@ -72,6 +163,18 @@ def audit_diagram_action(
             f"{renderer_result.get('message', '')}"
         )
 
+    renderer_audit_rel = str(renderer_result.get("renderer_audit") or "")
+    renderer_audit_path = round_dir / renderer_audit_rel
+    if renderer_audit_rel and renderer_audit_path.is_file():
+        renderer_audit = _read_json(renderer_audit_path)
+        renderer_warnings = renderer_audit.get("warnings")
+        if isinstance(renderer_warnings, list):
+            for warning in dict.fromkeys(str(item) for item in renderer_warnings):
+                if warning.startswith("blocking:") or "unsupported synthetic marker" in warning:
+                    issues.append(f"renderer_audit:{warning}")
+                else:
+                    warnings.append(f"renderer_audit:{warning}")
+
     fragment_rel = (
         renderer_result.get("tikz_fragment_path")
         or renderer_result.get("tikz_source_path")
@@ -103,6 +206,29 @@ def audit_diagram_action(
         if bad_label:
             issues.append(bad_label)
 
+    required_markers, required_texts = _visible_requirements(request)
+    rendered_markers = renderer_spec.get("markers") if isinstance(renderer_spec.get("markers"), list) else []
+    rendered_texts = (
+        renderer_spec.get("annotations") if isinstance(renderer_spec.get("annotations"), list) else []
+    )
+    required_marker_signatures = {_marker_signature(item) for item in required_markers}
+    rendered_marker_signatures = {_marker_signature(item) for item in rendered_markers}
+    required_text_signatures = {_text_signature(item) for item in required_texts}
+    rendered_text_signatures = {_text_signature(item) for item in rendered_texts}
+    for signature in sorted(required_marker_signatures - rendered_marker_signatures, key=str):
+        issues.append(f"missing_required_marker:{signature}")
+    for signature in sorted(required_text_signatures - rendered_text_signatures, key=str):
+        issues.append(f"missing_required_text_annotation:{signature}")
+    variant = str(request.get("diagram_variant") or request.get("variant") or "prompt")
+    disclosure = str(request.get("disclosure_policy") or "clean")
+    if variant == "prompt" and disclosure == "clean":
+        for signature in sorted(rendered_marker_signatures - required_marker_signatures, key=str):
+            issues.append(f"prompt_disallowed_marker:{signature}")
+        for signature in sorted(rendered_text_signatures - required_text_signatures, key=str):
+            issues.append(f"prompt_disallowed_text_annotation:{signature}")
+
+    _audit_degenerate_geometry(renderer_spec, issues, warnings)
+
     if renderer_spec.get("status") != "ready":
         issues.append(f"renderer_spec_not_ready: {renderer_spec.get('status', '')}")
 
@@ -128,4 +254,3 @@ def audit_diagram_action(
         "audit_result_path": str(audit_path),
         "audit_result": audit_result,
     }
-

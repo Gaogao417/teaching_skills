@@ -219,6 +219,80 @@ class DiagramLooseModel(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
 
+RenderMarkerType: TypeAlias = Literal[
+    "right_angle",
+    "equal_ticks",
+    "parallel",
+    "angle_arc",
+]
+
+
+class RenderMarker(DiagramLooseModel):
+    """A visible synthetic-geometry marker supported by the TikZ backend."""
+
+    type: RenderMarkerType
+    vertex: str = Field(default="", validation_alias=AliasChoices("vertex", "at"))
+    arms: list[str] = Field(default_factory=list)
+    angle_mode: Literal["minor", "reflex"] = "minor"
+    segments: list[tuple[str, str]] = Field(default_factory=list)
+    stroke: str = ""
+    count: int = Field(default=1, ge=1, le=3)
+
+    @model_validator(mode="before")
+    @classmethod
+    def normalize_marker_type(cls, value: object) -> object:
+        if not isinstance(value, dict):
+            return value
+        normalized = dict(value)
+        marker_type = str(normalized.get("type") or "").strip().lower()
+        aliases = {
+            "equal_tick": "equal_ticks",
+            "equal_segment": "equal_ticks",
+            "equal_segments": "equal_ticks",
+            "parallel_mark": "parallel",
+            "parallel_marks": "parallel",
+        }
+        normalized["type"] = aliases.get(marker_type, marker_type)
+        return normalized
+
+    @model_validator(mode="after")
+    def validate_marker_targets(self) -> RenderMarker:
+        if self.type in {"right_angle", "angle_arc"}:
+            if not self.vertex or len(self.arms) != 2:
+                raise ValueError(f"{self.type} requires one vertex and exactly two arms")
+            if self.segments:
+                raise ValueError(f"{self.type} does not accept segments")
+        else:
+            if not self.segments:
+                raise ValueError(f"{self.type} requires at least one segment")
+            if self.vertex or self.arms:
+                raise ValueError(f"{self.type} does not accept vertex/arms")
+        return self
+
+
+class RenderTextAnnotation(DiagramModel):
+    """Visible text attached to one point or to the midpoint of one segment."""
+
+    id: str = ""
+    target: list[NonEmptyStr] = Field(min_length=1, max_length=2)
+    text: NonEmptyStr
+    placement: DiagramLabelPlacement | None = None
+    dx: float = 0
+    dy: float = 0
+
+    @field_validator("placement", mode="before")
+    @classmethod
+    def normalize_placement(cls, value: object) -> object:
+        if isinstance(value, str):
+            return re.sub(r"\s+", " ", value.strip().lower().replace("_", " "))
+        return value
+
+
+class RequiredVisibleAnnotations(DiagramModel):
+    markers: list[RenderMarker] = Field(default_factory=list)
+    texts: list[RenderTextAnnotation] = Field(default_factory=list)
+
+
 _LATEX_DIMENSION_PATTERN = re.compile(
     r"^\s*(?:"
     r"(?:\d+(?:\.\d+)?|\.\d+)\s*(?:mm|cm|pt|in)"
@@ -791,6 +865,9 @@ class DiagramVisualRequirements(DiagramModel):
     preferred_orientation: DiagramOrientation = DiagramOrientation.AUTO
     label_density: DiagramLabelDensity = DiagramLabelDensity.NORMAL
     caption: str = ""
+    required_visible_annotations: RequiredVisibleAnnotations = Field(
+        default_factory=RequiredVisibleAnnotations
+    )
 
 
 class DiagramRenderProfile(DiagramModel):
@@ -1386,25 +1463,6 @@ class RenderPolygon(DiagramLooseModel):
         return value
 
 
-class RenderMarker(DiagramLooseModel):
-    type: NonEmptyStr
-    vertex: str = Field(default="", validation_alias=AliasChoices("vertex", "at"))
-    arms: list[str] = Field(default_factory=list)
-    angle_mode: Literal["minor", "reflex"] = "minor"
-    segments: list[tuple[str, str]] = Field(default_factory=list)
-    stroke: str = ""
-
-    @model_validator(mode="after")
-    def normalize_marker_type(self) -> RenderMarker:
-        marker_type = self.type.lower()
-        if marker_type == "equal_tick":
-            marker_type = "equal_ticks"
-        if marker_type in {"parallel_mark", "parallel_marks"}:
-            marker_type = "parallel"
-        self.type = marker_type
-        return self
-
-
 class RenderLabel(DiagramLooseModel):
     text: str = ""
     placement: DiagramLabelPlacement | None = None
@@ -1472,7 +1530,7 @@ class SceneDiagramSpec(DiagramLooseModel):
     labels: dict[str, RenderLabel] = Field(default_factory=dict)
     teaching_focus: list[str] = Field(default_factory=list)
     constraints: list[str] = Field(default_factory=list)
-    annotations: list[JsonObject] = Field(default_factory=list)
+    annotations: list[RenderTextAnnotation] = Field(default_factory=list)
     source: JsonObject = Field(default_factory=dict)
     diagnostics: JsonObject = Field(default_factory=dict)
 
@@ -1575,6 +1633,33 @@ class VisualDecisionPatch(DiagramModel):
     diagram_spec_json: str = ""
 
 
+class RenderLabelPositionPatch(DiagramModel):
+    placement: DiagramLabelPlacement | None = None
+    dx: float | None = None
+    dy: float | None = None
+
+
+class RenderAnnotationPositionPatch(DiagramModel):
+    index: int = Field(ge=0)
+    placement: DiagramLabelPlacement | None = None
+    dx: float | None = None
+    dy: float | None = None
+
+
+class RenderMarkerStylePatch(DiagramModel):
+    index: int = Field(ge=0)
+    stroke: str | None = None
+    count: int | None = Field(default=None, ge=1, le=3)
+
+
+class GeometryVisualPatch(DiagramModel):
+    """Visual-only overrides applied after Wolfram coordinates are solved."""
+
+    labels: dict[str, RenderLabelPositionPatch] = Field(default_factory=dict)
+    annotations: list[RenderAnnotationPositionPatch] = Field(default_factory=list)
+    marker_styles: list[RenderMarkerStylePatch] = Field(default_factory=list)
+
+
 class VisualDecision(DiagramModel):
     schema_version: Literal["diagram-visual-decision/v1"] = "diagram-visual-decision/v1"
     decision: Literal["accept", "revise"]
@@ -1654,6 +1739,7 @@ class GeometryRenderSpec(DiagramLooseModel):
     polygons: list[RenderPolygon] = Field(default_factory=list)
     markers: list[RenderMarker] = Field(default_factory=list)
     labels: dict[str, RenderLabel] = Field(default_factory=dict)
+    annotations: list[RenderTextAnnotation] = Field(default_factory=list)
     objects: list[DiagramCoordinateObject] = Field(default_factory=list)
     functions: list[DiagramFunctionSpec] = Field(default_factory=list)
     curves: list[JsonObject] = Field(default_factory=list)
@@ -1700,6 +1786,9 @@ class GeometryRenderSpec(DiagramLooseModel):
             refs.extend(name for segment in marker.segments for name in segment)
             if point_names and any(name not in point_names for name in refs):
                 raise ValueError(f"markers[{index}] references missing point")
+        for index, annotation in enumerate(self.annotations):
+            if point_names and any(name not in point_names for name in annotation.target):
+                raise ValueError(f"annotations[{index}] references missing point")
         return self
 
 
@@ -1737,6 +1826,7 @@ class TikzNaturalSize(DiagramModel):
 class TikzReadabilityAudit(DiagramModel):
     display_width: str = ""
     point_label_count: int = Field(default=0, ge=0)
+    condition_label_count: int = Field(default=0, ge=0)
     min_point_label_pt_at_display_width: float | None = Field(default=None, gt=0)
     condition_label_style: DiagramConditionLabelStyle | None = None
     warnings: list[str] = Field(default_factory=list)

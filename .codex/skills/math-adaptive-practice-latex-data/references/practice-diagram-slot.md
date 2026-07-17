@@ -11,7 +11,17 @@
 - 给普通 assignment 补图时，必须回到本 writer 重新生成 plan YAML；不得把已经生成的普通 assignment 机械转换成 plan YAML。
 - 学生版只声明 `prompt` / `clean` slot。
 - 教师版解析若需要辅助线，另声明 `solution` / `annotated` slot，并复用对应 prompt slot。
-- `prompt/clean` 默认只显示题干几何对象和必要顶点标签；长度、比例、相等、角度等题干条件用于约束构型，不自动成为可见标注。只有 `visual_requirements.required_visible_annotations` 明确列出时才要求在原题图中显示。讲解标记放在教师版 `solution/annotated` 图中。
+- `prompt/clean` 默认只显示题干几何对象和必要顶点标签；长度、比例、相等、角度等题干条件用于约束构型，不自动成为可见标注。确需显示的 prompt 或 solution 标注都必须写入 typed `visual_requirements.required_visible_annotations`；`solution_allowed_annotations` 只表示允许范围，不表示必须画出。
+- `required_visible_annotations.markers[].type` 只允许 `right_angle`、`equal_ticks`、`parallel`、`angle_arc`。等长/平行标记写 `segments`；角标记写 `vertex` 和两个 `arms`。文字写入 `texts[]`，target 只能是一个点或一条线段的两个端点。例如：
+
+```yaml
+visual_requirements:
+  required_visible_annotations:
+    markers:
+      - {type: equal_ticks, segments: [[D, F], [D, G]]}
+    texts:
+      - {id: df-value, target: [D, F], text: "7", placement: above, dx: 0, dy: 0}
+```
 - 默认声明 `display_profile`，不要在 plan YAML 中手写字号、字体、`diagram_col` 或图片字段。
 - 侧栏题图使用 `display_profile: "worksheet_geometry_sidecar"`，默认 resolved 宽度为 `60mm`，点标注为 `44px`；点和标注很密时，在 `visual_requirements.label_density` 写 `dense`，renderer 会使用 `52px` 点标注。
 - 只有确有排版理由时才写 `width_hint`；合法值必须是 `60mm`、`7cm`、`42pt`、`2in` 或 `0.32\\linewidth` 这类 LaTeX 尺寸。侧栏图不得低于 `55mm`。

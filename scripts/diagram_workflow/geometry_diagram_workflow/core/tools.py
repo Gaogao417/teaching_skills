@@ -27,6 +27,7 @@ from diagram_contracts import (  # noqa: E402
     DiagramModelConfig,
     GeometryRendererResult,
     GeometryRenderSpec,
+    GeometryVisualPatch,
     ModelAttempt,
     RenderCandidateResult,
     ScenePayload,
@@ -934,6 +935,7 @@ def _compile_renderer_spec(
         "segments": segments,
         "markers": markers,
         "labels": normalized_labels,
+        "annotations": diagram_spec.get("annotations") or [],
         "teaching_focus": _compact_list(
             diagram_spec.get("teaching_focus") or request.get("teaching_focus")
         ),
@@ -948,6 +950,70 @@ def _compile_renderer_spec(
             "render_fail_type": render_result.get("fail_type", ""),
         },
     }))
+
+
+def apply_visual_patch_action(
+    renderer_spec_path: Path,
+    visual_patch_path: Path,
+    out_dir: Path,
+    round_index: int,
+) -> Dict[str, object]:
+    """Apply visual-only overrides without changing solved geometry or semantics."""
+
+    renderer_spec = GeometryRenderSpec.model_validate(_read_json(renderer_spec_path))
+    patch = GeometryVisualPatch.model_validate(_read_json(visual_patch_path))
+
+    for point_name, label_patch in patch.labels.items():
+        if point_name not in renderer_spec.labels:
+            raise ValueError(f"visual patch references unknown label: {point_name}")
+        label = renderer_spec.labels[point_name]
+        if label_patch.placement is not None:
+            label.placement = label_patch.placement
+        if label_patch.dx is not None:
+            label.dx = label_patch.dx
+        if label_patch.dy is not None:
+            label.dy = label_patch.dy
+
+    for annotation_patch in patch.annotations:
+        if annotation_patch.index >= len(renderer_spec.annotations):
+            raise ValueError(
+                f"visual patch references unknown annotation index: {annotation_patch.index}"
+            )
+        annotation = renderer_spec.annotations[annotation_patch.index]
+        if annotation_patch.placement is not None:
+            annotation.placement = annotation_patch.placement
+        if annotation_patch.dx is not None:
+            annotation.dx = annotation_patch.dx
+        if annotation_patch.dy is not None:
+            annotation.dy = annotation_patch.dy
+
+    for marker_patch in patch.marker_styles:
+        if marker_patch.index >= len(renderer_spec.markers):
+            raise ValueError(
+                f"visual patch references unknown marker index: {marker_patch.index}"
+            )
+        marker = renderer_spec.markers[marker_patch.index]
+        if marker_patch.stroke is not None:
+            marker.stroke = marker_patch.stroke
+        if marker_patch.count is not None:
+            marker.count = marker_patch.count
+
+    round_dir = out_dir / "rounds" / f"round_{round_index}"
+    normalized_patch_path = round_dir / "visual_patch.json"
+    _write_json(
+        normalized_patch_path,
+        patch.model_dump(mode="json", by_alias=True, exclude_none=True),
+    )
+    normalized_spec = renderer_spec.model_dump(mode="json", by_alias=True)
+    _write_json(renderer_spec_path, normalized_spec)
+    return {
+        "status": "ok",
+        "action": "apply_visual_patch",
+        "round_index": round_index,
+        "visual_patch_path": str(normalized_patch_path),
+        "renderer_spec_path": str(renderer_spec_path),
+        "renderer_spec": normalized_spec,
+    }
 def _render_scene(
     scene_code: str,
     out_dir: Path,
@@ -1204,6 +1270,22 @@ def render_candidate_action(
 ) -> Dict[str, object]:
     """只执行 Wolfram 求解/渲染步骤，输入上一阶段的 scene_payload.json。"""
 
+    round_dir = out_dir / "rounds" / f"round_{round_index}"
+    attempts_path = round_dir / "render_attempts.json"
+    attempts_payload = _read_json_if_exists(attempts_path)
+    attempts = attempts_payload.get("attempts")
+    if not isinstance(attempts, list):
+        attempts = []
+    if len(attempts) >= 2:
+        return {
+            "status": "needs_human_confirmation",
+            "action": "render",
+            "round_index": round_index,
+            "fail_type": "render_revision_budget_exhausted",
+            "message": "Wolfram render remained invalid after one scene adjustment",
+            "attempt_count": len(attempts),
+        }
+
     request = _prepare_solution_reuse_context(request, out_dir)
     payload = _read_json(scene_payload_path)
     scene_payload = ScenePayload.model_validate(payload)
@@ -1239,8 +1321,26 @@ def render_candidate_action(
             render_result["fail_type"] = "solution_base_point_drift"
             render_result["message"] = "Solution diagram did not preserve prompt point coordinates"
         render_result = _dict_from_model(WolframRenderResult.model_validate(render_result))
-    round_dir = out_dir / "rounds" / f"round_{round_index}"
     _write_json(round_dir / "render_result.json", render_result)
+    attempts.append(
+        {
+            "attempt": len(attempts) + 1,
+            "status": "ok" if render_result.get("success") else "failed",
+            "fail_type": render_result.get("fail_type", ""),
+        }
+    )
+    _write_json(attempts_path, {"attempts": attempts})
+    if not render_result.get("success") and len(attempts) >= 2:
+        return {
+            "status": "needs_human_confirmation",
+            "action": "render",
+            "round_index": round_index,
+            "fail_type": "render_revision_budget_exhausted",
+            "message": "Wolfram render remained invalid after one scene adjustment",
+            "attempt_count": len(attempts),
+            "render_result_path": str(round_dir / "render_result.json"),
+            "render_result": render_result,
+        }
     result = RenderCandidateResult(
         status="ok" if render_result.get("success") else "failed",
         action="render",
@@ -1248,7 +1348,9 @@ def render_candidate_action(
         render_result_path=str(round_dir / "render_result.json"),
         render_result=WolframRenderResult.model_validate(render_result),
     )
-    return _dict_from_model(result)
+    payload = _dict_from_model(result)
+    payload["attempt_count"] = len(attempts)
+    return payload
 def compile_spec_action(
     request: Dict[str, object],
     scene_payload_path: Path,

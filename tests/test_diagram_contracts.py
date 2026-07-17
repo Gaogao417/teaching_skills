@@ -17,6 +17,7 @@ from diagram_contracts import (  # noqa: E402
     GeometryRendererResult,
     GeometryRenderSpec,
     RendererBinding,
+    RenderMarker,
     ResolvedDiagramPlacement,
     ResolvedDiagramTikz,
     ScenePayload,
@@ -380,6 +381,19 @@ class DiagramContractsTest(unittest.TestCase):
                 points={"A": (0, 0)},
                 segments=[{"from": "A", "to": "Missing"}],
             )
+
+    def test_render_marker_normalizes_legacy_equal_segment_names(self) -> None:
+        for alias in ("equal_segment", "equal_segments", "equal_tick"):
+            marker = RenderMarker(type=alias, segments=[["D", "F"], ["D", "G"]])
+            self.assertEqual(marker.type, "equal_ticks")
+
+    def test_render_marker_rejects_unknown_or_incomplete_types(self) -> None:
+        with self.assertRaises(ValidationError):
+            RenderMarker(type="equal_length", segments=[["A", "B"]])
+        with self.assertRaises(ValidationError):
+            RenderMarker(type="right_angle", vertex="A", arms=["B"])
+        with self.assertRaises(ValidationError):
+            RenderMarker(type="parallel", segments=[])
 
     def test_model_config_preserves_aliases_and_mapping_access(self) -> None:
         options = DiagramEngineOptions(

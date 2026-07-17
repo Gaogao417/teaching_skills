@@ -39,6 +39,7 @@ from tools import (  # noqa: E402
     _validate_final_agent_artifacts,
     _write_failed_workflow_result,
     _write_json,
+    apply_visual_patch_action,
     compile_spec_action,
     finalize_round_action,
     render_candidate_action,
@@ -329,6 +330,110 @@ def _finalize_candidate(
             round_index,
         ),
     )
+
+
+def preview_candidate_action(
+    request: Dict[str, object],
+    scene_payload_path: Path,
+    render_result_path: Path,
+    out_dir: Path,
+    round_index: int,
+    visual_patch_path: Path | None = None,
+) -> Dict[str, object]:
+    """Compile, render and audit one already-solved candidate without invoking an Agent."""
+
+    round_dir = out_dir / "rounds" / f"round_{round_index}"
+    round_dir.mkdir(parents=True, exist_ok=True)
+    attempts_path = round_dir / "preview_attempts.json"
+    attempts: list[object] = []
+    if attempts_path.is_file():
+        loaded = _read_json(attempts_path)
+        if isinstance(loaded.get("attempts"), list):
+            attempts = list(loaded["attempts"])
+    if len(attempts) >= 2:
+        result = {
+            "status": "needs_human_confirmation",
+            "action": "preview",
+            "round_index": round_index,
+            "fail_type": "preview_revision_budget_exhausted",
+            "message": "preview remained invalid after one visual adjustment",
+            "attempt_count": len(attempts),
+        }
+        _write_json(round_dir / "preview_result.json", result)
+        return result
+
+    result: Dict[str, object]
+    try:
+        compile_result = compile_spec_action(
+            request,
+            scene_payload_path,
+            render_result_path,
+            out_dir,
+            round_index,
+        )
+        renderer_spec_path = round_dir / "final_renderer_spec.json"
+        patch_result: Dict[str, object] = {}
+        if visual_patch_path is not None:
+            patch_result = apply_visual_patch_action(
+                renderer_spec_path,
+                visual_patch_path,
+                out_dir,
+                round_index,
+            )
+        variant = str(request.get("diagram_variant") or request.get("variant") or "prompt")
+        renderer_result = render_geometry_spec(
+            renderer_spec_path,
+            round_dir,
+            variant=variant if variant in {"prompt", "solution"} else "prompt",
+        )
+        renderer_result_path = round_dir / "renderer_result.json"
+        audit_result = audit_diagram_action(
+            request,
+            scene_payload_path,
+            render_result_path,
+            renderer_spec_path,
+            renderer_result_path,
+            out_dir,
+            round_index,
+        )
+        preview_png_path = str(renderer_result.get("preview_png_path") or "")
+        result = {
+            "status": "ok" if audit_result.get("status") == "ok" else "failed",
+            "action": "preview",
+            "round_index": round_index,
+            "compile_spec": compile_result,
+            "visual_patch": patch_result,
+            "renderer_result": renderer_result,
+            "audit_result": audit_result.get("audit_result", {}),
+            "renderer_spec_path": str(renderer_spec_path),
+            "renderer_result_path": str(renderer_result_path),
+            "audit_result_path": str(round_dir / "audit_result.json"),
+            "preview_png_path": str(round_dir / preview_png_path) if preview_png_path else "",
+        }
+    except Exception as exc:
+        result = {
+            "status": "failed",
+            "action": "preview",
+            "round_index": round_index,
+            "fail_type": "preview_pipeline_failed",
+            "message": redact_secrets(exc),
+        }
+
+    attempts.append(
+        {
+            "attempt": len(attempts) + 1,
+            "status": result.get("status", "failed"),
+            "used_visual_patch": visual_patch_path is not None,
+            "fail_type": result.get("fail_type", ""),
+        }
+    )
+    _write_json(attempts_path, {"attempts": attempts})
+    result["attempt_count"] = len(attempts)
+    if result.get("status") != "ok" and len(attempts) >= 2:
+        result["status"] = "needs_human_confirmation"
+        result["fail_type"] = "preview_revision_budget_exhausted"
+    _write_json(round_dir / "preview_result.json", result)
+    return result
 
 
 def _execution_policy(request: Dict[str, object]) -> tuple[int, bool]:
@@ -911,6 +1016,7 @@ def main() -> None:
         choices=[
             "run",
             "render",
+            "preview",
             "compile_spec",
             "audit",
             "finalize_round",
@@ -927,6 +1033,7 @@ def main() -> None:
     parser.add_argument("--renderer-spec", help="final_renderer_spec.json path for audit/finalize actions")
     parser.add_argument("--renderer-result", help="renderer_result.json path for audit/finalize actions")
     parser.add_argument("--audit-result", help="audit_result.json path for finalize action")
+    parser.add_argument("--visual-patch", help="visual_patch.json path for preview action")
     args = parser.parse_args()
 
     out_dir = Path(args.out) if args.out else _default_out_dir("workflow")
@@ -962,6 +1069,19 @@ def main() -> None:
                     Path(args.render_result),
                     out_dir,
                     args.round_index,
+                )
+            elif args.action == "preview":
+                if not args.scene_payload or not args.render_result:
+                    raise ValueError(
+                        "--scene-payload and --render-result are required for preview action"
+                    )
+                result = preview_candidate_action(
+                    request,
+                    Path(args.scene_payload),
+                    Path(args.render_result),
+                    out_dir,
+                    args.round_index,
+                    Path(args.visual_patch) if args.visual_patch else None,
                 )
             elif args.action == "audit":
                 if not (

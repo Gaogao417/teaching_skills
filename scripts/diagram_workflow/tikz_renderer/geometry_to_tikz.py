@@ -8,7 +8,16 @@ from diagram_contracts import DiagramLabelPlacement, DiagramVariant, GeometryRen
 from .angle_markers import normalize_angle_marker
 from .contracts import TikzCommand, TikzCompilerAudit, TikzCoordinate, TikzDiagramSpec, TikzStyleRole
 from .styles import PX_TO_CM, natural_width_cm_for_profile, profile_to_style
-from .writer import color_option, dash_option, fmt_cm, fmt_num, join_options, point_label_tex, stroke_width_option
+from .writer import (
+    color_option,
+    dash_option,
+    fmt_cm,
+    fmt_num,
+    join_options,
+    node_text_tex,
+    point_label_tex,
+    stroke_width_option,
+)
 
 Point = tuple[float, float]
 TIKZ_LABEL_PLACEMENTS = {placement.value for placement in DiagramLabelPlacement}
@@ -40,6 +49,7 @@ class SyntheticGeometryTikzCompiler:
         self.label_placements: dict[str, str] = {}
         self.warnings: list[str] = []
         self.angle_marker_audit: list[dict[str, object]] = []
+        self.label_boxes: list[tuple[str, float, float, float, float]] = []
         self.natural_width_cm = 1.0
         self.natural_height_cm = 1.0
 
@@ -48,9 +58,11 @@ class SyntheticGeometryTikzCompiler:
         self._draw_polygons()
         self._draw_segments()
         self._draw_markers()
+        self._draw_annotations()
         self._draw_points()
         self._remember_default_label_placements()
         self._draw_labels()
+        self._audit_label_positions()
         point_label_count = len(self.source_points)
         audit = TikzCompilerAudit(
             bbox_source=self._source_bbox(),
@@ -59,7 +71,7 @@ class SyntheticGeometryTikzCompiler:
             coordinate_count=len(self.coordinates),
             command_count=len(self.commands),
             point_label_count=point_label_count,
-            condition_label_count=0,
+            condition_label_count=len(self.spec.annotations),
             angle_markers=self.angle_marker_audit,
             warnings=self.warnings,
         )
@@ -261,6 +273,35 @@ class SyntheticGeometryTikzCompiler:
                 )
             )
 
+    def _draw_annotations(self) -> None:
+        for index, annotation in enumerate(self.spec.annotations):
+            targets = list(annotation.target)
+            if any(name not in self.coord_names for name in targets):
+                continue
+            if len(targets) == 1:
+                target_tex = f"({self.coord_names[targets[0]]})"
+            else:
+                target_tex = (
+                    f"($({self.coord_names[targets[0]]})!0.5!"
+                    f"({self.coord_names[targets[1]]})$)"
+                )
+            placement = self._label_placement(annotation.placement) or "above"
+            options = [placement, "condition label"]
+            if annotation.dx:
+                options.append(f"xshift={fmt_cm(float(annotation.dx) * PX_TO_CM)}")
+            if annotation.dy:
+                options.append(f"yshift={fmt_cm(-float(annotation.dy) * PX_TO_CM)}")
+            self.commands.append(
+                TikzCommand(
+                    kind="text_annotation",
+                    order=350 + index,
+                    tex=(
+                        f"\\node[{join_options(*options)}] at {target_tex} "
+                        f"{{{node_text_tex(annotation.text)}}};"
+                    ),
+                )
+            )
+
     def _draw_labels(self) -> None:
         for index, name in enumerate(self.source_points):
             label = self.spec.labels.get(name)
@@ -275,6 +316,67 @@ class SyntheticGeometryTikzCompiler:
                     tex=f"\\PointLabel[{options}]{{{self.coord_names[name]}}}{{{point_label_tex(text)}}}",
                 )
             )
+            self._record_label_box(name, text, label)
+
+    def _record_label_box(self, name: str, text: str, label: RenderLabel) -> None:
+        point = self.points[name]
+        placement = self._label_placement(label.placement) or self.label_placements.get(name) or "above"
+        dx = float(label.dx or 0) * PX_TO_CM
+        dy = -float(label.dy if label.dy is not None else 0) * PX_TO_CM
+        has_explicit_offset = bool(label.dx) or label.dy not in (None, 0, -24)
+        if not has_explicit_offset:
+            offset = self.style.point_label_offset_cm
+            if "left" in placement:
+                dx -= offset
+            elif "right" in placement:
+                dx += offset
+            if "below" in placement:
+                dy -= offset
+            elif "above" in placement:
+                dy += offset
+        char_width_cm = max(0.13, self.style.point_label_pt * 0.0352778 * 0.52)
+        width = max(0.18, min(1.4, len(str(text)) * char_width_cm))
+        height = max(0.24, self.style.point_label_pt * 0.0352778 * 0.9)
+        center_x = point[0] + dx
+        center_y = point[1] + dy
+        self.label_boxes.append(
+            (
+                name,
+                center_x - width / 2,
+                center_x + width / 2,
+                center_y - height / 2,
+                center_y + height / 2,
+            )
+        )
+        if math.hypot(dx, dy) > 1.25:
+            self.warnings.append(
+                f"blocking:label_far_from_point:{name}:{math.hypot(dx, dy):.3f}cm"
+            )
+
+    def _audit_label_positions(self) -> None:
+        for index, first in enumerate(self.label_boxes):
+            name_a, left_a, right_a, bottom_a, top_a = first
+            area_a = max(0.0, right_a - left_a) * max(0.0, top_a - bottom_a)
+            for second in self.label_boxes[index + 1 :]:
+                name_b, left_b, right_b, bottom_b, top_b = second
+                overlap_w = max(0.0, min(right_a, right_b) - max(left_a, left_b))
+                overlap_h = max(0.0, min(top_a, top_b) - max(bottom_a, bottom_b))
+                overlap = overlap_w * overlap_h
+                area_b = max(0.0, right_b - left_b) * max(0.0, top_b - bottom_b)
+                if overlap and overlap / max(1e-9, min(area_a, area_b)) >= 0.45:
+                    self.warnings.append(f"blocking:label_overlap:{name_a}:{name_b}")
+            for point_name, point in self.points.items():
+                if point_name == name_a:
+                    continue
+                inset_x = (right_a - left_a) * 0.18
+                inset_y = (top_a - bottom_a) * 0.18
+                if (
+                    left_a + inset_x <= point[0] <= right_a - inset_x
+                    and bottom_a + inset_y <= point[1] <= top_a - inset_y
+                ):
+                    self.warnings.append(
+                        f"blocking:label_occludes_point:{name_a}:{point_name}"
+                    )
 
     def _label_options(self, name: str, label: RenderLabel) -> str:
         placement = self._label_placement(label.placement) or self.label_placements.get(name) or "above"
