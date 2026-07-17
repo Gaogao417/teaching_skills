@@ -1455,6 +1455,21 @@ class RenderSegment(DiagramLooseModel):
         return value
 
 
+class RenderAuxiliaryConstruction(DiagramModel):
+    """A solved auxiliary point joined to a construction and its carrier line.
+
+    The compiler uses the solved coordinates to extend ``carrier_segment``
+    when ``point`` lies outside that finite segment.  Both newly drawn pieces
+    use ``dash``; the original carrier segment keeps its existing style.
+    """
+
+    point: NonEmptyStr
+    constructed_segment: tuple[NonEmptyStr, NonEmptyStr]
+    carrier_segment: tuple[NonEmptyStr, NonEmptyStr]
+    dash: NonEmptyStr = "dashed"
+    extend_carrier_if_needed: bool = True
+
+
 class RenderPolygon(DiagramLooseModel):
     id: str = ""
     points: list[NonEmptyStr] = Field(min_length=3)
@@ -1534,6 +1549,7 @@ class SceneDiagramSpec(DiagramLooseModel):
     points: JsonObject = Field(default_factory=dict)
     objects: list[DiagramCoordinateObject] = Field(default_factory=list)
     segments: list[RenderSegment] = Field(default_factory=list)
+    auxiliary_constructions: list[RenderAuxiliaryConstruction] = Field(default_factory=list)
     polygons: list[RenderPolygon] = Field(default_factory=list)
     markers: list[RenderMarker] = Field(default_factory=list)
     labels: dict[str, RenderLabel] = Field(default_factory=dict)

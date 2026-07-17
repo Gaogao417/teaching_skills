@@ -15,8 +15,12 @@ sys.path.insert(0, str(WORKFLOW))
 sys.path.insert(0, str(CORE))
 
 import workflow  # noqa: E402
-from audit import _audit_degenerate_geometry, audit_diagram_action  # noqa: E402
-from tools import render_candidate_action  # noqa: E402
+from audit import (  # noqa: E402
+    _audit_auxiliary_constructions,
+    _audit_degenerate_geometry,
+    audit_diagram_action,
+)
+from tools import _compile_renderer_spec, render_candidate_action  # noqa: E402
 
 
 def _write(path: Path, payload: object) -> None:
@@ -25,6 +29,70 @@ def _write(path: Path, payload: object) -> None:
 
 
 class DiagramPreviewWorkflowTest(unittest.TestCase):
+    def test_compile_completes_dashed_auxiliary_carrier_extension(self) -> None:
+        spec = _compile_renderer_spec(
+            {},
+            {
+                "scene_code": "GeometricScene[{B,C,E,F},{}]",
+                "diagram_spec": {
+                    "segments": [
+                        ["B", "E"],
+                        {"from": "C", "to": "F", "dash": "dashed", "role": "auxiliary"},
+                    ],
+                    "auxiliary_constructions": [
+                        {
+                            "point": "F",
+                            "constructed_segment": ["C", "F"],
+                            "carrier_segment": ["B", "E"],
+                        }
+                    ],
+                },
+            },
+            {
+                "parameters": {
+                    "B": [0, 0],
+                    "C": [8, 0],
+                    "E": [4, 2],
+                    "F": [6, 3],
+                }
+            },
+        )
+
+        segments = {
+            frozenset((segment["from"], segment["to"])): segment
+            for segment in spec["segments"]
+        }
+        self.assertIsNone(segments[frozenset(("B", "E"))]["dash"])
+        self.assertEqual(segments[frozenset(("C", "F"))]["dash"], "dashed")
+        self.assertEqual(segments[frozenset(("E", "F"))]["dash"], "dashed")
+        self.assertEqual(segments[frozenset(("E", "F"))]["role"], "auxiliary")
+
+    def test_auxiliary_audit_blocks_missing_carrier_extension(self) -> None:
+        issues: list[str] = []
+        _audit_auxiliary_constructions(
+            {
+                "points": {"B": [0, 0], "C": [8, 0], "E": [4, 2], "F": [6, 3]},
+                "segments": [
+                    {"from": "B", "to": "E"},
+                    {"from": "C", "to": "F", "dash": "dashed", "role": "auxiliary"},
+                ],
+                "source": {
+                    "model_diagram_spec": {
+                        "auxiliary_constructions": [
+                            {
+                                "point": "F",
+                                "constructed_segment": ["C", "F"],
+                                "carrier_segment": ["B", "E"],
+                            }
+                        ]
+                    }
+                },
+            },
+            issues,
+        )
+
+        self.assertIn("missing_auxiliary_carrier_extension:F:E", issues)
+
     def test_interactive_render_cli_forces_wolfram_debug_preview(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

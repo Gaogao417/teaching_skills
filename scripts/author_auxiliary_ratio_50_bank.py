@@ -253,7 +253,18 @@ def solution_scene(route: dict[str, Any]) -> dict[str, Any]:
     f0, f1 = route["f_region"]
     (p0, p1), (q0, q1) = route["parallel"]
     spec = base_diagram_spec()
-    spec["segments"].append([p0, p1])
+    spec["segments"].append(
+        {"from": p0, "to": p1, "dash": "dashed", "role": "auxiliary"}
+    )
+    spec["auxiliary_constructions"] = [
+        {
+            "point": "F",
+            "constructed_segment": [p0, p1],
+            "carrier_segment": [f0, f1],
+            "dash": "dashed",
+            "extend_carrier_if_needed": True,
+        }
+    ]
     spec["markers"] = [
         {"type": "parallel", "segments": [[p0, p1], [q0, q1]]}
     ]

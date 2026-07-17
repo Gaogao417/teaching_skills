@@ -150,6 +150,88 @@ def _audit_degenerate_geometry(
             issues.append(f"degenerate_polygon:{index}")
 
 
+def _audit_auxiliary_constructions(
+    renderer_spec: Dict[str, object],
+    issues: List[str],
+) -> None:
+    source = renderer_spec.get("source")
+    if not isinstance(source, dict):
+        return
+    diagram_spec = source.get("model_diagram_spec")
+    if not isinstance(diagram_spec, dict):
+        return
+    constructions = diagram_spec.get("auxiliary_constructions")
+    if not isinstance(constructions, list):
+        return
+    points = renderer_spec.get("points")
+    raw_segments = renderer_spec.get("segments")
+    if not isinstance(points, dict) or not isinstance(raw_segments, list):
+        return
+    segments = {
+        tuple(sorted((str(item.get("from") or ""), str(item.get("to") or "")))): item
+        for item in raw_segments
+        if isinstance(item, dict)
+    }
+    for index, construction in enumerate(constructions):
+        if not isinstance(construction, dict):
+            issues.append(f"invalid_auxiliary_construction:{index}")
+            continue
+        point = str(construction.get("point") or "")
+        constructed = construction.get("constructed_segment")
+        carrier = construction.get("carrier_segment")
+        if not (
+            isinstance(constructed, (list, tuple))
+            and len(constructed) == 2
+            and isinstance(carrier, (list, tuple))
+            and len(carrier) == 2
+        ):
+            issues.append(f"invalid_auxiliary_construction:{index}")
+            continue
+        constructed_key = tuple(sorted((str(constructed[0]), str(constructed[1]))))
+        carrier_key = tuple(sorted((str(carrier[0]), str(carrier[1]))))
+        visible_constructed = segments.get(constructed_key)
+        if not visible_constructed:
+            issues.append(f"missing_auxiliary_segment:{constructed_key}")
+        elif not visible_constructed.get("dash") or visible_constructed.get("role") != "auxiliary":
+            issues.append(f"auxiliary_segment_not_dashed:{constructed_key}")
+        if carrier_key not in segments:
+            issues.append(f"missing_auxiliary_carrier_segment:{carrier_key}")
+
+        if not bool(construction.get("extend_carrier_if_needed", True)):
+            continue
+        names = (point, str(carrier[0]), str(carrier[1]))
+        if any(name not in points for name in names):
+            issues.append(f"auxiliary_construction_missing_point:{index}")
+            continue
+        p, a, b = (points[name] for name in names)
+        if not all(isinstance(value, (list, tuple)) and len(value) >= 2 for value in (p, a, b)):
+            issues.append(f"auxiliary_construction_invalid_coordinates:{index}")
+            continue
+        px, py = float(p[0]), float(p[1])
+        ax, ay = float(a[0]), float(a[1])
+        bx, by = float(b[0]), float(b[1])
+        vx, vy = bx - ax, by - ay
+        length_sq = vx * vx + vy * vy
+        if length_sq <= 1e-12:
+            issues.append(f"auxiliary_carrier_degenerate:{index}")
+            continue
+        cross_distance = abs(vx * (py - ay) - vy * (px - ax)) / math.sqrt(length_sq)
+        scale = max(math.sqrt(length_sq), 1.0)
+        if cross_distance / scale > 1e-5:
+            issues.append(f"auxiliary_point_off_carrier:{point}:{carrier[0]}:{carrier[1]}")
+            continue
+        projection = ((px - ax) * vx + (py - ay) * vy) / length_sq
+        endpoint = str(carrier[0]) if projection < -1e-7 else str(carrier[1]) if projection > 1 + 1e-7 else ""
+        if not endpoint:
+            continue
+        extension_key = tuple(sorted((point, endpoint)))
+        extension = segments.get(extension_key)
+        if not extension:
+            issues.append(f"missing_auxiliary_carrier_extension:{point}:{endpoint}")
+        elif not extension.get("dash") or extension.get("role") != "auxiliary":
+            issues.append(f"auxiliary_carrier_extension_not_dashed:{point}:{endpoint}")
+
+
 def audit_diagram_action(
     request: Dict[str, object],
     scene_payload_path: Path,
@@ -286,6 +368,7 @@ def audit_diagram_action(
             issues.append(f"prompt_disallowed_text_annotation:{signature}")
 
     _audit_degenerate_geometry(renderer_spec, issues, warnings)
+    _audit_auxiliary_constructions(renderer_spec, issues)
 
     if renderer_spec.get("status") != "ready":
         issues.append(f"renderer_spec_not_ready: {renderer_spec.get('status', '')}")

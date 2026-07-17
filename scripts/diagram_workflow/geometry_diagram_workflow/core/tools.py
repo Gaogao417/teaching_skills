@@ -774,15 +774,23 @@ def _point_names(value: object) -> List[str]:
         return []
     names = [_point_label(item) for item in value if isinstance(item, (str, int, float))]
     return [name for name in names if name]
-def _segment_from(value: object) -> Optional[Dict[str, str]]:
+def _segment_from(value: object) -> Optional[Dict[str, object]]:
     if isinstance(value, dict):
         start = value.get("from") or value.get("start") or value.get("a")
         end = value.get("to") or value.get("end") or value.get("b")
         if start and end:
-            return {"from": _point_label(start), "to": _point_label(end)}
+            segment = {
+                key: item
+                for key, item in value.items()
+                if key not in {"from", "start", "a", "to", "end", "b", "points"}
+            }
+            segment.update({"from": _point_label(start), "to": _point_label(end)})
+            return segment
         names = _point_names(value.get("points"))
         if len(names) >= 2:
-            return {"from": names[0], "to": names[1]}
+            segment = {key: item for key, item in value.items() if key != "points"}
+            segment.update({"from": names[0], "to": names[1]})
+            return segment
     names = _point_names(value)
     if len(names) >= 2:
         return {"from": names[0], "to": names[1]}
@@ -809,7 +817,7 @@ def _dedupe_dicts(items: List[Dict[str, object]], key_fn) -> List[Dict[str, obje
         result.append(item)
     return result
 def _extend_render_objects(
-    segments: List[Dict[str, str]],
+    segments: List[Dict[str, object]],
     polygons: List[Dict[str, object]],
     markers: List[Dict[str, object]],
     source: object,
@@ -855,6 +863,101 @@ def _extend_render_objects(
                 marker = dict(item)
                 marker.setdefault("type", kind)
                 markers.append(marker)
+
+
+def _segment_key(start: object, end: object) -> tuple[str, str]:
+    return tuple(sorted((str(start), str(end))))
+
+
+def _apply_auxiliary_constructions(
+    segments: List[Dict[str, object]],
+    diagram_spec: Dict[str, object],
+    points: Dict[str, object],
+) -> None:
+    """Style auxiliary lines and complete carrier-line extensions.
+
+    Wolfram solves the incidence and parallel conditions; this renderer-side
+    step only decides which finite pieces must be visible.  It therefore does
+    not rerun or alter the geometry solution.
+    """
+
+    raw_constructions = diagram_spec.get("auxiliary_constructions")
+    if not isinstance(raw_constructions, list):
+        return
+
+    by_key = {
+        _segment_key(item.get("from"), item.get("to")): item
+        for item in segments
+        if item.get("from") and item.get("to")
+    }
+    for index, construction in enumerate(raw_constructions):
+        if not isinstance(construction, dict):
+            raise ValueError(f"auxiliary_constructions[{index}] must be an object")
+        point = str(construction.get("point") or "")
+        constructed = _point_names(construction.get("constructed_segment"))
+        carrier = _point_names(construction.get("carrier_segment"))
+        dash = str(construction.get("dash") or "dashed")
+        if len(constructed) != 2 or len(carrier) != 2 or not point:
+            raise ValueError(f"auxiliary_constructions[{index}] is incomplete")
+
+        constructed_segment = by_key.get(_segment_key(*constructed))
+        if constructed_segment is None:
+            raise ValueError(
+                f"auxiliary construction segment is not visible: {constructed[0]}-{constructed[1]}"
+            )
+        constructed_segment["dash"] = dash
+        constructed_segment["role"] = "auxiliary"
+
+        if by_key.get(_segment_key(*carrier)) is None:
+            raise ValueError(
+                f"auxiliary carrier segment is not visible: {carrier[0]}-{carrier[1]}"
+            )
+
+        if not bool(construction.get("extend_carrier_if_needed", True)):
+            continue
+        if any(name not in points for name in (point, *carrier)):
+            raise ValueError(
+                f"auxiliary construction references an unsolved point: {point}, {carrier}"
+            )
+        point_xy = points[point]
+        start_xy = points[carrier[0]]
+        end_xy = points[carrier[1]]
+        if not all(
+            isinstance(value, (list, tuple)) and len(value) >= 2
+            for value in (point_xy, start_xy, end_xy)
+        ):
+            raise ValueError(f"auxiliary construction has invalid coordinates: {point}, {carrier}")
+        px, py = float(point_xy[0]), float(point_xy[1])
+        ax, ay = float(start_xy[0]), float(start_xy[1])
+        bx, by = float(end_xy[0]), float(end_xy[1])
+        vx, vy = bx - ax, by - ay
+        length_sq = vx * vx + vy * vy
+        if length_sq <= 1e-12:
+            raise ValueError(f"auxiliary carrier segment is degenerate: {carrier}")
+        projection = ((px - ax) * vx + (py - ay) * vy) / length_sq
+        extension_endpoint = (
+            carrier[0]
+            if projection < -1e-7
+            else carrier[1]
+            if projection > 1 + 1e-7
+            else ""
+        )
+        if not extension_endpoint:
+            continue
+        extension_key = _segment_key(point, extension_endpoint)
+        extension = by_key.get(extension_key)
+        if extension is None:
+            extension = {
+                "from": point,
+                "to": extension_endpoint,
+                "dash": dash,
+                "role": "auxiliary",
+            }
+            segments.append(extension)
+            by_key[extension_key] = extension
+        else:
+            extension["dash"] = dash
+            extension["role"] = "auxiliary"
 def _normalize_marker(marker: Dict[str, object]) -> Dict[str, object]:
     normalized = dict(marker)
     marker_type = str(normalized.get("type", "")).lower()
@@ -905,7 +1008,7 @@ def _compile_renderer_spec(
         or objects_hint.get("points")
     )
 
-    segments: List[Dict[str, str]] = []
+    segments: List[Dict[str, object]] = []
     polygons: List[Dict[str, object]] = []
     markers: List[Dict[str, object]] = []
     _extend_render_objects(segments, polygons, markers, objects_hint)
@@ -926,6 +1029,7 @@ def _compile_renderer_spec(
     )
     polygons = _dedupe_dicts(polygons, lambda item: tuple(item.get("points", [])))
     markers = [_normalize_marker(marker) for marker in markers]
+    _apply_auxiliary_constructions(segments, diagram_spec, points)
 
     labels = diagram_spec.get("labels") if isinstance(diagram_spec.get("labels"), dict) else {}
     normalized_labels = {
