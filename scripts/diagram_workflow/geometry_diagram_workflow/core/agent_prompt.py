@@ -151,13 +151,21 @@ def scene_writer_output_schema() -> Dict[str, object]:
         "type": "object",
         "additionalProperties": False,
         "properties": {
-            "scene_code": {"type": "string", "minLength": 1},
+            "status": {
+                "type": "string",
+                "enum": ["ready", "needs_human_confirmation"],
+            },
+            "confirmation_question": {"type": "string"},
+            "scene_code": {"type": "string"},
             "points": {"type": "array", "items": point_name},
             "point_roles": point_roles,
             "diagram_spec": diagram_spec,
             "rationale": {"type": "string"},
         },
-        "required": ["scene_code", "points", "point_roles", "diagram_spec", "rationale"],
+        "required": [
+            "status", "confirmation_question", "scene_code", "points",
+            "point_roles", "diagram_spec", "rationale",
+        ],
     }
 
 
@@ -286,11 +294,14 @@ def scene_writer_prompt(
         )
         repair_block = f"""
 
-This is the only automatic repair attempt. Revise the previous scene using the
-deterministic failure evidence below. Preserve every correct object and make the
-smallest change that addresses the failed checks.
+This is the one and only automatic Wolfram syntax-repair round. Fix only syntax,
+brackets, argument shapes, unsupported Wolfram heads/property names, or equivalent
+API-form errors identified below. Preserve the exact mathematical condition set:
+do not add, remove, expand, derive, weaken, strengthen, or reinterpret any geometry
+condition. If the evidence cannot be fixed by a syntax-only edit, return
+`needs_human_confirmation` and ask one precise question.
 
-Repair evidence:
+Syntax failure evidence:
 {repair_json}
 """
 
@@ -299,6 +310,10 @@ You are the scene-writer for one synthetic-geometry teaching diagram.
 Use the attached Codex skills: {skill_names}.
 
 Return exactly one JSON object matching the provided SceneWriterOutput schema:
+- status: `ready` only when every supplied condition has one unambiguous native
+  Wolfram translation; otherwise `needs_human_confirmation`.
+- confirmation_question: empty for `ready`; for `needs_human_confirmation`, ask
+  one precise question naming the ambiguous or unsupported condition or syntax.
 - scene_code: one complete Wolfram GeometricScene expression.
 - points: every point symbol used by the scene or visible diagram spec.
 - point_roles: anchors, constructed, and auxiliary point-label lists.
@@ -307,6 +322,22 @@ Return exactly one JSON object matching the provided SceneWriterOutput schema:
   schema's list form with an explicit name field. Supply every required nested
   field; use empty strings/lists for marker fields that do not apply.
 - rationale: one short sentence explaining the construction choice.
+
+You are a literal condition translator, not a geometry solver or proof writer.
+Only `semantic_constraints.given_constraints` and explicit construction/incidence
+fields in the normalized request authorize mathematical hypotheses. Translate
+each supplied condition once. Do not derive consequences, expand a high-level
+relation into redundant side/angle equations, add non-degeneracy inequalities,
+add point inequalities, or invent layout/metric conditions. In particular, keep
+an explicit congruent/similar relation as one native GeometricAssertion when
+Wolfram supports it; do not replace it with a proof of congruence/similarity.
+
+Ignore explanation prose, proof steps, expected conclusions, teaching narrative,
+and allowed annotations when authoring mathematical hypotheses. They may guide
+visible `diagram_spec` content only when the request explicitly requires that
+content. If a correspondence, incidence interpretation, supported Wolfram form,
+or any other condition is uncertain, return `needs_human_confirmation` with empty
+scene_code and empty scene/spec lists. Never guess and never repair the input.
 
 Do not execute Wolfram, Python, TeX, shell commands, or workflow actions. Do not
 write or read job artifacts. The Python host will validate the JSON, execute the
@@ -323,9 +354,9 @@ GeometricScene rules:
   InfiniteLine and a ray uses HalfLine. Never emit LineSegment[...] or Ray[...].
   Apply Horizontal/Rightward only to Line[{{A, B}}], and emit each property as
   its own GeometricAssertion rather than a property list.
-- Ordinary synthetic geometry should keep points symbolic. At most use one
-  baseline Horizontal/Rightward assertion for layout; do not pin several
-  triangle vertices and repeat metric constraints.
+- Ordinary synthetic geometry should keep points symbolic. Add a baseline
+  Horizontal/Rightward assertion only when the normalized request explicitly
+  supplies that orientation condition; do not invent layout constraints.
 - anchors are the stem's base points, not an authorization to fix coordinates.
 - A point constrained to lie on another object, or defined as an intersection,
   midpoint, foot, center, or ratio point, belongs in constructed rather than
@@ -336,9 +367,8 @@ GeometricScene rules:
   equalities before Wolfram runs. Do not add Horizontal, Rightward, clockwise,
   counterclockwise, or other layout assertions involving only locked base
   points. Derive every solution-only point from native constraints.
-- Include every explicitly given length, angle, incidence, point order,
-  parallel, perpendicular, equality, and requested visible marker from the
-  normalized request. Do not add unproved special properties.
+- Include every explicitly supplied condition exactly once. Do not add derived,
+  redundant, defensive, aesthetic, or unproved conditions.
 
 Normalized request:
 {request_json}

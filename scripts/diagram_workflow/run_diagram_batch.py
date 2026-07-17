@@ -130,7 +130,7 @@ def _effective_model_cache_config(request: DiagramJobRequest) -> dict[str, objec
     service_tier = str(config.get("service_tier") or "fast")
     return {
         "model": str(config.get("codex_model") or config.get("model") or "gpt-5.5"),
-        "model_reasoning_effort": str(config.get("model_reasoning_effort") or "medium"),
+        "model_reasoning_effort": str(config.get("model_reasoning_effort") or "low"),
         "service_tier": service_tier,
         "fast_mode": bool(
             config.get("fast_mode")

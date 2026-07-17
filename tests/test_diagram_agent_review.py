@@ -50,21 +50,50 @@ class DiagramAgentReviewContractTest(unittest.TestCase):
         self.assertNotIn("render_geometry_spec.py", prompt)
         self.assertNotIn("inspect the rendered preview PNG yourself", prompt)
 
-    def test_normal_scene_writer_repair_prompt_contains_only_failure_evidence(self) -> None:
+    def test_normal_scene_writer_allows_one_syntax_only_repair(self) -> None:
         request = _request(max_retries=1).model_dump(mode="json")
 
         prompt = scene_writer_prompt(
             request,
             skill_names="test",
             repair_request={
-                "failure_type": "no_solution",
-                "failed_checks": ["wolfram_failed: no_solution"],
+                "failure_type": "invalid_scene_code",
+                "failed_checks": ["invalid_scene_code: bad head"],
             },
         )
 
-        self.assertIn("only automatic repair attempt", prompt)
-        self.assertIn("wolfram_failed: no_solution", prompt)
-        self.assertNotIn("--action", prompt)
+        self.assertIn("one and only automatic Wolfram syntax-repair round", prompt)
+        self.assertIn("Preserve the exact mathematical condition set", prompt)
+        self.assertIn("do not add, remove, expand, derive, weaken, strengthen", prompt)
+        self.assertIn("invalid_scene_code: bad head", prompt)
+
+    def test_scene_writer_is_literal_translator_and_can_request_confirmation(self) -> None:
+        prompt = scene_writer_prompt(_request().model_dump(mode="json"), skill_names="test")
+
+        self.assertIn("literal condition translator", prompt)
+        self.assertIn("Translate", prompt)
+        self.assertIn("each supplied condition once", prompt)
+        self.assertIn("needs_human_confirmation", prompt)
+        self.assertIn("Never guess and never repair the input", prompt)
+        self.assertIn("congruent/similar relation as one native GeometricAssertion", prompt)
+        self.assertIn("do not invent layout constraints", prompt)
+
+    def test_attached_wolfram_reference_has_native_congruence_syntax(self) -> None:
+        reference = (
+            WORKFLOW
+            / "geometry_diagram_workflow"
+            / ".codex"
+            / "skills"
+            / "wolfram-geometricscene-reference"
+            / "SKILL.md"
+        ).read_text(encoding="utf-8")
+
+        self.assertIn(
+            '{Triangle[{A, B, C}], Triangle[{D, E, F}]},\n  "Congruent"',
+            reference,
+        )
+        self.assertIn("不要改成三参数形式", reference)
+        self.assertIn('Element[F, Line[{A, D}]]', reference)
 
     def test_solution_scene_writer_leaves_exact_base_locks_to_host(self) -> None:
         request = _request().model_dump(mode="json")

@@ -1492,11 +1492,23 @@ class ScenePayload(DiagramLooseModel):
 class SceneWriterOutput(DiagramModel):
     """Strict Codex output at the normal scene-authoring boundary."""
 
-    scene_code: NonEmptyStr
+    status: Literal["ready", "needs_human_confirmation"] = "ready"
+    confirmation_question: str = ""
+    scene_code: str = ""
     points: list[str]
     point_roles: dict[str, list[str]]
     diagram_spec: SceneDiagramSpec
     rationale: str
+
+    @model_validator(mode="after")
+    def validate_authoring_status(self) -> "SceneWriterOutput":
+        if self.status == "ready" and not self.scene_code.strip():
+            raise ValueError("ready scene writer output requires scene_code")
+        if self.status == "needs_human_confirmation" and not self.confirmation_question.strip():
+            raise ValueError(
+                "needs_human_confirmation requires confirmation_question"
+            )
+        return self
 
 
 class SceneRepairRequest(DiagramModel):

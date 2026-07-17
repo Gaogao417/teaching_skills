@@ -130,6 +130,18 @@ def _scene_payload_from_agent(
     request: Dict[str, object],
     agent_result: Dict[str, object],
 ) -> Dict[str, object]:
+    if agent_result.get("status") == "needs_human_confirmation":
+        question = str(agent_result.get("confirmation_question") or "").strip()
+        raise WorkflowStageError(
+            "scene_generation",
+            "human_confirmation_required",
+            question or "scene writer requires human confirmation",
+            evidence={
+                "confirmation_question": question,
+                "rationale": str(agent_result.get("rationale") or ""),
+            },
+            repairable=False,
+        )
     payload = {
         key: agent_result.get(key)
         for key in ("scene_code", "points", "point_roles", "diagram_spec", "rationale")
@@ -675,7 +687,16 @@ def run_workflow(request: Dict[str, object], out_dir: Path, request_path: Path) 
                 )
             except WorkflowStageError as exc:
                 last_error = exc
-                if round_index + 1 < max_candidates and exc.repairable:
+                syntax_repair_types = {
+                    "invalid_scene_code",
+                    "runtime_error",
+                    "invalid_head",
+                }
+                if (
+                    exc.fail_type in syntax_repair_types
+                    and round_index == 0
+                    and round_index + 1 < max_candidates
+                ):
                     repair_payload = _repair_request(scene_payload, exc)
                     repair_path = (
                         out_dir
@@ -686,13 +707,38 @@ def run_workflow(request: Dict[str, object], out_dir: Path, request_path: Path) 
                     _write_json(repair_path, repair_payload)
                     _emit_event(
                         out_dir,
-                        "workflow.repair.requested",
+                        "workflow.syntax_repair.requested",
                         round_index=round_index + 1,
                         failed_stage=exc.stage,
                         fail_type=exc.fail_type,
                         repair_request=str(repair_path.relative_to(out_dir)),
                     )
                     continue
+                if exc.repairable:
+                    _emit_event(
+                        out_dir,
+                        "workflow.human_confirmation.required",
+                        round_index=round_index,
+                        failed_stage=exc.stage,
+                        original_fail_type=exc.fail_type,
+                        question=(
+                            "Please confirm or simplify the supplied geometry/Wolfram "
+                            f"condition after {exc.fail_type}: {exc}"
+                        ),
+                    )
+                    raise WorkflowStageError(
+                        exc.stage,
+                        "human_confirmation_required",
+                        (
+                            "geometry authoring stopped without semantic repair; "
+                            f"original failure {exc.fail_type}: {exc}"
+                        ),
+                        evidence={
+                            "original_fail_type": exc.fail_type,
+                            "original_evidence": exc.evidence,
+                        },
+                        repairable=False,
+                    ) from exc
                 raise
 
             if requires_visual_decision:
@@ -738,30 +784,21 @@ def run_workflow(request: Dict[str, object], out_dir: Path, request_path: Path) 
                     try:
                         patched_scene_payload = _apply_visual_patch(scene_payload, visual)
                     except ValueError as exc:
-                        last_error = WorkflowStageError(
-                            "visual_decision",
-                            "invalid_visual_patch",
-                            str(exc),
-                            evidence=decision.model_dump(mode="json"),
-                            repairable=True,
-                        )
-                        repair_payload = _repair_request(scene_payload, last_error)
-                        repair_path = (
-                            out_dir
-                            / "rounds"
-                            / f"round_{round_index + 1}"
-                            / "repair_request.json"
-                        )
-                        _write_json(repair_path, repair_payload)
                         _emit_event(
                             out_dir,
-                            "workflow.repair.requested",
-                            round_index=round_index + 1,
-                            failed_stage=last_error.stage,
-                            fail_type=last_error.fail_type,
-                            repair_request=str(repair_path.relative_to(out_dir)),
+                            "workflow.human_confirmation.required",
+                            round_index=round_index,
+                            failed_stage="visual_decision",
+                            original_fail_type="invalid_visual_patch",
+                            question=str(exc),
                         )
-                        continue
+                        raise WorkflowStageError(
+                            "visual_decision",
+                            "human_confirmation_required",
+                            f"visual patch was invalid and was not semantically repaired: {exc}",
+                            evidence=decision.model_dump(mode="json"),
+                            repairable=False,
+                        )
                     _emit_event(
                         out_dir,
                         "workflow.visual_revision.requested",

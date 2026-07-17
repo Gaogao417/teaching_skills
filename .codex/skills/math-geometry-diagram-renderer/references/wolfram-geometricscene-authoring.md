@@ -503,31 +503,36 @@ Element[P, Circle[O2, r2]]
 
 ### 相似三角形
 
-GeometricScene 不需要“相似”伪标签；用题干提供的充分条件表达，例如 AA：
+题干直接给出两个三角形相似时，使用原生 `"Similar"` 断言；顶点顺序表达对应关系：
 
 ```wl
-PlanarAngle[{A, B, C}] == PlanarAngle[{D, E, F}]
-PlanarAngle[{B, C, A}] == PlanarAngle[{E, F, D}]
+GeometricAssertion[
+  {Triangle[{A, B, C}], Triangle[{D, E, F}]},
+  "Similar"
+]
 ```
 
-或 SSS 比例：
+不要把一个明确的相似条件重新展开成 AA、SSS 比例或其他证明条件。只有题干本身给的是角相等或边长比例时，才逐条翻译那些原始条件。
+
+以下三参数形式错误：
 
 ```wl
-EuclideanDistance[A, B] EuclideanDistance[E, F] ==
-  EuclideanDistance[D, E] EuclideanDistance[B, C]
-EuclideanDistance[B, C] EuclideanDistance[F, D] ==
-  EuclideanDistance[E, F] EuclideanDistance[C, A]
+GeometricAssertion[Triangle[{A, B, C}], "Similar", Triangle[{D, E, F}]]
+GeometricAssertion[Triangle[{A, B, C}], Triangle[{D, E, F}], "Similar"]
 ```
 
 ### 全等三角形
 
-SSS 示例：
+题干直接给出两个三角形全等时，使用原生 `"Congruent"` 断言；顶点顺序表达对应关系：
 
 ```wl
-EuclideanDistance[A, B] == EuclideanDistance[D, E]
-EuclideanDistance[B, C] == EuclideanDistance[E, F]
-EuclideanDistance[C, A] == EuclideanDistance[F, D]
+GeometricAssertion[
+  {Triangle[{A, B, C}], Triangle[{D, E, F}]},
+  "Congruent"
+]
 ```
+
+不要添加 `VertexMap`，也不要把一个明确的全等条件展开成 SSS/SAS/ASA 等证明条件。题干若只给出三组边相等，则仍按三组距离等式逐条翻译，因为那才是原始条件。
 
 ### 面积、周长与面积比
 

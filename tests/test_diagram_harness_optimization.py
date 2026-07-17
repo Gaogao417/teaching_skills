@@ -27,7 +27,11 @@ from diagram_contracts import (  # noqa: E402
 )
 from diagram_gate.runner import run_resolved_assignment_gate  # noqa: E402
 from benchmark_diagram_harness import _launcher_path  # noqa: E402
-from run_diagram_batch import _cache_identity, run_one_job  # noqa: E402
+from run_diagram_batch import (  # noqa: E402
+    _cache_identity,
+    _effective_model_cache_config,
+    run_one_job,
+)
 from tools import _validate_scene_code  # noqa: E402
 from workflow import _visual_decision_from_agent_result  # noqa: E402
 
@@ -124,6 +128,12 @@ class DiagramExecutionPlanContractTest(unittest.TestCase):
             second, _ = _cache_identity(job, changed, Path(tmp))
 
         self.assertNotEqual(first, second)
+
+    def test_scene_writer_cache_identity_defaults_to_gpt55_low(self) -> None:
+        config = _effective_model_cache_config(_request())
+
+        self.assertEqual(config["model"], "gpt-5.5")
+        self.assertEqual(config["model_reasoning_effort"], "low")
 
     def test_symbolic_only_static_gate_rejects_fixed_coordinates(self) -> None:
         with self.assertRaisesRegex(ValueError, "symbolic_only"):

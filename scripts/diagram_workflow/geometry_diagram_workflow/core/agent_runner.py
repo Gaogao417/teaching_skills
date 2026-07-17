@@ -143,6 +143,8 @@ def _normalize_scene_writer_wire_payload(payload: Dict[str, object]) -> Dict[str
     """Convert the SDK-strict list label shape to SceneDiagramSpec's map."""
 
     normalized = dict(payload)
+    normalized.setdefault("status", "ready")
+    normalized.setdefault("confirmation_question", "")
     diagram_spec = normalized.get("diagram_spec")
     if not isinstance(diagram_spec, dict):
         return normalized
@@ -476,6 +478,13 @@ def run_codex_diagram_agent(
     skill_inputs = _skill_inputs_for_request(request)
     preview_image_path = ""
     use_full_loop = is_human_revision and not force_scene_writer and not is_visual_decision
+    effective_reasoning_effort = str(config.get("model_reasoning_effort") or "medium")
+    if (
+        not is_visual_decision
+        and not use_full_loop
+        and not str(model_config.get("model_reasoning_effort") or "").strip()
+    ):
+        effective_reasoning_effort = "low"
     if is_visual_decision:
         scene_payload = visual_context.get("scene_payload")
         audit_result = visual_context.get("audit_result")
@@ -516,7 +525,7 @@ def run_codex_diagram_agent(
             "model": str(config.get("codex_model") or ""),
             "codex_bin": str(config.get("codex_bin") or ""),
             "model_reasoning_effort": str(
-                config.get("model_reasoning_effort") or ""
+                effective_reasoning_effort
             ),
             "service_tier": str(config.get("service_tier") or ""),
             "fast_mode": bool(config.get("fast_mode")),

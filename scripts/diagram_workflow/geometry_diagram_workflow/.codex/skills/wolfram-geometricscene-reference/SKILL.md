@@ -138,6 +138,34 @@ PlanarAngle[{a, b, c}] > 15 Degree   (* 角 b 大于 15° *)
 | `"Regular"` | 正多边形 |
 | `"Rectangle"` | 矩形 |
 
+### 对象间关系
+| prop | obj | 含义 |
+|------|-----|------|
+| `"Congruent"` | 两个同类几何对象组成的列表 | 全等 |
+| `"Similar"` | 两个同类多边形/三角形组成的列表 | 相似 |
+
+三角形的顶点顺序直接表达对应关系。例如 `A↔D, B↔E, C↔F`：
+
+```wl
+GeometricAssertion[
+  {Triangle[{A, B, C}], Triangle[{D, E, F}]},
+  "Congruent"
+]
+
+GeometricAssertion[
+  {Triangle[{A, B, C}], Triangle[{D, E, F}]},
+  "Similar"
+]
+```
+
+不要改成三参数形式，不要添加 `VertexMap`，也不要把一个全等/相似条件展开成多组边长和角度条件。
+
+```wl
+(* BAD *)
+GeometricAssertion[Triangle[{A, B, C}], "Congruent", Triangle[{D, E, F}]]
+GeometricAssertion[Triangle[{A, B, C}], Triangle[{D, E, F}], "Congruent"]
+```
+
 **示例**：
 ```wl
 GeometricAssertion[Line[{b, c}], "Horizontal"]
@@ -252,6 +280,14 @@ PlanarAngle[{b, a, c}]   (* 不同角：在 a *)
 (* 边长相等 *)
 EuclideanDistance[a, b] == EuclideanDistance[a, c]
 (* 而非 AB == AC，除非 AB、AC 在场景中已定义为量 *)
+```
+
+点属于线段/直线必须直接使用 `Element`，不要套入 `GeometricAssertion`：
+
+```wl
+Element[F, Line[{A, D}]]                         (* GOOD *)
+GeometricAssertion[Element[F, Line[{A, D}]]]     (* BAD *)
+GeometricAssertion[F, "Element", Line[{A, D}]]  (* BAD *)
 ```
 
 ### 错误 5：重心使用坐标计算而非 TriangleCenter

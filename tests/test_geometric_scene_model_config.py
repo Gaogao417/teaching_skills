@@ -130,7 +130,11 @@ class GeometricSceneCodexConfigTest(unittest.TestCase):
         self.assertFalse(schema["additionalProperties"])
         self.assertCountEqual(schema["required"], schema["properties"].keys())
         self.assertNotIn("workflow_result_path", schema["properties"])
-        self.assertNotIn("status", schema["properties"])
+        self.assertEqual(
+            schema["properties"]["status"]["enum"],
+            ["ready", "needs_human_confirmation"],
+        )
+        self.assertIn("confirmation_question", schema["properties"])
 
         def assert_closed_objects(value: object) -> None:
             if isinstance(value, dict):
@@ -167,6 +171,8 @@ class GeometricSceneCodexConfigTest(unittest.TestCase):
         )
 
         self.assertEqual(payload["diagram_spec"]["labels"]["A"]["text"], "A")
+        self.assertEqual(payload["status"], "ready")
+        self.assertEqual(payload["confirmation_question"], "")
         self.assertNotIn("name", payload["diagram_spec"]["labels"]["A"])
 
     def test_scene_code_rejects_nested_point_list(self) -> None:

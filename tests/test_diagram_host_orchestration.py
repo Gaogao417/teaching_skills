@@ -145,7 +145,7 @@ class DiagramHostOrchestrationTest(unittest.TestCase):
         )
         self.assertEqual(selected_round, 0)
 
-    def test_repairable_failure_calls_scene_writer_exactly_once_more(self) -> None:
+    def test_wolfram_failure_stops_for_human_without_second_scene_writer(self) -> None:
         first_failure = {
             "status": "failed",
             "render_result": {
@@ -161,6 +161,30 @@ class DiagramHostOrchestrationTest(unittest.TestCase):
                 [first_failure, _render_ok()],
             )
 
+            events = (out_dir / "workflow_events.jsonl").read_text(encoding="utf-8")
+
+        self.assertEqual(result["status"], "failed")
+        self.assertEqual(result["fail_type"], "human_confirmation_required")
+        self.assertEqual(agent.call_count, 1)
+        self.assertEqual(order, ["wolfram_render"])
+        self.assertFalse((out_dir / "rounds" / "round_1" / "repair_request.json").exists())
+        self.assertIn('"original_fail_type": "no_solution"', events)
+
+    def test_wolfram_syntax_failure_gets_exactly_one_agent_repair(self) -> None:
+        syntax_failure = {
+            "status": "failed",
+            "render_result": {
+                "success": False,
+                "fail_type": "invalid_head",
+                "message": "unsupported Wolfram head",
+            },
+        }
+        with tempfile.TemporaryDirectory() as tmp:
+            result, order, agent, out_dir = self._run_with_host_doubles(
+                Path(tmp),
+                [_agent_output("first"), _agent_output("syntax-repair")],
+                [syntax_failure, _render_ok()],
+            )
             repair = json.loads(
                 (out_dir / "rounds" / "round_1" / "repair_request.json").read_text()
             )
@@ -169,7 +193,28 @@ class DiagramHostOrchestrationTest(unittest.TestCase):
         self.assertEqual(agent.call_count, 2)
         self.assertEqual(order.count("wolfram_render"), 2)
         self.assertEqual(order.count("finalize_round"), 1)
-        self.assertEqual(repair["failure_type"], "no_solution")
+        self.assertEqual(repair["failure_type"], "invalid_head")
+
+    def test_second_wolfram_syntax_failure_stops_for_human(self) -> None:
+        syntax_failure = {
+            "status": "failed",
+            "render_result": {
+                "success": False,
+                "fail_type": "invalid_head",
+                "message": "unsupported Wolfram head",
+            },
+        }
+        with tempfile.TemporaryDirectory() as tmp:
+            result, order, agent, _out_dir = self._run_with_host_doubles(
+                Path(tmp),
+                [_agent_output("first"), _agent_output("syntax-repair")],
+                [syntax_failure, syntax_failure],
+            )
+
+        self.assertEqual(result["status"], "failed")
+        self.assertEqual(result["fail_type"], "human_confirmation_required")
+        self.assertEqual(agent.call_count, 2)
+        self.assertEqual(order, ["wolfram_render", "wolfram_render"])
 
     def test_environment_failure_does_not_call_scene_writer_again(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -184,7 +229,7 @@ class DiagramHostOrchestrationTest(unittest.TestCase):
         self.assertEqual(agent.call_count, 1)
         self.assertEqual(order, ["wolfram_render"])
 
-    def test_second_repairable_failure_stops_after_two_scene_writer_calls(self) -> None:
+    def test_scene_writer_can_stop_before_wolfram_for_human_confirmation(self) -> None:
         failure = {
             "status": "failed",
             "render_result": {
@@ -196,14 +241,20 @@ class DiagramHostOrchestrationTest(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             result, order, agent, _out_dir = self._run_with_host_doubles(
                 Path(tmp),
-                [_agent_output("first"), _agent_output("repair")],
-                [failure, failure],
+                {
+                    **_agent_output("uncertain"),
+                    "status": "needs_human_confirmation",
+                    "confirmation_question": "Please confirm triangle correspondence.",
+                    "scene_code": "",
+                },
+                failure,
             )
 
         self.assertEqual(result["status"], "failed")
-        self.assertEqual(result["fail_type"], "no_solution")
-        self.assertEqual(agent.call_count, 2)
-        self.assertEqual(order, ["wolfram_render", "wolfram_render"])
+        self.assertEqual(result["fail_type"], "human_confirmation_required")
+        self.assertIn("triangle correspondence", result["message"])
+        self.assertEqual(agent.call_count, 1)
+        self.assertEqual(order, [])
 
     def test_solution_scene_writer_receives_finalized_base_point_context(self) -> None:
         solution_request = {
