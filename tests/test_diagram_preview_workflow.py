@@ -25,6 +25,49 @@ def _write(path: Path, payload: object) -> None:
 
 
 class DiagramPreviewWorkflowTest(unittest.TestCase):
+    def test_interactive_render_cli_forces_wolfram_debug_preview(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            request_path = root / "request.json"
+            scene_path = root / "scene.json"
+            _write(
+                request_path,
+                {
+                    "schema_version": "diagram-job-request/v2",
+                    "job_id": "interactive-render",
+                    "assignment_id": "unit",
+                    "slot_id": "unit.prompt",
+                },
+            )
+            _write(
+                scene_path,
+                {
+                    "scene_code": "GeometricScene[{A,B},{EuclideanDistance[A,B]==1}]",
+                    "points": ["A", "B"],
+                    "diagram_spec": {"segments": [["A", "B"]]},
+                },
+            )
+            argv = [
+                "workflow.py",
+                "--action",
+                "render",
+                "--request",
+                str(request_path),
+                "--out",
+                str(root / "out"),
+                "--scene-payload",
+                str(scene_path),
+            ]
+            with (
+                patch.object(sys, "argv", argv),
+                patch.object(workflow, "render_candidate_action", return_value={"status": "ok"}) as render,
+                patch("builtins.print"),
+            ):
+                workflow.main()
+
+            normalized_request = render.call_args.args[0]
+            self.assertIs(normalized_request["wolfram_render_image"], True)
+
     def test_render_stops_for_human_after_one_failed_adjustment(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             out_dir = Path(tmp) / "job"

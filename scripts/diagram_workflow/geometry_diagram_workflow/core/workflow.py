@@ -1054,6 +1054,10 @@ def main() -> None:
             elif args.action == "render":
                 if not args.scene_payload:
                     raise ValueError("--scene-payload is required for render action")
+                # Interactive main-Agent rendering needs a raw Wolfram preview
+                # before the deterministic TikZ preview stage. The unattended
+                # `run` path keeps its spec-only optimization.
+                request["wolfram_render_image"] = True
                 result = render_candidate_action(
                     request,
                     Path(args.scene_payload),
