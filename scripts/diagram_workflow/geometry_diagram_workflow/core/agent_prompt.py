@@ -191,6 +191,37 @@ def visual_decision_prompt(
     audit_result: Dict[str, object],
 ) -> str:
     """Ask for a bounded judgment over the attached real preview image."""
+    variant = str(
+        request.get("variant")
+        or request.get("diagram_variant")
+        or "prompt"
+    ).strip().lower()
+    disclosure_policy = str(request.get("disclosure_policy") or "").strip().lower()
+    is_clean_prompt = variant == "prompt" or disclosure_policy == "clean"
+    if is_clean_prompt:
+        variant_rubric = """
+This is a clean prompt/original-problem diagram. Its visible review priorities are:
+1. reject geometric degeneration, collapsed or coincident required points;
+2. reject wrong point order, incidence, intersection, orientation, or missing required objects;
+3. reject vertex labels only when they are severely displaced, overlap the wrong object,
+   or make point identity ambiguous;
+4. reject forbidden solution objects or answer leakage.
+
+Accept a clean prompt when those checks pass. Numeric lengths, equalities, ratios,
+angle values, and other facts already stated in the written stem do NOT have to be
+repeated as visible text or markers. `problem_text`, `source_problem_text`, and
+`semantic_constraints.given_constraints` constrain geometry; they are not a visible
+annotation checklist. Require a visible given annotation only when it is explicitly
+listed in `visual_requirements.required_visible_annotations`. Do not request a
+revision for minor styling or harmless label-offset differences.
+""".strip()
+    else:
+        variant_rubric = """
+This is a solution/annotated teaching diagram. In addition to non-degeneration,
+correct geometry, point order, and readable labels, check that the teaching
+annotations explicitly requested for the solution are visible and attached to the
+correct objects. Do not demand annotations that are merely allowed but not requested.
+""".strip()
     compact_request = {
         key: request.get(key)
         for key in (
@@ -222,6 +253,9 @@ unchanged field. The diagram spec JSON must not contain solved coordinates.
 
 You may not choose or change the engine, coordinate policy, paths, commands,
 candidate counters, or workflow state. Do not request tools or artifact writes.
+
+Variant-specific rubric:
+{variant_rubric}
 
 Context:
 {json.dumps(payload, ensure_ascii=False, indent=2, default=_json_default)}

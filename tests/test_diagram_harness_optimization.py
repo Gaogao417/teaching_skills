@@ -140,6 +140,22 @@ class DiagramExecutionPlanContractTest(unittest.TestCase):
                 allowed_coordinate_anchors=["A"],
             )
 
+    def test_symbolic_policy_accepts_only_host_injected_solution_locks(self) -> None:
+        _validate_scene_code(
+            "GeometricScene[{A,B},{A=={0,0},Element[B,Line[{A,B}]]}]",
+            allow_fixed_metrics=True,
+            coordinate_policy="symbolic_only",
+            allowed_coordinate_anchors=["A"],
+        )
+
+        with self.assertRaisesRegex(ValueError, "symbolic_only"):
+            _validate_scene_code(
+                "GeometricScene[{A,B},{A=={0,0},B=={1,0}}]",
+                allow_fixed_metrics=True,
+                coordinate_policy="symbolic_only",
+                allowed_coordinate_anchors=["A"],
+            )
+
 
 class DiagramSingleRenderTest(unittest.TestCase):
     def test_batch_accepts_complete_job_package_without_second_render(self) -> None:
@@ -236,6 +252,38 @@ class DiagramVisualDecisionContractTest(unittest.TestCase):
         )
 
         self.assertEqual(decision.decision, "accept")
+
+    def test_clean_prompt_rubric_does_not_require_repeated_stem_annotations(self) -> None:
+        prompt = visual_decision_prompt(
+            request={
+                "job_id": "q1-prompt",
+                "variant": "prompt",
+                "disclosure_policy": "clean",
+                "problem_text": "Label AB=AC=5 and cos C=4/5.",
+                "semantic_constraints": {"given_constraints": ["AB=AC=5"]},
+            },
+            scene_payload={"scene_code": "GeometricScene[{A,B,C},{}]"},
+            audit_result={"status": "pass", "issues": []},
+        )
+
+        self.assertIn("do NOT have to be", prompt)
+        self.assertIn("geometric degeneration", prompt)
+        self.assertIn("severely displaced", prompt)
+        self.assertIn("required_visible_annotations", prompt)
+
+    def test_solution_rubric_checks_requested_teaching_annotations(self) -> None:
+        prompt = visual_decision_prompt(
+            request={
+                "job_id": "q1-solution",
+                "variant": "solution",
+                "disclosure_policy": "annotated",
+            },
+            scene_payload={"scene_code": "GeometricScene[{A,B,C},{}]"},
+            audit_result={"status": "pass", "issues": []},
+        )
+
+        self.assertIn("solution/annotated teaching diagram", prompt)
+        self.assertIn("annotations explicitly requested", prompt)
 
 
 class ResolvedAssignmentGateTest(unittest.TestCase):

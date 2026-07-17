@@ -28,12 +28,13 @@ diagram_slot:
 - `slot_id` 必须唯一。
 - 原题图使用 `variant: "prompt"` 和 `disclosure_policy: "clean"`。
 - 辅助线讲解图使用 `variant: "solution"` 和 `disclosure_policy: "annotated"`，并显式写 `reuse_geometry_from`。
+- `prompt/clean` 默认只显示题干几何对象与必要顶点标签。长度、比例、相等、角度等 `given_constraints` 用于确定构型，不表示必须把数值、等式或符号重复画在图上；`problem_text` / `source_problem_text` 也不是可见标注清单。确需原题图显示某项标记时，另行声明 `visual_requirements.required_visible_annotations`。讲解标记放在 `solution/annotated` 的 `solution_allowed_annotations` 中。
 - 给已有讲义补图时，必须回到本 writer 重新生成 plan YAML；不得把普通 assignment 机械转换成 plan YAML。
 - 若辅助图对应某个解答动作，如“作辅助线”“补中点”“连接某线段”，优先把 `diagram_slot` 写在对应 `route.steps[]` 下，并使用 `placement: "step_diagram"`；不要单独制造一个“辅助图” `problemcard`。
 - `caption` 写学生要观察的动作，不写调试信息。
 - 默认只写 `display_profile`，不要手写字号、字体或图片宽度。侧栏原题图用 `worksheet_geometry_sidecar`，默认 resolved 宽度为 `60mm`；居中讲解图用 `worksheet_geometry_center`，默认 resolved 宽度为 `70mm`。
 - 只有确有排版理由时才写 `width_hint`；合法值必须是 `60mm`、`7cm`、`42pt`、`2in` 或 `0.32\\linewidth` 这类 LaTeX 尺寸。侧栏图不得低于 `55mm`。
-- 长度条件交给 renderer 以数字形式标注，如 `7`、`19`，不要在图中要求生成 `CD=19` 这类冗长标签。
+- `solution/annotated` 中明确需要显示的长度可交给 renderer 以数字形式标注，如 `7`、`19`，不要生成 `CD=19` 这类冗长标签；`prompt/clean` 不因题干给出长度就自动显示数字。
 - plan YAML 不得出现 `image_path`、`diagram_job_id`、`diagram_col`、`diagram_row`、`answer_space.diagram_col` 或最终 `type: diagram` 图片对象。
 - `diagram_kind` 是 plan-stage 必填语义。writer 不选择 `engine`；Host 在 Agent 启动前生成不可变的 `DiagramExecutionPlan`。旧 YAML 中的 `engine` 只由兼容层读取。
 - 普通欧氏几何（如三角形、平行线、相似、角平分线、共线线段比例）使用 `diagram_kind: "synthetic_geometry"`；Host 强制路由到 `geometric_scene + symbolic_only`。

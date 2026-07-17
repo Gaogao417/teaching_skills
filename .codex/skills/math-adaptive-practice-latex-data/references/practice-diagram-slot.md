@@ -11,10 +11,11 @@
 - 给普通 assignment 补图时，必须回到本 writer 重新生成 plan YAML；不得把已经生成的普通 assignment 机械转换成 plan YAML。
 - 学生版只声明 `prompt` / `clean` slot。
 - 教师版解析若需要辅助线，另声明 `solution` / `annotated` slot，并复用对应 prompt slot。
+- `prompt/clean` 默认只显示题干几何对象和必要顶点标签；长度、比例、相等、角度等题干条件用于约束构型，不自动成为可见标注。只有 `visual_requirements.required_visible_annotations` 明确列出时才要求在原题图中显示。讲解标记放在教师版 `solution/annotated` 图中。
 - 默认声明 `display_profile`，不要在 plan YAML 中手写字号、字体、`diagram_col` 或图片字段。
 - 侧栏题图使用 `display_profile: "worksheet_geometry_sidecar"`，默认 resolved 宽度为 `60mm`，点标注为 `44px`；点和标注很密时，在 `visual_requirements.label_density` 写 `dense`，renderer 会使用 `52px` 点标注。
 - 只有确有排版理由时才写 `width_hint`；合法值必须是 `60mm`、`7cm`、`42pt`、`2in` 或 `0.32\\linewidth` 这类 LaTeX 尺寸。侧栏图不得低于 `55mm`。
-- 长度条件在图上只标数字，如 `7`、`19`；不要要求生成 `CD=19` 这类完整等式标签。
+- `solution/annotated` 中明确要求显示的长度只标数字，如 `7`、`19`；不要生成 `CD=19` 这类完整等式标签。学生 `prompt/clean` 不因题干给出长度就自动显示数字。
 - plan YAML 不得写最终图片字段：不写 `image_path`、`diagram_job_id`、`diagram_col`、`diagram_row` 或 `answer_space.diagram_col`。
 - collector/resolver 扫描 block 级 `diagram_slot`、`answer_space.diagram_slot`、`answer_space.parts[].diagram_slot`。不要在 plan 阶段手写 `diagram_row.items[]`。
 - `diagram_kind` 是 plan-stage 必填语义。writer 不选择 `engine`；Host 在 Agent 启动前生成不可变的 `DiagramExecutionPlan`。旧 YAML 中的 `engine` 只由兼容层读取。

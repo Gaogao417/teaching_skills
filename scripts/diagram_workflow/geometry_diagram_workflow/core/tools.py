@@ -459,9 +459,15 @@ def _validate_scene_code(
     )
     allowed_anchors = set(allowed_coordinate_anchors or [])
     if coordinate_policy == "symbolic_only" and fixed_points:
-        raise ValueError(
-            "symbolic_only scene_code cannot fix point coordinates; use native geometric constraints"
+        host_lock_is_authorized = (
+            allow_fixed_metrics
+            and bool(allowed_anchors)
+            and fixed_points.issubset(allowed_anchors)
         )
+        if not host_lock_is_authorized:
+            raise ValueError(
+                "symbolic_only scene_code cannot fix point coordinates; use native geometric constraints"
+            )
     if coordinate_policy == "allow_single_anchor" and (
         len(fixed_points) > 1 or not fixed_points.issubset(allowed_anchors)
     ):
@@ -957,13 +963,19 @@ def _render_scene(
     execution_plan = request.get("execution_plan")
     if not isinstance(execution_plan, dict):
         execution_plan = {}
+    host_locked_points = request.get("locked_base_points")
+    if not isinstance(host_locked_points, dict):
+        host_locked_points = {}
+    authorized_coordinate_anchors = {
+        str(value)
+        for value in (execution_plan.get("allowed_coordinate_anchors") or [])
+    }
+    authorized_coordinate_anchors.update(str(name) for name in host_locked_points)
     _validate_scene_code(
         scene_code,
         allow_fixed_metrics=bool(_solution_reuse_id(request)),
         coordinate_policy=str(execution_plan.get("coordinate_policy") or ""),
-        allowed_coordinate_anchors=[
-            str(value) for value in (execution_plan.get("allowed_coordinate_anchors") or [])
-        ],
+        allowed_coordinate_anchors=sorted(authorized_coordinate_anchors),
     )
     round_dir = out_dir / "rounds" / f"round_{round_index}"
     round_dir.mkdir(parents=True, exist_ok=True)

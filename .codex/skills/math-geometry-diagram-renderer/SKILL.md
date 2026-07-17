@@ -23,8 +23,10 @@ latex-data skill 只负责声明图位和教学语义；`diagram_kind` 必填，
 
 ## 图形类型
 
-- `prompt` / `clean`: 原题图，只画题干已知对象和必要顶点标签；不画辅助线、不写推理标注、不泄露答案。
-- `solution` / `annotated`: 讲解图或教师版答案图，可画辅助线、垂足、角标、相等标记和关键推理标注。
+- `prompt` / `clean`: 原题图，只画题干已知对象和必要顶点标签；不画辅助线、不写推理标注、不泄露答案。题干中的长度、比例、相等、角度等条件默认只用于约束构型，不重复写到图上。只有独立的 `visual_requirements.required_visible_annotations` 明确声明时，才把某项条件画成可见文字或标记；`problem_text`、`source_problem_text` 和 `semantic_constraints.given_constraints` 本身都不是可见标注清单。
+- `solution` / `annotated`: 讲解图或教师版答案图，可画辅助线、垂足、角标、相等标记和关键推理标注。视觉审核在此 variant 才检查明确要求的教学标记是否清楚、是否与讲解步骤一致。
+
+`prompt/clean` 的视觉审核重点是图形是否退化、题干对象/点序/共线与相交关系是否错误，以及顶点标签是否严重偏离、遮挡或指向错误。不得因为图上没有重复题干中的数值、等式、角度文字而要求返修，也不要为轻微风格差异消耗 candidate budget。
 
 solution 图必须复用 prompt 图构型，不让 Python 成为第二套几何求解器。这个边界同样适用于 prompt：
 Python 可以选择少量版面锚点和确定性种子，但题设中的在线点、内外分点、交点、垂足、中点等构造点必须由
