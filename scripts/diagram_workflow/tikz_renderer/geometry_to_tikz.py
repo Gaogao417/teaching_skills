@@ -235,9 +235,13 @@ class SyntheticGeometryTikzCompiler:
                 "angle_mode": mode,
                 "sweep_deg": normalized.sweep_deg,
                 "swapped": normalized.swapped,
+                "radius_cm": self.style.angle_radius_cm,
             }
         )
-        options = join_options(f"draw={color_option(getattr(marker, 'stroke', '') or '#059669')}")
+        options = join_options(
+            f"draw={color_option(getattr(marker, 'stroke', '') or '#059669')}",
+            f"angle radius={fmt_cm(self.style.angle_radius_cm)}",
+        )
         return f"\\AngleMark[{options}]{{{self.coord_names[normalized.arms[0]]}}}{{{self.coord_names[vertex]}}}{{{self.coord_names[normalized.arms[1]]}}}"
 
     def _draw_points(self) -> None:

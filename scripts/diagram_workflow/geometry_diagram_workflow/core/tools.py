@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import math
 import multiprocessing as mp
 import os
 import re
@@ -556,6 +557,177 @@ def _normalize_solver_points(parameters: object) -> Dict[str, List[float]]:
         if pair is not None:
             points[_point_label(name)] = pair
     return points
+
+
+def _prepare_solution_reuse_context(
+    request: Dict[str, object],
+    out_dir: Path,
+) -> Dict[str, object]:
+    """Attach finalized prompt coordinates to an in-memory solution request.
+
+    The public request artifact keeps the stable ``reuse_geometry_from`` contract.
+    Normal solution generation additionally needs the actual finalized base points,
+    because the Scene Writer is intentionally forbidden from reading job artifacts.
+    """
+
+    reuse_id = _solution_reuse_id(request)
+    if not reuse_id:
+        return dict(request)
+
+    base_dir = _resolve_reuse_job_dir(request, out_dir)
+    base_spec_path = base_dir / "final_renderer_spec.json"
+    if not base_spec_path.is_file():
+        raise FileNotFoundError(
+            f"solution base geometry is not finalized: {base_spec_path}"
+        )
+    base_spec = _read_json(base_spec_path)
+    raw_points = base_spec.get("points")
+    if not isinstance(raw_points, dict):
+        raise ValueError("solution base renderer spec has no points map")
+
+    locked_points: Dict[str, List[float]] = {}
+    for raw_name, raw_coord in raw_points.items():
+        name = _point_label(raw_name)
+        pair = _numeric_pair(raw_coord)
+        if name and pair is not None:
+            locked_points[name] = pair
+    if not locked_points:
+        raise ValueError("solution base renderer spec has no numeric points to lock")
+
+    prepared = dict(request)
+    prepared["locked_base_points"] = locked_points
+    prepared["locked_base_point_names"] = list(locked_points)
+    return prepared
+
+
+def _wolfram_number(value: object) -> str:
+    number = float(value)
+    if not math.isfinite(number):
+        raise ValueError("solution base coordinates must be finite numbers")
+    text = format(number, ".17g")
+    return re.sub(r"[eE]([+-]?\d+)$", r"*^\1", text)
+
+
+def _solution_base_lock_constraints(locked_points: object) -> List[str]:
+    if not isinstance(locked_points, dict):
+        return []
+    constraints: List[str] = []
+    for raw_name, raw_coord in locked_points.items():
+        name = str(raw_name).strip()
+        if not re.fullmatch(r"[A-Za-z][A-Za-z0-9_]*", name):
+            raise ValueError(f"unsupported Wolfram point symbol in base geometry: {name!r}")
+        pair = _numeric_pair(raw_coord)
+        if pair is None:
+            raise ValueError(f"solution base point {name} has invalid coordinates")
+        constraints.append(
+            f"{name} == {{{_wolfram_number(pair[0])}, {_wolfram_number(pair[1])}}}"
+        )
+    return constraints
+
+
+def _second_argument_list_insert_position(scene_code: str) -> tuple[int, bool]:
+    """Locate the hypotheses list in one top-level GeometricScene expression."""
+
+    match = re.search(r"\bGeometricScene\s*\[", scene_code)
+    if match is None:
+        raise ValueError("scene_code must contain GeometricScene")
+    open_square = scene_code.find("[", match.start())
+    square_depth = 1
+    curly_depth = 0
+    paren_depth = 0
+    in_string = False
+    escaped = False
+    separator = -1
+    for index in range(open_square + 1, len(scene_code)):
+        char = scene_code[index]
+        if in_string:
+            if escaped:
+                escaped = False
+            elif char == "\\":
+                escaped = True
+            elif char == '"':
+                in_string = False
+            continue
+        if char == '"':
+            in_string = True
+        elif char == "[":
+            square_depth += 1
+        elif char == "]":
+            square_depth -= 1
+            if square_depth == 0:
+                break
+        elif char == "{":
+            curly_depth += 1
+        elif char == "}":
+            curly_depth -= 1
+        elif char == "(":
+            paren_depth += 1
+        elif char == ")":
+            paren_depth -= 1
+        elif (
+            char == ","
+            and square_depth == 1
+            and curly_depth == 0
+            and paren_depth == 0
+        ):
+            separator = index
+            break
+    if separator < 0:
+        raise ValueError("scene_code must provide GeometricScene hypotheses")
+
+    second_start = separator + 1
+    while second_start < len(scene_code) and scene_code[second_start].isspace():
+        second_start += 1
+    if second_start >= len(scene_code) or scene_code[second_start] != "{":
+        raise ValueError("GeometricScene hypotheses must be a literal list")
+    next_token = second_start + 1
+    while next_token < len(scene_code) and scene_code[next_token].isspace():
+        next_token += 1
+    return second_start + 1, next_token < len(scene_code) and scene_code[next_token] != "}"
+
+
+def _inject_solution_base_locks(
+    scene_code: str,
+    locked_points: object,
+) -> str:
+    constraints = [
+        item
+        for item in _solution_base_lock_constraints(locked_points)
+        if item not in scene_code
+    ]
+    if not constraints:
+        return scene_code
+    insert_at, has_hypotheses = _second_argument_list_insert_position(scene_code)
+    insertion = ", ".join(constraints)
+    if has_hypotheses:
+        insertion += ", "
+    return scene_code[:insert_at] + insertion + scene_code[insert_at:]
+
+
+def _validate_solution_base_locks(
+    scene_code: str,
+    request: Dict[str, object],
+    scene_points: object,
+) -> None:
+    constraints = _solution_base_lock_constraints(request.get("locked_base_points"))
+    if not constraints:
+        return
+    declared_points = set(_point_names(scene_points))
+    missing_points = [
+        name
+        for name in request.get("locked_base_point_names", [])
+        if str(name) not in declared_points
+    ]
+    if missing_points:
+        raise ValueError(
+            "solution scene omits locked base point(s): " + ", ".join(missing_points)
+        )
+    missing_constraints = [item for item in constraints if item not in scene_code]
+    if missing_constraints:
+        raise ValueError(
+            "solution scene is missing Host-injected base point lock(s): "
+            + "; ".join(missing_constraints)
+        )
 def _compact_list(value: object) -> List[object]:
     if isinstance(value, list):
         return [item for item in value if item not in ("", None, [])]
@@ -851,8 +1023,28 @@ def _solution_reuse_check(
     base_spec = _read_json(base_dir / "final_renderer_spec.json")
     base_points = base_spec.get("points") if isinstance(base_spec.get("points"), dict) else {}
     solved_points = _normalize_solver_points(render_result.get("parameters"))
+    def canonicalize_parameter(name: str, expected_pair: List[float]) -> None:
+        parameters = render_result.get("parameters")
+        if isinstance(parameters, dict):
+            for raw_name, raw_coord in list(parameters.items()):
+                if _point_label(raw_name) == name and _numeric_pair(raw_coord) is not None:
+                    parameters[raw_name] = list(expected_pair)
+                    return
+        if isinstance(parameters, list):
+            for item in parameters:
+                if isinstance(item, dict):
+                    for raw_name, raw_coord in list(item.items()):
+                        if _point_label(raw_name) == name and _numeric_pair(raw_coord) is not None:
+                            item[raw_name] = list(expected_pair)
+                            return
+                elif isinstance(item, list) and len(item) == 2:
+                    if _point_label(item[0]) == name and _numeric_pair(item[1]) is not None:
+                        item[1] = list(expected_pair)
+                        return
+
     drift: List[Dict[str, object]] = []
     missing: List[str] = []
+    canonicalization_candidates: Dict[str, List[float]] = {}
     for name, expected in base_points.items():
         expected_pair = _numeric_pair(expected)
         actual_pair = _numeric_pair(solved_points.get(str(name)))
@@ -863,15 +1055,25 @@ def _solution_reuse_check(
             continue
         dx = abs(expected_pair[0] - actual_pair[0])
         dy = abs(expected_pair[1] - actual_pair[1])
-        if dx > tolerance or dy > tolerance:
+        coordinate_scale = max(abs(expected_pair[0]), abs(expected_pair[1]), 1.0)
+        numeric_tolerance = max(tolerance, 5e-9 * coordinate_scale)
+        if dx > numeric_tolerance or dy > numeric_tolerance:
             drift.append(
                 {
                     "point": str(name),
                     "expected": expected_pair,
                     "actual": actual_pair,
                     "max_abs_delta": max(dx, dy),
+                    "tolerance": numeric_tolerance,
                 }
             )
+        else:
+            canonicalization_candidates[str(name)] = expected_pair
+    canonicalized: List[str] = []
+    if not drift and not missing:
+        for name, expected_pair in canonicalization_candidates.items():
+            canonicalize_parameter(name, expected_pair)
+            canonicalized.append(name)
     return {
         "reuse_geometry_from": _solution_reuse_id(request),
         "base_job_dir": str(base_dir),
@@ -879,6 +1081,7 @@ def _solution_reuse_check(
         "locked_points_same": not drift and not missing,
         "drift": drift,
         "missing": missing,
+        "canonicalized_points": canonicalized,
     }
 def _collect_model_attempts(history: List[Dict[str, object]]) -> List[Dict[str, object]]:
     attempts: List[Dict[str, object]] = []
@@ -965,8 +1168,32 @@ def render_candidate_action(
 ) -> Dict[str, object]:
     """只执行 Wolfram 求解/渲染步骤，输入上一阶段的 scene_payload.json。"""
 
+    request = _prepare_solution_reuse_context(request, out_dir)
     payload = _read_json(scene_payload_path)
     scene_payload = ScenePayload.model_validate(payload)
+    locked_scene_code = _inject_solution_base_locks(
+        scene_payload.scene_code,
+        request.get("locked_base_points"),
+    )
+    reuse_metadata = dict(scene_payload.solution_reuse)
+    if request.get("locked_base_points"):
+        reuse_metadata.update(
+            {
+                "reuse_geometry_from": _solution_reuse_id(request),
+                "lock_strategy": "host_injected_exact_coordinates",
+                "locked_base_points": request["locked_base_points"],
+            }
+        )
+    normalized_payload = scene_payload.model_dump(mode="json", by_alias=True)
+    normalized_payload["scene_code"] = locked_scene_code
+    normalized_payload["solution_reuse"] = reuse_metadata
+    scene_payload = ScenePayload.model_validate(normalized_payload)
+    _validate_solution_base_locks(
+        scene_payload.scene_code,
+        request,
+        scene_payload.points,
+    )
+    _write_json(scene_payload_path, scene_payload)
     render_result = _render_scene(scene_payload.scene_code, out_dir, round_index, request)
     reuse_check = _solution_reuse_check(request, out_dir, render_result)
     if reuse_check:

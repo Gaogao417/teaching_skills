@@ -11,10 +11,15 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts" / "diagram_workflow"))
 
 from render_geometry_spec import render_geometry_spec  # noqa: E402
+from tikz_renderer.macros import DIAGRAM_TIKZ_MACROS  # noqa: E402
 from tikz_renderer.toolchain import PreviewResult  # noqa: E402
 
 
 class TikzRendererTest(unittest.TestCase):
+    def test_equal_tick_marks_use_compact_third_length(self) -> None:
+        self.assertIn("(0pt,-1.33pt) -- (0pt,1.33pt)", DIAGRAM_TIKZ_MACROS)
+        self.assertNotIn("(0pt,-4pt) -- (0pt,4pt)", DIAGRAM_TIKZ_MACROS)
+
     def test_degenerate_angle_marker_blocks_tikz_compilation(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             out_dir = Path(tmp)
@@ -73,11 +78,13 @@ class TikzRendererTest(unittest.TestCase):
                 command for command in tikz_spec["commands"] if command["kind"] == "marker:angle_arc"
             )
             self.assertTrue(angle_command["tex"].endswith(r"{B}{A}{C}"))
+            self.assertIn("angle radius=0.32cm", angle_command["tex"])
             angle_audit = tikz_spec["audit"]["angle_markers"][0]
             self.assertEqual(angle_audit["requested_arms"], ["C", "B"])
             self.assertEqual(angle_audit["normalized_arms"], ["B", "C"])
             self.assertTrue(angle_audit["swapped"])
             self.assertLess(angle_audit["sweep_deg"], 180)
+            self.assertEqual(angle_audit["radius_cm"], 0.32)
 
     def test_synthetic_geometry_outputs_tikz_markers_and_escaped_labels(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -114,6 +121,7 @@ class TikzRendererTest(unittest.TestCase):
             self.assertIn(r"\Triangle", fragment)
             self.assertIn(r"\DrawSegment", fragment)
             self.assertIn(r"\AngleMark", fragment)
+            self.assertIn("angle radius=0.32cm", fragment)
             self.assertIn(r"\RightAngleMark", fragment)
             self.assertIn(r"\DoubleEqualTick", fragment)
             self.assertIn(r"\PointDot", fragment)

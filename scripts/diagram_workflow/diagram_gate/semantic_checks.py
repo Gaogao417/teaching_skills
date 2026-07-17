@@ -61,6 +61,11 @@ class _SlotContext:
 
     @property
     def stem(self) -> str:
+        slot_context = self.slot.problem_context
+        if slot_context.stem_latex:
+            return slot_context.stem_latex
+        if slot_context.source_problem_text:
+            return slot_context.source_problem_text
         return self.block.stem_latex or self.block.stem or ""
 
 

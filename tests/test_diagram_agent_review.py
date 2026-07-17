@@ -66,6 +66,30 @@ class DiagramAgentReviewContractTest(unittest.TestCase):
         self.assertIn("wolfram_failed: no_solution", prompt)
         self.assertNotIn("--action", prompt)
 
+    def test_solution_scene_writer_leaves_exact_base_locks_to_host(self) -> None:
+        request = _request().model_dump(mode="json")
+        request.update(
+            {
+                "variant": "solution",
+                "diagram_variant": "solution",
+                "reuse_geometry_from": "q1-prompt",
+                "locked_base_points": {
+                    "A": [0.0, 2.0],
+                    "B": [-2.0, 0.0],
+                    "C": [2.0, 0.0],
+                },
+            }
+        )
+
+        prompt = scene_writer_prompt(request, skill_names="test")
+
+        self.assertIn("locked_base_points", prompt)
+        self.assertIn("is Host-owned context", prompt)
+        self.assertIn("The Host injects the exact point", prompt)
+        self.assertIn("equalities before Wolfram runs", prompt)
+        self.assertIn("copy their coordinates into scene_code", prompt)
+        self.assertIn("rather than a property list", prompt)
+
     def test_human_revision_is_typed_and_names_exact_next_round(self) -> None:
         revision = DiagramHumanRevision(
             action_id="action-1",

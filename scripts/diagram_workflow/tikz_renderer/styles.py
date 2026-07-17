@@ -20,6 +20,7 @@ class TikzRenderStyle:
     axis_label_pt: float = 9.9
     tick_label_pt: float = 7.15
     point_radius_cm: float = 0.073
+    angle_radius_cm: float = 0.32
     point_label_offset_cm: float = 0.238
     point_label_font_style: str = "italic"
     point_label_font_weight: str = "normal"

@@ -6,6 +6,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
+import yaml
 from pydantic import ValidationError
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -21,7 +22,11 @@ from diagram_contracts import (  # noqa: E402
     RendererBindingManifest,
     validate_diagram_slot,
 )
-from resolve_assignment_diagrams import resolve_assignment, validate_batch_report_allows_resolution  # noqa: E402
+from resolve_assignment_diagrams import (  # noqa: E402
+    resolve_assignment,
+    validate_batch_report_allows_resolution,
+    write_yaml,
+)
 from tikz_renderer import compile_geometry_render_spec  # noqa: E402
 from tikz_renderer.writer import render_fragment  # noqa: E402
 
@@ -39,6 +44,19 @@ def slot_payload(**overrides: object) -> dict[str, object]:
 
 
 class DiagramProfileTest(unittest.TestCase):
+    def test_resolver_writes_multiline_latex_as_literal_block(self) -> None:
+        content = (
+            r"已知 $\cos A=\dfrac45$。\\" + "\n"
+            r"所以 $x=\dfrac{15}{8}$。"
+        )
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "resolved.assignment.yaml"
+            write_yaml(path, {"content_latex": content})
+
+            raw = path.read_text(encoding="utf-8")
+            self.assertIn("content_latex: |-", raw)
+            self.assertEqual(yaml.safe_load(raw)["content_latex"], content)
+
     def test_slot_resolves_sidecar_profile_defaults_and_width_override(self) -> None:
         slot = validate_diagram_slot(slot_payload())
         profile = slot.resolved_render_profile()

@@ -212,6 +212,39 @@ def write_solution_artifacts(artifact_dir: Path, manifest, scene_code: str) -> R
 
 
 class DiagramGateRegressionTest(unittest.TestCase):
+    def test_prompt_semantic_coverage_prefers_narrow_slot_context(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            artifact_dir = Path(tmp)
+            slot = synthetic_slot("q1.prompt")
+            slot["problem_context"] = {
+                "stem_latex": r"在 $\triangle ABC$ 中，$AB=AC$。",
+                "source_problem_text": "只画原三角形 ABC，不画旋转后的 D、E。",
+            }
+            plan_data = plan_with_blocks(
+                [
+                    {
+                        "type": "problem",
+                        "id": "q1",
+                        "stem_latex": (
+                            r"在 $\triangle ABC$ 中，将其旋转为 $\triangle ADE$，"
+                            r"边 $AD,DE$ 分别与 $BC$ 相交。"
+                        ),
+                        "diagram_slot": slot,
+                    }
+                ]
+            )
+            plan_view, manifest = collect(plan_data, artifact_dir)
+            artifacts = write_fake_job_artifacts(artifact_dir, manifest)
+
+            report = run_gate(plan_view, manifest, artifacts, artifact_dir, None)
+            semantic_blocks = {
+                check.name
+                for check in report.checks
+                if check.status == "block" and check.name == "slot_semantic_coverage"
+            }
+
+        self.assertEqual(semantic_blocks, set())
+
     def test_declared_constructed_point_fixed_coordinates_block(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             artifact_dir = Path(tmp)

@@ -220,7 +220,8 @@ GeometricScene rules:
   constructed points. Never solve constructed-point coordinates yourself.
 - Wolfram segment membership is Element[P, Line[{{A, B}}]]; a full line uses
   InfiniteLine and a ray uses HalfLine. Never emit LineSegment[...] or Ray[...].
-  Apply Horizontal/Rightward only to Line[{{A, B}}].
+  Apply Horizontal/Rightward only to Line[{{A, B}}], and emit each property as
+  its own GeometricAssertion rather than a property list.
 - Ordinary synthetic geometry should keep points symbolic. At most use one
   baseline Horizontal/Rightward assertion for layout; do not pin several
   triangle vertices and repeat metric constraints.
@@ -228,9 +229,12 @@ GeometricScene rules:
 - A point constrained to lie on another object, or defined as an intersection,
   midpoint, foot, center, or ratio point, belongs in constructed rather than
   anchors. Every constructed point needs native constraints that determine it.
-- A clean prompt shows only givens. A solution request must lock only the base
-  prompt points supplied by reuse_geometry_from and derive new auxiliary points
-  from native constraints.
+- A clean prompt shows only givens. For a solution request, locked_base_points
+  is Host-owned context: keep those base points symbolic in your output and do
+  not copy their coordinates into scene_code. The Host injects the exact point
+  equalities before Wolfram runs. Do not add Horizontal, Rightward, clockwise,
+  counterclockwise, or other layout assertions involving only locked base
+  points. Derive every solution-only point from native constraints.
 - Include every explicitly given length, angle, incidence, point order,
   parallel, perpendicular, equality, and requested visible marker from the
   normalized request. Do not add unproved special properties.

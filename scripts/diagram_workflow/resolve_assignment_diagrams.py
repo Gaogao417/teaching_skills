@@ -292,10 +292,28 @@ def read_yaml(path: Path) -> dict[str, object]:
     return data
 
 
+class _ResolvedYamlDumper(yaml.SafeDumper):
+    """Keep multiline LaTeX out of YAML double-quoted line wrapping."""
+
+
+def _represent_resolved_string(dumper: yaml.SafeDumper, value: str) -> yaml.ScalarNode:
+    style = "|" if "\n" in value else None
+    return dumper.represent_scalar("tag:yaml.org,2002:str", value, style=style)
+
+
+_ResolvedYamlDumper.add_representer(str, _represent_resolved_string)
+
+
 def write_yaml(path: Path, data: dict[str, object]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(
-        yaml.dump(data, allow_unicode=True, default_flow_style=False, sort_keys=False),
+        yaml.dump(
+            data,
+            Dumper=_ResolvedYamlDumper,
+            allow_unicode=True,
+            default_flow_style=False,
+            sort_keys=False,
+        ),
         encoding="utf-8",
     )
 

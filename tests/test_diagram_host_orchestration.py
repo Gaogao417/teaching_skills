@@ -61,9 +61,17 @@ def _render_ok() -> dict[str, object]:
 
 
 class DiagramHostOrchestrationTest(unittest.TestCase):
-    def _run_with_host_doubles(self, root: Path, agent_side_effect: object, render_side_effect: object):
+    def _run_with_host_doubles(
+        self,
+        root: Path,
+        agent_side_effect: object,
+        render_side_effect: object,
+        *,
+        request: dict[str, object] | None = None,
+    ):
+        workflow_request = request or _request()
         source_request = root / "source-request.json"
-        source_request.write_text(json.dumps(_request()), encoding="utf-8")
+        source_request.write_text(json.dumps(workflow_request), encoding="utf-8")
         out_dir = root / "job"
         order: list[str] = []
 
@@ -111,7 +119,7 @@ class DiagramHostOrchestrationTest(unittest.TestCase):
                 return_value={"status": "ok"},
             ),
         ):
-            result = workflow.run_workflow(_request(), out_dir, source_request)
+            result = workflow.run_workflow(workflow_request, out_dir, source_request)
         return result, order, agent, out_dir
 
     def test_normal_success_uses_one_scene_writer_then_host_stages(self) -> None:
@@ -192,6 +200,66 @@ class DiagramHostOrchestrationTest(unittest.TestCase):
         self.assertEqual(result["fail_type"], "no_solution")
         self.assertEqual(agent.call_count, 2)
         self.assertEqual(order, ["wolfram_render", "wolfram_render"])
+
+    def test_solution_scene_writer_receives_finalized_base_point_context(self) -> None:
+        solution_request = {
+            "job_id": "q1-solution",
+            "diagram_job_id": "q1-solution",
+            "variant": "solution",
+            "diagram_variant": "solution",
+            "disclosure_policy": "annotated",
+            "reuse_geometry_from": "q1-prompt",
+        }
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            base_dir = root / "q1-prompt"
+            base_dir.mkdir()
+            (base_dir / "final_renderer_spec.json").write_text(
+                json.dumps({"points": {"A": [0, 2], "B": [-2, 0], "C": [2, 0]}}),
+                encoding="utf-8",
+            )
+            result, _order, agent, out_dir = self._run_with_host_doubles(
+                root,
+                _agent_output(),
+                _render_ok(),
+                request=solution_request,
+            )
+            scene_payload = json.loads(
+                (out_dir / "rounds" / "round_0" / "scene_payload.json").read_text()
+            )
+
+        prepared_request = agent.call_args.kwargs["request"]
+        self.assertEqual(result["status"], "ok")
+        self.assertEqual(
+            prepared_request["locked_base_points"],
+            {"A": [0.0, 2.0], "B": [-2.0, 0.0], "C": [2.0, 0.0]},
+        )
+        self.assertEqual(
+            scene_payload["solution_reuse"]["lock_strategy"],
+            "host_injected_exact_coordinates",
+        )
+
+    def test_missing_solution_base_fails_before_scene_writer(self) -> None:
+        solution_request = {
+            "job_id": "q1-solution",
+            "diagram_job_id": "q1-solution",
+            "variant": "solution",
+            "diagram_variant": "solution",
+            "disclosure_policy": "annotated",
+            "reuse_geometry_from": "missing-prompt",
+        }
+        with tempfile.TemporaryDirectory() as tmp:
+            result, order, agent, _out_dir = self._run_with_host_doubles(
+                Path(tmp),
+                _agent_output(),
+                _render_ok(),
+                request=solution_request,
+            )
+
+        self.assertEqual(result["status"], "failed")
+        self.assertEqual(result["fail_type"], "host_environment_or_invariant_failed")
+        self.assertEqual(agent.call_count, 0)
+        self.assertEqual(order, [])
 
 
 if __name__ == "__main__":

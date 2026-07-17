@@ -28,6 +28,7 @@ from tools import (  # noqa: E402
     _emit_event,
     _json_default,
     _normalize_workflow_request,
+    _prepare_solution_reuse_context,
     _read_json,
     _validate_final_agent_artifacts,
     _write_failed_workflow_result,
@@ -80,8 +81,13 @@ def _run_host_stage(
             "tikz_compile",
             "audit",
         }
+        solution_lock_error = payload_error and (
+            "locked base point" in str(exc) or "base point lock" in str(exc)
+        )
         fail_type = (
-            "invalid_scene_code"
+            "solution_base_lock_missing"
+            if solution_lock_error
+            else "invalid_scene_code"
             if payload_error and stage == "wolfram_render"
             else "invalid_scene_or_renderer_payload"
             if payload_error
@@ -122,10 +128,13 @@ def _scene_payload_from_agent(
         key: agent_result.get(key)
         for key in ("scene_code", "points", "point_roles", "diagram_spec", "rationale")
     }
+    locked_base_points = request.get("locked_base_points")
     payload.update(
         {
             "solution_reuse": {
                 "reuse_geometry_from": request.get("reuse_geometry_from", ""),
+                "lock_strategy": "host_injected_exact_coordinates",
+                "locked_base_points": locked_base_points,
             }
             if request.get("reuse_geometry_from")
             else {},
@@ -382,6 +391,22 @@ def run_workflow(request: Dict[str, object], out_dir: Path, request_path: Path) 
             )
 
         timer = StageTimer()
+        try:
+            request = _prepare_solution_reuse_context(request, out_dir)
+        except (OSError, ValueError) as exc:
+            raise WorkflowStageError(
+                "solution_reuse_prepare",
+                "host_environment_or_invariant_failed",
+                str(exc),
+                repairable=False,
+            ) from exc
+        if request.get("locked_base_points"):
+            _emit_event(
+                out_dir,
+                "host.solution_reuse.prepared",
+                reuse_geometry_from=request.get("reuse_geometry_from", ""),
+                locked_point_count=len(request["locked_base_points"]),
+            )
         repair_payload: Dict[str, object] | None = None
         last_error: WorkflowStageError | None = None
         for round_index in (0, 1):
