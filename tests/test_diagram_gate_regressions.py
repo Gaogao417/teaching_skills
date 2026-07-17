@@ -15,6 +15,7 @@ sys.path.insert(0, str(ROOT / "scripts" / "diagram_workflow"))
 from collect_diagram_jobs import collect_jobs  # noqa: E402
 from diagram_contracts import AssignmentPlanDiagramView, RendererBinding, RendererBindingManifest  # noqa: E402
 from diagram_gate.runner import run_gate  # noqa: E402
+from diagram_gate.semantic_checks import _point_relation_count  # noqa: E402
 from renderer_bindings import write_json  # noqa: E402
 
 
@@ -212,6 +213,14 @@ def write_solution_artifacts(artifact_dir: Path, manifest, scene_code: str) -> R
 
 
 class DiagramGateRegressionTest(unittest.TestCase):
+    def test_incidence_relation_counts_point_used_inside_another_points_line(self) -> None:
+        scene_code = (
+            "GeometricScene[{A,B,C,D,P},{Element[D,Line[{B,C}]],"
+            "Element[P,Line[{A,D}]]}]"
+        )
+
+        self.assertEqual(_point_relation_count(scene_code, "D"), 2)
+
     def test_prompt_semantic_coverage_prefers_narrow_slot_context(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             artifact_dir = Path(tmp)

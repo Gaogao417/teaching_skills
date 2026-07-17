@@ -28,6 +28,7 @@ except ImportError as exc:  # pragma: no cover
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from diagram_contracts import (  # noqa: E402
     AssignmentPlanDiagramView,
+    CoordinatePolicy,
     DiagramExecutionPlan,
     DiagramJob,
     DiagramJobsManifest,
@@ -173,6 +174,23 @@ def collect_jobs(
         if slot.reuse_geometry_from:
             reuse_job_id = _job_id_from_slot_id(slot.reuse_geometry_from)
 
+        execution_plan = DiagramExecutionPlan.for_route(
+            job_id=job_id,
+            slot_id=slot.slot_id,
+            diagram_kind=slot.diagram_kind,
+            engine=slot.engine,
+        )
+        scene_payload = slot.engine_options.scene_payload
+        fixed_layout_points = scene_payload.get("fixed_layout_points")
+        if isinstance(fixed_layout_points, dict) and fixed_layout_points:
+            execution_plan = DiagramExecutionPlan.model_validate(
+                {
+                    **execution_plan.model_dump(mode="json"),
+                    "coordinate_policy": CoordinatePolicy.REVIEWED_FIXTURE.value,
+                    "allowed_coordinate_anchors": sorted(str(name) for name in fixed_layout_points),
+                }
+            )
+
         job = DiagramJob(
             job_id=job_id,
             slot_id=slot.slot_id,
@@ -192,12 +210,7 @@ def collect_jobs(
             depends_on=depends_on,
             content_hash=_content_hash(slot.model_dump(mode="json", by_alias=True)),
             reuse_geometry_from=reuse_job_id,
-            execution_plan=DiagramExecutionPlan.for_route(
-                job_id=job_id,
-                slot_id=slot.slot_id,
-                diagram_kind=slot.diagram_kind,
-                engine=slot.engine,
-            ),
+            execution_plan=execution_plan,
         )
         jobs.append(job)
 

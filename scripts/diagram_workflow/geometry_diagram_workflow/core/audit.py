@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import re
 import math
+from itertools import combinations
 from pathlib import Path
 from typing import Dict, List
 
@@ -91,6 +92,43 @@ def _audit_degenerate_geometry(
                 issues.append(f"degenerate_coincident_points:{first_name}:{second_name}")
             elif distance / diagonal < 0.012:
                 warnings.append(f"near_coincident_points:{first_name}:{second_name}")
+
+    # A synthetic triangle is commonly represented by its three boundary
+    # segments rather than by a filled polygon.  Audit those three-cycles too;
+    # otherwise a nearly collinear ABC can pass merely because `polygons` is
+    # empty.  area2 / longest_side^2 equals the smallest altitude divided by
+    # the longest side, so it is scale independent and directly measures the
+    # visually collapsed shape.
+    raw_segments = renderer_spec.get("segments")
+    edges: set[tuple[str, str]] = set()
+    if isinstance(raw_segments, list):
+        for segment in raw_segments:
+            if not isinstance(segment, dict):
+                continue
+            first = str(segment.get("from") or "")
+            second = str(segment.get("to") or "")
+            if first in points and second in points and first != second:
+                edges.add(tuple(sorted((first, second))))
+    for first, second, third in combinations(sorted(points), 3):
+        if not all(
+            tuple(sorted(edge)) in edges
+            for edge in ((first, second), (second, third), (third, first))
+        ):
+            continue
+        a, b, c = points[first], points[second], points[third]
+        area2 = abs((b[0] - a[0]) * (c[1] - a[1]) - (b[1] - a[1]) * (c[0] - a[0]))
+        longest_sq = max(
+            math.dist(a, b) ** 2,
+            math.dist(b, c) ** 2,
+            math.dist(c, a) ** 2,
+            1e-9,
+        )
+        flatness = area2 / longest_sq
+        signature = ":".join((first, second, third))
+        if flatness < 0.12:
+            issues.append(f"degenerate_triangle_cycle:{signature}")
+        elif flatness < 0.18:
+            warnings.append(f"flat_triangle_cycle:{signature}")
     polygons = renderer_spec.get("polygons")
     if not isinstance(polygons, list):
         return
@@ -129,6 +167,23 @@ def audit_diagram_action(
     renderer_spec = _read_json(renderer_spec_path)
     renderer_result = _read_json(renderer_result_path)
 
+    execution_plan = request.get("execution_plan")
+    if not isinstance(execution_plan, dict):
+        execution_plan = {}
+    host_locked_points = request.get("locked_base_points")
+    if not isinstance(host_locked_points, dict):
+        host_locked_points = {}
+    payload_reuse = scene_payload.get("solution_reuse")
+    if isinstance(payload_reuse, dict):
+        payload_locked_points = payload_reuse.get("locked_base_points")
+        if isinstance(payload_locked_points, dict):
+            host_locked_points = {**host_locked_points, **payload_locked_points}
+    allowed_coordinate_anchors = {
+        str(value)
+        for value in (execution_plan.get("allowed_coordinate_anchors") or [])
+    }
+    allowed_coordinate_anchors.update(str(name) for name in host_locked_points)
+    coordinate_policy = str(execution_plan.get("coordinate_policy") or "")
     try:
         _validate_scene_code(
             str(scene_payload.get("scene_code", "")),
@@ -136,7 +191,10 @@ def audit_diagram_action(
                 request.get("reuse_geometry_from")
                 or request.get("reuse_from")
                 or request.get("base_diagram_job_id")
+                or coordinate_policy == "reviewed_fixture"
             ),
+            coordinate_policy=coordinate_policy,
+            allowed_coordinate_anchors=sorted(allowed_coordinate_anchors),
         )
     except Exception as exc:
         issues.append(f"invalid_scene_code: {redact_secrets(exc)}")

@@ -321,10 +321,17 @@ class SyntheticGeometryTikzCompiler:
     def _record_label_box(self, name: str, text: str, label: RenderLabel) -> None:
         point = self.points[name]
         placement = self._label_placement(label.placement) or self.label_placements.get(name) or "above"
-        dx = float(label.dx or 0) * PX_TO_CM
-        dy = -float(label.dy if label.dy is not None else 0) * PX_TO_CM
         has_explicit_offset = bool(label.dx) or label.dy not in (None, 0, -24)
-        if not has_explicit_offset:
+        if has_explicit_offset:
+            dx = float(label.dx or 0) * PX_TO_CM
+            dy = -float(label.dy if label.dy is not None else 0) * PX_TO_CM
+        else:
+            # `dy=-24` is the legacy default sentinel. TikZ ignores that
+            # numeric value and applies only the placement shift, so the audit
+            # box must do the same. Mixing both offsets made labels appear much
+            # closer to their points in the audit than in the rendered image.
+            dx = 0.0
+            dy = 0.0
             offset = self.style.point_label_offset_cm
             if "left" in placement:
                 dx -= offset

@@ -14,12 +14,19 @@ import yaml
 TEACHER_ONLY_KEYS = {"answer", "explanation", "solution_steps", "teaching"}
 
 
+def is_solution_diagram(value: Any) -> bool:
+    return isinstance(value, dict) and (
+        value.get("variant") == "solution"
+        or value.get("disclosure_policy") == "annotated"
+    )
+
+
 def strip_teacher_fields(value: Any) -> Any:
     if isinstance(value, dict):
         return {
             key: strip_teacher_fields(child)
             for key, child in value.items()
-            if key not in TEACHER_ONLY_KEYS
+            if key not in TEACHER_ONLY_KEYS and not is_solution_diagram(child)
         }
     if isinstance(value, list):
         return [strip_teacher_fields(child) for child in value]

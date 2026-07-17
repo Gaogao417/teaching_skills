@@ -141,7 +141,7 @@ def _point_constructor_constraint(scene_code: str, escaped_point: str) -> re.Mat
 def _point_relation_count(scene_code: str, escaped_point: str) -> int:
     """Count native geometric relations that involve a point."""
     return len(re.findall(
-        rf"(?:GeometricAssertion|EuclideanDistance|PlanarAngle|Area|RegionDistance)\s*"
+        rf"(?:Element|GeometricAssertion|EuclideanDistance|PlanarAngle|Area|RegionDistance)\s*"
         rf"\[[^\]]*\b{escaped_point}\b",
         scene_code,
     ))
@@ -438,7 +438,7 @@ def _check_solution_auxiliary_geometry(
                 scene_code,
             ) or (relation_count >= 2)
             incidence_count = len(re.findall(rf"Element\s*\[\s*{escaped}\s*,", scene_code))
-            relation_constraint = relation_count > 0
+            relation_constraint = relation_count >= 2
             if fixed_coordinate:
                 checks.append(DiagramGateCheck(
                     name="solution_auxiliary_fixed_coordinates",
@@ -459,7 +459,7 @@ def _check_solution_auxiliary_geometry(
                     ),
                     refs=[job.slot_id, point],
                 ))
-            elif not constructor_constraint and incidence_count < 2 and not relation_constraint:
+            elif not constructor_constraint and not relation_constraint:
                 checks.append(DiagramGateCheck(
                     name="solution_auxiliary_underconstrained",
                     status="block",
@@ -500,7 +500,7 @@ def _check_scene_point_roles(
                 constructor_constraint = _point_constructor_constraint(scene_code, escaped)
                 incidence_count = len(re.findall(rf"Element\s*\[\s*{escaped}\s*,", scene_code))
                 relation_count = _point_relation_count(scene_code, escaped)
-                relation_constraint = relation_count > 0
+                relation_constraint = relation_count >= 2
                 if fixed_coordinate:
                     checks.append(DiagramGateCheck(
                         name="constructed_point_fixed_coordinates",
@@ -518,7 +518,7 @@ def _check_scene_point_roles(
                         message=f"{role} point {point} has no native GeometricScene construction constraint",
                         refs=[job.slot_id, point],
                     ))
-                elif not constructor_constraint and incidence_count < 2 and not relation_constraint:
+                elif not constructor_constraint and not relation_constraint:
                     checks.append(DiagramGateCheck(
                         name="constructed_point_underconstrained",
                         status="block",

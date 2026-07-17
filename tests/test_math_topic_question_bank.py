@@ -127,7 +127,6 @@ def test_ready_bank_and_student_derivation(tmp_path: Path) -> None:
     bank, errors = validate_manifest(manifest)
     assert bank is not None
     assert errors == []
-
     student = yaml.safe_load(
         (tmp_path / "items/Q001/student.resolved.assignment.yaml").read_text(encoding="utf-8")
     )
@@ -137,6 +136,24 @@ def test_ready_bank_and_student_derivation(tmp_path: Path) -> None:
     assert "variant: solution" not in rendered
     assert "variant: prompt" in rendered
 
+
+def test_student_derivation_removes_nested_solution_diagram(tmp_path: Path) -> None:
+    teacher = teacher_assignment("Q001", tmp_path / "items/Q001")
+    block = teacher["sections"][0]["blocks"][0]
+    block["answer_space"] = {
+        "type": "steps",
+        "diagram_col": {
+            "kind": "tikz",
+            "tikz_path": "diagram/solution.fragment.tex",
+            "variant": "solution",
+            "disclosure_policy": "annotated",
+        },
+    }
+
+    student = derive(teacher)
+    student_block = student["sections"][0]["blocks"][0]
+    assert "diagram_col" not in student_block["answer_space"]
+    assert student_block["diagram_col"]["variant"] == "prompt"
 
 def test_seeded_sampling_outputs_valid_assignments(tmp_path: Path) -> None:
     manifest = build_bank(tmp_path)

@@ -1146,7 +1146,7 @@ class DiagramExecutionPlan(DiagramModel):
     engine: DiagramEngine
     engine_source: EngineSource = EngineSource.ROUTE_POLICY
     coordinate_policy: CoordinatePolicy
-    allowed_coordinate_anchors: list[str] = Field(default_factory=list, max_length=1)
+    allowed_coordinate_anchors: list[str] = Field(default_factory=list, max_length=16)
     max_candidate_rounds: int = Field(default=2, ge=1, le=4)
     requires_visual_decision: bool = False
 
@@ -1208,12 +1208,21 @@ class DiagramExecutionPlan(DiagramModel):
             if self.coordinate_policy not in {
                 CoordinatePolicy.SYMBOLIC_ONLY,
                 CoordinatePolicy.ALLOW_SINGLE_ANCHOR,
+                CoordinatePolicy.REVIEWED_FIXTURE,
             }:
-                raise ValueError("geometric_scene requires a symbolic coordinate policy")
+                raise ValueError(
+                    "geometric_scene requires symbolic coordinates or an explicitly reviewed fixture"
+                )
         if self.coordinate_policy == CoordinatePolicy.SYMBOLIC_ONLY and self.allowed_coordinate_anchors:
             raise ValueError("symbolic_only execution plans cannot allow coordinate anchors")
         if self.coordinate_policy == CoordinatePolicy.ALLOW_SINGLE_ANCHOR and len(self.allowed_coordinate_anchors) != 1:
             raise ValueError("allow_single_anchor requires exactly one allowed coordinate anchor")
+        if (
+            self.engine == DiagramEngine.GEOMETRIC_SCENE
+            and self.coordinate_policy == CoordinatePolicy.REVIEWED_FIXTURE
+            and not self.allowed_coordinate_anchors
+        ):
+            raise ValueError("reviewed_fixture requires explicitly allowed coordinate anchors")
         return self
 
 

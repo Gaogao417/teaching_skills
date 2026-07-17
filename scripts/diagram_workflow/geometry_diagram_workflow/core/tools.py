@@ -475,11 +475,22 @@ def _validate_scene_code(
         raise ValueError(
             "allow_single_anchor scene_code may fix only the explicitly authorized anchor"
         )
+    if coordinate_policy == "reviewed_fixture" and (
+        not fixed_points or fixed_points != allowed_anchors
+    ):
+        raise ValueError(
+            "reviewed_fixture scene_code must fix exactly the explicitly authorized anchors"
+        )
     repeated_metric_constraints = re.search(
         r"\b(?:EuclideanDistance|PlanarAngle|TriangleMeasurement|Area)\s*\[",
         scene_code,
     )
-    if len(fixed_points) > 1 and repeated_metric_constraints and not allow_fixed_metrics:
+    if (
+        len(fixed_points) > 1
+        and repeated_metric_constraints
+        and not allow_fixed_metrics
+        and coordinate_policy != "reviewed_fixture"
+    ):
         raise ValueError(
             "scene_code fixes multiple triangle vertices while also adding metric constraints; "
             "keep the points symbolic and use a baseline orientation assertion"
@@ -1039,7 +1050,10 @@ def _render_scene(
     authorized_coordinate_anchors.update(str(name) for name in host_locked_points)
     _validate_scene_code(
         scene_code,
-        allow_fixed_metrics=bool(_solution_reuse_id(request)),
+        allow_fixed_metrics=(
+            bool(_solution_reuse_id(request))
+            or str(execution_plan.get("coordinate_policy") or "") == "reviewed_fixture"
+        ),
         coordinate_policy=str(execution_plan.get("coordinate_policy") or ""),
         allowed_coordinate_anchors=sorted(authorized_coordinate_anchors),
     )

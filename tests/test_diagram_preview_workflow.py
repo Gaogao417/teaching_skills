@@ -15,7 +15,7 @@ sys.path.insert(0, str(WORKFLOW))
 sys.path.insert(0, str(CORE))
 
 import workflow  # noqa: E402
-from audit import audit_diagram_action  # noqa: E402
+from audit import _audit_degenerate_geometry, audit_diagram_action  # noqa: E402
 from tools import render_candidate_action  # noqa: E402
 
 
@@ -67,6 +67,65 @@ class DiagramPreviewWorkflowTest(unittest.TestCase):
 
             normalized_request = render.call_args.args[0]
             self.assertIs(normalized_request["wolfram_render_image"], True)
+
+    def test_interactive_render_materializes_reviewed_inline_scene_payload(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            request_path = root / "request.json"
+            payload = {
+                "scene_code": "GeometricScene[{A,B},{EuclideanDistance[A,B]==1}]",
+                "points": ["A", "B"],
+                "diagram_spec": {"segments": [["A", "B"]]},
+            }
+            _write(
+                request_path,
+                {
+                    "schema_version": "diagram-job-request/v2",
+                    "job_id": "inline-render",
+                    "assignment_id": "unit",
+                    "slot_id": "unit.prompt",
+                    "engine_options": {"scene_payload": payload},
+                },
+            )
+            out_dir = root / "out"
+            argv = [
+                "workflow.py",
+                "--action",
+                "render",
+                "--request",
+                str(request_path),
+                "--out",
+                str(out_dir),
+            ]
+            with (
+                patch.object(sys, "argv", argv),
+                patch.object(workflow, "render_candidate_action", return_value={"status": "ok"}) as render,
+                patch("builtins.print"),
+            ):
+                workflow.main()
+
+            scene_path = out_dir / "rounds/round_0/scene_payload.json"
+            self.assertEqual(json.loads(scene_path.read_text(encoding="utf-8")), payload)
+            self.assertEqual(render.call_args.args[1], scene_path)
+
+    def test_degenerate_audit_blocks_flat_triangle_drawn_as_segments(self) -> None:
+        issues: list[str] = []
+        warnings: list[str] = []
+        _audit_degenerate_geometry(
+            {
+                "points": {"A": [4.0, 0.3], "B": [0.0, 0.0], "C": [8.0, 0.0]},
+                "segments": [
+                    {"from": "A", "to": "B"},
+                    {"from": "B", "to": "C"},
+                    {"from": "C", "to": "A"},
+                ],
+                "polygons": [],
+            },
+            issues,
+            warnings,
+        )
+
+        self.assertIn("degenerate_triangle_cycle:A:B:C", issues)
 
     def test_render_stops_for_human_after_one_failed_adjustment(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

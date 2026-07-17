@@ -824,6 +824,83 @@ def run_one_job(
     )
 
 
+def consume_finalized_job_package(
+    job: DiagramJob,
+    request: DiagramJobRequest,
+    artifact_dir: Path,
+) -> DiagramBatchJobResult:
+    """Gate a main-Agent finalized package without rerunning Wolfram or TikZ."""
+
+    job_build_dir = artifact_dir / job.out_dir
+    workflow_result_path = job_build_dir / "workflow_result.json"
+    audit_result_path = job_build_dir / "audit_result.json"
+    spec_path = job_build_dir / "final_renderer_spec.json"
+    if not workflow_result_path.is_file() or not audit_result_path.is_file() or not spec_path.is_file():
+        return DiagramBatchJobResult(
+            job_id=job.job_id,
+            slot_id=job.slot_id,
+            variant=job.variant.value,
+            status="workflow_failed",
+            workflow_status="missing_finalized_package",
+            failure_reason="finalized package requires workflow_result, audit_result, and final_renderer_spec",
+        )
+    workflow_result = read_json(workflow_result_path)
+    audit_result = read_json(audit_result_path)
+    if workflow_result.get("status") != "ok" or audit_result.get("status") != "pass":
+        return DiagramBatchJobResult(
+            job_id=job.job_id,
+            slot_id=job.slot_id,
+            variant=job.variant.value,
+            status="workflow_failed",
+            workflow_status=str(workflow_result.get("status") or "invalid"),
+            failure_reason="finalized package has not passed workflow and deterministic audit",
+        )
+    existing_package = _existing_renderer_package(job_build_dir)
+    if existing_package is None:
+        return DiagramBatchJobResult(
+            job_id=job.job_id,
+            slot_id=job.slot_id,
+            variant=job.variant.value,
+            status="renderer_failed",
+            workflow_status="ok",
+            renderer_status="missing_finalized_package",
+            failure_reason="finalized renderer_result or TikZ fragment is missing",
+        )
+
+    write_json(job_build_dir / "request.json", request_payload_for_artifact(request))
+    if request.execution_plan is not None:
+        write_json(
+            job_build_dir / "execution_plan.json",
+            request.execution_plan.model_dump(mode="json"),
+        )
+    _write_semantic_provenance(job, request, job_build_dir)
+    gate = run_job_package_gate(job, request, job_build_dir)
+    write_json(job_build_dir / "job_gate_report.json", gate.model_dump(mode="json"))
+    if gate.status == "block":
+        return DiagramBatchJobResult(
+            job_id=job.job_id,
+            slot_id=job.slot_id,
+            variant=job.variant.value,
+            status="job_gate_failed",
+            workflow_status="ok",
+            renderer_status="ok",
+            failure_reason="; ".join(
+                check.message for check in gate.checks if check.status == "block"
+            ),
+        )
+    rr_status, rr_tikz_fragment_path, rr_tikz_source_path = existing_package
+    return DiagramBatchJobResult(
+        job_id=job.job_id,
+        slot_id=job.slot_id,
+        variant=job.variant.value,
+        status="ok",
+        workflow_status="ok",
+        renderer_status=rr_status,
+        tikz_fragment_path=rr_tikz_fragment_path,
+        tikz_source_path=rr_tikz_source_path,
+    )
+
+
 # ---------------------------------------------------------------------------
 # Batch execution
 # ---------------------------------------------------------------------------
@@ -836,6 +913,7 @@ def run_batch(
     dry_run: bool,
     jobs_filter: set[str] | None,
     plan_data: AssignmentPlanDiagramView | dict[str, object] | None,
+    consume_finalized: bool = False,
 ) -> DiagramBatchReport:
     """Run all jobs in topological order with parallelism within each level."""
     ordered_ids = manifest.topological_job_ids()
@@ -902,7 +980,8 @@ def run_batch(
         with ThreadPoolExecutor(max_workers=level_workers) as executor:
             futures = {
                 executor.submit(
-                    run_one_job, job, req, artifact_dir, python_executable, dry_run
+                    consume_finalized_job_package if consume_finalized else run_one_job,
+                    *((job, req, artifact_dir) if consume_finalized else (job, req, artifact_dir, python_executable, dry_run)),
                 ): job.job_id
                 for job, req in job_requests
             }
@@ -985,6 +1064,11 @@ def main() -> None:
         help="Write requests but do not execute workflow/renderer",
     )
     parser.add_argument(
+        "--consume-finalized",
+        action="store_true",
+        help="Run JobPackageGate on existing finalize_round output without rerunning Wolfram or TikZ",
+    )
+    parser.add_argument(
         "--jobs-filter",
         nargs="*",
         help="Only run these job IDs (space-separated)",
@@ -1027,6 +1111,7 @@ def main() -> None:
         args.dry_run,
         jobs_filter,
         plan_data,
+        consume_finalized=args.consume_finalized,
     )
 
     # Write report — single serialization point

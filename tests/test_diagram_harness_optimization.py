@@ -5,6 +5,7 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
+from types import SimpleNamespace
 from unittest.mock import patch
 
 
@@ -30,6 +31,7 @@ from benchmark_diagram_harness import _launcher_path  # noqa: E402
 from run_diagram_batch import (  # noqa: E402
     _cache_identity,
     _effective_model_cache_config,
+    consume_finalized_job_package,
     run_one_job,
 )
 from tools import _validate_scene_code  # noqa: E402
@@ -166,8 +168,74 @@ class DiagramExecutionPlanContractTest(unittest.TestCase):
                 allowed_coordinate_anchors=["A"],
             )
 
+    def test_reviewed_fixture_allows_exactly_authorized_triangle_anchors(self) -> None:
+        plan = DiagramExecutionPlan(
+            job_id="q1-prompt",
+            slot_id="q1.prompt",
+            diagram_kind="synthetic_geometry",
+            engine="geometric_scene",
+            coordinate_policy=CoordinatePolicy.REVIEWED_FIXTURE,
+            allowed_coordinate_anchors=["A", "B", "C"],
+        )
+        self.assertEqual(plan.allowed_coordinate_anchors, ["A", "B", "C"])
+
+        _validate_scene_code(
+            "GeometricScene[{A,B,C,D},{A=={3,5},B=={0,0},C=={8,0},"
+            "Element[D,Line[{B,C}]],EuclideanDistance[B,D]==EuclideanDistance[D,C]}]",
+            coordinate_policy="reviewed_fixture",
+            allowed_coordinate_anchors=["A", "B", "C"],
+        )
+
+        with self.assertRaisesRegex(ValueError, "exactly"):
+            _validate_scene_code(
+                "GeometricScene[{A,B,C},{A=={3,5},B=={0,0}}]",
+                coordinate_policy="reviewed_fixture",
+                allowed_coordinate_anchors=["A", "B", "C"],
+            )
+
 
 class DiagramSingleRenderTest(unittest.TestCase):
+    def test_consume_finalized_package_does_not_call_workflow_or_renderer(self) -> None:
+        job = _job()
+        request = _request()
+        with tempfile.TemporaryDirectory() as tmp:
+            artifact_dir = Path(tmp)
+            job_dir = artifact_dir / job.out_dir
+            rendered = job_dir / "rendered"
+            rendered.mkdir(parents=True)
+            (rendered / "prompt.fragment.tex").write_text("tikz", encoding="utf-8")
+            (job_dir / "workflow_result.json").write_text(
+                json.dumps({"status": "ok"}), encoding="utf-8"
+            )
+            (job_dir / "audit_result.json").write_text(
+                json.dumps({"status": "pass"}), encoding="utf-8"
+            )
+            (job_dir / "final_renderer_spec.json").write_text(
+                json.dumps({"schema_version": "geometry-render-spec/v1", "status": "ready"}),
+                encoding="utf-8",
+            )
+            (job_dir / "renderer_result.json").write_text(
+                json.dumps(
+                    {
+                        "status": "ok",
+                        "tikz_fragment_path": "rendered/prompt.fragment.tex",
+                        "tikz_source_path": "rendered/prompt.fragment.tex",
+                    }
+                ),
+                encoding="utf-8",
+            )
+            gate = SimpleNamespace(status="pass", checks=[], model_dump=lambda **_: {"status": "pass", "checks": []})
+            with (
+                patch("run_diagram_batch.run_job_package_gate", return_value=gate),
+                patch("run_diagram_batch._run_workflow_in_process") as workflow,
+                patch("run_diagram_batch._run_tikz_renderer") as renderer,
+            ):
+                result = consume_finalized_job_package(job, request, artifact_dir)
+
+        self.assertEqual(result.status, "ok")
+        workflow.assert_not_called()
+        renderer.assert_not_called()
+
     def test_batch_accepts_complete_job_package_without_second_render(self) -> None:
         job = _job()
         request = _request()

@@ -468,6 +468,28 @@ def _preview_path(out_dir: Path, round_index: int, renderer_result: Dict[str, ob
     return path
 
 
+def _scene_payload_from_request(
+    request: Dict[str, object],
+    out_dir: Path,
+    round_index: int,
+) -> Path:
+    """Materialize a reviewed inline scene payload for the interactive render action."""
+
+    engine_options = request.get("engine_options")
+    if not isinstance(engine_options, dict):
+        raise ValueError(
+            "--scene-payload is required when request.engine_options.scene_payload is absent"
+        )
+    payload = engine_options.get("scene_payload")
+    if not isinstance(payload, dict) or not payload:
+        raise ValueError(
+            "--scene-payload is required when request.engine_options.scene_payload is absent"
+        )
+    path = out_dir / "rounds" / f"round_{round_index}" / "scene_payload.json"
+    _write_json(path, payload)
+    return path
+
+
 def _visual_decision_from_agent_result(
     agent_result: Dict[str, object],
 ) -> VisualDecision:
@@ -1052,15 +1074,18 @@ def main() -> None:
             if args.action == "run":
                 result = run_workflow(request, out_dir, request_path)
             elif args.action == "render":
-                if not args.scene_payload:
-                    raise ValueError("--scene-payload is required for render action")
+                scene_payload_path = (
+                    Path(args.scene_payload)
+                    if args.scene_payload
+                    else _scene_payload_from_request(request, out_dir, args.round_index)
+                )
                 # Interactive main-Agent rendering needs a raw Wolfram preview
                 # before the deterministic TikZ preview stage. The unattended
                 # `run` path keeps its spec-only optimization.
                 request["wolfram_render_image"] = True
                 result = render_candidate_action(
                     request,
-                    Path(args.scene_payload),
+                    scene_payload_path,
                     out_dir,
                     args.round_index,
                 )
