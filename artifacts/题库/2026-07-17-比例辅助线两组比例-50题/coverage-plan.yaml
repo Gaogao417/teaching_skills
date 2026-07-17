@@ -1,0 +1,1213 @@
+topic: 比例辅助线两组整数比
+source_explanation: ../../专题/2026-07-12-比例辅助线两组比例-待审核/02-student-explanation.plan.assignment.yaml
+target_count: 50
+difficulty_distribution:
+  foundation: 25
+  standard: 25
+  challenge: 0
+target_form_distribution:
+  ratio: 50
+  length: 0
+number_policy: 题干中的每个比只使用 1 到 5 的两个互质整数，包括 1；题干不出现分数或长度。
+design_note: 50 题只改变两组已知比例线、所求第三组比例线和小整数，不引入其他题型。
+slots:
+- id: Q001
+  difficulty: foundation
+  training_action: 由两组对应边整数比求第三组整数比
+  question_type: problem
+  variation_dimension: changed_question
+  diagram_requirement: prompt_and_solution
+  number_policy:
+    allowed_components:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    coprime_required: true
+    values:
+      x: '1:1'
+      w: '1:1'
+      y: '2:1'
+      z: '2:1'
+  known_ratios:
+  - x
+  - w
+  target_ratio: y
+  target_form: ratio
+- id: Q002
+  difficulty: foundation
+  training_action: 由两组对应边整数比求第三组整数比
+  question_type: problem
+  variation_dimension: changed_numbers
+  diagram_requirement: prompt_and_solution
+  number_policy:
+    allowed_components:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    coprime_required: true
+    values:
+      x: '1:1'
+      w: '4:5'
+      y: '9:4'
+      z: '8:5'
+  known_ratios:
+  - x
+  - w
+  target_ratio: z
+  target_form: ratio
+- id: Q003
+  difficulty: foundation
+  training_action: 由两组对应边整数比求第三组整数比
+  question_type: problem
+  variation_dimension: changed_question
+  diagram_requirement: prompt_and_solution
+  number_policy:
+    allowed_components:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    coprime_required: true
+    values:
+      x: '3:4'
+      w: '1:1'
+      y: '3:2'
+      z: '7:3'
+  known_ratios:
+  - x
+  - y
+  target_ratio: w
+  target_form: ratio
+- id: Q004
+  difficulty: foundation
+  training_action: 由两组对应边整数比求第三组整数比
+  question_type: problem
+  variation_dimension: changed_numbers
+  diagram_requirement: prompt_and_solution
+  number_policy:
+    allowed_components:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    coprime_required: true
+    values:
+      x: '1:1'
+      w: '2:3'
+      y: '5:2'
+      z: '4:3'
+  known_ratios:
+  - x
+  - y
+  target_ratio: z
+  target_form: ratio
+- id: Q005
+  difficulty: foundation
+  training_action: 由两组对应边整数比求第三组整数比
+  question_type: problem
+  variation_dimension: changed_question
+  diagram_requirement: prompt_and_solution
+  number_policy:
+    allowed_components:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    coprime_required: true
+    values:
+      x: '1:1'
+      w: '3:4'
+      y: '7:3'
+      z: '3:2'
+  known_ratios:
+  - x
+  - z
+  target_ratio: w
+  target_form: ratio
+- id: Q006
+  difficulty: foundation
+  training_action: 由两组对应边整数比求第三组整数比
+  question_type: problem
+  variation_dimension: changed_numbers
+  diagram_requirement: prompt_and_solution
+  number_policy:
+    allowed_components:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    coprime_required: true
+    values:
+      x: '2:3'
+      w: '1:1'
+      y: '4:3'
+      z: '5:2'
+  known_ratios:
+  - x
+  - z
+  target_ratio: y
+  target_form: ratio
+- id: Q007
+  difficulty: foundation
+  training_action: 由两组对应边整数比求第三组整数比
+  question_type: problem
+  variation_dimension: changed_question
+  diagram_requirement: prompt_and_solution
+  number_policy:
+    allowed_components:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    coprime_required: true
+    values:
+      x: '5:4'
+      w: '1:1'
+      y: '5:2'
+      z: '9:5'
+  known_ratios:
+  - w
+  - y
+  target_ratio: x
+  target_form: ratio
+- id: Q008
+  difficulty: foundation
+  training_action: 由两组对应边整数比求第三组整数比
+  question_type: problem
+  variation_dimension: changed_numbers
+  diagram_requirement: prompt_and_solution
+  number_policy:
+    allowed_components:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    coprime_required: true
+    values:
+      x: '1:1'
+      w: '1:2'
+      y: '3:1'
+      z: '1:1'
+  known_ratios:
+  - w
+  - y
+  target_ratio: z
+  target_form: ratio
+- id: Q009
+  difficulty: foundation
+  training_action: 由两组对应边整数比求第三组整数比
+  question_type: problem
+  variation_dimension: changed_question
+  diagram_requirement: prompt_and_solution
+  number_policy:
+    allowed_components:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    coprime_required: true
+    values:
+      x: '1:1'
+      w: '5:4'
+      y: '9:5'
+      z: '5:2'
+  known_ratios:
+  - w
+  - z
+  target_ratio: x
+  target_form: ratio
+- id: Q010
+  difficulty: foundation
+  training_action: 由两组对应边整数比求第三组整数比
+  question_type: problem
+  variation_dimension: changed_numbers
+  diagram_requirement: prompt_and_solution
+  number_policy:
+    allowed_components:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    coprime_required: true
+    values:
+      x: '1:2'
+      w: '1:1'
+      y: '1:1'
+      z: '3:1'
+  known_ratios:
+  - w
+  - z
+  target_ratio: y
+  target_form: ratio
+- id: Q011
+  difficulty: foundation
+  training_action: 由两组对应边整数比求第三组整数比
+  question_type: problem
+  variation_dimension: changed_question
+  diagram_requirement: prompt_and_solution
+  number_policy:
+    allowed_components:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    coprime_required: true
+    values:
+      x: '1:1'
+      w: '3:2'
+      y: '5:3'
+      z: '3:1'
+  known_ratios:
+  - y
+  - z
+  target_ratio: x
+  target_form: ratio
+- id: Q012
+  difficulty: foundation
+  training_action: 由两组对应边整数比求第三组整数比
+  question_type: problem
+  variation_dimension: changed_numbers
+  diagram_requirement: prompt_and_solution
+  number_policy:
+    allowed_components:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    coprime_required: true
+    values:
+      x: '3:2'
+      w: '1:1'
+      y: '3:1'
+      z: '5:3'
+  known_ratios:
+  - y
+  - z
+  target_ratio: w
+  target_form: ratio
+- id: Q013
+  difficulty: foundation
+  training_action: 由两组对应边整数比求第三组整数比
+  question_type: problem
+  variation_dimension: changed_question
+  diagram_requirement: prompt_and_solution
+  number_policy:
+    allowed_components:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    coprime_required: true
+    values:
+      x: '4:5'
+      w: '1:1'
+      y: '8:5'
+      z: '9:4'
+  known_ratios:
+  - x
+  - w
+  target_ratio: y
+  target_form: ratio
+- id: Q014
+  difficulty: foundation
+  training_action: 由两组对应边整数比求第三组整数比
+  question_type: problem
+  variation_dimension: changed_numbers
+  diagram_requirement: prompt_and_solution
+  number_policy:
+    allowed_components:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    coprime_required: true
+    values:
+      x: '1:1'
+      w: '4:3'
+      y: '7:4'
+      z: '8:3'
+  known_ratios:
+  - x
+  - w
+  target_ratio: z
+  target_form: ratio
+- id: Q015
+  difficulty: foundation
+  training_action: 由两组对应边整数比求第三组整数比
+  question_type: problem
+  variation_dimension: changed_question
+  diagram_requirement: prompt_and_solution
+  number_policy:
+    allowed_components:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    coprime_required: true
+    values:
+      x: '4:3'
+      w: '4:5'
+      y: '3:1'
+      z: '7:5'
+  known_ratios:
+  - x
+  - y
+  target_ratio: w
+  target_form: ratio
+- id: Q016
+  difficulty: foundation
+  training_action: 由两组对应边整数比求第三组整数比
+  question_type: problem
+  variation_dimension: changed_numbers
+  diagram_requirement: prompt_and_solution
+  number_policy:
+    allowed_components:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    coprime_required: true
+    values:
+      x: '2:3'
+      w: '4:5'
+      y: '3:2'
+      z: '2:1'
+  known_ratios:
+  - x
+  - y
+  target_ratio: z
+  target_form: ratio
+- id: Q017
+  difficulty: foundation
+  training_action: 由两组对应边整数比求第三组整数比
+  question_type: problem
+  variation_dimension: changed_question
+  diagram_requirement: prompt_and_solution
+  number_policy:
+    allowed_components:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    coprime_required: true
+    values:
+      x: '4:5'
+      w: '4:3'
+      y: '7:5'
+      z: '3:1'
+  known_ratios:
+  - x
+  - z
+  target_ratio: w
+  target_form: ratio
+- id: Q018
+  difficulty: foundation
+  training_action: 由两组对应边整数比求第三组整数比
+  question_type: problem
+  variation_dimension: changed_numbers
+  diagram_requirement: prompt_and_solution
+  number_policy:
+    allowed_components:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    coprime_required: true
+    values:
+      x: '4:5'
+      w: '2:3'
+      y: '2:1'
+      z: '3:2'
+  known_ratios:
+  - x
+  - z
+  target_ratio: y
+  target_form: ratio
+- id: Q019
+  difficulty: foundation
+  training_action: 由两组对应边整数比求第三组整数比
+  question_type: problem
+  variation_dimension: changed_question
+  diagram_requirement: prompt_and_solution
+  number_policy:
+    allowed_components:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    coprime_required: true
+    values:
+      x: '2:5'
+      w: '1:1'
+      y: '4:5'
+      z: '7:2'
+  known_ratios:
+  - w
+  - y
+  target_ratio: x
+  target_form: ratio
+- id: Q020
+  difficulty: foundation
+  training_action: 由两组对应边整数比求第三组整数比
+  question_type: problem
+  variation_dimension: changed_numbers
+  diagram_requirement: prompt_and_solution
+  number_policy:
+    allowed_components:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    coprime_required: true
+    values:
+      x: '3:4'
+      w: '3:5'
+      y: '2:1'
+      z: '7:5'
+  known_ratios:
+  - w
+  - y
+  target_ratio: z
+  target_form: ratio
+- id: Q021
+  difficulty: foundation
+  training_action: 由两组对应边整数比求第三组整数比
+  question_type: problem
+  variation_dimension: changed_question
+  diagram_requirement: prompt_and_solution
+  number_policy:
+    allowed_components:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    coprime_required: true
+    values:
+      x: '1:1'
+      w: '2:5'
+      y: '7:2'
+      z: '4:5'
+  known_ratios:
+  - w
+  - z
+  target_ratio: x
+  target_form: ratio
+- id: Q022
+  difficulty: foundation
+  training_action: 由两组对应边整数比求第三组整数比
+  question_type: problem
+  variation_dimension: changed_numbers
+  diagram_requirement: prompt_and_solution
+  number_policy:
+    allowed_components:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    coprime_required: true
+    values:
+      x: '3:5'
+      w: '3:4'
+      y: '7:5'
+      z: '2:1'
+  known_ratios:
+  - w
+  - z
+  target_ratio: y
+  target_form: ratio
+- id: Q023
+  difficulty: foundation
+  training_action: 由两组对应边整数比求第三组整数比
+  question_type: problem
+  variation_dimension: changed_question
+  diagram_requirement: prompt_and_solution
+  number_policy:
+    allowed_components:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    coprime_required: true
+    values:
+      x: '1:1'
+      w: '1:3'
+      y: '4:1'
+      z: '2:3'
+  known_ratios:
+  - y
+  - z
+  target_ratio: x
+  target_form: ratio
+- id: Q024
+  difficulty: foundation
+  training_action: 由两组对应边整数比求第三组整数比
+  question_type: problem
+  variation_dimension: changed_numbers
+  diagram_requirement: prompt_and_solution
+  number_policy:
+    allowed_components:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    coprime_required: true
+    values:
+      x: '1:3'
+      w: '1:1'
+      y: '2:3'
+      z: '4:1'
+  known_ratios:
+  - y
+  - z
+  target_ratio: w
+  target_form: ratio
+- id: Q025
+  difficulty: foundation
+  training_action: 由两组对应边整数比求第三组整数比
+  question_type: problem
+  variation_dimension: changed_question
+  diagram_requirement: prompt_and_solution
+  number_policy:
+    allowed_components:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    coprime_required: true
+    values:
+      x: '4:3'
+      w: '1:1'
+      y: '8:3'
+      z: '7:4'
+  known_ratios:
+  - x
+  - w
+  target_ratio: y
+  target_form: ratio
+- id: Q026
+  difficulty: standard
+  training_action: 由两组对应边整数比求第三组整数比
+  question_type: problem
+  variation_dimension: changed_numbers
+  diagram_requirement: prompt_and_solution
+  number_policy:
+    allowed_components:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    coprime_required: true
+    values:
+      x: '1:1'
+      w: '3:5'
+      y: '8:3'
+      z: '6:5'
+  known_ratios:
+  - x
+  - w
+  target_ratio: z
+  target_form: ratio
+- id: Q027
+  difficulty: standard
+  training_action: 由两组对应边整数比求第三组整数比
+  question_type: problem
+  variation_dimension: changed_question
+  diagram_requirement: prompt_and_solution
+  number_policy:
+    allowed_components:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    coprime_required: true
+    values:
+      x: '2:3'
+      w: '2:3'
+      y: '5:3'
+      z: '5:3'
+  known_ratios:
+  - x
+  - y
+  target_ratio: w
+  target_form: ratio
+- id: Q028
+  difficulty: standard
+  training_action: 由两组对应边整数比求第三组整数比
+  question_type: problem
+  variation_dimension: changed_numbers
+  diagram_requirement: prompt_and_solution
+  number_policy:
+    allowed_components:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    coprime_required: true
+    values:
+      x: '1:1'
+      w: '1:4'
+      y: '5:1'
+      z: '1:2'
+  known_ratios:
+  - x
+  - y
+  target_ratio: z
+  target_form: ratio
+- id: Q029
+  difficulty: standard
+  training_action: 由两组对应边整数比求第三组整数比
+  question_type: problem
+  variation_dimension: changed_question
+  diagram_requirement: prompt_and_solution
+  number_policy:
+    allowed_components:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    coprime_required: true
+    values:
+      x: '3:2'
+      w: '4:5'
+      y: '27:8'
+      z: '4:3'
+  known_ratios:
+  - x
+  - z
+  target_ratio: w
+  target_form: ratio
+- id: Q030
+  difficulty: standard
+  training_action: 由两组对应边整数比求第三组整数比
+  question_type: problem
+  variation_dimension: changed_numbers
+  diagram_requirement: prompt_and_solution
+  number_policy:
+    allowed_components:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    coprime_required: true
+    values:
+      x: '1:4'
+      w: '1:1'
+      y: '1:2'
+      z: '5:1'
+  known_ratios:
+  - x
+  - z
+  target_ratio: y
+  target_form: ratio
+- id: Q031
+  difficulty: standard
+  training_action: 由两组对应边整数比求第三组整数比
+  question_type: problem
+  variation_dimension: changed_question
+  diagram_requirement: prompt_and_solution
+  number_policy:
+    allowed_components:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    coprime_required: true
+    values:
+      x: '4:5'
+      w: '3:2'
+      y: '4:3'
+      z: '27:8'
+  known_ratios:
+  - w
+  - y
+  target_ratio: x
+  target_form: ratio
+- id: Q032
+  difficulty: standard
+  training_action: 由两组对应边整数比求第三组整数比
+  question_type: problem
+  variation_dimension: changed_numbers
+  diagram_requirement: prompt_and_solution
+  number_policy:
+    allowed_components:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    coprime_required: true
+    values:
+      x: '3:4'
+      w: '3:2'
+      y: '5:4'
+      z: '7:2'
+  known_ratios:
+  - w
+  - y
+  target_ratio: z
+  target_form: ratio
+- id: Q033
+  difficulty: standard
+  training_action: 由两组对应边整数比求第三组整数比
+  question_type: problem
+  variation_dimension: changed_question
+  diagram_requirement: prompt_and_solution
+  number_policy:
+    allowed_components:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    coprime_required: true
+    values:
+      x: '2:3'
+      w: '3:5'
+      y: '16:9'
+      z: '3:2'
+  known_ratios:
+  - w
+  - z
+  target_ratio: x
+  target_form: ratio
+- id: Q034
+  difficulty: standard
+  training_action: 由两组对应边整数比求第三组整数比
+  question_type: problem
+  variation_dimension: changed_numbers
+  diagram_requirement: prompt_and_solution
+  number_policy:
+    allowed_components:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    coprime_required: true
+    values:
+      x: '3:2'
+      w: '3:4'
+      y: '7:2'
+      z: '5:4'
+  known_ratios:
+  - w
+  - z
+  target_ratio: y
+  target_form: ratio
+- id: Q035
+  difficulty: standard
+  training_action: 由两组对应边整数比求第三组整数比
+  question_type: problem
+  variation_dimension: changed_question
+  diagram_requirement: prompt_and_solution
+  number_policy:
+    allowed_components:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    coprime_required: true
+    values:
+      x: '1:2'
+      w: '2:3'
+      y: '5:4'
+      z: '2:1'
+  known_ratios:
+  - y
+  - z
+  target_ratio: x
+  target_form: ratio
+- id: Q036
+  difficulty: standard
+  training_action: 由两组对应边整数比求第三组整数比
+  question_type: problem
+  variation_dimension: changed_numbers
+  diagram_requirement: prompt_and_solution
+  number_policy:
+    allowed_components:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    coprime_required: true
+    values:
+      x: '2:3'
+      w: '1:2'
+      y: '2:1'
+      z: '5:4'
+  known_ratios:
+  - y
+  - z
+  target_ratio: w
+  target_form: ratio
+- id: Q037
+  difficulty: standard
+  training_action: 由两组对应边整数比求第三组整数比
+  question_type: problem
+  variation_dimension: changed_question
+  diagram_requirement: prompt_and_solution
+  number_policy:
+    allowed_components:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    coprime_required: true
+    values:
+      x: '3:5'
+      w: '1:1'
+      y: '6:5'
+      z: '8:3'
+  known_ratios:
+  - x
+  - w
+  target_ratio: y
+  target_form: ratio
+- id: Q038
+  difficulty: standard
+  training_action: 由两组对应边整数比求第三组整数比
+  question_type: problem
+  variation_dimension: changed_numbers
+  diagram_requirement: prompt_and_solution
+  number_policy:
+    allowed_components:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    coprime_required: true
+    values:
+      x: '3:4'
+      w: '3:4'
+      y: '7:4'
+      z: '7:4'
+  known_ratios:
+  - x
+  - w
+  target_ratio: z
+  target_form: ratio
+- id: Q039
+  difficulty: standard
+  training_action: 由两组对应边整数比求第三组整数比
+  question_type: problem
+  variation_dimension: changed_question
+  diagram_requirement: prompt_and_solution
+  number_policy:
+    allowed_components:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    coprime_required: true
+    values:
+      x: '3:5'
+      w: '2:3'
+      y: '3:2'
+      z: '16:9'
+  known_ratios:
+  - x
+  - y
+  target_ratio: w
+  target_form: ratio
+- id: Q040
+  difficulty: standard
+  training_action: 由两组对应边整数比求第三组整数比
+  question_type: problem
+  variation_dimension: changed_numbers
+  diagram_requirement: prompt_and_solution
+  number_policy:
+    allowed_components:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    coprime_required: true
+    values:
+      x: '1:5'
+      w: '1:1'
+      y: '2:5'
+      z: '6:1'
+  known_ratios:
+  - x
+  - y
+  target_ratio: z
+  target_form: ratio
+- id: Q041
+  difficulty: standard
+  training_action: 由两组对应边整数比求第三组整数比
+  question_type: problem
+  variation_dimension: changed_question
+  diagram_requirement: prompt_and_solution
+  number_policy:
+    allowed_components:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    coprime_required: true
+    values:
+      x: '1:1'
+      w: '1:5'
+      y: '6:1'
+      z: '2:5'
+  known_ratios:
+  - x
+  - z
+  target_ratio: w
+  target_form: ratio
+- id: Q042
+  difficulty: standard
+  training_action: 由两组对应边整数比求第三组整数比
+  question_type: problem
+  variation_dimension: changed_numbers
+  diagram_requirement: prompt_and_solution
+  number_policy:
+    allowed_components:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    coprime_required: true
+    values:
+      x: '1:2'
+      w: '4:3'
+      y: '7:8'
+      z: '4:1'
+  known_ratios:
+  - x
+  - z
+  target_ratio: y
+  target_form: ratio
+- id: Q043
+  difficulty: standard
+  training_action: 由两组对应边整数比求第三组整数比
+  question_type: problem
+  variation_dimension: changed_question
+  diagram_requirement: prompt_and_solution
+  number_policy:
+    allowed_components:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    coprime_required: true
+    values:
+      x: '4:3'
+      w: '1:2'
+      y: '4:1'
+      z: '7:8'
+  known_ratios:
+  - w
+  - y
+  target_ratio: x
+  target_form: ratio
+- id: Q044
+  difficulty: standard
+  training_action: 由两组对应边整数比求第三组整数比
+  question_type: problem
+  variation_dimension: changed_numbers
+  diagram_requirement: prompt_and_solution
+  number_policy:
+    allowed_components:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    coprime_required: true
+    values:
+      x: '3:2'
+      w: '3:5'
+      y: '4:1'
+      z: '1:1'
+  known_ratios:
+  - w
+  - y
+  target_ratio: z
+  target_form: ratio
+- id: Q045
+  difficulty: standard
+  training_action: 由两组对应边整数比求第三组整数比
+  question_type: problem
+  variation_dimension: changed_question
+  diagram_requirement: prompt_and_solution
+  number_policy:
+    allowed_components:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    coprime_required: true
+    values:
+      x: '4:5'
+      w: '1:3'
+      y: '16:5'
+      z: '3:4'
+  known_ratios:
+  - w
+  - z
+  target_ratio: x
+  target_form: ratio
+- id: Q046
+  difficulty: standard
+  training_action: 由两组对应边整数比求第三组整数比
+  question_type: problem
+  variation_dimension: changed_numbers
+  diagram_requirement: prompt_and_solution
+  number_policy:
+    allowed_components:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    coprime_required: true
+    values:
+      x: '3:5'
+      w: '3:2'
+      y: '1:1'
+      z: '4:1'
+  known_ratios:
+  - w
+  - z
+  target_ratio: y
+  target_form: ratio
+- id: Q047
+  difficulty: standard
+  training_action: 由两组对应边整数比求第三组整数比
+  question_type: problem
+  variation_dimension: changed_question
+  diagram_requirement: prompt_and_solution
+  number_policy:
+    allowed_components:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    coprime_required: true
+    values:
+      x: '1:3'
+      w: '5:4'
+      y: '3:5'
+      z: '5:1'
+  known_ratios:
+  - y
+  - z
+  target_ratio: x
+  target_form: ratio
+- id: Q048
+  difficulty: standard
+  training_action: 由两组对应边整数比求第三组整数比
+  question_type: problem
+  variation_dimension: changed_numbers
+  diagram_requirement: prompt_and_solution
+  number_policy:
+    allowed_components:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    coprime_required: true
+    values:
+      x: '5:4'
+      w: '1:3'
+      y: '5:1'
+      z: '3:5'
+  known_ratios:
+  - y
+  - z
+  target_ratio: w
+  target_form: ratio
+- id: Q049
+  difficulty: standard
+  training_action: 由两组对应边整数比求第三组整数比
+  question_type: problem
+  variation_dimension: changed_question
+  diagram_requirement: prompt_and_solution
+  number_policy:
+    allowed_components:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    coprime_required: true
+    values:
+      x: '2:3'
+      w: '5:4'
+      y: '6:5'
+      z: '25:8'
+  known_ratios:
+  - x
+  - w
+  target_ratio: y
+  target_form: ratio
+- id: Q050
+  difficulty: standard
+  training_action: 由两组对应边整数比求第三组整数比
+  question_type: problem
+  variation_dimension: changed_numbers
+  diagram_requirement: prompt_and_solution
+  number_policy:
+    allowed_components:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    coprime_required: true
+    values:
+      x: '5:4'
+      w: '2:3'
+      y: '25:8'
+      z: '6:5'
+  known_ratios:
+  - x
+  - w
+  target_ratio: z
+  target_form: ratio

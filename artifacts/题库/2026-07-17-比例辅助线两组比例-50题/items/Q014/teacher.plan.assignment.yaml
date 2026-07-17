@@ -1,0 +1,281 @@
+meta:
+  title: 比例辅助线两组整数比 · Q014 · 教师版
+  grade: 八年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    explanation: ../../专题/2026-07-12-比例辅助线两组比例-待审核/02-student-explanation.plan.assignment.yaml
+    diagram_policy: 每题独立 prompt/solution；新三阶段流程逐图审核
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: question
+  title: 专题题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q014
+    points: 10
+    label: 由两组对应边比求 BP:PE
+    stem_latex: 如图，在 $\triangle ABC$ 中，点 $D$ 在线段 $BC$ 上，点 $E$ 在线段 $AC$ 上，线段 $AD$ 与 $BE$ 交于点 $P$。已知 $AE:EC=1:1$，$BD:DC=4:3$，求
+      $BP:PE$。
+    diagram_slot:
+      slot_id: question_bank.auxiliary50.q014.prompt
+      diagram_ref: question_bank.auxiliary50.q014.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: diagram_col
+      layout_role: question_sidecar
+      display_profile: worksheet_geometry_sidecar
+      caption: Q014 原题图：只显示原始构型与点名。
+      engine: geometric_scene
+      diagram_kind: synthetic_geometry
+      engine_options:
+        scene_payload:
+          scene_code: GeometricScene[{A, B, C, D, E, P}, {Triangle[{A, B, C}], A == {3.260829876384, 5.647923020735}, B ==
+            {0, 0}, C == {8, 0}, Element[D, Line[{B, C}]], Element[E, Line[{A, C}]], Element[P, Line[{A, D}]], Element[P,
+            Line[{B, E}]], 1 EuclideanDistance[A, E] == 1 EuclideanDistance[E, C], 3 EuclideanDistance[B, D] == 4 EuclideanDistance[D,
+            C]}]
+          points:
+          - A
+          - B
+          - C
+          - D
+          - E
+          - P
+          point_roles:
+            anchors:
+            - A
+            - B
+            - C
+            constructed:
+            - D
+            - E
+            - P
+            auxiliary: []
+          fixed_layout_points:
+            A:
+            - 3.260829876384
+            - 5.647923020735
+            B:
+            - 0.0
+            - 0.0
+            C:
+            - 8.0
+            - 0.0
+          diagram_spec:
+            segments:
+            - - A
+              - B
+            - - B
+              - C
+            - - C
+              - A
+            - - A
+              - D
+            - - B
+              - E
+            polygons: []
+            markers: []
+            labels:
+              A:
+                text: A
+                placement: above
+              B:
+                text: B
+                placement: below left
+              C:
+                text: C
+                placement: below right
+              D:
+                text: D
+                placement: below
+              E:
+                text: E
+                placement: above right
+              P:
+                text: P
+                placement: left
+            annotations: []
+          rationale: 显式声明 Triangle[{A,B,C}]；A、B、C 使用全题库统一且经人工确认的 70°/60°/50° 版式坐标，只翻译题面的两组整数比、在线点和交点。
+          model_used: main-agent-reviewed-authoring
+          model_attempts: []
+        seed: 717014
+      teaching_intent: practice_prompt
+      problem_context:
+        stem_latex: 如图，在 $\triangle ABC$ 中，点 $D$ 在线段 $BC$ 上，点 $E$ 在线段 $AC$ 上，线段 $AD$ 与 $BE$ 交于点 $P$。已知 $AE:EC=1:1$，$BD:DC=4:3$，求
+          $BP:PE$。
+        source_problem_text: 逐字翻译题面给出的两组整数比。原题图只画 ABC、D、E、P 与两条交线；不得画 F、辅助平行线、相似标记、推导或答案。
+      semantic_constraints:
+        given_objects:
+        - A
+        - B
+        - C
+        - D
+        - E
+        - P
+        given_constraints:
+        - D lies on segment BC
+        - E lies on segment AC
+        - P is the intersection of segments AD and BE
+        - given ratio x=1:1
+        - given ratio w=4:3
+        clean_forbidden:
+        - do not draw F or an auxiliary parallel line
+        - do not show similar triangles, derived ratios, or the answer
+        - do not draw numeric labels on the geometry
+      visual_requirements:
+        required_visible_annotations:
+          markers: []
+          texts: []
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+      diagram_slot:
+        slot_id: question_bank.auxiliary50.q014.solution
+        diagram_ref: question_bank.auxiliary50.q014.solution
+        variant: solution
+        disclosure_policy: annotated
+        reuse_geometry_from: question_bank.auxiliary50.q014.prompt
+        required: true
+        on_failure: fail_assignment
+        placement: diagram_col
+        layout_role: solution_annotation
+        display_profile: worksheet_geometry_sidecar
+        caption: Q014 解答图：过 E 作 EF 平行 CB，交直线 AD 于 F。
+        engine: geometric_scene
+        diagram_kind: synthetic_geometry
+        engine_options:
+          scene_payload:
+            scene_code: GeometricScene[{A, B, C, D, E, P, F}, {Element[F, InfiniteLine[{A, D}]], GeometricAssertion[{Line[{E,
+              F}], Line[{C, B}]}, "Parallel"]}]
+            points:
+            - A
+            - B
+            - C
+            - D
+            - E
+            - P
+            - F
+            point_roles:
+              anchors:
+              - A
+              - B
+              - C
+              - D
+              - E
+              - P
+              constructed: []
+              auxiliary:
+              - F
+            diagram_spec:
+              segments:
+              - - A
+                - B
+              - - B
+                - C
+              - - C
+                - A
+              - - A
+                - D
+              - - B
+                - E
+              - - E
+                - F
+              polygons: []
+              markers:
+              - type: parallel
+                segments:
+                - - E
+                  - F
+                - - C
+                  - B
+              labels:
+                A:
+                  text: A
+                  placement: above
+                B:
+                  text: B
+                  placement: below left
+                C:
+                  text: C
+                  placement: below right
+                D:
+                  text: D
+                  placement: below
+                E:
+                  text: E
+                  placement: above right
+                P:
+                  text: P
+                  placement: left
+                F:
+                  text: F
+                  placement: above left
+              annotations: []
+            rationale: 复用 prompt 坐标后只添加题解辅助构造：过 E 作 EF 平行 CB，交直线 AD 于 F。
+            model_used: main-agent-reviewed-authoring
+            model_attempts: []
+          seed: 727014
+        teaching_intent: practice_solution
+        problem_context:
+          stem_latex: 如图，在 $\triangle ABC$ 中，点 $D$ 在线段 $BC$ 上，点 $E$ 在线段 $AC$ 上，线段 $AD$ 与 $BE$ 交于点 $P$。已知 $AE:EC=1:1$，$BD:DC=4:3$，求
+            $BP:PE$。
+          source_problem_text: 复用本题 prompt 的全部点位，只新增 F：过 E 作 EF 平行 CB，交直线 AD 于 F。显示一组平行标记，不写最终答案。
+        semantic_constraints:
+          given_objects:
+          - A
+          - B
+          - C
+          - D
+          - E
+          - P
+          - F
+          given_constraints:
+          - reuse the complete geometry from question_bank.auxiliary50.q014.prompt
+          - 过 E 作 EF 平行 CB，交直线 AD 于 F
+          solution_allowed_annotations:
+          - the auxiliary line
+          - one parallel marker
+        visual_requirements:
+          required_visible_annotations:
+            markers:
+            - type: parallel
+              segments:
+              - - E
+                - F
+              - - C
+                - B
+            texts: []
+    answer: $BP:PE=8:3$。
+    explanation: 两组已知整数比先统一为 x、w、y、z 的关系，再求第三组并写成最简整数比。
+    solution_steps:
+    - title: 找三条比例线并作辅助线
+      content: 把两组已知条件与所求量所在的三条直线围成三角形，按讲解规则作唯一的平行辅助线，得到两组相似三角形。
+    - title: 统一记号并列关系
+      content: 记 $x=AE/EC$、$w=BD/DC$、$y=AP/PD$、$z=BP/PE$。本题可用 $y=\dfrac{x(w+1)}{w},\quad z=\dfrac{w(x+1)}{x}$。
+    - title: 代入两个整数比
+      content: 由题意得到 $x=1,\ w=\frac{4}{3}$，化简得 $z=\frac{8}{3}$。
+    - title: 写成最简整数比
+      content: 约去公因数，得到 $BP:PE=8:3$。
+    teaching:
+      teaching_goal: 由两组对应边整数比求第三组整数比
+      source_relations:
+      - two-ratio-auxiliary-line
+      - two-similar-triangles
+      expected_blocker: 只找到一组相似，或把分段比和整段比混用。
+      entry_point: identify_three_ratio_lines
+      scaffold_level: medium
+      variation_depth: changed_numbers
+      complexity_note: 题干中的四个比数均为 1 到 5 的互质整数；不出现分数、长度、面积或角度。
+      upgrade_rule: 先写出两组相似中的共同中间边，再消元求第三组。
+      fallback_move: 在 AC、AD、BE、BC 四条比例线上圈出两条已知线和一条所求线。
+      number_policy: each given ratio uses coprime integers from 1 through 5

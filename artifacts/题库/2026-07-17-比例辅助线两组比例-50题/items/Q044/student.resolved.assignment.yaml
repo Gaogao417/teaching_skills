@@ -1,0 +1,43 @@
+meta:
+  title: 比例辅助线两组整数比 · Q044 · 学生版
+  grade: 八年级
+  subject: 数学
+  total_points: 10
+  version: student
+  show_answers: false
+  source_artifacts:
+    explanation: ../../专题/2026-07-12-比例辅助线两组比例-待审核/02-student-explanation.plan.assignment.yaml
+    diagram_policy: 每题独立 prompt/solution；新三阶段流程逐图审核
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: question
+  title: 专题题
+  type: practice
+  visibility: student
+  blocks:
+  - type: problem
+    id: Q044
+    points: 10
+    label: 由两组对应边比求 BP:PE
+    stem_latex: 如图，在 $\triangle ABC$ 中，点 $D$ 在线段 $BC$ 上，点 $E$ 在线段 $AC$ 上，线段 $AD$ 与 $BE$ 交于点 $P$。已知 $BD:DC=3:5$，$AP:PD=4:1$，求 $BP:PE$。
+    answer_space:
+      type: steps
+      height: 48mm
+      step_count: 4
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/question_bank-auxiliary50-q044-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.auxiliary50.q044.prompt
+      diagram_job_id: question_bank-auxiliary50-q044-prompt
+      width: 60mm
+      caption: Q044 原题图：只显示原始构型与点名。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:8f7cdf61d9faaaa27c8ff3c26c29979dbd667aeb292d5c1b0c96e2ef002254a7
+      packages:
+      - tikz
+      libraries: []
