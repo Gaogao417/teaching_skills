@@ -188,8 +188,10 @@ sections:
                 - D
               - - B
                 - E
-              - - E
-                - F
+              - from: E
+                to: F
+                dash: dashed
+                role: auxiliary
               polygons: []
               markers:
               - type: parallel
@@ -221,6 +223,16 @@ sections:
                   text: F
                   placement: above left
               annotations: []
+              auxiliary_constructions:
+              - point: F
+                constructed_segment:
+                - E
+                - F
+                carrier_segment:
+                - A
+                - D
+                dash: dashed
+                extend_carrier_if_needed: true
             rationale: 复用 prompt 坐标后只添加题解辅助构造：过 E 作 EF 平行 CB，交直线 AD 于 F。
             model_used: main-agent-reviewed-authoring
             model_attempts: []

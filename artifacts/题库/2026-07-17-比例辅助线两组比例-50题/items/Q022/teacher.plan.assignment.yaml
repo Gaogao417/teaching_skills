@@ -188,8 +188,10 @@ sections:
                 - D
               - - B
                 - E
-              - - P
-                - F
+              - from: P
+                to: F
+                dash: dashed
+                role: auxiliary
               polygons: []
               markers:
               - type: parallel
@@ -221,6 +223,16 @@ sections:
                   text: F
                   placement: right
               annotations: []
+              auxiliary_constructions:
+              - point: F
+                constructed_segment:
+                - P
+                - F
+                carrier_segment:
+                - A
+                - C
+                dash: dashed
+                extend_carrier_if_needed: true
             rationale: 复用 prompt 坐标后只添加题解辅助构造：过 P 作 PF 平行 DB，交直线 AC 于 F。
             model_used: main-agent-reviewed-authoring
             model_attempts: []
