@@ -96,6 +96,7 @@ def build_renderer_binding(
     rr_data = read_json(job_dir / "renderer_result.json")
     wf_data = read_json(job_dir / "workflow_result.json")
     spec_data = read_json(job_dir / "final_renderer_spec.json")
+    gate_data = read_json(job_dir / "job_gate_report.json")
     warnings: list[str] = []
 
     wf_status = wf_data.get("status") if wf_data else None
@@ -134,6 +135,10 @@ def build_renderer_binding(
             warnings.append(f"workflow status: {wf_status or 'unknown'}")
     else:
         warnings.append("workflow_result.json missing or invalid")
+    if not gate_data:
+        warnings.append("job_gate_report.json missing or invalid")
+    elif gate_data.get("status") == "block":
+        warnings.append("JobPackageGate blocked this package")
 
     fallback_workflow = _is_fallback_workflow(wf_data, spec_data)
     if fallback_workflow:
@@ -166,6 +171,8 @@ def build_renderer_binding(
 
     bindable = bool(
         status == DiagramRunStatus.OK
+        and bool(gate_data)
+        and gate_data.get("status") != "block"
         and not fallback_workflow
         and artifact_hash
         and (tikz_fragment or tikz_fragment_path or tikz_source_path)

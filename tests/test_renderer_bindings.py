@@ -37,6 +37,10 @@ class RendererBindingsTest(unittest.TestCase):
                 json.dumps({"status": "ok", "model": {"text_model_used": "qwen-test"}}),
                 encoding="utf-8",
             )
+            (job_dir / "job_gate_report.json").write_text(
+                json.dumps({"status": "pass", "checks": []}),
+                encoding="utf-8",
+            )
             manifest = DiagramJobsManifest(
                 assignment_id="bindings",
                 source_assignment="assignment.plan.yaml",

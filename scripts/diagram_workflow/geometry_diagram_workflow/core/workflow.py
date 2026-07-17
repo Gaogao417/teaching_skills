@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import shutil
 import sys
@@ -18,7 +19,12 @@ sys.path.insert(0, str(SCRIPTS_DIR))
 
 from agent_runner import run_codex_diagram_agent  # noqa: E402
 from audit import audit_diagram_action  # noqa: E402
-from diagram_contracts import ScenePayload, SceneRepairRequest  # noqa: E402
+from diagram_contracts import (  # noqa: E402
+    SceneDiagramSpec,
+    ScenePayload,
+    SceneRepairRequest,
+    VisualDecision,
+)
 from render_geometry_spec import render_geometry_spec  # noqa: E402
 from runtime import configure_utf8_stdio, redact_secrets  # noqa: E402
 from tools import (  # noqa: E402
@@ -276,7 +282,25 @@ def _run_candidate_round(
             repairable=_audit_failure_is_repairable(issues),
         )
 
-    audit_result_path = round_dir / "audit_result.json"
+    return {
+        "status": "ok",
+        "scene_payload_path": scene_payload_path,
+        "render_result_path": render_result_path,
+        "renderer_spec_path": renderer_spec_path,
+        "renderer_result_path": renderer_result_path,
+        "audit_result_path": round_dir / "audit_result.json",
+        "audit_result": audit_result,
+        "renderer_result": renderer_result,
+    }
+
+
+def _finalize_candidate(
+    request: Dict[str, object],
+    out_dir: Path,
+    round_index: int,
+    candidate: Dict[str, object],
+    timer: StageTimer,
+) -> Dict[str, object]:
     return _run_host_stage(
         out_dir,
         timer,
@@ -284,15 +308,86 @@ def _run_candidate_round(
         round_index,
         lambda: finalize_round_action(
             request,
-            scene_payload_path,
-            render_result_path,
-            renderer_spec_path,
-            renderer_result_path,
-            audit_result_path,
+            Path(candidate["scene_payload_path"]),
+            Path(candidate["render_result_path"]),
+            Path(candidate["renderer_spec_path"]),
+            Path(candidate["renderer_result_path"]),
+            Path(candidate["audit_result_path"]),
             out_dir,
             round_index,
         ),
     )
+
+
+def _execution_policy(request: Dict[str, object]) -> tuple[int, bool]:
+    plan = request.get("execution_plan")
+    if not isinstance(plan, dict):
+        return 2, False
+    return (
+        max(1, min(4, int(plan.get("max_candidate_rounds", 2)))),
+        bool(plan.get("requires_visual_decision", False)),
+    )
+
+
+def _preview_path(out_dir: Path, round_index: int, renderer_result: Dict[str, object]) -> Path:
+    value = str(renderer_result.get("preview_png_path") or "")
+    if not value:
+        raise WorkflowStageError(
+            "visual_decision",
+            "preview_missing",
+            "visual decision requires renderer_result.preview_png_path",
+            repairable=False,
+        )
+    path = Path(value)
+    if not path.is_absolute():
+        path = out_dir / "rounds" / f"round_{round_index}" / path
+    if not path.is_file():
+        raise WorkflowStageError(
+            "visual_decision",
+            "preview_missing",
+            f"visual decision preview does not exist: {path}",
+            repairable=False,
+        )
+    return path
+
+
+def _visual_decision_from_agent_result(
+    agent_result: Dict[str, object],
+) -> VisualDecision:
+    """Validate only the visual contract, leaving SDK telemetry out of it."""
+
+    contract_payload = {
+        field: agent_result[field]
+        for field in VisualDecision.model_fields
+        if field in agent_result
+    }
+    return VisualDecision.model_validate(contract_payload)
+
+
+def _apply_visual_patch(
+    scene_payload: Dict[str, object],
+    decision_payload: Dict[str, object],
+) -> Dict[str, object]:
+    decision = _visual_decision_from_agent_result(decision_payload)
+    if decision.decision != "revise":
+        return scene_payload
+    updated = dict(scene_payload)
+    if decision.patch.scene_code:
+        updated["scene_code"] = decision.patch.scene_code
+    if decision.patch.diagram_spec_json:
+        raw_spec = json.loads(decision.patch.diagram_spec_json)
+        if not isinstance(raw_spec, dict):
+            raise ValueError("visual diagram_spec patch must decode to an object")
+        forbidden = {"engine", "coordinate_policy", "points", "paths", "round_index"}
+        # Visual turns often echo a complete renderer schema. Ignore fields
+        # outside their authority while retaining safe label/marker changes.
+        for field in forbidden:
+            raw_spec.pop(field, None)
+        updated["diagram_spec"] = SceneDiagramSpec.model_validate(raw_spec).model_dump(
+            mode="json",
+            by_alias=True,
+        )
+    return ScenePayload.model_validate(updated).model_dump(mode="json", by_alias=True)
 
 
 def _run_human_revision_workflow(
@@ -300,32 +395,133 @@ def _run_human_revision_workflow(
     out_dir: Path,
     request_path: Path,
 ) -> Dict[str, object]:
-    """Preserve the existing full-loop Agent contract for human revisions."""
+    """Run a fixed human revision through the same Host-owned candidate tail."""
 
-    agent_result = run_codex_diagram_agent(
-        request=request,
-        out_dir=out_dir.resolve(),
-        request_path=request_path,
-    )
-    _write_json(out_dir / "agent_result.json", agent_result)
+    revision = request.get("human_revision")
+    if not isinstance(revision, dict):
+        raise ValueError("human revision payload is required")
+    base_round = int(revision.get("base_round", -1))
+    requested_round = int(revision.get("requested_round", -1))
+    if requested_round <= base_round:
+        raise ValueError("requested human revision Round must follow the base Round")
+    base_dir = out_dir / "rounds" / f"round_{base_round}"
+    base_scene_path = base_dir / "scene_payload.json"
+    base_preview = base_dir / "rendered" / "prompt.preview.png"
+    if not base_scene_path.is_file() or not base_preview.is_file():
+        raise WorkflowStageError(
+            "scene_generation",
+            "human_revision_base_missing",
+            f"human revision base Round {base_round} is incomplete",
+            repairable=False,
+        )
+    base_scene = _read_json(base_scene_path)
+    timer = StageTimer()
+    repair_payload = {
+        "schema_version": "diagram-human-revision-authoring/v1",
+        "failure_type": "human_feedback",
+        "message": str(revision.get("feedback") or ""),
+        "failed_checks": [str(revision.get("feedback") or "")],
+        "previous_scene_payload": base_scene,
+        "repair_instruction": (
+            "Preserve the base construction and make only the change requested by the teacher. "
+            "Return scene data only; the Host owns solve, render, audit, visual review, and publish."
+        ),
+    }
     _emit_event(
         out_dir,
-        "agent.end",
-        status=agent_result.get("status", ""),
-        selected_round=agent_result.get("selected_round", ""),
-        agent_thread_id=agent_result.get("agent_thread_id", ""),
-        agent_turn_id=agent_result.get("agent_turn_id", ""),
-        message=agent_result.get("message", ""),
+        "workflow.state.changed",
+        state="authoring",
+        mode="human_revision",
+        round_index=requested_round,
     )
-    result = _validate_final_agent_artifacts(out_dir)
-    result["agent"] = {
-        "thread_id": agent_result.get("agent_thread_id", ""),
-        "turn_id": agent_result.get("agent_turn_id", ""),
-        "duration_ms": agent_result.get("agent_duration_ms"),
-        "selected_round": agent_result.get("selected_round"),
-        "message": agent_result.get("message", ""),
+    with timer.measure("scene_generation"):
+        agent_result = run_codex_diagram_agent(
+            request=request,
+            out_dir=out_dir.resolve(),
+            request_path=request_path,
+            repair_request=repair_payload,
+            force_scene_writer=True,
+            authoring_preview_path=base_preview,
+        )
+    scene_payload = _scene_payload_from_agent(request, agent_result)
+    candidate = _run_candidate_round(
+        request,
+        out_dir,
+        requested_round,
+        scene_payload,
+        timer,
+    )
+    current_preview = _preview_path(
+        out_dir,
+        requested_round,
+        candidate["renderer_result"],
+    )
+    _emit_event(
+        out_dir,
+        "workflow.state.changed",
+        state="visual_decision",
+        mode="human_revision",
+        round_index=requested_round,
+    )
+    visual = _run_host_stage(
+        out_dir,
+        timer,
+        "visual_decision",
+        requested_round,
+        lambda: run_codex_diagram_agent(
+            request=request,
+            out_dir=out_dir.resolve(),
+            request_path=request_path,
+            visual_context={
+                "scene_payload": scene_payload,
+                "audit_result": candidate["audit_result"],
+                "preview_image_path": str(current_preview),
+            },
+        ),
+    )
+    decision = _visual_decision_from_agent_result(visual)
+    visual_path = out_dir / "rounds" / f"round_{requested_round}" / "visual_decision.json"
+    _write_json(visual_path, decision.model_dump(mode="json", by_alias=True))
+    if decision.decision != "accept":
+        raise WorkflowStageError(
+            "visual_decision",
+            "visual_revision_budget_exhausted",
+            decision.reason,
+            repairable=False,
+        )
+    _write_json(
+        out_dir / "rounds" / f"round_{requested_round}" / "visual_inspection.json",
+        {
+            "schema_version": "diagram-visual-inspection/v1",
+            "status": "pass",
+            "base_round": base_round,
+            "requested_round": requested_round,
+            "inspection_count": 2,
+            "base_preview_sha256": hashlib.sha256(base_preview.read_bytes()).hexdigest(),
+            "current_preview_sha256": hashlib.sha256(current_preview.read_bytes()).hexdigest(),
+            "source": "host_attached_visual_turns",
+        },
+    )
+    _finalize_candidate(request, out_dir, requested_round, candidate, timer)
+    summary = {
+        "status": "ok",
+        "selected_round": requested_round,
+        "agent_thread_id": agent_result.get("agent_thread_id", ""),
+        "agent_turn_id": agent_result.get("agent_turn_id", ""),
+        "agent_duration_ms": agent_result.get("agent_duration_ms"),
+        "message": "human revision authored by Agent and finalized by Host",
     }
+    _write_json(out_dir / "agent_result.json", summary)
+    result = _validate_final_agent_artifacts(out_dir)
+    result["agent"] = summary
     _write_json(out_dir / "workflow_result.json", result)
+    write_profile_section(
+        out_dir,
+        "host_workflow",
+        timer,
+        job_id=str(request.get("diagram_job_id") or request.get("job_id") or ""),
+        route="geometric_scene_host_human_revision",
+    )
     return result
 
 
@@ -407,66 +603,91 @@ def run_workflow(request: Dict[str, object], out_dir: Path, request_path: Path) 
                 reuse_geometry_from=request.get("reuse_geometry_from", ""),
                 locked_point_count=len(request["locked_base_points"]),
             )
+        max_candidates, requires_visual_decision = _execution_policy(request)
         repair_payload: Dict[str, object] | None = None
+        patched_scene_payload: Dict[str, object] | None = None
         last_error: WorkflowStageError | None = None
-        for round_index in (0, 1):
+        for round_index in range(max_candidates):
             _emit_event(
                 out_dir,
-                "agent.stage.started",
-                stage="scene_generation",
+                "workflow.state.changed",
+                state="authoring",
                 round_index=round_index,
             )
-            started_at = time.perf_counter()
-            try:
-                with timer.measure("scene_generation"):
-                    agent_result = run_codex_diagram_agent(
-                        request=request,
-                        out_dir=out_dir.resolve(),
-                        request_path=copied_request_path,
-                        repair_request=repair_payload,
+            if patched_scene_payload is None:
+                _emit_event(
+                    out_dir,
+                    "agent.stage.started",
+                    stage="scene_generation",
+                    round_index=round_index,
+                )
+                started_at = time.perf_counter()
+                try:
+                    with timer.measure("scene_generation"):
+                        agent_result = run_codex_diagram_agent(
+                            request=request,
+                            out_dir=out_dir.resolve(),
+                            request_path=copied_request_path,
+                            repair_request=repair_payload,
+                        )
+                except Exception as exc:
+                    elapsed_ms = round((time.perf_counter() - started_at) * 1000, 3)
+                    _emit_event(
+                        out_dir,
+                        "agent.stage.completed",
+                        stage="scene_generation",
+                        round_index=round_index,
+                        status="failed",
+                        duration_ms=elapsed_ms,
+                        error=redact_secrets(exc),
                     )
-            except Exception as exc:
+                    raise WorkflowStageError(
+                        "scene_generation",
+                        "codex_scene_writer_failed",
+                        str(exc),
+                        repairable=False,
+                    ) from exc
                 elapsed_ms = round((time.perf_counter() - started_at) * 1000, 3)
                 _emit_event(
                     out_dir,
                     "agent.stage.completed",
                     stage="scene_generation",
                     round_index=round_index,
-                    status="failed",
+                    status="ok",
                     duration_ms=elapsed_ms,
-                    error=redact_secrets(exc),
+                    agent_thread_id=agent_result.get("agent_thread_id", ""),
+                    agent_turn_id=agent_result.get("agent_turn_id", ""),
                 )
-                raise WorkflowStageError(
-                    "scene_generation",
-                    "codex_scene_writer_failed",
-                    str(exc),
-                    repairable=False,
-                ) from exc
-            elapsed_ms = round((time.perf_counter() - started_at) * 1000, 3)
-            _emit_event(
-                out_dir,
-                "agent.stage.completed",
-                stage="scene_generation",
-                round_index=round_index,
-                status="ok",
-                duration_ms=elapsed_ms,
-                agent_thread_id=agent_result.get("agent_thread_id", ""),
-                agent_turn_id=agent_result.get("agent_turn_id", ""),
-            )
-            agent_attempts.append(_normal_agent_record(agent_result, round_index))
-            scene_payload = _scene_payload_from_agent(request, agent_result)
+                agent_attempts.append(_normal_agent_record(agent_result, round_index))
+                scene_payload = _scene_payload_from_agent(request, agent_result)
+            else:
+                scene_payload = patched_scene_payload
+                patched_scene_payload = None
+                repair_payload = None
+
             try:
-                _run_candidate_round(request, out_dir, round_index, scene_payload, timer)
+                candidate = _run_candidate_round(
+                    request,
+                    out_dir,
+                    round_index,
+                    scene_payload,
+                    timer,
+                )
             except WorkflowStageError as exc:
                 last_error = exc
-                if round_index == 0 and exc.repairable:
+                if round_index + 1 < max_candidates and exc.repairable:
                     repair_payload = _repair_request(scene_payload, exc)
-                    repair_path = out_dir / "rounds" / "round_1" / "repair_request.json"
+                    repair_path = (
+                        out_dir
+                        / "rounds"
+                        / f"round_{round_index + 1}"
+                        / "repair_request.json"
+                    )
                     _write_json(repair_path, repair_payload)
                     _emit_event(
                         out_dir,
                         "workflow.repair.requested",
-                        round_index=1,
+                        round_index=round_index + 1,
                         failed_stage=exc.stage,
                         fail_type=exc.fail_type,
                         repair_request=str(repair_path.relative_to(out_dir)),
@@ -474,13 +695,96 @@ def run_workflow(request: Dict[str, object], out_dir: Path, request_path: Path) 
                     continue
                 raise
 
+            if requires_visual_decision:
+                preview = _preview_path(
+                    out_dir,
+                    round_index,
+                    candidate["renderer_result"],
+                )
+                _emit_event(
+                    out_dir,
+                    "workflow.state.changed",
+                    state="visual_decision",
+                    round_index=round_index,
+                )
+                visual = _run_host_stage(
+                    out_dir,
+                    timer,
+                    "visual_decision",
+                    round_index,
+                    lambda: run_codex_diagram_agent(
+                        request=request,
+                        out_dir=out_dir.resolve(),
+                        request_path=copied_request_path,
+                        visual_context={
+                            "scene_payload": scene_payload,
+                            "audit_result": candidate["audit_result"],
+                            "preview_image_path": str(preview),
+                        },
+                    ),
+                )
+                decision = _visual_decision_from_agent_result(visual)
+                visual_path = out_dir / "rounds" / f"round_{round_index}" / "visual_decision.json"
+                _write_json(visual_path, decision.model_dump(mode="json", by_alias=True))
+                if decision.decision == "revise":
+                    if round_index + 1 >= max_candidates:
+                        raise WorkflowStageError(
+                            "visual_decision",
+                            "visual_revision_budget_exhausted",
+                            decision.reason,
+                            evidence=decision.model_dump(mode="json"),
+                            repairable=False,
+                        )
+                    try:
+                        patched_scene_payload = _apply_visual_patch(scene_payload, visual)
+                    except ValueError as exc:
+                        last_error = WorkflowStageError(
+                            "visual_decision",
+                            "invalid_visual_patch",
+                            str(exc),
+                            evidence=decision.model_dump(mode="json"),
+                            repairable=True,
+                        )
+                        repair_payload = _repair_request(scene_payload, last_error)
+                        repair_path = (
+                            out_dir
+                            / "rounds"
+                            / f"round_{round_index + 1}"
+                            / "repair_request.json"
+                        )
+                        _write_json(repair_path, repair_payload)
+                        _emit_event(
+                            out_dir,
+                            "workflow.repair.requested",
+                            round_index=round_index + 1,
+                            failed_stage=last_error.stage,
+                            fail_type=last_error.fail_type,
+                            repair_request=str(repair_path.relative_to(out_dir)),
+                        )
+                        continue
+                    _emit_event(
+                        out_dir,
+                        "workflow.visual_revision.requested",
+                        round_index=round_index + 1,
+                        reason=decision.reason,
+                    )
+                    continue
+
+            _finalize_candidate(request, out_dir, round_index, candidate, timer)
+            _emit_event(
+                out_dir,
+                "workflow.state.changed",
+                state="finalized",
+                round_index=round_index,
+            )
+            latest_attempt = agent_attempts[-1] if agent_attempts else {}
             agent_summary = {
                 "status": "ok",
                 "selected_round": round_index,
                 "attempts": agent_attempts,
-                "agent_thread_id": agent_attempts[-1].get("thread_id", ""),
-                "agent_turn_id": agent_attempts[-1].get("turn_id", ""),
-                "agent_duration_ms": agent_attempts[-1].get("duration_ms"),
+                "agent_thread_id": latest_attempt.get("thread_id", ""),
+                "agent_turn_id": latest_attempt.get("turn_id", ""),
+                "agent_duration_ms": latest_attempt.get("duration_ms"),
                 "message": "scene authored by Agent and finalized by Host",
             }
             _write_json(out_dir / "agent_result.json", agent_summary)

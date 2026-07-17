@@ -91,6 +91,10 @@ class DiagramHostOrchestrationTest(unittest.TestCase):
 
         def preview(*args: object, **kwargs: object) -> dict[str, object]:
             order.append("preview_render")
+            round_dir = Path(args[1])
+            preview_path = round_dir / "rendered" / "prompt.preview.png"
+            preview_path.parent.mkdir(parents=True, exist_ok=True)
+            preview_path.write_bytes(b"preview")
             return {"status": "ok", "tikz_fragment_path": "rendered/prompt.fragment.tex"}
 
         def audit(*args: object, **kwargs: object) -> dict[str, object]:
@@ -260,6 +264,186 @@ class DiagramHostOrchestrationTest(unittest.TestCase):
         self.assertEqual(result["fail_type"], "host_environment_or_invariant_failed")
         self.assertEqual(agent.call_count, 0)
         self.assertEqual(order, [])
+
+    def test_visual_accept_runs_after_deterministic_audit_before_finalize(self) -> None:
+        request = _request()
+        request["execution_plan"] = {
+            "max_candidate_rounds": 2,
+            "requires_visual_decision": True,
+        }
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_request = root / "source-request.json"
+            source_request.write_text(json.dumps(request), encoding="utf-8")
+            out_dir = root / "job"
+            order: list[str] = []
+
+            def render(*args: object, **kwargs: object) -> dict[str, object]:
+                order.append("wolfram_render")
+                return _render_ok()
+
+            def compile_spec(*args: object, **kwargs: object) -> dict[str, object]:
+                order.append("tikz_compile")
+                return {"status": "ok"}
+
+            def preview(spec: Path, round_dir: Path, **kwargs: object) -> dict[str, object]:
+                del spec, kwargs
+                order.append("preview_render")
+                path = round_dir / "rendered/prompt.preview.png"
+                path.parent.mkdir(parents=True)
+                path.write_bytes(b"preview")
+                return {"status": "ok", "preview_png_path": "rendered/prompt.preview.png"}
+
+            def audit(*args: object, **kwargs: object) -> dict[str, object]:
+                order.append("audit")
+                return {"status": "ok", "audit_result": {"status": "pass", "issues": []}}
+
+            def finalize(*args: object, **kwargs: object) -> dict[str, object]:
+                order.append("finalize_round")
+                return {"status": "ok"}
+
+            with (
+                patch.object(
+                    workflow,
+                    "run_codex_diagram_agent",
+                    side_effect=[
+                        _agent_output(),
+                        {"decision": "accept", "reason": "清晰", "patch": {}},
+                    ],
+                ) as agent,
+                patch.object(workflow, "render_candidate_action", side_effect=render),
+                patch.object(workflow, "compile_spec_action", side_effect=compile_spec),
+                patch.object(workflow, "render_geometry_spec", side_effect=preview),
+                patch.object(workflow, "audit_diagram_action", side_effect=audit),
+                patch.object(workflow, "finalize_round_action", side_effect=finalize),
+                patch.object(workflow, "_validate_final_agent_artifacts", return_value={"status": "ok"}),
+            ):
+                result = workflow.run_workflow(request, out_dir, source_request)
+
+        self.assertEqual(result["status"], "ok")
+        self.assertEqual(agent.call_count, 2)
+        self.assertEqual(
+            order,
+            ["wolfram_render", "tikz_compile", "preview_render", "audit", "finalize_round"],
+        )
+
+    def test_visual_revision_uses_next_candidate_without_second_scene_writer(self) -> None:
+        request = _request()
+        request["execution_plan"] = {
+            "max_candidate_rounds": 2,
+            "requires_visual_decision": True,
+        }
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_request = root / "source-request.json"
+            source_request.write_text(json.dumps(request), encoding="utf-8")
+            out_dir = root / "job"
+            preview_counter = 0
+
+            def preview(spec: Path, round_dir: Path, **kwargs: object) -> dict[str, object]:
+                nonlocal preview_counter
+                del spec, kwargs
+                preview_counter += 1
+                path = round_dir / "rendered/prompt.preview.png"
+                path.parent.mkdir(parents=True)
+                path.write_bytes(f"preview-{preview_counter}".encode())
+                return {"status": "ok", "preview_png_path": "rendered/prompt.preview.png"}
+
+            with (
+                patch.object(
+                    workflow,
+                    "run_codex_diagram_agent",
+                    side_effect=[
+                        _agent_output(),
+                        {
+                            "decision": "revise",
+                            "reason": "标签遮挡",
+                            "patch": {
+                                "scene_code": _agent_output()["scene_code"],
+                                "diagram_spec_json": "",
+                            },
+                        },
+                        {"decision": "accept", "reason": "已修复", "patch": {}},
+                    ],
+                ) as agent,
+                patch.object(workflow, "render_candidate_action", return_value=_render_ok()),
+                patch.object(workflow, "compile_spec_action", return_value={"status": "ok"}),
+                patch.object(workflow, "render_geometry_spec", side_effect=preview),
+                patch.object(
+                    workflow,
+                    "audit_diagram_action",
+                    return_value={"status": "ok", "audit_result": {"status": "pass", "issues": []}},
+                ),
+                patch.object(workflow, "finalize_round_action", return_value={"status": "ok"}),
+                patch.object(workflow, "_validate_final_agent_artifacts", return_value={"status": "ok"}),
+            ):
+                result = workflow.run_workflow(request, out_dir, source_request)
+
+        self.assertEqual(result["status"], "ok")
+        self.assertEqual(agent.call_count, 3)
+        self.assertEqual(preview_counter, 2)
+
+    def test_forbidden_visual_fields_are_ignored_but_safe_patch_is_rendered(self) -> None:
+        request = _request()
+        request["execution_plan"] = {
+            "max_candidate_rounds": 2,
+            "requires_visual_decision": True,
+        }
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_request = root / "source-request.json"
+            source_request.write_text(json.dumps(request), encoding="utf-8")
+            out_dir = root / "job"
+
+            def preview(spec: Path, round_dir: Path, **kwargs: object) -> dict[str, object]:
+                del spec, kwargs
+                path = round_dir / "rendered/prompt.preview.png"
+                path.parent.mkdir(parents=True)
+                path.write_bytes(b"preview")
+                return {"status": "ok", "preview_png_path": "rendered/prompt.preview.png"}
+
+            with (
+                patch.object(
+                    workflow,
+                    "run_codex_diagram_agent",
+                    side_effect=[
+                        _agent_output(),
+                        {
+                            "decision": "revise",
+                            "reason": "add a marker without moving points",
+                            "patch": {
+                                "diagram_spec_json": json.dumps(
+                                    {
+                                        "points": {"A": [0, 0]},
+                                        "labels": {"A": {"text": "A", "placement": "above"}},
+                                    }
+                                )
+                            },
+                        },
+                        {"decision": "accept", "reason": "clear", "patch": {}},
+                    ],
+                ) as agent,
+                patch.object(workflow, "render_candidate_action", return_value=_render_ok()),
+                patch.object(workflow, "compile_spec_action", return_value={"status": "ok"}),
+                patch.object(workflow, "render_geometry_spec", side_effect=preview),
+                patch.object(
+                    workflow,
+                    "audit_diagram_action",
+                    return_value={"status": "ok", "audit_result": {"status": "pass", "issues": []}},
+                ),
+                patch.object(workflow, "finalize_round_action", return_value={"status": "ok"}),
+                patch.object(workflow, "_validate_final_agent_artifacts", return_value={"status": "ok"}),
+            ):
+                result = workflow.run_workflow(request, out_dir, source_request)
+
+            round_one_scene = json.loads(
+                (out_dir / "rounds" / "round_1" / "scene_payload.json").read_text()
+            )
+
+        self.assertEqual(result["status"], "ok")
+        self.assertEqual(agent.call_count, 3)
+        self.assertEqual(round_one_scene["diagram_spec"]["points"], {})
+        self.assertEqual(round_one_scene["diagram_spec"]["labels"]["A"]["text"], "A")
 
 
 if __name__ == "__main__":

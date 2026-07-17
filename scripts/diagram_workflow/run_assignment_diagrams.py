@@ -1,18 +1,18 @@
 #!/usr/bin/env python3
-"""Run the assignment diagram collect/batch/gate/resolve chain.
+"""Run the assignment diagram collect/batch/job-gate/resolve/resolved-gate chain.
 
 This is the deterministic wrapper used by the math-geometry-diagram-renderer
 skill. It expects a plan YAML containing diagram_slot declarations and writes a
-resolved assignment YAML after generated renderer results pass the gate.
+resolved assignment YAML after per-job and post-resolve gates pass.
 
-By default the four stages run in-process through
+By default the stages run in-process through
 ``assignment_pipeline.run_assignment_diagram_pipeline``: fewer Python
 interpreors are spawned and the same library functions drive every stage. The
 on-disk artifacts are identical to the legacy script-chained path.
 
-``--process-isolation`` restores the legacy four-subprocess chain
-(collect_diagram_jobs.py → run_diagram_batch.py → check_diagram_gate.py →
-resolve_assignment_diagrams.py). It exists for debugging, localization, and
+``--process-isolation`` restores a subprocess-isolated chain
+(collect_diagram_jobs.py → run_diagram_batch.py → resolve_assignment_diagrams.py
+→ check_diagram_gate.py --resolved). It exists for debugging, localization, and
 temporary rollback; the single-stage CLIs remain independently runnable for
 the same reason.
 """
@@ -39,7 +39,7 @@ def default_resolved_path(plan_yaml: Path) -> Path:
 
 
 def _run_process_isolation(args: argparse.Namespace) -> None:
-    """Legacy four-subprocess chain; kept for debugging and rollback."""
+    """Subprocess-isolated chain; kept for debugging and rollback."""
     plan_yaml = args.plan_yaml.resolve()
     if not plan_yaml.exists():
         raise SystemExit(f"Plan YAML not found: {plan_yaml}")
@@ -78,19 +78,6 @@ def _run_process_isolation(args: argparse.Namespace) -> None:
         "--python",
         py,
     ])
-    if not args.skip_gate:
-        run([
-            py,
-            str(SCRIPT_DIR / "check_diagram_gate.py"),
-            "--plan",
-            str(plan_yaml),
-            "--jobs",
-            str(jobs_json),
-            "--jobs-dir",
-            str(jobs_dir),
-            "--artifact-dir",
-            str(artifact_dir),
-        ])
     run([
         py,
         str(SCRIPT_DIR / "resolve_assignment_diagrams.py"),
@@ -104,6 +91,21 @@ def _run_process_isolation(args: argparse.Namespace) -> None:
         "--out",
         str(out_yaml),
     ])
+    if not args.skip_gate:
+        run([
+            py,
+            str(SCRIPT_DIR / "check_diagram_gate.py"),
+            "--plan",
+            str(plan_yaml),
+            "--jobs",
+            str(jobs_json),
+            "--jobs-dir",
+            str(jobs_dir),
+            "--artifact-dir",
+            str(artifact_dir),
+            "--resolved",
+            str(out_yaml),
+        ])
 
     print(f"Resolved YAML: {out_yaml}")
 
@@ -126,7 +128,7 @@ def main() -> None:
         "--process-isolation",
         action="store_true",
         help=(
-            "Use the legacy four-subprocess chain (collect/batch/gate/resolve "
+            "Use the subprocess-isolated chain (collect/batch/resolve/gate "
             "each as a separate Python interpreter). Default runs in-process. "
             "Only use this for debugging, localizing, or temporary rollback."
         ),

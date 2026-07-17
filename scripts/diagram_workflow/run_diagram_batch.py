@@ -43,6 +43,7 @@ from diagram_contracts import (  # noqa: E402
     DiagramVisualRequirements,
     DiagramEngineOptions,
 )
+from diagram_gate.job_package import run_job_package_gate  # noqa: E402
 
 
 SCRIPT_DIR = Path(__file__).resolve().parent
@@ -192,9 +193,14 @@ def _valid_cache_artifacts(cache_dir: Path, cache_key: str) -> bool:
     try:
         workflow_result = read_json(artifacts / "workflow_result.json")
         renderer_result = read_json(artifacts / "renderer_result.json")
+        gate_result = read_json(artifacts / "job_gate_report.json")
     except (OSError, ValueError, json.JSONDecodeError):
         return False
-    if workflow_result.get("status") != "ok" or renderer_result.get("status") != "ok":
+    if (
+        workflow_result.get("status") != "ok"
+        or renderer_result.get("status") != "ok"
+        or gate_result.get("status") == "block"
+    ):
         return False
     fragment_rel = str(
         renderer_result.get("tikz_fragment_path")
@@ -436,6 +442,7 @@ def build_request(
         **({"render_profile": render_profile} if render_profile is not None else {}),
         reuse=reuse,
         engine_options=engine_options,
+        execution_plan=job.execution_plan,
     )
 
 
@@ -587,6 +594,65 @@ def _run_tikz_renderer(
     return status, str(rr_data.get("tikz_fragment_path", "")), str(rr_data.get("tikz_source_path", ""))
 
 
+def _existing_renderer_package(job_build_dir: Path) -> tuple[str, str, str] | None:
+    """Return the finalized renderer payload when the workflow already owns it.
+
+    Agentic synthetic jobs render and audit inside the Host-owned workflow. The
+    batch layer must consume that package instead of deleting renderer_result
+    and invoking the TikZ compiler a second time.
+    """
+    result_path = job_build_dir / "renderer_result.json"
+    if not result_path.is_file():
+        return None
+    try:
+        result = read_json(result_path)
+    except (OSError, ValueError, json.JSONDecodeError):
+        return None
+    if result.get("status") != "ok":
+        return None
+    fragment = str(result.get("tikz_fragment_path") or "")
+    source = str(result.get("tikz_source_path") or "")
+    path_value = fragment or source
+    if not path_value:
+        return None
+    path = Path(path_value)
+    resolved = path if path.is_absolute() else job_build_dir / path
+    if not resolved.is_file() or resolved.stat().st_size == 0:
+        return None
+    return "ok", fragment, source
+
+
+def _renderer_package_stamp(job_build_dir: Path) -> tuple[int, int] | None:
+    path = job_build_dir / "renderer_result.json"
+    if not path.is_file():
+        return None
+    stat = path.stat()
+    return stat.st_mtime_ns, stat.st_size
+
+
+def _write_semantic_provenance(
+    job: DiagramJob,
+    request: DiagramJobRequest,
+    job_build_dir: Path,
+) -> None:
+    write_json(
+        job_build_dir / "semantic_provenance.json",
+        {
+            "schema_version": "diagram-semantic-provenance/v1",
+            "job_id": job.job_id,
+            "slot_id": job.slot_id,
+            "diagram_kind": request.diagram_kind.value,
+            "engine": request.engine.value,
+            "execution_plan": "execution_plan.json",
+            "scene_payload": "scene_payload.json" if (job_build_dir / "scene_payload.json").is_file() else "",
+            "renderer_spec": "final_renderer_spec.json",
+            "given_objects": request.semantic_constraints.given_objects,
+            "given_constraints": request.semantic_constraints.given_constraints,
+            "must_not_show": request.semantic_constraints.clean_forbidden,
+        },
+    )
+
+
 def run_one_job(
     job: DiagramJob,
     request: DiagramJobRequest,
@@ -632,6 +698,11 @@ def run_one_job(
     # Write v2 request
     request_path = job_build_dir / "request.json"
     write_json(request_path, request_payload)
+    if request.execution_plan is not None:
+        write_json(
+            job_build_dir / "execution_plan.json",
+            request.execution_plan.model_dump(mode="json"),
+        )
 
     if dry_run:
         return DiagramBatchJobResult(
@@ -645,6 +716,7 @@ def run_one_job(
         )
 
     _append_cache_event(job_build_dir, "cache.miss", cache_key)
+    previous_renderer_stamp = _renderer_package_stamp(job_build_dir)
 
     # Workflow stage
     if _is_scene_payload_route(request) or _is_renderer_spec_route(request) or _is_analytic_route(request) or _is_spatial_route(request):
@@ -676,9 +748,21 @@ def run_one_job(
             renderer_status="no_spec",
         )
 
-    rr_status, rr_tikz_fragment_path, rr_tikz_source_path = _run_tikz_renderer(
-        spec_path, job_build_dir, job.variant.value
-    )
+    existing_package = _existing_renderer_package(job_build_dir)
+    if (
+        existing_package is not None
+        and previous_renderer_stamp is not None
+        and _renderer_package_stamp(job_build_dir) == previous_renderer_stamp
+    ):
+        # A deterministic workflow that only rewrote its spec must not reuse a
+        # renderer package left by an older run of this job.
+        existing_package = None
+    if existing_package is not None:
+        rr_status, rr_tikz_fragment_path, rr_tikz_source_path = existing_package
+    else:
+        rr_status, rr_tikz_fragment_path, rr_tikz_source_path = _run_tikz_renderer(
+            spec_path, job_build_dir, job.variant.value
+        )
 
     if rr_status == "process_failed":
         return DiagramBatchJobResult(
@@ -691,6 +775,24 @@ def run_one_job(
             failure_reason=rr_tikz_source_path or "renderer process failed",
         )
     if rr_status == "ok":
+        _write_semantic_provenance(job, request, job_build_dir)
+        gate = run_job_package_gate(job, request, job_build_dir)
+        write_json(
+            job_build_dir / "job_gate_report.json",
+            gate.model_dump(mode="json"),
+        )
+        if gate.status == "block":
+            return DiagramBatchJobResult(
+                job_id=job_id,
+                slot_id=job.slot_id,
+                variant=job.variant.value,
+                status="job_gate_failed",
+                workflow_status="ok",
+                renderer_status="ok",
+                failure_reason="; ".join(
+                    check.message for check in gate.checks if check.status == "block"
+                ),
+            )
         result = DiagramBatchJobResult(
             job_id=job_id,
             slot_id=job.slot_id,

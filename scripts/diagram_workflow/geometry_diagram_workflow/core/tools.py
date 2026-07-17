@@ -418,7 +418,13 @@ def _merge_lists(base: object, delta: object) -> List[object]:
     elif delta not in (None, "", []):
         merged.append(delta)
     return merged
-def _validate_scene_code(scene_code: str, *, allow_fixed_metrics: bool = False) -> None:
+def _validate_scene_code(
+    scene_code: str,
+    *,
+    allow_fixed_metrics: bool = False,
+    coordinate_policy: str = "",
+    allowed_coordinate_anchors: List[str] | None = None,
+) -> None:
     """对模型生成的 Wolfram 代码做最小安全门禁。"""
 
     if "GeometricScene" not in scene_code:
@@ -451,6 +457,17 @@ def _validate_scene_code(scene_code: str, *, allow_fixed_metrics: bool = False) 
             scene_code,
         )
     )
+    allowed_anchors = set(allowed_coordinate_anchors or [])
+    if coordinate_policy == "symbolic_only" and fixed_points:
+        raise ValueError(
+            "symbolic_only scene_code cannot fix point coordinates; use native geometric constraints"
+        )
+    if coordinate_policy == "allow_single_anchor" and (
+        len(fixed_points) > 1 or not fixed_points.issubset(allowed_anchors)
+    ):
+        raise ValueError(
+            "allow_single_anchor scene_code may fix only the explicitly authorized anchor"
+        )
     repeated_metric_constraints = re.search(
         r"\b(?:EuclideanDistance|PlanarAngle|TriangleMeasurement|Area)\s*\[",
         scene_code,
@@ -937,9 +954,16 @@ def _render_scene(
     生成；Wolfram 相关调用都在 _render_worker 里完成。
     """
 
+    execution_plan = request.get("execution_plan")
+    if not isinstance(execution_plan, dict):
+        execution_plan = {}
     _validate_scene_code(
         scene_code,
         allow_fixed_metrics=bool(_solution_reuse_id(request)),
+        coordinate_policy=str(execution_plan.get("coordinate_policy") or ""),
+        allowed_coordinate_anchors=[
+            str(value) for value in (execution_plan.get("allowed_coordinate_anchors") or [])
+        ],
     )
     round_dir = out_dir / "rounds" / f"round_{round_index}"
     round_dir.mkdir(parents=True, exist_ok=True)
@@ -1320,6 +1344,7 @@ def finalize_round_action(
     )
     _write_json(out_dir / "scene_payload.json", scene_payload)
     _write_json(out_dir / "final_renderer_spec.json", renderer_spec)
+    _write_json(out_dir / "audit_result.json", audit_result)
     renderer_result["renderer_spec"] = "final_renderer_spec.json"
     _write_json(out_dir / "renderer_result.json", renderer_result)
 

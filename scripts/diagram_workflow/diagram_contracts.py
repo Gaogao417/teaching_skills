@@ -56,6 +56,37 @@ class DiagramEngine(str, Enum):
     RENDERER_SPEC = "renderer_spec"
 
 
+class EngineSource(str, Enum):
+    ROUTE_POLICY = "route_policy"
+    EXECUTION_OVERRIDE = "execution_override"
+
+
+class CoordinatePolicy(str, Enum):
+    SYMBOLIC_ONLY = "symbolic_only"
+    ALLOW_SINGLE_ANCHOR = "allow_single_anchor"
+    TYPED_COORDINATES = "typed_coordinates"
+    POINTS3D = "points3d"
+    REVIEWED_FIXTURE = "reviewed_fixture"
+
+
+class DiagramWorkflowMode(str, Enum):
+    INITIAL = "initial"
+    HUMAN_REVISION = "human_revision"
+
+
+class DiagramWorkflowState(str, Enum):
+    PLANNED = "planned"
+    AUTHORING = "authoring"
+    SCENE_CHECKED = "scene_checked"
+    SOLVING = "solving"
+    SPEC_READY = "spec_ready"
+    RENDERING = "rendering"
+    JOB_GATE = "job_gate"
+    VISUAL_DECISION = "visual_decision"
+    FINALIZED = "finalized"
+    FAILED = "failed"
+
+
 class DiagramArtifactKind(str, Enum):
     TIKZ = "tikz"
 
@@ -991,6 +1022,124 @@ def validate_diagram_slot(data: object) -> DiagramSlot:
     return DiagramSlotAdapter.validate_python(data)
 
 
+class DiagramBrief(DiagramModel):
+    """Plan-stage teaching and layout intent, without runtime ownership."""
+
+    schema_version: Literal["diagram-brief/v1"] = "diagram-brief/v1"
+    slot_id: NonEmptyStr
+    diagram_ref: NonEmptyStr
+    diagram_kind: DiagramKind
+    variant: DiagramVariant = DiagramVariant.PROMPT
+    disclosure_policy: DisclosurePolicy = DisclosurePolicy.CLEAN
+    required: bool = True
+    on_failure: DiagramOnFailure = DiagramOnFailure.FAIL_ASSIGNMENT
+    teaching_intent: str = "practice_prompt"
+    problem_context: DiagramProblemContext = Field(default_factory=DiagramProblemContext)
+    semantic_constraints: DiagramSemanticConstraints = Field(default_factory=DiagramSemanticConstraints)
+    placement: NonEmptyStr
+    layout_role: DiagramLayoutRole
+    width_hint: str = ""
+
+    @classmethod
+    def from_slot(cls, slot: DiagramSlot) -> DiagramBrief:
+        return cls(
+            slot_id=slot.slot_id,
+            diagram_ref=slot.diagram_ref,
+            diagram_kind=slot.diagram_kind,
+            variant=slot.variant,
+            disclosure_policy=slot.disclosure_policy,
+            required=slot.required,
+            on_failure=slot.on_failure,
+            teaching_intent=slot.teaching_intent,
+            problem_context=slot.problem_context,
+            semantic_constraints=slot.semantic_constraints,
+            placement=slot.placement,
+            layout_role=slot.layout_role,
+            width_hint=slot.width_hint,
+        )
+
+
+class DiagramExecutionPlan(DiagramModel):
+    """Host-owned immutable route decision made before any Agent turn."""
+
+    schema_version: Literal["diagram-execution-plan/v1"] = "diagram-execution-plan/v1"
+    job_id: NonEmptyStr
+    slot_id: NonEmptyStr
+    diagram_kind: DiagramKind
+    engine: DiagramEngine
+    engine_source: EngineSource = EngineSource.ROUTE_POLICY
+    coordinate_policy: CoordinatePolicy
+    allowed_coordinate_anchors: list[str] = Field(default_factory=list, max_length=1)
+    max_candidate_rounds: int = Field(default=2, ge=1, le=4)
+    requires_visual_decision: bool = False
+
+    @classmethod
+    def for_route(
+        cls,
+        *,
+        job_id: str,
+        slot_id: str,
+        diagram_kind: DiagramKind | str,
+        engine: DiagramEngine | str,
+        engine_source: EngineSource | str | None = None,
+        requires_visual_decision: bool | None = None,
+    ) -> DiagramExecutionPlan:
+        kind = DiagramKind(diagram_kind)
+        resolved_engine = DiagramEngine(engine)
+        source = (
+            EngineSource(engine_source)
+            if engine_source is not None
+            else EngineSource.EXECUTION_OVERRIDE
+            if kind == DiagramKind.SYNTHETIC_GEOMETRY
+            and resolved_engine == DiagramEngine.RENDERER_SPEC
+            else EngineSource.ROUTE_POLICY
+        )
+        if resolved_engine == DiagramEngine.GEOMETRIC_SCENE:
+            coordinate_policy = CoordinatePolicy.SYMBOLIC_ONLY
+        elif resolved_engine == DiagramEngine.SPATIAL_RENDERER:
+            coordinate_policy = CoordinatePolicy.POINTS3D
+        elif resolved_engine == DiagramEngine.RENDERER_SPEC:
+            coordinate_policy = CoordinatePolicy.REVIEWED_FIXTURE
+        else:
+            coordinate_policy = CoordinatePolicy.TYPED_COORDINATES
+        visual = (
+            requires_visual_decision
+            if requires_visual_decision is not None
+            else kind == DiagramKind.SYNTHETIC_GEOMETRY
+            and resolved_engine == DiagramEngine.GEOMETRIC_SCENE
+        )
+        return cls(
+            job_id=job_id,
+            slot_id=slot_id,
+            diagram_kind=kind,
+            engine=resolved_engine,
+            engine_source=source,
+            coordinate_policy=coordinate_policy,
+            requires_visual_decision=visual,
+        )
+
+    @model_validator(mode="after")
+    def enforce_route_policy(self) -> DiagramExecutionPlan:
+        if self.diagram_kind == DiagramKind.SYNTHETIC_GEOMETRY:
+            if self.engine_source == EngineSource.ROUTE_POLICY and self.engine != DiagramEngine.GEOMETRIC_SCENE:
+                raise ValueError("synthetic route policy must use engine='geometric_scene'")
+            if self.engine == DiagramEngine.RENDERER_SPEC and self.engine_source != EngineSource.EXECUTION_OVERRIDE:
+                raise ValueError("synthetic renderer_spec requires an execution_override")
+        if self.engine == DiagramEngine.GEOMETRIC_SCENE:
+            if self.diagram_kind != DiagramKind.SYNTHETIC_GEOMETRY:
+                raise ValueError("geometric_scene is only valid for synthetic_geometry")
+            if self.coordinate_policy not in {
+                CoordinatePolicy.SYMBOLIC_ONLY,
+                CoordinatePolicy.ALLOW_SINGLE_ANCHOR,
+            }:
+                raise ValueError("geometric_scene requires a symbolic coordinate policy")
+        if self.coordinate_policy == CoordinatePolicy.SYMBOLIC_ONLY and self.allowed_coordinate_anchors:
+            raise ValueError("symbolic_only execution plans cannot allow coordinate anchors")
+        if self.coordinate_policy == CoordinatePolicy.ALLOW_SINGLE_ANCHOR and len(self.allowed_coordinate_anchors) != 1:
+            raise ValueError("allow_single_anchor requires exactly one allowed coordinate anchor")
+        return self
+
+
 class DiagramJob(DiagramModel):
     """Executable single-image job collected from one DiagramSlot."""
 
@@ -1012,9 +1161,23 @@ class DiagramJob(DiagramModel):
     depends_on: list[str] = Field(default_factory=list)
     content_hash: str = ""
     reuse_geometry_from: str = ""
+    execution_plan: DiagramExecutionPlan | None = None
 
     @model_validator(mode="after")
     def enforce_job_policy(self) -> DiagramJob:
+        if self.execution_plan is None:
+            self.execution_plan = DiagramExecutionPlan.for_route(
+                job_id=self.job_id,
+                slot_id=self.slot_id,
+                diagram_kind=self.diagram_kind,
+                engine=self.engine,
+            )
+        if self.execution_plan.job_id != self.job_id or self.execution_plan.slot_id != self.slot_id:
+            raise ValueError("execution plan identity must match the diagram job")
+        if self.execution_plan.engine != self.engine:
+            raise ValueError("execution plan engine must match the diagram job engine")
+        if self.execution_plan.diagram_kind != self.diagram_kind:
+            raise ValueError("execution plan diagram_kind must match the diagram job")
         if self.variant == DiagramVariant.PROMPT and self.disclosure_policy != DisclosurePolicy.CLEAN:
             raise ValueError("prompt jobs must use disclosure_policy='clean'")
         if self.required and self.on_failure != DiagramOnFailure.FAIL_ASSIGNMENT:
@@ -1127,9 +1290,23 @@ class DiagramJobRequest(DiagramModel):
     reuse: DiagramReuseSpec = Field(default_factory=DiagramReuseSpec)
     engine_options: DiagramEngineOptions = Field(default_factory=DiagramEngineOptions)
     human_revision: DiagramHumanRevision | None = None
+    execution_plan: DiagramExecutionPlan | None = None
 
     @model_validator(mode="after")
     def enforce_request_policy(self) -> DiagramJobRequest:
+        if self.execution_plan is None:
+            self.execution_plan = DiagramExecutionPlan.for_route(
+                job_id=self.job_id,
+                slot_id=self.slot_id,
+                diagram_kind=self.diagram_kind,
+                engine=self.engine,
+            )
+        if self.execution_plan.job_id != self.job_id or self.execution_plan.slot_id != self.slot_id:
+            raise ValueError("execution plan identity must match the diagram request")
+        if self.execution_plan.engine != self.engine:
+            raise ValueError("execution plan engine must match the diagram request engine")
+        if self.execution_plan.diagram_kind != self.diagram_kind:
+            raise ValueError("execution plan diagram_kind must match the diagram request")
         if self.human_revision is not None:
             # A human submission authorizes exactly one new candidate Round.
             # It must never re-enable the legacy autonomous repair loop.
@@ -1377,6 +1554,32 @@ class VisionEvaluationResult(DiagramLooseModel):
     model_used: str = ""
     raw_response: str = ""
     model_attempts: list[ModelAttempt] = Field(default_factory=list)
+
+
+class VisualDecisionPatch(DiagramModel):
+    """Minimal host-validated replacement fields from a visual decision turn."""
+
+    scene_code: str = ""
+    diagram_spec_json: str = ""
+
+
+class VisualDecision(DiagramModel):
+    schema_version: Literal["diagram-visual-decision/v1"] = "diagram-visual-decision/v1"
+    decision: Literal["accept", "revise"]
+    reason: NonEmptyStr
+    patch: VisualDecisionPatch = Field(default_factory=VisualDecisionPatch)
+
+    @model_validator(mode="after")
+    def revise_requires_patch(self) -> VisualDecision:
+        if self.decision == "revise" and not (
+            self.patch.scene_code.strip() or self.patch.diagram_spec_json.strip()
+        ):
+            raise ValueError("visual revise decisions require a scene or diagram_spec patch")
+        if self.decision == "accept" and (
+            self.patch.scene_code.strip() or self.patch.diagram_spec_json.strip()
+        ):
+            raise ValueError("visual accept decisions cannot carry a patch")
+        return self
 
 
 class WorkflowRound(DiagramModel):
@@ -1818,7 +2021,7 @@ class DiagramBatchJobResult(DiagramModel):
     status: Literal[
         "ok", "dry_run", "not_run",
         "workflow_failed", "renderer_failed", "renderer_no_spec",
-        "dependency_failed",
+        "dependency_failed", "job_gate_failed",
     ] = "not_run"
     workflow_status: str = "not_run"
     renderer_status: str = "not_run"

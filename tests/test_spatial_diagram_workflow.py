@@ -307,7 +307,7 @@ class SpatialDiagramWorkflowTest(unittest.TestCase):
                 (artifact_dir / "build/diagram/pipeline_performance.json").read_text(encoding="utf-8")
             )
             stage_names = {stage["name"] for stage in pipeline_profile["assignment_pipeline"]["stages"]}
-            self.assertEqual(stage_names, {"collect", "batch", "gate", "resolve"})
+            self.assertEqual(stage_names, {"collect", "batch", "resolve", "resolved_gate"})
 
 
 if __name__ == "__main__":

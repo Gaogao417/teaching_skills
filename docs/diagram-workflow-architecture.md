@@ -6,6 +6,39 @@
 > contract. See `docs/diagram-tikz-backend-architecture.md` and
 > `scripts/diagram_workflow/README.md` for the current chain.
 
+## Active harness contract (2026-07-17)
+
+The production control plane is:
+
+```text
+DiagramBrief / compatible DiagramSlot v1
+  -> deterministic DiagramExecutionPlan (engine locked)
+  -> Batch DAG/cache scheduler
+  -> SingleDiagramEngine candidate lifecycle
+  -> JobPackageGate
+  -> RendererBindingManifest
+  -> resolve TikZ payload
+  -> ResolvedAssignmentGate
+```
+
+- `diagram_kind` is writer-owned teaching semantics. `engine`, coordinate
+  policy, candidate budget, and visual-decision policy are Host-owned execution
+  decisions and are included in cache identity.
+- Synthetic geometry uses `geometric_scene + symbolic_only` unless a reviewed
+  fixture has an explicit `renderer_spec` execution override.
+- The single-job workflow owns Wolfram solve, spec compilation, one TikZ render
+  per candidate, deterministic audit, the image-backed visual decision, and
+  finalization. Batch never renders an already complete package again.
+- Initial generation and human revision use the same Host-owned tail. The Agent
+  can return scene data or a bounded visual decision; it cannot run commands,
+  select engines, choose paths/Rounds, or publish artifacts.
+- JobPackageGate runs before cache/store/bind. Disclosure, final layout,
+  diagram ref/job/hash/path consistency, and leftover slot checks run only
+  after resolution in ResolvedAssignmentGate.
+
+The remaining sections below are retained as historical migration context;
+image-path and `diagram_artifacts.json` examples are not active contracts.
+
 > 目标：把 teaching-skills 中“批量生成 assignment / explanation，但按小题逐个生成 Mathematica 图，再回填到 LaTeX/PDF”的链路梳理成可实现、可审计、职责清晰的工作流。
 
 ## 1. 背景与核心矛盾

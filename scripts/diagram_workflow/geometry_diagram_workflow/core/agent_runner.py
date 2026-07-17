@@ -16,8 +16,10 @@ from agent_prompt import (
     diagram_agent_prompt,
     scene_writer_output_schema,
     scene_writer_prompt,
+    visual_decision_output_schema,
+    visual_decision_prompt,
 )
-from diagram_contracts import SceneWriterOutput
+from diagram_contracts import SceneWriterOutput, VisualDecision
 from runtime import redact_secrets
 from tools import (
     _agent_cwd,
@@ -270,6 +272,8 @@ def _codex_agent_worker(
     review_id: str = "",
     base_round: int | None = None,
     requested_round: int | None = None,
+    preview_image_path: str = "",
+    sandbox_mode: str = "full_access",
 ) -> None:
     temp_codex_home = ""
     try:
@@ -310,7 +314,15 @@ def _codex_agent_worker(
             SkillInput(name=item["name"], path=item["path"])
             for item in skill_inputs
         ]
+        if preview_image_path:
+            from openai_codex import LocalImageInput
+
+            preview = Path(preview_image_path)
+            if not preview.is_file():
+                raise FileNotFoundError(f"visual decision preview not found: {preview}")
+            run_input.append(LocalImageInput(path=str(preview.resolve())))
         run_input.append(TextInput(prompt))
+        agent_sandbox = getattr(Sandbox, sandbox_mode, Sandbox.full_access)
 
         with Codex(config=config) as codex:
             thread_config: Dict[str, object] = {}
@@ -324,7 +336,7 @@ def _codex_agent_worker(
                 "cwd": cwd,
                 "ephemeral": not persistent_thread,
                 "model": model or None,
-                "sandbox": Sandbox.full_access,
+                "sandbox": agent_sandbox,
                 "service_tier": service_tier or None,
             }
             if persistent_thread:
@@ -351,7 +363,7 @@ def _codex_agent_worker(
                 cwd=cwd,
                 model=model or None,
                 output_schema=output_schema,
-                sandbox=Sandbox.full_access,
+                sandbox=agent_sandbox,
             )
             queue.put(
                 {
@@ -448,6 +460,9 @@ def run_codex_diagram_agent(
     out_dir: Path,
     request_path: Path,
     repair_request: Dict[str, object] | None = None,
+    visual_context: Dict[str, object] | None = None,
+    force_scene_writer: bool = False,
+    authoring_preview_path: Path | None = None,
 ) -> Dict[str, object]:
     model_config = request.get("model_config", {})
     if not isinstance(model_config, dict):
@@ -457,8 +472,23 @@ def run_codex_diagram_agent(
     heartbeat_s = max(5.0, _float_config(model_config, "progress_heartbeat_s", 30))
     queue: mp.Queue = mp.Queue()
     is_human_revision = isinstance(request.get("human_revision"), dict)
+    is_visual_decision = visual_context is not None
     skill_inputs = _skill_inputs_for_request(request)
-    if is_human_revision:
+    preview_image_path = ""
+    use_full_loop = is_human_revision and not force_scene_writer and not is_visual_decision
+    if is_visual_decision:
+        scene_payload = visual_context.get("scene_payload")
+        audit_result = visual_context.get("audit_result")
+        if not isinstance(scene_payload, dict) or not isinstance(audit_result, dict):
+            raise ValueError("visual_context requires scene_payload and audit_result mappings")
+        preview_image_path = str(visual_context.get("preview_image_path") or "")
+        prompt = visual_decision_prompt(
+            request=request,
+            scene_payload=scene_payload,
+            audit_result=audit_result,
+        )
+        output_schema = visual_decision_output_schema()
+    elif use_full_loop:
         prompt = diagram_agent_prompt(
             request,
             out_dir,
@@ -473,6 +503,8 @@ def run_codex_diagram_agent(
             repair_request=repair_request,
         )
         output_schema = scene_writer_output_schema()
+        if authoring_preview_path is not None:
+            preview_image_path = str(authoring_preview_path)
     revision_context = _human_revision_context({**request, "_agent_out_dir": str(out_dir)})
     process = mp.Process(
         target=_codex_agent_worker,
@@ -489,6 +521,8 @@ def run_codex_diagram_agent(
             "service_tier": str(config.get("service_tier") or ""),
             "fast_mode": bool(config.get("fast_mode")),
             "skill_inputs": skill_inputs,
+            "preview_image_path": preview_image_path,
+            "sandbox_mode": "full_access" if use_full_loop else "read_only",
             **revision_context,
         },
     )
@@ -565,7 +599,12 @@ def run_codex_diagram_agent(
         )
     content = str(result.get("final_response") or "{}")
     payload = _extract_json_object(content)
-    if not is_human_revision:
+    if is_visual_decision:
+        payload = VisualDecision.model_validate(payload).model_dump(
+            mode="json",
+            by_alias=True,
+        )
+    elif not use_full_loop:
         payload = _normalize_scene_writer_wire_payload(payload)
         payload = SceneWriterOutput.model_validate(payload).model_dump(
             mode="json",

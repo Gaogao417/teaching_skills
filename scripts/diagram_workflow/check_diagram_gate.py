@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Check diagram gate before resolving assignment diagram slots.
+"""Check compatibility or resolved-assignment diagram policy.
 
-This CLI validates generated diagram job results before
-resolve_assignment_diagrams.py writes them back into the resolved YAML.
+Per-job JobPackageGate already runs in the batch path. This CLI is primarily
+the subprocess-isolation entry for post-resolve assignment policy.
 Concrete checks live under diagram_gate/ by responsibility.
 """
 

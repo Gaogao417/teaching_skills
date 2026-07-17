@@ -2,7 +2,7 @@
 """In-process orchestrator for the assignment diagram pipeline.
 
 The default main entry point (:mod:`run_assignment_diagrams`) drives the four
-pipeline stages (collect → batch → gate → resolve) by calling library functions
+pipeline stages (collect → batch/job-gate → resolve → resolved-gate) by calling library functions
 directly inside one Python process instead of spawning one interpreter per
 stage. The external artifacts on disk are identical to the legacy
 script-chained path:
@@ -34,7 +34,7 @@ if str(SCRIPT_DIR) not in sys.path:
 
 import yaml  # noqa: E402
 
-from check_diagram_gate import run_gate as _run_gate  # noqa: E402
+from diagram_gate.runner import run_resolved_assignment_gate  # noqa: E402
 from collect_diagram_jobs import collect_jobs  # noqa: E402
 from diagram_contracts import AssignmentPlanDiagramView  # noqa: E402
 from renderer_bindings import manifest_from_paths  # noqa: E402
@@ -76,7 +76,7 @@ def run_assignment_diagram_pipeline(
     skip_gate: bool = False,
     dry_run: bool = False,
 ) -> Path:
-    """Run collect → batch → gate → resolve in one Python process.
+    """Run collect → batch/job-gate → resolve → resolved-gate in one process.
 
     Arguments mirror the legacy CLI flags. Returns the resolved YAML path so
     callers (the thin CLI, tests) can assert on the final artifact.
@@ -97,9 +97,9 @@ def run_assignment_diagram_pipeline(
 
     print(f"+ collect: {plan_yaml} -> {jobs_json}")
     print(f"+ batch:   {jobs_json} -> {build_dir / 'diagram_batch_report.json'}")
-    if not skip_gate:
-        print(f"+ gate:    plan + {jobs_json} + {jobs_dir}")
     print(f"+ resolve: -> {out_yaml}")
+    if not skip_gate:
+        print(f"+ gate:    resolved assignment + bindings")
 
     if dry_run:
         return out_yaml
@@ -136,15 +136,28 @@ def run_assignment_diagram_pipeline(
     if report.failed_count > 0:
         raise SystemExit(1)
 
-    # Stage 3: gate
+    # Stage 3: resolve from packages already accepted by each JobPackageGate.
+    with timer.measure("resolve"):
+        validate_batch_report_allows_resolution(report_path)
+        artifacts_manifest = manifest_from_paths(jobs_json, jobs_dir, artifact_dir)
+        # Resolve from the original YAML mapping so the final document preserves
+        # non-diagram fields exactly as the standalone resolver CLI does.
+        resolved = resolve_assignment(raw_plan, artifacts_manifest)
+        write_yaml(out_yaml, resolved)
+
+    # Stage 4: assignment-level policy can only be evaluated after resolution.
     if not skip_gate:
-        with timer.measure("gate"):
-            gate_report = _run_gate(
+        with timer.measure("resolved_gate"):
+            gate_report = run_resolved_assignment_gate(
                 plan_view,
                 manifest,
-                manifest_from_paths(jobs_json, jobs_dir, artifact_dir),
+                artifacts_manifest,
                 artifact_dir,
-                None,
+                out_yaml,
+            )
+            write_batch_json(
+                build_dir / "resolved_assignment_gate_report.json",
+                gate_report.model_dump(mode="json"),
             )
         print(json.dumps(gate_report.model_dump(mode="json"), ensure_ascii=False, indent=2))
         if gate_report.status == "block":
@@ -154,15 +167,6 @@ def run_assignment_diagram_pipeline(
                 file=sys.stderr,
             )
             raise SystemExit(2)
-
-    # Stage 4: resolve
-    with timer.measure("resolve"):
-        validate_batch_report_allows_resolution(report_path)
-        artifacts_manifest = manifest_from_paths(jobs_json, jobs_dir, artifact_dir)
-        # Resolve from the original YAML mapping so the final document preserves
-        # non-diagram fields exactly as the standalone resolver CLI does.
-        resolved = resolve_assignment(raw_plan, artifacts_manifest)
-        write_yaml(out_yaml, resolved)
     write_profile_section(
         build_dir,
         "assignment_pipeline",

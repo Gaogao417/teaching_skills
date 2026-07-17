@@ -28,6 +28,7 @@ except ImportError as exc:  # pragma: no cover
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from diagram_contracts import (  # noqa: E402
     AssignmentPlanDiagramView,
+    DiagramExecutionPlan,
     DiagramJob,
     DiagramJobsManifest,
     DiagramSlotRef,
@@ -191,6 +192,12 @@ def collect_jobs(
             depends_on=depends_on,
             content_hash=_content_hash(slot.model_dump(mode="json", by_alias=True)),
             reuse_geometry_from=reuse_job_id,
+            execution_plan=DiagramExecutionPlan.for_route(
+                job_id=job_id,
+                slot_id=slot.slot_id,
+                diagram_kind=slot.diagram_kind,
+                engine=slot.engine,
+            ),
         )
         jobs.append(job)
 

@@ -17,10 +17,11 @@
 - 长度条件在图上只标数字，如 `7`、`19`；不要要求生成 `CD=19` 这类完整等式标签。
 - plan YAML 不得写最终图片字段：不写 `image_path`、`diagram_job_id`、`diagram_col`、`diagram_row` 或 `answer_space.diagram_col`。
 - collector/resolver 扫描 block 级 `diagram_slot`、`answer_space.diagram_slot`、`answer_space.parts[].diagram_slot`。不要在 plan 阶段手写 `diagram_row.items[]`。
-- 普通欧氏几何（如三角形、平行线、相似、角平分线、共线线段比例）默认使用 `engine: "geometric_scene"` 与 `diagram_kind: "synthetic_geometry"`。
+- `diagram_kind` 是 plan-stage 必填语义。writer 不选择 `engine`；Host 在 Agent 启动前生成不可变的 `DiagramExecutionPlan`。旧 YAML 中的 `engine` 只由兼容层读取。
+- 普通欧氏几何（如三角形、平行线、相似、角平分线、共线线段比例）使用 `diagram_kind: "synthetic_geometry"`；Host 强制路由到 `geometric_scene + symbolic_only`。
 - 坐标平面图使用 `diagram_kind: "coordinate_geometry"`，数学输入写入 `analytic_requirements.coordinate_ir`。
 - 只有题目明确涉及坐标轴、坐标点、函数图像、解析式、交点/读图或坐标平面面积时，才使用 `coordinate_geometry`。
-- 立体几何题使用 `engine: "spatial_renderer"` 与 `diagram_kind: "spatial_geometry"`。一般线面/多面体优先 `textbook_oblique`，两面相交或二面角用 `hinge_planes`，空间坐标/向量用 `orthographic_3d`。
+- 立体几何题使用 `diagram_kind: "spatial_geometry"`；Host 路由到 `spatial_renderer`。一般线面/多面体优先 `textbook_oblique`，两面相交或二面角用 `hinge_planes`，空间坐标/向量用 `orthographic_3d`。
 - `engine_options.spatial_spec` 必须保留三维 `points3d`，声明结构化 `relations`、`projection` 和 `quality_focus`；不得由 writer 先投影成二维点。
 - 两平面交线通过 `derived_segments.relation: plane_intersection_line` 求解。学生 prompt 图不得包含 `role: auxiliary`，教师 solution 图必须复用对应 prompt 构型。
 - 函数图像必须写 `type: "function_curve"`，包含 `expression_latex` 或 `expression_wl`，并写 `domain_segments`；不要用 `polyline` 冒充函数图像。
@@ -40,7 +41,6 @@ diagram_slot:
   layout_role: "question_sidecar"
   display_profile: "worksheet_geometry_sidecar"
   caption: "观察点 D 在边 BC 上的位置。"
-  engine: "geometric_scene"
   diagram_kind: "synthetic_geometry"
   teaching_intent: "practice_prompt"
   semantic_constraints:
@@ -62,7 +62,6 @@ diagram_slot:
   layout_role: "question_sidecar"
   display_profile: "worksheet_geometry_sidecar"
   caption: "函数图像"
-  engine: "wolfram_client"
   diagram_kind: "coordinate_geometry"
   teaching_intent: "practice_prompt"
   analytic_requirements:

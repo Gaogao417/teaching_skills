@@ -87,6 +87,9 @@ class DiagramBatchV2Test(unittest.TestCase):
         job_payload = manifest.jobs[0].model_dump(mode="json")
         job_payload["engine"] = "wolfram_client"
         job_payload["diagram_kind"] = "coordinate_geometry"
+        # Changing a route is a new planning decision, not a mutable repair of
+        # the previous execution plan.
+        job_payload.pop("execution_plan", None)
         manifest.jobs[0] = DiagramJob(**job_payload)
 
         plan_data = self._plan_data()

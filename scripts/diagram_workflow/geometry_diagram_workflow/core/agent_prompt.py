@@ -161,6 +161,73 @@ def scene_writer_output_schema() -> Dict[str, object]:
     }
 
 
+def visual_decision_output_schema() -> Dict[str, object]:
+    """Strict visual-only response surface with no execution authority."""
+    patch = {
+        "type": "object",
+        "additionalProperties": False,
+        "properties": {
+            "scene_code": {"type": "string"},
+            "diagram_spec_json": {"type": "string"},
+        },
+        "required": ["scene_code", "diagram_spec_json"],
+    }
+    return {
+        "type": "object",
+        "additionalProperties": False,
+        "properties": {
+            "decision": {"type": "string", "enum": ["accept", "revise"]},
+            "reason": {"type": "string", "minLength": 1},
+            "patch": patch,
+        },
+        "required": ["decision", "reason", "patch"],
+    }
+
+
+def visual_decision_prompt(
+    *,
+    request: Dict[str, object],
+    scene_payload: Dict[str, object],
+    audit_result: Dict[str, object],
+) -> str:
+    """Ask for a bounded judgment over the attached real preview image."""
+    compact_request = {
+        key: request.get(key)
+        for key in (
+            "job_id",
+            "variant",
+            "disclosure_policy",
+            "problem_text",
+            "semantic_constraints",
+            "visual_requirements",
+            "human_revision",
+        )
+        if request.get(key) not in (None, "", [], {})
+    }
+    payload = {
+        "request": compact_request,
+        "scene_payload": scene_payload,
+        "deterministic_audit": audit_result,
+    }
+    return f"""
+Inspect the attached real preview image for one teaching diagram and return
+exactly one JSON object matching the VisualDecision schema.
+
+Choose `accept` only when the preview is faithful to the stated geometry,
+readable, non-degenerate, and compliant with the disclosure policy. Choose
+`revise` only for a visible defect. For `revise`, provide the smallest host-
+validated replacement: `scene_code` may replace the symbolic scene and
+`diagram_spec_json` may replace renderer intent. Use an empty string for an
+unchanged field. The diagram spec JSON must not contain solved coordinates.
+
+You may not choose or change the engine, coordinate policy, paths, commands,
+candidate counters, or workflow state. Do not request tools or artifact writes.
+
+Context:
+{json.dumps(payload, ensure_ascii=False, indent=2, default=_json_default)}
+""".strip()
+
+
 def scene_writer_prompt(
     request: Dict[str, object],
     *,
