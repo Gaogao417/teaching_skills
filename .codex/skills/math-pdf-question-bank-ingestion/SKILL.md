@@ -45,7 +45,7 @@ PDF 用仓库虚拟环境渲染到新目录：
 
 #### DOC 或 DOCX
 
-不要先把 Word 页面截图当题图。先提取结构和原始媒体：
+DOC/DOCX 来源走双通道提取：**Word 解包取原始媒体图 + soffice 转 PDF 取渲染文本**。
 
 ```bash
 ./.venv/bin/python \
@@ -53,13 +53,35 @@ PDF 用仓库虚拟环境渲染到新目录：
   <paper.doc-or-docx> <source-archive-dir>/word
 ```
 
-- `.doc` 只通过 soffice 规范化为 OOXML，不使用其页面渲染结果；`.docx` 直接解包。
-- `word/word-source.yaml` 保存段落顺序、邻近文本和图片关系；`word/media/*` 保存原始
-  题图、公式对象和解答图。不得仅凭 `image17.png` 之类文件名猜归属。
-- `question_word_evidence` 和 `official_solution.word_evidence` 直接记录
-  `word-source.yaml` 中的段落范围；Word 媒体用于题面和解析图。
-- **默认不得为了机器录入导出 PDF 或渲染页图。** 只有用户明确要求核对原版分页、
-  浮动对象或强排版时，才在机器录入完成后另做可选页面复核；该步骤不属于首次录入。
+产出目录结构：
+
+```text
+word/
+  source.docx|source.doc          # 原始文件副本
+  normalized.docx                  # OOXML 规范化版本
+  word-source.yaml                 # 段落结构 + 媒体清单 + PDF 页记录
+  media/                           # Word 原始嵌入媒体（题图 PNG + 公式 WMF/EMF）
+  ooxml/                           # 原始 XML 结构
+  rendered.pdf                     # soffice 渲染的 PDF（公式已变为位图）
+  pages/                           # PDF 逐页渲染的 PNG（001.png, 002.png, ...）
+```
+
+双通道各自职责：
+
+| 通道 | 来源 | 产物 | 用途 |
+|------|------|------|------|
+| Word 解包 | `word/media/*` | 原始 PNG/WMF/EMF | `prompt`/`solution` 题图（几何图、统计图、照片等） |
+| PDF 渲染 | `rendered.pdf` → `pages/*.png` | 渲染页图 | 公式转写、题干文本核对、`question_evidence` 审计凭证 |
+
+关键规则：
+
+- **公式转写以 PDF 渲染页为准**，不从 WMF 二进制猜测。PDF 里公式是渲染好的位图，
+  可直接读取转为 LaTeX。
+- **题图（几何图、函数图、表格、照片）以 Word 媒体原图为准**，因为 PDF 渲染可能
+  降低分辨率或丢失透明度。
+- `question_word_evidence` 和 `official_solution.word_evidence` 记录 `word-source.yaml`
+  中的段落范围（Word 通道）；PDF 页图作为转写过程中的视觉参考和审计凭证。
+- `.doc` 文件由 soffice 自动规范化为 `.docx` 后再走相同流程。
 - 详细规则见 `references/word-source-contract.md`。
 
 ### 2. 单次浏览并写 compact draft

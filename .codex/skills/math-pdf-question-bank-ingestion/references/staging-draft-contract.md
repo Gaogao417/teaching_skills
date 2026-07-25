@@ -83,6 +83,11 @@ prompt:
 不得仅按 Word 媒体文件名判断题号；归属必须来自 `word-source.yaml` 的段落关系。
 Word 使用段落范围作为原题与官方解答证据，不要求页图 crop。
 
+对于 Word 来源，PDF 渲染页（`word/pages/*.png`）作为公式转写的视觉参考：
+draft 中的 `stem_latex` 和 `solution_steps` 内容应对照 PDF 渲染页准确转写，
+不从 WMF 二进制猜测公式内容。PDF 页图不进入 `question_evidence` 或 `prompt`，
+仅用于转写过程。
+
 ## 图片绑定
 
 单个 `prompt` 默认绑定到题块 `/diagram_col`。单个 `solution` 默认绑定到
