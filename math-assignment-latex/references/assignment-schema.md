@@ -48,6 +48,7 @@ both      → 先 student 内容，\clearpage 后 teacher 附加内容
 | `paper_size` | string | "a4paper" | 纸张 |
 | `show_seal_line` | bool | false | 密封线 |
 | `answer_key_position` | string | "after_page_break" | 答案页位置 |
+| `show_step_numbers` | bool | false | 讲解模板是否在解答动作标题前显示数字编号；默认只显示内容标题 |
 
 ---
 
@@ -88,6 +89,22 @@ sections:
 | `stem_latex` | string | 条件必填 | 原样 LaTeX 题干，用于公式较多的题目 |
 | `visibility` | enum | 否 | 覆盖 section 级 visibility |
 | `layout` | object | 否 | `{ break_before, avoid_break }` |
+
+教师版题目还可携带以下归档证据字段；派生学生版时必须删除：
+
+```yaml
+solution_notes:
+  - title: 严谨补充
+    content_latex: "原解答省略了这里的定义域检查。"
+source_solution_images:
+  - image_path: assets/q19-solution.png
+    width: "0.96\\linewidth"
+    variant: source_solution
+    disclosure_policy: teacher_only
+    label: 公众号原解答
+```
+
+`source_solution_images` 只用于忠实核验原始解答，不得出现在学生版。
 
 支持的 block type：
 
@@ -198,6 +215,11 @@ solution_steps:
     content: "步骤内容 $formula$"
     why: "为什么这样做"
     formula: "关键公式"
+    diagram_col:             # 可选：教师解析中紧跟本步骤的图
+      tikz_path: "diagram/jobs/p1-step1/rendered/solution.fragment.tex"
+      width: "60mm"
+      variant: "solution"
+      disclosure_policy: "annotated"
 answer_space:
   type: lines            # lines / blank / steps
   height: "25mm"
@@ -317,13 +339,14 @@ answer_space:
 
 ```yaml
 type: route
+show_navigation: false  # 仅作为 dual_explanation 的数据源时隐藏重复导航
 steps:
   - latex: "由 $A$、$B$ 两点求解析式"
   - latex: "代入 $x=2$ 求点 $C$"
   - latex: "联立两条直线求点 $M$"
 ```
 
-`exam-zh-explanation` 会将 `route.steps` 渲染为虚线框内文字 + `→` 箭头，自然换行不会溢出。
+`exam-zh-explanation` 默认将 `route.steps` 渲染为虚线框内文字 + `→` 箭头，自然换行不会溢出。若页面已有自定义路线图，或 route 只用于给 `dual_explanation` 提供步骤数据，设置 `show_navigation: false`，避免重复显示。
 
 ### dual_explanation / explanation_dual 类型
 
@@ -331,8 +354,10 @@ steps:
 
 原题只有一问时，只写一个 `dual_explanation`，用 `solution_step_ids` 引用全部必要 route step；不要把讲解步骤拆成伪小问。
 
-每个 `dual_explanation` 必须带 `label` + `stem_latex`，讲解前自动以 exam 格式复现该题/小问题干。`stem_latex` 必须是真实题干，不写“为什么……”“怎样……”这类讲解提问。
+`dual_explanation` 的 `label` + `stem_latex` 为可选字段。若前面已有对应 `problemcard`，应省略两者，避免讲解前重复题干；只有没有独立题目卡、或需要单独复现真实小问时才填写。填写时 `stem_latex` 必须是真实题干，不写“为什么……”“怎样……”这类讲解提问。
 不要用 `title: "第（X）问"`，改用 `label` + `stem_latex`。
+
+分类公式或连续证明若不需要步骤标题，可设置 `plain_solution: true`。模板仍按 `solution_step_ids` 取正文和配图，但不渲染动作式 step 标题。
 
 `route.steps[]` 可带 `id` 和 `content_latex/content`；带 `id` 的 route step 可被 `dual_explanation.solution_step_ids` 引用。解答渲染时使用 route step 的 `latex/text/title` 作为 step 标题，使用 `content_latex/content` 作为正文。
 `side_items[]` 必须是对象，推荐 `kind: hint | mistake | note`，并包含 `title` 与 `content_latex` / `content` / `latex`。

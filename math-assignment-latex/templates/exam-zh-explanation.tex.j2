@@ -29,6 +29,9 @@
 \eduSectionTitle{<%= section.title|latex_escape %>}
 <% endif %>
 <% for block in section.blocks %>
+<% if block.layout and block.layout.break_before %>
+\clearpage
+<% endif %>
 
 <# ———————————————————————————
    原题卡片：页面入口
@@ -88,11 +91,13 @@
    支持字段：block.steps
 ——————————————————————————— #>
 <% elif block.type == "route" %>
+<% if block.show_navigation|default(true) %>
 \begin{eduAuxItem}{思路导航}
 <% for step in block.steps|default([]) %>
 <% if step.latex %><%= step.latex %><% elif step.text %><%= step.text|latex_escape %><% else %><%= step|latex_escape %><% endif %><% if not loop.last %>$\;\to\;$<% endif %>
 <% endfor %>
 \end{eduAuxItem}
+<% endif %>
 
 <# ———————————————————————————
    读题提示：跳过，不渲染
@@ -121,7 +126,7 @@
 <# ———————————————————————————
    主体讲解：小问级双栏
    左栏：hint / mistake / note
-   右栏：step1. 标题 + 正文
+   右栏：动作标题 + 正文；步骤编号默认隐藏，可按 render.show_step_numbers 开启
 ——————————————————————————— #>
 <% elif block.type == "explanation_dual" or block.type == "dual_explanation" %>
 <% if block.stem_latex or block.stem %>
@@ -130,8 +135,10 @@
 \end{eduSubQuestionItem}
 <% endif %>
 
+<% if block.side_items|default([]) or block.allow_empty_side|default(false) %>
 \begin{eduDualExplain}
   \begin{eduExplainLeft}
+    <% if block.side_items|default([]) %>
     \eduColumnTitle{\eduIconBulb}{<% if block.side_title %><%= block.side_title|latex_escape %><% else %>提示与易错<% endif %>}
     <% for item in block.side_items|default([]) %>
       <% if item.kind == "hint" %>
@@ -142,13 +149,19 @@
         \eduSideNote{<%= item.title|latex_escape %>}{<% if item.content_latex %><%= item.content_latex %><% elif item.latex %><%= item.latex %><% else %><%= item.content|latex_escape %><% endif %>}
       <% endif %>
     <% endfor %>
+    <% endif %>
   \end{eduExplainLeft}
 
   \begin{eduExplainRight}
     \eduColumnTitle{\eduIconBook}{<% if block.solution_title %><%= block.solution_title|latex_escape %><% else %>解答<% endif %>}
     <% for step in block.solution_steps|default([]) %>
-      \eduExplainStep{<%= loop.index %>}{<% if step.latex %><%= step.latex %><% elif step.text %><%= step.text|latex_escape %><% else %><%= step.title|latex_escape %><% endif %>}{<% if step.content_latex %><%= step.content_latex %><% else %><%= step.content|latex_escape %><% endif %>}
       <% set step_diagram = step.diagram_col or step.prompt_diagram %>
+      <% if step_diagram %>\needspace{19\baselineskip}<% else %>\needspace{5\baselineskip}<% endif %>
+      <% if block.plain_solution|default(false) %>
+      <% if step.content_latex %><%= step.content_latex %><% else %><%= step.content|latex_escape %><% endif %>
+      <% else %>
+      \eduExplainStep{<% if render.show_step_numbers|default(false) %><%= loop.index %><% endif %>}{<% if step.latex %><%= step.latex %><% elif step.text %><%= step.text|latex_escape %><% else %><%= step.title|latex_escape %><% endif %>}{<% if step.content_latex %><%= step.content_latex %><% else %><%= step.content|latex_escape %><% endif %>}
+      <% endif %>
       <% if step_diagram %>
       \begin{center}
         \begin{diagramcoltikz}{<% if step_diagram.width %><%= step_diagram.width %><% else %>0.82\linewidth<% endif %>}{<% if step_diagram.caption %><%= step_diagram.caption|latex_escape %><% endif %>}
@@ -168,6 +181,34 @@
   <% endif %>
   \end{eduExplainRight}
 \end{eduDualExplain}
+<% else %>
+\begin{eduSolutionBox}{<% if block.solution_title %><%= block.solution_title|latex_escape %><% else %>解答<% endif %>}
+  <% for step in block.solution_steps|default([]) %>
+    <% set step_diagram = step.diagram_col or step.prompt_diagram %>
+    <% if block.plain_solution|default(false) %>
+    <% if step.content_latex %><%= step.content_latex %><% else %><%= step.content|latex_escape %><% endif %>
+    <% else %>
+    \eduExplainStep{<% if render.show_step_numbers|default(false) %><%= loop.index %><% endif %>}{<% if step.latex %><%= step.latex %><% elif step.text %><%= step.text|latex_escape %><% else %><%= step.title|latex_escape %><% endif %>}{<% if step.content_latex %><%= step.content_latex %><% else %><%= step.content|latex_escape %><% endif %>}
+    <% endif %>
+    <% if step_diagram %>
+    \begin{center}
+      \begin{diagramcoltikz}{<% if step_diagram.width %><%= step_diagram.width %><% else %>0.82\linewidth<% endif %>}{<% if step_diagram.caption %><%= step_diagram.caption|latex_escape %><% endif %>}
+      <%= diagram_tikz_body(step_diagram) %>
+      \end{diagramcoltikz}
+    \end{center}
+    <% endif %>
+  <% endfor %>
+  <% if block.connection_items %>
+  \vspace{1mm}
+  {\color{edu-blue}\bfseries\small <% if block.connection_title %><%= block.connection_title|latex_escape %><% else %>注意<% endif %>}\par\vspace{1mm}
+  \begin{eduBulletList}
+  <% for item in block.connection_items %>
+    \item <% if item.content_latex %><%= item.content_latex %><% elif item.latex %><%= item.latex %><% elif item.text %><%= item.text|latex_escape %><% elif item.content %><%= item.content|latex_escape %><% else %><%= item|latex_escape %><% endif %>
+  <% endfor %>
+  \end{eduBulletList}
+  <% endif %>
+\end{eduSolutionBox}
+<% endif %>
 
 <# ———————————————————————————
    答案 + 方法提醒：双栏收束

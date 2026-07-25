@@ -49,6 +49,14 @@
     \par\textbf{<%= step.title|latex_escape %>}
     <%= step.content|latex_escape %>
     <% if step.why %>\par\small <%= step.why|latex_escape %><% endif %>
+    <% set step_diagram = step.diagram_col or step.prompt_diagram %>
+    <% if step_diagram %>
+    \begin{center}
+      \begin{diagramcoltikz}{<% if step_diagram.width %><%= step_diagram.width %><% else %>70mm<% endif %>}{<% if step_diagram.caption %><%= step_diagram.caption|latex_escape %><% endif %>}
+      <%= diagram_tikz_body(step_diagram) %>
+      \end{diagramcoltikz}
+    \end{center}
+    <% endif %>
     <% endfor %>
   \end{solution}
 \end{problem}

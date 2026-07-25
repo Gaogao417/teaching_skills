@@ -11,6 +11,27 @@
 \end{hintbox}
 <% endfor %>
 <%- endmacro %>
+<% macro render_teacher_evidence(block) -%>
+<% if meta.version != "student" %>
+<% for note in block.solution_notes|default([]) %>
+\par\medskip
+<% if note is mapping %>
+  <% if note.title %>\textbf{<%= note.title|latex_escape %>：}<% endif %>
+  <% if note.content_latex %><%= note.content_latex %><% elif note.content %><%= note.content|latex_escape %><% elif note.latex %><%= note.latex %><% endif %>
+<% else %>
+  <%= note|latex_escape %>
+<% endif %>
+<% endfor %>
+<% for evidence in block.source_solution_images|default([]) %>
+\par\medskip
+\begin{center}
+  \begin{diagramcoltikz}{<%= evidence.width|default("0.96\\linewidth") %>}{<% if evidence.label %><%= evidence.label|latex_escape %><% elif evidence.caption %><%= evidence.caption|latex_escape %><% endif %>}
+  <%= diagram_tikz_body(evidence) %>
+  \end{diagramcoltikz}
+\end{center}
+<% endfor %>
+<% endif %>
+<%- endmacro %>
 
 <% if meta.version == "student" %>
 \examsetup{
@@ -96,9 +117,10 @@
   \end{diagramcoltikz}
   <% if meta.version != "student" and block.answer %>
   \paren[<%= block.answer|latex_escape %>]
-  <% if block.explanation %>
+  <% if block.explanation or block.solution_notes or block.source_solution_images %>
   \begin{solutionblock}
-    <%= block.explanation %>
+    <%= block.explanation|default("") %>
+    <%= render_teacher_evidence(block) %>
   \end{solutionblock}
   <% endif %>
   <% endif %>
@@ -119,9 +141,10 @@
   \end{choices}
   <% if meta.version != "student" and block.answer %>
   \paren[<%= block.answer|latex_escape %>]
-  <% if block.explanation %>
+  <% if block.explanation or block.solution_notes or block.source_solution_images %>
   \begin{solutionblock}
-    <%= block.explanation %>
+    <%= block.explanation|default("") %>
+    <%= render_teacher_evidence(block) %>
   \end{solutionblock}
   <% endif %>
   <% endif %>
@@ -149,9 +172,10 @@
   \end{diagramcoltikz}
   <% if meta.version != "student" and block.answer %>
   \paren[<%= block.answer|latex_escape %>]
-  <% if block.explanation %>
+  <% if block.explanation or block.solution_notes or block.source_solution_images %>
   \begin{solutionblock}
-    <%= block.explanation %>
+    <%= block.explanation|default("") %>
+    <%= render_teacher_evidence(block) %>
   \end{solutionblock}
   <% endif %>
   <% endif %>
@@ -167,9 +191,10 @@
   <%= render_hints(block) %>
   <% if meta.version != "student" and block.answer %>
   \paren[<%= block.answer|latex_escape %>]
-  <% if block.explanation %>
+  <% if block.explanation or block.solution_notes or block.source_solution_images %>
   \begin{solutionblock}
-    <%= block.explanation %>
+    <%= block.explanation|default("") %>
+    <%= render_teacher_evidence(block) %>
   \end{solutionblock}
   <% endif %>
   <% endif %>
@@ -190,7 +215,14 @@
 <% elif block.type == "problem" or block.type == "short_answer" %>
 \begin{problem}[points=<%= block.points|default(8) %>]
   <% set problem_diagram_col = block.diagram_col or block.prompt_diagram %>
-  <% if problem_diagram_col %>
+  <% if block.stem_image %>
+  \begin{center}
+    \begin{diagramcoltikz}{<%= block.stem_image.width|default("0.98\\linewidth") %>}{<% if block.stem_image.caption %><%= block.stem_image.caption|latex_escape %><% endif %>}
+    <%= diagram_tikz_body(block.stem_image) %>
+    \end{diagramcoltikz}
+  \end{center}
+  <%= render_hints(block) %>
+  <% elif problem_diagram_col %>
   <% set problem_diagram_width = problem_diagram_col.width|default("60mm") %>
   \noindent
   \begin{minipage}[t]{\dimexpr\linewidth-<%= problem_diagram_width %>-6mm\relax}
@@ -246,10 +278,19 @@
     <% endif %>
     <% for step in block.solution_steps|default([]) %>
     \solstep{<%= step.title|latex_escape %>}{<%= step.content %>}
+    <% set step_diagram = step.diagram_col or step.prompt_diagram %>
+    <% if step_diagram %>
+    \begin{center}
+      \begin{diagramcoltikz}{<% if step_diagram.width %><%= step_diagram.width %><% else %>70mm<% endif %>}{<% if step_diagram.caption %><%= step_diagram.caption|latex_escape %><% endif %>}
+      <%= diagram_tikz_body(step_diagram) %>
+      \end{diagramcoltikz}
+    \end{center}
+    <% endif %>
     <% endfor %>
     <% if block.explanation and not block.solution_steps %>
     <%= block.explanation %>
     <% endif %>
+    <%= render_teacher_evidence(block) %>
   \end{solutionblock}
   <% endif %>
 \end{problem}

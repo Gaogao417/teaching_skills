@@ -367,7 +367,13 @@
 \newcommand{\eduExplainStep}[3]{%
   \needspace{3\baselineskip}%
   \vspace{1.2mm}%
-  {\color{edu-blue}\bfseries step#1.\enspace #2}\par
+  {\color{edu-blue}\bfseries%
+    \if\relax\detokenize{#1}\relax
+      #2%
+    \else
+      #1.\enspace #2%
+    \fi
+  }\par
   \vspace{0.8mm}%
   \begingroup
   \color{edu-ink}#3\par
