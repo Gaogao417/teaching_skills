@@ -6,1057 +6,1963 @@ difficulty_distribution:
   standard: 20
   challenge: 14
 number_distribution:
-  fraction_pair: 25
-  irrational_pair: 25
-design_note: 每个教学动作各配一组分数对和一组比值为无理数、且两项本身均为无理数的根式对。
+  noncoprime_radicand_pairs: 50
+route_distribution:
+  0->1: 9
+  0->2: 9
+  1->0: 8
+  1->2: 8
+  2->0: 8
+  2->1: 8
+design_note: 数库数对作为同一基准三角形的两条边：无分数、最大素因数不超过 5、边长比不超过根号 3。另一三角形只给一条整数对应边；精确派生的未知边允许是分数或含更大素因数。相似缩放控制在 1/根号3 到根号3。
 slots:
 - id: Q001
   difficulty: foundation
-  training_action: 由三条已知边求第四条对应边
+  training_action: 用相似对应边直接求指定边
   question_type: problem
-  variation_dimension: changed_question
+  variation_dimension: changed_numbers
   diagram_requirement: prompt_only
   number_selection:
     database_id: question-bank-training-numbers
-    family_id: rational_multiple_pairs
-    entry_id: rational-2-over-7-x-6
-    selection_class: fraction_pair
-    pair_latex:
-    - \frac{2}{7}
-    - \frac{12}{7}
+    family_id: noncoprime_radicand_pairs
+    entry_id: noncoprime-a3-b9-x3-y3
+    values_latex:
+    - 3\sqrt{3}
+    - '9'
+    squared_ratio:
+    - 3
+    - 1
+    largest_prime_factor_max: 5
+    max_ratio: sqrt(3)
+    source_fractional_coefficients_allowed: false
+    unknown_value_restrictions: none_beyond_positive_exact_value
+  geometry_selection:
+    database_id: similarity-triangle-realizations
+    entry_id: butterfly-noncoprime-a3-b9-x3-y3-s1-t0-small-n3
+    model: butterfly
+    source_pair_index: 1
+    target_pair_index: 0
+    known_target_position: small
+    number_side_indices:
+    - 1
+    - 0
+    known_correspondence_index: 1
+    unknown_correspondence_index: 0
   source_pair:
-  - AO
-  - OD
-  target_pair:
   - OC
+  - AO
+  target_pair:
   - OB
-  title: 三边求第四边
+  - OD
+  title: 求指定边
 - id: Q002
   difficulty: foundation
-  training_action: 由三条已知边求第四条对应边
+  training_action: 用相似对应边直接求指定边
   question_type: problem
-  variation_dimension: changed_question
+  variation_dimension: changed_numbers
   diagram_requirement: prompt_only
   number_selection:
     database_id: question-bank-training-numbers
-    family_id: radical_multiple_pairs
-    entry_id: sqrt-ka-a10-k3
-    selection_class: irrational_pair
-    pair_latex:
-    - \sqrt{10}
-    - \sqrt{30}
+    family_id: noncoprime_radicand_pairs
+    entry_id: noncoprime-a6-b9-x2-y1
+    values_latex:
+    - '3'
+    - 2\sqrt{6}
+    squared_ratio:
+    - 8
+    - 3
+    largest_prime_factor_max: 5
+    max_ratio: sqrt(3)
+    source_fractional_coefficients_allowed: false
+    unknown_value_restrictions: none_beyond_positive_exact_value
+  geometry_selection:
+    database_id: similarity-triangle-realizations
+    entry_id: butterfly-noncoprime-a6-b9-x2-y1-s2-t1-small-n2
+    model: butterfly
+    source_pair_index: 2
+    target_pair_index: 1
+    known_target_position: small
+    number_side_indices:
+    - 2
+    - 1
+    known_correspondence_index: 2
+    unknown_correspondence_index: 1
   source_pair:
-  - AO
-  - OD
-  target_pair:
+  - AC
   - OC
+  target_pair:
+  - DB
   - OB
-  title: 三边求第四边
+  title: 求指定边
 - id: Q003
   difficulty: foundation
-  training_action: 由三条已知边求第四条对应边
+  training_action: 用相似对应边直接求指定边
   question_type: problem
-  variation_dimension: changed_question
+  variation_dimension: changed_numbers
   diagram_requirement: prompt_only
   number_selection:
     database_id: question-bank-training-numbers
-    family_id: rational_multiple_pairs
-    entry_id: rational-1-over-4-x-2
-    selection_class: fraction_pair
-    pair_latex:
-    - \frac{1}{4}
-    - \frac{1}{2}
+    family_id: noncoprime_radicand_pairs
+    entry_id: noncoprime-a2-b4-x2-y2
+    values_latex:
+    - 2\sqrt{2}
+    - '4'
+    squared_ratio:
+    - 2
+    - 1
+    largest_prime_factor_max: 5
+    max_ratio: sqrt(3)
+    source_fractional_coefficients_allowed: false
+    unknown_value_restrictions: none_beyond_positive_exact_value
+  geometry_selection:
+    database_id: similarity-triangle-realizations
+    entry_id: butterfly-noncoprime-a2-b4-x2-y2-s2-t1-small-n2
+    model: butterfly
+    source_pair_index: 2
+    target_pair_index: 1
+    known_target_position: small
+    number_side_indices:
+    - 2
+    - 1
+    known_correspondence_index: 2
+    unknown_correspondence_index: 1
   source_pair:
-  - AO
-  - OD
-  target_pair:
+  - AC
   - OC
+  target_pair:
+  - DB
   - OB
-  title: 三边求第四边
+  title: 求指定边
 - id: Q004
   difficulty: foundation
-  training_action: 由三条已知边求第四条对应边
+  training_action: 用相似对应边直接求指定边
   question_type: problem
-  variation_dimension: changed_question
+  variation_dimension: changed_numbers
   diagram_requirement: prompt_only
   number_selection:
     database_id: question-bank-training-numbers
-    family_id: radical_multiple_pairs
-    entry_id: sqrt-ka-a2-k5
-    selection_class: irrational_pair
-    pair_latex:
+    family_id: noncoprime_radicand_pairs
+    entry_id: noncoprime-a2-b4-x1-y1
+    values_latex:
     - \sqrt{2}
-    - \sqrt{10}
+    - '2'
+    squared_ratio:
+    - 2
+    - 1
+    largest_prime_factor_max: 5
+    max_ratio: sqrt(3)
+    source_fractional_coefficients_allowed: false
+    unknown_value_restrictions: none_beyond_positive_exact_value
+  geometry_selection:
+    database_id: similarity-triangle-realizations
+    entry_id: butterfly-noncoprime-a2-b4-x1-y1-s2-t1-small-n1
+    model: butterfly
+    source_pair_index: 2
+    target_pair_index: 1
+    known_target_position: small
+    number_side_indices:
+    - 2
+    - 1
+    known_correspondence_index: 2
+    unknown_correspondence_index: 1
   source_pair:
-  - AO
-  - OD
-  target_pair:
+  - AC
   - OC
+  target_pair:
+  - DB
   - OB
-  title: 三边求第四边
+  title: 求指定边
 - id: Q005
   difficulty: foundation
-  training_action: 由三条已知边求第四条对应边
+  training_action: 用相似对应边直接求指定边
   question_type: problem
-  variation_dimension: changed_question
+  variation_dimension: changed_numbers
   diagram_requirement: prompt_only
   number_selection:
     database_id: question-bank-training-numbers
-    family_id: rational_multiple_pairs
-    entry_id: rational-7-over-9-x-6
-    selection_class: fraction_pair
-    pair_latex:
-    - \frac{7}{9}
-    - \frac{14}{3}
+    family_id: noncoprime_radicand_pairs
+    entry_id: noncoprime-a4-b8-x1-y1
+    values_latex:
+    - '2'
+    - 2\sqrt{2}
+    squared_ratio:
+    - 2
+    - 1
+    largest_prime_factor_max: 5
+    max_ratio: sqrt(3)
+    source_fractional_coefficients_allowed: false
+    unknown_value_restrictions: none_beyond_positive_exact_value
+  geometry_selection:
+    database_id: similarity-triangle-realizations
+    entry_id: butterfly-noncoprime-a4-b8-x1-y1-s0-t1-small-n2
+    model: butterfly
+    source_pair_index: 0
+    target_pair_index: 1
+    known_target_position: small
+    number_side_indices:
+    - 0
+    - 1
+    known_correspondence_index: 0
+    unknown_correspondence_index: 1
   source_pair:
   - AO
-  - OD
+  - OC
   target_pair:
-  - AC
-  - DB
-  title: 三边求第四边
+  - OD
+  - OB
+  title: 求指定边
 - id: Q006
   difficulty: foundation
-  training_action: 由三条已知边求第四条对应边
+  training_action: 用相似对应边直接求指定边
   question_type: problem
-  variation_dimension: changed_question
+  variation_dimension: changed_numbers
   diagram_requirement: prompt_only
   number_selection:
     database_id: question-bank-training-numbers
-    family_id: radical_multiple_pairs
-    entry_id: sqrt-ka-a2-k6
-    selection_class: irrational_pair
-    pair_latex:
-    - \sqrt{2}
+    family_id: noncoprime_radicand_pairs
+    entry_id: noncoprime-a3-b6-x2-y1
+    values_latex:
+    - \sqrt{6}
     - 2\sqrt{3}
+    squared_ratio:
+    - 2
+    - 1
+    largest_prime_factor_max: 5
+    max_ratio: sqrt(3)
+    source_fractional_coefficients_allowed: false
+    unknown_value_restrictions: none_beyond_positive_exact_value
+  geometry_selection:
+    database_id: similarity-triangle-realizations
+    entry_id: butterfly-noncoprime-a3-b6-x2-y1-s2-t0-small-n2
+    model: butterfly
+    source_pair_index: 2
+    target_pair_index: 0
+    known_target_position: small
+    number_side_indices:
+    - 2
+    - 0
+    known_correspondence_index: 2
+    unknown_correspondence_index: 0
   source_pair:
-  - AO
-  - OD
-  target_pair:
   - AC
+  - AO
+  target_pair:
   - DB
-  title: 三边求第四边
+  - OD
+  title: 求指定边
 - id: Q007
   difficulty: foundation
-  training_action: 由三条已知边求第四条对应边
+  training_action: 用相似对应边直接求指定边
   question_type: problem
-  variation_dimension: changed_question
+  variation_dimension: changed_numbers
   diagram_requirement: prompt_only
   number_selection:
     database_id: question-bank-training-numbers
-    family_id: rational_multiple_pairs
-    entry_id: rational-12-over-7-x-4
-    selection_class: fraction_pair
-    pair_latex:
-    - \frac{12}{7}
-    - \frac{48}{7}
+    family_id: noncoprime_radicand_pairs
+    entry_id: noncoprime-a4-b10-x2-y2
+    values_latex:
+    - '4'
+    - 2\sqrt{10}
+    squared_ratio:
+    - 5
+    - 2
+    largest_prime_factor_max: 5
+    max_ratio: sqrt(3)
+    source_fractional_coefficients_allowed: false
+    unknown_value_restrictions: none_beyond_positive_exact_value
+  geometry_selection:
+    database_id: similarity-triangle-realizations
+    entry_id: butterfly-noncoprime-a4-b10-x2-y2-s1-t2-small-n3
+    model: butterfly
+    source_pair_index: 1
+    target_pair_index: 2
+    known_target_position: small
+    number_side_indices:
+    - 1
+    - 2
+    known_correspondence_index: 1
+    unknown_correspondence_index: 2
   source_pair:
-  - AO
-  - OD
-  target_pair:
+  - OC
   - AC
+  target_pair:
+  - OB
   - DB
-  title: 三边求第四边
+  title: 求指定边
 - id: Q008
   difficulty: foundation
-  training_action: 由三条已知边求第四条对应边
+  training_action: 用相似对应边直接求指定边
   question_type: problem
-  variation_dimension: changed_question
+  variation_dimension: changed_numbers
   diagram_requirement: prompt_only
   number_selection:
     database_id: question-bank-training-numbers
-    family_id: radical_multiple_pairs
-    entry_id: sqrt-ka-a8-k10
-    selection_class: irrational_pair
-    pair_latex:
-    - 2\sqrt{2}
-    - 4\sqrt{5}
+    family_id: noncoprime_radicand_pairs
+    entry_id: noncoprime-a3-b6-x2-y2
+    values_latex:
+    - 2\sqrt{3}
+    - 2\sqrt{6}
+    squared_ratio:
+    - 2
+    - 1
+    largest_prime_factor_max: 5
+    max_ratio: sqrt(3)
+    source_fractional_coefficients_allowed: false
+    unknown_value_restrictions: none_beyond_positive_exact_value
+  geometry_selection:
+    database_id: similarity-triangle-realizations
+    entry_id: butterfly-noncoprime-a3-b6-x2-y2-s0-t1-small-n2
+    model: butterfly
+    source_pair_index: 0
+    target_pair_index: 1
+    known_target_position: small
+    number_side_indices:
+    - 0
+    - 1
+    known_correspondence_index: 0
+    unknown_correspondence_index: 1
   source_pair:
   - AO
-  - OD
+  - OC
   target_pair:
-  - AC
-  - DB
-  title: 三边求第四边
+  - OD
+  - OB
+  title: 求指定边
 - id: Q009
   difficulty: foundation
-  training_action: 由三条已知边求第四条对应边
+  training_action: 用相似对应边直接求指定边
   question_type: problem
-  variation_dimension: changed_question
+  variation_dimension: changed_numbers
   diagram_requirement: prompt_only
   number_selection:
     database_id: question-bank-training-numbers
-    family_id: rational_multiple_pairs
-    entry_id: rational-5-over-6-x-4
-    selection_class: fraction_pair
-    pair_latex:
-    - \frac{5}{6}
-    - \frac{10}{3}
+    family_id: noncoprime_radicand_pairs
+    entry_id: noncoprime-a2-b10-x3-y2
+    values_latex:
+    - 3\sqrt{2}
+    - 2\sqrt{10}
+    squared_ratio:
+    - 20
+    - 9
+    largest_prime_factor_max: 5
+    max_ratio: sqrt(3)
+    source_fractional_coefficients_allowed: false
+    unknown_value_restrictions: none_beyond_positive_exact_value
+  geometry_selection:
+    database_id: similarity-triangle-realizations
+    entry_id: butterfly-noncoprime-a2-b10-x3-y2-s2-t1-small-n3
+    model: butterfly
+    source_pair_index: 2
+    target_pair_index: 1
+    known_target_position: small
+    number_side_indices:
+    - 2
+    - 1
+    known_correspondence_index: 2
+    unknown_correspondence_index: 1
   source_pair:
+  - AC
   - OC
-  - OB
   target_pair:
-  - AO
-  - OD
-  title: 三边求第四边
+  - DB
+  - OB
+  title: 求指定边
 - id: Q010
   difficulty: foundation
-  training_action: 由三条已知边求第四条对应边
+  training_action: 用相似对应边直接求指定边
   question_type: problem
-  variation_dimension: changed_question
+  variation_dimension: changed_numbers
   diagram_requirement: prompt_only
   number_selection:
     database_id: question-bank-training-numbers
-    family_id: radical_multiple_pairs
-    entry_id: sqrt-ka-a8-k6
-    selection_class: irrational_pair
-    pair_latex:
-    - 2\sqrt{2}
-    - 4\sqrt{3}
+    family_id: noncoprime_radicand_pairs
+    entry_id: noncoprime-a3-b9-x1-y1
+    values_latex:
+    - \sqrt{3}
+    - '3'
+    squared_ratio:
+    - 3
+    - 1
+    largest_prime_factor_max: 5
+    max_ratio: sqrt(3)
+    source_fractional_coefficients_allowed: false
+    unknown_value_restrictions: none_beyond_positive_exact_value
+  geometry_selection:
+    database_id: similarity-triangle-realizations
+    entry_id: butterfly-noncoprime-a3-b9-x1-y1-s2-t0-small-n1
+    model: butterfly
+    source_pair_index: 2
+    target_pair_index: 0
+    known_target_position: small
+    number_side_indices:
+    - 2
+    - 0
+    known_correspondence_index: 2
+    unknown_correspondence_index: 0
   source_pair:
-  - OC
-  - OB
-  target_pair:
+  - AC
   - AO
+  target_pair:
+  - DB
   - OD
-  title: 三边求第四边
+  title: 求指定边
 - id: Q011
   difficulty: foundation
-  training_action: 由三条已知边求第四条对应边
+  training_action: 用相似对应边直接求指定边
   question_type: problem
-  variation_dimension: changed_question
+  variation_dimension: changed_numbers
   diagram_requirement: prompt_only
   number_selection:
     database_id: question-bank-training-numbers
-    family_id: rational_multiple_pairs
-    entry_id: rational-3-over-5-x-6
-    selection_class: fraction_pair
-    pair_latex:
-    - \frac{3}{5}
-    - \frac{18}{5}
+    family_id: noncoprime_radicand_pairs
+    entry_id: noncoprime-a3-b9-x3-y1
+    values_latex:
+    - '3'
+    - 3\sqrt{3}
+    squared_ratio:
+    - 3
+    - 1
+    largest_prime_factor_max: 5
+    max_ratio: sqrt(3)
+    source_fractional_coefficients_allowed: false
+    unknown_value_restrictions: none_beyond_positive_exact_value
+  geometry_selection:
+    database_id: similarity-triangle-realizations
+    entry_id: butterfly-noncoprime-a3-b9-x3-y1-s1-t0-small-n2
+    model: butterfly
+    source_pair_index: 1
+    target_pair_index: 0
+    known_target_position: small
+    number_side_indices:
+    - 1
+    - 0
+    known_correspondence_index: 1
+    unknown_correspondence_index: 0
   source_pair:
   - OC
-  - OB
-  target_pair:
   - AO
+  target_pair:
+  - OB
   - OD
-  title: 三边求第四边
+  title: 求指定边
 - id: Q012
   difficulty: foundation
-  training_action: 由三条已知边求第四条对应边
+  training_action: 用相似对应边直接求指定边
   question_type: problem
-  variation_dimension: changed_question
+  variation_dimension: changed_numbers
   diagram_requirement: prompt_only
   number_selection:
     database_id: question-bank-training-numbers
-    family_id: radical_multiple_pairs
-    entry_id: sqrt-ka-a5-k8
-    selection_class: irrational_pair
-    pair_latex:
-    - \sqrt{5}
-    - 2\sqrt{10}
+    family_id: noncoprime_radicand_pairs
+    entry_id: noncoprime-a2-b6-x2-y1
+    values_latex:
+    - \sqrt{6}
+    - 2\sqrt{2}
+    squared_ratio:
+    - 4
+    - 3
+    largest_prime_factor_max: 5
+    max_ratio: sqrt(3)
+    source_fractional_coefficients_allowed: false
+    unknown_value_restrictions: none_beyond_positive_exact_value
+  geometry_selection:
+    database_id: similarity-triangle-realizations
+    entry_id: butterfly-noncoprime-a2-b6-x2-y1-s0-t2-large-n2
+    model: butterfly
+    source_pair_index: 0
+    target_pair_index: 2
+    known_target_position: large
+    number_side_indices:
+    - 0
+    - 2
+    known_correspondence_index: 2
+    unknown_correspondence_index: 0
   source_pair:
-  - OC
-  - OB
-  target_pair:
   - AO
+  - AC
+  target_pair:
+  - DB
   - OD
-  title: 三边求第四边
+  title: 求指定边
 - id: Q013
   difficulty: foundation
-  training_action: 由三条已知边求第四条对应边
+  training_action: 用相似对应边直接求指定边
   question_type: problem
-  variation_dimension: changed_question
+  variation_dimension: changed_numbers
   diagram_requirement: prompt_only
   number_selection:
     database_id: question-bank-training-numbers
-    family_id: rational_multiple_pairs
-    entry_id: rational-1-over-3-x-5
-    selection_class: fraction_pair
-    pair_latex:
-    - \frac{1}{3}
-    - \frac{5}{3}
+    family_id: noncoprime_radicand_pairs
+    entry_id: noncoprime-a6-b8-x2-y3
+    values_latex:
+    - 2\sqrt{6}
+    - 6\sqrt{2}
+    squared_ratio:
+    - 3
+    - 1
+    largest_prime_factor_max: 5
+    max_ratio: sqrt(3)
+    source_fractional_coefficients_allowed: false
+    unknown_value_restrictions: none_beyond_positive_exact_value
+  geometry_selection:
+    database_id: similarity-triangle-realizations
+    entry_id: butterfly-noncoprime-a6-b8-x2-y3-s1-t0-small-n3
+    model: butterfly
+    source_pair_index: 1
+    target_pair_index: 0
+    known_target_position: small
+    number_side_indices:
+    - 1
+    - 0
+    known_correspondence_index: 1
+    unknown_correspondence_index: 0
   source_pair:
   - OC
-  - OB
+  - AO
   target_pair:
-  - AC
-  - DB
-  title: 三边求第四边
+  - OB
+  - OD
+  title: 求指定边
 - id: Q014
   difficulty: foundation
-  training_action: 由三条已知边求第四条对应边
+  training_action: 用相似对应边直接求指定边
   question_type: problem
-  variation_dimension: changed_question
+  variation_dimension: changed_numbers
   diagram_requirement: prompt_only
   number_selection:
     database_id: question-bank-training-numbers
-    family_id: radical_multiple_pairs
-    entry_id: sqrt-ka-a5-k7
-    selection_class: irrational_pair
-    pair_latex:
-    - \sqrt{5}
-    - \sqrt{35}
+    family_id: noncoprime_radicand_pairs
+    entry_id: noncoprime-a6-b8-x2-y2
+    values_latex:
+    - 2\sqrt{6}
+    - 4\sqrt{2}
+    squared_ratio:
+    - 4
+    - 3
+    largest_prime_factor_max: 5
+    max_ratio: sqrt(3)
+    source_fractional_coefficients_allowed: false
+    unknown_value_restrictions: none_beyond_positive_exact_value
+  geometry_selection:
+    database_id: similarity-triangle-realizations
+    entry_id: butterfly-noncoprime-a6-b8-x2-y2-s0-t2-small-n3
+    model: butterfly
+    source_pair_index: 0
+    target_pair_index: 2
+    known_target_position: small
+    number_side_indices:
+    - 0
+    - 2
+    known_correspondence_index: 0
+    unknown_correspondence_index: 2
   source_pair:
-  - OC
-  - OB
-  target_pair:
+  - AO
   - AC
+  target_pair:
+  - OD
   - DB
-  title: 三边求第四边
+  title: 求指定边
 - id: Q015
   difficulty: foundation
-  training_action: 由三条已知边求第四条对应边
+  training_action: 用相似对应边直接求指定边
   question_type: problem
-  variation_dimension: changed_question
+  variation_dimension: changed_numbers
   diagram_requirement: prompt_only
   number_selection:
     database_id: question-bank-training-numbers
-    family_id: rational_multiple_pairs
-    entry_id: rational-7-over-3-x-5
-    selection_class: fraction_pair
-    pair_latex:
-    - \frac{7}{3}
-    - \frac{35}{3}
+    family_id: noncoprime_radicand_pairs
+    entry_id: noncoprime-a3-b9-x3-y2
+    values_latex:
+    - 3\sqrt{3}
+    - '6'
+    squared_ratio:
+    - 4
+    - 3
+    largest_prime_factor_max: 5
+    max_ratio: sqrt(3)
+    source_fractional_coefficients_allowed: false
+    unknown_value_restrictions: none_beyond_positive_exact_value
+  geometry_selection:
+    database_id: similarity-triangle-realizations
+    entry_id: butterfly-noncoprime-a3-b9-x3-y2-s0-t2-small-n3
+    model: butterfly
+    source_pair_index: 0
+    target_pair_index: 2
+    known_target_position: small
+    number_side_indices:
+    - 0
+    - 2
+    known_correspondence_index: 0
+    unknown_correspondence_index: 2
   source_pair:
-  - OC
-  - OB
-  target_pair:
+  - AO
   - AC
+  target_pair:
+  - OD
   - DB
-  title: 三边求第四边
+  title: 求指定边
 - id: Q016
   difficulty: foundation
-  training_action: 由三条已知边求第四条对应边
+  training_action: 用相似对应边直接求指定边
   question_type: problem
-  variation_dimension: changed_question
+  variation_dimension: changed_numbers
   diagram_requirement: prompt_only
   number_selection:
     database_id: question-bank-training-numbers
-    family_id: radical_multiple_pairs
-    entry_id: sqrt-ka-a2-k10
-    selection_class: irrational_pair
-    pair_latex:
-    - \sqrt{2}
-    - 2\sqrt{5}
+    family_id: noncoprime_radicand_pairs
+    entry_id: noncoprime-a2-b4-x2-y1
+    values_latex:
+    - '2'
+    - 2\sqrt{2}
+    squared_ratio:
+    - 2
+    - 1
+    largest_prime_factor_max: 5
+    max_ratio: sqrt(3)
+    source_fractional_coefficients_allowed: false
+    unknown_value_restrictions: none_beyond_positive_exact_value
+  geometry_selection:
+    database_id: similarity-triangle-realizations
+    entry_id: butterfly-noncoprime-a2-b4-x2-y1-s0-t1-small-n2
+    model: butterfly
+    source_pair_index: 0
+    target_pair_index: 1
+    known_target_position: small
+    number_side_indices:
+    - 0
+    - 1
+    known_correspondence_index: 0
+    unknown_correspondence_index: 1
   source_pair:
+  - AO
   - OC
-  - OB
   target_pair:
-  - AC
-  - DB
-  title: 三边求第四边
+  - OD
+  - OB
+  title: 求指定边
 - id: Q017
   difficulty: standard
-  training_action: 由三条已知边求第四条对应边
+  training_action: 独立确定对应关系并求指定边
   question_type: problem
-  variation_dimension: changed_question
+  variation_dimension: changed_representation
   diagram_requirement: prompt_only
   number_selection:
     database_id: question-bank-training-numbers
-    family_id: rational_multiple_pairs
-    entry_id: rational-1-over-4-x-5
-    selection_class: fraction_pair
-    pair_latex:
-    - \frac{1}{4}
-    - \frac{5}{4}
+    family_id: noncoprime_radicand_pairs
+    entry_id: noncoprime-a6-b8-x3-y2
+    values_latex:
+    - 4\sqrt{2}
+    - 3\sqrt{6}
+    squared_ratio:
+    - 27
+    - 16
+    largest_prime_factor_max: 5
+    max_ratio: sqrt(3)
+    source_fractional_coefficients_allowed: false
+    unknown_value_restrictions: none_beyond_positive_exact_value
+  geometry_selection:
+    database_id: similarity-triangle-realizations
+    entry_id: butterfly-noncoprime-a6-b8-x3-y2-s1-t2-small-n4
+    model: butterfly
+    source_pair_index: 1
+    target_pair_index: 2
+    known_target_position: small
+    number_side_indices:
+    - 1
+    - 2
+    known_correspondence_index: 1
+    unknown_correspondence_index: 2
   source_pair:
+  - OC
   - AC
-  - DB
   target_pair:
-  - AO
-  - OD
-  title: 三边求第四边
+  - OB
+  - DB
+  title: 求指定边
 - id: Q018
   difficulty: standard
-  training_action: 由三条已知边求第四条对应边
+  training_action: 独立确定对应关系并求指定边
   question_type: problem
-  variation_dimension: changed_question
+  variation_dimension: changed_representation
   diagram_requirement: prompt_only
   number_selection:
     database_id: question-bank-training-numbers
-    family_id: radical_multiple_pairs
-    entry_id: sqrt-ka-a10-k7
-    selection_class: irrational_pair
-    pair_latex:
-    - \sqrt{10}
-    - \sqrt{70}
+    family_id: noncoprime_radicand_pairs
+    entry_id: noncoprime-a4-b6-x2-y2
+    values_latex:
+    - '4'
+    - 2\sqrt{6}
+    squared_ratio:
+    - 3
+    - 2
+    largest_prime_factor_max: 5
+    max_ratio: sqrt(3)
+    source_fractional_coefficients_allowed: false
+    unknown_value_restrictions: none_beyond_positive_exact_value
+  geometry_selection:
+    database_id: similarity-triangle-realizations
+    entry_id: butterfly-noncoprime-a4-b6-x2-y2-s1-t0-large-n3
+    model: butterfly
+    source_pair_index: 1
+    target_pair_index: 0
+    known_target_position: large
+    number_side_indices:
+    - 1
+    - 0
+    known_correspondence_index: 0
+    unknown_correspondence_index: 1
   source_pair:
-  - AC
-  - DB
-  target_pair:
+  - OC
   - AO
+  target_pair:
   - OD
-  title: 三边求第四边
+  - OB
+  title: 求指定边
 - id: Q019
   difficulty: standard
-  training_action: 由三条已知边求第四条对应边
+  training_action: 独立确定对应关系并求指定边
   question_type: problem
-  variation_dimension: changed_question
+  variation_dimension: changed_representation
   diagram_requirement: prompt_only
   number_selection:
     database_id: question-bank-training-numbers
-    family_id: rational_multiple_pairs
-    entry_id: rational-7-over-10-x-6
-    selection_class: fraction_pair
-    pair_latex:
-    - \frac{7}{10}
-    - \frac{21}{5}
+    family_id: noncoprime_radicand_pairs
+    entry_id: noncoprime-a6-b8-x3-y3
+    values_latex:
+    - 3\sqrt{6}
+    - 6\sqrt{2}
+    squared_ratio:
+    - 4
+    - 3
+    largest_prime_factor_max: 5
+    max_ratio: sqrt(3)
+    source_fractional_coefficients_allowed: false
+    unknown_value_restrictions: none_beyond_positive_exact_value
+  geometry_selection:
+    database_id: similarity-triangle-realizations
+    entry_id: butterfly-noncoprime-a6-b8-x3-y3-s2-t0-large-n5
+    model: butterfly
+    source_pair_index: 2
+    target_pair_index: 0
+    known_target_position: large
+    number_side_indices:
+    - 2
+    - 0
+    known_correspondence_index: 0
+    unknown_correspondence_index: 2
   source_pair:
   - AC
-  - DB
-  target_pair:
   - AO
+  target_pair:
   - OD
-  title: 三边求第四边
+  - DB
+  title: 求指定边
 - id: Q020
   difficulty: standard
-  training_action: 由三条已知边求第四条对应边
+  training_action: 独立确定对应关系并求指定边
   question_type: problem
-  variation_dimension: changed_question
+  variation_dimension: changed_representation
   diagram_requirement: prompt_only
   number_selection:
     database_id: question-bank-training-numbers
-    family_id: radical_multiple_pairs
-    entry_id: sqrt-ka-a6-k3
-    selection_class: irrational_pair
-    pair_latex:
-    - \sqrt{6}
-    - 3\sqrt{2}
+    family_id: noncoprime_radicand_pairs
+    entry_id: noncoprime-a6-b8-x2-y1
+    values_latex:
+    - 2\sqrt{2}
+    - 2\sqrt{6}
+    squared_ratio:
+    - 3
+    - 1
+    largest_prime_factor_max: 5
+    max_ratio: sqrt(3)
+    source_fractional_coefficients_allowed: false
+    unknown_value_restrictions: none_beyond_positive_exact_value
+  geometry_selection:
+    database_id: similarity-triangle-realizations
+    entry_id: butterfly-noncoprime-a6-b8-x2-y1-s1-t0-small-n2
+    model: butterfly
+    source_pair_index: 1
+    target_pair_index: 0
+    known_target_position: small
+    number_side_indices:
+    - 1
+    - 0
+    known_correspondence_index: 1
+    unknown_correspondence_index: 0
   source_pair:
-  - AC
-  - DB
-  target_pair:
+  - OC
   - AO
+  target_pair:
+  - OB
   - OD
-  title: 三边求第四边
+  title: 求指定边
 - id: Q021
   difficulty: standard
-  training_action: 由三条已知边求第四条对应边
+  training_action: 独立确定对应关系并求指定边
   question_type: problem
-  variation_dimension: changed_question
+  variation_dimension: changed_representation
   diagram_requirement: prompt_only
   number_selection:
     database_id: question-bank-training-numbers
-    family_id: rational_multiple_pairs
-    entry_id: rational-5-over-3-x-6
-    selection_class: fraction_pair
-    pair_latex:
-    - \frac{5}{3}
-    - '10'
+    family_id: noncoprime_radicand_pairs
+    entry_id: noncoprime-a4-b10-x1-y1
+    values_latex:
+    - '2'
+    - \sqrt{10}
+    squared_ratio:
+    - 5
+    - 2
+    largest_prime_factor_max: 5
+    max_ratio: sqrt(3)
+    source_fractional_coefficients_allowed: false
+    unknown_value_restrictions: none_beyond_positive_exact_value
+  geometry_selection:
+    database_id: similarity-triangle-realizations
+    entry_id: butterfly-noncoprime-a4-b10-x1-y1-s1-t2-small-n2
+    model: butterfly
+    source_pair_index: 1
+    target_pair_index: 2
+    known_target_position: small
+    number_side_indices:
+    - 1
+    - 2
+    known_correspondence_index: 1
+    unknown_correspondence_index: 2
   source_pair:
-  - AC
-  - DB
-  target_pair:
   - OC
+  - AC
+  target_pair:
   - OB
-  title: 三边求第四边
+  - DB
+  title: 求指定边
 - id: Q022
   difficulty: standard
-  training_action: 由三条已知边求第四条对应边
+  training_action: 独立确定对应关系并求指定边
   question_type: problem
-  variation_dimension: changed_question
+  variation_dimension: changed_representation
   diagram_requirement: prompt_only
   number_selection:
     database_id: question-bank-training-numbers
-    family_id: radical_multiple_pairs
-    entry_id: sqrt-ka-a7-k10
-    selection_class: irrational_pair
-    pair_latex:
-    - \sqrt{7}
-    - \sqrt{70}
+    family_id: noncoprime_radicand_pairs
+    entry_id: noncoprime-a4-b10-x3-y3
+    values_latex:
+    - '6'
+    - 3\sqrt{10}
+    squared_ratio:
+    - 5
+    - 2
+    largest_prime_factor_max: 5
+    max_ratio: sqrt(3)
+    source_fractional_coefficients_allowed: false
+    unknown_value_restrictions: none_beyond_positive_exact_value
+  geometry_selection:
+    database_id: similarity-triangle-realizations
+    entry_id: butterfly-noncoprime-a4-b10-x3-y3-s2-t1-small-n4
+    model: butterfly
+    source_pair_index: 2
+    target_pair_index: 1
+    known_target_position: small
+    number_side_indices:
+    - 2
+    - 1
+    known_correspondence_index: 2
+    unknown_correspondence_index: 1
   source_pair:
   - AC
-  - DB
-  target_pair:
   - OC
+  target_pair:
+  - DB
   - OB
-  title: 三边求第四边
+  title: 求指定边
 - id: Q023
   difficulty: standard
-  training_action: 由三条已知边求第四条对应边
+  training_action: 独立确定对应关系并求指定边
   question_type: problem
-  variation_dimension: changed_question
+  variation_dimension: changed_representation
   diagram_requirement: prompt_only
   number_selection:
     database_id: question-bank-training-numbers
-    family_id: rational_multiple_pairs
-    entry_id: rational-5-over-8-x-4
-    selection_class: fraction_pair
-    pair_latex:
-    - \frac{5}{8}
-    - \frac{5}{2}
+    family_id: noncoprime_radicand_pairs
+    entry_id: noncoprime-a2-b6-x3-y3
+    values_latex:
+    - 3\sqrt{2}
+    - 3\sqrt{6}
+    squared_ratio:
+    - 3
+    - 1
+    largest_prime_factor_max: 5
+    max_ratio: sqrt(3)
+    source_fractional_coefficients_allowed: false
+    unknown_value_restrictions: none_beyond_positive_exact_value
+  geometry_selection:
+    database_id: similarity-triangle-realizations
+    entry_id: butterfly-noncoprime-a2-b6-x3-y3-s1-t0-small-n3
+    model: butterfly
+    source_pair_index: 1
+    target_pair_index: 0
+    known_target_position: small
+    number_side_indices:
+    - 1
+    - 0
+    known_correspondence_index: 1
+    unknown_correspondence_index: 0
   source_pair:
-  - AC
-  - DB
-  target_pair:
   - OC
+  - AO
+  target_pair:
   - OB
-  title: 三边求第四边
+  - OD
+  title: 求指定边
 - id: Q024
   difficulty: standard
-  training_action: 由三条已知边求第四条对应边
+  training_action: 独立确定对应关系并求指定边
   question_type: problem
-  variation_dimension: changed_question
+  variation_dimension: changed_representation
   diagram_requirement: prompt_only
   number_selection:
     database_id: question-bank-training-numbers
-    family_id: radical_multiple_pairs
-    entry_id: sqrt-ka-a6-k10
-    selection_class: irrational_pair
-    pair_latex:
-    - \sqrt{6}
-    - 2\sqrt{15}
-  source_pair:
-  - AC
-  - DB
-  target_pair:
-  - OC
-  - OB
-  title: 三边求第四边
-- id: Q025
-  difficulty: standard
-  training_action: 先补出第二组等角并证明相似，再求边
-  question_type: problem
-  variation_dimension: partially_hidden
-  diagram_requirement: prompt_only
-  number_selection:
-    database_id: question-bank-training-numbers
-    family_id: rational_multiple_pairs
-    entry_id: rational-1-over-10-x-4
-    selection_class: fraction_pair
-    pair_latex:
-    - \frac{1}{10}
-    - \frac{2}{5}
-  source_pair:
-  - AO
-  - OD
-  target_pair:
-  - OC
-  - OB
-  title: 先证相似再求边
-- id: Q026
-  difficulty: standard
-  training_action: 先补出第二组等角并证明相似，再求边
-  question_type: problem
-  variation_dimension: partially_hidden
-  diagram_requirement: prompt_only
-  number_selection:
-    database_id: question-bank-training-numbers
-    family_id: radical_multiple_pairs
-    entry_id: sqrt-ka-a10-k2
-    selection_class: irrational_pair
-    pair_latex:
+    family_id: noncoprime_radicand_pairs
+    entry_id: noncoprime-a5-b10-x2-y1
+    values_latex:
     - \sqrt{10}
     - 2\sqrt{5}
+    squared_ratio:
+    - 2
+    - 1
+    largest_prime_factor_max: 5
+    max_ratio: sqrt(3)
+    source_fractional_coefficients_allowed: false
+    unknown_value_restrictions: none_beyond_positive_exact_value
+  geometry_selection:
+    database_id: similarity-triangle-realizations
+    entry_id: butterfly-noncoprime-a5-b10-x2-y1-s1-t2-small-n2
+    model: butterfly
+    source_pair_index: 1
+    target_pair_index: 2
+    known_target_position: small
+    number_side_indices:
+    - 1
+    - 2
+    known_correspondence_index: 1
+    unknown_correspondence_index: 2
+  source_pair:
+  - OC
+  - AC
+  target_pair:
+  - OB
+  - DB
+  title: 求指定边
+- id: Q025
+  difficulty: standard
+  training_action: 独立确定对应关系并求指定边
+  question_type: problem
+  variation_dimension: changed_representation
+  diagram_requirement: prompt_only
+  number_selection:
+    database_id: question-bank-training-numbers
+    family_id: noncoprime_radicand_pairs
+    entry_id: noncoprime-a6-b9-x2-y2
+    values_latex:
+    - 2\sqrt{6}
+    - '6'
+    squared_ratio:
+    - 3
+    - 2
+    largest_prime_factor_max: 5
+    max_ratio: sqrt(3)
+    source_fractional_coefficients_allowed: false
+    unknown_value_restrictions: none_beyond_positive_exact_value
+  geometry_selection:
+    database_id: similarity-triangle-realizations
+    entry_id: butterfly-noncoprime-a6-b9-x2-y2-s0-t2-small-n3
+    model: butterfly
+    source_pair_index: 0
+    target_pair_index: 2
+    known_target_position: small
+    number_side_indices:
+    - 0
+    - 2
+    known_correspondence_index: 0
+    unknown_correspondence_index: 2
   source_pair:
   - AO
-  - OD
+  - AC
   target_pair:
+  - OD
+  - DB
+  title: 求指定边
+- id: Q026
+  difficulty: standard
+  training_action: 独立确定对应关系并求指定边
+  question_type: problem
+  variation_dimension: changed_representation
+  diagram_requirement: prompt_only
+  number_selection:
+    database_id: question-bank-training-numbers
+    family_id: noncoprime_radicand_pairs
+    entry_id: noncoprime-a4-b8-x2-y1
+    values_latex:
+    - 2\sqrt{2}
+    - '4'
+    squared_ratio:
+    - 2
+    - 1
+    largest_prime_factor_max: 5
+    max_ratio: sqrt(3)
+    source_fractional_coefficients_allowed: false
+    unknown_value_restrictions: none_beyond_positive_exact_value
+  geometry_selection:
+    database_id: similarity-triangle-realizations
+    entry_id: butterfly-noncoprime-a4-b8-x2-y1-s2-t1-small-n2
+    model: butterfly
+    source_pair_index: 2
+    target_pair_index: 1
+    known_target_position: small
+    number_side_indices:
+    - 2
+    - 1
+    known_correspondence_index: 2
+    unknown_correspondence_index: 1
+  source_pair:
+  - AC
   - OC
+  target_pair:
+  - DB
   - OB
-  title: 先证相似再求边
+  title: 求指定边
 - id: Q027
   difficulty: standard
-  training_action: 先补出第二组等角并证明相似，再求边
+  training_action: 独立确定对应关系并求指定边
   question_type: problem
-  variation_dimension: partially_hidden
+  variation_dimension: changed_representation
   diagram_requirement: prompt_only
   number_selection:
     database_id: question-bank-training-numbers
-    family_id: rational_multiple_pairs
-    entry_id: rational-6-over-5-x-6
-    selection_class: fraction_pair
-    pair_latex:
-    - \frac{6}{5}
-    - \frac{36}{5}
+    family_id: noncoprime_radicand_pairs
+    entry_id: noncoprime-a4-b6-x1-y1
+    values_latex:
+    - '2'
+    - \sqrt{6}
+    squared_ratio:
+    - 3
+    - 2
+    largest_prime_factor_max: 5
+    max_ratio: sqrt(3)
+    source_fractional_coefficients_allowed: false
+    unknown_value_restrictions: none_beyond_positive_exact_value
+  geometry_selection:
+    database_id: similarity-triangle-realizations
+    entry_id: butterfly-noncoprime-a4-b6-x1-y1-s1-t0-small-n2
+    model: butterfly
+    source_pair_index: 1
+    target_pair_index: 0
+    known_target_position: small
+    number_side_indices:
+    - 1
+    - 0
+    known_correspondence_index: 1
+    unknown_correspondence_index: 0
   source_pair:
-  - AO
-  - OD
-  target_pair:
   - OC
+  - AO
+  target_pair:
   - OB
-  title: 先证相似再求边
+  - OD
+  title: 求指定边
 - id: Q028
   difficulty: standard
-  training_action: 先补出第二组等角并证明相似，再求边
+  training_action: 独立确定对应关系并求指定边
   question_type: problem
-  variation_dimension: partially_hidden
+  variation_dimension: changed_representation
   diagram_requirement: prompt_only
   number_selection:
     database_id: question-bank-training-numbers
-    family_id: radical_multiple_pairs
-    entry_id: sqrt-ka-a10-k6
-    selection_class: irrational_pair
-    pair_latex:
+    family_id: noncoprime_radicand_pairs
+    entry_id: noncoprime-a2-b10-x2-y1
+    values_latex:
+    - 2\sqrt{2}
     - \sqrt{10}
-    - 2\sqrt{15}
+    squared_ratio:
+    - 5
+    - 4
+    largest_prime_factor_max: 5
+    max_ratio: sqrt(3)
+    source_fractional_coefficients_allowed: false
+    unknown_value_restrictions: none_beyond_positive_exact_value
+  geometry_selection:
+    database_id: similarity-triangle-realizations
+    entry_id: butterfly-noncoprime-a2-b10-x2-y1-s0-t2-small-n2
+    model: butterfly
+    source_pair_index: 0
+    target_pair_index: 2
+    known_target_position: small
+    number_side_indices:
+    - 0
+    - 2
+    known_correspondence_index: 0
+    unknown_correspondence_index: 2
   source_pair:
   - AO
-  - OD
+  - AC
   target_pair:
-  - OC
-  - OB
-  title: 先证相似再求边
+  - OD
+  - DB
+  title: 求指定边
 - id: Q029
   difficulty: standard
-  training_action: 先补出第二组等角并证明相似，再求边
+  training_action: 独立确定对应关系并求指定边
   question_type: problem
-  variation_dimension: partially_hidden
+  variation_dimension: changed_representation
   diagram_requirement: prompt_only
   number_selection:
     database_id: question-bank-training-numbers
-    family_id: rational_multiple_pairs
-    entry_id: rational-5-over-7-x-3
-    selection_class: fraction_pair
-    pair_latex:
-    - \frac{5}{7}
-    - \frac{15}{7}
+    family_id: noncoprime_radicand_pairs
+    entry_id: noncoprime-a4-b8-x2-y2
+    values_latex:
+    - '4'
+    - 4\sqrt{2}
+    squared_ratio:
+    - 2
+    - 1
+    largest_prime_factor_max: 5
+    max_ratio: sqrt(3)
+    source_fractional_coefficients_allowed: false
+    unknown_value_restrictions: none_beyond_positive_exact_value
+  geometry_selection:
+    database_id: similarity-triangle-realizations
+    entry_id: butterfly-noncoprime-a4-b8-x2-y2-s0-t1-small-n3
+    model: butterfly
+    source_pair_index: 0
+    target_pair_index: 1
+    known_target_position: small
+    number_side_indices:
+    - 0
+    - 1
+    known_correspondence_index: 0
+    unknown_correspondence_index: 1
   source_pair:
   - AO
-  - OD
+  - OC
   target_pair:
-  - AC
-  - DB
-  title: 先证相似再求边
+  - OD
+  - OB
+  title: 求指定边
 - id: Q030
   difficulty: standard
-  training_action: 先补出第二组等角并证明相似，再求边
+  training_action: 独立确定对应关系并求指定边
   question_type: problem
-  variation_dimension: partially_hidden
+  variation_dimension: changed_representation
   diagram_requirement: prompt_only
   number_selection:
     database_id: question-bank-training-numbers
-    family_id: radical_multiple_pairs
-    entry_id: sqrt-ka-a3-k8
-    selection_class: irrational_pair
-    pair_latex:
-    - \sqrt{3}
-    - 2\sqrt{6}
+    family_id: noncoprime_radicand_pairs
+    entry_id: noncoprime-a5-b10-x3-y3
+    values_latex:
+    - 3\sqrt{5}
+    - 3\sqrt{10}
+    squared_ratio:
+    - 2
+    - 1
+    largest_prime_factor_max: 5
+    max_ratio: sqrt(3)
+    source_fractional_coefficients_allowed: false
+    unknown_value_restrictions: none_beyond_positive_exact_value
+  geometry_selection:
+    database_id: similarity-triangle-realizations
+    entry_id: butterfly-noncoprime-a5-b10-x3-y3-s0-t1-small-n4
+    model: butterfly
+    source_pair_index: 0
+    target_pair_index: 1
+    known_target_position: small
+    number_side_indices:
+    - 0
+    - 1
+    known_correspondence_index: 0
+    unknown_correspondence_index: 1
   source_pair:
   - AO
-  - OD
+  - OC
   target_pair:
-  - AC
-  - DB
-  title: 先证相似再求边
+  - OD
+  - OB
+  title: 求指定边
 - id: Q031
   difficulty: standard
-  training_action: 先补出第二组等角并证明相似，再求边
+  training_action: 独立确定对应关系并求指定边
   question_type: problem
-  variation_dimension: partially_hidden
+  variation_dimension: changed_representation
   diagram_requirement: prompt_only
   number_selection:
     database_id: question-bank-training-numbers
-    family_id: rational_multiple_pairs
-    entry_id: rational-1-over-7-x-6
-    selection_class: fraction_pair
-    pair_latex:
-    - \frac{1}{7}
-    - \frac{6}{7}
+    family_id: noncoprime_radicand_pairs
+    entry_id: noncoprime-a6-b10-x3-y3
+    values_latex:
+    - 3\sqrt{6}
+    - 3\sqrt{10}
+    squared_ratio:
+    - 5
+    - 3
+    largest_prime_factor_max: 5
+    max_ratio: sqrt(3)
+    source_fractional_coefficients_allowed: false
+    unknown_value_restrictions: none_beyond_positive_exact_value
+  geometry_selection:
+    database_id: similarity-triangle-realizations
+    entry_id: butterfly-noncoprime-a6-b10-x3-y3-s1-t2-small-n5
+    model: butterfly
+    source_pair_index: 1
+    target_pair_index: 2
+    known_target_position: small
+    number_side_indices:
+    - 1
+    - 2
+    known_correspondence_index: 1
+    unknown_correspondence_index: 2
   source_pair:
-  - AO
-  - OD
-  target_pair:
+  - OC
   - AC
+  target_pair:
+  - OB
   - DB
-  title: 先证相似再求边
+  title: 求指定边
 - id: Q032
   difficulty: standard
-  training_action: 先补出第二组等角并证明相似，再求边
+  training_action: 独立确定对应关系并求指定边
   question_type: problem
-  variation_dimension: partially_hidden
+  variation_dimension: changed_representation
   diagram_requirement: prompt_only
   number_selection:
     database_id: question-bank-training-numbers
-    family_id: radical_multiple_pairs
-    entry_id: sqrt-ka-a10-k5
-    selection_class: irrational_pair
-    pair_latex:
-    - \sqrt{10}
-    - 5\sqrt{2}
+    family_id: noncoprime_radicand_pairs
+    entry_id: noncoprime-a6-b9-x3-y3
+    values_latex:
+    - 3\sqrt{6}
+    - '9'
+    squared_ratio:
+    - 3
+    - 2
+    largest_prime_factor_max: 5
+    max_ratio: sqrt(3)
+    source_fractional_coefficients_allowed: false
+    unknown_value_restrictions: none_beyond_positive_exact_value
+  geometry_selection:
+    database_id: similarity-triangle-realizations
+    entry_id: butterfly-noncoprime-a6-b9-x3-y3-s0-t2-small-n5
+    model: butterfly
+    source_pair_index: 0
+    target_pair_index: 2
+    known_target_position: small
+    number_side_indices:
+    - 0
+    - 2
+    known_correspondence_index: 0
+    unknown_correspondence_index: 2
   source_pair:
   - AO
-  - OD
-  target_pair:
   - AC
+  target_pair:
+  - OD
   - DB
-  title: 先证相似再求边
+  title: 求指定边
 - id: Q033
   difficulty: standard
-  training_action: 先补出第二组等角并证明相似，再求边
+  training_action: 独立确定对应关系并求指定边
   question_type: problem
-  variation_dimension: partially_hidden
+  variation_dimension: changed_representation
   diagram_requirement: prompt_only
   number_selection:
     database_id: question-bank-training-numbers
-    family_id: rational_multiple_pairs
-    entry_id: rational-5-over-2-x-4
-    selection_class: fraction_pair
-    pair_latex:
-    - \frac{5}{2}
-    - '10'
+    family_id: noncoprime_radicand_pairs
+    entry_id: noncoprime-a6-b10-x1-y1
+    values_latex:
+    - \sqrt{6}
+    - \sqrt{10}
+    squared_ratio:
+    - 5
+    - 3
+    largest_prime_factor_max: 5
+    max_ratio: sqrt(3)
+    source_fractional_coefficients_allowed: false
+    unknown_value_restrictions: none_beyond_positive_exact_value
+  geometry_selection:
+    database_id: similarity-triangle-realizations
+    entry_id: butterfly-noncoprime-a6-b10-x1-y1-s2-t0-small-n2
+    model: butterfly
+    source_pair_index: 2
+    target_pair_index: 0
+    known_target_position: small
+    number_side_indices:
+    - 2
+    - 0
+    known_correspondence_index: 2
+    unknown_correspondence_index: 0
   source_pair:
-  - OC
-  - OB
-  target_pair:
+  - AC
   - AO
+  target_pair:
+  - DB
   - OD
-  title: 先证相似再求边
+  title: 求指定边
 - id: Q034
   difficulty: standard
-  training_action: 先补出第二组等角并证明相似，再求边
+  training_action: 独立确定对应关系并求指定边
   question_type: problem
-  variation_dimension: partially_hidden
+  variation_dimension: changed_representation
   diagram_requirement: prompt_only
   number_selection:
     database_id: question-bank-training-numbers
-    family_id: radical_multiple_pairs
-    entry_id: sqrt-ka-a7-k2
-    selection_class: irrational_pair
-    pair_latex:
-    - \sqrt{7}
-    - \sqrt{14}
+    family_id: noncoprime_radicand_pairs
+    entry_id: noncoprime-a3-b9-x2-y2
+    values_latex:
+    - 2\sqrt{3}
+    - '6'
+    squared_ratio:
+    - 3
+    - 1
+    largest_prime_factor_max: 5
+    max_ratio: sqrt(3)
+    source_fractional_coefficients_allowed: false
+    unknown_value_restrictions: none_beyond_positive_exact_value
+  geometry_selection:
+    database_id: similarity-triangle-realizations
+    entry_id: butterfly-noncoprime-a3-b9-x2-y2-s2-t0-small-n2
+    model: butterfly
+    source_pair_index: 2
+    target_pair_index: 0
+    known_target_position: small
+    number_side_indices:
+    - 2
+    - 0
+    known_correspondence_index: 2
+    unknown_correspondence_index: 0
   source_pair:
-  - OC
-  - OB
-  target_pair:
+  - AC
   - AO
+  target_pair:
+  - DB
   - OD
-  title: 先证相似再求边
+  title: 求指定边
 - id: Q035
   difficulty: standard
-  training_action: 先补出第二组等角并证明相似，再求边
+  training_action: 独立确定对应关系并求指定边
   question_type: problem
-  variation_dimension: partially_hidden
+  variation_dimension: changed_representation
   diagram_requirement: prompt_only
   number_selection:
     database_id: question-bank-training-numbers
-    family_id: rational_multiple_pairs
-    entry_id: rational-4-over-9-x-6
-    selection_class: fraction_pair
-    pair_latex:
-    - \frac{4}{9}
-    - \frac{8}{3}
+    family_id: noncoprime_radicand_pairs
+    entry_id: noncoprime-a6-b9-x3-y2
+    values_latex:
+    - '6'
+    - 3\sqrt{6}
+    squared_ratio:
+    - 3
+    - 2
+    largest_prime_factor_max: 5
+    max_ratio: sqrt(3)
+    source_fractional_coefficients_allowed: false
+    unknown_value_restrictions: none_beyond_positive_exact_value
+  geometry_selection:
+    database_id: similarity-triangle-realizations
+    entry_id: butterfly-noncoprime-a6-b9-x3-y2-s2-t1-small-n4
+    model: butterfly
+    source_pair_index: 2
+    target_pair_index: 1
+    known_target_position: small
+    number_side_indices:
+    - 2
+    - 1
+    known_correspondence_index: 2
+    unknown_correspondence_index: 1
   source_pair:
+  - AC
   - OC
-  - OB
   target_pair:
-  - AO
-  - OD
-  title: 先证相似再求边
+  - DB
+  - OB
+  title: 求指定边
 - id: Q036
   difficulty: standard
-  training_action: 先补出第二组等角并证明相似，再求边
+  training_action: 独立确定对应关系并求指定边
   question_type: problem
-  variation_dimension: partially_hidden
+  variation_dimension: changed_representation
   diagram_requirement: prompt_only
   number_selection:
     database_id: question-bank-training-numbers
-    family_id: radical_multiple_pairs
-    entry_id: sqrt-ka-a6-k5
-    selection_class: irrational_pair
-    pair_latex:
+    family_id: noncoprime_radicand_pairs
+    entry_id: noncoprime-a6-b9-x1-y1
+    values_latex:
     - \sqrt{6}
-    - \sqrt{30}
+    - '3'
+    squared_ratio:
+    - 3
+    - 2
+    largest_prime_factor_max: 5
+    max_ratio: sqrt(3)
+    source_fractional_coefficients_allowed: false
+    unknown_value_restrictions: none_beyond_positive_exact_value
+  geometry_selection:
+    database_id: similarity-triangle-realizations
+    entry_id: butterfly-noncoprime-a6-b9-x1-y1-s0-t2-small-n2
+    model: butterfly
+    source_pair_index: 0
+    target_pair_index: 2
+    known_target_position: small
+    number_side_indices:
+    - 0
+    - 2
+    known_correspondence_index: 0
+    unknown_correspondence_index: 2
   source_pair:
-  - OC
-  - OB
-  target_pair:
   - AO
+  - AC
+  target_pair:
   - OD
-  title: 先证相似再求边
+  - DB
+  title: 求指定边
 - id: Q037
   difficulty: challenge
-  training_action: 先补出第二组等角并证明相似，再求边
+  training_action: 由三条已知边判断唯一可求边并计算
   question_type: problem
   variation_dimension: partially_hidden
   diagram_requirement: prompt_only
   number_selection:
     database_id: question-bank-training-numbers
-    family_id: rational_multiple_pairs
-    entry_id: rational-5-over-7-x-2
-    selection_class: fraction_pair
-    pair_latex:
-    - \frac{5}{7}
-    - \frac{10}{7}
+    family_id: noncoprime_radicand_pairs
+    entry_id: noncoprime-a3-b6-x3-y3
+    values_latex:
+    - 3\sqrt{3}
+    - 3\sqrt{6}
+    squared_ratio:
+    - 2
+    - 1
+    largest_prime_factor_max: 5
+    max_ratio: sqrt(3)
+    source_fractional_coefficients_allowed: false
+    unknown_value_restrictions: none_beyond_positive_exact_value
+  geometry_selection:
+    database_id: similarity-triangle-realizations
+    entry_id: butterfly-noncoprime-a3-b6-x3-y3-s0-t1-small-n3
+    model: butterfly
+    source_pair_index: 0
+    target_pair_index: 1
+    known_target_position: small
+    number_side_indices:
+    - 0
+    - 1
+    known_correspondence_index: 0
+    unknown_correspondence_index: 1
   source_pair:
+  - AO
   - OC
-  - OB
   target_pair:
-  - AC
-  - DB
-  title: 先证相似再求边
+  - OD
+  - OB
+  title: 判断可求边
 - id: Q038
   difficulty: challenge
-  training_action: 先补出第二组等角并证明相似，再求边
+  training_action: 由三条已知边判断唯一可求边并计算
   question_type: problem
   variation_dimension: partially_hidden
   diagram_requirement: prompt_only
   number_selection:
     database_id: question-bank-training-numbers
-    family_id: radical_multiple_pairs
-    entry_id: sqrt-ka-a7-k5
-    selection_class: irrational_pair
-    pair_latex:
-    - \sqrt{7}
-    - \sqrt{35}
+    family_id: noncoprime_radicand_pairs
+    entry_id: noncoprime-a4-b6-x3-y2
+    values_latex:
+    - 2\sqrt{6}
+    - '6'
+    squared_ratio:
+    - 3
+    - 2
+    largest_prime_factor_max: 5
+    max_ratio: sqrt(3)
+    source_fractional_coefficients_allowed: false
+    unknown_value_restrictions: none_beyond_positive_exact_value
+  geometry_selection:
+    database_id: similarity-triangle-realizations
+    entry_id: butterfly-noncoprime-a4-b6-x3-y2-s1-t0-small-n3
+    model: butterfly
+    source_pair_index: 1
+    target_pair_index: 0
+    known_target_position: small
+    number_side_indices:
+    - 1
+    - 0
+    known_correspondence_index: 1
+    unknown_correspondence_index: 0
   source_pair:
   - OC
-  - OB
+  - AO
   target_pair:
-  - AC
-  - DB
-  title: 先证相似再求边
+  - OB
+  - OD
+  title: 判断可求边
 - id: Q039
   difficulty: challenge
-  training_action: 先补出第二组等角并证明相似，再求边
+  training_action: 由三条已知边判断唯一可求边并计算
   question_type: problem
   variation_dimension: partially_hidden
   diagram_requirement: prompt_only
   number_selection:
     database_id: question-bank-training-numbers
-    family_id: rational_multiple_pairs
-    entry_id: rational-1-over-10-x-3
-    selection_class: fraction_pair
-    pair_latex:
-    - \frac{1}{10}
-    - \frac{3}{10}
+    family_id: noncoprime_radicand_pairs
+    entry_id: noncoprime-a2-b4-x3-y3
+    values_latex:
+    - 3\sqrt{2}
+    - '6'
+    squared_ratio:
+    - 2
+    - 1
+    largest_prime_factor_max: 5
+    max_ratio: sqrt(3)
+    source_fractional_coefficients_allowed: false
+    unknown_value_restrictions: none_beyond_positive_exact_value
+  geometry_selection:
+    database_id: similarity-triangle-realizations
+    entry_id: butterfly-noncoprime-a2-b4-x3-y3-s1-t2-small-n3
+    model: butterfly
+    source_pair_index: 1
+    target_pair_index: 2
+    known_target_position: small
+    number_side_indices:
+    - 1
+    - 2
+    known_correspondence_index: 1
+    unknown_correspondence_index: 2
   source_pair:
   - OC
-  - OB
-  target_pair:
   - AC
+  target_pair:
+  - OB
   - DB
-  title: 先证相似再求边
+  title: 判断可求边
 - id: Q040
   difficulty: challenge
-  training_action: 先补出第二组等角并证明相似，再求边
+  training_action: 由三条已知边判断唯一可求边并计算
   question_type: problem
   variation_dimension: partially_hidden
   diagram_requirement: prompt_only
   number_selection:
     database_id: question-bank-training-numbers
-    family_id: radical_multiple_pairs
-    entry_id: sqrt-ka-a6-k7
-    selection_class: irrational_pair
-    pair_latex:
+    family_id: noncoprime_radicand_pairs
+    entry_id: noncoprime-a3-b6-x1-y1
+    values_latex:
+    - \sqrt{3}
     - \sqrt{6}
-    - \sqrt{42}
+    squared_ratio:
+    - 2
+    - 1
+    largest_prime_factor_max: 5
+    max_ratio: sqrt(3)
+    source_fractional_coefficients_allowed: false
+    unknown_value_restrictions: none_beyond_positive_exact_value
+  geometry_selection:
+    database_id: similarity-triangle-realizations
+    entry_id: butterfly-noncoprime-a3-b6-x1-y1-s0-t1-small-n1
+    model: butterfly
+    source_pair_index: 0
+    target_pair_index: 1
+    known_target_position: small
+    number_side_indices:
+    - 0
+    - 1
+    known_correspondence_index: 0
+    unknown_correspondence_index: 1
   source_pair:
+  - AO
   - OC
-  - OB
   target_pair:
-  - AC
-  - DB
-  title: 先证相似再求边
+  - OD
+  - OB
+  title: 判断可求边
 - id: Q041
   difficulty: challenge
-  training_action: 先补出第二组等角并证明相似，再求边
+  training_action: 由三条已知边判断唯一可求边并计算
   question_type: problem
   variation_dimension: partially_hidden
   diagram_requirement: prompt_only
   number_selection:
     database_id: question-bank-training-numbers
-    family_id: rational_multiple_pairs
-    entry_id: rational-7-over-12-x-3
-    selection_class: fraction_pair
-    pair_latex:
-    - \frac{7}{12}
-    - \frac{7}{4}
-  source_pair:
-  - AC
-  - DB
-  target_pair:
-  - AO
-  - OD
-  title: 先证相似再求边
-- id: Q042
-  difficulty: challenge
-  training_action: 先补出第二组等角并证明相似，再求边
-  question_type: problem
-  variation_dimension: partially_hidden
-  diagram_requirement: prompt_only
-  number_selection:
-    database_id: question-bank-training-numbers
-    family_id: radical_multiple_pairs
-    entry_id: sqrt-ka-a3-k7
-    selection_class: irrational_pair
-    pair_latex:
-    - \sqrt{3}
-    - \sqrt{21}
-  source_pair:
-  - AC
-  - DB
-  target_pair:
-  - AO
-  - OD
-  title: 先证相似再求边
-- id: Q043
-  difficulty: challenge
-  training_action: 先补出第二组等角并证明相似，再求边
-  question_type: problem
-  variation_dimension: partially_hidden
-  diagram_requirement: prompt_only
-  number_selection:
-    database_id: question-bank-training-numbers
-    family_id: rational_multiple_pairs
-    entry_id: rational-1-over-2-x-4
-    selection_class: fraction_pair
-    pair_latex:
-    - \frac{1}{2}
-    - '2'
-  source_pair:
-  - AC
-  - DB
-  target_pair:
-  - AO
-  - OD
-  title: 先证相似再求边
-- id: Q044
-  difficulty: challenge
-  training_action: 先补出第二组等角并证明相似，再求边
-  question_type: problem
-  variation_dimension: partially_hidden
-  diagram_requirement: prompt_only
-  number_selection:
-    database_id: question-bank-training-numbers
-    family_id: radical_multiple_pairs
-    entry_id: sqrt-ka-a3-k5
-    selection_class: irrational_pair
-    pair_latex:
-    - \sqrt{3}
-    - \sqrt{15}
-  source_pair:
-  - AC
-  - DB
-  target_pair:
-  - AO
-  - OD
-  title: 先证相似再求边
-- id: Q045
-  difficulty: challenge
-  training_action: 先补出第二组等角并证明相似，再求边
-  question_type: problem
-  variation_dimension: partially_hidden
-  diagram_requirement: prompt_only
-  number_selection:
-    database_id: question-bank-training-numbers
-    family_id: rational_multiple_pairs
-    entry_id: rational-8-over-9-x-6
-    selection_class: fraction_pair
-    pair_latex:
-    - \frac{8}{9}
-    - \frac{16}{3}
-  source_pair:
-  - AC
-  - DB
-  target_pair:
-  - OC
-  - OB
-  title: 先证相似再求边
-- id: Q046
-  difficulty: challenge
-  training_action: 先补出第二组等角并证明相似，再求边
-  question_type: problem
-  variation_dimension: partially_hidden
-  diagram_requirement: prompt_only
-  number_selection:
-    database_id: question-bank-training-numbers
-    family_id: radical_multiple_pairs
-    entry_id: sqrt-ka-a7-k8
-    selection_class: irrational_pair
-    pair_latex:
-    - \sqrt{7}
-    - 2\sqrt{14}
-  source_pair:
-  - AC
-  - DB
-  target_pair:
-  - OC
-  - OB
-  title: 先证相似再求边
-- id: Q047
-  difficulty: challenge
-  training_action: 先补出第二组等角并证明相似，再求边
-  question_type: problem
-  variation_dimension: partially_hidden
-  diagram_requirement: prompt_only
-  number_selection:
-    database_id: question-bank-training-numbers
-    family_id: rational_multiple_pairs
-    entry_id: rational-2-over-9-x-6
-    selection_class: fraction_pair
-    pair_latex:
-    - \frac{2}{9}
-    - \frac{4}{3}
-  source_pair:
-  - AC
-  - DB
-  target_pair:
-  - OC
-  - OB
-  title: 先证相似再求边
-- id: Q048
-  difficulty: challenge
-  training_action: 先补出第二组等角并证明相似，再求边
-  question_type: problem
-  variation_dimension: partially_hidden
-  diagram_requirement: prompt_only
-  number_selection:
-    database_id: question-bank-training-numbers
-    family_id: radical_multiple_pairs
-    entry_id: sqrt-ka-a3-k10
-    selection_class: irrational_pair
-    pair_latex:
-    - \sqrt{3}
-    - \sqrt{30}
-  source_pair:
-  - AC
-  - DB
-  target_pair:
-  - OC
-  - OB
-  title: 先证相似再求边
-- id: Q049
-  difficulty: challenge
-  training_action: 先写三组对应边和相似比，再求边
-  question_type: problem
-  variation_dimension: changed_representation
-  diagram_requirement: prompt_only
-  number_selection:
-    database_id: question-bank-training-numbers
-    family_id: rational_multiple_pairs
-    entry_id: rational-4-over-5-x-6
-    selection_class: fraction_pair
-    pair_latex:
-    - \frac{4}{5}
-    - \frac{24}{5}
-  source_pair:
-  - AO
-  - OD
-  target_pair:
-  - OC
-  - OB
-  title: 先写对应关系再求边
-- id: Q050
-  difficulty: challenge
-  training_action: 先写三组对应边和相似比，再求边
-  question_type: problem
-  variation_dimension: changed_representation
-  diagram_requirement: prompt_only
-  number_selection:
-    database_id: question-bank-training-numbers
-    family_id: radical_multiple_pairs
-    entry_id: sqrt-ka-a2-k3
-    selection_class: irrational_pair
-    pair_latex:
+    family_id: noncoprime_radicand_pairs
+    entry_id: noncoprime-a2-b6-x1-y1
+    values_latex:
     - \sqrt{2}
     - \sqrt{6}
+    squared_ratio:
+    - 3
+    - 1
+    largest_prime_factor_max: 5
+    max_ratio: sqrt(3)
+    source_fractional_coefficients_allowed: false
+    unknown_value_restrictions: none_beyond_positive_exact_value
+  geometry_selection:
+    database_id: similarity-triangle-realizations
+    entry_id: butterfly-noncoprime-a2-b6-x1-y1-s0-t1-small-n1
+    model: butterfly
+    source_pair_index: 0
+    target_pair_index: 1
+    known_target_position: small
+    number_side_indices:
+    - 0
+    - 1
+    known_correspondence_index: 0
+    unknown_correspondence_index: 1
   source_pair:
   - AO
-  - OD
-  target_pair:
   - OC
+  target_pair:
+  - OD
   - OB
-  title: 先写对应关系再求边
+  title: 判断可求边
+- id: Q042
+  difficulty: challenge
+  training_action: 由三条已知边判断唯一可求边并计算
+  question_type: problem
+  variation_dimension: partially_hidden
+  diagram_requirement: prompt_only
+  number_selection:
+    database_id: question-bank-training-numbers
+    family_id: noncoprime_radicand_pairs
+    entry_id: noncoprime-a3-b9-x2-y1
+    values_latex:
+    - '3'
+    - 2\sqrt{3}
+    squared_ratio:
+    - 4
+    - 3
+    largest_prime_factor_max: 5
+    max_ratio: sqrt(3)
+    source_fractional_coefficients_allowed: false
+    unknown_value_restrictions: none_beyond_positive_exact_value
+  geometry_selection:
+    database_id: similarity-triangle-realizations
+    entry_id: butterfly-noncoprime-a3-b9-x2-y1-s2-t0-large-n2
+    model: butterfly
+    source_pair_index: 2
+    target_pair_index: 0
+    known_target_position: large
+    number_side_indices:
+    - 2
+    - 0
+    known_correspondence_index: 0
+    unknown_correspondence_index: 2
+  source_pair:
+  - AC
+  - AO
+  target_pair:
+  - OD
+  - DB
+  title: 判断可求边
+- id: Q043
+  difficulty: challenge
+  training_action: 由三条已知边判断唯一可求边并计算
+  question_type: problem
+  variation_dimension: partially_hidden
+  diagram_requirement: prompt_only
+  number_selection:
+    database_id: question-bank-training-numbers
+    family_id: noncoprime_radicand_pairs
+    entry_id: noncoprime-a6-b8-x1-y1
+    values_latex:
+    - \sqrt{6}
+    - 2\sqrt{2}
+    squared_ratio:
+    - 4
+    - 3
+    largest_prime_factor_max: 5
+    max_ratio: sqrt(3)
+    source_fractional_coefficients_allowed: false
+    unknown_value_restrictions: none_beyond_positive_exact_value
+  geometry_selection:
+    database_id: similarity-triangle-realizations
+    entry_id: butterfly-noncoprime-a6-b8-x1-y1-s0-t2-large-n2
+    model: butterfly
+    source_pair_index: 0
+    target_pair_index: 2
+    known_target_position: large
+    number_side_indices:
+    - 0
+    - 2
+    known_correspondence_index: 2
+    unknown_correspondence_index: 0
+  source_pair:
+  - AO
+  - AC
+  target_pair:
+  - DB
+  - OD
+  title: 判断可求边
+- id: Q044
+  difficulty: challenge
+  training_action: 由三条已知边判断唯一可求边并计算
+  question_type: problem
+  variation_dimension: partially_hidden
+  diagram_requirement: prompt_only
+  number_selection:
+    database_id: question-bank-training-numbers
+    family_id: noncoprime_radicand_pairs
+    entry_id: noncoprime-a2-b6-x2-y2
+    values_latex:
+    - 2\sqrt{2}
+    - 2\sqrt{6}
+    squared_ratio:
+    - 3
+    - 1
+    largest_prime_factor_max: 5
+    max_ratio: sqrt(3)
+    source_fractional_coefficients_allowed: false
+    unknown_value_restrictions: none_beyond_positive_exact_value
+  geometry_selection:
+    database_id: similarity-triangle-realizations
+    entry_id: butterfly-noncoprime-a2-b6-x2-y2-s0-t1-small-n2
+    model: butterfly
+    source_pair_index: 0
+    target_pair_index: 1
+    known_target_position: small
+    number_side_indices:
+    - 0
+    - 1
+    known_correspondence_index: 0
+    unknown_correspondence_index: 1
+  source_pair:
+  - AO
+  - OC
+  target_pair:
+  - OD
+  - OB
+  title: 判断可求边
+- id: Q045
+  difficulty: challenge
+  training_action: 由三条已知边判断唯一可求边并计算
+  question_type: problem
+  variation_dimension: partially_hidden
+  diagram_requirement: prompt_only
+  number_selection:
+    database_id: question-bank-training-numbers
+    family_id: noncoprime_radicand_pairs
+    entry_id: noncoprime-a2-b6-x3-y2
+    values_latex:
+    - 3\sqrt{2}
+    - 2\sqrt{6}
+    squared_ratio:
+    - 4
+    - 3
+    largest_prime_factor_max: 5
+    max_ratio: sqrt(3)
+    source_fractional_coefficients_allowed: false
+    unknown_value_restrictions: none_beyond_positive_exact_value
+  geometry_selection:
+    database_id: similarity-triangle-realizations
+    entry_id: butterfly-noncoprime-a2-b6-x3-y2-s0-t2-small-n3
+    model: butterfly
+    source_pair_index: 0
+    target_pair_index: 2
+    known_target_position: small
+    number_side_indices:
+    - 0
+    - 2
+    known_correspondence_index: 0
+    unknown_correspondence_index: 2
+  source_pair:
+  - AO
+  - AC
+  target_pair:
+  - OD
+  - DB
+  title: 判断可求边
+- id: Q046
+  difficulty: challenge
+  training_action: 由三条已知边判断唯一可求边并计算
+  question_type: problem
+  variation_dimension: partially_hidden
+  diagram_requirement: prompt_only
+  number_selection:
+    database_id: question-bank-training-numbers
+    family_id: noncoprime_radicand_pairs
+    entry_id: noncoprime-a5-b10-x1-y1
+    values_latex:
+    - \sqrt{5}
+    - \sqrt{10}
+    squared_ratio:
+    - 2
+    - 1
+    largest_prime_factor_max: 5
+    max_ratio: sqrt(3)
+    source_fractional_coefficients_allowed: false
+    unknown_value_restrictions: none_beyond_positive_exact_value
+  geometry_selection:
+    database_id: similarity-triangle-realizations
+    entry_id: butterfly-noncoprime-a5-b10-x1-y1-s2-t0-small-n2
+    model: butterfly
+    source_pair_index: 2
+    target_pair_index: 0
+    known_target_position: small
+    number_side_indices:
+    - 2
+    - 0
+    known_correspondence_index: 2
+    unknown_correspondence_index: 0
+  source_pair:
+  - AC
+  - AO
+  target_pair:
+  - DB
+  - OD
+  title: 判断可求边
+- id: Q047
+  difficulty: challenge
+  training_action: 由三条已知边判断唯一可求边并计算
+  question_type: problem
+  variation_dimension: partially_hidden
+  diagram_requirement: prompt_only
+  number_selection:
+    database_id: question-bank-training-numbers
+    family_id: noncoprime_radicand_pairs
+    entry_id: noncoprime-a4-b8-x3-y3
+    values_latex:
+    - '6'
+    - 6\sqrt{2}
+    squared_ratio:
+    - 2
+    - 1
+    largest_prime_factor_max: 5
+    max_ratio: sqrt(3)
+    source_fractional_coefficients_allowed: false
+    unknown_value_restrictions: none_beyond_positive_exact_value
+  geometry_selection:
+    database_id: similarity-triangle-realizations
+    entry_id: butterfly-noncoprime-a4-b8-x3-y3-s1-t2-small-n4
+    model: butterfly
+    source_pair_index: 1
+    target_pair_index: 2
+    known_target_position: small
+    number_side_indices:
+    - 1
+    - 2
+    known_correspondence_index: 1
+    unknown_correspondence_index: 2
+  source_pair:
+  - OC
+  - AC
+  target_pair:
+  - OB
+  - DB
+  title: 判断可求边
+- id: Q048
+  difficulty: challenge
+  training_action: 由三条已知边判断唯一可求边并计算
+  question_type: problem
+  variation_dimension: partially_hidden
+  diagram_requirement: prompt_only
+  number_selection:
+    database_id: question-bank-training-numbers
+    family_id: noncoprime_radicand_pairs
+    entry_id: noncoprime-a4-b6-x3-y3
+    values_latex:
+    - '6'
+    - 3\sqrt{6}
+    squared_ratio:
+    - 3
+    - 2
+    largest_prime_factor_max: 5
+    max_ratio: sqrt(3)
+    source_fractional_coefficients_allowed: false
+    unknown_value_restrictions: none_beyond_positive_exact_value
+  geometry_selection:
+    database_id: similarity-triangle-realizations
+    entry_id: butterfly-noncoprime-a4-b6-x3-y3-s2-t1-small-n4
+    model: butterfly
+    source_pair_index: 2
+    target_pair_index: 1
+    known_target_position: small
+    number_side_indices:
+    - 2
+    - 1
+    known_correspondence_index: 2
+    unknown_correspondence_index: 1
+  source_pair:
+  - AC
+  - OC
+  target_pair:
+  - DB
+  - OB
+  title: 判断可求边
+- id: Q049
+  difficulty: challenge
+  training_action: 由三条已知边判断唯一可求边并计算
+  question_type: problem
+  variation_dimension: partially_hidden
+  diagram_requirement: prompt_only
+  number_selection:
+    database_id: question-bank-training-numbers
+    family_id: noncoprime_radicand_pairs
+    entry_id: noncoprime-a2-b6-x3-y1
+    values_latex:
+    - \sqrt{6}
+    - 3\sqrt{2}
+    squared_ratio:
+    - 3
+    - 1
+    largest_prime_factor_max: 5
+    max_ratio: sqrt(3)
+    source_fractional_coefficients_allowed: false
+    unknown_value_restrictions: none_beyond_positive_exact_value
+  geometry_selection:
+    database_id: similarity-triangle-realizations
+    entry_id: butterfly-noncoprime-a2-b6-x3-y1-s1-t2-small-n2
+    model: butterfly
+    source_pair_index: 1
+    target_pair_index: 2
+    known_target_position: small
+    number_side_indices:
+    - 1
+    - 2
+    known_correspondence_index: 1
+    unknown_correspondence_index: 2
+  source_pair:
+  - OC
+  - AC
+  target_pair:
+  - OB
+  - DB
+  title: 判断可求边
+- id: Q050
+  difficulty: challenge
+  training_action: 由三条已知边判断唯一可求边并计算
+  question_type: problem
+  variation_dimension: partially_hidden
+  diagram_requirement: prompt_only
+  number_selection:
+    database_id: question-bank-training-numbers
+    family_id: noncoprime_radicand_pairs
+    entry_id: noncoprime-a5-b10-x2-y2
+    values_latex:
+    - 2\sqrt{5}
+    - 2\sqrt{10}
+    squared_ratio:
+    - 2
+    - 1
+    largest_prime_factor_max: 5
+    max_ratio: sqrt(3)
+    source_fractional_coefficients_allowed: false
+    unknown_value_restrictions: none_beyond_positive_exact_value
+  geometry_selection:
+    database_id: similarity-triangle-realizations
+    entry_id: butterfly-noncoprime-a5-b10-x2-y2-s2-t0-small-n3
+    model: butterfly
+    source_pair_index: 2
+    target_pair_index: 0
+    known_target_position: small
+    number_side_indices:
+    - 2
+    - 0
+    known_correspondence_index: 2
+    unknown_correspondence_index: 0
+  source_pair:
+  - AC
+  - AO
+  target_pair:
+  - DB
+  - OD
+  title: 判断可求边

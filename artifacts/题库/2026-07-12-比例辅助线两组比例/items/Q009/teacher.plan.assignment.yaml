@@ -22,7 +22,7 @@ sections:
     id: Q009
     points: 10
     label: 由两组比例求 AE:EC
-    stem_latex: '如图，在 $\triangle ABC$ 中，$D$ 在线段 $BC$ 上，$E$ 在线段 $AC$ 上，$AD$ 与 $BE$ 交于点 $P$。已知
+    stem_latex: '如图，点 $D$ 在线段 $BC$ 上，点 $E$ 在线段 $AC$ 上，$AD$ 与 $BE$ 交于点 $P$。已知
 
       \[
 
@@ -50,9 +50,7 @@ sections:
         diagram_kind: synthetic_geometry
         engine_options:
           scene_payload:
-            scene_code: GeometricScene[{A, B, C, D, E, P, F}, {A == {0, 7}, B == {-4.37209302326, 0}, C == {6.21276595745,
-              0}, D == {2.68447963055, 0}, E == {4.14184397163, 2.33333333333}, P == {2.01335967784, 1.75000002605}, Element[F,
-              InfiniteLine[{A, D}]], GeometricAssertion[{Line[{E, F}], Line[{B, C}]}, "Parallel"]}]
+            scene_code: GeometricScene[{A, B, C, D, E, P, F}, {A == {0, 7}, B == {-4.37209302326, 0}, C == {6.21276595745, 0}, D == {2.68447963055, 0}, E == {4.14184397163, 2.33333333333}, P == {2.01335967784, 1.75000002605}, Element[F, InfiniteLine[{A, D}]], GeometricAssertion[{Line[{E, F}], Line[{B, C}]}, "Parallel"]}]
             points:
             - A
             - B
@@ -153,7 +151,7 @@ sections:
         teaching_intent: practice_solution
         reuse_geometry_from: question_bank.auxiliary.q009.prompt
         problem_context:
-          stem_latex: '如图，在 $\triangle ABC$ 中，$D$ 在线段 $BC$ 上，$E$ 在线段 $AC$ 上，$AD$ 与 $BE$ 交于点 $P$。已知
+          stem_latex: '如图，点 $D$ 在线段 $BC$ 上，点 $E$ 在线段 $AC$ 上，$AD$ 与 $BE$ 交于点 $P$。已知
 
             \[
 
@@ -208,14 +206,11 @@ sections:
       placement: diagram_col
       layout_role: question_sidecar
       display_profile: worksheet_geometry_sidecar
-      caption: Q009 学生图：本题原始三角形与两条交线。
       engine: geometric_scene
       diagram_kind: synthetic_geometry
       engine_options:
         scene_payload:
-          scene_code: GeometricScene[{A, B, C, D, E, P}, {A == {0, 259/37}, B == {-(188/43), 0}, C == {292/47, 0}, Element[D,
-            Line[{B, C}]], Element[E, Line[{A, C}]], 1 EuclideanDistance[B, D] == 2 EuclideanDistance[D, C], 1 EuclideanDistance[A,
-            E] == 2 EuclideanDistance[E, C], Element[P, Line[{A, D}]], Element[P, Line[{B, E}]]}]
+          scene_code: GeometricScene[{A, B, C, D, E, P}, {A == {0, 259/37}, B == {-(188/43), 0}, C == {292/47, 0}, Element[D, Line[{B, C}]], Element[E, Line[{A, C}]], 1 EuclideanDistance[B, D] == 2 EuclideanDistance[D, C], 1 EuclideanDistance[A, E] == 2 EuclideanDistance[E, C], Element[P, Line[{A, D}]], Element[P, Line[{B, E}]]}]
           points:
           - A
           - B
@@ -279,7 +274,7 @@ sections:
         seed: 12009
       teaching_intent: practice_prompt
       problem_context:
-        stem_latex: '如图，在 $\triangle ABC$ 中，$D$ 在线段 $BC$ 上，$E$ 在线段 $AC$ 上，$AD$ 与 $BE$ 交于点 $P$。已知
+        stem_latex: '如图，点 $D$ 在线段 $BC$ 上，点 $E$ 在线段 $AC$ 上，$AD$ 与 $BE$ 交于点 $P$。已知
 
           \[
 
@@ -288,8 +283,7 @@ sections:
           \]
 
           求 $AE:EC$。'
-        source_problem_text: 为题库 Q009 单独绘制三角形 ABC：D 在线段 BC 上，E 在线段 AC 上，AD 与 BE 交于 P。严格显示 A-E-C、B-D-C、A-P-D、B-P-E 的点序。根据本题题干突出已知比例涉及的线段和所求线段。学生图不得出现
-          F、辅助平行线、相似标记、推导或答案。即使题目用于条件辨析，也保持清晰非退化的母构型。
+        source_problem_text: 为题库 Q009 单独绘制三角形 ABC：D 在线段 BC 上，E 在线段 AC 上，AD 与 BE 交于 P。严格显示 A-E-C、B-D-C、A-P-D、B-P-E 的点序。根据本题题干突出已知比例涉及的线段和所求线段。学生图不得出现 F、辅助平行线、相似标记、推导或答案。即使题目用于条件辨析，也保持清晰非退化的母构型。
       semantic_constraints:
         given_objects:
         - A

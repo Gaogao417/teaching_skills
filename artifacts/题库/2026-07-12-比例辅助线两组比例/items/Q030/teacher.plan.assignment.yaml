@@ -22,7 +22,7 @@ sections:
     id: Q030
     points: 10
     label: 联立比例筛选唯一解
-    stem_latex: 如图，在 $\triangle ABC$ 中，$D\in BC$，$E\in AC$，$P=AD\cap BE$。已知 $AP:PD=3:2$、$BP:PE=3:2$。若 $AE:EC=t:1$，求 $t$。
+    stem_latex: 如图，点 $D$ 在线段 $BC$ 上，点 $E$ 在线段 $AC$ 上，$AD$ 与 $BE$ 交于点 $P$。已知 $AP:PD=3:2$、$BP:PE=3:2$。若 $AE:EC=t:1$，求 $t$。
     answer_space:
       type: steps
       height: 48mm
@@ -42,9 +42,7 @@ sections:
         diagram_kind: synthetic_geometry
         engine_options:
           scene_payload:
-            scene_code: GeometricScene[{A, B, C, D, E, P, F}, {A == {0, 7.56756756757}, B == {-5.3488372093, 0}, C == {23.6382978723,
-              0}, D == {4.31354115125, 0}, E == {7.87943262411, 5.04504504505}, P == {2.58812467854, 3.02702703327}, Element[F,
-              InfiniteLine[{A, D}]], GeometricAssertion[{Line[{E, F}], Line[{B, C}]}, "Parallel"]}]
+            scene_code: GeometricScene[{A, B, C, D, E, P, F}, {A == {0, 7.56756756757}, B == {-5.3488372093, 0}, C == {23.6382978723, 0}, D == {4.31354115125, 0}, E == {7.87943262411, 5.04504504505}, P == {2.58812467854, 3.02702703327}, Element[F, InfiniteLine[{A, D}]], GeometricAssertion[{Line[{E, F}], Line[{B, C}]}, "Parallel"]}]
             points:
             - A
             - B
@@ -145,8 +143,7 @@ sections:
         teaching_intent: practice_solution
         reuse_geometry_from: question_bank.auxiliary.q030.prompt
         problem_context:
-          stem_latex: 如图，在 $\triangle ABC$ 中，$D\in BC$，$E\in AC$，$P=AD\cap BE$。已知 $AP:PD=3:2$、$BP:PE=3:2$。若 $AE:EC=t:1$，求
-            $t$。
+          stem_latex: 如图，点 $D$ 在线段 $BC$ 上，点 $E$ 在线段 $AC$ 上，$AD$ 与 $BE$ 交于点 $P$。已知 $AP:PD=3:2$、$BP:PE=3:2$。若 $AE:EC=t:1$，求 $t$。
           source_problem_text: 只复用 Q030 自己的 prompt 点位。新增点 F，过 E 作 EF 平行 CB，交 AD 于 F。完整画出辅助线和平行符号，并用浅色轮廓标出本题解法使用的两组相似三角形；不写最终比例答案。
         semantic_constraints:
           given_objects:
@@ -191,14 +188,11 @@ sections:
       placement: diagram_col
       layout_role: question_sidecar
       display_profile: worksheet_geometry_sidecar
-      caption: Q030 学生图：本题原始三角形与两条交线。
       engine: geometric_scene
       diagram_kind: synthetic_geometry
       engine_options:
         scene_payload:
-          scene_code: GeometricScene[{A, B, C, D, E, P}, {A == {0, 280/37}, B == {-(230/43), 0}, C == {1111/47, 0}, Element[D,
-            Line[{B, C}]], Element[E, Line[{A, C}]], 2 EuclideanDistance[B, D] == 1 EuclideanDistance[D, C], 2 EuclideanDistance[A,
-            E] == 1 EuclideanDistance[E, C], Element[P, Line[{A, D}]], Element[P, Line[{B, E}]]}]
+          scene_code: GeometricScene[{A, B, C, D, E, P}, {A == {0, 280/37}, B == {-(230/43), 0}, C == {1111/47, 0}, Element[D, Line[{B, C}]], Element[E, Line[{A, C}]], 2 EuclideanDistance[B, D] == 1 EuclideanDistance[D, C], 2 EuclideanDistance[A, E] == 1 EuclideanDistance[E, C], Element[P, Line[{A, D}]], Element[P, Line[{B, E}]]}]
           points:
           - A
           - B
@@ -262,9 +256,8 @@ sections:
         seed: 12030
       teaching_intent: practice_prompt
       problem_context:
-        stem_latex: 如图，在 $\triangle ABC$ 中，$D\in BC$，$E\in AC$，$P=AD\cap BE$。已知 $AP:PD=3:2$、$BP:PE=3:2$。若 $AE:EC=t:1$，求 $t$。
-        source_problem_text: 为题库 Q030 单独绘制三角形 ABC：D 在线段 BC 上，E 在线段 AC 上，AD 与 BE 交于 P。严格显示 A-E-C、B-D-C、A-P-D、B-P-E 的点序。根据本题题干突出已知比例涉及的线段和所求线段。学生图不得出现
-          F、辅助平行线、相似标记、推导或答案。即使题目用于条件辨析，也保持清晰非退化的母构型。
+        stem_latex: 如图，点 $D$ 在线段 $BC$ 上，点 $E$ 在线段 $AC$ 上，$AD$ 与 $BE$ 交于点 $P$。已知 $AP:PD=3:2$、$BP:PE=3:2$。若 $AE:EC=t:1$，求 $t$。
+        source_problem_text: 为题库 Q030 单独绘制三角形 ABC：D 在线段 BC 上，E 在线段 AC 上，AD 与 BE 交于 P。严格显示 A-E-C、B-D-C、A-P-D、B-P-E 的点序。根据本题题干突出已知比例涉及的线段和所求线段。学生图不得出现 F、辅助平行线、相似标记、推导或答案。即使题目用于条件辨析，也保持清晰非退化的母构型。
       semantic_constraints:
         given_objects:
         - A

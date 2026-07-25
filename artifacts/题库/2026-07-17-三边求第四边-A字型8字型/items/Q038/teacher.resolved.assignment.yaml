@@ -22,16 +22,15 @@ sections:
     id: Q038
     points: 10
     label: 已知三边求第四边
-    stem_latex: |-
-      如图，$A,P,C$ 三点共线，$B,P,D$ 三点共线，点序分别为 $A-P-C$、$B-P-D$，且 $AB\parallel CD$。
-      已知 $BP=\frac{5}{4}$，$PD=5$，$CD=20$，求 $AB$。
+    stem_latex: '如图，$AB\parallel CD$。
+
+      已知 $BP=\frac{5}{4}$，$PD=5$，$CD=20$，求 $AB$。'
     answer_space:
       type: steps
       height: 42mm
       step_count: 4
     answer: $AB=5$。
-    explanation: 已知边与未知边中出现平行线段 $CD$、$AB$，先求两个相似三角形的比。先算 $\dfrac{BP}{PD}=\dfrac{\frac{5}{4}}{5}=\dfrac{1}{4}$。约分后，$AB$
-      对应 $1$ 份，$CD$ 对应 $4$ 份。$AB=CD\times\dfrac{1}{4}=20\times\dfrac{1}{4}=5$。
+    explanation: 已知边与未知边中出现平行线段 $CD$、$AB$，先求两个相似三角形的比。先算 $\dfrac{BP}{PD}=\dfrac{\frac{5}{4}}{5}=\dfrac{1}{4}$。约分后，$AB$ 对应 $1$ 份，$CD$ 对应 $4$ 份。$AB=CD\times\dfrac{1}{4}=20\times\dfrac{1}{4}=5$。
     solution_steps:
     - title: 先判断
       content: 已知边与未知边中出现平行线段 $CD$、$AB$，先求两个相似三角形的比。
@@ -62,7 +61,6 @@ sections:
       diagram_ref: question.bank.three.known.q038.prompt
       diagram_job_id: question-bank-three-known-q038-prompt
       width: 60mm
-      caption: 先看平行边方向，再判断 A 字型或 8 字型及对应边。
       variant: prompt
       disclosure_policy: clean
       artifact_hash: sha256:26c9f95aa8da4ee767bac7ab5d9cfa65b1a8f17a368e7fc474dba97cec4086de

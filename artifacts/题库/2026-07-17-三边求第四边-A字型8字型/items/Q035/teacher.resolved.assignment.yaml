@@ -22,16 +22,15 @@ sections:
     id: Q035
     points: 10
     label: 已知三边求第四边
-    stem_latex: |-
-      如图，$P,A,C$ 三点共线，$P,B,D$ 三点共线，点序分别为 $P-A-C$、$P-B-D$，且 $AB\parallel CD$。
-      已知 $PA=\frac{7}{8}$，$PC=\frac{21}{4}$，$AB=\frac{21}{8}$，求 $CD$。
+    stem_latex: '如图，$AB\parallel CD$。
+
+      已知 $PA=\frac{7}{8}$，$PC=\frac{21}{4}$，$AB=\frac{21}{8}$，求 $CD$。'
     answer_space:
       type: steps
       height: 42mm
       step_count: 4
     answer: $CD=\frac{63}{4}$。
-    explanation: 已知边与未知边中出现平行线段 $AB$、$CD$，先求两个相似三角形的比。先算 $\dfrac{PA}{PC}=\dfrac{\frac{7}{8}}{\frac{21}{4}}=\dfrac{1}{6}$。约分后，$CD$
-      对应 $6$ 份，$AB$ 对应 $1$ 份。$CD=AB\times\dfrac{6}{1}=\frac{21}{8}\times\dfrac{6}{1}=\frac{63}{4}$。
+    explanation: 已知边与未知边中出现平行线段 $AB$、$CD$，先求两个相似三角形的比。先算 $\dfrac{PA}{PC}=\dfrac{\frac{7}{8}}{\frac{21}{4}}=\dfrac{1}{6}$。约分后，$CD$ 对应 $6$ 份，$AB$ 对应 $1$ 份。$CD=AB\times\dfrac{6}{1}=\frac{21}{8}\times\dfrac{6}{1}=\frac{63}{4}$。
     solution_steps:
     - title: 先判断
       content: 已知边与未知边中出现平行线段 $AB$、$CD$，先求两个相似三角形的比。
@@ -62,7 +61,6 @@ sections:
       diagram_ref: question.bank.three.known.q035.prompt
       diagram_job_id: question-bank-three-known-q035-prompt
       width: 60mm
-      caption: 先看平行边方向，再判断 A 字型或 8 字型及对应边。
       variant: prompt
       disclosure_policy: clean
       artifact_hash: sha256:3e6355459a92d7fd0d97afe9490b668f5abb9022a57f145d6cefe80c81b683fa

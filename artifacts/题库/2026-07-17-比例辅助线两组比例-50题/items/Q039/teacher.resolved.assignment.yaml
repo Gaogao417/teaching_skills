@@ -22,38 +22,66 @@ sections:
     id: Q039
     points: 10
     label: 由两组对应边比求 BD:DC
-    stem_latex: 如图，在 $\triangle ABC$ 中，点 $D$ 在线段 $BC$ 上，点 $E$ 在线段 $AC$ 上，线段 $AD$ 与
-      $BE$ 交于点 $P$。已知 $AE:EC=3:5$，$AP:PD=3:2$，求 $BD:DC$。
+    stem_latex: 如图，点 $D$ 在线段 $BC$ 上，点 $E$ 在线段 $AC$ 上，$AD$ 与 $BE$ 交于点 $P$。已知 $AE:EC=3:5$，$AP:PD=3:2$，求
+      $BD:DC$。
     answer_space:
       type: steps
-      height: 48mm
+      height: 36mm
       step_count: 4
+    answer: $BD:DC=2:3$。
+    explanation: 第一组相似标共同边，第二组沿用它，只给另一条目标边新增份数。
+    solution_steps:
+    - title: 作辅助线
+      content: 过 C 作 CF 平行 AD，交直线 BE 于 F。蓝字标出题目给出的两组比。
       diagram_col:
         kind: tikz
         tikz_code: ''
-        tikz_path: build/diagram/jobs/question_bank-auxiliary50-q039-solution/rendered/solution.fragment.tex
-        diagram_ref: question_bank.auxiliary50.q039.solution
-        diagram_job_id: question_bank-auxiliary50-q039-solution
+        tikz_path: build/diagram/jobs/question_bank-auxiliary50-q039-helper/rendered/solution.fragment.tex
+        diagram_ref: question_bank.auxiliary50.q039.helper
+        diagram_job_id: question_bank-auxiliary50-q039-helper
         width: 60mm
-        caption: Q039 解答图：过 C 作 CF 平行 AD，交直线 BE 于 F。
+        caption: 蓝字标出题目给出的两组比；先完成辅助线。
         variant: solution
         disclosure_policy: annotated
-        artifact_hash: sha256:58080ee97195479748f345b5fa0cbefcc7580c0c3c9495c43e4c89dd710d1f30
+        artifact_hash: sha256:a52a31745a0d619656d00271a973eba9992b3e5ab53920dee64ea83c6439e6cd
         packages:
         - tikz
         libraries: []
-    answer: $BD:DC=2:3$。
-    explanation: 两组已知整数比先统一为 x、w、y、z 的关系，再求第三组并写成最简整数比。
-    solution_steps:
-    - title: 找三条比例线并作辅助线
-      content: 把两组已知条件与所求量所在的三条直线围成三角形，按讲解规则作唯一的平行辅助线，得到两组相似三角形。
-    - title: 统一记号并列关系
-      content: 记 $x=AE/EC$、$w=BD/DC$、$y=AP/PD$、$z=BP/PE$。本题可用 $w=\dfrac{x}{y-x},\quad
-        z=\dfrac{x+1}{y-x}$。
-    - title: 代入两个整数比
-      content: 由题意得到 $x=\frac{3}{5},\ y=\frac{3}{2}$，化简得 $w=\frac{2}{3}$。
-    - title: 写成最简整数比
-      content: 约去公因数，得到 $BD:DC=2:3$。
+    - title: 解第一组8字
+      content: 由蓝色已知比解 8字 $\triangle EAP\sim\triangle ECF$。沿用图中已有份数，只新增红色 $CF=5$ 份。
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/question_bank-auxiliary50-q039-model1/rendered/solution.fragment.tex
+        diagram_ref: question_bank.auxiliary50.q039.model1
+        diagram_job_id: question_bank-auxiliary50-q039-model1
+        width: 60mm
+        caption: 解第一组8字：沿用已标边，只新增 CF=5份。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:1a3974e7914551636f9ebf9cfc2a4c59fc5d25e82a585d00e1a2dbba3137df19
+        packages:
+        - tikz
+        libraries: []
+    - title: 解第二组A字
+      content: 由蓝色已知比解 A字 $\triangle BDP\sim\triangle BCF$。保留前一步全部份数，本步用绿色补出 $BD=2$
+        份，$DC=3$ 份，使所求两边的份数同时显示。
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/question_bank-auxiliary50-q039-model2/rendered/solution.fragment.tex
+        diagram_ref: question_bank.auxiliary50.q039.model2
+        diagram_job_id: question_bank-auxiliary50-q039-model2
+        width: 60mm
+        caption: 解第二组A字：已有份数保持不变；本步补出绿色 BD=2份、DC=3份，所求两边均已标清。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:dc0d0cd6cd9bf8afbd3c727ffa79330f4e14b22c1c27a3414a1dc930f21493a5
+        packages:
+        - tikz
+        libraries: []
+    - title: 比较份数，写出答案
+      content: 直接比较图中所求两条边的份数并化简，因此 $BD:DC=2:3$。
     teaching:
       teaching_goal: 由两组对应边整数比求第三组整数比
       source_relations:
@@ -74,10 +102,10 @@ sections:
       diagram_ref: question_bank.auxiliary50.q039.prompt
       diagram_job_id: question_bank-auxiliary50-q039-prompt
       width: 60mm
-      caption: Q039 原题图：只显示原始构型与点名。
+      caption: ''
       variant: prompt
       disclosure_policy: clean
-      artifact_hash: sha256:c3de76a6f9d3f7c9fe1672fed188b15686aed137c56d0f2985d3d5f589b153fa
+      artifact_hash: sha256:ee70bfe468f28e88df3e70b4a78e506c6f072b6909bf728541816a0ae12654b4
       packages:
       - tikz
       libraries: []

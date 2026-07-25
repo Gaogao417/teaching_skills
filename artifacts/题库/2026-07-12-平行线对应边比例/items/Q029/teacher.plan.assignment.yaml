@@ -22,7 +22,7 @@ sections:
     id: Q029
     points: 10
     label: 对应边比转整段比
-    stem_latex: '如图，直线 $AC$ 与 $BD$ 相交于点 $P$，点序分别为 $A-P-C$、$B-P-D$，且 $AB\parallel CD$。
+    stem_latex: '如图，$AB\parallel CD$。
 
 
       已知 $AB:CD=4:7$，求 $BP:BD$。'
@@ -45,8 +45,7 @@ sections:
         diagram_kind: synthetic_geometry
         engine_options:
           scene_payload:
-            scene_code: GeometricScene[{P, A, B, C, D}, {P == {0, 0}, A == {-4.86486486486, 5.53658536585}, B == {24.0465116279,
-              4.76595744681}, C == {8.51351351889, -9.68902438552}, D == {-42.0813953498, -8.34042552702}}]
+            scene_code: GeometricScene[{P, A, B, C, D}, {P == {0, 0}, A == {-4.86486486486, 5.53658536585}, B == {24.0465116279, 4.76595744681}, C == {8.51351351889, -9.68902438552}, D == {-42.0813953498, -8.34042552702}}]
             points: &id001
             - P
             - A
@@ -118,7 +117,7 @@ sections:
         teaching_intent: practice_solution
         reuse_geometry_from: question_bank.parallel.q029.prompt
         problem_context:
-          stem_latex: '如图，直线 $AC$ 与 $BD$ 相交于点 $P$，点序分别为 $A-P-C$、$B-P-D$，且 $AB\parallel CD$。
+          stem_latex: '如图，$AB\parallel CD$。
 
 
             已知 $AB:CD=4:7$，求 $BP:BD$。'
@@ -163,15 +162,11 @@ sections:
       placement: diagram_col
       layout_role: question_sidecar
       display_profile: worksheet_geometry_sidecar
-      caption: Q029 学生图：按本题条件读点序和对应线段。
       engine: geometric_scene
       diagram_kind: synthetic_geometry
       engine_options:
         scene_payload:
-          scene_code: GeometricScene[{P, A, B, C, D}, {P == {0, 0}, A == {-(180/37), 227/41}, B == {1034/43, 224/47}, Element[C,
-            InfiniteLine[{A, P}]], Element[D, InfiniteLine[{B, P}]], Element[P, Line[{A, C}]], Element[P, Line[{B, D}]], 7
-            EuclideanDistance[P, A] == 4 EuclideanDistance[P, C], 7 EuclideanDistance[P, B] == 4 EuclideanDistance[P, D],
-            GeometricAssertion[{Line[{A, B}], Line[{C, D}]}, "Parallel"]}]
+          scene_code: GeometricScene[{P, A, B, C, D}, {P == {0, 0}, A == {-(180/37), 227/41}, B == {1034/43, 224/47}, Element[C, InfiniteLine[{A, P}]], Element[D, InfiniteLine[{B, P}]], Element[P, Line[{A, C}]], Element[P, Line[{B, D}]], 7 EuclideanDistance[P, A] == 4 EuclideanDistance[P, C], 7 EuclideanDistance[P, B] == 4 EuclideanDistance[P, D], GeometricAssertion[{Line[{A, B}], Line[{C, D}]}, "Parallel"]}]
           points:
           - P
           - A
@@ -234,7 +229,7 @@ sections:
         seed: 12029
       teaching_intent: practice_prompt
       problem_context:
-        stem_latex: '如图，直线 $AC$ 与 $BD$ 相交于点 $P$，点序分别为 $A-P-C$、$B-P-D$，且 $AB\parallel CD$。
+        stem_latex: '如图，$AB\parallel CD$。
 
 
           已知 $AB:CD=4:7$，求 $BP:BD$。'

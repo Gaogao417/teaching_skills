@@ -7,7 +7,9 @@ meta:
   show_answers: true
   source_artifacts:
     explanation: ../../专题/2026-07-14-蝶形相似求第四边/02-student-explanation.resolved.assignment.yaml
-    diagram_policy: 一题一张独立 prompt 图；题图不泄露相似结论或答案
+    number_database: .codex/skills/math-topic-question-bank/data/training-number-database.yaml
+    geometry_database: .codex/skills/math-topic-question-bank/data/similarity-triangle-database.yaml
+    diagram_policy: 一题一张独立 prompt 图；题图不泄露化简、相似结论或答案
 render:
   template: exam-zh-practice
   paper_size: a4paper
@@ -21,56 +23,77 @@ sections:
   - type: problem
     id: Q034
     points: 10
-    label: 先证相似再求边
+    label: 求指定边
     stem_latex: '如图，$\angle OAC=\angle ODB$。
 
 
-      已知 $OC=\sqrt{7}$，$OB=\sqrt{14}$，$AO=3\sqrt{7}$。求证 $\triangle AOC\sim\triangle
-      DOB$，并求 $OD$。'
+      已知 $AC=2\sqrt{3}$，$AO=6$，$DB=2$。求 $OD$ 的长。'
     answer_space:
       type: steps
-      height: 48mm
-      step_count: 4
-    answer: $OD=3\sqrt{14}$。
-    explanation: 先由等角判相似，再按同序顶点确定对应边；本题所用数值对来自 radical_multiple_pairs。
+      height: 54mm
+      step_count: 5
+    answer: $OD=2\sqrt{3}$。
+    explanation: 使用整数与整系数根式写出精确比例，再完成相似判定、对应和计算。
     solution_steps:
-    - title: 见等角，找相似
-      content: 由题设等角和构型自带的第二组等角，得 $\triangle AOC\sim\triangle DOB$。
-    - title: 按顶点写对应边
-      content: 三组小边与大边依次为：$AO\leftrightarrow OD$，$OC\leftrightarrow OB$，$AC\leftrightarrow
-        DB$。
+    - title: 整理已知边长比
+      content: 题中给出的两边均为整数或整系数根式，因此可直接写成 $AC:AO=2\sqrt{3}:6$。
+    - title: 由等角判相似
+      content: 由题设等角和构型自带的另一组等角，得 $\triangle AOC\sim\triangle DOB$。
+    - title: 按顶点确认对应边
+      content: 三组小三角形边与大三角形边依次为：$AO\leftrightarrow OD$，$OC\leftrightarrow OB$，$AC\leftrightarrow DB$。
     - title: 保持比例方向一致
-      content: 取 小三角形边与大三角形对应边之比，可列 $\dfrac{OC}{OB}=\dfrac{AO}{OD}$。
-    - title: 代入并验算
-      content: 代入已知量解得 $OD=3\sqrt{14}$；两组对应边的比均等于同一相似比。
+      content: 统一保持两组对应边的方向，可列 $\dfrac{AC}{DB}=\dfrac{AO}{OD}$，再代入 $DB=2$。
+    - title: 求值并验算
+      content: 解得 $OD=2\sqrt{3}$；代回后两组对应边的比完全相等。
     teaching:
-      teaching_goal: 先补出第二组等角并证明相似，再求边
+      teaching_goal: 独立确定对应关系并求指定边
       source_relations:
       - explanation:butterfly
       - similar_triangles_corresponding_sides
-      expected_blocker: 没有先锁定等角顶点，或两组比例的大小方向不一致。
-      entry_point: equal_angles_to_similarity_to_correspondence
+      - exact_integer_radical_ratio
+      expected_blocker: 两组比例的对应顺序不一致，或根式乘除没有保持精确形式。
+      entry_point: exact_ratio_then_equal_angles_to_similarity
       scaffold_level: medium
-      variation_depth: partially_hidden
-      complexity_note: 只训练 AA 判定、对应边和一层比例；不引入面积、周长或额外辅助线。
-      upgrade_rule: 能独立写出同序相似式并用另一组对应边验算。
-      fallback_move: 先标出两个相等角的顶点，再逐个写出对应点。
+      variation_depth: changed_representation
+      complexity_note: 数库提供同一基准三角形的两条整数/整系数根式边；另一三角形只给一条整数对应边。数库边受素因数与比例限制，精确派生的未知边不限制为整数或小素因数。
+      upgrade_rule: 能在题干不提示时主动写出精确边长比并保持对应方向。
+      fallback_move: 先圈出一组完整对应边，再用同一方向写另一组对应边。
       number_selection:
         database_id: question-bank-training-numbers
-        family_id: radical_multiple_pairs
-        entry_id: sqrt-ka-a7-k2
-        selection_class: irrational_pair
+        family_id: noncoprime_radicand_pairs
+        entry_id: noncoprime-a3-b9-x2-y2
+        values_latex:
+        - 2\sqrt{3}
+        - '6'
+        squared_ratio:
+        - 3
+        - 1
+        largest_prime_factor_max: 5
+        max_ratio: sqrt(3)
+        source_fractional_coefficients_allowed: false
+        unknown_value_restrictions: none_beyond_positive_exact_value
+      geometry_selection:
+        database_id: similarity-triangle-realizations
+        entry_id: butterfly-noncoprime-a3-b9-x2-y2-s2-t0-small-n2
+        model: butterfly
+        source_pair_index: 2
+        target_pair_index: 0
+        known_target_position: small
+        number_side_indices:
+        - 2
+        - 0
+        known_correspondence_index: 2
+        unknown_correspondence_index: 0
     diagram_col:
       kind: tikz
       tikz_code: ''
-      tikz_path: build/diagram/jobs/question_bank-butterfly-q034-prompt/rendered/prompt.fragment.tex
-      diagram_ref: question_bank.butterfly.q034.prompt
-      diagram_job_id: question_bank-butterfly-q034-prompt
+      tikz_path: build/diagram/jobs/question_bank-butterfly-v2-q034-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.butterfly.v2.q034.prompt
+      diagram_job_id: question_bank-butterfly-v2-q034-prompt
       width: 60mm
-      caption: 先用对顶角补齐第二组等角，再按顶点顺序配边。
       variant: prompt
       disclosure_policy: clean
-      artifact_hash: sha256:239d12cd7f8815ccf49eb701607ab7e5a7a978568fcd36fb5f93c48101e39acc
+      artifact_hash: sha256:b723476ba17d86c588fb2e8bbc7aa7521cb10094154becc131433f5420c1ebe1
       packages:
       - tikz
       libraries: []

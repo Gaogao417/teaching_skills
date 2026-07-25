@@ -22,38 +22,66 @@ sections:
     id: Q005
     points: 10
     label: 由两组对应边比求 BD:DC
-    stem_latex: 如图，在 $\triangle ABC$ 中，点 $D$ 在线段 $BC$ 上，点 $E$ 在线段 $AC$ 上，线段 $AD$ 与
-      $BE$ 交于点 $P$。已知 $AE:EC=1:1$，$BP:PE=3:2$，求 $BD:DC$。
+    stem_latex: 如图，点 $D$ 在线段 $BC$ 上，点 $E$ 在线段 $AC$ 上，$AD$ 与 $BE$ 交于点 $P$。已知 $AE:EC=1:1$，$BP:PE=3:2$，求
+      $BD:DC$。
     answer_space:
       type: steps
-      height: 48mm
+      height: 36mm
       step_count: 4
+    answer: $BD:DC=3:4$。
+    explanation: 第一组相似标共同边，第二组沿用它，只给另一条目标边新增份数。
+    solution_steps:
+    - title: 作辅助线
+      content: 过 E 作 EF 平行 CB，交直线 AD 于 F。蓝字标出题目给出的两组比。
       diagram_col:
         kind: tikz
         tikz_code: ''
-        tikz_path: build/diagram/jobs/question_bank-auxiliary50-q005-solution/rendered/solution.fragment.tex
-        diagram_ref: question_bank.auxiliary50.q005.solution
-        diagram_job_id: question_bank-auxiliary50-q005-solution
+        tikz_path: build/diagram/jobs/question_bank-auxiliary50-q005-helper/rendered/solution.fragment.tex
+        diagram_ref: question_bank.auxiliary50.q005.helper
+        diagram_job_id: question_bank-auxiliary50-q005-helper
         width: 60mm
-        caption: Q005 解答图：过 E 作 EF 平行 CB，交直线 AD 于 F。
+        caption: 蓝字标出题目给出的两组比；先完成辅助线。
         variant: solution
         disclosure_policy: annotated
-        artifact_hash: sha256:de84e853a700344b0d932a03afb003283c2e38dacc42c1cd997c39f806eb924e
+        artifact_hash: sha256:65ff7a1fc3e022b68b5fbf0818dabe49f208fc675caf5f19388acdcffae61bbe
         packages:
         - tikz
         libraries: []
-    answer: $BD:DC=3:4$。
-    explanation: 两组已知整数比先统一为 x、w、y、z 的关系，再求第三组并写成最简整数比。
-    solution_steps:
-    - title: 找三条比例线并作辅助线
-      content: 把两组已知条件与所求量所在的三条直线围成三角形，按讲解规则作唯一的平行辅助线，得到两组相似三角形。
-    - title: 统一记号并列关系
-      content: 记 $x=AE/EC$、$w=BD/DC$、$y=AP/PD$、$z=BP/PE$。本题可用 $w=\dfrac{zx}{x+1},\quad
-        y=x+\dfrac{x+1}{z}$。
-    - title: 代入两个整数比
-      content: 由题意得到 $x=1,\ z=\frac{3}{2}$，化简得 $w=\frac{3}{4}$。
-    - title: 写成最简整数比
-      content: 约去公因数，得到 $BD:DC=3:4$。
+    - title: 解第一组A字
+      content: 由蓝色已知比解 A字 $\triangle AEF\sim\triangle ACD$，得红色 $EF:DC=1:2$。
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/question_bank-auxiliary50-q005-model1/rendered/solution.fragment.tex
+        diagram_ref: question_bank.auxiliary50.q005.model1
+        diagram_job_id: question_bank-auxiliary50-q005-model1
+        width: 60mm
+        caption: 解第一组A字：两条边都未标，补出一对红色份数。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:20115be31d02c83e10e8a8bb97016ec72260b631a072d0c544ab285c5ec1a663
+        packages:
+        - tikz
+        libraries: []
+    - title: 解第二组8字
+      content: 由蓝色已知比解 8字 $\triangle PEF\sim\triangle PBD$。保留前一步全部份数，本步用绿色补出 $BD=\frac{3}{2}$
+        份，使所求两边的份数同时显示。
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/question_bank-auxiliary50-q005-model2/rendered/solution.fragment.tex
+        diagram_ref: question_bank.auxiliary50.q005.model2
+        diagram_job_id: question_bank-auxiliary50-q005-model2
+        width: 60mm
+        caption: 解第二组8字：已有份数保持不变；本步补出绿色 BD=3/2份，所求两边均已标清。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:28562e26e3d7ded4116c418b2edc5663a6bc2d46d35fcd681a4dd62af3052cf9
+        packages:
+        - tikz
+        libraries: []
+    - title: 比较份数，写出答案
+      content: 直接比较图中所求两条边的份数并化简，因此 $BD:DC=3:4$。
     teaching:
       teaching_goal: 由两组对应边整数比求第三组整数比
       source_relations:
@@ -74,10 +102,10 @@ sections:
       diagram_ref: question_bank.auxiliary50.q005.prompt
       diagram_job_id: question_bank-auxiliary50-q005-prompt
       width: 60mm
-      caption: Q005 原题图：只显示原始构型与点名。
+      caption: ''
       variant: prompt
       disclosure_policy: clean
-      artifact_hash: sha256:e02f0a2d4fc05eb83362d65445251245ac8a75b2b68160cfd60761a66eac798e
+      artifact_hash: sha256:3cadfd8daf38c00b829135ff35c51d029d9610208c0de1d6fb056a70fcfbdf59
       packages:
       - tikz
       libraries: []

@@ -1,0 +1,43 @@
+meta:
+  title: 二次函数配方 · Q016 · 教师版
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    explanation: ../../../../专题/2026-07-17-二次函数配方/02-student-explanation.assignment.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: question
+  title: 二次函数配方
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q016
+    points: 10
+    label: b/a不是偶数
+    stem_latex: 将 $f(x)=5x^2+6x+1$ 配方。
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 3
+    answer: $f(x)=5\left(x+\dfrac{3}{5}\right)^2-\dfrac{4}{5}$，其中 $m=\dfrac{3}{5}$。
+    explanation: 五类系数外观不同，但始终使用同一套三步配方。
+    solution_steps:
+    - title: 提二次项系数
+      content_latex: $f(x)=5\left(x^2+\dfrac{6}{5}x\right)+1$。
+    - title: 写成 $x^2+2mx$ 并配方
+      content_latex: $2m=\dfrac{6}{5}$，所以 $m=\dfrac{3}{5}$，$x^2+\dfrac{6}{5}x=\left(x+\dfrac{3}{5}\right)^2-\dfrac{9}{25}$。
+    - title: 拆中括号并合并
+      content_latex: $f(x)=5\left[\left(x+\dfrac{3}{5}\right)^2-\dfrac{9}{25}\right]+1=5\left(x+\dfrac{3}{5}\right)^2-\dfrac{4}{5}$。
+    teaching:
+      teaching_goal: 用统一三步完成二次函数配方
+      category: b/a不是偶数
+      entry_point: factor_a_then_match_2m_then_expand_brackets
+      number_policy:
+        largest_prime_factor_max: 5
+        fraction_relation: same_denominator_or_same_numerator_within_source_expression

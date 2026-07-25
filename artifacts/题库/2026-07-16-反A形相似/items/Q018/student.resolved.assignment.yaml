@@ -7,7 +7,9 @@ meta:
   show_answers: false
   source_artifacts:
     explanation: ../../专题/2026-07-14-反A形相似求第四边/02-student-explanation.resolved.assignment.yaml
-    diagram_policy: 一题一张独立 prompt 图；题图不泄露相似结论或答案
+    number_database: .codex/skills/math-topic-question-bank/data/training-number-database.yaml
+    geometry_database: .codex/skills/math-topic-question-bank/data/similarity-triangle-database.yaml
+    diagram_policy: 一题一张独立 prompt 图；题图不泄露化简、相似结论或答案
 render:
   template: exam-zh-practice
   paper_size: a4paper
@@ -21,26 +23,25 @@ sections:
   - type: problem
     id: Q018
     points: 10
-    label: 三边求第四边
+    label: 求指定边
     stem_latex: '如图，$\angle PAB=\angle PDC$。
 
 
-      已知 $AB=\sqrt{2}$，$DC=\sqrt{6}$，$PA=\sqrt{2}$，求 $PD$。'
+      已知 $PA=3\sqrt{6}$，$PB=6\sqrt{2}$，$PD=10$。求 $PC$ 的长。'
     answer_space:
       type: steps
-      height: 48mm
-      step_count: 4
+      height: 54mm
+      step_count: 5
     diagram_col:
       kind: tikz
       tikz_code: ''
-      tikz_path: build/diagram/jobs/question_bank-reverse_a-q018-prompt/rendered/prompt.fragment.tex
-      diagram_ref: question_bank.reverse_a.q018.prompt
-      diagram_job_id: question_bank-reverse_a-q018-prompt
+      tikz_path: build/diagram/jobs/question_bank-reverse_a-v2-q018-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.reverse_a.v2.q018.prompt
+      diagram_job_id: question_bank-reverse_a-v2-q018-prompt
       width: 60mm
-      caption: 沿题设等角的顶点顺序，找出两组三角形的对应边。
       variant: prompt
       disclosure_policy: clean
-      artifact_hash: sha256:0962d241e44299fcd9469427c4d4d5052d5c38ac3d9eae583ce052e5afa7ae5d
+      artifact_hash: sha256:33bf04e3dc45f9c7e6447a1b962a43a2ba2336d875fd11bb6d01cd348c4d5928
       packages:
       - tikz
       libraries: []

@@ -22,17 +22,15 @@ sections:
     id: Q023
     points: 10
     label: 已知三边求第四边
-    stem_latex: |-
-      如图，$P,A,C$ 三点共线，$P,B,D$ 三点共线，点序分别为 $P-A-C$、$P-B-D$，且 $AB\parallel CD$。
-      已知 $PB=12$，$PD=22$，$PA=12$，求 $PC$。
-    hints: []
+    stem_latex: '如图，$AB\parallel CD$。
+
+      已知 $PB=12$，$PD=22$，$PA=12$，求 $PC$。'
     answer_space:
       type: steps
       height: 42mm
       step_count: 4
     answer: $PC=22$。
-    explanation: 已知边与未知边都不在平行线段 $AB,CD$ 上，求两侧对应线段的比。先算 $\dfrac{PB}{PD}=\dfrac{12}{22}=\dfrac{6}{11}$。约分后，$PC$
-      对应 11 份，$PA$ 对应 6 份。$PC=PA\times\dfrac{11}{6}=12\times\dfrac{11}{6}=22$。
+    explanation: 已知边与未知边都不在平行线段 $AB,CD$ 上，求两侧对应线段的比。先算 $\dfrac{PB}{PD}=\dfrac{12}{22}=\dfrac{6}{11}$。约分后，$PC$ 对应 11 份，$PA$ 对应 6 份。$PC=PA\times\dfrac{11}{6}=12\times\dfrac{11}{6}=22$。
     solution_steps:
     - title: 先判断
       content: 已知边与未知边都不在平行线段 $AB,CD$ 上，求两侧对应线段的比。
@@ -59,7 +57,6 @@ sections:
       diagram_ref: question.bank.three.known.q023.prompt
       diagram_job_id: question-bank-three-known-q023-prompt
       width: 60mm
-      caption: 先看平行边方向，再判断 A 字型或 8 字型及对应边。
       variant: prompt
       disclosure_policy: clean
       artifact_hash: sha256:cd2e058c6d9cb99d70cf9dcb46ac625ceaeac26cc7c35189234aabd64538580d

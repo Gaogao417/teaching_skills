@@ -7,7 +7,9 @@ meta:
   show_answers: false
   source_artifacts:
     explanation: ../../专题/2026-07-14-蝶形相似求第四边/02-student-explanation.resolved.assignment.yaml
-    diagram_policy: 一题一张独立 prompt 图；题图不泄露相似结论或答案
+    number_database: .codex/skills/math-topic-question-bank/data/training-number-database.yaml
+    geometry_database: .codex/skills/math-topic-question-bank/data/similarity-triangle-database.yaml
+    diagram_policy: 一题一张独立 prompt 图；题图不泄露化简、相似结论或答案
 render:
   template: exam-zh-practice
   paper_size: a4paper
@@ -21,26 +23,25 @@ sections:
   - type: problem
     id: Q013
     points: 10
-    label: 三边求第四边
+    label: 求指定边
     stem_latex: '如图，$\angle OAC=\angle ODB$。
 
 
-      已知 $OC=\frac{1}{3}$，$OB=\frac{5}{3}$，$AC=1$，求 $DB$。'
+      已知 $OC=2\sqrt{6}$，$AO=6\sqrt{2}$，$OB=3$。求 $OD$ 的长。'
     answer_space:
       type: steps
-      height: 48mm
-      step_count: 4
+      height: 54mm
+      step_count: 5
     diagram_col:
       kind: tikz
       tikz_code: ''
-      tikz_path: build/diagram/jobs/question_bank-butterfly-q013-prompt/rendered/prompt.fragment.tex
-      diagram_ref: question_bank.butterfly.q013.prompt
-      diagram_job_id: question_bank-butterfly-q013-prompt
+      tikz_path: build/diagram/jobs/question_bank-butterfly-v2-q013-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.butterfly.v2.q013.prompt
+      diagram_job_id: question_bank-butterfly-v2-q013-prompt
       width: 60mm
-      caption: 先用对顶角补齐第二组等角，再按顶点顺序配边。
       variant: prompt
       disclosure_policy: clean
-      artifact_hash: sha256:6a9545d31d054c23343be3b1865148907a3a246699f94c66084832acb2f4380f
+      artifact_hash: sha256:bc581196582ce142e7e31d2998260cdd16d523cbbac09ef11150014d7702e0c6
       packages:
       - tikz
       libraries: []

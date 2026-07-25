@@ -22,7 +22,7 @@ sections:
     id: Q025
     points: 10
     label: 由内段求另一内段和整段
-    stem_latex: '如图，直线 $AC$ 与 $BD$ 相交于点 $P$，点序分别为 $A-P-C$、$B-P-D$，且 $AB\parallel CD$。
+    stem_latex: '如图，$AB\parallel CD$。
 
 
       已知 $AB:CD=4:7$，且 $AP=12$，求 $PC$ 与 $AC$。'
@@ -45,8 +45,7 @@ sections:
         diagram_kind: synthetic_geometry
         engine_options:
           scene_payload:
-            scene_code: GeometricScene[{P, A, B, C, D}, {P == {0, 0}, A == {-4.75675675676, 5.34146341463}, B == {19.023255814,
-              4.51063829787}, C == {8.3243243281, -9.34756097225}, D == {-33.2906976753, -7.89361701776}}]
+            scene_code: GeometricScene[{P, A, B, C, D}, {P == {0, 0}, A == {-4.75675675676, 5.34146341463}, B == {19.023255814, 4.51063829787}, C == {8.3243243281, -9.34756097225}, D == {-33.2906976753, -7.89361701776}}]
             points: &id001
             - P
             - A
@@ -118,7 +117,7 @@ sections:
         teaching_intent: practice_solution
         reuse_geometry_from: question_bank.parallel.q025.prompt
         problem_context:
-          stem_latex: '如图，直线 $AC$ 与 $BD$ 相交于点 $P$，点序分别为 $A-P-C$、$B-P-D$，且 $AB\parallel CD$。
+          stem_latex: '如图，$AB\parallel CD$。
 
 
             已知 $AB:CD=4:7$，且 $AP=12$，求 $PC$ 与 $AC$。'
@@ -163,15 +162,11 @@ sections:
       placement: diagram_col
       layout_role: question_sidecar
       display_profile: worksheet_geometry_sidecar
-      caption: Q025 学生图：按本题条件读点序和对应线段。
       engine: geometric_scene
       diagram_kind: synthetic_geometry
       engine_options:
         scene_payload:
-          scene_code: GeometricScene[{P, A, B, C, D}, {P == {0, 0}, A == {-(176/37), 219/41}, B == {818/43, 212/47}, Element[C,
-            InfiniteLine[{A, P}]], Element[D, InfiniteLine[{B, P}]], Element[P, Line[{A, C}]], Element[P, Line[{B, D}]], 7
-            EuclideanDistance[P, A] == 4 EuclideanDistance[P, C], 7 EuclideanDistance[P, B] == 4 EuclideanDistance[P, D],
-            GeometricAssertion[{Line[{A, B}], Line[{C, D}]}, "Parallel"]}]
+          scene_code: GeometricScene[{P, A, B, C, D}, {P == {0, 0}, A == {-(176/37), 219/41}, B == {818/43, 212/47}, Element[C, InfiniteLine[{A, P}]], Element[D, InfiniteLine[{B, P}]], Element[P, Line[{A, C}]], Element[P, Line[{B, D}]], 7 EuclideanDistance[P, A] == 4 EuclideanDistance[P, C], 7 EuclideanDistance[P, B] == 4 EuclideanDistance[P, D], GeometricAssertion[{Line[{A, B}], Line[{C, D}]}, "Parallel"]}]
           points:
           - P
           - A
@@ -234,7 +229,7 @@ sections:
         seed: 12025
       teaching_intent: practice_prompt
       problem_context:
-        stem_latex: '如图，直线 $AC$ 与 $BD$ 相交于点 $P$，点序分别为 $A-P-C$、$B-P-D$，且 $AB\parallel CD$。
+        stem_latex: '如图，$AB\parallel CD$。
 
 
           已知 $AB:CD=4:7$，且 $AP=12$，求 $PC$ 与 $AC$。'

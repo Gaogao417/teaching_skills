@@ -22,16 +22,15 @@ sections:
     id: Q050
     points: 10
     label: 已知三边求第四边
-    stem_latex: |-
-      如图，$A,P,C$ 三点共线，$B,P,D$ 三点共线，点序分别为 $A-P-C$、$B-P-D$，且 $AB\parallel CD$。
-      已知 $BP=\sqrt{10}$，$PD=2\sqrt{10}$，$AB=2\sqrt{10}$，求 $CD$。
+    stem_latex: '如图，$AB\parallel CD$。
+
+      已知 $BP=\sqrt{10}$，$PD=2\sqrt{10}$，$AB=2\sqrt{10}$，求 $CD$。'
     answer_space:
       type: steps
       height: 42mm
       step_count: 4
     answer: $CD=4\sqrt{10}$。
-    explanation: 已知边与未知边中出现平行线段 $AB$、$CD$，先求两个相似三角形的比。先算 $\dfrac{BP}{PD}=\dfrac{\sqrt{10}}{2\sqrt{10}}=\dfrac{1}{2}$。约分后，$CD$
-      对应 $2$ 份，$AB$ 对应 $1$ 份。$CD=AB\times\dfrac{2}{1}=2\sqrt{10}\times\dfrac{2}{1}=4\sqrt{10}$。
+    explanation: 已知边与未知边中出现平行线段 $AB$、$CD$，先求两个相似三角形的比。先算 $\dfrac{BP}{PD}=\dfrac{\sqrt{10}}{2\sqrt{10}}=\dfrac{1}{2}$。约分后，$CD$ 对应 $2$ 份，$AB$ 对应 $1$ 份。$CD=AB\times\dfrac{2}{1}=2\sqrt{10}\times\dfrac{2}{1}=4\sqrt{10}$。
     solution_steps:
     - title: 先判断
       content: 已知边与未知边中出现平行线段 $AB$、$CD$，先求两个相似三角形的比。
@@ -62,7 +61,6 @@ sections:
       diagram_ref: question.bank.three.known.q050.prompt
       diagram_job_id: question-bank-three-known-q050-prompt
       width: 60mm
-      caption: 先看平行边方向，再判断 A 字型或 8 字型及对应边。
       variant: prompt
       disclosure_policy: clean
       artifact_hash: sha256:f95252d1380c381b1692d20e9e104dbdfde29abc14bf730f76d0ddcb496c9fe1

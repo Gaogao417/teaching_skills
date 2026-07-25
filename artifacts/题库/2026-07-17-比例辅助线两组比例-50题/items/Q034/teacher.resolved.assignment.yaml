@@ -22,38 +22,66 @@ sections:
     id: Q034
     points: 10
     label: 由两组对应边比求 AP:PD
-    stem_latex: 如图，在 $\triangle ABC$ 中，点 $D$ 在线段 $BC$ 上，点 $E$ 在线段 $AC$ 上，线段 $AD$ 与
-      $BE$ 交于点 $P$。已知 $BD:DC=3:4$，$BP:PE=5:4$，求 $AP:PD$。
+    stem_latex: 如图，点 $D$ 在线段 $BC$ 上，点 $E$ 在线段 $AC$ 上，$AD$ 与 $BE$ 交于点 $P$。已知 $BD:DC=3:4$，$BP:PE=5:4$，求
+      $AP:PD$。
     answer_space:
       type: steps
-      height: 48mm
+      height: 36mm
       step_count: 4
+    answer: $AP:PD=7:2$。
+    explanation: 第一组相似标共同边，第二组沿用它，只给另一条目标边新增份数。
+    solution_steps:
+    - title: 作辅助线
+      content: 过 P 作 PF 平行 DB，交直线 AC 于 F。蓝字标出题目给出的两组比。
       diagram_col:
         kind: tikz
         tikz_code: ''
-        tikz_path: build/diagram/jobs/question_bank-auxiliary50-q034-solution/rendered/solution.fragment.tex
-        diagram_ref: question_bank.auxiliary50.q034.solution
-        diagram_job_id: question_bank-auxiliary50-q034-solution
+        tikz_path: build/diagram/jobs/question_bank-auxiliary50-q034-helper/rendered/solution.fragment.tex
+        diagram_ref: question_bank.auxiliary50.q034.helper
+        diagram_job_id: question_bank-auxiliary50-q034-helper
         width: 60mm
-        caption: Q034 解答图：过 P 作 PF 平行 DB，交直线 AC 于 F。
+        caption: 蓝字标出题目给出的两组比；先完成辅助线。
         variant: solution
         disclosure_policy: annotated
-        artifact_hash: sha256:c64b619944620ea5bf7b75deb522171cfea76d68d98aa5bf4ff48937428e641f
+        artifact_hash: sha256:66c7a09b0b64d9c3e059189fed645dafb49a4c2889cc1e56ffa7251767671cf0
         packages:
         - tikz
         libraries: []
-    answer: $AP:PD=7:2$。
-    explanation: 两组已知整数比先统一为 x、w、y、z 的关系，再求第三组并写成最简整数比。
-    solution_steps:
-    - title: 找三条比例线并作辅助线
-      content: 把两组已知条件与所求量所在的三条直线围成三角形，按讲解规则作唯一的平行辅助线，得到两组相似三角形。
-    - title: 统一记号并列关系
-      content: 记 $x=AE/EC$、$w=BD/DC$、$y=AP/PD$、$z=BP/PE$。本题可用 $x=\dfrac{w}{z-w},\quad
-        y=\dfrac{w+1}{z-w}$。
-    - title: 代入两个整数比
-      content: 由题意得到 $w=\frac{3}{4},\ z=\frac{5}{4}$，化简得 $y=\frac{7}{2}$。
-    - title: 写成最简整数比
-      content: 约去公因数，得到 $AP:PD=7:2$。
+    - title: 解第一组A字
+      content: 由蓝色已知比解 A字 $\triangle EFP\sim\triangle ECB$，得红色 $PF:BC=4:9$。
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/question_bank-auxiliary50-q034-model1/rendered/solution.fragment.tex
+        diagram_ref: question_bank.auxiliary50.q034.model1
+        diagram_job_id: question_bank-auxiliary50-q034-model1
+        width: 60mm
+        caption: 解第一组A字：两条边都未标，补出一对红色份数。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:0d04790228008423cee44e0fd93c1202301920d56bb8bc76e055f1d418f418ba
+        packages:
+        - tikz
+        libraries: []
+    - title: 解第二组A字
+      content: 由蓝色已知比解 A字 $\triangle APF\sim\triangle ADC$。保留前一步全部份数，本步用绿色补出 $AP=7$
+        份，$PD=2$ 份，使所求两边的份数同时显示。
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/question_bank-auxiliary50-q034-model2/rendered/solution.fragment.tex
+        diagram_ref: question_bank.auxiliary50.q034.model2
+        diagram_job_id: question_bank-auxiliary50-q034-model2
+        width: 60mm
+        caption: 解第二组A字：已有份数保持不变；本步补出绿色 AP=7份、PD=2份，所求两边均已标清。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:11059eff327a30f9d54abe72280b431b72000e6c6d3c6a41d34db53df642f6f9
+        packages:
+        - tikz
+        libraries: []
+    - title: 比较份数，写出答案
+      content: 直接比较图中所求两条边的份数并化简，因此 $AP:PD=7:2$。
     teaching:
       teaching_goal: 由两组对应边整数比求第三组整数比
       source_relations:
@@ -74,10 +102,10 @@ sections:
       diagram_ref: question_bank.auxiliary50.q034.prompt
       diagram_job_id: question_bank-auxiliary50-q034-prompt
       width: 60mm
-      caption: Q034 原题图：只显示原始构型与点名。
+      caption: ''
       variant: prompt
       disclosure_policy: clean
-      artifact_hash: sha256:d524ac0395781e6b019d8bf0a27dd3d4ef844c8505cb84dcf045c1c0b16a14e7
+      artifact_hash: sha256:409089c82c85a9ced642df97b239e017f956b94f4c80f5d4be48996b1c3d4396
       packages:
       - tikz
       libraries: []

@@ -22,7 +22,7 @@ sections:
     id: Q012
     points: 10
     label: 辨析错误比例
-    stem_latex: '如图，直线 $AC$ 与 $BD$ 相交于点 $P$，点序分别为 $P-A-C$、$P-B-D$，且 $AB\parallel CD$。
+    stem_latex: '如图，$AB\parallel CD$。
 
 
       已知 $PA:AC=2:3$。小明写出 $AB:CD=2:3$。判断并改正。'
@@ -45,8 +45,7 @@ sections:
         diagram_kind: synthetic_geometry
         engine_options:
           scene_payload:
-            scene_code: GeometricScene[{P, A, B, C, D}, {P == {0, 7.48387111089}, A == {-3.09909921714, 2.49462367699}, B
-              == {5.38211392754, 2.49462369795}, C == {-4.6486487738, 0}, D == {8.07317086288, 0}}]
+            scene_code: GeometricScene[{P, A, B, C, D}, {P == {0, 7.48387111089}, A == {-3.09909921714, 2.49462367699}, B == {5.38211392754, 2.49462369795}, C == {-4.6486487738, 0}, D == {8.07317086288, 0}}]
             points: &id001
             - P
             - A
@@ -118,7 +117,7 @@ sections:
         teaching_intent: practice_solution
         reuse_geometry_from: question_bank.parallel.q012.prompt
         problem_context:
-          stem_latex: '如图，直线 $AC$ 与 $BD$ 相交于点 $P$，点序分别为 $P-A-C$、$P-B-D$，且 $AB\parallel CD$。
+          stem_latex: '如图，$AB\parallel CD$。
 
 
             已知 $PA:AC=2:3$。小明写出 $AB:CD=2:3$。判断并改正。'
@@ -163,14 +162,11 @@ sections:
       placement: diagram_col
       layout_role: question_sidecar
       display_profile: worksheet_geometry_sidecar
-      caption: Q012 学生图：按本题条件读点序和对应线段。
       engine: geometric_scene
       diagram_kind: synthetic_geometry
       engine_options:
         scene_payload:
-          scene_code: GeometricScene[{P, A, B, C, D}, {P == {0, 232/31}, C == {-(172/37), 0}, D == {331/41, 0}, Element[A,
-            Line[{P, C}]], Element[B, Line[{P, D}]], 3 EuclideanDistance[P, A] == 2 EuclideanDistance[P, C], 3 EuclideanDistance[P,
-            B] == 2 EuclideanDistance[P, D], GeometricAssertion[{Line[{A, B}], Line[{C, D}]}, "Parallel"]}]
+          scene_code: GeometricScene[{P, A, B, C, D}, {P == {0, 232/31}, C == {-(172/37), 0}, D == {331/41, 0}, Element[A, Line[{P, C}]], Element[B, Line[{P, D}]], 3 EuclideanDistance[P, A] == 2 EuclideanDistance[P, C], 3 EuclideanDistance[P, B] == 2 EuclideanDistance[P, D], GeometricAssertion[{Line[{A, B}], Line[{C, D}]}, "Parallel"]}]
           points:
           - P
           - A
@@ -233,7 +229,7 @@ sections:
         seed: 12012
       teaching_intent: practice_prompt
       problem_context:
-        stem_latex: '如图，直线 $AC$ 与 $BD$ 相交于点 $P$，点序分别为 $P-A-C$、$P-B-D$，且 $AB\parallel CD$。
+        stem_latex: '如图，$AB\parallel CD$。
 
 
           已知 $PA:AC=2:3$。小明写出 $AB:CD=2:3$。判断并改正。'

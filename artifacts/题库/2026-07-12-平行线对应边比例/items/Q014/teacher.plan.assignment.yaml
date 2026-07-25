@@ -22,7 +22,7 @@ sections:
     id: Q014
     points: 10
     label: 对应边比转相邻分段比
-    stem_latex: '如图，直线 $AC$ 与 $BD$ 相交于点 $P$，点序分别为 $P-A-C$、$P-B-D$，且 $AB\parallel CD$。
+    stem_latex: '如图，$AB\parallel CD$。
 
 
       已知 $PA:PC=3:5$，求 $PB:BD$。'
@@ -45,8 +45,7 @@ sections:
         diagram_kind: synthetic_geometry
         engine_options:
           scene_payload:
-            scene_code: GeometricScene[{P, A, B, C, D}, {P == {0, 7.54838718753}, A == {-2.85405412942, 3.01935485735}, B
-              == {5.60487811162, 3.01935487311}, C == {-4.75675683726, 0}, D == {9.34146349818, 0}}]
+            scene_code: GeometricScene[{P, A, B, C, D}, {P == {0, 7.54838718753}, A == {-2.85405412942, 3.01935485735}, B == {5.60487811162, 3.01935487311}, C == {-4.75675683726, 0}, D == {9.34146349818, 0}}]
             points: &id001
             - P
             - A
@@ -118,7 +117,7 @@ sections:
         teaching_intent: practice_solution
         reuse_geometry_from: question_bank.parallel.q014.prompt
         problem_context:
-          stem_latex: '如图，直线 $AC$ 与 $BD$ 相交于点 $P$，点序分别为 $P-A-C$、$P-B-D$，且 $AB\parallel CD$。
+          stem_latex: '如图，$AB\parallel CD$。
 
 
             已知 $PA:PC=3:5$，求 $PB:BD$。'
@@ -163,14 +162,11 @@ sections:
       placement: diagram_col
       layout_role: question_sidecar
       display_profile: worksheet_geometry_sidecar
-      caption: Q014 学生图：按本题条件读点序和对应线段。
       engine: geometric_scene
       diagram_kind: synthetic_geometry
       engine_options:
         scene_payload:
-          scene_code: GeometricScene[{P, A, B, C, D}, {P == {0, 234/31}, C == {-(176/37), 0}, D == {383/41, 0}, Element[A,
-            Line[{P, C}]], Element[B, Line[{P, D}]], 5 EuclideanDistance[P, A] == 3 EuclideanDistance[P, C], 5 EuclideanDistance[P,
-            B] == 3 EuclideanDistance[P, D], GeometricAssertion[{Line[{A, B}], Line[{C, D}]}, "Parallel"]}]
+          scene_code: GeometricScene[{P, A, B, C, D}, {P == {0, 234/31}, C == {-(176/37), 0}, D == {383/41, 0}, Element[A, Line[{P, C}]], Element[B, Line[{P, D}]], 5 EuclideanDistance[P, A] == 3 EuclideanDistance[P, C], 5 EuclideanDistance[P, B] == 3 EuclideanDistance[P, D], GeometricAssertion[{Line[{A, B}], Line[{C, D}]}, "Parallel"]}]
           points:
           - P
           - A
@@ -233,7 +229,7 @@ sections:
         seed: 12014
       teaching_intent: practice_prompt
       problem_context:
-        stem_latex: '如图，直线 $AC$ 与 $BD$ 相交于点 $P$，点序分别为 $P-A-C$、$P-B-D$，且 $AB\parallel CD$。
+        stem_latex: '如图，$AB\parallel CD$。
 
 
           已知 $PA:PC=3:5$，求 $PB:BD$。'

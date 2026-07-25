@@ -7,7 +7,9 @@ meta:
   show_answers: false
   source_artifacts:
     explanation: ../../专题/2026-07-14-子母型相似比与对应边/02-student-explanation.resolved.assignment.yaml
-    diagram_policy: 一题一张独立 prompt 图；题图不泄露相似结论或答案
+    number_database: .codex/skills/math-topic-question-bank/data/training-number-database.yaml
+    geometry_database: .codex/skills/math-topic-question-bank/data/similarity-triangle-database.yaml
+    diagram_policy: 一题一张独立 prompt 图；题图不泄露化简、相似结论或答案
 render:
   template: exam-zh-practice
   paper_size: a4paper
@@ -21,26 +23,25 @@ sections:
   - type: problem
     id: Q012
     points: 10
-    label: 先证相似再求边
+    label: 对应边与共线边互化
     stem_latex: '如图，在 $\triangle ABC$ 中，$\angle ABD=\angle ACB$。
 
 
-      已知 $AB=\sqrt{7}$，$AC=\sqrt{35}$，$BC=\sqrt{35}$。求证 $\triangle ABD\sim\triangle ACB$，并求 $BD$。'
+      已知 $AC=\frac{5}{2}\sqrt{2}$，$AB=2\sqrt{2}$。求 $CD$ 的长。'
     answer_space:
       type: steps
-      height: 48mm
-      step_count: 4
+      height: 54mm
+      step_count: 5
     diagram_col:
       kind: tikz
       tikz_code: ''
-      tikz_path: build/diagram/jobs/question_bank-nested-q012-prompt/rendered/prompt.fragment.tex
-      diagram_ref: question_bank.nested.q012.prompt
-      diagram_job_id: question_bank-nested-q012-prompt
+      tikz_path: build/diagram/jobs/question_bank-nested-v2-q012-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.nested.v2.q012.prompt
+      diagram_job_id: question_bank-nested-v2-q012-prompt
       width: 60mm
-      caption: 先确认对应边，再判断题中的线段是否属于相似三角形。
       variant: prompt
       disclosure_policy: clean
-      artifact_hash: sha256:3b98bc9d7939055817debb59e3c039f46cf598fe42b7ea35ec98fd9a7a6736d3
+      artifact_hash: sha256:41042ab7767255f6edc79c8cb5d18e669093b6eedb7dc1fa958f057885e0c1ee
       packages:
       - tikz
       libraries: []

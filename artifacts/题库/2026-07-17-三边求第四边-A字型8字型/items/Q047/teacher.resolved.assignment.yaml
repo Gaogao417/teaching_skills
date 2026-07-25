@@ -22,17 +22,15 @@ sections:
     id: Q047
     points: 10
     label: 已知三边求第四边
-    stem_latex: |-
-      如图，$P,A,C$ 三点共线，$P,B,D$ 三点共线，点序分别为 $P-A-C$、$P-B-D$，且 $AB\parallel CD$。
-      已知 $PA=2\sqrt{2}$，$PC=8$，$CD=16$，求 $AB$。
+    stem_latex: '如图，$AB\parallel CD$。
+
+      已知 $PA=2\sqrt{2}$，$PC=8$，$CD=16$，求 $AB$。'
     answer_space:
       type: steps
       height: 42mm
       step_count: 4
     answer: $AB=4\sqrt{2}$。
-    explanation: 已知边与未知边中出现平行线段 $CD$、$AB$，先求两个相似三角形的比。先算 $\dfrac{PA}{PC}=\dfrac{2\sqrt{2}}{8}=\dfrac{1}{2
-      \sqrt{2}}$。约分后，$AB$ 对应 $1$ 份，$CD$ 对应 $2 \sqrt{2}$ 份。$AB=CD\times\dfrac{1}{2
-      \sqrt{2}}=16\times\dfrac{1}{2 \sqrt{2}}=4\sqrt{2}$。
+    explanation: 已知边与未知边中出现平行线段 $CD$、$AB$，先求两个相似三角形的比。先算 $\dfrac{PA}{PC}=\dfrac{2\sqrt{2}}{8}=\dfrac{1}{2 \sqrt{2}}$。约分后，$AB$ 对应 $1$ 份，$CD$ 对应 $2 \sqrt{2}$ 份。$AB=CD\times\dfrac{1}{2 \sqrt{2}}=16\times\dfrac{1}{2 \sqrt{2}}=4\sqrt{2}$。
     solution_steps:
     - title: 先判断
       content: 已知边与未知边中出现平行线段 $CD$、$AB$，先求两个相似三角形的比。
@@ -63,7 +61,6 @@ sections:
       diagram_ref: question.bank.three.known.q047.prompt
       diagram_job_id: question-bank-three-known-q047-prompt
       width: 60mm
-      caption: 先看平行边方向，再判断 A 字型或 8 字型及对应边。
       variant: prompt
       disclosure_policy: clean
       artifact_hash: sha256:14e93df56cec6d70eb5a315b1de54ef597803844e3644fcbe6b19798cb82441b

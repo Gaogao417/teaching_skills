@@ -22,7 +22,7 @@ sections:
     id: Q015
     points: 10
     label: 判断两组条件能否共存
-    stem_latex: '如图，直线 $AC$ 与 $BD$ 相交于点 $P$，点序分别为 $P-A-C$、$P-B-D$，且 $AB\parallel CD$。
+    stem_latex: '如图，$AB\parallel CD$。
 
 
       已知 $PA:AC=2:3$，同时又给出 $PB:PD=3:7$。判断这两组条件能否同时成立。'
@@ -45,8 +45,7 @@ sections:
         diagram_kind: synthetic_geometry
         engine_options:
           scene_payload:
-            scene_code: GeometricScene[{P, A, B, C, D}, {P == {0, 7.58064536503}, A == {-2.06177622631, 4.33179734344}, B
-              == {4.30662032766, 4.33179737194}, C == {-4.81081099297, 0}, D == {10.0487806752, 0}}]
+            scene_code: GeometricScene[{P, A, B, C, D}, {P == {0, 7.58064536503}, A == {-2.06177622631, 4.33179734344}, B == {4.30662032766, 4.33179737194}, C == {-4.81081099297, 0}, D == {10.0487806752, 0}}]
             points: &id001
             - P
             - A
@@ -118,7 +117,7 @@ sections:
         teaching_intent: practice_solution
         reuse_geometry_from: question_bank.parallel.q015.prompt
         problem_context:
-          stem_latex: '如图，直线 $AC$ 与 $BD$ 相交于点 $P$，点序分别为 $P-A-C$、$P-B-D$，且 $AB\parallel CD$。
+          stem_latex: '如图，$AB\parallel CD$。
 
 
             已知 $PA:AC=2:3$，同时又给出 $PB:PD=3:7$。判断这两组条件能否同时成立。'
@@ -163,14 +162,11 @@ sections:
       placement: diagram_col
       layout_role: question_sidecar
       display_profile: worksheet_geometry_sidecar
-      caption: Q015 学生图：按本题条件读点序和对应线段。
       engine: geometric_scene
       diagram_kind: synthetic_geometry
       engine_options:
         scene_payload:
-          scene_code: GeometricScene[{P, A, B, C, D}, {P == {0, 235/31}, C == {-(178/37), 0}, D == {412/41, 0}, Element[A,
-            Line[{P, C}]], Element[B, Line[{P, D}]], 7 EuclideanDistance[P, A] == 3 EuclideanDistance[P, C], 7 EuclideanDistance[P,
-            B] == 3 EuclideanDistance[P, D], GeometricAssertion[{Line[{A, B}], Line[{C, D}]}, "Parallel"]}]
+          scene_code: GeometricScene[{P, A, B, C, D}, {P == {0, 235/31}, C == {-(178/37), 0}, D == {412/41, 0}, Element[A, Line[{P, C}]], Element[B, Line[{P, D}]], 7 EuclideanDistance[P, A] == 3 EuclideanDistance[P, C], 7 EuclideanDistance[P, B] == 3 EuclideanDistance[P, D], GeometricAssertion[{Line[{A, B}], Line[{C, D}]}, "Parallel"]}]
           points:
           - P
           - A
@@ -233,7 +229,7 @@ sections:
         seed: 12015
       teaching_intent: practice_prompt
       problem_context:
-        stem_latex: '如图，直线 $AC$ 与 $BD$ 相交于点 $P$，点序分别为 $P-A-C$、$P-B-D$，且 $AB\parallel CD$。
+        stem_latex: '如图，$AB\parallel CD$。
 
 
           已知 $PA:AC=2:3$，同时又给出 $PB:PD=3:7$。判断这两组条件能否同时成立。'

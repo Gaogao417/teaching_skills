@@ -22,16 +22,15 @@ sections:
     id: Q036
     points: 10
     label: 已知三边求第四边
-    stem_latex: |-
-      如图，$A,P,C$ 三点共线，$B,P,D$ 三点共线，点序分别为 $A-P-C$、$B-P-D$，且 $AB\parallel CD$。
-      已知 $AP=\sqrt{10}$，$PC=2\sqrt{15}$，$BP=2\sqrt{10}$，求 $PD$。
+    stem_latex: '如图，$AB\parallel CD$。
+
+      已知 $AP=\sqrt{10}$，$PC=2\sqrt{15}$，$BP=2\sqrt{10}$，求 $PD$。'
     answer_space:
       type: steps
       height: 42mm
       step_count: 4
     answer: $PD=4\sqrt{15}$。
-    explanation: 已知边与未知边都不在平行线段 $AB,CD$ 上，先求两侧对应线段的比。先算 $\dfrac{AP}{PC}=\dfrac{\sqrt{10}}{2\sqrt{15}}=\dfrac{1}{\sqrt{6}}$。约分后，$PD$
-      对应 $\sqrt{6}$ 份，$BP$ 对应 $1$ 份。$PD=BP\times\dfrac{\sqrt{6}}{1}=2\sqrt{10}\times\dfrac{\sqrt{6}}{1}=4\sqrt{15}$。
+    explanation: 已知边与未知边都不在平行线段 $AB,CD$ 上，先求两侧对应线段的比。先算 $\dfrac{AP}{PC}=\dfrac{\sqrt{10}}{2\sqrt{15}}=\dfrac{1}{\sqrt{6}}$。约分后，$PD$ 对应 $\sqrt{6}$ 份，$BP$ 对应 $1$ 份。$PD=BP\times\dfrac{\sqrt{6}}{1}=2\sqrt{10}\times\dfrac{\sqrt{6}}{1}=4\sqrt{15}$。
     solution_steps:
     - title: 先判断
       content: 已知边与未知边都不在平行线段 $AB,CD$ 上，先求两侧对应线段的比。
@@ -62,7 +61,6 @@ sections:
       diagram_ref: question.bank.three.known.q036.prompt
       diagram_job_id: question-bank-three-known-q036-prompt
       width: 60mm
-      caption: 先看平行边方向，再判断 A 字型或 8 字型及对应边。
       variant: prompt
       disclosure_policy: clean
       artifact_hash: sha256:179f14fbf84b30e6c3ad226c6a5936bcae8d76f09f07bd1c56a8262f3b73ff7f

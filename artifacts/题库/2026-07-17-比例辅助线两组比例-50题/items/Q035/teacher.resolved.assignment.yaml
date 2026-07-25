@@ -22,38 +22,67 @@ sections:
     id: Q035
     points: 10
     label: 由两组对应边比求 AE:EC
-    stem_latex: 如图，在 $\triangle ABC$ 中，点 $D$ 在线段 $BC$ 上，点 $E$ 在线段 $AC$ 上，线段 $AD$ 与
-      $BE$ 交于点 $P$。已知 $AP:PD=5:4$，$BP:PE=2:1$，求 $AE:EC$。
+    stem_latex: 如图，点 $D$ 在线段 $BC$ 上，点 $E$ 在线段 $AC$ 上，$AD$ 与 $BE$ 交于点 $P$。已知 $AP:PD=5:4$，$BP:PE=2:1$，求
+      $AE:EC$。
     answer_space:
       type: steps
-      height: 48mm
+      height: 36mm
       step_count: 4
+    answer: $AE:EC=1:2$。
+    explanation: 第一组相似标共同边，第二组沿用它，只给另一条目标边新增份数。
+    solution_steps:
+    - title: 作辅助线
+      content: 过 A 作 AF 平行 EP，交直线 BC 于 F。蓝字标出题目给出的两组比。
       diagram_col:
         kind: tikz
         tikz_code: ''
-        tikz_path: build/diagram/jobs/question_bank-auxiliary50-q035-solution/rendered/solution.fragment.tex
-        diagram_ref: question_bank.auxiliary50.q035.solution
-        diagram_job_id: question_bank-auxiliary50-q035-solution
+        tikz_path: build/diagram/jobs/question_bank-auxiliary50-q035-helper/rendered/solution.fragment.tex
+        diagram_ref: question_bank.auxiliary50.q035.helper
+        diagram_job_id: question_bank-auxiliary50-q035-helper
         width: 60mm
-        caption: Q035 解答图：过 A 作 AF 平行 EP，交直线 BC 于 F。
+        caption: 蓝字标出题目给出的两组比；先完成辅助线。
         variant: solution
         disclosure_policy: annotated
-        artifact_hash: sha256:8f4377616d567fdca2fa29441167f2cdf73efd08f37ff370ded6bb0be0ff55d5
+        artifact_hash: sha256:69ca9d7402abd97e6d9cc9906eda696a5bda7fbbbaf33a4e7385ea69b280f2c5
         packages:
         - tikz
         libraries: []
-    answer: $AE:EC=1:2$。
-    explanation: 两组已知整数比先统一为 x、w、y、z 的关系，再求第三组并写成最简整数比。
-    solution_steps:
-    - title: 找三条比例线并作辅助线
-      content: 把两组已知条件与所求量所在的三条直线围成三角形，按讲解规则作唯一的平行辅助线，得到两组相似三角形。
-    - title: 统一记号并列关系
-      content: 记 $x=AE/EC$、$w=BD/DC$、$y=AP/PD$、$z=BP/PE$。本题可用 $x=\dfrac{yz-1}{z+1},\quad
-        w=\dfrac{yz-1}{y+1}$。
-    - title: 代入两个整数比
-      content: 由题意得到 $y=\frac{5}{4},\ z=2$，化简得 $x=\frac{1}{2}$。
-    - title: 写成最简整数比
-      content: 约去公因数，得到 $AE:EC=1:2$。
+    - title: 解第一组A字
+      content: 由蓝色已知比解 A字 $\triangle DAF\sim\triangle DPB$。沿用图中已有份数，只新增红色 $AF=\frac{9}{2}$
+        份。
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/question_bank-auxiliary50-q035-model1/rendered/solution.fragment.tex
+        diagram_ref: question_bank.auxiliary50.q035.model1
+        diagram_job_id: question_bank-auxiliary50-q035-model1
+        width: 60mm
+        caption: 解第一组A字：沿用已标边，只新增 AF=9/2份。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:a2bf323137b844c29a98475db1fd4f226bf894372642412ab50a559b8252ccf2
+        packages:
+        - tikz
+        libraries: []
+    - title: 解第二组A字
+      content: 由蓝色已知比解 A字 $\triangle CAF\sim\triangle CEB$。保留前一步全部份数，本步用绿色补出 $BE=3$
+        份，$AE=1$ 份，$EC=2$ 份，使所求两边的份数同时显示。
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/question_bank-auxiliary50-q035-model2/rendered/solution.fragment.tex
+        diagram_ref: question_bank.auxiliary50.q035.model2
+        diagram_job_id: question_bank-auxiliary50-q035-model2
+        width: 60mm
+        caption: 解第二组A字：已有份数保持不变；本步补出绿色 BE=3份、AE=1份、EC=2份，所求两边均已标清。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:17f4cb7caeb5a8667e6e4f68ed4a7e4b35e605e0ca4564fdf411f3cd637df852
+        packages:
+        - tikz
+        libraries: []
+    - title: 比较份数，写出答案
+      content: 直接比较图中所求两条边的份数并化简，因此 $AE:EC=1:2$。
     teaching:
       teaching_goal: 由两组对应边整数比求第三组整数比
       source_relations:
@@ -74,10 +103,10 @@ sections:
       diagram_ref: question_bank.auxiliary50.q035.prompt
       diagram_job_id: question_bank-auxiliary50-q035-prompt
       width: 60mm
-      caption: Q035 原题图：只显示原始构型与点名。
+      caption: ''
       variant: prompt
       disclosure_policy: clean
-      artifact_hash: sha256:2e42d3d86d7eaea229aaafbb40095b0a2a13d1f8553aadebbf788d34294e20a5
+      artifact_hash: sha256:972bdf30478d42ae6a898273c47bb5433f029ca1462a007aa73f8dd8ea73bd04
       packages:
       - tikz
       libraries: []
