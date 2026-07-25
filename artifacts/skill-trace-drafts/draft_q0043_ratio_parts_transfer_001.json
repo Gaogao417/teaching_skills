@@ -1,0 +1,135 @@
+{
+  "draft_id": "draft_q0043_ratio_parts_transfer_001",
+  "schema_version": "skill_trace_draft.v0",
+  "codex_thread_id": "manual_65c52cce5384",
+  "problem_case": {
+    "title": "反A形相似 Q0043：由三边求第四边",
+    "raw_problem": "如图，∠PAB=∠PDC。已知 PB=√6，PA=3，PC=4。求 PD，并写出必要的推理过程。",
+    "provided_solution": "看到 PB/PA=√6/3 后，再看 PC，就把 PC 当成 √6 份，因此 PD=PC×3/√6=4×3/√6=2√6。",
+    "expected_thinking": "不把比例式机械地交叉相乘，而是把 PB:PA=√6:3 看成对应边的份数模板；因为 PB 对应 PC、PA 对应 PD，所以 PC 是 √6 份、PD 是 3 份，再由已知 PC 求 PD。",
+    "topic_tags": [
+      "相似三角形",
+      "反A形",
+      "对应边",
+      "份数法",
+      "根式比例"
+    ],
+    "target_student_level": "八年级"
+  },
+  "trace_summary": {
+    "target": "由 PB、PA、PC 求 PD",
+    "core_strategy": "把一组三角形的对应边比转成份数模板，再迁移到另一组三角形的对应边上",
+    "solver_path": "先看 PB/PA，再把 PC 识别为与 PB 同位置的 √6 份，因而把 PD 识别为与 PA 同位置的 3 份",
+    "teaching_focus": "讲清楚 PC 为什么能被称为 √6 份，而不是只展示 PD=PC×3/√6",
+    "risk": "口算路径本身正确，但若省略相似成立与对应位置，学生可能把任意三条边按数值顺眼程度拼成比例"
+  },
+  "steps": [
+    {
+      "step_id": "s1",
+      "order": 1,
+      "name": "相似结构识别",
+      "cognitive_layer": "L0_structure",
+      "reuse_level": "pattern_step",
+      "domain": "similar_triangles",
+      "student_action_norm": "由题设等角和构型中的另一组等角，识别三角形 PAB 与三角形 PDC 相似。",
+      "common_errors": [
+        "没有确认相似成立，就直接把四条边组成比例",
+        "只凭图形外观判断相似"
+      ],
+      "is_core_step": true
+    },
+    {
+      "step_id": "s2",
+      "order": 2,
+      "name": "对应位置识别",
+      "cognitive_layer": "L0_structure",
+      "reuse_level": "domain_action",
+      "domain": "similar_triangles",
+      "student_action_norm": "按相似三角形的顶点顺序识别 PB 对应 PC、PA 对应 PD。",
+      "common_errors": [
+        "把 PC 与 PA 配对，只因为它们都在同一条射线上",
+        "记住了四个字母，却没有保持对应位置一致"
+      ],
+      "is_core_step": true
+    },
+    {
+      "step_id": "s3",
+      "order": 3,
+      "name": "目标驱动选关系",
+      "cognitive_layer": "L3_strategy",
+      "reuse_level": "generic_action",
+      "domain": "general",
+      "student_action_norm": "为求 PD，选择已知比 PB:PA 作为模板，因为它的对应比 PC:PD 同时含有已知量 PC 和目标量 PD。",
+      "common_errors": [
+        "先计算与 PD 无关的边长比",
+        "机械罗列所有比例，增加对应顺序出错的机会"
+      ],
+      "is_core_step": true
+    },
+    {
+      "step_id": "s4",
+      "order": 4,
+      "name": "对应比例迁移",
+      "cognitive_layer": "L1_encoding",
+      "reuse_level": "domain_action",
+      "domain": "similar_triangles",
+      "student_action_norm": "把 PB:PA=√6:3 按对应位置迁移为 PC:PD=√6:3。",
+      "common_errors": [
+        "写成 PC:PD=3:√6，使比例方向翻转",
+        "第一组按小三角形到大三角形，第二组却按大三角形到小三角形"
+      ],
+      "is_core_step": true
+    },
+    {
+      "step_id": "s5",
+      "order": 5,
+      "name": "份数表示选择",
+      "cognitive_layer": "L3_strategy",
+      "reuse_level": "generic_action",
+      "domain": "ratio_reasoning",
+      "student_action_norm": "选择用份数理解 PC:PD=√6:3，把 PC 看成 √6 份、PD 看成 3 份。",
+      "common_errors": [
+        "把“PC 是 √6 份”误解成“PC=√6”",
+        "只记住乘 3/√6，却说不清分子和分母分别来自哪条边",
+        "忽略份数标签依赖于固定的比例方向"
+      ],
+      "is_core_step": true
+    },
+    {
+      "step_id": "s6",
+      "order": 6,
+      "name": "单位份量表达",
+      "cognitive_layer": "L1_encoding",
+      "reuse_level": "domain_action",
+      "domain": "ratio_reasoning",
+      "student_action_norm": "由 PC 对应 √6 份，表达一份为 PC/√6，因此 PD=PC×3/√6。",
+      "common_errors": [
+        "写成 PD=PC×√6/3",
+        "把求一份的除法与求三份的乘法次序混淆"
+      ],
+      "is_core_step": true
+    },
+    {
+      "step_id": "s7",
+      "order": 7,
+      "name": "根式比例值计算",
+      "cognitive_layer": "L2_execution",
+      "reuse_level": "domain_action",
+      "domain": "radical_arithmetic",
+      "student_action_norm": "代入 PC=4，计算 PD=4×3/√6=2√6。",
+      "common_errors": [
+        "有理化或约分时把 12/√6 算错",
+        "把 √6 当作 6 参与约分"
+      ],
+      "is_core_step": false
+    }
+  ],
+  "validation": {
+    "warnings": [
+      "用户给出的口算路径数学上正确；trace 将其未说出的相似判定、对应位置和比例方向补为前置技能，而不把这条捷径判为错误。"
+    ],
+    "unresolved_questions": [
+      "尚不清楚这段话是教师自己的熟练思路，还是学生的原始口述；若用于诊断学生，还需要观察学生能否独立说明 PB↔PC、PA↔PD。"
+    ]
+  }
+}
