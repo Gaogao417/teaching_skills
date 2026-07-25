@@ -1,0 +1,887 @@
+\documentclass{exam-zh}
+\usepackage{edu-practice}
+
+\examsetup{
+  question/show-answer = false,
+  fillin/show-answer = false,
+  solution/show-solution = hide,
+}
+
+% ---------- 教师版解答样式 ----------
+\newtcolorbox{solutionblock}{
+  enhanced, breakable,
+  colback=edu-blue-bg,
+  colframe=edu-blue!25,
+  boxrule=0pt,
+  borderline west={2pt}{0pt}{edu-blue!50},
+  arc=0pt,
+  left=3mm, right=3mm, top=2mm, bottom=2mm,
+  before skip=2mm,
+  after skip=3mm,
+  fontupper=\small,
+}
+
+% 解答步骤编号
+\newcounter{solstep}
+\newcommand{\solstep}[2]{%
+  \stepcounter{solstep}%
+  \par\medskip
+  \noindent\hangindent=6mm
+  {\color{edu-blue}\bfseries\textcircled{\scriptsize\thesolstep}\enspace #1}\enspace #2\par
+}
+
+\begin{document}
+
+\section*{相似求边长综合作业 · 学生版}
+
+\section*{第一部分　比例辅助线两组整数比（5题）}
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，点 $D$ 在线段 $BC$ 上，点 $E$ 在线段 $AC$ 上，$AD$ 与 $BE$ 交于点 $P$。已知 $AP:PD=5:3$，$BP:PE=3:1$，求 $AE:EC$。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{}
+  \input{\detokenize{../../题库/2026-07-17-比例辅助线两组比例-50题/items/Q011/build/diagram/jobs/question_bank-auxiliary50-q011-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[36mm]
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，点 $D$ 在线段 $BC$ 上，点 $E$ 在线段 $AC$ 上，$AD$ 与 $BE$ 交于点 $P$。已知 $AE:EC=4:5$，$BP:PE=3:1$，求 $BD:DC$。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{}
+  \input{\detokenize{../../题库/2026-07-17-比例辅助线两组比例-50题/items/Q017/build/diagram/jobs/question_bank-auxiliary50-q017-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[36mm]
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，点 $D$ 在线段 $BC$ 上，点 $E$ 在线段 $AC$ 上，$AD$ 与 $BE$ 交于点 $P$。已知 $AE:EC=1:4$，$BP:PE=5:1$，求 $AP:PD$。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{}
+  \input{\detokenize{../../题库/2026-07-17-比例辅助线两组比例-50题/items/Q030/build/diagram/jobs/question_bank-auxiliary50-q030-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[36mm]
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，点 $D$ 在线段 $BC$ 上，点 $E$ 在线段 $AC$ 上，$AD$ 与 $BE$ 交于点 $P$。已知 $BD:DC=5:4$，$BP:PE=5:2$，求 $AE:EC$。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{}
+  \input{\detokenize{../../题库/2026-07-17-比例辅助线两组比例-50题/items/Q009/build/diagram/jobs/question_bank-auxiliary50-q009-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[36mm]
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，点 $D$ 在线段 $BC$ 上，点 $E$ 在线段 $AC$ 上，$AD$ 与 $BE$ 交于点 $P$。已知 $BD:DC=3:5$，$AP:PD=4:1$，求 $BP:PE$。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{}
+  \input{\detokenize{../../题库/2026-07-17-比例辅助线两组比例-50题/items/Q044/build/diagram/jobs/question_bank-auxiliary50-q044-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[36mm]
+\end{problem}
+
+
+\section*{第二部分　相似求边长四类模型混合练习（40题）}
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，在 $\triangle ABC$ 中，$\angle ABD=\angle ACB$。
+
+已知 $AC=9$，$CD=3$。求 $AB$ 的长。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{}
+  \input{\detokenize{../../题库/2026-07-16-子母型相似/items/Q025/build/diagram/jobs/question_bank-nested-v2-q025-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[54mm]
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，在 $\triangle ABC$ 中，$\angle ABD=\angle ACB$。
+
+已知 $AC=2$，$AB=\sqrt{3}$。求 $CD$ 的长。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{}
+  \input{\detokenize{../../题库/2026-07-16-子母型相似/items/Q036/build/diagram/jobs/question_bank-nested-v2-q036-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[54mm]
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，$\angle PAB=\angle PDC$。
+
+已知 $PB=4$，$PA=2\sqrt{6}$，$PC=6$。求 $PD$ 的长。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{}
+  \input{\detokenize{../../题库/2026-07-16-反A形相似/items/Q006/build/diagram/jobs/question_bank-reverse_a-v2-q006-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[54mm]
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，在 $\triangle ABC$ 中，$\angle ABD=\angle ACB$。
+
+已知 $AC=2\sqrt{2}$，$AB=\sqrt{5}$。求 $CD$ 的长。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{}
+  \input{\detokenize{../../题库/2026-07-16-子母型相似/items/Q026/build/diagram/jobs/question_bank-nested-v2-q026-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[54mm]
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，$\angle OAC=\angle ODB$。
+
+已知 $OC=\sqrt{10}$，$AC=2\sqrt{5}$，$OB=2$。求 $DB$ 的长。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{}
+  \input{\detokenize{../../题库/2026-07-16-蝶形相似/items/Q024/build/diagram/jobs/question_bank-butterfly-v2-q024-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[54mm]
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，$\angle OAC=\angle ODB$。
+
+已知 $AC=3\sqrt{6}$，$AO=6\sqrt{2}$，$OD=5$。求 $DB$ 的长。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{}
+  \input{\detokenize{../../题库/2026-07-16-蝶形相似/items/Q019/build/diagram/jobs/question_bank-butterfly-v2-q019-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[54mm]
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，$\angle OAC=\angle ODB$。
+
+已知 $AO=2$，$OC=2\sqrt{2}$，$OD=2$。求 $OB$ 的长。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{}
+  \input{\detokenize{../../题库/2026-07-16-蝶形相似/items/Q016/build/diagram/jobs/question_bank-butterfly-v2-q016-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[54mm]
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，$\angle PAB=\angle PDC$。
+
+已知 $PB=3\sqrt{6}$，$PA=9$，$PC=10$。求 $PD$ 的长。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{}
+  \input{\detokenize{../../题库/2026-07-16-反A形相似/items/Q009/build/diagram/jobs/question_bank-reverse_a-v2-q009-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[54mm]
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，$\angle OAC=\angle ODB$。
+
+已知 $AO=\sqrt{6}$，$AC=2\sqrt{2}$，$DB=2$。判断还可以求出哪条边，并求出它的长度。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{}
+  \input{\detokenize{../../题库/2026-07-16-蝶形相似/items/Q043/build/diagram/jobs/question_bank-butterfly-v2-q043-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[54mm]
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，$\angle PAB=\angle PDC$。
+
+已知 $PB=2\sqrt{2}$，$AB=4$，$PC=4$。判断还可以求出哪条边，并求出它的长度。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{}
+  \input{\detokenize{../../题库/2026-07-16-反A形相似/items/Q044/build/diagram/jobs/question_bank-reverse_a-v2-q044-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[54mm]
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，$\angle PAB=\angle PDC$。
+
+已知 $PB=2\sqrt{2}$，$AB=4$，$PC=4$。求 $DC$ 的长。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{}
+  \input{\detokenize{../../题库/2026-07-16-反A形相似/items/Q027/build/diagram/jobs/question_bank-reverse_a-v2-q027-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[54mm]
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，在 $\triangle ABC$ 中，$\angle ABD=\angle ACB$。
+
+已知 $AC=5$，$CD=3$。求 $AB$ 的长。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{}
+  \input{\detokenize{../../题库/2026-07-16-子母型相似/items/Q007/build/diagram/jobs/question_bank-nested-v2-q007-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[54mm]
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，$\angle PAB=\angle PDC$。
+
+已知 $PA=\sqrt{10}$，$PB=2\sqrt{5}$，$PD=5$。判断还可以求出哪条边，并求出它的长度。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{}
+  \input{\detokenize{../../题库/2026-07-16-反A形相似/items/Q045/build/diagram/jobs/question_bank-reverse_a-v2-q045-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[54mm]
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，在 $\triangle ABC$ 中，$\angle ABD=\angle ACB$。
+
+已知 $AC=4$，$CD=\frac{3}{2}$。求 $AB$ 的长。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{}
+  \input{\detokenize{../../题库/2026-07-16-子母型相似/items/Q023/build/diagram/jobs/question_bank-nested-v2-q023-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[54mm]
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，$AB\parallel CD$。
+
+已知 $PA:PC=2:5$，求 $PB:PD$。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{}
+  \input{\detokenize{../../题库/2026-07-12-平行线对应边比例/build/diagram/jobs/question_bank-parallel-q001-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[48mm]
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，$AB\parallel CD$。
+
+已知 $AP:AC=3:7$，求 $BP:PD$。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{}
+  \input{\detokenize{../../题库/2026-07-12-平行线对应边比例/build/diagram/jobs/question_bank-parallel-q019-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[48mm]
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，$\angle OAC=\angle ODB$。
+
+已知 $OC=4$，$AC=2\sqrt{10}$，$OB=3$。求 $DB$ 的长。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{}
+  \input{\detokenize{../../题库/2026-07-16-蝶形相似/items/Q007/build/diagram/jobs/question_bank-butterfly-v2-q007-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[54mm]
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，$AB\parallel CD$。
+
+已知 $BP:BD=3:8$，求 $AP:PC$。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{}
+  \input{\detokenize{../../题库/2026-07-12-平行线对应边比例/build/diagram/jobs/question_bank-parallel-q018-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[48mm]
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，在 $\triangle ABC$ 中，$\angle ABD=\angle ACB$。
+
+已知 $AC=\frac{5}{2}\sqrt{2}$，$AB=\sqrt{10}$。求 $CD$ 的长。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{}
+  \input{\detokenize{../../题库/2026-07-16-子母型相似/items/Q048/build/diagram/jobs/question_bank-nested-v2-q048-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[54mm]
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，$\angle PAB=\angle PDC$。
+
+已知 $PA=3$，$AB=2\sqrt{3}$，$PD=5$。求 $DC$ 的长。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{}
+  \input{\detokenize{../../题库/2026-07-16-反A形相似/items/Q014/build/diagram/jobs/question_bank-reverse_a-v2-q014-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[54mm]
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，$\angle OAC=\angle ODB$。
+
+已知 $OC=2\sqrt{6}$，$AO=6\sqrt{2}$，$OB=3$。求 $OD$ 的长。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{}
+  \input{\detokenize{../../题库/2026-07-16-蝶形相似/items/Q013/build/diagram/jobs/question_bank-butterfly-v2-q013-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[54mm]
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，$\angle OAC=\angle ODB$。
+
+已知 $AC=3$，$OC=2\sqrt{6}$，$DB=2$。求 $OB$ 的长。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{}
+  \input{\detokenize{../../题库/2026-07-16-蝶形相似/items/Q002/build/diagram/jobs/question_bank-butterfly-v2-q002-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[54mm]
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，$AB\parallel CD$。
+
+已知 $AB:CD=3:7$，求 $PA:PC$。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{}
+  \input{\detokenize{../../题库/2026-07-12-平行线对应边比例/build/diagram/jobs/question_bank-parallel-q005-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[48mm]
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，$\angle PAB=\angle PDC$。
+
+已知 $PA=6\sqrt{2}$，$AB=3\sqrt{10}$，$PD=12$。求 $DC$ 的长。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{}
+  \input{\detokenize{../../题库/2026-07-16-反A形相似/items/Q034/build/diagram/jobs/question_bank-reverse_a-v2-q034-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[54mm]
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，$AB\parallel CD$。
+
+已知 $AP:AC=2:5$，求 $AB:CD$。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{}
+  \input{\detokenize{../../题库/2026-07-12-平行线对应边比例/build/diagram/jobs/question_bank-parallel-q017-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[48mm]
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，$\angle OAC=\angle ODB$。
+
+已知 $OC=2$，$AO=\sqrt{6}$，$OB=2$。求 $OD$ 的长。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{}
+  \input{\detokenize{../../题库/2026-07-16-蝶形相似/items/Q027/build/diagram/jobs/question_bank-butterfly-v2-q027-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[54mm]
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，$\angle PAB=\angle PDC$。
+
+已知 $PA=3\sqrt{2}$，$PB=2\sqrt{6}$，$PD=6$。判断还可以求出哪条边，并求出它的长度。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{}
+  \input{\detokenize{../../题库/2026-07-16-反A形相似/items/Q050/build/diagram/jobs/question_bank-reverse_a-v2-q050-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[54mm]
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，$\angle OAC=\angle ODB$。
+
+已知 $OC=4\sqrt{2}$，$AC=3\sqrt{6}$，$OB=4$。求 $DB$ 的长。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{}
+  \input{\detokenize{../../题库/2026-07-16-蝶形相似/items/Q017/build/diagram/jobs/question_bank-butterfly-v2-q017-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[54mm]
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，$\angle PAB=\angle PDC$。
+
+已知 $AB=2\sqrt{2}$，$PB=2\sqrt{6}$，$DC=4$。求 $PC$ 的长。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{}
+  \input{\detokenize{../../题库/2026-07-16-反A形相似/items/Q004/build/diagram/jobs/question_bank-reverse_a-v2-q004-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[54mm]
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，$\angle OAC=\angle ODB$。
+
+已知 $OC=6$，$AC=6\sqrt{2}$，$OB=4$。判断还可以求出哪条边，并求出它的长度。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{}
+  \input{\detokenize{../../题库/2026-07-16-蝶形相似/items/Q047/build/diagram/jobs/question_bank-butterfly-v2-q047-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[54mm]
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，$AB\parallel CD$。
+
+已知 $PA:AC=2:3$。小明写出 $AB:CD=2:3$。判断并改正。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{}
+  \input{\detokenize{../../题库/2026-07-12-平行线对应边比例/build/diagram/jobs/question_bank-parallel-q012-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[48mm]
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，$AB\parallel CD$。
+
+已知 $AP:AC=2:7$。小明写出 $AB:CD=2:9$。判断并改正。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{}
+  \input{\detokenize{../../题库/2026-07-12-平行线对应边比例/build/diagram/jobs/question_bank-parallel-q027-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[48mm]
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，在 $\triangle ABC$ 中，$\angle ABD=\angle ACB$。
+
+已知 $AC=5$，$CD=\frac{9}{5}$。求 $AB$ 的长。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{}
+  \input{\detokenize{../../题库/2026-07-16-子母型相似/items/Q015/build/diagram/jobs/question_bank-nested-v2-q015-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[54mm]
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，$AB\parallel CD$。
+
+已知 $PA=x$，$AC=6$，且 $AB:CD=2:5$，求 $x$。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{}
+  \input{\detokenize{../../题库/2026-07-12-平行线对应边比例/build/diagram/jobs/question_bank-parallel-q010-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[48mm]
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，在 $\triangle ABC$ 中，$\angle ABD=\angle ACB$。
+
+已知 $AC=6\sqrt{3}$，$AB=6\sqrt{2}$。求 $CD$ 的长。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{}
+  \input{\detokenize{../../题库/2026-07-16-子母型相似/items/Q028/build/diagram/jobs/question_bank-nested-v2-q028-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[54mm]
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，在 $\triangle ABC$ 中，$\angle ABD=\angle ACB$。
+
+已知 $AC=\frac{10}{3}\sqrt{6}$，$CD=\frac{19}{30}\sqrt{6}$。求 $AB$ 的长。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{}
+  \input{\detokenize{../../题库/2026-07-16-子母型相似/items/Q017/build/diagram/jobs/question_bank-nested-v2-q017-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[54mm]
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，$AB\parallel CD$。
+
+已知 $BP:PD=2:3$，且 $BD=25$，求 $BP$ 与 $PD$。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{}
+  \input{\detokenize{../../题库/2026-07-12-平行线对应边比例/build/diagram/jobs/question_bank-parallel-q023-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[48mm]
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，$AB\parallel CD$。
+
+已知 $PA=x-1$，$AC=x+2$，且 $AB:CD=2:5$，求 $x$。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{}
+  \input{\detokenize{../../题库/2026-07-12-平行线对应边比例/build/diagram/jobs/question_bank-parallel-q013-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[48mm]
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，$\angle PAB=\angle PDC$。
+
+已知 $PA=\sqrt{6}$，$PB=2\sqrt{2}$，$PC=4$。判断还可以求出哪条边，并求出它的长度。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{}
+  \input{\detokenize{../../题库/2026-07-16-反A形相似/items/Q040/build/diagram/jobs/question_bank-reverse_a-v2-q040-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[54mm]
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，在 $\triangle ABC$ 中，$\angle ABD=\angle ACB$。
+
+已知 $AC=6$，$CD=2$。求 $AB$ 的长。
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{}
+  \input{\detokenize{../../题库/2026-07-16-子母型相似/items/Q039/build/diagram/jobs/question_bank-nested-v2-q039-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[54mm]
+\end{problem}
+
+
+
+\end{document}

@@ -1,0 +1,115 @@
+meta:
+  title: "第 13 题两高相似计数"
+  subtitle: "学生讲义"
+  grade: "九年级"
+  subject: "数学"
+  version: "student"
+  source_artifacts:
+    structure_analysis: "artifacts/专题/2026-07-18-第13题两高相似计数/01-structure-analysis.md"
+
+render:
+  template: "exam-zh-explanation"
+  paper_size: "a4paper"
+
+sections:
+  - id: "problem-13-mark-angles-count-pairs"
+    title: "标等角找相似，用“握手”数出 6 对"
+    show_title: true
+    type: "explanation"
+    visibility: "student"
+    blocks:
+      - type: "problemcard"
+        id: "problem-13-card"
+        label: "第 13 题"
+        stem_latex: |
+          如图，$AD,BE$ 是 $\triangle ABC$ 的两条高，$AD,BE$ 相交于点 $O$，问图中共有多少对相似三角形。
+        diagram_slot:
+          slot_id: "explanation.problem13.prompt"
+          diagram_ref: "explanation.problem13.prompt"
+          variant: "prompt"
+          disclosure_policy: "clean"
+          required: true
+          on_failure: "fail_assignment"
+          placement: "block_center"
+          layout_role: "center_block"
+          display_profile: "worksheet_geometry_center"
+          caption: '把 $\angle DBO$ 与 $\angle EAO$ 标成同款弧角，再找同时含弧角和直角的三角形。'
+          diagram_kind: "synthetic_geometry"
+          teaching_intent: "explanation_prompt"
+          problem_context:
+            stem_latex: '$AD,BE$ 是锐角 $\triangle ABC$ 的两条高，垂足分别为 $D,E$，交于 $O$。求图中相似三角形的对数。'
+            source_problem_text: "画锐角三角形 ABC，A 在上方，B 左下，C 右下。D 在 BC 内部，AD 垂直 BC；E 在 AC 内部，BE 垂直 AC；AD 与 BE 在三角形内部交于 O。标出 D、E 两处直角；将角 DBO 与角 EAO 用完全相同的单弧标记。不要添加长度、等腰、中点、角平分线、相似式或答案。"
+          semantic_constraints:
+            given_objects: [A, B, C, D, E, O]
+            given_constraints:
+              - ABC is an acute scalene triangle
+              - D lies on BC and AD is perpendicular to BC
+              - E lies on AC and BE is perpendicular to AC
+              - AD and BE intersect at O inside triangle ABC
+              - angle DBO equals angle EAO and both carry matching single-arc marks
+            clean_forbidden:
+              - do not imply AB equals AC or any other pair of sides
+              - do not add midpoint or angle-bisector marks
+              - do not show triangle highlights, similar-triangle notation, pair counts, or the answer
+          visual_requirements:
+            required_visible_annotations:
+              markers:
+                - {type: right_angle, vertex: D, arms: [A, B]}
+                - {type: right_angle, vertex: E, arms: [B, A]}
+                - {type: angle_arc, vertex: B, arms: [D, O]}
+                - {type: angle_arc, vertex: A, arms: [E, O]}
+              texts: []
+
+      - type: "route"
+        id: "problem-13-route"
+        show_navigation: false
+        steps:
+          - id: "problem-13-step-mark-angles"
+            latex: "先由两条高标出一组等角"
+            content_latex: |
+              $\because BE\perp AC$，\\
+              $\therefore \angle DBO=90^\circ-\angle C$。\\
+              $\because AD\perp BC$，\\
+              $\therefore \angle EAO=90^\circ-\angle C$。\\
+              $\therefore \angle DBO=\angle EAO$，把它们标成同款弧角。
+          - id: "problem-13-step-find-four"
+            latex: "再找含弧角的四个直角三角形"
+            content_latex: |
+              含 $B$ 点弧角的直角三角形：$\triangle BDO,\triangle BEC$。\\
+              含 $A$ 点弧角的直角三角形：$\triangle AEO,\triangle ADC$。\\
+              四个三角形都含一个弧角和一个直角，\\
+              $\therefore \triangle BDO\sim\triangle AEO\sim\triangle ADC\sim\triangle BEC$。
+          - id: "problem-13-step-handshake"
+            latex: "最后用“每个都有 3 个伙伴”计数，再除以 2 去重"
+            content_latex: |
+              四个三角形中，每个三角形都和另外三个三角形相似，先得 $4\times3=12$ 次。\\
+              但“$A$ 与 $B$ 相似”和“$B$ 与 $A$ 相似”是同一对，每一对都被重复计算了 $2$ 次。\\
+              所以相似三角形共有 $\dfrac{4\times3}{2}=6$ 对。
+
+      - type: "dual_explanation"
+        id: "problem-13-solution"
+        side_title: "小贴士"
+        side_items:
+          - kind: "hint"
+            title: "为什么一个弧角能找到两个"
+            content_latex: '$B$ 点的同一个弧角同时属于 $\triangle BDO$ 与 $\triangle BEC$；$A$ 点的同一个弧角同时属于 $\triangle AEO$ 与 $\triangle ADC$。'
+          - kind: "hint"
+            title: "找三角形的筛子"
+            content_latex: '不要看大小和朝向，只检查两件事：有没有同款弧角？有没有 $90^\circ$？'
+          - kind: "mistake"
+            title: "为什么要除以 2"
+            content_latex: '“$A$ 与 $B$ 相似”和“$B$ 与 $A$ 相似”只是顺序相反，表示同一对；$4\times3$ 把每一对恰好数了两次。'
+        solution_title: "解答"
+        solution_step_ids:
+          - "problem-13-step-mark-angles"
+          - "problem-13-step-find-four"
+          - "problem-13-step-handshake"
+
+      - type: "summary_dual"
+        id: "problem-13-summary"
+        left_title: "答案"
+        left_items:
+          - latex: "共有 $6$ 对相似三角形。"
+        right_title: "方法提醒"
+        right_items:
+          - latex: '标等角、找四个，用 $\dfrac{4\times3}{2}$ 握手计数。'

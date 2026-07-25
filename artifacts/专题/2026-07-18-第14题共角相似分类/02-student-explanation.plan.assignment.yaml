@@ -1,0 +1,176 @@
+meta:
+  title: "第 14 题共角相似分类"
+  subtitle: "学生讲义"
+  grade: "九年级"
+  subject: "数学"
+  version: "student"
+  source_artifacts:
+    structure_analysis: "artifacts/专题/2026-07-18-第14题共角相似分类/01-structure-analysis.md"
+
+render:
+  template: "exam-zh-explanation"
+  paper_size: "a4paper"
+
+sections:
+  - id: "problem-14-shared-angle-two-maps"
+    title: "已知两三角形相似，求边长"
+    show_title: true
+    type: "explanation"
+    visibility: "student"
+    blocks:
+      - type: "problemcard"
+        id: "problem-14-card"
+        label: "第 14 题"
+        stem_latex: |
+          如图，点 $D$ 在 $\triangle ABC$ 的边 $AB$ 上，$AD=2$，$AB=9$，$AC=6$。过点 $D$ 的直线交 $AC$ 于点 $E$，使以点 $A,D,E$ 为顶点的三角形与 $\triangle ABC$ 相似，求 $AE$。
+        diagram_slot:
+          slot_id: "explanation.problem14.prompt"
+          diagram_ref: "explanation.problem14.prompt"
+          variant: "prompt"
+          disclosure_policy: "clean"
+          required: true
+          on_failure: "fail_assignment"
+          placement: "block_center"
+          layout_role: "center_block"
+          display_profile: "worksheet_geometry_center"
+          caption: '题面只给出 $D\in AB$；点 $E$ 的位置要由相似对应分类确定。'
+          diagram_kind: "synthetic_geometry"
+          teaching_intent: "explanation_prompt"
+          problem_context:
+            stem_latex: '$D\in AB$，$AD=2$，$AB=9$，$AC=6$。过 $D$ 的直线交 $AC$ 于 $E$，使 $\triangle ADE$ 与 $\triangle ABC$ 相似，求 $AE$。'
+            source_problem_text: "画一般三角形 ABC，A 在上方，B 左下，C 右下。D 在线段 AB 内且 AD=2、AB=9、AC=6。题面图只画 ABC 和点 D，不画 E、DE、相似符号或答案。"
+          semantic_constraints:
+            given_objects: [A, B, C, D]
+            given_constraints:
+              - D lies strictly inside segment AB
+              - AD=2
+              - AB=9
+              - AC=6
+              - ABC is scalene and non-right
+            clean_forbidden:
+              - do not draw E or segment DE
+              - do not imply an isosceles, right, or angle-bisector configuration
+              - do not show similarity notation, calculations, or answers
+
+      - type: "solution"
+        id: "problem-14-branch-overview"
+        title: "共同角确定后，分两类情况讨论"
+        items:
+          - content_latex: |
+              \begin{center}
+              \begin{tikzpicture}[>=Stealth,every node/.style={font=\small,align=center}]
+                \node[draw,rounded corners,fill=blue!5,text width=3.2cm,minimum height=1.1cm] (common) at (0,0)
+                  {先找公共角\\[1mm]$\angle DAE=\angle BAC$};
+                \node[draw,rounded corners,fill=green!6,text width=4.2cm,minimum height=1.1cm] (case1) at (5.2,1)
+                  {$\triangle ADE\sim\triangle ABC$\\[1mm]$\dfrac{AD}{AE}=\dfrac{AB}{AC}$};
+                \node[draw,rounded corners,fill=orange!8,text width=4.2cm,minimum height=1.1cm] (case2) at (5.2,-1)
+                  {$\triangle AED\sim\triangle ABC$\\[1mm]$\dfrac{AE}{AD}=\dfrac{AB}{AC}$};
+                \draw[->,thick] (common.east) -- (case1.west);
+                \draw[->,thick] (common.east) -- (case2.west);
+              \end{tikzpicture}
+              \end{center}
+
+      - type: "route"
+        id: "problem-14-route"
+        show_navigation: false
+        steps:
+          - id: "problem-14-common-angle"
+            latex: '公共角'
+            content_latex: |
+              $\because \angle DAE=\angle BAC$\\
+              $\therefore \triangle ADE\sim\triangle ABC$\\
+
+          - id: "problem-14-case-1"
+            latex: '第一种相似顺序'
+            content_latex: |
+              $\therefore \dfrac{AD}{AE}=\dfrac{AB}{AC}$\\
+              $\therefore \dfrac2{AE}=\dfrac96$\\
+              解得 $AE=\dfrac43$。
+            diagram_slot:
+              slot_id: "explanation.problem14.solution.case1"
+              diagram_ref: "explanation.problem14.solution.case1"
+              variant: "solution"
+              disclosure_policy: "annotated"
+              reuse_geometry_from: "explanation.problem14.prompt"
+              required: true
+              on_failure: "fail_assignment"
+              placement: "step_diagram"
+              layout_role: "solution_annotation"
+              display_profile: "worksheet_geometry_center"
+              caption: '当 $\triangle ADE\sim\triangle ABC$ 时。'
+              diagram_kind: "synthetic_geometry"
+              teaching_intent: "explanation_solution"
+              semantic_constraints:
+                given_objects: [A, B, C, D, E]
+                given_constraints:
+                  - reuse the complete prompt geometry
+                  - E lies on segment AC and AE=4/3
+                  - segment DE is visible
+                solution_allowed_annotations:
+                  - mark the shared angle DAE/BAC at A
+              visual_requirements:
+                required_visible_annotations:
+                  markers:
+                    - {type: angle_arc, vertex: A, arms: [D, E]}
+                  texts: []
+
+          - id: "problem-14-case-2"
+            latex: '第二种相似顺序'
+            content_latex: |
+              \[
+              \triangle AED\sim\triangle ABC
+              \]
+              $\therefore \dfrac{AE}{AD}=\dfrac{AB}{AC}$\\
+              $\therefore \dfrac{AE}{2}=\dfrac96$\\
+              解得 $AE=3$。\\
+              因为 $0<\dfrac43<6$，且 $0<3<6$，所以两种情况都成立。
+            diagram_slot:
+              slot_id: "explanation.problem14.solution.case2"
+              diagram_ref: "explanation.problem14.solution.case2"
+              variant: "solution"
+              disclosure_policy: "annotated"
+              reuse_geometry_from: "explanation.problem14.prompt"
+              required: true
+              on_failure: "fail_assignment"
+              placement: "step_diagram"
+              layout_role: "solution_annotation"
+              display_profile: "worksheet_geometry_center"
+              caption: '当 $\triangle AED\sim\triangle ABC$ 时。'
+              diagram_kind: "synthetic_geometry"
+              teaching_intent: "explanation_solution"
+              semantic_constraints:
+                given_objects: [A, B, C, D, E]
+                given_constraints:
+                  - reuse the complete prompt geometry
+                  - E lies on segment AC and AE=3
+                  - segment DE is visible
+                solution_allowed_annotations:
+                  - mark the shared angle DAE/BAC at A
+              visual_requirements:
+                required_visible_annotations:
+                  markers:
+                    - {type: angle_arc, vertex: A, arms: [D, E]}
+                  texts: []
+
+      - type: "dual_explanation"
+        id: "problem-14-solution"
+        side_title: "小贴士"
+        side_items:
+          - kind: "hint"
+            title: "先找公共角"
+            content_latex: '先由 $\angle DAE=\angle BAC$ 确定公共角，再围绕公共角的两组夹边比分两类情况讨论：$\dfrac{AD}{AE}=\dfrac{AB}{AC}$ 或 $\dfrac{AE}{AD}=\dfrac{AB}{AC}$。'
+        solution_title: "解答"
+        plain_solution: true
+        solution_step_ids:
+          - "problem-14-common-angle"
+          - "problem-14-case-1"
+          - "problem-14-case-2"
+
+      - type: "summary_dual"
+        id: "problem-14-summary"
+        left_title: "答案"
+        left_items:
+          - latex: '$AE=\dfrac43$ 或 $3$。'
+        right_title: "方法提醒"
+        right_items:
+          - latex: '先找公共角，再写 $\triangle ADE\sim\triangle ABC$ 与 $\triangle AED\sim\triangle ABC$ 两种相似顺序。'

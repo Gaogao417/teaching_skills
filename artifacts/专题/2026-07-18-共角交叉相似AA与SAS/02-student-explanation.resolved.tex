@@ -1,0 +1,134 @@
+\documentclass{exam-zh}
+\usepackage{edu-explanation}
+
+\examsetup{
+  question/show-answer = true,
+  fillin/show-answer = true,
+  solution/show-solution = show-stay,
+}
+
+\begin{document}
+
+\eduSectionTitle{经典模型：SAS 先锁角，AA 先锁一对角}
+
+\begin{eduProblemBlock}[模型例题]
+\noindent
+\begin{minipage}[t]{\dimexpr\linewidth-70mm-6mm\relax}
+\vspace{0pt}
+如图，$A,B,D$ 三点共线，$A,C,E$ 三点共线，点序分别为 $A-B-D$ 和 $A-C-E$，$BE$ 与 $CD$ 交于点 $O$。已知 $\triangle ABC\sim\triangle AED$。
+
+按箭头方向依次证明：
+\[
+\triangle ABC\sim\triangle AED
+\Longrightarrow
+\triangle ACD\sim\triangle ABE
+\Longrightarrow
+\triangle BOD\sim\triangle COE
+\Longrightarrow
+\triangle BOC\sim\triangle DOE.
+\]
+\begin{enumerate}[label=(\arabic*)]
+  \item 证明 $\triangle ACD\sim\triangle ABE$；
+  \item 证明 $\triangle BOD\sim\triangle COE$；
+  \item 证明 $\triangle BOC\sim\triangle DOE$。
+\end{enumerate}
+
+\end{minipage}\hfill
+\begin{diagramcoltikz}{70mm}{先找 $A$ 处的共角，再找 $O$ 处的对顶角。}
+\input{\detokenize{build/diagram/jobs/explanation-similarity-chain-prompt/rendered/prompt.fragment.tex}}
+\end{diagramcoltikz}
+\end{eduProblemBlock}
+
+
+
+
+
+
+
+
+
+\begin{eduSubQuestionItem}{(1)}
+证明 $\triangle ACD\sim\triangle ABE$。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{SAS 小贴士}
+        \eduSideHint{先找哪个角}{$\triangle ACD$ 和 $\triangle ABE$ 都以 $A$ 为顶点；共线让 $\angle CAD$ 与 $\angle BAE$ 实际上是同一个角。}
+        \eduSideHint{夹边是哪四条}{角 $A$ 两侧只有 $AC,AD$ 与 $AB,AE$，所以目标比必须围绕这四条边来写。}
+        \eduSideMistake{比例要换位}{已知相似给出的比不一定就是目标形式；先交叉相乘，再重组成 $\dfrac{AC}{AB}=\dfrac{AD}{AE}$。}
+  \end{eduExplainLeft}
+
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{解答}
+\needspace{5\baselineskip}      \eduExplainStep{}{第一个箭头：先找角 $A$，再证夹边比}{$\because \triangle ABC\sim\triangle AED$，\\
+$\therefore \dfrac{AB}{AE}=\dfrac{AC}{AD}$，即 $AB\cdot AD=AC\cdot AE$。\\
+$\therefore \dfrac{AC}{AB}=\dfrac{AD}{AE}$。\\
+$\because \angle CAD=\angle BAE$，\\
+$\therefore \triangle ACD\sim\triangle ABE$（SAS）。
+}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduSubQuestionItem}{(2)}
+证明 $\triangle BOD\sim\triangle COE$。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{AA 小贴士}
+        \eduSideHint{第一对角}{看到交点 $O$，先写 $\angle BOD=\angle COE$。这只完成了 AA 的一半。}
+        \eduSideHint{第二对角怎么找}{上一问已经得到 $\angle ADC=\angle AEB$。借助共线可直接改写为 $\angle BDO=\angle CEO$，不需要再做角差。}
+  \end{eduExplainLeft}
+
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{解答}
+\needspace{5\baselineskip}      \eduExplainStep{}{第二个箭头：先找对顶角，再找第二对角}{$\because BE$ 与 $CD$ 交于点 $O$，\\
+$\therefore \angle BOD=\angle COE$。\\
+$\because \triangle ACD\sim\triangle ABE$，\\
+$\therefore \angle ADC=\angle AEB$。\\
+又 $\because A,B,D$ 共线，$C,O,D$ 共线，$A,C,E$ 共线，$B,O,E$ 共线，\\
+$\therefore \angle BDO=\angle ADC$，$\angle CEO=\angle AEB$。\\
+$\therefore \angle BDO=\angle CEO$。\\
+$\therefore \triangle BOD\sim\triangle COE$（AA）。
+}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduSubQuestionItem}{(3)}
+证明 $\triangle BOC\sim\triangle DOE$。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{SAS 小贴士}
+        \eduSideHint{先锁定夹角}{$\angle BOC$ 与 $\angle DOE$ 是对顶角。一旦准备走 SAS，接下来就只看这两个角各自两侧的边。}
+        \eduSideHint{夹边比从哪里来}{上一问的相似先给出 $\dfrac{BO}{CO}=\dfrac{DO}{EO}$；交叉相乘后重组，变成围着目标对顶角的 $\dfrac{BO}{DO}=\dfrac{CO}{EO}$。}
+  \end{eduExplainLeft}
+
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{解答}
+\needspace{5\baselineskip}      \eduExplainStep{}{第三个箭头：先找对顶角，再证夹边比}{$\because \triangle BOD\sim\triangle COE$，\\
+$\therefore \dfrac{BO}{CO}=\dfrac{DO}{EO}$，即 $BO\cdot EO=CO\cdot DO$。\\
+$\therefore \dfrac{BO}{DO}=\dfrac{CO}{EO}$。\\
+$\because \angle BOC=\angle DOE$，\\
+$\therefore \triangle BOC\sim\triangle DOE$（SAS）。
+}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduSummaryBlock}{\eduIconPin}{两条可复用的搜索口令}
+\begin{eduBulletList}
+  \item $\textbf{SAS：}$先找公共角或对顶角，再只证这个角两侧的夹边成比例。  \item $\textbf{AA：}$先写最确定的一对角，再用上一组相似的对应角和共线关系找另一对角。  \item $\textbf{最后检查：}$相似式的顶点顺序必须和角、边的对应关系一致。\end{eduBulletList}
+\end{eduSummaryBlock}
+
+
+
+
+\end{document}

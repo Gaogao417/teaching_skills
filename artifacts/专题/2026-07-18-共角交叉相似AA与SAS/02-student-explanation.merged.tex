@@ -1,0 +1,89 @@
+\documentclass{exam-zh}
+\usepackage{edu-explanation}
+
+\examsetup{
+  question/show-answer = true,
+  fillin/show-answer = true,
+  solution/show-solution = show-stay,
+}
+
+\begin{document}
+
+\eduSectionTitle{经典模型：SAS 先锁角，AA 先锁一对角}
+
+\begin{eduProblemBlock}[模型例题]
+\noindent
+\begin{minipage}[t]{\dimexpr\linewidth-70mm-6mm\relax}
+\vspace{0pt}
+如图，$A,B,D$ 三点共线，$A,C,E$ 三点共线，点序分别为 $A-B-D$ 和 $A-C-E$，$BE$ 与 $CD$ 交于点 $O$。已知 $\triangle ABC\sim\triangle AED$。
+
+\begin{enumerate}[label=(\arabic*)]
+  \item 证明 $\triangle ACD\sim\triangle ABE$；
+  \item 证明 $\triangle BOD\sim\triangle COE$；
+  \item 证明 $\triangle BOC\sim\triangle DOE$。
+\end{enumerate}
+
+\end{minipage}\hfill
+\begin{diagramcoltikz}{70mm}{先找 $A$ 处的共角，再找 $O$ 处的对顶角。}
+\input{\detokenize{build/diagram/jobs/explanation-similarity-chain-prompt/rendered/prompt.fragment.tex}}
+\end{diagramcoltikz}
+\end{eduProblemBlock}
+
+
+
+
+
+
+
+
+
+\begin{eduSubQuestionItem}{(1)}
+证明 $\triangle ACD\sim\triangle ABE$。\end{eduSubQuestionItem}
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{SAS 小贴士}
+        \eduSideHint{先角后边}{先找到等角，再证这个角两侧的两对夹边成比例。}
+  \end{eduExplainLeft}
+
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{解答}
+\needspace{5\baselineskip}$\because \triangle ABC\sim\triangle AED$\\
+$\therefore \dfrac{AB}{AE}=\dfrac{AC}{AD}$\\
+$\therefore \dfrac{AC}{AB}=\dfrac{AD}{AE}$\\
+$\because \angle CAD=\angle BAE$\\
+$\therefore \triangle ACD\sim\triangle ABE$（SAS）
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduSubQuestionItem}{(2)}
+证明 $\triangle BOD\sim\triangle COE$。\end{eduSubQuestionItem}
+
+\begin{eduSolutionBox}{解答}
+$\angle BOD=\angle COE$（对顶角）。\\
+由 $\triangle ACD\sim\triangle ABE$，得 $\angle ADC=\angle AEB$。\\
+由共线关系，$\angle BDO=\angle ADC$，$\angle CEO=\angle AEB$。\\
+故 $\angle BDO=\angle CEO$。\\
+$\therefore \triangle BOD\sim\triangle COE$（AA）
+\end{eduSolutionBox}
+
+
+
+
+\begin{eduSubQuestionItem}{(3)}
+证明 $\triangle BOC\sim\triangle DOE$。\end{eduSubQuestionItem}
+
+\begin{eduSolutionBox}{解答}
+$\because \triangle BOD\sim\triangle COE$\\
+$\therefore \dfrac{BO}{CO}=\dfrac{DO}{EO}$，即 $\dfrac{BO}{DO}=\dfrac{CO}{EO}$\\
+$\because \angle BOC=\angle DOE$\\
+$\therefore \triangle BOC\sim\triangle DOE$（SAS）
+\end{eduSolutionBox}
+
+
+
+
+\end{document}

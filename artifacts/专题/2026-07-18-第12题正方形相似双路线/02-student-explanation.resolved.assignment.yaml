@@ -1,0 +1,160 @@
+meta:
+  title: 第 12 题正方形相似双路线
+  subtitle: 学生讲义
+  grade: 九年级
+  subject: 数学
+  version: student
+  source_artifacts:
+    structure_analysis: artifacts/专题/2026-07-18-第12题正方形相似双路线/01-structure-analysis.md
+render:
+  template: exam-zh-explanation
+  paper_size: a4paper
+sections:
+- id: problem-12-similarity-two-finishes
+  title: 先相似定尺度，再用两种方法求 $GF$
+  show_title: true
+  type: explanation
+  visibility: student
+  blocks:
+  - type: problemcard
+    id: problem-12-card
+    label: 第 12 题
+    stem_latex: |
+      如图，在正方形 $ABCD$ 中，$E$ 为 $AB$ 边的中点，$G,F$ 分别为 $AD,BC$ 边上的点。若 $AG=2$，$BF=4$，$\angle GEF=90^\circ$，求 $GF$ 的长。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/explanation-problem12-prompt/rendered/prompt.fragment.tex
+      diagram_ref: explanation.problem12.prompt
+      diagram_job_id: explanation-problem12-prompt
+      width: 70mm
+      caption: 先在正方形中找出两组直角，再观察 $GE\perp EF$ 带来的等角。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:c4520dc0ad87204a36b5346f70e8bd9dbb81c173d5ea6c8cdecf5e7b4d1f3104
+      packages:
+      - tikz
+      libraries: []
+  - type: solution
+    id: problem-12-route-overview
+    title: 两种求法
+    items:
+    - content_latex: |
+        \begin{center}
+        \begin{tikzpicture}[>=Stealth,every node/.style={font=\small,align=center}]
+          \node[draw,rounded corners,fill=blue!5,text width=3.2cm,minimum height=1.1cm] (common) at (0,0)
+            {相似求 $AE,BE$};
+          \node[draw,rounded corners,fill=green!6,text width=3.3cm,minimum height=1.1cm] (m1) at (4.5,0.9)
+            {求 $GE,EF$};
+          \node[draw,rounded corners,fill=green!6,text width=3.3cm,minimum height=1.1cm] (r1) at (9,0.9)
+            {$\triangle GEF$ 勾股\\$GF=6$};
+          \node[draw,rounded corners,fill=orange!8,text width=3.3cm,minimum height=1.1cm] (m2) at (4.5,-0.9)
+            {作 $GH\perp BF$};
+          \node[draw,rounded corners,fill=orange!8,text width=3.3cm,minimum height=1.1cm] (r2) at (9,-0.9)
+            {$\triangle GHF$ 勾股\\$GF=6$};
+          \draw[->,thick] (common.east) -- (m1.west);
+          \draw[->,thick] (m1.east) -- (r1.west);
+          \draw[->,thick] (common.east) -- (m2.west);
+          \draw[->,thick] (m2.east) -- (r2.west);
+        \end{tikzpicture}
+        \end{center}
+  - type: route
+    id: problem-12-route-common
+    show_navigation: false
+    steps:
+    - id: problem-12-step-a-similar
+      latex: 先证相似，求出 $AE,BE$
+      content_latex: |
+        $\because \angle GAE=\angle EBF=90^\circ$，且 $GE\perp EF$、$AE\perp BF$，\\
+        $\therefore \angle AGE=\angle BEF$。\\
+        $\therefore \triangle AGE\sim\triangle BEF$。\\
+        设 $AE=BE=x$，则 $\dfrac{AG}{BE}=\dfrac{AE}{BF}$，即 $\dfrac2x=\dfrac x4$。\\
+        解得 $x=2\sqrt2$，所以 $AE=BE=2\sqrt2$，$AB=4\sqrt2$。
+  - type: dual_explanation
+    id: problem-12-solution-common
+    side_title: 公共入口
+    side_items:
+    - kind: hint
+      title: 相似顺序怎么对
+      content_latex: 先对直角：$A\leftrightarrow B$；再对相等锐角：$G\leftrightarrow E$；最后才是 $E\leftrightarrow
+        F$。
+    - kind: mistake
+      title: 根为什么取正
+      content_latex: $x$ 表示线段长度，所以由 $x^2=8$ 只取 $x=2\sqrt2$。
+    solution_title: 先用相似确定边长
+    solution_step_ids:
+    - problem-12-step-a-similar
+  - type: route
+    id: problem-12-route-method-1
+    show_navigation: false
+    steps:
+    - id: problem-12-step-b1
+      latex: 求 $GE,EF$，再在 $\triangle GEF$ 中勾股
+      content_latex: |
+        \textbf{解直角 $\triangle AGE$}：已知 $\angle GAE=90^\circ$，$AG=2$，$AE=2\sqrt2$，得 $GE=2\sqrt3$。\\
+        \textbf{解直角 $\triangle EBF$}：已知 $\angle EBF=90^\circ$，$BE=2\sqrt2$，$BF=4$，得 $EF=2\sqrt6$。\\
+        $\because \angle GEF=90^\circ$，\\
+        $\therefore GF=\sqrt{GE^2+EF^2}=\sqrt{12+24}=6$。
+  - type: dual_explanation
+    id: problem-12-solution-method-1
+    side_title: 方法一观察
+    side_items:
+    - kind: hint
+      title: 在哪个三角形收尾
+      content_latex: 题设已给 $GE\perp EF$，所以只要分别求出两条直角边 $GE,EF$，就能在 $\triangle GEF$ 中求
+        $GF$。
+    solution_title: 求法一：利用题设直角
+    solution_step_ids:
+    - problem-12-step-b1
+  - type: route
+    id: problem-12-route-method-2
+    show_navigation: false
+    steps:
+    - id: problem-12-step-b2-helper
+      latex: 过 $G$ 作 $GH\perp BF$ 于 $H$
+      content_latex: |
+        过 $G$ 作 $GH\perp BF$ 于 $H$。\\
+        $\because AG\parallel BF$，且 $AB\perp AG$，\\
+        $\therefore$ 四边形 $ABHG$ 为矩形。\\
+        $\therefore GH=AB=4\sqrt2$，$BH=AG=2$，$HF=BF-BH=2$。
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/explanation-problem12-solution-gh/rendered/solution.fragment.tex
+        diagram_ref: explanation.problem12.solution.gh
+        diagram_job_id: explanation-problem12-solution-gh
+        width: 70mm
+        caption: 补出 $GH$ 后，梯形 $ABFG$ 中出现矩形 $ABHG$ 和直角三角形 $GHF$。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:13ea130be7966f5c5bd126ac19df69034c3a6f11bccac13dab2601c7c999c9a6
+        packages:
+        - tikz
+        libraries: []
+    - id: problem-12-step-b2-finish
+      latex: 在 $\triangle GHF$ 中勾股，求出 $GF$
+      content_latex: |
+        \textbf{解直角 $\triangle GHF$}：已知 $\angle GHF=90^\circ$，$GH=4\sqrt2$，$HF=2$，\\
+        得 $GF=\sqrt{GH^2+HF^2}=\sqrt{32+4}=6$。
+  - type: dual_explanation
+    id: problem-12-solution-method-2
+    side_title: 方法二观察
+    side_items:
+    - kind: hint
+      title: 辅助线解决什么
+      content_latex: 给梯形 $ABFG$ 作高后，$ABHG$ 成为矩形，能直接读出 $GH=AB$、$BH=AG$。
+    - kind: hint
+      title: 在哪个三角形收尾
+      content_latex: 方法二不再计算 $GE,EF$，而是在新出现的直角三角形 $GHF$ 中一次勾股。
+    solution_title: 求法二：梯形添高
+    solution_step_ids:
+    - problem-12-step-b2-helper
+    - problem-12-step-b2-finish
+  - type: summary_dual
+    id: problem-12-summary
+    left_title: 答案
+    left_items:
+    - latex: $GF=6$。
+    right_title: 方法提醒
+    right_items:
+    - latex: 先用相似确定正方形边长，再任选一种勾股路线求 $GF$。

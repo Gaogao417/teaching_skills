@@ -1,0 +1,220 @@
+meta:
+  title: "相似三角形四类变式练习"
+  subtitle: "第 12、13、14、17 题各 1 道"
+  grade: "九年级"
+  subject: "数学"
+  duration: "35分钟"
+  total_points: 40
+  version: "student"
+  source_artifacts:
+    structure_analyses:
+      - "../2026-07-18-第12题正方形相似双路线/01-structure-analysis.md"
+      - "../2026-07-18-第13题两高相似计数/01-structure-analysis.md"
+      - "../2026-07-18-第14题共角相似分类/01-structure-analysis.md"
+      - "../2026-07-19-第17题梯形三平行线三解/01-structure-analysis.md"
+    explanations:
+      - "../2026-07-18-第12题正方形相似双路线/02-student-explanation.resolved.assignment.yaml"
+      - "../2026-07-18-第13题两高相似计数/02-student-explanation.resolved.assignment.yaml"
+      - "../2026-07-18-第14题共角相似分类/02-student-explanation.resolved.assignment.yaml"
+      - "../2026-07-19-第17题梯形三平行线三解/02-student-explanation.resolved.assignment.yaml"
+
+render:
+  template: "exam-zh-practice"
+  paper_size: "a4paper"
+  answer_key_position: "after_page_break"
+
+sections:
+  - id: "square-perpendicular-similarity"
+    title: ""
+    type: "practice"
+    visibility: "student"
+    blocks:
+      - type: "problem"
+        id: "q12-variant"
+        points: 10
+        label: "第 1 题"
+        stem_latex: |
+          如图，在正方形 $ABCD$ 中，$E$ 为 $AB$ 边的中点，$G,F$ 分别为 $AD,BC$ 边上的点。若 $AG=4$，$BF=9$，$\angle GEF=90^\circ$，求 $GF$ 的长。
+        answer_space:
+          type: "steps"
+          height: "54mm"
+          step_count: 5
+        diagram_slot:
+          slot_id: "practice.similarity4.q12.prompt"
+          diagram_ref: "practice.similarity4.q12.prompt"
+          variant: "prompt"
+          disclosure_policy: "clean"
+          required: true
+          on_failure: "fail_assignment"
+          placement: "diagram_col"
+          layout_role: "question_sidecar"
+          display_profile: "worksheet_geometry_sidecar"
+          caption: '先找两组直角，再观察 $GE\perp EF$ 带来的等角。'
+          diagram_kind: "synthetic_geometry"
+          teaching_intent: "practice_prompt"
+          problem_context:
+            stem_latex: '正方形 $ABCD$ 中，$E$ 是 $AB$ 中点，$G\in AD$，$F\in BC$，$AG=4$，$BF=9$，$GE\perp EF$，求 $GF$。'
+            source_problem_text: "画正方形 ABCD，A 左下、B 右下、C 右上、D 左上。E 是 AB 中点，G 在 AD 内部，F 在 BC 内部。连接 GE、EF、GF，标出 E 处直角。只显示题设对象与点名，不画辅助线，不显示相似式、计算式或答案。"
+          semantic_constraints:
+            given_objects: [A, B, C, D, E, F, G]
+            given_constraints:
+              - ABCD is a square in order A-B-C-D
+              - E is the midpoint of AB
+              - G lies in the interior of AD and AG=4
+              - F lies in the interior of BC and BF=9
+              - GE is perpendicular to EF
+              - segments GE, EF, and GF are visible
+            clean_forbidden:
+              - do not draw auxiliary lines
+              - do not imply GF is parallel to AB
+              - do not show calculations or the answer
+          visual_requirements:
+            required_visible_annotations:
+              markers:
+                - {type: right_angle, vertex: E, arms: [G, F]}
+              texts: []
+
+  - id: "two-altitudes-similarity-count"
+    title: ""
+    type: "practice"
+    visibility: "student"
+    blocks:
+      - type: "problem"
+        id: "q13-variant"
+        points: 10
+        label: "第 2 题"
+        stem_latex: |
+          如图，$AD,BE$ 是锐角 $\triangle ABC$ 的两条高，垂足分别为 $D,E$，$AD,BE$ 相交于点 $O$。
+          请找出图中四个两两相似的直角三角形，并写出全部相似三角形的配对，说明共有多少对。
+        answer_space:
+          type: "steps"
+          height: "68mm"
+          step_count: 6
+        diagram_slot:
+          slot_id: "practice.similarity4.q13.prompt"
+          diagram_ref: "practice.similarity4.q13.prompt"
+          variant: "prompt"
+          disclosure_policy: "clean"
+          required: true
+          on_failure: "fail_assignment"
+          placement: "diagram_col"
+          layout_role: "question_sidecar"
+          display_profile: "worksheet_geometry_sidecar"
+          caption: "弧角未预先标出，请从两条高自己找等角。"
+          diagram_kind: "synthetic_geometry"
+          teaching_intent: "practice_prompt"
+          problem_context:
+            stem_latex: '$AD,BE$ 是锐角 $\triangle ABC$ 的两条高，垂足为 $D,E$，交于 $O$。找出相似三角形并列出全部配对。'
+            source_problem_text: "画一个不等腰锐角三角形 ABC，A 在上方，B 左下，C 右下。D 在 BC 内部，AD 垂直 BC；E 在 AC 内部，BE 垂直 AC；AD 与 BE 在三角形内部交于 O。只标 D、E 两处直角，不标等角弧，不显示三角形高亮、相似式、配对或答案。"
+          semantic_constraints:
+            given_objects: [A, B, C, D, E, O]
+            given_constraints:
+              - ABC is an acute scalene triangle
+              - D lies on BC and AD is perpendicular to BC
+              - E lies on AC and BE is perpendicular to AC
+              - AD and BE intersect at O inside triangle ABC
+            clean_forbidden:
+              - do not add angle-arc marks
+              - do not imply equal sides, midpoints, or angle bisectors
+              - do not show pair counts or the answer
+          visual_requirements:
+            required_visible_annotations:
+              markers:
+                - {type: right_angle, vertex: D, arms: [A, B]}
+                - {type: right_angle, vertex: E, arms: [B, A]}
+              texts: []
+
+  - id: "shared-angle-two-maps"
+    title: ""
+    type: "practice"
+    visibility: "student"
+    blocks:
+      - type: "problem"
+        id: "q14-variant"
+        points: 10
+        label: "第 3 题"
+        stem_latex: |
+          如图，点 $D$ 在 $\triangle ABC$ 的边 $AB$ 上，$AD=3$，$AB=12$，$AC=8$。过点 $D$ 的直线交 $AC$ 于点 $E$，使以点 $A,D,E$ 为顶点的三角形与 $\triangle ABC$ 相似，求所有可能的 $AE$。
+        answer_space:
+          type: "steps"
+          height: "62mm"
+          step_count: 6
+        diagram_slot:
+          slot_id: "practice.similarity4.q14.prompt"
+          diagram_ref: "practice.similarity4.q14.prompt"
+          variant: "prompt"
+          disclosure_policy: "clean"
+          required: true
+          on_failure: "fail_assignment"
+          placement: "diagram_col"
+          layout_role: "question_sidecar"
+          display_profile: "worksheet_geometry_sidecar"
+          caption: "先锁定共同角 $A$，再分类讨论另外两个顶点的对应。"
+          diagram_kind: "synthetic_geometry"
+          teaching_intent: "practice_prompt"
+          problem_context:
+            stem_latex: '$D\in AB$，$AD=3$，$AB=12$，$AC=8$。过 $D$ 的直线交 $AC$ 于 $E$，使 $\triangle ADE$ 与 $\triangle ABC$ 相似，求所有可能的 $AE$。'
+            source_problem_text: "画一个不等腰、非直角的三角形 ABC，A 在左侧，B 在右下，C 在右上。D 在 AB 内部。题面图只画三角形 ABC 和点 D，不预先画出 E 或 DE，因为 E 有两个可能位置。不显示等腰、直角、角平分线、相似式或答案。"
+          semantic_constraints:
+            given_objects: [A, B, C, D]
+            given_constraints:
+              - ABC is a non-isosceles non-right triangle
+              - D lies in the interior of AB
+              - AD=3 and AB=12 and AC=8 determine the relative position
+            clean_forbidden:
+              - do not draw point E or segment DE
+              - do not imply an angle bisector, equal sides, or a right angle
+              - do not show either answer
+          visual_requirements:
+            required_visible_annotations:
+              markers: []
+              texts: []
+
+  - id: "trapezoid-three-parallels"
+    title: ""
+    type: "practice"
+    visibility: "student"
+    blocks:
+      - type: "problem"
+        id: "q17-variant"
+        points: 10
+        label: "第 4 题"
+        stem_latex: |
+          如图，四边形 $ABCD$ 为梯形，$AB\parallel EF\parallel CD$，点 $E$ 在 $AD$ 上，点 $F$ 在 $BC$ 上。已知 $AE:ED=2:1$，$AB=5$，$CD=11$，求 $EF$。
+        answer_space:
+          type: "steps"
+          height: "60mm"
+          step_count: 6
+        diagram_slot:
+          slot_id: "practice.similarity4.q17.prompt"
+          diagram_ref: "practice.similarity4.q17.prompt"
+          variant: "prompt"
+          disclosure_policy: "clean"
+          required: true
+          on_failure: "fail_assignment"
+          placement: "diagram_col"
+          layout_role: "question_sidecar"
+          display_profile: "worksheet_geometry_sidecar"
+          caption: "三条平行线把两条腰按同一比例分割。"
+          diagram_kind: "synthetic_geometry"
+          teaching_intent: "practice_prompt"
+          problem_context:
+            stem_latex: '梯形 $ABCD$ 中，$AB\parallel EF\parallel CD$，$E\in AD$，$F\in BC$，$AE:ED=2:1$，$AB=5$，$CD=11$，求 $EF$。'
+            source_problem_text: "画一个上底 AB 较短、下底 CD 较长的一般梯形 ABCD，A 左上、B 右上、C 右下、D 左下。E 在 AD 内部，F 在 BC 内部，EF 与两底平行。只画题设对象，不画对角线、腰的延长线或其他辅助线，不显示答案。"
+          semantic_constraints:
+            given_objects: [A, B, C, D, E, F]
+            given_constraints:
+              - ABCD is a non-isosceles non-right trapezoid with AB parallel to CD
+              - AB is shorter than CD
+              - E lies in the interior of AD and AE:ED=2:1
+              - F lies in the interior of BC
+              - EF is parallel to AB and CD
+            clean_forbidden:
+              - do not draw any auxiliary line or point
+              - do not imply an isosceles or right trapezoid
+              - do not show calculations or the answer
+          visual_requirements:
+            required_visible_annotations:
+              markers:
+                - {type: parallel, segments: [[A, B], [E, F], [C, D]]}
+              texts: []

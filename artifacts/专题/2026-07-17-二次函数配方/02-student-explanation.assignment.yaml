@@ -1,0 +1,195 @@
+meta:
+  title: "二次函数配方：从一般式到顶点式"
+  subtitle: "学生讲义 · 五级递进"
+  grade: "九年级"
+  subject: "数学"
+  version: "student"
+  source_artifacts:
+    structure_analysis: "artifacts/专题/2026-07-17-二次函数配方/01-structure-analysis.md"
+
+render:
+  template: "exam-zh-explanation"
+  paper_size: "a4paper"
+
+sections:
+  - id: "completing-square"
+    title: "知识点：配方——把一般式化成顶点式"
+    show_title: true
+    type: "explanation"
+    visibility: "student"
+    blocks:
+      - type: "solution"
+        id: "completing-square-formula"
+        title: "核心公式：提取、半系数、合并"
+        items:
+          - content_latex: |
+              当 $a\ne0$ 时，
+              \[
+              \begin{aligned}
+              y&=ax^2+bx+c\\
+               &=a\left(x^2+\frac ba x\right)+c\\
+               &=a\left[\left(x+\frac b{2a}\right)^2-\frac{b^2}{4a^2}\right]+c\\
+               &=a\left(x+\frac b{2a}\right)^2-\frac{\Delta}{4a},
+              \qquad \Delta=b^2-4ac.
+              \end{aligned}
+              \]
+          - latex: '\textbf{第一步——提二次项系数：}$y=a\left(x^2+\dfrac ba x\right)+c$，使括号内 $x^2$ 的系数变为 $1$。'
+          - latex: '\textbf{第二步——按 $x^2+2mx$ 配方：}令 $2m=\dfrac ba$，则 $m=\dfrac b{2a}$，且 $x^2+2mx=(x+m)^2-m^2$。'
+          - latex: '\textbf{第三步——拆中括号：}$a[(x+m)^2-m^2]+c=a(x+m)^2-am^2+c$，再合并常数。'
+
+      - type: "problemcard"
+        id: "example-1"
+        label: "例题 1 · 首项系数为 1"
+        stem_latex: "把 $y=x^2+2x+4$ 配成顶点式。"
+
+      - type: "route"
+        id: "route-1"
+        steps:
+          - id: "ex1-half"
+            latex: "提二次项系数"
+            content_latex: "$y=1(x^2+2x)+4$。"
+          - id: "ex1-complete"
+            latex: "写成 $x^2+2mx$ 并配方"
+            content_latex: "$2m=2$，所以 $m=1$，$x^2+2x=(x+1)^2-1$。"
+          - id: "ex1-check"
+            latex: "拆中括号并合并"
+            content_latex: "$y=1[(x+1)^2-1]+4=(x+1)^2+3$。"
+
+      - type: "dual_explanation"
+        id: "solution-1"
+        side_title: "小贴士"
+        side_items:
+          - kind: "hint"
+            title: "先找 $2m$"
+            content_latex: "不要直接猜括号里的数；先写 $2m=2$，再得到 $m=1$。"
+        solution_title: "解答"
+        solution_step_ids:
+          - "ex1-half"
+          - "ex1-complete"
+          - "ex1-check"
+
+      - type: "problemcard"
+        id: "example-2"
+        label: "例题 2 · 首项系数不为 1"
+        stem_latex: "把 $y=2x^2+8x+5$ 配成顶点式。"
+        layout:
+          break_before: true
+
+      - type: "route"
+        id: "route-2"
+        steps:
+          - id: "ex2-factor"
+            latex: "提二次项系数"
+            content_latex: "$y=2(x^2+4x)+5$。"
+          - id: "ex2-half"
+            latex: "写成 $x^2+2mx$ 并配方"
+            content_latex: "$2m=4$，所以 $m=2$，$x^2+4x=(x+2)^2-4$。"
+          - id: "ex2-complete"
+            latex: "拆中括号并合并"
+            content_latex: "$y=2[(x+2)^2-4]+5=2(x+2)^2-3$。"
+
+      - type: "dual_explanation"
+        id: "solution-2"
+        side_title: "小贴士"
+        side_items:
+          - kind: "hint"
+            title: "先提再找 $2m$"
+            content_latex: "先提取 $2$，括号内一次项系数才是 $4$；因此从 $2m=4$ 开始。"
+        solution_title: "解答"
+        solution_step_ids:
+          - "ex2-factor"
+          - "ex2-half"
+          - "ex2-complete"
+
+      - type: "problemcard"
+        id: "example-3"
+        label: "例题 3 · $b/a$ 不是偶数"
+        stem_latex: "把 $y=3x^2+5x-2$ 配成顶点式。"
+
+      - type: "route"
+        id: "route-3"
+        steps:
+          - id: "ex3-factor"
+            latex: "提二次项系数"
+            content_latex: '$y=3\left(x^2+\dfrac53x\right)-2$。'
+          - id: "ex3-half"
+            latex: "写成 $x^2+2mx$ 并配方"
+            content_latex: '$2m=\dfrac53$，所以 $m=\dfrac56$，$x^2+\dfrac53x=\left(x+\dfrac56\right)^2-\dfrac{25}{36}$。'
+          - id: "ex3-complete"
+            latex: "拆中括号并合并"
+            content_latex: '$y=3\left[\left(x+\dfrac56\right)^2-\dfrac{25}{36}\right]-2=3\left(x+\dfrac56\right)^2-\dfrac{49}{12}$。'
+
+      - type: "dual_explanation"
+        id: "solution-3"
+        side_title: "小贴士"
+        side_items:
+          - kind: "hint"
+            title: "分数仍然先写 $2m=$"
+            content_latex: '即使 $\dfrac53$ 不是偶数，也只需由 $2m=\dfrac53$ 得 $m=\dfrac56$。'
+        solution_title: "解答"
+        solution_step_ids:
+          - "ex3-factor"
+          - "ex3-half"
+          - "ex3-complete"
+
+      - type: "problemcard"
+        id: "example-4"
+        label: "例题 4 · $a,b$ 都是分数"
+        stem_latex: '把 $y=\dfrac12x^2-\dfrac34x+1$ 配成顶点式。'
+
+      - type: "route"
+        id: "route-4"
+        steps:
+          - id: "ex4-factor"
+            latex: "提二次项系数"
+            content_latex: '$y=\dfrac12\left(x^2-\dfrac32x\right)+1$。'
+          - id: "ex4-half"
+            latex: "写成 $x^2+2mx$ 并配方"
+            content_latex: '$2m=-\dfrac32$，所以 $m=-\dfrac34$，$x^2-\dfrac32x=\left(x-\dfrac34\right)^2-\dfrac9{16}$。'
+          - id: "ex4-complete"
+            latex: "拆中括号并合并"
+            content_latex: '$y=\dfrac12\left[\left(x-\dfrac34\right)^2-\dfrac9{16}\right]+1=\dfrac12\left(x-\dfrac34\right)^2+\dfrac{23}{32}$。'
+
+      - type: "dual_explanation"
+        id: "solution-4"
+        side_title: "小贴士"
+        side_items:
+          - kind: "hint"
+            title: "先算括号内系数"
+            content_latex: '提取 $\dfrac12$ 后，一次项系数是 $-\dfrac32$；再由 $2m=-\dfrac32$ 求 $m$。'
+        solution_title: "解答"
+        solution_step_ids:
+          - "ex4-factor"
+          - "ex4-half"
+          - "ex4-complete"
+
+      - type: "problemcard"
+        id: "example-5"
+        label: "例题 5 · 一次项含根号"
+        stem_latex: '把 $y=2x^2+2\sqrt3x-1$ 配成顶点式。'
+
+      - type: "route"
+        id: "route-5"
+        steps:
+          - id: "ex5-factor"
+            latex: "提二次项系数"
+            content_latex: '$y=2(x^2+\sqrt3x)-1$。'
+          - id: "ex5-half"
+            latex: "写成 $x^2+2mx$ 并配方"
+            content_latex: '$2m=\sqrt3$，所以 $m=\dfrac{\sqrt3}{2}$，$x^2+\sqrt3x=\left(x+\dfrac{\sqrt3}{2}\right)^2-\dfrac34$。'
+          - id: "ex5-complete"
+            latex: "拆中括号并合并"
+            content_latex: '$y=2\left[\left(x+\dfrac{\sqrt3}{2}\right)^2-\dfrac34\right]-1=2\left(x+\dfrac{\sqrt3}{2}\right)^2-\dfrac52$。'
+
+      - type: "dual_explanation"
+        id: "solution-5"
+        side_title: "小贴士"
+        side_items:
+          - kind: "hint"
+            title: "根式也放进同一模型"
+            content_latex: '仍由 $2m=\sqrt3$ 求 $m$；只需注意 $m^2=\left(\dfrac{\sqrt3}{2}\right)^2=\dfrac34$。'
+        solution_title: "解答"
+        solution_step_ids:
+          - "ex5-factor"
+          - "ex5-half"
+          - "ex5-complete"

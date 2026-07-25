@@ -1,0 +1,148 @@
+\documentclass{exam-zh}
+\usepackage{edu-practice}
+
+\examsetup{
+  question/show-answer = true,
+  fillin/show-answer = true,
+  solution/show-solution = show-stay,
+}
+
+% ---------- 教师版解答样式 ----------
+\newtcolorbox{solutionblock}{
+  enhanced, breakable,
+  colback=edu-blue-bg,
+  colframe=edu-blue!25,
+  boxrule=0pt,
+  borderline west={2pt}{0pt}{edu-blue!50},
+  arc=0pt,
+  left=3mm, right=3mm, top=2mm, bottom=2mm,
+  before skip=2mm,
+  after skip=3mm,
+  fontupper=\small,
+}
+
+% 解答步骤编号
+\newcounter{solstep}
+\newcommand{\solstep}[2]{%
+  \stepcounter{solstep}%
+  \par\medskip
+  \noindent\hangindent=6mm
+  {\color{edu-blue}\bfseries\textcircled{\scriptsize\thesolstep}\enspace #1}\enspace #2\par
+}
+
+\begin{document}
+
+\section*{相似三角形四类变式练习·教师版}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，在正方形 $ABCD$ 中，$E$ 为 $AB$ 边的中点，$G,F$ 分别为 $AD,BC$ 边上的点。若 $AG=4$，$BF=9$，$\angle GEF=90^\circ$，求 $GF$ 的长。
+
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{先找两组直角，再观察 $GE\perp EF$ 带来的等角。}
+  \input{\detokenize{build/diagram/jobs/practice-similarity4-q12-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[54mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$GF=13$。\par\medskip
+    \solstep{证明相似}{由 $AG\perp AE$、$BE\perp BF$且 $GE\perp EF$，得 $\angle AGE=\angle BEF$，所以 $\triangle AGE\sim\triangle BEF$。}
+    \solstep{求正方形边长}{设 $AE=BE=x$。由 $\dfrac{AG}{BE}=\dfrac{AE}{BF}$，得 $\dfrac4x=\dfrac x9$，所以 $x=6$，$AB=12$。}
+    \solstep{梯形添高后勾股}{过 $G$ 作 $GH\perp BC$ 于 $H$，则 $GH=AB=12$，$HF=BF-AG=5$。因此 $GF=\sqrt{12^2+5^2}=13$。}
+  \end{solutionblock}
+\end{problem}
+
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，$AD,BE$ 是锐角 $\triangle ABC$ 的两条高，垂足分别为 $D,E$，$AD,BE$ 相交于点 $O$。
+请找出图中四个两两相似的直角三角形，并写出全部相似三角形的配对，说明共有多少对。
+
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{弧角未预先标出，请从两条高自己找等角。}
+  \input{\detokenize{build/diagram/jobs/practice-similarity4-q13-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[68mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}四个三角形为 $\triangle BDO,\triangle AEO,\triangle ADC,\triangle BEC$，共 $6$ 对。\par\medskip
+    \solstep{找等角}{由两条高可得 $\angle DBO=\angle EAO=90^\circ-\angle C$。}
+    \solstep{找出四个三角形}{同时含上述锐角和一个直角的三角形为 $\triangle BDO,\triangle BEC,\triangle AEO,\triangle ADC$，它们两两相似。}
+    \solstep{列全配对}{$BDO-AEO$、$BDO-ADC$、$BDO-BEC$、$AEO-ADC$、$AEO-BEC$、$ADC-BEC$，共 $6$ 对。}
+  \end{solutionblock}
+\end{problem}
+
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，点 $D$ 在 $\triangle ABC$ 的边 $AB$ 上，$AD=3$，$AB=12$，$AC=8$。过点 $D$ 的直线交 $AC$ 于点 $E$，使以点 $A,D,E$ 为顶点的三角形与 $\triangle ABC$ 相似，求所有可能的 $AE$。
+
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{先锁定共同角 $A$，再分类讨论另外两个顶点的对应。}
+  \input{\detokenize{build/diagram/jobs/practice-similarity4-q14-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[62mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$AE=2$ 或 $AE=\dfrac92$。\par\medskip
+    \solstep{锁定共同角}{因为 $D\in AB$、$E\in AC$，所以 $\angle DAE=\angle BAC$，从而 $A\leftrightarrow A$。}
+    \solstep{第一种对应}{若 $D\leftrightarrow B$、$E\leftrightarrow C$，则 $\dfrac{AD}{AE}=\dfrac{AB}{AC}$，即 $\dfrac3{AE}=\dfrac{12}{8}$，得 $AE=2$。}
+    \solstep{第二种对应}{若 $D\leftrightarrow C$、$E\leftrightarrow B$，则 $\dfrac{AE}{AD}=\dfrac{AB}{AC}$，即 $\dfrac{AE}{3}=\dfrac{12}{8}$，得 $AE=\dfrac92$。两值都满足 $0<AE<8$。}
+  \end{solutionblock}
+\end{problem}
+
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+    \vspace{0pt}
+    如图，四边形 $ABCD$ 为梯形，$AB\parallel EF\parallel CD$，点 $E$ 在 $AD$ 上，点 $F$ 在 $BC$ 上。已知 $AE:ED=2:1$，$AB=5$，$CD=11$，求 $EF$。
+
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{60mm}{三条平行线把两条腰按同一比例分割。}
+  \input{\detokenize{build/diagram/jobs/practice-similarity4-q17-prompt/rendered/prompt.fragment.tex}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[60mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$EF=9$。\par\medskip
+    \solstep{作辅助线}{过 $A$ 作 $AH\parallel BC$，交 $EF,CD$ 于 $G,H$。则 $ABCH$、$ABFG$ 均为平行四边形。}
+    \solstep{搬运并作差}{所以 $HC=GF=AB=5$，从而 $DH=CD-HC=11-5=6$。}
+    \solstep{用 A 字形相似求分段}{在 $\triangle ADH$ 中，$EG\parallel DH$，所以 $\dfrac{EG}{DH}=\dfrac{AE}{AD}=\dfrac23$，得 $EG=4$。因此 $EF=EG+GF=4+5=9$。}
+  \end{solutionblock}
+\end{problem}
+
+
+\clearpage
+\section*{答案}
+
+
+
+
+\end{document}

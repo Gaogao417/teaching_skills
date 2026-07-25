@@ -1,0 +1,123 @@
+meta:
+  title: "共角交叉相似链：AA 与 SAS"
+  subtitle: "学生讲义"
+  grade: "八年级"
+  subject: "数学"
+  version: "student"
+  source_artifacts:
+    structure_analysis: "artifacts/专题/2026-07-18-共角交叉相似AA与SAS/01-structure-analysis.md"
+
+render:
+  template: "exam-zh-explanation"
+  paper_size: "a4paper"
+
+sections:
+  - id: "shared-angle-cross-similarity"
+    title: "经典模型：SAS 先锁角，AA 先锁一对角"
+    show_title: true
+    type: "explanation"
+    visibility: "student"
+    blocks:
+      - type: "problemcard"
+        id: "similarity-chain-problem"
+        label: "模型例题"
+        stem_latex: |
+          如图，$A,B,D$ 三点共线，$A,C,E$ 三点共线，点序分别为 $A-B-D$ 和 $A-C-E$，$BE$ 与 $CD$ 交于点 $O$。已知 $\triangle ABC\sim\triangle AED$。
+
+          \begin{enumerate}[label=(\arabic*)]
+            \item 证明 $\triangle ACD\sim\triangle ABE$；
+            \item 证明 $\triangle BOD\sim\triangle COE$；
+            \item 证明 $\triangle BOC\sim\triangle DOE$。
+          \end{enumerate}
+        diagram_slot:
+          slot_id: "explanation.similarity-chain.prompt"
+          diagram_ref: "explanation.similarity-chain.prompt"
+          variant: "prompt"
+          disclosure_policy: "clean"
+          required: true
+          on_failure: "fail_assignment"
+          placement: "block_center"
+          layout_role: "center_block"
+          display_profile: "worksheet_geometry_center"
+          caption: "先找 $A$ 处的共角，再找 $O$ 处的对顶角。"
+          diagram_kind: "synthetic_geometry"
+          teaching_intent: "explanation_prompt"
+          problem_context:
+            stem_latex: '$A-B-D$ 共线，$A-C-E$ 共线，$BE$ 与 $CD$ 交于 $O$，且 $\triangle ABC\sim\triangle AED$。'
+            source_problem_text: "画外层三角形 ADE，A 在上方，D 在左下，E 在右下。B 在线段 AD 内，C 在线段 AE 内。画 BC、BE、CD、DE，BE 与 CD 交于 O。仅显示几何对象和点名，不显示相似式、比例、角弧、证明或答案。"
+          semantic_constraints:
+            given_objects: [A, B, C, D, E, O]
+            given_constraints:
+              - A, B, D are collinear in the order A-B-D
+              - A, C, E are collinear in the order A-C-E
+              - O is the intersection of segments BE and CD
+              - triangle ABC is similar to triangle AED with correspondence A-A, B-E, C-D
+              - segments AD, AE, BC, BE, CD, and DE are visible
+            clean_forbidden:
+              - do not imply an isosceles, right, parallel, cyclic, or symmetric configuration
+              - do not show similar-triangle notation, side ratios, angle arcs, proof steps, or answers
+          visual_requirements:
+            required_visible_annotations:
+              markers: []
+              texts: []
+
+      - type: "route"
+        id: "similarity-chain-route"
+        show_navigation: false
+        steps:
+          - id: "arrow-1-sas"
+            latex: "第一个箭头：先找角 $A$，再证夹边比"
+            content_latex: |
+              $\because \triangle ABC\sim\triangle AED$\\
+              $\therefore \dfrac{AB}{AE}=\dfrac{AC}{AD}$\\
+              $\therefore \dfrac{AC}{AB}=\dfrac{AD}{AE}$\\
+              $\because \angle CAD=\angle BAE$\\
+              $\therefore \triangle ACD\sim\triangle ABE$（SAS）
+          - id: "arrow-2-aa"
+            latex: "第二个箭头：先找对顶角，再找第二对角"
+            content_latex: |
+              $\angle BOD=\angle COE$（对顶角）。\\
+              由 $\triangle ACD\sim\triangle ABE$，得 $\angle ADC=\angle AEB$。\\
+              由共线关系，$\angle BDO=\angle ADC$，$\angle CEO=\angle AEB$。\\
+              故 $\angle BDO=\angle CEO$。\\
+              $\therefore \triangle BOD\sim\triangle COE$（AA）
+          - id: "arrow-3-sas"
+            latex: "第三个箭头：先找对顶角，再证夹边比"
+            content_latex: |
+              $\because \triangle BOD\sim\triangle COE$\\
+              $\therefore \dfrac{BO}{CO}=\dfrac{DO}{EO}$，即 $\dfrac{BO}{DO}=\dfrac{CO}{EO}$\\
+              $\because \angle BOC=\angle DOE$\\
+              $\therefore \triangle BOC\sim\triangle DOE$（SAS）
+
+      - type: "dual_explanation"
+        id: "arrow-1-explanation"
+        label: "(1)"
+        stem_latex: '证明 $\triangle ACD\sim\triangle ABE$。'
+        side_title: "SAS 小贴士"
+        side_items:
+          - kind: "hint"
+            title: "先角后边"
+            content_latex: '先找到等角，再证这个角两侧的两对夹边成比例。'
+        solution_title: "解答"
+        plain_solution: true
+        solution_step_ids: ["arrow-1-sas"]
+
+      - type: "dual_explanation"
+        id: "arrow-2-explanation"
+        label: "(2)"
+        stem_latex: '证明 $\triangle BOD\sim\triangle COE$。'
+        allow_empty_side: true
+        side_items: []
+        solution_title: "解答"
+        plain_solution: true
+        solution_step_ids: ["arrow-2-aa"]
+
+      - type: "dual_explanation"
+        id: "arrow-3-explanation"
+        label: "(3)"
+        stem_latex: '证明 $\triangle BOC\sim\triangle DOE$。'
+        allow_empty_side: true
+        side_items: []
+        solution_title: "解答"
+        plain_solution: true
+        solution_step_ids: ["arrow-3-sas"]

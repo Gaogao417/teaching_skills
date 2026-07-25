@@ -1,0 +1,130 @@
+meta:
+  title: 第 14 题共角相似分类
+  subtitle: 学生讲义
+  grade: 九年级
+  subject: 数学
+  version: student
+  source_artifacts:
+    structure_analysis: artifacts/专题/2026-07-18-第14题共角相似分类/01-structure-analysis.md
+render:
+  template: exam-zh-explanation
+  paper_size: a4paper
+sections:
+- id: problem-14-shared-angle-two-maps
+  title: 已知两三角形相似，求边长
+  show_title: true
+  type: explanation
+  visibility: student
+  blocks:
+  - type: problemcard
+    id: problem-14-card
+    label: 第 14 题
+    stem_latex: |
+      如图，点 $D$ 在 $\triangle ABC$ 的边 $AB$ 上，$AD=2$，$AB=9$，$AC=6$。过点 $D$ 的直线交 $AC$ 于点 $E$，使以点 $A,D,E$ 为顶点的三角形与 $\triangle ABC$ 相似，求 $AE$。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/explanation-problem14-prompt/rendered/prompt.fragment.tex
+      diagram_ref: explanation.problem14.prompt
+      diagram_job_id: explanation-problem14-prompt
+      width: 70mm
+      caption: 题面只给出 $D\in AB$；点 $E$ 的位置要由相似对应分类确定。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:acd0b959ef142849ec748d95882cd09ac730186afc7f223dc39e3e09c41e553f
+      packages:
+      - tikz
+      libraries: []
+  - type: solution
+    id: problem-14-branch-overview
+    title: 共同角确定后，分两类情况讨论
+    items:
+    - content_latex: |
+        \begin{center}
+        \begin{tikzpicture}[>=Stealth,every node/.style={font=\small,align=center}]
+          \node[draw,rounded corners,fill=blue!5,text width=3.2cm,minimum height=1.1cm] (common) at (0,0)
+            {先找公共角\\[1mm]$\angle DAE=\angle BAC$};
+          \node[draw,rounded corners,fill=green!6,text width=4.2cm,minimum height=1.1cm] (case1) at (5.2,1)
+            {$\triangle ADE\sim\triangle ABC$\\[1mm]$\dfrac{AD}{AE}=\dfrac{AB}{AC}$};
+          \node[draw,rounded corners,fill=orange!8,text width=4.2cm,minimum height=1.1cm] (case2) at (5.2,-1)
+            {$\triangle AED\sim\triangle ABC$\\[1mm]$\dfrac{AE}{AD}=\dfrac{AB}{AC}$};
+          \draw[->,thick] (common.east) -- (case1.west);
+          \draw[->,thick] (common.east) -- (case2.west);
+        \end{tikzpicture}
+        \end{center}
+  - type: route
+    id: problem-14-route
+    show_navigation: false
+    steps:
+    - id: problem-14-common-angle
+      latex: 公共角
+      content_latex: |
+        $\because \angle DAE=\angle BAC$\\
+        $\therefore \triangle ADE\sim\triangle ABC$\\
+    - id: problem-14-case-1
+      latex: 第一种相似顺序
+      content_latex: |
+        $\therefore \dfrac{AD}{AE}=\dfrac{AB}{AC}$\\
+        $\therefore \dfrac2{AE}=\dfrac96$\\
+        解得 $AE=\dfrac43$。
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/explanation-problem14-solution-case1/rendered/solution.fragment.tex
+        diagram_ref: explanation.problem14.solution.case1
+        diagram_job_id: explanation-problem14-solution-case1
+        width: 70mm
+        caption: 当 $\triangle ADE\sim\triangle ABC$ 时。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:68be8dfacf5452464534d76e07fe94860a4fe46e183808c541c5bb8be932e24c
+        packages:
+        - tikz
+        libraries: []
+    - id: problem-14-case-2
+      latex: 第二种相似顺序
+      content_latex: |
+        \[
+        \triangle AED\sim\triangle ABC
+        \]
+        $\therefore \dfrac{AE}{AD}=\dfrac{AB}{AC}$\\
+        $\therefore \dfrac{AE}{2}=\dfrac96$\\
+        解得 $AE=3$。\\
+        因为 $0<\dfrac43<6$，且 $0<3<6$，所以两种情况都成立。
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: build/diagram/jobs/explanation-problem14-solution-case2/rendered/solution.fragment.tex
+        diagram_ref: explanation.problem14.solution.case2
+        diagram_job_id: explanation-problem14-solution-case2
+        width: 70mm
+        caption: 当 $\triangle AED\sim\triangle ABC$ 时。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:9ee61074e119f908849a44bf19f45eb6f45749d67bcfc73e48e4092b6b997d60
+        packages:
+        - tikz
+        libraries: []
+  - type: dual_explanation
+    id: problem-14-solution
+    side_title: 小贴士
+    side_items:
+    - kind: hint
+      title: 先找公共角
+      content_latex: 先由 $\angle DAE=\angle BAC$ 确定公共角，再围绕公共角的两组夹边比分两类情况讨论：$\dfrac{AD}{AE}=\dfrac{AB}{AC}$
+        或 $\dfrac{AE}{AD}=\dfrac{AB}{AC}$。
+    solution_title: 解答
+    plain_solution: true
+    solution_step_ids:
+    - problem-14-common-angle
+    - problem-14-case-1
+    - problem-14-case-2
+  - type: summary_dual
+    id: problem-14-summary
+    left_title: 答案
+    left_items:
+    - latex: $AE=\dfrac43$ 或 $3$。
+    right_title: 方法提醒
+    right_items:
+    - latex: 先找公共角，再写 $\triangle ADE\sim\triangle ABC$ 与 $\triangle AED\sim\triangle
+        ABC$ 两种相似顺序。

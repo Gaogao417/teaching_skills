@@ -1,0 +1,485 @@
+meta:
+  title: 比例辅助线两组整数比专题抽题 · 教师版
+  grade: 八年级
+  subject: 数学
+  total_points: 50
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    question_bank: ../../题库/2026-07-17-比例辅助线两组比例-50题/question-bank.yaml
+    selected_question_ids:
+    - Q011
+    - Q017
+    - Q030
+    - Q009
+    - Q044
+    random_seed: 2538877713692797676
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: sampled-questions
+  title: 专题抽题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q011
+    points: 10
+    label: 第 1 题
+    stem_latex: 如图，点 $D$ 在线段 $BC$ 上，点 $E$ 在线段 $AC$ 上，$AD$ 与 $BE$ 交于点 $P$。已知 $AP:PD=5:3$，$BP:PE=3:1$，求 $AE:EC$。
+    answer_space:
+      type: steps
+      height: 36mm
+      step_count: 4
+    answer: $AE:EC=1:1$。
+    explanation: 第一组相似标共同边，第二组沿用它，只给另一条目标边新增份数。
+    solution_steps:
+    - title: 作辅助线
+      content: 过 A 作 AF 平行 EP，交直线 BC 于 F。蓝字标出题目给出的两组比。
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: ../../题库/2026-07-17-比例辅助线两组比例-50题/items/Q011/build/diagram/jobs/question_bank-auxiliary50-q011-helper/rendered/solution.fragment.tex
+        diagram_ref: question_bank.auxiliary50.q011.helper
+        diagram_job_id: question_bank-auxiliary50-q011-helper
+        width: 60mm
+        caption: 蓝字标出题目给出的两组比；先完成辅助线。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:01e893f45b84107359f60de3ef5f932f125bfc9247c94f154845852fe6613340
+        packages:
+        - tikz
+        libraries: []
+    - title: 解第一组A字
+      content: 由蓝色已知比解 A字 $\triangle DAF\sim\triangle DPB$。沿用图中已有份数，只新增红色 $AF=8$ 份。
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: ../../题库/2026-07-17-比例辅助线两组比例-50题/items/Q011/build/diagram/jobs/question_bank-auxiliary50-q011-model1/rendered/solution.fragment.tex
+        diagram_ref: question_bank.auxiliary50.q011.model1
+        diagram_job_id: question_bank-auxiliary50-q011-model1
+        width: 60mm
+        caption: 解第一组A字：沿用已标边，只新增 AF=8份。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:bf01e59852f929c14dc0cf4c02255ffe8d74d0710c1031a0cbe61a25f1ef2f50
+        packages:
+        - tikz
+        libraries: []
+    - title: 解第二组A字
+      content: 由蓝色已知比解 A字 $\triangle CAF\sim\triangle CEB$。保留前一步全部份数，本步用绿色补出 $BE=4$ 份，$AE=1$ 份，$EC=1$ 份，使所求两边的份数同时显示。
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: ../../题库/2026-07-17-比例辅助线两组比例-50题/items/Q011/build/diagram/jobs/question_bank-auxiliary50-q011-model2/rendered/solution.fragment.tex
+        diagram_ref: question_bank.auxiliary50.q011.model2
+        diagram_job_id: question_bank-auxiliary50-q011-model2
+        width: 60mm
+        caption: 解第二组A字：已有份数保持不变；本步补出绿色 BE=4份、AE=1份、EC=1份，所求两边均已标清。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:bb0329e29b4cf33c0fc87922ea0c5e97e394c41adf7184f823a962af7fdf79fe
+        packages:
+        - tikz
+        libraries: []
+    - title: 比较份数，写出答案
+      content: 直接比较图中所求两条边的份数并化简，因此 $AE:EC=1:1$。
+    teaching:
+      teaching_goal: 由两组对应边整数比求第三组整数比
+      source_relations:
+      - two-ratio-auxiliary-line
+      - two-similar-triangles
+      expected_blocker: 只找到一组相似，或把分段比和整段比混用。
+      entry_point: identify_three_ratio_lines
+      scaffold_level: medium
+      variation_depth: changed_question
+      complexity_note: 题干中的四个比数均为 1 到 5 的互质整数；不出现分数、长度、面积或角度。
+      upgrade_rule: 先写出两组相似中的共同中间边，再消元求第三组。
+      fallback_move: 在 AC、AD、BE、BC 四条比例线上圈出两条已知线和一条所求线。
+      number_policy: each given ratio uses coprime integers from 1 through 5
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../题库/2026-07-17-比例辅助线两组比例-50题/items/Q011/build/diagram/jobs/question_bank-auxiliary50-q011-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.auxiliary50.q011.prompt
+      diagram_job_id: question_bank-auxiliary50-q011-prompt
+      width: 60mm
+      caption: ''
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:db5bb1043ff51ae247a7f71053090250dc7b885435225c2e91ff73b7ad010625
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q017
+    points: 10
+    label: 第 2 题
+    stem_latex: 如图，点 $D$ 在线段 $BC$ 上，点 $E$ 在线段 $AC$ 上，$AD$ 与 $BE$ 交于点 $P$。已知 $AE:EC=4:5$，$BP:PE=3:1$，求 $BD:DC$。
+    answer_space:
+      type: steps
+      height: 36mm
+      step_count: 4
+    answer: $BD:DC=4:3$。
+    explanation: 第一组相似标共同边，第二组沿用它，只给另一条目标边新增份数。
+    solution_steps:
+    - title: 作辅助线
+      content: 过 E 作 EF 平行 CB，交直线 AD 于 F。蓝字标出题目给出的两组比。
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: ../../题库/2026-07-17-比例辅助线两组比例-50题/items/Q017/build/diagram/jobs/question_bank-auxiliary50-q017-helper/rendered/solution.fragment.tex
+        diagram_ref: question_bank.auxiliary50.q017.helper
+        diagram_job_id: question_bank-auxiliary50-q017-helper
+        width: 60mm
+        caption: 蓝字标出题目给出的两组比；先完成辅助线。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:eebf0345ec241cb44325ddbe59b515c8743ebb655718dbf91c8b0a56bc5736a1
+        packages:
+        - tikz
+        libraries: []
+    - title: 解第一组A字
+      content: 由蓝色已知比解 A字 $\triangle AEF\sim\triangle ACD$，得红色 $EF:DC=4:9$。
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: ../../题库/2026-07-17-比例辅助线两组比例-50题/items/Q017/build/diagram/jobs/question_bank-auxiliary50-q017-model1/rendered/solution.fragment.tex
+        diagram_ref: question_bank.auxiliary50.q017.model1
+        diagram_job_id: question_bank-auxiliary50-q017-model1
+        width: 60mm
+        caption: 解第一组A字：两条边都未标，补出一对红色份数。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:0c3659a0e02cad673d28730a1e678ecd7acd052e0ed49906a0aceebb0527e69d
+        packages:
+        - tikz
+        libraries: []
+    - title: 解第二组8字
+      content: 由蓝色已知比解 8字 $\triangle PEF\sim\triangle PBD$。保留前一步全部份数，本步用绿色补出 $BD=12$ 份，使所求两边的份数同时显示。
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: ../../题库/2026-07-17-比例辅助线两组比例-50题/items/Q017/build/diagram/jobs/question_bank-auxiliary50-q017-model2/rendered/solution.fragment.tex
+        diagram_ref: question_bank.auxiliary50.q017.model2
+        diagram_job_id: question_bank-auxiliary50-q017-model2
+        width: 60mm
+        caption: 解第二组8字：已有份数保持不变；本步补出绿色 BD=12份，所求两边均已标清。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:b0512d4ae9c2bb1f9bf84b0b0566d815bdaec40dccdc7af0ec415e6cb7485a22
+        packages:
+        - tikz
+        libraries: []
+    - title: 比较份数，写出答案
+      content: 直接比较图中所求两条边的份数并化简，因此 $BD:DC=4:3$。
+    teaching:
+      teaching_goal: 由两组对应边整数比求第三组整数比
+      source_relations:
+      - two-ratio-auxiliary-line
+      - two-similar-triangles
+      expected_blocker: 只找到一组相似，或把分段比和整段比混用。
+      entry_point: identify_three_ratio_lines
+      scaffold_level: medium
+      variation_depth: changed_question
+      complexity_note: 题干中的四个比数均为 1 到 5 的互质整数；不出现分数、长度、面积或角度。
+      upgrade_rule: 先写出两组相似中的共同中间边，再消元求第三组。
+      fallback_move: 在 AC、AD、BE、BC 四条比例线上圈出两条已知线和一条所求线。
+      number_policy: each given ratio uses coprime integers from 1 through 5
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../题库/2026-07-17-比例辅助线两组比例-50题/items/Q017/build/diagram/jobs/question_bank-auxiliary50-q017-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.auxiliary50.q017.prompt
+      diagram_job_id: question_bank-auxiliary50-q017-prompt
+      width: 60mm
+      caption: ''
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:48ef940b9a152a9e26c1a9a01ccfd6fe1a8c637347f8612a4b38bc36fb52adbc
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q030
+    points: 10
+    label: 第 3 题
+    stem_latex: 如图，点 $D$ 在线段 $BC$ 上，点 $E$ 在线段 $AC$ 上，$AD$ 与 $BE$ 交于点 $P$。已知 $AE:EC=1:4$，$BP:PE=5:1$，求 $AP:PD$。
+    answer_space:
+      type: steps
+      height: 36mm
+      step_count: 4
+    answer: $AP:PD=1:2$。
+    explanation: 第一组相似标共同边，第二组沿用它，只给另一条目标边新增份数。
+    solution_steps:
+    - title: 作辅助线
+      content: 过 A 作 AF 平行 EP，交直线 BC 于 F。蓝字标出题目给出的两组比。
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: ../../题库/2026-07-17-比例辅助线两组比例-50题/items/Q030/build/diagram/jobs/question_bank-auxiliary50-q030-helper/rendered/solution.fragment.tex
+        diagram_ref: question_bank.auxiliary50.q030.helper
+        diagram_job_id: question_bank-auxiliary50-q030-helper
+        width: 60mm
+        caption: 蓝字标出题目给出的两组比；先完成辅助线。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:dfcb7e3622b8bf97cf7f3ec2d2e3bbbe791f15c7f38c11a97309e3de36f16691
+        packages:
+        - tikz
+        libraries: []
+    - title: 解第一组A字
+      content: 由蓝色已知比解 A字 $\triangle CAF\sim\triangle CEB$，得红色 $AF:BE=5:4$。
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: ../../题库/2026-07-17-比例辅助线两组比例-50题/items/Q030/build/diagram/jobs/question_bank-auxiliary50-q030-model1/rendered/solution.fragment.tex
+        diagram_ref: question_bank.auxiliary50.q030.model1
+        diagram_job_id: question_bank-auxiliary50-q030-model1
+        width: 60mm
+        caption: 解第一组A字：两条边都未标，补出一对红色份数。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:046dd05c8a4f86bb79e574494e0b9f4836f47cc9b1d724cbc08623372631ca9a
+        packages:
+        - tikz
+        libraries: []
+    - title: 解第二组A字
+      content: 由蓝色已知比解 A字 $\triangle DAF\sim\triangle DPB$。保留前一步全部份数，本步用绿色补出 $AP=1$ 份，$PD=2$ 份，使所求两边的份数同时显示。
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: ../../题库/2026-07-17-比例辅助线两组比例-50题/items/Q030/build/diagram/jobs/question_bank-auxiliary50-q030-model2/rendered/solution.fragment.tex
+        diagram_ref: question_bank.auxiliary50.q030.model2
+        diagram_job_id: question_bank-auxiliary50-q030-model2
+        width: 60mm
+        caption: 解第二组A字：已有份数保持不变；本步补出绿色 AP=1份、PD=2份，所求两边均已标清。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:4ba8fb3f469493e41d91bc3d04514b8d2d1a4f1d798fa03f39070e413373794f
+        packages:
+        - tikz
+        libraries: []
+    - title: 比较份数，写出答案
+      content: 直接比较图中所求两条边的份数并化简，因此 $AP:PD=1:2$。
+    teaching:
+      teaching_goal: 由两组对应边整数比求第三组整数比
+      source_relations:
+      - two-ratio-auxiliary-line
+      - two-similar-triangles
+      expected_blocker: 只找到一组相似，或把分段比和整段比混用。
+      entry_point: identify_three_ratio_lines
+      scaffold_level: medium
+      variation_depth: changed_numbers
+      complexity_note: 题干中的四个比数均为 1 到 5 的互质整数；不出现分数、长度、面积或角度。
+      upgrade_rule: 先写出两组相似中的共同中间边，再消元求第三组。
+      fallback_move: 在 AC、AD、BE、BC 四条比例线上圈出两条已知线和一条所求线。
+      number_policy: each given ratio uses coprime integers from 1 through 5
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../题库/2026-07-17-比例辅助线两组比例-50题/items/Q030/build/diagram/jobs/question_bank-auxiliary50-q030-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.auxiliary50.q030.prompt
+      diagram_job_id: question_bank-auxiliary50-q030-prompt
+      width: 60mm
+      caption: ''
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:dfaf786ef4b585dcef7c6d81866528296f6c1c99db118202063e7985eb5cd133
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q009
+    points: 10
+    label: 第 4 题
+    stem_latex: 如图，点 $D$ 在线段 $BC$ 上，点 $E$ 在线段 $AC$ 上，$AD$ 与 $BE$ 交于点 $P$。已知 $BD:DC=5:4$，$BP:PE=5:2$，求 $AE:EC$。
+    answer_space:
+      type: steps
+      height: 36mm
+      step_count: 4
+    answer: $AE:EC=1:1$。
+    explanation: 第一组相似标共同边，第二组沿用它，只给另一条目标边新增份数。
+    solution_steps:
+    - title: 作辅助线
+      content: 过 E 作 EF 平行 CB，交直线 AD 于 F。蓝字标出题目给出的两组比。
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: ../../题库/2026-07-17-比例辅助线两组比例-50题/items/Q009/build/diagram/jobs/question_bank-auxiliary50-q009-helper/rendered/solution.fragment.tex
+        diagram_ref: question_bank.auxiliary50.q009.helper
+        diagram_job_id: question_bank-auxiliary50-q009-helper
+        width: 60mm
+        caption: 蓝字标出题目给出的两组比；先完成辅助线。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:9e7a88d8782ca01e0e2ce4361c15bd471ccf9e799f25dceeaef54ec3d070a7fb
+        packages:
+        - tikz
+        libraries: []
+    - title: 解第一组8字
+      content: 由蓝色已知比解 8字 $\triangle PEF\sim\triangle PBD$。沿用图中已有份数，只新增红色 $EF=2$ 份。
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: ../../题库/2026-07-17-比例辅助线两组比例-50题/items/Q009/build/diagram/jobs/question_bank-auxiliary50-q009-model1/rendered/solution.fragment.tex
+        diagram_ref: question_bank.auxiliary50.q009.model1
+        diagram_job_id: question_bank-auxiliary50-q009-model1
+        width: 60mm
+        caption: 解第一组8字：沿用已标边，只新增 EF=2份。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:cbb74c946e6cf715c9b057144e0dd58778f86bed0a50041e53ae6408340ff4bc
+        packages:
+        - tikz
+        libraries: []
+    - title: 解第二组A字
+      content: 由蓝色已知比解 A字 $\triangle AEF\sim\triangle ACD$。保留前一步全部份数，本步用绿色补出 $AE=1$ 份，$EC=1$ 份，使所求两边的份数同时显示。
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: ../../题库/2026-07-17-比例辅助线两组比例-50题/items/Q009/build/diagram/jobs/question_bank-auxiliary50-q009-model2/rendered/solution.fragment.tex
+        diagram_ref: question_bank.auxiliary50.q009.model2
+        diagram_job_id: question_bank-auxiliary50-q009-model2
+        width: 60mm
+        caption: 解第二组A字：已有份数保持不变；本步补出绿色 AE=1份、EC=1份，所求两边均已标清。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:4ef2ef5b091f274b02babd254ed1086f5940c598c677729813e113d0c2644beb
+        packages:
+        - tikz
+        libraries: []
+    - title: 比较份数，写出答案
+      content: 直接比较图中所求两条边的份数并化简，因此 $AE:EC=1:1$。
+    teaching:
+      teaching_goal: 由两组对应边整数比求第三组整数比
+      source_relations:
+      - two-ratio-auxiliary-line
+      - two-similar-triangles
+      expected_blocker: 只找到一组相似，或把分段比和整段比混用。
+      entry_point: identify_three_ratio_lines
+      scaffold_level: medium
+      variation_depth: changed_question
+      complexity_note: 题干中的四个比数均为 1 到 5 的互质整数；不出现分数、长度、面积或角度。
+      upgrade_rule: 先写出两组相似中的共同中间边，再消元求第三组。
+      fallback_move: 在 AC、AD、BE、BC 四条比例线上圈出两条已知线和一条所求线。
+      number_policy: each given ratio uses coprime integers from 1 through 5
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../题库/2026-07-17-比例辅助线两组比例-50题/items/Q009/build/diagram/jobs/question_bank-auxiliary50-q009-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.auxiliary50.q009.prompt
+      diagram_job_id: question_bank-auxiliary50-q009-prompt
+      width: 60mm
+      caption: ''
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:efdd9f8093e461a9db73ee8c82841f08aed2bb479b458acee28d2f8cc8d4912f
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: Q044
+    points: 10
+    label: 第 5 题
+    stem_latex: 如图，点 $D$ 在线段 $BC$ 上，点 $E$ 在线段 $AC$ 上，$AD$ 与 $BE$ 交于点 $P$。已知 $BD:DC=3:5$，$AP:PD=4:1$，求 $BP:PE$。
+    answer_space:
+      type: steps
+      height: 36mm
+      step_count: 4
+    answer: $BP:PE=1:1$。
+    explanation: 第一组相似标共同边，第二组沿用它，只给另一条目标边新增份数。
+    solution_steps:
+    - title: 作辅助线
+      content: 过 P 作 PF 平行 DB，交直线 AC 于 F。蓝字标出题目给出的两组比。
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: ../../题库/2026-07-17-比例辅助线两组比例-50题/items/Q044/build/diagram/jobs/question_bank-auxiliary50-q044-helper/rendered/solution.fragment.tex
+        diagram_ref: question_bank.auxiliary50.q044.helper
+        diagram_job_id: question_bank-auxiliary50-q044-helper
+        width: 60mm
+        caption: 蓝字标出题目给出的两组比；先完成辅助线。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:6e1b504dbe92014f6d62fb20f39f04b30fd29845c762419ef6184d8b5b17c72e
+        packages:
+        - tikz
+        libraries: []
+    - title: 解第一组A字
+      content: 由蓝色已知比解 A字 $\triangle APF\sim\triangle ADC$。沿用图中已有份数，只新增红色 $PF=4$ 份。
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: ../../题库/2026-07-17-比例辅助线两组比例-50题/items/Q044/build/diagram/jobs/question_bank-auxiliary50-q044-model1/rendered/solution.fragment.tex
+        diagram_ref: question_bank.auxiliary50.q044.model1
+        diagram_job_id: question_bank-auxiliary50-q044-model1
+        width: 60mm
+        caption: 解第一组A字：沿用已标边，只新增 PF=4份。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:2a403d2918bcb7458119ccbce1e3c40966fceda0d1d6cd7f2006da84030d92f1
+        packages:
+        - tikz
+        libraries: []
+    - title: 解第二组A字
+      content: 由蓝色已知比解 A字 $\triangle EFP\sim\triangle ECB$。保留前一步全部份数，本步用绿色补出 $BC=8$ 份，$BP=1$ 份，$PE=1$ 份，使所求两边的份数同时显示。
+      diagram_col:
+        kind: tikz
+        tikz_code: ''
+        tikz_path: ../../题库/2026-07-17-比例辅助线两组比例-50题/items/Q044/build/diagram/jobs/question_bank-auxiliary50-q044-model2/rendered/solution.fragment.tex
+        diagram_ref: question_bank.auxiliary50.q044.model2
+        diagram_job_id: question_bank-auxiliary50-q044-model2
+        width: 60mm
+        caption: 解第二组A字：已有份数保持不变；本步补出绿色 BC=8份、BP=1份、PE=1份，所求两边均已标清。
+        variant: solution
+        disclosure_policy: annotated
+        artifact_hash: sha256:4bdfb0bb4872d49234e8b3b060b86845937e5f8d0c5820460fe706a6cf4314e1
+        packages:
+        - tikz
+        libraries: []
+    - title: 比较份数，写出答案
+      content: 直接比较图中所求两条边的份数并化简，因此 $BP:PE=1:1$。
+    teaching:
+      teaching_goal: 由两组对应边整数比求第三组整数比
+      source_relations:
+      - two-ratio-auxiliary-line
+      - two-similar-triangles
+      expected_blocker: 只找到一组相似，或把分段比和整段比混用。
+      entry_point: identify_three_ratio_lines
+      scaffold_level: medium
+      variation_depth: changed_numbers
+      complexity_note: 题干中的四个比数均为 1 到 5 的互质整数；不出现分数、长度、面积或角度。
+      upgrade_rule: 先写出两组相似中的共同中间边，再消元求第三组。
+      fallback_move: 在 AC、AD、BE、BC 四条比例线上圈出两条已知线和一条所求线。
+      number_policy: each given ratio uses coprime integers from 1 through 5
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../题库/2026-07-17-比例辅助线两组比例-50题/items/Q044/build/diagram/jobs/question_bank-auxiliary50-q044-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.auxiliary50.q044.prompt
+      diagram_job_id: question_bank-auxiliary50-q044-prompt
+      width: 60mm
+      caption: ''
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:4fdce55d43a8f4cd36b7a44f77d34cda946ea75716169bcc4f561b0d168ace22
+      packages:
+      - tikz
+      libraries: []
+- id: answer-key
+  title: 答案
+  type: answer_key
+  visibility: teacher
+  blocks:
+  - type: answer
+    id: sampled-answers
+    title: 答案速查
+    items:
+    - latex: 第 1 题：$AE:EC=1:1$。
+    - latex: 第 2 题：$BD:DC=4:3$。
+    - latex: 第 3 题：$AP:PD=1:2$。
+    - latex: 第 4 题：$AE:EC=1:1$。
+    - latex: 第 5 题：$BP:PE=1:1$。

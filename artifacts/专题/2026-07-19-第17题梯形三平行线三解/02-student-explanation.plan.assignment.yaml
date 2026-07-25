@@ -1,0 +1,307 @@
+meta:
+  title: "第 17 题梯形三平行线三解"
+  subtitle: "学生讲义"
+  grade: "九年级"
+  subject: "数学"
+  version: "student"
+  source_artifacts:
+    structure_analysis: "artifacts/专题/2026-07-19-第17题梯形三平行线三解/01-structure-analysis.md"
+
+render:
+  template: "exam-zh-explanation"
+  paper_size: "a4paper"
+
+sections:
+  - id: "problem-17-overview"
+    title: "先看总图：三条路线都在制造 A 字形"
+    show_title: true
+    type: "explanation"
+    visibility: "student"
+    blocks:
+      - type: "problemcard"
+        id: "problem-17-card"
+        label: "第 17 题"
+        stem_latex: |
+          如图，已知 $AB\parallel CD\parallel EF$，$AE:ED=3:2$，$AB=4$，$CD=9$，求 $EF$。
+        diagram_slot:
+          slot_id: "explanation.problem17.prompt"
+          diagram_ref: "explanation.problem17.prompt"
+          variant: "prompt"
+          disclosure_policy: "clean"
+          required: true
+          on_failure: "fail_assignment"
+          placement: "block_center"
+          layout_role: "center_block"
+          display_profile: "worksheet_geometry_center"
+          caption: '先看三条平行线，再看点 $E$ 把左腰分成 $3:2$。'
+          diagram_kind: "synthetic_geometry"
+          teaching_intent: "explanation_prompt"
+          problem_context:
+            stem_latex: '梯形 $ABCD$ 中，$AB\parallel EF\parallel CD$，$E\in AD$，$F\in BC$，$AE:ED=3:2$，$AB=4$，$CD=9$，求 $EF$。'
+            source_problem_text: "画一个一般的上窄下宽梯形 ABCD，A 左上、B 右上、C 右下、D 左下。E 在线段 AD 内，F 在线段 BC 内，EF 平行于 AB、CD。版面构型要求：较长底边 CD 两端的底角都在 50°--70°，CD 与高的比接近黄金比例 1.618（接受 1.55--1.68）；这只是构图约束，不显示角度数值。只显示题设对象与点名；不要画成等腰或直角梯形，不要画任何辅助线、相似符号、计算式或答案。"
+          semantic_constraints:
+            given_objects: [A, B, C, D, E, F]
+            given_constraints:
+              - ABCD is a convex trapezoid in order A-B-C-D
+              - AB is parallel to EF and CD
+              - AB=4 and CD=9
+              - E lies strictly inside AD with AE:ED=3:2
+              - F lies strictly inside BC
+            clean_forbidden:
+              - do not imply an isosceles or right trapezoid
+              - do not place either bottom angle outside 50 to 70 degrees
+              - do not use a CD-to-height ratio outside 1.55 to 1.68
+              - do not imply E or F is a midpoint
+              - do not draw AH, BD, P, G, or H
+              - do not show calculations or the answer
+
+      - type: "solution"
+        id: "problem-17-route-overview"
+        title: "解题流程图"
+        items:
+          - content_latex: |
+              \begin{center}
+              \begin{tikzpicture}[>=Stealth,every node/.style={font=\small,align=center}]
+                \node[draw,rounded corners,fill=blue!5,text width=3.0cm,minimum height=1.15cm] (start) at (0,0)
+                  {梯形三平行线\\求中间线段 $EF$};
+                \node[draw,rounded corners,fill=green!8,text width=4.0cm,minimum height=1.15cm] (m1) at (5.0,1.9)
+                  {主方法：过 $A$ 作 $BC$ 的平行线\\切出小三角形};
+                \node[draw,rounded corners,fill=green!4,text width=3.1cm,minimum height=1.15cm] (r1) at (10.0,1.9)
+                  {一次 A 字形\\ $EF=7$};
+                \node[draw,rounded corners,fill=orange!8,text width=4.0cm,minimum height=1.15cm] (m2) at (5.0,0)
+                  {连接 $BD$\\分成两个 A 字形};
+                \node[draw,rounded corners,fill=orange!4,text width=3.1cm,minimum height=1.15cm] (r2) at (10.0,0)
+                  {连续两次比例\\ $EF=7$};
+                \node[draw,rounded corners,fill=purple!8,text width=4.0cm,minimum height=1.15cm] (m3) at (5.0,-1.9)
+                  {延长 $DA,CB$ 交于 $P$\\设 $AE=3a,ED=2a$};
+                \node[draw,rounded corners,fill=purple!4,text width=3.1cm,minimum height=1.15cm] (r3) at (10.0,-1.9)
+                  {连续两次 A 字形\\ $EF=7$};
+                \draw[->,thick] (start.east) -- (m1.west);
+                \draw[->,thick] (m1.east) -- (r1.west);
+                \draw[->,thick] (start.east) -- (m2.west);
+                \draw[->,thick] (m2.east) -- (r2.west);
+                \draw[->,thick] (start.east) -- (m3.west);
+                \draw[->,thick] (m3.east) -- (r3.west);
+              \end{tikzpicture}
+              \end{center}
+
+  - id: "problem-17-method-1"
+    title: "主方法：过 $A$ 作 $BC$ 的平行线，切出小三角形"
+    show_title: true
+    type: "explanation"
+    visibility: "student"
+    layout:
+      break_before: true
+    blocks:
+      - type: "route"
+        id: "problem-17-route-method-1"
+        show_navigation: false
+        steps:
+          - id: "problem-17-m1-construct"
+            latex: '作平行线，把梯形切成“小三角形 + 平行四边形”'
+            content_latex: |
+              过 $A$ 作 $AH\parallel BC$，分别交 $EF,CD$ 于 $G,H$。\\
+              $\because AB\parallel HC$，$AH\parallel BC$，\\
+              $\therefore$ 四边形 $ABCH$ 为平行四边形。\\
+              $\therefore HC=AB=4$，$DH=CD-HC=9-4=5$。
+            diagram_slot:
+              slot_id: "explanation.problem17.solution.method1"
+              diagram_ref: "explanation.problem17.solution.method1"
+              variant: "solution"
+              disclosure_policy: "annotated"
+              reuse_geometry_from: "explanation.problem17.prompt"
+              required: true
+              on_failure: "fail_assignment"
+              placement: "step_diagram"
+              layout_role: "solution_annotation"
+              display_profile: "worksheet_geometry_center"
+              caption: '一条 $AH\parallel BC$ 同时切出小三角形 $ADH$ 和两个平行四边形。'
+              diagram_kind: "synthetic_geometry"
+              teaching_intent: "explanation_solution"
+              semantic_constraints:
+                given_objects: [A, B, C, D, E, F, G, H]
+                given_constraints:
+                  - reuse the complete prompt geometry
+                  - H lies on segment DC
+                  - AH is parallel to BC
+                  - G is the intersection of AH and EF
+                  - segment AH is visible as the only new auxiliary line
+                solution_allowed_annotations:
+                  - show points G and H
+                  - show AH as an auxiliary line
+              visual_requirements:
+                required_visible_annotations:
+                  markers:
+                    - {type: parallel, segments: [[A, H], [B, C]]}
+                  texts: []
+          - id: "problem-17-m1-a-shape"
+            latex: '小三角形里用一次 A 字形，再补上平行四边形的一段'
+            content_latex: |
+              在 $\triangle ADH$ 中，$EG\parallel DH$，故\\
+              $\dfrac{EG}{DH}=\dfrac{AE}{AD}=\dfrac35$，得 $EG=3$。\\
+              四边形 $ABFG$ 为平行四边形，故 $GF=AB=4$。\\
+              $\therefore EF=EG+GF=3+4=7$。
+
+      - type: "dual_explanation"
+        id: "problem-17-solution-method-1"
+        side_title: "主方法观察"
+        side_items: []
+        allow_empty_side: true
+        solution_title: "求法一：切分后只解一个 A 字形"
+        solution_step_ids:
+          - "problem-17-m1-construct"
+          - "problem-17-m1-a-shape"
+
+  - id: "problem-17-method-2"
+    title: "方法二：连接 $BD$，形成两个 A 字形"
+    show_title: true
+    type: "explanation"
+    visibility: "student"
+    layout:
+      break_before: true
+    blocks:
+      - type: "route"
+        id: "problem-17-route-method-2"
+        show_navigation: false
+        steps:
+          - id: "problem-17-m2-construct"
+            latex: '连接 $BD$，设 $BD$ 与 $EF$ 交于 $G$'
+            content_latex: |
+              连接 $BD$，设 $BD$ 与 $EF$ 交于 $G$。
+            diagram_slot:
+              slot_id: "explanation.problem17.solution.method2"
+              diagram_ref: "explanation.problem17.solution.method2"
+              variant: "solution"
+              disclosure_policy: "annotated"
+              reuse_geometry_from: "explanation.problem17.prompt"
+              required: true
+              on_failure: "fail_assignment"
+              placement: "step_diagram"
+              layout_role: "solution_annotation"
+              display_profile: "worksheet_geometry_center"
+              caption: '对角线 $BD$ 把 $EF$ 分成 $EG$、$GF$，左右各出现一个 A 字形。'
+              diagram_kind: "synthetic_geometry"
+              teaching_intent: "explanation_solution"
+              semantic_constraints:
+                given_objects: [A, B, C, D, E, F, G]
+                given_constraints:
+                  - reuse the complete prompt geometry
+                  - G is the intersection of segment BD and segment EF
+                  - segment BD is visible as the only new auxiliary line
+                solution_allowed_annotations:
+                  - show point G and segment BD
+          - id: "problem-17-m2-first-a"
+            latex: '第一个 A 字形：在 $\triangle DAB$ 中求 $EG$ 与 $BG:BD$'
+            content_latex: |
+              在 $\triangle DAB$ 中，$EG\parallel AB$，\\
+              $\dfrac{DG}{DB}=\dfrac{DE}{DA}=\dfrac25$，$\dfrac{EG}{AB}=\dfrac25$。\\
+              $\therefore EG=\dfrac85$，且 $\dfrac{BG}{BD}=1-\dfrac25=\dfrac35$。
+          - id: "problem-17-m2-second-a"
+            latex: '第二个 A 字形：在 $\triangle BCD$ 中求 $GF$'
+            content_latex: |
+              在 $\triangle BCD$ 中，$GF\parallel CD$，\\
+              $\dfrac{GF}{CD}=\dfrac{BG}{BD}=\dfrac35$，故 $GF=\dfrac{27}{5}$。\\
+              $\therefore EF=EG+GF=\dfrac85+\dfrac{27}{5}=7$。
+
+      - type: "dual_explanation"
+        id: "problem-17-solution-method-2"
+        side_title: "双 A 字观察"
+        side_items:
+          - kind: "hint"
+            title: "两次比例的接力棒"
+            content_latex: '第一次先得到 $DG:DB=2:5$，再改写成 $BG:BD=3:5$，这个 $3:5$ 才能带进右边三角形。'
+          - kind: "mistake"
+            title: "不要把 $2:5$ 直接抄过去"
+            content_latex: '右边 A 字形的对应边从顶点 $B$ 出发，所以使用的是 $BG:BD$，不是 $DG:DB$。'
+        solution_title: "求法二：对角线内的两个 A 字形"
+        solution_step_ids:
+          - "problem-17-m2-construct"
+          - "problem-17-m2-first-a"
+          - "problem-17-m2-second-a"
+
+  - id: "problem-17-method-3"
+    title: "方法三：延长两腰，连续使用两次 A 字形"
+    show_title: true
+    type: "explanation"
+    visibility: "student"
+    layout:
+      break_before: true
+    blocks:
+      - type: "route"
+        id: "problem-17-route-method-3"
+        show_navigation: false
+        steps:
+          - id: "problem-17-m3-construct"
+            latex: '延长 $DA,CB$ 交于 $P$，把三条平行线放进同一个大三角形'
+            content_latex: |
+              延长 $DA,CB$ 交于 $P$。\\
+              设 $AE=3a$，$ED=2a$，则 $AD=5a$。
+            diagram_slot:
+              slot_id: "explanation.problem17.solution.method3"
+              diagram_ref: "explanation.problem17.solution.method3"
+              variant: "solution"
+              disclosure_policy: "annotated"
+              reuse_geometry_from: "explanation.problem17.prompt"
+              required: true
+              on_failure: "fail_assignment"
+              placement: "step_diagram"
+              layout_role: "solution_annotation"
+              display_profile: "worksheet_geometry_center"
+              caption: '延长两腰交于 $P$，三条平行线成为大三角形中的三层截线。'
+              diagram_kind: "synthetic_geometry"
+              teaching_intent: "explanation_solution"
+              semantic_constraints:
+                given_objects: [A, B, C, D, E, F, P]
+                given_constraints:
+                  - reuse the complete prompt geometry
+                  - P is the intersection of the extensions of DA and CB above AB
+                  - segments PA and PB are visible as dashed auxiliary extensions
+                solution_allowed_annotations:
+                  - show point P and the two dashed extensions
+                  - show AE as 3a and ED as 2a
+              visual_requirements:
+                required_visible_annotations:
+                  markers: []
+                  texts:
+                    - {id: ae-parts, target: [A, E], text: "3a", placement: left, dx: 0, dy: 0, color: "#2563eb"}
+                    - {id: ed-parts, target: [E, D], text: "2a", placement: left, dx: 0, dy: 0, color: "#2563eb"}
+          - id: "problem-17-m3-first-a"
+            latex: '第一次 A 字形：由上下底求出 $PA$'
+            content_latex: |
+              $\because AB\parallel CD$，\\
+              $\therefore \triangle PAB\sim\triangle PDC$。\\
+              $\dfrac{PA}{PD}=\dfrac{AB}{CD}=\dfrac49$，且 $PD-PA=AD=5a$，\\
+              解得 $PA=4a$，$PD=9a$。
+          - id: "problem-17-m3-second-a"
+            latex: '第二次 A 字形：由 $PE:PA$ 求 $EF$'
+            content_latex: |
+              $PE=PA+AE=4a+3a=7a$。\\
+              $\because EF\parallel AB$，\\
+              $\therefore \triangle PEF\sim\triangle PAB$。\\
+              $\dfrac{EF}{AB}=\dfrac{PE}{PA}=\dfrac74$，故 $EF=7$。
+
+      - type: "dual_explanation"
+        id: "problem-17-solution-method-3"
+        side_title: "延长法观察"
+        side_items:
+          - kind: "hint"
+            title: "为什么设成 $3a,2a$"
+            content_latex: '这样 $AD=5a$，第一次 A 字形求出的 $PA,PD$ 恰好是 $4a,9a$，比例层级一眼可见。'
+          - kind: "hint"
+            title: "两次 A 字形各做什么"
+            content_latex: '第一次用 $AB:CD$ 定出从 $P$ 到各层的距离；第二次把 $PE:PA$ 转成 $EF:AB$。'
+        solution_title: "求法三：把梯形放回大三角形"
+        solution_step_ids:
+          - "problem-17-m3-construct"
+          - "problem-17-m3-first-a"
+          - "problem-17-m3-second-a"
+
+      - type: "summary_dual"
+        id: "problem-17-summary"
+        left_title: "答案"
+        left_items:
+          - latex: "$EF=7$。"
+        right_title: "方法选择"
+        right_items:
+          - latex: "优先用主方法：过 $A$ 作 $BC$ 的平行线，只需解一个小三角形的 A 字形。"
+          - latex: "连接 $BD$ 与延长两腰适合用来理解同一比例怎样在不同三角形之间传递。"

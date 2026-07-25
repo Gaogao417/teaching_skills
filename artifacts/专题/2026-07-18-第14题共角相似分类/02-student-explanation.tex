@@ -1,0 +1,114 @@
+\documentclass{exam-zh}
+\usepackage{edu-explanation}
+
+\examsetup{
+  question/show-answer = true,
+  fillin/show-answer = true,
+  solution/show-solution = show-stay,
+}
+
+\begin{document}
+
+\eduSectionTitle{已知两三角形相似，求边长}
+
+\begin{eduProblemBlock}[第 14 题]
+\noindent
+\begin{minipage}[t]{\dimexpr\linewidth-70mm-6mm\relax}
+\vspace{0pt}
+如图，点 $D$ 在 $\triangle ABC$ 的边 $AB$ 上，$AD=2$，$AB=9$，$AC=6$。过点 $D$ 的直线交 $AC$ 于点 $E$，使以点 $A,D,E$ 为顶点的三角形与 $\triangle ABC$ 相似，求 $AE$。
+
+\end{minipage}\hfill
+\begin{diagramcoltikz}{70mm}{题面只给出 $D\in AB$；点 $E$ 的位置要由相似对应分类确定。}
+\input{\detokenize{build/diagram/jobs/explanation-problem14-prompt/rendered/prompt.fragment.tex}}
+\end{diagramcoltikz}
+\end{eduProblemBlock}
+
+
+
+
+
+
+\begin{eduSolutionBox}{共同角确定后，分两类情况讨论}
+  \begingroup
+  \setlength{\parskip}{2.5mm}
+\begin{center}
+\begin{tikzpicture}[>=Stealth,every node/.style={font=\small,align=center}]
+  \node[draw,rounded corners,fill=blue!5,text width=3.2cm,minimum height=1.1cm] (common) at (0,0)
+    {先找公共角\\[1mm]$\angle DAE=\angle BAC$};
+  \node[draw,rounded corners,fill=green!6,text width=4.2cm,minimum height=1.1cm] (case1) at (5.2,1)
+    {$\triangle ADE\sim\triangle ABC$\\[1mm]$\dfrac{AD}{AE}=\dfrac{AB}{AC}$};
+  \node[draw,rounded corners,fill=orange!8,text width=4.2cm,minimum height=1.1cm] (case2) at (5.2,-1)
+    {$\triangle AED\sim\triangle ABC$\\[1mm]$\dfrac{AE}{AD}=\dfrac{AB}{AC}$};
+  \draw[->,thick] (common.east) -- (case1.west);
+  \draw[->,thick] (common.east) -- (case2.west);
+\end{tikzpicture}
+\end{center}
+\par
+  \endgroup
+\end{eduSolutionBox}
+
+
+
+
+
+
+
+
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{小贴士}
+        \eduSideHint{先找公共角}{先由 $\angle DAE=\angle BAC$ 确定公共角，再围绕公共角的两组夹边比分两类情况讨论：$\dfrac{AD}{AE}=\dfrac{AB}{AC}$ 或 $\dfrac{AE}{AD}=\dfrac{AB}{AC}$。}
+  \end{eduExplainLeft}
+
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{解答}
+\needspace{5\baselineskip}
+$\because \angle DAE=\angle BAC$\\ 
+$\therefore \triangle ADE\sim\triangle ABC $\\
+$\therefore \dfrac{AD}{AE}=\dfrac{AB}{AC}$\\
+$\therefore \dfrac2{AE}=\dfrac96$\\
+解得 $AE=\dfrac43$。
+      \begin{center}
+        \begin{diagramcoltikz}{70mm}{当 $\triangle ADE\sim\triangle ABC$ 时。}
+        \input{\detokenize{build/diagram/jobs/explanation-problem14-solution-case1/rendered/solution.fragment.tex}}
+        \end{diagramcoltikz}
+      \end{center}
+\needspace{19\baselineskip}\[
+\triangle AED\sim\triangle ABC
+\]
+$\therefore \dfrac{AE}{AD}=\dfrac{AB}{AC}$\\
+$\therefore \dfrac{AE}{2}=\dfrac96$\\
+解得 $AE=3$。\\
+因为 $0<\dfrac43<6$，且 $0<3<6$，所以两种情况都成立。
+      \begin{center}
+        \begin{diagramcoltikz}{70mm}{当 $\triangle AED\sim\triangle ABC$ 时。}
+        \input{\detokenize{build/diagram/jobs/explanation-problem14-solution-case2/rendered/solution.fragment.tex}}
+        \end{diagramcoltikz}
+      \end{center}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduBottomGrid}
+  \begin{eduSummaryLeft}
+    \begin{eduSummaryBlock}{\eduIconCheck}{答案}
+    \begin{eduPlainList}
+      \item $AE=\dfrac43$ 或 $3$。    \end{eduPlainList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryLeft}
+  \eduSummaryDivider
+  \begin{eduSummaryRight}
+    \begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
+    \begin{eduBulletList}
+      \item 先找公共角，再写 $\triangle ADE\sim\triangle ABC$ 与 $\triangle AED\sim\triangle ABC$ 两种相似顺序。    \end{eduBulletList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryRight}
+\end{eduBottomGrid}
+
+
+
+
+\end{document}

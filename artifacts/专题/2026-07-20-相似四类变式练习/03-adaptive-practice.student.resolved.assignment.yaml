@@ -1,0 +1,141 @@
+meta:
+  title: 相似三角形四类变式练习
+  subtitle: 第 12、13、14、17 题各 1 道
+  grade: 九年级
+  subject: 数学
+  duration: 35分钟
+  total_points: 40
+  version: student
+  source_artifacts:
+    structure_analyses:
+    - ../2026-07-18-第12题正方形相似双路线/01-structure-analysis.md
+    - ../2026-07-18-第13题两高相似计数/01-structure-analysis.md
+    - ../2026-07-18-第14题共角相似分类/01-structure-analysis.md
+    - ../2026-07-19-第17题梯形三平行线三解/01-structure-analysis.md
+    explanations:
+    - ../2026-07-18-第12题正方形相似双路线/02-student-explanation.resolved.assignment.yaml
+    - ../2026-07-18-第13题两高相似计数/02-student-explanation.resolved.assignment.yaml
+    - ../2026-07-18-第14题共角相似分类/02-student-explanation.resolved.assignment.yaml
+    - ../2026-07-19-第17题梯形三平行线三解/02-student-explanation.resolved.assignment.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: square-perpendicular-similarity
+  title: ''
+  type: practice
+  visibility: student
+  blocks:
+  - type: problem
+    id: q12-variant
+    points: 10
+    label: 第 1 题
+    stem_latex: |
+      如图，在正方形 $ABCD$ 中，$E$ 为 $AB$ 边的中点，$G,F$ 分别为 $AD,BC$ 边上的点。若 $AG=4$，$BF=9$，$\angle GEF=90^\circ$，求 $GF$ 的长。
+    answer_space:
+      type: steps
+      height: 54mm
+      step_count: 5
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/practice-similarity4-q12-prompt/rendered/prompt.fragment.tex
+      diagram_ref: practice.similarity4.q12.prompt
+      diagram_job_id: practice-similarity4-q12-prompt
+      width: 60mm
+      caption: 先找两组直角，再观察 $GE\perp EF$ 带来的等角。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:e22fa8ee5226b5868ddb8623dae7bdb347c257b56c877a3ff943c9b7aa7be80a
+      packages:
+      - tikz
+      libraries: []
+- id: two-altitudes-similarity-count
+  title: ''
+  type: practice
+  visibility: student
+  blocks:
+  - type: problem
+    id: q13-variant
+    points: 10
+    label: 第 2 题
+    stem_latex: |
+      如图，$AD,BE$ 是锐角 $\triangle ABC$ 的两条高，垂足分别为 $D,E$，$AD,BE$ 相交于点 $O$。
+      请找出图中四个两两相似的直角三角形，并写出全部相似三角形的配对，说明共有多少对。
+    answer_space:
+      type: steps
+      height: 68mm
+      step_count: 6
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/practice-similarity4-q13-prompt/rendered/prompt.fragment.tex
+      diagram_ref: practice.similarity4.q13.prompt
+      diagram_job_id: practice-similarity4-q13-prompt
+      width: 60mm
+      caption: 弧角未预先标出，请从两条高自己找等角。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:af955551b00392f3546d7652d6e700070b6b84dd1cccf2673e52fbac86a972ff
+      packages:
+      - tikz
+      libraries: []
+- id: shared-angle-two-maps
+  title: ''
+  type: practice
+  visibility: student
+  blocks:
+  - type: problem
+    id: q14-variant
+    points: 10
+    label: 第 3 题
+    stem_latex: |
+      如图，点 $D$ 在 $\triangle ABC$ 的边 $AB$ 上，$AD=3$，$AB=12$，$AC=8$。过点 $D$ 的直线交 $AC$ 于点 $E$，使以点 $A,D,E$ 为顶点的三角形与 $\triangle ABC$ 相似，求所有可能的 $AE$。
+    answer_space:
+      type: steps
+      height: 62mm
+      step_count: 6
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/practice-similarity4-q14-prompt/rendered/prompt.fragment.tex
+      diagram_ref: practice.similarity4.q14.prompt
+      diagram_job_id: practice-similarity4-q14-prompt
+      width: 60mm
+      caption: 先锁定共同角 $A$，再分类讨论另外两个顶点的对应。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:d4dad0ee9cf72a4a5d28c08606381016cc5fd7280da14699835217c02198da20
+      packages:
+      - tikz
+      libraries: []
+- id: trapezoid-three-parallels
+  title: ''
+  type: practice
+  visibility: student
+  blocks:
+  - type: problem
+    id: q17-variant
+    points: 10
+    label: 第 4 题
+    stem_latex: |
+      如图，四边形 $ABCD$ 为梯形，$AB\parallel EF\parallel CD$，点 $E$ 在 $AD$ 上，点 $F$ 在 $BC$ 上。已知 $AE:ED=2:1$，$AB=5$，$CD=11$，求 $EF$。
+    answer_space:
+      type: steps
+      height: 60mm
+      step_count: 6
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/practice-similarity4-q17-prompt/rendered/prompt.fragment.tex
+      diagram_ref: practice.similarity4.q17.prompt
+      diagram_job_id: practice-similarity4-q17-prompt
+      width: 60mm
+      caption: 三条平行线把两条腰按同一比例分割。
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:3caf26aa19f24a7301f985af83e4996837aa2c41aad91f4d8cfc038a30158763
+      packages:
+      - tikz
+      libraries: []

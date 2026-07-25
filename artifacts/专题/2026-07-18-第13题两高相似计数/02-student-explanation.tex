@@ -1,0 +1,85 @@
+\documentclass{exam-zh}
+\usepackage{edu-explanation}
+
+\examsetup{
+  question/show-answer = true,
+  fillin/show-answer = true,
+  solution/show-solution = show-stay,
+}
+
+\begin{document}
+
+\eduSectionTitle{标等角找相似，用“握手”数出 6 对}
+
+\begin{eduProblemBlock}[第 13 题]
+\noindent
+\begin{minipage}[t]{\dimexpr\linewidth-70mm-6mm\relax}
+\vspace{0pt}
+如图，$AD,BE$ 是 $\triangle ABC$ 的两条高，$AD,BE$ 相交于点 $O$，问图中共有多少对相似三角形。
+
+\end{minipage}\hfill
+\begin{diagramcoltikz}{70mm}{把 $\angle DBO$ 与 $\angle EAO$ 标成同款弧角，再找同时含弧角和直角的三角形。}
+\input{\detokenize{build/diagram/jobs/explanation-problem13-prompt/rendered/prompt.fragment.tex}}
+\end{diagramcoltikz}
+\end{eduProblemBlock}
+
+
+
+
+
+
+
+
+
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{小贴士}
+        \eduSideHint{为什么一个弧角能找到两个}{$B$ 点的同一个弧角同时属于 $\triangle BDO$ 与 $\triangle BEC$；$A$ 点的同一个弧角同时属于 $\triangle AEO$ 与 $\triangle ADC$。}
+        \eduSideHint{找三角形的筛子}{不要看大小和朝向，只检查两件事：有没有同款弧角？有没有 $90^\circ$？}
+        \eduSideMistake{为什么要除以 2}{“$A$ 与 $B$ 相似”和“$B$ 与 $A$ 相似”只是顺序相反，表示同一对；$4\times3$ 把每一对恰好数了两次。}
+  \end{eduExplainLeft}
+
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{解答}
+\needspace{5\baselineskip}      \eduExplainStep{}{先由两条高标出一组等角}{$\because BE\perp AC$，\\
+$\therefore \angle DBO=90^\circ-\angle C$。\\
+$\because AD\perp BC$，\\
+$\therefore \angle EAO=90^\circ-\angle C$。\\
+$\therefore \angle DBO=\angle EAO$，把它们标成同款弧角。
+}
+\needspace{5\baselineskip}      \eduExplainStep{}{再找含弧角的四个直角三角形}{含 $B$ 点弧角的直角三角形：$\triangle BDO,\triangle BEC$。\\
+含 $A$ 点弧角的直角三角形：$\triangle AEO,\triangle ADC$。\\
+四个三角形都含一个弧角和一个直角，\\
+$\therefore \triangle BDO\sim\triangle AEO\sim\triangle ADC\sim\triangle BEC$。
+}
+\needspace{5\baselineskip}      \eduExplainStep{}{最后用“每个都有 3 个伙伴”计数，再除以 2 去重}{四个三角形中，每个三角形都和另外三个三角形相似，先得 $4\times3=12$ 次。\\
+但“$A$ 与 $B$ 相似”和“$B$ 与 $A$ 相似”是同一对，每一对都被重复计算了 $2$ 次。\\
+所以相似三角形共有 $\dfrac{4\times3}{2}=6$ 对。
+}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduBottomGrid}
+  \begin{eduSummaryLeft}
+    \begin{eduSummaryBlock}{\eduIconCheck}{答案}
+    \begin{eduPlainList}
+      \item 共有 $6$ 对相似三角形。    \end{eduPlainList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryLeft}
+  \eduSummaryDivider
+  \begin{eduSummaryRight}
+    \begin{eduSummaryBlock}{\eduIconPin}{方法提醒}
+    \begin{eduBulletList}
+      \item 标等角、找四个，用 $\dfrac{4\times3}{2}$ 握手计数。    \end{eduBulletList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryRight}
+\end{eduBottomGrid}
+
+
+
+
+\end{document}

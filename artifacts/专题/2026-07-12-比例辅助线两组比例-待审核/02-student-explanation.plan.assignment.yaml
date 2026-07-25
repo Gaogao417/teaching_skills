@@ -1,207 +1,815 @@
 meta:
-  title: 比例辅助线：用已知比和所求比现场决定辅助线
-  subtitle: 学生讲义
+  title: 比例辅助线两组整数比：两幅相似图逐步标份数
   grade: 八年级
   subject: 数学
   version: student
+  show_answers: true
   source_artifacts:
     review_draft: artifacts/专题/2026-07-12-比例辅助线两组比例-待审核/02-student-explanation.review.md
+    structure_reference: artifacts/专题/2026-07-09-比例辅助线边比/01-structure-analysis.md
 render:
   template: exam-zh-explanation
   paper_size: a4paper
+  show_step_numbers: true
 sections:
-  - id: choose-helper-line
-    title: 先围三角形，再决定平行线和交点
-    show_title: true
-    type: explanation
-    visibility: student
-    blocks:
-      - type: solution
-        id: core-rule
-        title: 核心动作：已知和所求共同决定辅助线
-        items:
-          - latex: '题目中的四条比例线是 $AC$ 上的 $AE:EC$、$AD$ 上的 $AP:PD$、$BE$ 上的 $BP:PE$、$BC$ 上的 $BD:DC$。'
-          - latex: '先找两条已知比和所求比所在的三条直线；它们围成的三角形，决定平行线从哪个顶点作出。'
-          - latex: '过这个三角形的一个顶点作对边的平行线；再连接平行线外的两个点，让这条连线与新平行线相交。'
-          - latex: '最后从完整图中找出两组 A/8 字型相似三角形，用共同的中间线段接比例。'
-      - type: problemcard
-        id: example-card
-        label: 例题
-        stem_latex: |
-          如图，在 $\triangle ABC$ 中，点 $D$ 在线段 $BC$ 上，点 $E$ 在线段 $AC$ 上，
-          线段 $AD$ 与 $BE$ 相交于点 $P$。已知
-          \[
-          AE:EC=2:3,\qquad BD:DC=4:5,
-          \]
-          求 $AP:PD$。
-        diagram_slot:
-          slot_id: explanation.example.prompt
-          diagram_ref: explanation.example.prompt
-          variant: prompt
-          disclosure_policy: clean
-          required: true
-          on_failure: fail_assignment
-          placement: block_center
-          layout_role: center_block
-          display_profile: worksheet_geometry_center
-          caption: 先找两条已知比例线和所求比例线围成的三角形。
-          engine: geometric_scene
-          diagram_kind: synthetic_geometry
-          engine_options:
-            engine_model_config:
-              codex_model: gpt-5.4
-          teaching_intent: explanation_prompt
-          problem_context:
-            stem_latex: 在 $\triangle ABC$ 中，$D\in BC$，$E\in AC$，$P=AD\cap BE$。已知 $AE:EC=2:3$、$BD:DC=4:5$，求 $AP:PD$。
-            source_problem_text: 画三角形 ABC。点 D 在线段 BC 上且 BD:DC=4:5；点 E 在线段 AC 上且 AE:EC=2:3；连接 AD 和 BE，交于 P。只画原始构型；清楚标出 AE、EC、BD、DC、AP、PD；不要画辅助线、相似三角形、比例式或答案。标签必须逐点错开：A 放在顶点上方，B/C 放在底边外侧，D 放在底边下方，E 放在 AC 右侧，P 放在交点左侧；任何标签都不得压在线段、交点或其他标签上。
-          semantic_constraints:
-            given_objects: [A, B, C, D, E, P]
-            given_constraints:
-              - A, E, C are collinear with E between A and C
-              - B, D, C are collinear with D between B and C
-              - A, P, D are collinear with P between A and D
-              - B, P, E are collinear with P between B and E
-              - AE:EC=2:3
-              - BD:DC=4:5
-              - highlight known segments AE, EC, BD, DC and target segments AP, PD
-            clean_forbidden:
-              - do not draw F or any auxiliary line
-              - do not mark similar triangles
-              - do not show intermediate ratios or the answer
-      - type: route
-        id: example-route
-        steps:
-          - id: step-select-triangle
-            latex: 找到三条比例线围成的三角形
-            content_latex: '$AE:EC$ 在 $AC$ 上，$BD:DC$ 在 $BC$ 上，$AP:PD$ 在 $AD$ 上；所以先围 $\triangle ACD$。'
-          - id: step-add-parallel
-            latex: 过顶点 $C$ 作对边的平行线
-            content_latex: '过 $C$ 作 $CF\parallel AD$。点 $B,E$ 在这组平行线外，连接 $BE$，令它与 $CF$ 交于 $F$。'
-            diagram_slot:
-              slot_id: explanation.example.helper
-              diagram_ref: explanation.example.helper
-              variant: solution
-              disclosure_policy: annotated
-              reuse_geometry_from: explanation.example.prompt
-              required: true
-              on_failure: fail_assignment
-              placement: step_diagram
-              layout_role: solution_annotation
-              display_profile: worksheet_geometry_center
-              caption: 围出 $\triangle ACD$ 后，过顶点 $C$ 作 $AD$ 的平行线。
-              engine: geometric_scene
-              diagram_kind: synthetic_geometry
-              engine_options:
-                engine_model_config:
-                  codex_model: gpt-5.4
-              teaching_intent: explanation_solution
-              problem_context:
-                stem_latex: 在原图上，过 C 作 CF 平行 AD，交直线 BE 于 F。
-                source_problem_text: 复用原图的点位。新增点 F，要求 F 同时在直线 BE 与过 C 且平行 AD 的直线上。完整画出 CF，并明确 AD 与 CF 的平行标记；保留 B、P、E、F 共线关系。标签沿折线两侧错开：P 放在交点左下，E 放在线段右下，F 放在端点右上；A、B、C、D 保持在三角形外侧，禁止标签贴线或相互重叠。
-              semantic_constraints:
-                given_objects: [A, B, C, D, E, P, F]
-                given_constraints:
-                  - reuse original geometry with D on BC, E on AC, and P=AD∩BE
-                  - C, F line is parallel to A, D line
-                  - B, P, E, F are collinear
-                  - F is the intersection of line BE and the line through C parallel to AD
-                clean_forbidden:
-                  - do not show similar-triangle names or numerical answers
-          - id: step-first-similar
-            latex: 用 $E$ 处的相似三角形读第一个比例
-            content_latex: '由 $A,E,C$ 共线、$P,E,F$ 共线、$AP\parallel CF$，得 $\triangle EAP\sim\triangle ECF$，所以 $AP:CF=AE:EC=2:3$。'
-            diagram_slot:
-              slot_id: explanation.example.similar-e
-              diagram_ref: explanation.example.similar-e
-              variant: solution
-              disclosure_policy: annotated
-              reuse_geometry_from: explanation.example.prompt
-              required: true
-              on_failure: fail_assignment
-              placement: step_diagram
-              layout_role: solution_annotation
-              display_profile: worksheet_geometry_center
-              caption: 先在 $E$ 处找出第一组相似三角形。
-              engine: geometric_scene
-              diagram_kind: synthetic_geometry
-              engine_options:
-                engine_model_config:
-                  codex_model: gpt-5.4
-              teaching_intent: explanation_solution
-              problem_context:
-                stem_latex: 标出 $\triangle EAP$ 与 $\triangle ECF$。
-                source_problem_text: 复用原图并新增 F：CF 平行 AD，F 在 BE 上。用两种浅色突出三角形 EAP 和 ECF；强调 AP 对应 CF、AE 对应 EC；不标最终答案。标签位置固定为 A 上方、B 左下、C 右下、D 下方、P 左下、E 右下、F 右上，保证 E/P/F 分居折线两侧且不遮挡高亮边。
-              semantic_constraints:
-                given_objects: [A, B, C, D, E, P, F]
-                given_constraints:
-                  - triangle EAP is similar to triangle ECF
-                  - AP is parallel to CF
-                  - A, E, C are collinear
-                  - P, E, F are collinear
-          - id: step-second-similar
-            latex: 用 $B$ 处的相似三角形读第二个比例
-            content_latex: '由 $B,D,C$ 共线、$B,P,F$ 共线、$DP\parallel CF$，得 $\triangle BDP\sim\triangle BCF$。又 $BD:BC=4:9$，所以 $DP:CF=4:9$。'
-            diagram_slot:
-              slot_id: explanation.example.similar-b
-              diagram_ref: explanation.example.similar-b
-              variant: solution
-              disclosure_policy: annotated
-              reuse_geometry_from: explanation.example.prompt
-              required: true
-              on_failure: fail_assignment
-              placement: step_diagram
-              layout_role: solution_annotation
-              display_profile: worksheet_geometry_center
-              caption: 再在 $B$ 处找出第二组相似三角形。
-              engine: geometric_scene
-              diagram_kind: synthetic_geometry
-              engine_options:
-                engine_model_config:
-                  codex_model: gpt-5.4
-              teaching_intent: explanation_solution
-              problem_context:
-                stem_latex: 标出 $\triangle BDP$ 与 $\triangle BCF$。
-                source_problem_text: 复用原图并新增 F：CF 平行 AD，F 在 BE 上。用两种浅色突出三角形 BDP 和 BCF；强调 DP 对应 CF、BD 对应 BC；不标最终答案。标签位置固定为 A 上方、B 左下、C 右下、D 下方、P 左下、E 右下、F 右上，保证 E/P/F 分居折线两侧且不遮挡高亮边。
-              semantic_constraints:
-                given_objects: [A, B, C, D, E, P, F]
-                given_constraints:
-                  - triangle BDP is similar to triangle BCF
-                  - DP is parallel to CF
-                  - B, D, C are collinear
-                  - B, P, F are collinear
-          - id: step-connect-ratios
-            latex: 统一中间线段 $CF$，写出所求比
-            content_latex: '由 $AP:CF=2:3$、$DP:CF=4:9$，取 $CF=9$ 份，得 $AP=6$ 份、$DP=4$ 份，所以 $AP:PD=3:2$。'
-      - type: dual_explanation
-        id: example-solution
-        label: 例题
-        stem_latex: 求 $AP:PD$。
-        side_title: 小贴士
-        side_items:
-          - kind: hint
-            title: 先围哪一个三角形
-            content_latex: '先看两条已知比和所求比分别在哪三条直线上；本题是 $AC,BC,AD$，所以围 $\triangle ACD$。'
-          - kind: hint
-            title: 为什么交点不能随便选
-            content_latex: '先确定平行线外的两个点 $B,E$，连接 $BE$ 后，新交点 $F$ 才由图形关系确定。'
-          - kind: mistake
-            title: 不要漏掉整段 $BC$
-            content_latex: '$BD:DC=4:5$ 先变成 $BD:BC=4:9$，不能直接写成 $BD:BC=4:5$。'
-        solution_title: 解答
-        solution_step_ids:
-          - step-select-triangle
-          - step-add-parallel
-          - step-first-similar
-          - step-second-similar
-          - step-connect-ratios
-      - type: mistake
-        id: common-mistake
-        title: 易错提醒：不是先背一条辅助线
-        content_latex: '先由“两条已知比和一个所求比”围三角形，再确定顶点、对边和平行线外两点的连线；不能先背一条固定辅助线，也不能随便选交点。'
-      - type: method_reminder
-        id: method-card
-        title: 做题顺序
-        items:
-          - latex: '找三条比例线 $\rightarrow$ 围三角形 $\rightarrow$ 过顶点作对边平行线。'
-          - latex: '找平行线外的两个点并连接 $\rightarrow$ 确定交点 $\rightarrow$ 找两组 A/8 字型。'
-          - latex: '把两组比例中的中间线段统一份数，再求所需的分段比。'
+- id: two-similar-share-labels
+  title: 比例辅助线：解两组 A/8 字，把目标边标成份数
+  show_title: true
+  type: explanation
+  visibility: student
+  blocks:
+  - type: problemcard
+    id: example-card
+    label: 例题
+    stem_latex: 如图，点 $D$ 在线段 $BC$ 上，点 $E$ 在线段 $AC$ 上，$AD$ 与 $BE$ 交于点 $P$。已知 $AE:EC=2:3$，$BD:DC=4:5$，求 $AP:PD$。
+    diagram_slot:
+      slot_id: explanation.example.prompt
+      diagram_ref: explanation.example.prompt
+      variant: prompt
+      disclosure_policy: clean
+      required: true
+      on_failure: fail_assignment
+      placement: block_center
+      layout_role: center_block
+      display_profile: worksheet_geometry_center
+      engine: geometric_scene
+      diagram_kind: synthetic_geometry
+      engine_options:
+        scene_payload:
+          scene_code: GeometricScene[{A, B, C, D, E, P}, {Triangle[{A, B, C}], A == {3.260829876384, 5.647923020735}, B ==
+            {0, 0}, C == {8, 0}, Element[D, Line[{B, C}]], Element[E, Line[{A, C}]], Element[P, Line[{A, D}]], Element[P,
+            Line[{B, E}]], 3 EuclideanDistance[A, E] == 2 EuclideanDistance[E, C], 5 EuclideanDistance[B, D] == 4 EuclideanDistance[D,
+            C]}]
+          points:
+          - A
+          - B
+          - C
+          - D
+          - E
+          - P
+          point_roles:
+            anchors:
+            - A
+            - B
+            - C
+            constructed:
+            - D
+            - E
+            - P
+            auxiliary: []
+          fixed_layout_points:
+            A:
+            - 3.260829876384
+            - 5.647923020735
+            B:
+            - 0.0
+            - 0.0
+            C:
+            - 8.0
+            - 0.0
+          diagram_spec:
+            segments:
+            - - A
+              - B
+            - - B
+              - C
+            - - C
+              - A
+            - - A
+              - D
+            - - B
+              - E
+            polygons: []
+            markers: []
+            labels:
+              A:
+                text: A
+                placement: above
+              B:
+                text: B
+                placement: below left
+              C:
+                text: C
+                placement: below right
+              D:
+                text: D
+                placement: below
+              E:
+                text: E
+                placement: above right
+              P:
+                text: P
+                placement: left
+            annotations: []
+          rationale: 显式声明 Triangle[{A,B,C}]；A、B、C 使用全题库统一且经人工确认的 70°/60°/50° 版式坐标，只翻译题面的两组整数比、在线点和交点。
+          model_used: main-agent-reviewed-authoring
+          model_attempts: []
+        seed: 717900
+      teaching_intent: explanation_prompt
+      problem_context:
+        stem_latex: 如图，点 $D$ 在线段 $BC$ 上，点 $E$ 在线段 $AC$ 上，$AD$ 与 $BE$ 交于点 $P$。已知 $AE:EC=2:3$，$BD:DC=4:5$，求 $AP:PD$。
+        source_problem_text: 逐字翻译题面给出的两组整数比。原题图只画 ABC、D、E、P 与两条交线；不得画 F、辅助平行线、相似标记、推导或答案。
+      semantic_constraints:
+        given_objects:
+        - A
+        - B
+        - C
+        - D
+        - E
+        - P
+        given_constraints:
+        - D lies on segment BC
+        - E lies on segment AC
+        - P is the intersection of segments AD and BE
+        - given ratio x=2:3
+        - given ratio w=4:5
+        clean_forbidden:
+        - do not draw F or an auxiliary parallel line
+        - do not show similar triangles, derived ratios, or the answer
+        - do not draw numeric labels on the geometry
+      visual_requirements:
+        required_visible_annotations:
+          markers: []
+          texts: []
+  - type: route
+    id: example-route
+    show_navigation: false
+    steps:
+    - id: step-helper
+      latex: 作辅助线
+      content_latex: 过 $C$ 作 $CF\parallel AD$，交直线 $BE$ 于 $F$。
+      diagram_slot:
+        slot_id: explanation.example.helper
+        diagram_ref: explanation.example.helper
+        variant: solution
+        disclosure_policy: annotated
+        reuse_geometry_from: explanation.example.prompt
+        required: true
+        on_failure: fail_assignment
+        placement: step_diagram
+        layout_role: solution_annotation
+        display_profile: worksheet_geometry_center
+        caption: 蓝字标出题目给出的两组比；过 $C$ 作 $CF\parallel AD$。
+        engine: geometric_scene
+        diagram_kind: synthetic_geometry
+        engine_options:
+          scene_payload:
+            scene_code: GeometricScene[{A, B, C, D, E, P, F}, {Element[F, InfiniteLine[{B, E}]], GeometricAssertion[{Line[{C,
+              F}], Line[{A, D}]}, "Parallel"]}]
+            points:
+            - A
+            - B
+            - C
+            - D
+            - E
+            - P
+            - F
+            point_roles:
+              anchors:
+              - A
+              - B
+              - C
+              - D
+              - E
+              - P
+              constructed: []
+              auxiliary:
+              - F
+            diagram_spec:
+              segments:
+              - - A
+                - B
+              - - B
+                - C
+              - - C
+                - A
+              - - A
+                - D
+              - - B
+                - E
+              - from: C
+                to: F
+                dash: dashed
+                role: auxiliary
+              polygons: []
+              markers:
+              - type: parallel
+                segments:
+                - - C
+                  - F
+                - - A
+                  - D
+              labels:
+                A:
+                  text: A
+                  placement: above
+                B:
+                  text: B
+                  placement: below left
+                C:
+                  text: C
+                  placement: below right
+                D:
+                  text: D
+                  placement: below
+                E:
+                  text: E
+                  placement: above right
+                P:
+                  text: P
+                  placement: left
+                F:
+                  text: F
+                  placement: right
+              annotations:
+              - id: known-x-ae
+                target:
+                - A
+                - E
+                text: 2份
+                placement: above left
+                color: '#2563eb'
+              - id: known-x-ec
+                target:
+                - E
+                - C
+                text: 3份
+                placement: above right
+                color: '#2563eb'
+              - id: known-w-bd
+                target:
+                - B
+                - D
+                text: 4份
+                placement: below
+                color: '#2563eb'
+              - id: known-w-dc
+                target:
+                - D
+                - C
+                text: 5份
+                placement: below
+                color: '#2563eb'
+              auxiliary_constructions:
+              - point: F
+                constructed_segment:
+                - C
+                - F
+                carrier_segment:
+                - B
+                - E
+                dash: dashed
+                extend_carrier_if_needed: true
+            rationale: 复用 prompt 坐标后只添加题解辅助构造：过 C 作 CF 平行 AD，交直线 BE 于 F。
+            model_used: main-agent-reviewed-authoring
+            model_attempts: []
+          seed: 736000
+        teaching_intent: explanation_solution
+        problem_context:
+          stem_latex: 如图，点 $D$ 在线段 $BC$ 上，点 $E$ 在线段 $AC$ 上，$AD$ 与 $BE$ 交于点 $P$。已知 $AE:EC=2:3$，$BD:DC=4:5$，求 $AP:PD$。
+          source_problem_text: 复用本题 prompt 的全部点位，只新增 F：过 C 作 CF 平行 AD，交直线 BE 于 F。蓝字始终标出题设两组比；任何已经标过份数的边都沿用原标注，每步只给尚未标注的边新增红色份数。
+        semantic_constraints:
+          given_objects:
+          - A
+          - B
+          - C
+          - D
+          - E
+          - P
+          - F
+          given_constraints:
+          - reuse the complete geometry from explanation.example.prompt
+          - 过 C 作 CF 平行 AD，交直线 BE 于 F
+          solution_allowed_annotations:
+          - the auxiliary line
+          - one parallel marker
+          - blue given-ratio share labels
+          - red derived corresponding-side share labels
+        visual_requirements:
+          required_visible_annotations:
+            markers:
+            - type: parallel
+              segments:
+              - - C
+                - F
+              - - A
+                - D
+            texts:
+            - id: known-x-ae
+              target:
+              - A
+              - E
+              text: 2份
+              placement: above left
+              color: '#2563eb'
+            - id: known-x-ec
+              target:
+              - E
+              - C
+              text: 3份
+              placement: above right
+              color: '#2563eb'
+            - id: known-w-bd
+              target:
+              - B
+              - D
+              text: 4份
+              placement: below
+              color: '#2563eb'
+            - id: known-w-dc
+              target:
+              - D
+              - C
+              text: 5份
+              placement: below
+              color: '#2563eb'
+    - id: step-eight
+      latex: 解第一组 8 字
+      content_latex: $\because CF\parallel AP$。\\ $\therefore \triangle EAP\sim\triangle ECF$。\\ $AE:EC=2:3$，故 $AP:CF=2:3$。
+      diagram_slot:
+        slot_id: explanation.example.model1
+        diagram_ref: explanation.example.model1
+        variant: solution
+        disclosure_policy: annotated
+        reuse_geometry_from: explanation.example.prompt
+        required: true
+        on_failure: fail_assignment
+        placement: step_diagram
+        layout_role: solution_annotation
+        display_profile: worksheet_geometry_center
+        caption: 第二步解 8 字：由蓝色 $2:3$ 标出红色 $AP:CF=2:3$。
+        engine: geometric_scene
+        diagram_kind: synthetic_geometry
+        engine_options:
+          scene_payload:
+            scene_code: GeometricScene[{A, B, C, D, E, P, F}, {Element[F, InfiniteLine[{B, E}]], GeometricAssertion[{Line[{C,
+              F}], Line[{A, D}]}, "Parallel"]}]
+            points:
+            - A
+            - B
+            - C
+            - D
+            - E
+            - P
+            - F
+            point_roles:
+              anchors:
+              - A
+              - B
+              - C
+              - D
+              - E
+              - P
+              constructed: []
+              auxiliary:
+              - F
+            diagram_spec:
+              segments:
+              - - A
+                - B
+              - - B
+                - C
+              - - C
+                - A
+              - - A
+                - D
+              - - B
+                - E
+              - from: C
+                to: F
+                dash: dashed
+                role: auxiliary
+              polygons:
+              - points:
+                - E
+                - A
+                - P
+                fill: '#eff6ff'
+                stroke: '#93c5fd'
+              - points:
+                - E
+                - C
+                - F
+                fill: '#fef2f2'
+                stroke: '#fca5a5'
+              markers:
+              - type: parallel
+                segments:
+                - - C
+                  - F
+                - - A
+                  - D
+              labels:
+                A:
+                  text: A
+                  placement: above
+                B:
+                  text: B
+                  placement: below left
+                C:
+                  text: C
+                  placement: below right
+                D:
+                  text: D
+                  placement: below
+                E:
+                  text: E
+                  placement: above right
+                P:
+                  text: P
+                  placement: left
+                F:
+                  text: F
+                  placement: right
+              annotations:
+              - id: known-x-ae
+                target:
+                - A
+                - E
+                text: 2份
+                placement: above left
+                color: '#2563eb'
+              - id: known-x-ec
+                target:
+                - E
+                - C
+                text: 3份
+                placement: above right
+                color: '#2563eb'
+              - id: known-w-bd
+                target:
+                - B
+                - D
+                text: 4份
+                placement: below
+                color: '#2563eb'
+              - id: known-w-dc
+                target:
+                - D
+                - C
+                text: 5份
+                placement: below
+                color: '#2563eb'
+              - id: model-1-ap
+                target:
+                - A
+                - P
+                text: 2份
+                placement: left
+                color: '#dc2626'
+              - id: model-1-cf
+                target:
+                - C
+                - F
+                text: 3份
+                placement: right
+                color: '#dc2626'
+              auxiliary_constructions:
+              - point: F
+                constructed_segment:
+                - C
+                - F
+                carrier_segment:
+                - B
+                - E
+                dash: dashed
+                extend_carrier_if_needed: true
+            rationale: 复用 prompt 坐标后只添加题解辅助构造：过 C 作 CF 平行 AD，交直线 BE 于 F。
+            model_used: main-agent-reviewed-authoring
+            model_attempts: []
+          seed: 736001
+        teaching_intent: explanation_solution
+        problem_context:
+          stem_latex: 如图，点 $D$ 在线段 $BC$ 上，点 $E$ 在线段 $AC$ 上，$AD$ 与 $BE$ 交于点 $P$。已知 $AE:EC=2:3$，$BD:DC=4:5$，求 $AP:PD$。
+          source_problem_text: 复用本题 prompt 的全部点位，只新增 F：过 C 作 CF 平行 AD，交直线 BE 于 F。蓝字始终标出题设两组比；任何已经标过份数的边都沿用原标注，每步只给尚未标注的边新增红色份数。
+        semantic_constraints:
+          given_objects:
+          - A
+          - B
+          - C
+          - D
+          - E
+          - P
+          - F
+          given_constraints:
+          - reuse the complete geometry from explanation.example.prompt
+          - 过 C 作 CF 平行 AD，交直线 BE 于 F
+          solution_allowed_annotations:
+          - the auxiliary line
+          - one parallel marker
+          - blue given-ratio share labels
+          - red derived corresponding-side share labels
+        visual_requirements:
+          required_visible_annotations:
+            markers:
+            - type: parallel
+              segments:
+              - - C
+                - F
+              - - A
+                - D
+            texts:
+            - id: known-x-ae
+              target:
+              - A
+              - E
+              text: 2份
+              placement: above left
+              color: '#2563eb'
+            - id: known-x-ec
+              target:
+              - E
+              - C
+              text: 3份
+              placement: above right
+              color: '#2563eb'
+            - id: known-w-bd
+              target:
+              - B
+              - D
+              text: 4份
+              placement: below
+              color: '#2563eb'
+            - id: known-w-dc
+              target:
+              - D
+              - C
+              text: 5份
+              placement: below
+              color: '#2563eb'
+            - id: model-1-ap
+              target:
+              - A
+              - P
+              text: 2份
+              placement: left
+              color: '#dc2626'
+            - id: model-1-cf
+              target:
+              - C
+              - F
+              text: 3份
+              placement: right
+              color: '#dc2626'
+    - id: step-a
+      latex: 解第二组 A 字
+      content_latex: $BD:BC=4:(4+5)=4:9$。\\ $\because CF\parallel DP$。\\ $\therefore \triangle BDP\sim\triangle BCF$。沿用 $CF=3$
+        份，故只标 $PD=\frac{4}{3}$ 份。
+      diagram_slot:
+        slot_id: explanation.example.model2
+        diagram_ref: explanation.example.model2
+        variant: solution
+        disclosure_policy: annotated
+        reuse_geometry_from: explanation.example.prompt
+        required: true
+        on_failure: fail_assignment
+        placement: step_diagram
+        layout_role: solution_annotation
+        display_profile: worksheet_geometry_center
+        caption: 第三步解 A 字：第一组红字保持不变，只新增 $PD=4/3$ 份。
+        engine: geometric_scene
+        diagram_kind: synthetic_geometry
+        engine_options:
+          scene_payload:
+            scene_code: GeometricScene[{A, B, C, D, E, P, F}, {Element[F, InfiniteLine[{B, E}]], GeometricAssertion[{Line[{C,
+              F}], Line[{A, D}]}, "Parallel"]}]
+            points:
+            - A
+            - B
+            - C
+            - D
+            - E
+            - P
+            - F
+            point_roles:
+              anchors:
+              - A
+              - B
+              - C
+              - D
+              - E
+              - P
+              constructed: []
+              auxiliary:
+              - F
+            diagram_spec:
+              segments:
+              - - A
+                - B
+              - - B
+                - C
+              - - C
+                - A
+              - - A
+                - D
+              - - B
+                - E
+              - from: C
+                to: F
+                dash: dashed
+                role: auxiliary
+              polygons:
+              - points:
+                - B
+                - D
+                - P
+                fill: '#eff6ff'
+                stroke: '#93c5fd'
+              - points:
+                - B
+                - C
+                - F
+                fill: '#fef2f2'
+                stroke: '#fca5a5'
+              markers:
+              - type: parallel
+                segments:
+                - - C
+                  - F
+                - - A
+                  - D
+              labels:
+                A:
+                  text: A
+                  placement: above
+                B:
+                  text: B
+                  placement: below left
+                C:
+                  text: C
+                  placement: below right
+                D:
+                  text: D
+                  placement: below
+                E:
+                  text: E
+                  placement: above right
+                P:
+                  text: P
+                  placement: left
+                F:
+                  text: F
+                  placement: right
+              annotations:
+              - id: known-x-ae
+                target:
+                - A
+                - E
+                text: 2份
+                placement: above left
+                color: '#2563eb'
+              - id: known-x-ec
+                target:
+                - E
+                - C
+                text: 3份
+                placement: above right
+                color: '#2563eb'
+              - id: known-w-bd
+                target:
+                - B
+                - D
+                text: 4份
+                placement: below
+                color: '#2563eb'
+              - id: known-w-dc
+                target:
+                - D
+                - C
+                text: 5份
+                placement: below
+                color: '#2563eb'
+              - id: model-1-ap
+                target:
+                - A
+                - P
+                text: 2份
+                placement: left
+                color: '#dc2626'
+              - id: model-1-cf
+                target:
+                - C
+                - F
+                text: 3份
+                placement: right
+                color: '#dc2626'
+              - id: model-2-dp
+                target:
+                - D
+                - P
+                text: 4/3份
+                placement: right
+                color: '#dc2626'
+              auxiliary_constructions:
+              - point: F
+                constructed_segment:
+                - C
+                - F
+                carrier_segment:
+                - B
+                - E
+                dash: dashed
+                extend_carrier_if_needed: true
+            rationale: 复用 prompt 坐标后只添加题解辅助构造：过 C 作 CF 平行 AD，交直线 BE 于 F。
+            model_used: main-agent-reviewed-authoring
+            model_attempts: []
+          seed: 736001
+        teaching_intent: explanation_solution
+        problem_context:
+          stem_latex: 如图，点 $D$ 在线段 $BC$ 上，点 $E$ 在线段 $AC$ 上，$AD$ 与 $BE$ 交于点 $P$。已知 $AE:EC=2:3$，$BD:DC=4:5$，求 $AP:PD$。
+          source_problem_text: 复用本题 prompt 的全部点位，只新增 F：过 C 作 CF 平行 AD，交直线 BE 于 F。蓝字始终标出题设两组比；任何已经标过份数的边都沿用原标注，每步只给尚未标注的边新增红色份数。
+        semantic_constraints:
+          given_objects:
+          - A
+          - B
+          - C
+          - D
+          - E
+          - P
+          - F
+          given_constraints:
+          - reuse the complete geometry from explanation.example.prompt
+          - 过 C 作 CF 平行 AD，交直线 BE 于 F
+          solution_allowed_annotations:
+          - the auxiliary line
+          - one parallel marker
+          - blue given-ratio share labels
+          - red derived corresponding-side share labels
+        visual_requirements:
+          required_visible_annotations:
+            markers:
+            - type: parallel
+              segments:
+              - - C
+                - F
+              - - A
+                - D
+            texts:
+            - id: known-x-ae
+              target:
+              - A
+              - E
+              text: 2份
+              placement: above left
+              color: '#2563eb'
+            - id: known-x-ec
+              target:
+              - E
+              - C
+              text: 3份
+              placement: above right
+              color: '#2563eb'
+            - id: known-w-bd
+              target:
+              - B
+              - D
+              text: 4份
+              placement: below
+              color: '#2563eb'
+            - id: known-w-dc
+              target:
+              - D
+              - C
+              text: 5份
+              placement: below
+              color: '#2563eb'
+            - id: model-1-ap
+              target:
+              - A
+              - P
+              text: 2份
+              placement: left
+              color: '#dc2626'
+            - id: model-1-cf
+              target:
+              - C
+              - F
+              text: 3份
+              placement: right
+              color: '#dc2626'
+            - id: model-2-dp
+              target:
+              - D
+              - P
+              text: 4/3份
+              placement: right
+              color: '#dc2626'
+    - id: step-unify
+      latex: 比较两条边的份数
+      content_latex: 图中已有 $AP=2$ 份、$PD=\frac{4}{3}$ 份。\\ $\therefore AP:PD=2:\frac{4}{3}=3:2$。
+  - type: dual_explanation
+    id: example-solution
+    side_title: 看图提醒
+    side_items:
+    - kind: hint
+      title: 颜色怎么读
+      content_latex: 蓝字只表示题目给出的比；红字表示本步由相似得到的对应边份数。
+    - kind: mistake
+      title: 第二组先补整段
+      content_latex: $BD:DC=4:5$，所以 $BD:BC=4:9$。
+    solution_title: 解答
+    solution_step_ids:
+    - step-helper
+    - step-eight
+    - step-a
+    - step-unify

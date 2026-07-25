@@ -1,0 +1,195 @@
+\documentclass{exam-zh}
+\usepackage{edu-explanation}
+
+\examsetup{
+  question/show-answer = true,
+  fillin/show-answer = true,
+  solution/show-solution = show-stay,
+}
+
+\begin{document}
+
+\eduSectionTitle{先看总图：三条路线都在制造 A 字形}
+
+\begin{eduProblemBlock}[第 17 题]
+\noindent
+\begin{minipage}[t]{\dimexpr\linewidth-70mm-6mm\relax}
+\vspace{0pt}
+如图，已知 $AB\parallel CD\parallel EF$，$AE:ED=3:2$，$AB=4$，$CD=9$，求 $EF$。
+
+\end{minipage}\hfill
+\begin{diagramcoltikz}{70mm}{先看三条平行线，再看点 $E$ 把左腰分成 $3:2$。}
+\input{\detokenize{build/diagram/jobs/explanation-problem17-prompt/rendered/prompt.fragment.tex}}
+\end{diagramcoltikz}
+\end{eduProblemBlock}
+
+
+
+
+
+
+\begin{eduSolutionBox}{解题流程图}
+  \begingroup
+  \setlength{\parskip}{2.5mm}
+\begin{center}
+\begin{tikzpicture}[>=Stealth,every node/.style={font=\small,align=center}]
+  \node[draw,rounded corners,fill=blue!5,text width=3.0cm,minimum height=1.15cm] (start) at (0,0)
+    {梯形三平行线\\求中间线段 $EF$};
+  \node[draw,rounded corners,fill=green!8,text width=4.0cm,minimum height=1.15cm] (m1) at (5.0,1.9)
+    {主方法：过 $A$ 作 $BC$ 的平行线\\切出小三角形};
+  \node[draw,rounded corners,fill=green!4,text width=3.1cm,minimum height=1.15cm] (r1) at (10.0,1.9)
+    {一次 A 字形\\ $EF=7$};
+  \node[draw,rounded corners,fill=orange!8,text width=4.0cm,minimum height=1.15cm] (m2) at (5.0,0)
+    {连接 $BD$\\分成两个 A 字形};
+  \node[draw,rounded corners,fill=orange!4,text width=3.1cm,minimum height=1.15cm] (r2) at (10.0,0)
+    {连续两次比例\\ $EF=7$};
+  \node[draw,rounded corners,fill=purple!8,text width=4.0cm,minimum height=1.15cm] (m3) at (5.0,-1.9)
+    {延长 $DA,CB$ 交于 $P$\\设 $AE=3a,ED=2a$};
+  \node[draw,rounded corners,fill=purple!4,text width=3.1cm,minimum height=1.15cm] (r3) at (10.0,-1.9)
+    {连续两次 A 字形\\ $EF=7$};
+  \draw[->,thick] (start.east) -- (m1.west);
+  \draw[->,thick] (m1.east) -- (r1.west);
+  \draw[->,thick] (start.east) -- (m2.west);
+  \draw[->,thick] (m2.east) -- (r2.west);
+  \draw[->,thick] (start.east) -- (m3.west);
+  \draw[->,thick] (m3.east) -- (r3.west);
+\end{tikzpicture}
+\end{center}
+\par
+  \endgroup
+\end{eduSolutionBox}
+
+
+
+\clearpage
+\eduSectionTitle{主方法：过 $A$ 作 $BC$ 的平行线，切出小三角形}
+
+
+
+
+
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+      \end{eduExplainLeft}
+
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{求法一：切分后只解一个 A 字形}
+\needspace{19\baselineskip}      \eduExplainStep{}{作平行线，把梯形切成“小三角形 + 平行四边形”}{过 $A$ 作 $AH\parallel BC$，分别交 $EF,CD$ 于 $G,H$。\\
+$\because AB\parallel HC$，$AH\parallel BC$，\\
+$\therefore$ 四边形 $ABCH$ 为平行四边形。\\
+$\therefore HC=AB=4$，$DH=CD-HC=9-4=5$。
+}
+      \begin{center}
+        \begin{diagramcoltikz}{70mm}{一条 $AH\parallel BC$ 同时切出小三角形 $ADH$ 和两个平行四边形。}
+        \input{\detokenize{build/diagram/jobs/explanation-problem17-solution-method1/rendered/solution.fragment.tex}}
+        \end{diagramcoltikz}
+      \end{center}
+\needspace{5\baselineskip}      \eduExplainStep{}{小三角形里用一次 A 字形，再补上平行四边形的一段}{在 $\triangle ADH$ 中，$EG\parallel DH$，故\\
+$\dfrac{EG}{DH}=\dfrac{AE}{AD}=\dfrac35$，得 $EG=3$。\\
+四边形 $ABFG$ 为平行四边形，故 $GF=AB=4$。\\
+$\therefore EF=EG+GF=3+4=7$。
+}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+\clearpage
+\eduSectionTitle{方法二：连接 $BD$，形成两个 A 字形}
+
+
+
+
+
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{双 A 字观察}
+        \eduSideHint{两次比例的接力棒}{第一次先得到 $DG:DB=2:5$，再改写成 $BG:BD=3:5$，这个 $3:5$ 才能带进右边三角形。}
+        \eduSideMistake{不要把 $2:5$ 直接抄过去}{右边 A 字形的对应边从顶点 $B$ 出发，所以使用的是 $BG:BD$，不是 $DG:DB$。}
+  \end{eduExplainLeft}
+
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{求法二：对角线内的两个 A 字形}
+\needspace{19\baselineskip}      \eduExplainStep{}{连接 $BD$，设 $BD$ 与 $EF$ 交于 $G$}{连接 $BD$，设 $BD$ 与 $EF$ 交于 $G$。
+}
+      \begin{center}
+        \begin{diagramcoltikz}{70mm}{对角线 $BD$ 把 $EF$ 分成 $EG$、$GF$，左右各出现一个 A 字形。}
+        \input{\detokenize{build/diagram/jobs/explanation-problem17-solution-method2/rendered/solution.fragment.tex}}
+        \end{diagramcoltikz}
+      \end{center}
+\needspace{5\baselineskip}      \eduExplainStep{}{第一个 A 字形：在 $\triangle DAB$ 中求 $EG$ 与 $BG:BD$}{在 $\triangle DAB$ 中，$EG\parallel AB$，\\
+$\dfrac{DG}{DB}=\dfrac{DE}{DA}=\dfrac25$，$\dfrac{EG}{AB}=\dfrac25$。\\
+$\therefore EG=\dfrac85$，且 $\dfrac{BG}{BD}=1-\dfrac25=\dfrac35$。
+}
+\needspace{5\baselineskip}      \eduExplainStep{}{第二个 A 字形：在 $\triangle BCD$ 中求 $GF$}{在 $\triangle BCD$ 中，$GF\parallel CD$，\\
+$\dfrac{GF}{CD}=\dfrac{BG}{BD}=\dfrac35$，故 $GF=\dfrac{27}{5}$。\\
+$\therefore EF=EG+GF=\dfrac85+\dfrac{27}{5}=7$。
+}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+\clearpage
+\eduSectionTitle{方法三：延长两腰，连续使用两次 A 字形}
+
+
+
+
+
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{延长法观察}
+        \eduSideHint{为什么设成 $3a,2a$}{这样 $AD=5a$，第一次 A 字形求出的 $PA,PD$ 恰好是 $4a,9a$，比例层级一眼可见。}
+        \eduSideHint{两次 A 字形各做什么}{第一次用 $AB:CD$ 定出从 $P$ 到各层的距离；第二次把 $PE:PA$ 转成 $EF:AB$。}
+  \end{eduExplainLeft}
+
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{求法三：把梯形放回大三角形}
+\needspace{19\baselineskip}      \eduExplainStep{}{延长 $DA,CB$ 交于 $P$，把三条平行线放进同一个大三角形}{延长 $DA,CB$ 交于 $P$。\\
+设 $AE=3a$，$ED=2a$，则 $AD=5a$。
+}
+      \begin{center}
+        \begin{diagramcoltikz}{70mm}{延长两腰交于 $P$，三条平行线成为大三角形中的三层截线。}
+        \input{\detokenize{build/diagram/jobs/explanation-problem17-solution-method3/rendered/solution.fragment.tex}}
+        \end{diagramcoltikz}
+      \end{center}
+\needspace{5\baselineskip}      \eduExplainStep{}{第一次 A 字形：由上下底求出 $PA$}{$\because AB\parallel CD$，\\
+$\therefore \triangle PAB\sim\triangle PDC$。\\
+$\dfrac{PA}{PD}=\dfrac{AB}{CD}=\dfrac49$，且 $PD-PA=AD=5a$，\\
+解得 $PA=4a$，$PD=9a$。
+}
+\needspace{5\baselineskip}      \eduExplainStep{}{第二次 A 字形：由 $PE:PA$ 求 $EF$}{$PE=PA+AE=4a+3a=7a$。\\
+$\because EF\parallel AB$，\\
+$\therefore \triangle PEF\sim\triangle PAB$。\\
+$\dfrac{EF}{AB}=\dfrac{PE}{PA}=\dfrac74$，故 $EF=7$。
+}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduBottomGrid}
+  \begin{eduSummaryLeft}
+    \begin{eduSummaryBlock}{\eduIconCheck}{答案}
+    \begin{eduPlainList}
+      \item $EF=7$。    \end{eduPlainList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryLeft}
+  \eduSummaryDivider
+  \begin{eduSummaryRight}
+    \begin{eduSummaryBlock}{\eduIconPin}{方法选择}
+    \begin{eduBulletList}
+      \item 优先用主方法：过 $A$ 作 $BC$ 的平行线，只需解一个小三角形的 A 字形。      \item 连接 $BD$ 与延长两腰适合用来理解同一比例怎样在不同三角形之间传递。    \end{eduBulletList}
+    \end{eduSummaryBlock}
+  \end{eduSummaryRight}
+\end{eduBottomGrid}
+
+
+
+
+\end{document}
