@@ -132,18 +132,18 @@ function preview(rootId, url, emptyText, alt) {
   root.append(image);
 }
 
-function appendWordEvidence(rootId, entries) {
+function appendPageBadges(rootId, pages) {
   const root = byId(rootId);
-  (entries || []).forEach((entry) => {
-    const article = document.createElement("article");
-    article.className = "source-text";
-    const title = document.createElement("strong");
-    title.textContent = entry.title || "Word 来源";
-    const body = document.createElement("pre");
-    body.className = "source-text";
-    body.textContent = formatReviewText(entry.text || "");
-    article.append(title, body);
-    root.append(article);
+  root.replaceChildren();
+  (pages || []).forEach((page) => {
+    const link = document.createElement("a");
+    link.className = "badge page-badge";
+    link.href = page.url;
+    link.target = "_blank";
+    link.rel = "noopener";
+    link.textContent = `P${page.page}`;
+    link.title = `原卷第 ${page.page} 页（点击新页打开整页图）`;
+    root.append(link);
   });
 }
 
@@ -188,10 +188,14 @@ function wireImageSlot(slot, target, index, label) {
   slot.tabIndex = 0;
   slot.setAttribute("role", "option");
   slot.setAttribute("aria-label", `${label}，点击选中后粘贴`);
-  slot.addEventListener("click", () => selectImageSlot(target, index, label));
+  slot.addEventListener("click", (event) => {
+    event.stopPropagation();
+    selectImageSlot(target, index, label);
+  });
   slot.addEventListener("keydown", (event) => {
     if (event.key === "Enter" || event.key === " ") {
       event.preventDefault();
+      event.stopPropagation();
       selectImageSlot(target, index, label);
     }
   });
@@ -211,50 +215,89 @@ function imageDeleteButton(target, index, label) {
   return button;
 }
 
-function imageAddSlot(target, index, label) {
-  const button = document.createElement("button");
-  button.type = "button";
-  button.className = "image-add-slot";
-  button.dataset.imageSlot = imageSlotKey(
-    state.detail.items[state.itemIndex].id,
-    target,
-    index,
-  );
-  button.setAttribute("aria-selected", "false");
-  button.setAttribute("aria-label", `${label}，点击选中后粘贴`);
-  const plus = document.createElement("span");
-  plus.className = "image-add-icon";
-  plus.textContent = "+";
+// 图片 section 配置：target → 显示名 + 是否单图（prompt 仅一张，其余可追加）。
+const IMAGE_SECTION_CONFIG = {
+  prompt: { label: "题图", single: true },
+  official_solution: { label: "官方解答原图", single: false },
+};
+
+function emptyAddHint(label) {
+  const wrap = document.createElement("div");
+  wrap.className = "empty-add-hint";
+  const icon = document.createElement("span");
+  icon.className = "empty-add-icon";
+  icon.textContent = "＋";
   const text = document.createElement("span");
-  text.textContent = label;
-  const hint = document.createElement("small");
-  hint.textContent = "选中后按 ⌘V";
-  button.append(plus, text, hint);
-  button.addEventListener("click", () => selectImageSlot(target, index, label));
-  return button;
+  text.textContent = `点击此处添加${label}`;
+  const small = document.createElement("small");
+  small.textContent = "选中后按 ⌘V 粘贴";
+  wrap.append(icon, text, small);
+  return wrap;
+}
+
+// 给静态的 .image-section 挂一次点击监听：点击 section 空白处 → 追加图片
+// （prompt 单图已有图时退化为替换 index 0）。来自图卡/删除按钮的点击由它们
+// 自己 stopPropagation，不会冒泡到这里。
+function wireImageSections() {
+  document.querySelectorAll(".image-section[data-image-target]").forEach((section) => {
+    const target = section.dataset.imageTarget;
+    const config = IMAGE_SECTION_CONFIG[target] || { label: target, single: false };
+    section.classList.toggle("is-single", config.single);
+    section.tabIndex = 0;
+    section.setAttribute("role", "option");
+    section.setAttribute("aria-label", `${config.label}，点击选中后粘贴`);
+    // 同步当前 item 的追加位 key，让 updateSlotSelection 能高亮 section 空白区。
+    const item = state.detail?.items?.[state.itemIndex];
+    if (item) {
+      const count = section.querySelectorAll(".preview-card[data-image-slot]").length;
+      const index = config.single && count > 0 ? 0 : count;
+      section.dataset.imageSlot = imageSlotKey(item.id, target, index);
+    } else {
+      delete section.dataset.imageSlot;
+    }
+    if (section.dataset.imageWired) return;
+    section.dataset.imageWired = "1";
+    const trigger = () => {
+      if (state.detail?.kind !== "staging_exam" || state.savingImage) return;
+      const count = section.querySelectorAll(".preview-card[data-image-slot]").length;
+      const index = config.single && count > 0 ? 0 : count;
+      selectImageSlot(target, index, config.label);
+      if (config.single && count > 0) {
+        setText("review-message", `${config.label}只支持一张，将替换现有图片。直接按 ⌘V / Ctrl+V 粘贴。`);
+      }
+    };
+    // 图卡/删除按钮各自 stopPropagation，所以这里只会收到空白区点击。
+    section.addEventListener("click", trigger);
+    section.addEventListener("keydown", (event) => {
+      if (event.key !== "Enter" && event.key !== " ") return;
+      event.preventDefault();
+      trigger();
+    });
+  });
 }
 
 function previewGallery(rootId, entries, emptyText, altPrefix, options = {}) {
   const root = byId(rootId);
   root.replaceChildren();
-  root.classList.toggle(
-    "preview-gallery",
-    Boolean((entries || []).length || options.emptyTarget),
-  );
-  if (!(entries || []).length) {
-    if (options.emptyTarget) {
-      root.append(imageAddSlot(
-        options.emptyTarget,
-        options.emptyIndex || 0,
-        options.emptyLabel || "添加图片",
-      ));
+  const list = entries || [];
+  const section = root.closest(".image-section[data-image-target]");
+  const editable = Boolean(options.editTarget);
+  root.classList.toggle("preview-gallery", Boolean(list.length || editable));
+  if (section) {
+    section.classList.toggle("has-images", list.length > 0);
+    section.classList.toggle("is-empty", editable && list.length === 0);
+    section.classList.toggle("is-editable", editable);
+  }
+  if (!list.length) {
+    if (editable) {
+      root.append(emptyAddHint(options.editLabel || "图片"));
     } else {
       root.textContent = emptyText;
     }
     updateSlotSelection();
     return;
   }
-  entries.forEach((entry, index) => {
+  list.forEach((entry, index) => {
     const figure = document.createElement("figure");
     figure.className = "preview-card";
     const image = document.createElement("img");
@@ -278,13 +321,6 @@ function previewGallery(rootId, entries, emptyText, altPrefix, options = {}) {
     }
     root.append(figure);
   });
-  if (options.appendTarget) {
-    root.append(imageAddSlot(
-      options.appendTarget,
-      entries.length,
-      options.appendLabel || "添加图片",
-    ));
-  }
   updateSlotSelection();
 }
 
@@ -359,7 +395,7 @@ function applyItem(item, itemIndex) {
       "原题截图不可用",
       `${item.id} 原题截图`,
     );
-    appendWordEvidence("source-question-preview", item.source_question_texts || []);
+    appendPageBadges("source-question-page-badges", item.source_question_pages || []);
   }
   const choices = byId("choices");
   choices.replaceChildren();
@@ -410,11 +446,12 @@ function applyItem(item, itemIndex) {
         }
         row.append(figure);
       } else if (staging) {
-        row.append(imageAddSlot(
-          step.edit_target,
-          step.edit_index,
-          step.preview_title || "添加解析图",
-        ));
+        const slotLabel = step.preview_title || "解析图";
+        const figure = document.createElement("figure");
+        figure.className = "step-preview is-empty";
+        figure.append(emptyAddHint("解析图"));
+        wireImageSlot(figure, step.edit_target, step.edit_index, slotLabel);
+        row.append(figure);
       }
       steps.append(row);
     });
@@ -441,7 +478,7 @@ function applyItem(item, itemIndex) {
       item.prompt_previews || [],
       "本题无题图",
       `${item.id} 题图`,
-      { emptyTarget: "prompt", emptyLabel: "添加题图" },
+      { editTarget: "prompt", editLabel: "题图" },
     );
   } else {
     preview("prompt-preview", item.prompt_preview_url, "本题无题图", `${item.id} 题图`);
@@ -455,9 +492,10 @@ function applyItem(item, itemIndex) {
     solutionPreviews,
     staging ? "官方解答原图不可用" : "本题无解答图",
     staging ? `${item.id} 官方解答原图` : `${item.id} 解答图`,
+    staging ? { editTarget: "official_solution", editLabel: "官方解答原图" } : {},
   );
   if (staging) {
-    appendWordEvidence("solution-preview", item.official_solution_texts || []);
+    appendPageBadges("solution-page-badges", item.official_solution_pages || []);
   }
   const reviewCard = byId("review-card");
   reviewCard.hidden = !staging;
@@ -475,6 +513,8 @@ function applyItem(item, itemIndex) {
   [...document.querySelectorAll(".question-row")].forEach((row, index) => {
     row.setAttribute("aria-current", String(index === itemIndex));
   });
+  wireImageSections();
+  updateSlotSelection();
 }
 
 function setReviewControlsDisabled(disabled) {

@@ -12,7 +12,7 @@ INGESTION_SCRIPTS = ROOT / ".codex/skills/math-pdf-question-bank-ingestion/scrip
 sys.path.insert(0, str(TOPIC_SCRIPTS))
 sys.path.insert(0, str(INGESTION_SCRIPTS))
 
-from exam_source_contracts import ExamPaperMap  # noqa: E402
+from exam_source_contracts import ExamItemSource, ExamPaperMap  # noqa: E402
 from audit_staging import (  # noqa: E402
     EMBEDDED_CHOICE_LABEL,
     box_area,
@@ -21,6 +21,7 @@ from audit_staging import (  # noqa: E402
 )
 from expand_staging_draft import expand_draft  # noqa: E402
 from paper_map_contracts import validate_against_staging  # noqa: E402
+from validate_exam_source import validate_source  # noqa: E402
 
 
 def write_yaml(path: Path, value: dict) -> None:
@@ -193,3 +194,163 @@ def test_compact_draft_expands_canonical_staging_without_student_copy(
     assert not (staging / "items/Q001/author.yaml").exists()
     assert not (staging / "items/Q001/student.resolved.assignment.yaml").exists()
     assert paper_map.items[0].question_pages == ["documents/PAPER-A/001.png"]
+
+
+def test_word_evidence_uses_page_image_not_paragraphs_and_excluded_from_hash(
+    tmp_path: Path,
+) -> None:
+    """Word 来源走整页图证据：字段是 page_image+page_number，不进 content_hash。"""
+    from PIL import Image
+
+    repo_root = tmp_path
+    # 造两张真实整页 PNG（materialize 要打开算 hash）
+    pages_dir = repo_root / "documents/PAPER-W/pages"
+    pages_dir.mkdir(parents=True)
+    for name in ("002.png", "005.png"):
+        Image.new("RGB", (40, 60), "white").save(pages_dir / name)
+
+    staging = repo_root / "staging/PAPER-W"
+    draft = staging / "paper.draft.yaml"
+    write_yaml(
+        draft,
+        {
+            "schema": "math_exam_staging_draft/v1",
+            "paper": {
+                "id": "PAPER-W",
+                "title": "W 区九年级数学",
+                "grade": "九年级",
+                "subject": "数学",
+                "source_archive": "documents/PAPER-W",
+            },
+            "question_bank": "../../question-bank.yaml",
+            "sections": [
+                {
+                    "id": "choice",
+                    "title": "一、选择题",
+                    "items": [
+                        {
+                            "item_id": "Q001",
+                            "question_number": 1,
+                            "question_type": "choice",
+                            "points": 4,
+                            "question_word_evidence": [
+                                {
+                                    "page_image": "documents/PAPER-W/pages/002.png",
+                                    "page_number": 2,
+                                }
+                            ],
+                            "prompt": [],
+                            "official_solution": {
+                                "start_anchor": "1. B",
+                                "end_anchor": "<END_OF_SOURCE>",
+                                "word_evidence": [
+                                    {
+                                        "page_image": "documents/PAPER-W/pages/005.png",
+                                        "page_number": 5,
+                                    }
+                                ],
+                            },
+                            "block": {
+                                "stem_latex": "若 $x=1$，则 $x+1=$",
+                                "choices": ["1", "2", "3", "4"],
+                                "answer": "B",
+                                "explanation": "官方参考答案：B。",
+                            },
+                        }
+                    ],
+                }
+            ],
+        },
+    )
+
+    # expand 应接受 page_image/page_number 新格式
+    assert expand_draft(draft) == staging.resolve()
+    source = yaml.safe_load(
+        (staging / "items/Q001/source.yaml").read_text(encoding="utf-8")
+    )
+    we = source["word_evidence"]
+    # 新字段：page_image / page_number / page_image_sha256，无旧字段
+    assert we["question"][0]["page_image"] == "documents/PAPER-W/pages/002.png"
+    assert we["question"][0]["page_number"] == 2
+    assert "page_image_sha256" in we["question"][0]
+    assert "paragraph_start" not in we["question"][0]
+    assert "manifest" not in we["question"][0]
+    assert we["official_solution"][0]["page_number"] == 5
+
+    # 旧字段 draft 应被 expand 拒绝
+    bad_draft = staging.parent / "PAPER-BAD/paper.draft.yaml"
+    write_yaml(
+        bad_draft,
+        {
+            "schema": "math_exam_staging_draft/v1",
+            "paper": {
+                "id": "PAPER-BAD",
+                "title": "bad",
+                "grade": "九",
+                "subject": "数学",
+                "source_archive": "documents/PAPER-W",
+            },
+            "question_bank": "../../question-bank.yaml",
+            "sections": [
+                {
+                    "id": "choice",
+                    "title": "x",
+                    "items": [
+                        {
+                            "item_id": "Q001",
+                            "question_number": 1,
+                            "question_type": "choice",
+                            "points": 4,
+                            "question_word_evidence": [
+                                {
+                                    "manifest": "documents/x.yaml",
+                                    "paragraph_start": 1,
+                                    "paragraph_end": 2,
+                                }
+                            ],
+                            "prompt": [],
+                            "official_solution": {
+                                "start_anchor": "1. B",
+                                "end_anchor": "e",
+                            },
+                            "block": {
+                                "stem_latex": "x",
+                                "choices": ["1", "2", "3", "4"],
+                                "answer": "B",
+                            },
+                        }
+                    ],
+                }
+            ],
+        },
+    )
+    try:
+        expand_draft(bad_draft)
+        assert False, "旧段落范围 draft 应被拒绝"
+    except (TypeError, ValueError):
+        pass
+
+    # materialize_word_evidence：回填真实 page_image_sha256，并落盘
+    from materialize_staging import materialize_word_evidence, sha256 as msha256
+
+    for role, fname in (("question", "002.png"), ("official_solution", "005.png")):
+        span = source["word_evidence"][role][0]
+        materialize_word_evidence(span, repo_root=repo_root, label=f"Q001 {role}")
+        assert span["page_image_sha256"] == msha256(pages_dir / fname)
+        assert span["page_image_sha256"] != "sha256:" + "0" * 64
+    write_yaml(staging / "items/Q001/source.yaml", source)
+
+    # validate_source 通过（页图存在 + sha256 匹配）
+    validated, errors = validate_source(
+        staging / "items/Q001/source.yaml", repo_root=repo_root
+    )
+    assert validated is not None
+    assert errors == [], f"validate_source 报错: {errors}"
+
+    # validate 报页图缺失
+    source["word_evidence"]["question"][0]["page_image"] = "documents/PAPER-W/pages/999.png"
+    write_yaml(staging / "items/Q001/source.yaml", source)
+    _, err2 = validate_source(
+        staging / "items/Q001/source.yaml", repo_root=repo_root
+    )
+    assert any("missing page image" in e for e in err2), f"应报页图缺失: {err2}"

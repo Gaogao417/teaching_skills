@@ -110,27 +110,15 @@ def materialize_crop(
 def materialize_word_evidence(
     span: dict[str, Any], *, repo_root: Path, label: str
 ) -> None:
-    manifest = Path(str(span.get("manifest", "")))
-    if not manifest.is_absolute():
-        manifest = repo_root / manifest
-    manifest = manifest.resolve()
-    if not inside(manifest, repo_root):
-        raise ValueError(f"{label}: manifest must stay inside repo root")
-    if not manifest.is_file():
-        raise ValueError(f"{label}: missing Word manifest {manifest}")
-    payload = load_yaml(manifest)
-    if payload.get("schema") != "math_word_source_extract/v1":
-        raise ValueError(f"{label}: unsupported Word manifest schema")
-    start = int(span.get("paragraph_start", -1))
-    end = int(span.get("paragraph_end", -1))
-    indexes = {
-        int(record.get("index"))
-        for record in payload.get("paragraphs") or []
-        if isinstance(record, dict) and record.get("index") is not None
-    }
-    if start < 0 or end < start or not any(start <= index <= end for index in indexes):
-        raise ValueError(f"{label}: paragraph range {start}..{end} is absent")
-    span["manifest_sha256"] = sha256(manifest)
+    page_image = Path(str(span.get("page_image", "")))
+    if not page_image.is_absolute():
+        page_image = repo_root / page_image
+    page_image = page_image.resolve()
+    if not inside(page_image, repo_root):
+        raise ValueError(f"{label}: page_image must stay inside repo root")
+    if not page_image.is_file():
+        raise ValueError(f"{label}: missing page image {page_image}")
+    span["page_image_sha256"] = sha256(page_image)
 
 
 def item_ids(staging_dir: Path, only: set[str]) -> list[str]:
@@ -220,8 +208,6 @@ def materialize_item(item_dir: Path, repo_root: Path) -> tuple[str, bool]:
             for role in ROLES
         },
     }
-    if any(word_evidence.get(role) for role in ("question", "official_solution")):
-        hash_payload["word_evidence"] = word_evidence
     current_hash = canonical_hash(hash_payload)
     changed = previous_hash != current_hash
     source["content_hash"] = current_hash

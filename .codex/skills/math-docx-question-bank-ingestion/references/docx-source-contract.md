@@ -54,7 +54,7 @@ DOC/DOCX 来源使用 `scripts/extract_word_source.py`，同时产出两个通�
 | 公式转写 | PDF 渲染页 (`pages/*.png`) | WMF/EMF 是二进制矢量，无法直接读取；PDF 里公式是渲染好的位图，可准确转为 LaTeX |
 | 题图 prompt | Word 媒体原图 (`media/*`) | 几何图、函数图、统计图、表格、照片等独立图片，保留原始分辨率和透明度 |
 | solution 图 | Word 媒体原图 (`media/*`) | 官方解答中的独立图片 |
-| 段落证据 | `word-source.yaml` 段落范围 | `question_word_evidence` 和 `official_solution.word_evidence` 引用段落编号 |
+| 来源证据 | 整页 PNG + 页码 | `question_word_evidence` 和 `official_solution.word_evidence` 引用 `word/pages/NNN.png` 和页码 |
 | 审计凭证 | PDF 渲染页 | 结构审计和人工审核时对照渲染页验证转写正确性 |
 
 ## 题图和公式处理规则
@@ -66,33 +66,35 @@ DOC/DOCX 来源使用 `scripts/extract_word_source.py`，同时产出两个通�
   哈希，供疑难公式回查。
 - **多图选择题**：按段落内媒体顺序和 A/B/C/D 文本确定性组合；顺序或标签无法可靠恢复
   时标记人工核对。
-- **段落证据**：原题来源使用 `question_word_evidence`；官方解答来源使用
-  `official_solution.word_evidence`。两者都引用 manifest 和闭区间段落编号。
+- **来源证据**：原题来源使用 `question_word_evidence`；官方解答来源使用
+  `official_solution.word_evidence`。两者都引用整页 PNG 路径和页码。页码即
+  `word/pages/NNN.png` 文件名的三位序号（1-based），无需数段落号——agent 在
+  转写时本就在看渲染页，顺手填页码。
 
 ## 来源证据示例
 
 ```yaml
 question_word_evidence:
-  - manifest: documents/初三/PAPER/word/word-source.yaml
-    paragraph_start: 27
-    paragraph_end: 28
+  - page_image: documents/初三/PAPER/word/pages/002.png
+    page_number: 2
 official_solution:
   start_anchor: '13．'
   end_anchor: '14．'
   word_evidence:
-    - manifest: documents/初三/PAPER/word/word-source.yaml
-      paragraph_start: 210
-      paragraph_end: 222
+    - page_image: documents/初三/PAPER/word/pages/008.png
+      page_number: 8
 ```
 
-物化时写入 manifest SHA-256；审计必须确认段落范围至少包含一条记录。正文、图片或
-范围变化都会刷新 `content_hash` 并使旧人工审核失效。
+物化时写入 `page_image_sha256`。整页图证据不进入 `content_hash`——源文件是
+不可变归档，无需漂移检测；转写内容（`stem_latex`/`solution_steps`）在 hash
+中，转写错误仍会触发重审。Review UI 在来源 section 右上角渲染页码胶囊，
+点击可打开整页图。
 
 ## 公式转写流程
 
-1. 在 `word-source.yaml` 中定位题目段落范围
-2. 读取对应 PDF 渲染页（根据段落范围估算页码）
-3. 从渲染页读取公式的视觉内容，转为可检索 LaTeX
+1. 在 `word/pages/*.png` 中定位题目所在页（按题号视觉锚点）
+2. 把该页路径和页码填入 `question_word_evidence`（或 `official_solution.word_evidence`）
+3. 从该渲染页读取公式的视觉内容，转为可检索 LaTeX
 4. 对于复杂公式，可引用 `media/*` 中的 WMF 原文件作为辅助回查凭证
 5. 转写结果写入 `paper.draft.yaml` 的 `block.stem_latex` 或 `block.solution_steps`
 

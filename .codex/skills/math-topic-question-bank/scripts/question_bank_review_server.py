@@ -515,46 +515,37 @@ class QuestionBankCatalog:
         return previews
 
     @staticmethod
-    def _word_evidence_texts(entries: Any, *, title_prefix: str) -> list[dict[str, str]]:
-        rendered: list[dict[str, str]] = []
+    def _word_evidence_pages(
+        entries: Any, *, bank_id: str, item_id: str, role: str
+    ) -> list[dict[str, Any]]:
+        """把整页图证据渲染成页码胶囊数据：page + url。
+
+        url 指向 source-pages 路由，能服务 documents/ 下的整页 PNG（_asset_url 受
+        bank_dir 限制无法服务仓库根下的来源图）。
+        """
+        rendered: list[dict[str, Any]] = []
         if not isinstance(entries, list):
             return rendered
         for index, entry in enumerate(entries):
             if not isinstance(entry, dict):
                 continue
-            manifest = Path(str(entry.get("manifest", "")))
-            if not manifest.is_absolute():
-                manifest = REPO_ROOT / manifest
-            manifest = manifest.resolve()
-            if not _inside(manifest, REPO_ROOT) or not manifest.is_file():
+            page_image = str(entry.get("page_image") or "")
+            page_number = entry.get("page_number")
+            if not page_image or not isinstance(page_number, int):
                 continue
-            try:
-                payload = _read_yaml(manifest)
-                start = int(entry.get("paragraph_start"))
-                end = int(entry.get("paragraph_end"))
-            except (TypeError, ValueError):
+            image_path = Path(page_image)
+            if not image_path.is_absolute():
+                image_path = REPO_ROOT / page_image
+            image_path = image_path.resolve()
+            if not _inside(image_path, REPO_ROOT) or not image_path.is_file():
                 continue
-            lines: list[str] = []
-            for record in payload.get("paragraphs") or []:
-                if not isinstance(record, dict):
-                    continue
-                paragraph_index = record.get("index")
-                if not isinstance(paragraph_index, int) or not start <= paragraph_index <= end:
-                    continue
-                text = str(record.get("text") or "").strip()
-                media = [str(value) for value in record.get("images") or [] if value]
-                detail = text
-                if media:
-                    detail += ("\n" if detail else "") + "媒体：" + "、".join(media)
-                if detail:
-                    lines.append(f"[{paragraph_index}] {detail}")
-            if lines:
-                rendered.append(
-                    {
-                        "title": f"{title_prefix} {index + 1}（段落 {start}–{end}）",
-                        "text": "\n".join(lines),
-                    }
-                )
+            mtime = image_path.stat().st_mtime_ns
+            rendered.append(
+                {
+                    "page": page_number,
+                    "url": f"/api/source-pages/{bank_id}/{item_id}/{role}/{index}?v={mtime}",
+                }
+            )
         return rendered
 
     def _staging_detail(
@@ -577,10 +568,10 @@ class QuestionBankCatalog:
                 "solution_steps": [],
                 "solution_notes": [],
                 "source_question_previews": [],
-                "source_question_texts": [],
+                "source_question_pages": [],
                 "prompt_previews": [],
                 "official_solution_previews": [],
-                "official_solution_texts": [],
+                "official_solution_pages": [],
                 "prompt_preview_url": None,
                 "solution_preview_url": None,
                 "solution_previews": [],
@@ -702,12 +693,17 @@ class QuestionBankCatalog:
                 word_evidence = source.get("word_evidence", {})
                 if not isinstance(word_evidence, dict):
                     word_evidence = {}
-                rendered["source_question_texts"] = self._word_evidence_texts(
-                    word_evidence.get("question"), title_prefix="Word 原题来源"
+                rendered["source_question_pages"] = self._word_evidence_pages(
+                    word_evidence.get("question"),
+                    bank_id=record.bank_id,
+                    item_id=item_id,
+                    role="question",
                 )
-                rendered["official_solution_texts"] = self._word_evidence_texts(
+                rendered["official_solution_pages"] = self._word_evidence_pages(
                     word_evidence.get("official_solution"),
-                    title_prefix="Word 官方解答来源",
+                    bank_id=record.bank_id,
+                    item_id=item_id,
+                    role="official_solution",
                 )
                 if not rendered["prompt_previews"]:
                     prompt = _diagram_preview(
@@ -1383,6 +1379,40 @@ def create_question_bank_app(
             raise HTTPException(status_code=404, detail="预览不存在")
         media_type = mimetypes.guess_type(path.name)[0] or "application/octet-stream"
         return FileResponse(path, media_type=media_type)
+
+    @app.get("/api/source-pages/{bank_id}/{item_id}/{role}/{index}")
+    def source_page_asset(
+        bank_id: str, item_id: str, role: str, index: int
+    ) -> FileResponse:
+        """服务 documents/ 下的整页来源 PNG（_safe_file 限 bank_dir，无法服务仓库根文件）。"""
+        try:
+            record = catalog.record(bank_id)
+        except KeyError as exc:
+            raise HTTPException(status_code=404, detail="题库不存在") from exc
+        source_path = record.directory / "items" / item_id / "source.yaml"
+        if not source_path.is_file():
+            raise HTTPException(status_code=404, detail="source.yaml 不存在")
+        try:
+            source = _read_yaml(source_path)
+        except (OSError, ValueError) as exc:
+            raise HTTPException(status_code=404, detail=str(exc)) from exc
+        word_evidence = source.get("word_evidence") or {}
+        if not isinstance(word_evidence, dict):
+            raise HTTPException(status_code=404, detail="无来源证据")
+        spans = word_evidence.get(role) if role in ("question", "official_solution") else None
+        if not isinstance(spans, list) or not 0 <= index < len(spans):
+            raise HTTPException(status_code=404, detail="来源证据不存在")
+        entry = spans[index]
+        if not isinstance(entry, dict):
+            raise HTTPException(status_code=404, detail="来源证据不存在")
+        page_image = Path(str(entry.get("page_image") or ""))
+        if not page_image.is_absolute():
+            page_image = REPO_ROOT / page_image
+        page_image = page_image.resolve()
+        if not _inside(page_image, REPO_ROOT) or not page_image.is_file():
+            raise HTTPException(status_code=404, detail="页图不存在")
+        media_type = mimetypes.guess_type(page_image.name)[0] or "application/octet-stream"
+        return FileResponse(page_image, media_type=media_type)
 
     @app.post("/api/banks/{bank_id}/items/{item_id}/review")
     def review_staging_item(

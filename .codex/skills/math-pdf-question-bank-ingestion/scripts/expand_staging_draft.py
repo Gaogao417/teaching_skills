@@ -86,15 +86,13 @@ def normalize_crop(
 def normalize_word_evidence(raw: Any, *, label: str) -> dict[str, Any]:
     if not isinstance(raw, dict):
         raise ValueError(f"{label} must be a mapping")
-    start = int(raw.get("paragraph_start"))
-    end = int(raw.get("paragraph_end"))
-    if start < 0 or end < start:
-        raise ValueError(f"{label} paragraph range is invalid")
+    page_number = int(raw.get("page_number"))
+    if page_number < 1:
+        raise ValueError(f"{label}.page_number must be a positive integer")
     return {
-        "manifest": require_text(raw.get("manifest"), f"{label}.manifest"),
-        "manifest_sha256": ZERO_HASH,
-        "paragraph_start": start,
-        "paragraph_end": end,
+        "page_image": require_text(raw.get("page_image"), f"{label}.page_image"),
+        "page_image_sha256": ZERO_HASH,
+        "page_number": page_number,
     }
 
 

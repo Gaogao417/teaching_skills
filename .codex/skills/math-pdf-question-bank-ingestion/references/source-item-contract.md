@@ -184,7 +184,8 @@ stem_image:
 DOC/DOCX 来源中，`crops.prompt` / `crops.solution` 应优先引用直接提取的
 `word/media/*`，完整原图的 `box_px` 为 `[0, 0, width, height]`。公式媒体辅助
 LaTeX 转写；完整来源凭证写入 `word_evidence.question` 和
-`word_evidence.official_solution`，引用 `word-source.yaml` 的段落范围。
+`word_evidence.official_solution`，引用整页 PNG 路径 + 页码
+（`word/pages/NNN.png`）。
 
 选择题的 `choices` 可使用有序列表或 `A/B/C/D` 映射，但每个值只能包含选项正文。
 不得把 `0.`、`1.`、`2.`、`3.` 或 `A.`、`B.`、`C.`、`D.` 再写进值中；题库审核页
@@ -216,8 +217,9 @@ transcription:
 | `solution` | 0 或多张 | 每张在 `solution_steps` 中恰好 1 次 | 禁止 |
 | `official_solution` | PDF/扫描件至少 1；Word 可为 0 | 有图时按序引用 | 禁止 |
 
-每题仍必须有完整来源证据：页图 crop 与对应 Word 段落范围二选一。两种来源都没有是
-硬错误。
+每题仍必须有完整来源证据：页图 crop 与对应 Word 整页图证据二选一。两种来源都没有是
+硬错误。Word 整页图证据记录 `page_image`（整页 PNG 路径）+ `page_number`（页码）+
+`page_image_sha256`（物化回填），不进入 `content_hash`。
 
 `audit_staging.py` 还会拒绝学生版中的 `answer`、`explanation`、
 `solution_steps`、`solution_notes`、`source_solution_images`、`teaching`、

@@ -171,11 +171,6 @@ def audit_item(
             for role in ROLES
         },
     }
-    word_evidence = raw_source.get("word_evidence") or {}
-    if isinstance(word_evidence, dict) and any(
-        word_evidence.get(role) for role in ("question", "official_solution")
-    ):
-        hash_payload["word_evidence"] = word_evidence
     calculated_content_hash = canonical_hash(hash_payload)
     if raw_source.get("content_hash") != calculated_content_hash:
         errors.append(f"{item_id}: content_hash does not match assignments and crops")

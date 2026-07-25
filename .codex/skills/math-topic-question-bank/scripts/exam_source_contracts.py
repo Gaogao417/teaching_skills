@@ -74,21 +74,16 @@ class CropGroups(StrictModel):
 
 
 class WordEvidenceSpan(StrictModel):
-    manifest: str = Field(min_length=1)
-    manifest_sha256: Sha256
-    paragraph_start: int = Field(ge=0)
-    paragraph_end: int = Field(ge=0)
+    """整页图来源证据：页图路径 + 页码。文件级溯源，无段落范围。"""
 
-    @field_validator("manifest_sha256")
+    page_image: str = Field(min_length=1)
+    page_image_sha256: Sha256
+    page_number: int = Field(ge=1)
+
+    @field_validator("page_image_sha256")
     @classmethod
-    def validate_manifest_sha256(cls, value: str) -> str:
+    def validate_page_image_sha256(cls, value: str) -> str:
         return CropEvidence.validate_sha256(value)
-
-    @model_validator(mode="after")
-    def validate_range(self) -> "WordEvidenceSpan":
-        if self.paragraph_start > self.paragraph_end:
-            raise ValueError("paragraph_start cannot exceed paragraph_end")
-        return self
 
 
 class WordEvidenceGroups(StrictModel):

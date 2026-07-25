@@ -60,10 +60,10 @@ sections:
 每题必须有：
 
 - `item_id`、`question_number`、`question_type`、`points`；
-- PDF/扫描件至少一个 `question_evidence` crop；Word 至少一个
-  `question_word_evidence` 段落范围；
-- `official_solution.start_anchor`、`end_anchor`，以及至少一个页图 crop 或 Word
-  段落范围；
+- 至少一条来源证据：PDF/扫描件用 `question_evidence` 页图 crop，Word 用
+  `question_word_evidence` 整页图 + 页码；两者皆可，至少其一；
+- `official_solution.start_anchor`、`end_anchor`，以及至少一个页图 crop 或
+  Word 整页图证据；
 - `block.stem_latex`、`block.answer`；
 - 选择题恰好四个选项；
 - `problem` / `short_answer` 含 `block.solution_steps`。
@@ -81,12 +81,27 @@ prompt:
 ```
 
 不得仅按 Word 媒体文件名判断题号；归属必须来自 `word-source.yaml` 的段落关系。
-Word 使用段落范围作为原题与官方解答证据，不要求页图 crop。
+Word 来源用整页图 + 页码作为原题与官方解答证据，不要求页图 crop：
 
-对于 Word 来源，PDF 渲染页（`word/pages/*.png`）作为公式转写的视觉参考：
-draft 中的 `stem_latex` 和 `solution_steps` 内容应对照 PDF 渲染页准确转写，
-不从 WMF 二进制猜测公式内容。PDF 页图不进入 `question_evidence` 或 `prompt`，
-仅用于转写过程。
+```yaml
+question_word_evidence:
+  - page_image: documents/初三/PAPER-2026/word/pages/002.png
+    page_number: 2
+official_solution:
+  word_evidence:
+    - page_image: documents/初三/PAPER-2026/word/pages/005.png
+      page_number: 5
+```
+
+`page_image` 指向渲染后的整页 PNG（`word/pages/NNN.png`），`page_number` 即
+文件名序号（1-based）。物化时写入 `page_image_sha256`；Review UI 在来源 section
+右上角渲染成页码胶囊，点击可打开整页图。整页图证据不进入 `content_hash`——
+源文件是不可变归档，无需漂移检测；转写内容（`stem_latex`/`solution_steps`）
+在 hash 中，转写错误仍会触发重审。
+
+对于 Word 来源，PDF 渲染页（`word/pages/*.png`）同时作为公式转写的视觉参考：
+draft 中的 `stem_latex` 和 `solution_steps` 内容应对照该渲染页准确转写，
+不从 WMF 二进制猜测公式内容。
 
 ## 图片绑定
 

@@ -83,48 +83,26 @@ def validate_source(
                     ).getbbox() is not None:
                         errors.append(f"{prefix}: output pixels do not match box_px crop")
 
-    manifest_cache: dict[Path, dict[str, Any]] = {}
     for role, spans in (
         ("question", source.word_evidence.question),
         ("official_solution", source.word_evidence.official_solution),
     ):
         for index, span in enumerate(spans):
             prefix = f"word_evidence.{role}[{index}]"
-            manifest = Path(span.manifest)
-            if not manifest.is_absolute():
-                manifest = root / manifest
-            manifest = manifest.resolve()
+            page_image = Path(span.page_image)
+            if not page_image.is_absolute():
+                page_image = root / page_image
+            page_image = page_image.resolve()
             try:
-                manifest.relative_to(root)
+                page_image.relative_to(root)
             except ValueError:
-                errors.append(f"{prefix}: manifest must stay inside repo root")
+                errors.append(f"{prefix}: page_image must stay inside repo root")
                 continue
-            if not manifest.is_file():
-                errors.append(f"{prefix}: missing Word manifest {span.manifest}")
+            if not page_image.is_file():
+                errors.append(f"{prefix}: missing page image {span.page_image}")
                 continue
-            if sha256(manifest) != span.manifest_sha256:
-                errors.append(f"{prefix}: manifest_sha256 mismatch")
-            try:
-                payload = manifest_cache.setdefault(manifest, load_yaml(manifest))
-            except (OSError, ValueError, yaml.YAMLError) as exc:
-                errors.append(f"{prefix}: invalid Word manifest: {exc}")
-                continue
-            if payload.get("schema") != "math_word_source_extract/v1":
-                errors.append(f"{prefix}: unsupported Word manifest schema")
-                continue
-            indexes = {
-                int(record.get("index"))
-                for record in payload.get("paragraphs") or []
-                if isinstance(record, dict) and record.get("index") is not None
-            }
-            if not any(
-                span.paragraph_start <= paragraph_index <= span.paragraph_end
-                for paragraph_index in indexes
-            ):
-                errors.append(
-                    f"{prefix}: paragraph range "
-                    f"{span.paragraph_start}..{span.paragraph_end} is absent"
-                )
+            if sha256(page_image) != span.page_image_sha256:
+                errors.append(f"{prefix}: page_image_sha256 mismatch")
 
     if review_path is not None:
         try:
