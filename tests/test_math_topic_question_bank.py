@@ -12,7 +12,8 @@ SKILL_SCRIPTS = REPO_ROOT / ".codex/skills/math-topic-question-bank/scripts"
 sys.path.insert(0, str(SKILL_SCRIPTS))
 
 from derive_student_assignment import derive  # noqa: E402
-from validate_question_bank import validate_manifest  # noqa: E402
+from question_bank_review_server import QuestionBankCatalog  # noqa: E402
+from validate_question_bank import stem_quality_errors, validate_manifest  # noqa: E402
 
 
 def write_yaml(path: Path, value: dict) -> None:
@@ -155,6 +156,27 @@ def test_student_derivation_removes_nested_solution_diagram(tmp_path: Path) -> N
     assert "diagram_col" not in student_block["answer_space"]
     assert student_block["diagram_col"]["variant"] == "prompt"
 
+
+def test_stem_quality_rejects_process_noise_and_repeated_geometry() -> None:
+    assert stem_quality_errors("已知 $x+1=3$，求 $x$。") == []
+    assert stem_quality_errors("完成三格填空：先写比例，再求答案。")
+    assert stem_quality_errors("按照“提二次项系数—配方”的顺序完成本题。")
+    assert stem_quality_errors("如图，点序为 $P-A-C$。")
+    assert stem_quality_errors(r"如图，$D\in BC$，$P=AD\cap BE$。")
+
+
+def test_ready_bank_rejects_student_hints_and_prompt_caption(tmp_path: Path) -> None:
+    manifest = build_bank(tmp_path)
+    student_path = tmp_path / "items/Q001/student.resolved.assignment.yaml"
+    student = yaml.safe_load(student_path.read_text(encoding="utf-8"))
+    block = student["sections"][0]["blocks"][0]
+    block["hints"] = [{"content": "先移项。"}]
+    block["diagram_col"]["caption"] = "先看等量关系。"
+    write_yaml(student_path, student)
+    _, errors = validate_manifest(manifest)
+    assert any("must not contain hints" in error for error in errors)
+    assert any("must not carry a student-facing caption" in error for error in errors)
+
 def test_seeded_sampling_outputs_valid_assignments(tmp_path: Path) -> None:
     manifest = build_bank(tmp_path)
     output_dir = tmp_path / "sample"
@@ -186,3 +208,74 @@ def test_seeded_sampling_outputs_valid_assignments(tmp_path: Path) -> None:
         assert validate.returncode == 0, validate.stdout + validate.stderr
     teacher_text = (output_dir / "sample.teacher.assignment.yaml").read_text(encoding="utf-8")
     assert "variant: solution" in teacher_text
+
+
+def test_sampling_defensively_removes_student_solution_diagrams(tmp_path: Path) -> None:
+    manifest = build_bank(tmp_path, count=1)
+    student_path = tmp_path / "items/Q001/student.resolved.assignment.yaml"
+    student = yaml.safe_load(student_path.read_text(encoding="utf-8"))
+    block = student["sections"][0]["blocks"][0]
+    block["answer_space"] = {
+        "type": "steps",
+        "height": "20mm",
+        "diagram_col": {
+            "kind": "tikz",
+            "tikz_path": "diagram/solution.fragment.tex",
+            "variant": "solution",
+            "disclosure_policy": "annotated",
+        },
+    }
+    block["answer"] = "$x=2$"
+    write_yaml(student_path, student)
+
+    output_dir = tmp_path / "sample"
+    subprocess.run(
+        [
+            sys.executable,
+            str(SKILL_SCRIPTS / "sample_question_bank.py"),
+            str(manifest),
+            "--count",
+            "1",
+            "--seed",
+            "11",
+            "--output-dir",
+            str(output_dir),
+        ],
+        check=True,
+        text=True,
+        capture_output=True,
+    )
+    sampled = yaml.safe_load(
+        (output_dir / "sample.student.assignment.yaml").read_text(encoding="utf-8")
+    )
+    sampled_block = sampled["sections"][0]["blocks"][0]
+    assert "answer" not in sampled_block
+    assert "diagram_col" not in sampled_block["answer_space"]
+
+
+def test_review_catalog_exposes_solution_step_previews(tmp_path: Path) -> None:
+    bank_dir = tmp_path / "bank"
+    build_bank(bank_dir, count=1)
+    teacher_path = bank_dir / "items/Q001/teacher.resolved.assignment.yaml"
+    teacher = yaml.safe_load(teacher_path.read_text(encoding="utf-8"))
+    block = teacher["sections"][0]["blocks"][0]
+    diagram_dir = teacher_path.parent / "diagram"
+    (diagram_dir / "step.fragment.tex").write_text("% step\n", encoding="utf-8")
+    (diagram_dir / "step.preview.svg").write_text("<svg xmlns='http://www.w3.org/2000/svg'/>", encoding="utf-8")
+    (diagram_dir / "solution.preview.svg").write_text("<svg xmlns='http://www.w3.org/2000/svg'/>", encoding="utf-8")
+    block["solution_steps"][0]["diagram_col"] = {
+        "kind": "tikz",
+        "tikz_path": "diagram/step.fragment.tex",
+        "variant": "solution",
+        "disclosure_policy": "annotated",
+    }
+    write_yaml(teacher_path, teacher)
+
+    catalog = QuestionBankCatalog(tmp_path)
+    detail, files = catalog.detail("equation-demo")
+    item = detail["items"][0]
+
+    assert [preview["title"] for preview in item["solution_previews"]] == ["移项", "解答图"]
+    assert "/solution-step-0?v=" in item["solution_steps"][0]["preview_url"]
+    assert files[("Q001", "solution-step-0")].name == "step.preview.svg"
+    assert files[("Q001", "solution-extra-0")].name == "solution.preview.svg"

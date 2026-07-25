@@ -33,7 +33,8 @@ def test_generated_database_has_expected_exact_families() -> None:
     database = TrainingNumberDatabase.model_validate(payload)
     entries = database.entries_by_id()
 
-    assert database.entry_count == 609
+    assert database.schema_version == "math_training_number_database/v2"
+    assert database.entry_count == 528
     assert "rational-3-over-4-x-2" in entries
     assert [value.display for value in entries["rational-3-over-4-x-2"].values] == ["3/4", "3/2"]
     rational_entries = [
@@ -62,13 +63,30 @@ def test_generated_database_has_expected_exact_families() -> None:
         for entry in rational_entries
         for value in entry.values
     )
-    assert "sqrt-ka-a3-k3" in entries
-    assert [value.display for value in entries["sqrt-ka-a3-k3"].values] == ["sqrt(3)", "3"]
+    family_ids = {family.id for family in database.families}
+    assert "rational_multiple_pairs" in family_ids
+    assert "noncoprime_radicand_pairs" in family_ids
+    assert "radical_multiple_pairs" not in family_ids
+    assert "fraction_integer_ratio_pairs" not in family_ids
+    assert "radical_integer_ratio_pairs" not in family_ids
     assert "pythagorean-3-4-5" in entries
     assert "pythagorean-5-12-13" in entries
     assert "pythagorean-7-24-25" in entries
     assert "special-angle-30-60-90" in entries
     assert "special-angle-45-45-90" in entries
+
+    noncoprime = [entry for entry in entries.values() if entry.family == "noncoprime_radicand_pairs"]
+    eligible = [entry for entry in noncoprime if entry.parameters["similarity_eligible"]]
+    assert len(noncoprime) == 122
+    assert len(eligible) == 68
+    assert all("similarity_candidate" in entry.tags for entry in eligible)
+    for entry in eligible:
+        smaller, larger = sorted(value.squared for value in entry.values)
+        assert smaller < larger <= 3 * smaller
+        for value in entry.values:
+            assert value.coefficient_fraction.denominator == 1
+            assert largest_prime_factor(value.coefficient_fraction.numerator) <= 5
+            assert largest_prime_factor(value.radicand) <= 5
 
     assert not any(entry.family == "scaled_right_triangles" for entry in entries.values())
     integer_scaled = [
@@ -91,7 +109,7 @@ def test_review_button_state_persists_and_excludes_entry(tmp_path: Path) -> None
     review_path = tmp_path / "training-number-review.yaml"
     app = create_app(database_path, review_path)
     client = TestClient(app)
-    entry_id = "sqrt-ka-a3-k3"
+    entry_id = "noncoprime-a2-b4-x1-y1"
 
     initial = client.get("/api/database")
     assert initial.status_code == 200
@@ -105,7 +123,7 @@ def test_review_button_state_persists_and_excludes_entry(tmp_path: Path) -> None
 
     database = load_database(database_path)
     review = load_review(review_path, database)
-    available_ids = {entry.id for entry in available_entries(database, review, "radical_multiple_pairs")}
+    available_ids = {entry.id for entry in available_entries(database, review, "noncoprime_radicand_pairs")}
     assert entry_id not in available_ids
 
     restored = client.put(f"/api/entries/{entry_id}", json={"disabled": False})
@@ -165,6 +183,13 @@ def test_rational_pair_contract_rejects_fractional_multiplier() -> None:
         )
 
 
+def test_v1_database_schema_remains_readable() -> None:
+    payload = yaml.safe_load((DATA / "training-number-database.yaml").read_text(encoding="utf-8"))
+    payload["schema"] = "math_training_number_database/v1"
+    database = TrainingNumberDatabase.model_validate(payload)
+    assert database.schema_version == "math_training_number_database/v1"
+
+
 def test_review_rejects_unknown_entry(tmp_path: Path) -> None:
     client = TestClient(create_app(DATA / "training-number-database.yaml", tmp_path / "review.yaml"))
     response = client.put("/api/entries/not-a-real-group", json={"disabled": True})
@@ -173,7 +198,7 @@ def test_review_rejects_unknown_entry(tmp_path: Path) -> None:
 
 def test_review_reconciliation_archives_removed_ids(tmp_path: Path) -> None:
     database = load_database(DATA / "training-number-database.yaml")
-    live_id = "sqrt-ka-a3-k3"
+    live_id = "noncoprime-a2-b4-x1-y1"
     removed_id = "scaled-pythagorean-3-4-5-by-sqrt3"
     review_path = tmp_path / "review.yaml"
     review_path.write_text(

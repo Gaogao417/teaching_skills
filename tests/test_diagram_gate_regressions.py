@@ -213,6 +213,42 @@ def write_solution_artifacts(artifact_dir: Path, manifest, scene_code: str) -> R
 
 
 class DiagramGateRegressionTest(unittest.TestCase):
+    def test_collects_diagram_slots_from_problem_solution_steps(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            artifact_dir = Path(tmp)
+            slot = synthetic_slot("step.solution")
+            slot["variant"] = "solution"
+            slot["disclosure_policy"] = "annotated"
+            slot["layout_role"] = "solution_annotation"
+            slot["reuse_geometry_from"] = "step.prompt"
+            prompt_slot = synthetic_slot("step.prompt")
+            plan_data = plan_with_blocks(
+                [
+                    {
+                        "type": "problem",
+                        "id": "q1",
+                        "stem_latex": "求证。",
+                        "diagram_slot": prompt_slot,
+                        "solution_steps": [
+                            {
+                                "title": "解 A 字",
+                                "content": "写出对应边份数。",
+                                "diagram_slot": slot,
+                            }
+                        ],
+                    }
+                ]
+            )
+
+            _, manifest = collect(plan_data, artifact_dir)
+
+            self.assertEqual(len(manifest.jobs), 2)
+            solution_job = next(job for job in manifest.jobs if job.slot_id == "step.solution")
+            self.assertEqual(
+                solution_job.slot_path,
+                "/sections/0/blocks/0/solution_steps/0/diagram_slot",
+            )
+
     def test_incidence_relation_counts_point_used_inside_another_points_line(self) -> None:
         scene_code = (
             "GeometricScene[{A,B,C,D,P},{Element[D,Line[{B,C}]],"

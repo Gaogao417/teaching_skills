@@ -414,10 +414,11 @@ class TikzRendererTest(unittest.TestCase):
                             {
                                 "id": "df-value",
                                 "target": ["D", "F"],
-                                "text": "x+1",
+                                "text": "4/3份",
                                 "placement": "above",
                                 "dx": 0,
                                 "dy": 0,
+                                "color": "#2563eb",
                             }
                         ],
                     }
@@ -430,9 +431,218 @@ class TikzRendererTest(unittest.TestCase):
 
             fragment = (out_dir / result["tikz_fragment_path"]).read_text(encoding="utf-8")
             audit = json.loads((out_dir / "renderer_audit.json").read_text(encoding="utf-8"))
-            self.assertIn("!0.5!", fragment)
-            self.assertIn("{$x+1$}", fragment)
+            self.assertIn("at (2.775,0.7)", fragment)
+            self.assertIn("segment value label", fragment)
+            self.assertIn("anchor=center", fragment)
+            self.assertIn(r"{$\boldsymbol{\frac{4}{3}}\,\text{份}$}", fragment)
+            self.assertIn(r"\selectfont\bfseries", fragment)
+            self.assertNotIn("4/3份", fragment)
+            self.assertIn("text={rgb,255:red,37;green,99;blue,235}", fragment)
             self.assertEqual(audit["readability"]["condition_label_count"], 1)
+
+    def test_synthetic_segment_value_can_move_to_a_legend(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            out_dir = Path(tmp)
+            spec_path = out_dir / "final_renderer_spec.json"
+            spec_path.write_text(
+                json.dumps(
+                    {
+                        "schema_version": "geometry-render-spec/v1",
+                        "job_id": "annotation-legend",
+                        "variant": "solution",
+                        "type": "synthetic_geometry",
+                        "points": {"A": [0, 0], "P": [0, 2]},
+                        "segments": [{"from": "A", "to": "P"}],
+                        "annotations": [
+                            {
+                                "id": "ap-value",
+                                "target": ["A", "P"],
+                                "text": "5份",
+                                "segment_position": "legend",
+                                "legend_placement": "top_left",
+                                "color": "#2563eb",
+                            }
+                        ],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            with patch("render_geometry_spec.build_previews", return_value=PreviewResult()):
+                result = render_geometry_spec(spec_path, out_dir, variant="solution")
+
+            fragment = (out_dir / result["tikz_fragment_path"]).read_text(encoding="utf-8")
+            self.assertIn(r"{$\mathit{AP}$\,=\,$\boldsymbol{5}\,\text{份}$}", fragment)
+            self.assertIn("anchor=north west", fragment)
+            self.assertNotIn("segment value on segment", fragment)
+
+    def test_auto_segment_value_uses_legend_when_a_point_label_blocks_it(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            out_dir = Path(tmp)
+            spec_path = out_dir / "final_renderer_spec.json"
+            spec_path.write_text(
+                json.dumps(
+                    {
+                        "schema_version": "geometry-render-spec/v1",
+                        "job_id": "annotation-auto-legend",
+                        "variant": "solution",
+                        "type": "synthetic_geometry",
+                        "points": {
+                            "A": [0, 0],
+                            "P": [2, 0],
+                            "X": [1, 0.05],
+                            "Y": [1, -0.05],
+                        },
+                        "segments": [{"from": "A", "to": "P"}],
+                        "labels": {
+                            "X": {"text": "X", "placement": "above"},
+                            "Y": {"text": "Y", "placement": "below"},
+                        },
+                        "annotations": [
+                            {
+                                "id": "ap-value",
+                                "target": ["A", "P"],
+                                "text": "5份",
+                                "segment_position": "auto",
+                                "normal_side": "counterclockwise",
+                                "normal_offset_cm": 0.22,
+                                "color": "#2563eb",
+                            }
+                        ],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            with patch("render_geometry_spec.build_previews", return_value=PreviewResult()):
+                result = render_geometry_spec(spec_path, out_dir, variant="solution")
+            fragment = (out_dir / result["tikz_fragment_path"]).read_text(encoding="utf-8")
+            self.assertIn(r"{$\mathit{AP}$\,=\,$\boldsymbol{5}\,\text{份}$}", fragment)
+
+    def test_auto_segment_value_stays_near_midpoint_by_expanding_normal_offset(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            out_dir = Path(tmp)
+            spec_path = out_dir / "final_renderer_spec.json"
+            spec_path.write_text(
+                json.dumps(
+                    {
+                        "schema_version": "geometry-render-spec/v1",
+                        "job_id": "annotation-auto-midpoint",
+                        "variant": "solution",
+                        "type": "synthetic_geometry",
+                        "points": {
+                            "P": [3.8152, 1.4120],
+                            "D": [4.0000, 0.0000],
+                            "E": [6.1043, 2.2592],
+                            "F": [6.8152, 1.4120],
+                        },
+                        "segments": [
+                            {"from": "P", "to": "D"},
+                            {"from": "P", "to": "E"},
+                            {"from": "P", "to": "F"},
+                        ],
+                        "annotations": [
+                            {
+                                "id": "pe-value",
+                                "target": ["P", "E"],
+                                "text": "3份",
+                                "segment_position": "auto",
+                                "normal_side": "clockwise",
+                                "normal_offset_cm": 0.22,
+                                "color": "#2563eb",
+                            },
+                            {
+                                "id": "pd-value",
+                                "target": ["P", "D"],
+                                "text": "1份",
+                                "segment_position": "auto",
+                                "normal_side": "counterclockwise",
+                                "normal_offset_cm": 0.22,
+                                "color": "#2563eb",
+                            },
+                            {
+                                "id": "pf-value",
+                                "target": ["P", "F"],
+                                "text": "3份",
+                                "segment_position": "auto",
+                                "normal_side": "clockwise",
+                                "normal_offset_cm": 0.22,
+                                "color": "#dc2626",
+                            },
+                        ],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            with patch("render_geometry_spec.build_previews", return_value=PreviewResult()):
+                result = render_geometry_spec(spec_path, out_dir, variant="solution")
+            fragment = (out_dir / result["tikz_fragment_path"]).read_text(encoding="utf-8")
+            self.assertNotIn(r"$\mathit{PF}$\,=\,", fragment)
+            self.assertEqual(fragment.count("anchor=center, segment value label"), 3)
+
+    def test_moderately_sloped_segment_value_is_parallel_to_its_segment(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            out_dir = Path(tmp)
+            spec_path = out_dir / "final_renderer_spec.json"
+            spec_path.write_text(
+                json.dumps(
+                    {
+                        "schema_version": "geometry-render-spec/v1",
+                        "job_id": "annotation-sloped-text",
+                        "variant": "solution",
+                        "type": "synthetic_geometry",
+                        "points": {"B": [0, 0], "P": [2, 1]},
+                        "segments": [{"from": "B", "to": "P"}],
+                        "annotations": [
+                            {
+                                "id": "bp-value",
+                                "target": ["B", "P"],
+                                "text": "5份",
+                                "segment_position": "offset",
+                                "normal_side": "counterclockwise",
+                                "color": "#2563eb",
+                            }
+                        ],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            with patch("render_geometry_spec.build_previews", return_value=PreviewResult()):
+                result = render_geometry_spec(spec_path, out_dir, variant="solution")
+            fragment = (out_dir / result["tikz_fragment_path"]).read_text(encoding="utf-8")
+            self.assertIn("rotate=26.565", fragment)
+            self.assertIn("transform shape", fragment)
+
+    def test_steep_segment_value_remains_horizontal(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            out_dir = Path(tmp)
+            spec_path = out_dir / "final_renderer_spec.json"
+            spec_path.write_text(
+                json.dumps(
+                    {
+                        "schema_version": "geometry-render-spec/v1",
+                        "job_id": "annotation-steep-text",
+                        "variant": "solution",
+                        "type": "synthetic_geometry",
+                        "points": {"A": [0, 0], "P": [1, 2]},
+                        "segments": [{"from": "A", "to": "P"}],
+                        "annotations": [
+                            {
+                                "id": "ap-value",
+                                "target": ["A", "P"],
+                                "text": "3份",
+                                "segment_position": "offset",
+                                "normal_side": "clockwise",
+                                "color": "#2563eb",
+                            }
+                        ],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            with patch("render_geometry_spec.build_previews", return_value=PreviewResult()):
+                result = render_geometry_spec(spec_path, out_dir, variant="solution")
+            fragment = (out_dir / result["tikz_fragment_path"]).read_text(encoding="utf-8")
+            self.assertNotIn("rotate=", fragment)
 
     def test_severe_label_overlap_is_reported_as_blocking_renderer_warning(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

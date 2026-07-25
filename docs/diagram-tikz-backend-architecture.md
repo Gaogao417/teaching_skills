@@ -584,6 +584,8 @@ point labels:
 segment labels:
   midpoint via calc: ($(A)!0.5!(B)$)
   normal side chosen away from figure centroid unless explicitly specified
+  length/share values use bold math by default; simple a/b input is normalized to \frac{a}{b}
+  progressive diagrams keep one value label per segment and reuse it in later steps
 
 angle labels:
   position along the angle bisector
@@ -802,6 +804,21 @@ Final assignment compile failure remains fatal.
     right-angle marks, equal ticks, tags, and visual intersections.
 10. Replace primitive synthetic-geometry marker output with semantic macro
     calls backed by TikZ `calc`, `angles`, `quotes`, and `intersections`.
+
+Segment values follow an engineering-drawing readability rule: keep the text
+horizontal and place it at `midpoint + normal * offset`. The annotation's
+`normal_side` explicitly selects the clockwise or counterclockwise normal from
+the ordered endpoint pair; `auto` is only a fallback. Value nodes remain
+transparent and never drift along the segment. White knockouts, borders, and
+card-like backgrounds are forbidden.
+
+For narrow regions, `segment_position: legend` moves the complete relation
+(`segment = value`) to a selected empty corner. Production diagrams do not put
+values directly on geometry. The default remains `offset` with an explicit
+normal side.
+
+`normal_offset_cm` is the explicit normal distance. The production defaults
+are `0.22cm` for integer values and `0.30cm` for stacked fractions.
 
 ## 9. Acceptance Criteria
 

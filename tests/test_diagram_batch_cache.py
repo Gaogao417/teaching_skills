@@ -18,7 +18,12 @@ from diagram_contracts import (  # noqa: E402
     DiagramJobRequest,
     DiagramJobsManifest,
 )
-from run_diagram_batch import _cache_identity, run_batch, run_one_job  # noqa: E402
+from run_diagram_batch import (  # noqa: E402
+    _cache_identity,
+    _scene_geometry_identity,
+    run_batch,
+    run_one_job,
+)
 
 
 def _renderer_job() -> tuple[DiagramJob, DiagramJobRequest]:
@@ -52,6 +57,29 @@ def _renderer_job() -> tuple[DiagramJob, DiagramJobRequest]:
 
 
 class DiagramBatchCacheTest(unittest.TestCase):
+    def test_scene_geometry_identity_ignores_visual_annotation_changes(self) -> None:
+        first = {
+            "engine": "geometric_scene",
+            "diagram_kind": "synthetic_geometry",
+            "engine_options": {
+                "seed": 7,
+                "scene_payload": {
+                    "scene_code": "GeometricScene[{A,B},{A=={0,0},B=={1,0}}]",
+                    "points": ["A", "B"],
+                    "diagram_spec": {
+                        "annotations": [{"target": ["A", "B"], "text": "2份", "color": "blue"}]
+                    },
+                },
+            },
+        }
+        second = json.loads(json.dumps(first))
+        second["engine_options"]["scene_payload"]["diagram_spec"]["annotations"][0].update(
+            {"color": "green", "normal_offset_cm": 0.22}
+        )
+        self.assertEqual(_scene_geometry_identity(first), _scene_geometry_identity(second))
+        second["engine_options"]["scene_payload"]["scene_code"] = "GeometricScene[{A,B},{A=={0,0},B=={2,0}}]"
+        self.assertNotEqual(_scene_geometry_identity(first), _scene_geometry_identity(second))
+
     def test_second_identical_run_uses_cache_without_workflow_or_renderer(self) -> None:
         job, request = _renderer_job()
         calls = {"workflow": 0, "renderer": 0}
