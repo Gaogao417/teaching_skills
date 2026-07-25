@@ -1,0 +1,43 @@
+meta:
+  title: 长宁区2023学年第一学期初三数学教学质量调研第23题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q023
+    points: 12
+    stem_latex: 如图，在 $\triangle ABC$ 中，点 $D、E$ 分别是 $BC、AB$ 的中点，$AD=AC$，联结 $CE$ 并延长交 $AB$ 于点 $F$。\\begin{enumerate}\\item 证明：$\triangle ABC\sim\triangle DCE$；\\item 证明：$BF=4EF$。\\end{enumerate}
+    answer: $BF=4EF$
+    solution_steps:
+    - title: 官方解答
+      content: （1）由中点条件得 $\dfrac{BD}{DC}=1$、$\dfrac{AE}{EB}=1$，结合 $AD=AC$ 可得相应角相等，进而证明 $\triangle ABC\sim\triangle DCE$。（2）由 $AD=AC$ 及图中角关系可证 $\triangle AEF\sim\triangle CFA$，从而 $\dfrac{EF}{CF}=\dfrac14$；再结合前述相似关系，得 $BF=4EF$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第2页

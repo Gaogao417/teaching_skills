@@ -1,0 +1,31 @@
+meta:
+  title: 2024年1月黄浦区九年级数学试卷第 18 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: fillin
+    id: Q018
+    points: 4
+    stem_latex: 为了研究抛物线 $L_1:y=ax^2+bx+c$ 与 $L_2:y=-ax^2+bx-c$ 在同一平面直角坐标系中的位置特征，我们可以先取字母常数 $a、b、c$ 的一些特殊值，试着画出相应的抛物线，通过观察来发现 $L_1$ 与 $L_2$ 的位置特征。你的发现是：$\fillin$；理由是：$\fillin$。
+    answer: 两者关于原点中心对称；如果点 $(s,t)$ 在 $L_1$ 上，那么点 $(-s,-t)$ 在 $L_2$ 上，反之亦然
+    explanation: 官方参考答案：两者关于原点中心对称；如果点 $(s,t)$ 在 $L_1$ 上，那么点 $(-s,-t)$ 在 $L_2$ 上，反之亦然。
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 1 页

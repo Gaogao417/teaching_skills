@@ -1,0 +1,461 @@
+schema: math_exam_staging_draft/v1
+author:
+  id: codex-task:paper_2024_minhang
+paper:
+  id: 2025-PUDONG-YIMO
+  title: 浦东新区2024学年度第一学期期末练习卷
+  grade: 九年级
+  subject: 数学
+  duration: 100分钟
+  source_archive: &src documents/初三/2025届-上海市浦东新区-初三一模数学-试卷及参考答案
+question_bank: ../../question-bank.yaml
+sections:
+  - id: choice
+    title: 一、选择题
+    items:
+      - item_id: Q001
+        question_number: 1
+        question_type: choice
+        points: 4
+        question_evidence:
+          - {source: documents/初三/2025届-上海市浦东新区-初三一模数学-试卷及参考答案/002.png, box_px: [110, 535, 965, 660]}
+        prompt: []
+        official_solution:
+          start_anchor: '1. B'
+          end_anchor: '2. C'
+          crops:
+            - {source: documents/初三/2025届-上海市浦东新区-初三一模数学-试卷及参考答案/006.png, box_px: [155, 270, 260, 330]}
+        block:
+          stem_latex: '如果在一张比例尺为 $1:200$ 的地图上，量得 $A$、$B$ 两点的距离是 $5\text{ cm}$，那么 $A$、$B$ 两点的实际距离是（　）'
+          choices: ['$1\text{ m}$', '$10\text{ m}$', '$100\text{ m}$', '$1000\text{ m}$']
+          answer: B
+          explanation: 官方参考答案：B。
+      - item_id: Q002
+        question_number: 2
+        question_type: choice
+        points: 4
+        question_evidence:
+          - {source: documents/初三/2025届-上海市浦东新区-初三一模数学-试卷及参考答案/002.png, box_px: [110, 645, 965, 755]}
+        prompt: []
+        official_solution:
+          start_anchor: '2. C'
+          end_anchor: '3. A'
+          crops:
+            - {source: documents/初三/2025届-上海市浦东新区-初三一模数学-试卷及参考答案/006.png, box_px: [260, 270, 365, 330]}
+        block:
+          stem_latex: 下列四个函数中，图像经过原点的是（　）
+          choices: ['$y=\dfrac12x+\dfrac32$', '$y=-\dfrac2x$', '$y=x^2+2x$', '$y=(x+1)^2$']
+          answer: C
+          explanation: 官方参考答案：C。
+      - item_id: Q003
+        question_number: 3
+        question_type: choice
+        points: 4
+        question_evidence:
+          - {source: documents/初三/2025届-上海市浦东新区-初三一模数学-试卷及参考答案/002.png, box_px: [110, 740, 965, 905]}
+        prompt:
+          - {source: documents/初三/2025届-上海市浦东新区-初三一模数学-试卷及参考答案/002.png, box_px: [705, 725, 925, 900]}
+        official_solution:
+          start_anchor: '3. A'
+          end_anchor: '4. B'
+          crops:
+            - {source: documents/初三/2025届-上海市浦东新区-初三一模数学-试卷及参考答案/006.png, box_px: [365, 270, 470, 330]}
+        block:
+          stem_latex: '如图，已知 $AB\parallel CD\parallel EF$，那么下列结论正确的是（　）'
+          choices:
+            - '$\dfrac{AC}{CE}=\dfrac{BD}{DF}$'
+            - '$\dfrac{AC}{DF}=\dfrac{BD}{CE}$'
+            - '$\dfrac{AC}{AE}=\dfrac{CD}{EF}$'
+            - '$\dfrac{AC}{CE}=\dfrac{AB}{CD}$'
+          answer: A
+          explanation: 官方参考答案：A。
+      - item_id: Q004
+        question_number: 4
+        question_type: choice
+        points: 4
+        question_evidence:
+          - {source: documents/初三/2025届-上海市浦东新区-初三一模数学-试卷及参考答案/002.png, box_px: [110, 895, 965, 1005]}
+        prompt: []
+        official_solution:
+          start_anchor: '4. B'
+          end_anchor: '5. D'
+          crops:
+            - {source: documents/初三/2025届-上海市浦东新区-初三一模数学-试卷及参考答案/006.png, box_px: [470, 270, 575, 330]}
+        block:
+          stem_latex: '如果两个相似三角形的周长分别是 $5\text{ cm}$、$16\text{ cm}$，那么这两个三角形对应角平分线的比是（　）'
+          choices: ['$25:256$', '$5:16$', '$\sqrt5:4$', 以上都不对]
+          answer: B
+          explanation: 官方参考答案：B。
+      - item_id: Q005
+        question_number: 5
+        question_type: choice
+        points: 4
+        question_evidence:
+          - {source: documents/初三/2025届-上海市浦东新区-初三一模数学-试卷及参考答案/002.png, box_px: [110, 990, 965, 1170]}
+        prompt:
+          - {source: documents/初三/2025届-上海市浦东新区-初三一模数学-试卷及参考答案/002.png, box_px: [720, 950, 920, 1155]}
+        official_solution:
+          start_anchor: '5. D'
+          end_anchor: '6. C'
+          crops:
+            - {source: documents/初三/2025届-上海市浦东新区-初三一模数学-试卷及参考答案/006.png, box_px: [575, 270, 680, 330]}
+        block:
+          stem_latex: '在网格中，每个小正方形的顶点称为格点。如图，在 $4\times4$ 的网格中，点 $A$、$B$、$C$ 都在格点上，那么 $\angle BAC$ 的正切值是（　）'
+          choices: ['$\dfrac{\sqrt5}{5}$', '$\dfrac{2\sqrt5}{5}$', '$2$', '$\dfrac12$']
+          answer: D
+          explanation: 官方参考答案：D。
+      - item_id: Q006
+        question_number: 6
+        question_type: choice
+        points: 4
+        question_evidence:
+          - {source: documents/初三/2025届-上海市浦东新区-初三一模数学-试卷及参考答案/002.png, box_px: [110, 1160, 965, 1415]}
+        prompt:
+          - {source: documents/初三/2025届-上海市浦东新区-初三一模数学-试卷及参考答案/002.png, box_px: [325, 1195, 755, 1295]}
+        official_solution:
+          start_anchor: '6. C'
+          end_anchor: '二、填空题'
+          crops:
+            - {source: documents/初三/2025届-上海市浦东新区-初三一模数学-试卷及参考答案/006.png, box_px: [680, 270, 790, 330]}
+        block:
+          stem_latex: '已知抛物线 $y=ax^2+bx+c$ 上部分点的横坐标 $x$ 与纵坐标 $y$ 的对应值如下表。①抛物线开口向下；②抛物线的对称轴为直线 $x=1$；③$m$ 的值为 $0$；④图像不经过第三象限；⑤抛物线在 $y$ 轴右侧的部分是上升的。上述结论中正确的是（　）'
+          choices: [①②④, ①②⑤, ②③④, ③④⑤]
+          answer: C
+          explanation: 官方参考答案：C。
+  - id: fillin
+    title: 二、填空题
+    items:
+      - item_id: Q007
+        question_number: 7
+        question_type: fillin
+        points: 4
+        question_evidence:
+          - {source: documents/初三/2025届-上海市浦东新区-初三一模数学-试卷及参考答案/003.png, box_px: [110, 180, 965, 250]}
+        prompt: []
+        official_solution:
+          start_anchor: '7. 2/5'
+          end_anchor: '8. 2√5-2'
+          crops:
+            - {source: documents/初三/2025届-上海市浦东新区-初三一模数学-试卷及参考答案/006.png, box_px: [155, 380, 275, 445]}
+        block:
+          stem_latex: '已知 $\dfrac ab=\dfrac23$，那么 $\dfrac{a}{a+b}$ 的值是 \fillin。'
+          answer: '$\dfrac25$'
+          explanation: 官方参考答案：$\dfrac25$。
+      - item_id: Q008
+        question_number: 8
+        question_type: fillin
+        points: 4
+        question_evidence:
+          - {source: documents/初三/2025届-上海市浦东新区-初三一模数学-试卷及参考答案/003.png, box_px: [110, 235, 965, 310]}
+        prompt: []
+        official_solution:
+          start_anchor: '8. 2√5-2'
+          end_anchor: '9. 3a-10b'
+          crops:
+            - {source: documents/初三/2025届-上海市浦东新区-初三一模数学-试卷及参考答案/006.png, box_px: [275, 380, 420, 445]}
+        block:
+          stem_latex: '已知点 $P$ 是线段 $AB$ 的黄金分割点，且 $AP>BP$，$AB=4$，那么 $AP=$ \fillin。'
+          answer: '$2\sqrt5-2$'
+          explanation: 官方参考答案：$2\sqrt5-2$。
+      - item_id: Q009
+        question_number: 9
+        question_type: fillin
+        points: 4
+        question_evidence:
+          - {source: documents/初三/2025届-上海市浦东新区-初三一模数学-试卷及参考答案/003.png, box_px: [110, 295, 965, 360]}
+        prompt: []
+        official_solution:
+          start_anchor: '9. 3a-10b'
+          end_anchor: '10. 南偏西65°'
+          crops:
+            - {source: documents/初三/2025届-上海市浦东新区-初三一模数学-试卷及参考答案/006.png, box_px: [420, 380, 585, 445]}
+        block:
+          stem_latex: '计算：$3(\vec a-2\vec b)-4\vec b=$ \fillin。'
+          answer: '$3\vec a-10\vec b$'
+          explanation: 官方参考答案：$3\vec a-10\vec b$。
+      - item_id: Q010
+        question_number: 10
+        question_type: fillin
+        points: 4
+        question_evidence:
+          - {source: documents/初三/2025届-上海市浦东新区-初三一模数学-试卷及参考答案/003.png, box_px: [110, 345, 965, 410]}
+        prompt: []
+        official_solution:
+          start_anchor: '10. 南偏西65°'
+          end_anchor: '11. 1:√3'
+          crops:
+            - {source: documents/初三/2025届-上海市浦东新区-初三一模数学-试卷及参考答案/006.png, box_px: [585, 380, 760, 445]}
+        block:
+          stem_latex: '如果小华在小丽北偏东 $65^\circ$ 的位置上，那么小丽在小华 \fillin 的位置上。'
+          answer: 南偏西$65^\circ$
+          explanation: 官方参考答案：南偏西$65^\circ$。
+      - item_id: Q011
+        question_number: 11
+        question_type: fillin
+        points: 4
+        question_evidence:
+          - {source: documents/初三/2025届-上海市浦东新区-初三一模数学-试卷及参考答案/003.png, box_px: [110, 395, 965, 465]}
+        prompt: []
+        official_solution:
+          start_anchor: '11. 1:√3'
+          end_anchor: '12. >'
+          crops:
+            - {source: documents/初三/2025届-上海市浦东新区-初三一模数学-试卷及参考答案/006.png, box_px: [760, 380, 920, 445]}
+        block:
+          stem_latex: '沿一斜坡向上走 $2$ 米，高度上升 $1$ 米，那么这个斜坡的坡度 $i=$ \fillin。'
+          answer: '$1:\sqrt3$'
+          explanation: 官方参考答案：$1:\sqrt3$。
+      - item_id: Q012
+        question_number: 12
+        question_type: fillin
+        points: 4
+        question_evidence:
+          - {source: documents/初三/2025届-上海市浦东新区-初三一模数学-试卷及参考答案/003.png, box_px: [110, 450, 965, 555]}
+        prompt: []
+        official_solution:
+          start_anchor: '12. >'
+          end_anchor: '13. 5/4'
+          crops:
+            - {source: documents/初三/2025届-上海市浦东新区-初三一模数学-试卷及参考答案/006.png, box_px: [155, 440, 310, 500]}
+        block:
+          stem_latex: '二次函数 $y=-(x-1)^2-1$ 的图像上有两个点 $(2,y_1)$、$(3,y_2)$，那么 $y_1$ \fillin $y_2$。（填“$>$”“$=$”或“$<$”）'
+          answer: '$>$'
+          explanation: 官方参考答案：$>$。
+      - item_id: Q013
+        question_number: 13
+        question_type: fillin
+        points: 4
+        question_evidence:
+          - {source: documents/初三/2025届-上海市浦东新区-初三一模数学-试卷及参考答案/003.png, box_px: [110, 535, 965, 635]}
+        prompt:
+          - {source: documents/初三/2025届-上海市浦东新区-初三一模数学-试卷及参考答案/003.png, box_px: [150, 700, 425, 900]}
+        official_solution:
+          start_anchor: '13. 5/4'
+          end_anchor: '14. 12'
+          crops:
+            - {source: documents/初三/2025届-上海市浦东新区-初三一模数学-试卷及参考答案/006.png, box_px: [155, 495, 330, 555]}
+        block:
+          stem_latex: '如图，在平行四边形 $ABCD$ 中，$AB=3$，$BC=5$，点 $E$ 在边 $BC$ 上，联结 $AE$ 并延长，与 $DC$ 的延长线相交于点 $F$。如果 $CF=1$，那么 $CE=$ \fillin。'
+          answer: '$\dfrac54$'
+          explanation: 官方参考答案：$\dfrac54$。
+      - item_id: Q014
+        question_number: 14
+        question_type: fillin
+        points: 4
+        question_evidence:
+          - {source: documents/初三/2025届-上海市浦东新区-初三一模数学-试卷及参考答案/003.png, box_px: [110, 620, 965, 685]}
+        prompt: []
+        official_solution:
+          start_anchor: '14. 12'
+          end_anchor: '15. 3'
+          crops:
+            - {source: documents/初三/2025届-上海市浦东新区-初三一模数学-试卷及参考答案/006.png, box_px: [330, 495, 490, 555]}
+        block:
+          stem_latex: '在 $\triangle ABC$ 中，$\angle C=90^\circ$，点 $G$ 是 $\triangle ABC$ 的重心，如果 $CG=4$，那么 $AB=$ \fillin。'
+          answer: '$12$'
+          explanation: 官方参考答案：$12$。
+      - item_id: Q015
+        question_number: 15
+        question_type: fillin
+        points: 4
+        question_evidence:
+          - {source: documents/初三/2025届-上海市浦东新区-初三一模数学-试卷及参考答案/003.png, box_px: [110, 670, 965, 775]}
+        prompt: []
+        official_solution:
+          start_anchor: '15. 3'
+          end_anchor: '16. 10'
+          crops:
+            - {source: documents/初三/2025届-上海市浦东新区-初三一模数学-试卷及参考答案/006.png, box_px: [490, 495, 665, 555]}
+        block:
+          stem_latex: '在 $\triangle ABC$ 中，点 $D$、$E$ 分别在边 $AB$、$AC$ 上，$DE\parallel BC$。如果 $BC=9$，$\dfrac{S_{\triangle ADE}}{S_{\text{四边形}BCED}}=\dfrac18$，那么 $DE=$ \fillin。'
+          answer: '$3$'
+          explanation: 官方参考答案：$3$。
+      - item_id: Q016
+        question_number: 16
+        question_type: fillin
+        points: 4
+        question_evidence:
+          - {source: documents/初三/2025届-上海市浦东新区-初三一模数学-试卷及参考答案/003.png, box_px: [110, 755, 965, 900]}
+        prompt:
+          - {source: documents/初三/2025届-上海市浦东新区-初三一模数学-试卷及参考答案/003.png, box_px: [400, 700, 680, 900]}
+        official_solution:
+          start_anchor: '16. 10'
+          end_anchor: '17. 5'
+          crops:
+            - {source: documents/初三/2025届-上海市浦东新区-初三一模数学-试卷及参考答案/006.png, box_px: [665, 495, 820, 555]}
+        block:
+          stem_latex: '如图，一位运动员推铅球，铅球运行时离地面高度 $y$（米）与水平距离 $x$（米）之间的关系为 $y=-\dfrac1{12}x^2+\dfrac23x+\dfrac53$，点 $A$ 是铅球的出手位置，那么铅球运行水平距离 \fillin 米时落到地面。'
+          answer: '$10$'
+          explanation: 官方参考答案：$10$。
+      - item_id: Q017
+        question_number: 17
+        question_type: fillin
+        points: 4
+        question_evidence:
+          - {source: documents/初三/2025届-上海市浦东新区-初三一模数学-试卷及参考答案/003.png, box_px: [110, 885, 965, 1015]}
+        prompt:
+          - {source: documents/初三/2025届-上海市浦东新区-初三一模数学-试卷及参考答案/003.png, box_px: [700, 700, 930, 900]}
+        official_solution:
+          start_anchor: '17. 5'
+          end_anchor: '18. √2/4'
+          crops:
+            - {source: documents/初三/2025届-上海市浦东新区-初三一模数学-试卷及参考答案/006.png, box_px: [155, 550, 330, 620]}
+        block:
+          stem_latex: '如图，在四边形 $ABCD$ 中，$AD\parallel BC$，过点 $A$ 作 $AB$ 的垂线，与边 $CD$ 相交于点 $E$，联结 $BE$。如果 $\tan C=\tan\angle AEB=2$，且 $AD=\sqrt5$，那么 $CE$ 的长是 \fillin。'
+          answer: '$5$'
+          explanation: 官方参考答案：$5$。
+      - item_id: Q018
+        question_number: 18
+        question_type: fillin
+        points: 4
+        question_evidence:
+          - {source: documents/初三/2025届-上海市浦东新区-初三一模数学-试卷及参考答案/003.png, box_px: [110, 995, 965, 1100]}
+        prompt: []
+        official_solution:
+          start_anchor: '18. √2/4'
+          end_anchor: '三、解答题'
+          crops:
+            - {source: documents/初三/2025届-上海市浦东新区-初三一模数学-试卷及参考答案/006.png, box_px: [330, 550, 530, 620]}
+        block:
+          stem_latex: '将平行四边形 $ABCD$ 的边 $BC$ 沿直线 $l$ 翻折后，点 $B$、$C$ 的对应点 $B^\prime$、$C^\prime$ 落在直线 $AD$ 上。如果 $AB=2BC$，$\dfrac{AC^\prime}{C^\prime D}=\dfrac{AB^\prime}{B^\prime D}$，那么此平行四边形四个内角中，锐角的余弦值为 \fillin。'
+          answer: '$\dfrac{\sqrt2}{4}$'
+          explanation: 官方参考答案：$\dfrac{\sqrt2}{4}$。
+  - id: problem
+    title: 三、解答题
+    items:
+      - item_id: Q019
+        question_number: 19
+        question_type: problem
+        points: 10
+        question_evidence:
+          - {source: documents/初三/2025届-上海市浦东新区-初三一模数学-试卷及参考答案/003.png, box_px: [110, 1095, 965, 1215]}
+        prompt: []
+        official_solution:
+          start_anchor: '19. 解：原式'
+          end_anchor: '20. 解：'
+          crops:
+            - {source: documents/初三/2025届-上海市浦东新区-初三一模数学-试卷及参考答案/006.png, box_px: [150, 630, 930, 870]}
+        block:
+          stem_latex: '计算：$\dfrac{2\cos60^\circ}{2\sin45^\circ-\cot45^\circ}-\sqrt3\tan60^\circ$。'
+          answer: '$\sqrt2-2$'
+          solution_steps:
+            - title: 官方解答
+              content: '原式 $=\dfrac{2\times\frac12}{2\times\frac{\sqrt2}{2}-1}-\sqrt3\times\sqrt3=\dfrac1{\sqrt2-1}-3=\sqrt2-2$。'
+      - item_id: Q020
+        question_number: 20
+        question_type: problem
+        points: 10
+        question_evidence:
+          - {source: documents/初三/2025届-上海市浦东新区-初三一模数学-试卷及参考答案/003.png, box_px: [110, 1195, 965, 1425]}
+        prompt:
+          - {source: documents/初三/2025届-上海市浦东新区-初三一模数学-试卷及参考答案/003.png, box_px: [700, 1160, 950, 1410]}
+        official_solution:
+          start_anchor: '20. 解：'
+          end_anchor: '21. 解：'
+          crops:
+            - {source: documents/初三/2025届-上海市浦东新区-初三一模数学-试卷及参考答案/006.png, box_px: [150, 845, 930, 1450]}
+            - {source: documents/初三/2025届-上海市浦东新区-初三一模数学-试卷及参考答案/007.png, box_px: [150, 120, 930, 420]}
+        block:
+          stem_latex: '如图，在 $\mathrm{Rt}\triangle ABC$ 中，$\angle ACB=90^\circ$，$AB=10$，$\cos B=\dfrac45$。点 $D$ 是边 $AB$ 的中点，过点 $D$ 作 $CD$ 的垂线，与边 $BC$ 相交于点 $E$。\begin{enumerate}\item 求线段 $CE$ 的长；\item 求 $\sin\angle BDE$ 的值。\end{enumerate}'
+          answer: '（1）$CE=\dfrac{25}{4}$；（2）$\sin\angle BDE=\dfrac7{25}$。'
+          solution_steps:
+            - title: 官方解答
+              content: '（1）在 $\mathrm{Rt}\triangle ABC$ 中，点 $D$ 是斜边 $AB$ 的中点，$\therefore CD=BD=\dfrac12AB=5$，且 $\angle DCB=\angle B$。由 $\cos B=\dfrac45$，得 $\cos\angle DCB=\dfrac45$。又 $DE\perp CD$，在 $\mathrm{Rt}\triangle CDE$ 中，$\cos\angle DCB=\dfrac{CD}{CE}=\dfrac45$，所以 $CE=\dfrac{25}{4}$。（2）$DE=\sqrt{CE^2-CD^2}=\dfrac{15}{4}$，$BC=8$，$BE=BC-CE=\dfrac74$。过点 $E$ 作 $EH\perp AB$，垂足为 $H$，则 $EH=\dfrac{21}{20}$，故 $\sin\angle BDE=\dfrac{EH}{DE}=\dfrac7{25}$。'
+      - item_id: Q021
+        question_number: 21
+        question_type: problem
+        points: 10
+        question_evidence:
+          - {source: documents/初三/2025届-上海市浦东新区-初三一模数学-试卷及参考答案/004.png, box_px: [110, 115, 965, 410]}
+        prompt:
+          - {source: documents/初三/2025届-上海市浦东新区-初三一模数学-试卷及参考答案/004.png, box_px: [700, 175, 950, 395]}
+        official_solution:
+          start_anchor: '21. 解：'
+          end_anchor: '22. 解：'
+          crops:
+            - {source: documents/初三/2025届-上海市浦东新区-初三一模数学-试卷及参考答案/007.png, box_px: [150, 400, 930, 550]}
+        block:
+          stem_latex: '如图，平行四边形 $ABCD$ 中，点 $E$ 为边 $CD$ 上的一点，$CE=2DE$，$AC$ 与 $BE$ 相交于点 $F$，设 $\overrightarrow{AB}=\vec a$，$\overrightarrow{AD}=\vec b$。\begin{enumerate}\item 用向量 $\vec a$、$\vec b$ 分别表示：$\overrightarrow{CE}$、$\overrightarrow{AE}$、$\overrightarrow{AF}$；\item 在图中求作 $\overrightarrow{AF}$ 分别在 $\vec a$、$\vec b$ 方向上的分向量。（不要求写作法，但要指出所作图中表示结论的分向量）\end{enumerate}'
+          answer: '（1）$\overrightarrow{CE}=-\dfrac23\vec a$，$\overrightarrow{AE}=\dfrac13\vec a+\vec b$，$\overrightarrow{AF}=\dfrac35\vec a+\dfrac35\vec b$；（2）正确作图并写出结论。'
+          solution_steps:
+            - title: 官方解答
+              content: '（1）$\overrightarrow{CE}=-\dfrac23\vec a$，$\overrightarrow{AE}=\dfrac13\vec a+\vec b$，$\overrightarrow{AF}=\dfrac35\vec a+\dfrac35\vec b$。（2）正确作图，写出结论。'
+      - item_id: Q022
+        question_number: 22
+        question_type: problem
+        points: 10
+        question_evidence:
+          - {source: documents/初三/2025届-上海市浦东新区-初三一模数学-试卷及参考答案/004.png, box_px: [110, 415, 965, 1410]}
+        prompt:
+          - {source: documents/初三/2025届-上海市浦东新区-初三一模数学-试卷及参考答案/004.png, box_px: [120, 470, 950, 1230]}
+        official_solution:
+          start_anchor: '22. 解：任务一'
+          end_anchor: '23. 证明：'
+          crops:
+            - {source: documents/初三/2025届-上海市浦东新区-初三一模数学-试卷及参考答案/007.png, box_px: [150, 530, 930, 1450]}
+            - {source: documents/初三/2025届-上海市浦东新区-初三一模数学-试卷及参考答案/008.png, box_px: [150, 120, 930, 850]}
+        block:
+          stem_latex: '上海世博文化公园的双子山是近期游客的热门打卡地。某校实践小组利用所学知识测量双子山主峰的高度，他们设计了两个测量方案，并完成了实地测量。方案一测量距离 $CD=10\text{ m}$，仰角 $\alpha=12^\circ$、$\beta=11.5^\circ$；方案二测量高度 $CD=1.3\text{ m}$，仰角 $\alpha=12^\circ$、$\beta=11.7^\circ$。任务一：选择其中一种方案，求双子山主峰 $AB$ 的高度（结果保留 $1$ 位小数）。参考数据：$\tan12^\circ=0.213$，$\cot12^\circ=4.705$，$\tan11.5^\circ=0.204$，$\cot11.5^\circ=4.915$，$\tan11.7^\circ=0.207$，$\cot11.7^\circ=4.829$。任务二：官网显示双子山主峰高度为 $48$ 米，请用一句话说明求出的高度与 $48$ 米不一致的原因。'
+          answer: '任务一：选择方案一可得约 $48.3$ 米或 $47.6$ 米；选择方案二可得约 $50.8$ 米、$45.4$ 米、$46.8$ 米或 $49.9$ 米等。任务二：从测量误差、海拔口径或近似精度等角度合理说明。'
+          solution_steps:
+            - title: 官方解答（方案一示例）
+              content: '选择方案一。在 $\mathrm{Rt}\triangle ABC$ 中，$\tan\alpha=\dfrac{AB}{BC}$，故 $AB=BC\tan\alpha$；在 $\mathrm{Rt}\triangle ABD$ 中，$\tan\beta=\dfrac{AB}{BD}$，故 $AB=BD\tan\beta$。又 $BD-BC=CD=10$，所以 $BC\tan12^\circ=BC\tan11.5^\circ+10\tan11.5^\circ$，解得 $BC\approx226.67$，$AB\approx48.3$ 米。用余切法可得 $AB\cot11.5^\circ-AB\cot12^\circ=10$，解得 $AB\approx47.6$ 米。任务二：可从物理（测量）、地理（海拔）或数学（乘除选择、精确度）等角度说明，言之有理即可。'
+      - item_id: Q023
+        question_number: 23
+        question_type: problem
+        points: 12
+        question_evidence:
+          - {source: documents/初三/2025届-上海市浦东新区-初三一模数学-试卷及参考答案/005.png, box_px: [110, 110, 965, 475]}
+        prompt:
+          - {source: documents/初三/2025届-上海市浦东新区-初三一模数学-试卷及参考答案/005.png, box_px: [730, 250, 950, 470]}
+        official_solution:
+          start_anchor: '23. 证明：'
+          end_anchor: '24. 解：'
+          crops:
+            - {source: documents/初三/2025届-上海市浦东新区-初三一模数学-试卷及参考答案/008.png, box_px: [150, 820, 930, 1450]}
+            - {source: documents/初三/2025届-上海市浦东新区-初三一模数学-试卷及参考答案/009.png, box_px: [150, 120, 930, 880]}
+        block:
+          stem_latex: '如图，在 $\triangle ABC$ 中，$\angle ABC=90^\circ$，点 $D$ 是边 $AB$ 上的一点，联结 $CD$，过点 $B$ 作 $BE\perp CD$，垂足为点 $E$。\begin{enumerate}\item 求证：$\triangle BDE\sim\triangle CBE$；\item 如果 $AB=BC$，联结 $AE$ 并延长，与边 $BC$ 相交于点 $F$。当点 $F$ 是 $BC$ 的中点时，求证：$BD^2=AD\cdot AB$。\end{enumerate}'
+          answer: 证明见官方解答。
+          solution_steps:
+            - title: 官方解答
+              content: '（1）$\because BE\perp CD$，$\therefore\angle DEB=\angle CEB=90^\circ$；又 $\angle ABC=90^\circ$，故 $\triangle BDE\sim\triangle CBE$。（2）方法一：$\because BE\perp CD$，点 $F$ 是 $BC$ 的中点，$\therefore CF=EF$，从而 $\angle ECF=\angle CEF$。由（1）得 $\angle ECB=\angle DBE$，所以 $\angle CEF=\angle AED$，继而 $\triangle AED\sim\triangle ABE$，得 $\dfrac{AE}{AB}=\dfrac{ED}{BE}=\dfrac{AD}{AE}$。又由（1）得 $\dfrac{AB}{BE}=\dfrac{ED}{BC}$。设 $FB=FC=FE=a$，则 $AB=2a$，$AF=\sqrt5a$，$AE=(\sqrt5-1)a$，故 $AD=(3-\sqrt5)a$，$BD=(\sqrt5-1)a$，于是 $AE=BD$，结合 $AE^2=AD\cdot AB$，得 $BD^2=AD\cdot AB$。'
+      - item_id: Q024
+        question_number: 24
+        question_type: problem
+        points: 12
+        question_evidence:
+          - {source: documents/初三/2025届-上海市浦东新区-初三一模数学-试卷及参考答案/005.png, box_px: [110, 465, 965, 875]}
+        prompt:
+          - {source: documents/初三/2025届-上海市浦东新区-初三一模数学-试卷及参考答案/005.png, box_px: [700, 540, 950, 845]}
+        official_solution:
+          start_anchor: '24. 解：'
+          end_anchor: '25. 解：'
+          crops:
+            - {source: documents/初三/2025届-上海市浦东新区-初三一模数学-试卷及参考答案/010.png, box_px: [150, 120, 930, 1010]}
+        block:
+          stem_latex: '如图，在平面直角坐标系 $xOy$ 中，抛物线 $M_1:y=ax^2-2ax+c$ 与 $x$ 轴交于点 $A(-3,0)$ 和点 $B$，与 $y$ 轴交于点 $C(0,5)$。\begin{enumerate}\item 求抛物线 $M_1$ 的解析式；\item 把抛物线 $M_1$ 向下平移 $m$ 个单位（$m>0$）得到抛物线 $M_2$，记 $M_2$ 的顶点为 $D$，与 $y$ 轴交于点 $E$，直线 $DE$ 与 $x$ 轴交于点 $P$。\begin{enumerate}\item 当点 $P$ 与点 $A$ 重合时，求 $m$ 的值；\item 记点 $B$ 平移后的对应点为 $B^\prime$，如果 $BD\parallel B^\prime P$，求此时点 $D$ 的坐标。\end{enumerate}\end{enumerate}'
+          answer: '（1）$y=-\dfrac13x^2+\dfrac23x+5$；（2）①$m=4$；②$D(1,-\dfrac83)$ 或 $D(1,-\dfrac43)$。'
+          solution_steps:
+            - title: 官方解答
+              content: '（1）将 $A(-3,0)$、$C(0,5)$ 代入，解得 $a=-\dfrac13$，$c=5$，所以 $M_1:y=-\dfrac13x^2+\dfrac23x+5$。（2）$M_2:y=-\dfrac13(x-1)^2+\dfrac{16}{3}-m$，所以 $D(1,\dfrac{16}{3}-m)$，$E(0,5-m)$，直线 $DE$ 与 $x$ 轴交于 $P(3m-15,0)$。①由 $P=A(-3,0)$ 得 $m=4$。②由 $BD\parallel B^\prime P$ 分点 $P$ 在点 $B$ 左、右两侧讨论，解得 $m=8$ 或 $m=\dfrac{20}{3}$，所以 $D(1,-\dfrac83)$ 或 $D(1,-\dfrac43)$。'
+      - item_id: Q025
+        question_number: 25
+        question_type: problem
+        points: 14
+        question_evidence:
+          - {source: documents/初三/2025届-上海市浦东新区-初三一模数学-试卷及参考答案/005.png, box_px: [110, 865, 965, 1405]}
+        prompt:
+          - {source: documents/初三/2025届-上海市浦东新区-初三一模数学-试卷及参考答案/005.png, box_px: [135, 1100, 950, 1395]}
+        official_solution:
+          start_anchor: '25. 解：'
+          end_anchor: '<END_OF_SOURCE>'
+          crops:
+            - {source: documents/初三/2025届-上海市浦东新区-初三一模数学-试卷及参考答案/010.png, box_px: [150, 970, 930, 1450]}
+            - {source: documents/初三/2025届-上海市浦东新区-初三一模数学-试卷及参考答案/011.png, box_px: [150, 120, 930, 1400]}
+        block:
+          stem_latex: '在平行四边形 $ABCD$ 中，对角线 $AC$、$BD$ 交于点 $O$，$P$ 是线段 $OC$ 上一个动点（不与点 $O$、点 $C$ 重合），过点 $P$ 分别作 $AD$、$CD$ 的平行线，交 $CD$ 于点 $E$，交 $BC$、$BD$ 于点 $F$、$G$，联结 $EG$。\begin{enumerate}\item 如图1，如果 $PC=2OP$，求证：$EG\parallel AC$；\item 如图2，如果 $\angle ABC=90^\circ$，$\dfrac{AB}{BC}=\dfrac23$，且 $\triangle DGE$ 与 $\triangle PCF$ 相似，请补全图形，并求 $\dfrac{OP}{PC}$ 的值；\item 如图3，如果 $BA=BG=BC$，且射线 $EG$ 过点 $A$，请补全图形，并求 $\angle ABC$ 的度数。\end{enumerate}'
+          answer: '（1）证明见官方解答；（2）$\dfrac{OP}{PC}=\dfrac98$；（3）$\angle ABC=72^\circ$。'
+          solution_steps:
+            - title: 官方解答
+              content: '（1）$\because PC=2OP$，且 $PG\parallel CD$，$\therefore\dfrac{OD}{CD}=\dfrac{OC}{CP}=\dfrac32$。在平行四边形 $ABCD$ 中，$OA=OC$，所以 $\dfrac{OA}{CA}=\dfrac12$，并由相应比例得 $EG\parallel AC$。（2）$\angle ABC=90^\circ$，所以平行四边形 $ABCD$ 为矩形，$OC=OD$。由角关系只能有 $\angle DGE=90^\circ$，$\angle DEG=\angle PGE=\angle PCF$，所以 $\triangle DGE\sim\triangle PFC\sim\triangle ABC$。设 $CE=4k$，则 $PE=6k$，$PG=9k$，$EG=3\sqrt{13}k$，$DE=13k$，故 $\dfrac{OP}{OC}=\dfrac{PG}{CD}=\dfrac9{17}$，从而 $\dfrac{OP}{PC}=\dfrac98$。（3）由 $BA=BC$，平行四边形 $ABCD$ 为菱形。设 $FB=FG=a$，$PF=FC=CE=b$，则 $GP=a-b$。由 $GP\parallel CE$ 得 $\dfrac{a-b}{b}=\dfrac{a}{a+b}$，所以 $a^2-ab-b^2=0$，$\dfrac ab=\dfrac{\sqrt5+1}{2}$。进一步由比例及角关系得 $\triangle DGA\sim\triangle DAB$。设 $\angle DAG=\angle DBA=\angle ADB=\alpha$，则 $\angle BAG=\angle BGA=2\alpha$，所以 $5\alpha=180^\circ$，$\alpha=36^\circ$，故 $\angle ABC=72^\circ$。'

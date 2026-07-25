@@ -1,0 +1,38 @@
+meta:
+  title: 嘉定区2023学年第一学期九年级期终学业质量调研测试 · 原题第 19 题 · 教师版
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q019
+    points: 10
+    stem_latex: 计算：$4(1-\cos30^\circ)+\frac{2\sin60^\circ}{2\tan45^\circ-3\cot60^\circ}$。
+    answer: '7'
+    solution_steps:
+    - title: 计算
+      content: 原式 $=4(1-\frac{\sqrt3}{2})+\frac{2\times\frac{\sqrt3}{2}}{2\times1-3\times\frac{\sqrt3}{3}}=4-2\sqrt3+\frac{\sqrt3}{2-\sqrt3}=4-2\sqrt3+\sqrt3(2+\sqrt3)=7$。
+    source_solution_images:
+    - image_path: assets/official-solution.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 公众号原解答 1
+    teaching:
+      source_key: 2024-JIADING-YIMO-Q19
+      skill_tags:
+      - 原卷
+      difficulty: standard
+      official_solution_policy: verbatim_transcription_with_separate_notes

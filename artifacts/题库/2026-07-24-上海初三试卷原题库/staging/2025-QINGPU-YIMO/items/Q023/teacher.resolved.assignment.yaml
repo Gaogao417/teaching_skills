@@ -1,0 +1,45 @@
+meta:
+  title: 2024学年第一学期九年级期终学业质量调研数学试卷第 23 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q023
+    points: 12
+    stem_latex: 如图，点 $D、E$ 分别在 $\triangle ABC$ 的边 $AB、AC$ 上，$AE=EC，AE^2=\dfrac12AD\cdot AB$，联结 $DE$。（1）求证：$\triangle ADE\sim\triangle ACB$；（2）取 $AD$ 的中点 $F$，联结 $EF、BE$，求证：$\angle DEF=\angle CBE$。
+    answer: 两个结论均成立。
+    solution_steps:
+    - title: 第（1）问
+      content: 因为 $AE=EC$，所以 $AC=2AE$。由 $AE^2=\dfrac12AD\cdot AB$ 得 $AE\cdot AC=AD\cdot AB$，即 $\dfrac{AE}{AB}=\dfrac{AD}{AC}$。又 $\angle DAE=\angle CAB$，所以 $\triangle ADE\sim\triangle ACB$。
+    - title: 第（2）问
+      content: 因为 $F$ 是 $AD$ 的中点，所以 $AD=2DF$。结合第（1）问的相似比例可得 $\dfrac{DF}{CB}=\dfrac{DE}{CE}$，且 $\angle FDE=\angle ECB$，所以 $\triangle DEF\sim\triangle CBE$，故 $\angle DEF=\angle CBE$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 46mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 1 页
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 2 页

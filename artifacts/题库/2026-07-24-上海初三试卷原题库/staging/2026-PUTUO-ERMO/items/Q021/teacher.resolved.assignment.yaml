@@ -1,8 +1,8 @@
 meta:
-  title: 2026 年上海市普陀区中考数学二模试卷第 21 题
-  grade: 初三
+  title: 2026年上海市普陀区中考二模数学试卷第 21 题
+  grade: 九年级
   subject: 数学
-  total_points: 12
+  total_points: 10
   version: teacher
   show_answers: true
   source_artifacts:
@@ -19,19 +19,18 @@ sections:
   blocks:
   - type: problem
     id: Q021
-    points: 12
-    stem_latex: 已知：如图，在四边形 $ABCD$ 中，$\angle ABC=90°$，点 $E$ 在 $AD$ 边上，$AE=DE$，$EC=EB$。
-    answer: （1）四边形 $ABCD$ 是平行四边形；（2）$AC=DF$
-    explanation: （1）由 $AE=DE$、$EC=EB$ 得 $\angle A=\angle D$，$\angle AEC=\angle DEB$，由 $\angle ABC=90°$ 证平行四边形。（2）由平行四边形性质和等式推导 $AC=DF$。
+    points: 10
+    stem_latex: 已知：如图，在四边形$ABCD$中，$AB\parallel CD$，点$E$在$BC$边上，$AE\perp BC$，$BE=CE=2$，$CD=3$．（1）求证：四边形$ABCD$是平行四边形；（2）联结$AC$交$BD$于点$F$，联结$EF$．如果$BF=DF$，求证：$EF\perp BC$．
+    answer: 见详解
+    explanation: 官方参考答案：见详解。
     solution_steps:
     - title: 第（1）问
-      content: 证明 $\angle A=\angle D$，$\angle AEC=\angle DEB$，$\angle A+\angle ABC+\angle BCD+\angle D=360°$，结合 $\angle ABC=90°$ 证两组对角互补，由 $\angle AEC=\angle DEB$ 证 $AB\parallel CD$，得平行四边形。
+      content: 利用$AB\parallel CD$和$BE=CE$，证明$\triangle ABE\cong\triangle DCE$，得$AB=CD$，又$AB\parallel CD$，故四边形$ABCD$是平行四边形。
     - title: 第（2）问
-      content: 由平行四边形性质 $AB=CD$，$AD=BC$，$AD\parallel BC$。代入 $AE=DE$、$EC=EB$ 的等式关系证 $AC=DF$。
-    solution_notes: 题干含 WMF 公式，LaTeX 从解析推断，需人工核实几何条件和证明过程。
-    stem_image:
+      content: 由平行四边形性质得$BF=DF$，利用等腰三角形三线合一证明$EF\perp BC$。
+    diagram_col:
       image_path: assets/prompt-01.png
-      width: 140mm
+      width: 0.85\linewidth
       variant: prompt
       disclosure_policy: clean
     source_solution_images: []

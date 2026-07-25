@@ -1,0 +1,41 @@
+meta:
+  title: 闵行区九年级数学一模试卷 · 原题第 3 题 · 教师版
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q003
+    points: 4
+    stem_latex: 下列说法错误的是（　）
+    answer: C
+    choices:
+      A: 如果 $\vec a$ 与 $\vec b$ 都是单位向量，那么 $|\vec a|=|\vec b|$
+      B: 如果 $k\vec a=\vec0$，那么 $k=0$ 或 $\vec a=\vec0$
+      C: 如果 $\vec a=-3\vec b$（$\vec b$ 为非零向量），那么 $\vec a+3\vec b=\vec0$
+      D: 如果 $\vec a+\vec b=2\vec c$，$\vec a-\vec b=3\vec c$（$\vec c$ 为非零向量），那么 $\vec a$ 与 $\vec b$ 平行
+    explanation: 参考答案：C。
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 公众号原解答 1
+    teaching:
+      source_key: 2024-MINHANG-YIMO-Q3
+      skill_tags:
+      - 原卷题
+      difficulty: standard
+      official_solution_policy: verbatim_transcription_with_separate_notes

@@ -1,0 +1,48 @@
+meta:
+  title: 闵行区九年级数学一模试卷 · 原题第 22 题 · 教师版
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q022
+    points: 10
+    stem_latex: 诱发高速公路夜间行车安全事故的一个重要原因是眩光现象。夜间会车时，对向车辆车灯的强光射向驾驶员，存在安全隐患。目前主要措施是设置防眩装置遮挡车辆灯光，避免强光射向对向车道的驾驶员。如图，一条东西方向的双向笔直道路，中央隔离带中轴线 $l$ 垂直平分每块遮光板，遮光板宽度是 $0.2$ 米，即 $PO=MN=0.2$ 米。一辆摩托车自西向东行驶，车灯位于点 $A$ 时，光线 $AC$ 经过相邻 $2$ 个遮光板外侧的点 $O,M$，光线 $AD$ 经过遮光板外侧的点 $P$，点 $D,C$ 在对向车道驾驶员行驶路线上。$AB\perp DC$ 于点 $B$，两侧驾驶员行驶路线之间的距离 $AB=4$ 米，光线和行驶路线的夹角 $\angle BDA=11.4^\circ$，点 $A,B,C,D,P,Q,M,N$ 在同一平面内。（参考数据：$\tan11.4^\circ\approx\dfrac15$）\begin{enumerate}\item $BD$ 的长度是多少米？\item 相邻遮光板的距离 $PM$ 是多少米？\end{enumerate}
+    answer: （1）$20$ 米；（2）$\dfrac{42}{19}$ 米
+    solution_steps:
+    - title: 官方解答
+      content: （1）在 $\mathrm{Rt}\triangle ABD$ 中，$\angle ABD=90^\circ$，$AB=4$，$\tan\angle ADB=\dfrac{AB}{BD}=\dfrac15$，得 $BD=20$ 米。（2）延长 $MP$ 交 $AB$ 于点 $H$，则 $MH\perp AB$。由 $PQ=0.2$ 米、$AB=4$ 米，$AH=\dfrac12(AB-PQ)+PQ=2.1$ 米。$HP\parallel BD$，$\triangle AHP\sim\triangle ABD$，得 $HP=10.5$ 米。又 $MP\parallel OQ$，$\triangle MPO\sim\triangle MHA$，由 $\dfrac{MP}{PO}=\dfrac{MH}{AH}$，得 $MP=\dfrac{42}{19}$ 米。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 82mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 公众号原解答 1
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 公众号原解答 2
+    teaching:
+      source_key: 2024-MINHANG-YIMO-Q22
+      skill_tags:
+      - 原卷题
+      difficulty: standard
+      official_solution_policy: verbatim_transcription_with_separate_notes

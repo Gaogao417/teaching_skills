@@ -1,0 +1,48 @@
+meta:
+  title: 2024学年第一学期初三年级学业质量调研数学试卷第 23 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q023
+    points: 12
+    stem_latex: 如图，在四边形 $ABCD$ 中，对角线 $BD$ 平分 $\angle ADC$，且 $BD=AD$，点 $E$ 在线段 $BD$ 上且 $DE=DC$，联结 $AE$ 并延长交 $BC$ 于点 $F$，联结 $CE$ 并延长交 $AB$ 于点 $G$。（1）求证：$AE=BC$；（2）求证：$AG\cdot EF=FC\cdot BG$。
+    answer: 两问结论均成立
+    solution_steps:
+    - title: 官方解答
+      content: （1）由 $BD$ 平分 $\angle ADC$、$BD=AD$、$DE=DC$，证明 $\triangle AED\cong\triangle BCD$，得 $AE=BC$。（2）利用角关系证明 $\triangle AEG\sim\triangle CEF$，得 $\frac{AG}{FC}=\frac{GE}{EF}$；再证 $GB=GE$，故 $\frac{AG}{FC}=\frac{BG}{EF}$，即 $AG\cdot EF=FC\cdot BG$。
+      diagram_col:
+        image_path: assets/solution-01.png
+        width: 58mm
+        variant: solution
+        disclosure_policy: teacher_only
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 1 页
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 2 页

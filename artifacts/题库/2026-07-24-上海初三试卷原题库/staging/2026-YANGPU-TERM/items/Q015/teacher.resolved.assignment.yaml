@@ -1,0 +1,38 @@
+meta:
+  title: 杨浦区2025学年度第一学期期末调研第15题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: fillin
+    id: Q015
+    points: 4
+    stem_latex: 如图是一辆小汽车与墙平行停放的平面示意图，汽车靠墙一侧 $OB$ 与墙 $MN$ 平行且距离为 $0.8$ 米，车门宽 $AO$ 为 $1.2$ 米。当车门打开角度 $\angle AOB$ 为 $40^\circ$
+      时，车门是否会碰到墙？$\fillin$（填“是”或“否”；参考数据：$\sin40^\circ\approx0.64$）。
+    answer: 否
+    explanation: 官方参考答案：否。
+    images:
+    - image_path: assets/prompt-car.png
+      width: 0.82\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图1
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页

@@ -1,0 +1,28 @@
+meta:
+  title: 九年级期终考试数学试卷第 2 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: student
+  show_answers: false
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: student
+  blocks:
+  - type: choice
+    id: Q002
+    points: 4
+    stem_latex: 已知 $\frac ab=\frac23$，那么下列各式中，成立的是
+    choices:
+    - $2a=3b$
+    - $\frac{a+1}{b+1}=\frac34$
+    - $\frac{a+b}{b}=\frac53$
+    - $\frac{a-b}{b}=\frac13$

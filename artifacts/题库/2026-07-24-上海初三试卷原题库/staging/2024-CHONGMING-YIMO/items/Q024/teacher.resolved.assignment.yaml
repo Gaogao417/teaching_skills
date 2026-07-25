@@ -1,0 +1,67 @@
+meta:
+  title: 崇明区2023学年第一学期期末质量调研 · 原题第24题 · 教师版
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q024
+    points: 12
+    stem_latex: 已知在直角坐标平面 $xOy$ 中，抛物线 $y=ax^2+bx+c\ (a\ne0)$ 经过点 $A(-1,0),B(3,0),C(0,3)$。（1）求该抛物线的表达式；（2）点 $D$ 是点 $C$ 关于抛物线对称轴对称的点，联结 $AD,BD$。将抛物线向下平移 $m\ (m>0)$ 个单位后，点 $D$ 落在点 $E$ 处，过 $B,E$ 两点的直线与线段 $AD$ 交于点 $F$。①如果 $m=2$，求 $\tan\angle DBF$；②如果 $\triangle BDF$ 与 $\triangle ABD$ 相似，求 $m$ 的值。
+    answer: （1）$y=-x^2+2x+3$；（2）①$\frac12$；②$m=\frac52$ 或 $3$。
+    solution_steps:
+    - title: 第（1）问
+      content: 代入三点得方程组，解得 $a=-1,b=2,c=3$，所以抛物线为 $y=-x^2+2x+3$。
+    - title: 第（2）问①
+      content: 抛物线对称轴为 $x=1$，故 $D(2,3)$。当 $m=2$ 时，$E(2,1)$。由图中直角三角形关系可得 $DF=\sqrt2,\ BF=2\sqrt2$，所以 $\tan\angle DBF=\frac{DF}{BF}=\frac12$。
+      diagram_col:
+        image_path: assets/solution-01.png
+        width: 58mm
+        variant: solution
+        disclosure_policy: teacher_only
+    - title: 第（2）问②
+      content: 若 $\triangle BDF\sim\triangle ABD$，分类讨论对应角。由官方解答计算得 $m=\frac52$；当点 $F$ 与 $A$ 重合、两三角形全等时，$m=3$。
+      diagram_col:
+        image_path: assets/solution-02.png
+        width: 58mm
+        variant: solution
+        disclosure_policy: teacher_only
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第2页
+    - image_path: assets/official-solution-03.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第3页
+    diagram_col:
+      image_path: assets/prompt-figure.png
+      width: 62mm
+      variant: prompt
+      disclosure_policy: clean
+    teaching:
+      source_key: 2024-CHONGMING-YIMO-Q24
+      skill_tags:
+      - 原卷
+      difficulty: challenge
+      official_solution_policy: verbatim_transcription_with_separate_notes

@@ -1,0 +1,38 @@
+meta:
+  title: 长宁区2023学年第一学期初三数学教学质量调研第22题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q022
+    points: 10
+    stem_latex: 小明为测量河对岸旗杆 $EF$ 的高度，进行了测量。测量仪器如图 1 所示；测量方法如图 2，从眼睛到旗杆最高点 $C$ 的仰角为 $\alpha$；实验操作如图 3，小明利用上述工具测量河对岸垂直于水平地面的旗杆 $EF$ 的高度，他先站在水平地面的点 $H$ 处，视线为 $GO$，此时测角仪上视线与铅垂线的夹角为 $60^\circ$，然后沿直线向后退 $10$ 米至点 $K$，此时测角仪上的夹角为 $45^\circ$。\\begin{enumerate}\\item 请用含 $\alpha$ 的代数式表示仰角 $\beta$；\\item 如果 $GH、OR、EF$ 在同一平面内，小明的眼睛到水平地面的距离为 $1.6$ 米，求旗杆 $EF$ 的高度（结果保留根号）。\\end{enumerate}
+    answer: $5\sqrt3+6.6$ 米
+    solution_steps:
+    - title: 官方解答
+      content: （1）$\beta=90^\circ-\alpha$。（2）延长 $GQ$ 交 $EF$ 于点 $M$，由题意 $\angle EGM=30^\circ$，$\angle EQM=45^\circ$，$GQ=10$ 米，$MF=1.6$ 米。设 $EM=x$，则 $\tan30^\circ=\dfrac{x}{x+10}$，解得 $x=5\sqrt3+5$，故 $EF=EM+MF=5\sqrt3+6.6$ 米。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页

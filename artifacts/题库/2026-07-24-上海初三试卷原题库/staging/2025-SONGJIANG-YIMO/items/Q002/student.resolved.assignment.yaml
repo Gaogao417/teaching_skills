@@ -1,0 +1,34 @@
+meta:
+  title: 松江区2025届初三一模第2题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: student
+  show_answers: false
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: student
+  blocks:
+  - type: choice
+    id: Q002
+    points: 4
+    stem_latex: 如图，在平行四边形 $ABCD$ 中，$E$ 是边 $CD$ 的中点，$AE$ 交 $BD$ 于点 $O$。如果 $\triangle DOE$ 的面积为 $1$，那么 $\triangle ABO$ 的面积为
+    choices:
+    - $2$
+    - $4$
+    - $6$
+    - $9$
+    images:
+    - image_path: assets/prompt-figure.png
+      width: 0.82\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图1

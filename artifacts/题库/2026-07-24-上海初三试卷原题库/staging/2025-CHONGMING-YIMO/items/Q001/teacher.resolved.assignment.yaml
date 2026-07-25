@@ -1,0 +1,42 @@
+meta:
+  title: 崇明区九年级数学一模试卷 · 原题第 1 题 · 教师版
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q001
+    points: 4
+    stem_latex: 如果斜坡的坡度 $i=1:\sqrt3$，那么斜坡的坡角等于（　）
+    answer: B
+    choices:
+      A: $15^\circ$
+      B: $30^\circ$
+      C: $45^\circ$
+      D: $60^\circ$
+    explanation: 参考答案：B。
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 公众号原解答 1
+    teaching:
+      source_key: 2025-CHONGMING-YIMO-Q01
+      skill_tags:
+      - 坡度
+      - 坡角
+      difficulty: foundation
+      official_solution_policy: verbatim_transcription_with_separate_notes

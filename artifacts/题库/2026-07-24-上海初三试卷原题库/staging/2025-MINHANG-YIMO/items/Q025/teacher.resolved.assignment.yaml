@@ -1,0 +1,55 @@
+meta:
+  title: 2024学年第一学期初三年级学业质量调研数学试卷第 25 题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: 如图1，在 $\triangle ABC$ 中，$AB=BC$，$\angle ABC>90^\circ$，点 $D$ 在边 $AC$ 上，直线 $l$ 经过点 $D$，与线段 $AB$ 交于点 $E$，且点 $A$ 关于 $l$ 的对称点 $A'$ 在射线 $AB$ 上。（1）如图2，当点 $A'$ 与点 $B$ 重合时，求证：$BC^2=AD\cdot AC$；（2）当点 $A'$ 在线段 $AB$ 的延长线上时，联结 $A'C$，$BC$ 交 $A'D$ 于点 $F$。i）当直线 $BC$ 经过 $\triangle A'CD$ 的重心时，求 $\frac{CF}{AA'}$；ii）如果 $\triangle A'FC$ 是直角三角形且 $AB=2BA'$，求 $\angle A$ 的正切值。
+    answer: （1）结论成立；（2）i）$\frac12$；ii）$\frac{\sqrt3}{3}$或$\frac{\sqrt7}{7}$
+    solution_steps:
+    - title: 第（1）问及第（2）问i
+      content: 官方证明利用轴对称得 $AD=A'D$、$AB=BC$ 及相关等角，相似三角形推出 $BC^2=AD\cdot AC$。在重心条件下，由中点和矩形关系得 $\frac{CF}{AA'}=\frac12$。
+      diagram_col:
+        image_path: assets/solution-01.png
+        width: 58mm
+        variant: solution
+        disclosure_policy: teacher_only
+    - title: 第（2）问ii
+      content: 官方分 $\angle A'FC=90^\circ$ 与 $\angle A'CF=90^\circ$ 两种情形，分别由相似和直角三角形计算，得到 $\tan A=\frac{\sqrt3}{3}$ 或 $\frac{\sqrt7}{7}$。
+      diagram_col:
+        image_path: assets/solution-02.png
+        width: 58mm
+        variant: solution
+        disclosure_policy: teacher_only
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 1 页
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 2 页

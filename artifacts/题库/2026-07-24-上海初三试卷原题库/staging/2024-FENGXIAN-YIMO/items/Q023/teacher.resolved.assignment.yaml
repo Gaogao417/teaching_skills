@@ -1,0 +1,50 @@
+meta:
+  title: 2023学年第一学期九年级数学练习 · 原题第 23 题 · 教师版
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q023
+    points: 12
+    stem_latex: 如图10，在 $\triangle ABC$ 中，$AB=AC$，点 $D$ 在边 $BC$ 上，已知 $\angle AFD=\angle B$，边 $DF$ 交 $AC$ 于点 $E$。（1）求证：$AF\cdot CE=CD\cdot FE$；（2）联结 $AD$，如果 $\frac{AB}{AF}=\frac{BC}{DF}$，求证：$AD^2=AE\cdot AC$。
+    answer: 见证明。
+    solution_steps:
+    - title: 第（1）问
+      content: $\because AB=AC$，$\therefore\angle B=\angle C$。又 $\angle AFD=\angle B$，所以 $\angle AFD=\angle C$。由 $\angle AEF=\angle DEC$，得 $\triangle AEF\sim\triangle DEC$，所以 $\frac{AF}{CD}=\frac{EF}{CE}$，故 $AF\cdot CE=CD\cdot FE$。
+    - title: 第（2）问
+      content: 由 $\frac{AB}{AF}=\frac{BC}{DF}$ 且 $\angle AFD=\angle B$，得 $\triangle ABC\sim\triangle AFD$，所以 $\angle ADF=\angle C$。又 $\angle CAD=\angle DAE$，得 $\triangle ADE\sim\triangle ACD$，所以 $\frac{AE}{AD}=\frac{AD}{AC}$，故 $AD^2=AE\cdot AC$。
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第2页
+    teaching:
+      source_key: 2024-FENGXIAN-YIMO-Q23
+      skill_tags:
+      - 原卷
+      difficulty: challenge
+      official_solution_policy: verbatim_transcription_with_separate_notes
+    diagram_col:
+      image_path: assets/prompt-figure.png
+      width: 52mm
+      variant: prompt
+      disclosure_policy: clean

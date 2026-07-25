@@ -1,0 +1,36 @@
+meta:
+  title: 金山区2024学年度第一学期期末学情诊断第 10 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: fillin
+    id: Q010
+    points: 4
+    stem_latex: 第七届中国国际进口博览会于2024年11月5日至10日在国家会展中心（上海）举办。小海在比例尺为 $1:2000000$ 的地图上测量他家与国家会展中心（上海）的距离为 $2.6$ 厘米，那么实际距离为 \fillin 千米。
+    answer: $52$
+    explanation: 官方参考答案：$52$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 1 页

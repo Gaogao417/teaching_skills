@@ -1,0 +1,36 @@
+meta:
+  title: 松江区2025届初三一模第3题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q003
+    points: 4
+    stem_latex: 已知 $A(-1,y_1)、B(3,y_2)$ 是抛物线 $y=x^2-2x+c$ 上两点，那么 $y_1$ 与 $y_2$ 的大小关系是
+    answer: C
+    choices:
+    - $y_1>y_2$
+    - $y_1<y_2$
+    - $y_1=y_2$
+    - 无法确定
+    explanation: 官方参考答案：C。
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页

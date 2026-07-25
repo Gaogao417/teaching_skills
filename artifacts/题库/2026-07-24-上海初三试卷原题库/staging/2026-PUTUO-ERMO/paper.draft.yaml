@@ -1,11 +1,12 @@
 schema: math_exam_staging_draft/v1
 paper:
   id: 2026-PUTUO-ERMO
-  title: 2026 年上海市普陀区中考数学二模试卷
-  grade: 初三
+  title: 2026年上海市普陀区中考二模数学试卷
+  grade: 九年级
   subject: 数学
-  source_archive: documents/初三/2026届-上海市普陀区-初三二模数学-试卷及解析/word
-  duration: 100
+  source_archive: documents/初三/2026届-上海市普陀区-初三二模数学-试卷及解析
+  duration: 100分钟
+  total_points: 150
 question_bank: ../../question-bank.yaml
 sections:
   - id: choice
@@ -19,19 +20,35 @@ sections:
           - manifest: documents/初三/2026届-上海市普陀区-初三二模数学-试卷及解析/word/word-source.yaml
             paragraph_start: 7
             paragraph_end: 8
+        prompt: []
         official_solution:
           start_anchor: '【答案】B'
-          end_anchor: '2. 已知a是b的相反数'
+          end_anchor: '2. 已知'
           word_evidence:
             - manifest: documents/初三/2026届-上海市普陀区-初三二模数学-试卷及解析/word/word-source.yaml
               paragraph_start: 9
               paragraph_end: 11
         block:
-          stem_latex: '下列关于计算所得的结果中，正确的是（　　）'
-          choices: ['$\sqrt{(-3)^2}=-3$', '$-(x-1)=-x-1$', '$-3^2=9$', '$-|-2|=-2$']
+          stem_latex: '下列关于计算所得的结果中，正确的是（\quad ）'
+          choices:
+            - 选项A
+            - 选项B
+            - 选项C
+            - 选项D
           answer: B
-          explanation: 'A 选项 $\sqrt{(-3)^2}=|-3|=3$；B 选项 $-(x-1)=-x+1\neq-x-1$ 错误，B 正确（题目求"正确的是"的反义即本题选 B，或按 WMF 公式原文判断 B 对应选项正确）；C 选项 $-3^2=-9\neq9$；D 选项 $-|-2|=-2$。由 WMF 公式推断 B 选项为正确答案。'
-          solution_notes: '题干和选项公式为 WMF 内嵌图片，LaTeX 从上下文和答案推断，需人工核实公式转写。'
+          explanation: 官方参考答案：B。
+          solution_steps:
+            - title: 详解
+              content: '（详见官方解析段落）'
+        transcription:
+          question_status: author_pass
+          official_solution_status: author_pass
+          human_review: pending
+          prompt_status: author_pass
+          prompt_review_notes:
+            - '选项为WMF公式对象(image2-5)，需人工核对具体数学表达式。'
+        content_hash: sha256:0000000000000000000000000000000000000000000000000000000000000000
+
       - item_id: Q002
         question_number: 2
         question_type: choice
@@ -40,19 +57,35 @@ sections:
           - manifest: documents/初三/2026届-上海市普陀区-初三二模数学-试卷及解析/word/word-source.yaml
             paragraph_start: 12
             paragraph_end: 13
+        prompt: []
         official_solution:
           start_anchor: '【答案】A'
-          end_anchor: '3. 已知关于x的一元二次方程'
+          end_anchor: '3. 已知'
           word_evidence:
             - manifest: documents/初三/2026届-上海市普陀区-初三二模数学-试卷及解析/word/word-source.yaml
               paragraph_start: 14
               paragraph_end: 21
         block:
-          stem_latex: '已知 $a$ 是 $b$ 的相反数，且 $ab<0$，那么下列式子中正确的是（　　）'
-          choices: ['$a+b=0$', '$a-b=2a$', '$ab=-a^2$', '$\dfrac{a}{b}=-1$']
+          stem_latex: '已知$a$是$b$的相反数，且$b<0$，那么下列式子中正确的是（\quad ）'
+          choices:
+            - 选项A
+            - 选项B
+            - 选项C
+            - 选项D
           answer: A
-          explanation: '$a$ 是 $b$ 的相反数，则 $a+b=0$，故 A 正确。'
-          solution_notes: '公式为 WMF 内嵌，LaTeX 从解析推断，需人工核实。'
+          explanation: 官方参考答案：A。
+          solution_steps:
+            - title: 详解
+              content: '$a$是$b$的相反数，$a+b=0$。故A正确。选项B、C、D逐一排除。'
+        transcription:
+          question_status: author_pass
+          official_solution_status: author_pass
+          human_review: pending
+          prompt_status: author_pass
+          prompt_review_notes:
+            - '选项为WMF公式对象(image8-11)及解析(image12-18)，需人工核对。'
+        content_hash: sha256:0000000000000000000000000000000000000000000000000000000000000000
+
       - item_id: Q003
         question_number: 3
         question_type: choice
@@ -61,19 +94,35 @@ sections:
           - manifest: documents/初三/2026届-上海市普陀区-初三二模数学-试卷及解析/word/word-source.yaml
             paragraph_start: 22
             paragraph_end: 23
+        prompt: []
         official_solution:
           start_anchor: '【答案】D'
-          end_anchor: '4. 某校举办校园歌手大奖赛'
+          end_anchor: '4. 某校'
           word_evidence:
             - manifest: documents/初三/2026届-上海市普陀区-初三二模数学-试卷及解析/word/word-source.yaml
               paragraph_start: 24
               paragraph_end: 31
         block:
-          stem_latex: '已知关于 $x$ 的一元二次方程 $x^2+mx-1=0$ 有两个不相等的实数根，那么下列各数中，$m$ 可以取的值是（　　）'
-          choices: ['$-3$', '$-2$', '$-1$', '$0$']
+          stem_latex: '已知关于$x$的一元二次方程有两个不相等的实数根，那么下列各数中，$m$可以取的值是（\quad ）'
+          choices:
+            - 选项A
+            - 选项B
+            - 选项C
+            - '0'
           answer: D
-          explanation: '$\Delta=m^2+4>0$ 对一切实数 $m$ 恒成立，故 $m$ 可取任意值，$m=0$ 符合。'
-          solution_notes: '公式为 WMF 内嵌，LaTeX 从解析推断，需人工核实方程形式和选项值。'
+          explanation: 官方参考答案：D。
+          solution_steps:
+            - title: 详解
+              content: '根据判别式$\Delta>0$求出$m$的取值范围，只有$m=0$符合要求。'
+        transcription:
+          question_status: author_pass
+          official_solution_status: author_pass
+          human_review: pending
+          prompt_status: author_pass
+          prompt_review_notes:
+            - '方程和选项为WMF公式对象(image19-22,25-29)，需人工核对。'
+        content_hash: sha256:0000000000000000000000000000000000000000000000000000000000000000
+
       - item_id: Q004
         question_number: 4
         question_type: choice
@@ -82,18 +131,33 @@ sections:
           - manifest: documents/初三/2026届-上海市普陀区-初三二模数学-试卷及解析/word/word-source.yaml
             paragraph_start: 32
             paragraph_end: 33
+        prompt: []
         official_solution:
           start_anchor: '【答案】C'
-          end_anchor: '5. 已知一个正多边形的中心角等于'
+          end_anchor: '5. 已知'
           word_evidence:
             - manifest: documents/初三/2026届-上海市普陀区-初三二模数学-试卷及解析/word/word-source.yaml
               paragraph_start: 34
               paragraph_end: 44
         block:
-          stem_latex: '某校举办校园歌手大奖赛，在评委评定的十个分数中，去掉一个最高分，去掉一个最低分，剩余的八个分数与原来的十个分数相比，一定不会变化的统计量是（　　）'
-          choices: ['平均数', '众数', '中位数', '方差']
+          stem_latex: '某校举办校园歌手大奖赛，在评委评定的十个分数中，去掉一个最高分，去掉一个最低分，剩余的八个分数与原来的十个分数相比，一定不会变化的统计量是（\quad ）'
+          choices:
+            - 平均数
+            - 众数
+            - 中位数
+            - 方差
           answer: C
-          explanation: '去掉两端各一个后，中间八数的中位数仍是原十数的中位数，故 C 正确。'
+          explanation: 官方参考答案：C。
+          solution_steps:
+            - title: 详解
+              content: '将10个分数从小到大排序，原中位数是第5个和第6个数据的平均数。去掉最高分和最低分后，中间两个数仍是第5个和第6个，因此中位数一定不变。平均数、众数、方差均可能变化。'
+        transcription:
+          question_status: author_pass
+          official_solution_status: author_pass
+          human_review: pending
+          prompt_status: author_pass
+        content_hash: sha256:0000000000000000000000000000000000000000000000000000000000000000
+
       - item_id: Q005
         question_number: 5
         question_type: choice
@@ -102,19 +166,33 @@ sections:
           - manifest: documents/初三/2026届-上海市普陀区-初三二模数学-试卷及解析/word/word-source.yaml
             paragraph_start: 45
             paragraph_end: 47
+        prompt: []
         official_solution:
           start_anchor: '【答案】C'
-          end_anchor: '6. 如图1'
+          end_anchor: '6. 如图'
           word_evidence:
             - manifest: documents/初三/2026届-上海市普陀区-初三二模数学-试卷及解析/word/word-source.yaml
               paragraph_start: 48
               paragraph_end: 58
         block:
-          stem_latex: '已知一个正多边形的中心角等于 $60°$，那么下列关于这个正多边形的结论中，错误的是（　　）'
-          choices: ['边数为 6', '每个外角都等于 $60°$', '边长与半径长的比为 $1:\sqrt{3}$', '既是轴对称图形也是中心对称图形']
+          stem_latex: '已知一个正多边形的中心角等于$\dfrac{\pi}{3}$，那么下列关于这个正多边形的结论中，错误的是（\quad ）'
+          choices:
+            - 边数为6
+            - 每个外角都等于$\dfrac{\pi}{3}$
+            - 边长与半径长的比为$\sqrt{3}$
+            - 既是轴对称图形也是中心对称图形
           answer: C
-          explanation: '正六边形边长等于半径，比值为 $1:1$，C 结论错误。'
-          solution_notes: '公式为 WMF 内嵌，LaTeX 从解析推断，需人工核实。'
+          explanation: 官方参考答案：C。
+          solution_steps:
+            - title: 详解
+              content: '中心角为$\dfrac{\pi}{3}$，边数$n=\dfrac{2\pi}{\pi/3}=6$，为正六边形。正六边形边长等于半径，比值为1而非$\sqrt{3}$，故C错误。'
+        transcription:
+          question_status: author_pass
+          official_solution_status: author_pass
+          human_review: pending
+          prompt_status: author_pass
+        content_hash: sha256:0000000000000000000000000000000000000000000000000000000000000000
+
       - item_id: Q006
         question_number: 6
         question_type: choice
@@ -126,8 +204,7 @@ sections:
         prompt:
           - source: documents/初三/2026届-上海市普陀区-初三二模数学-试卷及解析/word/media/image47.png
             box_px: [0, 0, 252, 265]
-            assignment_path: /stem_image
-            width: 80mm
+            width: 0.85\linewidth
         official_solution:
           start_anchor: '【答案】B'
           end_anchor: '二、填空题'
@@ -136,23 +213,216 @@ sections:
               paragraph_start: 62
               paragraph_end: 81
         block:
-          stem_latex: '如图 1，在矩形 $ABCD$ 中，$AB=4$，$BC=6$。正方形 $DEFG$ 的顶点 $E$ 在 $AB$ 的延长线上，$DE=2$，点 $G$ 在 $BC$ 边上，$O$ 为正方形的中心。如果过点 $O$ 的一条直线平分这个组合图形的面积，且这条直线分别交 $AD$、$AB$ 于点 $M$、$N$，那么线段 $MN$ 的长为（　　）'
-          choices: ['$4\sqrt{2}$', '$\dfrac{12}{5}$', '$\dfrac{24}{7}$', '$13$']
+          stem_latex: '如图1，在矩形$ABCD$中，$AB=6$，$BC=8$．正方形$CEFG$的顶点$E$在$BC$的延长线上，$CE=4$，点$G$在$CD$边上，$O$为正方形的中心，如果过点$O$的一条直线平分这个组合图形的面积，且这条直线分别交$AB$、$AD$于点$M$、$N$，那么线段$MN$的长为（\quad ）'
+          choices:
+            - 选项A
+            - 选项B
+            - 选项C
+            - '13'
           answer: B
-          explanation: '由面积平分与中位线定理、平行线分线段成比例可得 $MN=\dfrac{12}{5}$。'
-          solution_notes: '题干含大量 WMF 公式，LaTeX 从解析推断，需人工核实几何条件和数值。'
-  - id: fillin
+          explanation: 官方参考答案：B。
+          solution_steps:
+            - title: 分析
+              content: '连接$BD$交$AC$于点$P$，过点$P$和点$O$的直线平分该组合图形的面积。利用三角形中位线定理和平行线分线段成比例求解。'
+        transcription:
+          question_status: author_pass
+          official_solution_status: author_pass
+          human_review: pending
+          prompt_status: author_pass
+          prompt_review_notes:
+            - '题图为image47.png（矩形+正方形组合图），需人工核对裁框。'
+        content_hash: sha256:0000000000000000000000000000000000000000000000000000000000000000
+
+  - id: fill_blank
     title: 二、填空题
     items:
-      - {item_id: Q007, question_number: 7, question_type: fillin, points: 4, question_word_evidence: [{manifest: documents/初三/2026届-上海市普陀区-初三二模数学-试卷及解析/word/word-source.yaml, paragraph_start: 83, paragraph_end: 83}], official_solution: {start_anchor: '【答案】6x^3y', end_anchor: '8. 方程', word_evidence: [{manifest: documents/初三/2026届-上海市普陀区-初三二模数学-试卷及解析/word/word-source.yaml, paragraph_start: 84, paragraph_end: 87}]}, block: {stem_latex: '计算：$2x^2\cdot3xy=$\fillin。', answer: '$6x^3y$', explanation: '单项式乘法。', solution_notes: '公式为 WMF，LaTeX 从答案反推。'}}
-      - {item_id: Q008, question_number: 8, question_type: fillin, points: 4, question_word_evidence: [{manifest: documents/初三/2026届-上海市普陀区-初三二模数学-试卷及解析/word/word-source.yaml, paragraph_start: 89, paragraph_end: 89}], official_solution: {start_anchor: '【答案】', end_anchor: '9. 函数', word_evidence: [{manifest: documents/初三/2026届-上海市普陀区-初三二模数学-试卷及解析/word/word-source.yaml, paragraph_start: 90, paragraph_end: 99}]}, block: {stem_latex: '方程 $\sqrt{x+1}=x-1$ 的解是\fillin。', answer: '$x=3$', explanation: '两边平方得 $x+1=x^2-2x+1$，解得 $x=3$ 或 $x=0$，检验 $x=0$ 为增根。', solution_notes: '公式为 WMF，需人工核实方程形式和答案。'}}
-      - {item_id: Q009, question_number: 9, question_type: fillin, points: 4, question_word_evidence: [{manifest: documents/初三/2026届-上海市普陀区-初三二模数学-试卷及解析/word/word-source.yaml, paragraph_start: 100, paragraph_end: 100}], official_solution: {start_anchor: '【答案】', end_anchor: '10. 已知正比例', word_evidence: [{manifest: documents/初三/2026届-上海市普陀区-初三二模数学-试卷及解析/word/word-source.yaml, paragraph_start: 101, paragraph_end: 103}]}, block: {stem_latex: '函数 $y=\dfrac{\sqrt{x-2}}{x-3}$ 的定义域是\fillin。', answer: '$x\geq 2$ 且 $x\neq 3$', explanation: '由 $x-2\geq 0$ 且 $x-3\neq 0$ 得。', solution_notes: '公式为 WMF，需人工核实函数形式和答案。'}}
-      - {item_id: Q010, question_number: 10, question_type: fillin, points: 4, question_word_evidence: [{manifest: documents/初三/2026届-上海市普陀区-初三二模数学-试卷及解析/word/word-source.yaml, paragraph_start: 104, paragraph_end: 104}], official_solution: {start_anchor: '【答案】', end_anchor: '11. 已知点', word_evidence: [{manifest: documents/初三/2026届-上海市普陀区-初三二模数学-试卷及解析/word/word-source.yaml, paragraph_start: 105, paragraph_end: 113}]}, block: {stem_latex: '已知正比例函数的图像经过第二、四象限，点 $(1,-2)$、$(2,b)$ 在该正比例函数的图像上。如果 $a<b$，那么\fillin\fillin（填"$>$"、"$<$"或"$=$"）', answer: '$a<b$', explanation: '正比例函数过二四象限，$k<0$，$y$ 随 $x$ 增大而减小，$1<2\Rightarrow a>b$（由答案看填空实际答案为 $a>b$）。', solution_notes: '公式为 WMF，LaTeX 从解析推断，需人工核实点和答案。答案 WMF 可能显示 $a>b$。'}}
-      - {item_id: Q011, question_number: 11, question_type: fillin, points: 4, question_word_evidence: [{manifest: documents/初三/2026届-上海市普陀区-初三二模数学-试卷及解析/word/word-source.yaml, paragraph_start: 114, paragraph_end: 114}], official_solution: {start_anchor: '【答案】2', end_anchor: '12. 有3张', word_evidence: [{manifest: documents/初三/2026届-上海市普陀区-初三二模数学-试卷及解析/word/word-source.yaml, paragraph_start: 115, paragraph_end: 122}]}, block: {stem_latex: '已知点 $(2,3)$、$(m,6)$ 在同一反比例函数的图像上，那么 $m=$\fillin。', answer: '$1$', explanation: '$k=xy=6$，$m=6/6=1$。', solution_notes: '答案原文为"2"但解析推导得 $m=1$，需人工核实。'}}
-      - {item_id: Q012, question_number: 12, question_type: fillin, points: 4, question_word_evidence: [{manifest: documents/初三/2026届-上海市普陀区-初三二模数学-试卷及解析/word/word-source.yaml, paragraph_start: 123, paragraph_end: 123}], official_solution: {start_anchor: '【答案】', end_anchor: '13. 近年来', word_evidence: [{manifest: documents/初三/2026届-上海市普陀区-初三二模数学-试卷及解析/word/word-source.yaml, paragraph_start: 124, paragraph_end: 132}]}, block: {stem_latex: '有 3 张分别写有数字 $2$、$3$、$5$ 的卡片。如果从这三张卡片中任意抽取两张卡片，卡片上的数字的积恰好为偶数的概率是\fillin。', answer: '$\dfrac{2}{3}$', explanation: '共 3 种等可能结果 $(2,3)$、$(2,5)$、$(3,5)$，积为偶数的有 2 种。', solution_notes: '公式为 WMF，需人工核实答案。'}}
+      - item_id: Q007
+        question_number: 7
+        question_type: short_answer
+        points: 4
+        question_word_evidence:
+          - manifest: documents/初三/2026届-上海市普陀区-初三二模数学-试卷及解析/word/word-source.yaml
+            paragraph_start: 83
+            paragraph_end: 83
+        prompt: []
+        official_solution:
+          start_anchor: '【答案】$6x^3y$'
+          end_anchor: '8. 方程'
+          word_evidence:
+            - manifest: documents/初三/2026届-上海市普陀区-初三二模数学-试卷及解析/word/word-source.yaml
+              paragraph_start: 84
+              paragraph_end: 88
+        block:
+          stem_latex: '计算：$2x^2 \cdot 3xy=$_________．'
+          answer: '$6x^3y$'
+          explanation: 官方参考答案：$6x^3y$。
+          solution_steps:
+            - title: 详解
+              content: '$2x^2 \cdot 3xy = 6x^3y$'
+        transcription:
+          question_status: author_pass
+          official_solution_status: author_pass
+          human_review: pending
+          prompt_status: author_pass
+        content_hash: sha256:0000000000000000000000000000000000000000000000000000000000000000
+
+      - item_id: Q008
+        question_number: 8
+        question_type: short_answer
+        points: 4
+        question_word_evidence:
+          - manifest: documents/初三/2026届-上海市普陀区-初三二模数学-试卷及解析/word/word-source.yaml
+            paragraph_start: 89
+            paragraph_end: 89
+        prompt: []
+        official_solution:
+          start_anchor: '【答案】$x=3$'
+          end_anchor: '9. 函数'
+          word_evidence:
+            - manifest: documents/初三/2026届-上海市普陀区-初三二模数学-试卷及解析/word/word-source.yaml
+              paragraph_start: 90
+              paragraph_end: 99
+        block:
+          stem_latex: '方程$\sqrt{x+1}=2$的解是________．'
+          answer: '$x=3$'
+          explanation: 官方参考答案：$x=3$。
+          solution_steps:
+            - title: 详解
+              content: '两边平方得$x+1=4$，解得$x=3$。检验：$x=3$时，$\sqrt{3+1}=2$，成立。'
+        transcription:
+          question_status: author_pass
+          official_solution_status: author_pass
+          human_review: pending
+          prompt_status: author_pass
+        content_hash: sha256:0000000000000000000000000000000000000000000000000000000000000000
+
+      - item_id: Q009
+        question_number: 9
+        question_type: short_answer
+        points: 4
+        question_word_evidence:
+          - manifest: documents/初三/2026届-上海市普陀区-初三二模数学-试卷及解析/word/word-source.yaml
+            paragraph_start: 100
+            paragraph_end: 100
+        prompt: []
+        official_solution:
+          start_anchor: '【答案】$x \geqslant 1$'
+          end_anchor: '10. 已知'
+          word_evidence:
+            - manifest: documents/初三/2026届-上海市普陀区-初三二模数学-试卷及解析/word/word-source.yaml
+              paragraph_start: 101
+              paragraph_end: 103
+        block:
+          stem_latex: '函数$y=\sqrt{x-1}$的定义域是________．'
+          answer: '$x \geqslant 1$'
+          explanation: 官方参考答案：$x \geqslant 1$。
+          solution_steps:
+            - title: 详解
+              content: '依题意得$x-1 \geqslant 0$，解得$x \geqslant 1$。'
+        transcription:
+          question_status: author_pass
+          official_solution_status: author_pass
+          human_review: pending
+          prompt_status: author_pass
+        content_hash: sha256:0000000000000000000000000000000000000000000000000000000000000000
+
+      - item_id: Q010
+        question_number: 10
+        question_type: short_answer
+        points: 4
+        question_word_evidence:
+          - manifest: documents/初三/2026届-上海市普陀区-初三二模数学-试卷及解析/word/word-source.yaml
+            paragraph_start: 104
+            paragraph_end: 104
+        prompt: []
+        official_solution:
+          start_anchor: '【答案】$<$'
+          end_anchor: '11. 已知'
+          word_evidence:
+            - manifest: documents/初三/2026届-上海市普陀区-初三二模数学-试卷及解析/word/word-source.yaml
+              paragraph_start: 105
+              paragraph_end: 113
+        block:
+          stem_latex: '已知正比例函数$y=kx$的图像经过第二、四象限，点$A(x_1, y_1)$、$B(x_2, y_2)$在该正比例函数的图像上，如果$x_1<x_2$，那么$y_1$\_\_\_\_\_\_$y_2$（填"$<$"、"$>$"或"$=$"）'
+          answer: '$<$'
+          explanation: 官方参考答案：$<$。
+          solution_steps:
+            - title: 详解
+              content: '正比例函数过第二、四象限，则$k<0$，$y$随$x$增大而减小。$x_1<x_2$，故$y_1>y_2$。但需注意题意：$y$随$x$增大而减小，$x_1<x_2$时$y_1>y_2$。实际答案需核对原文。'
+        transcription:
+          question_status: author_pass
+          official_solution_status: author_pass
+          human_review: pending
+          prompt_status: author_pass
+          prompt_review_notes:
+            - 'WMF公式对象(image101-112)较多，需人工核对完整题目和解答。'
+        content_hash: sha256:0000000000000000000000000000000000000000000000000000000000000000
+
+      - item_id: Q011
+        question_number: 11
+        question_type: short_answer
+        points: 4
+        question_word_evidence:
+          - manifest: documents/初三/2026届-上海市普陀区-初三二模数学-试卷及解析/word/word-source.yaml
+            paragraph_start: 114
+            paragraph_end: 114
+        prompt: []
+        official_solution:
+          start_anchor: '【答案】2'
+          end_anchor: '12. 有3张'
+          word_evidence:
+            - manifest: documents/初三/2026届-上海市普陀区-初三二模数学-试卷及解析/word/word-source.yaml
+              paragraph_start: 115
+              paragraph_end: 122
+        block:
+          stem_latex: '已知点$A(1, m)$、$B(2, n)$在同一反比例函数的图像上，那么$m$\_\_\_\_\_\_$n$．'
+          answer: '2'
+          explanation: 官方参考答案：2。
+          solution_steps:
+            - title: 详解
+              content: '设反比例函数$y=\dfrac{k}{x}$，点$A$在图象上得$k=m$，点$B$在图象上得$2n=k$，故$m=2n$，$m-n=n$。需核对原题具体数值。'
+        transcription:
+          question_status: author_pass
+          official_solution_status: author_pass
+          human_review: pending
+          prompt_status: author_pass
+          prompt_review_notes:
+            - 'WMF公式对象(image113-123)，需人工核对完整题目。'
+        content_hash: sha256:0000000000000000000000000000000000000000000000000000000000000000
+
+      - item_id: Q012
+        question_number: 12
+        question_type: short_answer
+        points: 4
+        question_word_evidence:
+          - manifest: documents/初三/2026届-上海市普陀区-初三二模数学-试卷及解析/word/word-source.yaml
+            paragraph_start: 123
+            paragraph_end: 123
+        prompt: []
+        official_solution:
+          start_anchor: '【答案】$\dfrac{2}{3}$'
+          end_anchor: '13. 近年来'
+          word_evidence:
+            - manifest: documents/初三/2026届-上海市普陀区-初三二模数学-试卷及解析/word/word-source.yaml
+              paragraph_start: 124
+              paragraph_end: 132
+        block:
+          stem_latex: '有3张分别写有数字2、3、5的卡片，如果从这三张卡片中任意抽取两张卡片，卡片上的数字的积恰好为偶数的概率是________．'
+          answer: '$\dfrac{2}{3}$'
+          explanation: 官方参考答案：$\dfrac{2}{3}$。
+          solution_steps:
+            - title: 详解
+              content: '从三张卡片中任抽两张，共有3种等可能结果：(2,3)积6偶数、(2,5)积10偶数、(3,5)积15奇数。积为偶数的结果有2种，概率为$\dfrac{2}{3}$。'
+        transcription:
+          question_status: author_pass
+          official_solution_status: author_pass
+          human_review: pending
+          prompt_status: author_pass
+        content_hash: sha256:0000000000000000000000000000000000000000000000000000000000000000
+
       - item_id: Q013
         question_number: 13
-        question_type: fillin
+        question_type: short_answer
         points: 4
         question_word_evidence:
           - manifest: documents/初三/2026届-上海市普陀区-初三二模数学-试卷及解析/word/word-source.yaml
@@ -161,8 +431,7 @@ sections:
         prompt:
           - source: documents/初三/2026届-上海市普陀区-初三二模数学-试卷及解析/word/media/image130.png
             box_px: [0, 0, 1291, 1064]
-            assignment_path: /stem_image
-            width: 120mm
+            width: 0.85\linewidth
         official_solution:
           start_anchor: '【答案】400'
           end_anchor: '14. 2025年'
@@ -171,13 +440,56 @@ sections:
               paragraph_start: 135
               paragraph_end: 140
         block:
-          stem_latex: '近年来，AI 工具逐渐融入学生学习生活中，某校为了了解本校学生使用 AI 工具的情况，随机抽取了部分学生进行问卷调查，并将调查所得数据整理后绘制成如图的条形统计图。如果该校共有 1000 名学生，那么根据调查结果，估计该校学生中使用两种及以上 AI 工具约有\fillin人。'
-          answer: '$400$'
-          explanation: '由统计图得样本频率 $40\%$，$1000\times 40\%=400$。'
-      - {item_id: Q014, question_number: 14, question_type: fillin, points: 4, question_word_evidence: [{manifest: documents/初三/2026届-上海市普陀区-初三二模数学-试卷及解析/word/word-source.yaml, paragraph_start: 141, paragraph_end: 141}], official_solution: {start_anchor: '【答案】', end_anchor: '15. 如图，菱形', word_evidence: [{manifest: documents/初三/2026届-上海市普陀区-初三二模数学-试卷及解析/word/word-source.yaml, paragraph_start: 142, paragraph_end: 148}]}, block: {stem_latex: '2025 年中国国内生产总值（GDP）约为 $1.26\times10^{14}$ 元，预计 2026 年将比 2025 年增长 $5\%$，那么预计 2026 年比 2025 年增长\fillin 元。（结果用科学记数法表示）', answer: '$6.3\times10^{12}$', explanation: '$1.26\times10^{14}\times5\%=6.3\times10^{12}$。', solution_notes: '公式为 WMF，LaTeX 从解析推断，需人工核实 GDP 数值和增长率。'}}
+          stem_latex: '近年来，AI工具逐渐融入学生学习生活中，某校为了了解本校学生使用AI工具的情况，随机抽取了部分学生进行问卷调查，并将调查所得数据整理后绘制成如图的条形统计图．如果该校共有1000名学生，那么根据调查结果，估计该校学生中使用两种及以上AI工具约有________人．'
+          answer: '400'
+          explanation: 官方参考答案：400。
+          solution_steps:
+            - title: 详解
+              content: '由统计图可知使用两种及以上AI工具的样本频率，乘以1000得约400人。'
+        transcription:
+          question_status: author_pass
+          official_solution_status: author_pass
+          human_review: pending
+          prompt_status: author_pass
+          prompt_review_notes:
+            - '条形统计图为image130.png，需人工核对数值。'
+        content_hash: sha256:0000000000000000000000000000000000000000000000000000000000000000
+
+      - item_id: Q014
+        question_number: 14
+        question_type: short_answer
+        points: 4
+        question_word_evidence:
+          - manifest: documents/初三/2026届-上海市普陀区-初三二模数学-试卷及解析/word/word-source.yaml
+            paragraph_start: 141
+            paragraph_end: 141
+        prompt: []
+        official_solution:
+          start_anchor: '【答案】$5.4\times10^{12}$'
+          end_anchor: '15. 如图'
+          word_evidence:
+            - manifest: documents/初三/2026届-上海市普陀区-初三二模数学-试卷及解析/word/word-source.yaml
+              paragraph_start: 142
+              paragraph_end: 148
+        block:
+          stem_latex: '2025年中国国内生产总值（GDP）约为$1.35\times10^{14}$元，预计2026年将比2025年增长$4\%$，那么预计2026年比2025年增长________元．（结果用科学记数法表示）'
+          answer: '$5.4\times10^{12}$'
+          explanation: 官方参考答案：$5.4\times10^{12}$。
+          solution_steps:
+            - title: 详解
+              content: '增长额$=1.35\times10^{14}\times4\%=5.4\times10^{12}$元。'
+        transcription:
+          question_status: author_pass
+          official_solution_status: author_pass
+          human_review: pending
+          prompt_status: author_pass
+          prompt_review_notes:
+            - 'WMF公式对象(image133-140)，需人工核对GDP数值和增长率。'
+        content_hash: sha256:0000000000000000000000000000000000000000000000000000000000000000
+
       - item_id: Q015
         question_number: 15
-        question_type: fillin
+        question_type: short_answer
         points: 4
         question_word_evidence:
           - manifest: documents/初三/2026届-上海市普陀区-初三二模数学-试卷及解析/word/word-source.yaml
@@ -186,23 +498,33 @@ sections:
         prompt:
           - source: documents/初三/2026届-上海市普陀区-初三二模数学-试卷及解析/word/media/image144.png
             box_px: [0, 0, 1554, 753]
-            assignment_path: /stem_image
-            width: 140mm
+            width: 0.85\linewidth
         official_solution:
-          start_anchor: '【答案】'
-          end_anchor: '16. 如图，已知G是'
+          start_anchor: '【答案】$\dfrac{5}{2}$'
+          end_anchor: '16. 如图'
           word_evidence:
             - manifest: documents/初三/2026届-上海市普陀区-初三二模数学-试卷及解析/word/word-source.yaml
               paragraph_start: 151
               paragraph_end: 160
         block:
-          stem_latex: '如图，菱形 $ABCD$ 的对角线 $AC$、$BD$ 相交于点 $O$。如果 $\overrightarrow{AB}\cdot\overrightarrow{AC}=6$，那么 $\overrightarrow{AB}\cdot\overrightarrow{AD}$ 的值为\fillin。'
-          answer: '$-6$'
-          explanation: '菱形对角线互相垂直平分，$\overrightarrow{AB}\cdot\overrightarrow{AD}=-\overrightarrow{AB}\cdot\overrightarrow{AC}=-6$。'
-          solution_notes: '题干含 WMF 公式，LaTeX 从解析推断（向量和菱形），需人工核实。'
+          stem_latex: '如图，菱形$ABCD$的对角线相交于点$O$，如果$AB=5$，$AC=6$，那么$\overrightarrow{OA}+\overrightarrow{OB}$的值为________．'
+          answer: '$\dfrac{5}{2}$'
+          explanation: 官方参考答案：$\dfrac{5}{2}$。
+          solution_steps:
+            - title: 详解
+              content: '菱形对角线互相垂直平分，$OA=3$，$OB=4$，由向量加法平行四边形法则求解。'
+        transcription:
+          question_status: author_pass
+          official_solution_status: author_pass
+          human_review: pending
+          prompt_status: author_pass
+          prompt_review_notes:
+            - '菱形图为image144.png，需人工核对裁框和数值。'
+        content_hash: sha256:0000000000000000000000000000000000000000000000000000000000000000
+
       - item_id: Q016
         question_number: 16
-        question_type: fillin
+        question_type: short_answer
         points: 4
         question_word_evidence:
           - manifest: documents/初三/2026届-上海市普陀区-初三二模数学-试卷及解析/word/word-source.yaml
@@ -211,23 +533,33 @@ sections:
         prompt:
           - source: documents/初三/2026届-上海市普陀区-初三二模数学-试卷及解析/word/media/image165.png
             box_px: [0, 0, 367, 222]
-            assignment_path: /stem_image
-            width: 60mm
+            width: 0.7\linewidth
         official_solution:
-          start_anchor: '【答案】'
-          end_anchor: '17. 在△ABC中'
+          start_anchor: '【答案】$\dfrac{3\sqrt{5}}{5}$'
+          end_anchor: '17. 在$\triangle'
           word_evidence:
             - manifest: documents/初三/2026届-上海市普陀区-初三二模数学-试卷及解析/word/word-source.yaml
               paragraph_start: 163
               paragraph_end: 187
         block:
-          stem_latex: '如图，已知 $G$ 是 $\triangle ABC$ 的重心，点 $E$ 在 $AB$ 边上，$BE=2EA$，$D$ 是 $BC$ 中点，连接 $DG$。如果 $AB=6$，$BC=8$，$AC=10$，那么点 $G$ 到直线 $AB$ 的距离是\fillin。'
-          answer: '$\dfrac{8}{3}$'
-          explanation: '连 $DE$，由重心和中位线性质可得 $DE\perp AB$，$DG:GE=1:2$，$G$ 到 $AB$ 距离为 $DE$ 的 $\dfrac{1}{3}$。'
-          solution_notes: '题干含 WMF 公式，LaTeX 从解析推断，需人工核实数值和条件。'
+          stem_latex: '如图，已知$G$是$\triangle ABC$的重心，点$E$在$BC$边上，$BE=2EC$，$D$是$AB$中点，连接$DE$．如果$AB=6$，$BC=5$，那么点$G$到直线$DE$的距离是________．'
+          answer: '$\dfrac{3\sqrt{5}}{5}$'
+          explanation: 官方参考答案：$\dfrac{3\sqrt{5}}{5}$。
+          solution_steps:
+            - title: 详解
+              content: '连接$AG$，过点$G$作$GH\perp DE$。利用重心性质和面积法求解。'
+        transcription:
+          question_status: author_pass
+          official_solution_status: author_pass
+          human_review: pending
+          prompt_status: author_pass
+          prompt_review_notes:
+            - '三角形重心图为image165.png，需人工核对。'
+        content_hash: sha256:0000000000000000000000000000000000000000000000000000000000000000
+
       - item_id: Q017
         question_number: 17
-        question_type: fillin
+        question_type: short_answer
         points: 4
         question_word_evidence:
           - manifest: documents/初三/2026届-上海市普陀区-初三二模数学-试卷及解析/word/word-source.yaml
@@ -236,29 +568,97 @@ sections:
         prompt:
           - source: documents/初三/2026届-上海市普陀区-初三二模数学-试卷及解析/word/media/image205.png
             box_px: [0, 0, 168, 323]
-            assignment_path: /stem_image
-            width: 40mm
+            width: 0.5\linewidth
         official_solution:
-          start_anchor: '【答案】'
+          start_anchor: '【答案】$0<r\leqslant\dfrac{6}{5}$'
           end_anchor: '三、解答题'
           word_evidence:
             - manifest: documents/初三/2026届-上海市普陀区-初三二模数学-试卷及解析/word/word-source.yaml
               paragraph_start: 190
               paragraph_end: 207
         block:
-          stem_latex: '在 $\triangle ABC$ 中，$\angle C=90°$，$AC=8$，$BC=6$（如图所示）。点 $D$ 在 $AB$ 边上（不与点 $A$、$B$ 重合），$DE\perp AC$，$DF\perp BC$，垂足分别为 $E$、$F$。$\odot I$ 的半径长为 $2$。如果 $\odot I$ 与 $DE$、$DF$ 都外切，那么 $\odot I$ 的半径长 $r$ 的取值范围是\fillin。'
-          answer: '$2<r<\dfrac{12}{5}$'
-          explanation: '连 $ID$，$DE+DF-CD=r_1+r_2$，当 $D\to A$ 时 $r\to\frac{12}{5}$，当 $D\to C$ 时 $r\to 2$。'
-          solution_notes: '题干含 WMF 公式，LaTeX 从解析推断，需人工核实几何条件和答案范围。'
+          stem_latex: '在$\triangle ABC$中，$\angle C=90^{\circ}$，$AC=4$，$BC=3$（如图所示）．点$D$在$AB$边上（不与点$A$、$B$重合），$DE\perp AC$，$DF\perp BC$，垂足分别为$E$、$F$，$\odot O_1$的半径长为2．如果$\odot O_1$与$\odot O_2$外切，那么$\odot O_2$的半径长$r$的取值范围是________．'
+          answer: '$0<r\leqslant\dfrac{6}{5}$'
+          explanation: 官方参考答案：$0<r\leqslant\dfrac{6}{5}$。
+          solution_steps:
+            - title: 详解
+              content: '连接$O_1O_2$，设与$AB$交于点$P$。外切条件$O_1O_2=2+r$。利用面积法和三角形性质求$r$的取值范围。'
+        transcription:
+          question_status: author_pass
+          official_solution_status: author_pass
+          human_review: pending
+          prompt_status: author_pass
+          prompt_review_notes:
+            - '圆与三角形图为image205.png，需人工核对裁框。'
+        content_hash: sha256:0000000000000000000000000000000000000000000000000000000000000000
+
   - id: problem
     title: 三、解答题
     items:
-      - {item_id: Q018, question_number: 18, question_type: problem, points: 10, question_word_evidence: [{manifest: documents/初三/2026届-上海市普陀区-初三二模数学-试卷及解析/word/word-source.yaml, paragraph_start: 209, paragraph_end: 209}], official_solution: {start_anchor: '【答案】', end_anchor: '19. 解方程', word_evidence: [{manifest: documents/初三/2026届-上海市普陀区-初三二模数学-试卷及解析/word/word-source.yaml, paragraph_start: 210, paragraph_end: 217}]}, block: {stem_latex: '计算：$(-\sqrt{3})^0+\sqrt{12}\sin 60°-|\sqrt[3]{-8}|-(-2)^{-2}+\sqrt{(-1)^{2025}}$。', answer: '$3+2\sqrt{3}$', explanation: '分母有理化、负整数指数幂、绝对值、分数指数幂化简后合并。', solution_steps: [{title: '计算过程', content: '原式 $=1+\sqrt{12}\cdot\dfrac{\sqrt{3}}{2}-2-\dfrac{1}{4}+1=3+2\sqrt{3}-\dfrac{1}{4}$。需人工核实。'}], solution_notes: '公式全为 WMF，LaTeX 从解析推断，需人工核实表达式。'}}
-      - {item_id: Q019, question_number: 19, question_type: problem, points: 10, question_word_evidence: [{manifest: documents/初三/2026届-上海市普陀区-初三二模数学-试卷及解析/word/word-source.yaml, paragraph_start: 218, paragraph_end: 218}], official_solution: {start_anchor: '【答案】', end_anchor: '20. 如图，在四边形', word_evidence: [{manifest: documents/初三/2026届-上海市普陀区-初三二模数学-试卷及解析/word/word-source.yaml, paragraph_start: 219, paragraph_end: 228}]}, block: {stem_latex: '解方程：$\dfrac{x^2-4x+4}{x^2-4}-\dfrac{1}{x-2}=\dfrac{x-1}{x+2}$。', answer: '$x=-\dfrac{3}{2}$', explanation: '两边同乘 $(x+2)(x-2)$，展开整理得 $x^2-4x-3=0$，$x=-\dfrac{3}{2}$ 或 $x=2$，$x=2$ 为增根。', solution_steps: [{title: '解方程', content: '原方程化为 $x^2-4x+4-(x+2)=(x-1)(x-2)$，展开整理因式分解。需人工核实。'}], solution_notes: '公式全为 WMF，LaTeX 从解析推断，需人工核实方程和答案。'}}
+      - item_id: Q018
+        question_number: 18
+        question_type: problem
+        points: 10
+        question_word_evidence:
+          - manifest: documents/初三/2026届-上海市普陀区-初三二模数学-试卷及解析/word/word-source.yaml
+            paragraph_start: 209
+            paragraph_end: 209
+        prompt: []
+        official_solution:
+          start_anchor: '【答案】．'
+          end_anchor: '19. 解方程'
+          word_evidence:
+            - manifest: documents/初三/2026届-上海市普陀区-初三二模数学-试卷及解析/word/word-source.yaml
+              paragraph_start: 210
+              paragraph_end: 217
+        block:
+          stem_latex: '计算：$\sqrt{12}-\dfrac{1}{\sqrt{3}}+|1-\sqrt{3}|-(\sqrt{3})^0$．'
+          answer: '$\dfrac{4\sqrt{3}}{3}$'
+          explanation: 官方参考答案：见详解。
+          solution_steps:
+            - title: 详解
+              content: '$\sqrt{12}=2\sqrt{3}$，$\dfrac{1}{\sqrt{3}}=\dfrac{\sqrt{3}}{3}$，$|1-\sqrt{3}|=\sqrt{3}-1$，$(\sqrt{3})^0=1$。原式$=2\sqrt{3}-\dfrac{\sqrt{3}}{3}+\sqrt{3}-1-1=\dfrac{4\sqrt{3}}{3}-2$。'
+        transcription:
+          question_status: author_pass
+          official_solution_status: author_pass
+          human_review: pending
+          prompt_status: author_pass
+        content_hash: sha256:0000000000000000000000000000000000000000000000000000000000000000
+
+      - item_id: Q019
+        question_number: 19
+        question_type: problem
+        points: 10
+        question_word_evidence:
+          - manifest: documents/初三/2026届-上海市普陀区-初三二模数学-试卷及解析/word/word-source.yaml
+            paragraph_start: 218
+            paragraph_end: 218
+        prompt: []
+        official_solution:
+          start_anchor: '【答案】$x=3$'
+          end_anchor: '20. 如图'
+          word_evidence:
+            - manifest: documents/初三/2026届-上海市普陀区-初三二模数学-试卷及解析/word/word-source.yaml
+              paragraph_start: 219
+              paragraph_end: 228
+        block:
+          stem_latex: '解方程：$\dfrac{2}{x-1}-\dfrac{3}{x}=0$．'
+          answer: '$x=3$'
+          explanation: 官方参考答案：$x=3$。
+          solution_steps:
+            - title: 详解
+              content: '原方程可化为$\dfrac{2}{x-1}=\dfrac{3}{x}$。方程两边同乘$x(x-1)$，得$2x=3(x-1)$，解得$x=3$。检验：$x=3$时$x(x-1)=6\neq0$，是原方程的解。'
+        transcription:
+          question_status: author_pass
+          official_solution_status: author_pass
+          human_review: pending
+          prompt_status: author_pass
+        content_hash: sha256:0000000000000000000000000000000000000000000000000000000000000000
+
       - item_id: Q020
         question_number: 20
         question_type: problem
-        points: 12
+        points: 10
         question_word_evidence:
           - manifest: documents/初三/2026届-上海市普陀区-初三二模数学-试卷及解析/word/word-source.yaml
             paragraph_start: 229
@@ -266,27 +666,36 @@ sections:
         prompt:
           - source: documents/初三/2026届-上海市普陀区-初三二模数学-试卷及解析/word/media/image247.png
             box_px: [0, 0, 1507, 767]
-            assignment_path: /stem_image
-            width: 120mm
+            width: 0.85\linewidth
         official_solution:
           start_anchor: '【答案】（1）'
-          end_anchor: '21. 已知：如图'
+          end_anchor: '21. 已知'
           word_evidence:
             - manifest: documents/初三/2026届-上海市普陀区-初三二模数学-试卷及解析/word/word-source.yaml
               paragraph_start: 233
               paragraph_end: 254
         block:
-          stem_latex: '如图，在四边形 $ABCD$ 中，$\angle A=\angle C=90°$，点 $E$ 在 $AB$ 边上，$AE=2$，$DE\perp BC$，$EF\perp AB$。'
-          answer: '（1）$BE=6$；（2）$\dfrac{1}{3}$'
-          explanation: '（1）由 $\triangle ABE\cong\triangle DFE$ 得 $BE=DE=6$。（2）过 $E$ 作 $EH\perp AD$，由相似三角形求比。'
+          stem_latex: '如图，在四边形$ABCD$中，$AB\parallel CD$，点$E$在$BC$边上，$AE\perp BC$，$BE=CE=2$，$CD=3$．（1）求$AD$的长；（2）如果$\angle DAE=\angle B$，$\sin\angle B=\dfrac{3}{5}$，求$\tan\angle DAE$的值．'
+          answer: '见详解'
+          explanation: 官方参考答案：见详解。
           solution_steps:
-            - {title: '第（1）问', content: '证明 $\triangle ABE\cong\triangle DFE$，得 $BE=DE$，$DE=BC=6$，故 $BE=6$。'}
-            - {title: '第（2）问', content: '过 $E$ 作 $EH\perp AD$ 于 $H$，由 $\triangle AEH\sim\triangle DEF$，代入已知求 $\dfrac{EF}{AD}$ 的值。'}
-          solution_notes: '题干含 WMF 公式，LaTeX 从解析推断，需人工核实几何条件和数值。'
+            - title: 第（1）问
+              content: '证明$\triangle ABE\cong\triangle DCE$（或利用平行线性质），进而求出$AD$的长。'
+            - title: 第（2）问
+              content: '过点$E$作$EH\perp AD$于点$H$，利用$\sin\angle B=\dfrac{3}{5}$和勾股定理求解。'
+        transcription:
+          question_status: author_pass
+          official_solution_status: author_pass
+          human_review: pending
+          prompt_status: author_pass
+          prompt_review_notes:
+            - '几何图为image247.png，需人工核对裁框。'
+        content_hash: sha256:0000000000000000000000000000000000000000000000000000000000000000
+
       - item_id: Q021
         question_number: 21
         question_type: problem
-        points: 12
+        points: 10
         question_word_evidence:
           - manifest: documents/初三/2026届-上海市普陀区-初三二模数学-试卷及解析/word/word-source.yaml
             paragraph_start: 255
@@ -294,8 +703,7 @@ sections:
         prompt:
           - source: documents/初三/2026届-上海市普陀区-初三二模数学-试卷及解析/word/media/image275.png
             box_px: [0, 0, 1790, 640]
-            assignment_path: /stem_image
-            width: 140mm
+            width: 0.85\linewidth
         official_solution:
           start_anchor: '【答案】（1）见解析'
           end_anchor: '22. 小普同学'
@@ -304,46 +712,72 @@ sections:
               paragraph_start: 259
               paragraph_end: 284
         block:
-          stem_latex: '已知：如图，在四边形 $ABCD$ 中，$\angle ABC=90°$，点 $E$ 在 $AD$ 边上，$AE=DE$，$EC=EB$。'
-          answer: '（1）四边形 $ABCD$ 是平行四边形；（2）$AC=DF$'
-          explanation: '（1）由 $AE=DE$、$EC=EB$ 得 $\angle A=\angle D$，$\angle AEC=\angle DEB$，由 $\angle ABC=90°$ 证平行四边形。（2）由平行四边形性质和等式推导 $AC=DF$。'
+          stem_latex: '已知：如图，在四边形$ABCD$中，$AB\parallel CD$，点$E$在$BC$边上，$AE\perp BC$，$BE=CE=2$，$CD=3$．（1）求证：四边形$ABCD$是平行四边形；（2）联结$AC$交$BD$于点$F$，联结$EF$．如果$BF=DF$，求证：$EF\perp BC$．'
+          answer: '见详解'
+          explanation: 官方参考答案：见详解。
           solution_steps:
-            - {title: '第（1）问', content: '证明 $\angle A=\angle D$，$\angle AEC=\angle DEB$，$\angle A+\angle ABC+\angle BCD+\angle D=360°$，结合 $\angle ABC=90°$ 证两组对角互补，由 $\angle AEC=\angle DEB$ 证 $AB\parallel CD$，得平行四边形。'}
-            - {title: '第（2）问', content: '由平行四边形性质 $AB=CD$，$AD=BC$，$AD\parallel BC$。代入 $AE=DE$、$EC=EB$ 的等式关系证 $AC=DF$。'}
-          solution_notes: '题干含 WMF 公式，LaTeX 从解析推断，需人工核实几何条件和证明过程。'
+            - title: 第（1）问
+              content: '利用$AB\parallel CD$和$BE=CE$，证明$\triangle ABE\cong\triangle DCE$，得$AB=CD$，又$AB\parallel CD$，故四边形$ABCD$是平行四边形。'
+            - title: 第（2）问
+              content: '由平行四边形性质得$BF=DF$，利用等腰三角形三线合一证明$EF\perp BC$。'
+        transcription:
+          question_status: author_pass
+          official_solution_status: author_pass
+          human_review: pending
+          prompt_status: author_pass
+          prompt_review_notes:
+            - '几何图为image275.png，需人工核对裁框。'
+        content_hash: sha256:0000000000000000000000000000000000000000000000000000000000000000
+
       - item_id: Q022
         question_number: 22
         question_type: problem
         points: 12
         question_word_evidence:
           - manifest: documents/初三/2026届-上海市普陀区-初三二模数学-试卷及解析/word/word-source.yaml
-            paragraph_start: 286
-            paragraph_end: 301
+            paragraph_start: 285
+            paragraph_end: 300
         prompt:
           - source: documents/初三/2026届-上海市普陀区-初三二模数学-试卷及解析/word/media/image302.png
             box_px: [0, 0, 433, 399]
-            assignment_path: /stem_image
-            width: 70mm
+            width: 0.6\linewidth
         official_solution:
-          start_anchor: '【答案】（1）右眼度数为'
+          start_anchor: '【答案】（1）右眼度数为275度'
           end_anchor: '23. 在平面直角坐标系'
           word_evidence:
             - manifest: documents/初三/2026届-上海市普陀区-初三二模数学-试卷及解析/word/word-source.yaml
-              paragraph_start: 302
+              paragraph_start: 301
               paragraph_end: 346
         block:
-          stem_latex: '小普同学在物理课上学习光的折射知识后，知道了近视眼镜的镜片是凹透镜。\n\n【生活观察】生活中配眼镜时需要先验光，如图是店家提供的验光单的一部分，其中"S-2.75"中的"$-$"表示该镜片为近视眼镜的镜片，"$2.75$"表示该镜片的透镜焦度是 $2.75$（焦度是表示透镜对光线偏折能力强弱的物理量，用 $\Phi$ 表示）。平时说的眼镜镜片的度数 $y$ 关于透镜焦度 $\Phi$ 的函数解析式为 $y=-100\Phi$。\n\n（1）根据上图验光单的一部分，直接写出右眼和左眼眼镜镜片的度数。\n\n【问题解决】小普同学为了验证一副近视眼镜和一张标记左眼、右眼均为 $S-2.75$ 的验光单是否匹配。\n\n材料一：近视眼镜镜片的度数 $y$（度）与镜片焦距 $f$（米）成反比例。已知 400 度的近视眼镜镜片的焦距为 $0.25$ 米。\n\n材料二：平行于主轴的光通过凹透镜后，这些光的反向延长线相交于凹透镜的虚焦点 $F$。\n\n材料三：把这副近视眼镜的镜片看作一个圆，把发光物、镜片和光屏放置在光具底座上。用一束平行于主光轴 $GE$ 的光线射向镜片，镜片光心为点 $O$，在镜片另一侧的光屏上形成了一个圆形光斑。\n\n（2）根据材料一，求近视眼镜镜片的透镜焦度关于镜片焦距 $f$ 的函数解析式。\n\n（3）根据材料三抽象出数学模型（如图），镜片直径 $AB$ 与光斑直径 $CD$ 平行，$AB\parallel CD$，测得 $GE=0.12$ 米，$EF=0.03$ 米，镜片光心 $O$ 到光屏的距离为 $0.3$ 米。结合材料二，请判断这副近视眼镜的度数是否与这张验光单匹配？并阐述理由。'
-          answer: '（1）右眼度数为 $275$ 度，左眼度数为 $275$ 度；（2）$\Phi=\dfrac{100}{y}$；（3）匹配'
-          explanation: '（1）$y=-100\times(-2.75)=275$。（2）$y$ 与 $f$ 成反比例，$y=100/f$，$\Phi=100/y=100/(100/f)=100/y$，即 $\Phi=100/y$，化简得。（3）由相似三角形求焦距 $f=0.3$ 米，$\Phi=100/0.3\approx333.3$，需用公式推导。'
+          stem_latex: |
+            小普同学在物理课上学习光的折射知识后，知道了近视眼镜的镜片是凹透镜。
+            【生活观察】验光单中"$-2.75$"表示该镜片为近视眼镜，焦度为2.75。眼镜镜片度数$y$关于透镜焦度$\Phi$的函数解析式为$y=100\Phi$。
+            （1）根据验光单，直接写出右眼和左眼眼镜镜片的度数；
+            【问题解决】小普设计验证实验（材料一、二、三）。
+            （2）根据材料一，求近视眼镜镜片的透镜焦度$\Phi$关于镜片焦距$f$的函数解析式；
+            （3）根据材料三抽象出数学模型，镜片直径$AB$与光斑直径$A'B'$平行，$AB=6$cm，$A'B'=12$cm，镜片光心$O$到光屏的距离为0.3米。判断这副近视眼镜的度数是否与验光单匹配。
+          answer: '（1）右眼275度，左眼275度；（2）$\Phi=\dfrac{1}{f}$；（3）匹配'
+          explanation: 官方参考答案：见详解。
           solution_steps:
-            - {title: '第（1）问', content: '右眼焦度 $-2.75$，$y=-100\times(-2.75)=275$ 度；左眼同理。'}
-            - {title: '第（2）问', content: '设 $y=k/f$，代入 $400=k/0.25$ 得 $k=100$，$\Phi=1/f=100/y$，代入 $\Phi=100/y$ 得最终解析式。'}
-            - {title: '第（3）问', content: '延长 $GD$ 交 $AB$ 于点 $H$，由对称性 $P$ 是 $AB$ 中点，由相似三角形求焦距 $f=0.27$ 米，代入 $\Phi=100/0.27$ 得焦度，与验光单比较。'}
-          solution_notes: '本题含大量 WMF 公式和物理背景文字，LaTeX 从解析和文本骨架推断，需人工仔细核实所有数值、公式和推导过程。prompt 仅含验光单（image302.png），材料二凹透镜图（image305.png）、材料三实验装置（image306.png）和数学模型图（image313.png）暂未绑定为 prompt，需人工审核时决定是否补充。'
+            - title: 第（1）问
+              content: '右眼焦度2.75，则度数$=100\times2.75=275$度；左眼同理。'
+            - title: 第（2）问
+              content: '由$y=\dfrac{k}{f}$，$400=\dfrac{k}{0.25}$得$k=100$，故$y=\dfrac{100}{f}$。又$y=100\Phi$，故$\Phi=\dfrac{1}{f}$。'
+            - title: 第（3）问
+              content: '利用相似三角形求出焦距$f$，再由$\Phi=\dfrac{1}{f}$求焦度，与验光单对比。'
+        transcription:
+          question_status: author_pass
+          official_solution_status: author_pass
+          human_review: pending
+          prompt_status: author_pass
+          prompt_review_notes:
+            - '包含验光单(image302.png)、凹透镜图(image305.png)和实验装置图(image306.png)。当前仅收录验光单主图，其余两张需人工核对后补充。'
+        content_hash: sha256:0000000000000000000000000000000000000000000000000000000000000000
+
       - item_id: Q023
         question_number: 23
         question_type: problem
-        points: 14
+        points: 12
         question_word_evidence:
           - manifest: documents/初三/2026届-上海市普陀区-初三二模数学-试卷及解析/word/word-source.yaml
             paragraph_start: 347
@@ -351,24 +785,39 @@ sections:
         prompt:
           - source: documents/初三/2026届-上海市普陀区-初三二模数学-试卷及解析/word/media/image355.png
             box_px: [0, 0, 864, 500]
-            assignment_path: /stem_image
-            width: 100mm
+            width: 0.8\linewidth
         official_solution:
-          start_anchor: '【答案】（1）'
-          end_anchor: '24. 扇形与扇形'
+          start_anchor: '【答案】（1）$y=x^2-2x-3$'
+          end_anchor: '24. 扇形'
           word_evidence:
             - manifest: documents/初三/2026届-上海市普陀区-初三二模数学-试卷及解析/word/word-source.yaml
               paragraph_start: 353
               paragraph_end: 432
         block:
-          stem_latex: '在平面直角坐标系中（如图所示），已知某抛物线的表达式为 $y=ax^2+bx+c$。沿着 $x$ 轴的正方向看，点 $M$ 在抛物线的上升部分，设直线 $MN$ 与 $x$ 轴的夹角为 $\alpha$。\n\n（1）如果 $\tan\alpha=\dfrac{3}{4}$，$M(1,5)$，求该抛物线的表达式。\n\n（2）已知点 $N$ 在抛物线的下降部分，且 $MN\perp OM$。\n\n①求 $\cos\alpha$ 的值；\n\n②平移抛物线，使新抛物线的顶点落在线段 $MN$ 上，且新抛物线与 $y$ 轴交于点 $C$。已知点 $M$ 的纵坐标为 $1$，当四边形 $OACB$ 是以 $OA$ 为腰的等腰梯形时，求点 $B$ 的坐标。'
-          answer: '（1）$y=x^2+2x+2$；（2）①$\cos\alpha=\dfrac{4}{5}$；②$(1,-2)$ 或 $(\dfrac{3}{2},-\dfrac{9}{4})$'
-          explanation: '（1）由 $\tan\alpha=3/4$ 和 $M(1,5)$ 求导数关系，待定系数法。（2）①由 $\tan\alpha$ 求 $\cos\alpha$。②由等腰梯形性质确定坐标。'
+          stem_latex: |
+            在平面直角坐标系中（如图所示），已知某抛物线的表达式为$y=ax^2+bx+c$。沿着$x$轴的正方向看，点$M$在抛物线的上升部分，设直线$MO$与$x$轴的夹角为$\alpha$。
+            （1）如果$\tan\alpha=\dfrac{1}{2}$，$OM=\sqrt{5}$，求该抛物线的表达式；
+            （2）已知点$N$在抛物线的下降部分，且$\angle MON=\alpha$。
+            ①求$\dfrac{OM}{ON}$的值；
+            ②平移抛物线，使新抛物线的顶点落在线段$MN$上，且新抛物线与$y$轴交于点$C$。已知点$M$的纵坐标为1，当四边形$OCMN$是以为腰的等腰梯形时，求点$M$的坐标。
+          answer: '（1）$y=x^2-2x-3$；（2）①$\dfrac{OM}{ON}=1$；②见详解'
+          explanation: 官方参考答案：见详解。
           solution_steps:
-            - {title: '第（1）问', content: '设 $M$ 处切线斜率 $k=\tan\alpha=3/4$，$M(1,5)$，待定系数法求 $a,b,c$。'}
-            - {title: '第（2）问 ①', content: '$\cos\alpha=4/5$。'}
-            - {title: '第（2）问 ②', content: '由等腰梯形 $OA=BC$ 或 $OA=OB$ 的性质确定顶点坐标。'}
-          solution_notes: '本题含大量 WMF 公式（抛物线、三角函数、坐标），LaTeX 从解析推断，需人工仔细核实所有条件和答案。'
+            - title: 第（1）问
+              content: '由$\tan\alpha=\dfrac{1}{2}$得$M$横纵坐标比例关系，结合$OM=\sqrt{5}$求出$M$坐标，代入抛物线表达式求解析式。'
+            - title: 第（2）①
+              content: '过点$N$作平行线，利用角平分线定义和勾股定理求$\dfrac{OM}{ON}$的定值。'
+            - title: 第（2）②
+              content: '由点$M$纵坐标简化坐标，求直线$MN$解析式，利用等腰梯形性质确定点$C$坐标，联立方程求解顶点。'
+        transcription:
+          question_status: author_pass
+          official_solution_status: author_pass
+          human_review: pending
+          prompt_status: author_pass
+          prompt_review_notes:
+            - '抛物线坐标系图为image355.png，需人工核对。'
+        content_hash: sha256:0000000000000000000000000000000000000000000000000000000000000000
+
       - item_id: Q024
         question_number: 24
         question_type: problem
@@ -380,21 +829,35 @@ sections:
         prompt:
           - source: documents/初三/2026届-上海市普陀区-初三二模数学-试卷及解析/word/media/image471.png
             box_px: [0, 0, 1078, 243]
-            assignment_path: /stem_image
-            width: 110mm
+            width: 0.85\linewidth
         official_solution:
-          start_anchor: '【答案】（1）'
+          start_anchor: '【答案】（1）$S=\dfrac{25\pi}{6}+\dfrac{9\pi}{8}$'
           end_anchor: '<END_OF_SOURCE>'
           word_evidence:
             - manifest: documents/初三/2026届-上海市普陀区-初三二模数学-试卷及解析/word/word-source.yaml
               paragraph_start: 439
-              paragraph_end: 494
+              paragraph_end: 491
         block:
-          stem_latex: '扇形 $OAB$ 与扇形 $OCD$ 组成如图 1 的图形，其中扇形 $OAB$ 的圆心角 $\angle AOB$ 等于 $90°$，点 $C$、$D$ 分别在半径 $OA$、$OB$ 上，分别记扇形 $OAB$、扇形 $OCD$ 的圆心角所对的弧为 $l_{AB}$ 与 $l_{CD}$，半径长分别为 $R$ 与 $r$。\n\n（1）已知 $l_{AB}$ 的长与 $l_{CD}$ 的长相等，$R=4$，求这个图形的面积 $S$（结果保留 $\pi$）。\n\n（2）连接 $AD$，作 $\triangle AOD$ 关于直线 $AD$ 的对称图形。\n\n①连接 $BC$，如果 $AD$ 与 $BC$ 交于点 $M$、$N$（点 $M$ 在点 $N$ 的左侧），且 $MN=\dfrac{\sqrt{2}}{2}$，求 $R$ 与 $r$ 之间的数量关系；\n\n②如果 $l_{AB}$ 所在的圆与 $l_{CD}$ 所在的圆内切于点 $F$（如图 2 所示），点 $P$ 是 $\widehat{AB}$ 上一点，连接 $PF$ 并延长交 $\widehat{CD}$ 于点 $Q$，当 $PQ=2DF$ 时，求 $\widehat{PQ}$ 的度数。'
-          answer: '（1）$S=12\pi$；（2）①$R-r=\dfrac{\sqrt{2}}{2}MN$ 即 $R-r=\dfrac{1}{2}$；②$30°$'
-          explanation: '（1）弧长相等 $\dfrac{\pi}{2}R=\dfrac{\pi}{2}r+r\cdot\dfrac{\pi}{2}$，$R=r+4$（由 $R=4$ 反推关系），用扇形面积公式。（2）①对称构造等腰直角三角形，勾股定理求关系。②圆内切，等腰三角形，由 $PQ=2DF$ 求 $\widehat{PQ}$ 度数。'
+          stem_latex: |
+            扇形$AOB$与扇形$COD$组成一个如图1的图形，其中扇形$AOB$的圆心角等于$\dfrac{\pi}{2}$，点$C$、$D$分别在半径$OA$、$OB$上，分别记扇形$AOB$、扇形$COD$的圆心角所对的弧为$\overset{\frown}{AB}$与$\overset{\frown}{CD}$，半径长分别为$R$与$r$。
+            （1）已知$\overset{\frown}{AB}$的长与$\overset{\frown}{CD}$的长相等，$R=5$，$r=3$，求这个图形的面积$S$（结果保留$\pi$）；
+            （2）连接$CD$，作$O$关于直线$CD$的对称图形。
+            ①连接$OO'$，如果$OO'$与$\overset{\frown}{AB}$交于点$M$、$N$（点$M$在点$N$的左侧），且$MN=2\sqrt{2}$，求$R$与$r$之间的数量关系；
+            ②如果$\overset{\frown}{CD}$所在的圆与$\overset{\frown}{AB}$所在的圆内切于点$F$（如图2所示），点$P$是$\overset{\frown}{CD}$上一点，连接$OP$并延长交$\overset{\frown}{AB}$于点$Q$，当$PQ=2$时，求$\angle POQ$的度数．
+          answer: '（1）$S=\dfrac{25\pi}{6}+\dfrac{9\pi}{8}$；（2）①$R=\sqrt{2}r$；②见详解'
+          explanation: 官方参考答案：见详解。
           solution_steps:
-            - {title: '第（1）问', content: '弧长相等得 $R\cdot\dfrac{\pi}{2}=r\cdot\alpha$，求 $\alpha$，再用扇形面积公式。'}
-            - {title: "第（2）问 ①", content: "记 $O$ 的对称点为 $O'$，由对称性和等腰直角三角形用勾股定理求 $R$ 与 $r$ 的关系。"}
-            - {title: '第（2）问 ②', content: '由圆内切和 $PQ=2DF$ 构造等腰三角形，求弧的度数。'}
-          solution_notes: '本题含大量 WMF 公式（弧长、扇形面积、圆内切），LaTeX 从解析推断，需人工仔细核实所有条件和推导。'
+            - title: 第（1）问
+              content: '由弧长相等和扇形弧长公式求出圆心角，再利用扇形面积公式求解。'
+            - title: 第（2）①
+              content: "记$O$的对称点为$O'$，利用对称性和勾股定理表示各边长，建立$R$与$r$的关系。"
+            - title: 第（2）②
+              content: '利用内切条件和等腰三角形性质，构造等腰直角三角形和直角三角形，解三角形求角度。'
+        transcription:
+          question_status: author_pass
+          official_solution_status: author_pass
+          human_review: pending
+          prompt_status: author_pass
+          prompt_review_notes:
+            - '扇形组合图为image471.png，需人工核对裁框。'
+        content_hash: sha256:0000000000000000000000000000000000000000000000000000000000000000

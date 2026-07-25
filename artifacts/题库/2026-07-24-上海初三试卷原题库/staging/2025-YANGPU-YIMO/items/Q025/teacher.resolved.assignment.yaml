@@ -1,0 +1,54 @@
+meta:
+  title: 2024学年度第一学期初三期末质量调研数学学科 · 原题第 25 题 · 教师版
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: 已知 $\triangle ABC$ 中，$\angle B=90^\circ$，点 $D$ 在边 $BC$ 上，$CD=3BD$。（1）如图1，当 $AB=6$，$\sin C=\dfrac{\sqrt5}{5}$ 时，求 $AD$ 的长；（2）点 $E$ 是 $AC$ 边上一点，满足 $\angle ADB=\angle ADE$。①如图2，当 $CD^2=CE\cdot CA$ 时，求 $\dfrac{AB}{BC}$ 的值；②当 $\triangle CDE$ 是等腰三角形时，求 $\angle C$ 的余弦值。
+    answer: （1）$AD=3\sqrt5$；（2）①$\dfrac{AB}{BC}=\dfrac{\sqrt{11}}4$；②$\cos C=\dfrac45$ 或 $\dfrac{4\sqrt{10}-4}{9}$。
+    solution_steps:
+    - title: 第（1）问
+      content: 在直角三角形 $ABC$ 中，由 $AB=6$、$\sin C=\dfrac{\sqrt5}{5}$ 得 $AC=6\sqrt5$、$BC=12$。由 $CD=3BD$ 得 $BD=3$，所以在直角三角形 $ABD$ 中 $AD=3\sqrt5$。
+    - title: 第（2）问①
+      content: 设 $BD=a$，则 $CD=3a$。由 $CD^2=CE\cdot CA$ 得 $\triangle CDE\sim\triangle CAD$，结合 $\angle ADB=\angle ADE$ 推得比例关系，解得 $\dfrac{AB}{BC}=\dfrac{\sqrt{11}}4$。
+    - title: 第（2）问②
+      content: 分类讨论等腰三角形 $CDE$。当 $DE=DC$ 时与题设位置矛盾，舍去；当 $ED=EC$ 时得 $\cos C=\dfrac45$；当 $CE=CD$ 时得 $\cos C=\dfrac{4\sqrt{10}-4}{9}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 0.92\linewidth
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 公众号原解答 1
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 公众号原解答 2
+    teaching:
+      source_key: 2025-YANGPU-YIMO-Q25
+      skill_tags:
+      - 直角三角形
+      - 相似三角形
+      - 分类讨论
+      difficulty: challenge
+      official_solution_policy: verbatim_transcription_with_separate_notes

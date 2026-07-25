@@ -1,0 +1,58 @@
+meta:
+  title: 2023学年第一学期九年级数学练习 · 第25题 · 教师版
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: 在直角梯形 $ABCD$ 中，$AD\parallel BC$，$\angle B=90^\circ$，$AD=6$，$AB=4$，$BC>AD$，$\angle ADC$ 的平分线交边 $BC$ 于点 $E$，点 $F$ 在线段 $DE$ 上，射线 $CF$ 与梯形 $ABCD$ 的边相交于点 $G$。（1）如图12-1，如果点 $G$ 与 $A$ 重合，当 $\tan\angle BCD=\frac43$ 时，求 $BE$ 的长；（2）如图12-2，如果点 $G$ 在边 $AD$ 上，联结 $BG$，当 $DG=4$，且 $\triangle CGB\sim\triangle BAG$ 时，求 $\sin\angle BCD$ 的值；（3）当 $F$ 是 $DE$ 中点，且 $AG=1$ 时，求 $CD$ 的长。
+    answer: （1）4；（2）$\frac{\sqrt2}{2}$；（3）5或$9+\sqrt7$。
+    solution_steps:
+    - title: 第（1）问
+      content: 过点 $D$ 作 $DH\perp BC$，垂足为 $H$。$\because\angle ADH=\angle DHC=\angle ABC=90^\circ$，$\therefore$ 四边形 $ABHD$ 是矩形，$DH=AB=4,\ AD=BH=6$。由 $AD\parallel BC$ 得 $\angle ADE=\angle DEC$；又 $DE$ 平分 $\angle ADC$，所以 $\angle ADE=\angle CDE$，故 $\angle DEC=\angle CDE,\ CD=CE$。在 $Rt\triangle DHC$ 中，$\tan\angle BCD=\frac{DH}{CH}=\frac43$，所以 $CH=3,\ CD=CE=5$。于是 $BC=9,\ BE=BC-EC=4$。
+      diagram_col:
+        image_path: assets/solution-01.png
+        width: 78mm
+        variant: solution
+        disclosure_policy: teacher_only
+    - title: 第（2）问
+      content: 由点 $G$ 在边 $AD$ 上、$\angle AGB=\angle GBC$、$\triangle CGB\sim\triangle BAG$，得 $\angle BGC=\angle A=90^\circ$，且 $\frac{AG}{BG}=\frac{BG}{BC}$。在 $Rt\triangle BAG$ 中，$AB=4,\ AG=2$，所以 $BG=2\sqrt5$，继而 $BC=10,\ CH=4$。因此 $DH=CH=4,\ CD=4\sqrt2$，所以 $\sin\angle BCD=\frac{DH}{CD}=\frac{\sqrt2}{2}$。
+    - title: 第（3）问
+      content: ①当点 $G$ 在 $AD$ 上时，$AG=1$，所以 $DG=5$。由 $AD\parallel BC$，得 $\frac{DG}{CE}=\frac{DF}{EF}=1$，故 $DG=CE=5,\ CD=CE=5$。②当点 $G$ 在 $CD$ 上时，延长 $DA$、$CG$ 交于点 $M$。由 $\frac{AM}{BC}=\frac{AG}{BG}=\frac13$，设 $AM=x$，则 $BC=3x,\ CH=3x-6,\ DM=CE=CD=x+6$。由 $DH^2+CH^2=CD^2$，得 $4^2+(3x-6)^2=(x+6)^2$，所以 $x=3\pm\sqrt7$。由 $BC>AD$，得 $x=3+\sqrt7$。官方原解答末行写作“$AB=x+6=9+\sqrt7$”。
+      diagram_col:
+        image_path: assets/solution-02.png
+        width: 96mm
+        variant: solution
+        disclosure_policy: teacher_only
+    solution_notes:
+    - 官方解答第（3）问②末行写“AB=x+6=9+√7”，与题设 AB=4 冲突；结合上一行 DM=CE=CD=x+6，应为 CD=x+6。此处未改写官方原文，答案按其推导记录。
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第2页
+    diagram_col:
+      image_path: assets/prompt-figures.png
+      width: 96mm
+      variant: prompt
+      disclosure_policy: clean

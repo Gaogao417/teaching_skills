@@ -1,0 +1,43 @@
+meta:
+  title: 徐汇区2025学年第一学期初三年级期末试卷第19题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q019
+    points: 10
+    stem_latex: 如图，$\triangle ABC$ 中，$D、E、F$ 分别是边 $BC、AC、AB$ 上的点，已知 $BD=2CD$，且四边形 $AEDF$ 是平行四边形。设 $\overrightarrow{BA}=\vec
+      a$，$\overrightarrow{BC}=\vec b$。（1）用 $\vec a、\vec b$ 分别表示 $\overrightarrow{BD}、\overrightarrow{AC}、\overrightarrow{EF}$；（2）联结
+      $BE$ 交 $DF$ 于点 $G$，在图中求作 $\overrightarrow{BG}$ 分别在 $\vec a、\vec b$ 方向上的分向量。
+    answer: （1）$\overrightarrow{BD}=\frac23\vec b$，$\overrightarrow{AC}=-\vec a+\vec b$，$\overrightarrow{EF}=\vec a-\frac23\vec
+      b$；（2）见作图。
+    solution_steps:
+    - title: 解答
+      content: （1）由 $BD=2CD$ 得 $\overrightarrow{BD}=\frac23\vec b$；$\overrightarrow{AC}=-\vec a+\vec b$；平行四边形给出 $\overrightarrow{EF}=\vec
+        a-\frac23\vec b$。（2）按平行四边形法则在图中作出两个分向量。
+    images:
+    - image_path: assets/prompt-figure.png
+      width: 0.78\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页

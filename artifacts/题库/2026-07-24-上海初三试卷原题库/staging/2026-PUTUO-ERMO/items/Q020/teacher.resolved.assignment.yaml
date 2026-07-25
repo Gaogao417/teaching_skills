@@ -1,8 +1,8 @@
 meta:
-  title: 2026 年上海市普陀区中考数学二模试卷第 20 题
-  grade: 初三
+  title: 2026年上海市普陀区中考二模数学试卷第 20 题
+  grade: 九年级
   subject: 数学
-  total_points: 12
+  total_points: 10
   version: teacher
   show_answers: true
   source_artifacts:
@@ -19,19 +19,18 @@ sections:
   blocks:
   - type: problem
     id: Q020
-    points: 12
-    stem_latex: 如图，在四边形 $ABCD$ 中，$\angle A=\angle C=90°$，点 $E$ 在 $AB$ 边上，$AE=2$，$DE\perp BC$，$EF\perp AB$。
-    answer: （1）$BE=6$；（2）$\dfrac{1}{3}$
-    explanation: （1）由 $\triangle ABE\cong\triangle DFE$ 得 $BE=DE=6$。（2）过 $E$ 作 $EH\perp AD$，由相似三角形求比。
+    points: 10
+    stem_latex: 如图，在四边形$ABCD$中，$AB\parallel CD$，点$E$在$BC$边上，$AE\perp BC$，$BE=CE=2$，$CD=3$．（1）求$AD$的长；（2）如果$\angle DAE=\angle B$，$\sin\angle B=\dfrac{3}{5}$，求$\tan\angle DAE$的值．
+    answer: 见详解
+    explanation: 官方参考答案：见详解。
     solution_steps:
     - title: 第（1）问
-      content: 证明 $\triangle ABE\cong\triangle DFE$，得 $BE=DE$，$DE=BC=6$，故 $BE=6$。
+      content: 证明$\triangle ABE\cong\triangle DCE$（或利用平行线性质），进而求出$AD$的长。
     - title: 第（2）问
-      content: 过 $E$ 作 $EH\perp AD$ 于 $H$，由 $\triangle AEH\sim\triangle DEF$，代入已知求 $\dfrac{EF}{AD}$ 的值。
-    solution_notes: 题干含 WMF 公式，LaTeX 从解析推断，需人工核实几何条件和数值。
-    stem_image:
+      content: 过点$E$作$EH\perp AD$于点$H$，利用$\sin\angle B=\dfrac{3}{5}$和勾股定理求解。
+    diagram_col:
       image_path: assets/prompt-01.png
-      width: 120mm
+      width: 0.85\linewidth
       variant: prompt
       disclosure_policy: clean
     source_solution_images: []

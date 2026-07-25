@@ -1,0 +1,46 @@
+meta:
+  title: 2012年上海市普陀区中考数学二模试卷第 3 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、单项选择题
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q003
+    points: 4
+    stem_latex: 如图，飞镖投一个被平均分成 $6$ 份的圆形靶子，那么飞镖落在阴影部分的概率是（\quad）
+    choices:
+    - $\dfrac16$
+    - $\dfrac13$
+    - $\dfrac12$
+    - $\dfrac23$
+    answer: C
+    explanation: 阴影部分占圆形靶子的 $\frac12$，故选 C。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 42mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 1 页
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 2 页

@@ -1,0 +1,52 @@
+meta:
+  title: 嘉定区2025学年第一学期九年级质量调研数学第24题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q024
+    points: 12
+    stem_latex: 如图11，在平面直角坐标系 $xOy$ 中，已知抛物线 $y=-x^2+bx+c$ 与 $x$ 轴交于点 $A(-1,0)$ 和 $C$，与 $y$ 轴交于点 $B(0,3)$，顶点为 $D$，联结 $AB$、$BC$。（1）求抛物线的表达式；（2）点 $P$ 是抛物线上对称轴右侧的点。①当点 $P$ 在 $x$ 轴上方时，联结 $PB$、$PC$，如果 $S_{\triangle PBC}=\frac12S_{\triangle ABC}$，求点 $P$ 的坐标；②如果点 $E$ 在对称轴上，且使 $\triangle PDE$ 与 $\triangle AOB$ 相似，请直接写出点 $P$ 的坐标。
+    answer: （1）$y=-x^2+2x+3$；（2）① $P(2,3)$；② $P_1(4,-5)$，$P_2\left(\frac43,\frac{35}{9}\right)$。
+    solution_steps:
+    - title: 第（1）问
+      content: $\because$ 抛物线 $y=-x^2+bx+c$ 经过点 $A(-1,0)$ 和点 $B(0,3)$，$\therefore\begin{cases}-1-b+c=0\\c=3\end{cases}$，解得 $\begin{cases}b=2\\c=3\end{cases}$。$\therefore$ 抛物线的表达式为 $y=-x^2+2x+3$。
+    - title: 第（2）问①
+      content: 令 $y=-x^2+2x+3=0$，得 $x_1=-1,x_2=3$，得 $C(3,0)$。$\therefore S_{\triangle ABC}=\frac12AC\cdot OB=6$，$\therefore S_{\triangle PBC}=3$。过点 $P$ 作 $PH\perp x$ 轴，垂足为点 $H$。设点 $P(m,-m^2+2m+3)$，则 $PH=-m^2+2m+3$，$OH=m$，$CH=3-m$。$S_{\triangle OBC}=\frac92$，$S_{\text{梯形 }PHOB}=\frac{(PH+OB)\cdot OH}{2}$，$S_{\triangle PHC}=\frac12PH\cdot HC$。由图可知，$S_{\text{四边形 }PBOC}=S_{\text{梯形 }PHOB}+S_{\triangle PHC}=S_{\triangle PBC}+S_{\triangle OBC}$，解得 $m_1=1,m_2=2$。$\because$ 点 $P$ 是抛物线上对称轴右侧且在 $x$ 轴上方的动点，$\therefore1<m<3$，$\therefore P(2,3)$。
+      diagram_col:
+        image_path: assets/solution-01.png
+        width: 58mm
+        variant: solution
+        disclosure_policy: teacher_only
+    - title: 第（2）问②
+      content: $P_1(4,-5)$，$P_2\left(\frac43,\frac{35}{9}\right)$。
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第2页
+    diagram_col:
+      image_path: assets/prompt-figure.png
+      width: 65mm
+      variant: prompt
+      disclosure_policy: clean

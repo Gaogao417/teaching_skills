@@ -1,0 +1,50 @@
+meta:
+  title: 嘉定区2025学年第一学期九年级质量调研数学第22题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q022
+    points: 10
+    stem_latex: 如何用尺规把一条线段进行黄金分割呢？教材54页的阅读材料给出了一种方法，请阅读材料并回答问题。（1）请写出图中 $\dfrac{AP}{AB}$ 的值；（2）我们把顶角为 $36^\circ$ 的等腰三角形称为黄金三角形，它的底边与腰的比是黄金分割数。请利用无刻度直尺和圆规，作出以线段 $EF$ 为底边的黄金三角形 $EFG$（不必写出作法，保留作图痕迹并写出结论）。
+    answer: （1）$\dfrac{\sqrt5-1}{2}$；（2）见作图。
+    stem_image:
+      image_path: assets/prompt-material-box.png
+      width: 0.98\linewidth
+      variant: prompt
+      disclosure_policy: clean
+    solution_steps:
+    - title: 第（1）问
+      content: $\dfrac{AP}{AB}=\dfrac{\sqrt5-1}{2}$。
+    - title: 第（2）问
+      content: $\triangle EFG$ 即为所要求作的黄金三角形。
+      diagram_col:
+        image_path: assets/solution-01.png
+        width: 58mm
+        variant: solution
+        disclosure_policy: teacher_only
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页
+    diagram_col:
+      image_path: assets/prompt-segment-ef.png
+      width: 35mm
+      variant: prompt
+      disclosure_policy: clean

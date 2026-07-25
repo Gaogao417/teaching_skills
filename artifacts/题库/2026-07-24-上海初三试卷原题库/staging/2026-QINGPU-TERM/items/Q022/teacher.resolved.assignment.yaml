@@ -1,0 +1,40 @@
+meta:
+  title: 2025学年第一学期九年级期终学业质量调研数学试卷第 22 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q022
+    points: 10
+    stem_latex: 某小区拟在角落处增设一个矩形停车位 $ABCD$，三面围墙及墙 $DE$ 均高于车顶，数据如图6。汽车前车门完全打开时与车身夹角为 $70^\circ$，夹角不小于 $25^\circ$ 时驾驶员能顺畅出来；汽车数据见图7，车门打开示意见图8。车身始终与墙 $BC$ 平行，后视镜完全打开时与墙之间有10厘米安全距离。（1）汽车倒车停入车位 $ABCD$ 区域时，驾驶员是否能顺畅出来？（2）车库门前有一条平行于 $CD$ 且与 $CD$ 距离270厘米的人行道，当驾驶室车门能完全打开时，汽车是否占用人行道？（精确到1厘米）
+    answer: （1）能顺畅出来；（2）不占用人行道。
+    solution_steps:
+    - title: 第（1）问
+      content: 当车门与车身夹角为 $25^\circ$ 时，车门横向占用 $GH=100\sin25^\circ\approx42$ 厘米，且 $42+185+25=252<260$，所以驾驶员能够顺畅出来。
+    - title: 第（2）问
+      content: 车门在车位内部不能完全打开；转到车位外部时，按图作垂线计算，在 $\angle MFP=53^\circ$ 时车门已能完全打开。由直角三角形得 $PR=80，FR=60，DQ\approx39.9$，总占用约 $39.9+60+160\approx260<270$ 厘米，所以不占用人行道。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 98mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 1 页

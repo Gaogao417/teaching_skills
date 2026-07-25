@@ -1,0 +1,46 @@
+meta:
+  title: 普陀区2025学年度第一学期期末练习第24题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q024
+    points: 12
+    stem_latex: 在平面直角坐标系 $xOy$ 中（如图），已知抛物线 $y=a(x+2)^2+k(a>0)$ 与 $x$ 轴交于点 $A(-5,0)$，与 $y$ 轴交于点 $B$，顶点为 $P$。（1）用含 $a$ 的代数式分别表示点
+      $B、P$ 的坐标；（2）作过点 $B$ 和点 $P$ 的直线交 $x$ 轴于点 $C$。①当 $a$ 取不同的数值时，点 $C$ 是否会移动？说明理由；②当 $a=1$ 时，交点、顶点分别记作 $B_1、P_1$；当 $a=m(0<m<1)$
+      时分别记作 $B_m、P_m$。若 $\angle P_mP_1B_m$ 的补角等于 $\angle P_mP_1B_1$ 的两倍，求 $m$。
+    answer: （1）$B(0,-5a),P(-2,-9a)$；（2）①不移动，$C(\frac52,0)$；②$m=\dfrac38$。
+    solution_steps:
+    - title: 第（1）问
+      content: 由 $A(-5,0)$ 在抛物线上，得 $a(-5+2)^2+k=0$，故 $k=-9a$。当 $x=0$ 时 $y=4a-9a=-5a$，所以 $B(0,-5a)$，$P(-2,-9a)$。
+    - title: 第（2）问①
+      content: 设直线 $BP$ 为 $y=kx+b$。代入 $B(0,-5a)、P(-2,-9a)$，得 $k=2a$，所以 $y=2ax-5a$。令 $y=0$，得 $x=\dfrac52$，故 $C(\dfrac52,0)$，点
+        $C$ 不移动。
+    - title: 第（2）问②
+      content: 由题意 $P_1(-2,-9),P_m(-2,-9m)$。结合角关系可得 $P_mB_m=P_mC$，于是 $(-9m+9)^2=(-9m)^2+(\dfrac52)^2$，解得 $m=\dfrac38$。
+    images:
+    - image_path: assets/prompt-figure.png
+      width: 0.82\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图1
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页

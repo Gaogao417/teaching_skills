@@ -1,0 +1,38 @@
+meta:
+  title: 2012 年上海市杨浦区中考数学二模试卷第 25 题
+  grade: 初三
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: 如图，正方形 $ABCD$ 中 $AB=8$，$O$ 为 $AB$ 上动点。以 $O$ 为圆心、$OB$ 为半径的圆交 $AD$ 于 $E$，$EF\perp OE$ 交 $CD$ 于 $F$。设 $BO=x,AE=y$。（1）求 $y$ 关于 $x$ 的函数关系式及定义域；（2）求 $\triangle EFD$ 周长是否变化；（3）以 $A$ 为圆心、$OA$ 为半径作圆，讨论两圆位置关系。
+    answer: $y=4\sqrt{x-4}\ (4<x<8)$；周长为 $16$；相交 $4<x<\frac{16}{3}$，内切 $x=\frac{16}{3}$，内含 $\frac{16}{3}<x<8$
+    explanation: 勾股定理、相似和圆的位置关系。
+    solution_steps:
+    - title: 第（1）问
+      content: 由 $OB=OE$ 和 Rt$\triangle AOE$，得 $(8-x)^2+y^2=x^2$，所以 $y=4\sqrt{x-4}$，$4<x<8$。
+    - title: 第（2）问
+      content: 证 $\triangle AOE\sim\triangle DEF$，求得 $C_{\triangle DEF}=16$，周长不变。
+    - title: 第（3）问
+      content: 半径分别为 $x,8-x$，圆心距为 $8-x$；解相交、内切、内含不等式得到相应范围。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 105mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

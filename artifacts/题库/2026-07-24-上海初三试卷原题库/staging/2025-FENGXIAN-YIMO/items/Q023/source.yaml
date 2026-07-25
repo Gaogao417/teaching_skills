@@ -1,0 +1,51 @@
+schema: math_exam_item_source/v1
+item_id: Q023
+source_key: 2025-FENGXIAN-YIMO-Q23
+paper_id: 2025-FENGXIAN-YIMO
+question_number: 23
+question_type: problem
+points: 12
+section_title: 三、解答题
+source_directory: documents/初三/2025届-上海市奉贤区-初三一模数学-试卷及参考答案
+crops:
+  question_evidence:
+  - source: documents/初三/2025届-上海市奉贤区-初三一模数学-试卷及参考答案/004.png
+    source_sha256: sha256:e3f0aceb6695f9bd74deae0f1055425c6a185e793cdd1970372525b370694116
+    box_px:
+    - 125
+    - 1100
+    - 970
+    - 1470
+    output: assets/source-question.png
+    output_sha256: sha256:68981b5864cf657fc62f77a0ea35cbdcfea60edbd26e87c76bcf5ff40275a876
+  prompt:
+  - source: documents/初三/2025届-上海市奉贤区-初三一模数学-试卷及参考答案/004.png
+    source_sha256: sha256:e3f0aceb6695f9bd74deae0f1055425c6a185e793cdd1970372525b370694116
+    box_px:
+    - 650
+    - 1190
+    - 950
+    - 1400
+    whiteout_px:
+    - - 0
+      - 0
+      - 90
+      - 45
+    output: assets/prompt-01.png
+    output_sha256: sha256:f0436cc292d7a48f56a0c3808abc456880cd7a9fe79e199127d7705793ee4fe9
+  official_solution:
+  - source: documents/初三/2025届-上海市奉贤区-初三一模数学-试卷及参考答案/008.png
+    source_sha256: sha256:71e1b32e4578242bcb72271c5c123d59b10e6669e19c205fcc425b24926aa1d3
+    box_px:
+    - 150
+    - 90
+    - 950
+    - 700
+    output: assets/official-solution-01.png
+    output_sha256: sha256:5710d2f55037f713e42cb9cf9acc1b7d560d1dfe5bbd3bd078f2e502fc7e4c64
+transcription:
+  question_status: author_pass
+  official_solution_status: author_pass
+  independent_review: pending
+  human_review: pending
+content_hash: sha256:650fc968878b97dc4bb75946189ccf80018d7377d62c15732f24b3fb525b5d3c

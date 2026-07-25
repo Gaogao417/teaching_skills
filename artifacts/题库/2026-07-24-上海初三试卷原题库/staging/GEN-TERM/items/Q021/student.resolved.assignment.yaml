@@ -1,0 +1,38 @@
+meta:
+  title: 初三数学期末练习卷 · 原题第 21 题 · 学生版
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: student
+  show_answers: false
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: student
+  blocks:
+  - type: problem
+    id: Q021
+    points: 10
+    stem_latex: '如图，在 $\triangle ABC$ 中，点 $D,E$ 分别在边 $AB,AC$ 上，$AD\cdot AB=AE\cdot AC$，点 $F$ 是 $BE$ 与 $CD$ 的交点。
+
+      \begin{enumerate}
+
+      \item 求证：$\triangle FDB\sim\triangle FEC$；
+
+      \item 如果 $AB=15$，$AC=18$，$AD=6$，求 $EF:DF$。
+
+      \end{enumerate}'
+    subquestions:
+    - latex: 求证：$\triangle FDB\sim\triangle FEC$；
+    - latex: 若 $AB=15$，$AC=18$，$AD=6$，求 $EF:DF$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean

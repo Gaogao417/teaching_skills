@@ -1,0 +1,50 @@
+meta:
+  title: 杨浦区2025学年度第一学期期末调研第25题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: 综合与实践：折黄金矩形。把宽与长之比为 $\dfrac{\sqrt5-1}{2}$ 的矩形称为黄金矩形。（1）按图1至图5折叠矩形纸片，判断图5中哪些矩形是黄金矩形；（2）按图6至图10折叠正方形纸片得到矩形 $BGHC$，证明其为黄金矩形；（3）按文字步骤折叠矩形
+      $ABCD$，当 $MH\perp EN$ 时，说明点 $G$ 是线段 $AB$ 的黄金分割点。
+    answer: （1）矩形 $ABCG$、矩形 $DCGH$；（2）$BGHC$ 是黄金矩形；（3）$\dfrac{AG}{BG}=\dfrac{\sqrt5-1}{2}$。
+    solution_steps:
+    - title: 第（1）问
+      content: 矩形 $ABCG$、矩形 $DCGH$ 是黄金矩形。
+    - title: 第（2）问
+      content: 设正方形边长为 $2$。对折后 $AE=DE=1$，$EC=\sqrt5$。由折叠与平行关系可得 $EQ=EC=\sqrt5$，从而 $AG=\sqrt5-1$，所以 $\dfrac{AG}{BG}=\dfrac{\sqrt5-1}{2}$，故矩形
+        $BGHC$ 是黄金矩形。
+    - title: 第（3）问
+      content: 设 $AG=a,BG=b$。由折叠、全等、相似与 $MH\perp EN$，可得 $a^2+ab-b^2=0$，解得 $\dfrac ab=\dfrac{\sqrt5-1}{2}$（负根舍去）。因此 $G$ 是线段
+        $AB$ 的黄金分割点。
+    stem_image:
+      image_path: assets/prompt-figures.png
+      width: 0.98\linewidth
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第2页

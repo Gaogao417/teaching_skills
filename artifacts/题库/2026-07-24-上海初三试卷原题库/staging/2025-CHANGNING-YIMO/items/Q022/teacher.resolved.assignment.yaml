@@ -1,0 +1,38 @@
+meta:
+  title: 2024学年第一学期初三数学教学质量调研试卷第 22 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q022
+    points: 10
+    stem_latex: 如图是某地下车库的剖面图。无人机位于点 $E$，$AD$ 与底板 $BR$ 平行，测得 $AD=11.6$ 米，在点 $E$ 处测得坡道 $AB$ 上点 $C$ 的俯角为 $26.6^\circ$；$DE\perp AD$，$CE$ 与底板 $BR$ 平行，$DE=1.8$ 米。（1）求坡道 $AB$ 的坡度；（2）结合图中 $AP=16.4$ 米、$\angle PFA=45^\circ$ 等条件，判断高3米的货车能否进入地下车库并说明理由。（参考数据：$\sin26.6^\circ=0.45，\cos26.6^\circ=0.89，\tan26.6^\circ=0.5$。）
+    answer: （1）坡度为 $\dfrac9{40}$；（2）能，通行高度为 $3.6$ 米。
+    solution_steps:
+    - title: 解答
+      content: 作垂线构造直角三角形，用俯角正切求得坡度为 $\dfrac9{40}$；再用勾股定理求得通行高度为 $3.6$ 米，所以货车能进入。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 70mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 1 页

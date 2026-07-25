@@ -1,0 +1,47 @@
+meta:
+  title: 松江区2025届初三一模第21题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q021
+    points: 10
+    stem_latex: 如图，在 $\triangle ABC$ 中，$\angle B=60^\circ$，$BC=6$，$S_{\triangle ABC}=6\sqrt3$。（1）求 $AB$；（2）在 $BC$ 边上取一点 $D$，使
+      $CD=2$，联结 $AD$，求 $\angle CAD$ 的正切值。
+    answer: （1）$AB=4$；（2）$\tan\angle CAD=\dfrac{\sqrt3}{5}$。
+    solution_steps:
+    - title: 第（1）问
+      content: 作 $AH\perp BC$。由面积得 $AH=2\sqrt3$，又 $\sin B=\dfrac{AH}{AB}$，所以 $AB=4$。
+      diagram_col:
+        image_path: assets/solution-01.png
+        width: 0.72\linewidth
+        variant: solution
+        disclosure_policy: teacher_only
+    - title: 第（2）问
+      content: 由 $BH=AB\cos60^\circ=2$，且 $CD=2$，得 $HD=2$。进一步得 $DE=1,CE=\sqrt3$，故 $\tan\angle CAD=\dfrac{CE}{AE}=\dfrac{\sqrt3}{5}$。
+    images:
+    - image_path: assets/prompt-figure.png
+      width: 0.82\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图1
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页

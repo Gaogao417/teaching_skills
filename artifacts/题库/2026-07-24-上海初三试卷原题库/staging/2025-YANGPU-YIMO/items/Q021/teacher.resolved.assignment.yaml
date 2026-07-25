@@ -1,0 +1,46 @@
+meta:
+  title: 2024学年度第一学期初三期末质量调研数学学科 · 原题第 21 题 · 教师版
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q021
+    points: 10
+    stem_latex: 如图，已知在梯形 $ABCD$ 中，$AD\parallel BC$，$\angle BCD=90^\circ$，$BC=8$，$AC=2\sqrt{10}$，$\sin\angle DAC=\dfrac{3\sqrt{10}}{10}$。（1）求 $BD$ 的长；（2）求 $\angle ABD$ 的正切值。
+    answer: （1）$BD=10$；（2）$\tan\angle ABD=\dfrac17$。
+    solution_steps:
+    - title: 第（1）问
+      content: 由 $AD\parallel BC$ 与 $\angle BCD=90^\circ$ 得 $\angle ADC=90^\circ$。在 $\mathrm{Rt}\triangle ADC$ 中求得 $CD=6$，再在 $\mathrm{Rt}\triangle BCD$ 中由勾股定理得 $BD=10$。
+    - title: 第（2）问
+      content: 由第（1）问得 $AD=2$，$\cos\angle DBC=\dfrac45$。过点 $A$ 作 $AE\perp BD$，可得 $AE=\dfrac65$，$DE=\dfrac85$，$BE=\dfrac{42}{5}$，所以 $\tan\angle ABD=\dfrac17$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 64mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 公众号原解答 1
+    teaching:
+      source_key: 2025-YANGPU-YIMO-Q21
+      skill_tags:
+      - 梯形
+      - 解直角三角形
+      difficulty: standard
+      official_solution_policy: verbatim_transcription_with_separate_notes

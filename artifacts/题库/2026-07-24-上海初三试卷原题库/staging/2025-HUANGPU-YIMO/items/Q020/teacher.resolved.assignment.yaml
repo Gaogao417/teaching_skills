@@ -1,0 +1,33 @@
+meta:
+  title: 九年级期终考试数学试卷第 20 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q020
+    points: 10
+    stem_latex: 已知抛物线 $y=ax^2+bx+c\ (a\ne0)$ 经过点 $A(-1,6)、B(1,-2)、C(0,1)$。（1）求抛物线表达式及其对称轴 $l$；（2）如果点 $A$ 与点 $D$ 关于对称轴 $l$ 对称，连接 $AB、BD$，求 $\triangle ABD$ 的面积。
+    answer: （1）$y=x^2-4x+1$，$l:x=2$；（2）$24$
+    solution_steps:
+    - title: 官方解答
+      content: 代入三点解得 $a=1,b=-4,c=1$，故 $y=x^2-4x+1$，对称轴为 $x=2$。点 $A(-1,6)$ 的对称点为 $D(5,6)$，$AD=6$，点 $B$ 到 $AD$ 的距离为8，所以面积为24。
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 1 页

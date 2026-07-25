@@ -1,0 +1,47 @@
+meta:
+  title: 2024年1月黄浦区九年级数学试卷第 24 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q024
+    points: 12
+    stem_latex: 如图，直线 $y=-x+3$ 与 $x$ 轴、$y$ 轴分别交于点 $A、B$。对称轴为直线 $x=1$ 的抛物线 $y=ax^2+bx+c$ 经过点 $A、B$，其与 $x$ 轴的另一交点为 $C$。（1）求该抛物线的表达式；（2）将该抛物线平移，使其顶点在线段 $AB$ 上点 $P$ 处，得到新抛物线 $L$，其与直线 $y=-x+3$ 的另一个交点为 $Q$。①如果抛物线 $L$ 经过点 $A$，且与 $x$ 轴的另一交点为 $D$，求线段 $CD$ 的长；②试问：$\triangle CPQ$ 的面积是否随点 $P$ 在线段 $AB$ 上的位置变化而变化？如果变化，请说明理由；如果不变，请求出 $\triangle CPQ$ 面积。
+    answer: （1）$y=-x^2+2x+3$；（2）①$CD=2$；②面积不变，为 $2$
+    solution_steps:
+    - title: 第（1）问
+      content: 由直线 $y=-x+3$，得 $A(3,0)$、$B(0,3)$。由 $c=3$、$9a+3b+c=0$、$-\dfrac b{2a}=1$，得 $y=-x^2+2x+3$。
+    - title: 第（2）问①
+      content: 令 $P(s,-s+3)$，则抛物线 $L:y=-(x-s)^2-s+3$。由过点 $A$，得 $L:y=-x^2+4x-3$，所以 $D(1,0)$，即 $CD=2$。
+    - title: 第（2）问②
+      content: 由 $\begin{cases}y=-(x-s)^2-s+3\\y=-x+3\end{cases}$ 得 $Q(s+1,-s+2)$，所以面积不变，面积为 $2$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 66mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 1 页
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 2 页

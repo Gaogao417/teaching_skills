@@ -1,0 +1,39 @@
+meta:
+  title: 徐汇区2025学年第一学期初三年级期末试卷第20题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q020
+    points: 10
+    stem_latex: 已知二次函数 $y=ax^2+bx+c(a\ne0)$ 中，函数 $y$ 与自变量 $x$ 的部分对应值如表所示。（1）求 $m$ 的值和二次函数的解析式；（2）将图像上下或左右平移后得到经过原点的新抛物线，直接写出三种平移方式；（3）选择一种平移方式说明解题思路。
+    answer: （1）$m=2.5$，$y=-\frac12x^2-x+4$；（2）向上平移4个单位、向左平移2个单位、向右平移4个单位；（3）略。
+    solution_steps:
+    - title: 解答
+      content: （1）根据表中零点及对应值求得 $m=2.5$，$y=-\frac12x^2-x+4$。（2）可向上平移 $4$ 个单位、向左平移 $2$ 个单位或向右平移 $4$ 个单位。（3）图像平移与图上点的平移是整体与局部的关系，使原抛物线上的相应点移到原点即可。
+    images:
+    - image_path: assets/prompt-table.png
+      width: 0.78\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页

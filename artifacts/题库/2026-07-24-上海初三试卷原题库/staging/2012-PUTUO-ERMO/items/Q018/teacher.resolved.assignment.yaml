@@ -1,0 +1,55 @@
+meta:
+  title: 2012年上海市普陀区中考数学二模试卷第 18 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q018
+    points: 4
+    stem_latex: 如图，将边长为 $4$ 的正方形 $ABCD$ 沿着折痕 $EF$ 折叠，使点 $B$ 落在边 $AD$ 的中点 $G$ 处，那么四边形 $BCFE$ 的面积等于 \underline{\hspace{2cm}}。
+    answer: $6$
+    solution_steps:
+    - title: 求边长
+      content: 由折叠得 $BE=GE$。设 $BE=x$，则 $AE=4-x$，$AG=2$，由 $(4-x)^2+2^2=x^2$ 得 $BE=2.5$。
+    - title: 求面积
+      content: 按原解答继续利用折叠角关系解直角三角形，得 $FC=0.5$，故 $S_{BCFE}=\dfrac12(BE+FC)\cdot BC=6$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 92mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 1 页
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 2 页
+    - image_path: assets/official-solution-03.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 3 页
+    - image_path: assets/official-solution-04.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 4 页

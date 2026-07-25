@@ -1,0 +1,50 @@
+meta:
+  title: 宝山区2023学年第一学期期末考试 · 原题第20题 · 教师版
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q020
+    points: 10
+    stem_latex: 如图7，在 $\triangle ABC$ 中，$AB=5,\ BC=4$，$BD$ 平分 $\angle ABC$ 交 $AC$ 于点 $D$，$DE\parallel BC$ 交 $AB$ 于点 $E$。（1）求 $DE$ 的长；（2）联结 $CE$ 交 $BD$ 于点 $F$，设 $\overrightarrow{AB}=\vec a,\ \overrightarrow{AD}=\vec b$，用 $\vec a,\vec b$ 的线性组合表示向量 $\overrightarrow{BD}$、$\overrightarrow{BF}$。
+    answer: （1）$\frac{20}{9}$；（2）$\overrightarrow{BD}=\vec b-\vec a$，$\overrightarrow{BF}=\frac9{14}\vec b-\frac9{14}\vec a$。
+    solution_steps:
+    - title: 第（1）问
+      content: $\because BD$ 平分 $\angle ABC$，且 $DE\parallel BC$，$\therefore DE=BE$。设 $DE=BE=x$，则 $AE=5-x$。由 $\frac{DE}{BC}=\frac{AE}{AB}$，得 $\frac{x}{4}=\frac{5-x}{5}$，解得 $x=\frac{20}{9}$，所以 $DE=\frac{20}{9}$。
+      diagram_col:
+        image_path: assets/solution-01.png
+        width: 58mm
+        variant: solution
+        disclosure_policy: teacher_only
+    - title: 第（2）问
+      content: $\overrightarrow{BD}=\vec b-\vec a$，$\overrightarrow{BF}=\frac9{14}\vec b-\frac9{14}\vec a$。
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页
+    teaching:
+      source_key: 2024-BAOSHAN-YIMO-Q20
+      skill_tags:
+      - 原卷
+      difficulty: standard
+      official_solution_policy: verbatim_transcription_with_separate_notes
+    diagram_col:
+      image_path: assets/prompt-figure.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean

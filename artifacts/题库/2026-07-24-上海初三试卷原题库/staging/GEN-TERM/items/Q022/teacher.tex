@@ -1,0 +1,78 @@
+\documentclass{exam-zh}
+\usepackage{edu-practice}
+
+\examsetup{
+  question/show-answer = true,
+  fillin/show-answer = true,
+  solution/show-solution = show-stay,
+}
+
+% ---------- 教师版解答样式 ----------
+\newtcolorbox{solutionblock}{
+  enhanced, breakable,
+  colback=edu-blue-bg,
+  colframe=edu-blue!25,
+  boxrule=0pt,
+  borderline west={2pt}{0pt}{edu-blue!50},
+  arc=0pt,
+  left=3mm, right=3mm, top=2mm, bottom=2mm,
+  before skip=2mm,
+  after skip=3mm,
+  fontupper=\small,
+}
+
+% 解答步骤编号
+\newcounter{solstep}
+\newcommand{\solstep}[2]{%
+  \stepcounter{solstep}%
+  \par\medskip
+  \noindent\hangindent=6mm
+  {\color{edu-blue}\bfseries\textcircled{\scriptsize\thesolstep}\enspace #1}\enspace #2\par
+}
+
+\begin{document}
+
+\section*{初三数学期末练习卷 · 原题第 22 题 · 教师版}
+
+\section*{三、解答题}
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \begin{center}
+    \begin{diagramcoltikz}{0.98\linewidth}{}
+    \includegraphics[width=\linewidth]{\detokenize{assets/prompt-full-question.png}}
+    \end{diagramcoltikz}
+  \end{center}
+  
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}（1）$25^\circ$ 档；（2）$15\sqrt3\text{ cm}$；（3）约 $4.8\text{ cm}$。\par\medskip
+    \solstep{第（1）问：比较三档拉伸力}{$F=mg\sin\alpha=50\text{ kg}\times10\text{ N/kg}\times\sin20^\circ\approx500\text{ N}\times0.34=170\text{ N}$；
+$F\approx500\text{ N}\times0.42=210\text{ N}$；
+$F=500\text{ N}\times0.50=250\text{ N}$。
+因为 $170<180<210<220<250$，所以小海选择 $25^\circ$ 档能达到锻炼目的。}
+    \solstep{第（2）问：求水平距离}{在 $\mathrm{Rt}\triangle DBC$ 中，$\angle BCD=90^\circ$，$BD=30\text{ cm}$，$\angle ABC=30^\circ$，所以 $BC=BD\cos\angle ABC=30\times\frac{\sqrt3}{2}=15\sqrt3\text{ cm}$。}
+    \solstep{第（3）问：求竖直下降距离}{在 $\mathrm{Rt}\triangle DBC$ 中，$DC=DB\sin\angle ABC=30\sin30^\circ=15\text{ cm}$。
+作 $D_1H\perp BM$，垂足为 $H$。由题意，$D_1B=DB=30\text{ cm}$，$\angle A_1BC_1=20^\circ$。
+在 $\mathrm{Rt}\triangle D_1BH$ 中，$D_1H=D_1B\sin\angle A_1BC_1=30\sin20^\circ\approx30\times0.34=10.2\text{ cm}$。
+所以点 $D$ 在竖直方向下降约 $15-10.2=4.8\text{ cm}$。}
+    \par\medskip
+\begin{center}
+  \begin{diagramcoltikz}{0.96\linewidth}{公众号原解答第 1 页}
+  \includegraphics[width=\linewidth]{\detokenize{assets/official-solution-01.png}}
+  \end{diagramcoltikz}
+\end{center}
+\par\medskip
+\begin{center}
+  \begin{diagramcoltikz}{0.96\linewidth}{公众号原解答第 2 页}
+  \includegraphics[width=\linewidth]{\detokenize{assets/official-solution-02.png}}
+  \end{diagramcoltikz}
+\end{center}
+
+  \end{solutionblock}
+\end{problem}
+
+
+
+\end{document}

@@ -1,0 +1,49 @@
+meta:
+  title: 青浦区2023学年第一学期期终调研第25题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: 在 $\triangle ABC$ 中，$\angle ACB=90^\circ$，$AC=6$，$BC=8$。点 $D、E$ 分别在边
+      $AB、BC$ 上，联结 $ED$，将线段 $ED$ 绕点 $E$ 按顺时针方向旋转 $90^\circ$ 得到线段 $EF$。（1）如图，当点 $E$
+      与点 $C$ 重合，$ED\perp AB$ 时，$AF$ 与 $ED$ 相交于点 $O$，求 $AO:OF$ 的值；（2）如果 $AB=5BD$，当点
+      $A、E、F$ 在一条直线上时，求 $BE$ 的长；（3）如图，当 $DA=DB$，$CE=2$ 时，联结 $AF$，求 $\angle AFE$ 的正切值。
+    answer: （1）$AO:OF=3:4$；（2）$BE=\dfrac{24\pm2\sqrt{19}}5$；（3）$\tan\angle AFE=\dfrac{14}{31}$。
+    solution_steps:
+    - title: 官方解答
+      content: （1）由相似三角形得 $AO/OF=AD/CF=3/4$。（2）作 $DG\perp BC$，结合旋转与相似关系建立方程 $5x^2-48x+100=0$，解得
+        $BE=(24\pm2\sqrt{19})/5$。（3）按官方辅助线作 $DM\perp BC、FN\perp BC$，由全等、平行线与相似三角形计算，得
+        $\tan\angle AFE=14/31$。
+    images:
+    - image_path: assets/prompt-01.png
+      width: 0.88\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第2页

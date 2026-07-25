@@ -1,0 +1,48 @@
+meta:
+  title: 松江区2025届初三一模第23题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q023
+    points: 12
+    stem_latex: 如图，在 $\triangle ABC$ 中，$AB=AC$，$AD\perp BC$，$BE\perp AC$，垂足分别为 $D、E$；$AF\parallel BC$，交 $BE$ 的延长线于点 $F$。（1）求证：$\dfrac{AE}{AF}=\dfrac{CD}{AC}$；（2）求证：$2AB\cdot
+      AD=BF\cdot BC$。
+    answer: 结论均成立。
+    solution_steps:
+    - title: 第（1）问
+      content: 由 $AD\perp BC,BE\perp AC,AF\parallel BC$，可得 $\triangle AEF\sim\triangle CDA$，所以 $\dfrac{AE}{AF}=\dfrac{CD}{AC}$。
+      diagram_col:
+        image_path: assets/solution-01.png
+        width: 0.72\linewidth
+        variant: solution
+        disclosure_policy: teacher_only
+    - title: 第（2）问
+      content: 利用角关系证明 $\triangle ABF\sim\triangle GBA$ 及 $\triangle AFG\sim\triangle DAB$，得到比例；又 $AB=AC$ 且 $BD=\dfrac12BC$，整理得
+        $2AB\cdot AD=BF\cdot BC$。
+    images:
+    - image_path: assets/prompt-figure.png
+      width: 0.82\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图1
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页

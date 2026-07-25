@@ -1,0 +1,38 @@
+meta:
+  title: 长宁区2023学年第一学期初三数学教学质量调研第20题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q020
+    points: 10
+    stem_latex: 在平行四边形 $ABCD$ 中，点 $E$ 是 $AD$ 的中点，$BE、AC$ 相交于点 $F$。\\begin{enumerate}\\item 设 $\\overrightarrow{AB}=\\vec a$，$\\overrightarrow{AD}=\\vec b$，试用 $\\vec a、\\vec b$ 表示 $\\overrightarrow{EF}$；\\item 先化简，再求作：$\\left(2\\vec a+\\vec b\\right)-\\dfrac32\\left(2\\vec a+\\vec b\\right)$（直接作在图中）。\\end{enumerate}
+    answer: $\overrightarrow{EF}=-\dfrac13\vec a-\dfrac16\vec b$
+    solution_steps:
+    - title: 官方解答
+      content: （1）由平行四边形性质与中点条件，$AD\\parallel BC$，$AE=\\dfrac12AD$，且 $\\dfrac{EF}{FB}=\\dfrac{AE}{BC}=\\dfrac12$，故 $\\overrightarrow{EF}=\\dfrac13\\overrightarrow{EB}=-\\dfrac13\\vec a-\\dfrac16\\vec b$。（2）原式 $=-\\vec a-\\dfrac12\\vec b$；按此向量作图。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页

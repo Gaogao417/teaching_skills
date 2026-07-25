@@ -1,0 +1,46 @@
+meta:
+  title: 2024学年度第一学期期末九年级自适应练习（2025.1）数学学科 · 原题第 22 题 · 教师版
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q022
+    points: 10
+    stem_latex: 如图11，已知小河两岸各有一栋大楼 $AB$ 与 $CD$。将激光发射器分别置于地面点 $E$ 和点 $F$ 处，发射的两束光线都经过大楼 $AB$ 顶端 $A$，并分别投射到大楼 $CD$ 最高一层 $CG$ 的顶端 $C$ 和其底部 $G$ 处，并测得 $EF=6\text{ m}$，$\angle AEB=26.6^\circ$，$\angle AFB=22.6^\circ$。（点 $D$、$B$、$E$、$F$ 在同一水平线上。）（1）试求大楼 $AB$ 的高度；（2）这两栋大楼每层的高度都相同，大楼 $AB$ 共有五层。能否测得大楼 $CD$ 的高度？如果可以，试求大楼 $CD$ 的高度；如果不可以，说明理由。参考数据：$\sin22.6^\circ\approx\dfrac5{13}$，$\cos22.6^\circ\approx\dfrac{12}{13}$，$\tan22.6^\circ\approx\dfrac5{12}$，$\sin26.6^\circ\approx\dfrac{\sqrt5}{5}$，$\cos26.6^\circ\approx\dfrac{2\sqrt5}{5}$，$\tan26.6^\circ\approx\dfrac12$。
+    answer: （1）15米；（2）可以，33米。
+    solution_steps:
+    - title: 第（1）问
+      content: 设大楼 $AB$ 的高度为 $x\text{ m}$。由 $\angle ABE=90^\circ$，得 $BE=\dfrac{AB}{\tan\angle AEB}\approx2x$，$BF=\dfrac{AB}{\tan\angle AFB}\approx\dfrac{12}{5}x$。由 $EF=BF-BE$，得 $\dfrac{12}{5}x-2x=6$，解得 $x=15$。所以大楼 $AB$ 的高度为15米。
+    - title: 第（2）问
+      content: 大楼 $AB$ 高15米，共五层，且两栋大楼每层高度相同，所以 $CG=3\text{ m}$。设 $DG=y\text{ m}$，则 $DE\approx2(y+3)$，$DF\approx\dfrac{12}{5}y$。由 $EF=DF-DE$，得 $\dfrac{12}{5}y-2(y+3)=6$，解得 $y=30$。所以大楼 $CD$ 的高度为33米。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 90mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 公众号原解答 1
+    teaching:
+      source_key: 2025-PUTUO-YIMO-Q22
+      skill_tags:
+      - 解直角三角形
+      - 测量
+      difficulty: standard
+      official_solution_policy: verbatim_transcription_with_separate_notes

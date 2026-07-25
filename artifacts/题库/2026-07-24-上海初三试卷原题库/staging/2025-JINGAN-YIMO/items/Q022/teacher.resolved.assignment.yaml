@@ -1,0 +1,43 @@
+meta:
+  title: 静安区2024学年度第一学期期末教学质量调研九年级数学试卷第 22 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q022
+    points: 10
+    stem_latex: 高桩舞狮表演中，三根高桩 $AB、CD、EF$ 都垂直于地面，点 $B、D、F$ 在同一直线上。舞狮者在点 $C$ 处测得点 $A、E$ 的仰角分别为 $35^\circ、47^\circ$，高桩 $AB$ 与 $EF$ 的高度相差1米，$BF=2$ 米。（1）求 $\angle ACE$；（2）求 $BD$ 的长（结果精确到0.01米）。
+    answer: （1）$98^\circ$；（2）约$0.65$米
+    solution_steps:
+    - title: 官方解答
+      content: （1）$\angle ACE=180^\circ-35^\circ-47^\circ=98^\circ$。（2）作 $CN\perp BF$，分别交 $AB、EF$ 于 $M、N$。设 $BD=x$ 米，则 $CN=2-x$，$AM=x\tan35^\circ$，$EN=(2-x)\tan47^\circ$。由 $EF-AB=EN-AM=1$，得 $x=\frac{2\tan47^\circ-1}{\tan47^\circ+\tan35^\circ}\approx0.65$。
+      diagram_col:
+        image_path: assets/solution-01.png
+        width: 58mm
+        variant: solution
+        disclosure_policy: teacher_only
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 1 页

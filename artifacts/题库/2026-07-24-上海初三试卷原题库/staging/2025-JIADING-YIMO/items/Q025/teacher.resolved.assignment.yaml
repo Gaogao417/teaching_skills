@@ -1,0 +1,129 @@
+meta:
+  title: 嘉定区2024学年第一学期九年级期终学业质量调研测试 · 原题第25题 · 教师版
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+  - id: question
+    title: 三、解答题
+    type: practice
+    visibility: both
+    blocks:
+      - type: problem
+        id: Q025
+        points: 14
+        stem_latex: |
+          如图13，在 $\triangle ABC$ 中，$AB=AC$，过点 $C$ 作 $CD\perp AB$，垂足为点 $D$，点 $D$ 在 $AB$ 边上（不与点 $A$ 重合），点 $E$ 是边 $AC$ 上的点，且满足 $CD=CE$，设 $k=\tan B$。
+          \begin{enumerate}
+          \item 求证：$\angle CDE=\angle BCD+45^\circ$；
+          \item 如图14，过点 $D$ 作 $DH\perp BC$，垂足为点 $H$，求证：$DE=\sqrt2(CH-DH)$；
+          \item 设点 $F$ 是 $CD$ 的中点，联结 $EF$ 并延长交边 $BC$ 于点 $G$，当 $\triangle CFG$ 与 $\triangle BCD$ 相似时，求 $k$ 的值。
+          \end{enumerate}
+        answer: （1）见证明；（2）见证明；（3）$k=2+\sqrt3$ 或 $k=2$。
+        diagram_col:
+          image_path: assets/prompt-01.png
+          width: 0.96\linewidth
+          variant: prompt
+          disclosure_policy: clean
+        solution_steps:
+          - title: 第（1）问
+            content: |
+              $\because\ AB=AC,\ CD=CE$，
+              $\therefore\ \angle B=\angle ACB,\ \angle CDE=\angle CED$。
+              $\because\ CD\perp AB$，$\therefore\ \angle CDB=90^\circ$。
+              $\therefore\ \angle B+\angle BCD=90^\circ$，即 $\angle B=90^\circ-\angle BCD$。
+              $\therefore\ \angle DCE=\angle ACB-\angle BCD=\angle B-\angle BCD=90^\circ-2\angle BCD$。
+              $\because\ \angle CDE+\angle CED+\angle DCE=180^\circ$，
+              $\therefore\ \angle DCE=180^\circ-\angle CDE-\angle CED=180^\circ-2\angle CDE$。
+              $\therefore\ 90^\circ-2\angle BCD=180^\circ-2\angle CDE$。
+              $\therefore\ \angle CDE=\angle BCD+45^\circ$。
+          - title: 第（2）问（法1）
+            content: |
+              如图5，分别延长 $ED$、$CB$ 相交于点 $L$。
+              由（1）知：$\angle CDE=\angle BCD+45^\circ$。
+              $\therefore\ \angle CDE=\angle BCD+\angle L$，$\therefore\ \angle L=45^\circ$。
+              过点 $E$ 作 $EN\perp BC$，垂足为点 $N$。
+              在 $\mathrm{Rt}\triangle ENL$ 中，$EL=\dfrac{EN}{\sin\angle L}=\dfrac{EN}{\sin45^\circ}=\sqrt2EN$。
+              在 $\mathrm{Rt}\triangle DHL$ 中，$DL=\dfrac{DH}{\sin\angle L}=\dfrac{DH}{\sin45^\circ}=\sqrt2DH$。
+              $\therefore\ DE=EL-DL=\sqrt2(EN-DH)$。
+              $\because$ 在 $\mathrm{Rt}\triangle CDB$ 中，$\angle BCD+\angle CBD=90^\circ$；
+              在 $\mathrm{Rt}\triangle CDH$ 中，$\angle BCD+\angle CDH=90^\circ$。
+              $\therefore\ \angle CDH=\angle CBD$，从而 $\angle CDH=\angle ECN$。
+              又 $\because\ \angle CHD=\angle ENC=90^\circ,\ CD=CE$，
+              $\therefore\ \triangle CMD\cong\triangle ENC$。
+              $\therefore\ EN=CH$，
+              $\therefore\ DE=\sqrt2(EN-DH)=\sqrt2(CH-DH)$。
+            diagram_col:
+              image_path: assets/solution-01.png
+              width: 58mm
+              variant: solution
+              disclosure_policy: teacher_only
+          - title: 第（2）问（法2）
+            content: 如图6，过点 $D$ 作 $DK\parallel BC$，交 $AC$ 于点 $K$。（思路同上，根据步骤酌情赋分）
+            diagram_col:
+              image_path: assets/solution-02.png
+              width: 56mm
+              variant: solution
+              disclosure_policy: teacher_only
+          - title: 第（3）问（情形1）
+            content: |
+              $\because$ 点 $F$ 是 $CD$ 的中点，$\therefore\ CF=DF$。
+              由 $\triangle CFG$ 与 $\triangle BCD$ 相似。
+              ① 当 $\angle CFG=\angle CDB=90^\circ$ 时，则 $\triangle CFG\sim\triangle CDB$。
+              $\therefore\ EG\perp CD$，从而 $EG$ 垂直平分 $CD$。
+              $\therefore\ ED=EC$，又 $CD=CE$。
+              $\therefore\ \triangle CDE$ 是等边三角形，从而 $\angle CDE=\angle BCD+45^\circ=60^\circ$。
+              $\therefore\ \angle BCD=15^\circ,\ \angle B=75^\circ$。
+              如图7，在 $\angle CBD$ 内部作 $\angle DBP=60^\circ$，射线 $BP$ 交 $CD$ 边于点 $P$。
+              $\therefore\ \angle PBC=\angle PCB=15^\circ$，从而 $PB=PC$。
+              在 $\mathrm{Rt}\triangle PDB$ 中，设 $DB=x$，则 $DP=\sqrt3x,\ BP=PC=2x$。
+              $\therefore\ k=\tan\angle CBD=\dfrac{CD}{BD}=\dfrac{2x+\sqrt3x}{x}=2+\sqrt3$。
+            diagram_col:
+              image_path: assets/solution-03.png
+              width: 58mm
+              variant: solution
+              disclosure_policy: teacher_only
+          - title: 第（3）问（情形2）
+            content: |
+              ② 当 $\angle CGF=\angle CDB=90^\circ$ 时，如图8，则 $\triangle CGF\sim\triangle CDB$。
+              $\therefore\ \angle CFG=\angle CBD$，从而 $\angle CFG=\angle ECG$。
+              又 $\because\ \angle CGF=\angle EGC$，
+              $\therefore\ \triangle CFG\sim\triangle ECG$。
+              $\therefore\ \dfrac{CG}{FG}=\dfrac{EC}{CF}=\dfrac{CD}{CF}=2$。
+              $\therefore\ k=\tan\angle CBD=\tan\angle CFG=\dfrac{CG}{FG}=2$。
+              综上所述，$k=2+\sqrt3$ 或 $k=2$。
+            diagram_col:
+              image_path: assets/solution-04.png
+              width: 54mm
+              variant: solution
+              disclosure_policy: teacher_only
+        source_solution_images:
+          - image_path: assets/official-solution-01.png
+            width: 0.96\linewidth
+            variant: source_solution
+            disclosure_policy: teacher_only
+            label: 官方原解答第1页
+          - image_path: assets/official-solution-02.png
+            width: 0.96\linewidth
+            variant: source_solution
+            disclosure_policy: teacher_only
+            label: 官方原解答第2页
+          - image_path: assets/official-solution-03.png
+            width: 0.96\linewidth
+            variant: source_solution
+            disclosure_policy: teacher_only
+            label: 官方原解答第3页
+        solution_notes:
+          - 官方解答第（2）问法1写作“$\triangle CMD\cong\triangle ENC$”，但点 $M$ 未在该构图中定义；结合前后文，疑为点名笔误。转写保留官方原文，不静默改正。
+        teaching:
+          source_key: 2025-JIADING-YIMO-Q25
+          skill_tags: [等腰三角形, 全等三角形, 相似三角形, 分类讨论, 锐角三角比]
+          difficulty: challenge
+          official_solution_policy: verbatim_transcription_with_separate_notes

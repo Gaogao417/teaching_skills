@@ -1,0 +1,72 @@
+meta:
+  title: 崇明区九年级数学一模试卷 · 原题第 24 题 · 教师版
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q024
+    points: 12
+    stem_latex: '已知在直角坐标平面 $xOy$ 中，抛物线 $y=ax^2+bx+c\ (a\ne0)$ 经过点 $A(-2,0)$、$B(2,0)$、$C(0,-4)$ 三点。
+
+      \begin{enumerate}
+
+      \item 求该抛物线的表达式；
+
+      \item 点 $P$ 是抛物线在第一象限内的动点，点 $P$ 的横坐标为 $m$：
+
+      \begin{enumerate}
+
+      \item 如果 $\triangle PAC$ 是以 $PC$ 为斜边的直角三角形，求 $m$ 的值；
+
+      \item 在 $y$ 轴正半轴上存在点 $H$，当线段 $PH$ 绕点 $H$ 逆时针方向旋转 $90^\circ$ 时，恰好与抛物线上的点 $Q$ 重合，此时点 $Q$ 的横坐标为 $n\ (n>0)$，求 $n-m$ 的值。
+
+      \end{enumerate}
+
+      \end{enumerate}
+
+      '
+    answer: （1）$y=x^2-4$；（2）①$m=2$；②$n-m=1$。
+    solution_steps:
+    - title: 第（1）问
+      content: 将 $A(-2,0)$、$B(2,0)$、$C(0,-4)$ 代入 $y=ax^2+bx+c$，解得 $a=1$，$b=0$，$c=-4$，所以 $y=x^2-4$。
+    - title: 第（2）问①
+      content: 过点 $P$ 作 $PN\perp x$ 轴，垂足为 $N$。$P(m,m^2-4)$。由 $\angle PAN+\angle OAC=\angle ACO+\angle OAC$，得 $\tan\angle PAN=\tan\angle ACO$，即 $\dfrac{m^2-4}{m+2}=\dfrac42$，解得 $m=2$。
+    - title: 第（2）问②
+      content: 由旋转关系构造全等直角三角形，得 $PE=FH=m$，$HE=QF=n$。设 $Q(n,n^2-4)$，则 $OF-OE=FH+HE$，所以 $n^2-4-(m^2-4)=m+n$，即 $n^2-m^2=m+n$。由 $m>0$，$n>0$，得 $n-m=1$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 72mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 公众号原解答 1
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 公众号原解答 2
+    teaching:
+      source_key: 2025-CHONGMING-YIMO-Q24
+      skill_tags:
+      - 二次函数
+      - 直角三角形
+      - 旋转
+      difficulty: challenge
+      official_solution_policy: verbatim_transcription_with_separate_notes

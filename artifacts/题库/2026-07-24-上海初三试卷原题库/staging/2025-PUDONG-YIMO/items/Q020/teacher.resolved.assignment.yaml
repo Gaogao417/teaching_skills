@@ -1,0 +1,43 @@
+meta:
+  title: 浦东新区2024学年度第一学期期末练习卷第 20 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q020
+    points: 10
+    stem_latex: 如图，在 $\mathrm{Rt}\triangle ABC$ 中，$\angle ACB=90^\circ$，$AB=10$，$\cos B=\dfrac45$。点 $D$ 是边 $AB$ 的中点，过点 $D$ 作 $CD$ 的垂线，与边 $BC$ 相交于点 $E$。\begin{enumerate}\item 求线段 $CE$ 的长；\item 求 $\sin\angle BDE$ 的值。\end{enumerate}
+    answer: （1）$CE=\dfrac{25}{4}$；（2）$\sin\angle BDE=\dfrac7{25}$。
+    solution_steps:
+    - title: 官方解答
+      content: （1）在 $\mathrm{Rt}\triangle ABC$ 中，点 $D$ 是斜边 $AB$ 的中点，$\therefore CD=BD=\dfrac12AB=5$，且 $\angle DCB=\angle B$。由 $\cos B=\dfrac45$，得 $\cos\angle DCB=\dfrac45$。又 $DE\perp CD$，在 $\mathrm{Rt}\triangle CDE$ 中，$\cos\angle DCB=\dfrac{CD}{CE}=\dfrac45$，所以 $CE=\dfrac{25}{4}$。（2）$DE=\sqrt{CE^2-CD^2}=\dfrac{15}{4}$，$BC=8$，$BE=BC-CE=\dfrac74$。过点 $E$ 作 $EH\perp AB$，垂足为 $H$，则 $EH=\dfrac{21}{20}$，故 $\sin\angle BDE=\dfrac{EH}{DE}=\dfrac7{25}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 1 页
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 2 页

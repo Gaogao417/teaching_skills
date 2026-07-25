@@ -1,0 +1,93 @@
+schema: math_exam_item_source/v1
+item_id: Q025
+source_key: GEN-TERM-Q25
+paper_id: GEN-TERM
+question_number: 25
+question_type: problem
+points: 14
+section_title: 三、解答题
+source_directory: documents/初三/初三数学期末练习卷
+crops:
+  question_evidence:
+  - source: documents/初三/初三数学期末练习卷/005.png
+    source_sha256: sha256:a6445700d275b51a462c07e0616d5ee83294b9c7a307a3874dbdbaa922d423b2
+    box_px:
+    - 80
+    - 880
+    - 1005
+    - 1400
+    output: assets/source-question.png
+    output_sha256: sha256:f99b7e454903903ec7f67dd8e539b5323917fffde2dc86b902c3a76307bbb62e
+  prompt:
+  - source: documents/初三/初三数学期末练习卷/005.png
+    source_sha256: sha256:a6445700d275b51a462c07e0616d5ee83294b9c7a307a3874dbdbaa922d423b2
+    box_px:
+    - 620
+    - 950
+    - 980
+    - 1405
+    output: assets/prompt-01.png
+    output_sha256: sha256:e01a7e9c026ca81150aa1b36f55794ede4a63bc72b466bb16c2a8842257d0ea4
+  solution:
+  - source: documents/初三/初三数学期末练习卷/008.png
+    source_sha256: sha256:55fc2c8d8ef44c53847dd5472efe9b5c642fb96aeaf3545890e3f17395f5c065
+    box_px:
+    - 645
+    - 905
+    - 990
+    - 1120
+    whiteout_px:
+    - - 0
+      - 0
+      - 30
+      - 25
+    output: assets/solution-01.png
+    output_sha256: sha256:9da7f8ecf70c2d5ad243fc8431ff9b6f967e404de5006aef2cea24adce707f36
+  - source: documents/初三/初三数学期末练习卷/008.png
+    source_sha256: sha256:55fc2c8d8ef44c53847dd5472efe9b5c642fb96aeaf3545890e3f17395f5c065
+    box_px:
+    - 650
+    - 1145
+    - 1020
+    - 1405
+    whiteout_px:
+    - - 0
+      - 55
+      - 58
+      - 100
+    output: assets/solution-02.png
+    output_sha256: sha256:814188e8dfd1dac5a49d7e5844eb9319dfab9545213eb7bf043e535555392a30
+  - source: documents/初三/初三数学期末练习卷/009.png
+    source_sha256: sha256:00e99b40f60f8bdcfdca89d6b235683c33fc0bc02359821f08f086a816947d86
+    box_px:
+    - 620
+    - 565
+    - 995
+    - 800
+    output: assets/solution-03.png
+    output_sha256: sha256:8ed9d18352c8dfc03039eeb8739b1bbd2d4d941e4bf9b94bf32b54331bb62491
+  official_solution:
+  - source: documents/初三/初三数学期末练习卷/008.png
+    source_sha256: sha256:55fc2c8d8ef44c53847dd5472efe9b5c642fb96aeaf3545890e3f17395f5c065
+    box_px:
+    - 105
+    - 885
+    - 1015
+    - 1410
+    output: assets/official-solution-01.png
+    output_sha256: sha256:3e3c25412dc3a88988ede01e8b1a6c589666e01354c7a64f64a7285568e4a533
+  - source: documents/初三/初三数学期末练习卷/009.png
+    source_sha256: sha256:00e99b40f60f8bdcfdca89d6b235683c33fc0bc02359821f08f086a816947d86
+    box_px:
+    - 105
+    - 100
+    - 1015
+    - 1420
+    output: assets/official-solution-02.png
+    output_sha256: sha256:f1712b60f6bb69d265e23dd32dd930a2c1ac8fbb3b3ce8865b5065a7e2d995bb
+transcription:
+  question_status: author_pass
+  official_solution_status: author_pass
+  independent_review: review_pass
+  human_review: pending
+content_hash: sha256:349d2782b123271ebd90eba1daa954b3ac45b0850c0dba47b9e2ff5e5891f9e7

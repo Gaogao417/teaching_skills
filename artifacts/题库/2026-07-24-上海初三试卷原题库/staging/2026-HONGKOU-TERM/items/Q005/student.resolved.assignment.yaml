@@ -1,0 +1,34 @@
+meta:
+  title: 虹口区2025学年度第一次学生学习能力诊断练习第5题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: student
+  show_answers: false
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: student
+  blocks:
+  - type: choice
+    id: Q005
+    points: 4
+    stem_latex: 如图2，在五边形 $ABCDE$ 中，$AE\parallel BC$，延长 $BA,BC$，分别交直线 $DE$ 于点 $M,N$。如果添加下列一个条件后，仍无法判定 $\triangle MAE\sim\triangle DCN$，那么这个条件是
+    choices:
+    - $\angle2=\angle3$
+    - $CD\parallel AB$
+    - $\angle1=\angle4$
+    - $\angle B+\angle1=180^\circ$
+    images:
+    - image_path: assets/prompt-figure-01.png
+      width: 0.82\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图1

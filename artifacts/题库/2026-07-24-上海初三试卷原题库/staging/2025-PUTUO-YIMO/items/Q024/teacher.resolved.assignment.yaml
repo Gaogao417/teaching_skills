@@ -1,0 +1,54 @@
+meta:
+  title: 2024学年度第一学期期末九年级自适应练习（2025.1）数学学科 · 原题第 24 题 · 教师版
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q024
+    points: 12
+    stem_latex: 在平面直角坐标系 $xOy$ 中（如图13），已知抛物线 $y=ax^2+bx-3\ (a\ne0)$ 的顶点 $A$ 的坐标为 $(1,-2)$，与 $y$ 轴交于点 $B$。将抛物线沿射线 $BA$ 方向平移，平移后抛物线的顶点记作 $M$，其横坐标为 $m$。平移后的抛物线与原抛物线交于点 $N$，且设点 $N$ 位于原抛物线对称轴的右侧，其横坐标为 $n$。（1）求原抛物线的表达式；（2）求 $m$ 关于 $n$ 的函数解析式；（3）在抛物线平移过程中，如果 $\angle NBM$ 是锐角，求平移距离的取值范围。
+    answer: （1）$y=-x^2+2x-3$；（2）$m=2n$；（3）$\sqrt2<AM<5\sqrt2$。
+    solution_steps:
+    - title: 第（1）问
+      content: 由顶点 $(1,-2)$ 得 $-\dfrac{b}{2a}=1$，且 $a+b-3=-2$，解得 $a=-1$，$b=2$。所以原抛物线为 $y=-x^2+2x-3$。
+    - title: 第（2）问
+      content: 点 $B(0,-3)$，直线 $AB$ 为 $y=x-3$。顶点 $M(m,m-3)$，平移后抛物线为 $y=-(x-m)^2+m-3$。交点 $N$ 横坐标为 $n$，代入两抛物线得 $(m-2n)(m-1)=0$。因 $m-1\ne0$，所以 $m=2n$。
+    - title: 第（3）问
+      content: 过点 $B$ 作 $BG\perp MB$，交原抛物线于点 $G$。当点 $N$ 在 $AG$ 之间的抛物线上运动时，$\angle NBM$ 为锐角。当 $N$ 与 $G$ 重合时，由相似三角形得 $n=3$，从而 $AM=5\sqrt2$。又点 $N$ 在原抛物线对称轴右侧，所以 $AM>\sqrt2$。故平移距离的取值范围是 $\sqrt2<AM<5\sqrt2$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 86mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 公众号原解答 1
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 公众号原解答 2
+    teaching:
+      source_key: 2025-PUTUO-YIMO-Q24
+      skill_tags:
+      - 二次函数
+      - 平移
+      - 锐角
+      difficulty: challenge
+      official_solution_policy: verbatim_transcription_with_separate_notes

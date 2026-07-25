@@ -1,0 +1,50 @@
+meta:
+  title: 虹口区2025学年度第一次学生学习能力诊断练习第23题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q023
+    points: 12
+    stem_latex: 【模型探究】如图12，$M,N$ 分别是 $\angle AOB$ 边 $OA,OB$ 上的点，$P$ 是 $\angle AOB$
+      的平分线上一点，满足 $\angle MPN+\frac12\angle AOB=180^\circ$。求证：$OP^2=OM\cdot ON$。【模型应用】（1）若
+      $\angle AOB=60^\circ,OM=6,ON=4,OP=2\sqrt6$，求 $\angle MPN$；（2）如图13，$\angle AOB=90^\circ$，$N$
+      是边 $OB$ 上一点，在边 $OA$ 上选点 $M$，并在角内作点 $P$，使 $\angle MPN=135^\circ$ 且 $PM=2PN$。（尺规作图，保留痕迹，不写作法）
+    answer: 探究结论成立；（1）$150^\circ$；（2）见官方作图
+    solution_steps:
+    - title: 解答
+      content: 【模型探究】由角平分线与角和条件得 $\angle ONP=\angle OPM$，故 $\triangle NOP\sim\triangle
+        POM$，所以 $OP^2=OM\cdot ON$。【模型应用】（1）$\angle MPN=150^\circ$；（2）按官方图作图。
+      diagram_col:
+        image_path: assets/solution-construction-01.png
+        width: 58mm
+        variant: solution
+        disclosure_policy: teacher_only
+    solution_notes:
+    - 官方评分参考将本题题号误印为“22.”，此处按试卷题号记为第23题。
+    images:
+    - image_path: assets/prompt-figures-01.png
+      width: 0.82\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图1
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页

@@ -1,0 +1,43 @@
+meta:
+  title: 2012年上海市普陀区中考数学二模试卷第 15 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q015
+    points: 4
+    stem_latex: 如图，在 $\triangle ABC$ 中，$DE\parallel BC$。如果 $DE=1$，$BC=4$，那么 $\triangle ADE$ 与 $\triangle ABC$ 面积的比是 \underline{\hspace{2cm}}。
+    answer: $1:16$
+    solution_steps:
+    - title: 相似三角形
+      content: $\triangle ADE\sim\triangle ABC$，相似比为 $1:4$，所以面积比为 $1:16$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 45mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 1 页
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 2 页

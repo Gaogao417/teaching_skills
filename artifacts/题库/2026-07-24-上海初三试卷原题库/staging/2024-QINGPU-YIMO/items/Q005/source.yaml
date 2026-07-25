@@ -1,0 +1,53 @@
+schema: math_exam_item_source/v1
+item_id: Q005
+source_key: 2024-QINGPU-YIMO-Q05
+paper_id: 2024-QINGPU-YIMO
+question_number: 5
+question_type: choice
+points: 4
+section_title: 一、选择题
+source_directory: documents/初三/2024届-上海市青浦区-初三一模数学-试卷及参考答案
+crops:
+  question_evidence:
+  - source: documents/初三/2024届-上海市青浦区-初三一模数学-试卷及参考答案/002.png
+    source_sha256: sha256:a31c138d71f220962c3374d3a86c2a8a6dfc0e5dbf74800388388456c6a1616b
+    box_px:
+    - 60
+    - 1030
+    - 1020
+    - 1230
+    whiteout_px: []
+    output: assets/source-question.png
+    output_sha256: sha256:035b8b87c0a853eed7dd9de636a384d12969d906946efdcef3df1f97249e6c64
+  prompt:
+  - source: documents/初三/2024届-上海市青浦区-初三一模数学-试卷及参考答案/002.png
+    source_sha256: sha256:a31c138d71f220962c3374d3a86c2a8a6dfc0e5dbf74800388388456c6a1616b
+    box_px:
+    - 810
+    - 1025
+    - 1015
+    - 1230
+    whiteout_px: []
+    output: assets/prompt-01.png
+    output_sha256: sha256:5e6b21191a571a83f10fbe9ef2cf9310eb95e2a63231f44deb0196db64dca20b
+  solution: []
+  official_solution:
+  - source: documents/初三/2024届-上海市青浦区-初三一模数学-试卷及参考答案/006.png
+    source_sha256: sha256:941e6537023465192dbcc70458a9b0bc18f0c65c84404316ca2c713247725b63
+    box_px:
+    - 590
+    - 285
+    - 745
+    - 330
+    whiteout_px: []
+    output: assets/official-solution-01.png
+    output_sha256: sha256:15b86b83ba3ed56bc6b1f25e595e445ac35eaa0cc5fe017eeb876479dc8b221c
+transcription:
+  question_status: author_pass
+  official_solution_status: author_pass
+  independent_review: review_pass
+  human_review: pending
+  prompt_status: needs_human_crop
+  prompt_review_notes:
+  - 题图已作一次完整可读裁切；边缘含题号标注、少量邻近文字或宽边，建议人工确认。
+content_hash: sha256:5e4ab3a9e1facf528fe6c92f9a0dc14d25a6f65573a9cce68a96cfb86cce6ffa

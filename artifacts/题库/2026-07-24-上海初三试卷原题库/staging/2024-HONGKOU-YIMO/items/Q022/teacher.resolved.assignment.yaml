@@ -1,0 +1,40 @@
+meta:
+  title: 虹口区2023学年度第一学期期终初三数学第22题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q022
+    points: 10
+    stem_latex: 已知线段 $a$、$b$ 和 $\angle MON$。如图11②，小明在射线 $OM$ 上顺次截取 $OA=2a$，$AB=3a$，在射线 $ON$ 上顺次截取 $OC=2b$，$CD=3b$。联结 $AC$、$BC$ 和 $BD$，$AC=4$，$BC=6$。（1）求 $BD$ 的长；（2）小明继续作图，如图11③，分别以点 $B$、$D$ 为圆心，以大于 $\dfrac12BD$ 的长为半径作弧，两弧分别相交于点 $P$、$Q$，联结 $PQ$，分别交 $BD$、$OD$ 于点 $E$、$F$。如果 $BC\perp OD$，求 $EF$ 的长。
+    answer: （1）$BD=10$；（2）$EF=\dfrac{15}{4}$。
+    solution_steps:
+    - title: 步骤 1
+      content: （1）$\because OA=2a,\ AB=3a,\ OC=2b,\ CD=3b$，$\therefore\dfrac{OA}{AB}=\dfrac{OC}{CD}$，$\therefore AC\parallel BD$。$\therefore\dfrac{OA}{OB}=\dfrac{AC}{BD}=\dfrac25$。$\because AC=4$，$\therefore BD=10$。
+    - title: 步骤 2
+      content: （2）根据题意，$PQ$ 垂直平分 $BD$，$\therefore BE=DE=\dfrac12BD=5$。$\because BC=6$，$\therefore$ 在 $\mathrm{Rt}\triangle BDC$ 中，$\sin\angle BDC=\dfrac{BC}{BD}=\dfrac35$，$\therefore\tan\angle BDC=\dfrac34$。在 $\mathrm{Rt}\triangle DEF$ 中，$EF=DE\tan\angle BDC=\dfrac52\times\dfrac34=\dfrac{15}{4}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 0.92\linewidth
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页

@@ -1,0 +1,57 @@
+meta:
+  title: 宝山区2024学年第一学期期末考试九年级数学试卷 · 原题第 20 题 · 教师版
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q020
+    points: 10
+    stem_latex: '为了方便居民出入小区，小区业委会决定对大门口的一段斜坡进行改造。原坡面是矩形 $ABCD$（如图9），$AB=4$ 米，$AD=2$ 米，斜坡 $AB$ 的坡角为 $30^\circ$。计划将斜坡 $AB$ 改造成坡比为 $1:2.5$ 的斜坡 $AE$（如图10所示），坡面的宽度 $AD$ 不变。
+
+      \begin{enumerate}
+
+      \item 求改造后斜面底部延伸出来的部分 $BE$ 的长度；
+
+      \item 改建这条斜坡需要多少立方米的混凝土材料？
+
+      \end{enumerate}
+
+      '
+    answer: （1）$BE=5-2\sqrt3$米；（2）$10-4\sqrt3$立方米。
+    solution_steps:
+    - title: 第（1）问
+      content: 延长 $EB$，过点 $A$ 作 $AF\perp EB$，垂足为点 $F$。在 $\mathrm{Rt}\triangle ABF$ 中，$\angle ABF=30^\circ$，$AB=4$，所以 $AF=\dfrac12AB=2$，$BF=AB\cos30^\circ=2\sqrt3$。在 $\mathrm{Rt}\triangle AEF$ 中，$\dfrac{AF}{EF}=\dfrac1{2.5}$，所以 $EF=2.5AF=5$。故 $BE=EF-BF=5-2\sqrt3$ 米。
+    - title: 第（2）问
+      content: 混凝土体积为 $\dfrac12\cdot BE\cdot AF\cdot AD=\dfrac12(5-2\sqrt3)\cdot2\cdot2=10-4\sqrt3$ 立方米。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 72mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 公众号原解答 1
+    teaching:
+      source_key: 2025-BAOSHAN-YIMO-Q20
+      skill_tags:
+      - 解直角三角形
+      - 坡度
+      - 棱柱体积
+      difficulty: standard
+      official_solution_policy: verbatim_transcription_with_separate_notes

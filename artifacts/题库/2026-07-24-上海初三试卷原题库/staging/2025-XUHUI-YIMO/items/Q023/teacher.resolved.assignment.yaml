@@ -1,0 +1,56 @@
+meta:
+  title: 2024学年第一学期徐汇区学习能力诊断卷初三数学试卷 · 原题第 23 题 · 教师版
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q023
+    points: 12
+    stem_latex: '如图，在梯形 $ABCD$ 中，$AD\parallel BC$，$BD$ 是梯形 $ABCD$ 对角线，$BD^2=AD\cdot BC$。
+
+      \begin{enumerate}
+
+      \item 求证：$AD\cdot CD=AB\cdot BD$；
+
+      \item 以 $CD$ 为一边作 $\angle CDE=\angle ADB$，$DE$ 交边 $BC$ 于点 $E$，求证：$\dfrac{CD^2}{BD^2}=\dfrac{CE}{AD}$。
+
+      \end{enumerate}
+
+      '
+    answer: 见证明。
+    solution_steps:
+    - title: 第（1）问
+      content: 由 $AD\parallel BC$，得 $\angle ADB=\angle CBD$。又 $BD^2=AD\cdot BC$，所以 $\dfrac{AD}{BD}=\dfrac{BD}{BC}$，故 $\triangle ADB\sim\triangle DBC$，从而 $\dfrac{AD}{BD}=\dfrac{AB}{CD}$，即 $AD\cdot CD=AB\cdot BD$。
+    - title: 第（2）问
+      content: 由角关系得 $\triangle CDE\sim\triangle CBD$，所以 $CD^2=EC\cdot BC$。又 $BD^2=AD\cdot BC$，故 $\dfrac{CD^2}{BD^2}=\dfrac{CE}{AD}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 公众号原解答 1
+    teaching:
+      source_key: 2025-XUHUI-YIMO-Q23
+      skill_tags:
+      - 梯形
+      - 相似三角形
+      difficulty: challenge
+      official_solution_policy: verbatim_transcription_with_separate_notes

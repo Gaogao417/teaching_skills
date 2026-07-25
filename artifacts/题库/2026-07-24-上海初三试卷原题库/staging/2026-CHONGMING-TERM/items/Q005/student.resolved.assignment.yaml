@@ -1,0 +1,34 @@
+meta:
+  title: 崇明区2025学年第一学期期末质量调研第5题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: student
+  show_answers: false
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: student
+  blocks:
+  - type: choice
+    id: Q005
+    points: 4
+    stem_latex: 如图，在 $\triangle ABC$ 中，点 $D、E$ 分别在 $AB、AC$ 的反向延长线上，已知 $AC=2AE$，下列条件中能判定 $DE\parallel BC$ 的是
+    choices:
+    - $\frac{AD}{AB}=\frac13$
+    - $\frac{AB}{BD}=\frac23$
+    - $\frac{AD}{BD}=\frac23$
+    - $\frac{DE}{BC}=\frac12$
+    images:
+    - image_path: assets/prompt-figure.png
+      width: 0.78\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图

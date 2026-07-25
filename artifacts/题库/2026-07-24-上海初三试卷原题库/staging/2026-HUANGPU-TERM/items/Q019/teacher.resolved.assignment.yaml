@@ -1,0 +1,45 @@
+meta:
+  title: 2025学年第一学期黄浦区九年级期终考试数学试卷第 19 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q019
+    points: 12
+    stem_latex: 如图，在梯形 $ABCD$ 中，$AD\parallel BC，\angle ABC=90^\circ，AD:AB:BC=1:2:4$。（1）求证：$AC\perp BD$；（2）求 $\cot\angle ACD$ 的值。
+    answer: （1）$AC\perp BD$；（2）$\cot\angle ACD=8$。
+    solution_steps:
+    - title: 第（1）问
+      content: 由 $AD\parallel BC$ 得 $\angle ABC=\angle DAB$。又 $AD:AB:BC=1:2:4$，所以 $\dfrac{DA}{AB}=\dfrac{AB}{BC}$，故 $\triangle DAB\sim\triangle ABC$，得 $\angle ABD=\angle BCA$。因为 $\angle ABD+\angle DBC=90^\circ$，所以 $\angle ACB+\angle DBC=90^\circ$，从而 $AC\perp BD$。
+    - title: 第（2）问
+      content: 设 $AC$ 与 $BD$ 交于 $H$。由 $\triangle ABH\sim\triangle CBH$ 与 $\triangle ABH\sim\triangle DAH$ 得相应边比，结合 $BC:AB=2$ 与 $AB:AD=2$，可得 $\cot\angle ACD=8$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 48mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 1 页
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 2 页

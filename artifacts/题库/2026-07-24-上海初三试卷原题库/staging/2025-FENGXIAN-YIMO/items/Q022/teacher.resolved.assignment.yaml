@@ -1,0 +1,57 @@
+meta:
+  title: 奉贤区2024学年第一学期九年级数学练习 · 原题第 22 题 · 教师版
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q022
+    points: 10
+    stem_latex: '桔槔（gao）是古代汉族的一种农用工具，也是一种原始的汲水工具。它的工作原理基于杠杆原理，通过一根竖立的支架加上一根杠杆，当中是支点，末端悬挂一个重物，前段悬挂水桶。线段 $OM$ 代表固定支架，点 $D$、点 $C$ 分别代表重物和水桶，线段 $BD$、$AC$ 是无弹力、固定长度的麻绳，绳长 $AC=3$ 米，木质杠杆 $AB=6$ 米。
+
+      \begin{enumerate}
+
+      \item 当水桶 $C$ 的位置低于地面0.5米（如图5-1所示），支架 $OM$ 与绳子 $BD$ 之间的距离 $OH$ 是1.6米，且 $\cot B=0.75$，求桔槔支架 $OM$ 的高度；
+
+      \item 向上提水桶 $C$ 上升到地面上方0.6米（如图5-2所示），求此时重物 $D$ 相对于（1）中的位置下降的高度。
+
+      \end{enumerate}
+
+      '
+    answer: （1）$OM=4.9$米；（2）下降$0.55$米。
+    solution_steps:
+    - title: 第（1）问
+      content: 过点 $A$ 作 $AN\perp OM$ 于点 $N$，地平线与 $CD$ 交于点 $I$。在 $\mathrm{Rt}\triangle OHB$ 中，$\cot B=0.75$，$OH=1.6$米，得 $BH=OH\cdot\cot B=1.2$米，$OB=\sqrt{BH^2+OH^2}=2$米。又 $AB=6$米，所以 $AO=4$米。在 $\mathrm{Rt}\triangle AON$ 中，$\cot\angle AON=0.75$，$OA=4$米，所以 $ON=2.4$米。由题意 $NM=AI=2.5$米，因此 $OM=ON+NM=4.9$米。
+    - title: 第（2）问
+      content: 过点 $O$ 作 $OQ\perp BD$ 于点 $Q$，直线 $OQ$ 交直线 $AC$ 于点 $P$。由题意得 $PA=OM-AC-0.6=1.3$米。因为 $AP\parallel BQ$，所以 $\dfrac{AP}{BQ}=\dfrac{OA}{OB}$，得 $BQ=0.65$米。故点 $B$ 相对于（1）中的位置下降 $BH-BQ=1.2-0.65=0.55$米，即重物 $D$ 下降了0.55米。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 0.96\linewidth
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 公众号原解答 1
+    teaching:
+      source_key: 2025-FENGXIAN-YIMO-Q22
+      skill_tags:
+      - 解直角三角形
+      - 相似三角形
+      - 实际应用
+      difficulty: standard
+      official_solution_policy: verbatim_transcription_with_separate_notes

@@ -1,0 +1,36 @@
+meta:
+  title: 杨浦区2025学年度第一学期期末调研第3题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q003
+    points: 4
+    stem_latex: 在 $\mathrm{Rt}\triangle ABC$ 中，$\angle C=90^\circ$，$AB=\sqrt3$，$AC=1$，下列结论中正确的是
+    answer: A
+    choices:
+    - $\sin B=\dfrac1{\sqrt3}$
+    - $\cos B=\dfrac1{\sqrt3}$
+    - $\tan B=\dfrac{\sqrt2}{2}$
+    - $\cot B=\dfrac{\sqrt2}{2}$
+    explanation: 官方参考答案：A。
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页

@@ -1,0 +1,42 @@
+meta:
+  title: 杨浦区2025学年度第一学期期末调研第21题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q021
+    points: 10
+    stem_latex: 如图，为了测量学校教学楼 $AB$ 的高度，小慧先在楼前点 $D$ 处测得楼顶 $A$ 的仰角为 $45^\circ$，再沿 $BD$ 方向后退 $16$ 米到点 $C$，此时测得楼顶 $A$ 的仰角为 $22^\circ$（$B、D、C$
+      在一条直线上）。求教学楼 $AB$ 的高度（精确到 $0.1$ 米；参考数据：$\tan22^\circ\approx\dfrac25$）。
+    answer: $10.7$ 米
+    solution_steps:
+    - title: 求楼高
+      content: 设教学楼 $AB$ 的高度为 $x$ 米。在 $\mathrm{Rt}\triangle ABD$ 中，$\tan\angle ADB=\dfrac{AB}{BD}$，而 $\angle ADB=45^\circ$，故
+        $BD=x$。在 $\mathrm{Rt}\triangle ABC$ 中，$\tan22^\circ=\dfrac{x}{x+16}\approx\dfrac25$，解得 $x\approx10.7$。答：教学楼高度约为 $10.7$
+        米。
+    images:
+    - image_path: assets/prompt-figure.png
+      width: 0.82\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图1
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页

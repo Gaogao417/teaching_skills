@@ -1,0 +1,41 @@
+meta:
+  title: 闵行区九年级数学一模试卷 · 原题第 2 题 · 教师版
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q002
+    points: 4
+    stem_latex: 在 $\mathrm{Rt}\triangle ABC$ 中，$\angle C=90^\circ$，$AB=3$，$AC=2$，那么 $\cos A$ 的值是（　）
+    answer: B
+    choices:
+      A: $\dfrac13$
+      B: $\dfrac23$
+      C: $\dfrac{\sqrt5}{3}$
+      D: $\dfrac{\sqrt5}{2}$
+    explanation: 参考答案：B。
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 公众号原解答 1
+    teaching:
+      source_key: 2024-MINHANG-YIMO-Q2
+      skill_tags:
+      - 原卷题
+      difficulty: standard
+      official_solution_policy: verbatim_transcription_with_separate_notes

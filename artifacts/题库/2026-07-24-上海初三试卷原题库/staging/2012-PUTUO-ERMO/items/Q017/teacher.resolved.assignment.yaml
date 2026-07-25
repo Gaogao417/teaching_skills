@@ -1,0 +1,33 @@
+meta:
+  title: 2012年上海市普陀区中考数学二模试卷第 17 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q017
+    points: 4
+    stem_latex: 在矩形 $ABCD$ 中，如果 $|\overrightarrow{AB}|=2$，$|\overrightarrow{BC}|=1$，那么 $|\overrightarrow{AB}+\overrightarrow{BC}|=$ \underline{\hspace{2cm}}。
+    answer: $\sqrt5$
+    solution_steps:
+    - title: 向量与勾股定理
+      content: $\overrightarrow{AB}+\overrightarrow{BC}=\overrightarrow{AC}$，且 $AC=\sqrt{2^2+1^2}=\sqrt5$。
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 1 页

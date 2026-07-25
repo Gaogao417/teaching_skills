@@ -1,0 +1,40 @@
+meta:
+  title: 2012年上海市普陀区中考数学二模试卷第 20 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q020
+    points: 10
+    stem_latex: 解方程组：$\begin{cases}x^2+5xy+6y^2=0,\\x+y=2.\end{cases}$
+    answer: $(x,y)=(4,-2)$ 或 $(3,-1)$
+    solution_steps:
+    - title: 因式分解
+      content: 由第一式得 $(x+2y)(x+3y)=0$，所以 $x+2y=0$ 或 $x+3y=0$。
+    - title: 分别求解
+      content: 分别与 $x+y=2$ 联立，得 $(x,y)=(4,-2)$ 或 $(3,-1)$。
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 1 页
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 2 页

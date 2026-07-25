@@ -1,0 +1,47 @@
+meta:
+  title: 虹口区2024学年度初三年级第一次学生学习能力诊断练习数学练习卷第 25 题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: 如图14，在梯形 $ABCD$ 中，$AD\parallel BC$，$\angle BCD=90^\circ$，$CD=2$，$E$ 是 $CD$ 的中点，$AC、BE$ 交于点 $F$，且 $\angle ACD=2\angle EBC$。（1）求证：$CE=CF$；（2）如果 $BC=2AD$，求 $\tan\angle ABC$ 的值；（3）如果 $\angle ABE=\angle ACB$，求 $AD:BC$。
+    answer: （1）见证明；（2）$\dfrac43$；（3）$\dfrac{\sqrt{41}-5}{2}$
+    solution_steps:
+    - title: 第（1）问
+      content: $\because\angle BCD=90^\circ$，$\therefore\angle BEC=90^\circ-\angle EBC$，$\angle ACB=90^\circ-\angle ACD$。又 $\angle ACD=2\angle EBC$，$\angle CFE=\angle ACB+\angle EBC$，$\therefore\angle CFE=90^\circ-\angle ACD+\angle EBC=90^\circ-\angle EBC$。$\therefore\angle BEC=\angle CFE$，$\therefore CE=CF$。
+    - title: 第（2）问
+      content: 延长 $AD、BE$ 相交于点 $G$，过点 $A$ 作 $AH\perp BC$，垂足为点 $H$。由 $CD=2$ 且 $E$ 是 $CD$ 的中点，得 $DE=CE=1$。由 $AD\parallel BC$，$\dfrac{DG}{BC}=\dfrac{DE}{CE}=1$，即 $DG=BC$。又 $BC=2AD$，得 $AG=\dfrac32BC$。由 $CE=CF=1$ 得 $AF=\dfrac32$。结合平行线与直角三角形计算，得 $\tan\angle ABC=\dfrac43$。
+    - title: 第（3）问
+      content: 延长 $AD、BE$ 相交于点 $G$，过点 $A$ 作 $AH\perp BC$，垂足为点 $H$。设 $BC=x$，由相似关系得 $BH=\dfrac2x$，$AD=x-\dfrac2x$，$DG=\dfrac2x$，$AG=2x-\dfrac2x$，$AF=2-\dfrac2{x^2}$。由 $\triangle ABF\sim\triangle ACB$ 建立方程，解得 $x^2=\dfrac{7+\sqrt{41}}2$（另一根舍去）。$\therefore\dfrac{AD}{BC}=\dfrac{x^2-2}{x^2}=\dfrac{\sqrt{41}-5}{2}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 62mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 1 页
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 2 页

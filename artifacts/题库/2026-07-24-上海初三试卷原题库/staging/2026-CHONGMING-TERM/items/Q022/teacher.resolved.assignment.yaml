@@ -1,0 +1,47 @@
+meta:
+  title: 崇明区2025学年第一学期期末质量调研第22题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q022
+    points: 10
+    stem_latex: 长兴岛风电基地的巨型风电机将清洁风能转化为电能（如图1）。三片风叶 $OA、OB、OC$ 两两所成的角为 $120^\circ$。当风叶 $OC$ 与塔干 $OD$ 重合时，在距塔底 $D$ 水平距离 $200$
+      米的 $E$ 处，测得塔干顶部 $O$ 的仰角为 $37^\circ$，风叶端点 $A$ 的仰角为 $59^\circ$。参考数据：$\sin37^\circ\approx0.6$，$\tan37^\circ\approx0.75$，$\tan59^\circ\approx1.7$，$\sqrt3\approx1.7$。（1）求塔干
+      $OD$ 的长度；（2）求风叶 $OA$ 的长度（精确到1米）。
+    answer: （1）$150$ 米；（2）约 $98$ 米。
+    solution_steps:
+    - title: 解答
+      content: （1）在 $\mathrm{Rt}\triangle EOD$ 中，$OD=DE\tan37^\circ=200\times0.75=150$ 米。（2）作 $AM\perp DE,AH\perp OC$，设 $OH=x$
+        米，则 $AM=x+150$，$EM=200-\sqrt3x$，由 $\tan59^\circ=\frac{x+150}{200-\sqrt3x}\approx1.7$，得 $x\approx48.8$，故 $OA=2x\approx98$
+        米。
+    stem_image:
+      image_path: assets/prompt-figures.png
+      width: 0.98\linewidth
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第2页

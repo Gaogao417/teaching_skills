@@ -1,0 +1,47 @@
+meta:
+  title: 嘉定区2023学年第一学期九年级期终学业质量调研测试 · 原题第 24 题 · 教师版
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q024
+    points: 12
+    stem_latex: 定义：对于抛物线 $y=ax^2+bx+c$（$a,b,c$ 是常数，$a\ne0$），若 $b^2=ac$，则称该抛物线是黄金抛物线。已知平面直角坐标系 $xOy$（图10），抛物线 $y=x^2-2x+k$ 是黄金抛物线，与 $y$ 轴交于点 $A$，顶点为 $D$。（1）求此黄金抛物线的表达式及 $D$ 点坐标；（2）点 $B(2,b)$ 在这个黄金抛物线上，①点 $C(c,-\frac12)$ 在这个黄金抛物线的对称轴上，求 $\angle OBC$ 的正弦值；②在射线 $AB$ 上是否存在点 $P$，使以点 $P,A,D$ 所组成的三角形与 $\triangle AOD$ 相似，且相似比不为1？若存在，求点 $P$ 的坐标；若不存在，说明理由。
+    answer: （1）$y=x^2-2x+4$，$D(1,3)$；（2）①$\frac{\sqrt{17}}{17}$；②存在，$P(\frac12,4)$。
+    solution_steps:
+    - title: 第（1）问
+      content: 由黄金抛物线定义，$(-2)^2=1\cdot k$，所以 $k=4$，抛物线为 $y=x^2-2x+4=(x-1)^2+3$，顶点 $D(1,3)$。
+    - title: 第（2）问①
+      content: 对称轴为 $x=1$，故 $C(1,-\frac12)$。点 $B(2,b)$ 在抛物线上，得 $b=4$，即 $B(2,4)$。$OC=\frac{\sqrt5}{2}$，$OB=2\sqrt5$，$BC=\frac{\sqrt{85}}2$，且 $OC^2+OB^2=BC^2$，所以 $\angle BOC=90^\circ$，$\sin\angle OBC=\frac{OC}{BC}=\frac{\sqrt{17}}{17}$。
+    - title: 第（2）问②
+      content: 存在。过点 $D$ 作 $DH\perp OA$。由 $A(0,4),B(2,4),D(1,3)$，得 $AB\perp OA$，$AH=HD=1$，$\angle ODA=\angle DAP=45^\circ$。排除相似比为1的全等情形；当 $\triangle ODA\sim\triangle DAP$ 时，$AD^2=AP\cdot AO$。由 $AD=\sqrt2,AO=4$，得 $AP=\frac12$，故 $P(\frac12,4)$。
+    source_solution_images:
+    - image_path: assets/official-solution.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 公众号原解答 1
+    teaching:
+      source_key: 2024-JIADING-YIMO-Q24
+      skill_tags:
+      - 原卷
+      difficulty: challenge
+      official_solution_policy: verbatim_transcription_with_separate_notes
+    diagram_col:
+      image_path: assets/prompt-figure.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean

@@ -1,0 +1,33 @@
+meta:
+  title: 2025学年第一学期九年级期终学业质量调研数学试卷第 19 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q019
+    points: 10
+    stem_latex: 计算：$2(1-\cot30^\circ)+\dfrac{4\sin60^\circ}{3\tan30^\circ-\tan45^\circ}$。
+    answer: $5-\sqrt3$
+    solution_steps:
+    - title: 计算
+      content: 原式 $=2(1-\sqrt3)+\dfrac{4\times\dfrac{\sqrt3}{2}}{3\times\dfrac{\sqrt3}{3}-1}=5-\sqrt3$。
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 1 页

@@ -1,0 +1,40 @@
+meta:
+  title: 2024学年第一学期九年级期终学业质量调研数学试卷第 22 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q022
+    points: 10
+    stem_latex: 图1是某商场地下车库的出入口，图2是道闸示意图。道闸升起过程中对边始终保持平行，升起的最高点不超过顶部 $CD$。矩形门高 $AD=3.6$ 米、宽 $AB=6.6$ 米；闸机宽 $AH=BW=0.3$ 米，道闸宽 $FG=EP=1$ 米，道闸底部距地面高度 $FH=EW=0.2$ 米；顶点 $G、M、Q、P$ 在同一直线上，$MG=PQ$，$MN$ 与 $QR$ 间缝隙忽略不计。（1）求道闸升起的最大角的正切值；（2）一辆高1.8米、宽1.9米的小货车想进入地下车库，是否需要同时升起两个道闸？请说明理由。
+    answer: （1）最大角的正切值为 $\dfrac43$；（2）需要同时升起两个道闸。
+    solution_steps:
+    - title: 第（1）问
+      content: 当升起道闸的最高点在 $CD$ 上时，$GM_1=3$ 米，竖直高度 $GD_1=2.4$ 米，故水平距离 $M_1D_1=\sqrt{3^2-2.4^2}=1.8$ 米，最大角的正切值为 $\dfrac{2.4}{1.8}=\dfrac43$。
+    - title: 第（2）问
+      content: 只升起一个道闸时，宽1.9米对应的可通行高度为 $\dfrac53$ 米，小于1.8米，因此小货车不能通过，需要同时升起两个道闸。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 96mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 1 页

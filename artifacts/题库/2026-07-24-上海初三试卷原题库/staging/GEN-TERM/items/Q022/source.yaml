@@ -1,0 +1,64 @@
+schema: math_exam_item_source/v1
+item_id: Q022
+source_key: GEN-TERM-Q22
+paper_id: GEN-TERM
+question_number: 22
+question_type: problem
+points: 10
+section_title: 三、解答题
+source_directory: documents/初三/初三数学期末练习卷
+crops:
+  question_evidence:
+  - source: documents/初三/初三数学期末练习卷/004.png
+    source_sha256: sha256:d01d43fe60148b7d5c5ac13507963f65c383db7a3b6e09aa0476b3c061f1347e
+    box_px:
+    - 80
+    - 590
+    - 780
+    - 625
+    output: assets/source-question-header.png
+    output_sha256: sha256:5af3e803b6cbf61b0f9d585ce1c7947a024e2ef488c164a1c8a03444e84c2a75
+  - source: documents/初三/初三数学期末练习卷/004.png
+    source_sha256: sha256:d01d43fe60148b7d5c5ac13507963f65c383db7a3b6e09aa0476b3c061f1347e
+    box_px:
+    - 80
+    - 625
+    - 1015
+    - 1400
+    output: assets/source-question.png
+    output_sha256: sha256:ad337652076256892c0047dbe64011929c236432d7350c084f5b59ce3f9c17de
+  prompt:
+  - source: documents/初三/初三数学期末练习卷/004.png
+    source_sha256: sha256:d01d43fe60148b7d5c5ac13507963f65c383db7a3b6e09aa0476b3c061f1347e
+    box_px:
+    - 80
+    - 625
+    - 1015
+    - 1400
+    output: assets/prompt-full-question.png
+    output_sha256: sha256:ad337652076256892c0047dbe64011929c236432d7350c084f5b59ce3f9c17de
+  official_solution:
+  - source: documents/初三/初三数学期末练习卷/006.png
+    source_sha256: sha256:db6ef3a296a7ab2cc817a6b3c680a6219c530a0d58009f959b6f6fff6d7129bd
+    box_px:
+    - 105
+    - 1110
+    - 1015
+    - 1527
+    output: assets/official-solution-01.png
+    output_sha256: sha256:18e9cb7824b5cbbbea03808dd0762baa7417a58957fae92d3f85d7a10fa913c2
+  - source: documents/初三/初三数学期末练习卷/007.png
+    source_sha256: sha256:2d76db8022a663590454c67d921c97fd232356db7f1b928ba35febf29553daa4
+    box_px:
+    - 105
+    - 70
+    - 1015
+    - 365
+    output: assets/official-solution-02.png
+    output_sha256: sha256:831ed6c414fe19e97fd97e7d83a6052ed0793893fe7115d09b53d96823187835
+transcription:
+  question_status: author_pass
+  official_solution_status: author_pass
+  independent_review: review_pass
+  human_review: pending
+content_hash: sha256:351f75c7f3f34f75cdf095a2b82ea6faa17b525040a01fb1797afea23d848007

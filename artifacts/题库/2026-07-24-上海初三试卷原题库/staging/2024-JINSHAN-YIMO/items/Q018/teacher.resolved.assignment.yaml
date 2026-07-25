@@ -1,0 +1,33 @@
+meta:
+  title: 金山区2023学年第一学期期末学情诊断第18题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: fillin
+    id: Q018
+    points: 4
+    stem_latex: 在 $\triangle ABC$ 中，$AC=6$，$P$ 是 $AB$ 边上的一点，$Q$ 为 $AC$ 边上一点，直线 $PQ$
+      把 $\triangle ABC$ 分成面积相等的两部分，且 $\triangle APQ$ 和 $\triangle ABC$ 相似。如果这样的直线
+      $PQ$ 有两条，那么边 $AB$ 长度的取值范围是\fillin。
+    answer: $3\sqrt2\le AB\le6\sqrt2$ 且 $AB\ne6$
+    explanation: 官方参考答案：$3\sqrt2\le AB\le6\sqrt2$，且 $AB\ne6$。
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页

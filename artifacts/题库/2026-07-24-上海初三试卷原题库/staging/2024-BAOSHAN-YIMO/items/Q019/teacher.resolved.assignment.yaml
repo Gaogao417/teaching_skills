@@ -1,0 +1,50 @@
+meta:
+  title: 宝山区2023学年第一学期期末考试 · 原题第19题 · 教师版
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q019
+    points: 10
+    stem_latex: 如图6，在 $\triangle ABC$ 中，$\angle C=90^\circ$，$\sin B=\frac45$，$AB=10$，点 $D$ 是 $AB$ 边上一点，且 $BC=BD$。（1）求 $BD$ 的长；（2）求 $\angle ACD$ 的余切值。
+    answer: （1）6；（2）2。
+    solution_steps:
+    - title: 第（1）问
+      content: $\because\sin B=\frac{AC}{AB}=\frac45,\ AB=10$，$\therefore AC=8$。又 $\angle C=90^\circ$，由 $AC^2+BC^2=AB^2$ 得 $BC=6$。$\because BC=BD$，$\therefore BD=6$。
+    - title: 第（2）问
+      content: 过点 $D$ 作 $DE\perp AC$，垂足为 $E$。由 $\angle C=90^\circ$ 得 $DE\parallel BC$，所以 $\frac{DE}{BC}=\frac{AD}{AB}$。由 $BC=6,\ AD=4,\ AB=10$，得 $DE=2.4$，同理 $EC=4.8$。在 $\mathrm{Rt}\triangle DEC$ 中，$\cot\angle ACD=\frac{EC}{DE}=2$。
+      diagram_col:
+        image_path: assets/solution-01.png
+        width: 58mm
+        variant: solution
+        disclosure_policy: teacher_only
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页
+    teaching:
+      source_key: 2024-BAOSHAN-YIMO-Q19
+      skill_tags:
+      - 原卷
+      difficulty: standard
+      official_solution_policy: verbatim_transcription_with_separate_notes
+    diagram_col:
+      image_path: assets/prompt-figure.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean

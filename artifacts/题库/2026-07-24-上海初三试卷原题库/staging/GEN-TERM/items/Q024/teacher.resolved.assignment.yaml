@@ -1,0 +1,119 @@
+meta:
+  title: 初三数学期末练习卷 · 原题第 24 题 · 教师版
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q024
+    points: 12
+    stem_latex: '新定义：在平面直角坐标系中，抛物线上的点和它的顶点的连线与该条抛物线的对称轴所夹角的正切值称为抛物线上这个点的开口程度，规定抛物线顶点的开口程度为 $0$。
+
+
+      如图，在平面直角坐标系 $xOy$ 中：
+
+      \begin{enumerate}
+
+      \item 抛物线 $y=x^2-4x+5$ 与 $y$ 轴交于点 $P$，求点 $P$ 的开口程度 $k_P$；
+
+      \item 抛物线 $y=x^2-4x+a$ 与 $x$ 轴交于 $A,B$ 两点（$A$ 在 $B$ 的左侧）。如果点 $A$ 的开口程度 $k_A=1$，求 $a$；
+
+      \item 将抛物线 $C_1:y=mx^2-2mx+n\ (m>0)$ 平移，使平移后的抛物线 $C_2$ 经过 $C_1$ 的顶点 $M$。记 $C_2$ 的顶点为 $N$，$C_2$ 的对称轴交 $C_1$ 于点 $Q$。如果 $C_1$ 上点 $Q$ 的开口程度与 $C_2$ 上点 $M$ 的开口程度相等，均为 $2$，且 $\triangle QMN$ 的面积为 $8$，求 $m$。
+
+      \end{enumerate}'
+    answer: （1）$\frac12$；（2）$3$；（3）$\frac18$。
+    subquestions:
+    - latex: 求 $k_P$；
+    - latex: 求 $a$；
+    - latex: 求 $m$。
+    solution_steps:
+    - title: 第（1）问
+      content: '$\because\ y=x^2-4x+5=(x-2)^2+1$，记顶点为 $D$，
+
+        $\therefore\ P(0,5)$，$D(2,1)$，对称轴为直线 $x=2$。
+
+        作 $PH\perp$ 直线 $x=2$，垂足为点 $H$，则 $PH=2$，$HD=4$。
+
+        $\therefore\ k_P=\tan\angle PDH=\dfrac{PH}{HD}=\dfrac12$。'
+      diagram_col:
+        image_path: assets/solution-01.png
+        width: 58mm
+        variant: solution
+        disclosure_policy: teacher_only
+    - title: 第（2）问
+      content: '$\because\ y=x^2-4x+a=(x-2)^2+a-4$，记顶点为 $E$，
+
+        $\therefore\ E(2,a-4)$，对称轴为直线 $x=2$。记直线 $x=2$ 与 $x$ 轴交于点 $F$。
+
+        $\because$ 抛物线与 $x$ 轴有两个交点，$\therefore\ a-4<0$，$\therefore\ a<4$。
+
+        $\because\ k_A=\tan\angle AEF=\dfrac{AF}{EF}=1$，
+
+        $\therefore\ AF=EF=4-a$，$\therefore\ A(a-2,0)$。
+
+        把 $A(a-2,0)$ 代入 $y=(x-2)^2+a-4$，得 $(a-4)^2+a-4=0$，解得 $a=3$ 或 $a=4$。当 $a=4$ 时不合题意，舍去，$\therefore\ a=3$。'
+      diagram_col:
+        image_path: assets/solution-02.png
+        width: 58mm
+        variant: solution
+        disclosure_policy: teacher_only
+    - title: 第（3）问
+      content: '作 $MG\perp QN$ 于点 $G$。
+
+        $\because\ C_1$ 上点 $Q$ 的开口程度与 $C_2$ 上点 $M$ 的开口程度相等，均为 $2$，$\therefore\ k_Q=k_M=2$。
+
+        $\because\ k_Q=\tan\angle QMI$，$k_M=\tan\angle MNQ$，$\therefore\ \angle QMI=\angle MNQ$。
+
+        $\because\ C_1,C_2$ 的对称轴互相平行，$\therefore\ \angle QMI=\angle MQN$，$\therefore\ \angle MQN=\angle MNQ$。
+
+        $\therefore\ \tan\angle MQN=\tan\angle MNQ$，$\therefore\ \dfrac{MG}{QG}=\dfrac{MG}{NG}=2$。
+
+        设 $QG=NG=t\ (t>0)$，则 $MG=2t$。由 $S_{\triangle QMN}=\dfrac12QN\cdot MG=\dfrac12\cdot2t\cdot2t=8$，得 $t=2$。
+
+        $\because\ C_1:y=mx^2-2mx+n=m(x-1)^2+n-m$，
+
+        $\therefore\ M(1,n-m)$，$\therefore\ Q(-3,n-m+2)$ 或 $Q(5,n-m+2)$。
+
+        将 $Q(-3,n-m+2)$ 或 $Q(5,n-m+2)$ 代入 $C_1$，解得 $m=\dfrac18$。'
+      diagram_col:
+        image_path: assets/solution-03.png
+        width: 68mm
+        variant: solution
+        disclosure_policy: teacher_only
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 62mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 公众号原解答第 1 页
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 公众号原解答第 2 页
+    teaching:
+      source_key: GEN-TERM-Q24
+      skill_tags:
+      - 二次函数
+      - 新定义
+      - 抛物线对称性
+      - 坐标几何
+      difficulty: challenge
+      official_solution_policy: verbatim_transcription_with_separate_notes

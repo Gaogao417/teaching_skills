@@ -1,0 +1,38 @@
+meta:
+  title: 2024学年第一学期初三年级学业质量调研数学试卷第 24 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q024
+    points: 12
+    stem_latex: 已知抛物线 $C_1:y=-x^2+bx+c$ 与 $y$ 轴交于点 $A(0,3)$，顶点 $P$ 在直线 $x=1$ 上。（1）求 $C_1$ 的解析式及顶点 $P$；（2）将 $C_1$ 向右平移 $m\ (m>0)$ 个单位，再向下平移 $n\ (n>0)$ 个单位，得到 $C_2$，顶点为 $Q$，与 $C_1$ 的交点为 $B$，若四边形 $PABQ$ 是平行四边形，求 $m、n$ 的关系式；（3）在（2）的条件下，$C_2$ 的对称轴与直线 $AP$ 交于点 $E$，与 $C_1$ 交于点 $F$，且 $S_{\triangle PEQ}:S_{\triangle BFQ}=3:1$，求 $C_1$ 上落在平行四边形 $PABQ$ 内部的点的横坐标 $t$ 的范围。
+    answer: （1）$y=-x^2+2x+3$，$P(1,4)$；（2）$n=m^2-2m$；（3）$2<t<3$
+    solution_steps:
+    - title: 官方解答
+      content: （1）由顶点横坐标为1得 $b=2$，由 $A(0,3)$ 得 $c=3$，故 $y=-x^2+2x+3$，$P(1,4)$。（2）$C_2$ 顶点 $Q(1+m,4-n)$。由平行四边形关系得 $B(m,3-n)$，代入 $C_1$ 得 $n=m^2-2m$。（3）由面积比得 $m=3$（$m=-2$ 舍去），继而求交点得横坐标范围 $2<t<3$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 1 页

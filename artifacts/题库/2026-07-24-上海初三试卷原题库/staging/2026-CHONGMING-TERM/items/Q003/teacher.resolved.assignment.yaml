@@ -1,0 +1,36 @@
+meta:
+  title: 崇明区2025学年第一学期期末质量调研第3题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q003
+    points: 4
+    stem_latex: 将抛物线 $y=3x^2$ 平移，使顶点移到点 $M(-2,1)$ 的位置，所得新抛物线的表达式是
+    answer: C
+    choices:
+    - $y=3(x+2)^2-1$
+    - $y=3(x-2)^2-1$
+    - $y=3(x+2)^2+1$
+    - $y=3(x-2)^2+1$
+    explanation: 官方参考答案：C。
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页

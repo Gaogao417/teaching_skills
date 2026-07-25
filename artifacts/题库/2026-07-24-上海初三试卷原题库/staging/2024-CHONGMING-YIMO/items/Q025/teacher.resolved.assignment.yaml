@@ -1,0 +1,74 @@
+meta:
+  title: 崇明区2023学年第一学期期末质量调研 · 原题第25题 · 教师版
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: 已知 $\mathrm{Rt}\triangle ABC$ 中，$\angle ACB=90^\circ,\ AC=3,\ AB=5$，点 $D$ 是 $AB$ 边上的一个动点（不与 $A,B$ 重合），点 $F$ 是边 $BC$ 上的一点，且满足 $\angle CDF=\angle A$，过点 $C$ 作 $CE\perp CD$ 交 $DF$ 的延长线于 $E$。（1）如图1，当 $CE\parallel AB$ 时，求 $AD$ 的长；（2）如图2，联结 $BE$，设 $AD=x,\ BE=y$，求 $y$ 关于 $x$ 的函数解析式并写出定义域；（3）过点 $C$ 作射线 $BE$ 的垂线，垂足为 $H$，射线 $CH$ 与射线 $DE$ 交于点 $Q$，当 $\triangle CQE$ 是等腰三角形时，求 $AD$ 的长。
+    answer: （1）$\frac95$；（2）$y=\frac43x,\ 0<x<5$；（3）$1$ 或 $\frac{18}{5}$。
+    solution_steps:
+    - title: 第（1）问
+      content: 在 $\mathrm{Rt}\triangle ABC$ 中，$BC=4,\ \cos A=\frac35$。由 $CE\perp CD$ 且 $CE\parallel AB$，得 $\angle ADC=90^\circ$，所以 $AD=AC\cos A=3\cdot\frac35=\frac95$。
+      diagram_col:
+        image_path: assets/solution-01.png
+        width: 58mm
+        variant: solution
+        disclosure_policy: teacher_only
+    - title: 第（2）问
+      content: 由角关系依次得到 $\triangle DFB\sim\triangle CFE$、$\triangle DFC\sim\triangle BFE$、$\triangle ACD\sim\triangle CBE$，所以 $\frac{AC}{BC}=\frac{AD}{BE}$。设 $AD=x,BE=y$，则 $\frac34=\frac{x}{y}$，故 $y=\frac43x$，定义域为 $0<x<5$。
+      diagram_col:
+        image_path: assets/solution-02.png
+        width: 58mm
+        variant: solution
+        disclosure_policy: teacher_only
+    - title: 第（3）问
+      content: 由 $\angle A=\angle EBF$ 得 $CH\perp BE$。分类讨论点 $Q$ 在线段 $DE$ 的延长线上或在线段 $DE$ 上。按官方解答的相似与等腰条件计算，分别得 $AD=1$ 或 $AD=\frac{18}{5}$。
+      diagram_col:
+        image_path: assets/solution-03.png
+        width: 58mm
+        variant: solution
+        disclosure_policy: teacher_only
+    - title: 第（3）问（续）
+      content: 对应官方解答图如下。
+      diagram_col:
+        image_path: assets/solution-04.png
+        width: 58mm
+        variant: solution
+        disclosure_policy: teacher_only
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第2页
+    diagram_col:
+      image_path: assets/prompt-figures.png
+      width: 72mm
+      variant: prompt
+      disclosure_policy: clean
+    teaching:
+      source_key: 2024-CHONGMING-YIMO-Q25
+      skill_tags:
+      - 原卷
+      difficulty: challenge
+      official_solution_policy: verbatim_transcription_with_separate_notes

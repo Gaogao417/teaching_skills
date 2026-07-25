@@ -1,0 +1,41 @@
+meta:
+  title: 2012年上海市普陀区中考数学二模试卷第 6 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、单项选择题
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q006
+    points: 4
+    stem_latex: 下列说法中正确的是（\quad）
+    choices:
+    - 某种彩票的中奖率是 $10\%$，则购买该种彩票 $100$ 张一定中奖是必然事件
+    - 如图，在长方体 $ABCD-EFGH$ 中，与棱 $EF$、棱 $FG$ 都异面的棱是棱 $DH$
+    - 如果一个多边形的内角和等于 $540^\circ$，那么这个多边形是正五边形
+    - 平分弦的直径垂直于这条弦
+    answer: B
+    explanation: 逐项判断，只有长方体中棱的位置关系表述正确，故选 B。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 48mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 1 页

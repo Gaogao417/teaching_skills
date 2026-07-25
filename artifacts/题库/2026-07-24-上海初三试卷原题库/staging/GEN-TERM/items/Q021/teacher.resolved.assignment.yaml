@@ -1,0 +1,64 @@
+meta:
+  title: 初三数学期末练习卷 · 原题第 21 题 · 教师版
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q021
+    points: 10
+    stem_latex: '如图，在 $\triangle ABC$ 中，点 $D,E$ 分别在边 $AB,AC$ 上，$AD\cdot AB=AE\cdot AC$，点 $F$ 是 $BE$ 与 $CD$ 的交点。
+
+      \begin{enumerate}
+
+      \item 求证：$\triangle FDB\sim\triangle FEC$；
+
+      \item 如果 $AB=15$，$AC=18$，$AD=6$，求 $EF:DF$。
+
+      \end{enumerate}'
+    answer: （1）证明见解析；（2）$EF:DF=13:9$。
+    subquestions:
+    - latex: 求证：$\triangle FDB\sim\triangle FEC$；
+    - latex: 若 $AB=15$，$AC=18$，$AD=6$，求 $EF:DF$。
+    solution_steps:
+    - title: 第（1）问：由比例判相似
+      content: '因为 $AD\cdot AB=AE\cdot AC$，所以 $\dfrac{AD}{AE}=\dfrac{AC}{AB}$。
+
+        又因为 $\angle DAC=\angle EAB$，所以 $\triangle DAC\sim\triangle EAB$，从而 $\angle ACD=\angle ABE$。
+
+        因为 $\angle EFC=\angle DFB$，所以 $\triangle FDB\sim\triangle FEC$。'
+    - title: 第（2）问：求线段比
+      content: '由 $AD\cdot AB=AE\cdot AC$，且 $AB=15$，$AC=18$，$AD=6$，得 $6\times15=18\cdot AE$，所以 $AE=5$，$BD=15-6=9$，$EC=18-5=13$。
+
+        由 $\triangle FDB\sim\triangle FEC$，得 $\dfrac{EF}{DF}=\dfrac{CE}{BD}$，所以 $EF:DF=13:9$。'
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 公众号原解答 1
+    teaching:
+      source_key: GEN-TERM-Q21
+      skill_tags:
+      - 相似三角形
+      - 几何证明
+      - 线段比
+      difficulty: standard
+      official_solution_policy: verbatim_transcription_with_separate_notes

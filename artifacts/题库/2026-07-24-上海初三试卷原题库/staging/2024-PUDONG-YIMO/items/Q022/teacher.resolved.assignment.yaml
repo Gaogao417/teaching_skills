@@ -1,0 +1,57 @@
+meta:
+  title: 浦东新区2023学年度第一学期期末练习第22题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q022
+    points: 10
+    stem_latex: 阅读题面中求 $\tan15^\circ$ 的方法，完成问题探究、知识迁移和拓展应用：在直角三角形中通过延长斜边并构造等腰三角形求半角正切；并证明拓展图中 $\tan\angle BPE=1$。
+    answer: 问题探究：$\angle D=22.5^\circ$，$BD=\sqrt2t$，$\tan22.5^\circ=\sqrt2-1$；知识迁移：$\tan\frac12\angle ABC=\frac{\sqrt{13}-3}{2}$；拓展应用：$\tan\angle
+      BPE=1$。
+    solution_steps:
+    - title: 解答
+      content: 问题探究中由 $BD=AB$ 得 $\angle D=\angle BAD=22.5^\circ$，再由直角等腰三角形得 $AB=BD=\sqrt2t$，从而 $\tan22.5^\circ=\sqrt2-1$。知识迁移中设
+        $AC=2k、BC=3k$，则 $AB=BD=\sqrt{13}k$，所以半角正切为 $(\sqrt{13}-3)/2$。拓展应用联结 $DE$，由勾股关系和等腰三角形角关系推得 $\angle BPE=45^\circ$，故
+        $\tan\angle BPE=1$。
+    images:
+    - image_path: assets/prompt-example.png
+      width: 0.78\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题示例图
+    - image_path: assets/prompt-explore.png
+      width: 0.78\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 问题探究图
+    - image_path: assets/prompt-transfer.png
+      width: 0.78\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 知识迁移图
+    - image_path: assets/prompt-application.png
+      width: 0.78\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 拓展应用图
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页

@@ -1,0 +1,41 @@
+meta:
+  title: 2024学年第一学期初三年级学业质量调研数学试卷第 4 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q004
+    points: 4
+    stem_latex: 如图是一个学校司令台的示意图，司令台离地面的高 $CD$ 为2米，平台 $BC$ 的长为1米，用7米长的地毯从点 $A$ 到点 $C$ 正好铺满整个台阶（含各级台阶的高），那么斜坡 $AB$ 的坡比是
+    choices:
+    - $i=1:1.5$
+    - $i=1:2$
+    - $i=1:3$
+    - $i=1:3.5$
+    answer: B
+    explanation: 官方参考答案：B。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 1 页

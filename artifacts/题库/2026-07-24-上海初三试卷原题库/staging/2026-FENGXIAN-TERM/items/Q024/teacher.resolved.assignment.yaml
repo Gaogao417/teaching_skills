@@ -1,0 +1,46 @@
+meta:
+  title: 奉贤区2025学年第一学期九年级数学练习第24题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q024
+    points: 12
+    stem_latex: 抛物线 $y=ax^2+bx+3(a\ne0)$ 与 $x$ 轴交于 $A(-1,0),B$，与 $y$ 轴交于 $C$，顶点 $D(1,m)$。（1）求
+      $B,m$；（2）沿 $BC$ 方向平移，顶点为 $E$，分别研究梯形条件与角条件。
+    answer: （1）$B(3,0),m=4$；（2）梯形时 $E(-7,12)$；角条件时 $E(-1,6)$。
+    solution_steps:
+    - title: 解答
+      content: $\because$ 依据题设计算或证明，$\therefore$ （1）$B(3,0),m=4$；（2）梯形时 $E(-7,12)$；角条件时
+        $E(-1,6)$。
+    images:
+    - image_path: assets/prompt-figure.png
+      width: 0.75\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第2页

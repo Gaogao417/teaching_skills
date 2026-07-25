@@ -1,0 +1,43 @@
+meta:
+  title: 金山区2024学年度第一学期期末学情诊断第 25 题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: 已知三角形 $ADE$ 的顶点 $E$ 在三角形 $ABC$ 的内部，点 $D$、点 $E$ 在直线 $AC$ 同侧。\begin{enumerate}\item 如图8，联结 $BD$、$BE$、$CE$，若 $\triangle ABC$ 和 $\triangle ADE$ 是等边三角形，点 $C$、$D$、$E$ 三点共线，$CE:DE=1:2$，求 $S_{\triangle ADE}:S_{\triangle ABC}$；\item 如图9，联结 $BD$、$BE$、$CE$（点 $C$、$D$、$E$ 三点不共线），$\angle BAC=\angle DAE=n^\circ$（$0<n<90$），若 $AB=AC$，$AD=AE$，求 $\angle BEC-\angle DBE$（用含 $n$ 的代数式表示）；\item 若 $\triangle ABC$ 是等腰三角形，$AB=BC=5$，$AC=8$，$BH\perp AC$，点 $E$ 在高 $BH$ 上，点 $D$ 在 $HB$ 的延长线上，联结 $AE$ 并延长交边 $BC$ 于点 $F$，联结 $DF$、$DA$，当 $\angle DAE=\angle ABH$，$\triangle ABD$ 与 $\triangle BDF$ 相似时，求 $EH$ 的长。\end{enumerate}
+    answer: （1）$4:7$；（2）$n^\circ$；（3）$EH=\dfrac{150}{61}$。
+    solution_steps:
+    - title: 官方解答
+      content: （1）设 $CE=k$，$DE=2k$。因 $\triangle ADE$ 是等边三角形，$AE=DE=2k$，$\angle AED=60^\circ$，故 $\angle AEC=120^\circ$。在 $\triangle AEC$ 中，由余弦定理得 $AC=\sqrt7k$。再证 $\triangle ADE\cong\triangle ABC$ 的相关角对应，原解据边长平方比得 $S_{\triangle ADE}:S_{\triangle ABC}=AE^2:AC^2=4:7$。（2）原解先证 $\triangle ADB\cong\triangle AEC$，得 $\angle ABD=\angle ACE$。由 $\triangle ABC$ 与 $\triangle BCE$ 的内角和关系，得 $\angle BEC-\angle DBE=n^\circ$。（3）先证 $\angle ABD=\angle DBF$。当 $\triangle ABD$ 与 $\triangle BDF$ 相似时，原解排除一类对应，得到 $\angle ADB=\angle BFD$，继而由角关系得 $\triangle ADF$ 为等腰三角形。设 $AD=6k$，$DF=AF=5k$，利用相似比例及在 $\triangle ABF$ 中的锐角三角比，解得 $BF=\dfrac{150}{61}$，原解最后写得 $EH=\dfrac{150}{61}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 1 页
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 2 页

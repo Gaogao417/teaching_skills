@@ -1,0 +1,47 @@
+meta:
+  title: 杨浦区2023学年度第一学期期末质量调研第23题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q023
+    points: 12
+    stem_latex: 如图，在等腰梯形 $ABCD$ 中，$AD\parallel BC$，$AB=CD$，点 $E$ 在边 $AB$ 上，$AC$ 与 $DE$ 交于点 $F$，$\angle ADE=\angle DCA$。（1）求证：$AF\cdot
+      AC=AE\cdot CD$；（2）如果点 $E$ 是边 $AB$ 的中点，求证：$AB^2=2DF\cdot DE$。
+    answer: 见证明。
+    solution_steps:
+    - title: 解答
+      content: （1）由等腰梯形角关系及题设得 $\triangle AED\sim\triangle DAC$，又 $\triangle ADF\sim\triangle ACD$，从而 $AD^2=AE\cdot CD=AF\cdot
+        AC$。（2）当 $E$ 为 $AB$ 中点时，$AB=CD=2AE$；再由 $\triangle AFD\sim\triangle EAD$ 得 $AD^2=DF\cdot DE$，结合 $AD^2=AE\cdot CD=\frac{AB^2}{2}$，所以
+        $AB^2=2DF\cdot DE$。
+    images:
+    - image_path: assets/prompt-figure.png
+      width: 0.78\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第2页

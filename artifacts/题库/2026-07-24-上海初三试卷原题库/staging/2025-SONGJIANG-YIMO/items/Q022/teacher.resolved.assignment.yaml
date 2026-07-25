@@ -1,0 +1,53 @@
+meta:
+  title: 松江区2025届初三一模第22题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q022
+    points: 10
+    stem_latex: 图1是一款高清视频设备，图2是设备放置在水平桌面上的示意图，$BA$ 垂直桌面，点 $C$ 为摄像头。已知 $AB=42$ 厘米，$BC=30$ 厘米，$\angle ABC=127^\circ$。（1）求摄像头
+      $C$ 到桌面的距离；（2）如果 $\angle DCE=37^\circ$，且 $CD=CE$，求桌面上可拍摄区域 $DE$ 的宽度（参考：$\sin37^\circ=0.6,\cos37^\circ=0.8,\tan37^\circ=0.75$）。
+    answer: （1）$60$ 厘米；（2）$40$ 厘米。
+    solution_steps:
+    - title: 第（1）问
+      content: 过 $C$ 作 $CH\perp AB$。由 $\angle CBF=37^\circ$，得 $CF=BC\sin37^\circ=18$，且 $AB=HF=42$，所以 $CH=60$ 厘米。
+      diagram_col:
+        image_path: assets/solution-01.png
+        width: 0.72\linewidth
+        variant: solution
+        disclosure_policy: teacher_only
+    - title: 第（2）问
+      content: 作 $DM\perp CE$。设 $DM=3k,CM=4k$，则 $CD=CE=5k,EM=k,DE=\sqrt{10}k$。由相似关系 $\dfrac{DM}{DE}=\dfrac{CH}{CE}$，解得 $k=4\sqrt{10}$，所以
+        $DE=40$ 厘米。
+    images:
+    - image_path: assets/prompt-device.png
+      width: 0.82\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图1
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第2页

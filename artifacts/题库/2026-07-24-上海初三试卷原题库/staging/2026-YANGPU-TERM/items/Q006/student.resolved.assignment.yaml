@@ -1,0 +1,34 @@
+meta:
+  title: 杨浦区2025学年度第一学期期末调研第6题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: student
+  show_answers: false
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: student
+  blocks:
+  - type: choice
+    id: Q006
+    points: 4
+    stem_latex: 如图，已知在 $\triangle ABC$ 中，点 $D、E$ 分别在边 $AB、AC$ 上，$DE\parallel BC$，$\angle ACD=\angle B$，下列结论中错误的是
+    choices:
+    - $\dfrac{DC^2}{BC^2}=\dfrac{AE}{AC}$
+    - $\dfrac{DE^2}{DC^2}=\dfrac{AD}{AB}$
+    - $\dfrac{AD^2}{AC^2}=\dfrac{AE}{AB}$
+    - $\dfrac{EC^2}{BD^2}=\dfrac{DE}{BC}$
+    images:
+    - image_path: assets/prompt-figure.png
+      width: 0.82\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图1

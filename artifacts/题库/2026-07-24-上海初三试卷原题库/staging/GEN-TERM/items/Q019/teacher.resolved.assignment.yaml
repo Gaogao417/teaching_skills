@@ -1,0 +1,42 @@
+meta:
+  title: 初三数学期末练习卷 · 原题第 19 题 · 教师版
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q019
+    points: 10
+    stem_latex: 计算：$\sqrt6\cot60^\circ-\left|2\cos45^\circ-1\right|+4\sin^230^\circ$。
+    answer: $2$
+    solution_steps:
+    - title: 代入特殊角三角比
+      content: $\sqrt6\cot60^\circ-\left|2\cos45^\circ-1\right|+4\sin^230^\circ=\sqrt6\times\frac{\sqrt3}{3}-\left|2\times\frac{\sqrt2}{2}-1\right|+4\times\left(\frac12\right)^2$。
+    - title: 化简
+      content: $=\sqrt2-(\sqrt2-1)+1=2$。
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 公众号原解答 1
+    teaching:
+      source_key: GEN-TERM-Q19
+      skill_tags:
+      - 特殊角三角比
+      - 绝对值
+      - 实数运算
+      difficulty: foundation
+      official_solution_policy: verbatim_transcription_with_separate_notes

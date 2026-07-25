@@ -1,0 +1,47 @@
+meta:
+  title: 2025学年第一学期九年级期终学业质量调研数学试卷第 25 题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: 在 $\triangle ABC$ 中，已知 $\angle ABC=2\angle C$，$BD$ 平分 $\angle ABC$。（1）如图11，如果 $AD=4，DC=5$，求 $BC$ 的长；（2）如图12，过点 $A$ 作 $AC$ 的垂线 $AP$，与边 $CB$ 的延长线交于点 $P$。①试猜想线段 $PC$ 与边 $AB$ 的数量关系，并证明；②在线段 $DB$ 上截取 $DQ=DA$，联结 $AQ$，当 $\angle PAQ=2\angle BAQ$ 时，探究是否存在实数 $k$，使得 $AB=kBQ+PB$ 成立；如果存在，求出 $k$，如果不存在，请说明理由。
+    answer: （1）$BC=\dfrac{15}{2}$；（2）①$PC=2AB$；②存在，$k=\dfrac{\sqrt5+1}{2}$。
+    solution_steps:
+    - title: 第（1）问
+      content: 因为 $BD$ 平分 $\angle ABC$ 且 $\angle ABC=2\angle C$，所以 $\angle ABD=\angle DBC=\angle C$，从而 $BD=DC=5$。又 $\triangle ABD\sim\triangle ACB$，故 $\dfrac{AD}{AB}=\dfrac{AB}{AC}=\dfrac{BD}{BC}$。代入 $AD=4，AC=9，BD=5$，得 $BC=\dfrac{15}{2}$。
+    - title: 第（2）问①
+      content: 猜想 $PC=2AB$。取 $PC$ 中点 $E$，联结 $AE$。在直角三角形 $APC$ 中，$AE=EC=\dfrac12PC$；结合 $\angle ABC=2\angle C$ 可得 $\angle ABC=\angle AEC$，从而 $AB=AE=\dfrac12PC$，即 $PC=2AB$。
+    - title: 第（2）问②
+      content: 由角度条件求得 $\angle PAB=18^\circ，\angle P=54^\circ，\angle C=\angle ABD=\angle DBC=36^\circ$，并得 $AC=BC，AB=BD=CD$。设 $AB=a$，由相似关系得 $AD=\dfrac{\sqrt5-1}{2}a$，进而 $BQ=\dfrac{3-\sqrt5}{2}a，PB=\dfrac{3-\sqrt5}{2}a$。代入 $AB=kBQ+PB$，解得 $k=\dfrac{\sqrt5+1}{2}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 96mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 1 页
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 2 页

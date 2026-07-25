@@ -1,0 +1,47 @@
+meta:
+  title: 2025学年第一学期黄浦区九年级期终考试数学试卷第 23 题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q023
+    points: 14
+    stem_latex: 如图，过菱形 $ABCD$ 顶点 $A$ 分别作边 $BC、CD$ 的垂线，垂足为 $E、F$，交对角线 $BD$ 于点 $M、N$。（1）求证：$BM=DN$；（2）联结 $EN$，如果 $EN\parallel AB$，求 $\cos\angle ABC$ 的值；（3）如果 $\triangle ABM$ 与五边形 $CFNME$ 的面积均为1，求菱形 $ABCD$ 的面积。
+    answer: （1）$BM=DN$；（2）$\cos\angle ABC=\dfrac{\sqrt5-1}{2}$；（3）面积为 $2\sqrt2+2$。
+    solution_steps:
+    - title: 第（1）问
+      content: 先证 $\triangle ABE\cong\triangle ADF$，再证 $\triangle MBE\cong\triangle NDF$，所以 $BM=DN$。
+    - title: 第（2）问
+      content: 由 $EN\parallel AB\parallel CD$ 及相似关系得 $DF=BE$，再由比例关系知 $N$ 为 $BD$ 的黄金分割点，因此 $\cos\angle ABC=\cos\angle ADC=\dfrac{DF}{AD}=\dfrac{\sqrt5-1}{2}$。
+    - title: 第（3）问
+      content: 联结 $AC$。由 $\triangle ABM$ 与五边形 $CFNME$ 面积均为1，结合菱形对称与相似关系可得 $BE=AE$，继而 $\dfrac{BM}{MD}=\dfrac{\sqrt2}{2}$，且 $S_{\triangle AMD}=\sqrt2$，所以菱形 $ABCD$ 的面积为 $2\sqrt2+2$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 60mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 1 页
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 2 页

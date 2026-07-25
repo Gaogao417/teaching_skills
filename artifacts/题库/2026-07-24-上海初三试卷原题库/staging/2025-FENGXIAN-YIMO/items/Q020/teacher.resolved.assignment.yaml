@@ -1,0 +1,44 @@
+meta:
+  title: 奉贤区2024学年第一学期九年级数学练习 · 原题第 20 题 · 教师版
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q020
+    points: 10
+    stem_latex: '新定义：若一个点的纵坐标是横坐标的3倍，那么称这个点为三倍点。已知反比例函数的图像经过点 $A(3,4)$，二次函数 $y=ax^2+bx+c\ (a\ne0)$ 的图像经过点 $A$ 及反比例函数图像上的三倍点，求二次函数的解析式。
+
+      '
+    answer: $y=-x^2+3x+4$
+    solution_steps:
+    - title: 求反比例函数及其三倍点
+      content: 设反比例函数解析式为 $y=\dfrac{k}{x}\ (k\ne0)$。由图像经过 $A(3,4)$，得 $4=\dfrac{k}{3}$，解得 $k=12$，所以 $y=\dfrac{12}{x}$。设其图像上的三倍点为 $(t,3t)$，则 $3t=\dfrac{12}{t}$，解得 $t=2$ 或 $t=-2$，所以两个三倍点为 $(2,6)$、$(-2,-6)$。
+    - title: 求二次函数解析式
+      content: 把 $A(3,4)$、$(2,6)$、$(-2,-6)$ 代入 $y=ax^2+bx+c$，得 $\begin{cases}9a+3b+c=4,\\4a+2b+c=6,\\4a-2b+c=-6.\end{cases}$ 解得 $a=-1,\ b=3,\ c=4$。所以二次函数解析式为 $y=-x^2+3x+4$。
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 公众号原解答 1
+    teaching:
+      source_key: 2025-FENGXIAN-YIMO-Q20
+      skill_tags:
+      - 反比例函数
+      - 二次函数
+      - 待定系数法
+      difficulty: standard
+      official_solution_policy: verbatim_transcription_with_separate_notes

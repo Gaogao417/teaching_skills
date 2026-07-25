@@ -1,0 +1,45 @@
+meta:
+  title: 2025学年第一学期九年级期终学业质量调研数学试卷第 21 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q021
+    points: 10
+    stem_latex: 如图5，在梯形 $ABCD$ 中，$AD\parallel BC$，已知 $AD:BC=2:3$，点 $E$ 是 $AD$ 的中点，联结 $EC$ 交 $BD$ 于点 $G$。（1）如果 $\triangle EDG$ 的面积等于5，求 $\triangle BCG$ 的面积；（2）设 $\overrightarrow{BA}=\vec a，\overrightarrow{BC}=\vec b$，求向量 $\overrightarrow{BG}$ 关于向量 $\vec a、\vec b$ 的分解式。
+    answer: （1）$S_{\triangle BCG}=45$；（2）$\overrightarrow{BG}=\dfrac34\vec a+\dfrac12\vec b$。
+    solution_steps:
+    - title: 第（1）问
+      content: 因为 $AD:BC=2:3$ 且 $E$ 是 $AD$ 中点，所以 $\dfrac{DE}{BC}=\dfrac13$。又 $AD\parallel BC$，故 $\triangle DEG\sim\triangle BCG$，面积比为 $\dfrac19$，所以 $S_{\triangle BCG}=9S_{\triangle DEG}=45$。
+    - title: 第（2）问
+      content: 由相似关系得 $\dfrac{DG}{BG}=\dfrac{DE}{BC}=\dfrac13$，所以 $\overrightarrow{BG}=\dfrac34\overrightarrow{BD}$。又 $\overrightarrow{BD}=\overrightarrow{BA}+\overrightarrow{AD}=\vec a+\dfrac23\vec b$，故 $\overrightarrow{BG}=\dfrac34\vec a+\dfrac12\vec b$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 42mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 1 页
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 2 页

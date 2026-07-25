@@ -1,0 +1,47 @@
+meta:
+  title: 虹口区2023学年度第一学期期终初三数学第24题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q024
+    points: 12
+    stem_latex: 如图13，在平面直角坐标系 $xOy$ 中，已知抛物线 $y=x^2+2x+m$ 经过点 $A(-3,0)$，与 $y$ 轴交于点 $C$，联结 $AC$ 交该抛物线的对称轴于点 $E$。（1）求 $m$ 的值和点 $E$ 的坐标；（2）点 $M$ 是抛物线的对称轴上一点且在直线 $AC$ 的上方。①联结 $AM$、$CM$，如果 $\angle AME=\angle MCA$，求点 $M$ 的坐标；②点 $N$ 是抛物线上一点，联结 $MN$，当直线 $AC$ 垂直平分 $MN$ 时，求点 $N$ 的坐标。
+    answer: （1）$m=-3$，$E(-1,-2)$；（2）①$M(-1,2\sqrt2)$；②$N(-1-\sqrt2,-2)$。
+    solution_steps:
+    - title: 步骤 1
+      content: （1）把 $A(-3,0)$ 代入 $y=x^2+2x+m$，$\therefore0=9-6+m$，解得 $m=-3$。可得对称轴为直线 $x=-1$，可求 $l_{AC}:y=-x-3$，$\therefore E(-1,-2)$。
+    - title: 步骤 2
+      content: （2）①$\because\angle AME=\angle MCA$，又 $\angle MAC=\angle EAM$，$\therefore\triangle MAC\sim\triangle EAM$，$\therefore\dfrac{AM}{AE}=\dfrac{AC}{AM}$。可求 $AE=2\sqrt2,\ AC=3\sqrt2$，$\therefore\dfrac{AM}{2\sqrt2}=\dfrac{3\sqrt2}{AM}$，$\therefore AM=2\sqrt3$。设点 $M$ 坐标为 $(-1,t)$，可得 $2^2+t^2=12$，解得 $t=\pm2\sqrt2$（负舍），$\therefore M(-1,2\sqrt2)$。
+    - title: 步骤 3
+      content: ②可得点 $A(-3,0)$，点 $C(0,-3)$，$\therefore AO=OC$，$\therefore\angle AOC=90^\circ$，$\therefore\angle OAC=45^\circ$。$\because AC$ 垂直平分 $MN$，$\therefore EM=EN$，可得 $\angle EMN=\angle MNE=45^\circ$，$\therefore NE\perp ME$，即 $N$ 的纵坐标为 $-2$。把 $y=-2$ 代入 $y=x^2+2x-3$，得 $-2=x^2+2x-3$，解得 $x=-1\pm\sqrt2$。$\because M$ 在直线 $AC$ 上方，$\therefore N(-1-\sqrt2,-2)$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 0.92\linewidth
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第2页

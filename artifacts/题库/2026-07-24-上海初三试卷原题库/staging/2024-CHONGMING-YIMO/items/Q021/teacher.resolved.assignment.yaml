@@ -1,0 +1,45 @@
+meta:
+  title: 崇明区2023学年第一学期期末质量调研 · 原题第21题 · 教师版
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q021
+    points: 10
+    stem_latex: 已知二次函数 $y=2x^2+4x-6$。（1）用配方法把它化为 $y=a(x+m)^2+k$ 的形式，并指出图像的对称轴和顶点坐标；（2）如果该函数图像与 $x$ 轴负半轴交于点 $A$，与 $y$ 轴交于点 $C$，顶点为 $D$，$O$ 为坐标原点，求四边形 $ADCO$ 的面积。
+    answer: （1）$y=2(x+1)^2-8$，对称轴 $x=-1$，顶点 $(-1,-8)$；（2）15。
+    solution_steps:
+    - title: 第（1）问
+      content: $y=2(x^2+2x)-6=2(x+1)^2-8$，所以对称轴为 $x=-1$，顶点为 $(-1,-8)$。
+    - title: 第（2）问
+      content: 令 $y=0$，得 $x=-3$ 或 $1$，故 $A(-3,0)$；令 $x=0$，得 $C(0,-6)$。联结 $OD$，则 $S_{ADCO}=S_{\triangle AOD}+S_{\triangle DOC}=\frac12\cdot3\cdot8+\frac12\cdot6\cdot1=15$。
+      diagram_col:
+        image_path: assets/solution-01.png
+        width: 58mm
+        variant: solution
+        disclosure_policy: teacher_only
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页
+    teaching:
+      source_key: 2024-CHONGMING-YIMO-Q21
+      skill_tags:
+      - 原卷
+      difficulty: standard
+      official_solution_policy: verbatim_transcription_with_separate_notes

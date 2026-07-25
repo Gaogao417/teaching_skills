@@ -1,0 +1,60 @@
+schema: math_exam_item_source/v1
+item_id: Q018
+source_key: 2024-FENGXIAN-YIMO-Q18
+paper_id: 2024-FENGXIAN-YIMO
+question_number: 18
+question_type: fillin
+points: 4
+section_title: 二、填空题
+source_directory: documents/初三/2024届-上海市奉贤区-初三一模数学-试卷及参考答案
+crops:
+  question_evidence:
+  - source: documents/初三/2024届-上海市奉贤区-初三一模数学-试卷及参考答案/003.png
+    source_sha256: sha256:7ca6f569e123248b975f91c85df2942dfb0520c5408d5dd7895a75990aa8f526
+    box_px:
+    - 145
+    - 990
+    - 950
+    - 1115
+    output: assets/source-question-text.png
+    output_sha256: sha256:bd0bd5b53ddd456c941f2b0a41f76f447562007e6506274c2dd8b791ac03eb0c
+  - source: documents/初三/2024届-上海市奉贤区-初三一模数学-试卷及参考答案/003.png
+    source_sha256: sha256:7ca6f569e123248b975f91c85df2942dfb0520c5408d5dd7895a75990aa8f526
+    box_px:
+    - 690
+    - 980
+    - 960
+    - 1180
+    output: assets/source-question-figure.png
+    output_sha256: sha256:def5fb7d3c14d9a14bf3b59de856dee4786b3129527ead893cf8e33204756938
+  prompt:
+  - source: documents/初三/2024届-上海市奉贤区-初三一模数学-试卷及参考答案/003.png
+    source_sha256: sha256:7ca6f569e123248b975f91c85df2942dfb0520c5408d5dd7895a75990aa8f526
+    box_px:
+    - 690
+    - 980
+    - 960
+    - 1180
+    whiteout_px:
+    - - 0
+      - 0
+      - 45
+      - 50
+    output: assets/prompt-figure.png
+    output_sha256: sha256:32a20fe9600158ae5478547e368949ba76c91e4a8ddd6242826495dbed728876
+  official_solution:
+  - source: documents/初三/2024届-上海市奉贤区-初三一模数学-试卷及参考答案/006.png
+    source_sha256: sha256:b65e6baefd246abd4fa5a54f426ca738e5ceb1f72d1e3af9ed4d92737847d22b
+    box_px:
+    - 680
+    - 565
+    - 790
+    - 625
+    output: assets/official-solution.png
+    output_sha256: sha256:f41ce053c97f843d69a165377baf606713bd37e0ecbd773359291e72d6924b8e
+transcription:
+  question_status: author_pass
+  official_solution_status: author_pass
+  independent_review: review_pass
+  human_review: pending
+content_hash: sha256:6c68851118e0a893d0d6483dcf27adf70cb2189f0c776c6539536814afd4cf17

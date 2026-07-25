@@ -1,0 +1,35 @@
+meta:
+  title: 2025学年第一学期黄浦区九年级期终考试数学试卷第 18 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q018
+    points: 10
+    stem_latex: 已知抛物线 $y=x^2+bx+c$ 经过点 $(1,2)$ 和 $(0,4)$。（1）求此抛物线的表达式；（2）指出此抛物线的开口方向、对称轴和顶点坐标，并说明这条抛物线的变化情况。
+    answer: （1）$y=x^2-3x+4$；（2）开口向上，对称轴为直线 $x=\dfrac32$，顶点为 $\left(\dfrac32,\dfrac74\right)$；在对称轴左侧下降，右侧上升。
+    solution_steps:
+    - title: 第（1）问
+      content: 将两点代入，得 $2=1+b+c，4=c$，解得 $b=-3，c=4$，所以 $y=x^2-3x+4$。
+    - title: 第（2）问
+      content: 抛物线开口向上，对称轴为直线 $x=\dfrac32$，顶点坐标为 $\left(\dfrac32,\dfrac74\right)$；在 $x=\dfrac32$ 左侧下降，在右侧上升。
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 1 页

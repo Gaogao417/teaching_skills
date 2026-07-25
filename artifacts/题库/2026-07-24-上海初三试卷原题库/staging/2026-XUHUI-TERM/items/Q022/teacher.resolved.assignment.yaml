@@ -1,0 +1,46 @@
+meta:
+  title: 徐汇区2025学年第一学期初三年级期末试卷第22题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q022
+    points: 10
+    stem_latex: 某餐厅在门外走廊安装遮阳棚，遮阳棚 $AB$ 长为 $3.9\mathrm m$，其与墙面的夹角为 $\alpha$（$\cos\alpha=\frac5{13}$），靠墙端离地面高 $AD=5\mathrm m$。（1）求遮阳棚前端
+      $B$ 到墙面 $AD$ 的距离；（2）加装与地面垂直的挡板 $BC$，太阳高度角为 $70^\circ$，走廊遮阳宽度 $DF$ 至少为 $2.6\mathrm m$，求挡板 $BC$ 至少多长（精确到 $0.01\mathrm
+      m$）。
+    answer: （1）$3.6\mathrm m$；（2）至少 $0.76\mathrm m$。
+    solution_steps:
+    - title: 解答
+      content: （1）作 $BG\perp AD$，$AG=AB\cos\alpha=1.5$，故 $BG=\sqrt{3.9^2-1.5^2}=3.6\mathrm m$。（2）延长 $BC$ 交地面于 $M$，则 $BM=5-1.5=3.5$，$MF=3.6-2.6=1$。在
+        $\mathrm{Rt}\triangle CMF$ 中，$CM=MF\tan70^\circ=2.747$，所以 $BC=3.5-2.747=0.753\mathrm m$，至少约 $0.76\mathrm m$。
+      diagram_col:
+        image_path: assets/solution-figure.png
+        width: 62mm
+        variant: solution
+        disclosure_policy: teacher_only
+    stem_image:
+      image_path: assets/prompt-full-question.png
+      width: 0.98\linewidth
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页

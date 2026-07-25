@@ -1,0 +1,43 @@
+meta:
+  title: 闵行区2025学年第一学期质量调研第20题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q020
+    points: 10
+    stem_latex: 如图，在平行四边形 $ABCD$ 中，$E$ 是 $DC$ 中点，$AE$ 与对角线 $BD$ 交于 $G$，$\overrightarrow{AB}=\vec
+      a,\overrightarrow{AD}=\vec b$。（1）用 $\vec a,\vec b$ 表示 $\overrightarrow{DB},\overrightarrow{AG}$；（2）作出
+      $\overrightarrow{DG}$ 在 $\vec a,\vec b$ 方向上的分向量。
+    answer: $\overrightarrow{DB}=\vec a-\vec b,\overrightarrow{AG}=\frac13\vec a+\frac23\vec
+      b$；作图略
+    solution_steps:
+    - title: 解答
+      content: 依据官方评分标准，答案为：$\overrightarrow{DB}=\vec a-\vec b,\overrightarrow{AG}=\frac13\vec
+        a+\frac23\vec b$；作图略。
+    images:
+    - image_path: assets/prompt-01.png
+      width: 0.82\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图1
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页

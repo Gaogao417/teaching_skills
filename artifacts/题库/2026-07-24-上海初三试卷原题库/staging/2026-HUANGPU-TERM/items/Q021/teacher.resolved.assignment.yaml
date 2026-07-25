@@ -1,0 +1,47 @@
+meta:
+  title: 2025学年第一学期黄浦区九年级期终考试数学试卷第 21 题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q021
+    points: 14
+    stem_latex: 已知二次函数 $y=ax^2+bx+c\ (a\ne0)$ 的图像经过点 $A\left(\dfrac52,0\right)、B(0,5)$。（1）试用字母 $a$ 的代数式表示 $b$；（2）如果图像上存在点 $C$，使直线 $AB$ 垂直平分线段 $OC$，求此二次函数的解析式；（3）二次函数图像的对称轴是否可能平分线段 $AB$？如果能，求解析式；如果不能，说明理由。
+    answer: （1）$b=-\dfrac52a-2$；（2）$y=\dfrac56x^2-\dfrac{49}{12}x+5$；（3）不能。
+    solution_steps:
+    - title: 第（1）问
+      content: 由两点在图像上得 $0=\dfrac{25}{4}a+\dfrac52b+c，5=c$，解得 $b=-\dfrac52a-2$。
+    - title: 第（2）问
+      content: 令 $C(s,t)$。由直线 $AB$ 垂直平分 $OC$，得 $AC=AO，BC=BO$，解得 $C(4,2)$。将其代入并结合第（1）问，解得 $a=\dfrac56$，所以解析式为 $y=\dfrac56x^2-\dfrac{49}{12}x+5$。
+    - title: 第（3）问
+      content: 假设对称轴平分线段 $AB$，则通过中点条件列式会得到 $0\cdot a=8$，方程无解，所以不可能。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 1 页
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 2 页

@@ -1,0 +1,46 @@
+meta:
+  title: 嘉定区2023学年第一学期九年级期终学业质量调研测试 · 第25题 · 教师版
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: 如图11，在 $\triangle ABC$ 和 $\triangle ACD$ 中，$\angle ACB=\angle CAD=90^\circ$，$BC=16$，$CD=15$，$DA=9$。（1）求证：$\angle B=\angle ACD$；（2）点 $M$ 在边 $BC$ 上（与点 $B$ 不重合），且 $\angle MAN=\angle BAC$，$AN$ 交 $CD$ 于点 $N$，交 $BC$ 的延长线于点 $E$。①如图12，设 $BM=x,\ CE=y$，求 $y$ 与 $x$ 的函数关系式，并写出定义域；②当 $\triangle CEN$ 是等腰三角形时，求 $BM$ 的长。
+    answer: （1）见证明；（2）① $y=\frac{9x}{25-x}$，$0<x\le16$；② $BM=10$ 或 $7$ 或 $12.5$。
+    solution_steps:
+    - title: 第（1）问
+      content: $\because\angle ACB=\angle CAD=90^\circ$，$\triangle ACB$ 与 $\triangle CAD$ 都是直角三角形。在 $Rt\triangle ACD$ 中，$AC^2+DA^2=CD^2$，由 $CD=15,\ DA=9$ 得 $AC=12$，故 $\tan\angle ACD=\frac{AD}{AC}=\frac34$。在 $Rt\triangle ACB$ 中，$\tan\angle B=\frac{AC}{BC}=\frac34$，$\therefore\angle B=\angle ACD$。
+      diagram_col:
+        image_path: assets/solution-01.png
+        width: 58mm
+        variant: solution
+        disclosure_policy: teacher_only
+    - title: 第（2）问①
+      content: $\because\angle MAN=\angle BAC$，又 $\angle MAN=\angle NAC+\angle MAC$，$\angle BAC=\angle BAM+\angle MAC$，$\therefore\angle BAM=\angle CAN$。又 $\angle B=\angle ACD$，$\therefore\triangle BAM\sim\triangle CAN$，$\therefore\frac{AB}{AC}=\frac{BM}{CN}$。$\because$ 在 $Rt\triangle ACB$ 中，$BC=16,\ AC=12$，$\therefore AB=\sqrt{BC^2+AC^2}=20$。$\because BM=x$，$\therefore CN=\frac35x$。$\because\angle ACB=\angle CAD=90^\circ$，$\therefore CE\parallel AD$，$\therefore\frac{CE}{AD}=\frac{CN}{ND}$。$\because ND=15-\frac35x,\ CE=y$，$\therefore\frac y9=\frac{\frac35x}{15-\frac35x}$，$\therefore y=\frac{9x}{25-x}$。定义域：$0<x\le16$。
+    - title: 第（2）问②
+      content: 当 $\triangle CEN$ 是等腰三角形时，分三种情况。第一种：当 $CN=CE$ 时，则 $\frac35x=\frac{9x}{25-x}$，解得 $x=10$。第二种：当 $EC=EN$ 时，则 $AN=AD$；过点 $A$ 作 $AH\perp DC$，垂足为 $H$，$\cos D=\frac{AD}{CD}=\frac{DH}{AD}$，所以 $DH=\frac{27}{5},\ DN=\frac{54}{5}$，则 $\frac35x+\frac{54}{5}=15$，解得 $x=7$。第三种：当 $NE=NC$ 时，因为 $\triangle ACE$ 是直角三角形，易得 $NC=NE=NA=ND$，所以 $2NC=CD$，即 $2\times\frac35x=15$，解得 $x=12.5$。综上所述：当 $\triangle CEN$ 是等腰三角形时，$BM$ 的长为10或7或12.5。
+    source_solution_images:
+    - image_path: assets/official-solution.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答
+    diagram_col:
+      image_path: assets/prompt-figures.png
+      width: 96mm
+      variant: prompt
+      disclosure_policy: clean

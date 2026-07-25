@@ -1,0 +1,59 @@
+meta:
+  title: 松江区2025届初三一模第25题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: 在矩形 $ABCD$ 中，$AB=8,AD=10$。点 $E、F$ 分别在边 $AB、BC$ 上，$AF\perp DE$，垂足为点 $H$。（1）求 $AF:DE$；（2）当 $HF=2EH$ 时，求 $AE$；（3）联结
+      $CH$，当 $\triangle CDH$ 是等腰三角形时，求 $\angle EDC$ 的正切值。
+    answer: （1）$\dfrac45$；（2）$AE=5$；（3）$\dfrac43$、$\dfrac85$ 或 $2$。
+    solution_steps:
+    - title: 第（1）问
+      content: 由矩形和垂直关系得 $\triangle ABF\sim\triangle DAE$，所以 $\dfrac{AF}{DE}=\dfrac{AB}{AD}=\dfrac45$。
+    - title: 第（2）问
+      content: 延长 $DE、CB$ 交于 $M$。设 $AE=x$，利用相似关系和 $HF=2EH$ 建立方程 $3x^2+25x-200=0$，取合题意根 $x=5$。
+      diagram_col:
+        image_path: assets/solution-01.png
+        width: 0.72\linewidth
+        variant: solution
+        disclosure_policy: teacher_only
+    - title: 第（3）问
+      content: 分 $CD=DH$、$CD=CH$、$DH=CH$ 三种情形讨论，分别得到 $\tan\angle EDC=\dfrac43,\dfrac85,2$。
+      diagram_col:
+        image_path: assets/solution-02.png
+        width: 0.72\linewidth
+        variant: solution
+        disclosure_policy: teacher_only
+    images:
+    - image_path: assets/prompt-figures.png
+      width: 0.82\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图1
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第2页

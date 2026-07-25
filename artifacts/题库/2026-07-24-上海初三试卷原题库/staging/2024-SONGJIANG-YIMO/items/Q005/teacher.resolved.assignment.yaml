@@ -1,0 +1,43 @@
+meta:
+  title: 松江区2023学年度第一学期期末质量监控第5题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q005
+    points: 4
+    stem_latex: 如图，在 $\mathrm{Rt}\triangle ABC$ 中，$\angle BAC=90^\circ$，斜边 $BC$ 上的高 $AH=3$，矩形 $DEFG$ 的边 $DE$ 在边 $BC$ 上，顶点
+      $G、F$ 分别在边 $AB、AC$ 上。如果 $GF$ 正好经过 $\triangle ABC$ 的重心，那么 $BD\cdot EC$ 等于
+    answer: B
+    choices:
+    - $4$
+    - $1$
+    - $\frac{16}{25}$
+    - $\frac9{25}$
+    explanation: 官方参考答案：B。
+    images:
+    - image_path: assets/prompt-figure.png
+      width: 0.78\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页

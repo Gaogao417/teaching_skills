@@ -1,0 +1,37 @@
+meta:
+  title: 虹口区2025学年度第一次学生学习能力诊断练习第18题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: fillin
+    id: Q018
+    points: 4
+    stem_latex: 如图8，在 $\triangle ABC$ 中，$BC=5,\cot A=2,\sin B=\frac35$，$D$ 是 $AB$
+      的中点。$E$ 是线段 $AC$ 延长线上一点，联结 $BE$，如果四边形 $BDCE$ 的一组对角相等且另一组对角不相等，那么 $AE$ 的长是\fillin。
+    answer: $10\sqrt5$ 或 $\frac{14}{3}\sqrt5$
+    images:
+    - image_path: assets/prompt-figure-01.png
+      width: 0.82\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图1
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页

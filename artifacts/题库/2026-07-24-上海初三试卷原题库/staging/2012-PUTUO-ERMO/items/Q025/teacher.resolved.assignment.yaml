@@ -1,0 +1,58 @@
+meta:
+  title: 2012年上海市普陀区中考数学二模试卷第 25 题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: '已知 $\angle ACB=90^\circ$，$CD$ 是 $\angle ACB$ 的平分线，点 $P$ 在 $CD$ 上，$CP=\sqrt2$。将三角板的直角顶点放在点 $P$ 处并绕点 $P$ 旋转，一条直角边与射线 $CB$ 交于点 $E$，另一条直角边与直线 $CA$、$CB$ 分别交于点 $F$、$G$。
+
+      （1）如图，当点 $F$ 在射线 $CA$ 上时：①求证 $PF=PE$；②设 $CF=x$，$EG=y$，求 $y$ 关于 $x$ 的函数解析式并写出定义域；
+
+      （2）连接 $EF$，当 $\triangle CEF$ 与 $\triangle EGP$ 相似时，求 $EG$ 的长。
+
+      '
+    answer: （1）①证明见解析；②$y=\dfrac{x^2-2x+2}{1-x}$（$0\le x<1$）；（2）$EG=2\sqrt2$
+    solution_steps:
+    - title: 第（1）问①
+      content: 过点 $P$ 作 $PM\perp AC$、$PN\perp BC$。由角平分线性质得 $PM=PN$；结合两组余角相等，得 $\triangle PMF\cong\triangle PNE$，所以 $PF=PE$。
+    - title: 第（1）问②
+      content: 由 $CP=\sqrt2$ 得 $CM=CN=1$。全等关系给出 $NE=MF=1-x$，故 $CE=2-x$。再由 $CF\parallel PN$ 及相似三角形求得 $CG=\dfrac{x}{1-x}$，所以 $y=EG=CE+CG=\dfrac{x^2-2x+2}{1-x}$，其中 $0\le x<1$。
+    - title: 第（2）问
+      content: 按点 $F$ 在射线 $CA$ 上或在 $AC$ 的延长线上分类讨论。由相似条件及原解答中的角关系，两种情形均得到 $EG=2CP=2\sqrt2$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 132mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 1 页
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 2 页
+    - image_path: assets/official-solution-03.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 3 页

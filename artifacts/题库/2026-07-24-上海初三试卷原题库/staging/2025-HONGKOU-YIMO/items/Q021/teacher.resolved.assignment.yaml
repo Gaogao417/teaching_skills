@@ -1,0 +1,45 @@
+meta:
+  title: 虹口区2024学年度初三年级第一次学生学习能力诊断练习数学练习卷第 21 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q021
+    points: 10
+    stem_latex: 如图8，在 $\triangle ABC$ 中，$AB=10$，$BC=5$，$\sin B=\dfrac35$，点 $D、E$ 在 $BC$ 的延长线上，联结 $AD、AE$，且 $AD=AC$。（1）求 $\tan\angle ADC$ 的值；（2）如果 $\angle E=\angle BAC$，求 $DE$ 的长。
+    answer: （1）$2$；（2）$DE=9$
+    solution_steps:
+    - title: 第（1）问
+      content: 过点 $A$ 作 $AH\perp CD$，垂足为点 $H$。在 $\mathrm{Rt}\triangle ABH$ 中，$AH=AB\sin B=10\times\dfrac35=6$，$BH=\sqrt{AB^2-AH^2}=8$，$\therefore CH=8-5=3$。在 $\mathrm{Rt}\triangle ACH$ 中，$\tan\angle ACD=\dfrac{AH}{CH}=2$。$\because AD=AC$，$\therefore\angle ADC=\angle ACD$，$\therefore\tan\angle ADC=2$。
+    - title: 第（2）问
+      content: $\because\angle E=\angle BAC$，$\angle ABC=\angle EBA$，$\therefore\triangle BAC\sim\triangle BEA$。$\therefore\dfrac{AB}{BE}=\dfrac{BC}{AB}$，即 $\dfrac{10}{BE}=\dfrac5{10}$，$\therefore BE=20$。又 $CD=2CH=6$，$\therefore DE=9$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 62mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 1 页
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 2 页

@@ -1,0 +1,66 @@
+meta:
+  title: 2024学年第一学期徐汇区学习能力诊断卷初三数学试卷 · 原题第 25 题 · 教师版
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: '如图，在 $\triangle ABC$ 中，$AB=AC=\sqrt5$，$BC=2$，点 $D$ 是边 $AC$ 的中点，点 $M$、$N$ 是射线 $BD$ 上的动点（点 $M$ 在左边），以 $CM$ 为一边作 $\angle MCN=\angle ABC$。
+
+      \begin{enumerate}
+
+      \item 求 $BD$ 的长；
+
+      \item 当点 $M$ 是 $\triangle ABC$ 的重心时，求 $CN:BN$ 的值；
+
+      \item 如果 $\triangle MCN$ 是以 $MN$ 为腰的等腰三角形，求 $BM$ 的长。
+
+      \end{enumerate}
+
+      '
+    answer: （1）$BD=\dfrac{\sqrt{13}}2$；（2）$\dfrac{\sqrt5}{4}$；（3）$BM=\dfrac{4\sqrt{13}}{13}$ 或 $\dfrac{3\sqrt{13}}{13}$。
+    solution_steps:
+    - title: 第（1）问
+      content: 作辅助垂线，得 $CD=BD=1$、$CH=\dfrac12$、$DH=1$，所以 $BD=\dfrac{\sqrt{13}}2$。
+    - title: 第（2）问
+      content: 当 $M$ 是重心时，由角关系证 $\triangle CND\sim\triangle BNC$，得 $\dfrac{CN}{BN}=\dfrac{CD}{BC}=\dfrac{\sqrt5}{4}$。
+    - title: 第（3）问
+      content: 分类讨论 $MN=CN$ 与 $MN=CM$，分别解得 $BM=\dfrac{4\sqrt{13}}{13}$ 或 $\dfrac{3\sqrt{13}}{13}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 82mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 公众号原解答 1
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 公众号原解答 2
+    teaching:
+      source_key: 2025-XUHUI-YIMO-Q25
+      skill_tags:
+      - 等腰三角形
+      - 重心
+      - 相似三角形
+      difficulty: challenge
+      official_solution_policy: verbatim_transcription_with_separate_notes

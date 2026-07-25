@@ -1,0 +1,35 @@
+meta:
+  title: 虹口区2024学年度初三年级第一次学生学习能力诊断练习数学练习卷第 20 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q020
+    points: 10
+    stem_latex: 在平面直角坐标系 $xOy$ 中，抛物线 $y=x^2+2mx+m+1$ 经过点 $B(-1,0)$。（1）求 $m$ 的值以及抛物线的对称轴；（2）将该抛物线向右平移 $n$ 个单位后得到新抛物线，如果新抛物线经过原点，求 $n$ 的值。
+    answer: （1）$m=2$，对称轴为直线 $x=-2$；（2）$n=1$ 或 $3$
+    solution_steps:
+    - title: 第（1）问
+      content: 把 $B(-1,0)$ 代入，可得 $0=1-2m+m+1$，解得 $m=2$。$\therefore y=x^2+4x+3$，$\therefore$ 对称轴是直线 $x=-2$。
+    - title: 第（2）问
+      content: $\because y=x^2+4x+3=(x+2)^2-1$，设新抛物线的表达式为 $y=(x+2-n)^2-1$。$\because$ 新抛物线经过原点，$\therefore0=(0+2-n)^2-1$，解得 $n_1=1，n_2=3$，$\therefore n$ 的值是 $1$ 或 $3$。
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 1 页

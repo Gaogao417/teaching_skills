@@ -1,0 +1,34 @@
+meta:
+  title: 杨浦区2023学年度第一学期期末质量调研第5题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: student
+  show_answers: false
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: student
+  blocks:
+  - type: choice
+    id: Q005
+    points: 4
+    stem_latex: 为了测量学校教学楼的高度，在操场的 $C$ 处架起高 $CD=1.4$ 米的测角仪，从点 $D$ 测得楼顶 $A$ 的仰角为 $\alpha$，$C$ 到楼底 $B$ 的距离为 $25$ 米，那么教学楼 $AB$ 的高是
+    choices:
+    - $1.4+25\sin\alpha$
+    - $1.4+25\cos\alpha$
+    - $1.4+25\tan\alpha$
+    - $1.4+25\cot\alpha$
+    images:
+    - image_path: assets/prompt-figure.png
+      width: 0.78\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图

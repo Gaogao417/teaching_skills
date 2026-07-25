@@ -1,0 +1,63 @@
+meta:
+  title: 初三数学期末练习卷 · 原题第 20 题 · 教师版
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q020
+    points: 10
+    stem_latex: '如图，在 $\triangle ABC$ 中，点 $D$ 在边 $AC$ 上，且 $AD=2DC$；点 $E$ 在 $BD$ 的延长线上，$CE\parallel AB$。已知 $\overrightarrow{BA}=\vec a$，$\overrightarrow{BC}=\vec b$。
+
+      \begin{enumerate}
+
+      \item 用向量 $\vec a,\vec b$ 分别表示向量 $\overrightarrow{AC}$、$\overrightarrow{AE}$；
+
+      \item 作出向量 $\overrightarrow{AD}$ 分别在 $\vec a,\vec b$ 方向上的分向量（写出结论，不要求写作法）。
+
+      \end{enumerate}'
+    answer: （1）$\overrightarrow{AC}=\vec b-\vec a$，$\overrightarrow{AE}=-\frac12\vec a+\vec b$；（2）见图。
+    subquestions:
+    - latex: 用 $\vec a,\vec b$ 分别表示 $\overrightarrow{AC}$、$\overrightarrow{AE}$；
+    - latex: 作出 $\overrightarrow{AD}$ 在 $\vec a,\vec b$ 方向上的分向量。
+    solution_steps:
+    - title: 第（1）问
+      content: $\overrightarrow{AC}=\vec b-\vec a$，$\overrightarrow{AE}=-\frac12\vec a+\vec b$。
+    - title: 第（2）问
+      content: 向量 $\overrightarrow{AM}$、$\overrightarrow{AN}$ 就是向量 $\overrightarrow{AD}$ 分别在 $\vec a$、$\vec b$ 方向上的分向量。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 公众号原解答文字
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 公众号原解答作图
+    teaching:
+      source_key: GEN-TERM-Q20
+      skill_tags:
+      - 平面向量
+      - 向量线性表示
+      - 向量分解
+      difficulty: standard
+      official_solution_policy: verbatim_transcription_with_separate_notes

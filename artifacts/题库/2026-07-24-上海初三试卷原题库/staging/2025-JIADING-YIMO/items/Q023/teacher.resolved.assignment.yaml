@@ -1,0 +1,69 @@
+meta:
+  title: 嘉定区2024学年第一学期九年级期终学业质量调研测试 · 原题第 23 题 · 教师版
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q023
+    points: 10
+    stem_latex: '火车作为我国重要的交通运输形式之一，其轨道的平顺性和稳定性直接影响列车的运行安全。我国目前轨道检测的主要方法是机械检测，通过使用机械传感器和无损检测设备（包括激光三角位移传感器、超声波传感器等）来测量轨道的各种参数（几何尺寸、轨距、高差和曲率），从而判断轨道是否有损伤或缺陷。某校科创活动小组率先就“激光三角位移计”这一设备开展了学习与探究。
+
+
+      阅读概述、发现原理与建立模型见原题图片。如图11，直线 $M''N''\parallel l_1\parallel l_2$，直线 $MN$ 垂直于 $l_1$ 和 $l_2$，垂足分别为 $M$ 和 $N$，线段 $MM''$ 与线段 $NN''$ 交于点 $O$，$\angle M''MP=\alpha$。
+
+      \begin{enumerate}
+
+      \item 设 $MN=m$，请用含 $m$ 和 $\alpha$ 的式子表示点 $N$ 到直线 $MM''$ 的距离；
+
+      \item 已知 $M''N''=5$，$OM''=23$，$OM=132$，求 $MN$ 的长度（结果精确到个位，$\sin\alpha\approx0.8$，$\cos\alpha\approx0.6$，$\cot\alpha\approx0.75$）。
+
+      \end{enumerate}
+
+      '
+    answer: （1）$m\cos\alpha$；（2）$MN=60$。
+    solution_steps:
+    - title: 第（1）问
+      content: '如图3，过点 $N$ 作直线 $MM''$ 的垂线，垂足为点 $H$。$\because\angle PMN=90^\circ,\ \angle M''OP=\alpha$，$\therefore\angle NMH=90^\circ-\alpha$。又 $\because\angle H=90^\circ$，$\therefore\angle MNH=\alpha$。在 $\mathrm{Rt}\triangle MHN$ 中，$\cos\angle MNH=\dfrac{NH}{MN}$。$\because MN=m$，$\therefore$ 点 $N$ 到直线 $MM''$ 的距离 $NH=m\cos\alpha$。（也可以是 $NH=m\sin(90^\circ-\alpha)$）
+
+        '
+    - title: 第（2）问
+      content: '$\because\sin\alpha\approx0.8,\ \cos\alpha\approx0.6$。由（1）得 $NH=m\cos\alpha\approx0.6m$，同理可得 $MH=m\sin\alpha\approx0.8m$。如图3，过点 $N''$ 作 $MM''$ 的垂线，垂足为点 $G$。$\because MP\parallel M''N''$，$\therefore\angle N''M''G=\angle M''MP=\alpha$。在 $\mathrm{Rt}\triangle M''GN''$ 中，$\angle M''GN''=90^\circ$。$\because M''N''=5$，$\therefore M''G=5\cos\alpha\approx3,\ N''G=5\sin\alpha\approx4$。$\because OM''=23,\ OM=132$，$\therefore GO=OM''-M''G=23-3=20$。$\because\angle N''GO=\angle NHO=90^\circ$，$\therefore N''G\parallel NH$，$\therefore\dfrac{N''G}{NH}=\dfrac{GM}{HM}$。可得方程 $\dfrac4{0.6m}=\dfrac{20}{132+0.8m}$，解得 $m=60$，所以 $MN=60$。
+
+        '
+      diagram_col:
+        image_path: assets/solution-01.png
+        width: 64mm
+        variant: solution
+        disclosure_policy: teacher_only
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 0.96\linewidth
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 公众号原解答 1
+    teaching:
+      source_key: 2025-JIADING-YIMO-Q23
+      skill_tags:
+      - 激光三角位移
+      - 解直角三角形
+      - 相似三角形
+      difficulty: standard
+      official_solution_policy: verbatim_transcription_with_separate_notes

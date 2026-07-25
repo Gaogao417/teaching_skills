@@ -1,0 +1,47 @@
+meta:
+  title: 虹口区2025学年度第一次学生学习能力诊断练习第22题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q022
+    points: 10
+    stem_latex: 如图10、图11，$BC$ 为地面，$AB$ 为斜坡上的传送带，$\angle B=26.5^\circ$，正方形 $DEFG$ 的边长为
+      $1.8$ 米。点 $M,D,H$ 在同一直线上，$DH=5$ 米。（1）求 $BE$（精确到 $0.1$ 米）；（2）若 $MH=6.8$ 米，正方形边长扩大为原来的2倍，能否继续利用该传送带运输？说明理由。（参考数据：$\sin26.5^\circ\approx0.45,\cos26.5^\circ\approx0.90,\tan26.5^\circ\approx0.50$）
+    answer: （1）约 $7.6$ 米；（2）不能
+    solution_steps:
+    - title: 解答
+      content: （1）设 $DH$ 与 $AB$ 交于 $N$。在 $\mathrm{Rt}\triangle DEN$ 中，$DN\approx2$，$EN\approx0.9$；$NH=3$，在
+        $\mathrm{Rt}\triangle BHN$ 中 $BN\approx6.67$，故 $BE\approx7.6$ 米。（2）边长变为 $3.6$
+        米时，$DN\approx4$，从而 $DH=DN+NH=7>6.8$，不能运输。
+    images:
+    - image_path: assets/prompt-figures-01.png
+      width: 0.82\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图1
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第2页

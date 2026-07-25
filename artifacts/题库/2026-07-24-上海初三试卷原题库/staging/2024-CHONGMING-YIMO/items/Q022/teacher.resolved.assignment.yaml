@@ -1,0 +1,55 @@
+meta:
+  title: 崇明区2023学年第一学期期末质量调研 · 原题第22题 · 教师版
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q022
+    points: 10
+    stem_latex: 如图，某校九年级兴趣小组开展测量山坡上某棵大树高度的活动。已知斜坡 $BM$ 的坡度 $i=1:\sqrt3$，在坡面 $D$ 处有一棵树 $AD$（假设树 $AD$ 垂直水平线 $BN$），在坡底 $B$ 处测得树梢 $A$ 的仰角为 $45^\circ$，沿坡面 $BM$ 方向前行30米到达 $C$ 处，测得树梢 $A$ 的仰角 $\angle ACQ=60^\circ$（点 $B,C,D$ 在一直线上）。（1）求 $A,C$ 两点的距离；（2）求树 $AD$ 的高度（精确到0.1米，$\sqrt3\approx1.732$）。
+    answer: （1）30米；（2）约17.3米。
+    solution_steps:
+    - title: 第（1）问
+      content: 由坡度得 $\angle MBN=30^\circ$。所以 $\angle ABC=45^\circ-30^\circ=15^\circ$，$\angle ACM=60^\circ-30^\circ=30^\circ$。由角关系得 $\angle BAC=15^\circ=\angle ABC$，故 $AC=BC=30$ 米。
+    - title: 第（2）问
+      content: 延长 $AD$ 交 $CQ$ 于 $H$。在 $\mathrm{Rt}\triangle ACH$ 中，$AH=30\sin60^\circ=15\sqrt3,\ CH=15$。在 $\mathrm{Rt}\triangle DCH$ 中，$DH=CH\tan30^\circ=5\sqrt3$，所以 $AD=AH-DH=10\sqrt3\approx17.3$ 米。
+      diagram_col:
+        image_path: assets/solution-01.png
+        width: 58mm
+        variant: solution
+        disclosure_policy: teacher_only
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第2页
+    diagram_col:
+      image_path: assets/prompt-figure.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean
+    teaching:
+      source_key: 2024-CHONGMING-YIMO-Q22
+      skill_tags:
+      - 原卷
+      difficulty: standard
+      official_solution_policy: verbatim_transcription_with_separate_notes

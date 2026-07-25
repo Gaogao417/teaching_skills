@@ -1,0 +1,46 @@
+meta:
+  title: 2024学年度第一学期初三期末质量调研数学学科 · 原题第 23 题 · 教师版
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q023
+    points: 12
+    stem_latex: 已知：如图，$\triangle ABC$ 中，$\angle A=90^\circ$，点 $D$ 是 $AB$ 边上一点，过点 $B$ 作 $BE\perp CD$，交 $CD$ 延长线于点 $E$，$AD\cdot BC=BE\cdot CD$。（1）求证：$BE^2=ED\cdot EC$；（2）求证：$AB\cdot BC=2CE\cdot BE$。
+    answer: 证明见解析。
+    solution_steps:
+    - title: 第（1）问
+      content: 由 $AD\cdot BC=BE\cdot CD$ 得 $\dfrac{AD}{BE}=\dfrac{CD}{BC}$。在直角三角形 $ADC$ 与 $BEC$ 中可证相似，继而得 $\angle EDB=\angle EBC$，所以 $\triangle EBD\sim\triangle ECB$，故 $BE^2=ED\cdot EC$。
+    - title: 第（2）问
+      content: 延长 $CA$、$BE$ 交于点 $H$。由角关系得 $BC=CH$，又 $BH=2BE=2EH$。可证 $\mathrm{Rt}\triangle ABH\sim\mathrm{Rt}\triangle BEC$，所以 $\dfrac{AB}{CE}=\dfrac{BH}{BC}$，即 $AB\cdot BC=2BE\cdot CE$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 68mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 公众号原解答 1
+    teaching:
+      source_key: 2025-YANGPU-YIMO-Q23
+      skill_tags:
+      - 相似三角形
+      - 证明
+      difficulty: challenge
+      official_solution_policy: verbatim_transcription_with_separate_notes

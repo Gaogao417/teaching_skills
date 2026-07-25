@@ -1,0 +1,44 @@
+meta:
+  title: 杨浦区2025学年度第一学期期末调研第24题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q024
+    points: 12
+    stem_latex: 篮球运行路线呈抛物线形。小杨在距篮下 $4$ 米处投篮，球在水平距离 $2.5$ 米处达到最高点 $3.5$ 米，篮圈中心高 $3.05$ 米。（1）按图1坐标系：①求抛物线表达式；②小杨身高 $1.8$ 米，球在头顶上方
+      $0.25$ 米，求球出手时他跳离地面的高度。（2）另一球员出手点高 $2$ 米，距篮圈水平 $7$ 米，水平距离 $4$ 米处达到最高点 $4$ 米，问能否投中篮圈。
+    answer: （1）①$y=-\dfrac15(x-2.5)^2+3.5$；②$0.2$ 米；（2）不能。
+    solution_steps:
+    - title: 第（1）问①
+      content: 设 $y=a(x-2.5)^2+3.5$，代入点 $(4,3.05)$，得 $a=-\dfrac15$，所以 $y=-\dfrac15(x-2.5)^2+3.5$。
+    - title: 第（1）问②
+      content: 令 $x=0$，得 $y=2.25$，所以跳离地面高度为 $2.25-1.8-0.25=0.2$ 米。
+    - title: 第（2）问
+      content: 设 $y=a(x-4)^2+4$，代入出手点 $(0,2)$，得 $a=-\dfrac18$。当 $x=7$ 时 $y=\dfrac{23}{8}=2.875<3.05$，所以不能投中。
+    images:
+    - image_path: assets/prompt-figures.png
+      width: 0.82\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图1
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页

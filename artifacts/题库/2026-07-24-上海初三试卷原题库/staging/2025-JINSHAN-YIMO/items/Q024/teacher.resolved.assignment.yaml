@@ -1,0 +1,45 @@
+meta:
+  title: 金山区2024学年度第一学期期末学情诊断第 24 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q024
+    points: 12
+    stem_latex: 在平面直角坐标系 $xOy$ 中（如图），已知抛物线 $f(x)=x^2+(b+1)x+b$（$b<0$），$f(x)$ 的图像与 $x$ 轴的两个交点为点 $P$、点 $Q$（其中点 $P$ 在点 $Q$ 左侧）。\begin{enumerate}\item 若将 $f(x)$ 的图像向上平移 $2$ 个单位，得到的新抛物线 $g(x)$ 经过点 $(1,-3)$，求 $g(x)$；\item 若 $f(x)$ 的图像在直线 $x=1$ 的右侧呈上升趋势，求 $b$ 的取值范围；\item 在（1）中所求的 $g(x)$ 的图像与 $y$ 轴的交点记为点 $B$，与 $x$ 轴的正半轴交点记为点 $A$，点 $M$ 在 $g(x)$ 的图像上。当直线 $MQ$ 与直线 $PB$ 垂直，且 $QP=\dfrac35QA$ 时，求点 $M$ 的坐标。\end{enumerate}
+    answer: （1）$g(x)=x^2-\dfrac52x-\dfrac32$；（2）$-3\le b<0$；（3）$M_1(\dfrac72,2)$，$M_2(-\dfrac13,-\dfrac59)$。
+    solution_steps:
+    - title: 官方解答
+      content: （1）$g(x)=x^2+(b+1)x+b+2$，代入 $(1,-3)$，得 $b=-\dfrac72$，故 $g(x)=x^2-\dfrac52x-\dfrac32$。（2）抛物线对称轴为 $x=-\dfrac{b+1}{2}$。因图像在直线 $x=1$ 右侧呈上升趋势，故 $-\dfrac{b+1}{2}\le1$，即 $b\ge-3$；又 $b<0$，所以 $-3\le b<0$。（3）$B(0,-\dfrac32)$，$A(3,0)$。原抛物线与 $x$ 轴交于 $P(-1,0)$、$Q(-b,0)$。由 $QP=\dfrac35QA$，原解写得 $Q(\dfrac12,0)$。设 $M(t,t^2-\dfrac52t-\dfrac32)$，由 $MQ\perp PB$，得 $\dfrac23=\dfrac{t^2-\frac52t-\frac32}{t-\frac12}$，解得 $t_1=\dfrac72$、$t_2=-\dfrac13$，故 $M_1(\dfrac72,2)$，$M_2(-\dfrac13,-\dfrac59)$。
+    solution_notes:
+    - 官方第（3）问先由第（1）问得到 b=-7/2，却又由比例条件写 Q(1/2,0)，与其前文 Q(-b,0) 不一致；此处按官方答案原样转写，待人工复核。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 1 页
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 2 页

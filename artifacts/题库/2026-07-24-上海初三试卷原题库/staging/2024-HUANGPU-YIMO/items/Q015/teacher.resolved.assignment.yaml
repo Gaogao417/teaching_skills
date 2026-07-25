@@ -1,0 +1,36 @@
+meta:
+  title: 2024年1月黄浦区九年级数学试卷第 15 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: fillin
+    id: Q015
+    points: 4
+    stem_latex: 在一块等腰直角三角形铁皮上截一块矩形铁皮。如图，已有的铁皮是等腰直角三角形 $ABC$，它的底边 $AB$ 长20厘米。要截得的矩形 $DEMN$ 的边 $MN$ 在 $AB$ 上，顶点 $D、E$ 分别在边 $AC、BC$ 上，设 $DE$ 的长为 $x$ 厘米，矩形 $DEMN$ 的面积为 $y$ 平方厘米，那么 $y$ 关于 $x$ 的函数解析式是 $\fillin$。（不必写定义域）
+    answer: $y=10x-\dfrac12x^2$
+    explanation: 官方参考答案：$y=10x-\dfrac12x^2$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 54mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 1 页

@@ -1,0 +1,52 @@
+meta:
+  title: 宝山区2024学年第一学期期末考试九年级数学试卷 · 原题第 21 题 · 教师版
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q021
+    points: 10
+    stem_latex: '在平面直角坐标系 $xOy$ 中，已知 $A(-1,n)$、$B(5,n)$ 是抛物线 $y=a(x-m)^2+k\ (a>0)$ 上的两点。
+
+      \begin{enumerate}
+
+      \item $m=$ \underline{\hspace{2cm}}；
+
+      \item 如果该抛物线与 $x$ 轴交于点 $C$、$D$（点 $C$ 在点 $D$ 的右侧），且 $CD=4$，四边形 $ABCD$ 的面积是25，求这个抛物线的表达式。
+
+      \end{enumerate}
+
+      '
+    answer: （1）$m=2$；（2）$y=(x-2)^2-4$。
+    solution_steps:
+    - title: 第（1）问
+      content: $m=2$。
+    - title: 第（2）问
+      content: 由 $m=2$ 可知抛物线的对称轴是直线 $x=2$。抛物线与 $x$ 轴交于点 $C$、$D$，且 $CD=4$，可得 $C(4,0)$、$D(0,0)$。由 $A(-1,n)$、$B(5,n)$ 可知四边形 $ABCD$ 是梯形，且 $AB=6$。于是 $S_{\text{梯形 }ABCD}=\dfrac{n(AB+CD)}2=\dfrac{n(6+4)}2=25$，解得 $n=5$。将 $D(0,0)$、$B(5,5)$ 代入 $y=a(x-2)^2+k$，得 $\begin{cases}4a+k=0,\\9a+k=5,\end{cases}$ 解得 $a=1,\ k=-4$。所以抛物线的表达式为 $y=(x-2)^2-4$。
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 公众号原解答 1
+    teaching:
+      source_key: 2025-BAOSHAN-YIMO-Q21
+      skill_tags:
+      - 二次函数
+      - 梯形面积
+      - 待定系数法
+      difficulty: standard
+      official_solution_policy: verbatim_transcription_with_separate_notes

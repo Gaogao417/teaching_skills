@@ -1,0 +1,42 @@
+meta:
+  title: 虹口区2023学年度第一学期期终初三数学第25题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: 如图14①，在 $\mathrm{Rt}\triangle ABC$ 中，$\angle ACB=90^\circ$，$\tan\angle ABC=\dfrac43$，点 $D$ 在边 $BC$ 的延长线上，联结 $AD$，点 $E$ 在线段 $AD$ 上，$\angle EBD=\angle DAC$。（1）求证：$\triangle DBA\sim\triangle DEC$；（2）如图14②，点 $F$ 在边 $CA$ 的延长线上，$DF$ 与 $BE$ 的延长线交于点 $M$。①如果 $AC=2AF$，且 $\triangle DEC$ 是以 $DC$ 为腰的等腰三角形，求 $\tan\angle FDC$ 的值；②如果 $DE=\dfrac{\sqrt5}{2}CD$，$EM=3$，$FM:DM=5:3$，求 $AF$ 的长。
+    answer: （1）证明见解答；（2）①$\tan\angle FDC=2$ 或 $\dfrac{36}{7}$；②$AF=8\sqrt5$。
+    solution_steps:
+    - title: 步骤 1
+      content: （1）$\because\angle DAC=\angle EBD,\ \angle ADC=\angle BDE$，$\therefore\triangle DAC\sim\triangle DBE$，$\therefore\dfrac{DC}{DE}=\dfrac{DA}{DB}$，$\therefore\dfrac{DB}{DE}=\dfrac{DA}{DC}$。又 $\angle ADB=\angle CDE$，$\therefore\triangle DBA\sim\triangle DEC$。
+    - title: 步骤 2
+      content: （2）$\because\triangle DBA\sim\triangle DEC$，$\triangle DEC$ 是以 $DC$ 为腰的等腰三角形，$\therefore\triangle DBA$ 是以 $AD$ 为腰的等腰三角形。①若 $AD=AB$，$\because\angle ACB=90^\circ$，$\therefore DC=BC$。根据题意，设 $DC=BC=3k,\ AC=4k$。$\because AC=2AF$，$\therefore AF=2k,\ CF=6k$。在 $\mathrm{Rt}\triangle DCF$ 中，$\tan\angle FDC=\dfrac{FC}{DC}=2$。②若 $AD=BD$，根据题意设 $BC=3k,\ AC=4k$，则 $AB=5k$。过点 $D$ 作 $DH\perp AB$，垂足为点 $H$，$\therefore BH=\dfrac12AB=\dfrac52k$。在 $\mathrm{Rt}\triangle BDH$ 中，$BD=\dfrac{BH}{\cos\angle ABC}=\dfrac{25}{6}k$，$\therefore DC=\dfrac{25}{6}k-3k=\dfrac76k$。$\because AC=2AF$，$\therefore AF=2k,\ CF=6k$。在 $\mathrm{Rt}\triangle DCF$ 中，$\tan\angle FDC=\dfrac{FC}{DC}=\dfrac{36}{7}$。综上所述，$\tan\angle FDC=2$ 或 $\dfrac{36}{7}$。
+    - title: 步骤 3
+      content: （3）$\because\triangle DAC\sim\triangle DBE,\ DE=\dfrac{\sqrt5}{2}CD$，$\therefore\dfrac{DE}{DC}=\dfrac{DB}{DA}=\dfrac{\sqrt5}{2}$。过点 $D$ 作 $DH\perp AB$，垂足为点 $H$，设 $BD=\sqrt5m,\ AD=2m$。在 $\mathrm{Rt}\triangle BDH$ 中，$BH=BD\cos\angle ABC=\dfrac35\sqrt5m$，$DH=BD\sin\angle ABC=\dfrac45\sqrt5m$。在 $\mathrm{Rt}\triangle ADH$ 中，$AH=\sqrt{AD^2-DH^2}=\dfrac25\sqrt5m$，$\therefore AB=AH+BH=\sqrt5m$。在 $\mathrm{Rt}\triangle ABC$ 中，$BC=AB\cos\angle ABC=\dfrac35\sqrt5m$，$\therefore DC=\dfrac25\sqrt5m$，$\sin\angle DAC=\dfrac{\sqrt5}{5}$。过点 $F$ 作 $FG\parallel ME$ 交 $DA$ 的延长线于点 $G$，$\therefore\dfrac{ME}{FG}=\dfrac{DM}{DF}=\dfrac38$。$\because ME=3$，$\therefore FG=8$。$\because\angle FAG=\angle DAC$，$\therefore\sin\angle FAG=\sin\angle DAC$。在 $\mathrm{Rt}\triangle AFG$ 中，$AF=\dfrac{FG}{\sin\angle DAC}=8\sqrt5$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 0.92\linewidth
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页

@@ -1,0 +1,28 @@
+meta:
+  title: 九年级期终考试数学试卷第 25 题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: student
+  show_answers: false
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: student
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: 已知平行四边形 $ABCD$ 中，$AB=9$，$BC=5$，$\sin B=\frac45$，$P$ 是边 $AB$ 上一动点，过点 $P$ 作 $PE\perp PC$，交射线 $CD$ 于点 $E$，交 $AC$ 于点 $H$，$F$ 是 $PE$ 上的点，$\frac{FP}{PC}=\frac23$，连接 $CF$。（1）求证：$\angle BAC=\angle PCF$；（2）当 $\triangle APC\sim\triangle EFC$ 时，求 $BP$；（3）当 $\frac{S_{\triangle HFC}}{S_{\triangle PHC}}=\frac13$ 时，求 $\frac{AH}{AC}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean

@@ -1,0 +1,51 @@
+meta:
+  title: 2012年上海市普陀区中考数学二模试卷第 23 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q023
+    points: 12
+    stem_latex: '如图，四边形 $ABCD$ 中，$AD\parallel BC$，点 $E$ 在 $CB$ 的延长线上，连接 $DE$ 交 $AB$ 于点 $F$，连接 $DB$，$\angle AFD=\angle DBE$，且 $DE^2=BE\cdot CE$。
+
+      （1）求证：$\angle DBE=\angle CDE$；
+
+      （2）当 $BD$ 平分 $\angle ABC$ 时，求证：四边形 $ABCD$ 是菱形。
+
+      '
+    answer: 证明见解析
+    solution_steps:
+    - title: 第（1）问
+      content: 由 $DE^2=BE\cdot CE$ 得 $\dfrac{BE}{DE}=\dfrac{DE}{CE}$。又 $\angle E$ 为公共角，所以 $\triangle DBE\sim\triangle CDE$，从而 $\angle DBE=\angle CDE$。
+    - title: 第（2）问
+      content: 由 $\angle DBE=\angle AFD$ 及第（1）问得 $\angle CDE=\angle AFD$，故 $AB\parallel DC$。结合 $AD\parallel BC$，四边形 $ABCD$ 是平行四边形。又 $BD$ 平分 $\angle ABC$，结合平行线得 $AB=AD$，故该平行四边形是菱形。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 90mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 1 页
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 2 页

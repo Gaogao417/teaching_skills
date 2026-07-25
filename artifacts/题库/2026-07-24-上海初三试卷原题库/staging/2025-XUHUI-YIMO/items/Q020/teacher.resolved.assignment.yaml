@@ -1,0 +1,59 @@
+meta:
+  title: 2024学年第一学期徐汇区学习能力诊断卷初三数学试卷 · 原题第 20 题 · 教师版
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q020
+    points: 10
+    stem_latex: '为了得出滑行距离 $s$（米）与滑行时间 $t$（秒）之间的关系式，测得数据：
+
+      $t=0,1,2,3,4$ 时，$s=0,4.5,14,28.5,48$。以 $t$ 为横轴、$s$ 为纵轴描点，并用平滑曲线连接。
+
+      \begin{enumerate}
+
+      \item 设该条曲线的表达式为 $s=at^2+bt+c\ (a\ne0)$，求 $s$ 与 $t$ 的函数关系式；
+
+      \item 若将抛物线先向右平移2个单位，再向上平移20个单位，求平移后所得抛物线的表达式。
+
+      \end{enumerate}
+
+      '
+    answer: （1）$s=\dfrac52t^2+2t$；（2）$s=\dfrac52(t-\dfrac85)^2-\dfrac{98}{5}$。
+    solution_steps:
+    - title: 第（1）问
+      content: 代入三组数据，解得 $a=2.5$，$b=2$，$c=0$，所以 $s=2.5t^2+2t$。
+    - title: 第（2）问
+      content: $s=\dfrac52(t+\dfrac25)^2-\dfrac25$，先右移2个单位再上移20个单位，得 $s=\dfrac52(t-\dfrac85)^2-\dfrac{98}{5}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 公众号原解答 1
+    teaching:
+      source_key: 2025-XUHUI-YIMO-Q20
+      skill_tags:
+      - 二次函数
+      - 待定系数法
+      - 图像平移
+      difficulty: standard
+      official_solution_policy: verbatim_transcription_with_separate_notes

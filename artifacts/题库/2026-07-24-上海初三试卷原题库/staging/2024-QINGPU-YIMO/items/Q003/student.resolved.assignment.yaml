@@ -1,0 +1,34 @@
+meta:
+  title: 青浦区2023学年第一学期期终调研第3题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: student
+  show_answers: false
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: student
+  blocks:
+  - type: choice
+    id: Q003
+    points: 4
+    stem_latex: 如图，在 $\triangle ABC$ 中，点 $D、E$ 分别在边 $AB、AC$ 上，$DE\parallel BC$，则下列判断错误的是（　）。
+    choices:
+    - $\angle AED=\angle B$
+    - $DE\cdot AC=BC\cdot AE$
+    - $AD\cdot AB=AE\cdot AC$
+    - $\dfrac{S_{\triangle ADE}}{S_{\triangle ABC}}=\left(\dfrac{DE}{BC}\right)^2$
+    images:
+    - image_path: assets/prompt-01.png
+      width: 0.88\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图

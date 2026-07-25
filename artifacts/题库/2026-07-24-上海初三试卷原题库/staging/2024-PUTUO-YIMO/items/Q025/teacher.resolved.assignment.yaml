@@ -1,0 +1,48 @@
+meta:
+  title: 普陀区2023学年度第一学期期末九年级自适应练习第25题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: 如图，在矩形 $ABCD$ 中，$AB=2$，$BC=4$，$E$ 是边 $BC$ 延长线上一点，过点 $B$ 作 $BM\perp DE$，垂足为点 $M$，联结 $CM$，设 $CE=a(0<a<1)$。（1）求证：$\triangle DCE\sim\triangle BME$；（2）$\angle CME$ 是否为定值？若是，求其正切值；（3）$P$ 是边 $AD$ 上一动点（不与 $A、D$ 重合），联结 $PB、PM$。在 $\triangle PBM$ 中除 $\angle BPM$ 外的两个内角是否会有与 $\angle CME$ 相等的角？若有，用 $a$ 表示此时 $AP$；若没有说明理由。
+    answer: （1）见证明；（2）是，$\tan\angle CME=\frac12$；（3）有，$AP=\frac{4-a}{1+a}$。
+    solution_steps:
+    - title: 解答
+      content: （1）由矩形及 $BM\perp DE$ 得 $\angle DCE=\angle BME=90^\circ$，又 $\angle E$ 公共，故 $\triangle DCE\sim\triangle BME$。（2）联结 $BD$，由相似关系及 $\triangle ECM\sim\triangle EDB$ 得 $\angle CME=\angle DBE$，而 $\tan\angle DBE=\frac12$，故为定值。（3）当 $\angle PBM=\angle CME$ 时作 $PH\perp BD$，利用正切及勾股关系得 $PD=\frac{5a}{1+a}$，所以 $AP=4-PD=\frac{4-a}{1+a}$。另一角等于 $\angle CME$ 只在 $P=A$ 时成立，与题设矛盾。
+    images:
+    - image_path: assets/prompt-figure.png
+      width: 0.78\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第2页
+    diagram_col:
+      image_path: assets/manual-prompt-1-9889f2f27b71453e.png
+      variant: prompt
+      disclosure_policy: clean

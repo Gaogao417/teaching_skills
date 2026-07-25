@@ -1,0 +1,33 @@
+meta:
+  title: 2012年上海市普陀区中考数学二模试卷第 14 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q014
+    points: 4
+    stem_latex: 在梯形的一条底边长为 $5$，中位线长为 $7$，那么另一条底边的长为 \underline{\hspace{2cm}}。
+    answer: $9$
+    solution_steps:
+    - title: 中位线
+      content: 设另一条底边长为 $x$，则 $\dfrac{5+x}{2}=7$，解得 $x=9$。
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 1 页

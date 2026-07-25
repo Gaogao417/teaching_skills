@@ -1,0 +1,53 @@
+meta:
+  title: 徐汇区2025学年第一学期初三年级期末试卷第23题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q023
+    points: 12
+    stem_latex: 如图，在四边形 $ABCD$ 中，$\angle BAD=90^\circ$，$CD\perp BD$，$BD^2=AD\cdot BC$，点 $H$ 在边 $BD$ 上，且 $\angle DBC=\angle
+      C+\angle BAH$。（1）求证：$AH=AD$；（2）过点 $B$ 作射线 $BE$ 交边 $CD$ 于点 $F$，交 $AD$ 的延长线于点 $E$，若 $\angle DBE=\angle ABD$，求证：$BD\cdot
+      DE=EF\cdot CD$。
+    answer: 见证明。
+    solution_steps:
+    - title: 解答
+      content: （1）由 $BD^2=AD\cdot BC$ 及两直角可得 $\mathrm{Rt}\triangle ABD\sim\mathrm{Rt}\triangle DCB$，故 $\angle ADB=\angle DBC$，$\angle
+        ABD=\angle C$。结合题设可得 $\angle AHD=\angle ADB$，所以 $AH=AD$。（2）由角关系得 $\triangle DEF\sim\triangle BED$，又 $\triangle DBF\sim\triangle
+        DCB$，故 $\frac{EF}{DE}=\frac{BD}{CD}$，即 $BD\cdot DE=EF\cdot CD$。
+      diagram_col:
+        image_path: assets/solution-figure.png
+        width: 62mm
+        variant: solution
+        disclosure_policy: teacher_only
+    images:
+    - image_path: assets/prompt-figure.png
+      width: 0.78\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第2页

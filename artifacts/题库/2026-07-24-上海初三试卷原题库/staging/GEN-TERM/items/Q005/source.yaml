@@ -1,0 +1,46 @@
+schema: math_exam_item_source/v1
+item_id: Q005
+source_key: GEN-TERM-Q05
+paper_id: GEN-TERM
+question_number: 5
+question_type: choice
+points: 4
+section_title: 一、选择题
+source_directory: documents/初三/初三数学期末练习卷
+crops:
+  question_evidence:
+  - source: documents/初三/初三数学期末练习卷/002.png
+    source_sha256: sha256:12d24bbeb7379a3035d249158cccea0c8b5439d642e2752766789f27317e614e
+    box_px:
+    - 100
+    - 740
+    - 1000
+    - 834
+    output: assets/source-question.png
+    output_sha256: sha256:8511836c4254b81c74fa62a28037ceb7c0260b30f2c94f2cff4189431fce1e2a
+  prompt:
+  - source: documents/初三/初三数学期末练习卷/002.png
+    source_sha256: sha256:12d24bbeb7379a3035d249158cccea0c8b5439d642e2752766789f27317e614e
+    box_px:
+    - 450
+    - 965
+    - 700
+    - 1145
+    output: assets/q05-prompt.png
+    output_sha256: sha256:3746ecd1092cabffa9fbd6220a2af9ead0f026126a1ecd7c1899fda13e2c4636
+  official_solution:
+  - source: documents/初三/初三数学期末练习卷/006.png
+    source_sha256: sha256:db6ef3a296a7ab2cc817a6b3c680a6219c530a0d58009f959b6f6fff6d7129bd
+    box_px:
+    - 600
+    - 135
+    - 705
+    - 181
+    output: assets/official-solution.png
+    output_sha256: sha256:b67e6f1db95fd77d23d34ca457ebf65489a0ff92fd3f0fb0fead9c0d6e7abd05
+transcription:
+  question_status: author_pass
+  official_solution_status: author_pass
+  independent_review: review_pass
+  human_review: pending
+content_hash: sha256:7611d2331c7ba0672aa9ea45bdc461163a5314364562fdeccb88d1ba2c2f6f95

@@ -1,0 +1,43 @@
+meta:
+  title: 2024学年第一学期初三数学教学质量调研试卷第 21 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q021
+    points: 10
+    stem_latex: 如果一个锐角的正弦值等于黄金分割数，那么称这个角为黄金角。如图，在 $\mathrm{Rt}\triangle ABC$ 中，$\angle ABC=90^\circ，\angle A$ 是黄金角，点 $D$ 在边 $AC$ 上，且 $\dfrac{CD}{AD}=\dfrac{AD}{AC}$。（1）找出图中相等的线段并说明理由；（2）如果 $AB=6$，求 $BD$ 的长。
+    answer: （1）$AD=BC$；（2）$BD=3\sqrt5-3$。
+    solution_steps:
+    - title: 解答
+      content: 利用黄金分割关系和直角三角形中的正弦定义可得 $AD=BC$，继而求得 $BD=3\sqrt5-3$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 46mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 1 页
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 2 页

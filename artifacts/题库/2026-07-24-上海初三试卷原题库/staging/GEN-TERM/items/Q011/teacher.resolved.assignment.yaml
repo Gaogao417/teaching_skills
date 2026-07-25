@@ -1,0 +1,42 @@
+meta:
+  title: GEN-TERM 第11题
+  grade: 九年级
+  subject: 数学
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+  total_points: 4
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 第11题（填空题，4分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: fillin
+    id: Q011
+    points: 4
+    stem: 如图5，从甲楼的一窗口观测点 $A$ 处测得乙楼的楼顶端 $B$ 的仰角是 $37^\circ$，那么从乙楼顶端 $B$ 处看 $A$ 处的俯角是 \fillin $^\circ$。
+    answer: $37$
+    explanation: 公众号参考答案仅给出：$37^\circ$。
+    source_solution_images:
+    - image_path: assets/official-solution.png
+      width: 0.22\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 公众号原解答 1
+    diagram_col:
+      image_path: assets/q11-prompt.png
+      width: 0.30\linewidth
+      variant: prompt
+      disclosure_policy: clean
+    teaching:
+      difficulty: foundation
+      skill_tags:
+      - 仰角与俯角
+      - 平行线
+      variation_dimension: source_exam

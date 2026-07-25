@@ -1,0 +1,37 @@
+meta:
+  title: GEN-TERM 第7题
+  grade: 九年级
+  subject: 数学
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+  total_points: 4
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 第7题（填空题，4分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: fillin
+    id: Q007
+    points: 4
+    stem: 已知 $\dfrac{x}{y}=\dfrac32$，则 $\dfrac{x-y}{x+y}$ 的值是 \fillin。
+    answer: $\dfrac15$
+    explanation: 公众号参考答案仅给出：$\dfrac15$。
+    source_solution_images:
+    - image_path: assets/official-solution.png
+      width: 0.22\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 公众号原解答 1
+    teaching:
+      difficulty: foundation
+      skill_tags:
+      - 比例式
+      - 分式求值
+      variation_dimension: source_exam

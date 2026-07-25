@@ -1,0 +1,44 @@
+meta:
+  title: 普陀区2025学年度第一学期期末练习第20题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q020
+    points: 10
+    stem_latex: 如图，已知线段 $AD$ 与 $BC$ 交于点 $O$，点 $E、F$ 分别在 $OC$ 和 $OD$ 上，$AB\parallel EF\parallel CD$，射线 $AE$ 与 $CD$ 交于点 $G$，$AO:OF:FD=2:1:2$，$AB=6$。（1）求
+      $CG$ 的长；（2）联结 $ED$，设 $\overrightarrow{EA}=\vec a$，$\overrightarrow{EF}=\vec b$，用 $\vec a、\vec b$ 表示 $\overrightarrow{EB}$
+      和 $\overrightarrow{ED}$。
+    answer: （1）$CG=4$；（2）$\overrightarrow{EB}=\vec a+2\vec b$，$\overrightarrow{ED}=-\dfrac23\vec a+\dfrac53\vec b$。
+    solution_steps:
+    - title: 第（1）问
+      content: $\because AO:OF:FD=2:1:2$，$\therefore AF:FD=3:2$。由 $EF\parallel CD$，得 $\dfrac{AF}{FD}=\dfrac{AE}{EG}=\dfrac32$。又
+        $AB\parallel CD$，$\dfrac{AB}{CG}=\dfrac{AE}{EG}$，且 $AB=6$，$\therefore CG=4$。
+    - title: 第（2）问
+      content: $\overrightarrow{EB}=\vec a+2\vec b$，$\overrightarrow{ED}=-\dfrac23\vec a+\dfrac53\vec b$。
+    images:
+    - image_path: assets/prompt-figure.png
+      width: 0.82\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图1
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页

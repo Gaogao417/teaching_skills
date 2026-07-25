@@ -1,0 +1,55 @@
+meta:
+  title: 嘉定区2023学年第一学期九年级期终学业质量调研测试 · 原题第 21 题 · 教师版
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q021
+    points: 10
+    stem_latex: 如图7，在平行四边形 $ABCD$ 中，$H$ 是 $AB$ 上一点，且 $BH=2AH$，直线 $DH$ 与 $AC$ 相交于点 $G$。（1）求 $\frac{AG}{AC}$ 的值；（2）如果 $DH\perp AB$，$\cos\angle BCD=\frac13$，$AD=9$，求四边形 $ABCD$ 的面积。
+    answer: （1）$\frac14$；（2）$54\sqrt2$。
+    solution_steps:
+    - title: 第（1）问
+      content: $\because$ 四边形 $ABCD$ 是平行四边形，$\therefore AB=CD,\ AB\parallel DC$。于是 $\frac{AH}{CD}=\frac{AG}{GC}$，即 $\frac{AH}{AB}=\frac{AG}{GC}$。由 $BH=2AH$ 得 $AB=3AH$，所以 $\frac{AG}{GC}=\frac13$。又 $AG+GC=AC$，故 $\frac{AG}{AC}=\frac14$。
+      diagram_col:
+        image_path: assets/solution-01.png
+        width: 58mm
+        variant: solution
+        disclosure_policy: teacher_only
+    - title: 第（2）问
+      content: $\because$ 四边形 $ABCD$ 是平行四边形，$\therefore\angle BCD=\angle DAH$。由 $\cos\angle BCD=\frac13$，得 $\cos\angle DAH=\frac13$。又 $DH\perp AB$，在 $Rt\triangle AHD$ 中，$\cos\angle DAH=\frac{AH}{AD}$。由 $AD=9$ 得 $AH=3$，进而 $DH=6\sqrt2$。所以 $S_{ABCD}=DH\cdot AB=DH\cdot3AH=54\sqrt2$。
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第2页
+    teaching:
+      source_key: 2024-JIADING-YIMO-Q21
+      skill_tags:
+      - 原卷
+      difficulty: standard
+      official_solution_policy: verbatim_transcription_with_separate_notes
+    diagram_col:
+      image_path: assets/prompt-figure.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean

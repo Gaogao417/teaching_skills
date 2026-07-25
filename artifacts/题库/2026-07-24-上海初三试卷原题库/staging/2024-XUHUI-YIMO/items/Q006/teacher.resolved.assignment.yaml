@@ -1,0 +1,46 @@
+meta:
+  title: 徐汇区2023学年第一学期期末诊断 · 原题第6题 · 教师版
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q006
+    points: 4
+    stem_latex: 如图，点 $D$ 是 $\triangle ABC$ 内一点，点 $E$ 在线段 $BD$ 的延长线上，$BE$ 与 $AC$ 交于点 $O$，分别联结 $AD,AE,CE$，如果 $\frac{AD}{AB}=\frac{AE}{AC}=\frac{DE}{BC}$，那么下列结论正确的是（　）。
+    answer: D
+    explanation: 官方答案：D。
+    choices:
+    - $CE\parallel AD$
+    - $BD=AD$
+    - $\angle ABE=\angle CBE$
+    - $BO\cdot AE=AO\cdot BC$
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页
+    diagram_col:
+      image_path: assets/prompt-figure.png
+      width: 48mm
+      variant: prompt
+      disclosure_policy: clean
+    teaching:
+      source_key: 2024-XUHUI-YIMO-Q06
+      skill_tags:
+      - 原卷
+      difficulty: standard
+      official_solution_policy: verbatim_transcription_with_separate_notes

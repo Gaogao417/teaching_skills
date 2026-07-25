@@ -1,0 +1,36 @@
+meta:
+  title: 九年级期终考试数学试卷第 18 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: fillin
+    id: Q018
+    points: 4
+    stem_latex: 将一张矩形纸片按图操作：沿对角线 $AC$ 折叠；使边 $CD$ 落在折痕 $AC$ 上，得到折痕 $CM$；再过点 $M$ 折叠，使点 $D、C$ 分别落在边 $AD、BC$ 上，得到折痕 $MN$。如果矩形 $MDCN$ 是黄金矩形，且 $\frac{MD}{CD}=\frac{\sqrt5-1}{2}$，那么原矩形纸片的两条邻边 $AB:BC=$\fillin。
+    answer: $1:2$
+    explanation: 官方参考答案：$1:2$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 1 页

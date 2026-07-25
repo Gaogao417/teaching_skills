@@ -1,0 +1,54 @@
+meta:
+  title: 杨浦区2025学年度第一学期期末调研第22题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q022
+    points: 10
+    stem_latex: 新定义：由边长为 $1$ 的小正方形构成的网格图形中，每个小正方形的顶点称为格点。如图，在 $8\times8$ 的网格中，$\triangle ABC$ 的顶点均在格点上。（1）$\sin\angle BAC=\fillin$；（2）仅用无刻度直尺作图并保留痕迹：①图1，在边
+      $AB$ 上求作一点 $P$，使 $\angle ACP=45^\circ$；②图2，在边 $AC$ 上求作一点 $Q$，使 $BQ\perp AC$。
+    answer: （1）$\dfrac{3\sqrt{10}}{10}$；（2）见作图。
+    solution_steps:
+    - title: 第（1）问
+      content: $\sin\angle BAC=\dfrac{3\sqrt{10}}{10}$。
+    - title: 第（2）问①
+      content: 如解析图，点 $P$ 即为所求点。
+      diagram_col:
+        image_path: assets/solution-01.png
+        width: 0.72\linewidth
+        variant: solution
+        disclosure_policy: teacher_only
+    - title: 第（2）问②
+      content: 如解析图，点 $Q$ 即为所求点。
+      diagram_col:
+        image_path: assets/solution-02.png
+        width: 0.72\linewidth
+        variant: solution
+        disclosure_policy: teacher_only
+    images:
+    - image_path: assets/prompt-grids.png
+      width: 0.82\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图1
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页

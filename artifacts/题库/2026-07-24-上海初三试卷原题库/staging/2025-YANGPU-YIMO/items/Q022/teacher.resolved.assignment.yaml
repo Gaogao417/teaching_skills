@@ -1,0 +1,46 @@
+meta:
+  title: 2024学年度第一学期初三期末质量调研数学学科 · 原题第 22 题 · 教师版
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q022
+    points: 10
+    stem_latex: 定义：如图1，点 $Q$、$R$ 是 $\angle MON$ 的边 $ON$ 上的两个定点，点 $P$ 是边 $OM$ 上的一个动点，当 $OP^2=OQ\cdot OR$ 时，称点 $P$ 是线段 $QR$ 的最佳视野点。如图2，巨型显示屏 $AB$ 的点 $A$ 到水平地面的距离 $AC$ 为5米，在水平地面 $CD$ 的 $E$ 处有自动扶梯 $EF$，点 $A$、$B$、$C$ 在同一直线上。自动扶梯坡度为 $1:2$，点 $E$ 到点 $C$ 的距离为10米。（1）行人在水平地面 $CE$ 上的点 $H$ 处发现点 $H$ 恰好是屏幕 $AB$ 的最佳视野点，且测得点 $B$ 的仰角为 $60^\circ$，求 $AB$ 的长；（2）在（1）的条件下，有人说“最佳视野点就是屏幕 $AB$ 的垂直平分线与 $EF$ 的交点”。你同意吗？请通过计算说明理由。
+    answer: （1）$AB=10$ 米；（2）不同意。
+    solution_steps:
+    - title: 第（1）问
+      content: 设 $CH=x$，则 $BC=\sqrt3x$。由最佳视野点定义得 $CH^2=CA\cdot CB$，即 $x^2=5\sqrt3x$，取 $x=5\sqrt3$，所以 $BC=15$，$AB=10$ 米。
+    - title: 第（2）问
+      content: 作 $AB$ 的垂直平分线交 $AB$ 于 $K$、交 $EF$ 于 $G$。由坡度 $1:2$ 与 $CE=10$ 得 $CL=5$、$KL=15$、$AL=10$、$BL=20$，且 $LG=15\sqrt5$。因为 $LG^2=1125\ne LA\cdot LB=200$，所以点 $G$ 不是最佳视野点，不同意。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 0.9\linewidth
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 公众号原解答 1
+    teaching:
+      source_key: 2025-YANGPU-YIMO-Q22
+      skill_tags:
+      - 最佳视野点
+      - 解直角三角形
+      difficulty: challenge
+      official_solution_policy: verbatim_transcription_with_separate_notes

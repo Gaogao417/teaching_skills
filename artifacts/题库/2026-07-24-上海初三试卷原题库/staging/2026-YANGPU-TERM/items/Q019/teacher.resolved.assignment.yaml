@@ -1,0 +1,44 @@
+meta:
+  title: 杨浦区2025学年度第一学期期末调研第19题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q019
+    points: 10
+    stem_latex: 如图，$\triangle ABC$ 中，点 $D$ 在边 $AB$ 上，$AD=2BD$。（1）设 $\overrightarrow{AC}=\vec a$，$\overrightarrow{AD}=\vec
+      b$，用含 $\vec a、\vec b$ 的式子表示 $\overrightarrow{BC}$；（2）如果 $\angle BCD=\angle A$，$BC=6$，求 $AB$ 的长。
+    answer: （1）$\overrightarrow{BC}=\vec a-\dfrac32\vec b$；（2）$AB=6\sqrt3$。
+    solution_steps:
+    - title: 第（1）问
+      content: 由 $AD=2BD$，得 $AB=\dfrac32AD$，所以 $\overrightarrow{BC}=\overrightarrow{AC}-\overrightarrow{AB}=\vec a-\dfrac32\vec
+        b$。
+    - title: 第（2）问
+      content: $\because\angle BCD=\angle A$，且 $\angle B$ 为公共角，$\therefore\triangle BCD\sim\triangle BAC$。于是 $\dfrac{BD}{BC}=\dfrac{BC}{BA}$。设
+        $BD=k$，则 $AD=2k,AB=3k$，故 $\dfrac{k}{6}=\dfrac6{3k}$，解得 $k=2\sqrt3$，所以 $AB=6\sqrt3$。
+    images:
+    - image_path: assets/prompt-figure.png
+      width: 0.82\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图1
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页

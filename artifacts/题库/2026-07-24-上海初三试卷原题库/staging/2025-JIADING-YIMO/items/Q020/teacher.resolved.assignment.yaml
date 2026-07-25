@@ -1,0 +1,56 @@
+meta:
+  title: 嘉定区2024学年第一学期九年级期终学业质量调研测试 · 原题第 20 题 · 教师版
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q020
+    points: 10
+    stem_latex: '在平面直角坐标系 $xOy$ 中，抛物线 $y=-\dfrac13x^2+bx+c$ 的顶点为 $D$。
+
+      \begin{enumerate}
+
+      \item 为了确定这条抛物线，需要再添加一个条件，请从以下两个条件中选择一个：
+
+      ①它与 $y$ 轴交点的坐标是 $(0,-1)$；②顶点 $D$ 的坐标为 $(1,\dfrac43)$。
+
+      你选择的条件是 \underline{\hspace{1cm}}（填写编号），并求 $b$、$c$ 的值。
+
+      \item 由（1）中确定的抛物线与 $x$ 轴正半轴交于点 $A$，求 $\tan\angle DAO$ 的值。
+
+      \end{enumerate}
+
+      '
+    answer: （1）②，$b=\dfrac23$，$c=1$；（2）$\dfrac23$。
+    solution_steps:
+    - title: 第（1）问
+      content: ②。$\because$ 抛物线的顶点是 $(1,\dfrac43)$，$\therefore$ 它的表达式为 $y=-\dfrac13(x-1)^2+\dfrac43$，化为一般式 $y=-\dfrac13x^2+\dfrac23x+1$，得 $b=\dfrac23,\ c=1$。
+    - title: 第（2）问
+      content: 由 $-\dfrac13(x-1)^2+\dfrac43=0$ 解得 $x_1=-1,\ x_2=3$，得 $A(3,0)$。过点 $D(1,\dfrac43)$ 作 $x$ 轴的垂线，垂足为 $H$，则 $DH=\dfrac43$，$AH=3-1=2$。在 $\mathrm{Rt}\triangle AHD$ 中，$\angle AHD=90^\circ$，$\tan\angle DAO=\dfrac{DH}{AH}=\dfrac23$。
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 公众号原解答 1
+    teaching:
+      source_key: 2025-JIADING-YIMO-Q20
+      skill_tags:
+      - 二次函数
+      - 待定系数法
+      - 锐角三角比
+      difficulty: standard
+      official_solution_policy: verbatim_transcription_with_separate_notes

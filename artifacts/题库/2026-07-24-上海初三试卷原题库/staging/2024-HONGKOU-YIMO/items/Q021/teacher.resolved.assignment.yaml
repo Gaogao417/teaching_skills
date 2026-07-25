@@ -1,0 +1,42 @@
+meta:
+  title: 虹口区2023学年度第一学期期终初三数学第21题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q021
+    points: 10
+    stem_latex: 如图10①是某款智能磁吸键盘，如图10②是平板吸附在该款设备上的照片，图10③是图10②的示意图。已知 $BC=8\mathrm{cm}$，$CD=20\mathrm{cm}$，$\angle BCD=63^\circ$。当 $AE$ 与 $BC$ 形成的 $\angle ABC$ 为 $116^\circ$ 时，求 $DE$ 的长。（参考数据：$\sin63^\circ\approx0.90$，$\cos63^\circ\approx0.45$，$\cot63^\circ\approx0.50$；$\sin53^\circ\approx0.80$，$\cos53^\circ\approx0.60$，$\cot53^\circ\approx0.75$）
+    answer: $11$ 厘米
+    solution_steps:
+    - title: 步骤 1
+      content: 过点 $B$ 作 $BG\perp CD$ 于点 $G$。根据题意，$\angle BEC=\angle ABC-\angle BCD=53^\circ$。
+    - title: 步骤 2
+      content: 在 $\mathrm{Rt}\triangle BCG$ 中，$CG=BC\cos\angle BCD=8\times\cos63^\circ=3.6\mathrm{cm}$，$BG=BC\sin\angle BCD=8\times\sin63^\circ=7.2\mathrm{cm}$。
+    - title: 步骤 3
+      content: 在 $\mathrm{Rt}\triangle BEG$ 中，$GE=BG\cot\angle BEC=7.2\times\cot53^\circ=5.4\mathrm{cm}$。$\therefore DE=CD-CG-GE=20-3.6-5.4=11\mathrm{cm}$。答：$DE$ 的长为 $11$ 厘米。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 0.92\linewidth
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页

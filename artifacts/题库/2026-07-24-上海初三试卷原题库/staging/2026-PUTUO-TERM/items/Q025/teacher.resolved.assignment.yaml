@@ -1,0 +1,49 @@
+meta:
+  title: 普陀区2025学年度第一学期期末练习第25题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: 如图，已知矩形 $ABCD$ 中，点 $E$ 是边 $AB$ 上一动点，在 $\triangle DEC$ 右侧作 $\triangle DCF$，使得 $\triangle DCF\sim\triangle DEC$，其中点
+      $C、F$ 分别与点 $E、C$ 对应。已知 $AB=2\sqrt3$，$BC=2$。（1）当点 $E$ 与点 $B$ 重合时，求四边形 $DECF$ 的面积；（2）点 $E$ 由点 $A$ 向点 $B$ 移动过程中，研究：①$\angle
+      EDF$ 的大小；②$DF$ 的长；③$\tan\angle DFC$ 的值。填出变大、变小的量，并说明编号为②的量的变化理由；（3）当四边形 $DECF$ 的一条对角线平分另一条对角线时，求 $AE$ 的长。
+    answer: （1）$\dfrac{7\sqrt3}{3}$；（2）变大的是③，变小的是①②；（3）$AE=2\sqrt2$ 或 $4\sqrt3-4\sqrt2$。
+    solution_steps:
+    - title: 第（1）问
+      content: 四边形 $ABCD$ 是矩形，故 $\angle BCD=90^\circ$。在 $\mathrm{Rt}\triangle DEC$ 中，$AB=2\sqrt3,BC=2$，得 $DE=4$，$S_{\triangle
+        DEC}=2\sqrt3$。由 $\triangle DCF\sim\triangle DEC$，面积比为 $\left(\dfrac{DE}{DC}\right)^2=\dfrac43$，从而 $S_{\triangle DCF}=\dfrac{8\sqrt3}{3}$，所以
+        $S_{DECF}=\dfrac{7\sqrt3}{3}$。
+    - title: 第（2）问
+      content: 变大的量是③；变小的量是①②。由 $\triangle DEC\sim\triangle DCF$，得 $\dfrac{DE}{DC}=\dfrac{DC}{DF}$，所以 $DE\cdot DF=DC^2=12$，即
+        $DF=\dfrac{12}{DE}$。当 $E$ 由 $A$ 向 $B$ 移动时，$DE$ 变大，所以 $DF$ 变小。
+    - title: 第（3）问
+      content: 分两种情形。若一条对角线满足相应中点条件，可得 $DE=DF$，结合 $DE\cdot DF=12$ 得 $DE=2\sqrt3$，从而 $AE=2\sqrt2$。另一情形设 $AE=x$，由相似与平行关系建立方程，解得
+        $x=4\sqrt3-4\sqrt2$（舍去不合题意的根）。故 $AE=2\sqrt2$ 或 $4\sqrt3-4\sqrt2$。
+    images:
+    - image_path: assets/prompt-figure.png
+      width: 0.82\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图1
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页

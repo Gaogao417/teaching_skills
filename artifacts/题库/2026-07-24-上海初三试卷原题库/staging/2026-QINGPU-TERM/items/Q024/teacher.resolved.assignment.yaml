@@ -1,0 +1,42 @@
+meta:
+  title: 2025学年第一学期九年级期终学业质量调研数学试卷第 24 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q024
+    points: 12
+    stem_latex: 如图10，在平面直角坐标系 $xOy$ 中，抛物线 $M_1:y=-x^2+bx+3$ 与 $x$ 轴交于点 $A(-1,0)、B$，与 $y$ 轴交于点 $C$，顶点为点 $D$。（1）求 $b$ 的值和点 $D$ 的坐标；（2）已知以点 $G$ 为顶点的抛物线 $M_2:y=-(x-m)^2+5-m$ 与抛物线 $M_1$ 相交。①设交点为 $E$，在抛物线 $M_2$ 上，如果点 $E$ 与点 $G$ 之间的部分是上升的，求 $m$ 的取值范围；②联结 $AD、AG$，过点 $G$ 作 $AD$ 的平行线交抛物线 $M_2$ 于点 $N$，如果 $AG$ 平分 $\angle NAD$，求 $m$ 的值。
+    answer: （1）$b=2，D(1,4)$；（2）①$m>2$；②$m=1\pm\sqrt{10}$。
+    solution_steps:
+    - title: 第（1）问
+      content: 将 $A(-1,0)$ 代入 $y=-x^2+bx+3$，得 $b=2$。于是 $y=-x^2+2x+3=-(x-1)^2+4$，所以 $D(1,4)$。
+    - title: 第（2）问
+      content: 联立两抛物线得到交点横坐标 $x=\dfrac{m+2}{2}$。因 $M_2$ 开口向下，点 $E$ 在对称轴 $x=m$ 左侧时，$EG$ 间部分上升，故 $\dfrac{m+2}{2}<m$，解得 $m>2$。
+    - title: 第（2）问②
+      content: $A(-1,0)，D(1,4)，G(m,5-m)$，直线 $AD:y=2x+2$。过 $G$ 的平行线与 $M_2$ 另一交点为 $N(m-2,1-m)$。由 $AG$ 平分 $\angle NAD$ 及 $GN\parallel AD$ 得 $AN=GN$，列距离方程解得 $m=1\pm\sqrt{10}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 52mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 1 页

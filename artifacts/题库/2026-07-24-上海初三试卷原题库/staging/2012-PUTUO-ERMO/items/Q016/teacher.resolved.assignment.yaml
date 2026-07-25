@@ -1,0 +1,45 @@
+meta:
+  title: 2012年上海市普陀区中考数学二模试卷第 16 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q016
+    points: 4
+    stem_latex: 如图，边长为 $1$ 的菱形 $ABCD$ 的两个顶点 $B$、$C$ 恰好落在扇形 $AEF$ 的弧 $EF$ 上，弧 $BC$ 的长度等于 \underline{\hspace{2cm}}（结果保留 $\pi$）。
+    answer: $\dfrac{\pi}{3}$
+    solution_steps:
+    - title: 求圆心角
+      content: 连接 $AC$。由 $AB=BC=AC=1$，得 $\triangle ABC$ 是等边三角形，所以 $\angle BAC=60^\circ$。
+    - title: 求弧长
+      content: $\wideparen{BC}=\dfrac{60^\circ\pi\cdot1}{180^\circ}=\dfrac{\pi}{3}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 75mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 1 页
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 2 页

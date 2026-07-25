@@ -1,0 +1,38 @@
+meta:
+  title: 2012年上海市普陀区中考数学二模试卷第 13 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q013
+    points: 4
+    stem_latex: 已知 $\triangle ABC$ 的重心 $G$ 到 $BC$ 边上中点 $D$ 的距离为 $2$，那么中线 $AD$ 长为 \underline{\hspace{2cm}}。
+    answer: $6$
+    solution_steps:
+    - title: 重心性质
+      content: $AG=2GD=4$，所以 $AD=AG+GD=6$。
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 1 页
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 2 页

@@ -1,0 +1,43 @@
+meta:
+  title: 2024学年第一学期初三数学教学质量调研试卷第 24 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q024
+    points: 12
+    stem_latex: 如图，在直角坐标平面 $xOy$ 内，以点 $C$ 为顶点的抛物线 $y=x^2+bx+c$ 经过点 $A(4,3)$，与 $y$ 轴交于点 $B$，对称轴为直线 $x=2$。（1）求抛物线的表达式；（2）平移上述抛物线，所得新抛物线的对称轴为直线 $x=t$，顶点为点 $P$。①联结 $AB$，如果点 $P$ 在 $x$ 轴上且新抛物线与线段 $AB$ 有公共点，求 $t$ 的取值范围；②设新抛物线与直线 $x=2$ 交于点 $D$，如果点 $P$ 在原抛物线上，且 $\angle CPD=2\angle CBO$，求点 $P$ 的坐标。
+    answer: （1）$y=x^2-4x+3$；（2）①$-\sqrt3\le t\le4+\sqrt3$；②$P(3,0)$。
+    solution_steps:
+    - title: 解答
+      content: 由对称轴确定一次项系数，再利用平移后的顶点式和角度条件，得到 $y=x^2-4x+3$，$-\sqrt3\le t\le4+\sqrt3$，且 $P(3,0)$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 52mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 1 页
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 2 页

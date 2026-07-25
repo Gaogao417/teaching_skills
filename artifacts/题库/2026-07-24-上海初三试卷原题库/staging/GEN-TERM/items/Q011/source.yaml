@@ -1,0 +1,46 @@
+schema: math_exam_item_source/v1
+item_id: Q011
+source_key: GEN-TERM-Q11
+paper_id: GEN-TERM
+question_number: 11
+question_type: fillin
+points: 4
+section_title: 二、填空题
+source_directory: documents/初三/初三数学期末练习卷
+crops:
+  question_evidence:
+  - source: documents/初三/初三数学期末练习卷/003.png
+    source_sha256: sha256:a1b6cf606ad09ba474040a669e062e7b0a8bf54fe805b875b9c9d21ed4e28d9d
+    box_px:
+    - 100
+    - 118
+    - 1000
+    - 192
+    output: assets/source-question.png
+    output_sha256: sha256:12835d7efa9fc91faad3a5013efe92a0342ca2001ac95e646915204970f63e54
+  prompt:
+  - source: documents/初三/初三数学期末练习卷/003.png
+    source_sha256: sha256:a1b6cf606ad09ba474040a669e062e7b0a8bf54fe805b875b9c9d21ed4e28d9d
+    box_px:
+    - 190
+    - 195
+    - 440
+    - 365
+    output: assets/q11-prompt.png
+    output_sha256: sha256:4c717898d61c28211bd97d676d7cf590384ba6b7d98b9e82988cbbaeb2644c8f
+  official_solution:
+  - source: documents/初三/初三数学期末练习卷/006.png
+    source_sha256: sha256:db6ef3a296a7ab2cc817a6b3c680a6219c530a0d58009f959b6f6fff6d7129bd
+    box_px:
+    - 555
+    - 185
+    - 650
+    - 240
+    output: assets/official-solution.png
+    output_sha256: sha256:349121f95ea90dc8c40df4daaa600c4478619509107c93f32f43ca3e1170c665
+transcription:
+  question_status: author_pass
+  official_solution_status: author_pass
+  independent_review: review_pass
+  human_review: pending
+content_hash: sha256:9d3f310559149ee8596ef9552fa341646d039c8d960cf18720d3aff89a033893

@@ -1,0 +1,40 @@
+meta:
+  title: 虹口区2023学年度第一学期期终初三数学第23题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q023
+    points: 12
+    stem_latex: 如图12，在 $\triangle ABC$ 中，已知点 $D$、$E$ 分别在边 $BC$、$AB$ 上，$EC$ 和 $AD$ 相交于点 $F$，$\angle EDB=\angle ADC$，$DE^2=DF\cdot DA$。（1）求证：$\triangle ABD\sim\triangle ECD$；（2）如果 $\angle ACB=90^\circ$，求证：$FC=\dfrac12EC$。
+    answer: 证明见解答。
+    solution_steps:
+    - title: 步骤 1
+      content: （1）$\because DE^2=DF\cdot DA$，$\therefore\dfrac{DF}{DE}=\dfrac{DE}{DA}$。又 $\angle ADE=\angle EDF$，$\therefore\triangle EDF\sim\triangle ADE$，$\therefore\angle FED=\angle DEA$。$\because\angle EDB=\angle ADC$，$\therefore\angle ADB=\angle EDC$，$\therefore\triangle ABD\sim\triangle ECD$。
+    - title: 步骤 2
+      content: （2）$\because\triangle ABD\sim\triangle ECD$，$\therefore\angle B=\angle ECB$，$BE=CE$。$\because\angle ACB=90^\circ$，$\therefore\angle ACE+\angle ECB=90^\circ$；在 $\mathrm{Rt}\triangle ABC$ 中，$\angle B+\angle BAC=90^\circ$，$\therefore\angle ACE=\angle BAC$，$\therefore EC=EA$，$\therefore EC=BE=\dfrac12AB$。又 $\triangle ABD\sim\triangle ECD$，$\therefore\dfrac{AB}{EC}=\dfrac{BD}{CD}$。$\because\angle B=\angle ECB,\ \angle EDB=\angle FDC$，$\therefore\triangle EDB\sim\triangle FDC$，$\therefore\dfrac{BE}{FC}=\dfrac{BD}{CD}$。又 $EC=BE$，$\therefore FC=\dfrac12EC$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 0.92\linewidth
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页

@@ -1,0 +1,50 @@
+meta:
+  title: 金山区2023学年第一学期期末学情诊断第21题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q021
+    points: 10
+    stem_latex: 已知：如图，$AM$ 是 $\triangle ABC$ 的中线，点 $G$ 是重心，点 $D、E$ 分别在边 $AB$ 和 $BC$
+      上，四边形 $BEGD$ 是平行四边形。（1）求证：$DE\parallel AC$；（2）设 $\overrightarrow{BA}=\vec a$，$\overrightarrow{BC}=\vec
+      b$，用向量 $\vec a、\vec b$ 表示 $\overrightarrow{DE}$。
+    answer: （1）$DE\parallel AC$；（2）$\overrightarrow{DE}=\frac13\vec b-\frac13\vec
+      a$
+    solution_steps:
+    - title: 官方解答
+      content: （1）$\because AM$ 是 $\triangle ABC$ 的中线，点 $G$ 是重心，$\therefore AG=2GM$。$\because$
+        四边形 $BEGD$ 是平行四边形，$\therefore DG\parallel BE,EG\parallel BD$，从而 $\frac{BD}{BA}=\frac{MG}{MA}=\frac13$，$\frac{BE}{BM}=\frac{AG}{AM}=\frac23$。又
+        $BM=MC$，所以 $\frac{BE}{BC}=\frac13$，故 $\frac{BE}{BC}=\frac{BD}{BA}$，$\therefore
+        DE\parallel AC$。（2）$\overrightarrow{DE}=\frac13\vec b-\frac13\vec a$。
+    images:
+    - image_path: assets/prompt-01.png
+      width: 0.82\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图1
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第2页

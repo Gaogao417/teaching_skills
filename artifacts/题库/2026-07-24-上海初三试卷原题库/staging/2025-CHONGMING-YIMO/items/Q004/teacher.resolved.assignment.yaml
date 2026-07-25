@@ -1,0 +1,42 @@
+meta:
+  title: 崇明区九年级数学一模试卷 · 原题第 4 题 · 教师版
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q004
+    points: 4
+    stem_latex: 已知直线 $l$ 上三点 $A$、$B$、$C$，且 $\overrightarrow{AB}=\dfrac12\overrightarrow{AC}$，下列说法正确的是（　）
+    answer: D
+    choices:
+      A: $\overrightarrow{AB}=\overrightarrow{CB}$
+      B: $\overrightarrow{BC}=\overrightarrow{BA}$
+      C: $\overrightarrow{CA}=2\overrightarrow{BC}$
+      D: $\overrightarrow{CA}=2\overrightarrow{BA}$
+    explanation: 参考答案：D。
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 公众号原解答 1
+    teaching:
+      source_key: 2025-CHONGMING-YIMO-Q04
+      skill_tags:
+      - 平面向量
+      - 共线向量
+      difficulty: foundation
+      official_solution_policy: verbatim_transcription_with_separate_notes

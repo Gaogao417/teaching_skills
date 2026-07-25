@@ -1,0 +1,36 @@
+meta:
+  title: 2012年上海市普陀区中考数学二模试卷第 1 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、单项选择题
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q001
+    points: 4
+    stem_latex: 下列运算，计算结果错误的是（\quad）
+    choices:
+    - $a^4\cdot a^3=a^7$
+    - $a^6\div a^3=a^3$
+    - $(a^3)^2=a^5$
+    - $a^3\cdot b^3=(a\cdot b)^3$
+    answer: C
+    explanation: 根据幂的运算法则，$(a^3)^2=a^6$，故选 C。
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 1 页

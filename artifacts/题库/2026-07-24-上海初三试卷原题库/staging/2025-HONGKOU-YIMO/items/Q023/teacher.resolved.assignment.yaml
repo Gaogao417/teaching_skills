@@ -1,0 +1,47 @@
+meta:
+  title: 虹口区2024学年度初三年级第一次学生学习能力诊断练习数学练习卷第 23 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q023
+    points: 12
+    stem_latex: 根据素材完成“探究淋浴喷头的位置”。手柄 $AB=20\rm\,cm$，水流射线 $BC$ 与 $AB$ 的夹角 $\angle ABC=90^\circ$，手柄与墙的夹角为调整角 $\alpha$。淋浴房截面中 $DE=52\rm\,cm$，小明、爸爸、妈妈身高分别为 $130\rm\,cm、176\rm\,cm、160\rm\,cm$，“舒适喷淋点”高度等于身高减 $30\rm\,cm$。固定器在点 $A$、调整角为 $37^\circ$ 时，水流喷在爸爸的舒适喷淋点。任务一：求点 $A$ 到地面的距离 $AE$；任务二：固定器位置不变，调整角改为 $60^\circ$，说明水流不能喷到小明的舒适喷淋点，并求下降固定器后能喷到该点时固定器下降的距离 $AA'$（精确到 $1\rm\,cm$）。
+    answer: 任务一：$AE\approx160\rm\,cm$；任务二：固定器不变时喷淋高度约 $110.04\rm\,cm>100\rm\,cm$，需下降约 $10\rm\,cm$
+    solution_steps:
+    - title: 任务一
+      content: 过点 $B$ 作 $EH$ 的垂线分别交 $EH、DC$ 的延长线于点 $M、N$。在 $\mathrm{Rt}\triangle BAM$ 中，$BM=20\sin37^\circ\approx12$，$AM=20\cos37^\circ\approx16$。由题可得 $MN=ED=52$，$\therefore BN=40$，且 $\angle CBN=37^\circ$。在 $\mathrm{Rt}\triangle BCN$ 中，$CN=40\tan37^\circ\approx30$。$\therefore CD=176-30=146$，$\therefore EM=DN=146+30=176$，$\therefore AE=EM-AM=160\rm\,cm$。
+    - title: 任务二①
+      content: 小明洗澡时“舒适喷淋点”的高度为 $130-30=100\rm\,cm$。在 $\mathrm{Rt}\triangle BAM$ 中，$BM=20\sin60^\circ=10\sqrt3$，$AM=20\cos60^\circ=10$。$BN=52-10\sqrt3$，$CN=(52-10\sqrt3)\tan60^\circ=52\sqrt3-30\approx59.5$。$EM=DN=160+10=170$，所以 $CD=170-(52\sqrt3-30)=200-52\sqrt3\approx110.04>100$，故固定器不变时水流无法喷在小明的舒适喷淋点处。
+    - title: 任务二②
+      content: 下降后 $C'D=100$，$\angle M'A'B'=60^\circ$。由前述结果，$C'N'=52\sqrt3-30$，$EM'=DN'$，$A'M'=10$，$AE=160$。$\therefore EM'=100+52\sqrt3-30=70+52\sqrt3$，$A'E=EM'-A'M'=60+52\sqrt3$，$\therefore AA'=AE-A'E=100-52\sqrt3\approx10\rm\,cm$。
+    stem_image:
+      image_path: assets/prompt-01.png
+      width: 0.98\linewidth
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 1 页
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 2 页

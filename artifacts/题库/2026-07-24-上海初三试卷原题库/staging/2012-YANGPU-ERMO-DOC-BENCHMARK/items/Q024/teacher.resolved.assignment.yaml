@@ -1,0 +1,38 @@
+meta:
+  title: 2012 年上海市杨浦区中考数学二模试卷第 24 题
+  grade: 初三
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q024
+    points: 12
+    stem_latex: 抛物线 $y=ax^2-x-c$ 过 $A(-6,0)$，与 $y$ 轴交于 $B$，顶点为 $D$，对称轴为 $x=-2$。（1）求解析式及 $D$；（2）证明 $\angle AOD=\angle ABO$；（3）$P$ 在 $y$ 轴上且 $\triangle ADP\sim\triangle AOB$，求 $P$ 坐标。
+    answer: $y=-\frac14x^2-x+3$，$D(-2,4)$，$P(0,2)$
+    explanation: 待定系数、正切和分类讨论。
+    solution_steps:
+    - title: 第（1）问
+      content: 由对称轴和点 $A$ 求得 $a=-\frac14,c=-3$，故 $y=-\frac14x^2-x+3$，$D(-2,4)$。
+    - title: 第（2）问
+      content: 作 $DH\perp x$ 轴，分别计算两个直角三角形的正切，均为 $2$。
+    - title: 第（3）问
+      content: 按 $\triangle ADP$ 的直角位置分类，只有 $P(0,2)$ 满足相似。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 80mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

@@ -1,0 +1,40 @@
+meta:
+  title: 2024年1月黄浦区九年级数学试卷第 23 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q023
+    points: 12
+    stem_latex: 如图，在平行四边形 $ABCD$ 中，$AC\perp AD$，过点 $A$ 作 $AE\perp BD$，垂足为 $E$，再过点 $C$ 作 $CF\perp CD$ 交直线 $AE$ 于点 $F$。（1）求证：$CA\cdot CD=CB\cdot CF$；（2）联结 $CE$，求证：$\angle ACE=\angle F$。
+    answer: 见官方证明
+    solution_steps:
+    - title: 第（1）问
+      content: 证明 $\angle ACF=\angle BCD$，$\angle F=\angle BDC$，所以 $\triangle ACF\sim\triangle BCD$，故 $CA\cdot CD=CB\cdot CF$。
+    - title: 第（2）问
+      content: 记对角线 $AC$ 与 $BD$ 的交点为 $O$。证明 $\triangle AOE\sim\triangle DOA$，$\triangle OCE\sim\triangle ODC$，得 $\angle OCE=\angle ODC$，所以 $\angle ACE=\angle F$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 76mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 1 页

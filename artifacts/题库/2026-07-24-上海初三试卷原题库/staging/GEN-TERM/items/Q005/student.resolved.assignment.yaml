@@ -1,0 +1,33 @@
+meta:
+  title: GEN-TERM 第5题
+  grade: 九年级
+  subject: 数学
+  version: student
+  show_answers: false
+  source_artifacts:
+    source_record: source.yaml
+  total_points: 4
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 第5题（选择题，4分）
+  type: practice
+  visibility: student
+  blocks:
+  - type: choice
+    id: Q005
+    points: 4
+    stem: 如图2，传送带和地面所成斜坡 $AB$ 的坡度为 $1:2.4$，它把物体从点 $A$ 处传送到斜坡高处，物体沿斜坡 $AB$ 方向向上所经过的路程为26米，那么此时物体离地面的高度为（　）
+    choices:
+      A: 5米
+      B: 10米
+      C: 12米
+      D: 13米
+    diagram_col:
+      image_path: assets/q05-prompt.png
+      width: 0.30\linewidth
+      variant: prompt
+      disclosure_policy: clean

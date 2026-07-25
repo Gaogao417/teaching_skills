@@ -1,0 +1,29 @@
+meta:
+  title: 杨浦区2025学年度第一学期期末调研第20题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: student
+  show_answers: false
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: student
+  blocks:
+  - type: problem
+    id: Q020
+    points: 10
+    stem_latex: 二次函数 $y=ax^2+bx+c(a\ne0)$ 中，函数值 $y$ 与自变量 $x$ 之间的部分对应关系如表所示。（1）求该二次函数的解析式及其图像的对称轴；（2）设图像与 $x$ 轴相交于点 $A$（点 $A$ 在对称轴右侧），与 $y$ 轴相交于点 $B$，顶点为 $C$，求 $\triangle ABC$ 的面积。
+    images:
+    - image_path: assets/prompt-table.png
+      width: 0.82\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图1

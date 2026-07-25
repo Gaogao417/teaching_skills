@@ -1,0 +1,44 @@
+meta:
+  title: 初三数学期末练习卷 · 原题第 24 题 · 学生版
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: student
+  show_answers: false
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: student
+  blocks:
+  - type: problem
+    id: Q024
+    points: 12
+    stem_latex: '新定义：在平面直角坐标系中，抛物线上的点和它的顶点的连线与该条抛物线的对称轴所夹角的正切值称为抛物线上这个点的开口程度，规定抛物线顶点的开口程度为 $0$。
+
+
+      如图，在平面直角坐标系 $xOy$ 中：
+
+      \begin{enumerate}
+
+      \item 抛物线 $y=x^2-4x+5$ 与 $y$ 轴交于点 $P$，求点 $P$ 的开口程度 $k_P$；
+
+      \item 抛物线 $y=x^2-4x+a$ 与 $x$ 轴交于 $A,B$ 两点（$A$ 在 $B$ 的左侧）。如果点 $A$ 的开口程度 $k_A=1$，求 $a$；
+
+      \item 将抛物线 $C_1:y=mx^2-2mx+n\ (m>0)$ 平移，使平移后的抛物线 $C_2$ 经过 $C_1$ 的顶点 $M$。记 $C_2$ 的顶点为 $N$，$C_2$ 的对称轴交 $C_1$ 于点 $Q$。如果 $C_1$ 上点 $Q$ 的开口程度与 $C_2$ 上点 $M$ 的开口程度相等，均为 $2$，且 $\triangle QMN$ 的面积为 $8$，求 $m$。
+
+      \end{enumerate}'
+    subquestions:
+    - latex: 求 $k_P$；
+    - latex: 求 $a$；
+    - latex: 求 $m$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 62mm
+      variant: prompt
+      disclosure_policy: clean

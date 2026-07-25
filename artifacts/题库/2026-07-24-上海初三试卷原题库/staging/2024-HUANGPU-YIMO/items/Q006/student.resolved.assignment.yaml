@@ -1,0 +1,33 @@
+meta:
+  title: 2024年1月黄浦区九年级数学试卷第 6 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: student
+  show_answers: false
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: student
+  blocks:
+  - type: choice
+    id: Q006
+    points: 4
+    stem_latex: 如图，过矩形 $ABCD$ 的顶点分别作对角线的垂线，垂足分别为 $E、F、G、H$，依次联结四个垂足，可得到矩形 $EFGH$。设对角线 $AC$ 与 $BD$ 的夹角为 $\alpha\ (0<\alpha<90^\circ)$，那么矩形 $EFGH$ 与矩形 $ABCD$ 面积的比值为（　）。
+    choices:
+    - $\\sin^2\\alpha$
+    - $\\cos^2\\alpha$
+    - $\\tan^2\\alpha$
+    - $\\cot^2\\alpha$
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 62mm
+      variant: prompt
+      disclosure_policy: clean

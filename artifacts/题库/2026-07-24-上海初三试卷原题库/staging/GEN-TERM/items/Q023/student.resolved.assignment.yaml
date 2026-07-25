@@ -1,0 +1,38 @@
+meta:
+  title: 初三数学期末练习卷 · 原题第 23 题 · 学生版
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: student
+  show_answers: false
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: student
+  blocks:
+  - type: problem
+    id: Q023
+    points: 12
+    stem_latex: '如图，在 $\mathrm{Rt}\triangle ABC$ 中，$\angle BAC=90^\circ$，$AD\perp BC$，垂足为点 $D$。点 $E$ 是边 $AC$ 上一点，$EF\perp BC$，垂足为点 $F$，$AD,BE$ 交于点 $M$。
+
+      \begin{enumerate}
+
+      \item 如果 $BE$ 平分 $\angle ABC$，求证：$BM\cdot CE=AM\cdot BE$；
+
+      \item 如果 $BD=CF$，求证：$\dfrac{EF}{AD}=\dfrac{AB^2}{AC^2}$。
+
+      \end{enumerate}'
+    subquestions:
+    - latex: 若 $BE$ 平分 $\angle ABC$，证明 $BM\cdot CE=AM\cdot BE$；
+    - latex: 若 $BD=CF$，证明 $\dfrac{EF}{AD}=\dfrac{AB^2}{AC^2}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 62mm
+      variant: prompt
+      disclosure_policy: clean

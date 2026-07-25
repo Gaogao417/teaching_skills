@@ -1,0 +1,38 @@
+meta:
+  title: 初三数学期末练习卷 · 原题第 20 题 · 学生版
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: student
+  show_answers: false
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: student
+  blocks:
+  - type: problem
+    id: Q020
+    points: 10
+    stem_latex: '如图，在 $\triangle ABC$ 中，点 $D$ 在边 $AC$ 上，且 $AD=2DC$；点 $E$ 在 $BD$ 的延长线上，$CE\parallel AB$。已知 $\overrightarrow{BA}=\vec a$，$\overrightarrow{BC}=\vec b$。
+
+      \begin{enumerate}
+
+      \item 用向量 $\vec a,\vec b$ 分别表示向量 $\overrightarrow{AC}$、$\overrightarrow{AE}$；
+
+      \item 作出向量 $\overrightarrow{AD}$ 分别在 $\vec a,\vec b$ 方向上的分向量（写出结论，不要求写作法）。
+
+      \end{enumerate}'
+    subquestions:
+    - latex: 用 $\vec a,\vec b$ 分别表示 $\overrightarrow{AC}$、$\overrightarrow{AE}$；
+    - latex: 作出 $\overrightarrow{AD}$ 在 $\vec a,\vec b$ 方向上的分向量。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean

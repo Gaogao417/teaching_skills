@@ -1,0 +1,41 @@
+meta:
+  title: 初三数学期末练习卷 · 原题第 25 题 · 学生版
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: student
+  show_answers: false
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: student
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: '在 $\triangle ABC$ 中，$\angle BAC\ge90^\circ$，点 $D$ 为边 $AC$ 上一点，$\angle ABD=\angle ACB$，$CD=2$。将 $\triangle ABD$ 沿 $BD$ 翻折得到 $\triangle A_1BD$，点 $A_1$ 恰好落在边 $BC$ 的垂直平分线上。
+
+      \begin{enumerate}
+
+      \item 如图，如果点 $A_1$ 在边 $BC$ 上，求 $\dfrac{AD}{AB}$ 的值；
+
+      \item 如图，如果 $AD=CD$，求 $BD$ 的长；
+
+      \item 如果 $AB=CD$，求 $\angle BAC$ 的度数。
+
+      \end{enumerate}'
+    subquestions:
+    - latex: 当点 $A_1$ 在边 $BC$ 上时，求 $\dfrac{AD}{AB}$；
+    - latex: 当 $AD=CD$ 时，求 $BD$；
+    - latex: 当 $AB=CD$ 时，求 $\angle BAC$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 66mm
+      variant: prompt
+      disclosure_policy: clean

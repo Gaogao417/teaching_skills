@@ -1,0 +1,41 @@
+meta:
+  title: 杨浦区2023学年度第一学期期末质量调研第22题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q022
+    points: 10
+    stem_latex: 小李从家步行到图书馆。路线一：向正东 $200$ 米到 $B$，再沿 $B$ 的南偏东 $45^\circ$ 方向到 $D$；路线二：向正南 $600$ 米到 $C$，再沿 $C$ 的南偏东 $60^\circ$
+      方向到 $D$。步速相同，选择哪条路线更快？
+    answer: 第一条路线更快（约 $2590$ 米，小于第二条约 $2784$ 米）。
+    solution_steps:
+    - title: 解答
+      content: 作辅助垂线，设相应水平段为 $x$，由两个直角三角形得 $x=400(\sqrt3+1)$。于是 $CD=800(\sqrt3+1)\approx2184$，$BD=1000\sqrt2+400\sqrt6\approx2390$。路线一约
+        $2390+200=2590$ 米，路线二约 $2184+600=2784$ 米，故路线一更快。
+    images:
+    - image_path: assets/prompt-figure.png
+      width: 0.78\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页

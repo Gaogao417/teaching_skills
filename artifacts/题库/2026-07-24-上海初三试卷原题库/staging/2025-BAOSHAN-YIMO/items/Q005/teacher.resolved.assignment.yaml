@@ -1,0 +1,47 @@
+meta:
+  title: 宝山区2024学年第一学期期末考试九年级数学试卷 · 原题第 5 题 · 教师版
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q005
+    points: 4
+    stem_latex: 如图1，在梯形 $ABCD$ 中，$AD\parallel BC$，$AB=CD=AD$，$\angle B=60^\circ$，设 $\overrightarrow{AB}=\vec a$，$\overrightarrow{AD}=\vec b$，用向量 $\vec a$、$\vec b$ 的线性组合表示向量 $\overrightarrow{DC}$，结果正确的是（　）
+    answer: B
+    choices:
+      A: $\overrightarrow{DC}=\vec a-\vec b$
+      B: $\overrightarrow{DC}=\vec a+\vec b$
+      C: $\overrightarrow{DC}=\vec a-\dfrac12\vec b$
+      D: $\overrightarrow{DC}=\vec a+\dfrac12\vec b$
+    explanation: 参考答案：B。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 48mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 公众号原解答 1
+    teaching:
+      source_key: 2025-BAOSHAN-YIMO-Q05
+      skill_tags:
+      - 梯形
+      - 平面向量
+      difficulty: standard
+      official_solution_policy: verbatim_transcription_with_separate_notes

@@ -1,0 +1,43 @@
+meta:
+  title: 初三数学期末练习卷 · 原题第 15 题 · 教师版
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: fillin
+    id: Q015
+    points: 4
+    stem_latex: 如图，监测点 $P$ 在距离道路 $l$ 的 $100$ 米处，道路上的货车 $A$ 在监测点 $P$ 的北偏西 $60^\circ$ 方向，道路上的汽车 $B$ 在监测点 $P$ 的东北方向。此时货车 $A$ 和汽车 $B$ 相距 \underline{\hspace{2cm}} 米（结果保留根号）。
+    answer: $100(\sqrt3+1)$ 米
+    explanation: 公众号仅提供答案：$100(\sqrt3+1)$ 米。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 公众号原解答 1
+    teaching:
+      source_key: GEN-TERM-Q15
+      skill_tags:
+      - 锐角三角比
+      - 方位角
+      - 解直角三角形
+      difficulty: standard
+      official_solution_policy: verbatim_transcription_with_separate_notes

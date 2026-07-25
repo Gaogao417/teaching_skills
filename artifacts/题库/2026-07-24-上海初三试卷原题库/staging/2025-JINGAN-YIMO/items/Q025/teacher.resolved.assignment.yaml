@@ -1,0 +1,62 @@
+meta:
+  title: 静安区2024学年度第一学期期末教学质量调研九年级数学试卷第 25 题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: 已知：在 $\triangle ABC$ 中，$AB=AC=5$，$BC=8$，点 $D$ 是边 $BC$ 的中点，点 $E$ 在边 $BA$ 的延长线上，点 $F$ 在边 $AC$ 上（与点 $A、C$ 不重合），且 $\angle EDF=\angle B$。（1）求证：$\triangle BDE\sim\triangle CFD$；（2）求证：$ED$ 平分 $\angle BEF$；（3）设 $CF=x$，$EF=y$，求 $y$ 关于 $x$ 的函数解析式，并写出定义域；（4）连接 $AD、CE$，如果四边形 $ADCE$ 有两个内角互补，求 $CF$ 的长。
+    answer: （1）见证明；（2）见证明；（3）$y=x+\frac{16}{x}-\frac{32}{5}$，$0<x<\frac{16}{5}$；（4）$CF=\frac52$ 或 $\frac85$
+    solution_steps:
+    - title: 官方解答（1）（2）
+      content: 由题设角关系和等腰三角形底角关系可得 $\triangle BDE\sim\triangle CFD$。由相似比例及 $BD=CD$，再证 $\triangle BDE\sim\triangle DFE$，得到 $\angle BED=\angle DEF$，故 $ED$ 平分 $\angle BEF$。
+      diagram_col:
+        image_path: assets/solution-01.png
+        width: 58mm
+        variant: solution
+        disclosure_policy: teacher_only
+    - title: 官方解答（3）
+      content: 连接 $AD$，过 $F$ 作 $FH\perp BC$ 于 $H$。由 $AB=AC=5$、$BC=8$ 得 $AD=3$。设 $CF=x$，则 $FH=\frac35x$，$CH=\frac45x$，$DH=4-\frac45x$，所以 $DF^2=x^2-\frac{32}{5}x+16$。又由 $\triangle CFD\sim\triangle DFE$ 得 $DF^2=EF\cdot CF=xy$，故 $y=x+\frac{16}{x}-\frac{32}{5}$，定义域为 $0<x<\frac{16}{5}$。
+      diagram_col:
+        image_path: assets/solution-02.png
+        width: 58mm
+        variant: solution
+        disclosure_policy: teacher_only
+    - title: 官方解答（4）
+      content: 由（3）知 $\angle ADC=90^\circ$。若 $\angle ADC$ 与 $\angle AEC$ 互补，则 $\angle AEC=90^\circ$，由 $\triangle BDE\sim\triangle CFD$ 及 $BE=\frac{32}{5}$ 得 $CF=\frac52$。若 $\angle ADC$ 与 $\angle DCE$ 互补，则 $\angle DCE=90^\circ$，从而 $AD\parallel EC$，点 $A$ 为 $BE$ 中点，$BE=10$，同理由相似比例得 $CF=\frac85$。其余内角配对不成立。
+      diagram_col:
+        image_path: assets/solution-03.png
+        width: 58mm
+        variant: solution
+        disclosure_policy: teacher_only
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 1 页
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 2 页

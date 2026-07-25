@@ -1,0 +1,43 @@
+meta:
+  title: 青浦区2023学年第一学期期终调研第21题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q021
+    points: 10
+    stem_latex: 如图，在 $\triangle ABC$ 中，$AB=AC=5$，$\tan C=\dfrac34$，$\angle BAC$ 的平分线
+      $AD$ 交边 $BC$ 于点 $D$，点 $E$ 在边 $AC$ 上，且 $EC=2AE$，$BE$ 与 $AD$ 相交于点 $F$。（1）求 $BC$
+      的长；（2）求 $EF:BF$ 的值。
+    answer: （1）$BC=6$；（2）$EF:BF=1:3$。
+    solution_steps:
+    - title: 官方解答
+      content: （1）由 $AB=AC$ 且 $AD$ 平分 $\angle BAC$，得 $AD\perp BC$、$BD=DC$。在直角三角形 $ACD$
+        中，$\tan C=3/4$，$AC=5$，得 $CD=4$，所以 $BC=8$。官方答案页相应结论记为 $BC=8$。（2）由 $EF\parallel
+        BC$，得 $EF/BF=AE/AC=1/3$。
+    images:
+    - image_path: assets/prompt-01.png
+      width: 0.88\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页

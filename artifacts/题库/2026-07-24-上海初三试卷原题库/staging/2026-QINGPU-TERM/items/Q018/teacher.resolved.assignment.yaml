@@ -1,0 +1,36 @@
+meta:
+  title: 2025学年第一学期九年级期终学业质量调研数学试卷第 18 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: fillin
+    id: Q018
+    points: 4
+    stem_latex: 如图4，已知 $\triangle ABC$ 中，$\tan B=\dfrac{\sqrt2}{3}，\tan C=\sqrt2，BC=4\sqrt2$。点 $M$ 是 $BC$ 中点，点 $D$ 在边 $AB$ 上，联结 $DM$，将 $\triangle BDM$ 沿直线 $DM$ 翻折，点 $B$ 的对应点为点 $E$。联结 $AE$，如果 $AE\parallel BC$，那么 $\angle BMD$ 的度数为 $\fillin$。
+    answer: $22.5^\circ$ 或 $67.5^\circ$
+    explanation: 官方参考答案：$22.5^\circ$ 或 $67.5^\circ$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 46mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 1 页

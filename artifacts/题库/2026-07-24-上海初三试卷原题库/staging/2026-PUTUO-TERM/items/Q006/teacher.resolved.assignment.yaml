@@ -1,0 +1,42 @@
+meta:
+  title: 普陀区2025学年度第一学期期末练习第6题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q006
+    points: 4
+    stem_latex: 如图，在等边三角形 $ABC$ 中，点 $D$ 在边 $BC$ 上，点 $D$ 关于直线 $AB、AC$ 的对称点分别是点 $P、Q$，那么关于线段 $PQ$ 与线段 $AD$ 之间的数量关系正确的是
+    answer: B
+    choices:
+    - $PQ=\dfrac{2\sqrt3}{3}AD$
+    - $PQ=\sqrt3AD$
+    - $PQ=2AD$
+    - $PQ=\dfrac{\sqrt3}{2}AD$
+    explanation: 官方参考答案：B。
+    images:
+    - image_path: assets/prompt-figure.png
+      width: 0.82\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图1
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页

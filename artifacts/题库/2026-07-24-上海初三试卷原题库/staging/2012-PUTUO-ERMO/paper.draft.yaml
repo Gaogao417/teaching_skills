@@ -1,0 +1,650 @@
+schema: math_exam_staging_draft/v1
+paper:
+  id: 2012-PUTUO-ERMO
+  title: 2012年上海市普陀区中考数学二模试卷
+  grade: 九年级
+  subject: 数学
+  duration: 100分钟
+  source_archive: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案
+question_bank: ../../question-bank.yaml
+sections:
+  - id: choice
+    title: 一、单项选择题
+    items:
+      - item_id: Q001
+        question_number: 1
+        question_type: choice
+        points: 4
+        question_evidence:
+          - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/pages-pages/001.png
+            box_px: [140, 300, 1340, 700]
+        prompt: []
+        official_solution:
+          start_anchor: '1．（4分）下列运算'
+          end_anchor: '2．（4分）经过点'
+          crops:
+            - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/pages-pages/007.png
+              box_px: [120, 120, 1370, 2050]
+        block:
+          stem_latex: '下列运算，计算结果错误的是（\quad）'
+          choices:
+            - '$a^4\cdot a^3=a^7$'
+            - '$a^6\div a^3=a^3$'
+            - '$(a^3)^2=a^5$'
+            - '$a^3\cdot b^3=(a\cdot b)^3$'
+          answer: C
+          explanation: '根据幂的运算法则，$(a^3)^2=a^6$，故选 C。'
+      - item_id: Q002
+        question_number: 2
+        question_type: choice
+        points: 4
+        question_evidence:
+          - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/pages-pages/001.png
+            box_px: [140, 570, 1340, 840]
+        prompt: []
+        official_solution:
+          start_anchor: '2．（4分）经过点（2，4）'
+          end_anchor: '3．（4分）如图'
+          crops:
+            - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/pages-pages/007.png
+              box_px: [120, 120, 1370, 2050]
+            - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/pages-pages/008.png
+              box_px: [120, 120, 1370, 2050]
+        block:
+          stem_latex: '经过点 $(2,4)$ 的双曲线的表达式是（\quad）'
+          choices:
+            - '$y=2x$'
+            - '$y=\dfrac{1}{2x}$'
+            - '$y=\dfrac{8}{x}$'
+            - '$y=x^2$'
+          answer: C
+          explanation: '把 $(2,4)$ 代入各式，只有 $y=\frac8x$ 成立，故选 C。'
+      - item_id: Q003
+        question_number: 3
+        question_type: choice
+        points: 4
+        question_evidence:
+          - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/pages-pages/001.png
+            box_px: [140, 720, 1340, 1110]
+        prompt:
+          - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/doc-direct-extract/media/image3.png
+            box_px: [0, 0, 85, 79]
+            width: 42mm
+        official_solution:
+          start_anchor: '3．（4分）如图，飞镖'
+          end_anchor: '4．（4分）下列图形中'
+          crops:
+            - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/pages-pages/008.png
+              box_px: [120, 120, 1370, 2050]
+            - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/pages-pages/009.png
+              box_px: [120, 120, 1370, 2050]
+        block:
+          stem_latex: '如图，飞镖投一个被平均分成 $6$ 份的圆形靶子，那么飞镖落在阴影部分的概率是（\quad）'
+          choices: ['$\dfrac16$', '$\dfrac13$', '$\dfrac12$', '$\dfrac23$']
+          answer: C
+          explanation: '阴影部分占圆形靶子的 $\frac12$，故选 C。'
+      - item_id: Q004
+        question_number: 4
+        question_type: choice
+        points: 4
+        question_evidence:
+          - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/pages-pages/001.png
+            box_px: [140, 1040, 1340, 1430]
+        prompt:
+          - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/pages-pages/001.png
+            box_px: [170, 1370, 1320, 1540]
+            width: 130mm
+        official_solution:
+          start_anchor: '4．（4分）下列图形中'
+          end_anchor: '5．（4分）已知四边形'
+          crops:
+            - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/pages-pages/009.png
+              box_px: [120, 120, 1370, 2050]
+        block:
+          stem_latex: '下列图形中，是中心对称图形，但不是轴对称图形的是（\quad）'
+          choices: ['图 A', '图 B', '图 C', '图 D']
+          answer: A
+          explanation: '图 A 是中心对称图形但不是轴对称图形，故选 A。'
+      - item_id: Q005
+        question_number: 5
+        question_type: choice
+        points: 4
+        question_evidence:
+          - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/pages-pages/001.png
+            box_px: [140, 1370, 1340, 1690]
+        prompt: []
+        official_solution:
+          start_anchor: '5．（4分）已知四边形 ABCD'
+          end_anchor: '6．（4分）下列说法中'
+          crops:
+            - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/pages-pages/009.png
+              box_px: [120, 120, 1370, 2050]
+            - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/pages-pages/010.png
+              box_px: [120, 120, 1370, 2050]
+        block:
+          stem_latex: '已知四边形 $ABCD$ 中，$\angle A=\angle B=\angle C=90^\circ$。如果添加一个条件，即可推出该四边形是正方形，那么这个条件可以是（\quad）'
+          choices:
+            - '$\angle D=90^\circ$'
+            - '$AB=CD$'
+            - '$AD=BC$'
+            - '$BC=CD$'
+          answer: D
+          explanation: '已知条件先判定四边形为矩形；再由一组邻边 $BC=CD$ 相等可判定为正方形，故选 D。'
+      - item_id: Q006
+        question_number: 6
+        question_type: choice
+        points: 4
+        question_evidence:
+          - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/pages-pages/001.png
+            box_px: [140, 1640, 1340, 2040]
+          - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/pages-pages/002.png
+            box_px: [140, 100, 1340, 620]
+        prompt:
+          - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/doc-direct-extract/media/image12.png
+            box_px: [0, 0, 116, 89]
+            width: 48mm
+        official_solution:
+          start_anchor: '6．（4分）下列说法中正确的是'
+          end_anchor: '二、填空题'
+          crops:
+            - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/pages-pages/010.png
+              box_px: [120, 120, 1370, 2050]
+        block:
+          stem_latex: '下列说法中正确的是（\quad）'
+          choices:
+            - '某种彩票的中奖率是 $10\%$，则购买该种彩票 $100$ 张一定中奖是必然事件'
+            - '如图，在长方体 $ABCD-EFGH$ 中，与棱 $EF$、棱 $FG$ 都异面的棱是棱 $DH$'
+            - '如果一个多边形的内角和等于 $540^\circ$，那么这个多边形是正五边形'
+            - '平分弦的直径垂直于这条弦'
+          answer: B
+          explanation: '逐项判断，只有长方体中棱的位置关系表述正确，故选 B。'
+  - id: fillin
+    title: 二、填空题
+    items:
+      - item_id: Q007
+        question_number: 7
+        question_type: short_answer
+        points: 4
+        question_evidence:
+          - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/pages-pages/002.png
+            box_px: [140, 590, 1340, 760]
+        prompt: []
+        official_solution:
+          start_anchor: '7．（4分）计算'
+          end_anchor: '8．（4分）方程'
+          crops:
+            - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/pages-pages/011.png
+              box_px: [120, 120, 1370, 2050]
+        block:
+          stem_latex: '计算：$(-2)^2=$ \underline{\hspace{2cm}}。'
+          answer: '$4$'
+          solution_steps:
+            - title: 计算
+              content: '$(-2)^2=(-2)\times(-2)=4$。'
+      - item_id: Q008
+        question_number: 8
+        question_type: short_answer
+        points: 4
+        question_evidence:
+          - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/pages-pages/002.png
+            box_px: [140, 680, 1340, 850]
+        prompt: []
+        official_solution:
+          start_anchor: '8．（4分）方程'
+          end_anchor: '9．（4分）用换元法'
+          crops:
+            - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/pages-pages/011.png
+              box_px: [120, 120, 1370, 2050]
+        block:
+          stem_latex: '方程 $\sqrt{x^2-1}=2$ 的根是 \underline{\hspace{2cm}}。'
+          answer: '$x=\pm\sqrt5$'
+          solution_steps:
+            - title: 解方程
+              content: '两边平方，得 $x^2-1=4$，所以 $x=\pm\sqrt5$；经检验两根均符合原方程。'
+      - item_id: Q009
+        question_number: 9
+        question_type: short_answer
+        points: 4
+        question_evidence:
+          - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/pages-pages/002.png
+            box_px: [140, 780, 1340, 1080]
+        prompt: []
+        official_solution:
+          start_anchor: '9．（4分）用换元法'
+          end_anchor: '10．（4分）如果关于 x'
+          crops:
+            - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/pages-pages/011.png
+              box_px: [120, 120, 1370, 2050]
+            - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/pages-pages/012.png
+              box_px: [120, 120, 1370, 2050]
+        block:
+          stem_latex: '用换元法解分式方程 $\dfrac{x^2+1}{x}-\dfrac{2x}{x^2+1}=3$ 时，如果设 $\dfrac{x}{x^2+1}=y$，那么原方程可以化为关于 $y$ 的方程是 \underline{\hspace{3cm}}。'
+          answer: '$2y^2+3y-1=0$'
+          solution_steps:
+            - title: 换元
+              content: '由 $y=\dfrac{x}{x^2+1}$，原方程化为 $\dfrac1y-2y=3$，整理得 $2y^2+3y-1=0$。'
+      - item_id: Q010
+        question_number: 10
+        question_type: short_answer
+        points: 4
+        question_evidence:
+          - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/pages-pages/002.png
+            box_px: [140, 1030, 1340, 1220]
+        prompt: []
+        official_solution:
+          start_anchor: '10．（4分）如果关于 x'
+          end_anchor: '11．（4分）已知正比例函数'
+          crops:
+            - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/pages-pages/012.png
+              box_px: [120, 120, 1370, 2050]
+        block:
+          stem_latex: '如果关于 $x$ 的方程 $x^2-2x+a=0$ 有两个相等的实数根，那么 $a=$ \underline{\hspace{2cm}}。'
+          answer: '$1$'
+          solution_steps:
+            - title: 判别式
+              content: '$\Delta=4-4a=0$，解得 $a=1$。'
+      - item_id: Q011
+        question_number: 11
+        question_type: short_answer
+        points: 4
+        question_evidence:
+          - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/pages-pages/002.png
+            box_px: [140, 1140, 1340, 1360]
+        prompt: []
+        official_solution:
+          start_anchor: '11．（4分）已知正比例函数'
+          end_anchor: '12．（4分）某种品牌'
+          crops:
+            - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/pages-pages/012.png
+              box_px: [120, 120, 1370, 2050]
+            - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/pages-pages/013.png
+              box_px: [120, 120, 1370, 2050]
+        block:
+          stem_latex: '已知正比例函数 $y=(k-1)x$ 中，$y$ 的值随自变量 $x$ 的值增大而减小，那么 $k$ 的取值范围是 \underline{\hspace{2cm}}。'
+          answer: '$k<1$'
+          solution_steps:
+            - title: 利用单调性
+              content: '由题意 $k-1<0$，所以 $k<1$。'
+      - item_id: Q012
+        question_number: 12
+        question_type: short_answer
+        points: 4
+        question_evidence:
+          - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/pages-pages/002.png
+            box_px: [140, 1300, 1340, 1510]
+        prompt: []
+        official_solution:
+          start_anchor: '12．（4分）某种品牌'
+          end_anchor: '13．（4分）已知三角形'
+          crops:
+            - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/pages-pages/013.png
+              box_px: [120, 120, 1370, 2050]
+        block:
+          stem_latex: '某种品牌的笔记本电脑原价为 $a$ 元，如果连续两次降价的百分率都为 $x$，那么两次降价后的价格为 \underline{\hspace{3cm}} 元。'
+          answer: '$a(1-x)^2$'
+          solution_steps:
+            - title: 连续降价
+              content: '两次降价后的价格为 $a(1-x)(1-x)=a(1-x)^2$。'
+      - item_id: Q013
+        question_number: 13
+        question_type: short_answer
+        points: 4
+        question_evidence:
+          - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/pages-pages/002.png
+            box_px: [140, 1460, 1340, 1660]
+        prompt: []
+        official_solution:
+          start_anchor: '13．（4分）已知三角形 ABC'
+          end_anchor: '14．（4分）在梯形'
+          crops:
+            - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/pages-pages/013.png
+              box_px: [120, 120, 1370, 2050]
+            - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/pages-pages/014.png
+              box_px: [120, 120, 1370, 2050]
+        block:
+          stem_latex: '已知 $\triangle ABC$ 的重心 $G$ 到 $BC$ 边上中点 $D$ 的距离为 $2$，那么中线 $AD$ 长为 \underline{\hspace{2cm}}。'
+          answer: '$6$'
+          solution_steps:
+            - title: 重心性质
+              content: '$AG=2GD=4$，所以 $AD=AG+GD=6$。'
+      - item_id: Q014
+        question_number: 14
+        question_type: short_answer
+        points: 4
+        question_evidence:
+          - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/pages-pages/002.png
+            box_px: [140, 1580, 1340, 1780]
+        prompt: []
+        official_solution:
+          start_anchor: '14．（4分）在梯形'
+          end_anchor: '15．（4分）如图，在三角形 ABC'
+          crops:
+            - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/pages-pages/014.png
+              box_px: [120, 120, 1370, 2050]
+        block:
+          stem_latex: '在梯形的一条底边长为 $5$，中位线长为 $7$，那么另一条底边的长为 \underline{\hspace{2cm}}。'
+          answer: '$9$'
+          solution_steps:
+            - title: 中位线
+              content: '设另一条底边长为 $x$，则 $\dfrac{5+x}{2}=7$，解得 $x=9$。'
+      - item_id: Q015
+        question_number: 15
+        question_type: short_answer
+        points: 4
+        question_evidence:
+          - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/pages-pages/002.png
+            box_px: [140, 1720, 1340, 2020]
+          - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/pages-pages/003.png
+            box_px: [0, 0, 1488, 2105]
+        prompt:
+          - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/doc-direct-extract/media/image16.png
+            box_px: [0, 0, 104, 136]
+            width: 45mm
+        official_solution:
+          start_anchor: '15．（4分）如图，在三角形 ABC'
+          end_anchor: '16．（4分）如图，边长为 1'
+          crops:
+            - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/pages-pages/014.png
+              box_px: [120, 120, 1370, 2050]
+            - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/pages-pages/015.png
+              box_px: [120, 120, 1370, 2050]
+        block:
+          stem_latex: '如图，在 $\triangle ABC$ 中，$DE\parallel BC$。如果 $DE=1$，$BC=4$，那么 $\triangle ADE$ 与 $\triangle ABC$ 面积的比是 \underline{\hspace{2cm}}。'
+          answer: '$1:16$'
+          solution_steps:
+            - title: 相似三角形
+              content: '$\triangle ADE\sim\triangle ABC$，相似比为 $1:4$，所以面积比为 $1:16$。'
+      - item_id: Q016
+        question_number: 16
+        question_type: short_answer
+        points: 4
+        question_evidence:
+          - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/pages-pages/003.png
+            box_px: [140, 400, 1340, 780]
+        prompt:
+          - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/doc-direct-extract/media/image17.png
+            box_px: [0, 0, 123, 74]
+            width: 75mm
+        official_solution:
+          start_anchor: '16．（4分）如图，边长为 1'
+          end_anchor: '17．（4分）在矩形 ABCD'
+          crops:
+            - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/pages-pages/015.png
+              box_px: [120, 120, 1370, 2050]
+            - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/pages-pages/016.png
+              box_px: [120, 120, 1370, 2050]
+        block:
+          stem_latex: '如图，边长为 $1$ 的菱形 $ABCD$ 的两个顶点 $B$、$C$ 恰好落在扇形 $AEF$ 的弧 $EF$ 上，弧 $BC$ 的长度等于 \underline{\hspace{2cm}}（结果保留 $\pi$）。'
+          answer: '$\dfrac{\pi}{3}$'
+          solution_steps:
+            - title: 求圆心角
+              content: '连接 $AC$。由 $AB=BC=AC=1$，得 $\triangle ABC$ 是等边三角形，所以 $\angle BAC=60^\circ$。'
+            - title: 求弧长
+              content: '$\wideparen{BC}=\dfrac{60^\circ\pi\cdot1}{180^\circ}=\dfrac{\pi}{3}$。'
+      - item_id: Q017
+        question_number: 17
+        question_type: short_answer
+        points: 4
+        question_evidence:
+          - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/pages-pages/003.png
+            box_px: [140, 720, 1340, 900]
+        prompt: []
+        official_solution:
+          start_anchor: '17．（4分）在矩形 ABCD'
+          end_anchor: '18．（4分）如图，将边长为 4'
+          crops:
+            - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/pages-pages/016.png
+              box_px: [120, 120, 1370, 2050]
+        block:
+          stem_latex: '在矩形 $ABCD$ 中，如果 $|\overrightarrow{AB}|=2$，$|\overrightarrow{BC}|=1$，那么 $|\overrightarrow{AB}+\overrightarrow{BC}|=$ \underline{\hspace{2cm}}。'
+          answer: '$\sqrt5$'
+          solution_steps:
+            - title: 向量与勾股定理
+              content: '$\overrightarrow{AB}+\overrightarrow{BC}=\overrightarrow{AC}$，且 $AC=\sqrt{2^2+1^2}=\sqrt5$。'
+      - item_id: Q018
+        question_number: 18
+        question_type: short_answer
+        points: 4
+        question_evidence:
+          - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/pages-pages/003.png
+            box_px: [140, 840, 1340, 1250]
+        prompt:
+          - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/doc-direct-extract/media/image21.png
+            box_px: [0, 0, 157, 135]
+            width: 92mm
+        official_solution:
+          start_anchor: '18．（4分）如图，将边长为 4'
+          end_anchor: '三、解答题'
+          crops:
+            - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/pages-pages/016.png
+              box_px: [120, 120, 1370, 2050]
+            - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/pages-pages/017.png
+              box_px: [120, 120, 1370, 2050]
+            - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/pages-pages/018.png
+              box_px: [120, 120, 1370, 2050]
+            - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/pages-pages/019.png
+              box_px: [120, 120, 1370, 2050]
+        block:
+          stem_latex: '如图，将边长为 $4$ 的正方形 $ABCD$ 沿着折痕 $EF$ 折叠，使点 $B$ 落在边 $AD$ 的中点 $G$ 处，那么四边形 $BCFE$ 的面积等于 \underline{\hspace{2cm}}。'
+          answer: '$6$'
+          solution_steps:
+            - title: 求边长
+              content: '由折叠得 $BE=GE$。设 $BE=x$，则 $AE=4-x$，$AG=2$，由 $(4-x)^2+2^2=x^2$ 得 $BE=2.5$。'
+            - title: 求面积
+              content: '按原解答继续利用折叠角关系解直角三角形，得 $FC=0.5$，故 $S_{BCFE}=\dfrac12(BE+FC)\cdot BC=6$。'
+  - id: problem
+    title: 三、解答题
+    items:
+      - item_id: Q019
+        question_number: 19
+        question_type: problem
+        points: 10
+        question_evidence:
+          - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/pages-pages/003.png
+            box_px: [140, 1210, 1340, 1480]
+        prompt: []
+        official_solution:
+          start_anchor: '19．（10分）先化简'
+          end_anchor: '20．（10分）解方程组'
+          crops:
+            - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/pages-pages/019.png
+              box_px: [120, 120, 1370, 2050]
+        block:
+          stem_latex: '先化简，再求值：$\left(\dfrac{a^2-2a+1}{a^2-1}+\dfrac1a\right)\div\dfrac1{a+1}$，其中 $a=\sqrt2$。'
+          answer: '$\dfrac{3\sqrt2}{2}$'
+          solution_steps:
+            - title: 化简
+              content: '$\left(\dfrac{a-1}{a+1}+\dfrac1a\right)(a+1)=\dfrac{a^2+1}{a}$。'
+            - title: 代入
+              content: '当 $a=\sqrt2$ 时，原式 $=\dfrac3{\sqrt2}=\dfrac{3\sqrt2}{2}$。'
+      - item_id: Q020
+        question_number: 20
+        question_type: problem
+        points: 10
+        question_evidence:
+          - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/pages-pages/003.png
+            box_px: [140, 1420, 1340, 1660]
+        prompt: []
+        official_solution:
+          start_anchor: '20．（10分）解方程组'
+          end_anchor: '21．（10分）已知'
+          crops:
+            - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/pages-pages/019.png
+              box_px: [120, 120, 1370, 2050]
+            - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/pages-pages/020.png
+              box_px: [120, 120, 1370, 2050]
+        block:
+          stem_latex: '解方程组：$\begin{cases}x^2+5xy+6y^2=0,\\x+y=2.\end{cases}$'
+          answer: '$(x,y)=(4,-2)$ 或 $(3,-1)$'
+          solution_steps:
+            - title: 因式分解
+              content: '由第一式得 $(x+2y)(x+3y)=0$，所以 $x+2y=0$ 或 $x+3y=0$。'
+            - title: 分别求解
+              content: '分别与 $x+y=2$ 联立，得 $(x,y)=(4,-2)$ 或 $(3,-1)$。'
+      - item_id: Q021
+        question_number: 21
+        question_type: problem
+        points: 10
+        question_evidence:
+          - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/pages-pages/003.png
+            box_px: [140, 1600, 1340, 2040]
+          - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/pages-pages/004.png
+            box_px: [0, 0, 1488, 2105]
+        prompt:
+          - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/doc-direct-extract/media/image26.png
+            box_px: [0, 0, 112, 116]
+            width: 50mm
+        official_solution:
+          start_anchor: '21．（10分）已知'
+          end_anchor: '22．（10分）下面提供'
+          crops:
+            - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/pages-pages/020.png
+              box_px: [120, 120, 1370, 2050]
+            - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/pages-pages/021.png
+              box_px: [120, 120, 1370, 2050]
+        block:
+          stem_latex: '如图，在 $\triangle ABC$ 中，$CD\perp AB$，$\sin A=\dfrac45$，$AB=13$，$CD=12$。求 $AD$ 的长和 $\tan B$ 的值。'
+          answer: '$AD=9$，$\tan B=3$'
+          solution_steps:
+            - title: 求 $AD$
+              content: '在 $\mathrm{Rt}\triangle ACD$ 中，由 $\sin A=\frac{CD}{AC}=\frac45$ 得 $AC=15$，从而 $AD=9$。'
+            - title: 求 $\tan B$
+              content: '$BD=AB-AD=4$，所以 $\tan B=\dfrac{CD}{BD}=3$。'
+      - item_id: Q022
+        question_number: 22
+        question_type: problem
+        points: 10
+        question_evidence:
+          - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/pages-pages/004.png
+            box_px: [140, 400, 1340, 1870]
+        prompt:
+          - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/doc-direct-extract/media/image27.png
+            box_px: [0, 0, 456, 255]
+            width: 132mm
+        official_solution:
+          start_anchor: '22．（10分）下面提供'
+          end_anchor: '23．（12分）如图，四边形'
+          crops:
+            - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/pages-pages/021.png
+              box_px: [120, 120, 1370, 2050]
+            - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/pages-pages/022.png
+              box_px: [120, 120, 1370, 2050]
+            - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/pages-pages/023.png
+              box_px: [120, 120, 1370, 2050]
+        block:
+          stem_latex: |
+            图（甲）是 2011 年 6 月至 12 月上海商品房平均成交价格走势图（单位：万元/平方米）；图（乙）是 2011 年 12 月上海商品房成交价格段比例分布图，其中 $a$ 为每平方米成交价格。
+            （1）写出图（甲）中七个月平均成交价格的中位数；
+            （2）根据图（乙），求 $x$；
+            （3）四个区域中每个区域随机抽出两个在售楼盘，共有可售商品房 2400 套，其中成交 200 套。估计全市 60000 套可售商品房中，已成交且每平方米价格低于 2 万元的套数。
+          answer: '（1）$2.68$；（2）$6$；（3）$1150$ 套'
+          solution_steps:
+            - title: 第（1）问
+              content: '七个数据从小到大排列为 $2.43,2.56,2.61,2.68,2.68,2.69,2.70$，中位数为 $2.68$。'
+            - title: 第（2）问
+              content: '$x\%=1-55\%-17\%-22\%=6\%$，所以 $x=6$。'
+            - title: 第（3）问
+              content: '估计全市成交套数为 $60000\times\frac{200}{2400}=5000$；其中价格低于 2 万元的比例为 $6\%+17\%=23\%$，故估计为 $5000\times23\%=1150$ 套。'
+      - item_id: Q023
+        question_number: 23
+        question_type: problem
+        points: 12
+        question_evidence:
+          - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/pages-pages/004.png
+            box_px: [140, 1730, 1340, 2050]
+          - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/pages-pages/005.png
+            box_px: [0, 0, 1488, 2105]
+        prompt:
+          - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/doc-direct-extract/media/image28.png
+            box_px: [0, 0, 217, 108]
+            width: 90mm
+        official_solution:
+          start_anchor: '23．（12分）如图，四边形 ABCD'
+          end_anchor: '24．（12分）二次函数'
+          crops:
+            - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/pages-pages/023.png
+              box_px: [120, 120, 1370, 2050]
+            - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/pages-pages/024.png
+              box_px: [120, 120, 1370, 2050]
+        block:
+          stem_latex: |
+            如图，四边形 $ABCD$ 中，$AD\parallel BC$，点 $E$ 在 $CB$ 的延长线上，连接 $DE$ 交 $AB$ 于点 $F$，连接 $DB$，$\angle AFD=\angle DBE$，且 $DE^2=BE\cdot CE$。
+            （1）求证：$\angle DBE=\angle CDE$；
+            （2）当 $BD$ 平分 $\angle ABC$ 时，求证：四边形 $ABCD$ 是菱形。
+          answer: '证明见解析'
+          solution_steps:
+            - title: 第（1）问
+              content: '由 $DE^2=BE\cdot CE$ 得 $\dfrac{BE}{DE}=\dfrac{DE}{CE}$。又 $\angle E$ 为公共角，所以 $\triangle DBE\sim\triangle CDE$，从而 $\angle DBE=\angle CDE$。'
+            - title: 第（2）问
+              content: '由 $\angle DBE=\angle AFD$ 及第（1）问得 $\angle CDE=\angle AFD$，故 $AB\parallel DC$。结合 $AD\parallel BC$，四边形 $ABCD$ 是平行四边形。又 $BD$ 平分 $\angle ABC$，结合平行线得 $AB=AD$，故该平行四边形是菱形。'
+      - item_id: Q024
+        question_number: 24
+        question_type: problem
+        points: 12
+        question_evidence:
+          - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/pages-pages/005.png
+            box_px: [140, 300, 1340, 1340]
+        prompt:
+          - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/doc-direct-extract/media/image31.png
+            box_px: [0, 0, 217, 215]
+            width: 70mm
+        official_solution:
+          start_anchor: '24．（12分）二次函数'
+          end_anchor: '25．（14分）已知'
+          crops:
+            - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/pages-pages/025.png
+              box_px: [120, 120, 1370, 2050]
+            - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/pages-pages/026.png
+              box_px: [120, 120, 1370, 2050]
+            - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/pages-pages/027.png
+              box_px: [120, 120, 1370, 2050]
+        block:
+          stem_latex: |
+            二次函数 $y=\dfrac16(x+2\sqrt3)^2$ 的图象的顶点为 $A$，与 $y$ 轴交于点 $B$，以 $AB$ 为边在第二象限内作等边三角形 $ABC$。
+            （1）求直线 $AB$ 的表达式和点 $C$ 的坐标；
+            （2）点 $M(m,1)$ 在第二象限，且 $\triangle ABM$ 的面积等于 $\triangle ABC$ 的面积，求点 $M$ 的坐标；
+            （3）以 $x$ 轴上的点 $N$ 为圆心、$1$ 为半径的圆，与以点 $C$ 为圆心、$CM$ 为半径的圆相切，直接写出点 $N$ 的坐标。
+          answer: '（1）$y=\dfrac{\sqrt3}{3}x+2$，$C(-2\sqrt3,4)$；（2）$M(-5\sqrt3,1)$；（3）见解析'
+          solution_steps:
+            - title: 第（1）问
+              content: '$A(-2\sqrt3,0)$，$B(0,2)$，故直线 $AB$ 为 $y=\dfrac{\sqrt3}{3}x+2$。由等边三角形的位置关系得 $C(-2\sqrt3,4)$。'
+            - title: 第（2）问
+              content: '由两三角形同底等面积且 $C,M$ 在同侧，得 $CM\parallel AB$。过 $C$ 的平行线为 $y=\dfrac{\sqrt3}{3}x+6$，令 $y=1$，得 $M(-5\sqrt3,1)$。'
+            - title: 第（3）问
+              content: '$CM=6$。外切时 $CN=7$，内切时 $CN=5$。设 $N(n,0)$，由距离公式分别得 $n=-2\sqrt3\pm\sqrt{33}$ 或 $n=-2\sqrt3\pm3$，所以 $N$ 为这四个横坐标对应的点。'
+      - item_id: Q025
+        question_number: 25
+        question_type: problem
+        points: 14
+        question_evidence:
+          - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/pages-pages/005.png
+            box_px: [140, 1260, 1340, 2050]
+          - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/pages-pages/006.png
+            box_px: [0, 0, 1488, 2105]
+        prompt:
+          - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/doc-direct-extract/media/image33.png
+            box_px: [0, 0, 481, 171]
+            width: 132mm
+        official_solution:
+          start_anchor: '25．（14分）已知'
+          end_anchor: '<END_OF_SOURCE>'
+          crops:
+            - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/pages-pages/028.png
+              box_px: [120, 120, 1370, 2050]
+            - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/pages-pages/029.png
+              box_px: [120, 120, 1370, 2050]
+            - source: documents/初三/2012届-上海市普陀区-初三二模数学-试卷及参考答案/pages-pages/030.png
+              box_px: [120, 120, 1370, 2050]
+        block:
+          stem_latex: |
+            已知 $\angle ACB=90^\circ$，$CD$ 是 $\angle ACB$ 的平分线，点 $P$ 在 $CD$ 上，$CP=\sqrt2$。将三角板的直角顶点放在点 $P$ 处并绕点 $P$ 旋转，一条直角边与射线 $CB$ 交于点 $E$，另一条直角边与直线 $CA$、$CB$ 分别交于点 $F$、$G$。
+            （1）如图，当点 $F$ 在射线 $CA$ 上时：①求证 $PF=PE$；②设 $CF=x$，$EG=y$，求 $y$ 关于 $x$ 的函数解析式并写出定义域；
+            （2）连接 $EF$，当 $\triangle CEF$ 与 $\triangle EGP$ 相似时，求 $EG$ 的长。
+          answer: '（1）①证明见解析；②$y=\dfrac{x^2-2x+2}{1-x}$（$0\le x<1$）；（2）$EG=2\sqrt2$'
+          solution_steps:
+            - title: 第（1）问①
+              content: '过点 $P$ 作 $PM\perp AC$、$PN\perp BC$。由角平分线性质得 $PM=PN$；结合两组余角相等，得 $\triangle PMF\cong\triangle PNE$，所以 $PF=PE$。'
+            - title: 第（1）问②
+              content: '由 $CP=\sqrt2$ 得 $CM=CN=1$。全等关系给出 $NE=MF=1-x$，故 $CE=2-x$。再由 $CF\parallel PN$ 及相似三角形求得 $CG=\dfrac{x}{1-x}$，所以 $y=EG=CE+CG=\dfrac{x^2-2x+2}{1-x}$，其中 $0\le x<1$。'
+            - title: 第（2）问
+              content: '按点 $F$ 在射线 $CA$ 上或在 $AC$ 的延长线上分类讨论。由相似条件及原解答中的角关系，两种情形均得到 $EG=2CP=2\sqrt2$。'

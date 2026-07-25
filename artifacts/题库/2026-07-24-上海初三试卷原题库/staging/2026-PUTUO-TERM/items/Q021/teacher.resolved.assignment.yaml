@@ -1,0 +1,49 @@
+meta:
+  title: 普陀区2025学年度第一学期期末练习第21题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q021
+    points: 10
+    stem_latex: 如图，在平面直角坐标系 $xOy$ 中，直线 $y=kx(k\ne0)$ 与反比例函数 $y=\dfrac4x$ 在第一象限内的图像交于点 $A(2,a)$，点 $B(b,8)$ 在直线 $OA$ 上。（1）求点
+      $A、B$ 的坐标；（2）点 $C$ 在反比例函数 $y=\dfrac4x(x>2)$ 的图像上，如果 $\angle ABC=45^\circ$，将直线 $OA$ 平移，使其经过点 $C$，求平移后所得直线的表达式。
+    answer: （1）$A(2,2),B(8,8)$；（2）$y=x-\dfrac{15}{2}$。
+    solution_steps:
+    - title: 第（1）问
+      content: 将 $x=2$ 代入 $y=\dfrac4x$，得 $y=2$，所以 $A(2,2)$。把 $(2,2)$ 代入 $y=kx$，得 $k=1$，故 $y=x$；由 $B(b,8)$ 在直线上，得 $b=8$，所以
+        $B(8,8)$。
+    - title: 第（2）问
+      content: 过点 $A$ 作 $AH\perp x$ 轴。由 $A(2,2)$，得 $\angle AOH=45^\circ$。又 $\angle ABC=45^\circ$，$BG\perp x$ 轴，故点 $C$ 的横坐标为
+        $8$，从而 $C(8,\frac12)$。平移后的直线为 $y=x-\dfrac{15}{2}$。
+    images:
+    - image_path: assets/prompt-figure.png
+      width: 0.82\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图1
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第2页

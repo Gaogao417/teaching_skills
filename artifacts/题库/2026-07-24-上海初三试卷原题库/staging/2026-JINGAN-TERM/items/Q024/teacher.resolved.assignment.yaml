@@ -1,0 +1,38 @@
+meta:
+  title: 静安区2025学年第一学期期末课程实施调研九年级数学试卷第 24 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q024
+    points: 12
+    stem_latex: 在平面直角坐标系 $xOy$ 中，抛物线 $y=kx^2-2kx+k+1\ (k\ne0)$ 的顶点为 $D$，与 $y$ 轴交于点 $A$，直线 $l:y=kx-k+1$。（1）证明抛物线的顶点 $D$ 在直线 $l$ 上。（2）如果抛物线与直线 $l$ 除点 $D$ 外还经过点 $C$，已知点 $E(0,1)$，连接 $CE$，$AD$ 交于点 $G$，连接 $CD$。①证明 $S_{\triangle AEG}=S_{\triangle CDG}$；②当 $\triangle ADC$ 为等边三角形时，求 $k$ 的值及 $\angle ECD$ 的正弦值。
+    answer: （1）结论成立；（2）①结论成立；②$k=\pm\sqrt3$，$\sin\angle ECD=\frac{\sqrt{21}}{14}$
+    solution_steps:
+    - title: 官方解答
+      content: 把抛物线化为 $y=k(x-1)^2+1$，得顶点 $D(1,1)$，代入直线成立。联立抛物线与直线得另一交点 $C(2,k+1)$，且 $A(0,k+1)$、$E(0,1)$，于是 $AC\parallel DE$，由等底等高面积关系得 $S_{\triangle AEG}=S_{\triangle CDG}$。当 $\triangle ADC$ 为等边三角形时，$|k|=\sqrt3$；两种位置关于 $ED$ 对称，均有 $\sin\angle ECD=\frac{\sqrt{21}}{14}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 1 页

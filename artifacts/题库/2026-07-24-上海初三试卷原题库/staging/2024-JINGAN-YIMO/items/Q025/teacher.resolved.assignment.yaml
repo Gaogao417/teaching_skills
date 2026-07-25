@@ -1,0 +1,55 @@
+meta:
+  title: 静安区2023学年第一学期期末教学质量调研九年级数学试卷第 25 题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: 已知梯形 $ABCD$ 中，$AD\parallel BC$，$AB=2$，$AD=4$，$DC=3$，$BC=7$。点 $P$ 在射线 $BA$ 上，点 $Q$ 在射线 $BC$ 上（点 $P、Q$ 均不与点 $B$ 重合），且 $PQ=BQ$，联结 $DQ$，设 $BP=x$，$\triangle DQC$ 的面积为 $y$。（1）如图1所示，求 $\sin B$ 的值；（2）如图2所示，点 $Q$ 在线段 $BC$ 上，求 $y$ 关于 $x$ 的函数解析式，并写出定义域；（3）当 $\triangle DQC$ 是等腰三角形时，求 $BP$ 的长。
+    answer: （1）$\sin B=\frac{2\sqrt2}{3}$；（2）$y=\frac{14\sqrt2}{3}-\sqrt2x\ (0<x<\frac{14}{3})$；（3）$BP=\frac83,\frac{14}{9},\frac{71}{21},\frac{20}{3}$
+    solution_steps:
+    - title: 第（1）问
+      content: 作 $AE\parallel DC$ 交 $BC$ 于点 $E$，则四边形 $AECD$ 是平行四边形，$AE=DC=3,BE=BC-AD=3$，所以 $AE=BE$。作 $EF\perp AB$ 于 $F$，则 $BF=AF=1,EF=2\sqrt2$，故 $\sin B=\frac{EF}{BE}=\frac{2\sqrt2}{3}$。
+      diagram_col:
+        image_path: assets/solution-01.png
+        width: 58mm
+        variant: solution
+        disclosure_policy: teacher_only
+    - title: 第（2）（3）问
+      content: （2）由（1）得 $\cos B=\frac13$。由 $PQ=BQ,BP=x$，作 $QK\perp AB$ 于 $K$，得 $BK=\frac12x$，进而 $BQ=\frac32x$，$QC=7-\frac32x$。梯形高 $DH=\frac{4\sqrt2}{3}$，故 $y=\frac12(7-\frac32x)\cdot\frac{4\sqrt2}{3}=\frac{14\sqrt2}{3}-\sqrt2x$，定义域 $0<x<\frac{14}{3}$。（3）分 $DC=QC$、$DC=DQ$、$DQ=QC$ 以及点 $Q$ 在线段 $BC$ 延长线上四种情形，分别得 $x=\frac83,\frac{14}{9},\frac{71}{21},\frac{20}{3}$。
+      diagram_col:
+        image_path: assets/solution-02.png
+        width: 58mm
+        variant: solution
+        disclosure_policy: teacher_only
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 1 页
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 2 页

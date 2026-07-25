@@ -1,0 +1,41 @@
+meta:
+  title: 普陀区2023学年度第一学期期末九年级自适应练习第22题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q022
+    points: 10
+    stem_latex: 如图，小河对岸有一座小山。小明从小河边的 $C$ 处测得山顶 $A$ 的仰角为 $37^\circ$；从 $C$ 处后退 $30$ 米，在 $D$ 处测得山顶 $A$ 的仰角为 $26.6^\circ$；小河宽
+      $BC=33$ 米。点 $B、C、D$ 在同一水平线上，求山坡 $AB$ 的坡度。
+    answer: $1:0.6$
+    solution_steps:
+    - title: 解答
+      content: 过点 $A$ 作 $AH\perp BC$。设 $AH=x$，则 $CH=\frac{x}{\tan37^\circ}=\frac43x$，$DH=\frac{x}{\tan26.6^\circ}=2x$。由 $DC=30$
+        得 $2x-\frac43x=30$，解得 $x=45$。于是 $CH=60$，$BH=60-33=27$，坡度 $i=\frac{AH}{BH}=\frac{45}{27}=1:0.6$。
+    images:
+    - image_path: assets/prompt-figure.png
+      width: 0.78\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页

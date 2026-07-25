@@ -1,0 +1,76 @@
+meta:
+  title: 宝山区2023学年第一学期期末考试 · 原题第25题 · 教师版
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: 如图11，已知 $\triangle ABC$ 中，$AB=AC=1$，$D$ 是边 $AC$ 上一点，且 $BD=AD$，过点 $C$ 作 $CE\parallel AB$，并截取 $CE=AD$，射线 $AE$ 与 $BD$ 的延长线交于点 $F$。（1）求证：$AF^2=DF\cdot BF$；（2）设 $AD=x,\ DF=y$，求 $y$ 与 $x$ 的函数关系式；（3）如果 $\triangle ADF$ 是直角三角形，求 $DF$ 的长。
+    answer: （1）见证明；（2）$y=\frac{x^3}{1-x^2}$；（3）$\frac{\sqrt3}{6}$ 或 $\frac{\sqrt2}{2}$。
+    solution_steps:
+    - title: 第（1）问
+      content: $\because CE\parallel AB$，$\therefore\angle1=\angle2$。又 $AB=AC,\ CE=AD$，所以 $\triangle ABD\cong\triangle AEC$，得 $\angle3=\angle4$。又 $\angle AFB=\angle AFD$，所以 $\triangle ABF\sim\triangle ADF$，故 $\frac{AF}{DF}=\frac{BF}{AF}$，即 $AF^2=DF\cdot BF$。
+      diagram_col:
+        image_path: assets/solution-01.png
+        width: 58mm
+        variant: solution
+        disclosure_policy: teacher_only
+    - title: 第（2）问
+      content: 过点 $D$ 作 $DG\parallel AB$，交 $AE$ 于点 $G$。由 $CE\parallel AB$ 得 $DG\parallel CE$，所以 $\frac{DG}{CE}=\frac{AD}{AC}$。由 $AD=x$，得 $CE=x,\ CD=1-x,\ DG=x^2$。又 $DG\parallel AB$，所以 $\frac{DG}{AB}=\frac{DF}{BF}$，即 $\frac{x^2}{1}=\frac{y}{x+y}$，解得 $y=\frac{x^3}{1-x^2}$。
+      diagram_col:
+        image_path: assets/solution-02.png
+        width: 58mm
+        variant: solution
+        disclosure_policy: teacher_only
+    - title: 第（3）问（情况一）
+      content: 若 $\angle DAF=90^\circ$，则此情形与 $\angle ABD=90^\circ$ 矛盾，不成立。
+    - title: 第（3）问（情况二）
+      content: 若 $\angle AFD=90^\circ$，由角关系得 $\angle3=\angle4=30^\circ$。设 $DF=m$，则 $AD=BD=2m$。在 $\mathrm{Rt}\triangle ABF$ 中，$\cos\angle3=\frac{BF}{AB}$，得 $\frac{m+2m}{1}=\frac{\sqrt3}{2}$，所以 $m=\frac{\sqrt3}{6}$。
+      diagram_col:
+        image_path: assets/solution-03.png
+        width: 58mm
+        variant: solution
+        disclosure_policy: teacher_only
+    - title: 第（3）问（情况三）
+      content: 若 $\angle ADF=90^\circ$，由角关系得 $\angle3=\angle4=45^\circ$。设 $DF=m$，则 $AD=BD=m$。在 $\mathrm{Rt}\triangle ABF$ 中，$\cos\angle3=\frac{AB}{BF}$，得 $\frac1{m+m}=\frac{\sqrt2}{2}$，所以 $m=\frac{\sqrt2}{2}$。
+      diagram_col:
+        image_path: assets/solution-04.png
+        width: 58mm
+        variant: solution
+        disclosure_policy: teacher_only
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第2页
+    teaching:
+      source_key: 2024-BAOSHAN-YIMO-Q25
+      skill_tags:
+      - 原卷
+      difficulty: challenge
+      official_solution_policy: verbatim_transcription_with_separate_notes
+    diagram_col:
+      image_path: assets/prompt-figure.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean

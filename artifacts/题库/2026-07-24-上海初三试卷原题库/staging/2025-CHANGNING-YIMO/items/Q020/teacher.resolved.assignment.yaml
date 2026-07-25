@@ -1,0 +1,38 @@
+meta:
+  title: 2024学年第一学期初三数学教学质量调研试卷第 20 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q020
+    points: 10
+    stem_latex: 如图，已知在 $\triangle ABC$ 中，中线 $AD、BE$ 交于点 $G$，$EF\parallel BC$ 交 $AD$ 于点 $F$。（1）如果 $FG=1$，求 $GD$ 和 $AF$ 的长；（2）如果 $\overrightarrow{AB}=\vec a，\overrightarrow{AC}=\vec b$，用 $\vec a、\vec b$ 表示 $\overrightarrow{EF}$。
+    answer: （1）$GD=2，AF=3$；（2）$\overrightarrow{EF}=\dfrac14\vec a-\dfrac14\vec b$。
+    solution_steps:
+    - title: 解答
+      content: 根据重心性质和平行线比例求得 $GD=2，AF=3$，并有 $\overrightarrow{EF}=\dfrac14\vec a-\dfrac14\vec b$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 55mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 1 页

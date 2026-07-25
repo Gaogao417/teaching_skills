@@ -1,0 +1,38 @@
+meta:
+  title: 静安区2024学年度第一学期期末教学质量调研九年级数学试卷第 20 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q020
+    points: 10
+    stem_latex: 二次函数 $y=ax^2+bx+c$ 的部分图像如图所示，已知它与 $x$ 轴的一个交点坐标是 $(6,0)$，且对称轴是直线 $x=2$。（1）①$a$ 与 $b$ 的数量关系为\fillin；②图像与 $x$ 轴的另一个交点坐标为\fillin；（2）如果该函数图像经过点 $(0,-3)$，求函数解析式和顶点坐标。
+    answer: （1）①$b=-4a$；②$(-2,0)$；（2）$y=\frac14x^2-x-3$，顶点坐标为$(2,-4)$
+    solution_steps:
+    - title: 官方解答
+      content: （1）由对称轴 $x=-\frac{b}{2a}=2$，得 $b=-4a$；由两根关于 $x=2$ 对称，另一交点为 $(-2,0)$。（2）设 $y=a(x+2)(x-6)$，代入 $(0,-3)$ 得 $a=\frac14$，所以 $y=\frac14x^2-x-3=\frac14(x-2)^2-4$，顶点为 $(2,-4)$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 1 页

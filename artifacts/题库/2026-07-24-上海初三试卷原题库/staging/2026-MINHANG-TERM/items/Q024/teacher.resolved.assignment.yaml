@@ -1,0 +1,43 @@
+meta:
+  title: 闵行区2025学年第一学期质量调研第24题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q024
+    points: 12
+    stem_latex: 如图，抛物线 $C_1:y=-\frac12x^2+bx+c$ 经过 $A(5,-6)$，对称轴为 $x=1$，顶点为 $D$。（1）求表达式及
+      $D$；（2）点 $M$ 在 $C_1$ 上，过 $M$ 作 $x=m$，当 $M$ 在对称轴右侧时，抛物线在直线右侧部分的最高点纵坐标为 $2-m$，求
+      $m$；（3）按题设构造点 $P,Q$，当顶点 $D$ 在 $\triangle PQM$ 内部时，写出 $m$ 的范围。
+    answer: （1）$y=-\frac12x^2+x+\frac32,D(1,2)$；（2）$m=2+\sqrt3$；（3）$-3<m<1-\sqrt6$
+      或 $m>1+\sqrt6$
+    solution_steps:
+    - title: 解答
+      content: 依据官方评分标准，答案为：（1）$y=-\frac12x^2+x+\frac32,D(1,2)$；（2）$m=2+\sqrt3$；（3）$-3<m<1-\sqrt6$
+        或 $m>1+\sqrt6$。
+    images:
+    - image_path: assets/prompt-01.png
+      width: 0.82\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图1
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页

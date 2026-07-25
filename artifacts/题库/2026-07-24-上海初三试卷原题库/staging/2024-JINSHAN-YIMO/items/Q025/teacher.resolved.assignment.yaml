@@ -1,0 +1,50 @@
+meta:
+  title: 金山区2023学年第一学期期末学情诊断第25题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: 已知：如图，在 $\triangle ABC$ 中，$AB=AC$，$\angle CAD=\angle ABC$，$DC\perp
+      AC$，$AD$ 与边 $BC$ 相交于点 $P$。（1）求证：$AB^2=\frac12AD\cdot BC$；（2）如果 $\sin\angle ABC=\frac45$，求
+      $BP:PC$ 的值；（3）如果 $\triangle BCD$ 是直角三角形，求 $\angle ABC$ 的正切值。
+    answer: （1）结论成立；（2）$BP:PC=11:25$；（3）$\tan\angle ABC=\sqrt2$ 或 $1$
+    solution_steps:
+    - title: 官方解答
+      content: （1）$\because\angle CAD=\angle ACB,\angle ACP=\angle BCA$，$\therefore\triangle
+        ACP\sim\triangle BCA$，所以 $\frac{AC}{BC}=\frac{CP}{AC}$，即 $AC^2=CP\cdot BC$。又
+        $AB=AC$，故 $\angle ABC=\angle ACB$；由 $\angle CAD=\angle ABC$ 得 $\angle CAD=\angle
+        ACB$，从而 $PA=PC$。又 $DC\perp AC$，可得 $PD=PC$，所以 $AP=PD=PC=\frac12AD$。故 $AB^2=\frac12AD\cdot
+        BC$。（2）作 $AH\perp BC$，垂足为 $H$。在 $\mathrm{Rt}\triangle ABH$ 中，$\sin\angle ABC=\frac{AH}{AB}=\frac45$。设
+        $AH=4k,AB=5k$，则 $BH=3k$。由 $AB=AC$ 得 $BH=HC=3k$，所以 $BC=6k$。又 $AB^2=CP\cdot
+        BC$，得 $CP=\frac{25}{6}k$，所以 $BP=\frac{11}{6}k$，故 $BP:PC=11:25$。（3）若 $\angle
+        CBD=90^\circ$，可得 $BH=CH=2m,CP=3m,BC=4m$，继而 $AB=2\sqrt3m,AH=2\sqrt2m$，所以 $\tan\angle
+        ABC=\sqrt2$。若 $\angle CDB=90^\circ$，则可得四边形 $ABDC$ 是正方形，$\angle ABC=45^\circ$，所以
+        $\tan\angle ABC=1$。综上，$\tan\angle ABC=\sqrt2$ 或 $1$。
+    images:
+    - image_path: assets/prompt-01.png
+      width: 0.82\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图1
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页

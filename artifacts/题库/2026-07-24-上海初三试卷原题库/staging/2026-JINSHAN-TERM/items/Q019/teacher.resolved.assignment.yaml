@@ -1,0 +1,40 @@
+meta:
+  title: 金山区2025学年第一学期期末学情诊断初三数学第19题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: problem
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q019
+    points: 10
+    stem_latex: 在平面直角坐标系 $xOy$ 中，把抛物线 $y=x^2+bx+c$ 向下平移 $1$ 个单位长度，所得的新抛物线顶点坐标为 $A(-2,1)$。（1）求原抛物线的表达式；（2）若新抛物线与 $y$ 轴交于点 $C$，原抛物线顶点为 $B$，求 $\angle ACB$ 的正切值。
+    answer: （1）$y=x^2+4x+6$；（2）$\tan\angle ACB=\frac18$。
+    solution_steps:
+    - title: 第（1）问
+      content: 抛物线向下平移后为 $y=x^2+bx+c-1$。$\because$ 新抛物线顶点为 $A(-2,1)$，$\therefore-\frac b2=-2$，$b=4$；$1=(-2)^2+4(-2)+c-1$，$c=6$。$\therefore$ 原抛物线为 $y=x^2+4x+6$。
+    - title: 第（2）问
+      content: 原抛物线顶点为 $B(-2,2)$，新抛物线为 $y=x^2+4x+5$，$C(0,5)$。作 $BD\perp AC$ 于点 $D$，由面积关系求得 $BD=\frac{\sqrt5}{5}$，$CD=\frac{8\sqrt5}{5}$，$\therefore\tan\angle ACB=\frac{BD}{CD}=\frac18$。
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页
+    teaching:
+      source_key: 2026-JINSHAN-TERM-Q19
+      skill_tags: []
+      difficulty: standard
+      official_solution_policy: verbatim_transcription_with_separate_notes

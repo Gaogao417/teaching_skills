@@ -1,0 +1,61 @@
+meta:
+  title: 奉贤区2024学年第一学期九年级数学练习 · 原题第 24 题 · 教师版
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q024
+    points: 12
+    stem_latex: '在直角坐标平面 $xOy$ 中，直线 $y=-\dfrac14x+2$ 向下平移5个单位后，正好经过抛物线 $y=ax^2+8ax+2$ 的顶点 $C$，抛物线与 $y$ 轴交于点 $B$。
+
+      \begin{enumerate}
+
+      \item 求点 $C$ 的坐标；
+
+      \item 点 $M$ 在抛物线对称轴上，且位于 $C$ 点下方，当 $\angle MBC=\angle BCO$ 时，求点 $M$ 的坐标；
+
+      \item 将原抛物线平移，顶点 $C$ 移至直线 $y=-\dfrac14x+2$ 上，记作点 $C_1$，新抛物线与 $y$ 轴的交点记作点 $B_1$。当 $\angle BB_1C_1=45^\circ$ 时，求 $BB_1$ 的长。
+
+      \end{enumerate}
+
+      '
+    answer: （1）$C(-4,-2)$；（2）$M(-4,-6)$；（3）$BB_1=3$或$5$。
+    solution_steps:
+    - title: 第（1）问
+      content: $y=ax^2+8ax+2=a(x+4)^2+2-16a$，所以顶点 $C(-4,2-16a)$。直线 $y=-\dfrac14x+2$ 向下平移5个单位后为 $y=-\dfrac14x-3$。点 $C$ 在该直线上，解得 $a=\dfrac14$，故 $C(-4,-2)$。
+    - title: 第（2）问
+      content: 抛物线 $y=\dfrac14x^2+2x+2$ 与 $y$ 轴交于 $B(0,2)$。直线 $BC$ 与 $x$ 轴交于 $E(-2,0)$，在 $\mathrm{Rt}\triangle EOB$ 中，$OE=OB=2$，所以 $\angle BEO=\angle EBO=45^\circ$，$\angle CEO=135^\circ$。因为 $CM\parallel OB$，所以 $\angle MCB+\angle CBO=180^\circ$，得 $\angle MCB=135^\circ=\angle CEO$。由题设 $\angle MBC=\angle BCO$，所以 $\triangle BCM\sim\triangle CEO$。于是 $\dfrac{CM}{OE}=\dfrac{BC}{CE}=\dfrac{4\sqrt2}{2\sqrt2}=2$，得 $CM=4$，所以 $M(-4,-6)$。
+    - title: 第（3）问
+      content: 设平移后的抛物线顶点为 $C_1(n,-\dfrac14n+2)$，则新抛物线解析式为 $y=\dfrac14(x-n)^2-\dfrac14n+2$，所以 $B_1(0,\dfrac14n^2-\dfrac14n+2)$。过 $C_1$ 作 $C_1H\perp y$ 轴于点 $H$。由 $\angle BB_1C_1=45^\circ$，得 $C_1H=B_1H$，所以 $n=\dfrac14n^2$ 或 $-n=\dfrac14n^2$，解得 $n=-4$ 或 $n=4$。当 $n=-4$ 时，$BB_1=\dfrac14n^2-\dfrac14n=5$；当 $n=4$ 时，$BB_1=\dfrac14n^2-\dfrac14n=3$。
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 公众号原解答 1
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 公众号原解答 2
+    teaching:
+      source_key: 2025-FENGXIAN-YIMO-Q24
+      skill_tags:
+      - 二次函数
+      - 抛物线平移
+      - 相似三角形
+      difficulty: challenge
+      official_solution_policy: verbatim_transcription_with_separate_notes

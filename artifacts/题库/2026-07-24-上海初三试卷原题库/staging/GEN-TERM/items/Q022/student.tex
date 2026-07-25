@@ -1,0 +1,52 @@
+\documentclass{exam-zh}
+\usepackage{edu-practice}
+
+\examsetup{
+  question/show-answer = false,
+  fillin/show-answer = false,
+  solution/show-solution = hide,
+}
+
+% ---------- 教师版解答样式 ----------
+\newtcolorbox{solutionblock}{
+  enhanced, breakable,
+  colback=edu-blue-bg,
+  colframe=edu-blue!25,
+  boxrule=0pt,
+  borderline west={2pt}{0pt}{edu-blue!50},
+  arc=0pt,
+  left=3mm, right=3mm, top=2mm, bottom=2mm,
+  before skip=2mm,
+  after skip=3mm,
+  fontupper=\small,
+}
+
+% 解答步骤编号
+\newcounter{solstep}
+\newcommand{\solstep}[2]{%
+  \stepcounter{solstep}%
+  \par\medskip
+  \noindent\hangindent=6mm
+  {\color{edu-blue}\bfseries\textcircled{\scriptsize\thesolstep}\enspace #1}\enspace #2\par
+}
+
+\begin{document}
+
+\section*{初三数学期末练习卷 · 原题第 22 题 · 学生版}
+
+\section*{三、解答题}
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \begin{center}
+    \begin{diagramcoltikz}{0.98\linewidth}{}
+    \includegraphics[width=\linewidth]{\detokenize{assets/prompt-full-question.png}}
+    \end{diagramcoltikz}
+  \end{center}
+  
+\end{problem}
+
+
+
+\end{document}

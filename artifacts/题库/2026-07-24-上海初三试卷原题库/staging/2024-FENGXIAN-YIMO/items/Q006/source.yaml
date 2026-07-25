@@ -1,0 +1,51 @@
+schema: math_exam_item_source/v1
+item_id: Q006
+source_key: 2024-FENGXIAN-YIMO-Q06
+paper_id: 2024-FENGXIAN-YIMO
+question_number: 6
+question_type: choice
+points: 4
+section_title: 一、选择题
+source_directory: documents/初三/2024届-上海市奉贤区-初三一模数学-试卷及参考答案
+crops:
+  question_evidence:
+  - source: documents/初三/2024届-上海市奉贤区-初三一模数学-试卷及参考答案/002.png
+    source_sha256: sha256:0f4a997b1fe2e3245087020efec8d551a3e2c0076e47f7fe1d1d2ef608ebb0ba
+    box_px:
+    - 145
+    - 1015
+    - 950
+    - 1215
+    output: assets/source-question.png
+    output_sha256: sha256:e4a0d12e813363553a749cb2c3e78fc0a817c3d5ab8315ab745a2c1e30d061d4
+  prompt:
+  - source: documents/初三/2024届-上海市奉贤区-初三一模数学-试卷及参考答案/002.png
+    source_sha256: sha256:0f4a997b1fe2e3245087020efec8d551a3e2c0076e47f7fe1d1d2ef608ebb0ba
+    box_px:
+    - 650
+    - 1070
+    - 950
+    - 1320
+    whiteout_px:
+    - - 0
+      - 0
+      - 300
+      - 18
+    output: assets/prompt-figure.png
+    output_sha256: sha256:4b15f174329faa0cb999c67956fa9be4cd30a05a6ee80d5606c2dbd9c797dba4
+  official_solution:
+  - source: documents/初三/2024届-上海市奉贤区-初三一模数学-试卷及参考答案/006.png
+    source_sha256: sha256:b65e6baefd246abd4fa5a54f426ca738e5ceb1f72d1e3af9ed4d92737847d22b
+    box_px:
+    - 750
+    - 235
+    - 835
+    - 280
+    output: assets/official-solution.png
+    output_sha256: sha256:0e73d20fbc0acb4a7738c876ff279333b187589109800189c7b6a3b412dd97f5
+transcription:
+  question_status: author_pass
+  official_solution_status: author_pass
+  independent_review: review_pass
+  human_review: pending
+content_hash: sha256:ff89217e988c38a7e1fd7df2f437e187a7099c6a401e090b9ce906d0b453e0c0

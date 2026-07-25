@@ -1,0 +1,43 @@
+meta:
+  title: 金山区2024学年度第一学期期末学情诊断第 23 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q023
+    points: 12
+    stem_latex: 已知：如图，点 $E$ 是平行四边形 $ABCD$ 的对角线 $BD$ 上的一点，射线 $AE$ 与 $DC$ 交于点 $F$，与 $BC$ 的延长线交于点 $H$。\begin{enumerate}\item 求证：$AE^2=EF\cdot EH$；\item 联结 $DH$，若 $DH=AB$，$AD^2=AE\cdot AH$，求证：四边形 $ABCD$ 是菱形。\end{enumerate}
+    answer: 证明见官方解答。
+    solution_steps:
+    - title: 官方解答
+      content: （1）在平行四边形 $ABCD$ 中，$AD\parallel BC$，$AB\parallel DC$，所以 $\dfrac{AE}{EH}=\dfrac{DE}{EB}$，$\dfrac{EF}{AE}=\dfrac{DE}{EB}$，从而 $\dfrac{AE}{EH}=\dfrac{EF}{AE}$，即 $AE^2=EF\cdot EH$。（2）由 $AD^2=AE\cdot AH$ 及公共角 $\angle DAE=\angle DAH$，得 $\triangle ADE\sim\triangle AHD$。又由平行关系可得相应角相等。因 $DH=AB$ 且平行四边形中 $AB=DC$，所以 $DC=DH$，继而得到 $\dfrac{AB}{AH}=\dfrac{AE}{AB}$，结合角关系得 $AB=AD$，故平行四边形 $ABCD$ 是菱形。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 1 页
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 2 页

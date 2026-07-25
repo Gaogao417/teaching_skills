@@ -1,0 +1,43 @@
+meta:
+  title: 崇明区九年级数学一模试卷 · 原题第 18 题 · 教师版
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: fillin
+    id: Q018
+    points: 4
+    stem_latex: 四边形 $ABCD$ 中，$AD\parallel BC$，$\angle ABC=90^\circ$，$AB=5$，$BC=12$，$AD=8$，将 $AB$ 沿过点 $A$ 的一条直线折叠，点 $B$ 的对称点落在四边形 $ABCD$ 的对角线上，折痕交边 $BC$ 于点 $P$（点 $P$ 不与点 $B$ 重合），那么 $PC$ 长为 \underline{\hspace{2cm}}。
+    answer: $\dfrac{26}{3}$ 或 $\dfrac{71}{8}$
+    explanation: 参考答案：$\dfrac{26}{3}$ 或 $\dfrac{71}{8}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 75mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 公众号原解答 1
+    teaching:
+      source_key: 2025-CHONGMING-YIMO-Q18
+      skill_tags:
+      - 翻折
+      - 梯形
+      - 分类讨论
+      difficulty: challenge
+      official_solution_policy: verbatim_transcription_with_separate_notes

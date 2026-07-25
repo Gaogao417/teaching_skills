@@ -1,0 +1,41 @@
+meta:
+  title: 浦东新区2024学年度第一学期期末练习卷第 3 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q003
+    points: 4
+    stem_latex: 如图，已知 $AB\parallel CD\parallel EF$，那么下列结论正确的是（　）
+    choices:
+    - $\dfrac{AC}{CE}=\dfrac{BD}{DF}$
+    - $\dfrac{AC}{DF}=\dfrac{BD}{CE}$
+    - $\dfrac{AC}{AE}=\dfrac{CD}{EF}$
+    - $\dfrac{AC}{CE}=\dfrac{AB}{CD}$
+    answer: A
+    explanation: 官方参考答案：A。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 1 页

@@ -1,0 +1,31 @@
+meta:
+  title: 2012 年上海市杨浦区中考数学二模试卷第 16 题
+  grade: 初三
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: fillin
+    id: Q016
+    points: 4
+    stem_latex: 如图，在 Rt$\triangle ABC$ 中，$\angle ACB=90^\circ$，$D,E,F$ 分别为 $AB,BC,CA$ 的中点，若 $CD=5\text{ cm}$，则 $EF=$\fillin cm。
+    answer: '5'
+    explanation: 斜边中线和三角形中位线性质。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 50mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

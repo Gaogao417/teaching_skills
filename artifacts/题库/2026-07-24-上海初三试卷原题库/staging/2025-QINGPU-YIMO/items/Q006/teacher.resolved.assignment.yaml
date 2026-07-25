@@ -1,0 +1,41 @@
+meta:
+  title: 2024学年第一学期九年级期终学业质量调研数学试卷第 6 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q006
+    points: 4
+    stem_latex: 如图，在 $\triangle ABC$ 中，点 $D$ 在边 $AC$ 上，且 $\angle CBD=\angle A$，过点 $C$ 的射线与 $BD$ 的延长线相交于点 $E$，如果 $CE\parallel AB$，那么下列结论错误的是（　）。
+    choices:
+    - $\dfrac{ED}{CE}=\dfrac{CE}{EB}$
+    - $\dfrac{CD}{CB}=\dfrac{CB}{CA}$
+    - $\dfrac{AB}{AC}=\dfrac{BD}{BC}$
+    - $\dfrac{AD}{AB}=\dfrac{AB}{AC}$
+    answer: D
+    explanation: 官方参考答案：D。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 46mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 1 页

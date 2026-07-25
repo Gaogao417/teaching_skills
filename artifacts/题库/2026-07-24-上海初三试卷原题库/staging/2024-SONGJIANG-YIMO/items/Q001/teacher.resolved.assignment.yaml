@@ -1,0 +1,36 @@
+meta:
+  title: 松江区2023学年度第一学期期末质量监控第1题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q001
+    points: 4
+    stem_latex: 下列函数中，属于二次函数的是
+    answer: B
+    choices:
+    - $y=x-2$
+    - $y=x^2$
+    - $y=x^2-(x+1)^2$
+    - $y=\frac{2}{x^2}$
+    explanation: 官方参考答案：B。
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页

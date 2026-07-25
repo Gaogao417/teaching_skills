@@ -1,0 +1,50 @@
+meta:
+  title: 松江区2025届初三一模第24题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q024
+    points: 12
+    stem_latex: 在平面直角坐标系 $xOy$ 中，二次函数 $y=ax^2+bx+2$ 的图像与 $x$ 轴负半轴交于点 $A$，与 $y$ 轴交于点 $B$，且 $OA=OB$。（1）当 $x=-\dfrac1a$ 时，求函数值；（2）定义满足
+      $f(x)=x$ 的实数 $x$ 为函数的不动点。若该二次函数存在唯一不动点，求此不动点；（3）将 $\triangle AOB$ 绕点 $B$ 逆时针旋转，点 $O、A$ 分别落在 $C、D$。当四边形 $ABCD$ 是梯形且点
+      $C$ 在抛物线上时，求解析式。
+    answer: （1）$0$；（2）$x=-1$；（3）$y=-\dfrac14x^2+\dfrac12x+2$ 或 $y=(\sqrt2-2)x^2+(2\sqrt2-3)x+2$。
+    solution_steps:
+    - title: 第（1）问
+      content: 由 $B(0,2)$ 且 $OA=OB=2$，得 $A(-2,0)$，代入得 $b=2a+1$。令 $x=-\dfrac1a$，计算得 $y=0$。
+    - title: 第（2）问
+      content: 令 $ax^2+(2a+1)x+2=x$，得 $ax^2+2ax+2=0$。存在唯一不动点时判别式为 $0$，得 $a=-2$，进而 $x=-1$。
+    - title: 第（3）问
+      content: 分 $BC\parallel AD$ 与 $CD\parallel AB$ 两种情形，分别由旋转后的点 $C$ 在抛物线上求得 $a=-\dfrac14$ 或 $a=\sqrt2-2$，所以解析式如答案。
+      diagram_col:
+        image_path: assets/solution-01.png
+        width: 0.72\linewidth
+        variant: solution
+        disclosure_policy: teacher_only
+    images:
+    - image_path: assets/prompt-axes.png
+      width: 0.82\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图1
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页

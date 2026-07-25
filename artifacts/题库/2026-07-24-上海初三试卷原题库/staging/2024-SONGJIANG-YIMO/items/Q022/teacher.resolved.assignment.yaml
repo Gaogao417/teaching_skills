@@ -1,0 +1,41 @@
+meta:
+  title: 松江区2023学年度第一学期期末质量监控第22题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q022
+    points: 10
+    stem_latex: 如图，$A$ 处有一垂直于地面的标杆 $AM$，热气球沿着与 $AM$ 的夹角为 $15^\circ$ 的方向升空到达 $B$ 处；在 $A$ 处正东方向 $200$ 米的 $C$ 处测得 $B$ 的仰角为 $30^\circ$。求
+      $A、B$ 之间的距离（精确到 $1$ 米，$\sqrt2\approx1.414$）。
+    answer: $AB\approx141$ 米。
+    solution_steps:
+    - title: 解答
+      content: 过 $A$ 作 $AH\perp BC$。在直角三角形 $AHC$ 中，$\angle C=30^\circ、AC=200$，所以 $AH=100$。又 $\angle BAM=15^\circ$ 且 $AM\perp
+        AC$，得 $\angle ABC=45^\circ$，故 $AB=AH/\sin45^\circ=100\sqrt2\approx141$ 米。
+    images:
+    - image_path: assets/prompt-figure.png
+      width: 0.78\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页

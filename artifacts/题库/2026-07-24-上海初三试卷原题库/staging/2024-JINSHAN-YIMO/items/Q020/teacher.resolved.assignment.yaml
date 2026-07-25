@@ -1,0 +1,43 @@
+meta:
+  title: 金山区2023学年第一学期期末学情诊断第20题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q020
+    points: 10
+    stem_latex: 某学校有一喷水池，如果以喷水口（点 $A$）所在的铅垂线为 $y$ 轴，相应的地面水平线为 $x$ 轴，$1$ 米为单位长度建立直角坐标系
+      $xOy$，喷出的抛物线形水柱在最高处（点 $P$）距离 $y$ 轴 $1$ 米，水柱落地点（点 $B$）距离 $y$ 轴 $4$ 米，喷水口距离地面
+      $2$ 米，求抛物线形水柱的最高处距离地面的高度。
+    answer: $2.25$ 米
+    solution_steps:
+    - title: 官方解答
+      content: 设抛物线的解析式为 $y=ax^2+bx+c\ (a\ne0)$。由题意得抛物线经过 $A(0,2)$、$B(4,0)$，顶点 $P$
+        的横坐标为 $1$，所以 $c=2$，$16a+4b+c=0$，$-\frac b{2a}=1$。解得 $a=-\frac14,b=\frac12,c=2$。因此抛物线的解析式为
+        $y=-\frac14x^2+\frac12x+2$，顶点 $P$ 坐标为 $(1,2.25)$，故最高处距离地面的高度是 $2.25$ 米。
+    images:
+    - image_path: assets/prompt-01.png
+      width: 0.82\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图1
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页

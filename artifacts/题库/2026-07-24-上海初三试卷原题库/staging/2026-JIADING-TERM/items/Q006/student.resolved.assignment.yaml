@@ -1,0 +1,33 @@
+meta:
+  title: 嘉定区2025学年第一学期九年级质量调研数学第6题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: student
+  show_answers: false
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: student
+  blocks:
+  - type: choice
+    id: Q006
+    points: 4
+    stem_latex: 如图2，正方形 $DEFG$ 的边 $EF$ 在 $\triangle ABC$ 的边 $BC$ 上，顶点 $D$、$G$ 分别在边 $AB$、$AC$ 上，已知 $BC=AH$，选择不正确的结论。
+    choices:
+    - $\triangle ABC\sim\triangle ADG$
+    - $\dfrac{AD}{AB}=\dfrac{AP}{AH}$
+    - $S_{\triangle ADG}=\dfrac25S_{\triangle ABC}$
+    - $AP=PH$
+    diagram_col:
+      image_path: assets/prompt-figure.png
+      width: 65mm
+      variant: prompt
+      disclosure_policy: clean

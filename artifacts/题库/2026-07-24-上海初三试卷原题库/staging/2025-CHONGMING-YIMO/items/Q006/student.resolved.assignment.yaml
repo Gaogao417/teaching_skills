@@ -1,0 +1,32 @@
+meta:
+  title: 崇明区九年级数学一模试卷 · 原题第 6 题 · 学生版
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: student
+  show_answers: false
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: student
+  blocks:
+  - type: choice
+    id: Q006
+    points: 4
+    stem_latex: 二次函数 $y=ax^2+bx+c$ 的图像如图所示，给出结论：①$c>0$；②$-\dfrac b{2a}<0$；③$a+b+c<0$；④当 $-3<x<2$ 时，$y>0$。其中所有正确结论的序号是（　）
+    choices:
+      A: ①②③
+      B: ①②④
+      C: ①③④
+      D: ②③④
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 65mm
+      variant: prompt
+      disclosure_policy: clean

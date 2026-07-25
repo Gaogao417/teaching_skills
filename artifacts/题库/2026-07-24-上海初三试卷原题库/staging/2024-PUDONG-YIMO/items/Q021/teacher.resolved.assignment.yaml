@@ -1,0 +1,46 @@
+meta:
+  title: 浦东新区2023学年度第一学期期末练习第21题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q021
+    points: 10
+    stem_latex: 如图，在四边形 $ABCD$ 中，$AD\parallel BC、\angle ABC=90^\circ$，对角线 $AC、BD$ 相交于点 $O$，$AD=2、AB=3、BC=4$。（1）求 $\triangle
+      BOC$ 的面积；（2）求 $\sin\angle ACD$。
+    answer: （1）$S_{\triangle BOC}=4$；（2）$\sin\angle ACD=\frac{6\sqrt{13}}{65}$。
+    solution_steps:
+    - title: 解答
+      content: 由平行线和相似三角形得 $OC/AC=2/3$。$S_{\triangle ABC}=6$，且 $\triangle BOC$ 与 $\triangle ABC$ 同高，所以 $S_{\triangle BOC}=4$。作辅助垂线计算得
+        $DC=\sqrt{13}$、相应高 $DH=6/5$，因此 $\sin\angle ACD=DH/DC=6\sqrt{13}/65$。
+    images:
+    - image_path: assets/prompt-figure.png
+      width: 0.78\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第2页

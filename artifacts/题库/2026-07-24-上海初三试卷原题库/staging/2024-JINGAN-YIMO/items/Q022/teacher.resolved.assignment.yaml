@@ -1,0 +1,43 @@
+meta:
+  title: 静安区2023学年第一学期期末教学质量调研九年级数学试卷第 22 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q022
+    points: 10
+    stem_latex: 如图，某建筑物 $AB$ 高为 $200$ 米，某人乘热气球来到距地面 $400$ 米的 $C$ 处（即 $CE$ 长为 $400$ 米），此时测得建筑物顶部 $A$ 的俯角为 $\alpha$。当乘坐的热气球垂直上升到达 $D$ 处后，再次测得建筑物顶部 $A$ 的俯角为 $\beta$。（$\tan\alpha=1.25,\tan\beta=1.75$）（1）请在图中标出俯角 $\alpha、\beta$，并用计算器求 $\alpha、\beta$ 的大小（精确到 $1''$）；（2）求热气球上升的垂直高度（即 $CD$ 的长）。
+    answer: （1）$\alpha\approx51^\circ20'25''$，$\beta\approx60^\circ15'18''$；（2）$CD=80$米
+    solution_steps:
+    - title: 官方解答
+      content: （1）标图略，$\alpha\approx51^\circ20'25''$，$\beta\approx60^\circ15'18''$。（2）作 $AH\perp DE$，垂足为 $H$。由题意 $AB、DE$ 均垂直于地面，四边形 $ABEH$ 是矩形，$HE=AB=200$ 米，$CH=200$ 米。在 $\mathrm{Rt}\triangle AHC$ 中，$AH=CH\cot\alpha=200\times\frac4{5}=160$ 米。在 $\mathrm{Rt}\triangle AHD$ 中，$DH=AH\tan\beta=160\times\frac74=280$ 米，故 $CD=280-200=80$ 米。
+      diagram_col:
+        image_path: assets/solution-01.png
+        width: 58mm
+        variant: solution
+        disclosure_policy: teacher_only
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 1 页

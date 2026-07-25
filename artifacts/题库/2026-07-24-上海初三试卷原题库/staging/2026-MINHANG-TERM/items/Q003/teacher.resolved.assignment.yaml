@@ -1,0 +1,35 @@
+meta:
+  title: 闵行区2025学年第一学期质量调研第3题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q003
+    points: 4
+    stem_latex: 下列关于向量的说法中，一定正确的是
+    answer: A
+    choices:
+    - 若 $\vec b=-2\vec a$，则 $\vec a\parallel\vec b$
+    - 若 $\vec e$ 是单位向量，则 $\vec e=1$
+    - 向量 $\overrightarrow{AB}$ 与 $\overrightarrow{BA}$ 是相同向量
+    - 若 $\vec a=\vec0$，则对任意实数 $k$ 有 $k\vec a=0$
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页

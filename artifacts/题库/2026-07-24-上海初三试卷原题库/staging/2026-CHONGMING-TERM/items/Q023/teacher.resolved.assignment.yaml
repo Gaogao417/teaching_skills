@@ -1,0 +1,43 @@
+meta:
+  title: 崇明区2025学年第一学期期末质量调研第23题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q023
+    points: 12
+    stem_latex: 如图，在 $\triangle ABC$ 中，点 $D、E$ 分别在边 $BC、AC$ 上，$AB=AD$，$AD$ 与 $BE$ 交于点 $F$，且 $BC^2=AC\cdot EC$。（1）求证：$\angle
+      ADB=\angle BEC$；（2）如果 $AB=BC$，求证：$AE\cdot AD=AF\cdot BE$。
+    answer: 见证明。
+    solution_steps:
+    - title: 解答
+      content: $\because BC^2=AC\cdot EC$，$\therefore \frac{BC}{AC}=\frac{EC}{BC}$。又 $\angle C=\angle C$，故 $\triangle BEC\sim\triangle
+        ABC$，$\angle BEC=\angle ABC$。又 $AB=AD$，故 $\angle ADB=\angle ABC$，从而（1）成立。（2）由 $AB=BC$ 得 $\angle BAC=\angle C$；结合（1）可得
+        $\angle ABE=\angle CAD$，再由 $\angle AEF=\angle AEF$ 得 $\triangle BEA\sim\triangle AEF$，故 $\frac{AE}{BE}=\frac{AF}{AB}$。又
+        $AB=AD$，即 $AE\cdot AD=AF\cdot BE$。
+    images:
+    - image_path: assets/prompt-figure.png
+      width: 0.78\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页

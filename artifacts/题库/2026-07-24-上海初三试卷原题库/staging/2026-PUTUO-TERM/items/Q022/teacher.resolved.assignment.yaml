@@ -1,0 +1,52 @@
+meta:
+  title: 普陀区2025学年度第一学期期末练习第22题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q022
+    points: 10
+    stem_latex: 【发现问题】顺次联结对角线相等的四边形的四条边的中点，就可以得到一个菱形。进一步思考：在对角线不相等的四边形中，能否画出一个菱形，使其四个顶点分别落在四边形四边上，且两组对边分别与两条对角线平行？【提出问题】如图，在四边形
+      $ABCD$ 中，$AC\ne BD$，点 $E、F、G、H$ 分别在边 $AB、BC、CD、AD$ 上，且 $EF\parallel BD\parallel HG$，$\fillin$，如果四边形 $EFGH$ 是菱形，那么怎样画出这个菱形？（1）补充缺失条件；（2）设
+      $AC=a,BD=b$，用 $a,b$ 表示参数 $k$；（3）在图中画出符合要求的菱形并写出确定点 $E$ 的作图步骤。
+    answer: （1）$EH\parallel AC\parallel FG$（答案不唯一）；（2）$k=\dfrac ab$；（3）见作图步骤。
+    solution_steps:
+    - title: 第（1）问
+      content: $EF\parallel AC\parallel GH$（答案不唯一）。
+    - title: 第（2）问
+      content: 设 $\dfrac{AE}{EB}=k$。由平行线比例关系得 $EH=\dfrac{kb}{k+1}$，$EF=\dfrac{a}{k+1}$。若 $EFGH$ 为菱形，则 $EH=EF$，所以 $\dfrac{kb}{k+1}=\dfrac{a}{k+1}$，解得
+        $k=\dfrac ab$。
+    - title: 第（3）问
+      content: 延长 $AC$ 至 $M$，使 $CM=BD$，联结 $MB$；过点 $C$ 作 $CE\parallel MB$，交 $AB$ 于点 $E$；再依次过 $E$ 作与对角线平行的直线，确定 $F、G、H$。四边形
+        $EFGH$ 即为所画菱形。
+    images:
+    - image_path: assets/prompt-figure.png
+      width: 0.82\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图1
+    - image_path: assets/prompt-construction.png
+      width: 0.82\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图2
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页

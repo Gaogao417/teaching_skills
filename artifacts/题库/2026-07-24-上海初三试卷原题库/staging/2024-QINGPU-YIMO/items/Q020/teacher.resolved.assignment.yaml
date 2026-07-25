@@ -1,0 +1,49 @@
+meta:
+  title: 青浦区2023学年第一学期期终调研第20题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q020
+    points: 10
+    stem_latex: 如图，在梯形 $ABCD$ 中，$AD\parallel BC$，对角线 $AC、BD$ 相交于点 $O$，$BC=2AD$，$OD=1$。（1）求
+      $BD$ 的长；（2）设 $\overrightarrow{AB}=\vec a$，$\overrightarrow{BC}=\vec b$，用 $\vec
+      a、\vec b$ 表示向量 $\overrightarrow{OB}$。
+    answer: （1）$BD=3$；（2）$\overrightarrow{OB}=\dfrac23\vec b-\vec a$。
+    solution_steps:
+    - title: 官方解答
+      content: （1）$\because AD\parallel BC$，$\therefore\dfrac{AD}{BC}=\dfrac{OD}{OB}$。又
+        $BC=2AD$，故 $OD:OB=1:2$。由 $OD=1$ 得 $OB=2$，所以 $BD=3$。（2）$\overrightarrow{AD}=\dfrac12\vec
+        b$，$\overrightarrow{DB}=\vec b-\vec a$，且 $\overrightarrow{OB}=\dfrac23\overrightarrow{DB}=\dfrac23\vec
+        b-\vec a$。
+    images:
+    - image_path: assets/prompt-01.png
+      width: 0.88\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第2页

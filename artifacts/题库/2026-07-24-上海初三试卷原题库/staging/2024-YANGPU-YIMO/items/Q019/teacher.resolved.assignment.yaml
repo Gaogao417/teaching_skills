@@ -1,0 +1,41 @@
+meta:
+  title: 杨浦区2023学年度第一学期期末质量调研第19题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q019
+    points: 10
+    stem_latex: 如图，在 $\triangle ABC$ 中，点 $D、E、F$ 分别在边 $AB、AC、BC$ 上，$DE\parallel BC$，$AB=15$，$\frac{AE}{EC}=\frac23$。（1）求 $AD$
+      的长；（2）如果 $BF=4、CF=6$，求四边形 $BDEF$ 的周长。
+    answer: （1）$AD=6$；（2）四边形 $BDEF$ 的周长为 $26$。
+    solution_steps:
+    - title: 解答
+      content: （1）由 $DE\parallel BC$，得 $\frac{AD}{DB}=\frac{AE}{EC}=\frac23$。又 $AB=15$，所以 $AD=6、DB=9$。（2）由 $\frac{BF}{CF}=\frac23=\frac{AE}{EC}$
+        得 $EF\parallel AB$；又 $DE\parallel BC$，所以四边形 $BDEF$ 是平行四边形，其周长为 $2(BD+BF)=2(9+4)=26$。
+    images:
+    - image_path: assets/prompt-figure.png
+      width: 0.78\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页

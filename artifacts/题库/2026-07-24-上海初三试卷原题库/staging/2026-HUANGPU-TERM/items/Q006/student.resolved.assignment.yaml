@@ -1,0 +1,33 @@
+meta:
+  title: 2025学年第一学期黄浦区九年级期终考试数学试卷第 6 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: student
+  show_answers: false
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: student
+  blocks:
+  - type: choice
+    id: Q006
+    points: 4
+    stem_latex: 如图，$D、E$ 是 $\triangle ABC$ 边 $AB、AC$ 上的两点，在下列条件中，能够判定 $DE\parallel BC$ 的是（　）。
+    choices:
+    - $DB=1，CE=2，AD=3，AE=4$
+    - $DB=1，CE=2，AB=3，AC=4$
+    - $DB=1，CE=2，AD=3，AC=4$
+    - $DB=1，CE=2，AB=3，AE=4$
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 48mm
+      variant: prompt
+      disclosure_policy: clean

@@ -1,0 +1,43 @@
+meta:
+  title: 静安区2025学年第一学期期末课程实施调研九年级数学试卷第 21 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q021
+    points: 10
+    stem_latex: 如图，以点 $O$ 为圆心的两个同心圆中，不经过圆心的线段与两圆相交，自左向右的交点依次为 $A、B、C、D$。（1）证明：$AB=CD$；（2）连接 $OA、OB$，如果 $\angle OAD=30^\circ$，$\angle OBC=45^\circ$，$AB=2$，求小圆半径 $r$。
+    answer: （1）结论成立；（2）$r=\sqrt{6+\sqrt2}$
+    solution_steps:
+    - title: 官方解答
+      content: 过点 $O$ 作 $OH\perp BC$，由垂径定理得 $BH=CH$、$AH=DH$，所以 $AB=CD$。连接 $AO、BO$，利用两个直角三角形和给定角，设 $OH=x$，由 $AH-BH=2$ 得 $x=\sqrt3+1$，从而 $OB=\sqrt{OH^2+BH^2}=\sqrt{6+\sqrt2}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 1 页
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 2 页

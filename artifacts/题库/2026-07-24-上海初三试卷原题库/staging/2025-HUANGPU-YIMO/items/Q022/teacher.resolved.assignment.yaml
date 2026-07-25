@@ -1,0 +1,38 @@
+meta:
+  title: 九年级期终考试数学试卷第 22 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q022
+    points: 10
+    stem_latex: 某校开展“测量校园内树木高度的方案设计”活动。用两根互相垂直的木条制成简易测高仪，$AB=40\mathrm{cm}$，$CD=60\mathrm{cm}$，$DB=20\mathrm{cm}$。按题图完成第一次和第二次实践：补充各次需要测量的数据，并分别利用数据表示树高 $MN$。
+    answer: 第一次测量 $NE=b\mathrm{cm}$，$MN=a+b+40\mathrm{cm}$；第二次测量 $EF=c\mathrm{cm}$，$MN=a+c\mathrm{cm}$
+    solution_steps:
+    - title: 官方解答
+      content: 第一次还需测得 $NE=b$，由等腰直角关系得 $MN=a+b+40$。第二次还需测得 $EF=c$；设 $MH=x$，由两次观测的相似关系得位移等于 $x$，故 $MN=a+c$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 1 页

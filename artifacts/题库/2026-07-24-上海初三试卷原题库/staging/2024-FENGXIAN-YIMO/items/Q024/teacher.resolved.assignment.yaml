@@ -1,0 +1,45 @@
+meta:
+  title: 2023学年第一学期九年级数学练习 · 原题第 24 题 · 教师版
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q024
+    points: 12
+    stem_latex: 在平面直角坐标系中，如果两条抛物线关于直线 $x=m$ 对称，那么称一条抛物线为另一条抛物线关于直线 $x=m$ 的镜像抛物线。（1）如图11，已知抛物线 $y=x^2-2x$，顶点为 $A$。①求该抛物线关于 $y$ 轴的镜像抛物线表达式；②已知该抛物线关于直线 $x=m$ 的镜像抛物线顶点为 $B$，如果 $\tan\angle OBA=\frac14$（锐角），求 $m$；（2）抛物线 $y=\frac14x^2+bx+c$（$b>0$）的顶点为 $C$，它的一条镜像抛物线顶点为 $D$，两抛物线交于 $E(2,1)$。如果 $\triangle CDE$ 是直角三角形，求该抛物线表达式。
+    answer: （1）①$y=(x+1)^2-1$；②$m=\frac52$或$-\frac32$；（2）$y=\frac14x^2+x-2$。
+    solution_steps:
+    - title: 第（1）问
+      content: $y=x^2-2x=(x-1)^2-1$，顶点 $A(1,-1)$。关于 $y$ 轴的镜像抛物线顶点为 $(-1,-1)$，故表达式为 $y=(x+1)^2-1$。由 $\tan\angle OBA=\frac14$ 得镜像顶点 $B(4,-1)$ 或 $(-4,-1)$，所以 $m=\frac52$ 或 $-\frac32$。
+    - title: 第（2）问
+      content: 将 $E(2,1)$ 代入 $y=\frac14x^2+bx+c$，得 $2b+c=0$，即 $c=-2b$。顶点 $C(-2b,c-b^2)$。由镜像关系及 $\triangle CDE$ 为直角三角形，得 $CN=EN$，所以 $2+2b=1+b^2+2b$，得 $b=1,c=-2$，故抛物线为 $y=\frac14x^2+x-2$。
+    source_solution_images:
+    - image_path: assets/official-solution.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 公众号原解答 1
+    teaching:
+      source_key: 2024-FENGXIAN-YIMO-Q24
+      skill_tags:
+      - 原卷
+      difficulty: challenge
+      official_solution_policy: verbatim_transcription_with_separate_notes
+    diagram_col:
+      image_path: assets/prompt-figure.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean

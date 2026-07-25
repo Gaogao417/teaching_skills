@@ -1,0 +1,42 @@
+meta:
+  title: 徐汇区2025学年第一学期初三年级期末试卷第4题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q004
+    points: 4
+    stem_latex: 已知点 $A(-2,m)、B(2,m)、C(4,m+1)$ 在同一个函数的图像上，这个函数图像可能是
+    answer: B
+    choices:
+    - 左起第1个图像
+    - 左起第2个图像
+    - 左起第3个图像
+    - 左起第4个图像
+    explanation: 官方参考答案：B。
+    images:
+    - image_path: assets/prompt-graphs.png
+      width: 0.78\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页

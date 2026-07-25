@@ -1,0 +1,45 @@
+meta:
+  title: 2025学年第一学期九年级期终学业质量调研数学试卷第 23 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q023
+    points: 12
+    stem_latex: 如图9，在平行四边形 $ABCD$ 中，点 $E$ 在边 $AD$ 上，$BE、CD$ 的延长线交于点 $F$，联结 $CE$，已知 $CE^2=DE\cdot BC$。（1）求证：$\triangle ABE\sim\triangle EFC$；（2）求证：$CE\cdot CF=EF\cdot AD$。
+    answer: 两个结论均成立。
+    solution_steps:
+    - title: 第（1）问
+      content: 在平行四边形 $ABCD$ 中，$AD\parallel BC$，故 $\angle AEB=\angle EBC，\angle DEC=\angle BCE$。由 $CE^2=DE\cdot BC$ 得 $\dfrac{DE}{CE}=\dfrac{CE}{BC}$，所以 $\triangle DEC\sim\triangle ECB$，进而 $\angle ECF=\angle EBC$。又 $\angle AEB=\angle EBC$，故 $\angle AEB=\angle ECF$；结合平行线角关系得 $\triangle ABE\sim\triangle EFC$。
+    - title: 第（2）问
+      content: 由 $\angle ECF=\angle EBC$ 且 $\angle F$ 为公共角，得 $\triangle ECF\sim\triangle CBF$，所以 $\dfrac{EF}{CF}=\dfrac{CE}{BC}$。又 $AD=BC$，故 $\dfrac{EF}{CF}=\dfrac{CE}{AD}$，即 $CE\cdot CF=EF\cdot AD$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 46mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 1 页
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 2 页

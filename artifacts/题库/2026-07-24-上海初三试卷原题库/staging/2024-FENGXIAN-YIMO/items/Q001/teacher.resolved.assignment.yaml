@@ -1,0 +1,35 @@
+meta:
+  title: 2023学年第一学期九年级数学练习 · 第1题 · 教师版
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q001
+    points: 4
+    stem_latex: 下列函数中是二次函数的是（　）
+    choices:
+    - $y=2x+1$
+    - $y=\frac{1}{2x}$
+    - $y=x^2+2$
+    - $y=\sqrt{x^2+2}$
+    answer: C
+    explanation: 官方答案：C。
+    source_solution_images:
+    - image_path: assets/official-solution.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答

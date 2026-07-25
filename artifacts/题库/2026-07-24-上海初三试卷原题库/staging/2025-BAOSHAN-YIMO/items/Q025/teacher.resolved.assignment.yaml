@@ -1,0 +1,66 @@
+meta:
+  title: 宝山区2024学年第一学期期末考试九年级数学试卷 · 原题第 25 题 · 教师版
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: '如图14，已知 $\triangle ABC$ 中，$\angle ACB=90^\circ$，$BC=2$，$AC=3$，点 $E$、$F$ 分别在边 $AC$、$AB$ 上（不与端点重合），$BE\perp CF$，垂足为点 $D$。
+
+      \begin{enumerate}
+
+      \item 当 $CE=1$ 时，求 $AF$ 的长；
+
+      \item 当 $BE=CF$ 时，求 $\tan\angle CBE$ 的值；
+
+      \item 联结 $EF$，如果 $\triangle AEF$ 是直角三角形，求这时四边形 $BCEF$ 的面积。
+
+      \end{enumerate}
+
+      '
+    answer: （1）$AF=\dfrac{3\sqrt{13}}7$；（2）$\tan\angle CBE=3$；（3）$\dfrac{4\sqrt{13}-8}{3}$或$\dfrac{44\sqrt{10}-80}{27}$。
+    solution_steps:
+    - title: 第（1）问
+      content: 过点 $F$ 作 $FG\perp AC$，垂足为点 $G$。由角关系得 $\angle1=\angle3$，且 $\angle FGC=\angle ECB=90^\circ$，所以 $\triangle FGC\sim\triangle ECB$，得 $\dfrac{FG}{GC}=\dfrac{CE}{BC}=\dfrac12$。设 $FG=x$，则 $GC=2x$，$AG=3-2x$。在 $\mathrm{Rt}\triangle ABC$ 中，$AB=\sqrt{13}$。又 $\triangle AFG\sim\triangle ACB$，所以 $\dfrac{x}{2}=\dfrac{3-2x}{3}=\dfrac{AF}{\sqrt{13}}$，解得 $x=\dfrac67$，所以 $AF=\dfrac{3\sqrt{13}}7$。
+    - title: 第（2）问
+      content: 由角关系和 $BE=CF$ 可得 $\triangle FGC\cong\triangle ECB$，所以 $GC=BC=2$，$FG=CE$。由 $\triangle AFG\sim\triangle ACB$，得 $\dfrac{FG}{BC}=\dfrac{AG}{AC}$，即 $\dfrac{FG}{2}=\dfrac{3-2}{3}$，所以 $FG=\dfrac23$，$CE=\dfrac23$。在 $\mathrm{Rt}\triangle ECB$ 中，$\cot\angle CBE=\dfrac{CE}{BC}=\dfrac13$，故 $\tan\angle CBE=3$。
+    - title: 第（3）问
+      content: 分类讨论。①当 $\angle AFE=90^\circ$ 时，可得 $EF=EC=x$，$AE=3-x$，且 $BF=BC=2$。由 $x^2+(\sqrt{13}-2)^2=(3-x)^2$，解得 $x=\dfrac{2\sqrt{13}-4}{3}$，所以 $S_{\text{四边形 }BCEF}=3-\dfrac{(\sqrt{13}-2)^2}{3}=\dfrac{4\sqrt{13}-8}{3}$。②当 $\angle AEF=90^\circ$ 时，可得 $EC=\sqrt2x$，$AE=3-\sqrt2x$，并由相似关系解得 $x=\dfrac{22-4\sqrt{10}}9$。所以 $S_{\text{四边形 }BCEF}=3-\dfrac{(11-2\sqrt{10})^2}{27}=\dfrac{44\sqrt{10}-80}{27}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 72mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 公众号原解答 1
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 公众号原解答 2
+    teaching:
+      source_key: 2025-BAOSHAN-YIMO-Q25
+      skill_tags:
+      - 相似三角形
+      - 解直角三角形
+      - 分类讨论
+      difficulty: challenge
+      official_solution_policy: verbatim_transcription_with_separate_notes

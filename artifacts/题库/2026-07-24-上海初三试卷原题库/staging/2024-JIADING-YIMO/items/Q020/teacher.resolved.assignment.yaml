@@ -1,0 +1,45 @@
+meta:
+  title: 嘉定区2023学年第一学期九年级期终学业质量调研测试 · 原题第 20 题 · 教师版
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q020
+    points: 10
+    stem_latex: 已知平面直角坐标系 $xOy$（图6），抛物线 $y=x^2+bx+c$ 经过点 $A(-3,0)$ 和 $B(0,-3)$ 两点。（1）求抛物线的表达式；（2）如果将这个抛物线向右平移 $k$（$k>0$）个单位，得到新抛物线经过点 $B$，求 $k$ 的值。
+    answer: （1）$y=x^2+2x-3$；（2）$k=2$。
+    solution_steps:
+    - title: 第（1）问
+      content: 由题意得 $9-3b+c=0,\ c=-3$，解得 $b=2$，所以抛物线的表达式是 $y=x^2+2x-3$。
+    - title: 第（2）问
+      content: 由（1）配方得 $y=(x+1)^2-4$。平移后的抛物线为 $y=(x+1-k)^2-4$，经过点 $B(0,-3)$，所以 $-3=(1-k)^2-4$，解得 $k_1=0,\ k_2=2$。因为 $k>0$，所以 $k=2$。
+    source_solution_images:
+    - image_path: assets/official-solution.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 公众号原解答 1
+    teaching:
+      source_key: 2024-JIADING-YIMO-Q20
+      skill_tags:
+      - 原卷
+      difficulty: standard
+      official_solution_policy: verbatim_transcription_with_separate_notes
+    diagram_col:
+      image_path: assets/prompt-figure.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean

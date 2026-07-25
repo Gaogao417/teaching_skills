@@ -1,0 +1,42 @@
+meta:
+  title: 2024年1月黄浦区九年级数学试卷第 22 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q022
+    points: 10
+    stem_latex: 在世纪公园的小山坡上有一棵松树，测角仪为 $MN$，树根部为 $B$、树顶端为 $A$，其中 $MN=1.5\rm\,m$，视线 $MB$ 的仰角为 $\alpha$（已知 $\tan\alpha=\dfrac16$），视线 $MA$ 的仰角为 $\beta$（已知 $\tan\beta=\dfrac34$）。（1）设测角仪到松树的垂直距离 $NH=a$，请用含有 $a$ 的代数式表示松树 $AB$ 的高度；（2）利用现有的长为2米、刻度精确到1分米的直尺和测角仪，设计测量办法，测量有关数据（可用字母常数表示），并用这些字母常数的表达式表示松树 $AB$ 的高度。
+    answer: （1）$AB=\dfrac7{12}a$；（2）将2米直尺斜靠树干，测出直尺上端点的仰角 $\gamma$，则 $AB=\dfrac7{6\tan\gamma-1}$
+    solution_notes:
+    - 官方答案原文写“另一段靠在树干上点C处”，疑为“另一端”的笔误；下列步骤忠实保留原文。
+    solution_steps:
+    - title: 第（1）问
+      content: 过 $M$ 作 $MT\parallel NH$ 交 $AH$ 于 $T$。在 $\triangle MAT$ 中，$AT=MT\tan\angle AMT=\dfrac34a$；在 $\triangle MBT$ 中，$BT=MT\tan\angle BMT=\dfrac16a$，所以 $AB=\dfrac7{12}a$。
+    - title: 第（2）问
+      content: 将2米直尺一端放置于松树底边 $B$ 处，另一段靠在树干上点 $C$ 处，继续用测角仪测出点 $C$ 的仰角，记为 $\gamma$。在 $\triangle MCT$ 中，$CT=MT\tan\angle CMT=a\tan\gamma$。由 $a\tan\gamma-\dfrac16a=2$，得 $a=\dfrac{12}{6\tan\gamma-1}$，则 $AB=\dfrac7{6\tan\gamma-1}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 78mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 1 页

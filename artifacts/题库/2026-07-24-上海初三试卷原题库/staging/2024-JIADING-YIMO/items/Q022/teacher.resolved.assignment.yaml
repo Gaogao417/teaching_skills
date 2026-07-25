@@ -1,0 +1,44 @@
+meta:
+  title: 嘉定区2023学年第一学期九年级期终学业质量调研测试 · 第22题 · 教师版
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q022
+    points: 10
+    stem_latex: 如图8，小山的顶部是一块平地，在这块平地上有一座古塔 $CD$。小山斜坡 $AB$ 的坡度为 $i=1:2.4$，坡长 $AB$ 为39米，在小山的坡底 $A$ 处测得该塔的塔顶 $C$ 的仰角为 $45^\circ$，在坡顶 $B$ 处测得该塔的塔顶 $C$ 的仰角为 $74^\circ$。（1）求坡顶 $B$ 到地面 $AH$ 的距离 $BH$ 的长；（2）求古塔 $CD$ 的高度（结果精确到1米）。参考数据：$\sin74^\circ\approx0.96$，$\cos74^\circ\approx0.28$，$\tan74^\circ\approx3.49$，$\cot74^\circ\approx0.29$。
+    answer: （1）15米；（2）约30米。
+    solution_steps:
+    - title: 第（1）问
+      content: 由题意，得 $\angle AHB=90^\circ,\ i=BH:AH=1:2.4$，$\therefore\frac{BH}{AH}=\frac5{12}$。设 $BH=5x$，则 $AH=12x$。$\because\ AH^2+BH^2=AB^2$，$\therefore AB=13x$。$\because AB=39$，$\therefore x=3$，$\therefore BH=5x=15$（米）。答：坡顶 $B$ 到地面 $AH$ 的距离 $BH$ 的长为15米。
+    - title: 第（2）问
+      content: 延长 $CD$ 交 $AN$ 于点 $G$，则 $CG\perp AN$，易得：$BD=HG,\ BH=DG=15$。$\because\angle CAG=45^\circ$，$\therefore\angle ACG=45^\circ$，$\therefore\angle CAG=\angle ACG$，$\therefore CG=AG$，$\therefore AH+HG=CD+DG$。在 $Rt\triangle BDC$ 中，$\cot\angle CBD=\frac{BD}{CD}$，$\therefore BD=CD\cdot\cot\angle CBD=HG$。$\because\angle CBD=74^\circ,\ AH=36$，$\therefore36+CD\cdot\cot74^\circ=CD+15$。$\because\cot74^\circ\approx0.29$，$\therefore CD\approx30$（米）。答：古塔 $CD$ 的高度约为30米。
+      diagram_col:
+        image_path: assets/solution-01.png
+        width: 58mm
+        variant: solution
+        disclosure_policy: teacher_only
+    source_solution_images:
+    - image_path: assets/official-solution.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答
+    diagram_col:
+      image_path: assets/prompt-figure.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean

@@ -1,6 +1,6 @@
 meta:
-  title: 2026 年上海市普陀区中考数学二模试卷第 15 题
-  grade: 初三
+  title: 2026年上海市普陀区中考二模数学试卷第 15 题
+  grade: 九年级
   subject: 数学
   total_points: 4
   version: teacher
@@ -17,16 +17,18 @@ sections:
   type: practice
   visibility: both
   blocks:
-  - type: fillin
+  - type: short_answer
     id: Q015
     points: 4
-    stem_latex: 如图，菱形 $ABCD$ 的对角线 $AC$、$BD$ 相交于点 $O$。如果 $\overrightarrow{AB}\cdot\overrightarrow{AC}=6$，那么 $\overrightarrow{AB}\cdot\overrightarrow{AD}$ 的值为\fillin。
-    answer: $-6$
-    explanation: 菱形对角线互相垂直平分，$\overrightarrow{AB}\cdot\overrightarrow{AD}=-\overrightarrow{AB}\cdot\overrightarrow{AC}=-6$。
-    solution_notes: 题干含 WMF 公式，LaTeX 从解析推断（向量和菱形），需人工核实。
-    stem_image:
+    stem_latex: 如图，菱形$ABCD$的对角线相交于点$O$，如果$AB=5$，$AC=6$，那么$\overrightarrow{OA}+\overrightarrow{OB}$的值为________．
+    answer: $\dfrac{5}{2}$
+    explanation: 官方参考答案：$\dfrac{5}{2}$。
+    solution_steps:
+    - title: 详解
+      content: 菱形对角线互相垂直平分，$OA=3$，$OB=4$，由向量加法平行四边形法则求解。
+    diagram_col:
       image_path: assets/prompt-01.png
-      width: 140mm
+      width: 0.85\linewidth
       variant: prompt
       disclosure_policy: clean
     source_solution_images: []

@@ -1,0 +1,36 @@
+meta:
+  title: 金山区2023学年第一学期期末学情诊断第3题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q003
+    points: 4
+    stem_latex: 在直角坐标平面的第一象限内有一点 $A(a,b)$，如果射线 $OA$ 与 $x$ 轴正半轴的夹角为 $\alpha$，那么下列各式正确的是
+    answer: A
+    choices:
+    - $b=a\tan\alpha$
+    - $b=a\cot\alpha$
+    - $b=a\sin\alpha$
+    - $b=a\cos\alpha$
+    explanation: 官方参考答案：A。
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页

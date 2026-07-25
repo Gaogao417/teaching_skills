@@ -1,0 +1,36 @@
+meta:
+  title: 金山区2024学年度第一学期期末学情诊断第 12 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: fillin
+    id: Q012
+    points: 4
+    stem_latex: （洞孔成像）如图，$AB\parallel A^\prime B^\prime$，物像 $A^\prime B^\prime$ 所在正方体的面与平面 $A^\prime B^\prime AB$ 垂直。根据图中尺寸，已知物像 $A^\prime B^\prime$ 的长为 $4$，那么物 $AB$ 长为 \fillin。
+    answer: $12$
+    explanation: 官方参考答案：$12$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 1 页

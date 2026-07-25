@@ -1,0 +1,40 @@
+meta:
+  title: 松江区2025学年度第一学期期末质量监控试卷第24题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q024
+    points: 12
+    stem_latex: 抛物线与 $x$ 轴交于 $A(-2,0),B(4,0)$，与 $y$ 轴正半轴交于 $C$，顶点为 $D$，且 $OB=OC$。（1）求表达式和 $D$；（2）第一象限点 $P$ 满足角条件，将抛物线右移使 $P$
+      移到 $O$，若存在 $N$ 使 $PMON$ 为平行四边形，求平移距离。
+    answer: （1）$y=-\frac12x^2+x+4$，$D(1,\frac92)$；（2）$4+2\sqrt2$。
+    solution_steps:
+    - title: 解答
+      content: $\because$ 依据题设计算或证明，$\therefore$ （1）$y=-\frac12x^2+x+4$，$D(1,\frac92)$；（2）$4+2\sqrt2$。
+    images:
+    - image_path: assets/prompt-figure.png
+      width: 0.76\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页

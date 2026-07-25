@@ -1,0 +1,43 @@
+meta:
+  title: 静安区2023学年第一学期期末教学质量调研九年级数学试卷第 23 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q023
+    points: 12
+    stem_latex: 已知：如图，在 $\triangle ABC$ 中，$AB=AC$，$D$ 是 $BC$ 中点，点 $E$ 在 $BA$ 延长线上，点 $F$ 在 $AC$ 边上，$\angle EDF=\angle B$。求证：（1）$\triangle BDE\sim\triangle CFD$；（2）$DF^2=EF\cdot CF$。
+    answer: 两问结论均成立
+    solution_steps:
+    - title: 官方解答
+      content: （1）$\because AB=AC$，$\therefore\angle B=\angle C$。又 $\angle EDC=\angle B+\angle BED=\angle EDF+\angle FDC$，且 $\angle EDF=\angle B$，所以 $\angle BED=\angle FDC$，故 $\triangle BDE\sim\triangle CFD$。（2）由相似得 $\frac{DE}{DF}=\frac{BE}{DC}$。又 $BD=DC$，所以 $\frac{DE}{DF}=\frac{BE}{BD}$，即 $\frac{DE}{BE}=\frac{DF}{BD}$。又 $\angle EDF=\angle B$，所以 $\triangle DFE\sim\triangle BDE$；进而 $\triangle DFE\sim\triangle CFD$，故 $\frac{EF}{DF}=\frac{DF}{CF}$，即 $DF^2=EF\cdot CF$。
+      diagram_col:
+        image_path: assets/solution-01.png
+        width: 58mm
+        variant: solution
+        disclosure_policy: teacher_only
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 1 页

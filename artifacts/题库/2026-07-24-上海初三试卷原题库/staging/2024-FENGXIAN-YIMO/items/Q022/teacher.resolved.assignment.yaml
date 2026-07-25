@@ -1,0 +1,39 @@
+meta:
+  title: 2023学年第一学期九年级数学练习 · 第22题 · 教师版
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q022
+    points: 10
+    stem_latex: 如图9-1，某小组通过实验探究凸透镜成像的规律，他们依次在光具座上垂直放置发光物箭头、凸透镜和光屏，并调整到合适的高度。如图9-2，主光轴 $l$ 垂直于凸透镜 $MN$，且经过凸透镜光心 $O$。将长度为8厘米的发光物箭头 $AB$ 进行移动，使物距 $OC$ 为32厘米，光线 $AO$、$BO$ 传播方向不变，移动光屏，直到光屏上呈现一个清晰的像 $A'B'$，此时测得像距 $OD$ 为12.8厘米。（1）求像 $A'B'$ 的长度；（2）已知光线 $AP$ 平行于主光轴 $l$，经过凸透镜 $MN$ 折射后通过焦点 $F$，求凸透镜焦距 $OF$ 的长。
+    answer: （1）3.2厘米；（2）$\frac{64}{7}$厘米。
+    solution_steps:
+    - title: 第（1）问
+      content: 由题意得 $AB\parallel A'B'$，$OC\perp AB$，$OC\perp A'B'$，所以 $\triangle ABO\sim\triangle A'B'O$。于是 $\frac{AB}{A'B'}=\frac{OC}{OD}$。由 $AB=8,\ OC=32,\ OD=12.8$，得 $\frac8{A'B'}=\frac{32}{12.8}$，所以 $A'B'=3.2$ 厘米。
+    - title: 第（2）问
+      content: 由题意得四边形 $ACOP$ 是矩形，所以 $AP=CO=32$ 厘米。由 $AB\parallel A'B'$，得 $\frac{A'O}{AO}=\frac{A'B'}{AB}=\frac25$，所以 $\frac{A'O}{AA'}=\frac27$。又 $AP\parallel CD$，所以 $\frac{OF}{AP}=\frac{A'O}{AA'}=\frac27$，故 $OF=\frac{64}{7}$ 厘米。
+    source_solution_images:
+    - image_path: assets/official-solution.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答
+    diagram_col:
+      image_path: assets/prompt-figures.png
+      width: 96mm
+      variant: prompt
+      disclosure_policy: clean

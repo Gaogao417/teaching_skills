@@ -1,0 +1,54 @@
+meta:
+  title: 2024学年第一学期徐汇区学习能力诊断卷初三数学试卷 · 原题第 22 题 · 教师版
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q022
+    points: 10
+    stem_latex: '\begin{enumerate}
+
+      \item 计算：$\dfrac{\cot30^\circ-\cot45^\circ}{\tan60^\circ+2\sin30^\circ}$；
+
+      \item 如图，在 $\mathrm{Rt}\triangle ABC$ 和 $\mathrm{Rt}\triangle DEF$ 中，$\angle B=\angle E=90^\circ$，$\angle A=30^\circ$，$\angle D=45^\circ$，$DE=AC=2$。将边 $DE$ 和 $AC$ 重合，拼接成四边形 $ABCF$，求 $\sin15^\circ$ 和 $\tan75^\circ$ 的值。
+
+      \end{enumerate}
+
+      '
+    answer: （1）$2-\sqrt3$；（2）$\sin15^\circ=\dfrac{\sqrt6-\sqrt2}{4}$，$\tan75^\circ=2+\sqrt3$。
+    solution_steps:
+    - title: 第（1）问
+      content: 原式$=\dfrac{\sqrt3-1}{\sqrt3+1}=2-\sqrt3$。
+    - title: 第（2）问
+      content: 作辅助垂线，计算得 $AH=\sqrt3-1$，$AF=2\sqrt2$，$HF=\sqrt3+1$，所以 $\sin15^\circ=\dfrac{\sqrt6-\sqrt2}{4}$，$\tan75^\circ=2+\sqrt3$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 0.96\linewidth
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 公众号原解答 1
+    teaching:
+      source_key: 2025-XUHUI-YIMO-Q22
+      skill_tags:
+      - 特殊角三角比
+      - 解直角三角形
+      difficulty: standard
+      official_solution_policy: verbatim_transcription_with_separate_notes

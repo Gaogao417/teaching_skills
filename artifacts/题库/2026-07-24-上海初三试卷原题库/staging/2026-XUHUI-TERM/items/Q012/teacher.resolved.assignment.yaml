@@ -1,0 +1,37 @@
+meta:
+  title: 徐汇区2025学年第一学期初三年级期末试卷第12题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: fillin
+    id: Q012
+    points: 4
+    stem_latex: 如图，线段 $AD$ 与 $BC$ 相交于点 $O$，已知 $\frac{AO}{AD}=\frac14$，$BO=2$，当 $OC=$ 多少时，$AB\parallel CD$？
+    answer: $6$
+    explanation: 官方参考答案：$6$。
+    images:
+    - image_path: assets/prompt-figure.png
+      width: 0.78\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页

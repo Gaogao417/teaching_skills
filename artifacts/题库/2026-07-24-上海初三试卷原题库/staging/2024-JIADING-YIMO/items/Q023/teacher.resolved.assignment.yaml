@@ -1,0 +1,50 @@
+meta:
+  title: 嘉定区2023学年第一学期九年级期终学业质量调研测试 · 原题第 23 题 · 教师版
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q023
+    points: 12
+    stem_latex: 如图9，在 $\triangle ABC$ 中，$\angle ACB=90^\circ$，点 $D$ 是 $BC$ 延长线上一点，点 $E$ 是斜边 $AB$ 上一点，且 $BC\cdot BD=BE\cdot BA$。（1）求证：$AB\perp ED$；（2）联结 $AD$，在 $AB$ 上取一点 $F$，使 $AF=AC$，过点 $F$ 作 $FG\parallel BC$ 交 $AD$ 于点 $G$，求证：$FG=DE$。
+    answer: 见证明。
+    solution_steps:
+    - title: 第（1）问
+      content: $\because BC\cdot BD=BE\cdot BA$，$\therefore\frac{BC}{BE}=\frac{BA}{BD}$。又 $\angle B=\angle B$，所以 $\triangle ABC\sim\triangle DBE$。故 $\angle ACB=\angle DEB$。由 $\angle ACB=90^\circ$，得 $\angle DEB=90^\circ$，所以 $AB\perp ED$。
+      diagram_col:
+        image_path: assets/solution-01.png
+        width: 58mm
+        variant: solution
+        disclosure_policy: teacher_only
+    - title: 第（2）问
+      content: 由（1）得 $\triangle ABC\sim\triangle DBE$，所以 $\frac{AB}{DB}=\frac{AC}{DE}$，即 $\frac{DE}{DB}=\frac{AC}{AB}$。又 $FG\parallel BC$，所以 $\frac{FG}{DB}=\frac{AF}{AB}$。由 $AF=AC$，得 $\frac{DE}{DB}=\frac{FG}{DB}$，故 $FG=DE$。
+    source_solution_images:
+    - image_path: assets/official-solution.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 公众号原解答 1
+    teaching:
+      source_key: 2024-JIADING-YIMO-Q23
+      skill_tags:
+      - 原卷
+      difficulty: challenge
+      official_solution_policy: verbatim_transcription_with_separate_notes
+    diagram_col:
+      image_path: assets/prompt-figure.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean

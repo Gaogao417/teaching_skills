@@ -1,0 +1,45 @@
+meta:
+  title: 崇明区九年级数学一模试卷 · 原题第 22 题 · 教师版
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q022
+    points: 10
+    stem_latex: 九年级数学活动小组用航拍无人机进行测高实践。如图，无人机从地面 $AB$ 的中点 $C$ 处竖直上升20米到达 $D$ 处，测得实验楼顶部 $E$ 的俯角为 $55^\circ$，综合楼顶部 $F$ 的俯角为 $37^\circ$，已知实验楼 $BE$ 高度为8米，且图中点 $A$、$B$、$C$、$D$、$E$、$F$ 在同一平面内，求综合楼 $AF$ 的高度。（参考数据：$\sin37^\circ\approx0.60$，$\cos37^\circ\approx0.80$，$\tan37^\circ\approx0.75$；$\sin55^\circ\approx0.82$，$\cos55^\circ\approx0.57$，$\cot55^\circ\approx0.70$，精确到0.1米。）
+    answer: 约13.7米。
+    solution_steps:
+    - title: 解
+      content: 作 $DM\perp AF$，$DN\perp BE$，垂足为 $M$、$N$。由题意，$\angle MDF=37^\circ$，$\angle NDE=55^\circ$，$AM=CD=BN=20$米，$DM=DN$，$BE=8$米，所以 $EN=12$米。在 $\mathrm{Rt}\triangle DEN$ 中，$DN=12\cot55^\circ\approx8.4$米。在 $\mathrm{Rt}\triangle DMF$ 中，$MF=8.4\tan37^\circ\approx6.3$米，所以 $AF=AM-MF\approx13.7$米。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 75mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 公众号原解答 1
+    teaching:
+      source_key: 2025-CHONGMING-YIMO-Q22
+      skill_tags:
+      - 解直角三角形
+      - 俯角
+      - 测高
+      difficulty: standard
+      official_solution_policy: verbatim_transcription_with_separate_notes

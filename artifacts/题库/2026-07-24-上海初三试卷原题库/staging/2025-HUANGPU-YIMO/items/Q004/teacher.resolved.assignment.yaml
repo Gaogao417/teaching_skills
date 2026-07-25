@@ -1,0 +1,36 @@
+meta:
+  title: 九年级期终考试数学试卷第 4 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q004
+    points: 4
+    stem_latex: 在 $\triangle ABC$ 中，点 $D、E$ 分别在边 $AB、AC$ 上，如果 $AD=1$，$BD=3$，那么下列条件中能够推得 $DE\parallel BC$ 的是
+    choices:
+    - $\frac{DE}{BC}=\frac13$
+    - $\frac{DE}{BC}=\frac14$
+    - $\frac{EC}{AC}=\frac23$
+    - $\frac{AE}{AC}=\frac14$
+    answer: D
+    explanation: 官方参考答案：D。
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 1 页

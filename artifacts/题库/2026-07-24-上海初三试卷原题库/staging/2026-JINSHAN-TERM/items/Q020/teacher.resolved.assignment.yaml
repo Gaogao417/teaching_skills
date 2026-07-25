@@ -1,0 +1,50 @@
+meta:
+  title: 金山区2025学年第一学期期末学情诊断初三数学第20题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: problem
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q020
+    points: 12
+    stem_latex: 坡道改良：某教学楼门口坡道上下坡困难。坡道最大坡度为 $1:12$，垂直升高不宜超过 $75\text{ cm}$，超过时需设置休息平台。三组测量数据如第20题图1至图3所示；折返形坡道平面示意如第20题图4所示，要求单段坡道最大坡度为 $1:10$、水平长度最大 $560\text{ cm}$、休息平台宽度和轮椅入口宽度均不小于 $150\text{ cm}$，且 $A'T=30\text{ cm}$、$TI=520\text{ cm}$。（1）根据三组数据，求原坡道的坡度和坡高，并判断是否安全；（2）设计一种折返形坡道方案，写出坡道 $OV$、$VC$ 的坡度和坡高以及设计过程。
+    answer: （1）原坡道坡度为 $\frac7{24}$，坡高为 $70\text{ cm}$，不安全；（2）一种方案见解答。
+    solution_steps:
+    - title: 第（1）问
+      content: 如图2，在 $Rt\triangle NMK$ 中，$NK=91.2\text{ cm}$，$NM=26.6\text{ cm}$，$\tan\angle NKM=\frac{NM}{NK}=\frac7{24}$。$\because NK\parallel AB$，$\therefore\tan A=\frac7{24}>\frac1{12}$，所以不安全。如图1，在 $Rt\triangle ABC$ 中，$AC=250\text{ cm}$，$BC:AB=7:24$，由勾股定理得 $BC=70\text{ cm}$。
+    - title: 第（2）问
+      content: 方案：坡道 $VC$ 的坡高设计为 $56\text{ cm}$，坡度设计为 $1:10$；坡道 $OV$ 的坡高为 $70-56=14\text{ cm}$，坡度设计为 $1:10$，所以 $OW=140\text{ cm}$。经验证此时 $OT=210\text{ cm}$、$RF=170\text{ cm}$，符合要求。
+    stem_image:
+      image_path: assets/prompt-01.png
+      width: 0.98\linewidth
+      variant: prompt
+      disclosure_policy: clean
+    diagram_col:
+      image_path: assets/prompt-02.png
+      width: 0.98\linewidth
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页
+    teaching:
+      source_key: 2026-JINSHAN-TERM-Q20
+      skill_tags: []
+      difficulty: standard
+      official_solution_policy: verbatim_transcription_with_separate_notes

@@ -1,0 +1,43 @@
+meta:
+  title: 普陀区2023学年度第一学期期末九年级自适应练习第20题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q020
+    points: 10
+    stem_latex: 如图，梯形 $ABCD$ 中，$AD\parallel BC$，$E、F$ 分别是 $AD、BC$ 的中点，$BD$ 与 $EF$ 交于点 $G$，$O$ 为 $BD$ 上一点，$OF\parallel DC$。（1）求 $\frac{OE}{AB}$；（2）设 $\overrightarrow{BA}=\vec a$，$\overrightarrow{DC}=\vec b$，如果 $DE:BF=1:3$，用 $\vec a、\vec b$ 表示 $\overrightarrow{FO}、\overrightarrow{EG}$。
+    answer: （1）$\frac12$；（2）$\overrightarrow{FO}=-\frac12\vec b$，$\overrightarrow{EG}=-\frac18\vec a+\frac18\vec b$。
+    solution_steps:
+    - title: 解答
+      content: （1）由 $OF\parallel DC$ 且 $F$ 为 $BC$ 中点得 $BO=OD$；又 $E$ 为 $AD$ 中点，故 $\frac{OE}{AB}=\frac12$。（2）按中点及平行线关系得 $\overrightarrow{FO}=-\frac12\vec b$，$\overrightarrow{EG}=-\frac18\vec a+\frac18\vec b$。
+    images:
+    - image_path: assets/prompt-figure.png
+      width: 0.78\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页
+    diagram_col:
+      image_path: assets/manual-prompt-1-5b8da59cc689a75c.png
+      variant: prompt
+      disclosure_policy: clean

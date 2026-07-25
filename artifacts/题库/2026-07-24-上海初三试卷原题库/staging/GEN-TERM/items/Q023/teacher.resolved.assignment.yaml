@@ -1,0 +1,95 @@
+meta:
+  title: 初三数学期末练习卷 · 原题第 23 题 · 教师版
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q023
+    points: 12
+    stem_latex: '如图，在 $\mathrm{Rt}\triangle ABC$ 中，$\angle BAC=90^\circ$，$AD\perp BC$，垂足为点 $D$。点 $E$ 是边 $AC$ 上一点，$EF\perp BC$，垂足为点 $F$，$AD,BE$ 交于点 $M$。
+
+      \begin{enumerate}
+
+      \item 如果 $BE$ 平分 $\angle ABC$，求证：$BM\cdot CE=AM\cdot BE$；
+
+      \item 如果 $BD=CF$，求证：$\dfrac{EF}{AD}=\dfrac{AB^2}{AC^2}$。
+
+      \end{enumerate}'
+    answer: 两问证明见解析。
+    subquestions:
+    - latex: 若 $BE$ 平分 $\angle ABC$，证明 $BM\cdot CE=AM\cdot BE$；
+    - latex: 若 $BD=CF$，证明 $\dfrac{EF}{AD}=\dfrac{AB^2}{AC^2}$。
+    solution_steps:
+    - title: 第（1）问
+      content: '$\because\ \mathrm{Rt}\triangle ABC$ 中，$\angle BAC=90^\circ$，
+
+        $\therefore\ \angle ABC+\angle C=90^\circ$。
+
+        $\because\ AD\perp BC$，
+
+        $\therefore\ \mathrm{Rt}\triangle ABD$ 中，$\angle ABC+\angle1=90^\circ$。
+
+        $\therefore\ \angle1=\angle C$。
+
+        $\because\ BE$ 平分 $\angle ABC$，$\therefore\ \angle2=\angle3$。
+
+        $\therefore\ \triangle ABM\sim\triangle CBE$。
+
+        $\therefore\ \dfrac{BM}{BE}=\dfrac{AM}{CE}$。
+
+        $\therefore\ BM\cdot CE=AM\cdot BE$。'
+      diagram_col:
+        image_path: assets/solution-01.png
+        width: 76mm
+        variant: solution
+        disclosure_policy: teacher_only
+    - title: 第（2）问
+      content: '$\because\ \angle1=\angle C$，$\angle ABC$ 是公共角，
+
+        $\therefore\ \triangle BAD\sim\triangle BCA$。
+
+        $\therefore\ \dfrac{BD}{BA}=\dfrac{BA}{BC}$，$\therefore\ BD\cdot BC=BA^2$。
+
+        同理可证：$CD\cdot CB=CA^2$。
+
+        $\therefore\ \dfrac{BD\cdot BC}{CD\cdot CB}=\dfrac{BA^2}{CA^2}$，即 $\dfrac{BD}{CD}=\dfrac{BA^2}{CA^2}$。
+
+        $\because\ BD=CF$，$\therefore\ \dfrac{CF}{CD}=\dfrac{BA^2}{CA^2}$。
+
+        $\because\ EF\perp BC$，$AD\perp BC$，$\therefore\ \angle EFC=\angle ADC=90^\circ$。
+
+        $\therefore\ EF\parallel AD$，$\therefore\ \dfrac{EF}{AD}=\dfrac{CF}{CD}$。
+
+        $\therefore\ \dfrac{EF}{AD}=\dfrac{AB^2}{AC^2}$。'
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 62mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 公众号原解答 1
+    teaching:
+      source_key: GEN-TERM-Q23
+      skill_tags:
+      - 相似三角形
+      - 射影定理
+      - 几何证明
+      difficulty: challenge
+      official_solution_policy: verbatim_transcription_with_separate_notes

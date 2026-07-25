@@ -1,0 +1,47 @@
+meta:
+  title: 2025学年第一学期黄浦区九年级期终考试数学试卷第 22 题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q022
+    points: 14
+    stem_latex: 铺设转角地板时使用宽度比为 $2:1$ 的甲、乙两种木地板。场景1为直角转角，场景2为 $60^\circ$ 转角，图示给出沿切割线拼接的方法及一种不用刻度尺、量角器、圆规确定乙种地板切割线的操作方案。（1）在场景1中，求乙种地板切割后产生的锐角正切值，即 $\tan\angle AON$；（2）在场景2中，求乙种地板切割后产生的锐角 $\angle BOQ$ 的正切值；（3）判断所给操作方案作出的切割线是否符合场景2要求，并说明理由。
+    answer: （1）$\dfrac12$；（2）$\dfrac{\sqrt3}{5}$；（3）符合。
+    solution_steps:
+    - title: 第（1）问
+      content: 由两种地板宽度比为 $2:1$ 和直角转角中的拼接关系，得 $\tan\angle AON=\dfrac12$。
+    - title: 第（2）问
+      content: 过点 $B$ 作辅助线并作垂线，利用 $60^\circ$ 和等边三角形关系。设乙种板宽为 $k$，则相关长度可表示为 $BY=\dfrac{2\sqrt3}{3}k，BX=\dfrac{4\sqrt3}{3}k，YZ=\dfrac{\sqrt3}{3}k$，从而 $OY=2\sqrt3k，OZ=\dfrac{5\sqrt3}{3}k$，所以 $\tan\angle BOQ=\dfrac{\sqrt3}{5}$。
+    - title: 第（3）问
+      content: 该方案符合场景2。在 $\triangle HOT$ 中，由构造得 $OT=\dfrac{2\sqrt3}{3}k，OH=2\sqrt3k，\angle O=60^\circ$，计算得 $\tan\angle OHT=\dfrac{\sqrt3}{5}$，与第（2）问一致，所以 $TH$ 即为所需切割线。
+    stem_image:
+      image_path: assets/prompt-01.png
+      width: 0.96\linewidth
+      variant: prompt
+      disclosure_policy: clean
+    diagram_col:
+      image_path: assets/prompt-02.png
+      width: 70mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 1 页

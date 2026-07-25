@@ -1,0 +1,28 @@
+meta:
+  title: 九年级期终考试数学试卷第 17 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: student
+  show_answers: false
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: student
+  blocks:
+  - type: fillin
+    id: Q017
+    points: 4
+    stem_latex: 如图，将矩形 $ABCD$ 平移到矩形 $EFGH$ 的位置，点 $A、B、C$ 分别对应 $E、F、G$，$EH$ 与 $CD$ 交于 $M$，$EF$ 与 $BC$ 交于 $N$，且 $DM:MC=3:2$，$BN:CN=3:2$。如果 $MN=a$，那么 $AE=$\fillin。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean

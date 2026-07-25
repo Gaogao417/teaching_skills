@@ -1,0 +1,58 @@
+meta:
+  title: 闵行区九年级数学一模试卷 · 原题第 25 题 · 教师版
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: 如图，在 $\mathrm{Rt}\triangle ABC$ 中，$\angle ACB=90^\circ$，以 $AC,BC$ 为边在 $\triangle ABC$ 外部作等边三角形 $ACE$ 和等边三角形 $BCF$，且联结 $EF$。\begin{enumerate}\item 如图1，联结 $AF,EB$，求证：$\triangle ECB\cong\triangle ACF$；\item 如图2，延长 $AC$ 交线段 $EF$ 于点 $M$。\begin{enumerate}\item 当点 $C$ 是线段 $AM$ 的中点时，求 $\dfrac{AC}{BC}$ 的值；\item 请用直尺和圆规在直线 $AB$ 上方作等边三角形 $ABK$（不要求写作法，保留作图痕迹，备用图可使用），当点 $M$ 在 $\triangle ABK$ 的内部时，求 $\dfrac{AC}{BC}$ 的取值范围。\end{enumerate}\end{enumerate}
+    answer: （1）证明见解答；（2）①$\dfrac{AC}{BC}=\dfrac{2\sqrt3}{3}$；②$\dfrac{\sqrt3}{3}<\dfrac{AC}{BC}<\dfrac{2\sqrt3}{3}$。
+    solution_steps:
+    - title: 官方解答
+      content: （1）$\because \triangle AEC$ 和 $\triangle FCB$ 是等边三角形，$\therefore CE=CA$，$CF=CB$，且 $\angle ECA=\angle FCB=60^\circ$，所以 $\angle ECB=\angle ACF$。由边角边得 $\triangle ECB\cong\triangle ACF$。（2）①按原解延长 $FC$ 交 $AE$ 于 $H$。由角关系及 $CE=CA$ 得 $CH\perp EA$ 且 $AH=HE$。当 $C$ 为 $AM$ 中点时，$EM=MF$，从而 $FC=2CH$，计算得 $\dfrac{AC}{BC}=\dfrac{2\sqrt3}{3}$。②作等边三角形并分别讨论边界情形，原解得到当 $M$ 在等边三角形内部时：$\dfrac{\sqrt3}{3}<\dfrac{AC}{BC}<\dfrac{2\sqrt3}{3}$。
+      diagram_col:
+        image_path: assets/solution-01.png
+        width: 72mm
+        variant: solution
+        disclosure_policy: teacher_only
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 82mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 公众号原解答 1
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 公众号原解答 2
+    - image_path: assets/official-solution-03.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 公众号原解答 3
+    teaching:
+      source_key: 2024-MINHANG-YIMO-Q25
+      skill_tags:
+      - 原卷题
+      difficulty: standard
+      official_solution_policy: verbatim_transcription_with_separate_notes

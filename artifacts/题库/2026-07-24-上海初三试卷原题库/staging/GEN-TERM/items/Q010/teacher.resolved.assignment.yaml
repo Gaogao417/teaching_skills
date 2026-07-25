@@ -1,0 +1,42 @@
+meta:
+  title: GEN-TERM 第10题
+  grade: 九年级
+  subject: 数学
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+  total_points: 4
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 第10题（填空题，4分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: fillin
+    id: Q010
+    points: 4
+    stem: 如图4，已知 $AB\parallel CD\parallel EF$，它们依次交直线 $l_1$、$l_2$ 于点 $A$、$D$、$F$ 和点 $B$、$C$、$E$。如果 $AD:DF=3:2$，$BC=21$，那么 $CE=$ \fillin。
+    answer: $14$
+    explanation: 公众号参考答案仅给出：$14$。
+    source_solution_images:
+    - image_path: assets/official-solution.png
+      width: 0.22\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 公众号原解答 1
+    diagram_col:
+      image_path: assets/q10-prompt.png
+      width: 0.34\linewidth
+      variant: prompt
+      disclosure_policy: clean
+    teaching:
+      difficulty: standard
+      skill_tags:
+      - 平行线分线段成比例
+      - 比例线段
+      variation_dimension: source_exam

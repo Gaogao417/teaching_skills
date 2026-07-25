@@ -1,0 +1,28 @@
+meta:
+  title: GEN-TERM 第12题
+  grade: 九年级
+  subject: 数学
+  version: student
+  show_answers: false
+  source_artifacts:
+    source_record: source.yaml
+  total_points: 4
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 第12题（填空题，4分）
+  type: practice
+  visibility: student
+  blocks:
+  - type: fillin
+    id: Q012
+    points: 4
+    stem: 如图6，在梯形 $ABCD$ 中，$AD\parallel BC$，对角线 $AC$、$BD$ 相交于点 $O$。如果 $\triangle BCD$ 的面积是 $\triangle ABD$ 的面积的2倍，那么 $\triangle BOC$ 与 $\triangle BCD$ 的面积之比是 \fillin。
+    diagram_col:
+      image_path: assets/q12-prompt.png
+      width: 0.30\linewidth
+      variant: prompt
+      disclosure_policy: clean

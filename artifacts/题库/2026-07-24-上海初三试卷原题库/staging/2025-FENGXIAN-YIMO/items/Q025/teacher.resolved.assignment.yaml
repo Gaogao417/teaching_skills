@@ -1,0 +1,61 @@
+meta:
+  title: 奉贤区2024学年第一学期九年级数学练习 · 原题第 25 题 · 教师版
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: '如图8，矩形 $ABCD$ 中，$AB=2BC$，点 $E$ 在射线 $BA$ 上，点 $F$ 在射线 $BC$ 上，且 $DF\perp DE$，射线 $EF$ 与对角线 $AC$ 交于点 $G$，与射线 $DC$ 交于点 $M$。
+
+      \begin{enumerate}
+
+      \item 当点 $E$ 在线段 $BA$ 上时，求 $\angle DFM$ 的正切值；
+
+      \item 当 $G$ 是 $AC$ 中点时，求 $\dfrac{DM}{CM}$ 的值；
+
+      \item 当 $BC=3$，且 $\triangle DGM$ 与 $\triangle DCF$ 相似时，直接写出 $AE$ 的长。
+
+      \end{enumerate}
+
+      '
+    answer: （1）$\tan\angle DFM=\dfrac12$；（2）$\dfrac{DM}{CM}=\dfrac53$；（3）$AE=\dfrac{3\sqrt5-3}{2}$或$3\sqrt5-6$。
+    solution_steps:
+    - title: 第（1）问
+      content: 因为四边形 $ABCD$ 是矩形，所以 $\angle DAB=\angle ADC=\angle DCF=90^\circ$，$AB=CD$，$BC=AD$。又 $DF\perp DE$，所以 $\angle EDF=90^\circ=\angle ADC$，得 $\angle EDA=\angle DFC$。于是 $\triangle DAE\sim\triangle DCF$，所以 $\dfrac{DA}{DC}=\dfrac{DE}{DF}$。在 $\mathrm{Rt}\triangle DEF$ 中，$\tan\angle DFM=\dfrac{DE}{DF}=\dfrac{DA}{DC}=\dfrac12$。
+    - title: 第（2）问
+      content: 由 $\dfrac{DA}{DE}=\dfrac{DC}{DF}$ 且 $\angle ADC=\angle EDF=90^\circ$，得 $\triangle DEF\sim\triangle DAC$。再由角关系可得 $\triangle GMC\sim\triangle DMF$，继而 $\triangle GMD\sim\triangle CMF$，所以 $\dfrac{GM}{GD}=\dfrac{CM}{CF}$。设 $AD=BC=m$，则 $AB=CD=2m$，$AC=\sqrt5m$。因为 $G$ 是 $AC$ 中点，且 $\angle DGM=90^\circ$，所以 $DG=GC=\dfrac{\sqrt5}{2}m$。由相似关系得 $GM=\dfrac{\sqrt5}{4}m$，从而在 $\mathrm{Rt}\triangle DGM$ 中，$DM=\dfrac54m$，$CM=CD-DM=\dfrac34m$，故 $\dfrac{DM}{CM}=\dfrac53$。
+    - title: 第（3）问
+      content: 分类讨论 $\triangle DGM\sim\triangle DCF$ 的对应关系，可得 $AE=\dfrac{3\sqrt5-3}{2}$ 或 $AE=3\sqrt5-6$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 0.96\linewidth
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 公众号原解答 1
+    teaching:
+      source_key: 2025-FENGXIAN-YIMO-Q25
+      skill_tags:
+      - 矩形
+      - 相似三角形
+      - 分类讨论
+      difficulty: challenge
+      official_solution_policy: verbatim_transcription_with_separate_notes

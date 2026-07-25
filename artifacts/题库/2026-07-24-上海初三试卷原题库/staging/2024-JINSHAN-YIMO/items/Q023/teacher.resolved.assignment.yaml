@@ -1,0 +1,47 @@
+meta:
+  title: 金山区2023学年第一学期期末学情诊断第23题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q023
+    points: 12
+    stem_latex: 已知：如图，在四边形 $ABCD$ 中，对角线 $AC$ 和 $BD$ 相交于点 $O$，$\angle BAC=\angle BDC$。（1）求证：$\triangle
+      AOD\sim\triangle BOC$；（2）过点 $A$ 作 $AE\parallel CD$，$AE$ 交 $BD$ 于点 $E$，求证：$AB\cdot
+      AD=AE\cdot BC$。
+    answer: 两问结论均成立
+    solution_steps:
+    - title: 官方解答
+      content: （1）$\because\angle BAC=\angle BDC,\angle AOB=\angle DOC$，$\therefore\triangle
+        AOB\sim\triangle DOC$，所以 $\frac{AO}{BO}=\frac{DO}{CO}$。又 $\angle AOD=\angle
+        BOC$，$\therefore\triangle AOD\sim\triangle BOC$。（2）由 $\triangle AOB\sim\triangle
+        DOC$ 得 $\angle BAO=\angle CDO$。$\because AE\parallel CD$，$\therefore\angle
+        AED=\angle CDO$，故 $\angle AED=\angle BAC$。又由 $\triangle AOD\sim\triangle BOC$
+        得 $\angle ADE=\angle BCA$，所以 $\triangle AED\sim\triangle BAC$，从而 $\frac{AE}{BA}=\frac{AD}{BC}$，即
+        $AB\cdot AD=AE\cdot BC$。
+    images:
+    - image_path: assets/prompt-01.png
+      width: 0.82\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图1
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页

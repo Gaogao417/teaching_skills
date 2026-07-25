@@ -1,0 +1,37 @@
+meta:
+  title: 青浦区2023学年第一学期期终调研第2题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q002
+    points: 4
+    stem_latex: 在 $\mathrm{Rt}\triangle ABC$ 中，$\angle C=90^\circ$，如果 $AC=5$，$BC=12$，那么
+      $\cot A$ 等于（　）。
+    answer: A
+    choices:
+    - $\dfrac5{12}$
+    - $\dfrac{12}5$
+    - $\dfrac5{13}$
+    - $\dfrac{12}{13}$
+    explanation: 官方参考答案：A。
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页

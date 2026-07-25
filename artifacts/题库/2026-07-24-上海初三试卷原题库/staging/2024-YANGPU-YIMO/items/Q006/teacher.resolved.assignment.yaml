@@ -1,0 +1,42 @@
+meta:
+  title: 杨浦区2023学年度第一学期期末质量调研第6题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q006
+    points: 4
+    stem_latex: 如图，锐角 $\triangle ABC$ 中，$AB>AC>BC$，想在 $AB$ 上找点 $D$、在 $AC$ 上找点 $E$，使 $\angle ADE=\angle C$。甲、乙两位同学分别给出图示作法，判断正确的是
+    answer: C
+    choices:
+    - 甲正确、乙错误
+    - 甲错误、乙正确
+    - 甲、乙均正确
+    - 甲、乙均错误
+    explanation: 官方参考答案：C。
+    images:
+    - image_path: assets/prompt-figure.png
+      width: 0.78\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页

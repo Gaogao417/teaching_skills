@@ -1,0 +1,32 @@
+meta:
+  title: 闵行区九年级数学一模试卷 · 原题第 4 题 · 学生版
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: student
+  show_answers: false
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: student
+  blocks:
+  - type: choice
+    id: Q004
+    points: 4
+    stem_latex: 如图，已知 $l_1\parallel l_2\parallel l_3$，直线 $l_1,l_2,l_3$ 分别交直线 $l_4$ 于点 $A,B,C$，交直线 $l_5$ 于点 $D,E,F$，那么下列比例式正确的是（　）
+    choices:
+      A: $\dfrac{AC}{BC}=\dfrac{DF}{EF}$
+      B: $\dfrac{AB}{DE}=\dfrac{BE}{AD}$
+      C: $\dfrac{AB}{BC}=\dfrac{DF}{EF}$
+      D: $\dfrac{DF}{EF}=\dfrac{CF}{BE}$
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 82mm
+      variant: prompt
+      disclosure_policy: clean

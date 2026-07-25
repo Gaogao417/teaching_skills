@@ -1,0 +1,57 @@
+meta:
+  title: 奉贤区2024学年第一学期九年级数学练习 · 原题第 23 题 · 教师版
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q023
+    points: 12
+    stem_latex: '已知：如图6，在 $\triangle ABC$ 中，点 $D$ 在边 $AC$ 上，点 $M$、$N$ 在边 $BC$ 上，$AB$ 是线段 $AD$ 与 $AC$ 的比例中项，$\angle BAN=\angle CAM$，$AM$、$AN$ 分别交 $BD$ 于点 $E$、$F$。
+
+      \begin{enumerate}
+
+      \item 求证：$\dfrac{BD}{AE}=\dfrac{BC}{AN}$；
+
+      \item 若点 $O$ 为 $BD$ 边的中点，联结 $ON$，且 $BD^2=2BN\cdot BC$，求证：$ON\parallel AB$。
+
+      \end{enumerate}
+
+      '
+    answer: 见证明。
+    solution_steps:
+    - title: 第（1）问
+      content: 因为 $AB$ 是线段 $AD$ 与 $AC$ 的比例中项，所以 $AB^2=AD\cdot AC$，即 $\dfrac{AD}{AB}=\dfrac{AB}{AC}$。又 $\angle BAD=\angle CAB$，所以 $\triangle ABD\sim\triangle ACB$，得 $\angle ADB=\angle ABC$。又 $\angle BAN=\angle CAM$，所以 $\triangle BAN\sim\triangle DAE$，得 $\dfrac{AE}{AN}=\dfrac{AD}{AB}$。由 $\triangle ABD\sim\triangle ACB$，得 $\dfrac{BD}{CB}=\dfrac{AD}{AB}$，因此 $\dfrac{BD}{CB}=\dfrac{AE}{AN}$，即 $\dfrac{BD}{AE}=\dfrac{BC}{AN}$。
+    - title: 第（2）问
+      content: 因为 $O$ 为 $BD$ 的中点，且 $BD^2=2BN\cdot BC$，所以 $2BO\cdot BD=2BN\cdot BC$，即 $BO\cdot BD=BN\cdot BC$，得 $\dfrac{BO}{BC}=\dfrac{BN}{BD}$。又 $\angle NBO=\angle DBC$，所以 $\triangle OBN\sim\triangle CBD$，得 $\angle BON=\angle C$。由 $\triangle ABD\sim\triangle ACB$，得 $\angle ABD=\angle C$，所以 $\angle BON=\angle ABD$，故 $ON\parallel AB$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 72mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 公众号原解答 1
+    teaching:
+      source_key: 2025-FENGXIAN-YIMO-Q23
+      skill_tags:
+      - 比例中项
+      - 相似三角形
+      - 平行线证明
+      difficulty: standard
+      official_solution_policy: verbatim_transcription_with_separate_notes

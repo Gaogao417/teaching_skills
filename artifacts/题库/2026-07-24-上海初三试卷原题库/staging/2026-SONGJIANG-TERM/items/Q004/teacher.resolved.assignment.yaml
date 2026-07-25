@@ -1,0 +1,42 @@
+meta:
+  title: 松江区2025学年度第一学期期末质量监控试卷第4题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q004
+    points: 4
+    stem_latex: 已知二次函数 $y=ax^2+bx+c$ 的图像如图所示，下列结论正确的是
+    answer: C
+    choices:
+    - $abc<0$
+    - $2a+b=0$
+    - $a-b+c>0$
+    - $a+b+c>0$
+    explanation: 官方参考答案：C。
+    images:
+    - image_path: assets/prompt-figure.png
+      width: 0.76\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页

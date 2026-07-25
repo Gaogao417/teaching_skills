@@ -1,0 +1,93 @@
+\documentclass{exam-zh}
+\usepackage{edu-practice}
+
+\examsetup{
+  question/show-answer = true,
+  fillin/show-answer = true,
+  solution/show-solution = show-stay,
+}
+
+% ---------- 教师版解答样式 ----------
+\newtcolorbox{solutionblock}{
+  enhanced, breakable,
+  colback=edu-blue-bg,
+  colframe=edu-blue!25,
+  boxrule=0pt,
+  borderline west={2pt}{0pt}{edu-blue!50},
+  arc=0pt,
+  left=3mm, right=3mm, top=2mm, bottom=2mm,
+  before skip=2mm,
+  after skip=3mm,
+  fontupper=\small,
+}
+
+% 解答步骤编号
+\newcounter{solstep}
+\newcommand{\solstep}[2]{%
+  \stepcounter{solstep}%
+  \par\medskip
+  \noindent\hangindent=6mm
+  {\color{edu-blue}\bfseries\textcircled{\scriptsize\thesolstep}\enspace #1}\enspace #2\par
+}
+
+\begin{document}
+
+\section*{初三数学期末练习卷 · 原题第 24 题 · 教师版}
+
+\section*{三、解答题}
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=12]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-62mm-6mm\relax}
+    \vspace{0pt}
+    新定义：在平面直角坐标系中，抛物线上的点和它的顶点的连线与该条抛物线的对称轴所夹角的正切值称为抛物线上这个点的开口程度，规定抛物线顶点的开口程度为 $0$。
+
+如图，在平面直角坐标系 $xOy$ 中：
+\begin{enumerate}
+\item 抛物线 $y=x^2-4x+5$ 与 $y$ 轴交于点 $P$，求点 $P$ 的开口程度 $k_P$；
+\item 抛物线 $y=x^2-4x+a$ 与 $x$ 轴交于 $A,B$ 两点（$A$ 在 $B$ 的左侧）。如果点 $A$ 的开口程度 $k_A=1$，求 $a$；
+\item 将抛物线 $C_1:y=mx^2-2mx+n\ (m>0)$ 平移，使平移后的抛物线 $C_2$ 经过 $C_1$ 的顶点 $M$。记 $C_2$ 的顶点为 $N$，$C_2$ 的对称轴交 $C_1$ 于点 $Q$。如果 $C_1$ 上点 $Q$ 的开口程度与 $C_2$ 上点 $M$ 的开口程度相等，均为 $2$，且 $\triangle QMN$ 的面积为 $8$，求 $m$。
+\end{enumerate}
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{62mm}{}
+  \includegraphics[width=\linewidth]{\detokenize{assets/prompt-01.png}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}（1）$\frac12$；（2）$3$；（3）$\frac18$。\par\medskip
+    \solstep{第（1）问}{因为 $y=x^2-4x+5=(x-2)^2+1$，记顶点为 $D$，所以 $P(0,5)$，$D(2,1)$，对称轴为直线 $x=2$。
+作 $PH\perp$ 直线 $x=2$，垂足为点 $H$，则 $PH=2$，$HD=4$，所以 $k_P=\tan\angle PDH=\dfrac{PH}{HD}=\dfrac12$。}
+    \solstep{第（2）问}{因为 $y=x^2-4x+a=(x-2)^2+a-4$，记顶点为 $E$，所以 $E(2,a-4)$，对称轴为直线 $x=2$。记直线 $x=2$ 与 $x$ 轴交于点 $F$。
+因为抛物线与 $x$ 轴有两个交点，所以 $a-4<0$，即 $a<4$。
+因为 $k_A=\tan\angle AEF=\dfrac{AF}{EF}=1$，所以 $AF=EF=4-a$，从而 $A(a-2,0)$。
+把 $A(a-2,0)$ 代入 $y=(x-2)^2+a-4$，得 $(a-4)^2+a-4=0$，解得 $a=3$ 或 $a=4$。当 $a=4$ 时不合题意，舍去，所以 $a=3$。}
+    \solstep{第（3）问}{作 $MG\perp QN$ 于点 $G$。因为 $C_1$ 上点 $Q$ 的开口程度与 $C_2$ 上点 $M$ 的开口程度相等，均为 $2$，所以 $k_Q=k_M=2$。
+因为 $k_Q=\tan\angle QMI$，$k_M=\tan\angle MNQ$，所以 $\angle QMI=\angle MNQ$。
+因为 $C_1,C_2$ 的对称轴互相平行，所以 $\angle QMI=\angle MQN$，从而 $\angle MQN=\angle MNQ$。
+所以 $\tan\angle MQN=\tan\angle MNQ$，且 $\dfrac{MG}{QG}=\dfrac{MG}{NG}=2$。
+设 $QG=NG=t\ (t>0)$，则 $MG=2t$。由 $S_{\triangle QMN}=\dfrac12QN\cdot MG=\dfrac12\cdot2t\cdot2t=8$，得 $t=2$。
+因为 $C_1:y=mx^2-2mx+n=m(x-1)^2+n-m$，所以 $M(1,n-m)$，且 $Q(-3,n-m+2)$ 或 $Q(5,n-m+2)$。
+将 $Q(-3,n-m+2)$ 或 $Q(5,n-m+2)$ 代入 $C_1$，解得 $m=\dfrac18$。}
+    \par\medskip
+\begin{center}
+  \begin{diagramcoltikz}{0.96\linewidth}{公众号原解答第 1 页}
+  \includegraphics[width=\linewidth]{\detokenize{assets/official-solution-01.png}}
+  \end{diagramcoltikz}
+\end{center}
+\par\medskip
+\begin{center}
+  \begin{diagramcoltikz}{0.96\linewidth}{公众号原解答第 2 页}
+  \includegraphics[width=\linewidth]{\detokenize{assets/official-solution-02.png}}
+  \end{diagramcoltikz}
+\end{center}
+
+  \end{solutionblock}
+\end{problem}
+
+
+
+\end{document}

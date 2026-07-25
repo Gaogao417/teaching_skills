@@ -1,0 +1,35 @@
+meta:
+  title: 2024年1月黄浦区九年级数学试卷第 20 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q020
+    points: 10
+    stem_latex: 已知抛物线 $y=x^2+2x+3$ 的顶点为 $A$，它与 $y$ 轴的交点为 $B$。（1）求线段 $AB$ 的长；（2）平移该抛物线，使其顶点在 $y$ 轴上，且与 $x$ 轴两交点间的距离为 $4$，求平移后所得抛物线的表达式。
+    answer: （1）$AB=\sqrt2$；（2）$y=x^2-4$
+    solution_steps:
+    - title: 第（1）问
+      content: 顶点 $A(-1,2)$，交点 $B(0,3)$，所以 $AB=\sqrt2$。
+    - title: 第（2）问
+      content: 由题意知 $x$ 轴上两交点为 $(2,0)$ 与 $(-2,0)$，则抛物线的表达式为 $y=(x+2)(x-2)$，即 $y=x^2-4$。
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 1 页

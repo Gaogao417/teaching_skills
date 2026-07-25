@@ -1,0 +1,99 @@
+meta:
+  title: 初三数学期末练习卷 · 原题第 22 题 · 教师版
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q022
+    points: 10
+    stem_latex: '阅读下列材料，回答问题。
+
+
+      拉伸运动对身体机能的调节起着关键作用。从运动生理学角度来看，科学的拉伸可以改善关节活动范围，提升身体的灵活性和协调性。
+
+
+      拉伸板是一种有效的拉伸工具，其侧面结构可以看作一个三角形。脚踏板 $AB$ 可绕底座铰链 $B$ 转动，支撑杆 $CD$ 的上端位于脚踏板的点 $D$ 处。通过移动支撑杆下端点 $C$ 的位置，可以改变脚踏板的倾斜角度。人在倾斜的脚踏板上时，身体重量会产生一个沿着踏板方向的拉伸力 $F$，其大小为
+
+      \[
+
+      F=mg\sin\alpha,
+
+      \]
+
+      其中 $m$（单位：千克）为体重，$g\approx10\text{牛/千克}$，$\alpha$ 是脚踏板与水平地面之间的夹角。
+
+
+      小海有一款三档可调节拉伸板，三档的夹角 $\alpha$ 分别为 $20^\circ,25^\circ,30^\circ$。已知 $BD=30\text{ cm}$。
+
+      \begin{enumerate}
+
+      \item 小海的体重是 $50$ 千克，如果拉伸力 $F$ 在 $180$ 牛至 $220$ 牛可以达到锻炼目的，说明选择哪一档能达到锻炼目的；
+
+      \item 当档位夹角为 $30^\circ$ 时，支撑杆 $CD$ 恰好与底座 $BM$ 垂直，求支撑杆下端点 $C$ 与铰链 $B$ 点的距离（结果保留根号）；
+
+      \item 当档位夹角从 $30^\circ$ 调到 $20^\circ$ 时，支撑杆的位置变化到 $D_1C_1$，求支撑杆 $CD$ 的端点 $D$ 在竖直方向下降约多少厘米。
+
+      \end{enumerate}
+
+      参考数据（精确到 $0.01$）：$\sin20^\circ=0.34$，$\sin25^\circ=0.42$，$\cos20^\circ=0.94$，$\cos25^\circ=0.91$。'
+    answer: （1）$25^\circ$ 档；（2）$15\sqrt3\text{ cm}$；（3）约 $4.8\text{ cm}$。
+    subquestions:
+    - latex: 判断应选择的档位；
+    - latex: 求 $BC$；
+    - latex: 求点 $D$ 在竖直方向下降的距离。
+    solution_steps:
+    - title: 第（1）问：比较三档拉伸力
+      content: '$F=mg\sin\alpha=50\text{ kg}\times10\text{ N/kg}\times\sin20^\circ\approx500\text{ N}\times0.34=170\text{ N}$；
+
+        $F\approx500\text{ N}\times0.42=210\text{ N}$；
+
+        $F=500\text{ N}\times0.50=250\text{ N}$。
+
+        因为 $170<180<210<220<250$，所以小海选择 $25^\circ$ 档能达到锻炼目的。'
+    - title: 第（2）问：求水平距离
+      content: 在 $\mathrm{Rt}\triangle DBC$ 中，$\angle BCD=90^\circ$，$BD=30\text{ cm}$，$\angle ABC=30^\circ$，所以 $BC=BD\cos\angle ABC=30\times\frac{\sqrt3}{2}=15\sqrt3\text{ cm}$。
+    - title: 第（3）问：求竖直下降距离
+      content: '在 $\mathrm{Rt}\triangle DBC$ 中，$DC=DB\sin\angle ABC=30\sin30^\circ=15\text{ cm}$。
+
+        作 $D_1H\perp BM$，垂足为 $H$。由题意，$D_1B=DB=30\text{ cm}$，$\angle A_1BC_1=20^\circ$。
+
+        在 $\mathrm{Rt}\triangle D_1BH$ 中，$D_1H=D_1B\sin\angle A_1BC_1=30\sin20^\circ\approx30\times0.34=10.2\text{ cm}$。
+
+        所以点 $D$ 在竖直方向下降约 $15-10.2=4.8\text{ cm}$。'
+    stem_image:
+      image_path: assets/prompt-full-question.png
+      width: 0.98\linewidth
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 公众号原解答第 1 页
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 公众号原解答第 2 页
+    teaching:
+      source_key: GEN-TERM-Q22
+      skill_tags:
+      - 锐角三角比
+      - 实际应用
+      - 解直角三角形
+      difficulty: standard
+      official_solution_policy: verbatim_transcription_with_separate_notes

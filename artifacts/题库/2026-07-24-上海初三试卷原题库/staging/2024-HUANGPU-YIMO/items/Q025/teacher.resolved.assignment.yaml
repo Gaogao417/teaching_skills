@@ -1,0 +1,42 @@
+meta:
+  title: 2024年1月黄浦区九年级数学试卷第 25 题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: 如图，$O$ 是 $\mathrm{Rt}\triangle ABC$ 斜边 $AB$ 的中点，$BH\perp CO$ 交 $AC$ 于 $D$，垂足为 $H$，联结 $OD$。（1）求证：$BC^2=AC\cdot CD$；（2）如果 $\triangle ODH$ 与 $\triangle ABC$ 相似，求其相似比；（3）如果 $BH:DH=4:1$，求 $\angle ADO$ 的大小。
+    answer: （1）见证明；（2）$\dfrac{\sqrt3}{6}$；（3）$45^\circ$
+    solution_steps:
+    - title: 第（1）问
+      content: 证明 $\angle OCA=\angle OAC$，$\angle OCD=\angle CBD$，得 $\angle A=\angle CBD$，所以 $\triangle BCD\sim\triangle CAB$，故 $BC^2=AC\cdot CD$。
+    - title: 第（2）问
+      content: 当 $\angle DOH=\angle A$ 时，可得 $\angle A=30^\circ$，相似比为 $\dfrac{\sqrt3}{6}$；当 $\angle ODH=\angle A$ 时，可得 $D$ 为边 $AC$ 中点，相似比仍为 $\dfrac{\sqrt3}{6}$。两种情况顺序无关。
+    - title: 第（3）问
+      content: 由 $BH:DH=4:1$，得 $BC:CD=2:1$。过 $O$ 作 $OT\perp AC$，垂足为 $T$。证明 $DT=OT$，得 $\angle ADO=45^\circ$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 60mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 1 页

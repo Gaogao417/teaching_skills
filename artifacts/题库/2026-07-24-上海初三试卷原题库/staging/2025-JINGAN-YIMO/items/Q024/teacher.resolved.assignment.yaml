@@ -1,0 +1,55 @@
+meta:
+  title: 静安区2024学年度第一学期期末教学质量调研九年级数学试卷第 24 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q024
+    points: 12
+    stem_latex: 已知二次函数 $y=ax^2+bx+c$ 的部分函数值如下表：$x:\ \cdots,-3,-1,0,3,2,\cdots$；$y:\ \cdots,-8,0,2,0,2,\cdots$。（1）求这个二次函数的解析式；（2）这个二次函数图像的顶点为 $P$，将它关于一条平行于 $x$ 轴的直线 $l$ 翻折得到一条新的抛物线。①如果原抛物线与 $x$ 轴交于 $A、B$ 两点，且 $\triangle ABP$ 的重心 $G$ 在直线 $l$ 上，求新抛物线的解析式；②如果新抛物线经过坐标原点，求新抛物线被直线 $l$ 截得的线段长。
+    answer: （1）$y=-\frac23x^2+\frac43x+2$；（2）①$y=\frac23(x-1)^2-\frac89$；②$\sqrt{10}$
+    solution_steps:
+    - title: 官方解答（1）与（2）①
+      content: 由表中三点求得 $y=-\frac23x^2+\frac43x+2=-\frac23(x-1)^2+\frac83$，顶点 $P(1,\frac83)$。原抛物线两零点在 $x$ 轴上，故重心纵坐标为 $\frac89$，直线 $l$ 为 $y=\frac89$。翻折后顶点为 $(1,-\frac89)$，新抛物线为 $y=\frac23(x-1)^2-\frac89$。
+      diagram_col:
+        image_path: assets/solution-01.png
+        width: 58mm
+        variant: solution
+        disclosure_policy: teacher_only
+    - title: 官方解答（2）②
+      content: 设直线 $l$ 为 $y=m$，翻折后的顶点为 $(1,2m-\frac83)$，新抛物线为 $y=\frac23(x-1)^2+2m-\frac83$。代入原点得 $m=1$。令 $y=1$，得 $x=1\pm\frac{\sqrt{10}}2$，所以截得线段长为 $\sqrt{10}$。
+      diagram_col:
+        image_path: assets/solution-02.png
+        width: 58mm
+        variant: solution
+        disclosure_policy: teacher_only
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 1 页
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 2 页

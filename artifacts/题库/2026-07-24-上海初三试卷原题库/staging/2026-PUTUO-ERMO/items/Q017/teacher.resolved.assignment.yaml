@@ -1,6 +1,6 @@
 meta:
-  title: 2026 年上海市普陀区中考数学二模试卷第 17 题
-  grade: 初三
+  title: 2026年上海市普陀区中考二模数学试卷第 17 题
+  grade: 九年级
   subject: 数学
   total_points: 4
   version: teacher
@@ -17,16 +17,18 @@ sections:
   type: practice
   visibility: both
   blocks:
-  - type: fillin
+  - type: short_answer
     id: Q017
     points: 4
-    stem_latex: 在 $\triangle ABC$ 中，$\angle C=90°$，$AC=8$，$BC=6$（如图所示）。点 $D$ 在 $AB$ 边上（不与点 $A$、$B$ 重合），$DE\perp AC$，$DF\perp BC$，垂足分别为 $E$、$F$。$\odot I$ 的半径长为 $2$。如果 $\odot I$ 与 $DE$、$DF$ 都外切，那么 $\odot I$ 的半径长 $r$ 的取值范围是\fillin。
-    answer: $2<r<\dfrac{12}{5}$
-    explanation: 连 $ID$，$DE+DF-CD=r_1+r_2$，当 $D\to A$ 时 $r\to\frac{12}{5}$，当 $D\to C$ 时 $r\to 2$。
-    solution_notes: 题干含 WMF 公式，LaTeX 从解析推断，需人工核实几何条件和答案范围。
-    stem_image:
+    stem_latex: 在$\triangle ABC$中，$\angle C=90^{\circ}$，$AC=4$，$BC=3$（如图所示）．点$D$在$AB$边上（不与点$A$、$B$重合），$DE\perp AC$，$DF\perp BC$，垂足分别为$E$、$F$，$\odot O_1$的半径长为2．如果$\odot O_1$与$\odot O_2$外切，那么$\odot O_2$的半径长$r$的取值范围是________．
+    answer: $0<r\leqslant\dfrac{6}{5}$
+    explanation: 官方参考答案：$0<r\leqslant\dfrac{6}{5}$。
+    solution_steps:
+    - title: 详解
+      content: 连接$O_1O_2$，设与$AB$交于点$P$。外切条件$O_1O_2=2+r$。利用面积法和三角形性质求$r$的取值范围。
+    diagram_col:
       image_path: assets/prompt-01.png
-      width: 40mm
+      width: 0.5\linewidth
       variant: prompt
       disclosure_policy: clean
     source_solution_images: []

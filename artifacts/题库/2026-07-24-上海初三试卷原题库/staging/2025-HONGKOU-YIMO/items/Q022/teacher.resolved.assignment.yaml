@@ -1,0 +1,40 @@
+meta:
+  title: 虹口区2024学年度初三年级第一次学生学习能力诊断练习数学练习卷第 22 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q022
+    points: 10
+    stem_latex: 如图9，在 $\mathrm{Rt}\triangle ABC$ 中，$\angle ABC=90^\circ$，点 $D$ 在边 $AC$ 上，过点 $D$ 作 $DE\perp AC$ 交 $AB$ 于点 $E$，联结 $EC、BD$ 交于点 $F$。（1）求证：$\triangle ABD\sim\triangle ACE$；（2）如果 $BC=BE$，求证：$\dfrac12CE^2=BF\cdot BD$。
+    answer: 见官方证明
+    solution_steps:
+    - title: 第（1）问
+      content: $\because DE\perp AC$，$\therefore\angle ADE=90^\circ$。$\because\angle ABC=90^\circ$，$\therefore\angle ADE=\angle ABC$。$\because\angle DAE=\angle BAC$，$\therefore\triangle ADE\sim\triangle ABC$，$\therefore\dfrac{AD}{AB}=\dfrac{AE}{AC}$，即 $\dfrac{AD}{AE}=\dfrac{AB}{AC}$。又 $\angle BAD=\angle CAE$，$\therefore\triangle ABD\sim\triangle ACE$。
+    - title: 第（2）问
+      content: 由 $\triangle ABD\sim\triangle ACE$ 得 $\angle ABD=\angle ACE$。由角的关系得 $\angle BEF=\angle CDF$。$\because BC=BE$，$\therefore\angle BEF=\angle BCF$。$\therefore\angle CDF=\angle BCF$。又 $\angle DBC=\angle CBF$，$\therefore\triangle BCD\sim\triangle BFC$，$\therefore\dfrac{BC}{BF}=\dfrac{BD}{BC}$，即 $BC^2=BF\cdot BD$。在 $\mathrm{Rt}\triangle CBE$ 中，$\angle BEF=\angle BCF=45^\circ$，$\therefore CE=\sqrt2BC$，$\therefore\dfrac12CE^2=BF\cdot BD$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 52mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 1 页

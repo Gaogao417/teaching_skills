@@ -1,0 +1,33 @@
+meta:
+  title: 九年级期终考试数学试卷第 6 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: student
+  show_answers: false
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: student
+  blocks:
+  - type: choice
+    id: Q006
+    points: 4
+    stem_latex: 如图，已知 $D、E、F$ 分别是 $\triangle ABC$ 的边 $BC、CA、AB$ 的中点，为证明 $\triangle DEF\sim\triangle ABC$，下列方法中存在错误的是
+    choices:
+    - $\frac{DE}{AB}=\frac{EF}{BC}=\frac{FD}{AC}$
+    - $\angle B=\angle FED,\ \angle C=\angle EFD$
+    - $\angle B=\angle FED,\ \frac{AB}{EF}=\frac{BC}{ED}$
+    - 先证 $\triangle FBD\sim\triangle DEF$、$\triangle FBD\sim\triangle ABC$
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean

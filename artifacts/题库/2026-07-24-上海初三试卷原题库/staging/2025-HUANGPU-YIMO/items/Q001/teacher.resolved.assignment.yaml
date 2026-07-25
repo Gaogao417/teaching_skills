@@ -1,0 +1,36 @@
+meta:
+  title: 九年级期终考试数学试卷第 1 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q001
+    points: 4
+    stem_latex: 已知线段 $a=2\mathrm{cm}$，$b=3\mathrm{cm}$，如果线段 $c$ 是线段 $a$ 和 $b$ 的比例中项，那么线段 $c$ 的长为
+    choices:
+    - $6\mathrm{cm}$
+    - $\sqrt6\mathrm{cm}$
+    - $-\sqrt6\mathrm{cm}$
+    - $\pm\sqrt6\mathrm{cm}$
+    answer: B
+    explanation: 官方参考答案：B。
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 1 页

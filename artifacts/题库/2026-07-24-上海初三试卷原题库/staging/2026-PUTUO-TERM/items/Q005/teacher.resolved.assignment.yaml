@@ -1,0 +1,42 @@
+meta:
+  title: 普陀区2025学年度第一学期期末练习第5题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q005
+    points: 4
+    stem_latex: 如图，在 $\triangle ABC$ 中，点 $D$ 在边 $AB$ 上，点 $E、F$ 在边 $AC$ 上，$DF\parallel BC$。下列条件中，不一定能判定 $DE\parallel BF$ 的是
+    answer: B
+    choices:
+    - $\dfrac{AE}{EF}=\dfrac{AF}{FC}$
+    - $\dfrac{DE}{BF}=\dfrac{DF}{BC}$
+    - $\dfrac{EF}{FC}=\dfrac{DF}{BC}$
+    - $\dfrac{CF}{AC}=\dfrac{EF}{AF}$
+    explanation: 官方参考答案：B。
+    images:
+    - image_path: assets/prompt-figure.png
+      width: 0.82\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图1
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页

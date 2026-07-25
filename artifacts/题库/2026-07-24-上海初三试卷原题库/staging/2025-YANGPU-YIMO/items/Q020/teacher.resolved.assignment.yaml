@@ -1,0 +1,41 @@
+meta:
+  title: 2024学年度第一学期初三期末质量调研数学学科 · 原题第 20 题 · 教师版
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q020
+    points: 10
+    stem_latex: 已知抛物线 $y=ax^2+bx+c\ (a\ne0)$ 经过点 $A(0,3)$、点 $B(4,3)$、点 $C(1,0)$。（1）求此抛物线的表达式；（2）将上述抛物线平移，使它的顶点移动到点 $(-2,2)$ 的位置，那么平移的方法是怎样的？
+    answer: （1）$y=x^2-4x+3$；（2）向左平移4个单位，再向上平移3个单位。
+    solution_steps:
+    - title: 第（1）问
+      content: 代入三点得 $c=3$，$16a+4b+c=3$，$a+b+c=0$，解得 $a=1$，$b=-4$，$c=3$，所以 $y=x^2-4x+3$。
+    - title: 第（2）问
+      content: 原顶点为 $(2,-1)$，故向左平移4个单位，再向上平移3个单位。
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 公众号原解答 1
+    teaching:
+      source_key: 2025-YANGPU-YIMO-Q20
+      skill_tags:
+      - 二次函数
+      - 图像平移
+      difficulty: standard
+      official_solution_policy: verbatim_transcription_with_separate_notes

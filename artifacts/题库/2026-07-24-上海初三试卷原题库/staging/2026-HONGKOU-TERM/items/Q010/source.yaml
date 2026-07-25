@@ -1,0 +1,53 @@
+schema: math_exam_item_source/v1
+item_id: Q010
+source_key: 2026-HONGKOU-TERM-Q10
+paper_id: 2026-HONGKOU-TERM
+question_number: 10
+question_type: fillin
+points: 4
+section_title: 二、填空题
+source_directory: documents/初三/虹口区-2025-学年度初三年级第一次学生学习能力诊断练习-数学-练习卷
+crops:
+  question_evidence:
+  - source: documents/初三/虹口区-2025-学年度初三年级第一次学生学习能力诊断练习-数学-练习卷/002.png
+    source_sha256: sha256:34d7f72c0650f61f7ec2ec5876bde2a6fe960313f02905a56da9621b44c52dd5
+    box_px:
+    - 145
+    - 1240
+    - 955
+    - 1405
+    whiteout_px: []
+    output: assets/source-question.png
+    output_sha256: sha256:10864fbdc5e4d1b9b57942bc91716bb05778ff8fb0e12238f90bc08eff1a9169
+  prompt:
+  - source: documents/初三/虹口区-2025-学年度初三年级第一次学生学习能力诊断练习-数学-练习卷/002.png
+    source_sha256: sha256:34d7f72c0650f61f7ec2ec5876bde2a6fe960313f02905a56da9621b44c52dd5
+    box_px:
+    - 595
+    - 1245
+    - 955
+    - 1405
+    whiteout_px: []
+    output: assets/prompt-table-01.png
+    output_sha256: sha256:cd1f354a6306686fdc34470f05d6043ca7b647631ff704601e7aafe7e84bd12f
+  solution: []
+  official_solution:
+  - source: documents/初三/虹口区-2025-学年度初三年级第一次学生学习能力诊断练习-数学-练习卷/006.png
+    source_sha256: sha256:6034cfef88bbc4487e4e05799ca0aec04a8cbc52f43d01bbf0ed755bf2f91fed
+    box_px:
+    - 145
+    - 300
+    - 370
+    - 955
+    whiteout_px: []
+    output: assets/official-solution-01.png
+    output_sha256: sha256:ab3ad0c2819e6daef94fdc2a8908d8bf8c5fee03df27cbf6c414875056c78619
+transcription:
+  question_status: author_pass
+  official_solution_status: author_pass
+  independent_review: pending
+  human_review: pending
+  prompt_status: needs_human_crop
+  prompt_review_notes:
+  - 当前一次裁切完整保留题目所需图形主体和标签；源页含公众号水印或图形与邻近文字排版较紧，建议人工复核边界。
+content_hash: sha256:f9805bf144e6b1c72bc002326cf7d8870146534e0882c715334507fb7a6a2d21

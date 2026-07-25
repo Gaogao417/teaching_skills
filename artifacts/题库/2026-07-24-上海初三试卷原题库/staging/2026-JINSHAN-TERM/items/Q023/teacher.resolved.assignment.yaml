@@ -1,0 +1,52 @@
+meta:
+  title: 金山区2025学年第一学期期末学情诊断初三数学第23题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: problem
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q023
+    points: 14
+    stem_latex: 在四边形 $ABCD$ 中，点 $E$ 在边 $AB$ 上，$BE=3AE$，点 $F$ 在边 $BC$ 上。（1）如图1，若四边形 $ABCD$ 为矩形，且 $BF=3CF$，联结 $EF$、$AC$，求证：$\triangle BEF\sim\triangle DCA$；（2）如图2，若四边形 $ABCD$ 为等腰梯形，$AD\parallel BC$，联结 $FE$ 并延长交 $DA$ 的延长线于点 $G$，联结 $BG$，如果 $BG\perp GD$，$\angle EFB=2\angle GBA$，$AG=6$，求 $CD$ 的长；（3）如图3，若四边形 $ABCD$ 为平行四边形，点 $F$ 是 $BC$ 中点，联结 $DE$、$AF$ 交于点 $K$，联结 $CK$，过点 $A$ 作 $AM\parallel CK$ 交 $DK$ 于点 $M$，联结 $CM$，若 $S_{\triangle MKC}:S_{\triangle KCD}=1:2$，且 $S_{\triangle EKM}=k$，求 $S_{\triangle KCD}$。
+    answer: （1）见证明；（2）$CD=12\sqrt2$；（3）$S_{\triangle KCD}=14k$。
+    solution_steps:
+    - title: 第（1）问
+      content: $\because$ 四边形 $ABCD$ 为矩形，$\therefore\angle B=\angle D=90^\circ$，$AB=CD$，$BC=AD$。$\because BE=3AE,\ BF=3CF$，$\therefore\frac{BE}{CD}=\frac{BF}{AD}=\frac34$。$\therefore\triangle BEF\sim\triangle DCA$。
+    - title: 第（2）问
+      content: $\because$ 四边形 $ABCD$ 为等腰梯形，$\therefore AB=CD$。延长 $AG$ 至点 $P$，使 $PG=AG=6$。由角关系得 $\triangle AGE\sim\triangle ABP$，$\therefore\frac{AG}{AB}=\frac{AE}{AP}$，解得 $AE=3\sqrt2$，$\therefore CD=12\sqrt2$。
+    - title: 第（3）问
+      content: 过点 $C$ 作 $DE$ 的平行线，与 $AK$、$AB$ 的延长线分别交于点 $Q$、$H$。由 $DE\parallel HC$、$AM\parallel CK$ 可得两组相似三角形及相应面积比。设 $S_{\triangle EKM}=k$，按原解逐项换算得 $S_{\triangle KCD}=14k$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 68mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第2页
+    teaching:
+      source_key: 2026-JINSHAN-TERM-Q23
+      skill_tags: []
+      difficulty: standard
+      official_solution_policy: verbatim_transcription_with_separate_notes

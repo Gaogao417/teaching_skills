@@ -1,0 +1,39 @@
+meta:
+  title: 崇明区九年级数学一模试卷 · 原题第 19 题 · 教师版
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q019
+    points: 10
+    stem_latex: 计算：$\tan^260^\circ+\dfrac{\cot45^\circ-\cos30^\circ}{2\sin30^\circ}$。
+    answer: $4-\dfrac{\sqrt3}{2}$
+    solution_steps:
+    - title: 解
+      content: 原式$=(\sqrt3)^2+\dfrac{1-\frac{\sqrt3}{2}}{2\times\frac12}=4-\dfrac{\sqrt3}{2}$。
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 公众号原解答 1
+    teaching:
+      source_key: 2025-CHONGMING-YIMO-Q19
+      skill_tags:
+      - 特殊角三角比
+      - 实数运算
+      difficulty: foundation
+      official_solution_policy: verbatim_transcription_with_separate_notes

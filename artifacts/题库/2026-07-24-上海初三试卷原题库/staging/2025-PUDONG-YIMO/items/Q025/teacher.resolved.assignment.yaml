@@ -1,0 +1,43 @@
+meta:
+  title: 浦东新区2024学年度第一学期期末练习卷第 25 题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: 在平行四边形 $ABCD$ 中，对角线 $AC$、$BD$ 交于点 $O$，$P$ 是线段 $OC$ 上一个动点（不与点 $O$、点 $C$ 重合），过点 $P$ 分别作 $AD$、$CD$ 的平行线，交 $CD$ 于点 $E$，交 $BC$、$BD$ 于点 $F$、$G$，联结 $EG$。\begin{enumerate}\item 如图1，如果 $PC=2OP$，求证：$EG\parallel AC$；\item 如图2，如果 $\angle ABC=90^\circ$，$\dfrac{AB}{BC}=\dfrac23$，且 $\triangle DGE$ 与 $\triangle PCF$ 相似，请补全图形，并求 $\dfrac{OP}{PC}$ 的值；\item 如图3，如果 $BA=BG=BC$，且射线 $EG$ 过点 $A$，请补全图形，并求 $\angle ABC$ 的度数。\end{enumerate}
+    answer: （1）证明见官方解答；（2）$\dfrac{OP}{PC}=\dfrac98$；（3）$\angle ABC=72^\circ$。
+    solution_steps:
+    - title: 官方解答
+      content: （1）$\because PC=2OP$，且 $PG\parallel CD$，$\therefore\dfrac{OD}{CD}=\dfrac{OC}{CP}=\dfrac32$。在平行四边形 $ABCD$ 中，$OA=OC$，所以 $\dfrac{OA}{CA}=\dfrac12$，并由相应比例得 $EG\parallel AC$。（2）$\angle ABC=90^\circ$，所以平行四边形 $ABCD$ 为矩形，$OC=OD$。由角关系只能有 $\angle DGE=90^\circ$，$\angle DEG=\angle PGE=\angle PCF$，所以 $\triangle DGE\sim\triangle PFC\sim\triangle ABC$。设 $CE=4k$，则 $PE=6k$，$PG=9k$，$EG=3\sqrt{13}k$，$DE=13k$，故 $\dfrac{OP}{OC}=\dfrac{PG}{CD}=\dfrac9{17}$，从而 $\dfrac{OP}{PC}=\dfrac98$。（3）由 $BA=BC$，平行四边形 $ABCD$ 为菱形。设 $FB=FG=a$，$PF=FC=CE=b$，则 $GP=a-b$。由 $GP\parallel CE$ 得 $\dfrac{a-b}{b}=\dfrac{a}{a+b}$，所以 $a^2-ab-b^2=0$，$\dfrac ab=\dfrac{\sqrt5+1}{2}$。进一步由比例及角关系得 $\triangle DGA\sim\triangle DAB$。设 $\angle DAG=\angle DBA=\angle ADB=\alpha$，则 $\angle BAG=\angle BGA=2\alpha$，所以 $5\alpha=180^\circ$，$\alpha=36^\circ$，故 $\angle ABC=72^\circ$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 1 页
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 2 页

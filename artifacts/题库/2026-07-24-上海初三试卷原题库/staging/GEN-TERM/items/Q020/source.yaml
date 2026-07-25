@@ -1,0 +1,55 @@
+schema: math_exam_item_source/v1
+item_id: Q020
+source_key: GEN-TERM-Q20
+paper_id: GEN-TERM
+question_number: 20
+question_type: problem
+points: 10
+section_title: 三、解答题
+source_directory: documents/初三/初三数学期末练习卷
+crops:
+  question_evidence:
+  - source: documents/初三/初三数学期末练习卷/004.png
+    source_sha256: sha256:d01d43fe60148b7d5c5ac13507963f65c383db7a3b6e09aa0476b3c061f1347e
+    box_px:
+    - 80
+    - 0
+    - 1000
+    - 370
+    output: assets/source-question.png
+    output_sha256: sha256:0232e909ab16a05aa2e805aff361da7773e5d6bf2c0fc47975c37c7db66fb4f5
+  prompt:
+  - source: documents/初三/初三数学期末练习卷/004.png
+    source_sha256: sha256:d01d43fe60148b7d5c5ac13507963f65c383db7a3b6e09aa0476b3c061f1347e
+    box_px:
+    - 725
+    - 200
+    - 975
+    - 375
+    output: assets/prompt-01.png
+    output_sha256: sha256:443cf02032784d1f2d8d572f7c0d0beaee8703d19841a3e38d8c49251d60ab62
+  official_solution:
+  - source: documents/初三/初三数学期末练习卷/006.png
+    source_sha256: sha256:db6ef3a296a7ab2cc817a6b3c680a6219c530a0d58009f959b6f6fff6d7129bd
+    box_px:
+    - 105
+    - 500
+    - 850
+    - 610
+    output: assets/official-solution-01.png
+    output_sha256: sha256:11af989dc22c52cd8a6a3f432c072f519407b136cbaa7bcdc912bbf82b670978
+  - source: documents/初三/初三数学期末练习卷/006.png
+    source_sha256: sha256:db6ef3a296a7ab2cc817a6b3c680a6219c530a0d58009f959b6f6fff6d7129bd
+    box_px:
+    - 740
+    - 360
+    - 1005
+    - 540
+    output: assets/official-solution-02.png
+    output_sha256: sha256:77508f2ece82c5e8fcb128d4cadcc9e1c5de434adf28b0bc212f99f818031603
+transcription:
+  question_status: author_pass
+  official_solution_status: author_pass
+  independent_review: review_pass
+  human_review: pending
+content_hash: sha256:7abf079c7a301808e04d8f1faa2698420b232485300762824fa1518bebb428d3

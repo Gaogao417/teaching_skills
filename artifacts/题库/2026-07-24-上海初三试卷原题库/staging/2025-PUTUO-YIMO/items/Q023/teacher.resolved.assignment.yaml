@@ -1,0 +1,52 @@
+meta:
+  title: 2024学年度第一学期期末九年级自适应练习（2025.1）数学学科 · 原题第 23 题 · 教师版
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q023
+    points: 12
+    stem_latex: 已知：如图12，梯形 $ABCD$ 中，$AD\parallel BC$，$BD$ 为对角线，$BD^2=AD\cdot BC$。（1）求证：$\angle ABD=\angle C$；（2）$E$ 为 $BC$ 的中点，作 $\angle DEF=\angle C$，$EF$ 交边 $AD$ 于点 $F$，求证：$2AB\cdot DE=BD\cdot EF$。
+    answer: 证明见解析。
+    solution_steps:
+    - title: 第（1）问
+      content: $\because BD^2=AD\cdot BC$，$\therefore\dfrac{AD}{BD}=\dfrac{BD}{BC}$。又 $AD\parallel BC$，所以 $\angle ADB=\angle DBC$，故 $\triangle ABD\sim\triangle DCB$，所以 $\angle ABD=\angle C$。
+    - title: 第（2）问
+      content: $\because AD\parallel BC$，$\therefore\angle FDE=\angle DEC$。又 $\angle DEF=\angle C$，所以 $\triangle FED\sim\triangle DCE$，得 $\dfrac{DE}{EC}=\dfrac{EF}{DC}$，从而 $\dfrac{DC}{EC}=\dfrac{EF}{DE}$。又 $\triangle ABD\sim\triangle DCB$，得 $\dfrac{AB}{DC}=\dfrac{BD}{BC}$。因为 $BC=2EC$，所以 $\dfrac{2AB}{BD}=\dfrac{DC}{EC}$，故 $2AB\cdot DE=BD\cdot EF$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 84mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 公众号原解答 1
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 公众号原解答 2
+    teaching:
+      source_key: 2025-PUTUO-YIMO-Q23
+      skill_tags:
+      - 梯形
+      - 相似三角形
+      - 证明
+      difficulty: challenge
+      official_solution_policy: verbatim_transcription_with_separate_notes

@@ -1,0 +1,53 @@
+meta:
+  title: 闵行区九年级数学一模试卷 · 原题第 24 题 · 教师版
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q024
+    points: 12
+    stem_latex: 如果两个二次函数图像的形状相同、开口方向相同，那么它们的二次项系数相等；如果形状相同、开口方向相反，那么二次项系数互为相反数。已知在平面直角坐标系 $xOy$ 中，点 $A(8,0)$、点 $B(0,6)$，抛物线 $C_1:y=-ax^2+2x$ 上有一点 $P$，以点 $P$ 为顶点的抛物线 $C_2$ 经过点 $B$（点 $P$ 与点 $B$ 不重合），抛物线 $C_1,C_2$ 形状相同、开口方向相反。\begin{enumerate}\item 当抛物线 $C_1$ 经过点 $A$ 时，求抛物线 $C_1$ 的表达式；\item 求抛物线 $C_2$ 的对称轴；\item 当 $a<0$ 时，设抛物线 $C_1$ 的顶点为 $Q$，抛物线 $C_2$ 的对称轴与 $x$ 轴的交点为 $F$，联结 $PO,QO,FO$，求证：$QO$ 平分 $\angle POF$。\end{enumerate}
+    answer: （1）$y=-\dfrac14x^2+2x$；（2）$x=3$；（3）证明见解答。
+    solution_steps:
+    - title: 官方解答
+      content: （1）把 $A(8,0)$ 代入 $y=-ax^2+2x$，得 $-64a+16=0$，所以 $a=\dfrac14$，$C_1:y=-\dfrac14x^2+2x$。（2）设 $P(t,-at^2+2t)$。因 $C_2$ 与 $C_1$ 形状相同、开口相反，故 $C_2:y=a(x-t)^2-at^2+2t$。代入 $B(0,6)$ 得 $2t=6$，所以 $t=3$，对称轴为 $x=3$。（3）$Q\left(\dfrac1a,\dfrac1a\right)$，$P(3,-9a+6)$，$F(3,0)$。按原解延长相应垂线构造全等三角形，可得 $\angle PQO=\angle QOF$，即 $QO$ 平分 $\angle POF$。
+      diagram_col:
+        image_path: assets/solution-01.png
+        width: 72mm
+        variant: solution
+        disclosure_policy: teacher_only
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 82mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 公众号原解答 1
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 公众号原解答 2
+    teaching:
+      source_key: 2024-MINHANG-YIMO-Q24
+      skill_tags:
+      - 原卷题
+      difficulty: standard
+      official_solution_policy: verbatim_transcription_with_separate_notes

@@ -1,0 +1,67 @@
+meta:
+  title: 嘉定区2025学年第一学期九年级质量调研数学第25题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: 如图12，在 $\triangle ABC$ 和 $\triangle ADE$ 中，点 $E$ 在 $\triangle ABC$ 内，$BA=BC$，$DA=DE$，$\angle ADE=\angle ABC$，联结 $EC$、$EB$ 和 $BD$，$DE$ 与 $AB$ 相交于点 $O$。（1）求证：$\triangle DBA\sim\triangle ECA$；（2）已知 $AE=2$，$AC=4$，如图13，当 $D$、$E$、$C$ 三点共线时，①求 $\dfrac{OB}{OD}$ 的值；②如果 $EC=3$，求 $\angle ABC$ 的正弦值。
+    answer: （1）见证明；（2）① $\dfrac{OB}{OD}=2$；② $\sin\angle ABC=\dfrac{\sqrt{15}}8$。
+    solution_steps:
+    - title: 第（1）问
+      content: $\because BA=BC,\ DA=DE$，$\therefore\frac{BA}{BC}=\frac{DA}{DE}=1$，$\therefore\frac{BA}{DA}=\frac{BC}{DE}$。$\because\angle ADE=\angle ABC$，$\therefore\triangle ABC\sim\triangle ADE$，$\therefore\angle BAC=\angle DAE$，$\therefore\angle BAC-\angle BAE=\angle DAE-\angle BAE$，即 $\angle DAB=\angle EAC$。$\because\frac{AD}{AB}=\frac{AE}{AC}$，$\therefore\frac{AD}{AE}=\frac{AB}{AC}$，$\therefore\triangle DBA\sim\triangle ECA$。
+      diagram_col:
+        image_path: assets/solution-01.png
+        width: 58mm
+        variant: solution
+        disclosure_policy: teacher_only
+    - title: 第（2）问①
+      content: $\because DA=DE$，$\therefore\angle DAE=\angle DEA$。$\because\angle DAB+\angle BAE=\angle EAC+\angle ECA$，$\therefore\angle DAB=\angle EAC$，$\therefore\angle BAE=\angle ECA$。$\because\angle AOE=\angle COA$，$\therefore\triangle AOE\sim\triangle COA$，$\therefore\frac{OA}{OE}=\frac{AC}{AE}=\frac{OC}{OA}$。$\because AE=2,\ AC=4$，$\therefore\frac{OA}{OE}=2$。由（1）知 $\triangle DBA\sim\triangle ECA$，$\therefore\angle DBA=\angle ECA$，$\therefore\angle BAE=\angle DBA$，$\therefore AE\parallel DB$，$\therefore\frac{OE}{OD}=\frac{OA}{OB}$，即 $\frac{OB}{OD}=\frac{OA}{OE}=2$。
+      diagram_col:
+        image_path: assets/solution-02.png
+        width: 58mm
+        variant: solution
+        disclosure_policy: teacher_only
+    - title: 第（2）问②
+      content: 由①已证 $\frac{OA}{OE}=\frac{OC}{OA}=2$。设 $OE=m$，则 $OA=2m,\ OC=4m$。$\because EC=3=OC-OE$，$\therefore4m-m=3,\ m=1$，即 $OA=2=AE$。$\because\triangle DBA\sim\triangle ECA$，令 $\frac{AB}{AC}=\frac{BD}{CE}=k$，则 $AB=BC=4k,\ BD=3k$。得 $BO=4k-2$。$\because AE\parallel DB$，$\therefore\frac{OA}{OB}=\frac{AE}{BD}$，$\therefore4k-2=3k$，解得 $k=2$，$\therefore AB=BC=8$。过点 $B$ 作 $BG\perp AC$，垂足为点 $G$；过点 $A$ 作 $AH\perp BC$，垂足为点 $H$。$\because AB=BC,\ BG\perp AC$，$\therefore AG=\frac12AC=2$。在 $Rt\triangle AGB$ 中，$\angle AGB=90^\circ$，$\therefore BG=\sqrt{AB^2-AG^2}=2\sqrt{15}$。$\because S_{\triangle ABC}=\frac12AC\cdot BG=\frac12BC\cdot AH$，$\therefore AH=\sqrt{15}$。在 $Rt\triangle BAH$ 中，$\angle AHB=90^\circ$，$\therefore\sin\angle ABC=\frac{AH}{AB}=\frac{\sqrt{15}}8$。
+      diagram_col:
+        image_path: assets/solution-03.png
+        width: 58mm
+        variant: solution
+        disclosure_policy: teacher_only
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第2页
+    - image_path: assets/official-solution-03.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第3页
+    diagram_col:
+      image_path: assets/prompt-figure.png
+      width: 65mm
+      variant: prompt
+      disclosure_policy: clean

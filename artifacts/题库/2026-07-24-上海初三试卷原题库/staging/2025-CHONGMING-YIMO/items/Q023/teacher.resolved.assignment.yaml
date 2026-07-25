@@ -1,0 +1,62 @@
+meta:
+  title: 崇明区九年级数学一模试卷 · 原题第 23 题 · 教师版
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q023
+    points: 12
+    stem_latex: '如图，在 $\triangle ABC$ 中，$AD$ 是边 $BC$ 上的中线，点 $E$ 在 $AD$ 上（不与 $A$、$D$ 重合），联结 $BE$、$CE$，并延长 $CE$ 交 $AB$ 于点 $F$，$\angle DCE=\angle DAC$。
+
+      \begin{enumerate}
+
+      \item 求证：$\triangle DBE\sim\triangle DAB$；
+
+      \item 当 $\angle BED=\angle ACF$ 时，求证：$\dfrac{AB}{AC}=\dfrac{AC}{AE}$。
+
+      \end{enumerate}
+
+      '
+    answer: 见证明。
+    solution_steps:
+    - title: 第（1）问
+      content: $\because\angle DCE=\angle DAC,\ \angle CDE=\angle ADC$，$\therefore\triangle DCE\sim\triangle DAC$，所以 $\dfrac{CD}{DE}=\dfrac{AD}{CD}$。又 $AD$ 是边 $BC$ 上的中线，所以 $CD=BD$，故 $\dfrac{BD}{DE}=\dfrac{AD}{BD}$。又 $\angle BDE=\angle ADB$，所以 $\triangle DBE\sim\triangle DAB$。
+    - title: 第（2）问
+      content: 由 $\triangle DBE\sim\triangle DAB$，得 $\angle BED=\angle ABD$。又 $\angle BED=\angle ACF$，所以 $\angle ABD=\angle ACF$。且 $\angle CAF=\angle BAC$，所以 $\triangle ACF\sim\triangle ABC$。结合题设角关系可得 $\angle AFE=\angle AEF$，从而 $AF=AE$，因此 $\dfrac{AB}{AC}=\dfrac{AC}{AE}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 82mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 公众号原解答 1
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 公众号原解答 2
+    teaching:
+      source_key: 2025-CHONGMING-YIMO-Q23
+      skill_tags:
+      - 相似三角形
+      - 中线
+      - 等腰三角形
+      difficulty: challenge
+      official_solution_policy: verbatim_transcription_with_separate_notes

@@ -1,0 +1,49 @@
+meta:
+  title: 2024学年度第一学期期末九年级自适应练习（2025.1）数学学科 · 原题第 25 题 · 教师版
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: 如果三角形的一个角的平分线与一条边上的中线互相垂直，那么这个三角形叫做“线垂”三角形，这个角叫做“分角”。“分角”的两边成倍半关系，该性质的逆命题也成立。已知 $\triangle ABC$ 是“线垂”三角形，$AB<BC$，$\angle ABC$ 是 $\triangle ABC$ 的“分角”。（1）如图14-1，$BD$ 是 $\triangle ABC$ 的角平分线，$AE$ 是 $\triangle ABC$ 的中线，$AE$ 与 $BD$ 相交于点 $F$，求 $BF:FD$ 的值；（2）在图14-2中画 $\triangle ABC$ 的一条分割线，使所分成的两个三角形都成为“线垂”三角形，并指出各自的“分角”，说明理由；（3）在（2）的条件下，记分割得到的两个三角形“分角”的平分线交于点 $O$，点 $O$ 与点 $A$、$B$、$C$ 的距离分别为 $a$、$b$、$c$，求 $a$、$b$、$c$ 满足的等量关系。
+    answer: （1）$BF:FD=3:1$；（2）取 $BC$ 上一点 $M$，使 $BM=\dfrac12AB$，联结 $AM$；$\triangle ABM$ 的“分角”为 $\angle B$，$\triangle ACM$ 的“分角”为 $\angle MAC$；（3）$4a^2+b^2=c^2$。
+    solution_steps:
+    - title: 第（1）问
+      content: 过点 $E$ 作 $EG\parallel BD$，交 $AC$ 于点 $G$。由题意及 $AB<BC$，得 $BC=2AB$。又 $AE$ 是中线，所以 $BC=2BE$，故 $AB=BE$。由 $BD$ 为角平分线得 $AF=EF$。由 $EG\parallel BD$，得 $\dfrac{DF}{EG}=\dfrac{AF}{AE}=\dfrac12$，$\dfrac{EG}{BD}=\dfrac{EC}{BC}=\dfrac12$，所以 $BF:FD=3:1$。
+    - title: 第（2）问
+      content: 在边 $BC$ 上取点 $M$，使 $BM=\dfrac12AB$，联结 $AM$。则 $\triangle ABM$ 是“线垂”三角形，$\angle B$ 是“分角”；由 $\dfrac{BM}{BA}=\dfrac{BA}{BC}=\dfrac12$ 且 $\angle B$ 为公共角，得 $\triangle ABM\sim\triangle CBA$，从而 $\dfrac{AM}{CA}=\dfrac12$，所以 $\triangle ACM$ 也是“线垂”三角形，$\angle MAC$ 是“分角”。
+    - title: 第（3）问
+      content: 作 $\angle B$ 和 $\angle CAM$ 的平分线，交于点 $O$，联结 $OC$，延长 $AO$ 交 $BC$ 于点 $N$。可得 $BA=BN$，$BO\perp AN$，$ON=OA=a$。延长 $AN$ 至点 $G$，使 $NG=ON$，联结 $CG$。由全等关系得 $CG=b$，且 $\angle CGN=90^\circ$。在直角三角形 $OGC$ 中，由勾股定理得 $(2a)^2+b^2=c^2$，即 $4a^2+b^2=c^2$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 0.94\linewidth
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 公众号原解答 1
+    teaching:
+      source_key: 2025-PUTUO-YIMO-Q25
+      skill_tags:
+      - 线垂三角形
+      - 相似三角形
+      - 勾股定理
+      difficulty: challenge
+      official_solution_policy: verbatim_transcription_with_separate_notes

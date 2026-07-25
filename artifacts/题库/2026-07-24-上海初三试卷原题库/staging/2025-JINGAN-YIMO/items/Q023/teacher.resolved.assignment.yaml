@@ -1,0 +1,38 @@
+meta:
+  title: 静安区2024学年度第一学期期末教学质量调研九年级数学试卷第 23 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q023
+    points: 12
+    stem_latex: 已知：如图，在梯形 $ABCD$ 中，$AB\parallel CD$，连接 $AC、BD$，$\triangle ABC$ 是等边三角形，$DE\parallel BC$，$DE$ 与 $AC$ 交于点 $E$，且 $\angle ADB=2\angle DBC$。（1）求证：$\triangle ADE\sim\triangle DBC$；（2）求证：点 $E$ 是线段 $AC$ 的黄金分割点。
+    answer: （1）见证明；（2）见证明
+    solution_steps:
+    - title: 官方解答
+      content: （1）由 $AB\parallel CD$、$DE\parallel BC$ 及等边三角形的角关系可得 $\angle AED=\angle DCB$，再结合 $\angle ADB=2\angle DBC$ 作角的转化，得 $\triangle ADE\sim\triangle DBC$。（2）进一步得 $\angle EDC=60^\circ$，所以 $\triangle CDE$ 为等边三角形，$CE=DE=CD$；又 $AC=BC$。由相似关系得 $\frac{AE}{CD}=\frac{DE}{BC}$，故 $\frac{AE}{EC}=\frac{EC}{AC}$，所以点 $E$ 是线段 $AC$ 的黄金分割点。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 1 页

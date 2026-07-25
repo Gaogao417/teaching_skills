@@ -1,0 +1,41 @@
+meta:
+  title: 闵行区九年级数学一模试卷 · 原题第 18 题 · 教师版
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: fillin
+    id: Q018
+    points: 4
+    stem_latex: 如图，在 $\triangle ABC$ 中，$AB=AC$，$\tan C=\dfrac34$，点 $D$ 为边 $BC$ 上的点，联结 $AD$，将 $\triangle ABD$ 沿 $AD$ 翻折，点 $B$ 落在平面内点 $E$ 处，边 $AE$ 交边 $BC$ 于点 $F$，联结 $CE$，如果 $AF=3FE$，那么 $\tan\angle BCE$ 的值为 \fillin。
+    answer: $1$ 或 $\dfrac17$
+    explanation: 参考答案：$1$ 或 $\dfrac17$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 82mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 公众号原解答 1
+    teaching:
+      source_key: 2024-MINHANG-YIMO-Q18
+      skill_tags:
+      - 原卷题
+      difficulty: standard
+      official_solution_policy: verbatim_transcription_with_separate_notes

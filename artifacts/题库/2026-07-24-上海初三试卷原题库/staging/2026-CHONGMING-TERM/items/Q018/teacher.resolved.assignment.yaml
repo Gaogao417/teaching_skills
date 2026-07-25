@@ -1,0 +1,38 @@
+meta:
+  title: 崇明区2025学年第一学期期末质量调研第18题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: fillin
+    id: Q018
+    points: 4
+    stem_latex: 定义：当一个三角形有两个内角的差为 $90^\circ$ 时，这个三角形叫做“差直角三角形”。如图，在 $\triangle ABC$ 中，$AC=BC=10$，$AB=16$，点 $D$ 是边 $AB$ 上的一动点（且
+      $AD>BD$），若 $\triangle BCD$ 是“差直角三角形”，则 $CD$ 的长为
+    answer: $3\sqrt5$ 或 $\frac{15}{2}$
+    explanation: 官方参考答案：$3\sqrt5$ 或 $\frac{15}{2}$。
+    images:
+    - image_path: assets/prompt-figure.png
+      width: 0.78\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页

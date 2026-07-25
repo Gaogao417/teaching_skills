@@ -1,0 +1,38 @@
+meta:
+  title: 静安区2025学年第一学期期末课程实施调研九年级数学试卷第 22 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q022
+    points: 10
+    stem_latex: 闪电发生瞬间，在地面点 $O$ 处测得始发点 $A$ 的仰角为 $15^\circ$，8秒后收到雷声；另一始发点 $B$ 的仰角为 $75^\circ$，15秒后收到雷声。点 $A、B、O$ 在同一垂直于地面的平面内，声速为340米/秒。（1）按图中模型求 $A、B$ 两点间的距离；（2）判断点 $A、B$ 的位置是否存在另一种情形；若存在，画草图并求距离，否则说明理由。
+    answer: （1）$5780$米；（2）存在，另一距离为$4420$米
+    solution_steps:
+    - title: 官方解答
+      content: 记340米/秒为 $a$，则 $OA=8a$、$OB=15a$。第一种位置中 $\angle AOB=90^\circ$，故 $AB=17a=5780$ 米。另一种位置中 $\angle AOB=60^\circ$，作高后计算得 $AB=13a=4420$ 米。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 1 页

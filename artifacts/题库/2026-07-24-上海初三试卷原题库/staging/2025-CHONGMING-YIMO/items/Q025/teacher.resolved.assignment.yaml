@@ -1,0 +1,71 @@
+meta:
+  title: 崇明区九年级数学一模试卷 · 原题第 25 题 · 教师版
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: '已知 $\mathrm{Rt}\triangle ABC$ 中，$\angle ACB=90^\circ$，$AC=6$，$BC=8$，$CD\perp AB$，垂足为 $D$，点 $F$ 是线段 $CD$ 上一点（不与 $C$、$D$ 重合），过点 $B$ 作 $BE\perp AF$ 交 $AF$ 的延长线于点 $E$，$AE$ 与 $BC$ 交于点 $H$，联结 $CE$。
+
+      \begin{enumerate}
+
+      \item 求证：$\dfrac{AH}{CH}=\dfrac{BH}{EH}$；
+
+      \item 当 $CE\parallel AB$ 时，求 $CE$ 的长；
+
+      \item 当 $\triangle CFH$ 是等腰三角形时，求 $CH$ 的长。
+
+      \end{enumerate}
+
+      '
+    answer: （1）见证明；（2）$CE=\dfrac{14}{5}$；（3）$CH=3$ 或 $\dfrac92$ 或 $\dfrac74$。
+    solution_steps:
+    - title: 第（1）问
+      content: $\because BE\perp AF$，$\therefore\angle AEB=90^\circ$。又 $\angle ACB=90^\circ$，所以 $\angle AEB=\angle ACB$；且 $\angle AHC=\angle EHB$，故 $\triangle ACH\sim\triangle BHE$，所以 $\dfrac{AH}{BH}=\dfrac{CH}{EH}$，即 $\dfrac{AH}{CH}=\dfrac{BH}{EH}$。
+    - title: 第（2）问
+      content: 作 $HG\perp AB$，垂足为 $G$。由第（1）问及 $CE\parallel AB$ 可得 $AH=BH$，所以 $BG=\dfrac12AB=5$。在 $\mathrm{Rt}\triangle ABC$ 中，$AB=10$，$\cos\angle ABC=\dfrac45$；在 $\mathrm{Rt}\triangle BHG$ 中，$\dfrac5{BH}=\dfrac45$，得 $BH=\dfrac{25}{4}$，所以 $CH=8-\dfrac{25}{4}=\dfrac74$。由 $\triangle CHE\sim\triangle AHB$，得 $\dfrac{CE}{10}=\dfrac{7/4}{25/4}$，所以 $CE=\dfrac{14}{5}$。
+    - title: 第（3）问
+      content: 分类讨论 $\angle CFH=\angle CHF$、$\angle CHF=\angle HCF$ 或 $\angle HCF=\angle CFH$。分别求得 $CH=3$、$CH=\dfrac92$、$CH=\dfrac74$。综上，$CH=3$ 或 $\dfrac92$ 或 $\dfrac74$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 82mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 公众号原解答 1
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 公众号原解答 2
+    - image_path: assets/official-solution-03.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 公众号原解答 3
+    teaching:
+      source_key: 2025-CHONGMING-YIMO-Q25
+      skill_tags:
+      - 相似三角形
+      - 平行线
+      - 等腰三角形
+      difficulty: challenge
+      official_solution_policy: verbatim_transcription_with_separate_notes

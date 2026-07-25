@@ -1,0 +1,42 @@
+meta:
+  title: GEN-TERM 第2题
+  grade: 九年级
+  subject: 数学
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+  total_points: 4
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 第2题（选择题，4分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q002
+    points: 4
+    stem: 在 $\operatorname{Rt}\triangle ABC$ 中，$\angle C=90^\circ$，那么 $\sin A$ 等于（　）
+    choices:
+      A: $\dfrac{BC}{AC}$
+      B: $\dfrac{AC}{BC}$
+      C: $\dfrac{BC}{AB}$
+      D: $\dfrac{AC}{AB}$
+    answer: C
+    explanation: 公众号参考答案仅给出：C。
+    source_solution_images:
+    - image_path: assets/official-solution.png
+      width: 0.22\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 公众号原解答 1
+    teaching:
+      difficulty: foundation
+      skill_tags:
+      - 锐角三角比
+      - 正弦
+      variation_dimension: source_exam

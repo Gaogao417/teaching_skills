@@ -1,0 +1,28 @@
+meta:
+  title: 九年级期终考试数学试卷第 24 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: student
+  show_answers: false
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: student
+  blocks:
+  - type: problem
+    id: Q024
+    points: 12
+    stem_latex: 在平面直角坐标系 $xOy$ 中，抛物线 $y=-x^2+4x+c\ (c>0)$ 与 $x$ 轴交于 $A、B$ 两点（$A$ 在 $B$ 的右侧），与 $y$ 轴交于点 $C$，顶点为 $P$，直线 $PC$ 与 $x$ 轴交于点 $D$。（1）用含 $c$ 的代数式表示点 $P、D$ 的坐标；（2）将抛物线上下、左右各平移一次，所得新抛物线的顶点 $P'$ 落在线段 $PC$ 的延长线上，新抛物线与 $y$ 轴交于 $E$，且 $P'E\perp PP'$。①求两次平移的方向和距离；②点 $A$ 的对应点 $A'$ 满足 $DA'$ 被 $y$ 轴平分，求原抛物线的表达式。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean

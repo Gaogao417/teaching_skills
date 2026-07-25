@@ -1,0 +1,43 @@
+meta:
+  title: 杨浦区2025学年度第一学期期末调研第23题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q023
+    points: 12
+    stem_latex: 已知：如图，在矩形 $ABCD$ 中，点 $E$ 在边 $AB$ 的延长线上，过 $A$ 作 $AF\perp CE$，垂足为点 $F$，$CF=EF$，$AF$ 与边 $BC$ 交于点 $G$，联结 $BF$。（1）求证：$FB^2=FA\cdot
+      FG$；（2）连接 $BD$ 与 $AG$ 交于点 $H$，如果 $AB=BC$，求证：$\dfrac{AH}{HG}=\dfrac{HF}{FG}$。
+    answer: 结论均成立。
+    solution_steps:
+    - title: 第（1）问
+      content: 由矩形得 $\angle ABC=90^\circ$。又 $AF\perp CE$，结合 $CF=EF$ 得 $BF=CF$，并可推出 $\angle FAE=\angle CBF$。又 $\angle AFB=\angle
+        BFG$，故 $\triangle ABF\sim\triangle BGF$，所以 $\dfrac{FA}{FB}=\dfrac{FB}{FG}$，即 $FB^2=FA\cdot FG$。
+    - title: 第（2）问
+      content: 由 $AB=BC$，矩形 $ABCD$ 为正方形。利用 $AD\parallel BC$ 及相似三角形得到 $\dfrac{HG}{AH}=\dfrac{FG}{BF}$；再由角关系证明 $HF=BF$，故 $\dfrac{AH}{HG}=\dfrac{HF}{FG}$。
+    images:
+    - image_path: assets/prompt-figure.png
+      width: 0.82\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图1
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页

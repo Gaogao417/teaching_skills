@@ -1,0 +1,41 @@
+meta:
+  title: 静安区2025学年第一学期期末课程实施调研九年级数学试卷第 6 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q006
+    points: 4
+    stem_latex: 如图，在矩形 $ABCD$ 中，$AB=6$，$BC=8$。分别以 $A、C$ 为圆心的两圆相切，且点 $D$ 在圆 $C$ 内、点 $B$ 在圆 $C$ 外。圆 $A$ 的半径 $r$ 的取值范围是
+    choices:
+    - $6<r<8$ 或 $10<r<18$
+    - $2<r<4$ 或 $10<r<18$
+    - $2<r<4$ 或 $16<r<18$
+    - $6<r<8$ 或 $16<r<18$
+    answer: C
+    explanation: 官方参考答案：C。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 1 页

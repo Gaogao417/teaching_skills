@@ -1,0 +1,62 @@
+meta:
+  title: 2024学年第一学期徐汇区学习能力诊断卷初三数学试卷 · 原题第 21 题 · 教师版
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q021
+    points: 10
+    stem_latex: '如图，$AD$ 与 $BE$ 相交于点 $C$，$DE\parallel AB$，点 $F$ 在线段 $BC$ 上，且 $EC^2=CF\cdot BC$，联结 $DF$、$EA$。
+
+      \begin{enumerate}
+
+      \item 求证：$DF\parallel EA$；
+
+      \item 设 $\overrightarrow{AB}=\vec a$，$\overrightarrow{BC}=\vec b$，当 $BC=2EC$ 时，求向量 $\overrightarrow{CD}$（用 $\vec a$、$\vec b$ 表示）。
+
+      \end{enumerate}
+
+      '
+    answer: （1）见证明；（2）$\overrightarrow{CD}=\dfrac12\vec a+\dfrac12\vec b$。
+    solution_steps:
+    - title: 第（1）问
+      content: $\because DE\parallel AB$，$\therefore\dfrac{CD}{AC}=\dfrac{EC}{BC}$。又 $EC^2=CF\cdot BC$，所以 $\dfrac{EC}{BC}=\dfrac{CF}{EC}$，故 $\dfrac{CD}{AC}=\dfrac{CF}{EC}$，所以 $DF\parallel EA$。
+    - title: 第（2）问
+      content: 由 $BC=2EC$，得 $\dfrac{EC}{BC}=\dfrac12$，所以 $\dfrac{CD}{AC}=\dfrac12$。又 $\overrightarrow{AC}=\vec a+\vec b$，故 $\overrightarrow{CD}=\dfrac12\vec a+\dfrac12\vec b$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 公众号原解答 1
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 公众号原解答 2
+    teaching:
+      source_key: 2025-XUHUI-YIMO-Q21
+      skill_tags:
+      - 平行线
+      - 相似三角形
+      - 平面向量
+      difficulty: standard
+      official_solution_policy: verbatim_transcription_with_separate_notes

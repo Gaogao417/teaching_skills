@@ -1,0 +1,38 @@
+meta:
+  title: 静安区2025学年第一学期期末课程实施调研九年级数学试卷第 23 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q023
+    points: 12
+    stem_latex: 定义：若一个四边形的四条边和两条对角线这6条线段中只有两种不同长度，则称为“奇异四边形”，较短线段与较长线段长度的比值为特征值 $\lambda$。（1）正方形是否为奇异四边形？若是，求其特征值；若不是，说明理由。（2）构造一个符合奇异四边形特征的梯形，画草图，写出四条边和两条对角线中相等的线段，并求特征值。
+    answer: （1）是，$\lambda=\frac{\sqrt2}{2}$；（2）示例等腰梯形，$\lambda=\frac{\sqrt5-1}{2}$
+    solution_steps:
+    - title: 官方解答
+      content: （1）正方形是奇异四边形，边长与对角线长之比为 $\lambda=\frac{\sqrt2}{2}$。（2）示例：等腰梯形 $ABCD$，$AD\parallel BC$，$AB=AD=DC$，$AC=BD=BC$。由相似与比例关系可得 $\lambda=\frac{\sqrt5-1}{2}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 1 页

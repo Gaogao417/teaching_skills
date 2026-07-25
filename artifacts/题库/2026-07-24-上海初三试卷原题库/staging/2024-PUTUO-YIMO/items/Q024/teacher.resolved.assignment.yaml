@@ -1,0 +1,42 @@
+meta:
+  title: 普陀区2023学年度第一学期期末九年级自适应练习第24题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q024
+    points: 12
+    stem_latex: 阅读教材材料和新定义后完成：（1）在图 $24-3$ 中写出位似中心；判断位似多边形是特殊的哪类多边形。（2）在平面直角坐标系中，二次函数 $y=\frac12x^2-3x$ 与 $x$ 轴交于点 $A$，点 $B$
+      在函数图像上且横坐标与纵坐标相等。以 $O$ 为位似中心、相似比 $\frac12$ 将 $\triangle OAB$ 缩小为 $\triangle OA_1B_1$。①画图并求过 $O、A_1、B_1$ 的抛物线；②直线 $y=kx(k>0)$
+      与原抛物线交于 $M$，与新抛物线交于 $N$，判断 $\triangle OA_1N$ 与 $\triangle OAM$ 是否为位似三角形并说明理由。
+    answer: （1）$P$；位似多边形是特殊的相似多边形。（2）①$y=x^2-3x$；②是位似三角形。
+    solution_steps:
+    - title: 解答
+      content: （1）位似中心是 $P$；位似多边形是特殊的相似多边形。（2）原抛物线非零交点为 $A(6,0)$，横纵坐标相等的点为 $B(8,8)$，故 $A_1(3,0),B_1(4,4)$，过 $O、A_1、B_1$ 的抛物线为
+        $y=x^2-3x$。设 $M(t,\frac12t^2-3t)$、$N(q,q^2-3q)$，由二者又在 $y=kx$ 上得 $\frac qt=\frac12$，即 $\frac{ON}{OM}=\frac12=\frac{OA_1}{OA}$，且相应顶点连线交于
+        $O$，故两三角形位似。
+    stem_image:
+      image_path: assets/prompt-full-question.png
+      width: 0.98\linewidth
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页

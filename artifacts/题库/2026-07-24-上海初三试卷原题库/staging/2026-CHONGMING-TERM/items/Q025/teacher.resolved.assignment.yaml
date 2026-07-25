@@ -1,0 +1,85 @@
+meta:
+  title: 崇明区2025学年第一学期期末质量调研第25题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: 已知在 $\mathrm{Rt}\triangle ABC$ 中，$\angle A=90^\circ$，$AB=8$，$\tan B=\frac34$。点 $E$ 是 $AB$ 边上的一点，将 $\triangle
+      ABC$ 沿过点 $E$ 的直线翻折，点 $A$ 落在 $BC$ 边上，记作点 $D$，折痕与射线 $AC$ 交于点 $F$；过点 $D$ 作 $DG\perp BC$，交射线 $BA$ 于点 $G$。（1）如图1，当点 $F$ 和点
+      $C$ 重合时，求 $AE$ 的长；（2）如图2，当点 $F$ 在边 $AC$ 上时，设 $BD=x$，$\tan\angle AFE=y$，求 $y$ 关于 $x$ 的函数解析式并写出定义域；（3）延长 $DG$，交 $CA$ 的延长线于点
+      $H$，当 $\triangle DFH$ 是以 $DH$ 为腰的等腰三角形时，求 $EG$ 的长。
+    answer: （1）$AE=3$；（2）$y=\frac{3x}{40-4x}$，$4\le x\le8$；（3）$EG=\frac{10-2\sqrt{10}}3$ 或 $\frac{14}{13}$。
+    solution_steps:
+    - title: 解答
+      content: （1）由 $AB=8,\tan B=\frac34$ 得 $AC=6,BC=10$。翻折得 $CD=AC=6$，故 $BD=4$；在 $\mathrm{Rt}\triangle BDE$ 中，$DE=3$，从而 $AE=3$。（2）由翻折和相似三角形得
+        $\frac{DE}{DF}=\frac{DG}{CD}$。设 $BD=x$，则 $CD=10-x,DG=\frac34x$，故 $y=\frac{3x}{40-4x}$，定义域 $4\le x\le8$。（3）由 $\triangle
+        DFH\sim\triangle DEB$ 分类讨论等腰条件，得到 $EG=\frac{10-2\sqrt{10}}3$ 或 $\frac{14}{13}$。
+      diagram_col:
+        image_path: assets/solution-figure-01.png
+        width: 62mm
+        variant: solution
+        disclosure_policy: teacher_only
+    - title: 续解1
+      content: 见官方解答。
+      diagram_col:
+        image_path: assets/solution-figure-02.png
+        width: 62mm
+        variant: solution
+        disclosure_policy: teacher_only
+    - title: 续解2
+      content: 见官方解答。
+      diagram_col:
+        image_path: assets/solution-figure-03.png
+        width: 62mm
+        variant: solution
+        disclosure_policy: teacher_only
+    - title: 续解3
+      content: 见官方解答。
+      diagram_col:
+        image_path: assets/solution-figure-04.png
+        width: 62mm
+        variant: solution
+        disclosure_policy: teacher_only
+    images:
+    - image_path: assets/prompt-figure-01.png
+      width: 0.78\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图1
+    - image_path: assets/prompt-figure-02.png
+      width: 0.78\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图2
+    - image_path: assets/prompt-spare.png
+      width: 0.78\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图3
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第2页

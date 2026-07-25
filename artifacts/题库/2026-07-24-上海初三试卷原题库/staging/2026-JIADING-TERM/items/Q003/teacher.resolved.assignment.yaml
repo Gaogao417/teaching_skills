@@ -1,0 +1,41 @@
+meta:
+  title: 嘉定区2025学年第一学期九年级质量调研数学第3题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q003
+    points: 4
+    stem_latex: 已知抛物线 $y=ax^2+bx+c\ (a\ne0)$ 如图1所示，选择不成立的式子。
+    choices:
+    - $a>0$
+    - $b>0$
+    - $c<0$
+    - $a+b+c<0$
+    answer: B
+    explanation: 官方参考答案：B。
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页
+    diagram_col:
+      image_path: assets/prompt-figure.png
+      width: 65mm
+      variant: prompt
+      disclosure_policy: clean

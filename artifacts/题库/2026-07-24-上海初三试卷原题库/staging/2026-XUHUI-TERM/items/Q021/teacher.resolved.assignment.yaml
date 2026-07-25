@@ -1,0 +1,46 @@
+meta:
+  title: 徐汇区2025学年第一学期初三年级期末试卷第21题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q021
+    points: 10
+    stem_latex: 如图，在梯形 $ABCD$ 中，$AB\parallel CD$，$\angle ADC=90^\circ$，对角线 $AC$ 与 $BD$ 相交于点 $O$。已知 $AB=2$，$AD=8$，$BC=10$。（1）求
+      $\triangle AOB$ 与 $\triangle COD$ 的面积之比；（2）求 $\angle DBC$ 的正弦值。
+    answer: （1）$1:16$；（2）$\frac{16\sqrt{17}}{85}$。
+    solution_steps:
+    - title: 解答
+      content: 过点 $B$ 作 $BE\perp DE$，则 $BE=AD=8,DE=AB=2$，$EC=\sqrt{BC^2-BE^2}=6$，故 $DC=8$。由 $AB\parallel CD$，$\triangle AOB\sim\triangle
+        COD$，面积比为 $(\frac{AB}{DC})^2=\frac1{16}$。又 $BD=2\sqrt{17}$，由面积法得 $CF=\frac{64}{2\sqrt{17}}$，故 $\sin\angle DBC=\frac{CF}{BC}=\frac{16\sqrt{17}}{85}$。
+    images:
+    - image_path: assets/prompt-figure.png
+      width: 0.78\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第2页

@@ -1,0 +1,36 @@
+meta:
+  title: 金山区2024学年度第一学期期末学情诊断第 15 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: fillin
+    id: Q015
+    points: 4
+    stem_latex: 如图，一座大楼前的残疾人通道是斜坡，用 $AB$ 表示，沿着通道走 $3.2$ 米可进入楼厅，楼厅比楼外地面高 $0.4$ 米，那么残疾人通道的坡度为 \fillin。（结果保留根号的形式）
+    answer: $1:3\sqrt7$
+    explanation: 官方参考答案：$1:3\sqrt7$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第 1 页

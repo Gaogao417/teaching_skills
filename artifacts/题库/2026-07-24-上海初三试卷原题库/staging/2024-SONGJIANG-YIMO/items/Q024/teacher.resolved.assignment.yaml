@@ -1,0 +1,58 @@
+meta:
+  title: 松江区2023学年度第一学期期末质量监控第24题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q024
+    points: 12
+    stem_latex: 抛物线 $y=ax^2+bx+c(a>0)$ 经过原点 $O(0,0)$ 和点 $A(1,3a)$，其对称轴与 $x$ 轴交于点 $C$，顶点为 $B$。（1）求对称轴；（2）若抛物线与 $x$ 轴负半轴交于 $D$，且 $\tan\angle ADC=2$，求 $a$；（3）平移抛物线，原抛物线上的 $A、B$ 分别对应新抛物线上的 $E、P$，点 $P$ 在 $y$ 轴上，$PA\parallel x$ 轴且 $\angle EPA=\angle CBO$，求新抛物线表达式。
+    answer: （1）对称轴为 $x=-1$；（2）$a=2$；（3）$y=\frac{\sqrt2}{2}x^2+\frac{3\sqrt2}{2}$。
+    solution_steps:
+    - title: 第（1）问
+      content: 由抛物线经过 $O、A$ 得 $c=0、b=2a$，所以对称轴为 $x=-1$。
+    - title: 第（2）问
+      content: 抛物线与 $x$ 轴负半轴交于 $D(-2,0)$。过点 $A$ 作 $AH\perp x$ 轴，垂足为 $H$，则 $AH=3a、DH=3$。由 $\tan\angle ADC=\frac{AH}{DH}=2$，得 $a=2$。
+      diagram_col:
+        image_path: assets/solution-01.png
+        width: 58mm
+        variant: solution
+        disclosure_policy: teacher_only
+    - title: 第（3）问
+      content: 由平移关系得 $B(-1,-a)、P(0,3a)$，并有 $PF=2、EF=4a$。由 $\angle EPA=\angle CBO$ 建立正切关系 $\frac{EF}{PF}=2a=\frac1a$，得 $a=\frac{\sqrt2}{2}$，所以新抛物线为 $y=\frac{\sqrt2}{2}x^2+\frac{3\sqrt2}{2}$。
+      diagram_col:
+        image_path: assets/solution-02.png
+        width: 58mm
+        variant: solution
+        disclosure_policy: teacher_only
+    images:
+    - image_path: assets/prompt-coordinate-plane.png
+      width: 0.78\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第2页

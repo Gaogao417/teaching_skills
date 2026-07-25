@@ -1,0 +1,38 @@
+meta:
+  title: 虹口区2025学年度第一次学生学习能力诊断练习第15题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: fillin
+    id: Q015
+    points: 4
+    stem_latex: 如图6，在 $\triangle ABC$ 中，点 $D$ 在边 $BC$ 上，联结 $AD$，点 $P,Q$ 分别是 $\triangle
+      ABD$ 和 $\triangle ACD$ 的重心。如果 $\overrightarrow{AB}=\vec a,\overrightarrow{AC}=\vec
+      b$，那么用 $\vec a,\vec b$ 表示 $\overrightarrow{PQ}$ 是\fillin。
+    answer: $-\frac13\vec a+\frac13\vec b$
+    images:
+    - image_path: assets/prompt-figure-01.png
+      width: 0.82\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图1
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页

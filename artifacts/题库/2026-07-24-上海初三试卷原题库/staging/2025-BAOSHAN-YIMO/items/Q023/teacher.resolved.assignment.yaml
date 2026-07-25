@@ -1,0 +1,60 @@
+meta:
+  title: 宝山区2024学年第一学期期末考试九年级数学试卷 · 原题第 23 题 · 教师版
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q023
+    points: 12
+    stem_latex: '学完“相似三角形”之后，小明和同学尝试探索相似四边形的判定与性质。定义：如果两个四边形的四个角对应相等，四条边对应成比例，那么这两个四边形相似；两个相似四边形对应边的比叫做相似比。
+
+
+      他们提出猜想：①四条边对应成比例，且有一组角对应相等的两个四边形相似；②三个角对应相等，且有两条相邻的边对应成比例的两个四边形相似；③相似四边形面积的比等于相似比的平方。
+
+      \begin{enumerate}
+
+      \item 请完成猜想③的证明：已知四边形 $ABCD$ 与四边形 $A''B''C''D''$ 相似，点 $A$、$B$、$C$、$D$ 分别与点 $A''$、$B''$、$C''$、$D''$ 对应，相似比为 $k$。求证：$\dfrac{S_{\text{四边形 }ABCD}}{S_{\text{四边形 }A''B''C''D''}}=k^2$；
+
+      \item 如图12，已知矩形 $ABCD$，$E$、$F$ 分别是 $AD$、$AB$ 上的点，$AE=\dfrac12AB$，$AF=\dfrac12AD$，联结 $BE$、$DF$ 交于点 $G$，求 $\dfrac{S_{\text{四边形 }AEGF}}{S_{\text{四边形 }CDGB}}$ 的值。
+
+      \end{enumerate}
+
+      '
+    answer: （1）见证明；（2）$\dfrac14$。
+    solution_steps:
+    - title: 第（1）问
+      content: 联结 $BD$、$B'D'$。因为四边形 $ABCD$ 与四边形 $A'B'C'D'$ 相似，所以 $\angle A=\angle A'$，且 $\dfrac{AB}{A'B'}=\dfrac{AD}{A'D'}=k$，从而 $\triangle ABD\sim\triangle A'B'D'$，故 $\dfrac{S_{\triangle ABD}}{S_{\triangle A'B'D'}}=k^2$。同理 $\dfrac{S_{\triangle BCD}}{S_{\triangle B'C'D'}}=k^2$。所以 $\dfrac{S_{\triangle ABD}+S_{\triangle BCD}}{S_{\triangle A'B'D'}+S_{\triangle B'C'D'}}=k^2$，即 $\dfrac{S_{\text{四边形 }ABCD}}{S_{\text{四边形 }A'B'C'D'}}=k^2$。
+    - title: 第（2）问
+      content: 在矩形 $ABCD$ 中，$\angle A=\angle C=90^\circ$，$AD\parallel BC$，$AB\parallel CD$，$AD=BC$，$AB=CD$。由平行线得 $\angle AEG=\angle CBG$，$\angle AFG=\angle CDG$。又 $\dfrac{AE}{AB}=\dfrac12$，$\dfrac{AF}{AD}=\dfrac12$，所以 $\dfrac{AE}{CD}=\dfrac{AF}{BC}=\dfrac12$。由角关系可得四边形 $AEGF$ 与四边形 $CDGB$ 相似，相似比为 $\dfrac12$，故 $\dfrac{S_{\text{四边形 }AEGF}}{S_{\text{四边形 }CDGB}}=(\dfrac12)^2=\dfrac14$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 65mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 公众号原解答 1
+    teaching:
+      source_key: 2025-BAOSHAN-YIMO-Q23
+      skill_tags:
+      - 相似四边形
+      - 面积比
+      - 矩形
+      difficulty: challenge
+      official_solution_policy: verbatim_transcription_with_separate_notes

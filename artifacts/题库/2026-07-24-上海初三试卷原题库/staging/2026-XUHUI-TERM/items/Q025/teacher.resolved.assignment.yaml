@@ -1,0 +1,70 @@
+meta:
+  title: 徐汇区2025学年第一学期初三年级期末试卷第25题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: 如图，在 $\triangle ABC$ 中，$AC=4\sqrt2$，$BC=6$，$\angle C=45^\circ$，点 $E$ 在边 $AB$ 上且 $AE=2BE$，点 $D$ 是边 $BC$ 上的动点，以
+      $D$ 为直角顶点、$DE$ 为腰在其右侧作等腰直角三角形 $DEF$，射线 $EF$ 与边 $AC$ 交于点 $P$。（1）当 $EF\parallel BC$ 时，求 $\triangle DEF$ 的面积；（2）当点 $F$
+      落在 $\triangle ABC$ 内部（不含边界）时，求 $BD$ 的取值范围；（3）联结 $CF$，如果 $\triangle DFC$ 是直角三角形，直接写出 $DP$ 的长。
+    answer: （1）$\frac{16}{9}$；（2）$\frac{22}{15}<BD<\frac83$；（3）$\frac{4\sqrt5}{3}$ 或 $3\sqrt2-\frac{\sqrt{26}}3$。
+    solution_steps:
+    - title: 解答
+      content: （1）作 $AH\perp BC$，得 $AH=CH=4$，$BH=2$，$AB=2\sqrt5$，$BE=\frac{2\sqrt5}{3}$。作 $EG\perp BD$，得 $EG=\frac43$；当 $EF\parallel
+        BC$ 时，$DE=\frac{4\sqrt2}{3}$，故面积为 $\frac{16}{9}$。（2）分别考察 $F$ 落在边 $AC$ 与 $P、C$ 重合的临界位置，得 $\frac{22}{15}<BD<\frac83$。（3）分类讨论
+        $\angle DFC=90^\circ$ 或 $\angle DCF=90^\circ$，得 $DP=\frac{4\sqrt5}{3}$ 或 $3\sqrt2-\frac{\sqrt{26}}3$。
+      diagram_col:
+        image_path: assets/solution-figure-01.png
+        width: 62mm
+        variant: solution
+        disclosure_policy: teacher_only
+    - title: 续解1
+      content: 见官方解答。
+      diagram_col:
+        image_path: assets/solution-figure-02.png
+        width: 62mm
+        variant: solution
+        disclosure_policy: teacher_only
+    images:
+    - image_path: assets/prompt-figure.png
+      width: 0.78\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图1
+    - image_path: assets/prompt-spare-01.png
+      width: 0.78\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图2
+    - image_path: assets/prompt-spare-02.png
+      width: 0.78\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图3
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第2页

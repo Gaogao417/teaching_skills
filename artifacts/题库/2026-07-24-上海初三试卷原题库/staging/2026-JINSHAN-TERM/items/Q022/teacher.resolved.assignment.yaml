@@ -1,0 +1,52 @@
+meta:
+  title: 金山区2025学年第一学期期末学情诊断初三数学第22题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: problem
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q022
+    points: 12
+    stem_latex: 某数学学习小组对“重差”开展探究。如图1，为测量海岛高度，设 $B$ 为岛顶，过点 $B$ 的铅垂线与地面的交点为 $C$，岛高为 $BC$。第一次把测量杆竖立在距点 $C$ 较近的点 $M$ 处，从点 $M$ 处透过测量杆上端 $Q$ 望岛顶 $B$；第二次把测量杆竖立在距点 $C$ 较远的点 $D$ 处，从点 $D$ 处透过测量杆上端 $P$ 望岛顶 $B$。联结 $PQ$ 并延长交 $BC$ 于点 $E$。求证：（1）$\frac{BE}{CE}=\frac{CM}{MK}$；（2）$\frac{BE}{CE}=\frac{CD-CM}{DA-MK}$；（3）结合图2的矩形面积关系，利用出入相补原理证明（2）的结论。
+    answer: 见证明。
+    solution_steps:
+    - title: 第（1）问
+      content: $\because EO\parallel CK,\ OM\parallel BC$，$\therefore\frac{BE}{CE}=\frac{BO}{OK}=\frac{OM}{MK}=\frac{CM}{MK}$。
+    - title: 第（2）问
+      content: $\because EP\parallel CA,\ PD\parallel BC$，$\therefore\frac{BE}{CE}=\frac{PB}{PA}=\frac{CD}{DA}$，并按原解作比例变形，得 $\frac{BE}{CE}=\frac{CD-CM}{DA-MK}$。
+    - title: 第（3）问
+      content: 作矩形 $ECMO$、$BCKG$、$BCDN$、$BCAH$，延长 $EP$ 交 $AH$ 于点 $W$、交 $KG$ 于点 $R$。由矩形面积关系，矩形 $OMDP$ 的面积等于矩形 $NPWH$ 的面积减去矩形 $ORGF$ 的面积，故 $(CD-CM)\cdot CE=BE(AD-MK)$，$\therefore\frac{BE}{CE}=\frac{CD-CM}{DA-MK}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 68mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第2页
+    teaching:
+      source_key: 2026-JINSHAN-TERM-Q22
+      skill_tags: []
+      difficulty: standard
+      official_solution_policy: verbatim_transcription_with_separate_notes

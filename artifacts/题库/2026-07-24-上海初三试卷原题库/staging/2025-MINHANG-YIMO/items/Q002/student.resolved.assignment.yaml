@@ -1,0 +1,33 @@
+meta:
+  title: 2024学年第一学期初三年级学业质量调研数学试卷第 2 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: student
+  show_answers: false
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: student
+  blocks:
+  - type: choice
+    id: Q002
+    points: 4
+    stem_latex: 已知：如图，$\triangle ABC$ 中，点 $D、E、F$ 分别在边 $AB、AC$ 和 $BC$ 上，下列条件能判定 $DE\parallel BC$ 的是
+    choices:
+    - $\frac{DE}{BC}=\frac{AD}{AB}$
+    - $\frac{CE}{EA}=\frac{CF}{FB}$
+    - $\frac{AD}{AE}=\frac{AB}{AC}$
+    - $\frac{BD}{DA}=\frac{BF}{FC}$
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean
