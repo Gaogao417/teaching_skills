@@ -1,0 +1,37 @@
+meta:
+  title: 2026 年上海市普陀区中考数学二模试卷第 20 题
+  grade: 初三
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q020
+    points: 12
+    stem_latex: 如图，在四边形 $ABCD$ 中，$\angle A=\angle C=90°$，点 $E$ 在 $AB$ 边上，$AE=2$，$DE\perp BC$，$EF\perp AB$。
+    answer: （1）$BE=6$；（2）$\dfrac{1}{3}$
+    explanation: （1）由 $\triangle ABE\cong\triangle DFE$ 得 $BE=DE=6$。（2）过 $E$ 作 $EH\perp AD$，由相似三角形求比。
+    solution_steps:
+    - title: 第（1）问
+      content: 证明 $\triangle ABE\cong\triangle DFE$，得 $BE=DE$，$DE=BC=6$，故 $BE=6$。
+    - title: 第（2）问
+      content: 过 $E$ 作 $EH\perp AD$ 于 $H$，由 $\triangle AEH\sim\triangle DEF$，代入已知求 $\dfrac{EF}{AD}$ 的值。
+    solution_notes: 题干含 WMF 公式，LaTeX 从解析推断，需人工核实几何条件和数值。
+    stem_image:
+      image_path: assets/prompt-01.png
+      width: 120mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

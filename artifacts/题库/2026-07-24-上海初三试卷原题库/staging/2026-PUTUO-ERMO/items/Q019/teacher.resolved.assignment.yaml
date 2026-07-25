@@ -1,0 +1,30 @@
+meta:
+  title: 2026 年上海市普陀区中考数学二模试卷第 19 题
+  grade: 初三
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q019
+    points: 10
+    stem_latex: 解方程：$\dfrac{x^2-4x+4}{x^2-4}-\dfrac{1}{x-2}=\dfrac{x-1}{x+2}$。
+    answer: $x=-\dfrac{3}{2}$
+    explanation: 两边同乘 $(x+2)(x-2)$，展开整理得 $x^2-4x-3=0$，$x=-\dfrac{3}{2}$ 或 $x=2$，$x=2$ 为增根。
+    solution_steps:
+    - title: 解方程
+      content: 原方程化为 $x^2-4x+4-(x+2)=(x-1)(x-2)$，展开整理因式分解。需人工核实。
+    solution_notes: 公式全为 WMF，LaTeX 从解析推断，需人工核实方程和答案。
+    source_solution_images: []

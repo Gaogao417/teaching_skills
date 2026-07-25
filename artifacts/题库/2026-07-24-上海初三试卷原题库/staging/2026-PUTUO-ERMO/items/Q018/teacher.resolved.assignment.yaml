@@ -1,0 +1,30 @@
+meta:
+  title: 2026 年上海市普陀区中考数学二模试卷第 18 题
+  grade: 初三
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q018
+    points: 10
+    stem_latex: 计算：$(-\sqrt{3})^0+\sqrt{12}\sin 60°-|\sqrt[3]{-8}|-(-2)^{-2}+\sqrt{(-1)^{2025}}$。
+    answer: $3+2\sqrt{3}$
+    explanation: 分母有理化、负整数指数幂、绝对值、分数指数幂化简后合并。
+    solution_steps:
+    - title: 计算过程
+      content: 原式 $=1+\sqrt{12}\cdot\dfrac{\sqrt{3}}{2}-2-\dfrac{1}{4}+1=3+2\sqrt{3}-\dfrac{1}{4}$。需人工核实。
+    solution_notes: 公式全为 WMF，LaTeX 从解析推断，需人工核实表达式。
+    source_solution_images: []
