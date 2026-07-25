@@ -217,6 +217,7 @@ def test_discovers_valid_banks_in_stable_order_without_absolute_paths(bank_root:
     assert [bank["id"] for bank in payload["banks"]] == ["bank-a", "bank-b"]
     assert payload["banks"][0] == {
         "id": "bank-a",
+        "kind": "formal_bank",
         "topic": "A 专题",
         "grade": "八年级",
         "subject": "数学",
@@ -224,6 +225,9 @@ def test_discovers_valid_banks_in_stable_order_without_absolute_paths(bank_root:
         "target_count": 2,
         "item_count": 2,
         "enabled_count": 1,
+        "exam_type": "",
+        "year": "",
+        "district": "",
     }
     assert payload["number_review_url"] == "http://127.0.0.1:8876/"
     assert str(bank_root) not in response.text

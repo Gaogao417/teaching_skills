@@ -32,6 +32,14 @@ select { width: 100%; padding: 9px 11px; }
 button { padding: 9px 14px; cursor: pointer; font-weight: 750; }
 button:disabled { cursor: default; opacity: .45; }
 select:focus-visible, button:focus-visible, textarea:focus-visible, .question-row:focus-visible, .sibling-link:focus-visible { outline: 3px solid rgba(35, 100, 77, .28); outline-offset: 2px; }
+.bank-picker { grid-template-columns: 1fr; gap: 14px; }
+.filter-row { display: flex; flex-wrap: wrap; gap: 12px; }
+.filter-field { flex: 1 1 140px; min-width: 0; }
+.filter-field-search { flex: 2 1 220px; }
+.filter-field input { width: 100%; min-height: 42px; padding: 9px 11px; border: 1px solid var(--line); border-radius: 9px; background: white; color: var(--ink); }
+.bank-list-label { display: block; }
+#bank-select { width: 100%; min-height: 240px; padding: 6px; }
+#bank-select option { padding: 6px 8px; }
 .bank-meta, .page-status { color: var(--muted); font-size: 13px; }
 .page-status { padding: 45px 18px; text-align: center; }
 .review-layout { display: grid; grid-template-columns: minmax(260px, .34fr) minmax(0, 1fr); gap: 18px; margin-top: 20px; align-items: start; }

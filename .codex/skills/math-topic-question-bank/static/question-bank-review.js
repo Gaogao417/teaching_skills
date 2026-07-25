@@ -3,6 +3,9 @@ const state = {
   detail: null,
   itemIndex: 0,
   requestToken: 0,
+  // applyFilters 用独立 token，避免与 selectBank 的 requestToken 互相取消
+  // （两者并发时旧实现会把对方的请求判为 stale，导致列表卡在 disabled）。
+  filterToken: 0,
   submittingReview: false,
   selectedImageSlot: null,
   savingImage: false,
@@ -709,39 +712,166 @@ async function selectBank(bankId) {
   }
 }
 
-async function loadBanks() {
+async function loadFacets() {
   try {
-    const response = await fetch("/api/banks");
+    const response = await fetch("/api/banks/facets");
+    if (!response.ok) throw new Error(await response.text());
+    const facets = await response.json();
+    const gradeSelect = byId("filter-grade");
+    const yearSelect = byId("filter-year");
+    fillFacetOptions(gradeSelect, facets.grades || []);
+    fillFacetOptions(yearSelect, facets.years || []);
+    // 试卷类型下拉的枚举写死在 HTML 里；facets 仅用来启用/禁用它。
+    byId("filter-grade").disabled = false;
+    byId("filter-year").disabled = false;
+    byId("filter-exam-type").disabled = false;
+  } catch (error) {
+    // facets 失败不阻断主流程，搜索 + 来源筛选仍可用。
+    console.warn("facets 加载失败：", error.message);
+  }
+}
+
+function fillFacetOptions(select, values) {
+  const keepValue = select.value;
+  const keep = Array.from(select.querySelectorAll("option")).find(
+    (option) => option.value === keepValue,
+  );
+  select.replaceChildren();
+  const placeholder = document.createElement("option");
+  placeholder.value = "";
+  placeholder.textContent = "全部";
+  select.append(placeholder);
+  values.forEach((value) => {
+    const option = document.createElement("option");
+    option.value = value;
+    option.textContent = value;
+    select.append(option);
+  });
+  if (keep) select.value = keepValue;
+}
+
+function buildFilterParams() {
+  const params = new URLSearchParams();
+  const kind = byId("filter-kind").value;
+  const grade = byId("filter-grade").value;
+  const year = byId("filter-year").value;
+  const examType = byId("filter-exam-type").value;
+  const query = byId("search-input").value.trim();
+  if (kind) params.set("kind", kind);
+  if (grade) params.set("grade", grade);
+  if (year) params.set("year", year);
+  if (examType) params.set("exam_type", examType);
+  if (query) params.set("q", query);
+  return params;
+}
+
+function renderBankList(select) {
+  select.replaceChildren();
+  if (!state.banks.length) {
+    const option = document.createElement("option");
+    option.value = "";
+    option.textContent = "没有匹配的题库";
+    select.append(option);
+    select.disabled = false;
+    setText("page-status", "没有匹配的题库，可调整筛选项或检索词。");
+    byId("page-status").hidden = false;
+    byId("review-layout").hidden = true;
+    return;
+  }
+  state.banks.forEach((bank) => {
+    const option = document.createElement("option");
+    option.value = bank.id;
+    const prefix = bank.kind === "staging_exam" ? "试卷" : "专题";
+    const meta = [bank.year, bank.exam_type, bank.grade].filter(Boolean).join("·");
+    const tail = meta ? `｜${meta}` : "";
+    option.textContent = `${prefix}｜${bank.topic}（${bank.item_count} 题）${tail}`;
+    select.append(option);
+  });
+  select.disabled = false;
+}
+
+async function applyFilters() {
+  const token = ++state.filterToken;
+  const params = buildFilterParams();
+  const select = byId("bank-select");
+  // 过滤期间禁用列表 + 显示加载态，避免用户/测试在旧数据上误读。
+  select.disabled = true;
+  setText("page-status", "正在筛选题库…");
+  byId("page-status").hidden = false;
+  byId("review-layout").hidden = true;
+  try {
+    const response = await fetch(`/api/banks?${params.toString()}`);
     if (!response.ok) throw new Error(await response.text());
     const payload = await response.json();
-    state.banks = payload.banks;
-    const select = byId("bank-select");
-    select.replaceChildren();
-    if (!state.banks.length) {
-      const option = document.createElement("option");
-      option.textContent = "没有发现正式题库";
-      select.append(option);
-      setText("page-status", "artifacts/题库 下没有可预览的 question-bank.yaml。 ");
+    // 即便是过期请求也解锁列表，避免并发竞态时 select 卡在 disabled。
+    if (token !== state.filterToken) {
+      select.disabled = false;
       return;
     }
-    state.banks.forEach((bank) => {
-      const option = document.createElement("option");
-      option.value = bank.id;
-      const prefix = bank.kind === "staging_exam" ? "试卷审核" : "专题题库";
-      option.textContent = `${prefix}｜${bank.topic}（${bank.item_count} 题）`;
-      select.append(option);
-    });
-    select.disabled = false;
-    const requestedBankId = new URL(window.location.href).searchParams.get("bank");
-    const initialBank = state.banks.find((bank) => bank.id === requestedBankId) || state.banks[0];
+    state.banks = payload.banks || [];
+    renderBankList(select);
+    if (!state.banks.length) return;
+    // 同步 URL：保留 ?bank= 用于深链分享，追加过滤参数。
+    const url = new URL(window.location.href);
+    const requestedBankId = url.searchParams.get("bank");
+    const stillPresent = requestedBankId
+      && state.banks.some((bank) => bank.id === requestedBankId);
+    const initialBank = stillPresent
+      ? state.banks.find((bank) => bank.id === requestedBankId)
+      : state.banks[0];
     select.value = initialBank.id;
+    // 把当前过滤态写回 URL（便于刷新/分享）。
+    ["kind", "grade", "year", "exam_type"].forEach((key) => {
+      const id = `filter-${key === "exam_type" ? "exam-type" : key}`;
+      const value = byId(id).value;
+      if (value) url.searchParams.set(key, value);
+      else url.searchParams.delete(key);
+    });
+    const query = byId("search-input").value.trim();
+    if (query) url.searchParams.set("q", query);
+    else url.searchParams.delete("q");
+    window.history.replaceState({}, "", url);
+    byId("page-status").hidden = true;
+    byId("review-layout").hidden = false;
     await selectBank(initialBank.id);
   } catch (error) {
+    select.disabled = false;
+    if (token !== state.filterToken) return;
     setText("page-status", `题库列表加载失败：${error.message}。请刷新页面重试。`);
   }
 }
 
+function debounce(fn, wait) {
+  let timer = null;
+  return (...args) => {
+    clearTimeout(timer);
+    timer = window.setTimeout(() => fn(...args), wait);
+  };
+}
+
+async function loadBanks() {
+  // 从 URL 恢复过滤态（支持深链 / 刷新）。
+  const url = new URL(window.location.href);
+  const restore = (id, key) => {
+    const value = url.searchParams.get(key);
+    if (value) byId(id).value = value;
+  };
+  restore("filter-kind", "kind");
+  restore("filter-grade", "grade");
+  restore("filter-year", "year");
+  restore("filter-exam-type", "exam_type");
+  const restoreQuery = url.searchParams.get("q");
+  if (restoreQuery) byId("search-input").value = restoreQuery;
+  await loadFacets();
+  await applyFilters();
+}
+
 byId("bank-select").addEventListener("change", (event) => selectBank(event.target.value));
+byId("filter-kind").addEventListener("change", () => { void applyFilters(); });
+byId("filter-grade").addEventListener("change", () => { void applyFilters(); });
+byId("filter-year").addEventListener("change", () => { void applyFilters(); });
+byId("filter-exam-type").addEventListener("change", () => { void applyFilters(); });
+byId("search-input").addEventListener("input", debounce(() => { void applyFilters(); }, 200));
 byId("previous-item").addEventListener("click", () => navigateItem(-1));
 byId("next-item").addEventListener("click", () => navigateItem(1));
 byId("approve-item").addEventListener("click", () => submitReview("approved", ""));

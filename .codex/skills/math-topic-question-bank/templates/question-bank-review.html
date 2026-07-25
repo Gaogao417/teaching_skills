@@ -33,10 +33,47 @@
     </header>
 
     <main>
-      <section class="toolbar" aria-label="题库选择">
-        <label>
+      <section class="toolbar bank-picker" aria-label="题库选择">
+        <div class="filter-row">
+          <label class="filter-field">
+            <span>来源</span>
+            <select id="filter-kind" autocomplete="off">
+              <option value="">全部</option>
+              <option value="staging_exam">真题试卷</option>
+              <option value="formal_bank">课时练习</option>
+            </select>
+          </label>
+          <label class="filter-field">
+            <span>年级</span>
+            <select id="filter-grade" autocomplete="off" disabled>
+              <option value="">全部</option>
+            </select>
+          </label>
+          <label class="filter-field">
+            <span>年份</span>
+            <select id="filter-year" autocomplete="off" disabled>
+              <option value="">全部</option>
+            </select>
+          </label>
+          <label class="filter-field">
+            <span>试卷类型</span>
+            <select id="filter-exam-type" autocomplete="off" disabled>
+              <option value="">全部</option>
+              <option value="一模">一模</option>
+              <option value="二模">二模</option>
+              <option value="期中">期中</option>
+              <option value="期末">期末</option>
+              <option value="中考">中考</option>
+            </select>
+          </label>
+          <label class="filter-field filter-field-search">
+            <span>检索</span>
+            <input id="search-input" type="search" placeholder="题库名 / 年份 / 区…" autocomplete="off">
+          </label>
+        </div>
+        <label class="bank-list-label">
           <span>选择题库</span>
-          <select id="bank-select" disabled><option value="">正在加载题库…</option></select>
+          <select id="bank-select" size="10" disabled><option value="">正在加载题库…</option></select>
         </label>
         <div>
           <div class="bank-meta" id="bank-meta">读取 artifacts/题库 下的正式题库</div>

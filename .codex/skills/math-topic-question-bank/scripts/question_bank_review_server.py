@@ -9,6 +9,7 @@ import io
 import json
 import mimetypes
 import os
+import re
 import tempfile
 from dataclasses import dataclass
 from datetime import datetime, timezone
@@ -44,6 +45,56 @@ EDITABLE_IMAGE_TARGETS = {
 }
 MAX_PASTED_IMAGE_BYTES = 20 * 1024 * 1024
 MAX_PASTED_IMAGE_PIXELS = 40_000_000
+
+# paper.id 形如 <YEAR>-<DISTRICT>-<TYPE>[-<SUFFIX>]（例 2025-JINGAN-YIMO）。
+# TYPE token → 中文试卷类型；MIDTERM/ZHONGKAO 数据中暂无，留作前瞻枚举。
+EXAM_TYPE_TOKENS: dict[str, str] = {
+    "YIMO": "一模",
+    "ERMO": "二模",
+    "MIDTERM": "期中",
+    "TERM": "期末",
+    "ZHONGKAO": "中考",
+}
+_EXAM_TYPE_PATTERN = re.compile(
+    r"(?P<type>YIMO|ERMO|MIDTERM|TERM|ZHONGKAO)\b",
+)
+# 截断 -DOC-BENCHMARK 这类后缀；多区（BAOSHAN-JIADING）合并保留。
+_PAPER_ID_SUFFIX_NOISE = re.compile(
+    r"-(?:DOC-BENCHMARK|BENCHMARK|OFFICIAL|SAMPLE)(?=-|$|$)",
+)
+
+
+def parse_paper_id(paper_id: str) -> dict[str, str]:
+    """从 paper.id 解析 year/exam_type/district。
+
+    兼容：``2025-JINGAN-YIMO``、``GEN-TERM``（无 year/district）、
+    ``2012-BAOSHAN-JIADING-ERMO``（多 district）、
+    ``2012-YANGPU-ERMO-DOC-BENCHMARK``（后缀噪声）。
+    """
+    raw = (paper_id or "").strip()
+    if not raw:
+        return {"year": "", "exam_type": "", "district": ""}
+    cleaned = _PAPER_ID_SUFFIX_NOISE.sub("", raw)
+    match = _EXAM_TYPE_PATTERN.search(cleaned)
+    if not match:
+        return {"year": "", "exam_type": "", "district": ""}
+    exam_type = EXAM_TYPE_TOKENS[match.group("type")]
+    head = cleaned[: match.start()].rstrip("-")
+    tail = cleaned[match.end():].lstrip("-")
+    year = ""
+    districts: list[str] = []
+    for token in head.split("-") if head else []:
+        if token.isdigit() and len(token) == 4:
+            year = token
+        elif token and token != "GEN":
+            districts.append(token)
+    if tail:
+        districts.append(tail)
+    return {
+        "year": year,
+        "exam_type": exam_type,
+        "district": "-".join(districts),
+    }
 
 
 @dataclass(frozen=True)
@@ -341,6 +392,7 @@ class QuestionBankCatalog:
                     review_counts["approved_count"] += 1
                 elif review["status"] == "rejected":
                     review_counts["rejected_count"] += 1
+            parsed = parse_paper_id(paper.get("id", ""))
             return {
                 "id": record.bank_id,
                 "kind": record.kind,
@@ -352,12 +404,16 @@ class QuestionBankCatalog:
                 "target_count": len(item_ids),
                 "item_count": len(item_ids),
                 "enabled_count": review_counts["approved_count"],
+                "exam_type": parsed["exam_type"],
+                "year": parsed["year"],
+                "district": parsed["district"],
                 **review_counts,
             }
         bank = record.manifest.get("bank", {})
         items = record.manifest.get("items", [])
         return {
             "id": record.bank_id,
+            "kind": record.kind,
             "topic": bank.get("topic", record.bank_id),
             "grade": bank.get("grade", ""),
             "subject": bank.get("subject", ""),
@@ -365,6 +421,9 @@ class QuestionBankCatalog:
             "target_count": bank.get("target_count", len(items)),
             "item_count": len(items),
             "enabled_count": sum(bool(item.get("enabled", True)) for item in items if isinstance(item, dict)),
+            "exam_type": "",
+            "year": "",
+            "district": "",
         }
 
     @staticmethod
@@ -1181,6 +1240,47 @@ class QuestionBankCatalog:
         return bank, preview_files
 
 
+def _filter_bank_summaries(
+    summaries: list[dict[str, Any]],
+    *,
+    kind: str | None,
+    grade: str | None,
+    year: str | None,
+    exam_type: str | None,
+    q: str | None,
+) -> list[dict[str, Any]]:
+    """按 kind/grade/year/exam_type/q 对题库 summary 做 AND 过滤。
+
+    空参数视为不过滤；``q`` 对 topic/grade/year/exam_type/district/paper_id 做
+    子串匹配（大小写不敏感）。formal_bank 没有 year/exam_type/district，这些
+    过滤会自然排除 formal_bank。
+    """
+    query = (q or "").strip().lower()
+    kind = (kind or "").strip()
+    grade_f = (grade or "").strip()
+    year_f = (year or "").strip()
+    exam_type_f = (exam_type or "").strip()
+    kept: list[dict[str, Any]] = []
+    for item in summaries:
+        if kind and item.get("kind", "formal_bank") != kind:
+            continue
+        if grade_f and item.get("grade", "") != grade_f:
+            continue
+        if year_f and item.get("year", "") != year_f:
+            continue
+        if exam_type_f and item.get("exam_type", "") != exam_type_f:
+            continue
+        if query:
+            haystack = " ".join(
+                str(item.get(field, ""))
+                for field in ("topic", "grade", "year", "exam_type", "district", "paper_id", "id")
+            ).lower()
+            if query not in haystack:
+                continue
+        kept.append(item)
+    return kept
+
+
 def create_question_bank_app(
     bank_root: str | Path = DEFAULT_BANK_ROOT,
     number_review_url: str = DEFAULT_NUMBER_REVIEW_URL,
@@ -1211,12 +1311,57 @@ def create_question_bank_app(
         return {"ok": True, "banks": len(records), "errors": errors}
 
     @app.get("/api/banks")
-    def list_banks() -> dict[str, Any]:
+    def list_banks(
+        kind: str | None = None,
+        grade: str | None = None,
+        year: str | None = None,
+        exam_type: str | None = None,
+        q: str | None = None,
+    ) -> dict[str, Any]:
         records, errors = catalog.discover()
+        summaries = [catalog.summary(record) for record in records]
+        banks = _filter_bank_summaries(
+            summaries,
+            kind=kind,
+            grade=grade,
+            year=year,
+            exam_type=exam_type,
+            q=q,
+        )
         return {
-            "banks": [catalog.summary(record) for record in records],
+            "banks": banks,
             "errors": errors,
             "number_review_url": number_review_url,
+        }
+
+    @app.get("/api/banks/facets")
+    def bank_facets() -> dict[str, Any]:
+        records, errors = catalog.discover()
+        summaries = [catalog.summary(record) for record in records]
+        grades: set[str] = set()
+        years: set[str] = set()
+        exam_types: set[str] = set()
+        kinds: set[str] = set()
+        for item in summaries:
+            kinds.add(item.get("kind", "formal_bank"))
+            if item.get("grade"):
+                grades.add(item["grade"])
+            if item.get("year"):
+                years.add(item["year"])
+            if item.get("exam_type"):
+                exam_types.add(item["exam_type"])
+        # exam_type 枚举顺序固定为 EXAM_TYPE_TOKENS 声明顺序，便于前端稳定渲染。
+        ordered_exam_types = [
+            label
+            for token, label in EXAM_TYPE_TOKENS.items()
+            if label in exam_types
+        ]
+        return {
+            "kinds": sorted(kinds),
+            "grades": sorted(grades),
+            "years": sorted(years, reverse=True),
+            "exam_types": ordered_exam_types,
+            "errors": errors,
         }
 
     @app.get("/api/banks/{bank_id}")
