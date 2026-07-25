@@ -579,7 +579,7 @@ def make_problem(
         "stem_latex": stem,
         "answer_space": {"type": "steps", "height": "54mm", "step_count": 5},
         "answer": answer,
-        "explanation": f"使用{FAMILY_LABELS[number_entry.family]}写出精确比例，再完成相似判定、对应和计算。",
+        "clue": f"使用{FAMILY_LABELS[number_entry.family]}写出精确比例，再完成相似判定、对应和计算。",
         "solution_steps": solution_steps,
         "teaching": {
             "teaching_goal": training_action,
@@ -820,7 +820,7 @@ def make_nested_problem(
         "stem_latex": stem,
         "answer_space": {"type": "steps", "height": "54mm", "step_count": 5},
         "answer": answer,
-        "explanation": "利用子母形中间边重复对应的特点，在对应边关系与共线整段、分段之间转换。",
+        "clue": "利用子母形中间边重复对应的特点，在对应边关系与共线整段、分段之间转换。",
         "solution_steps": solution_steps,
         "teaching": {
             "teaching_goal": training_action,

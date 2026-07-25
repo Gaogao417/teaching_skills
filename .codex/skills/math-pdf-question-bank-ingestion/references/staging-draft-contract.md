@@ -54,7 +54,7 @@ sections:
           stem_latex: 下列结论正确的是
           choices: [选项一, 选项二, 选项三, 选项四]
           answer: B
-          explanation: 官方参考答案：B。
+          clue: 逐项验证结论，排除不成立的。
 ```
 
 每题必须有：
@@ -66,7 +66,9 @@ sections:
   Word 整页图证据；
 - `block.stem_latex`、`block.answer`；
 - 选择题恰好四个选项；
-- `problem` / `short_answer` 含 `block.solution_steps`。
+- `problem` / `short_answer` 含 `block.solution_steps`，且必须逐条复刻原解答，
+  不得简化/合并/改写（保留中间结论、分类讨论分支、推理链）；
+- `block.clue` 写解题思路提示，所有题型都写，不复读 `answer`。
 
 crop 使用 `source`、`box_px`，可选 `whiteout_px`、`output`、`width`、
 `label`、`assignment_path`。哈希、默认输出名和图片元数据由脚本生成。

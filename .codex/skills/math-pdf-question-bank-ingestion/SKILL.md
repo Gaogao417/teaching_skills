@@ -61,10 +61,15 @@ draft 同时记录卷级信息、章节、每题结构化转写、题目/答案�
 
 必须满足：
 
-- 原题和官方解答忠实转写为可检索 LaTeX，不补写来源中没有的推理。
+- 原题和解答忠实转写为可检索 LaTeX。
+- `solution_steps` 必须逐条复刻原解答，不得简化、合并或改写：保留每一个推理步骤、
+  中间结论、分类讨论分支、角的对应和比例变形。原解答分 8 步，转写就要 8 步，不得
+  压成 3 句话。"提炼要点"是 `clue` 的职责，不是 `solution_steps` 的。
+- `clue` 写解题思路提示（一句话点明考点或思路），所有题型都写。不得复读 `answer`，
+  不得写"参考答案：X"这类冗余前缀。
 - 选择题保存四个纯选项正文，答案为 `A/B/C/D`。
-- `problem` / `short_answer` 保存官方 `solution_steps`。
-- 官方错字、跳步或疑点写入 `solution_notes`，不擅自修正。
+- `problem` / `short_answer` 保存 `solution_steps`。
+- 原解答错字、跳步或疑点写入 `solution_notes`，不擅自修正。
 - `paper-map` 的答案锚点抄录页上可见短文本，最后一题可用
   `<END_OF_SOURCE>`。
 

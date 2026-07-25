@@ -18,7 +18,7 @@ import yaml
 ROLES = ("question_evidence", "prompt", "solution", "official_solution")
 FORBIDDEN_STUDENT_KEYS = {
     "answer",
-    "explanation",
+    "clue",
     "solution_steps",
     "solution_notes",
     "source_solution_images",

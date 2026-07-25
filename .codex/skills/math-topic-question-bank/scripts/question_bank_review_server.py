@@ -254,7 +254,7 @@ def _derive_student_assignment(teacher: dict[str, Any]) -> dict[str, Any]:
 
     teacher_only = {
         "answer",
-        "explanation",
+        "clue",
         "solution_steps",
         "solution_notes",
         "source_solution_images",
@@ -564,7 +564,7 @@ class QuestionBankCatalog:
                 "stem_latex": "",
                 "choices": {},
                 "answer": "",
-                "explanation": "",
+                "clue": "",
                 "solution_steps": [],
                 "solution_notes": [],
                 "source_question_previews": [],
@@ -622,7 +622,7 @@ class QuestionBankCatalog:
                         ),
                         "choices": student_block.get("choices", {}),
                         "answer": str(teacher_block.get("answer", "")),
-                        "explanation": str(teacher_block.get("explanation", "")),
+                        "clue": str(teacher_block.get("clue", "")),
                         "solution_notes": teacher_block.get("solution_notes", []),
                         "prompt_status": transcription.get(
                             "prompt_status", "author_pass"
@@ -1135,7 +1135,7 @@ class QuestionBankCatalog:
                 {
                     "stem_latex": "",
                     "answer": "",
-                    "explanation": "",
+                    "clue": "",
                     "solution_steps": [],
                     "prompt_preview_url": None,
                     "solution_preview_url": None,
@@ -1159,7 +1159,7 @@ class QuestionBankCatalog:
                 teacher_block = _practice_block(teacher_payload, item_id)
                 rendered["stem_latex"] = str(student_block.get("stem_latex", ""))
                 rendered["answer"] = str(teacher_block.get("answer", ""))
-                rendered["explanation"] = str(teacher_block.get("explanation", ""))
+                rendered["clue"] = str(teacher_block.get("clue", ""))
                 steps = teacher_block.get("solution_steps", [])
                 rendered_steps: list[dict[str, Any]] = []
                 solution_previews: list[dict[str, str]] = []

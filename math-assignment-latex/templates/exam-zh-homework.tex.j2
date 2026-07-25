@@ -137,8 +137,8 @@
   <% endif %>
   <% if meta.version != "student" %>
   \begin{solution}
-    <% if block.explanation %>
-    <%= block.explanation|latex_escape %>
+    <% if block.clue %>
+    <%= block.clue|latex_escape %>
     <% endif %>
     <% for step in block.solution_steps|default([]) %>
     \par\textbf{<%= step.title|latex_escape %>}

@@ -163,7 +163,7 @@ source_solution_images:
     width: 0.96\linewidth
     variant: source_solution
     disclosure_policy: teacher_only
-    label: 官方原解答第 2 页
+    label: 原解答第 2 页
 ```
 
 强排版题使用完整原题图片：
@@ -186,6 +186,10 @@ DOC/DOCX 来源中，`crops.prompt` / `crops.solution` 应优先引用直接提�
 LaTeX 转写；完整来源凭证写入 `word_evidence.question` 和
 `word_evidence.official_solution`，引用整页 PNG 路径 + 页码
 （`word/pages/NNN.png`）。
+
+`solution_steps` 必须逐条复刻原解答，不得简化、合并或改写：保留每个推理步骤、
+中间结论、分类讨论分支、角的对应和比例变形。原解答分几步，转写就分几步。
+`clue` 写解题思路提示（所有题型都写，不复读 `answer`）。
 
 选择题的 `choices` 可使用有序列表或 `A/B/C/D` 映射，但每个值只能包含选项正文。
 不得把 `0.`、`1.`、`2.`、`3.` 或 `A.`、`B.`、`C.`、`D.` 再写进值中；题库审核页

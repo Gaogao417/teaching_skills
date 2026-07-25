@@ -13,7 +13,7 @@ import yaml
 
 TEACHER_ONLY_KEYS = {
     "answer",
-    "explanation",
+    "clue",
     "solution_steps",
     "solution_notes",
     "source_solution_images",

@@ -42,8 +42,8 @@
 \begin{problem}[points=<%= block.points|default(8) %>]
   <%= block.stem|latex_escape %>
   \begin{solution}
-    <% if block.explanation %>
-    <%= block.explanation|latex_escape %>
+    <% if block.clue %>
+    <%= block.clue|latex_escape %>
     <% endif %>
     <% for step in block.solution_steps|default([]) %>
     \par\textbf{<%= step.title|latex_escape %>}

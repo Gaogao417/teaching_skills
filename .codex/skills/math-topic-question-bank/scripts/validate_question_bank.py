@@ -16,7 +16,7 @@ from question_bank_contracts import QuestionBank, QuestionBankItem
 QUESTION_TYPES = {"choice", "fillin", "problem", "short_answer"}
 STUDENT_FORBIDDEN_KEYS = {
     "answer",
-    "explanation",
+    "clue",
     "solution_steps",
     "solution_notes",
     "source_solution_images",

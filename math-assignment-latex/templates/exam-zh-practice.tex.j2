@@ -117,9 +117,9 @@
   \end{diagramcoltikz}
   <% if meta.version != "student" and block.answer %>
   \paren[<%= block.answer|latex_escape %>]
-  <% if block.explanation or block.solution_notes or block.source_solution_images %>
+  <% if block.clue or block.solution_notes or block.source_solution_images %>
   \begin{solutionblock}
-    <%= block.explanation|default("") %>
+    <%= block.clue|default("") %>
     <%= render_teacher_evidence(block) %>
   \end{solutionblock}
   <% endif %>
@@ -141,9 +141,9 @@
   \end{choices}
   <% if meta.version != "student" and block.answer %>
   \paren[<%= block.answer|latex_escape %>]
-  <% if block.explanation or block.solution_notes or block.source_solution_images %>
+  <% if block.clue or block.solution_notes or block.source_solution_images %>
   \begin{solutionblock}
-    <%= block.explanation|default("") %>
+    <%= block.clue|default("") %>
     <%= render_teacher_evidence(block) %>
   \end{solutionblock}
   <% endif %>
@@ -172,9 +172,9 @@
   \end{diagramcoltikz}
   <% if meta.version != "student" and block.answer %>
   \paren[<%= block.answer|latex_escape %>]
-  <% if block.explanation or block.solution_notes or block.source_solution_images %>
+  <% if block.clue or block.solution_notes or block.source_solution_images %>
   \begin{solutionblock}
-    <%= block.explanation|default("") %>
+    <%= block.clue|default("") %>
     <%= render_teacher_evidence(block) %>
   \end{solutionblock}
   <% endif %>
@@ -191,9 +191,9 @@
   <%= render_hints(block) %>
   <% if meta.version != "student" and block.answer %>
   \paren[<%= block.answer|latex_escape %>]
-  <% if block.explanation or block.solution_notes or block.source_solution_images %>
+  <% if block.clue or block.solution_notes or block.source_solution_images %>
   \begin{solutionblock}
-    <%= block.explanation|default("") %>
+    <%= block.clue|default("") %>
     <%= render_teacher_evidence(block) %>
   \end{solutionblock}
   <% endif %>
@@ -287,8 +287,8 @@
     \end{center}
     <% endif %>
     <% endfor %>
-    <% if block.explanation and not block.solution_steps %>
-    <%= block.explanation %>
+    <% if block.clue and not block.solution_steps %>
+    <%= block.clue %>
     <% endif %>
     <%= render_teacher_evidence(block) %>
   \end{solutionblock}

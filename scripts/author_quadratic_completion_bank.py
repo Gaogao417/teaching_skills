@@ -283,7 +283,7 @@ def teacher_assignment(item_id: str, case: Case, index_in_category: int) -> tupl
         "stem_latex": stem,
         "answer_space": {"type": "steps", "height": "42mm", "step_count": 3},
         "answer": answer,
-        "explanation": "五类系数外观不同，但始终使用同一套三步配方。",
+        "clue": "五类系数外观不同，但始终使用同一套三步配方。",
         "solution_steps": [
             {
                 "title": "提二次项系数",

@@ -137,7 +137,7 @@
     if (isTeacher) {
       parts.push(
         area(prefix, "answer", "答案", block.answer || "", 3),
-        area(prefix, "explanation", "解析", block.explanation || "", 5),
+        area(prefix, "clue", "思路提示", block.clue || "", 5),
         area(prefix, "solution_steps", "解题步骤 JSON", JSON.stringify(block.solution_steps || [], null, 2), 10, true),
         area(prefix, "teaching", "教师备注 JSON", JSON.stringify(block.teaching || {}, null, 2), 8, true)
       );
@@ -153,7 +153,7 @@
   function saveQuestion(prefix, block) {
     if (!block) return;
     const node = (name) => document.querySelector(`[data-prefix="${prefix}"][data-field="${name}"]`);
-    ["id", "stem_latex", "answer", "explanation"].forEach((key) => {
+    ["id", "stem_latex", "answer", "clue"].forEach((key) => {
       const el = node(key);
       if (el) block[key] = el.value;
     });

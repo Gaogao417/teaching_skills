@@ -17,7 +17,7 @@ from PIL import Image
 REPO_ROOT = Path(__file__).resolve().parents[1]
 TEACHER_ONLY_KEYS = {
     "answer",
-    "explanation",
+    "clue",
     "solution_steps",
     "solution_notes",
     "source_solution_images",
@@ -81,11 +81,13 @@ def assignment(item: dict[str, Any], paper: dict[str, Any]) -> dict[str, Any]:
     for key in ("choices", "subquestions", "fillin_type", "answer_space"):
         if key in item:
             block[key] = copy.deepcopy(item[key])
+    # official_solution_latex 已废弃：clue 和 solution_steps 由 draft 阶段直接写好，
+    # 晋升只搬运不覆盖。保留字段读取仅为向后兼容旧 authoring YAML。
     if item.get("official_solution_latex"):
         if item["question_type"] in {"problem", "short_answer"}:
-            block["solution_steps"] = copy.deepcopy(item["official_solution_latex"])
+            block.setdefault("solution_steps", copy.deepcopy(item["official_solution_latex"]))
         else:
-            block["explanation"] = str(item["official_solution_latex"])
+            block.setdefault("clue", str(item["official_solution_latex"]))
     if item.get("solution_notes"):
         block["solution_notes"] = copy.deepcopy(item["solution_notes"])
     prompt_specs = item.get("prompt_crops", [])
@@ -106,7 +108,7 @@ def assignment(item: dict[str, Any], paper: dict[str, Any]) -> dict[str, Any]:
             "width": spec.get("width", "0.96\\linewidth"),
             "variant": "source_solution",
             "disclosure_policy": "teacher_only",
-            "label": spec.get("label", f"公众号原解答 {index}"),
+            "label": spec.get("label", f"原解答 {index}"),
         }
         for index, spec in enumerate(item["solution_crops"], start=1)
     ]

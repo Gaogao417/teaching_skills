@@ -362,7 +362,7 @@ function applyItem(item, itemIndex) {
   setText("item-title", item.title || item.id);
   setText("stem", formatReviewText(item.stem_latex || "题干不可用"));
   setText("answer", formatReviewText(item.answer || "暂无答案"));
-  setText("explanation", formatReviewText(item.explanation || "暂无解析"));
+  setText("clue", formatReviewText(item.clue || "暂无思路提示"));
   setText("position-summary", `${itemIndex + 1} / ${state.detail.items.length}`);
   const error = byId("load-error");
   error.hidden = !item.load_error;

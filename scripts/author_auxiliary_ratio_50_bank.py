@@ -854,7 +854,7 @@ def author_item(
             "step_count": 4,
         },
         "answer": answer,
-        "explanation": "第一组相似标共同边，第二组沿用它，只给另一条目标边新增份数。",
+        "clue": "第一组相似标共同边，第二组沿用它，只给另一条目标边新增份数。",
         "solution_steps": steps,
         "teaching": {
             "teaching_goal": "由两组对应边整数比求第三组整数比",

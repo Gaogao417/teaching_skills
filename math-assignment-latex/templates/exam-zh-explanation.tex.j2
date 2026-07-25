@@ -80,9 +80,9 @@
 <% endif %>
 \end{eduProblemBlock}
 
-<% if meta.version != "student" and block.explanation %>
+<% if meta.version != "student" and block.clue %>
 \begin{eduLegacySolution}
-<% if block.explanation_latex %><%= block.explanation_latex %><% else %><%= block.explanation|latex_escape %><% endif %>
+<% if block.clue_latex %><%= block.clue_latex %><% else %><%= block.clue|latex_escape %><% endif %>
 \end{eduLegacySolution}
 <% endif %>
 
