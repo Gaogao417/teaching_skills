@@ -40,6 +40,9 @@ def _iter_slots(plan_data: AssignmentPlanDiagramView | dict[str, object]):
             for step in block.steps:
                 if step.diagram_slot is not None:
                     yield step.diagram_slot
+            for step in block.solution_steps:
+                if step.diagram_slot is not None:
+                    yield step.diagram_slot
             answer_space = block.answer_space
             if answer_space is None:
                 continue

@@ -146,6 +146,15 @@ def _collect_slot_refs(plan: AssignmentPlanDiagramView) -> list[DiagramSlotRef]:
                         block_index=bi,
                         step_index=sti,
                     ))
+            for sti, step in enumerate(block.solution_steps):
+                if step.diagram_slot is not None:
+                    refs.append(DiagramSlotRef(
+                        slot_path=f"/sections/{si}/blocks/{bi}/solution_steps/{sti}/diagram_slot",
+                        slot=step.diagram_slot,
+                        section_index=si,
+                        block_index=bi,
+                        step_index=sti,
+                    ))
             answer_space = block.answer_space
             if answer_space is None:
                 continue
@@ -447,6 +456,15 @@ def _collect_slots_from_result(data: dict) -> list[tuple[str, dict]]:
                     obj = step.get(key)
                     if isinstance(obj, dict) and obj:
                         found.append((f"sections[{si}].blocks[{bi}].steps[{sti}].{key}", obj))
+            for sti, step in enumerate(block.get("solution_steps") or []):
+                if not isinstance(step, dict):
+                    continue
+                for key in ("diagram_col", "diagram_slot"):
+                    obj = step.get(key)
+                    if isinstance(obj, dict) and obj:
+                        found.append(
+                            (f"sections[{si}].blocks[{bi}].solution_steps[{sti}].{key}", obj)
+                        )
             answer_space = block.get("answer_space")
             if isinstance(answer_space, dict):
                 for key in ("diagram_col", "diagram_slot"):

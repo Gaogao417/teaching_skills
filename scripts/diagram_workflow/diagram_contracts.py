@@ -277,8 +277,13 @@ class RenderTextAnnotation(DiagramModel):
     target: list[NonEmptyStr] = Field(min_length=1, max_length=2)
     text: NonEmptyStr
     placement: DiagramLabelPlacement | None = None
+    normal_side: Literal["clockwise", "counterclockwise", "auto"] = "auto"
+    normal_offset_cm: float | None = Field(default=None, gt=0)
+    segment_position: Literal["auto", "offset", "legend"] = "offset"
+    legend_placement: Literal["top_left", "top_right", "bottom_left", "bottom_right"] = "top_left"
     dx: float = 0
     dy: float = 0
+    color: str = ""
 
     @field_validator("placement", mode="before")
     @classmethod
@@ -2064,6 +2069,7 @@ class AssignmentBlockView(DiagramLooseModel):
     stem: str = ""
     diagram_slot: DiagramSlot | None = None
     steps: list[AssignmentRouteStepView] = Field(default_factory=list)
+    solution_steps: list[AssignmentRouteStepView] = Field(default_factory=list)
     answer_space: AnswerSpaceView | None = None
 
 

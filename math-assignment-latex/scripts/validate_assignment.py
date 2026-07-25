@@ -40,8 +40,8 @@ VALID_VERSIONS = {"student", "teacher", "both"}
 VALID_VISIBILITIES = {"student", "teacher", "both"}
 VALID_FILLIN_TYPES = {"line", "paren", "circle", "blank", "rectangle"}
 VALID_ANSWER_SPACE_TYPES = {"lines", "blank", "steps"}
-VALID_DIAGRAM_VARIANTS = {"prompt", "solution"}
-VALID_DISCLOSURE_POLICIES = {"clean", "annotated"}
+VALID_DIAGRAM_VARIANTS = {"prompt", "solution", "source_solution"}
+VALID_DISCLOSURE_POLICIES = {"clean", "annotated", "teacher_only"}
 VALID_DUAL_LEFT_KINDS = {"hint", "mistake", "note"}
 
 
@@ -131,7 +131,7 @@ def collect_diagram_refs(block, owner):
                 }
             )
 
-    for key in ("diagram_col", "prompt_diagram"):
+    for key in ("diagram_col", "prompt_diagram", "stem_image"):
         add(block.get(key), key)
     if block.get("type") == "diagram":
         add(block, "diagram")
@@ -143,6 +143,12 @@ def collect_diagram_refs(block, owner):
             if isinstance(step, dict):
                 add(step.get("diagram_col"), f"steps[{i}].diagram_col")
                 add(step.get("prompt_diagram"), f"steps[{i}].prompt_diagram")
+    for i, step in enumerate(block.get("solution_steps") or []):
+        if isinstance(step, dict):
+            add(step.get("diagram_col"), f"solution_steps[{i}].diagram_col")
+            add(step.get("prompt_diagram"), f"solution_steps[{i}].prompt_diagram")
+    for i, evidence in enumerate(block.get("source_solution_images") or []):
+        add(evidence, f"source_solution_images[{i}]")
     aspace = block.get("answer_space") if isinstance(block.get("answer_space"), dict) else None
     if aspace:
         for key in ("diagram_col", "diagram"):
@@ -228,12 +234,12 @@ def validate(data, base_dir=None):
                     errors.append(f"{bprefix} ({bid}): choice type requires 'choices'")
                 elif not isinstance(block["choices"], dict):
                     errors.append(f"{bprefix} ({bid}): choices must be a dict")
-                if "answer" not in block:
+                if data["meta"].get("version") != "student" and "answer" not in block:
                     errors.append(f"{bprefix} ({bid}): choice type requires 'answer'")
 
             # Fillin-specific
             if btype == "fillin":
-                if "answer" not in block:
+                if data["meta"].get("version") != "student" and "answer" not in block:
                     errors.append(f"{bprefix} ({bid}): fillin type requires 'answer'")
                 ft = block.get("fillin_type")
                 if ft and ft not in VALID_FILLIN_TYPES:
@@ -279,15 +285,19 @@ def validate(data, base_dir=None):
                             f"{bprefix} ({bid}): legacy '{legacy_key}' is not allowed; "
                             "use side_title/side_items/solution_title/solution_step_ids"
                         )
-                if not block.get("label"):
-                    errors.append(f"{bprefix} ({bid}): {btype} requires 'label' such as '(1)'")
-                if not block.get("stem") and not block.get("stem_latex"):
-                    errors.append(f"{bprefix} ({bid}): {btype} requires 'stem_latex' or 'stem'")
+                has_dual_stem = bool(block.get("stem") or block.get("stem_latex"))
+                if block.get("label") and not has_dual_stem:
+                    errors.append(f"{bprefix} ({bid}): {btype} label requires a matching 'stem_latex' or 'stem'")
 
                 side_items = block.get("side_items")
                 solution_step_ids = block.get("solution_step_ids")
-                if not isinstance(side_items, list) or not side_items:
+                if not isinstance(side_items, list):
                     errors.append(f"{bprefix} ({bid}): {btype} requires non-empty 'side_items' list")
+                elif not side_items and not block.get("allow_empty_side", False):
+                    errors.append(
+                        f"{bprefix} ({bid}): {btype} requires non-empty 'side_items' list "
+                        "unless allow_empty_side is true"
+                    )
                 elif side_items:
                     for li, item in enumerate(side_items):
                         iprefix = f"{bprefix} ({bid}).side_items[{li}]"
@@ -355,9 +365,51 @@ def validate(data, base_dir=None):
 
             # Prompt-side diagram columns for questions. Rendering templates use
             # these fields to avoid inferring geometry layout from prose.
-            for key in ("diagram_col", "prompt_diagram"):
+            for key in ("diagram_col", "prompt_diagram", "stem_image"):
                 if block.get(key):
                     validate_diagram_obj(block[key], f"{bprefix} ({bid}).{key}", errors, base_dir)
+
+            source_solution_images = block.get("source_solution_images")
+            if source_solution_images is not None:
+                if data["meta"].get("version") == "student":
+                    errors.append(f"{bprefix} ({bid}): source_solution_images are teacher-only")
+                if not isinstance(source_solution_images, list) or not source_solution_images:
+                    errors.append(
+                        f"{bprefix} ({bid}): source_solution_images must be a non-empty list"
+                    )
+                else:
+                    for image_i, image in enumerate(source_solution_images):
+                        iprefix = f"{bprefix} ({bid}).source_solution_images[{image_i}]"
+                        validate_diagram_obj(image, iprefix, errors, base_dir)
+                        if isinstance(image, dict):
+                            variant = image.get("variant")
+                            disclosure = image.get("disclosure_policy")
+                            if variant and variant != "source_solution":
+                                errors.append(f"{iprefix}: variant must be source_solution")
+                            if disclosure and disclosure != "teacher_only":
+                                errors.append(
+                                    f"{iprefix}: disclosure_policy must be teacher_only"
+                                )
+
+            solution_notes = block.get("solution_notes")
+            if solution_notes is not None:
+                if data["meta"].get("version") == "student":
+                    errors.append(f"{bprefix} ({bid}): solution_notes are teacher-only")
+                if not isinstance(solution_notes, list):
+                    errors.append(f"{bprefix} ({bid}): solution_notes must be a list")
+                else:
+                    for note_i, note in enumerate(solution_notes):
+                        nprefix = f"{bprefix} ({bid}).solution_notes[{note_i}]"
+                        if isinstance(note, str):
+                            if not note.strip():
+                                errors.append(f"{nprefix}: note cannot be blank")
+                        elif isinstance(note, dict):
+                            if not has_content(note):
+                                errors.append(
+                                    f"{nprefix}: requires content_latex, content, or latex"
+                                )
+                        else:
+                            errors.append(f"{nprefix}: must be a string or mapping")
 
             # Answer space
             aspace = block.get("answer_space")

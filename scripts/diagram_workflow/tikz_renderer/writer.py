@@ -91,6 +91,29 @@ def node_text_tex(value: object) -> str:
     return escape_tex(text)
 
 
+def segment_value_tex(value: object) -> str:
+    """Render a segment value as bold math, using a stacked fraction."""
+
+    text = str(value).strip()
+    if not text:
+        return ""
+    suffix = ""
+    if text.endswith("份"):
+        text = text.removesuffix("份").strip()
+        suffix = r"\,\text{份}"
+    if text.startswith("$") and text.endswith("$"):
+        math = text[1:-1].strip()
+    else:
+        fraction = re.fullmatch(r"(?P<num>-?\d+)\s*/\s*(?P<den>\d+)", text)
+        if fraction:
+            math = rf"\frac{{{fraction.group('num')}}}{{{fraction.group('den')}}}"
+        elif _looks_like_math_label(text):
+            math = _normalize_math_subscripts(text)
+        else:
+            return r"\textbf{" + escape_tex(str(value)) + "}"
+    return rf"$\boldsymbol{{{math}}}{suffix}$"
+
+
 def color_option(value: object, *, default: str = "black") -> str:
     text = str(value or "").strip()
     if not text:

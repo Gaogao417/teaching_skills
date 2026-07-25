@@ -280,6 +280,74 @@ def run_scene_payload_workflow(
     return result
 
 
+def refresh_scene_payload_renderer_spec(
+    request: dict[str, Any],
+    out_dir: Path,
+    render_result_path: Path,
+    *,
+    emit_result: bool = True,
+) -> dict[str, Any]:
+    """Recompile visual spec from existing solved coordinates.
+
+    This route is only for requests whose mathematical scene identity is
+    unchanged. It intentionally skips ``render_candidate_action`` so changes
+    to annotations, colors, label placement, and legends never invoke
+    Wolfram.
+    """
+
+    request_model = DiagramJobRequest(**request)
+    payload = ScenePayload.model_validate(request_model.engine_options.scene_payload)
+    request_payload = request_model.model_dump(mode="json", by_alias=True)
+    reuse_payload = request_payload.get("reuse")
+    if isinstance(reuse_payload, dict):
+        request_payload["reuse_geometry_from"] = reuse_payload.get("reuse_geometry_from", "")
+        request_payload["base_job_dir"] = reuse_payload.get("base_job_dir", "")
+    write_json(out_dir / "request.json", request_payload)
+    round_dir = out_dir / "rounds" / "round_0"
+    scene_path = round_dir / "scene_payload.json"
+    write_json(scene_path, payload.model_dump(mode="json", by_alias=True))
+
+    core_dir = default_gsb_root() / "core"
+    if str(core_dir) not in sys.path:
+        sys.path.insert(0, str(core_dir))
+    from tools import compile_spec_action  # type: ignore
+
+    compile_action = compile_spec_action(
+        request_payload,
+        scene_path,
+        render_result_path,
+        out_dir,
+        0,
+    )
+    if compile_action.get("status") != "ok":
+        result = DiagramJobResult(
+            job_id=request_model.job_id,
+            status="failed",
+            fail_type="visual_refresh_spec_compile_failed",
+            message="Existing solved coordinates could not compile the updated renderer spec",
+            wolfram={"success": True, "solve_time_s": 0},
+            model={"text_model_used": "", "attempts": []},
+        ).model_dump(mode="json", by_alias=True)
+    else:
+        spec = GeometryRenderSpec.model_validate(compile_action["renderer_spec"])
+        write_json(out_dir / "scene_payload.json", payload.model_dump(mode="json", by_alias=True))
+        (out_dir / "final_geometric_scene.wl").write_text(payload.scene_code, encoding="utf-8")
+        write_json(out_dir / "final_renderer_spec.json", spec.model_dump(mode="json", by_alias=True))
+        result = DiagramJobResult(
+            job_id=request_model.job_id,
+            status="ok",
+            scene_payload="scene_payload.json",
+            final_renderer_spec="final_renderer_spec.json",
+            wolfram={"success": True, "solve_time_s": 0},
+            model={"text_model_used": "", "attempts": []},
+            policy_warnings=["reused solved geometry for visual-only refresh"],
+        ).model_dump(mode="json", by_alias=True)
+    write_json(out_dir / "workflow_result.json", result)
+    if emit_result:
+        print(json.dumps(result, ensure_ascii=False))
+    return result
+
+
 def normalize_for_gsb(request: dict[str, Any]) -> dict[str, Any]:
     if request.get("schema_version") == "diagram-job-request/v2":
         normalized = dict(request)

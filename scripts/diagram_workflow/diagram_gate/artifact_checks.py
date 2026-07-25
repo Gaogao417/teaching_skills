@@ -88,6 +88,11 @@ def _check_content_hash(
             slots = []
             if block.diagram_slot is not None:
                 slots.append(block.diagram_slot)
+            slots.extend(
+                step.diagram_slot
+                for step in (*block.steps, *block.solution_steps)
+                if step.diagram_slot is not None
+            )
             if block.answer_space is not None:
                 if block.answer_space.diagram_slot is not None:
                     slots.append(block.answer_space.diagram_slot)

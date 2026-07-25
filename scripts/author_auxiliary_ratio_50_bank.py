@@ -10,6 +10,7 @@ compile TikZ, run an audit, resolve an assignment, or mark the bank ready.
 from __future__ import annotations
 
 import argparse
+from copy import deepcopy
 from fractions import Fraction
 from itertools import product
 from math import gcd
@@ -36,6 +37,65 @@ RATIO_LATEX = {
     "w": r"\dfrac{BD}{DC}",
     "y": r"\dfrac{AP}{PD}",
     "z": r"\dfrac{BP}{PE}",
+}
+
+BLUE = "#2563eb"
+RED = "#dc2626"
+GREEN = "#059669"
+DEFAULT_INTEGER_NORMAL_OFFSET_CM = 0.22
+DEFAULT_FRACTION_NORMAL_OFFSET_CM = 0.30
+
+ANNOTATION_PLACEMENTS = {
+    "AE": "above left",
+    "EC": "above right",
+    "BD": "below",
+    "DC": "below",
+    "AP": "left",
+    "PD": "right",
+    "BP": "above left",
+    "PE": "above right",
+    "CF": "right",
+    "AF": "above left",
+    "BE": "above",
+    "EF": "above",
+    "PF": "above",
+    "BC": "below",
+}
+
+# Direction is read from the two endpoint names in each annotation target.
+# counterclockwise means (-dy, dx); clockwise means (dy, -dx).
+ANNOTATION_NORMAL_SIDES = {
+    "AE": "counterclockwise",
+    "EC": "counterclockwise",
+    "BD": "clockwise",
+    "DC": "clockwise",
+    "AP": "counterclockwise",
+    "PD": "counterclockwise",
+    "BP": "counterclockwise",
+    "PE": "clockwise",
+    "CF": "clockwise",
+    "AF": "clockwise",
+    "BE": "clockwise",
+    "EF": "clockwise",
+    "PF": "clockwise",
+    "BC": "clockwise",
+}
+
+ANNOTATION_NORMAL_OFFSETS_CM = {
+    # The midpoint of BE is close to P in this construction. A compact offset
+    # keeps the value between P and D instead of pushing it onto either label.
+    "BE": 0.18,
+}
+
+# Per-item exceptions for segments whose surrounding region is too narrow for
+# an unambiguous offset value. The renderer writes the complete relation in a
+# free legend area instead of placing a number on the geometry.
+GLOBAL_LEGEND_SEGMENTS = {"BE", "BC"}
+LEGEND_OVERRIDES = {
+    "Q004": {"BP", "PE"},
+    "Q016": {"BP", "PE"},
+    "Q028": {"BP", "PE"},
+    "Q040": {"BP", "PE"},
 }
 
 # One user-reviewed layout fixture shared by the complete bank.  With
@@ -172,6 +232,23 @@ def auxiliary_route(involved: set[str]) -> dict[str, Any]:
             "f_region": ("B", "E"),
             "parallel": (("C", "F"), ("A", "D")),
             "f_placement": "right",
+            "connection": "y",
+            "models": [
+                {
+                    "shape": "8字",
+                    "triangles": r"\triangle EAP\sim\triangle ECF",
+                    "anchor": "x",
+                    "output": ("AP", "CF"),
+                    "highlight": (("E", "A", "P"), ("E", "C", "F")),
+                },
+                {
+                    "shape": "A字",
+                    "triangles": r"\triangle BDP\sim\triangle BCF",
+                    "anchor": "w",
+                    "output": ("DP", "CF"),
+                    "highlight": (("B", "D", "P"), ("B", "C", "F")),
+                },
+            ],
         },
         # Missing BC ratio: AC, AD and BE surround triangle AEP.
         "w": {
@@ -179,6 +256,23 @@ def auxiliary_route(involved: set[str]) -> dict[str, Any]:
             "f_region": ("B", "C"),
             "parallel": (("A", "F"), ("E", "P")),
             "f_placement": "below left",
+            "connection": "z",
+            "models": [
+                {
+                    "shape": "A字",
+                    "triangles": r"\triangle CAF\sim\triangle CEB",
+                    "anchor": "x",
+                    "output": ("AF", "BE"),
+                    "highlight": (("C", "A", "F"), ("C", "E", "B")),
+                },
+                {
+                    "shape": "A字",
+                    "triangles": r"\triangle DAF\sim\triangle DPB",
+                    "anchor": "y",
+                    "output": ("AF", "BP"),
+                    "highlight": (("D", "A", "F"), ("D", "P", "B")),
+                },
+            ],
         },
         # Missing AD ratio: AC, BE and BC surround triangle ECB.
         "y": {
@@ -186,6 +280,23 @@ def auxiliary_route(involved: set[str]) -> dict[str, Any]:
             "f_region": ("A", "D"),
             "parallel": (("E", "F"), ("C", "B")),
             "f_placement": "above left",
+            "connection": "w",
+            "models": [
+                {
+                    "shape": "A字",
+                    "triangles": r"\triangle AEF\sim\triangle ACD",
+                    "anchor": "x",
+                    "output": ("EF", "DC"),
+                    "highlight": (("A", "E", "F"), ("A", "C", "D")),
+                },
+                {
+                    "shape": "8字",
+                    "triangles": r"\triangle PEF\sim\triangle PBD",
+                    "anchor": "z",
+                    "output": ("EF", "BD"),
+                    "highlight": (("P", "E", "F"), ("P", "B", "D")),
+                },
+            ],
         },
         # Missing AC ratio: AD, BE and BC surround triangle PDB.
         "x": {
@@ -193,9 +304,210 @@ def auxiliary_route(involved: set[str]) -> dict[str, Any]:
             "f_region": ("A", "C"),
             "parallel": (("P", "F"), ("D", "B")),
             "f_placement": "right",
+            "connection": "w",
+            "models": [
+                {
+                    "shape": "A字",
+                    "triangles": r"\triangle APF\sim\triangle ADC",
+                    "anchor": "y",
+                    "output": ("PF", "DC"),
+                    "highlight": (("A", "P", "F"), ("A", "D", "C")),
+                },
+                {
+                    "shape": "A字",
+                    "triangles": r"\triangle EFP\sim\triangle ECB",
+                    "anchor": "z",
+                    "output": ("PF", "BC"),
+                    "highlight": (("E", "F", "P"), ("E", "C", "B")),
+                },
+            ],
         },
     }
     return routes[missing]
+
+
+def model_output_ratio(model: dict[str, Any], values: dict[str, Fraction]) -> Fraction:
+    anchor = model["anchor"]
+    value = values[anchor]
+    first, second = model["output"]
+    formulas = {
+        ("x", "AP", "CF"): value,
+        ("w", "DP", "CF"): value / (value + 1),
+        ("x", "AF", "BE"): value + 1,
+        ("y", "AF", "BP"): value + 1,
+        ("x", "EF", "DC"): value / (value + 1),
+        ("z", "EF", "BD"): 1 / value,
+        ("y", "PF", "DC"): value / (value + 1),
+        ("z", "PF", "BC"): 1 / (value + 1),
+    }
+    return formulas[(anchor, first, second)]
+
+
+def segment_annotation(
+    segment: str,
+    shares: int | Fraction,
+    *,
+    color: str,
+    suffix: str,
+    opposite: bool = False,
+) -> dict[str, Any]:
+    normalized = "PD" if segment == "DP" else segment
+    share_value = Fraction(shares)
+    placement = ANNOTATION_PLACEMENTS.get(normalized, "above")
+    if opposite:
+        opposites = {
+            "above": "below",
+            "below": "above",
+            "left": "right",
+            "right": "left",
+            "above left": "below right",
+            "above right": "below left",
+        }
+        placement = opposites.get(placement, "below")
+    annotation = {
+        "id": f"{suffix}-{segment.lower()}",
+        "target": list(segment),
+        "text": f"{fraction_plain(share_value)}份",
+        "placement": placement,
+        "normal_side": ANNOTATION_NORMAL_SIDES.get(normalized, "auto"),
+        "segment_position": "auto",
+        "normal_offset_cm": (
+            DEFAULT_INTEGER_NORMAL_OFFSET_CM
+            if share_value.denominator == 1
+            else DEFAULT_FRACTION_NORMAL_OFFSET_CM
+        ),
+        "color": color,
+    }
+    if normalized in ANNOTATION_NORMAL_OFFSETS_CM:
+        annotation["normal_offset_cm"] = ANNOTATION_NORMAL_OFFSETS_CM[normalized]
+    return annotation
+
+
+def known_annotations(
+    values: dict[str, Fraction],
+    known: tuple[str, str],
+    item_id: str = "",
+) -> list[dict[str, Any]]:
+    annotations: list[dict[str, Any]] = []
+    for key in known:
+        first, second = RATIO_SEGMENTS[key]
+        ratio = values[key]
+        annotations.extend(
+            [
+                segment_annotation(first, ratio.numerator, color=BLUE, suffix=f"known-{key}"),
+                segment_annotation(second, ratio.denominator, color=BLUE, suffix=f"known-{key}"),
+            ]
+        )
+    return apply_annotation_layout_overrides(item_id, annotations)
+
+
+def apply_annotation_layout_overrides(
+    item_id: str,
+    annotations: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    legend_segments = GLOBAL_LEGEND_SEGMENTS | LEGEND_OVERRIDES.get(item_id, set())
+    for annotation in annotations:
+        segment = "".join(annotation["target"])
+        normalized = "PD" if segment == "DP" else segment
+        if normalized in legend_segments:
+            annotation["segment_position"] = "legend"
+            annotation["legend_placement"] = "top_left"
+    return annotations
+
+
+def staged_model_share_additions(
+    models: list[dict[str, Any]],
+    values: dict[str, Fraction],
+    known: tuple[str, str],
+    target: str | None = None,
+) -> list[list[tuple[str, Fraction]]]:
+    """Compute cumulative, non-duplicated shares added by each model.
+
+    The final model must leave both requested target segments readable on the
+    diagram.  Those labels are the visible result of solving the second A/8
+    model, not a third algebra-only step.
+    """
+
+    visible: dict[str, Fraction] = {}
+    for key in known:
+        first, second = RATIO_SEGMENTS[key]
+        ratio = values[key]
+        visible["".join(sorted(first))] = Fraction(ratio.numerator)
+        visible["".join(sorted(second))] = Fraction(ratio.denominator)
+
+    additions_by_stage: list[list[tuple[str, Fraction]]] = []
+    for stage_index, model in enumerate(models):
+        first, second = model["output"]
+        first_key = "".join(sorted(first))
+        second_key = "".join(sorted(second))
+        ratio = model_output_ratio(model, values)
+        first_share = visible.get(first_key)
+        second_share = visible.get(second_key)
+        additions: list[tuple[str, Fraction]] = []
+        if first_share is None and second_share is None:
+            first_share = Fraction(ratio.numerator)
+            second_share = Fraction(ratio.denominator)
+            additions = [(first, first_share), (second, second_share)]
+        elif first_share is None:
+            first_share = ratio * second_share
+            additions = [(first, first_share)]
+        elif second_share is None:
+            second_share = first_share / ratio
+            additions = [(second, second_share)]
+        visible[first_key] = first_share
+        visible[second_key] = second_share
+
+        if target is not None and stage_index == len(models) - 1:
+            target_first, target_second = RATIO_SEGMENTS[target]
+            target_first_key = "".join(sorted(target_first))
+            target_second_key = "".join(sorted(target_second))
+            target_ratio = values[target]
+            target_first_share = visible.get(target_first_key)
+            target_second_share = visible.get(target_second_key)
+            if target_first_share is None and target_second_share is None:
+                target_first_share = Fraction(target_ratio.numerator)
+                target_second_share = Fraction(target_ratio.denominator)
+                additions.extend(
+                    [
+                        (target_first, target_first_share),
+                        (target_second, target_second_share),
+                    ]
+                )
+            elif target_first_share is None:
+                target_first_share = target_ratio * target_second_share
+                additions.append((target_first, target_first_share))
+            elif target_second_share is None:
+                target_second_share = target_first_share / target_ratio
+                additions.append((target_second, target_second_share))
+            visible[target_first_key] = target_first_share
+            visible[target_second_key] = target_second_share
+        additions_by_stage.append(additions)
+    return additions_by_stage
+
+
+def derived_annotations(
+    models: list[dict[str, Any]],
+    values: dict[str, Fraction],
+    known: tuple[str, str],
+    target: str,
+    visible_stage_count: int,
+) -> list[dict[str, Any]]:
+    annotations: list[dict[str, Any]] = []
+    for stage_index, additions in enumerate(
+        staged_model_share_additions(models, values, known, target), start=1
+    ):
+        if stage_index > visible_stage_count:
+            break
+        for segment, share in additions:
+            annotations.append(
+                segment_annotation(
+                    segment,
+                    share,
+                    color=RED if stage_index == 1 else GREEN,
+                    suffix=f"model-{stage_index}",
+                )
+            )
+    return annotations
 
 
 def base_diagram_spec() -> dict[str, Any]:
@@ -249,7 +561,11 @@ def prompt_scene(
     }
 
 
-def solution_scene(route: dict[str, Any]) -> dict[str, Any]:
+def solution_scene(
+    route: dict[str, Any],
+    annotations: list[dict[str, Any]],
+    model: dict[str, Any] | None = None,
+) -> dict[str, Any]:
     f0, f1 = route["f_region"]
     (p0, p1), (q0, q1) = route["parallel"]
     spec = base_diagram_spec()
@@ -269,6 +585,13 @@ def solution_scene(route: dict[str, Any]) -> dict[str, Any]:
         {"type": "parallel", "segments": [[p0, p1], [q0, q1]]}
     ]
     spec["labels"]["F"] = {"text": "F", "placement": route["f_placement"]}
+    spec["annotations"] = annotations
+    if model is not None:
+        first_triangle, second_triangle = model["highlight"]
+        spec["polygons"] = [
+            {"points": list(first_triangle), "fill": "#eff6ff", "stroke": "#93c5fd"},
+            {"points": list(second_triangle), "fill": "#fef2f2", "stroke": "#fca5a5"},
+        ]
     hypotheses = [
         f"Element[F, InfiniteLine[{{{f0}, {f1}}}]]",
         f'GeometricAssertion[{{Line[{{{p0}, {p1}}}], Line[{{{q0}, {q1}}}]}}, "Parallel"]',
@@ -295,11 +618,12 @@ def diagram_slot(
     known: tuple[str, str],
     target: str,
     *,
-    solution: bool,
+    stage: str,
+    ordered_models: list[dict[str, Any]] | None = None,
 ) -> dict[str, Any]:
     item_key = item_id.lower()
     prompt_id = f"question_bank.auxiliary50.{item_key}.prompt"
-    if not solution:
+    if stage == "prompt":
         return {
             "slot_id": prompt_id,
             "diagram_ref": prompt_id,
@@ -310,7 +634,6 @@ def diagram_slot(
             "placement": "diagram_col",
             "layout_role": "question_sidecar",
             "display_profile": "worksheet_geometry_sidecar",
-            "caption": f"{item_id} 原题图：只显示原始构型与点名。",
             "engine": "geometric_scene",
             "diagram_kind": "synthetic_geometry",
             "engine_options": {
@@ -341,7 +664,48 @@ def diagram_slot(
 
     route = auxiliary_route(set(known) | {target})
     (p0, p1), (q0, q1) = route["parallel"]
-    solution_id = f"question_bank.auxiliary50.{item_key}.solution"
+    if ordered_models is None:
+        raise ValueError("solution stages require ordered_models")
+    stage_index = {"helper": 0, "model1": 1, "model2": 2}[stage]
+    visible_models = ordered_models[:stage_index]
+    annotations = known_annotations(values, known, item_id) + derived_annotations(
+        ordered_models,
+        values,
+        known,
+        target,
+        stage_index,
+    )
+    annotations = apply_annotation_layout_overrides(item_id, annotations)
+    current_model = visible_models[-1] if visible_models else None
+    solution_id = f"question_bank.auxiliary50.{item_key}.{stage}"
+    if current_model is None:
+        caption = "蓝字标出题目给出的两组比；先完成辅助线。"
+    elif stage == "model1":
+        additions = staged_model_share_additions(ordered_models, values, known, target)[0]
+        if len(additions) == 2:
+            caption = f"解第一组{current_model['shape']}：两条边都未标，补出一对红色份数。"
+        elif len(additions) == 1:
+            segment, share = additions[0]
+            segment = "PD" if segment == "DP" else segment
+            caption = (
+                f"解第一组{current_model['shape']}：沿用已标边，只新增"
+                f" {segment}={fraction_plain(share)}份。"
+            )
+        else:
+            caption = f"解第一组{current_model['shape']}：两条对应边已有份数，不重复标注。"
+    else:
+        additions = staged_model_share_additions(ordered_models, values, known, target)[1]
+        if additions:
+            additions_text = "、".join(
+                f"{('PD' if segment == 'DP' else segment)}={fraction_plain(share)}份"
+                for segment, share in additions
+            )
+            caption = (
+                f"解第二组{current_model['shape']}：已有份数保持不变；本步补出"
+                f"绿色 {additions_text}，所求两边均已标清。"
+            )
+        else:
+            caption = f"解第二组{current_model['shape']}：两条对应边已有份数，不重复标注。"
     return {
         "slot_id": solution_id,
         "diagram_ref": solution_id,
@@ -353,14 +717,20 @@ def diagram_slot(
         "placement": "diagram_col",
         "layout_role": "solution_annotation",
         "display_profile": "worksheet_geometry_sidecar",
-        "caption": f"{item_id} 解答图：{route['description']}。",
+        "caption": caption,
         "engine": "geometric_scene",
         "diagram_kind": "synthetic_geometry",
-        "engine_options": {"scene_payload": solution_scene(route), "seed": 727000 + int(item_id[1:])},
+        "engine_options": {
+            "scene_payload": solution_scene(route, annotations, current_model),
+            # model2 reuses the exact model1 geometry; keeping the same solver
+            # seed prevents an under-constrained auxiliary point from drifting
+            # merely because another text annotation was added.
+            "seed": 727000 + int(item_id[1:]) * 10 + min(stage_index, 1),
+        },
         "teaching_intent": "practice_solution",
         "problem_context": {
             "stem_latex": stem,
-            "source_problem_text": f"复用本题 prompt 的全部点位，只新增 F：{route['description']}。显示一组平行标记，不写最终答案。",
+            "source_problem_text": f"复用本题 prompt 的全部点位，只新增 F：{route['description']}。蓝字始终标出题设两组比；第一组模型新增红色份数，第二组模型保留前图并新增绿色份数；已经标过的边不换数、不换色。",
         },
         "semantic_constraints": {
             "given_objects": ["A", "B", "C", "D", "E", "P", "F"],
@@ -368,12 +738,18 @@ def diagram_slot(
                 f"reuse the complete geometry from {prompt_id}",
                 route["description"],
             ],
-            "solution_allowed_annotations": ["the auxiliary line", "one parallel marker"],
+            "solution_allowed_annotations": [
+                "the auxiliary line",
+                "one parallel marker",
+                "blue given-ratio share labels",
+                "red first-model corresponding-side share labels",
+                "green second-model corresponding-side share labels",
+            ],
         },
         "visual_requirements": {
             "required_visible_annotations": {
                 "markers": [{"type": "parallel", "segments": [[p0, p1], [q0, q1]]}],
-                "texts": [],
+                "texts": deepcopy(annotations),
             }
         },
     }
@@ -395,33 +771,76 @@ def author_item(
     answer = rf"${target_first}:{target_second}={ratio_text(answer_value)}$。"
     title = f"由两组对应边比求 {target_first}:{target_second}"
     stem = (
-        r"如图，在 $\triangle ABC$ 中，点 $D$ 在线段 $BC$ 上，点 $E$ 在线段 $AC$ 上，"
-        r"线段 $AD$ 与 $BE$ 交于点 $P$。已知 "
+        r"如图，点 $D$ 在线段 $BC$ 上，点 $E$ 在线段 $AC$ 上，$AD$ 与 $BE$ 交于点 $P$。已知 "
         + rf"${first_condition}$，${second_condition}$，求 ${target_first}:{target_second}$。"
     )
-    relation = relation_for(known)
-    substitution = r",\ ".join(
-        rf"{key}={fraction_latex(values[key])}" for key in known
-    )
-    target_result = fraction_latex(values[target])
+    route = auxiliary_route(set(known) | {target})
+    models = list(route["models"])
+    if models[0]["anchor"] not in known:
+        models.reverse()
+    staged_additions = staged_model_share_additions(models, values, known, target)
+
+    def model_step_content(model: dict[str, Any], stage_index: int) -> str:
+        output_first, output_second = model["output"]
+        output_ratio = model_output_ratio(model, values)
+        similarity = f"${model['triangles']}$"
+        additions = staged_additions[stage_index]
+        if stage_index == 1 and additions:
+            additions_text = "，".join(
+                f"${('PD' if segment == 'DP' else segment)}={fraction_latex(share)}$ 份"
+                for segment, share in additions
+            )
+            return (
+                f"由蓝色已知比解 {model['shape']} {similarity}。保留前一步全部份数，"
+                f"本步用绿色补出 {additions_text}，使所求两边的份数同时显示。"
+            )
+        if len(additions) == 2:
+            return (
+                f"由蓝色已知比解 {model['shape']} {similarity}，"
+                f"得红色 ${output_first}:{output_second}={ratio_text(output_ratio)}$。"
+            )
+        if len(additions) == 1:
+            new_segment, new_share = additions[0]
+            new_segment = "PD" if new_segment == "DP" else new_segment
+            return (
+                f"由蓝色已知比解 {model['shape']} {similarity}。沿用图中已有份数，"
+                f"只新增红色 ${new_segment}={fraction_latex(new_share)}$ 份。"
+            )
+        return (
+            f"由 {model['shape']} {similarity} 读取图中已有份数；"
+            "两条对应边都已标过，本步不重复标注。"
+        )
+
+    first_model, second_model = models
     steps = [
         {
-            "title": "找三条比例线并作辅助线",
-            "content": "把两组已知条件与所求量所在的三条直线围成三角形，按讲解规则作唯一的平行辅助线，得到两组相似三角形。",
+            "title": "作辅助线",
+            "content": f"{route['description']}。蓝字标出题目给出的两组比。",
         },
         {
-            "title": "统一记号并列关系",
-            "content": rf"记 $x=AE/EC$、$w=BD/DC$、$y=AP/PD$、$z=BP/PE$。本题可用 ${relation}$。",
+            "title": f"解第一组{first_model['shape']}",
+            "content": model_step_content(first_model, 0),
         },
         {
-            "title": "代入两个整数比",
-            "content": rf"由题意得到 ${substitution}$，化简得 ${target}={target_result}$。",
+            "title": f"解第二组{second_model['shape']}",
+            "content": model_step_content(second_model, 1),
         },
-        {"title": "写成最简整数比", "content": f"约去公因数，得到 {answer}"},
+        {
+            "title": "比较份数，写出答案",
+            "content": f"直接比较图中所求两条边的份数并化简，因此 {answer}",
+        },
     ]
 
-    prompt_slot = diagram_slot(item_id, stem, values, known, target, solution=False)
-    solution_slot = diagram_slot(item_id, stem, values, known, target, solution=True)
+    prompt_slot = diagram_slot(item_id, stem, values, known, target, stage="prompt")
+    steps[0]["diagram_slot"] = diagram_slot(
+        item_id, stem, values, known, target, stage="helper", ordered_models=models
+    )
+    steps[1]["diagram_slot"] = diagram_slot(
+        item_id, stem, values, known, target, stage="model1", ordered_models=models
+    )
+    steps[2]["diagram_slot"] = diagram_slot(
+        item_id, stem, values, known, target, stage="model2", ordered_models=models
+    )
     block = {
         "type": "problem",
         "id": item_id,
@@ -431,12 +850,11 @@ def author_item(
         "diagram_slot": prompt_slot,
         "answer_space": {
             "type": "steps",
-            "height": "48mm",
+            "height": "36mm",
             "step_count": 4,
-            "diagram_slot": solution_slot,
         },
         "answer": answer,
-        "explanation": "两组已知整数比先统一为 x、w、y、z 的关系，再求第三组并写成最简整数比。",
+        "explanation": "第一组相似标共同边，第二组沿用它，只给另一条目标边新增份数。",
         "solution_steps": steps,
         "teaching": {
             "teaching_goal": "由两组对应边整数比求第三组整数比",

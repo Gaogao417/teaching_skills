@@ -116,6 +116,9 @@ def _workflow_code_version() -> str:
             SCRIPT_DIR / "render_geometry_spec.py",
             SCRIPT_DIR / "diagram_contracts.py",
             SCRIPT_DIR / "run_diagram_batch.py",
+            SCRIPT_DIR / "tikz_renderer" / "geometry_to_tikz.py",
+            SCRIPT_DIR / "tikz_renderer" / "writer.py",
+            SCRIPT_DIR / "tikz_renderer" / "styles.py",
         ]
     )
     digest = hashlib.sha256()
@@ -165,6 +168,85 @@ def _cache_identity(
         "workflow_code_version": _workflow_code_version(),
     }
     return _canonical_hash(identity).removeprefix("sha256:"), identity
+
+
+def _scene_geometry_identity(request_payload: dict[str, object]) -> str:
+    """Hash only mathematical scene inputs, excluding visual annotations."""
+
+    engine_options = request_payload.get("engine_options")
+    scene_payload = (
+        engine_options.get("scene_payload")
+        if isinstance(engine_options, dict)
+        else None
+    )
+    if not isinstance(scene_payload, dict):
+        return ""
+    geometry_payload = {
+        key: value
+        for key, value in scene_payload.items()
+        if key not in {"diagram_spec", "rationale", "model_used", "model_attempts"}
+    }
+    reuse = request_payload.get("reuse")
+    return _canonical_hash(
+        {
+            "engine": request_payload.get("engine"),
+            "diagram_kind": request_payload.get("diagram_kind"),
+            "seed": engine_options.get("seed"),
+            "reuse": reuse if isinstance(reuse, dict) else {},
+            "scene": geometry_payload,
+        }
+    )
+
+
+def _reusable_scene_render_result(
+    request_payload: dict[str, object],
+    job_build_dir: Path,
+    artifact_dir: Path,
+) -> Path | None:
+    """Return existing solved coordinates when only visual fields changed."""
+
+    old_request_path = job_build_dir / "request.json"
+    render_result_path = job_build_dir / "rounds" / "round_0" / "render_result.json"
+    old_spec_path = job_build_dir / "final_renderer_spec.json"
+    if not old_request_path.is_file() or not render_result_path.is_file() or not old_spec_path.is_file():
+        return None
+    try:
+        old_request = read_json(old_request_path)
+        render_result = read_json(render_result_path)
+        old_spec = read_json(old_spec_path)
+    except (OSError, ValueError, json.JSONDecodeError):
+        return None
+    if not render_result.get("success") or not (
+        render_result.get("points") or render_result.get("parameters")
+    ):
+        return None
+    identity = _scene_geometry_identity(request_payload)
+    if not identity or identity != _scene_geometry_identity(old_request):
+        return None
+
+    reuse = request_payload.get("reuse")
+    base_job_id = str(reuse.get("reuse_geometry_from") or "") if isinstance(reuse, dict) else ""
+    if base_job_id:
+        base_spec_path = (
+            artifact_dir
+            / "build"
+            / "diagram"
+            / "jobs"
+            / base_job_id
+            / "final_renderer_spec.json"
+        )
+        if not base_spec_path.is_file():
+            return None
+        try:
+            base_points = read_json(base_spec_path).get("points")
+            old_points = old_spec.get("points")
+        except (OSError, ValueError, json.JSONDecodeError):
+            return None
+        if not isinstance(base_points, dict) or not isinstance(old_points, dict):
+            return None
+        if any(old_points.get(name) != point for name, point in base_points.items()):
+            return None
+    return render_result_path
 
 
 def _cache_manifest(cache_dir: Path) -> dict[str, object]:
@@ -355,6 +437,15 @@ def _slot_refs(plan: AssignmentPlanDiagramView) -> list[DiagramSlotRef]:
                         block_index=bi,
                         step_index=sti,
                     ))
+            for sti, step in enumerate(block.solution_steps):
+                if step.diagram_slot is not None:
+                    refs.append(DiagramSlotRef(
+                        slot_path=f"/sections/{si}/blocks/{bi}/solution_steps/{sti}/diagram_slot",
+                        slot=step.diagram_slot,
+                        section_index=si,
+                        block_index=bi,
+                        step_index=sti,
+                    ))
             answer_space = block.answer_space
             if answer_space is None:
                 continue
@@ -536,6 +627,24 @@ def _run_workflow_in_process(
     return "missing_result"
 
 
+def _refresh_scene_visuals_in_process(
+    request_path: Path,
+    job_build_dir: Path,
+    render_result_path: Path,
+) -> str:
+    from run_diagram_workflow import refresh_scene_payload_renderer_spec
+
+    request_payload = read_json(request_path)
+    refresh_scene_payload_renderer_spec(
+        request_payload,
+        job_build_dir,
+        render_result_path,
+        emit_result=False,
+    )
+    result_path = job_build_dir / "workflow_result.json"
+    return str(read_json(result_path).get("status", "unknown")) if result_path.is_file() else "missing_result"
+
+
 def _run_workflow_subprocess(
     request_path: Path,
     job_id: str,
@@ -695,6 +804,12 @@ def run_one_job(
             cache_key=cache_key,
         )
 
+    reusable_render_result = (
+        _reusable_scene_render_result(request_payload, job_build_dir, artifact_dir)
+        if _is_scene_payload_route(request)
+        else None
+    )
+
     # Write v2 request
     request_path = job_build_dir / "request.json"
     write_json(request_path, request_payload)
@@ -716,10 +831,23 @@ def run_one_job(
         )
 
     _append_cache_event(job_build_dir, "cache.miss", cache_key)
+    # A changed authored scene is a fresh render attempt.  Stale attempt
+    # counters from a previous cache identity must not exhaust the new scene's
+    # revision budget before Wolfram is called.
+    if request.human_revision is None:
+        for attempts_path in job_build_dir.glob("rounds/round_*/render_attempts.json"):
+            attempts_path.unlink(missing_ok=True)
     previous_renderer_stamp = _renderer_package_stamp(job_build_dir)
 
     # Workflow stage
-    if _is_scene_payload_route(request) or _is_renderer_spec_route(request) or _is_analytic_route(request) or _is_spatial_route(request):
+    if reusable_render_result is not None:
+        wf_status = _refresh_scene_visuals_in_process(
+            request_path,
+            job_build_dir,
+            reusable_render_result,
+        )
+        _append_cache_event(job_build_dir, "geometry.reuse.visual_refresh", cache_key)
+    elif _is_scene_payload_route(request) or _is_renderer_spec_route(request) or _is_analytic_route(request) or _is_spatial_route(request):
         wf_status = _run_workflow_in_process(request, request_path, job_build_dir, build_dir)
     else:
         wf_status, _diag = _run_workflow_subprocess(

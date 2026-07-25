@@ -16,6 +16,7 @@ from .writer import (
     join_options,
     node_text_tex,
     point_label_tex,
+    segment_value_tex,
     stroke_width_option,
 )
 
@@ -50,6 +51,7 @@ class SyntheticGeometryTikzCompiler:
         self.warnings: list[str] = []
         self.angle_marker_audit: list[dict[str, object]] = []
         self.label_boxes: list[tuple[str, float, float, float, float]] = []
+        self.annotation_boxes: list[tuple[str, float, float, float, float]] = []
         self.natural_width_cm = 1.0
         self.natural_height_cm = 1.0
 
@@ -95,7 +97,17 @@ class SyntheticGeometryTikzCompiler:
                     name="condition label",
                     options=f"inner sep=1pt, font=\\fontsize{{{fmt_num(self.style.condition_label_pt, 2)}}}{{{fmt_num(self.style.condition_label_pt * 1.1, 2)}}}\\selectfont",
                 ),
+                TikzStyleRole(
+                    name="segment value label",
+                    options=(
+                        "anchor=center, inner sep=1pt, "
+                        f"font=\\fontsize{{{fmt_num(self.style.condition_label_pt, 2)}}}"
+                        f"{{{fmt_num(self.style.condition_label_pt * 1.1, 2)}}}"
+                        "\\selectfont\\bfseries"
+                    ),
+                ),
             ],
+            required_packages=["amsmath"],
             coordinates=self.coordinates,
             commands=self.commands,
             audit=audit,
@@ -274,6 +286,44 @@ class SyntheticGeometryTikzCompiler:
             )
 
     def _draw_annotations(self) -> None:
+        # Reserve space from newest to oldest.  In a staged solution the later
+        # annotations are the values the current step has just solved, so they
+        # should keep the segment midpoint while inherited values yield to the
+        # other normal side or a slightly larger offset.
+        resolved_layouts: dict[
+            int,
+            tuple[str, tuple[Point, tuple[float, float, float, float]] | None],
+        ] = {}
+        for index, annotation in reversed(list(enumerate(self.spec.annotations))):
+            targets = list(annotation.target)
+            if (
+                len(targets) != 2
+                or any(name not in self.coord_names for name in targets)
+                or annotation.dx
+                or annotation.dy
+            ):
+                continue
+            segment_position = str(
+                getattr(annotation, "segment_position", "offset") or "offset"
+            )
+            if segment_position == "legend":
+                resolved_layouts[index] = ("legend", None)
+                continue
+            placement = self._label_placement(annotation.placement) or "above"
+            auto_layout = self._place_segment_value(
+                annotation, targets[0], targets[1], placement
+            )
+            if segment_position == "auto" and self._segment_value_needs_legend(
+                auto_layout[1], targets[0], targets[1]
+            ):
+                resolved_layouts[index] = ("legend", None)
+                continue
+            resolved_layouts[index] = ("offset", auto_layout)
+            self.annotation_boxes.append(
+                (annotation.id or f"annotation-{index}", *auto_layout[1])
+            )
+
+        legend_counts: dict[str, int] = {}
         for index, annotation in enumerate(self.spec.annotations):
             targets = list(annotation.target)
             if any(name not in self.coord_names for name in targets):
@@ -281,12 +331,38 @@ class SyntheticGeometryTikzCompiler:
             if len(targets) == 1:
                 target_tex = f"({self.coord_names[targets[0]]})"
             else:
-                target_tex = (
-                    f"($({self.coord_names[targets[0]]})!0.5!"
-                    f"({self.coord_names[targets[1]]})$)"
-                )
+                target_tex = self._segment_midpoint_tex(targets[0], targets[1])
             placement = self._label_placement(annotation.placement) or "above"
-            options = [placement, "condition label"]
+            is_segment_value = len(targets) == 2
+            options = [placement, "segment value label" if is_segment_value else "condition label"]
+            segment_position = str(getattr(annotation, "segment_position", "offset") or "offset")
+            content_tex = segment_value_tex(annotation.text) if is_segment_value else node_text_tex(annotation.text)
+            auto_layout: tuple[Point, tuple[float, float, float, float]] | None = None
+            if is_segment_value and index in resolved_layouts:
+                segment_position, auto_layout = resolved_layouts[index]
+            if is_segment_value and segment_position == "legend":
+                legend_placement = str(getattr(annotation, "legend_placement", "top_left") or "top_left")
+                legend_index = legend_counts.get(legend_placement, 0)
+                legend_counts[legend_placement] = legend_index + 1
+                target_tex, legend_anchor = self._legend_target(legend_placement, legend_index)
+                options[0] = f"anchor={legend_anchor}"
+                content_tex = (
+                    f"{point_label_tex(''.join(targets))}\\,=\\,"
+                    f"{segment_value_tex(annotation.text)}"
+                )
+            elif is_segment_value and not annotation.dx and not annotation.dy:
+                center, box = auto_layout or self._place_segment_value(
+                    annotation, targets[0], targets[1], placement
+                )
+                target_tex = f"({fmt_num(center[0])},{fmt_num(center[1])})"
+                options[0] = "anchor=center"
+            if is_segment_value and segment_position != "legend":
+                rotation = self._segment_value_rotation(targets[0], targets[1])
+                if rotation:
+                    options.append(f"rotate={fmt_num(rotation)}")
+                    options.append("transform shape")
+            if annotation.color:
+                options.append(f"text={color_option(annotation.color)}")
             if annotation.dx:
                 options.append(f"xshift={fmt_cm(float(annotation.dx) * PX_TO_CM)}")
             if annotation.dy:
@@ -297,10 +373,227 @@ class SyntheticGeometryTikzCompiler:
                     order=350 + index,
                     tex=(
                         f"\\node[{join_options(*options)}] at {target_tex} "
-                        f"{{{node_text_tex(annotation.text)}}};"
+                        f"{{{content_tex}}};"
                     ),
                 )
             )
+
+    def _segment_value_needs_legend(
+        self,
+        box: tuple[float, float, float, float],
+        first: str,
+        second: str,
+    ) -> bool:
+        left, right, bottom, top = box
+        area = max(1e-9, (right - left) * (top - bottom))
+
+        def overlap_ratio(other: tuple[float, float, float, float]) -> float:
+            other_left, other_right, other_bottom, other_top = other
+            width = max(0.0, min(right, other_right) - max(left, other_left))
+            height = max(0.0, min(top, other_top) - max(bottom, other_bottom))
+            return width * height / area
+
+        if any(
+            overlap_ratio((other_left, other_right, other_bottom, other_top)) >= 0.12
+            for _, other_left, other_right, other_bottom, other_top in self.annotation_boxes
+        ):
+            return True
+        if any(overlap_ratio(other) >= 0.12 for other in self._point_label_obstacle_boxes()):
+            return True
+        margin = 0.04
+        for name, point in self.points.items():
+            if name in {first, second}:
+                continue
+            if (
+                left - margin <= point[0] <= right + margin
+                and bottom - margin <= point[1] <= top + margin
+            ):
+                return True
+        return False
+
+    def _legend_target(self, placement: str, index: int) -> tuple[str, str]:
+        xs = [point[0] for point in self.points.values()]
+        ys = [point[1] for point in self.points.values()]
+        min_x, max_x = min(xs), max(xs)
+        min_y, max_y = min(ys), max(ys)
+        row_gap = 0.46
+        if placement == "top_right":
+            return f"({fmt_num(max_x - 0.08)},{fmt_num(max_y - 0.08 - index * row_gap)})", "north east"
+        if placement == "bottom_left":
+            return f"({fmt_num(min_x + 0.08)},{fmt_num(min_y + 0.08 + index * row_gap)})", "south west"
+        if placement == "bottom_right":
+            return f"({fmt_num(max_x - 0.08)},{fmt_num(min_y + 0.08 + index * row_gap)})", "south east"
+        return f"({fmt_num(min_x + 0.08)},{fmt_num(max_y - 0.08 - index * row_gap)})", "north west"
+
+    def _segment_midpoint_tex(self, first: str, second: str) -> str:
+        return f"($({self.coord_names[first]})!0.5!({self.coord_names[second]})$)"
+
+    def _segment_value_rotation(self, first: str, second: str) -> float:
+        """Return a readable segment-parallel text angle for moderate slopes."""
+
+        start = self.points[first]
+        end = self.points[second]
+        angle = math.degrees(math.atan2(end[1] - start[1], end[0] - start[0]))
+        readable_angle = (angle + 90.0) % 180.0 - 90.0
+        acute_angle = abs(readable_angle)
+        if 10.0 <= acute_angle <= 45.0:
+            return readable_angle
+        return 0.0
+
+    def _place_segment_value(
+        self,
+        annotation: object,
+        first: str,
+        second: str,
+        placement: str,
+    ) -> tuple[Point, tuple[float, float, float, float]]:
+        """Place a horizontal value like an engineering dimension label.
+
+        The longitudinal coordinate stays at the exact segment midpoint. We
+        only move along the segment normal, choosing the clearer side and, if
+        needed, a larger normal offset.
+        """
+
+        start = self.points[first]
+        end = self.points[second]
+        midpoint = ((start[0] + end[0]) / 2, (start[1] + end[1]) / 2)
+        vx, vy = end[0] - start[0], end[1] - start[1]
+        length = max(math.hypot(vx, vy), 1e-9)
+        normal = (-vy / length, vx / length)
+        preferred = self._placement_vector(placement)
+        text = str(getattr(annotation, "text", ""))
+        is_fraction = bool(re.search(r"\d\s*/\s*\d", text))
+        width = 0.58 + max(0, len(text) - 2) * 0.055
+        height = 0.56 if is_fraction else 0.38
+        rotation_rad = math.radians(abs(self._segment_value_rotation(first, second)))
+        box_width = width * math.cos(rotation_rad) + height * math.sin(rotation_rad)
+        box_height = width * math.sin(rotation_rad) + height * math.cos(rotation_rad)
+        base_offset = 0.30 if is_fraction else 0.22
+        centroid = (
+            sum(point[0] for point in self.points.values()) / max(1, len(self.points)),
+            sum(point[1] for point in self.points.values()) / max(1, len(self.points)),
+        )
+        target_key = frozenset((first, second))
+        candidates: list[tuple[float, Point, tuple[float, float, float, float]]] = []
+        point_label_boxes = self._point_label_obstacle_boxes()
+        normal_side = str(getattr(annotation, "normal_side", "auto") or "auto")
+        if normal_side == "clockwise":
+            signs = (-1.0, 1.0)
+            preferred_sign = -1.0
+            multipliers = (1.0, 1.25, 1.5, 1.7)
+        elif normal_side == "counterclockwise":
+            signs = (1.0, -1.0)
+            preferred_sign = 1.0
+            multipliers = (1.0, 1.25, 1.5, 1.7)
+        else:
+            signs = (1.0, -1.0)
+            preferred_sign = None
+            multipliers = (1.0, 1.35, 1.7)
+        explicit_offset = getattr(annotation, "normal_offset_cm", None)
+        for multiplier in multipliers:
+            for sign in signs:
+                offset = float(explicit_offset or base_offset) * multiplier
+                center = (
+                    midpoint[0] + normal[0] * offset * sign,
+                    midpoint[1] + normal[1] * offset * sign,
+                )
+                box = (
+                    center[0] - box_width / 2,
+                    center[0] + box_width / 2,
+                    center[1] - box_height / 2,
+                    center[1] + box_height / 2,
+                )
+                score = 0.0
+                score += 8.0 * sign * (normal[0] * preferred[0] + normal[1] * preferred[1])
+                if preferred_sign is not None:
+                    score += 18.0 if sign == preferred_sign else -18.0
+                score += 0.7 * math.hypot(center[0] - centroid[0], center[1] - centroid[1])
+                score -= multiplier * 0.9
+                for point in self.points.values():
+                    distance = math.hypot(center[0] - point[0], center[1] - point[1])
+                    if distance < 0.34:
+                        score -= 900.0
+                    elif distance < 0.58:
+                        score -= (0.58 - distance) * 70.0
+                for _, left, right, bottom, top in self.annotation_boxes:
+                    overlap_w = max(0.0, min(box[1], right) - max(box[0], left))
+                    overlap_h = max(0.0, min(box[3], top) - max(box[2], bottom))
+                    score -= overlap_w * overlap_h * 1800.0
+                for left, right, bottom, top in point_label_boxes:
+                    overlap_w = max(0.0, min(box[1], right) - max(box[0], left))
+                    overlap_h = max(0.0, min(box[3], top) - max(box[2], bottom))
+                    score -= overlap_w * overlap_h * 2200.0
+                for segment in self.spec.segments:
+                    if frozenset((segment.start, segment.end)) == target_key:
+                        continue
+                    if segment.start not in self.points or segment.end not in self.points:
+                        continue
+                    distance = self._point_to_segment_distance(
+                        center,
+                        self.points[segment.start],
+                        self.points[segment.end],
+                    )
+                    if distance < 0.16:
+                        score -= 65.0
+                candidates.append((score, center, box))
+        _, center, box = max(candidates, key=lambda item: item[0])
+        return center, box
+
+    def _point_label_obstacle_boxes(self) -> list[tuple[float, float, float, float]]:
+        boxes: list[tuple[float, float, float, float]] = []
+        for name, point in self.points.items():
+            label = self.spec.labels.get(name)
+            text = str(label.text if label and label.text else name)
+            placement = self._label_placement(label.placement if label else None) or "above"
+            dx = 0.0
+            dy = 0.0
+            if label and (label.dx or label.dy not in (None, 0, -24)):
+                dx = float(label.dx or 0) * PX_TO_CM
+                dy = -float(label.dy if label.dy is not None else 0) * PX_TO_CM
+            else:
+                if "left" in placement:
+                    dx -= self.style.point_label_offset_cm
+                elif "right" in placement:
+                    dx += self.style.point_label_offset_cm
+                if "below" in placement:
+                    dy -= self.style.point_label_offset_cm
+                elif "above" in placement:
+                    dy += self.style.point_label_offset_cm
+            char_width = max(0.13, self.style.point_label_pt * 0.0352778 * 0.52)
+            width = max(0.28, min(1.4, len(text) * char_width)) + 0.22
+            height = max(0.3, self.style.point_label_pt * 0.0352778 * 0.9) + 0.22
+            center = (point[0] + dx, point[1] + dy)
+            boxes.append(
+                (
+                    center[0] - width / 2,
+                    center[0] + width / 2,
+                    center[1] - height / 2,
+                    center[1] + height / 2,
+                )
+            )
+        return boxes
+
+    def _placement_vector(self, placement: str) -> Point:
+        parts = placement.split()
+        x = -1.0 if "left" in parts else 1.0 if "right" in parts else 0.0
+        y = -1.0 if "below" in parts else 1.0 if "above" in parts else 0.0
+        length = math.hypot(x, y)
+        return (x / length, y / length) if length else (0.0, 1.0)
+
+    def _point_to_segment_distance(self, point: Point, start: Point, end: Point) -> float:
+        vx, vy = end[0] - start[0], end[1] - start[1]
+        denom = vx * vx + vy * vy
+        if denom <= 1e-12:
+            return math.hypot(point[0] - start[0], point[1] - start[1])
+        t = max(
+            0.0,
+            min(
+                1.0,
+                ((point[0] - start[0]) * vx + (point[1] - start[1]) * vy) / denom,
+            ),
+        )
+        nearest = (start[0] + t * vx, start[1] + t * vy)
+        return math.hypot(point[0] - nearest[0], point[1] - nearest[1])
 
     def _draw_labels(self) -> None:
         for index, name in enumerate(self.source_points):

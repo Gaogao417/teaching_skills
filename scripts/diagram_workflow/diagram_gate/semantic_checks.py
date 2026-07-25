@@ -86,6 +86,9 @@ def _slot_contexts(plan_data: AssignmentPlanDiagramView | dict[str, object]) -> 
             for step in block.steps:
                 if step.diagram_slot is not None:
                     contexts[step.diagram_slot.slot_id] = _SlotContext(step.diagram_slot, block)
+            for step in block.solution_steps:
+                if step.diagram_slot is not None:
+                    contexts[step.diagram_slot.slot_id] = _SlotContext(step.diagram_slot, block)
             answer_space = block.answer_space
             if answer_space is None:
                 continue

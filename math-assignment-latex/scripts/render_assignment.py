@@ -282,14 +282,18 @@ def validate_assignment(data):
                     for legacy_key in ("left_title", "left_items", "right_title", "right_steps"):
                         if legacy_key in block:
                             errors.append(f"Block {bid} uses legacy '{legacy_key}'; use side_title/side_items/solution_title/solution_step_ids")
-                    if not block.get("label"):
-                        errors.append(f"Block {bid} missing 'label' for dual_explanation")
-                    if not block.get("stem") and not block.get("stem_latex"):
-                        errors.append(f"Block {bid} missing 'stem_latex' or 'stem' for dual_explanation")
+                    has_dual_stem = bool(block.get("stem") or block.get("stem_latex"))
+                    if block.get("label") and not has_dual_stem:
+                        errors.append(f"Block {bid} label requires a matching stem for dual_explanation")
 
                     side_items = block.get("side_items")
-                    if not isinstance(side_items, list) or not side_items:
+                    if not isinstance(side_items, list):
                         errors.append(f"Block {bid} requires non-empty 'side_items' list")
+                    elif not side_items and not block.get("allow_empty_side", False):
+                        errors.append(
+                            f"Block {bid} requires non-empty 'side_items' list "
+                            "unless allow_empty_side is true"
+                        )
                     else:
                         for idx, item in enumerate(side_items):
                             prefix = f"Block {bid}.side_items[{idx}]"

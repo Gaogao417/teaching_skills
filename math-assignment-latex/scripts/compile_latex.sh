@@ -136,10 +136,15 @@ echo "Working directory: $TEX_DIR"
 # Auto re-render: if a .assignment.yaml exists for this .tex, re-render first
 RENDER_SCRIPT="${SCRIPT_DIR}/render_assignment.py"
 YAML_CANDIDATES=()
-# Convention: yaml lives in build/ next to the .tex
-YAML_CANDIDATES+=("$TEX_DIR/build/${TEX_NAME%.tex}.assignment.yaml" "$TEX_DIR/build/${TEX_NAME%.tex}.*.assignment.yaml")
-# Also check same directory
-YAML_CANDIDATES+=("$TEX_DIR/${TEX_NAME%.tex}.assignment.yaml" "$TEX_DIR/${TEX_NAME%.tex}.*.assignment.yaml")
+# Prefer resolved YAML so diagram_slot declarations are never rendered in place
+# of their final TikZ bindings when plan and resolved files coexist.
+YAML_CANDIDATES+=("$TEX_DIR/build/${TEX_NAME%.tex}.resolved.assignment.yaml")
+YAML_CANDIDATES+=("$TEX_DIR/${TEX_NAME%.tex}.resolved.assignment.yaml")
+# Fall back to an ordinary assignment, then other variants (plan is last).
+YAML_CANDIDATES+=("$TEX_DIR/build/${TEX_NAME%.tex}.assignment.yaml")
+YAML_CANDIDATES+=("$TEX_DIR/${TEX_NAME%.tex}.assignment.yaml")
+YAML_CANDIDATES+=("$TEX_DIR/build/${TEX_NAME%.tex}.*.assignment.yaml")
+YAML_CANDIDATES+=("$TEX_DIR/${TEX_NAME%.tex}.*.assignment.yaml")
 
 FOUND_YAML=""
 for pattern in "${YAML_CANDIDATES[@]}"; do

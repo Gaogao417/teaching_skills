@@ -136,8 +136,9 @@ def scene_writer_output_schema() -> Dict[str, object]:
             },
             "dx": {"type": "number"},
             "dy": {"type": "number"},
+            "color": {"type": "string"},
         },
-        "required": ["id", "target", "text", "placement", "dx", "dy"],
+        "required": ["id", "target", "text", "placement", "dx", "dy", "color"],
     }
     diagram_spec = {
         "type": "object",

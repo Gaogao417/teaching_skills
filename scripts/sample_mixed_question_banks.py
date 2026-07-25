@@ -26,6 +26,7 @@ from sample_question_bank import (  # noqa: E402
     load_yaml,
     mark_shared_diagram_reuse,
     rebase_assets,
+    sanitize_student_content,
     weighted_sample_without_replacement,
 )
 
@@ -50,6 +51,8 @@ def build_assignment(
         assignment_path = manifest_path.parent / relative
         source_assignment = load_yaml(assignment_path)
         block = rebase_assets(find_question(source_assignment), assignment_path.parent, output_dir)
+        if version == "student":
+            block = sanitize_student_content(block)
         block["id"] = f"M{position:03d}"
         if block.get("type") in {"problem", "short_answer"}:
             block["label"] = f"第 {position} 题"
