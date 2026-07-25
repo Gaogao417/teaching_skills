@@ -1,7 +1,7 @@
 # Training Number Database
 
 题库数值素材位于 `data/training-number-database.yaml`，schema 为
-`math_training_number_database/v1`。它由 Wolfram 脚本生成，不手工维护条目。
+`math_training_number_database/v2`（读取端兼容 v1）。它由 Wolfram 脚本生成，不手工维护条目。
 
 生成链路：
 
@@ -15,6 +15,26 @@
 Wolfram 使用 `Solve[..., Integers]` 生成有界完整解集，使用
 `FullSimplify`、`FactorInteger`、`SquareFreeQ` 和 `RootReduce` 处理精确根式。
 Python/Pydantic 复核倍数、勾股、缩放引用和根式规范形式。
+
+## 相似题数值规则
+
+相似题只从 `noncoprime_radicand_pairs` 中带 `similarity_candidate` 标签的记录取数。
+`rational_multiple_pairs` 继续保留给分数倍数训练，但不参与相似题。以下 family 已从当前生成库移除：
+
+- `radical_multiple_pairs`
+- `fraction_integer_ratio_pairs`
+- `radical_integer_ratio_pairs`
+
+相似题中的数库数对必须满足：
+
+- 两个数均为整数或整系数根式，不含分数系数；
+- 系数和被开方数的最大素因数不超过 5；
+- 两数不相等，且较大值与较小值之比不超过 `sqrt(3)`，用平方后的精确不等式判断。
+
+数对必须放在同一个基准三角形的两条边上，不得作为两个相似三角形之间的一组对应边。
+脚本再为另一三角形的一条对应边选择整数，并把相似缩放控制在
+`1/sqrt(3)..sqrt(3)`。由比例精确派生的未知边不受“无分数”或“最大素因数不超过 5”的限制。
+构型库冻结基准三角形第三边和 Wolfram 质量结果，正式题图只使用同一记录中的边长约束出图。
 
 缩放三角形固定分成两族：
 
@@ -68,8 +88,8 @@ Writer 不直接从数据库全文凭印象选数。必须调用选择脚本；�
 
 ```bash
 ./.venv/bin/python .codex/skills/math-topic-question-bank/scripts/select_training_numbers.py \
-  --family radical_multiple_pairs \
-  --tag k_equals_a \
+  --family noncoprime_radicand_pairs \
+  --tag similarity_candidate \
   --count 3 \
   --seed 7
 ```
@@ -79,8 +99,8 @@ Writer 不直接从数据库全文凭印象选数。必须调用选择脚本；�
 ```yaml
 number_selection:
   database_id: question-bank-training-numbers
-  family_id: radical_multiple_pairs
-  entry_id: sqrt-ka-a3-k3
+  family_id: noncoprime_radicand_pairs
+  entry_id: noncoprime-a2-b6-x1-y1
 ```
 
 抽题阶段不得更换 `entry_id` 或重新生成数字。

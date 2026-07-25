@@ -1,21 +1,21 @@
 ---
 name: math-assignment-latex
-description: "将已定稿或 reviewed 的 assignment.yaml 渲染为 exam-zh LaTeX 并编译为 PDF。Use when: 用户已有可直接渲染的 assignment.yaml，需要渲染 LaTeX、编译 PDF 或检查 LaTeX。Skip when: 用户没有 assignment.yaml、要求生成或审改讲解/练习内容、要求打开 explanation/practice review UI，或要求 HTML 输出。本 skill 不做教学判断，不生成题目内容，也不编排 review。"
+description: "将已定稿的 assignment.yaml 直接渲染、检查并打开 exam-zh TeX；用户明确要求时再编译 PDF。Use when: 用户已有可直接渲染的 assignment.yaml，需要生成/检查 TeX、用 VS Code 打开 TeX，或编译 PDF。Skip when: 用户没有 assignment.yaml、要求生成或审改讲解/练习内容，或要求 HTML 输出。本 skill 不做教学判断，不生成题目内容。"
 ---
 
 # math-assignment-latex
 
 ## 职责
 
-把已有 `*.assignment.yaml` 渲染成 `.tex` 并编译 PDF：
+把已有 `*.assignment.yaml` 直接渲染、检查并打开 `.tex`，按需编译 PDF：
 
 ```text
-assignment.yaml -> Jinja2 template -> .tex -> PDF
+assignment.yaml -> Jinja2 template -> .tex -> 可选 PDF
 ```
 
-本 skill 不做教学判断、不生成题目内容、不生成几何图，也不负责打开或编排 review UI。讲义 review 属于
-`math-student-explanation-latex-data`，练习 review 属于 `math-adaptive-practice-latex-data`。若 YAML 仍含
-`diagram_slot`，先使用 `math-geometry-diagram-renderer` 生成 `*.resolved.assignment.yaml`。
+本 skill 不做教学判断、不生成题目内容、不生成几何图。讲义 YAML 由
+`math-student-explanation-latex-data` 直接 handoff，练习 YAML 由 `math-adaptive-practice-latex-data` 直接 handoff。若 YAML 仍含
+`diagram_slot`，先使用 `math-geometry-diagram-renderer` 生成 `*.resolved.assignment.yaml`；上游生成流程不设置人工确认等待点。
 
 ## 输入
 
@@ -35,19 +35,25 @@ assignment.yaml -> Jinja2 template -> .tex -> PDF
 先验证 YAML：
 
 ```bash
-python3 math-assignment-latex/scripts/validate_assignment.py <input.yaml>
+./.venv/bin/python math-assignment-latex/scripts/validate_assignment.py <input.yaml>
 ```
 
 再渲染 LaTeX：
 
 ```bash
-python3 math-assignment-latex/scripts/render_assignment.py <input.yaml> --out <output.tex>
+./.venv/bin/python math-assignment-latex/scripts/render_assignment.py <input.yaml> --out <output.tex>
 ```
 
-检查并编译：
+检查 LaTeX，检查通过后用 VS Code 打开：
 
 ```bash
-python3 math-assignment-latex/scripts/check_latex.py <output.tex>
+./.venv/bin/python math-assignment-latex/scripts/check_latex.py <output.tex>
+code <output.tex>
+```
+
+用户要求 PDF 时再编译：
+
+```bash
 bash math-assignment-latex/scripts/compile_latex.sh <output.tex>
 ```
 
@@ -62,4 +68,4 @@ bash math-assignment-latex/scripts/compile_latex.sh <output.tex>
 
 ## 输出
 
-报告生成的 `.tex`、`.pdf` 和 `build.log` 路径。编译失败时摘要 `build.log` 中最相关的错误，并给出最小修复建议。
+报告生成的 `.tex` 路径和 VS Code 打开结果；若用户要求编译，再报告 `.pdf` 和 `build.log` 路径。编译失败时摘要 `build.log` 中最相关的错误，并给出最小修复建议。

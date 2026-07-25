@@ -20,9 +20,16 @@ class BankMetadata(BaseModel):
     topic: str = Field(min_length=1)
     grade: str = Field(min_length=1)
     subject: str = "数学"
-    source_explanation: str = Field(min_length=1)
+    source_explanation: str | None = Field(default=None, min_length=1)
+    source_archive: str | None = Field(default=None, min_length=1)
     status: Literal["plan", "ready"] = "plan"
     target_count: int = Field(default=30, ge=1)
+
+    @model_validator(mode="after")
+    def validate_source(self) -> "BankMetadata":
+        if (self.source_explanation is None) == (self.source_archive is None):
+            raise ValueError("exactly one of source_explanation or source_archive is required")
+        return self
 
 
 class QuestionBankItem(BaseModel):
@@ -37,6 +44,7 @@ class QuestionBankItem(BaseModel):
     diagram_requirement: DiagramRequirement = "none"
     student_assignment: str = Field(min_length=1)
     teacher_assignment: str = Field(min_length=1)
+    source_ref: str | None = Field(default=None, min_length=1)
     weight: float = Field(default=1.0, gt=0)
     enabled: bool = True
 
@@ -71,4 +79,11 @@ class QuestionBank(BaseModel):
             raise ValueError(
                 f"ready bank requires {self.bank.target_count} items, got {len(self.items)}"
             )
+        if self.bank.source_archive is not None:
+            missing = [item.id for item in self.items if item.source_ref is None]
+            if missing:
+                raise ValueError(
+                    "source_archive banks require source_ref for every item; missing "
+                    + ", ".join(missing)
+                )
         return self

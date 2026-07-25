@@ -11,7 +11,14 @@ from typing import Any
 import yaml
 
 
-TEACHER_ONLY_KEYS = {"answer", "explanation", "solution_steps", "teaching"}
+TEACHER_ONLY_KEYS = {
+    "answer",
+    "explanation",
+    "solution_steps",
+    "solution_notes",
+    "source_solution_images",
+    "teaching",
+}
 
 
 def is_solution_diagram(value: Any) -> bool:

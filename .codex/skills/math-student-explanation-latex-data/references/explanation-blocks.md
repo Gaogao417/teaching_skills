@@ -73,12 +73,21 @@ mistake / method_reminder（仅在确有独立作用时）
 - `route.steps[].latex`：路线图里的步骤动作标题，同时会成为标准解答步骤标题。
 - `route.steps[].content_latex`：对应步骤的标准解答正文，只写 how：必要动作、公式、推导和结论。不要写大段动机、类比、追问或“所以然”解释。
 - `route.steps[].diagram_slot`：若某一步需要讲解辅助图，图位放在对应 step 下；例如“作辅助线/补中点”这一步的 annotated 图应跟随该 step，不另起一个 `problemcard`。
-- `dual_explanation.label` / `dual_explanation.stem_latex`：现有 schema 要求必填。单问题可用 `label: "例题 1"` 或 `label: "解答"`，`stem_latex` 复述本题要解决的问题；多小问时用真实 `(1)(2)(3)` 小问标签和小问题干。
+- `dual_explanation.label` / `dual_explanation.stem_latex`：可选。若前面已有对应 `problemcard`，默认省略，避免重复渲染题干；只有没有独立题目卡、或必须单独标明真实 `(1)(2)(3)` 小问时才填写。
 - `dual_explanation.solution_step_ids`：引用 route step，决定本题/本小问的标准解答包含哪些步骤。
+- `dual_explanation.plain_solution`：设为 `true` 时只连续渲染所引用步骤的正文与配图，不显示步骤标题；适合分类公式或连续证明，避免 step 数据结构在页面上制造杂音。
 - `dual_explanation.side_items`：放小贴士提问和易混提醒，用来讲 why 和“所以然”。每条要短且不可由步骤正文直接替代，优先写成能让学生思考的提问、结果解释或短反例。
 - `connection_items`：放必要的承接说明；不要把步骤正文已经能表达清楚的内容重复写一遍。
 
-不要把教学步骤伪装成小问。题目只有一问时，只写一个 `dual_explanation`，并用 `label` / `stem_latex` 标出本题解答入口；题目有真实 `(1)(2)(3)` 小问时，才写多个 `dual_explanation`。
+编号与导航降噪规则：
+
+- 解答动作默认只显示内容标题，不显示机械的 `Step 1/Step 2`；只有顺序本身是教学对象时，才在 `render.show_step_numbers: true` 中显式开启数字编号。
+- 不要同时使用“阶段 a/b”“方法 b1/b2”“Step 1/2”等多套编号。题目没有真实字母小问时，禁止自行添加 a、b、b1、b2。
+- 多路线题只在分支标题保留一套自然名称，如“求法一：利用题设直角”“求法二：作高构造直角三角形”；公共推导直接写动作标题。
+- `route` 仅作为 `dual_explanation` 的步骤数据源、且页面已有自定义路线图或继续显示会造成重复时，设置 `show_navigation: false`。
+- 分类公式或连续证明只需要正文与配图时，在 `dual_explanation` 设置 `plain_solution: true`，不要显示动作式步骤标题。
+
+不要把教学步骤伪装成小问。题目只有一问时，只写一个 `dual_explanation`；前面已有 `problemcard` 时不要再写 `label` / `stem_latex`。题目有真实 `(1)(2)(3)` 小问且没有分别设置题目卡时，才在多个 `dual_explanation` 中填写对应标签和小问题干。
 
 ## Step Brevity Rule
 
@@ -155,6 +164,7 @@ stem_latex: |
 ```yaml
 type: "route"
 id: "route"
+show_navigation: false  # 页面已有路线图或不需要重复显示“思路导航”时使用
 steps:
   - id: "route-equations"
     latex: "两点代入 $y=kx+b$"
@@ -191,13 +201,11 @@ steps:
 
 主体讲解 block。每个真实题目/真实小问一个 `dual_explanation`，解答步骤通过 `solution_step_ids` 引用 `route.steps[].id`。
 
-如果题目只有一问，标准讲解也只写一个 `dual_explanation`，但仍按 schema 写 `label` 和 `stem_latex`：
+如果题目只有一问且前面已有 `problemcard`，标准讲解只写一个不重复题干的 `dual_explanation`：
 
 ```yaml
 type: "dual_explanation"
 id: "sol-main"
-label: "例题 1"
-stem_latex: "求这个一次函数的解析式。"
 side_title: "小贴士"
 side_items:
   - kind: "hint"
@@ -224,7 +232,7 @@ solution_step_ids:
   - "route-solve"
 ```
 
-不要使用旧结构 `right_steps`。不要用 `title: "第（1）问"` 替代 `label` + `stem_latex`。不要把 `stem_latex` 写成“为什么先……”“怎样……”这类讲解提问；必要引导放在 `route.steps[].content_latex`、`side_items` 或 `connection_items`。
+不要使用旧结构 `right_steps`。真实多小问需要单独复现时，使用 `label` + `stem_latex`，不要用 `title: "第（1）问"` 替代。不要把 `stem_latex` 写成“为什么先……”“怎样……”这类讲解提问；必要引导放在 `route.steps[].content_latex`、`side_items` 或 `connection_items`。
 
 ## mistake
 

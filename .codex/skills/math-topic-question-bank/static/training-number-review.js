@@ -8,7 +8,9 @@ const state = {
 const byId = (id) => document.getElementById(id);
 
 function searchable(entry) {
-  return [entry.id, entry.label, entry.relation, entry.subcategory_title || "", ...entry.tags, ...entry.latex_values]
+  const reduction = entry.ratio_reduction?.reduced_integer_pair?.join(":") || "";
+  return [entry.id, entry.label, entry.relation, entry.subcategory_title || "", reduction,
+    ...entry.tags, ...entry.latex_values, ...(entry.presentation_latex || [])]
     .join(" ")
     .toLowerCase();
 }
@@ -27,11 +29,23 @@ function makeButton(entry) {
   button.dataset.entryId = entry.id;
   button.dataset.testid = `number-${entry.id}`;
   button.setAttribute("aria-pressed", String(entry.disabled));
-  button.title = `${entry.latex_values.join(", ")}\n${entry.relation}\n${entry.id}`;
+  const shownValues = entry.presentation_latex?.length ? entry.presentation_latex : entry.latex_values;
+  button.title = `${shownValues.join(", ")}\n${entry.relation}\n${entry.id}`;
 
   const label = document.createElement("span");
   label.className = "number-label";
-  label.textContent = entry.label;
+  label.textContent = entry.presentation_latex?.length
+    ? `(${entry.presentation_latex.join(", ")})`
+    : entry.label;
+  const reduction = document.createElement("span");
+  reduction.className = "number-reduction";
+  if (entry.ratio_reduction) {
+    const normalized = entry.ratio_reduction.normalized_latex.join(" : ");
+    const reduced = entry.ratio_reduction.reduced_integer_pair.join(" : ");
+    reduction.textContent = `→ ${normalized} → ${reduced}`;
+  } else {
+    reduction.hidden = true;
+  }
   const tags = document.createElement("span");
   tags.className = "number-tags";
   tags.textContent = entry.tags.slice(0, 3).join(" · ");
@@ -40,7 +54,7 @@ function makeButton(entry) {
   status.setAttribute("aria-hidden", "true");
   status.textContent = "已禁用";
   status.hidden = !entry.disabled;
-  button.append(label, status, tags);
+  button.append(label, reduction, status, tags);
   button.addEventListener("click", () => updateEntry(entry, button));
   return button;
 }

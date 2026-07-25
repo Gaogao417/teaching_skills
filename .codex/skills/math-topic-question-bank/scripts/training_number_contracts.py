@@ -105,6 +105,79 @@ class ExactLength(BaseModel):
         return self.coefficient_fraction, self.radicand
 
 
+class PresentationLength(BaseModel):
+    """A deliberately unnormalized expression shown to the student."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    coefficient: str
+    radicand: int = Field(ge=1)
+    latex: str = Field(min_length=1)
+    display: str = Field(min_length=1)
+
+    @field_validator("coefficient")
+    @classmethod
+    def validate_coefficient(cls, value: str) -> str:
+        if parse_fraction(value) <= 0:
+            raise ValueError("presentation coefficient must be positive")
+        return value
+
+    @property
+    def coefficient_fraction(self) -> Fraction:
+        return parse_fraction(self.coefficient)
+
+    def normalized_pair(self) -> tuple[Fraction, int]:
+        return normalize_length(self.coefficient_fraction, self.radicand)
+
+
+class RatioReduction(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    kind: Literal["fraction_to_integer", "radical_to_integer"]
+    intermediate_integer_pair: list[int] = Field(min_length=2, max_length=2)
+    reduced_integer_pair: list[int] = Field(min_length=2, max_length=2)
+    common_factor_latex: str = Field(min_length=1)
+    normalized_latex: list[str] = Field(min_length=2, max_length=2)
+
+    @field_validator("intermediate_integer_pair", "reduced_integer_pair")
+    @classmethod
+    def validate_positive_pair(cls, values: list[int]) -> list[int]:
+        if any(value <= 0 for value in values):
+            raise ValueError("ratio terms must be positive")
+        return values
+
+    @model_validator(mode="after")
+    def validate_reduction(self) -> "RatioReduction":
+        left, right = self.reduced_integer_pair
+        if gcd(left, right) != 1:
+            raise ValueError("reduced_integer_pair must be coprime")
+        first, second = self.intermediate_integer_pair
+        common = gcd(first, second)
+        if [first // common, second // common] != self.reduced_integer_pair:
+            raise ValueError("intermediate pair does not reduce to reduced_integer_pair")
+        return self
+
+
+class SimilarityConstraints(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    larger_index: Literal[0, 1]
+    ratio_numerator: int = Field(ge=1)
+    ratio_denominator: int = Field(ge=1)
+    max_ratio: Literal["sqrt(3)"]
+    reduced_term_max: int = Field(ge=1)
+
+    @model_validator(mode="after")
+    def validate_exact_ratio_bound(self) -> "SimilarityConstraints":
+        if gcd(self.ratio_numerator, self.ratio_denominator) != 1:
+            raise ValueError("similarity ratio must be reduced")
+        if self.ratio_numerator <= self.ratio_denominator:
+            raise ValueError("similarity ratio must be greater than one")
+        if self.ratio_numerator**2 > 3 * self.ratio_denominator**2:
+            raise ValueError("similarity ratio exceeds sqrt(3)")
+        return self
+
+
 class TrainingNumberEntry(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
@@ -115,6 +188,9 @@ class TrainingNumberEntry(BaseModel):
     relation: str = Field(min_length=1)
     tags: list[str] = Field(min_length=1)
     parameters: dict[str, Any] = Field(default_factory=dict)
+    presentation_values: list[PresentationLength] | None = None
+    ratio_reduction: RatioReduction | None = None
+    similarity_constraints: SimilarityConstraints | None = None
 
     @field_validator("tags")
     @classmethod
@@ -168,6 +244,9 @@ class TrainingNumberEntry(BaseModel):
             if gcd(a, b) <= 1:
                 raise ValueError("source radicands must not be coprime")
 
+        if self.family in {"fraction_integer_ratio_pairs", "radical_integer_ratio_pairs"}:
+            self._validate_similarity_integer_ratio_pair()
+
         if self.family == "right_triangle_sqrt_square_sums":
             squares = self.parameters.get("squared_lengths")
             if not isinstance(squares, list) or len(squares) != 3:
@@ -179,6 +258,71 @@ class TrainingNumberEntry(BaseModel):
             if any(value.radicand >= 10 for value in self.values):
                 raise ValueError("simplified radicands must be below 10")
         return self
+
+    def _validate_similarity_integer_ratio_pair(self) -> None:
+        if self.presentation_values is None or len(self.presentation_values) != 2:
+            raise ValueError("similarity ratio pair requires two presentation_values")
+        if self.ratio_reduction is None or self.similarity_constraints is None:
+            raise ValueError("similarity ratio pair requires reduction and constraints")
+        normalized = [value.normalized_pair() for value in self.presentation_values]
+        if normalized != [value.normalized_pair() for value in self.values]:
+            raise ValueError("presentation_values do not normalize to values")
+
+        left_squared, right_squared = self.values[0].squared, self.values[1].squared
+        if left_squared >= right_squared:
+            raise ValueError("similarity ratio values must be strictly increasing")
+        reduced = self.ratio_reduction.reduced_integer_pair
+        if reduced[0] >= reduced[1]:
+            raise ValueError("reduced integer ratio must be strictly increasing")
+        if max(reduced) > self.similarity_constraints.reduced_term_max:
+            raise ValueError("reduced integer ratio exceeds configured term max")
+        if (
+            self.similarity_constraints.ratio_numerator,
+            self.similarity_constraints.ratio_denominator,
+        ) != (reduced[1], reduced[0]):
+            raise ValueError("similarity constraint ratio does not match reduced pair")
+        if self.similarity_constraints.larger_index != 1:
+            raise ValueError("generated similarity pairs must put the larger value second")
+
+        if self.family == "fraction_integer_ratio_pairs":
+            if self.ratio_reduction.kind != "fraction_to_integer":
+                raise ValueError("fraction family requires fraction_to_integer reduction")
+            if any(value.radicand != 1 for value in self.presentation_values):
+                raise ValueError("fraction presentation cannot contain radicals")
+            fractions = [value.coefficient_fraction for value in self.presentation_values]
+            if any(value.denominator == 1 for value in fractions):
+                raise ValueError("fraction pair must display two non-integer fractions")
+            if fractions[0].denominator == fractions[1].denominator:
+                raise ValueError("fraction pair must use different denominators")
+            common_denominator = (
+                fractions[0].denominator
+                * fractions[1].denominator
+                // gcd(fractions[0].denominator, fractions[1].denominator)
+            )
+            intermediate = [int(value * common_denominator) for value in fractions]
+            if intermediate != self.ratio_reduction.intermediate_integer_pair:
+                raise ValueError("fraction intermediate pair does not clear denominators")
+            if gcd(*intermediate) <= 1:
+                raise ValueError("fraction pair must require reduction after clearing denominators")
+
+        if self.family == "radical_integer_ratio_pairs":
+            if self.ratio_reduction.kind != "radical_to_integer":
+                raise ValueError("radical family requires radical_to_integer reduction")
+            presentations = self.presentation_values
+            if any(value.coefficient_fraction.denominator != 1 for value in presentations):
+                raise ValueError("radical presentation coefficient must be an integer")
+            if any(value.radicand == isqrt(value.radicand) ** 2 for value in presentations):
+                raise ValueError("radical presentation radicands cannot be perfect squares")
+            if gcd(presentations[0].radicand, presentations[1].radicand) <= 1:
+                raise ValueError("radical presentation radicands must not be coprime")
+            if self.values[0].radicand != self.values[1].radicand:
+                raise ValueError("radical pair must normalize to a common squarefree radicand")
+            coefficients = [value.coefficient_fraction for value in self.values]
+            if any(value.denominator != 1 for value in coefficients):
+                raise ValueError("normalized radical coefficients must be integers")
+            intermediate = [int(value) for value in coefficients]
+            if intermediate != self.ratio_reduction.intermediate_integer_pair:
+                raise ValueError("radical intermediate pair does not match normalized coefficients")
 
 
 class TrainingNumberFamily(BaseModel):
@@ -211,7 +355,10 @@ class TrainingNumberMetadata(BaseModel):
 class TrainingNumberDatabase(BaseModel):
     model_config = ConfigDict(extra="forbid", populate_by_name=True)
 
-    schema_version: Literal["math_training_number_database/v1"] = Field(alias="schema")
+    schema_version: Literal[
+        "math_training_number_database/v1",
+        "math_training_number_database/v2",
+    ] = Field(alias="schema")
     database: TrainingNumberMetadata
     families: list[TrainingNumberFamily] = Field(min_length=1)
 

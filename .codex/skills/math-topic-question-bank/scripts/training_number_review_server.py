@@ -15,7 +15,7 @@ from typing import Literal
 
 import uvicorn
 from fastapi import FastAPI, HTTPException
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
@@ -34,6 +34,7 @@ TEMPLATE_DIR = PACKAGE_DIR / "templates"
 STATIC_DIR = PACKAGE_DIR / "static"
 DEFAULT_DATABASE = DATA_DIR / "training-number-database.yaml"
 DEFAULT_REVIEW = DATA_DIR / "training-number-review.yaml"
+DEFAULT_QUESTION_BANK_REVIEW_URL = "http://127.0.0.1:8877/"
 GAME_SUBCATEGORIES = (
     "numerator_multiple_only",
     "denominator_multiple_only",
@@ -249,6 +250,7 @@ def create_app(
     database_path: Path = DEFAULT_DATABASE,
     review_path: Path = DEFAULT_REVIEW,
     history_path: Path | None = None,
+    question_bank_review_url: str = DEFAULT_QUESTION_BANK_REVIEW_URL,
 ) -> FastAPI:
     database_path = database_path.resolve()
     review_path = review_path.resolve()
@@ -269,9 +271,10 @@ def create_app(
             response.headers["Cache-Control"] = "no-store, max-age=0"
         return response
 
-    @app.get("/")
-    def review_page() -> FileResponse:
-        return FileResponse(TEMPLATE_DIR / "training-number-review.html", media_type="text/html")
+    @app.get("/", response_class=HTMLResponse)
+    def review_page() -> HTMLResponse:
+        html = (TEMPLATE_DIR / "training-number-review.html").read_text(encoding="utf-8")
+        return HTMLResponse(html.replace("__QUESTION_BANK_REVIEW_URL__", question_bank_review_url))
 
     @app.get("/game")
     def game_page() -> FileResponse:
@@ -295,6 +298,16 @@ def create_app(
                     "id": entry.id,
                     "label": entry.label,
                     "latex_values": [value.latex for value in entry.values],
+                    "presentation_latex": (
+                        [value.latex for value in entry.presentation_values]
+                        if entry.presentation_values
+                        else []
+                    ),
+                    "ratio_reduction": (
+                        entry.ratio_reduction.model_dump(mode="json")
+                        if entry.ratio_reduction
+                        else None
+                    ),
                     "relation": entry.relation,
                     "tags": entry.tags,
                     "parameters": entry.parameters,
@@ -423,9 +436,10 @@ def main() -> int:
     parser.add_argument("--review", type=Path, default=DEFAULT_REVIEW)
     parser.add_argument("--host", default="127.0.0.1")
     parser.add_argument("--port", type=int, default=8876)
+    parser.add_argument("--question-bank-review-url", default=DEFAULT_QUESTION_BANK_REVIEW_URL)
     args = parser.parse_args()
     uvicorn.run(
-        create_app(args.database, args.review),
+        create_app(args.database, args.review, question_bank_review_url=args.question_bank_review_url),
         host=args.host,
         port=args.port,
         log_level="info",

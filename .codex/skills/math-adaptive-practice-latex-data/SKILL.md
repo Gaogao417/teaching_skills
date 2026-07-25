@@ -1,13 +1,13 @@
 ---
 name: math-adaptive-practice-latex-data
-description: "根据 01-structure-analysis.md 和讲解 YAML 生成自适应练习 assignment.yaml。Use when: 已有结构分析和 02-student-explanation 的 assignment/resolved YAML，用户要求练习、practice YAML、学生版/教师版练习或端到端作业补齐练习阶段。Skip when: 没有结构分析、没有讲解内容、用户只要求讲解或只要求渲染 PDF。需要几何图时只声明 diagram_slot，不写 image_path/diagram_col；真实出图交给 math-geometry-diagram-renderer。"
+description: "根据 01-structure-analysis.md 和讲解 YAML 生成学生版/教师版自适应练习 assignment.yaml，并在图形 resolve 后直接渲染、检查和打开对应 TeX。Use when: 已有结构分析和 02-student-explanation 的 assignment/resolved YAML，用户要求练习、practice、学生版/教师版 assignment、TeX，或端到端作业补齐练习阶段。Skip when: 没有结构分析、没有讲解内容、用户只要求讲解，或只要求渲染已有 YAML/PDF。需要几何图时只声明 diagram_slot，不写 image_path/diagram_col；真实出图交给 math-geometry-diagram-renderer。"
 ---
 
 # math-adaptive-practice-latex-data
 
 ## 职责
 
-从结构分析和讲解内容生成练习 YAML。这个 skill 只负责练习内容、学生/教师版本分离和练习题上的 `diagram_slot` 声明；不运行 renderer，不编译 PDF。
+从结构分析和讲解内容生成练习 YAML，完成学生/教师版本分离和练习题上的 `diagram_slot` 声明；图形 resolve 后直接 handoff 给 `math-assignment-latex`，连续生成、检查并打开学生版和教师版 `.tex`。只有用户明确要求 PDF 时才编译。
 
 默认同时输出：
 
@@ -37,7 +37,7 @@ artifacts/<学生名>/YYYY-MM-DD-<内容>/03-adaptive-practice.teacher.plan.assi
    - `变式原则` 中的深化阶梯、包装方式、远迁移例子、伪变式/非例。
    - `推荐练题任务包` 中每个卡点对应的出题建议。
    - `标准完整解与验算`、`计算复杂度预算`、`推荐图形请求包`（如有）中的硬约束。
-2. 优先检索 canonical relations：使用 topic、model family、input/output type 或结构分析中的 relation id，运行 `python3 scripts/model_rules/search_model_rules.py`。若用户要求“综合”“提高难度”“压轴”“多题型”“融合”或题量较多，至少检索主模型和 1-2 个相邻模型；例如矩形存在性应同时检索矩形、菱形/平行四边形/反比例面积等可融合 relation。若检索失败，写明 fallback：只使用结构分析变式原则。
+2. 优先检索 canonical relations：使用 topic、model family、input/output type 或结构分析中的 relation id，运行 `./.venv/bin/python scripts/model_rules/search_model_rules.py`。若用户要求“综合”“提高难度”“压轴”“多题型”“融合”或题量较多，至少检索主模型和 1-2 个相邻模型；例如矩形存在性应同时检索矩形、菱形/平行四边形/反比例面积等可融合 relation。若检索失败，写明 fallback：只使用结构分析变式原则。
 3. 若使用 canonical relation，练习题必须保留其 `ports` / `constraints` / `generation_notes` / `non_examples`；组合 relation 时必须检查 output type 能否接 input type。不能只把 relation_id 写进教师版当标签。
 4. 若用户要求“综合/提高难度/压轴/多题型/融合”，生成练习前必须先形成一个模型覆盖计划：
    - 列出本组将覆盖的 `model_family_id` / `relation_id`。
@@ -51,6 +51,7 @@ artifacts/<学生名>/YYYY-MM-DD-<内容>/03-adaptive-practice.teacher.plan.assi
 8. 生成学生版和教师版 YAML。学生版不含答案、解析、教学备注；教师版含答案、解析、分步解法和本轮调节说明。
 9. 若练习题需要图，只写 `diagram_slot`。slot 字段规则读取 `references/practice-diagram-slot.md`。
 10. 输出 YAML 后运行 schema 校验；如果校验失败，修 YAML。
+11. 若存在 `diagram_slot`，先完成学生版和教师版 diagram resolve；随后直接 handoff 给 `math-assignment-latex`，分别生成和检查 `03-adaptive-practice.student.tex`、`03-adaptive-practice.teacher.tex`，并用 VS Code 打开两个 `.tex`。流程不中断、不设置人工确认点；用户明确要求 PDF 时再继续编译。
 
 ## 调节参数
 
@@ -113,6 +114,7 @@ teaching:
 - 不同时隐藏结构和提高计算难度，除非学生证据明确支持低支架迁移。
 - 提示渐进：先提示动作，再接近答案。
 - 所有答案必须先独立验算。
+- 教师版答案或解析使用 `\because` / `\therefore` 的独立推理行时，句末不得添加中文或英文的逗号、句号、分号；可见换行直接接 `\\`。普通叙述句不受此限制。
 - 使用模型库时，教师版必须在 `teaching` 或解析中记录使用的 relation id；检索失败时写明 fallback 来源。
 - 不出现长期标签、评级、档位字段。
 
@@ -139,25 +141,28 @@ teaching:
 4. 2-3 题组默认覆盖至少两个深化层级；3 题组在允许时至少包含一个远迁移/包装题；不得全是同结构换数。
 5. 若使用 canonical relation，每道题的条件满足 relation constraints，并避开 non_examples；教师版必须记录 `source_relations`。若是综合题，还必须记录 `model_fusion.model_count >= 2` 和 `relation_chain`，且每一步的 output/input、selector/filter/branching、constraints_checked 自洽。
 6. 学生版不含答案、解析、分步解法、教学备注。
-7. 教师版答案经过代入或逻辑验算，解答题有 `solution_steps`。
+7. 教师版答案经过代入或逻辑验算，解答题有 `solution_steps`；使用 `\because` / `\therefore` 的独立推理行时，句末没有逗号、句号或分号。
 8. `entry_point` 和 `variation_depth` 使用当前枚举。
 9. 若使用几何图，plan YAML 只写 `diagram_slot`，不写最终图片字段。
-10. YAML 通过 `python3 math-assignment-latex/scripts/validate_assignment.py <yaml>`。
+10. YAML 通过 `./.venv/bin/python math-assignment-latex/scripts/validate_assignment.py <yaml>`。
+11. 最终可渲染 YAML 已直接生成并检查学生版、教师版 `.tex`；流程中没有人工确认等待点。
 
 ## Diagram resolve
 
 若任一 YAML 中存在 `diagram_slot`，下一步使用 `math-geometry-diagram-renderer` 生成 resolved YAML。
 
-## Review UI（本 skill 负责）
+## LaTeX handoff
 
-练习内容生成后的 review 编排属于本 skill，不交给 `math-assignment-latex`。若有图，必须先完成学生版和
-教师版 diagram resolve；若无图，直接使用普通 assignment YAML。然后由本 skill 同时传入学生版和教师版，
-打开练习专用 review UI：
+若无 `diagram_slot`，将校验通过的学生版、教师版普通 assignment YAML 直接交给 `math-assignment-latex`；若有图，必须先完成两版 diagram resolve，再交付 resolved YAML。默认执行：
 
 ```bash
-./.venv/bin/python .codex/skills/math-adaptive-practice-latex-data/scripts/open_assignment_review.py <student.assignment.yaml|student.resolved.assignment.yaml> --teacher <teacher.assignment.yaml|teacher.resolved.assignment.yaml>
+./.venv/bin/python math-assignment-latex/scripts/validate_assignment.py <student-yaml>
+./.venv/bin/python math-assignment-latex/scripts/render_assignment.py <student-yaml> --out 03-adaptive-practice.student.tex
+./.venv/bin/python math-assignment-latex/scripts/check_latex.py 03-adaptive-practice.student.tex
+./.venv/bin/python math-assignment-latex/scripts/validate_assignment.py <teacher-yaml>
+./.venv/bin/python math-assignment-latex/scripts/render_assignment.py <teacher-yaml> --out 03-adaptive-practice.teacher.tex
+./.venv/bin/python math-assignment-latex/scripts/check_latex.py 03-adaptive-practice.teacher.tex
+code 03-adaptive-practice.student.tex 03-adaptive-practice.teacher.tex
 ```
 
-本 skill 自己持有打开 UI 的入口脚本；共享 review server、模板和前端资源仍由底层 LaTeX 工具复用。
-选择成对输入、启动 UI、等待用户确认和取得 reviewed YAML 的流程由本 skill 负责。用户确认并保存 reviewed YAML 后，才 handoff 给
-`math-assignment-latex` 做验证、渲染、检查或编译；若用户明确要求跳过 review，记录该选择后直接 handoff。
+输出文件放在 assignment YAML 同目录；命令中的相对路径以该 artifact 目录为工作目录。默认到 `.tex` 和 VS Code 打开为止，只有用户明确要求 PDF 时才运行 `compile_latex.sh`。

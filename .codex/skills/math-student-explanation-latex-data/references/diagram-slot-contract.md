@@ -37,8 +37,9 @@ visual_requirements:
     markers:
       - {type: equal_ticks, segments: [[D, F], [D, G]]}
     texts:
-      - {id: df-value, target: [D, F], text: "7", placement: above, dx: 0, dy: 0}
+      - {id: df-value, target: [D, F], text: "7", placement: above, dx: 0, dy: 0, color: "#dc2626"}
 ```
+- `texts[].color` 可选，使用安全颜色名或 `#RRGGBB`。只有颜色本身承担稳定教学语义时才设置，例如蓝色表示题设份数、红色表示当前步骤推出的份数；不要把颜色当装饰。
 - 给已有讲义补图时，必须回到本 writer 重新生成 plan YAML；不得把普通 assignment 机械转换成 plan YAML。
 - 若辅助图对应某个解答动作，如“作辅助线”“补中点”“连接某线段”，优先把 `diagram_slot` 写在对应 `route.steps[]` 下，并使用 `placement: "step_diagram"`；不要单独制造一个“辅助图” `problemcard`。
 - `caption` 写学生要观察的动作，不写调试信息。

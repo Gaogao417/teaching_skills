@@ -4,7 +4,8 @@ $CharacterEncoding = "UTF-8";
 
 ClearAll[
   fractionText, normalizeLength, exactValue, latexOf, displayOf,
-  lengthRecord, makeEntry, slug, family, squarefreePart,
+  lengthRecord, makeEntry,
+  slug, family, squarefreePart,
   largestPrimeFactor, simpleRationalQ
 ];
 
@@ -105,42 +106,6 @@ rationalEntries = Map[
 ];
 rationalEntries = DeleteDuplicatesBy[rationalEntries, # ["id"] &];
 
-(* 2a. The parameterized family sqrt(a), sqrt(k a). Solve supplies all bounded parameters. *)
-sqrtKaRules = Solve[
-  2 <= a <= 10 && 2 <= k <= 10,
-  {a, k}, Integers
-];
-sqrtKaEntries = Map[
-  Function[rule,
-    Module[{av = a /. rule, kv = k /. rule, first, second, quotient},
-      first = normalizeLength[1, av];
-      second = normalizeLength[1, av kv];
-      quotient = FullSimplify[
-        Sqrt[k a]/Sqrt[a] /. rule,
-        Assumptions -> Element[{a, k}, Integers] && a > 0 && k > 0
-      ];
-      makeEntry[
-        "sqrt-ka-a" <> ToString[av] <> "-k" <> ToString[kv],
-        "radical_multiple_pairs",
-        {first, second},
-        "second_equals_sqrt_k_times_first",
-        Join[
-          {"sqrt_a_sqrt_ka", "radical_quotient"},
-          If[IntegerQ[quotient], {"integer_multiplier"}, {}],
-          If[kv == av, {"k_equals_a"}, {}]
-        ],
-        <|
-          "a" -> av,
-          "k" -> kv,
-          "source_radicands" -> {av, av kv},
-          "quotient_latex" -> ToString[TeXForm[quotient]]
-        |>
-      ]
-    ]
-  ],
-  sqrtKaRules
-];
-
 (* 2b. Coefficient-radical pairs whose bounded radicands are not coprime. *)
 nonCoprimeRules = Solve[
   2 <= a < b <= 10 && GCD[a, b] > 1 && 1 <= x <= 3 && 1 <= y <= 3,
@@ -148,15 +113,25 @@ nonCoprimeRules = Solve[
 ];
 nonCoprimeEntries = Map[
   Function[rule,
-    Module[{av = a /. rule, bv = b /. rule, xv = x /. rule, yv = y /. rule},
+    Module[{av = a /. rule, bv = b /. rule, xv = x /. rule, yv = y /. rule, values, squares, eligible},
+      values = {normalizeLength[xv, av], normalizeLength[yv, bv]};
+      squares = exactValue[#]^2 & /@ values;
+      eligible = Min[squares] < Max[squares] && Max[squares] <= 3 Min[squares] &&
+        Max[largestPrimeFactor /@ {av, bv, xv, yv}] <= 5;
       makeEntry[
         "noncoprime-a" <> ToString[av] <> "-b" <> ToString[bv] <>
           "-x" <> ToString[xv] <> "-y" <> ToString[yv],
         "noncoprime_radicand_pairs",
-        {normalizeLength[xv, av], normalizeLength[yv, bv]},
+        values,
         "source_radicands_share_a_nontrivial_factor",
-        {"noncoprime_radicands", "radical_simplification"},
-        <|"a" -> av, "b" -> bv, "x" -> xv, "y" -> yv, "gcd" -> GCD[av, bv]|>
+        Join[
+          {"noncoprime_radicands", "radical_simplification"},
+          If[eligible, {"similarity_candidate", "ratio_at_most_sqrt3", "largest_prime_factor_at_most_5"}, {}]
+        ],
+        <|
+          "a" -> av, "b" -> bv, "x" -> xv, "y" -> yv, "gcd" -> GCD[av, bv],
+          "similarity_eligible" -> eligible
+        |>
       ]
     ]
   ],
@@ -337,10 +312,6 @@ families = {
     "Reduced fractions combined with common integer multipliers.", rationalEntries
   ],
   family[
-    "radical_multiple_pairs", "sqrt(a) and sqrt(k a)",
-    "Preserves source radicands and records normalized values and quotient.", sqrtKaEntries
-  ],
-  family[
     "noncoprime_radicand_pairs", "Non-coprime radicand pairs",
     "Uses non-coprime a,b with small integer coefficients x,y.", nonCoprimeEntries
   ],
@@ -367,7 +338,7 @@ families = {
 };
 
 payload = <|
-  "schema" -> "math_training_number_database/v1",
+  "schema" -> "math_training_number_database/v2",
   "database" -> <|
     "id" -> "question-bank-training-numbers",
     "generator" -> "generate_training_numbers.wls",
@@ -375,8 +346,10 @@ payload = <|
       "rational_numerator_max" -> 12,
       "rational_denominator_max" -> 12,
       "rational_largest_prime_factor_max" -> 7,
-      "sqrt_a_max" -> 10,
-      "sqrt_k_max" -> 10,
+      "noncoprime_radicand_max" -> 10,
+      "noncoprime_coefficient_max" -> 3,
+      "similarity_largest_prime_factor_max" -> 5,
+      "similarity_ratio_squared_multiplier_max" -> 3,
       "pythagorean_hypotenuse_max" -> 100,
       "sqrt_squared_length_max" -> 20,
       "scale_fraction_numerator_max" -> 7,

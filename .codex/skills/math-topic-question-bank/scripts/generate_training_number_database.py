@@ -25,13 +25,9 @@ FAMILY_COPY = {
         "有倍数关系的分数边长",
         "最简分数与 2 至 6 的常见整数倍数组合。",
     ),
-    "radical_multiple_pairs": (
-        "sqrt(a) 与 sqrt(k a)",
-        "保留原始被开方数，并记录化简值与商。",
-    ),
     "noncoprime_radicand_pairs": (
         "非互质被开方数与系数组合",
-        "a、b 不互质，x、y 为小整数系数。",
+        "a、b 不互质，x、y 为小整数系数；相似题只选比例不超过 √3 且最大素因数不超过 5 的记录。",
     ),
     "right_triangle_integer_triples": (
         "本原勾股数",

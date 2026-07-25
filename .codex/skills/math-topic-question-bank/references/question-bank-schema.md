@@ -9,7 +9,9 @@ bank:
   topic: 平行线对应边比例
   grade: 八年级
   subject: 数学
+  # 二选一：专题讲解来源，或整卷归档来源。
   source_explanation: ../../专题/某目录/02-student-explanation.resolved.assignment.yaml
+  # source_archive: ../../试卷归档/某目录
   status: ready            # plan | ready
   target_count: 30
 items:
@@ -22,6 +24,8 @@ items:
     diagram_requirement: prompt_and_solution # none | prompt_only | prompt_and_solution
     student_assignment: items/Q001/student.resolved.assignment.yaml
     teacher_assignment: items/Q001/teacher.resolved.assignment.yaml
+    # source_archive 题库必填，指向可审核的原题/原解答证据记录。
+    source_ref: items/Q001/source.yaml
     weight: 1.0
     enabled: true
 ```
@@ -34,11 +38,13 @@ items:
 - item id 唯一，格式为 `Q001`、`Q002` 等。
 - 每个 student/teacher 文件存在，且各自只有一道 practice 题。
 - 学生版无 `answer`、`explanation`、`solution_steps`、`teaching`。
+- 学生版同时不得含教师证据字段 `source_solution_images`、`solution_notes`。
 - 教师版有 `answer`；解答题另有 `solution_steps`。
 - 两版的题型和题干一致。
 - 文件中不再残留 `diagram_slot`。
 - `prompt_only` 有学生 prompt 图和教师 prompt 图；`prompt_and_solution` 另有教师 solution 图。
 - 所有 `image_path` / `tikz_path` 指向真实资产。
+- 整卷归档题库的每个 item 都有 `source_ref`；来源记录经过独立审核和人工批准后方可装配成试卷。
 
 `plan` 状态允许文件尚未 resolved，但不能用于随机抽题脚本。
 

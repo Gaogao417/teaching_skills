@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>专题题库审核</title>
+    <link rel="stylesheet" href="/static/question-bank-review.css?v=__STATIC_VERSION__">
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [["$", "$"], ["\\(", "\\)"]],
+          displayMath: [["$$", "$$"], ["\\[", "\\]"]],
+          processEscapes: true
+        },
+        startup: { typeset: false }
+      };
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <script defer src="/static/question-bank-review.js?v=__STATIC_VERSION__"></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">QUESTION BANK · REVIEW</p>
+        <h1>专题题库审核</h1>
+        <p class="subtitle">浏览正式专题题库，或逐题核对试卷 staging 的原题与官方解答。</p>
+      </div>
+      <div class="summary" aria-live="polite">
+        <a class="sibling-link" href="__NUMBER_REVIEW_URL__">数库 →</a>
+        <span id="topic-summary">尚未选择</span>
+        <span><strong id="position-summary">—</strong></span>
+      </div>
+    </header>
+
+    <main>
+      <section class="toolbar" aria-label="题库选择">
+        <label>
+          <span>选择题库</span>
+          <select id="bank-select" disabled><option value="">正在加载题库…</option></select>
+        </label>
+        <div>
+          <div class="bank-meta" id="bank-meta">读取 artifacts/题库 下的正式题库</div>
+        </div>
+      </section>
+
+      <p id="page-status" class="page-status" role="status">正在加载题库…</p>
+      <section id="review-layout" class="review-layout" hidden>
+        <aside class="question-panel" aria-label="题目列表">
+          <header class="panel-header">
+            <div><p class="eyebrow">ITEMS</p><h2>题目列表</h2></div>
+            <span id="item-count">—</span>
+          </header>
+          <div id="question-list" class="question-list"></div>
+        </aside>
+
+        <article class="reader" id="reader" aria-live="polite">
+          <header class="reader-header">
+            <div><p class="eyebrow" id="item-id">—</p><h2 id="item-title">选择一道题</h2></div>
+            <div id="item-badges" class="badges"></div>
+          </header>
+          <div id="load-error" class="load-error" hidden></div>
+          <section id="prompt-review-alert" class="prompt-review-alert" hidden>
+            <h3>题图需要人工补裁</h3>
+            <ul id="prompt-review-notes"></ul>
+          </section>
+          <section id="source-question-section" class="reader-section" hidden><h3>原题来源</h3><div id="source-question-preview" class="preview-well"></div></section>
+          <section class="reader-section"><h3>题目</h3><div id="stem" class="source-text"></div></section>
+          <section id="choices-section" class="reader-section" hidden><h3>选项</h3><ul id="choices" class="choice-list"></ul></section>
+          <section class="reader-section"><h3>题图</h3><div id="prompt-preview" class="preview-well"></div></section>
+          <section class="answer-card">
+            <div class="reader-section"><h3>答案</h3><div id="answer" class="source-text answer-text"></div></div>
+            <div class="reader-section"><h3>解析</h3><div id="explanation" class="source-text"></div></div>
+            <div class="reader-section"><h3>解题步骤</h3><ol id="solution-steps" class="solution-steps"></ol></div>
+            <div id="solution-notes-section" class="reader-section" hidden><h3>严谨补充</h3><ul id="solution-notes" class="solution-notes"></ul></div>
+          </section>
+          <section class="reader-section"><h3 id="solution-preview-title">解答图</h3><div id="solution-preview" class="preview-well"></div></section>
+          <section id="review-card" class="review-card" hidden>
+            <div class="review-card-header">
+              <div><p class="eyebrow">HUMAN REVIEW</p><h3>人工审核</h3></div>
+              <span id="review-status" class="review-status">待审核</span>
+            </div>
+            <p class="shortcut-help">快捷键：<kbd>A</kbd> 通过，<kbd>R</kbd> 要求修改</p>
+            <div class="review-actions">
+              <button id="reject-item" type="button" class="reject-button">要求修改 <kbd>R</kbd></button>
+              <button id="approve-item" type="button" class="approve-button">通过 <kbd>A</kbd></button>
+            </div>
+            <p id="review-message" class="review-message" role="status"></p>
+          </section>
+          <nav class="reader-nav" aria-label="逐题浏览">
+            <button id="previous-item" type="button"><kbd>←</kbd> 上一题</button>
+            <button id="next-item" type="button">下一题 <kbd>→</kbd></button>
+          </nav>
+        </article>
+      </section>
+    </main>
+
+    <dialog id="revision-dialog" class="review-dialog" aria-labelledby="revision-dialog-title">
+      <form id="revision-form" class="review-dialog-form" novalidate>
+        <div>
+          <p class="eyebrow">REVISION REQUEST</p>
+          <h2 id="revision-dialog-title">填写修改意见</h2>
+          <p id="revision-item-label" class="dialog-subtitle"></p>
+        </div>
+        <label for="revision-note"><span>需要修改什么？</span></label>
+        <textarea
+          id="revision-note"
+          rows="6"
+          maxlength="4000"
+          required
+          placeholder="请写明漏图、转写、公式、裁切或解答中的具体问题"
+        ></textarea>
+        <p id="revision-error" class="revision-error" role="alert"></p>
+        <p class="dialog-shortcut">按 <kbd>Esc</kbd> 取消，<kbd>Ctrl/⌘</kbd> + <kbd>Enter</kbd> 提交</p>
+        <div class="dialog-actions">
+          <button id="cancel-revision" type="button">取消</button>
+          <button id="confirm-revision" type="submit" class="reject-button">确认要求修改</button>
+        </div>
+      </form>
+    </dialog>
+
+  </body>
+</html>

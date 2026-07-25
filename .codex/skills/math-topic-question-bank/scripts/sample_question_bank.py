@@ -17,6 +17,16 @@ from question_bank_contracts import QuestionBank, QuestionBankItem
 
 
 QUESTION_TYPES = {"choice", "fillin", "problem", "short_answer"}
+STUDENT_ONLY_REMOVE_KEYS = {
+    "answer",
+    "explanation",
+    "solution_steps",
+    "teaching",
+    "teacher_note",
+    "teacher_notes",
+    "hints",
+}
+_DROP = object()
 
 
 def load_yaml(path: Path) -> dict[str, Any]:
@@ -72,6 +82,32 @@ def rebase_assets(value: Any, source_dir: Path, output_dir: Path) -> Any:
     return copy.deepcopy(value)
 
 
+def sanitize_student_content(value: Any) -> Any:
+    """Defensively remove answers and annotated diagrams from sampled student work."""
+
+    if isinstance(value, dict):
+        variant = value.get("variant") or value.get("diagram_variant")
+        disclosure_policy = value.get("disclosure_policy")
+        if variant == "solution" or disclosure_policy == "annotated":
+            return _DROP
+        result: dict[str, Any] = {}
+        for key, child in value.items():
+            if key in STUDENT_ONLY_REMOVE_KEYS:
+                continue
+            sanitized = sanitize_student_content(child)
+            if sanitized is not _DROP:
+                result[key] = sanitized
+        return result
+    if isinstance(value, list):
+        result = []
+        for child in value:
+            sanitized = sanitize_student_content(child)
+            if sanitized is not _DROP:
+                result.append(sanitized)
+        return result
+    return copy.deepcopy(value)
+
+
 def mark_shared_diagram_reuse(value: Any, first_job_by_asset: dict[str, str]) -> None:
     if isinstance(value, dict):
         asset = value.get("image_path") or value.get("tikz_path")
@@ -124,6 +160,8 @@ def build_assignment(
         assignment_path = manifest_path.parent / relative
         source_assignment = load_yaml(assignment_path)
         block = rebase_assets(find_question(source_assignment), assignment_path.parent, output_dir)
+        if version == "student":
+            block = sanitize_student_content(block)
         if block.get("type") in {"problem", "short_answer"}:
             block["label"] = f"第 {index} 题"
         mark_shared_diagram_reuse(block, first_job_by_asset)
