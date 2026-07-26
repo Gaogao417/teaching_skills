@@ -82,8 +82,9 @@ prompt:
     width: 120mm
 ```
 
-不得仅按 Word 媒体文件名判断题号；归属必须来自 `word-source.yaml` 的段落关系。
-Word 来源用整页图 + 页码作为原题与官方解答证据，不要求页图 crop：
+不得仅按 Word 媒体文件名判断题号；图片归属（哪张 `media/*` 属于哪道题、是题图
+还是解析图）必须在 PDF 渲染页 `word/pages/*.png` 上按版面位置和邻近题号视觉锚点
+确认。Word 来源用整页图 + 页码作为原题与官方解答证据，不要求页图 crop：
 
 ```yaml
 question_word_evidence:

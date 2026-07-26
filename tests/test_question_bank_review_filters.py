@@ -253,5 +253,5 @@ def test_page_renders_new_filter_controls(client: TestClient) -> None:
     # 占位 token 必须被替换干净。
     assert "__STATIC_VERSION__" not in page.text
     assert "__NUMBER_REVIEW_URL__" not in page.text
-    # bank-select 改为可见 listbox，不再是 dropdown。
-    assert "size=" in page.text
+    # bank-select 是单行下拉框，不是多行 listbox。
+    assert "size=" not in page.text

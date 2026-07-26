@@ -9,7 +9,7 @@
  * 运行：``node tests/e2e/test_question_bank_filters_ui.mjs``
  *
  * 覆盖的 golden path（详见各 test_* 函数注释）：
- *   B1  页面渲染所有新控件（filter-kind/grade/year/exam-type/search-input/bank-select listbox）
+ *   B1  页面渲染所有新控件（filter-kind/grade/year/exam-type/search-input/bank-select 下拉框）
  *   B2  facets 填充 grade/year 下拉（真实数据）
  *   B3  选 kind=真题 → 列表只剩 staging
  *   B4  选 exam_type=二模 → 列表只剩 ERMO
@@ -187,7 +187,7 @@ function test(name, fn) {
 }
 
 // B1
-test("page renders all new filter controls and listbox bank-select", async ({ page }) => {
+test("page renders all new filter controls and dropdown bank-select", async ({ page }) => {
   for (const id of [
     "filter-kind",
     "filter-grade",
@@ -201,7 +201,7 @@ test("page renders all new filter controls and listbox bank-select", async ({ pa
     assert.ok(await el.isIntersectingViewport(), `#${id} 不可见`);
   }
   const size = await page.$eval("#bank-select", (s) => s.getAttribute("size"));
-  assert.ok(size && Number(size) >= 8, `bank-select 应是可见 listbox (size>=8)，实际 size=${size}`);
+  assert.ok(!size, `bank-select 应是单行下拉框（无 size 属性），实际 size=${size}`);
 });
 
 // B2
