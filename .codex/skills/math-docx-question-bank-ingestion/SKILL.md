@@ -48,9 +48,11 @@ word/
 | 产物 | 用途 |
 |------|------|
 | `media/*` | `prompt`/`solution` 题图（几何图、统计图、照片等），保留原始分辨率与透明度 |
-| `pages/*.png` | **所有文字和公式转写**、题干核对、审计凭证 |
+| `pages/*.png` | **所有文字和公式转写**、题干核对、审计凭证、低置信图核对 |
+| `word-source.yaml` 的 `image_attribution` | **图片归属主源**：每张题图的题号、prompt/solution 桶、置信度 |
 
 - 文字和公式一律以 PDF 渲染页为准，不从 WMF 二进制猜测
+- **图片归属以段落流 `image_attribution` 为准**，不在 PDF 页上肉眼认图
 - 独立题图以 Word 媒体原图为准（PDF 渲染会栅格化丢质量）
 - `.doc` 文件由 soffice 自动规范化为 `.docx` 后再走相同流程
 
@@ -67,8 +69,14 @@ word/
 4. 写入 `block.stem_latex` 或 `block.solution_steps`
 
 题图处理：
-- 独立几何图/统计图/照片 → 引用 `word/media/*` 原图，`box_px: [0, 0, w, h]`，
-  归属（哪张图属于哪道题）在 PDF 渲染页版面上确认
+- 读取 `word-source.yaml` 的 `image_attribution`，按置信度消费：
+  - **`high`**：直接写入 `prompt`/`solution`，引用 `word/media/*` 原图，
+    `box_px: [0, 0, w, h]`，无需看 PDF
+  - **`medium`**：写入后对照 PDF 渲染页或图本身确认。常见情形：
+    - 多选项题（如 Q2 四个图书馆标志）：段落流会给同一题多张图，全部挂 prompt
+    - 合成图（一张 PNG 含多个子图）：按实际挂 1 条
+    - 多小问图（"如图1…（2）如图2…"）：第二张图可能被算到 solution，看 PDF 确认
+  - **`low`**：必须人工核对后再写——图跨多段重复、题号切片存疑、或 orphan
 - 纯文字+公式题 → 不创建 prompt，公式在 stem_latex 中
 
 ### 3-5. 展开、物化、审计、用户审核
