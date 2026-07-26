@@ -244,8 +244,10 @@ def test_bank_detail_extracts_stem_answer_steps_and_preview_urls(bank_root: Path
     assert item["stem_latex"].startswith("如图，求 $x$。\n保留第二行。")
     assert "<img src=x" in item["stem_latex"]
     assert item["answer"] == "$x=4$。"
-    assert item["explanation"] == "先找对应关系，再计算。"
+    # explanation 是 legacy 字段，服务器按"待重转写"策略不回传（见 explanation→clue 重命名）。
+    assert "explanation" not in item
     assert [step["title"] for step in item["solution_steps"]] == ["判断", "计算"]
+    assert [step["content"] for step in item["solution_steps"]] == ["确定对应边。", "$x=8\\times\\frac12=4$。"]
     assert item["prompt_preview_url"].startswith("/api/assets/bank-a/Q001/prompt?v=")
     assert item["solution_preview_url"].startswith("/api/assets/bank-a/Q001/solution?v=")
 
@@ -301,7 +303,8 @@ def test_discovers_staging_exam_and_exposes_source_teacher_and_review_fields(
     assert item["stem_latex"] == "下列结论正确的是（\\quad）。"
     assert item["choices"] == {"A": "$1$", "B": "$2$"}
     assert item["answer"] == "B"
-    assert item["explanation"] == "公众号参考答案：B。"
+    # explanation 是 legacy 字段，服务器不回传（explanation→clue 重命名后旧卷待重转写）。
+    assert "explanation" not in item
     assert item["difficulty"] == "foundation"
     assert item["skill_tags"] == ["定义", "判断"]
     assert item["solution_notes"][0]["title"] == "严谨补充"
@@ -371,6 +374,136 @@ def test_staging_review_approve_reject_note_and_stale_detection(
     rewritten = yaml.safe_load(review_path.read_text(encoding="utf-8"))
     assert rewritten["content_hash"] == f"sha256:{'2' * 64}"
     assert rewritten["notes"] == ["公式需复核。"]
+
+
+def test_staging_detail_renders_string_format_solution_steps(
+    staging_root: tuple[Path, Path, str],
+) -> None:
+    """旧卷 solution_steps 常是字符串数组（逐条复刻原解答），后端归一成 {content} 渲染。"""
+    root, paper_dir, staging_id = staging_root
+    teacher_path = paper_dir / "items/Q001/teacher.resolved.assignment.yaml"
+    teacher = yaml.safe_load(teacher_path.read_text(encoding="utf-8"))
+    teacher["sections"][0]["blocks"][0]["solution_steps"] = [
+        "两个含有根式的代数式相乘，若积不含根式则互为有理化因式。",
+        "$\\sqrt{a-4}\\cdot\\sqrt{a-4}=a-4$，结果不含根号，符合定义。",
+    ]
+    write_yaml(teacher_path, teacher)
+    client = TestClient(create_question_bank_app(root))
+
+    item = client.get(f"/api/banks/{staging_id}").json()["items"][0]
+    assert [step["title"] for step in item["solution_steps"]] == ["", ""]
+    assert item["solution_steps"][0]["content"].startswith("两个含有根式")
+    assert item["solution_steps"][1]["content"].startswith("$\\sqrt{a-4}")
+    # edit_target/edit_index 仍按位保留，前端解析图槽位不受格式影响。
+    assert item["solution_steps"][0]["edit_target"] == "solution_step"
+    assert item["solution_steps"][0]["edit_index"] == 0
+
+
+def test_formal_detail_renders_string_format_solution_steps(bank_root: Path) -> None:
+    """formal 题库路径同样要把字符串 solution_steps 归一成 {content}。"""
+    teacher_path = bank_root / "2026-01-A/items/Q001/teacher.resolved.assignment.yaml"
+    teacher = yaml.safe_load(teacher_path.read_text(encoding="utf-8"))
+    teacher["sections"][0]["blocks"][0]["solution_steps"] = ["纯文字步骤。", "$x=4$。"]
+    write_yaml(teacher_path, teacher)
+    client = TestClient(create_question_bank_app(bank_root))
+
+    item = client.get("/api/banks/bank-a").json()["items"][0]
+    assert [step["content"] for step in item["solution_steps"]] == ["纯文字步骤。", "$x=4$。"]
+    assert [step["title"] for step in item["solution_steps"]] == ["", ""]
+
+
+def _add_second_staging_item(paper_dir: Path) -> None:
+    """给 PAPER-A staging 卷追加 Q002，供 review-all 多题场景使用。"""
+    item_dir = paper_dir / "items/Q002"
+    assets = item_dir / "assets"
+    assets.mkdir(parents=True, exist_ok=True)
+    (assets / "source-question.png").write_bytes(b"\x89PNG\r\n\x1a\nfixture")
+    write_yaml(
+        item_dir / "source.yaml",
+        {
+            "schema": "math_exam_item_source/v1",
+            "item_id": "Q002",
+            "source_key": "PAPER-A-Q02",
+            "paper_id": "PAPER-A",
+            "question_number": 2,
+            "question_type": "fillin",
+            "points": 4,
+            "section_title": "二、填空题",
+            "source_directory": "documents/paper-a",
+            "crops": {"question_evidence": [{"output": "assets/source-question.png"}]},
+            "transcription": {"human_review": "pending"},
+            "content_hash": f"sha256:{'3' * 64}",
+        },
+    )
+    student = assignment("q2", teacher=False)
+    student["sections"][0]["blocks"][0].update(
+        {"type": "fillin", "stem_latex": "计算 $2+2=$ \\underline{\\quad}。"}
+    )
+    teacher = assignment("q2", teacher=True)
+    teacher["sections"][0]["blocks"][0].update(
+        {
+            "type": "fillin",
+            "stem_latex": "计算 $2+2=$ \\underline{\\quad}。",
+            "answer": "$4$",
+            "solution_steps": ["$2+2=4$。"],
+        }
+    )
+    write_yaml(item_dir / "student.resolved.assignment.yaml", student)
+    write_yaml(item_dir / "teacher.resolved.assignment.yaml", teacher)
+    paper_path = paper_dir / "paper.yaml"
+    paper = yaml.safe_load(paper_path.read_text(encoding="utf-8"))
+    paper["sections"].append({"id": "fillin", "title": "二、填空题", "item_ids": ["Q002"]})
+    write_yaml(paper_path, paper)
+
+
+def test_review_all_staging_approves_every_item_and_returns_summary(
+    staging_root: tuple[Path, Path, str],
+) -> None:
+    root, paper_dir, staging_id = staging_root
+    _add_second_staging_item(paper_dir)
+    client = TestClient(create_question_bank_app(root))
+
+    response = client.post(f"/api/banks/{staging_id}/review-all")
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["errors"] == []
+    assert payload["approved_count"] == 2
+    # 两题 review.yaml 都写成 approved。
+    for item_id in ("Q001", "Q002"):
+        review = yaml.safe_load(
+            (paper_dir / f"items/{item_id}/review.yaml").read_text(encoding="utf-8")
+        )
+        assert review["status"] == "approved"
+        assert review["reviewer"] == "question-bank-review-ui"
+    # 响应里的 items 也反映 approved 状态。
+    assert [item["review"]["status"] for item in payload["items"]] == ["approved", "approved"]
+
+
+def test_review_all_staging_collects_per_item_errors_without_aborting(
+    staging_root: tuple[Path, Path, str],
+) -> None:
+    root, paper_dir, staging_id = staging_root
+    _add_second_staging_item(paper_dir)
+    # 删掉 Q002 的 source.yaml，让该题审核失败但 Q001 仍应成功。
+    (paper_dir / "items/Q002/source.yaml").unlink()
+    client = TestClient(create_question_bank_app(root))
+
+    response = client.post(f"/api/banks/{staging_id}/review-all")
+    assert response.status_code == 200
+    payload = response.json()
+    assert [error["item_id"] for error in payload["errors"]] == ["Q002"]
+    # Q001 仍被通过。
+    q001_review = yaml.safe_load(
+        (paper_dir / "items/Q001/review.yaml").read_text(encoding="utf-8")
+    )
+    assert q001_review["status"] == "approved"
+    assert payload["approved_count"] == 1
+
+
+def test_review_all_rejects_formal_bank_with_404(bank_root: Path) -> None:
+    client = TestClient(create_question_bank_app(bank_root))
+    # formal 题库不是 staging，review-all 应 404。
+    assert client.post("/api/banks/bank-a/review-all").status_code == 404
 
 
 def test_staging_review_and_assets_reject_path_or_symlink_escape(
@@ -660,15 +793,16 @@ def test_staging_image_slots_support_select_paste_delete_and_add() -> None:
     assert "/images/${encodeURIComponent(target.target)}/${target.index}" in script
     assert '{ method: "DELETE" }' in script
     assert "image-delete-button" in script
-    assert "image-add-slot" in script
+    # source-lightbox 重构后，新增图片改为点击 .image-section 空白区（wireImageSections
+    # + emptyAddHint），不再用独立的 image-add-slot 控件。
+    assert "function wireImageSections" in script
+    assert "function emptyAddHint" in script
     assert "点击选中 · ⌘V 替换" in script
-    assert 'emptyTarget: "prompt"' in script
-    assert 'appendTarget: "question_evidence"' not in script
-    assert 'emptyTarget: "question_evidence"' not in script
-    assert 'appendTarget: "official_solution"' not in script
-    assert 'emptyTarget: "official_solution"' not in script
+    assert 'editTarget: "prompt"' in script
+    assert 'editTarget: "question_evidence"' not in script
+    assert 'editTarget: "official_solution"' not in script
     assert ".image-delete-button" in css
-    assert ".image-add-slot" in css
+    assert ".empty-add-hint" in css
     assert ".is-selected" in css
 
 

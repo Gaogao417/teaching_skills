@@ -637,7 +637,11 @@ class QuestionBankCatalog:
                 for step_index, step in enumerate(
                     teacher_block.get("solution_steps", []), start=1
                 ):
-                    if not isinstance(step, dict):
+                    # 旧卷 solution_steps 常是字符串数组（逐条复刻原解答），归一成
+                    # {content: str} 让前端按统一结构渲染；title 留空前端不显示标题行。
+                    if isinstance(step, str):
+                        step = {"content": step}
+                    elif not isinstance(step, dict):
                         continue
                     rendered_step = {
                         "title": str(step.get("title", "")),
@@ -1114,6 +1118,27 @@ class QuestionBankCatalog:
                 temporary.unlink()
         return self._review_state(item_dir_resolved, source)
 
+    def approve_all_staging(self, bank_id: str) -> dict[str, Any]:
+        """一键通过整张 staging 试卷。
+
+        逐题复用 ``write_staging_review(approved)`` 写 review.yaml，保留 schema、
+        reviewer、原子写、content_hash 刷新等所有现有语义。单题失败（如缺
+        source.yaml）不中断整卷，收集到 ``errors[]`` 让前端提示用户处理。
+        """
+        record = self.record(bank_id)
+        if record.kind != "staging_exam":
+            raise KeyError(bank_id)
+        approve = ReviewDecision(decision="approved", note="")
+        errors: list[dict[str, str]] = []
+        for item_id in self._staging_item_ids(record):
+            try:
+                self.write_staging_review(bank_id, item_id, approve)
+            except (OSError, ValueError) as exc:
+                errors.append({"item_id": item_id, "error": str(exc)})
+        detail, _ = self._staging_detail(record)
+        detail["errors"] = errors
+        return detail
+
     def detail(self, bank_id: str) -> tuple[dict[str, Any], dict[tuple[str, str], Path]]:
         record = self.record(bank_id)
         if record.kind == "staging_exam":
@@ -1165,7 +1190,10 @@ class QuestionBankCatalog:
                 solution_previews: list[dict[str, str]] = []
                 seen_solution_paths: set[Path] = set()
                 for step_index, step in enumerate(steps):
-                    if not isinstance(step, dict):
+                    # 与 staging 路径一致：字符串格式 solution_steps 归一成 {content}。
+                    if isinstance(step, str):
+                        step = {"content": step}
+                    elif not isinstance(step, dict):
                         continue
                     rendered_step = {
                         "title": str(step.get("title", "")),
@@ -1424,6 +1452,14 @@ def create_question_bank_app(
             raise HTTPException(status_code=404, detail="staging 题目不存在") from exc
         except ValueError as exc:
             raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+    @app.post("/api/banks/{bank_id}/review-all")
+    def review_all_staging(bank_id: str) -> dict[str, Any]:
+        """一键通过整张 staging 试卷，返回刷新后的 detail（含 items + errors）。"""
+        try:
+            return catalog.approve_all_staging(bank_id)
+        except KeyError as exc:
+            raise HTTPException(status_code=404, detail="staging 试卷不存在") from exc
 
     @app.post("/api/banks/{bank_id}/items/{item_id}/images/{target}/{index}")
     async def replace_staging_image(
