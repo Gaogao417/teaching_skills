@@ -53,6 +53,14 @@ artifacts/**/preview/
 /build/
 /tmp/
 
+# Question-bank ingestion derived artifacts (live alongside source docs)
+# source.docx and original *.docx stay tracked; extraction output is regenerated.
+documents/**/word/
+documents/**/word_extract/
+documents/**/word_test/
+documents/**/word_source/
+documents/**/.soffice-pdf-profile/
+
 # Local Audit run logs & raw trace sessions
 audits/
 
