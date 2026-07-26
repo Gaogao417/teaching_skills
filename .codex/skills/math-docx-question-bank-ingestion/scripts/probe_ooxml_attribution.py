@@ -77,10 +77,19 @@ def build_timeline(document_xml: str) -> list[tuple[str, str]]:
 
 def load_rels(rels_xml: str) -> dict[str, str]:
     """rId -> media/imageNN.ext。只保留真正的位图（png/jpg/jpeg），
-    丢弃 wmf/emf——后者是公式对象，不是题图。"""
+    丢弃 wmf/emf——后者是公式对象，不是题图。
+
+    按 <Relationship> 元素逐个抽取属性，对 Id/Target 的属性顺序鲁棒
+    （不同 Word 生成器顺序不同：有的 Id 在前，有的 Target 在前）。
+    """
     rels = {}
-    for m in re.finditer(r'Id="(rId\d+)"[^>]*Target="([^"]+)"', rels_xml):
-        rid, tgt = m.group(1), m.group(2)
+    for m in re.finditer(r"<Relationship\b([^>]*)/>", rels_xml):
+        attrs = m.group(1)
+        rid_m = re.search(r'Id="(rId\d+)"', attrs)
+        tgt_m = re.search(r'Target="([^"]+)"', attrs)
+        if not (rid_m and tgt_m):
+            continue
+        rid, tgt = rid_m.group(1), tgt_m.group(1)
         if "media/image" not in tgt:
             continue
         ext = tgt.rsplit(".", 1)[-1].lower()
