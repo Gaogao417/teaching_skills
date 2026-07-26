@@ -146,23 +146,37 @@ def attribute_images(paragraphs: list[dict]) -> list[dict]:
                question region (orphan).
     """
     # First pass: locate strictly-increasing question starts.
-    # Word sometimes restarts numbering (考生须知 1-4, then real Q1), so we accept
-    # a restart only when the number returns to 1 after a chapter heading.
+    # Word restarts numbering in two legitimate places: the 考生须知 preamble
+    # (1-4 before any real question) and chapter headings. Once we are inside the
+    # real question sequence, a bare "1．" is an enumeration step inside a
+    # solution (e.g. Q12's "1．抽取... 2．抽取..."), NOT a restart — ignore it.
     question_starts: list[tuple[int, int]] = []  # (paragraph_index, question_no)
     prev_q = 0
+    in_questions = False  # becomes True once real questions start
     for record in paragraphs:
         text = record["text"]
         m = QUESTION_NUMBER.match(text)
         if not m:
             continue
         n = int(m.group(1))
-        if n == prev_q + 1 or (prev_q == 0 and n == 1):
-            question_starts.append((record["index"], n))
-            prev_q = n
-        elif n == 1:
-            # Restart (e.g. chapter boundary): begin a new sequence.
-            question_starts.append((record["index"], n))
-            prev_q = 1
+        if not in_questions:
+            # Preamble (考生须知) or pre-question content: accept 1,2,3... but
+            # do not start the question sequence until we (re)see 1.
+            if n == 1:
+                question_starts = []  # discard preamble starts
+                question_starts.append((record["index"], n))
+                prev_q = 1
+                in_questions = True
+            elif prev_q and n == prev_q + 1:
+                # continuation of preamble (2,3,4) — tracked but overwritten
+                question_starts.append((record["index"], n))
+                prev_q = n
+        else:
+            # Inside real questions: only accept strictly increasing.
+            if n == prev_q + 1:
+                question_starts.append((record["index"], n))
+                prev_q = n
+            # else: enumeration step (1． 2．) or stray number — ignored.
     # Append sentinel.
     question_starts.append((paragraphs[-1]["index"] + 1 if paragraphs else 0, None))
 

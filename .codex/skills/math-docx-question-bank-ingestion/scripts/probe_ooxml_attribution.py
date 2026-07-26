@@ -76,12 +76,15 @@ def build_timeline(document_xml: str) -> list[tuple[str, str]]:
 
 
 def load_rels(rels_xml: str) -> dict[str, str]:
-    """rId -> media/imageNN.ext。只保留 media/image 目标。"""
+    """rId -> media/imageNN.ext。只保留真正的位图（png/jpg/jpeg），
+    丢弃 wmf/emf——后者是公式对象，不是题图。"""
     rels = {}
-    # 简单正则，避免命名空间折腾
     for m in re.finditer(r'Id="(rId\d+)"[^>]*Target="([^"]+)"', rels_xml):
         rid, tgt = m.group(1), m.group(2)
-        if "media/image" in tgt:
+        if "media/image" not in tgt:
+            continue
+        ext = tgt.rsplit(".", 1)[-1].lower()
+        if ext in {"png", "jpg", "jpeg"}:
             rels[rid] = tgt
     return rels
 
@@ -156,13 +159,17 @@ def ooxml_attribution(document_xml: str, rels: dict[str, str]) -> list[dict]:
                 # 题号出现在文字里、但这段文字不含【答案】【解析】等，按题干处理
                 pass  # 不重置 in_solution_block，因为【解析】可能跨段
         else:  # IMG
+            # 只保留位图（png/jpg）。rels 已过滤掉 wmf/emf；非位图的 rId
+            # 这里直接跳过，不进入结果，避免公式对象污染归属表。
+            target = rels.get(val)
+            if not target:
+                continue
             prev_text = nearest_text(timeline, i, "prev")
             next_text = nearest_text(timeline, i, "next")
             area = classify_position(prev_text, next_text)
             # 归属题号：游标值（图片插入点时最近的题号）
             qnum = current_qnum
-            target = rels.get(val)
-            image_name = target.split("/")[-1] if target else "??"
+            image_name = target.split("/")[-1]
             results.append({
                 "rid": val,
                 "image": image_name,
