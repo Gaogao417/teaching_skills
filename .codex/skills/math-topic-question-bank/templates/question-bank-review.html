@@ -98,8 +98,7 @@
             <h3>题图需要人工补裁</h3>
             <ul id="prompt-review-notes"></ul>
           </section>
-          <section id="source-question-section" class="reader-section" hidden><div class="section-head"><h3>原题来源</h3><div id="source-question-page-badges" class="badges section-page-badges"></div></div><div id="source-question-preview" class="preview-well"></div></section>
-          <section class="reader-section"><h3>题目</h3><div id="stem" class="source-text"></div></section>
+          <section class="reader-section"><div class="section-head"><h3>题目</h3><div id="source-capsules" class="source-capsules"></div></div><div id="stem" class="source-text"></div></section>
           <section id="choices-section" class="reader-section" hidden><h3>选项</h3><ul id="choices" class="choice-list"></ul></section>
           <section class="reader-section image-section" data-image-target="prompt"><h3>题图</h3><div id="prompt-preview" class="preview-well"></div></section>
           <section class="answer-card">
@@ -108,13 +107,16 @@
             <div class="reader-section"><h3>解题步骤</h3><ol id="solution-steps" class="solution-steps"></ol></div>
             <div id="solution-notes-section" class="reader-section" hidden><h3>严谨补充</h3><ul id="solution-notes" class="solution-notes"></ul></div>
           </section>
-          <section class="reader-section image-section" data-image-target="official_solution"><div class="section-head"><h3 id="solution-preview-title">解答图</h3><div id="solution-page-badges" class="badges section-page-badges"></div></div><div id="solution-preview" class="preview-well"></div></section>
           <section id="review-card" class="review-card" hidden>
             <div class="review-card-header">
               <div><p class="eyebrow">HUMAN REVIEW</p><h3>人工审核</h3></div>
               <span id="review-status" class="review-status">待审核</span>
             </div>
-            <p class="shortcut-help">快捷键：<kbd>A</kbd> 通过，<kbd>R</kbd> 要求修改</p>
+            <div class="review-card-bulk">
+              <button id="approve-paper" type="button" class="approve-button bulk-button">全卷通过并跳转下一卷 <kbd>⇧A</kbd></button>
+            </div>
+            <p id="bulk-message" class="review-message bulk-message" role="status"></p>
+            <p class="shortcut-help">快捷键：<kbd>A</kbd> 通过，<kbd>R</kbd> 要求修改，<kbd>⇧A</kbd> 全卷通过</p>
             <div class="review-actions">
               <button id="reject-item" type="button" class="reject-button">要求修改 <kbd>R</kbd></button>
               <button id="approve-item" type="button" class="approve-button">通过 <kbd>A</kbd></button>
@@ -151,6 +153,26 @@
           <button id="confirm-revision" type="submit" class="reject-button">确认要求修改</button>
         </div>
       </form>
+    </dialog>
+
+    <dialog id="source-lightbox" class="review-dialog source-lightbox" aria-labelledby="source-lightbox-title">
+      <div class="source-lightbox-frame">
+        <header class="source-lightbox-header">
+          <div><p class="eyebrow">SOURCE</p><h2 id="source-lightbox-title">原题来源</h2></div>
+          <button id="source-lightbox-close" type="button" class="source-lightbox-close" aria-label="关闭">✕</button>
+        </header>
+        <div class="source-lightbox-stage">
+          <button id="source-lightbox-prev" type="button" class="source-lightbox-nav" aria-label="上一张">◀</button>
+          <a id="source-lightbox-open" class="source-lightbox-open" href="#" target="_blank" rel="noopener" title="在新页打开原图">
+            <img id="source-lightbox-image" alt="">
+          </a>
+          <button id="source-lightbox-next" type="button" class="source-lightbox-nav" aria-label="下一张">▶</button>
+        </div>
+        <footer class="source-lightbox-footer">
+          <span id="source-lightbox-caption" class="source-lightbox-caption"></span>
+          <span id="source-lightbox-counter" class="source-lightbox-counter"></span>
+        </footer>
+      </div>
     </dialog>
 
   </body>

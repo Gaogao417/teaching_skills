@@ -10,6 +10,8 @@ const state = {
   selectedImageSlot: null,
   savingImage: false,
 };
+// 原题来源 / 官方解答图廊：点击胶囊打开 dialog，可逐张翻看裁切截图 + 整页原图。
+const sourceLightbox = { entries: [], index: 0 };
 const byId = (id) => document.getElementById(id);
 let mathRenderQueue = Promise.resolve();
 let mathRenderEpoch = 0;
@@ -132,19 +134,80 @@ function preview(rootId, url, emptyText, alt) {
   root.append(image);
 }
 
-function appendPageBadges(rootId, pages) {
-  const root = byId(rootId);
+// 在「题目」 section 标题旁渲染原题来源 / 官方解答胶囊：点击打开图廊，逐张翻看所有来源图。
+// 合并两种来源图：裁切截图（*_previews，{title,url}）和整页 word_evidence（*_pages，
+// {page,url}）。ingestion 对不同卷可能产出其中一种或两种都有，这里都收纳，谁有显示谁。
+// 无任何数据（formal 卷或缺证据）则不渲染对应胶囊。
+function renderSourceCapsules(item) {
+  const root = byId("source-capsules");
   root.replaceChildren();
-  (pages || []).forEach((page) => {
-    const link = document.createElement("a");
-    link.className = "badge page-badge";
-    link.href = page.url;
-    link.target = "_blank";
-    link.rel = "noopener";
-    link.textContent = `P${page.page}`;
-    link.title = `原卷第 ${page.page} 页（点击新页打开整页图）`;
-    root.append(link);
+  const groups = [
+    {
+      label: "原题来源",
+      crops: item.source_question_previews,
+      pages: item.source_question_pages,
+    },
+    {
+      label: "官方解答",
+      crops: item.official_solution_previews,
+      pages: item.official_solution_pages,
+    },
+  ];
+  groups.forEach(({ label, crops, pages }) => {
+    const entries = [
+      ...((crops || []).map((entry) => ({ url: entry.url, title: entry.title || label }))),
+      ...((pages || []).map((entry) => ({ url: entry.url, title: `原卷第 ${entry.page} 页` }))),
+    ];
+    if (!entries.length) return;
+    const capsule = document.createElement("span");
+    capsule.className = "source-capsule";
+    capsule.tabIndex = 0;
+    capsule.setAttribute("role", "button");
+    capsule.setAttribute("aria-label", `${label}，点击打开 ${entries.length} 张截图`);
+    capsule.textContent = `${label} (${entries.length})`;
+    const open = () => openSourceLightbox(label, entries);
+    capsule.addEventListener("click", open);
+    capsule.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        open();
+      }
+    });
+    root.append(capsule);
   });
+}
+
+// 图廊渲染：把当前 index 的图填进 dialog。
+function renderSourceLightbox() {
+  const { entries, index } = sourceLightbox;
+  const entry = entries[index];
+  if (!entry) return;
+  const image = byId("source-lightbox-image");
+  image.src = entry.url;
+  image.alt = entry.title;
+  const openLink = byId("source-lightbox-open");
+  openLink.href = entry.url;
+  setText("source-lightbox-caption", entry.title);
+  setText("source-lightbox-counter", `${index + 1} / ${entries.length}`);
+  byId("source-lightbox-prev").disabled = index <= 0;
+  byId("source-lightbox-next").disabled = index >= entries.length - 1;
+}
+
+function openSourceLightbox(label, entries) {
+  if (!entries?.length) return;
+  sourceLightbox.entries = entries;
+  sourceLightbox.index = 0;
+  setText("source-lightbox-title", label);
+  renderSourceLightbox();
+  byId("source-lightbox").showModal();
+  window.setTimeout(() => byId("source-lightbox-close").focus(), 0);
+}
+
+function navigateSourceLightbox(delta) {
+  const next = sourceLightbox.index + delta;
+  if (next < 0 || next >= sourceLightbox.entries.length) return;
+  sourceLightbox.index = next;
+  renderSourceLightbox();
 }
 
 function imageSlotKey(itemId, target, index) {
@@ -215,10 +278,10 @@ function imageDeleteButton(target, index, label) {
   return button;
 }
 
-// 图片 section 配置：target → 显示名 + 是否单图（prompt 仅一张，其余可追加）。
+// 图片 section 配置：target → 显示名 + 是否单图（prompt 仅一张）。
+// 原题来源 / 官方解答已改为胶囊悬浮预览，不再作为可编辑 image-section。
 const IMAGE_SECTION_CONFIG = {
   prompt: { label: "题图", single: true },
-  official_solution: { label: "官方解答原图", single: false },
 };
 
 function emptyAddHint(label) {
@@ -387,16 +450,7 @@ function applyItem(item, itemIndex) {
       promptNotes.append(row);
     });
   }
-  byId("source-question-section").hidden = !staging;
-  if (staging) {
-    previewGallery(
-      "source-question-preview",
-      item.source_question_previews || [],
-      "原题截图不可用",
-      `${item.id} 原题截图`,
-    );
-    appendPageBadges("source-question-page-badges", item.source_question_pages || []);
-  }
+  renderSourceCapsules(item);
   const choices = byId("choices");
   choices.replaceChildren();
   const choiceEntries = Object.entries(item.choices || {});
@@ -483,20 +537,6 @@ function applyItem(item, itemIndex) {
   } else {
     preview("prompt-preview", item.prompt_preview_url, "本题无题图", `${item.id} 题图`);
   }
-  const solutionPreviews = (item.solution_previews || []).length
-    ? item.solution_previews
-    : (item.solution_preview_url ? [{ title: "解答图", url: item.solution_preview_url }] : []);
-  setText("solution-preview-title", staging ? "官方解答原图" : "解答图");
-  previewGallery(
-    "solution-preview",
-    solutionPreviews,
-    staging ? "官方解答原图不可用" : "本题无解答图",
-    staging ? `${item.id} 官方解答原图` : `${item.id} 解答图`,
-    staging ? { editTarget: "official_solution", editLabel: "官方解答原图" } : {},
-  );
-  if (staging) {
-    appendPageBadges("solution-page-badges", item.official_solution_pages || []);
-  }
   const reviewCard = byId("review-card");
   reviewCard.hidden = !staging;
   if (staging) {
@@ -518,7 +558,7 @@ function applyItem(item, itemIndex) {
 }
 
 function setReviewControlsDisabled(disabled) {
-  [byId("approve-item"), byId("reject-item"), byId("confirm-revision")].forEach((button) => {
+  [byId("approve-item"), byId("reject-item"), byId("confirm-revision"), byId("approve-paper")].forEach((button) => {
     button.disabled = disabled;
   });
 }
@@ -597,6 +637,76 @@ async function submitReview(decision, note = "") {
     setText("review-message", `保存失败：${error.message}`);
     if (decision === "rejected") setText("revision-error", `保存失败：${error.message}`);
     return false;
+  } finally {
+    state.submittingReview = false;
+    setReviewControlsDisabled(false);
+  }
+}
+
+// 在当前筛选列表（state.banks）里找下一份未全通过（approved_count < item_count）的
+// staging 试卷。从当前卷之后环形扫描，找不到返回 null。
+function findNextUnreviewedBank(currentBankId) {
+  const banks = state.banks || [];
+  const current = banks.findIndex((bank) => bank.id === currentBankId);
+  if (current < 0) return null;
+  const isUnreviewed = (bank) => (
+    bank.kind === "staging_exam"
+    && (bank.approved_count || 0) < (bank.item_count || 0)
+  );
+  for (let offset = 1; offset <= banks.length; offset += 1) {
+    const candidate = banks[(current + offset) % banks.length];
+    if (candidate.id !== currentBankId && isUnreviewed(candidate)) return candidate;
+  }
+  return null;
+}
+
+// 全卷一键通过：POST review-all → 刷新当前卷 items/counts → 回写 state.banks 计数 →
+// 跳到下一份未全通过卷（找不到则停在本卷第 1 题）。单题失败收集在 errors[] 里，
+// 在 bulk-message 列出，不跳卷，让用户处理。
+async function approveWholePaper() {
+  if (!state.detail || state.detail.kind !== "staging_exam" || state.submittingReview) return;
+  const currentBankId = state.detail.id;
+  state.submittingReview = true;
+  setReviewControlsDisabled(true);
+  ensureAudioContext();
+  setText("bulk-message", "正在一键通过整卷…");
+  setText("review-message", "");
+  try {
+    const response = await fetch(
+      `/api/banks/${encodeURIComponent(currentBankId)}/review-all`,
+      { method: "POST" },
+    );
+    if (!response.ok) throw new Error(await response.text());
+    const payload = await response.json();
+    const errors = payload.errors || [];
+    if (Array.isArray(payload.items)) state.detail.items = payload.items;
+    updateStagingProgress();
+    // 回写当前 bank 的计数到 state.banks，让"下一份未通过卷"判断准确。
+    const bankEntry = state.banks.find((bank) => bank.id === currentBankId);
+    if (bankEntry) {
+      bankEntry.approved_count = state.detail.approved_count;
+      bankEntry.rejected_count = state.detail.rejected_count;
+      bankEntry.stale_count = state.detail.stale_count;
+    }
+    renderList();
+    if (errors.length) {
+      setText("bulk-message", `${errors.length} 题审核失败：${errors.map((e) => e.item_id).join("、")}。请逐题处理后重试，未跳转。`);
+      renderItem();
+      return;
+    }
+    const nextBank = findNextUnreviewedBank(currentBankId);
+    playApprovalSound();
+    if (nextBank) {
+      setText("bulk-message", `本卷已全部通过，正在跳转 ${nextBank.topic}…`);
+      await selectBank(nextBank.id);
+      setText("bulk-message", `已跳转 ${nextBank.topic}。`);
+    } else {
+      state.itemIndex = 0;
+      renderItem();
+      setText("bulk-message", "本卷已全部通过，筛选范围内已无待审试卷。");
+    }
+  } catch (error) {
+    setText("bulk-message", `一键通过失败：${error.message}`);
   } finally {
     state.submittingReview = false;
     setReviewControlsDisabled(false);
@@ -915,6 +1025,7 @@ byId("search-input").addEventListener("input", debounce(() => { void applyFilter
 byId("previous-item").addEventListener("click", () => navigateItem(-1));
 byId("next-item").addEventListener("click", () => navigateItem(1));
 byId("approve-item").addEventListener("click", () => submitReview("approved", ""));
+byId("approve-paper").addEventListener("click", () => { void approveWholePaper(); });
 byId("reject-item").addEventListener("click", openRevisionDialog);
 byId("cancel-revision").addEventListener("click", () => byId("revision-dialog").close());
 byId("revision-form").addEventListener("submit", (event) => {
@@ -938,6 +1049,25 @@ byId("revision-dialog").addEventListener("keydown", (event) => {
   if (event.key === "Escape" && !state.submittingReview) {
     event.preventDefault();
     byId("revision-dialog").close();
+  }
+});
+byId("source-lightbox-close").addEventListener("click", () => byId("source-lightbox").close());
+byId("source-lightbox-prev").addEventListener("click", () => navigateSourceLightbox(-1));
+byId("source-lightbox-next").addEventListener("click", () => navigateSourceLightbox(1));
+// 点 backdrop（dialog 自身，而非其子元素）关闭图廊。
+byId("source-lightbox").addEventListener("click", (event) => {
+  if (event.target === event.currentTarget) event.currentTarget.close();
+});
+byId("source-lightbox").addEventListener("keydown", (event) => {
+  if (event.key === "Escape") {
+    event.preventDefault();
+    event.currentTarget.close();
+  } else if (event.key === "ArrowLeft") {
+    event.preventDefault();
+    navigateSourceLightbox(-1);
+  } else if (event.key === "ArrowRight") {
+    event.preventDefault();
+    navigateSourceLightbox(1);
   }
 });
 document.addEventListener("paste", (event) => {
@@ -965,9 +1095,17 @@ document.addEventListener("keydown", (event) => {
     || event.metaKey
     || event.altKey
     || byId("revision-dialog").open
+    || byId("source-lightbox").open
     || isEditableTarget(event.target)
   ) return;
   const key = event.key.toLowerCase();
+  // Shift+A 单独路由到全卷通过，避免和单题 A 撞车。
+  if (event.shiftKey && key === "a" && state.detail?.kind === "staging_exam") {
+    event.preventDefault();
+    void approveWholePaper();
+    return;
+  }
+  if (event.shiftKey) return;
   if (key === "a" && state.detail?.kind === "staging_exam") {
     event.preventDefault();
     void submitReview("approved", "");

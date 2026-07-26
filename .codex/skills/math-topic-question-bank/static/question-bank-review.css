@@ -64,6 +64,11 @@ select:focus-visible, button:focus-visible, textarea:focus-visible, .question-ro
 .section-page-badges { justify-content: end; }
 .page-badge { text-decoration: none; cursor: pointer; border-color: #9eb9aa; color: var(--accent); background: var(--accent-soft); font-weight: 700; transition: background .15s ease, border-color .15s ease; }
 .page-badge:hover { background: #d8e8df; border-color: var(--accent); }
+
+/* 原题来源 / 官方解答 胶囊：点击打开轮播图廊。 */
+.source-capsules { display: flex; flex-wrap: wrap; gap: 6px; justify-content: end; }
+.source-capsule { padding: 4px 10px; border: 1px solid #9eb9aa; border-radius: 999px; background: var(--accent-soft); color: var(--accent); font-size: 12px; font-weight: 700; cursor: pointer; outline-offset: 2px; transition: background .15s ease, border-color .15s ease; }
+.source-capsule:hover, .source-capsule:focus-visible { background: #d8e8df; border-color: var(--accent); }
 .source-text { white-space: pre-wrap; overflow-wrap: anywhere; line-height: 1.75; user-select: text; }
 .source-text mjx-container { color: var(--ink); }
 .source-text mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 3px 0; }
@@ -120,6 +125,10 @@ select:focus-visible, button:focus-visible, textarea:focus-visible, .question-ro
 .review-card { margin: 22px; padding: 18px; border: 1px solid #b9cbbf; border-radius: 14px; background: #f1f7f3; }
 .review-card-header { display: flex; align-items: start; justify-content: space-between; gap: 16px; margin-bottom: 14px; }
 .review-card h3 { margin: 3px 0 0; }
+.review-card-bulk { margin: 0 0 12px; }
+.bulk-button { width: 100%; }
+.bulk-message { margin: 8px 0 0; min-height: 0; }
+.bulk-message:empty { display: none; }
 .review-status { padding: 6px 10px; border: 1px solid var(--line); border-radius: 999px; background: white; color: var(--muted); font-size: 12px; font-weight: 800; }
 .review-status[data-status="approved"] { border-color: #8db49e; color: var(--accent); background: var(--accent-soft); }
 .review-status[data-status="rejected"] { border-color: #cda9a2; color: var(--danger); background: #f7ebe8; }
@@ -145,6 +154,22 @@ select:focus-visible, button:focus-visible, textarea:focus-visible, .question-ro
 .dialog-shortcut { margin: 0; color: var(--muted); font-size: 12px; }
 .dialog-actions { display: flex; justify-content: end; gap: 10px; }
 
+/* 原题来源 / 官方解答 轮播图廊。复用 .review-dialog 的 backdrop/圆角基样式。 */
+.source-lightbox { width: min(860px, calc(100% - 32px)); max-height: calc(100% - 32px); padding: 0; }
+.source-lightbox-frame { display: flex; flex-direction: column; max-height: calc(100vh - 32px); }
+.source-lightbox-header { display: flex; align-items: start; justify-content: space-between; gap: 16px; padding: 18px 22px 12px; border-bottom: 1px solid var(--line); }
+.source-lightbox-header h2 { margin: 3px 0 0; font-family: Georgia, "Songti SC", serif; font-size: 23px; }
+.source-lightbox-close { width: 36px; min-width: 36px; min-height: 36px; padding: 0; border: 1px solid var(--line); border-radius: 50%; background: white; color: var(--muted); font-size: 16px; line-height: 1; }
+.source-lightbox-close:hover { border-color: var(--accent); color: var(--accent); }
+.source-lightbox-stage { display: flex; align-items: center; gap: 14px; padding: 16px 18px; flex: 1; min-height: 0; }
+.source-lightbox-open { display: block; flex: 1; min-width: 0; text-align: center; text-decoration: none; }
+.source-lightbox-open img { display: block; max-width: 100%; max-height: 68vh; margin: 0 auto; object-fit: contain; border-radius: 6px; }
+.source-lightbox-open:hover img { outline: 2px solid var(--accent); }
+.source-lightbox-nav { flex: 0 0 auto; width: 44px; min-width: 44px; min-height: 44px; padding: 0; border: 1px solid var(--line); border-radius: 50%; background: white; color: var(--accent); font-size: 15px; }
+.source-lightbox-nav:hover:not(:disabled) { border-color: var(--accent); background: var(--accent-soft); }
+.source-lightbox-footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 22px 16px; color: var(--muted); font-size: 13px; }
+.source-lightbox-counter { font-variant-numeric: tabular-nums; }
+
 @media (max-width: 760px) {
   .topbar { position: static; align-items: start; flex-direction: column; }
   .summary { justify-content: start; }
@@ -156,5 +181,8 @@ select:focus-visible, button:focus-visible, textarea:focus-visible, .question-ro
   .answer-card { margin-left: 16px; margin-right: 16px; }
   .review-card { margin-left: 16px; margin-right: 16px; }
   .reader-nav { padding-left: 16px; padding-right: 16px; }
+  .source-lightbox-stage { flex-wrap: wrap; justify-content: center; gap: 10px; }
+  .source-lightbox-nav { width: 38px; min-width: 38px; min-height: 38px; }
+  .source-lightbox-open img { max-height: 56vh; }
   .review-dialog-form { padding: 20px; }
 }
