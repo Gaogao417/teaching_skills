@@ -1,0 +1,43 @@
+meta:
+  title: 2026年上海市静安区中考二模数学试卷第 19 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题（本大题共7题，满分78分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q019
+    points: 10
+    stem_latex: 如图，点 $A$ 在反比例函数 $y=-\dfrac{3}{x}$ 的图像上，$AB\perp x$ 轴，垂足点 $B$ 在 $x$ 轴负半轴上，已知点 $B$，$C$ 关于原点对称．（$1$）当点 $A$ 的横坐标是 $-\dfrac{3}{2}$ 时，求 $\triangle ABC$ 的面积；（$2$）当 $\tan\angle ACB=\dfrac{1}{2}$，求直线 $AC$ 的表达式．
+    answer: （$1$）$3$　　（$2$）$y=-\dfrac{1}{2}x+\dfrac{\sqrt{3}}{2}$
+    explanation: 官方参考答案：（$1$）$3$；（$2$）$y=-\dfrac{1}{2}x+\dfrac{\sqrt{3}}{2}$。
+    solution_steps:
+    - （$1$）把 $x=-\dfrac{3}{2}$ 代入反比例函数 $y=-\dfrac{3}{x}$ 得：$y=-\dfrac{3}{-\frac{3}{2}}=2$，$\therefore A\left(-\dfrac{3}{2},2\right)$，
+    - $\because AB\perp x$ 轴，$\therefore B\left(-\dfrac{3}{2},0\right)$，$AB=2$，
+    - $\because$ 点 $B$，$C$ 关于原点对称，$\therefore C\left(\dfrac{3}{2},0\right)$，$\therefore BC=3$，
+    - $\therefore S_{\triangle ABC}=\dfrac{1}{2}BC\cdot AB=3$；
+    - （$2$）$\because\tan\angle ACB=\dfrac{AB}{BC}=\dfrac{1}{2}$，$\therefore AB=\dfrac{1}{2}BC$，
+    - $\because$ 点 $B$，$C$ 关于原点对称，$\therefore OC=OB=\dfrac{1}{2}BC$，$\therefore AB=OB$，
+    - 设 $AB=OB=t$，由题意知 $A(-t,t)$，$B(-t,0)$，$C(t,0)$，
+    - 把 $A(-t,t)$ 代入反比例函数 $y=-\dfrac{3}{x}$ 得：$t=-\dfrac{3}{-t}$，解得 $t=\sqrt{3}$（负根舍去），
+    - $\therefore A(-\sqrt{3},\sqrt{3})$，$C(\sqrt{3},0)$，
+    - 设直线 $AC$ 的解析式为 $y=kx+b$，则有 $\begin{cases}-\sqrt{3}k+b=\sqrt{3}\\\sqrt{3}k+b=0\end{cases}$，解得 $\begin{cases}k=-\dfrac{1}{2}\\b=\dfrac{\sqrt{3}}{2}\end{cases}$，
+    - $\therefore$ 直线 $AC$ 的解析式为 $y=-\dfrac{1}{2}x+\dfrac{\sqrt{3}}{2}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 120mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

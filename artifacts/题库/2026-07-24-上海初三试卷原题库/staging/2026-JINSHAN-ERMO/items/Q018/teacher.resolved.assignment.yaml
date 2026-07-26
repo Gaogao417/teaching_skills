@@ -1,0 +1,33 @@
+meta:
+  title: 2026年上海市金山区中考二模数学试卷第 18 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题（本大题共8题，满分90分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q018
+    points: 10
+    stem_latex: 解方程：$\dfrac{x}{x-1}-\dfrac{2}{x^2-1}=1$。
+    answer: $x=3$
+    explanation: 官方参考答案：$x=3$。
+    solution_steps:
+    - 方程两边同乘$(x+1)(x-1)$，得$x(x+1)-2=(x+1)(x-1)$
+    - 整理得：$x^2+x-2=x^2-1$
+    - 解得：$x=1$
+    - 检验：当$x=1$时，$(x+1)(x-1)=0$，所以$x=1$是增根
+    - 所以原方程无解。
+    clue: 先去分母，将分式方程转化为整式方程，然后解整式方程，最后检验。
+    source_solution_images: []

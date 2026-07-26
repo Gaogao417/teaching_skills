@@ -1,0 +1,36 @@
+meta:
+  title: 2026年上海市静安区中考二模数学试卷第 4 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题（本大题共6题，每题4分，满分24分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q004
+    points: 4
+    stem_latex: 已知一组数据：$x_1$，$x_2$，$x_3$，它们的平均数是 $3$，方差是 $2$，那么数据 $2x_1$，$2x_2$，$2x_3$ 的平均数与方差分别是（\quad）
+    choices:
+    - $3$，$2$
+    - $6$，$8$
+    - $3$，$4$
+    - $6$，$4$
+    answer: B
+    explanation: 官方参考答案：B。
+    solution_steps:
+    - $\because$ 一组数据 $x_1$，$x_2$，$x_3$ 的平均数是 $3$，方差是 $2$，
+    - $\therefore\dfrac{x_1+x_2+x_3}{3}=3$，$s^2=\dfrac{(x_1-3)^2+(x_2-3)^2+(x_3-3)^2}{3}=2$，
+    - 数据 $2x_1$，$2x_2$，$2x_3$ 的平均数为：$\dfrac{2x_1+2x_2+2x_3}{3}=\dfrac{2(x_1+x_2+x_3)}{3}=2\times 3=6$，
+    - 数据 $2x_1$，$2x_2$，$2x_3$ 的方差为：$\dfrac{(2x_1-6)^2+(2x_2-6)^2+(2x_3-6)^2}{3}=\dfrac{4[(x_1-3)^2+(x_2-3)^2+(x_3-3)^2]}{3}=4\times 2=8$。
+    source_solution_images: []

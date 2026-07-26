@@ -1,0 +1,36 @@
+meta:
+  title: 2026年上海市长宁区中考二模数学试卷第 17 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题（本大题共12题，每题4分，满分48分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: fillin
+    id: Q017
+    points: 4
+    stem_latex: 在直角坐标平面内，如果存在正整数$n$和常数$k$，使得点$A(x,y)$满足$x^2=-ny+k$，$y^2=nx+k$，其中$x+y\neq 0$，那么称点$A$为\u201c$n$-优点\u201d。比如当$n=2$，$k=12$时，点$B(2,4)$为\u201c2-优点\u201d（这是因为满足$2^2=-2\times4+12$，$4^2=2\times2+12$，$2+4\neq 0$）。已知点$C$在抛物线$y=-x^2-3x+2038$上，且它还是\u201c2026-优点\u201d，那么点$C$的坐标是______ .
+    answer: $(-6,2020)$或$(2,2028)$
+    explanation: 官方参考答案：$(-6,2020)$或$(2,2028)$。
+    solution_steps:
+    - 根据点$A(x,y)$满足$x^2=-ny+k$，$y^2=nx+k$，得$x^2-y^2=-ny+k-(nx+k)$，
+    - $\therefore (x+y)(x-y)=-n(x+y)$，
+    - $\because x+y\neq 0$，$\therefore x-y=-n$，
+    - 即点$A$为\u201c$n$-优点\u201d满足$x-y=-n$，
+    - 设$C(c,-c^2-3c+2038)$，将其代入$x-y=-2026$，
+    - 得$c-(-c^2-3c+2038)=-2026$，整理得$c^2+4c-12=0$，
+    - 解得$c=-6$或$c=2$，
+    - 当$c=-6$时，$-c^2-3c+2038=2020$，当$c=2$时，$-c^2-3c+2038=2028$，
+    - 故点$C$的坐标为$(-6,2020)$或$(2,2028)$。
+    source_solution_images: []

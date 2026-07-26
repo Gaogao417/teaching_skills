@@ -1,0 +1,45 @@
+meta:
+  title: 2026年上海市徐汇区中考二模数学试卷第 20 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题（本大题共7题，满分78分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q020
+    points: 10
+    stem_latex: 已知函数$y=\sqrt{2-x}$，请解决下列问题：（1）请按照列表、描点、连线的步骤，在平面直角坐标系$xOy$中画出函数的大致图像；（2）如果一条直线与坐标轴的交点和函数$y=\sqrt{2-x}$图象与坐标轴的两个交点完全相同，那么这条直线的表达式是__________；（3）$A\left(m,n\right)$是函数$y=\sqrt{2-x}$图象上的点，如果$n<2$，那么$m$的取值范围是__________.
+    answer: （1）见解析；（2）$y=-\dfrac{\sqrt{2}}{2}x+\sqrt{2}$；（3）$-2<m\leqslant 2$.
+    explanation: 官方参考答案：（1）见解析；（2）$y=-\dfrac{\sqrt{2}}{2}x+\sqrt{2}$；（3）$-2<m\leqslant 2$.
+    solution_steps:
+    - （1）先列表，再描点，最后连线画出函数图象即可；
+    - （2）根据题意可得所求的直线经过点$\left(2,0\right)$和$\left(0,\sqrt{2}\right)$，据此利用待定系数法求解即可；
+    - （3）根据函数图象可得答案.
+    - 【小问1详解】列表如下：
+    - $x$：$\ldots$，$-7$，$-2$，$0$，$1$，$2$，$\ldots$
+    - $y=\sqrt{2-x}$：$\ldots$，$3$，$2$，$\sqrt{2}$，$1$，$0$，$\ldots$
+    - 描点连线画出函数图象.
+    - 【小问2详解】由（1）可知函数$y=\sqrt{2-x}$与$x$轴交于点$\left(2,0\right)$，与$y$轴交于点$\left(0,\sqrt{2}\right)$，
+    - 设经过点$\left(2,0\right)$和$\left(0,\sqrt{2}\right)$的直线的表达式为$y=kx+b\left(k\neq 0\right)$，
+    - $\therefore\begin{cases}2k+b=0\\b=\sqrt{2}\end{cases}$，解得$\begin{cases}k=-\dfrac{\sqrt{2}}{2}\\b=\sqrt{2}\end{cases}$，
+    - $\therefore$经过点$\left(2,0\right)$和$\left(0,\sqrt{2}\right)$的直线的表达式为$y=-\dfrac{\sqrt{2}}{2}x+\sqrt{2}$；
+    - 【小问3详解】由函数图象可知，当$y=\sqrt{2-x}<2$时，$-2<x\leqslant 2$，
+    - $\therefore$如果$n<2$，那么$m$的取值范围是$-2<m\leqslant 2$.
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

@@ -1,0 +1,37 @@
+meta:
+  title: 2026年上海市浦东新区中考二模数学试卷第 17 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题（本大题共12题，每题4分，满分48分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: fillin
+    id: Q017
+    points: 4
+    stem_latex: 如图，已知弦 $AB$、$CD$ 在圆心 $O$ 的同侧，且 $AB$ 是 $\odot O$ 内接正三角形的一条边，$CD$ 是 $\odot O$ 内接正六边形的一条边，$AB \parallel CD$。如果 $AC$ 也是 $\odot O$ 的内接正 $n$ 边形的一条边，那么 $n$ 的值为__________。
+    answer: $12$
+    explanation: 官方参考答案：$12$。
+    solution_steps:
+    - 连接 $OA$、$OB$、$OC$、$OD$。
+    - $\angle DOC=\frac{360°}{6}=60°$，$\angle AOB=\frac{360°}{3}=120°$。
+    - $\angle AOC=\angle BOD=\frac{\angle AOB-\angle DOC}{2}=30°$。
+    - $n=\frac{360°}{30°}=12$。
+    clue: 利用正多边形中心角公式，求出 $AC$ 对应的中心角。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 80mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

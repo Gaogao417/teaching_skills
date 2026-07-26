@@ -1,0 +1,908 @@
+schema: math_exam_staging_draft/v1
+paper:
+  id: 2026-SONGJIANG-ERMO
+  title: 2026年上海市松江区中考二模数学试卷
+  grade: 九年级
+  subject: 数学
+  duration: 100分钟
+  total_score: 150
+  source_archive: documents/初三/2026届-上海市松江区-初三二模数学-试卷及解析
+question_bank: ../../question-bank.yaml
+sections:
+- id: choice
+  title: 一、选择题（本大题共6题，每题4分，满分24分）
+  items:
+  - item_id: Q001
+    question_number: 1
+    question_type: choice
+    points: 4
+    question_word_evidence:
+    - page_number: 1
+      page_image: documents/初三/2026届-上海市松江区-初三二模数学-试卷及解析/word/word_extract_1785001933551758000/pages/001.png
+    prompt: []
+    official_solution:
+      start_anchor: "\u3010\u7b54\u6848\u3011D"
+      end_anchor: "\u3010\u7b54\u6848\u3011B"
+      word_evidence:
+      - page_number: 1
+        page_image: documents/初三/2026届-上海市松江区-初三二模数学-试卷及解析/word/word_extract_1785001933551758000/pages/001.png
+    block:
+      stem_latex: "下列计算正确的是（\\quad）"
+      choices:
+      - "$a^3-a^2=a$"
+      - "$a^2\\cdot a^3=a^6$"
+      - "$\\sqrt{a^2}=a$"
+      - "$\\sqrt[3]{a^3}=a$"
+      answer: D
+      explanation: "官方参考答案：D。"
+      solution_steps:
+      - "A、$a^3$与$a^2$不是同类项，不能合并，该选项不符合题意；"
+      - "B、$a^2\\cdot a^3=a^5\\neq a^6$，该选项不符合题意；"
+      - "C、$\\sqrt{a^2}=|a|\\neq a$，该选项不符合题意；"
+      - "D、$\\sqrt[3]{a^3}=a$，该选项符合题意。"
+      clue: "根据整式运算、同底数幂乘法、二次根式与立方根的性质，逐一判断各选项。"
+  - item_id: Q002
+    question_number: 2
+    question_type: choice
+    points: 4
+    question_word_evidence:
+    - page_number: 2
+      page_image: documents/初三/2026届-上海市松江区-初三二模数学-试卷及解析/word/word_extract_1785001933551758000/pages/002.png
+    prompt: []
+    official_solution:
+      start_anchor: "\u3010\u7b54\u6848\u3011B"
+      end_anchor: "\u3010\u7b54\u6848\u3011C"
+      word_evidence:
+      - page_number: 2
+        page_image: documents/初三/2026届-上海市松江区-初三二模数学-试卷及解析/word/word_extract_1785001933551758000/pages/002.png
+    block:
+      stem_latex: "下列关于$x$的方程中，不论$a$取什么实数值，一定有实数根的是（\\quad）"
+      choices:
+      - "$ax^2+x+1=0$"
+      - "$x^2+ax-1=0$"
+      - "$x^2+ax+1=0$"
+      - "$x^2+x-a=0$"
+      answer: B
+      explanation: "官方参考答案：B。"
+      solution_steps:
+      - "A、对于方程$ax^2+x+1=0$，当$a=0$时，方程为$x+1=0$，有实数根$x=-1$；当$a\\neq 0$时，$\\Delta=1^2-4a=1-4a$，$\\Delta$不一定恒大于等于0，故方程不一定有实数根，故A不符合题意；"
+      - "B、对于方程$x^2+ax-1=0$，$\\Delta=a^2-4\\times1\\times(-1)=a^2+4$，而对任意实数$a$，都有$a^2\\geq 0$，故$\\Delta=a^2+4>0$恒成立，不论$a$取何实数值，方程都有实数根，故B符合题意；"
+      - "C、对于方程$x^2+ax+1=0$，$\\Delta=a^2-4\\times1\\times1=a^2-4$，$\\Delta$不一定恒大于等于0，故方程不一定有实数根，故C不符合题意；"
+      - "D、对于方程$x^2+x-a=0$，$\\Delta=1^2-4\\times1\\times(-a)=1+4a$，$\\Delta$不一定恒大于等于0，故方程不一定有实数根，故D不符合题意。"
+      clue: "利用$\\Delta=b^2-4ac$判断方程是否对任意实数$a$恒有实数根，若$\\Delta\\geq 0$对任意$a$恒成立，则符合要求。"
+  - item_id: Q003
+    question_number: 3
+    question_type: choice
+    points: 4
+    question_word_evidence:
+    - page_number: 3
+      page_image: documents/初三/2026届-上海市松江区-初三二模数学-试卷及解析/word/word_extract_1785001933551758000/pages/003.png
+    prompt: []
+    official_solution:
+      start_anchor: "\u3010\u7b54\u6848\u3011C"
+      end_anchor: "\u3010\u7b54\u6848\u3011C"
+      word_evidence:
+      - page_number: 3
+        page_image: documents/初三/2026届-上海市松江区-初三二模数学-试卷及解析/word/word_extract_1785001933551758000/pages/003.png
+    block:
+      stem_latex: "下列函数中，$y$是$x$的反比例函数的是（\\quad）"
+      choices:
+      - "$y=x^2$"
+      - "$y=\\dfrac{1}{x+2}$"
+      - "$y=\\dfrac{2}{x}$"
+      - "$y=\\dfrac{x}{2}$"
+      answer: C
+      explanation: "官方参考答案：C。"
+      solution_steps:
+      - "A、$y=x^2$是二次函数，不符合反比例函数定义，该选项不符合题意；"
+      - "B、$y=\\dfrac{1}{x+2}$的分母不是$x$的单项式，不符合反比例函数定义，该选项不符合题意；"
+      - "C、$y=\\dfrac{2}{x}$，符合反比例函数定义，该选项符合题意；"
+      - "D、$y=\\dfrac{x}{2}$是正比例函数，不符合反比例函数定义，该选项不符合题意。"
+      clue: "根据反比例函数的定义，逐一判断各选项即可得出结论。"
+  - item_id: Q004
+    question_number: 4
+    question_type: choice
+    points: 4
+    question_word_evidence:
+    - page_number: 3
+      page_image: documents/初三/2026届-上海市松江区-初三二模数学-试卷及解析/word/word_extract_1785001933551758000/pages/003.png
+    prompt: []
+    official_solution:
+      start_anchor: "\u3010\u7b54\u6848\u3011C"
+      end_anchor: "\u3010\u7b54\u6848\u3011A"
+      word_evidence:
+      - page_number: 3
+        page_image: documents/初三/2026届-上海市松江区-初三二模数学-试卷及解析/word/word_extract_1785001933551758000/pages/003.png
+    block:
+      stem_latex: "已知数据：$x_1$，$x_2$，$\\cdots$，$x_n$的平均数是$m$，方差是$n$，那么数据$x_1+2$，$x_2+2$，$\\cdots$，$x_n+2$的平均数和方差分别是（\\quad）"
+      choices:
+      - "$m$，$n$"
+      - "$m$，$n+2$"
+      - "$m+2$，$n$"
+      - "$m+2$，$n+2$"
+      answer: C
+      explanation: "官方参考答案：C。"
+      solution_steps:
+      - "数据$x_1$，$x_2$，$\\cdots$，$x_n$的平均数是$m$，方差是$n$，"
+      - "$\\therefore\\dfrac{x_1+x_2+\\cdots+x_n}{n}=m$，即$x_1+x_2+\\cdots+x_n=mn$，$\\dfrac{(x_1-m)^2+(x_2-m)^2+\\cdots+(x_n-m)^2}{n}=n$，"
+      - "那么数据$x_1+2$，$x_2+2$，$\\cdots$，$x_n+2$的平均数为：$\\dfrac{(x_1+2)+(x_2+2)+\\cdots+(x_n+2)}{n}=\\dfrac{(x_1+x_2+\\cdots+x_n)+2n}{n}=\\dfrac{mn+2n}{n}=m+2$；"
+      - "方差为：$\\dfrac{[x_1+2-(m+2)]^2+[x_2+2-(m+2)]^2+\\cdots+[x_n+2-(m+2)]^2}{n}=\\dfrac{(x_1-m)^2+(x_2-m)^2+\\cdots+(x_n-m)^2}{n}=n$。"
+      clue: "根据方差和平均数的计算公式求解即可。"
+  - item_id: Q005
+    question_number: 5
+    question_type: choice
+    points: 4
+    question_word_evidence:
+    - page_number: 4
+      page_image: documents/初三/2026届-上海市松江区-初三二模数学-试卷及解析/word/word_extract_1785001933551758000/pages/004.png
+    prompt: []
+    official_solution:
+      start_anchor: "\u3010\u7b54\u6848\u3011A"
+      end_anchor: "\u3010\u7b54\u6848\u3011B"
+      word_evidence:
+      - page_number: 4
+        page_image: documents/初三/2026届-上海市松江区-初三二模数学-试卷及解析/word/word_extract_1785001933551758000/pages/004.png
+    block:
+      stem_latex: "已知命题：\\textcircled{1}垂直于弦的直径平分这条弦；\\textcircled{2}平分弦的直径垂直于这条弦，下列对这两个命题的判断，正确的是（\\quad）"
+      choices:
+      - "\\textcircled{1}是真命题，\\textcircled{2}是假命题"
+      - "\\textcircled{1}是假命题，\\textcircled{2}是真命题"
+      - "\\textcircled{1}和\\textcircled{2}都是真命题"
+      - "\\textcircled{1}和\\textcircled{2}都是假命题"
+      answer: A
+      explanation: "官方参考答案：A。"
+      solution_steps:
+      - "根据垂径定理，垂直于弦的直径平分这条弦，因此命题\\textcircled{1}是真命题；"
+      - "对于命题\\textcircled{2}，当被平分的弦是直径时，任意两条直径互相平分，但不一定垂直，该命题缺少\u201c被平分的弦不是直径\u201d的条件，因此命题\\textcircled{2}是假命题，"
+      - "综上，\\textcircled{1}是真命题，\\textcircled{2}是假命题。"
+      clue: "根据垂径定理及其推论求解即可。"
+  - item_id: Q006
+    question_number: 6
+    question_type: choice
+    points: 4
+    question_word_evidence:
+    - page_number: 5
+      page_image: documents/初三/2026届-上海市松江区-初三二模数学-试卷及解析/word/word_extract_1785001933551758000/pages/005.png
+    prompt:
+    - source: documents/初三/2026届-上海市松江区-初三二模数学-试卷及解析/word/word_extract_1785001933551758000/media/image160.png
+      box_px: [0, 0, 2501, 2029]
+      width: 80mm
+    official_solution:
+      start_anchor: "\u3010\u7b54\u6848\u3011B"
+      end_anchor: "二、填空题"
+      word_evidence:
+      - page_number: 5
+        page_image: documents/初三/2026届-上海市松江区-初三二模数学-试卷及解析/word/word_extract_1785001933551758000/pages/005.png
+    block:
+      stem_latex: "如图，已知$\\triangle ABC$中，$\\angle BAC=90^\\circ$，$AB=AC=3\\sqrt{2}$，半径为1的$\\odot O$经过点$A$，且在边$AB$、$AC$上截得的弦长相等，点$P$在边$BC$上，如果以$PB$为半径的$\\odot P$与$\\odot O$相交，那么$PB$的长可能是（\\quad）"
+      choices:
+      - "1"
+      - "2"
+      - "3"
+      - "4"
+      answer: B
+      explanation: "官方参考答案：B。"
+      solution_steps:
+      - "过点$O$分别作$OD\\perp AB$，$OE\\perp AC$，垂足为点$D$，$E$，延长$AO$交$BC$于点$F$，"
+      - "$\\therefore OD=OE$，"
+      - "$\\therefore AO$平分$\\angle BAC$，"
+      - "$\\because AB=AC$，"
+      - "$\\therefore AF\\perp BC$，$BF=CF=\\dfrac{1}{2}BC$，"
+      - "$\\because \\angle BAC=90^\\circ$，$AB=AC=3\\sqrt{2}$，"
+      - "$\\therefore BC=\\sqrt{2}AB=6$，"
+      - "$\\therefore BF=CF=AF=3$，"
+      - "当$\\odot P$与$\\odot O$外切时，连接$OP$，设$BP=x$，则$OP=1+x$，$FP=3-x$，$OF=3-1=2$，"
+      - "在$\\mathrm{Rt}\\triangle OPF$中，由勾股定理得，$OF^2+PF^2=OP^2$，"
+      - "$\\therefore 2^2+(3-x)^2=(x+1)^2$，解得$x=\\dfrac{3}{2}$；"
+      - "当$\\odot P$与$\\odot O$内切时，连接$OP$，设$BP=x$，则$OP=x-1$，$FP=x-3$，$OF=3-1=2$，"
+      - "在$\\mathrm{Rt}\\triangle OPF$中，由勾股定理得，$OF^2+PF^2=OP^2$，"
+      - "$\\therefore 2^2+(x-3)^2=(x-1)^2$，解得$x=3$；"
+      - "$\\therefore \\odot P$与$\\odot O$相交时，$\\dfrac{3}{2}<x<3$，"
+      - "$\\therefore$ B符合题意。"
+      clue: "过点$O$分别作$OD\\perp AB$，$OE\\perp AC$，延长$AO$交$BC$于点$F$，由等腰三角形性质得$AF\\perp BC$，$BF=CF=AF=3$，再找到外切和内切时的临界位置，根据勾股定理建立方程求解。"
+- id: fillin
+  title: 二、填空题（本大题共12题，每题4分，满分48分）
+  items:
+  - item_id: Q007
+    question_number: 7
+    question_type: short_answer
+    points: 4
+    question_word_evidence:
+    - page_number: 7
+      page_image: documents/初三/2026届-上海市松江区-初三二模数学-试卷及解析/word/word_extract_1785001933551758000/pages/007.png
+    prompt: []
+    official_solution:
+      start_anchor: "\u3010\u7b54\u6848\u3011"
+      end_anchor: "\u3010\u7b54\u6848\u3011"
+      word_evidence:
+      - page_number: 7
+        page_image: documents/初三/2026届-上海市松江区-初三二模数学-试卷及解析/word/word_extract_1785001933551758000/pages/007.png
+    block:
+      stem_latex: "不等式组$\\begin{cases}2x+2\\geq 0\\\\4x<3x+2\\end{cases}$的解集是______。"
+      answer: "$-1\\leq x<2$"
+      explanation: "官方参考答案：$-1\\leq x<2$。"
+      solution_steps:
+      - "解不等式$2x+2\\geq 0$，移项得$2x\\geq -2$，系数化为1得：$x\\geq -1$，"
+      - "解不等式$4x<3x+2$，移项合并同类项得：$x<2$，"
+      - "$\\therefore$ 不等式组的解集为$-1\\leq x<2$。"
+      clue: "本题考查一元一次不等式组的解法。分别求出每一个不等式的解集，根据解集确定口诀：同大取大，同小取小，大小小大中间找，大大小小无解，确定不等式组的公共解集即可。"
+  - item_id: Q008
+    question_number: 8
+    question_type: short_answer
+    points: 4
+    question_word_evidence:
+    - page_number: 7
+      page_image: documents/初三/2026届-上海市松江区-初三二模数学-试卷及解析/word/word_extract_1785001933551758000/pages/007.png
+    prompt: []
+    official_solution:
+      start_anchor: "\u3010\u7b54\u6848\u3011"
+      end_anchor: "\u3010\u7b54\u6848\u3011"
+      word_evidence:
+      - page_number: 7
+        page_image: documents/初三/2026届-上海市松江区-初三二模数学-试卷及解析/word/word_extract_1785001933551758000/pages/007.png
+    block:
+      stem_latex: "分解因式：$x^2-2xy+y^2-1=$______。"
+      answer: "$(x-y+1)(x-y-1)$"
+      explanation: "官方参考答案：$(x-y+1)(x-y-1)$。"
+      solution_steps:
+      - "$x^2-2xy+y^2-1$"
+      - "$=(x^2-2xy+y^2)-1$"
+      - "$=(x-y)^2-1^2$"
+      - "$=(x-y+1)(x-y-1)$。"
+      clue: "先分组，然后将前三项利用完全平方公式分解，得到一个整体的平方，再利用平方差公式继续分解即可。"
+  - item_id: Q009
+    question_number: 9
+    question_type: short_answer
+    points: 4
+    question_word_evidence:
+    - page_number: 8
+      page_image: documents/初三/2026届-上海市松江区-初三二模数学-试卷及解析/word/word_extract_1785001933551758000/pages/008.png
+    prompt: []
+    official_solution:
+      start_anchor: "\u3010\u7b54\u6848\u3011"
+      end_anchor: "\u3010\u7b54\u6848\u3011"
+      word_evidence:
+      - page_number: 8
+        page_image: documents/初三/2026届-上海市松江区-初三二模数学-试卷及解析/word/word_extract_1785001933551758000/pages/008.png
+    block:
+      stem_latex: "函数$y=\\dfrac{1}{2x-1}$的定义域是______。"
+      answer: "$x\\neq \\dfrac{1}{2}$"
+      explanation: "官方参考答案：$x\\neq \\dfrac{1}{2}$。"
+      solution_steps:
+      - "根据题意得：$2x-1\\neq 0$，"
+      - "解得：$x\\neq \\dfrac{1}{2}$。"
+      - "故答案为：$x\\neq \\dfrac{1}{2}$。"
+      clue: "由于函数解析式是分式，则要求分母不为零，则可求得自变量的取值范围即函数的定义域。"
+  - item_id: Q010
+    question_number: 10
+    question_type: short_answer
+    points: 4
+    question_word_evidence:
+    - page_number: 8
+      page_image: documents/初三/2026届-上海市松江区-初三二模数学-试卷及解析/word/word_extract_1785001933551758000/pages/008.png
+    prompt: []
+    official_solution:
+      start_anchor: "\u3010\u7b54\u6848\u3011"
+      end_anchor: "\u3010\u7b54\u6848\u3011"
+      word_evidence:
+      - page_number: 9
+        page_image: documents/初三/2026届-上海市松江区-初三二模数学-试卷及解析/word/word_extract_1785001933551758000/pages/009.png
+    block:
+      stem_latex: "统计数据显示，截至2026年3月30日，电影《飞驰人生3》的票房总收入约为44亿元。如果该电影的平均票价是每张40元，那么售出的电影票大约______张。（用科学记数法表示）"
+      answer: "$1.1\\times 10^8$"
+      explanation: "官方参考答案：$1.1\\times 10^8$。"
+      solution_steps:
+      - "44亿元$=4400000000$元$=4.4\\times 10^9$元，"
+      - "根据题意计算售出电影票的张数：$\\dfrac{4.4\\times 10^9}{40}=1.1\\times 10^8$。"
+      clue: "先将总票房统一单位为元，再根据售票张数等于总票房除以平均票价计算结果，最后将结果用科学记数法表示即可。"
+  - item_id: Q011
+    question_number: 11
+    question_type: short_answer
+    points: 4
+    question_word_evidence:
+    - page_number: 9
+      page_image: documents/初三/2026届-上海市松江区-初三二模数学-试卷及解析/word/word_extract_1785001933551758000/pages/009.png
+    prompt:
+    - source: documents/初三/2026届-上海市松江区-初三二模数学-试卷及解析/word/word_extract_1785001933551758000/media/image140.png
+      box_px: [0, 0, 1404, 1100]
+      width: 80mm
+    official_solution:
+      start_anchor: "\u3010\u7b54\u6848\u3011"
+      end_anchor: "\u3010\u7b54\u6848\u3011"
+      word_evidence:
+      - page_number: 9
+        page_image: documents/初三/2026届-上海市松江区-初三二模数学-试卷及解析/word/word_extract_1785001933551758000/pages/009.png
+    block:
+      stem_latex: "如图，正五边形与正方形的两邻边相交，如果$\\angle \\alpha=110^\\circ$，那么$\\angle \\beta=$______$^\\circ$。"
+      answer: "52"
+      explanation: "官方参考答案：52。"
+      solution_steps:
+      - "根据题意得，$\\angle A=\\dfrac{180^\\circ\\times(4-2)}{4}=90^\\circ$，$\\angle B=\\dfrac{180^\\circ\\times(5-2)}{5}=108^\\circ$，"
+      - "$\\therefore \\angle ADB+\\angle ACB+\\angle A+\\angle B=360^\\circ$，$\\angle ACB=\\angle \\alpha=110^\\circ$，"
+      - "$\\therefore \\angle ADB=360^\\circ-110^\\circ-90^\\circ-108^\\circ=52^\\circ$，"
+      - "$\\therefore \\angle \\beta=\\angle ADB=52^\\circ$。"
+      clue: "先根据正多边形每个内角为$\\dfrac{180^\\circ(n-2)}{n}$得到正五边形和正方形每个内角的度数，再结合四边形的内角和以及对顶角的性质可得答案。"
+  - item_id: Q012
+    question_number: 12
+    question_type: short_answer
+    points: 4
+    question_word_evidence:
+    - page_number: 10
+      page_image: documents/初三/2026届-上海市松江区-初三二模数学-试卷及解析/word/word_extract_1785001933551758000/pages/010.png
+    prompt: []
+    official_solution:
+      start_anchor: "\u3010\u7b54\u6848\u3011"
+      end_anchor: "\u3010\u7b54\u6848\u3011"
+      word_evidence:
+      - page_number: 10
+        page_image: documents/初三/2026届-上海市松江区-初三二模数学-试卷及解析/word/word_extract_1785001933551758000/pages/010.png
+    block:
+      stem_latex: "现有三张卡片，上面分别写着2、3、6，随机选择其中的两张，较大数能被较小数整除的概率是______。"
+      answer: "$\\dfrac{2}{3}$"
+      explanation: "官方参考答案：$\\dfrac{2}{3}$。"
+      solution_steps:
+      - "根据题意，从写有2，3，6的三张卡片中随机抽取两张，所有等可能的结果为：$(2,3)$，$(2,6)$，$(3,6)$，共3种等可能的结果，"
+      - "其中较大数能被较小数整除的结果有：$(2,6)$，$(3,6)$，共2种，"
+      - "根据概率公式，可得所求概率为$\\dfrac{2}{3}$。"
+      clue: "先列举出随机抽取两张卡片所有等可能的结果，再找出其中满足较大数能被较小数整除的结果个数，最后根据概率公式计算即可。"
+  - item_id: Q013
+    question_number: 13
+    question_type: short_answer
+    points: 4
+    question_word_evidence:
+    - page_number: 10
+      page_image: documents/初三/2026届-上海市松江区-初三二模数学-试卷及解析/word/word_extract_1785001933551758000/pages/010.png
+    prompt:
+    - source: documents/初三/2026届-上海市松江区-初三二模数学-试卷及解析/word/word_extract_1785001933551758000/media/image144.png
+      box_px: [0, 0, 1404, 1207]
+      width: 60mm
+    official_solution:
+      start_anchor: "\u3010\u7b54\u6848\u3011"
+      end_anchor: "\u3010\u7b54\u6848\u3011"
+      word_evidence:
+      - page_number: 11
+        page_image: documents/初三/2026届-上海市松江区-初三二模数学-试卷及解析/word/word_extract_1785001933551758000/pages/011.png
+    block:
+      stem_latex: "如图，已知点$G$是$\\triangle ABC$的重心，如果$\\overrightarrow{AB}=\\vec{a}$，$\\overrightarrow{BC}=\\vec{b}$，那么$\\overrightarrow{AG}=$______。（结果含$a$、$b$的式子表示）"
+      answer: "$\\dfrac{2}{3}\\vec{a}+\\dfrac{1}{3}\\vec{b}$"
+      explanation: "官方参考答案：$\\dfrac{2}{3}\\vec{a}+\\dfrac{1}{3}\\vec{b}$。"
+      solution_steps:
+      - "延长$AG$交$BC$于点$D$，"
+      - "$\\because$ 点$G$是$\\triangle ABC$的重心，$\\overrightarrow{BC}=\\vec{b}$，"
+      - "$\\therefore AD$是$\\triangle ABC$的中线，"
+      - "$\\therefore \\overrightarrow{BD}=\\dfrac{1}{2}\\overrightarrow{BC}=\\dfrac{1}{2}\\vec{b}$，"
+      - "又$\\overrightarrow{AB}=\\vec{a}$，"
+      - "$\\therefore \\overrightarrow{AD}=\\vec{a}+\\dfrac{1}{2}\\vec{b}$，"
+      - "$\\because$ 点$G$是$\\triangle ABC$的重心，"
+      - "$\\therefore \\overrightarrow{AG}=2\\overrightarrow{GD}$，"
+      - "$\\therefore \\overrightarrow{AG}=\\dfrac{2}{3}\\left(\\vec{a}+\\dfrac{1}{2}\\vec{b}\\right)=\\dfrac{2}{3}\\vec{a}+\\dfrac{1}{3}\\vec{b}$。"
+      clue: "延长$AG$交$BC$于点$D$，先求出$\\overrightarrow{BD}$，再利用三角形法则求出$\\overrightarrow{AD}$，然后利用三角形重心的性质求解即可。"
+  - item_id: Q014
+    question_number: 14
+    question_type: short_answer
+    points: 4
+    question_word_evidence:
+    - page_number: 12
+      page_image: documents/初三/2026届-上海市松江区-初三二模数学-试卷及解析/word/word_extract_1785001933551758000/pages/012.png
+    prompt: []
+    official_solution:
+      start_anchor: "\u3010\u7b54\u6848\u3011"
+      end_anchor: "\u3010\u7b54\u6848\u3011"
+      word_evidence:
+      - page_number: 12
+        page_image: documents/初三/2026届-上海市松江区-初三二模数学-试卷及解析/word/word_extract_1785001933551758000/pages/012.png
+    block:
+      stem_latex: "小明准备去距离学校10千米的博物馆，已知汽车的速度比骑自行车的速度快30千米/小时，乘汽车去比骑自行车去可以早$\\dfrac{3}{4}$小时到达。设骑自行车的速度为$x$千米/小时，可列方程为______。"
+      answer: "$\\dfrac{10}{x}-\\dfrac{10}{x+30}=\\dfrac{3}{4}$"
+      explanation: "官方参考答案：$\\dfrac{10}{x}-\\dfrac{10}{x+30}=\\dfrac{3}{4}$。"
+      solution_steps:
+      - "设骑自行车的速度为$x$千米/小时，"
+      - "$\\because$ 汽车的速度比骑自行车的速度快30千米/小时，"
+      - "$\\therefore$ 汽车的速度为$(x+30)$千米/小时。"
+      - "$\\because$ 路程为10千米，"
+      - "$\\therefore$ 骑自行车所需时间为$\\dfrac{10}{x}$小时，乘汽车所需时间为$\\dfrac{10}{x+30}$小时。"
+      - "根据题意，乘汽车去比骑自行车去可以早$\\dfrac{3}{4}$小时到达，"
+      - "即骑自行车的时间减去乘汽车的时间等于$\\dfrac{3}{4}$小时，"
+      - "$\\therefore$ 可列方程为$\\dfrac{10}{x}-\\dfrac{10}{x+30}=\\dfrac{3}{4}$。"
+      clue: "设骑自行车的速度为$x$千米/小时，则汽车的速度为$(x+30)$千米/小时，根据时间=路程$\\div$速度，分别表示出骑自行车和乘汽车所需的时间，再根据乘汽车比骑自行车早到$\\dfrac{3}{4}$小时列出方程即可。"
+  - item_id: Q015
+    question_number: 15
+    question_type: short_answer
+    points: 4
+    question_word_evidence:
+    - page_number: 13
+      page_image: documents/初三/2026届-上海市松江区-初三二模数学-试卷及解析/word/word_extract_1785001933551758000/pages/013.png
+    prompt: []
+    official_solution:
+      start_anchor: "\u3010\u7b54\u6848\u3011"
+      end_anchor: "\u3010\u7b54\u6848\u3011"
+      word_evidence:
+      - page_number: 13
+        page_image: documents/初三/2026届-上海市松江区-初三二模数学-试卷及解析/word/word_extract_1785001933551758000/pages/013.png
+    block:
+      stem_latex: "为了解某年级学生每周课外阅读时长，随机抽取部分学生进行调查，并绘制了如图所示的频数分布直方图（每组数据含最小值，不含最大值）。如果该年级有600名学生，估计该年级平均每周阅读时长不少于6小时的学生约有______名。"
+      answer: "168"
+      explanation: "官方参考答案：168。"
+      solution_steps:
+      - "由频数分布直方图可得，抽取的样本容量为：$4+12+20+10+4=50$"
+      - "样本中平均每周阅读时长不少于6小时的学生频数为：$10+4=14$（人）"
+      - "样本中对应频率为：$\\dfrac{14}{50}=\\dfrac{7}{25}$"
+      - "因此估计该年级符合条件的学生人数为：$600\\times\\dfrac{7}{25}=168$（人）。"
+      clue: "先求出样本中平均每周阅读时长不少于6小时的学生的频率，再用年级总人数乘以对应频率得到估计结果。"
+  - item_id: Q016
+    question_number: 16
+    question_type: short_answer
+    points: 4
+    question_word_evidence:
+    - page_number: 14
+      page_image: documents/初三/2026届-上海市松江区-初三二模数学-试卷及解析/word/word_extract_1785001933551758000/pages/014.png
+    prompt: []
+    official_solution:
+      start_anchor: "\u3010\u7b54\u6848\u3011"
+      end_anchor: "\u3010\u7b54\u6848\u3011"
+      word_evidence:
+      - page_number: 14
+        page_image: documents/初三/2026届-上海市松江区-初三二模数学-试卷及解析/word/word_extract_1785001933551758000/pages/014.png
+    block:
+      stem_latex: "一个水池的容积是90m$^3$，水池内蓄有一定量的水，现在保持一定的速度向水池中蓄水，1小时后水池的水量是15m$^3$，5小时后水池的水量是35m$^3$，那么8小时后水池的水量是______m$^3$。"
+      answer: "50"
+      explanation: "官方参考答案：50。"
+      solution_steps:
+      - "设水池内原有的水量为$x$，则1小时注入水量为$(15-x)$，"
+      - "$5(15-x)+x=35$"
+      - "解得$x=10$，"
+      - "8小时后水池的水量是$8\\times(15-10)+10=50$（m$^3$）。"
+      clue: "设水池内原有的水量为$x$，则1小时注入水量为$(15-x)$，根据题意列方程求出$x=10$，再计算8小时后水池的水量即可。"
+  - item_id: Q017
+    question_number: 17
+    question_type: short_answer
+    points: 4
+    question_word_evidence:
+    - page_number: 14
+      page_image: documents/初三/2026届-上海市松江区-初三二模数学-试卷及解析/word/word_extract_1785001933551758000/pages/014.png
+    prompt: []
+    official_solution:
+      start_anchor: "\u3010\u7b54\u6848\u3011"
+      end_anchor: "\u3010\u7b54\u6848\u3011"
+      word_evidence:
+      - page_number: 14
+        page_image: documents/初三/2026届-上海市松江区-初三二模数学-试卷及解析/word/word_extract_1785001933551758000/pages/014.png
+    block:
+      stem_latex: "已知$\\triangle ABC$中，$\\angle ACB=90^\\circ$，$AC=6$，$BC=8$，点$P$、$Q$分别在边$AB$、$BC$上，如果$\\triangle ACP$是以$AP$为腰的等腰三角形，且$CP\\perp PQ$，那么$PQ$的长是______。"
+      answer: "$\\dfrac{15}{4}$或$\\dfrac{6\\sqrt{5}}{5}$"
+      explanation: "官方参考答案：$\\dfrac{15}{4}$或$\\dfrac{6\\sqrt{5}}{5}$。"
+      solution_steps:
+      - "在$\\triangle ABC$中，$\\angle ACB=90^\\circ$，$AC=6$，$BC=8$，"
+      - "$\\therefore$ 由勾股定理得：$AB=\\sqrt{AC^2+BC^2}=\\sqrt{6^2+8^2}=10$，"
+      - "当$PA=PC$时，"
+      - "$\\therefore \\angle A=\\angle 1$，"
+      - "$\\because \\angle ACB=90^\\circ$，"
+      - "$\\therefore \\angle 1+\\angle 2=90^\\circ$，$\\angle A+\\angle B=90^\\circ$，"
+      - "$\\therefore \\angle B=\\angle 2$，"
+      - "$\\therefore PC=PB$，"
+      - "$\\therefore PA=PB=PC=\\dfrac{1}{2}AB=5$，"
+      - "$\\because \\angle B=\\angle 2$，$\\tan\\angle 2=\\tan\\angle B$，"
+      - "$\\because CP\\perp PQ$，"
+      - "$\\therefore \\dfrac{AC}{BC}=\\dfrac{PQ}{PC}$，"
+      - "$\\therefore \\dfrac{6}{8}=\\dfrac{PQ}{5}$，"
+      - "$\\therefore PQ=\\dfrac{15}{4}$；"
+      - "当$AP=AC=6$时，则$BP=AB-AP=4$，过点$A$作$AG\\perp CP$于点$G$，"
+      - "$\\therefore \\angle 1=\\angle 4$，"
+      - "$\\because \\angle ACB=90^\\circ$，$CP\\perp PQ$，"
+      - "$\\therefore \\angle 1+\\angle 2=90^\\circ$，$\\angle 3+\\angle 4=90^\\circ$，"
+      - "$\\therefore \\angle 2=\\angle 3$，"
+      - "$\\because \\angle B=\\angle B$，"
+      - "$\\therefore \\triangle BPQ\\sim\\triangle BCP$，"
+      - "$\\therefore \\dfrac{BP}{BC}=\\dfrac{BQ}{BP}=\\dfrac{PQ}{CP}$，"
+      - "$\\therefore BP^2=BQ\\times BC$，即$4^2=8BQ$，"
+      - "解得$BQ=2$，"
+      - "$\\therefore CQ=8-2=6$，$\\dfrac{2}{4}=\\dfrac{PQ}{CP}=\\dfrac{1}{2}$，"
+      - "设$PQ=x$，$CP=2x$，"
+      - "在$\\mathrm{Rt}\\triangle CPQ$中，由勾股定理得，$x^2+(2x)^2=6^2$，"
+      - "解得$x=\\dfrac{6\\sqrt{5}}{5}$（舍负），"
+      - "$\\therefore PQ=\\dfrac{6\\sqrt{5}}{5}$"
+      - "综上所述，$PQ$的长为$\\dfrac{15}{4}$或$\\dfrac{6\\sqrt{5}}{5}$。"
+      clue: "先由勾股定理求出$AB$的长度，根据$\\triangle ACP$是以$AP$为腰的等腰三角形，分$AP=AC$和$AP=PC$两种情况讨论，利用相似三角形的判定与性质以及解直角三角形进行求解即可。"
+  - item_id: Q018
+    question_number: 18
+    question_type: short_answer
+    points: 4
+    question_word_evidence:
+    - page_number: 17
+      page_image: documents/初三/2026届-上海市松江区-初三二模数学-试卷及解析/word/word_extract_1785001933551758000/pages/017.png
+    prompt: []
+    official_solution:
+      start_anchor: "\u3010\u7b54\u6848\u3011"
+      end_anchor: "\u3010\u7b54\u6848\u3011"
+      word_evidence:
+      - page_number: 17
+        page_image: documents/初三/2026届-上海市松江区-初三二模数学-试卷及解析/word/word_extract_1785001933551758000/pages/017.png
+    block:
+      stem_latex: "联结抛物线上任意两点的线段叫做抛物线的弦。如果抛物线的一条弦$AB$与抛物线的对称轴垂直，垂足为点$C$，抛物线的顶点为$D$，当$AB=4CD$时，$AB$的长称为这条抛物线的特征值。我们知道，平移不改变抛物线的特征值，那么抛物线$y=3x^2-2x+1$的特征值是______。"
+      answer: "$\\dfrac{1}{3}$"
+      explanation: "官方参考答案：$\\dfrac{1}{3}$。"
+      solution_steps:
+      - "$\\because$ 平移不改变抛物线的特征值，"
+      - "$\\therefore$ 抛物线$y=3x^2-2x+1$的特征值即为抛物线$y=3x^2$的特征值，"
+      - "此时抛物线$y=3x^2$的对称轴为$y$轴，"
+      - "$\\because AB=4CD$，$AB\\perp y$轴，"
+      - "$\\therefore AB=2BC=4CD$，即$BC=2CD$"
+      - "设$BC=m$，则$CD=\\dfrac{1}{2}m$，"
+      - "$\\therefore B\\left(m,\\dfrac{1}{2}m\\right)$，"
+      - "将点$B\\left(m,\\dfrac{1}{2}m\\right)$代入$y=3x^2$，则$3m^2=\\dfrac{1}{2}m$，"
+      - "解得$m=\\dfrac{1}{6}$或$m=0$（舍去）"
+      - "$\\therefore AB=2\\times\\dfrac{1}{6}=\\dfrac{1}{3}$。"
+      clue: "由于平移不改变抛物线的特征值，抛物线$y=3x^2-2x+1$的特征值即为抛物线$y=3x^2$的特征值，据此画出图象结合新定义求解即可。"
+- id: problem
+  title: 三、解答题（本大题共7题，满分78分）
+  items:
+  - item_id: Q019
+    question_number: 19
+    question_type: problem
+    points: 10
+    question_word_evidence:
+    - page_number: 18
+      page_image: documents/初三/2026届-上海市松江区-初三二模数学-试卷及解析/word/word_extract_1785001933551758000/pages/018.png
+    prompt: []
+    official_solution:
+      start_anchor: "\u3010\u7b54\u6848\u3011"
+      end_anchor: "\u3010\u7b54\u6848\u3011"
+      word_evidence:
+      - page_number: 19
+        page_image: documents/初三/2026届-上海市松江区-初三二模数学-试卷及解析/word/word_extract_1785001933551758000/pages/019.png
+    block:
+      stem_latex: "计算：$8^{\\frac{1}{3}}+(\\sqrt{2}-1)^{-1}-|1-\\sqrt{2}|-\\sqrt{18}$。"
+      answer: "$4-3\\sqrt{2}$"
+      explanation: "官方参考答案：$4-3\\sqrt{2}$。"
+      solution_steps:
+      - "原式$=2+(\\sqrt{2}+1)-(\\sqrt{2}-1)-3\\sqrt{2}$"
+      - "$=2+\\sqrt{2}+1-\\sqrt{2}+1-3\\sqrt{2}$"
+      - "$=4-3\\sqrt{2}$"
+      clue: "本题先分别化简原式中每一项，利用分数指数幂的定义、负指数幂的性质、绝对值的性质和二次根式的化简规则化简后，再合并同类项得到最终结果。"
+  - item_id: Q020
+    question_number: 20
+    question_type: problem
+    points: 10
+    question_word_evidence:
+    - page_number: 19
+      page_image: documents/初三/2026届-上海市松江区-初三二模数学-试卷及解析/word/word_extract_1785001933551758000/pages/019.png
+    prompt: []
+    official_solution:
+      start_anchor: "\u3010\u7b54\u6848\u3011"
+      end_anchor: "\u3010\u7b54\u6848\u3011"
+      word_evidence:
+      - page_number: 19
+        page_image: documents/初三/2026届-上海市松江区-初三二模数学-试卷及解析/word/word_extract_1785001933551758000/pages/019.png
+    block:
+      stem_latex: "解方程组：$\\begin{cases}x-y=3\\textcircled{1}\\\\x^2-xy-6y^2=0\\textcircled{2}\\end{cases}$"
+      answer: "$\\begin{cases}x_1=\\dfrac{9}{2}\\\\y_1=\\dfrac{3}{2}\\end{cases}$，$\\begin{cases}x_2=2\\\\y_2=-1\\end{cases}$"
+      explanation: "官方参考答案：$\\begin{cases}x_1=\\dfrac{9}{2}\\\\y_1=\\dfrac{3}{2}\\end{cases}$，$\\begin{cases}x_2=2\\\\y_2=-1\\end{cases}$。"
+      solution_steps:
+      - "由\\textcircled{2}得，$(x-3y)(x+2y)=0$，则$x-3y=0$或$x+2y=0$，"
+      - "再与\\textcircled{1}组成两个二元一次方程组，分别求解即可。"
+      - "解：$\\begin{cases}x-y=3\\textcircled{1}\\\\x^2-xy-6y^2=0\\textcircled{2}\\end{cases}$"
+      - "由\\textcircled{2}得，$(x-3y)(x+2y)=0$，则$x-3y=0$或$x+2y=0$"
+      - "$\\therefore$ 原方程组可化为$\\begin{cases}x-y=3\\\\x-3y=0\\end{cases}$或$\\begin{cases}x-y=3\\\\x+2y=0\\end{cases}$"
+      - "解第一个方程组得$\\begin{cases}x=\\dfrac{9}{2}\\\\y=\\dfrac{3}{2}\\end{cases}$；解第二个方程组得$\\begin{cases}x=2\\\\y=-1\\end{cases}$"
+      - "$\\therefore$ 原方程组的解为$\\begin{cases}x_1=\\dfrac{9}{2}\\\\y_1=\\dfrac{3}{2}\\end{cases}$，$\\begin{cases}x_2=2\\\\y_2=-1\\end{cases}$。"
+      clue: "由\\textcircled{2}得$(x-3y)(x+2y)=0$，则$x-3y=0$或$x+2y=0$，再与\\textcircled{1}组成两个二元一次方程组，分别求解即可。"
+  - item_id: Q021
+    question_number: 21
+    question_type: problem
+    points: 10
+    question_word_evidence:
+    - page_number: 20
+      page_image: documents/初三/2026届-上海市松江区-初三二模数学-试卷及解析/word/word_extract_1785001933551758000/pages/020.png
+    prompt:
+    - source: documents/初三/2026届-上海市松江区-初三二模数学-试卷及解析/word/word_extract_1785001933551758000/media/image140.png
+      box_px: [0, 0, 1404, 1100]
+      width: 80mm
+    official_solution:
+      start_anchor: "\u3010\u7b54\u6848\u3011"
+      end_anchor: "\u3010\u7b54\u6848\u3011"
+      word_evidence:
+      - page_number: 20
+        page_image: documents/初三/2026届-上海市松江区-初三二模数学-试卷及解析/word/word_extract_1785001933551758000/pages/020.png
+    block:
+      stem_latex: "如图，在$\\triangle ABC$中，$AB=AC=2\\sqrt{5}$，$\\tan B=2$。\\n（1）试用无刻度直尺和圆规，在直线$BC$上作出点$D$，使$\\triangle DAC\\sim\\triangle ABC$，点$D$、$A$、$C$的对应点分别是点$A$、$B$、$C$。（不必写作法，保留作图痕迹）\\n（2）在（1）的基础上，求线段$BD$的长。"
+      answer: "（1）见解析；（2）$BD=1$"
+      explanation: "官方参考答案：（1）见解析；（2）$BD=1$。"
+      solution_steps:
+      - "【小问1详解】"
+      - "解：如图所示，作$\\angle DAC=\\angle ABC$，与$CB$延长线交于点$D$，即为所求；"
+      - "$\\because \\angle DAC=\\angle ABC$，$\\angle DCA=\\angle ACB$，"
+      - "$\\therefore \\triangle DAC\\sim\\triangle ABC$；"
+      - "【小问2详解】"
+      - "解：如图所示，过点$A$作$AH\\perp BC$于$H$，"
+      - "$\\because AB=AC$，"
+      - "$\\therefore BH=HC$，"
+      - "设$BH=HC=x$，"
+      - "在$\\mathrm{Rt}\\triangle ABH$中，$\\because \\tan B=\\dfrac{AH}{BH}=2$，"
+      - "$\\therefore AH=2BH=2x$，"
+      - "根据勾股定理得，$AH^2+BH^2=AB^2$，"
+      - "即$(2x)^2+x^2=(2\\sqrt{5})^2$，"
+      - "解得$x=2$或$x=-2$（负值，舍去），"
+      - "$\\therefore BH=HC=2$，"
+      - "$\\therefore BC=BH+HC=4$，"
+      - "$\\because \\triangle DAC\\sim\\triangle ABC$，"
+      - "$\\therefore \\dfrac{AC}{BC}=\\dfrac{DC}{AC}$，即$\\dfrac{2\\sqrt{5}}{4}=\\dfrac{DC}{2\\sqrt{5}}$，"
+      - "解得$DC=5$，"
+      - "$\\therefore BD=DC-BC=5-4=1$。"
+      clue: "（1）以点$A$为顶点，$AC$为一边，作$\\angle DAC=\\angle ABC$，与$CB$延长线交于点$D$；（2）过点$A$作$AH\\perp BC$于$H$，根据等腰三角形三线合一得到$BH=HC$，在$\\mathrm{Rt}\\triangle ABH$中，由$\\tan B=2$，结合勾股定理列方程即可求得$BH$的长，再根据相似三角形的对应边成比例列式计算即可得到$DC$的长，最后根据线段和差关系即可得解。"
+  - item_id: Q022
+    question_number: 22
+    question_type: problem
+    points: 10
+    question_word_evidence:
+    - page_number: 22
+      page_image: documents/初三/2026届-上海市松江区-初三二模数学-试卷及解析/word/word_extract_1785001933551758000/pages/022.png
+    prompt: []
+    official_solution:
+      start_anchor: "\u3010\u7b54\u6848\u3011"
+      end_anchor: "\u3010\u7b54\u6848\u3011"
+      word_evidence:
+      - page_number: 23
+        page_image: documents/初三/2026届-上海市松江区-初三二模数学-试卷及解析/word/word_extract_1785001933551758000/pages/023.png
+    block:
+      stem_latex: "【问题提出】把一个长、宽分别为$a$、$b$（$b<a<4b$）的长方形（如图1），剪拼成一个正方形（拼接的时候无缝隙、不重叠，裁剪的损耗忽略不计）\\n【方案设计】某学习小组提出以下设计思考：\\n（1）根据剪拼前后图形面积不变，可知剪拼后正方形的边长为______。（用含$a$、$b$的代数式表示）\\n如图2，延长$BC$至点$E$，使$CE=b$，以$BE$为直径作半圆$O$。延长$CD$交$\\odot O$于点$F$，联结$BF$、$EF$，可得$\\angle BFE=90^\\circ$（后续说理如需用到这一结论，可直接使用），他们认为：\u201c就是所求正方形的边长\u201d；\\n如图3，以为边，在左侧作正方形$CFGH$，$BF$分别与$GH$、$AD$交于点$M$、$N$，沿虚线$BN$、$HM$裁剪，$\\triangle BHM$、$\\triangle ABN$可以通过适当的图形运动分别与$\\triangle NDF$、$\\triangle GMF$叠合，拼成正方形$CFGH$。\\n【论证说明】\\n（2）如图2，该学习小组认为：\u201c$CF$是所求正方形的边长\u201d，试说明理由；\\n（3）$\\triangle BHM$可以通过怎样的图形运动与$\\triangle NDF$叠合，并说明它们能够叠合的理由。"
+      answer: "（1）$\\sqrt{ab}$；（2）见解析；（3）$\\triangle BHM$可以通过平移运动与$\\triangle NDF$叠合，见解析"
+      explanation: "官方参考答案：（1）$\\sqrt{ab}$；（2）见解析；（3）$\\triangle BHM$可以通过平移运动与$\\triangle NDF$叠合，见解析。"
+      solution_steps:
+      - "【小问1详解】"
+      - "解：由题意得，矩形的面积为$ab$，"
+      - "$\\because$ 根据剪拼前后图形面积不变，"
+      - "$\\therefore$ 可知剪拼后正方形的边长为$\\sqrt{ab}$；"
+      - "【小问2详解】"
+      - "解：如图2，过点$O$作$OT\\perp BF$，则$\\angle OTB=90^\\circ$"
+      - "$\\because OT$经过圆心，"
+      - "$\\therefore TB=TF$，"
+      - "$\\because BO=OE$，"
+      - "$\\therefore OT\\parallel EF$，"
+      - "$\\therefore \\angle EFB=\\angle OTD=90^\\circ$，"
+      - "$\\because$ 矩形$ABCD$中，$\\angle DCB=90^\\circ$"
+      - "$\\therefore \\angle 1=\\angle 2=90^\\circ-\\angle BFC$，"
+      - "$\\therefore \\tan\\angle 1=\\tan\\angle 2$"
+      - "$\\therefore \\dfrac{CF}{BC}=\\dfrac{CE}{CF}$"
+      - "$\\therefore \\dfrac{CF}{a}=\\dfrac{b}{CF}$，"
+      - "解得$CF=\\sqrt{ab}$（舍负），"
+      - "$\\therefore CF$是所求正方形的边长；"
+      - "【小问3详解】"
+      - "解：$\\triangle BHM$可以通过平移运动与$\\triangle NDF$叠合，理由如下："
+      - "$\\because$ 矩形$ABCD$，正方形$CFGH$，"
+      - "$\\therefore AD\\parallel BC$，$\\angle C=\\angle GHC=90^\\circ$，$CH=CF=\\sqrt{ab}$，$GH\\parallel CD$"
+      - "$\\therefore \\angle FND=\\angle MBH$，$\\angle FDN=\\angle C=90^\\circ$，"
+      - "$\\therefore \\angle FDN=\\angle MHB=90^\\circ$"
+      - "$\\therefore \\triangle BHM\\sim\\triangle NDF$，"
+      - "$\\therefore \\dfrac{BH}{ND}=\\dfrac{BM}{NF}=\\dfrac{HM}{DF}$，"
+      - "$\\because GH\\parallel CD$"
+      - "$\\therefore \\triangle BHM\\sim\\triangle BCF$"
+      - "$\\therefore \\dfrac{BH}{BC}=\\dfrac{HM}{CF}$"
+      - "$\\therefore \\dfrac{a-\\sqrt{ab}}{a}=\\dfrac{HM}{\\sqrt{ab}}$"
+      - "解得$HM=\\sqrt{ab}-b$，"
+      - "$\\because DF=CF-CD=\\sqrt{ab}-b$"
+      - "$\\therefore DF=HM$，"
+      - "$\\therefore \\dfrac{BH}{ND}=\\dfrac{BM}{NF}=\\dfrac{HM}{DF}=1$，"
+      - "$\\therefore BH=ND$，$BM=NF$"
+      - "$\\therefore \\triangle BHM\\cong\\triangle NDF$（SSS）"
+      - "$\\therefore \\triangle BHM$可以通过平移运动与$\\triangle NDF$叠合。"
+      clue: "（1）根据剪拼前后图形面积不变，可知矩形和正方形的面积都是$ab$，即可求解边长；（2）过点$O$作$OT\\perp BF$，先证明$\\angle EFB=90^\\circ$，然后得到$\\angle 1=\\angle 2$，则$\\tan\\angle 1=\\tan\\angle 2$，据此求解即可；（3）先证明$\\triangle BHM\\sim\\triangle NDF$，再证明$\\triangle BHM\\sim\\triangle BCF$，求证$HM=DF$，即可得到$\\triangle BHM\\cong\\triangle NDF$。"
+  - item_id: Q023
+    question_number: 23
+    question_type: problem
+    points: 12
+    question_word_evidence:
+    - page_number: 26
+      page_image: documents/初三/2026届-上海市松江区-初三二模数学-试卷及解析/word/word_extract_1785001933551758000/pages/026.png
+    prompt: []
+    official_solution:
+      start_anchor: "\u3010\u7b54\u6848\u3011"
+      end_anchor: "\u3010\u7b54\u6848\u3011"
+      word_evidence:
+      - page_number: 26
+        page_image: documents/初三/2026届-上海市松江区-初三二模数学-试卷及解析/word/word_extract_1785001933551758000/pages/026.png
+    block:
+      stem_latex: "已知$AB$是半圆$O$的直径，弦$AC$、$BD$交于点$E$，$OC$与$BD$交于点$F$，满足$\\dfrac{DE}{BE}=\\dfrac{CE}{AE}=\\dfrac{1}{2}$。\\n（1）求证：$OC\\perp BD$；\\n（2）如图2，$M$是$OB$的中点，$CM$与$BD$交于点$G$，求证：四边形$CEOG$是菱形。"
+      answer: "（1）见解析；（2）见解析"
+      explanation: "官方参考答案：（1）见解析；（2）见解析。"
+      solution_steps:
+      - "【小问1详解】"
+      - "证明：$\\because \\dfrac{DE}{BE}=\\dfrac{CE}{AE}=\\dfrac{1}{2}$，$\\angle CED=\\angle AEB$，"
+      - "$\\therefore \\triangle CED\\sim\\triangle AEB$，"
+      - "$\\therefore \\dfrac{DE}{BE}=\\dfrac{CD}{AB}=\\dfrac{1}{2}$，$\\angle D=\\angle B$，"
+      - "$\\because AB$是半圆$O$的直径，"
+      - "$\\therefore \\dfrac{BO}{AB}=\\dfrac{1}{2}$，"
+      - "$\\therefore \\dfrac{CD}{AB}=\\dfrac{BO}{AB}$，"
+      - "$\\therefore CD=BO$，"
+      - "$\\because \\angle D=\\angle B$，$\\angle CFD=\\angle OFB$，"
+      - "$\\therefore \\triangle CFD\\cong\\triangle OFB$（AAS），"
+      - "$\\therefore DF=BF$，"
+      - "$\\because OC$经过圆心，"
+      - "$\\therefore OC\\perp BD$；"
+      - "【小问2详解】"
+      - "证明：$\\because M$是$OB$的中点，"
+      - "$\\therefore \\dfrac{OM}{OB}=\\dfrac{1}{2}$，"
+      - "$\\because OA=OB$，"
+      - "$\\therefore \\dfrac{OM}{OA}=\\dfrac{1}{2}$，即$\\dfrac{AO}{AM}=\\dfrac{2}{3}$，"
+      - "$\\because \\dfrac{CE}{AE}=\\dfrac{1}{2}$，"
+      - "$\\therefore \\dfrac{AE}{AC}=\\dfrac{2}{3}$，"
+      - "$\\therefore \\dfrac{AE}{AC}=\\dfrac{AO}{AM}$，"
+      - "$\\because \\angle EAO=\\angle CAM$，"
+      - "$\\therefore \\triangle EAO\\sim\\triangle CAM$，"
+      - "$\\therefore \\angle AEO=\\angle ACM$，"
+      - "$\\therefore OE\\parallel CM$，"
+      - "$\\therefore \\dfrac{CF}{OF}=\\dfrac{FG}{EF}$，"
+      - "由（1）知，$\\triangle CFD\\cong\\triangle OFB$，"
+      - "$\\therefore CF=OF$，"
+      - "$\\therefore FG=EF$，"
+      - "$\\therefore$ 四边形$CEOG$是平行四边形，"
+      - "$\\because OC\\perp BD$，即$OC\\perp EG$，"
+      - "$\\therefore$ 四边形$CEOG$是菱形。"
+      clue: "（1）先证明$\\triangle CED\\sim\\triangle AEB$，得到$CD=BO$，继而可证明$\\triangle CFD\\cong\\triangle OFB$（AAS），再由垂径定理的推论即可证明；（2）先证明$\\triangle EAO\\sim\\triangle CAM$，则$\\angle AEO=\\angle ACM$，故$OE\\parallel CM$，那么得到$\\dfrac{CF}{OF}=\\dfrac{FG}{EF}$，由（1）知$\\triangle CFD\\cong\\triangle OFB$，则$CF=OF$，那么$FG=EF$，即可得到四边形$CEOG$是平行四边形，再由对角线互相垂直即可证明菱形。"
+  - item_id: Q024
+    question_number: 24
+    question_type: problem
+    points: 12
+    question_word_evidence:
+    - page_number: 28
+      page_image: documents/初三/2026届-上海市松江区-初三二模数学-试卷及解析/word/word_extract_1785001933551758000/pages/028.png
+    prompt:
+    - source: documents/初三/2026届-上海市松江区-初三二模数学-试卷及解析/word/word_extract_1785001933551758000/media/image160.png
+      box_px: [0, 0, 2501, 2029]
+      width: 80mm
+    official_solution:
+      start_anchor: "\u3010\u7b54\u6848\u3011"
+      end_anchor: "\u3010\u7b54\u6848\u3011"
+      word_evidence:
+      - page_number: 29
+        page_image: documents/初三/2026届-上海市松江区-初三二模数学-试卷及解析/word/word_extract_1785001933551758000/pages/029.png
+    block:
+      stem_latex: "在平面直角坐标系$xOy$中，一次函数$y=\\dfrac{1}{2}x+2$与$x$轴交于点$A$，与$y$轴交于点$B$，$C$是直线$AB$上一点（不与点$A$重合），且$AB=BC$，抛物线$y=ax^2+bx-2$经过$A$、$C$两点。\\n（1）求抛物线的表达式；\\n（2）点$D$在抛物线上，且位于第一象限，如果四边形$OBCD$是梯形，求梯形$OBCD$的面积；\\n（3）点$P$、$Q$都在第三象限，其中点$P$在抛物线上，点$Q$在抛物线的对称轴上，如果$\\triangle APQ$与$\\triangle AOB$相似，且边$PQ$与边$OB$对应，求点$Q$的坐标。"
+      answer: "（1）$y=\\dfrac{1}{4}x^2+\\dfrac{1}{2}x-2$；（2）$4+2\\sqrt{2}$；（3）$Q(-1,-1)$，$Q(-1,8-2\\sqrt{19})$"
+      explanation: "官方参考答案：（1）$y=\\dfrac{1}{4}x^2+\\dfrac{1}{2}x-2$；（2）$4+2\\sqrt{2}$；（3）$Q(-1,-1)$，$Q(-1,8-2\\sqrt{19})$。"
+      solution_steps:
+      - "【小问1详解】"
+      - "解：由题可知，一次函数$y=\\dfrac{1}{2}x+2$与$x$轴交于点$A$，与$y$轴交于点$B$，"
+      - "则点$A(-4,0)$，$B(0,2)$，"
+      - "$\\because C$是直线$AB$上一点，且$AB=BC$，"
+      - "$\\therefore$ 点$B$是线段$AC$的中点，"
+      - "设点$C(m,n)$，"
+      - "$\\therefore$ 点$B\\left(\\dfrac{m+(-4)}{2},\\dfrac{n+0}{2}\\right)$，"
+      - "$\\therefore m=4$，$n=4$，"
+      - "$\\therefore$ 点$C(4,4)$，"
+      - "将点$C$，点$A$代入抛物线$y=ax^2+bx-2$"
+      - "得$\\begin{cases}16a+4b-2=4\\\\16a-4b-2=0\\end{cases}$"
+      - "解得：$\\begin{cases}a=\\dfrac{1}{4}\\\\b=\\dfrac{1}{2}\\end{cases}$"
+      - "则抛物线的表达式为：$y=\\dfrac{1}{4}x^2+\\dfrac{1}{2}x-2$，"
+      - "【小问2详解】"
+      - "解：由题可得图，"
+      - "$\\because$ 四边形$OBCD$是梯形，"
+      - "$\\therefore OD\\parallel AC$，"
+      - "$\\because O$为原点，"
+      - "则$OD$的直线解析式为：$y=\\dfrac{1}{2}x$，"
+      - "则联立函数得$\\begin{cases}y=\\dfrac{1}{2}x\\\\y=\\dfrac{1}{4}x^2+\\dfrac{1}{2}x-2\\end{cases}$，"
+      - "解得$\\begin{cases}x=2\\sqrt{2}\\\\y=\\sqrt{2}\\end{cases}$或$\\begin{cases}x=-2\\sqrt{2}\\\\y=-\\sqrt{2}\\end{cases}$，"
+      - "$\\because$ 点$D$在抛物线上，且位于第一象限，"
+      - "$\\therefore D(2\\sqrt{2},\\sqrt{2})$，"
+      - "过点$D$作$DE\\perp x$轴，过点$C$作$CF\\perp x$轴，"
+      - "$S_{\\text{梯形}OBCD}=S_{\\text{梯形}OBCF}-S_{\\text{梯形}CDEF}-S_{\\triangle ODE}=\\dfrac{1}{2}(2+4)\\times4-\\dfrac{1}{2}(\\sqrt{2}+4)\\times(4-2\\sqrt{2})-\\dfrac{1}{2}\\times2\\sqrt{2}\\times\\sqrt{2}=4+2\\sqrt{2}$，"
+      - "【小问3详解】"
+      - "解：①由题可得，过点$A$作$AG\\perp GP$，过点$Q$作$QH\\perp PH$"
+      - "当$\\angle APQ=90^\\circ$，$\\triangle APQ$与$\\triangle AOB$相似，且边$PQ$与边$OB$对应"
+      - "则$\\dfrac{AP}{PQ}=\\dfrac{AO}{OB}=\\dfrac{4}{2}=2$，"
+      - "抛物线$y=\\dfrac{1}{4}x^2+\\dfrac{1}{2}x-2$，"
+      - "$\\because \\angle AGP=\\angle PHQ=90^\\circ$，"
+      - "$\\therefore \\angle GAP+\\angle APG=90^\\circ$，$\\angle APG+\\angle HPQ=90^\\circ$，"
+      - "$\\therefore \\angle GAP=\\angle HPQ$，"
+      - "$\\therefore \\triangle GAP\\sim\\triangle HPQ$，"
+      - "$\\therefore \\dfrac{GA}{HP}=\\dfrac{PG}{QH}=\\dfrac{AP}{PQ}=2$"
+      - "则抛物线的对称轴为：$x=-1$，"
+      - "设点$Q(-1,h)$，点$P\\left(k,\\dfrac{1}{4}k^2+\\dfrac{1}{2}k-2\\right)$"
+      - "$\\therefore QH=h-\\left(\\dfrac{1}{4}k^2+\\dfrac{1}{2}k-2\\right)$，$HP=-1-k$，$GA=0-\\left(\\dfrac{1}{4}k^2+\\dfrac{1}{2}k-2\\right)$"
+      - "$PG=k-(-4)$，"
+      - "则$\\dfrac{GA}{HP}=\\dfrac{0-\\left(\\dfrac{1}{4}k^2+\\dfrac{1}{2}k-2\\right)}{-1-k}=2$，$\\dfrac{PG}{QH}=\\dfrac{k-(-4)}{h-\\left(\\dfrac{1}{4}k^2+\\dfrac{1}{2}k-2\\right)}=2$，"
+      - "解得：$k=8$或$k=-2$，"
+      - "$\\because$ 点$P$、$Q$都在第三象限，"
+      - "$\\therefore k=-2$，"
+      - "$\\therefore h=-1$，"
+      - "$\\therefore Q(-1,-1)$。"
+      - "②由题可得，抛物线的对称轴为$x=-1$，"
+      - "过点$A$作$AM\\perp QM$交对称轴于$M$，过点$P$作$PN\\perp QN$交对称轴于$N$，"
+      - "当$\\angle AQP=90^\\circ$，$\\triangle APQ$与$\\triangle AOB$相似，且边$PQ$与边$OB$对应"
+      - "则$\\dfrac{AQ}{PQ}=\\dfrac{AO}{OB}=\\dfrac{4}{2}=2$，"
+      - "抛物线$y=\\dfrac{1}{4}x^2+\\dfrac{1}{2}x-2$，"
+      - "$\\because \\angle AMQ=\\angle PNQ=90^\\circ$，"
+      - "$\\therefore \\angle NPQ+\\angle PQN=90^\\circ$，$\\angle MQA+\\angle PQN=90^\\circ$，"
+      - "$\\therefore \\angle NPQ=\\angle MQA$，"
+      - "$\\therefore \\triangle NPQ\\sim\\triangle MQA$，"
+      - "$\\therefore \\dfrac{AM}{QN}=\\dfrac{MQ}{PN}=\\dfrac{AQ}{PQ}=2$"
+      - "则抛物线的对称轴为：$x=-1$，"
+      - "设点$Q(-1,h)$，$P\\left(k,\\dfrac{1}{4}k^2+\\dfrac{1}{2}k-2\\right)$"
+      - "$\\therefore AM=3$，$MQ=0-h$，"
+      - "$QN=h-\\left(\\dfrac{1}{4}k^2+\\dfrac{1}{2}k-2\\right)$，$PN=-1-k$。"
+      - "$\\dfrac{AM}{QN}=\\dfrac{3}{h-\\left(\\dfrac{1}{4}k^2+\\dfrac{1}{2}k-2\\right)}=2$"
+      - "$\\dfrac{MQ}{PN}=\\dfrac{0-h}{-1-k}=2$"
+      - "解得：$h=8-2\\sqrt{19}$或$h=8+2\\sqrt{19}$（舍去），"
+      - "则$Q(-1,8-2\\sqrt{19})$。"
+      - "综上所述，$Q(-1,-1)$，$Q(-1,8-2\\sqrt{19})$。"
+      clue: "（1）根据一次函数可知$A$，$B$的坐标，进而根据$AB=BC$可得点$B$是线段$AC$的中点，然后根据待定系数法即可求得二次函数表达式；（2）根据$OBCD$是梯形，可知$OD$的直线解析式，进而联立方程可知点$D$的坐标，根据割补法即可求解；（3）①过点$A$作$AG\\perp GP$，过点$Q$作$QH\\perp PH$，进而可知$\\triangle GAP\\sim\\triangle HPQ$，根据相似三角形的性质即可求解；②过点$A$作$AM\\perp QM$交对称轴于$M$，过点$P$作$PN\\perp QN$交对称轴于$N$，证明$\\triangle NPQ\\sim\\triangle MQA$，根据相似三角形的性质即可求解。"
+  - item_id: Q025
+    question_number: 25
+    question_type: problem
+    points: 14
+    question_word_evidence:
+    - page_number: 34
+      page_image: documents/初三/2026届-上海市松江区-初三二模数学-试卷及解析/word/word_extract_1785001933551758000/pages/034.png
+    prompt:
+    - source: documents/初三/2026届-上海市松江区-初三二模数学-试卷及解析/word/word_extract_1785001933551758000/media/image160.png
+      box_px: [0, 0, 2501, 2029]
+      width: 80mm
+    official_solution:
+      start_anchor: "\u3010\u7b54\u6848\u3011"
+      end_anchor: "<END_OF_SOURCE>"
+      word_evidence:
+      - page_number: 35
+        page_image: documents/初三/2026届-上海市松江区-初三二模数学-试卷及解析/word/word_extract_1785001933551758000/pages/035.png
+    block:
+      stem_latex: "已知正方形$ABCD$，点$E$在边$BC$上，点$F$在$BC$的延长线上，$AF$与$CD$交于点$G$。\\n（1）如图1，如果$CE=CG$，求证：$BC^2=BE\\cdot BF$；\\n（2）如图2，如果$\\angle EAF=45^\\circ$，且$CE=CF$，求$\\angle F$的正切值；\\n（3）以点$C$为圆心$CE$为半径画圆，$\\odot C$与以$AE$为直径的$\\odot O$的另一个交点记为点$P$，如果$AB=2$，$CF=2CE$，$EP=CG$，求$EF$的长。"
+      answer: "（1）见解析；（2）$\\dfrac{\\sqrt{3}}{3}$；（3）2"
+      explanation: "官方参考答案：（1）见解析；（2）$\\dfrac{\\sqrt{3}}{3}$；（3）2。"
+      solution_steps:
+      - "【小问1详解】"
+      - "证明：$\\because$ 四边形$ABCD$是正方形，"
+      - "$\\therefore AD=AB=BC=CD$，$\\angle B=\\angle D$，$AD\\parallel BC$"
+      - "$\\because CE=CG$"
+      - "$\\therefore BC-CE=CD-CG$"
+      - "$\\therefore BE=DG$"
+      - "$\\therefore \\triangle ADG\\cong\\triangle ABE$（SAS）"
+      - "$\\therefore \\angle DAG=\\angle BAE$，"
+      - "$\\because AD\\parallel BC$，"
+      - "$\\therefore \\angle DAG=\\angle F$，"
+      - "$\\therefore \\angle BAE=\\angle F$，"
+      - "$\\because \\angle B=\\angle B$"
+      - "$\\therefore \\triangle BAE\\sim\\triangle BFA$，"
+      - "$\\therefore \\dfrac{BA}{BF}=\\dfrac{BE}{BA}$，"
+      - "$\\therefore \\dfrac{BC}{BF}=\\dfrac{BE}{BC}$，"
+      - "$\\therefore BC^2=BE\\cdot BF$；"
+      - "【小问2详解】"
+      - "解：连接$AC$，"
+      - "设正方形的边长为1，$CE=x$，"
+      - "由题意得，$CF=CE=x$"
+      - "$\\because$ 四边形$ABCD$是正方形，"
+      - "$\\therefore BA=BC=1$，$\\angle ECA=\\dfrac{1}{2}\\angle BCD=45^\\circ$，$\\angle B=90^\\circ$"
+      - "$\\because \\angle EAF=45^\\circ$"
+      - "$\\therefore \\angle EAF=\\angle ECA$，"
+      - "$\\therefore \\angle CEA=\\angle AEF$"
+      - "$\\therefore \\triangle CEA\\sim\\triangle AEF$，"
+      - "$\\therefore \\dfrac{CE}{AE}=\\dfrac{AE}{EF}$，"
+      - "$\\therefore AE^2=EC\\times EF=x\\cdot 2x=2x^2$，"
+      - "$\\because AE^2=AB^2+BE^2=1+(1-x)^2=x^2-2x+2$，"
+      - "$\\therefore x^2-2x+2=2x^2$，"
+      - "整理得，$x^2+2x-2=0$，"
+      - "解得$x_1=\\sqrt{3}-1$，$x_2=-\\sqrt{3}-1$（舍去），"
+      - "$\\therefore \\tan F=\\dfrac{AB}{BF}=\\dfrac{1}{1+\\sqrt{3}-1}=\\dfrac{\\sqrt{3}}{3}$；"
+      - "【小问3详解】"
+      - "解：如图，设以$AE$为直径的圆记为$\\odot J$，连接$CJ$交$PE$于点$L$，过点$J$作$JK\\perp BC$于点$K$，"
+      - "由题意得可设$CE=x$，则$CF=2x$，"
+      - "$\\therefore EF=3x$，"
+      - "$\\because$ 正方形$ABCD$，"
+      - "$\\therefore AB\\parallel CD$，$AB=BC=2$"
+      - "$\\therefore \\triangle FCG\\sim\\triangle FBA$"
+      - "$\\therefore \\dfrac{CG}{AB}=\\dfrac{FC}{FB}$，"
+      - "$\\therefore \\dfrac{CG}{2}=\\dfrac{2x}{2+2x}$，"
+      - "$\\therefore CG=\\dfrac{2x}{x+1}$，"
+      - "$\\therefore EP=CG=\\dfrac{2x}{x+1}$，"
+      - "$\\because JK\\perp BC$，$\\angle ABC=90^\\circ$"
+      - "$\\therefore \\angle ABC=\\angle JKE=90^\\circ$"
+      - "$\\therefore AB\\parallel JK$"
+      - "$\\therefore \\triangle EJK\\sim\\triangle EAB$"
+      - "$\\therefore \\dfrac{EK}{EB}=\\dfrac{KJ}{AB}=\\dfrac{EJ}{EA}=\\dfrac{1}{2}$，"
+      - "$\\therefore KJ=\\dfrac{1}{2}AB=1$，$EK=\\dfrac{1}{2}EB=\\dfrac{1}{2}(2-x)=1-\\dfrac{1}{2}x$，"
+      - "$\\therefore KC=EK+CE=1-\\dfrac{1}{2}x+x=1+\\dfrac{1}{2}x$，"
+      - "$\\therefore JC=\\sqrt{JK^2+CK^2}=\\sqrt{1+\\left(1+\\dfrac{1}{2}x\\right)^2}$"
+      - "$\\because \\odot J$与$\\odot C$相交于点$E$，$P$"
+      - "$\\therefore CJ\\perp PE$，$EL=\\dfrac{1}{2}EP=\\dfrac{x}{x+1}$，"
+      - "$\\therefore \\sin\\angle ECL=\\dfrac{EL}{EC}=\\dfrac{JK}{JC}$，"
+      - "$\\therefore \\dfrac{\\dfrac{x}{x+1}}{x}=\\dfrac{1}{\\sqrt{1+\\left(1+\\dfrac{1}{2}x\\right)^2}}$，"
+      - "解得$x=\\dfrac{2}{3}$或$x=0$（舍）"
+      - "$\\therefore EF=3\\times\\dfrac{2}{3}=2$。"
+      clue: "（1）先证明$\\triangle ADG\\cong\\triangle ABE$（SAS），再证明$\\triangle BAE\\sim\\triangle BFA$，即可求证；（2）连接$AC$，设正方形的边长为1，$CE=CF=x$，然后证明$\\triangle CEA\\sim\\triangle AEF$，得到$AE^2=EC\\times EF=x\\cdot 2x=2x^2$，而由勾股定理得$AE^2=AB^2+BE^2=x^2-2x+2$，继而得到方程$x^2-2x+2=2x^2$，然后解方程，再利用正切的定义求解即可；（3）设以$AE$为直径的圆记为$\\odot J$，连接$CJ$交$PE$于点$L$，过点$J$作$JK\\perp BC$于点$K$，由题意得可设$CE=x$，则$CF=2x$，由$\\triangle FCG\\sim\\triangle FBA$，得到$EP=CG=\\dfrac{2x}{x+1}$，再由$\\triangle EJK\\sim\\triangle EAB$，求出$KJ=1$，$EK=1-\\dfrac{1}{2}x$，则$KC=EK+CE=1+\\dfrac{1}{2}x$，可由勾股定理得到$JC=\\sqrt{1+\\left(1+\\dfrac{1}{2}x\\right)^2}$，由相交两圆得性质可得$CJ\\perp PE$，$EL=\\dfrac{1}{2}EP=\\dfrac{x}{x+1}$，再由$\\sin\\angle ECL=\\dfrac{EL}{EC}=\\dfrac{JK}{JC}$建立方程求解。"

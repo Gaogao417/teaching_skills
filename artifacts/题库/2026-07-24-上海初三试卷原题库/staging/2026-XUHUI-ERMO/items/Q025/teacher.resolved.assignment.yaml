@@ -1,0 +1,105 @@
+meta:
+  title: 2026年上海市徐汇区中考二模数学试卷第 25 题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题（本大题共7题，满分78分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: 在四边形$ABCD$中，$AD\parallel BC$，点$E$在边$CD$上，且$CE=3DE$，$AB=2AE$，连接$AE$、$BE$.（1）如图1，求证：$\angle AEB=\angle ABC$；（2）如图2，当$AB=CD=BE$时，求$\dfrac{AD}{BC}$的值；（3）如图3，当四边形$ABCD$为矩形且$AB=8$时，点$O$在线段$BE$上，且$\odot O$截$AB$、$CD$两边所得的两条弦相等. 如果$\odot O$与$\odot C$的公共弦所在直线恰好经过点$B$，$\odot C$的半径为$3$，求此公共弦的长.
+    answer: （1）见解析；（2）$\dfrac{3}{7}$；（3）$2\sqrt{6}$.
+    explanation: 官方参考答案：（1）见解析；（2）$\dfrac{3}{7}$；（3）$2\sqrt{6}$.
+    solution_steps:
+    - （1）延长$AE$交$BC$延长线于点$F$，由$AD\parallel BC$，可得$\triangle ADE\sim\triangle FCE$，再证明$\triangle BAE\sim\triangle FAB$，即可证明结论；
+    - （2）延长$AE$交$BC$延长线于点$G$，过点$A$作$AH\perp BC$于点$H$，过点$D$作$DM\perp BC$于点$M$，过点$E$作$EN\perp BC$于点$N$，同理（1）可得$CG=3AD$，$BG=2BE$，设$AD=x$，$AB=CD=BE=4a$，则$CG=3x$，$BG=8a$，$DE=a$，$CE=3a$，求出$BN$，$NE$，在$\text{Rt}\triangle BNE$中，利用勾股定理即可求解；
+    - （3）过点$O$作$OH\perp CD$于点$H$，连接$OC$，$CF$，设$FG$与$OC$交于点$P$，由条件先可得$AD=BC=2\sqrt{3}$，$BE=4\sqrt{3}$，再由$\odot O$截$AB$、$CD$两边所得的两条弦相等，可得$OH=\dfrac{1}{2}AD=\dfrac{1}{2}BC=\sqrt{3}$，再证明$\triangle OBC$是等边三角形，可得$\angle OCB=60^{\circ}$，再由$FG$中$\odot O$，$\odot C$的公共弦，可得$CE$垂直平分$FG$，即可求解.
+    - 【小问1详解】证明：如图，延长$AE$交$BC$延长线于点$F$，
+    - $\because AD\parallel BC$，
+    - $\therefore\triangle ADE\sim\triangle FCE$，
+    - $\therefore\dfrac{DE}{CE}=\dfrac{AE}{FE}$，
+    - $\because CE=3DE$，
+    - $\therefore\dfrac{AE}{FE}=\dfrac{DE}{CE}=\dfrac{1}{3}$，
+    - $\therefore FE=3AE$，
+    - $\therefore AF=AE+EF=4AE$，
+    - $\because AB=2AE$，
+    - $\therefore\dfrac{AE}{AB}=\dfrac{1}{2}$，$\dfrac{AB}{AF}=\dfrac{2AE}{4AE}=\dfrac{1}{2}$，即$\dfrac{AE}{AB}=\dfrac{AB}{AF}$，
+    - $\because\angle BAE=\angle FAB$，
+    - $\therefore\triangle BAE\sim\triangle FAB$，
+    - $\therefore\angle ABE=\angle AFB$，
+    - $\because\angle AEB=180^{\circ}-\angle ABE-\angle BAE$，$\angle ABF=180^{\circ}-\angle AFB-\angle FAB$，
+    - $\therefore\angle AEB=\angle ABC$.
+    - 【小问2详解】解：如图，延长$AE$交$BC$延长线于点$G$，过点$A$作$AH\perp BC$于点$H$，过点$D$作$DM\perp BC$于点$M$，过点$E$作$EN\perp BC$于点$N$，
+    - 同理（1）可得，$\triangle ADE\sim\triangle GCE$，
+    - $\because CE=3DE$，
+    - $\therefore\dfrac{AD}{CG}=\dfrac{DE}{CE}=\dfrac{1}{3}$，
+    - $\therefore CG=3AD$，
+    - 同理（1）可得，$\triangle BAE\sim\triangle GAB$，
+    - $\therefore\dfrac{BE}{BG}=\dfrac{AE}{AB}=\dfrac{1}{2}$，
+    - $\therefore BG=2BE$，
+    - 设$AD=x$，$AB=CD=BE=4a$，则$CG=3x$，$BG=8a$，$DE=a$，$CE=3a$，
+    - $\because AD\parallel BC$，$AH\perp BC$，$DM\perp BC$，
+    - $\therefore$四边形$AHMD$是矩形，
+    - $\therefore HM=AD=x$，$DM=AH$，
+    - 在$\text{Rt}\triangle ABH$和$\text{Rt}\triangle DCM$中$\begin{cases}AB=DC\\AH=DM\end{cases}$，
+    - $\therefore\text{Rt}\triangle ABH\cong\text{Rt}\triangle DCM$（直角三角形全等的判定定理），
+    - $\therefore BH=CM$，
+    - $\because BH+CM=BG-CG-HM=8a-3x-x=8a-4x$，
+    - $\therefore CM=BH=\dfrac{1}{2}\left(8a-4x\right)=4a-2x$，
+    - 在$\text{Rt}\triangle ABH$中，$DM^{2}=AH^{2}=AB^{2}-BH^{2}=\left(4a\right)^{2}-\left(4a-2x\right)^{2}=16xa-4x^{2}$，
+    - $\because DM\perp BC$，$EN\perp BC$，
+    - $\therefore\triangle CEN\sim\triangle CDM$，
+    - $\therefore\dfrac{CE}{CD}=\dfrac{EN}{DM}=\dfrac{CN}{CM}$，
+    - $\therefore\dfrac{CE^{2}}{CD^{2}}=\dfrac{EN^{2}}{DM^{2}}=\dfrac{CN^{2}}{CM^{2}}$，即$\dfrac{\left(3a\right)^{2}}{\left(4a\right)^{2}}=\dfrac{EN^{2}}{16xa-4x^{2}}=\dfrac{CN^{2}}{\left(4a-2x\right)^{2}}$，
+    - $\therefore EN^{2}=9xa-\dfrac{9}{4}x^{2}$，$CN=3a-\dfrac{3}{2}x$，
+    - $\because BN=BG-CG-CN=8a-3x-\left(3a-\dfrac{3}{2}x\right)=5a-\dfrac{3}{2}x$，
+    - 在$\text{Rt}\triangle BNE$中，$BN^{2}+NE^{2}=BE^{2}$，
+    - $\therefore\left(5a-\dfrac{3}{2}x\right)^{2}+9xa-\dfrac{9}{4}x^{2}=\left(4a\right)^{2}$，
+    - 解得$a=\dfrac{2}{3}x$，
+    - $\therefore BC=BG-CG=8a-3x=8\times\dfrac{2}{3}x-3x=\dfrac{7}{3}x$，
+    - $\therefore\dfrac{AD}{BC}=\dfrac{x}{\frac{7}{3}x}=\dfrac{3}{7}$.
+    - 【小问3详解】解：如图，过点$O$作$OH\perp CD$于点$H$，连接$OC$，$CF$，设$FG$与$OC$交于点$P$，
+    - $\because$四边形$ABCD$为矩形且$AB=8$，
+    - $\therefore AE=\dfrac{1}{2}AB=4$，$BC=AD$，$DE=\dfrac{1}{4}CD=\dfrac{1}{4}AB=2$，则$CE=CD-DE=6$，$\angle BCD=\angle D=90^{\circ}$，
+    - 在$\text{Rt}\triangle ADE$中，$AD=\sqrt{AE^{2}-DE^{2}}=\sqrt{4^{2}-2^{2}}=2\sqrt{3}$，
+    - 在$\text{Rt}\triangle BCE$中，$BE=\sqrt{BC^{2}+CE^{2}}=\sqrt{\left(2\sqrt{3}\right)^{2}+6^{2}}=4\sqrt{3}$，
+    - $\because\odot O$截$AB$、$CD$两边所得的两条弦相等，
+    - $\therefore$点$O$到$AB$和$CD$的距离相等，
+    - $\therefore OH=\dfrac{1}{2}AD=\dfrac{1}{2}BC=\sqrt{3}$，
+    - $\because OH\perp CD$，$\angle BCD=90^{\circ}$，
+    - $\therefore OH\parallel BC$，
+    - $\therefore\triangle EOH\sim\triangle EBC$，
+    - $\therefore\dfrac{EO}{EB}=\dfrac{OH}{BC}=\dfrac{1}{2}$，
+    - $\therefore EB=2EO$，
+    - $\therefore$点$O$为$EB$的中点，
+    - $\therefore OC=\dfrac{1}{2}BE=OB=2\sqrt{3}$，
+    - $\therefore OC=OB=BC=2\sqrt{3}$，
+    - $\therefore\triangle OBC$是等边三角形，
+    - $\therefore\angle OCB=60^{\circ}$，
+    - $\because FG$中$\odot O$和$\odot C$的公共弦，
+    - $\therefore OF=OG$，$CF=CG$，
+    - $\therefore CE$垂直平分$FG$，
+    - $\therefore\angle BPC=90^{\circ}$，$FG=2FP$，
+    - $\therefore\angle PBC=90^{\circ}-\angle OCB=30^{\circ}$，
+    - $\therefore CP=\dfrac{1}{2}BC=\sqrt{3}$，
+    - 在$\text{Rt}\triangle PCF$中，$FP=\sqrt{CF^{2}-CP^{2}}=\sqrt{3^{2}-\left(\sqrt{3}\right)^{2}}=\sqrt{6}$，
+    - $\therefore FG=2FP=2\sqrt{6}$.
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

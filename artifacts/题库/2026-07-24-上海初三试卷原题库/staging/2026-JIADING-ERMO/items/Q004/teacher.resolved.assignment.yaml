@@ -1,0 +1,34 @@
+meta:
+  title: 2026年上海市嘉定区中考数学二模试卷第 4 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题（本大题共6题，每题4分，满分24分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q004
+    points: 4
+    stem_latex: 方程组 $\begin{cases}x+y=2\\x^2-y^2=8\end{cases}$ 的解是（\quad）
+    choices:
+    - $\begin{cases}x=1\\y=1\end{cases}$
+    - $\begin{cases}x=\frac{3}{2}\\y=\frac{1}{2}\end{cases}$
+    - $\begin{cases}x=2\\y=0\end{cases}$
+    - $\begin{cases}x=3\\y=-1\end{cases}$
+    answer: D
+    explanation: 官方参考答案：D。
+    solution_steps:
+    - 由 $x^2-y^2=8$ 得 $(x+y)(x-y)=8$，代入 $x+y=2$ 得 $x-y=4$。联立 $\begin{cases}x+y=2\\x-y=4\end{cases}$，解得 $x=3, y=-1$。
+    clue: 对第二个方程因式分解，利用平方差公式。
+    source_solution_images: []

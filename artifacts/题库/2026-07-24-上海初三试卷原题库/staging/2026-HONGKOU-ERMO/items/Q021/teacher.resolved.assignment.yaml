@@ -1,0 +1,57 @@
+meta:
+  title: 2026年上海市虹口区中考二模数学试卷第 21 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题（本大题共7题，满分78分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q021
+    points: 10
+    stem_latex: '如图，在平面直角坐标系 $xOy$ 中，已知双曲线经过 $\triangle OAB$ 顶点 $B$ 和边 $OA$ 上的一点 $C$，$OC=2AC$，$OC=\sqrt{5}$. 设边 $OA$ 与 $x$ 轴正半轴的夹角为 $\alpha$，且 $\sin\alpha=\dfrac{\sqrt{5}}{5}$.
+
+
+      (1) 求双曲线的表达式；
+
+
+      (2) 如果 $AB\parallel x$ 轴，求点 $B$ 的坐标.'
+    answer: (1) $y=\dfrac{2}{x}$; (2) $B\left(\dfrac{4}{3},\dfrac{3}{2}\right)$
+    explanation: 官方参考答案：(1) $y=\dfrac{2}{x}$; (2) $B\left(\dfrac{4}{3},\dfrac{3}{2}\right)$。
+    solution_steps:
+    - 【小问1详解】
+    - 过 $C$ 作 $CD\perp x$ 轴于 $D$，
+    - $\sin\alpha=\dfrac{\sqrt{5}}{5}$，$OC=\sqrt{5}$。
+    - $\sin\alpha=\dfrac{CD}{OC}=\dfrac{\sqrt{5}}{5}$，即 $\dfrac{CD}{\sqrt{5}}=\dfrac{\sqrt{5}}{5}$，解得：$CD=1$，
+    - $OD=\sqrt{OC^2-CD^2}=2$，
+    - $C(2,1)$，
+    - 设双曲线的表达式为 $y=\dfrac{k}{x}$，
+    - $C$ 在双曲线上，
+    - $1=\dfrac{k}{2}$，解得：$k=2$，
+    - 双曲线的表达式为 $y=\dfrac{2}{x}$。
+    - 【小问2详解】
+    - $OC=\sqrt{5}$，$OC=2AC$，
+    - $AC=\dfrac{1}{2}OC=\dfrac{1}{2}\sqrt{5}$，
+    - $OA=OC+AC=\dfrac{3}{2}\sqrt{5}$，
+    - 过 $A$ 作 $AE\perp x$ 轴于 $E$，
+    - $\sin\alpha=\dfrac{AE}{OA}=\dfrac{\sqrt{5}}{5}$，即 $\dfrac{AE}{\dfrac{3}{2}\sqrt{5}}=\dfrac{\sqrt{5}}{5}$，解得：$AE=\dfrac{3}{2}$，
+    - 点 $A$ 的纵坐标为 $\dfrac{3}{2}$，
+    - $AB\parallel x$ 轴，
+    - 点 $B$ 的纵坐标为 $\dfrac{3}{2}$，
+    - 点 $B$ 在双曲线上，
+    - $\dfrac{2}{\dfrac{3}{2}}=\dfrac{4}{3}$，
+    - 点 $B$ 的横坐标为 $\dfrac{4}{3}$，
+    - $B\left(\dfrac{4}{3},\dfrac{3}{2}\right)$。
+    clue: （1）过 $C$ 作 $CD\perp x$ 轴，解直角三角形求出 $C$ 的坐标，再用待定系数法求双曲线表达式；（2）先求 $OA$ 的长，再求 $A$ 的纵坐标，根据 $AB\parallel x$ 轴求 $B$ 的坐标。
+    source_solution_images: []

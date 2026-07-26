@@ -1,0 +1,41 @@
+meta:
+  title: 2026年上海市青浦区中考数学二模试卷第 5 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题（本大题共6题，每题4分，满分24分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q005
+    points: 4
+    stem_latex: 如图，$AB\parallel CD$，如果 $\angle 1=63°$，$\angle 2=120°$，那么 $\angle 3$ 的度数为（\quad）
+    choices:
+    - $47°$
+    - $57°$
+    - $60°$
+    - $63°$
+    answer: B
+    explanation: 官方参考答案：B。
+    solution_steps:
+    - $\because AB\parallel CD$，$\angle 1=63°$，
+    - $\therefore \angle ACD=\angle 1=63°$。
+    - 又 $\because \angle 2=120°$，
+    - $\therefore \angle 3=\angle 2-\angle 1=120°-63°=57°$，故选B。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

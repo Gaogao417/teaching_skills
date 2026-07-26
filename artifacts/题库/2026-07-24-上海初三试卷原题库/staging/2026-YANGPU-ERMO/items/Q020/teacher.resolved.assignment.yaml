@@ -1,0 +1,31 @@
+meta:
+  title: 2026年上海市杨浦区中考二模数学试卷第 20 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题（本大题共7题，满分78分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q020
+    points: 10
+    stem_latex: 解方程：$\dfrac{3}{x-1}-\dfrac{2}{x+1}=\dfrac{1}{x^2-1}$．
+    answer: $x=-4$
+    explanation: 官方参考答案：$x=-4$。
+    solution_steps:
+    - 去分母，得$3(x+1)-2(x-1)=1$；
+    - 去括号，得$3x+3-2x+2=1$；
+    - 解得$x=-4$；
+    - 检验，当$x=-4$时，$x^2-1=15\neq 0$，$\therefore$方程的解为$x=-4$。
+    source_solution_images: []

@@ -1,0 +1,41 @@
+meta:
+  title: 2026年上海市虹口区中考二模数学试卷第 12 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题（本大题共12题，每题4分，满分48分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: fillin
+    id: Q012
+    points: 4
+    stem_latex: '为助力“校园读书月”活动，某班 $20$ 名同学积极分享自己的课外读物，他们分享的书籍数量（单位：本）如下表. 根据表中的信息，这 $20$ 个数据的中位数是________.
+
+
+      | 书籍数量/本 | $4$ | $6$ | $8$ | $10$ | $12$ |
+
+      |---|---|---|---|---|---|
+
+      | 人数/人 | $3$ | $4$ | $5$ | $6$ | $2$ |'
+    answer: $8$
+    explanation: 官方参考答案：$8$。
+    solution_steps:
+    - 一共有 $20$ 个数据，将数据从小到大排列后，中位数为第 $10$ 个和第 $11$ 个数据的平均数。
+    - 分享 $4$ 本的累计人数为 $3$，
+    - 分享 $6$ 本的累计人数为 $3+4=7$，
+    - 分享 $8$ 本的累计人数为 $7+5=12$，
+    - 因此第 $10$ 个和第 $11$ 个数据都为 $8$，
+    - 则中位数为 $\dfrac{8+8}{2}=8$。
+    clue: 根据中位数的定义，先确定 $20$ 个数据从小到大排列后中位数的位置，再找到对应位置的数据计算。
+    source_solution_images: []

@@ -1,0 +1,46 @@
+meta:
+  title: 2026年上海市徐汇区中考二模数学试卷第 22 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题（本大题共7题，满分78分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q022
+    points: 10
+    stem_latex: 上海市居民自来水水费由供水费和污水处理费两部分组成，污水处理量由于损耗按照用水量的$90\%$核定计算，污水处理费统一单价为$2$元/$\text{m}^{3}$. 小户型家庭供水费按年用水量分三档计费，收费标准如下表，每户每年应缴自来水水费$y$（元）与用水量$x\left(\text{m}^{3}\right)$关系如图所示.（1）第1档的自来水水费$1\text{m}^{3}$的单价为__________元；图中点$A$的纵坐标为__________；（2）小华家去年的年用水量为$250\text{m}^{3}$，共缴纳水费$1065$元. 通过计算推出$n$的值为__________元；（3）已知小明家去年共缴水费$2234$元，求小明家去年的年用水量.
+    answer: （1）$4.25$，$891$；（2）$4$；（3）$400\text{m}^{3}$.
+    explanation: 官方参考答案：（1）$4.25$，$891$；（2）$4$；（3）$400\text{m}^{3}$.
+    solution_steps:
+    - （1）根据水费的单价=供水费单价+污水处理费单价求解即可；求出用水量为$220\text{m}^{3}$的水费即可；
+    - （2）根据共缴水费$1065$元列出方程求解即可；
+    - （3）先判断$x>300$，然后根据共缴水费$2234$元列出方程求解即可.
+    - 【小问1详解】第1档的自来水水费$1\text{m}^{3}$的单价为$2.25+2.00=4.25$元，
+    - $\therefore 220\times 2.25+220\times 90\%\times 2=891$，
+    - $\therefore$图中点$A$的纵坐标为$891$；
+    - 【小问2详解】根据题意，得$220\times 2.25+\left(250-220\right)n+250\times 90\%\times 2=1065$，
+    - 解得$n=4$；
+    - 【小问3详解】当$x=300$时，$y=220\times 2.25+\left(300-220\right)\times 4+300\times 90\%\times 2=1355$，
+    - $\because 2234>1355$，
+    - $\therefore x>300$，
+    - $\therefore 1355+6.99\left(x-300\right)+2\times 90\%\left(x-300\right)=2234$，
+    - 解得$x=400$，
+    - 答：小明家去年的年用水量$400\text{m}^{3}$.
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

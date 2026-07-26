@@ -1,0 +1,53 @@
+meta:
+  title: 2026年上海市金山区中考二模数学试卷第 5 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题（本大题共5题，每题4分，满分20分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q005
+    points: 4
+    stem_latex: 在直角梯形$ABCD$中，$AD\parallel BC$，$\angle ABC=90^{\circ}$，点$E$为$AB$上一点，连接$DE$、$CE$。连接$AC$与$DE$交于点$F$，$\triangle ADE$为等腰直角三角形，$\triangle CDE$为等边三角形。以下结论：①$\angle BCE=15^{\circ}$；②$\triangle ADC\cong\triangle AEC$；③$EF=2BE$；④$S_{\triangle DEC}=\sqrt{3}S_{\triangle AED}$。其中结论正确的是（\quad）
+    choices:
+    - ①②
+    - ①③④
+    - ①②④
+    - ①②③④
+    answer: C
+    explanation: 官方参考答案：C。
+    solution_steps:
+    - $\because AD\parallel BC$，$\angle ABC=90^{\circ}$，$\therefore\angle BAD=90^{\circ}$
+    - $\because\triangle ADE$为等腰直角三角形，$\therefore AE=AD$，$\angle AED=\angle ADE=45^{\circ}$
+    - $\because\triangle CDE$为等边三角形，$\therefore DE=CE=CD$，$\angle DEC=60^{\circ}$
+    - $\therefore\angle BEC=180^{\circ}-\angle AEC=180^{\circ}-\angle AED-\angle DEC=180^{\circ}-45^{\circ}-60^{\circ}=75^{\circ}$
+    - 在$\text{Rt}\triangle BCE$中，$\angle BCE=90^{\circ}-\angle BEC=15^{\circ}$，故①正确；
+    - 在$\triangle ADC$和$\triangle AEC$中，$AD=AE$，$DC=EC$，$AC=AC$，$\therefore\triangle ADC\cong\triangle AEC(\text{SSS})$，故②正确；
+    - 设$AE=AD=a$，则$DE=\sqrt{AE^2+AD^2}=\sqrt{2}a$
+    - $\because AD=AE$，$\angle DAC=\angle EAC$，$AF=AF$，$\therefore\triangle ADF\cong\triangle AEF(\text{SAS})$
+    - $\therefore\angle AFE=\angle AFE=90^{\circ}$，$EF=DF$
+    - $\therefore EF=\dfrac{1}{2}DE=\dfrac{\sqrt{2}a}{2}\approx0.707a$
+    - $\because CE=DE=\sqrt{2}a$，$\therefore BE=CE\cdot\sin15^{\circ}=\sqrt{2}a\cdot\sin15^{\circ}$
+    - $\therefore2BE=2\sqrt{2}a\cdot\sin15^{\circ}\approx0.732a$
+    - $\therefore EF\neq2BE$，故③错误；
+    - $\because\angle AFE=90^{\circ}$，$\therefore\angle EFC=90^{\circ}$
+    - $\because EC=DE=\sqrt{2}a$，$EF=\dfrac{\sqrt{2}a}{2}$
+    - $\therefore CF=\sqrt{CE^2-EF^2}=\sqrt{(\sqrt{2}a)^2-\left(\dfrac{\sqrt{2}a}{2}\right)^2}=\dfrac{\sqrt{6}}{2}a$
+    - $\therefore S_{\triangle DEC}=\dfrac{1}{2}DE\times CF=\dfrac{1}{2}\times\sqrt{2}a\times\dfrac{\sqrt{6}}{2}a=\dfrac{\sqrt{3}}{2}a^2$
+    - $\because S_{\triangle AED}=\dfrac{1}{2}AE\times AD=\dfrac{1}{2}a\times a=\dfrac{1}{2}a^2$
+    - $\therefore\dfrac{S_{\triangle DEC}}{S_{\triangle AED}}=\dfrac{\dfrac{\sqrt{3}}{2}a^2}{\dfrac{1}{2}a^2}=\sqrt{3}$，即$S_{\triangle DEC}=\sqrt{3}S_{\triangle AED}$，故④正确。
+    - 综上，正确结论为①②④。
+    clue: 根据等腰直角三角形、等边三角形的性质，全等三角形的判定以及勾股定理，根据已知条件推出各角和边的关系，再依次验证四个结论即可。
+    source_solution_images: []

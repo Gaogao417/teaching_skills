@@ -1,0 +1,38 @@
+meta:
+  title: 2026年上海市徐汇区中考二模数学试卷第 15 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题（本大题共12题，每题4分，满分48分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q015
+    points: 4
+    stem_latex: 如图，用一条宽相等的足够长的纸条，打一个结，然后轻轻拉紧、压平就可以得到如图所示的正五边形$ABCDE$，$\angle ABD$的度数______.
+    answer: $72^{\circ}$
+    explanation: 官方参考答案：$72^{\circ}$.
+    solution_steps:
+    - 此题考查的是多边形的内角和及平行线的性质，利用多边形的内角和定理和平行线的性质即可解决问题，掌握计算公式是解题的关键.
+    - 由题意可得，五边形$ABCDE$是正五边形，
+    - $\therefore\angle EABC=\dfrac{\left(5-2\right)\times 180^{\circ}}{5}=108^{\circ}$，
+    - $\because AE\parallel BD$，
+    - $\therefore\angle ABD=180^{\circ}-108^{\circ}=72^{\circ}$，
+    - 故答案为：$72^{\circ}$.
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

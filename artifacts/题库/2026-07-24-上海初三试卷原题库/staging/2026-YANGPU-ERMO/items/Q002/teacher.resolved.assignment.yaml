@@ -1,0 +1,36 @@
+meta:
+  title: 2026年上海市杨浦区中考二模数学试卷第 2 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题（本大题共6题，每题4分，满分24分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q002
+    points: 4
+    stem_latex: 下列运算中，正确的是（\quad）
+    choices:
+    - $a^3+a^3=2a^3$
+    - $2a^3-a^3=2$
+    - $a^3\cdot a^3=a^9$
+    - $(a^3)^3=a^6$
+    answer: A
+    explanation: 官方参考答案：A。
+    solution_steps:
+    - 'A: 合并同类项时，系数相加，字母和指数不变，$a^3+a^3=(1+1)a^3=2a^3$，正确；'
+    - 'B: $2a^3-a^3=(2-1)a^3=a^3\neq 2$，错误；'
+    - 'C: 同底数幂相乘，底数不变，指数相加，$a^3\cdot a^3=a^{3+3}=a^6\neq a^9$，错误；'
+    - 'D: 幂的乘方，底数不变，指数相乘，$(a^3)^3=a^{3\times3}=a^9\neq a^6$，错误。'
+    source_solution_images: []

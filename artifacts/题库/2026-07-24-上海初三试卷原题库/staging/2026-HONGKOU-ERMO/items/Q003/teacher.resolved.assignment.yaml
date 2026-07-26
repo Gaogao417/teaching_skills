@@ -1,0 +1,37 @@
+meta:
+  title: 2026年上海市虹口区中考二模数学试卷第 3 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题（本大题共6题，每题4分，满分24分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q003
+    points: 4
+    stem_latex: 下列函数中，函数值 $y$ 随着 $x$ 增大而减小的是（\quad）
+    choices:
+    - $y=-x^2$
+    - $y=-\dfrac{1}{x}$
+    - $y=-x$
+    - $y=-1$
+    answer: C
+    explanation: 官方参考答案：C。
+    solution_steps:
+    - 'A: $y=-x^2$ 是开口向下的二次函数，对称轴为 $x=0$，当 $x<0$ 时，$y$ 随 $x$ 增大而增大，不符合要求；'
+    - 'B: $y=-\dfrac{1}{x}$ 是反比例函数，$k=-1<0$，在每个象限内 $y$ 随 $x$ 增大而增大，不符合要求；'
+    - 'C: $y=-x$ 是一次函数，比例系数为 $-1<0$，在全体实数范围内，$y$ 随 $x$ 增大而减小，符合要求；'
+    - 'D: $y=-1$ 是常函数，函数值不随 $x$ 变化而改变，不符合要求。'
+    clue: 逐一分析各函数的增减性。
+    source_solution_images: []

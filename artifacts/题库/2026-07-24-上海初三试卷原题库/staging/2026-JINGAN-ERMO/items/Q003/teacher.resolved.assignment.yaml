@@ -1,0 +1,36 @@
+meta:
+  title: 2026年上海市静安区中考二模数学试卷第 3 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题（本大题共6题，每题4分，满分24分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q003
+    points: 4
+    stem_latex: 当 $a$ 是任意有理数时，下列代数式的值一定为正数的是（\quad）
+    choices:
+    - $a^2$
+    - $a^2+a$
+    - $a^2+a+\dfrac{1}{5}$
+    - $a^2+a+1$
+    answer: D
+    explanation: 官方参考答案：D。
+    solution_steps:
+    - A、当 $a=0$ 时，$a^2=0$，$0$ 不是正数，故A选项不符合题意；
+    - B、当 $a=0$ 时，$a^2+a=0$，$0$ 不是正数，故B选项不符合题意；
+    - C、$a^2+a+\dfrac{1}{5}=\left(a+\dfrac{1}{2}\right)^2-\dfrac{1}{20}$，当 $a=-\dfrac{1}{2}$ 时，$a^2+a+\dfrac{1}{5}=-\dfrac{1}{20}<0$，故C选项不符合题意；
+    - D、$a^2+a+1=\left(a+\dfrac{1}{2}\right)^2+\dfrac{3}{4}$，$\because\left(a+\dfrac{1}{2}\right)^2\geqslant 0$，$\therefore\left(a+\dfrac{1}{2}\right)^2+\dfrac{3}{4}\geqslant\dfrac{3}{4}$，即代数式的值一定为正数，故D选项符合题意。
+    source_solution_images: []

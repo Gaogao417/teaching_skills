@@ -1,0 +1,35 @@
+meta:
+  title: 2026年上海市崇明区中考二模数学试卷第 3 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题（本大题共6题，每题4分，满分24分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q003
+    points: 4
+    stem_latex: 如果一个反比例函数的图像在它所在的每个象限内，$y$ 的值随 $x$ 的值增大而减小，那么这个函数图像可能经过的点是（\quad）
+    choices:
+    - $(3,1)$
+    - $(2,-1)$
+    - $(-2,4)$
+    - $(0,0)$
+    answer: A
+    explanation: 官方参考答案：A。
+    solution_steps:
+    - 设反比例函数 $y=\dfrac{k}{x}$（$k\neq 0$），$y$ 随 $x$ 增大而减小则 $k>0$。
+    - 'A: $3\times1=3>0$，符合；B: $2\times(-1)=-2<0$，不符合；'
+    - 'C: $(-2)\times4=-8<0$，不符合；D: 反比例函数中 $x\neq 0$，不经过原点。'
+    source_solution_images: []

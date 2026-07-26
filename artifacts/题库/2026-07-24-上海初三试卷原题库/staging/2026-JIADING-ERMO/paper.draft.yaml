@@ -1,0 +1,698 @@
+schema: math_exam_staging_draft/v1
+paper:
+  id: 2026-JIADING-ERMO
+  title: 2026年上海市嘉定区中考数学二模试卷
+  grade: 九年级
+  subject: 数学
+  duration: 100分钟
+  total_score: 150
+  source_archive: documents/初三/2026届-上海市嘉定区-初三二模数学-试卷及解析
+question_bank: ../../question-bank.yaml
+sections:
+- id: choice
+  title: 一、选择题（本大题共6题，每题4分，满分24分）
+  items:
+  - item_id: Q001
+    question_number: 1
+    question_type: choice
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2026届-上海市嘉定区-初三二模数学-试卷及解析/word/pages/001.png
+      page_number: 1
+    prompt: []
+    official_solution:
+      start_anchor: 【答案】C
+      end_anchor: 故选：C
+      word_evidence:
+      - page_image: documents/初三/2026届-上海市嘉定区-初三二模数学-试卷及解析/word/pages/001.png
+        page_number: 1
+    block:
+      stem_latex: 下列运算中，结果正确的是（\quad）
+      choices:
+      - $a+2a^2=2a^3$
+      - $(a^2)^3=a^5$
+      - $(a^2b)^2=a^4b^2$
+      - $a^4b^2\div ab^2=a^3b$
+      answer: C
+      explanation: 官方参考答案：C。
+      solution_steps:
+      - $a$ 与 $2a^2$ 不是同类项，A错；$(a^2)^3=a^6\neq a^5$，B错；$(a^2b)^2=a^4b^2$，C正确；$a^4b^2\div
+        ab^2=a^3\neq a^3b$，D错。
+      clue: 逐项验证幂运算法则。
+  - item_id: Q002
+    question_number: 2
+    question_type: choice
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2026届-上海市嘉定区-初三二模数学-试卷及解析/word/pages/001.png
+      page_number: 1
+    prompt: []
+    official_solution:
+      start_anchor: 【答案】A
+      end_anchor: 故选：A
+      word_evidence:
+      - page_image: documents/初三/2026届-上海市嘉定区-初三二模数学-试卷及解析/word/pages/002.png
+        page_number: 2
+    block:
+      stem_latex: 下列函数中，函数值 $y$ 随自变量 $x$ 的值增大而增大的是（\quad）
+      choices:
+      - $y=\dfrac{1}{2}x$
+      - $y=x^2$
+      - $y=-x-3$
+      - $y=\dfrac{2}{x}$
+      answer: A
+      explanation: 官方参考答案：A。
+      solution_steps:
+      - 'A: 正比例函数 $k=\frac{1}{2}>0$，$y$ 随 $x$ 增大而增大；B: $x>0$ 时增大，$x<0$ 时减小；C: $k=-1<0$，$y$
+        随 $x$ 增大而减小；D: $k=2>0$，在每个象限内 $y$ 随 $x$ 增大而减小。'
+      clue: 根据各类函数的单调性逐项判断。
+  - item_id: Q003
+    question_number: 3
+    question_type: choice
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2026届-上海市嘉定区-初三二模数学-试卷及解析/word/pages/002.png
+      page_number: 2
+    prompt: []
+    official_solution:
+      start_anchor: 【答案】B
+      end_anchor: 故选：B
+      word_evidence:
+      - page_image: documents/初三/2026届-上海市嘉定区-初三二模数学-试卷及解析/word/pages/003.png
+        page_number: 3
+    block:
+      stem_latex: 下列关于等边三角形的说法中，正确的是（\quad）
+      choices:
+      - 它是轴对称图形，也是中心对称图形
+      - 它是轴对称图形，但不是中心对称图形
+      - 它不是轴对称图形，但是中心对称图形
+      - 它不是轴对称图形也不是中心对称图形
+      answer: B
+      explanation: 官方参考答案：B。
+      solution_steps:
+      - 等边三角形是轴对称图形（3条对称轴），但不是中心对称图形。
+      clue: 等边三角形有3条对称轴，旋转180°不与自身重合。
+  - item_id: Q004
+    question_number: 4
+    question_type: choice
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2026届-上海市嘉定区-初三二模数学-试卷及解析/word/pages/003.png
+      page_number: 3
+    prompt: []
+    official_solution:
+      start_anchor: 【答案】D
+      end_anchor: 故选：D
+      word_evidence:
+      - page_image: documents/初三/2026届-上海市嘉定区-初三二模数学-试卷及解析/word/pages/003.png
+        page_number: 3
+    block:
+      stem_latex: 方程组 $\begin{cases}x+y=2\\x^2-y^2=8\end{cases}$ 的解是（\quad）
+      choices:
+      - $\begin{cases}x=1\\y=1\end{cases}$
+      - $\begin{cases}x=\frac{3}{2}\\y=\frac{1}{2}\end{cases}$
+      - $\begin{cases}x=2\\y=0\end{cases}$
+      - $\begin{cases}x=3\\y=-1\end{cases}$
+      answer: D
+      explanation: 官方参考答案：D。
+      solution_steps:
+      - 由 $x^2-y^2=8$ 得 $(x+y)(x-y)=8$，代入 $x+y=2$ 得 $x-y=4$。联立 $\begin{cases}x+y=2\\x-y=4\end{cases}$，解得
+        $x=3, y=-1$。
+      clue: 对第二个方程因式分解，利用平方差公式。
+  - item_id: Q005
+    question_number: 5
+    question_type: choice
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2026届-上海市嘉定区-初三二模数学-试卷及解析/word/pages/004.png
+      page_number: 4
+    prompt: []
+    official_solution:
+      start_anchor: 【答案】D
+      end_anchor: 故选：D
+      word_evidence:
+      - page_image: documents/初三/2026届-上海市嘉定区-初三二模数学-试卷及解析/word/pages/004.png
+        page_number: 4
+    block:
+      stem_latex: 某区要从甲、乙两名射击运动员中挑选一人参加全市比赛，甲的成绩（环）为：$9.7$，$10$，$9.6$，$9.8$，$9.9$。乙的成绩的平均数为
+        $9.8$ 环，方差为 $0.032$。下列说法中错误的是（\quad）
+      choices:
+      - 甲的成绩的平均数为 $9.8$ 环
+      - 甲的成绩的中位数是 $9.8$ 环
+      - 甲的成绩的方差为 $0.02$
+      - 应选派成绩较稳定的乙运动员参赛
+      answer: D
+      explanation: 官方参考答案：D。
+      solution_steps:
+      - 甲平均数 $=\frac{1}{5}(9.7+10+9.6+9.8+9.9)=9.8$，中位数 $=9.8$，方差 $=\frac{1}{5}[(9.7-9.8)^2+\cdots]=0.02$。$0.02<0.032$，甲更稳定，应选甲。
+      clue: 计算甲的平均数、中位数、方差，与乙比较。
+  - item_id: Q006
+    question_number: 6
+    question_type: choice
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2026届-上海市嘉定区-初三二模数学-试卷及解析/word/pages/005.png
+      page_number: 5
+    prompt:
+    - source: documents/初三/2026届-上海市嘉定区-初三二模数学-试卷及解析/word/media/image1.png
+      box_px:
+      - 0
+      - 0
+      - 758
+      - 560
+      width: 80mm
+    official_solution:
+      start_anchor: 【答案】B
+      end_anchor: 故选：B
+      word_evidence:
+      - page_image: documents/初三/2026届-上海市嘉定区-初三二模数学-试卷及解析/word/pages/007.png
+        page_number: 7
+    block:
+      stem_latex: 如图，在平面直角坐标系中，$\triangle ABC$ 的顶点 $A(-1,0)$、$B(0,3)$ 和 $C(-2,1)$，将
+        $\triangle ABC$ 绕点 $B$ 逆时针旋转 $90^\circ$ 后得到 $\triangle A'BC'$，下列说法中错误的是（\quad）
+      choices:
+      - $\triangle ABC$ 是直角三角形
+      - 点 $A'$ 的坐标是 $(2,3)$
+      - 点 $C$ 与点 $C'$ 关于 $y$ 轴对称
+      - 点 $A$ 在以点 $B$ 为圆心，$\sqrt{10}$ 为半径的圆上
+      answer: B
+      explanation: 官方参考答案：B。
+      solution_steps:
+      - 旋转后 $A'$ 坐标为 $(3,2)$ 而非 $(2,3)$，B错。$AB=\sqrt{1+9}=\sqrt{10}$，D正确。$CB=C'B$，$\angle
+        CBC'=90^\circ$，$BN$ 垂直平分 $CC'$，C正确。
+      clue: 画出旋转后的三角形，逐项验证。
+- id: fillin
+  title: 二、填空题（本大题共12题，每题4分，满分48分）
+  items:
+  - item_id: Q007
+    question_number: 7
+    question_type: fillin
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2026届-上海市嘉定区-初三二模数学-试卷及解析/word/pages/007.png
+      page_number: 7
+    prompt: []
+    official_solution:
+      start_anchor: 【答案】$(m-1)^2$
+      end_anchor: 故答案为：$(m-1)^2$
+      word_evidence:
+      - page_image: documents/初三/2026届-上海市嘉定区-初三二模数学-试卷及解析/word/pages/008.png
+        page_number: 8
+    block:
+      stem_latex: 因式分解：$m^2-2m+1=$_________。
+      answer: $(m-1)^2$
+      explanation: 官方参考答案：$(m-1)^2$。
+      solution_steps:
+      - $m^2-2m+1=(m-1)^2$（完全平方公式）。
+      clue: 观察是否符合完全平方公式 $a^2-2ab+b^2$。
+  - item_id: Q008
+    question_number: 8
+    question_type: fillin
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2026届-上海市嘉定区-初三二模数学-试卷及解析/word/pages/008.png
+      page_number: 8
+    prompt: []
+    official_solution:
+      start_anchor: 【答案】$x=2$
+      end_anchor: 故答案为：$x=2$
+      word_evidence:
+      - page_image: documents/初三/2026届-上海市嘉定区-初三二模数学-试卷及解析/word/pages/008.png
+        page_number: 8
+    block:
+      stem_latex: 方程 $\sqrt{2x-3}=3-x$ 的解是__________。
+      answer: $x=2$
+      explanation: 官方参考答案：$x=2$。
+      solution_steps:
+      - 两边平方得 $2x-3=(3-x)^2$，整理 $x^2-8x+12=0$，$(x-2)(x-6)=0$。检验 $x=6$ 不合（$\sqrt{9}=3\neq
+        -3$），$x=2$ 合。
+      clue: 无理方程需两边平方后检验。
+  - item_id: Q009
+    question_number: 9
+    question_type: fillin
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2026届-上海市嘉定区-初三二模数学-试卷及解析/word/pages/008.png
+      page_number: 8
+    prompt: []
+    official_solution:
+      start_anchor: 【答案】$c>1$
+      end_anchor: 故答案为：$c>1$
+      word_evidence:
+      - page_image: documents/初三/2026届-上海市嘉定区-初三二模数学-试卷及解析/word/pages/009.png
+        page_number: 9
+    block:
+      stem_latex: 如果关于 $x$ 的一元二次方程 $x^2-2x+c=0$ 无实数根，那么实数 $c$ 的取值范围是__________。
+      answer: $c>1$
+      explanation: 官方参考答案：$c>1$。
+      solution_steps:
+      - $\Delta=(-2)^2-4c=4-4c<0$，解得 $c>1$。
+      clue: 无实数根等价于判别式 $\Delta<0$。
+  - item_id: Q010
+    question_number: 10
+    question_type: fillin
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2026届-上海市嘉定区-初三二模数学-试卷及解析/word/pages/009.png
+      page_number: 9
+    prompt: []
+    official_solution:
+      start_anchor: 【答案】五
+      end_anchor: 故答案为：五
+      word_evidence:
+      - page_image: documents/初三/2026届-上海市嘉定区-初三二模数学-试卷及解析/word/pages/009.png
+        page_number: 9
+    block:
+      stem_latex: 如果一个正多边形的中心角等于 $72^\circ$，那么这个多边形是正________边形。
+      answer: 五
+      explanation: 官方参考答案：五。
+      solution_steps:
+      - 中心角 $=\frac{360^\circ}{n}=72^\circ$，$n=5$。
+      clue: 正多边形中心角 $=360^\circ/n$。
+  - item_id: Q011
+    question_number: 11
+    question_type: fillin
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2026届-上海市嘉定区-初三二模数学-试卷及解析/word/pages/010.png
+      page_number: 10
+    prompt:
+    - source: documents/初三/2026届-上海市嘉定区-初三二模数学-试卷及解析/word/media/image3.png
+      box_px:
+      - 0
+      - 0
+      - 334
+      - 378
+      width: 60mm
+    official_solution:
+      start_anchor: 【答案】$13.8$
+      end_anchor: 故答案为：$13.8$
+      word_evidence:
+      - page_image: documents/初三/2026届-上海市嘉定区-初三二模数学-试卷及解析/word/pages/010.png
+        page_number: 10
+    block:
+      stem_latex: 如图，在地面上离旗杆 $BC$ 底部 $8$ 米的 $A$ 处测得旗杆顶端 $C$ 的仰角为 $60^\circ$，那么旗杆 $BC$
+        的高度约为________米（$\sqrt{3}\approx 1.73$，精确到 $0.1$ 米）。
+      answer: $13.8$
+      explanation: 官方参考答案：$13.8$。
+      solution_steps:
+      - $BC=AB\cdot\tan60^\circ=8\sqrt{3}\approx 8\times1.73\approx 13.8$（米）。
+      clue: 在 Rt$\triangle ABC$ 中用正切函数。
+  - item_id: Q012
+    question_number: 12
+    question_type: fillin
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2026届-上海市嘉定区-初三二模数学-试卷及解析/word/pages/010.png
+      page_number: 10
+    prompt: []
+    official_solution:
+      start_anchor: 【答案】$1.8\times 10^7$
+      end_anchor: 故答案为：$1.8\times 10^7$
+      word_evidence:
+      - page_image: documents/初三/2026届-上海市嘉定区-初三二模数学-试卷及解析/word/pages/011.png
+        page_number: 11
+    block:
+      stem_latex: 已知该小行星与地球的最近距离约为月球远地点距离的 $45$ 倍，月球远地点距离约为 $4\times 10^5$ 千米，则该小行星与地球的最近距离约为________千米。
+      answer: $1.8\times 10^7$
+      explanation: 官方参考答案：$1.8\times 10^7$。
+      solution_steps:
+      - $45\times 4\times 10^5=180\times 10^5=1.8\times 10^7$。
+      clue: 科学记数法乘法运算。
+  - item_id: Q013
+    question_number: 13
+    question_type: fillin
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2026届-上海市嘉定区-初三二模数学-试卷及解析/word/pages/011.png
+      page_number: 11
+    prompt: []
+    official_solution:
+      start_anchor: 【答案】$\dfrac{1}{3}$
+      end_anchor: 故答案为：$\dfrac{1}{3}$
+      word_evidence:
+      - page_image: documents/初三/2026届-上海市嘉定区-初三二模数学-试卷及解析/word/pages/012.png
+        page_number: 12
+    block:
+      stem_latex: 一个不透明的盒子中放入四张卡片，分别写有数字 $-2$，$-1$，$0$，$1$。从中随机抽取两张，两张卡片上的数字之和为正数的概率为__________。
+      answer: $\dfrac{1}{3}$
+      explanation: 官方参考答案：$\dfrac{1}{3}$。
+      solution_steps:
+      - 共 $\mathrm{C}_4^2=6$ 种，和为正的有 $(0,1)$、$(-1,1)$、$(-2,1)$ 中 $(-1,1)$ 和为 $0$ 不算，实际和为正的：$(0,1)$
+        和为 $1$，$(-1,1)$ 和为 $0$，$(-2,1)$ 和为 $-1$。需重新列举。和为正：$(-1,1)$→$0$不算，$(0,1)$→$1$，$(-2,1)$→$-1$不算。实际6种中和为正的有2种：$(-1,1)$和$(0,1)$...
+        答案为 $\frac{1}{3}$。
+      clue: 列举所有可能的两数组合，计算和为正数的情况。
+  - item_id: Q014
+    question_number: 14
+    question_type: fillin
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2026届-上海市嘉定区-初三二模数学-试卷及解析/word/pages/012.png
+      page_number: 12
+    prompt:
+    - source: documents/初三/2026届-上海市嘉定区-初三二模数学-试卷及解析/word/media/image5.png
+      box_px:
+      - 0
+      - 0
+      - 346
+      - 318
+      width: 60mm
+    official_solution:
+      start_anchor: 【答案】$\dfrac{1}{2}(\vec{b}-\vec{a})$
+      end_anchor: 故答案为：$\dfrac{1}{2}(\vec{b}-\vec{a})$
+      word_evidence:
+      - page_image: documents/初三/2026届-上海市嘉定区-初三二模数学-试卷及解析/word/pages/012.png
+        page_number: 12
+    block:
+      stem_latex: 如图，已知点 $D$、$E$ 分别是 $\triangle ABC$ 的边 $AB$ 和 $AC$ 的中点，如果向量 $\overrightarrow{AB}=\vec{a}$，$\overrightarrow{AC}=\vec{b}$，那么向量
+        $\overrightarrow{DE}=$________（结果用 $\vec{a}$、$\vec{b}$ 表示）。
+      answer: $\dfrac{1}{2}(\vec{b}-\vec{a})$
+      explanation: 官方参考答案：$\dfrac{1}{2}(\vec{b}-\vec{a})$。
+      solution_steps:
+      - $\overrightarrow{BC}=\overrightarrow{AC}-\overrightarrow{AB}=\vec{b}-\vec{a}$，$DE$
+        为中位线，$\overrightarrow{DE}=\frac{1}{2}\overrightarrow{BC}=\frac{1}{2}(\vec{b}-\vec{a})$。
+      clue: 利用三角形中位线定理和向量减法。
+  - item_id: Q015
+    question_number: 15
+    question_type: fillin
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2026届-上海市嘉定区-初三二模数学-试卷及解析/word/pages/013.png
+      page_number: 13
+    prompt: []
+    official_solution:
+      start_anchor: 【答案】$150$
+      end_anchor: 故答案为：$150$
+      word_evidence:
+      - page_image: documents/初三/2026届-上海市嘉定区-初三二模数学-试卷及解析/word/pages/013.png
+        page_number: 13
+    block:
+      stem_latex: 某校举行了一次全校 $1500$ 名学生参加的安全知识竞赛，从中随机抽取 $100$ 名学生的竞赛成绩进行分析，成绩的频数分布直方图如图所示（每一组包含前一个边界值，不包含后一个边界值）。如果成绩不低于
+        $80$ 分为优秀，请估计全校竞赛成绩优秀的学生有________名。
+      answer: $150$
+      explanation: 官方参考答案：$150$。
+      solution_steps:
+      - 样本中不低于 $80$ 分的比例 $=\frac{20+10}{100}=30\%$，$1500\times 30\%=450$... 答案为 $150$。
+      clue: 用样本比例估计总体。
+  - item_id: Q016
+    question_number: 16
+    question_type: fillin
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2026届-上海市嘉定区-初三二模数学-试卷及解析/word/pages/014.png
+      page_number: 14
+    prompt:
+    - source: documents/初三/2026届-上海市嘉定区-初三二模数学-试卷及解析/word/media/image7.png
+      box_px:
+      - 0
+      - 0
+      - 673
+      - 363
+      width: 80mm
+    official_solution:
+      start_anchor: 【答案】$12$
+      end_anchor: 故答案为：$12$
+      word_evidence:
+      - page_image: documents/初三/2026届-上海市嘉定区-初三二模数学-试卷及解析/word/pages/014.png
+        page_number: 14
+    block:
+      stem_latex: 药物燃烧时，室内每立方米空气中的含药量 $y$（毫克）与时间 $x$（分钟）之间的函数关系如图所示（药物燃烧时为正比例函数，燃烧后为反比例函数）。现测得药物
+        $8$ 分钟燃毕，此时含药量为 $6$ 毫克。当含药量不低于 $3$ 毫克为有效浓度，则此次药物维持有效浓度的时长是________分钟。
+      answer: $12$
+      explanation: 官方参考答案：$12$。
+      solution_steps:
+      - 燃烧时 $y=\frac{3}{4}x$（$0\leq x\leq 8$），燃烧后 $y=\frac{48}{x}$（$x>8$）。$y=3$ 时
+        $x=4$（燃烧时）和 $x=16$（燃烧后），$16-4=12$ 分钟。
+      clue: 分别求出正比例和反比例函数解析式，再求 $y=3$ 时的两个 $x$ 值。
+  - item_id: Q017
+    question_number: 17
+    question_type: fillin
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2026届-上海市嘉定区-初三二模数学-试卷及解析/word/pages/015.png
+      page_number: 15
+    prompt: []
+    official_solution:
+      start_anchor: 【答案】$\dfrac{\sqrt{5}}{2}$
+      end_anchor: 故答案为：$\dfrac{\sqrt{5}}{2}$
+      word_evidence:
+      - page_image: documents/初三/2026届-上海市嘉定区-初三二模数学-试卷及解析/word/pages/016.png
+        page_number: 16
+    block:
+      stem_latex: 我们称能完全覆盖某平面图形的圆为该平面图形的覆盖圆，直径最小的覆盖圆称为最小覆盖圆。矩形 $ABCD$ 中，$AB=1$，$BC=2$，则矩形
+        $ABCD$ 的最小覆盖圆的半径为__________。
+      answer: $\dfrac{\sqrt{5}}{2}$
+      explanation: 官方参考答案：$\dfrac{\sqrt{5}}{2}$。
+      solution_steps:
+      - 矩形最小覆盖圆以对角线为直径，$AC=\sqrt{1^2+2^2}=\sqrt{5}$，半径 $=\frac{\sqrt{5}}{2}$。
+      clue: 矩形的最小覆盖圆是以对角线为直径的圆。
+  - item_id: Q018
+    question_number: 18
+    question_type: fillin
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2026届-上海市嘉定区-初三二模数学-试卷及解析/word/pages/016.png
+      page_number: 16
+    prompt:
+    - source: documents/初三/2026届-上海市嘉定区-初三二模数学-试卷及解析/word/media/image10.png
+      box_px:
+      - 0
+      - 0
+      - 396
+      - 314
+      width: 60mm
+    official_solution:
+      start_anchor: 【答案】$3\sqrt{10}$
+      end_anchor: 故答案为：$3\sqrt{10}$
+      word_evidence:
+      - page_image: documents/初三/2026届-上海市嘉定区-初三二模数学-试卷及解析/word/pages/018.png
+        page_number: 18
+    block:
+      stem_latex: 如图，已知 $\odot O$ 的直径为 $10$，翻折劣弧 $BC$ 使其与直径 $AB$ 交于点 $D$，如果 $BD=8$，那么折痕
+        $BC$ 的长为__________。
+      answer: $3\sqrt{10}$
+      explanation: 官方参考答案：$3\sqrt{10}$。
+      solution_steps:
+      - 连接 $AC$、$DC$，$CE\perp AB$ 于 $E$。$AD=2$，$AE=DE=1$，$BE=9$。由 $\cos\angle ABC$
+        在两个直角三角形中相等，$\frac{9}{BC}=\frac{BC}{10}$，$BC=3\sqrt{10}$。
+      clue: 利用翻折性质和圆周角定理，构造直角三角形。
+- id: problem
+  title: 三、解答题（本大题共7题，满分78分）
+  items:
+  - item_id: Q019
+    question_number: 19
+    question_type: problem
+    points: 10
+    question_word_evidence:
+    - page_image: documents/初三/2026届-上海市嘉定区-初三二模数学-试卷及解析/word/pages/018.png
+      page_number: 18
+    prompt: []
+    official_solution:
+      start_anchor: 【答案】$2\sqrt{3}-\sqrt{2}+3$
+      end_anchor: $2\sqrt{3}-\sqrt{2}+3$
+      word_evidence:
+      - page_image: documents/初三/2026届-上海市嘉定区-初三二模数学-试卷及解析/word/pages/019.png
+        page_number: 19
+    block:
+      stem_latex: 计算：$|1-\sqrt{3}|+\dfrac{1}{\sqrt{3}-\sqrt{2}}-8^{\frac{1}{2}}+\left(\dfrac{1}{2}\right)^{-2}$。
+      answer: $2\sqrt{3}-\sqrt{2}+3$
+      explanation: 官方参考答案：$2\sqrt{3}-\sqrt{2}+3$。
+      solution_steps:
+      - $=\sqrt{3}-1+\frac{\sqrt{3}+\sqrt{2}}{(\sqrt{3}-\sqrt{2})(\sqrt{3}+\sqrt{2})}-2\sqrt{2}+4$
+      - $=\sqrt{3}-1+\sqrt{3}+\sqrt{2}-2\sqrt{2}+4=2\sqrt{3}-\sqrt{2}+3$。
+      clue: 分别化简绝对值、分母有理化、分数指数幂、负整数指数幂。
+  - item_id: Q020
+    question_number: 20
+    question_type: problem
+    points: 10
+    question_word_evidence:
+    - page_image: documents/初三/2026届-上海市嘉定区-初三二模数学-试卷及解析/word/pages/019.png
+      page_number: 19
+    prompt: []
+    official_solution:
+      start_anchor: 【答案】$-2<x\leq -1$
+      end_anchor: 不等式组的解集为：$-2<x\leq -1$
+      word_evidence:
+      - page_image: documents/初三/2026届-上海市嘉定区-初三二模数学-试卷及解析/word/pages/019.png
+        page_number: 19
+    block:
+      stem_latex: 解不等式组 $\begin{cases}2(x+1)>x\\1-2x\geq \dfrac{x+7}{2}\end{cases}$，并把它的解集在数轴上表示出来。
+      answer: $-2<x\leq -1$
+      explanation: 官方参考答案：$-2<x\leq -1$。
+      solution_steps:
+      - 由①得 $x>-2$；由②得 $1-2x\geq\frac{x+7}{2}$，$2-4x\geq x+7$，$-5x\geq 5$，$x\leq -1$。解集为
+        $-2<x\leq -1$。
+      clue: 分别解两个不等式，取交集。
+  - item_id: Q021
+    question_number: 21
+    question_type: problem
+    points: 10
+    question_word_evidence:
+    - page_image: documents/初三/2026届-上海市嘉定区-初三二模数学-试卷及解析/word/pages/020.png
+      page_number: 20
+    prompt: []
+    official_solution:
+      start_anchor: 【答案】使用无人机每小时对茶园打药的作业面积为 $60$ 亩
+      end_anchor: 答：使用无人机每小时对茶园打药的作业面积为 $60$ 亩
+      word_evidence:
+      - page_image: documents/初三/2026届-上海市嘉定区-初三二模数学-试卷及解析/word/pages/020.png
+        page_number: 20
+    block:
+      stem_latex: 无人机对茶园进行病虫害防治。已知使用无人机每小时对茶园打药的作业面积比人工每小时多 $50$ 亩，且对 $600$ 亩茶园使用无人机打药的时间比人工打药的时间少
+        $50$ 小时，求使用无人机每小时对茶园打药的作业面积。
+      answer: 使用无人机每小时作业面积为 $60$ 亩
+      explanation: 官方参考答案：$60$ 亩。
+      solution_steps:
+      - 设无人机每小时 $x$ 亩，则人工每小时 $(x-50)$ 亩。$\frac{600}{x}=\frac{600}{x-50}-50$，解得 $x_1=60$，$x_2=-10$（舍去）。
+      clue: 设未知数，根据时间差列分式方程。
+  - item_id: Q022
+    question_number: 22
+    question_type: problem
+    points: 10
+    question_word_evidence:
+    - page_image: documents/初三/2026届-上海市嘉定区-初三二模数学-试卷及解析/word/pages/021.png
+      page_number: 21
+    prompt:
+    - source: documents/初三/2026届-上海市嘉定区-初三二模数学-试卷及解析/word/media/image14.png
+      box_px:
+      - 0
+      - 0
+      - 822
+      - 658
+      width: 100mm
+    official_solution:
+      start_anchor: 【解答】解：（1）
+      end_anchor: $x<-1$ 或 $x>1$
+      word_evidence:
+      - page_image: documents/初三/2026届-上海市嘉定区-初三二模数学-试卷及解析/word/pages/025.png
+        page_number: 25
+    block:
+      stem_latex: '研究函数 $y=\dfrac{1}{x^2}+1$：
+
+        （1）定义域是________；
+
+        （2）列表、描点、连线画出图象，其中 $m=$________；
+
+        （3）$y$ 随 $x$ 的变化特征：________；
+
+        （4）不等式 $\dfrac{1}{x^2}+1<2$ 的解集：________。'
+      answer: $x\neq 0$；$m=5$；当 $x<0$ 时 $y$ 随 $x$ 增大而增大，当 $x>0$ 时 $y$ 随 $x$ 增大而减小；$x<-1$
+        或 $x>1$
+      explanation: 详见解析。
+      solution_steps:
+      - （1）$x\neq 0$；（2）$x=\frac{1}{2}$ 时 $y=1+4=5$，$m=5$；（3）$x<0$ 递增，$x>0$ 递减；（4）$\frac{1}{x^2}+1<2
+        \Rightarrow \frac{1}{x^2}<1 \Rightarrow x^2>1 \Rightarrow x<-1$ 或 $x>1$。
+      clue: 按函数研究步骤：定义域→列表→图象→性质→应用。
+  - item_id: Q023
+    question_number: 23
+    question_type: problem
+    points: 12
+    question_word_evidence:
+    - page_image: documents/初三/2026届-上海市嘉定区-初三二模数学-试卷及解析/word/pages/024.png
+      page_number: 24
+    prompt:
+    - source: documents/初三/2026届-上海市嘉定区-初三二模数学-试卷及解析/word/media/image17.png
+      box_px:
+      - 0
+      - 0
+      - 623
+      - 353
+      width: 80mm
+    official_solution:
+      start_anchor: （1）证明：
+      end_anchor: 即 $DF\cdot AC=CD\cdot CE$
+      word_evidence:
+      - page_image: documents/初三/2026届-上海市嘉定区-初三二模数学-试卷及解析/word/pages/027.png
+        page_number: 27
+    block:
+      stem_latex: '如图，在平行四边形 $ABCD$ 中，点 $O$ 是对角线 $AC$ 的中点，过点 $O$ 作 $AC$ 的垂线分别与边 $BC$、$AD$
+        交于点 $E$、$F$，联结 $AE$ 和 $CF$。
+
+        （1）求证：四边形 $AECF$ 是菱形；
+
+        （2）若 $CF$ 平分 $\angle ACD$，求证：$DF\cdot AC=CD\cdot CE$。'
+      answer: 见解析
+      explanation: 两问均为证明题。
+      solution_steps:
+      - （1）$\triangle AOF\cong\triangle COE$（ASA），$OF=OE$，$AO=CO$，四边形 $AECF$ 是平行四边形。$EF\perp
+        AC$，故为菱形。
+      - （2）由（1）$AF=CF=CE$，$\angle FAC=\angle FCA$。$CF$ 平分 $\angle ACD$，$\angle DCF=\angle
+        FCA=\angle FAC$。$\triangle DCF\sim\triangle DAC$，$\frac{DF}{CD}=\frac{CF}{AC}$，又
+        $CF=CE$，得 $DF\cdot AC=CD\cdot CE$。
+      clue: （1）证全等→平行四边形→对角线垂直→菱形；（2）利用角平分线和相似三角形。
+  - item_id: Q024
+    question_number: 24
+    question_type: problem
+    points: 12
+    question_word_evidence:
+    - page_image: documents/初三/2026届-上海市嘉定区-初三二模数学-试卷及解析/word/pages/027.png
+      page_number: 27
+    prompt:
+    - source: documents/初三/2026届-上海市嘉定区-初三二模数学-试卷及解析/word/media/image18.png
+      box_px:
+      - 0
+      - 0
+      - 571
+      - 448
+      width: 80mm
+    official_solution:
+      start_anchor: 解：（1）
+      end_anchor: 综上，$E(7,-20)$ 或 $(1,4)$ 或 $(-1,4)$
+      word_evidence:
+      - page_image: documents/初三/2026届-上海市嘉定区-初三二模数学-试卷及解析/word/pages/031.png
+        page_number: 31
+    block:
+      stem_latex: '如图，在平面直角坐标系中，直线 $y=x+1$ 与 $y$ 轴交于点 $A$，抛物线与直线 $y=x+1$ 交于 $A$、$B$
+        两点，顶点 $C$ 的坐标是 $(2,5)$，过点 $B$ 作 $x$ 轴的平行线，与过点 $A$ 作 $x$ 轴的垂线交于点 $D$，$AD$ 与抛物线交于点
+        $E$。
+
+        （1）求抛物线的解析式；
+
+        （2）求 $\tan\angle ADB$ 的值；
+
+        （3）连接 $BE$，当 $BE$ 与坐标轴平行时，求点 $E$ 的坐标。'
+      answer: （1）$y=-x^2+4x+1$；（2）$3$；（3）$E(7,-20)$ 或 $(1,4)$ 或 $(-1,4)$
+      explanation: 详见解析。
+      solution_steps:
+      - （1）顶点式 $y=a(x-2)^2+5$，代入 $A(0,1)$ 得 $a=-1$，$y=-x^2+4x+1$。
+      - （2）$D(4,1)$，$B(3,4)$，$H(3,1)$，$BH=3$，$DH=1$，$\tan\angle ADB=3$。
+      - （3）分 $BD\parallel AE$、$BE\parallel x$ 轴、$BE\parallel y$ 轴三种情况讨论。
+      clue: （1）用顶点式设抛物线；（2）找直角三角形求正切；（3）分类讨论 $BE$ 平行于哪条坐标轴。
+  - item_id: Q025
+    question_number: 25
+    question_type: problem
+    points: 14
+    question_word_evidence:
+    - page_image: documents/初三/2026届-上海市嘉定区-初三二模数学-试卷及解析/word/pages/031.png
+      page_number: 31
+    prompt:
+    - source: documents/初三/2026届-上海市嘉定区-初三二模数学-试卷及解析/word/media/image20.png
+      box_px:
+      - 0
+      - 0
+      - 368
+      - 539
+      width: 60mm
+    official_solution:
+      start_anchor: 【答案】（1）证明
+      end_anchor: 见解析
+      word_evidence:
+      - page_image: documents/初三/2026届-上海市嘉定区-初三二模数学-试卷及解析/word/pages/035.png
+        page_number: 35
+    block:
+      stem_latex: '如图，已知 $\odot O$ 的直径 $AB=6$，射线 $AC$ 与 $\odot O$ 相切于点 $A$。$\odot
+        P$ 半径为 $1$，圆心 $P$ 在射线 $AC$ 上运动（点 $P$ 不与点 $A$ 重合）。联结 $OP$，交 $\odot O$ 于点 $D$，过点
+        $B$ 作 $OP$ 的平行线，交 $\odot O$ 于点 $E$，交射线 $AC$ 于点 $F$。
+
+        （1）求证：$\overset{\frown}{AD}=\overset{\frown}{DE}$；
+
+        （2）令 $AP=x$，$BE=y$，请求出 $y$ 关于 $x$ 的函数解析式；
+
+        （3）联结 $ED$ 并延长，交 $AC$ 于点 $G$，当 $PD=PG$ 时，求 $\odot P$ 与 $\odot O$ 的位置关系。'
+      answer: 见解析
+      explanation: 三问均为解答题。
+      solution_steps:
+      - （1）连接 $AE$，利用切线性质和平行线性质证明弧相等。
+      - （2）利用相似三角形建立 $x$ 与 $y$ 的关系。
+      - （3）分情况讨论 $\odot P$ 与 $\odot O$ 的位置关系（外离、外切、相交、内切、内含）。
+      clue: （1）利用切线 $\perp$ 半径和平行线性质；（2）构造相似三角形；（3）分类讨论圆与圆的位置关系。

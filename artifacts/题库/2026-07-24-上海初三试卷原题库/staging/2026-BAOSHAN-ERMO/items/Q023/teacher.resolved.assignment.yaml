@@ -1,0 +1,88 @@
+meta:
+  title: 2026年上海市宝山区中考二模数学试卷第 23 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q023
+    points: 12
+    stem_latex: '如图，已知梯形$ABCD$中，$AD\parallel BC$，$AB=CD$，对角线$AC$与$BD$交于点$E$，将$\triangle ADC$沿着直线$AC$翻折得到$\triangle AFC$（点$D$对应点$F$）．
+
+      （1）求证：四边形$ABCF$是平行四边形；
+
+      （2）如果四边形$ABCF$是矩形，且$AD=2$，$BC=4$，求证：$AC\perp BD$．
+
+      '
+    answer: （1）见解析；（2）见解析
+    clue: （1）等腰梯形$AB=CD$，翻折$AF=CD$，$CF=AD=BC$，两组对边分别相等；（2）矩形$AC=BF$，比例线段证$AC\perp BD$。
+    solution_steps:
+    - title: 第（1）问
+      content: '证明：由翻折可得，$AF=AD$，$CF=CD$。
+
+        $\because$梯形$ABCD$中，$AD\parallel BC$，$AB=CD$，
+
+        $\therefore$梯形$ABCD$是等腰梯形，$AC=BD$。
+
+        $\therefore AD=BC$，
+
+        $\therefore AF=BC$，$CF=AB$，
+
+        $\therefore$四边形$ABCF$是平行四边形。
+
+        '
+    - title: 第（2）问
+      content: '证明：$\because$四边形$ABCF$是矩形，
+
+        $\therefore AC=BF$，$\angle BAC=90^{\circ}$。
+
+        $\therefore$设$BE=x$，则$EC=AC-x$。
+
+        $\because AD\parallel BC$，
+
+        $\therefore\dfrac{AE}{EC}=\dfrac{AD}{BC}=\dfrac{1}{2}$，
+
+        $\therefore AE=\dfrac{1}{3}AC$，$EC=\dfrac{2}{3}AC$。
+
+        $\because\angle BAC=90^{\circ}$，
+
+        $\therefore AB^{2}+AC^{2}=BC^{2}$，
+
+        $\therefore AB^{2}=16-AC^{2}$。
+
+        $\because BE^{2}=AB^{2}+AE^{2}$，
+
+        $\therefore BE^{2}=16-AC^{2}+\dfrac{1}{9}AC^{2}=16-\dfrac{8}{9}AC^{2}$。
+
+        又$BE=\dfrac{1}{3}BF=\dfrac{1}{3}AC$，
+
+        $\therefore\dfrac{1}{9}AC^{2}=16-\dfrac{8}{9}AC^{2}$，
+
+        $\therefore AC^{2}=16$，$AC=4$。
+
+        $\therefore AE=2$，$BE=2$，$AB=2\sqrt{3}$。
+
+        $\therefore AB^{2}=AE^{2}+BE^{2}$，
+
+        $\therefore\angle AEB=90^{\circ}$，即$AC\perp BD$。
+
+        '
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 80mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

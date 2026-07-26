@@ -1,0 +1,34 @@
+meta:
+  title: 2026年上海市虹口区中考二模数学试卷第 18 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题（本大题共12题，每题4分，满分48分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: fillin
+    id: Q018
+    points: 4
+    stem_latex: '已知抛物线 $C_1: y=a(x-m)^2+p$ 和 $C_2: y=a(x-p)^2+m$，它们的顶点分别为 $(m,p)$ 和 $(p,m)$，我们称 $C_1$ 和 $C_2$ 互为“反顶点抛物线”. 如果抛物线 $C_1: y=x^2-2kx+k^2+3$ 和 $C_2$ 互为“反顶点抛物线”，且 $C_1$ 的顶点在 $C_2$ 上，那么 $k$ 的值是________.'
+    answer: $k=3$ 或 $k=2$
+    explanation: 官方参考答案：$k=3$ 或 $k=2$。
+    solution_steps:
+    - '$C_1: y=x^2-2kx+k^2+3=(x-k)^2+3$，'
+    - 顶点坐标为 $(k,3)$，
+    - '根据题意得，$C_2: y=(x-3)^2+k$，'
+    - 将 $(k,3)$ 代入 $C_2$ 解析式得，
+    - $(k-3)^2+k=3$
+    - 解得 $k=3$ 或 $k=2$。
+    clue: 利用二次函数顶点解析式以及待定系数法进行求解。
+    source_solution_images: []

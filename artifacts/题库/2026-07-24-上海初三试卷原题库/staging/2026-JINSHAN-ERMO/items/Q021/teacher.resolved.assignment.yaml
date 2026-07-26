@@ -1,0 +1,32 @@
+meta:
+  title: 2026年上海市金山区中考二模数学试卷第 21 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题（本大题共8题，满分90分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q021
+    points: 12
+    stem_latex: 如图，在平面直角坐标系$xOy$中，抛物线$y=\dfrac{1}{2}x^2+bx+c$经过点$A(-1,0)$、$B(3,0)$，顶点为$C$。
+    answer: $y=\dfrac{1}{2}x^2-2x+\dfrac{3}{2}$
+    explanation: 官方参考答案：$y=\dfrac{1}{2}x^2-2x+\dfrac{3}{2}$。
+    solution_steps:
+    - 把$A(-1,0)$、$B(3,0)$代入$y=\dfrac{1}{2}x^2+bx+c$
+    - 得$\begin{cases}\dfrac{1}{2}-b+c=0\\\dfrac{9}{2}+3b+c=0\end{cases}$
+    - 解得$\begin{cases}b=-2\\c=\dfrac{3}{2}\end{cases}$
+    - $\therefore$抛物线的解析式为$y=\dfrac{1}{2}x^2-2x+\dfrac{3}{2}$。
+    clue: 将两个点的坐标代入抛物线解析式，得到关于$b$、$c$的二元一次方程组，解方程组即可。
+    source_solution_images: []

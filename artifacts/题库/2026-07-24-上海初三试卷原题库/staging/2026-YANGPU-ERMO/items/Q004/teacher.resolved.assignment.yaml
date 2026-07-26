@@ -1,0 +1,36 @@
+meta:
+  title: 2026年上海市杨浦区中考二模数学试卷第 4 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题（本大题共6题，每题4分，满分24分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q004
+    points: 4
+    stem_latex: 下列函数中，函数值$y$随自变量$x$的值增大而增大的是（\quad）
+    choices:
+    - $y=-\dfrac{2}{x}$
+    - $y=\dfrac{2}{x}$
+    - $y=x^2-2$
+    - $y=2x-2$
+    answer: D
+    explanation: 官方参考答案：D。
+    solution_steps:
+    - 'A: $y=-\dfrac{2}{x}$，图像过二、四象限，在每一个象限内，$y$随$x$增大而增大，不符合题意；'
+    - 'B: $y=\dfrac{2}{x}$，图像过一、三象限，在每一个象限内，$y$随$x$增大而减小，不符合题意；'
+    - 'C: $y=x^2-2$，在$y$轴左侧，$y$随$x$增大而减小，在$y$轴右侧，$y$随$x$增大而增大，不符合题意；'
+    - 'D: $y=2x-2$，$k=2>0$，$y$随$x$增大而增大，符合题意。'
+    source_solution_images: []

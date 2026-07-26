@@ -1,0 +1,55 @@
+meta:
+  title: 2026年上海市长宁区中考二模数学试卷第 23 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题（本大题共7题，满分78分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q023
+    points: 12
+    stem_latex: 如图，正方形$ABCD$中，点$E$在对角线$BD$上，点$F$在边$CD$上（点$F$与点$C$不重合），且$\angle EAF=45^{\circ}$。（1）求证：$AF\cdot BE=AE\cdot CF$；（2）在图中延长$AE$与$BC$交于点$H$，如果$CF=\sqrt{2}DF$，求证：$BH=DF$。
+    answer: （1）见解析 （2）见解析
+    explanation: 官方参考答案：（1）见解析；（2）见解析。
+    solution_steps:
+    - （1）证明：连接$AC$，$\because$ 四边形$ABCD$是正方形，
+    - $\therefore \angle ABD=\angle ACD=\angle BAC=45^{\circ}$，
+    - $\because \angle EAF=45^{\circ}$，$\therefore \angle BAC=\angle EAF$，
+    - $\therefore \angle BAE+\angle EAC=\angle CAF+\angle EAC$，
+    - $\therefore \angle BAE=\angle CAF$，
+    - $\because \angle ABE=\angle ACF$，
+    - $\therefore \triangle ABE\sim\triangle ACF$，
+    - $\therefore \dfrac{AE}{AF}=\dfrac{BE}{CF}$，$\therefore AF\cdot BE=AE\cdot CF$；
+    - （2）证明：设$DF=a$，则$CF=\sqrt{2}a$，
+    - $\therefore CD=CF+DF=\sqrt{2}a+a=(\sqrt{2}+1)a$，
+    - $\because$ 四边形$ABCD$是正方形，
+    - $\therefore AD=BC=CD=(\sqrt{2}+1)a$，$\angle ABC=90^{\circ}$，
+    - 在Rt$\triangle ABC$中，由勾股定理得：$AC=\sqrt{AB^2+BC^2}=\sqrt{2}AB=\sqrt{2}AD$，
+    - 由（1）知$\triangle ABE\sim\triangle ACF$，
+    - $\therefore \dfrac{BE}{CF}=\dfrac{AB}{AC}=\dfrac{AB}{\sqrt{2}AB}=\dfrac{1}{\sqrt{2}}$，
+    - $\therefore \dfrac{BE}{\sqrt{2}a}=\dfrac{1}{\sqrt{2}}$，解得$BE=a$，
+    - $\therefore BE=DF$，
+    - $\because$ 四边形$ABCD$是正方形，
+    - $\therefore AC=BD=\sqrt{2}AD$，$AD\parallel BC$，即$AD\parallel BH$，
+    - $\therefore \angle DAE=\angle BHE$，
+    - $\because \angle AED=\angle HEB$，
+    - $\therefore \triangle ADE\sim\triangle HBE$，
+    - $\therefore \dfrac{BH}{AD}=\dfrac{BE}{DE}$，
+    - $\because BD=\sqrt{2}AD=\sqrt{2}\cdot(\sqrt{2}+1)a=(2+\sqrt{2})a$，
+    - $\therefore DE=BD-BE=(2+\sqrt{2})a-a=(\sqrt{2}+1)a$，
+    - $\therefore DE=AD$，
+    - $\therefore BH=\dfrac{AD\cdot BE}{DE}=\dfrac{AD\cdot a}{AD}=a$，
+    - $\because DF=a$，$\therefore BH=DF$。
+    source_solution_images: []

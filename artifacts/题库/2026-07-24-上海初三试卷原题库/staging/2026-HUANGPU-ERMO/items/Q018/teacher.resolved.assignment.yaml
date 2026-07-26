@@ -1,0 +1,41 @@
+meta:
+  title: 2026年上海市黄浦区中考二模数学试卷第 18 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: \u4e8c\u3001\u586b\u7a7a\u9898\uff08\u672c\u5927\u9898\u517112\u9898\uff0c\u6bcf\u98984\u5206\uff0c\u6ee1\u520648\u5206\uff09
+  type: practice
+  visibility: both
+  blocks:
+  - type: fillin
+    id: Q018
+    points: 4
+    stem_latex: \u5982\u56fe\uff0c\u6b63\u65b9\u5f62$EFGH$\u5185\u63a5\u4e8e\u6b63\u65b9\u5f62$ABCD$\uff0c\u5373\u70b9$E$\u3001$F$\u3001$G$\u3001$H$\u5206\u522b\u5728\u6b63\u65b9\u5f62$ABCD$\u7684\u56db\u8fb9\u4e0a\u3002\u8bf7\u753b\u51fa\u70b9$A$\u3001$B$\u3001$C$\u3001$D$\u5206\u522b\u5173\u4e8e$HE$\u3001$EF$\u3001$FG$\u3001$GH$\u7684\u5bf9\u79f0\u70b9$P$\u3001$Q$\u3001$R$\u3001$S$\uff0c\u5982\u679c\u56db\u8fb9\u5f62$PQRS$\u7684\u9762\u79ef\u6070\u597d\u662f\u6b63\u65b9\u5f62$ABCD$\u9762\u79ef\u7684\u4e00\u534a\uff0c\u90a3\u4e48$\dfrac{EF}{AB}$\u7684\u503c\u662f________\u3002
+    answer: $\dfrac{\sqrt{3}}{2}$
+    explanation: \u5b98\u65b9\u53c2\u8003\u7b54\u6848\uff1a$\dfrac{\sqrt{3}}{2}$\u3002
+    solution_steps:
+    - \u56db\u8fb9\u5f62$ABCD$,$EFGH$\u662f\u6b63\u65b9\u5f62\uff0c
+    - $\angle BAD=\angle ADC=\angle EHG=90^\circ$,$EH=HG$,
+    - \u53ef\u8bc1$\triangle EAH\cong\triangle HDG\cong\triangle GCF\cong\triangle FBE$\uff08AAS\uff09\uff0c
+    - \u7531\u5bf9\u79f0\u53ef\u8bbe$S_{\triangle EAH}=S_{\triangle EPH}=S_{\triangle DHG}=S_{\triangle SHG}=S_{\triangle CFG}=S_{\triangle RFG}=S_{\triangle FBE}=S_{\triangle FQE}=m$,
+    - \u6839\u636e$S_{\text{四边形}PQRS}=\dfrac{1}{2}S_{\text{正方形}ABCD}$\uff0c\u6c42\u51fa$S_{\text{正方形}ABCD}=16m$,$S_{\text{四边形}PQRS}=8m$,
+    - $\therefore S_{\text{正方形}EFGH}=4m+8m=12m$,
+    - \u0024\therefore\left(\dfrac{EF}{AB}\right)^2=\dfrac{S_{\text{正方形}EFGH}}{S_{\text{正方形}ABCD}}=\dfrac{12}{16}$,
+    - $\therefore\dfrac{EF}{AB}=\dfrac{\sqrt{3}}{2}$\u3002
+    clue: \u5229\u7528\u5168\u7b49\u4e09\u89d2\u5f62\u5168\u7b49\u548c\u5bf9\u79f0\u6027\u8d28\u6c42\u89e3\u3002
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 80mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

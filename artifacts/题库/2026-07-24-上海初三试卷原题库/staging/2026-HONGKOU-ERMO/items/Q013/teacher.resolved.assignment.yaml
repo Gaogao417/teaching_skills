@@ -1,0 +1,31 @@
+meta:
+  title: 2026年上海市虹口区中考二模数学试卷第 13 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题（本大题共12题，每题4分，满分48分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: fillin
+    id: Q013
+    points: 4
+    stem_latex: 如图，已知小明调查了团队中每位同学最喜欢的颜色（每人只能选择一种颜色），并绘制了不完整的扇形统计图和条形统计图，那么喜欢黄色的同学有________人.
+    answer: $22$
+    explanation: 官方参考答案：$22$。
+    solution_steps:
+    - 由统计图可知，喜欢蓝色的有 $15$ 人，占总人数的 $15\%$，则调查的总人数为 $15\div 15\%=100$（人）。
+    - 喜欢红色的人数为 $100\times 25\%=25$（人）。
+    - 喜欢黄色的人数为 $100-38-25-15=22$（人）。
+    clue: 根据条形统计图和扇形统计图中蓝色部分的数据求出调查的总人数，再计算出红色部分的人数，最后用总人数减去绿、红、蓝三部分的人数即可得出喜欢黄色的人数。
+    source_solution_images: []

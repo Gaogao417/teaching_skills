@@ -1,0 +1,35 @@
+meta:
+  title: 2026年上海市闵行区中考二模数学试卷第 22 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题（本大题共7题，共78分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q022
+    points: 10
+    stem_latex: 小闵在探究纸杯叠放的高度规律时，得到了一套遗失了部分实验数据的图纸。图①是一张缺失了部分信息的函数图纸，实验数据表示的点 $P_{1}$，$P_{2}$，$P_{3}$ 都落在了线段 $AB$ 上；图②是同一次实验的另一张缺失了部分图像的示意图，图中显示了 $6$ 个相同规格的纸杯叠放后增加的高度。\n\n（1）求叠放在一起的纸杯总高度 $y$（厘米）关于纸杯数量 $x$（个）的函数解析式（不写定义域）；\n\n（2）为了保持纸杯清洁，在最上端的纸杯加装一个盖子以后，高度增加了 $2$ 厘米，此时总高度为 $46.8$ 厘米，求纸杯的数量。
+    answer: （1）$y=1.2x+8.8$；（2）纸杯的数量为 $30$ 个。
+    explanation: 官方参考答案：（1）$y=1.2x+8.8$；（2）纸杯的数量为 $30$ 个。
+    solution_steps:
+    - （1）分析图②：$6$ 个纸杯叠放增加的高度是 $6\mathrm{cm}$，所以每增加 $1$ 个纸杯，高度增加 $6\div\left(6-1\right)=1.2\mathrm{cm}$，
+    - 由图①知，当 $x=0$ 时，$y=8.8$，$\therefore$ 函数解析式为 $y=1.2x+8.8$；
+    - （2）由题意得 $46.8-2=1.2x+8.8$，解得 $x=30$，答：纸杯的数量为 $30$ 个。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 120mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

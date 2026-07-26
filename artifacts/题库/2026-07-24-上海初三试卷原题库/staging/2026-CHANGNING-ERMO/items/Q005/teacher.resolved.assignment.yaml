@@ -1,0 +1,38 @@
+meta:
+  title: 2026年上海市长宁区中考二模数学试卷第 5 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题（本大题共6题，每题4分，满分24分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q005
+    points: 4
+    stem_latex: 如图，方格纸中每个小正方形的边长为1，其上有一个四边形$ABCD$（$A$、$B$、$C$、$D$均为格点），那么下列说法中正确的是（\quad）
+    choices:
+    - 四边形$ABCD$是菱形
+    - 四边形$ABCD$的周长是$2\sqrt{2}+2\sqrt{5}$
+    - 四边形$ABCD$的面积是6
+    - $\angle ABC=\angle ADC=45^{\circ}$
+    answer: C
+    explanation: 官方参考答案：C。
+    solution_steps:
+    - 根据勾股定理，$AB=AD=\sqrt{1^2+2^2}=\sqrt{5}$，$BC=CD=\sqrt{2^2+2^2}=2\sqrt{2}$，
+    - $\therefore AB\neq BC$，四边形$ABCD$不是菱形，选项A错误；
+    - 四边形$ABCD$的周长是$2AB+2CD=4\sqrt{2}+2\sqrt{5}$，选项B错误；
+    - 设$AC$和$BD$相交于点$O$，则$BD=4$，$AO=1$，$CO=2$，
+    - 四边形$ABCD$的面积是$\frac{1}{2}DB\cdot AO+\frac{1}{2}DB\cdot CO=\frac{1}{2}\times4\times1+\frac{1}{2}\times4\times2=6$，选项C正确；
+    - $\because \angle ABC>\angle CBD=45^{\circ}$，$\angle ADC>\angle CDB=45^{\circ}$，选项D错误。
+    source_solution_images: []

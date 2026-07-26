@@ -1,0 +1,37 @@
+meta:
+  title: 2026年上海市徐汇区中考二模数学试卷第 3 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题（本大题共6题，每题4分，满分24分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q003
+    points: 4
+    stem_latex: 下列函数中，函数值$y$随自变量$x$的值增大而减小的是（\quad）
+    choices:
+    - $y=\dfrac{x}{2}$
+    - $y=-\dfrac{x}{2}$
+    - $y=\dfrac{2}{x}$
+    - $y=-\dfrac{2}{x}$
+    answer: B
+    explanation: 官方参考答案：B。
+    solution_steps:
+    - A选项为正比例函数：$k=\dfrac{1}{2}>0$，$y$随自变量$x$的值增大而增大，故A选项不符合题意；
+    - B选项正比例函数：$k=-\dfrac{1}{2}<0$，$y$随自变量$x$的值增大而减小，故B选项符合题意；
+    - C选项反比例函数，$x\neq 0$：$k=2>0$，在$x>0$与$x<0$上，$y$随自变量$x$的值增大而减小，但$x\neq 0$，故C选项不符合题意；
+    - D选项反比例函数，$x\neq 0$：$k=-2<0$，在$x>0$与$x<0$上，$y$随自变量$x$的值增大而增大，故D选项不符合题意；
+    - 故选：B.
+    source_solution_images: []

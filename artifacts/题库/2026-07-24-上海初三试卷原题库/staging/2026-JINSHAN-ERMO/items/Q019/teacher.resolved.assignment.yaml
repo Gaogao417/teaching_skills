@@ -1,0 +1,32 @@
+meta:
+  title: 2026年上海市金山区中考二模数学试卷第 19 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题（本大题共8题，满分90分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q019
+    points: 10
+    stem_latex: 如图，在平面直角坐标系$xOy$中，抛物线$y=ax^2+bx+c$经过点$A(-1,0)$、$B(3,0)$、$C(0,\dfrac{3}{2})$。
+    answer: $y=-\dfrac{1}{2}x^2+x+\dfrac{3}{2}$
+    explanation: 官方参考答案：$y=-\dfrac{1}{2}x^2+x+\dfrac{3}{2}$。
+    solution_steps:
+    - 把$A(-1,0)$、$B(3,0)$、$C(0,\dfrac{3}{2})$代入$y=ax^2+bx+c$
+    - 得$\begin{cases}a-b+c=0\\9a+3b+c=0\\c=\dfrac{3}{2}\end{cases}$
+    - 解得$\begin{cases}a=-\dfrac{1}{2}\\b=1\\c=\dfrac{3}{2}\end{cases}$
+    - $\therefore$抛物线的解析式为$y=-\dfrac{1}{2}x^2+x+\dfrac{3}{2}$。
+    clue: 将三个点的坐标代入抛物线解析式，得到关于$a$、$b$、$c$的三元一次方程组，解方程组即可。
+    source_solution_images: []

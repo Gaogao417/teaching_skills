@@ -1,0 +1,37 @@
+meta:
+  title: 2026年上海市松江区中考二模数学试卷第 4 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题（本大题共6题，每题4分，满分24分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q004
+    points: 4
+    stem_latex: 已知数据：$x_1$，$x_2$，$\cdots$，$x_n$的平均数是$m$，方差是$n$，那么数据$x_1+2$，$x_2+2$，$\cdots$，$x_n+2$的平均数和方差分别是（\quad）
+    choices:
+    - $m$，$n$
+    - $m$，$n+2$
+    - $m+2$，$n$
+    - $m+2$，$n+2$
+    answer: C
+    explanation: 官方参考答案：C。
+    solution_steps:
+    - 数据$x_1$，$x_2$，$\cdots$，$x_n$的平均数是$m$，方差是$n$，
+    - $\therefore\dfrac{x_1+x_2+\cdots+x_n}{n}=m$，即$x_1+x_2+\cdots+x_n=mn$，$\dfrac{(x_1-m)^2+(x_2-m)^2+\cdots+(x_n-m)^2}{n}=n$，
+    - 那么数据$x_1+2$，$x_2+2$，$\cdots$，$x_n+2$的平均数为：$\dfrac{(x_1+2)+(x_2+2)+\cdots+(x_n+2)}{n}=\dfrac{(x_1+x_2+\cdots+x_n)+2n}{n}=\dfrac{mn+2n}{n}=m+2$；
+    - 方差为：$\dfrac{[x_1+2-(m+2)]^2+[x_2+2-(m+2)]^2+\cdots+[x_n+2-(m+2)]^2}{n}=\dfrac{(x_1-m)^2+(x_2-m)^2+\cdots+(x_n-m)^2}{n}=n$。
+    clue: 根据方差和平均数的计算公式求解即可。
+    source_solution_images: []

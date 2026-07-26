@@ -1,0 +1,34 @@
+meta:
+  title: 2026年上海市虹口区中考二模数学试卷第 14 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题（本大题共12题，每题4分，满分48分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: fillin
+    id: Q014
+    points: 4
+    stem_latex: 如图，在矩形 $ABCD$ 中，$AB=8$，$AD=11$，$\odot O$ 经过点 $C$、$D$ 和 $AD$ 边上的点 $E$，如果 $\odot O$ 的半径是 $5$，那么 $AE$ 的长是________.
+    answer: $5$
+    explanation: 官方参考答案：$5$。
+    solution_steps:
+    - 在矩形 $ABCD$ 中，$AB=8$，$AD=11$，
+    - $CD=AB=8$，$\angle ADC=90^\circ$，
+    - $\angle ADC=90^\circ$，
+    - $CE$ 是 $\odot O$ 的直径，即 $CE=10$，
+    - $ED=\sqrt{CE^2-CD^2}=\sqrt{10^2-8^2}=6$，
+    - $AE=AD-ED=11-6=5$。
+    clue: 根据矩形的性质得出 $CD=AB=8$，$\angle ADC=90^\circ$，利用 $90^\circ$ 的圆周角所对的弦是直径可得 $CE$ 为直径，在 $\mathrm{Rt}\triangle CDE$ 中利用勾股定理求出 $DE$ 的长。
+    source_solution_images: []

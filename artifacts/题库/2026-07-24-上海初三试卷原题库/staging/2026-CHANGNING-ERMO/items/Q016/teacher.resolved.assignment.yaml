@@ -1,0 +1,36 @@
+meta:
+  title: 2026年上海市长宁区中考二模数学试卷第 16 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题（本大题共12题，每题4分，满分48分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: fillin
+    id: Q016
+    points: 4
+    stem_latex: 已知正八边形$ABCDEFMN$的中心是点$O$，连接$AC$，$AE$，$CE$，点$G$是$\triangle ACE$的重心，如果$AC=6$，那么线段$OG$的长等于______ .
+    answer: $\sqrt{2}$
+    explanation: 官方参考答案：$\sqrt{2}$。
+    solution_steps:
+    - 正八边形所有顶点都在以$O$为圆心的同一个圆上，
+    - 正八边形的中心角为$\dfrac{360}{8}=45^{\circ}$，顶点$A,C,E$之间各间隔1条边，相邻两点对$O$的中心角为$2\times45^{\circ}=90^{\circ}$，
+    - 且$A,O,E$三点共线，$O$是$AE$中点，
+    - $\therefore \angle CAE=\angle CEA=45^{\circ}$，$\angle ACE=90^{\circ}$，
+    - $\therefore \triangle ACE$为等腰直角三角形，
+    - $\therefore AE=\sqrt{AC^2+CE^2}=6\sqrt{2}$，
+    - $OC=\dfrac{1}{2}AE=3\sqrt{2}$，
+    - $\because$ 点$G$是$\triangle ACE$的重心，
+    - $\therefore OG=\dfrac{1}{3}OC=\sqrt{2}$。
+    source_solution_images: []

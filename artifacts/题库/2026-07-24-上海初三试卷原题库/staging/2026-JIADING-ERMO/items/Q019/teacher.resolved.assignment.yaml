@@ -1,0 +1,30 @@
+meta:
+  title: 2026年上海市嘉定区中考数学二模试卷第 19 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题（本大题共7题，满分78分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q019
+    points: 10
+    stem_latex: 计算：$|1-\sqrt{3}|+\dfrac{1}{\sqrt{3}-\sqrt{2}}-8^{\frac{1}{2}}+\left(\dfrac{1}{2}\right)^{-2}$。
+    answer: $2\sqrt{3}-\sqrt{2}+3$
+    explanation: 官方参考答案：$2\sqrt{3}-\sqrt{2}+3$。
+    solution_steps:
+    - $=\sqrt{3}-1+\frac{\sqrt{3}+\sqrt{2}}{(\sqrt{3}-\sqrt{2})(\sqrt{3}+\sqrt{2})}-2\sqrt{2}+4$
+    - $=\sqrt{3}-1+\sqrt{3}+\sqrt{2}-2\sqrt{2}+4=2\sqrt{3}-\sqrt{2}+3$。
+    clue: 分别化简绝对值、分母有理化、分数指数幂、负整数指数幂。
+    source_solution_images: []

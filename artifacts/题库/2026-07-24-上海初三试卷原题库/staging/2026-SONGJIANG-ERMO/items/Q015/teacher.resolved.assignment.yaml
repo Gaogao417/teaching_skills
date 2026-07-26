@@ -1,0 +1,32 @@
+meta:
+  title: 2026年上海市松江区中考二模数学试卷第 15 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题（本大题共12题，每题4分，满分48分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q015
+    points: 4
+    stem_latex: 为了解某年级学生每周课外阅读时长，随机抽取部分学生进行调查，并绘制了如图所示的频数分布直方图（每组数据含最小值，不含最大值）。如果该年级有600名学生，估计该年级平均每周阅读时长不少于6小时的学生约有______名。
+    answer: '168'
+    explanation: 官方参考答案：168。
+    solution_steps:
+    - 由频数分布直方图可得，抽取的样本容量为：$4+12+20+10+4=50$
+    - 样本中平均每周阅读时长不少于6小时的学生频数为：$10+4=14$（人）
+    - 样本中对应频率为：$\dfrac{14}{50}=\dfrac{7}{25}$
+    - 因此估计该年级符合条件的学生人数为：$600\times\dfrac{7}{25}=168$（人）。
+    clue: 先求出样本中平均每周阅读时长不少于6小时的学生的频率，再用年级总人数乘以对应频率得到估计结果。
+    source_solution_images: []

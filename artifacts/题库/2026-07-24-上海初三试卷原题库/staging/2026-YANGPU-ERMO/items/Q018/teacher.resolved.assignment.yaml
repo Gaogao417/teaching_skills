@@ -1,0 +1,38 @@
+meta:
+  title: 2026年上海市杨浦区中考二模数学试卷第 18 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题（本大题共12题，每题4分，满分48分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q018
+    points: 4
+    stem_latex: 如图，在平行四边形$ABCD$中，$AB=6$，$BC=5$，$\sin B=\dfrac{4}{5}$，点$E$是边$CD$上一点，$EF\parallel AC$，如果点$D$关于直线$EF$的对称点$G$恰好在边$AB$上，那么$AG$的长是\underline{\qquad}．
+    answer: $\dfrac{7}{3}$
+    explanation: 官方参考答案：$\dfrac{7}{3}$。
+    solution_steps:
+    - 过点$C$作$CM\perp AB$于点$M$，连接$FG,EG,DG$，过点$G$作$GH\perp AD$于点$H$；
+    - $\because BC=5$，$\sin B=\dfrac{CM}{BC}=\dfrac{4}{5}$，$\therefore CM=4$，$BM=\sqrt{BC^2-MC^2}=3$；
+    - $\therefore AM=BM=3$，$AC=\sqrt{AM^2+MC^2}=\sqrt{3^2+4^2}=5$，$\therefore CA=CB$；
+    - 设$\angle B=\alpha$，则$\angle CAG=\angle B=\alpha$，$\dfrac{GH}{AG}=\sin\angle HAG=\sin B=\dfrac{4}{5}$；
+    - 设$GH=4k$，则$AG=5k$，$AH=3k$，由对称性质和勾股定理解得$k=\dfrac{7}{15}$；
+    - $\therefore AG=5k=5\times\dfrac{7}{15}=\dfrac{7}{3}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 80mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

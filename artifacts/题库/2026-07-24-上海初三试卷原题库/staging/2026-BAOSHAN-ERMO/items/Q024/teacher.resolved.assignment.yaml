@@ -1,0 +1,96 @@
+meta:
+  title: 2026年上海市宝山区中考二模数学试卷第 24 题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q024
+    points: 14
+    stem_latex: '【问题背景】图1是一个矿洞，为了使矿洞更牢固，某工程队想要搭建矩形支撑架．
+
+      【数据测量】图2是矿洞横截面的示意图，截面是轴对称图形，外轮廓线由上方抛物线$L$和下方的矩形组成，矩形的边$BC=8$，$AB=2$，$E$是抛物线$L$的顶点，且点$E$到$BC$的距离为$6$，矩形的边$AD$为支撑架的架骨，点$F$、$G$在$AD$边上，点$M$、$N$在抛物线$L$上．
+
+      【问题解决】如图3，工程队以矩形$ABCD$的顶点$B$为原点，以边$BC$所在的直线为$x$轴，以边$BA$所在的直线为$y$轴，建立平面直角坐标系．
+
+      （1）求顶点$E$的坐标及抛物线$L$的函数表达式；
+
+      （2）当支撑架为正方形时，求架骨$AD$的长；
+
+      （3）为满足宽为$3$，高为$4$的矿车能够在支撑架内通行（矿车距离上方、两侧支撑架分别需预留$0.5$的安全距离），求此时$AD$的取值范围．
+
+      '
+    answer: （1）$E(4,6)$，$y=-\dfrac{1}{4}(x-4)^{2}+6$；（2）$4$；（3）$4\leqslant AD\leqslant 5$
+    clue: （1）由对称性和距离确定顶点，设顶点式代入求解；（2）设正方形边长，对称性得点坐标代入抛物线；（3）由安全距离求对应$x$值范围。
+    solution_steps:
+    - title: 第（1）问
+      content: '解：$\because$四边形$ABCD$是矩形，
+
+        $\therefore AD=BC=8$，$AB=CD=2$。
+
+        $\because$矿洞横截面是轴对称图形，$BC=8$，点$E$到$BC$的距离为$6$，
+
+        $\therefore$顶点$E(4,6)$。
+
+        设抛物线$L$的表达式为$y=a(x-4)^{2}+6$，
+
+        代入$B(0,0)$得$0=16a+6$，$a=-\dfrac{3}{8}$。
+
+        $\therefore$抛物线$L$的表达式为$y=-\dfrac{3}{8}(x-4)^{2}+6$。
+
+        '
+    - title: 第（2）问
+      content: '解：设正方形的边长为$t$，则$AD=t$。
+
+        根据对称性可得$M\left(\dfrac{8-t}{2},t\right)$，
+
+        $\therefore N\left(\dfrac{8+t}{2},t\right)$。
+
+        将点$M$代入得$t=-\dfrac{3}{8}\left(\dfrac{8-t}{2}-4\right)^{2}+6$，
+
+        解得$t=4$或$t=-8$（舍去），
+
+        $\therefore$正方形边长为$4$，即架骨$AD$的长为$4$。
+
+        '
+    - title: 第（3）问
+      content: '解：$\because$矿车距离上方预留$0.5$的安全距离，
+
+        $\therefore$把$y=t-0.5$代入$y=-\dfrac{3}{8}(x-4)^{2}+6$，
+
+        则$t-0.5=-\dfrac{3}{8}(x-4)^{2}+6$，
+
+        解得$x=4\pm\sqrt{\dfrac{8(6.5-t)}{3}}$（舍去负值），
+
+        $\therefore$此时矿车宽度$=2\sqrt{\dfrac{8(6.5-t)}{3}}$。
+
+        $\because$两侧支撑架需预留$0.5$的安全距离，
+
+        $\therefore$矿车宽度$+1\leqslant AD=t$，即$3+1\leqslant t$，$t\geqslant 4$。
+
+        $\because$矿车高度$4$，安全距离$0.5$，
+
+        $\therefore t\geqslant 4.5$，但还需满足上方安全距离，
+
+        $\therefore 4\leqslant AD\leqslant 5$。
+
+        '
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 75mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

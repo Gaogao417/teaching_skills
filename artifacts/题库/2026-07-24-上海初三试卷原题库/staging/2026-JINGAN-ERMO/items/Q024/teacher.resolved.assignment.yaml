@@ -1,0 +1,50 @@
+meta:
+  title: 2026年上海市静安区中考二模数学试卷第 24 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题（本大题共7题，满分78分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q024
+    points: 12
+    stem_latex: 如图 $1$，四边形 $ABCD$ 中，$CD\parallel BA$，$BC=CD$，$BD=DA$，$BA=3BC$．（$1$）求证：$\triangle ABD\sim\triangle DBC$，并求 $\triangle ABD$ 与 $\triangle DBC$ 的相似比 $k$；（$2$）如图 $2$，我们以直线 $BA$ 为 $x$ 轴，以过点 $C$ 且垂直于线段 $BA$ 的直线为 $y$ 轴，建立平面直角坐标系 $xOy$，已知 $BC=2$．①求图像经过点 $A$、$B$、$C$ 三点的二次函数解析式；②如果我们将（$1$）中 $\triangle BCD$ 与 $\triangle BDA$ 的关系看作是一种图形变换，这种变换是将 $\triangle BCD$ 先绕点 $B$ 按顺时针方向旋转，使点 $C$ 落在 $BD$ 上，点 $D$ 落在 $AB$ 上，再将旋转得到的三角形的边长都扩大到原来的 $k$ 倍，从而得到 $\triangle BDA$，我们将 $\triangle BDA$ 称为 $\triangle BCD$ 的像，将 $\triangle BCD$ 称为 $\triangle BDA$ 的原像．如果 $\triangle BAE$ 是 $\triangle BDA$ 的像，而 $\triangle BFC$ 是 $\triangle BCD$ 的原像，试直接写出点 $E$ 和点 $F$ 的坐标：点 $E$ 的坐标是\underline{\hspace{2cm}}，点 $F$ 的坐标是\underline{\hspace{2cm}}．
+    answer: （$1$）证明见解析，$k=\sqrt{3}$；（$2$）①$y=-\dfrac{\sqrt{3}}{5}x^{2}+\dfrac{4\sqrt{3}}{5}x+\sqrt{3}$；②$E(8,-3\sqrt{3})$，$F\left(-1,\dfrac{2\sqrt{3}}{3}\right)$
+    explanation: 官方参考答案：（$1$）证明见解析，$k=\sqrt{3}$；（$2$）①$y=-\dfrac{\sqrt{3}}{5}x^{2}+\dfrac{4\sqrt{3}}{5}x+\sqrt{3}$；②$E(8,-3\sqrt{3})$，$F\left(-1,\dfrac{2\sqrt{3}}{3}\right)$。
+    solution_steps:
+    - （$1$）$\because BC=CD$，$BD=DA$，$\therefore\angle CBD=\angle CDB$，$\angle DBA=\angle A$，
+    - $\because CD\parallel BA$，$\therefore\angle CDB=\angle DBA$，
+    - $\therefore\angle CBD=\angle CDB=\angle DBA=\angle A$，$\therefore\triangle ABD\sim\triangle DBC$；
+    - 设 $BC=x$，则 $BA=3BC=3x$，$\dfrac{BC}{BD}=\dfrac{BD}{BA}$，即 $\dfrac{x}{BD}=\dfrac{BD}{3x}$，$\therefore BD=\sqrt{3}x$，
+    - $\therefore k=\dfrac{BD}{BC}=\dfrac{\sqrt{3}x}{x}=\sqrt{3}$。
+    - （$2$）①过点 $C$ 作 $CE\perp BD$ 于点 $E$，由（$1$）得 $\dfrac{BC}{BD}=\dfrac{\sqrt{3}}{3}$，$\therefore BD=\sqrt{3}BC$，
+    - $\because BC=CD$，$\therefore BE=DE=\dfrac{1}{2}BD$，$\therefore\cos\angle CBE=\dfrac{BE}{BC}=\dfrac{\frac{1}{2}BD}{BC}=\dfrac{\sqrt{3}}{2}$，
+    - $\therefore\angle CBE=30°$，$\therefore\angle DBA=\angle CBE=30°$，$\therefore\angle CBO=60°$，
+    - $\therefore OB=BC\cdot\cos\angle CBO=2\times\dfrac{1}{2}=1$，$OC=BC\cdot\sin\angle CBO=2\times\dfrac{\sqrt{3}}{2}=\sqrt{3}$，
+    - $\therefore B(-1,0)$，$C(0,\sqrt{3})$，$\because BA=3BC=6$，$OA=BA-BO=6-1=5$，$\therefore A(5,0)$，
+    - 设二次函数解析式为 $y=a(x+1)(x-5)$，将 $C(0,\sqrt{3})$ 代入得 $\sqrt{3}=a(0+1)(0-5)$，$\therefore a=-\dfrac{\sqrt{3}}{5}$，
+    - $\therefore$ 二次函数解析式为 $y=-\dfrac{\sqrt{3}}{5}(x+1)(x-5)=-\dfrac{\sqrt{3}}{5}x^{2}+\dfrac{4\sqrt{3}}{5}x+\sqrt{3}$。
+    - ②过点 $E$ 作 $EG\perp x$ 轴于点 $G$，$\because\triangle BAE$ 是 $\triangle BDA$ 的像，
+    - $\therefore BE=\sqrt{3}BA=6\sqrt{3}$，$\angle ABE=\angle DBA=30°$，
+    - $\therefore GE=BE\cdot\sin\angle GBE=6\sqrt{3}\times\dfrac{1}{2}=3\sqrt{3}$，$GB=BE\cdot\cos\angle GBE=6\sqrt{3}\times\dfrac{\sqrt{3}}{2}=9$，
+    - $OG=BG-BO=9-1=8$，$\therefore$ 点 $E$ 的坐标为 $(8,-3\sqrt{3})$；
+    - $\because\triangle BFC$ 是 $\triangle BCD$ 的原像，$\therefore\angle FBC=\angle CBD=\angle DBA=30°$，$FB=\dfrac{\sqrt{3}}{3}BC=\dfrac{2\sqrt{3}}{3}$，
+    - $\therefore\angle FBO=90°$，$\therefore$ 点 $F$ 的坐标是 $\left(-1,\dfrac{2\sqrt{3}}{3}\right)$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 120mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

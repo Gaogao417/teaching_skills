@@ -1,0 +1,40 @@
+meta:
+  title: 2026年上海市闵行区中考二模数学试卷第 5 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题（本大题共6题，每题4分，满分24分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q005
+    points: 4
+    stem_latex: 在投掷实心球的比赛中，甲、乙两人各投掷了 $10$ 次，球的落地位置如图所示。已知两人 $10$ 次投掷所得的平均成绩相同，对于甲、乙两人这 $10$ 次成绩的方差的描述正确的是（\quad）
+    choices:
+    - $S^{2}_{\text{甲}}<S^{2}_{\text{乙}}$
+    - $S^{2}_{\text{甲}}=S^{2}_{\text{乙}}$
+    - $S^{2}_{\text{甲}}>S^{2}_{\text{乙}}$
+    - 无法确定
+    answer: C
+    explanation: 官方参考答案：C。
+    solution_steps:
+    - 一组数据中，方差越小，数据越稳定、波动越小，方差越大，数据越分散、波动越大，
+    - 观察图片可知，甲的成绩比乙的成绩更加分散，
+    - $\therefore S^{2}_{\text{甲}}>S^{2}_{\text{乙}}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 120mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

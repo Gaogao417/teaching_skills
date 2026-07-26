@@ -1,0 +1,35 @@
+meta:
+  title: 2026年上海市崇明区中考二模数学试卷第 15 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题（本大题共12题，每题4分，满分48分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: fillin
+    id: Q015
+    points: 4
+    stem_latex: 在梯形 $ABCD$ 中，$AB\parallel CD$，$AB=2CD$，$AC$ 与 $BD$ 交于点 $P$，令 $\overrightarrow{AB}=\vec{a}$，$\overrightarrow{BC}=\vec{b}$，那么 $\overrightarrow{AP}=$__________；（用向量 $\vec{a}$、$\vec{b}$ 表示）
+    answer: $\dfrac{2}{3}\vec{a}+\dfrac{2}{3}\vec{b}$
+    explanation: 官方参考答案：$\dfrac{2}{3}\vec{a}+\dfrac{2}{3}\vec{b}$。
+    solution_steps:
+    - $\overrightarrow{AC}=\overrightarrow{AB}+\overrightarrow{BC}=\vec{a}+\vec{b}$。
+    - $AB\parallel CD$，$\triangle ABP\sim\triangle CDP$，$\dfrac{AP}{CP}=\dfrac{AB}{CD}=2$。
+    - $AP=\dfrac{2}{3}AC$，$\overrightarrow{AP}=\dfrac{2}{3}\vec{a}+\dfrac{2}{3}\vec{b}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 80mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

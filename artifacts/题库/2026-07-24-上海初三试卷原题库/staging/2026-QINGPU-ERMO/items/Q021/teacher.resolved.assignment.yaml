@@ -1,0 +1,40 @@
+meta:
+  title: 2026年上海市青浦区中考数学二模试卷第 21 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题（本大题共7题，满分78分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q021
+    points: 10
+    stem_latex: 如图，在 Rt$\triangle ABC$ 中，$\angle C=90°$，$\angle B=45°$，点 $D$ 在 $BC$ 边上，$\angle CAD=30°$，且 $AC=\sqrt{3}$。（1）求线段 $BD$ 的长；（2）求 $\sin\angle BAD$ 的值。
+    answer: （1）$\sqrt{3}-1$；（2）$\dfrac{\sqrt{6}-\sqrt{2}}{4}$
+    explanation: 官方参考答案：（1）$\sqrt{3}-1$；（2）$\dfrac{\sqrt{6}-\sqrt{2}}{4}$。
+    solution_steps:
+    - （1）在 Rt$\triangle ACD$ 中，$\angle C=90°$，$\tan\angle CAD=\dfrac{CD}{AC}$，
+    - $CD=AC\cdot\tan30°=\sqrt{3}\times\dfrac{\sqrt{3}}{3}=1$，
+    - 在 Rt$\triangle ABC$ 中，$\angle C=90°$，$\angle B=45°$，可得 $BC=AC=\sqrt{3}$，
+    - $BD=BC-CD=\sqrt{3}-1$。
+    - （2）在 Rt$\triangle ACD$ 中，$AD=\dfrac{AC}{\cos30°}=\dfrac{\sqrt{3}}{\frac{\sqrt{3}}{2}}=2$，
+    - 过点 $D$ 作 $DE\perp AB$ 于点 $E$，在 Rt$\triangle BDE$ 中，$\angle B=45°$，
+    - $DE=BD\cdot\sin45°=(\sqrt{3}-1)\times\dfrac{\sqrt{2}}{2}=\dfrac{\sqrt{6}-\sqrt{2}}{2}$，
+    - 在 Rt$\triangle ADE$ 中，$\sin\angle BAD=\dfrac{DE}{AD}=\dfrac{\frac{\sqrt{6}-\sqrt{2}}{2}}{2}=\dfrac{\sqrt{6}-\sqrt{2}}{4}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

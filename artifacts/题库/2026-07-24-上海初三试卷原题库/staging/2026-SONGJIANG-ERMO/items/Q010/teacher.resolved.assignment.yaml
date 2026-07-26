@@ -1,0 +1,30 @@
+meta:
+  title: 2026年上海市松江区中考二模数学试卷第 10 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题（本大题共12题，每题4分，满分48分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q010
+    points: 4
+    stem_latex: 统计数据显示，截至2026年3月30日，电影《飞驰人生3》的票房总收入约为44亿元。如果该电影的平均票价是每张40元，那么售出的电影票大约______张。（用科学记数法表示）
+    answer: $1.1\times 10^8$
+    explanation: 官方参考答案：$1.1\times 10^8$。
+    solution_steps:
+    - 44亿元$=4400000000$元$=4.4\times 10^9$元，
+    - 根据题意计算售出电影票的张数：$\dfrac{4.4\times 10^9}{40}=1.1\times 10^8$。
+    clue: 先将总票房统一单位为元，再根据售票张数等于总票房除以平均票价计算结果，最后将结果用科学记数法表示即可。
+    source_solution_images: []

@@ -1,0 +1,40 @@
+meta:
+  title: 2026年上海市金山区中考二模数学试卷第 4 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题（本大题共5题，每题4分，满分20分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q004
+    points: 4
+    stem_latex: 已知两圆的半径长之比为$5:2$，且当两圆内切时的圆心距为$9$厘米，那么当两圆的圆心距增大到$18$厘米时，这两圆的位置关系是（\quad）
+    choices:
+    - 外离
+    - 外切
+    - 相交
+    - 不确定
+    answer: C
+    explanation: 官方参考答案：C。
+    solution_steps:
+    - 设两圆半径分别为$R=5k$厘米，$r=2k$厘米，其中$k>0$
+    - 当两圆内切时，圆心距等于两圆半径的差，且内切时圆心距为$9$厘米
+    - $\therefore R-r=5k-2k=3k=9$，解得$k=3$
+    - $\therefore R=5\times3=15$厘米，$r=2\times3=6$厘米
+    - $\therefore R+r=15+6=21$厘米，$R-r=15-6=9$厘米
+    - $\because$圆心距为$18$厘米，满足$R-r<18<R+r$
+    - 此时两圆位置关系为相交。
+    clue: 先根据半径比设参数，利用两圆内切的性质求出两圆半径，再比较圆心距与两圆半径和、差的大小，判断两圆位置关系。
+    source_solution_images: []

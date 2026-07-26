@@ -1,0 +1,33 @@
+meta:
+  title: 2026年上海市徐汇区中考二模数学试卷第 19 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题（本大题共7题，满分78分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q019
+    points: 10
+    stem_latex: 先化简，再求值：已知代数式$\left(1+\dfrac{1}{m-2}\right)\div\dfrac{m^{2}-2m+1}{2m-4}$，其中$m=\sqrt{3}$.
+    answer: 化简结果为$\dfrac{2}{m-1}$，代入$m=\sqrt{3}$得$\sqrt{3}+1$.
+    explanation: 官方参考答案：$\dfrac{2}{m-1}$，$\sqrt{3}+1$.
+    solution_steps:
+    - 先将括号内式子通分，变分式除法为分式乘法，约分化简，最后将$m=\sqrt{3}$代入求值.
+    - 原式$=\dfrac{m-2+1}{m-2}\div\dfrac{\left(m-1\right)^{2}}{2\left(m-2\right)}$
+    - $=\dfrac{m-1}{m-2}\cdot\dfrac{2\left(m-2\right)}{\left(m-1\right)^{2}}$
+    - $=\dfrac{2}{m-1}$，
+    - 将$m=\sqrt{3}$代入，得：
+    - 原式$=\dfrac{2}{\sqrt{3}-1}=\dfrac{2\left(\sqrt{3}+1\right)}{\left(\sqrt{3}-1\right)\left(\sqrt{3}+1\right)}=\sqrt{3}+1$.
+    source_solution_images: []

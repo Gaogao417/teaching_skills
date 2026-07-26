@@ -1,0 +1,38 @@
+meta:
+  title: 2026年上海市浦东新区中考二模数学试卷第 4 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题（本大题共6题，每题4分，满分24分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q004
+    points: 4
+    stem_latex: 一个不透明的袋子里装有 $4$ 个红球、$3$ 个白球和 $2$ 个蓝球，这些球只有颜色不同，随机从中摸出一个球，要使摸到红球的概率为 $\frac{1}{2}$，以下方法不可行的是（\quad）
+    choices:
+    - 往袋中放入一个红球
+    - 往袋中放入一个绿球
+    - 从袋中取出一个蓝球
+    - 从袋中取出一个白球
+    answer: B
+    explanation: 官方参考答案：B。
+    solution_steps:
+    - 原有红球 $4$ 个，总球数为 $4+3+2=9$，摸到红球概率为 $\frac{4}{9}$。
+    - A：放入1个红球后，红球数为 $5$，总球数为 $10$，$P=\frac{5}{10}=\frac{1}{2}$，可行；
+    - B：放入1个绿球后，红球数为 $4$，总球数为 $10$，$P=\frac{4}{10}=\frac{2}{5} \neq \frac{1}{2}$，不可行；
+    - C：取出1个蓝球后，红球数为 $4$，总球数为 $8$，$P=\frac{4}{8}=\frac{1}{2}$，可行；
+    - D：取出1个白球后，红球数为 $4$，总球数为 $8$，$P=\frac{4}{8}=\frac{1}{2}$，可行。
+    clue: 分别计算各选项操作后摸到红球的概率，判断是否等于 $\frac{1}{2}$。
+    source_solution_images: []

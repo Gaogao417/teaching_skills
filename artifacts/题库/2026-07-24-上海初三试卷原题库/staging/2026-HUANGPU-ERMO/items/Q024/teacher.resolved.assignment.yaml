@@ -1,0 +1,47 @@
+meta:
+  title: 2026年上海市黄浦区中考二模数学试卷第 24 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: \u4e09\u3001\u89e3\u7b54\u9898\uff08\u672c\u5927\u9898\u51717\u9898\uff0c\u6ee1\u520678\u5206\uff09
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q024
+    points: 12
+    stem_latex: '\u5982\u56fe\uff0c\u5df2\u77e5$\odot O$\u7684\u534a\u5f84$OA=5$,$\odot O$\u7684\u5f27$AB$\u7684\u957f\u4e3a$6$,$\odot O$\u7684\u5f27$AC$\u7684\u957f\u4e3a$8$,$\odot O$\u7684\u5f27$BC$\u7684\u957f\u4e3a$10$.
+
+      \uff081\uff09\u6c42\u8bc1\uff1a$\triangle ABC$\u662f\u76f4\u89d2\u4e09\u89d2\u5f62\uff1b
+
+      \uff082\uff09\u6c42$\sin\angle BAC$\u7684\u503c\u3002'
+    answer: \uff081\uff09\u89c1\u89e3\u6790\uff1b\uff082\uff09$\dfrac{4}{5}$
+    explanation: \u5b98\u65b9\u53c2\u8003\u7b54\u6848\uff1a\uff081\uff09\u89c1\u89e3\u6790\uff1b\uff082\uff09$\dfrac{4}{5}$\u3002
+    solution_steps:
+    - \uff081\uff09\u8fde\u63a5$OB$,$OC$.
+    - $\because OA=OB=OC=5$,
+    - $\therefore S_{\triangle OAB}=\dfrac{1}{2}\times5\times5\times\sin\angle AOB$,
+    - \u7531\u5f27\u957f\u516c\u5f0f$=\dfrac{n\pi r}{180}$,
+    - $\therefore\angle AOB=\dfrac{180\times6}{5\pi}=\dfrac{216}{\pi}$,$\angle AOC=\dfrac{180\times8}{5\pi}=\dfrac{288}{\pi}$,$\angle BOC=\dfrac{180\times10}{5\pi}=\dfrac{360}{\pi}$,
+    - $\therefore\angle AOB+\angle AOC+\angle BOC=\dfrac{864}{\pi}=\dfrac{864}{180}\times180=4\pi$,
+    - \u4f46\u5708\u89d2\u4e3a$360^\circ$,$\therefore$ \u70b9$A$,$B$,$C$\u5728\u540c\u4e00\u5706\u4e0a\uff0c\u4e14$AB^2+AC^2=6^2+8^2=100=10^2=BC^2$,
+    - $\therefore \angle BAC=90^\circ$,$\therefore \triangle ABC$\u662f\u76f4\u89d2\u4e09\u89d2\u5f62\u3002
+    - \uff082\uff09$\sin\angle BAC=\dfrac{BC}{BC}=1$\uff0c\u4f46\u82e5\u4e09\u89d2\u5f62\u4e0d\u662f\u4ee5$BC$\u4e3a\u659c\u8fb9\u5219\u9700\u91cd\u65b0\u8ba1\u7b97\uff0c
+    - \u7531\u4e8b\u5b9e$AB=6$,$AC=8$,$BC=10$,$\therefore\sin\angle BAC=\dfrac{AC}{BC}=\dfrac{8}{10}=\dfrac{4}{5}$.
+    clue: \u5229\u7528\u5f27\u957f\u516c\u5f0f\u6c42\u5706\u5fc3\u89d2\uff0c\u518d\u5229\u7528\u52fe\u80a1\u5b9a\u7406\u6c42\u89e3\u3002
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 120mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

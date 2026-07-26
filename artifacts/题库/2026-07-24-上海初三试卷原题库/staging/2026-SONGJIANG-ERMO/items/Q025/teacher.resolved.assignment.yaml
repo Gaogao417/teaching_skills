@@ -1,0 +1,91 @@
+meta:
+  title: 2026年上海市松江区中考二模数学试卷第 25 题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题（本大题共7题，满分78分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: 已知正方形$ABCD$，点$E$在边$BC$上，点$F$在$BC$的延长线上，$AF$与$CD$交于点$G$。\n（1）如图1，如果$CE=CG$，求证：$BC^2=BE\cdot BF$；\n（2）如图2，如果$\angle EAF=45^\circ$，且$CE=CF$，求$\angle F$的正切值；\n（3）以点$C$为圆心$CE$为半径画圆，$\odot C$与以$AE$为直径的$\odot O$的另一个交点记为点$P$，如果$AB=2$，$CF=2CE$，$EP=CG$，求$EF$的长。
+    answer: （1）见解析；（2）$\dfrac{\sqrt{3}}{3}$；（3）2
+    explanation: 官方参考答案：（1）见解析；（2）$\dfrac{\sqrt{3}}{3}$；（3）2。
+    solution_steps:
+    - 【小问1详解】
+    - 证明：$\because$ 四边形$ABCD$是正方形，
+    - $\therefore AD=AB=BC=CD$，$\angle B=\angle D$，$AD\parallel BC$
+    - $\because CE=CG$
+    - $\therefore BC-CE=CD-CG$
+    - $\therefore BE=DG$
+    - $\therefore \triangle ADG\cong\triangle ABE$（SAS）
+    - $\therefore \angle DAG=\angle BAE$，
+    - $\because AD\parallel BC$，
+    - $\therefore \angle DAG=\angle F$，
+    - $\therefore \angle BAE=\angle F$，
+    - $\because \angle B=\angle B$
+    - $\therefore \triangle BAE\sim\triangle BFA$，
+    - $\therefore \dfrac{BA}{BF}=\dfrac{BE}{BA}$，
+    - $\therefore \dfrac{BC}{BF}=\dfrac{BE}{BC}$，
+    - $\therefore BC^2=BE\cdot BF$；
+    - 【小问2详解】
+    - 解：连接$AC$，
+    - 设正方形的边长为1，$CE=x$，
+    - 由题意得，$CF=CE=x$
+    - $\because$ 四边形$ABCD$是正方形，
+    - $\therefore BA=BC=1$，$\angle ECA=\dfrac{1}{2}\angle BCD=45^\circ$，$\angle B=90^\circ$
+    - $\because \angle EAF=45^\circ$
+    - $\therefore \angle EAF=\angle ECA$，
+    - $\therefore \angle CEA=\angle AEF$
+    - $\therefore \triangle CEA\sim\triangle AEF$，
+    - $\therefore \dfrac{CE}{AE}=\dfrac{AE}{EF}$，
+    - $\therefore AE^2=EC\times EF=x\cdot 2x=2x^2$，
+    - $\because AE^2=AB^2+BE^2=1+(1-x)^2=x^2-2x+2$，
+    - $\therefore x^2-2x+2=2x^2$，
+    - 整理得，$x^2+2x-2=0$，
+    - 解得$x_1=\sqrt{3}-1$，$x_2=-\sqrt{3}-1$（舍去），
+    - $\therefore \tan F=\dfrac{AB}{BF}=\dfrac{1}{1+\sqrt{3}-1}=\dfrac{\sqrt{3}}{3}$；
+    - 【小问3详解】
+    - 解：如图，设以$AE$为直径的圆记为$\odot J$，连接$CJ$交$PE$于点$L$，过点$J$作$JK\perp BC$于点$K$，
+    - 由题意得可设$CE=x$，则$CF=2x$，
+    - $\therefore EF=3x$，
+    - $\because$ 正方形$ABCD$，
+    - $\therefore AB\parallel CD$，$AB=BC=2$
+    - $\therefore \triangle FCG\sim\triangle FBA$
+    - $\therefore \dfrac{CG}{AB}=\dfrac{FC}{FB}$，
+    - $\therefore \dfrac{CG}{2}=\dfrac{2x}{2+2x}$，
+    - $\therefore CG=\dfrac{2x}{x+1}$，
+    - $\therefore EP=CG=\dfrac{2x}{x+1}$，
+    - $\because JK\perp BC$，$\angle ABC=90^\circ$
+    - $\therefore \angle ABC=\angle JKE=90^\circ$
+    - $\therefore AB\parallel JK$
+    - $\therefore \triangle EJK\sim\triangle EAB$
+    - $\therefore \dfrac{EK}{EB}=\dfrac{KJ}{AB}=\dfrac{EJ}{EA}=\dfrac{1}{2}$，
+    - $\therefore KJ=\dfrac{1}{2}AB=1$，$EK=\dfrac{1}{2}EB=\dfrac{1}{2}(2-x)=1-\dfrac{1}{2}x$，
+    - $\therefore KC=EK+CE=1-\dfrac{1}{2}x+x=1+\dfrac{1}{2}x$，
+    - $\therefore JC=\sqrt{JK^2+CK^2}=\sqrt{1+\left(1+\dfrac{1}{2}x\right)^2}$
+    - $\because \odot J$与$\odot C$相交于点$E$，$P$
+    - $\therefore CJ\perp PE$，$EL=\dfrac{1}{2}EP=\dfrac{x}{x+1}$，
+    - $\therefore \sin\angle ECL=\dfrac{EL}{EC}=\dfrac{JK}{JC}$，
+    - $\therefore \dfrac{\dfrac{x}{x+1}}{x}=\dfrac{1}{\sqrt{1+\left(1+\dfrac{1}{2}x\right)^2}}$，
+    - 解得$x=\dfrac{2}{3}$或$x=0$（舍）
+    - $\therefore EF=3\times\dfrac{2}{3}=2$。
+    clue: （1）先证明$\triangle ADG\cong\triangle ABE$（SAS），再证明$\triangle BAE\sim\triangle BFA$，即可求证；（2）连接$AC$，设正方形的边长为1，$CE=CF=x$，然后证明$\triangle CEA\sim\triangle AEF$，得到$AE^2=EC\times EF=x\cdot 2x=2x^2$，而由勾股定理得$AE^2=AB^2+BE^2=x^2-2x+2$，继而得到方程$x^2-2x+2=2x^2$，然后解方程，再利用正切的定义求解即可；（3）设以$AE$为直径的圆记为$\odot J$，连接$CJ$交$PE$于点$L$，过点$J$作$JK\perp BC$于点$K$，由题意得可设$CE=x$，则$CF=2x$，由$\triangle FCG\sim\triangle FBA$，得到$EP=CG=\dfrac{2x}{x+1}$，再由$\triangle EJK\sim\triangle EAB$，求出$KJ=1$，$EK=1-\dfrac{1}{2}x$，则$KC=EK+CE=1+\dfrac{1}{2}x$，可由勾股定理得到$JC=\sqrt{1+\left(1+\dfrac{1}{2}x\right)^2}$，由相交两圆得性质可得$CJ\perp PE$，$EL=\dfrac{1}{2}EP=\dfrac{x}{x+1}$，再由$\sin\angle ECL=\dfrac{EL}{EC}=\dfrac{JK}{JC}$建立方程求解。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 80mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

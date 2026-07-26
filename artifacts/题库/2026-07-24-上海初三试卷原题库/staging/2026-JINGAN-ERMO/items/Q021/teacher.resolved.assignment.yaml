@@ -1,0 +1,42 @@
+meta:
+  title: 2026年上海市静安区中考二模数学试卷第 21 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题（本大题共7题，满分78分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q021
+    points: 10
+    stem_latex: 如图，弓形弦长 $AB=48$ 米，高 $CD=18$ 米，有一内接矩形 $EFGH$，边 $FG$ 在 $AB$ 上，顶点 $E$、$H$ 在弓形弧上，边 $EH$ 的长比 $EF$ 的 $2$ 倍多 $4$ 米．（$1$）求该弓形所在圆的半径；（$2$）求 $EF$ 的长．
+    answer: （$1$）$25$m　　（$2$）$13$m
+    explanation: 官方参考答案：（$1$）$25$m；（$2$）$13$m。
+    solution_steps:
+    - （$1$）取圆心 $O$，连接 $OA$，$OD$，由垂径定理得 $AD=\dfrac{1}{2}AB=24$（米），
+    - 设 $OA=OC=r$，则 $OD=OC-CD=r-18$，
+    - 在 $\text{Rt}\triangle AOD$ 中，$AD^{2}+OD^{2}=OA^{2}$，$\therefore 24^{2}+(r-18)^{2}=r^{2}$，解得 $r=25$，
+    - $\therefore$ 该弓形所在圆的半径为 $25$m。
+    - （$2$）连接 $OE$，由（$1$）得 $OD=25-18=7$，设 $EF=x$，则 $EH=2EF+4=2x+4$，
+    - $\because CD$ 是弓形的高，$\therefore OC\perp EH$，$EM=\dfrac{1}{2}EH=x+2$，
+    - $\because\angle FEM=\angle EMD=\angle MDF=90°$，$\therefore$ 四边形 $EFDM$ 是矩形，$DM=EF=x$，
+    - $\therefore OM=DM+OD=x+7$，在 $\text{Rt}\triangle OEM$ 中，$OE=25$，$EM^{2}+OM^{2}=OE^{2}$，
+    - $\therefore (x+2)^{2}+(x+7)^{2}=25^{2}$，$x^{2}+9x-286=0$，
+    - 解得 $x_1=-22$（舍去），$x_2=13$，$\therefore EF=13$m。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 120mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

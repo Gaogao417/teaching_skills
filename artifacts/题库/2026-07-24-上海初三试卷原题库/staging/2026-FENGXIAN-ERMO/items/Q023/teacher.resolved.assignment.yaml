@@ -1,0 +1,36 @@
+meta:
+  title: 2026年上海市奉贤区中考二模数学试卷第 23 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题（本大题共7题，满分78分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q023
+    points: 12
+    stem_latex: 已知：如图，在平行四边形 $ABCD$ 中，点 $E$、$F$ 分别在边 $AD$、$BC$ 上，$BE\parallel DF$，$BE=DF$。\n(1) 求证：$\triangle ABE\cong\triangle CDF$；\n(2) 如果 $\angle A=60^{\circ}$，$AB=2$，$AE=1$，求 $EF$ 的长。
+    answer: 见解析
+    explanation: 官方参考答案：见解析。
+    solution_steps:
+    - (1) 证明：因为四边形 $ABCD$ 是平行四边形，所以 $AB=CD$，$\angle A=\angle C$。
+    - 因为 $BE\parallel DF$，所以 $\angle AEB=\angle CFD$。
+    - 又因为 $BE=DF$，所以 $\triangle ABE\cong\triangle CDF$（AAS）。
+    - (2) 过点 $E$ 作 $EG\perp BC$ 于 $G$。
+    - 在平行四边形 $ABCD$ 中，$AD\parallel BC$，所以 $EG$ 也是 $AD$ 与 $BC$ 之间的距离。
+    - 在 $\triangle ABE$ 中，由余弦定理得 $BE^2=AB^2+AE^2-2AB\cdot AE\cos60^{\circ}=4+1-2\times2\times1\times\dfrac{1}{2}=3$，所以 $BE=\sqrt{3}$。
+    - 因为 $BE\parallel DF$ 且 $BE=DF$，所以四边形 $BEDF$ 是平行四边形，所以 $EF=BD$。
+    - 在 $\triangle ABD$ 中，$AD=AE+ED=1+1=2$（因为 $\triangle ABE\cong\triangle CDF$，所以 $AE=CF$，$ED=BF$）。
+    - 由余弦定理得 $BD^2=AB^2+AD^2-2AB\cdot AD\cos60^{\circ}=4+4-2\times2\times2\times\dfrac{1}{2}=4$，所以 $BD=2$，即 $EF=2$。
+    source_solution_images: []

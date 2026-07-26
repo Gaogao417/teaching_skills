@@ -1,0 +1,39 @@
+meta:
+  title: 2026年上海市浦东新区中考二模数学试卷第 23 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题（本大题共7题，满分78分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q023
+    points: 12
+    stem_latex: '已知：如图，$\odot O_1$ 与 $\odot O_2$ 相交于点 $P$、$Q$，且 $r_{\odot O_1}>r_{\odot O_2}$，过点 $P$ 的直线 $AB$ 分别交 $\odot O_1$、$\odot O_2$ 于点 $A$、$B$，且 $AP=BP$。点 $C$ 是线段 $O_1O_2$ 的中点。联结 $QO_2$ 并延长交 $BP$ 于点 $M$，且 $PM=BM$。
+
+      （1）求证：$CP \perp AB$；
+
+      （2）求证：四边形 $CPO_2Q$ 是菱形。'
+    answer: （1）见解析；（2）见解析
+    explanation: 两问均为证明题，详见解析。
+    solution_steps:
+    - （1）作 $O_1N \perp AP$，垂足为 $N$，根据垂径定理可得 $AN=PN=\frac{1}{2}AP$，$\angle O_1NP=90°$。$PM=BM$，$PM=\frac{1}{2}BP$。因为 $AP=BP$，所以 $PN=PM$，即点 $P$ 是 $MN$ 中点。$O_2M$ 过圆心，$PM=BM$，$O_2M \perp BP$，$\angle O_2MB=90°$。$O_1N \parallel O_2M$，四边形 $O_1NMO_2$ 是梯形。点 $C$ 是线段 $O_1O_2$ 的中点，点 $P$ 是 $MN$ 中点，$CP \parallel O_2M$，$\angle CPB=\angle O_2MB=90°$，$CP \perp AB$。
+    - （2）联结 $PQ$ 交 $O_1O_2$ 于 $D$。$\odot O_1$ 与 $\odot O_2$ 相交于点 $P$、$Q$，$O_1O_2$ 垂直平分 $PQ$，$DP=DQ$，$CP=CQ$。$CP \parallel O_2M$，$\frac{CD}{O_2D}=\frac{DP}{DQ}$，$CD=O_2D$。四边形 $CPO_2Q$ 是平行四边形，又 $CP=CQ$，所以是菱形。
+    clue: 利用垂径定理、梯形中位线性质和菱形判定定理。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 80mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

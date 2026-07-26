@@ -1,0 +1,42 @@
+meta:
+  title: 2026年上海市杨浦区中考二模数学试卷第 23 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题（本大题共7题，满分78分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q023
+    points: 12
+    stem_latex: 已知：如图，$AB$是半圆$O$的直径，$C$是半圆上一点（不与点$A$、$B$重合），点$D$是弧$AC$的中点，过点$D$作$DF\perp AB$，垂足为点$F$，连接$OD$与$AC$交于点$E$． (1) 求证：$BC=2OF$； (2) 连接$FE$并延长与弦$BC$的延长线交于点$G$，联结$DG$．求证：四边形$DECG$是矩形．
+    answer: 见解析
+    explanation: 官方参考答案：见解析。
+    solution_steps:
+    - 【小问1详解】
+    - $\because$点$D$是弧$AC$的中点，$OD$是半径，$\therefore OD\perp AC$，$AE=EC$；
+    - $\because OA=OB$，$\therefore BC=2OE$；
+    - $\because OD\perp AC$，$\therefore \angle AEO=90^{\circ}$，$\because DF\perp AB$，$\therefore \angle DFO=90^{\circ}$；
+    - $\therefore \angle AEO=\angle DFO$，又$\because \angle AOE=\angle DOF$，$OA=OD$；
+    - $\therefore \triangle AEO\cong\triangle DFO(AAS)$，$\therefore OE=OF$，$\therefore BC=2OF$；
+    - 【小问2详解】
+    - 连接$AD$，先由三角形的中位线定理证明$OE\parallel BC$；
+    - 然后证明$\triangle AED\cong\triangle ECG(ASA)$，得到$DE=GC$；
+    - 即可证明四边形$DECG$是平行四边形，再由$\angle DEC=90^{\circ}$证明即可。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 100mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

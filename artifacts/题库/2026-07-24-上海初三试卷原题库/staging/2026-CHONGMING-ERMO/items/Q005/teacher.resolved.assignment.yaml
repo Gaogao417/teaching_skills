@@ -1,0 +1,36 @@
+meta:
+  title: 2026年上海市崇明区中考二模数学试卷第 5 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题（本大题共6题，每题4分，满分24分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q005
+    points: 4
+    stem_latex: 已知平行四边形 $ABCD$ 的对角线 $AC$、$BD$ 相交于点 $O$，下列补充条件中，能判定这个平行四边形是正方形的是（\quad）
+    choices:
+    - $AC=BD$，$AB\perp BC$
+    - $AO=BO$，$AC\perp BD$
+    - $AB=AD$，$AC\perp BD$
+    - $AO=CO$，$AB\perp BC$
+    answer: B
+    explanation: 官方参考答案：B。
+    solution_steps:
+    - 'A: $AC=BD$ 且 $AB\perp BC$ 判定为矩形，不能判定为正方形。'
+    - 'B: $AO=BO\Rightarrow AC=BD$（矩形），$AC\perp BD$（菱形），既是矩形又是菱形故为正方形。'
+    - 'C: $AB=AD$（菱形），$AC\perp BD$ 菱形本身性质，不能推出正方形。'
+    - 'D: $AO=CO$ 恒成立（平行四边形性质），$AB\perp BC$ 仅判定矩形。'
+    source_solution_images: []

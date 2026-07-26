@@ -1,0 +1,36 @@
+meta:
+  title: 2026年上海市奉贤区中考二模数学试卷第 3 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题（本大题共6题，每题4分，满分24分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q003
+    points: 4
+    stem_latex: 在函数 $y=\dfrac{k}{x}\left(k\neq0\right)$ 的图像所在的每一个象限内，$y$ 的值随 $x$ 的值增大而减小，那么这个函数图像可能经过的点是（\quad）
+    choices:
+    - $(-1,2)$
+    - $(1,-2)$
+    - $(-1,0)$
+    - $(1,2)$
+    answer: D
+    explanation: 官方参考答案：D。
+    solution_steps:
+    - 对于反比例函数 $y=\dfrac{k}{x}\left(k\neq0\right)$，在每个象限内 $y$ 随 $x$ 的增大而减小，则 $k>0$。
+    - 因为反比例函数中满足 $k=xy$，因此该点横纵坐标的乘积应为正。
+    - 'A: $(-1)\times2=-2<0$，不符合要求；B: $1\times(-2)=-2<0$，不符合要求；'
+    - 'C: $(-1)\times0=0$，不满足 $k\neq0$，不符合要求；D: $1\times2=2>0$，满足 $k>0$，符合要求。'
+    source_solution_images: []

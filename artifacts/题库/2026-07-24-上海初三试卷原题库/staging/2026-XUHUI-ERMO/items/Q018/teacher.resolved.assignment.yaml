@@ -1,0 +1,52 @@
+meta:
+  title: 2026年上海市徐汇区中考二模数学试卷第 18 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题（本大题共12题，每题4分，满分48分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q018
+    points: 4
+    stem_latex: 如图，在$\triangle ABC$中，$AB=AC=5$，$BC=8$，点$O$在边$AB$上，如果$\odot O$与$\triangle ABC$的一边所在的直线相切，且经过$\triangle ABC$的一个顶点，那么$OB$的长是__________.
+    answer: $\dfrac{25}{8}$或$\dfrac{120}{49}$
+    explanation: 官方参考答案：$\dfrac{25}{8}$或$\dfrac{120}{49}$.
+    solution_steps:
+    - 分两种情况讨论，当$\odot O$与$BC$相切于点$D$时，则$OD\perp BC$，设$OB=x$，则$OA=OD=5-x$，根据$\sin\angle ABC=\dfrac{OD}{OB}=\dfrac{AE}{AB}$列出比例式，求得$x$的值；当$\odot O$与$AC$相切于点$F$时，则$OF\perp AC$，过点$B$作$BG\perp AC$于点$G$，证明$\triangle AOF\sim\triangle ABG$，进而求得$x$的值，即可求解.
+    - 如图，过点$A$作$AE\perp BC$于点$E$，
+    - 当$\odot O$与$BC$相切于点$D$时，则$OD\perp BC$，
+    - $\because AB=AC=5$，$BC=8$，
+    - $\therefore BE=\dfrac{1}{2}BC=4$，
+    - $\therefore AE=\sqrt{AB^{2}-BE^{2}}=\sqrt{5^{2}-4^{2}}=3$，
+    - 设$OB=x$，则$OA=OD=5-x$，
+    - $\because OD\perp BC$，$AE\perp BC$，
+    - $\therefore\sin\angle ABC=\dfrac{OD}{OB}=\dfrac{AE}{AB}$，即$\dfrac{5-x}{x}=\dfrac{3}{5}$，
+    - 解得：$x=\dfrac{25}{8}$，
+    - 当$\odot O$与$AC$相切于点$F$时，则$OF\perp AC$，过点$B$作$BG\perp AC$于点$G$，
+    - $\because AB=AC$，
+    - $\therefore\angle ABC=\angle C$，
+    - $\therefore BG=BC\cdot\sin C=8\times\dfrac{3}{5}=\dfrac{24}{5}$，
+    - 设$OB=x$，则$OF=OB=x$，$OA=AB-OB=5-x$，
+    - $\because OF\parallel BG$，
+    - $\therefore\triangle AOF\sim\triangle ABG$，
+    - $\therefore\dfrac{OF}{BG}=\dfrac{OA}{AB}$，即$\dfrac{x}{\frac{24}{5}}=\dfrac{5-x}{5}$，
+    - 解得：$x=\dfrac{120}{49}$，
+    - 综上所述，$OB$的长是$\dfrac{25}{8}$或$\dfrac{120}{49}$.
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

@@ -1,0 +1,36 @@
+meta:
+  title: 2026年上海市奉贤区中考二模数学试卷第 24 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题（本大题共7题，满分78分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q024
+    points: 12
+    stem_latex: 如图，在平面直角坐标系中，直线 $y=-x+4$ 与 $x$ 轴交于点 $A$，与 $y$ 轴交于点 $B$，点 $C$ 在 $x$ 轴的正半轴上，且 $BC=AB$。\n(1) 求点 $C$ 的坐标；\n(2) 求过点 $A$、$B$、$C$ 的抛物线的解析式；\n(3) 在抛物线上是否存在点 $P$，使得 $\triangle PAB$ 的面积等于 $\triangle ABC$ 的面积的一半？若存在，求出点 $P$ 的坐标；若不存在，请说明理由。
+    answer: 见解析
+    explanation: 官方参考答案：见解析。
+    solution_steps:
+    - (1) 令 $x=0$，得 $y=4$，所以 $B(0,4)$；令 $y=0$，得 $x=4$，所以 $A(4,0)$。
+    - $AB=\sqrt{4^2+4^2}=4\sqrt{2}$，设 $C(c,0)$，$c>0$，则 $BC=\sqrt{c^2+16}$。
+    - 由 $BC=AB$ 得 $\sqrt{c^2+16}=4\sqrt{2}$，解得 $c=4$，所以 $C(8,0)$。
+    - (2) 设抛物线为 $y=a(x-4)(x-8)$，将 $B(0,4)$ 代入得 $4=a\times(-4)\times(-8)=32a$，解得 $a=\dfrac{1}{8}$。
+    - 所以抛物线为 $y=\dfrac{1}{8}(x-4)(x-8)=\dfrac{1}{8}x^2-\dfrac{3}{2}x+4$。
+    - (3) $S_{\triangle ABC}=\dfrac{1}{2}\times4\times4=8$，所以 $S_{\triangle PAB}=4$。
+    - 设 $P(x,y)$，则 $\dfrac{1}{2}|AB|\cdot h=4$，其中 $h$ 是点 $P$ 到直线 $AB$ 的距离。
+    - 直线 $AB$ 为 $x+y-4=0$，$h=\dfrac{|x+y-4|}{\sqrt{2}}$，所以 $\dfrac{1}{2}\times4\sqrt{2}\times\dfrac{|x+y-4|}{\sqrt{2}}=4$，即 $|x+y-4|=2$。
+    - 代入 $y=\dfrac{1}{8}x^2-\dfrac{3}{2}x+4$，解得 $x=2$ 或 $x=6$，所以 $P(2,3)$ 或 $P(6,1)$。
+    source_solution_images: []

@@ -1,0 +1,53 @@
+meta:
+  title: 2026年上海市徐汇区中考二模数学试卷第 17 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题（本大题共12题，每题4分，满分48分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q017
+    points: 4
+    stem_latex: 如图，在菱形$ABCD$中，点$E$、$F$分别在边$AB$、$BC$上，将菱形$ABCD$沿着$EF$翻折，使点$B$恰好与$\triangle ACD$的重心$G$重合. 若菱形$ABCD$的面积为$18$，则$\triangle BEF$的面积为__________.
+    answer: $4$
+    explanation: 官方参考答案：$4$.
+    solution_steps:
+    - 根据相似可知三角形重心满足$\dfrac{OG}{OD}=\dfrac{2}{3}$，再根据菱形对角线性质，$\dfrac{BH}{GH}=1$，进而可知$\dfrac{BH}{BO}=\dfrac{2}{3}$，再根据相似三角形即可求解.
+    - 取$AD$的中点$N$，连接$CN$，取$CD$的中点$M$，连接$AM$与$CN$交于点$G$，则点$G$为重心，
+    - 在菱形$ABCD$中，连接$BD$，
+    - $\therefore O$为$AC$的中点，
+    - $\therefore$点$G$在$BD$的线段上，
+    - $\because MN\parallel AC$，$MN=\dfrac{1}{2}AC$，
+    - $\therefore\angle ACG=\angle MNG$，$\angle NMG=\angle CAG$，$DJ=\dfrac{1}{2}DO$，
+    - $\therefore\triangle NMG\sim\triangle CAG$，$J$是$OD$的中点，
+    - $\therefore\dfrac{MN}{AC}=\dfrac{GJ}{OG}=\dfrac{1}{2}$，
+    - $\therefore\dfrac{OG}{OD}=\dfrac{2}{3}$，
+    - $\therefore\dfrac{DG}{BD}=\dfrac{4}{12}=\dfrac{1}{3}$，
+    - $\because B$关于$EF$的对称点是$G$，
+    - $\therefore\dfrac{BH}{GH}=\dfrac{1}{1}=1$，
+    - $\therefore\dfrac{BH}{BO}=\dfrac{2}{3}$，
+    - $\because$菱形$ABCD$的面积为$18$，
+    - $\therefore S_{\triangle ABC}=\dfrac{1}{2}\times 18=9$，
+    - $\because EF\parallel AC$，
+    - $\therefore\angle BAO=\angle BEF$，$\angle BCA=\angle BFE$，
+    - $\therefore\triangle BEF\sim\triangle BAC$，
+    - $\therefore\dfrac{S_{\triangle ABC}}{S_{\triangle EBF}}=\dfrac{BO^{2}}{BH^{2}}=\dfrac{9}{4}$，
+    - $\therefore S_{\triangle BEF}=4$.
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

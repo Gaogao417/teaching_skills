@@ -1,0 +1,37 @@
+meta:
+  title: 2026年上海市徐汇区中考二模数学试卷第 4 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题（本大题共6题，每题4分，满分24分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q004
+    points: 4
+    stem_latex: 在$\triangle ABC$中，$D$、$E$分别是边$AB$、$AC$的中点，下列说法不正确的是（\quad）
+    choices:
+    - $\overrightarrow{AD}\parallel\overrightarrow{AB}$；
+    - $\overrightarrow{AD}=\overrightarrow{BD}$；
+    - $\left|\overrightarrow{AE}\right|=\dfrac{1}{2}\left|\overrightarrow{AC}\right|$；
+    - $\overrightarrow{DE}=\dfrac{1}{2}\overrightarrow{BC}$.
+    answer: B
+    explanation: 官方参考答案：B。
+    solution_steps:
+    - 对于选项A，$\overrightarrow{AD}=\dfrac{1}{2}\overrightarrow{AB}$，因此$\overrightarrow{AD}\parallel\overrightarrow{AB}$，A说法正确；
+    - 对于选项B，$\overrightarrow{AD}$与$\overrightarrow{BD}$模长相等，但方向相反，满足$\overrightarrow{AD}=-\overrightarrow{BD}$，因此$\overrightarrow{AD}\neq\overrightarrow{BD}$，B说法不正确；
+    - 对于选项C，$E$是$AC$中点，$\overrightarrow{AE}=\dfrac{1}{2}\overrightarrow{AC}$，因此$\left|\overrightarrow{AE}\right|=\dfrac{1}{2}\left|\overrightarrow{AC}\right|$，C说法正确；
+    - 对于选项D，$DE$是$\triangle ABC$的中位线，$DE\parallel BC$且$DE=\dfrac{1}{2}BC$，$DE$、$BC$方向相同，因此$\overrightarrow{DE}=\dfrac{1}{2}\overrightarrow{BC}$，D说法正确；
+    - 综上，答案选B.
+    source_solution_images: []

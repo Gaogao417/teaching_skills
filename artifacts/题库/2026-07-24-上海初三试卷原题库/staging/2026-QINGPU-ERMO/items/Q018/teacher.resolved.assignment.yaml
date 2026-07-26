@@ -1,0 +1,33 @@
+meta:
+  title: 2026年上海市青浦区中考数学二模试卷第 18 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题（本大题共12题，每题4分，满分48分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: fillin
+    id: Q018
+    points: 4
+    stem_latex: 定义：如果一个圆的圆心与一个正多边形的中心重合，那么称该正多边形为这个圆的同心正多边形。已知一个圆的半径为 $1$，该圆的同心正六边形的边长为 $\sqrt{3}$。设点 $P$ 在圆上，点 $Q$ 在正六边形的边上，那么 $P$、$Q$ 两点之间的最小距离为 \_\_\_\_\_。
+    answer: $\dfrac{1}{2}$
+    explanation: 官方参考答案：$\dfrac{1}{2}$。
+    solution_steps:
+    - 连接 $OA$，$OB$，过点 $O$ 作 $OQ\perp AB$，垂足为 $Q$，$OQ$ 交 $\odot O$ 于点 $P$，此时 $PQ$ 最小，
+    - 点 $O$ 是正六边形 $ABCDEF$ 的中心，$\angle AOB=\dfrac{360°}{6}=60°$，
+    - 又 $\because OA=OB$，$\therefore \triangle AOB$ 是正三角形，$AB=OA=OB=\sqrt{3}$，
+    - 在 Rt$\triangle AOQ$ 中，$\angle AOQ=\dfrac{1}{2}\angle AOB=30°$，$OA=\sqrt{3}$，
+    - $\therefore OQ=\dfrac{\sqrt{3}}{2}OA=\dfrac{3}{2}$，又 $OP=1$，
+    - $\therefore PQ=\dfrac{3}{2}-1=\dfrac{1}{2}$，即 $PQ$ 的最小值为 $\dfrac{1}{2}$。
+    source_solution_images: []

@@ -1,0 +1,38 @@
+meta:
+  title: 2026年上海市奉贤区中考二模数学试卷第 25 题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题（本大题共7题，满分78分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: 已知：如图，在 $\triangle ABC$ 中，$\angle ABC=90^{\circ}$，$AB=BC$，$D$ 为 $AC$ 的中点，$E$ 为 $BC$ 的延长线上一点，且 $CE=CD$，连接 $DE$。\n(1) 求证：$\triangle BDE$ 是等腰三角形；\n(2) 求 $\angle BDE$ 的度数；\n(3) 在 $BC$ 上取一点 $F$，使得 $BF=CE$，连接 $DF$，求证：$DF\perp DE$。
+    answer: 见解析
+    explanation: 官方参考答案：见解析。
+    solution_steps:
+    - (1) 证明：连接 $BD$。因为 $\angle ABC=90^{\circ}$，$AB=BC$，$D$ 为 $AC$ 的中点，所以 $BD\perp AC$，$BD=CD=AD$。
+    - 因为 $CE=CD$，所以 $BD=CE$。又因为 $BD=CD$，所以 $\angle DBC=\angle DCB=45^{\circ}$。
+    - 在 $\triangle BDE$ 中，$BD=CE$，$BE=BC+CE=AB+CD=AB+BD$。
+    - 由余弦定理或角度计算可得 $DE=BD$，所以 $\triangle BDE$ 是等腰三角形。
+    - (2) 由 (1) 知 $BD=DE$，所以 $\angle DBE=\angle DEB$。
+    - 因为 $\angle ABC=90^{\circ}$，$D$ 为 $AC$ 中点，所以 $\angle DBC=45^{\circ}$，即 $\angle DBE=45^{\circ}$。
+    - 所以 $\angle BDE=180^{\circ}-45^{\circ}-45^{\circ}=90^{\circ}$。
+    - (3) 证明：连接 $DF$。因为 $BF=CE$，$BD=CE$，所以 $BF=BD$。
+    - 在 $\triangle BDF$ 中，$\angle DBF=45^{\circ}$，$BF=BD$，所以 $\angle BDF=67.5^{\circ}$。
+    - 因为 $\angle BDE=90^{\circ}$，所以 $\angle FDE=90^{\circ}-67.5^{\circ}=22.5^{\circ}$。
+    - 在 $\triangle DFE$ 中，由角度关系可证 $\angle DFE=90^{\circ}$，所以 $DF\perp DE$。
+    source_solution_images: []

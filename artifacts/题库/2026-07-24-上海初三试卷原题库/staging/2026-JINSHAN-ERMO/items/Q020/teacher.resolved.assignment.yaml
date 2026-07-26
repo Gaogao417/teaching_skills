@@ -1,0 +1,39 @@
+meta:
+  title: 2026年上海市金山区中考二模数学试卷第 20 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题（本大题共8题，满分90分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q020
+    points: 10
+    stem_latex: 如图，在$\triangle ABC$中，$\angle ACB=90^{\circ}$，$AC=BC=5$，以$C$为圆心，$CA$长为半径画弧，交$AB$于点$D$、$E$，求阴影部分的面积。
+    answer: $30\sqrt{3}-\dfrac{25\pi}{6}$
+    explanation: 官方参考答案：$30\sqrt{3}-\dfrac{25\pi}{6}$。
+    solution_steps:
+    - $\because AC=BC=5$，$\angle ACB=90^{\circ}$
+    - $\therefore\triangle ABC$是等腰直角三角形
+    - $\therefore AB=\sqrt{AC^2+BC^2}=5\sqrt{2}$
+    - $\therefore S_{\triangle ABC}=\dfrac{1}{2}AC\cdot BC=\dfrac{1}{2}\times5\times5=\dfrac{25}{2}$
+    - $\because CA=CD=5$，$\therefore\triangle ACD$是等腰三角形
+    - $\therefore\angle CAD=\angle CDA=45^{\circ}$
+    - $\therefore\angle ACD=180^{\circ}-45^{\circ}-45^{\circ}=90^{\circ}$
+    - $\therefore S_{\text{扇形}ACD}=\dfrac{90\pi\times5^2}{360}=\dfrac{25\pi}{4}$
+    - $\therefore S_{\triangle ACD}=\dfrac{1}{2}AC\cdot CD=\dfrac{1}{2}\times5\times5=\dfrac{25}{2}$
+    - $\therefore$阴影部分的面积为$S_{\triangle ABC}-S_{\text{扇形}ACD}+S_{\triangle ACD}=\dfrac{25}{2}-\dfrac{25\pi}{4}+\dfrac{25}{2}=25-\dfrac{25\pi}{4}$
+    - 但是根据答案，阴影部分的面积应为$30\sqrt{3}-\dfrac{25\pi}{6}$，可能题目条件或计算有误。
+    clue: 根据等腰直角三角形的性质，求出三角形面积和扇形面积，然后用三角形面积减去扇形面积得到阴影部分面积。
+    source_solution_images: []

@@ -1,0 +1,40 @@
+meta:
+  title: 2026年上海市金山区中考二模数学试卷第 15 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题（本大题共10题，每题4分，满分40分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q015
+    points: 4
+    stem_latex: 在$\text{Rt}\triangle ABC$中，$\angle C=90^{\circ}$，$AC=6$，$BC=8$，直线$l$经过边$AB$的中点$O$，将$\triangle ABC$沿直线$l$翻折得到$\triangle DEF$（点$A$、$B$、$C$分别与点$D$、$E$、$F$对应），若$\triangle DEF$的重心$G$在射线$CO$上，那么$D$到直线$l$的距离为______。
+    answer: $\dfrac{24}{5}$或$\dfrac{7}{5}$
+    explanation: 官方参考答案：$\dfrac{24}{5}$或$\dfrac{7}{5}$。
+    solution_steps:
+    - 有两种情况：
+    - ①：$l$与射线$CO$重合，如图所示：此时$C$和$F$重合，两三角形重心也重合且在线段$CO$上
+    - 由勾股定理知$AB=\sqrt{AC^2+BC^2}=10$
+    - $\because O$是$AB$的中点，$\therefore OC=\dfrac{1}{2}AB=5$，$S_{\triangle AOC}=\dfrac{1}{2}S_{\triangle ABC}=\dfrac{1}{2}\times6\times8=24$
+    - $\because S_{\triangle AOC}=\dfrac{1}{2}OC\cdot AH=\dfrac{5}{2}AH=12$
+    - $\therefore AH=\dfrac{24}{5}$，即$D$到直线$l$的距离为$\dfrac{24}{5}$；
+    - ②$l$与射线$CO$垂直，如图所示，过$A$作$AQ\perp l$于$Q$
+    - 此时$\triangle DEF$的重心$G$在射线$CO$延长线上，易证得四边形$AQOH$为矩形
+    - $\therefore AQ=OH$，$AH=OQ=\dfrac{24}{5}$
+    - $\therefore\text{Rt}\triangle AOQ$中，由勾股定理得$AQ=\sqrt{OA^2-OQ^2}=\sqrt{5^2-\left(\dfrac{24}{5}\right)^2}=\dfrac{7}{5}$
+    - 由对称性知$D$到直线$l$的距离就是$A$到直线$l$的距离$AQ=\dfrac{7}{5}$
+    - 综上所述，$D$到直线$l$的距离为$\dfrac{24}{5}$或$\dfrac{7}{5}$。
+    clue: 本题考查翻折和三角形重心性质，三角形高的计算；要分类讨论，$G$在线段$CO$上或在$CO$延长线上，且由对称性知$D$到直线$l$的距离就是$A$到直线$l$的距离。
+    source_solution_images: []

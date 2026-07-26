@@ -1,0 +1,34 @@
+meta:
+  title: 2026年上海市嘉定区中考数学二模试卷第 1 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题（本大题共6题，每题4分，满分24分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q001
+    points: 4
+    stem_latex: 下列运算中，结果正确的是（\quad）
+    choices:
+    - $a+2a^2=2a^3$
+    - $(a^2)^3=a^5$
+    - $(a^2b)^2=a^4b^2$
+    - $a^4b^2\div ab^2=a^3b$
+    answer: C
+    explanation: 官方参考答案：C。
+    solution_steps:
+    - $a$ 与 $2a^2$ 不是同类项，A错；$(a^2)^3=a^6\neq a^5$，B错；$(a^2b)^2=a^4b^2$，C正确；$a^4b^2\div ab^2=a^3\neq a^3b$，D错。
+    clue: 逐项验证幂运算法则。
+    source_solution_images: []

@@ -1,0 +1,764 @@
+schema: math_exam_staging_draft/v1
+paper:
+  id: 2026-PUDONG-ERMO
+  title: 2026年上海市浦东新区中考二模数学试卷
+  grade: 九年级
+  subject: 数学
+  total_score: 150
+  source_archive: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析
+question_bank: ../../question-bank.yaml
+sections:
+- id: choice
+  title: 一、选择题（本大题共6题，每题4分，满分24分）
+  items:
+  - item_id: Q001
+    question_number: 1
+    question_type: choice
+    points: 4
+    question_word_evidence:
+    - page_number: 1
+      page_image: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/pages/001.png
+    prompt: []
+    official_solution:
+      start_anchor: 【详解】解：多项式
+      end_anchor: 一次项是 -3y
+      word_evidence:
+      - page_number: 1
+        page_image: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/pages/001.png
+    block:
+      stem_latex: 在多项式 $\frac{1}{2}x^2-3y-4$ 中，一次项是（\quad）
+      choices:
+      - $3$
+      - $-3$
+      - $3y$
+      - $-3y$
+      answer: D
+      explanation: 官方参考答案：D。
+      solution_steps:
+      - 多项式 $\frac{1}{2}x^2-3y-4$ 中，一次项是 $-3y$。
+      clue: 多项式中一次项是指次数为1的项，注意系数符号。
+  - item_id: Q002
+    question_number: 2
+    question_type: choice
+    points: 4
+    question_word_evidence:
+    - page_number: 1
+      page_image: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/pages/001.png
+    prompt: []
+    official_solution:
+      start_anchor: 【详解】解：A、
+      end_anchor: 选项 D 不符合题意
+      word_evidence:
+      - page_number: 1
+        page_image: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/pages/001.png
+      - page_number: 2
+        page_image: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/pages/002.png
+    block:
+      stem_latex: 下列运算中，计算正确的是（\quad）
+      choices:
+      - $x^3y \cdot xy^3 = 4xy$
+      - $x^3 \div (xy) = x^2y$
+      - $(xy^2)^2 = x^2y^4$
+      - $x^2y + xy^2 = x^3y^3$
+      answer: C
+      explanation: 官方参考答案：C。
+      solution_steps:
+      - 'A：$x^3y \cdot xy^3 = x^{3+1}y^{1+3} = x^4y^4 \neq 4xy$，不符合；'
+      - 'B：$x^3 \div (xy) = x^{3-1}y^{0-1} = x^2y^{-1} \neq x^2y$，不符合；'
+      - 'C：$(xy^2)^2 = x^2(y^2)^2 = x^2y^4$，符合；'
+      - 'D：$x^2y$ 与 $xy^2$ 不是同类项，无法合并，不能得到 $x^3y^3$，不符合。'
+      clue: 逐项验证运算结果，注意幂的运算法则和同类项合并规则。
+  - item_id: Q003
+    question_number: 3
+    question_type: choice
+    points: 4
+    question_word_evidence:
+    - page_number: 2
+      page_image: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/pages/002.png
+    prompt: []
+    official_solution:
+      start_anchor: 【详解】解：A．
+      end_anchor: 此选项不符合题意
+      word_evidence:
+      - page_number: 2
+        page_image: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/pages/002.png
+      - page_number: 3
+        page_image: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/pages/003.png
+    block:
+      stem_latex: 已知函数图像上的两点 $A(x_1,y_1)$、$B(x_2,y_2)$，当 $x_1 < x_2$ 时 $y_1 < y_2$，一定满足此规律的函数是（\quad）
+      choices:
+      - $y = x+1$
+      - $y = 1$
+      - $y = \frac{1}{x}$
+      - $y = -x^2+1$
+      answer: A
+      explanation: 官方参考答案：A。
+      solution_steps:
+      - 'A：$y=x+1$ 是一次函数，且 $1>0$，当 $x_1 < x_2$ 时 $y_1 < y_2$，符合题意；'
+      - 'B：$y=1$，对任意 $x_1 < x_2$，都有 $y_1 = y_2 = 1$，不符合；'
+      - 'C：取 $x_1=-2$，$x_2=-1$，满足 $x_1 < x_2$，此时 $y_1 = -\frac{1}{2}$，$y_2 = -1$，$y_1 > y_2$，不符合；'
+      - 'D：取 $x_1=1$，$x_2=2$，满足 $x_1 < x_2$，此时 $y_1 = -1^2+1=0$，$y_2 = -2^2+1=-3$，$y_1 > y_2$，不符合。'
+      clue: 逐一验证各函数的单调性，一次函数系数为正时递增。
+  - item_id: Q004
+    question_number: 4
+    question_type: choice
+    points: 4
+    question_word_evidence:
+    - page_number: 3
+      page_image: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/pages/003.png
+    prompt: []
+    official_solution:
+      start_anchor: 【详解】解：原有红球4个
+      end_anchor: 方法不可行的是 B
+      word_evidence:
+      - page_number: 3
+        page_image: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/pages/003.png
+      - page_number: 4
+        page_image: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/pages/004.png
+    block:
+      stem_latex: 一个不透明的袋子里装有 $4$ 个红球、$3$ 个白球和 $2$ 个蓝球，这些球只有颜色不同，随机从中摸出一个球，要使摸到红球的概率为 $\frac{1}{2}$，以下方法不可行的是（\quad）
+      choices:
+      - 往袋中放入一个红球
+      - 往袋中放入一个绿球
+      - 从袋中取出一个蓝球
+      - 从袋中取出一个白球
+      answer: B
+      explanation: 官方参考答案：B。
+      solution_steps:
+      - 原有红球 $4$ 个，总球数为 $4+3+2=9$，摸到红球概率为 $\frac{4}{9}$。
+      - 'A：放入1个红球后，红球数为 $5$，总球数为 $10$，$P=\frac{5}{10}=\frac{1}{2}$，可行；'
+      - 'B：放入1个绿球后，红球数为 $4$，总球数为 $10$，$P=\frac{4}{10}=\frac{2}{5} \neq \frac{1}{2}$，不可行；'
+      - 'C：取出1个蓝球后，红球数为 $4$，总球数为 $8$，$P=\frac{4}{8}=\frac{1}{2}$，可行；'
+      - 'D：取出1个白球后，红球数为 $4$，总球数为 $8$，$P=\frac{4}{8}=\frac{1}{2}$，可行。'
+      clue: 分别计算各选项操作后摸到红球的概率，判断是否等于 $\frac{1}{2}$。
+  - item_id: Q005
+    question_number: 5
+    question_type: choice
+    points: 4
+    question_word_evidence:
+    - page_number: 4
+      page_image: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/pages/004.png
+    prompt: []
+    official_solution:
+      start_anchor: 【详解】解：A、
+      end_anchor: D 选项正确，不符合题意
+      word_evidence:
+      - page_number: 4
+        page_image: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/pages/004.png
+      - page_number: 5
+        page_image: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/pages/005.png
+    block:
+      stem_latex: '第 $67$ 届国际奥林匹克数学竞赛（IMO）将于 $2026$ 年 $7$ 月在上海举行。在上届比赛中，中国队发挥出色，获得团体总分第一名，也是当届比赛中唯一一支所有队员都获得金牌的队伍。中国队参赛队员比赛成绩的方差可用以下公式来计算：$$S^2 = \frac{1}{6}\left[\left(42-\bar{x}\right)^2+\left(42-\bar{x}\right)^2+\left(40-\bar{x}\right)^2+\left(36-\bar{x}\right)^2+\left(36-\bar{x}\right)^2+\left(35-\bar{x}\right)^2\right]$$根据以上信息，下列叙述中不正确的是（\quad）'
+      choices:
+      - 中国队共有 $6$ 名同学参赛
+      - 众数是 $36$
+      - 中位数是 $38$
+      - 平均数是 $38.5$
+      answer: B
+      explanation: 官方参考答案：B。
+      solution_steps:
+      - 'A：方差公式中共有 $6$ 个数据项，中国队共有 $6$ 名同学参赛，正确；'
+      - 'B：$36$ 和 $42$ 都出现 $2$ 次，均为出现次数最多的数，众数是 $36$ 和 $42$，错误；'
+      - 'C：$6$ 个数据的中位数是第 $3$ 个和第 $4$ 个数据的平均数，即 $\frac{36+40}{2}=38$，正确；'
+      - 'D：平均数 $\bar{x}=\frac{35+36+36+40+42+42}{6}=\frac{231}{6}=38.5$，正确。'
+      clue: 从方差公式中提取数据：$42,42,40,36,36,35$，再逐一验证各统计量。
+  - item_id: Q006
+    question_number: 6
+    question_type: choice
+    points: 4
+    question_word_evidence:
+    - page_number: 5
+      page_image: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/pages/005.png
+    prompt: []
+    official_solution:
+      start_anchor: 【详解】解：A．
+      end_anchor: 故选：C
+      word_evidence:
+      - page_number: 5
+        page_image: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/pages/005.png
+    block:
+      stem_latex: 已知四边形 $ABCD$ 中，$AB \parallel CD$，$AC=BD$，下列判断中的正确的是（\quad）
+      choices:
+      - 如果 $BC=AD$，那么四边形 $ABCD$ 是等腰梯形
+      - 如果 $AD \parallel BC$，那么四边形 $ABCD$ 是菱形
+      - 如果 $AC$ 平分 $BD$，那么四边形 $ABCD$ 是矩形
+      - 如果 $AC \perp BD$，那么四边形 $ABCD$ 是正方形
+      answer: C
+      explanation: 官方参考答案：C。
+      solution_steps:
+      - 'A：如果 $BC=AD$，那么四边形 $ABCD$ 可能是等腰梯形，也可能是矩形，错误；'
+      - 'B：如果 $AD \parallel BC$，那么四边形 $ABCD$ 是矩形，错误；'
+      - 'C：如果 $AC$ 平分 $BD$，那么四边形 $ABCD$ 是矩形，正确；'
+      - 'D：如果 $AC \perp BD$，那么四边形 $ABCD$ 不一定是正方形，错误。'
+      clue: 根据正方形、等腰梯形、矩形和菱形的判定定理逐一判断。
+- id: fillin
+  title: 二、填空题（本大题共12题，每题4分，满分48分）
+  items:
+  - item_id: Q007
+    question_number: 7
+    question_type: fillin
+    points: 4
+    question_word_evidence:
+    - page_number: 6
+      page_image: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/pages/006.png
+    prompt: []
+    official_solution:
+      start_anchor: 【详解】解：原式=
+      end_anchor: 故答案为
+      word_evidence:
+      - page_number: 6
+        page_image: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/pages/006.png
+    block:
+      stem_latex: 分解因式：$4x^2-9y^2=$_________。
+      answer: $(2x+3y)(2x-3y)$
+      explanation: 官方参考答案：$(2x+3y)(2x-3y)$。
+      solution_steps:
+      - $4x^2-9y^2=(2x)^2-(3y)^2=(2x+3y)(2x-3y)$（平方差公式）。
+      clue: 利用平方差公式 $a^2-b^2=(a+b)(a-b)$。
+  - item_id: Q008
+    question_number: 8
+    question_type: fillin
+    points: 4
+    question_word_evidence:
+    - page_number: 6
+      page_image: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/pages/006.png
+    prompt: []
+    official_solution:
+      start_anchor: 【详解】解：
+      end_anchor: 化简结果
+      word_evidence:
+      - page_number: 6
+        page_image: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/pages/006.png
+    block:
+      stem_latex: 化简：$\frac{2}{1-x}-\frac{2x}{1-x}=$__________。
+      answer: $2$
+      explanation: 官方参考答案：$2$。
+      solution_steps:
+      - $\frac{2}{1-x}-\frac{2x}{1-x}=\frac{2-2x}{1-x}=\frac{2(1-x)}{1-x}=2$。
+      clue: 同分母分式相减，分子合并后约分。
+  - item_id: Q009
+    question_number: 9
+    question_type: fillin
+    points: 4
+    question_word_evidence:
+    - page_number: 6
+      page_image: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/pages/006.png
+    prompt: []
+    official_solution:
+      start_anchor: 【详解】解：
+      end_anchor: 原方程组的解为
+      word_evidence:
+      - page_number: 6
+        page_image: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/pages/006.png
+      - page_number: 7
+        page_image: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/pages/007.png
+    block:
+      stem_latex: 方程组 $\begin{cases}x+y=1 \\ x^2-y^2=5\end{cases}$ 的解是__________。
+      answer: '$\begin{cases}x=3 \\ y=-2\end{cases}$'
+      explanation: '官方参考答案：$\begin{cases}x=3 \\ y=-2\end{cases}$。'
+      solution_steps:
+      - 由 $x^2-y^2=5$ 得 $(x+y)(x-y)=5$。
+      - 因为 $x+y=1$，所以 $x-y=5$。
+      - 联立 $\begin{cases}x+y=1 \\ x-y=5\end{cases}$，解得 $x=3$，$y=-2$。
+      clue: 利用平方差公式分解后与第一个方程联立求解。
+  - item_id: Q010
+    question_number: 10
+    question_type: fillin
+    points: 4
+    question_word_evidence:
+    - page_number: 7
+      page_image: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/pages/007.png
+    prompt: []
+    official_solution:
+      start_anchor: 【详解】解：
+      end_anchor: 所以 $x=7$ 是原方程的解
+      word_evidence:
+      - page_number: 7
+        page_image: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/pages/007.png
+    block:
+      stem_latex: 方程 $\sqrt{x+2}=3$ 的解是__________。
+      answer: $x=7$
+      explanation: 官方参考答案：$x=7$。
+      solution_steps:
+      - 两边平方得 $x+2=9$，解得 $x=7$。
+      - 检验：$\sqrt{7+2}=\sqrt{9}=3$，$x=7$ 是原方程的解。
+      clue: 两边平方后求解，注意验根。
+  - item_id: Q011
+    question_number: 11
+    question_type: fillin
+    points: 4
+    question_word_evidence:
+    - page_number: 8
+      page_image: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/pages/008.png
+    prompt: []
+    official_solution:
+      start_anchor: 【详解】解：
+      end_anchor: 故答案为
+      word_evidence:
+      - page_number: 8
+        page_image: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/pages/008.png
+    block:
+      stem_latex: 如果关于 $x$ 的一元二次方程 $x^2-x+a=0$ 有实数根，那么 $a$ 的取值范围是_____________。
+      answer: $a \leq \frac{1}{4}$
+      explanation: 官方参考答案：$a \leq \frac{1}{4}$。
+      solution_steps:
+      - 有实数根需 $\Delta=(-1)^2-4a \geq 0$。
+      - $1-4a \geq 0$，解得 $a \leq \frac{1}{4}$。
+      clue: 利用一元二次方程根的判别式 $\Delta \geq 0$。
+  - item_id: Q012
+    question_number: 12
+    question_type: fillin
+    points: 4
+    question_word_evidence:
+    - page_number: 8
+      page_image: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/pages/008.png
+    prompt: []
+    official_solution:
+      start_anchor: 【详解】解：
+      end_anchor: 表达式是
+      word_evidence:
+      - page_number: 8
+        page_image: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/pages/008.png
+    block:
+      stem_latex: 将抛物线 $y=x^2-4x+1$ 向上平移 $2$ 个单位，得到新抛物线的表达式是__________。
+      answer: $y=x^2-4x+3$
+      explanation: 官方参考答案：$y=x^2-4x+3$。
+      solution_steps:
+      - 向上平移 $2$ 个单位：$y=x^2-4x+1+2=x^2-4x+3$。
+      clue: 向上平移 $n$ 个单位，常数项加 $n$。
+  - item_id: Q013
+    question_number: 13
+    question_type: fillin
+    points: 4
+    question_word_evidence:
+    - page_number: 9
+      page_image: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/pages/009.png
+    prompt:
+    - source: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/media/image87.png
+      box_px:
+      - 0
+      - 0
+      - 853
+      - 854
+      width: 80mm
+    official_solution:
+      start_anchor: 【详解】解：
+      end_anchor: 参加绘画社的学生有 80 人
+      word_evidence:
+      - page_number: 9
+        page_image: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/pages/009.png
+    block:
+      stem_latex: 某学校对学生参与社团情况做了调查，并将调查的数据整理后绘制成如图所示的扇形统计图（每个学生只能参加一个社团）。如果参加编程社的学生有 $120$ 人，那么参加绘画社的学生有__________人。
+      answer: $80$
+      explanation: 官方参考答案：$80$。
+      solution_steps:
+      - 总人数 $=120 \div 30\% = 400$（人）。
+      - 绘画社人数 $=400 \times (1-15\%-35\%-30\%)=80$（人）。
+      clue: 先由编程社人数和占比求总人数，再用总人数乘绘画社占比。
+  - item_id: Q014
+    question_number: 14
+    question_type: fillin
+    points: 4
+    question_word_evidence:
+    - page_number: 9
+      page_image: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/pages/009.png
+    prompt:
+    - source: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/media/image99.png
+      box_px:
+      - 0
+      - 0
+      - 884
+      - 907
+      width: 80mm
+    official_solution:
+      start_anchor: 【详解】解：
+      end_anchor: $DB = AB - AD = a - \frac{1}{2}b$
+      word_evidence:
+      - page_number: 9
+        page_image: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/pages/009.png
+      - page_number: 10
+        page_image: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/pages/010.png
+    block:
+      stem_latex: '如图，在 $\triangle ABC$ 中，$AB=BC$，$BD$ 平分 $\angle ABC$，如果 $\overrightarrow{AB}=\vec{a}$，$\overrightarrow{AC}=\vec{b}$，那么 $\overrightarrow{DB}$ 关于 $\vec{a}$、$\vec{b}$ 的分解式为__________。'
+      answer: $\vec{a}-\dfrac{1}{2}\vec{b}$
+      explanation: '官方参考答案：$\vec{a}-\dfrac{1}{2}\vec{b}$。'
+      solution_steps:
+      - 因为 $AB=BC$，$BD$ 平分 $\angle ABC$，所以 $AD=\frac{1}{2}AC$。
+      - $\overrightarrow{AD}=\frac{1}{2}\vec{b}$。
+      - $\overrightarrow{DB}=\overrightarrow{AB}-\overrightarrow{AD}=\vec{a}-\frac{1}{2}\vec{b}$。
+      clue: 利用等腰三角形三线合一性质，角平分线也是中线。
+  - item_id: Q015
+    question_number: 15
+    question_type: fillin
+    points: 4
+    question_word_evidence:
+    - page_number: 10
+      page_image: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/pages/010.png
+    prompt: []
+    official_solution:
+      start_anchor: 【详解】解：
+      end_anchor: 等于 $2 \times 10^5$
+      word_evidence:
+      - page_number: 10
+        page_image: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/pages/010.png
+    block:
+      stem_latex: '2026年3月29日，中关村论坛年会发布重大成果，中科院物理所团队首次实现二维金属。二维金属是极薄的单原子层金属材料，厚度超小。已知某二维金属材料厚度 $1.5 \times 10^{-10}$ 米，一根头发丝直径约 $0.03$ 毫米，换算为米是 $3 \times 10^{-5}$ 米。则头发丝直径是该二维金属材料厚度的__________倍。（用科学记数法表示）'
+      answer: $2 \times 10^5$
+      explanation: 官方参考答案：$2 \times 10^5$。
+      solution_steps:
+      - $3 \times 10^{-5} \div (1.5 \times 10^{-10}) = (3 \div 1.5) \times 10^{-5-(-10)} = 2 \times 10^5$。
+      clue: 用除法计算倍数，科学记数法相除时指数相减。
+  - item_id: Q016
+    question_number: 16
+    question_type: fillin
+    points: 4
+    question_word_evidence:
+    - page_number: 11
+      page_image: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/pages/011.png
+    prompt:
+    - source: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/media/image121.png
+      box_px:
+      - 0
+      - 0
+      - 2711
+      - 1217
+      width: 80mm
+    official_solution:
+      start_anchor: 【详解】解：如图
+      end_anchor: 可通过闸机的物体最大宽度为 $30+8+30=68$
+      word_evidence:
+      - page_number: 11
+        page_image: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/pages/011.png
+    block:
+      stem_latex: '如图是地铁入口双翼闸机示意图。已知双翼边缘 $AC=BD=60$cm，与闸机侧立面夹角 $\angle PCA=\angle QDB=30°$，双翼展开时端点 $A$、$B$ 的间距为 $8$cm。当双翼收起时，可通过闸机的物体最大宽度为__________cm。'
+      answer: $68$
+      explanation: 官方参考答案：$68$。
+      solution_steps:
+      - 过点 $A$ 作 $AE \perp PC$ 于点 $E$，过点 $B$ 作 $BF \perp QD$ 于点 $F$。
+      - $AE=\frac{1}{2}AC=30$cm，$BF=\frac{1}{2}BD=30$cm。
+      - 双翼收起时最大宽度为 $30+8+30=68$（cm）。
+      clue: 作垂线构造直角三角形，利用 $30°$ 角的性质求距离。
+  - item_id: Q017
+    question_number: 17
+    question_type: fillin
+    points: 4
+    question_word_evidence:
+    - page_number: 11
+      page_image: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/pages/011.png
+    prompt:
+    - source: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/media/image138.png
+      box_px:
+      - 0
+      - 0
+      - 1427
+      - 1381
+      width: 80mm
+    official_solution:
+      start_anchor: 【详解】解：连接
+      end_anchor: 故答案为：12
+      word_evidence:
+      - page_number: 11
+        page_image: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/pages/011.png
+      - page_number: 12
+        page_image: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/pages/012.png
+    block:
+      stem_latex: '如图，已知弦 $AB$、$CD$ 在圆心 $O$ 的同侧，且 $AB$ 是 $\odot O$ 内接正三角形的一条边，$CD$ 是 $\odot O$ 内接正六边形的一条边，$AB \parallel CD$。如果 $AC$ 也是 $\odot O$ 的内接正 $n$ 边形的一条边，那么 $n$ 的值为__________。'
+      answer: $12$
+      explanation: 官方参考答案：$12$。
+      solution_steps:
+      - 连接 $OA$、$OB$、$OC$、$OD$。
+      - $\angle DOC=\frac{360°}{6}=60°$，$\angle AOB=\frac{360°}{3}=120°$。
+      - $\angle AOC=\angle BOD=\frac{\angle AOB-\angle DOC}{2}=30°$。
+      - $n=\frac{360°}{30°}=12$。
+      clue: 利用正多边形中心角公式，求出 $AC$ 对应的中心角。
+  - item_id: Q018
+    question_number: 18
+    question_type: fillin
+    points: 4
+    question_word_evidence:
+    - page_number: 13
+      page_image: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/pages/013.png
+    prompt:
+    - source: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/media/image163.png
+      box_px:
+      - 0
+      - 0
+      - 1884
+      - 1575
+      width: 80mm
+    official_solution:
+      start_anchor: 【详解】解：设
+      end_anchor: $CD$ 的值为 $4$ 或 $\frac{36}{17}$
+      word_evidence:
+      - page_number: 13
+        page_image: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/pages/013.png
+      - page_number: 14
+        page_image: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/pages/014.png
+      - page_number: 15
+        page_image: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/pages/015.png
+    block:
+      stem_latex: '如图，在 $\mathrm{Rt}\triangle ABC$ 中，$\angle C=90°$，$AC=5$，$BC=12$。点 $D$、$E$ 分别在边 $AC$、$BC$ 上，且 $\frac{CD}{CE}=\frac{3}{4}$。以 $E$ 为圆心，$ED$ 为半径作圆，如果 $\odot E$ 与 $\triangle ABC$ 的三边有三个公共点，那么 $CD$ 的值为__________。'
+      answer: $4$ 或 $\dfrac{36}{17}$
+      explanation: '官方参考答案：$4$ 或 $\dfrac{36}{17}$。'
+      solution_steps:
+      - 设 $CD=3x$，则 $CE=4x$，$DE=5x$，$AB=13$。
+      - 情况①：$\odot E$ 与 $AB$ 相切时，$\triangle BFE \sim \triangle BCA$，$BE=13x$，$BC=17x=12$，$x=\frac{12}{17}$，$CD=3x=\frac{36}{17}$。
+      - 情况②：$ED=EB$ 时，$BC=BE+CE=5x+4x=9x=12$，$x=\frac{4}{3}$，$CD=3x=4$。
+      - 综上：$CD$ 的值为 $4$ 或 $\frac{36}{17}$。
+      clue: 分两种情况讨论：$\odot E$ 与 $AB$ 相切，或 $ED=EB$。
+- id: problem
+  title: 三、解答题（本大题共7题，满分78分）
+  items:
+  - item_id: Q019
+    question_number: 19
+    question_type: problem
+    points: 10
+    question_word_evidence:
+    - page_number: 15
+      page_image: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/pages/015.png
+    prompt: []
+    official_solution:
+      start_anchor: 【详解】解：
+      end_anchor: 等于 $\frac{3\sqrt{3}}{2}$
+      word_evidence:
+      - page_number: 15
+        page_image: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/pages/015.png
+      - page_number: 16
+        page_image: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/pages/016.png
+    block:
+      stem_latex: 计算：$(\pi-\sqrt{10})^0+(2-\sqrt{3})^{-1}+\sqrt[3]{-27}+\cos30°$。
+      answer: $\dfrac{3\sqrt{3}}{2}$
+      explanation: '官方参考答案：$\dfrac{3\sqrt{3}}{2}$。'
+      solution_steps:
+      - $(\pi-\sqrt{10})^0=1$，$(2-\sqrt{3})^{-1}=2+\sqrt{3}$，$\sqrt[3]{-27}=-3$，$\cos30°=\frac{\sqrt{3}}{2}$。
+      - $=1+(2+\sqrt{3})+(-3)+\frac{\sqrt{3}}{2}=\frac{3\sqrt{3}}{2}$。
+      clue: 分别计算零次幂、负指数幂、立方根和三角函数值。
+  - item_id: Q020
+    question_number: 20
+    question_type: problem
+    points: 10
+    question_word_evidence:
+    - page_number: 16
+      page_image: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/pages/016.png
+    prompt: []
+    official_solution:
+      start_anchor: 【详解】解：解不等式①
+      end_anchor: 解集为 $x \leq -6$
+      word_evidence:
+      - page_number: 16
+        page_image: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/pages/016.png
+    block:
+      stem_latex: '解不等式组：$\begin{cases}4(1-x)>8\textcircled{1} \\ x+3 \leq \frac{x}{2}\textcircled{2}\end{cases}$。'
+      answer: $x \leq -6$
+      explanation: 官方参考答案：$x \leq -6$。
+      solution_steps:
+      - 解不等式①：$x < -1$。
+      - 解不等式②：$x \leq -6$。
+      - 不等式组的解集为 $x \leq -6$。
+      clue: 分别解两个不等式，取交集。
+  - item_id: Q021
+    question_number: 21
+    question_type: problem
+    points: 10
+    question_word_evidence:
+    - page_number: 16
+      page_image: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/pages/016.png
+    prompt:
+    - source: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/media/image209.png
+      box_px:
+      - 0
+      - 0
+      - 1967
+      - 2070
+      width: 80mm
+    official_solution:
+      start_anchor: 【小问1详解】
+      end_anchor: $BD = \sqrt{5}$
+      word_evidence:
+      - page_number: 17
+        page_image: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/pages/017.png
+      - page_number: 18
+        page_image: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/pages/018.png
+    block:
+      stem_latex: '在平面直角坐标系 $xOy$（如图），已知正比例函数 $y=2x$ 的图像与反比例函数 $y=\frac{k}{x}$（$k \neq 0$）的图像相交于点 $A(2,m)$，过点 $B(4,0)$ 作 $x$ 轴的垂线，与反比例函数 $y=\frac{k}{x}$ 的图像相交于点 $C$。
+
+        （1）求 $m$ 的值和反比例函数 $y=\frac{k}{x}$ 的解析式；
+
+        （2）联结 $OC$，点 $D$ 是 $OC$ 的中点，联结 $BD$，求 $BD$ 的长。'
+      answer: （1）$m=4$，$y=\frac{8}{x}$；（2）$BD=\sqrt{5}$
+      explanation: '官方参考答案：（1）$m=4$，$y=\frac{8}{x}$；（2）$\sqrt{5}$。'
+      solution_steps:
+      - '（1）把 $A(2,m)$ 代入 $y=2x$，得 $m=4$。$A(2,4)$，代入 $y=\frac{k}{x}$，得 $k=8$。反比例函数解析式为 $y=\frac{8}{x}$。'
+      - '（2）把 $x=4$ 代入 $y=\frac{8}{x}$，得 $y=2$。$C(4,2)$，$B(4,0)$，$BC=2$。又 $BC \perp x$ 轴，$\angle CBO=90°$。在 $\mathrm{Rt}\triangle CBO$ 中，点 $D$ 是 $OC$ 的中点，$BD=\frac{1}{2}OC$。$OC=\sqrt{4^2+2^2}=2\sqrt{5}$，$BD=\sqrt{5}$。'
+      clue: 先用待定系数法求解析式，再利用直角三角形斜边中线性质求 $BD$。
+  - item_id: Q022
+    question_number: 22
+    question_type: problem
+    points: 12
+    question_word_evidence:
+    - page_number: 18
+      page_image: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/pages/018.png
+    prompt:
+    - source: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/media/image228.png
+      box_px:
+      - 0
+      - 0
+      - 3019
+      - 1149
+      width: 120mm
+    official_solution:
+      start_anchor: 【小问1详解】
+      end_anchor: $M$ 是边 $CD$ 的一个三等分点
+      word_evidence:
+      - page_number: 19
+        page_image: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/pages/019.png
+      - page_number: 20
+        page_image: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/pages/020.png
+      - page_number: 21
+        page_image: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/pages/021.png
+    block:
+      stem_latex: '折纸是承载中国传统礼俗与生活智慧的民间传统艺术。学校折纸社团的同学们用 $12$cm$\times 12$cm 正方形纸片开展折纸活动。
+
+        【发现问题】如图$1$，将正方形纸片 $ABCD$ 对折再展开，折痕交 $AD$ 于点 $E$、交 $BC$ 于点 $F$，点 $E$、$F$ 分别是边 $AD$、$BC$ 的二等分点。在第一次对折后，同向再对折一次（如图$2$），可得到边的________等分点。按照这样的方式对折 $n$ 次（$n$ 是正整数）可以得到边的________等分点（用含 $n$ 的代数式表示），但这样折的方式都不会得到边的三等分点。
+
+        【解决问题】
+
+        （1）完成填空；
+
+        （2）求 $AG$ 的长；
+
+        （3）判断小海的折法是否正确并说明理由。'
+      answer: （1）四，$2^n$；（2）$4.5$cm；（3）正确，理由见解析
+      explanation: '官方参考答案：（1）四，$2^n$；（2）$4.5$cm；（3）正确。'
+      solution_steps:
+      - '（1）由题意得，第一次对折后，同向再对折一次，可得到边的四等分点。对折 $n$ 次可以得到边的 $2^n$ 等分点。'
+      - '（2）设 $AG=x$，则由折叠的性质可得 $GE=(12-x)$cm。四边形 $ABCD$ 是正方形，$\angle A=90°$。$E$ 是 $AD$ 的中点，$AD=12$cm，$AE=6$cm。在 $\mathrm{Rt}\triangle AGE$ 中，$x^2+6^2=(12-x)^2$，解得 $x=4.5$，$AG=4.5$cm。'
+      - '（3）小海的折法正确。由折叠的性质和正方形的性质可得 $\angle D=\angle GEC=90°$。$\angle AEG=\angle DME$，$\tan\angle AEG=\tan\angle DME$。$\frac{AE}{AG}=\frac{DM}{DE}$，$\frac{6}{4.5}=\frac{DM}{6}$，解得 $DM=8$cm。由 $8:12=2:3$ 可知，$M$ 是边 $CD$ 的一个三等分点。'
+      clue: 折叠问题利用勾股定理列方程，三等分点需证明比例关系。
+  - item_id: Q023
+    question_number: 23
+    question_type: problem
+    points: 12
+    question_word_evidence:
+    - page_number: 21
+      page_image: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/pages/021.png
+    prompt:
+    - source: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/media/image266.png
+      box_px:
+      - 0
+      - 0
+      - 231
+      - 188
+      width: 80mm
+    official_solution:
+      start_anchor: 【小问1详解】
+      end_anchor: 四边形 $CPO_2Q$ 是菱形
+      word_evidence:
+      - page_number: 22
+        page_image: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/pages/022.png
+      - page_number: 23
+        page_image: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/pages/023.png
+      - page_number: 24
+        page_image: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/pages/024.png
+    block:
+      stem_latex: '已知：如图，$\odot O_1$ 与 $\odot O_2$ 相交于点 $P$、$Q$，且 $r_{\odot O_1}>r_{\odot O_2}$，过点 $P$ 的直线 $AB$ 分别交 $\odot O_1$、$\odot O_2$ 于点 $A$、$B$，且 $AP=BP$。点 $C$ 是线段 $O_1O_2$ 的中点。联结 $QO_2$ 并延长交 $BP$ 于点 $M$，且 $PM=BM$。
+
+        （1）求证：$CP \perp AB$；
+
+        （2）求证：四边形 $CPO_2Q$ 是菱形。'
+      answer: （1）见解析；（2）见解析
+      explanation: '两问均为证明题，详见解析。'
+      solution_steps:
+      - '（1）作 $O_1N \perp AP$，垂足为 $N$，根据垂径定理可得 $AN=PN=\frac{1}{2}AP$，$\angle O_1NP=90°$。$PM=BM$，$PM=\frac{1}{2}BP$。因为 $AP=BP$，所以 $PN=PM$，即点 $P$ 是 $MN$ 中点。$O_2M$ 过圆心，$PM=BM$，$O_2M \perp BP$，$\angle O_2MB=90°$。$O_1N \parallel O_2M$，四边形 $O_1NMO_2$ 是梯形。点 $C$ 是线段 $O_1O_2$ 的中点，点 $P$ 是 $MN$ 中点，$CP \parallel O_2M$，$\angle CPB=\angle O_2MB=90°$，$CP \perp AB$。'
+      - '（2）联结 $PQ$ 交 $O_1O_2$ 于 $D$。$\odot O_1$ 与 $\odot O_2$ 相交于点 $P$、$Q$，$O_1O_2$ 垂直平分 $PQ$，$DP=DQ$，$CP=CQ$。$CP \parallel O_2M$，$\frac{CD}{O_2D}=\frac{DP}{DQ}$，$CD=O_2D$。四边形 $CPO_2Q$ 是平行四边形，又 $CP=CQ$，所以是菱形。'
+      clue: 利用垂径定理、梯形中位线性质和菱形判定定理。
+  - item_id: Q024
+    question_number: 24
+    question_type: problem
+    points: 14
+    question_word_evidence:
+    - page_number: 24
+      page_image: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/pages/024.png
+    prompt:
+    - source: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/media/image293.png
+      box_px:
+      - 0
+      - 0
+      - 1421
+      - 1317
+      width: 80mm
+    official_solution:
+      start_anchor: 【小问1详解】
+      end_anchor: $0 < k < \frac{\sqrt{3}-1}{2}$
+      word_evidence:
+      - page_number: 25
+        page_image: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/pages/025.png
+      - page_number: 26
+        page_image: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/pages/026.png
+      - page_number: 27
+        page_image: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/pages/027.png
+      - page_number: 28
+        page_image: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/pages/028.png
+    block:
+      stem_latex: '定义：如果一个二次函数的图像与一次函数的图像相交于坐标轴上的两个点，那么称此二次函数为这个一次函数的\u201c贯轴抛物线\u201d。
+
+        （1）已知 $y=x^2+bx+c$ 是一次函数 $y=-x+3$ 的一条\u201c贯轴抛物线\u201d，求 $b$、$c$ 的值；
+
+        （2）已知一次函数 $y=-x+n$（其中 $n$ 为常数，$n>0$）的图像与 $x$ 轴、$y$ 轴分别交于点 $A$、点 $C$，它的一条\u201c贯轴抛物线\u201d $y=-x^2+mx+n$ 与 $x$ 轴的另一个交点为 $B$，顶点 $D$ 在第一象限。如果在 $y$ 轴上存在点 $E$，使得四边形 $BCDE$ 是平行四边形，求 $n$ 的值；
+
+        （3）一个二次函数既是一次函数 $y_1=-x+(2k+1)$ 又是一次函数 $y_2=(2k+1)x+(2k+1)$（其中 $k$ 为常数，$k>0$）的\u201c贯轴抛物线\u201d，且此二次函数图像与 $x$ 轴分别交于 $P$、$Q$ 两点（点 $P$ 在点 $Q$ 的左边），与 $y$ 轴交于点 $M$。如果二次函数图像上始终存在点 $N$，且 $N$ 在第四象限，使得 $\angle PMN=75°$，求满足条件的 $k$ 的取值范围。'
+      answer: （1）$b=-4$，$c=3$；（2）$n=3$；（3）$0<k<\frac{\sqrt{3}-1}{2}$
+      explanation: '官方参考答案：（1）$b=-4$，$c=3$；（2）$n=3$；（3）$0<k<\frac{\sqrt{3}-1}{2}$。'
+      solution_steps:
+      - '（1）令 $x=0$，得直线 $y=-x+3$ 与 $y$ 轴的交点为 $(0,3)$，令 $y=0$，得交点为 $(3,0)$。把 $(3,0)$ 和 $(0,3)$ 代入 $y=x^2+bx+c$，得 $\begin{cases}9+3b+c=0 \\ c=3\end{cases}$，解得 $b=-4$，$c=3$。'
+      - '（2）直线 $y=-x+n$ 与 $x$ 轴、$y$ 轴分别交于点 $A(n,0)$，$C(0,n)$。点 $(n,0)$ 在抛物线 $y=-x^2+mx+n$ 上，得 $n=m+1$。令 $y=0$，$-x^2+(n-1)x+n=0$，$x_1=-1$，$x_2=n$，$B$ 点坐标为 $(-1,0)$。四边形 $BCDE$ 为平行四边形，$x_D=-\frac{m}{2 \times (-1)}=-x_B=1$，解得 $m=2$，$n=3$。'
+      - '（3）$P(-1,0)$，$M(0,2k+1)$，$Q(2k+1,0)$。$OM=OQ=2k+1$，$\angle OMQ=\angle OQM=45°$。当点 $N$ 在第四象限且 $\angle PMN=75°$ 时，则 $\angle PMQ>75°$。在 $\triangle PMQ$ 中，$\angle PMQ>75°$，$\angle PQM=45°$，$\angle MPQ<60°$。可得 $45°<\angle MPQ<60°$，$1<2k+1<\sqrt{3}$，$0<k<\frac{\sqrt{3}-1}{2}$。'
+      clue: 利用"贯轴抛物线"定义求交点坐标，再根据平行四边形和角度条件求参数范围。
+  - item_id: Q025
+    question_number: 25
+    question_type: problem
+    points: 14
+    question_word_evidence:
+    - page_number: 28
+      page_image: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/pages/028.png
+    prompt:
+    - source: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/media/image355.png
+      box_px:
+      - 0
+      - 0
+      - 2468
+      - 739
+      width: 120mm
+    official_solution:
+      start_anchor: 【小问1详解】
+      end_anchor: $\frac{CF}{DF} = \frac{1}{2}$
+      word_evidence:
+      - page_number: 29
+        page_image: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/pages/029.png
+      - page_number: 30
+        page_image: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/pages/030.png
+      - page_number: 31
+        page_image: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/pages/031.png
+      - page_number: 32
+        page_image: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/pages/032.png
+      - page_number: 33
+        page_image: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/pages/033.png
+      - page_number: 34
+        page_image: documents/初三/2026届-上海市浦东新区-初三二模数学-试卷及解析/word/pages/034.png
+    block:
+      stem_latex: '在 $\square ABCD$ 中，点 $E$，$F$ 分别在边 $BC$，$CD$ 上，连结 $AE$，$DE$，$EF$，$DE=DC$。
+
+        （1）如图$1$，连结 $BD$，如果 $EF \parallel BD$，求证：$\triangle ECF \sim \triangle ADE$；
+
+        （2）已知 $\tan C=\sqrt{5}$，连结 $AF$。
+
+        ①如图$2$，如果点 $D$，$E$ 关于直线 $AF$ 对称，求 $S_{\triangle ADF}:S_{\square ABCD}$ 的值；
+
+        ②如图$3$，如果 $AF=\sqrt{5}DF$，$\angle AFE=\angle EDC$，求 $\frac{CF}{FD}$ 的值。'
+      answer: （1）见解析；（2）① $\frac{3}{8}$；② $\frac{1}{2}$
+      explanation: '官方参考答案：（1）见解析；（2）① $\frac{3}{8}$；② $\frac{1}{2}$。'
+      solution_steps:
+      - '（1）四边形 $ABCD$ 是平行四边形，$BC=AD$，$AD \parallel BC$，$\angle ADE=\angle DEC$。$DE=DC$，$\angle C=\angle DEC$，$\angle C=\angle ADE$。$\triangle BCD \cong \triangle ADE$。$EF \parallel BD$，$\triangle ECF \sim \triangle BCD$。$\triangle ECF \sim \triangle ADE$。'
+      - '（2）①作 $DH \perp BC$，垂足为 $H$。设 $HC=a$，则 $HD=\sqrt{5}a$，$DE=DC=\sqrt{6}a$。点 $D$、$E$ 关于直线 $AF$ 对称，$AD=AE$，$\angle ADE=\angle AED$。$DE=DC$，$\angle DEC=\angle DCE$，$\angle ADE=\angle DEC$。$\triangle ADE \sim \triangle DEC$，$\frac{AD}{DE}=\frac{DE}{EC}$。$EC=2HC=2a$，$AD=3a$。$\frac{DF}{FC}=\frac{AD}{CG}=3$，$\frac{PF}{PQ}=\frac{3}{4}$。$S_{\triangle ADF}=\frac{1}{2}AD \cdot PF$，$S_{\square ABCD}=AD \cdot PQ$，$\frac{S_{\triangle ADF}}{S_{\square ABCD}}=\frac{\frac{1}{2}PF}{PQ}=\frac{3}{8}$。'
+      - '②过点 $F$ 作 $FP \perp AD$，交 $AD$ 的延长线于点 $P$。设 $DP=m$，$\angle PDF=\angle C$，$PF=\sqrt{5}m$，$DF=\sqrt{6}m$。$AF=\sqrt{5}DF=\sqrt{30}m$，$AP=5m$，$AD=4m$。$\triangle DPF \sim \triangle FPA$，$\angle DFP=\angle PAF$。设 $\angle DFP=\angle PAF=\alpha$，$\angle PDF=90°-\alpha$。$\angle C=\angle DEC=\angle ADE=90°-\alpha$。$\angle FAP+\angle ADE=90°$，$\angle AOD=90°$。$OD=AD \cdot \sin\angle PAF=\frac{2\sqrt{6}}{3}m$。$\angle EDF=\angle AFE$，$\triangle DEF \sim \triangle FOD$，$DE=\frac{3}{2}\sqrt{6}m$，$CF=\frac{1}{2}\sqrt{6}m$。$\frac{CF}{DF}=\frac{\frac{1}{2}\sqrt{6}m}{\sqrt{6}m}=\frac{1}{2}$。'
+      clue: 第（1）问利用平行四边形性质和相似三角形判定；第（2）问需构造辅助线，利用对称性质和相似三角形求比例。

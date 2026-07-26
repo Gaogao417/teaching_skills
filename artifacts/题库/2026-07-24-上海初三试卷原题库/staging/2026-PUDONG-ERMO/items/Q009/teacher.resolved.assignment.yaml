@@ -1,0 +1,31 @@
+meta:
+  title: 2026年上海市浦东新区中考二模数学试卷第 9 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题（本大题共12题，每题4分，满分48分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: fillin
+    id: Q009
+    points: 4
+    stem_latex: 方程组 $\begin{cases}x+y=1 \\ x^2-y^2=5\end{cases}$ 的解是__________。
+    answer: $\begin{cases}x=3 \\ y=-2\end{cases}$
+    explanation: 官方参考答案：$\begin{cases}x=3 \\ y=-2\end{cases}$。
+    solution_steps:
+    - 由 $x^2-y^2=5$ 得 $(x+y)(x-y)=5$。
+    - 因为 $x+y=1$，所以 $x-y=5$。
+    - 联立 $\begin{cases}x+y=1 \\ x-y=5\end{cases}$，解得 $x=3$，$y=-2$。
+    clue: 利用平方差公式分解后与第一个方程联立求解。
+    source_solution_images: []

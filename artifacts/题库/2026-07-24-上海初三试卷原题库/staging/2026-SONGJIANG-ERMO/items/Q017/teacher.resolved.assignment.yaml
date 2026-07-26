@@ -1,0 +1,58 @@
+meta:
+  title: 2026年上海市松江区中考二模数学试卷第 17 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题（本大题共12题，每题4分，满分48分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q017
+    points: 4
+    stem_latex: 已知$\triangle ABC$中，$\angle ACB=90^\circ$，$AC=6$，$BC=8$，点$P$、$Q$分别在边$AB$、$BC$上，如果$\triangle ACP$是以$AP$为腰的等腰三角形，且$CP\perp PQ$，那么$PQ$的长是______。
+    answer: $\dfrac{15}{4}$或$\dfrac{6\sqrt{5}}{5}$
+    explanation: 官方参考答案：$\dfrac{15}{4}$或$\dfrac{6\sqrt{5}}{5}$。
+    solution_steps:
+    - 在$\triangle ABC$中，$\angle ACB=90^\circ$，$AC=6$，$BC=8$，
+    - $\therefore$ 由勾股定理得：$AB=\sqrt{AC^2+BC^2}=\sqrt{6^2+8^2}=10$，
+    - 当$PA=PC$时，
+    - $\therefore \angle A=\angle 1$，
+    - $\because \angle ACB=90^\circ$，
+    - $\therefore \angle 1+\angle 2=90^\circ$，$\angle A+\angle B=90^\circ$，
+    - $\therefore \angle B=\angle 2$，
+    - $\therefore PC=PB$，
+    - $\therefore PA=PB=PC=\dfrac{1}{2}AB=5$，
+    - $\because \angle B=\angle 2$，$\tan\angle 2=\tan\angle B$，
+    - $\because CP\perp PQ$，
+    - $\therefore \dfrac{AC}{BC}=\dfrac{PQ}{PC}$，
+    - $\therefore \dfrac{6}{8}=\dfrac{PQ}{5}$，
+    - $\therefore PQ=\dfrac{15}{4}$；
+    - 当$AP=AC=6$时，则$BP=AB-AP=4$，过点$A$作$AG\perp CP$于点$G$，
+    - $\therefore \angle 1=\angle 4$，
+    - $\because \angle ACB=90^\circ$，$CP\perp PQ$，
+    - $\therefore \angle 1+\angle 2=90^\circ$，$\angle 3+\angle 4=90^\circ$，
+    - $\therefore \angle 2=\angle 3$，
+    - $\because \angle B=\angle B$，
+    - $\therefore \triangle BPQ\sim\triangle BCP$，
+    - $\therefore \dfrac{BP}{BC}=\dfrac{BQ}{BP}=\dfrac{PQ}{CP}$，
+    - $\therefore BP^2=BQ\times BC$，即$4^2=8BQ$，
+    - 解得$BQ=2$，
+    - $\therefore CQ=8-2=6$，$\dfrac{2}{4}=\dfrac{PQ}{CP}=\dfrac{1}{2}$，
+    - 设$PQ=x$，$CP=2x$，
+    - 在$\mathrm{Rt}\triangle CPQ$中，由勾股定理得，$x^2+(2x)^2=6^2$，
+    - 解得$x=\dfrac{6\sqrt{5}}{5}$（舍负），
+    - $\therefore PQ=\dfrac{6\sqrt{5}}{5}$
+    - 综上所述，$PQ$的长为$\dfrac{15}{4}$或$\dfrac{6\sqrt{5}}{5}$。
+    clue: 先由勾股定理求出$AB$的长度，根据$\triangle ACP$是以$AP$为腰的等腰三角形，分$AP=AC$和$AP=PC$两种情况讨论，利用相似三角形的判定与性质以及解直角三角形进行求解即可。
+    source_solution_images: []

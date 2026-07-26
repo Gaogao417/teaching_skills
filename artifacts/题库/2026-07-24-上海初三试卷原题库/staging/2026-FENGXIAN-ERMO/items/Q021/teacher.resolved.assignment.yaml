@@ -1,0 +1,32 @@
+meta:
+  title: 2026年上海市奉贤区中考二模数学试卷第 21 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题（本大题共7题，满分78分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q021
+    points: 10
+    stem_latex: 如图，在 $\triangle ABC$ 中，$AB=AC$，$\angle BAC=120^{\circ}$，点 $D$ 在边 $BC$ 上，$BD=1$，$CD=2$，求 $AD$ 的长。
+    answer: 见解析
+    explanation: 官方参考答案：见解析。
+    solution_steps:
+    - 过点 $A$ 作 $AE\perp BC$ 于 $E$。
+    - 因为 $AB=AC$，$\angle BAC=120^{\circ}$，所以 $\angle B=\angle C=30^{\circ}$，$BE=EC=\dfrac{3}{2}$。
+    - 在 $\triangle ABE$ 中，$AE=BE\cdot\tan30^{\circ}=\dfrac{3}{2}\cdot\dfrac{\sqrt{3}}{2}=\dfrac{\sqrt{3}}{2}$。
+    - $DE=BD-BE=1-\dfrac{3}{2}=-\dfrac{1}{2}$（取绝对值 $\dfrac{1}{2}$）。
+    - 在 $\triangle ADE$ 中，$AD=\sqrt{AE^2+DE^2}=\sqrt{\left(\dfrac{\sqrt{3}}{2}\right)^2+\left(\dfrac{1}{2}\right)^2}=1$。
+    source_solution_images: []

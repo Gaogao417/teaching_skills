@@ -1,0 +1,32 @@
+meta:
+  title: 2026年上海市松江区中考二模数学试卷第 8 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题（本大题共12题，每题4分，满分48分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q008
+    points: 4
+    stem_latex: 分解因式：$x^2-2xy+y^2-1=$______。
+    answer: $(x-y+1)(x-y-1)$
+    explanation: 官方参考答案：$(x-y+1)(x-y-1)$。
+    solution_steps:
+    - $x^2-2xy+y^2-1$
+    - $=(x^2-2xy+y^2)-1$
+    - $=(x-y)^2-1^2$
+    - $=(x-y+1)(x-y-1)$。
+    clue: 先分组，然后将前三项利用完全平方公式分解，得到一个整体的平方，再利用平方差公式继续分解即可。
+    source_solution_images: []

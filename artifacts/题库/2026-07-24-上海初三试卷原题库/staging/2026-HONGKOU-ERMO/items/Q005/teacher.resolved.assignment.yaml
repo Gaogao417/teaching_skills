@@ -1,0 +1,37 @@
+meta:
+  title: 2026年上海市虹口区中考二模数学试卷第 5 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题（本大题共6题，每题4分，满分24分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q005
+    points: 4
+    stem_latex: 如图，$\mathrm{Rt}\triangle ABC$ 中，$\angle ACB=90^\circ$，$\angle B=30^\circ$，要求用圆规和直尺作图，把它分成两个三角形，其中一个三角形是等腰三角形，其作法正确的是（\quad）
+    choices:
+    - A
+    - B
+    - C
+    - D
+    answer: A
+    explanation: 官方参考答案：ACD（A、C、D均为正确选项，此处取A）。
+    solution_steps:
+    - 'A: 由图可知，以点 $A$ 为圆心，$AC$ 为半径画弧，交 $AB$ 于点 $D$，$AC=AD$，$\triangle ACD$ 是等腰三角形，符合题意；'
+    - 'B: 由图可知，分别以点 $B$，点 $C$ 为圆心，大于 $\dfrac{1}{2}BC$ 为半径画圆弧，连接两弧交点，交 $BC$ 于点 $D$，$BD=DC=\dfrac{1}{2}BC$，但 $AC>CD$，$\triangle ACD$ 不是等腰三角形；'
+    - 'C: 由图可知，分别以点 $B$，点 $A$ 为圆心，大于 $\dfrac{1}{2}AB$ 为半径画圆弧，连接两弧交点，交 $BC$ 于点 $D$，$AD=BD$，$\triangle ABD$ 是等腰三角形，符合题意；'
+    - 'D: 由图可知 $AD$ 为 $\angle CAB$ 的角平分线，$\angle CAB=60^\circ$，$\angle DAB=30^\circ=\angle B$，$AD=BD$，$\triangle ABD$ 是等腰三角形，符合题意。'
+    clue: 对各项的尺规作图分析，再根据等腰三角形的判定判断即可。
+    source_solution_images: []

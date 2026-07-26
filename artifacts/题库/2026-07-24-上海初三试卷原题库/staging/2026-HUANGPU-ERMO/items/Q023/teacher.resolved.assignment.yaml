@@ -1,0 +1,45 @@
+meta:
+  title: 2026年上海市黄浦区中考二模数学试卷第 23 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: \u4e09\u3001\u89e3\u7b54\u9898\uff08\u672c\u5927\u9898\u51717\u9898\uff0c\u6ee1\u520678\u5206\uff09
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q023
+    points: 12
+    stem_latex: '\u5982\u56fe\uff0c\u5df2\u77e5\u56db\u8fb9\u5f62$ABCD$\u662f\u5e73\u884c\u56db\u8fb9\u5f62\uff0c\u70b9$E$\u662f\u5bf9\u89d2\u7ebf$BD$\u4e0a\u4e00\u70b9\uff0c$BE>ED$,$AE=EC$.
+
+      \uff081\uff09\u6c42\u8bc1\uff1a\u56db\u8fb9\u5f62$ABCD$\u662f\u83f1\u5f62\uff1b
+
+      \uff082\uff09\u70b9$F$\u662f\u8fb9$BC$\u4e0a\u4e00\u70b9\uff0c$AF$\u4e0e$BD$\u76f8\u4ea4\u4e8e\u70b9$G$\uff0c\u82e5$BG\cdot BE=AB\cdot BF$\uff0c\u6c42\u8bc1\uff1a$AB^2=BE\cdot DG$\u3002'
+    answer: \uff081\uff09\u89c1\u89e3\u6790\uff1b\uff082\uff09\u89c1\u89e3\u6790
+    explanation: \u4e24\u95ee\u5747\u4e3a\u8bc1\u660e\u9898\uff0c\u8be6\u89c1\u89e3\u6790\u3002
+    solution_steps:
+    - \uff081\uff09\u8fde\u63a5$AC$\u4ea4$BD$\u4e8e\u70b9$O$,
+    - $\because$ \u56db\u8fb9\u5f62$ABCD$\u662f\u5e73\u884c\u56db\u8fb9\u5f62,$\therefore OA=OC$,
+    - $\because AE=EC$,$\therefore EO\perp AC$,
+    - $\because BD\perp AC$,$\therefore$ \u5e73\u884c\u56db\u8fb9\u5f62\u5bf9\u89d2\u7ebf\u4e92\u76f8\u5782\u76f4\u6545\u4e3a\u83f1\u5f62\u3002
+    - \uff082\uff09\u7531$BG\cdot BE=AB\cdot BF$\u5f97$\dfrac{BG}{AB}=\dfrac{BF}{BE}$,
+    - \u7ed3\u5408$\angle ABG=\angle EBF$,$\therefore \triangle ABG\sim\triangle EBF$,
+    - \u518d\u8bc1$\triangle ADG\sim\triangle FBG$,$\dfrac{DG}{AD}=\dfrac{BG}{BF}$,
+    - $\dfrac{AB}{BE}=\dfrac{DG}{AD}=\dfrac{DG}{AB}$,$\therefore AB^2=BE\cdot DG$.
+    clue: \u5229\u7528\u5e73\u884c\u56db\u8fb9\u5f62\u7684\u6027\u8d28\u548c\u76f8\u4f3c\u4e09\u89d2\u5f62\u7684\u5224\u5b9a\u3002
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 120mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

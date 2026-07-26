@@ -1,0 +1,31 @@
+meta:
+  title: 2026年上海市崇明区中考二模数学试卷第 18 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题（本大题共12题，每题4分，满分48分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: fillin
+    id: Q018
+    points: 4
+    stem_latex: 定义：有一组对角相等而另一组对角不相等的凸四边形叫做“等对角四边形”．已知在 $\triangle ABC$ 中，$AB=AC$，$\angle A=36^\circ$，将 $\triangle ABC$ 沿着过点 $B$ 的直线 $l$ 翻折，使点 $C$ 落在 $AB$ 边上的点 $D$ 处，点 $E$ 是边 $AC$ 上一点，若四边形 $BCED$ 是“等对角四边形”，则 $\dfrac{AE}{AC}$ 的值为__________。
+    answer: $\dfrac{\sqrt{5}-1}{2}$ 或 $\sqrt{5}-2$
+    explanation: 官方参考答案：$\dfrac{\sqrt{5}-1}{2}$ 或 $\sqrt{5}-2$。
+    solution_steps:
+    - $\triangle ABC$ 中 $AB=AC$，$\angle A=36^\circ$，$\angle ABC=\angle ACB=72^\circ$。
+    - 翻折后 $\angle BDP=\angle ACB=72^\circ$，$BD=BC$，$\angle DBP=\angle CBP=36^\circ$。
+    - 情况①：$\angle BDE=\angle C=72^\circ$ 时，$E$ 与 $P$ 重合，由 $\triangle ABC\sim\triangle BEC$ 得 $\dfrac{AE}{AC}=\dfrac{\sqrt{5}-1}{2}$。
+    - 情况②：$\angle DEC=\angle ABC=72^\circ$ 时，由 $\triangle ADE\sim\triangle ABP$ 得 $\dfrac{AE}{AC}=\sqrt{5}-2$。
+    source_solution_images: []

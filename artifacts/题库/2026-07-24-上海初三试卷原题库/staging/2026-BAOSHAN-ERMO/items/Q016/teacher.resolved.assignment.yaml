@@ -1,0 +1,46 @@
+meta:
+  title: 2026年上海市宝山区中考二模数学试卷第 16 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q016
+    points: 4
+    stem_latex: 如图，正六边形$ABCDEF$是由八个全等的等腰梯形拼接而成，如果每个等腰梯形的腰长都是$2$，那么正六边形$ABCDEF$的边心距是$\underline{\qquad}$．
+    answer: $2\sqrt{3}$
+    clue: 正六边形内角$120°$，等腰梯形腰长$2$，$\angle PBQ=60°$，$PQ=\sqrt{3}$，$OM=2PQ=2\sqrt{3}$。
+    solution_steps:
+    - title: 详解
+      content: '如图，设正六边形$ABCDEF$的中心为$O$，过点$O$作$OM\perp BC$于点$M$，过点$P$作$PQ\perp BC$于点$Q$。
+
+        由拼图和正六边形的性质可知，$\angle ABC=\dfrac{(6-2)\times180^{\circ}}{6}=120^{\circ}$，$\angle PBQ=\dfrac{1}{2}\angle ABC=60^{\circ}$。
+
+        在$\mathrm{Rt}\triangle BPQ$中，$BP=2$，$\angle PBQ=60^{\circ}$，
+
+        $\therefore PQ=\dfrac{\sqrt{3}}{2}BP=\sqrt{3}$，
+
+        $\therefore OM=2PQ=2\sqrt{3}$，
+
+        即正六边形$ABCDEF$的边心距为$2\sqrt{3}$。
+
+        '
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 70mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

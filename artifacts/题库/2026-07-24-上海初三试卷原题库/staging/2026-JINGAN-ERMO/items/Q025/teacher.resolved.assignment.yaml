@@ -1,0 +1,57 @@
+meta:
+  title: 2026年上海市静安区中考二模数学试卷第 25 题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题（本大题共7题，满分78分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: 菱形 $ABCD$ 中，点 $E$ 在线段 $AD$ 上，连接 $CE$、$BE$．（$1$）如图 $1$，连接 $AC$ 交 $BE$ 于点 $F$，若 $EC=DC$，求证：$\angle EBC=\angle BAC$；（$2$）如图 $2$，$AB=6$，$\angle ABC=60°$，点 $P$ 在线段 $BE$ 上，且满足 $\angle BCP=\angle BEC$，设 $AE=x$，$BP=y$，①求 $y$ 关于 $x$ 的函数解析式，并写出定义域；②当 $AE=3$ 时，以 $AE$ 为半径的 $\odot A$ 和以 $BP$ 为半径的 $\odot B$ 是否相交？如果相交，求出它们的公共弦长；如果不相交，请说明理由．
+    answer: （$1$）见解析　　（$2$）①$y=\dfrac{36}{\sqrt{x^{2}+6x+36}}\left(0\leqslant x\leqslant 6\right)$；②相交，$\dfrac{9\sqrt{47}}{14}$
+    explanation: 官方参考答案：（$1$）见解析；（$2$）①$y=\dfrac{36}{\sqrt{x^{2}+6x+36}}\left(0\leqslant x\leqslant 6\right)$；②相交，$\dfrac{9\sqrt{47}}{14}$。
+    solution_steps:
+    - （$1$）证明：$\because EC=DC$，$\therefore\angle D=\angle CED$，
+    - $\because$ 四边形 $ABCD$ 为菱形，$\therefore\angle ABC=\angle D$，$\angle BAC=\angle CAE$，
+    - $\therefore\angle ABC=\angle CED$，$\because\angle AEC+\angle CED=180°$，
+    - $\therefore\angle AEC+\angle ABC=180°$，$\therefore$ 点 $A$、$B$、$C$、$E$ 四点共圆，
+    - $\therefore\angle EBC=\angle CAE$，$\therefore\angle EBC=\angle BAC$。
+    - （$2$）①作 $BH\perp DA$，交 $DA$ 的延长线于点 $H$，
+    - $\because$ 四边形 $ABCD$ 为菱形，$\therefore AB=BC=6$，$AD\parallel BC$，
+    - $\therefore\angle BAH=\angle ABC=60°$，$\therefore\angle ABH=90°-\angle BAH=30°$，
+    - $\therefore AH=\dfrac{1}{2}AB=3$，$BH=\sqrt{AB^{2}-AH^{2}}=3\sqrt{3}$，
+    - $\therefore HE=AH+AE=x+3$，$\therefore BE=\sqrt{BH^{2}+HE^{2}}=\sqrt{x^{2}+6x+36}$，
+    - $\because\angle BCP=\angle BEC$，$\angle CBE=\angle PBC$，$\therefore\triangle BCP\sim\triangle BEC$，
+    - $\therefore\dfrac{BC}{BE}=\dfrac{BP}{BC}$，$\therefore\dfrac{6}{\sqrt{x^{2}+6x+36}}=\dfrac{y}{6}$，
+    - $\therefore y=\dfrac{36}{\sqrt{x^{2}+6x+36}}\left(0\leqslant x\leqslant 6\right)$。
+    - ②当 $AE=3$ 时，$y=\dfrac{36}{\sqrt{3^{2}+6\times 3+36}}=\dfrac{12\sqrt{7}}{7}$，
+    - $\therefore r_A=AE=3$，$r_B=BP=\dfrac{12\sqrt{7}}{7}$，
+    - $\because AB=6$，且 $\dfrac{12\sqrt{7}}{7}-3<6<\dfrac{12\sqrt{7}}{7}+3$，
+    - $\therefore$ 以 $AE$ 为半径的 $\odot A$ 和以 $BP$ 为半径的 $\odot B$ 相交，
+    - 设两圆相交于 $MN$，连接 $AM$、$AN$、$BM$、$BN$，连接 $MN$ 交 $AB$ 于点 $G$，
+    - 则 $AM=AN=AE=3$，$BM=BN=BP=\dfrac{12\sqrt{7}}{7}$，
+    - 由垂径定理可得 $GM=GN=\dfrac{1}{2}MN$，$AB\perp MN$，
+    - 设 $AG=a$，则 $BG=AB-AG=6-a$，
+    - $\because GN^{2}=AN^{2}-AG^{2}=3^{2}-a^{2}$，$GN^{2}=BN^{2}-BG^{2}=\left(\dfrac{12\sqrt{7}}{7}\right)^{2}-(6-a)^{2}$，
+    - $\therefore 3^{2}-a^{2}=\left(\dfrac{12\sqrt{7}}{7}\right)^{2}-(6-a)^{2}$，解得 $a=\dfrac{57}{28}$，
+    - $\therefore AG=\dfrac{57}{28}$，$GN=\sqrt{AN^{2}-AG^{2}}=\dfrac{9\sqrt{47}}{28}$，
+    - $\therefore MN=2GN=\dfrac{9\sqrt{47}}{14}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 120mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

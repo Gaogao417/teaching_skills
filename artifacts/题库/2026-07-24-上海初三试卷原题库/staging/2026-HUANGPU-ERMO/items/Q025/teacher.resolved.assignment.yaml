@@ -1,0 +1,47 @@
+meta:
+  title: 2026年上海市黄浦区中考二模数学试卷第 25 题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: \u4e09\u3001\u89e3\u7b54\u9898\uff08\u672c\u5927\u9898\u51717\u9898\uff0c\u6ee1\u520678\u5206\uff09
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: '\u5728\u5e73\u9762\u76f4\u89d2\u5750\u6807\u7cfb$xOy$\u4e2d\uff0c\u5df2\u77e5\u629b\u7269\u7ebf$y=ax^2-6ax+c$($a<0$)\u4e0e$x$\u8f74\u4ea4\u4e8e$A(1,0)$\u548c\u70b9$B$\uff0c\u9876\u70b9\u4e3a$D$.
+
+      \uff081\uff09\u6c42\u6b64\u629b\u7269\u7ebf\u7684\u5bf9\u79f0\u8f74\u53ca\u70b9$B$\u7684\u5750\u6807\uff1b
+
+      \uff082\uff09\u629b\u7269\u7ebf\u7684\u5bf9\u79f0\u8f74\u4e0e$x$\u8f74\u4ea4\u4e8e\u70b9$M$\uff0c\u70b9$P$\u662f\u629b\u7269\u7ebf\u4e0a\u6a2a\u5750\u6807\u4e3a$2$\u7684\u4e00\u70b9\uff0c$BP$\u4e0e\u5bf9\u79f0\u8f74\u4ea4\u4e8e\u70b9$N$\uff0c\u8fde\u63a5$BD$.
+
+      \u0024\u6c42$S_{\triangle BDN}:S_{\triangle BMN}$\u7684\u503c\uff1b
+
+      \u0025\u8bbe\u76f4\u7ebf$PD$\u4e0e$x$\u8f74\u4ea4\u4e8e\u70b9$F$\uff0c\u8fc7\u70b9$F$\u4f5c$BD$\u7684\u5e73\u884c\u7ebf\uff0c\u4e0e$y$\u8f74\u4ea4\u4e8e\u70b9$E$\uff0c\u5f53\u56db\u8fb9\u5f62$BDFE$\u662f\u76f4\u89d2\u68af\u5f62\u65f6\uff0c\u6c42$\tan\angle PBO$\u7684\u503c\u3002'
+    answer: \uff081\uff09\u5bf9\u79f0\u8f74$x=3$,$B(5,0)$\uff1b\uff082\uff09\u00244:1$\uff1b\u0025$\dfrac{\sqrt{5}}{2}$
+    explanation: \u5b98\u65b9\u53c2\u8003\u7b54\u6848\uff1a\uff081\uff09$x=3$,$B(5,0)$\uff1b\uff082\uff094$\uff1b\uff083\uff09$\dfrac{\sqrt{5}}{2}$\u3002
+    solution_steps:
+    - \uff081\uff09\u5bf9\u79f0\u8f74$x=-\dfrac{-6a}{2a}=3$,$A(1,0)$\u5173\u4e8e$x=3$\u5bf9\u79f0\u5f97$B(5,0)$.
+    - \uff082\uff09\u0024c=5a$,$y=a(x-3)^2-4a$,$D(3,-4a)$.
+    - $P(2,-3a)$,$BP$\u65b9\u7a0b$y=-ax+5a$,$N(3,2a)$,
+    - $S_{\triangle BDN}:S_{\triangle BMN}=|DN|:|MN|=|-4a-2a|:|2a-0|=6|a|:2|a|=3:1$.
+    - \u0025$PD$\u65b9\u7a0b$y=-ax-a$,$F(-1,0)$,$EF\parallel BD$,$E(0,2a)$,
+    - \u76f4\u89d2\u68af\u5f62\u5206\u4e24\u79cd\u60c5\u51b5\u8ba8\u8bba\uff0c\u5f97$\tan\angle PBO=\dfrac{\sqrt{5}}{2}$.
+    clue: \u5229\u7528\u629b\u7269\u7ebf\u7684\u5bf9\u79f0\u6027\u548c\u4e09\u89d2\u5f62\u9762\u79ef\u6bd4\u6c42\u89e3\u3002
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 120mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

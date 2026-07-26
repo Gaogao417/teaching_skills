@@ -1,0 +1,44 @@
+meta:
+  title: 2026年上海市浦东新区中考二模数学试卷第 25 题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题（本大题共7题，满分78分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: '在 $\square ABCD$ 中，点 $E$，$F$ 分别在边 $BC$，$CD$ 上，连结 $AE$，$DE$，$EF$，$DE=DC$。
+
+      （1）如图$1$，连结 $BD$，如果 $EF \parallel BD$，求证：$\triangle ECF \sim \triangle ADE$；
+
+      （2）已知 $\tan C=\sqrt{5}$，连结 $AF$。
+
+      ①如图$2$，如果点 $D$，$E$ 关于直线 $AF$ 对称，求 $S_{\triangle ADF}:S_{\square ABCD}$ 的值；
+
+      ②如图$3$，如果 $AF=\sqrt{5}DF$，$\angle AFE=\angle EDC$，求 $\frac{CF}{FD}$ 的值。'
+    answer: （1）见解析；（2）① $\frac{3}{8}$；② $\frac{1}{2}$
+    explanation: 官方参考答案：（1）见解析；（2）① $\frac{3}{8}$；② $\frac{1}{2}$。
+    solution_steps:
+    - （1）四边形 $ABCD$ 是平行四边形，$BC=AD$，$AD \parallel BC$，$\angle ADE=\angle DEC$。$DE=DC$，$\angle C=\angle DEC$，$\angle C=\angle ADE$。$\triangle BCD \cong \triangle ADE$。$EF \parallel BD$，$\triangle ECF \sim \triangle BCD$。$\triangle ECF \sim \triangle ADE$。
+    - （2）①作 $DH \perp BC$，垂足为 $H$。设 $HC=a$，则 $HD=\sqrt{5}a$，$DE=DC=\sqrt{6}a$。点 $D$、$E$ 关于直线 $AF$ 对称，$AD=AE$，$\angle ADE=\angle AED$。$DE=DC$，$\angle DEC=\angle DCE$，$\angle ADE=\angle DEC$。$\triangle ADE \sim \triangle DEC$，$\frac{AD}{DE}=\frac{DE}{EC}$。$EC=2HC=2a$，$AD=3a$。$\frac{DF}{FC}=\frac{AD}{CG}=3$，$\frac{PF}{PQ}=\frac{3}{4}$。$S_{\triangle ADF}=\frac{1}{2}AD \cdot PF$，$S_{\square ABCD}=AD \cdot PQ$，$\frac{S_{\triangle ADF}}{S_{\square ABCD}}=\frac{\frac{1}{2}PF}{PQ}=\frac{3}{8}$。
+    - ②过点 $F$ 作 $FP \perp AD$，交 $AD$ 的延长线于点 $P$。设 $DP=m$，$\angle PDF=\angle C$，$PF=\sqrt{5}m$，$DF=\sqrt{6}m$。$AF=\sqrt{5}DF=\sqrt{30}m$，$AP=5m$，$AD=4m$。$\triangle DPF \sim \triangle FPA$，$\angle DFP=\angle PAF$。设 $\angle DFP=\angle PAF=\alpha$，$\angle PDF=90°-\alpha$。$\angle C=\angle DEC=\angle ADE=90°-\alpha$。$\angle FAP+\angle ADE=90°$，$\angle AOD=90°$。$OD=AD \cdot \sin\angle PAF=\frac{2\sqrt{6}}{3}m$。$\angle EDF=\angle AFE$，$\triangle DEF \sim \triangle FOD$，$DE=\frac{3}{2}\sqrt{6}m$，$CF=\frac{1}{2}\sqrt{6}m$。$\frac{CF}{DF}=\frac{\frac{1}{2}\sqrt{6}m}{\sqrt{6}m}=\frac{1}{2}$。
+    clue: 第（1）问利用平行四边形性质和相似三角形判定；第（2）问需构造辅助线，利用对称性质和相似三角形求比例。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 120mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

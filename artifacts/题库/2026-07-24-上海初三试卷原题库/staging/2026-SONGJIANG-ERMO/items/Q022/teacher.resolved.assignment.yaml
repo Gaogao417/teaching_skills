@@ -1,0 +1,65 @@
+meta:
+  title: 2026年上海市松江区中考二模数学试卷第 22 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题（本大题共7题，满分78分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q022
+    points: 10
+    stem_latex: 【问题提出】把一个长、宽分别为$a$、$b$（$b<a<4b$）的长方形（如图1），剪拼成一个正方形（拼接的时候无缝隙、不重叠，裁剪的损耗忽略不计）\n【方案设计】某学习小组提出以下设计思考：\n（1）根据剪拼前后图形面积不变，可知剪拼后正方形的边长为______。（用含$a$、$b$的代数式表示）\n如图2，延长$BC$至点$E$，使$CE=b$，以$BE$为直径作半圆$O$。延长$CD$交$\odot O$于点$F$，联结$BF$、$EF$，可得$\angle BFE=90^\circ$（后续说理如需用到这一结论，可直接使用），他们认为：“就是所求正方形的边长”；\n如图3，以为边，在左侧作正方形$CFGH$，$BF$分别与$GH$、$AD$交于点$M$、$N$，沿虚线$BN$、$HM$裁剪，$\triangle BHM$、$\triangle ABN$可以通过适当的图形运动分别与$\triangle NDF$、$\triangle GMF$叠合，拼成正方形$CFGH$。\n【论证说明】\n（2）如图2，该学习小组认为：“$CF$是所求正方形的边长”，试说明理由；\n（3）$\triangle BHM$可以通过怎样的图形运动与$\triangle NDF$叠合，并说明它们能够叠合的理由。
+    answer: （1）$\sqrt{ab}$；（2）见解析；（3）$\triangle BHM$可以通过平移运动与$\triangle NDF$叠合，见解析
+    explanation: 官方参考答案：（1）$\sqrt{ab}$；（2）见解析；（3）$\triangle BHM$可以通过平移运动与$\triangle NDF$叠合，见解析。
+    solution_steps:
+    - 【小问1详解】
+    - 解：由题意得，矩形的面积为$ab$，
+    - $\because$ 根据剪拼前后图形面积不变，
+    - $\therefore$ 可知剪拼后正方形的边长为$\sqrt{ab}$；
+    - 【小问2详解】
+    - 解：如图2，过点$O$作$OT\perp BF$，则$\angle OTB=90^\circ$
+    - $\because OT$经过圆心，
+    - $\therefore TB=TF$，
+    - $\because BO=OE$，
+    - $\therefore OT\parallel EF$，
+    - $\therefore \angle EFB=\angle OTD=90^\circ$，
+    - $\because$ 矩形$ABCD$中，$\angle DCB=90^\circ$
+    - $\therefore \angle 1=\angle 2=90^\circ-\angle BFC$，
+    - $\therefore \tan\angle 1=\tan\angle 2$
+    - $\therefore \dfrac{CF}{BC}=\dfrac{CE}{CF}$
+    - $\therefore \dfrac{CF}{a}=\dfrac{b}{CF}$，
+    - 解得$CF=\sqrt{ab}$（舍负），
+    - $\therefore CF$是所求正方形的边长；
+    - 【小问3详解】
+    - 解：$\triangle BHM$可以通过平移运动与$\triangle NDF$叠合，理由如下：
+    - $\because$ 矩形$ABCD$，正方形$CFGH$，
+    - $\therefore AD\parallel BC$，$\angle C=\angle GHC=90^\circ$，$CH=CF=\sqrt{ab}$，$GH\parallel CD$
+    - $\therefore \angle FND=\angle MBH$，$\angle FDN=\angle C=90^\circ$，
+    - $\therefore \angle FDN=\angle MHB=90^\circ$
+    - $\therefore \triangle BHM\sim\triangle NDF$，
+    - $\therefore \dfrac{BH}{ND}=\dfrac{BM}{NF}=\dfrac{HM}{DF}$，
+    - $\because GH\parallel CD$
+    - $\therefore \triangle BHM\sim\triangle BCF$
+    - $\therefore \dfrac{BH}{BC}=\dfrac{HM}{CF}$
+    - $\therefore \dfrac{a-\sqrt{ab}}{a}=\dfrac{HM}{\sqrt{ab}}$
+    - 解得$HM=\sqrt{ab}-b$，
+    - $\because DF=CF-CD=\sqrt{ab}-b$
+    - $\therefore DF=HM$，
+    - $\therefore \dfrac{BH}{ND}=\dfrac{BM}{NF}=\dfrac{HM}{DF}=1$，
+    - $\therefore BH=ND$，$BM=NF$
+    - $\therefore \triangle BHM\cong\triangle NDF$（SSS）
+    - $\therefore \triangle BHM$可以通过平移运动与$\triangle NDF$叠合。
+    clue: （1）根据剪拼前后图形面积不变，可知矩形和正方形的面积都是$ab$，即可求解边长；（2）过点$O$作$OT\perp BF$，先证明$\angle EFB=90^\circ$，然后得到$\angle 1=\angle 2$，则$\tan\angle 1=\tan\angle 2$，据此求解即可；（3）先证明$\triangle BHM\sim\triangle NDF$，再证明$\triangle BHM\sim\triangle BCF$，求证$HM=DF$，即可得到$\triangle BHM\cong\triangle NDF$。
+    source_solution_images: []

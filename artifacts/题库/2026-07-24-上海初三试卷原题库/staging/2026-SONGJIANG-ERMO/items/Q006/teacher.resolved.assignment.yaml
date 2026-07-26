@@ -1,0 +1,54 @@
+meta:
+  title: 2026年上海市松江区中考二模数学试卷第 6 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题（本大题共6题，每题4分，满分24分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q006
+    points: 4
+    stem_latex: 如图，已知$\triangle ABC$中，$\angle BAC=90^\circ$，$AB=AC=3\sqrt{2}$，半径为1的$\odot O$经过点$A$，且在边$AB$、$AC$上截得的弦长相等，点$P$在边$BC$上，如果以$PB$为半径的$\odot P$与$\odot O$相交，那么$PB$的长可能是（\quad）
+    choices:
+    - '1'
+    - '2'
+    - '3'
+    - '4'
+    answer: B
+    explanation: 官方参考答案：B。
+    solution_steps:
+    - 过点$O$分别作$OD\perp AB$，$OE\perp AC$，垂足为点$D$，$E$，延长$AO$交$BC$于点$F$，
+    - $\therefore OD=OE$，
+    - $\therefore AO$平分$\angle BAC$，
+    - $\because AB=AC$，
+    - $\therefore AF\perp BC$，$BF=CF=\dfrac{1}{2}BC$，
+    - $\because \angle BAC=90^\circ$，$AB=AC=3\sqrt{2}$，
+    - $\therefore BC=\sqrt{2}AB=6$，
+    - $\therefore BF=CF=AF=3$，
+    - 当$\odot P$与$\odot O$外切时，连接$OP$，设$BP=x$，则$OP=1+x$，$FP=3-x$，$OF=3-1=2$，
+    - 在$\mathrm{Rt}\triangle OPF$中，由勾股定理得，$OF^2+PF^2=OP^2$，
+    - $\therefore 2^2+(3-x)^2=(x+1)^2$，解得$x=\dfrac{3}{2}$；
+    - 当$\odot P$与$\odot O$内切时，连接$OP$，设$BP=x$，则$OP=x-1$，$FP=x-3$，$OF=3-1=2$，
+    - 在$\mathrm{Rt}\triangle OPF$中，由勾股定理得，$OF^2+PF^2=OP^2$，
+    - $\therefore 2^2+(x-3)^2=(x-1)^2$，解得$x=3$；
+    - $\therefore \odot P$与$\odot O$相交时，$\dfrac{3}{2}<x<3$，
+    - $\therefore$ B符合题意。
+    clue: 过点$O$分别作$OD\perp AB$，$OE\perp AC$，延长$AO$交$BC$于点$F$，由等腰三角形性质得$AF\perp BC$，$BF=CF=AF=3$，再找到外切和内切时的临界位置，根据勾股定理建立方程求解。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 80mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

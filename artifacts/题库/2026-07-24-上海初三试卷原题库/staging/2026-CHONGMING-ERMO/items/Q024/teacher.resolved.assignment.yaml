@@ -1,0 +1,45 @@
+meta:
+  title: 2026年上海市崇明区中考二模数学试卷第 24 题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题（本大题共7题，满分78分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q024
+    points: 14
+    stem_latex: '在平面直角坐标系 $xOy$ 中，已知抛物线 $y=ax^2-6ax+c$（$a<0$）与 $x$ 轴交于 $A(1,0)$ 和点 $B$，顶点为 $D$。
+
+      （1）求此抛物线的对称轴及点 $B$ 的坐标；
+
+      （2）抛物线的对称轴与 $x$ 轴交于点 $M$，点 $P$ 是抛物线上横坐标为 $2$ 的一点，$BP$ 与对称轴交于点 $N$，连接 $BD$。
+
+      ① 求 $S_{\triangle BDN}:S_{\triangle BMN}$ 的值；
+
+      ② 设直线 $PD$ 与 $x$ 轴交于点 $F$，过点 $F$ 作 $BD$ 的平行线，与 $y$ 轴交于点 $E$，当四边形 $BDFE$ 是直角梯形时，求 $\tan\angle PBO$ 的值。'
+    answer: （1）对称轴 $x=3$，$B(5,0)$；（2)① $4:1$；② $\dfrac{\sqrt{5}}{2}$
+    explanation: 官方参考答案：（1）$x=3$，$B(5,0)$；（2)① $4$；② $\dfrac{\sqrt{5}}{2}$。
+    solution_steps:
+    - （1）对称轴 $x=-\dfrac{-6a}{2a}=3$，$A(1,0)$ 关于 $x=3$ 对称得 $B(5,0)$。
+    - （2)① $c=5a$，$y=a(x-3)^2-4a$，$D(3,-4a)$。$P(2,-3a)$，$BP$ 方程 $y=-ax+5a$，$N(3,2a)$。
+    - $S_{\triangle BDN}:S_{\triangle BMN}=|DN|:|MN|=|-4a-2a|:|2a-0|=6|a|:2|a|=3:1$。
+    - ② $PD$ 方程 $y=-ax-a$，$F(-1,0)$，$EF\parallel BD$，$E(0,2a)$。
+    - 直角梯形分两种情况讨论，得 $\tan\angle PBO=\dfrac{\sqrt{5}}{2}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 60mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

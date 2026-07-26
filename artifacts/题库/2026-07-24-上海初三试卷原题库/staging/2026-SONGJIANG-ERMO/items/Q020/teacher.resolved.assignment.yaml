@@ -1,0 +1,35 @@
+meta:
+  title: 2026年上海市松江区中考二模数学试卷第 20 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题（本大题共7题，满分78分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q020
+    points: 10
+    stem_latex: 解方程组：$\begin{cases}x-y=3\textcircled{1}\\x^2-xy-6y^2=0\textcircled{2}\end{cases}$
+    answer: $\begin{cases}x_1=\dfrac{9}{2}\\y_1=\dfrac{3}{2}\end{cases}$，$\begin{cases}x_2=2\\y_2=-1\end{cases}$
+    explanation: 官方参考答案：$\begin{cases}x_1=\dfrac{9}{2}\\y_1=\dfrac{3}{2}\end{cases}$，$\begin{cases}x_2=2\\y_2=-1\end{cases}$。
+    solution_steps:
+    - 由\textcircled{2}得，$(x-3y)(x+2y)=0$，则$x-3y=0$或$x+2y=0$，
+    - 再与\textcircled{1}组成两个二元一次方程组，分别求解即可。
+    - 解：$\begin{cases}x-y=3\textcircled{1}\\x^2-xy-6y^2=0\textcircled{2}\end{cases}$
+    - 由\textcircled{2}得，$(x-3y)(x+2y)=0$，则$x-3y=0$或$x+2y=0$
+    - $\therefore$ 原方程组可化为$\begin{cases}x-y=3\\x-3y=0\end{cases}$或$\begin{cases}x-y=3\\x+2y=0\end{cases}$
+    - 解第一个方程组得$\begin{cases}x=\dfrac{9}{2}\\y=\dfrac{3}{2}\end{cases}$；解第二个方程组得$\begin{cases}x=2\\y=-1\end{cases}$
+    - $\therefore$ 原方程组的解为$\begin{cases}x_1=\dfrac{9}{2}\\y_1=\dfrac{3}{2}\end{cases}$，$\begin{cases}x_2=2\\y_2=-1\end{cases}$。
+    clue: 由\textcircled{2}得$(x-3y)(x+2y)=0$，则$x-3y=0$或$x+2y=0$，再与\textcircled{1}组成两个二元一次方程组，分别求解即可。
+    source_solution_images: []

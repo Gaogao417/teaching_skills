@@ -1,0 +1,56 @@
+meta:
+  title: 2026年上海市宝山区中考二模数学试卷第 15 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q015
+    points: 4
+    stem_latex: '如图，在$\square ABCD$中，$\angle ABC$的平分线交$AD$于点$E$，$AD=2AB$，设$\overrightarrow{AD}=\boldsymbol{a}$，$\overrightarrow{AB}=\boldsymbol{b}$，那么用向量$\boldsymbol{a}$、$\boldsymbol{b}$表示向量$\overrightarrow{BE}$是$\underline{\qquad}$．
+
+      '
+    answer: $\dfrac{1}{2}\boldsymbol{a}-\boldsymbol{b}$
+    clue: 由角平分线和平行线推出$AB=AE$，得$AE=\dfrac{1}{2}AD$，再用三角形法则$\overrightarrow{BE}=\overrightarrow{AE}-\overrightarrow{AB}$。
+    solution_steps:
+    - title: 详解
+      content: '$\because\square ABCD$中，$\angle ABC$的平分线交$AD$于点$E$，
+
+        $\therefore AD\parallel BC$，$\angle ABE=\angle CBE$，
+
+        $\therefore\angle AEB=\angle CBE$，
+
+        $\therefore\angle ABE=\angle AEB$，
+
+        $\therefore AB=AE$。
+
+        $\because AD=2AB$，
+
+        $\therefore AD=2AE$，
+
+        $\therefore\overrightarrow{AE}=\dfrac{1}{2}\overrightarrow{AD}=\dfrac{1}{2}\boldsymbol{a}$。
+
+        $\because\overrightarrow{AB}=\boldsymbol{b}$，
+
+        $\therefore\overrightarrow{BE}=\overrightarrow{AE}-\overrightarrow{AB}=\dfrac{1}{2}\boldsymbol{a}-\boldsymbol{b}$。
+
+        '
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 70mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

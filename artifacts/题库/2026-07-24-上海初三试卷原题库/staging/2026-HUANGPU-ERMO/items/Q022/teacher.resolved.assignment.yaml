@@ -1,0 +1,44 @@
+meta:
+  title: 2026年上海市黄浦区中考二模数学试卷第 22 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: \u4e09\u3001\u89e3\u7b54\u9898\uff08\u672c\u5927\u9898\u51717\u9898\uff0c\u6ee1\u520678\u5206\uff09
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q022
+    points: 10
+    stem_latex: '\u5df2\u77e5\u5982\u56fe\uff0c\u5728$\mathrm{Rt}\triangle ABC$\u4e2d\uff0c$\angle C=90^\circ$,$AC=4$,$BC=3$,$D$\u662f\u8fb9$AB$\u4e0a\u4e00\u70b9\uff0c\u8fc7\u70b9$D$\u4f5c$DE\perp BC$\u4e8e\u70b9$E$\uff0c\u8fc7\u70b9$D$\u4f5c$DF\perp AC$\u4e8e\u70b9$F$\u3002
+
+      \uff081\uff09\u6c42\u8bc1\uff1a\u56db\u8fb9\u5f62$DECF$\u662f\u77e9\u5f62\uff1b
+
+      \uff082\uff09\u5f53$BD$\u4e3a\u4f55\u503c\u65f6\uff0c\u77e9\u5f62$DECF$\u662f\u6b63\u65b9\u5f62\uff1f\u8bf7\u8bf4\u660e\u7406\u7531\u3002'
+    answer: \uff081\uff09\u89c1\u89e3\u6790\uff1b\uff082\uff09$BD=\dfrac{12}{7}$\u65f6\uff0c\u77e9\u5f62$DECF$\u662f\u6b63\u65b9\u5f62
+    explanation: \u5b98\u65b9\u53c2\u8003\u7b54\u6848\uff1a\uff081\uff09\u89c1\u89e3\u6790\uff1b\uff082\uff09$BD=\dfrac{12}{7}$\u65f6\uff0c\u77e9\u5f62$DECF$\u662f\u6b63\u65b9\u5f62\u3002
+    solution_steps:
+    - \uff081\uff09$\because DE\perp BC$,$DF\perp AC$,$\angle C=90^\circ$,
+    - $\therefore \angle DEC=\angle DFC=\angle C=90^\circ$,
+    - $\therefore$ \u56db\u8fb9\u5f62$DECF$\u662f\u77e9\u5f62\u3002
+    - \uff082\uff09\u8981\u4f7f\u77e9\u5f62$DECF$\u662f\u6b63\u65b9\u5f62\uff0c\u9700$CE=CF$.
+    - \u8bbe$BD=x$,$AD=5-x$.
+    - $\because DE\perp BC$,$AC\perp BC$,$\therefore DE\parallel AC$,
+    - $\therefore \triangle BDE\sim\triangle BAC$,$\therefore\dfrac{DE}{AC}=\dfrac{BD}{BA}=\dfrac{BE}{BC}$,
+    - $\therefore\dfrac{DE}{4}=\dfrac{x}{5}=\dfrac{BE}{3}$,$\therefore DE=\dfrac{4x}{5}$,$BE=\dfrac{3x}{5}$,
+    - $\therefore CE=BC-BE=3-\dfrac{3x}{5}$.
+    - \u540c\u7406\u53ef\u5f97$CF=\dfrac{4(5-x)}{5}$.
+    - \u8981$CE=CF$,$\therefore 3-\dfrac{3x}{5}=\dfrac{4(5-x)}{5}$,
+    - \u89e3\u5f97$x=\dfrac{12}{7}$,$\therefore BD=\dfrac{12}{7}$.
+    clue: \u5229\u7528\u77e9\u5f62\u7684\u6027\u8d28\u548c\u76f8\u4f3c\u4e09\u89d2\u5f62\u7684\u6027\u8d28\u6c42\u89e3\u3002
+    source_solution_images: []

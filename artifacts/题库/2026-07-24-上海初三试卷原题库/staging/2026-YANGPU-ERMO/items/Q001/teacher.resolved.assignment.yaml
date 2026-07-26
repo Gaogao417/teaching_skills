@@ -1,0 +1,36 @@
+meta:
+  title: 2026年上海市杨浦区中考二模数学试卷第 1 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题（本大题共6题，每题4分，满分24分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q001
+    points: 4
+    stem_latex: 下列实数中，无理数的是（\quad）
+    choices:
+    - $8^{\frac{1}{3}}$
+    - $\dfrac{22}{7}$
+    - $\dfrac{\pi}{3}$
+    - $0.0\dot{3}\dot{0}\dot{3}$
+    answer: C
+    explanation: 官方参考答案：C。
+    solution_steps:
+    - 'A: $8^{\frac{1}{3}}=\sqrt[3]{8}=2$，是整数，属于有理数，不符合题意；'
+    - 'B: $\dfrac{22}{7}$是分数，属于有理数，不符合题意；'
+    - 'C: $\pi$是无限不循环小数，是无理数，$\dfrac{\pi}{3}$仍是无限不循环小数，是无理数，符合题意；'
+    - 'D: $0.0\dot{3}\dot{0}\dot{3}$是无限循环小数，属于有理数，不符合题意。'
+    source_solution_images: []

@@ -1,0 +1,37 @@
+meta:
+  title: 2026年上海市浦东新区中考二模数学试卷第 6 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题（本大题共6题，每题4分，满分24分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q006
+    points: 4
+    stem_latex: 已知四边形 $ABCD$ 中，$AB \parallel CD$，$AC=BD$，下列判断中的正确的是（\quad）
+    choices:
+    - 如果 $BC=AD$，那么四边形 $ABCD$ 是等腰梯形
+    - 如果 $AD \parallel BC$，那么四边形 $ABCD$ 是菱形
+    - 如果 $AC$ 平分 $BD$，那么四边形 $ABCD$ 是矩形
+    - 如果 $AC \perp BD$，那么四边形 $ABCD$ 是正方形
+    answer: C
+    explanation: 官方参考答案：C。
+    solution_steps:
+    - A：如果 $BC=AD$，那么四边形 $ABCD$ 可能是等腰梯形，也可能是矩形，错误；
+    - B：如果 $AD \parallel BC$，那么四边形 $ABCD$ 是矩形，错误；
+    - C：如果 $AC$ 平分 $BD$，那么四边形 $ABCD$ 是矩形，正确；
+    - D：如果 $AC \perp BD$，那么四边形 $ABCD$ 不一定是正方形，错误。
+    clue: 根据正方形、等腰梯形、矩形和菱形的判定定理逐一判断。
+    source_solution_images: []

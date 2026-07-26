@@ -1,0 +1,45 @@
+meta:
+  title: 2026年上海市青浦区中考数学二模试卷第 25 题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题（本大题共7题，满分78分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: 已知 $\triangle ABC$ 中，$AC=BC=5$，$AB=2\sqrt{5}$，点 $D$ 是射线 $CB$ 上一点，连接 $AD$，圆 $O$ 经过 $A$、$B$、$D$ 三点。（1）如图 $1$，当点 $D$ 在线段 $BC$ 上时，①记圆 $O$ 交 $AC$ 于点 $F$，求证：$AF=BD$；②设 $CD=m$，用 $m$ 表示圆 $O$ 的半径；（2）如图 $2$，在线段 $AD$ 的右侧，以 $AD$ 为底边作等腰 $\triangle EAD$，且始终满足 $\angle EAD=\angle BAC$。若以 $C$ 为圆心，$CE$ 为半径的圆 $C$ 与圆 $O$ 有公共点，请直接写出线段 $CD$ 的取值范围。
+    answer: （1）①$AF=BD$；②$\dfrac{\sqrt{5m^2-30m+125}}{4}$；（2）$0\leqslant m\leqslant 3$
+    explanation: 官方参考答案：（1）①$AF=BD$；②$\dfrac{\sqrt{5m^2-30m+125}}{4}$；（2）$0\leqslant m\leqslant 3$。
+    solution_steps:
+    - （1）①连接 $BF$，$DF$，在 $\triangle ABC$ 中，$AC=BC=5$，$\therefore \angle BAC=\angle ABC$，
+    - 在圆 $O$ 中，$\overset{\frown}{DF}=\overset{\frown}{DF}$，根据圆周角定理可知 $\angle DBF=\angle DAF$，
+    - $\therefore \angle BAD=\angle ABF$，$\therefore AF=BD$；
+    - ②由外接圆的圆心是中垂线的交点可知 $O$ 在中垂线上，
+    - $\tan\angle BCH=\dfrac{1}{2}$，根据正切值可得 $OG=\dfrac{5+m}{4}$，进而根据勾股定理即可求解；
+    - （2）证明 $\triangle ABD\sim\triangle ACE$，可得点 $E$ 的运动轨迹为直线 $CE$，
+    - 根据相似三角形的性质可知 $OC=\dfrac{\sqrt{5}(5+m)}{4}$，$CE=\dfrac{\sqrt{5}(5-m)}{2}$，
+    - 当 $OC\leqslant CE+OD$，$CE$ 为半径的圆 $C$ 与圆 $O$ 有公共点，列不等式即可求解。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean
+    stem_image:
+      image_path: assets/prompt-02.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

@@ -1,0 +1,36 @@
+meta:
+  title: 2026年上海市闵行区中考二模数学试卷第 3 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题（本大题共6题，每题4分，满分24分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q003
+    points: 4
+    stem_latex: 下列运算正确的是（\quad）
+    choices:
+    - $a^{3}\cdot a^{3}=a^{9}$
+    - $a^{3}+a^{3}=a^{6}$
+    - $a^{6}\div a^{3}=a^{2}$
+    - $\left(a^{3}\right)^{3}=a^{9}$
+    answer: D
+    explanation: 官方参考答案：D。
+    solution_steps:
+    - A：同底数幂相乘，底数不变，指数相加，$a^{3}\cdot a^{3}=a^{3+3}=a^{6}\neq a^{9}$，错误；
+    - B：合并同类项时，同类项的系数相加，字母和指数不变，$a^{3}+a^{3}=2a^{3}\neq a^{6}$，错误；
+    - C：同底数幂相除，底数不变，指数相减，$a^{6}\div a^{3}=a^{6-3}=a^{3}\neq a^{2}$，错误；
+    - D：幂的乘方，底数不变，指数相乘，$\left(a^{3}\right)^{3}=a^{3\times3}=a^{9}$，正确。
+    source_solution_images: []

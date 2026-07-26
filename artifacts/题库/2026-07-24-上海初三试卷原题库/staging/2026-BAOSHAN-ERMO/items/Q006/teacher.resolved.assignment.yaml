@@ -1,0 +1,59 @@
+meta:
+  title: 2026年上海市宝山区中考二模数学试卷第 6 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q006
+    points: 4
+    stem_latex: '如图，在矩形$ABCD$中，$AB=1$，$AD=2\sqrt{2}$，$BD$为矩形对角线．利用尺规按以下步骤作图：①分别以点$B$、$D$为圆心，以大于$\dfrac{1}{2}BD$的长为半径作弧，两弧相交于两点$M$、$N$；②连接$MN$交$AD$于点$G$，交$BC$于点$E$，交$BD$于点$O$；③以点$O$为圆心，以$OG$的长为半径作弧，交$BD$于点$H$、$F$；那么线段$GF$的长是（\quad）
+
+      '
+    choices:
+    - $\dfrac{1}{2}$
+    - $\dfrac{2}{3}$
+    - $\dfrac{3}{4}$
+    - $1$
+    answer: C
+    clue: 勾股定理求$BD$，作图得$MN$垂直平分$BD$，解直角三角形$ODG$求$OG$，再由$GF=\sqrt{2}\cdot OG$。
+    solution_steps:
+    - title: 详解
+      content: '$\because$在矩形$ABCD$中，$AB=1$，$AD=2\sqrt{2}$，$BD$为矩形对角线，
+
+        $\therefore\angle A=90^{\circ}$，$BD=\sqrt{AB^{2}+AD^{2}}=3$，
+
+        $\therefore\tan\angle ADB=\dfrac{AB}{AD}=\dfrac{1}{2\sqrt{2}}=\dfrac{\sqrt{2}}{4}$。
+
+        由作图可知：$MN$垂直平分$BD$，
+
+        $\therefore OD=\dfrac{1}{2}BD=\dfrac{3}{2}$，$\angle DOG=90^{\circ}$。
+
+        $\therefore\tan\angle ODG=\dfrac{OG}{OD}=\dfrac{\sqrt{2}}{4}$，
+
+        $\therefore OG=\dfrac{3\sqrt{2}}{8}$。
+
+        由作图可知，$OF=OG=\dfrac{3\sqrt{2}}{8}$，
+
+        $\therefore GF=\sqrt{2}\cdot OG=\dfrac{3}{4}$。
+
+        '
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 80mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

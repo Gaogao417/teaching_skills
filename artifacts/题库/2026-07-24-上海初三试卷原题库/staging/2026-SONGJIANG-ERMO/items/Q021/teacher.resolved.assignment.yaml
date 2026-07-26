@@ -1,0 +1,53 @@
+meta:
+  title: 2026年上海市松江区中考二模数学试卷第 21 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题（本大题共7题，满分78分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q021
+    points: 10
+    stem_latex: 如图，在$\triangle ABC$中，$AB=AC=2\sqrt{5}$，$\tan B=2$。\n（1）试用无刻度直尺和圆规，在直线$BC$上作出点$D$，使$\triangle DAC\sim\triangle ABC$，点$D$、$A$、$C$的对应点分别是点$A$、$B$、$C$。（不必写作法，保留作图痕迹）\n（2）在（1）的基础上，求线段$BD$的长。
+    answer: （1）见解析；（2）$BD=1$
+    explanation: 官方参考答案：（1）见解析；（2）$BD=1$。
+    solution_steps:
+    - 【小问1详解】
+    - 解：如图所示，作$\angle DAC=\angle ABC$，与$CB$延长线交于点$D$，即为所求；
+    - $\because \angle DAC=\angle ABC$，$\angle DCA=\angle ACB$，
+    - $\therefore \triangle DAC\sim\triangle ABC$；
+    - 【小问2详解】
+    - 解：如图所示，过点$A$作$AH\perp BC$于$H$，
+    - $\because AB=AC$，
+    - $\therefore BH=HC$，
+    - 设$BH=HC=x$，
+    - 在$\mathrm{Rt}\triangle ABH$中，$\because \tan B=\dfrac{AH}{BH}=2$，
+    - $\therefore AH=2BH=2x$，
+    - 根据勾股定理得，$AH^2+BH^2=AB^2$，
+    - 即$(2x)^2+x^2=(2\sqrt{5})^2$，
+    - 解得$x=2$或$x=-2$（负值，舍去），
+    - $\therefore BH=HC=2$，
+    - $\therefore BC=BH+HC=4$，
+    - $\because \triangle DAC\sim\triangle ABC$，
+    - $\therefore \dfrac{AC}{BC}=\dfrac{DC}{AC}$，即$\dfrac{2\sqrt{5}}{4}=\dfrac{DC}{2\sqrt{5}}$，
+    - 解得$DC=5$，
+    - $\therefore BD=DC-BC=5-4=1$。
+    clue: （1）以点$A$为顶点，$AC$为一边，作$\angle DAC=\angle ABC$，与$CB$延长线交于点$D$；（2）过点$A$作$AH\perp BC$于$H$，根据等腰三角形三线合一得到$BH=HC$，在$\mathrm{Rt}\triangle ABH$中，由$\tan B=2$，结合勾股定理列方程即可求得$BH$的长，再根据相似三角形的对应边成比例列式计算即可得到$DC$的长，最后根据线段和差关系即可得解。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 80mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

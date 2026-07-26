@@ -1,0 +1,39 @@
+meta:
+  title: 2026年上海市浦东新区中考二模数学试卷第 21 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题（本大题共7题，满分78分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q021
+    points: 10
+    stem_latex: '在平面直角坐标系 $xOy$（如图），已知正比例函数 $y=2x$ 的图像与反比例函数 $y=\frac{k}{x}$（$k \neq 0$）的图像相交于点 $A(2,m)$，过点 $B(4,0)$ 作 $x$ 轴的垂线，与反比例函数 $y=\frac{k}{x}$ 的图像相交于点 $C$。
+
+      （1）求 $m$ 的值和反比例函数 $y=\frac{k}{x}$ 的解析式；
+
+      （2）联结 $OC$，点 $D$ 是 $OC$ 的中点，联结 $BD$，求 $BD$ 的长。'
+    answer: （1）$m=4$，$y=\frac{8}{x}$；（2）$BD=\sqrt{5}$
+    explanation: 官方参考答案：（1）$m=4$，$y=\frac{8}{x}$；（2）$\sqrt{5}$。
+    solution_steps:
+    - （1）把 $A(2,m)$ 代入 $y=2x$，得 $m=4$。$A(2,4)$，代入 $y=\frac{k}{x}$，得 $k=8$。反比例函数解析式为 $y=\frac{8}{x}$。
+    - （2）把 $x=4$ 代入 $y=\frac{8}{x}$，得 $y=2$。$C(4,2)$，$B(4,0)$，$BC=2$。又 $BC \perp x$ 轴，$\angle CBO=90°$。在 $\mathrm{Rt}\triangle CBO$ 中，点 $D$ 是 $OC$ 的中点，$BD=\frac{1}{2}OC$。$OC=\sqrt{4^2+2^2}=2\sqrt{5}$，$BD=\sqrt{5}$。
+    clue: 先用待定系数法求解析式，再利用直角三角形斜边中线性质求 $BD$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 80mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

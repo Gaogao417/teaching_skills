@@ -1,0 +1,39 @@
+meta:
+  title: 2026年上海市嘉定区中考数学二模试卷第 23 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题（本大题共7题，满分78分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q023
+    points: 12
+    stem_latex: '如图，在平行四边形 $ABCD$ 中，点 $O$ 是对角线 $AC$ 的中点，过点 $O$ 作 $AC$ 的垂线分别与边 $BC$、$AD$ 交于点 $E$、$F$，联结 $AE$ 和 $CF$。
+
+      （1）求证：四边形 $AECF$ 是菱形；
+
+      （2）若 $CF$ 平分 $\angle ACD$，求证：$DF\cdot AC=CD\cdot CE$。'
+    answer: 见解析
+    explanation: 两问均为证明题。
+    solution_steps:
+    - （1）$\triangle AOF\cong\triangle COE$（ASA），$OF=OE$，$AO=CO$，四边形 $AECF$ 是平行四边形。$EF\perp AC$，故为菱形。
+    - （2）由（1）$AF=CF=CE$，$\angle FAC=\angle FCA$。$CF$ 平分 $\angle ACD$，$\angle DCF=\angle FCA=\angle FAC$。$\triangle DCF\sim\triangle DAC$，$\frac{DF}{CD}=\frac{CF}{AC}$，又 $CF=CE$，得 $DF\cdot AC=CD\cdot CE$。
+    clue: （1）证全等→平行四边形→对角线垂直→菱形；（2）利用角平分线和相似三角形。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 80mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

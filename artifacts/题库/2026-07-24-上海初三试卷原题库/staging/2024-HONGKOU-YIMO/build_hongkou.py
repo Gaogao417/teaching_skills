@@ -201,9 +201,9 @@ for it in items:
     block = {"type": it["typ"], "id": iid, "points": it["pts"], "stem_latex": it["stem"], "answer": it["answer"]}
     if it["typ"] == "choice":
         block["choices"] = it["choices"]
-        block["explanation"] = f"官方参考答案：{it['answer']}。"
+        block["clue"] = f"答案：{it['answer']}。"
     elif it["typ"] == "fillin":
-        block["explanation"] = f"官方参考答案：{it['answer']}。"
+        block["clue"] = f"答案：{it['answer']}。"
     else:
         block["solution_steps"] = [{"title": f"步骤 {idx}", "content": text} for idx, text in enumerate(it["steps"], 1)]
         if it.get("solutions"):

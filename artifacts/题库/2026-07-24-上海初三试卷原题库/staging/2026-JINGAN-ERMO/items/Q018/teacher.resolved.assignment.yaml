@@ -1,0 +1,42 @@
+meta:
+  title: 2026年上海市静安区中考二模数学试卷第 18 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题（本大题共12题，每题4分，满分48分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: fillin
+    id: Q018
+    points: 4
+    stem_latex: 如图，正方形 $ABCD$ 中，点 $E$、$F$ 分别在边 $AB$、$AD$ 上，$BF\perp CE$，垂足为点 $P$，已知 $CP=9$，$PF=7$，那么 $BF$ 的长为\underline{\hspace{2cm}}．
+    answer: $10$ 或 $13$
+    explanation: 官方参考答案：$10$ 或 $13$。
+    solution_steps:
+    - 设 $BF=x$，则 $PB=BF-PF=x-7$，
+    - $\because$ 四边形 $ABCD$ 是正方形，$\therefore \angle A=\angle ABC=90°$，$AB=BC$，
+    - $\because BF\perp CE$，$\therefore \angle BPE=\angle BPC=90°$，
+    - $\therefore \angle ABF=\angle BCE$，在 $\triangle ABF$ 和 $\triangle BCE$ 中，
+    - $\begin{cases}\angle ABF=\angle BCE\\AB=BC\\\angle A=\angle EBC\end{cases}$，$\therefore \triangle ABF\cong \triangle BCE(ASA)$，
+    - $\therefore CE=BF=x$，$PE=CE-CP=x-9$，
+    - $\because \angle ABF=\angle BCE$，$\angle BPE=\angle BPC$，$\therefore \triangle PBE\sim \triangle PCB$，
+    - $\therefore \dfrac{PB}{PC}=\dfrac{PE}{PB}$，即 $PB^{2}=PC\cdot PE$，
+    - $\therefore (x-7)^{2}=9\cdot (x-9)$，解得 $x=10$ 或 $x=13$，
+    - $\therefore BF$ 的长为 $10$ 或 $13$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 120mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

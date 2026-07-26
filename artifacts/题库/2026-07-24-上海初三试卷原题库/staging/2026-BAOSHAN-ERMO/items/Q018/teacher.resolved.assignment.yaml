@@ -1,0 +1,51 @@
+meta:
+  title: 2026年上海市宝山区中考二模数学试卷第 18 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q018
+    points: 4
+    stem_latex: '定义：有且仅有一条边长等于其外接圆半径的三角形叫做"等接圆三角形"．如果等腰三角形$ABC$是"等接圆三角形"，那么$\triangle ABC$的面积与其外接圆面积的比值是$\underline{\qquad}$．（保留$\pi$）
+
+      '
+    answer: $\dfrac{2-\sqrt{3}}{4\pi}$或$\dfrac{2+\sqrt{3}}{4\pi}$
+    clue: 圆的半径只能与等腰三角形的底边相等，分顶角为锐角和钝角两种情况讨论。
+    solution_steps:
+    - title: 详解
+      content: '由题意，圆的半径只能与等腰三角形的底边相等。
+
+        当等腰三角形的顶角为锐角时，$\triangle OBC$为等边三角形，
+
+        $\therefore\angle BOC=60^{\circ}$，$\therefore\angle BAC=30^{\circ}$，
+
+        作$AH\perp BC$于点$H$，则$BH=\dfrac{\sqrt{3}}{2}R$，
+
+        $\therefore AH=R-\dfrac{\sqrt{3}}{2}R$，
+
+        $\therefore S_{\triangle ABC}=\dfrac{1}{2}\times R\times\left(R-\dfrac{\sqrt{3}}{2}R\right)=\dfrac{2-\sqrt{3}}{4}R^{2}$，
+
+        $S_{\text{圆}}=\pi R^{2}$，
+
+        $\therefore\dfrac{S_{\triangle ABC}}{S_{\text{圆}}}=\dfrac{2-\sqrt{3}}{4\pi}$。
+
+        当$\angle A$为钝角时，类似可得$\dfrac{S_{\triangle ABC}}{S_{\text{圆}}}=\dfrac{2+\sqrt{3}}{4\pi}$。
+
+        综上：$\dfrac{2-\sqrt{3}}{4\pi}$或$\dfrac{2+\sqrt{3}}{4\pi}$。
+
+        '
+    source_solution_images: []

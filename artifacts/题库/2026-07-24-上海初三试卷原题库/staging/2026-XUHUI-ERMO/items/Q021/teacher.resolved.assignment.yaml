@@ -1,0 +1,45 @@
+meta:
+  title: 2026年上海市徐汇区中考二模数学试卷第 21 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题（本大题共7题，满分78分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q021
+    points: 10
+    stem_latex: 如果一个三角形一条边上的高等于这条边的一半，那么这个三角形叫做\u201c半高底\u201d三角形，这条边叫做这个三角形的\u201c半底\u201d.（1）如图1，$\triangle ABC$是以$BC$为\u201c半底\u201d的\u201c半高底\u201d三角形，已知$AC=2\sqrt{29}$，$\tan B=\dfrac{5}{12}$，求$BC$的长；（2）如图2，$AB$是$\odot O$的一条弦，用无刻度直尺和圆规作图，在圆上确定一个点$C$，使得$\triangle ABC$是以$AB$为\u201c半底\u201d的\u201c半高底\u201d三角形（保留作图痕迹，无需写作法）.
+    answer: （1）$BC=20$；（2）见解析.
+    explanation: 官方参考答案：（1）$BC=20$；（2）见解析.
+    solution_steps:
+    - （1）过点$A$作$AD\perp BC$于点$D$，设$BC=2x$，则$AD=x$，根据正切的定义，得出$BD$，进而求得$CD$，在$\text{Rt}\triangle ACD$中，勾股定理建立方程，即可求解；
+    - （2）作$AB$的垂直平分线交$AB$于点$E$，在$AB$的垂直平分线上截取$DE=AE$，过点$D$作$DC\parallel AB$交$\odot O$于点$C$，则$\triangle ABC$是以$AB$为\u201c半底\u201d的\u201c半高底\u201d三角形.
+    - 【小问1详解】如图，过点$A$作$AD\perp BC$于点$D$，
+    - 依题意$AD=\dfrac{1}{2}BC$，
+    - 设$BC=2x$，则$AD=x$，
+    - $\because\tan B=\dfrac{AD}{BD}=\dfrac{5}{12}$，
+    - $\therefore BD=\dfrac{12AD}{5}=\dfrac{12}{5}x$，
+    - $\therefore CD=BD-BC=\dfrac{12}{5}x-2x=\dfrac{2}{5}x$，
+    - 在$\text{Rt}\triangle ACD$中，$AC^{2}=CD^{2}+AD^{2}$，
+    - $\therefore\left(\dfrac{2}{5}x\right)^{2}+x^{2}=\left(2\sqrt{29}\right)^{2}$，
+    - 解得：$x=10$（负值舍去），
+    - $\therefore BC=20$.
+    - 【小问2详解】如图所示，作$AB$的垂直平分线交$AB$于点$E$，在$AB$的垂直平分线上截取$DE=AE$，过点$D$作$DC\parallel AB$交$\odot O$于点$C$，则点$C$，$\triangle ABC$即为所求.
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

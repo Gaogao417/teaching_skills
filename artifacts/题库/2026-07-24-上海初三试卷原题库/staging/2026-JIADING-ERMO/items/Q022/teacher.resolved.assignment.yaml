@@ -1,0 +1,42 @@
+meta:
+  title: 2026年上海市嘉定区中考数学二模试卷第 22 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题（本大题共7题，满分78分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q022
+    points: 10
+    stem_latex: '研究函数 $y=\dfrac{1}{x^2}+1$：
+
+      （1）定义域是________；
+
+      （2）列表、描点、连线画出图象，其中 $m=$________；
+
+      （3）$y$ 随 $x$ 的变化特征：________；
+
+      （4）不等式 $\dfrac{1}{x^2}+1<2$ 的解集：________。'
+    answer: $x\neq 0$；$m=5$；当 $x<0$ 时 $y$ 随 $x$ 增大而增大，当 $x>0$ 时 $y$ 随 $x$ 增大而减小；$x<-1$ 或 $x>1$
+    explanation: 详见解析。
+    solution_steps:
+    - （1）$x\neq 0$；（2）$x=\frac{1}{2}$ 时 $y=1+4=5$，$m=5$；（3）$x<0$ 递增，$x>0$ 递减；（4）$\frac{1}{x^2}+1<2 \Rightarrow \frac{1}{x^2}<1 \Rightarrow x^2>1 \Rightarrow x<-1$ 或 $x>1$。
+    clue: 按函数研究步骤：定义域→列表→图象→性质→应用。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 100mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

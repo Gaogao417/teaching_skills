@@ -1,0 +1,37 @@
+meta:
+  title: 2026年上海市浦东新区中考二模数学试卷第 2 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题（本大题共6题，每题4分，满分24分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q002
+    points: 4
+    stem_latex: 下列运算中，计算正确的是（\quad）
+    choices:
+    - $x^3y \cdot xy^3 = 4xy$
+    - $x^3 \div (xy) = x^2y$
+    - $(xy^2)^2 = x^2y^4$
+    - $x^2y + xy^2 = x^3y^3$
+    answer: C
+    explanation: 官方参考答案：C。
+    solution_steps:
+    - A：$x^3y \cdot xy^3 = x^{3+1}y^{1+3} = x^4y^4 \neq 4xy$，不符合；
+    - B：$x^3 \div (xy) = x^{3-1}y^{0-1} = x^2y^{-1} \neq x^2y$，不符合；
+    - C：$(xy^2)^2 = x^2(y^2)^2 = x^2y^4$，符合；
+    - D：$x^2y$ 与 $xy^2$ 不是同类项，无法合并，不能得到 $x^3y^3$，不符合。
+    clue: 逐项验证运算结果，注意幂的运算法则和同类项合并规则。
+    source_solution_images: []

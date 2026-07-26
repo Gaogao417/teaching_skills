@@ -1,0 +1,37 @@
+meta:
+  title: 2026年上海市浦东新区中考二模数学试卷第 18 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题（本大题共12题，每题4分，满分48分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: fillin
+    id: Q018
+    points: 4
+    stem_latex: 如图，在 $\mathrm{Rt}\triangle ABC$ 中，$\angle C=90°$，$AC=5$，$BC=12$。点 $D$、$E$ 分别在边 $AC$、$BC$ 上，且 $\frac{CD}{CE}=\frac{3}{4}$。以 $E$ 为圆心，$ED$ 为半径作圆，如果 $\odot E$ 与 $\triangle ABC$ 的三边有三个公共点，那么 $CD$ 的值为__________。
+    answer: $4$ 或 $\dfrac{36}{17}$
+    explanation: 官方参考答案：$4$ 或 $\dfrac{36}{17}$。
+    solution_steps:
+    - 设 $CD=3x$，则 $CE=4x$，$DE=5x$，$AB=13$。
+    - 情况①：$\odot E$ 与 $AB$ 相切时，$\triangle BFE \sim \triangle BCA$，$BE=13x$，$BC=17x=12$，$x=\frac{12}{17}$，$CD=3x=\frac{36}{17}$。
+    - 情况②：$ED=EB$ 时，$BC=BE+CE=5x+4x=9x=12$，$x=\frac{4}{3}$，$CD=3x=4$。
+    - 综上：$CD$ 的值为 $4$ 或 $\frac{36}{17}$。
+    clue: 分两种情况讨论：$\odot E$ 与 $AB$ 相切，或 $ED=EB$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 80mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

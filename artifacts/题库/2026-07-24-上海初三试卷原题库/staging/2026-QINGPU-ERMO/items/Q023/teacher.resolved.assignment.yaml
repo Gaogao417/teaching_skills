@@ -1,0 +1,46 @@
+meta:
+  title: 2026年上海市青浦区中考数学二模试卷第 23 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题（本大题共7题，满分78分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q023
+    points: 12
+    stem_latex: 已知：如图，四边形 $ABCD$ 是平行四边形，点 $E$ 在边 $CD$ 上，点 $F$ 在 $BC$ 的延长线上，$CF=DE$，$AE$ 的延长线与 $DF$ 相交于点 $G$，且 $DG^2=GE\cdot GA$。（1）求证：四边形 $ABCD$ 是菱形；（2）如果 $AE=3EG$，求证：点 $E$ 是边 $CD$ 的中点。
+    answer: （1）证明四边形 $ABCD$ 是菱形；（2）证明点 $E$ 是边 $CD$ 的中点
+    explanation: 官方参考答案见解答。
+    solution_steps:
+    - （1）$\because$ 四边形 $ABCD$ 是平行四边形，$\therefore AD\parallel BC$，$\therefore \angle 4=\angle 3$，
+    - $\because DG^2=GE\cdot GA$，$\therefore \dfrac{DG}{GE}=\dfrac{GA}{DG}$，
+    - 又 $\because \angle 5=\angle 5$，$\therefore \triangle GED\sim\triangle GDA$，
+    - $\therefore \angle 1=\angle 2$，
+    - $\because CF=DE$，$\therefore \triangle ADE\cong\triangle DCF(AAS)$，
+    - $\therefore AD=DC$，又 $\because$ 四边形 $ABCD$ 是平行四边形，
+    - $\therefore$ 四边形 $ABCD$ 是菱形；
+    - （2）$\because AE=3EG$，设 $EG=m$，$AE=3m$，
+    - $\therefore AG=EG+AE=4m$，
+    - $\because DG^2=GE\cdot GA=m\times4m$，$\therefore DG=2m$（舍负），
+    - $\because \triangle GED\sim\triangle GDA$，
+    - $\therefore \dfrac{DE}{AD}=\dfrac{DG}{AG}=\dfrac{2m}{4m}=\dfrac{1}{2}$，
+    - $\because AD=CD$，$\therefore \dfrac{DE}{CD}=\dfrac{1}{2}$，
+    - $\therefore DE=CE$，$\therefore$ 点 $E$ 是边 $CD$ 的中点。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

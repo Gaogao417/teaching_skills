@@ -1,0 +1,31 @@
+meta:
+  title: 2026年上海市长宁区中考二模数学试卷第 11 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题（本大题共12题，每题4分，满分48分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: fillin
+    id: Q011
+    points: 4
+    stem_latex: 方程组$\begin{cases}x+2y=3\\x^2-4y^2+9=0\end{cases}$的解是______ .
+    answer: $\begin{cases}x=0\\y=\dfrac{3}{2}\end{cases}$
+    explanation: 官方参考答案：$\begin{cases}x=0\\y=\dfrac{3}{2}\end{cases}$。
+    solution_steps:
+    - 将$x^2-4y^2+9=0$化为$(x+2y)(x-2y)+9=0$，
+    - 进而根据$x+2y=3$得到$x-2y=-3$，
+    - 联立$\begin{cases}x+2y=3\\x-2y=-3\end{cases}$，求解即可。
+    - 解得：$\begin{cases}x=0\\y=\dfrac{3}{2}\end{cases}$。
+    source_solution_images: []

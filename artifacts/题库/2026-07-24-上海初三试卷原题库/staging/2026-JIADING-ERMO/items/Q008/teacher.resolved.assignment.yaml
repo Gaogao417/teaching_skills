@@ -1,0 +1,29 @@
+meta:
+  title: 2026年上海市嘉定区中考数学二模试卷第 8 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题（本大题共12题，每题4分，满分48分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: fillin
+    id: Q008
+    points: 4
+    stem_latex: 方程 $\sqrt{2x-3}=3-x$ 的解是__________。
+    answer: $x=2$
+    explanation: 官方参考答案：$x=2$。
+    solution_steps:
+    - 两边平方得 $2x-3=(3-x)^2$，整理 $x^2-8x+12=0$，$(x-2)(x-6)=0$。检验 $x=6$ 不合（$\sqrt{9}=3\neq -3$），$x=2$ 合。
+    clue: 无理方程需两边平方后检验。
+    source_solution_images: []

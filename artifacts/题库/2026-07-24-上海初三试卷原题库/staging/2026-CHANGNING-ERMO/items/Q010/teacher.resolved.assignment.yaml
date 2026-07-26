@@ -1,0 +1,32 @@
+meta:
+  title: 2026年上海市长宁区中考二模数学试卷第 10 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题（本大题共12题，每题4分，满分48分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: fillin
+    id: Q010
+    points: 4
+    stem_latex: 数据90、91、92、93、94的标准差是______ .
+    answer: $\sqrt{2}$
+    explanation: 官方参考答案：$\sqrt{2}$。
+    solution_steps:
+    - 首先计算这组数据的平均数，得$\bar{x}=\frac{1}{5}(90+91+92+93+94)=92$，
+    - 再根据方差的计算公式计算方差，得
+    - $s^2=\frac{1}{5}\times[(90-92)^2+(91-92)^2+(92-92)^2+(93-92)^2+(94-92)^2]$
+    - $=\frac{1}{5}\times10=2$，
+    - 标准差是方差的算术平方根，因此该组数据的标准差为$\sqrt{2}$。
+    source_solution_images: []

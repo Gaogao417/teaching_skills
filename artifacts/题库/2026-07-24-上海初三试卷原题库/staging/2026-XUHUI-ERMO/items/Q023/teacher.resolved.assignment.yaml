@@ -1,0 +1,59 @@
+meta:
+  title: 2026年上海市徐汇区中考二模数学试卷第 23 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题（本大题共7题，满分78分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q023
+    points: 12
+    stem_latex: 如图，已知$AB$、$CD$为$\odot O$的两条弦，$AB<CD$，连接$AO$、$BO$并延长交弦$CD$于点$E$、$F$，且$CF=DE$.（1）求证：$AB\parallel CD$；（2）如果$AC^{2}=OA\cdot AE$，求证：$\overset{\frown}{AB}=\overset{\frown}{AC}$.
+    answer: （1）见解析；（2）见解析.
+    explanation: 官方参考答案：（1）见解析；（2）见解析.
+    solution_steps:
+    - （1）连接$OC$、$OD$，先证明$\triangle CFO\cong\triangle DEO\left(\text{SAS}\right)$，则$OE=OF$，然后根据等边对等角以及三角形内角和定理证明$\angle 4=\angle 7$，即可证明平行；
+    - （2）先证明$\triangle CAO\sim\triangle EAC$，再证明$\triangle OAC\cong\triangle OAB\left(\text{AAS}\right)$即可.
+    - 【小问1详解】证明：连接$OC$、$OD$，
+    - $\because OC=OD$，
+    - $\therefore\angle 1=\angle 2$，
+    - $\because CF=DE$，
+    - $\therefore\triangle CFO\cong\triangle DEO\left(\text{SAS}\right)$，
+    - $\therefore OE=OF$，
+    - $\therefore\angle 3=\angle 4=\dfrac{180^{\circ}-\angle 5}{2}$，
+    - $\because OA=OB$，
+    - $\therefore\angle 7=\angle 8=\dfrac{180^{\circ}-\angle 6}{2}$，
+    - $\because\angle 5=\angle 6$，
+    - $\therefore\angle 4=\angle 7$，
+    - $\therefore AB\parallel CD$；
+    - 【小问2详解】证明：$\because AC^{2}=OA\cdot AE$，
+    - $\therefore\dfrac{AC}{OA}=\dfrac{AE}{AC}$，
+    - $\because\angle CAO=\angle EAC$，
+    - $\therefore\triangle CAO\sim\triangle EAC$，
+    - $\therefore\angle 9=\angle 4$，
+    - $\because\angle 4=\angle 7=\angle 8$，
+    - $\therefore\angle 9=\angle 7=\angle 8$，
+    - $\because OA=OC$，
+    - $\therefore\angle 9=\angle OAC=\angle 7=\angle 8$，
+    - $\because OA=OA$，
+    - $\therefore\triangle OAC\cong\triangle OAB\left(\text{AAS}\right)$，
+    - $\therefore AB=AC$，
+    - $\therefore\overset{\frown}{AB}=\overset{\frown}{AC}$.
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

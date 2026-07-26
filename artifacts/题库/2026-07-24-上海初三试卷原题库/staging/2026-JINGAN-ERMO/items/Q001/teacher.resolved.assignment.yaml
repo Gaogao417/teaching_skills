@@ -1,0 +1,35 @@
+meta:
+  title: 2026年上海市静安区中考二模数学试卷第 1 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题（本大题共6题，每题4分，满分24分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q001
+    points: 4
+    stem_latex: 函数 $f(x)=\dfrac{1-x}{x-2}$ 的定义域是（\quad）
+    choices:
+    - $x=1$
+    - $x=2$
+    - $x\neq 1$
+    - $x\neq 2$
+    answer: D
+    explanation: 官方参考答案：D。
+    solution_steps:
+    - $\because$ 函数 $f(x)=\dfrac{1-x}{x-2}$ 中 $x-2$ 是分式，分式的分母不能为 $0$，
+    - $\therefore x-2\neq 0$，解得 $x\neq 2$，
+    - 因此函数的定义域为 $x\neq 2$。
+    source_solution_images: []

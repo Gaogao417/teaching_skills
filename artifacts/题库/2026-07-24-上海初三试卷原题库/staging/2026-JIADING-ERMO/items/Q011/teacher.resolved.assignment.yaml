@@ -1,0 +1,34 @@
+meta:
+  title: 2026年上海市嘉定区中考数学二模试卷第 11 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题（本大题共12题，每题4分，满分48分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: fillin
+    id: Q011
+    points: 4
+    stem_latex: 如图，在地面上离旗杆 $BC$ 底部 $8$ 米的 $A$ 处测得旗杆顶端 $C$ 的仰角为 $60^\circ$，那么旗杆 $BC$ 的高度约为________米（$\sqrt{3}\approx 1.73$，精确到 $0.1$ 米）。
+    answer: $13.8$
+    explanation: 官方参考答案：$13.8$。
+    solution_steps:
+    - $BC=AB\cdot\tan60^\circ=8\sqrt{3}\approx 8\times1.73\approx 13.8$（米）。
+    clue: 在 Rt$\triangle ABC$ 中用正切函数。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 60mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

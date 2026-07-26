@@ -1,0 +1,31 @@
+meta:
+  title: 2026年上海市松江区中考二模数学试卷第 7 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题（本大题共12题，每题4分，满分48分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q007
+    points: 4
+    stem_latex: 不等式组$\begin{cases}2x+2\geq 0\\4x<3x+2\end{cases}$的解集是______。
+    answer: $-1\leq x<2$
+    explanation: 官方参考答案：$-1\leq x<2$。
+    solution_steps:
+    - 解不等式$2x+2\geq 0$，移项得$2x\geq -2$，系数化为1得：$x\geq -1$，
+    - 解不等式$4x<3x+2$，移项合并同类项得：$x<2$，
+    - $\therefore$ 不等式组的解集为$-1\leq x<2$。
+    clue: 本题考查一元一次不等式组的解法。分别求出每一个不等式的解集，根据解集确定口诀：同大取大，同小取小，大小小大中间找，大大小小无解，确定不等式组的公共解集即可。
+    source_solution_images: []

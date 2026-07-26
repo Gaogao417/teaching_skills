@@ -1,0 +1,68 @@
+meta:
+  title: 2026年上海市宝山区中考二模数学试卷第 22 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q022
+    points: 12
+    stem_latex: '某校开展校园才艺大赛，根据同学们的报名意向分为"A唱歌、B舞蹈、C器乐、D戏剧、E其他"几个表演类别．图1、图2是每类表演报名人数的不完整统计图．
+
+      （1）扇形统计图中"B舞蹈"所在扇形的圆心角度数为$\underline{\qquad}$°；
+
+      （2）本次大赛总共报名$\underline{\qquad}$人，请补全条形统计图；
+
+      （3）才艺大赛当天由7名学生代表作为评审进行打分（满分10分），甲、乙两位同学在"A唱歌"项目的得分及其部分统计结果如下：
+
+      ①表中的数据：$\bar{x}_{乙}=\underline{\qquad}$，$b=\underline{\qquad}$，$c=\underline{\qquad}$；
+
+      ②结合平均数、中位数、方差等统计数据，谈谈你对甲、乙两位同学成绩的看法．
+
+      '
+    answer: （1）$90$；（2）$160$；（3）①$7$，$8$，$\dfrac{40}{7}$；②见解析
+    clue: （1）圆心角$=360°\times$占比；（2）$C$人数$\div$占比$=$总人数；（3）按定义计算平均数、中位数、方差。
+    solution_steps:
+    - title: 第（1）问
+      content: '解：$\dfrac{28}{160}\times360^{\circ}=90^{\circ}$，
+
+        $\therefore$扇形统计图中"B舞蹈"所在扇形的圆心角度数为$90^{\circ}$。
+
+        '
+    - title: 第（2）问
+      content: '解：总人数：$40\div25\%=160$（人），
+
+        B的人数：$160\times\dfrac{90}{360}=40$（人），
+
+        则E的人数为：$160-40-28-40-12=40$（人）。
+
+        '
+    - title: 第（3）问
+      content: '解：①$\bar{x}_{乙}=\dfrac{3+4+8+8+8+9+9}{7}=7$；
+
+        乙的数据排列为：$3,4,8,8,8,9,9$，则$b=8$；
+
+        $c=\dfrac{1}{7}\left[(6-7)^{2}+(8-7)^{2}+(8-7)^{2}+(8-7)^{2}+(7-7)^{2}+(6-7)^{2}+(7-7)^{2}\right]=\dfrac{40}{7}$。
+
+        ②甲、乙的平均数一样，说明甲、乙的平均水平接近，乙的中位数高于甲，说明乙的高分多，甲的方差小，说明成绩更加稳定。
+
+        '
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 100mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

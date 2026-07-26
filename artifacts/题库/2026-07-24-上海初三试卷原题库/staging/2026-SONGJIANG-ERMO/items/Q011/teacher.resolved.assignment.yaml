@@ -1,0 +1,37 @@
+meta:
+  title: 2026年上海市松江区中考二模数学试卷第 11 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题（本大题共12题，每题4分，满分48分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q011
+    points: 4
+    stem_latex: 如图，正五边形与正方形的两邻边相交，如果$\angle \alpha=110^\circ$，那么$\angle \beta=$______$^\circ$。
+    answer: '52'
+    explanation: 官方参考答案：52。
+    solution_steps:
+    - 根据题意得，$\angle A=\dfrac{180^\circ\times(4-2)}{4}=90^\circ$，$\angle B=\dfrac{180^\circ\times(5-2)}{5}=108^\circ$，
+    - $\therefore \angle ADB+\angle ACB+\angle A+\angle B=360^\circ$，$\angle ACB=\angle \alpha=110^\circ$，
+    - $\therefore \angle ADB=360^\circ-110^\circ-90^\circ-108^\circ=52^\circ$，
+    - $\therefore \angle \beta=\angle ADB=52^\circ$。
+    clue: 先根据正多边形每个内角为$\dfrac{180^\circ(n-2)}{n}$得到正五边形和正方形每个内角的度数，再结合四边形的内角和以及对顶角的性质可得答案。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 80mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

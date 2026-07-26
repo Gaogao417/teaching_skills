@@ -1,0 +1,77 @@
+meta:
+  title: 2026年上海市虹口区中考二模数学试卷第 22 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题（本大题共7题，满分78分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q022
+    points: 10
+    stem_latex: '根据以下素材，完成任务.
+
+
+      素材一：如图1，如果 $EF\perp$ 平面镜 $AB$，入射光线 $CF$ 经平面镜 $AB$ 反射，得到反射光线 $FD$，那么反射角 $\angle DFE$ 等于入射角 $\angle CFE$，即 $\angle DFE=\angle CFE$.
+
+
+      素材二：汉代初年的《淮南万毕术》中记载：“取大镜高悬，置水盆于其下，则见四邻......”. 意思是拿一面大的镜子，高高地悬挂起来，在它的下方放置一个盛满水的盆子，就能（从水盆里）看见周围邻居（的景象），如图2所示.
+
+
+      素材三：图3是素材二中图2的示意图，将水盆记作点 $B$，墙角记为点 $P$，邻居记作点 $A$，镜子（平面镜）记作 $MN$，$OD\perp MN$ 于点 $O$，入射光线 $AO$ 经平面镜 $MN$ 反射，得到反射光线 $OB$，$BE\perp AB$ 于点 $B$，$OB$ 又作为入射光线通过水盆 $B$ 反射得到反射光线 $BC$，进入观察者的眼中（抽象为点 $C$）. 已知 $OP\perp AB$ 于点 $P$，$\angle AOD=45^\circ$，$\angle CBE=37^\circ$，水盆到墙角的距离 $BP=1.8$ 米.
+
+
+      素材四：参考数据：$\sin 37^\circ\approx 0.6$，$\cos 37^\circ\approx 0.8$，$\tan 37^\circ\approx 0.75$.
+
+
+      问题解决：
+
+
+      (1) 任务一：求邻居 $A$ 到墙角 $P$ 的距离；
+
+
+      (2) 任务二：如果入射光线 $OA$ 不变，将镜子 $MN$ 绕点 $O$ 顺时针旋转 $8^\circ$，在 $OP$ 左侧的观察者仍能通过水盆 $B$ 看到邻居 $A$，那么水盆 $B$ 应向左还是右平移？平移多少米？'
+    answer: (1) 3.2m; (2) 水盆B应向左平移，且平移1.4m
+    explanation: 官方参考答案：(1) 3.2m; (2) 水盆B应向左平移，且平移1.4m。
+    solution_steps:
+    - 【小问1详解】
+    - 根据题意可得：$\angle BOD=\angle AOD=45^\circ$，$\angle OBE=\angle CBE=37^\circ$，
+    - $\angle AOB=2\times 45^\circ=90^\circ$，$\angle AON=90^\circ-45^\circ=45^\circ$，
+    - $EB\perp BP$，
+    - $\angle EBP=90^\circ$，
+    - $\angle OBP=90^\circ-37^\circ=53^\circ$，
+    - $\angle BAO=90^\circ-53^\circ=37^\circ$，
+    - $OP\perp AB$，
+    - $\angle OPA=90^\circ$，
+    - $\angle OPA=\angle EBP$，
+    - $OP\parallel BE$，
+    - $\angle BOP=\angle OBE=37^\circ$，
+    - $\tan 37^\circ=\dfrac{BP}{OP}$，$\angle AOP=90^\circ-37^\circ=53^\circ$，
+    - $0.75=\dfrac{1.8}{OP}$，
+    - 解得：$OP=2.4\mathrm{m}$，
+    - $\tan\angle BAO=\dfrac{OP}{AP}$，
+    - $\tan 37^\circ=\dfrac{2.4}{AP}$，
+    - $AP=\dfrac{OP}{\tan 37^\circ}=\dfrac{2.4}{0.75}=3.2(\mathrm{m})$，
+    - 邻居 $A$ 到墙角 $P$ 的距离为 $3.2\mathrm{m}$；
+    - 【小问2详解】
+    - 当镜子 $MN$ 绕点 $O$ 顺时针旋转 $8^\circ$ 后，
+    - 此时 $\angle AON=45^\circ-8^\circ=37^\circ$，
+    - $\angle BOD=\angle AOD=90^\circ-37^\circ=53^\circ$，
+    - 根据解析(1)可得：$\angle AOP=53^\circ$，
+    - 此时 $OD$ 与 $OP$ 重合，
+    - 此时 $\angle OBP=90^\circ-53^\circ=37^\circ$，
+    - $BP=\dfrac{OP}{\tan 37^\circ}=\dfrac{2.4}{0.75}=3.2(\mathrm{m})$，
+    - 点 $B$ 向左移动，且移动距离为：$3.2-1.8=1.4(\mathrm{m})$。
+    clue: （1）先求出 $\angle BAO$ 和 $\angle BOP$，再解直角三角形求出 $OP$ 和 $AP$；（2）先证明此时 $OD$ 与 $OP$ 重合，解直角三角形求出 $BP$，再求出平移距离。
+    source_solution_images: []

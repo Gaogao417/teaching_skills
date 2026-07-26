@@ -1,0 +1,55 @@
+meta:
+  title: 2026年上海市闵行区中考二模数学试卷第 25 题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题（本大题共7题，共78分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: 已知：如图，$AB$ 为半圆 $O$ 的直径，点 $E$ 为 $\overset{\frown}{CD}$ 的中点，连接 $OE$ 交弦 $CD$ 于点 $G$、交弦 $AD$ 于点 $P$，且 $\angle APO=\angle ABD$，连接 $AC$、$BD$。\n\n（1）如图①，求证：四边形 $ABDC$ 是等腰梯形；\n\n（2）点 $M$ 在直径 $AB$ 上（$M$ 不与 $A$、$B$ 重合），连接 $CM$ 交 $AD$ 于点 $F$。\n\nI. 如图②，当 $CM\perp AD$，且 $M$ 为 $AO$ 的中点时，求 $\dfrac{FM}{CM}$ 的值；\n\nII. 连接 $BF$，半圆 $O$ 的半径为 $1$，$\angle BFM=\angle ACM$。当 $\triangle AFM$ 为直角三角形时，求 $AM$ 的长。
+    answer: （1）见解析；（2）I. $\dfrac{1}{4}$；II. $3-\sqrt{5}$
+    explanation: 官方参考答案：（1）见解析；（2）I. $\dfrac{1}{4}$；II. $3-\sqrt{5}$。
+    solution_steps:
+    - （1）$\because AB$ 为半圆 $O$ 的直径，$\therefore \angle ADB=90^{\circ}$，
+    - $\therefore \angle DAB+\angle ABD=90^{\circ}$，
+    - $\because \angle APO=\angle ABD$，$\therefore \angle DAB+\angle APO=90^{\circ}$，
+    - $\therefore \angle AOE=\angle EOB=90^{\circ}$，$\therefore \overset{\frown}{AE}=\overset{\frown}{BE}$，
+    - 又点 $E$ 为 $\overset{\frown}{CD}$ 的中点，$\therefore \overset{\frown}{CE}=\overset{\frown}{DE}$，
+    - $\therefore \overset{\frown}{AC}=\overset{\frown}{BD}$，$\therefore AC=BD$，
+    - $\therefore \overset{\frown}{AD}=\overset{\frown}{BC}$，$\angle CDA=\angle DAB$，$AC=BD$，
+    - $\therefore \angle CAB=\angle DBA$，$AB\parallel CD$，四边形 $ABDC$ 是等腰梯形。
+    - （2）I. 设 $AM=a$，$M$ 为 $AO$ 的中点，$AM=OM=a$，$OA=OB=2a$，$BM=3a$，
+    - $\because CM\perp AD$，$\angle ADB=90^{\circ}$，$\therefore CM\parallel BD$，
+    - 又 $AB\parallel CD$，$\therefore$ 四边形 $CMBD$ 是平行四边形，$\therefore CD=BM=3a$，
+    - $\because AB\parallel CD$，$\therefore \triangle AFM\sim\triangle DFC$，
+    - $\therefore \dfrac{FM}{CF}=\dfrac{AM}{CD}=\dfrac{a}{3a}=\dfrac{1}{3}$，$\therefore \dfrac{FM}{CM}=\dfrac{1}{4}$。
+    - II. 当 $\angle AFM=90^{\circ}$ 时，设 $AM=x$，则 $BM=2-x$，
+    - 由（1）可得四边形 $CMBD$ 是平行四边形，$\therefore CD=BM=2-x$，$CM=BD$，
+    - $\because \angle BFM=\angle ACM$，$\angle BFM+\angle DFB=\angle ACM+\angle CAF=90^{\circ}$，
+    - $\therefore \angle DFB=\angle CAF$，又 $\angle CFA=\angle FDB=90^{\circ}$，
+    - $\therefore \triangle CAF\sim\triangle BFD$，$\therefore \dfrac{CF}{BD}=\dfrac{AF}{FD}$，
+    - $\because CM\parallel BD$，$\therefore \dfrac{AM}{MB}=\dfrac{AF}{FD}$，$\dfrac{FM}{BD}=\dfrac{AM}{AB}$，
+    - $\therefore \dfrac{CF}{BD}=\dfrac{AM}{MB}$，$\therefore \dfrac{CM-FM}{CM}=\dfrac{AM}{MB}$，
+    - $\therefore 1-\dfrac{FM}{CM}=\dfrac{AM}{MB}$，$\therefore 1-\dfrac{AM}{AB}=\dfrac{AM}{MB}$，
+    - $\therefore 1-\dfrac{x}{2}=\dfrac{x}{2-x}$，解得 $x_{1}=3+\sqrt{5}$（舍），$x_{2}=3-\sqrt{5}$，
+    - $\therefore AM=3-\sqrt{5}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 150mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

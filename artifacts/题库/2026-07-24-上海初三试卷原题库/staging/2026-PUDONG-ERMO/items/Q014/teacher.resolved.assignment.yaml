@@ -1,0 +1,36 @@
+meta:
+  title: 2026年上海市浦东新区中考二模数学试卷第 14 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题（本大题共12题，每题4分，满分48分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: fillin
+    id: Q014
+    points: 4
+    stem_latex: 如图，在 $\triangle ABC$ 中，$AB=BC$，$BD$ 平分 $\angle ABC$，如果 $\overrightarrow{AB}=\vec{a}$，$\overrightarrow{AC}=\vec{b}$，那么 $\overrightarrow{DB}$ 关于 $\vec{a}$、$\vec{b}$ 的分解式为__________。
+    answer: $\vec{a}-\dfrac{1}{2}\vec{b}$
+    explanation: 官方参考答案：$\vec{a}-\dfrac{1}{2}\vec{b}$。
+    solution_steps:
+    - 因为 $AB=BC$，$BD$ 平分 $\angle ABC$，所以 $AD=\frac{1}{2}AC$。
+    - $\overrightarrow{AD}=\frac{1}{2}\vec{b}$。
+    - $\overrightarrow{DB}=\overrightarrow{AB}-\overrightarrow{AD}=\vec{a}-\frac{1}{2}\vec{b}$。
+    clue: 利用等腰三角形三线合一性质，角平分线也是中线。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 80mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

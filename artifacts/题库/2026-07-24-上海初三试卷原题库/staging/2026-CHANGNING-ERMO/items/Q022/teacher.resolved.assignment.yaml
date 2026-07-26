@@ -1,0 +1,51 @@
+meta:
+  title: 2026年上海市长宁区中考二模数学试卷第 22 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题（本大题共7题，满分78分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q022
+    points: 10
+    stem_latex: 在九年级第一学期时学习了\u201c黄金分割\u201d以及\u201c黄金三角形\u201d知识，我们已经知道：有一个内角为$36^{\circ}$的等腰三角形称为黄金三角形，它具有$\dfrac{\text{较短边的长}}{\text{较长边的长}}=\dfrac{\sqrt{5}-1}{2}$的美妙性质。请运用上述信息，解决下列问题：（1）填空：等腰$\triangle ABC$的顶角$\angle A=36^{\circ}$，且$AB=4$，那么底边$BC=$______；（2）如图1，在$\triangle ABC$中，$\angle C=90^{\circ}$，$\angle B=18^{\circ}$，且$AB=4$，求$AC$的长；（3）如图2，已知点$P$是线段$MN$的黄金分割点（$PM<PN$），在$MN$的延长线上截取$ND=PN$，将线段$NM$绕点$N$顺时针旋转$108^{\circ}$，得到线段$NH$，连接$HD$，请判断$\triangle NDH$是否是黄金三角形？并说明理由。
+    answer: （1）$2\sqrt{5}-2$ （2）$\sqrt{5}-1$ （3）$\triangle NDH$是黄金三角形，理由见解析
+    explanation: 官方参考答案：（1）$2\sqrt{5}-2$；（2）$\sqrt{5}-1$；（3）$\triangle NDH$是黄金三角形，理由见解析。
+    solution_steps:
+    - （1）$\because$ 等腰$\triangle ABC$的顶角$\angle A=36^{\circ}$，$\therefore \triangle ABC$为黄金三角形，
+    - $\because AB=4$，$\therefore \dfrac{BC}{AB}=\dfrac{\sqrt{5}-1}{2}$，即$\dfrac{BC}{4}=\dfrac{\sqrt{5}-1}{2}$，
+    - $\therefore BC=2\sqrt{5}-2$；
+    - （2）取$AB$中点$D$，连接$CD$，$\because \angle C=90^{\circ}$，$AB=4$，
+    - $\therefore CD=\dfrac{1}{2}AB=AD=BD=2$，
+    - $\triangle ACD$，$\triangle BCD$都是等腰三角形，
+    - $\because \angle ADC=\angle BCD+\angle ABC=36^{\circ}$，
+    - $\therefore \triangle ACD$是黄金三角形，且$\angle ADC$所对的边$AC$为较短边，
+    - $\therefore \dfrac{AC}{AD}=\dfrac{\sqrt{5}-1}{2}$，即$\dfrac{AC}{2}=\dfrac{\sqrt{5}-1}{2}$，$\therefore AC=\sqrt{5}-1$；
+    - （3）$\triangle NDH$是黄金三角形，理由如下：连接$MH$，
+    - 由旋转的性质得$MN=HN$，$\angle MNH=108^{\circ}$，
+    - $\angle NMH=\angle NHM=\dfrac{1}{2}(180^{\circ}-\angle MNH)=36^{\circ}$，
+    - $\therefore \triangle MNH$是黄金三角形，且腰长$MN$，$NH$为较短边，
+    - $\dfrac{MN}{MH}=\dfrac{\sqrt{5}-1}{2}$，设$PM=x$，
+    - 点$P$是线段$MN$的黄金分割点（$PM<PN$），
+    - $\therefore \dfrac{PN}{MN}=\dfrac{\sqrt{5}-1}{2}$，解得$PN=\dfrac{\sqrt{5}+1}{2}x$，
+    - $\therefore MN=\dfrac{3+\sqrt{5}}{2}x$，$MH=(\sqrt{5}+2)x$，
+    - $\because ND=PN$，$\therefore MD=MN+ND=(\sqrt{5}+2)x$，
+    - $\therefore MD=MH$，$\therefore \angle MHD=\angle MDH$，
+    - $\because \angle NMH=36^{\circ}$，$\angle MHD=\angle MDH=\dfrac{1}{2}(180^{\circ}-\angle NMH)=72^{\circ}$，
+    - $\because \angle HND=180^{\circ}-\angle MNH=72^{\circ}$，
+    - $\therefore \angle HND=\angle MDH=72^{\circ}$，
+    - $\therefore \angle NHD=180^{\circ}-\angle HND-\angle MDH=36^{\circ}$，$HN=HD$，
+    - $\therefore \triangle NDH$是黄金三角形。
+    source_solution_images: []

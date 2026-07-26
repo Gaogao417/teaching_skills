@@ -1,0 +1,45 @@
+meta:
+  title: 2026年上海市长宁区中考二模数学试卷第 24 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题（本大题共7题，满分78分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q024
+    points: 12
+    stem_latex: 已知抛物线$C_1:y=\dfrac{1}{4}x^2-x-3$与$x$轴交于点$A$，$B$（点$A$在点$B$左侧），与$y$轴交于点$C$。（1）求$\triangle ABC$的面积；（2）如图，点$D$是抛物线第四象限上的一点，直线$AD$分别交$OC$、$BC$于点$E$、$F$，如果$\text{Cot}\angle DEC=\dfrac{3}{4}$，求直线$AD$的表达式；（3）在第（2）小题的基础上，将抛物线$C_1:y=\dfrac{1}{4}x^2-x-3$向左平移得到抛物线$C_2$，直线$AD$与抛物线$C_2$交于$M$、$N$两点（点$M$在点$N$的上方）。如果点$A$恰好是线段$MN$的中点，求抛物线$C_2$的表达式。
+    answer: （1）12 （2）$y=-\dfrac{3}{4}x-\dfrac{3}{2}$ （3）$y=\dfrac{1}{4}x^2+\dfrac{1}{4}x-\dfrac{63}{16}$
+    explanation: 官方参考答案：（1）12；（2）$y=-\dfrac{3}{4}x-\dfrac{3}{2}$；（3）$y=\dfrac{1}{4}x^2+\dfrac{1}{4}x-\dfrac{63}{16}$。
+    solution_steps:
+    - （1）$\because$ 抛物线$C_1:y=\dfrac{1}{4}x^2-x-3$与$x$轴交于点$A$，$B$，与$y$轴交于点$C$，
+    - $\therefore \dfrac{1}{4}x^2-x-3=0$时，$x=6$或$x=-2$，
+    - $x=0$时，$y=-3$，
+    - $\therefore A(-2,0)$，$B(6,0)$，$C(0,-3)$，
+    - $\therefore AB=6-(-2)=8$，$OC=3$，
+    - $\therefore S_{\triangle ABC}=\dfrac{1}{2}AB\cdot OC=\dfrac{1}{2}\times8\times3=12$。
+    - （2）$\because \text{Cot}\angle DEC=\dfrac{3}{4}$，由图可知，$\angle DEC=\angle AEO$，
+    - $\therefore \text{Cot}\angle AEO=\dfrac{3}{4}$，$\therefore \dfrac{OE}{AO}=\dfrac{3}{4}$，
+    - $\because AO=2$，$\therefore OE=\dfrac{3}{2}$，$\therefore E\left(0,-\dfrac{3}{2}\right)$，
+    - 设直线$AD$解析式为$y=kx+b$，
+    - $\therefore \begin{cases}-2k+b=0\\b=-\dfrac{3}{2}\end{cases}$，解得$\begin{cases}k=-\dfrac{3}{4}\\b=-\dfrac{3}{2}\end{cases}$，
+    - $\therefore$ 直线$AD$解析式为$y=-\dfrac{3}{4}x-\dfrac{3}{2}$。
+    - （3）$\because$ 抛物线$C_2$是由抛物线$C_1:y=\dfrac{1}{4}x^2-x-3$向左平移得到的，
+    - 设平移$m$个单位，则$C_2$的表达式为$y=\dfrac{1}{4}(x+m)^2-(x+m)-3$，
+    - 联立直线$AD$与$C_2$的方程，整理得$x^2+(2m-1)x+m^2-4m-6=0$，
+    - $\because$ 点$A$恰好是线段$MN$的中点，$A(-2,0)$，
+    - $\therefore \dfrac{x_1+x_2}{2}=\dfrac{1-2m}{2}=-2$，解得$m=\dfrac{5}{2}$，
+    - $\therefore C_2$的表达式为$y=\dfrac{1}{4}\left(x+\dfrac{5}{2}\right)^2-\left(x+\dfrac{5}{2}\right)-3=\dfrac{1}{4}x^2+\dfrac{1}{4}x-\dfrac{63}{16}$。
+    source_solution_images: []

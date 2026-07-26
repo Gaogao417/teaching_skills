@@ -1,0 +1,36 @@
+meta:
+  title: 2026年上海市长宁区中考二模数学试卷第 18 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题（本大题共12题，每题4分，满分48分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: fillin
+    id: Q018
+    points: 4
+    stem_latex: 如图，在$\triangle ABC$中，$\angle ACB=90^{\circ}$，$BC<AC$。将$\triangle ABC$绕着点$C$旋转，点$A$、$B$的对应点分别是点$D$、$E$，如果点$A$恰好在直线$DE$上，且$CE\parallel AB$，那么$\dfrac{AE}{AD}$的值为______ .
+    answer: $\dfrac{1}{3}$
+    explanation: 官方参考答案：$\dfrac{1}{3}$。
+    solution_steps:
+    - 由旋转得$\angle D=\angle BAC$，$AC=CD$，$\angle ECD=\angle ACB=90^{\circ}$，$AB=DE$，
+    - $\therefore \angle D=\angle CAD$，
+    - $\because CE\parallel AB$，$\therefore \angle ACE=\angle BAC$，
+    - $\therefore \angle CAE=\angle ACE=\angle D$，
+    - $\therefore BC=CE=AE$，
+    - 在$\triangle ACD$中，由内角和定理得：$\angle CAE+\angle ACE+90^{\circ}+\angle D=180^{\circ}$，
+    - $\therefore 3\angle CAE=90^{\circ}$，$\angle CAE=30^{\circ}$，
+    - $\therefore AB=2BC$，$DE=2AE$，即$AD=3AE$，
+    - $\therefore \dfrac{AE}{AD}=\dfrac{1}{3}$。
+    source_solution_images: []

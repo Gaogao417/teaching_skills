@@ -1,0 +1,46 @@
+meta:
+  title: 2026年上海市虹口区中考二模数学试卷第 17 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题（本大题共12题，每题4分，满分48分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: fillin
+    id: Q017
+    points: 4
+    stem_latex: 如图，在 $\mathrm{Rt}\triangle ABC$ 中，$\angle C=90^\circ$，$AC=4$，$\tan B=\dfrac{1}{2}$. 点 $D$ 在边 $AB$ 上，点 $E$ 在边 $BC$ 上，联结 $DE$，把 $\triangle BDE$ 沿 $DE$ 翻折得到 $\triangle FDE$，联结 $AF$、$AE$，如果四边形 $AFDE$ 为平行四边形，那么 $CE$ 的长是________.
+    answer: $2$
+    explanation: 官方参考答案：$2$。
+    solution_steps:
+    - 在 $\mathrm{Rt}\triangle ABC$ 中，$\tan B=\dfrac{AC}{BC}=\dfrac{1}{2}$，
+    - $BC=2AC=2\times 4=8$，
+    - $AB=\sqrt{AC^2+BC^2}=4\sqrt{5}$，
+    - $\triangle BDE$ 沿 $DE$ 翻折得到 $\triangle FDE$，
+    - $\angle DFE=\angle B$，$FD=BD$，
+    - 设 $FD=BD=x$，则 $AD=AB-BD=4\sqrt{5}-x$，
+    - 四边形 $AFDE$ 为平行四边形，
+    - $AE\parallel FD$，$AE=FD=x$，$AG=DG=\dfrac{1}{2}AD=2\sqrt{5}-\dfrac{1}{2}x$，
+    - $\angle DFE=\angle AEG$，
+    - $\angle AEG=\angle B$，
+    - 又 $\angle EAG=\angle BAE$，
+    - $\triangle AEG\sim\triangle ABE$，
+    - $\dfrac{AE}{AB}=\dfrac{AG}{AE}$，即 $\dfrac{x}{4\sqrt{5}}=\dfrac{2\sqrt{5}-\dfrac{1}{2}x}{x}$，
+    - 整理得：$x^2+2\sqrt{5}x-40=0$，
+    - 解得 $x_1=2\sqrt{5}$，$x_2=-4\sqrt{5}$（舍去），
+    - $AE=2\sqrt{5}$，
+    - 在 $\mathrm{Rt}\triangle ACE$ 中，$CE=\sqrt{AE^2-AC^2}=\sqrt{(2\sqrt{5})^2-4^2}=2$，
+    - 即 $CE$ 的长是 $2$。
+    clue: 设 $AD$ 与 $EF$ 交于点 $G$，根据翻折的性质和平行四边形的性质，利用相似三角形和勾股定理求解。
+    source_solution_images: []

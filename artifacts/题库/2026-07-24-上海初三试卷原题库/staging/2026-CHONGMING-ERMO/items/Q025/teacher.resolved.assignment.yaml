@@ -1,0 +1,43 @@
+meta:
+  title: 2026年上海市崇明区中考二模数学试卷第 25 题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题（本大题共7题，满分78分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: '如图$1$，$AB$ 是半圆 $O$ 的直径，点 $C$ 是半圆上一点，过点 $C$ 的直线交 $BA$ 的延长线于点 $D$，点 $E$ 是线段 $OB$ 上一点，且满足 $OE=AD$，过点 $E$ 作 $AB$ 的垂线交 $DC$ 的延长线于点 $F$，交 $BC$ 于点 $G$，且 $\angle F=2\angle ABC$。
+
+      （1）求证：$\angle ACD=\angle ABC$；
+
+      （2）如图$2$，当 $BE=3OE$ 时，求 $\dfrac{CF}{CD}$ 的值；
+
+      （3）设 $EF$ 与 $\overset{\frown}{BC}$ 的交点为 $P$，连接 $OP$，交 $BC$ 于点 $M$，若以 $O$ 为圆心，$OE$ 长为半径的圆与以 $P$ 为圆心，$PM$ 为半径的圆外切，求 $\sin\angle ABC$ 的值。'
+    answer: （1）见解析；（2）$\dfrac{7}{3}$；（3）$\dfrac{\sqrt{3}-1}{2}$
+    explanation: 官方参考答案：（1）见解析；（2）$\dfrac{7}{3}$；（3）$\dfrac{\sqrt{3}-1}{2}$。
+    solution_steps:
+    - （1）连接 $OC$，$OA=OC$，$\angle OAC=\angle OCA$。$EF\perp AB$，$\angle F=\angle AOC=2\angle ABC$。
+    - 由 $\angle DCA+\angle ACO=90^\circ$，$\angle ACO+\angle OCB=90^\circ$，得 $\angle ACD=\angle OCB=\angle ABC$。
+    - （2）设 $OE=k$，$BE=3k$，$OB=4k$，$r=4k$，$AD=k$，$OD=5k$。
+    - 由 $\triangle ODC\sim\triangle FDE$ 等关系求得 $\dfrac{CF}{CD}=\dfrac{7}{3}$。
+    - （3）两圆外切 $OP=OE+PM$，分 $EF\perp DF$ 和 $EF\perp BE$ 两种情况讨论。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 120mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

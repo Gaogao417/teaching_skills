@@ -1,0 +1,97 @@
+meta:
+  title: 2026年上海市松江区中考二模数学试卷第 24 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题（本大题共7题，满分78分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q024
+    points: 12
+    stem_latex: 在平面直角坐标系$xOy$中，一次函数$y=\dfrac{1}{2}x+2$与$x$轴交于点$A$，与$y$轴交于点$B$，$C$是直线$AB$上一点（不与点$A$重合），且$AB=BC$，抛物线$y=ax^2+bx-2$经过$A$、$C$两点。\n（1）求抛物线的表达式；\n（2）点$D$在抛物线上，且位于第一象限，如果四边形$OBCD$是梯形，求梯形$OBCD$的面积；\n（3）点$P$、$Q$都在第三象限，其中点$P$在抛物线上，点$Q$在抛物线的对称轴上，如果$\triangle APQ$与$\triangle AOB$相似，且边$PQ$与边$OB$对应，求点$Q$的坐标。
+    answer: （1）$y=\dfrac{1}{4}x^2+\dfrac{1}{2}x-2$；（2）$4+2\sqrt{2}$；（3）$Q(-1,-1)$，$Q(-1,8-2\sqrt{19})$
+    explanation: 官方参考答案：（1）$y=\dfrac{1}{4}x^2+\dfrac{1}{2}x-2$；（2）$4+2\sqrt{2}$；（3）$Q(-1,-1)$，$Q(-1,8-2\sqrt{19})$。
+    solution_steps:
+    - 【小问1详解】
+    - 解：由题可知，一次函数$y=\dfrac{1}{2}x+2$与$x$轴交于点$A$，与$y$轴交于点$B$，
+    - 则点$A(-4,0)$，$B(0,2)$，
+    - $\because C$是直线$AB$上一点，且$AB=BC$，
+    - $\therefore$ 点$B$是线段$AC$的中点，
+    - 设点$C(m,n)$，
+    - $\therefore$ 点$B\left(\dfrac{m+(-4)}{2},\dfrac{n+0}{2}\right)$，
+    - $\therefore m=4$，$n=4$，
+    - $\therefore$ 点$C(4,4)$，
+    - 将点$C$，点$A$代入抛物线$y=ax^2+bx-2$
+    - 得$\begin{cases}16a+4b-2=4\\16a-4b-2=0\end{cases}$
+    - 解得：$\begin{cases}a=\dfrac{1}{4}\\b=\dfrac{1}{2}\end{cases}$
+    - 则抛物线的表达式为：$y=\dfrac{1}{4}x^2+\dfrac{1}{2}x-2$，
+    - 【小问2详解】
+    - 解：由题可得图，
+    - $\because$ 四边形$OBCD$是梯形，
+    - $\therefore OD\parallel AC$，
+    - $\because O$为原点，
+    - 则$OD$的直线解析式为：$y=\dfrac{1}{2}x$，
+    - 则联立函数得$\begin{cases}y=\dfrac{1}{2}x\\y=\dfrac{1}{4}x^2+\dfrac{1}{2}x-2\end{cases}$，
+    - 解得$\begin{cases}x=2\sqrt{2}\\y=\sqrt{2}\end{cases}$或$\begin{cases}x=-2\sqrt{2}\\y=-\sqrt{2}\end{cases}$，
+    - $\because$ 点$D$在抛物线上，且位于第一象限，
+    - $\therefore D(2\sqrt{2},\sqrt{2})$，
+    - 过点$D$作$DE\perp x$轴，过点$C$作$CF\perp x$轴，
+    - $S_{\text{梯形}OBCD}=S_{\text{梯形}OBCF}-S_{\text{梯形}CDEF}-S_{\triangle ODE}=\dfrac{1}{2}(2+4)\times4-\dfrac{1}{2}(\sqrt{2}+4)\times(4-2\sqrt{2})-\dfrac{1}{2}\times2\sqrt{2}\times\sqrt{2}=4+2\sqrt{2}$，
+    - 【小问3详解】
+    - 解：①由题可得，过点$A$作$AG\perp GP$，过点$Q$作$QH\perp PH$
+    - 当$\angle APQ=90^\circ$，$\triangle APQ$与$\triangle AOB$相似，且边$PQ$与边$OB$对应
+    - 则$\dfrac{AP}{PQ}=\dfrac{AO}{OB}=\dfrac{4}{2}=2$，
+    - 抛物线$y=\dfrac{1}{4}x^2+\dfrac{1}{2}x-2$，
+    - $\because \angle AGP=\angle PHQ=90^\circ$，
+    - $\therefore \angle GAP+\angle APG=90^\circ$，$\angle APG+\angle HPQ=90^\circ$，
+    - $\therefore \angle GAP=\angle HPQ$，
+    - $\therefore \triangle GAP\sim\triangle HPQ$，
+    - $\therefore \dfrac{GA}{HP}=\dfrac{PG}{QH}=\dfrac{AP}{PQ}=2$
+    - 则抛物线的对称轴为：$x=-1$，
+    - 设点$Q(-1,h)$，点$P\left(k,\dfrac{1}{4}k^2+\dfrac{1}{2}k-2\right)$
+    - $\therefore QH=h-\left(\dfrac{1}{4}k^2+\dfrac{1}{2}k-2\right)$，$HP=-1-k$，$GA=0-\left(\dfrac{1}{4}k^2+\dfrac{1}{2}k-2\right)$
+    - $PG=k-(-4)$，
+    - 则$\dfrac{GA}{HP}=\dfrac{0-\left(\dfrac{1}{4}k^2+\dfrac{1}{2}k-2\right)}{-1-k}=2$，$\dfrac{PG}{QH}=\dfrac{k-(-4)}{h-\left(\dfrac{1}{4}k^2+\dfrac{1}{2}k-2\right)}=2$，
+    - 解得：$k=8$或$k=-2$，
+    - $\because$ 点$P$、$Q$都在第三象限，
+    - $\therefore k=-2$，
+    - $\therefore h=-1$，
+    - $\therefore Q(-1,-1)$。
+    - ②由题可得，抛物线的对称轴为$x=-1$，
+    - 过点$A$作$AM\perp QM$交对称轴于$M$，过点$P$作$PN\perp QN$交对称轴于$N$，
+    - 当$\angle AQP=90^\circ$，$\triangle APQ$与$\triangle AOB$相似，且边$PQ$与边$OB$对应
+    - 则$\dfrac{AQ}{PQ}=\dfrac{AO}{OB}=\dfrac{4}{2}=2$，
+    - 抛物线$y=\dfrac{1}{4}x^2+\dfrac{1}{2}x-2$，
+    - $\because \angle AMQ=\angle PNQ=90^\circ$，
+    - $\therefore \angle NPQ+\angle PQN=90^\circ$，$\angle MQA+\angle PQN=90^\circ$，
+    - $\therefore \angle NPQ=\angle MQA$，
+    - $\therefore \triangle NPQ\sim\triangle MQA$，
+    - $\therefore \dfrac{AM}{QN}=\dfrac{MQ}{PN}=\dfrac{AQ}{PQ}=2$
+    - 则抛物线的对称轴为：$x=-1$，
+    - 设点$Q(-1,h)$，$P\left(k,\dfrac{1}{4}k^2+\dfrac{1}{2}k-2\right)$
+    - $\therefore AM=3$，$MQ=0-h$，
+    - $QN=h-\left(\dfrac{1}{4}k^2+\dfrac{1}{2}k-2\right)$，$PN=-1-k$。
+    - $\dfrac{AM}{QN}=\dfrac{3}{h-\left(\dfrac{1}{4}k^2+\dfrac{1}{2}k-2\right)}=2$
+    - $\dfrac{MQ}{PN}=\dfrac{0-h}{-1-k}=2$
+    - 解得：$h=8-2\sqrt{19}$或$h=8+2\sqrt{19}$（舍去），
+    - 则$Q(-1,8-2\sqrt{19})$。
+    - 综上所述，$Q(-1,-1)$，$Q(-1,8-2\sqrt{19})$。
+    clue: （1）根据一次函数可知$A$，$B$的坐标，进而根据$AB=BC$可得点$B$是线段$AC$的中点，然后根据待定系数法即可求得二次函数表达式；（2）根据$OBCD$是梯形，可知$OD$的直线解析式，进而联立方程可知点$D$的坐标，根据割补法即可求解；（3）①过点$A$作$AG\perp GP$，过点$Q$作$QH\perp PH$，进而可知$\triangle GAP\sim\triangle HPQ$，根据相似三角形的性质即可求解；②过点$A$作$AM\perp QM$交对称轴于$M$，过点$P$作$PN\perp QN$交对称轴于$N$，证明$\triangle NPQ\sim\triangle MQA$，根据相似三角形的性质即可求解。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 80mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

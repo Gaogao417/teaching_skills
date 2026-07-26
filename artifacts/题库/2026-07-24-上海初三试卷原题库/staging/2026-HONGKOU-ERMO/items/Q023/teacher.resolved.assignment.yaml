@@ -1,0 +1,68 @@
+meta:
+  title: 2026年上海市虹口区中考二模数学试卷第 23 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题（本大题共7题，满分78分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q023
+    points: 12
+    stem_latex: '如图，$\triangle ABC$ 和 $\triangle ADE$ 都是等腰直角三角形，$\angle BAC=\angle DAE=90^\circ$，$AB=AC$，$AD=AE$，连接 $BD$、$CE$，$\angle ADB=90^\circ$，延长 $BD$ 交 $CE$ 于点 $F$，交 $AC$ 于点 $G$.
+
+
+      (1) 求证：四边形 $ADFE$ 为正方形；
+
+
+      (2) 如果 $\angle FBC=\angle ACF$，求证：$2AD^2=FG\cdot FB$.'
+    answer: (1) 证明见解析; (2) 证明见解析
+    explanation: 两问均为证明题，详见解析。
+    solution_steps:
+    - 【小问1详解】
+    - 证明：$\because \angle BAC=\angle DAE=90^\circ$，
+    - $\therefore \angle BAC-\angle DAC=\angle DAE-\angle DAC$，即 $\angle BAD=\angle CAE$，
+    - 在 $\triangle ABD$ 和 $\triangle ACE$ 中，
+    - $\begin{cases}AB=AC\\\angle BAD=\angle CAE\\AD=AE\end{cases}$
+    - $\therefore \triangle BAD\cong\triangle CAE(SAS)$
+    - $\therefore \angle AEC=\angle ADB=90^\circ$，
+    - $\because \angle DAE=90^\circ$，$\angle ADF=180^\circ-\angle ADB=90^\circ$，
+    - 四边形 $ADFE$ 是矩形，
+    - $\because AD=AE$，
+    - 四边形 $ADFE$ 为正方形。
+    - 【小问2详解】
+    - 证明：连接 $AF$，
+    - 四边形 $ADFE$ 是正方形，$AF$ 是正方形的对角线，
+    - $AD=DF$，$\angle ADF=90^\circ$，$\angle AFB=45^\circ$，
+    - 由勾股定理得：$AF^2=AD^2+DF^2=AD^2+AD^2=2AD^2$，
+    - $AB=AC$，$\angle BAC=90^\circ$，
+    - $\angle ABC=45^\circ$，即 $\angle ABF+\angle FBC=45^\circ$，
+    - $\angle FBC=\angle ACF$，
+    - $\angle ABF+\angle ACF=45^\circ$，
+    - 由(1)知 $EC\perp BF$，即 $\angle BFC=90^\circ$，
+    - $\angle CFG=\angle BAG=90^\circ$，
+    - $\angle AGF$ 是 $\triangle CGF$ 的外角，
+    - $\angle AGF=\angle CFG+\angle ACF=90^\circ+\angle ACF$，
+    - 在 $\triangle AFG$ 中，由内角和定理：$\angle AGF=180^\circ-\angle AFB-\angle FAG=180^\circ-45^\circ-\angle FAG=135^\circ-\angle FAG$，
+    - $90^\circ+\angle ACF=135^\circ-\angle FAG$，
+    - 整理得 $\angle ACF+\angle FAG=45^\circ$，
+    - $\because \angle ABF+\angle ACF=45^\circ$，
+    - $\therefore \angle FAG=\angle ABF$，
+    - 在 $\triangle AFG$ 和 $\triangle BFA$ 中
+    - $\angle FAG=\angle FBA$，$\angle AFG=\angle BFA$
+    - $\therefore \triangle AFG\sim\triangle BFA$，
+    - $\dfrac{FG}{AF}=\dfrac{AF}{FB}$，即 $AF^2=FG\cdot FB$，代入 $AF^2=2AD^2$，
+    - 得：$2AD^2=FG\cdot FB$。
+    clue: （1）先利用已知的两个直角推导出 $\angle BAD=\angle CAE$，再结合 $AB=AC$、$AD=AE$，用SAS证明 $\triangle BAD\cong\triangle CAE$，得到 $\angle ADB=\angle AEC=90^\circ$；接着结合 $\angle DAE=90^\circ$，判定四边形 $ADFE$ 是矩形，最后根据邻边 $AD=AE$，得出四边形 $ADFE$ 为正方形；（2）连接 $AF$，先由(1)中正方形 $ADFE$ 的性质，结合勾股定理得到 $AF^2=2AD^2$；再利用等腰直角三角形 $\triangle ABC$ 的角度关系和外角定理，推导出 $\angle FAG=\angle ABF$；随后通过两角对应相等证明 $\triangle AFG\sim\triangle BFA$，得到比例式 $\dfrac{FG}{AF}=\dfrac{AF}{FB}$，交叉相乘后结合 $AF^2=2AD^2$，证得 $2AD^2=FG\cdot FB$。
+    source_solution_images: []

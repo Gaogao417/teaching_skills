@@ -1,0 +1,35 @@
+meta:
+  title: 2026年上海市浦东新区中考二模数学试卷第 13 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题（本大题共12题，每题4分，满分48分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: fillin
+    id: Q013
+    points: 4
+    stem_latex: 某学校对学生参与社团情况做了调查，并将调查的数据整理后绘制成如图所示的扇形统计图（每个学生只能参加一个社团）。如果参加编程社的学生有 $120$ 人，那么参加绘画社的学生有__________人。
+    answer: $80$
+    explanation: 官方参考答案：$80$。
+    solution_steps:
+    - 总人数 $=120 \div 30\% = 400$（人）。
+    - 绘画社人数 $=400 \times (1-15\%-35\%-30\%)=80$（人）。
+    clue: 先由编程社人数和占比求总人数，再用总人数乘绘画社占比。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 80mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

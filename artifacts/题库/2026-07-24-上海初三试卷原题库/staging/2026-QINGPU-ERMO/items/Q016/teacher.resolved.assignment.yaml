@@ -1,0 +1,36 @@
+meta:
+  title: 2026年上海市青浦区中考数学二模试卷第 16 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题（本大题共12题，每题4分，满分48分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: fillin
+    id: Q016
+    points: 4
+    stem_latex: 某区\u201c书香校园\u201d项目组为了解初三学生每天的课外阅读情况，对全区初三学生进行了一次随机抽样调查，将学生按照每天课外阅读时长分为 $A$（约 $1$ 小时），$B$（约 $30$ 分钟），$C$（约 $10$ 分钟），$D$（几乎没有）四个等级，并绘制成如图 $1$、图 $2$ 所示的两幅不完整的统计图。如果该区共有 $5300$ 名初三学生，根据抽样调查结果，估计该区几乎没有课外阅读的学生人数大约为 \_\_\_\_\_ 人。
+    answer: $530$
+    explanation: 官方参考答案：$530$。
+    solution_steps:
+    - 根据条形统计图可知 $C$ 等级的人数为 $80$ 人，占比为 $20\%$，
+    - $\therefore$ 此次抽样的总人数为 $\dfrac{80}{20\%}=400$，
+    - $\therefore D$ 等级的人数为 $400-120-160-80=40$，
+    - 该区共有 $5300$ 名初三学生，估计该区几乎没有课外阅读的学生人数大约为 $\dfrac{40}{400}\times5300=530$ 人。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

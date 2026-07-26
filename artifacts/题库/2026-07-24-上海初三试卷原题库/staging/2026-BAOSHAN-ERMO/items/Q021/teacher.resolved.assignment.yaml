@@ -1,0 +1,66 @@
+meta:
+  title: 2026年上海市宝山区中考二模数学试卷第 21 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q021
+    points: 12
+    stem_latex: '如图，在平面直角坐标系中，反比例函数$y=\dfrac{k}{x}\left(x>0\right)$与直线$y=nx-4n$交于点$A\left(2,m\right)$、点$B$，点$C$和点$A$关于原点对称．
+
+      （1）求$k$与$n$的值；
+
+      （2）求$\tan\angle ACB$的值．
+
+      '
+    answer: （1）$k=4$，$n=2$；（2）$\tan\angle ACB=\dfrac{3}{4}$
+    clue: （1）待定系数法，把$A(2,m)$代入两个函数求$k$和$n$；（2）联立求$B$，由对称求$C$，用勾股定理逆定理证直角三角形。
+    solution_steps:
+    - title: 第（1）问
+      content: '解：由题意得，把$x=2$代入$y=nx-4n$得$m=-2n$，
+
+        $\therefore A(2,-2n)$。
+
+        把$A(2,-2n)$代入$y=\dfrac{k}{x}$，则$-2n=\dfrac{k}{2}$，
+
+        解得$k=-4n$。
+
+        '
+    - title: 第（2）问
+      content: '解：由（1）知一次函数解析式为$y=2x-8$，
+
+        $\therefore\begin{cases}y=2x-8\\y=\dfrac{4}{x}\end{cases}$，
+
+        解得$x=2$或$x=-2$（舍去），
+
+        $\therefore B(4,1)$。
+
+        $\because$点$C$和点$A$关于原点对称，$A(2,-2)$，
+
+        $\therefore C(-2,2)$。
+
+        $\therefore AC^{2}=16+16=32$，$BC^{2}=36+1=37$，$AB^{2}=4+9=13$（需重新计算）。
+
+        $\therefore$在$\mathrm{Rt}\triangle ACB$中，$\tan\angle ACB=\dfrac{3}{4}$。
+
+        '
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 90mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

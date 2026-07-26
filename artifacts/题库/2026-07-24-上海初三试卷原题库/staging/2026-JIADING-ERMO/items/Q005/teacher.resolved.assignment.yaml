@@ -1,0 +1,34 @@
+meta:
+  title: 2026年上海市嘉定区中考数学二模试卷第 5 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题（本大题共6题，每题4分，满分24分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q005
+    points: 4
+    stem_latex: 某区要从甲、乙两名射击运动员中挑选一人参加全市比赛，甲的成绩（环）为：$9.7$，$10$，$9.6$，$9.8$，$9.9$。乙的成绩的平均数为 $9.8$ 环，方差为 $0.032$。下列说法中错误的是（\quad）
+    choices:
+    - 甲的成绩的平均数为 $9.8$ 环
+    - 甲的成绩的中位数是 $9.8$ 环
+    - 甲的成绩的方差为 $0.02$
+    - 应选派成绩较稳定的乙运动员参赛
+    answer: D
+    explanation: 官方参考答案：D。
+    solution_steps:
+    - 甲平均数 $=\frac{1}{5}(9.7+10+9.6+9.8+9.9)=9.8$，中位数 $=9.8$，方差 $=\frac{1}{5}[(9.7-9.8)^2+\cdots]=0.02$。$0.02<0.032$，甲更稳定，应选甲。
+    clue: 计算甲的平均数、中位数、方差，与乙比较。
+    source_solution_images: []

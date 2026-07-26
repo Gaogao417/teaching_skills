@@ -1,0 +1,42 @@
+meta:
+  title: 2026年上海市浦东新区中考二模数学试卷第 24 题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题（本大题共7题，满分78分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q024
+    points: 14
+    stem_latex: '定义：如果一个二次函数的图像与一次函数的图像相交于坐标轴上的两个点，那么称此二次函数为这个一次函数的\u201c贯轴抛物线\u201d。
+
+      （1）已知 $y=x^2+bx+c$ 是一次函数 $y=-x+3$ 的一条\u201c贯轴抛物线\u201d，求 $b$、$c$ 的值；
+
+      （2）已知一次函数 $y=-x+n$（其中 $n$ 为常数，$n>0$）的图像与 $x$ 轴、$y$ 轴分别交于点 $A$、点 $C$，它的一条\u201c贯轴抛物线\u201d $y=-x^2+mx+n$ 与 $x$ 轴的另一个交点为 $B$，顶点 $D$ 在第一象限。如果在 $y$ 轴上存在点 $E$，使得四边形 $BCDE$ 是平行四边形，求 $n$ 的值；
+
+      （3）一个二次函数既是一次函数 $y_1=-x+(2k+1)$ 又是一次函数 $y_2=(2k+1)x+(2k+1)$（其中 $k$ 为常数，$k>0$）的\u201c贯轴抛物线\u201d，且此二次函数图像与 $x$ 轴分别交于 $P$、$Q$ 两点（点 $P$ 在点 $Q$ 的左边），与 $y$ 轴交于点 $M$。如果二次函数图像上始终存在点 $N$，且 $N$ 在第四象限，使得 $\angle PMN=75°$，求满足条件的 $k$ 的取值范围。'
+    answer: （1）$b=-4$，$c=3$；（2）$n=3$；（3）$0<k<\frac{\sqrt{3}-1}{2}$
+    explanation: 官方参考答案：（1）$b=-4$，$c=3$；（2）$n=3$；（3）$0<k<\frac{\sqrt{3}-1}{2}$。
+    solution_steps:
+    - （1）令 $x=0$，得直线 $y=-x+3$ 与 $y$ 轴的交点为 $(0,3)$，令 $y=0$，得交点为 $(3,0)$。把 $(3,0)$ 和 $(0,3)$ 代入 $y=x^2+bx+c$，得 $\begin{cases}9+3b+c=0 \\ c=3\end{cases}$，解得 $b=-4$，$c=3$。
+    - （2）直线 $y=-x+n$ 与 $x$ 轴、$y$ 轴分别交于点 $A(n,0)$，$C(0,n)$。点 $(n,0)$ 在抛物线 $y=-x^2+mx+n$ 上，得 $n=m+1$。令 $y=0$，$-x^2+(n-1)x+n=0$，$x_1=-1$，$x_2=n$，$B$ 点坐标为 $(-1,0)$。四边形 $BCDE$ 为平行四边形，$x_D=-\frac{m}{2 \times (-1)}=-x_B=1$，解得 $m=2$，$n=3$。
+    - （3）$P(-1,0)$，$M(0,2k+1)$，$Q(2k+1,0)$。$OM=OQ=2k+1$，$\angle OMQ=\angle OQM=45°$。当点 $N$ 在第四象限且 $\angle PMN=75°$ 时，则 $\angle PMQ>75°$。在 $\triangle PMQ$ 中，$\angle PMQ>75°$，$\angle PQM=45°$，$\angle MPQ<60°$。可得 $45°<\angle MPQ<60°$，$1<2k+1<\sqrt{3}$，$0<k<\frac{\sqrt{3}-1}{2}$。
+    clue: 利用"贯轴抛物线"定义求交点坐标，再根据平行四边形和角度条件求参数范围。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 80mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

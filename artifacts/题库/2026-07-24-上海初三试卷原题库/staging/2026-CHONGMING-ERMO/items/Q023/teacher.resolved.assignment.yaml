@@ -1,0 +1,39 @@
+meta:
+  title: 2026年上海市崇明区中考二模数学试卷第 23 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题（本大题共7题，满分78分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q023
+    points: 12
+    stem_latex: '如图，已知四边形 $ABCD$ 是平行四边形，点 $E$ 是对角线 $BD$ 上一点，$BE>ED$，$AE=EC$。
+
+      （1）求证：四边形 $ABCD$ 是菱形；
+
+      （2）点 $F$ 是边 $BC$ 上一点，$AF$ 与 $BD$ 相交于点 $G$，若 $BG\cdot BE=AB\cdot BF$，求证：$AB^2=BE\cdot DG$。'
+    answer: （1）见解析；（2）见解析
+    explanation: 两问均为证明题，详见解析。
+    solution_steps:
+    - （1）$AE=EC$，$O$ 为 $AC$ 中点，$EO\perp AC$，$BD\perp AC$，平行四边形对角线互相垂直故为菱形。
+    - （2）由 $BG\cdot BE=AB\cdot BF$ 得 $\dfrac{BG}{AB}=\dfrac{BF}{BE}$，结合 $\angle ABG=\angle EBF$，$\triangle ABG\sim\triangle EBF$。
+    - 再证 $\triangle ADG\sim\triangle FBG$，$\dfrac{DG}{AD}=\dfrac{BG}{BF}$，$\dfrac{AB}{BE}=\dfrac{DG}{AD}=\dfrac{DG}{AB}$，$AB^2=BE\cdot DG$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 80mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

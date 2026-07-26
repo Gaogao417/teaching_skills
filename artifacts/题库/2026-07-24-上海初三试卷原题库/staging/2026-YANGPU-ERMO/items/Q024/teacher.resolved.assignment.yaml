@@ -1,0 +1,47 @@
+meta:
+  title: 2026年上海市杨浦区中考二模数学试卷第 24 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题（本大题共7题，满分78分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q024
+    points: 12
+    stem_latex: 已知在平面直角坐标系$xOy$中，抛物线$y=x^2+bx+c$与$x$轴交于点$A(1,0)$和点$B$，与$y$轴交于点$C(0,3)$，顶点为点$D$． (1) 求该抛物线的表达式； (2) 点$P$是对称轴右侧的抛物线上一点，过点$P$作$PQ$垂直抛物线的对称轴，垂足为点$Q$，连接$PD$，设点$P$的横坐标为$m$． ①求$\tan\angle DPQ$的值（用含$m$的代数式表示）． ②过点$Q$作$PD$的平行线，交抛物线于点$E$（点$E$在对称轴右侧），求$\dfrac{DP}{QE}$的值；
+    answer: (1) $y=x^2-4x+3$；(2) ①$m-2$；②$\dfrac{\sqrt{5}-1}{2}$
+    explanation: 官方参考答案：(1) $y=x^2-4x+3$；(2) ①$m-2$；②$\dfrac{\sqrt{5}-1}{2}$。
+    solution_steps:
+    - 【小问1详解】
+    - 抛物线$y=x^2+bx+c$与$x$轴交于点$A(1,0)$，与$y$轴交于点$C(0,3)$；
+    - $\therefore \begin{cases}1+b+c=0\\c=3\end{cases}$，解得$\begin{cases}b=-4\\c=3\end{cases}$；
+    - $\therefore$该抛物线的表达式为$y=x^2-4x+3$；
+    - 【小问2详解】
+    - ①$y=x^2-4x+3=(x-2)^2-1$，$\therefore D(2,-1)$，对称轴为直线$x=2$；
+    - 设点$P$的横坐标为$m$，则$P(m,m^2-4m+3)$，$Q(2,m^2-4m+3)$；
+    - $\therefore PQ=m-2$，$DQ=m^2-4m+3-(-1)=m^2-4m+4$；
+    - 在$\text{Rt}\triangle PDQ$中，$\tan\angle DPQ=\dfrac{DQ}{PQ}=\dfrac{m^2-4m+4}{m-2}=m-2$；
+    - ②由平行可得$\tan\angle EQP=\tan\angle DPQ=m-2$，过点$E$作$EH\perp QP$交$QP$的延长线于点$H$；
+    - 设$E(t,t^2-4t+3)$，则$H(t,m^2-4m+3)$；
+    - $\therefore EH=t^2-4t+3-(m^2-4m+3)=(t-2)^2-(m-2)^2$，$QH=t-2$；
+    - 在$\text{Rt}\triangle QEH$中，$\tan\angle EQH=\dfrac{EH}{QH}=\dfrac{(t-2)^2-(m-2)^2}{t-2}$；
+    - 得到方程$\dfrac{(t-2)^2-(m-2)^2}{t-2}=m-2$，解得$\dfrac{m-2}{t-2}=\dfrac{\sqrt{5}-1}{2}$；
+    - 再由$\triangle EHQ\sim\triangle DQP$求解即可。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 100mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

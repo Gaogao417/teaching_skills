@@ -1,0 +1,60 @@
+meta:
+  title: 2026年上海市松江区中考二模数学试卷第 23 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题（本大题共7题，满分78分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q023
+    points: 12
+    stem_latex: 已知$AB$是半圆$O$的直径，弦$AC$、$BD$交于点$E$，$OC$与$BD$交于点$F$，满足$\dfrac{DE}{BE}=\dfrac{CE}{AE}=\dfrac{1}{2}$。\n（1）求证：$OC\perp BD$；\n（2）如图2，$M$是$OB$的中点，$CM$与$BD$交于点$G$，求证：四边形$CEOG$是菱形。
+    answer: （1）见解析；（2）见解析
+    explanation: 官方参考答案：（1）见解析；（2）见解析。
+    solution_steps:
+    - 【小问1详解】
+    - 证明：$\because \dfrac{DE}{BE}=\dfrac{CE}{AE}=\dfrac{1}{2}$，$\angle CED=\angle AEB$，
+    - $\therefore \triangle CED\sim\triangle AEB$，
+    - $\therefore \dfrac{DE}{BE}=\dfrac{CD}{AB}=\dfrac{1}{2}$，$\angle D=\angle B$，
+    - $\because AB$是半圆$O$的直径，
+    - $\therefore \dfrac{BO}{AB}=\dfrac{1}{2}$，
+    - $\therefore \dfrac{CD}{AB}=\dfrac{BO}{AB}$，
+    - $\therefore CD=BO$，
+    - $\because \angle D=\angle B$，$\angle CFD=\angle OFB$，
+    - $\therefore \triangle CFD\cong\triangle OFB$（AAS），
+    - $\therefore DF=BF$，
+    - $\because OC$经过圆心，
+    - $\therefore OC\perp BD$；
+    - 【小问2详解】
+    - 证明：$\because M$是$OB$的中点，
+    - $\therefore \dfrac{OM}{OB}=\dfrac{1}{2}$，
+    - $\because OA=OB$，
+    - $\therefore \dfrac{OM}{OA}=\dfrac{1}{2}$，即$\dfrac{AO}{AM}=\dfrac{2}{3}$，
+    - $\because \dfrac{CE}{AE}=\dfrac{1}{2}$，
+    - $\therefore \dfrac{AE}{AC}=\dfrac{2}{3}$，
+    - $\therefore \dfrac{AE}{AC}=\dfrac{AO}{AM}$，
+    - $\because \angle EAO=\angle CAM$，
+    - $\therefore \triangle EAO\sim\triangle CAM$，
+    - $\therefore \angle AEO=\angle ACM$，
+    - $\therefore OE\parallel CM$，
+    - $\therefore \dfrac{CF}{OF}=\dfrac{FG}{EF}$，
+    - 由（1）知，$\triangle CFD\cong\triangle OFB$，
+    - $\therefore CF=OF$，
+    - $\therefore FG=EF$，
+    - $\therefore$ 四边形$CEOG$是平行四边形，
+    - $\because OC\perp BD$，即$OC\perp EG$，
+    - $\therefore$ 四边形$CEOG$是菱形。
+    clue: （1）先证明$\triangle CED\sim\triangle AEB$，得到$CD=BO$，继而可证明$\triangle CFD\cong\triangle OFB$（AAS），再由垂径定理的推论即可证明；（2）先证明$\triangle EAO\sim\triangle CAM$，则$\angle AEO=\angle ACM$，故$OE\parallel CM$，那么得到$\dfrac{CF}{OF}=\dfrac{FG}{EF}$，由（1）知$\triangle CFD\cong\triangle OFB$，则$CF=OF$，那么$FG=EF$，即可得到四边形$CEOG$是平行四边形，再由对角线互相垂直即可证明菱形。
+    source_solution_images: []

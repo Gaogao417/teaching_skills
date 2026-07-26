@@ -1,0 +1,40 @@
+meta:
+  title: 2026年上海市杨浦区中考二模数学试卷第 21 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题（本大题共7题，满分78分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q021
+    points: 10
+    stem_latex: 如图，一次函数$y=2x+4$的图像与$x$轴、$y$轴分别交于$A$、$B$两点，与反比例函数$y=\dfrac{k}{x}(k\neq 0,x>0)$的图像交于点$C$，过点$B$作$x$轴的平行线与该反比例函数$y=\dfrac{k}{x}$的图像交于点$D$，连接$CD$． (1) 求$A$、$B$两点的坐标； (2) 如果$BC=DC$，求$k$的值．
+    answer: (1) $A(-2,0)$，$B(0,4)$；(2) $k=16$
+    explanation: 官方参考答案：(1) $A(-2,0)$，$B(0,4)$；(2) $16$。
+    solution_steps:
+    - 【小问1详解】
+    - 当$x=0$时，$y=4$，$\therefore B(0,4)$；
+    - 当$y=0$时，$x=-2$，$\therefore A(-2,0)$；
+    - 【小问2详解】
+    - 过点$C$作$CE\perp BD$，垂足为$E$，证明$\triangle AOB\sim\triangle BEC$；
+    - 设点$C(m,2m+4)$，则$D(2m,4)$，得到$m(2m+4)=2m\times 4$；
+    - 整理得$m^2-2m=0$，解得$m=0$（舍去）或$m=2$；
+    - $\therefore D(4,4)$，$\therefore k=4\times 4=16$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 80mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

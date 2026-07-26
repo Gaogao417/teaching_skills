@@ -1,0 +1,36 @@
+meta:
+  title: 2026年上海市虹口区中考二模数学试卷第 1 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题（本大题共6题，每题4分，满分24分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q001
+    points: 4
+    stem_latex: 下列各式中，$\sqrt{a-4}$ 的有理化因式是（\quad）
+    choices:
+    - $\sqrt{a+4}$
+    - $\sqrt{a-4}$
+    - $\sqrt{a}+2$
+    - $\sqrt{a}-2$
+    answer: B
+    explanation: 官方参考答案：B。
+    solution_steps:
+    - 两个含有根式的代数式相乘，若它们的积不含有根式，则这两个代数式互为有理化因式。
+    - $\sqrt{a-4}\cdot\sqrt{a-4}=\left(\sqrt{a-4}\right)^2=a-4$，结果不含根号，符合有理化因式的定义。
+    - 其余选项与 $\sqrt{a-4}$ 相乘后，结果仍含有根号，不符合要求。
+    clue: 有理化因式是两个代数式相乘后积不含根号的配对。
+    source_solution_images: []

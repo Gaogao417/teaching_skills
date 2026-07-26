@@ -1,0 +1,60 @@
+meta:
+  title: 2026年上海市长宁区中考二模数学试卷第 25 题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题（本大题共7题，满分78分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: 已知线段$AB$是$\odot O$的一条弦，点$C$是$\odot O$上的一点。 （1）连接$AC$、$BC$，如图1，如果$AC=BC$，$\angle C=45^{\circ}$，且$AB=4\sqrt{2}$，求$\odot O$的半径长； （2）当圆心$O$在线段$AB$上时。 ①如图2，已知点$D$在$\odot O$上，满足$DA=DC$，且$S_{\triangle ADC}=S_{\triangle ACB}$，如果$BC=2$，求$AC$的长； ②如图3，已知点$E$在线段$AB$上，满足$AE:BE=2:3$，如果沿着弦$BC$翻折$\odot O$后的弧线恰好经过点$E$，求$\tan\angle ABC$的值。
+    answer: （1）4 （2）①$4\sqrt{2}$ ②$\dfrac{1}{2}$
+    explanation: 官方参考答案：（1）4；（2）①$4\sqrt{2}$；②$\dfrac{1}{2}$。
+    solution_steps:
+    - （1）连接$OA$、$OB$，$\because OA=OB$，$\angle AOB=2\angle C=2\times45^{\circ}=90^{\circ}$，
+    - $\therefore \triangle AOB$是等腰直角三角形，
+    - 在Rt$\triangle AOB$中，$OA^2+OB^2=AB^2$，
+    - $\therefore 2OA^2=(4\sqrt{2})^2$，解得$OA=4$或$OA=-4$（舍去），
+    - $\therefore \odot O$的半径长为4；
+    - （2）①连接$OD$，$\because AD=DC$，$OD$是$\odot O$的半径，
+    - $\therefore OD\perp AC$，$AF=CF=\dfrac{1}{2}AB$，
+    - $\therefore$ 点$F$是$AC$的中点，$\therefore OF$是$\triangle ABC$的中位线，
+    - $\therefore OF=\dfrac{1}{2}BC=\dfrac{1}{2}\times2=1$，
+    - $\because AB$是$\odot O$的直径，$\therefore \angle ACB=90^{\circ}$，
+    - $\because S_{\triangle ADC}=S_{\triangle ACB}$，
+    - $\therefore \dfrac{1}{2}\times AC\times DF=\dfrac{1}{2}\times AC\times BC$，
+    - $\therefore DF=BC=2$，
+    - $\therefore AO=DO=DF+OF=2+1=3$，
+    - 在Rt$\triangle OFA$中，由勾股定理得：$AF=\sqrt{AO^2-FO^2}=\sqrt{3^2-1^2}=2\sqrt{2}$，
+    - $\therefore AC=2AF=2\times2\sqrt{2}=4\sqrt{2}$；
+    - 过点$E$作$EG\perp BC$交$\odot O$于点$E\prime$，连接$AE\prime$、$BE\prime$、$OE\prime$、$AC$，设$AE\prime$交$BC$于点$M$，
+    - $\because AE:BE=2:3$，设$AE=4m$、$BE=6m$，则$AB=10m$，
+    - 由翻折的性质得：$BE\prime=BE=6m$、$\angle ABC=\angle E\prime BC$、$E\prime G=EG$，
+    - $\because AB$是$\odot O$的直径，$\therefore \angle ACB=\angle AE\prime B=90^{\circ}$，
+    - 在Rt$\triangle ABE\prime$中，由勾股定理得：$AE\prime=\sqrt{AB^2-BE\prime^2}=\sqrt{(10m)^2-(6m)^2}=8m$，
+    - $\because \angle ACB=\angle E\prime GC=90^{\circ}$，$\angle AMC=\angle E\prime MG$，
+    - $\therefore \triangle AMC\sim\triangle E\prime MG$，
+    - $\therefore \dfrac{AM}{E\prime M}=\dfrac{AC}{E\prime G}=\dfrac{AC}{EG}$，
+    - $\because \angle ACB=\angle EGB$，$\angle CBA=\angle GBA$，
+    - $\therefore \triangle ABC\sim\triangle EBG$，
+    - $\therefore \dfrac{AC}{EG}=\dfrac{AB}{EB}=\dfrac{10m}{6m}=\dfrac{5}{3}$，
+    - $\therefore AM=5m$，$E\prime M=3m$，
+    - $\because \angle CAM=\angle E\prime BM$，$\angle ABC=\angle E\prime BC$，
+    - $\therefore \angle CAM=\angle ABC$，
+    - $\because \angle ACM=\angle BCA$，$\therefore \triangle ACM\sim\triangle BCA$，
+    - $\therefore \dfrac{AC}{BC}=\dfrac{AM}{AB}=\dfrac{5m}{10m}=\dfrac{1}{2}$，
+    - 在Rt$\triangle ACB$中，$\tan\angle ABC=\dfrac{AC}{BC}=\dfrac{1}{2}$。
+    source_solution_images: []

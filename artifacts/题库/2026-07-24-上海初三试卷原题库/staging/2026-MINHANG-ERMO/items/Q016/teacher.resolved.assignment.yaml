@@ -1,0 +1,32 @@
+meta:
+  title: 2026年上海市闵行区中考二模数学试卷第 16 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题（本大题共12题，每题4分，满分48分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: fillin
+    id: Q016
+    points: 4
+    stem_latex: 已知半径为 $2$ 的正多边形的内角和是外角和的 $3$ 倍，那么这个正多边形的面积为 \underline{\qquad}。
+    answer: $8\sqrt{2}$
+    explanation: 官方参考答案：$8\sqrt{2}$。
+    solution_steps:
+    - 设正多边形的边数为 $n$，根据题意得 $\left(n-2\right)\cdot180^{\circ}=3\times360^{\circ}$，解得 $n=8$，
+    - 该正多边形为正八边形，半径为 $2$，$OA=OH=2$，$\angle AOH=360^{\circ}\div8=45^{\circ}$，
+    - $AI\perp OH$，$AI=OA\cdot\sin45^{\circ}=2\times\dfrac{\sqrt{2}}{2}=\sqrt{2}$，
+    - $S_{\triangle AOH}=\dfrac{1}{2}OH\cdot AI=\dfrac{1}{2}\times2\times\sqrt{2}=\sqrt{2}$，
+    - 正八边形 $ABCDEFG$ 的面积 $=8S_{\triangle AOH}=8\sqrt{2}$。
+    source_solution_images: []

@@ -1,0 +1,49 @@
+meta:
+  title: 2026年上海市闵行区中考二模数学试卷第 23 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题（本大题共7题，共78分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q023
+    points: 12
+    stem_latex: 如图，在 $\mathrm{Rt}\triangle ABC$ 中，$\angle ABC=90^{\circ}$，$AB=BC$。点 $D$ 在边 $BC$ 上，点 $E$ 在 $CB$ 的延长线上，连结 $AD$、$AE$，过点 $E$ 作 $AD$ 的垂线，分别交 $AB$、$AD$、$AC$ 于点 $M$、$H$ 和 $F$，且 $AE=EF$。\n\n（1）求证：$BD=BE$；\n\n（2）求证：$\dfrac{AM}{AE}=\dfrac{2MH}{DE}$。
+    answer: （1）见详解；（2）见详解
+    explanation: 官方参考答案：（1）见详解；（2）见详解。
+    solution_steps:
+    - （1）证明：$\because AB=BC$，$\mathrm{Rt}\triangle ABC$ 为等腰直角三角形，
+    - $\therefore \angle BAC=\angle BCA=45^{\circ}$，$\angle ABE=\angle ABC=90^{\circ}$，
+    - $\because AE=EF$，$\triangle EAF$ 为等腰三角形，$\angle EAF=\angle EFA$，
+    - 又 $\angle EAF=\angle BAC+\angle EAB$，$\angle EAF=\angle BCA+\angle FEC$，
+    - $\therefore \angle EAB=\angle FEC$，
+    - $\because EF\perp AD$，$\angle AHE=\angle DHE=90^{\circ}$，
+    - $\therefore \angle DHE=\angle FEC+\angle HDE=90^{\circ}$，
+    - 又 $\angle EAB+\angle AEB=\angle ABE=90^{\circ}$，
+    - $\therefore \angle AEB=\angle HDE$，$\therefore AE=AD$，$\triangle AED$ 是等腰三角形，
+    - $\because \angle ABE=\angle ABC=90^{\circ}$，$\therefore BD=BE$；
+    - （2）证明：由（1）知 $\angle EAB=\angle FEC$，$BD=BE$，$\triangle AED$ 是等腰三角形，
+    - $\therefore \angle EAB=\angle DAB=\angle FEC$，
+    - 又 $\angle AHE=\angle ABE=90^{\circ}$，$\angle ABE=\angle EBM=90^{\circ}$，$\angle EMB=\angle AMH$，
+    - $\therefore \triangle AEB\sim\triangle EMB$，$\triangle AMH\sim\triangle EMB$，
+    - $\therefore \dfrac{AE}{BE}=\dfrac{EM}{BM}$，$\dfrac{EM}{BM}=\dfrac{AM}{MH}$，
+    - $\therefore \dfrac{AE}{BE}=\dfrac{AM}{MH}$，即 $\dfrac{AM}{AE}=\dfrac{MH}{BE}$，
+    - 又 $BE=BD=\dfrac{1}{2}DE$，代入上式得 $\dfrac{AM}{AE}=\dfrac{2MH}{DE}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 100mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

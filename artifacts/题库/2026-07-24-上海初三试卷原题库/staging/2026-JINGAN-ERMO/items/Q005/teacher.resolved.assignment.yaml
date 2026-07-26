@@ -1,0 +1,38 @@
+meta:
+  title: 2026年上海市静安区中考二模数学试卷第 5 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题（本大题共6题，每题4分，满分24分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q005
+    points: 4
+    stem_latex: 直角坐标平面上有一点 $A(a,b)$，其中 $ab\neq 0$，先将点 $A$ 沿着直线 $y=x$ 翻折，得到点 $B$，再将点 $B$ 绕着原点逆时针旋转 $90°$ 后得到点 $C$，那么点 $C$ 与点 $A$ 的位置关系是（\quad）
+    choices:
+    - 关于 $x$ 轴对称
+    - 关于 $y$ 轴对称
+    - 关于原点对称
+    - 关于直线 $y=-x$ 对称
+    answer: B
+    explanation: 官方参考答案：B。
+    solution_steps:
+    - $\because$ 点 $A(a,b)$ 沿直线 $y=x$ 翻折得到点 $B$，点关于 $y=x$ 对称时横纵坐标互换，
+    - $\therefore$ 点 $B$ 的坐标为 $(b,a)$。
+    - $\because$ 平面内任意点 $(x,y)$ 绕原点逆时针旋转 $90°$ 后，所得点的坐标为 $(-y,x)$，
+    - $\therefore$ 将 $B(b,a)$ 代入得，点 $C$ 的坐标为 $(-a,b)$。
+    - $\because$ 点 $A(a,b)$ 与点 $C(-a,b)$ 纵坐标相等，横坐标互为相反数，
+    - $\therefore$ 点 $A$ 与点 $C$ 关于 $y$ 轴对称。
+    source_solution_images: []

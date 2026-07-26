@@ -1,0 +1,36 @@
+meta:
+  title: 2026年上海市奉贤区中考二模数学试卷第 5 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题（本大题共6题，每题4分，满分24分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q005
+    points: 4
+    stem_latex: 如果一个正多边形的内角等于中心角的3倍，那么这个正多边形是（\quad）
+    choices:
+    - 正三角形
+    - 正四边形
+    - 正六边形
+    - 正八边形
+    answer: D
+    explanation: 官方参考答案：D。
+    solution_steps:
+    - 设这个正多边形的边数为 $n$。
+    - 正 $n$ 边形的中心角总和为 $360^{\circ}$，每个中心角为 $\dfrac{360^{\circ}}{n}$。
+    - 正 $n$ 边形的内角和为 $(n-2)\cdot180^{\circ}$，每个内角为 $\dfrac{(n-2)\cdot180^{\circ}}{n}$。
+    - 根据题意得 $\dfrac{(n-2)\cdot180^{\circ}}{n}=\dfrac{360^{\circ}}{n}\times3$，解得 $n=8$，故这个正多边形是正八边形。
+    source_solution_images: []

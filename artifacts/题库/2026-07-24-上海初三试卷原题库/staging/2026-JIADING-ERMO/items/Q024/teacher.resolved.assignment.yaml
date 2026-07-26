@@ -1,0 +1,42 @@
+meta:
+  title: 2026年上海市嘉定区中考数学二模试卷第 24 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题（本大题共7题，满分78分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q024
+    points: 12
+    stem_latex: '如图，在平面直角坐标系中，直线 $y=x+1$ 与 $y$ 轴交于点 $A$，抛物线与直线 $y=x+1$ 交于 $A$、$B$ 两点，顶点 $C$ 的坐标是 $(2,5)$，过点 $B$ 作 $x$ 轴的平行线，与过点 $A$ 作 $x$ 轴的垂线交于点 $D$，$AD$ 与抛物线交于点 $E$。
+
+      （1）求抛物线的解析式；
+
+      （2）求 $\tan\angle ADB$ 的值；
+
+      （3）连接 $BE$，当 $BE$ 与坐标轴平行时，求点 $E$ 的坐标。'
+    answer: （1）$y=-x^2+4x+1$；（2）$3$；（3）$E(7,-20)$ 或 $(1,4)$ 或 $(-1,4)$
+    explanation: 详见解析。
+    solution_steps:
+    - （1）顶点式 $y=a(x-2)^2+5$，代入 $A(0,1)$ 得 $a=-1$，$y=-x^2+4x+1$。
+    - （2）$D(4,1)$，$B(3,4)$，$H(3,1)$，$BH=3$，$DH=1$，$\tan\angle ADB=3$。
+    - （3）分 $BD\parallel AE$、$BE\parallel x$ 轴、$BE\parallel y$ 轴三种情况讨论。
+    clue: （1）用顶点式设抛物线；（2）找直角三角形求正切；（3）分类讨论 $BE$ 平行于哪条坐标轴。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 80mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

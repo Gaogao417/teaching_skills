@@ -1,0 +1,34 @@
+meta:
+  title: 2026年上海市奉贤区中考二模数学试卷第 2 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题（本大题共6题，每题4分，满分24分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q002
+    points: 4
+    stem_latex: 计算 $\left(m^3\right)^2 \div m^2$ 的结果是（\quad）
+    choices:
+    - $m^8$
+    - $m^7$
+    - $m^4$
+    - $m^3$
+    answer: C
+    explanation: 官方参考答案：C。
+    solution_steps:
+    - 幂的乘方，底数不变，指数相乘，$\left(m^3\right)^2=m^{3\times2}=m^6$。
+    - 同底数幂相除，底数不变，指数相减，$m^6\div m^2=m^{6-2}=m^4$。
+    source_solution_images: []

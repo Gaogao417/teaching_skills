@@ -1,0 +1,57 @@
+meta:
+  title: 2026年上海市徐汇区中考二模数学试卷第 6 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题（本大题共6题，每题4分，满分24分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q006
+    points: 4
+    stem_latex: 如图，已知$\angle ABC=60^{\circ}$，半径为$1\text{cm}$的$\odot O$与边$BA$、$BC$均相切，如果$\odot O_1$与$\angle ABC$的两边都相切，且与$\odot O$相交，那么$\odot O_1$的半径长可以是（\quad）
+    choices:
+    - $1$
+    - $2$
+    - $3$
+    - $4$
+    answer: B
+    explanation: 官方参考答案：B。
+    solution_steps:
+    - 先证点$O$在$\angle ABC$的角平分线上，再求出$\odot O_1$与$\odot O$外切时的半径，进而可得$\odot O_1$半径的取值范围.
+    - 标记$\odot O$与边$BA$、$BC$的切点为$E$，$H$，则$OE\perp AB$，$OH\perp BC$，
+    - 在$\text{Rt}\triangle OEB$与$\text{Rt}\triangle OHB$中，$\begin{cases}OE=OH=1\\OB=OB\end{cases}$，
+    - $\therefore\text{Rt}\triangle OEB\cong\text{Rt}\triangle OHB(\text{HL})$，
+    - $\therefore\angle OBE=\angle OBH=\dfrac{1}{2}\angle ABC=\dfrac{1}{2}\times60^{\circ}=30^{\circ}$，
+    - 即点$O$在$\angle ABC$的角平分线上，
+    - 作$\odot O_1$，$\odot O_1'$与$\odot O$外切，切点为$M$，$N$，且与边$BA$、$BC$均相切，$\odot O_1$与$BA$的切点为点$D$，$\odot O_1'$与$BA$的切点为点$F$，
+    - 同理可得，点$O_1$与$O_1'$在$\angle ABC$的角平分线上，
+    - 设$\odot O_1$的半径为$r$，
+    - $\because\angle OBE=30^{\circ}$，
+    - $\therefore BO_1=2O_1D=2r$，$BO=2OE=2\times1=2$，
+    - $\because BO_1+O_1M+OM=BO$，
+    - $\therefore 2r+r+1=2$，
+    - 解得$r=\dfrac{1}{3}$，
+    - 同理可得$\odot O_1'$的半径为$3$，
+    - $\because\odot O_1$与$\odot O$相交，
+    - $\therefore\dfrac{1}{3}<r<3$，
+    - 当$r=1$时，$\odot O_1$与$\odot O$重合，不合题意，
+    - 观察四个选项可知，$\odot O_1$的半径长可以是$2$.
+    - 故选B.
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

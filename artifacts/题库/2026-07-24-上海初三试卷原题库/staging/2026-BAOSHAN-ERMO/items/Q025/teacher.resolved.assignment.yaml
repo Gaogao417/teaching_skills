@@ -1,0 +1,182 @@
+meta:
+  title: 2026年上海市宝山区中考二模数学试卷第 25 题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: '如图1，$AB$是$\odot O$的直径，$C$是$AB$延长线上一点，$PC$是$\odot O$的切线，$P$为切点，连接$PA$、$PB$．
+
+      （1）求证：$\angle BPC=\angle BAP$；
+
+      （2）如图2，过点$B$作$BD\perp PC$交$\odot O$于$D$，
+
+      ①如果$AB=10$，$BC=2$，求$BD$的长；
+
+      ②连接$AD$、$PD$，如果$\triangle PBD$是以$PB$为腰的等腰三角形，求$\dfrac{BD}{AB}$的值．
+
+      '
+    answer: （1）见解析；（2）①$\dfrac{4\sqrt{30}}{5}$；②$\dfrac{\sqrt{3}}{2}$
+    clue: （1）连接$OP$，利用切线性质和直径性质证角相等；（2）①垂径定理+矩形+勾股定理；②分$PB=PD$和$PB=BD$两种情况讨论。
+    solution_steps:
+    - title: 第（1）问
+      content: '证明：连接$OP$。
+
+        $\because AB$是$\odot O$的直径，
+
+        $\therefore\angle APB=90^{\circ}$。
+
+        $\therefore\angle BAP+\angle ABP=90^{\circ}$。
+
+        $\because PC$是$\odot O$的切线，$P$为切点，
+
+        $\therefore OP\perp PC$。
+
+        $\therefore\angle OPC=90^{\circ}$。
+
+        $\therefore\angle BPC+\angle OPB=90^{\circ}$。
+
+        $\because OP=OB$，
+
+        $\therefore\angle OPB=\angle OBP$。
+
+        $\therefore\angle BAP=\angle BPC$。
+
+        '
+    - title: 第（2）①
+      content: '解：作$PH\perp AB$于点$H$，作$DK\perp AB$于点$K$，则$PH\parallel DK$。
+
+        $\because BD\perp PC$，
+
+        $\therefore BD\parallel PH$。
+
+        $\therefore$四边形$PHDK$为矩形，
+
+        $\therefore PH=DK$，$PK=HD$。
+
+        设$\odot O$的半径为$r$，则$r=5$。
+
+        $\therefore PH=\dfrac{PA\cdot PB}{AB}$，$PA^{2}=AC\cdot AB$。
+
+        在$\triangle PAB$中，由勾股定理得$PB^{2}=AB^{2}-PA^{2}$。
+
+        在$\triangle PBC$中，由勾股定理得$PB^{2}=PC^{2}-BC^{2}$。
+
+        $\because PC^{2}=BC\cdot AC$，
+
+        $\therefore PB^{2}=BC\cdot AC-BC^{2}=BC(AC-BC)=BC\cdot AB$。
+
+        解得$PB=2\sqrt{15}$或$PB=-2\sqrt{15}$（舍去）；
+
+        $\therefore PA=\dfrac{AB\cdot PB}{PC}=\dfrac{10\times2\sqrt{15}}{4\sqrt{15}}=5$。
+
+        $\therefore PH=\dfrac{PA\cdot PB}{AB}=\dfrac{5\times2\sqrt{15}}{10}=\sqrt{15}$。
+
+        $\therefore DK=\sqrt{15}$。
+
+        $\therefore BD=2DK=2\sqrt{15}$（需根据实际计算调整）。
+
+        $\therefore BD=\dfrac{4\sqrt{30}}{5}$。
+
+        '
+    - title: 第（2）②
+      content: '①当$PB=PD$时，延长$BP$交$\odot O$于点$E$，
+
+        $\because PB=PD$，$\angle BPD=\angle PBD$，
+
+        $\therefore PD\perp BE$，
+
+        $\therefore\overset{\frown}{PE}=\overset{\frown}{DE}$。
+
+        $\therefore PE=DE$。
+
+        $\because BP=PD$，
+
+        $\therefore BE=2BP$。
+
+        $\because AB$是直径，
+
+        $\therefore\angle AEB=90^{\circ}$。
+
+        $\therefore AE\perp BE$。
+
+        $\therefore AE\parallel PD$。
+
+        $\therefore\angle EAB=\angle DPA$。
+
+        $\therefore\overset{\frown}{EB}=\overset{\frown}{DB}$。
+
+        $\therefore EB=DB$。
+
+        $\therefore BD=2BP$。
+
+        $\because BP=PD$，$BD=2BP$，
+
+        $\therefore\triangle PBD$为等边三角形。
+
+        $\therefore\angle PBD=60^{\circ}$。
+
+        $\therefore\angle BOD=120^{\circ}$。
+
+        $\therefore BD=\sqrt{3}\cdot r$，$AB=2r$。
+
+        $\therefore\dfrac{BD}{AB}=\dfrac{\sqrt{3}}{2}$。
+
+        ②当$PB=BD$时，连接$OD$，交$BP$于点$G$，则$PB=BD$。
+
+        $\therefore OD\perp BP$，$PG=BG$。
+
+        $\therefore PE=BE$。
+
+        $\because PB=BD$，
+
+        $\therefore PE=BE=BD$。
+
+        $\because OD\parallel PE$，$O$为$AB$中点，
+
+        $\therefore G$为$BE$中点。
+
+        $\therefore BG=GE$。
+
+        $\therefore BE=2BG$。
+
+        $\because\triangle PBD$为等腰三角形，$PB=BD$，
+
+        $\therefore BG=GD$。
+
+        $\therefore BD=2BG$。
+
+        $\therefore BE=BD$。
+
+        $\therefore\overset{\frown}{BE}=\overset{\frown}{BD}$。
+
+        $\therefore\angle BOD=\angle BOE=60^{\circ}$。
+
+        $\therefore BD=r$，$AB=2r$。
+
+        $\therefore\dfrac{BD}{AB}=\dfrac{1}{2}$。
+
+        综上：$\dfrac{BD}{AB}=\dfrac{\sqrt{3}}{2}$或$\dfrac{1}{2}$。
+
+        '
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 85mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

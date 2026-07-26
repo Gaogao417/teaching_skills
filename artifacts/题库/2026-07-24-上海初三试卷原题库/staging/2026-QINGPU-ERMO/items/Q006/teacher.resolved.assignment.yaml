@@ -1,0 +1,38 @@
+meta:
+  title: 2026年上海市青浦区中考数学二模试卷第 6 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题（本大题共6题，每题4分，满分24分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q006
+    points: 4
+    stem_latex: 在矩形 $ABCD$ 中，$AB=3$，$BC=4$，动点 $O$ 在对角线 $AC$ 上。如果以点 $O$ 为圆心，以 $1$ 为半径长的 $\odot O$ 与边 $AB$ 有两个公共点，那么线段 $OA$ 的取值范围是（\quad）
+    choices:
+    - $1\leqslant OA\leqslant\dfrac{5}{4}$
+    - $1<OA<\dfrac{5}{4}$
+    - $1<OA\leqslant\dfrac{5}{4}$
+    - $1\leqslant OA<\dfrac{5}{4}$
+    answer: D
+    explanation: 官方参考答案：D。
+    solution_steps:
+    - 在 Rt$\triangle ABC$ 中，$AB=3$，$BC=4$，$\therefore AC=\sqrt{3^2+4^2}=5$。
+    - 当 $OE=1$ 时，$\odot O$ 与边 $AB$ 相切，$\because OE\parallel BC$，$\therefore \triangle AOE\sim\triangle ACB$，
+    - $\dfrac{OA}{AC}=\dfrac{OE}{BC}$，即 $\dfrac{OA}{5}=\dfrac{1}{4}$，解得 $OA=\dfrac{5}{4}$。
+    - $\therefore$ 当 $\odot O$ 与边 $AB$ 有两个公共点时 $OA<\dfrac{5}{4}$，
+    - 当点 $A$ 在 $\odot O$ 上时，$\odot O$ 与边 $AB$ 有两个公共点，则 $OA\geqslant 1$，
+    - $\therefore$ 线段 $OA$ 的取值范围为 $1\leqslant OA<\dfrac{5}{4}$，故选D。
+    source_solution_images: []

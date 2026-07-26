@@ -1,0 +1,44 @@
+meta:
+  title: 2026年上海市静安区中考二模数学试卷第 23 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题（本大题共7题，满分78分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q023
+    points: 12
+    stem_latex: 如图，正方形 $ABCD$ 中，点 $E$ 在边 $BC$ 上，点 $F$ 是正方形外一点，连结 $AE$、$EF$、$AF$，对角线 $AC$ 与线段 $EF$ 相交于点 $M$，如果 $AB\cdot AF=AE\cdot AC$，且 $\angle EAC=\angle DAF$．（$1$）求证：$\angle ACF=90°$，$AF=\sqrt{2}EF$；（$2$）当点 $E$ 是边 $BC$ 的中点时，请直接写出 $\triangle AMF$ 与 $\triangle EMC$ 面积的比值：\underline{\hspace{2cm}}．
+    answer: （$1$）见解析　　（$2$）$10$
+    explanation: 官方参考答案：（$1$）见解析；（$2$）$10$。
+    solution_steps:
+    - （$1$）证明：$\because AC$ 是正方形 $ABCD$ 的对角线，$\therefore \angle BAC=\angle CAD=45°$，
+    - $\because\angle EAC=\angle DAF$，$\therefore\angle BAC-\angle EAC=\angle CAD-\angle DAF$，即 $\angle BAE=\angle CAF$，
+    - $\because AB\cdot AF=AE\cdot AC$，$\therefore\dfrac{AB}{AC}=\dfrac{AE}{AF}$，
+    - $\therefore\triangle ABE\sim\triangle ACF$，$\therefore\angle ACF=\angle B=90°$，
+    - $\because\angle BAE=\angle CAF$，$\therefore\angle BAE+\angle EAC=\angle CAF+\angle EAC$，即 $\angle BAC=\angle EAF=45°$，
+    - $\because\dfrac{AB}{AC}=\dfrac{AE}{AF}$，$\therefore\dfrac{AB}{AE}=\dfrac{AC}{AF}$，
+    - $\therefore\triangle ABC\sim\triangle AEF$，$\therefore\triangle AEF$ 是等腰直角三角形，$\therefore AF=\sqrt{2}EF$。
+    - （$2$）$\because\angle AEF=\angle ACF=90°$，$\angle AME=\angle FMC$，$\therefore\triangle AEM\sim\triangle FCM$，
+    - $\therefore\dfrac{AM}{FM}=\dfrac{EM}{CM}$，$\therefore\dfrac{AM}{EM}=\dfrac{FM}{CM}$，$\because\angle AMF=\angle EMC$，
+    - $\therefore\triangle AMF\sim\triangle EMC$，$\because$ 点 $E$ 是边 $BC$ 的中点，
+    - 设 $BE=EC=x$，则 $BC=AB=2x$，$\therefore AE=\sqrt{AB^{2}+BE^{2}}=\sqrt{5}x$，
+    - $AF=\sqrt{2}AE=\sqrt{10}x$，$\therefore\dfrac{S_{\triangle AMF}}{S_{\triangle EMC}}=\left(\dfrac{AF}{EC}\right)^{2}=\left(\dfrac{\sqrt{10}x}{x}\right)^{2}=10$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 120mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

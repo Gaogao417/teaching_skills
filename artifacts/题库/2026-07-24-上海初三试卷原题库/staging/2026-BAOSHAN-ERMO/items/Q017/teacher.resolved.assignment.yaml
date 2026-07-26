@@ -1,0 +1,74 @@
+meta:
+  title: 2026年上海市宝山区中考二模数学试卷第 17 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q017
+    points: 4
+    stem_latex: '如图，在矩形$ABCD$中，将$\triangle BCD$绕点$B$旋转至$\triangle BC''D''$的位置，点$D''$在$BA$的延长线上，$AD$与$BC''$交于点$E$，如果$AE=4$，$DE=5$，那么四边形$AEC''D''$的面积是$\underline{\qquad}$．
+
+      '
+    answer: $15$
+    clue: 由旋转得$\triangle BCD\cong\triangle BC'D'$，证$\triangle ABE\sim\triangle CBD$，求$AB=6$，$S_{AEC'D'}=S_{\triangle D'BC'}-S_{\triangle ABE}=27-12=15$。
+    solution_steps:
+    - title: 详解
+      content: '$\because$四边形$ABCD$是矩形，
+
+        $\therefore AD=BC$，$AB=CD$，$\angle BAD=\angle C=90^{\circ}$。
+
+        $\because AE=4$，$DE=5$，
+
+        $\therefore AD=AE+DE=9$，$\therefore BC=9$。
+
+        由旋转的性质可知：$\triangle BCD\cong\triangle BC''D''$，
+
+        $\therefore BC''=BC=9$，$\angle C''=\angle C=90^{\circ}$，$\angle D''BC''=\angle DBC$。
+
+        $\because$点$D''$在$BA$的延长线上，
+
+        $\therefore$点$B$，$A$，$D''$在同一直线上，
+
+        $\therefore\angle ABE=\angle D''BC''$，即$\angle ABE=\angle DBC$。
+
+        在$\triangle ABE$和$\triangle CDB$中，
+
+        $\because\angle BAE=\angle C=90^{\circ}$，$\angle ABE=\angle DBC$，
+
+        $\therefore\triangle ABE\sim\triangle CBD$，
+
+        $\therefore\dfrac{AE}{CD}=\dfrac{AB}{CB}$，即$\dfrac{4}{AB}=\dfrac{AB}{9}$，
+
+        $\therefore AB^{2}=36$，$\because AB>0$，$\therefore AB=6$，$CD=6$。
+
+        $\because$点$E$在$BC''$上，点$A$在$BD''$上，
+
+        $\therefore S_{\text{四边形}AEC''D''}=S_{\triangle D''BC''}-S_{\triangle ABE}$。
+
+        $\because S_{\triangle D''BC''}=S_{\triangle DBC}=\dfrac{1}{2}BC\cdot CD=\dfrac{1}{2}\times9\times6=27$，
+
+        $S_{\triangle ABE}=\dfrac{1}{2}AB\cdot AE=\dfrac{1}{2}\times6\times4=12$，
+
+        $\therefore S_{\text{四边形}AEC''D''}=27-12=15$。
+
+        '
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 65mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

@@ -1,0 +1,36 @@
+meta:
+  title: 2026年上海市长宁区中考二模数学试卷第 21 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题（本大题共7题，满分78分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q021
+    points: 10
+    stem_latex: 某地一商场为减少能源消耗，计划为商场外墙与屋顶加建隔热层，加建成本$w_1$（万元）与隔热层厚度$x$（厘米）满足关系式$w_1=20x$。加建后该商场预计每年的能源消耗费用$w_2$（万元）与隔热层厚度$x$（厘米）满足关系式$w_2=-\dfrac{1}{5}x^2-3x+36(0\leqslant x\leqslant 8)$。如果设该商场加建隔热层的成本与未来5年的能源消耗费用之和为$y$（万元）。（1）求$y$与$x$的关系式；（2）已知该商场未来5年的相关计划费用$p$（万元）满足$p=y+x^2-x$，那么当$192\leqslant p\leqslant 208$时，求隔热层厚度$x$（厘米）的取值范围。
+    answer: （1）$y=-x^2+5x+180(0\leqslant x\leqslant 8)$ （2）$3\leqslant x\leqslant 7$
+    explanation: 官方参考答案：（1）$y=-x^2+5x+180(0\leqslant x\leqslant 8)$；（2）$3\leqslant x\leqslant 7$。
+    solution_steps:
+    - （1）根据题意可得：$y=w_1+5w_2$，
+    - $\because w_1=20x$，$w_2=-\dfrac{1}{5}x^2-3x+36(0\leqslant x\leqslant 8)$，
+    - $\therefore y=20x+5\left(-\dfrac{1}{5}x^2-3x+36\right)$，
+    - 整理可得：$y=-x^2+5x+180(0\leqslant x\leqslant 8)$；
+    - （2）$\because y=-x^2+5x+180(0\leqslant x\leqslant 8)$，
+    - $\therefore p=y+x^2-x=-x^2+5x+180+x^2-x=4x+180$，
+    - $\because 192\leqslant p\leqslant 208$，
+    - $\therefore 192\leqslant 4x+180\leqslant 208$，
+    - 解得：$3\leqslant x\leqslant 7$。
+    source_solution_images: []

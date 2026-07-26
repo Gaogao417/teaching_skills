@@ -1,0 +1,37 @@
+meta:
+  title: 2026年上海市松江区中考二模数学试卷第 2 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题（本大题共6题，每题4分，满分24分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q002
+    points: 4
+    stem_latex: 下列关于$x$的方程中，不论$a$取什么实数值，一定有实数根的是（\quad）
+    choices:
+    - $ax^2+x+1=0$
+    - $x^2+ax-1=0$
+    - $x^2+ax+1=0$
+    - $x^2+x-a=0$
+    answer: B
+    explanation: 官方参考答案：B。
+    solution_steps:
+    - A、对于方程$ax^2+x+1=0$，当$a=0$时，方程为$x+1=0$，有实数根$x=-1$；当$a\neq 0$时，$\Delta=1^2-4a=1-4a$，$\Delta$不一定恒大于等于0，故方程不一定有实数根，故A不符合题意；
+    - B、对于方程$x^2+ax-1=0$，$\Delta=a^2-4\times1\times(-1)=a^2+4$，而对任意实数$a$，都有$a^2\geq 0$，故$\Delta=a^2+4>0$恒成立，不论$a$取何实数值，方程都有实数根，故B符合题意；
+    - C、对于方程$x^2+ax+1=0$，$\Delta=a^2-4\times1\times1=a^2-4$，$\Delta$不一定恒大于等于0，故方程不一定有实数根，故C不符合题意；
+    - D、对于方程$x^2+x-a=0$，$\Delta=1^2-4\times1\times(-a)=1+4a$，$\Delta$不一定恒大于等于0，故方程不一定有实数根，故D不符合题意。
+    clue: 利用$\Delta=b^2-4ac$判断方程是否对任意实数$a$恒有实数根，若$\Delta\geq 0$对任意$a$恒成立，则符合要求。
+    source_solution_images: []

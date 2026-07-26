@@ -1,0 +1,39 @@
+meta:
+  title: 2026年上海市长宁区中考二模数学试卷第 6 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题（本大题共6题，每题4分，满分24分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q006
+    points: 4
+    stem_latex: 已知抛物线$y=ax^2+bx+c(a\neq 0)$经过点$A(1,1+2t)$，$B(m,2t)$，当$y>y_0$时，$x$的取值范围是$n-6<x<4-n$，那么$m$的值可能是（\quad）
+    choices:
+    - $-1$
+    - $0$
+    - $1$
+    - $2$
+    answer: D
+    explanation: 官方参考答案：D。
+    solution_steps:
+    - 当$y>y_0$时，$x$的取值范围是$n-6<x<4-n$，
+    - 抛物线开口向下，对称轴为直线$x=\frac{n-6+4-n}{2}=-1$，
+    - $\because 1+2t>2t$，点$A$较点$B$更靠近对称轴，
+    - 即$1-(-1)<|m-(-1)|$，整理得$|m+1|>2$，
+    - 当$m+1\geqslant 0$时，即$m\geqslant -1$，有$m+1>2$，解得$m>1$，
+    - 当$m+1<0$时，即$m<-1$，有$-(m+1)>2$，解得$m<-3$，
+    - 综上，$m>1$或$m<-3$，只有D选项符合题意。
+    source_solution_images: []

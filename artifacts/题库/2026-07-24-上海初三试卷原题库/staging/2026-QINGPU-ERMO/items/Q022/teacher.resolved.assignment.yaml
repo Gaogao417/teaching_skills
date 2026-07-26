@@ -1,0 +1,43 @@
+meta:
+  title: 2026年上海市青浦区中考数学二模试卷第 22 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题（本大题共7题，满分78分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q022
+    points: 10
+    stem_latex: 被誉为\u201c金果子\u201d的草莓，是青浦区乡村产业振兴的一个亮点。某草莓采摘园计划通过互联网销售草莓，需设计一款底面积为 $600cm^2$ 的有盖子的长方体快递包装盒，所用的材料为长 $100cm$，宽 $60cm$ 的长方形硬纸板。制作方法如下：在每一张纸板的四个角上分别剪去两个相同的正方形和两个相同的长方形（如方案1图所示）。然后折叠成一个有盖纸盒（盒盖与盒底大小形状相同）。为了优化设计，草莓采摘园的老板借助AI提出了一种改进方案（称为方案2），方案2也需要在四个角上分别剪去两个相同的正方形和两个相同的长方形。AI对方案2的优点给出了如下评价：1. 节省材料，成本更低：两种方案体积相同，底面积相同，但方案2表面积更小，用料更省，长期生产可降低包装成本。2. 结构更稳固：方案2底面更接近正方形，重心更稳，抗压性更好，运输时不易变形、挤压，能更好保护物品。接下来请你帮助老板解决以下问题：（1）设方案1中剪去的正方形的边长为 $xcm$，求包装盒的表面积；（2）尝试在备用图中画出方案2，并通过计算说明AI对方案2\u201c表面积最小\u201d的评价是否准确？
+    answer: （1）$-2x^2-60x+6000(cm^2)$；（2）AI对方案2\u201c表面积最小\u201d的评价准确
+    explanation: 官方参考答案：（1）$-2x^2-60x+6000(cm^2)$；（2）AI对方案2\u201c表面积最小\u201d的评价准确。
+    solution_steps:
+    - （1）由题意可得，$DE=HG=x$，$EG=100$，$EM=60$，
+    - $FL=\dfrac{60-2x}{2}=30-x$，
+    - 则剪去的长方形的长为 $LP=30-x+x=30$，
+    - 则包装盒的表面积 $=100\times60-2x^2-2\times x\times30=-2x^2-60x+6000(cm^2)$；
+    - （2）$\because DH=CF=(100-2x)cm$，底面积等于 $600cm^2$，
+    - $\therefore (100-2x)(30-x)=600$，解得 $x=20$ 或 $x=60$（舍去），
+    - 当 $x=20$ 时，方案1包装盒的表面积为 $-2\times20^2-60\times20+6000=4000cm^2$，
+    - 方案2底面更接近正方形，当 $FL=20cm$，$CF=30cm$ 时，
+    - 则包装盒的表面积 $=100\times60-2\times20^2-2\times20\times50=3200cm^2$，
+    - 方案2包装盒的表面积为 $3200cm^2<4000cm^2$，
+    - 则AI对方案2\u201c表面积最小\u201d的评价准确。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []
