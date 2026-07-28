@@ -27,6 +27,7 @@ from expand_staging_draft import expand_draft  # noqa: E402
 from paper_map_contracts import validate_against_staging  # noqa: E402
 from validate_exam_source import validate_source  # noqa: E402
 from word_evidence_pages import (  # noqa: E402
+    allowed_shared_boundaries,
     expected_page_ranges,
     infer_layout,
     resolve_draft_payload,
@@ -442,6 +443,71 @@ def test_word_evidence_page_ranges_support_separated_question_and_answer_section
         {"question": [2], "official_solution": [8]},
         {"question": [3, 4, 5, 6], "official_solution": [9, 10]},
     ]
+
+
+def test_word_evidence_allows_and_preserves_shared_boundary_page(
+    tmp_path: Path,
+) -> None:
+    """前题 2–3、后题 3–4 时，共享的第 3 页不能被判无效或被重写掉。"""
+    assert allowed_shared_boundaries(
+        [2, 3],
+        [7, 9],
+        layout="separated",
+    ) == [
+        {"question": {3}, "official_solution": {9}},
+        {"question": {7}, "official_solution": set()},
+    ]
+
+    pages_dir = tmp_path / "documents/PAPER-BOUNDARY/word/pages"
+    pages_dir.mkdir(parents=True)
+    for page in range(1, 11):
+        (pages_dir / f"{page:03d}.png").write_bytes(b"page")
+
+    def evidence(*pages: int) -> list[dict[str, object]]:
+        return [
+            {
+                "page_image": (
+                    f"documents/PAPER-BOUNDARY/word/pages/{page:03d}.png"
+                ),
+                "page_number": page,
+            }
+            for page in pages
+        ]
+
+    draft = {
+        "schema": "math_exam_staging_draft/v1",
+        "sections": [
+            {
+                "id": "problem",
+                "items": [
+                    {
+                        "item_id": "Q001",
+                        "question_word_evidence": evidence(2, 3),
+                        "official_solution": {"word_evidence": evidence(7, 8, 9)},
+                    },
+                    {
+                        "item_id": "Q002",
+                        "question_word_evidence": evidence(3, 4, 5, 6),
+                        "official_solution": {"word_evidence": evidence(9, 10)},
+                    },
+                ],
+            }
+        ],
+    }
+    resolved, report = resolve_draft_payload(
+        draft,
+        repo_root=tmp_path,
+        layout="separated",
+    )
+    assert report["changes"] == []
+    items = resolved["sections"][0]["items"]
+    assert [
+        entry["page_number"] for entry in items[0]["question_word_evidence"]
+    ] == [2, 3]
+    assert [
+        entry["page_number"]
+        for entry in items[0]["official_solution"]["word_evidence"]
+    ] == [7, 8, 9]
 
 
 def test_staging_audit_rejects_incomplete_cross_page_word_evidence(

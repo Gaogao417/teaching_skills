@@ -189,6 +189,56 @@ def expected_page_ranges(
     return expected
 
 
+def allowed_shared_boundaries(
+    question_starts: list[int],
+    solution_starts: list[int],
+    *,
+    layout: Layout,
+) -> list[dict[str, set[int]]]:
+    """Return boundary pages that adjacent items may legitimately share.
+
+    The resolver computes the smallest complete ranges. A rendered page can,
+    however, contain the tail of one item followed by the next item's start.
+    Such a page is valid evidence for both items and must not be rejected as an
+    unexpected extra page.
+    """
+    count = len(question_starts)
+    allowed: list[dict[str, set[int]]] = []
+    for index in range(count):
+        if layout == "interleaved":
+            question_boundary: set[int] = set()
+            solution_boundary = (
+                {question_starts[index + 1]} if index + 1 < count else set()
+            )
+        else:
+            question_boundary = (
+                {question_starts[index + 1]}
+                if index + 1 < count
+                else {solution_starts[0]}
+            )
+            solution_boundary = (
+                {solution_starts[index + 1]} if index + 1 < count else set()
+            )
+        allowed.append(
+            {
+                "question": question_boundary,
+                "official_solution": solution_boundary,
+            }
+        )
+    return allowed
+
+
+def _complete_or_preserved_pages(
+    current: list[int], expected: list[int], allowed_boundary: set[int]
+) -> list[int]:
+    """Preserve an explicit shared boundary while repairing missing core pages."""
+    missing = set(expected).difference(current)
+    extras = set(current).difference(expected)
+    if not missing and extras.issubset(allowed_boundary):
+        return current
+    return expected
+
+
 def _page_template(entries: list[dict[str, Any]], *, label: str) -> tuple[str, int, str]:
     if not entries or not isinstance(entries[0], dict):
         raise ValueError(f"{label}: first evidence page is required")
@@ -261,8 +311,27 @@ def resolve_draft_payload(
         last_page=last_page,
         layout=resolved_layout,
     )
+    shared_boundaries = allowed_shared_boundaries(
+        question_starts,
+        solution_starts,
+        layout=resolved_layout,
+    )
     changes: list[dict[str, Any]] = []
-    for item, current, wanted in zip(items, pages_by_item, expected, strict=True):
+    for item, current, minimum, boundaries in zip(
+        items,
+        pages_by_item,
+        expected,
+        shared_boundaries,
+        strict=True,
+    ):
+        wanted = {
+            role: _complete_or_preserved_pages(
+                current[role],
+                minimum[role],
+                boundaries[role],
+            )
+            for role in ROLES
+        }
         question, solution = _evidence_lists(item, draft=True)
         item["question_word_evidence"] = _entries_for_pages(
             question,
@@ -319,17 +388,30 @@ def validate_staging_coverage(
             last_page=last_page,
             layout=layout,
         )
+        shared_boundaries = allowed_shared_boundaries(
+            question_starts,
+            solution_starts,
+            layout=layout,
+        )
     except ValueError as exc:
         return [f"Word evidence coverage: {exc}"]
 
     errors: list[str] = []
-    for item_id, actual, wanted in zip(
-        ordered_item_ids, pages_by_item, expected, strict=True
+    for item_id, actual, wanted, boundaries in zip(
+        ordered_item_ids,
+        pages_by_item,
+        expected,
+        shared_boundaries,
+        strict=True,
     ):
         for role in ROLES:
-            if actual[role] != wanted[role]:
-                missing = sorted(set(wanted[role]).difference(actual[role]))
-                extra = sorted(set(actual[role]).difference(wanted[role]))
+            missing = sorted(set(wanted[role]).difference(actual[role]))
+            extra = sorted(
+                set(actual[role])
+                .difference(wanted[role])
+                .difference(boundaries[role])
+            )
+            if missing or extra:
                 details = []
                 if missing:
                     details.append(f"missing pages {missing}")
