@@ -1,0 +1,30 @@
+# Frozen PDF vision-detection input for the parabola Q24 figure. This is the
+# provider format that adapt_pdf_images.py wraps (no such format existed before
+# Track 3; the PDF track hand-wrote crops into drafts).
+schema: math_pdf_detection/v1
+paper_id: 2024-FENGXIAN-ERMO
+source_archive: documents/初三/2024届-上海市奉贤区-初三二模数学-试卷及参考答案
+
+pages:
+  - path: pages/004.png
+    sha256: sha256:1111111111111111111111111111111111111111111111111111111111111111
+    width_px: 1240
+    height_px: 1754
+  - path: pages/008.png
+    sha256: sha256:2222222222222222222222222222222222222222222222222222222222222222
+    width_px: 1240
+    height_px: 1754
+
+detections:
+  - page_path: pages/004.png
+    question_number: 24
+    role: prompt
+    box_px: [650, 315, 1000, 690]
+    confidence: medium
+    note: parabola figure
+  - page_path: pages/008.png
+    question_number: 24
+    role: solution
+    box_px: [120, 120, 1100, 1200]
+    confidence: low
+    note: low-confidence solution figure
