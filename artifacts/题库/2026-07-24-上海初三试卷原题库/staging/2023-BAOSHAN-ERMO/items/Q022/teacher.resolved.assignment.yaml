@@ -1,0 +1,38 @@
+meta:
+  title: 2023年上海市宝山区中考二模数学试卷第 22 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q022
+    points: 10
+    stem_latex: 一种牛奶包装盒（如图1），图2是其一个侧面的示意图，由盒身矩形 $BCDE$ 和房顶等腰三角形 $ABE$ 组成。已知 $BC=4.5$ 厘米，$CD=8$ 厘米，$AB=AE=5$ 厘米。（1）求房顶点 $A$ 到盒底边 $CD$ 的距离；（2）设计新造型，折线段 $ABC$ 的长度及矩形 $BCDE$ 的面积均不改变，且 $\sin\angle ABE=\dfrac{5}{13}$，$BC>CD$，求新造型盒身的高度（即 $BC$ 的长）．
+    answer: (1) $7.5$ 厘米；(2) $\dfrac{13}{2}$ 厘米
+    clue: (1) 等腰三角形三线合一+勾股求高；(2) 面积不变、折线长不变建立 $AB$、$CD$ 关于 $BC$ 的表达式，用 $\cos$ 列方程。
+    solution_steps:
+    - (1) 作 $AF\perp BE$ 于 $F$，等腰 $\triangle ABE$ 中 $BF=FE$；$BE=CD=8$，$BF=4$。
+    - Rt$\triangle ABF$ 中 $AF=\sqrt{5^2-4^2}=3$，点 $A$ 到 $CD$ 的距离 $=AF+BC=3+4.5=7.5$ 厘米。
+    - (2) 作 $AF\perp BE$ 于 $F$，设 $BC=x$，则 $AB=4.5+5-x=9.5-x$，$CD=\dfrac{8\times4.5}{x}=\dfrac{36}{x}$。
+    - $\sin\angle ABE=\dfrac{5}{13}$，$\cos\angle ABE=\dfrac{12}{13}$，又 $\cos\angle ABE=\dfrac{CD/2}{AB}$。
+    - $\dfrac{36/(2x)}{9.5-x}=\dfrac{12}{13}$，解得 $x=\dfrac{13}{2}$ 或 $3$。
+    - $x=3$ 时 $BC<CD$，舍去，$\therefore BC=\dfrac{13}{2}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 60mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

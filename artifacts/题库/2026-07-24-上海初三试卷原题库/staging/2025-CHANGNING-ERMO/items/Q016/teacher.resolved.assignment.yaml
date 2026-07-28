@@ -1,0 +1,34 @@
+meta:
+  title: 2025年上海市长宁区中考二模数学试卷第 16 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q016
+    points: 4
+    stem_latex: 已知 $\odot O$ 与 $\odot M$ 相交于 $A$、$B$ 两点，$\odot O$ 的半径长为2，$\odot M$ 的半径长为3，如果 $\odot O$ 的圆心在 $\odot M$ 上，那么公共弦 $AB$ 的长为______
+    answer: $\dfrac{8\sqrt{2}}{3}$
+    clue: $OM$ 垂直平分 $AB$，等面积法求 $AC$，$AB=2AC$。
+    solution_steps:
+    - 延长 $OM$ 交 $\odot M$ 于 $N$，$ON=6$，$AN=\sqrt{36-4}=4\sqrt{2}$。
+    - $S_{\triangle AON}=\frac{1}{2}AC\cdot ON=\frac{1}{2}AO\cdot AN$，$AC=\frac{4\sqrt{2}}{3}$，$AB=\frac{8\sqrt{2}}{3}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 80mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

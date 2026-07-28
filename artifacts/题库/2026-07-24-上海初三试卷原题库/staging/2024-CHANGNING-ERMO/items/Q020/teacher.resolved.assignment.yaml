@@ -1,0 +1,30 @@
+meta:
+  title: 2024年上海市长宁区中考二模数学试卷第 20 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q020
+    points: 10
+    stem_latex: 解方程组：$\begin{cases} x-y=3 \text{①} \\ x^2-5xy+6y^2=0 \text{②} \end{cases}$
+    answer: $\begin{cases} x=\dfrac{18}{5} \\ y=\dfrac{3}{5} \end{cases}$ 或 $\begin{cases} x=\dfrac{3}{2} \\ y=-\dfrac{3}{2} \end{cases}$
+    clue: ②因式分解为 $(x-6y)(x+y)=0$，拆成两个二元一次方程组。
+    solution_steps:
+    - 由②$(x-6y)(x+y)=0$，得 $x=6y$ 或 $x=-y$。
+    - $x=6y$ 代入①：$5y=3$，$y=\dfrac{3}{5}$，$x=\dfrac{18}{5}$。
+    - $x=-y$ 代入①：$-2y=3$，$y=-\dfrac{3}{2}$，$x=\dfrac{3}{2}$。
+    source_solution_images: []

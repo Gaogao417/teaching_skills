@@ -1,0 +1,37 @@
+meta:
+  title: 2023年上海市长宁区中考二模数学试卷第 22 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q022
+    points: 10
+    stem_latex: 为了测量建筑物的高度 $BE$，从与底端 $B$ 同一水平线的点 $A$ 出发，沿坡比 $i=1:2.4$ 的斜坡行至坡顶 $D$，测得顶端 $E$ 仰角为 $30\degree$；再从 $D$ 水平行走 $100$ 米至 $C$，测得 $E$ 仰角 $60\degree$、$B$ 俯角 $45\degree$。求 $BE$ 的高度与 $AD$ 的长（参考数据：$\sqrt{3}\approx1.732$）．
+    answer: $BE\approx136.6$ 米，$AD=130$ 米
+    clue: 构造矩形与直角三角形，用 $30\degree/60\degree/45\degree$ 特殊角和坡比求解。
+    solution_steps:
+    - 过 $C,D$ 作 $CM\perp BE$、$DN\perp AB$，四边形 $BMDN$ 是矩形，$BM=DN$。
+    - $\angle DEC=\angle ECM-\angle EDM=30\degree=\angle EDM$，$\therefore EC=DC=100$ 米。
+    - $CM=EC\cos60\degree=50$ 米，$DN=BM=50$ 米，$EM=CM\tan60\degree=50\sqrt{3}$ 米。
+    - $BE=BM+EM=50+50\sqrt{3}\approx136.6$ 米。
+    - 坡比 $\dfrac{DN}{AN}=\dfrac{1}{2.4}$，$AN=120$ 米，$AD=\sqrt{120^{2}+50^{2}}=130$ 米。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 70mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

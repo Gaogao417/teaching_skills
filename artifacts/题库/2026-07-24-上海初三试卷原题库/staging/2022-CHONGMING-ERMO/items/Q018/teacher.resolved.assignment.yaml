@@ -1,0 +1,31 @@
+meta:
+  title: 2022年上海市崇明区初三二模数学试卷第 18 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q018
+    points: 4
+    stem_latex: 若三角形一条边上的中线恰好等于这条边的长，则称该三角形为\u201c匀称三角形\u201d。在 $\mathrm{Rt}\triangle ABC$ 中，$\angle C=90^{\circ}$，$AC>BC$，若 $\mathrm{Rt}\triangle ABC$ 是\u201c匀称三角形\u201d，那么 $BC:AC:AB=$______
+    answer: $\sqrt{3}:2:\sqrt{7}$
+    clue: 只有 $BE=AC$ 满足，设 $AC=2a$ 用勾股定理。
+    solution_steps:
+    - 设 $AC=2a$，$BE$ 为 $AC$ 边中线且 $BE=AC=2a$，$CE=a$。
+    - $\mathrm{Rt}\triangle BCE$ 中 $BC=\sqrt{BE^{2}-CE^{2}}=\sqrt{3}a$。
+    - $\mathrm{Rt}\triangle ABC$ 中 $AB=\sqrt{BC^{2}+AC^{2}}=\sqrt{7}a$。
+    - $\therefore BC:AC:AB=\sqrt{3}:2:\sqrt{7}$。
+    source_solution_images: []

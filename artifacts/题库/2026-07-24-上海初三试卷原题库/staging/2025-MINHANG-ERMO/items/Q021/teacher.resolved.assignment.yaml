@@ -1,0 +1,40 @@
+meta:
+  title: 2025年上海市闵行区中考二模数学试卷第 21 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q021
+    points: 10
+    stem_latex: '$\triangle ABC$ 中 $BE$ 为中线，$AD$ 平分 $\angle BAC$ 且 $AD\perp BE$，$EF\perp BE$，$AB=5$，$\tan\angle ABE=\frac{3}{4}$。
+
+      (1) 求 $BE$；
+
+      (2) 求 $\tan\angle EBC$。'
+    solution_steps:
+    - (1) $AH=3$，$BH=4$，角平分线 $\angle BAH=\angle EAH$，$EH=4$，$BE=8$。
+    - (2) $EF\parallel AD$，$\triangle CEF\sim\triangle CAD$，$F$ 为 $DC$ 中点。
+    - $\triangle BHD\sim\triangle BFE$，$HD=\frac{1}{2}EF=\frac{1}{4}AD$。
+    - $AH=3$，$HD=1$，$\tan\angle EBC=\frac{HD}{BE}=\frac{1}{4}$。
+    clue: 角平分线+相似三角形+中位线。
+    answer: (1) $BE=8$；(2) $\tan\angle EBC=\dfrac{1}{4}$
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 60mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

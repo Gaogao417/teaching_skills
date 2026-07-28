@@ -1,0 +1,34 @@
+meta:
+  title: 2025年上海市普陀区中考二模数学试卷第 13 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q013
+    points: 4
+    stem_latex: $\square ABCD$ 中 $E$ 在 $DC$ 上 $DE=2EC$，$AE$ 延长交 $BC$ 延长线于 $F$。$\overrightarrow{BA}=\vec{a}$，$\overrightarrow{BC}=\vec{b}$，$\overrightarrow{EF}=$______
+    answer: $-\dfrac{1}{3}\vec{a}+\dfrac{1}{2}\vec{b}$
+    clue: $\triangle CEF\sim\triangle DEA$，$\overrightarrow{CF}=\frac{1}{2}\vec{b}$。
+    solution_steps:
+    - $\overrightarrow{CE}=-\frac{1}{3}\vec{a}$，$\overrightarrow{CF}=\frac{1}{2}\vec{b}$。
+    - $\overrightarrow{EF}=-\frac{1}{3}\vec{a}+\frac{1}{2}\vec{b}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 60mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

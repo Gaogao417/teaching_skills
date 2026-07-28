@@ -1,0 +1,43 @@
+meta:
+  title: 2025年上海市闵行区中考二模数学试卷第 24 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q024
+    points: 12
+    stem_latex: '"优雅"抛物线：顶点 $(t, at^2)$。$C_1: y=x^2+4x+m$。
+
+      (1) $C_1$ 是"优雅"抛物线，求 $m$；
+
+      (2) $C_1$ 下移得 $C_2$，顶点 $C$，对称轴交 $x$ 轴于 $A$，$B$ 在 $y$ 轴负半轴。
+
+      ① $ABDE$ 为矩形，求 $E$ 坐标；
+
+      ② $C_3: y=2x^2+px+q$ 为"优雅"抛物线，顶点 $G$ 在 $x$ 轴上，$AM\parallel BC$，求 $C_2$。'
+    solution_steps:
+    - (1) 顶点 $(-2,m-4)$，需 $m-4=4$，$m=8$。
+    - (2)① $C_2: y=(x+2)^2+n$，$B(0,n+4)$，$C(-2,n)$。矩形求得 $n=-5-\sqrt{5}$，$E(\sqrt{5}+1,\sqrt{5}+1)$。
+    - ② $G$ 在 $x$ 轴上得 $C_3$ 为 $y=2x^2$，$M(2,8)$，$n=-8$，$C_2$ 为 $y=x^2+4x-4$。
+    clue: 新定义二次函数+平移+矩形+平行线。
+    answer: (1) $m=8$；(2)① $E(\sqrt{5}+1,\sqrt{5}+1)$；② $C_2$ 表达式为 $y=x^2+4x-4$
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 100mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

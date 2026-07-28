@@ -1,0 +1,33 @@
+meta:
+  title: 2025年上海市徐汇区中考二模数学试卷第 16 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q016
+    points: 4
+    stem_latex: 梯形 $ABCD$（$BC\parallel AD$），$AC\perp BD$，$AC=4$，$BD=3$，$\sin\angle BDA=$______
+    answer: $\dfrac{4}{5}$
+    clue: 平移 $BD$ 得 $CE=3$，$\sin=\frac{AC}{AE}=\frac{4}{5}$。
+    solution_steps:
+    - $AE=\sqrt{16+9}=5$，$\sin\angle BDA=\frac{4}{5}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 60mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

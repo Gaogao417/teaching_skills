@@ -1,0 +1,41 @@
+meta:
+  title: 2023年上海市宝山区中考二模数学试卷第 24 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q024
+    points: 12
+    stem_latex: 在平面直角坐标系 $xOy$ 中，已知抛物线 $y=-x^2+bx+c$ 经过点 $A(-3,0)$、$B(1,0)$，与 $y$ 轴交于点 $C$，抛物线的顶点为 $D$．（1）求二次函数的解析式和顶点 $D$ 的坐标；（2）连接 $AC$，试判断 $\triangle ACD$ 与 $\triangle BOC$ 是否相似，并说明理由；（3）将抛物线平移，使新抛物线的顶点 $E$ 落在线段 $OC$ 上，新抛物线与原抛物线的对称轴交于点 $F$，连接 $EF$，如果四边形 $CEFD$ 的面积为 $3$，求新抛物线的解析式．
+    answer: (1) $y=-x^2-2x+3$，$D(-1,4)$；(2) $\triangle ACD\sim\triangle COB$；(3) $y=-x^2+1$
+    clue: (1) 待定系数法；(2) 勾股逆定理证直角，再由两边对应成比例证相似；(3) 平移后顶点在 $OC$ 上，用 $a$ 表示梯形上下底列面积方程。
+    solution_steps:
+    - (1) $\begin{cases} -9-3b+c=0 \\ -1+b+c=0 \end{cases}$，解得 $b=-2$，$c=3$。
+    - $y=-x^2-2x+3=-(x+1)^2+4$，顶点 $D(-1,4)$。
+    - (2) $C(0,3)$，$OB=1$，$OC=3$。
+    - $AC=\sqrt{3^2+3^2}=3\sqrt{2}$，$CD=\sqrt{1^2+1^2}=\sqrt{2}$，$AD=\sqrt{2^2+4^2}=2\sqrt{5}$。
+    - $AC^2+CD^2=AD^2$，$\triangle ACD$ 是直角三角形，$\angle ACD=90\degree$。
+    - $\dfrac{AC}{CD}=3=\dfrac{OC}{OB}$，$\angle ACD=\angle COB$，$\therefore \triangle ACD\sim\triangle COB$。
+    - (3) 对称轴 $x=-1$，设新抛物线 $y=-x^2+a$（$0\leqslant a\leqslant 3$），顶点 $E(0,a)$。
+    - $x=-1$ 时 $y=a-1$，$F(-1,a-1)$；$CE=3-a$，$DF=5-a$。
+    - $\dfrac{1}{2}(3-a+5-a)\times1=3$，解得 $a=1$，新抛物线 $y=-x^2+1$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 80mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

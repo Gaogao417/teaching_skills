@@ -1,0 +1,42 @@
+meta:
+  title: 2025年上海市奉贤区中考二模数学试卷第 22 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q022
+    points: 10
+    stem_latex: '某校图书馆2022—2024年购书支出折线统计图和2024年扇形统计图。2022年12000元，2023年16000元，2024年比2023年提高50%。2022年社科类占10%，2024年社科类占15%。
+
+      (1) 2024年与2022年相比，社科类图书支出增长率为多少？
+
+      (2) 2025年计划自然科学类（2024年占25%）购书金额提高20%，数量增加80册，每册均价降低20元。计划2025年购进自然科学类图书多少册？'
+    solution_steps:
+    - (1) 2024年总支出 $=16000\times1.5=24000$元。
+    - 2022年社科 $=12000\times10\%=1200$元，2024年社科 $=24000\times15\%=3600$元。
+    - 增长率 $=\dfrac{3600-1200}{1200}\times100\%=200\%$。
+    - (2) 2024年自然科学支出 $=24000\times25\%=6000$元。
+    - 设2024年购 $x$ 册，2025年购 $x+80$ 册：$\dfrac{6000}{x}-\dfrac{7200}{x+80}=20$。
+    - $x^2+140x-24000=0$，$x=100$，$x+80=180$。
+    clue: 统计图表读取+分式方程应用。
+    answer: (1) $200\%$；(2) $180$ 册
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 120mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

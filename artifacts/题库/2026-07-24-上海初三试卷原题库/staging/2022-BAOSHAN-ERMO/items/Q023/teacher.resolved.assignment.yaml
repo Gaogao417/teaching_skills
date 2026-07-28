@@ -1,0 +1,42 @@
+meta:
+  title: 2022年上海市宝山区中考数学二模试卷第 23 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q023
+    points: 12
+    stem_latex: '如图，点 $D$、$E$、$F$ 分别在 $\triangle ABC$ 的边 $AB$、$AC$、$BC$ 上，$DF\parallel AC$，$BD=2AD$，$AE=2EC$。
+
+      (1) 如果 $AB=2AC$，求证：四边形 $ADFE$ 是菱形；
+
+      (2) 如果 $AB=\sqrt{2}AC$，且 $BC=1$，联结 $DE$，求 $DE$ 的长。'
+    answer: (1) 见证明；(2) $DE=\dfrac{\sqrt{2}}{3}$
+    clue: 由平行线分线段成比例证平行四边形及菱形；用相似三角形求 $DE$。
+    solution_steps:
+    - (1) $\because BD=2AD$，$AE=2EC$，$\therefore \dfrac{BD}{AD}=\dfrac{AE}{CE}$。
+    - 由 $DF\parallel AC$ 得 $\dfrac{BD}{AD}=\dfrac{BF}{CF}$，$\therefore \dfrac{BF}{CF}=\dfrac{AE}{CE}$，$\therefore EF\parallel AB$。
+    - 又 $DF\parallel AC$，$\therefore$ 四边形 $ADFE$ 是平行四边形。
+    - 由 $AB=2AC$，$AE=\dfrac{2}{3}AC=\dfrac{1}{3}AB$，而 $AD=\dfrac{1}{3}AB$，$\therefore AD=AE$，$\therefore$ 四边形 $ADFE$ 是菱形。
+    - (2) $\dfrac{AD}{AC}=\dfrac{\frac{1}{3}AB}{AC}=\dfrac{\sqrt{2}}{3}$，$\dfrac{AE}{AB}=\dfrac{\frac{2}{3}AC}{AB}=\dfrac{\sqrt{2}}{3}$，且 $\angle A$ 公共，$\therefore \triangle ADE\sim\triangle ACB$。
+    - $\therefore \dfrac{DE}{BC}=\dfrac{\sqrt{2}}{3}$，$BC=1$，$\therefore DE=\dfrac{\sqrt{2}}{3}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 120mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

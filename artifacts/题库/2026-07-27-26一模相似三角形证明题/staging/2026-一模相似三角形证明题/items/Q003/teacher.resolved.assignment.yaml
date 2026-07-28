@@ -1,0 +1,60 @@
+meta:
+  title: 26一模相似三角形证明题 奉贤23
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q003
+    points: 12
+    stem_latex: 如图，在 $\triangle ABC$ 中，$D,E$ 分别在 $AB,BC$ 上，$CD,AE$ 交于 $F$，且 $CD=BD,AE=AC$。（1）证明
+      $\triangle ADF\sim\triangle CDA$；（2）联结 $DE$，由题给比例证明 $AD\cdot AE=DC\cdot DE$。
+    answer: 两结论均成立。
+    solution_steps:
+    - title: 第（1）问
+      content: '$CD=BD$，$\therefore \angle B=\angle DCB$。
+
+        $AE=AC$，$\therefore \angle AEC=\angle ACB$。
+
+        $\angle AEC=\angle B+\angle BAE$，$\angle ACB=\angle DCB+\angle ACD$。
+
+        $\therefore \angle BAE=\angle ACD$。
+
+        $\because \angle ADF=\angle CDA$，$\therefore \triangle ADF\sim\triangle CDA$。'
+    - title: 第（2）问
+      content: '$\because \dfrac{AD}{AB}=\dfrac{CE}{CB}$，$\therefore DE\parallel AC$，$\therefore
+        \angle BDE=\angle DAC$。
+
+        $\because \triangle ADF\sim\triangle CDA$，$\therefore \angle DFA=\angle DAC$，$\dfrac{AD}{DC}=\dfrac{AF}{AC}$。
+
+        $\therefore \angle BDE=\angle DFA$，$\therefore \angle ADE=\angle CFA$。
+
+        $\because \angle BAE=\angle ACD$，$\therefore \triangle ADE\sim\triangle CFA$。
+
+        $\therefore \dfrac{DE}{AF}=\dfrac{AE}{AC}$，$\therefore \dfrac{DE}{AE}=\dfrac{AF}{AC}=\dfrac{AD}{DC}$。
+
+        $\therefore AD\cdot AE=DC\cdot DE$。'
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页
+    diagram_col:
+      image_path: assets/manual-prompt-1-821ff9e637f000da.png
+      width: 0.75\linewidth
+      variant: prompt
+      disclosure_policy: clean

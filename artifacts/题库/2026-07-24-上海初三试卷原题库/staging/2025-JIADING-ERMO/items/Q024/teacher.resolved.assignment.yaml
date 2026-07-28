@@ -1,0 +1,43 @@
+meta:
+  title: 2025年上海市嘉定区中考二模数学试卷第 24 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q024
+    points: 12
+    stem_latex: '抛物线 $C_1: y=ax^2+2ax-3a$（$a<0$）与 $x$ 轴交于 $A$、$B$（$A$ 左 $B$ 右），顶点 $D$。
+
+      (1) 求 $AB$ 的长；
+
+      (2) 右移3上移4得 $C_2$，顶点 $E$，$A$、$D$、$E$ 共线，求 $C_1$ 表达式；
+
+      (3) 四边形 $ABCD$ 面积为9时，$P$ 在 $x$ 轴上（$P\neq B$），$\triangle ACP\sim\triangle ABC$，求 $P$ 坐标。'
+    solution_steps:
+    - (1) $A(-3,0)$，$B(1,0)$，$AB=4$。
+    - (2) $D(-1,-4a)$，$E(2,-4a+4)$。直线 $AD: y=-2ax-6a$，$E$ 代入得 $a=-\frac{2}{3}$。
+    - $y=-\frac{2}{3}x^2-\frac{4}{3}x+2$。
+    - (3) 面积条件得 $a=-1$，$y=-x^2-2x+3$，$C(0,3)$。
+    - $\triangle ABC\sim\triangle ACP$，$AP=\frac{AC^2}{AB}=\frac{18}{4}=4.5$，$P(\frac{3}{2},0)$。
+    clue: 二次函数+平移+相似三角形。
+    answer: (1) $AB=4$；(2) $y=-\dfrac{2}{3}x^2-\dfrac{4}{3}x+2$；(3) $P\!\left(\dfrac{3}{2},0\right)$
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 40mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

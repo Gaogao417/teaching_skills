@@ -1,0 +1,33 @@
+meta:
+  title: 2023年上海市宝山区中考二模数学试卷第 18 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q018
+    points: 4
+    stem_latex: 如果一个三角形的两个内角 $\alpha$ 与 $\beta$ 满足 $2\alpha+\beta=90\degree$，那么称这样的三角形为“倍角互余三角形”。已知在 Rt$\triangle ABC$ 中，$\angle ACB=90\degree$，$AC=4$，$BC=5$，点 $D$ 在边 $BC$ 上，且 $\triangle ABD$ 是“倍角互余三角形”，那么 $BD$ 的长等于 ________．
+    answer: $\dfrac{9}{5}$ 或 $\dfrac{41-4\sqrt{41}}{5}$
+    clue: 按 $\angle B=\angle CAD$ 与 $\angle BAD=\angle CAD$（角平分线）两种情况分类讨论。
+    solution_steps:
+    - 情形一：$\angle B=\angle CAD$ 时，$\tan\angle DAC=\tan\angle B=\dfrac{AC}{BC}=\dfrac{4}{5}$。
+    - $\dfrac{CD}{AC}=\dfrac{CD}{4}=\dfrac{4}{5}$，$CD=\dfrac{16}{5}$，$BD=5-\dfrac{16}{5}=\dfrac{9}{5}$。
+    - 情形二：$\angle BAD=\angle CAD$ 时，$AD$ 平分 $\angle BAC$，作 $DE\perp AB$ 于 $E$，则 $DC=DE$。
+    - Rt$\triangle ADC\cong$ Rt$\triangle ADE$（HL），$AE=AC=4$，$AB=\sqrt{4^2+5^2}=\sqrt{41}$，$BE=\sqrt{41}-4$。
+    - 设 $CD=x$，$BD=5-x$，Rt$\triangle BDE$ 中 $(5-x)^2=x^2+(\sqrt{41}-4)^2$，解得 $x=\dfrac{4\sqrt{41}-16}{5}$。
+    - $BD=5-x=\dfrac{41-4\sqrt{41}}{5}$。
+    source_solution_images: []

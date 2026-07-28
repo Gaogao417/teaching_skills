@@ -1,0 +1,29 @@
+meta:
+  title: 2024年上海市宝山区中考二模数学试卷第 10 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q010
+    points: 4
+    stem_latex: 方程 $\sqrt{2-x}=-x$ 的解是\u3000\u3000\u3000\u3000。
+    answer: $x=-2$
+    clue: 两边平方后解一元二次方程，注意验根舍去增根。
+    solution_steps:
+    - 由题意 $x\leq0$，两边平方得 $2-x=x^2$，即 $x^2+x-2=0$。
+    - $x_1=1$，$x_2=-2$，经检验 $x_1=1$ 为增根舍去，$\therefore x=-2$。
+    source_solution_images: []

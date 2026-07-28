@@ -1,0 +1,39 @@
+meta:
+  title: 2024年上海市长宁区中考二模数学试卷第 21 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q021
+    points: 10
+    stem_latex: '如图，$\odot O$ 经过平行四边形 $ABCD$ 的顶点 $B$、$C$、$D$，点 $O$ 在边 $AD$ 上，$AO=3$，$OD=5$。
+
+      (1) 求平行四边形 $ABCD$ 的面积；
+
+      (2) 求 $\angle D$ 的正弦值。'
+    answer: (1) $24$；(2) $\sin D=\dfrac{3\sqrt{10}}{10}$
+    clue: (1) 垂径定理 $OE\perp BC$，$BC=AD=8$，$CE=4$，$OE=3$；(2) 构矩形 $OECF$ 求 $CD$。
+    solution_steps:
+    - (1) $BC=AD=8$，$CE=4$，$OC=OD=5$，$OE=\sqrt{25-16}=3$，面积 $=8\times3=24$。
+    - (2) $OF=CE=4$，$CF=OE=3$，$DF=OD-OF=1$，$CD=\sqrt{3^2+1^2}=\sqrt{10}$。
+    - $\sin D=\dfrac{CF}{CD}=\dfrac{3}{\sqrt{10}}=\dfrac{3\sqrt{10}}{10}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 85mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

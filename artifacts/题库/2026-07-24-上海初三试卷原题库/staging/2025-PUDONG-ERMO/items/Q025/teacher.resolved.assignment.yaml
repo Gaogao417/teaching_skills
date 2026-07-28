@@ -1,0 +1,43 @@
+meta:
+  title: 2025年上海市浦东新区中考二模数学试卷第 25 题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: '$AB$、$CD$ 是 $\odot O$（半径2）的两条直径，$P$ 在 $BA$ 延长线上，$PC$ 交 $\odot O$ 于 $E$。
+
+      (1) $PC=PO$ 时求证 $CO^2=CE\cdot CP$；
+
+      (2) 连 $DE$ 交 $OA$ 于 $M$，$PA=2$。
+
+      ① $M$ 是 $\triangle PCD$ 重心，求 $\cos\angle BOC$；
+
+      ② $\triangle BDE$ 为等腰三角形，求 $PE$。'
+    solution_steps:
+    - (1) $\triangle POC\sim\triangle OEC$，$CO^2=CE\cdot CP$。
+    - (2)① $\cos\angle BOC=\frac{1}{4}$。
+    - ② 分 $ED=BE$ 和 $DE=DB$ 两种情况：$PE=\sqrt{6}$ 或 $2\sqrt{2}$。
+    clue: 圆综合+相似三角形+重心+等腰三角形分类讨论。
+    answer: (1) 证明见详解；(2)① $\cos\angle BOC=\dfrac{1}{4}$；② $PE=\sqrt{6}$ 或 $2\sqrt{2}$
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 120mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

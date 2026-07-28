@@ -1,0 +1,35 @@
+meta:
+  title: 2025年上海市虹口区中考二模数学试卷第 21 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q021
+    points: 10
+    stem_latex: 在 $\triangle ABC$ 中，$AB = AC = 5\sqrt{5}$，$\tan C = 2$，点 $D$ 为边 $BC$ 中点，以 $D$ 为圆心，以 $DB$ 为半径作弧交边 $AB$ 于点 $E$，求 $BC$ 和 $BE$ 的长。
+    solution_steps:
+    - $AD\perp BC$，$\tan C=\dfrac{AD}{CD}=2$，设 $CD=x$，$AD=2x$。
+    - $4x^2+x^2=125$，$x=5$，$BC=10$。
+    - $DE=DB=5$，$DF\perp BE$，$BF=\sqrt{5}$，$BE=2\sqrt{5}$。
+    clue: 等腰三角形三线合一+解直角三角形+垂径定理。
+    answer: $BC=10$，$BE=2\sqrt{5}$
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 80mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

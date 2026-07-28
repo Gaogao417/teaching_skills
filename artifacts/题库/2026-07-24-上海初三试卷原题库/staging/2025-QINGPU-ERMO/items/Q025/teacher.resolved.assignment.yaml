@@ -1,0 +1,53 @@
+meta:
+  title: 2025年上海市青浦区中考二模数学试卷第 25 题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: '$AB$ 为 $\odot O$ 直径（$AB=5$），$C$ 在 $\odot O$ 上，$OD\parallel BC$ 交 $\odot O$ 于 $D$。
+
+      (1) $\angle ABC=60^{\circ}$ 时证 $OCBD$ 是菱形；
+
+      (2) $DE\perp OB$ 于 $E$。
+
+      ① $DC$ 交 $OB$ 于 $F$，$\angle OCD=\frac{1}{2}\angle CAB$，求 $EF$；
+
+      ② $S_2=7S_1$ 时求 $AC$。'
+    solution_steps:
+    - (1) $\triangle BOC$、$\triangle BOD$ 均等边，$OC=CB=OD=DB$，菱形。
+    - (2)① $\angle DOE=45^{\circ}$，$OE=\frac{5\sqrt{2}}{4}$，$EF=\frac{10-5\sqrt{2}}{4}$。
+    - ② $OE=\frac{5}{3}$，$OH=\frac{5\sqrt{5}}{6}$，$AC=2OH=\frac{5\sqrt{5}}{3}$。
+    clue: 圆综合+菱形+圆周角定理+面积比。
+    answer: (1) 证明见详解；(2)① $EF=\dfrac{10-5\sqrt{2}}{4}$；② $AC=\dfrac{5\sqrt{5}}{3}$
+    stem_image_1:
+      image_path: assets/prompt-01.png
+      width: 60mm
+      variant: prompt
+      disclosure_policy: clean
+    stem_image_2:
+      image_path: assets/prompt-02.png
+      width: 60mm
+      variant: prompt
+      disclosure_policy: clean
+    stem_image_3:
+      image_path: assets/prompt-03.png
+      width: 60mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

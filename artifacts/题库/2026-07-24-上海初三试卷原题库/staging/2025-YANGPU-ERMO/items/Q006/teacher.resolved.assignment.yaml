@@ -1,0 +1,46 @@
+meta:
+  title: 2025年上海市杨浦区中考二模数学试卷第 6 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q006
+    points: 4
+    stem_latex: $AB=10$，$\odot A$（$r=2$），$P$ 在 $AB$ 上，$\odot B$（$r=BP$）绕 $P$ 旋转 $180^{\circ}$ 得 $\odot C$，$\odot A$ 与 $\odot C$ 相切时 $P$ 的个数是（\quad）
+    choices:
+    - 1个
+    - 2个
+    - 3个
+    - 4个
+    answer: C
+    clue: 分类讨论内切外切。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 60mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images:
+    - image_path: assets/manual-official_solution-1-480c94565a3bbb02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方解答原图 1
+    - image_path: assets/manual-official_solution-2-a675fc216191d41a.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方解答原图 2

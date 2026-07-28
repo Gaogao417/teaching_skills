@@ -1,0 +1,37 @@
+meta:
+  title: 2023年上海市长宁区中考二模数学试卷第 17 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q017
+    points: 4
+    stem_latex: 如图，$\odot O$ 的直径 $AB$ 与弦 $CD$ 交于点 $E$，已知 $\angle CEA = 45\degree$，$DE = 7$，$OE = 3\sqrt{2}$，那么 $\cot\angle ABD$ 的值为 ______
+    answer: $\dfrac{5\sqrt{2}-1}{7}$
+    clue: 作弦心距构造等腰直角三角形求半径，再在 $BE$ 上用 $45\degree$ 直角三角形求 $\cot$。
+    solution_steps:
+    - 作 $OF\perp CD$ 于 $F$，连 $OD$，作 $DH\perp AB$ 于 $H$。
+    - $\angle OEF=45\degree$，$\triangle OEF$ 等腰直角，$OE=3\sqrt{2}\Rightarrow OF=EF=3$。
+    - $DE=7\Rightarrow DF=4$，$OD=\sqrt{3^{2}+4^{2}}=5$，$OB=5$，$BE=5+3\sqrt{2}$。
+    - $\triangle DEH$ 等腰直角，$EH=DH=\dfrac{7\sqrt{2}}{2}$。
+    - $BH=BE-EH=5-\dfrac{\sqrt{2}}{2}$，$\cot\angle ABD=\dfrac{BH}{DH}=\dfrac{5\sqrt{2}-1}{7}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 50mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

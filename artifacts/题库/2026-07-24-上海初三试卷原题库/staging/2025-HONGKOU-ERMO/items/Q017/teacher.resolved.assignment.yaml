@@ -1,0 +1,34 @@
+meta:
+  title: 2025年上海市虹口区中考二模数学试卷第 17 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q017
+    points: 4
+    stem_latex: 已知点 $A(2,0)$、$B(6,0)$ 和 $C(4,2)$，平移 $\triangle ABC$ 得到 $\triangle A'B'C'$，如果点 $A'$、$B'$ 都在抛物线 $y = \dfrac{1}{2}x^2$ 上，那么点 $C$ 到点 $C'$ 的距离是______
+    answer: $2\sqrt{5}$
+    clue: 平移向量 $(-4,2)$，$CC'=\sqrt{16+4}=2\sqrt{5}$。
+    solution_steps:
+    - $A'、B'$ 纵坐标相同，$\frac{1}{2}(2+m)^2=\frac{1}{2}(6+m)^2$，$m=-4$。
+    - $n=\frac{1}{2}(-2)^2=2$，$CC'=\sqrt{16+4}=2\sqrt{5}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 110mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

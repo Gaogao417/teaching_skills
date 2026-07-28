@@ -1,0 +1,35 @@
+meta:
+  title: 2023年上海市宝山区中考二模数学试卷第 14 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q014
+    points: 4
+    stem_latex: 某地长途汽车客运公司规定：旅客可免费随身携带一定重量行李，超过规定重量需购买行李票。行李票费用 $y$（元）是行李重量 $x$（千克）的一次函数，其图像如图所示，那么旅客最多可免费携带行李 ________ 千克．
+    answer: $30$
+    clue: 用待定系数法求一次函数解析式，令 $y=0$ 求 $x$。
+    solution_steps:
+    - 设 $y=kx+b$，由 $x=60$ 时 $y=6$，$x=80$ 时 $y=10$，得 $\begin{cases} 60k+b=6 \\ 80k+b=10 \end{cases}$。
+    - 解得 $k=\dfrac{1}{5}$，$b=-6$，$\therefore y=\dfrac{1}{5}x-6$。
+    - 令 $y=0$，得 $x=30$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 60mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

@@ -1,0 +1,45 @@
+meta:
+  title: 2025年上海市长宁区中考二模数学试卷第 23 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q023
+    points: 12
+    stem_latex: '在矩形 $ABCD$ 中，点 $E$ 在对角线 $AC$ 上，$AE < EC$，$BE = DE$。
+
+      (1) 求证：四边形 $ABCD$ 是正方形；
+
+      (2) 点 $F$ 在对角线 $AC$ 上，且 $\angle ADF = \angle BEC$，求证：$BE \cdot DF = EF \cdot AB$。'
+    solution_steps:
+    - (1) 连接 $BD$ 交 $AC$ 于 $O$，矩形中 $BO=DO$。
+    - $\because BE=DE$，$\therefore AC$ 垂直平分 $BD$，$\therefore AB=AD$。
+    - $\therefore$ 四边形 $ABCD$ 是正方形。
+    - (2) 连接 $BF$，正方形中 $AB=AD$，$\angle BAF=\angle DAF$。
+    - $\triangle BAF \cong \triangle DAF$（SAS），$\therefore \angle AFB=\angle AFD$。
+    - $\because \angle ADF=\angle BEC$，即 $\angle BEF=\angle ADF$。
+    - $\therefore \triangle BEF \sim \triangle ADF$。
+    - $\therefore \dfrac{BE}{AD}=\dfrac{EF}{DF}$，即 $\dfrac{BE}{AB}=\dfrac{EF}{DF}$。
+    - $\therefore BE \cdot DF = EF \cdot AB$。
+    clue: 矩形对角线+垂直平分证正方形；全等+相似证乘积关系。
+    answer: 证明见详解
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 80mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

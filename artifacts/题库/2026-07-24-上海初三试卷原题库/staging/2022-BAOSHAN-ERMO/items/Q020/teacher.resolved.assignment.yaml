@@ -1,0 +1,31 @@
+meta:
+  title: 2022年上海市宝山区中考数学二模试卷第 20 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q020
+    points: 10
+    stem_latex: 解方程：$\dfrac{1}{x+2}+\dfrac{4}{x^{2}-4}=1$
+    answer: $x=3$
+    clue: 去分母化为整式方程，注意检验增根。
+    solution_steps:
+    - 去分母（同乘 $(x+2)(x-2)$）得 $x-2+4=x^{2}-4$，即 $x^{2}-x-6=0$。
+    - 分解因式 $(x-3)(x+2)=0$，$x=3$ 或 $x=-2$。
+    - 检验：$x=-2$ 使分母为0，是增根，舍去。
+    - $\therefore$ 原方程的解为 $x=3$。
+    source_solution_images: []

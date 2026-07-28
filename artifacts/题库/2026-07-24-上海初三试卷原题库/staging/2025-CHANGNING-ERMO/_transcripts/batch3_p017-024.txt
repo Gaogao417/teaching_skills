@@ -1,0 +1,76 @@
+### Q18 @page17-18 (续尾详解)
+TYPE: solve
+STEM: (题干在前批页) 在梯形 $ABCD$ 中，$AD \parallel BC$，$\angle BAD = 90°$，将 $\triangle ABE$ 沿着 $AE$ 翻折，点 $B$ 的对应点为点 $F$，$EF \perp CD$，求 $EC$ 的长。已知 $AB = 4$，$AD = 3$，$BC = 6$。
+[FIG: 梯形 $ABCD$，$AD \parallel BC$，$E$ 在 $BC$ 上，$F$ 在 $AG$ 上，$H$ 在 $CD$ 上，延长 $AF$ 交 $BC$ 于 $G$]
+SOLUTION:
+【详解】解：延长 $AF$ 交 $BC$ 于点 $G$。
+在梯形 $ABCD$ 中，$AD \parallel BC$，$\angle BAD = 90°$，$\therefore \angle B = 180° - \angle BAD = 90°$。
+将 $\triangle ABE$ 沿着 $AE$ 翻折，点 $B$ 的对应点为点 $F$，
+$\therefore \angle AFE = \angle ABE = \angle AFH = 90°$，$AB = AF = 4$。
+$\because EF \perp CD$，$EH \perp AG$，$\therefore AG \parallel CD$，
+$\because AD \parallel BC$，$\therefore$ 四边形 $AGCD$ 是平行四边形，
+$\therefore CG = AD = 3$，$\therefore BG = BC - CG = 3$，
+$\therefore AG = \sqrt{AB^2 + BG^2} = \sqrt{4^2 + 3^2} = 5$，
+$\therefore GF = AG - AF = 5 - 4 = 1$，
+设 $EG = x$，则 $BE = BG - EG = 3 - x$，
+由折叠可知，$EF = BE = 3 - x$，
+在 $\text{Rt}\triangle EFG$ 中，$EF^2 + FG^2 = EG^2$，
+$\therefore (3 - x)^2 + 1^2 = x^2$，解得 $x = \dfrac{5}{3}$，
+则 $EG = \dfrac{5}{3}$，
+$\therefore EC = EG + CG = \dfrac{5}{3} + 3 = \dfrac{14}{3}$。
+ANSWER: $\dfrac{14}{3}$
+
+### Q19 @page18-19
+TYPE: solve
+STEM: 计算：$\left|\sqrt{2} - 2\right| + \dfrac{1}{\sqrt{2} + \sqrt{3}} - \left(\dfrac{1}{8}\right)^{-\frac{1}{2}} - \dfrac{\sqrt{3}}{2025^0}$。
+SOLUTION:
+【详解】解：
+$= 2 - \sqrt{2} + \sqrt{3} - \sqrt{2} - 2\sqrt{2} - \sqrt{3}$
+$= 2 - 4\sqrt{2}$
+ANSWER: $2 - 4\sqrt{2}$
+
+### Q20 @page19-20
+TYPE: solve
+STEM: 解不等式组 $\begin{cases} 2x + 3 > -4 -3x \quad \text{①} \\ \dfrac{x-1}{3} + \dfrac{x+1}{2} < 0 \quad \text{②} \end{cases}$，并写出该不等式组的整数解。
+SOLUTION:
+【详解】解：由①得 $x > -\dfrac{7}{5}$，由②得 $x < -\dfrac{1}{5}$，
+故此不等式组的解集为 $-\dfrac{7}{5} < x < -\dfrac{1}{5}$，其整数解为 $-1$。
+ANSWER: 解集 $-\dfrac{7}{5} < x < -\dfrac{1}{5}$，整数解为 $-1$
+
+### Q21 @page20-21
+TYPE: solve
+STEM: 在平面直角坐标系 $xOy$ 中，直线 $y = -\dfrac{1}{2}x + 1$ 与双曲线 $y = \dfrac{k}{x}$（$k$ 是常数，且 $k \neq 0$）交于点 $A(6, m)$。
+(1) 求 $k$ 与 $m$ 的值；
+(2) 直线 $y = -\dfrac{1}{2}x + 1$ 与 $x$ 轴交于点 $B$，过点 $B$ 作 $y$ 轴的平行线，交双曲线 $y = \dfrac{k}{x}$ 于点 $C$，求 $\triangle ABC$ 的面积。
+[FIG: 平面直角坐标系，直线与双曲线交于 $A$，$B$ 在 $x$ 轴，$C$ 在第四象限双曲线上]
+SOLUTION:
+【小问 1 详解】解：把点 $A(6, m)$ 代入 $y = -\dfrac{1}{2}x + 1$，得到 $m = -\dfrac{1}{2} \times 6 + 1 = -2$，$\therefore A(6, -2)$。
+把 $A(6, -2)$ 代入 $y = \dfrac{k}{x}$，得到 $-2 = \dfrac{k}{6}$，解得 $k = -12$。
+【小问 2 详解】当 $y = 0$ 时，$0 = -\dfrac{1}{2}x + 1$，解得 $x = 2$，$\therefore$ 点 $B$ 的坐标为 $(2, 0)$。
+由(1)可得 $y = -\dfrac{12}{x}$，当 $x = 2$ 时，$y = -\dfrac{12}{2} = -6$，$\therefore$ 点 $C$ 的坐标为 $(2, -6)$，
+$\therefore BC = 6$，
+$\because A(6, -2)$，$\therefore \triangle ABC$ 的面积为 $\dfrac{1}{2} \times 6 \times (6 - 2) = 12$。
+ANSWER: (1) $k = -12$，$m = -2$；(2) $12$
+
+### Q22 @page21-24
+TYPE: solve
+STEM: "顺次连接四边形各边中点所得的四边形是平行四边形"。小明提出：如果点 $E$、$F$、$G$、$H$ 分别在四边形 $ABCD$ 的边 $AB$、$BC$、$CD$、$AD$ 上，它们都不是中点且都不与端点重合，那么能否使四边形 $EFGH$ 仍然是平行四边形？
+构造方法（如图1）：①在边 $AB$ 上任取一点 $E$，作 $EF \parallel AC$，交边 $BC$ 于点 $F$；②作 $FG \parallel BD$，交边 $CD$ 于点 $G$；③作 $GH \parallel AC$，交边 $AD$ 于点 $H$；④连接 $HE$。
+(1) 求证：小明画出的四边形 $EFGH$ 是平行四边形；
+(2) 如图2，在 $10 \times 9$ 的网格中，每个小正方形的边长都为1，四边形 $ABCD$ 的顶点均在格点上，点 $E$ 在边 $AB$ 上，$AE = 2$，请你仅用一把无刻度的直尺，画一个平行四边形 $EFGH$，使点 $F$、$G$、$H$ 分别在边 $BC$、$CD$、$AD$ 上，且此平行四边形的边与 $AC$ 或 $BD$ 平行。
+[FIG1: 四边形 $ABCD$ 及其内部由平行线构造的四边形 $EFGH$]
+[FIG2: $10 \times 9$ 网格中四边形 $ABCD$，$AE = 2$]
+SOLUTION:
+【小问 1 详解】
+证明：$\because EF \parallel AC$，$GH \parallel AC$，$\therefore EF \parallel GH$，
+$\therefore \dfrac{AE}{EB} = \dfrac{CF}{FB}$，$\dfrac{AH}{HD} = \dfrac{CG}{GD}$。
+$\because FG \parallel BD$，$\therefore \dfrac{CG}{GD} = \dfrac{CF}{FB}$，
+$\therefore \dfrac{AH}{HD} = \dfrac{AE}{EB}$，$\therefore \dfrac{AH}{AD} = \dfrac{AE}{AB}$，
+$\because \angle EAH = \angle BAD$，$\therefore \triangle EAH \sim \triangle BAD$，
+$\therefore \angle AHE = \angle ADB$，$\therefore EH \parallel BD$，
+$\therefore EH \parallel FG$，$\therefore$ 四边形 $EFGH$ 是平行四边形。
+【小问 2 详解】
+解：如图，取格点 $M$、$N$、$P$、$Q$、$L$，$MN$ 交 $BC$ 于点 $F$，$PQ$ 交 $CD$ 于点 $G$，连接 $LE$ 交 $AD$ 于点 $H$，连接 $EF$、$FG$、$GH$、$AC$、$BD$。
+$\dfrac{AE}{EB} = \dfrac{2}{3}$，$CN = PC = 2$，$BM = DQ = LD = 3$。
+（作图过程用虚线，结果用实线。）
+ANSWER: (1) 证明见详解；(2) 作图见详解

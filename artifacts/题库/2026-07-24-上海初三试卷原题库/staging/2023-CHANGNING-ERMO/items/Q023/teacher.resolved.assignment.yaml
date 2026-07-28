@@ -1,0 +1,37 @@
+meta:
+  title: 2023年上海市长宁区中考二模数学试卷第 23 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q023
+    points: 12
+    stem_latex: 如图1，点 $E$、$F$ 分别在正方形 $ABCD$ 的边 $AD$、$AB$ 上，$CE$ 与 $DF$ 交于点 $G$。已知 $AE + AF = AB$。（1）求证：$CE \perp DF$；（2）以点 $G$ 为圆心、$GD$ 为半径的圆与线段 $DF$ 交于点 $H$，点 $P$ 为线段 $BH$ 的中点，联结 $CP$（如图2），求证：$\angle BCP + \angle DCE = \angle ECP$．
+    answer: (1)(2) 见解析
+    clue: (1) 由 $AE+AF=AB$ 得 $AF=DE$，证 $\triangle ADF\cong\triangle DCE$ 转角；(2) 用圆的等量与垂直平分得等腰三角形，角平分线（中线）合成。
+    solution_steps:
+    - (1) $AE+AF=AB$，$AE+DE=AD=AB$，$\therefore AF=DE$；又 $\angle DAF=\angle CDE=90\degree$，$AD=DC$，$\triangle ADF\cong\triangle DCE$（SAS）。
+    - $\therefore \angle ADF=\angle DCE$；$\angle ADF+\angle FDC=90\degree$，$\therefore \angle DGC=90\degree$，$CE\perp DF$。
+    - (2) $GD=GH$ 且 $CE\perp DF$，$\therefore CE$ 垂直平分 $DH$，$CD=CH$；又 $CB=CD$，$\therefore CB=CH$。
+    - $P$ 为 $BH$ 中点，$CP$ 为等腰 $\triangle BCH$ 的中线，$\angle BCP=\angle HCP$；$CE$ 为等腰 $\triangle CDH$ 的中线，$\angle DCE=\angle ECH$。
+    - $\therefore \angle BCP+\angle DCE=\angle HCP+\angle ECH=\angle ECP$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 60mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

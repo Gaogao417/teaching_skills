@@ -1,0 +1,40 @@
+meta:
+  title: 2023年上海市长宁区中考二模数学试卷第 25 题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: 如图1，在 $\triangle ABC$ 中，$\angle ACB = 90\degree$，以点 $A$ 为圆心、$AC$ 为半径的 $\odot A$ 交边 $AB$ 于点 $D$，点 $E$ 在边 $BC$ 上，满足 $CE = BD$，过点 $E$ 作 $EF \perp CD$ 交 $AB$ 于点 $F$，垂足为点 $G$。（1）求证：$\triangle BCD \sim \triangle BFE$；（2）延长 $EF$ 与 $CA$ 的延长线交于点 $M$（如图2），求 $\dfrac{CM}{AC} + \dfrac{DF}{AD}$ 的值；（3）以点 $B$ 为圆心、$BE$ 为半径作 $\odot B$，当 $BC = 8$，$AF = 2$ 时，判断 $\odot A$ 与 $\odot B$ 的位置关系，并说明理由．
+    answer: (1) 见解析；(2) $2$；(3) 外切
+    clue: (1) 等腰+余角转角证相似；(2) 证 $AM=AE$ 后线段比值整体代换；(3) 构造全等得 $CM=BC$，比较两圆半径和与圆心距。
+    solution_steps:
+    - (1) $AC=AD\Rightarrow \angle ACD=\angle ADC$；$\angle ACB=90\degree$ 且 $EF\perp CD$，$\therefore \angle ACD+\angle DCB=\angle ADC+\angle BFE=90\degree$。
+    - $\therefore \angle DCB=\angle BFE$；又 $\angle B=\angle B$，$\triangle BCD\sim\triangle BFE$。
+    - (2) $\angle M=\angle DCB=\angle BFE$，$\therefore AM=AE$。
+    - $\dfrac{CM}{AC}+\dfrac{DF}{AD}=\dfrac{CM+DF}{AC}=\dfrac{AC+AM+DF}{AC}=\dfrac{AC+AF+DF}{AC}=\dfrac{AC+AD}{AC}=2$。
+    - (3) 在 $CD$ 延长线上取 $N$ 使 $\angle BND=\angle BDN$，则 $BN=BD=CE$。
+    - $\angle BND=\angle ACD\Rightarrow \angle NBC=90\degree=\angle ECM$；$\triangle BCN\cong\triangle CME$，$BC=CM=8$。
+    - $AM=AF=2\Rightarrow AC=6$；$AB=10$，$AD=AC=6$，$BD=CE=4$，$BE=8-4=4$。
+    - $AC+BE=6+4=10=AB$，圆心距等于半径和，$\therefore \odot A$ 与 $\odot B$ 外切。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 80mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

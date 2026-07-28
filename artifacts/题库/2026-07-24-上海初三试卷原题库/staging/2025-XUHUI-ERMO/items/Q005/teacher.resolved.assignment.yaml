@@ -1,0 +1,36 @@
+meta:
+  title: 2025年上海市徐汇区中考二模数学试卷第 5 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q005
+    points: 4
+    stem_latex: 北偏东 $60^{\circ}$ 走 $500\sqrt{3}$ 米，再北偏西 $30^{\circ}$ 走500米，$AC$ 距离是（\quad）
+    choices:
+    - $1000\sqrt{3}$ 米
+    - 1500米
+    - $500\sqrt{6}$ 米
+    - 1000米
+    answer: D
+    clue: $\angle ABC=90^{\circ}$，勾股定理。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 80mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

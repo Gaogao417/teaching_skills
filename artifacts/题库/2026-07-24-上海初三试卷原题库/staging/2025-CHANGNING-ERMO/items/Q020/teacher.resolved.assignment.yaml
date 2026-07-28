@@ -1,0 +1,31 @@
+meta:
+  title: 2025年上海市长宁区中考二模数学试卷第 20 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q020
+    points: 10
+    stem_latex: 解不等式组 $\begin{cases} 2x + 3 > -4 -3x \quad \text{①} \\ \dfrac{x-1}{3} + \dfrac{x+1}{2} < 0 \quad \text{②} \end{cases}$，并写出该不等式组的整数解。
+    solution_steps:
+    - 由①得 $5x>-7$，$\therefore x>-\dfrac{7}{5}$。
+    - 由②得 $2(x-1)+3(x+1)<0$，$5x+1<0$，$\therefore x<-\dfrac{1}{5}$。
+    - $\therefore$ 解集为 $-\dfrac{7}{5}<x<-\dfrac{1}{5}$。
+    - 整数解为 $x=-1$。
+    clue: 分别解两个不等式取交集，再找整数解。
+    answer: 解集 $-\dfrac{7}{5}<x<-\dfrac{1}{5}$，整数解为 $-1$
+    source_solution_images: []

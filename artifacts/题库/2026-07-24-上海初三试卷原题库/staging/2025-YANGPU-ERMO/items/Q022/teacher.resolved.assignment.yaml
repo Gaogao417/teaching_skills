@@ -1,0 +1,36 @@
+meta:
+  title: 2025年上海市杨浦区中考二模数学试卷第 22 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q022
+    points: 10
+    stem_latex: '花圃一：等腰 $\triangle ABC$（$AB=AC=13$，$BC=24$），半圆步道圆心在 $BC$ 上，求最大半径；
+
+      花圃二：梯形 $DEFG$（$DG\parallel EF$，$DG=9$，$EF=27$，$\angle E=45^{\circ}$，$\tan F=2$），圆心在 $EF$ 上，求最大半径。'
+    solution_steps:
+    - 花圃一：等面积法 $DE=\frac{60}{13}$cm。
+    - 花圃二：角平分线作圆心，半径 $36\sqrt{2}-18\sqrt{5}$cm。
+    clue: 切线性质+尺规作图+解直角三角形。
+    answer: 花圃一 $\dfrac{60}{13}$cm；花圃二 $(36\sqrt{2}-18\sqrt{5})$cm
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 100mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

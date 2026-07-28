@@ -1,0 +1,33 @@
+meta:
+  title: 2025年上海市杨浦区中考二模数学试卷第 18 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q018
+    points: 4
+    stem_latex: $\triangle ABC$（$\angle C=90^{\circ}$，$AC=6$，$BC=4$），$\odot A$（$r=2$），$D$ 在 $\odot A$ 上，$E$ 为 $CD$ 中点，$BE$ 范围是______
+    answer: $4 \leqslant BE \leqslant 6$
+    clue: $E$ 在以 $F$（$AC$ 中点）为圆心半径1的圆上，$BF=5$。
+    solution_steps:
+    - $EF=1$，$BF=5$，$4\leq BE\leq6$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 50mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

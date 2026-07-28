@@ -1,0 +1,36 @@
+meta:
+  title: 2023年上海市宝山区中考二模数学试卷第 6 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q006
+    points: 4
+    stem_latex: 已知点 $A$、$B$、$C$ 在圆 $O$ 上，那么下列命题为真命题的是（\quad）
+    choices:
+    - 如果半径 $OB$ 平分弦 $AC$，那么四边形 $OABC$ 是平行四边形
+    - 如果弦 $AC$ 平分半径 $OB$，那么四边形 $OABC$ 是平行四边形
+    - 如果四边形 $OABC$ 是平行四边形，那么 $\angle AOC=120\degree$
+    - 如果 $\angle AOC=120\degree$，那么四边形 $OABC$ 是平行四边形
+    answer: C
+    clue: 逐项用圆的性质（垂径、圆周角）和平行四边形判定判断真假命题。
+    solution_steps:
+    - A、当 $AC$ 为直径时，$OB$ 平分弦 $AC$，但 $O,A,B,C$ 不能构成四边形，假命题。
+    - B、弦 $AC$ 平分半径 $OB$ 未必使 $OABC$ 为平行四边形，假命题。
+    - C、$OABC$ 为平行四边形时，$\angle ABC=\angle AOC=2\angle ADC$，又 $\angle ABC+\angle ADC=180\degree$，得 $\angle AOC=120\degree$，真命题。
+    - D、$\angle AOC=120\degree$ 时 $OABC$ 未必为平行四边形，假命题。
+    source_solution_images: []

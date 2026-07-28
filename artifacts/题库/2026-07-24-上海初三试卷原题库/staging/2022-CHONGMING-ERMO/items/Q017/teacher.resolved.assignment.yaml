@@ -1,0 +1,34 @@
+meta:
+  title: 2022年上海市崇明区初三二模数学试卷第 17 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q017
+    points: 4
+    stem_latex: 如图，$\odot O$ 是 $\mathrm{Rt}\triangle ABC$ 的外接圆，$OE\perp AB$ 交 $\odot O$ 于 $E$，垂足为 $D$，$AE$、$CB$ 的延长线交于 $F$。若 $OD=3$，$AB=8$，则 $FC=$______
+    answer: '10'
+    clue: $OE$ 是 $\triangle ACF$ 的中位线。
+    solution_steps:
+    - $AD=BD=4$，$OA=\sqrt{AD^{2}+OD^{2}}=5$，$OE=OA=5$。
+    - $O$ 为 $AC$ 中点，$E$ 为 $AF$ 中点，$OE$ 是 $\triangle ACF$ 中位线，$CF=2OE=10$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 100mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

@@ -1,0 +1,38 @@
+meta:
+  title: 2025年上海市普陀区中考二模数学试卷第 23 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q023
+    points: 12
+    stem_latex: '平行四边形 $ABCD$，$DE\perp BC$ 延长线于 $E$，$BO\cdot BD=BC\cdot BE$。
+
+      (1) 求证：菱形；
+
+      (2) $AE\perp CD$，求证 $\frac{CF}{DE}=\frac{OC}{BO}$。'
+    solution_steps:
+    - (1) $\triangle BOC\sim\triangle BED$，$\angle BOC=90^{\circ}$，菱形。
+    - (2) $\triangle CED\cong\triangle DFA$，$DE=AF$，$\triangle BOC\sim\triangle AFC$。
+    clue: 相似三角形+菱形判定+全等。
+    answer: 证明见详解
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 80mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

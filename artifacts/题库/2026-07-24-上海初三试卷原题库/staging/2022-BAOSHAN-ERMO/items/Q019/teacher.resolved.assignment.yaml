@@ -1,0 +1,32 @@
+meta:
+  title: 2022年上海市宝山区中考数学二模试卷第 19 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q019
+    points: 10
+    stem_latex: 计算：$8^{\frac{2}{3}}+\dfrac{1}{\sqrt{3}+2}-\left(\dfrac{1}{2}\right)^{-2}+|\sqrt{3}-1|$
+    answer: '1'
+    clue: 分数指数幂、分母有理化、负整数指数幂、绝对值。
+    solution_steps:
+    - $8^{\frac{2}{3}}=\sqrt[3]{8^{2}}=4$。
+    - $\dfrac{1}{\sqrt{3}+2}=\dfrac{2-\sqrt{3}}{(2+\sqrt{3})(2-\sqrt{3})}=2-\sqrt{3}$。
+    - $\left(\dfrac{1}{2}\right)^{-2}=4$。
+    - $|\sqrt{3}-1|=\sqrt{3}-1$。
+    - 原式 $=4+2-\sqrt{3}-4+\sqrt{3}-1=1$。
+    source_solution_images: []

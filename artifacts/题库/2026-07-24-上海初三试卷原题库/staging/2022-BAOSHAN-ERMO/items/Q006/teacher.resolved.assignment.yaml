@@ -1,0 +1,36 @@
+meta:
+  title: 2022年上海市宝山区中考数学二模试卷第 6 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q006
+    points: 4
+    stem_latex: 如图，在梯形 $ABCD$ 中，$AD\parallel BC$，$\angle B=90^{\circ}$，$AB=4$，$AD=2\sqrt{5}$，$\cot C=\dfrac{\sqrt{5}}{4}$，圆 $O$ 是以 $AB$ 为直径的圆。如果以点 $C$ 为圆心作圆 $C$ 与直线 $AD$ 相交，与圆 $O$ 没有公共点，那么圆 $C$ 的半径长可以是（\quad）
+    choices:
+    - $9$
+    - $\dfrac{17}{2}$
+    - $5$
+    - $\dfrac{9}{2}$
+    answer: D
+    clue: 由勾股定理求 $OC$，再按圆与圆相离/内含分类确定半径范围。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 120mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

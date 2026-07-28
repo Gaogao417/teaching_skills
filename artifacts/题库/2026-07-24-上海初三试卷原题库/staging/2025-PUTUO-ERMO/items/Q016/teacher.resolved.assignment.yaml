@@ -1,0 +1,33 @@
+meta:
+  title: 2025年上海市普陀区中考二模数学试卷第 16 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q016
+    points: 4
+    stem_latex: 扇形图（有氧60%、力量25%、拉伸15%）+条形图（快走40/120），8000人中最喜欢快走约______人
+    answer: '1600'
+    clue: $8000\times60\%\times\frac{40}{120}=1600$。
+    solution_steps:
+    - $8000\times0.6\times\frac{1}{3}=1600$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 110mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

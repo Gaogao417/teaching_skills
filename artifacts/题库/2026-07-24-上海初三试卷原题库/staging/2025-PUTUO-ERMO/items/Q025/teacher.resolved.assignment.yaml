@@ -1,0 +1,41 @@
+meta:
+  title: 2025年上海市普陀区中考二模数学试卷第 25 题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: '莱洛三角形（等边三角形顶点为圆心、边长为半径画弧）。
+
+      (1) 下列结论正确的序号（①轴对称②到中心等距③圆心角60°④面积$\frac{1}{2}\pi a^2$）；
+
+      (2) $D$、$E$ 在莱洛三角形上，$DE\parallel BC$ 且 $DE=\frac{1}{2}BC$，求 $\tan\angle ADE$；
+
+      (3) $M$、$N$ 在弧上运动，$MN$ 中点 $F$ 的轨迹。'
+    solution_steps:
+    - (1) ①③正确。
+    - (2) 上方：$\tan\angle ADE=2\sqrt{3}-\sqrt{7}$；下方：$\sqrt{15}$。
+    - (3) $F$ 在以 $CB$ 中点为圆心 $\frac{1}{2}a$ 为半径的 $60^{\circ}$ 圆弧上。
+    clue: 莱洛三角形+轴对称+相似三角形+轨迹。
+    answer: (1) ①③；(2) $2\sqrt{3}-\sqrt{7}$ 或 $\sqrt{15}$；(3) 以 $CB$ 中点为圆心 $\frac{a}{2}$ 为半径的 $60^{\circ}$ 弧
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 120mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

@@ -1,0 +1,52 @@
+meta:
+  title: 2022年上海市宝山区中考数学二模试卷第 25 题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: '如图，已知 $AB$ 为圆 $O$ 的直径，$C$ 是弧 $AB$ 上一点，联结 $BC$，过点 $O$ 作 $OD\perp BC$，垂足为点 $E$，联结 $AD$ 交 $BC$ 于点 $F$。
+
+      (1) 求证：$\dfrac{AF}{DF}=\dfrac{2OE}{DE}$；
+
+      (2) 如果 $AF\cdot AD=AO^{2}$，求 $\angle ABC$ 的正弦值；
+
+      (3) 联结 $OF$，如果 $\triangle AOF$ 为直角三角形，求 $\dfrac{S_{\triangle OFE}}{S_{\triangle AFB}}$ 的值。'
+    answer: (1) 见证明；(2) $\sin\angle ABC=\dfrac{1}{4}$；(3) $\dfrac{1}{8}$ 或 $\dfrac{1}{6}$
+    clue: 直径所对圆周角为直角+相似三角形；按直角顶点分类讨论。
+    solution_steps:
+    - (1) 连接 $AC$。$\because AB$ 是直径，$\therefore \angle ACB=90^{\circ}$，$AO=BO$。
+    - 由 $OD\perp BC$ 得 $CE=BE$，$\angle DEF=90^{\circ}$，$\therefore AC=2OE$。
+    - $\angle ACF=\angle DEF=90^{\circ}$，$\angle AFC=\angle DFE$，$\therefore \triangle AFC\sim\triangle DFE$，$\therefore \dfrac{AF}{DF}=\dfrac{AC}{DE}=\dfrac{2OE}{DE}$。
+    - (2) 过 $F$ 作 $FT\perp AB$ 于 $T$。由 $AF\cdot AD=AO^{2}$ 得 $\dfrac{AO}{AD}=\dfrac{AF}{AO}$，又 $\angle FAO=\angle OAD$，$\therefore \triangle FAO\sim\triangle OAD$，$\angle AOF=\angle D$。
+    - 由 $OD=OA$ 得 $\angle D=\angle OAD$，$\therefore AF=OF$，$AT=OT=\dfrac{1}{2}AO=\dfrac{1}{4}AB$。
+    - 由 $OD\perp BC$ 得 $\overset{\frown}{CD}=\overset{\frown}{BD}$，$\angle BAD=\angle CAD$。可证 $\triangle ACF\cong\triangle ATF$（AAS），$AC=AT=\dfrac{1}{4}AB$。
+    - $\therefore \sin\angle ABC=\dfrac{AC}{AB}=\dfrac{1}{4}$。
+    - (3) 设半径为 $r$。当 $\angle AOF=90^{\circ}$ 时，$AF=BF$，可推得 $\angle BAD=\angle CAD=\angle B=30^{\circ}$。
+    - $OE=\dfrac{1}{2}r$，$BE=\dfrac{\sqrt{3}}{2}r$，$OF=\dfrac{\sqrt{3}}{3}r$，$BF=\dfrac{2\sqrt{3}}{3}r$，$EF=\dfrac{\sqrt{3}}{6}r$。
+    - $S_{\triangle OFE}=\dfrac{\sqrt{3}}{24}r^{2}$，$S_{\triangle AFB}=\dfrac{\sqrt{3}}{3}r^{2}$，比值 $=\dfrac{1}{8}$。
+    - 当 $\angle AFO=90^{\circ}$ 时，$AF=DF$，由 (1) 得 $2OE=DE$，$OE=\dfrac{1}{3}r$，$DE=\dfrac{2}{3}r$，$BE=\dfrac{2\sqrt{2}}{3}r$。
+    - 可证 $\triangle ACF\cong\triangle DEF$（AAS），$EF=CF=\dfrac{\sqrt{2}}{3}r$，$AC=\dfrac{2}{3}r$。
+    - $BF=\sqrt{2}r$，$S_{\triangle OFE}=\dfrac{\sqrt{2}}{18}r^{2}$，$S_{\triangle AFB}=\dfrac{\sqrt{2}}{3}r^{2}$，比值 $=\dfrac{1}{6}$。
+    - 综上，$\dfrac{S_{\triangle OFE}}{S_{\triangle AFB}}$ 的值为 $\dfrac{1}{8}$ 或 $\dfrac{1}{6}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 110mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

@@ -1,0 +1,34 @@
+meta:
+  title: 2025年上海市虹口区中考二模数学试卷第 18 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q018
+    points: 4
+    stem_latex: '"邻补四边形"：只有一组邻边相等且对角互补。在 $\triangle ABC$ 中，$AB = AC = 3$，$\cos B = \dfrac{1}{3}$，点 $M$、$N$ 分别在边 $AC$、$BC$ 上。如果四边形 $ABNM$ 是"邻补四边形"，那么四边形 $ABNM$ 的面积是______'
+    answer: $\dfrac{32}{25}\sqrt{2}$ 或 $\dfrac{16}{9}\sqrt{2}$
+    clue: $BD=CD=1$，$AD=2\sqrt{2}$，分类讨论四种邻边相等情况。
+    solution_steps:
+    - $BD=CD=1$，$BC=2$，$AD=2\sqrt{2}$，$S_{\triangle ABC}=2\sqrt{2}$。
+    - 情况③$MN=BN$：$S=\frac{16}{9}\sqrt{2}$；情况④$MN=AM$：$S=\frac{32}{25}\sqrt{2}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 40mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

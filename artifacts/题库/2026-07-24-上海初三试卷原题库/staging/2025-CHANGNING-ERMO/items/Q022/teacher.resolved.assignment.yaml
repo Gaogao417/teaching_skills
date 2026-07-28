@@ -1,0 +1,44 @@
+meta:
+  title: 2025年上海市长宁区中考二模数学试卷第 22 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q022
+    points: 10
+    stem_latex: '点 $E$、$F$、$G$、$H$ 分别在四边形 $ABCD$ 的边 $AB$、$BC$、$CD$、$AD$ 上。构造方法：作 $EF \parallel AC$ 交 $BC$ 于 $F$，作 $FG \parallel BD$ 交 $CD$ 于 $G$，作 $GH \parallel AC$ 交 $AD$ 于 $H$，连接 $HE$。
+
+      (1) 求证：四边形 $EFGH$ 是平行四边形；
+
+      (2) 在 $10 \times 9$ 的网格中（每格边长为1），四边形 $ABCD$ 顶点均在格点上，$AE = 2$，仅用无刻度直尺画一个满足条件的平行四边形 $EFGH$。'
+    solution_steps:
+    - (1) $\because EF \parallel AC$，$GH \parallel AC$，$\therefore EF \parallel GH$。
+    - $\therefore \dfrac{AE}{EB}=\dfrac{CF}{FB}$，$\dfrac{AH}{HD}=\dfrac{CG}{GD}$。
+    - $\because FG \parallel BD$，$\therefore \dfrac{CG}{GD}=\dfrac{CF}{FB}$。
+    - $\therefore \dfrac{AH}{HD}=\dfrac{AE}{EB}$，$\therefore \dfrac{AH}{AD}=\dfrac{AE}{AB}$。
+    - $\because \angle EAH=\angle BAD$，$\therefore \triangle EAH \sim \triangle BAD$。
+    - $\therefore \angle AHE=\angle ADB$，$\therefore EH \parallel BD$，$\therefore EH \parallel FG$。
+    - $\therefore$ 四边形 $EFGH$ 是平行四边形。
+    - (2) 取格点 $M,N,P,Q,L$，利用 $\dfrac{AE}{EB}=\dfrac{2}{3}$ 在网格中确定 $F,G,H$。（作图过程用虚线，结果用实线）
+    clue: 平行线分线段成比例+相似三角形证 $EH\parallel BD$。
+    answer: (1) 证明见详解；(2) 作图见详解
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 120mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

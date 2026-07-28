@@ -1,0 +1,34 @@
+meta:
+  title: 2025年上海市嘉定区中考二模数学试卷第 20 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q020
+    points: 10
+    stem_latex: '分式方程 $\dfrac{1}{x-2}-\dfrac{4}{x^{2}-4}=1$，甲同学去分母得 $x+2-4=1$（漏乘右边）。
+
+      (1) 指出从第几步开始错误及原因；
+
+      (2) 写出正确解答过程。'
+    solution_steps:
+    - (1) 第①步出错，右边1未乘 $x^2-4$。
+    - (2) 去分母：$x+2-4=x^2-4$，整理 $x^2-x-2=0$。
+    - $x_1=-1$，$x_2=2$。检验：$x=2$ 为增根舍去，$\therefore x=-1$。
+    clue: 分式方程去分母必须每一项都乘。
+    answer: (1) 第①步；(2) $x=-1$
+    source_solution_images: []

@@ -1,0 +1,29 @@
+meta:
+  title: 2025年上海市青浦区中考二模数学试卷第 20 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q020
+    points: 10
+    stem_latex: 解方程组：$\begin{cases} x^2+2y-2=0 \\ x-y+1=0 \end{cases}$
+    solution_steps:
+    - 由② $x=y-1$ 代入①：$(y-1)^2+2y-2=0$，$y^2=1$。
+    - $y=1$ 时 $x=0$；$y=-1$ 时 $x=-2$。
+    clue: 代入消元法。
+    answer: $\begin{cases}x_1=0\\y_1=1\end{cases}$，$\begin{cases}x_2=-2\\y_2=-1\end{cases}$
+    source_solution_images: []

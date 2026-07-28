@@ -1,0 +1,40 @@
+meta:
+  title: 2025年上海市闵行区中考二模数学试卷第 23 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q023
+    points: 12
+    stem_latex: '平行四边形 $ABCD$，$E$ 在 $BC$ 延长线上，$AE$ 交 $BD$ 于 $F$、交 $CD$ 于 $G$。
+
+      (1) 求证：$AF^2=FG\cdot FE$；
+
+      (2) $\angle DAE=\angle FCD$，求证：菱形。'
+    solution_steps:
+    - (1) $\triangle AFB\sim\triangle GFD$，$\triangle AFD\sim\triangle EFB$。
+    - $\frac{FD}{BF}=\frac{FG}{AF}=\frac{AF}{EF}$，$AF^2=FG\cdot FE$。
+    - (2) $\angle E=\angle DAE=\angle FCD$，$\triangle GFC\sim\triangle CFE$，$CF^2=FG\cdot FE=AF^2$。
+    - $AF=CF$，$BD\perp AC$，菱形。
+    clue: 相似三角形+菱形判定。
+    answer: 证明见详解
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 90mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

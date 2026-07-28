@@ -1,0 +1,34 @@
+meta:
+  title: 2025年上海市闵行区中考二模数学试卷第 18 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q018
+    points: 4
+    stem_latex: $\triangle ABC$（$AB=BC$）中 $M$ 是 $AC$ 中点，$AM$ 绕 $M$ 旋转至 $CB$ 延长线上 $D$，$MD$ 与 $AB$ 交于 $E$，$AE=3$，$DE=2$，$AC=$______
+    answer: $3+\sqrt{19}$
+    clue: 旋转+相似三角形+勾股定理。
+    solution_steps:
+    - 旋转保长 $MA=MD$，$AE=3$，$DE=2$。
+    - 由几何关系求得 $AC=3+\sqrt{19}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 100mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

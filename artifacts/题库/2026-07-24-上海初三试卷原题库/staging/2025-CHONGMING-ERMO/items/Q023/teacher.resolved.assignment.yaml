@@ -1,0 +1,41 @@
+meta:
+  title: 2025年上海市崇明区中考二模数学试卷第 23 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q023
+    points: 12
+    stem_latex: '在等腰梯形 $ABCD$ 中，$AD \parallel BC$，$BC=2AD$，$E$、$F$ 分别是 $AB$、$BC$ 边的中点，$BD$ 与 $EF$ 相交于点 $G$。
+
+      (1) 求证：$BG=GF$；
+
+      (2) 连接 $AG$、$AF$，当 $AG=GF$ 时，求证：四边形 $AFCD$ 是菱形。'
+    solution_steps:
+    - (1) 连接 $AC$，$\triangle ABC \cong \triangle DCB$（SAS），$\angle ACB=\angle DBC$。
+    - $EF \parallel AC$，$\angle EFB=\angle ACB=\angle DBC$，$\therefore BG=GF$。
+    - (2) $AG=GF=BG$，$E$ 为 $AB$ 中点，$\therefore EG \perp AB$。
+    - $EF \parallel AC$，$\angle BAC=\angle BEF=90^{\circ}$，$AF=\dfrac{1}{2}BC=CF$。
+    - $CF=AD$，$AF \parallel CD$，四边形 $AFCD$ 为平行四边形且邻边相等，$\therefore$ 是菱形。
+    clue: 全等三角形+中位线+中垂线+直角三角形斜边中线。
+    answer: 证明见详解
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 90mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

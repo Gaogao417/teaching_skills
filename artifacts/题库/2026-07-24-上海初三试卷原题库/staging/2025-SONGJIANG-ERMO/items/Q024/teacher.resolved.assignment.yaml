@@ -1,0 +1,36 @@
+meta:
+  title: 2025年上海市松江区中考二模数学试卷第 24 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q024
+    points: 12
+    stem_latex: '抛物线 $y=-x^2+4x+c$ 与 $x$ 轴交于 $A$（右）、$B$，顶点 $P$。
+
+      (1) 求 $PC$ 长（$C$ 为与 $y$ 轴交点）；
+
+      (2) $AC\perp PC$ 时求抛物线表达式；
+
+      (3) 平移后顶点 $P_1$ 在 $y$ 轴上且与 $C$ 关于原点对称，$P_1D\parallel PC$，求 $\triangle PP_1C$ 面积。'
+    solution_steps:
+    - (1) $P(2,c+4)$，$C(0,c)$，$CP=2\sqrt{5}$。
+    - (2) $AC: y=-\frac{1}{2}x+c$，$A(2c,0)$ 代入抛物线得 $c=\frac{9}{4}$。
+    - (3) $P_1(0,-c)$，$c=4$，面积$=8$。
+    clue: 二次函数+垂直+平移+平行。
+    answer: (1) $CP=2\sqrt{5}$；(2) $y=-x^2+4x+\dfrac{9}{4}$；(3) 面积为 $8$
+    source_solution_images: []

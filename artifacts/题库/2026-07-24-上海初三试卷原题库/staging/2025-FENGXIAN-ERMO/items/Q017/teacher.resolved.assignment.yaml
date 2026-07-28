@@ -1,0 +1,34 @@
+meta:
+  title: 2025年上海市奉贤区中考二模数学试卷第 17 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q017
+    points: 4
+    stem_latex: 在边长为 $2$ 的正六边形 $ABCDEF$ 中，$G$ 为 $AF$ 的中点，点 $Q$ 为正六边形边上任意一点，以 $CQ$ 为半径的 $\odot C$ 与以 $AG$ 为半径的 $\odot A$ 相交时，$\odot C$ 的半径 $r$ 的取值范围是______
+    answer: $2\sqrt{3}-1 < r \leq 4$
+    clue: 求两圆相交时 $r$ 的范围，需计算 $AC$、$AG$、$CF$ 等。
+    solution_steps:
+    - $AG=1$，$AC=2\sqrt{3}$，$AP=AC-AG=2\sqrt{3}-1$，$CF=4$。
+    - $2\sqrt{3}-1<r\leq4$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 90mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

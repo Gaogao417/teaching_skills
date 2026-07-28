@@ -1,0 +1,37 @@
+meta:
+  title: 2023年上海市长宁区中考二模数学试卷第 18 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q018
+    points: 4
+    stem_latex: 如图，将平行四边形 $ABCD$ 沿着对角线 $AC$ 翻折，点 $B$ 的对应点为 $M$，$CM$ 交 $AD$ 于点 $N$，如果 $\angle B = 76\degree$，$\angle ACM = \angle DCM + 10\degree$，且 $NC = m$，那么平行四边形 $ABCD$ 的周长为 ______（参考数据：$\cos 76\degree \approx 0.24$）
+    answer: $4.96m$
+    clue: 翻折得角相等，列方程求各角，再用 $\cos76\degree$ 将 $BC$ 分解为三段求周长。
+    solution_steps:
+    - $\angle D=76\degree$；翻折得 $\angle ACM=\angle ACB$。
+    - 设 $\angle DCM=x$，则 $\angle ACM=\angle ACB=x+10\degree$，由 $\triangle DAC$ 内角和 $x+2(x+10\degree)+76\degree=180\degree$，$x=28\degree$，$\angle BCM=76\degree$。
+    - $\angle DAC=\angle ACB=38\degree=\angle ACM$，$\triangle ANC$ 等腰，$AN=NC=m$。
+    - 过 $A,N$ 作 $AE\perp BC$、$NF\perp BC$，Rt$\triangle NFC$ 中 $FC=NC\cos76\degree=0.24m$，Rt$\triangle ABE$ 中 $BE=AB\cos76\degree=0.24m$。
+    - $BC=BE+EF+FC=0.24m+m+0.24m=1.48m$，周长 $=2(AB+BC)=2(m+1.48m)=4.96m$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 60mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

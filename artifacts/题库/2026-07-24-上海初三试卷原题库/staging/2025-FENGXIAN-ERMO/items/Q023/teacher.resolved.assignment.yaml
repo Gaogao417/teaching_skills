@@ -1,0 +1,42 @@
+meta:
+  title: 2025年上海市奉贤区中考二模数学试卷第 23 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q023
+    points: 12
+    stem_latex: '在平行四边形 $ABCD$ 中，点 $F$ 是对角线 $BD$ 上一点，$\angle BFC=\angle A$，延长 $CF$ 交边 $AD$ 于点 $E$。
+
+      (1) 求证：$AB^2=CF\cdot CE$；
+
+      (2) 当 $BD=CE$ 时，求证：四边形 $ABCD$ 是菱形。'
+    solution_steps:
+    - (1) $AB\parallel CD$，$\angle A+\angle ADC=180^{\circ}$，$\angle BFC+\angle DFC=180^{\circ}$。
+    - $\angle A=\angle BFC$，$\therefore \angle ADC=\angle DFC$，又 $\angle DCF=\angle ECD$。
+    - $\triangle DCF\sim\triangle ECD$，$CD^2=CE\cdot CF$，即 $AB^2=CE\cdot CF$。
+    - (2) $AD\parallel BC$，$\dfrac{EF}{EC}=\dfrac{DF}{DB}$，$EC=DB$，$\therefore EF=DF$。
+    - $\angle FED=\angle FDE$，$\triangle DCF\sim\triangle ECD$ $\Rightarrow$ $\angle CDF=\angle CED$。
+    - $\angle FDE=\angle CDF$，$\angle ABD=\angle CDB=\angle FDE$，$\therefore AB=AD$，菱形。
+    clue: 平行四边形性质+相似三角形+菱形判定。
+    answer: 证明见详解
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 70mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

@@ -1,0 +1,38 @@
+meta:
+  title: 2025年上海市杨浦区中考二模数学试卷第 21 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q021
+    points: 10
+    stem_latex: '$\mathrm{Rt}\triangle ABC$（$\angle ACB=90^{\circ}$，$AC=8$，$\tan A=\frac{3}{4}$），$CD$ 为中线，$BE\perp CD$ 交 $AC$ 于 $E$。
+
+      (1) 求 $CE$；
+
+      (2) 求 $\tan\angle EBA$。'
+    solution_steps:
+    - (1) $BC=6$，$AB=10$，$\triangle BCE\sim\triangle ACB$，$CE=\frac{BC^2}{AC}=\frac{9}{2}$。
+    - (2) 建系求 $F$（$BE\cap CD$），$\tan\angle EBA=\frac{3}{4}$。
+    clue: 相似三角形+解析法。
+    answer: (1) $CE=\dfrac{9}{2}$；(2) $\tan\angle EBA=\dfrac{3}{4}$
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 50mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

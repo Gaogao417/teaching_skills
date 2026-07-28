@@ -1,0 +1,44 @@
+meta:
+  title: 2025年上海市崇明区中考二模数学试卷第 25 题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: '在 $\mathrm{Rt}\triangle ABC$ 中，$\angle ABC=90^{\circ}$，$BC=2$，$\tan\angle ACB=\dfrac{1}{2}$，过点 $A$ 的直线 $l$ 与边 $BC$ 平行，点 $O$ 在射线 $BA$ 上，$\odot O$ 是以 $O$ 为圆心、$OB$ 为半径的圆。
+
+      (1) 当直线 $AC$ 与 $\odot O$ 相切时，求 $OB$ 的长；
+
+      (2) 直线 $l$ 与 $\odot O$ 相交于 $E$、$F$（$E$ 在右），以 $C$ 为圆心 $CE$ 为半径作 $\odot C$ 与 $\odot O$ 的另一交点为 $G$。
+
+      ① 若四边形 $ABCE$ 是矩形，求 $OB$ 的长；
+
+      ② 若 $\triangle AEC$ 是以 $AE$ 为腰的等腰三角形，求 $\angle AEG$ 的正切值。'
+    solution_steps:
+    - (1) $AB=BC\tan\angle ACB=1$，$AC=\sqrt{5}$，$\sin\angle BAC=\dfrac{2\sqrt{5}}{5}$。
+    - 设 $OB=OH=r$，$OA=1-r$，$\sin\angle BAC=\dfrac{r}{1-r}=\dfrac{2\sqrt{5}}{5}$，$r=2\sqrt{5}-4$。
+    - (2) ① 矩形中 $AE=BC=2$，$OA=r-1$，$(r-1)^2+4=r^2$，$r=\dfrac{5}{2}$。
+    - ② $AE=AC$ 或 $AE=CE$ 两种情况，$\tan\angle AEG=\dfrac{2}{3}$ 或 $\dfrac{64}{41}$。
+    clue: 切线性质+矩形+两圆相交公共弦+等腰三角形分类讨论。
+    answer: (1) $2\sqrt{5}-4$；(2) ① $\dfrac{5}{2}$；② $\tan\angle AEG=\dfrac{2}{3}$ 或 $\dfrac{64}{41}$
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 120mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

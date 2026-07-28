@@ -1,0 +1,36 @@
+meta:
+  title: 2025年上海市长宁区中考二模数学试卷第 6 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q006
+    points: 4
+    stem_latex: 如图，已知 $\angle AOB=30^{\circ}$，$\odot O$ 的半径为3。点 $P$ 在射线 $OB$ 上，$\odot P$ 的半径为 $r$。如果直线 $OA$ 与 $\odot P$ 相切，且 $\odot P$ 与 $\odot O$ 相交，那么 $r$ 的值可以是（\quad）
+    choices:
+    - '4'
+    - '3'
+    - '2'
+    - '1'
+    answer: C
+    clue: 切线得 $OP=2r$，相交得 $|3-r|<2r<3+r$，解得 $1<r<3$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 90mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

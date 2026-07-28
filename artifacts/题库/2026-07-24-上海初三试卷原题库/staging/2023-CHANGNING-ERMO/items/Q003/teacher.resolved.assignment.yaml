@@ -1,0 +1,39 @@
+meta:
+  title: 2023年上海市长宁区中考二模数学试卷第 3 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q003
+    points: 4
+    stem_latex: 如图，已知 $\odot O$ 及其所在平面内的4个点。如果 $\odot O$ 半径为 $5$，那么到圆心 $O$ 距离为 $7$ 的点可能是（\quad）
+    choices:
+    - $P$ 点
+    - $Q$ 点
+    - $M$ 点
+    - $N$ 点
+    answer: C
+    clue: 比较各点到圆心距离与半径 $5$ 的大小。
+    solution_steps:
+    - $OP<5$，$OQ<5$，$ON=5$，$OM>5$。
+    - 到 $O$ 距离为 $7$ 的点可能是 $M$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 60mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

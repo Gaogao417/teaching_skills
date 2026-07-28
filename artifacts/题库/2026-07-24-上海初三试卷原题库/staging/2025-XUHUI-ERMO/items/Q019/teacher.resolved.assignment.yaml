@@ -1,0 +1,29 @@
+meta:
+  title: 2025年上海市徐汇区中考二模数学试卷第 19 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q019
+    points: 10
+    stem_latex: 先化简 $\left(1 + \dfrac{2}{x-1}\right) \div \dfrac{x+1}{x^2 - 2x + 1}$，再求 $x = \dfrac{1}{\sqrt{2}-1}$ 时的值。
+    solution_steps:
+    - $=\frac{x+1}{x-1}\cdot\frac{(x-1)^2}{x+1}=x-1$。
+    - $x=\sqrt{2}+1$，原式 $=\sqrt{2}$。
+    clue: 分式化简+分母有理化。
+    answer: $x-1$，$\sqrt{2}$
+    source_solution_images: []

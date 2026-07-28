@@ -1,0 +1,33 @@
+meta:
+  title: 2025年上海市徐汇区中考二模数学试卷第 18 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q018
+    points: 4
+    stem_latex: 矩形 $ABCD$（$BC=2$）绕 $C$ 旋转，$B'$ 落在 $AC$ 上，$A'C$ 交 $AD$，$\angle A'CB=\angle A'AC$，$AC=$______
+    answer: $2\sqrt{5}-2$
+    clue: 旋转+相似+勾股定理。
+    solution_steps:
+    - 设 $AB'=x$，列方程解得 $AC=2\sqrt{5}-2$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 60mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

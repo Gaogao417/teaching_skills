@@ -1,0 +1,29 @@
+meta:
+  title: 2024年上海市长宁区中考二模数学试卷第 11 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q011
+    points: 4
+    stem_latex: 已知方程 $\dfrac{x}{x^2-1}+\dfrac{1-x^2}{3x}=2$，如果设 $y=\dfrac{x}{x^2-1}$，那么原方程转化为关于 $y$ 的整式方程为\u3000\u3000\u3000\u3000。
+    answer: $y^2-2y+\dfrac{1}{3}=0$
+    clue: 注意 $\dfrac{1-x^2}{3x}=-\dfrac{1}{3}\cdot\dfrac{x^2-1}{x}=-\dfrac{1}{3y}$。
+    solution_steps:
+    - 设 $y=\dfrac{x}{x^2-1}$，则 $\dfrac{1}{y}=\dfrac{x^2-1}{x}$，第二项 $=\dfrac{1}{3y}$。
+    - 原方程化为 $y+\dfrac{1}{3y}=2$，两边乘 $3y$ 得 $3y^2+1=6y$，即 $y^2-2y+\dfrac{1}{3}=0$。
+    source_solution_images: []

@@ -1,0 +1,36 @@
+meta:
+  title: 2023年上海市宝山区中考二模数学试卷第 21 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q021
+    points: 10
+    stem_latex: 某校开设了 $A$、$B$、$C$、$D$、$E$ 五类兴趣课，为了解学生喜爱情况，从全校500名学生中随机抽取若干名进行"你最喜爱的兴趣课"问卷调查（每人选一类）。根据调查结果绘制出条形统计图和扇形统计图（均尚未完成）。（1）求本次问卷调查中最喜欢 $E$ 类课程的学生人数，并补全相应的条形图；（2）估计该校全体学生中最喜欢 $D$ 类兴趣课的人数．
+    answer: (1) 最喜欢 $E$ 类5名；(2) 约140名
+    clue: 由 $A$ 类人数与百分比求样本总量，再求各部分人数并用样本比例估计总体。
+    solution_steps:
+    - (1) $20\div40\%=50$（人）。
+    - 最喜欢 $B$ 类：$50\times12\%=6$（人）；最喜欢 $E$ 类：$50\times10\%=5$（人）；最喜欢 $D$ 类：$50-5-20-6-5=14$（人）。
+    - 补全条形图（图略）。
+    - (2) $500\times\dfrac{14}{50}=140$（人）。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 80mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

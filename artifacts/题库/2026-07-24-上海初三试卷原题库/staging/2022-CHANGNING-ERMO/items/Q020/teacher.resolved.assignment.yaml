@@ -1,0 +1,30 @@
+meta:
+  title: 2022年上海市长宁区初三二模数学试卷第 20 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q020
+    points: 10
+    stem_latex: 解不等式组：$\begin{cases} 2x+3\leqslant 5 \\ \dfrac{x}{2}+\dfrac{1}{3}>\dfrac{x-2}{6} \end{cases}$，并写出这个不等式组的自然数解。
+    answer: $-2<x\leqslant1$；自然数解为 $0$、$1$
+    clue: 分别解两个不等式再取交集。
+    solution_steps:
+    - 由 $2x+3\leqslant5$ 得 $x\leqslant1$。
+    - 由 $\dfrac{x}{2}+\dfrac{1}{3}>\dfrac{x-2}{6}$ 得 $x>-2$。
+    - $\therefore$ 解集为 $-2<x\leqslant1$，自然数解为 $0$、$1$。
+    source_solution_images: []

@@ -1,0 +1,39 @@
+meta:
+  title: 2024年上海市宝山区中考二模数学试卷第 22 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q022
+    points: 10
+    stem_latex: '（本题满分 $10$ 分）小明家院内靠墙安装了一个遮阳篷（如图8），图9是它的侧面示意图，遮阳篷长 $AC=6$ 米，与水平面的夹角为 $17.5^{\circ}$，靠墙端 $A$ 离地高度 $AB=5$ 米，已知该地区冬至正午太阳光照入射角 $\angle CDF=36.9^{\circ}$，夏至正午太阳光照入射角 $\angle CEF=82.4^{\circ}$，因此，点 $D$、$E$ 之间的区域是一年四季中阳光不一定照射到的区域，求该区域深度 $DE$ 的长。（结果精确到 $0.1$ 米）
+
+      参考数据：$\sin17.5^{\circ}\approx0.3$，$\cos17.5^{\circ}\approx0.95$，$\tan17.5^{\circ}\approx0.32$；$\sin36.9^{\circ}\approx0.6$，$\cos36.9^{\circ}\approx0.8$，$\tan36.9^{\circ}\approx0.75$；$\sin82.4^{\circ}\approx0.99$，$\cos82.4^{\circ}\approx0.13$，$\tan82.4^{\circ}\approx7.5$。'
+    answer: $DE\approx 3.8$ 米
+    clue: 过 $C$ 分别向墙和地面作垂线，构造两个直角三角形分别求 $DH$、$EH$。
+    solution_steps:
+    - 过 $C$ 作 $CG\perp AB$ 于 $G$，$Rt\triangle ACG$ 中 $AG=AC\sin17.5^{\circ}\approx6\times0.3=1.8$。
+    - $BG=AB-AG=5-1.8=3.2$，$CH=BG=3.2$。
+    - $Rt\triangle CDH$ 中 $DH=\dfrac{CH}{\tan36.9^{\circ}}\approx\dfrac{3.2}{0.75}\approx4.27$。
+    - $Rt\triangle CEH$ 中 $EH=\dfrac{CH}{\tan82.4^{\circ}}\approx\dfrac{3.2}{7.5}\approx0.43$。
+    - $DE=DH-EH\approx4.27-0.43\approx3.8$ 米。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 90mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

@@ -1,0 +1,39 @@
+meta:
+  title: 2025年上海市闵行区中考二模数学试卷第 22 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q022
+    points: 10
+    stem_latex: '一次函数与坐标轴围成三角形面积探究。类型Ⅰ：$y=kx+b$ 与两坐标轴围成的面积 $S$；类型Ⅱ：两条直线与坐标轴围成的面积关系。
+
+      (1) 求 $S$（用 $k$、$b$ 表示）；
+
+      (2) ① 选正确的 $k$、$b$ 符号并写 $S_1$、$S_2$、$S_x$、$S_y$ 关系；② 改变 $l_2$ 符号后的关系。'
+    solution_steps:
+    - (1) $S=\frac{b^2}{2k}$。
+    - (2)① 选D：$k_1>0,b_1>0,k_2<0,b_2>0$，$S_1+S_2=S_x+S_y$。
+    - ② $S_1-S_2=S_x-S_y$。
+    clue: 一次函数交点+三角形面积+符号讨论。
+    answer: (1) $S=\dfrac{b^2}{2k}$；(2)① D，$S_1+S_2=S_x+S_y$；② $S_1-S_2=S_x-S_y$
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 120mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

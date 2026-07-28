@@ -1,0 +1,66 @@
+meta:
+  title: 26一模相似三角形证明题 宝山23
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q001
+    points: 12
+    stem_latex: 如图，在菱形 $ABCD$ 中，$E$ 是 $CD$ 上一点，联结 $BE$ 并延长，交 $AD$ 的延长线于点 $G$，交 $AC$
+      于点 $F$。（1）求证：$BE\cdot BF=BG\cdot EF$；（2）若 $E$ 是 $CD$ 的中点，且 $AF\cdot CF=2BF^2$，求证：$BE\perp
+      CD$。
+    answer: （1）见证明；（2）$BE\perp CD$。
+    solution_steps:
+    - title: 第（1）问
+      content: '四边形 $ABCD$ 是菱形，$\therefore AB\parallel CD$，$AG\parallel BC$。
+
+        $\therefore \dfrac{BE}{EF}=\dfrac{AC}{CF}$，$\dfrac{BG}{BF}=\dfrac{AC}{CF}$。
+
+        $\therefore \dfrac{BE}{EF}=\dfrac{BG}{BF}$，即 $BE\cdot BF=BG\cdot EF$。'
+    - title: 第（2）问
+      content: '$E$ 是 $CD$ 的中点，$\therefore CE=\dfrac{1}{2}CD=\dfrac{1}{2}AB$。
+
+        $AB\parallel CD$，$\therefore \dfrac{CE}{AB}=\dfrac{CF}{AF}=\dfrac{EF}{BF}=\dfrac{1}{2}$，即
+        $CF=\dfrac{1}{2}AF$。
+
+        $AF\cdot CF=2BF^2$，$\therefore CF^2=BF^2$，$\therefore CF=BF$。
+
+        $\therefore \angle FBC=\angle FCB=\angle FCE$。
+
+        $\angle CEF=\angle BEC$，$\therefore \triangle ECF\sim\triangle EBC$。
+
+        $\therefore \dfrac{EF}{CE}=\dfrac{CE}{BE}$，即 $CE^2=EF\cdot BE$。
+
+        设 $EF=a$，则 $BF=CF=2a$，$BE=3a$，$\therefore CE^2=3a^2$。
+
+        $\therefore CE^2+EF^2=CF^2$，$\therefore \angle CEF=90^\circ$，即 $BE\perp CD$。'
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第2页
+    diagram_col:
+      image_path: assets/manual-prompt-1-5d41322a0c38e9c2.png
+      width: 0.75\linewidth
+      variant: prompt
+      disclosure_policy: clean

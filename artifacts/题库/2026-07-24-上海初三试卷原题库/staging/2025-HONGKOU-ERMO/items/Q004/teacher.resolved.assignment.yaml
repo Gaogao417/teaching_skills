@@ -1,0 +1,36 @@
+meta:
+  title: 2025年上海市虹口区中考二模数学试卷第 4 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q004
+    points: 4
+    stem_latex: 小明对学校戏剧社20名成员进行年龄调查，13岁和14岁人数被墨迹遮挡（合计9人），能够分析得出的统计量是（\quad）
+    choices:
+    - 平均数
+    - 众数
+    - 中位数
+    - 方差
+    answer: C
+    clue: 前9人年龄确定，中位数取第10和11个的平均，均为12岁。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 60mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

@@ -1,0 +1,41 @@
+meta:
+  title: 2024年上海市长宁区中考二模数学试卷第 25 题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: '已知在 $\triangle ABC$ 中，$CA=CB$，$AB=6$，$\cos\angle CAB=\dfrac{3}{5}$，点 $O$ 为边 $AB$ 上一点，以点 $O$ 为圆心，$OA$ 为半径作 $\odot O$，交边 $AC$ 于点 $D$（点 $D$ 不与点 $A$、$C$ 重合）。
+
+      (1) 当 $AD=4$ 时，判断点 $B$ 与 $\odot O$ 的位置关系，并说明理由；
+
+      (2) 过点 $C$ 作 $CE\perp OD$，交 $OD$ 延长线于点 $E$。以点 $E$ 为圆心，$EC$ 为半径作 $\odot E$，延长 $CE$，交 $\odot E$ 于点 $C''$。①如果 $\odot O$ 与 $\odot E$ 的公共弦恰好经过线段 $EO$ 的中点，求 $CD$ 的长；②连接 $AC''$、$OC$，如果 $AC''$ 与 $\triangle BOC$ 的一条边平行，求 $\odot E$ 的半径长。'
+    answer: (1) 点 $B$ 在 $\odot O$ 内；(2) ① $CD=\dfrac{125}{49}$；② $CE=\dfrac{100}{39}$ 或 $\dfrac{10}{7}$
+    clue: 设 $DE=3k,CD=5k,CE=4k$（$\cos\angle CDE=\dfrac{3}{5}$），$AD=5-5k$；①公共弦过 $EO$ 中点 $\Rightarrow CE=AO$；②分 $AC'\parallel CB$ 与 $AC'\parallel OC$。
+    solution_steps:
+    - (1) $AH=DH=2$，$\cos A=\dfrac{AH}{AO}=\dfrac{3}{5}$，$AO=\dfrac{10}{3}$，$OB=\dfrac{8}{3}<AO$，$\therefore$ 点 $B$ 在 $\odot O$ 内。
+    - (2) $AC=5$，设 $DE=3k,CD=5k,CE=4k$，$AD=5-5k$。
+    - ① 公共弦过 $EO$ 中点 $\Rightarrow CE=AO$：$4k=\dfrac{5}{6}(5-5k)$，$k=\dfrac{25}{49}$，$CD=5k=\dfrac{125}{49}$。
+    - ② $AC'\parallel CB$：$\dfrac{5k+\frac{1}{2}(5-5k)}{8k}=\dfrac{4}{5}$，$k=\dfrac{25}{39}$，$CE=\dfrac{100}{39}$。
+    - $AC'\parallel OC$：$\dfrac{\frac{5}{6}(5-5k)}{6k+\frac{5}{6}(5-5k)}=\dfrac{5k}{5-5k}$，$k=\dfrac{5}{14}$，$CE=\dfrac{10}{7}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 95mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

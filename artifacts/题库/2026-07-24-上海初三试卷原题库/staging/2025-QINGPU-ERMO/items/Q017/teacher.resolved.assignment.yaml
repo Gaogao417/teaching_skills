@@ -1,0 +1,34 @@
+meta:
+  title: 2025年上海市青浦区中考二模数学试卷第 17 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q017
+    points: 4
+    stem_latex: 矩形 $ABCD$（$AB=3$，$BC=4$）绕 $A$ 旋转，$B_1$ 落在 $AC$ 上，$BB_1=$______
+    answer: $\dfrac{6\sqrt{5}}{5}$ 或 $\dfrac{12\sqrt{5}}{5}$
+    clue: $BE=\frac{12}{5}$，$AE=\frac{9}{5}$，两种情况。
+    solution_steps:
+    - 情况1：$EB_1=\frac{6}{5}$，$BB_1=\frac{6\sqrt{5}}{5}$。
+    - 情况2：$EB_1=\frac{24}{5}$，$BB_1=\frac{12\sqrt{5}}{5}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 60mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

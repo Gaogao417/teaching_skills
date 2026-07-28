@@ -1,0 +1,35 @@
+meta:
+  title: 2024年上海市宝山区中考二模数学试卷第 18 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q018
+    points: 4
+    stem_latex: 如图6，菱形 $ABCD$ 的边长为 $5$，$\cos B=\dfrac{4}{5}$，$E$ 是边 $CD$ 上一点（不与点 $C$、$D$ 重合），把 $\triangle ADE$ 沿着直线 $AE$ 翻折，如果点 $D$ 落在菱形一条边的延长线上，那么 $CE$ 的长为\u3000\u3000\u3000\u3000。
+    answer: $1$ 或 $\dfrac{40}{13}$
+    clue: 分点 $D$ 落在 $BC$ 延长线或 $DC$ 延长线两类讨论。
+    solution_steps:
+    - 当点 $D$ 落在 $BC$ 延长线上时，由角平分线定理及比例求得 $CE=\dfrac{40}{13}$。
+    - 当点 $D$ 落在 $DC$ 延长线上时，$AE\perp DF$，$ED=AD\cos D=4$，$CE=1$。
+    - 综上 $CE=1$ 或 $\dfrac{40}{13}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 80mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

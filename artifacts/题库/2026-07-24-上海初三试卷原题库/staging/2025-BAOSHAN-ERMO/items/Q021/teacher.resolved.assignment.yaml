@@ -1,0 +1,31 @@
+meta:
+  title: 2025年上海市宝山区中考二模数学试卷第 21 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q021
+    points: 10
+    stem_latex: 在平面直角坐标系$xOy$中，反比例函数$y = \dfrac{k}{x}$的图像经过点$A(k-4, 1-k)$。（1）求$k$的值；（2）点$B$在该函数图像上（与$A$不同象限），$AB$与$x$轴交于$P$，$BP = 3AP$，求$\angle BPO$的正切值。
+    solution_steps:
+    - (1) 代入得$k^2-4k+4=0$，$k=2$
+    - (2) $A(-2,-1)$，$AM\parallel BN$，$\triangle AMP\sim\triangle BNP$
+    - $\dfrac{AM}{BN}=\dfrac{1}{3}$，$BN=3$，$N(\frac{2}{3},3)$
+    - $PN=2$，$\tan\angle BPO=\dfrac{3}{2}$
+    clue: 反比例函数、三角形相似。
+    answer: (1) $k=2$; (2) $\tan\angle BPO=\dfrac{3}{2}$
+    source_solution_images: []

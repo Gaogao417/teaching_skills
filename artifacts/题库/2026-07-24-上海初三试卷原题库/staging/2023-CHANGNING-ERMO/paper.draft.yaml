@@ -1,0 +1,736 @@
+schema: math_exam_staging_draft/v1
+paper:
+  id: 2023-CHANGNING-ERMO
+  title: 2023年上海市长宁区中考二模数学试卷
+  grade: 九年级
+  subject: 数学
+  source_archive: documents/初三/2023届-上海市长宁区-初三二模数学-试卷及解析
+  duration: 100分钟
+  total_points: 150
+question_bank: ../../question-bank.yaml
+sections:
+- id: choice
+  title: 一、选择题
+  items:
+  - item_id: Q001
+    question_number: 1
+    question_type: choice
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2023届-上海市长宁区-初三二模数学-试卷及解析/word/pages/001.png
+      page_number: 1
+    prompt: []
+    official_solution:
+      word_evidence:
+      - page_image: documents/初三/2023届-上海市长宁区-初三二模数学-试卷及解析/word/pages/001.png
+        page_number: 1
+      start_anchor: 【分析】根据无理数的概念判断
+      end_anchor: 故选：C
+    block:
+      stem_latex: 下列实数中，比 $3$ 大的有理数是（\quad）
+      choices:
+      - $|-3|$
+      - $\pi$
+      - $\dfrac{22}{7}$
+      - $\sqrt{17}$
+      answer: C
+      clue: 区分有理数与无理数，再比较大小。
+      solution_steps:
+      - $|-3|=3$；$\pi$、$\sqrt{17}$ 是无理数。
+      - $\dfrac{22}{7}>3$ 且为有理数，故选 C。
+  - item_id: Q002
+    question_number: 2
+    question_type: choice
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2023届-上海市长宁区-初三二模数学-试卷及解析/word/pages/001.png
+      page_number: 1
+    prompt: []
+    official_solution:
+      word_evidence:
+      - page_image: documents/初三/2023届-上海市长宁区-初三二模数学-试卷及解析/word/pages/001.png
+        page_number: 1
+      start_anchor: 【详解】解
+      end_anchor: 故选：B
+    block:
+      stem_latex: 用换元法解方程 $\dfrac{x-1}{x^{2}}-\dfrac{x^{2}}{x-1}=3$ 时，如果设 $\dfrac{x-1}{x^{2}}=y$，那么原方程可化为关于
+        $y$ 的方程是（\quad）
+      choices:
+      - $y^{2}+3y-1=0$
+      - $y^{2}-3y-1=0$
+      - $y^{2}-3y+1=0$
+      - $y^{2}+3y+1=0$
+      answer: B
+      clue: 换元后 $\dfrac{x^{2}}{x-1}$ 是 $\dfrac{x-1}{x^{2}}$ 的倒数，再去分母。
+      solution_steps:
+      - 设 $y=\dfrac{x-1}{x^{2}}$，则 $\dfrac{x^{2}}{x-1}=\dfrac{1}{y}$。
+      - 原方程化为 $y-\dfrac{1}{y}=3$，去分母得 $y^{2}-3y-1=0$。
+  - item_id: Q003
+    question_number: 3
+    question_type: choice
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2023届-上海市长宁区-初三二模数学-试卷及解析/word/pages/002.png
+      page_number: 2
+    prompt:
+    - source: documents/初三/2023届-上海市长宁区-初三二模数学-试卷及解析/word/media/image20.png
+      box_px:
+      - 0
+      - 0
+      - 307
+      - 348
+      width: 60mm
+    official_solution:
+      word_evidence:
+      - page_image: documents/初三/2023届-上海市长宁区-初三二模数学-试卷及解析/word/pages/002.png
+        page_number: 2
+      start_anchor: 【详解】解
+      end_anchor: 故选：C
+    block:
+      stem_latex: 如图，已知 $\odot O$ 及其所在平面内的4个点。如果 $\odot O$ 半径为 $5$，那么到圆心 $O$ 距离为 $7$
+        的点可能是（\quad）
+      choices:
+      - $P$ 点
+      - $Q$ 点
+      - $M$ 点
+      - $N$ 点
+      answer: C
+      clue: 比较各点到圆心距离与半径 $5$ 的大小。
+      solution_steps:
+      - $OP<5$，$OQ<5$，$ON=5$，$OM>5$。
+      - 到 $O$ 距离为 $7$ 的点可能是 $M$。
+  - item_id: Q004
+    question_number: 4
+    question_type: choice
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2023届-上海市长宁区-初三二模数学-试卷及解析/word/pages/003.png
+      page_number: 3
+    prompt: []
+    official_solution:
+      word_evidence:
+      - page_image: documents/初三/2023届-上海市长宁区-初三二模数学-试卷及解析/word/pages/003.png
+        page_number: 3
+      start_anchor: 【详解】解
+      end_anchor: 故选：B
+    block:
+      stem_latex: 下列命题中，假命题的是（\quad）
+      choices:
+      - 对角线互相垂直的平行四边形是菱形
+      - 对角线互相垂直的梯形是等腰梯形
+      - 对角线平分一组对角的平行四边形是菱形
+      - 对角线平分一组对角的矩形是正方形
+      answer: B
+      clue: 逐项用特殊四边形的判定定理判断真假。
+      solution_steps:
+      - A、对角线互相垂直的平行四边形是菱形，真命题。
+      - B、对角线互相垂直的梯形不一定是等腰梯形（可为直角梯形等），假命题。
+      - C、D 均为真命题。
+  - item_id: Q005
+    question_number: 5
+    question_type: choice
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2023届-上海市长宁区-初三二模数学-试卷及解析/word/pages/004.png
+      page_number: 4
+    prompt: []
+    official_solution:
+      word_evidence:
+      - page_image: documents/初三/2023届-上海市长宁区-初三二模数学-试卷及解析/word/pages/004.png
+        page_number: 4
+      start_anchor: 【分析】根据各种统计量的含义
+      end_anchor: 故选：D
+    block:
+      stem_latex: 某小店以八种型号销售一类货品，一段时间内销量（件）为 A2、B4、C5、D13、E8、F7、G3、H1。如果每件利润相同，店主决定多进
+        D 型号货品，那么影响决策的统计量是（\quad）
+      choices:
+      - 平均数
+      - 中位数
+      - 标准差
+      - 众数
+      answer: D
+      clue: 多进销量最多的型号，由众数决定。
+      solution_steps:
+      - 店主最关心销量最多的型号，即众数（D 型号销量13件最多）。
+  - item_id: Q006
+    question_number: 6
+    question_type: choice
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2023届-上海市长宁区-初三二模数学-试卷及解析/word/pages/004.png
+      page_number: 4
+    prompt: []
+    official_solution:
+      word_evidence:
+      - page_image: documents/初三/2023届-上海市长宁区-初三二模数学-试卷及解析/word/pages/004.png
+        page_number: 4
+      start_anchor: 【详解】解
+      end_anchor: 故选：A
+    block:
+      stem_latex: 已知抛物线 $y=ax^{2}+bx+c\,(a\neq0)$ 经过点 $A(2,t)$、$B(3,t)$、$C(4,2)$，那么
+        $a+b+c$ 的值是（\quad）
+      choices:
+      - $2$
+      - $3$
+      - $4$
+      - $t$
+      answer: A
+      clue: 由 $A,B$ 纵坐标相同得对称轴 $x=2.5$，$C(4,2)$ 关于对称轴的对称点为 $(1,2)$，故 $f(1)=a+b+c=2$。
+      solution_steps:
+      - $A(2,t)$、$B(3,t)$ 纵坐标相同，对称轴 $x=\dfrac{2+3}{2}=2.5$。
+      - $C(4,2)$ 关于对称轴的对称点为 $(1,2)$，故 $f(1)=a+b+c=2$。
+- id: fill
+  title: 二、填空题
+  items:
+  - item_id: Q007
+    question_number: 7
+    question_type: short_answer
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2023届-上海市长宁区-初三二模数学-试卷及解析/word/pages/005.png
+      page_number: 5
+    prompt: []
+    official_solution:
+      word_evidence:
+      - page_image: documents/初三/2023届-上海市长宁区-初三二模数学-试卷及解析/word/pages/005.png
+        page_number: 5
+      start_anchor: 解：$2x\cdot(-3xy^{2})=-6x^{2}y^{2}$
+      end_anchor: $-6x^{2}y^{2}$
+    block:
+      stem_latex: 计算：$2x\cdot(-3xy^{2})=$ ______
+      answer: $-6x^{2}y^{2}$
+      clue: 单项式乘单项式，系数相乘、同底数幂相乘。
+      solution_steps:
+      - $2x\cdot(-3xy^{2})=-6x^{2}y^{2}$。
+  - item_id: Q008
+    question_number: 8
+    question_type: short_answer
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2023届-上海市长宁区-初三二模数学-试卷及解析/word/pages/006.png
+      page_number: 6
+    prompt: []
+    official_solution:
+      word_evidence:
+      - page_image: documents/初三/2023届-上海市长宁区-初三二模数学-试卷及解析/word/pages/006.png
+        page_number: 6
+      start_anchor: 解：由题意得，$x+2\geqslant0$
+      end_anchor: $x\geqslant-2$
+    block:
+      stem_latex: 函数 $y=\sqrt{x+2}$ 的定义域为 ______
+      answer: $x\geqslant-2$
+      clue: 偶次根号下被开方数非负。
+      solution_steps:
+      - $x+2\geqslant0$，解得 $x\geqslant-2$。
+  - item_id: Q009
+    question_number: 9
+    question_type: short_answer
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2023届-上海市长宁区-初三二模数学-试卷及解析/word/pages/006.png
+      page_number: 6
+    prompt: []
+    official_solution:
+      word_evidence:
+      - page_image: documents/初三/2023届-上海市长宁区-初三二模数学-试卷及解析/word/pages/006.png
+        page_number: 6
+      start_anchor: 解：$\because f(x)=\dfrac{x}{x^{2}-1}$
+      end_anchor: $\dfrac{\sqrt{5}}{4}$
+    block:
+      stem_latex: 已知 $f(x)=\dfrac{x}{x^{2}-1}$，那么 $f(\sqrt{5})=$ ______
+      answer: $\dfrac{\sqrt{5}}{4}$
+      clue: 代入函数解析式计算。
+      solution_steps:
+      - $f(\sqrt{5})=\dfrac{\sqrt{5}}{(\sqrt{5})^{2}-1}=\dfrac{\sqrt{5}}{4}$。
+  - item_id: Q010
+    question_number: 10
+    question_type: short_answer
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2023届-上海市长宁区-初三二模数学-试卷及解析/word/pages/007.png
+      page_number: 7
+    prompt: []
+    official_solution:
+      word_evidence:
+      - page_image: documents/初三/2023届-上海市长宁区-初三二模数学-试卷及解析/word/pages/007.png
+        page_number: 7
+      start_anchor: 解：$\because$ 方程 $x^{2}-4x+2c=0$ 有实数根
+      end_anchor: $c\leqslant2$
+    block:
+      stem_latex: 如果关于 $x$ 的方程 $x^{2}-4x+2c=0$ 有实数根，那么实数 $c$ 的取值范围是 ______
+      answer: $c\leqslant2$
+      clue: 一元二次方程有实数根则判别式 $\Delta\geqslant0$。
+      solution_steps:
+      - $\Delta=16-8c\geqslant0$，解得 $c\leqslant2$。
+  - item_id: Q011
+    question_number: 11
+    question_type: short_answer
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2023届-上海市长宁区-初三二模数学-试卷及解析/word/pages/007.png
+      page_number: 7
+    prompt: []
+    official_solution:
+      word_evidence:
+      - page_image: documents/初三/2023届-上海市长宁区-初三二模数学-试卷及解析/word/pages/007.png
+        page_number: 7
+      start_anchor: 解不等式①，得 $x>2$
+      end_anchor: $3$，$4$
+    block:
+      stem_latex: 不等式组 $\begin{cases}x<3x-4\\\dfrac{2+x}{2}\leqslant x-1\end{cases}$
+        的正整数解是 ______
+      answer: $3$，$4$
+      clue: 分别解两个不等式求交集，再取正整数。
+      solution_steps:
+      - 解①得 $x>2$；解②得 $x\leqslant4$。
+      - 故 $2<x\leqslant4$，正整数解为 $3$、$4$。
+  - item_id: Q012
+    question_number: 12
+    question_type: short_answer
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2023届-上海市长宁区-初三二模数学-试卷及解析/word/pages/008.png
+      page_number: 8
+    prompt: []
+    official_solution:
+      word_evidence:
+      - page_image: documents/初三/2023届-上海市长宁区-初三二模数学-试卷及解析/word/pages/008.png
+        page_number: 8
+      start_anchor: 根据三角形三边关系得 $4-3<c<4+3$
+      end_anchor: $\dfrac{3}{8}$
+    block:
+      stem_latex: 已知线段 $a=3$，$b=4$，从 $1,2,3,4,5,6,7,8$ 这八个数中任意选取一个数作为线段 $c$ 的长度，那么
+        $a$、$b$、$c$ 不能组成三角形的概率是 ______
+      answer: $\dfrac{3}{8}$
+      clue: 由三角形三边关系定能组成的 $c$ 范围，再用概率公式。
+      solution_steps:
+      - 能组成三角形则 $1<c<7$，$c$ 可取 $2,3,4,5,6$ 共5个。
+      - 不能组成则 $c\in\{1,7,8\}$ 共3个，概率 $\dfrac{3}{8}$。
+  - item_id: Q013
+    question_number: 13
+    question_type: short_answer
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2023届-上海市长宁区-初三二模数学-试卷及解析/word/pages/009.png
+      page_number: 9
+    prompt: []
+    official_solution:
+      word_evidence:
+      - page_image: documents/初三/2023届-上海市长宁区-初三二模数学-试卷及解析/word/pages/009.png
+        page_number: 9
+      start_anchor: 解：$3000 \times \dfrac{200-45}{200} = 2325$
+      end_anchor: 2325
+    block:
+      stem_latex: 某区九年级3000名学生中随机调查200名"4分钟跳绳"，仅45名未获满分，估计该区九年级能获满分的人数约为 ______
+      answer: $2325$
+      clue: 用样本中满分比例估计总体。
+      solution_steps:
+      - $3000\times\dfrac{200-45}{200}=2325$（名）。
+  - item_id: Q014
+    question_number: 14
+    question_type: short_answer
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2023届-上海市长宁区-初三二模数学-试卷及解析/word/pages/010.png
+      page_number: 10
+    prompt: []
+    official_solution:
+      word_evidence:
+      - page_image: documents/初三/2023届-上海市长宁区-初三二模数学-试卷及解析/word/pages/010.png
+        page_number: 10
+      start_anchor: 解：∵点 $A$ 与点 $A_1$ 关于 $y$ 轴对称
+      end_anchor: $-8$
+    block:
+      stem_latex: 已知点 $A(-4,m)$ 在反比例函数 $y=\dfrac{k}{x}$ 的图像上，点 $A$ 关于 $y$ 轴的对称点 $A_1$
+        恰好在直线 $y=\dfrac{1}{2}x$ 上，那么 $k$ 的值为 ______
+      answer: $-8$
+      clue: 关于 $y$ 轴对称横坐标变号，先求 $m$ 再求 $k$。
+      solution_steps:
+      - $A_1(4,m)$，代入 $y=\dfrac{1}{2}x$ 得 $m=2$。
+      - $A(-4,2)$，$k=-4\times2=-8$。
+  - item_id: Q015
+    question_number: 15
+    question_type: short_answer
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2023届-上海市长宁区-初三二模数学-试卷及解析/word/pages/011.png
+      page_number: 11
+    prompt:
+    - source: documents/初三/2023届-上海市长宁区-初三二模数学-试卷及解析/word/media/image100.png
+      box_px:
+      - 0
+      - 0
+      - 151
+      - 132
+      width: 50mm
+    official_solution:
+      word_evidence:
+      - page_image: documents/初三/2023届-上海市长宁区-初三二模数学-试卷及解析/word/pages/011.png
+        page_number: 11
+      start_anchor: 解：∵$AD \parallel BC$，$AD = \dfrac{1}{2}BC$
+      end_anchor: $-\dfrac{3}{2}\vec{b} - 2\vec{a}$
+    block:
+      stem_latex: 如图，在梯形 $ABCD$ 中，$AD \parallel BC$，$AD = \dfrac{1}{2}BC$，对角线 $AC$
+        与 $BD$ 交于点 $O$，设 $\overrightarrow{AD} = \vec{a}$，$\overrightarrow{CO} = \vec{b}$，那么
+        $\overrightarrow{AB} =$ ______（结果用 $\vec{a}$、$\vec{b}$ 表示）
+      answer: $-2\vec{a}-\dfrac{3}{2}\vec{b}$
+      clue: 由平行得相似求 $AO:CO$，再用向量合成 $\overrightarrow{AB}=\overrightarrow{AC}+\overrightarrow{CB}$。
+      solution_steps:
+      - $\because AD\parallel BC$，$AD=\dfrac{1}{2}BC$，$\therefore \triangle AOD\sim\triangle
+        COB$，$\dfrac{AO}{CO}=\dfrac{1}{2}$。
+      - $\overrightarrow{CB}=-2\overrightarrow{AD}=-2\vec{a}$，$\overrightarrow{AO}=-\dfrac{1}{2}\overrightarrow{CO}=-\dfrac{1}{2}\vec{b}$。
+      - $\overrightarrow{AB}=\overrightarrow{AO}+\overrightarrow{OC}+\overrightarrow{CB}=-\dfrac{3}{2}\vec{b}-2\vec{a}$。
+  - item_id: Q016
+    question_number: 16
+    question_type: short_answer
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2023届-上海市长宁区-初三二模数学-试卷及解析/word/pages/012.png
+      page_number: 12
+    prompt:
+    - source: documents/初三/2023届-上海市长宁区-初三二模数学-试卷及解析/word/media/image115.png
+      box_px:
+      - 0
+      - 0
+      - 403
+      - 234
+      width: 60mm
+    official_solution:
+      word_evidence:
+      - page_image: documents/初三/2023届-上海市长宁区-初三二模数学-试卷及解析/word/pages/012.png
+        page_number: 12
+      start_anchor: 解：∵四边形 $ABCD$ 是菱形
+      end_anchor: $OE = 5$
+    block:
+      stem_latex: 如图，在菱形 $ABCD$ 中，对角线 $AC$ 与 $BD$ 交于点 $O$，已知 $BD = 16$，$\tan\angle
+        OCD = \dfrac{4}{3}$，如果点 $E$ 是边 $AB$ 的中点，那么 $OE =$ ______
+      answer: $5$
+      clue: 菱形对角线垂直平分，由 $\tan$ 求 $OC$，再用直角三角形斜边中线定理。
+      solution_steps:
+      - 菱形中 $AC\perp BD$，$BO=DO=8$。
+      - Rt$\triangle OCD$ 中 $\tan\angle OCD=\dfrac{OD}{OC}=\dfrac{4}{3}$，$OC=6$，$OA=6$。
+      - $AB=\sqrt{OA^{2}+OB^{2}}=10$，$E$ 为 $AB$ 中点，Rt$\triangle AOB$ 中 $OE=\dfrac{1}{2}AB=5$。
+  - item_id: Q017
+    question_number: 17
+    question_type: short_answer
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2023届-上海市长宁区-初三二模数学-试卷及解析/word/pages/013.png
+      page_number: 13
+    prompt:
+    - source: documents/初三/2023届-上海市长宁区-初三二模数学-试卷及解析/word/media/image126.png
+      box_px:
+      - 0
+      - 0
+      - 138
+      - 156
+      width: 50mm
+    official_solution:
+      word_evidence:
+      - page_image: documents/初三/2023届-上海市长宁区-初三二模数学-试卷及解析/word/pages/013.png
+        page_number: 13
+      - page_image: documents/初三/2023届-上海市长宁区-初三二模数学-试卷及解析/word/pages/014.png
+        page_number: 14
+      - page_image: documents/初三/2023届-上海市长宁区-初三二模数学-试卷及解析/word/pages/015.png
+        page_number: 15
+      start_anchor: 解：过点 $O$ 作 $OF \perp CD$ 于点 $F$
+      end_anchor: $\dfrac{5\sqrt{2}-1}{7}$
+    block:
+      stem_latex: 如图，$\odot O$ 的直径 $AB$ 与弦 $CD$ 交于点 $E$，已知 $\angle CEA = 45\degree$，$DE
+        = 7$，$OE = 3\sqrt{2}$，那么 $\cot\angle ABD$ 的值为 ______
+      answer: $\dfrac{5\sqrt{2}-1}{7}$
+      clue: 作弦心距构造等腰直角三角形求半径，再在 $BE$ 上用 $45\degree$ 直角三角形求 $\cot$。
+      solution_steps:
+      - 作 $OF\perp CD$ 于 $F$，连 $OD$，作 $DH\perp AB$ 于 $H$。
+      - $\angle OEF=45\degree$，$\triangle OEF$ 等腰直角，$OE=3\sqrt{2}\Rightarrow OF=EF=3$。
+      - $DE=7\Rightarrow DF=4$，$OD=\sqrt{3^{2}+4^{2}}=5$，$OB=5$，$BE=5+3\sqrt{2}$。
+      - $\triangle DEH$ 等腰直角，$EH=DH=\dfrac{7\sqrt{2}}{2}$。
+      - $BH=BE-EH=5-\dfrac{\sqrt{2}}{2}$，$\cot\angle ABD=\dfrac{BH}{DH}=\dfrac{5\sqrt{2}-1}{7}$。
+  - item_id: Q018
+    question_number: 18
+    question_type: short_answer
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2023届-上海市长宁区-初三二模数学-试卷及解析/word/pages/016.png
+      page_number: 16
+    prompt:
+    - source: documents/初三/2023届-上海市长宁区-初三二模数学-试卷及解析/word/media/image153.png
+      box_px:
+      - 0
+      - 0
+      - 391
+      - 322
+      width: 60mm
+    official_solution:
+      word_evidence:
+      - page_image: documents/初三/2023届-上海市长宁区-初三二模数学-试卷及解析/word/pages/016.png
+        page_number: 16
+      - page_image: documents/初三/2023届-上海市长宁区-初三二模数学-试卷及解析/word/pages/017.png
+        page_number: 17
+      start_anchor: 解：∵$\angle B = 76°$，四边形 $ABCD$ 为平行四边形
+      end_anchor: $4.96m$
+    block:
+      stem_latex: 如图，将平行四边形 $ABCD$ 沿着对角线 $AC$ 翻折，点 $B$ 的对应点为 $M$，$CM$ 交 $AD$ 于点 $N$，如果
+        $\angle B = 76\degree$，$\angle ACM = \angle DCM + 10\degree$，且 $NC = m$，那么平行四边形
+        $ABCD$ 的周长为 ______（参考数据：$\cos 76\degree \approx 0.24$）
+      answer: $4.96m$
+      clue: 翻折得角相等，列方程求各角，再用 $\cos76\degree$ 将 $BC$ 分解为三段求周长。
+      solution_steps:
+      - $\angle D=76\degree$；翻折得 $\angle ACM=\angle ACB$。
+      - 设 $\angle DCM=x$，则 $\angle ACM=\angle ACB=x+10\degree$，由 $\triangle DAC$ 内角和
+        $x+2(x+10\degree)+76\degree=180\degree$，$x=28\degree$，$\angle BCM=76\degree$。
+      - $\angle DAC=\angle ACB=38\degree=\angle ACM$，$\triangle ANC$ 等腰，$AN=NC=m$。
+      - 过 $A,N$ 作 $AE\perp BC$、$NF\perp BC$，Rt$\triangle NFC$ 中 $FC=NC\cos76\degree=0.24m$，Rt$\triangle
+        ABE$ 中 $BE=AB\cos76\degree=0.24m$。
+      - $BC=BE+EF+FC=0.24m+m+0.24m=1.48m$，周长 $=2(AB+BC)=2(m+1.48m)=4.96m$。
+- id: solve
+  title: 三、解答题
+  items:
+  - item_id: Q019
+    question_number: 19
+    question_type: problem
+    points: 10
+    question_word_evidence:
+    - page_image: documents/初三/2023届-上海市长宁区-初三二模数学-试卷及解析/word/pages/018.png
+      page_number: 18
+    prompt: []
+    official_solution:
+      word_evidence:
+      - page_image: documents/初三/2023届-上海市长宁区-初三二模数学-试卷及解析/word/pages/018.png
+        page_number: 18
+      start_anchor: 解：原式
+      end_anchor: $1 - 2\sqrt{2}$
+    block:
+      stem_latex: 计算：$8^{\frac{1}{3}} + \dfrac{1}{\sqrt{2}+1} - (\sqrt{2023} - 1)^{0}
+        \times \sqrt{18}$
+      answer: $1-2\sqrt{2}$
+      clue: 分数指数幂、分母有理化、零指数幂、化简二次根式，逐项计算。
+      solution_steps:
+      - 原式 $=2+(\sqrt{2}-1)-1\times3\sqrt{2}$
+      - $=1+\sqrt{2}-3\sqrt{2}=1-2\sqrt{2}$。
+  - item_id: Q020
+    question_number: 20
+    question_type: problem
+    points: 10
+    question_word_evidence:
+    - page_image: documents/初三/2023届-上海市长宁区-初三二模数学-试卷及解析/word/pages/019.png
+      page_number: 19
+    prompt: []
+    official_solution:
+      word_evidence:
+      - page_image: documents/初三/2023届-上海市长宁区-初三二模数学-试卷及解析/word/pages/019.png
+        page_number: 19
+      start_anchor: 由②得：$(x+3y)(x-3y) = 0$
+      end_anchor: $\begin{cases} x_2 = \dfrac{3}{2} \\ y_2 = \dfrac{1}{2} \end{cases}$
+    block:
+      stem_latex: 解方程组：$\begin{cases} x + y = 2 \\ x^{2} - 9y^{2} = 0 \end{cases}$
+      answer: $\begin{cases} x_1=3 \\ y_1=-1 \end{cases}$ 或 $\begin{cases} x_2=\dfrac{3}{2}
+        \\ y_2=\dfrac{1}{2} \end{cases}$
+      clue: 用平方差公式将②分解，拆成两个二元一次方程组。
+      solution_steps:
+      - 由② $(x+3y)(x-3y)=0$，即 $x+3y=0$ 或 $x-3y=0$。
+      - 与① $x+y=2$ 联立，解得 $\begin{cases} x_1=3 \\ y_1=-1 \end{cases}$ 或 $\begin{cases}
+        x_2=\dfrac{3}{2} \\ y_2=\dfrac{1}{2} \end{cases}$。
+  - item_id: Q021
+    question_number: 21
+    question_type: problem
+    points: 10
+    question_word_evidence:
+    - page_image: documents/初三/2023届-上海市长宁区-初三二模数学-试卷及解析/word/pages/020.png
+      page_number: 20
+    prompt: []
+    official_solution:
+      word_evidence:
+      - page_image: documents/初三/2023届-上海市长宁区-初三二模数学-试卷及解析/word/pages/020.png
+        page_number: 20
+      start_anchor: 解：$\because$ 点 $A(-2, m)$ 在双曲线
+      end_anchor: $b = 4$
+    block:
+      stem_latex: 已知点 $A(-2, m)$ 在双曲线 $y = -\dfrac{4}{x}$ 上，将点 $A$ 向右平移 $5$ 个单位得到点
+        $B$。（1）当点 $B$ 在直线 $y = -2x + b$ 上时，求直线 $y = -2x + b$ 的表达式；（2）当线段 $AB$ 被直线
+        $y = -2x + b$ 分成两部分，且这两部分长度的比为 $3:2$ 时，求 $b$ 的值．
+      answer: (1) $y=-2x+8$；(2) $b=2$ 或 $b=4$
+      clue: (1) 由双曲线求 $A$，平移求 $B$，代入直线求 $b$；(2) 按 $3:2$ 定分点坐标。
+      solution_steps:
+      - (1) $m=-\dfrac{4}{-2}=2$，$A(-2,2)$；$B(3,2)$，代入 $2=-2\times3+b$ 得 $b=8$，直线
+        $y=-2x+8$。
+      - (2) $AB=5$，分点为 $C(0,2)$ 或 $D(1,2)$，代入直线得 $b=2$ 或 $b=4$。
+  - item_id: Q022
+    question_number: 22
+    question_type: problem
+    points: 10
+    question_word_evidence:
+    - page_image: documents/初三/2023届-上海市长宁区-初三二模数学-试卷及解析/word/pages/021.png
+      page_number: 21
+    prompt:
+    - source: documents/初三/2023届-上海市长宁区-初三二模数学-试卷及解析/word/media/image226.png
+      box_px:
+      - 0
+      - 0
+      - 266
+      - 136
+      width: 70mm
+    official_solution:
+      word_evidence:
+      - page_image: documents/初三/2023届-上海市长宁区-初三二模数学-试卷及解析/word/pages/021.png
+        page_number: 21
+      - page_image: documents/初三/2023届-上海市长宁区-初三二模数学-试卷及解析/word/pages/022.png
+        page_number: 22
+      start_anchor: 解：如图，过点 $C$、$D$ 分别作
+      end_anchor: $AD$ 的长为 $130$ 米
+    block:
+      stem_latex: 为了测量建筑物的高度 $BE$，从与底端 $B$ 同一水平线的点 $A$ 出发，沿坡比 $i=1:2.4$ 的斜坡行至坡顶 $D$，测得顶端
+        $E$ 仰角为 $30\degree$；再从 $D$ 水平行走 $100$ 米至 $C$，测得 $E$ 仰角 $60\degree$、$B$ 俯角
+        $45\degree$。求 $BE$ 的高度与 $AD$ 的长（参考数据：$\sqrt{3}\approx1.732$）．
+      answer: $BE\approx136.6$ 米，$AD=130$ 米
+      clue: 构造矩形与直角三角形，用 $30\degree/60\degree/45\degree$ 特殊角和坡比求解。
+      solution_steps:
+      - 过 $C,D$ 作 $CM\perp BE$、$DN\perp AB$，四边形 $BMDN$ 是矩形，$BM=DN$。
+      - $\angle DEC=\angle ECM-\angle EDM=30\degree=\angle EDM$，$\therefore EC=DC=100$
+        米。
+      - $CM=EC\cos60\degree=50$ 米，$DN=BM=50$ 米，$EM=CM\tan60\degree=50\sqrt{3}$ 米。
+      - $BE=BM+EM=50+50\sqrt{3}\approx136.6$ 米。
+      - 坡比 $\dfrac{DN}{AN}=\dfrac{1}{2.4}$，$AN=120$ 米，$AD=\sqrt{120^{2}+50^{2}}=130$
+        米。
+  - item_id: Q023
+    question_number: 23
+    question_type: problem
+    points: 12
+    question_word_evidence:
+    - page_image: documents/初三/2023届-上海市长宁区-初三二模数学-试卷及解析/word/pages/023.png
+      page_number: 23
+    prompt:
+    - source: documents/初三/2023届-上海市长宁区-初三二模数学-试卷及解析/word/media/image255.png
+      box_px:
+      - 0
+      - 0
+      - 301
+      - 196
+      width: 60mm
+    official_solution:
+      word_evidence:
+      - page_image: documents/初三/2023届-上海市长宁区-初三二模数学-试卷及解析/word/pages/023.png
+        page_number: 23
+      - page_image: documents/初三/2023届-上海市长宁区-初三二模数学-试卷及解析/word/pages/024.png
+        page_number: 24
+      start_anchor: 证明：$\because$ 四边形 $ABCD$ 是正方形
+      end_anchor: $\angle BCP + \angle DCE = \angle ECP$
+    block:
+      stem_latex: 如图1，点 $E$、$F$ 分别在正方形 $ABCD$ 的边 $AD$、$AB$ 上，$CE$ 与 $DF$ 交于点 $G$。已知
+        $AE + AF = AB$。（1）求证：$CE \perp DF$；（2）以点 $G$ 为圆心、$GD$ 为半径的圆与线段 $DF$ 交于点 $H$，点
+        $P$ 为线段 $BH$ 的中点，联结 $CP$（如图2），求证：$\angle BCP + \angle DCE = \angle ECP$．
+      answer: (1)(2) 见解析
+      clue: (1) 由 $AE+AF=AB$ 得 $AF=DE$，证 $\triangle ADF\cong\triangle DCE$ 转角；(2)
+        用圆的等量与垂直平分得等腰三角形，角平分线（中线）合成。
+      solution_steps:
+      - (1) $AE+AF=AB$，$AE+DE=AD=AB$，$\therefore AF=DE$；又 $\angle DAF=\angle CDE=90\degree$，$AD=DC$，$\triangle
+        ADF\cong\triangle DCE$（SAS）。
+      - $\therefore \angle ADF=\angle DCE$；$\angle ADF+\angle FDC=90\degree$，$\therefore
+        \angle DGC=90\degree$，$CE\perp DF$。
+      - (2) $GD=GH$ 且 $CE\perp DF$，$\therefore CE$ 垂直平分 $DH$，$CD=CH$；又 $CB=CD$，$\therefore
+        CB=CH$。
+      - $P$ 为 $BH$ 中点，$CP$ 为等腰 $\triangle BCH$ 的中线，$\angle BCP=\angle HCP$；$CE$ 为等腰
+        $\triangle CDH$ 的中线，$\angle DCE=\angle ECH$。
+      - $\therefore \angle BCP+\angle DCE=\angle HCP+\angle ECH=\angle ECP$。
+  - item_id: Q024
+    question_number: 24
+    question_type: problem
+    points: 12
+    question_word_evidence:
+    - page_image: documents/初三/2023届-上海市长宁区-初三二模数学-试卷及解析/word/pages/025.png
+      page_number: 25
+    prompt:
+    - source: documents/初三/2023届-上海市长宁区-初三二模数学-试卷及解析/word/media/image282.png
+      box_px:
+      - 0
+      - 0
+      - 609
+      - 277
+      width: 80mm
+    official_solution:
+      word_evidence:
+      - page_image: documents/初三/2023届-上海市长宁区-初三二模数学-试卷及解析/word/pages/025.png
+        page_number: 25
+      - page_image: documents/初三/2023届-上海市长宁区-初三二模数学-试卷及解析/word/pages/026.png
+        page_number: 26
+      - page_image: documents/初三/2023届-上海市长宁区-初三二模数学-试卷及解析/word/pages/027.png
+        page_number: 27
+      - page_image: documents/初三/2023届-上海市长宁区-初三二模数学-试卷及解析/word/pages/028.png
+        page_number: 28
+      - page_image: documents/初三/2023届-上海市长宁区-初三二模数学-试卷及解析/word/pages/029.png
+        page_number: 29
+      - page_image: documents/初三/2023届-上海市长宁区-初三二模数学-试卷及解析/word/pages/030.png
+        page_number: 30
+      start_anchor: 【小问 1 详解】
+      end_anchor: $y = \dfrac{3}{4}x - \dfrac{9}{2}$
+    block:
+      stem_latex: 已知抛物线 $y = ax^2 + 2x + 6$ 与 $x$ 轴交于点 $A$、点 $B$（点 $A$ 在点 $B$ 的左侧，点
+        $B$ 在原点 $O$ 右侧），与 $y$ 轴交于点 $C$，且 $OB = OC$。（1）求抛物线的表达式；（2）如图1，点 $D$ 是抛物线上一点，直线
+        $BD$ 恰好平分 $\triangle ABC$ 的面积，求点 $D$ 的坐标；（3）如图2，点 $E(0,-2)$，抛物线上存在点 $P$ 满足
+        $\angle OBP = 2\angle OBE$，请直接写出直线 $BP$ 的表达式．
+      answer: (1) $y=-\dfrac{1}{2}x^{2}+2x+6$；(2) $D\left(-\dfrac{8}{7},\dfrac{150}{49}\right)$；(3)
+        $y=-\dfrac{3}{4}x+\dfrac{9}{2}$ 或 $y=\dfrac{3}{4}x-\dfrac{9}{2}$
+      clue: (1) 待定系数法；(2) 平分面积 $\Rightarrow$ 中点，求直线与抛物线交点；(3) 角平分线+全等构造，分 $P$ 在 $x$
+        轴上、下方两类。
+      solution_steps:
+      - (1) $x=0\Rightarrow C(0,6)$，$OB=OC=6$，$B(6,0)$；代入 $0=36a+12+6$，$a=-\dfrac{1}{2}$，$y=-\dfrac{1}{2}x^{2}+2x+6$。
+      - (2) 令 $y=0$ 得 $x_1=-2,x_2=6$，$A(-2,0)$；$BD$ 平分面积 $\Rightarrow F$ 为 $AC$ 中点
+        $F(-1,3)$。
+      - 直线 $BD$：$\begin{cases}6k+b=0\\-k+b=3\end{cases}\Rightarrow k=-\dfrac{3}{7},b=\dfrac{18}{7}$，与抛物线联立得
+        $D\left(-\dfrac{8}{7},\dfrac{150}{49}\right)$（$x=6$ 舍去）。
+      - (3) $P$ 在 $x$ 轴上方时，在 $y$ 轴取 $OG=OE=2$，作 $\angle GBM=\angle GBO$（$BP$ 交 $y$
+        轴于 $M$），$GH\perp BM$。
+      - 由角平分线 $GH=OG=2$，Rt$\triangle OBG\cong$ Rt$\triangle OHG$（HL），$BH=BO=6$。
+      - 设 $MH=x$，$\left(\sqrt{x^{2}+4}+2\right)^{2}+6^{2}=(x+6)^{2}$，$x=\dfrac{3}{2}$，$MO=\dfrac{9}{2}$，$M\left(0,\dfrac{9}{2}\right)$，直线
+        $BP$：$y=-\dfrac{3}{4}x+\dfrac{9}{2}$。
+      - $P$ 在 $x$ 轴下方时同理 $y=\dfrac{3}{4}x-\dfrac{9}{2}$。
+  - item_id: Q025
+    question_number: 25
+    question_type: problem
+    points: 14
+    question_word_evidence:
+    - page_image: documents/初三/2023届-上海市长宁区-初三二模数学-试卷及解析/word/pages/031.png
+      page_number: 31
+    prompt:
+    - source: documents/初三/2023届-上海市长宁区-初三二模数学-试卷及解析/word/media/image342.png
+      box_px:
+      - 0
+      - 0
+      - 850
+      - 256
+      width: 80mm
+    official_solution:
+      word_evidence:
+      - page_image: documents/初三/2023届-上海市长宁区-初三二模数学-试卷及解析/word/pages/031.png
+        page_number: 31
+      - page_image: documents/初三/2023届-上海市长宁区-初三二模数学-试卷及解析/word/pages/032.png
+        page_number: 32
+      - page_image: documents/初三/2023届-上海市长宁区-初三二模数学-试卷及解析/word/pages/033.png
+        page_number: 33
+      - page_image: documents/初三/2023届-上海市长宁区-初三二模数学-试卷及解析/word/pages/034.png
+        page_number: 34
+      - page_image: documents/初三/2023届-上海市长宁区-初三二模数学-试卷及解析/word/pages/035.png
+        page_number: 35
+      start_anchor: 【小问 1 详解】
+      end_anchor: <END_OF_SOURCE>
+    block:
+      stem_latex: 如图1，在 $\triangle ABC$ 中，$\angle ACB = 90\degree$，以点 $A$ 为圆心、$AC$
+        为半径的 $\odot A$ 交边 $AB$ 于点 $D$，点 $E$ 在边 $BC$ 上，满足 $CE = BD$，过点 $E$ 作 $EF \perp
+        CD$ 交 $AB$ 于点 $F$，垂足为点 $G$。（1）求证：$\triangle BCD \sim \triangle BFE$；（2）延长
+        $EF$ 与 $CA$ 的延长线交于点 $M$（如图2），求 $\dfrac{CM}{AC} + \dfrac{DF}{AD}$ 的值；（3）以点
+        $B$ 为圆心、$BE$ 为半径作 $\odot B$，当 $BC = 8$，$AF = 2$ 时，判断 $\odot A$ 与 $\odot B$
+        的位置关系，并说明理由．
+      answer: (1) 见解析；(2) $2$；(3) 外切
+      clue: (1) 等腰+余角转角证相似；(2) 证 $AM=AE$ 后线段比值整体代换；(3) 构造全等得 $CM=BC$，比较两圆半径和与圆心距。
+      solution_steps:
+      - (1) $AC=AD\Rightarrow \angle ACD=\angle ADC$；$\angle ACB=90\degree$ 且 $EF\perp
+        CD$，$\therefore \angle ACD+\angle DCB=\angle ADC+\angle BFE=90\degree$。
+      - $\therefore \angle DCB=\angle BFE$；又 $\angle B=\angle B$，$\triangle BCD\sim\triangle
+        BFE$。
+      - (2) $\angle M=\angle DCB=\angle BFE$，$\therefore AM=AE$。
+      - $\dfrac{CM}{AC}+\dfrac{DF}{AD}=\dfrac{CM+DF}{AC}=\dfrac{AC+AM+DF}{AC}=\dfrac{AC+AF+DF}{AC}=\dfrac{AC+AD}{AC}=2$。
+      - (3) 在 $CD$ 延长线上取 $N$ 使 $\angle BND=\angle BDN$，则 $BN=BD=CE$。
+      - $\angle BND=\angle ACD\Rightarrow \angle NBC=90\degree=\angle ECM$；$\triangle
+        BCN\cong\triangle CME$，$BC=CM=8$。
+      - $AM=AF=2\Rightarrow AC=6$；$AB=10$，$AD=AC=6$，$BD=CE=4$，$BE=8-4=4$。
+      - $AC+BE=6+4=10=AB$，圆心距等于半径和，$\therefore \odot A$ 与 $\odot B$ 外切。

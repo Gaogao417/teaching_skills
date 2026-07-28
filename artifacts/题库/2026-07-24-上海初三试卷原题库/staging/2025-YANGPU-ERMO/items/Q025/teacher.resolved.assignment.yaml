@@ -1,0 +1,41 @@
+meta:
+  title: 2025年上海市杨浦区中考二模数学试卷第 25 题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: '$\odot O$ 直径 $AB=10$，$C$ 在 $AB$ 上，$DE\perp AB$ 过 $C$，$F$ 是弧 $BD$ 中点，$EF$ 交 $AB$ 于 $G$。
+
+      (1) $G$ 与 $O$ 重合时求 $AC$；
+
+      (2) $OD\perp EF$ 时求 $\frac{DE}{EF}$；
+
+      (3) $AC=x$，$y=\frac{EG}{GF}$，求 $y$ 关于 $x$ 的解析式。'
+    solution_steps:
+    - (1) $\angle DEF=30^{\circ}$，$OC=\frac{5}{2}$，$AC=\frac{5}{2}$。
+    - (2) 弧度方程 $x=36^{\circ}$，$\frac{DE}{EF}=\frac{\sqrt{5}-1}{2}$。
+    - (3) $EC=\sqrt{x(10-x)}$，$BE=\sqrt{10(10-x)}$，$y=\frac{\sqrt{10x}}{5}$，$0<x<10$。
+    clue: 圆综合+弧中点+黄金比+垂径定理+相似。
+    answer: (1) $AC=\dfrac{5}{2}$；(2) $\dfrac{\sqrt{5}-1}{2}$；(3) $y=\dfrac{\sqrt{10x}}{5}$（$0<x<10$）
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 90mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

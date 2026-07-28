@@ -1,0 +1,39 @@
+meta:
+  title: 2024年上海市长宁区中考二模数学试卷第 23 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q023
+    points: 12
+    stem_latex: '已知在梯形 $ABCD$ 中，$AD\parallel BC$，$BD\perp AD$，点 $E$ 在边 $AD$ 上（不与 $A$、$D$ 重合），点 $F$ 在边 $CD$ 上，且 $\angle ABD=\angle EBF=\angle C$。
+
+      (1) 求证：$\dfrac{AB}{BD}=\dfrac{BE}{BF}$；
+
+      (2) 连接 $EF$，与 $BD$ 交于点 $G$，如果 $BG=EG$，求证：四边形 $BEDF$ 为等腰梯形。'
+    answer: (1)(2) 证明见详解
+    clue: (1) 证 $\triangle ABE\sim\triangle BDF$；(2) 由 $BG=EG$ 及角的关系证 $DF\parallel BE$ 且 $DE=BF$。
+    solution_steps:
+    - (1) $\angle ABE=\angle DBF$，$\angle A=\angle BDF$，$\therefore\triangle ABE\sim\triangle BDF$，$\therefore\dfrac{AB}{BD}=\dfrac{BE}{BF}$。
+    - (2) $BG=EG\Rightarrow\angle GEB=\angle GBE$；$\angle FDB=\angle DBE\Rightarrow DF\parallel BE$，四边形 $BEDF$ 为梯形。
+    - $\angle BED=\angle EBF\Rightarrow DE=BF$，$\therefore$ 四边形 $BEDF$ 为等腰梯形。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 80mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

@@ -1,0 +1,32 @@
+meta:
+  title: 2025年上海市宝山区中考二模数学试卷第 20 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q020
+    points: 10
+    stem_latex: 解方程组：$\begin{cases} x - y = 2 \\ x^2 - 2xy - 3y^2 = 0 \end{cases}$
+    solution_steps:
+    - 由 $x^2 - 2xy - 3y^2 = 0$，因式分解得 $(x - 3y)(x + y) = 0$
+    - 即 $x = 3y$ 或 $x = -y$
+    - 当 $x = 3y$ 时，代入得 $y = 1$，$x = 3$
+    - 当 $x = -y$ 时，代入得 $y = -1$，$x = 1$
+    - $\therefore x_1=3, y_1=1; \quad x_2=1, y_2=-1$
+    clue: 二次方程因式分解后联立。
+    answer: $x_1=3, y_1=1;\ x_2=1, y_2=-1$
+    source_solution_images: []

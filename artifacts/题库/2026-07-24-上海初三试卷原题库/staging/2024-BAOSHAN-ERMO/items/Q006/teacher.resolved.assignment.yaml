@@ -1,0 +1,36 @@
+meta:
+  title: 2024年上海市宝山区中考二模数学试卷第 6 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q006
+    points: 4
+    stem_latex: 如图1，$\triangle ABC$ 中，$\angle C=90^{\circ}$，$AB=5$，$\tan B=\dfrac{1}{2}$，如果以点 $C$ 为圆心，半径为 $R$ 的 $\odot C$ 与线段 $AB$ 有两个交点，那么 $\odot C$ 的半径 $R$ 的取值范围是（$\blacktriangle$）
+    choices:
+    - $2<R\leq\sqrt{5}$
+    - $2\leq R\leq\sqrt{5}$
+    - $\sqrt{5}\leq R\leq 2\sqrt{5}$
+    - $0<R\leq\sqrt{5}$
+    answer: A
+    clue: 圆与线段有两交点需 $R>$ 弦心距且 $R\leq$ 近端点距，弦心距 $CD=2$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 80mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

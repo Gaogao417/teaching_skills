@@ -1,0 +1,40 @@
+meta:
+  title: 2025年上海市黄浦区中考二模数学试卷第 21 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q021
+    points: 10
+    stem_latex: '直线 $l: y=kx+3$ 与 $x$ 轴、$y$ 轴交于 $A$、$B$，反比例函数 $y=\dfrac{8}{x}$（$x>0$）经过 $P(2,n)$。
+
+      (1) 求直线 $l$ 的表达式；
+
+      (2) 点 $C$ 在 $y=\dfrac{8}{x}$（$x>0$）上，$\angle BOC=\angle ABO$，求 $C$ 的坐标。'
+    solution_steps:
+    - (1) $P(2,n)$ 代入 $y=\frac{8}{x}$ 得 $n=4$，$P(2,4)$ 代入 $y=kx+3$ 得 $k=\frac{1}{2}$。
+    - 直线 $l: y=\frac{1}{2}x+3$。
+    - (2) $\angle BOC=\angle ABO \Rightarrow OC\parallel AB$，$OC: y=\frac{1}{2}x$。
+    - 联立 $\frac{1}{2}x=\frac{8}{x}$，$x=4$，$C(4,2)$。
+    clue: 反比例+一次函数+平行线。
+    answer: (1) $y=\dfrac{1}{2}x+3$；(2) $C(4,2)$
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 90mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

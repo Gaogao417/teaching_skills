@@ -1,0 +1,44 @@
+### Q23 @page27-29
+TYPE: solve
+STEM: 如图，在矩形 $ABCD$ 中，点 $E$ 在对角线 $AC$ 上，$AE < EC$，$BE = DE$。
+(1) 求证：四边形 $ABCD$ 是正方形；
+(2) 点 $F$ 在对角线 $AC$ 上，且 $\angle ADF = \angle BEC$，求证：$BE \cdot DF = EF \cdot AB$。
+[FIG: 矩形 ABCD，对角线 AC，点 E 在 AC 上靠近 A 一侧，点 F 在 AC 上靠近 C 一侧，连接 BE、DE、BF、DF]
+SOLUTION:
+【小问1详解】
+证明：如图，连接 $BD$ 交 $AC$ 于点 $O$，
+$\because$ 四边形 $ABCD$ 是矩形，$\therefore BO = DO$，
+$\because BE = DE$，$\therefore AC$ 垂直平分 $BD$，$\therefore AB = AD$，
+$\therefore$ 四边形 $ABCD$ 是正方形；
+【小问2详解】
+证明：如图，连接 $BF$，
+由(1)知：四边形 $ABCD$ 是正方形，
+$\therefore AB = AD$，$\angle BAF = \angle DAF$，
+在 $\triangle BAF$ 和 $\triangle DAF$ 中，$\begin{cases} AB = AD \\ \angle BAF = \angle DAF \\ AF = AF \end{cases}$
+$\therefore \triangle BAF \cong \triangle DAF \, (\mathrm{SAS})$，
+$\therefore \angle AFB = \angle AFD$，即 $\angle EFB = \angle DFA$，
+$\because \angle ADF = \angle BEC$，即 $\angle BEF = \angle ADF$，
+$\therefore \triangle BEF \sim \triangle ADF$，
+$\therefore \dfrac{BE}{AD} = \dfrac{EF}{DF}$，$\therefore \dfrac{BE}{AB} = \dfrac{EF}{DF}$，
+$\therefore BE \cdot DF = EF \cdot AB$。
+ANSWER: 证明见详解
+
+### Q24 @page30-32
+TYPE: solve
+STEM: 在平面直角坐标系 $xOy$ 中，顶点为 $A$ 的抛物线 $y = -\dfrac{1}{2}x^2 + mx - \dfrac{1}{2}m^2 + m + 1$ 与 $y$ 轴交于点 $B$。
+(1) 如果抛物线经过点 $(2, -1)$，且不经过第二象限，求抛物线的表达式；
+(2) 如果抛物线与坐标轴共有两个公共点，且在 $y$ 轴右侧是下降的，求 $m$ 的值；
+(3) 点 $A$ 在第一象限，点 $B$ 关于抛物线对称轴的对称点为点 $C$，将抛物线沿着射线 $CA$ 方向平移，点 $A$、$B$、$C$ 的对应点分别为点 $A'$、$B'$、$C'$，线段 $B'C'$ 与线段 $AB$ 交于点 $D$，如果 $\tan \angle A'DB' = 4$，$\dfrac{S_{\triangle ADC'}}{S_{\triangle ABC}} = \dfrac{1}{9}$，求点 $A$ 的坐标。
+[FIG: 平面直角坐标系，原点 O]
+SOLUTION:
+【小问1详解】
+解：将 $(2, -1)$ 代入，得 $m^2 - 6m = 0$，解得 $m = 0$ 或 $m = 6$，
+$\because$ 不经过第二象限，$\therefore m = 6$，
+$\therefore y = -\dfrac{1}{2}x^2 + 6x - 11$；
+【小问2详解】
+解：$\because -\dfrac{1}{2} < 0$，且在 $y$ 轴右侧下降，$\therefore$ 对称轴 $x = m \leqslant 0$，
+① 当经过原点时，$-\dfrac{1}{2}m^2 + m + 1 = 0$，解得 $m = 1 - \sqrt{3}$ 或 $m = 1 + \sqrt{3}$（舍）；
+② 当与 $x$ 轴只有1个交点时，$\Delta = 0$，解得 $m = -1$；
+综上所述：$m = -1$ 或 $1 - \sqrt{3}$；
+【小问3详解】（详解续页）
+ANSWER: (1) $y = -\dfrac{1}{2}x^2 + 6x - 11$；(2) $m = -1$ 或 $1 - \sqrt{3}$；(3) $A\!\left(\dfrac{8}{3}, \dfrac{11}{3}\right)$

@@ -1,0 +1,45 @@
+meta:
+  title: 2022年上海市崇明区初三二模数学试卷第 25 题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: '在 $\mathrm{Rt}\triangle ABC$ 中，$\angle C=90^{\circ}$，$\angle CAB=30^{\circ}$，$AB=10$。$E$ 在 $AB$ 上，$G$ 在 $BC$ 延长线上且 $CG=AE$，以 $EG$ 为对角线作正方形 $EDGF$，$ED$ 交 $AC$ 于 $M$，$EG$ 交 $AC$ 于 $N$，$EF$ 交 $BC$ 于 $P$。
+
+      (1) 求证：$NG=2EN$；
+
+      (2) 设 $AE=x$，$\triangle AEN$ 的面积为 $y$，求 $y$ 关于 $x$ 的解析式及定义域；
+
+      (3) 联结 $NP$，当 $\triangle EPN$ 是直角三角形时，求 $AE$ 的值。'
+    answer: (1) 见证明；(2) $y=\dfrac{5\sqrt{3}}{12}x+\dfrac{\sqrt{3}}{12}x^{2}$（$0\leqslant x\leqslant10$）；(3) $AE=40-20\sqrt{3}$ 或 $AE=\dfrac{125-25\sqrt{3}}{11}$
+    clue: 作 $EH\perp AC$，用 $\triangle EHN\sim\triangle GCN$；按直角顶点分类。
+    solution_steps:
+    - (1) 作 $EH\perp AC$ 于 $H$。$\angle CAB=30^{\circ}$，$EH=\dfrac{1}{2}AE=\dfrac{1}{2}CG$。$EH\parallel CG$，$\therefore \triangle EHN\sim\triangle GCN$，$\dfrac{EN}{NG}=\dfrac{EH}{CG}=\dfrac{1}{2}$，$\therefore NG=2EN$。
+    - (2) $BC=5$，$AC=5\sqrt{3}$。$EH=\dfrac{x}{2}$，$AH=\dfrac{\sqrt{3}}{2}x$，$CH=5\sqrt{3}-\dfrac{\sqrt{3}}{2}x$。
+    - 由 $\dfrac{HN}{CN}=\dfrac{1}{2}$ 得 $HN=\dfrac{1}{3}CH=\dfrac{5\sqrt{3}}{3}-\dfrac{\sqrt{3}}{6}x$，$AN=AH+HN=\dfrac{5\sqrt{3}}{3}+\dfrac{\sqrt{3}}{3}x$。
+    - $y=\dfrac{1}{2}AN\cdot EH=\dfrac{1}{2}\cdot\dfrac{x}{2}\cdot\left(\dfrac{5\sqrt{3}}{3}+\dfrac{\sqrt{3}}{3}x\right)=\dfrac{5\sqrt{3}}{12}x+\dfrac{\sqrt{3}}{12}x^{2}$，定义域 $0\leqslant x\leqslant10$。
+    - (3) 当 $\angle PNE=90^{\circ}$ 时，证 $\triangle PNC\cong\triangle NEH$，$EH=CN=2HN$，$\dfrac{x}{2}=2\left(\dfrac{5\sqrt{3}}{3}-\dfrac{\sqrt{3}}{6}x\right)$，$x=40-20\sqrt{3}$。
+    - 当 $\angle EPN=90^{\circ}$ 时，作 $EQ\perp BC$，证 $\triangle EQP\cong\triangle PCN$，列方程解得 $x=\dfrac{125-25\sqrt{3}}{11}$。
+    - 综上，$AE=40-20\sqrt{3}$ 或 $\dfrac{125-25\sqrt{3}}{11}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 100mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

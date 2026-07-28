@@ -1,0 +1,41 @@
+meta:
+  title: 2025年上海市黄浦区中考二模数学试卷第 22 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q022
+    points: 10
+    stem_latex: '"阅读之星"评选，四项指标系数和为10。条形图给"书籍数量$A$"得分分布（1分28人,2分36人,3分60人,4分20人,5分6人），已知 $B$ 系数2.4，$C$ 系数3.5。
+
+      (1) 求 $A$ 的系数 $m$；
+
+      (2) 写出得分公式；
+
+      (3) 甲($A=4,B=1500,C=3,D=7$)和乙($A=3,B=1800,C=2,D=4$)的得分。'
+    solution_steps:
+    - (1) $m=\frac{390}{150}=2.6$。
+    - (2) $n=10-2.6-2.4-3.5=1.5$，$x=2.6A+2.4B+3.5C+1.5D$。
+    - (3) 甲$=3631.4$，乙$=4340.8$。
+    clue: 加权平均数+统计图。
+    answer: (1) $m=2.6$；(2) $x=2.6A+2.4B+3.5C+1.5D$；(3) 甲$3631.4$，乙$4340.8$
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 100mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

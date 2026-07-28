@@ -1,0 +1,34 @@
+meta:
+  title: 2025年上海市崇明区中考二模数学试卷第 16 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q016
+    points: 4
+    stem_latex: 在 $\square ABCD$ 中，点 $E$ 是 $AD$ 边中点，点 $F$ 是线段 $BE$ 中点，设 $\overrightarrow{AB}=\vec{a}$，$\overrightarrow{DA}=\vec{b}$，那么 $\overrightarrow{FC}=$______。（结果用含 $\vec{a}$、$\vec{b}$ 的式子表示）
+    answer: $\dfrac{1}{2}\vec{a}-\dfrac{3}{4}\vec{b}$
+    clue: 向量分解：$\overrightarrow{FC}=\overrightarrow{FB}+\overrightarrow{BC}$。
+    solution_steps:
+    - $\overrightarrow{EB}=\frac{1}{2}\vec{b}+\vec{a}$，$\overrightarrow{FB}=\frac{1}{2}\overrightarrow{EB}=\frac{1}{4}\vec{b}+\frac{1}{2}\vec{a}$。
+    - $\overrightarrow{FC}=\overrightarrow{FB}+\overrightarrow{BC}=\frac{1}{2}\vec{a}+\frac{1}{4}\vec{b}-\vec{b}=\frac{1}{2}\vec{a}-\frac{3}{4}\vec{b}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 80mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

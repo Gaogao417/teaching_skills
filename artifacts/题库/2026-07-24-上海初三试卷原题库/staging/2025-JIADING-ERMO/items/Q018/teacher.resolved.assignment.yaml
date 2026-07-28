@@ -1,0 +1,34 @@
+meta:
+  title: 2025年上海市嘉定区中考二模数学试卷第 18 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q018
+    points: 4
+    stem_latex: 正方形 $ABCD$ 中，$E$ 是 $AD$ 中点。翻折右下角使 $C$ 与 $E$ 重合，$B'E$ 与 $AB$ 交于 $P$，则 $\dfrac{AP}{PB}=$______
+    answer: '2'
+    clue: 延长 $EP$ 交 $CB$ 延长线于 $F$，相似三角形求得比值为2。
+    solution_steps:
+    - 设边长为4，$EC=2\sqrt{5}$，$FC=5$。
+    - $\triangle AEP\sim\triangle BFP$，$\frac{AP}{PB}=2$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 60mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

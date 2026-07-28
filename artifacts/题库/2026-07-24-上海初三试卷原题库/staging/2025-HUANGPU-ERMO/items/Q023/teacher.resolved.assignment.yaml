@@ -1,0 +1,39 @@
+meta:
+  title: 2025年上海市黄浦区中考二模数学试卷第 23 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q023
+    points: 12
+    stem_latex: '四边形 $ABCD$ 中 $AD=CD$，$\angle BAC=90^{\circ}$，$E$ 在四边形外，$AE=CE$，$ED$ 延长交 $AC$、$BC$ 于 $M$、$N$。
+
+      (1) 求证：$BN=CN$；
+
+      (2) $BC^2=2AB\cdot NE$，求证：$\angle ACB=\angle NEC$。'
+    solution_steps:
+    - (1) $DE$ 垂直平分 $AC$，$AN=CN$。$\angle BAC=90^{\circ}$，$AB=AN$。$\therefore BN=CN$。
+    - (2) $N$ 平分 $BC$，$MN$ 为中位线，$AB=2MN$。
+    - $4CN^2=4MN\cdot NE$，$CN^2=MN\cdot NE$，$\triangle CMN\sim\triangle ECN$。
+    clue: 垂直平分线+等腰+中位线+相似。
+    answer: 证明见详解
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 100mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

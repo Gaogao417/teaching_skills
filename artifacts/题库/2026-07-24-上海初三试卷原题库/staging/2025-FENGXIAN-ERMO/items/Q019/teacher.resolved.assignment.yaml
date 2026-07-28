@@ -1,0 +1,30 @@
+meta:
+  title: 2025年上海市奉贤区中考二模数学试卷第 19 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q019
+    points: 10
+    stem_latex: 先化简，再求值：$\dfrac{m^2-2m+1}{m^2+3m}\div\left(1-\dfrac{4}{m+3}\right)$，其中 $m=2\sin60^{\circ}+\tan45^{\circ}$
+    solution_steps:
+    - 原式 $=\dfrac{(m-1)^2}{m(m+3)}\div\dfrac{m-1}{m+3}=\dfrac{(m-1)^2}{m(m+3)}\cdot\dfrac{m+3}{m-1}=\dfrac{m-1}{m}$
+    - $m=2\times\dfrac{\sqrt{3}}{2}+1=\sqrt{3}+1$
+    - 原式 $=\dfrac{\sqrt{3}}{\sqrt{3}+1}=\dfrac{3-\sqrt{3}}{2}$
+    clue: 分式化简+特殊角三角函数值。
+    answer: $\dfrac{3-\sqrt{3}}{2}$
+    source_solution_images: []

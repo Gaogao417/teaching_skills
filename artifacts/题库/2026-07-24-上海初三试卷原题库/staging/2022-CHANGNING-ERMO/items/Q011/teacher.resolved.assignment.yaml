@@ -1,0 +1,29 @@
+meta:
+  title: 2022年上海市长宁区初三二模数学试卷第 11 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q011
+    points: 4
+    stem_latex: 反比例函数 $y=\dfrac{12}{x}$ 的图像经过位于 $x$ 轴上方的点 $A$，点 $B(-4,0)$，且 $\triangle AOB$ 的面积等于 $8$，那么点 $A$ 的坐标为______
+    answer: $(3,4)$
+    clue: 由面积求 $A$ 的纵坐标，再代入反比例函数。
+    solution_steps:
+    - $S_{\triangle AOB}=\dfrac{1}{2}\cdot4\cdot y_{A}=8$，$\therefore y_{A}=4$。
+    - 代入 $y=\dfrac{12}{x}$ 得 $x=3$，$\therefore A(3,4)$。
+    source_solution_images: []

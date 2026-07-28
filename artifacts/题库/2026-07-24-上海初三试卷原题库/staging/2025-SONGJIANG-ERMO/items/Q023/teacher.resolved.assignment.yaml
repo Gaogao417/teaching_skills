@@ -1,0 +1,33 @@
+meta:
+  title: 2025年上海市松江区中考二模数学试卷第 23 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q023
+    points: 12
+    stem_latex: '菱形 $ABCD$，$P$ 在对角线 $BD$ 上，$AP$、$CP$ 延长分别交 $CD$ 于 $E$、$AD$ 于 $F$。
+
+      (1) 求证：$AE=CF$；
+
+      (2) $\angle APF=2\angle ABD$，求证：$BP\cdot BD=2AB^2$。'
+    solution_steps:
+    - (1) $PA=PC$，$\triangle ACE\cong\triangle CAF$（ASA），$AE=CF$。
+    - (2) $\angle APF=\angle ABC$，$\triangle ABL\sim\triangle PBA$，$\frac{AB}{BP}=\frac{LB}{AB}$。
+    clue: 菱形+全等+相似三角形。
+    answer: 证明见详解
+    source_solution_images: []

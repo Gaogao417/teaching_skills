@@ -1,0 +1,34 @@
+meta:
+  title: 2025年上海市虹口区中考二模数学试卷第 16 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q016
+    points: 4
+    stem_latex: 在 $\mathrm{Rt}\triangle ABC$ 中，$\angle C = 90^{\circ}$，$AC = 4$，$AB = 5$，如果以点 $B$ 为圆心的 $\odot B$ 与以边 $AC$ 为直径的 $\odot O$ 外切，那么 $\odot B$ 的半径长是______
+    answer: $\sqrt{13} - 2$
+    clue: $BC=3$，$OB=\sqrt{13}$，$BP=OB-OC=\sqrt{13}-2$。
+    solution_steps:
+    - $BC=3$，$OC=2$，$OB=\sqrt{4+9}=\sqrt{13}$。
+    - $BP=OB-OC=\sqrt{13}-2$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 40mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

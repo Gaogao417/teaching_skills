@@ -1,0 +1,745 @@
+schema: math_exam_staging_draft/v1
+paper:
+  id: 2023-BAOSHAN-ERMO
+  title: 2023年上海市宝山区中考二模数学试卷
+  grade: 九年级
+  subject: 数学
+  source_archive: documents/初三/2023届-上海市宝山区-初三二模数学-试卷及解析
+  duration: 100分钟
+  total_points: 150
+question_bank: ../../question-bank.yaml
+sections:
+- id: choice
+  title: 一、选择题
+  items:
+  - item_id: Q001
+    question_number: 1
+    question_type: choice
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2023届-上海市宝山区-初三二模数学-试卷及解析/word/pages/001.png
+      page_number: 1
+    prompt: []
+    official_solution:
+      word_evidence:
+      - page_image: documents/初三/2023届-上海市宝山区-初三二模数学-试卷及解析/word/pages/001.png
+        page_number: 1
+      start_anchor: 解：A、$a^2$ 与 $a^3$ 不是同类项
+      end_anchor: 故选 D
+    block:
+      stem_latex: 下列运算正确的是（\quad）
+      choices:
+      - $a^2+a^3=a^6$
+      - $a^2+a^3=a^5$
+      - $a^2\cdot a^3=a^6$
+      - $\left(a^3\right)^2=a^6$
+      answer: D
+      clue: 逐项验证幂的运算：合并同类项、同底数幂相乘、幂的乘方。
+      solution_steps:
+      - A、$a^2$ 与 $a^3$ 不是同类项，不能合并，错误。
+      - B、同理不能合并，错误。
+      - C、$a^2\cdot a^3=a^{2+3}=a^5$，错误。
+      - D、$\left(a^3\right)^2=a^6$，正确。
+  - item_id: Q002
+    question_number: 2
+    question_type: choice
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2023届-上海市宝山区-初三二模数学-试卷及解析/word/pages/002.png
+      page_number: 2
+    prompt: []
+    official_solution:
+      word_evidence:
+      - page_image: documents/初三/2023届-上海市宝山区-初三二模数学-试卷及解析/word/pages/002.png
+        page_number: 2
+      start_anchor: 解：$\because 4<5<9$
+      end_anchor: 故选 B
+    block:
+      stem_latex: 估计 $\sqrt{5}$ 的值在（\quad）
+      choices:
+      - 1和2之间
+      - 2和3之间
+      - 3和4之间
+      - 4和5之间
+      answer: B
+      clue: 找与被开方数相邻的完全平方数，定位根号的取值区间。
+      solution_steps:
+      - $\because 4<5<9$，$\therefore 2<\sqrt{5}<3$。
+      - $\therefore \sqrt{5}$ 的值在 2 和 3 之间。
+  - item_id: Q003
+    question_number: 3
+    question_type: choice
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2023届-上海市宝山区-初三二模数学-试卷及解析/word/pages/002.png
+      page_number: 2
+    prompt: []
+    official_solution:
+      word_evidence:
+      - page_image: documents/初三/2023届-上海市宝山区-初三二模数学-试卷及解析/word/pages/002.png
+        page_number: 2
+      start_anchor: 解：设这个三角形的第三边长为
+      end_anchor: 故选 C
+    block:
+      stem_latex: 如果一个三角形的两边长分别为 $5\text{cm}$、$10\text{cm}$，那么这个三角形的第三边的长可以是（\quad）
+      choices:
+      - $3\text{cm}$
+      - $5\text{cm}$
+      - $10\text{cm}$
+      - $16\text{cm}$
+      answer: C
+      clue: 三角形第三边介于两边之差与两边之和之间。
+      solution_steps:
+      - 设第三边长为 $x\text{cm}$，则 $10-5<x<10+5$，即 $5<x<15$。
+      - 选项 $10\text{cm}$ 满足条件。
+  - item_id: Q004
+    question_number: 4
+    question_type: choice
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2023届-上海市宝山区-初三二模数学-试卷及解析/word/pages/003.png
+      page_number: 3
+    prompt: []
+    official_solution:
+      word_evidence:
+      - page_image: documents/初三/2023届-上海市宝山区-初三二模数学-试卷及解析/word/pages/003.png
+        page_number: 3
+      start_anchor: 解：$\because DE\parallel BC$
+      end_anchor: 故选 D
+    block:
+      stem_latex: 已知点 $D$、$E$ 分别在 $\triangle ABC$ 的边 $CA$、$BA$ 的延长线上，$DE\parallel
+        BC$，$DE:BC=1:3$，设 $\vec{DA}=\vec{a}$，那么 $\vec{CD}$ 用向量 $\vec{a}$ 表示为（\quad）
+      choices:
+      - $3\vec{a}$
+      - $-3\vec{a}$
+      - $4\vec{a}$
+      - $-4\vec{a}$
+      answer: D
+      clue: 由平行得相似三角形，对应边成比例求 $AD:AC$，再用向量方向判断符号。
+      solution_steps:
+      - $\because DE\parallel BC$，$\therefore \triangle ADE\sim\triangle ACB$。
+      - $\dfrac{AD}{AC}=\dfrac{DE}{BC}=\dfrac{1}{3}$，$\therefore AC=3AD$，$CD=4AD$。
+      - $\because \vec{DA}=\vec{a}$，$\therefore \vec{CD}=-4\vec{a}$。
+  - item_id: Q005
+    question_number: 5
+    question_type: choice
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2023届-上海市宝山区-初三二模数学-试卷及解析/word/pages/004.png
+      page_number: 4
+    prompt: []
+    official_solution:
+      word_evidence:
+      - page_image: documents/初三/2023届-上海市宝山区-初三二模数学-试卷及解析/word/pages/004.png
+        page_number: 4
+      start_anchor: 解：$\because \left(-2\right)\times\left(-1\right)=2$
+      end_anchor: 故选 A
+    block:
+      stem_latex: 在研究反比例函数的图象时，小明通过列表、描点作图，发现计算有错误，四个点中有一个不在该函数图像上。列表如下：$x$ 取 $-2,-\dfrac{1}{2},1,2$，对应
+        $y$ 取 $-1,4,-2,-1$。那么这个点是（\quad）
+      choices:
+      - $\left(-2,-1\right)$
+      - $\left(-\dfrac{1}{2},4\right)$
+      - $\left(1,-2\right)$
+      - $\left(2,-1\right)$
+      answer: A
+      clue: 反比例函数图象上点的横纵坐标乘积为常数，逐一验算。
+      solution_steps:
+      - $\left(-2\right)\times\left(-1\right)=2$，$\left(-\dfrac{1}{2}\right)\times4=-2$，$\left(-2\right)\times1=-2$，$2\times\left(-1\right)=-2$。
+      - $\left(-\dfrac{1}{2},4\right)$、$\left(1,-2\right)$、$\left(2,-1\right)$ 横纵坐标乘积相同，在同一反比例函数图象上。
+      - 点 $\left(-2,-1\right)$ 乘积为 $2$，不在该图象上。
+  - item_id: Q006
+    question_number: 6
+    question_type: choice
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2023届-上海市宝山区-初三二模数学-试卷及解析/word/pages/005.png
+      page_number: 5
+    prompt: []
+    official_solution:
+      word_evidence:
+      - page_image: documents/初三/2023届-上海市宝山区-初三二模数学-试卷及解析/word/pages/005.png
+        page_number: 5
+      - page_image: documents/初三/2023届-上海市宝山区-初三二模数学-试卷及解析/word/pages/006.png
+        page_number: 6
+      start_anchor: 解：A、如图1所示
+      end_anchor: 故选 C
+    block:
+      stem_latex: 已知点 $A$、$B$、$C$ 在圆 $O$ 上，那么下列命题为真命题的是（\quad）
+      choices:
+      - 如果半径 $OB$ 平分弦 $AC$，那么四边形 $OABC$ 是平行四边形
+      - 如果弦 $AC$ 平分半径 $OB$，那么四边形 $OABC$ 是平行四边形
+      - 如果四边形 $OABC$ 是平行四边形，那么 $\angle AOC=120\degree$
+      - 如果 $\angle AOC=120\degree$，那么四边形 $OABC$ 是平行四边形
+      answer: C
+      clue: 逐项用圆的性质（垂径、圆周角）和平行四边形判定判断真假命题。
+      solution_steps:
+      - A、当 $AC$ 为直径时，$OB$ 平分弦 $AC$，但 $O,A,B,C$ 不能构成四边形，假命题。
+      - B、弦 $AC$ 平分半径 $OB$ 未必使 $OABC$ 为平行四边形，假命题。
+      - C、$OABC$ 为平行四边形时，$\angle ABC=\angle AOC=2\angle ADC$，又 $\angle ABC+\angle
+        ADC=180\degree$，得 $\angle AOC=120\degree$，真命题。
+      - D、$\angle AOC=120\degree$ 时 $OABC$ 未必为平行四边形，假命题。
+- id: fill
+  title: 二、填空题
+  items:
+  - item_id: Q007
+    question_number: 7
+    question_type: short_answer
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2023届-上海市宝山区-初三二模数学-试卷及解析/word/pages/007.png
+      page_number: 7
+    prompt: []
+    official_solution:
+      word_evidence:
+      - page_image: documents/初三/2023届-上海市宝山区-初三二模数学-试卷及解析/word/pages/007.png
+        page_number: 7
+      start_anchor: 解：$\sqrt{\left(-2\right)^2}=\sqrt{2^2}=2$
+      end_anchor: $\sqrt{2^2}=2$
+    block:
+      stem_latex: 计算：$\sqrt{\left(-2\right)^2}=$ ________．
+      answer: $2$
+      clue: 先化简被开方数的平方，再开方。
+      solution_steps:
+      - $\sqrt{\left(-2\right)^2}=\sqrt{2^2}=2$。
+  - item_id: Q008
+    question_number: 8
+    question_type: short_answer
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2023届-上海市宝山区-初三二模数学-试卷及解析/word/pages/007.png
+      page_number: 7
+    prompt: []
+    official_solution:
+      word_evidence:
+      - page_image: documents/初三/2023届-上海市宝山区-初三二模数学-试卷及解析/word/pages/007.png
+        page_number: 7
+      start_anchor: 解：$-2x^2+8=-2\left(x^2-4\right)$
+      end_anchor: $-2\left(x+2\right)\left(x-2\right)$
+    block:
+      stem_latex: 分解因式：$-2x^2+8=$ ________．
+      answer: $-2\left(x+2\right)\left(x-2\right)$
+      clue: 先提公因式 $-2$，再用平方差公式。
+      solution_steps:
+      - $-2x^2+8=-2\left(x^2-4\right)=-2\left(x+2\right)\left(x-2\right)$。
+  - item_id: Q009
+    question_number: 9
+    question_type: short_answer
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2023届-上海市宝山区-初三二模数学-试卷及解析/word/pages/008.png
+      page_number: 8
+    prompt: []
+    official_solution:
+      word_evidence:
+      - page_image: documents/初三/2023届-上海市宝山区-初三二模数学-试卷及解析/word/pages/008.png
+        page_number: 8
+      start_anchor: 解：$\because$ 若分式 $\dfrac{1}{x-3}$ 有意义
+      end_anchor: $x\neq 3$
+    block:
+      stem_latex: 若分式 $\dfrac{1}{x-3}$ 有意义，则 $x$ 的取值范围是 ________．
+      answer: $x\neq 3$
+      clue: 分式有意义即分母不为零。
+      solution_steps:
+      - 分式有意义，则分母 $x-3\neq 0$，$\therefore x\neq 3$。
+  - item_id: Q010
+    question_number: 10
+    question_type: short_answer
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2023届-上海市宝山区-初三二模数学-试卷及解析/word/pages/008.png
+      page_number: 8
+    prompt: []
+    official_solution:
+      word_evidence:
+      - page_image: documents/初三/2023届-上海市宝山区-初三二模数学-试卷及解析/word/pages/008.png
+        page_number: 8
+      start_anchor: 解：$\because$ 关于 $x$ 的方程 $x^2+2x-m=0$ 有两个相等的实数根
+      end_anchor: $m=-1$
+    block:
+      stem_latex: 已知关于 $x$ 的方程 $x^2+2x-m=0$ 有两个相等的实数根，那么 $m=$ ________．
+      answer: $-1$
+      clue: 一元二次方程有两等根的条件是判别式 $\Delta=0$。
+      solution_steps:
+      - $\Delta=2^2-4\times1\times\left(-m\right)=0$，解得 $m=-1$。
+  - item_id: Q011
+    question_number: 11
+    question_type: short_answer
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2023届-上海市宝山区-初三二模数学-试卷及解析/word/pages/009.png
+      page_number: 9
+    prompt: []
+    official_solution:
+      word_evidence:
+      - page_image: documents/初三/2023届-上海市宝山区-初三二模数学-试卷及解析/word/pages/009.png
+        page_number: 9
+      start_anchor: 【分析】先根据第二象限内点坐标符号规律
+      end_anchor: $0<x<3$
+    block:
+      stem_latex: 在平面直角坐标系中，若点 $P(x-3,x)$ 在第二象限，则 $x$ 的取值范围为 ________．
+      answer: $0<x<3$
+      clue: 第二象限点的横坐标为负、纵坐标为正，列不等式组求解。
+      solution_steps:
+      - 第二象限内点坐标：横坐标为负，纵坐标为正。
+      - $\begin{cases} x-3<0 \\ x>0 \end{cases}$，解得 $0<x<3$。
+  - item_id: Q012
+    question_number: 12
+    question_type: short_answer
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2023届-上海市宝山区-初三二模数学-试卷及解析/word/pages/009.png
+      page_number: 9
+    prompt: []
+    official_solution:
+      word_evidence:
+      - page_image: documents/初三/2023届-上海市宝山区-初三二模数学-试卷及解析/word/pages/009.png
+        page_number: 9
+      start_anchor: 【分析】用红球的个数除以球的总个数即可
+      end_anchor: $\dfrac{1}{4}$
+    block:
+      stem_latex: 一个不透明的袋子里装有3个白球和1个红球，这些小球除颜色外无其他差别，如果从袋子中随机摸出一个小球，那么摸出的小球是红球的概率是
+        ________．
+      answer: $\dfrac{1}{4}$
+      clue: 概率等于目标情况数除以总情况数。
+      solution_steps:
+      - 共有 $3+1=4$ 种等可能结果，其中红球1种。
+      - $P=\dfrac{1}{4}$。
+  - item_id: Q013
+    question_number: 13
+    question_type: short_answer
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2023届-上海市宝山区-初三二模数学-试卷及解析/word/pages/010.png
+      page_number: 10
+    prompt: []
+    official_solution:
+      word_evidence:
+      - page_image: documents/初三/2023届-上海市宝山区-初三二模数学-试卷及解析/word/pages/010.png
+        page_number: 10
+      start_anchor: 【分析】直接把 $(-1,1)$ 代入到一次函数解析式中
+      end_anchor: $m=4$
+    block:
+      stem_latex: 已知一次函数 $y=3x+m$ 的图像经过点 $(-1,1)$，那么 $m=$ ________．
+      answer: $4$
+      clue: 将点的坐标代入解析式求待定系数。
+      solution_steps:
+      - $\because$ 图像过 $(-1,1)$，$\therefore -1\times3+m=1$。
+      - 解得 $m=4$。
+  - item_id: Q014
+    question_number: 14
+    question_type: short_answer
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2023届-上海市宝山区-初三二模数学-试卷及解析/word/pages/010.png
+      page_number: 10
+    prompt:
+    - source: documents/初三/2023届-上海市宝山区-初三二模数学-试卷及解析/word/media/image86.png
+      box_px:
+      - 0
+      - 0
+      - 258
+      - 160
+      width: 60mm
+    official_solution:
+      word_evidence:
+      - page_image: documents/初三/2023届-上海市宝山区-初三二模数学-试卷及解析/word/pages/010.png
+        page_number: 10
+      start_anchor: 【分析】根据待定系数法求函数关系式
+      end_anchor: 30
+    block:
+      stem_latex: 某地长途汽车客运公司规定：旅客可免费随身携带一定重量行李，超过规定重量需购买行李票。行李票费用 $y$（元）是行李重量 $x$（千克）的一次函数，其图像如图所示，那么旅客最多可免费携带行李
+        ________ 千克．
+      answer: $30$
+      clue: 用待定系数法求一次函数解析式，令 $y=0$ 求 $x$。
+      solution_steps:
+      - 设 $y=kx+b$，由 $x=60$ 时 $y=6$，$x=80$ 时 $y=10$，得 $\begin{cases} 60k+b=6 \\ 80k+b=10
+        \end{cases}$。
+      - 解得 $k=\dfrac{1}{5}$，$b=-6$，$\therefore y=\dfrac{1}{5}x-6$。
+      - 令 $y=0$，得 $x=30$。
+  - item_id: Q015
+    question_number: 15
+    question_type: short_answer
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2023届-上海市宝山区-初三二模数学-试卷及解析/word/pages/011.png
+      page_number: 11
+    prompt:
+    - source: documents/初三/2023届-上海市宝山区-初三二模数学-试卷及解析/word/media/image101.png
+      box_px:
+      - 0
+      - 0
+      - 179
+      - 156
+      width: 60mm
+    official_solution:
+      word_evidence:
+      - page_image: documents/初三/2023届-上海市宝山区-初三二模数学-试卷及解析/word/pages/011.png
+        page_number: 11
+      - page_image: documents/初三/2023届-上海市宝山区-初三二模数学-试卷及解析/word/pages/012.png
+        page_number: 12
+      start_anchor: 【分析】利用正多边形的内角和定理计算得出 $\angle B=108\degree$
+      end_anchor: $144\degree$
+    block:
+      stem_latex: 如图，在正五边形 $ABCDE$ 中，$F$ 是边 $BC$ 延长线上一点，连接 $AC$，那么 $\angle ACF$ 的度数为
+        ________．
+      answer: $144\degree$
+      clue: 正五边形内角 $108\degree$，等腰得 $\angle ACB=36\degree$，邻补角求 $\angle ACF$。
+      solution_steps:
+      - $\angle B=\dfrac{1}{5}(5-2)\times180\degree=108\degree$。
+      - $\because AB=BC$，$\therefore \angle ACB=\dfrac{1}{2}(180\degree-108\degree)=36\degree$。
+      - $\angle ACF=180\degree-\angle ACB=144\degree$。
+  - item_id: Q016
+    question_number: 16
+    question_type: short_answer
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2023届-上海市宝山区-初三二模数学-试卷及解析/word/pages/013.png
+      page_number: 13
+    prompt:
+    - source: documents/初三/2023届-上海市宝山区-初三二模数学-试卷及解析/word/media/image114.png
+      box_px:
+      - 0
+      - 0
+      - 191
+      - 116
+      width: 60mm
+    official_solution:
+      word_evidence:
+      - page_image: documents/初三/2023届-上海市宝山区-初三二模数学-试卷及解析/word/pages/013.png
+        page_number: 13
+      start_anchor: 【分析】利用余角的性质求得 $\angle AEB=\angle EBC=75\degree$
+      end_anchor: $AB=4$
+    block:
+      stem_latex: 如图，已知点 $E$ 在矩形 $ABCD$ 的边 $AD$ 上，且 $BC=EC=8$，$\angle ABE=15\degree$，那么
+        $AB$ 的长等于 ________．
+      answer: $4$
+      clue: 由等腰 $\triangle BCE$ 得 $\angle CED=30\degree$，含 $30\degree$ 角的直角三角形求 $CD=AB$。
+      solution_steps:
+      - $\because AD\parallel BC$，$\therefore \angle AEB=\angle EBC=90\degree-15\degree=75\degree$。
+      - $\because BC=EC$，$\therefore \angle CEB=\angle EBC=75\degree$，$\angle CED=180\degree-75\degree-75\degree=30\degree$。
+      - $CD=\dfrac{1}{2}CE=4$，$\therefore AB=CD=4$。
+  - item_id: Q017
+    question_number: 17
+    question_type: short_answer
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2023届-上海市宝山区-初三二模数学-试卷及解析/word/pages/014.png
+      page_number: 14
+    prompt:
+    - source: documents/初三/2023届-上海市宝山区-初三二模数学-试卷及解析/word/media/image130.png
+      box_px:
+      - 0
+      - 0
+      - 112
+      - 198
+      width: 60mm
+    official_solution:
+      word_evidence:
+      - page_image: documents/初三/2023届-上海市宝山区-初三二模数学-试卷及解析/word/pages/014.png
+        page_number: 14
+      start_anchor: 【分析】根据旋转可得 $\angle B'A'C=\angle ABC=30\degree$
+      end_anchor: $20\degree$
+    block:
+      stem_latex: 如图，已知 $\triangle ABC$ 中，$\angle BAC=30\degree$，$\angle B=70\degree$，如果将
+        $\triangle ABC$ 绕点 $C$ 顺时针旋转到 $\triangle A'B'C$，使点 $B$ 的对应点 $B'$ 落在边 $AC$
+        上，那么 $\angle AA'B'$ 的度数是 ________．
+      answer: $20\degree$
+      clue: 旋转对应角相等，等腰 $\triangle ACA'$ 求底角，再差求 $\angle AA'B'$。
+      solution_steps:
+      - $\angle ACB=180\degree-70\degree-30\degree=80\degree$。
+      - 旋转得 $\angle B'A'C=\angle BAC=30\degree$，$\angle A'CA=\angle ACB=80\degree$，$A'C=AC$。
+      - $\angle CAA'=\angle CA'A=\dfrac{1}{2}(180\degree-80\degree)=50\degree$。
+      - $\angle AA'B'=\angle CA'A-\angle B'A'C=50\degree-30\degree=20\degree$。
+  - item_id: Q018
+    question_number: 18
+    question_type: short_answer
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2023届-上海市宝山区-初三二模数学-试卷及解析/word/pages/015.png
+      page_number: 15
+    prompt: []
+    official_solution:
+      word_evidence:
+      - page_image: documents/初三/2023届-上海市宝山区-初三二模数学-试卷及解析/word/pages/015.png
+        page_number: 15
+      - page_image: documents/初三/2023届-上海市宝山区-初三二模数学-试卷及解析/word/pages/016.png
+        page_number: 16
+      start_anchor: 【分析】分两种情况讨论
+      end_anchor: $\dfrac{41-4\sqrt{41}}{5}$
+    block:
+      stem_latex: 如果一个三角形的两个内角 $\alpha$ 与 $\beta$ 满足 $2\alpha+\beta=90\degree$，那么称这样的三角形为“倍角互余三角形”。已知在
+        Rt$\triangle ABC$ 中，$\angle ACB=90\degree$，$AC=4$，$BC=5$，点 $D$ 在边 $BC$ 上，且
+        $\triangle ABD$ 是“倍角互余三角形”，那么 $BD$ 的长等于 ________．
+      answer: $\dfrac{9}{5}$ 或 $\dfrac{41-4\sqrt{41}}{5}$
+      clue: 按 $\angle B=\angle CAD$ 与 $\angle BAD=\angle CAD$（角平分线）两种情况分类讨论。
+      solution_steps:
+      - 情形一：$\angle B=\angle CAD$ 时，$\tan\angle DAC=\tan\angle B=\dfrac{AC}{BC}=\dfrac{4}{5}$。
+      - $\dfrac{CD}{AC}=\dfrac{CD}{4}=\dfrac{4}{5}$，$CD=\dfrac{16}{5}$，$BD=5-\dfrac{16}{5}=\dfrac{9}{5}$。
+      - 情形二：$\angle BAD=\angle CAD$ 时，$AD$ 平分 $\angle BAC$，作 $DE\perp AB$ 于 $E$，则
+        $DC=DE$。
+      - Rt$\triangle ADC\cong$ Rt$\triangle ADE$（HL），$AE=AC=4$，$AB=\sqrt{4^2+5^2}=\sqrt{41}$，$BE=\sqrt{41}-4$。
+      - 设 $CD=x$，$BD=5-x$，Rt$\triangle BDE$ 中 $(5-x)^2=x^2+(\sqrt{41}-4)^2$，解得 $x=\dfrac{4\sqrt{41}-16}{5}$。
+      - $BD=5-x=\dfrac{41-4\sqrt{41}}{5}$。
+- id: solve
+  title: 三、解答题
+  items:
+  - item_id: Q019
+    question_number: 19
+    question_type: problem
+    points: 10
+    question_word_evidence:
+    - page_image: documents/初三/2023届-上海市宝山区-初三二模数学-试卷及解析/word/pages/017.png
+      page_number: 17
+    prompt: []
+    official_solution:
+      word_evidence:
+      - page_image: documents/初三/2023届-上海市宝山区-初三二模数学-试卷及解析/word/pages/017.png
+        page_number: 17
+      start_anchor: 解：$\left(\dfrac{8}{27}\right)^{-\frac{1}{3}}$
+      end_anchor: $2\sqrt{2}-\dfrac{1}{2}$
+    block:
+      stem_latex: 计算：$\left(\dfrac{8}{27}\right)^{-\frac{1}{3}} - |\sqrt{2} - 3| +
+        \dfrac{1}{2\sin 45\degree - 1}$．
+      answer: $2\sqrt{2}-\dfrac{1}{2}$
+      clue: 分数指数幂化简、绝对值去括号、分母有理化，逐项计算。
+      solution_steps:
+      - 原式 $=\dfrac{3}{2}-(3-\sqrt{2})+\dfrac{1}{2\times\dfrac{\sqrt{2}}{2}-1}$
+      - $=\dfrac{3}{2}-3+\sqrt{2}+\dfrac{1}{\sqrt{2}-1}$
+      - $=\dfrac{3}{2}-3+\sqrt{2}+\dfrac{\sqrt{2}+1}{(\sqrt{2}-1)(\sqrt{2}+1)}$
+      - $=\dfrac{3}{2}-3+\sqrt{2}+\sqrt{2}+1$
+      - $=2\sqrt{2}-\dfrac{1}{2}$
+  - item_id: Q020
+    question_number: 20
+    question_type: problem
+    points: 10
+    question_word_evidence:
+    - page_image: documents/初三/2023届-上海市宝山区-初三二模数学-试卷及解析/word/pages/018.png
+      page_number: 18
+    prompt: []
+    official_solution:
+      word_evidence:
+      - page_image: documents/初三/2023届-上海市宝山区-初三二模数学-试卷及解析/word/pages/018.png
+        page_number: 18
+      start_anchor: 解：$\begin{cases} 4x^2 - y^2 = 15$
+      end_anchor: $\begin{cases} x = 2 \\ y = -1 \end{cases}$
+    block:
+      stem_latex: 解方程组：$\begin{cases} 4x^2 - y^2 = 15 \\ 2x - y = 5 \end{cases}$．
+      answer: $\begin{cases} x=2 \\ y=-1 \end{cases}$
+      clue: 把 $4x^2-y^2$ 因式分解，与 $2x-y=5$ 联立求 $2x+y$。
+      solution_steps:
+      - 由① $(2x+y)(2x-y)=15$，将② $2x-y=5$ 代入得 $2x+y=3$ ③。
+      - ②+③得 $4x=8$，$x=2$；②-③得 $-2y=2$，$y=-1$。
+      - $\therefore \begin{cases} x=2 \\ y=-1 \end{cases}$。
+  - item_id: Q021
+    question_number: 21
+    question_type: problem
+    points: 10
+    question_word_evidence:
+    - page_image: documents/初三/2023届-上海市宝山区-初三二模数学-试卷及解析/word/pages/019.png
+      page_number: 19
+    prompt:
+    - source: documents/初三/2023届-上海市宝山区-初三二模数学-试卷及解析/word/media/image198.png
+      box_px:
+      - 0
+      - 0
+      - 953
+      - 497
+      width: 80mm
+    official_solution:
+      word_evidence:
+      - page_image: documents/初三/2023届-上海市宝山区-初三二模数学-试卷及解析/word/pages/019.png
+        page_number: 19
+      - page_image: documents/初三/2023届-上海市宝山区-初三二模数学-试卷及解析/word/pages/020.png
+        page_number: 20
+      start_anchor: (1) 解：$20 \div 40\% = 50$
+      end_anchor: 约140名
+    block:
+      stem_latex: 某校开设了 $A$、$B$、$C$、$D$、$E$ 五类兴趣课，为了解学生喜爱情况，从全校500名学生中随机抽取若干名进行"你最喜爱的兴趣课"问卷调查（每人选一类）。根据调查结果绘制出条形统计图和扇形统计图（均尚未完成）。（1）求本次问卷调查中最喜欢
+        $E$ 类课程的学生人数，并补全相应的条形图；（2）估计该校全体学生中最喜欢 $D$ 类兴趣课的人数．
+      answer: (1) 最喜欢 $E$ 类5名；(2) 约140名
+      clue: 由 $A$ 类人数与百分比求样本总量，再求各部分人数并用样本比例估计总体。
+      solution_steps:
+      - (1) $20\div40\%=50$（人）。
+      - 最喜欢 $B$ 类：$50\times12\%=6$（人）；最喜欢 $E$ 类：$50\times10\%=5$（人）；最喜欢 $D$ 类：$50-5-20-6-5=14$（人）。
+      - 补全条形图（图略）。
+      - (2) $500\times\dfrac{14}{50}=140$（人）。
+  - item_id: Q022
+    question_number: 22
+    question_type: problem
+    points: 10
+    question_word_evidence:
+    - page_image: documents/初三/2023届-上海市宝山区-初三二模数学-试卷及解析/word/pages/021.png
+      page_number: 21
+    prompt:
+    - source: documents/初三/2023届-上海市宝山区-初三二模数学-试卷及解析/word/media/image211.png
+      box_px:
+      - 0
+      - 0
+      - 378
+      - 207
+      width: 60mm
+    official_solution:
+      word_evidence:
+      - page_image: documents/初三/2023届-上海市宝山区-初三二模数学-试卷及解析/word/pages/021.png
+        page_number: 21
+      - page_image: documents/初三/2023届-上海市宝山区-初三二模数学-试卷及解析/word/pages/022.png
+        page_number: 22
+      start_anchor: (1) 如图, 作 $AF \perp BE$
+      end_anchor: $BC = \dfrac{13}{2}$
+    block:
+      stem_latex: 一种牛奶包装盒（如图1），图2是其一个侧面的示意图，由盒身矩形 $BCDE$ 和房顶等腰三角形 $ABE$ 组成。已知 $BC=4.5$
+        厘米，$CD=8$ 厘米，$AB=AE=5$ 厘米。（1）求房顶点 $A$ 到盒底边 $CD$ 的距离；（2）设计新造型，折线段 $ABC$ 的长度及矩形
+        $BCDE$ 的面积均不改变，且 $\sin\angle ABE=\dfrac{5}{13}$，$BC>CD$，求新造型盒身的高度（即 $BC$ 的长）．
+      answer: (1) $7.5$ 厘米；(2) $\dfrac{13}{2}$ 厘米
+      clue: (1) 等腰三角形三线合一+勾股求高；(2) 面积不变、折线长不变建立 $AB$、$CD$ 关于 $BC$ 的表达式，用 $\cos$ 列方程。
+      solution_steps:
+      - (1) 作 $AF\perp BE$ 于 $F$，等腰 $\triangle ABE$ 中 $BF=FE$；$BE=CD=8$，$BF=4$。
+      - Rt$\triangle ABF$ 中 $AF=\sqrt{5^2-4^2}=3$，点 $A$ 到 $CD$ 的距离 $=AF+BC=3+4.5=7.5$
+        厘米。
+      - (2) 作 $AF\perp BE$ 于 $F$，设 $BC=x$，则 $AB=4.5+5-x=9.5-x$，$CD=\dfrac{8\times4.5}{x}=\dfrac{36}{x}$。
+      - $\sin\angle ABE=\dfrac{5}{13}$，$\cos\angle ABE=\dfrac{12}{13}$，又 $\cos\angle
+        ABE=\dfrac{CD/2}{AB}$。
+      - $\dfrac{36/(2x)}{9.5-x}=\dfrac{12}{13}$，解得 $x=\dfrac{13}{2}$ 或 $3$。
+      - $x=3$ 时 $BC<CD$，舍去，$\therefore BC=\dfrac{13}{2}$。
+  - item_id: Q023
+    question_number: 23
+    question_type: problem
+    points: 12
+    question_word_evidence:
+    - page_image: documents/初三/2023届-上海市宝山区-初三二模数学-试卷及解析/word/pages/023.png
+      page_number: 23
+    prompt:
+    - source: documents/初三/2023届-上海市宝山区-初三二模数学-试卷及解析/word/media/image243.png
+      box_px:
+      - 0
+      - 0
+      - 507
+      - 254
+      width: 60mm
+    official_solution:
+      word_evidence:
+      - page_image: documents/初三/2023届-上海市宝山区-初三二模数学-试卷及解析/word/pages/023.png
+        page_number: 23
+      - page_image: documents/初三/2023届-上海市宝山区-初三二模数学-试卷及解析/word/pages/024.png
+        page_number: 24
+      start_anchor: '(1) 证明: $\because OB=OC$'
+      end_anchor: 四边形 $ABED$ 是平行四边形
+    block:
+      stem_latex: 如图，四边形 $ABCD$ 中，$AD\parallel BC$，$AC$、$BD$ 交于点 $O$，$OB=OC$。（1）求证：$AB=CD$；（2）$E$
+        是边 $BC$ 上一点，连接 $DE$ 交 $AC$ 于点 $F$，如果 $AO^2=OF\cdot OC$，求证：四边形 $ABED$ 是平行四边形．
+      answer: (1)(2) 见解析
+      clue: (1) 由平行+等腰得 $OA=OD$，再证 $\triangle ACB\cong\triangle DBC$；(2) 由比例式证 $\triangle
+        AOB\sim\triangle FOD$ 得 $DE\parallel AB$。
+      solution_steps:
+      - (1) $\because OB=OC$，$\therefore \angle OBC=\angle OCB$。
+      - $\because AD\parallel BC$，$\therefore \angle DAO=\angle OCB$，$\angle ADO=\angle
+        OBC$。
+      - $\therefore \angle DAO=\angle ADO$，$OA=OD$，$AC=BD$。
+      - 在 $\triangle ACB$ 和 $\triangle DBC$ 中，$AC=BD$，$\angle ACB=\angle DBC$，$BC=CB$，$\triangle
+        ACB\cong\triangle DBC$（SAS）。
+      - $\therefore AB=CD$。
+      - (2) 由(1) $OA=OD$，$OB=OC$；$AO^2=OF\cdot OC$，$\therefore \dfrac{AO}{OF}=\dfrac{OC}{AO}=\dfrac{OB}{OD}$。
+      - 又 $\angle AOB=\angle DOF$，$\therefore \triangle AOB\sim\triangle FOD$。
+      - $\therefore \angle ABO=\angle ODF$，$DE\parallel AB$；又 $AD\parallel BC$，$\therefore$
+        四边形 $ABED$ 是平行四边形。
+  - item_id: Q024
+    question_number: 24
+    question_type: problem
+    points: 12
+    question_word_evidence:
+    - page_image: documents/初三/2023届-上海市宝山区-初三二模数学-试卷及解析/word/pages/025.png
+      page_number: 25
+    prompt:
+    - source: documents/初三/2023届-上海市宝山区-初三二模数学-试卷及解析/word/media/image268.png
+      box_px:
+      - 0
+      - 0
+      - 825
+      - 477
+      width: 80mm
+    official_solution:
+      word_evidence:
+      - page_image: documents/初三/2023届-上海市宝山区-初三二模数学-试卷及解析/word/pages/025.png
+        page_number: 25
+      - page_image: documents/初三/2023届-上海市宝山区-初三二模数学-试卷及解析/word/pages/026.png
+        page_number: 26
+      - page_image: documents/初三/2023届-上海市宝山区-初三二模数学-试卷及解析/word/pages/027.png
+        page_number: 27
+      start_anchor: 【小问 1 详解】
+      end_anchor: $y = -x^2 + 1$
+    block:
+      stem_latex: 在平面直角坐标系 $xOy$ 中，已知抛物线 $y=-x^2+bx+c$ 经过点 $A(-3,0)$、$B(1,0)$，与 $y$
+        轴交于点 $C$，抛物线的顶点为 $D$．（1）求二次函数的解析式和顶点 $D$ 的坐标；（2）连接 $AC$，试判断 $\triangle ACD$
+        与 $\triangle BOC$ 是否相似，并说明理由；（3）将抛物线平移，使新抛物线的顶点 $E$ 落在线段 $OC$ 上，新抛物线与原抛物线的对称轴交于点
+        $F$，连接 $EF$，如果四边形 $CEFD$ 的面积为 $3$，求新抛物线的解析式．
+      answer: (1) $y=-x^2-2x+3$，$D(-1,4)$；(2) $\triangle ACD\sim\triangle COB$；(3)
+        $y=-x^2+1$
+      clue: (1) 待定系数法；(2) 勾股逆定理证直角，再由两边对应成比例证相似；(3) 平移后顶点在 $OC$ 上，用 $a$ 表示梯形上下底列面积方程。
+      solution_steps:
+      - (1) $\begin{cases} -9-3b+c=0 \\ -1+b+c=0 \end{cases}$，解得 $b=-2$，$c=3$。
+      - $y=-x^2-2x+3=-(x+1)^2+4$，顶点 $D(-1,4)$。
+      - (2) $C(0,3)$，$OB=1$，$OC=3$。
+      - $AC=\sqrt{3^2+3^2}=3\sqrt{2}$，$CD=\sqrt{1^2+1^2}=\sqrt{2}$，$AD=\sqrt{2^2+4^2}=2\sqrt{5}$。
+      - $AC^2+CD^2=AD^2$，$\triangle ACD$ 是直角三角形，$\angle ACD=90\degree$。
+      - $\dfrac{AC}{CD}=3=\dfrac{OC}{OB}$，$\angle ACD=\angle COB$，$\therefore \triangle
+        ACD\sim\triangle COB$。
+      - (3) 对称轴 $x=-1$，设新抛物线 $y=-x^2+a$（$0\leqslant a\leqslant 3$），顶点 $E(0,a)$。
+      - $x=-1$ 时 $y=a-1$，$F(-1,a-1)$；$CE=3-a$，$DF=5-a$。
+      - $\dfrac{1}{2}(3-a+5-a)\times1=3$，解得 $a=1$，新抛物线 $y=-x^2+1$。
+  - item_id: Q025
+    question_number: 25
+    question_type: problem
+    points: 14
+    question_word_evidence:
+    - page_image: documents/初三/2023届-上海市宝山区-初三二模数学-试卷及解析/word/pages/028.png
+      page_number: 28
+    prompt:
+    - source: documents/初三/2023届-上海市宝山区-初三二模数学-试卷及解析/word/media/image309.png
+      box_px:
+      - 0
+      - 0
+      - 866
+      - 237
+      width: 80mm
+    official_solution:
+      word_evidence:
+      - page_image: documents/初三/2023届-上海市宝山区-初三二模数学-试卷及解析/word/pages/028.png
+        page_number: 28
+      - page_image: documents/初三/2023届-上海市宝山区-初三二模数学-试卷及解析/word/pages/029.png
+        page_number: 29
+      - page_image: documents/初三/2023届-上海市宝山区-初三二模数学-试卷及解析/word/pages/030.png
+        page_number: 30
+      - page_image: documents/初三/2023届-上海市宝山区-初三二模数学-试卷及解析/word/pages/031.png
+        page_number: 31
+      - page_image: documents/初三/2023届-上海市宝山区-初三二模数学-试卷及解析/word/pages/032.png
+        page_number: 32
+      - page_image: documents/初三/2023届-上海市宝山区-初三二模数学-试卷及解析/word/pages/033.png
+        page_number: 33
+      - page_image: documents/初三/2023届-上海市宝山区-初三二模数学-试卷及解析/word/pages/034.png
+        page_number: 34
+      start_anchor: 【小问 1 详解】
+      end_anchor: <END_OF_SOURCE>
+    block:
+      stem_latex: 如图，已知半圆 $O$ 的直径 $AB=4$，$C$ 是圆外一点，$\angle ABC$ 的平分线交半圆 $O$ 于点 $D$，且
+        $\angle BCD=90\degree$，联结 $OC$ 交 $BD$ 于点 $E$．（1）当 $\angle ABC=45\degree$ 时，求
+        $OC$ 的长；（2）当 $\angle ABC=60\degree$ 时，求 $\dfrac{OE}{EC}$ 的值；（3）当 $\triangle
+        BOE$ 为直角三角形时，求 $\sin\angle OCB$ 的值．
+      answer: (1) $\sqrt{6}$；(2) $\dfrac{2}{3}$；(3) $\dfrac{\sqrt{2}}{2}$ 或 $\dfrac{\sqrt{5}-1}{2}$
+      clue: 作 $OM\perp BC$ 构造矩形 $OMCD$；(1)(2) 解直角三角形；(3) 按 $\triangle BOE$ 的哪个角为直角分类讨论。
+      solution_steps:
+      - (1) 作 $OM\perp BC$ 于 $M$，连接 $OD$；$\angle BCD=90\degree$，$OM\parallel DC$。
+      - $BD$ 平分 $\angle ABC$，$\angle ABD=\angle CBD$；$OD=OB$ 得 $\angle ABD=\angle
+        ODB$，$\therefore \angle CBD=\angle ODB$，$OD\parallel BC$。
+      - 四边形 $OMCD$ 是矩形，$CM=OD=OB=2$。
+      - $\angle ABC=45\degree$，$\triangle OBM$ 等腰直角，$OM=BM=\sqrt{2}$。
+      - $OC=\sqrt{CM^2+OM^2}=\sqrt{4+2}=\sqrt{6}$。
+      - (2) 同理四边形 $OMCD$ 是矩形，$CM=2$；$\angle ABC=60\degree$，$\angle BOM=30\degree$，$BM=1$，$BC=3$。
+      - $OD\parallel BC$，$\triangle DOE\sim\triangle BCE$，$\dfrac{OE}{EC}=\dfrac{OD}{BC}=\dfrac{2}{3}$。
+      - (3) 当 $\angle OEB=90\degree$ 时，由垂径 $DE=BE$，$OE$ 为 $BD$ 的中垂线，$DC=BC$，$\angle
+        DCO=\angle BCO=45\degree$，$\sin\angle OCB=\dfrac{\sqrt{2}}{2}$。
+      - 当另一角为直角（$\angle EOB$ 情形）时，$\angle OCB=\angle BOM$，$\triangle OCB\sim\triangle
+        BOM$。
+      - $\dfrac{OC}{OB}=\dfrac{OB}{BM}$，解得 $BM=\sqrt{5}-1$，$BC=\sqrt{5}+1$，$\sin\angle
+        OCB=\dfrac{OB}{BC}=\dfrac{2}{\sqrt{5}+1}=\dfrac{\sqrt{5}-1}{2}$。
+      - 综上 $\sin\angle OCB=\dfrac{\sqrt{2}}{2}$ 或 $\dfrac{\sqrt{5}-1}{2}$。

@@ -1,0 +1,41 @@
+meta:
+  title: 2022年上海市崇明区初三二模数学试卷第 21 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q021
+    points: 10
+    stem_latex: '在平面直角坐标系 $xOy$ 中，正比例函数与反比例函数的图象交于点 $P(1,2)$，直线 $AB\perp x$ 轴，垂足为 $C$（$C$ 在原点右侧），分别与两函数图象交于 $A$、$B$，且 $AC+BC=5$。
+
+      (1) 求正比例函数和反比例函数的解析式；
+
+      (2) 求 $\triangle AOB$ 的面积。'
+    answer: (1) $y=2x$，$y=\dfrac{2}{x}$；(2) 面积为 $3$ 或 $\dfrac{3}{4}$
+    clue: 待定系数求解析式；由 $AC+BC=5$ 解出 $C$ 横坐标（两解）。
+    solution_steps:
+    - (1) 代入 $P(1,2)$ 得 $k_{1}=2$，$k_{2}=2$，$\therefore y=2x$，$y=\dfrac{2}{x}$。
+    - (2) 设 $C(x,0)$，则 $A(x,2x)$，$B\left(x,\dfrac{2}{x}\right)$，$AC+BC=2x+\dfrac{2}{x}=5$。
+    - $2x^{2}-5x+2=0$，$x=2$ 或 $x=\dfrac{1}{2}$。
+    - 当 $x=2$：$A(2,4)$，$B(2,1)$，$S=\dfrac{1}{2}\times3\times2=3$。
+    - 当 $x=\dfrac{1}{2}$：$A\left(\dfrac{1}{2},1\right)$，$B\left(\dfrac{1}{2},4\right)$，$S=\dfrac{1}{2}\times3\times\dfrac{1}{2}=\dfrac{3}{4}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 100mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

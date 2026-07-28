@@ -1,0 +1,74 @@
+meta:
+  title: 26一模相似三角形证明题 徐汇23
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q009
+    points: 12
+    stem_latex: 如图，在四边形 $ABCD$ 中，$\angle BAD=90^\circ$，$CD\perp BD$，$BD^2=AD\cdot
+      BC$，点 $H$ 在边 $BD$ 上，且 $\angle DBC=\angle C+\angle BAH$。（1）求证：$AH=AD$；（2）过点 $B$
+      作射线 $BE$ 交边 $CD$ 于点 $F$，交 $AD$ 的延长线于点 $E$，若 $\angle DBE=\angle ABD$，求证：$BD\cdot
+      DE=EF\cdot CD$。
+    answer: 见证明。
+    solution_steps:
+    - title: 第（1）问
+      content: |
+        $\because \angle BAD=90^\circ$，$CD\perp BD$，$\therefore \angle A=\angle CDB=90^\circ$。
+        $\because BD^2=AD\cdot BC$，$\therefore \dfrac{BD}{AD}=\dfrac{BC}{BD}$。
+        $\therefore \mathrm{Rt}\triangle ABD\sim\mathrm{Rt}\triangle DCB$。
+        $\therefore \angle ADB=\angle DBC$，$\angle ABD=\angle C$。
+        $\because \angle DBC=\angle C+\angle BAH$，$\therefore \angle ADB=\angle ABD+\angle BAH$。
+        $\because \angle ADB=\angle ABD+\angle BAD$，$\therefore \angle BAH=\angle BAD=90^\circ$。
+        $\therefore \angle AHD=90^\circ-\angle ADB$，$\angle ADH=90^\circ-\angle ADB$。
+        $\therefore \angle AHD=\angle ADH$，$\therefore AH=AD$。
+    - title: 第（2）问
+      content: |
+        $\because \angle DBE=\angle ABD$，$\angle ABD=\angle C$，$\therefore \angle DBE=\angle C$。
+        $\because \angle BDF=\angle CDB=90^\circ$，$\therefore \triangle BDF\sim\triangle CDB$。
+        $\therefore \dfrac{BD}{CD}=\dfrac{BF}{BC}=\dfrac{DF}{BD}$。
+        $\because \angle BDE=90^\circ$，$\angle BDF=90^\circ$，$\therefore \angle EDF=90^\circ$。
+        $\because \angle EFD=\angle BFD$，$\therefore \triangle EFD\sim\triangle BFD$。
+        $\therefore \dfrac{EF}{BF}=\dfrac{ED}{BD}=\dfrac{DF}{FD}$。
+        由 $\triangle BDF\sim\triangle CDB$ 得 $\dfrac{BD}{CD}=\dfrac{DF}{BD}$，$\therefore BD^2=CD\cdot DF$。
+        由 $\triangle EFD\sim\triangle BFD$ 得 $\dfrac{EF}{BF}=\dfrac{ED}{BD}$，$\therefore EF\cdot BD=BF\cdot ED$。
+        $\because BF=BD\cdot\dfrac{BC}{BD}=BC$，$\therefore EF\cdot BD=BC\cdot ED$。
+        $\because \dfrac{BD}{CD}=\dfrac{BF}{BC}$，$\therefore BF=\dfrac{BD\cdot BC}{CD}$。
+        $\therefore EF\cdot BD=\dfrac{BD\cdot BC}{CD}\cdot ED$，即 $BD\cdot CD\cdot EF=BD\cdot BC\cdot ED$。
+        $\therefore CD\cdot EF=BC\cdot ED$，即 $\dfrac{EF}{ED}=\dfrac{BC}{CD}$。
+        $\therefore BD\cdot DE=EF\cdot CD$。
+      diagram_col:
+        image_path: assets/solution-figure.png
+        width: 62mm
+        variant: solution
+        disclosure_policy: teacher_only
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页
+    - image_path: assets/official-solution-02.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第2页
+    diagram_col:
+      image_path: assets/prompt-figure.png
+      width: 0.78\linewidth
+      variant: prompt
+      disclosure_policy: clean

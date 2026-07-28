@@ -1,0 +1,36 @@
+meta:
+  title: 2025年上海市浦东新区中考二模数学试卷第 22 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q022
+    points: 10
+    stem_latex: '分时电表8天读数：109,121,133,149,156,173,201,221。
+
+      (1) 单日最大用电量；
+
+      (2) 4月（30天）平时段用电总量估算；
+
+      (3) 中位数和众数都是16对吗？'
+    solution_steps:
+    - (1) 周五 $201-173=28$。
+    - (2) $112\times\frac{30}{7}=480$。
+    - (3) 排序后中位数16正确，但众数是12不是16。
+    clue: 统计应用+估算+中位数众数。
+    answer: (1) 28千瓦时；(2) 约480千瓦时；(3) 不正确，众数为12
+    source_solution_images: []

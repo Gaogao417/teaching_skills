@@ -1,0 +1,30 @@
+meta:
+  title: 2025年上海市浦东新区中考二模数学试卷第 20 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q020
+    points: 10
+    stem_latex: 解方程：$\dfrac{4x}{x^{2}-9}-1=\dfrac{2}{x+3}-\dfrac{2}{x-3}$
+    solution_steps:
+    - 去分母乘 $x^2-9$：$4x-(x^2-9)=2(x-3)-2(x+3)$。
+    - $-x^2+4x+21=0$，$x^2-4x-21=0$，$(x-7)(x+3)=0$。
+    - $x=7$ 或 $x=-3$（增根舍去），$\therefore x=7$。
+    clue: 分式方程去分母+检验增根。
+    answer: $x=7$
+    source_solution_images: []

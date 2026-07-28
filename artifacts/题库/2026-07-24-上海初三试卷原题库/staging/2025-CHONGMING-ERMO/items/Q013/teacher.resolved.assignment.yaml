@@ -1,0 +1,29 @@
+meta:
+  title: 2025年上海市崇明区中考二模数学试卷第 13 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q013
+    points: 4
+    stem_latex: 50个数据的样本分成6组，第一到四组频数分别是8、6、11、7，第五组频率是0.2，第六组的频数是______
+    answer: '8'
+    clue: 先算前四组频率和0.64，第六组频率 $=1-0.64-0.2=0.16$，频数 $=50\times0.16=8$。
+    solution_steps:
+    - 前四组频率 $=\frac{32}{50}=0.64$，第六组频率 $=1-0.64-0.2=0.16$。
+    - 频数 $=50\times0.16=8$。
+    source_solution_images: []

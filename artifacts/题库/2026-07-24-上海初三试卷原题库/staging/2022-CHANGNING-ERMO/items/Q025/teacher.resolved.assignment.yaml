@@ -1,0 +1,40 @@
+meta:
+  title: 2022年上海市长宁区初三二模数学试卷第 25 题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: '如图9，在 $\mathrm{Rt}\triangle ABC$ 中，$\angle C=90^{\circ}$，$P$ 是边 $BC$ 上一点，$\angle APC=45^{\circ}$，$PD\perp AB$，垂足为点 $D$，$AB=4\sqrt{5}$，$BP=4$。
+
+      (1) 求线段 $PD$ 的长；
+
+      (2) 如果 $\angle C$ 的平分线 $CQ$ 交线段 $PD$ 的延长线于点 $Q$，求 $\angle CQP$ 的正切值；
+
+      (3) 过点 $D$ 作 $\mathrm{Rt}\triangle ABC$ 的直角边的平行线，交直线 $AP$ 于点 $E$，作射线 $CE$，交直线 $PD$ 于点 $F$，求 $\dfrac{CE}{EF}$ 的值。'
+    answer: (1) $PD=\dfrac{4\sqrt{5}}{5}$；(2) $\tan\angle CQP=\dfrac{1}{3}$；(3) $\dfrac{CE}{EF}=\dfrac{2}{3}$ 或 $\dfrac{13}{3}$
+    clue: 等腰直角三角形+相似；按所作平行线方向分类讨论。
+    solution_steps:
+    - (1) 设 $CP=x$，由 $\angle APC=45^{\circ}$ 得 $AC=CP=x$。在 $\mathrm{Rt}\triangle ACB$ 中，$x^{2}+(x+4)^{2}=(4\sqrt{5})^{2}$，$x=4$，$AC=4$。
+    - $\triangle BDP\sim\triangle BCA$，$\dfrac{PD}{AC}=\dfrac{PB}{AB}=\dfrac{4}{4\sqrt{5}}$，$PD=\dfrac{4\sqrt{5}}{5}$。
+    - (2) $CQ$ 平分 $\angle C$，$AC=PC$，$\therefore CM\perp AP$。可证 $\angle CQP=\angle PAD$。
+    - $\mathrm{Rt}\triangle BDP$ 中 $BD=\dfrac{8\sqrt{5}}{5}$，$AD=AB-BD=\dfrac{12\sqrt{5}}{5}$，$\therefore \tan\angle CQP=\tan\angle PAD=\dfrac{PD}{AD}=\dfrac{1}{3}$。
+    - (3)（i）当 $DE\parallel BC$ 时，$\dfrac{ED}{PB}=\dfrac{AD}{AB}=\dfrac{3}{5}$，又 $CP=PB$，$\dfrac{EF}{CF}=\dfrac{ED}{CP}=\dfrac{3}{5}$，$\therefore \dfrac{CE}{EF}=\dfrac{2}{3}$。
+    - （ii）当 $DE\parallel AC$ 时，延长 $AC$ 交 $DP$ 于 $G$，$CG=8$，$DE=\dfrac{12}{5}$，$\dfrac{EF}{CF}=\dfrac{DE}{CG}=\dfrac{3}{10}$，$\therefore \dfrac{CE}{EF}=\dfrac{13}{3}$。
+    - 综上，$\dfrac{CE}{EF}=\dfrac{2}{3}$ 或 $\dfrac{13}{3}$。
+    source_solution_images: []

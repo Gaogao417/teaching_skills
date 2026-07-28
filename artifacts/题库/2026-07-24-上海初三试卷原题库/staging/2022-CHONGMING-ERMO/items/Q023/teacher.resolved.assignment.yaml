@@ -1,0 +1,38 @@
+meta:
+  title: 2022年上海市崇明区初三二模数学试卷第 23 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q023
+    points: 12
+    stem_latex: '如图，四边形 $ABCD$ 中，$\angle ABC=\angle BCD$，$E$ 在 $BC$ 上，$AE\parallel CD$，$DE\parallel AB$，作 $CF\parallel AD$ 交 $AE$ 于 $F$，联结 $BF$。
+
+      (1) 求证：$\triangle ABF\cong\triangle EAD$；
+
+      (2) 若 $BE^{2}=AB\cdot EF$，求证：$\angle ECF=\angle BAE$。'
+    answer: 见证明
+    clue: (1) 证 $AB=AE$、$AF=DE$；(2) 证 $\triangle EBF\sim\triangle EAB$。
+    solution_steps:
+    - (1) 由 $AE\parallel CD$、$\angle ABC=\angle BCD$ 得 $AB=AE$；由 $AFCD$ 是平行四边形得 $AF=CD=DE$，又 $\angle BAF=\angle AED$，$\therefore \triangle ABF\cong\triangle EAD$。
+    - (2) 由 (1) $BF=AD=CF$，$\therefore \angle FBE=\angle ECF$。又 $BE^{2}=AB\cdot EF$，$AB=AE$，得 $\dfrac{BE}{AE}=\dfrac{EF}{BE}$，$\triangle EBF\sim\triangle EAB$，$\angle FBE=\angle BAE$，$\therefore \angle ECF=\angle BAE$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 110mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

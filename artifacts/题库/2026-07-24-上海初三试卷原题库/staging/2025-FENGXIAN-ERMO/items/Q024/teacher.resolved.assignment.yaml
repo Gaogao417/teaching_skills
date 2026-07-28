@@ -1,0 +1,44 @@
+meta:
+  title: 2025年上海市奉贤区中考二模数学试卷第 24 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q024
+    points: 12
+    stem_latex: '抛物线 $y=x^2+bx+c$ 与 $y$ 轴交于 $A(0,5)$，顶点 $P$ 在第一象限且在直线 $l:y=\dfrac{1}{2}x$ 上。
+
+      (1) 求抛物线的表达式；
+
+      (2) 向上平移直线 $l$，交抛物线于 $C$、$D$（$C$ 在左），当 $CD=OP$ 时，求 $C$ 点坐标；
+
+      (3) 将抛物线向右平移 $m$ 个单位，平移后抛物线与原抛物线交于 $M$，顶点为 $N$，如果 $MN\perp l$，求 $m$ 的值。'
+    solution_steps:
+    - (1) $c=5$，$P(-\frac{b}{2}, 5-\frac{b^2}{4})$ 代入 $y=\frac{1}{2}x$：$5-\frac{b^2}{4}=-\frac{b}{4}$，$b=-4$。
+    - $y=x^2-4x+5$。
+    - (2) $\triangle DCI\cong\triangle POH$（AAS），$CI=OH=2$，$DI=PH=1$。
+    - 设 $C(m,m^2-4m+5)$，$D(m+2,m^2-4m+6)$ 代入抛物线得 $m=\frac{5}{4}$。
+    - $C(\frac{5}{4},\frac{25}{16})$。
+    - (3) $N(m+2,1)$，$M(2+\frac{m}{2}, m+1)$ 代入抛物线：$m^2-4m=0$，$m=4$。
+    clue: 二次函数+平移+全等三角形+相似三角形。
+    answer: (1) $y=x^2-4x+5$；(2) $C\left(\dfrac{5}{4},\dfrac{25}{16}\right)$；(3) $m=4$
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 100mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

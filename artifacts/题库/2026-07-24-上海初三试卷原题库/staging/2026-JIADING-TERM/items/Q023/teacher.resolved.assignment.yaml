@@ -20,18 +20,29 @@ sections:
   - type: problem
     id: Q023
     points: 12
-    stem_latex: 如图10，在 $\triangle ABC$ 中，$\angle ACB=90^\circ$，点 $D$ 是边 $AB$ 上一点，满足 $AC^2=AD\cdot AB$，点 $E$ 是 $AC$ 的中点，联结 $ED$ 并延长交 $CB$ 的延长线于点 $F$。求证：（1）$CD\perp AB$；（2）$BC\cdot CF=AC\cdot DF$。
+    stem_latex: 如图10，在 $\triangle ABC$ 中，$\angle ACB=90^\circ$，点 $D$ 是边 $AB$ 上一点，满足
+      $AC^2=AD\cdot AB$，点 $E$ 是 $AC$ 的中点，联结 $ED$ 并延长交 $CB$ 的延长线于点 $F$。求证：（1）$CD\perp
+      AB$；（2）$BC\cdot CF=AC\cdot DF$。
     answer: 见证明。
     solution_steps:
     - title: 第（1）问
-      content: $\because AC^2=AD\cdot AB$，$\therefore\frac{AC}{AD}=\frac{AB}{AC}$。又 $\angle A=\angle A$，$\therefore\triangle ACD\sim\triangle ABC$，$\therefore\angle ACB=\angle ADC$。$\because\angle ACB=90^\circ$，$\therefore\angle ADC=90^\circ$，$\therefore CD\perp AB$。
+      content: $\because AC^2=AD\cdot AB$，$\therefore\frac{AC}{AD}=\frac{AB}{AC}$。又
+        $\angle A=\angle A$，$\therefore\triangle ACD\sim\triangle ABC$，$\therefore\angle
+        ACB=\angle ADC$。$\because\angle ACB=90^\circ$，$\therefore\angle ADC=90^\circ$，$\therefore
+        CD\perp AB$。
       diagram_col:
         image_path: assets/solution-01.png
         width: 58mm
         variant: solution
         disclosure_policy: teacher_only
     - title: 第（2）问
-      content: $\because$ 点 $E$ 是 $AC$ 的中点，$\angle ACB=90^\circ$，$\therefore ED=\frac12AC=EC$，$\therefore\angle ECD=\angle EDC$。$\because\angle EDC+\angle CDB+\angle BDF=180^\circ$，$\angle CDB=90^\circ$，$\therefore\angle EDC+\angle BDF=90^\circ$。又 $\angle ECD+\angle DCB=90^\circ$，$\therefore\angle BDF=\angle DCB$。又 $\angle F=\angle F$，$\therefore\triangle FBD\sim\triangle FDC$，$\therefore\frac{DB}{CD}=\frac{DF}{CF}$。$\because\cot\angle ABC=\frac{DB}{CD}=\frac{BC}{AC}$，$\therefore\frac{DF}{CF}=\frac{BC}{AC}$，$\therefore BC\cdot CF=AC\cdot DF$。
+      content: $\because$ 点 $E$ 是 $AC$ 的中点，$\angle ACB=90^\circ$，$\therefore ED=\frac12AC=EC$，$\therefore\angle
+        ECD=\angle EDC$。$\because\angle EDC+\angle CDB+\angle BDF=180^\circ$，$\angle
+        CDB=90^\circ$，$\therefore\angle EDC+\angle BDF=90^\circ$。又 $\angle ECD+\angle
+        DCB=90^\circ$，$\therefore\angle BDF=\angle DCB$。又 $\angle F=\angle F$，$\therefore\triangle
+        FBD\sim\triangle FDC$，$\therefore\frac{DB}{CD}=\frac{DF}{CF}$。$\because\cot\angle
+        ABC=\frac{DB}{CD}=\frac{BC}{AC}$，$\therefore\frac{DF}{CF}=\frac{BC}{AC}$，$\therefore
+        BC\cdot CF=AC\cdot DF$。
       diagram_col:
         image_path: assets/solution-02.png
         width: 58mm
@@ -49,7 +60,7 @@ sections:
       disclosure_policy: teacher_only
       label: 官方原解答第2页
     diagram_col:
-      image_path: assets/prompt-figure.png
+      image_path: assets/manual-prompt-1-df43e2ffd7de8673.png
       width: 65mm
       variant: prompt
       disclosure_policy: clean

@@ -1,0 +1,35 @@
+meta:
+  title: 2025年上海市宝山区中考二模数学试卷第 23 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q023
+    points: 12
+    stem_latex: 如图，平行四边形$ABCD$，$E$是$BC$延长线上一点，$BD = DE$，且$BD^2 = AD \cdot BE$。（1）求证：四边形$ABCD$是菱形；（2）如果$CE = 2BC$，求证：$CD \perp DE$。
+    solution_steps:
+    - (1) $AD\parallel BC$，$\angle 1=\angle 2$
+    - $BD^2=AD\cdot BE$，$\triangle ABD\sim\triangle BDE$
+    - $BD=DE$，$\angle 2=\angle 3$，$\angle 1=\angle 4$
+    - $AB=AD$，平行四边形有一组邻边相等即菱形
+    - (2) 过D作$DF\perp BE$，设$AB=BC=CD=AD=a$
+    - $CE=2a$，$BE=3a$，$EF=BF=\frac{3}{2}a$
+    - $DF=\frac{\sqrt{3}}{2}a$，$DE=\sqrt{3}a$
+    - $CD^2+DE^2=4a^2=CE^2$，$\angle CDE=90\degree$
+    clue: 菱形判定、相似三角形、勾股定理逆定理。
+    answer: 证明略
+    source_solution_images: []

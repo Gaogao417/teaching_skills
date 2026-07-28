@@ -1,0 +1,41 @@
+meta:
+  title: 2025年上海市青浦区中考二模数学试卷第 24 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q024
+    points: 12
+    stem_latex: '直线 $y=x+4$ 交坐标轴于 $A$、$B$，抛物线 $L_1$ 过 $A$、$B$，顶点 $P$，对称轴 $x=-3$。
+
+      (1) 求 $L_1$ 表达式；
+
+      (2) $Q$ 在第二象限对称轴上，$\angle POQ=45^{\circ}$，求 $Q$；
+
+      (3) 平移 $L_1$ 得 $L_2$，$PN\parallel AB$，$PM\parallel AO$，求 $L_2$。'
+    solution_steps:
+    - (1) $A(-4,0)$，$B(0,4)$，$y=\frac{1}{2}x^2+3x+4$。
+    - (2) $P(-3,-\frac{1}{2})$，$Q(-3,\frac{15}{7})$。
+    - (3) 平移向量 $(-\frac{1}{2},-\frac{1}{2})$，$L_2: y=\frac{1}{2}(x+\frac{7}{2})^2-1$。
+    clue: 二次函数+角度+平移。
+    answer: (1) $y=\dfrac{1}{2}x^2+3x+4$；(2) $(-3,\dfrac{15}{7})$；(3) $y=\dfrac{1}{2}(x+\dfrac{7}{2})^2-1$
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 80mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

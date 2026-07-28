@@ -1,0 +1,35 @@
+meta:
+  title: 2022年上海市长宁区初三二模数学试卷第 23 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q023
+    points: 12
+    stem_latex: '如图7，在 $\triangle ABC$ 中，$D$ 是边 $BC$ 上一点，$G$ 是线段 $AD$ 上一点，且 $AG=2GD$，联结 $BG$ 并延长交边 $AC$ 于点 $E$。
+
+      (1) 求证：$\dfrac{AE}{CE}=\dfrac{2BD}{BC}$；
+
+      (2) 如果 $D$ 是边 $BC$ 的中点，$P$ 是边 $BC$ 延长线上一点，且 $CP=BC$，延长线段 $BE$，交线段 $AP$ 于点 $F$，联结 $CF$、$CG$，求证：四边形 $AGCF$ 是平行四边形。'
+    answer: 见证明
+    clue: 作 $DM\parallel AC$，用平行线分线段成比例。
+    solution_steps:
+    - (1) 作 $DM\parallel AC$ 交 $BE$ 于 $M$。由 $DM\parallel AC$，$\dfrac{EM}{AE}=\dfrac{DG}{AG}=\dfrac{1}{2}$，$\therefore DM=\dfrac{1}{2}AE$。
+    - 又 $\dfrac{EM}{CE}=\dfrac{BD}{BC}$，即 $\dfrac{\frac{1}{2}AE}{CE}=\dfrac{BD}{BC}$，$\therefore \dfrac{AE}{CE}=\dfrac{2BD}{BC}$。
+    - (2) $D$ 为 $BC$ 中点时 $\dfrac{AE}{CE}=1$，$AE=CE$。由 $CP=BC=2CD$ 与 $AG=2GD$ 得 $\dfrac{CD}{CP}=\dfrac{DG}{AG}=\dfrac{1}{2}$，$\therefore CG\parallel AP$。
+    - 由 $CG\parallel AP$ 得 $\dfrac{GE}{EF}=\dfrac{CE}{AE}=1$，$GE=EF$，$\therefore$ 四边形 $AGCF$ 是平行四边形。
+    source_solution_images: []

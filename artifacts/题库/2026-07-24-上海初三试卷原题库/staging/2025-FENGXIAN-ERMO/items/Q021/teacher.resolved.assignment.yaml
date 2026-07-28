@@ -1,0 +1,40 @@
+meta:
+  title: 2025年上海市奉贤区中考二模数学试卷第 21 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q021
+    points: 10
+    stem_latex: '在 $\odot O$ 中，点 $C$ 是弧 $AB$ 的中点，$OC$ 交弦 $AB$ 于点 $D$，且 $D$ 是 $OC$ 的中点。
+
+      (1) 求 $\angle AOD$ 的度数；
+
+      (2) 延长 $AO$ 交 $\odot O$ 于点 $E$，连接 $EC$，交 $AB$ 于点 $F$，如果 $AE=8$，求 $FB$ 的长度。'
+    solution_steps:
+    - (1) 弧中点 $\Rightarrow OC\perp AB$，$OD=\dfrac{1}{2}OC=\dfrac{1}{2}OA$，$\cos\angle AOD=\dfrac{1}{2}$，$\angle AOD=60^{\circ}$。
+    - (2) $AE=8$，$OA=OC=4$，$OD=CD=2$，$AD=BD=OA\sin60^{\circ}=2\sqrt{3}$。
+    - $\angle E=\dfrac{1}{2}\angle AOC=30^{\circ}$，$\angle C=\angle E=30^{\circ}$。
+    - $DF=CD\tan30^{\circ}=\dfrac{2\sqrt{3}}{3}$，$BF=BD-DF=\dfrac{4\sqrt{3}}{3}$。
+    clue: 垂径定理推论+解直角三角形+圆周角定理。
+    answer: (1) $60^{\circ}$；(2) $\dfrac{4\sqrt{3}}{3}$
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 80mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

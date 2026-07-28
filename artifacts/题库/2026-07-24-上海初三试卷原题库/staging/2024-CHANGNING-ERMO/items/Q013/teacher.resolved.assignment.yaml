@@ -1,0 +1,29 @@
+meta:
+  title: 2024年上海市长宁区中考二模数学试卷第 13 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q013
+    points: 4
+    stem_latex: 在 $1$，$2$，$3$ 中任取两个不重复的数字组成一个两位数，那么这个两位数是素数的概率是\u3000\u3000\u3000\u3000。
+    answer: $\dfrac{1}{2}$
+    clue: 共 $6$ 个两位数，其中素数 $3$ 个（$13$、$23$、$31$）。
+    solution_steps:
+    - 两位数有 $12,13,21,23,31,32$ 共 $6$ 个，素数有 $13,23,31$ 共 $3$ 个。
+    - $P=\dfrac{3}{6}=\dfrac{1}{2}$。
+    source_solution_images: []

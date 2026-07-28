@@ -1,0 +1,36 @@
+meta:
+  title: 2025年上海市黄浦区中考二模数学试卷第 5 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q005
+    points: 4
+    stem_latex: 已知 $a$、$b$、$c$ 在数轴上 $a<b<0<c$，下列结论不成立的是（\quad）
+    choices:
+    - $a+b<b+c$
+    - $a-c<b-c$
+    - $ab<bc$
+    - $ac<bc$
+    answer: C
+    clue: $a<b<0<c$，$ab>0>bc$，故 $ab<bc$ 不成立。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 80mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

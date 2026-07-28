@@ -1,0 +1,30 @@
+meta:
+  title: 2024年上海市宝山区中考二模数学试卷第 20 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q020
+    points: 10
+    stem_latex: （本题满分 $10$ 分）解方程：$\dfrac{3}{x+1}=\dfrac{1}{2x}+1$。
+    answer: $x_1=\dfrac{1}{2},\;x_2=1$
+    clue: 去分母化为整式方程，注意验根。
+    solution_steps:
+    - 两边乘 $2x(x+1)$，得 $6x=(x+1)+2x(x+1)$。
+    - 整理得 $2x^2-3x+1=0$，$(2x-1)(x-1)=0$。
+    - $x_1=\dfrac{1}{2}$，$x_2=1$，经检验均为原方程的根。
+    source_solution_images: []

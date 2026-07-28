@@ -1,0 +1,29 @@
+meta:
+  title: 2024年上海市长宁区中考二模数学试卷第 17 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q017
+    points: 4
+    stem_latex: 在 $Rt\triangle ABC$ 中，$\angle ACB=90^{\circ}$，$AC>BC$，将 $\triangle ABC$ 绕着点 $C$ 旋转，点 $A$、点 $B$ 的对应点分别是点 $D$、点 $E$，如果点 $A$ 在 $DE$ 的延长线上，且 $CE\parallel AB$，那么 $\angle CAE$ 的余弦值为\u3000\u3000\u3000\u3000。
+    answer: $\dfrac{\sqrt{3}}{2}$
+    clue: 由旋转和平行证 $\angle CAE=\angle ACE=\angle D$，内角和得 $\angle CAE=30°$。
+    solution_steps:
+    - $\angle D=\angle BAC$，$\angle CAE=\angle ACE=\angle D$。
+    - $\triangle ACD$ 中 $3\angle CAE+90°=180°$，$\angle CAE=30°$，$\cos30°=\dfrac{\sqrt{3}}{2}$。
+    source_solution_images: []

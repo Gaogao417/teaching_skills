@@ -1,0 +1,31 @@
+meta:
+  title: 2022年上海市长宁区初三二模数学试卷第 21 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q021
+    points: 10
+    stem_latex: 如图5，在半圆 $O$ 中，$AB$ 是直径，$CD$ 是弦，点 $E$、$F$ 在直径 $AB$ 上，且四边形 $CDFE$ 是直角梯形，$\angle C=\angle D=90^{\circ}$，$AB=34$，$CD=30$。求梯形 $CDFE$ 的面积。
+    answer: '240'
+    clue: 作 $OH\perp CD$，由垂径定理+平行线分线段成比例。
+    solution_steps:
+    - 作 $OH\perp CD$ 于 $H$，则 $CH=DH$。
+    - 由 $\angle C=\angle D=\angle OHC=90^{\circ}$，得 $CE\parallel DF\parallel OH$，$\therefore \dfrac{OE}{OF}=\dfrac{CH}{DH}$，$OE=OF$，$CE+DF=2OH$。
+    - 联结 $OC$，$OC=17$，$CH=15$，$OH=\sqrt{17^{2}-15^{2}}=8$。
+    - $S=\dfrac{1}{2}(CE+DF)\times CD=8\times30=240$。
+    source_solution_images: []

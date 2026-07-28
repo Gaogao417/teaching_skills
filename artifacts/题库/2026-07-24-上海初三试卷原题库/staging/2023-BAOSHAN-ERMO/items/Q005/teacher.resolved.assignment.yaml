@@ -1,0 +1,35 @@
+meta:
+  title: 2023年上海市宝山区中考二模数学试卷第 5 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q005
+    points: 4
+    stem_latex: 在研究反比例函数的图象时，小明通过列表、描点作图，发现计算有错误，四个点中有一个不在该函数图像上。列表如下：$x$ 取 $-2,-\dfrac{1}{2},1,2$，对应 $y$ 取 $-1,4,-2,-1$。那么这个点是（\quad）
+    choices:
+    - $\left(-2,-1\right)$
+    - $\left(-\dfrac{1}{2},4\right)$
+    - $\left(1,-2\right)$
+    - $\left(2,-1\right)$
+    answer: A
+    clue: 反比例函数图象上点的横纵坐标乘积为常数，逐一验算。
+    solution_steps:
+    - $\left(-2\right)\times\left(-1\right)=2$，$\left(-\dfrac{1}{2}\right)\times4=-2$，$\left(-2\right)\times1=-2$，$2\times\left(-1\right)=-2$。
+    - $\left(-\dfrac{1}{2},4\right)$、$\left(1,-2\right)$、$\left(2,-1\right)$ 横纵坐标乘积相同，在同一反比例函数图象上。
+    - 点 $\left(-2,-1\right)$ 乘积为 $2$，不在该图象上。
+    source_solution_images: []

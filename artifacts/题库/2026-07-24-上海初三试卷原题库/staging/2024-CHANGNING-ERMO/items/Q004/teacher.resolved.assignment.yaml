@@ -1,0 +1,31 @@
+meta:
+  title: 2024年上海市长宁区中考二模数学试卷第 4 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q004
+    points: 4
+    stem_latex: 为了解某公司的收入水平，随机挑选五人的月工资进行抽样调查，月工资（单位：元）分别是 $3000$，$4000$，$5000$，$6000$，$50000$，那么能够较好的反映他们收入平均水平的是（　　）
+    choices:
+    - 中位数
+    - 标准差
+    - 平均数
+    - 众数
+    answer: A
+    clue: 数据含极端值 $50000$，中位数不受极端值影响。
+    source_solution_images: []

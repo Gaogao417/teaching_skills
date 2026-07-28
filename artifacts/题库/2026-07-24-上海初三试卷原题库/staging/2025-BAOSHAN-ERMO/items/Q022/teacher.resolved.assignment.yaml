@@ -1,0 +1,31 @@
+meta:
+  title: 2025年上海市宝山区中考二模数学试卷第 22 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q022
+    points: 12
+    stem_latex: 【问题】$\triangle ABC$中$\angle ACB=90\degree$，$AC=3$，$BC=4$，$D$在$AB$上，$AD=\frac{1}{3}AB$，求$CD$。【发现】坐标法：$D(\frac{4}{3},2)$，$CD=\frac{2\sqrt{13}}{3}$。【运用】$AC=8$，$BC=6$，$CD=3$，$CE=4$，$AM=\frac{1}{4}AB$，$DN=\frac{1}{2}DE$，求$MN$。
+    solution_steps:
+    - 以C为原点建系
+    - $\triangle DNG\sim\triangle DEC$，$GN=2$
+    - $N(2,\frac{3}{2})$，$M(\frac{3}{2},6)$
+    - $MN=\sqrt{(2-\frac{3}{2})^2+(\frac{3}{2}-6)^2}=\frac{\sqrt{82}}{2}$
+    clue: 坐标法、相似三角形、距离公式。
+    answer: $MN=\dfrac{\sqrt{82}}{2}$
+    source_solution_images: []

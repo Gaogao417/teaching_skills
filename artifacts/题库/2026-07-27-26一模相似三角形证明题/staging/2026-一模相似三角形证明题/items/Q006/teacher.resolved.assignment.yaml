@@ -1,0 +1,48 @@
+meta:
+  title: 26一模相似三角形证明题 普陀23
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q006
+    points: 12
+    stem_latex: 已知：如图，四边形 $ABCD$ 中，点 $E$ 在边 $BC$ 上，$DE$ 交 $AC$ 于点 $F$，$\angle AED=\angle
+      B$，$AE^2=AF\cdot AC$。（1）求证：$\triangle ABE\sim\triangle ECF$；（2）如果 $\dfrac{AD}{AE}=\dfrac{AC}{EC}$，求证：$DE\cdot
+      AC=AE\cdot BC$。
+    answer: （1）$\triangle ABE\sim\triangle ECF$；（2）$DE\cdot AC=AE\cdot BC$。
+    solution_steps:
+    - title: 第（1）问
+      content: $\because AE^2=AF\cdot AC$，$\therefore \dfrac{AF}{AE}=\dfrac{AE}{AC}$。又
+        $\angle FAE=\angle EAC$，故 $\triangle AFE\sim\triangle AEC$，从而 $\angle AEF=\angle
+        ACB$。由 $\angle AED=\angle B$，得 $\angle B=\angle ACB$。又由角的和差得 $\angle FEC=\angle
+        BAE$，所以 $\triangle ABE\sim\triangle ECF$。
+    - title: 第（2）问
+      content: 由 $\angle B=\angle ACB$ 得 $AB=AC$。由 $\triangle ABE\sim\triangle ECF$
+        及已知比例可得 $AE=AD$，所以 $\angle ADE=\angle AED=\angle ACB$；又 $\angle AED=\angle
+        B$，故 $\triangle AED\sim\triangle ABC$。于是 $\dfrac{AD}{AC}=\dfrac{DE}{CB}$，即
+        $DE\cdot AC=AE\cdot BC$。
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页
+    diagram_col:
+      image_path: assets/manual-prompt-1-2eb6a34e993af7e3.png
+      width: 0.82\linewidth
+      variant: prompt
+      disclosure_policy: clean

@@ -1,0 +1,34 @@
+meta:
+  title: 2024年上海市长宁区中考二模数学试卷第 18 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q018
+    points: 4
+    stem_latex: 我们把以三角形的重心为圆心的圆叫做该三角形的重心圆。如图，在 $\triangle ABC$ 中，$AB=AC=10$，$BC=16$，如果 $\triangle ABC$ 的重心圆与该三角形各边的公共点一共有 $4$ 个，那么它的半径 $r$ 的取值范围是\u3000\u3000\u3000\u3000。
+    answer: $r=3.2$ 或 $4<r<2\sqrt{17}$
+    clue: 重心到三边距离 $OE=OF=3.2$，到三顶点 $OB=OC=2\sqrt{17}$，$OD=2$，$OA=4$。
+    solution_steps:
+    - 重心 $O$：$AD=6$，$OD=2$，$OA=4$，$OB=OC=2\sqrt{17}$，$OE=OF=3.2$。
+    - 与三边共 $4$ 个公共点：$r=3.2$（与两边各 $2$ 点、第三边切 $1$ 点... 实为 $r=3.2$ 恰切）或 $4<r<2\sqrt{17}$（与 $AB$、$AC$ 各交 $2$ 点）。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 90mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

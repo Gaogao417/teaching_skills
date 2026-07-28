@@ -1,0 +1,44 @@
+meta:
+  title: 2025年上海市浦东新区中考二模数学试卷第 24 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q024
+    points: 12
+    stem_latex: '抛物线 $C_1$ 顶点 $A(6,6)$ 过原点，$y=6$ 交 $y$ 轴于 $B$。
+
+      (1) 求 $C_1$ 表达式；
+
+      (2) 右移 $m$ 下移 $n$ 得 $C_2$，顶点 $D$ 在 $C_1$ 上。
+
+      ① $BD$ 中垂线过 $A$，求 $\sin\angle DAE$；
+
+      ② $BD$ 交 $C_1$ 对称轴于 $F$，$\triangle ADF\sim\triangle ADB$，求 $m^3-36m$。'
+    solution_steps:
+    - (1) $y=-\frac{1}{6}(x-6)^2+6=-\frac{1}{6}x^2+2x$。
+    - (2) $D(6+m,6-n)$，$n=\frac{1}{6}m^2$。
+    - ① $AB=AD$，$m^2+n^2=36$，$n=3\sqrt{5}-3$，$\sin\angle DAE=\frac{n}{6}=\frac{\sqrt{5}-1}{2}$。
+    - ② $n^2=m(m+6)$，$(\frac{m^2}{6})^2=m(m+6)$，$m^3-36m=216$。
+    clue: 二次函数+平移+中垂线+相似三角形。
+    answer: (1) $y=-\dfrac{1}{6}x^2+2x$；(2)① $\sin\angle DAE=\dfrac{\sqrt{5}-1}{2}$；② $m^3-36m=216$
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 70mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

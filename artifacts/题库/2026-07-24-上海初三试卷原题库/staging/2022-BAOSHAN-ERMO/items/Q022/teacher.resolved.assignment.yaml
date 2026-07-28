@@ -1,0 +1,40 @@
+meta:
+  title: 2022年上海市宝山区中考数学二模试卷第 22 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q022
+    points: 10
+    stem_latex: '某超市大门口的台阶通道侧面如图所示，共有4级台阶，每级台阶高度都是0.25米。超市计划做一个扶手 $AD$，$AB$、$DC$ 是两根与地平线 $MN$ 都垂直的支撑杆（支撑杆底端分别为点 $B$、$C$）。
+
+      (1) 求点 $B$ 与点 $C$ 离地面的高度差 $BH$ 的长度；
+
+      (2) 如果支撑杆 $AB$、$DC$ 的长度相等，且 $\angle DAB=66^{\circ}$。求扶手 $AD$ 的长度。（参考数据：$\sin66^{\circ}\approx0.9$，$\cos66^{\circ}\approx0.4$，$\tan66^{\circ}\approx2.25$，$\cot66^{\circ}\approx0.44$）'
+    answer: (1) $BH=0.75$ 米；(2) $AD\approx1.875$ 米
+    clue: 由台阶求高度差；由 $AB=DC$ 得平行四边形，再用余弦求 $AD$。
+    solution_steps:
+    - (1) $BH=3\times0.25=0.75$ 米（4级台阶中 $B$ 比 $C$ 高出3级）。
+    - (2) 由 $AB=DC$ 且 $AB\parallel DC$，得四边形 $ABCD$ 是平行四边形，$\therefore AD=BC$，$AD\parallel BC$，$\angle CBH=\angle DAB=66^{\circ}$。
+    - 在 $\mathrm{Rt}\triangle CBH$ 中，$BC=\dfrac{BH}{\cos66^{\circ}}\approx\dfrac{0.75}{0.4}=1.875$ 米。
+    - $\therefore AD\approx1.875$ 米。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 120mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

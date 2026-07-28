@@ -1,0 +1,63 @@
+meta:
+  title: 26一模相似三角形证明题 杨浦23
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q010
+    points: 12
+    stem_latex: 已知：如图，在矩形 $ABCD$ 中，点 $E$ 在边 $AB$ 的延长线上，过 $A$ 作 $AF\perp CE$，垂足为点 $F$，$CF=EF$，$AF$
+      与边 $BC$ 交于点 $G$，联结 $BF$。（1）求证：$FB^2=FA\cdot FG$；（2）连接 $BD$ 与 $AG$ 交于点 $H$，如果
+      $AB=BC$，求证：$\dfrac{AH}{HG}=\dfrac{HF}{FG}$。
+    answer: 结论均成立。
+    solution_steps:
+    - title: 第（1）问
+      content: |
+        $\because$ 四边形 $ABCD$ 是矩形，$\therefore \angle ABC=90^\circ$。
+        $\because AF\perp CE$，$\therefore \angle AFC=90^\circ$。
+        $\because CF=EF$，$\therefore BF=CF=EF$（直角三角形斜边中线等于斜边一半）。
+        $\therefore \angle FBC=\angle FCB$。
+        $\because \angle AFB=\angle AFC+\angle BFC=90^\circ+\angle FBC$，$\angle BFG=\angle BFC+\angle CFG=90^\circ+\angle FCB$。
+        $\therefore \angle AFB=\angle BFG$。
+        $\because \angle FAE=90^\circ-\angle AEF=90^\circ-\angle FCB=\angle FBC$。
+        $\therefore \triangle ABF\sim\triangle BGF$。
+        $\therefore \dfrac{FA}{FB}=\dfrac{FB}{FG}$，即 $FB^2=FA\cdot FG$。
+    - title: 第（2）问
+      content: |
+        $\because AB=BC$，$\therefore$ 矩形 $ABCD$ 为正方形。
+        $\therefore AD\parallel BC$，$\therefore \dfrac{AH}{HG}=\dfrac{AD}{BG}$。
+        $\because \triangle ABF\sim\triangle BGF$，$\therefore \dfrac{AB}{BG}=\dfrac{BF}{FG}$。
+        $\therefore BG=\dfrac{AB\cdot FG}{BF}$。
+        $\therefore \dfrac{AH}{HG}=\dfrac{AD}{BG}=\dfrac{AB}{\dfrac{AB\cdot FG}{BF}}=\dfrac{BF}{FG}$。
+        $\because BF=CF$，$\angle BFC=\angle FBC$。
+        $\because \angle BFC=\angle HFG$，$\therefore \angle HFG=\angle FBC$。
+        $\because \angle FBC=\angle FCB=\angle HBF$，$\therefore \angle HFG=\angle HBF$。
+        又 $\angle FHB=\angle BHG$，$\therefore \triangle FHB\sim\triangle BHG$。
+        $\therefore \dfrac{HF}{HB}=\dfrac{HB}{HG}$，即 $HB^2=HF\cdot HG$。
+        $\because \angle HFG=\angle HBF$，$\therefore HF=HB$。
+        $\therefore \dfrac{AH}{HG}=\dfrac{BF}{FG}=\dfrac{HF}{FG}$。
+    source_solution_images:
+    - image_path: assets/official-solution-01.png
+      width: 0.96\linewidth
+      variant: source_solution
+      disclosure_policy: teacher_only
+      label: 官方原解答第1页
+    diagram_col:
+      image_path: assets/manual-prompt-1-a6fdaceab9e934f1.png
+      width: 0.82\linewidth
+      variant: prompt
+      disclosure_policy: clean

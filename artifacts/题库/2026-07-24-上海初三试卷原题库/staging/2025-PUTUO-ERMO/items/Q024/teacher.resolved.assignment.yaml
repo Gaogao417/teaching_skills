@@ -1,0 +1,39 @@
+meta:
+  title: 2025年上海市普陀区中考二模数学试卷第 24 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q024
+    points: 12
+    stem_latex: '抛物线 $y=ax^2+bx+3$（$a\neq0$）开口向下，过 $B(3,0)$、$C(0,3)$，对称轴 $x=1$。
+
+      (1) ① 求表达式；② $\angle CPB=90^{\circ}$ 时求 $P$ 横坐标；
+
+      (2) $P$ 关于 $BC$ 的对称点是 $\triangle AOC$ 重心 $G$，求 $a$。'
+    solution_steps:
+    - (1)① $a=-1$，$b=2$，$y=-x^2+2x+3$。
+    - ② 以 $BC$ 为直径作圆交抛物线于 $P$，$m^2-m-1=0$，$m=\frac{\sqrt{5}+1}{2}$。
+    - (2) $G(\frac{1}{3a},1)$，$GK=PK$，$m=2$，$a=\frac{-3-\sqrt{15}}{6}$。
+    clue: 二次函数+圆周角定理+重心+对称点。
+    answer: (1)① $y=-x^2+2x+3$；② $\dfrac{\sqrt{5}+1}{2}$；(2) $a=\dfrac{-3-\sqrt{15}}{6}$
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 100mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

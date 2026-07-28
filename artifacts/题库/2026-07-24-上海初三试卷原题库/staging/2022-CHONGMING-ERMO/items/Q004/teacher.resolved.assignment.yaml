@@ -1,0 +1,36 @@
+meta:
+  title: 2022年上海市崇明区初三二模数学试卷第 4 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q004
+    points: 4
+    stem_latex: 调查一个班50名学生每天睡眠时间，绘成频数分布直方图（6h→6人，7h→19人，8h→15人，9h→10人），则睡眠时间的众数、中位数分别为（\quad）
+    choices:
+    - 7 h；7 h
+    - 8 h；7.5 h
+    - 7 h；7.5 h
+    - 8 h；8 h
+    answer: C
+    clue: 众数为7h（人数最多）；中位数为第25、26位的平均7.5h。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 110mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

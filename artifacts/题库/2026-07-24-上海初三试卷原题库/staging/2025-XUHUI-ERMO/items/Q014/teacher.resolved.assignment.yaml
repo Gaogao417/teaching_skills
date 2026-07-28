@@ -1,0 +1,34 @@
+meta:
+  title: 2025年上海市徐汇区中考二模数学试卷第 14 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q014
+    points: 4
+    stem_latex: 甲乙楼间距10米，甲底测乙顶仰角 $60^{\circ}$，乙底测甲顶仰角 $45^{\circ}$，乙比甲高______米
+    answer: $10\sqrt{3}-10$
+    clue: $BC=10\sqrt{3}$，$AD=10$。
+    solution_steps:
+    - $BC=10\tan60^{\circ}=10\sqrt{3}$，$AD=10\tan45^{\circ}=10$。
+    - $BC-AD=10\sqrt{3}-10$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 70mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

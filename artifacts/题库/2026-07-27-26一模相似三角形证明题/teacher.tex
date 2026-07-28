@@ -1,0 +1,405 @@
+\documentclass{exam-zh}
+\usepackage{edu-practice}
+
+\examsetup{
+  question/show-answer = true,
+  fillin/show-answer = true,
+  solution/show-solution = show-stay,
+}
+
+% ---------- 教师版解答样式 ----------
+\newtcolorbox{solutionblock}{
+  enhanced, breakable,
+  colback=edu-blue-bg,
+  colframe=edu-blue!25,
+  boxrule=0pt,
+  borderline west={2pt}{0pt}{edu-blue!50},
+  arc=0pt,
+  left=3mm, right=3mm, top=2mm, bottom=2mm,
+  before skip=2mm,
+  after skip=3mm,
+  fontupper=\small,
+}
+
+% 解答步骤编号
+\newcounter{solstep}
+\newcommand{\solstep}[2]{%
+  \stepcounter{solstep}%
+  \par\medskip
+  \noindent\hangindent=6mm
+  {\color{edu-blue}\bfseries\textcircled{\scriptsize\thesolstep}\enspace #1}\enspace #2\par
+}
+
+\begin{document}
+
+\section*{26一模相似三角形证明题精选}
+
+% ---------- 第 1 题 (宝山23) ----------
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=12]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-58mm-6mm\relax}
+    \vspace{0pt}
+    如图，在菱形 $ABCD$ 中，$E$ 是 $CD$ 上一点，联结 $BE$ 并延长，交 $AD$ 的延长线于点 $G$，交 $AC$ 于点 $F$。
+    （1）求证：$BE\cdot BF=BG\cdot EF$；（2）若 $E$ 是 $CD$ 的中点，且 $AF\cdot CF=2BF^2$，求证：$BE\perp CD$。
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{58mm}{}
+  \includegraphics[width=\linewidth]{\detokenize{assets/Q001/manual-prompt-1-5d41322a0c38e9c2.png}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[72mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}（1）见证明；（2）$BE\perp CD$。\par\medskip
+    \solstep{第（1）问}{
+四边形 $ABCD$ 是菱形，$\therefore AB\parallel CD$，$AG\parallel BC$。 \\
+$\therefore \dfrac{BE}{EF}=\dfrac{AC}{CF}$，$\dfrac{BG}{BF}=\dfrac{AC}{CF}$。 \\
+$\therefore \dfrac{BE}{EF}=\dfrac{BG}{BF}$，即 $BE\cdot BF=BG\cdot EF$。
+}
+    \solstep{第（2）问}{
+$E$ 是 $CD$ 的中点，$\therefore CE=\dfrac{1}{2}CD=\dfrac{1}{2}AB$。 \\
+$AB\parallel CD$，$\therefore \dfrac{CE}{AB}=\dfrac{CF}{AF}=\dfrac{EF}{BF}=\dfrac{1}{2}$，即 $CF=\dfrac{1}{2}AF$。 \\
+$AF\cdot CF=2BF^2$，$\therefore CF^2=BF^2$，$\therefore CF=BF$。 \\
+$\therefore \angle FBC=\angle FCB=\angle FCE$。 \\
+$\angle CEF=\angle BEC$，$\therefore \triangle ECF\sim\triangle EBC$。 \\
+$\therefore \dfrac{EF}{CE}=\dfrac{CE}{BE}$，即 $CE^2=EF\cdot BE$。 \\
+设 $EF=a$，则 $BF=CF=2a$，$BE=3a$，$\therefore CE^2=3a^2$。 \\
+$\therefore CE^2+EF^2=CF^2$，$\therefore \angle CEF=90^\circ$，即 $BE\perp CD$。
+}
+  \end{solutionblock}
+\end{problem}
+
+\newpage
+
+% ---------- 第 2 题 (崇明23) ----------
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=12]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-52mm-6mm\relax}
+    \vspace{0pt}
+    如图，在 $\triangle ABC$ 中，点 $D、E$ 分别在边 $BC、AC$ 上，$AB=AD$，$AD$ 与 $BE$ 交于点 $F$，且 $BC^2=AC\cdot EC$。
+    （1）求证：$\angle ADB=\angle BEC$；（2）如果 $AB=BC$，求证：$AE\cdot AD=AF\cdot BE$。
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{52mm}{}
+  \includegraphics[width=\linewidth]{\detokenize{assets/Q002/prompt-figure.png}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[72mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}见证明。\par\medskip
+    \solstep{解答}{
+$\because BC^2=AC\cdot EC$，$\therefore \frac{BC}{AC}=\frac{EC}{BC}$。又 $\angle C=\angle C$，故 $\triangle BEC\sim\triangle ABC$，$\angle BEC=\angle ABC$。又 $AB=AD$，故 $\angle ADB=\angle ABC$，从而（1）成立。（2）由 $AB=BC$ 得 $\angle BAC=\angle C$；结合（1）可得 $\angle ABE=\angle CAD$，再由 $\angle AEF=\angle AEF$ 得 $\triangle BEA\sim\triangle AEF$，故 $\frac{AE}{BE}=\frac{AF}{AB}$。又 $AB=AD$，即 $AE\cdot AD=AF\cdot BE$。
+}
+  \end{solutionblock}
+\end{problem}
+
+\newpage
+
+% ---------- 第 3 题 (奉贤23) ----------
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=12]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-52mm-6mm\relax}
+    \vspace{0pt}
+    如图，在 $\triangle ABC$ 中，$D,E$ 分别在 $AB,BC$ 上，$CD,AE$ 交于 $F$，且 $CD=BD,AE=AC$。
+    （1）证明 $\triangle ADF\sim\triangle CDA$；（2）联结 $DE$，由题给比例证明 $AD\cdot AE=DC\cdot DE$。
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{52mm}{}
+  \includegraphics[width=\linewidth]{\detokenize{assets/Q003/manual-prompt-1-821ff9e637f000da.png}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[72mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}两结论均成立。\par\medskip
+    \solstep{第（1）问}{
+$CD=BD$，$\therefore \angle B=\angle DCB$。 \\
+$AE=AC$，$\therefore \angle AEC=\angle ACB$。 \\
+$\angle AEC=\angle B+\angle BAE$，$\angle ACB=\angle DCB+\angle ACD$。 \\
+$\therefore \angle BAE=\angle ACD$。 \\
+$\because \angle ADF=\angle CDA$，$\therefore \triangle ADF\sim\triangle CDA$。
+}
+    \solstep{第（2）问}{
+$\because \dfrac{AD}{AB}=\dfrac{CE}{CB}$，$\therefore DE\parallel AC$，$\therefore \angle BDE=\angle DAC$。 \\
+$\because \triangle ADF\sim\triangle CDA$，$\therefore \angle DFA=\angle DAC$，$\dfrac{AD}{DC}=\dfrac{AF}{AC}$。 \\
+$\therefore \angle BDE=\angle DFA$，$\therefore \angle ADE=\angle CFA$。 \\
+$\because \angle BAE=\angle ACD$，$\therefore \triangle ADE\sim\triangle CFA$。 \\
+$\therefore \dfrac{DE}{AF}=\dfrac{AE}{AC}$，$\therefore \dfrac{DE}{AE}=\dfrac{AF}{AC}=\dfrac{AD}{DC}$。 \\
+$\therefore AD\cdot AE=DC\cdot DE$。
+}
+  \end{solutionblock}
+\end{problem}
+
+\newpage
+
+% ---------- 第 4 题 (嘉定23) ----------
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=12]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-52mm-6mm\relax}
+    \vspace{0pt}
+    如图10，在 $\triangle ABC$ 中，$\angle ACB=90^\circ$，点 $D$ 是边 $AB$ 上一点，满足 $AC^2=AD\cdot AB$，点 $E$ 是 $AC$ 的中点，联结 $ED$ 并延长交 $CB$ 的延长线于点 $F$。
+    求证：（1）$CD\perp AB$；（2）$BC\cdot CF=AC\cdot DF$。
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{52mm}{}
+  \includegraphics[width=\linewidth]{\detokenize{assets/Q004/manual-prompt-1-df43e2ffd7de8673.png}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[72mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}见证明。\par\medskip
+    \solstep{第（1）问}{
+$\because AC^2=AD\cdot AB$，$\therefore\frac{AC}{AD}=\frac{AB}{AC}$。又 $\angle A=\angle A$，$\therefore\triangle ACD\sim\triangle ABC$，$\therefore\angle ACB=\angle ADC$。$\because\angle ACB=90^\circ$，$\therefore\angle ADC=90^\circ$，$\therefore CD\perp AB$。
+}
+    \solstep{第（2）问}{
+$\because$ 点 $E$ 是 $AC$ 的中点，$\angle ACB=90^\circ$，$\therefore ED=\frac12AC=EC$，$\therefore\angle ECD=\angle EDC$。$\because\angle EDC+\angle CDB+\angle BDF=180^\circ$，$\angle CDB=90^\circ$，$\therefore\angle EDC+\angle BDF=90^\circ$。又 $\angle ECD+\angle DCB=90^\circ$，$\therefore\angle BDF=\angle DCB$。又 $\angle F=\angle F$，$\therefore\triangle FBD\sim\triangle FDC$，$\therefore\frac{DB}{CD}=\frac{DF}{CF}$。$\because\cot\angle ABC=\frac{DB}{CD}=\frac{BC}{AC}$，$\therefore\frac{DF}{CF}=\frac{BC}{AC}$，$\therefore BC\cdot CF=AC\cdot DF$。
+}
+  \end{solutionblock}
+\end{problem}
+
+\newpage
+
+% ---------- 第 5 题 (闵行22) ----------
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=12]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-58mm-6mm\relax}
+    \vspace{0pt}
+    如图，线段 $AD,BC$ 交于点 $E$，$F$ 是 $ED$ 中点，联结 $AB,BD,CD$，延长 $BA,FC$ 交于 $G$。
+    已知 $\angle BAD=90^\circ,\frac{AE}{CE}=\frac{BE}{DE}$。
+    （1）证明 $\angle ABE=\angle FCD$；（2）若 $DA$ 平分 $\angle BDC$，证明 $\frac{BG}{BD}=\frac{BC}{2CF}$。
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{58mm}{}
+  \includegraphics[width=\linewidth]{\detokenize{assets/Q005/manual-prompt-1-5786aa6de12c1101.png}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[72mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}两结论均成立。\par\medskip
+    \solstep{第（1）问}{
+在 $\triangle BAE$ 与 $\triangle DCE$ 中：$\dfrac{AE}{CE}=\dfrac{BE}{DE}$，$\angle AEB=\angle CED$。 \\
+$\therefore \triangle BAE\sim\triangle DCE$。 \\
+$\therefore \angle BAE=\angle DCE=90^\circ$，$\angle ABE=\angle CDF$。 \\
+点 $F$ 是 $\triangle ECD$ 边 $DE$ 的中点，$\therefore CF=EF=FD=\dfrac{1}{2}ED$。 \\
+$\therefore \angle FCD=\angle CDF$，$\therefore \angle ABE=\angle FCD$。
+}
+    \solstep{第（2）问}{
+$\angle BED+\angle FEC=180^\circ$，$\angle BCG+\angle FCE=180^\circ$。 \\
+又 $\angle FCE=\angle FEC$，$\therefore \angle BED=\angle BCG$。 \\
+$DA$ 平分 $\angle BDC$，$\therefore \angle CDF=\angle EDB$。 \\
+$\because \angle ABE=\angle CDF$，$\therefore \angle ABE=\angle EDB$。 \\
+在 $\triangle BCG$ 与 $\triangle DEB$ 中：$\angle BED=\angle BCG$，$\angle ABE=\angle EDB$。 \\
+$\therefore \triangle BCG\sim\triangle DEB$，$\therefore \dfrac{BG}{BD}=\dfrac{BC}{DE}$。 \\
+$\because CF=\dfrac{1}{2}ED$，$\therefore DE=2CF$。 \\
+$\therefore \dfrac{BG}{BD}=\dfrac{BC}{2CF}$。
+}
+  \end{solutionblock}
+\end{problem}
+
+\newpage
+
+% ---------- 第 6 题 (普陀23) ----------
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=12]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-52mm-6mm\relax}
+    \vspace{0pt}
+    已知：如图，四边形 $ABCD$ 中，点 $E$ 在边 $BC$ 上，$DE$ 交 $AC$ 于点 $F$，$\angle AED=\angle B$，$AE^2=AF\cdot AC$。
+    （1）求证：$\triangle ABE\sim\triangle ECF$；（2）如果 $\dfrac{AD}{AE}=\dfrac{AC}{EC}$，求证：$DE\cdot AC=AE\cdot BC$。
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{52mm}{}
+  \includegraphics[width=\linewidth]{\detokenize{assets/Q006/manual-prompt-1-2eb6a34e993af7e3.png}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[72mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}（1）$\triangle ABE\sim\triangle ECF$；（2）$DE\cdot AC=AE\cdot BC$。\par\medskip
+    \solstep{第（1）问}{
+$\because AE^2=AF\cdot AC$，$\therefore \dfrac{AF}{AE}=\dfrac{AE}{AC}$。又 $\angle FAE=\angle EAC$，故 $\triangle AFE\sim\triangle AEC$，从而 $\angle AEF=\angle ACB$。由 $\angle AED=\angle B$，得 $\angle B=\angle ACB$。又由角的和差得 $\angle FEC=\angle BAE$，所以 $\triangle ABE\sim\triangle ECF$。
+}
+    \solstep{第（2）问}{
+由 $\angle B=\angle ACB$ 得 $AB=AC$。由 $\triangle ABE\sim\triangle ECF$ 及已知比例可得 $AE=AD$，所以 $\angle ADE=\angle AED=\angle ACB$；又 $\angle AED=\angle B$，故 $\triangle AED\sim\triangle ABC$。于是 $\dfrac{AD}{AC}=\dfrac{DE}{CB}$，即 $DE\cdot AC=AE\cdot BC$。
+}
+  \end{solutionblock}
+\end{problem}
+
+\newpage
+
+% ---------- 第 7 题 (青浦23) ----------
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=12]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-52mm-6mm\relax}
+    \vspace{0pt}
+    如图9，在平行四边形 $ABCD$ 中，点 $E$ 在边 $AD$ 上，$BE、CD$ 的延长线交于点 $F$，联结 $CE$，已知 $CE^2=DE\cdot BC$。
+    （1）求证：$\triangle ABE\sim\triangle EFC$；（2）求证：$CE\cdot CF=EF\cdot AD$。
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{52mm}{}
+  \includegraphics[width=\linewidth]{\detokenize{assets/Q007/prompt-01.png}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[72mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}两个结论均成立。\par\medskip
+    \solstep{第（1）问}{
+在平行四边形 $ABCD$ 中，$AD\parallel BC$，故 $\angle AEB=\angle EBC，\angle DEC=\angle BCE$。由 $CE^2=DE\cdot BC$ 得 $\dfrac{DE}{CE}=\dfrac{CE}{BC}$，所以 $\triangle DEC\sim\triangle ECB$，进而 $\angle ECF=\angle EBC$。又 $\angle AEB=\angle EBC$，故 $\angle AEB=\angle ECF$；结合平行线角关系得 $\triangle ABE\sim\triangle EFC$。
+}
+    \solstep{第（2）问}{
+由 $\angle ECF=\angle EBC$ 且 $\angle F$ 为公共角，得 $\triangle ECF\sim\triangle CBF$，所以 $\dfrac{EF}{CF}=\dfrac{CE}{BC}$。又 $AD=BC$，故 $\dfrac{EF}{CF}=\dfrac{CE}{AD}$，即 $CE\cdot CF=EF\cdot AD$。
+}
+  \end{solutionblock}
+\end{problem}
+
+\newpage
+
+% ---------- 第 8 题 (松江23) ----------
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=12]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-52mm-6mm\relax}
+    \vspace{0pt}
+    如图，在梯形 $ABCD$ 中，$AD\parallel BC,AB\perp BC$，$E$ 在 $AB$ 上，$DE$ 与 $AC$ 交于 $G$，$CE$ 平分 $\angle ACB$ 且 $DE\perp CE$。
+    （1）证明 $AE^2=AG\cdot AC$；（2）证明 $AG\cdot GC=EG\cdot ED$。
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{52mm}{}
+  \includegraphics[width=\linewidth]{\detokenize{assets/Q008/manual-prompt-1-e755d287c9f78d2c.png}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[72mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}两结论均成立。\par\medskip
+    \solstep{第（1）问}{
+$\angle AED+\angle DEC=\angle B+\angle BCE$，$\angle DEC=\angle B=90^\circ$，$\therefore \angle AED=\angle BCE$。 \\
+又 $CE$ 平分 $\angle ACB$，$\therefore \angle ACE=\angle BCE$，$\therefore \angle AED=\angle ACE$。 \\
+$\angle EAG=\angle CAE$，$\therefore \triangle AEG\sim\triangle ACE$。 \\
+$\therefore \dfrac{AE}{AC}=\dfrac{AG}{AE}$，即 $AE^2=AG\cdot AC$。
+}
+    \solstep{第（2）问}{
+$\because \triangle AEG\sim\triangle ACE$，$\therefore \dfrac{AG}{AE}=\dfrac{EG}{EC}$，即 $\dfrac{AG}{EG}=\dfrac{AE}{EC}$。 \\
+$\angle DAE=\angle CEG=90^\circ$，$\angle AED=\angle ECG$，$\therefore \triangle ADE\sim\triangle EGC$。 \\
+$\therefore \dfrac{DE}{CG}=\dfrac{AE}{CE}$，$\therefore \dfrac{AG}{EG}=\dfrac{DE}{CG}$，即 $AG\cdot GC=EG\cdot ED$。
+}
+  \end{solutionblock}
+\end{problem}
+
+\newpage
+
+% ---------- 第 9 题 (徐汇23) ----------
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=12]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-52mm-6mm\relax}
+    \vspace{0pt}
+    如图，在四边形 $ABCD$ 中，$\angle BAD=90^\circ$，$CD\perp BD$，$BD^2=AD\cdot BC$，点 $H$ 在边 $BD$ 上，且 $\angle DBC=\angle C+\angle BAH$。
+    （1）求证：$AH=AD$；（2）过点 $B$ 作射线 $BE$ 交边 $CD$ 于点 $F$，交 $AD$ 的延长线于点 $E$，若 $\angle DBE=\angle ABD$，求证：$BD\cdot DE=EF\cdot CD$。
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{52mm}{}
+  \includegraphics[width=\linewidth]{\detokenize{assets/Q009/prompt-figure.png}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[72mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}见证明。\par\medskip
+    \solstep{第（1）问}{
+$\because \angle BAD=90^\circ$，$CD\perp BD$，$\therefore \angle A=\angle CDB=90^\circ$。 \\
+$\because BD^2=AD\cdot BC$，$\therefore \dfrac{BD}{AD}=\dfrac{BC}{BD}$。 \\
+$\therefore \mathrm{Rt}\triangle ABD\sim\mathrm{Rt}\triangle DCB$。 \\
+$\therefore \angle ADB=\angle DBC$，$\angle ABD=\angle C$。 \\
+$\because \angle DBC=\angle C+\angle BAH$，$\therefore \angle ADB=\angle ABD+\angle BAH$。 \\
+$\because \angle ADB=\angle ABD+\angle BAD$，$\therefore \angle BAH=\angle BAD=90^\circ$。 \\
+$\therefore \angle AHD=90^\circ-\angle ADB$，$\angle ADH=90^\circ-\angle ADB$。 \\
+$\therefore \angle AHD=\angle ADH$，$\therefore AH=AD$。
+}
+    \solstep{第（2）问}{
+$\because \angle DBE=\angle ABD$，$\angle ABD=\angle C$，$\therefore \angle DBE=\angle C$。 \\
+$\because \angle BDF=\angle CDB=90^\circ$，$\therefore \triangle BDF\sim\triangle CDB$。 \\
+$\therefore \dfrac{BD}{CD}=\dfrac{BF}{BC}=\dfrac{DF}{BD}$。 \\
+$\because \angle BDE=90^\circ$，$\angle BDF=90^\circ$，$\therefore \angle EDF=90^\circ$。 \\
+$\because \angle EFD=\angle BFD$，$\therefore \triangle EFD\sim\triangle BFD$。 \\
+$\therefore \dfrac{EF}{BF}=\dfrac{ED}{BD}=\dfrac{DF}{FD}$。 \\
+由 $\triangle BDF\sim\triangle CDB$ 得 $\dfrac{BD}{CD}=\dfrac{DF}{BD}$，$\therefore BD^2=CD\cdot DF$。 \\
+由 $\triangle EFD\sim\triangle BFD$ 得 $\dfrac{EF}{BF}=\dfrac{ED}{BD}$，$\therefore EF\cdot BD=BF\cdot ED$。 \\
+$\because BF=BD\cdot\dfrac{BC}{BD}=BC$，$\therefore EF\cdot BD=BC\cdot ED$。 \\
+$\because \dfrac{BD}{CD}=\dfrac{BF}{BC}$，$\therefore BF=\dfrac{BD\cdot BC}{CD}$。 \\
+$\therefore EF\cdot BD=\dfrac{BD\cdot BC}{CD}\cdot ED$，即 $BD\cdot CD\cdot EF=BD\cdot BC\cdot ED$。 \\
+$\therefore CD\cdot EF=BC\cdot ED$，即 $\dfrac{EF}{ED}=\dfrac{BC}{CD}$。 \\
+$\therefore BD\cdot DE=EF\cdot CD$。
+}
+  \end{solutionblock}
+\end{problem}
+
+\newpage
+
+% ---------- 第 10 题 (杨浦23) ----------
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=12]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-52mm-6mm\relax}
+    \vspace{0pt}
+    已知：如图，在矩形 $ABCD$ 中，点 $E$ 在边 $AB$ 的延长线上，过 $A$ 作 $AF\perp CE$，垂足为点 $F$，$CF=EF$，$AF$ 与边 $BC$ 交于点 $G$，联结 $BF$。
+    （1）求证：$FB^2=FA\cdot FG$；（2）连接 $BD$ 与 $AG$ 交于点 $H$，如果 $AB=BC$，求证：$\dfrac{AH}{HG}=\dfrac{HF}{FG}$。
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{52mm}{}
+  \includegraphics[width=\linewidth]{\detokenize{assets/Q010/manual-prompt-1-a6fdaceab9e934f1.png}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[72mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}结论均成立。\par\medskip
+    \solstep{第（1）问}{
+$\because$ 四边形 $ABCD$ 是矩形，$\therefore \angle ABC=90^\circ$。 \\
+$\because AF\perp CE$，$\therefore \angle AFC=90^\circ$。 \\
+$\because CF=EF$，$\therefore BF=CF=EF$（直角三角形斜边中线等于斜边一半）。 \\
+$\therefore \angle FBC=\angle FCB$。 \\
+$\because \angle AFB=\angle AFC+\angle BFC=90^\circ+\angle FBC$，$\angle BFG=\angle BFC+\angle CFG=90^\circ+\angle FCB$。 \\
+$\therefore \angle AFB=\angle BFG$。 \\
+$\because \angle FAE=90^\circ-\angle AEF=90^\circ-\angle FCB=\angle FBC$。 \\
+$\therefore \triangle ABF\sim\triangle BGF$。 \\
+$\therefore \dfrac{FA}{FB}=\dfrac{FB}{FG}$，即 $FB^2=FA\cdot FG$。
+}
+    \solstep{第（2）问}{
+$\because AB=BC$，$\therefore$ 矩形 $ABCD$ 为正方形。 \\
+$\therefore AD\parallel BC$，$\therefore \dfrac{AH}{HG}=\dfrac{AD}{BG}$。 \\
+$\because \triangle ABF\sim\triangle BGF$，$\therefore \dfrac{AB}{BG}=\dfrac{BF}{FG}$。 \\
+$\therefore BG=\dfrac{AB\cdot FG}{BF}$。 \\
+$\therefore \dfrac{AH}{HG}=\dfrac{AD}{BG}=\dfrac{AB}{\dfrac{AB\cdot FG}{BF}}=\dfrac{BF}{FG}$。 \\
+$\because BF=CF$，$\angle BFC=\angle FBC$。 \\
+$\because \angle BFC=\angle HFG$，$\therefore \angle HFG=\angle FBC$。 \\
+$\because \angle FBC=\angle FCB=\angle HBF$，$\therefore \angle HFG=\angle HBF$。 \\
+又 $\angle FHB=\angle BHG$，$\therefore \triangle FHB\sim\triangle BHG$。 \\
+$\therefore \dfrac{HF}{HB}=\dfrac{HB}{HG}$，即 $HB^2=HF\cdot HG$。 \\
+$\because \angle HFG=\angle HBF$，$\therefore HF=HB$。 \\
+$\therefore \dfrac{AH}{HG}=\dfrac{BF}{FG}=\dfrac{HF}{FG}$。
+}
+  \end{solutionblock}
+\end{problem}
+
+\end{document}

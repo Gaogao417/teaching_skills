@@ -1,0 +1,39 @@
+meta:
+  title: 2022年上海市宝山区中考数学二模试卷第 24 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q024
+    points: 12
+    stem_latex: '已知抛物线 $y=ax^{2}+bx-2$（$a\neq0$）经过点 $A(1,0)$、$B(2,0)$，与 $y$ 轴交于点 $C$。
+
+      (1) 求抛物线的表达式；
+
+      (2) 将抛物线向左平移 $m$ 个单位（$m>2$），平移后点 $A$、$B$、$C$ 的对应点分别记作 $A_{1}$、$B_{1}$、$C_{1}$，过点 $C_{1}$ 作 $C_{1}D\perp x$ 轴，垂足为点 $D$，点 $E$ 在 $y$ 轴负半轴上，使得以 $O$、$E$、$B_{1}$ 为顶点的三角形与 $\triangle A_{1}C_{1}D$ 相似，① 求点 $E$ 的坐标（用含 $m$ 的代数式表示）；② 如果平移后的抛物线上存在点 $F$，使得四边形 $A_{1}FEB_{1}$ 为平行四边形，求 $m$ 的值。'
+    answer: (1) $y=-x^{2}+3x-2$；(2)① $E\left(0,1-\dfrac{m}{2}\right)$ 或 $E(0,4-2m)$；② $m=\dfrac{7}{2}$ 或 $m=5$
+    clue: 待定系数求解析式；按对应边成比例两种情形求 $E$；由平行四边形对角线中点相同求 $F$ 再代入。
+    solution_steps:
+    - (1) 代入 $A(1,0)$、$B(2,0)$ 得 $\begin{cases}a+b-2=0\\4a+2b-2=0\end{cases}$，解得 $a=-1$，$b=3$，$\therefore y=-x^{2}+3x-2$。
+    - (2)① 平移后 $A_{1}(1-m,0)$、$B_{1}(2-m,0)$、$C_{1}(-m,-2)$，$D(-m,0)$，$\therefore OB_{1}=m-2$，$C_{1}D=2$，$A_{1}D=1$。
+    - 设 $E(0,y)$（$y<0$），$OE=-y$。由 $\triangle OB_{1}E\sim\triangle A_{1}C_{1}D$（两种对应）。
+    - 当 $\dfrac{OE}{OB_{1}}=\dfrac{A_{1}D}{C_{1}D}=\dfrac{1}{2}$ 时，$\dfrac{-y}{m-2}=\dfrac{1}{2}$，$E\left(0,1-\dfrac{m}{2}\right)$。
+    - 当 $\dfrac{OE}{OB_{1}}=\dfrac{C_{1}D}{A_{1}D}=2$ 时，$\dfrac{-y}{m-2}=2$，$E(0,4-2m)$。
+    - ② 四边形 $A_{1}FEB_{1}$ 为平行四边形，对角线 $A_{1}B_{1}$ 与 $FE$ 互相平分，可推得 $F$ 的横坐标 $x=-1$。
+    - 当 $E\left(0,1-\dfrac{m}{2}\right)$ 时，代入平移后抛物线 $y=-\left(x-\dfrac{3}{2}+m\right)^{2}+\dfrac{1}{4}$（$x=-1$）得 $m=\dfrac{7}{2}$（$m=2$ 舍）。
+    - 当 $E(0,4-2m)$ 时，同理得 $m=5$（$m=2$ 舍）。
+    source_solution_images: []

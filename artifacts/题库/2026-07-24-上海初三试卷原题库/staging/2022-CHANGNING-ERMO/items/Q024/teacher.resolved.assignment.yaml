@@ -1,0 +1,37 @@
+meta:
+  title: 2022年上海市长宁区初三二模数学试卷第 24 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q024
+    points: 12
+    stem_latex: '如图8，菱形 $ABCD$ 的顶点 $A$、$B$ 分别在 $x$ 轴、$y$ 轴的正半轴上，点 $D(4,1)$，抛物线 $y=\dfrac{5}{6}x^{2}+bx+c$ 经过 $A$、$B$、$D$，对称轴为 $x=\dfrac{23}{10}$。
+
+      (1) 求抛物线的表达式；
+
+      (2) 求证：菱形 $ABCD$ 是正方形；
+
+      (3) 联结 $OC$，$P$ 是 $x$ 轴上一点且横坐标大于点 $D$ 的横坐标，$\angle PCD=\angle BCO$，求点 $P$ 的坐标。'
+    answer: (1) $y=\dfrac{5}{6}x^{2}-\dfrac{23}{6}x+3$；(2) 见证明；(3) $P\left(\dfrac{25}{3},0\right)$
+    clue: 待定系数；由 $AB=AD$ 求 $A$；相似求 $P$。
+    solution_steps:
+    - (1) 由对称轴 $-\dfrac{b}{2\times\frac{5}{6}}=\dfrac{23}{10}$ 得 $b=-\dfrac{23}{6}$；代入 $D(4,1)$ 得 $c=3$，$\therefore y=\dfrac{5}{6}x^{2}-\dfrac{23}{6}x+3$。
+    - (2) $B(0,3)$，设 $A(x,0)$，由 $AB=AD$ 得 $x^{2}+9=(x-4)^{2}+1$，$x=1$，$A(1,0)$。作 $DH\perp x$ 轴，证 $\mathrm{Rt}\triangle AOB\cong\mathrm{Rt}\triangle DHA$，$\angle BAD=90^{\circ}$，$\therefore$ 菱形 $ABCD$ 是正方形。
+    - (3) $C(3,4)$。由 $\angle PCD=\angle BCO$ 得 $\angle PCO=90^{\circ}$，$\triangle POC\sim\triangle OCE$（$CE\perp y$ 轴，$CE=3$，$OC=5$）。
+    - $\dfrac{OP}{OC}=\dfrac{OC}{CE}=\dfrac{5}{3}$，$OP=\dfrac{25}{3}$，$\therefore P\left(\dfrac{25}{3},0\right)$。
+    source_solution_images: []

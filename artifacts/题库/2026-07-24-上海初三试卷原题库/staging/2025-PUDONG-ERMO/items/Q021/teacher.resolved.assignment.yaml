@@ -1,0 +1,34 @@
+meta:
+  title: 2025年上海市浦东新区中考二模数学试卷第 21 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q021
+    points: 10
+    stem_latex: '双曲线 $y=\dfrac{k}{x}$ 与直线 $y=3x-1$ 都经过 $A(2,m)$。
+
+      (1) 求 $m$、$k$；
+
+      (2) 过 $B(0,n)$（$n>0$）作 $x$ 轴平行线交双曲线于 $C$、交直线于 $D$，$AC=AD$ 时求 $CD$。'
+    solution_steps:
+    - (1) $m=3\times2-1=5$，$k=2\times5=10$。
+    - (2) $C(\frac{10}{n},n)$，$D(\frac{n+1}{3},n)$，$AC=AD$ 得 $n=6$。
+    - $CD=|\frac{7}{3}-\frac{5}{3}|=\frac{2}{3}$。
+    clue: 反比例+一次函数+垂直平分线。
+    answer: (1) $m=5$，$k=10$；(2) $CD=\dfrac{2}{3}$
+    source_solution_images: []

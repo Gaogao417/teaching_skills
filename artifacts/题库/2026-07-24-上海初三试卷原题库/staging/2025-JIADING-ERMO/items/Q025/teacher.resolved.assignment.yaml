@@ -1,0 +1,43 @@
+meta:
+  title: 2025年上海市嘉定区中考二模数学试卷第 25 题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: '$\triangle ABC$ 为 $\odot O$ 的内接等腰三角形（$AB=AC$）。$BO$ 延长交 $AC$ 于 $D$、交 $\odot O$ 于 $E$，$BF\perp AC$ 于 $F$。
+
+      (1) $\angle CBF=20^{\circ}$，求 $\angle DBF$；
+
+      (2) 连 $OC$，$\sin\angle ACB=x$，$\dfrac{S_{\triangle ABF}}{S_{\triangle OBC}}=y$，求 $y$ 关于 $x$ 的解析式；
+
+      (3) $D$ 是 $OE$ 的黄金分割点，求 $\cos\angle BAC$。'
+    solution_steps:
+    - (1) $\angle C=70^{\circ}$，$\angle BAC=40^{\circ}$，$\angle ABO=20^{\circ}$。
+    - $\angle DBF=70-20-20=30^{\circ}$。
+    - (2) $\triangle AFB\sim\triangle OHB$，$y=2x^2$。
+    - (3) $\frac{OD}{DE}=\frac{\sqrt{5}-1}{2}$ 或 $\frac{DE}{OD}=\frac{\sqrt{5}-1}{2}$。
+    - $\cos\angle BAC=\frac{\sqrt{5}\pm1}{4}$。
+    clue: 圆内接等腰三角形+垂径定理+相似三角形+黄金分割。
+    answer: (1) $30^{\circ}$；(2) $y=2x^2$；(3) $\cos\angle BAC=\dfrac{\sqrt{5}\pm1}{4}$
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 120mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

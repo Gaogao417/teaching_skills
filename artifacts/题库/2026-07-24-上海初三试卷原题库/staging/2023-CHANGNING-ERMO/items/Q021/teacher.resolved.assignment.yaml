@@ -1,0 +1,29 @@
+meta:
+  title: 2023年上海市长宁区中考二模数学试卷第 21 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q021
+    points: 10
+    stem_latex: 已知点 $A(-2, m)$ 在双曲线 $y = -\dfrac{4}{x}$ 上，将点 $A$ 向右平移 $5$ 个单位得到点 $B$。（1）当点 $B$ 在直线 $y = -2x + b$ 上时，求直线 $y = -2x + b$ 的表达式；（2）当线段 $AB$ 被直线 $y = -2x + b$ 分成两部分，且这两部分长度的比为 $3:2$ 时，求 $b$ 的值．
+    answer: (1) $y=-2x+8$；(2) $b=2$ 或 $b=4$
+    clue: (1) 由双曲线求 $A$，平移求 $B$，代入直线求 $b$；(2) 按 $3:2$ 定分点坐标。
+    solution_steps:
+    - (1) $m=-\dfrac{4}{-2}=2$，$A(-2,2)$；$B(3,2)$，代入 $2=-2\times3+b$ 得 $b=8$，直线 $y=-2x+8$。
+    - (2) $AB=5$，分点为 $C(0,2)$ 或 $D(1,2)$，代入直线得 $b=2$ 或 $b=4$。
+    source_solution_images: []

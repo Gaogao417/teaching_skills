@@ -1,0 +1,36 @@
+meta:
+  title: 2025年上海市宝山区中考二模数学试卷第 25 题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: 如图，梯形$ABCD$，$AD \parallel BC$，$\angle C = 45\degree$，以$A$为圆心$AB$为半径画弧，与$BC$、$CD$分别交于$E$、$F$，$\angle BAF = 90\degree$。（1）$CF = 4$，$DF = 2$，求$AB$；（2）求$\frac{AD}{CE}$；（3）$E$是弧$BF$中点，求$\frac{DF}{FC}$。
+    solution_steps:
+    - (1) 过A、D作$AG\perp BC$、$DH\perp BC$，过F作$FP\perp AD$
+    - $\angle BAF=90\degree$，$\triangle ABG\cong\triangle APF$(AAS)
+    - $FP=DF\sin45\degree=\sqrt{2}$，$DH=3\sqrt{2}$
+    - $AB=\sqrt{(3\sqrt{2})^2+(\sqrt{2})^2}=2\sqrt{5}$
+    - (2) 设$AG=a$，$BG=b$，$AD=a-b$
+    - $CH=DH=a$，$BC=2a$，$BE=2b$，$CE=2a-2b$
+    - $\frac{AD}{CE}=\frac{a-b}{2a-2b}=\frac{1}{2}$
+    - (3) $BE=EF$，$EF=FC$
+    - $2b=\sqrt{2}(a-b)$，$\frac{DF}{FC}=\frac{\sqrt{2}}{2}$
+    clue: 梯形中弧与圆综合：全等三角形、勾股定理、弧中点。
+    answer: (1) $AB=2\sqrt{5}$; (2) $\dfrac{1}{2}$; (3) $\dfrac{\sqrt{2}}{2}$
+    source_solution_images: []

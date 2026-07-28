@@ -1,0 +1,33 @@
+meta:
+  title: 2025年上海市黄浦区中考二模数学试卷第 15 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q015
+    points: 4
+    stem_latex: $AB$ 是 $\odot O$ 的直径，$AB \perp CD$ 于 $H$。如果 $AH=CD=8$，那么 $AO$ 的长为______
+    answer: '5'
+    clue: $CH=4$，$AO^2=16+(8-AO)^2$，$AO=5$。
+    solution_steps:
+    - $CH=4$，设 $AO=x$，$x^2=16+(8-x)^2$，$x=5$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 70mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

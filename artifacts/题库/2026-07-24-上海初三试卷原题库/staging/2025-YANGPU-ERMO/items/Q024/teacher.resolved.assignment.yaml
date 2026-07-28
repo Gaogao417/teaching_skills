@@ -1,0 +1,41 @@
+meta:
+  title: 2025年上海市杨浦区中考二模数学试卷第 24 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q024
+    points: 12
+    stem_latex: '抛物线 $y=ax^2-2ax-3a$（$a>0$）与 $x$ 轴交于 $A$（左）、$B$，顶点 $D$，$CE\parallel x$ 轴。
+
+      (1) 求 $A$、$B$ 坐标及对称轴；
+
+      (2) $AE$ 平分 $\angle BAC$，求 $a$；
+
+      (3) $S_{\triangle AFD}=S_{\triangle PFE}$ 时，$PD$ 是否过定点？'
+    solution_steps:
+    - (1) $A(-1,0)$，$B(3,0)$，对称轴 $x=1$。
+    - (2) $AC=CE$，$1+9a^2=4$，$a=\frac{\sqrt{3}}{3}$。
+    - (3) $DE\parallel AP$，$P(4,5a)$，$PD$ 过定点 $(\frac{7}{3},0)$。
+    clue: 二次函数+角平分线+面积+定点。
+    answer: (1) $A(-1,0)$，$B(3,0)$，$x=1$；(2) $a=\dfrac{\sqrt{3}}{3}$；(3) 过定点 $(\dfrac{7}{3},0)$
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 60mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

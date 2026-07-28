@@ -1,0 +1,33 @@
+meta:
+  title: 2025年上海市徐汇区中考二模数学试卷第 23 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q023
+    points: 12
+    stem_latex: '正方形 $ABCD$，$E$ 在 $AD$ 上、$F$ 在 $AB$ 上，$EF\parallel BD$，$G$ 在 $CB$ 延长线上 $BG=BC$。
+
+      (1) 求证：$GF=CE$；
+
+      (2) $GF$ 延长交 $CE$ 于 $H$，连 $BH$，求证：$2BH^2=GH\cdot GF$。'
+    solution_steps:
+    - (1) $BF=DE$，$\triangle FBG\cong\triangle EDC$（SAS）。
+    - (2) $\angle GHC=90^{\circ}$，$BH=BG$，$\triangle GBF\sim\triangle GHC$，$2BH^2=GH\cdot GF$。
+    clue: 正方形+全等+相似+直角三角形斜边中线。
+    answer: 证明见详解
+    source_solution_images: []

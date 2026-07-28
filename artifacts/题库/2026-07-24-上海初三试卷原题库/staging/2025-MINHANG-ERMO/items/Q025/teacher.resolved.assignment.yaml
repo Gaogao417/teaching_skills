@@ -1,0 +1,42 @@
+meta:
+  title: 2025年上海市闵行区中考二模数学试卷第 25 题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: '$\odot O$ 中直径 $AB=4\sqrt{5}$，弦 $BC=8$，$D$ 在弧 $BC$ 上，$OD$ 的垂线交 $AB$ 于 $E$。
+
+      (1) 求 $\tan\angle CBO$；
+
+      (2) $\triangle BOD\sim\triangle BDE$ 时求 $BD$；
+
+      (3) 以 $E$ 为圆心 $ED$ 为半径作 $\odot E$，探究 $\odot E$ 与 $\odot O$ 的位置关系。'
+    solution_steps:
+    - (1) $AC=4$，$\tan\angle CBO=\frac{AC}{BC}=\frac{1}{2}$。
+    - (2) 分类讨论，$BD=5\pm\sqrt{5}$。
+    - (3) 内切时 $BD=3$，$OD\perp OB$ 时 $BD=5$。
+    - $0<BD<3$：内含；$BD=3$：内切；$3<BD<5$ 或 $5<BD\leq8$：相交。
+    clue: 圆的综合+相似三角形+两圆位置关系。
+    answer: (1) $\dfrac{1}{2}$；(2) $BD=5\pm\sqrt{5}$；(3) $0<BD<3$ 内含，$BD=3$ 内切，$3<BD<5$ 或 $5<BD\leq8$ 相交
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 100mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

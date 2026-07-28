@@ -1,0 +1,31 @@
+meta:
+  title: 2025年上海市崇明区中考二模数学试卷第 20 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q020
+    points: 10
+    stem_latex: 解方程：$\dfrac{2x}{x^{2}-1}-\dfrac{1}{x+1}=1$
+    solution_steps:
+    - 去分母（乘 $x^2-1$）：$2x-(x-1)=x^2-1$。
+    - 整理：$x^2-x-2=0$，$(x-2)(x+1)=0$。
+    - $x_1=2$，$x_2=-1$。
+    - 检验：$x=-1$ 使分母为零，舍去。$\therefore x=2$。
+    clue: 分式方程去分母后解一元二次方程，必须检验增根。
+    answer: $x=2$
+    source_solution_images: []
