@@ -1,0 +1,128 @@
+$defs:
+  AssemblyError:
+    additionalProperties: false
+    properties:
+      code:
+        minLength: 1
+        title: Code
+        type: string
+      detail:
+        minLength: 1
+        title: Detail
+        type: string
+      question_ref:
+        anyOf:
+        - type: string
+        - type: 'null'
+        default: null
+        title: Question Ref
+      attribution_id:
+        anyOf:
+        - type: string
+        - type: 'null'
+        default: null
+        title: Attribution Id
+      asset_id:
+        anyOf:
+        - type: string
+        - type: 'null'
+        default: null
+        title: Asset Id
+    required:
+    - code
+    - detail
+    title: AssemblyError
+    type: object
+  AssemblyWarning:
+    additionalProperties: false
+    properties:
+      code:
+        minLength: 1
+        title: Code
+        type: string
+      attribution_id:
+        anyOf:
+        - minLength: 1
+          type: string
+        - type: 'null'
+        default: null
+        title: Attribution Id
+      asset_id:
+        anyOf:
+        - minLength: 1
+          type: string
+        - type: 'null'
+        default: null
+        title: Asset Id
+      detail:
+        anyOf:
+        - type: string
+        - type: 'null'
+        default: null
+        title: Detail
+    required:
+    - code
+    title: AssemblyWarning
+    type: object
+additionalProperties: false
+description: 'Schema ``math_draft_assembly_report/v1``.
+
+
+  Not a review gate: ``errors`` non-empty means the assembler refused to write
+
+  the draft; ``warnings`` ride along into the existing human review.'
+properties:
+  schema:
+    const: math_draft_assembly_report/v1
+    title: Schema
+    type: string
+  paper_id:
+    minLength: 1
+    title: Paper Id
+    type: string
+  draft_path:
+    anyOf:
+    - type: string
+    - type: 'null'
+    default: null
+    title: Draft Path
+  question_count:
+    minimum: 0
+    title: Question Count
+    type: integer
+  accepted_attributions:
+    minimum: 0
+    title: Accepted Attributions
+    type: integer
+  consumed_attributions:
+    minimum: 0
+    title: Consumed Attributions
+    type: integer
+  ignored_assets:
+    minimum: 0
+    title: Ignored Assets
+    type: integer
+  unresolved_assets:
+    minimum: 0
+    title: Unresolved Assets
+    type: integer
+  errors:
+    items:
+      $ref: '#/$defs/AssemblyError'
+    title: Errors
+    type: array
+  warnings:
+    items:
+      $ref: '#/$defs/AssemblyWarning'
+    title: Warnings
+    type: array
+required:
+- schema
+- paper_id
+- question_count
+- accepted_attributions
+- consumed_attributions
+- ignored_assets
+- unresolved_assets
+title: AssemblyReport
+type: object

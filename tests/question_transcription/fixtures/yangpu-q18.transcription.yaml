@@ -1,0 +1,53 @@
+# Frozen golden fixture for the DraftAssembler (Track 1) and the Yangpu Q18
+# regression (§12 test 8). Hand-written standard bundle, independent of any
+# provider. Solution steps are transcribed verbatim from the 2025 Yangpu Q18
+# official solution; image10.png is attributed to the solution (image9.png to
+# the prompt).
+schema: math_question_transcription/v1
+paper:
+  id: 2025-YANGPU-ERMO
+  title: 2025年上海市杨浦区初三数学二模试卷
+  grade: 九年级
+  subject: 数学
+  source_archive: documents/初三/2025届-上海市杨浦区-初三二模数学-试卷及解析
+  question_bank: ../../question-bank.yaml
+
+sections:
+  - section_ref: fillin
+    title: 二、填空题
+    questions:
+      - question_ref: "18"
+        question_number: 18
+        question_type: short_answer
+        points: 4
+        content:
+          stem_latex: >-
+            如图，在$\triangle ABC$中，$\angle C=90^\circ$，$AC=6$，$BC=4$，以$A$为圆心、$2$为半径作圆，
+            点$D$是圆$A$上一点，联结$CD$，点$E$是$CD$的中点，联结$BE$，那么$BE$长度的取值范围是
+            $\underline{\quad\quad}$。
+          answer: $4\leqslant BE\leqslant 6$
+          clue: 取$AC$的中点$F$并使用三角形中位线，再由勾股定理求出$BF$。
+          solution_steps:
+            - 取$AC$的中点$F$，连接$EF$。
+            - 因为$E,F$分别为$DC,AC$的中点，所以$EF$为$\triangle ADC$的中位线。
+            - 因此$EF=\dfrac12 AD=1$。
+            - 点$E$在以$F$为圆心、$1$为半径的圆上运动。
+            - 由勾股定理得$BF=\sqrt{BC^2+CF^2}=\sqrt{4^2+3^2}=5$。
+            - 所以$4\leqslant BE\leqslant 6$。
+          solution_notes: []
+        evidence:
+          question:
+            - kind: page
+              source: documents/初三/2025届-上海市杨浦区-初三二模数学-试卷及解析/word/pages/013.png
+              page_number: 13
+          solution:
+            - kind: page
+              source: documents/初三/2025届-上海市杨浦区-初三二模数学-试卷及解析/word/pages/014.png
+              page_number: 14
+          solution_start_anchor: 【解答】解：取AC的中点F
+          solution_end_anchor: 19．
+
+provider:
+  kind: agent
+  name: codex
+  version: workflow-v1

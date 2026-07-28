@@ -1,0 +1,50 @@
+# Frozen PDF/scanned fixture using region evidence (kind: region + box_px) for
+# both question and solution. Mirrors the PDF-draft shape (question_evidence +
+# official_solution.crops) rather than the DOCX page shape. Used by Track 3 and
+# the DOCX-vs-PDF equivalence check in P4.
+schema: math_question_transcription/v1
+paper:
+  id: 2024-FENGXIAN-ERMO
+  title: 2024年上海市奉贤区初三数学二模试卷
+  grade: 九年级
+  subject: 数学
+  source_archive: documents/初三/2024届-上海市奉贤区-初三二模数学-试卷及参考答案
+  question_bank: ../../question-bank.yaml
+
+sections:
+  - section_ref: problem
+    title: 三、解答题
+    questions:
+      - question_ref: "24"
+        question_number: 24
+        question_type: problem
+        points: 12
+        content:
+          stem_latex: >-
+            如图，在平面直角坐标系$xOy$中，已知抛物线$y=ax^2+bx+c$经过点$A$、$B$、$C$，
+            其中$A(-1,0)$、$B(3,0)$、$C(0,3)$。求这条抛物线的表达式。
+          answer: $y=-x^2+2x+3$
+          clue: 用待定系数法，由两根式设$y=a(x+1)(x-3)$再代入$C(0,3)$。
+          solution_steps:
+            - 设$y=a(x+1)(x-3)$，其中$a\neq 0$。
+            - 代入$C(0,3)$得$3=a\cdot 1\cdot(-3)$，故$a=-1$。
+            - 所以$y=-(x+1)(x-3)=-x^2+2x+3$。
+          solution_notes: []
+        evidence:
+          question:
+            - kind: region
+              source: documents/初三/2024届-上海市奉贤区-初三二模数学-试卷及参考答案/pages/004.png
+              page_number: 4
+              box_px: [80, 210, 1010, 860]
+          solution:
+            - kind: region
+              source: documents/初三/2024届-上海市奉贤区-初三二模数学-试卷及参考答案/pages/008.png
+              page_number: 8
+              box_px: [80, 120, 1010, 700]
+          solution_start_anchor: 24．
+          solution_end_anchor: 25．
+
+provider:
+  kind: vision_api
+  name: gpt-vision
+  version: prompt-v1

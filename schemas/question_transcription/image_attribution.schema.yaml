@@ -1,0 +1,215 @@
+$defs:
+  Attribution:
+    additionalProperties: false
+    description: One image-to-question attribution, at question granularity (not step).
+    properties:
+      attribution_id:
+        minLength: 1
+        title: Attribution Id
+        type: string
+      asset_id:
+        minLength: 1
+        title: Asset Id
+        type: string
+      question_ref:
+        pattern: ^\d{1,3}(-[A-Za-z0-9]+)?$
+        title: Question Ref
+        type: string
+      role:
+        enum:
+        - prompt
+        - solution
+        title: Role
+        type: string
+      crop:
+        anyOf:
+        - $ref: '#/$defs/FullCrop'
+        - $ref: '#/$defs/RegionCrop'
+        title: Crop
+      order:
+        minimum: 0
+        title: Order
+        type: integer
+      confidence:
+        enum:
+        - high
+        - medium
+        - low
+        title: Confidence
+        type: string
+      state:
+        enum:
+        - accepted
+        - needs_review
+        - rejected
+        title: State
+        type: string
+      provider:
+        $ref: '#/$defs/AttributionProvider'
+    required:
+    - attribution_id
+    - asset_id
+    - question_ref
+    - role
+    - crop
+    - order
+    - confidence
+    - state
+    - provider
+    title: Attribution
+    type: object
+  AttributionAsset:
+    additionalProperties: false
+    description: A single image asset and its disposition (whether it belongs to a paper).
+    properties:
+      asset_id:
+        minLength: 1
+        title: Asset Id
+        type: string
+      source:
+        minLength: 1
+        title: Source
+        type: string
+      sha256:
+        pattern: ^sha256:[0-9a-f]{64}$
+        title: Sha256
+        type: string
+      media_type:
+        minLength: 1
+        title: Media Type
+        type: string
+      width_px:
+        minimum: 1
+        title: Width Px
+        type: integer
+      height_px:
+        minimum: 1
+        title: Height Px
+        type: integer
+      disposition:
+        enum:
+        - attributed
+        - ignored
+        - needs_review
+        title: Disposition
+        type: string
+      disposition_reason:
+        anyOf:
+        - type: string
+        - type: 'null'
+        default: null
+        title: Disposition Reason
+    required:
+    - asset_id
+    - source
+    - sha256
+    - media_type
+    - width_px
+    - height_px
+    - disposition
+    title: AttributionAsset
+    type: object
+  AttributionProvider:
+    additionalProperties: false
+    description: Provider for an attribution. Carries optional structural evidence.
+    properties:
+      kind:
+        enum:
+        - agent
+        - vision_api
+        - ocr
+        - docx_structure
+        - detection_model
+        - manual
+        title: Kind
+        type: string
+      name:
+        minLength: 1
+        title: Name
+        type: string
+      version:
+        minLength: 1
+        title: Version
+        type: string
+      evidence:
+        additionalProperties: true
+        title: Evidence
+        type: object
+    required:
+    - kind
+    - name
+    - version
+    title: AttributionProvider
+    type: object
+  FullCrop:
+    additionalProperties: false
+    description: Use the whole asset. Assembler expands to ``[0, 0, width, height]``.
+    properties:
+      kind:
+        const: full
+        title: Kind
+        type: string
+    required:
+    - kind
+    title: FullCrop
+    type: object
+  RegionCrop:
+    additionalProperties: false
+    description: A bounded region of the asset. Copied verbatim into the draft.
+    properties:
+      kind:
+        const: region
+        title: Kind
+        type: string
+      box_px:
+        items:
+          type: integer
+        maxItems: 4
+        minItems: 4
+        title: Box Px
+        type: array
+      whiteout_px:
+        items:
+          items:
+            type: integer
+          type: array
+        title: Whiteout Px
+        type: array
+    required:
+    - kind
+    - box_px
+    title: RegionCrop
+    type: object
+additionalProperties: false
+description: 'Schema ``math_image_attribution/v1``.
+
+
+  All image assets for a paper plus the accepted/needs_review attributions.
+
+  The assembler consumes only ``state == "accepted"`` attributions, exactly
+
+  once each. ``disposition == "ignored"`` assets are not consumed.'
+properties:
+  schema:
+    const: math_image_attribution/v1
+    title: Schema
+    type: string
+  paper_id:
+    minLength: 1
+    title: Paper Id
+    type: string
+  assets:
+    items:
+      $ref: '#/$defs/AttributionAsset'
+    title: Assets
+    type: array
+  attributions:
+    items:
+      $ref: '#/$defs/Attribution'
+    title: Attributions
+    type: array
+required:
+- schema
+- paper_id
+title: ImageAttributionBundle
+type: object

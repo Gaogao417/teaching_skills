@@ -1,0 +1,57 @@
+# Frozen PDF region-evidence attribution for the parabola figure (prompt) of
+# the PDF fixture above. Demonstrates crop: region + box_px being carried
+# verbatim into the draft (§12 test 7). One needs_review attribution exercises
+# the warn-but-don't-block path (§12 test 4).
+schema: math_image_attribution/v1
+paper_id: 2024-FENGXIAN-ERMO
+
+assets:
+  - asset_id: page-004
+    source: documents/初三/2024届-上海市奉贤区-初三二模数学-试卷及参考答案/pages/004.png
+    sha256: sha256:1111111111111111111111111111111111111111111111111111111111111111
+    media_type: image/png
+    width_px: 1240
+    height_px: 1754
+    disposition: attributed
+
+  - asset_id: page-008
+    source: documents/初三/2024届-上海市奉贤区-初三二模数学-试卷及参考答案/pages/008.png
+    sha256: sha256:2222222222222222222222222222222222222222222222222222222222222222
+    media_type: image/png
+    width_px: 1240
+    height_px: 1754
+    disposition: needs_review
+    disposition_reason: cannot_decide_which_question
+
+attributions:
+  - attribution_id: attr-page-004-q24-prompt
+    asset_id: page-004
+    question_ref: "24"
+    role: prompt
+    crop:
+      kind: region
+      box_px: [650, 315, 1000, 690]
+      whiteout_px: []
+    order: 0
+    confidence: medium
+    state: accepted
+    provider:
+      kind: agent
+      name: visual-attributor
+      version: prompt-v3
+
+  - attribution_id: attr-page-008-q24-solution
+    asset_id: page-008
+    question_ref: "24"
+    role: solution
+    crop:
+      kind: region
+      box_px: [120, 120, 1100, 1200]
+      whiteout_px: []
+    order: 0
+    confidence: low
+    state: needs_review
+    provider:
+      kind: agent
+      name: visual-attributor
+      version: prompt-v3

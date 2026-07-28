@@ -1,0 +1,68 @@
+# Frozen golden image-attribution bundle for Yangpu Q18. image9.png -> prompt,
+# image10.png -> solution (paragraph_index 189 / 192 in word-source.yaml). Both
+# are crop: full -> the assembler expands them to [0,0,w,h] using the asset dims.
+# The asset sha256/dims are copied verbatim from the Yangpu word-source.yaml
+# media block so materialize can resolve real hashes.
+schema: math_image_attribution/v1
+paper_id: 2025-YANGPU-ERMO
+
+assets:
+  - asset_id: word-image-9
+    source: documents/初三/2025届-上海市杨浦区-初三二模数学-试卷及解析/word/media/image9.png
+    sha256: sha256:a253f607a88f5bd4c45699ec3726fcbc4a1ab40d8b7cc73a034f15b28d47e43e
+    media_type: image/png
+    width_px: 475
+    height_px: 512
+    disposition: attributed
+
+  - asset_id: word-image-10
+    source: documents/初三/2025届-上海市杨浦区-初三二模数学-试卷及解析/word/media/image10.png
+    sha256: sha256:a8ab37956d590aed00614b91afb07e24432bb816c4aff238c90dee385ac672af
+    media_type: image/png
+    width_px: 510
+    height_px: 512
+    disposition: attributed
+
+  # A deliberately ignored asset (section decoration) that must NOT enter the
+  # draft. Exercises §6.4 ignored disposition (§12 test 2).
+  - asset_id: word-image-1
+    source: documents/初三/2025届-上海市杨浦区-初三二模数学-试卷及解析/word/media/image1.png
+    sha256: sha256:0000000000000000000000000000000000000000000000000000000000000000
+    media_type: image/png
+    width_px: 320
+    height_px: 80
+    disposition: ignored
+    disposition_reason: section_decoration
+
+attributions:
+  - attribution_id: attr-word-image-9-q18-prompt
+    asset_id: word-image-9
+    question_ref: "18"
+    role: prompt
+    crop:
+      kind: full
+    order: 0
+    confidence: high
+    state: accepted
+    provider:
+      kind: docx_structure
+      name: extract_docx_source
+      version: v1
+      evidence:
+        paragraph_index: 189
+
+  - attribution_id: attr-word-image-10-q18-solution
+    asset_id: word-image-10
+    question_ref: "18"
+    role: solution
+    crop:
+      kind: full
+    order: 0
+    confidence: high
+    state: accepted
+    provider:
+      kind: docx_structure
+      name: extract_docx_source
+      version: v1
+      evidence:
+        paragraph_index: 192
