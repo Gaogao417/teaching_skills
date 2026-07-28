@@ -1,0 +1,29 @@
+meta:
+  title: 2025年上海市静安区中考二模数学试卷第 17 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q017
+    points: 4
+    stem_latex: 同时掷红绿两枚骰子（$1\sim6$），红为 $m$，绿为 $n$，方程 $x^2+mx+n=0$ 有两个相等实数根的概率是______
+    answer: $\dfrac{1}{18}$
+    clue: $\Delta=m^2-4n=0$ 即 $m^2=4n$，共 $(2,1)$ 和 $(4,4)$ 两种。
+    solution_steps:
+    - $m^2=4n$：$(m,n)=(2,1),(4,4)$，共2种。
+    - $P=\dfrac{2}{36}=\dfrac{1}{18}$。
+    source_solution_images: []

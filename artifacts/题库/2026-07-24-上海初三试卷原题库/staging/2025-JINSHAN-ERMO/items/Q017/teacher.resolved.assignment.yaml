@@ -1,0 +1,33 @@
+meta:
+  title: 2025年上海市金山区中考二模数学试卷第 17 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q017
+    points: 4
+    stem_latex: 测塔高，仰角 $\alpha$ 和 $\beta$（$\beta>\alpha>0$），前进 $m$ 米。塔高为______米
+    answer: $\dfrac{m}{\cot\alpha-\cot\beta}$
+    clue: $AC=x\cot\alpha$，$BC=x\cot\beta$，$AB=AC-BC=m$。
+    solution_steps:
+    - $x\cot\alpha-x\cot\beta=m$，$x=\frac{m}{\cot\alpha-\cot\beta}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 90mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

@@ -1,0 +1,41 @@
+meta:
+  title: 2025年上海市静安区中考二模数学试卷第 24 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q024
+    points: 12
+    stem_latex: '抛物线 $y_1=4ax^2+8ax+m$，$y_2=ax^2-4ax+n$（$a>0$），顶点分别为 $A$、$B$，都经过 $y$ 轴上点 $C$。
+
+      (1) $y_1$ 过 $(-2,2)$，$y_2$ 过 $(3,-1)$，求两抛物线表达式；
+
+      (2) $\angle OCB=45^{\circ}$，求 $a$；
+
+      (3) $\angle ACB=90^{\circ}$ 时，能否确定 $a$、$m$、$n$？'
+    solution_steps:
+    - (1) $m=n=2$，$a=1$，$y_1=4x^2+8x+2$，$y_2=x^2-4x+2$。
+    - (2) $B(2,n-4a)$，$C(0,n)$，等腰直角 $\triangle BCD$，$4a=2$，$a=\frac{1}{2}$。
+    - (3) $A(-1,m-4a)$，$AB\perp y$ 轴，$\triangle ADC\sim\triangle CDB$，$(4a)^2=1\times2$，$a=\frac{\sqrt{2}}{4}$，$m$、$n$ 不能确定。
+    clue: 双抛物线+等腰直角三角形+相似三角形。
+    answer: (1) $y_1=4x^2+8x+2$，$y_2=x^2-4x+2$；(2) $a=\dfrac{1}{2}$；(3) $a=\dfrac{\sqrt{2}}{4}$，$m$、$n$ 不能确定
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 50mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

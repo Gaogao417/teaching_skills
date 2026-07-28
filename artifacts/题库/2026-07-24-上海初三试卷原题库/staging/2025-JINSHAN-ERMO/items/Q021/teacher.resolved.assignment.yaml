@@ -1,0 +1,39 @@
+meta:
+  title: 2025年上海市金山区中考二模数学试卷第 21 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q021
+    points: 10
+    stem_latex: '$\triangle ABC$ 中 $BC=6$，$AC=4$，$\angle C=60^{\circ}$。
+
+      (1) 尺规作图在 $AB$ 上作点 $D$ 使 $DB=DC$；
+
+      (2) 求 $AD$ 的长。'
+    solution_steps:
+    - (1) 作 $BC$ 垂直平分线交 $AB$ 于 $D$。
+    - (2) $AH=2\sqrt{3}$，$CH=2$，$BH=4$，$AB=2\sqrt{7}$。
+    - $\triangle BDG\sim\triangle BAH$，$BD=\frac{3\sqrt{7}}{2}$，$AD=\frac{\sqrt{7}}{2}$。
+    clue: 尺规作图+解直角三角形+相似三角形。
+    answer: (1) 见详解；(2) $AD=\dfrac{\sqrt{7}}{2}$
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 80mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

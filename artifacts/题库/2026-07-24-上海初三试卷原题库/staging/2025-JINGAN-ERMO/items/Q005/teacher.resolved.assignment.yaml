@@ -1,0 +1,36 @@
+meta:
+  title: 2025年上海市静安区中考二模数学试卷第 5 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q005
+    points: 4
+    stem_latex: 甲、乙两家酒店月盈利折线统计图。下列说法不正确的是（\quad）
+    choices:
+    - 甲酒店每月盈利呈增长趋势
+    - 乙酒店可能很快超过甲酒店
+    - 甲酒店月盈利平均数大于乙酒店
+    - 甲酒店月盈利方差小于乙酒店
+    answer: D
+    clue: 甲酒店方差 $\frac{5}{3}$ > 乙酒店方差 $\frac{8}{9}$，D 说反了。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 110mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

@@ -1,0 +1,29 @@
+meta:
+  title: 2025年上海市静安区中考二模数学试卷第 20 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q020
+    points: 10
+    stem_latex: 先化简，再求值：$\left(\dfrac{x+1}{x} - 1\right) \div \dfrac{x^2-1}{x^2-x}$，其中 $x = \sqrt{3} + 1$
+    solution_steps:
+    - 原式 $=\frac{1}{x}\cdot\frac{x(x-1)}{(x+1)(x-1)}=\frac{1}{x+1}$。
+    - 代入 $x=\sqrt{3}+1$：$\frac{1}{\sqrt{3}+2}=2-\sqrt{3}$。
+    clue: 分式化简+分母有理化。
+    answer: $\dfrac{1}{x+1}$，$2-\sqrt{3}$
+    source_solution_images: []

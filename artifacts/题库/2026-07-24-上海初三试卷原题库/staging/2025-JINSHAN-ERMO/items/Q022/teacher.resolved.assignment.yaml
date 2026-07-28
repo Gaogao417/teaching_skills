@@ -1,0 +1,45 @@
+meta:
+  title: 2025年上海市金山区中考二模数学试卷第 22 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q022
+    points: 10
+    stem_latex: '飞行汽车建模：抛物线 $y=ax^2+2x$（$a<0$），水平飞行 $y=0.3$（100千米/时），下降 $y=-0.4x+b$。
+
+      (1) 水平飞行0.09小时，$C$ 距 $O$ 水平10千米，求 $a$、$b$；
+
+      (2) 最高点 $A$ 距 $O$ 水平0.4千米，飞行 $t$（$0.08\leq t\leq0.1$）小时后降落，求 $b$ 的范围。'
+    solution_steps:
+    - (1) $B(1,0.3)$，$C(10,0.3)$。$a+2=0.3 \Rightarrow a=-1.7$，$-4+b=0.3 \Rightarrow b=4.3$。
+    - (2) 对称轴 $x=0.4 \Rightarrow a=-\frac{5}{2}$，$B(0.6,0.3)$。
+    - $C(0.6+100t,0.3)$ 代入 $y=-0.4x+b$：$b=0.54+40t$。
+    - $0.08\leq t\leq0.1 \Rightarrow 3.74\leq b\leq4.54$。
+    clue: 二次函数应用+一次函数+不等式。
+    answer: (1) $a=-1.7$，$b=4.3$；(2) $3.74\leq b\leq4.54$
+    stem_image_1:
+      image_path: assets/prompt-01.png
+      width: 90mm
+      variant: prompt
+      disclosure_policy: clean
+    stem_image_2:
+      image_path: assets/prompt-02.png
+      width: 100mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

@@ -1,0 +1,41 @@
+meta:
+  title: 2025年上海市静安区中考二模数学试卷第 23 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q023
+    points: 12
+    stem_latex: '四边形 $ABCD$ 内接于 $\odot O$，$AC=BD$。
+
+      (1) 求证：$AD\parallel BC$；
+
+      (2) 四边形 $ABCD$ 一定是等腰梯形吗？
+
+      (3) $AB=10$，$AC=BC=13$，求 $\odot O$ 的半径。'
+    solution_steps:
+    - (1) $\triangle ABC\cong\triangle DCB$（AAS），$\angle BCA=\angle CBD$，$\angle CAD=\angle CBD$，$AD\parallel BC$。
+    - (2) 不正确，可能为矩形。
+    - (3) 等腰梯形外接圆半径 $R=\dfrac{169}{24}$。
+    clue: 圆内接四边形+全等三角形+平行线判定。
+    answer: (1) 证明见详解；(2) 不正确；(3) $\dfrac{169}{24}$
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 70mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

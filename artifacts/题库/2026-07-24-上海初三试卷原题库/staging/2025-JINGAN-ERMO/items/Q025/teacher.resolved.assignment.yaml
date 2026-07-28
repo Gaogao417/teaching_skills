@@ -1,0 +1,42 @@
+meta:
+  title: 2025年上海市静安区中考二模数学试卷第 25 题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: '$\triangle ABC$ 中 $AB=AC$，$D$ 在 $BC$ 延长线上，$CE\parallel AB$，$DE\parallel AC$，$F$ 在 $AC$ 上，$FD\parallel AE$，$BF$ 延长交 $AE$ 于 $M$。
+
+      (1) 求证：$\triangle ABF\cong\triangle CAE$；
+
+      (2) $M$ 是 $AE$ 中点时，求证：$BF^2=4BM\cdot FM$；
+
+      (3) $\cos\angle ABC=\dfrac{\sqrt{5}}{5}$，$BC=2$，$CD=x$，$\dfrac{EM}{AM}=y$，求 $y$ 关于 $x$ 的解析式。'
+    solution_steps:
+    - (1) $AFDE$ 为平行四边形，$AF=DE=CE$，$\angle BAC=\angle ACE$，SAS全等。
+    - (2) $BF=AE=2AM$，$\triangle AMB\sim\triangle FMA$，$AM^2=BM\cdot FM$，$BF^2=4BM\cdot FM$。
+    - (3) $AB=\sqrt{5}$，$CE=AF=DE=\frac{\sqrt{5}}{2}x$，$CF=\sqrt{5}-\frac{\sqrt{5}}{2}x$。
+    - $y=\frac{CF}{AF}=\frac{2-x}{x}$，$0<x<\sqrt{5}-1$。
+    clue: 全等+相似+平行四边形+解直角三角形+函数解析式。
+    answer: (1)(2) 证明见详解；(3) $y=\dfrac{2-x}{x}$（$0<x<\sqrt{5}-1$）
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 50mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

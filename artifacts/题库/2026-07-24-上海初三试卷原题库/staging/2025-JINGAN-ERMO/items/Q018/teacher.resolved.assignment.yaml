@@ -1,0 +1,35 @@
+meta:
+  title: 2025年上海市静安区中考二模数学试卷第 18 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q018
+    points: 4
+    stem_latex: 矩形 $ABCD$ 中 $AB=6$，$BC=3$，$M$ 是 $AB$ 中点，$N$ 在 $CD$ 上。沿 $MN$ 翻折四边形 $AMND$ 得 $EFMN$，$EC\perp FC$ 时，$\triangle ECF$ 的周长为______
+    answer: $\dfrac{15+9\sqrt{5}}{5}$
+    clue: $\triangle BCF\sim\triangle DCE$，$CE=2CF$，$EF=3$，$CF=\frac{3\sqrt{5}}{5}$。
+    solution_steps:
+    - $\triangle BCF\sim\triangle DCE$，$CE=2CF$。
+    - $EF=\sqrt{5}CF=3$，$CF=\frac{3\sqrt{5}}{5}$，$CE=\frac{6\sqrt{5}}{5}$。
+    - 周长 $=3+\frac{9\sqrt{5}}{5}=\frac{15+9\sqrt{5}}{5}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 70mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

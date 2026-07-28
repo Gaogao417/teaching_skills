@@ -1,0 +1,32 @@
+meta:
+  title: 2025年上海市金山区中考二模数学试卷第 19 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q019
+    points: 10
+    stem_latex: 计算：$|\sqrt{3}-2|-27^{\frac{1}{3}}+\dfrac{2}{\sqrt{3}+1}-\left(\dfrac{1}{2}\right)^{-2}$
+    solution_steps:
+    - $|\sqrt{3}-2|=2-\sqrt{3}$
+    - $27^{\frac{1}{3}}=3$
+    - $\dfrac{2}{\sqrt{3}+1}=\sqrt{3}-1$
+    - $(\frac{1}{2})^{-2}=4$
+    - 原式 $=2-\sqrt{3}-3+\sqrt{3}-1-4=-6$
+    clue: 绝对值+立方根+分母有理化+负指数幂。
+    answer: $-6$
+    source_solution_images: []
