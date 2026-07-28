@@ -62,11 +62,26 @@ word/
 录入方式与 `math-pdf-question-bank-ingestion` 一致——题号、文字、公式、图片归属
 全部在渲染页上按版面/视觉锚点确认。
 
-文字与公式转写：
-1. 在 `word/pages/*.png` 上按题号视觉锚点定位题目所在页
-2. 把该页路径和页码填入 `question_word_evidence`（或 `official_solution.word_evidence`）
-3. 从渲染页读取文字和公式内容，转为可检索 LaTeX
-4. 写入 `block.stem_latex` 或 `block.solution_steps`
+文字、公式与跨页来源：
+1. 在 `word/pages/*.png` 上按题号视觉锚点定位题干**第一页**和官方解答
+   **第一页**；先把这两个 seed 页分别写入 `question_word_evidence` 和
+   `official_solution.word_evidence`
+2. draft 写完后必须运行确定性的跨页展开器；它根据下一题 seed 页和文档末页补齐
+   每一道题的连续页区间，不使用多模态模型：
+
+   ```bash
+   ./.venv/bin/python \
+     .codex/skills/math-docx-question-bank-ingestion/scripts/word_evidence_pages.py \
+     staging/<paper-id>/paper.draft.yaml --repo-root .
+   ```
+
+3. 题目与解析交替排版时自动使用 `interleaved`；先整卷题目、后整卷答案时自动使用
+   `separated`。自动判断失败必须人工确认后传 `--layout`，不得跳过
+4. `question_word_evidence` 必须覆盖完整题干涉及的全部页；
+   `official_solution.word_evidence` 必须覆盖答案/分析/详解到下一题前的全部页。
+   题干与解答同页时，该页允许同时出现在两个数组；跨页不得只填首页、末页或代表页
+5. 从完整渲染页区间读取文字和公式，转为可检索 LaTeX，写入
+   `block.stem_latex` 或 `block.solution_steps`
 
 题图处理：
 - 读取 `word-source.yaml` 的 `image_attribution`，按置信度消费：
@@ -82,6 +97,14 @@ word/
 ### 3-5. 展开、物化、审计、用户审核
 
 与 `math-pdf-question-bank-ingestion` 共享脚本：
+
+展开前必须先确认跨页证据完整：
+
+```bash
+./.venv/bin/python \
+  .codex/skills/math-docx-question-bank-ingestion/scripts/word_evidence_pages.py \
+  staging/<paper-id>/paper.draft.yaml --repo-root . --check
+```
 
 ```bash
 # 展开
@@ -103,6 +126,22 @@ word/
 ./.venv/bin/python \
   .codex/skills/math-topic-question-bank/scripts/open_question_bank_review.py
 ```
+
+## 通知 Review UI 失效缓存
+
+物化/换图后（写完 `staging/<paper-id>/` 下任一 `source.yaml` /
+`teacher.resolved.assignment.yaml` / `student.resolved.assignment.yaml`），
+调用一次 notify，让本地 Review UI 的读模型重建，避免显示陈旧内容：
+
+```bash
+./.venv/bin/python \
+  .codex/skills/math-topic-question-bank/scripts/notify_catalog_version.py \
+  --bank-dir staging/<paper-id>
+# 若已知 Review UI 端口，追加 --endpoint http://127.0.0.1:8877 --bank staging:<源>:<paper-id> 立即重建
+```
+
+`.catalog-version` 是可重建的失效标记（`.gitignore` 已忽略）。详情见
+`docs/review-server-performance-redesign.md` §5/§7。
 
 ## 依赖
 

@@ -9,8 +9,12 @@ import yaml
 ROOT = Path(__file__).resolve().parents[1]
 TOPIC_SCRIPTS = ROOT / ".codex/skills/math-topic-question-bank/scripts"
 INGESTION_SCRIPTS = ROOT / ".codex/skills/math-pdf-question-bank-ingestion/scripts"
+DOCX_INGESTION_SCRIPTS = (
+    ROOT / ".codex/skills/math-docx-question-bank-ingestion/scripts"
+)
 sys.path.insert(0, str(TOPIC_SCRIPTS))
 sys.path.insert(0, str(INGESTION_SCRIPTS))
+sys.path.insert(0, str(DOCX_INGESTION_SCRIPTS))
 
 from exam_source_contracts import ExamItemSource, ExamPaperMap  # noqa: E402
 from audit_staging import (  # noqa: E402
@@ -22,6 +26,12 @@ from audit_staging import (  # noqa: E402
 from expand_staging_draft import expand_draft  # noqa: E402
 from paper_map_contracts import validate_against_staging  # noqa: E402
 from validate_exam_source import validate_source  # noqa: E402
+from word_evidence_pages import (  # noqa: E402
+    expected_page_ranges,
+    infer_layout,
+    resolve_draft_payload,
+    validate_staging_coverage,
+)
 
 
 def write_yaml(path: Path, value: dict) -> None:
@@ -354,3 +364,139 @@ def test_word_evidence_uses_page_image_not_paragraphs_and_excluded_from_hash(
         staging / "items/Q001/source.yaml", repo_root=repo_root
     )
     assert any("missing page image" in e for e in err2), f"应报页图缺失: {err2}"
+
+
+def test_word_evidence_page_ranges_cover_interleaved_cross_page_solution(
+    tmp_path: Path,
+) -> None:
+    """交替排版必须补齐中间页和最后一题到文档末页。"""
+    pages_dir = tmp_path / "documents/PAPER-CROSS/word/pages"
+    pages_dir.mkdir(parents=True)
+    for page in range(1, 7):
+        (pages_dir / f"{page:03d}.png").write_bytes(b"page")
+
+    def evidence(page: int) -> list[dict[str, object]]:
+        return [
+            {
+                "page_image": (
+                    f"documents/PAPER-CROSS/word/pages/{page:03d}.png"
+                ),
+                "page_number": page,
+            }
+        ]
+
+    draft = {
+        "schema": "math_exam_staging_draft/v1",
+        "sections": [
+            {
+                "id": "problem",
+                "items": [
+                    {
+                        "item_id": "Q001",
+                        "question_word_evidence": evidence(1),
+                        "official_solution": {"word_evidence": evidence(2)},
+                    },
+                    {
+                        "item_id": "Q002",
+                        "question_word_evidence": evidence(3),
+                        "official_solution": {"word_evidence": evidence(4)},
+                    },
+                ],
+            }
+        ],
+    }
+    resolved, report = resolve_draft_payload(
+        draft,
+        repo_root=tmp_path,
+        layout="auto",
+    )
+    items = resolved["sections"][0]["items"]
+    assert report["layout"] == "interleaved"
+    assert [entry["page_number"] for entry in items[0]["question_word_evidence"]] == [
+        1,
+        2,
+    ]
+    assert [
+        entry["page_number"]
+        for entry in items[0]["official_solution"]["word_evidence"]
+    ] == [2]
+    assert [entry["page_number"] for entry in items[1]["question_word_evidence"]] == [
+        3,
+        4,
+    ]
+    assert [
+        entry["page_number"]
+        for entry in items[1]["official_solution"]["word_evidence"]
+    ] == [4, 5, 6]
+
+
+def test_word_evidence_page_ranges_support_separated_question_and_answer_sections() -> None:
+    assert infer_layout([1, 2, 3], [7, 8, 9]) == "separated"
+    assert expected_page_ranges(
+        [1, 2, 3],
+        [7, 8, 9],
+        last_page=10,
+        layout="separated",
+    ) == [
+        {"question": [1], "official_solution": [7]},
+        {"question": [2], "official_solution": [8]},
+        {"question": [3, 4, 5, 6], "official_solution": [9, 10]},
+    ]
+
+
+def test_staging_audit_rejects_incomplete_cross_page_word_evidence(
+    tmp_path: Path,
+) -> None:
+    pages_dir = tmp_path / "documents/PAPER-CROSS/word/pages"
+    pages_dir.mkdir(parents=True)
+    for page in range(1, 7):
+        (pages_dir / f"{page:03d}.png").write_bytes(b"page")
+
+    staging = tmp_path / "staging/PAPER-CROSS"
+    for item_id, question, solution in (
+        ("Q001", 1, 2),
+        ("Q002", 3, 4),
+    ):
+        write_yaml(
+            staging / f"items/{item_id}/source.yaml",
+            {
+                "item_id": item_id,
+                "word_evidence": {
+                    "question": [
+                        {
+                            "page_image": (
+                                f"documents/PAPER-CROSS/word/pages/{question:03d}.png"
+                            ),
+                            "page_number": question,
+                        }
+                    ],
+                    "official_solution": [
+                        {
+                            "page_image": (
+                                f"documents/PAPER-CROSS/word/pages/{solution:03d}.png"
+                            ),
+                            "page_number": solution,
+                        }
+                    ],
+                },
+            },
+        )
+    errors = validate_staging_coverage(
+        staging,
+        ["Q001", "Q002"],
+        repo_root=tmp_path,
+    )
+    assert errors == [
+        (
+            "Q001: word_evidence.question does not cover the complete "
+            "interleaved range (missing pages [2])"
+        ),
+        (
+            "Q002: word_evidence.question does not cover the complete "
+            "interleaved range (missing pages [4])"
+        ),
+        (
+            "Q002: word_evidence.official_solution does not cover the complete "
+            "interleaved range (missing pages [5, 6])"
+        ),
+    ]

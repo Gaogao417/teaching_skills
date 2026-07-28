@@ -102,6 +102,11 @@ official_solution:
 源文件是不可变归档，无需漂移检测；转写内容（`stem_latex`/`solution_steps`）
 在 hash 中，转写错误仍会触发重审。
 
+以上两个字段都是有序页数组，不是“代表页”。跨页题干和跨页解答必须逐页列出完整
+连续区间；题干与解答同页时允许两个数组共同引用该页。DOC/DOCX draft 必须在展开前
+运行 `math-docx-question-bank-ingestion/scripts/word_evidence_pages.py`，且
+`--check` 通过。共享 staging 审计会再次计算期望区间并拒绝缺页数据。
+
 对于 Word 来源，PDF 渲染页（`word/pages/*.png`）同时作为公式转写的视觉参考：
 draft 中的 `stem_latex` 和 `solution_steps` 内容应对照该渲染页准确转写，
 不从 WMF 二进制猜测公式内容。

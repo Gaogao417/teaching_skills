@@ -431,11 +431,16 @@ def main() -> int:
     topic_scripts = (
         repo_root / ".codex/skills/math-topic-question-bank/scripts"
     ).resolve()
+    docx_scripts = (
+        repo_root / ".codex/skills/math-docx-question-bank-ingestion/scripts"
+    ).resolve()
     sys.path.insert(0, str(topic_scripts))
+    sys.path.insert(0, str(docx_scripts))
     try:
         from exam_source_contracts import ExamPaperManifest, ExamPaperMap
         from paper_map_contracts import validate_against_staging
         from validate_exam_source import validate_source
+        from word_evidence_pages import validate_staging_coverage
 
         paper = ExamPaperManifest.model_validate(load_yaml(staging_dir / "paper.yaml"))
         ordered = [
@@ -451,6 +456,11 @@ def main() -> int:
             ordered_item_ids=ordered,
             staging_dir=staging_dir,
         )
+        coverage_errors = validate_staging_coverage(
+            staging_dir,
+            ordered,
+            repo_root=repo_root,
+        )
         if args.only:
             wanted = set(args.only)
             unknown = sorted(wanted.difference(ordered))
@@ -460,7 +470,7 @@ def main() -> int:
         if args.rows_per_sheet < 1:
             raise ValueError("--rows-per-sheet must be positive")
 
-        all_errors: list[str] = list(map_errors)
+        all_errors: list[str] = [*map_errors, *coverage_errors]
         all_warnings: list[str] = []
         assets_by_item: dict[str, dict[str, list[Path]]] = {}
         for item_id in ordered:

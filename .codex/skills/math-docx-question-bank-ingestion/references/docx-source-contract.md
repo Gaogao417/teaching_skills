@@ -102,9 +102,15 @@ agent 录入时优先消费 `high`，`medium`/`low` 在 review 阶段对照 PDF 
 - **多图选择题**：按 PDF 渲染页版面顺序和 A/B/C/D 标签确定性组合；顺序或标签
   无法可靠恢复时标记人工核对。
 - **来源证据**：原题来源使用 `question_word_evidence`；官方解答来源使用
-  `official_solution.word_evidence`。两者都引用整页 PNG 路径和页码。页码即
-  `word/pages/NNN.png` 文件名的三位序号（1-based）——agent 在转写时本就在看
-  渲染页，顺手填页码。
+  `official_solution.word_evidence`。两者都是**完整连续页数组**，引用整页 PNG
+  路径和页码。页码即 `word/pages/NNN.png` 文件名的三位序号（1-based）。
+  不得只记录首页、末页或代表页。
+- 题目与解析交替排版时，题干页从题号开始覆盖到答案/分析/详解开始页；解答页从
+  答案/分析/详解开始覆盖到下一题开始前。最后一题覆盖到文档末页。
+- 先整卷题目、后整卷答案时，题干页覆盖到下一题开始前，解答页覆盖到下一题答案
+  开始前；最后一题解答覆盖到文档末页。
+- 一个边界页同时含题干和解答，或同时含前题结尾和后题开头时，允许被相邻角色或
+  相邻题目共同引用。完整性优先于避免整页证据重叠。
 
 ## 来源证据示例
 
@@ -112,12 +118,16 @@ agent 录入时优先消费 `high`，`medium`/`low` 在 review 阶段对照 PDF 
 question_word_evidence:
   - page_image: documents/初三/PAPER/word/pages/002.png
     page_number: 2
+  - page_image: documents/初三/PAPER/word/pages/003.png
+    page_number: 3
 official_solution:
   start_anchor: '13．'
   end_anchor: '14．'
   word_evidence:
     - page_image: documents/初三/PAPER/word/pages/008.png
       page_number: 8
+    - page_image: documents/初三/PAPER/word/pages/009.png
+      page_number: 9
 ```
 
 物化时写入 `page_image_sha256`。整页图证据不进入 `content_hash`——源文件是
@@ -127,9 +137,11 @@ official_solution:
 
 ## 公式转写流程
 
-1. 在 `word/pages/*.png` 中定位题目所在页（按题号视觉锚点）
-2. 把该页路径和页码填入 `question_word_evidence`（或 `official_solution.word_evidence`）
-3. 从该渲染页读取公式的视觉内容，转为可检索 LaTeX
+1. 在 `word/pages/*.png` 中定位题干第一页和官方解答第一页（按题号及
+   `【答案】`/`【分析】`/`【详解】`视觉锚点）
+2. 把两个 seed 页写入 draft 后运行 `scripts/word_evidence_pages.py`，确定性展开
+   完整连续页区间
+3. 用 `--check` 确认没有缺页后，再从全部相关渲染页读取公式的视觉内容
 4. 对于复杂公式，可引用 `media/*` 中的 WMF 原文件作为辅助回查凭证
 5. 转写结果写入 `paper.draft.yaml` 的 `block.stem_latex` 或 `block.solution_steps`
 
