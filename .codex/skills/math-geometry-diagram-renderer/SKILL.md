@@ -102,6 +102,20 @@ preview（首次加一次调整）；仍不通过时停止并请人决定。
 随后运行 per-job JobPackageGate、resolve 和 ResolvedAssignmentGate。不得因主 Agent已查看图片
 而跳过任何确定性 gate。
 
+resolve 写回题库时的失效契约：当 resolve 直接替换了 `artifacts/题库/` 下某 staging item 的
+`teacher.resolved.assignment.yaml` / `student.resolved.assignment.yaml` / `prompt-01.png` 等，
+resolve 完成后调用一次 notify，让本地 Review UI 重建读模型（否则它会显示旧图/旧解析）：
+
+```bash
+./.venv/bin/python \
+  .codex/skills/math-topic-question-bank/scripts/notify_catalog_version.py \
+  --bank-dir artifacts/题库/<源>/staging/<paper-id>
+```
+
+若 resolve 只写到 `artifacts/<学生名>/...`（学生作业 artifact，不进题库），则无需 notify。
+`.catalog-version` 是可重建失效标记（`.gitignore` 已忽略）。详情见
+`docs/review-server-performance-redesign.md` §5/§7。
+
 无人值守批处理才显式使用 SDK 后备链路：
 
 ```bash

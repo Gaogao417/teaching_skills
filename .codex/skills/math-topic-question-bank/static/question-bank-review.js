@@ -1,11 +1,17 @@
 const state = {
   banks: [],
+  // detail 是卷级目录（counts + items 的 id/title/review_status/stale），来自
+  // ?directory=1（§8.3/§10.3 阶段 5）。完整单题（含 stem/answer/solution_steps/
+  // prompt_previews）按需懒加载进 itemCache，navigateItem/applyItem 命中即用。
   detail: null,
   itemIndex: 0,
+  itemCache: new Map(),
   requestToken: 0,
   // applyFilters 用独立 token，避免与 selectBank 的 requestToken 互相取消
   // （两者并发时旧实现会把对方的请求判为 stale，导致列表卡在 disabled）。
   filterToken: 0,
+  // 单题懒加载 token：旧的单题请求完成后若 token 已变（用户切到别的题/卷），丢弃结果。
+  itemLoadToken: 0,
   submittingReview: false,
   selectedImageSlot: null,
   savingImage: false,
@@ -279,9 +285,11 @@ function imageDeleteButton(target, index, label) {
 }
 
 // 图片 section 配置：target → 显示名 + 是否单图（prompt 仅一张）。
-// 原题来源 / 官方解答已改为胶囊悬浮预览，不再作为可编辑 image-section。
+// 解答图按题目管理，不再要求绑定到某一步；原题来源 / 官方解答整页仍走胶囊图廊，
+// 不作为可编辑 image-section。
 const IMAGE_SECTION_CONFIG = {
   prompt: { label: "题图", single: true },
+  official_solution: { label: "解答图", single: false },
 };
 
 function emptyAddHint(label) {
@@ -387,6 +395,29 @@ function previewGallery(rootId, entries, emptyText, altPrefix, options = {}) {
   updateSlotSelection();
 }
 
+// 把目录项（{id,title,review_status,stale}）或完整 item（含 review{}）归一成评审标签。
+// 目录项是轻量结构（§8.3），不带 review{} 子对象，用顶层 review_status/stale；完整 item
+// 走 review.stale/review.status。两种来源都支持，renderList/findNextReviewIndex 通用。
+function reviewLabelOf(item) {
+  if (!item) return "";
+  const staging = state.detail?.kind === "staging_exam";
+  if (!staging) return "";
+  const review = item.review || {};
+  const stale = review.stale ?? item.stale ?? false;
+  const status = review.status ?? item.review_status ?? "pending";
+  if (stale) return "已过期";
+  return { approved: "已通过", rejected: "待修改", invalid: "记录异常" }[status] || "待审核";
+}
+
+function reviewNeedsAttentionOf(item) {
+  if (!item) return true;
+  const review = item.review || {};
+  const stale = review.stale ?? item.stale ?? false;
+  const status = review.status ?? item.review_status ?? "pending";
+  if (stale) return true;
+  return !["approved", "rejected"].includes(status);
+}
+
 function renderList() {
   const list = byId("question-list");
   list.replaceChildren();
@@ -406,11 +437,10 @@ function renderList() {
     title.textContent = item.title || item.id;
     const meta = document.createElement("span");
     meta.className = "row-meta";
-    const review = item.review || {};
-    const reviewLabel = state.detail.kind === "staging_exam"
-      ? (review.stale ? "已过期" : ({ approved: "已通过", rejected: "待修改", invalid: "记录异常" }[review.status] || "待审核"))
-      : "";
-    meta.textContent = [reviewLabel, ...(item.skill_tags || []).slice(0, 3)].filter(Boolean).join(" · ");
+    // 目录项没有 skill_tags，只有完整题才有；已缓存的题显示标签，未缓存只显示评审标签。
+    const cached = state.itemCache.get(item.id);
+    const tags = cached?.skill_tags || [];
+    meta.textContent = [reviewLabelOf(item), ...tags.slice(0, 3)].filter(Boolean).join(" · ");
     button.append(heading, title, meta);
     button.addEventListener("mouseenter", () => selectItem(index));
     button.addEventListener("focus", () => selectItem(index));
@@ -488,23 +518,8 @@ function applyItem(item, itemIndex) {
         });
         const caption = document.createElement("figcaption");
         caption.textContent = slotLabel;
-        if (staging) {
-          wireImageSlot(figure, step.edit_target, step.edit_index, slotLabel);
-          figure.append(imageDeleteButton(step.edit_target, step.edit_index, slotLabel));
-          const hint = document.createElement("span");
-          hint.className = "slot-paste-hint";
-          hint.textContent = "点击选中 · ⌘V 替换";
-          figure.append(image, caption, hint);
-        } else {
-          figure.append(image, caption);
-        }
-        row.append(figure);
-      } else if (staging) {
-        const slotLabel = step.preview_title || "解析图";
-        const figure = document.createElement("figure");
-        figure.className = "step-preview is-empty";
-        figure.append(emptyAddHint("解析图"));
-        wireImageSlot(figure, step.edit_target, step.edit_index, slotLabel);
+        // 解题步骤里的旧图只读显示，图片编辑统一走题目级“解答图”图库。
+        figure.append(image, caption);
         row.append(figure);
       }
       steps.append(row);
@@ -537,6 +552,20 @@ function applyItem(item, itemIndex) {
   } else {
     preview("prompt-preview", item.prompt_preview_url, "本题无题图", `${item.id} 题图`);
   }
+  // 题目级“解答图”图库：仅在 staging 显示。来源凭证（整页官方解答）仍由顶部胶囊提供。
+  const solutionGallery = byId("official-solution-preview");
+  if (solutionGallery?.closest(".image-section")) {
+    solutionGallery.closest(".image-section").hidden = !staging;
+  }
+  if (staging) {
+    previewGallery(
+      "official-solution-preview",
+      item.official_solution_previews || [],
+      "暂无解答图",
+      `${item.id} 解答图`,
+      { editTarget: "official_solution", editLabel: "解答图" },
+    );
+  }
   const reviewCard = byId("review-card");
   reviewCard.hidden = !staging;
   if (staging) {
@@ -563,16 +592,17 @@ function setReviewControlsDisabled(disabled) {
   });
 }
 
+// reviewNeedsAttentionOf（上方）是同时支持目录项/完整题的通用版；
+// reviewNeedsAttention 保留旧名作为完整题别名，给已有调用点用。
 function reviewNeedsAttention(item) {
-  const review = item?.review || {};
-  return Boolean(review.stale) || !["approved", "rejected"].includes(review.status);
+  return reviewNeedsAttentionOf(item);
 }
 
 function findNextReviewIndex(currentIndex) {
   const items = state.detail?.items || [];
   for (let offset = 1; offset < items.length; offset += 1) {
     const candidateIndex = (currentIndex + offset) % items.length;
-    if (reviewNeedsAttention(items[candidateIndex])) return candidateIndex;
+    if (reviewNeedsAttentionOf(items[candidateIndex])) return candidateIndex;
   }
   return -1;
 }
@@ -580,17 +610,49 @@ function findNextReviewIndex(currentIndex) {
 function updateStagingProgress() {
   if (state.detail?.kind !== "staging_exam") return;
   const counts = { approved: 0, rejected: 0, stale: 0 };
+  // 目录项自带 review_status/stale（§8.3），完整题带 review{}，两种结构都能数。
   state.detail.items.forEach((item) => {
     const review = item.review || {};
-    if (review.stale) counts.stale += 1;
-    else if (review.status === "approved") counts.approved += 1;
-    else if (review.status === "rejected") counts.rejected += 1;
+    const stale = review.stale ?? item.stale ?? false;
+    const status = review.status ?? item.review_status ?? "pending";
+    if (stale) counts.stale += 1;
+    else if (status === "approved") counts.approved += 1;
+    else if (status === "rejected") counts.rejected += 1;
   });
   state.detail.approved_count = counts.approved;
   state.detail.rejected_count = counts.rejected;
   state.detail.stale_count = counts.stale;
+  // 目录的 counts 子对象（§8.3 规范字段）也同步，保持单一真相源。
+  state.detail.counts = { ...counts };
   const progress = `${counts.approved} 通过 · ${counts.rejected} 待修改 · ${counts.stale} 过期`;
   setText("bank-meta", [state.detail.grade, progress].filter(Boolean).join(" · "));
+}
+
+// 审核接口返回的是 review 对象 {status, stale, note, ...}（不含 stem/answer 等）。
+// 既更新目录项的 review_status/stale（让 renderList/updateStagingProgress 用目录就能数），
+// 也更新 itemCache 里完整题的 review{}（若该题已懒加载过）。两种来源都同步。
+function applyReviewResult(itemId, review) {
+  const directoryItem = (state.detail?.items || []).find((entry) => entry.id === itemId);
+  if (directoryItem) {
+    directoryItem.review_status = review.status;
+    directoryItem.stale = Boolean(review.stale);
+  }
+  const cached = state.itemCache.get(itemId);
+  if (cached) {
+    cached.review = review;
+  }
+}
+
+// 换图/删图/单题接口返回的是完整 item（含 stem/answer/solution_steps/previews）。
+// 写入 itemCache，并同步目录项的 review_status/stale（review 状态来自 item.review）。
+function applyFullItem(fullItem) {
+  state.itemCache.set(fullItem.id, fullItem);
+  const directoryItem = (state.detail?.items || []).find((entry) => entry.id === fullItem.id);
+  if (directoryItem) {
+    const review = fullItem.review || {};
+    directoryItem.review_status = review.status || directoryItem.review_status;
+    directoryItem.stale = Boolean(review.stale ?? directoryItem.stale);
+  }
 }
 
 async function submitReview(decision, note = "") {
@@ -613,7 +675,7 @@ async function submitReview(decision, note = "") {
       },
     );
     if (!response.ok) throw new Error(await response.text());
-    item.review = await response.json();
+    applyReviewResult(reviewedItemId, await response.json());
     updateStagingProgress();
     const nextReviewIndex = findNextReviewIndex(reviewedIndex);
     if (decision === "rejected") byId("revision-dialog").close();
@@ -679,8 +741,23 @@ async function approveWholePaper() {
     if (!response.ok) throw new Error(await response.text());
     const payload = await response.json();
     const errors = payload.errors || [];
-    if (Array.isArray(payload.items)) state.detail.items = payload.items;
-    updateStagingProgress();
+    // bulk approve 返回 {counts, updated_reviews, errors}（§9.2 推荐方案）：
+    // 就地用 applyReviewResult 同步目录项 review_status/stale 与 itemCache 完整题 review，
+    // counts 直接回写。不重拉整卷。
+    const updatedReviews = payload.updated_reviews || {};
+    state.detail.items.forEach((item) => {
+      const review = updatedReviews[item.id];
+      if (review) applyReviewResult(item.id, review);
+    });
+    const counts = payload.counts;
+    if (counts) {
+      state.detail.approved_count = counts.approved || 0;
+      state.detail.rejected_count = counts.rejected || 0;
+      state.detail.stale_count = counts.stale || 0;
+      state.detail.counts = { ...counts };
+    } else {
+      updateStagingProgress();
+    }
     // 回写当前 bank 的计数到 state.banks，让"下一份未通过卷"判断准确。
     const bankEntry = state.banks.find((bank) => bank.id === currentBankId);
     if (bankEntry) {
@@ -713,20 +790,121 @@ async function approveWholePaper() {
   }
 }
 
+// 单题懒加载（§10.3 阶段 5）：目录项只有 id/title/review_status/stale，
+// 完整题（stem/answer/solution_steps/previews）按需请求 /items/{item_id}。
+// renderItem 先查 itemCache，命中直接渲染；未命中渲染骨架并触发请求，到货后重渲。
+// itemLoadToken 防竞态：用户切到别的题/卷后旧请求的结果被丢弃。
+async function ensureItemLoaded(itemId) {
+  if (state.itemCache.has(itemId)) return state.itemCache.get(itemId);
+  const token = ++state.itemLoadToken;
+  const response = await fetch(
+    `/api/banks/${encodeURIComponent(state.detail.id)}/items/${encodeURIComponent(itemId)}`,
+  );
+  if (!response.ok) throw new Error(await response.text());
+  const fullItem = await response.json();
+  // 切到别的题/卷了，或 selectBank 重建了 detail → 丢弃。
+  if (token !== state.itemLoadToken) return null;
+  applyFullItem(fullItem);
+  return fullItem;
+}
+
 function renderItem() {
-  const item = state.detail.items[state.itemIndex];
+  const directoryItem = state.detail.items[state.itemIndex];
   const itemIndex = state.itemIndex;
+  const cached = directoryItem ? state.itemCache.get(directoryItem.id) : null;
   const epoch = ++mathRenderEpoch;
-  mathRenderQueue = mathRenderQueue.then(async () => {
-    if (epoch !== mathRenderEpoch) return;
-    const reader = byId("reader");
+  const reader = byId("reader");
+
+  // 数据已经在 itemCache 中时先同步更新 DOM。MathJax 排版可以随后执行，不能让
+  // 旧的 typeset 队列挡住刚保存的题图/解答图回显。
+  if (cached) {
     if (window.MathJax?.typesetClear) window.MathJax.typesetClear([reader]);
-    applyItem(item, itemIndex);
-    if (!window.MathJax?.typesetPromise) return;
-    await window.MathJax.typesetPromise([reader]);
+    applyItem(cached, itemIndex);
+    mathRenderQueue = mathRenderQueue.then(async () => {
+      if (epoch !== mathRenderEpoch || !window.MathJax?.typesetPromise) return;
+      await window.MathJax.typesetPromise([reader]);
+    }).catch((error) => {
+      console.warn("MathJax typesetting failed", error);
+    });
+    prefetchNeighborItems(itemIndex);
+    return;
+  }
+
+  // 骨架也立即显示；完整单题到货后同步更新 DOM，再把公式排版排进队列。
+  renderSkeleton(directoryItem, itemIndex);
+  void ensureItemLoaded(directoryItem.id).then((fullItem) => {
+    if (!fullItem || epoch !== mathRenderEpoch) return;
+    if (window.MathJax?.typesetClear) window.MathJax.typesetClear([reader]);
+    applyItem(fullItem, itemIndex);
+    mathRenderQueue = mathRenderQueue.then(async () => {
+      if (epoch !== mathRenderEpoch || !window.MathJax?.typesetPromise) return;
+      await window.MathJax.typesetPromise([reader]);
+    }).catch((error) => {
+      console.warn("MathJax typesetting failed", error);
+    });
   }).catch((error) => {
-    console.warn("MathJax typesetting failed", error);
+    if (epoch !== mathRenderEpoch) return;
+    const node = byId("load-error");
+    if (node) {
+      node.hidden = false;
+      node.textContent = `本题读取失败：${error.message}`;
+    }
   });
+  // 空闲预取前后各一题（§10.3），不阻塞当前渲染。
+  prefetchNeighborItems(itemIndex);
+}
+
+// 预取当前题的前后各一题（§10.3）：单题接口命中后只解析该题 3 份 YAML（A5），
+// 用户翻题时直接命中 itemCache，无感知延迟。已缓存的跳过。
+function prefetchNeighborItems(itemIndex) {
+  const items = state.detail?.items || [];
+  const neighbors = [itemIndex - 1, itemIndex + 1];
+  for (const neighborIndex of neighbors) {
+    if (neighborIndex < 0 || neighborIndex >= items.length) continue;
+    const directoryItem = items[neighborIndex];
+    if (!directoryItem || state.itemCache.has(directoryItem.id)) continue;
+    // 故意不 await、不持有 token：预取的结果只写 cache，不重渲。
+    fetch(
+      `/api/banks/${encodeURIComponent(state.detail.id)}/items/${encodeURIComponent(directoryItem.id)}`,
+    )
+      .then((response) => (response.ok ? response.json() : null))
+      .then((fullItem) => {
+        if (fullItem && state.detail && state.detail.id) {
+          applyFullItem(fullItem);
+        }
+      })
+      .catch(() => { /* 预取失败静默 */ });
+  }
+}
+
+// 骨架渲染：当前题尚未懒加载完成时，先把 id/位置/空内容铺上，避免界面空白。
+function renderSkeleton(directoryItem, itemIndex) {
+  if (!directoryItem) return;
+  setText("item-id", directoryItem.id);
+  setText("item-title", directoryItem.title || directoryItem.id);
+  setText("stem", "正在读取题目…");
+  setText("answer", "正在读取答案…");
+  setText("clue", "正在读取思路提示…");
+  setText("position-summary", `${itemIndex + 1} / ${state.detail.items.length}`);
+  const error = byId("load-error");
+  if (error) {
+    error.hidden = true;
+    error.textContent = "";
+  }
+  const badges = byId("item-badges");
+  if (badges) badges.replaceChildren();
+  ["choices", "solution-steps", "solution-notes"].forEach((id) => {
+    const node = byId(id);
+    if (node) node.replaceChildren();
+  });
+  if (state.detail.kind === "staging_exam") {
+    ["prompt-preview", "official-solution-preview", "source-capsules"].forEach((id) => {
+      const node = byId(id);
+      if (node) node.replaceChildren();
+    });
+  }
+  byId("previous-item").disabled = itemIndex === 0;
+  byId("next-item").disabled = itemIndex === state.detail.items.length - 1;
 }
 
 function selectItem(index) {
@@ -778,14 +956,15 @@ async function uploadPastedImage(blob) {
       },
     );
     if (!response.ok) throw new Error(await response.text());
-    const updatedItem = await response.json();
-    const updatedIndex = state.detail.items.findIndex((item) => item.id === target.itemId);
-    if (updatedIndex >= 0) state.detail.items[updatedIndex] = updatedItem;
+    applyFullItem(await response.json());
     updateStagingProgress();
     renderList();
     renderItem();
     await mathRenderQueue;
-    setText("review-message", `${target.label} 已保存；槽位仍保持选中，可继续粘贴替换。`);
+    const expired = target.target === "official_solution"
+      ? "；该题此前的人工审核已自动过期。"
+      : "";
+    setText("review-message", `${target.label} 已保存${expired}槽位仍保持选中，可继续粘贴替换。`);
   } catch (error) {
     setText("review-message", `图片保存失败：${error.message}`);
   } finally {
@@ -804,9 +983,7 @@ async function deleteImageSlot(targetName, index, label) {
       { method: "DELETE" },
     );
     if (!response.ok) throw new Error(await response.text());
-    const updatedItem = await response.json();
-    const updatedIndex = state.detail.items.findIndex((candidate) => candidate.id === item.id);
-    if (updatedIndex >= 0) state.detail.items[updatedIndex] = updatedItem;
+    applyFullItem(await response.json());
     state.selectedImageSlot = null;
     updateStagingProgress();
     renderList();
@@ -827,11 +1004,21 @@ function isEditableTarget(target) {
 
 async function selectBank(bankId) {
   const token = ++state.requestToken;
+  // 加载新卷前清空单题缓存（§8.3 item cache 随卷失效），避免跨卷串题。
+  state.itemCache = new Map();
+  // 切换卷期间不隐藏整个 layout（F3）：仅在首次加载（detail 仍为 null）时显示 page-status，
+  // 已有内容时保持显示旧卷直到新目录到达，避免搜索/切卷时界面闪烁消失。
+  const isFirstLoad = state.detail === null;
   setText("page-status", "正在读取题库…");
   byId("page-status").hidden = false;
-  byId("review-layout").hidden = true;
+  if (isFirstLoad) byId("review-layout").hidden = true;
   try {
-    const response = await fetch(`/api/banks/${encodeURIComponent(bankId)}`);
+    // 卷级轻量目录（§8.3）：counts + items 的 id/title/review_status/stale。
+    // 完整题按需懒加载（§10.3），避免一次拉整卷 3×N 份 YAML。
+    const response = await fetch(
+      `/api/banks/${encodeURIComponent(bankId)}?directory=1`,
+      { signal: selectBankAbortController().signal },
+    );
     if (!response.ok) throw new Error(await response.text());
     const detail = await response.json();
     if (token !== state.requestToken) return;
@@ -843,9 +1030,10 @@ async function selectBank(bankId) {
     window.history.replaceState({}, "", selectedUrl);
     setText("topic-summary", detail.topic);
     const staging = detail.kind === "staging_exam";
+    const counts = detail.counts || {};
     const progress = staging
-      ? `${detail.approved_count || 0} 通过 · ${detail.rejected_count || 0} 待修改 · ${detail.stale_count || 0} 过期`
-      : `${detail.enabled_count}/${detail.item_count} 题可用`;
+      ? `${counts.approved || 0} 通过 · ${counts.rejected || 0} 待修改 · ${counts.stale || 0} 过期`
+      : `${counts.approved || 0}/${detail.item_count} 题可用`;
     setText("bank-meta", [detail.grade, progress].filter(Boolean).join(" · "));
     setText("item-count", `${detail.item_count} 题`);
     if (!detail.items.length) {
@@ -858,8 +1046,18 @@ async function selectBank(bankId) {
     renderItem();
   } catch (error) {
     if (token !== state.requestToken) return;
+    if (error.name === "AbortError") return;
     setText("page-status", `题库加载失败：${error.message}。可重新选择题库重试。`);
   }
+}
+
+// selectBank 的 AbortController（F4）：新的 selectBank 调用会取消上一个未完成的目录请求。
+// 用一个模块级单例，每次 selectBank 新建并替换，旧请求在浏览器侧被取消。
+let selectBankAbort = null;
+function selectBankAbortController() {
+  if (selectBankAbort) selectBankAbort.abort();
+  selectBankAbort = new AbortController();
+  return selectBankAbort;
 }
 
 async function loadFacets() {
@@ -944,13 +1142,22 @@ async function applyFilters() {
   const token = ++state.filterToken;
   const params = buildFilterParams();
   const select = byId("bank-select");
-  // 过滤期间禁用列表 + 显示加载态，避免用户/测试在旧数据上误读。
+  // 过滤期间禁用列表，避免在旧数据上误读。但不再隐藏整个 review-layout（F3）：
+  // 已加载的卷内容保持显示直到新结果到达，搜索/过滤时界面不闪烁消失。
   select.disabled = true;
-  setText("page-status", "正在筛选题库…");
-  byId("page-status").hidden = false;
-  byId("review-layout").hidden = true;
+  const hadLayout = !byId("review-layout").hidden;
+  if (!hadLayout) {
+    // 仅在首次（layout 还没出现过）时显示「正在筛选」；已有内容则不打扰。
+    setText("page-status", "正在筛选题库…");
+    byId("page-status").hidden = false;
+  }
+  // F4 AbortController：新的 applyFilters 取消上一个未完成的 /api/banks 请求。
+  if (filtersAbort) filtersAbort.abort();
+  filtersAbort = new AbortController();
   try {
-    const response = await fetch(`/api/banks?${params.toString()}`);
+    const response = await fetch(`/api/banks?${params.toString()}`, {
+      signal: filtersAbort.signal,
+    });
     if (!response.ok) throw new Error(await response.text());
     const payload = await response.json();
     // 即便是过期请求也解锁列表，避免并发竞态时 select 卡在 disabled。
@@ -969,7 +1176,11 @@ async function applyFilters() {
     const initialBank = stillPresent
       ? state.banks.find((bank) => bank.id === requestedBankId)
       : state.banks[0];
-    select.value = initialBank.id;
+    // F2：仅当选中的 bank_id 真正变化才重载整卷详情。过滤后当前卷仍在结果集里时，
+    // 不触发 selectBank，用户在搜索时不会被打断到第 1 题。
+    const currentBankId = state.detail?.id;
+    const targetBankId = initialBank.id;
+    select.value = targetBankId;
     // 把当前过滤态写回 URL（便于刷新/分享）。
     ["kind", "grade", "year", "exam_type"].forEach((key) => {
       const id = `filter-${key === "exam_type" ? "exam-type" : key}`;
@@ -981,15 +1192,26 @@ async function applyFilters() {
     if (query) url.searchParams.set("q", query);
     else url.searchParams.delete("q");
     window.history.replaceState({}, "", url);
-    byId("page-status").hidden = true;
-    byId("review-layout").hidden = false;
-    await selectBank(initialBank.id);
+    if (!hadLayout) {
+      byId("page-status").hidden = true;
+    }
+    if (currentBankId !== targetBankId) {
+      await selectBank(targetBankId);
+    } else {
+      // 当前卷仍在结果集：保持内容，只把 page-status 收掉。
+      byId("page-status").hidden = true;
+      byId("review-layout").hidden = false;
+    }
   } catch (error) {
     select.disabled = false;
+    if (error.name === "AbortError") return;
     if (token !== state.filterToken) return;
     setText("page-status", `题库列表加载失败：${error.message}。请刷新页面重试。`);
   }
 }
+
+// applyFilters 的 AbortController（F4），与 selectBank 的独立。
+let filtersAbort = null;
 
 function debounce(fn, wait) {
   let timer = null;
@@ -1012,7 +1234,26 @@ async function loadBanks() {
   restore("filter-exam-type", "exam_type");
   const restoreQuery = url.searchParams.get("q");
   if (restoreQuery) byId("search-input").value = restoreQuery;
-  await loadFacets();
+
+  // 首屏改用 bootstrap（§8.1/§10.1，F1）：一次拿到 summaries + facets + errors，
+  // 消灭 loadFacets() → applyFilters() 串行瀑布。本地填 facets 后再触发首次 selectBank。
+  try {
+    const response = await fetch("/api/bootstrap");
+    if (!response.ok) throw new Error(await response.text());
+    const payload = await response.json();
+    const facets = payload.facets || {};
+    fillFacetOptions(byId("filter-grade"), facets.grades || []);
+    fillFacetOptions(byId("filter-year"), facets.years || []);
+    byId("filter-grade").disabled = false;
+    byId("filter-year").disabled = false;
+    byId("filter-exam-type").disabled = false;
+  } catch (error) {
+    // bootstrap 失败（冷启动 / 服务端构建中）→ 显示「正在建立题库索引」（§10.4），
+    // 不阻断：applyFilters 仍会单独请求 /api/banks，facets 缺失时下拉为空但搜索可用。
+    setText("page-status", "正在建立题库索引，请稍候…");
+    byId("page-status").hidden = false;
+    console.warn("bootstrap 加载失败：", error.message);
+  }
   await applyFilters();
 }
 

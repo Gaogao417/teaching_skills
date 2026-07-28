@@ -467,7 +467,14 @@ def test_review_all_staging_approves_every_item_and_returns_summary(
     assert response.status_code == 200
     payload = response.json()
     assert payload["errors"] == []
-    assert payload["approved_count"] == 2
+    # §9.2 推荐方案：bulk approve 返回 {counts, updated_reviews, errors}，
+    # 不再重拉整卷 items；counts.approved 反映全卷通过结果。
+    assert payload["counts"]["approved"] == 2
+    assert set(payload["updated_reviews"]) == {"Q001", "Q002"}
+    assert all(
+        payload["updated_reviews"][item_id]["status"] == "approved"
+        for item_id in ("Q001", "Q002")
+    )
     # 两题 review.yaml 都写成 approved。
     for item_id in ("Q001", "Q002"):
         review = yaml.safe_load(
@@ -475,8 +482,6 @@ def test_review_all_staging_approves_every_item_and_returns_summary(
         )
         assert review["status"] == "approved"
         assert review["reviewer"] == "question-bank-review-ui"
-    # 响应里的 items 也反映 approved 状态。
-    assert [item["review"]["status"] for item in payload["items"]] == ["approved", "approved"]
 
 
 def test_review_all_staging_collects_per_item_errors_without_aborting(
@@ -492,12 +497,13 @@ def test_review_all_staging_collects_per_item_errors_without_aborting(
     assert response.status_code == 200
     payload = response.json()
     assert [error["item_id"] for error in payload["errors"]] == ["Q002"]
-    # Q001 仍被通过。
+    # Q001 仍被通过；updated_reviews 只含成功的 Q001，Q002 缺席。
+    assert set(payload["updated_reviews"]) == {"Q001"}
     q001_review = yaml.safe_load(
         (paper_dir / "items/Q001/review.yaml").read_text(encoding="utf-8")
     )
     assert q001_review["status"] == "approved"
-    assert payload["approved_count"] == 1
+    assert payload["counts"]["approved"] == 1
 
 
 def test_review_all_rejects_formal_bank_with_404(bank_root: Path) -> None:
@@ -707,6 +713,95 @@ def test_staging_solution_step_image_can_be_removed_teacher_only(
     assert "diagram_col" not in teacher["sections"][0]["blocks"][0]["solution_steps"][0]
 
 
+def test_staging_official_solution_gallery_supports_add_append_replace_remove(
+    staging_root: tuple[Path, Path, str],
+) -> None:
+    """解答图按题目管理：official_solution 支持替换、连续追加、按位删除，
+    并同步 source_solution_images；学生版派生时移除解答图。"""
+    root, paper_dir, staging_id = staging_root
+    item_dir = paper_dir / "items/Q001"
+    source_path = item_dir / "source.yaml"
+    source = yaml.safe_load(source_path.read_text(encoding="utf-8"))
+    # 起点为空解答图（保留原 question/prompt/solution 裁切）。
+    source["crops"]["official_solution"] = []
+    write_yaml(source_path, source)
+    teacher_path = item_dir / "teacher.resolved.assignment.yaml"
+    teacher = yaml.safe_load(teacher_path.read_text(encoding="utf-8"))
+    teacher["sections"][0]["blocks"][0].pop("source_solution_images", None)
+    write_yaml(teacher_path, teacher)
+    client = TestClient(create_question_bank_app(root))
+
+    base = f"/api/banks/{staging_id}/items/Q001/images/official_solution"
+
+    # 1) 空图库追加第一张。
+    first = client.post(
+        f"{base}/0",
+        content=pasted_png((100, 50), "white"),
+        headers={"Content-Type": "image/png"},
+    )
+    assert first.status_code == 200
+    item = first.json()
+    assert [p["edit_target"] for p in item["official_solution_previews"]] == ["official_solution"]
+    assert [p["edit_index"] for p in item["official_solution_previews"]] == [0]
+    # 写图后 content_hash 必须被刷新（图片变化会让此前审核决定过期）。
+    assert item["content_hash"] != f"sha256:{'1' * 64}"
+    teacher = yaml.safe_load(teacher_path.read_text(encoding="utf-8"))
+    images = teacher["sections"][0]["blocks"][0]["source_solution_images"]
+    assert len(images) == 1
+    assert images[0]["variant"] == "source_solution"
+    assert images[0]["disclosure_policy"] == "teacher_only"
+
+    # 2) 连续追加第二张（index == 现有数量）。
+    second = client.post(
+        f"{base}/1",
+        content=pasted_png((80, 80), "black"),
+        headers={"Content-Type": "image/png"},
+    )
+    assert second.status_code == 200
+    assert len(second.json()["official_solution_previews"]) == 2
+    teacher = yaml.safe_load(teacher_path.read_text(encoding="utf-8"))
+    assert len(teacher["sections"][0]["blocks"][0]["source_solution_images"]) == 2
+
+    # 3) 替换第 0 张（index 0 已存在）。
+    replaced = client.post(
+        f"{base}/0",
+        content=pasted_png((64, 64), "navy"),
+        headers={"Content-Type": "image/png"},
+    )
+    assert replaced.status_code == 200
+    teacher = yaml.safe_load(teacher_path.read_text(encoding="utf-8"))
+    assert len(teacher["sections"][0]["blocks"][0]["source_solution_images"]) == 2
+
+    # 4) 学生版不含解答图。
+    student = yaml.safe_load(
+        (item_dir / "student.resolved.assignment.yaml").read_text(encoding="utf-8")
+    )
+    assert "source_solution_images" not in student["sections"][0]["blocks"][0]
+
+    # 5) 删除第 1 张，剩余 1 张。
+    deleted = client.delete(f"{base}/1")
+    assert deleted.status_code == 200
+    assert len(deleted.json()["official_solution_previews"]) == 1
+    teacher = yaml.safe_load(teacher_path.read_text(encoding="utf-8"))
+    assert len(teacher["sections"][0]["blocks"][0]["source_solution_images"]) == 1
+
+    # 6) 越界追加被拒。
+    assert client.post(
+        f"{base}/5",
+        content=pasted_png(),
+        headers={"Content-Type": "image/png"},
+    ).status_code == 400
+
+    # 7) 解答步图编辑入口（solution_step）在 staging 仍可用，且与解答图分区。
+    step_post = client.post(
+        f"/api/banks/{staging_id}/items/Q001/images/solution_step/0",
+        content=pasted_png((70, 70), "white"),
+        headers={"Content-Type": "image/png"},
+    )
+    assert step_post.status_code == 200
+    assert step_post.json()["solution_steps"][0]["edit_target"] == "solution_step"
+
+
 def test_image_replacement_rejects_non_images_formal_banks_and_bad_indexes(
     staging_root: tuple[Path, Path, str],
     bank_root: Path,
@@ -800,10 +895,31 @@ def test_staging_image_slots_support_select_paste_delete_and_add() -> None:
     assert "点击选中 · ⌘V 替换" in script
     assert 'editTarget: "prompt"' in script
     assert 'editTarget: "question_evidence"' not in script
-    assert 'editTarget: "official_solution"' not in script
+    # 解答图改为按题目管理：official_solution 作为可编辑 image-section，不再绑定解题步骤。
+    assert 'editTarget: "official_solution"' in script
     assert ".image-delete-button" in css
     assert ".empty-add-hint" in css
     assert ".is-selected" in css
+
+
+def test_staging_solution_image_gallery_is_topic_level_and_steps_readonly() -> None:
+    template = (PACKAGE / "templates/question-bank-review.html").read_text(encoding="utf-8")
+    script = (PACKAGE / "static/question-bank-review.js").read_text(encoding="utf-8")
+
+    # 独立的题目级“解答图”图库 section，编辑目标为 official_solution。
+    assert 'data-image-target="official_solution"' in template
+    assert 'id="official-solution-preview"' in template
+    assert 'official_solution: { label: "解答图"' in script
+    # 解题步骤不再作为图片编辑入口：旧 step.preview_url 只读显示。
+    assert "if (step.preview_url)" in script
+    assert 'figure.className = "step-preview"' in script
+    # 解题步骤不再生成可编辑空槽 / 选中替换提示。
+    assert "wireImageSlot(figure, step.edit_target" not in script
+    assert 'figure.className = "step-preview is-empty"' not in script
+    # 解答图保存成功提示原审核过期。
+    assert "该题此前的人工审核已自动过期" in script
+    # 正式题库不显示解答图编辑入口（section 默认 hidden，仅 staging 取消隐藏）。
+    assert '.closest(".image-section")' in script
 
 
 def test_review_shortcuts_revision_dialog_and_audio_feedback_are_wired() -> None:

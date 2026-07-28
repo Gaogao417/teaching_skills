@@ -166,3 +166,9 @@ code 03-adaptive-practice.student.tex 03-adaptive-practice.teacher.tex
 ```
 
 输出文件放在 assignment YAML 同目录；命令中的相对路径以该 artifact 目录为工作目录。默认到 `.tex` 和 VS Code 打开为止，只有用户明确要求 PDF 时才运行 `compile_latex.sh`。
+
+> 失效契约：本 skill 写的是 `artifacts/<学生名>/...` 学生作业 artifact，**不进题库**，通常无需
+> 通知 Review UI。仅当 resolved YAML 被进一步灌入 `artifacts/题库/` 下某 formal 题库条目时，
+> 写完后调一次
+> `./.venv/bin/python .codex/skills/math-topic-question-bank/scripts/notify_catalog_version.py --bank-dir <题库目录>`。
+> 详见 `docs/review-server-performance-redesign.md` §7。

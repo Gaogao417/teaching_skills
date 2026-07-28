@@ -154,6 +154,22 @@ PDF/扫描件有四类图片：
 
 只能整卷原子晋升；任何一题失败都不得部分进入正式题库。
 
+### 6. 通知 Review UI 失效缓存
+
+物化/换图/晋升后（写完 `staging/<paper-id>/` 下任一 `source.yaml` /
+`teacher.resolved.assignment.yaml` / `student.resolved.assignment.yaml`），
+调用一次 notify，让本地 Review UI 的读模型重建，避免显示陈旧内容：
+
+```bash
+./.venv/bin/python \
+  .codex/skills/math-topic-question-bank/scripts/notify_catalog_version.py \
+  --bank-dir staging/<paper-id>   # bump .catalog-version（跨进程，文件系统级）
+# 若已知 Review UI 端口，追加 --endpoint http://127.0.0.1:8877 --bank staging:<源>:<paper-id> 立即重建
+```
+
+`.catalog-version` 是可重建的失效标记（`.gitignore` 已忽略），不会进版本库。详情见
+`docs/review-server-performance-redesign.md` §5/§7。
+
 ## 批量调度
 
 - 先扫描完整 staging，已有 `paper.yaml`、完整 items 和 contact sheet 的卷不重复做。

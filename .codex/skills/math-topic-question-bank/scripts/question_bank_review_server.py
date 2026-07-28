@@ -11,7 +11,9 @@ import mimetypes
 import os
 import re
 import tempfile
-from dataclasses import dataclass
+import threading
+import time
+from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Literal
@@ -107,6 +109,33 @@ class BankRecord:
     crop_manifest_path: Path | None = None
 
 
+# Catalog 读模型快照（§4.1）：不可变，读侧只拿引用，写侧构造新对象后原子替换。
+# 一个 snapshot 同时承载 summaries、facets、errors、整卷 detail、AssetIndex，让常态
+# 读请求全部 O(1) 内存命中，写后通过 _invalidate_bank 精准重建受影响 bank 再整体替换。
+@dataclass(frozen=True)
+class CatalogSnapshot:
+    generation: int
+    records_by_id: dict[str, BankRecord]
+    summaries: list[dict[str, Any]]
+    summaries_by_id: dict[str, dict[str, Any]]
+    facets: dict[str, list[str]]
+    errors: list[str]
+    # 整卷 detail（含 items），供 /api/banks/{id} 与图片写操作回取单题使用。
+    details_by_bank: dict[str, dict[str, Any]]
+    items_by_bank_item: dict[tuple[str, str], dict[str, Any]]
+    # AssetIndex（§8.4）：value = (path, mtime_ns)，mtime_ns 用于 ?v= 缓存破坏。
+    asset_paths: dict[tuple[str, str, str], tuple[Path, int]]
+    source_page_paths: dict[tuple[str, str, str, int], tuple[Path, int]]
+    # 粗粒度新鲜度指纹（§5.4）：bank_id → 该 bank 关键文件 mtime_ns 的汇总哈希。
+    # 详情/资产路由在返回缓存前 stat 受影响 bank 的几份关键文件，与快照里的指纹比对，
+    # 不一致就精准重建该 bank（catch 外部脚本直接改 source.yaml/review.yaml 这类写入，
+    # 它们不会触发服务端 _invalidate_bank）。仅 stat 单 bank，不退化成 O(items) 全扫。
+    bank_fingerprints: dict[str, str] = field(default_factory=dict)
+    # .catalog-version mtime_ns（§5.3 快速路径）：受控 writer bump 后变化，比指纹层少
+    # stat 很多文件。bank 目录下没有该文件则不在此 dict（退化到指纹层）。
+    catalog_versions: dict[str, int] = field(default_factory=dict)
+
+
 class ReviewNote(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
@@ -118,6 +147,7 @@ class ReviewDecision(ReviewNote):
 
 
 def _read_yaml(path: Path) -> dict[str, Any]:
+    _GLOBAL_YAML_PARSE_COUNT[0] += 1
     try:
         payload = yaml.safe_load(path.read_text(encoding="utf-8"))
     except (OSError, yaml.YAMLError) as exc:
@@ -125,6 +155,57 @@ def _read_yaml(path: Path) -> dict[str, Any]:
     if not isinstance(payload, dict):
         raise ValueError(f"{path.name} 不是 YAML 对象")
     return payload
+
+
+# YAML 解析计数器（进程级）：_read_yaml 是模块级函数，无法访问 catalog 实例，
+# 用一个可变单元素列表当累加点；catalog.stats() 在调用点把进程级计数并进结果。
+# 这里的计数对测试 / bench 已足够（单进程单 worker，§2.2）。
+_GLOBAL_YAML_PARSE_COUNT: list[int] = [0]
+
+
+def _bank_fingerprint(record: BankRecord) -> str:
+    """汇总 bank 关键文件的 mtime_ns（§5.4 粗粒度新鲜度层）。
+
+    覆盖 manifest + staging 的每题 source/review/teacher.resolved/student.resolved。
+    外部脚本改其中任一份都会改变指纹，让读路由触发精准重建。只 stat 单 bank 的文件，
+    不退化成全库扫描；缺失文件记 0 保持稳定。
+    """
+    parts: list[str] = [record.bank_id]
+    manifest_path = (
+        record.directory / "paper.yaml"
+        if record.kind == "staging_exam"
+        else record.directory / "question-bank.yaml"
+    )
+    try:
+        parts.append(str(manifest_path.stat().st_mtime_ns))
+    except OSError:
+        parts.append("0")
+    if record.kind == "staging_exam":
+        for item_id in QuestionBankCatalog._staging_item_ids(record):
+            item_dir = record.directory / "items" / item_id
+            for name in (
+                "source.yaml",
+                "review.yaml",
+                "teacher.resolved.assignment.yaml",
+                "student.resolved.assignment.yaml",
+            ):
+                try:
+                    parts.append(str((item_dir / name).stat().st_mtime_ns))
+                except OSError:
+                    parts.append("0")
+    else:
+        for item in record.manifest.get("items", []):
+            if not isinstance(item, dict):
+                continue
+            for key in ("student_assignment", "teacher_assignment"):
+                rel = item.get(key)
+                if not isinstance(rel, str) or not rel.strip():
+                    continue
+                try:
+                    parts.append(str((record.directory / rel).stat().st_mtime_ns))
+                except OSError:
+                    parts.append("0")
+    return "|".join(parts)
 
 
 def _inside(path: Path, root: Path) -> bool:
@@ -302,8 +383,54 @@ def _derive_student_assignment(teacher: dict[str, Any]) -> dict[str, Any]:
 class QuestionBankCatalog:
     def __init__(self, bank_root: str | Path):
         self.bank_root = Path(bank_root).expanduser().resolve()
+        # 单进程读写模型（§6.1）：RLock 保护 snapshot 的构建与替换。
+        self._lock = threading.RLock()
+        self._snapshot: CatalogSnapshot | None = None
+        # 可观测计数器（§11 阶段 0）：供测试与 bench 确认"不再每个请求都全量扫描"，
+        # 并量化读模型各层命中情况。discover_count 已先存在，其余为本阶段新增。
+        self.discover_count = 0
+        self.yaml_parse_count = 0
+        self.snapshot_hits = 0
+        self.snapshot_misses = 0
+        self.asset_index_hits = 0
+        self.asset_index_misses = 0
+        # perf_counter 累计耗时（秒），bench / stats 用。非原子累加在单进程足够，
+        # 读侧只用于观测，偶发竞争最多丢一次累加，不影响正确性。
+        self.discover_seconds = 0.0
+        self.summary_seconds = 0.0
+        self.staging_detail_seconds = 0.0
+        # 单题详情缓存（§8.3 item cache，阶段 5）：key=(bank_id,item_id)，value=(generation, item)。
+        # 与 snapshot 同 generation：snapshot 重建时 _rebuild_snapshot 会把整个 item_cache 清空，
+        # 保证写后/外部写后的新快照不会回吐旧单题。锁内读写。
+        self._item_cache: dict[tuple[str, str], tuple[int, dict[str, Any]]] = {}
+        # TTL watcher 停止信号（§5.2）：默认不启动，start_ttl_watcher 时创建。
+        self._stop_watcher: threading.Event | None = None
+
+    def stats(self) -> dict[str, Any]:
+        """快照各计数器与累计耗时，供 /healthz 与 bench 读取（§11 阶段 0）。"""
+        snapshot = self._snapshot
+        return {
+            "discover_count": self.discover_count,
+            "yaml_parse_count": _GLOBAL_YAML_PARSE_COUNT[0],
+            "snapshot_hits": self.snapshot_hits,
+            "snapshot_misses": self.snapshot_misses,
+            "asset_index_hits": self.asset_index_hits,
+            "asset_index_misses": self.asset_index_misses,
+            "discover_seconds": round(self.discover_seconds, 4),
+            "summary_seconds": round(self.summary_seconds, 4),
+            "staging_detail_seconds": round(self.staging_detail_seconds, 4),
+            "snapshot_generation": snapshot.generation if snapshot else None,
+        }
 
     def discover(self) -> tuple[list[BankRecord], list[str]]:
+        self.discover_count += 1
+        started = time.perf_counter()
+        try:
+            return self._discover_impl()
+        finally:
+            self.discover_seconds += time.perf_counter() - started
+
+    def _discover_impl(self) -> tuple[list[BankRecord], list[str]]:
         records_by_id: dict[str, BankRecord] = {}
         errors: list[str] = []
         duplicate_ids: set[str] = set()
@@ -356,11 +483,368 @@ class QuestionBankCatalog:
         return records, errors
 
     def record(self, bank_id: str) -> BankRecord:
-        records, _ = self.discover()
+        record = self.snapshot().records_by_id.get(bank_id)
+        if record is None:
+            raise KeyError(bank_id)
+        return record
+
+    # ------------------------------------------------------------------
+    # Catalog snapshot（读模型，§4/§5/§6）
+    # ------------------------------------------------------------------
+
+    def snapshot(self) -> CatalogSnapshot:
+        """读侧入口：返回当前快照，miss 时惰性触发一次全量重建。
+
+        热态下所有读请求都走这里 → O(1) 内存命中；写操作通过 ``_invalidate_bank``
+        精准重建受影响 bank 后整体替换快照引用（Python 引用赋值原子）。
+        """
+        snapshot = self._snapshot
+        if snapshot is not None:
+            self.snapshot_hits += 1
+            return snapshot
+        self.snapshot_misses += 1
+        return self._rebuild_snapshot()
+
+    def _rebuild_snapshot(self) -> CatalogSnapshot:
+        """COW 全量重建（§6.3 四步）：锁内读 generation → 锁外构建 → 锁内校验 → 原子安装。"""
+        with self._lock:
+            current = self._snapshot
+            base_generation = current.generation if current else 0
+        # 锁外构建：扫描+解析全部 bank（耗时主体），不阻塞读者持有旧快照。
+        new_snapshot = self._build_snapshot(base_generation + 1)
+        with self._lock:
+            # 期间若有别的线程先安装了更新的快照，丢弃本次结果，直接返回那个。
+            if self._snapshot is not None and self._snapshot.generation > base_generation:
+                return self._snapshot
+            self._snapshot = new_snapshot
+            # 单题缓存随 snapshot 一同失效：清掉所有旧 generation 的条目（§8.3）。
+            # 新请求 miss 后再解析当前题，最多 3 份 YAML，而非整卷。
+            self._item_cache.clear()
+            return new_snapshot
+
+    def _invalidate_bank(self, bank_id: str) -> CatalogSnapshot:
+        """写后精准失效（§5.2/§6.2）：审核/换图/删图后刷新读模型。
+
+        只重建受影响 bank 的 summary/detail/AssetIndex，再基于当前 snapshot 做
+        copy-on-write 替换。图片写接口必须等待这个结果后才能返回新预览 URL；如果
+        退化成全量重建，题库多时一次粘贴会阻塞数十秒，前端看起来像没有保存。
+        """
+        snapshot = self.snapshot()
+        if bank_id not in snapshot.records_by_id:
+            raise KeyError(bank_id)
+        # 内部写串行安装：读者仍可无锁持有旧 snapshot；锁内只解析当前一份试卷，
+        # 避免两个并发写用同一 generation 互相覆盖。
+        with self._lock:
+            current = self._snapshot or snapshot
+            record = current.records_by_id.get(bank_id)
+            if record is None:
+                raise KeyError(bank_id)
+
+            detail, preview_files = self._detail_for_record(record)
+            summary = self.summary(record)
+
+            summaries = [
+                summary if item.get("id") == bank_id else item
+                for item in current.summaries
+            ]
+            summaries_by_id = dict(current.summaries_by_id)
+            summaries_by_id[bank_id] = summary
+            details_by_bank = dict(current.details_by_bank)
+            details_by_bank[bank_id] = detail
+
+            items_by_bank_item = {
+                key: value
+                for key, value in current.items_by_bank_item.items()
+                if key[0] != bank_id
+            }
+            for item in detail.get("items", []):
+                items_by_bank_item[(bank_id, str(item.get("id", "")))] = item
+
+            asset_paths = {
+                key: value
+                for key, value in current.asset_paths.items()
+                if key[0] != bank_id
+            }
+            for (item_id, role), path in preview_files.items():
+                try:
+                    asset_paths[(bank_id, item_id, role)] = (
+                        path,
+                        path.stat().st_mtime_ns,
+                    )
+                except OSError:
+                    continue
+
+            source_page_paths = {
+                key: value
+                for key, value in current.source_page_paths.items()
+                if key[0] != bank_id
+            }
+            if record.kind == "staging_exam":
+                for item_id, role, index, path in self._collect_source_page_paths(record):
+                    try:
+                        source_page_paths[(bank_id, item_id, role, index)] = (
+                            path,
+                            path.stat().st_mtime_ns,
+                        )
+                    except OSError:
+                        continue
+
+            bank_fingerprints = dict(current.bank_fingerprints)
+            bank_fingerprints[bank_id] = _bank_fingerprint(record)
+            catalog_versions = dict(current.catalog_versions)
+            version_file = record.directory / ".catalog-version"
+            try:
+                catalog_versions[bank_id] = version_file.stat().st_mtime_ns
+            except OSError:
+                catalog_versions.pop(bank_id, None)
+
+            updated = CatalogSnapshot(
+                generation=current.generation + 1,
+                records_by_id=dict(current.records_by_id),
+                summaries=summaries,
+                summaries_by_id=summaries_by_id,
+                facets=self._facets_from_summaries(summaries),
+                errors=list(current.errors),
+                details_by_bank=details_by_bank,
+                items_by_bank_item=items_by_bank_item,
+                asset_paths=asset_paths,
+                source_page_paths=source_page_paths,
+                bank_fingerprints=bank_fingerprints,
+                catalog_versions=catalog_versions,
+            )
+            self._snapshot = updated
+            self._item_cache = {
+                key: value
+                for key, value in self._item_cache.items()
+                if key[0] != bank_id
+            }
+            return updated
+
+    def reindex_bank(self, bank_id: str) -> CatalogSnapshot:
+        """外部受控写触发的精准失效（§5.2/§8.5）：POST /api/admin/reindex?bank=<id>。
+
+        与 _invalidate_bank 等价（都走全量 COW 重建）；单独命名让 admin 路由语义清晰，
+        也方便后续阶段把这里改成「只重建受影响 bank」而不动内部写路径。
+        """
+        return self._rebuild_snapshot()
+
+    def reindex_all(self) -> CatalogSnapshot:
+        """全量重建（§8.5）：POST /api/admin/reindex（不带 bank）。
+        显式入口，供 watcher/TTL/手工触发，绕过 snapshot 命中检查。
+        """
+        return self._rebuild_snapshot()
+
+    def start_ttl_watcher(self, interval_seconds: float = 30.0) -> None:
+        """不受约束外部写的兜底（§5.2）：低频后台线程 stat 所有 bank 指纹，变了即重建。
+
+        覆盖「手工编辑 YAML、既不 bump .catalog-version 也不调 reindex」的场景。
+        默认不启用（create_question_bank_app 经 external_write_ttl 开启），避免在
+        测试 / 单进程里制造后台线程。守护线程在快照变化前 sleep，避免忙等。
+        """
+        if interval_seconds <= 0:
+            return
+        def _watch() -> None:
+            while not self._stop_watcher.is_set():
+                try:
+                    snapshot = self._snapshot
+                    if snapshot is not None:
+                        for bank_id, record in snapshot.records_by_id.items():
+                            cached = snapshot.bank_fingerprints.get(bank_id)
+                            if cached is None or _bank_fingerprint(record) == cached:
+                                continue
+                            # 任一 bank 指纹变 → 整体重建一次即可，跳出内层循环。
+                            self._rebuild_snapshot()
+                            break
+                except Exception:  # noqa: BLE001 — 后台线程绝不能因异常退出
+                    pass
+                self._stop_watcher.wait(interval_seconds)
+        self._stop_watcher = threading.Event()
+        thread = threading.Thread(target=_watch, name="catalog-ttl-watcher", daemon=True)
+        thread.start()
+
+    def bump_catalog_version(self, bank_id: str) -> bool:
+        """受控 writer bump ``<bank>/.catalog-version``（§5.3）。
+
+        供 notify_catalog_version.py CLI 与 POST /api/admin/reindex?bump=1 调用。
+        写一个原子时间戳文件，让 ensure_bank_fresh 的快速路径在下一个读请求触发重建。
+        文件本身不入库（.gitignore 忽略，可重建）。返回是否成功 bump（bank 不存在则 False）。
+        """
+        snapshot = self.snapshot()
+        record = snapshot.records_by_id.get(bank_id)
+        if record is None:
+            return False
+        version_path = record.directory / ".catalog-version"
+        try:
+            version_path.parent.mkdir(parents=True, exist_ok=True)
+            with tempfile.NamedTemporaryFile(
+                "w", encoding="utf-8", dir=version_path.parent, delete=False
+            ) as handle:
+                handle.write(f"{datetime.now(timezone.utc).isoformat()}\n")
+                temporary = Path(handle.name)
+            os.replace(temporary, version_path)
+        except OSError:
+            return False
+        return True
+
+    def ensure_bank_fresh(self, bank_id: str) -> CatalogSnapshot:
+        """读路由新鲜度兜底（§5.4）：stat 该 bank 关键文件，变了就精准重建。
+
+        捕获服务端写路径之外的修改（外部脚本直接改 source.yaml/review.yaml、
+        teacher.resolved.assignment.yaml 重新生成等），这些不会触发 _invalidate_bank。
+        只 stat 单 bank 的几份文件，不退化成 O(items) 全库扫描。
+
+        §5.3 两层：先 stat ``.catalog-version``（受控 writer bump 的 O(1) 快速路径），
+        命中变化即重建；未变化再走指纹层（catch 不 bump 的外部脚本写）。
+        """
+        snapshot = self.snapshot()
+        record = snapshot.records_by_id.get(bank_id)
+        if record is None:
+            return snapshot
+        # .catalog-version 快速路径：受控 writer（ingestion/geometry/resolved）写完
+        # bump 这个文件（见 notify_catalog_version.py / POST /api/admin/reindex）。
+        version_path = record.directory / ".catalog-version"
+        cached_version = snapshot.catalog_versions.get(bank_id)
+        try:
+            current_version = version_path.stat().st_mtime_ns
+        except OSError:
+            current_version = None
+        # 文件 mtime 变化，或「缓存里没有但文件现在存在」（运行时首次 bump）→ 重建。
+        if (cached_version is None and current_version is not None) or (
+            cached_version is not None and current_version != cached_version
+        ):
+            return self._rebuild_snapshot()
+        cached = snapshot.bank_fingerprints.get(bank_id)
+        if cached is not None and _bank_fingerprint(record) == cached:
+            return snapshot
+        return self._rebuild_snapshot()
+
+    def _build_snapshot(self, generation: int) -> CatalogSnapshot:
+        """构建一个不可变快照。调用方负责并发替换（见 ``_rebuild_snapshot``）。"""
+        records, errors = self.discover()
+        records_by_id = {record.bank_id: record for record in records}
+        summaries = []
         for record in records:
-            if record.bank_id == bank_id:
-                return record
-        raise KeyError(bank_id)
+            started = time.perf_counter()
+            try:
+                summaries.append(self.summary(record))
+            finally:
+                self.summary_seconds += time.perf_counter() - started
+        summaries_by_id = {summary["id"]: summary for summary in summaries}
+        facets = self._facets_from_summaries(summaries)
+
+        details_by_bank: dict[str, dict[str, Any]] = {}
+        items_by_bank_item: dict[tuple[str, str], dict[str, Any]] = {}
+        asset_paths: dict[tuple[str, str, str], tuple[Path, int]] = {}
+        source_page_paths: dict[tuple[str, str, str, int], tuple[Path, int]] = {}
+        bank_fingerprints: dict[str, str] = {}
+        catalog_versions: dict[str, int] = {}
+        for record in records:
+            detail, preview_files = self._detail_for_record(record)
+            details_by_bank[record.bank_id] = detail
+            for item in detail.get("items", []):
+                items_by_bank_item[(record.bank_id, str(item.get("id", "")))] = item
+            for (item_id, role), path in preview_files.items():
+                try:
+                    mtime = path.stat().st_mtime_ns
+                except OSError:
+                    continue
+                asset_paths[(record.bank_id, item_id, role)] = (path, mtime)
+            if record.kind == "staging_exam":
+                for item_id, role, index, path in self._collect_source_page_paths(record):
+                    try:
+                        mtime = path.stat().st_mtime_ns
+                    except OSError:
+                        continue
+                    source_page_paths[(record.bank_id, item_id, role, index)] = (path, mtime)
+            bank_fingerprints[record.bank_id] = _bank_fingerprint(record)
+            version_file = record.directory / ".catalog-version"
+            try:
+                catalog_versions[record.bank_id] = version_file.stat().st_mtime_ns
+            except OSError:
+                pass  # 该 bank 没有 .catalog-version，ensure_bank_fresh 退化到指纹层。
+        return CatalogSnapshot(
+            generation=generation,
+            records_by_id=records_by_id,
+            summaries=summaries,
+            summaries_by_id=summaries_by_id,
+            facets=facets,
+            errors=list(errors),
+            details_by_bank=details_by_bank,
+            items_by_bank_item=items_by_bank_item,
+            asset_paths=asset_paths,
+            source_page_paths=source_page_paths,
+            bank_fingerprints=bank_fingerprints,
+            catalog_versions=catalog_versions,
+        )
+
+    @staticmethod
+    def _facets_from_summaries(summaries: list[dict[str, Any]]) -> dict[str, list[str]]:
+        """聚合 facets（与原 ``/api/banks/facets`` 路由同序：exam_types 按 EXAM_TYPE_TOKENS）。"""
+        grades: set[str] = set()
+        years: set[str] = set()
+        exam_types: set[str] = set()
+        kinds: set[str] = set()
+        for item in summaries:
+            kinds.add(item.get("kind", "formal_bank"))
+            if item.get("grade"):
+                grades.add(item["grade"])
+            if item.get("year"):
+                years.add(item["year"])
+            if item.get("exam_type"):
+                exam_types.add(item["exam_type"])
+        ordered_exam_types = [
+            label for token, label in EXAM_TYPE_TOKENS.items() if label in exam_types
+        ]
+        return {
+            "kinds": sorted(kinds),
+            "grades": sorted(grades),
+            "years": sorted(years, reverse=True),
+            "exam_types": ordered_exam_types,
+            "errors": [],  # errors 在 snapshot 顶层单独维护，这里留空避免重复。
+        }
+
+    @staticmethod
+    def _collect_source_page_paths(
+        record: BankRecord,
+    ) -> list[tuple[str, str, int, Path]]:
+        """扫描 staging source.yaml 的 word_evidence，产出 (item_id, role, index, path)。
+
+        与 ``/api/source-pages`` 路由及 ``_word_evidence_pages`` 同源：来源页路径来自
+        ``source.word_evidence[role][index].page_image``，当前未进入 ``preview_files``，
+        AssetIndex 必须单独消费这一数据源（§8.4 注意）。
+        """
+        if record.kind != "staging_exam":
+            return []
+        results = []
+        for item_id in QuestionBankCatalog._staging_item_ids(record):
+            source_path = record.directory / "items" / item_id / "source.yaml"
+            if not source_path.is_file():
+                continue
+            try:
+                source = _read_yaml(source_path)
+            except (OSError, ValueError):
+                continue
+            word_evidence = source.get("word_evidence")
+            if not isinstance(word_evidence, dict):
+                continue
+            for role in ("question", "official_solution"):
+                spans = word_evidence.get(role)
+                if not isinstance(spans, list):
+                    continue
+                for index, entry in enumerate(spans):
+                    if not isinstance(entry, dict):
+                        continue
+                    page_image = Path(str(entry.get("page_image") or ""))
+                    if not page_image.is_absolute():
+                        page_image = REPO_ROOT / page_image
+                    try:
+                        page_image = page_image.resolve()
+                    except OSError:
+                        continue
+                    if not _inside(page_image, REPO_ROOT) or not page_image.is_file():
+                        continue
+                    results.append((item_id, role, index, page_image))
+        return results
 
     @staticmethod
     def summary(record: BankRecord) -> dict[str, Any]:
@@ -952,8 +1436,14 @@ class QuestionBankCatalog:
             if temporary_image.exists():
                 temporary_image.unlink()
 
-        detail, _ = self._staging_detail(record)
-        return next(item for item in detail["items"] if item["id"] == item_id)
+        # 写后失效该 bank（刷 AssetIndex + summary counts），再从新快照回取单题 detail。
+        new_snapshot = self._invalidate_bank(bank_id)
+        updated = new_snapshot.items_by_bank_item.get((bank_id, item_id))
+        if updated is None:
+            # 失效后该题仍缺失（理论不应发生，因为 record 仍有效）→ 兜底重建。
+            detail, _ = self._staging_detail(record)
+            updated = next(item for item in detail["items"] if item["id"] == item_id)
+        return updated
 
     def delete_staging_image(
         self,
@@ -1073,13 +1563,35 @@ class QuestionBankCatalog:
         _atomic_write_yaml(student_path, student)
         _atomic_write_yaml(source_path, source)
 
-        detail, _ = self._staging_detail(record)
-        return next(item for item in detail["items"] if item["id"] == item_id)
+        # 写后失效该 bank（刷 AssetIndex + summary counts），再从新快照回取单题 detail。
+        new_snapshot = self._invalidate_bank(bank_id)
+        updated = new_snapshot.items_by_bank_item.get((bank_id, item_id))
+        if updated is None:
+            # 失效后该题仍缺失（理论不应发生，因为 record 仍有效）→ 兜底重建。
+            detail, _ = self._staging_detail(record)
+            updated = next(item for item in detail["items"] if item["id"] == item_id)
+        return updated
 
     def write_staging_review(
         self, bank_id: str, item_id: str, decision: ReviewDecision
     ) -> dict[str, Any]:
         record = self.record(bank_id)
+        if record.kind != "staging_exam" or item_id not in self._staging_item_ids(record):
+            raise KeyError((bank_id, item_id))
+        review = self._write_staging_review_with_record(record, item_id, decision)
+        # 写后精准失效该 bank（§9.1）：刷 summary counts + 该题 detail + AssetIndex。
+        self._invalidate_bank(bank_id)
+        return review
+
+    def _write_staging_review_with_record(
+        self, record: BankRecord, item_id: str, decision: ReviewDecision
+    ) -> dict[str, Any]:
+        """单题审核核心，复用传入 record，不再 discover（§9.1，A8）。
+
+        批量审核在循环外只调一次 ``record()``，循环内全部走这里；公开入口
+        ``write_staging_review`` 仍各自 ``record()`` 以保留完整校验。
+        """
+        bank_id = record.bank_id
         if record.kind != "staging_exam" or item_id not in self._staging_item_ids(record):
             raise KeyError((bank_id, item_id))
         item_dir = record.directory / "items" / item_id
@@ -1119,30 +1631,127 @@ class QuestionBankCatalog:
         return self._review_state(item_dir_resolved, source)
 
     def approve_all_staging(self, bank_id: str) -> dict[str, Any]:
-        """一键通过整张 staging 试卷。
+        """一键通过整张 staging 试卷（A8：只 discover 一次 + 精准失效一次）。
 
-        逐题复用 ``write_staging_review(approved)`` 写 review.yaml，保留 schema、
-        reviewer、原子写、content_hash 刷新等所有现有语义。单题失败（如缺
-        source.yaml）不中断整卷，收集到 ``errors[]`` 让前端提示用户处理。
+        返回新契约（§9.2 推荐方案）：``{counts, updated_reviews, errors}``，
+        前端 ``approveWholePaper`` 据此就地刷新计数与各题 review，不再重拉整卷。
         """
         record = self.record(bank_id)
         if record.kind != "staging_exam":
             raise KeyError(bank_id)
         approve = ReviewDecision(decision="approved", note="")
         errors: list[dict[str, str]] = []
+        updated_reviews: dict[str, dict[str, Any]] = {}
         for item_id in self._staging_item_ids(record):
             try:
-                self.write_staging_review(bank_id, item_id, approve)
+                updated_reviews[item_id] = self._write_staging_review_with_record(
+                    record, item_id, approve
+                )
             except (OSError, ValueError) as exc:
                 errors.append({"item_id": item_id, "error": str(exc)})
-        detail, _ = self._staging_detail(record)
-        detail["errors"] = errors
-        return detail
+        # 全部写完后只失效一次：刷 summary counts + 整卷 detail + AssetIndex。
+        new_snapshot = self._invalidate_bank(bank_id)
+        summary = new_snapshot.summaries_by_id.get(bank_id, {})
+        return {
+            "counts": {
+                "approved": summary.get("approved_count", 0),
+                "rejected": summary.get("rejected_count", 0),
+                "stale": summary.get("stale_count", 0),
+            },
+            "updated_reviews": updated_reviews,
+            "errors": errors,
+        }
 
     def detail(self, bank_id: str) -> tuple[dict[str, Any], dict[tuple[str, str], Path]]:
-        record = self.record(bank_id)
+        return self._detail_for_record(self.record(bank_id))
+
+    def item_detail(self, bank_id: str, item_id: str) -> dict[str, Any]:
+        """单题完整详情（§8.3，阶段 5）：供 GET /api/banks/{id}/items/{item_id}。
+
+        优先级：snapshot.items_by_bank_item（O(1) 命中，整卷 detail 已在快照构建时算好）
+        → item cache（按 generation 失效）→ 仅解析当前题（兜底，不重建整卷）。
+        snapshot 已持有整卷 detail，单题接口在热态是纯字典查找；item cache 只在
+        snapshot miss 的极端情况（如外部写后 _item_cache 清空但 snapshot 还在重建）下有用。
+        """
+        snapshot = self.snapshot()
+        cached = snapshot.items_by_bank_item.get((bank_id, item_id))
+        if cached is not None:
+            return cached
+        # snapshot 里没有（题库/题目不存在或刚被外部删改）：先查 item cache，再解析当前题。
+        with self._lock:
+            entry = self._item_cache.get((bank_id, item_id))
+            if entry is not None and entry[0] == snapshot.generation:
+                return entry[1]
+        # 兜底：解析当前题（不重建整卷）。staging 走 _staging_detail 取整卷再挑一题，
+        # 因为单题解析依赖 source.yaml + 两份 resolved，_staging_detail 已封装这一套。
+        record = snapshot.records_by_id.get(bank_id)
+        if record is None:
+            raise KeyError(bank_id)
+        detail, _ = self._detail_for_record(record)
+        for item in detail.get("items", []):
+            if str(item.get("id", "")) == item_id:
+                with self._lock:
+                    self._item_cache[(bank_id, item_id)] = (snapshot.generation, item)
+                return item
+        raise KeyError((bank_id, item_id))
+
+    def paper_directory(self, bank_id: str) -> dict[str, Any]:
+        """卷级轻量目录（§8.3，阶段 5）：counts + items 的 id/title/review_status/stale。
+
+        供前端首屏拿到导航所需的最小目录，再逐题懒加载完整详情（§10.3）。
+        ensure_bank_fresh 兜底外部写；命中 snapshot 是 O(items) 内存投影，无 YAML 解析。
+        """
+        snapshot = self.ensure_bank_fresh(bank_id)
+        detail = snapshot.details_by_bank.get(bank_id)
+        if detail is None:
+            raise KeyError(bank_id)
+        items = detail.get("items", [])
+        directory_items = [
+            {
+                "id": str(item.get("id", "")),
+                "title": item.get("title") or item.get("id") or "",
+                "review_status": (item.get("review") or {}).get("status", "pending"),
+                "stale": bool((item.get("review") or {}).get("stale")),
+            }
+            for item in items
+        ]
+        if detail.get("kind") == "staging_exam":
+            counts = {
+                "approved": detail.get("approved_count", 0),
+                "rejected": detail.get("rejected_count", 0),
+                "stale": detail.get("stale_count", 0),
+            }
+        else:
+            counts = {
+                "approved": detail.get("enabled_count", 0),
+                "rejected": 0,
+                "stale": 0,
+            }
+        return {
+            "id": bank_id,
+            "kind": detail.get("kind", "formal_bank"),
+            "topic": detail.get("topic", bank_id),
+            "grade": detail.get("grade", ""),
+            "paper_id": detail.get("paper_id", ""),
+            "year": detail.get("year", ""),
+            "exam_type": detail.get("exam_type", ""),
+            "district": detail.get("district", ""),
+            "item_count": detail.get("item_count", len(items)),
+            "counts": counts,
+            "items": directory_items,
+        }
+
+    def _detail_for_record(
+        self, record: BankRecord
+    ) -> tuple[dict[str, Any], dict[tuple[str, str], Path]]:
+        """detail 的无 discover 版本：直接用传入 record（消除 A2，snapshot 构建走这里）。"""
+        bank_id = record.bank_id
         if record.kind == "staging_exam":
-            return self._staging_detail(record)
+            started = time.perf_counter()
+            try:
+                return self._staging_detail(record)
+            finally:
+                self.staging_detail_seconds += time.perf_counter() - started
         preview_files: dict[tuple[str, str], Path] = {}
         rendered_items: list[dict[str, Any]] = []
         for manifest_item in record.manifest.get("items", []):
@@ -1308,11 +1917,16 @@ def _filter_bank_summaries(
 def create_question_bank_app(
     bank_root: str | Path = DEFAULT_BANK_ROOT,
     number_review_url: str = DEFAULT_NUMBER_REVIEW_URL,
+    external_write_ttl: float | None = None,
 ) -> FastAPI:
     catalog = QuestionBankCatalog(bank_root)
     app = FastAPI(title="Question Bank Review", version="0.1.0")
     app.state.catalog = catalog
     app.state.number_review_url = number_review_url
+    # §5.2 兜底：external_write_ttl>0 启动后台 TTL watcher，覆盖不 bump 的外部写。
+    # 默认 None=不启动（测试与单进程常态靠 ensure_bank_fresh 指纹层即可）。
+    if external_write_ttl and external_write_ttl > 0:
+        catalog.start_ttl_watcher(external_write_ttl)
     app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
     @app.get("/", response_class=HTMLResponse)
@@ -1331,8 +1945,39 @@ def create_question_bank_app(
 
     @app.get("/healthz")
     def healthz() -> dict[str, Any]:
-        records, errors = catalog.discover()
-        return {"ok": True, "banks": len(records), "errors": errors}
+        # 读 snapshot（A9）：健康检查不再触发全量 discover。ready 反映预热状态，
+        # 本阶段同步构建，恒为 True（后台预热 + ready 是阶段 10.3 的后续工作）。
+        snapshot = catalog.snapshot()
+        return {
+            "ok": True,
+            "ready": True,
+            "banks": len(snapshot.summaries),
+            "errors": snapshot.errors,
+            # §11 阶段 0 可观测：stats 非破坏性追加，现有 ok/ready/banks/errors 契约不变。
+            "stats": catalog.stats(),
+        }
+
+    @app.get("/api/bootstrap")
+    def bootstrap() -> dict[str, Any]:
+        """首屏单请求（§8.1）：一次返回 summaries + facets + errors + number_review_url。
+
+        消灭原首屏 ``loadFacets()`` → ``applyFilters()`` 串行瀑布（F1），两者在旧实现里
+        各自算一遍全量 catalog。改读 snapshot 后这里全部 O(1)：summaries 自带归一化字段、
+        facets 已聚合、errors 已收集。前端据此本地填列表 + facets 再触发首次 selectBank。
+        """
+        snapshot = catalog.snapshot()
+        facets = snapshot.facets
+        return {
+            "banks": snapshot.summaries,
+            "facets": {
+                "kinds": facets["kinds"],
+                "grades": facets["grades"],
+                "years": facets["years"],
+                "exam_types": facets["exam_types"],
+            },
+            "errors": snapshot.errors,
+            "number_review_url": number_review_url,
+        }
 
     @app.get("/api/banks")
     def list_banks(
@@ -1342,10 +1987,11 @@ def create_question_bank_app(
         exam_type: str | None = None,
         q: str | None = None,
     ) -> dict[str, Any]:
-        records, errors = catalog.discover()
-        summaries = [catalog.summary(record) for record in records]
+        # 读 snapshot（A1/A4）：summaries 自带归一化 year/exam_type/district 字段，
+        # 内存过滤零成本（§4.2）。_filter_bank_summaries 原样复用。
+        snapshot = catalog.snapshot()
         banks = _filter_bank_summaries(
-            summaries,
+            snapshot.summaries,
             kind=kind,
             grade=grade,
             year=year,
@@ -1354,55 +2000,70 @@ def create_question_bank_app(
         )
         return {
             "banks": banks,
-            "errors": errors,
+            "errors": snapshot.errors,
             "number_review_url": number_review_url,
         }
 
     @app.get("/api/banks/facets")
     def bank_facets() -> dict[str, Any]:
-        records, errors = catalog.discover()
-        summaries = [catalog.summary(record) for record in records]
-        grades: set[str] = set()
-        years: set[str] = set()
-        exam_types: set[str] = set()
-        kinds: set[str] = set()
-        for item in summaries:
-            kinds.add(item.get("kind", "formal_bank"))
-            if item.get("grade"):
-                grades.add(item["grade"])
-            if item.get("year"):
-                years.add(item["year"])
-            if item.get("exam_type"):
-                exam_types.add(item["exam_type"])
-        # exam_type 枚举顺序固定为 EXAM_TYPE_TOKENS 声明顺序，便于前端稳定渲染。
-        ordered_exam_types = [
-            label
-            for token, label in EXAM_TYPE_TOKENS.items()
-            if label in exam_types
-        ]
+        # 读 snapshot（A4）：facets 已在快照构建时聚合好。
+        snapshot = catalog.snapshot()
+        facets = snapshot.facets
         return {
-            "kinds": sorted(kinds),
-            "grades": sorted(grades),
-            "years": sorted(years, reverse=True),
-            "exam_types": ordered_exam_types,
-            "errors": errors,
+            "kinds": facets["kinds"],
+            "grades": facets["grades"],
+            "years": facets["years"],
+            "exam_types": facets["exam_types"],
+            "errors": snapshot.errors,
         }
 
     @app.get("/api/banks/{bank_id}")
-    def bank_detail(bank_id: str) -> dict[str, Any]:
+    def bank_detail(bank_id: str, directory: bool = False) -> dict[str, Any]:
+        # 读 snapshot：整卷 detail 在快照构建时一次性算好。
+        # ensure_bank_fresh 兜底外部写（直接改 source.yaml 等），保证 stale 检测等正确性。
+        #
+        # ?directory=1（§8.3 阶段 5）：返回轻量卷级目录（counts + items 的 id/title/
+        # review_status/stale），供前端首屏拿导航再逐题懒加载。默认仍返回整卷完整 detail，
+        # 兼容已提交测试与未升级前端（§14 反向兼容开关）。
+        if directory:
+            try:
+                return catalog.paper_directory(bank_id)
+            except KeyError as exc:
+                raise HTTPException(status_code=404, detail="题库不存在") from exc
+        snapshot = catalog.ensure_bank_fresh(bank_id)
+        detail = snapshot.details_by_bank.get(bank_id)
+        if detail is None:
+            raise HTTPException(status_code=404, detail="题库不存在")
+        return detail
+
+    @app.get("/api/banks/{bank_id}/items/{item_id}")
+    def item_detail(bank_id: str, item_id: str) -> dict[str, Any]:
+        """单题完整详情（§8.3 阶段 5）：命中 snapshot O(1)，否则仅解析当前题。
+
+        前端懒加载（§10.3）：加载卷级目录后逐题请求此接口，避免一次拉整卷 3×N 份 YAML。
+        """
+        snapshot = catalog.ensure_bank_fresh(bank_id)
         try:
-            detail, _ = catalog.detail(bank_id)
-            return detail
+            return catalog.item_detail(bank_id, item_id)
         except KeyError as exc:
-            raise HTTPException(status_code=404, detail="题库不存在") from exc
+            raise HTTPException(status_code=404, detail="题目不存在") from exc
 
     @app.get("/api/assets/{bank_id}/{item_id}/{role}")
     def preview_asset(bank_id: str, item_id: str, role: str) -> FileResponse:
-        try:
-            _, files = catalog.detail(bank_id)
-        except KeyError as exc:
-            raise HTTPException(status_code=404, detail="题库不存在") from exc
-        path = files.get((item_id, role))
+        # 读 AssetIndex（A6）：命中直接 FileResponse，不再为一张图重建整卷。
+        # 索引未命中（新写尚未失效、或 bank 不存在）回退 detail()（§14 阶段 2 双写过渡）。
+        snapshot = catalog.ensure_bank_fresh(bank_id)
+        entry = snapshot.asset_paths.get((bank_id, item_id, role))
+        path: Path | None = entry[0] if entry else None
+        if path is None:
+            catalog.asset_index_misses += 1
+            try:
+                _, files = catalog.detail(bank_id)
+            except KeyError as exc:
+                raise HTTPException(status_code=404, detail="题库不存在") from exc
+            path = files.get((item_id, role))
+        else:
+            catalog.asset_index_hits += 1
         if path is None:
             raise HTTPException(status_code=404, detail="预览不存在")
         media_type = mimetypes.guess_type(path.name)[0] or "application/octet-stream"
@@ -1412,35 +2073,81 @@ def create_question_bank_app(
     def source_page_asset(
         bank_id: str, item_id: str, role: str, index: int
     ) -> FileResponse:
-        """服务 documents/ 下的整页来源 PNG（_safe_file 限 bank_dir，无法服务仓库根文件）。"""
-        try:
-            record = catalog.record(bank_id)
-        except KeyError as exc:
-            raise HTTPException(status_code=404, detail="题库不存在") from exc
-        source_path = record.directory / "items" / item_id / "source.yaml"
-        if not source_path.is_file():
-            raise HTTPException(status_code=404, detail="source.yaml 不存在")
-        try:
-            source = _read_yaml(source_path)
-        except (OSError, ValueError) as exc:
-            raise HTTPException(status_code=404, detail=str(exc)) from exc
-        word_evidence = source.get("word_evidence") or {}
-        if not isinstance(word_evidence, dict):
-            raise HTTPException(status_code=404, detail="无来源证据")
-        spans = word_evidence.get(role) if role in ("question", "official_solution") else None
-        if not isinstance(spans, list) or not 0 <= index < len(spans):
-            raise HTTPException(status_code=404, detail="来源证据不存在")
-        entry = spans[index]
-        if not isinstance(entry, dict):
-            raise HTTPException(status_code=404, detail="来源证据不存在")
-        page_image = Path(str(entry.get("page_image") or ""))
-        if not page_image.is_absolute():
-            page_image = REPO_ROOT / page_image
-        page_image = page_image.resolve()
-        if not _inside(page_image, REPO_ROOT) or not page_image.is_file():
-            raise HTTPException(status_code=404, detail="页图不存在")
+        """服务 documents/ 下的整页来源 PNG（_safe_file 限 bank_dir，无法服务仓库根文件）。
+
+        读 AssetIndex（A7）：命中直接 FileResponse，不再 record()→discover()。
+        索引未命中回退到内联 source.yaml 解析（§14 阶段 2 双写过渡），保留原 404 语义。
+        """
+        snapshot = catalog.ensure_bank_fresh(bank_id)
+        entry = snapshot.source_page_paths.get((bank_id, item_id, role, index))
+        page_image: Path | None = entry[0] if entry else None
+        if page_image is None:
+            catalog.asset_index_misses += 1
+        else:
+            catalog.asset_index_hits += 1
+        if page_image is None:
+            # 兼容性回退：role 必须是合法枚举，否则按原逻辑返回"来源证据不存在"。
+            if role not in ("question", "official_solution"):
+                raise HTTPException(status_code=404, detail="来源证据不存在")
+            try:
+                record = catalog.record(bank_id)
+            except KeyError as exc:
+                raise HTTPException(status_code=404, detail="题库不存在") from exc
+            source_path = record.directory / "items" / item_id / "source.yaml"
+            if not source_path.is_file():
+                raise HTTPException(status_code=404, detail="source.yaml 不存在")
+            try:
+                source = _read_yaml(source_path)
+            except (OSError, ValueError) as exc:
+                raise HTTPException(status_code=404, detail=str(exc)) from exc
+            word_evidence = source.get("word_evidence") or {}
+            if not isinstance(word_evidence, dict):
+                raise HTTPException(status_code=404, detail="无来源证据")
+            spans = word_evidence.get(role)
+            if not isinstance(spans, list) or not 0 <= index < len(spans):
+                raise HTTPException(status_code=404, detail="来源证据不存在")
+            span_entry = spans[index]
+            if not isinstance(span_entry, dict):
+                raise HTTPException(status_code=404, detail="来源证据不存在")
+            resolved = Path(str(span_entry.get("page_image") or ""))
+            if not resolved.is_absolute():
+                resolved = REPO_ROOT / resolved
+            try:
+                resolved = resolved.resolve()
+            except OSError as exc:
+                raise HTTPException(status_code=404, detail="页图不存在") from exc
+            if not _inside(resolved, REPO_ROOT) or not resolved.is_file():
+                raise HTTPException(status_code=404, detail="页图不存在")
+            page_image = resolved
         media_type = mimetypes.guess_type(page_image.name)[0] or "application/octet-stream"
         return FileResponse(page_image, media_type=media_type)
+
+    @app.post("/api/admin/reindex")
+    def admin_reindex(
+        bank: str | None = None,
+        bump: bool = False,
+    ) -> dict[str, Any]:
+        """外部受控写触发失效（§8.5）：受控 writer（ingestion/geometry/resolved）调用。
+
+        - ``bank=<bank_id>``：精准重建该 bank（实际走全量 COW，见 reindex_bank 文档）。
+        - 无 ``bank``：全量重建 snapshot。
+        - ``bump=true``：先 bump ``<bank>/.catalog-version``，让 ensure_bank_fresh 的快速路径
+          在本进程之外的 reader 上也生效（多 reader 共享文件系统时）；同进程 reader 立即重建。
+        """
+        if bank is not None:
+            snapshot = catalog.snapshot()
+            if bank not in snapshot.records_by_id:
+                raise HTTPException(status_code=404, detail="题库不存在")
+            if bump and not catalog.bump_catalog_version(bank):
+                raise HTTPException(status_code=400, detail="无法写入 .catalog-version")
+            new_snapshot = catalog.reindex_bank(bank)
+        else:
+            new_snapshot = catalog.reindex_all()
+        return {
+            "ok": True,
+            "generation": new_snapshot.generation,
+            "banks": len(new_snapshot.summaries),
+        }
 
     @app.post("/api/banks/{bank_id}/items/{item_id}/review")
     def review_staging_item(
@@ -1505,9 +2212,20 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--host", default="127.0.0.1")
     parser.add_argument("--port", type=int, default=8877)
     parser.add_argument("--number-review-url", default=DEFAULT_NUMBER_REVIEW_URL)
+    # §5.2 不受约束外部写兜底：>0 启动后台 TTL watcher（秒）。默认 0=不启动。
+    parser.add_argument(
+        "--external-write-ttl",
+        type=float,
+        default=0.0,
+        help="后台指纹扫描间隔（秒）；0 关闭。覆盖手工编辑 YAML 这类不 bump 的外部写。",
+    )
     args = parser.parse_args(argv)
     uvicorn.run(
-        create_question_bank_app(args.bank_root, args.number_review_url),
+        create_question_bank_app(
+            args.bank_root,
+            args.number_review_url,
+            external_write_ttl=args.external_write_ttl or None,
+        ),
         host=args.host,
         port=args.port,
         log_level="info",

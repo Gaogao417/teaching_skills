@@ -94,3 +94,9 @@ artifacts/<学生名>/YYYY-MM-DD-<内容>/02-student-explanation.assignment.yaml
 ## LaTeX handoff
 
 若无 `diagram_slot`，将校验通过的普通 assignment YAML 直接交给 `math-assignment-latex`；若有图，必须先完成 diagram resolve，再交付 resolved YAML。默认连续生成并检查同目录 `.tex`，随后用 VS Code 打开该 `.tex`。只有用户明确要求 PDF 时才继续编译。
+
+> 失效契约：本 skill 写的是 `artifacts/<学生名>/...` 学生作业 artifact，**不进题库**，通常无需
+> 通知 Review UI。仅当 resolved YAML 被进一步灌入 `artifacts/题库/` 下某 formal 题库条目时，
+> 写完后调一次
+> `./.venv/bin/python .codex/skills/math-topic-question-bank/scripts/notify_catalog_version.py --bank-dir <题库目录>`。
+> 详见 `docs/review-server-performance-redesign.md` §7。
