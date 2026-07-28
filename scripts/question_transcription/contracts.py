@@ -321,7 +321,14 @@ class ImageAttributionBundle(_Strict):
 
     @model_validator(mode="after")
     def _cross_refs(self) -> "ImageAttributionBundle":
-        asset_ids = {a.asset_id for a in self.assets}
+        asset_id_list = [a.asset_id for a in self.assets]
+        if len(asset_id_list) != len(set(asset_id_list)):
+            duplicates = sorted(
+                {asset_id for asset_id in asset_id_list if asset_id_list.count(asset_id) > 1}
+            )
+            raise ValueError(f"duplicate asset_id: {duplicates}")
+        asset_ids = set(asset_id_list)
+        assets_by_id = {a.asset_id: a for a in self.assets}
         seen_attr: set[str] = set()
         attributed_assets = {a.asset_id for a in self.assets if a.disposition == "attributed"}
         assets_with_attribution: set[str] = set()
@@ -334,6 +341,17 @@ class ImageAttributionBundle(_Strict):
                 raise ValueError(f"duplicate attribution_id: {attr.attribution_id}")
             seen_attr.add(attr.attribution_id)
             if attr.state in {"accepted", "needs_review"}:
+                disposition = assets_by_id[attr.asset_id].disposition
+                if disposition == "ignored":
+                    raise ValueError(
+                        f"attribution {attr.attribution_id}: ignored asset "
+                        f"{attr.asset_id!r} cannot have state {attr.state!r}"
+                    )
+                if attr.state == "accepted" and disposition != "attributed":
+                    raise ValueError(
+                        f"attribution {attr.attribution_id}: accepted asset "
+                        f"{attr.asset_id!r} must have disposition='attributed'"
+                    )
                 assets_with_attribution.add(attr.asset_id)
         # attributed assets must have at least one accepted/needs_review attribution
         missing = attributed_assets - assets_with_attribution

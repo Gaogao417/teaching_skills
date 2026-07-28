@@ -176,6 +176,13 @@ def attribute_images(paragraphs: list[dict]) -> list[dict]:
             if n == prev_q + 1:
                 question_starts.append((record["index"], n))
                 prev_q = n
+            elif n > prev_q + 1:
+                raise ValueError(
+                    "DOCX question-number state lost at paragraph "
+                    f"{record['index']}: expected question {prev_q + 1}, "
+                    f"found question {n}. Refusing image attribution; "
+                    "do not infer question-image mappings from media filenames."
+                )
             # else: enumeration step (1． 2．) or stray number — ignored.
     # Append sentinel.
     question_starts.append((paragraphs[-1]["index"] + 1 if paragraphs else 0, None))

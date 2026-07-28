@@ -2,9 +2,12 @@
 
 ## 1. 文档状态
 
-- 状态：设计稿
+- 状态：实施原型；P1–P3 已实现，P4 部分通过
 - 适用范围：DOC/DOCX、可检索 PDF、扫描 PDF、单页图片试卷
 - 下游目标：现有 `math_exam_staging_draft/v1`（`paper.draft.yaml`）
+- 来源专项设计：
+  - `docs/question-transcription-docx-design.md`
+  - `docs/question-transcription-pdf-design.md`
 - 核心公式：
 
   ```text
@@ -598,6 +601,18 @@ flowchart LR
 - 将 DOCX/PDF Bundle 输入真实 Assembler，验证端到端 draft。
 - 对同一份题目分别使用 DOCX/PDF provider，验证输出结构等价。
 - 杨浦 18 题验证解答图和完整步骤不会在汇合处丢失。
+
+2026-07-28 的实际验收状态：
+
+- 同题 DOCX/PDF 等价测试通过，两路均经过真实 adapter、共享 Assembler 和
+  expand → materialize → audit；
+- 2024 普陀二模 Q1–Q3 真实 DOCX 子集通过结构审计；
+- 同卷 25 题整卷观察完整，但 17 题存在 unresolved conflict，默认 adapter 正确拒绝
+  继续；
+- 所以 P4 只能记为部分通过，不能进入“整卷生产可用”状态。
+
+完整证据和冻结后基线对照见
+`docs/question-transcription-p4-acceptance-2026-07-28.md`。
 
 ### 最后阶段：收紧工作流
 

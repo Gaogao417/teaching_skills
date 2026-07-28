@@ -110,6 +110,18 @@ def test_adapt_low_confidence_becomes_needs_review():
     assert img10.state == "needs_review"
 
 
+def test_adapt_medium_confidence_does_not_auto_accept():
+    ws = _load_word_source()
+    for entry in ws["image_attribution"]:
+        if entry["media"] == "media/image10.png":
+            entry["confidence"] = "medium"
+    bundle = ImageAttributionBundle.model_validate(
+        adapt(ws, paper_id="2025-YANGPU-ERMO", source_archive=YANGPU_ARCHIVE)
+    )
+    img10 = next(a for a in bundle.attributions if a.asset_id == "word-image10")
+    assert img10.state == "needs_review"
+
+
 def test_adapt_rejects_unknown_media_in_attribution():
     ws = _load_word_source()
     ws["image_attribution"].append(

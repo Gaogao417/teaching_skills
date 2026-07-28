@@ -295,21 +295,7 @@ def _pdf_bundle() -> tuple[QuestionTranscriptionBundle, ImageAttributionBundle]:
 
 
 def test_pdf_track_full_pipeline_passes_audit(fake_repo: Path):
-    """PDF region track end-to-end.
-
-    NOTE on a pre-existing downstream issue (not introduced by this architecture):
-    the current ``expand_staging_draft.py`` always writes a ``word_evidence``
-    block into ``source.yaml`` even for region-only (PDF) items, where both
-    role lists are empty. ``word_evidence_pages.validate_staging_coverage``
-    then rejects the empty lists with "word_evidence.question must not be empty".
-    This was verified independently: re-expanding a real region-only paper
-    (2012-PUTUO-ERMO) with the current expander also fails audit the same way;
-    the on-disk region stasings predate that expander change. The fix belongs
-    in the expander/coverage-validator (out of scope for this architecture,
-    which must not change downstream tooling), so here we assert the assembler
-    produced a valid v1 draft and the pipeline reached audit, surfacing the
-    known downstream error rather than masking it.
-    """
+    """PDF region track passes the unchanged downstream structural audit."""
     t, i = _pdf_bundle()
     # Real page PNGs at declared sizes.
     archive_dir = fake_repo / "documents/初三/SYNTH-PDF-PAPER"
@@ -322,11 +308,8 @@ def test_pdf_track_full_pipeline_passes_audit(fake_repo: Path):
     # The draft assembled and materialized; the region prompt crop was produced.
     item_dir = fake_repo / "staging/SYNTH-PDF-PAPER/items/Q001"
     assert (item_dir / "assets/prompt-01.png").exists()
-    # Known pre-existing downstream issue on region-only items.
-    if proc.returncode != 0:
-        assert "word_evidence" in proc.stderr or "word_evidence" in proc.stdout
-    else:
-        assert "STAGING VALID" in proc.stdout
+    assert proc.returncode == 0, f"audit failed:\n{proc.stderr}\n{proc.stdout}"
+    assert "STAGING VALID" in proc.stdout
 
 
 # --------------------------------------------------------------------------- #
@@ -350,11 +333,5 @@ def test_docx_and_pdf_tracks_both_pass_audit(fake_repo: Path):
     )
     # DOCX track fully passes audit.
     assert proc_d.returncode == 0 and "STAGING VALID" in proc_d.stdout
-    # PDF region track hits the known pre-existing downstream word_evidence
-    # issue (documented in test_pdf_track_full_pipeline_passes_audit); either
-    # it passes once that's fixed, or it surfaces that specific error.
-    if proc_p.returncode != 0:
-        combined = proc_p.stderr + proc_p.stdout
-        assert "word_evidence" in combined
-    else:
-        assert "STAGING VALID" in proc_p.stdout
+    # PDF region track also fully passes audit.
+    assert proc_p.returncode == 0 and "STAGING VALID" in proc_p.stdout

@@ -182,6 +182,20 @@ def test_attributed_asset_without_attribution_rejected():
         ImageAttributionBundle.model_validate(payload)
 
 
+def test_duplicate_asset_id_rejected():
+    payload = _load(FIX / "yangpu-q18.attribution.yaml")
+    payload["assets"].append(dict(payload["assets"][0]))
+    with pytest.raises(Exception, match="duplicate asset_id"):
+        ImageAttributionBundle.model_validate(payload)
+
+
+def test_ignored_asset_cannot_have_active_attribution():
+    payload = _load(FIX / "yangpu-q18.attribution.yaml")
+    payload["assets"][0]["disposition"] = "ignored"
+    with pytest.raises(Exception, match="ignored asset"):
+        ImageAttributionBundle.model_validate(payload)
+
+
 def test_extra_key_rejected():
     payload = _load(FIX / "yangpu-q18.transcription.yaml")
     payload["paper"]["unexpected"] = "x"

@@ -318,10 +318,11 @@ def build_item(
         "section_title": section_title,
         "source_directory": paper["source_archive"],
         "crops": crops,
-        "word_evidence": word_evidence,
         "transcription": transcription,
         "content_hash": ZERO_HASH,
     }
+    if word_evidence["question"] or word_evidence["official_solution"]:
+        source["word_evidence"] = word_evidence
     teacher = {
         "meta": {
             "title": f"{paper['title']}第 {question_number} 题",

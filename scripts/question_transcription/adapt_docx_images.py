@@ -15,9 +15,9 @@ the docx ingestion skill):
   ``crop: full`` (the assembler expands it to ``[0,0,w,h]`` from asset dims).
 - ``bucket`` -> ``role``: ``prompt`` -> ``prompt``, ``solution`` -> ``solution``,
   ``orphan`` -> asset disposition ``ignored`` (no attribution created).
-- ``confidence`` -> ``state``: ``high`` and ``medium`` -> ``accepted``
-  (per the docx skill, ``medium`` is written then confirmed, still consumed);
-  ``low`` -> ``needs_review``.
+- ``confidence`` -> ``state``: only ``high`` -> ``accepted``; ``medium`` and
+  ``low`` -> ``needs_review``. A model/structure result that still expresses
+  uncertainty must never become consumable merely by passing the Adapter.
 - ``order`` is assigned per (question_ref, role) in paragraph order, which is
   the document reading order -- deterministic and stable.
 - Media referenced by no attribution are emitted as ``disposition:
@@ -50,7 +50,7 @@ from scripts.question_transcription.contracts import (  # noqa: E402
 
 CONFIDENCE_TO_STATE: dict[AttributionConfidence, str] = {
     "high": "accepted",
-    "medium": "accepted",
+    "medium": "needs_review",
     "low": "needs_review",
 }
 

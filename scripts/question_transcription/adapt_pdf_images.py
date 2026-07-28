@@ -59,6 +59,9 @@ if str(_REPO_ROOT) not in sys.path:
 from scripts.question_transcription.contracts import (  # noqa: E402
     ImageAttributionBundle,
 )
+from scripts.question_transcription.pdf_observation_contracts import (  # noqa: E402
+    MergedPdfObservation,
+)
 
 CONFIDENCE_TO_STATE: dict[str, str] = {
     "high": "accepted",
@@ -68,9 +71,133 @@ CONFIDENCE_TO_STATE: dict[str, str] = {
 
 
 def adapt(
+    detection: dict[str, Any] | MergedPdfObservation,
+    *,
+    allow_model_accepted: bool = False,
+) -> dict[str, Any]:
+    """Adapt either the new merged observation or the legacy detection payload."""
+    if isinstance(detection, MergedPdfObservation):
+        return adapt_observation(
+            detection, allow_model_accepted=allow_model_accepted
+        )
+    if detection.get("schema") == "math_pdf_merged_observation/v1":
+        return adapt_observation(
+            MergedPdfObservation.model_validate(detection),
+            allow_model_accepted=allow_model_accepted,
+        )
+    return _adapt_legacy_detection(detection)
+
+
+def adapt_observation(
+    observation: MergedPdfObservation,
+    *,
+    allow_model_accepted: bool = False,
+) -> dict[str, Any]:
+    """Split image attributions from a validated joint PDF observation."""
+    figures_by_page: dict[int, list[tuple[str, Any]]] = defaultdict(list)
+    for question in observation.questions:
+        for figure in question.figures:
+            figures_by_page[figure.page_number].append(
+                (question.question_ref, figure)
+            )
+
+    assets: list[dict[str, Any]] = []
+    asset_ids: dict[int, str] = {}
+    for page in observation.pages:
+        asset_id = f"page-{page.page_number:03d}"
+        asset_ids[page.page_number] = asset_id
+        active = [
+            figure
+            for _, figure in figures_by_page.get(page.page_number, [])
+            if figure.state != "rejected"
+        ]
+        assets.append(
+            {
+                "asset_id": asset_id,
+                "source": _source(
+                    observation.paper.source_archive, page.source
+                ),
+                "sha256": page.sha256,
+                "media_type": (
+                    "image/jpeg"
+                    if Path(page.source).suffix.lower() in {".jpg", ".jpeg"}
+                    else "image/png"
+                ),
+                "width_px": page.width_px,
+                "height_px": page.height_px,
+                "disposition": "attributed" if active else "ignored",
+                **(
+                    {}
+                    if active
+                    else {"disposition_reason": "no_independent_figure"}
+                ),
+            }
+        )
+
+    attributions = []
+    for page_number in sorted(figures_by_page):
+        for question_ref, figure in sorted(
+            figures_by_page[page_number],
+            key=lambda item: (int(item[0].split("-", 1)[0]), item[1].role, item[1].order),
+        ):
+            crop: dict[str, Any] = {
+                "kind": "region",
+                "box_px": figure.box_px,
+            }
+            if figure.whiteout_px:
+                crop["whiteout_px"] = figure.whiteout_px
+            evidence: dict[str, object] = {
+                "local_id": figure.local_id,
+                "page_number": page_number,
+            }
+            if figure.note:
+                evidence["note"] = figure.note
+            if figure.needs_human_crop:
+                evidence["needs_human_crop"] = True
+            state = figure.state
+            if state == "accepted" and not allow_model_accepted:
+                state = "needs_review"
+                evidence["model_acceptance_downgraded"] = True
+            attributions.append(
+                {
+                    "attribution_id": (
+                        f"attr-page-{page_number:03d}-q{question_ref}-"
+                        f"{figure.role}-{figure.order}"
+                    ),
+                    "asset_id": asset_ids[page_number],
+                    "question_ref": question_ref,
+                    "role": figure.role,
+                    "crop": crop,
+                    "order": figure.order,
+                    "confidence": figure.confidence,
+                    "state": state,
+                    "provider": {
+                        **observation.provider.model_dump(),
+                        "evidence": evidence,
+                    },
+                }
+            )
+    result = {
+        "schema": "math_image_attribution/v1",
+        "paper_id": observation.paper.id,
+        "assets": assets,
+        "attributions": attributions,
+    }
+    return ImageAttributionBundle.model_validate(result).model_dump(
+        by_alias=True, exclude_none=True
+    )
+
+
+def _source(archive: str, source: str) -> str:
+    if Path(source).is_absolute() or source.startswith(f"{archive.rstrip('/')}/"):
+        return source
+    return f"{archive.rstrip('/')}/{source.lstrip('/')}"
+
+
+def _adapt_legacy_detection(
     detection: dict[str, Any],
 ) -> dict[str, Any]:
-    """Build a standard ImageAttributionBundle dict from a pdf-detection payload."""
+    """Build a standard ImageAttributionBundle from the legacy detection input."""
     if detection.get("schema") != "math_pdf_detection/v1":
         raise ValueError("detection schema must be math_pdf_detection/v1")
     source_archive = (detection.get("source_archive") or "").rstrip("/")
@@ -200,13 +327,23 @@ def main() -> int:
     parser = argparse.ArgumentParser(description="Adapt a PDF detection payload into a standard ImageAttributionBundle.")
     parser.add_argument("--detection", type=Path, required=True, help="path to pdf-detection.yaml")
     parser.add_argument("--output", type=Path, required=True, help="output image-attribution bundle path")
+    parser.add_argument(
+        "--allow-model-accepted",
+        action="store_true",
+        help=(
+            "preserve accepted states from a merged observation after explicit "
+            "human crop confirmation; legacy detection behavior is unchanged"
+        ),
+    )
     args = parser.parse_args()
 
     detection = yaml.safe_load(args.detection.read_text(encoding="utf-8"))
     if not isinstance(detection, dict):
         raise ValueError(f"{args.detection}: root must be a mapping")
 
-    bundle_dict = adapt(detection)
+    bundle_dict = adapt(
+        detection, allow_model_accepted=args.allow_model_accepted
+    )
     bundle = ImageAttributionBundle.model_validate(bundle_dict)
 
     args.output.parent.mkdir(parents=True, exist_ok=True)
