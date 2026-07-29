@@ -1,0 +1,31 @@
+meta:
+  title: 2026年上海市长宁区中考二模数学试卷第 11 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题（本大题共12题，每题4分，满分48分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q011
+    points: 4
+    stem_latex: 方程组$\begin{cases}x+2y=3\\x^2-4y^2+9=0\end{cases}$的解是\underline{\hspace{2cm}}．
+    answer: $\begin{cases}x=0\\y=\dfrac{3}{2}\end{cases}$
+    solution_steps:
+    - title: 因式分解
+      content: 将$x^2-4y^2+9=0$化为$(x+2y)(x-2y)+9=0$
+    - title: 代入求解
+      content: 由$x+2y=3$得$x-2y=-3$，联立$\begin{cases}x+2y=3\\x-2y=-3\end{cases}$，解得$x=0$，$y=\dfrac{3}{2}$。
+    clue: 利用平方差公式因式分解第二个方程，结合第一个方程求解。
+    source_solution_images: []

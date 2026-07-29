@@ -1,0 +1,38 @@
+meta:
+  title: 2026年上海市长宁区中考二模数学试卷第 24 题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题（本大题共7题，满分78分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q024
+    points: 14
+    stem_latex: 已知抛物线$y=ax^2+bx+c$与$x$轴交于点$A(-2,0)$、$B(6,0)$（点$A$在点$B$左侧），与$y$轴交于点$C(0,-6)$．
+    answer: （1）$24$（2）$y=-\dfrac{1}{2}x-1$（3）$y'=\dfrac{1}{2}(x+3)^2-(x+3)-6$
+    solution_steps:
+    - title: 第（1）问
+      content: 抛物线与$x$轴交于$A(-2,0)$、$B(6,0)$，与$y$轴交于$C(0,-6)$。设$y=a(x+2)(x-6)$，代入$C$得$-12a=-6$，$a=\dfrac{1}{2}$。$S_{\triangle ABC}=\dfrac{1}{2}\times 8\times 6=24$。
+    - title: 第（2）问
+      content: 点$P$在抛物线第四象限上，直线$AP$分别交$BC$于点$M$、$OC$于点$N$。由$\cot\angle BCO=\dfrac{OC}{OB}=\dfrac{6}{6}=1$，对顶角相等，求$ON$长度，确定$N$坐标。利用点$N$和$P$坐标用待定系数法求直线$AP$解析式。
+    - title: 第（3）问
+      content: 抛物线向左平移得到$y'$，直线$AP$与$y'$交于$M$、$N$两点（$M$在$N$上方）。设平移$m$个单位，$y'=\dfrac{1}{2}(x+m)^2-(x+m)-6$。联立直线与$y'$方程，设$M(x_1,y_1)$、$N(x_2,y_2)$，利用韦达定理和中点公式，$M$恰好是$AN$中点，求$m$值。
+    clue: 第（1）问用交点式求抛物线解析式；第（2）问利用三角函数和待定系数法；第（3）问联立方程用韦达定理和中点公式。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

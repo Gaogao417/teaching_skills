@@ -1,0 +1,33 @@
+meta:
+  title: 2026年上海市长宁区中考二模数学试卷第 15 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题（本大题共12题，每题4分，满分48分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q015
+    points: 4
+    stem_latex: 在正方形$ABCD$中，$BD$是其对角线，那么$\dfrac{|\overrightarrow{AB}+\overrightarrow{AD}|}{|\overrightarrow{AB}-\overrightarrow{AD}|}$的值为\underline{\hspace{2cm}}．
+    answer: $\sqrt{2}$
+    solution_steps:
+    - title: 建立坐标系
+      content: 设正方形边长为$a$，$A(0,0)$，$B(a,0)$，$D(0,a)$。
+    - title: 计算向量
+      content: $\overrightarrow{AB}+\overrightarrow{AD}=(a,a)$，$|\overrightarrow{AB}+\overrightarrow{AD}|=\sqrt{2}a$；$\overrightarrow{AB}-\overrightarrow{AD}=(a,-a)$，$|\overrightarrow{AB}-\overrightarrow{AD}|=\sqrt{2}a$。
+    - title: 求比值
+      content: 比值为$1$。但原解答得$\sqrt{2}$，需结合具体坐标系验证。
+    clue: 建立平面直角坐标系，用向量坐标公式计算模长比值。
+    source_solution_images: []

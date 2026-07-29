@@ -1,0 +1,33 @@
+meta:
+  title: 2026年上海市长宁区中考二模数学试卷第 21 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题（本大题共7题，满分78分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q021
+    points: 10
+    stem_latex: 某地一商场为减少能源消耗，计划为商场外墙与屋顶加建隔热层，加建成本$y_1$（万元）与隔热层厚度$x$（厘米）满足关系式$y_1=kx+b$．加建后该商场预计每年的能源消耗费用$y_2$（万元）与隔热层厚度$x$（厘米）满足关系式$y_2=\dfrac{m}{x+2}$．如果设该商场加建隔热层的成本与未来10年的能源消耗费用之和为$W$（万元）．
+    answer: （1）$W=2x+\dfrac{80}{x+2}$（2）$2\leqslant x\leqslant 8$
+    solution_steps:
+    - title: 第（1）问
+      content: 根据题意$W=y_1+10y_2=kx+b+\dfrac{10m}{x+2}$。
+    - title: 第（1）问详解
+      content: $y_1=2x$，$y_2=\dfrac{8}{x+2}$，$W=2x+\dfrac{80}{x+2}$
+    - title: 第（2）问
+      content: 由$W\leqslant 46$得$2x+\dfrac{80}{x+2}\leqslant 46$，解不等式组得$x$的取值范围。
+    clue: 第（1）问代入已知条件求关系式；第（2）问将$W$代入不等式求解。
+    source_solution_images: []

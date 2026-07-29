@@ -1,0 +1,38 @@
+meta:
+  title: 2026年上海市长宁区中考二模数学试卷第 25 题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题（本大题共7题，满分78分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: 已知线段$AB$是$\odot O$的一条弦，点$C$是$\odot O$上的一点．
+    answer: （1）$r=4$（2）①$AD=\sqrt{5}$ ②$\dfrac{AE}{AD}=\dfrac{\sqrt{5}-1}{2}$
+    solution_steps:
+    - title: 第（1）问
+      content: 连接$OA$、$OB$，由$\angle ACB=90°$知$AB$为直径。在等腰直角$\triangle OAB$中，$OA=OB=r$，$AB=\sqrt{2}r$。由$AB=4\sqrt{2}$得$r=4$。
+    - title: 第（2）①问
+      content: 当圆心$O$在线段$AB$上时，$AB$为直径。连接$OD$，由$OD=OA=r$，$\angle OAD=\angle ODA$。点$D$在$\odot O$上，$AD=\dfrac{1}{2}AB$。利用垂径定理和三角形中位线性质，$OD\parallel BC$，$OD=\dfrac{1}{2}BC$。在$\triangle OAD$中用勾股定理求$AD$。
+    - title: 第（2）②问
+      content: 过点$E$作$EF\perp AB$交$\odot O$于点$F$，连接$CF$、$OF$、$EF$。设$OA=r$，$OE=d$，则$AE=r-d$。由翻折性质得$\overset{\frown}{CF}=\overset{\frown}{CB}$，$\angle COF=\angle COB$。证明$\triangle COF\cong\triangle COB$（SAS），则$CF=CB$。再证明$\triangle AEF\sim\triangle ACF$，得到比例关系，利用勾股定理建立方程，求解$\dfrac{AE}{AD}$的值。
+    clue: 第（1）问利用直径所对圆周角为直角；第（2）①问利用垂径定理和中位线；第（2）②问利用翻折性质和相似三角形。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

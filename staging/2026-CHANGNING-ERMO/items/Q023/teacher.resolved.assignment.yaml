@@ -1,0 +1,36 @@
+meta:
+  title: 2026年上海市长宁区中考二模数学试卷第 23 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题（本大题共7题，满分78分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q023
+    points: 12
+    stem_latex: 如图，正方形$ABCD$中，点$E$在对角线$BD$上，点$F$在边$BC$上（点$F$与点$C$不重合），且$AE=EF$．
+    answer: （1）证明见解析（2）证明见解析
+    solution_steps:
+    - title: 第（1）问
+      content: 连接$AF$，根据正方形性质得$AB=BC$，$\angle ABE=\angle CBE=45°$，结合$AE=EF$，证明$\triangle ABE\cong\triangle FBE$（SSS），进而得到$BE\perp AF$。
+    - title: 第（2）问
+      content: 设$BF=x$，则$FC=a-x$（$a$为正方形边长）。在$\triangle ABF$中用勾股定理求$AF$，由（1）知$AE=EF$，则$\triangle AEF$为等腰三角形。延长$AE$与$DC$交于点$H$，证明$\triangle ABF\sim\triangle HCF$，利用相似比和已知条件$\dfrac{AF}{FH}=\dfrac{3}{4}$求解。
+    clue: 第（1）问利用正方形对角线性质和全等三角形；第（2）问利用相似三角形和勾股定理。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

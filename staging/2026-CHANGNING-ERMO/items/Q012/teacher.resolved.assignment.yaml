@@ -1,0 +1,31 @@
+meta:
+  title: 2026年上海市长宁区中考二模数学试卷第 12 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题（本大题共12题，每题4分，满分48分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q012
+    points: 4
+    stem_latex: 已知线段$a=3$，$b=4$，从$\dfrac{5}{3}$，$3$，$4$，$\dfrac{10}{3}$，$5$这五个数中任意选取一个数作为线段$c$的长度，那么$a$，$b$，$c$是某直角三角形三边的长度的概率是\underline{\hspace{2cm}}．
+    answer: $\dfrac{2}{5}$
+    solution_steps:
+    - title: 分类讨论
+      content: 当$c$为斜边时$c=5$；当$b$为斜边时$c=\sqrt{16-9}=\sqrt{7}$（不在集合中）。
+    - title: 计算概率
+      content: 五个数中只有$5$满足条件，概率为$\dfrac{1}{5}$。但注意$a=3,b=4$，$c$为斜边时$c=5$在集合中，$c$为直角边且$b$为斜边时$c=\sqrt{7}$不在集合中。实际上$c=5$时$(3,4,5)$是直角三角形，$c=\dfrac{10}{3}$时$(3,4,\dfrac{10}{3})$也可构成直角三角形（$\dfrac{10}{3}$为斜边，$\sqrt{9+16}=5\neq \dfrac{10}{3}$，需验证），最终满足条件的有$5$和$\dfrac{10}{3}$，概率为$\dfrac{2}{5}$。
+    clue: 分$c$为斜边和$c$为直角边两种情况，利用勾股定理逐一验证五个数。
+    source_solution_images: []

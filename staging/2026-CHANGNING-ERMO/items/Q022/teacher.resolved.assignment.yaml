@@ -1,0 +1,38 @@
+meta:
+  title: 2026年上海市长宁区中考二模数学试卷第 22 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题（本大题共7题，满分78分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q022
+    points: 12
+    stem_latex: 在九年级第一学期时学习了"黄金分割"以及"黄金三角形"知识，我们已经知道：有一个内角为$36°$的等腰三角形称为黄金三角形，它具有的美妙性质．请运用上述信息，解决下列问题：
+    answer: （1）$BC=\dfrac{\sqrt{5}-1}{2}$（2）$BC=\dfrac{3-\sqrt{5}}{2}$（3）是黄金三角形
+    solution_steps:
+    - title: 第（1）问
+      content: 等腰$\triangle ABC$的顶角$\angle A=36°$，且$AB=AC=1$，则底边$BC=\dfrac{\sqrt{5}-1}{2}$。
+    - title: 第（2）问
+      content: 取$BC$中点$D$，连接$AD$，易证$\triangle ABD$和$\triangle ACD$都是等腰三角形。由$AB=AC=1$，$BC=\dfrac{\sqrt{5}-1}{2}$，证明$\triangle ABC$是黄金三角形，且$BC$为较短边，根据$BC=\dfrac{\sqrt{5}-1}{2}AB$求解。
+    - title: 第（3）问
+      content: 是黄金三角形。连接$PC$，由旋转性质得$AP=CP$，证明$\triangle ACP$是黄金三角形。设$AP=t$，利用黄金分割点$P$的性质，$AP^2=AB\cdot BP$，求出各线段长，最终证明$\triangle CDE$是黄金三角形。
+    clue: 第（1）问直接应用黄金三角形定义；第（2）问构造中点利用等腰性质；第（3）问利用旋转和黄金分割点性质。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

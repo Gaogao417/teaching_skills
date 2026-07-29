@@ -1,0 +1,33 @@
+meta:
+  title: 2026年上海市长宁区中考二模数学试卷第 17 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题（本大题共12题，每题4分，满分48分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q017
+    points: 4
+    stem_latex: 在直角坐标平面内，如果存在正整数$n$和常数$k$，使得点$A(x,y)$满足$x^2=-ny+k$，$y^2=nx+k$，其中$x\neq y$，那么称点$A$为"$n$-优点"．比如当$n=2$，$k=1$时，点$A(3,4)$为"$2$-优点"（这是因为满足$3^2=-2\times 4+1$，$4^2=2\times 3+1$）。已知点$C$在抛物线$y=-x^2-3x+2038$上，且它还是"$2026$-优点"，那么点$C$的坐标是\underline{\hspace{2cm}}．
+    answer: $(-6,2020)$或$(2,2028)$
+    solution_steps:
+    - title: 推导性质
+      content: 由$x^2=-ny+k$，$y^2=nx+k$，两式相减得$x^2-y^2=-n(y+x)$，即$(x+y)(x-y)=-n(x+y)$。因$x+y\neq 0$，故$x-y=-n$。
+    - title: 代入抛物线
+      content: 设$C(c,-c^2-3c+2038)$，由"$2026$-优点"条件$c-(-c^2-3c+2038)=-2026$。
+    - title: 求解
+      content: 整理得$c^2+4c-12=0$，解得$c=-6$或$c=2$。当$c=-6$时$y=2020$，当$c=2$时$y=2028$。
+    clue: 由"$n$-优点"定义推导$x-y=-n$，代入抛物线方程求解一元二次方程。
+    source_solution_images: []

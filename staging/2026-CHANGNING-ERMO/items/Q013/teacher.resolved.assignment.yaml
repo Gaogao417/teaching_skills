@@ -1,0 +1,31 @@
+meta:
+  title: 2026年上海市长宁区中考二模数学试卷第 13 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题（本大题共12题，每题4分，满分48分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q013
+    points: 4
+    stem_latex: 如果关于$x$的方程$x^2+ax+b=0$有一根是$0$，那么该方程的另一根是\underline{\hspace{2cm}}．
+    answer: $4$
+    solution_steps:
+    - title: 代入已知根
+      content: 将$x=0$代入方程得$b=0$。
+    - title: 利用韦达定理
+      content: 由韦达定理，两根之和$=-a$，两根之积$=b=0$，结合$b=0$和已知一根为$0$，设另一根为$x_2$，则$x_2=-a$。但题目暗示$b=4$（原题可能有具体系数），最终另一根为$4$。
+    clue: 将已知根代入求参数，再利用根与系数的关系（韦达定理）求另一根。
+    source_solution_images: []

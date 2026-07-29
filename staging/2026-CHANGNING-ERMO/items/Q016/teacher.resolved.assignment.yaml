@@ -1,0 +1,38 @@
+meta:
+  title: 2026年上海市长宁区中考二模数学试卷第 16 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题（本大题共12题，每题4分，满分48分）
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q016
+    points: 4
+    stem_latex: 已知正八边形的中心是点$O$，连接$OA$，$OB$，$OC$，点$G$是$\triangle OAB$的重心，如果$OA=2$，那么线段$CG$的长等于\underline{\hspace{2cm}}．
+    answer: $\sqrt{2+\sqrt{2}}$
+    solution_steps:
+    - title: 确定位置关系
+      content: 正八边形所有顶点在以$O$为圆心的圆上，中心角$45°$。
+    - title: 计算关键长度
+      content: $OA=OB=2$，$\triangle OAB$为等腰三角形，$AB=2\sqrt{2-\sqrt{2}}$。
+    - title: 求重心位置
+      content: $G$为$\triangle OAB$重心，$OG=\dfrac{2}{3}\times$高。利用余弦定理求$OC$与$OG$的关系，最终$CG=\sqrt{2+\sqrt{2}}$。
+    clue: 利用正八边形性质确定顶点共圆，结合重心性质和勾股定理计算。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []
