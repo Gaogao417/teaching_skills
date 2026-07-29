@@ -324,3 +324,160 @@ def test_text_and_image_fail_independently(source):
     assert ImageAttributionBundle.model_validate(
         adapt_images(merged_text)
     ).attributions == []
+
+
+# =========================================================================== #
+# Span-index-driven observation (§7.1 / §7.3 / §10.1)
+# =========================================================================== #
+
+from scripts.question_transcription.observe_pdf_pages import observe as observe_with_index  # noqa: E402
+from scripts.question_transcription.question_span_index import (  # noqa: E402
+    IndexedQuestion,
+    QuestionSpanIndex,
+    SourceFingerprint,
+)
+
+
+def _index(questions: list[IndexedQuestion], page_shas: list[str]) -> QuestionSpanIndex:
+    # The index must list every source page (page_numbers is the full page set of
+    # the source), even when a question only spans a subset.
+    page_numbers = list(range(1, len(page_shas) + 1))
+    return QuestionSpanIndex(
+        schema="math_question_span_index/v1",
+        source_kind="pdf",
+        page_numbers=page_numbers,
+        fingerprint=SourceFingerprint(page_sha256=page_shas),
+        status="ready",
+        questions=questions,
+        issues=[],
+    )
+
+
+def _pdf_question(ref: str, *, page_number: int = 1) -> dict:
+    q = _question(page_number=page_number)
+    q["question_ref"] = ref
+    q["question_number"] = int(ref)
+    return q
+
+
+def _shas(manifest) -> list[str]:
+    return [page.sha256 for page in manifest.pages]
+
+
+def test_pdf_span_observe_exact_match_passes(source, tmp_path):
+    root, manifest = source
+    index = _index(
+        [IndexedQuestion(question_ref="1", question_number=1, question_pages=[1])],
+        _shas(manifest),
+    )
+
+    def provider(body):
+        return {"questions": [_pdf_question("1", page_number=1)]}
+
+    client = MimoClient(provider=provider, cache_dir=tmp_path / "cache")
+    observations = observe_with_index(
+        manifest, paper=_paper(root.as_posix()), span_index=index, client=client
+    )
+    refs = [q.question_ref for obs in observations for q in obs.questions]
+    assert refs == ["1"]
+    # §7.1: bbox is preserved (MiMo joint text+bbox regression).
+    assert observations[0].questions[0].figures[0].box_px == [100, 20, 180, 75]
+
+
+def test_pdf_span_observe_prompt_carries_expected_refs_and_role(source, tmp_path):
+    root, manifest = source
+    index = _index(
+        [IndexedQuestion(question_ref="1", question_number=1, question_pages=[1])],
+        _shas(manifest),
+    )
+    seen: list[str] = []
+
+    def provider(body):
+        seen.append(body["messages"][1]["content"][0]["text"])
+        return {"questions": [_pdf_question("1")]}
+
+    client = MimoClient(provider=provider, cache_dir=tmp_path / "cache")
+    observe_with_index(
+        manifest, paper=_paper(root.as_posix()), span_index=index, client=client
+    )
+    # §7.1: prompt carries the expected question refs and the role label.
+    assert any("预期题号：1" in p for p in seen)
+    assert any("题干" in p for p in seen)
+
+
+def test_pdf_span_observe_missing_triggers_repair(source, tmp_path):
+    root, manifest = source
+    index = _index(
+        [IndexedQuestion(question_ref="1", question_number=1, question_pages=[1])],
+        _shas(manifest),
+    )
+    first_done = {"v": False}
+
+    def provider(body):
+        text = body["messages"][1]["content"][0]["text"]
+        is_repair = "repair" in text or "预期题号：1。" not in text
+        if not is_repair and not first_done["v"]:
+            first_done["v"] = True
+            # First round: omit the expected question -> repair.
+            return {"questions": []}
+        return {"questions": [_pdf_question("1")]}
+
+    client = MimoClient(provider=provider, cache_dir=tmp_path / "cache")
+    observations = observe_with_index(
+        manifest, paper=_paper(root.as_posix()), span_index=index, client=client, max_repairs=1
+    )
+    refs = [q.question_ref for obs in observations for q in obs.questions]
+    assert refs == ["1"]
+
+
+def test_pdf_span_observe_unexpected_is_isolated(source, tmp_path):
+    root, manifest = source
+    index = _index(
+        [IndexedQuestion(question_ref="1", question_number=1, question_pages=[1])],
+        _shas(manifest),
+    )
+
+    def provider(body):
+        # Return expected "1" plus an unexpected "99".
+        return {"questions": [_pdf_question("1"), _pdf_question("99")]}
+
+    client = MimoClient(provider=provider, cache_dir=tmp_path / "cache")
+    observations = observe_with_index(
+        manifest, paper=_paper(root.as_posix()), span_index=index, client=client
+    )
+    refs = [q.question_ref for obs in observations for q in obs.questions]
+    assert "99" not in refs
+    assert refs == ["1"]
+
+
+def test_pdf_span_observe_rejects_stale_fingerprint(source, tmp_path):
+    root, manifest = source
+    index = _index(
+        [IndexedQuestion(question_ref="1", question_number=1, question_pages=[1])],
+        ["sha256:" + "0" * 64] * len(manifest.pages),
+    )
+    client = MimoClient(provider=lambda body: {"questions": []}, cache_dir=tmp_path / "cache")
+    with pytest.raises(ValueError, match="SHA"):
+        observe_with_index(
+            manifest, paper=_paper(root.as_posix()), span_index=index, client=client
+        )
+
+
+def test_pdf_span_observe_content_null_tolerated(source, tmp_path):
+    """§7.3: content=null is tolerated for question-only / solution-only pages."""
+    root, manifest = source
+    index = _index(
+        [IndexedQuestion(question_ref="1", question_number=1, question_pages=[1])],
+        _shas(manifest),
+    )
+
+    def provider(body):
+        q = _pdf_question("1")
+        q["content"] = None  # question-only page segment
+        return {"questions": [q]}
+
+    client = MimoClient(provider=provider, cache_dir=tmp_path / "cache")
+    observations = observe_with_index(
+        manifest, paper=_paper(root.as_posix()), span_index=index, client=client
+    )
+    assert observations[0].questions[0].content is None
