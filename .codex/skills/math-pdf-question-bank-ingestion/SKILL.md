@@ -51,7 +51,10 @@ PDF/扫描件冻结为不可变页图。多模态 provider 一次产生文本转
 
 ### 2. 单次联合观察并生成标准 Bundle
 
-先生成不可变页面 manifest，并准备只含卷级字段的 `paper-meta.yaml`：
+先生成不可变页面 manifest，并准备只含卷级字段的 `paper-meta.yaml`。**先索引、后
+定点转写**：百炼用于逐页索引预扫（只要忠实文字/公式/题号，不要 bbox）；MiMo 仍做
+正式文字+bbox 联合观察，但按 span index 产生的确定性批次执行，每批必须返回索引指定
+的预期题号；漏报/多报/重复只触发对缺失题的定点补读，正常题冻结复用不重跑。
 
 ```bash
 ./.venv/bin/python scripts/question_transcription/pdf_source_manifest.py \
@@ -59,8 +62,18 @@ PDF/扫描件冻结为不可变页图。多模态 provider 一次产生文本转
   --pages-dir <source-archive> --engine pdftoppm \
   --pdf <paper.pdf> --output <build>/pdf-source.yaml
 
+# 百炼逐页预扫（prescan）→ 建 span index
+./.venv/bin/python scripts/question_transcription/prescan_pdf_pages.py \
+  --manifest <build>/pdf-source.yaml \
+  --output-dir <build>/prescan --cache-dir <build>/cache/prescan
+
+./.venv/bin/python scripts/question_transcription/build_pdf_span_index.py \
+  --prescan <build>/prescan/prescan-manifest.yaml \
+  --output <build>/pdf.span-index.yaml
+
 ./.venv/bin/python scripts/question_transcription/observe_pdf_pages.py \
   --manifest <build>/pdf-source.yaml \
+  --span-index <build>/pdf.span-index.yaml \
   --paper-meta <build>/paper-meta.yaml \
   --cache-dir <build>/cache --output-dir <build>/windows
 

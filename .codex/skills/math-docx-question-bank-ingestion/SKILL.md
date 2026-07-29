@@ -73,14 +73,37 @@ word/
 
 ### 2. 联合观察并生成 SourceQuestion v2
 
-先准备只含卷级字段的 `paper-meta.yaml`，再让 MiMo 对渲染页做重叠窗口观察。
-模型结果必须经过严格 contract 和确定性 merge，不能直接写 draft：
+先准备只含卷级字段的 `paper-meta.yaml`。**先索引、后定点转写**：用 `pdftotext`
+对 rendered.pdf 做逐页题号预扫，生成 `math_question_span_index/v1`，再让 MiMo 按
+索引产生的确定性批次观察。批次首轮页面互不重叠，每批必须返回索引指定的预期题号；
+漏报/多报/重复只触发对缺失题的定点补读，正常题冻结复用不重跑。模型结果仍必须经过
+严格 contract 和确定性 merge，不能直接写 draft：
 
 ```bash
+# 先建索引（试卷与答案分文件时分别建索引，答案文件传与 observe 相同的 offset）
+./.venv/bin/python scripts/question_transcription/build_docx_span_index.py \
+  --word-source <source-archive>/word/word-source.yaml \
+  --output <build>/word.span-index.yaml
+
 ./.venv/bin/python scripts/question_transcription/observe_docx_pages.py \
   --word-source <source-archive>/word/word-source.yaml \
+  --span-index <build>/word.span-index.yaml \
   --source-archive <source-archive> \
-  --mimo --cache-dir <build>/cache --output-dir <build>/windows
+  --mimo-structured --cache-dir <build>/cache --output-dir <build>/windows
+
+# 试卷与答案分文件时，答案页使用试卷页数作为 offset 续编；
+# evidence 仍保留真实的 word-answers 子目录。
+./.venv/bin/python scripts/question_transcription/build_docx_span_index.py \
+  --word-source <source-archive>/word-answers/word-source.yaml \
+  --output <build>/word-answers.span-index.yaml \
+  --page-number-offset <exam-page-count>
+
+./.venv/bin/python scripts/question_transcription/observe_docx_pages.py \
+  --word-source <source-archive>/word-answers/word-source.yaml \
+  --span-index <build>/word-answers.span-index.yaml \
+  --source-archive <source-archive> --source-subdir word-answers \
+  --page-number-offset <exam-page-count> \
+  --mimo-structured --cache-dir <build>/cache --output-dir <build>/windows
 
 ./.venv/bin/python scripts/question_transcription/merge_docx_observations.py \
   --windows <build>/windows/*.yaml \
@@ -133,10 +156,11 @@ Review UI 逐项裁决；裁决完成后运行：
 `needs_review`、未解决/过期的 blocking issue、review 结论与资产最终分类不一致，
 任一存在都拒绝写 draft。
 
-`MIMO_API_KEY` 只从环境读取，不写入文件或日志。MiMo 默认使用 3 页窗口、1 页重叠，
-统一转写数学题干、公式、选项、答案和原解析，但不输出或消费 DOCX bbox。
-Provider 偶发把空分值写成空字符串、把单条解析写成字符串时，脚本只做无损字段类型
-规范化（空分值→`0`、单项→单元素数组），不得改写公式或解答正文。
+`MIMO_API_KEY` 只从环境读取，不写入文件或日志。MiMo 通过 PydanticAI
+tool calling 按 span index 的非重叠首轮批次统一转写数学题干、公式、选项、答案和
+原解析，但不输出或消费 DOCX bbox。媒体必须由 adapter 转成 PydanticAI
+`BinaryContent`，不能把 OpenAI message dict 直接传给 `Agent.run()`。输出在模型
+边界由 Pydantic contract 验证；缺题/重复题只定点补读对应索引页，已通过题冻结复用。
 百炼 `qwen3.5-ocr` 仅作为显式降级 provider：只有 MiMo 不可用且操作者主动传入
 `--bailian-ocr` 时才逐页运行，不与 MiMo 串行重复处理。
 
@@ -240,5 +264,8 @@ SourceQuestion v2，不能反向从兼容 draft 猜回 A–D/小问/步骤归属
 |------|------|--------|
 | `soffice` (LibreOffice) | DOC→DOCX 规范化 + DOCX→PDF 渲染 | 是 |
 | `pdftoppm` | PDF→PNG 页面渲染 | 是 |
+| `pdftotext`（Poppler） | DOCX rendered PDF 的逐页题号预扫（建 span index） | 是 |
+| `pydantic-ai`（Python 包） | MiMo tool calling、`BinaryContent` 多模态输入与结构化输出验证 | 是 |
 
-安装 LibreOffice：`brew install --cask libreoffice`
+安装 LibreOffice：`brew install --cask libreoffice`；安装 Poppler（提供
+`pdftoppm` 和 `pdftotext`）：`brew install poppler`。

@@ -29,6 +29,9 @@
    的强制回归样本。
 5. 两个状态机失败样本会清空全部 partial attribution，但仍产出完整
    `word-source.yaml`、媒体、PDF 和页面，供文本转录继续使用。
+6. 分离来源的文本页可以确定性续编：长宁 exam 8 页 + answers 9 页组成逻辑页
+   1–17；徐汇 exam 10 页 + answers 9 页组成逻辑页 1–19。答案 evidence 保持
+   `word-answers/pages/*.png` 的真实路径，不与 exam 页路径混淆。
 
 ## 暴露的下一层缺口
 
@@ -45,4 +48,8 @@
 - 3 份成功样本完成了真实 LibreOffice PDF 渲染与 `pdftoppm` 页面生成。
 - 真实 manifest 中所有 WMF/EMF 均带 `ole_binding` 和 `emf_class`。
 - 2 份失败样本验证了 attribution 清空、错误持久化与文本输入保留。
-- `tests/question_transcription` 全套测试通过。
+- synthetic 回归验证了 `image_attribution_status: failed` 时仍可完成
+  observe → merge → transcription adapter，而 image adapter 单独拒绝。
+- `tests/question_transcription` 全套 170 项测试通过。
+- 真实 MiMo 页面观察尚未执行：该步骤会把本地整页试卷发送到外部服务，需要用户
+  明确授权后再跑；上述离线合同、页码与路径验证不依赖该授权。

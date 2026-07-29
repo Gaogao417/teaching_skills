@@ -62,6 +62,11 @@ Word 解包通道导出段落流（`paragraphs`）并据此自动计算图片归
 渲染 PDF 和页面。文本观察可以继续；图片 adapter 必须停止，含图题进入
 `image_structure: needs_review`。不得把空 attribution 当成“来源没有插图”。
 
+试卷与参考答案分文件时，两份文件分别提取到 `word/` 与 `word-answers/`。文本观察
+对答案来源设置 `source_subdir: word-answers`，并用试卷页数作为
+`page_number_offset`，从而得到卷内连续且唯一的逻辑页码；evidence 的路径仍指向各自
+真实子目录。两组窗口随后进入同一个确定性 merge，题干与解析按 `question_ref` 合并。
+
 ## 图片归属的职责
 
 `media/image1.png` 只按 Word 内部嵌入顺序编号，不带题号语义。图片归属**以段落流的

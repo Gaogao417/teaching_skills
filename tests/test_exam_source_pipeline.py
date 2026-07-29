@@ -11,7 +11,11 @@ import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 SCRIPTS = ROOT / ".codex/skills/math-topic-question-bank/scripts"
+INGESTION_SCRIPTS = (
+    ROOT / ".codex/skills/math-pdf-question-bank-ingestion/scripts"
+)
 sys.path.insert(0, str(SCRIPTS))
+sys.path.insert(0, str(INGESTION_SCRIPTS))
 
 from assemble_exam_paper import assemble  # noqa: E402
 from derive_student_assignment import derive  # noqa: E402
@@ -23,6 +27,7 @@ from exam_source_contracts import (  # noqa: E402
 from promote_exam_source import promote  # noqa: E402
 from question_bank_contracts import QuestionBank  # noqa: E402
 from validate_exam_source import validate_source  # noqa: E402
+from materialize_staging import materialize_crop  # noqa: E402
 
 sys.path.insert(0, str(ROOT / "math-assignment-latex/scripts"))
 from render_assignment import render  # noqa: E402
@@ -192,6 +197,51 @@ def test_source_validation_checks_solution_crop_and_whiteout_pixels(
     _, errors = validate_source(source, repo_root=tmp_path)
     assert any(
         "solution[0]: output pixels do not match box_px crop" in error
+        for error in errors
+    )
+
+
+def test_transparent_crop_is_composited_on_white_and_validated(
+    tmp_path: Path,
+) -> None:
+    source = source_fixture(tmp_path)
+    original = tmp_path / "transparent.png"
+    output = tmp_path / "item/assets/transparent.png"
+    transparent = Image.new("RGBA", (4, 4), (0, 0, 0, 0))
+    transparent.putpixel((1, 1), (0, 0, 0, 255))
+    transparent.save(original)
+    crop = {
+        "source": "transparent.png",
+        "source_sha256": digest(original),
+        "box_px": [0, 0, 4, 4],
+        "whiteout_px": [],
+        "output": "assets/transparent.png",
+        "output_sha256": f"sha256:{'0' * 64}",
+    }
+
+    materialize_crop(
+        crop,
+        item_dir=tmp_path / "item",
+        repo_root=tmp_path,
+        label="Q001 prompt[0]",
+    )
+    with Image.open(output) as rendered:
+        assert rendered.mode == "RGB"
+        assert rendered.getpixel((0, 0)) == (255, 255, 255)
+        assert rendered.getpixel((1, 1)) == (0, 0, 0)
+
+    record = yaml.safe_load(source.read_text(encoding="utf-8"))
+    record["crops"]["prompt"] = [crop]
+    write_yaml(source, record)
+    _, errors = validate_source(source, repo_root=tmp_path)
+    assert errors == []
+
+    Image.new("RGB", (4, 4), "black").save(output)
+    record["crops"]["prompt"][0]["output_sha256"] = digest(output)
+    write_yaml(source, record)
+    _, errors = validate_source(source, repo_root=tmp_path)
+    assert any(
+        "prompt[0]: output pixels do not match box_px crop" in error
         for error in errors
     )
 

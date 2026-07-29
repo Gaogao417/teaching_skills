@@ -29,6 +29,25 @@ Use explicit virtualenv interpreters instead of the system `python3` when runnin
 - Geometry diagram workflow and live renderer work use `./.venv-diagram/bin/python` unless the task explicitly targets non-diagram tooling.
 - Before adding or changing Pydantic contracts, verify the selected environment can import Pydantic.
 
+## Shell Environment / API Keys
+
+The agent's Bash tool runs a **non-interactive** shell, which does NOT load
+`~/.zshrc`. API keys (`MIMO_API_KEY`, `DASHSCOPE_API_KEY`, `ZHIPUAI_API_KEY`,
+etc.) are defined there and will be **missing** unless explicitly loaded.
+
+- Before running any script that calls MiMo / BaiLian / GLM APIs, prefix the
+  command with `source ~/.zshrc 2>/dev/null` in the same shell invocation:
+  ```bash
+  source ~/.zshrc 2>/dev/null
+  ./.venv/bin/python scripts/question_transcription/observe_docx_pages.py ...
+  ```
+- For a one-liner: `source ~/.zshrc 2>/dev/null && ./.venv/bin/python <script>`.
+- Verify a key is present before a long batch run:
+  `[ -n "$MIMO_API_KEY" ] && echo OK || echo MISSING`.
+- Never ask the user for an API key value. Never print or log key contents.
+- If a key is genuinely unset (not just unloaded), stop and report it; do not
+  invent fallbacks.
+
 ## Diagram Workflow Rules
 
 - Do not tell math YAML writers to avoid `diagram_slot` when a geometry problem needs a figure. If the stem says “如图/图中/下图”, or if a geometry condition would be hard to parse without a figure, the writer must declare a `diagram_slot`.
