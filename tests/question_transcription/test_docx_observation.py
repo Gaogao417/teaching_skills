@@ -33,7 +33,7 @@ from scripts.question_transcription.observe_docx_pages import (  # noqa: E402
     make_mimo_provider,
     normalize_bailian_ocr_response,
     normalize_observation_field_shapes,
-    observe,
+    observe_windows,
 )
 from scripts.question_transcription.bailian_ocr_client import (  # noqa: E402
     BAILIAN_OCR_MODEL,
@@ -164,7 +164,7 @@ def test_observe_injected_provider_and_cache(tmp_path: Path):
         return {"questions": []}
 
     cache = tmp_path / "cache"
-    first = observe(
+    first = observe_windows(
         source,
         source_archive="documents/test",
         provider=provider,
@@ -180,7 +180,7 @@ def test_observe_injected_provider_and_cache(tmp_path: Path):
     def must_not_run(**_):
         raise AssertionError("cache miss")
 
-    second = observe(
+    second = observe_windows(
         source,
         source_archive="documents/test",
         provider=must_not_run,
@@ -193,6 +193,77 @@ def test_observe_injected_provider_and_cache(tmp_path: Path):
     assert [x.model_dump(mode="json") for x in first] == [
         x.model_dump(mode="json") for x in second
     ]
+
+
+def test_failed_image_attribution_does_not_block_text_observation(tmp_path: Path):
+    source = _make_word_source(tmp_path, 1)
+    word_source = yaml.safe_load(source.read_text(encoding="utf-8"))
+    word_source.update(
+        {
+            "image_attribution_status": "failed",
+            "image_attribution": [],
+            "image_attribution_error": {
+                "code": "question_number_state_lost",
+                "detail": "expected question 5, found question 36",
+            },
+        }
+    )
+    source.write_text(
+        yaml.safe_dump(word_source, allow_unicode=True),
+        encoding="utf-8",
+    )
+    calls = 0
+
+    def provider(**_):
+        nonlocal calls
+        calls += 1
+        question = _question(ref="1")
+        question["evidence"]["solution"] = [
+            {
+                "kind": "page",
+                "source": "documents/test/word/pages/001.png",
+                "page_number": 1,
+            }
+        ]
+        return {"questions": [question]}
+
+    result = observe_windows(
+        source,
+        source_archive="documents/test",
+        provider=provider,
+        provider_name="fake",
+        provider_version="v1",
+        window_size=1,
+        overlap=0,
+    )
+    assert calls == 1
+    assert [window.window_id for window in result] == ["pages-001-001"]
+    merged, issues = merge_with_issues(result, paper=_paper())
+    assert issues is None
+    assert adapt(merged).refs() == ["1"]
+
+
+def test_separated_sources_get_continuous_pages_and_distinct_evidence_paths(
+    tmp_path: Path,
+):
+    exam_source = _make_word_source(tmp_path / "exam", 2)
+    answer_source = _make_word_source(tmp_path / "answers", 2)
+
+    exam_pages = discover_pages(
+        exam_source,
+        source_archive="documents/test",
+        source_subdir="word",
+    )
+    answer_pages = discover_pages(
+        answer_source,
+        source_archive="documents/test",
+        source_subdir="word-answers",
+        page_number_offset=2,
+    )
+
+    assert [page.page_number for page in exam_pages + answer_pages] == [1, 2, 3, 4]
+    assert exam_pages[0].source == "documents/test/word/pages/001.png"
+    assert answer_pages[0].source == "documents/test/word-answers/pages/001.png"
 
 
 def test_observe_persists_valid_windows_before_later_provider_failure(tmp_path: Path):
@@ -208,7 +279,7 @@ def test_observe_persists_valid_windows_before_later_provider_failure(tmp_path: 
 
     output_dir = tmp_path / "windows"
     with pytest.raises(Exception):
-        observe(
+        observe_windows(
             source,
             source_archive="documents/test",
             provider=provider,
@@ -230,7 +301,7 @@ def test_observe_can_limit_page_range_for_resumable_batches(tmp_path: Path):
         seen.append([path.name for path in image_paths])
         return {"questions": []}
 
-    observations = observe(
+    observations = observe_windows(
         source,
         source_archive="documents/test",
         provider=provider,
@@ -667,3 +738,385 @@ def test_window_contract_rejects_duplicate_question_ref(tmp_path: Path):
     pages = [p.model_dump(mode="json") for p in discover_pages(source, source_archive="documents/test")]
     with pytest.raises(ValueError, match="duplicate question_ref"):
         _window("a", pages, [_question(), _question()])
+
+
+# =========================================================================== #
+# Span-index-driven observation (§7.1 / §7.2 / §10.1)
+# =========================================================================== #
+
+from scripts.question_transcription.observe_docx_pages import (  # noqa: E402
+    SPAN_INDEX_PROMPT_VERSION,
+    observe as observe_with_index,
+)
+from scripts.question_transcription.question_span_index import (  # noqa: E402
+    IndexedQuestion,
+    QuestionSpanIndex,
+    SourceFingerprint,
+)
+
+
+def _index(
+    questions: list[IndexedQuestion],
+    *,
+    page_numbers: list[int] | None = None,
+    page_shas: list[str] | None = None,
+    offset: int = 0,
+    status: str = "ready",
+) -> QuestionSpanIndex:
+    if page_numbers is None:
+        page_numbers = sorted(
+            {p for q in questions for p in (*q.question_pages, *q.solution_pages)}
+        )
+    return QuestionSpanIndex(
+        schema="math_question_span_index/v1",
+        source_kind="docx",
+        page_numbers=page_numbers,
+        fingerprint=SourceFingerprint(page_sha256=page_shas or [], page_number_offset=offset),
+        status=status,
+        questions=questions,
+        issues=[],
+    )
+
+
+def _q(ref: str, pages: list[int], *, hint: str = "problem") -> IndexedQuestion:
+    return IndexedQuestion(
+        question_ref=ref,
+        question_number=int(ref),
+        question_pages=pages,
+        question_type_hint=hint,  # type: ignore[arg-type]
+    )
+
+
+def _question_payload(ref: str, *, page: int = 1) -> dict:
+    """A minimal valid question dict for the span-index flow."""
+    return {
+        "question_ref": ref,
+        "question_number": int(ref),
+        "question_type": "problem",
+        "points": 4,
+        "section_ref": "problems",
+        "section_title": "解答题",
+        "content": {
+            "stem_latex": f"题{ref}",
+            "choices": [],
+            "answer": f"ans{ref}",
+            "clue": "原卷未提供提示",
+            "solution_steps": [f"step{ref}"],
+            "solution_notes": [],
+        },
+        "evidence": {
+            "question": [
+                {"kind": "page", "source": f"documents/test/word/pages/{page:03d}.png", "page_number": page}
+            ],
+            "solution": [],
+            "solution_start_anchor": None,
+            "solution_end_anchor": None,
+        },
+        "transcription_confidence": {"stem": "high", "formula": "high", "solution_steps": "high"},
+    }
+
+
+def _word_source_with_pages(tmp_path: Path, page_count: int) -> tuple[Path, list[str]]:
+    source = _make_word_source(tmp_path, page_count)
+    # _make_word_source writes identical white pages; re-read their SHAs.
+    pages_dir = source.parent / "pages"
+    shas = []
+    import hashlib
+
+    for n in range(1, page_count + 1):
+        raw = (pages_dir / f"{n:03d}.png").read_bytes()
+        shas.append(f"sha256:{hashlib.sha256(raw).hexdigest()}")
+    return source, shas
+
+
+def test_span_observe_prompt_has_no_ooxml_and_carries_expected_refs(tmp_path: Path):
+    source, shas = _word_source_with_pages(tmp_path, 2)
+    index = _index([_q("1", [1]), _q("2", [2])], page_shas=shas)
+    seen_prompts: list[str] = []
+
+    def provider(*, prompt, image_paths):
+        seen_prompts.append(prompt)
+        # Return exactly the expected refs for the batch.
+        refs_in_prompt = [r for r in ("1", "2") if r in prompt]
+        return {"questions": [_question_payload(r) for r in refs_in_prompt]}
+
+    observe_with_index(
+        source,
+        source_archive="documents/test",
+        span_index=index,
+        provider=provider,
+        provider_name="fake",
+        provider_version="v1",
+    )
+    # §7.1: prompt must NOT contain the OOXML 全文 hint.
+    assert all("OOXML" not in p for p in seen_prompts)
+    # §7.1: prompt carries the expected question refs and the page mapping.
+    assert all("1" in p for p in seen_prompts)
+    assert all("page_number" in p for p in seen_prompts)
+
+
+def test_span_observe_exact_match_passes(tmp_path: Path):
+    source, shas = _word_source_with_pages(tmp_path, 2)
+    index = _index([_q("1", [1]), _q("2", [2])], page_shas=shas)
+    calls: list[str] = []
+
+    def provider(*, prompt, image_paths):
+        refs = [r for r in ("1", "2") if r in prompt]
+        calls.append(",".join(refs))
+        return {"questions": [_question_payload(r) for r in refs]}
+
+    observations = observe_with_index(
+        source,
+        source_archive="documents/test",
+        span_index=index,
+        provider=provider,
+        provider_name="fake",
+        provider_version="v1",
+    )
+    all_refs = [q.question_ref for obs in observations for q in obs.questions]
+    assert sorted(all_refs) == ["1", "2"]
+
+
+def test_span_observe_missing_triggers_targeted_repair_only_for_missing(tmp_path: Path):
+    # Put both questions on page 1 so they land in one batch (shared page =>
+    # one non-splittable component), exercising repair within a single batch.
+    source, shas = _word_source_with_pages(tmp_path, 1)
+    index = _index([_q("1", [1]), _q("2", [1])], page_shas=shas)
+
+    def _expected_refs(prompt: str) -> list[str]:
+        # The prompt lists expected refs after "以下预期题号:" up to the first "。".
+        segment = prompt.split("以下预期题号:", 1)[1]
+        segment = segment.split("。", 1)[0]
+        return [tok.strip() for tok in segment.split(",") if tok.strip()]
+
+    def provider(*, prompt, image_paths):
+        expected = _expected_refs(prompt)
+        if expected == ["1", "2"]:
+            # First round: return only "1", omit "2".
+            return {"questions": [_question_payload("1")]}
+        # Repair round: prompt's expected set is only the missing ref "2".
+        assert expected == ["2"], expected
+        return {"questions": [_question_payload("2")]}
+
+    observations = observe_with_index(
+        source,
+        source_archive="documents/test",
+        span_index=index,
+        provider=provider,
+        provider_name="fake",
+        provider_version="v1",
+        max_repairs=1,
+    )
+    all_refs = [q.question_ref for obs in observations for q in obs.questions]
+    assert sorted(all_refs) == ["1", "2"]
+
+
+def test_span_observe_unexpected_is_isolated_not_into_observation(tmp_path: Path):
+    source, shas = _word_source_with_pages(tmp_path, 1)
+    index = _index([_q("1", [1])], page_shas=shas)
+
+    def provider(*, prompt, image_paths):
+        # Return the expected "1" plus an unexpected "99".
+        return {"questions": [_question_payload("1"), _question_payload("99", page=1)]}
+
+    observations = observe_with_index(
+        source,
+        source_archive="documents/test",
+        span_index=index,
+        provider=provider,
+        provider_name="fake",
+        provider_version="v1",
+    )
+    refs = [q.question_ref for obs in observations for q in obs.questions]
+    assert "99" not in refs  # isolated
+    assert refs == ["1"]
+
+
+def test_span_observe_duplicate_over_repair_limit_is_blocking(tmp_path: Path):
+    source, shas = _word_source_with_pages(tmp_path, 1)
+    index = _index([_q("1", [1])], page_shas=shas)
+
+    def provider(*, prompt, image_paths):
+        # Always return two copies of "1" -> duplicate, never resolves.
+        return {"questions": [_question_payload("1"), _question_payload("1")]}
+
+    with pytest.raises(ValueError, match="could not be repaired"):
+        observe_with_index(
+            source,
+            source_archive="documents/test",
+            span_index=index,
+            provider=provider,
+            provider_name="fake",
+            provider_version="v1",
+            max_repairs=1,
+            output_dir=tmp_path / "out",
+        )
+    # §7.1: before resolution, no normal observation file is produced.
+    assert list((tmp_path / "out").glob("*.yaml")) == [] or all(
+        p.name.startswith("_") for p in (tmp_path / "out").glob("*.yaml")
+    )
+
+
+def test_span_observe_no_normal_file_before_resolution(tmp_path: Path):
+    source, shas = _word_source_with_pages(tmp_path, 1)
+    index = _index([_q("1", [1]), _q("2", [1])], page_shas=shas)
+
+    def provider(*, prompt, image_paths):
+        # Never return "2" -> blocking after max_repairs.
+        return {"questions": [_question_payload("1")]}
+
+    out = tmp_path / "out"
+    with pytest.raises(ValueError):
+        observe_with_index(
+            source,
+            source_archive="documents/test",
+            span_index=index,
+            provider=provider,
+            provider_name="fake",
+            provider_version="v1",
+            max_repairs=0,
+            output_dir=out,
+        )
+    # Only repair metadata may exist; no normal *.yaml observation.
+    normal = [p for p in out.glob("*.yaml") if not p.name.startswith("_")]
+    assert normal == []
+
+
+def test_span_observe_rejects_stale_fingerprint_before_provider_call(tmp_path: Path):
+    source, _shas = _word_source_with_pages(tmp_path, 1)
+    # Index whose page SHA is wrong relative to the rendered page.
+    index = _index([_q("1", [1])], page_shas=["sha256:" + "0" * 64])
+    calls = []
+
+    def provider(*, prompt, image_paths):
+        calls.append(1)
+        return {"questions": []}
+
+    with pytest.raises(ValueError, match="SHA"):
+        observe_with_index(
+            source,
+            source_archive="documents/test",
+            span_index=index,
+            provider=provider,
+            provider_name="fake",
+            provider_version="v1",
+        )
+    assert calls == []  # failed before any provider call
+
+
+def test_span_observe_rejects_non_ready_status(tmp_path: Path):
+    source, shas = _word_source_with_pages(tmp_path, 1)
+    index = _index([_q("1", [1])], page_shas=shas, status="needs_review")
+    with pytest.raises(ValueError, match="ready"):
+        observe_with_index(
+            source,
+            source_archive="documents/test",
+            span_index=index,
+            provider=lambda **_: {"questions": []},
+            provider_name="fake",
+            provider_version="v1",
+        )
+
+
+def test_span_oberve_question_and_solution_batches_never_mix(tmp_path: Path):
+    source, shas = _word_source_with_pages(tmp_path, 2)
+    q1 = _q("1", [1])
+    q1.solution_pages = [2]
+    index = _index([q1], page_shas=shas)
+
+    roles: list[str] = []
+
+    def provider(*, prompt, image_paths):
+        roles.append("solution" if "官方解答" in prompt else "question")
+        # Return expected for whichever role, with the matching non-empty evidence.
+        if "官方解答" in prompt:
+            payload = _question_payload("1", page=2)
+            payload["evidence"]["question"] = []
+            payload["evidence"]["solution"] = [
+                {"kind": "page", "source": "documents/test/word/pages/002.png", "page_number": 2}
+            ]
+            return {"questions": [payload]}
+        payload = _question_payload("1", page=1)
+        payload["evidence"]["solution"] = []
+        return {"questions": [payload]}
+
+    observe_with_index(
+        source,
+        source_archive="documents/test",
+        span_index=index,
+        provider=provider,
+        provider_name="fake",
+        provider_version="v1",
+    )
+    # Question and solution are separate batches; roles recorded distinctly.
+    assert "question" in roles and "solution" in roles
+
+
+def test_cli_rejects_nonzero_overlap(tmp_path: Path):
+    import subprocess
+
+    source = _make_word_source(tmp_path, 1)
+    # A real (empty) injected response so argument parsing reaches the overlap guard.
+    response_file = tmp_path / "resp.json"
+    response_file.write_text('{"questions": []}', encoding="utf-8")
+    result = subprocess.run(
+        [
+            "./.venv/bin/python",
+            "scripts/question_transcription/observe_docx_pages.py",
+            "--word-source",
+            str(source),
+            "--source-archive",
+            "documents/test",
+            "--responses",
+            str(response_file),
+            "--output-dir",
+            str(tmp_path / "out"),
+            "--overlap",
+            "1",
+        ],
+        capture_output=True,
+        text=True,
+    )
+    assert result.returncode == 2
+    assert "overlap" in result.stderr.lower()
+
+
+def test_span_observe_question_only_then_solution_merges(tmp_path: Path):
+    """§10.1: DOCX question-only / solution-only batches still merge via the
+    existing merge path into a complete question."""
+    from scripts.question_transcription.merge_docx_observations import merge
+
+    source, shas = _word_source_with_pages(tmp_path, 2)
+    q1 = _q("1", [1])
+    q1.solution_pages = [2]
+    index = _index([q1], page_shas=shas)
+
+    def provider(*, prompt, image_paths):
+        if "官方解答" in prompt:
+            payload = _question_payload("1", page=2)
+            payload["content"]["stem_latex"] = None  # solution-only batch
+            payload["evidence"]["question"] = []
+            payload["evidence"]["solution"] = [
+                {"kind": "page", "source": "documents/test/word/pages/002.png", "page_number": 2}
+            ]
+            payload["evidence"]["solution_start_anchor"] = "解："
+            payload["evidence"]["solution_end_anchor"] = "<END>"
+            return {"questions": [payload]}
+        payload = _question_payload("1", page=1)
+        payload["evidence"]["solution"] = []
+        payload["evidence"]["solution_start_anchor"] = "解："
+        payload["evidence"]["solution_end_anchor"] = "<END>"
+        return {"questions": [payload]}
+
+    observations = observe_with_index(
+        source,
+        source_archive="documents/test",
+        span_index=index,
+        provider=provider,
+        provider_name="fake",
+        provider_version="v1",
+    )
+    merged = merge(observations, paper=_paper())
+    # The merged question has both question and solution evidence.
+    q = merged.questions[0]
+    assert q.evidence.question and q.evidence.solution
