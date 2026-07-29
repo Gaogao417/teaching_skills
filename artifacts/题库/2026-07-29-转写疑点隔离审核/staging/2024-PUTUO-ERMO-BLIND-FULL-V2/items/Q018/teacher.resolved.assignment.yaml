@@ -1,0 +1,43 @@
+meta:
+  title: 2024届上海市普陀区初三二模数学试卷及解析（整卷盲验）第 18 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: fillin
+    id: Q018
+    points: 4
+    stem_latex: 如图，在$\triangle ABC$中，$AB=AC=5$，$\cos B = \frac{4}{5}$，分别以点$B$、$C$为圆心，$1$为半径长作$\odot B$、$\odot C$，$D$为边$BC$上一点，将$\triangle ABD$和$\odot B$沿着$AD$翻折得到$\triangle AB' D$和$\odot B'$，点$B$的对应点为点$B'$，$AB'$与边$BC$相交，如果$\odot B'$与$\odot C$外切，那么$BD = $______．
+    answer: $4 - \frac{\sqrt{6}}{4}$ 或 $4 + \frac{\sqrt{6}}{4}$
+    clue: 原卷未提供提示
+    solution_steps:
+    - 解：过点$A$作$AE \perp BC$交$BC$于点$E$，连接$B' C$，过点$A$作$AF \perp B' C$，交$B' C$于点$F$，
+    - $\because AB=AC=5$，$\cos B = \frac{4}{5}$，
+    - 在$\mathrm{Rt}\triangle ABE$中，$BE = AB\cos B = 5 \times \frac{4}{5} = 4$，$AE = \sqrt{AB^2 - AE^2} = \sqrt{5^2 - 4^2} = 3$，
+    - $\therefore \angle BAE = \angle CAE$，
+    - 由折叠的性质可得：$\angle BAD = \angle B' AD$，$AB' = AB = 5$，
+    - $\because AF \perp B' C$，$AB' = AC = 5$，
+    - $\therefore \angle B' AF = \angle CAF$，$B' F = \frac{1}{2} B' C$
+    - $\because \odot B'$与$\odot C$外切，
+    - $\therefore B' C = 2$，$B' F = \frac{1}{2} B' C = \frac{1}{2} \times 2 = 1$，
+    - 在$\mathrm{Rt}\triangle AB' F$中，$AF = \sqrt{AB'^2 - B' F^2} = \sqrt{5^2 - 1^2} = 2\sqrt{6}$，$\tan \angle B' AF = \frac{B' F}{AF} = \frac{1}{2\sqrt{6}} = \frac{\sqrt{6}}{12}$，
+    - 当$AB'$在$\angle BAC$内部时，
+    - $\angle B' AF = \frac{1}{2} \angle B' AC = \frac{1}{2} (\angle BAC - \angle BAB') = \frac{1}{2} (2\angle BAE - 2\angle BAD) = \angle BAE - \angle BAD = \angle DAE$，
+    - $\therefore \tan \angle DAE = \tan \angle B' AF = \frac{\sqrt{6}}{12}$，$DE = AE \cdot \tan \angle DAE = 3 \times \frac{\sqrt{6}}{12} = \frac{\sqrt{6}}{4}$，
+    - $BD = BE - DE = 4 - \frac{\sqrt{6}}{4}$，
+    - 当$AB'$在$\angle BAC$外部时，$DE = AE \cdot \tan \angle DAE = 3 \times \frac{\sqrt{6}}{12} = \frac{\sqrt{6}}{4}$，$BD = BE + DE = 4 + \frac{\sqrt{6}}{4}$，
+    - 故答案为：$4 - \frac{\sqrt{6}}{4}$ 或 $4 + \frac{\sqrt{6}}{4}$．
+    source_solution_images: []

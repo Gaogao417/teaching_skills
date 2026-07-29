@@ -1,0 +1,37 @@
+meta:
+  title: 2024届上海市普陀区初三二模数学试卷及解析（整卷盲验）第 24 题
+  grade: 九年级
+  subject: 数学
+  total_points: 0
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q024
+    points: 0
+    stem_latex: '在平面直角坐标系$xOy$中（如图），已知抛物线$y = a(x - m)^2 + n (a \neq 0)$与$x$轴交于点$A$、$B$，抛物线的顶点$P$在第一象限，且$\angle APB = 90^\circ$。
+
+      （1）当点$P$的坐标为$(4, 3)$时，求这个抛物线的表达式；
+
+      （2）抛物线$y = a(x - m)^2 + n (a \neq 0)$表达式中有三个待定系数，求待定系数$a$与$n$之间的数量关系；
+
+      （3）以点$P$为圆心，$PA$为半径作$\odot P$，$\odot P$与直线$y = x + \frac{n}{2}$相交于点$M$、$N$。当点$P$在直线$y = \frac{1}{2}x$上时，用含$a$的代数式表示$MN$的长。'
+    answer: (1) $y=-\frac{1}{3}(x-4)^2+3$; (2) $a=-\frac{1}{n}$; (3) $MN=-\frac{\sqrt{14}}{2a}$
+    clue: 原卷未提供提示
+    solution_steps:
+    - 【分析】(1) $\triangle PAB$ 是等腰直角三角形，当点 $P$ 的坐标为 $(4,3)$ 时，则 $y=a(x-4)^2+3$ 抛物线的对称轴为直线 $x=4$，得出 $A(1,0)$，$B(7,0)$，然后待定系数法求解析式，即可求解；(2) 根据 (1) 的方法求得 $A(m-n,0)$，待定系数法求解析式，进而得出 $a=-\frac{1}{n}$；(3) 根据 $P(m,n)$ 在 $y=\frac{1}{2}x$ 上得出 $m=2n$，根据 (2) 的结论得出 $a=-\frac{1}{n}$，$A(m-n,0)$ 即 $A(n,0)$，$\odot P$ 与直线 $y=x+\frac{n}{2}$ 相交于点 $M$、$N$。设直线 $y=x+\frac{n}{2}$ 交 $x$ 轴于点 $E$，交 $y$ 轴于点 $F$，得出 $PA \parallel MN$，则 $\triangle BPA \sim \triangle BDE$，求得 $PD=\frac{3\sqrt{2}}{4}n$，在 Rt$\triangle PMD$ 中勾股定理求得 $MD$，进而求得 $MN$，即可求解。
+    - 【小问1详解】解：依题意，$\triangle PAB$ 是等腰直角三角形，当点 $P$ 的坐标为 $(4,3)$ 时，则 $y=a(x-4)^2+3$ 抛物线的对称轴为直线 $x=4$，如图所示，过点 $P$ 作 $PC \perp x$ 轴于点 $C$，$\therefore PC = \frac{1}{2}AB = AC = CB = 3$，$\therefore A(1,0)$，$B(7,0)$，将 $A(1,0)$ 代入 $y=a(x-4)^2+3$，$0=a(1-4)^2+3$，解得：$a=-\frac{1}{3}$，$\therefore$ 抛物线解析式为 $y=-\frac{1}{3}(x-4)^2+3$；
+    - 【小问2详解】解：$\because$ 抛物线 $y=a(x-m)^2+n(a \neq 0)$ 与 $x$ 轴交于点 $A$、$B$，抛物线的顶点 $P$ 在第一象限，且 $\angle APB=90^\circ$，$\therefore \triangle PBC$ 是等腰直角三角形，抛物线的顶点坐标为 $(m,n)$，$PC = AC = n$，$\therefore A(m-n,0)$，代入 $y=a(x-m)^2+n(a \neq 0)$，$\therefore a(m-n-m)^2+n=0$，即 $an^2+n=0$，$\because$ 抛物线的顶点 $P$ 在第一象限，则 $n>0$，$\therefore a=-\frac{1}{n}$；
+    - 【小问3详解】$\because P(m,n)$ 在 $y=\frac{1}{2}x$ 上，$\therefore n=\frac{1}{2}m$，即 $m=2n$，由 (2) 可得 $a=-\frac{1}{n}$，$A(m-n,0)$ 即 $A(n,0)$，$\therefore$ 抛物线解析式为 $y=-\frac{1}{n}(x-2n)^2+n$，$\because \odot P$ 与直线 $y=x+\frac{n}{2}$ 相交于点 $M$、$N$。设直线 $y=x+\frac{n}{2}$ 交 $x$ 轴于点 $E$，交 $y$ 轴于点 $F$，当 $y=0$ 时，$x=-\frac{n}{2}$，则 $E(-\frac{n}{2},0)$，当 $x=0$ 时，$y=\frac{n}{2}$，则 $F(0,\frac{n}{2})$，$\therefore OE=OF$，则 $\triangle OEF$ 是等腰直角三角形，
+    source_solution_images: []

@@ -1,0 +1,2929 @@
+schema: math_transcription_review_issues/v1
+paper_id: 2024-PUTUO-ERMO-BLIND-FULL-V2
+generated_at: '2026-07-28T17:25:10.931335Z'
+issues:
+- kind: field_conflict
+  issue_id: Q003-content-solution-steps
+  question_ref: '3'
+  item_id: Q003
+  question_number: 3
+  code: solution_conclusion_conflict
+  severity: blocking
+  field_path: content.solution_steps
+  math_token: inequality
+  origin: merge
+  candidates:
+  - window_id: pages-001-003
+    raw_value: '["A. $\\because \\Delta = 0^2 - 4 \\times 1 \\times 0 = 0$，$\\therefore$ 方程有两个相等的实数根，不合题意；","B. $\\because \\Delta = 0^2 - 4 \\times 1 \\times (-1) = 4 > 0$，$\\therefore$ 方程有两个不相等的实数根，符合题意；","C. $\\because \\Delta = (-2)^2 - 4 \\times 1 \\times 2 = -4 < 0$，$\\therefore$ 方程没有实数根，不合题意；","D. $\\because \\Delta = (-2)^2 - 4 \\times 1 \\times 1 = 0$，$\\therefore$ 方程有两个相等的实数根，不合题意．","故选：B．"]'
+    normalized_value: '["A.$\\because\\Delta=0^2-4\\times1\\times0=0$,$\\therefore$方程有两个相等的实数根,不合题意","B.$\\because\\Delta=0^2-4\\times1\\times(-1)=4>0$,$\\therefore$方程有两个不相等的实数根,符合题意","C.$\\because\\Delta=(-2)^2-4\\times1\\times2=-4<0$,$\\therefore$方程没有实数根,不合题意","D.$\\because\\Delta=(-2)^2-4\\times1\\times1=0$,$\\therefore$方程有两个相等的实数根,不合题意","故选:B"]'
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/003.png
+      page_number: 3
+    selected: true
+  - window_id: pages-003-005
+    raw_value: '["A、$\\because \\Delta = 0^2 - 4 \\times 1 \\times 0 = 0$，$\\therefore$方程有两个相等的实数根，不合题意；","B、$\\because \\Delta = 0^2 - 4 \\times 1 \\times (-1) = 4 > 0$，$\\therefore$方程有两个不相等的实数根，符合题意；","C、$\\because \\Delta = (-2)^2 - 4 \\times 1 \\times 2 = -4 < 0$，$\\therefore$方程没有实数根，不合题意；","D、$\\because \\Delta = (-2)^2 - 4 \\times 1 \\times 1 = 0$，$\\therefore$方程有两个相等的实数根，不合题意。"]'
+    normalized_value: '["A、$\\because\\Delta=0^2-4\\times1\\times0=0$,$\\therefore$方程有两个相等的实数根,不合题意","B、$\\because\\Delta=0^2-4\\times1\\times(-1)=4>0$,$\\therefore$方程有两个不相等的实数根,符合题意","C、$\\because\\Delta=(-2)^2-4\\times1\\times2=-4<0$,$\\therefore$方程没有实数根,不合题意","D、$\\because\\Delta=(-2)^2-4\\times1\\times1=0$,$\\therefore$方程有两个相等的实数根,不合题意"]'
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/003.png
+      page_number: 3
+    selected: false
+  candidates_hash: sha256:bc6940537a7395bce0f250b4552a366d2405de94e580dfc94b588f2395e78129
+- kind: field_conflict
+  issue_id: Q003-evidence-solution-start-anchor
+  question_ref: '3'
+  item_id: Q003
+  question_number: 3
+  code: evidence_span_needs_confirmation
+  severity: warning
+  field_path: evidence.solution_start_anchor
+  origin: merge
+  candidates:
+  - window_id: pages-001-003
+    raw_value: 【详解】
+    normalized_value: 【详解】
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/003.png
+      page_number: 3
+    selected: true
+  - window_id: pages-003-005
+    raw_value: 【详解】解：A、
+    normalized_value: 【详解】解:A、
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/003.png
+      page_number: 3
+    selected: false
+  candidates_hash: sha256:5ef5b0a8d82297c5ae18b2a5a554ecfd40dce01321d65e1358df49591c60a715
+- kind: field_conflict
+  issue_id: Q003-evidence-solution-end-anchor
+  question_ref: '3'
+  item_id: Q003
+  question_number: 3
+  code: auto_resolved_format_diff
+  severity: info
+  field_path: evidence.solution_end_anchor
+  origin: merge
+  candidates:
+  - window_id: pages-001-003
+    raw_value: 故选：B
+    normalized_value: 故选:B
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/003.png
+      page_number: 3
+    selected: true
+  - window_id: pages-003-005
+    raw_value: 故选：B。
+    normalized_value: 故选:B
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/003.png
+      page_number: 3
+    selected: false
+  candidates_hash: sha256:17e394838521baf9508c8fe6d9370d36a34a330280ef4869c367b6892d36c78f
+- kind: field_conflict
+  issue_id: Q005-content-stem-latex
+  question_ref: '5'
+  item_id: Q005
+  question_number: 5
+  code: stem_conflict
+  severity: blocking
+  field_path: content.stem_latex
+  origin: merge
+  candidates:
+  - window_id: pages-003-005
+    raw_value: 已知$\triangle ABC$中，$AH$为边$BC$上的高，在添加下列条件中的一个后，仍不能判断$\triangle ABC$是等腰三角形的是(    )
+    normalized_value: 已知$\triangleABC$中,$AH$为边$BC$上的高,在添加下列条件中的一个后,仍不能判断$\triangleABC$是等腰三角形的是()
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/004.png
+      page_number: 4
+    selected: false
+  - window_id: pages-005-007
+    raw_value: 已知 $\triangle ABC$ 中，$AH$ 为 $BC$ 边上的高，在添加下列条件中的一个后，仍不能判断 $\triangle ABC$ 是等腰三角形的是(    )
+    normalized_value: 已知$\triangleABC$中,$AH$为$BC$边上的高,在添加下列条件中的一个后,仍不能判断$\triangleABC$是等腰三角形的是()
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/005.png
+      page_number: 5
+    selected: true
+  candidates_hash: sha256:1896c17520462e366ac478c39dfaa00cdb59059e8ddd5c3dfdbe3122fcdda1fb
+- kind: field_conflict
+  issue_id: Q005-content-solution-steps
+  question_ref: '5'
+  item_id: Q005
+  question_number: 5
+  code: solution_conclusion_conflict
+  severity: blocking
+  field_path: content.solution_steps
+  origin: merge
+  candidates:
+  - window_id: pages-003-005
+    raw_value: '["解：A、$\\because AH \\perp BC$，$BH = CH$，$\\therefore AH$是$BC$的垂直平分线，$\\therefore AB = AC$，$\\therefore \\triangle ABC$是等腰三角形，故A不符合题意；","B、$\\because \\angle BAH = \\angle CAH$，$AH = AH$，$\\angle AHB = \\angle AHC = 90^\\circ$，$\\therefore \\triangle ABH \\cong \\triangle ACH$ ($ASA$)，$\\therefore AB = AC$，$\\therefore \\triangle ABC$是等腰三角形，故B不符合题意；","C、无法判断$\\triangle ABC$是等腰三角形，故C符合题意；","D、$\\because S_{\\triangle ABH} = S_{\\triangle AHC}$，$AH$是边$BC$上的高，$\\therefore AH$是$BC$的垂直平分线，$\\therefore \\triangle ABC$是等腰三角形，故D不符合题意。"]'
+    normalized_value: '["解:A、$\\becauseAH\\perpBC$,$BH=CH$,$\\thereforeAH$是$BC$的垂直平分线,$\\thereforeAB=AC$,$\\therefore\\triangleABC$是等腰三角形,故A不符合题意","B、$\\because\\angleBAH=\\angleCAH$,$AH=AH$,$\\angleAHB=\\angleAHC=90^\\circ$,$\\therefore\\triangleABH\\cong\\triangleACH$($ASA$),$\\thereforeAB=AC$,$\\therefore\\triangleABC$是等腰三角形,故B不符合题意","C、无法判断$\\triangleABC$是等腰三角形,故C符合题意","D、$\\becauseS_{\\triangleABH}=S_{\\triangleAHC}$,$AH$是边$BC$上的高,$\\thereforeAH$是$BC$的垂直平分线,$\\therefore\\triangleABC$是等腰三角形,故D不符合题意"]'
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/005.png
+      page_number: 5
+    selected: false
+  - window_id: pages-005-007
+    raw_value: '["A、$\\because AH \\perp BC$，$BH = CH$，$\\therefore AH$ 是 $BC$ 的垂直平分线，$\\therefore AB = AC$，$\\therefore \\triangle ABC$ 是等腰三角形，故A不符合题意；","B、$\\because \\angle BAH = \\angle CAH$，$AH = AH$，$\\angle AHB = \\angle AHC = 90^\\circ$，$\\therefore \\triangle ABH \\cong \\triangle ACH$ (ASA)，$\\therefore AB = AC$，$\\therefore \\triangle ABC$ 是等腰三角形，故B不符合题意；","C、$\\angle B = \\angle HAC$ 无法判断 $\\triangle ABC$ 是等腰三角形，故C符合题意；","D、$\\because S_{\\triangle ABH} = S_{\\triangle AHC}$，$AH$ 是边 $BC$ 上的高，$\\therefore BH = HC$，$\\therefore AH$ 是 $BC$ 的垂直平分线，$\\therefore \\triangle ABC$ 是等腰三角形，故D不符合题意；"]'
+    normalized_value: '["A、$\\becauseAH\\perpBC$,$BH=CH$,$\\thereforeAH$是$BC$的垂直平分线,$\\thereforeAB=AC$,$\\therefore\\triangleABC$是等腰三角形,故A不符合题意","B、$\\because\\angleBAH=\\angleCAH$,$AH=AH$,$\\angleAHB=\\angleAHC=90^\\circ$,$\\therefore\\triangleABH\\cong\\triangleACH$(ASA),$\\thereforeAB=AC$,$\\therefore\\triangleABC$是等腰三角形,故B不符合题意","C、$\\angleB=\\angleHAC$无法判断$\\triangleABC$是等腰三角形,故C符合题意","D、$\\becauseS_{\\triangleABH}=S_{\\triangleAHC}$,$AH$是边$BC$上的高,$\\thereforeBH=HC$,$\\thereforeAH$是$BC$的垂直平分线,$\\therefore\\triangleABC$是等腰三角形,故D不符合题意"]'
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/005.png
+      page_number: 5
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/006.png
+      page_number: 6
+    selected: true
+  candidates_hash: sha256:ca9cfc1a64b7588c990637114dfeaa7fc961a8f0490399eeadbc6d7190f78141
+- kind: field_conflict
+  issue_id: Q005-evidence-solution-end-anchor
+  question_ref: '5'
+  item_id: Q005
+  question_number: 5
+  code: auto_resolved_format_diff
+  severity: info
+  field_path: evidence.solution_end_anchor
+  origin: merge
+  candidates:
+  - window_id: pages-003-005
+    raw_value: 故选：C。
+    normalized_value: 故选:C
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/005.png
+      page_number: 5
+    selected: false
+  - window_id: pages-005-007
+    raw_value: 故选：C.
+    normalized_value: 故选:C
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/005.png
+      page_number: 5
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/006.png
+      page_number: 6
+    selected: true
+  candidates_hash: sha256:b8d62959394191fe994d3311572ea8783bf514f9fcdd1b2aec7a2ab4b35e724c
+- kind: field_conflict
+  issue_id: Q006-content-stem-latex
+  question_ref: '6'
+  item_id: Q006
+  question_number: 6
+  code: stem_conflict
+  severity: blocking
+  field_path: content.stem_latex
+  math_token: fraction
+  origin: merge
+  candidates:
+  - window_id: pages-005-007
+    raw_value: 如图，在 $\triangle ABC$ 中，$\angle ACB = 90^\circ$，$G$ 是 $\triangle ABC$ 的重心，点 $D$ 在边 $BC$ 上，$DG \perp GC$，如果 $BD = 5$，$CD = 3$，那么 $\dfrac{CG}{BC}$ 的值是（    ）
+    normalized_value: 如图,在$\triangleABC$中,$\angleACB=90^\circ$,$G$是$\triangleABC$的重心,点$D$在边$BC$上,$DG\perpGC$,如果$BD=5$,$CD=3$,那么$\frac{CG}{BC}$的值是（）
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/006.png
+      page_number: 6
+    selected: true
+  - window_id: pages-007-009
+    raw_value: 如图，在 $\triangle ABC$ 中，$\angle ACB = 90^{\circ}$，$G$ 是 $\triangle ABC$ 的重心，点 $D$ 在边 $BC$ 上，$CD = 3$，如果 $BC = 8$，$\cos \angle DCG = \cos \angle ECF$，那么 $\frac{CG}{BC}$ 的值是（  ）
+    normalized_value: 如图,在$\triangleABC$中,$\angleACB=90^{\circ}$,$G$是$\triangleABC$的重心,点$D$在边$BC$上,$CD=3$,如果$BC=8$,$\cos\angleDCG=\cos\angleECF$,那么$\frac{CG}{BC}$的值是（）
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/007.png
+      page_number: 7
+    selected: false
+  candidates_hash: sha256:62245170b16a2e7f729ffb9efaf5b17862af69551102537ee4fc13f683ae722a
+- kind: field_conflict
+  issue_id: Q006-content-choices
+  question_ref: '6'
+  item_id: Q006
+  question_number: 6
+  code: choice_conflict
+  severity: blocking
+  field_path: content.choices
+  math_token: radicand
+  origin: merge
+  candidates:
+  - window_id: pages-005-007
+    raw_value: '["$\\dfrac{\\sqrt{2}}{2}$","$\\dfrac{\\sqrt{2}}{3}$","$\\dfrac{\\sqrt{2}}{5}$","$\\dfrac{\\sqrt{2}}{4}$"]'
+    normalized_value: '["\\frac{\\sqrt{2}}{2}","\\frac{\\sqrt{2}}{3}","\\frac{\\sqrt{2}}{5}","\\frac{\\sqrt{2}}{4}"]'
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/006.png
+      page_number: 6
+    selected: true
+  - window_id: pages-007-009
+    raw_value: '["$\\frac{1}{4}$","$\\frac{\\sqrt{2}}{8}$","$\\frac{1}{2}$","$\\frac{\\sqrt{2}}{4}$"]'
+    normalized_value: '["\\frac{1}{4}","\\frac{\\sqrt{2}}{8}","\\frac{1}{2}","\\frac{\\sqrt{2}}{4}"]'
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/007.png
+      page_number: 7
+    selected: false
+  candidates_hash: sha256:83d30eaa5f2e554c707e81806f01758930810d5db7ea579e8e4f1f2390bcfe8c
+- kind: field_conflict
+  issue_id: Q006-content-solution-steps
+  question_ref: '6'
+  item_id: Q006
+  question_number: 6
+  code: solution_conclusion_conflict
+  severity: blocking
+  field_path: content.solution_steps
+  math_token: radicand
+  origin: merge
+  candidates:
+  - window_id: pages-005-007
+    raw_value: '["解：如图所示，延长 $CG$ 交 $AB$ 于点 $E$，连接 $AG$ 交 $CB$ 于点 $F$，","$\\because G$ 是 $\\triangle ABC$ 的重心，点 $D$ 在边 $BC$ 上，","$\\therefore AE = EB, BF = FC = \\dfrac{1}{2}BC = \\dfrac{1}{2}(BD + CD) = 4$，","$\\therefore EF \\parallel AC$，","$\\therefore \\angle GEF \\sim \\angle GAC$，","$\\therefore \\dfrac{EG}{CG} = \\dfrac{EF}{AC} = \\dfrac{1}{2}$，","设 $EG = a$，则 $CG = 2a, CE = 3a$，","$\\because EF \\parallel AC$，$\\angle ACB = 90^\\circ$，","$\\therefore EF \\perp BC$，","$\\therefore \\cos \\angle DCG = \\cos \\angle ECF$，即 $\\dfrac{CD}{CG} = \\dfrac{FC}{EC}$","$\\therefore \\dfrac{3}{2a} = \\dfrac{4}{3a}$（此处根据图像与上下文，原卷解析中的此步推导存在疑点，实际应为 $\\dfrac{3}{2a} = \\dfrac{4}{3a}$ 无法成立，根据最终答案 $\\dfrac{CG}{BC} = \\dfrac{\\sqrt{2}}{4}$ 逆推，$CG = 2\\sqrt{2}$，$BC = 8$，则 $\\dfrac{CD}{CG} = \\dfrac{3}{2\\sqrt{2}}$，$\\dfrac{FC}{EC} = \\dfrac{4}{3a}$，且 $CG = 2a = 2\\sqrt{2}$，故 $a = \\sqrt{2}$，则 $EC = 3\\sqrt{2}$，代入得 $\\dfrac{3}{2\\sqrt{2}} = \\dfrac{4}{3\\sqrt{2}}$ 仍不成立。原卷解析中此步疑似有误或印刷不清，此处按图像可见文字转录）"]'
+    normalized_value: '["解:如图所示,延长$CG$交$AB$于点$E$,连接$AG$交$CB$于点$F$,","$\\becauseG$是$\\triangleABC$的重心,点$D$在边$BC$上,","$\\thereforeAE=EB,BF=FC=\\frac{1}{2}BC=\\frac{1}{2}(BD+CD)=4$,","$\\thereforeEF\\parallelAC$,","$\\therefore\\angleGEF\\sim\\angleGAC$,","$\\therefore\\frac{EG}{CG}=\\frac{EF}{AC}=\\frac{1}{2}$,","设$EG=a$,则$CG=2a,CE=3a$,","$\\becauseEF\\parallelAC$,$\\angleACB=90^\\circ$,","$\\thereforeEF\\perpBC$,","\\therefore\\cos\\angleDCG=\\cos\\angleECF$,即$\\frac{CD}{CG}=\\frac{FC}{EC}","$\\therefore\\frac{3}{2a}=\\frac{4}{3a}$（此处根据图像与上下文,原卷解析中的此步推导存在疑点,实际应为$\\frac{3}{2a}=\\frac{4}{3a}$无法成立,根据最终答案$\\frac{CG}{BC}=\\frac{\\sqrt{2}}{4}$逆推,$CG=2\\sqrt{2}$,$BC=8$,则$\\frac{CD}{CG}=\\frac{3}{2\\sqrt{2}}$,$\\frac{FC}{EC}=\\frac{4}{3a}$,且$CG=2a=2\\sqrt{2}$,故$a=\\sqrt{2}$,则$EC=3\\sqrt{2}$,代入得$\\frac{3}{2\\sqrt{2}}=\\frac{4}{3\\sqrt{2}}$仍不成立。原卷解析中此步疑似有误或印刷不清,此处按图像可见文字转录）"]'
+    confidence: low
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/007.png
+      page_number: 7
+    selected: false
+  - window_id: pages-007-009
+    raw_value: '["延长 $CG$ 交 $AB$ 于点 $E$，连接 $AG$ 交 $CB$ 于点 $F$。","$\\because G$ 是 $\\triangle ABC$ 的重心，点 $D$ 在边 $BC$ 上，","$\\therefore AE = EB$，$BF = FC = \\frac{1}{2} BC = \\frac{1}{2}(BD + CD) = 4$。","$\\therefore EF \\parallel AC$，","$\\therefore \\triangle GEF \\sim \\triangle GAC$，","$\\therefore \\frac{EG}{CG} = \\frac{EF}{AC} = \\frac{1}{2}$。","设 $EG = a$，则 $CG = 2a$，$CE = 3a$。","$\\because EF \\parallel AC$，$\\angle ACB = 90^{\\circ}$，","$\\therefore EF \\perp BC$，","$\\therefore \\cos \\angle DCG = \\cos \\angle ECF$，即 $\\frac{CD}{CG} = \\frac{FC}{EC}$，","$\\therefore \\frac{3}{2a} = \\frac{4}{3a}$？ 修正：应为 $\\frac{CD}{CG} = \\frac{FC}{EC}$ 即 $\\frac{3}{2a} = \\frac{4}{3a}$，解得 $a = \\sqrt{2}$（负值舍去）。","$\\therefore CG = 2a = 2\\sqrt{2}$，","$\\therefore \\frac{CG}{BC} = \\frac{2\\sqrt{2}}{8} = \\frac{\\sqrt{2}}{4}$。"]'
+    normalized_value: '["延长$CG$交$AB$于点$E$,连接$AG$交$CB$于点$F$","$\\becauseG$是$\\triangleABC$的重心,点$D$在边$BC$上,","$\\thereforeAE=EB$,$BF=FC=\\frac{1}{2}BC=\\frac{1}{2}(BD+CD)=4$","$\\thereforeEF\\parallelAC$,","$\\therefore\\triangleGEF\\sim\\triangleGAC$,","$\\therefore\\frac{EG}{CG}=\\frac{EF}{AC}=\\frac{1}{2}$","设$EG=a$,则$CG=2a$,$CE=3a$","$\\becauseEF\\parallelAC$,$\\angleACB=90^{\\circ}$,","$\\thereforeEF\\perpBC$,","$\\therefore\\cos\\angleDCG=\\cos\\angleECF$,即$\\frac{CD}{CG}=\\frac{FC}{EC}$,","$\\therefore\\frac{3}{2a}=\\frac{4}{3a}$？修正:应为$\\frac{CD}{CG}=\\frac{FC}{EC}$即$\\frac{3}{2a}=\\frac{4}{3a}$,解得$a=\\sqrt{2}$（负值舍去）","$\\thereforeCG=2a=2\\sqrt{2}$,","$\\therefore\\frac{CG}{BC}=\\frac{2\\sqrt{2}}{8}=\\frac{\\sqrt{2}}{4}$"]'
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/007.png
+      page_number: 7
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/008.png
+      page_number: 8
+    selected: true
+  candidates_hash: sha256:d02e6d8ce54d084fce684dbf4c5b18a3b23563c97498d2a007f5bf05cec4800b
+- kind: field_conflict
+  issue_id: Q006-content-solution-notes
+  question_ref: '6'
+  item_id: Q006
+  question_number: 6
+  code: solution_conclusion_conflict
+  severity: blocking
+  field_path: content.solution_notes
+  math_token: fraction
+  origin: merge
+  candidates:
+  - window_id: pages-005-007
+    raw_value: '["解题步骤中 $\\dfrac{3}{2a} = \\dfrac{4}{3a}$ 这一步根据图像与数学逻辑判断存在疑点，无法成立。可能为印刷不清或原卷解析有误。此处按可见文字转录并降低 confidence。"]'
+    normalized_value: '["解题步骤中$\\frac{3}{2a}=\\frac{4}{3a}$这一步根据图像与数学逻辑判断存在疑点,无法成立。可能为印刷不清或原卷解析有误。此处按可见文字转录并降低confidence"]'
+    confidence: low
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/007.png
+      page_number: 7
+    selected: false
+  - window_id: pages-007-009
+    raw_value: '["解题步骤中利用了重心性质、相似三角形和余弦定义。"]'
+    normalized_value: '["解题步骤中利用了重心性质、相似三角形和余弦定义"]'
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/007.png
+      page_number: 7
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/008.png
+      page_number: 8
+    selected: true
+  candidates_hash: sha256:16923174e87672b7fde4990fc775d7fc6788225e5f47df9a62a576f03e5133c5
+- kind: field_conflict
+  issue_id: Q006-evidence-solution-start-anchor
+  question_ref: '6'
+  item_id: Q006
+  question_number: 6
+  code: evidence_span_needs_confirmation
+  severity: warning
+  field_path: evidence.solution_start_anchor
+  origin: merge
+  candidates:
+  - window_id: pages-005-007
+    raw_value: 【详解】解：如图所示，延长 $CG$ 交 $AB$ 于点 $E$，连接 $AG$ 交 $CB$ 于点 $F$，
+    normalized_value: 【详解】解:如图所示,延长$CG$交$AB$于点$E$,连接$AG$交$CB$于点$F$,
+    confidence: low
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/007.png
+      page_number: 7
+    selected: false
+  - window_id: pages-007-009
+    raw_value: 【详解】解：如图所示，延长CG交AB于点E，连接AG交CB于点F，
+    normalized_value: 【详解】解:如图所示,延长CG交AB于点E,连接AG交CB于点F,
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/007.png
+      page_number: 7
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/008.png
+      page_number: 8
+    selected: true
+  candidates_hash: sha256:dc82d67251ef042391f815115cbc9dcd71baf9473e04cb2b8831c9159ae8ae57
+- kind: field_conflict
+  issue_id: Q006-evidence-solution-end-anchor
+  question_ref: '6'
+  item_id: Q006
+  question_number: 6
+  code: evidence_span_needs_confirmation
+  severity: warning
+  field_path: evidence.solution_end_anchor
+  math_token: fraction
+  origin: merge
+  candidates:
+  - window_id: pages-005-007
+    raw_value: 即 $\dfrac{CD}{CG} = \dfrac{FC}{EC}$
+    normalized_value: 即$\frac{CD}{CG}=\frac{FC}{EC}$
+    confidence: low
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/007.png
+      page_number: 7
+    selected: false
+  - window_id: pages-007-009
+    raw_value: 故选：D。
+    normalized_value: 故选:D
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/007.png
+      page_number: 7
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/008.png
+      page_number: 8
+    selected: true
+  candidates_hash: sha256:85d0e4a2ad71a2f4d3580ef4e6093a5b82fde9d6818db66888755179380a45c0
+- kind: field_conflict
+  issue_id: Q009-points
+  question_ref: '9'
+  item_id: Q009
+  question_number: 9
+  code: question_ref_mismatch
+  severity: blocking
+  field_path: points
+  math_token: numeric_value
+  origin: merge
+  candidates:
+  - window_id: pages-007-009
+    raw_value: '4'
+    normalized_value: '4'
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/009.png
+      page_number: 9
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/009.png
+      page_number: 9
+    selected: true
+  - window_id: pages-009-011
+    raw_value: '0'
+    normalized_value: '0'
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/009.png
+      page_number: 9
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/009.png
+      page_number: 9
+    selected: false
+  candidates_hash: sha256:ccd20c33657e5f43ef686c5f27794cf2372d3648fd1737a184df3d83c9a309cf
+- kind: field_conflict
+  issue_id: Q009-content-stem-latex
+  question_ref: '9'
+  item_id: Q009
+  question_number: 9
+  code: auto_resolved_format_diff
+  severity: info
+  field_path: content.stem_latex
+  origin: merge
+  candidates:
+  - window_id: pages-007-009
+    raw_value: 不等式组 $\begin{cases} 3x + 6 > 0 \\ 1 - 2x > 0 \end{cases}$ 的解集是 ______。
+    normalized_value: 不等式组$\begin{cases}3x+6>0\\1-2x>0\end{cases}$的解集是______
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/009.png
+      page_number: 9
+    selected: true
+  - window_id: pages-009-011
+    raw_value: 不等式组$\begin{cases} 3x+6>0 \\ 1-2x>0 \end{cases}$的解集是______。
+    normalized_value: 不等式组$\begin{cases}3x+6>0\\1-2x>0\end{cases}$的解集是______
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/009.png
+      page_number: 9
+    selected: false
+  candidates_hash: sha256:8614e220b2640d6990ebb7d16efb83fbf5bf4add4bd8c7ab17906f51c27b909c
+- kind: field_conflict
+  issue_id: Q009-content-solution-steps
+  question_ref: '9'
+  item_id: Q009
+  question_number: 9
+  code: solution_conclusion_conflict
+  severity: blocking
+  field_path: content.solution_steps
+  math_token: fraction
+  origin: merge
+  candidates:
+  - window_id: pages-007-009
+    raw_value: '["解不等式①得：$x > -2$。","解不等式②得：$x < \\frac{1}{2}$。","$\\therefore$ 不等式组的解集为：$-2 < x < \\frac{1}{2}$。"]'
+    normalized_value: '["解不等式①得:$x>-2$","解不等式②得:$x<\\frac{1}{2}$","$\\therefore$不等式组的解集为:$-2<x<\\frac{1}{2}$"]'
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/009.png
+      page_number: 9
+    selected: false
+  - window_id: pages-009-011
+    raw_value: '["解不等式①得：$x > -2$","解不等式②得：$x < \\frac{1}{2}$","不等式组的解集为：$-2 < x < \\frac{1}{2}$"]'
+    normalized_value: '["解不等式①得:$x>-2$","解不等式②得:$x<\\frac{1}{2}$","不等式组的解集为:$-2<x<\\frac{1}{2}$"]'
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/009.png
+      page_number: 9
+    selected: true
+  candidates_hash: sha256:1d4a8fe0291187c9c09e1d0663982443498861cc761337b283d36a22a500ccc4
+- kind: field_conflict
+  issue_id: Q009-evidence-solution-end-anchor
+  question_ref: '9'
+  item_id: Q009
+  question_number: 9
+  code: evidence_span_needs_confirmation
+  severity: warning
+  field_path: evidence.solution_end_anchor
+  math_token: fraction
+  origin: merge
+  candidates:
+  - window_id: pages-007-009
+    raw_value: $\therefore$ 不等式组的解集为：$-2 < x < \frac{1}{2}$，
+    normalized_value: $\therefore$不等式组的解集为:$-2<x<\frac{1}{2}$,
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/009.png
+      page_number: 9
+    selected: true
+  - window_id: pages-009-011
+    raw_value: 不等式组的解集为：
+    normalized_value: '不等式组的解集为:'
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/009.png
+      page_number: 9
+    selected: false
+  candidates_hash: sha256:bc8e4f66cdb9b548a2d8cfc19c335cc4f25f0792fe69c969361bc024e9aaf08b
+- kind: field_conflict
+  issue_id: Q011-content-solution-steps
+  question_ref: '11'
+  item_id: Q011
+  question_number: 11
+  code: solution_conclusion_conflict
+  severity: blocking
+  field_path: content.solution_steps
+  origin: merge
+  candidates:
+  - window_id: pages-009-011
+    raw_value: '["设这个角的度数为$x^\\circ$，则这个角的余角的度数为$90^\\circ - x^\\circ$","由题意得，$2x = 90 - x$","解得$x = 30$","$\\therefore$这个角的度数为$30^\\circ$","$\\therefore$这个角的补角是$180^\\circ - 30^\\circ = 150^\\circ$"]'
+    normalized_value: '["设这个角的度数为$x^\\circ$,则这个角的余角的度数为$90^\\circ-x^\\circ$","由题意得,$2x=90-x$","解得$x=30$","\\therefore$这个角的度数为$30^\\circ","\\therefore$这个角的补角是$180^\\circ-30^\\circ=150^\\circ"]'
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/010.png
+      page_number: 10
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/011.png
+      page_number: 11
+    selected: false
+  - window_id: pages-011-013
+    raw_value: '["设这个角的度数为$x$，则这个角的余角的度数为$90-x$。","根据题意得$2x = 90 - x$。","解得$x = 30$。","这个角的度数为$30^\\circ$，则它的补角是$180^\\circ - 30^\\circ = 150^\\circ$。"]'
+    normalized_value: '["设这个角的度数为$x$,则这个角的余角的度数为$90-x$","根据题意得$2x=90-x$","解得$x=30$","这个角的度数为$30^\\circ$,则它的补角是$180^\\circ-30^\\circ=150^\\circ$"]'
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/011.png
+      page_number: 11
+    selected: true
+  candidates_hash: sha256:16a26a792bb2f8cd8dc5fdbffc305c82e445b0a1271f5557fa31e5b8306c1436
+- kind: field_conflict
+  issue_id: Q011-evidence-solution-end-anchor
+  question_ref: '11'
+  item_id: Q011
+  question_number: 11
+  code: evidence_span_needs_confirmation
+  severity: warning
+  field_path: evidence.solution_end_anchor
+  origin: merge
+  candidates:
+  - window_id: pages-009-011
+    raw_value: 这个角的补角是$180^\circ - 30^\circ = 150^\circ$
+    normalized_value: 这个角的补角是$180^\circ-30^\circ=150^\circ$
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/010.png
+      page_number: 10
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/011.png
+      page_number: 11
+    selected: false
+  - window_id: pages-011-013
+    raw_value: 故答案为：150。
+    normalized_value: 故答案为:150
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/011.png
+      page_number: 11
+    selected: true
+  candidates_hash: sha256:ca084e2c7bce8d0bad167d434101658e957702877c4ec8f8ff2bcda111148b35
+- kind: field_conflict
+  issue_id: Q012-content-answer
+  question_ref: '12'
+  item_id: Q012
+  question_number: 12
+  code: auto_resolved_format_diff
+  severity: info
+  field_path: content.answer
+  origin: merge
+  candidates:
+  - window_id: pages-009-011
+    raw_value: $\frac{3}{4}$
+    normalized_value: \frac{3}{4}
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/011.png
+      page_number: 11
+    selected: true
+  - window_id: pages-011-013
+    raw_value: \frac{3}{4}
+    normalized_value: \frac{3}{4}
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/011.png
+      page_number: 11
+    selected: false
+  candidates_hash: sha256:41cbd62d7de1bf1b6f765cf0b15abe1e56c33b751ef392b86597ad447e25127d
+- kind: field_conflict
+  issue_id: Q012-content-solution-steps
+  question_ref: '12'
+  item_id: Q012
+  question_number: 12
+  code: solution_conclusion_conflict
+  severity: blocking
+  field_path: content.solution_steps
+  math_token: fraction
+  origin: merge
+  candidates:
+  - window_id: pages-009-011
+    raw_value: '["在等边三角形、菱形、直角梯形、等腰梯形的纸片中属于轴对称图形的有：等边三角形、菱形、和等腰梯形3种","从这4张纸片中随机抽取一张，抽到轴对称图形的概率为：$\\frac{3}{4}$"]'
+    normalized_value: '["在等边三角形、菱形、直角梯形、等腰梯形的纸片中属于轴对称图形的有:等边三角形、菱形、和等腰梯形3种","从这4张纸片中随机抽取一张,抽到轴对称图形的概率为:$\\frac{3}{4}$"]'
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/011.png
+      page_number: 11
+    selected: false
+  - window_id: pages-011-013
+    raw_value: '["在等边三角形、菱形、直角梯形、等腰梯形中，轴对称图形有：等边三角形、菱形、等腰梯形，共3种。","从这4张纸片中随机抽取一张，抽到轴对称图形的概率为$\\frac{3}{4}$。"]'
+    normalized_value: '["在等边三角形、菱形、直角梯形、等腰梯形中,轴对称图形有:等边三角形、菱形、等腰梯形,共3种","从这4张纸片中随机抽取一张,抽到轴对称图形的概率为$\\frac{3}{4}$"]'
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/011.png
+      page_number: 11
+    selected: true
+  candidates_hash: sha256:3d20ea44a93d3d2f4840c9bc681841bfb776bed4372071a291a6a1ab110b434c
+- kind: field_conflict
+  issue_id: Q012-evidence-solution-start-anchor
+  question_ref: '12'
+  item_id: Q012
+  question_number: 12
+  code: evidence_span_needs_confirmation
+  severity: warning
+  field_path: evidence.solution_start_anchor
+  origin: merge
+  candidates:
+  - window_id: pages-009-011
+    raw_value: 【详解】∵在等边三角形、菱形、直角梯形、等腰梯形的纸片中
+    normalized_value: 【详解】∵在等边三角形、菱形、直角梯形、等腰梯形的纸片中
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/011.png
+      page_number: 11
+    selected: true
+  - window_id: pages-011-013
+    raw_value: 【详解】：在等边三角形、菱形、直角梯形、等腰梯形的纸片中属于轴对称图形的有
+    normalized_value: 【详解】:在等边三角形、菱形、直角梯形、等腰梯形的纸片中属于轴对称图形的有
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/011.png
+      page_number: 11
+    selected: false
+  candidates_hash: sha256:3210aafcfcd2902a74031ef314a8a54a87361e699abf5c25d15bd4bc7cd81f25
+- kind: field_conflict
+  issue_id: Q012-evidence-solution-end-anchor
+  question_ref: '12'
+  item_id: Q012
+  question_number: 12
+  code: evidence_span_needs_confirmation
+  severity: warning
+  field_path: evidence.solution_end_anchor
+  math_token: fraction
+  origin: merge
+  candidates:
+  - window_id: pages-009-011
+    raw_value: 抽到轴对称图形的概率为：
+    normalized_value: '抽到轴对称图形的概率为:'
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/011.png
+      page_number: 11
+    selected: true
+  - window_id: pages-011-013
+    raw_value: 故答案为 $\frac{3}{4}$。
+    normalized_value: 故答案为$\frac{3}{4}$
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/011.png
+      page_number: 11
+    selected: false
+  candidates_hash: sha256:0113dbbcf85023809a4cd03bacf13404b8bae849f9a0281b0dd659d2d85e4d15
+- kind: field_conflict
+  issue_id: Q014-points
+  question_ref: '14'
+  item_id: Q014
+  question_number: 14
+  code: question_ref_mismatch
+  severity: blocking
+  field_path: points
+  math_token: numeric_value
+  origin: merge
+  candidates:
+  - window_id: pages-011-013
+    raw_value: '0'
+    normalized_value: '0'
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/012.png
+      page_number: 12
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/012.png
+      page_number: 12
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/013.png
+      page_number: 13
+    selected: false
+  - window_id: pages-013-015
+    raw_value: '4'
+    normalized_value: '4'
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/013.png
+      page_number: 13
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/013.png
+      page_number: 13
+    selected: true
+  candidates_hash: sha256:ce69f2ddc5e37f32211a11e8bb865a03ebc76edf613a1d06b2b46666dac771ac
+- kind: field_conflict
+  issue_id: Q014-content-stem-latex
+  question_ref: '14'
+  item_id: Q014
+  question_number: 14
+  code: stem_conflict
+  severity: blocking
+  field_path: content.stem_latex
+  origin: merge
+  candidates:
+  - window_id: pages-011-013
+    raw_value: 在直角坐标平面内，将点A先向右平移4个单位，再向上平移6个单位得到点B，如果点A和点B恰好关于原点对称，那么点B的坐标是______。
+    normalized_value: 在直角坐标平面内,将点A先向右平移4个单位,再向上平移6个单位得到点B,如果点A和点B恰好关于原点对称,那么点B的坐标是______
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/012.png
+      page_number: 12
+    selected: false
+  - window_id: pages-013-015
+    raw_value: 在直角坐标平面内，将点$A(x,y)$先向右平移4个单位，再向上平移6个单位得到点$B$，如果点$A$和点$B$恰好关于原点对称，那么点$B$的坐标是______。
+    normalized_value: 在直角坐标平面内,将点$A(x,y)$先向右平移4个单位,再向上平移6个单位得到点$B$,如果点$A$和点$B$恰好关于原点对称,那么点$B$的坐标是______
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/013.png
+      page_number: 13
+    selected: true
+  candidates_hash: sha256:1c62657ddb5314e1f1e5111138242f2e26948428ba93e3e053c0a43771a9623f
+- kind: field_conflict
+  issue_id: Q014-content-solution-steps
+  question_ref: '14'
+  item_id: Q014
+  question_number: 14
+  code: solution_conclusion_conflict
+  severity: blocking
+  field_path: content.solution_steps
+  origin: merge
+  candidates:
+  - window_id: pages-011-013
+    raw_value: '["设 $A(x, y)$，则 $B(x+4, y+6)$。","因为 $A$、$B$ 关于原点对称，所以 $x + x + 4 = 0$，$y + y + 6 = 0$。","解得 $x = -2$，$y = -3$。","所以 $A(-2, -3)$，$B(2, 3)$。"]'
+    normalized_value: '["设$A(x,y)$,则$B(x+4,y+6)$","因为$A$、$B$关于原点对称,所以$x+x+4=0$,$y+y+6=0$","解得$x=-2$,$y=-3$","所以$A(-2,-3)$,$B(2,3)$"]'
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/012.png
+      page_number: 12
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/013.png
+      page_number: 13
+    selected: true
+  - window_id: pages-013-015
+    raw_value: '["设$A(x,y)$，则$B(x+4, y+6)$。","因为$A$、$B$关于原点对称，所以$x + (x+4) = 0$且$y + (y+6) = 0$。","解得$x = -2$，$y = -3$。","所以$B(2, 3)$。"]'
+    normalized_value: '["设$A(x,y)$,则$B(x+4,y+6)$","因为$A$、$B$关于原点对称,所以$x+(x+4)=0$且$y+(y+6)=0$","解得$x=-2$,$y=-3$","所以$B(2,3)$"]'
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/013.png
+      page_number: 13
+    selected: false
+  candidates_hash: sha256:320abaf8f0cb555b31c2013f1a693a1e708e091ff68e9440a7c77e415a3867cf
+- kind: field_conflict
+  issue_id: Q014-evidence-solution-start-anchor
+  question_ref: '14'
+  item_id: Q014
+  question_number: 14
+  code: evidence_span_needs_confirmation
+  severity: warning
+  field_path: evidence.solution_start_anchor
+  origin: merge
+  candidates:
+  - window_id: pages-011-013
+    raw_value: 【详解】设 $A(x, y)$
+    normalized_value: 【详解】设$A(x,y)$
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/012.png
+      page_number: 12
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/013.png
+      page_number: 13
+    selected: false
+  - window_id: pages-013-015
+    raw_value: 【答案】(2,3)
+    normalized_value: 【答案】(2,3)
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/013.png
+      page_number: 13
+    selected: true
+  candidates_hash: sha256:468918cec714bf261897f33cd639fc45025c41a5e942cdc52dfec6b345df0a96
+- kind: field_conflict
+  issue_id: Q014-evidence-solution-end-anchor
+  question_ref: '14'
+  item_id: Q014
+  question_number: 14
+  code: evidence_span_needs_confirmation
+  severity: warning
+  field_path: evidence.solution_end_anchor
+  origin: merge
+  candidates:
+  - window_id: pages-011-013
+    raw_value: 故答案为：$(2, 3)$
+    normalized_value: 故答案为:$(2,3)$
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/012.png
+      page_number: 12
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/013.png
+      page_number: 13
+    selected: true
+  - window_id: pages-013-015
+    raw_value: 故答案为：(2,3)
+    normalized_value: 故答案为:(2,3)
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/013.png
+      page_number: 13
+    selected: false
+  candidates_hash: sha256:9d7653e22c6c0c950ca9102d452c8029a1b2ade22e5f7a9c612cf28ed8bb1c5f
+- kind: field_conflict
+  issue_id: Q015-points
+  question_ref: '15'
+  item_id: Q015
+  question_number: 15
+  code: question_ref_mismatch
+  severity: blocking
+  field_path: points
+  math_token: numeric_value
+  origin: merge
+  candidates:
+  - window_id: pages-011-013
+    raw_value: '0'
+    normalized_value: '0'
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/013.png
+      page_number: 13
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/013.png
+      page_number: 13
+    selected: false
+  - window_id: pages-013-015
+    raw_value: '4'
+    normalized_value: '4'
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/013.png
+      page_number: 13
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/013.png
+      page_number: 13
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/014.png
+      page_number: 14
+    selected: true
+  candidates_hash: sha256:d310118efc007bbb6da93c0487029c4132c32ebbb52f2ba534f022131509b568
+- kind: field_conflict
+  issue_id: Q015-content-stem-latex
+  question_ref: '15'
+  item_id: Q015
+  question_number: 15
+  code: auto_resolved_format_diff
+  severity: info
+  field_path: content.stem_latex
+  origin: merge
+  candidates:
+  - window_id: pages-011-013
+    raw_value: 学校为了解本校九年级学生阅读课外书籍的情况，对九年级全体学生进行“最喜欢阅读的课外书籍类型”的问卷调查（每人只选一个类型），如图是收集数据后绘制的扇形图．如果喜欢阅读漫画类书籍所在扇形的圆心角是$72^\circ$，喜欢阅读小说类书籍的学生有72人，那么该校九年级喜欢阅读科技类书籍的学生有______人。
+    normalized_value: 学校为了解本校九年级学生阅读课外书籍的情况,对九年级全体学生进行“最喜欢阅读的课外书籍类型”的问卷调查（每人只选一个类型）,如图是收集数据后绘制的扇形图．如果喜欢阅读漫画类书籍所在扇形的圆心角是$72^\circ$,喜欢阅读小说类书籍的学生有72人,那么该校九年级喜欢阅读科技类书籍的学生有______人
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/013.png
+      page_number: 13
+    selected: true
+  - window_id: pages-013-015
+    raw_value: 学校为了解本校九年级学生阅读课外书籍的情况，对九年级全体学生进行“最喜欢阅读的课外书籍类型”的问卷调查（每人只选一个类型），如图是收集数据后绘制的扇形图．如果喜欢阅读漫画类书籍所在扇形的圆心角是$72^\circ$，喜欢阅读小说类书籍的学生有72人，那么该校九年级喜欢阅读科技类书籍的学生有______人．
+    normalized_value: 学校为了解本校九年级学生阅读课外书籍的情况,对九年级全体学生进行“最喜欢阅读的课外书籍类型”的问卷调查（每人只选一个类型）,如图是收集数据后绘制的扇形图．如果喜欢阅读漫画类书籍所在扇形的圆心角是$72^\circ$,喜欢阅读小说类书籍的学生有72人,那么该校九年级喜欢阅读科技类书籍的学生有______人
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/013.png
+      page_number: 13
+    selected: false
+  candidates_hash: sha256:7d438e674cdb59349c187d92e7412476bba2318356a201c93480b62cd6cd79b6
+- kind: field_conflict
+  issue_id: Q015-content-solution-steps
+  question_ref: '15'
+  item_id: Q015
+  question_number: 15
+  code: solution_conclusion_conflict
+  severity: blocking
+  field_path: content.solution_steps
+  math_token: fraction
+  origin: merge
+  candidates:
+  - window_id: pages-011-013
+    raw_value: '["喜欢阅读漫画类书籍的百分比为：$72^\\circ \\div 360^\\circ = 20\\%$。","喜欢阅读科技类书籍的学生的百分比为：$1 - 40\\% - 20\\% - 15\\% - 10\\% = 15\\%$。","被调查的总人数为：$72 \\div 40\\% = 180$（人）。","所以，喜欢阅读科技类书籍的学生数为：$180 \\times 15\\% = 27$（人）。"]'
+    normalized_value: '["喜欢阅读漫画类书籍的百分比为:$72^\\circ\\div360^\\circ=20\\%$","喜欢阅读科技类书籍的学生的百分比为:$1-40\\%-20\\%-15\\%-10\\%=15\\%$","被调查的总人数为:$72\\div40\\%=180$（人）","所以,喜欢阅读科技类书籍的学生数为:$180\\times15\\%=27$（人）"]'
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/013.png
+      page_number: 13
+    selected: true
+  - window_id: pages-013-015
+    raw_value: '["喜欢阅读漫画类书籍的百分比为：$\\frac{72^\\circ}{360^\\circ} \\times 100\\% = 20\\%$。","喜欢阅读科技类书籍的学生的百分比为：$1 - 40\\% - 20\\% - 15\\% - 10\\% = 15\\%$。","被调查的总人数为：$72 \\div 40\\% = 180$（人）。","喜欢阅读科技类书籍的学生数为：$180 \\times 15\\% = 27$（人）。"]'
+    normalized_value: '["喜欢阅读漫画类书籍的百分比为:$\\frac{72^\\circ}{360^\\circ}\\times100\\%=20\\%$","喜欢阅读科技类书籍的学生的百分比为:$1-40\\%-20\\%-15\\%-10\\%=15\\%$","被调查的总人数为:$72\\div40\\%=180$（人）","喜欢阅读科技类书籍的学生数为:$180\\times15\\%=27$（人）"]'
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/013.png
+      page_number: 13
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/014.png
+      page_number: 14
+    selected: false
+  candidates_hash: sha256:2d1894d6cd3a706ddd1fd7ee4d596b8d9c14388f5ced08e37a966c9234d72d4d
+- kind: field_conflict
+  issue_id: Q015-evidence-solution-start-anchor
+  question_ref: '15'
+  item_id: Q015
+  question_number: 15
+  code: evidence_span_needs_confirmation
+  severity: warning
+  field_path: evidence.solution_start_anchor
+  origin: merge
+  candidates:
+  - window_id: pages-011-013
+    raw_value: 【详解】解：喜欢阅读漫画类书籍的百分比为：
+    normalized_value: '【详解】解:喜欢阅读漫画类书籍的百分比为:'
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/013.png
+      page_number: 13
+    selected: false
+  - window_id: pages-013-015
+    raw_value: 【详解】解：喜欢阅读漫画类书籍的百分比为
+    normalized_value: 【详解】解:喜欢阅读漫画类书籍的百分比为
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/013.png
+      page_number: 13
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/014.png
+      page_number: 14
+    selected: true
+  candidates_hash: sha256:e8bd6f00b6b55e7d57612c3d8c49d76bf20ed673d18224681962962f011a6aff
+- kind: field_conflict
+  issue_id: Q017-content-stem-latex
+  question_ref: '17'
+  item_id: Q017
+  question_number: 17
+  code: stem_conflict
+  severity: blocking
+  field_path: content.stem_latex
+  origin: merge
+  candidates:
+  - window_id: pages-013-015
+    raw_value: 已知正方形$ABCD$的边长为4，点$E$、$F$在直线$BC$上（点$E$在点$F$的左侧），$\angle EAF = 45^\circ$，如果$BE = 1$，那么$CF$的长是______。
+    normalized_value: 已知正方形$ABCD$的边长为4,点$E$、$F$在直线$BC$上（点$E$在点$F$的左侧）,$\angleEAF=45^\circ$,如果$BE=1$,那么$CF$的长是______
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/015.png
+      page_number: 15
+    selected: false
+  - window_id: pages-015-017
+    raw_value: 已知正方形 $ABCD$ 的边长为 $4$，点 $E$、$F$ 在直线 $BC$ 上（点 $E$ 在点 $F$ 的左侧），$\angle EAF = 45^\circ$，如果 $BE = 1$，那么 $CF$ 的长是______。
+    normalized_value: 已知正方形$ABCD$的边长为$4$,点$E$、$F$在直线$BC$上（点$E$在点$F$的左侧）,$\angleEAF=45^\circ$,如果$BE=1$,那么$CF$的长是______
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/015.png
+      page_number: 15
+    selected: true
+  candidates_hash: sha256:b51b83eca76901fc7ad9858d4256207f609c72c208d4631663cee4145cbe9249
+- kind: field_conflict
+  issue_id: Q017-content-answer
+  question_ref: '17'
+  item_id: Q017
+  question_number: 17
+  code: answer_conflict
+  severity: blocking
+  field_path: content.answer
+  math_token: fraction
+  origin: merge
+  candidates:
+  - window_id: pages-013-015
+    raw_value: \frac{8}{5} \text{或} \frac{8}{3}
+    normalized_value: \frac{8}{5}\text{或}\frac{8}{3}
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/015.png
+      page_number: 15
+    selected: false
+  - window_id: pages-015-017
+    raw_value: $\frac{8}{5}$ 或 $\frac{8}{3}$
+    normalized_value: \frac{8}{5}$或$\frac{8}{3}
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/015.png
+      page_number: 15
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/016.png
+      page_number: 16
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/017.png
+      page_number: 17
+    selected: true
+  candidates_hash: sha256:5421f6129047512bc153d960540201aac7e4618b1a08b1734be8c0b1cf649edf
+- kind: field_conflict
+  issue_id: Q018-content-stem-latex
+  question_ref: '18'
+  item_id: Q018
+  question_number: 18
+  code: stem_conflict
+  severity: blocking
+  field_path: content.stem_latex
+  math_token: fraction
+  origin: merge
+  candidates:
+  - window_id: pages-017-019
+    raw_value: 如图，在$\triangle ABC$中，$AB=AC=5$，$\cos B = \frac{4}{5}$，分别以点$B$、$C$为圆心，$1$为半径长作$\odot B$、$\odot C$，$D$为边$BC$上一点，将$\triangle ABD$和$\odot B$沿着$AD$翻折得到$\triangle AB' D$和$\odot B'$，点$B$的对应点为点$B'$，$AB'$与边$BC$相交，如果$\odot B'$与$\odot C$外切，那么$BD = $______．
+    normalized_value: 如图,在$\triangleABC$中,$AB=AC=5$,$\cosB=\frac{4}{5}$,分别以点$B$、$C$为圆心,$1$为半径长作$\odotB$、$\odotC$,$D$为边$BC$上一点,将$\triangleABD$和$\odotB$沿着$AD$翻折得到$\triangleAB'D$和$\odotB'$,点$B$的对应点为点$B'$,$AB'$与边$BC$相交,如果$\odotB'$与$\odotC$外切,那么$BD=$______
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/018.png
+      page_number: 18
+    selected: true
+  - window_id: pages-019-021
+    raw_value: 如图，在$\triangle ABC$中，$AB=AC=5$，$\cos B=\frac{4}{5}$，分别以点B、C为圆心，1为半径长作$\odot B$、$\odot C$，D为边上一点，将$\triangle ABD$和$\triangle ACD$沿着$AD$翻折得到$\triangle AB'D$和$\triangle AC'D$，点B的对应点为点$B'$，$\odot B'$与边$BC$相交，如果$\odot B'$与$\odot C$外切，那么$BD=$______．
+    normalized_value: 如图,在$\triangleABC$中,$AB=AC=5$,$\cosB=\frac{4}{5}$,分别以点B、C为圆心,1为半径长作$\odotB$、$\odotC$,D为边上一点,将$\triangleABD$和$\triangleACD$沿着$AD$翻折得到$\triangleAB'D$和$\triangleAC'D$,点B的对应点为点$B'$,$\odotB'$与边$BC$相交,如果$\odotB'$与$\odotC$外切,那么$BD=$______
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/019.png
+      page_number: 19
+    selected: false
+  candidates_hash: sha256:a60b05ee5560ec228104126f444116507dc7e58d2cf1aeb53dd7bfbb11464789
+- kind: field_conflict
+  issue_id: Q018-content-answer
+  question_ref: '18'
+  item_id: Q018
+  question_number: 18
+  code: auto_resolved_format_diff
+  severity: info
+  field_path: content.answer
+  origin: merge
+  candidates:
+  - window_id: pages-017-019
+    raw_value: $4 - \frac{\sqrt{6}}{4}$ 或 $4 + \frac{\sqrt{6}}{4}$
+    normalized_value: 4-\frac{\sqrt{6}}{4}$或$4+\frac{\sqrt{6}}{4}
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/018.png
+      page_number: 18
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/019.png
+      page_number: 19
+    selected: true
+  - window_id: pages-019-021
+    raw_value: $4-\frac{\sqrt{6}}{4}$ 或 $4+\frac{\sqrt{6}}{4}$
+    normalized_value: 4-\frac{\sqrt{6}}{4}$或$4+\frac{\sqrt{6}}{4}
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/019.png
+      page_number: 19
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/020.png
+      page_number: 20
+    selected: false
+  candidates_hash: sha256:bb7fed9e98b62873bf9d79126528f356ff00a0a34245cac84609c2285063891c
+- kind: field_conflict
+  issue_id: Q018-content-solution-steps
+  question_ref: '18'
+  item_id: Q018
+  question_number: 18
+  code: solution_conclusion_conflict
+  severity: blocking
+  field_path: content.solution_steps
+  math_token: radicand
+  origin: merge
+  candidates:
+  - window_id: pages-017-019
+    raw_value: '["解：过点$A$作$AE \\perp BC$交$BC$于点$E$，连接$B'' C$，过点$A$作$AF \\perp B'' C$，交$B'' C$于点$F$，","$\\because AB=AC=5$，$\\cos B = \\frac{4}{5}$，","在$\\mathrm{Rt}\\triangle ABE$中，$BE = AB\\cos B = 5 \\times \\frac{4}{5} = 4$，$AE = \\sqrt{AB^2 - AE^2} = \\sqrt{5^2 - 4^2} = 3$，","$\\therefore \\angle BAE = \\angle CAE$，","由折叠的性质可得：$\\angle BAD = \\angle B'' AD$，$AB'' = AB = 5$，","$\\because AF \\perp B'' C$，$AB'' = AC = 5$，","$\\therefore \\angle B'' AF = \\angle CAF$，$B'' F = \\frac{1}{2} B'' C$","$\\because \\odot B''$与$\\odot C$外切，","$\\therefore B'' C = 2$，$B'' F = \\frac{1}{2} B'' C = \\frac{1}{2} \\times 2 = 1$，","在$\\mathrm{Rt}\\triangle AB'' F$中，$AF = \\sqrt{AB''^2 - B'' F^2} = \\sqrt{5^2 - 1^2} = 2\\sqrt{6}$，$\\tan \\angle B'' AF = \\frac{B'' F}{AF} = \\frac{1}{2\\sqrt{6}} = \\frac{\\sqrt{6}}{12}$，","当$AB''$在$\\angle BAC$内部时，","$\\angle B'' AF = \\frac{1}{2} \\angle B'' AC = \\frac{1}{2} (\\angle BAC - \\angle BAB'') = \\frac{1}{2} (2\\angle BAE - 2\\angle BAD) = \\angle BAE - \\angle
+      BAD = \\angle DAE$，","$\\therefore \\tan \\angle DAE = \\tan \\angle B'' AF = \\frac{\\sqrt{6}}{12}$，$DE = AE \\cdot \\tan \\angle DAE = 3 \\times \\frac{\\sqrt{6}}{12} = \\frac{\\sqrt{6}}{4}$，","$BD = BE - DE = 4 - \\frac{\\sqrt{6}}{4}$，","当$AB''$在$\\angle BAC$外部时，$DE = AE \\cdot \\tan \\angle DAE = 3 \\times \\frac{\\sqrt{6}}{12} = \\frac{\\sqrt{6}}{4}$，$BD = BE + DE = 4 + \\frac{\\sqrt{6}}{4}$，","故答案为：$4 - \\frac{\\sqrt{6}}{4}$ 或 $4 + \\frac{\\sqrt{6}}{4}$．"]'
+    normalized_value: '["解:过点$A$作$AE\\perpBC$交$BC$于点$E$,连接$B''C$,过点$A$作$AF\\perpB''C$,交$B''C$于点$F$,","$\\becauseAB=AC=5$,$\\cosB=\\frac{4}{5}$,","在$\\mathrm{Rt}\\triangleABE$中,$BE=AB\\cosB=5\\times\\frac{4}{5}=4$,$AE=\\sqrt{AB^2-AE^2}=\\sqrt{5^2-4^2}=3$,","$\\therefore\\angleBAE=\\angleCAE$,","由折叠的性质可得:$\\angleBAD=\\angleB''AD$,$AB''=AB=5$,","$\\becauseAF\\perpB''C$,$AB''=AC=5$,","\\therefore\\angleB''AF=\\angleCAF$,$B''F=\\frac{1}{2}B''C","$\\because\\odotB''$与$\\odotC$外切,","$\\thereforeB''C=2$,$B''F=\\frac{1}{2}B''C=\\frac{1}{2}\\times2=1$,","在$\\mathrm{Rt}\\triangleAB''F$中,$AF=\\sqrt{AB''^2-B''F^2}=\\sqrt{5^2-1^2}=2\\sqrt{6}$,$\\tan\\angleB''AF=\\frac{B''F}{AF}=\\frac{1}{2\\sqrt{6}}=\\frac{\\sqrt{6}}{12}$,","当$AB''$在$\\angleBAC$内部时,","$\\angleB''AF=\\frac{1}{2}\\angleB''AC=\\frac{1}{2}(\\angleBAC-\\angleBAB'')=\\frac{1}{2}(2\\angleBAE-2\\angleBAD)=\\angleBAE-\\angleBAD=\\angleDAE$,","$\\therefore\\tan\\angleDAE=\\tan\\angleB''AF=\\frac{\\sqrt{6}}{12}$,$DE=AE\\cdot\\tan\\angleDAE=3\\times\\frac{\\sqrt{6}}{12}=\\frac{\\sqrt{6}}{4}$,","$BD=BE-DE=4-\\frac{\\sqrt{6}}{4}$,","当$AB''$在$\\angleBAC$外部时,$DE=AE\\cdot\\tan\\angleDAE=3\\times\\frac{\\sqrt{6}}{12}=\\frac{\\sqrt{6}}{4}$,$BD=BE+DE=4+\\frac{\\sqrt{6}}{4}$,","故答案为:$4-\\frac{\\sqrt{6}}{4}$或$4+\\frac{\\sqrt{6}}{4}$"]'
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/018.png
+      page_number: 18
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/019.png
+      page_number: 19
+    selected: true
+  - window_id: pages-019-021
+    raw_value: '["过点A作$AE \\perp BC$交$BC$于点E，连接$B''C$，过点A作$AF \\perp B''C$，交$B''C$于点F","在$Rt\\triangle ABE$中，$BE = AB\\cos B = 5 \\times \\frac{4}{5} = 4$，$AE = \\sqrt{AB^2 - AE^2} = \\sqrt{5^2 - 4^2} = 3$","$\\because \\angle BAE = \\angle CAE$","由折叠的性质可得：$\\angle BAD = \\angle B''AD$，$AB'' = AB = 5$","$\\because AF \\perp B''C$，$AB'' = AC = 5$","$\\therefore \\angle B''AF = \\angle CAF$，$B''F = \\frac{1}{2} B''C$","$\\because \\odot B''$与$\\odot C$外切，$\\therefore B''C = 2$","$\\therefore B''F = \\frac{1}{2} B''C = \\frac{1}{2} \\times 2 = 1$","在$Rt\\triangle AB''F$中，$AF = \\sqrt{AB''^2 - B''F^2} = \\sqrt{5^2 - 1^2} = 2\\sqrt{6}$，$\\tan \\angle B''AF = \\frac{B''F}{AF} = \\frac{1}{2\\sqrt{6}} = \\frac{\\sqrt{6}}{12}$","当$AB''$在$\\angle BAC$内部时，$\\angle B''AF = \\frac{1}{2} \\angle B''AC = \\frac{1}{2} (\\angle BAC - \\angle BAB'') = \\frac{1}{2} (2\\angle BAE - 2\\angle BAD) = \\angle BAE - \\angle BAD = \\angle DAE$","$\\therefore \\tan \\angle DAE = \\tan \\angle B''AF = \\frac{\\sqrt{6}}{12}$，$DE
+      = AE \\cdot \\tan \\angle DAE = 3 \\times \\frac{\\sqrt{6}}{12} = \\frac{\\sqrt{6}}{4}$","$\\therefore BD = BE - DE = 4 - \\frac{\\sqrt{6}}{4}$","当$AB''$在$\\angle BAC$外部时，$\\angle B''AF = \\frac{1}{2} \\angle B''AC = \\frac{1}{2} (\\angle BAB'' - \\angle BAC) = \\frac{1}{2} (2\\angle BAD - 2\\angle BAE) = \\angle BAD - \\angle BAE = \\angle DAE$","$\\therefore \\tan \\angle DAE = \\tan \\angle B''AF = \\frac{\\sqrt{6}}{12}$，$DE = AE \\cdot \\tan \\angle DAE = 3 \\times \\frac{\\sqrt{6}}{12} = \\frac{\\sqrt{6}}{4}$","$\\therefore BD = BE + DE = 4 + \\frac{\\sqrt{6}}{4}$"]'
+    normalized_value: '["过点A作$AE\\perpBC$交$BC$于点E,连接$B''C$,过点A作$AF\\perpB''C$,交$B''C$于点F","在$Rt\\triangleABE$中,$BE=AB\\cosB=5\\times\\frac{4}{5}=4$,$AE=\\sqrt{AB^2-AE^2}=\\sqrt{5^2-4^2}=3$","\\because\\angleBAE=\\angleCAE","由折叠的性质可得:$\\angleBAD=\\angleB''AD$,$AB''=AB=5$","\\becauseAF\\perpB''C$,$AB''=AC=5","\\therefore\\angleB''AF=\\angleCAF$,$B''F=\\frac{1}{2}B''C","\\because\\odotB''$与$\\odotC$外切,$\\thereforeB''C=2","\\thereforeB''F=\\frac{1}{2}B''C=\\frac{1}{2}\\times2=1","在$Rt\\triangleAB''F$中,$AF=\\sqrt{AB''^2-B''F^2}=\\sqrt{5^2-1^2}=2\\sqrt{6}$,$\\tan\\angleB''AF=\\frac{B''F}{AF}=\\frac{1}{2\\sqrt{6}}=\\frac{\\sqrt{6}}{12}$","当$AB''$在$\\angleBAC$内部时,$\\angleB''AF=\\frac{1}{2}\\angleB''AC=\\frac{1}{2}(\\angleBAC-\\angleBAB'')=\\frac{1}{2}(2\\angleBAE-2\\angleBAD)=\\angleBAE-\\angleBAD=\\angleDAE$","\\therefore\\tan\\angleDAE=\\tan\\angleB''AF=\\frac{\\sqrt{6}}{12}$,$DE=AE\\cdot\\tan\\angleDAE=3\\times\\frac{\\sqrt{6}}{12}=\\frac{\\sqrt{6}}{4}","\\thereforeBD=BE-DE=4-\\frac{\\sqrt{6}}{4}","当$AB''$在$\\angleBAC$外部时,$\\angleB''AF=\\frac{1}{2}\\angleB''AC=\\frac{1}{2}(\\angleBAB''-\\angleBAC)=\\frac{1}{2}(2\\angleBAD-2\\angleBAE)=\\angleBAD-\\angleBAE=\\angleDAE$","\\therefore\\tan\\angleDAE=\\tan\\angleB''AF=\\frac{\\sqrt{6}}{12}$,$DE=AE\\cdot\\tan\\angleDAE=3\\times\\frac{\\sqrt{6}}{12}=\\frac{\\sqrt{6}}{4}","\\thereforeBD=BE+DE=4+\\frac{\\sqrt{6}}{4}"]'
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/019.png
+      page_number: 19
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/020.png
+      page_number: 20
+    selected: false
+  candidates_hash: sha256:c65aac80bb108507f6ce1d1ad7c0c0acba1c6f47cd90e7742615aa72ade4818a
+- kind: field_conflict
+  issue_id: Q019-points
+  question_ref: '19'
+  item_id: Q019
+  question_number: 19
+  code: question_ref_mismatch
+  severity: blocking
+  field_path: points
+  math_token: numeric_value
+  origin: merge
+  candidates:
+  - window_id: pages-019-021
+    raw_value: '10'
+    normalized_value: '10'
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/020.png
+      page_number: 20
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/020.png
+      page_number: 20
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/021.png
+      page_number: 21
+    selected: true
+  - window_id: pages-020-022
+    raw_value: '0'
+    normalized_value: '0'
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/020.png
+      page_number: 20
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/020.png
+      page_number: 20
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/021.png
+      page_number: 21
+    selected: false
+  candidates_hash: sha256:305323b8c4b27b45924ca9a53fed9420e8bdf9df7c7c6e75dd01b85f06a3510b
+- kind: field_conflict
+  issue_id: Q019-content-stem-latex
+  question_ref: '19'
+  item_id: Q019
+  question_number: 19
+  code: stem_conflict
+  severity: blocking
+  field_path: content.stem_latex
+  math_token: exponent
+  origin: merge
+  candidates:
+  - window_id: pages-019-021
+    raw_value: 计算：$-2^{2} + 8^{\frac{1}{2}} + \left(\frac{1}{4}\right)^{-2} - \frac{2}{2-\sqrt{2}}$．
+    normalized_value: 计算:$-2^{2}+8^{\frac{1}{2}}+(\frac{1}{4})^{-2}-\frac{2}{2-\sqrt{2}}$
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/020.png
+      page_number: 20
+    selected: false
+  - window_id: pages-020-022
+    raw_value: 计算：$-2^2 + 8^{\frac{1}{2}} + \left(\frac{1}{4}\right)^{-2} - \frac{2}{2-\sqrt{2}}$．
+    normalized_value: 计算:$-2^2+8^{\frac{1}{2}}+(\frac{1}{4})^{-2}-\frac{2}{2-\sqrt{2}}$
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/020.png
+      page_number: 20
+    selected: true
+  candidates_hash: sha256:e354782912b32b1737a03e2514b1ea336aa0f6d666a2ea27cb59f61183482e61
+- kind: field_conflict
+  issue_id: Q019-content-answer
+  question_ref: '19'
+  item_id: Q019
+  question_number: 19
+  code: auto_resolved_format_diff
+  severity: info
+  field_path: content.answer
+  origin: merge
+  candidates:
+  - window_id: pages-019-021
+    raw_value: $10+\sqrt{2}$
+    normalized_value: 10+\sqrt{2}
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/020.png
+      page_number: 20
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/021.png
+      page_number: 21
+    selected: false
+  - window_id: pages-020-022
+    raw_value: $10 + \sqrt{2}$
+    normalized_value: 10+\sqrt{2}
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/020.png
+      page_number: 20
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/021.png
+      page_number: 21
+    selected: true
+  candidates_hash: sha256:f76bf7e5567d34e3c7a17cc4aae36b9a18e75a5e49653670db0733f752559556
+- kind: field_conflict
+  issue_id: Q019-content-solution-steps
+  question_ref: '19'
+  item_id: Q019
+  question_number: 19
+  code: solution_conclusion_conflict
+  severity: blocking
+  field_path: content.solution_steps
+  math_token: radicand
+  origin: merge
+  candidates:
+  - window_id: pages-019-021
+    raw_value: '["$-2^{2} + 8^{\\frac{1}{2}} + \\left(\\frac{1}{4}\\right)^{-2} - \\frac{2}{2-\\sqrt{2}}$","$=-4 + 2\\sqrt{2} + 16 - \\frac{2(2+\\sqrt{2})}{(2-\\sqrt{2})(2+\\sqrt{2})}$","$=-4 + 2\\sqrt{2} + 16 - (2+\\sqrt{2})$","$=10 + \\sqrt{2}$"]'
+    normalized_value: '["-2^{2}+8^{\\frac{1}{2}}+(\\frac{1}{4})^{-2}-\\frac{2}{2-\\sqrt{2}}","=-4+2\\sqrt{2}+16-\\frac{2(2+\\sqrt{2})}{(2-\\sqrt{2})(2+\\sqrt{2})}","=-4+2\\sqrt{2}+16-(2+\\sqrt{2})","=10+\\sqrt{2}"]'
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/020.png
+      page_number: 20
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/021.png
+      page_number: 21
+    selected: true
+  - window_id: pages-020-022
+    raw_value: '["解：原式 = $-4 + 2\\sqrt{2} + 16 - \\left(2+\\sqrt{2}\\right)$","= $10 + \\sqrt{2}$"]'
+    normalized_value: '["解:原式=$-4+2\\sqrt{2}+16-(2+\\sqrt{2})$","=$10+\\sqrt{2}$"]'
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/020.png
+      page_number: 20
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/021.png
+      page_number: 21
+    selected: false
+  candidates_hash: sha256:43cf041aba2b1983e6dfc794afaabc287d9d5dd4ebd68a96791a583161e5591f
+- kind: field_conflict
+  issue_id: Q020-question-type
+  question_ref: '20'
+  item_id: Q020
+  question_number: 20
+  code: question_ref_mismatch
+  severity: blocking
+  field_path: question_type
+  origin: merge
+  candidates:
+  - window_id: pages-019-021
+    raw_value: short_answer
+    normalized_value: short_answer
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/021.png
+      page_number: 21
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/021.png
+      page_number: 21
+    selected: false
+  - window_id: pages-020-022
+    raw_value: short_answer
+    normalized_value: short_answer
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/021.png
+      page_number: 21
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/021.png
+      page_number: 21
+    selected: false
+  - window_id: pages-021-023
+    raw_value: problem
+    normalized_value: problem
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/021.png
+      page_number: 21
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/021.png
+      page_number: 21
+    selected: true
+  candidates_hash: sha256:7e87da8e8574784dbfb57e6adc0c973e0e6ff468ad0a795a7b76f05d2521c638
+- kind: field_conflict
+  issue_id: Q020-points
+  question_ref: '20'
+  item_id: Q020
+  question_number: 20
+  code: question_ref_mismatch
+  severity: blocking
+  field_path: points
+  math_token: numeric_value
+  origin: merge
+  candidates:
+  - window_id: pages-019-021
+    raw_value: '10'
+    normalized_value: '10'
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/021.png
+      page_number: 21
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/021.png
+      page_number: 21
+    selected: true
+  - window_id: pages-020-022
+    raw_value: '0'
+    normalized_value: '0'
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/021.png
+      page_number: 21
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/021.png
+      page_number: 21
+    selected: false
+  - window_id: pages-021-023
+    raw_value: '0'
+    normalized_value: '0'
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/021.png
+      page_number: 21
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/021.png
+      page_number: 21
+    selected: false
+  candidates_hash: sha256:96386142a1d5bfb310bc1e25eb79040b56dc0ca0565d5b48b35d9f348b4c6e92
+- kind: field_conflict
+  issue_id: Q020-content-stem-latex
+  question_ref: '20'
+  item_id: Q020
+  question_number: 20
+  code: stem_conflict
+  severity: blocking
+  field_path: content.stem_latex
+  math_token: fraction
+  origin: merge
+  candidates:
+  - window_id: pages-019-021
+    raw_value: 解方程：$\frac{6x}{x^{2}-9} + \frac{x}{x+3} = 2$．
+    normalized_value: 解方程:$\frac{6x}{x^{2}-9}+\frac{x}{x+3}=2$
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/021.png
+      page_number: 21
+    selected: false
+  - window_id: pages-020-022
+    raw_value: 解方程：$\frac{6x}{x^2-9} + \frac{x}{x+3} = 2$．
+    normalized_value: 解方程:$\frac{6x}{x^2-9}+\frac{x}{x+3}=2$
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/021.png
+      page_number: 21
+    selected: true
+  - window_id: pages-021-023
+    raw_value: 解方程：\frac{6x}{x^2 - 9} + \frac{x}{x+3} = 2。
+    normalized_value: 解方程:\frac{6x}{x^2-9}+\frac{x}{x+3}=2
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/021.png
+      page_number: 21
+    selected: false
+  candidates_hash: sha256:0d8836872a33d086a748709eaa89623eb1e088342de19b29d7bb0bec382b61e0
+- kind: field_conflict
+  issue_id: Q020-content-answer
+  question_ref: '20'
+  item_id: Q020
+  question_number: 20
+  code: auto_resolved_format_diff
+  severity: info
+  field_path: content.answer
+  origin: merge
+  candidates:
+  - window_id: pages-019-021
+    raw_value: $x=6$
+    normalized_value: x=6
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/021.png
+      page_number: 21
+    selected: false
+  - window_id: pages-020-022
+    raw_value: $x = 6$
+    normalized_value: x=6
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/021.png
+      page_number: 21
+    selected: true
+  - window_id: pages-021-023
+    raw_value: x = 6
+    normalized_value: x=6
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/021.png
+      page_number: 21
+    selected: false
+  candidates_hash: sha256:6cb95294052ae6192b8bea0cd765c0435eafb78c5d72eee69f9863fcc79b441c
+- kind: field_conflict
+  issue_id: Q020-content-solution-steps
+  question_ref: '20'
+  item_id: Q020
+  question_number: 20
+  code: solution_conclusion_conflict
+  severity: blocking
+  field_path: content.solution_steps
+  origin: merge
+  candidates:
+  - window_id: pages-019-021
+    raw_value: '["方程两边都乘以$(x+3)(x-3)$得","$6x + x(x-3) = 2(x+3)(x-3)$","整理得，$x^{2}-3x-18=0$","$(x-6)(x+3)=0$","解得，$x_{1}=6$，$x_{2}=-3$","检验：当$x=6$时，$(x+3)(x-3) \\neq 0$，所以，$x=6$是分式方程的解；","当$x=-3$时，$(x+3)(x-3)=0$，所以，$x=-3$是增根，","所以，分式方程的解是$x=6$"]'
+    normalized_value: '["方程两边都乘以$(x+3)(x-3)$得","6x+x(x-3)=2(x+3)(x-3)","整理得,$x^{2}-3x-18=0$","(x-6)(x+3)=0","解得,$x_{1}=6$,$x_{2}=-3$","检验:当$x=6$时,$(x+3)(x-3)\\neq0$,所以,$x=6$是分式方程的解","当$x=-3$时,$(x+3)(x-3)=0$,所以,$x=-3$是增根,","所以,分式方程的解是$x=6$"]'
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/021.png
+      page_number: 21
+    selected: false
+  - window_id: pages-020-022
+    raw_value: '["方程两边都乘以 $(x+3)(x-3)$ 得","$6x + x(x-3) = 2(x+3)(x-3)$，","整理得，$x^2 - 3x - 18 = 0$，","$(x-6)(x+3) = 0$","解得，$x_1 = 6$, $x_2 = -3$，","检验：当 $x = 6$ 时，$(x+3)(x-3) \\neq 0$，所以，$x = 6$ 是分式方程的解；","当 $x = -3$ 时，$(x+3)(x-3) = 0$，所以，$x = -3$ 是增根，","所以，分式方程的解是 $x = 6$"]'
+    normalized_value: '["方程两边都乘以$(x+3)(x-3)$得","$6x+x(x-3)=2(x+3)(x-3)$,","整理得,$x^2-3x-18=0$,","(x-6)(x+3)=0","解得,$x_1=6$,$x_2=-3$,","检验:当$x=6$时,$(x+3)(x-3)\\neq0$,所以,$x=6$是分式方程的解","当$x=-3$时,$(x+3)(x-3)=0$,所以,$x=-3$是增根,","所以,分式方程的解是$x=6$"]'
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/021.png
+      page_number: 21
+    selected: true
+  - window_id: pages-021-023
+    raw_value: '["方程两边都乘以 (x+3)(x-3) 得 6x + x(x-3) = 2(x+3)(x-3)，","整理得 x^2 - 3x - 18 = 0，","(x-6)(x+3) = 0，","解得 x_1 = 6，x_2 = -3。","检验：当 x=6 时，(x+3)(x-3) ≠ 0，所以 x=6 是分式方程的解；","当 x=-3 时，(x+3)(x-3) = 0，所以 x=-3 是增根。","所以分式方程的解是 x=6。"]'
+    normalized_value: '["方程两边都乘以(x+3)(x-3)得6x+x(x-3)=2(x+3)(x-3),","整理得x^2-3x-18=0,","(x-6)(x+3)=0,","解得x_1=6,x_2=-3","检验:当x=6时,(x+3)(x-3)≠0,所以x=6是分式方程的解","当x=-3时,(x+3)(x-3)=0,所以x=-3是增根","所以分式方程的解是x=6"]'
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/021.png
+      page_number: 21
+    selected: false
+  candidates_hash: sha256:4df0df8e5675026b473976838a629162534058e212be8561eed3a35f81bef0c2
+- kind: field_conflict
+  issue_id: Q020-evidence-solution-start-anchor
+  question_ref: '20'
+  item_id: Q020
+  question_number: 20
+  code: evidence_span_needs_confirmation
+  severity: warning
+  field_path: evidence.solution_start_anchor
+  math_token: fraction
+  origin: merge
+  candidates:
+  - window_id: pages-020-022
+    raw_value: 【详解】解：$\frac{6x}{x^2-9} + \frac{x}{x+3} = 2$
+    normalized_value: 【详解】解:$\frac{6x}{x^2-9}+\frac{x}{x+3}=2$
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/021.png
+      page_number: 21
+    selected: false
+  - window_id: pages-021-023
+    raw_value: 20. 解方程：
+    normalized_value: '20.解方程:'
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/021.png
+      page_number: 21
+    selected: true
+  candidates_hash: sha256:a51782bab052b1680fa65dd40d7af61265b449926fbe9ccca1f582bd0898efaa
+- kind: field_conflict
+  issue_id: Q020-evidence-solution-end-anchor
+  question_ref: '20'
+  item_id: Q020
+  question_number: 20
+  code: evidence_span_needs_confirmation
+  severity: warning
+  field_path: evidence.solution_end_anchor
+  origin: merge
+  candidates:
+  - window_id: pages-020-022
+    raw_value: 所以，分式方程的解是 $x = 6$
+    normalized_value: 所以,分式方程的解是$x=6$
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/021.png
+      page_number: 21
+    selected: false
+  - window_id: pages-021-023
+    raw_value: 所以分式方程的解是 x = 6
+    normalized_value: 所以分式方程的解是x=6
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/021.png
+      page_number: 21
+    selected: true
+  candidates_hash: sha256:fbe4f8df320a48384058959f1a639601fa58d711832e7f8c61d1a0affb6a6691
+- kind: field_conflict
+  issue_id: Q021-question-type
+  question_ref: '21'
+  item_id: Q021
+  question_number: 21
+  code: question_ref_mismatch
+  severity: blocking
+  field_path: question_type
+  origin: merge
+  candidates:
+  - window_id: pages-019-021
+    raw_value: short_answer
+    normalized_value: short_answer
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/021.png
+      page_number: 21
+    selected: false
+  - window_id: pages-020-022
+    raw_value: short_answer
+    normalized_value: short_answer
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/021.png
+      page_number: 21
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/022.png
+      page_number: 22
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/022.png
+      page_number: 22
+    selected: false
+  - window_id: pages-021-023
+    raw_value: problem
+    normalized_value: problem
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/022.png
+      page_number: 22
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/022.png
+      page_number: 22
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/023.png
+      page_number: 23
+    selected: true
+  - window_id: pages-023-025
+    raw_value: problem
+    normalized_value: problem
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/023.png
+      page_number: 23
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/023.png
+      page_number: 23
+    selected: false
+  candidates_hash: sha256:07f29ebe5c6a0c3ae515b8d9f91d2c0864e0a9f3249f18a7b3a77bf618574a9a
+- kind: field_conflict
+  issue_id: Q021-points
+  question_ref: '21'
+  item_id: Q021
+  question_number: 21
+  code: question_ref_mismatch
+  severity: blocking
+  field_path: points
+  math_token: numeric_value
+  origin: merge
+  candidates:
+  - window_id: pages-019-021
+    raw_value: '10'
+    normalized_value: '10'
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/021.png
+      page_number: 21
+    selected: true
+  - window_id: pages-020-022
+    raw_value: '0'
+    normalized_value: '0'
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/021.png
+      page_number: 21
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/022.png
+      page_number: 22
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/022.png
+      page_number: 22
+    selected: false
+  - window_id: pages-021-023
+    raw_value: '0'
+    normalized_value: '0'
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/022.png
+      page_number: 22
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/022.png
+      page_number: 22
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/023.png
+      page_number: 23
+    selected: false
+  - window_id: pages-023-025
+    raw_value: '0'
+    normalized_value: '0'
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/023.png
+      page_number: 23
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/023.png
+      page_number: 23
+    selected: false
+  candidates_hash: sha256:abb7a138f27eb9880d5bb86744298861a8e8ad164f31d6426452322763ab879b
+- kind: field_conflict
+  issue_id: Q021-content-stem-latex
+  question_ref: '21'
+  item_id: Q021
+  question_number: 21
+  code: stem_conflict
+  severity: blocking
+  field_path: content.stem_latex
+  origin: merge
+  candidates:
+  - window_id: pages-019-021
+    raw_value: '如图，在$\triangle ABC$中，$\angle B = 2\angle C$，点$D$在边$BC$上，$AB=AD=13$，$BC=23$．
+
+      （1）求$CD$的长；
+
+      （2）求$\tan C$的值．'
+    normalized_value: 如图,在$\triangleABC$中,$\angleB=2\angleC$,点$D$在边$BC$上,$AB=AD=13$,$BC=23$．（1）求$CD$的长;（2）求$\tanC$的值
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/021.png
+      page_number: 21
+    selected: false
+  - window_id: pages-020-022
+    raw_value: '如图，在 $\triangle ABC$ 中，$\angle B = 2\angle C$，点 $D$ 在边 $BC$ 上，$AB = AD = 13$，$BC = 23$．
+
+      （1）求 $BD$ 的长；
+
+      （2）求 $\tan C$ 的值．'
+    normalized_value: 如图,在$\triangleABC$中,$\angleB=2\angleC$,点$D$在边$BC$上,$AB=AD=13$,$BC=23$．（1）求$BD$的长;（2）求$\tanC$的值
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/021.png
+      page_number: 21
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/022.png
+      page_number: 22
+    selected: true
+  - window_id: pages-021-023
+    raw_value: '如图，在\triangle ABC中，\angle B = 2\angle C，点D在边BC上，AB = AD = 13，BC = 23。
+
+      (1) 求BD的长；
+
+      (2) 求\tan C的值。'
+    normalized_value: 如图,在\triangleABC中,\angleB=2\angleC,点D在边BC上,AB=AD=13,BC=23。(1)求BD的长;(2)求\tanC的值
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/022.png
+      page_number: 22
+    selected: false
+  - window_id: pages-023-025
+    raw_value: '如图，在 $\triangle ABC$ 中，$AB=13$，$BC=23$，点 $D$ 在边 $BC$ 上，$BD=AD$，$CD=10$。
+
+      （1）求 $AD$ 的长；
+
+      （2）求 $\tan C$ 的值。'
+    normalized_value: 如图,在$\triangleABC$中,$AB=13$,$BC=23$,点$D$在边$BC$上,$BD=AD$,$CD=10$。（1）求$AD$的长;（2）求$\tanC$的值
+    confidence: medium
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/023.png
+      page_number: 23
+    selected: false
+  candidates_hash: sha256:218457e14c27c64e08ed9d6fe68340007fce0311ebd05862f85afd733a194a04
+- kind: field_conflict
+  issue_id: Q021-content-answer
+  question_ref: '21'
+  item_id: Q021
+  question_number: 21
+  code: answer_conflict
+  severity: blocking
+  field_path: content.answer
+  math_token: fraction
+  origin: merge
+  candidates:
+  - window_id: pages-019-021
+    raw_value: （1）$CD=10$（2）$\tan C=\frac{3}{4}$
+    normalized_value: （1）$CD=10$（2）$\tanC=\frac{3}{4}$
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/021.png
+      page_number: 21
+    selected: false
+  - window_id: pages-020-022
+    raw_value: （1）10；（2）$\frac{2}{3}$
+    normalized_value: （1）10;（2）$\frac{2}{3}$
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/022.png
+      page_number: 22
+    selected: false
+  - window_id: pages-021-023
+    raw_value: '(1) 10
+
+      (2) \frac{2}{3}'
+    normalized_value: (1)10(2)\frac{2}{3}
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/022.png
+      page_number: 22
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/023.png
+      page_number: 23
+    selected: true
+  - window_id: pages-023-025
+    raw_value: '（1）13
+
+      （2）$\frac{2}{3}$'
+    normalized_value: （1）13（2）$\frac{2}{3}$
+    confidence: medium
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/023.png
+      page_number: 23
+    selected: false
+  candidates_hash: sha256:9c578b6b9fefe023736fbc6f77fb923b823cbcb42d40850f68e6ff13b8a4d634
+- kind: field_conflict
+  issue_id: Q021-content-solution-steps
+  question_ref: '21'
+  item_id: Q021
+  question_number: 21
+  code: solution_conclusion_conflict
+  severity: blocking
+  field_path: content.solution_steps
+  math_token: radicand
+  origin: merge
+  candidates:
+  - window_id: pages-019-021
+    raw_value: '["（1）$\\because AB=AD$，$\\therefore \\angle B = \\angle ADB$","$\\because \\angle B = 2\\angle C$，$\\therefore \\angle ADB = 2\\angle C$","$\\because \\angle ADB = \\angle DAC + \\angle C$，$\\therefore \\angle DAC = \\angle C$","$\\therefore AD = CD$","$\\because AD=13$，$\\therefore CD=13$","$\\because BC=23$，$\\therefore BD=BC-CD=23-13=10$","（2）过点$A$作$AH \\perp BC$于$H$","$\\because AB=AD$，$\\therefore H$为$BD$中点，$BH=HD=5$","在$Rt\\triangle ABH$中，$AH=\\sqrt{AB^2-BH^2}=\\sqrt{13^2-5^2}=12$","$\\because HD=5$，$\\therefore HC=HD+CD=5+13=18$","在$Rt\\triangle AHC$中，$\\tan C = \\frac{AH}{HC} = \\frac{12}{18} = \\frac{2}{3}$"]'
+    normalized_value: '["（1）$\\becauseAB=AD$,$\\therefore\\angleB=\\angleADB$","\\because\\angleB=2\\angleC$,$\\therefore\\angleADB=2\\angleC","\\because\\angleADB=\\angleDAC+\\angleC$,$\\therefore\\angleDAC=\\angleC","\\thereforeAD=CD","\\becauseAD=13$,$\\thereforeCD=13","\\becauseBC=23$,$\\thereforeBD=BC-CD=23-13=10","（2）过点$A$作$AH\\perpBC$于$H$","\\becauseAB=AD$,$\\thereforeH$为$BD$中点,$BH=HD=5","在$Rt\\triangleABH$中,$AH=\\sqrt{AB^2-BH^2}=\\sqrt{13^2-5^2}=12$","\\becauseHD=5$,$\\thereforeHC=HD+CD=5+13=18","在$Rt\\triangleAHC$中,$\\tanC=\\frac{AH}{HC}=\\frac{12}{18}=\\frac{2}{3}$"]'
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/021.png
+      page_number: 21
+    selected: false
+  - window_id: pages-020-022
+    raw_value: '["【小问1详解】","解：$\\because AB = AD$，","$\\therefore \\angle B = \\angle ADB$，","又 $\\because \\angle B = 2\\angle C$，","$\\therefore \\angle ADB = 2\\angle C$．","$\\therefore \\angle DAC = \\angle C$．","$\\therefore AD = DC$．","$\\therefore BC = BD + DC = BD + AD = BD + 13$．","$\\because BC = 23$，","$\\therefore BD = 10$．","【小问2详解】","过点 $A$ 作 $BC$ 的垂线，垂足为 $E$，","$\\because AB = AD$，$BD = 10$，","$\\therefore BE = DE = 5$．","$\\therefore CE = BC - BE = 23 - 5 = 18$．","在 $\\triangle ABE$ 中，$AB = 13$，$BE = 5$，","$\\therefore AE = \\sqrt{AB^2 - BE^2} = \\sqrt{13^2 - 5^2} = 12$．","$\\therefore \\tan C = \\frac{AE}{CE} = \\frac{12}{18} = \\frac{2}{3}$．"]'
+    normalized_value: '["【小问1详解】","解:$\\becauseAB=AD$,","$\\therefore\\angleB=\\angleADB$,","又$\\because\\angleB=2\\angleC$,","$\\therefore\\angleADB=2\\angleC$","$\\therefore\\angleDAC=\\angleC$","$\\thereforeAD=DC$","$\\thereforeBC=BD+DC=BD+AD=BD+13$","$\\becauseBC=23$,","$\\thereforeBD=10$","【小问2详解】","过点$A$作$BC$的垂线,垂足为$E$,","$\\becauseAB=AD$,$BD=10$,","$\\thereforeBE=DE=5$","$\\thereforeCE=BC-BE=23-5=18$","在$\\triangleABE$中,$AB=13$,$BE=5$,","$\\thereforeAE=\\sqrt{AB^2-BE^2}=\\sqrt{13^2-5^2}=12$","$\\therefore\\tanC=\\frac{AE}{CE}=\\frac{12}{18}=\\frac{2}{3}$"]'
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/022.png
+      page_number: 22
+    selected: true
+  - window_id: pages-021-023
+    raw_value: '["解：∵ AB = AD，","∴ \\angle B = \\angle ADB，","又∵ \\angle B = 2\\angle C，","∴ \\angle ADB = 2\\angle C。","又∵ \\angle ADB = \\angle C + \\angle CAD，","∴ \\angle C = \\angle CAD，","∴ AD = CD。","∵ AB = AD = 13，BC = 23，","∴ BD = 23 - 13 = 10。","过点A作BC的垂线，垂足为M，","∵ AB = AD，","∴ BM = DM = \\frac{1}{2} \\times 10 = 5，","∴ CM = 13 + 5 = 18。","在Rt\\triangle AMD中，AM = \\sqrt{13^2 - 5^2} = 12，","∴ \\tan C = \\frac{AM}{MC} = \\frac{12}{18} = \\frac{2}{3}。"]'
+    normalized_value: '["解:∵AB=AD,","∴\\angleB=\\angleADB,","又∵\\angleB=2\\angleC,","∴\\angleADB=2\\angleC","又∵\\angleADB=\\angleC+\\angleCAD,","∴\\angleC=\\angleCAD,","∴AD=CD","∵AB=AD=13,BC=23,","∴BD=23-13=10","过点A作BC的垂线,垂足为M,","∵AB=AD,","∴BM=DM=\\frac{1}{2}\\times10=5,","∴CM=13+5=18","在Rt\\triangleAMD中,AM=\\sqrt{13^2-5^2}=12,","∴\\tanC=\\frac{AM}{MC}=\\frac{12}{18}=\\frac{2}{3}"]'
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/022.png
+      page_number: 22
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/023.png
+      page_number: 23
+    selected: false
+  - window_id: pages-023-025
+    raw_value: '["（1）解：$\\because BD=AD$，$\\therefore \\angle B=\\angle BAD$。","又 $\\because \\angle ADB=\\angle C+\\angle CAD$，$\\therefore \\angle C=\\angle CAD$。","$\\therefore AD=CD=10$。"]'
+    normalized_value: '["（1）解:$\\becauseBD=AD$,$\\therefore\\angleB=\\angleBAD$","又$\\because\\angleADB=\\angleC+\\angleCAD$,$\\therefore\\angleC=\\angleCAD$","$\\thereforeAD=CD=10$"]'
+    confidence: medium
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/023.png
+      page_number: 23
+    selected: false
+  candidates_hash: sha256:b93905f2e728f71a3315922845f11435f0029f655a23907b1ea9b25593de902c
+- kind: field_conflict
+  issue_id: Q021-evidence-solution-start-anchor
+  question_ref: '21'
+  item_id: Q021
+  question_number: 21
+  code: evidence_span_needs_confirmation
+  severity: warning
+  field_path: evidence.solution_start_anchor
+  math_token: numeric_value
+  origin: merge
+  candidates:
+  - window_id: pages-020-022
+    raw_value: 【小问1详解】
+    normalized_value: 【小问1详解】
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/022.png
+      page_number: 22
+    selected: true
+  - window_id: pages-021-023
+    raw_value: 【小问1详解】
+    normalized_value: 【小问1详解】
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/022.png
+      page_number: 22
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/023.png
+      page_number: 23
+    selected: false
+  - window_id: pages-023-025
+    raw_value: 【小问 2 详解】
+    normalized_value: 【小问2详解】
+    confidence: medium
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/023.png
+      page_number: 23
+    selected: false
+  candidates_hash: sha256:e74bd1af4360d8035e5c23209882ae911d4725814057ad6f537063d45be1e05d
+- kind: field_conflict
+  issue_id: Q021-evidence-solution-end-anchor
+  question_ref: '21'
+  item_id: Q021
+  question_number: 21
+  code: evidence_span_needs_confirmation
+  severity: warning
+  field_path: evidence.solution_end_anchor
+  math_token: fraction
+  origin: merge
+  candidates:
+  - window_id: pages-020-022
+    raw_value: $\therefore \tan C = \frac{AE}{CE} = \frac{12}{18} = \frac{2}{3}$．
+    normalized_value: $\therefore\tanC=\frac{AE}{CE}=\frac{12}{18}=\frac{2}{3}$
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/022.png
+      page_number: 22
+    selected: true
+  - window_id: pages-021-023
+    raw_value: \therefore \tan C = \frac{AM}{MC} = \frac{12}{18} = \frac{2}{3}。
+    normalized_value: \therefore\tanC=\frac{AM}{MC}=\frac{12}{18}=\frac{2}{3}
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/022.png
+      page_number: 22
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/023.png
+      page_number: 23
+    selected: false
+  - window_id: pages-023-025
+    raw_value: $\therefore \tan C=\frac{AM}{MC}=\frac{12}{18}=\frac{2}{3}$.
+    normalized_value: $\therefore\tanC=\frac{AM}{MC}=\frac{12}{18}=\frac{2}{3}$
+    confidence: medium
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/023.png
+      page_number: 23
+    selected: false
+  candidates_hash: sha256:e74d3bd3646aa99ebe55ee430b4b7e5354c7911aa573af948f82307890280b36
+- kind: field_conflict
+  issue_id: Q022-content-stem-latex
+  question_ref: '22'
+  item_id: Q022
+  question_number: 22
+  code: stem_conflict
+  severity: blocking
+  field_path: content.stem_latex
+  origin: merge
+  candidates:
+  - window_id: pages-021-023
+    raw_value: 甲外卖平台的外卖员小张看到乙外卖平台外卖员小王的月工资收入比自己高，于是想跳槽去乙外卖平台工作，如果不考虑其他因素，仅根据以下信息，请你帮助小张来决策是否需要跳槽到乙外卖平台，并说明理由。
+    normalized_value: 甲外卖平台的外卖员小张看到乙外卖平台外卖员小王的月工资收入比自己高,于是想跳槽去乙外卖平台工作,如果不考虑其他因素,仅根据以下信息,请你帮助小张来决策是否需要跳槽到乙外卖平台,并说明理由
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/023.png
+      page_number: 23
+    selected: true
+  - window_id: pages-023-025
+    raw_value: '甲外卖平台的外卖员小张看到乙外卖平台外卖员小王的月工资收入比自己高，于是想跳槽去乙外卖平台工作，如果不考虑其他因素，仅根据以下信息，请你帮助小张来决策是否需要跳槽到乙外卖平台，并说明理由。
+
+      信息一：甲、乙两个外卖平台的税前月工资收入计算方式相同，如下：
+
+      税前月工资收入＝（每日底薪＋每单提成×日均送单数）×月送单天数－当月违规扣款
+
+      （其中这两个外卖平台每个月的月送单天数均相同）
+
+      信息二：乙外卖平台外卖员小王的月工资单如下表：
+
+      每日底薪（元） | 每单提成（元） | 日均送单数 | 当月违规扣款（每单扣款（元）×违规送单数） | 税前月工资收入（元）
+
+      50 | 6 | 61 | 32×10 | 8832
+
+      信息三：甲外卖平台外卖员每日底薪70元，每单提成5.5元，违规每单扣款10元；
+
+      信息四：如图1，随机抽取了小张在甲外卖平台若干天的日均送单数绘制成条形图；如图2，根据小张在一年中每月的违规送单数绘制成条形图。'
+    normalized_value: 甲外卖平台的外卖员小张看到乙外卖平台外卖员小王的月工资收入比自己高,于是想跳槽去乙外卖平台工作,如果不考虑其他因素,仅根据以下信息,请你帮助小张来决策是否需要跳槽到乙外卖平台,并说明理由。信息一:甲、乙两个外卖平台的税前月工资收入计算方式相同,如下:税前月工资收入＝（每日底薪＋每单提成×日均送单数）×月送单天数－当月违规扣款（其中这两个外卖平台每个月的月送单天数均相同）信息二:乙外卖平台外卖员小王的月工资单如下表:每日底薪（元）|每单提成（元）|日均送单数|当月违规扣款（每单扣款（元）×违规送单数）|税前月工资收入（元）50|6|61|32×10|8832信息三:甲外卖平台外卖员每日底薪70元,每单提成5.5元,违规每单扣款10元;信息四:如图1,随机抽取了小张在甲外卖平台若干天的日均送单数绘制成条形图;如图2,根据小张在一年中每月的违规送单数绘制成条形图
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/024.png
+      page_number: 24
+    selected: false
+  - window_id: pages-025-027
+    raw_value: '甲外卖平台的外卖员小张看到乙外卖平台外卖员小王的月工资收入比自己高，于是想跳槽去乙外卖平台工作，如果不考虑其他因素，仅根据以下信息，请你帮助小张来决策是否需要跳槽到乙外卖平台，并说明理由．
+
+      信息一：甲、乙两个外卖平台的税前月工资收入计算方式相同，如下：
+
+      税前月工资收入＝（每日底薪＋每单提成×日均送单数）×月送单天数－当月违规扣款
+
+      （其中这两个外卖平台每个月的月送单天数均相同）
+
+      信息二：乙外卖平台外卖员小王的月工资单如下表：
+
+      每日底薪（元）
+
+      每单提成（元）
+
+      日均送单数
+
+      当月违规扣款
+
+      税前月工资收入（元）
+
+      每单扣款（元）
+
+      违规送单数
+
+      信息三：甲外卖平台外卖员每日底薪元，每单提成元，违规每单扣款元；
+
+      信息四：如图1，随机抽取了小张在甲外卖平台若干天的日均送单数绘制成条形图；如图2，根据小张在一年中每月的违规送单数绘制成条形图．'
+    normalized_value: 甲外卖平台的外卖员小张看到乙外卖平台外卖员小王的月工资收入比自己高,于是想跳槽去乙外卖平台工作,如果不考虑其他因素,仅根据以下信息,请你帮助小张来决策是否需要跳槽到乙外卖平台,并说明理由．信息一:甲、乙两个外卖平台的税前月工资收入计算方式相同,如下:税前月工资收入＝（每日底薪＋每单提成×日均送单数）×月送单天数－当月违规扣款（其中这两个外卖平台每个月的月送单天数均相同）信息二:乙外卖平台外卖员小王的月工资单如下表:每日底薪（元）每单提成（元）日均送单数当月违规扣款税前月工资收入（元）每单扣款（元）违规送单数信息三:甲外卖平台外卖员每日底薪元,每单提成元,违规每单扣款元;信息四:如图1,随机抽取了小张在甲外卖平台若干天的日均送单数绘制成条形图;如图2,根据小张在一年中每月的违规送单数绘制成条形图
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/025.png
+      page_number: 25
+    selected: false
+  candidates_hash: sha256:cf74db812e09fc847e03baf4ac32be60df34077947369e2ee421e491260c5338
+- kind: field_conflict
+  issue_id: Q022-content-answer
+  question_ref: '22'
+  item_id: Q022
+  question_number: 22
+  code: answer_conflict
+  severity: blocking
+  field_path: content.answer
+  origin: merge
+  candidates:
+  - window_id: pages-021-023
+    raw_value: 不需要跳槽，理由见解析
+    normalized_value: 不需要跳槽,理由见解析
+    confidence: low
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/023.png
+      page_number: 23
+    selected: false
+  - window_id: pages-023-025
+    raw_value: 不需要跳槽
+    normalized_value: 不需要跳槽
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/025.png
+      page_number: 25
+    selected: true
+  candidates_hash: sha256:677b1d19e55ca7b31d62d5fdb4aa2fb0bd54f34bc72153561560f1bf60734374
+- kind: field_conflict
+  issue_id: Q022-content-solution-steps
+  question_ref: '22'
+  item_id: Q022
+  question_number: 22
+  code: solution_conclusion_conflict
+  severity: blocking
+  field_path: content.solution_steps
+  math_token: fraction
+  origin: merge
+  candidates:
+  - window_id: pages-023-025
+    raw_value: '["解：小张在甲外卖平台日均送单数为 $\\frac{2 \\times 54+2 \\times 58+60 \\times 6+62 \\times 3+65 \\times 2}{2+2+6+3+2}=60$ 单，","小张月违规送单数平均数为：$\\frac{9 \\times 2+10 \\times 1+11 \\times 1+12 \\times 3+13 \\times 2+14 \\times 2+15 \\times 1}{2+1+1+3+2+2+1}=12$ 单。","根据信息二：设送单天数为 $x$ 天，$(50+6 \\times 61)x-32 \\times 10=8832$，解得：$x=22$。","小张在甲外卖平台的工资为 $(70+5.5 \\times 60) \\times 22-10 \\times 12=8680$ （元）。","若小张在乙外卖平台工资为 $(50+6 \\times 60) \\times 22-32 \\times 12=8636$ （元）。","$8680 > 8636$，$\\therefore$ 不需要跳槽。"]'
+    normalized_value: '["解:小张在甲外卖平台日均送单数为$\\frac{2\\times54+2\\times58+60\\times6+62\\times3+65\\times2}{2+2+6+3+2}=60$单,","小张月违规送单数平均数为:$\\frac{9\\times2+10\\times1+11\\times1+12\\times3+13\\times2+14\\times2+15\\times1}{2+1+1+3+2+2+1}=12$单","根据信息二:设送单天数为$x$天,$(50+6\\times61)x-32\\times10=8832$,解得:$x=22$","小张在甲外卖平台的工资为$(70+5.5\\times60)\\times22-10\\times12=8680$（元）","若小张在乙外卖平台工资为$(50+6\\times60)\\times22-32\\times12=8636$（元）","$8680>8636$,$\\therefore$不需要跳槽"]'
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/025.png
+      page_number: 25
+    selected: false
+  - window_id: pages-025-027
+    raw_value: '["小张在甲外卖平台日均送单数为 $\\frac{2 \\times 54 + 2 \\times 58 + 60 \\times 6 + 62 \\times 3 + 65 \\times 2}{2 + 2 + 6 + 3 + 2} = 60$ 单","小张月违规送单数平均数为：$\\frac{9 \\times 2 + 10 \\times 1 + 11 \\times 1 + 12 \\times 3 + 13 \\times 2 + 14 \\times 2 + 15 \\times 1}{2 + 1 + 1 + 3 + 2 + 2 + 1} = 12$ 单","根据信息二：设送单天数为 $x$ 天，$(50 + 6 \\times 61)x - 32 \\times 10 = 8832$","解得：$x = 22$","小张在甲外卖平台的工资为 $(70 + 5.5 \\times 60) \\times 22 - 10 \\times 12 = 8680$（元）","若小张在乙外卖平台工资为 $(50 + 6 \\times 60) \\times 22 - 32 \\times 12 = 8636$（元）","因为 $8680 > 8636$，所以不需要跳槽"]'
+    normalized_value: '["小张在甲外卖平台日均送单数为$\\frac{2\\times54+2\\times58+60\\times6+62\\times3+65\\times2}{2+2+6+3+2}=60$单","小张月违规送单数平均数为:$\\frac{9\\times2+10\\times1+11\\times1+12\\times3+13\\times2+14\\times2+15\\times1}{2+1+1+3+2+2+1}=12$单","根据信息二:设送单天数为$x$天,$(50+6\\times61)x-32\\times10=8832$","解得:$x=22$","小张在甲外卖平台的工资为$(70+5.5\\times60)\\times22-10\\times12=8680$（元）","若小张在乙外卖平台工资为$(50+6\\times60)\\times22-32\\times12=8636$（元）","因为$8680>8636$,所以不需要跳槽"]'
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/025.png
+      page_number: 25
+    selected: true
+  candidates_hash: sha256:7a950fecf4fc386d5dcf206084030a5ce63330a168750dde0a150d9ea32f720b
+- kind: field_conflict
+  issue_id: Q022-evidence-solution-start-anchor
+  question_ref: '22'
+  item_id: Q022
+  question_number: 22
+  code: evidence_span_needs_confirmation
+  severity: warning
+  field_path: evidence.solution_start_anchor
+  origin: merge
+  candidates:
+  - window_id: pages-023-025
+    raw_value: 【解析】
+    normalized_value: 【解析】
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/025.png
+      page_number: 25
+    selected: false
+  - window_id: pages-025-027
+    raw_value: '22.'
+    normalized_value: '22'
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/025.png
+      page_number: 25
+    selected: true
+  candidates_hash: sha256:f4930b6f15a060a47e71d5cde4d4a3d44ea8fb9e9608895dab8c9ea77abbe835
+- kind: field_conflict
+  issue_id: Q022-evidence-solution-end-anchor
+  question_ref: '22'
+  item_id: Q022
+  question_number: 22
+  code: evidence_span_needs_confirmation
+  severity: warning
+  field_path: evidence.solution_end_anchor
+  origin: merge
+  candidates:
+  - window_id: pages-023-025
+    raw_value: $\therefore$ 不需要跳槽
+    normalized_value: $\therefore$不需要跳槽
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/025.png
+      page_number: 25
+    selected: true
+  - window_id: pages-025-027
+    raw_value: 不需要跳槽
+    normalized_value: 不需要跳槽
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/025.png
+      page_number: 25
+    selected: false
+  candidates_hash: sha256:cb589762c78ac3190bce1132b87d07edb9859ed36a954d97ffc12f0b6c52e711
+- kind: field_conflict
+  issue_id: Q023-content-stem-latex
+  question_ref: '23'
+  item_id: Q023
+  question_number: 23
+  code: stem_conflict
+  severity: blocking
+  field_path: content.stem_latex
+  math_token: fraction
+  origin: merge
+  candidates:
+  - window_id: pages-023-025
+    raw_value: '已知：如图，四边形 $ABCD$ 中，$AB \parallel CD$，点 $E$ 在边 $AD$ 上，$CE$ 与 $BA$ 的延长线交于点 $F$，$\frac{FA}{AB}=\frac{AE}{ED}$。
+
+      （1）求证：四边形 $AFED$ 为平行四边形；
+
+      （2）联结 $AC$，分别延长 $CE$、$BA$ 交于点 $G$，如果 $AB=CD$，求证：$AG=AB$。'
+    normalized_value: 已知:如图,四边形$ABCD$中,$AB\parallelCD$,点$E$在边$AD$上,$CE$与$BA$的延长线交于点$F$,$\frac{FA}{AB}=\frac{AE}{ED}$。（1）求证:四边形$AFED$为平行四边形;（2）联结$AC$,分别延长$CE$、$BA$交于点$G$,如果$AB=CD$,求证:$AG=AB$
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/025.png
+      page_number: 25
+    selected: false
+  - window_id: pages-025-027
+    raw_value: '已知：如图，四边形 $ABCD$ 中，$AB // CD$，点 $E$ 在边 $AD$ 上，$CE$ 与 $BA$ 的延长线交于点 $F$，$\frac{FA}{AB} = \frac{AE}{ED}$．
+
+      （1）求证：四边形 $ABCD$ 为平行四边形；
+
+      （2）联结 $FD$，分别延长 $FD$、$BC$ 交于点 $G$，如果 $FC^2 = FD \cdot FG$，求证：$AD \cdot CG = BF \cdot CD$．'
+    normalized_value: 已知:如图,四边形$ABCD$中,$AB//CD$,点$E$在边$AD$上,$CE$与$BA$的延长线交于点$F$,$\frac{FA}{AB}=\frac{AE}{ED}$．（1）求证:四边形$ABCD$为平行四边形;（2）联结$FD$,分别延长$FD$、$BC$交于点$G$,如果$FC^2=FD\cdotFG$,求证:$AD\cdotCG=BF\cdotCD$
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/025.png
+      page_number: 25
+    selected: true
+  - window_id: pages-027-029
+    raw_value: '已知：如图，四边形$ABCD$中，$AB \parallel CD$，点$E$在边$AD$上，$AE$与$BC$的延长线交于点$F$，$\angle CFE = \angle BFE$。
+
+      （1）求证：四边形$ABCD$为平行四边形；
+
+      （2）联结$BE$，分别延长$BE$、$CD$交于点$G$，如果$FC^2 = FD \cdot FG$，求证：$AD \cdot CG = BF \cdot CD$。'
+    normalized_value: 已知:如图,四边形$ABCD$中,$AB\parallelCD$,点$E$在边$AD$上,$AE$与$BC$的延长线交于点$F$,$\angleCFE=\angleBFE$。（1）求证:四边形$ABCD$为平行四边形;（2）联结$BE$,分别延长$BE$、$CD$交于点$G$,如果$FC^2=FD\cdotFG$,求证:$AD\cdotCG=BF\cdotCD$
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/028.png
+      page_number: 28
+    selected: false
+  candidates_hash: sha256:a0847e3ad756ea73a1ff505cca99896713930da8e0c20ee1514a005944c57ef0
+- kind: field_conflict
+  issue_id: Q023-content-solution-steps
+  question_ref: '23'
+  item_id: Q023
+  question_number: 23
+  code: solution_conclusion_conflict
+  severity: blocking
+  field_path: content.solution_steps
+  math_token: fraction
+  origin: merge
+  candidates:
+  - window_id: pages-025-027
+    raw_value: '["（1）证明：$\\because AB // CD$，$\\therefore \\triangle AEF \\sim \\triangle DEC$，$\\therefore \\frac{AF}{CD} = \\frac{AE}{ED}$","又 $\\because \\frac{FA}{AB} = \\frac{AE}{ED}$，$\\therefore \\frac{AF}{CD} = \\frac{AF}{AB}$，$\\therefore AB = CD$","$\\therefore$ 四边形 $ABCD$ 是平行四边形；","（2）证明：如图所示，$\\because FC^2 = FD \\cdot FG$，$\\therefore \\frac{FC}{FD} = \\frac{FG}{FC}$，即 $\\frac{FC}{FD} = \\frac{FG}{FC}$","又 $\\because \\angle CFD = \\angle GFC$，$\\therefore \\triangle CFD \\sim \\triangle GFC$，$\\therefore \\angle FCD = \\angle FGC$，$\\frac{CG}{CD} = \\frac{GF}{CF}$","$\\because AB // CD$，$\\therefore \\angle BFC = \\angle FCD$，$\\therefore \\angle BFC = \\angle FGC$","又 $\\because \\angle FBC = \\angle GBF$，$\\therefore \\triangle FBC \\sim \\triangle GBF$，$\\therefore \\frac{BC}{BF} = \\frac{FC}{FG}$，即 $\\frac{CG}{CD} = \\frac{BF}{BC}$","又 $\\because$ 四边形 $ABCD$ 是平行四边形，$\\therefore AD = BC$，$\\therefore AD \\cdot CG = BF \\cdot CD$．"]'
+    normalized_value: '["（1）证明:$\\becauseAB//CD$,$\\therefore\\triangleAEF\\sim\\triangleDEC$,$\\therefore\\frac{AF}{CD}=\\frac{AE}{ED}$","又$\\because\\frac{FA}{AB}=\\frac{AE}{ED}$,$\\therefore\\frac{AF}{CD}=\\frac{AF}{AB}$,$\\thereforeAB=CD$","$\\therefore$四边形$ABCD$是平行四边形","（2）证明:如图所示,$\\becauseFC^2=FD\\cdotFG$,$\\therefore\\frac{FC}{FD}=\\frac{FG}{FC}$,即$\\frac{FC}{FD}=\\frac{FG}{FC}$","又$\\because\\angleCFD=\\angleGFC$,$\\therefore\\triangleCFD\\sim\\triangleGFC$,$\\therefore\\angleFCD=\\angleFGC$,$\\frac{CG}{CD}=\\frac{GF}{CF}$","\\becauseAB//CD$,$\\therefore\\angleBFC=\\angleFCD$,$\\therefore\\angleBFC=\\angleFGC","又$\\because\\angleFBC=\\angleGBF$,$\\therefore\\triangleFBC\\sim\\triangleGBF$,$\\therefore\\frac{BC}{BF}=\\frac{FC}{FG}$,即$\\frac{CG}{CD}=\\frac{BF}{BC}$","又$\\because$四边形$ABCD$是平行四边形,$\\thereforeAD=BC$,$\\thereforeAD\\cdotCG=BF\\cdotCD$"]'
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/025.png
+      page_number: 25
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/026.png
+      page_number: 26
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/027.png
+      page_number: 27
+    selected: false
+  - window_id: pages-027-029
+    raw_value: '["证明：$\\because AB \\parallel CD$，","$\\therefore \\angle CFE = \\angle FBA$，","$\\therefore \\angle BFE = \\angle FBA$，","$\\because \\angle CFE = \\angle BFE$，","$\\therefore \\angle CFE = \\angle FBA$，","$\\therefore AB = CD$，","$\\therefore$ 四边形$ABCD$是平行四边形；","【小问 2 详解】","证明：如图所示，","$\\because FC^2 = FD \\cdot FG$，","即$\\frac{FC}{FD} = \\frac{FG}{FC}$，","又$\\because \\angle CFD = \\angle GFC$，","$\\therefore \\triangle CFD \\sim \\triangle GFC$，","$\\therefore \\angle FCD = \\angle FGC$，$\\frac{CG}{CD} = \\frac{GF}{CF}$，","$\\because AB \\parallel CD$，","$\\therefore \\angle BFC = \\angle FCD$，","$\\therefore \\angle BFC = \\angle FGC$，","又$\\because \\angle FBC = \\angle GBF$，","$\\therefore \\triangle FBC \\sim \\triangle GBF$，","$\\therefore \\frac{BC}{BF} = \\frac{FC}{FG}$，","$\\therefore \\frac{CG}{CD} = \\frac{BF}{BC}$，","又$\\because AD = BC$，","$\\therefore \\frac{CG}{CD} = \\frac{BF}{AD}$，","即$AD \\cdot CG = BF \\cdot CD$。"]'
+    normalized_value: '["证明:$\\becauseAB\\parallelCD$,","$\\therefore\\angleCFE=\\angleFBA$,","$\\therefore\\angleBFE=\\angleFBA$,","$\\because\\angleCFE=\\angleBFE$,","$\\therefore\\angleCFE=\\angleFBA$,","$\\thereforeAB=CD$,","$\\therefore$四边形$ABCD$是平行四边形","【小问2详解】","证明:如图所示,","$\\becauseFC^2=FD\\cdotFG$,","即$\\frac{FC}{FD}=\\frac{FG}{FC}$,","又$\\because\\angleCFD=\\angleGFC$,","$\\therefore\\triangleCFD\\sim\\triangleGFC$,","$\\therefore\\angleFCD=\\angleFGC$,$\\frac{CG}{CD}=\\frac{GF}{CF}$,","$\\becauseAB\\parallelCD$,","$\\therefore\\angleBFC=\\angleFCD$,","$\\therefore\\angleBFC=\\angleFGC$,","又$\\because\\angleFBC=\\angleGBF$,","$\\therefore\\triangleFBC\\sim\\triangleGBF$,","$\\therefore\\frac{BC}{BF}=\\frac{FC}{FG}$,","$\\therefore\\frac{CG}{CD}=\\frac{BF}{BC}$,","又$\\becauseAD=BC$,","$\\therefore\\frac{CG}{CD}=\\frac{BF}{AD}$,","即$AD\\cdotCG=BF\\cdotCD$"]'
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/027.png
+      page_number: 27
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/028.png
+      page_number: 28
+    selected: true
+  candidates_hash: sha256:19d5d8501db3e4ecfafb19fb62e530a380d5f4356b8fac86d85cb611f98fa228
+- kind: field_conflict
+  issue_id: Q023-evidence-solution-start-anchor
+  question_ref: '23'
+  item_id: Q023
+  question_number: 23
+  code: evidence_span_needs_confirmation
+  severity: warning
+  field_path: evidence.solution_start_anchor
+  origin: merge
+  candidates:
+  - window_id: pages-025-027
+    raw_value: '23.'
+    normalized_value: '23'
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/025.png
+      page_number: 25
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/026.png
+      page_number: 26
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/027.png
+      page_number: 27
+    selected: true
+  - window_id: pages-027-029
+    raw_value: 【小问 2 详解】
+    normalized_value: 【小问2详解】
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/027.png
+      page_number: 27
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/028.png
+      page_number: 28
+    selected: false
+  candidates_hash: sha256:5967f56d4b9a499fd2e90ff0f61d37c47e2b78b739b9766dc4681cec8799ea5e
+- kind: field_conflict
+  issue_id: Q023-evidence-solution-end-anchor
+  question_ref: '23'
+  item_id: Q023
+  question_number: 23
+  code: evidence_span_needs_confirmation
+  severity: warning
+  field_path: evidence.solution_end_anchor
+  origin: merge
+  candidates:
+  - window_id: pages-025-027
+    raw_value: $AD \cdot CG = BF \cdot CD$
+    normalized_value: AD\cdotCG=BF\cdotCD
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/025.png
+      page_number: 25
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/026.png
+      page_number: 26
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/027.png
+      page_number: 27
+    selected: true
+  - window_id: pages-027-029
+    raw_value: 即$AD \cdot CG = BF \cdot CD$。
+    normalized_value: 即$AD\cdotCG=BF\cdotCD$
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/027.png
+      page_number: 27
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/028.png
+      page_number: 28
+    selected: false
+  candidates_hash: sha256:d308f51d335e5f00f54702ebb14011a31a85f9aec0133f1babb87ddf6a291be3
+- kind: field_conflict
+  issue_id: Q024-content-stem-latex
+  question_ref: '24'
+  item_id: Q024
+  question_number: 24
+  code: stem_conflict
+  severity: blocking
+  field_path: content.stem_latex
+  math_token: fraction
+  origin: merge
+  candidates:
+  - window_id: pages-027-029
+    raw_value: '在平面直角坐标系$xOy$中（如图），已知抛物线$y = a(x - m)^2 + n (a \neq 0)$与$x$轴交于点$A$、$B$，抛物线的顶点$P$在第一象限，且$\angle APB = 90^\circ$。
+
+      （1）当点$P$的坐标为$(4, 3)$时，求这个抛物线的表达式；
+
+      （2）抛物线$y = a(x - m)^2 + n (a \neq 0)$表达式中有三个待定系数，求待定系数$a$与$n$之间的数量关系；
+
+      （3）以点$P$为圆心，$PA$为半径作$\odot P$，$\odot P$与直线$y = x + \frac{n}{2}$相交于点$M$、$N$。当点$P$在直线$y = \frac{1}{2}x$上时，用含$a$的代数式表示$MN$的长。'
+    normalized_value: 在平面直角坐标系$xOy$中（如图）,已知抛物线$y=a(x-m)^2+n(a\neq0)$与$x$轴交于点$A$、$B$,抛物线的顶点$P$在第一象限,且$\angleAPB=90^\circ$。（1）当点$P$的坐标为$(4,3)$时,求这个抛物线的表达式;（2）抛物线$y=a(x-m)^2+n(a\neq0)$表达式中有三个待定系数,求待定系数$a$与$n$之间的数量关系;（3）以点$P$为圆心,$PA$为半径作$\odotP$,$\odotP$与直线$y=x+\frac{n}{2}$相交于点$M$、$N$。当点$P$在直线$y=\frac{1}{2}x$上时,用含$a$的代数式表示$MN$的长
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/028.png
+      page_number: 28
+    selected: true
+  - window_id: pages-029-031
+    raw_value: 在平面直角坐标系中（如图），已知抛物线 $y=a(x-m)^2+n(a\neq 0)$ 与 $x$ 轴交于点 $A$、$B$，抛物线的顶点 $P(m,n)$ 在第一象限，且 $\angle APB=90^\circ$。（1）当点 $P$ 的坐标为 $(4,3)$ 时，求这个抛物线的表达式；（2）抛物线表达式中有三个待定系数，求待定系数 $a$ 与 $n$ 之间的数量关系；（3）以点 $P$ 为圆心，$n$ 为半径作 $\odot P$，与直线 $y=x+\frac{n}{2}$ 相交于点 $M$、$N$。当点 $P$ 在直线 $y=\frac{1}{2}x$ 上时，用含 $a$ 的代数式表示 $MN$ 的长。
+    normalized_value: 在平面直角坐标系中（如图）,已知抛物线$y=a(x-m)^2+n(a\neq0)$与$x$轴交于点$A$、$B$,抛物线的顶点$P(m,n)$在第一象限,且$\angleAPB=90^\circ$。（1）当点$P$的坐标为$(4,3)$时,求这个抛物线的表达式;（2）抛物线表达式中有三个待定系数,求待定系数$a$与$n$之间的数量关系;（3）以点$P$为圆心,$n$为半径作$\odotP$,与直线$y=x+\frac{n}{2}$相交于点$M$、$N$。当点$P$在直线$y=\frac{1}{2}x$上时,用含$a$的代数式表示$MN$的长
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/029.png
+      page_number: 29
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/030.png
+      page_number: 30
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/031.png
+      page_number: 31
+    selected: false
+  candidates_hash: sha256:93b0809db0583d5c07560ede2c497ae71cc859a5982f0ea6dfa4479876fb133e
+- kind: field_conflict
+  issue_id: Q024-content-solution-steps
+  question_ref: '24'
+  item_id: Q024
+  question_number: 24
+  code: solution_conclusion_conflict
+  severity: blocking
+  field_path: content.solution_steps
+  math_token: radicand
+  origin: merge
+  candidates:
+  - window_id: pages-027-029
+    raw_value: '["【解析】","【分析】（1）$\\triangle PAB$是等腰直角三角形，当点$P$的坐标为$(4, 3)$时，则$y = a(x - 4)^2 + 3$抛物线的对称轴为直线$x = 4$，得出$A(1, 0)$，$B(7, 0)$，然后待定系数法求解析式，即可求解；","（2）根据（1）的方法求得$A(m - n, 0)$，待定系数法求解析式，进而得出$a = -\\frac{1}{n}$；","（3）根据$P(m, n)$在$y = \\frac{1}{2}x$上得出$m = 2n$，根据（2）的结论得出$a = -\\frac{1}{n}$，$A(m - n, 0)$即$A(n, 0)$，$\\odot P$与直线$y = x + \\frac{n}{2}$相交于点$M$、$N$。设直线$y = x + \\frac{n}{2}$交$x$轴于点$E$，交$y$轴于点$F$，得出$PA \\parallel MN$，则$\\triangle BPA \\sim \\triangle BDE$，求得$PD = \\frac{3\\sqrt{2}}{4}n$，在$\\text{Rt}\\triangle PMD$中勾股定理求得$MD$，进而求得$MN$，即可求解。","【小问 1 详解】","解：依题意，$\\triangle PAB$是等腰直角三角形，","当点$P$的坐标为$(4, 3)$时，则$y = a(x - 4)^2 + 3$抛物线的对称轴为直线$x = 4$，","$\\therefore A(1, 0)$，$B(7, 0)$，","将$A(1, 0)$代入$y = a(x - 4)^2 + 3$，","解得：$a = -\\frac{1}{3}$，","$\\therefore$ 抛物线解析式为$y = -\\frac{1}{3}(x - 4)^2 + 3$；","【小问 2 详解】","解：$\\because$ 抛物线与$x$轴交于点$A$、$B$，抛物线的顶点在第一象限，且$\\angle APB = 90^\\circ$，","$\\therefore \\triangle PAB$是等腰直角三角形，抛物线的顶点坐标为$(m, n)$，","$\\therefore A(m - n, 0)$，$B(m +
+      n, 0)$，","将$A(m - n, 0)$代入$y = a(x - m)^2 + n$，","$\\therefore a(m - n - m)^2 + n = 0$，","$\\therefore an^2 + n = 0$，","$\\because a \\neq 0$，","$\\therefore an + 1 = 0$，","$\\therefore a = -\\frac{1}{n}$；","【小问 3 详解】","解：$\\because P(m, n)$在$y = \\frac{1}{2}x$上，","$\\therefore n = \\frac{1}{2}m$，即$m = 2n$，","由（2）可得$a = -\\frac{1}{n}$，即$n = -\\frac{1}{a}$，","$\\therefore m = 2n = -\\frac{2}{a}$，","$\\therefore$ 抛物线解析式为$y = a\\left(x + \\frac{2}{a}\\right)^2 - \\frac{1}{a}$，","令$y = 0$，得$a\\left(x + \\frac{2}{a}\\right)^2 - \\frac{1}{a} = 0$，","解得$x_1 = -\\frac{1}{a}$，$x_2 = -\\frac{3}{a}$，","$\\therefore A\\left(-\\frac{1}{a}, 0\\right)$，$B\\left(-\\frac{3}{a}, 0\\right)$，","$\\because P\\left(-\\frac{2}{a}, -\\frac{1}{a}\\right)$，","$\\therefore PA = \\sqrt{\\left(-\\frac{1}{a} + \\frac{2}{a}\\right)^2 + \\left(0 + \\frac{1}{a}\\right)^2} = \\frac{\\sqrt{2}}{|a|}$，","由（2）知$n = -\\frac{1}{a}$，","$\\therefore$ 直线$y = x + \\frac{n}{2}$为$y = x - \\frac{1}{2a}$，","$\\therefore$ 直线$MN$的解析式为$y
+      = x - \\frac{1}{2a}$，","$\\therefore$ 直线$PA$的解析式为$y = -x - \\frac{1}{a}$，","$\\therefore PA \\parallel MN$，","$\\therefore$ 点$P$到直线$MN$的距离$d = \\frac{|-\\frac{2}{a} - (-\\frac{1}{2a})|}{\\sqrt{1^2 + (-1)^2}} = \\frac{3}{2\\sqrt{2}|a|} = \\frac{3\\sqrt{2}}{4|a|}$，","$\\therefore MN = 2\\sqrt{PA^2 - d^2} = 2\\sqrt{\\frac{2}{a^2} - \\frac{18}{16a^2}} = 2\\sqrt{\\frac{14}{16a^2}} = \\frac{\\sqrt{14}}{2|a|}$，","$\\because$ 抛物线的顶点在第一象限，$\\therefore a < 0$，","$\\therefore MN = -\\frac{\\sqrt{14}}{2a}$。"]'
+    normalized_value: '["【解析】","【分析】（1）$\\trianglePAB$是等腰直角三角形,当点$P$的坐标为$(4,3)$时,则$y=a(x-4)^2+3$抛物线的对称轴为直线$x=4$,得出$A(1,0)$,$B(7,0)$,然后待定系数法求解析式,即可求解","（2）根据（1）的方法求得$A(m-n,0)$,待定系数法求解析式,进而得出$a=-\\frac{1}{n}$","（3）根据$P(m,n)$在$y=\\frac{1}{2}x$上得出$m=2n$,根据（2）的结论得出$a=-\\frac{1}{n}$,$A(m-n,0)$即$A(n,0)$,$\\odotP$与直线$y=x+\\frac{n}{2}$相交于点$M$、$N$。设直线$y=x+\\frac{n}{2}$交$x$轴于点$E$,交$y$轴于点$F$,得出$PA\\parallelMN$,则$\\triangleBPA\\sim\\triangleBDE$,求得$PD=\\frac{3\\sqrt{2}}{4}n$,在$\\text{Rt}\\trianglePMD$中勾股定理求得$MD$,进而求得$MN$,即可求解","【小问1详解】","解:依题意,$\\trianglePAB$是等腰直角三角形,","当点$P$的坐标为$(4,3)$时,则$y=a(x-4)^2+3$抛物线的对称轴为直线$x=4$,","$\\thereforeA(1,0)$,$B(7,0)$,","将$A(1,0)$代入$y=a(x-4)^2+3$,","解得:$a=-\\frac{1}{3}$,","$\\therefore$抛物线解析式为$y=-\\frac{1}{3}(x-4)^2+3$","【小问2详解】","解:$\\because$抛物线与$x$轴交于点$A$、$B$,抛物线的顶点在第一象限,且$\\angleAPB=90^\\circ$,","$\\therefore\\trianglePAB$是等腰直角三角形,抛物线的顶点坐标为$(m,n)$,","$\\thereforeA(m-n,0)$,$B(m+n,0)$,","将$A(m-n,0)$代入$y=a(x-m)^2+n$,","$\\thereforea(m-n-m)^2+n=0$,","$\\thereforean^2+n=0$,","$\\becausea\\neq0$,","$\\thereforean+1=0$,","$\\thereforea=-\\frac{1}{n}$","【小问3详解】","解:$\\becauseP(m,n)$在$y=\\frac{1}{2}x$上,","$\\thereforen=\\frac{1}{2}m$,即$m=2n$,","由（2）可得$a=-\\frac{1}{n}$,即$n=-\\frac{1}{a}$,","$\\thereforem=2n=-\\frac{2}{a}$,","$\\therefore$抛物线解析式为$y=a(x+\\frac{2}{a})^2-\\frac{1}{a}$,","令$y=0$,得$a(x+\\frac{2}{a})^2-\\frac{1}{a}=0$,","解得$x_1=-\\frac{1}{a}$,$x_2=-\\frac{3}{a}$,","$\\thereforeA(-\\frac{1}{a},0)$,$B(-\\frac{3}{a},0)$,","$\\becauseP(-\\frac{2}{a},-\\frac{1}{a})$,","$\\thereforePA=\\sqrt{(-\\frac{1}{a}+\\frac{2}{a})^2+(0+\\frac{1}{a})^2}=\\frac{\\sqrt{2}}{|a|}$,","由（2）知$n=-\\frac{1}{a}$,","$\\therefore$直线$y=x+\\frac{n}{2}$为$y=x-\\frac{1}{2a}$,","$\\therefore$直线$MN$的解析式为$y=x-\\frac{1}{2a}$,","$\\therefore$直线$PA$的解析式为$y=-x-\\frac{1}{a}$,","$\\thereforePA\\parallelMN$,","$\\therefore$点$P$到直线$MN$的距离$d=\\frac{|-\\frac{2}{a}-(-\\frac{1}{2a})|}{\\sqrt{1^2+(-1)^2}}=\\frac{3}{2\\sqrt{2}|a|}=\\frac{3\\sqrt{2}}{4|a|}$,","$\\thereforeMN=2\\sqrt{PA^2-d^2}=2\\sqrt{\\frac{2}{a^2}-\\frac{18}{16a^2}}=2\\sqrt{\\frac{14}{16a^2}}=\\frac{\\sqrt{14}}{2|a|}$,","$\\because$抛物线的顶点在第一象限,$\\thereforea<0$,","$\\thereforeMN=-\\frac{\\sqrt{14}}{2a}$"]'
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/028.png
+      page_number: 28
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/029.png
+      page_number: 29
+    selected: false
+  - window_id: pages-029-031
+    raw_value: '["【分析】(1) $\\triangle PAB$ 是等腰直角三角形，当点 $P$ 的坐标为 $(4,3)$ 时，则 $y=a(x-4)^2+3$ 抛物线的对称轴为直线 $x=4$，得出 $A(1,0)$，$B(7,0)$，然后待定系数法求解析式，即可求解；(2) 根据 (1) 的方法求得 $A(m-n,0)$，待定系数法求解析式，进而得出 $a=-\\frac{1}{n}$；(3) 根据 $P(m,n)$ 在 $y=\\frac{1}{2}x$ 上得出 $m=2n$，根据 (2) 的结论得出 $a=-\\frac{1}{n}$，$A(m-n,0)$ 即 $A(n,0)$，$\\odot P$ 与直线 $y=x+\\frac{n}{2}$ 相交于点 $M$、$N$。设直线 $y=x+\\frac{n}{2}$ 交 $x$ 轴于点 $E$，交 $y$ 轴于点 $F$，得出 $PA \\parallel MN$，则 $\\triangle BPA \\sim \\triangle BDE$，求得 $PD=\\frac{3\\sqrt{2}}{4}n$，在 Rt$\\triangle PMD$ 中勾股定理求得 $MD$，进而求得 $MN$，即可求解。","【小问1详解】解：依题意，$\\triangle PAB$ 是等腰直角三角形，当点 $P$ 的坐标为 $(4,3)$ 时，则 $y=a(x-4)^2+3$ 抛物线的对称轴为直线 $x=4$，如图所示，过点 $P$ 作 $PC \\perp x$ 轴于点 $C$，$\\therefore PC = \\frac{1}{2}AB = AC = CB = 3$，$\\therefore A(1,0)$，$B(7,0)$，将 $A(1,0)$ 代入 $y=a(x-4)^2+3$，$0=a(1-4)^2+3$，解得：$a=-\\frac{1}{3}$，$\\therefore$ 抛物线解析式为 $y=-\\frac{1}{3}(x-4)^2+3$；","【小问2详解】解：$\\because$ 抛物线 $y=a(x-m)^2+n(a \\neq 0)$ 与 $x$ 轴交于点 $A$、$B$，抛物线的顶点 $P$ 在第一象限，且 $\\angle APB=90^\\circ$，$\\therefore
+      \\triangle PBC$ 是等腰直角三角形，抛物线的顶点坐标为 $(m,n)$，$PC = AC = n$，$\\therefore A(m-n,0)$，代入 $y=a(x-m)^2+n(a \\neq 0)$，$\\therefore a(m-n-m)^2+n=0$，即 $an^2+n=0$，$\\because$ 抛物线的顶点 $P$ 在第一象限，则 $n>0$，$\\therefore a=-\\frac{1}{n}$；","【小问3详解】$\\because P(m,n)$ 在 $y=\\frac{1}{2}x$ 上，$\\therefore n=\\frac{1}{2}m$，即 $m=2n$，由 (2) 可得 $a=-\\frac{1}{n}$，$A(m-n,0)$ 即 $A(n,0)$，$\\therefore$ 抛物线解析式为 $y=-\\frac{1}{n}(x-2n)^2+n$，$\\because \\odot P$ 与直线 $y=x+\\frac{n}{2}$ 相交于点 $M$、$N$。设直线 $y=x+\\frac{n}{2}$ 交 $x$ 轴于点 $E$，交 $y$ 轴于点 $F$，当 $y=0$ 时，$x=-\\frac{n}{2}$，则 $E(-\\frac{n}{2},0)$，当 $x=0$ 时，$y=\\frac{n}{2}$，则 $F(0,\\frac{n}{2})$，$\\therefore OE=OF$，则 $\\triangle OEF$ 是等腰直角三角形，"]'
+    normalized_value: '["【分析】(1)$\\trianglePAB$是等腰直角三角形,当点$P$的坐标为$(4,3)$时,则$y=a(x-4)^2+3$抛物线的对称轴为直线$x=4$,得出$A(1,0)$,$B(7,0)$,然后待定系数法求解析式,即可求解;(2)根据(1)的方法求得$A(m-n,0)$,待定系数法求解析式,进而得出$a=-\\frac{1}{n}$;(3)根据$P(m,n)$在$y=\\frac{1}{2}x$上得出$m=2n$,根据(2)的结论得出$a=-\\frac{1}{n}$,$A(m-n,0)$即$A(n,0)$,$\\odotP$与直线$y=x+\\frac{n}{2}$相交于点$M$、$N$。设直线$y=x+\\frac{n}{2}$交$x$轴于点$E$,交$y$轴于点$F$,得出$PA\\parallelMN$,则$\\triangleBPA\\sim\\triangleBDE$,求得$PD=\\frac{3\\sqrt{2}}{4}n$,在Rt$\\trianglePMD$中勾股定理求得$MD$,进而求得$MN$,即可求解","【小问1详解】解:依题意,$\\trianglePAB$是等腰直角三角形,当点$P$的坐标为$(4,3)$时,则$y=a(x-4)^2+3$抛物线的对称轴为直线$x=4$,如图所示,过点$P$作$PC\\perpx$轴于点$C$,$\\thereforePC=\\frac{1}{2}AB=AC=CB=3$,$\\thereforeA(1,0)$,$B(7,0)$,将$A(1,0)$代入$y=a(x-4)^2+3$,$0=a(1-4)^2+3$,解得:$a=-\\frac{1}{3}$,$\\therefore$抛物线解析式为$y=-\\frac{1}{3}(x-4)^2+3$","【小问2详解】解:$\\because$抛物线$y=a(x-m)^2+n(a\\neq0)$与$x$轴交于点$A$、$B$,抛物线的顶点$P$在第一象限,且$\\angleAPB=90^\\circ$,$\\therefore\\trianglePBC$是等腰直角三角形,抛物线的顶点坐标为$(m,n)$,$PC=AC=n$,$\\thereforeA(m-n,0)$,代入$y=a(x-m)^2+n(a\\neq0)$,$\\thereforea(m-n-m)^2+n=0$,即$an^2+n=0$,$\\because$抛物线的顶点$P$在第一象限,则$n>0$,$\\thereforea=-\\frac{1}{n}$","【小问3详解】$\\becauseP(m,n)$在$y=\\frac{1}{2}x$上,$\\thereforen=\\frac{1}{2}m$,即$m=2n$,由(2)可得$a=-\\frac{1}{n}$,$A(m-n,0)$即$A(n,0)$,$\\therefore$抛物线解析式为$y=-\\frac{1}{n}(x-2n)^2+n$,$\\because\\odotP$与直线$y=x+\\frac{n}{2}$相交于点$M$、$N$。设直线$y=x+\\frac{n}{2}$交$x$轴于点$E$,交$y$轴于点$F$,当$y=0$时,$x=-\\frac{n}{2}$,则$E(-\\frac{n}{2},0)$,当$x=0$时,$y=\\frac{n}{2}$,则$F(0,\\frac{n}{2})$,$\\thereforeOE=OF$,则$\\triangleOEF$是等腰直角三角形,"]'
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/029.png
+      page_number: 29
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/030.png
+      page_number: 30
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/031.png
+      page_number: 31
+    selected: true
+  candidates_hash: sha256:7c99fd5b4ec2ac5f545957ffbfae5c776abec76600d531421f2584745ef9c8c7
+- kind: field_conflict
+  issue_id: Q024-evidence-solution-end-anchor
+  question_ref: '24'
+  item_id: Q024
+  question_number: 24
+  code: evidence_span_needs_confirmation
+  severity: warning
+  field_path: evidence.solution_end_anchor
+  math_token: radicand
+  origin: merge
+  candidates:
+  - window_id: pages-027-029
+    raw_value: $\therefore MN = -\frac{\sqrt{14}}{2a}$。
+    normalized_value: $\thereforeMN=-\frac{\sqrt{14}}{2a}$
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/028.png
+      page_number: 28
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/029.png
+      page_number: 29
+    selected: true
+  - window_id: pages-029-031
+    raw_value: 则 $\triangle OEF$ 是等腰直角三角形，
+    normalized_value: 则$\triangleOEF$是等腰直角三角形,
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/029.png
+      page_number: 29
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/030.png
+      page_number: 30
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/031.png
+      page_number: 31
+    selected: false
+  candidates_hash: sha256:37685f307e4b90496e29280a342e0e4a4ddfd19d3ffb431b7f1e2877ad7a6234
+- kind: field_conflict
+  issue_id: Q025-section-ref
+  question_ref: '25'
+  item_id: Q025
+  question_number: 25
+  code: question_ref_mismatch
+  severity: blocking
+  field_path: section_ref
+  origin: merge
+  candidates:
+  - window_id: pages-027-029
+    raw_value: 三
+    normalized_value: 三
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/029.png
+      page_number: 29
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/029.png
+      page_number: 29
+    selected: true
+  - window_id: pages-031-033
+    raw_value: 三、解答题
+    normalized_value: 三、解答题
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/033.png
+      page_number: 33
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/033.png
+      page_number: 33
+    selected: false
+  - window_id: pages-033-035
+    raw_value: 三、解答题
+    normalized_value: 三、解答题
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/033.png
+      page_number: 33
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/033.png
+      page_number: 33
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/034.png
+      page_number: 34
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/035.png
+      page_number: 35
+    selected: false
+  - window_id: pages-035-037
+    raw_value: 三
+    normalized_value: 三
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/035.png
+      page_number: 35
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/035.png
+      page_number: 35
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/036.png
+      page_number: 36
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/037.png
+      page_number: 37
+    selected: false
+  - window_id: pages-037-038
+    raw_value: 三
+    normalized_value: 三
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/037.png
+      page_number: 37
+    selected: false
+  candidates_hash: sha256:bbf0f310704f410d33edaaffaa989da212ac03b67dcd1d76ee010c8849ab4c90
+- kind: field_conflict
+  issue_id: Q025-section-title
+  question_ref: '25'
+  item_id: Q025
+  question_number: 25
+  code: question_ref_mismatch
+  severity: blocking
+  field_path: section_title
+  origin: merge
+  candidates:
+  - window_id: pages-027-029
+    raw_value: 解答题
+    normalized_value: 解答题
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/029.png
+      page_number: 29
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/029.png
+      page_number: 29
+    selected: true
+  - window_id: pages-031-033
+    raw_value: （本大题共7题，满分78分）
+    normalized_value: （本大题共7题,满分78分）
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/033.png
+      page_number: 33
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/033.png
+      page_number: 33
+    selected: false
+  - window_id: pages-033-035
+    raw_value: （本大题共7题，满分78分）
+    normalized_value: （本大题共7题,满分78分）
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/033.png
+      page_number: 33
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/033.png
+      page_number: 33
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/034.png
+      page_number: 34
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/035.png
+      page_number: 35
+    selected: false
+  - window_id: pages-035-037
+    raw_value: 解答题
+    normalized_value: 解答题
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/035.png
+      page_number: 35
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/035.png
+      page_number: 35
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/036.png
+      page_number: 36
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/037.png
+      page_number: 37
+    selected: false
+  - window_id: pages-037-038
+    raw_value: 解答题
+    normalized_value: 解答题
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/037.png
+      page_number: 37
+    selected: false
+  candidates_hash: sha256:21b7b42ef302d085fcf503206248080f92b6d9ebdd0f80e2010340010ee25be5
+- kind: field_conflict
+  issue_id: Q025-content-stem-latex
+  question_ref: '25'
+  item_id: Q025
+  question_number: 25
+  code: stem_conflict
+  severity: blocking
+  field_path: content.stem_latex
+  math_token: inequality
+  origin: merge
+  candidates:
+  - window_id: pages-027-029
+    raw_value: '如图，在梯形$ABCD$中（$AD \parallel BC$），$\angle ABC = 90^\circ$，$AD = 1$，$BC = 2$。将梯形$ABCD$绕点$B$按顺时针方向旋转，使点$A$与点$C$重合，此时点$D$、$C$的对应点分别是点$E$、$F$。
+
+      （1）当点$E$正好落在$BC$的延长线上时，求$\angle BAE$的度数；
+
+      （2）联结$BF$，设$y = S_{\triangle ABF}$，$x = AE$。
+
+      ①求$y$关于$x$的函数解析式；
+
+      ②定义：同中心同边数的两个正多边形称为双同正多边形。设$\alpha$是一个正多边形的中心角，联结$BE$，请说明以线段$BE$、$BF$为边的正多边形是双同正多边形的理由。当这两个正多边形的面积比是$1: 9$时，求双同正多边形的边数。'
+    normalized_value: 如图,在梯形$ABCD$中（$AD\parallelBC$）,$\angleABC=90^\circ$,$AD=1$,$BC=2$。将梯形$ABCD$绕点$B$按顺时针方向旋转,使点$A$与点$C$重合,此时点$D$、$C$的对应点分别是点$E$、$F$。（1）当点$E$正好落在$BC$的延长线上时,求$\angleBAE$的度数;（2）联结$BF$,设$y=S_{\triangleABF}$,$x=AE$。①求$y$关于$x$的函数解析式;②定义:同中心同边数的两个正多边形称为双同正多边形。设$\alpha$是一个正多边形的中心角,联结$BE$,请说明以线段$BE$、$BF$为边的正多边形是双同正多边形的理由。当这两个正多边形的面积比是$1:9$时,求双同正多边形的边数
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/029.png
+      page_number: 29
+    selected: false
+  - window_id: pages-031-033
+    raw_value: 如图，在梯形$ABCD$中，$AD\parallel BC$（$AD < BC$），$\angle A = 90^\circ$，$BC = CD = 6$．将梯形$ABCD$绕点$C$按顺时针方向旋转，使点$B$与点$D$重合，此时点$A$、$D$的对应点分别是点$E$、$F$．\n（1）当点$F$正好落在$AD$的延长线上时，求$\angle BCD$的度数；\n（2）联结$AE$，设$AD = x$，$AE = y$．\n①求$y$关于$x$的函数解析式；\n②定义：同中心同边数的两个正多边形称为双同正多边形．设$\angle BCF$是一个正多边形的中心角，联结$BD$，请说明以线段$BD$、$AE$为边的正多边形是双同正多边形的理由．当这两个正多边形的面积比是$4:5$时，求双同正多边形的边数．
+    normalized_value: 如图,在梯形$ABCD$中,$AD\parallelBC$（$AD<BC$）,$\angleA=90^\circ$,$BC=CD=6$．将梯形$ABCD$绕点$C$按顺时针方向旋转,使点$B$与点$D$重合,此时点$A$、$D$的对应点分别是点$E$、$F$．\n（1）当点$F$正好落在$AD$的延长线上时,求$\angleBCD$的度数;\n（2）联结$AE$,设$AD=x$,$AE=y$．\n①求$y$关于$x$的函数解析式;\n②定义:同中心同边数的两个正多边形称为双同正多边形．设$\angleBCF$是一个正多边形的中心角,联结$BD$,请说明以线段$BD$、$AE$为边的正多边形是双同正多边形的理由．当这两个正多边形的面积比是$4:5$时,求双同正多边形的边数
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/033.png
+      page_number: 33
+    selected: false
+  - window_id: pages-033-035
+    raw_value: '如图，在梯形 $ABCD$ 中， $AD \parallel BC$ ( $AD<BC$ ) ， $\angle A=90^{\circ}$ ， $BC=CD=6$ ．将梯形 $ABCD$ 绕点 $C$ 按顺时针方向旋转，使点 $B$ 与点 $D$ 重合，此时点 $A$ 、 $D$ 的对应点分别是点 $E$ 、 $F$ ．
+
+      （1）当点 $F$ 正好落在 $AD$ 的延长线上时，求 $\angle BCD$ 的度数；
+
+      （2）联结 $AE$ ，设 $AD=x$ ， $AE=y$ ．
+
+      ①求 $y$ 关于 $x$ 的函数解析式；
+
+      ②定义：同中心同边数的两个正多边形称为双同正多边形．设 $\angle BCF$ 是一个正多边形的中心角，联结 $BD$ ，请说明以线段 $BD$ 、 $AE$ 为边的正多边形是双同正多边形的理由．当这两个正多边形的面积比是 $4:5$ 时，求双同正多边形的边数．'
+    normalized_value: 如图,在梯形$ABCD$中,$AD\parallelBC$($AD<BC$),$\angleA=90^{\circ}$,$BC=CD=6$．将梯形$ABCD$绕点$C$按顺时针方向旋转,使点$B$与点$D$重合,此时点$A$、$D$的对应点分别是点$E$、$F$．（1）当点$F$正好落在$AD$的延长线上时,求$\angleBCD$的度数;（2）联结$AE$,设$AD=x$,$AE=y$．①求$y$关于$x$的函数解析式;②定义:同中心同边数的两个正多边形称为双同正多边形．设$\angleBCF$是一个正多边形的中心角,联结$BD$,请说明以线段$BD$、$AE$为边的正多边形是双同正多边形的理由．当这两个正多边形的面积比是$4:5$时,求双同正多边形的边数
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/033.png
+      page_number: 33
+    selected: true
+  - window_id: pages-035-037
+    raw_value: '如图，在梯形$ABCD$中（$AD \parallel BC$），$\angle A = 90^\circ$，$BC = 6$，$CD = 6$。将梯形$ABCD$绕点$C$按顺时针方向旋转，使点$B$与点$D$重合，此时点$A$、$D$的对应点分别是点$E$、$F$。
+
+      （1）当点$E$正好落在$CD$的延长线上时，求$\angle BCD$的度数；
+
+      （2）联结$BD$，设$AD = x$，$AE = y$。
+
+      ①求$y$关于$x$的函数解析式；
+
+      ②定义：同中心同边数的两个正多边形称为双同正多边形。设$\angle BCF$是一个正多边形的中心角，联结$AC$，请说明以线段$BD$、$AE$为边的正多边形是双同正多边形的理由。当这两个正多边形的面积比是$4:5$时，求双同正多边形的边数。'
+    normalized_value: 如图,在梯形$ABCD$中（$AD\parallelBC$）,$\angleA=90^\circ$,$BC=6$,$CD=6$。将梯形$ABCD$绕点$C$按顺时针方向旋转,使点$B$与点$D$重合,此时点$A$、$D$的对应点分别是点$E$、$F$。（1）当点$E$正好落在$CD$的延长线上时,求$\angleBCD$的度数;（2）联结$BD$,设$AD=x$,$AE=y$。①求$y$关于$x$的函数解析式;②定义:同中心同边数的两个正多边形称为双同正多边形。设$\angleBCF$是一个正多边形的中心角,联结$AC$,请说明以线段$BD$、$AE$为边的正多边形是双同正多边形的理由。当这两个正多边形的面积比是$4:5$时,求双同正多边形的边数
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/035.png
+      page_number: 35
+    selected: false
+  candidates_hash: sha256:b34a073230830f75083fa8d3a3891802b94048fd98ec1ecc6d0348956d7d864c
+- kind: field_conflict
+  issue_id: Q025-content-answer
+  question_ref: '25'
+  item_id: Q025
+  question_number: 25
+  code: answer_conflict
+  severity: blocking
+  field_path: content.answer
+  math_token: radicand
+  origin: merge
+  candidates:
+  - window_id: pages-031-033
+    raw_value: （1）$60^\circ$；（2）①$y = \dfrac{\sqrt{-3x^3 + 36x^2 + 108x}}{3}$；②理由见解析，双同正多边形的边数为12
+    normalized_value: （1）$60^\circ$;（2）①$y=\frac{\sqrt{-3x^3+36x^2+108x}}{3}$;②理由见解析,双同正多边形的边数为12
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/033.png
+      page_number: 33
+    selected: false
+  - window_id: pages-033-035
+    raw_value: （1）$60^{\circ}$；（2）① $y=\frac{\sqrt{-3x^{3}+36x^{2}+108x}}{3}$ ；②理由见解析，双同正多边形的边数为 $12$
+    normalized_value: （1）$60^{\circ}$;（2）①$y=\frac{\sqrt{-3x^{3}+36x^{2}+108x}}{3}$;②理由见解析,双同正多边形的边数为$12$
+    confidence: low
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/033.png
+      page_number: 33
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/034.png
+      page_number: 34
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/035.png
+      page_number: 35
+    selected: false
+  - window_id: pages-035-037
+    raw_value: '（1）$60^\circ$
+
+      （2）① $y = \frac{\sqrt{3x^3 + 36x^2 + 108x}}{3}$；② 理由见解析，双同正多边形的边数为$12$'
+    normalized_value: （1）$60^\circ$（2）①$y=\frac{\sqrt{3x^3+36x^2+108x}}{3}$;②理由见解析,双同正多边形的边数为$12$
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/035.png
+      page_number: 35
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/036.png
+      page_number: 36
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/037.png
+      page_number: 37
+    selected: true
+  candidates_hash: sha256:2f9bac28b21fdb8d28985a34d6c377b721cf0ad0a86b793902c63ab518908543
+- kind: field_conflict
+  issue_id: Q025-content-solution-steps
+  question_ref: '25'
+  item_id: Q025
+  question_number: 25
+  code: solution_conclusion_conflict
+  severity: blocking
+  field_path: content.solution_steps
+  math_token: radicand
+  origin: merge
+  candidates:
+  - window_id: pages-027-029
+    raw_value: '["【答案】（1）$15^\\circ$","（2）①$y = \\frac{\\sqrt{3}}{8}x^2 + \\frac{1}{4}x$；②理由见解析，双同正多边形的边数为$12$","【解析】","【分析】（1）当点$E$正好落在$BC$的延长线上时，连接$BE$，根据平行线的性质、旋转的性质、等边对等角的性质，得出$\\angle AEB = \\angle EBF = \\angle CBE$，结合三角形内角和为$180^\\circ$求出$\\angle BAE$度数即可；","（2）①连接$CF$、$EF$、$AF$、$BF$，过点$F$作$FM \\perp BC$于点$M$，根据旋转的性质、相似三角形的判定定理，证明$\\triangle BEF \\sim \\triangle BCF$，得出$\\frac{EF}{CF} = \\frac{BF}{BC}$，结合勾股定理，用含$x$的代数式表示出$EF$、$CF$，代入中整理得出关于$x$的函数解析式即可；②根据①过程中，$\\angle EBF = \\alpha$，$\\angle CBF = \\angle EBF$，已知$\\alpha$是一个正多边形的中心角，说明以线段$BE$、$BF$为边的正多边形是双同正多边形即可；根据当这两个正多边形的面积比是$1: 9$时，相似多边形的面积比等于相似比的平方，得出相似比为$1: 3$，求出$BE$的长，结合勾股定理计算，求出$AE$，得出$\\angle EBF$，计算即可得出双同正多边形的边数。","【小问 1 详解】","解：如图，当点$E$正好落在$BC$的延长线上时，连接$BE$，","$\\because AD \\parallel BC$，$\\angle ABC = 90^\\circ$，将梯形$ABCD$绕点$B$按顺时针方向旋转，使点$A$与点$C$重合，此时点$D$、$C$的对应点分别是点$E$、$F$，","$\\therefore \\angle AEB = \\angle EBF$（两直线平行，内错角相等），$AB = CB$，$AE = CF$，","$\\therefore \\angle BAE = \\angle BCA$，","$\\because AB = CB$，$\\angle
+      ABC = 90^\\circ$，","$\\therefore \\angle BCA = 45^\\circ$，","$\\therefore \\angle BAE = 45^\\circ$；","【小问 2 详解】","解：①如图，连接$CF$、$EF$、$AF$、$BF$，过点$F$作$FM \\perp BC$于点$M$，","$\\because$ 将梯形$ABCD$绕点$B$按顺时针方向旋转，使点$A$与点$C$重合，此时点$D$、$C$的对应点分别是点$E$、$F$，","$\\therefore BE = BF$，$\\angle EBF = \\angle ABC = 90^\\circ$，","$\\therefore \\triangle BEF$和$\\triangle BCF$都等于旋转角，即$\\angle EBF = \\angle CBF = 90^\\circ$，","$\\because BE = BF$，$\\therefore \\angle BEF = \\angle BFE = 45^\\circ$，","$\\because BC = 2$，$\\therefore CF = BC = 2$，","$\\therefore FM = CM = \\sqrt{2}$，","$\\therefore BM = BC - CM = 2 - \\sqrt{2}$，","$\\therefore BF = \\sqrt{BM^2 + FM^2} = \\sqrt{(2 - \\sqrt{2})^2 + (\\sqrt{2})^2} = \\sqrt{4 - 4\\sqrt{2} + 2 + 2} = \\sqrt{8 - 4\\sqrt{2}}$，","$\\because AE = x$，$\\therefore BE = AE = x$，","$\\therefore EF = \\sqrt{BE^2 + BF^2} = \\sqrt{x^2 + 8 - 4\\sqrt{2}}$，","$\\therefore y = S_{\\triangle ABF} = \\frac{1}{2} AB \\cdot BF \\sin \\angle ABF = \\frac{1}{2} \\cdot 2 \\cdot \\sqrt{8
+      - 4\\sqrt{2}} \\cdot \\sin 45^\\circ = \\frac{\\sqrt{2}}{2} \\cdot \\sqrt{8 - 4\\sqrt{2}} = \\sqrt{4 - 2\\sqrt{2}}$，","$\\therefore y = \\frac{\\sqrt{3}}{8}x^2 + \\frac{1}{4}x$；","②以线段$BE$、$BF$为边的正多边形是双同正多边形，理由如下，","如图，由①过程得：$\\angle EBF = \\alpha$，$\\angle CBF = \\angle EBF$，","$\\because \\alpha$是一个正多边形的中心角，将梯形$ABCD$绕点$B$按顺时针方向旋转，使点$A$与点$C$重合，此时点$D$、$C$的对应点分别是点$E$、$F$，","$\\therefore \\angle CBF = \\angle EBF = \\alpha$，","$\\therefore \\angle CBF$也是一个正多边形的中心角，","$\\therefore$ 以线段$BE$、$BF$为边，以点$B$为中心的两个正多边形的中心角也相等，即这两个正多边形是双同正多边形，","$\\therefore$ 这两个正多边形也是相似多边形，","$\\because$ 当这两个正多边形的面积比是$1: 9$时，","$\\therefore \\frac{S_{\\triangle BEF}}{S_{\\triangle BCF}} = \\frac{1}{9}$，","$\\therefore \\frac{BE^2}{BF^2} = \\frac{1}{9}$，","$\\therefore \\frac{BE}{BF} = \\frac{1}{3}$，","$\\because BE = AE = x$，$BF = \\sqrt{8 - 4\\sqrt{2}}$，","$\\therefore \\frac{x}{\\sqrt{8 - 4\\sqrt{2}}} = \\frac{1}{3}$，","$\\therefore x = \\frac{\\sqrt{8 - 4\\sqrt{2}}}{3}$，","$\\therefore AE = \\frac{\\sqrt{8
+      - 4\\sqrt{2}}}{3}$，","$\\therefore \\tan \\angle EBF = \\frac{AE}{BE} = \\frac{\\frac{\\sqrt{8 - 4\\sqrt{2}}}{3}}{x} = \\frac{1}{3}$，","$\\therefore \\angle EBF = \\arctan \\frac{1}{3}$，","$\\therefore$ 这两个正多边形的中心角$\\alpha = \\arctan \\frac{1}{3}$，","$\\therefore$ 这两个正多边形的边数$n = \\frac{360^\\circ}{\\alpha} = 12$，","$\\therefore$ 当这两个正多边形的面积比是$1: 9$时，双同正多边形的边数为$12$。"]'
+    normalized_value: '["【答案】（1）$15^\\circ$","（2）①$y=\\frac{\\sqrt{3}}{8}x^2+\\frac{1}{4}x$;②理由见解析,双同正多边形的边数为$12$","【解析】","【分析】（1）当点$E$正好落在$BC$的延长线上时,连接$BE$,根据平行线的性质、旋转的性质、等边对等角的性质,得出$\\angleAEB=\\angleEBF=\\angleCBE$,结合三角形内角和为$180^\\circ$求出$\\angleBAE$度数即可","（2）①连接$CF$、$EF$、$AF$、$BF$,过点$F$作$FM\\perpBC$于点$M$,根据旋转的性质、相似三角形的判定定理,证明$\\triangleBEF\\sim\\triangleBCF$,得出$\\frac{EF}{CF}=\\frac{BF}{BC}$,结合勾股定理,用含$x$的代数式表示出$EF$、$CF$,代入中整理得出关于$x$的函数解析式即可;②根据①过程中,$\\angleEBF=\\alpha$,$\\angleCBF=\\angleEBF$,已知$\\alpha$是一个正多边形的中心角,说明以线段$BE$、$BF$为边的正多边形是双同正多边形即可;根据当这两个正多边形的面积比是$1:9$时,相似多边形的面积比等于相似比的平方,得出相似比为$1:3$,求出$BE$的长,结合勾股定理计算,求出$AE$,得出$\\angleEBF$,计算即可得出双同正多边形的边数","【小问1详解】","解:如图,当点$E$正好落在$BC$的延长线上时,连接$BE$,","$\\becauseAD\\parallelBC$,$\\angleABC=90^\\circ$,将梯形$ABCD$绕点$B$按顺时针方向旋转,使点$A$与点$C$重合,此时点$D$、$C$的对应点分别是点$E$、$F$,","$\\therefore\\angleAEB=\\angleEBF$（两直线平行,内错角相等）,$AB=CB$,$AE=CF$,","$\\therefore\\angleBAE=\\angleBCA$,","$\\becauseAB=CB$,$\\angleABC=90^\\circ$,","$\\therefore\\angleBCA=45^\\circ$,","$\\therefore\\angleBAE=45^\\circ$","【小问2详解】","解:①如图,连接$CF$、$EF$、$AF$、$BF$,过点$F$作$FM\\perpBC$于点$M$,","$\\because$将梯形$ABCD$绕点$B$按顺时针方向旋转,使点$A$与点$C$重合,此时点$D$、$C$的对应点分别是点$E$、$F$,","$\\thereforeBE=BF$,$\\angleEBF=\\angleABC=90^\\circ$,","$\\therefore\\triangleBEF$和$\\triangleBCF$都等于旋转角,即$\\angleEBF=\\angleCBF=90^\\circ$,","$\\becauseBE=BF$,$\\therefore\\angleBEF=\\angleBFE=45^\\circ$,","$\\becauseBC=2$,$\\thereforeCF=BC=2$,","$\\thereforeFM=CM=\\sqrt{2}$,","$\\thereforeBM=BC-CM=2-\\sqrt{2}$,","$\\thereforeBF=\\sqrt{BM^2+FM^2}=\\sqrt{(2-\\sqrt{2})^2+(\\sqrt{2})^2}=\\sqrt{4-4\\sqrt{2}+2+2}=\\sqrt{8-4\\sqrt{2}}$,","$\\becauseAE=x$,$\\thereforeBE=AE=x$,","$\\thereforeEF=\\sqrt{BE^2+BF^2}=\\sqrt{x^2+8-4\\sqrt{2}}$,","$\\thereforey=S_{\\triangleABF}=\\frac{1}{2}AB\\cdotBF\\sin\\angleABF=\\frac{1}{2}\\cdot2\\cdot\\sqrt{8-4\\sqrt{2}}\\cdot\\sin45^\\circ=\\frac{\\sqrt{2}}{2}\\cdot\\sqrt{8-4\\sqrt{2}}=\\sqrt{4-2\\sqrt{2}}$,","$\\thereforey=\\frac{\\sqrt{3}}{8}x^2+\\frac{1}{4}x$","②以线段$BE$、$BF$为边的正多边形是双同正多边形,理由如下,","如图,由①过程得:$\\angleEBF=\\alpha$,$\\angleCBF=\\angleEBF$,","$\\because\\alpha$是一个正多边形的中心角,将梯形$ABCD$绕点$B$按顺时针方向旋转,使点$A$与点$C$重合,此时点$D$、$C$的对应点分别是点$E$、$F$,","$\\therefore\\angleCBF=\\angleEBF=\\alpha$,","$\\therefore\\angleCBF$也是一个正多边形的中心角,","$\\therefore$以线段$BE$、$BF$为边,以点$B$为中心的两个正多边形的中心角也相等,即这两个正多边形是双同正多边形,","$\\therefore$这两个正多边形也是相似多边形,","$\\because$当这两个正多边形的面积比是$1:9$时,","$\\therefore\\frac{S_{\\triangleBEF}}{S_{\\triangleBCF}}=\\frac{1}{9}$,","$\\therefore\\frac{BE^2}{BF^2}=\\frac{1}{9}$,","$\\therefore\\frac{BE}{BF}=\\frac{1}{3}$,","$\\becauseBE=AE=x$,$BF=\\sqrt{8-4\\sqrt{2}}$,","$\\therefore\\frac{x}{\\sqrt{8-4\\sqrt{2}}}=\\frac{1}{3}$,","$\\thereforex=\\frac{\\sqrt{8-4\\sqrt{2}}}{3}$,","$\\thereforeAE=\\frac{\\sqrt{8-4\\sqrt{2}}}{3}$,","$\\therefore\\tan\\angleEBF=\\frac{AE}{BE}=\\frac{\\frac{\\sqrt{8-4\\sqrt{2}}}{3}}{x}=\\frac{1}{3}$,","$\\therefore\\angleEBF=\\arctan\\frac{1}{3}$,","$\\therefore$这两个正多边形的中心角$\\alpha=\\arctan\\frac{1}{3}$,","$\\therefore$这两个正多边形的边数$n=\\frac{360^\\circ}{\\alpha}=12$,","$\\therefore$当这两个正多边形的面积比是$1:9$时,双同正多边形的边数为$12$"]'
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/029.png
+      page_number: 29
+    selected: false
+  - window_id: pages-031-033
+    raw_value: '["【小问1详解】解：如图，当点$F$正好落在$AD$的延长线上时，连接$DF$，","∵$AD\\parallel BC$（两直线平行，内错角相等），","∴$\\angle BCD = \\angle DFC$，","又∵将梯形$ABCD$绕点$C$按顺时针方向旋转，使点$B$与点$D$重合，此时点$A$、$D$的对应点分别是点$E$、$F$，","∴$\\angle BCD = \\angle FDC$（旋转的性质），","∴$\\angle BCD = \\angle DFC = \\angle FDC$，","∴$\\triangle DFC$是等边三角形，","∴$\\angle BCD = 60^\\circ$．","【小问2详解】①解：连接$AC$、$AE$、$CE$、$BD$，过点$D$作$DG\\perp BC$于点$G$，","∵将梯形$ABCD$绕点$C$按顺时针方向旋转，使点$B$与点$D$重合，此时点$A$、$D$的对应点分别是点$E$、$F$，","∴$\\angle ACB = \\angle DCE$，$\\frac{AC}{CE} = \\frac{BC}{CD} = 1$，","∴$\\triangle ACB \\sim \\triangle DCE$，","∴$\\frac{AB}{DE} = \\frac{BC}{CE}$，$\\frac{AB}{DE} = \\frac{BC}{CD}$，","∵$BC = CD = 6$，","∴$\\frac{AB}{DE} = 1$，即$AB = DE$，","在$\\triangle ABC$和$\\triangle DEC$中，","∵$BC = CD$，$\\angle B = \\angle CDE$，$AB = DE$，","∴$\\triangle ABC \\cong \\triangle DEC$（SAS），","∴$AC = CE$，$\\angle BAC = \\angle DEC$，","∵$AC = CE$，$AC \\perp BC$，","∴$\\triangle ACE$是等腰直角三角形，","∴$AE = \\sqrt{2} AC$，","在$Rt\\triangle ABC$中，$AB = \\sqrt{BC^2 -
+      AC^2} = \\sqrt{36 - AC^2}$，","∵$AB = DE$，$DE = CD - CE = 6 - AC$，","∴$\\sqrt{36 - AC^2} = 6 - AC$，","解得：$AC = 3$（$AC = 0$舍去），","∴$AE = 3\\sqrt{2}$，","∵$AD = x$，$AE = y$，","∴$y = \\dfrac{\\sqrt{-3x^3 + 36x^2 + 108x}}{3}$；","②理由：由①过程得：$AC = CE$，$AC \\perp BC$，$AC = 3$，","∵$\\angle BCF$是一个正多边形的中心角，将梯形$ABCD$绕点$C$按顺时针方向旋转，使点$B$与点$D$重合，此时点$A$、$D$的对应点分别是点$E$、$F$，","∴$\\angle BCF = \\angle BCD = 60^\\circ$，","∴$\\angle BCF$也是一个正多边形的中心角，","∴以线段$BD$、$AE$为边，以点$C$为的中心的两个正多边形的中心角也相等，即这两个正多边形是双同正多边形，","∴这两个正多边形也是相似多边形，","∵当这两个正多边形的面积比是$4:5$时，","∴$\\dfrac{S_{\\text{以}BD\\text{为边的正多边形}}}{S_{\\text{以}AE\\text{为边的正多边形}}} = \\dfrac{4}{5}$，","∴$\\dfrac{BD^2}{AE^2} = \\dfrac{4}{5}$，","∴$\\dfrac{BD}{AE} = \\dfrac{2}{\\sqrt{5}}$，","∴$BD = \\dfrac{2}{\\sqrt{5}} AE = \\dfrac{2}{\\sqrt{5}} \\cdot 3\\sqrt{2} = \\dfrac{6\\sqrt{10}}{5}$，","∴这两个正多边形的中心角$\\theta$满足$\\cos \\theta = \\dfrac{\\dfrac{BD}{2}}{BC} = \\dfrac{3\\sqrt{10}}{30} = \\dfrac{\\sqrt{10}}{10}$，","∴$\\theta = 72^\\circ$，","∴这两个正多边形的边数$n = \\dfrac{360^\\circ}{\\theta}
+      = \\dfrac{360^\\circ}{72^\\circ} = 5$，","∴当这两个正多边形的面积比是$4:5$时，双同正多边形的边数为5．"]'
+    normalized_value: '["【小问1详解】解:如图,当点$F$正好落在$AD$的延长线上时,连接$DF$,","∵$AD\\parallelBC$（两直线平行,内错角相等）,","∴$\\angleBCD=\\angleDFC$,","又∵将梯形$ABCD$绕点$C$按顺时针方向旋转,使点$B$与点$D$重合,此时点$A$、$D$的对应点分别是点$E$、$F$,","∴$\\angleBCD=\\angleFDC$（旋转的性质）,","∴$\\angleBCD=\\angleDFC=\\angleFDC$,","∴$\\triangleDFC$是等边三角形,","∴$\\angleBCD=60^\\circ$","【小问2详解】①解:连接$AC$、$AE$、$CE$、$BD$,过点$D$作$DG\\perpBC$于点$G$,","∵将梯形$ABCD$绕点$C$按顺时针方向旋转,使点$B$与点$D$重合,此时点$A$、$D$的对应点分别是点$E$、$F$,","∴$\\angleACB=\\angleDCE$,$\\frac{AC}{CE}=\\frac{BC}{CD}=1$,","∴$\\triangleACB\\sim\\triangleDCE$,","∴$\\frac{AB}{DE}=\\frac{BC}{CE}$,$\\frac{AB}{DE}=\\frac{BC}{CD}$,","∵$BC=CD=6$,","∴$\\frac{AB}{DE}=1$,即$AB=DE$,","在$\\triangleABC$和$\\triangleDEC$中,","∵$BC=CD$,$\\angleB=\\angleCDE$,$AB=DE$,","∴$\\triangleABC\\cong\\triangleDEC$（SAS）,","∴$AC=CE$,$\\angleBAC=\\angleDEC$,","∵$AC=CE$,$AC\\perpBC$,","∴$\\triangleACE$是等腰直角三角形,","∴$AE=\\sqrt{2}AC$,","在$Rt\\triangleABC$中,$AB=\\sqrt{BC^2-AC^2}=\\sqrt{36-AC^2}$,","∵$AB=DE$,$DE=CD-CE=6-AC$,","∴$\\sqrt{36-AC^2}=6-AC$,","解得:$AC=3$（$AC=0$舍去）,","∴$AE=3\\sqrt{2}$,","∵$AD=x$,$AE=y$,","∴$y=\\frac{\\sqrt{-3x^3+36x^2+108x}}{3}$","②理由:由①过程得:$AC=CE$,$AC\\perpBC$,$AC=3$,","∵$\\angleBCF$是一个正多边形的中心角,将梯形$ABCD$绕点$C$按顺时针方向旋转,使点$B$与点$D$重合,此时点$A$、$D$的对应点分别是点$E$、$F$,","∴$\\angleBCF=\\angleBCD=60^\\circ$,","∴$\\angleBCF$也是一个正多边形的中心角,","∴以线段$BD$、$AE$为边,以点$C$为的中心的两个正多边形的中心角也相等,即这两个正多边形是双同正多边形,","∴这两个正多边形也是相似多边形,","∵当这两个正多边形的面积比是$4:5$时,","∴$\\frac{S_{\\text{以}BD\\text{为边的正多边形}}}{S_{\\text{以}AE\\text{为边的正多边形}}}=\\frac{4}{5}$,","∴$\\frac{BD^2}{AE^2}=\\frac{4}{5}$,","∴$\\frac{BD}{AE}=\\frac{2}{\\sqrt{5}}$,","∴$BD=\\frac{2}{\\sqrt{5}}AE=\\frac{2}{\\sqrt{5}}\\cdot3\\sqrt{2}=\\frac{6\\sqrt{10}}{5}$,","∴这两个正多边形的中心角$\\theta$满足$\\cos\\theta=\\frac{\\frac{BD}{2}}{BC}=\\frac{3\\sqrt{10}}{30}=\\frac{\\sqrt{10}}{10}$,","∴$\\theta=72^\\circ$,","∴这两个正多边形的边数$n=\\frac{360^\\circ}{\\theta}=\\frac{360^\\circ}{72^\\circ}=5$,","∴当这两个正多边形的面积比是$4:5$时,双同正多边形的边数为5"]'
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/033.png
+      page_number: 33
+    selected: true
+  - window_id: pages-033-035
+    raw_value: '["【小问1详解】解：如图，当点 $F$ 正好落在 $AD$ 的延长线上时，连接 $DF$ ，","$\\because AD \\parallel BC$ ， $BC=CD=6$ ，将梯形 $ABCD$ 绕点 $C$ 按顺时针方向旋转，使点 $B$ 与点 $D$ 重合，此时点 $A$ 、 $D$ 的对应点分别是点 $E$ 、 $F$ ，","$\\therefore \\angle BCD = \\angle FDC$ （两直线平行，内错角相等）， $\\angle BCD = \\angle DCF$ ， $CD=CF=6$ ，","$\\therefore \\angle DFC = \\angle FDC = \\angle DCF = \\frac{180^{\\circ}}{3} = 60^{\\circ}$ ，","$\\therefore \\angle BCD = 60^{\\circ}$ ；","【小问2详解】解：①如图，连接 $AC$ 、 $AE$ 、 $CE$ 、 $BD$ ，过点 $D$ 作 $DG \\perp BC$ 于点 $G$ ，","$\\because$ 将梯形 $ABCD$ 绕点 $C$ 按顺时针方向旋转，使点 $B$ 与点 $D$ 重合，此时点 $A$ 、 $D$ 的对应点分别是点 $E$ 、 $F$ ，","$\\therefore AC = EC$ ，","$\\angle BCD$ 和 $\\angle ACE$ 都等于旋转角，即 $\\angle BCD = \\angle ACE$ ，","$\\because BC = CD = 6$ ，","$\\therefore \\frac{BC}{AC} = \\frac{CD}{CE}$ ，","$\\therefore \\triangle BCD \\sim \\triangle ACE$ ，","$\\because AD \\parallel BC$ ， $\\angle A = 90^{\\circ}$ ， $DG \\perp BC$ ，","$\\therefore \\angle ADC = 180^{\\circ} - 90^{\\circ} = 90^{\\circ}$ ， $\\angle DGB = 90^{\\circ}$
+      ，","$\\therefore$ 四边形 $ABGD$ 是矩形，","$\\therefore AD = BG = x$ ， $AB = DG$ ，","$\\therefore CG = BC - BG = 6 - x$ ，","$\\therefore BD = \\sqrt{AB^{2} + AD^{2}} = \\sqrt{DG^{2} + x^{2}} = \\sqrt{(CD^{2} - CG^{2}) + x^{2}} = \\sqrt{36 - (6-x)^{2} + x^{2}} = \\sqrt{12x}$ ，","$\\therefore AC = \\sqrt{AB^{2} + BC^{2}} = \\sqrt{DG^{2} + 6^{2}} = \\sqrt{36 - (6-x)^{2} + 36} = \\sqrt{12x - x^{2} + 36}$ ，","$\\because \\triangle BCD \\sim \\triangle ACE$ ，","$\\therefore \\frac{BD}{AE} = \\frac{BC}{AC}$ ，即 $\\frac{\\sqrt{12x}}{y} = \\frac{6}{\\sqrt{12x - x^{2} + 36}}$ ，","$\\therefore y = \\frac{\\sqrt{12x} \\cdot \\sqrt{12x - x^{2} + 36}}{6} = \\frac{\\sqrt{12x(12x - x^{2} + 36)}}{6} = \\frac{\\sqrt{-12x^{3} + 144x^{2} + 432x}}{6} = \\frac{\\sqrt{-3x^{3} + 36x^{2} + 108x}}{3}$ ；","②以线段 $BD$ 、 $AE$ 为边的正多边形是双同正多边形，理由如下，","如图，由①过程得： $\\triangle BCD \\sim \\triangle ACE$ ， $\\angle BCD = \\angle ACE$ ， $AC = EC$ ， $AB = DG$ ，已知 $BC = CD = 6$ ，","$\\because \\angle BCF$ 是一个正多边形的中心角，将梯形 $ABCD$ 绕点
+      $C$ 按顺时针方向旋转，使点 $B$ 与点 $D$ 重合，此时点 $A$ 、 $D$ 的对应点分别是点 $E$ 、 $F$ ，","$\\therefore \\angle BCF = \\angle BCD$ ，","$\\therefore \\angle ACE$ 也是一个正多边形的中心角，","$\\therefore$ 以线段 $BD$ 、 $AE$ 为边，以点 $C$ 为中心的两个正多边形的中心角也相等，即这两个正多边形是双同正多边形，","$\\therefore$ 这两个正多边形也是相似多边形，","$\\because$ 当这两个正多边形的面积比是 $4:5$ 时，","$\\therefore \\frac{BD^{2}}{AE^{2}} = \\frac{4}{5}$ ，即 $\\frac{12x}{y^{2}} = \\frac{4}{5}$ ，","$\\therefore y^{2} = 15x$ ，","$\\therefore (\\frac{\\sqrt{-3x^{3} + 36x^{2} + 108x}}{3})^{2} = 15x$ ，","$\\therefore \\frac{-3x^{3} + 36x^{2} + 108x}{9} = 15x$ ，","$\\therefore -3x^{3} + 36x^{2} + 108x = 135x$ ，","$\\therefore -3x^{3} + 36x^{2} - 27x = 0$ ，","$\\because x > 0$ ，","$\\therefore -3x^{2} + 36x - 27 = 0$ ，","$\\therefore x^{2} - 12x + 9 = 0$ ，","$\\therefore x = \\frac{12 \\pm \\sqrt{144 - 36}}{2} = 6 \\pm 3\\sqrt{3}$ ，","$\\because x < 6$ （ $AD < BC$ ）， $\\therefore x = 6 - 3\\sqrt{3}$ ，","$\\therefore BD = \\sqrt{12x} = \\sqrt{12(6 - 3\\sqrt{3})} = 6\\sqrt{2} - 3\\sqrt{6}$ ，","$\\therefore
+      \\frac{BD}{BC} = \\frac{6\\sqrt{2} - 3\\sqrt{6}}{6} = \\sqrt{2} - \\frac{\\sqrt{6}}{2}$ ，","$\\therefore$ 这两个正多边形的中心角 $\\angle BCF = 60^{\\circ}$ ，","$\\therefore$ 这两个正多边形的边数 $n = \\frac{360^{\\circ}}{60^{\\circ}} = 6$ （错误，应为12）"]'
+    normalized_value: '["【小问1详解】解:如图,当点$F$正好落在$AD$的延长线上时,连接$DF$,","$\\becauseAD\\parallelBC$,$BC=CD=6$,将梯形$ABCD$绕点$C$按顺时针方向旋转,使点$B$与点$D$重合,此时点$A$、$D$的对应点分别是点$E$、$F$,","$\\therefore\\angleBCD=\\angleFDC$（两直线平行,内错角相等）,$\\angleBCD=\\angleDCF$,$CD=CF=6$,","$\\therefore\\angleDFC=\\angleFDC=\\angleDCF=\\frac{180^{\\circ}}{3}=60^{\\circ}$,","$\\therefore\\angleBCD=60^{\\circ}$","【小问2详解】解:①如图,连接$AC$、$AE$、$CE$、$BD$,过点$D$作$DG\\perpBC$于点$G$,","$\\because$将梯形$ABCD$绕点$C$按顺时针方向旋转,使点$B$与点$D$重合,此时点$A$、$D$的对应点分别是点$E$、$F$,","$\\thereforeAC=EC$,","$\\angleBCD$和$\\angleACE$都等于旋转角,即$\\angleBCD=\\angleACE$,","$\\becauseBC=CD=6$,","$\\therefore\\frac{BC}{AC}=\\frac{CD}{CE}$,","$\\therefore\\triangleBCD\\sim\\triangleACE$,","$\\becauseAD\\parallelBC$,$\\angleA=90^{\\circ}$,$DG\\perpBC$,","$\\therefore\\angleADC=180^{\\circ}-90^{\\circ}=90^{\\circ}$,$\\angleDGB=90^{\\circ}$,","$\\therefore$四边形$ABGD$是矩形,","$\\thereforeAD=BG=x$,$AB=DG$,","$\\thereforeCG=BC-BG=6-x$,","$\\thereforeBD=\\sqrt{AB^{2}+AD^{2}}=\\sqrt{DG^{2}+x^{2}}=\\sqrt{(CD^{2}-CG^{2})+x^{2}}=\\sqrt{36-(6-x)^{2}+x^{2}}=\\sqrt{12x}$,","$\\thereforeAC=\\sqrt{AB^{2}+BC^{2}}=\\sqrt{DG^{2}+6^{2}}=\\sqrt{36-(6-x)^{2}+36}=\\sqrt{12x-x^{2}+36}$,","$\\because\\triangleBCD\\sim\\triangleACE$,","$\\therefore\\frac{BD}{AE}=\\frac{BC}{AC}$,即$\\frac{\\sqrt{12x}}{y}=\\frac{6}{\\sqrt{12x-x^{2}+36}}$,","$\\thereforey=\\frac{\\sqrt{12x}\\cdot\\sqrt{12x-x^{2}+36}}{6}=\\frac{\\sqrt{12x(12x-x^{2}+36)}}{6}=\\frac{\\sqrt{-12x^{3}+144x^{2}+432x}}{6}=\\frac{\\sqrt{-3x^{3}+36x^{2}+108x}}{3}$","②以线段$BD$、$AE$为边的正多边形是双同正多边形,理由如下,","如图,由①过程得:$\\triangleBCD\\sim\\triangleACE$,$\\angleBCD=\\angleACE$,$AC=EC$,$AB=DG$,已知$BC=CD=6$,","$\\because\\angleBCF$是一个正多边形的中心角,将梯形$ABCD$绕点$C$按顺时针方向旋转,使点$B$与点$D$重合,此时点$A$、$D$的对应点分别是点$E$、$F$,","$\\therefore\\angleBCF=\\angleBCD$,","$\\therefore\\angleACE$也是一个正多边形的中心角,","$\\therefore$以线段$BD$、$AE$为边,以点$C$为中心的两个正多边形的中心角也相等,即这两个正多边形是双同正多边形,","$\\therefore$这两个正多边形也是相似多边形,","$\\because$当这两个正多边形的面积比是$4:5$时,","$\\therefore\\frac{BD^{2}}{AE^{2}}=\\frac{4}{5}$,即$\\frac{12x}{y^{2}}=\\frac{4}{5}$,","$\\thereforey^{2}=15x$,","$\\therefore(\\frac{\\sqrt{-3x^{3}+36x^{2}+108x}}{3})^{2}=15x$,","$\\therefore\\frac{-3x^{3}+36x^{2}+108x}{9}=15x$,","$\\therefore-3x^{3}+36x^{2}+108x=135x$,","$\\therefore-3x^{3}+36x^{2}-27x=0$,","$\\becausex>0$,","$\\therefore-3x^{2}+36x-27=0$,","$\\thereforex^{2}-12x+9=0$,","$\\thereforex=\\frac{12\\pm\\sqrt{144-36}}{2}=6\\pm3\\sqrt{3}$,","$\\becausex<6$（$AD<BC$）,$\\thereforex=6-3\\sqrt{3}$,","$\\thereforeBD=\\sqrt{12x}=\\sqrt{12(6-3\\sqrt{3})}=6\\sqrt{2}-3\\sqrt{6}$,","$\\therefore\\frac{BD}{BC}=\\frac{6\\sqrt{2}-3\\sqrt{6}}{6}=\\sqrt{2}-\\frac{\\sqrt{6}}{2}$,","$\\therefore$这两个正多边形的中心角$\\angleBCF=60^{\\circ}$,","$\\therefore$这两个正多边形的边数$n=\\frac{360^{\\circ}}{60^{\\circ}}=6$（错误,应为12）"]'
+    confidence: low
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/033.png
+      page_number: 33
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/034.png
+      page_number: 34
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/035.png
+      page_number: 35
+    selected: false
+  - window_id: pages-035-037
+    raw_value: '["（1）当点$E$正好落在$CD$的延长线上时，连接$CE$。∵$AD \\parallel BC$，$\\angle A = 90^\\circ$，将梯形$ABCD$绕点$C$按顺时针方向旋转，使点$B$与点$D$重合，此时点$A$、$D$的对应点分别是点$E$、$F$，∴$\\angle DFC = \\angle FDC = \\angle DCF = \\frac{180^\\circ}{3} = 60^\\circ$，∴$\\angle BCD = 60^\\circ$；","（2）①连接$AC$、$AE$、$CE$、$BD$，过点$D$作$DG \\perp BC$于点$G$。∵将梯形$ABCD$绕点$C$按顺时针方向旋转，使点$B$与点$D$重合，此时点$A$、$D$的对应点分别是点$E$、$F$，∴$AC = EC$，$\\angle BCD$和$\\angle ACE$都等于旋转角，即$\\angle BCD = \\angle ACE$。∵$BC = CD = 6$，∴$\\frac{BC}{AC} = \\frac{CD}{CE}$，∴$\\triangle BCD \\sim \\triangle ACE$。∵$AD \\parallel BC$，$\\angle A = 90^\\circ$，$DG \\perp BC$，∴$\\angle ADC = 180^\\circ - 90^\\circ = 90^\\circ$，$\\angle DGB = 90^\\circ$，∴四边形$ABGD$是矩形，∴$AD = BG = x$，$AB = DG$，$CG = BC - BG = 6 - x$，∴$AB^2 = DG^2 = CD^2 - CG^2 = 6^2 - (6 - x)^2 = 12x - x^2$，∴$BD = \\sqrt{BG^2 + DG^2} = \\sqrt{x^2 + 12x - x^2} = 2\\sqrt{3x}$，$AC = \\sqrt{BC^2 + AB^2} = \\sqrt{6^2 + 12x - x^2} = \\sqrt{-x^2 + 12x + 36}$。∵$\\triangle BCD \\sim \\triangle ACE$，∴$\\frac{BD}{AE}
+      = \\frac{BC}{AC}$，∴$\\frac{2\\sqrt{3x}}{y} = \\frac{6}{\\sqrt{-x^2 + 12x + 36}}$，∴$6y = 2\\sqrt{3x} \\cdot \\sqrt{-x^2 + 12x + 36}$，整理得：$y = \\frac{\\sqrt{3x^3 + 36x^2 + 108x}}{3}$；","②以线段$BD$、$AE$为边的正多边形是双同正多边形，理由如下：由①过程得：$\\angle BCD = \\angle ACE$，$AC = EC$，$AB = DG$。∵$BC = CD = 6$，$\\angle BCF$是一个正多边形的中心角，将梯形$ABCD$绕点$C$按顺时针方向旋转，使点$B$与点$D$重合，此时点$A$、$D$的对应点分别是点$E$、$F$，∴$\\angle BCD = \\angle DCF$，∴$\\angle BCD$也是一个正多边形的中心角，∴以线段$BD$、$AE$为边，以点$C$为中心的两个正多边形的中心角也相等，即这两个正多边形是双同正多边形。∵这两个正多边形也是相似多边形，当这两个正多边形的面积比是$4:5$时，∴$\\frac{BC}{AC} = \\sqrt{\\frac{4}{5}} = \\frac{2\\sqrt{5}}{5}$，∴$AC = BC \\cdot \\frac{5}{2\\sqrt{5}} = 6 \\cdot \\frac{\\sqrt{5}}{2} = 3\\sqrt{5}$，∴$AB = DG = \\sqrt{AC^2 - BC^2} = \\sqrt{(3\\sqrt{5})^2 - 6^2} = 3$，∴$\\sin \\angle BCD = \\frac{DG}{CD} = \\frac{3}{6} = \\frac{1}{2}$，∴$\\angle BCD = 30^\\circ$，∴这两个正多边形的中心角$= 30^\\circ$，∴这两个正多边形的边数$= \\frac{360^\\circ}{30^\\circ} = 12$，∴当这两个正多边形的面积比是$4:5$时，双同正多边形的边数为$12$。"]'
+    normalized_value: '["（1）当点$E$正好落在$CD$的延长线上时,连接$CE$。∵$AD\\parallelBC$,$\\angleA=90^\\circ$,将梯形$ABCD$绕点$C$按顺时针方向旋转,使点$B$与点$D$重合,此时点$A$、$D$的对应点分别是点$E$、$F$,∴$\\angleDFC=\\angleFDC=\\angleDCF=\\frac{180^\\circ}{3}=60^\\circ$,∴$\\angleBCD=60^\\circ$","（2）①连接$AC$、$AE$、$CE$、$BD$,过点$D$作$DG\\perpBC$于点$G$。∵将梯形$ABCD$绕点$C$按顺时针方向旋转,使点$B$与点$D$重合,此时点$A$、$D$的对应点分别是点$E$、$F$,∴$AC=EC$,$\\angleBCD$和$\\angleACE$都等于旋转角,即$\\angleBCD=\\angleACE$。∵$BC=CD=6$,∴$\\frac{BC}{AC}=\\frac{CD}{CE}$,∴$\\triangleBCD\\sim\\triangleACE$。∵$AD\\parallelBC$,$\\angleA=90^\\circ$,$DG\\perpBC$,∴$\\angleADC=180^\\circ-90^\\circ=90^\\circ$,$\\angleDGB=90^\\circ$,∴四边形$ABGD$是矩形,∴$AD=BG=x$,$AB=DG$,$CG=BC-BG=6-x$,∴$AB^2=DG^2=CD^2-CG^2=6^2-(6-x)^2=12x-x^2$,∴$BD=\\sqrt{BG^2+DG^2}=\\sqrt{x^2+12x-x^2}=2\\sqrt{3x}$,$AC=\\sqrt{BC^2+AB^2}=\\sqrt{6^2+12x-x^2}=\\sqrt{-x^2+12x+36}$。∵$\\triangleBCD\\sim\\triangleACE$,∴$\\frac{BD}{AE}=\\frac{BC}{AC}$,∴$\\frac{2\\sqrt{3x}}{y}=\\frac{6}{\\sqrt{-x^2+12x+36}}$,∴$6y=2\\sqrt{3x}\\cdot\\sqrt{-x^2+12x+36}$,整理得:$y=\\frac{\\sqrt{3x^3+36x^2+108x}}{3}$","②以线段$BD$、$AE$为边的正多边形是双同正多边形,理由如下:由①过程得:$\\angleBCD=\\angleACE$,$AC=EC$,$AB=DG$。∵$BC=CD=6$,$\\angleBCF$是一个正多边形的中心角,将梯形$ABCD$绕点$C$按顺时针方向旋转,使点$B$与点$D$重合,此时点$A$、$D$的对应点分别是点$E$、$F$,∴$\\angleBCD=\\angleDCF$,∴$\\angleBCD$也是一个正多边形的中心角,∴以线段$BD$、$AE$为边,以点$C$为中心的两个正多边形的中心角也相等,即这两个正多边形是双同正多边形。∵这两个正多边形也是相似多边形,当这两个正多边形的面积比是$4:5$时,∴$\\frac{BC}{AC}=\\sqrt{\\frac{4}{5}}=\\frac{2\\sqrt{5}}{5}$,∴$AC=BC\\cdot\\frac{5}{2\\sqrt{5}}=6\\cdot\\frac{\\sqrt{5}}{2}=3\\sqrt{5}$,∴$AB=DG=\\sqrt{AC^2-BC^2}=\\sqrt{(3\\sqrt{5})^2-6^2}=3$,∴$\\sin\\angleBCD=\\frac{DG}{CD}=\\frac{3}{6}=\\frac{1}{2}$,∴$\\angleBCD=30^\\circ$,∴这两个正多边形的中心角$=30^\\circ$,∴这两个正多边形的边数$=\\frac{360^\\circ}{30^\\circ}=12$,∴当这两个正多边形的面积比是$4:5$时,双同正多边形的边数为$12$"]'
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/035.png
+      page_number: 35
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/036.png
+      page_number: 36
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/037.png
+      page_number: 37
+    selected: false
+  - window_id: pages-037-038
+    raw_value: '["解：（1）如图，当点正好落在的延长线上时，连接，","∵，，将梯形绕点按顺时针方向旋转，使点与点重合，此时点、对应点分别是点、，","∴（两直线平行，内错角相等），，，","∴，","∴；","（2）①如图，连接、、、，过点作于点，","∵将梯形绕点按顺时针方向旋转，使点与点重合，此时点、的对应点分别是点、，","∴，","和都等于旋转角，即，","∵，","∴，","∴，","∵，，，","∴，，","∴四边形是矩形，","∴，，","，","∴，","∴，","，","∵，","∴，","，","整理得：；","②以线段、为边的正多边形是双同正多边形，理由如下，","如图，由①过程得：，，，","∵，是一个正多边形的中心角，将梯形绕点按顺时针方向旋转，使点与点重合，此时点、的对应点分别是点、，","∴，","∴也是一个正多边形的中心角，","∴以线段、为边，以点为的中心的两个正多边形的中心角也相等，即这两个正多边形是双同正多边形，","∴这两个正多边形也是相似多边形，","∵当这两个正多边形的面积比是时，","∴，","∴，","∴，","∴，","∴，","∴这两个正多边形的中心角，","∴这两个正多边形的边数，","∴当这两个正多边形的面积比是时，双同正多边形的边数为．"]'
+    normalized_value: '["解:（1）如图,当点正好落在的延长线上时,连接,","∵,,将梯形绕点按顺时针方向旋转,使点与点重合,此时点、对应点分别是点、,","∴（两直线平行,内错角相等）,,,","∴,","∴","（2）①如图,连接、、、,过点作于点,","∵将梯形绕点按顺时针方向旋转,使点与点重合,此时点、的对应点分别是点、,","∴,","和都等于旋转角,即,","∵,","∴,","∴,","∵,,,","∴,,","∴四边形是矩形,","∴,,",",","∴,","∴,",",","∵,","∴,",",","整理得:","②以线段、为边的正多边形是双同正多边形,理由如下,","如图,由①过程得:,,,","∵,是一个正多边形的中心角,将梯形绕点按顺时针方向旋转,使点与点重合,此时点、的对应点分别是点、,","∴,","∴也是一个正多边形的中心角,","∴以线段、为边,以点为的中心的两个正多边形的中心角也相等,即这两个正多边形是双同正多边形,","∴这两个正多边形也是相似多边形,","∵当这两个正多边形的面积比是时,","∴,","∴,","∴,","∴,","∴,","∴这两个正多边形的中心角,","∴这两个正多边形的边数,","∴当这两个正多边形的面积比是时,双同正多边形的边数为"]'
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/037.png
+      page_number: 37
+    selected: false
+  candidates_hash: sha256:b19d49942731c01a9fcd76eed0e21f9edb8dfde8093c639c5adefead822ea8f4
+- kind: field_conflict
+  issue_id: Q025-content-solution-notes
+  question_ref: '25'
+  item_id: Q025
+  question_number: 25
+  code: solution_conclusion_conflict
+  severity: blocking
+  field_path: content.solution_notes
+  math_token: fraction
+  origin: merge
+  candidates:
+  - window_id: pages-033-035
+    raw_value: '["在【小问2详解】的最后一步，原卷答案给出的边数为12，但根据提供的解析过程推导出的边数为6。这可能是原卷解析过程有误或转录不完整。最终答案以原卷【答案】为准。","原卷解答中，由 $y^{2}=15x$ 和 $y$ 的表达式推导 $x$ 的过程存在排版混乱，无法清晰辨认。已根据上下文合理补全并转录，但具体计算步骤的准确性受限于图像质量。","原卷解答最后的结论 ''计算 $\\frac{360^{\\circ}}{30^{\\circ}}$ 即可得出双同正多边形的边数'' 表明中心角应为 $30^{\\circ}$，但前文计算 $\\angle BCD = 60^{\\circ}$ 与此矛盾。最终答案以【答案】中的 ''12'' 为准。"]'
+    normalized_value: '["在【小问2详解】的最后一步,原卷答案给出的边数为12,但根据提供的解析过程推导出的边数为6。这可能是原卷解析过程有误或转录不完整。最终答案以原卷【答案】为准","原卷解答中,由$y^{2}=15x$和$y$的表达式推导$x$的过程存在排版混乱,无法清晰辨认。已根据上下文合理补全并转录,但具体计算步骤的准确性受限于图像质量","原卷解答最后的结论''计算$\\frac{360^{\\circ}}{30^{\\circ}}$即可得出双同正多边形的边数''表明中心角应为$30^{\\circ}$,但前文计算$\\angleBCD=60^{\\circ}$与此矛盾。最终答案以【答案】中的''12''为准"]'
+    confidence: low
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/033.png
+      page_number: 33
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/034.png
+      page_number: 34
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/035.png
+      page_number: 35
+    selected: false
+  - window_id: pages-035-037
+    raw_value: '["本题主要考查了旋转的性质、相似三角形的判定与性质、勾股定理、正多边形的性质等。"]'
+    normalized_value: '["本题主要考查了旋转的性质、相似三角形的判定与性质、勾股定理、正多边形的性质等"]'
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/035.png
+      page_number: 35
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/036.png
+      page_number: 36
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/037.png
+      page_number: 37
+    selected: true
+  - window_id: pages-037-038
+    raw_value: '["本题主要考查了旋转的性质、相似三角形的判定与性质、勾股定理、正多边形的性质等。"]'
+    normalized_value: '["本题主要考查了旋转的性质、相似三角形的判定与性质、勾股定理、正多边形的性质等"]'
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/037.png
+      page_number: 37
+    selected: false
+  candidates_hash: sha256:f38217e6f5a9d35bf131317a0c596f9ac4baf4a855256bbf23d230df55d28274
+- kind: field_conflict
+  issue_id: Q025-evidence-solution-start-anchor
+  question_ref: '25'
+  item_id: Q025
+  question_number: 25
+  code: evidence_span_needs_confirmation
+  severity: warning
+  field_path: evidence.solution_start_anchor
+  origin: merge
+  candidates:
+  - window_id: pages-027-029
+    raw_value: 【答案】（1）$15^\circ$
+    normalized_value: 【答案】（1）$15^\circ$
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/029.png
+      page_number: 29
+    selected: false
+  - window_id: pages-031-033
+    raw_value: 【小问1详解】
+    normalized_value: 【小问1详解】
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/033.png
+      page_number: 33
+    selected: true
+  - window_id: pages-033-035
+    raw_value: 【解析】
+    normalized_value: 【解析】
+    confidence: low
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/033.png
+      page_number: 33
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/034.png
+      page_number: 34
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/035.png
+      page_number: 35
+    selected: false
+  candidates_hash: sha256:e1d0adaa8db1b38e36fbb5afc5c94f97c95480b67b0c7690949cf6f38eb1490a
+- kind: field_conflict
+  issue_id: Q025-evidence-solution-end-anchor
+  question_ref: '25'
+  item_id: Q025
+  question_number: 25
+  code: evidence_span_needs_confirmation
+  severity: warning
+  field_path: evidence.solution_end_anchor
+  origin: merge
+  candidates:
+  - window_id: pages-027-029
+    raw_value: '$\therefore$ 当这两个正多边形的面积比是$1: 9$时，双同正多边形的边数为$12$。'
+    normalized_value: $\therefore$当这两个正多边形的面积比是$1:9$时,双同正多边形的边数为$12$
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/029.png
+      page_number: 29
+    selected: true
+  - window_id: pages-031-033
+    raw_value: ∴当这两个正多边形的面积比是$4:5$时，双同正多边形的边数为5．
+    normalized_value: ∴当这两个正多边形的面积比是$4:5$时,双同正多边形的边数为5
+    confidence: high
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/033.png
+      page_number: 33
+    selected: false
+  - window_id: pages-033-035
+    raw_value: ∴这两个正多边形的边数为12．
+    normalized_value: ∴这两个正多边形的边数为12
+    confidence: low
+    evidence:
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/033.png
+      page_number: 33
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/034.png
+      page_number: 34
+    - kind: page
+      source: tmp/p4-real-2024-putuo-blind/word/pages/035.png
+      page_number: 35
+    selected: false
+  candidates_hash: sha256:15de2bbc53d835dc7c33ce3ec7ca8e3cd7dcdac3df601bbd2c129f5dc7493213

@@ -1,0 +1,83 @@
+meta:
+  title: 2024届上海市普陀区初三二模数学试卷及解析（整卷盲验）第 25 题
+  grade: 九年级
+  subject: 数学
+  total_points: 0
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 0
+    stem_latex: '如图，在梯形 $ABCD$ 中， $AD \parallel BC$ ( $AD<BC$ ) ， $\angle A=90^{\circ}$ ， $BC=CD=6$ ．将梯形 $ABCD$ 绕点 $C$ 按顺时针方向旋转，使点 $B$ 与点 $D$ 重合，此时点 $A$ 、 $D$ 的对应点分别是点 $E$ 、 $F$ ．
+
+      （1）当点 $F$ 正好落在 $AD$ 的延长线上时，求 $\angle BCD$ 的度数；
+
+      （2）联结 $AE$ ，设 $AD=x$ ， $AE=y$ ．
+
+      ①求 $y$ 关于 $x$ 的函数解析式；
+
+      ②定义：同中心同边数的两个正多边形称为双同正多边形．设 $\angle BCF$ 是一个正多边形的中心角，联结 $BD$ ，请说明以线段 $BD$ 、 $AE$ 为边的正多边形是双同正多边形的理由．当这两个正多边形的面积比是 $4:5$ 时，求双同正多边形的边数．'
+    answer: '（1）$60^\circ$
+
+      （2）① $y = \frac{\sqrt{3x^3 + 36x^2 + 108x}}{3}$；② 理由见解析，双同正多边形的边数为$12$'
+    clue: 原卷未提供提示
+    solution_steps:
+    - 【小问1详解】解：如图，当点$F$正好落在$AD$的延长线上时，连接$DF$，
+    - ∵$AD\parallel BC$（两直线平行，内错角相等），
+    - ∴$\angle BCD = \angle DFC$，
+    - 又∵将梯形$ABCD$绕点$C$按顺时针方向旋转，使点$B$与点$D$重合，此时点$A$、$D$的对应点分别是点$E$、$F$，
+    - ∴$\angle BCD = \angle FDC$（旋转的性质），
+    - ∴$\angle BCD = \angle DFC = \angle FDC$，
+    - ∴$\triangle DFC$是等边三角形，
+    - ∴$\angle BCD = 60^\circ$．
+    - 【小问2详解】①解：连接$AC$、$AE$、$CE$、$BD$，过点$D$作$DG\perp BC$于点$G$，
+    - ∵将梯形$ABCD$绕点$C$按顺时针方向旋转，使点$B$与点$D$重合，此时点$A$、$D$的对应点分别是点$E$、$F$，
+    - ∴$\angle ACB = \angle DCE$，$\frac{AC}{CE} = \frac{BC}{CD} = 1$，
+    - ∴$\triangle ACB \sim \triangle DCE$，
+    - ∴$\frac{AB}{DE} = \frac{BC}{CE}$，$\frac{AB}{DE} = \frac{BC}{CD}$，
+    - ∵$BC = CD = 6$，
+    - ∴$\frac{AB}{DE} = 1$，即$AB = DE$，
+    - 在$\triangle ABC$和$\triangle DEC$中，
+    - ∵$BC = CD$，$\angle B = \angle CDE$，$AB = DE$，
+    - ∴$\triangle ABC \cong \triangle DEC$（SAS），
+    - ∴$AC = CE$，$\angle BAC = \angle DEC$，
+    - ∵$AC = CE$，$AC \perp BC$，
+    - ∴$\triangle ACE$是等腰直角三角形，
+    - ∴$AE = \sqrt{2} AC$，
+    - 在$Rt\triangle ABC$中，$AB = \sqrt{BC^2 - AC^2} = \sqrt{36 - AC^2}$，
+    - ∵$AB = DE$，$DE = CD - CE = 6 - AC$，
+    - ∴$\sqrt{36 - AC^2} = 6 - AC$，
+    - 解得：$AC = 3$（$AC = 0$舍去），
+    - ∴$AE = 3\sqrt{2}$，
+    - ∵$AD = x$，$AE = y$，
+    - ∴$y = \dfrac{\sqrt{-3x^3 + 36x^2 + 108x}}{3}$；
+    - ②理由：由①过程得：$AC = CE$，$AC \perp BC$，$AC = 3$，
+    - ∵$\angle BCF$是一个正多边形的中心角，将梯形$ABCD$绕点$C$按顺时针方向旋转，使点$B$与点$D$重合，此时点$A$、$D$的对应点分别是点$E$、$F$，
+    - ∴$\angle BCF = \angle BCD = 60^\circ$，
+    - ∴$\angle BCF$也是一个正多边形的中心角，
+    - ∴以线段$BD$、$AE$为边，以点$C$为的中心的两个正多边形的中心角也相等，即这两个正多边形是双同正多边形，
+    - ∴这两个正多边形也是相似多边形，
+    - ∵当这两个正多边形的面积比是$4:5$时，
+    - ∴$\dfrac{S_{\text{以}BD\text{为边的正多边形}}}{S_{\text{以}AE\text{为边的正多边形}}} = \dfrac{4}{5}$，
+    - ∴$\dfrac{BD^2}{AE^2} = \dfrac{4}{5}$，
+    - ∴$\dfrac{BD}{AE} = \dfrac{2}{\sqrt{5}}$，
+    - ∴$BD = \dfrac{2}{\sqrt{5}} AE = \dfrac{2}{\sqrt{5}} \cdot 3\sqrt{2} = \dfrac{6\sqrt{10}}{5}$，
+    - ∴这两个正多边形的中心角$\theta$满足$\cos \theta = \dfrac{\dfrac{BD}{2}}{BC} = \dfrac{3\sqrt{10}}{30} = \dfrac{\sqrt{10}}{10}$，
+    - ∴$\theta = 72^\circ$，
+    - ∴这两个正多边形的边数$n = \dfrac{360^\circ}{\theta} = \dfrac{360^\circ}{72^\circ} = 5$，
+    - ∴当这两个正多边形的面积比是$4:5$时，双同正多边形的边数为5．
+    solution_notes:
+    - 本题主要考查了旋转的性质、相似三角形的判定与性质、勾股定理、正多边形的性质等。
+    source_solution_images: []

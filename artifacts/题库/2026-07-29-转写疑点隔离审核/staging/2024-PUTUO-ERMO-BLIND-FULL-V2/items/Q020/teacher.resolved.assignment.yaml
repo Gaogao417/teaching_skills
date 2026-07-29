@@ -1,0 +1,35 @@
+meta:
+  title: 2024届上海市普陀区初三二模数学试卷及解析（整卷盲验）第 20 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q020
+    points: 10
+    stem_latex: 解方程：$\frac{6x}{x^2-9} + \frac{x}{x+3} = 2$．
+    answer: $x = 6$
+    clue: 原卷未提供提示
+    solution_steps:
+    - 方程两边都乘以 $(x+3)(x-3)$ 得
+    - $6x + x(x-3) = 2(x+3)(x-3)$，
+    - 整理得，$x^2 - 3x - 18 = 0$，
+    - $(x-6)(x+3) = 0$
+    - 解得，$x_1 = 6$, $x_2 = -3$，
+    - 检验：当 $x = 6$ 时，$(x+3)(x-3) \neq 0$，所以，$x = 6$ 是分式方程的解；
+    - 当 $x = -3$ 时，$(x+3)(x-3) = 0$，所以，$x = -3$ 是增根，
+    - 所以，分式方程的解是 $x = 6$
+    source_solution_images: []

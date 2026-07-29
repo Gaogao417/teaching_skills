@@ -1,0 +1,47 @@
+meta:
+  title: 2024届上海市普陀区初三二模数学试卷及解析（整卷盲验）第 6 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 选择题
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q006
+    points: 4
+    stem_latex: 如图，在 $\triangle ABC$ 中，$\angle ACB = 90^\circ$，$G$ 是 $\triangle ABC$ 的重心，点 $D$ 在边 $BC$ 上，$DG \perp GC$，如果 $BD = 5$，$CD = 3$，那么 $\dfrac{CG}{BC}$ 的值是（    ）
+    choices:
+    - $\dfrac{\sqrt{2}}{2}$
+    - $\dfrac{\sqrt{2}}{3}$
+    - $\dfrac{\sqrt{2}}{5}$
+    - $\dfrac{\sqrt{2}}{4}$
+    answer: D
+    clue: 原卷未提供提示
+    solution_steps:
+    - 延长 $CG$ 交 $AB$ 于点 $E$，连接 $AG$ 交 $CB$ 于点 $F$。
+    - $\because G$ 是 $\triangle ABC$ 的重心，点 $D$ 在边 $BC$ 上，
+    - $\therefore AE = EB$，$BF = FC = \frac{1}{2} BC = \frac{1}{2}(BD + CD) = 4$。
+    - $\therefore EF \parallel AC$，
+    - $\therefore \triangle GEF \sim \triangle GAC$，
+    - $\therefore \frac{EG}{CG} = \frac{EF}{AC} = \frac{1}{2}$。
+    - 设 $EG = a$，则 $CG = 2a$，$CE = 3a$。
+    - $\because EF \parallel AC$，$\angle ACB = 90^{\circ}$，
+    - $\therefore EF \perp BC$，
+    - $\therefore \cos \angle DCG = \cos \angle ECF$，即 $\frac{CD}{CG} = \frac{FC}{EC}$，
+    - $\therefore \frac{3}{2a} = \frac{4}{3a}$？ 修正：应为 $\frac{CD}{CG} = \frac{FC}{EC}$ 即 $\frac{3}{2a} = \frac{4}{3a}$，解得 $a = \sqrt{2}$（负值舍去）。
+    - $\therefore CG = 2a = 2\sqrt{2}$，
+    - $\therefore \frac{CG}{BC} = \frac{2\sqrt{2}}{8} = \frac{\sqrt{2}}{4}$。
+    solution_notes:
+    - 解题步骤中利用了重心性质、相似三角形和余弦定义。
+    source_solution_images: []

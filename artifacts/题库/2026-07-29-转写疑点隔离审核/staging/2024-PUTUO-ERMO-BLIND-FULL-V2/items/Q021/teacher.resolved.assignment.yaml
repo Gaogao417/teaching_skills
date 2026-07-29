@@ -1,0 +1,54 @@
+meta:
+  title: 2024届上海市普陀区初三二模数学试卷及解析（整卷盲验）第 21 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q021
+    points: 10
+    stem_latex: '如图，在 $\triangle ABC$ 中，$\angle B = 2\angle C$，点 $D$ 在边 $BC$ 上，$AB = AD = 13$，$BC = 23$．
+
+      （1）求 $BD$ 的长；
+
+      （2）求 $\tan C$ 的值．'
+    answer: '(1) 10
+
+      (2) \frac{2}{3}'
+    clue: 原卷未提供提示
+    solution_steps:
+    - 【小问1详解】
+    - 解：$\because AB = AD$，
+    - $\therefore \angle B = \angle ADB$，
+    - 又 $\because \angle B = 2\angle C$，
+    - $\therefore \angle ADB = 2\angle C$．
+    - $\therefore \angle DAC = \angle C$．
+    - $\therefore AD = DC$．
+    - $\therefore BC = BD + DC = BD + AD = BD + 13$．
+    - $\because BC = 23$，
+    - $\therefore BD = 10$．
+    - 【小问2详解】
+    - 过点 $A$ 作 $BC$ 的垂线，垂足为 $E$，
+    - $\because AB = AD$，$BD = 10$，
+    - $\therefore BE = DE = 5$．
+    - $\therefore CE = BC - BE = 23 - 5 = 18$．
+    - 在 $\triangle ABE$ 中，$AB = 13$，$BE = 5$，
+    - $\therefore AE = \sqrt{AB^2 - BE^2} = \sqrt{13^2 - 5^2} = 12$．
+    - $\therefore \tan C = \frac{AE}{CE} = \frac{12}{18} = \frac{2}{3}$．
+    solution_notes:
+    - 图像中第21题（1）的解答显示：$BD=23-13=10$，这与题目给出的 $CD=10$ 矛盾。疑点：$CD=10$ 可能为笔误，或图像解答有误。按图像内容转录，解答中 $AD=CD=10$。
+    - 图像中第21题（2）的解答显示：过点 $A$ 作 $BC$ 的垂线，垂足为 $M$。$\because AB=AD$，$\therefore BM=DM=\frac{1}{2} \times 10=5$。$\therefore CM=13+5=18$。在 $\text{Rt}\triangle AMD$ 中，$AM=\sqrt{13^2-5^2}=12$。$\therefore \tan C=\frac{AM}{MC}=\frac{12}{18}=\frac{2}{3}$。
+    source_solution_images: []
