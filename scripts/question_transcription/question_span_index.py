@@ -47,6 +47,7 @@ class _Strict(BaseModel):
 # --------------------------------------------------------------------------- #
 
 QuestionRole = Literal["question", "solution"]
+RoleMode = Literal["separated", "interleaved"]
 QuestionTypeHint = Literal["choice", "fillin", "problem", "short_answer", "unknown"]
 IndexStatus = Literal["ready", "needs_review", "failed"]
 IssueSeverity = Literal["warning", "blocking"]
@@ -212,6 +213,11 @@ _COMPACT_ANSWER_NUMBER_RE = re.compile(r"(?:^|[；;])\s*(\d{1,3})[．.]")
 _ANSWER_REGION_RE = re.compile(
     r"参考答案|试题答案|答案及解析|答案与解析|参考答案及解析|答案部分|答案$|解析$"
 )
+# Interleaved papers repeat these inline tags for every question.  ``【答案】``
+# starts the solution span; the remaining tags explicitly keep the running role
+# in the solution so a marker line is never mistaken for a new question.
+_INLINE_ANSWER_TAG_RE = re.compile(r"^\s*【答案】")
+_INLINE_SOLUTION_TAG_RE = re.compile(r"^\s*【(?:分析|详解|解析)】")
 # Role markers that indicate solution text (inside a question or a region).
 _SOLUTION_MARKER_RE = re.compile(r"^\s*(?:解|证明|答|解答)[：:]")
 
@@ -254,6 +260,7 @@ def build_index_from_pages(
     source_kind: Literal["docx", "pdf"],
     fingerprint: SourceFingerprint | Mapping[str, Any],
     page_number_offset: int = 0,
+    role_mode: RoleMode = "separated",
 ) -> QuestionSpanIndex:
     """Build a :class:`QuestionSpanIndex` from per-page text.
 
@@ -272,6 +279,8 @@ def build_index_from_pages(
     * ``failed`` —— no usable question sequence, page misalignment, or an
       incomplete fingerprint.
     """
+    if role_mode not in ("separated", "interleaved"):
+        raise ValueError(f"unsupported role_mode: {role_mode!r}")
     normalised_pages = _coerce_pages(pages)
     fp = _coerce_fingerprint(fingerprint, page_number_offset)
     issues: list[SpanIndexIssue] = []
@@ -323,10 +332,10 @@ def build_index_from_pages(
                 )
             )
 
-    candidates = _collect_candidates(normalised_pages)
+    candidates = _collect_candidates(normalised_pages, role_mode=role_mode)
 
     question_items, solution_items, region_issues = _assemble_regions(
-        candidates, page_numbers
+        candidates, page_numbers, role_mode=role_mode
     )
     issues.extend(region_issues)
 
@@ -352,13 +361,15 @@ def build_index_from_pages(
 # --------------------------------------------------------------------------- #
 
 
-def _collect_candidates(pages: list[PageText]) -> list[_NumberCandidate]:
+def _collect_candidates(
+    pages: list[PageText], *, role_mode: RoleMode = "separated"
+) -> list[_NumberCandidate]:
     """Walk every page line and collect question-number candidates.
 
-    The running role starts as ``question``. An answer-region heading (参考答案 /
-    答案及解析 / ...) switches the role to ``solution`` for the remainder of the
-    paper. A section title (选择题 / 填空题 / 解答题 / ...) contributes the
-    running type hint but does not change the role.
+    In ``separated`` mode the running role starts as ``question`` and an
+    answer-region heading switches it to ``solution`` for the remainder of the
+    paper. In ``interleaved`` mode a question-number line switches back to
+    ``question`` and ``【答案】`` starts that question's ``solution`` span.
 
     A solution marker (解：/ 证明：/ 答：) between two candidates on the same page
     flags the later candidate as a probable numbered solution step.
@@ -367,6 +378,8 @@ def _collect_candidates(pages: list[PageText]) -> list[_NumberCandidate]:
     role: QuestionRole = "question"
     current_hint: QuestionTypeHint = "unknown"
     saw_solution_marker_on_page = False
+    current_question_number: int | None = None
+    solution_anchor_numbers: set[int] = set()
 
     for page in pages:
         saw_solution_marker_on_page = False
@@ -375,12 +388,37 @@ def _collect_candidates(pages: list[PageText]) -> list[_NumberCandidate]:
             if not stripped:
                 continue
 
-            # An answer-region heading switches the running role for the rest of
-            # the paper. We require it to look like a heading (short or ending
-            # with heading punctuation) so body prose mentioning "答案" is ignored.
-            if role == "question" and _is_answer_heading(stripped):
-                role = "solution"
-                continue
+            if role_mode == "separated":
+                # An answer-region heading switches the running role for the
+                # rest of the paper. It must look like a heading so ordinary
+                # prose mentioning "答案" is ignored.
+                if role == "question" and _is_answer_heading(stripped):
+                    role = "solution"
+                    continue
+            else:
+                if _INLINE_ANSWER_TAG_RE.match(stripped):
+                    role = "solution"
+                    # Interleaved answers do not normally repeat ``N．``. Create
+                    # the solution anchor from the current question so the
+                    # common ``N．题干 →【答案】→【解析】`` shape is indexable.
+                    if (
+                        current_question_number is not None
+                        and current_question_number not in solution_anchor_numbers
+                    ):
+                        candidates.append(
+                            _NumberCandidate(
+                                page_number=page.page_number,
+                                line=stripped,
+                                number=current_question_number,
+                                role="solution",
+                                type_hint=current_hint,
+                            )
+                        )
+                        solution_anchor_numbers.add(current_question_number)
+                    continue
+                if _INLINE_SOLUTION_TAG_RE.match(stripped):
+                    role = "solution"
+                    continue
 
             title_hint = _match_section_title(stripped)
             if title_hint is not None:
@@ -393,11 +431,31 @@ def _collect_candidates(pages: list[PageText]) -> list[_NumberCandidate]:
                 saw_solution_marker_on_page = True
                 continue
 
-            matches = (
-                list(_COMPACT_ANSWER_NUMBER_RE.finditer(stripped))
-                if role == "solution"
-                else [match] if (match := _QUESTION_NUMBER_RE.match(stripped)) else []
-            )
+            if role_mode == "interleaved":
+                match = _QUESTION_NUMBER_RE.match(stripped)
+                matches = [match] if match else []
+                if match:
+                    matched_number = int(match.group(1))
+                    # A solution may quote its own question number. It remains
+                    # inside the current solution span; the synthetic 【答案】
+                    # anchor already represents this role and adding a duplicate
+                    # boundary here would truncate continuation pages.
+                    if (
+                        role == "solution"
+                        and matched_number == current_question_number
+                    ):
+                        continue
+                    role = "question"
+                    current_question_number = matched_number
+                    saw_solution_marker_on_page = False
+            else:
+                matches = (
+                    list(_COMPACT_ANSWER_NUMBER_RE.finditer(stripped))
+                    if role == "solution"
+                    else [match]
+                    if (match := _QUESTION_NUMBER_RE.match(stripped))
+                    else []
+                )
             for match in matches:
                 number = int(match.group(1))
                 candidates.append(
@@ -448,7 +506,10 @@ def _match_section_title(line: str) -> QuestionTypeHint | None:
 
 
 def _assemble_regions(
-    candidates: list[_NumberCandidate], page_numbers: list[int]
+    candidates: list[_NumberCandidate],
+    page_numbers: list[int],
+    *,
+    role_mode: RoleMode = "separated",
 ) -> tuple[list[_RegionalItem], list[_RegionalItem], list[SpanIndexIssue]]:
     """Split candidates into question / solution regions and find sequences.
 
@@ -493,12 +554,14 @@ def _assemble_regions(
         page_numbers,
         role="question",
         tail_exclusive=_tail_exclusive("question"),
+        boundary_candidates=candidates if role_mode == "interleaved" else None,
     )
     solution_items, s_issues = _build_regional_sequence(
         by_role["solution"],
         page_numbers,
         role="solution",
         tail_exclusive=_tail_exclusive("solution"),
+        boundary_candidates=candidates if role_mode == "interleaved" else None,
     )
     issues.extend(q_issues)
     issues.extend(s_issues)
@@ -543,6 +606,7 @@ def _build_regional_sequence(
     *,
     role: QuestionRole,
     tail_exclusive: int,
+    boundary_candidates: list[_NumberCandidate] | None = None,
 ) -> tuple[list[_RegionalItem], list[SpanIndexIssue]]:
     """Find the longest credible increasing sequence within one role region.
 
@@ -587,7 +651,27 @@ def _build_regional_sequence(
     items: list[_RegionalItem] = []
     for index, candidate in enumerate(sequence):
         start_page = candidate.page_number
-        if index + 1 < len(sequence):
+        if boundary_candidates is not None:
+            # Interleaved spans end at the next role transition/question anchor,
+            # not at the next candidate of the same role. Page-level indexing
+            # intentionally lets two spans share a page when the transition is
+            # inline on that page.
+            global_index = next(
+                (
+                    position
+                    for position, item in enumerate(boundary_candidates)
+                    if item is candidate
+                ),
+                len(boundary_candidates) - 1,
+            )
+            next_page = next(
+                (
+                    item.page_number
+                    for item in boundary_candidates[global_index + 1 :]
+                ),
+                page_numbers[-1] + 1,
+            )
+        elif index + 1 < len(sequence):
             next_page = sequence[index + 1].page_number
         else:
             # The last question spans its continuation pages up to the region's

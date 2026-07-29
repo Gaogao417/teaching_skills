@@ -22,12 +22,20 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from scripts.question_transcription.build_docx_span_index import (  # noqa: E402
+    _detect_layout,
+    _repair_missing_ooxml_numbers,
+    _with_builder_issues,
     build_docx_span_index,
 )
 from scripts.question_transcription.build_pdf_span_index import (  # noqa: E402
     build_pdf_span_index,
 )
-from scripts.question_transcription.question_span_index import load_index  # noqa: E402
+from scripts.question_transcription.question_span_index import (  # noqa: E402
+    PageText,
+    SourceFingerprint,
+    build_index_from_pages,
+    load_index,
+)
 
 
 PDF_TEXT_PAGES = [
@@ -139,6 +147,7 @@ def test_docx_builder_builds_ready_index(tmp_path: Path):
         "schema": "math_word_source_extract/v1",
         "rendered_pdf": {"path": "rendered.pdf", "sha256": "sha256:abc", "dpi": 180},
         "rendered_pages": page_records,
+        "paragraphs": [{"index": 0, "text": "参考答案", "images": []}],
     }
     (word_dir / "word-source.yaml").write_text(
         yaml.safe_dump(word_source, allow_unicode=True), encoding="utf-8"
@@ -156,6 +165,147 @@ def test_docx_builder_builds_ready_index(tmp_path: Path):
     assert index.fingerprint.source_sha256 == "sha256:abc"
     assert len(index.fingerprint.page_sha256) == n_pages
     assert index.fingerprint.page_number_offset == 0
+
+
+def test_detect_layout_from_ooxml_paragraphs():
+    interleaved = [{"text": f"【答案】第{number}题"} for number in range(1, 6)]
+    separated = [{"text": "上海市试题解析"}]
+    unknown = [{"text": "一、选择题"}, {"text": "1．题干"}]
+
+    assert _detect_layout(interleaved) == "interleaved"
+    assert _detect_layout(separated) == "separated"
+    assert _detect_layout(unknown) == "unknown"
+
+
+def test_ooxml_repair_restores_split_number_in_numeric_order():
+    text_pages = [
+        "12．第十二题正文\n1 3 ．第十三题正文ABCDEFGHI\n14．第十四题正文"
+    ]
+    paragraphs = [
+        {"text": "12．第十二题正文"},
+        {"text": "13．第十三题正文ABCDEFGHI"},
+        {"text": "14．第十四题正文"},
+        {"text": "参考答案"},
+    ]
+    fingerprint = SourceFingerprint()
+    initial = build_index_from_pages(
+        [PageText(page_number=1, text=text_pages[0])],
+        source_kind="docx",
+        fingerprint=fingerprint,
+    )
+
+    repaired_pages, issues, repaired = _repair_missing_ooxml_numbers(
+        text_pages, paragraphs, initial
+    )
+    final = build_index_from_pages(
+        [PageText(page_number=1, text=repaired_pages[0])],
+        source_kind="docx",
+        fingerprint=fingerprint,
+    )
+
+    assert repaired is True
+    assert issues == []
+    assert [question.question_ref for question in final.questions] == [
+        "12",
+        "13",
+        "14",
+    ]
+    lines = repaired_pages[0].splitlines()
+    assert lines.index("12．第十二题正文") < lines.index(
+        "13．第十三题正文ABCDEFGHI"
+    ) < lines.index("14．第十四题正文")
+    assert final.questions[1].question_pages == [1]
+
+
+def test_ooxml_repair_accepts_number_space_body_and_equation_noise():
+    text_pages = ["7 计算：  . _____．\n【答案】结果"]
+    paragraphs = [{"text": "7 计算：_____．"}]
+    fingerprint = SourceFingerprint()
+    initial = build_index_from_pages(
+        [PageText(page_number=1, text=text_pages[0])],
+        source_kind="docx",
+        fingerprint=fingerprint,
+        role_mode="interleaved",
+    )
+
+    repaired_pages, issues, repaired = _repair_missing_ooxml_numbers(
+        text_pages, paragraphs, initial
+    )
+    final = build_index_from_pages(
+        [PageText(page_number=1, text=repaired_pages[0])],
+        source_kind="docx",
+        fingerprint=fingerprint,
+        role_mode="interleaved",
+    )
+
+    assert repaired is True
+    assert issues == []
+    assert repaired_pages[0].splitlines()[0] == "7．计算：_____．"
+    assert final.questions[0].question_pages == [1]
+    assert final.questions[0].solution_pages == [1]
+
+
+def test_ooxml_repair_failure_is_blocking_and_needs_review():
+    text_pages = ["1．第一题正文\n3．第三题正文"]
+    paragraphs = [
+        {"text": "1．第一题正文"},
+        {"text": "2．此探针不存在于任何页面"},
+        {"text": "3．第三题正文"},
+    ]
+    index = build_index_from_pages(
+        [PageText(page_number=1, text=text_pages[0])],
+        source_kind="docx",
+        fingerprint=SourceFingerprint(),
+    )
+
+    _, issues, repaired = _repair_missing_ooxml_numbers(
+        text_pages, paragraphs, index
+    )
+    downgraded = _with_builder_issues(index, issues)
+
+    assert repaired is False
+    assert downgraded.status == "needs_review"
+    assert any(
+        issue.code == "question_ooxml_repair_failed"
+        and issue.severity == "blocking"
+        for issue in downgraded.issues
+    )
+
+
+def test_docx_builder_unknown_layout_is_needs_review(tmp_path: Path, monkeypatch):
+    word_dir = tmp_path / "word"
+    word_dir.mkdir()
+    (word_dir / "rendered.pdf").write_bytes(b"%PDF-1.4")
+    pages_dir = word_dir / "pages"
+    pages_dir.mkdir()
+    (pages_dir / "001.png").write_bytes(b"one-page")
+    (word_dir / "word-source.yaml").write_text(
+        yaml.safe_dump(
+            {
+                "schema": "math_word_source_extract/v1",
+                "rendered_pdf": {"path": "rendered.pdf", "sha256": "sha256:abc"},
+                "rendered_pages": [{"path": "pages/001.png"}],
+                "paragraphs": [{"index": 0, "text": "1．第一题", "images": []}],
+            },
+            allow_unicode=True,
+        ),
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(
+        "scripts.question_transcription.build_docx_span_index._require_pdftotext",
+        lambda: "pdftotext",
+    )
+    monkeypatch.setattr(
+        "scripts.question_transcription.build_docx_span_index._run_pdftotext",
+        lambda executable, pdf_path: ["1．第一题"],
+    )
+
+    index = build_docx_span_index(
+        word_dir / "word-source.yaml", output=tmp_path / "span-index.yaml"
+    )
+
+    assert index.status == "needs_review"
+    assert any(issue.code == "layout_unknown" for issue in index.issues)
 
 
 def test_docx_builder_rejects_missing_pdftotext(tmp_path: Path, monkeypatch):

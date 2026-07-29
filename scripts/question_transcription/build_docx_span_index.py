@@ -17,11 +17,12 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import re
 import shutil
 import subprocess
 from pathlib import Path
 import sys
-from typing import Any
+from typing import Any, Literal, Mapping, Sequence
 
 import yaml
 
@@ -32,12 +33,18 @@ if str(_REPO_ROOT) not in sys.path:
 from scripts.question_transcription.question_span_index import (
     PageText,
     QuestionSpanIndex,
+    RoleMode,
     SourceFingerprint,
+    SpanIndexIssue,
     build_index_from_pages,
     dump_index,
 )
 
 WORD_SOURCE_SCHEMA = "math_word_source_extract/v1"
+Layout = Literal["separated", "interleaved", "unknown"]
+_OOXML_QUESTION_NUMBER_RE = re.compile(
+    r"^\s*(\d{1,3})(?:[．.]|\s+(?=\S))"
+)
 
 
 # --------------------------------------------------------------------------- #
@@ -96,6 +103,195 @@ def _load_word_source(path: Path) -> dict[str, Any]:
             f"{path} schema must be {WORD_SOURCE_SCHEMA!r}, got {data.get('schema')!r}"
         )
     return data
+
+
+def _paragraph_text(paragraph: Mapping[str, Any]) -> str:
+    text = paragraph.get("text", "")
+    return text if isinstance(text, str) else ""
+
+
+def _detect_layout(paragraphs: Sequence[Mapping[str, Any]]) -> Layout:
+    """Classify the two supported DOCX layouts from clean OOXML paragraphs."""
+    texts = [_paragraph_text(paragraph) for paragraph in paragraphs]
+    n_answer_tag = sum(
+        1 for text in texts if text.strip().startswith("【答案】")
+    )
+    n_ref_heading = sum(
+        1 for text in texts if "参考答案" in text or "试题解析" in text
+    )
+    if n_answer_tag >= 5:
+        return "interleaved"
+    if n_ref_heading > 0:
+        return "separated"
+    return "unknown"
+
+
+def _normalise_probe_text(text: str) -> str:
+    return re.sub(r"\s+", "", text)
+
+
+def _normalise_semantic_text(text: str) -> str:
+    """Drop whitespace/punctuation for a conservative probe fallback."""
+    return re.sub(r"[\W_]+", "", text)
+
+
+def _ooxml_question_paragraphs(
+    paragraphs: Sequence[Mapping[str, Any]],
+) -> dict[int, str]:
+    """Return the first clean OOXML question paragraph for each number."""
+    result: dict[int, str] = {}
+    for paragraph in paragraphs:
+        text = _paragraph_text(paragraph).strip()
+        match = _OOXML_QUESTION_NUMBER_RE.match(text)
+        if match:
+            number = int(match.group(1))
+            body = text[match.end() :].lstrip()
+            result.setdefault(number, f"{number}．{body}")
+    return result
+
+
+def _question_probe(question_line: str) -> str:
+    """Build the whitespace-free 12-character body probe used for page lookup."""
+    body = _OOXML_QUESTION_NUMBER_RE.sub("", question_line, count=1)
+    return _normalise_probe_text(body)[:12]
+
+
+def _repair_missing_ooxml_numbers(
+    text_pages: Sequence[str],
+    paragraphs: Sequence[Mapping[str, Any]],
+    index: QuestionSpanIndex,
+) -> tuple[list[str], list[SpanIndexIssue], bool]:
+    """Inject clean OOXML question lines for refs missed by ``pdftotext``.
+
+    Page identity still comes exclusively from ``pdftotext``. OOXML contributes
+    only a clean number line after a 12-character body probe uniquely locates
+    the corresponding page.
+    """
+    ooxml_questions = _ooxml_question_paragraphs(paragraphs)
+    indexed_by_number = {
+        question.question_number: question for question in index.questions
+    }
+    # Supported DOCX papers contain both roles. Repair a ref when either side is
+    # absent, not only when the merged ref is absent altogether. A genuinely
+    # question-only source has no solution role at all and remains legitimate.
+    has_solution_role = any(
+        question.solution_pages for question in index.questions
+    )
+    missing = sorted(
+        number
+        for number in ooxml_questions
+        if number not in indexed_by_number
+        or (
+            has_solution_role
+            and (
+                not indexed_by_number[number].question_pages
+                or not indexed_by_number[number].solution_pages
+            )
+        )
+    )
+    if not missing:
+        return list(text_pages), [], False
+
+    normalised_pages = [_normalise_probe_text(text) for text in text_pages]
+    injections: dict[int, list[tuple[int, str, str]]] = {}
+    issues: list[SpanIndexIssue] = []
+    for number in missing:
+        line = ooxml_questions[number]
+        probe = _question_probe(line)
+        matches = [
+            page_index
+            for page_index, page_text in enumerate(normalised_pages)
+            if probe and probe in page_text
+        ]
+        if not matches:
+            # Equation placeholders and punctuation can differ between OOXML
+            # and pdftotext (for example ``7 计算： . _____``). Fall back to a
+            # number-prefixed semantic probe; including the number keeps short
+            # stems such as “计算” specific enough to avoid ordinary prose.
+            semantic_probe = _normalise_semantic_text(line)[:13]
+            matches = [
+                page_index
+                for page_index, page_text in enumerate(text_pages)
+                if len(semantic_probe) >= 3
+                and semantic_probe in _normalise_semantic_text(page_text)
+            ]
+        if not matches:
+            reason = "empty probe" if not probe else "matched no pages"
+            issues.append(
+                SpanIndexIssue(
+                    code="question_ooxml_repair_failed",
+                    severity="blocking",
+                    detail=(
+                        f"OOXML repair for question {number} {reason}; "
+                        "could not determine a pdftotext page"
+                    ),
+                    question_ref=str(number),
+                )
+            )
+            continue
+        # The stem is commonly repeated verbatim in the official solution.
+        # Inject every matching page; the main role state machine then assigns
+        # the clean anchor to question vs solution without OOXML guessing roles.
+        for page_index in matches:
+            injections.setdefault(page_index, []).append((number, line, probe))
+
+    repaired_pages = list(text_pages)
+    for page_index, page_injections in injections.items():
+        lines = repaired_pages[page_index].splitlines()
+        pending_by_position: dict[int, list[tuple[int, str]]] = {}
+        for number, line, probe in page_injections:
+            semantic_line_probe = _normalise_semantic_text(line)[:13]
+            position = next(
+                (
+                    line_index
+                    for line_index, page_line in enumerate(lines)
+                    if probe in _normalise_probe_text(page_line)
+                ),
+                -1,
+            )
+            if position < 0 and len(semantic_line_probe) >= 3:
+                position = next(
+                    (
+                        line_index
+                        for line_index, page_line in enumerate(lines)
+                        if semantic_line_probe
+                        in _normalise_semantic_text(page_line)
+                    ),
+                    -1,
+                )
+            if position < 0:
+                # The probe may cross pdftotext line breaks. Preserve numeric
+                # order relative to anchors already recognised on the page.
+                position = len(lines)
+                for line_index, page_line in enumerate(lines):
+                    match = _OOXML_QUESTION_NUMBER_RE.match(page_line)
+                    if match and int(match.group(1)) > number:
+                        position = line_index
+                        break
+            pending_by_position.setdefault(position, []).append((number, line))
+
+        for position in sorted(pending_by_position, reverse=True):
+            ordered_lines = [
+                line
+                for _, line in sorted(
+                    pending_by_position[position], key=lambda item: item[0]
+                )
+            ]
+            lines[position:position] = ordered_lines
+        repaired_pages[page_index] = "\n".join(lines)
+
+    return repaired_pages, issues, bool(injections)
+
+
+def _with_builder_issues(
+    index: QuestionSpanIndex, issues: Sequence[SpanIndexIssue]
+) -> QuestionSpanIndex:
+    if not issues:
+        return index
+    status = "needs_review" if index.questions else "failed"
+    return index.model_copy(
+        update={"issues": [*index.issues, *issues], "status": status}
+    )
 
 
 # --------------------------------------------------------------------------- #
@@ -177,9 +373,52 @@ def build_docx_span_index(
         page_sha256=page_sha,
         page_number_offset=page_number_offset,
     )
-    index = build_index_from_pages(
-        pages, source_kind="docx", fingerprint=fingerprint
+    paragraphs_raw = word_source.get("paragraphs")
+    paragraphs: list[Mapping[str, Any]] = (
+        [paragraph for paragraph in paragraphs_raw if isinstance(paragraph, Mapping)]
+        if isinstance(paragraphs_raw, list)
+        else []
     )
+    layout = _detect_layout(paragraphs)
+    role_mode: RoleMode = layout if layout != "unknown" else "separated"
+    index = build_index_from_pages(
+        pages,
+        source_kind="docx",
+        fingerprint=fingerprint,
+        role_mode=role_mode,
+    )
+
+    repaired_text_pages, repair_issues, repaired = _repair_missing_ooxml_numbers(
+        text_pages, paragraphs, index
+    )
+    if repaired:
+        repaired_pages = [
+            PageText(
+                page_number=page_index + 1 + page_number_offset,
+                text=text,
+            )
+            for page_index, text in enumerate(repaired_text_pages)
+        ]
+        index = build_index_from_pages(
+            repaired_pages,
+            source_kind="docx",
+            fingerprint=fingerprint,
+            role_mode=role_mode,
+        )
+
+    builder_issues = list(repair_issues)
+    if layout == "unknown":
+        builder_issues.append(
+            SpanIndexIssue(
+                code="layout_unknown",
+                severity="blocking",
+                detail=(
+                    "OOXML paragraphs contain neither at least five 【答案】 "
+                    "tags nor a 参考答案/试题解析 heading"
+                ),
+            )
+        )
+    index = _with_builder_issues(index, builder_issues)
     dump_index(index, output)
     return index
 

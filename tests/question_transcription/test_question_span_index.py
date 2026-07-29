@@ -201,6 +201,75 @@ def test_numbered_solution_steps_not_recognised_as_new_questions():
     assert _refs(index, role="solution") == ["1", "2"]
 
 
+def test_interleaved_roles_round_trip_per_question():
+    pages = _pages(
+        {
+            1: "一、解答题\n1. 第一题题干",
+            2: "【答案】第一题答案\n【解析】第一题解析",
+            3: "2. 第二题题干",
+            4: "【答案】第二题答案\n【详解】第二题详解",
+        }
+    )
+    index = build_index_from_pages(
+        pages,
+        source_kind="docx",
+        fingerprint=_fp(),
+        role_mode="interleaved",
+    )
+
+    assert index.status == "ready"
+    assert _refs(index) == ["1", "2"]
+    assert _refs(index, role="solution") == ["1", "2"]
+    assert _pages_for(index, "1") == [1]
+    assert _pages_for(index, "1", role="solution") == [2]
+    assert _pages_for(index, "2") == [3]
+    assert _pages_for(index, "2", role="solution") == [4]
+
+
+def test_interleaved_role_mode_is_isolated_from_separated_default():
+    pages = _pages(
+        {
+            1: "一、解答题\n1. 第一题\n【答案】答案一",
+            2: "2. 第二题\n【答案】答案二\n【解析】解析二",
+        }
+    )
+
+    separated = build_index_from_pages(
+        pages, source_kind="docx", fingerprint=_fp()
+    )
+    interleaved = build_index_from_pages(
+        pages,
+        source_kind="docx",
+        fingerprint=_fp(),
+        role_mode="interleaved",
+    )
+
+    assert _refs(separated) == ["1", "2"]
+    assert _refs(separated, role="solution") == []
+    assert _refs(interleaved, role="solution") == ["1", "2"]
+
+
+def test_interleaved_repeated_question_number_stays_in_solution():
+    pages = _pages(
+        {
+            1: "1. 第一题题干",
+            2: "【答案】答案一",
+            3: "【解析】\n1. 第一题条件复述",
+            4: "2. 第二题题干",
+            5: "【答案】答案二",
+        }
+    )
+    index = build_index_from_pages(
+        pages,
+        source_kind="docx",
+        fingerprint=_fp(),
+        role_mode="interleaved",
+    )
+
+    assert _pages_for(index, "1", role="solution") == [2, 3]
+    assert _pages_for(index, "2") == [4]
+
+
 # --------------------------------------------------------------------------- #
 # §10.1 anchoring: issues and status
 # --------------------------------------------------------------------------- #
