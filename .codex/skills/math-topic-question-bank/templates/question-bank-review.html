@@ -98,6 +98,14 @@
             <h3>题图需要人工补裁</h3>
             <ul id="prompt-review-notes"></ul>
           </section>
+          <section id="transcription-issues" class="transcription-issues" hidden>
+            <div class="section-head">
+              <div><p class="eyebrow">TRANSCRIPTION CHECK</p><h3>转写可疑处</h3></div>
+              <span id="transcription-issue-summary"></span>
+            </div>
+            <p class="transcription-issue-help">逐项对照来源证据选择正确候选；全部裁决后仍需应用 resolution 并重建正常 staging，才允许通过或晋升。</p>
+            <div id="transcription-issue-list"></div>
+          </section>
           <section class="reader-section"><div class="section-head"><h3>题目</h3><div id="source-capsules" class="source-capsules"></div></div><div id="stem" class="source-text"></div></section>
           <section id="choices-section" class="reader-section" hidden><h3>选项</h3><ul id="choices" class="choice-list"></ul></section>
           <section class="reader-section image-section" data-image-target="prompt"><h3>题图</h3><div id="prompt-preview" class="preview-well"></div></section>

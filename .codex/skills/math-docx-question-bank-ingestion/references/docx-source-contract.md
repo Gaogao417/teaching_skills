@@ -5,10 +5,11 @@
 DOC/DOCX 来源使用 `scripts/extract_docx_source.py`，只产出两类不可互相替代的
 素材：
 
-1. **Word 媒体原图**（`media/*`）：题图、解析图的原始分辨率/透明度位图。PDF
+1. **Word 媒体原图**（`media/*`）：题图、选项图、小问题图、解析图的原始媒体。PDF
    渲染会二次栅格化并丢失透明度，所以独立图必须从 Word 媒体取。
 2. **PDF 渲染页**（`pages/*.png`）：所有文字和公式转写的唯一权威来源。DOCX 里的
-   公式是 WMF/EMF 矢量对象，无法直接读取；soffice 转 PDF 后烘焙成位图才能转写。
+   公式预览常见为 WMF/EMF，但扩展名不是类别判据；只有绑定 OLE 公式对象的媒体
+   才是 `formula`。未绑定 OLE 的 WMF/EMF 是 `diagram`。
 
 Word 解包通道导出段落流（`paragraphs`）并据此自动计算图片归属
 （`image_attribution`）。题干文字、公式、题号定位以 PDF 渲染页为准；图片归属以
@@ -49,9 +50,17 @@ Word 解包通道导出段落流（`paragraphs`）并据此自动计算图片归
 - `rendered_pages`：每个 PDF 页面的路径、SHA-256 和像素尺寸
 - `paragraphs`：段落流，每条 `{index, text, images, previous_text, next_text}`，
   按 OOXML 文档流顺序；空段落已剔除。这是图片归属的结构化数据源。
-- `image_attribution`：每张非公式图（排除 wmf/emf）的归属判断，每条
+- `image_attribution`：每张非公式图（排除已绑定 OLE 的媒体）的粗粒度归属判断，每条
   `{media, question_number, bucket, paragraph_index, confidence}`。`bucket` 为
   `prompt`/`solution`/`orphan`；`confidence` 为 `high`/`medium`/`low`。
+- `image_attribution_status`：`complete` 或 `failed`。失败表示题号状态机无法给出
+  可信的整卷映射，此时 `image_attribution` 必须为空。
+- `image_attribution_error`：仅失败时出现，记录错误码和详情。该错误不影响
+  `rendered_pages` 作为题干、公式和解析文本转录来源。
+
+图片归属失败是独立失败域：extractor 丢弃全部 partial attribution，但仍保存媒体、
+渲染 PDF 和页面。文本观察可以继续；图片 adapter 必须停止，含图题进入
+`image_structure: needs_review`。不得把空 attribution 当成“来源没有插图”。
 
 ## 图片归属的职责
 
@@ -85,7 +94,7 @@ agent 录入时优先消费 `high`，`medium`/`low` 在 review 阶段对照 PDF 
 
 | 内容类型 | 来源 | 说明 |
 |----------|----------|------|
-| 公式转写 | PDF 渲染页 (`pages/*.png`) | WMF/EMF 是二进制矢量，无法直接读取；PDF 里公式是渲染好的位图，可准确转为 LaTeX |
+| 公式转写 | PDF 渲染页 (`pages/*.png`) | OLE 绑定确定它是公式；文字仍从 PDF 页转写，不从 GDI 记录取 |
 | 题干文字 | PDF 渲染页 (`pages/*.png`) | 与公式一起从渲染页转写，保证题号、上下文、版面一致 |
 | 题图 prompt | Word 媒体原图 (`media/*`) | 几何图、函数图、统计图、表格、照片等独立图片，保留原始分辨率和透明度 |
 | solution 图 | Word 媒体原图 (`media/*`) | 官方解答中的独立图片 |
@@ -99,7 +108,8 @@ agent 录入时优先消费 `high`，`medium`/`low` 在 review 阶段对照 PDF 
 - **公式对象（WMF/EMF）**：不在 draft 中声明为 `prompt`。转写时对照 PDF 渲染页
   读取公式内容，写入 `stem_latex` 或 `solution_steps`。转写后仍保留 WMF 原媒体和
   哈希，供疑难公式回查。
-- **多图选择题**：按 PDF 渲染页版面顺序和 A/B/C/D 标签确定性组合；顺序或标签
+- **多图选择题**：可靠时建立 A/B/C/D 四个 choice target；无法可靠拆分时保留
+  choice panel 并人工确认 mapping。顺序或标签
   无法可靠恢复时标记人工核对。
 - **来源证据**：原题来源使用 `question_word_evidence`；官方解答来源使用
   `official_solution.word_evidence`。两者都是**完整连续页数组**，引用整页 PNG

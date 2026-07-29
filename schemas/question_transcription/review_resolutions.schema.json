@@ -1,0 +1,187 @@
+{
+  "$defs": {
+    "AssetClassificationResolution": {
+      "additionalProperties": false,
+      "description": "A human-confirmed classification for one asset issue.",
+      "properties": {
+        "kind": {
+          "const": "asset_classification",
+          "default": "asset_classification",
+          "title": "Kind",
+          "type": "string"
+        },
+        "issue_id": {
+          "minLength": 1,
+          "title": "Issue Id",
+          "type": "string"
+        },
+        "selected_class": {
+          "enum": [
+            "diagram",
+            "mixed_content"
+          ],
+          "title": "Selected Class",
+          "type": "string"
+        },
+        "resolved_issue_hash": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "title": "Resolved Issue Hash",
+          "type": "string"
+        },
+        "reviewer": {
+          "minLength": 1,
+          "title": "Reviewer",
+          "type": "string"
+        },
+        "resolved_at": {
+          "format": "date-time",
+          "title": "Resolved At",
+          "type": "string"
+        },
+        "note": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Note"
+        }
+      },
+      "required": [
+        "issue_id",
+        "selected_class",
+        "resolved_issue_hash",
+        "reviewer",
+        "resolved_at"
+      ],
+      "title": "AssetClassificationResolution",
+      "type": "object"
+    },
+    "IssueResolution": {
+      "additionalProperties": false,
+      "description": "The adjudicated decision for one issue.\n\n``resolved_candidates_hash`` must equal the issue's ``candidates_hash`` at\ndecision time; once candidates change the resolution is stale.",
+      "properties": {
+        "kind": {
+          "const": "field_conflict",
+          "default": "field_conflict",
+          "title": "Kind",
+          "type": "string"
+        },
+        "issue_id": {
+          "minLength": 1,
+          "title": "Issue Id",
+          "type": "string"
+        },
+        "decision": {
+          "enum": [
+            "accept_candidate",
+            "accept_baseline",
+            "manual"
+          ],
+          "title": "Decision",
+          "type": "string"
+        },
+        "accepted_window_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Accepted Window Id"
+        },
+        "manual_value": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Manual Value"
+        },
+        "resolved_candidates_hash": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "title": "Resolved Candidates Hash",
+          "type": "string"
+        },
+        "reviewer": {
+          "minLength": 1,
+          "title": "Reviewer",
+          "type": "string"
+        },
+        "resolved_at": {
+          "format": "date-time",
+          "title": "Resolved At",
+          "type": "string"
+        },
+        "note": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Note"
+        }
+      },
+      "required": [
+        "issue_id",
+        "decision",
+        "resolved_candidates_hash",
+        "reviewer",
+        "resolved_at"
+      ],
+      "title": "IssueResolution",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Schema ``math_transcription_review_resolutions/v1``.",
+  "properties": {
+    "schema": {
+      "const": "math_transcription_review_resolutions/v1",
+      "title": "Schema",
+      "type": "string"
+    },
+    "paper_id": {
+      "minLength": 1,
+      "title": "Paper Id",
+      "type": "string"
+    },
+    "resolutions": {
+      "items": {
+        "anyOf": [
+          {
+            "$ref": "#/$defs/IssueResolution"
+          },
+          {
+            "$ref": "#/$defs/AssetClassificationResolution"
+          }
+        ]
+      },
+      "minItems": 1,
+      "title": "Resolutions",
+      "type": "array"
+    }
+  },
+  "required": [
+    "schema",
+    "paper_id",
+    "resolutions"
+  ],
+  "title": "ReviewResolutionsBundle",
+  "type": "object"
+}

@@ -10,6 +10,7 @@ import json
 import mimetypes
 import os
 import re
+import sys
 import tempfile
 import threading
 import time
@@ -29,6 +30,18 @@ from pydantic import BaseModel, ConfigDict, Field
 
 PACKAGE_DIR = Path(__file__).resolve().parent.parent
 REPO_ROOT = PACKAGE_DIR.parents[2]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
+from scripts.question_transcription.review_issue_contracts import (  # noqa: E402
+    AssetClassificationIssue,
+    AssetClassificationResolution,
+    IssueResolution,
+    ReviewIssue,
+    ReviewIssuesBundle,
+    ReviewResolutionsBundle,
+    unresolved_issues,
+)
 TEMPLATE_DIR = PACKAGE_DIR / "templates"
 STATIC_DIR = PACKAGE_DIR / "static"
 DEFAULT_BANK_ROOT = REPO_ROOT / "artifacts" / "题库"
@@ -146,6 +159,15 @@ class ReviewDecision(ReviewNote):
     decision: Literal["approved", "rejected"]
 
 
+class TranscriptionIssueDecision(ReviewNote):
+    decision: Literal[
+        "accept_candidate", "accept_baseline", "manual",
+        "diagram", "mixed_content",
+    ]
+    accepted_window_id: str | None = None
+    manual_value: str | None = None
+
+
 def _read_yaml(path: Path) -> dict[str, Any]:
     _GLOBAL_YAML_PARSE_COUNT[0] += 1
     try:
@@ -181,6 +203,11 @@ def _bank_fingerprint(record: BankRecord) -> str:
     except OSError:
         parts.append("0")
     if record.kind == "staging_exam":
+        for name in ("review-issues.yaml", "review-resolutions.yaml"):
+            try:
+                parts.append(str((record.directory / name).stat().st_mtime_ns))
+            except OSError:
+                parts.append("0")
         for item_id in QuestionBankCatalog._staging_item_ids(record):
             item_dir = record.directory / "items" / item_id
             for name in (
@@ -1037,6 +1064,24 @@ class QuestionBankCatalog:
     ) -> tuple[dict[str, Any], dict[tuple[str, str], Path]]:
         preview_files: dict[tuple[str, str], Path] = {}
         rendered_items: list[dict[str, Any]] = []
+        issues, resolutions = self._review_issue_sidecars(record)
+        pending_ids = {
+            issue.issue_id for issue in unresolved_issues(issues, resolutions)
+        } if issues else set()
+        resolution_by_id = {
+            resolution.issue_id: resolution.model_dump(mode="json")
+            for resolution in (resolutions.resolutions if resolutions else [])
+        }
+        issues_by_item: dict[str, list[dict[str, Any]]] = {}
+        if issues:
+            for issue in issues.issues:
+                item_id = issue.item_id if isinstance(issue, ReviewIssue) else None
+                if not item_id:
+                    continue
+                payload = issue.model_dump(mode="json")
+                payload["resolved"] = issue.issue_id not in pending_ids
+                payload["resolution"] = resolution_by_id.get(issue.issue_id)
+                issues_by_item.setdefault(item_id, []).append(payload)
         for item_id in self._staging_item_ids(record):
             item_dir = record.directory / "items" / item_id
             rendered: dict[str, Any] = {
@@ -1059,6 +1104,7 @@ class QuestionBankCatalog:
                 "prompt_preview_url": None,
                 "solution_preview_url": None,
                 "solution_previews": [],
+                "review_issues": issues_by_item.get(item_id, []),
                 "review": {
                     "status": "pending",
                     "note": "",
@@ -1225,8 +1271,29 @@ class QuestionBankCatalog:
                 rendered["load_error"] = str(exc)
             rendered_items.append(rendered)
         summary = self.summary(record)
+        summary["review_mode_active"] = issues is not None
+        summary["review_issue_count"] = len(issues.issues) if issues else 0
+        summary["unresolved_review_issue_count"] = len(pending_ids)
         summary["items"] = rendered_items
         return summary, preview_files
+
+    @staticmethod
+    def _review_issue_sidecars(
+        record: BankRecord,
+    ) -> tuple[ReviewIssuesBundle | None, ReviewResolutionsBundle | None]:
+        issue_path = record.directory / "review-issues.yaml"
+        if not issue_path.is_file():
+            return None, None
+        issues = ReviewIssuesBundle.model_validate(_read_yaml(issue_path))
+        resolution_path = record.directory / "review-resolutions.yaml"
+        resolutions = (
+            ReviewResolutionsBundle.model_validate(_read_yaml(resolution_path))
+            if resolution_path.is_file()
+            else None
+        )
+        if issues.paper_id != str(record.manifest.get("paper", {}).get("id", "")):
+            raise ValueError("review-issues.yaml paper_id 与 staging 试卷不匹配")
+        return issues, resolutions
 
     @staticmethod
     def _manual_source_path(path: Path) -> str:
@@ -1602,6 +1669,10 @@ class QuestionBankCatalog:
         if review_path.is_symlink():
             raise ValueError("review.yaml 不允许为符号链接")
         note = decision.note.strip()
+        if decision.decision == "approved" and (record.directory / "review-issues.yaml").is_file():
+            raise ValueError(
+                "该卷处于转写疑点隔离审核模式；请先裁决疑点、应用 resolution 并重建正常 staging"
+            )
         if decision.decision == "rejected" and not note:
             raise ValueError("要求修改时必须填写修改意见")
         notes = [note] if note else []
@@ -1629,6 +1700,76 @@ class QuestionBankCatalog:
             if temporary.exists():
                 temporary.unlink()
         return self._review_state(item_dir_resolved, source)
+
+    def write_issue_resolution(
+        self,
+        bank_id: str,
+        item_id: str,
+        issue_id: str,
+        decision: TranscriptionIssueDecision,
+    ) -> dict[str, Any]:
+        record = self.record(bank_id)
+        if record.kind != "staging_exam" or item_id not in self._staging_item_ids(record):
+            raise KeyError((bank_id, item_id))
+        issues, resolutions = self._review_issue_sidecars(record)
+        if issues is None:
+            raise KeyError(issue_id)
+        issue = next(
+            (
+                candidate for candidate in issues.issues
+                if candidate.issue_id == issue_id
+                and getattr(candidate, "item_id", None) == item_id
+            ),
+            None,
+        )
+        if issue is None:
+            raise KeyError(issue_id)
+        now = datetime.now(timezone.utc)
+        note = decision.note.strip() or None
+        if isinstance(issue, ReviewIssue):
+            if decision.decision not in {"accept_candidate", "accept_baseline", "manual"}:
+                raise ValueError("字段疑点必须选择候选、基线或手工值")
+            resolution = IssueResolution(
+                issue_id=issue_id,
+                decision=decision.decision,
+                accepted_window_id=decision.accepted_window_id,
+                manual_value=decision.manual_value,
+                resolved_candidates_hash=issue.candidates_hash,
+                reviewer="question-bank-review-ui",
+                resolved_at=now,
+                note=note,
+            )
+        else:
+            if decision.decision not in {"diagram", "mixed_content"}:
+                raise ValueError("图片分类疑点必须选择 diagram 或 mixed_content")
+            resolution = AssetClassificationResolution(
+                issue_id=issue_id,
+                selected_class=decision.decision,
+                resolved_issue_hash=issue.issue_hash,
+                reviewer="question-bank-review-ui",
+                resolved_at=now,
+                note=note,
+            )
+        values = [
+            value for value in (resolutions.resolutions if resolutions else [])
+            if value.issue_id != issue_id
+        ]
+        values.append(resolution)
+        bundle = ReviewResolutionsBundle(
+            schema="math_transcription_review_resolutions/v1",
+            paper_id=issues.paper_id,
+            resolutions=values,
+        )
+        _atomic_write_yaml(
+            record.directory / "review-resolutions.yaml",
+            bundle.model_dump(by_alias=True, exclude_none=True, mode="json"),
+        )
+        self._invalidate_bank(bank_id)
+        return {
+            "issue_id": issue_id,
+            "resolved": True,
+            "resolution": resolution.model_dump(exclude_none=True, mode="json"),
+        }
 
     def approve_all_staging(self, bank_id: str) -> dict[str, Any]:
         """一键通过整张 staging 试卷（A8：只 discover 一次 + 精准失效一次）。
@@ -1712,6 +1853,11 @@ class QuestionBankCatalog:
                 "title": item.get("title") or item.get("id") or "",
                 "review_status": (item.get("review") or {}).get("status", "pending"),
                 "stale": bool((item.get("review") or {}).get("stale")),
+                "review_issue_count": len(item.get("review_issues") or []),
+                "unresolved_review_issue_count": sum(
+                    1 for issue in item.get("review_issues") or []
+                    if not issue.get("resolved")
+                ),
             }
             for item in items
         ]
@@ -1738,6 +1884,11 @@ class QuestionBankCatalog:
             "district": detail.get("district", ""),
             "item_count": detail.get("item_count", len(items)),
             "counts": counts,
+            "review_mode_active": bool(detail.get("review_mode_active")),
+            "review_issue_count": int(detail.get("review_issue_count", 0)),
+            "unresolved_review_issue_count": int(
+                detail.get("unresolved_review_issue_count", 0)
+            ),
             "items": directory_items,
         }
 
@@ -2157,6 +2308,22 @@ def create_question_bank_app(
             return catalog.write_staging_review(bank_id, item_id, decision)
         except KeyError as exc:
             raise HTTPException(status_code=404, detail="staging 题目不存在") from exc
+        except ValueError as exc:
+            raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+    @app.post("/api/banks/{bank_id}/items/{item_id}/issues/{issue_id}/resolution")
+    def resolve_transcription_issue(
+        bank_id: str,
+        item_id: str,
+        issue_id: str,
+        decision: TranscriptionIssueDecision,
+    ) -> dict[str, Any]:
+        try:
+            return catalog.write_issue_resolution(
+                bank_id, item_id, issue_id, decision
+            )
+        except KeyError as exc:
+            raise HTTPException(status_code=404, detail="转写疑点不存在") from exc
         except ValueError as exc:
             raise HTTPException(status_code=400, detail=str(exc)) from exc
 

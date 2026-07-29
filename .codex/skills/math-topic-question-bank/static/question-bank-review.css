@@ -122,6 +122,19 @@ select:focus-visible, button:focus-visible, textarea:focus-visible, .question-ro
 .image-delete-button { position: absolute; z-index: 2; top: 7px; right: 7px; width: 30px; min-width: 30px; min-height: 30px; padding: 0 0 2px; border: 1px solid #bd7d74; border-radius: 50%; background: rgba(255, 255, 255, .94); color: var(--danger); font-size: 21px; line-height: 1; opacity: 0; transform: scale(.9); transition: opacity .12s ease, transform .12s ease; box-shadow: 0 2px 7px rgba(48, 43, 34, .18); }
 .preview-card:hover > .image-delete-button, .preview-card:focus-within > .image-delete-button, .step-preview:hover > .image-delete-button, .step-preview:focus-within > .image-delete-button { opacity: 1; transform: scale(1); }
 .load-error { margin: 18px 22px 0; padding: 12px; border: 1px solid #cda9a2; border-radius: 10px; color: var(--danger); background: #f7ebe8; white-space: pre-wrap; overflow-wrap: anywhere; }
+.transcription-issues { margin: 18px 22px 0; padding: 16px; border: 2px solid #d4b36d; border-radius: 14px; background: #fff9e8; }
+.transcription-issues h3 { margin: 3px 0 0; }
+.transcription-issue-help { color: var(--muted); font-size: 13px; }
+.transcription-issue-card { margin-top: 12px; padding: 13px; border: 1px solid #d8c48d; border-left-width: 5px; border-radius: 10px; background: white; }
+.transcription-issue-card.severity-blocking { border-left-color: var(--danger); }
+.transcription-issue-card.severity-warning { border-left-color: #d4a33e; }
+.transcription-issue-card header { display: flex; justify-content: space-between; gap: 10px; }
+.transcription-issue-state { color: var(--muted); font-size: 12px; font-weight: 800; }
+.transcription-candidates { display: grid; gap: 9px; margin-top: 10px; }
+.transcription-candidate { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 7px 12px; padding: 10px; border: 1px solid var(--line); border-radius: 8px; }
+.transcription-candidate pre { grid-column: 1; margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; font-family: inherit; font-size: 15px; }
+.transcription-candidate small { grid-column: 1; white-space: pre-wrap; color: var(--muted); line-height: 1.5; }
+.transcription-candidate button { grid-column: 2; grid-row: 1 / span 2; align-self: center; }
 .review-card { margin: 22px; padding: 18px; border: 1px solid #b9cbbf; border-radius: 14px; background: #f1f7f3; }
 .review-card-header { display: flex; align-items: start; justify-content: space-between; gap: 16px; margin-bottom: 14px; }
 .review-card h3 { margin: 3px 0 0; }

@@ -1,0 +1,448 @@
+{
+  "$defs": {
+    "AssetClassificationIssue": {
+      "additionalProperties": false,
+      "description": "A blocking human decision between ``diagram`` and ``mixed_content``.\n\nThe deterministic OLE rule has already excluded ``formula`` before this\nissue exists. ``detail`` is mandatory and records the concrete ambiguity,\nsuch as an apparent whole-stem EMF or an unclear text/diagram boundary.",
+      "properties": {
+        "kind": {
+          "const": "asset_classification",
+          "default": "asset_classification",
+          "title": "Kind",
+          "type": "string"
+        },
+        "issue_id": {
+          "minLength": 1,
+          "title": "Issue Id",
+          "type": "string"
+        },
+        "asset_id": {
+          "minLength": 1,
+          "title": "Asset Id",
+          "type": "string"
+        },
+        "question_ref": {
+          "anyOf": [
+            {
+              "pattern": "^\\d{1,3}(-[A-Za-z0-9]+)?$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Question Ref"
+        },
+        "question_number": {
+          "anyOf": [
+            {
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Question Number"
+        },
+        "code": {
+          "const": "emf_class_needs_confirmation",
+          "default": "emf_class_needs_confirmation",
+          "title": "Code",
+          "type": "string"
+        },
+        "severity": {
+          "const": "blocking",
+          "default": "blocking",
+          "title": "Severity",
+          "type": "string"
+        },
+        "allowed_classes": {
+          "items": {
+            "enum": [
+              "diagram",
+              "mixed_content"
+            ],
+            "type": "string"
+          },
+          "title": "Allowed Classes",
+          "type": "array"
+        },
+        "proposed_class": {
+          "anyOf": [
+            {
+              "enum": [
+                "diagram",
+                "mixed_content"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Proposed Class"
+        },
+        "evidence": {
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/PageEvidence"
+              },
+              {
+                "$ref": "#/$defs/RegionEvidence"
+              }
+            ]
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        },
+        "detail": {
+          "minLength": 1,
+          "title": "Detail",
+          "type": "string"
+        },
+        "issue_hash": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "title": "Issue Hash",
+          "type": "string"
+        }
+      },
+      "required": [
+        "issue_id",
+        "asset_id",
+        "evidence",
+        "detail",
+        "issue_hash"
+      ],
+      "title": "AssetClassificationIssue",
+      "type": "object"
+    },
+    "PageEvidence": {
+      "additionalProperties": false,
+      "description": "Whole-page evidence. Typical for DOCX rendered pages.",
+      "properties": {
+        "kind": {
+          "const": "page",
+          "title": "Kind",
+          "type": "string"
+        },
+        "source": {
+          "minLength": 1,
+          "title": "Source",
+          "type": "string"
+        },
+        "page_number": {
+          "minimum": 1,
+          "title": "Page Number",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "kind",
+        "source",
+        "page_number"
+      ],
+      "title": "PageEvidence",
+      "type": "object"
+    },
+    "RegionEvidence": {
+      "additionalProperties": false,
+      "description": "Region evidence. Typical for PDF / scanned pages with a crop box.",
+      "properties": {
+        "kind": {
+          "const": "region",
+          "title": "Kind",
+          "type": "string"
+        },
+        "source": {
+          "minLength": 1,
+          "title": "Source",
+          "type": "string"
+        },
+        "page_number": {
+          "minimum": 1,
+          "title": "Page Number",
+          "type": "integer"
+        },
+        "box_px": {
+          "items": {
+            "type": "integer"
+          },
+          "maxItems": 4,
+          "minItems": 4,
+          "title": "Box Px",
+          "type": "array"
+        }
+      },
+      "required": [
+        "kind",
+        "source",
+        "page_number",
+        "box_px"
+      ],
+      "title": "RegionEvidence",
+      "type": "object"
+    },
+    "ReviewCandidate": {
+      "additionalProperties": false,
+      "description": "One observed value for a contested field, with its source evidence.\n\nEvery candidate carries at least one :class:`EvidenceRef` so a reviewer can\nalways return to the original page. ``selected`` marks the provisional pick\nemitted by merge; exactly one candidate per issue is selected.",
+      "properties": {
+        "window_id": {
+          "minLength": 1,
+          "title": "Window Id",
+          "type": "string"
+        },
+        "raw_value": {
+          "minLength": 1,
+          "title": "Raw Value",
+          "type": "string"
+        },
+        "normalized_value": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Normalized Value"
+        },
+        "confidence": {
+          "enum": [
+            "high",
+            "medium",
+            "low"
+          ],
+          "title": "Confidence",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/PageEvidence"
+              },
+              {
+                "$ref": "#/$defs/RegionEvidence"
+              }
+            ]
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        },
+        "selected": {
+          "default": false,
+          "title": "Selected",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "window_id",
+        "raw_value",
+        "confidence",
+        "evidence"
+      ],
+      "title": "ReviewCandidate",
+      "type": "object"
+    },
+    "ReviewIssue": {
+      "additionalProperties": false,
+      "description": "A single suspicious field awaiting adjudication.\n\n``question_ref`` is the stable join key shared with the transcription\npipeline; ``item_id`` is stamped in once the issue is materialized into a\nstaging item (Q0xx). ``candidates_hash`` fingerprints the candidate set so\nresolutions can detect when the underlying candidates changed.",
+      "properties": {
+        "kind": {
+          "const": "field_conflict",
+          "default": "field_conflict",
+          "title": "Kind",
+          "type": "string"
+        },
+        "issue_id": {
+          "minLength": 1,
+          "title": "Issue Id",
+          "type": "string"
+        },
+        "question_ref": {
+          "pattern": "^\\d{1,3}(-[A-Za-z0-9]+)?$",
+          "title": "Question Ref",
+          "type": "string"
+        },
+        "item_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Item Id"
+        },
+        "question_number": {
+          "minimum": 1,
+          "title": "Question Number",
+          "type": "integer"
+        },
+        "code": {
+          "minLength": 1,
+          "title": "Code",
+          "type": "string"
+        },
+        "severity": {
+          "enum": [
+            "blocking",
+            "warning",
+            "info"
+          ],
+          "title": "Severity",
+          "type": "string"
+        },
+        "field_path": {
+          "minLength": 1,
+          "title": "Field Path",
+          "type": "string"
+        },
+        "math_token": {
+          "anyOf": [
+            {
+              "enum": [
+                "sign",
+                "exponent",
+                "radicand",
+                "fraction",
+                "inequality",
+                "numeric_value",
+                "choice_letter"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Math Token"
+        },
+        "origin": {
+          "enum": [
+            "merge",
+            "baseline_compare",
+            "manual"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "baseline_paper_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Baseline Paper Id"
+        },
+        "baseline_value": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Baseline Value"
+        },
+        "candidates": {
+          "items": {
+            "$ref": "#/$defs/ReviewCandidate"
+          },
+          "minItems": 2,
+          "title": "Candidates",
+          "type": "array"
+        },
+        "candidates_hash": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "title": "Candidates Hash",
+          "type": "string"
+        },
+        "detail": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Detail"
+        }
+      },
+      "required": [
+        "issue_id",
+        "question_ref",
+        "question_number",
+        "code",
+        "severity",
+        "field_path",
+        "origin",
+        "candidates",
+        "candidates_hash"
+      ],
+      "title": "ReviewIssue",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Schema ``math_transcription_review_issues/v1``.\n\nOne paper's review issues. The sidecar is written only when at least one\nconflict exists; an issue-free paper produces no sidecar (so legacy\nstaging without one stays compatible).",
+  "properties": {
+    "schema": {
+      "const": "math_transcription_review_issues/v1",
+      "title": "Schema",
+      "type": "string"
+    },
+    "paper_id": {
+      "minLength": 1,
+      "title": "Paper Id",
+      "type": "string"
+    },
+    "generated_at": {
+      "format": "date-time",
+      "title": "Generated At",
+      "type": "string"
+    },
+    "issues": {
+      "items": {
+        "anyOf": [
+          {
+            "$ref": "#/$defs/ReviewIssue"
+          },
+          {
+            "$ref": "#/$defs/AssetClassificationIssue"
+          }
+        ]
+      },
+      "minItems": 1,
+      "title": "Issues",
+      "type": "array"
+    }
+  },
+  "required": [
+    "schema",
+    "paper_id",
+    "generated_at",
+    "issues"
+  ],
+  "title": "ReviewIssuesBundle",
+  "type": "object"
+}

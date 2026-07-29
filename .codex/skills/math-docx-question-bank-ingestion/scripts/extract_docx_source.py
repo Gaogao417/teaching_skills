@@ -47,6 +47,7 @@ import yaml
 NAMESPACES = {
     "a": "http://schemas.openxmlformats.org/drawingml/2006/main",
     "r": "http://schemas.openxmlformats.org/officeDocument/2006/relationships",
+    "o": "urn:schemas-microsoft-com:office:office",
     "v": "urn:schemas-microsoft-com:vml",
     "w": "http://schemas.openxmlformats.org/wordprocessingml/2006/main",
 }
@@ -121,13 +122,50 @@ def paragraph_records(document_xml: bytes, relationships: dict[str, str]) -> lis
     return [record for record in records if record["text"] or record["images"]]
 
 
-def _is_prompt_media(target: str) -> bool:
-    """A media target is a candidate prompt/solution image if not a formula object."""
-    lower = target.lower()
-    return not (lower.endswith(".wmf") or lower.endswith(".emf"))
+def ole_formula_bindings(
+    document_xml: bytes, relationships: dict[str, str]
+) -> dict[str, dict]:
+    """Return deterministic media-preview -> embedded OLE formula evidence.
+
+    Word stores many MathType/Equation objects as a ``w:object`` containing
+    both a VML preview image and an ``o:OLEObject`` relationship. The preview's
+    extension is not authoritative: an unbound EMF/WMF can be a real diagram,
+    while an OLE-bound PNG can be a formula preview.
+    """
+
+    root = ET.fromstring(document_xml)
+    rel_key = f"{{{NAMESPACES['r']}}}id"
+    bindings: dict[str, dict] = {}
+    for obj in root.findall(".//w:object", NAMESPACES):
+        ole = obj.find(".//o:OLEObject", NAMESPACES)
+        if ole is None:
+            continue
+        ole_rid = ole.attrib.get(rel_key)
+        object_path = relationships.get(str(ole_rid), "")
+        prog_id = ole.attrib.get("ProgID")
+        for preview in obj.findall(".//v:imagedata", NAMESPACES):
+            preview_rid = preview.attrib.get(rel_key)
+            media_target = relationships.get(str(preview_rid), "")
+            if not media_target.startswith("media/"):
+                continue
+            bindings[media_target] = {
+                "embedded": True,
+                "relationship_id": ole_rid,
+                "object_path": object_path or None,
+                "prog_id": prog_id,
+            }
+    return bindings
 
 
-def attribute_images(paragraphs: list[dict]) -> list[dict]:
+def _is_prompt_media(target: str, ole_bindings: dict[str, dict]) -> bool:
+    """A media target is content unless it is deterministically OLE-bound."""
+
+    return not bool(ole_bindings.get(target, {}).get("embedded"))
+
+
+def attribute_images(
+    paragraphs: list[dict], ole_bindings: dict[str, dict] | None = None
+) -> list[dict]:
     """Classify each non-formula image into a question bucket with confidence.
 
     Walks the paragraph stream with a state machine:
@@ -145,6 +183,8 @@ def attribute_images(paragraphs: list[dict]) -> list[dict]:
                not strictly increasing at its location, or it falls outside any
                question region (orphan).
     """
+    ole_bindings = ole_bindings or {}
+
     # First pass: locate strictly-increasing question starts.
     # Word restarts numbering in two legitimate places: the 考生须知 preamble
     # (1-4 before any real question) and chapter headings. Once we are inside the
@@ -223,7 +263,7 @@ def attribute_images(paragraphs: list[dict]) -> list[dict]:
             seen_media: dict[str, int] = {}
             for pos in positions_list:
                 for target in paragraphs[pos]["images"]:
-                    if not _is_prompt_media(target):
+                    if not _is_prompt_media(target, ole_bindings):
                         continue
                     seen_media[target] = seen_media.get(target, 0) + 1
                     # Confidence.
@@ -272,7 +312,10 @@ def attribute_images(paragraphs: list[dict]) -> list[dict]:
     attributed_media = {a["media"] for a in attributions}
     for record in paragraphs:
         for target in record["images"]:
-            if _is_prompt_media(target) and target not in attributed_media:
+            if (
+                _is_prompt_media(target, ole_bindings)
+                and target not in attributed_media
+            ):
                 attributions.append({
                     "media": target,
                     "question_number": None,
@@ -285,6 +328,31 @@ def attribute_images(paragraphs: list[dict]) -> list[dict]:
     # Sort by paragraph index for stable output.
     attributions.sort(key=lambda a: (a["paragraph_index"], a["media"]))
     return attributions
+
+
+def attribute_images_with_status(
+    paragraphs: list[dict], ole_bindings: dict[str, dict] | None = None
+) -> tuple[list[dict], str, dict | None]:
+    """Run strict image attribution without aborting unrelated extraction.
+
+    A state-machine error invalidates the *entire* attribution result: returning
+    a partial prefix would make later images appear trustworthy when their
+    question join is not. Media extraction and rendered pages remain useful for
+    text/formula transcription, so callers receive an empty attribution list
+    plus a structured failure instead of an exception.
+    """
+
+    try:
+        return attribute_images(paragraphs, ole_bindings), "complete", None
+    except ValueError as exc:
+        return (
+            [],
+            "failed",
+            {
+                "code": "question_number_state_lost",
+                "detail": str(exc),
+            },
+        )
 
 
 def find_soffice(soffice_arg: str | None) -> str:
@@ -451,6 +519,10 @@ def extract(source: Path, output_dir: Path, soffice_arg: str | None, dpi: int, n
                 (ooxml_dir / "document.xml.rels").write_bytes(rels_xml)
                 media_dir = output_dir / "media"
                 media_dir.mkdir()
+                relationships = relationship_map(rels_xml)
+                formula_bindings = ole_formula_bindings(
+                    document_xml, relationships
+                )
                 media_records = []
                 for archive_name in media_names:
                     target = media_dir / Path(archive_name).name
@@ -463,19 +535,37 @@ def extract(source: Path, output_dir: Path, soffice_arg: str | None, dpi: int, n
                             width, height = image.size
                     except OSError:
                         pass
-                    media_records.append(
-                        {
-                            "path": f"media/{target.name}",
-                            "sha256": sha256(target),
-                            "width_px": width,
-                            "height_px": height,
-                        }
-                    )
+                    media_path = f"media/{target.name}"
+                    suffix = target.suffix.lower()
+                    ole_binding = None
+                    if suffix in {".emf", ".wmf"} or media_path in formula_bindings:
+                        ole_binding = formula_bindings.get(
+                            media_path, {"embedded": False}
+                        )
+                    record = {
+                        "path": media_path,
+                        "sha256": sha256(target),
+                        "width_px": width,
+                        "height_px": height,
+                    }
+                    if ole_binding is not None:
+                        record["ole_binding"] = ole_binding
+                        record["emf_class"] = (
+                            "formula"
+                            if ole_binding["embedded"]
+                            else "diagram"
+                        )
+                    media_records.append(record)
 
                 # Paragraph stream + image attribution (from OOXML structure).
-                relationships = relationship_map(rels_xml)
                 paragraphs = paragraph_records(document_xml, relationships)
-                image_attributions = attribute_images(paragraphs)
+                (
+                    image_attributions,
+                    image_attribution_status,
+                    image_attribution_error,
+                ) = attribute_images_with_status(
+                    paragraphs, formula_bindings
+                )
 
                 # Render PDF for formula transcription (unless --no-pdf)
                 page_records: list[dict] = []
@@ -501,8 +591,13 @@ def extract(source: Path, output_dir: Path, soffice_arg: str | None, dpi: int, n
                     },
                     "media": media_records,
                     "paragraphs": paragraphs,
+                    "image_attribution_status": image_attribution_status,
                     "image_attribution": image_attributions,
                 }
+                if image_attribution_error is not None:
+                    manifest["image_attribution_error"] = (
+                        image_attribution_error
+                    )
                 if pdf_info:
                     manifest["rendered_pdf"] = pdf_info
                     manifest["rendered_pages"] = page_records
@@ -533,12 +628,14 @@ def main() -> int:
     pdf_note = f" pdf_pages={pages}" if pages else " (no PDF)"
     paragraphs_n = len(manifest.get("paragraphs", []))
     attributions = manifest.get("image_attribution", [])
+    attribution_status = manifest.get("image_attribution_status", "complete")
     high = sum(1 for a in attributions if a.get("confidence") == "high")
     med = sum(1 for a in attributions if a.get("confidence") == "medium")
     low = sum(1 for a in attributions if a.get("confidence") == "low")
     print(
         f"WORD SOURCE EXTRACTED: media={len(manifest['media'])}"
         f" paragraphs={paragraphs_n}"
+        f" attribution_status={attribution_status}"
         f" attributions={len(attributions)} (high={high} medium={med} low={low})"
         f"{pdf_note} output={args.output_dir}"
     )

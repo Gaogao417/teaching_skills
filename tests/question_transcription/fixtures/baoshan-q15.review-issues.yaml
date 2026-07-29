@@ -1,0 +1,32 @@
+schema: math_transcription_review_issues/v1
+paper_id: 2024-BAOSHAN-ERMO
+generated_at: 2026-07-28T12:00:00
+issues:
+  - issue_id: Q015-answer-sign
+    question_ref: "15"
+    question_number: 15
+    code: answer_conflict
+    severity: blocking
+    field_path: answer
+    math_token: sign
+    origin: merge
+    candidates:
+      - window_id: docx-window-03
+        raw_value: "$3$"
+        normalized_value: "3"
+        confidence: high
+        evidence:
+          - kind: page
+            source: documents/初三/2024届-上海市宝山区-初三二模数学-试卷及解析/word/pages/004.png
+            page_number: 4
+      - window_id: docx-window-04
+        raw_value: "$-3$"
+        normalized_value: "-3"
+        confidence: medium
+        selected: true
+        evidence:
+          - kind: page
+            source: documents/初三/2024届-上海市宝山区-初三二模数学-试卷及解析/word/pages/005.png
+            page_number: 5
+    candidates_hash: sha256:a6c2e4ea99045334c4e2111bfba322dd67ebebf70f51055e415b39fd3ff249fa
+    detail: 正负号冲突：两个重叠窗口分别读到 $3$ 与 $-3$，暂选低置信度窗口的 $-3$ 待人工确认。

@@ -31,11 +31,22 @@ from scripts.question_transcription.contracts import (  # noqa: E402
     ImageAttributionBundle,
     QuestionTranscriptionBundle,
 )
+from scripts.question_transcription.review_issue_contracts import (  # noqa: E402
+    ReviewIssuesBundle,
+    ReviewResolutionsBundle,
+)
+from scripts.question_transcription.source_contracts import SourcePaper  # noqa: E402
 
 _CONTRACTS = {
     "question_transcription": QuestionTranscriptionBundle,
     "image_attribution": ImageAttributionBundle,
     "draft_assembly_report": AssemblyReport,
+    "review_issues": ReviewIssuesBundle,
+    "review_resolutions": ReviewResolutionsBundle,
+    # v2: authoritative per-paper source contract for DOCX/PDF ingestion. It is
+    # additive to v1 -- the Projector turns a SourcePaper back into the v1
+    # paper.draft.yaml; v1 stays frozen and is never silently overwritten.
+    "source_paper": SourcePaper,
 }
 
 

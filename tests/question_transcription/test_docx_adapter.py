@@ -131,6 +131,32 @@ def test_adapt_rejects_unknown_media_in_attribution():
         adapt(ws, paper_id="X", source_archive="documents/x")
 
 
+def test_adapt_blocks_failed_image_attribution_but_not_word_source_itself():
+    ws = _load_word_source()
+    ws["image_attribution_status"] = "failed"
+    ws["image_attribution"] = []
+    ws["image_attribution_error"] = {
+        "code": "question_number_state_lost",
+        "detail": "expected question 5, found question 36",
+    }
+    with pytest.raises(
+        ValueError,
+        match=r"text transcription may continue.*image adaptation is blocked",
+    ):
+        adapt(ws, paper_id="X", source_archive="documents/x")
+
+
+def test_adapt_accepts_explicit_complete_status():
+    ws = _load_word_source()
+    ws["image_attribution_status"] = "complete"
+    bundle = adapt(
+        ws,
+        paper_id="2025-YANGPU-ERMO",
+        source_archive=YANGPU_ARCHIVE,
+    )
+    assert bundle["attributions"]
+
+
 # --------------------------------------------------------------------------- #
 # §11 Track 2 acceptance: real adapter -> real assembler (Yangpu Q18)
 # --------------------------------------------------------------------------- #

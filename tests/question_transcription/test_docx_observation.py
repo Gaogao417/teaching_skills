@@ -14,12 +14,18 @@ ROOT = Path(__file__).resolve().parents[2]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from scripts.question_transcription.adapt_docx_transcription import adapt  # noqa: E402
+from scripts.question_transcription.adapt_docx_transcription import (  # noqa: E402
+    adapt,
+    adapt_for_review_staging,
+)
 from scripts.question_transcription.contracts import PaperMeta, QuestionTranscriptionBundle  # noqa: E402
 from scripts.question_transcription.docx_observation_contracts import (  # noqa: E402
     DocxWindowObservation,
 )
-from scripts.question_transcription.merge_docx_observations import merge  # noqa: E402
+from scripts.question_transcription.merge_docx_observations import (  # noqa: E402
+    merge,
+    merge_with_issues,
+)
 from scripts.question_transcription.observe_docx_pages import (  # noqa: E402
     build_windows,
     discover_pages,
@@ -496,7 +502,7 @@ def test_merge_overlapping_identical_question_unions_evidence(tmp_path: Path):
     pages = [p.model_dump(mode="json") for p in discover_pages(source, source_archive="documents/test")]
     q1 = _question(question_pages=[1])
     q2 = _question(question_pages=[2])
-    merged = merge(
+    merged, issues = merge_with_issues(
         [
             _window("pages-001-002", pages[:2], [q1]),
             _window("pages-002-003", pages[1:], [q2]),
@@ -504,6 +510,7 @@ def test_merge_overlapping_identical_question_unions_evidence(tmp_path: Path):
         paper=_paper(),
     )
     assert merged.conflicts == []
+    assert issues is None
     assert len(merged.questions) == 1
     assert [e.page_number for e in merged.questions[0].evidence.question] == [1, 2]
 
@@ -564,7 +571,7 @@ def test_merge_separated_layout_combines_question_and_solution_fragments(tmp_pat
     }
     solution_fragment["question_type"] = "choice"
 
-    merged = merge(
+    merged, issues = merge_with_issues(
         [
             _window("questions-001", pages[:1], [question_fragment]),
             _window("answers-006", pages[5:], [solution_fragment]),
@@ -619,7 +626,7 @@ def test_merge_rejects_question_without_complementary_solution_fragment(tmp_path
 def test_merge_conflict_selects_higher_confidence_and_adapter_blocks(tmp_path: Path):
     source = _make_word_source(tmp_path, 2)
     pages = [p.model_dump(mode="json") for p in discover_pages(source, source_archive="documents/test")]
-    merged = merge(
+    merged, issues = merge_with_issues(
         [
             _window("a", pages, [_question(stem="错误候选", confidence="low")]),
             _window("b", pages, [_question(stem="正确候选", confidence="high")]),
@@ -627,10 +634,16 @@ def test_merge_conflict_selects_higher_confidence_and_adapter_blocks(tmp_path: P
         paper=_paper(),
     )
     assert merged.questions[0].content.stem_latex == "正确候选"
-    assert merged.conflicts[0].fields == ["content"]
+    assert merged.conflicts[0].fields == ["content.stem_latex"]
+    assert issues is not None
+    assert issues.issues[0].code == "stem_conflict"
+    assert {candidate.raw_value for candidate in issues.issues[0].candidates} == {
+        "错误候选",
+        "正确候选",
+    }
     with pytest.raises(ValueError, match="unresolved"):
         adapt(merged)
-    bundle = adapt(merged, allow_conflicts=True)
+    bundle = adapt_for_review_staging(merged)
     assert bundle.sections[0].questions[0].content.stem_latex == "正确候选"
 
 

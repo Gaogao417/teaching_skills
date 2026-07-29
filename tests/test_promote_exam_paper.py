@@ -288,7 +288,6 @@ def test_promotes_whole_paper_in_section_order_and_preserves_old_items(
         (bank.parent / "items/Q001/source.yaml").read_text(encoding="utf-8")
     )
     assert formal_source["transcription"]["human_review"] == "approved"
-
     paper_copy = Path(result["paper_manifest"])
     copied = yaml.safe_load(paper_copy.read_text(encoding="utf-8"))
     assert copied["question_bank"] == "../../question-bank.yaml"
@@ -300,6 +299,21 @@ def test_promotes_whole_paper_in_section_order_and_preserves_old_items(
         (paper_copy.parent / "paper-map.yaml").read_text(encoding="utf-8")
     )
     assert [item["item_id"] for item in copied_map["items"]] == ["Q002", "Q001"]
+
+
+def test_refuses_quarantined_transcription_review_staging(tmp_path: Path) -> None:
+    paper, bank = fixture(tmp_path)
+    write_yaml(
+        paper.parent / "review-issues.yaml",
+        {
+            "schema": "math_transcription_review_issues/v1",
+            "paper_id": "PAPER-A",
+            "generated_at": "2026-07-29T00:00:00+08:00",
+            "issues": [{"placeholder": "gate checks presence before parsing"}],
+        },
+    )
+    with pytest.raises(ValueError, match="review-issues.yaml"):
+        promoter.promote_paper(paper, bank, repo_root=tmp_path)
 
 
 @pytest.mark.parametrize(

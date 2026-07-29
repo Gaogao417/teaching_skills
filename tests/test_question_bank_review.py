@@ -17,6 +17,14 @@ SCRIPTS = PACKAGE / "scripts"
 sys.path.insert(0, str(SCRIPTS))
 
 from question_bank_review_server import create_question_bank_app  # noqa: E402
+from scripts.question_transcription.contracts import RegionEvidence  # noqa: E402
+from scripts.question_transcription.review_issue_contracts import (  # noqa: E402
+    ReviewIssuesBundle,
+)
+from scripts.question_transcription.review_issue_engine import (  # noqa: E402
+    FieldCandidate,
+    build_issue,
+)
 
 
 def write_yaml(path: Path, payload: dict) -> None:
@@ -329,6 +337,70 @@ def test_discovers_staging_exam_and_exposes_source_teacher_and_review_fields(
     assert client.get(item["source_question_previews"][0]["url"]).status_code == 200
     assert client.get(item["solution_steps"][0]["preview_url"]).status_code == 200
     assert str(root) not in client.get(f"/api/banks/{staging_id}").text
+
+
+def test_transcription_quarantine_exposes_and_resolves_issue_but_blocks_approval(
+    staging_root: tuple[Path, Path, str],
+) -> None:
+    root, paper_dir, staging_id = staging_root
+    evidence = RegionEvidence(
+        kind="region",
+        source="documents/paper-a/page-001.png",
+        page_number=1,
+        box_px=[0, 0, 100, 100],
+    )
+    issue = build_issue(
+        question_ref="1",
+        question_number=1,
+        field_path="content.answer",
+        candidates=[
+            FieldCandidate("window-a", "A", "medium", (evidence,)),
+            FieldCandidate("window-b", "B", "high", (evidence,)),
+        ],
+        selected_value="B",
+    )
+    assert issue is not None
+    issue.item_id = "Q001"
+    bundle = ReviewIssuesBundle(
+        schema="math_transcription_review_issues/v1",
+        paper_id="PAPER-A",
+        generated_at=datetime.now().astimezone(),
+        issues=[issue],
+    )
+    write_yaml(
+        paper_dir / "review-issues.yaml",
+        bundle.model_dump(by_alias=True, exclude_none=True, mode="json"),
+    )
+    client = TestClient(create_question_bank_app(root))
+
+    detail = client.get(f"/api/banks/{staging_id}").json()
+    assert detail["review_mode_active"] is True
+    assert detail["unresolved_review_issue_count"] == 1
+    assert detail["items"][0]["review_issues"][0]["resolved"] is False
+
+    approval = client.post(
+        f"/api/banks/{staging_id}/items/Q001/review",
+        json={"decision": "approved", "note": ""},
+    )
+    assert approval.status_code == 400
+    resolved = client.post(
+        f"/api/banks/{staging_id}/items/Q001/issues/{issue.issue_id}/resolution",
+        json={
+            "decision": "accept_candidate",
+            "accepted_window_id": "window-b",
+            "note": "",
+        },
+    )
+    assert resolved.status_code == 200
+    refreshed = client.get(f"/api/banks/{staging_id}").json()
+    assert refreshed["unresolved_review_issue_count"] == 0
+    assert refreshed["items"][0]["review_issues"][0]["resolved"] is True
+    # Even fully adjudicated quarantine cannot be approved until resolutions are
+    # applied and the observation is rebuilt into ordinary staging.
+    assert client.post(
+        f"/api/banks/{staging_id}/items/Q001/review",
+        json={"decision": "approved", "note": ""},
+    ).status_code == 400
 
 
 def test_staging_review_approve_reject_note_and_stale_detection(

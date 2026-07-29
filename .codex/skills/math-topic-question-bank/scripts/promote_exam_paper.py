@@ -216,6 +216,11 @@ def promote_paper(
     paper_path = paper_path.resolve()
     bank_path = bank_path.resolve()
     root = repo_root.resolve() if repo_root else Path.cwd().resolve()
+    if (paper_path.parent / "review-issues.yaml").is_file():
+        raise ValueError(
+            "staging contains review-issues.yaml; resolve issues, apply resolutions, "
+            "and rebuild a normal staging before promotion"
+        )
     try:
         paper = ExamPaperManifest.model_validate(load_yaml(paper_path))
         bank_raw = load_yaml(bank_path)

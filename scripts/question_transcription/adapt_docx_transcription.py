@@ -25,12 +25,37 @@ from scripts.question_transcription.docx_observation_contracts import (  # noqa:
 def adapt(
     observation: DocxObservationBundle,
     *,
-    allow_conflicts: bool = False,
     allow_low_confidence: bool = False,
 ) -> QuestionTranscriptionBundle:
-    if observation.conflicts and not allow_conflicts:
+    if observation.conflicts:
         refs = ", ".join(c.question_ref for c in observation.conflicts)
         raise ValueError(f"unresolved overlapping-window conflicts: {refs}")
+    return _adapt_selected(
+        observation,
+        allow_low_confidence=allow_low_confidence,
+    )
+
+
+def adapt_for_review_staging(
+    observation: DocxObservationBundle,
+    *,
+    allow_low_confidence: bool = True,
+) -> QuestionTranscriptionBundle:
+    """Adapt provisional values only for an explicitly quarantined review staging."""
+
+    if not observation.conflicts:
+        raise ValueError("review-staging adapter requires unresolved conflicts")
+    return _adapt_selected(
+        observation,
+        allow_low_confidence=allow_low_confidence,
+    )
+
+
+def _adapt_selected(
+    observation: DocxObservationBundle,
+    *,
+    allow_low_confidence: bool,
+) -> QuestionTranscriptionBundle:
     low = [
         q.question_ref
         for q in observation.questions
@@ -72,7 +97,6 @@ def main() -> int:
     parser = argparse.ArgumentParser(description="Adapt merged DOCX observations.")
     parser.add_argument("--observation", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
-    parser.add_argument("--allow-conflicts", action="store_true")
     parser.add_argument("--allow-low-confidence", action="store_true")
     args = parser.parse_args()
     observation = DocxObservationBundle.model_validate(
@@ -80,7 +104,6 @@ def main() -> int:
     )
     result = adapt(
         observation,
-        allow_conflicts=args.allow_conflicts,
         allow_low_confidence=args.allow_low_confidence,
     )
     args.output.parent.mkdir(parents=True, exist_ok=True)

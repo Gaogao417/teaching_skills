@@ -7,6 +7,7 @@ import argparse
 import json
 import sys
 from collections import defaultdict
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -22,6 +23,14 @@ from scripts.question_transcription.docx_observation_contracts import (  # noqa:
     DocxObservedQuestion,
     DocxObservedQuestionFragment,
     DocxWindowObservation,
+)
+from scripts.question_transcription.review_issue_contracts import (  # noqa: E402
+    ReviewIssue,
+    ReviewIssuesBundle,
+)
+from scripts.question_transcription.review_issue_engine import (  # noqa: E402
+    FieldCandidate,
+    build_issue,
 )
 
 _CONFIDENCE_SCORE = {"low": 0, "medium": 1, "high": 2}
@@ -93,6 +102,130 @@ def _merged_evidence(
             item.get("box_px", []),
         ),
     )
+
+
+def _candidate_evidence(
+    question: DocxObservedQuestionFragment, role: str
+) -> tuple[Any, ...]:
+    if role == "question":
+        evidence = list(question.evidence.question)
+    elif role == "solution":
+        evidence = list(question.evidence.solution)
+    else:
+        evidence = list(question.evidence.question) + list(question.evidence.solution)
+    if not evidence:
+        evidence = list(question.evidence.question) + list(question.evidence.solution)
+    return tuple(evidence)
+
+
+def _field_issue(
+    *,
+    question_ref: str,
+    entries: list[tuple[str, DocxObservedQuestionFragment]],
+    selected: DocxObservedQuestion,
+    field_path: str,
+    getter: Any,
+    confidence_field: str | None,
+    evidence_role: str,
+) -> ReviewIssue | None:
+    candidates: list[FieldCandidate] = []
+    for window_id, question in entries:
+        value = getter(question)
+        if not _is_present(value):
+            continue
+        confidence = (
+            getattr(question.transcription_confidence, confidence_field)
+            if confidence_field
+            else max(
+                (
+                    question.transcription_confidence.stem,
+                    question.transcription_confidence.formula,
+                    question.transcription_confidence.solution_steps,
+                ),
+                key=lambda item: _CONFIDENCE_SCORE[item],
+            )
+        )
+        candidates.append(
+            FieldCandidate(
+                window_id=window_id,
+                value=value,
+                confidence=confidence,
+                evidence=_candidate_evidence(question, evidence_role),
+            )
+        )
+    current: Any = selected
+    for token in field_path.split("."):
+        current = getattr(current, token)
+    return build_issue(
+        question_ref=question_ref,
+        question_number=selected.question_number,
+        field_path=field_path,
+        candidates=candidates,
+        selected_value=current,
+    )
+
+
+def _question_review_issues(
+    question_ref: str,
+    entries: list[tuple[str, DocxObservedQuestionFragment]],
+    selected: DocxObservedQuestion,
+) -> list[ReviewIssue]:
+    specs: list[tuple[str, Any, str | None, str]] = []
+    for field in (
+        "question_number",
+        "question_type",
+        "points",
+        "section_ref",
+        "section_title",
+    ):
+        specs.append(
+            (
+                field,
+                lambda question, name=field: getattr(question, name),
+                None,
+                "both",
+            )
+        )
+    for field, confidence, role in (
+        ("stem_latex", "stem", "question"),
+        ("choices", "formula", "question"),
+        ("answer", "solution_steps", "solution"),
+        ("clue", "solution_steps", "solution"),
+        ("solution_steps", "solution_steps", "solution"),
+        ("solution_notes", "solution_steps", "solution"),
+    ):
+        specs.append(
+            (
+                f"content.{field}",
+                lambda question, name=field: getattr(question.content, name),
+                confidence,
+                role,
+            )
+        )
+    for field in ("solution_start_anchor", "solution_end_anchor"):
+        specs.append(
+            (
+                f"evidence.{field}",
+                lambda question, name=field: getattr(question.evidence, name),
+                "solution_steps",
+                "solution",
+            )
+        )
+
+    issues: list[ReviewIssue] = []
+    for field_path, getter, confidence_field, evidence_role in specs:
+        issue = _field_issue(
+            question_ref=question_ref,
+            entries=entries,
+            selected=selected,
+            field_path=field_path,
+            getter=getter,
+            confidence_field=confidence_field,
+            evidence_role=evidence_role,
+        )
+        if issue is not None:
+            issues.append(issue)
+    return issues
 
 
 def _merge_question(
@@ -190,12 +323,12 @@ def _merge_question(
     return merged, sorted(conflicts), selected_window
 
 
-def merge(
+def merge_with_issues(
     windows: list[DocxWindowObservation],
     *,
     paper: PaperMeta,
     provider: Provider | None = None,
-) -> DocxObservationBundle:
+) -> tuple[DocxObservationBundle, ReviewIssuesBundle | None]:
     if not windows:
         raise ValueError("at least one window observation is required")
 
@@ -212,6 +345,7 @@ def merge(
 
     questions = []
     conflicts = []
+    review_issues: list[ReviewIssue] = []
     incomplete: list[str] = []
     for question_ref, entries in grouped.items():
         try:
@@ -219,7 +353,16 @@ def merge(
         except ValueError as exc:
             incomplete.append(str(exc))
             continue
-        if changed:
+        question_issues = _question_review_issues(question_ref, entries, selected)
+        review_issues.extend(question_issues)
+        blocking_fields = sorted(
+            {
+                issue.field_path
+                for issue in question_issues
+                if issue.severity in {"blocking", "warning"}
+            }
+        )
+        if blocking_fields:
             conflicts.append(
                 {
                     "question_ref": question_ref,
@@ -227,7 +370,7 @@ def merge(
                     "other_window_ids": [
                         window_id for window_id, _ in entries if window_id != selected_window
                     ],
-                    "fields": changed,
+                    "fields": blocking_fields,
                 }
             )
         questions.append(selected)
@@ -239,7 +382,7 @@ def merge(
 
     questions.sort(key=lambda q: (q.question_number, q.question_ref))
     actual_provider = provider or windows[0].provider
-    return DocxObservationBundle.model_validate(
+    observation = DocxObservationBundle.model_validate(
         {
             "schema": "math_docx_observation/v1",
             "paper": paper.model_dump(mode="json"),
@@ -252,6 +395,31 @@ def merge(
             "conflicts": conflicts,
         }
     )
+    issues_bundle = (
+        ReviewIssuesBundle(
+            schema="math_transcription_review_issues/v1",
+            paper_id=paper.id,
+            generated_at=datetime.now(timezone.utc),
+            issues=review_issues,
+        )
+        if review_issues
+        else None
+    )
+    return observation, issues_bundle
+
+
+def merge(
+    windows: list[DocxWindowObservation],
+    *,
+    paper: PaperMeta,
+    provider: Provider | None = None,
+) -> DocxObservationBundle:
+    observation, _ = merge_with_issues(
+        windows,
+        paper=paper,
+        provider=provider,
+    )
+    return observation
 
 
 def main() -> int:
@@ -259,13 +427,18 @@ def main() -> int:
     parser.add_argument("--windows", type=Path, nargs="+", required=True)
     parser.add_argument("--paper-meta", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument(
+        "--issues",
+        type=Path,
+        help="review issue sidecar (default: review-issues.yaml beside --output)",
+    )
     args = parser.parse_args()
     windows = [
         DocxWindowObservation.model_validate(yaml.safe_load(path.read_text("utf-8")))
         for path in args.windows
     ]
     paper = PaperMeta.model_validate(yaml.safe_load(args.paper_meta.read_text("utf-8")))
-    result = merge(windows, paper=paper)
+    result, issues = merge_with_issues(windows, paper=paper)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(
         yaml.safe_dump(
@@ -276,10 +449,25 @@ def main() -> int:
         ),
         encoding="utf-8",
     )
+    issues_path = args.issues or args.output.with_name("review-issues.yaml")
+    if issues is not None:
+        issues_path.parent.mkdir(parents=True, exist_ok=True)
+        issues_path.write_text(
+            yaml.safe_dump(
+                issues.model_dump(by_alias=True, exclude_none=True, mode="json"),
+                allow_unicode=True,
+                sort_keys=False,
+                width=1000,
+            ),
+            encoding="utf-8",
+        )
     print(
         f"DOCX OBSERVATIONS MERGED: questions={len(result.questions)} "
-        f"conflicts={len(result.conflicts)} output={args.output}"
+        f"conflicts={len(result.conflicts)} issues={len(issues.issues) if issues else 0} "
+        f"output={args.output}"
     )
+    if issues is not None:
+        print(f"REVIEW ISSUES: {issues_path}")
     return 2 if result.conflicts else 0
 
 

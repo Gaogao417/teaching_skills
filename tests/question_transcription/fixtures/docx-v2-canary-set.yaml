@@ -1,0 +1,95 @@
+schema: math_docx_v2_canary_set/v1
+cases:
+  - id: 2022-CHANGNING-EXAM
+    source: documents/初三/2022届-上海市长宁区-初三二模数学-试卷及参考答案/source-exam.docx
+    purpose:
+      - graphical_choice_panel
+      - page_crop_fallback
+      - question_state_failure
+    expected:
+      media_count: 35
+      ole_formula_preview_count: 31
+      vector_count: 31
+      unbound_vector_count: 0
+      attribution_error_contains: expected question 5, found question 36
+      full_extract_image_attribution_status: failed
+      full_extract_attribution_count: 0
+      rendered_page_count: 8
+    visual_checks:
+      - page: documents/初三/2022届-上海市长宁区-初三二模数学-试卷及参考答案/word/pages/002.png
+        finding: Q5 的 A-D 四个函数图只在渲染页中完整可见，现有 staging prompt 为空；应使用 choice_panel 或可靠拆分后的四个 choice target。
+
+  - id: 2022-XUHUI-EXAM
+    source: documents/初三/2022届-上海市徐汇区-初三二模数学-试卷及参考答案/source-exam.docx
+    purpose:
+      - unbound_emf
+      - part_stem_images
+      - question_state_failure
+    expected:
+      media_count: 68
+      ole_formula_preview_count: 49
+      vector_count: 50
+      unbound_vector_count: 1
+      attribution_error_contains: expected question 5, found question 6
+      full_extract_image_attribution_status: failed
+      full_extract_attribution_count: 0
+      rendered_page_count: 10
+
+  - id: 2026-CHANGNING-TEACHER
+    source: documents/初三/2026届-上海市长宁区-初三二模数学-试卷及解析/source.docx
+    purpose:
+      - ole_dense
+      - part_stem_images
+      - solution_step_images
+      - successful_full_extract
+    expected:
+      media_count: 526
+      ole_formula_preview_count: 509
+      vector_count: 509
+      unbound_vector_count: 0
+      attribution_count: 17
+      rendered_page_count: 36
+      prompt_attribution_count: 6
+      solution_attribution_count: 11
+
+  - id: 2025-YANGPU-TEACHER
+    source: documents/初三/2025届-上海市杨浦区-初三二模数学-试卷及解析/source.docx
+    purpose:
+      - raster_only_media
+      - multiple_part_solution_images
+      - successful_full_extract
+    expected:
+      media_count: 24
+      ole_formula_preview_count: 0
+      vector_count: 0
+      unbound_vector_count: 0
+      attribution_count: 24
+      rendered_page_count: 32
+      prompt_attribution_count: 10
+      solution_attribution_count: 14
+
+  - id: 2024-HONGKOU-TEACHER
+    source: documents/初三/2024届-上海市虹口区-初三二模数学-试卷及解析/source.docx
+    purpose:
+      - ole_and_unbound_wmf_together
+      - mixed_content_review_candidate
+      - repeated_media_attribution
+      - successful_full_extract
+    expected:
+      media_count: 466
+      ole_formula_preview_count: 440
+      vector_count: 442
+      unbound_vector_count: 2
+      unbound_vectors:
+        - media/image257.wmf
+        - media/image6.wmf
+      attribution_count: 30
+      rendered_page_count: 36
+      prompt_attribution_count: 15
+      solution_attribution_count: 14
+      orphan_attribution_count: 1
+    review_checks:
+      - asset: media/image6.wmf
+        finding: 同一未绑定 WMF 横跨 Q2、Q4、Q21 多次出现；分类仍按 OLE 硬判为 diagram，但归属必须 needs_review。
+      - asset: media/image257.wmf
+        finding: 未绑定 WMF 出现在 Q22 解答正文附近，需确认是独立解答图还是 mixed_content。

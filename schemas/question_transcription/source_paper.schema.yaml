@@ -1,0 +1,661 @@
+$defs:
+  ChoiceContent:
+    additionalProperties: false
+    description: 'One A/B/C/D choice, which may be an image or a text+image mix.
+
+
+      A plain-string choice is expressed at the ``QuestionContentV2.choices``
+
+      level as a ``str`` (the common, text-only case). An image-bearing choice
+
+      uses this object so the choice keeps its ordered RichContent.'
+    properties:
+      content:
+        items:
+          anyOf:
+          - $ref: '#/$defs/TextNode'
+          - $ref: '#/$defs/ImageNode'
+        title: Content
+        type: array
+    required:
+    - content
+    title: ChoiceContent
+    type: object
+  ChoicePanel:
+    additionalProperties: false
+    description: 'A single image that holds all four A-D choices, plus its A-D map.
+
+
+      Used only when separate per-choice figures are not available. The panel is
+
+      one shared asset referenced once; its mapping is human-gated.'
+    properties:
+      asset_id:
+        minLength: 1
+        title: Asset Id
+        type: string
+      mapping:
+        $ref: '#/$defs/ChoicePanelMapping'
+    required:
+    - asset_id
+    - mapping
+    title: ChoicePanel
+    type: object
+  ChoicePanelMapping:
+    additionalProperties: false
+    description: 'The A-D map for a single ``choice_panel`` image.
+
+
+      Required when the four choices could NOT be reliably split into four
+
+      separate :class:`ChoiceContent`. ``confirmed`` MUST be ``false`` until a
+
+      human has validated the mapping; the assembler blocks promotion of an
+
+      unconfirmed panel.'
+    properties:
+      A:
+        minLength: 1
+        title: A
+        type: string
+      B:
+        minLength: 1
+        title: B
+        type: string
+      C:
+        minLength: 1
+        title: C
+        type: string
+      D:
+        minLength: 1
+        title: D
+        type: string
+      confirmed:
+        default: false
+        title: Confirmed
+        type: boolean
+    required:
+    - A
+    - B
+    - C
+    - D
+    title: ChoicePanelMapping
+    type: object
+  ImageAttributionV2:
+    additionalProperties: false
+    description: 'One accepted attribution of an asset to a structural target.
+
+
+      ``asset_id`` + ``target`` together pin where the image goes. ``order`` is
+
+      the reading order *within* the target''s content list, matching the
+
+      position of the :class:`ImageNode` that references this asset.'
+    properties:
+      attribution_id:
+        minLength: 1
+        title: Attribution Id
+        type: string
+      asset_id:
+        minLength: 1
+        title: Asset Id
+        type: string
+      question_ref:
+        pattern: ^\d{1,3}(-[A-Za-z0-9]+)?$
+        title: Question Ref
+        type: string
+      target:
+        anyOf:
+        - $ref: '#/$defs/TargetQuestionStem'
+        - $ref: '#/$defs/TargetChoice'
+        - $ref: '#/$defs/TargetChoicePanel'
+        - $ref: '#/$defs/TargetPartStem'
+        - $ref: '#/$defs/TargetQuestionSolutionStep'
+        - $ref: '#/$defs/TargetPartSolutionStep'
+        title: Target
+      crop:
+        $ref: '#/$defs/ImageCrop'
+      order:
+        minimum: 0
+        title: Order
+        type: integer
+      confidence:
+        enum:
+        - high
+        - medium
+        - low
+        title: Confidence
+        type: string
+      state:
+        enum:
+        - accepted
+        - needs_review
+        - rejected
+        title: State
+        type: string
+    required:
+    - attribution_id
+    - asset_id
+    - question_ref
+    - target
+    - order
+    - confidence
+    - state
+    title: ImageAttributionV2
+    type: object
+  ImageCrop:
+    additionalProperties: false
+    description: 'The box carved out of an asset for one target.
+
+
+      Defaults to the full asset (``kind="full"``); a region crop carries the
+
+      ``box_px`` and optional ``whiteout_px`` in the same convention as v1. A
+
+      shared asset referenced by multiple targets typically uses ``full`` for
+
+      each -- the asset is shared, the crop is per-target.'
+    properties:
+      kind:
+        default: full
+        enum:
+        - full
+        - region
+        title: Kind
+        type: string
+      box_px:
+        items:
+          type: integer
+        title: Box Px
+        type: array
+      whiteout_px:
+        items:
+          items:
+            type: integer
+          type: array
+        title: Whiteout Px
+        type: array
+    title: ImageCrop
+    type: object
+  ImageNode:
+    additionalProperties: false
+    description: 'A reference to one accepted image asset, in reading order.
+
+
+      ``asset_id`` resolves inside the v2 attribution bundle''s ``assets``. The
+
+      node never carries image bytes, crop boxes, or hashes here -- those live on
+
+      the asset and attribution records so a shared image is referenced once.'
+    properties:
+      kind:
+        const: image
+        title: Kind
+        type: string
+      asset_id:
+        minLength: 1
+        title: Asset Id
+        type: string
+    required:
+    - kind
+    - asset_id
+    title: ImageNode
+    type: object
+  ImageRendition:
+    additionalProperties: false
+    description: 'The displayable raster produced from an asset.
+
+
+      Separated from the asset bytes so the original (e.g. an EMF) and the shown
+
+      PNG can differ: the original is the source-of-truth artifact, the rendition
+
+      is what the renderer / Review UI embeds. Cropping is expressed by the
+
+      target''s crop box, not by mutating the rendition.'
+    properties:
+      path:
+        minLength: 1
+        title: Path
+        type: string
+      sha256:
+        pattern: ^sha256:[0-9a-f]{64}$
+        title: Sha256
+        type: string
+      media_type:
+        minLength: 1
+        title: Media Type
+        type: string
+      width_px:
+        minimum: 1
+        title: Width Px
+        type: integer
+      height_px:
+        minimum: 1
+        title: Height Px
+        type: integer
+    required:
+    - path
+    - sha256
+    - media_type
+    - width_px
+    - height_px
+    title: ImageRendition
+    type: object
+  OleFormulaBinding:
+    additionalProperties: false
+    description: 'Deterministic evidence that a vector object is backed by an OLE formula.
+
+
+      ``embedded`` is the classification authority for formula vs diagram. When
+
+      true, at least one stable OOXML/OLE locator is required so an auditor can
+
+      identify the exact formula object without trusting an observer proposal.'
+    properties:
+      embedded:
+        title: Embedded
+        type: boolean
+      relationship_id:
+        anyOf:
+        - type: string
+        - type: 'null'
+        default: null
+        title: Relationship Id
+      object_path:
+        anyOf:
+        - type: string
+        - type: 'null'
+        default: null
+        title: Object Path
+      prog_id:
+        anyOf:
+        - type: string
+        - type: 'null'
+        default: null
+        title: Prog Id
+    required:
+    - embedded
+    title: OleFormulaBinding
+    type: object
+  QuestionContentV2:
+    additionalProperties: false
+    description: 'The ordered, image-aware body of one SourceQuestion.
+
+
+      ``stem`` is always present. It may be image-only after a reviewer confirms
+
+      that an indivisible ``mixed_content`` asset contains the whole stem; the
+
+      image is then preserved as-is rather than having its text extracted.
+
+
+      For a ``choice`` question, exactly one of ``choices`` (four separate
+
+      :class:`ChoiceValue`) or ``choice_panel`` is required.'
+    properties:
+      stem:
+        items:
+          anyOf:
+          - $ref: '#/$defs/TextNode'
+          - $ref: '#/$defs/ImageNode'
+        title: Stem
+        type: array
+      choices:
+        items:
+          anyOf:
+          - type: string
+          - $ref: '#/$defs/ChoiceContent'
+        title: Choices
+        type: array
+      choice_panel:
+        anyOf:
+        - $ref: '#/$defs/ChoicePanel'
+        - type: 'null'
+        default: null
+      parts:
+        items:
+          $ref: '#/$defs/QuestionPart'
+        title: Parts
+        type: array
+      answer:
+        minLength: 1
+        title: Answer
+        type: string
+      clue:
+        minLength: 1
+        title: Clue
+        type: string
+      solution_steps:
+        items:
+          $ref: '#/$defs/SolutionStep'
+        title: Solution Steps
+        type: array
+    required:
+    - stem
+    - answer
+    - clue
+    title: QuestionContentV2
+    type: object
+  QuestionPart:
+    additionalProperties: false
+    description: 'One sub-question of a multi-part question.
+
+
+      ``part_id`` is the stable join key for ``part_stem`` and
+
+      ``part_solution_step`` image targets. ``label`` is the display label shown
+
+      to students (e.g. "(1)", "（1）", "第(1)题"); it is free-form because exam
+
+      papers differ.'
+    properties:
+      part_id:
+        pattern: ^[1-9][0-9]{0,2}$
+        title: Part Id
+        type: string
+      label:
+        minLength: 1
+        title: Label
+        type: string
+      stem:
+        items:
+          anyOf:
+          - $ref: '#/$defs/TextNode'
+          - $ref: '#/$defs/ImageNode'
+        title: Stem
+        type: array
+      solution_steps:
+        items:
+          $ref: '#/$defs/SolutionStep'
+        title: Solution Steps
+        type: array
+    required:
+    - part_id
+    - label
+    - stem
+    title: QuestionPart
+    type: object
+  SolutionStep:
+    additionalProperties: false
+    description: 'One numbered solution step with its own ordered content.
+
+
+      A step may carry a diagram (an :class:`ImageNode` in ``content``) -- that is
+
+      how v2 expresses "this step has a figure", which v1 could not. Steps are
+
+      ordered by their position in the list; ``step_id`` is the stable join key.'
+    properties:
+      step_id:
+        pattern: ^[1-9][0-9]{0,2}$
+        title: Step Id
+        type: string
+      content:
+        items:
+          anyOf:
+          - $ref: '#/$defs/TextNode'
+          - $ref: '#/$defs/ImageNode'
+        title: Content
+        type: array
+    required:
+    - step_id
+    - content
+    title: SolutionStep
+    type: object
+  SourceImageAsset:
+    additionalProperties: false
+    description: 'One original media asset plus its display rendition.
+
+
+      ``asset_id`` is the handle referenced by :class:`ImageNode` and the
+
+      attribution targets. ``original`` keeps the bytes/hash of the source file
+
+      (e.g. ``word/media/image1.emf``); ``rendition`` is the rendered PNG that
+
+      downstream consumers display. Shared images are referenced by multiple
+
+      targets through the same ``asset_id`` -- the asset record is NOT copied.'
+    properties:
+      asset_id:
+        minLength: 1
+        title: Asset Id
+        type: string
+      original_path:
+        minLength: 1
+        title: Original Path
+        type: string
+      original_sha256:
+        pattern: ^sha256:[0-9a-f]{64}$
+        title: Original Sha256
+        type: string
+      original_media_type:
+        minLength: 1
+        title: Original Media Type
+        type: string
+      emf_class:
+        enum:
+        - formula
+        - diagram
+        - mixed_content
+        - needs_review
+        title: Emf Class
+        type: string
+      ole_binding:
+        anyOf:
+        - $ref: '#/$defs/OleFormulaBinding'
+        - type: 'null'
+        default: null
+      review_issue_id:
+        anyOf:
+        - type: string
+        - type: 'null'
+        default: null
+        title: Review Issue Id
+      rendition:
+        anyOf:
+        - $ref: '#/$defs/ImageRendition'
+        - type: 'null'
+        default: null
+    required:
+    - asset_id
+    - original_path
+    - original_sha256
+    - original_media_type
+    - emf_class
+    title: SourceImageAsset
+    type: object
+  SourceQuestion:
+    additionalProperties: false
+    description: 'One question in authoritative v2 form.
+
+
+      Carries its own ``question_ref`` (the same source-local decimal key as v1)
+
+      so the assembler can join against the v1 transcription bundle when needed.
+
+      ``content`` is the v2 image-aware body.'
+    properties:
+      question_ref:
+        pattern: ^\d{1,3}(-[A-Za-z0-9]+)?$
+        title: Question Ref
+        type: string
+      question_number:
+        minimum: 1
+        title: Question Number
+        type: integer
+      question_type:
+        enum:
+        - choice
+        - fillin
+        - problem
+        - short_answer
+        title: Question Type
+        type: string
+      points:
+        minimum: 0
+        title: Points
+        type: integer
+      content:
+        $ref: '#/$defs/QuestionContentV2'
+    required:
+    - question_ref
+    - question_number
+    - question_type
+    - points
+    - content
+    title: SourceQuestion
+    type: object
+  TargetChoice:
+    additionalProperties: false
+    properties:
+      target:
+        const: choice
+        default: choice
+        title: Target
+        type: string
+      choice_key:
+        enum:
+        - A
+        - B
+        - C
+        - D
+        title: Choice Key
+        type: string
+    required:
+    - choice_key
+    title: TargetChoice
+    type: object
+  TargetChoicePanel:
+    additionalProperties: false
+    properties:
+      target:
+        const: choice_panel
+        default: choice_panel
+        title: Target
+        type: string
+    title: TargetChoicePanel
+    type: object
+  TargetPartSolutionStep:
+    additionalProperties: false
+    properties:
+      target:
+        const: part_solution_step
+        default: part_solution_step
+        title: Target
+        type: string
+      part_id:
+        pattern: ^[1-9][0-9]{0,2}$
+        title: Part Id
+        type: string
+      step_id:
+        pattern: ^[1-9][0-9]{0,2}$
+        title: Step Id
+        type: string
+    required:
+    - part_id
+    - step_id
+    title: TargetPartSolutionStep
+    type: object
+  TargetPartStem:
+    additionalProperties: false
+    properties:
+      target:
+        const: part_stem
+        default: part_stem
+        title: Target
+        type: string
+      part_id:
+        pattern: ^[1-9][0-9]{0,2}$
+        title: Part Id
+        type: string
+    required:
+    - part_id
+    title: TargetPartStem
+    type: object
+  TargetQuestionSolutionStep:
+    additionalProperties: false
+    properties:
+      target:
+        const: question_solution_step
+        default: question_solution_step
+        title: Target
+        type: string
+      step_id:
+        pattern: ^[1-9][0-9]{0,2}$
+        title: Step Id
+        type: string
+    required:
+    - step_id
+    title: TargetQuestionSolutionStep
+    type: object
+  TargetQuestionStem:
+    additionalProperties: false
+    properties:
+      target:
+        const: question_stem
+        default: question_stem
+        title: Target
+        type: string
+    title: TargetQuestionStem
+    type: object
+  TextNode:
+    additionalProperties: false
+    description: A run of transcribed text (LaTeX-inline, same convention as v1).
+    properties:
+      kind:
+        const: text
+        title: Kind
+        type: string
+      text:
+        minLength: 1
+        title: Text
+        type: string
+    required:
+    - kind
+    - text
+    title: TextNode
+    type: object
+additionalProperties: false
+description: 'Schema ``math_exam_source_paper/v2``.
+
+
+  The authoritative per-paper v2 artifact. The assembler writes it; the
+
+  Projector reads it and emits the v1 ``paper.draft.yaml``. Mixing v1 and v2
+
+  outputs for the same paper is allowed (v1 is the projection target), but v2
+
+  never silently overwrites v1.'
+properties:
+  schema:
+    const: math_exam_source_paper/v2
+    title: Schema
+    type: string
+  paper_id:
+    minLength: 1
+    title: Paper Id
+    type: string
+  questions:
+    items:
+      $ref: '#/$defs/SourceQuestion'
+    minItems: 1
+    title: Questions
+    type: array
+  assets:
+    items:
+      $ref: '#/$defs/SourceImageAsset'
+    title: Assets
+    type: array
+  attributions:
+    items:
+      $ref: '#/$defs/ImageAttributionV2'
+    title: Attributions
+    type: array
+required:
+- schema
+- paper_id
+- questions
+title: SourcePaper
+type: object

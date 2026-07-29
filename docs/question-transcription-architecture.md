@@ -2,7 +2,7 @@
 
 ## 1. 文档状态
 
-- 状态：实施原型；P1–P3 已实现，P4 部分通过
+- 状态：P1–P4 工程链路已实现；真实整卷准确性由疑点审核门禁控制
 - 适用范围：DOC/DOCX、可检索 PDF、扫描 PDF、单页图片试卷
 - 下游目标：现有 `math_exam_staging_draft/v1`（`paper.draft.yaml`）
 - 来源专项设计：
@@ -11,14 +11,35 @@
 - 核心公式：
 
   ```text
-  图片归属（ImageAttributionBundle）
-                  +
-  转录文本（QuestionTranscriptionBundle）
+  SourceQuestion v2（RichContent + 精确图片 target）
                   ↓
-       确定性 DraftAssembler
+       paper.source.yaml（权威原卷）
                   ↓
-            paper.draft.yaml
+       Review Gate + Projector
+                  ↓
+  v1 Bundles → DraftAssembler → paper.draft.yaml（兼容视图）
   ```
+
+### 1.1 v2 修订（2026-07-29）
+
+本文后续章节记录的是已落地的 v1 汇合层；其中“图片只到题目级”“不绑定
+solution_step”“needs_review 仅警告”等限制，不再适用于权威来源数据。
+
+新增 `math_exam_source_paper/v2`，用有序 `RichContent = text | image` 覆盖：
+
+- 题干；
+- A/B/C/D 每个选项；
+- 每个 `part_id` 的小问题干；
+- 题目级与小问级每个 `step_id` 的解答。
+
+`ImageAttributionV2` 必须携带 `question_ref` 和精确 target。OLE 绑定是
+`formula/diagram` 的确定性判据；`mixed_content` 必须人工确认，拿不准时为
+`needs_review` 并在 review issue 中说明原因。任何 unresolved blocking issue 都会
+阻止 projector 产生 v1 draft。
+
+`paper.source.yaml` 是无损权威数据。v1 draft 仍保留，是为了复用现有
+expand/materialize/audit 与 latex-data 消费链；纯图选项在 v1 中只能变成占位文本加
+prompt 图片，不能据此反推精确位置。
 
 本设计不改变 `paper.draft.yaml`、Review UI API、正式 staging 或题库 schema。它只把
 当前由 Agent 同时承担的“识别、转录、搬运、拼装”拆成可替换的上游 provider 和一个
@@ -609,7 +630,9 @@ flowchart LR
 - 2024 普陀二模 Q1–Q3 真实 DOCX 子集通过结构审计；
 - 同卷 25 题整卷观察完整，但 17 题存在 unresolved conflict，默认 adapter 正确拒绝
   继续；
-- 所以 P4 只能记为部分通过，不能进入“整卷生产可用”状态。
+- 当时 P4 只能记为部分通过；2026-07-29 已补齐字段级疑点 sidecar、隔离审核
+  staging、UI 裁决、resolution 应用和最终晋升门禁。整卷不会因冲突而静默继续，
+  也不会因结构审计通过而被误报为内容正确。
 
 完整证据和冻结后基线对照见
 `docs/question-transcription-p4-acceptance-2026-07-28.md`。
@@ -645,3 +668,30 @@ flowchart LR
    组装错误；明确标记为 `ignored` 的图片不要求消费。
 7. **只保留现有两层质量判断。** 组装 contract 保证结构完整，Review UI 负责内容
    人工确认。
+
+## 14. 可疑转写的隔离审核闭环
+
+重叠窗口、图片框或冻结后的旧 staging 对照只负责发现差异，不负责决定数学上哪个
+值正确。任何非格式差异都会进入卷级 `review-issues.yaml`，其中保留精确字段路径、
+题号、严重级别、每个窗口的原始值/置信度/页图或 bbox 证据、merge 暂选值，以及
+候选集合哈希。旧 staging 只能作为额外候选，永远不会覆盖盲跑结果。
+
+处理顺序固定为：
+
+```text
+盲观察并冻结 → merge + review-issues
+  →（可选）冻结后比较已有 staging，只追加候选
+  → build_review_staging.py 建隔离审核卷
+  → Review UI 逐字段选候选/基线/手工值
+  → apply_review_resolutions.py 生成无冲突 observation
+  → 正常 adapter / assemble / expand / materialize
+  → review.yaml 逐题批准 → approved audit → 原子晋升
+```
+
+隔离审核卷根目录存在 `review-issues.yaml` 时，Review UI 禁止单题/整卷通过，
+`audit_staging.py --require-approved-review` 和 `promote_exam_paper.py` 也都会拒绝。
+即使所有疑点已经裁决，仍必须先应用 resolution 并重建普通 staging，防止暂选值
+直接获得正式审核资格。
+
+`info` 级格式差异只留审计记录；`warning` 和 `blocking` 都要求显式裁决。公式符号、
+正负号、指数、根号、分数、不等号、数值和选择字母差异不会做代数“自动等价”。

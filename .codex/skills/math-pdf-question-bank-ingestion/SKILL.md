@@ -7,8 +7,9 @@ description: "把数学试卷 PDF、扫描页快速提取成可审核的原卷�
 
 ## 目标和原则
 
-PDF/扫描件冻结为不可变页图。以一个紧凑 `paper.draft.yaml` 完成首次录入，再用通用脚本
-展开正式 staging。最终产物兼容 `math-topic-question-bank` 原卷模式。
+PDF/扫描件冻结为不可变页图。多模态 provider 一次产生文本转录和图片 bbox 的联合
+观察，经两个标准 Bundle 和统一 DraftAssembler 生成 `paper.draft.yaml`，再用通用
+脚本展开正式 staging。Agent 不直接编写 draft。
 
 速度原则：
 
@@ -48,16 +49,50 @@ PDF/扫描件冻结为不可变页图。以一个紧凑 `paper.draft.yaml` 完�
 
 已有编号 PNG/JPEG 时只校验可读性。页图一旦被引用即不可变。
 
-### 2. 单次浏览并写 compact draft
+### 2. 单次联合观察并生成标准 Bundle
 
-一次浏览完题目页和答案页，只写：
+先生成不可变页面 manifest，并准备只含卷级字段的 `paper-meta.yaml`：
 
-```text
-staging/<paper-id>/paper.draft.yaml
+```bash
+./.venv/bin/python scripts/question_transcription/pdf_source_manifest.py \
+  --paper-id <paper-id> --source-archive <source-archive> \
+  --pages-dir <source-archive> --engine pdftoppm \
+  --pdf <paper.pdf> --output <build>/pdf-source.yaml
+
+./.venv/bin/python scripts/question_transcription/observe_pdf_pages.py \
+  --manifest <build>/pdf-source.yaml \
+  --paper-meta <build>/paper-meta.yaml \
+  --cache-dir <build>/cache --output-dir <build>/windows
+
+./.venv/bin/python scripts/question_transcription/merge_pdf_observations.py \
+  <build>/windows/*.observation.yaml \
+  --output <build>/pdf-observation.yaml \
+  --issues <build>/review-issues.yaml
+
+./.venv/bin/python scripts/question_transcription/adapt_pdf_transcription.py \
+  --observation <build>/pdf-observation.yaml \
+  --output <build>/transcription.yaml
+
+./.venv/bin/python scripts/question_transcription/adapt_pdf_images.py \
+  --detection <build>/pdf-observation.yaml \
+  --output <build>/image-attribution.yaml
+
+./.venv/bin/python scripts/question_transcription/assemble_paper_draft.py \
+  --transcription <build>/transcription.yaml \
+  --images <build>/image-attribution.yaml \
+  --output staging/<paper-id>/paper.draft.yaml \
+  --report <build>/assembly-report.yaml
 ```
 
-draft 同时记录卷级信息、章节、每题结构化转写、题目/答案页、答案锚点和 crop。
-格式读取 `references/staging-draft-contract.md`。
+若 merge 生成 `review-issues.yaml`，普通 adapter 会拒绝继续。冻结盲观察后可运行
+`compare_existing_staging.py`，但旧 staging 只作为待审候选，绝不自动覆盖模型
+结果。用 `build_review_staging.py` 生成隔离审核卷，在 Review UI 对照页图/bbox
+逐字段裁决；再用 `apply_review_resolutions.py` 生成无冲突 observation，并从普通
+adapter 重跑。含 `review-issues.yaml` 的隔离卷不能通过 approved audit 或晋升。
+
+MiMo 使用环境中的 `MIMO_API_KEY`，同一次调用返回文字、公式、证据框和独立题图
+bbox。模型自报 `accepted` 仍会默认降级为 `needs_review`；只有人工核对 crop 后才
+允许用 `adapt_pdf_images.py --allow-model-accepted` 重新生成图片 Bundle。
 
 必须满足：
 

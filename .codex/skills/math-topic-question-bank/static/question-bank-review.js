@@ -468,6 +468,7 @@ function applyItem(item, itemIndex) {
   ].filter(Boolean);
   badges.replaceChildren(...badgeNodes);
   const staging = state.detail.kind === "staging_exam";
+  renderTranscriptionIssues(item);
   const promptAlert = byId("prompt-review-alert");
   const promptNotes = byId("prompt-review-notes");
   const needsHumanCrop = staging && item.prompt_status === "needs_human_crop";
@@ -576,6 +577,15 @@ function applyItem(item, itemIndex) {
     setText("review-status", statusText);
     byId("review-status").dataset.status = review.stale ? "stale" : (review.status || "pending");
     setText("review-message", review.error || "");
+    const quarantined = Boolean(state.detail.review_mode_active);
+    byId("approve-item").disabled = quarantined;
+    byId("approve-paper").disabled = quarantined;
+    if (quarantined) {
+      setText(
+        "bulk-message",
+        "当前为转写疑点隔离审核卷：请先裁决疑点并重建正常 staging。",
+      );
+    }
   }
   byId("previous-item").disabled = itemIndex === 0;
   byId("next-item").disabled = itemIndex === state.detail.items.length - 1;
@@ -584,6 +594,126 @@ function applyItem(item, itemIndex) {
   });
   wireImageSections();
   updateSlotSelection();
+}
+
+function issueValue(value) {
+  if (typeof value !== "string") return String(value ?? "");
+  try {
+    const decoded = JSON.parse(value);
+    return typeof decoded === "string" ? decoded : JSON.stringify(decoded, null, 2);
+  } catch {
+    return value;
+  }
+}
+
+async function resolveTranscriptionIssue(itemId, issue, body, messageNode) {
+  messageNode.textContent = "正在保存裁决…";
+  try {
+    const response = await fetch(
+      `/api/banks/${encodeURIComponent(state.detail.id)}/items/${encodeURIComponent(itemId)}/issues/${encodeURIComponent(issue.issue_id)}/resolution`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...body, note: "" }),
+      },
+    );
+    if (!response.ok) throw new Error(await response.text());
+    state.itemCache.delete(itemId);
+    const directoryItem = state.detail.items.find((entry) => entry.id === itemId);
+    if (directoryItem) {
+      directoryItem.unresolved_review_issue_count = Math.max(
+        0, (directoryItem.unresolved_review_issue_count || 1) - 1,
+      );
+    }
+    await ensureItemLoaded(itemId);
+    renderList();
+    renderItem();
+  } catch (error) {
+    messageNode.textContent = `保存失败：${error.message}`;
+  }
+}
+
+function renderTranscriptionIssues(item) {
+  const section = byId("transcription-issues");
+  const list = byId("transcription-issue-list");
+  const issues = item.review_issues || [];
+  section.hidden = !issues.length;
+  list.replaceChildren();
+  if (!issues.length) return;
+  const unresolved = issues.filter((issue) => !issue.resolved).length;
+  setText("transcription-issue-summary", `${issues.length} 项 · ${unresolved} 项未裁决`);
+  issues.forEach((issue) => {
+    const card = document.createElement("article");
+    card.className = `transcription-issue-card severity-${issue.severity}`;
+    const head = document.createElement("header");
+    const title = document.createElement("strong");
+    title.textContent = `${issue.field_path || issue.asset_id} · ${issue.code}`;
+    const stateBadge = document.createElement("span");
+    stateBadge.textContent = issue.resolved ? "已裁决" : issue.severity;
+    stateBadge.className = "transcription-issue-state";
+    head.append(title, stateBadge);
+    card.append(head);
+    if (issue.detail) {
+      const detail = document.createElement("p");
+      detail.textContent = issue.detail;
+      card.append(detail);
+    }
+    const candidates = document.createElement("div");
+    candidates.className = "transcription-candidates";
+    (issue.candidates || []).forEach((candidate) => {
+      const row = document.createElement("div");
+      row.className = "transcription-candidate";
+      const value = document.createElement("pre");
+      value.textContent = issueValue(candidate.raw_value);
+      const meta = document.createElement("small");
+      const evidence = (candidate.evidence || []).map((entry) => {
+        const bbox = entry.box_px ? ` bbox=${entry.box_px.join(",")}` : "";
+        return `${entry.source} · 第${entry.page_number}页${bbox}`;
+      }).join("\n");
+      meta.textContent = `${candidate.window_id} · 置信度 ${candidate.confidence}${candidate.selected ? " · 当前暂选" : ""}\n${evidence}`;
+      const choose = document.createElement("button");
+      choose.type = "button";
+      choose.textContent = candidate.window_id.startsWith("baseline:") ? "采用已有基线" : "采用此候选";
+      choose.disabled = Boolean(issue.resolved);
+      choose.addEventListener("click", () => {
+        const body = candidate.window_id.startsWith("baseline:")
+          ? { decision: "accept_baseline" }
+          : { decision: "accept_candidate", accepted_window_id: candidate.window_id };
+        void resolveTranscriptionIssue(item.id, issue, body, message);
+      });
+      row.append(value, meta, choose);
+      candidates.append(row);
+    });
+    if (issue.allowed_classes) {
+      issue.allowed_classes.forEach((value) => {
+        const choose = document.createElement("button");
+        choose.type = "button";
+        choose.textContent = `分类为 ${value}`;
+        choose.disabled = Boolean(issue.resolved);
+        choose.addEventListener("click", () => {
+          void resolveTranscriptionIssue(item.id, issue, { decision: value }, message);
+        });
+        candidates.append(choose);
+      });
+    }
+    const manual = document.createElement("button");
+    manual.type = "button";
+    manual.textContent = "手工输入正确值";
+    manual.disabled = Boolean(issue.resolved) || !issue.candidates;
+    manual.addEventListener("click", () => {
+      const value = window.prompt("输入该字段的正确值：");
+      if (value !== null && value.trim()) {
+        void resolveTranscriptionIssue(
+          item.id, issue, { decision: "manual", manual_value: value }, message,
+        );
+      }
+    });
+    candidates.append(manual);
+    const message = document.createElement("p");
+    message.className = "review-message";
+    card.append(candidates, message);
+    list.append(card);
+  });
 }
 
 function setReviewControlsDisabled(disabled) {
@@ -658,6 +788,13 @@ function applyFullItem(fullItem) {
 async function submitReview(decision, note = "") {
   const item = state.detail?.items?.[state.itemIndex];
   if (!item || state.detail.kind !== "staging_exam" || state.submittingReview) return false;
+  if (state.detail.review_mode_active) {
+    setText(
+      "review-message",
+      "隔离审核卷不能直接通过或要求修改；请先完成字段裁决并重建正常 staging。",
+    );
+    return false;
+  }
   const reviewedIndex = state.itemIndex;
   const reviewedItemId = item.id;
   state.submittingReview = true;
@@ -727,6 +864,10 @@ function findNextUnreviewedBank(currentBankId) {
 // 在 bulk-message 列出，不跳卷，让用户处理。
 async function approveWholePaper() {
   if (!state.detail || state.detail.kind !== "staging_exam" || state.submittingReview) return;
+  if (state.detail.review_mode_active) {
+    setText("bulk-message", "隔离审核卷不能直接通过；请先裁决并重建正常 staging。");
+    return;
+  }
   const currentBankId = state.detail.id;
   state.submittingReview = true;
   setReviewControlsDisabled(true);

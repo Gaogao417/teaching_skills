@@ -23,6 +23,27 @@ from scripts.question_transcription.pdf_observation_contracts import (
 def adapt(observation: MergedPdfObservation | dict) -> dict:
     if not isinstance(observation, MergedPdfObservation):
         observation = MergedPdfObservation.model_validate(observation)
+    if observation.conflicts:
+        raise ValueError(
+            "unresolved overlapping-window conflicts: "
+            + ", ".join(observation.conflicts)
+        )
+    return _adapt_selected(observation)
+
+
+def adapt_for_review_staging(
+    observation: MergedPdfObservation | dict,
+) -> dict:
+    """Adapt provisional values only for an explicitly quarantined review staging."""
+
+    if not isinstance(observation, MergedPdfObservation):
+        observation = MergedPdfObservation.model_validate(observation)
+    if not observation.conflicts:
+        raise ValueError("review-staging adapter requires unresolved conflicts")
+    return _adapt_selected(observation)
+
+
+def _adapt_selected(observation: MergedPdfObservation) -> dict:
     sections: OrderedDict[tuple[str, str], list[dict]] = OrderedDict()
     page_by_number = {page.page_number: page for page in observation.pages}
     for question in observation.questions:

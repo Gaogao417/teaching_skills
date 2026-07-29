@@ -428,6 +428,7 @@ def main() -> int:
 
     staging_dir = args.staging_dir.resolve()
     repo_root = args.repo_root.resolve()
+    sys.path.insert(0, str(repo_root))
     topic_scripts = (
         repo_root / ".codex/skills/math-topic-question-bank/scripts"
     ).resolve()
@@ -437,6 +438,33 @@ def main() -> int:
     sys.path.insert(0, str(topic_scripts))
     sys.path.insert(0, str(docx_scripts))
     try:
+        review_issues_path = staging_dir / "review-issues.yaml"
+        if args.require_approved_review and review_issues_path.is_file():
+            raise ValueError(
+                "review-issues.yaml marks a quarantined transcription review staging; "
+                "apply resolutions and rebuild before approved audit"
+            )
+        if review_issues_path.is_file():
+            from scripts.question_transcription.review_issue_contracts import (
+                ReviewIssuesBundle,
+                ReviewResolutionsBundle,
+                unresolved_issues,
+            )
+
+            issue_bundle = ReviewIssuesBundle.model_validate(
+                load_yaml(review_issues_path)
+            )
+            resolution_path = staging_dir / "review-resolutions.yaml"
+            resolution_bundle = (
+                ReviewResolutionsBundle.model_validate(load_yaml(resolution_path))
+                if resolution_path.is_file()
+                else None
+            )
+            pending = unresolved_issues(issue_bundle, resolution_bundle)
+            print(
+                "TRANSCRIPTION REVIEW QUARANTINE: "
+                f"{len(issue_bundle.issues)} issue(s), {len(pending)} unresolved"
+            )
         from exam_source_contracts import ExamPaperManifest, ExamPaperMap
         from paper_map_contracts import validate_against_staging
         from validate_exam_source import validate_source

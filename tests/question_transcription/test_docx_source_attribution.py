@@ -15,7 +15,11 @@ DOCX_SCRIPTS = (
 if str(DOCX_SCRIPTS) not in sys.path:
     sys.path.insert(0, str(DOCX_SCRIPTS))
 
-from extract_docx_source import attribute_images  # noqa: E402
+from extract_docx_source import (  # noqa: E402
+    attribute_images,
+    attribute_images_with_status,
+    ole_formula_bindings,
+)
 
 
 def _paragraph(index: int, text: str, images: list[str] | None = None) -> dict:
@@ -62,6 +66,59 @@ def test_attribute_images_still_ignores_backward_solution_step_numbers():
     )
 
 
+def test_unbound_emf_is_a_diagram_candidate():
+    paragraphs = [
+        _paragraph(0, "1. 如图，求解", ["media/image1.emf"]),
+        _paragraph(1, "2. 下一题"),
+    ]
+    attributions = attribute_images(paragraphs, ole_bindings={})
+    assert [item["media"] for item in attributions] == ["media/image1.emf"]
+
+
+def test_ole_bound_preview_is_excluded_even_when_it_is_png():
+    paragraphs = [
+        _paragraph(0, "1. 计算", ["media/image1.png"]),
+        _paragraph(1, "2. 下一题"),
+    ]
+    attributions = attribute_images(
+        paragraphs,
+        ole_bindings={
+            "media/image1.png": {
+                "embedded": True,
+                "relationship_id": "rIdOle",
+            }
+        },
+    )
+    assert attributions == []
+
+
+def test_ole_binding_is_derived_from_same_word_object():
+    document = b"""\
+    <w:document
+      xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"
+      xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"
+      xmlns:v="urn:schemas-microsoft-com:vml"
+      xmlns:o="urn:schemas-microsoft-com:office:office">
+      <w:body><w:p><w:r><w:object>
+        <v:shape><v:imagedata r:id="rIdPreview"/></v:shape>
+        <o:OLEObject ProgID="Equation.DSMT4" r:id="rIdOle"/>
+      </w:object></w:r></w:p></w:body>
+    </w:document>
+    """
+    relationships = {
+        "rIdPreview": "media/image1.emf",
+        "rIdOle": "embeddings/oleObject1.bin",
+    }
+    assert ole_formula_bindings(document, relationships) == {
+        "media/image1.emf": {
+            "embedded": True,
+            "relationship_id": "rIdOle",
+            "object_path": "embeddings/oleObject1.bin",
+            "prog_id": "Equation.DSMT4",
+        }
+    }
+
+
 def test_real_baoshan_2024_aborts_instead_of_collapsing_images_into_q5():
     word_source = yaml.safe_load(
         (
@@ -76,3 +133,22 @@ def test_real_baoshan_2024_aborts_instead_of_collapsing_images_into_q5():
         match=r"state lost.*expected question 6, found question 7",
     ):
         attribute_images(word_source["paragraphs"])
+
+
+def test_safe_attribution_discards_partial_result_but_preserves_error():
+    paragraphs = [
+        _paragraph(0, "1. 第一题", ["media/image1.png"]),
+        _paragraph(1, "2. 第二题"),
+        _paragraph(2, "4. 跳过第三题", ["media/image4.png"]),
+    ]
+    attributions, status, error = attribute_images_with_status(paragraphs)
+    assert attributions == []
+    assert status == "failed"
+    assert error == {
+        "code": "question_number_state_lost",
+        "detail": (
+            "DOCX question-number state lost at paragraph 2: expected "
+            "question 3, found question 4. Refusing image attribution; "
+            "do not infer question-image mappings from media filenames."
+        ),
+    }

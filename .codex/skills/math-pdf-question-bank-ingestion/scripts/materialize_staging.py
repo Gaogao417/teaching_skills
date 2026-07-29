@@ -15,6 +15,14 @@ from PIL import Image
 import yaml
 
 
+TOPIC_SCRIPTS = (
+    Path(__file__).resolve().parents[2] / "math-topic-question-bank" / "scripts"
+)
+sys.path.insert(0, str(TOPIC_SCRIPTS))
+
+from exam_image_utils import composite_transparency_on_white  # noqa: E402
+
+
 ROLES = ("question_evidence", "prompt", "solution", "official_solution")
 
 
@@ -84,7 +92,9 @@ def materialize_crop(
             raise ValueError(
                 f"{label}: crop {box} exceeds source image {width}x{height}"
             )
-        result = image.crop((left, top, right, bottom)).convert("RGB")
+        result = composite_transparency_on_white(
+            image.crop((left, top, right, bottom))
+        )
 
     for index, raw_whiteout in enumerate(crop.get("whiteout_px") or []):
         if not isinstance(raw_whiteout, list) or len(raw_whiteout) != 4:

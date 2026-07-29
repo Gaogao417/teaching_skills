@@ -147,6 +147,7 @@ class MergedPdfObservation(_Strict):
     pages: list[PdfPage] = Field(min_length=1)
     questions: list[ObservationQuestion] = Field(default_factory=list)
     source_windows: list[NonEmptyStr] = Field(min_length=1)
+    conflicts: list[NonEmptyStr] = Field(default_factory=list)
 
     @model_validator(mode="after")
     def _validate_as_one_window(self) -> "MergedPdfObservation":

@@ -208,9 +208,12 @@ def test_extra_key_rejected():
 # --------------------------------------------------------------------------- #
 
 
-def test_json_schema_dump_writes_three_contracts(tmp_path):
+def test_json_schema_dump_writes_core_contracts(tmp_path):
     written = schema_dump.dump_all(tmp_path)
-    assert set(written) == {"question_transcription", "image_attribution", "draft_assembly_report"}
+    # The three core transcription contracts are always present; the review
+    # sidecars are covered by their own test module.
+    core = {"question_transcription", "image_attribution", "draft_assembly_report"}
+    assert core.issubset(set(written))
     names = {p.name for p in tmp_path.iterdir()}
     for expected in (
         "question_transcription.schema.json",

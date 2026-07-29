@@ -12,6 +12,7 @@ from PIL import Image, ImageChops
 import yaml
 from pydantic import ValidationError
 
+from exam_image_utils import composite_transparency_on_white
 from exam_source_contracts import ExamItemReview, ExamItemSource
 
 
@@ -73,7 +74,9 @@ def validate_source(
                     errors.append(f"{prefix}: output_sha256 mismatch")
                 if right <= width and bottom <= height:
                     with Image.open(source_image) as source_pixels:
-                        expected = source_pixels.crop(crop.box_px).convert("RGB")
+                        expected = composite_transparency_on_white(
+                            source_pixels.crop(crop.box_px)
+                        )
                     for whiteout in crop.whiteout_px:
                         expected.paste("white", whiteout)
                     with Image.open(output_image) as output_pixels:

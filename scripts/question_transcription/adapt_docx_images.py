@@ -73,6 +73,23 @@ def adapt(
     source_archive: str,
 ) -> dict[str, Any]:
     """Build a standard ImageAttributionBundle dict from word-source.yaml data."""
+    attribution_status = word_source.get("image_attribution_status", "complete")
+    if attribution_status == "failed":
+        error = word_source.get("image_attribution_error") or {}
+        detail = (
+            error.get("detail")
+            if isinstance(error, dict)
+            else str(error)
+        )
+        raise ValueError(
+            "word-source.yaml: image attribution failed; text transcription "
+            f"may continue, but image adaptation is blocked: {detail or 'unknown error'}"
+        )
+    if attribution_status != "complete":
+        raise ValueError(
+            "word-source.yaml: unknown image_attribution_status "
+            f"{attribution_status!r}"
+        )
     media_entries = word_source.get("media") or []
     if not isinstance(media_entries, list) or not media_entries:
         raise ValueError("word-source.yaml: media list is required")

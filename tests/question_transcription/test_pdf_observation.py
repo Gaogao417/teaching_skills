@@ -17,7 +17,10 @@ from scripts.question_transcription.contracts import (
     PaperMeta,
     QuestionTranscriptionBundle,
 )
-from scripts.question_transcription.merge_pdf_observations import merge_observations
+from scripts.question_transcription.merge_pdf_observations import (
+    merge_observations,
+    merge_observations_with_issues,
+)
 from scripts.question_transcription.mimo_client import MimoClient, extract_json
 from scripts.question_transcription.observe_pdf_pages import (
     make_windows,
@@ -224,21 +227,30 @@ def test_overlap_merge_deduplicates_evidence_and_figure(source):
     assert len(merged.questions[0].figures) == 1
 
 
-def test_overlap_merge_rejects_text_or_bbox_conflict(source):
+def test_overlap_merge_preserves_text_and_bbox_conflicts_for_review(source):
     root, manifest = source
     paper = _paper(root.as_posix())
     first = _observation(manifest, paper, window_id="a")
     changed_text = _question(stem="不同文本")
-    with pytest.raises(ValueError, match="transcription_conflict"):
-        merge_observations(
-            [first, _observation(manifest, paper, window_id="b", question=changed_text)]
-        )
+    merged, issues = merge_observations_with_issues(
+        [first, _observation(manifest, paper, window_id="b", question=changed_text)]
+    )
+    assert merged.conflicts == ["1"]
+    assert issues is not None
+    assert any(issue.code == "stem_conflict" for issue in issues.issues)
+    with pytest.raises(ValueError, match="unresolved"):
+        adapt_transcription(merged)
     changed_box = _question()
     changed_box["figures"][0]["box_px"] = [99, 20, 180, 75]
-    with pytest.raises(ValueError, match="figure_conflict"):
-        merge_observations(
-            [first, _observation(manifest, paper, window_id="c", question=changed_box)]
-        )
+    merged_box, box_issues = merge_observations_with_issues(
+        [first, _observation(manifest, paper, window_id="c", question=changed_box)]
+    )
+    assert merged_box.conflicts == ["1"]
+    assert box_issues is not None
+    assert any(
+        issue.code == "image_crop_needs_confirmation"
+        for issue in box_issues.issues
+    )
 
 
 def test_one_observation_splits_into_both_public_bundles(source):
