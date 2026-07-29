@@ -1,0 +1,39 @@
+meta:
+  title: 2024年上海市虹口区中考二模数学试卷第 25 题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: '在梯形 $ABCD$ 中，$AD\parallel BC$，点 $E$ 在射线 $DA$ 上，点 $F$ 在射线 $AB$ 上，连接 $CE$、$DF$ 相交于点 $P$，$\angle EPF=\angle ABC$。
+
+      (1) 如图①，如果 $AB=CD$，点 $E$、$F$ 分别在边 $AD$、$AB$ 上。求证：$\dfrac{AF}{DE}=\dfrac{DF}{CE}$；
+
+      (2) 如图②，如果 $AD\perp CD$，$AB=5$，$BC=10$，$\cos\angle ABC=\dfrac{3}{5}$。在射线 $DA$ 的下方，以 $DE$ 为直径作半圆 $O$，半圆 $O$ 与 $CE$ 的另一个交点为点 $G$。设 $DF$ 与弧 $EG$ 的交点为 $Q$。①当 $DE=6$ 时，求 $EG$ 和 $AF$ 的长；②当点 $Q$ 为弧 $EG$ 的中点时，求 $AF$ 的长。'
+    answer: (1) 证明见详解；(2) ① $EG=\dfrac{18\sqrt{13}}{13}$，$AF=\dfrac{21}{5}$；② $AF=15$
+    clue: (1) $\triangle ADF\sim\triangle DCE$；(2) $AD=7,CD=4$，$\cos\angle DEC=\dfrac{3\sqrt{13}}{13}$；②弧中点 $OQ\perp EG$，$\alpha+\beta=90°$。
+    solution_steps:
+    - (1) $\angle ADF=\angle DCE$，$\angle A=\angle EDC$，$\triangle ADF\sim\triangle DCE$，$\therefore\dfrac{AF}{DE}=\dfrac{DF}{CE}$。
+    - (2) $AD=7$，$CD=4$，$EC=2\sqrt{13}$；①$EG=6\cos\angle DEC=\dfrac{18\sqrt{13}}{13}$，$\triangle ADF\sim\triangle PDE$ 得 $AF=\dfrac{21}{5}$。
+    - ②$Q$ 为弧中点 $\Rightarrow OQ\perp EG$，$\alpha+\beta=90°$；$FR=12a,AR=9a,AF=15a,DR=16a$，$AD=7a=7$，$a=1$，$AF=15$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 90mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

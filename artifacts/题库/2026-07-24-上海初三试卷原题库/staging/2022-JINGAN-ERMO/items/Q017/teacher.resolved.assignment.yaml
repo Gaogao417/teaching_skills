@@ -1,0 +1,34 @@
+meta:
+  title: 2022年上海市静安区初三二模数学试卷第 17 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q017
+    points: 4
+    stem_latex: 如图，半圆直径 $AB=2$，点 $C$、$D$ 三等分半圆弧，那么 $\triangle CBD$ 的面积为______
+    answer: $\dfrac{\sqrt{3}}{4}$
+    clue: $CD\parallel AB$，$S_{\triangle CBD}=S_{\triangle COD}$。
+    solution_steps:
+    - $\triangle COD$ 为等边三角形，$CD\parallel AB$，$S_{\triangle CBD}=S_{\triangle COD}$。
+    - $OE=\dfrac{\sqrt{3}}{2}$，$CD=1$，$S=\dfrac{1}{2}\times1\times\dfrac{\sqrt{3}}{2}=\dfrac{\sqrt{3}}{4}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 100mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

@@ -1,0 +1,31 @@
+meta:
+  title: 2024年上海市崇明区中考二模数学试卷第 18 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q018
+    points: 4
+    stem_latex: 新定义：抛物线 $y=ax^{2}+bx+c$（$ab\neq0$）与 $y=bx^{2}+ax+c$ 称为\u201c关联抛物线\u201d。已知抛物线 $C_{1}$：$y=6ax^{2}+ax+9a-4$（$a>0$）的关联抛物线为 $C_{2}$，$C_{2}$ 顶点为 $P$ 且与 $x$ 轴交于 $M$、$N$，点 $P$ 关于 $x$ 轴对称点为 $Q$，若四边形 $PMQN$ 是正方形，那么 $C_{1}$ 的表达式为\u3000\u3000\u3000\u3000。
+    answer: $y=\dfrac{3}{2}x^{2}+\dfrac{1}{4}x-\dfrac{7}{4}$
+    clue: $C_2$ 顶点 $P(-3,-4)$，$Q(-3,4)$，$MN=8$，得 $a=\dfrac{1}{4}$。
+    solution_steps:
+    - $C_2:y=ax^2+6ax+9a-4$，顶点 $P(-3,-4)$，$Q(-3,4)$。
+    - 正方形 $PMQN$：$MN=8$，$M(-7,0)$，$N(1,0)$。
+    - 代入 $N(1,0)$：$a+6a+9a-4=0$，$16a=4$，$a=\dfrac{1}{4}$。
+    - $C_1:y=\dfrac{3}{2}x^2+\dfrac{1}{4}x-\dfrac{7}{4}$。
+    source_solution_images: []

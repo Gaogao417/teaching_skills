@@ -1,0 +1,42 @@
+meta:
+  title: 2022年上海市虹口区初三二模数学试卷第 22 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q022
+    points: 10
+    stem_latex: '健身步道甲、乙两处相距3000米，小杰、小丽分别从甲、乙同时出发相向而行（小杰较快），小杰到乙后停止，小丽继续到甲后停止。两人距离 $y$（米）与时间 $x$（分）的函数图象为折线（过 $(0,3000)$、$(24,0)$、$(40,1000)$）。
+
+      (1) 两人从出发到相遇需要多少分钟？
+
+      (2) 当 $0\leqslant x\leqslant24$ 时，求 $y$ 关于 $x$ 的解析式；
+
+      (3) 当小杰到达乙处时，小丽距甲处还有多少米？'
+    answer: (1) $24$ 分钟；(2) $y=-125x+3000$；(3) $1000$ 米
+    clue: 相遇点即 $y=0$；用图象上点求解析式。
+    solution_steps:
+    - (1) 相遇即 $y=0$，由图知 $x=24$ 分钟。
+    - (2) 图象过 $(0,3000)$、$(24,0)$，设 $y=kx+b$，解得 $y=-125x+3000$。
+    - (3) $v_{\text{小杰}}+v_{\text{小丽}}=\dfrac{3000}{24}=125$，$v_{\text{小杰}}=\dfrac{3000}{40}=75$，$v_{\text{小丽}}=50$。
+    - 小杰到乙时（40分），小丽已走 $40\times50=2000$，距甲 $3000-2000=1000$ 米。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 100mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

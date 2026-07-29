@@ -1,0 +1,36 @@
+meta:
+  title: 2023年上海市嘉定区中考二模数学试卷第 25 题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: 在 Rt$\triangle ABC$ 中，$\angle BAC=90\degree$，点 $P$ 在线段 $BC$ 上，$\angle BPD=\dfrac{1}{2}\angle ACB$，$PD$ 交 $BA$ 于 $D$，过 $B$ 作 $BE\perp PD$ 于 $E$，交 $CA$ 延长线于 $F$。（1）如果 $\angle ACB=45\degree$：①如图1当 $P$ 与 $C$ 重合时，求证 $BE=\dfrac{1}{2}PD$；②如图2当 $P$ 在 $BC$ 上且不与 $B,C$ 重合时，问①中结论是否仍成立？说明理由；（2）如果 $\angle ACB\neq45\degree$，已知 $AB=n\cdot AC$（$n$ 为常数），当 $P$ 在 $BC$ 上（不与 $B,C$ 重合）时，探究 $\dfrac{BE}{PD}$ 的值（用含 $n$ 的式子表示）．
+    answer: (1) ① 见解析；② 仍成立；(2) $\dfrac{BE}{PD}=\dfrac{n}{2}$
+    clue: (1)① 用 ASA 全等转化 $BE=\frac12 BF$ 且 $BF=PD$；② 过 $P$ 作 $PM\parallel AC$ 化归①；(2) 过 $P$ 作 $PH\parallel AC$，由 $\triangle PGD\sim\triangle BGH$ 及 $\triangle BPG\sim\triangle BCA$ 转化比值。
+    solution_steps:
+    - (1)① $\angle BAC=90\degree$，$\angle ACB=45\degree\Rightarrow AB=AC$；$\triangle BCE\cong\triangle FCE$（ASA），$BE=\frac12 BF$；$\triangle FBA\cong\triangle DPA$（ASA），$BF=PD$，$\therefore BE=\frac12 PD$。
+    - ② 过 $P$ 作 $PM\parallel AC$ 交 $AB$ 于 $N$、交 $BF$ 于 $M$，同理证 $\triangle BPE\cong\triangle MPE$ 得 $BE=\frac12 BM$，$\triangle MBN\cong\triangle DPN$ 得 $BM=DP$，$\therefore BE=\frac12 DP$。
+    - (2) 过 $P$ 作 $PH\parallel AC$ 交 $AB$ 于 $G$、交 $BF$ 于 $H$；$\triangle BEP\cong\triangle HEP$，$BE=\frac12 BH$；$\triangle PGD\sim\triangle BGH$，$\dfrac{BH}{PD}=\dfrac{BG}{GP}$；又 $\triangle BPG\sim\triangle BCA$，$\dfrac{BG}{GP}=\dfrac{AB}{AC}=n$。
+    - $\therefore \dfrac{2BE}{PD}=n$，即 $\dfrac{BE}{PD}=\dfrac{n}{2}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 80mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

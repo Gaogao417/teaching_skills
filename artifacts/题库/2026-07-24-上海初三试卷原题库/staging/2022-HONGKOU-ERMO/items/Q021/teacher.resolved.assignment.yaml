@@ -1,0 +1,40 @@
+meta:
+  title: 2022年上海市虹口区初三二模数学试卷第 21 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q021
+    points: 10
+    stem_latex: '如图，$\triangle ABC$ 中，$\angle B=45^{\circ}$，$CD$ 是 $AB$ 边上的中线，过 $D$ 作 $DE\perp BC$ 于 $E$，$CD=5$，$\sin\angle BCD=\dfrac{3}{5}$。
+
+      (1) 求 $BC$ 的长；
+
+      (2) 求 $\angle ACB$ 的正切值。'
+    answer: (1) $BC=7$；(2) $\tan\angle ACB=6$
+    clue: 解直角三角形+中线。
+    solution_steps:
+    - (1) $\mathrm{Rt}\triangle DEC$ 中 $DE=5\times\dfrac{3}{5}=3$，$CE=\sqrt{5^{2}-3^{2}}=4$。
+    - $\mathrm{Rt}\triangle DEB$ 中 $\angle B=45^{\circ}$，$BE=DE=3$，$\therefore BC=3+4=7$。
+    - (2) $BD=3\sqrt{2}$，$AB=2BD=6\sqrt{2}$。作 $AH\perp BC$，$BH=AH=6$，$CH=BC-BH=1$。
+    - $\tan\angle ACB=\dfrac{AH}{CH}=\dfrac{6}{1}=6$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 90mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

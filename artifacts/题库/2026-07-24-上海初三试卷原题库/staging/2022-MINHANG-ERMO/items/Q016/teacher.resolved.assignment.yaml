@@ -1,0 +1,34 @@
+meta:
+  title: 2022年上海市闵行区初三二模数学试卷第 16 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q016
+    points: 4
+    stem_latex: 等腰 $\triangle ABC$（$AC=BC$）重心 $G$，以 $2$ 为半径的 $\odot G$ 与 $AC$、$BC$ 相切，$CG=2\sqrt{5}$，则 $AB=$______
+    answer: $3\sqrt{5}$
+    clue: 重心+切线+勾股。
+    solution_steps:
+    - 延长 $CG$ 交 $AB$ 于 $M$，$CM=3\sqrt{5}$，$GM=\sqrt{5}$，$GN=2$，$CN=4$。
+    - 由勾股关系列方程解得 $AM=\dfrac{3\sqrt{5}}{2}$，$AB=3\sqrt{5}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 80mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

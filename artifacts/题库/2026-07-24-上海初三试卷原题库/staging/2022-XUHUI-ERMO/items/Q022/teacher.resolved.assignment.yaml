@@ -1,0 +1,33 @@
+meta:
+  title: 2022年上海市徐汇区初三二模数学试卷第 22 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q022
+    points: 10
+    stem_latex: '激光电视观影：视场角 $33^{\circ}\sim40^{\circ}$ 为最佳（观影距离3.5米）。
+
+      (1) 求屏幕宽 $BC$ 的范围（精确到0.1米，$\tan16.5^{\circ}\approx0.30$，$\tan20^{\circ}\approx0.36$）；
+
+      (2) 今年每台比去年降4000元，销量相同情况下今年销售额比去年100万减少20%，求今年每台售价。'
+    answer: (1) $2.1\sim2.5$ 米；(2) $16000$ 元
+    clue: (1) 解直角三角形；(2) 分式方程。
+    solution_steps:
+    - (1) $\angle BAC=33^{\circ}$ 时 $BC\approx2.1$ 米；$=40^{\circ}$ 时 $BC\approx2.5$ 米。
+    - (2) $\dfrac{1000000}{x+4000}=\dfrac{800000}{x}$，$x=16000$。
+    source_solution_images: []

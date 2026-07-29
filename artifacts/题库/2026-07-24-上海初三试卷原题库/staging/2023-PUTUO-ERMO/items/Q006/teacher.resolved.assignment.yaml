@@ -1,0 +1,38 @@
+meta:
+  title: 2023年上海市普陀区中考二模数学试卷第 6 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q006
+    points: 4
+    stem_latex: 如图，$\triangle ABC$ 中 $\angle BAC=60\degree$，$BO,CO$ 分别平分 $\angle ABC,\angle ACB$，$AO=2$，下列结论不一定正确的是（\quad）
+    choices:
+    - $\angle BOC=120\degree$
+    - $\angle BAO=30\degree$
+    - $OB=3$
+    - 点 $O$ 到直线 $BC$ 的距离是 $1$
+    answer: C
+    clue: $O$ 为内心，$\angle BOC=120\degree$、$\angle BAO=30\degree$、$O$ 到三边距离均为1，但 $OB$ 长度可变。
+    solution_steps:
+    - $\angle BOC=120\degree$、$\angle BAO=30\degree$、$O$ 到 $BC$ 距离1均成立；$OB$ 不一定为3。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 65mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

@@ -1,0 +1,35 @@
+meta:
+  title: 2023年上海市黄浦区中考二模数学试卷第 23 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q023
+    points: 12
+    stem_latex: 已知：如图，在正方形 $ABCD$ 中，点 $E$ 在对角线 $BD$ 的延长线上，作 $AF\perp AE$，且 $AF=AE$，连接 $BF$。（1）求证：$BF=DE$；（2）延长 $AB$ 交射线 $EF$ 于点 $G$，求证：$\dfrac{BF}{FG}=\dfrac{AD}{AE}$．
+    answer: (1)(2) 见解析
+    clue: (1) 由 $\angle BAF=\angle EAD$ 及 $AB=AD$、$AF=AE$ 证 $\triangle ABF\cong\triangle ADE$；(2) 证 $\triangle ADE\sim\triangle AFG$ 转化比例。
+    solution_steps:
+    - (1) $\angle BAD=\angle EAF=90\degree\Rightarrow \angle BAF=\angle EAD$；又 $AB=AD$，$AF=AE$，$\triangle ABF\cong\triangle ADE$（SAS），$\therefore BF=DE$。
+    - (2) $\angle ADE=\angle AFG=135\degree$，$\angle EAD=\angle BAF\Rightarrow \triangle ADE\sim\triangle AFG$，$\dfrac{DE}{FG}=\dfrac{AD}{AF}$。
+    - 由(1) $DE=BF$、$AF=AE$，$\therefore \dfrac{BF}{FG}=\dfrac{AD}{AE}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 65mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

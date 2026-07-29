@@ -1,0 +1,41 @@
+meta:
+  title: 2024年上海市浦东新区中考二模数学试卷第 22 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q022
+    points: 10
+    stem_latex: '某校六年级 $200$ 名学生参加环保知识竞赛，随机抽取部分学生成绩画频数分布直方图和扇形统计图（优秀 $35\%$，不合格 $5\%$）。
+
+      (1) 估计良好人数，补全统计图；
+
+      (2) 判断结论②④是否错误；
+
+      (3) 优秀 $m$ 人中选派 $x$ 人帮助不合格学生，$x(m-x)=15\times$样本容量，求 $x$。'
+    answer: (1) $45$ 人；(2) ②④错误；(3) $x=10$
+    clue: (1) 样本容量 $40$，良好 $9$ 人；(3) $x^2-70x+600=0$。
+    solution_steps:
+    - (1) 样本容量 $(6+8)\div35\%=40$，良好 $9$ 人，$200\times\dfrac{9}{40}=45$。
+    - (2) 众数不一定在 $80\sim90$ 组；不能准确求平均数，②④错误。
+    - (3) $m=70$，$x(70-x)=600$，$x=10$（$x=60$ 舍去）。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 90mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

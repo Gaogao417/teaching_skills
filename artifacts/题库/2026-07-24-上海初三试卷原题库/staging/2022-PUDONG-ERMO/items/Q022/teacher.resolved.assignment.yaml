@@ -1,0 +1,38 @@
+meta:
+  title: 2022年上海市浦东新区初三二模数学试卷第 22 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q022
+    points: 10
+    stem_latex: '甲、乙两车运货到600公里外，原计划甲比乙每小时快10千米、早到2小时。实际甲以原速行驶4小时后减速，结果同时到达。
+
+      (1) 求甲原计划速度；
+
+      (2) 图中为甲车路程 $y$（千米）与时间 $x$（时）的函数图象，求点 $A$、点 $B$ 坐标及4小时后的 $y$ 与 $x$ 关系式。'
+    answer: (1) $60$ 千米/时；(2) $A(4,240)$，$B(12,600)$，$y=45x+60$
+    clue: (1) 分式方程；(2) 由图象求。
+    solution_steps:
+    - (1) $\dfrac{600}{x-10}-\dfrac{600}{x}=2$，$x=60$（$x=-50$ 舍）。
+    - (2) $A(4,240)$；同时到达，乙用 $\dfrac{600}{50}=12$ 小时，$B(12,600)$；4小时后 $y=45x+60$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 100mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

@@ -1,0 +1,39 @@
+meta:
+  title: 2024年上海市虹口区中考二模数学试卷第 23 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q023
+    points: 12
+    stem_latex: '如图，在 $Rt\triangle ABC$ 中，$\angle C=90°$，延长 $CB$ 至点 $D$，使得 $DB=CB$，过点 $A$、$D$ 分别作 $AE\parallel BC$，$DE\parallel BA$，$AE$ 与 $DE$ 相交于点 $E$，连接 $BE$。
+
+      (1) 求证：$BE\perp CD$；
+
+      (2) 连接 $AD$ 交 $BE$ 于点 $F$，连接 $CE$ 交 $AD$ 于点 $G$。如果 $\angle FBA=\angle ADB$，求证：$AG=\dfrac{\sqrt{2}}{3}AB$。'
+    answer: (1)(2) 证明见详解
+    clue: (1) 四边形 $AEBC$ 是矩形；(2) $\triangle AEG\sim\triangle DCG$，$\dfrac{AG}{AB}=\dfrac{\sqrt{2}}{3}$。
+    solution_steps:
+    - (1) 四边形 $AEDB$ 是平行四边形，$AE=BD=CB$，四边形 $AEBC$ 是平行四边形，$\angle C=90°$ 为矩形，$\therefore BE\perp CD$。
+    - (2) 设 $EF=BF=a$，由 $\angle FBA=\angle ADB$ 得 $AE=\sqrt{2}a$；$\triangle AEG\sim\triangle DCG$，$\dfrac{AG}{DG}=\dfrac{1}{2}$。
+    - $AG=\dfrac{2\sqrt{3}a}{3}$，$AB=\sqrt{6}a$，$\dfrac{AG}{AB}=\dfrac{\sqrt{2}}{3}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 65mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

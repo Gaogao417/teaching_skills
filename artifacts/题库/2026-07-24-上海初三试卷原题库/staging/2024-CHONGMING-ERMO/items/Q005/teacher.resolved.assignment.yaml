@@ -1,0 +1,36 @@
+meta:
+  title: 2024年上海市崇明区中考二模数学试卷第 5 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q005
+    points: 4
+    stem_latex: 探究课上，小明利用尺规作图找一点 $D$，使得四边形 $ABCD$ 为平行四边形。作法：①以 $C$ 为圆心 $AB$ 长为半径画弧；②以 $A$ 为圆心 $BC$ 长为半径画弧，两弧交于 $D$；③连接 $CD$、$AD$。可直接判定四边形 $ABCD$ 为平行四边形的条件是（　　）
+    choices:
+    - 两组对边分别平行
+    - 两组对边分别相等
+    - 对角线互相平分
+    - 一组对边平行且相等
+    answer: B
+    clue: 作图得 $CD=AB$，$AD=BC$，即两组对边分别相等。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 110mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

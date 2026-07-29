@@ -1,0 +1,38 @@
+meta:
+  title: 2024年上海市金山区中考二模数学试卷第 23 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q023
+    points: 12
+    stem_latex: '如图，$D$ 是 $\triangle ABC$ 的边 $BC$ 上一点，点 $E$ 在 $\triangle ABC$ 外部，$\angle BAE=\angle CAD$，$\angle ACD=\angle ADC=\angle ADE$，$DE$ 交 $AB$ 于点 $F$。
+
+      (1) 求证：$AB=AE$；
+
+      (2) 如果 $AD=AF$，求证：$EF^2=BF\cdot AB$。'
+    answer: (1)(2) 证明见详解
+    clue: (1) $\triangle ABC\cong\triangle AED$；(2) $\triangle ABD\cong\triangle AEF$ 得 $BD=EF$，$\triangle BDF\sim\triangle BAD$。
+    solution_steps:
+    - (1) $AC=AD$，$\angle BAC=\angle EAD$，$\angle ACB=\angle ADE$，$\triangle ABC\cong\triangle AED$，$AB=AE$。
+    - (2) $AD=AF$ 得 $\triangle ABD\cong\triangle AEF$，$BD=EF$；$\triangle BDF\sim\triangle BAD$，$BD^2=BF\cdot AB$，$\therefore EF^2=BF\cdot AB$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 65mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

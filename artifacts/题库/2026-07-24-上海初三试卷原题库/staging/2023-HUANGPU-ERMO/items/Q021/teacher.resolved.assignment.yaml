@@ -1,0 +1,29 @@
+meta:
+  title: 2023年上海市黄浦区中考二模数学试卷第 21 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q021
+    points: 10
+    stem_latex: 商场打折促销：活动一任选两件第二件半价（低价商品享折扣）；活动二所有商品打八折（两活动不能同享）。（1）衣服600元、鞋子500元，选哪个活动更划算？（2）若把鞋子换成裤子（裤子价低于衣服价），裤子价格低于多少元时推荐活动二？
+    answer: (1) 选择活动一更划算；(2) 裤子价格低于400元时推荐活动二
+    clue: (1) 分别算两活动总价比较；(2) 列不等式比较两活动价格。
+    solution_steps:
+    - (1) 活动一 $600+500\times0.5=850$ 元；活动二 $(600+500)\times0.8=880$ 元，$850<880$，活动一划算。
+    - (2) 设裤子 $x$ 元，活动一 $600+0.5x$，活动二 $480+0.8x$；由 $600+0.5x>480+0.8x$ 得 $x<400$。
+    source_solution_images: []

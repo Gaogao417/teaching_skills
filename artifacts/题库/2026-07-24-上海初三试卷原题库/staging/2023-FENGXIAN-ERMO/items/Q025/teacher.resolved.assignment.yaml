@@ -1,0 +1,36 @@
+meta:
+  title: 2023年上海市奉贤区中考二模数学试卷第 25 题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: 在梯形 $ABCD$ 中，$AD\parallel BC$，$AD=4$，$\angle ABC=90\degree$，$BD=BC$，过点 $C$ 作对角线 $BD$ 的垂线，垂足为 $E$，交射线 $BA$ 于点 $F$。（1）如图1，当点 $F$ 在边 $AB$ 上时，求证：$\triangle ABD\cong\triangle ECB$；（2）如图2，如果 $F$ 是 $AB$ 的中点，求 $FE:EC$ 的值；（3）联结 $DF$，如果 $\triangle BFD$ 是等腰三角形，求 $BC$ 的长．
+    answer: (1) 见解析；(2) $\dfrac{2-\sqrt{2}}{4}$；(3) $BC=8$
+    clue: (1) 由平行+垂直得两角及 $BD=BC$ 证全等；(2) 证 $\triangle ABD\sim\triangle EBF$，结合勾股列方程求 $FE:EC$；(3) 等腰 + $CF\perp BD$ 得 $BE=DE$，求 $BD=BC$。
+    solution_steps:
+    - (1) $AD\parallel BC\Rightarrow \angle ADB=\angle CBD$，$\angle BAD=90\degree=\angle CEB$，又 $BD=BC$，$\therefore \triangle ABD\cong\triangle ECB$（AAS）。
+    - (2) $\triangle ABD\sim\triangle EBF\Rightarrow \dfrac{EF}{AD}=\dfrac{BE}{AB}$；由(1) $BE=AD=4$，$EF\cdot AB=16$，$EF=\dfrac{16}{AB}=\dfrac{8}{BF}$。
+    - Rt$\triangle BEF$ 中 $\dfrac{64}{BF^{2}}+16=BF^{2}$，解得 $BF^{2}=16+8\sqrt{2}$，$\therefore FE:EC=\dfrac{2-\sqrt{2}}{4}$。
+    - (3) $\triangle BFD$ 等腰且 $CF\perp BD\Rightarrow BE=DE=4$，$BD=8$，又 $BC=BD$，$\therefore BC=8$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 80mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

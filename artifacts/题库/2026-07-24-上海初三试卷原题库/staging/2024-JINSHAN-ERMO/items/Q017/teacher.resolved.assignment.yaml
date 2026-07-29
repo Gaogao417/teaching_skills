@@ -1,0 +1,34 @@
+meta:
+  title: 2024年上海市金山区中考二模数学试卷第 17 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q017
+    points: 4
+    stem_latex: 如图，在 $Rt\triangle ABC$ 中，$\angle ACB=90°$，$AC=2$，$D$ 是 $AB$ 的中点，把 $\triangle BCD$ 沿 $CD$ 翻折，点 $B$ 落在点 $E$ 处，如果 $CE\perp AB$，那么 $BE=$\u3000\u3000\u3000\u3000。
+    answer: $2\sqrt{3}$
+    clue: $\angle DBC=30°$，$\triangle EBC$ 等边，$BE=BC=2\sqrt{3}$。
+    solution_steps:
+    - $\angle DCB=\angle DCF=30°$，$\angle DBC=30°$，$\triangle EBC$ 等边。
+    - $BC=AC\tan60°=2\sqrt{3}$，$BE=BC=2\sqrt{3}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 70mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

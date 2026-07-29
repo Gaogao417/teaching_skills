@@ -1,0 +1,34 @@
+meta:
+  title: 2022年上海市黄浦区初三二模数学试卷第 21 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q021
+    points: 10
+    stem_latex: '如图，$\triangle ABC$ 中，$\angle ACB=90^{\circ}$，$BD$ 平分 $\angle ABC$，$BC=CD$，$BD$、$AC$ 交于 $E$。
+
+      (1) 求证：$AB\parallel CD$；
+
+      (2) 已知 $BC=6$，$AB=10$，求 $\tan\angle EBC$。'
+    answer: (1) 见证明；(2) $\tan\angle EBC=\dfrac{1}{2}$
+    clue: (1) 角平分线+等腰得平行；(2) 相似求 $CE$。
+    solution_steps:
+    - (1) $BD$ 平分 $\angle ABC$，$\angle ABE=\angle CBE$；$BC=CD$，$\angle CBE=\angle D$，$\therefore \angle ABE=\angle D$，$AB\parallel CD$。
+    - (2) $AC=8$。$CD\parallel AB$，$\triangle CDE\sim\triangle ABE$，$\dfrac{CE}{AE}=\dfrac{CD}{AB}=\dfrac{6}{10}=\dfrac{3}{5}$，$\therefore CE=3$。
+    - $\tan\angle EBC=\dfrac{EC}{BC}=\dfrac{3}{6}=\dfrac{1}{2}$。
+    source_solution_images: []

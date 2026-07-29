@@ -1,0 +1,41 @@
+meta:
+  title: 2022年上海市杨浦区初三二模数学试卷第 24 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q024
+    points: 12
+    stem_latex: '抛物线 $y=-\dfrac{3}{4}x^{2}+bx+c$ 与 $x$ 轴交于 $A(4,0)$、与 $y$ 轴交于 $B(0,3)$，$E(m,0)$（$0<m<4$）在 $x$ 轴上，过 $E$ 作 $x$ 轴垂线交 $AB$ 于 $N$、交抛物线于 $P$，过 $P$ 作 $PM\perp AB$ 于 $M$。
+
+      (1) 求抛物线表达式；
+
+      (2) 若 $\dfrac{C_{\triangle PMN}}{C_{\triangle AEN}}=\dfrac{6}{5}$，求 $P$；
+
+      (3) 以 $N$ 为圆心 $NA$ 为半径的圆与以 $OB$ 为直径的圆内切，求 $m$。'
+    answer: (1) $y=-\dfrac{3}{4}x^{2}+\dfrac{9}{4}x+3$；(2) $P\left(2,\dfrac{9}{2}\right)$；(3) $m=\dfrac{20}{13}$
+    clue: (1) 待定系数；(2) 相似周长比；(3) 圆内切条件。
+    solution_steps:
+    - (1) 代入 $A$、$B$ 得 $b=\dfrac{9}{4}$，$c=3$，$y=-\dfrac{3}{4}x^{2}+\dfrac{9}{4}x+3$。
+    - (2) $\triangle PMN\sim\triangle AEN$，$\dfrac{PN}{AN}=\dfrac{6}{5}$，$PN=-\dfrac{3}{4}m^{2}+3m$，$AN=\dfrac{5}{4}(4-m)$，解得 $m=2$，$P\left(2,\dfrac{9}{2}\right)$。
+    - (3) $Q$ 为 $OB$ 中点 $\left(0,\dfrac{3}{2}\right)$，$QN=\sqrt{\dfrac{25}{16}m^{2}-\dfrac{9}{4}m+\dfrac{9}{4}}$，内切 $QN=AN-\dfrac{3}{2}$，解得 $m=\dfrac{20}{13}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 80mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

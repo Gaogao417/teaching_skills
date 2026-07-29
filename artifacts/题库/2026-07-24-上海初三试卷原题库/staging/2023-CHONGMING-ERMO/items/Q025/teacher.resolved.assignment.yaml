@@ -1,0 +1,39 @@
+meta:
+  title: 2023年上海市崇明区中考二模数学试卷第 25 题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: 如图，在 Rt$\triangle ABC$ 中，$\angle ACB=90\degree$，$AC=6$，$BC=3$。点 $D$ 是边 $AC$ 上一动点（不与 $A$、$C$ 重合），联结 $BD$，过点 $C$ 作 $CF\perp BD$，分别交 $BD$、$AB$ 于点 $E$、$F$。（1）当 $CD=2$ 时，求 $\angle ACF$ 的正切值；（2）设 $CD=x$，$\dfrac{AF}{BF}=y$，求 $y$ 关于 $x$ 的函数解析式，并写出定义域；（3）联结 $FD$ 并延长，与边 $BC$ 的延长线交于点 $G$，若 $\triangle DGC$ 与 $\triangle BAC$ 相似，求 $\dfrac{AF}{BF}$ 的值．
+    answer: (1) $\dfrac{2}{3}$；(2) $y=\dfrac{2}{3}x$（$0<x<6$）；(3) $\sqrt{5}-1$ 或 $\dfrac{\sqrt{41}-5}{2}$
+    clue: (1) 余角相等转角；(2) 作 $FM\perp AC$、$FN\perp BC$ 构造矩形，用面积比；(3) 分两种相似对应关系讨论，结合四点共圆。
+    solution_steps:
+    - (1) $CF\perp BD$，$\angle ACB=90\degree$，$\angle ACF=\angle DBC$，$\tan\angle ACF=\dfrac{CD}{BC}=\dfrac{2}{3}$。
+    - (2) $\angle BCF=\angle BDC$，$\tan\angle BCF=\dfrac{BC}{DC}=\dfrac{3}{x}$；作 $FM\perp AC$、$FN\perp BC$，四边形 $FNCM$ 为矩形，$FM=NC$。
+    - $\dfrac{S_{\triangle ACF}}{S_{\triangle BCF}}=\dfrac{AF}{BF}=\dfrac{AC\cdot FM}{BC\cdot FN}=\dfrac{6}{3}\cdot\dfrac{x}{3}=\dfrac{2}{3}x$（$0<x<6$）。
+    - (3) 情形一 $\triangle DGC\sim\triangle BAC$：$\angle A=\angle G$，$\triangle BGF\sim\triangle BAC$，$\angle BFG=90\degree$，$F,B,C,D$ 四点共圆，$BD$ 为直径。
+    - 由 $BD\perp CF$ 得 $DF=DC$，$BF=BC=3$，$AB=3\sqrt{5}$，$AF=3\sqrt{5}-3$，$\dfrac{AF}{BF}=\sqrt{5}-1$。
+    - 情形二 $\triangle DGC\sim\triangle ABC$：$\angle A=\angle CDG=\angle ADF$，作 $FH\perp AC$，$AH=\dfrac{1}{2}(6-x)$，$FH\parallel BC$。
+    - $\dfrac{AF}{BF}=\dfrac{AH}{CH}=\dfrac{\dfrac{1}{2}(6-x)}{6-\dfrac{1}{2}(6-x)}=\dfrac{2}{3}x$，解得 $x=\dfrac{-15+3\sqrt{41}}{4}$，$\dfrac{AF}{BF}=\dfrac{\sqrt{41}-5}{2}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 80mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

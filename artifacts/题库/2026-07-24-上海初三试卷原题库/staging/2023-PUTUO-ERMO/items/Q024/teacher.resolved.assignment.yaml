@@ -1,0 +1,35 @@
+meta:
+  title: 2023年上海市普陀区中考二模数学试卷第 24 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q024
+    points: 12
+    stem_latex: 抛物线 $y=ax^{2}-2x+c$ 与 $x$ 轴交于 $A(-1,0)$、$B(3,0)$，与 $y$ 轴交于 $C$，顶点为 $D$。（1）求抛物线表达式及 $D$ 坐标；（2）将直线 $BC$ 绕 $B$ 顺时针旋转交 $y$ 轴于 $E$，旋转角 $\angle EBC=\angle ABD$：①求 $E$ 坐标；②函数 $y=x^{2}+2bx+b^{2}-1$ 图象始终有一部分落在 $\triangle ECB$ 内部，求 $b$ 取值范围．
+    answer: (1) $y=x^{2}-2x-3$，$D(1,-4)$；(2)① $E(0,1)$；② $-4<b<\sqrt{2}$
+    clue: (1) 待定系数；(2)① 证 $\triangle EOB\sim\triangle DCB$ 求 $EO$；② 结合顶点与端点代入定范围。
+    solution_steps:
+    - (1) 代入得 $a=1,c=-3$，$y=x^{2}-2x-3=(x-1)^{2}-4$，$D(1,-4)$。
+    - (2)① $C(0,-3)$，$BC=3\sqrt{2}$，$\angle BCD=90\degree$，$\angle CBE=\angle ABD\Rightarrow \angle EBC$ 余角相等，$\triangle EOB\sim\triangle DCB\Rightarrow EO=1$，$E(0,1)$。
+    - ② 顶点 $(-b,-1)$，由 $E$、$B$ 代入及图象落在 $\triangle ECB$ 内得 $-4<b<\sqrt{2}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 70mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

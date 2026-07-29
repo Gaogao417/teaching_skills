@@ -1,0 +1,41 @@
+meta:
+  title: 2024年上海市崇明区中考二模数学试卷第 25 题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: '如图，已知 $Rt\triangle ABC$ 中，$\angle ACB=90°$，$AC=6$，$\sin B=\dfrac{3}{5}$，点 $D$ 是射线 $BA$ 上一动点（不与 $A$、$B$ 重合），过 $D$ 作 $DE\parallel AC$，交射线 $BC$ 于 $E$，点 $Q$ 为 $DE$ 中点，连接 $AQ$ 并延长，交射线 $BC$ 于 $P$。
+
+      (1) 当点 $D$ 在线段 $AB$ 上时，①若 $AD=2$，求 $PC$ 的长；②当 $\triangle ADQ$ 与 $\triangle ABP$ 相似时，求 $AD$ 的长；
+
+      (2) 当 $\triangle ADQ$ 是以 $AD$ 为腰的等腰三角形时，判断以 $A$ 为圆心 $AD$ 为半径的 $\odot A$ 与以 $C$ 为圆心 $CE$ 为半径的 $\odot C$ 的位置关系，并说明理由。'
+    answer: (1)①$PC=\dfrac{8}{3}$；②$AD=\dfrac{90}{23}$；(2) 外离
+    clue: $AB=10$，$BC=8$；①构矩形 $QHCE$ 求 $\tan\angle PAC$；②$\angle AQD=\angle B$ 解直角三角形；(2) $AD=DQ$ 时 $PA$ 平分 $\angle BAC$。
+    solution_steps:
+    - $AB=10$，$BC=8$，$\cos B=\dfrac{4}{5}$。
+    - (1)①$AD=2$，$BD=8$，$DE=\dfrac{24}{5}$，$BE=\dfrac{32}{5}$，$EC=\dfrac{8}{5}$；矩形 $QHCE$：$QH=\dfrac{8}{5}$，$AH=\dfrac{18}{5}$，$\tan\angle QAH=\dfrac{4}{9}$，$PC=6\times\dfrac{4}{9}=\dfrac{8}{3}$。
+    - (1)②$\angle AQD=\angle B$，$\cos\angle PAC=\dfrac{4}{5}$，$AP=\dfrac{15}{2}$，$PC=\dfrac{9}{2}$；设 $EC=x$，$PE+EC=PC$ 解得 $x=\dfrac{72}{23}$，$AD=\dfrac{90}{23}$。
+    - (2)$AD=DQ$ 时 $\angle DAQ=\angle DQA$，$PA$ 平分 $\angle BAC$；$PG=PC=3$，$AP=3\sqrt{5}$，$AD=\dfrac{30}{13}$，$CE=\dfrac{24}{13}$。
+    - $r_1+r_2=\dfrac{54}{13}<6=AC$，$\therefore$ 两圆外离。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 95mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

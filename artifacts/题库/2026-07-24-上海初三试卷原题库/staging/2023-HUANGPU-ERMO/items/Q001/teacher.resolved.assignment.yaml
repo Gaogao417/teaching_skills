@@ -1,0 +1,33 @@
+meta:
+  title: 2023年上海市黄浦区中考二模数学试卷第 1 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q001
+    points: 4
+    stem_latex: 下列各数中，最小的数是（\quad）
+    choices:
+    - $0$
+    - $-2$
+    - $1$
+    - $-\sqrt{3}$
+    answer: B
+    clue: 正数大于一切负数；两个负数绝对值大的反而小。
+    solution_steps:
+    - $-2$ 与 $-\sqrt{3}$ 比较，$|-2|>|\sqrt{3}|$，$\therefore -2<-\sqrt{3}$，最小的是 $-2$。
+    source_solution_images: []

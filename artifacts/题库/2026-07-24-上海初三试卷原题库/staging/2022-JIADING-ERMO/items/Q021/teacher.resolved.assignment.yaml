@@ -1,0 +1,33 @@
+meta:
+  title: 2022年上海市嘉定区初三二模数学试卷第 21 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q021
+    points: 10
+    stem_latex: '如图，$\triangle ABC$ 中，$\angle C=90^{\circ}$，$BD$ 平分 $\angle ABC$，$DE\perp AB$ 于 $E$，$AE=16$，$\sin A=\dfrac{3}{5}$。
+
+      (1) 求 $CD$；(2) 求 $\cot\angle DBC$。'
+    answer: (1) $CD=12$；(2) $\cot\angle DBC=2$
+    clue: 角平分线性质 $CD=DE$；解直角三角形。
+    solution_steps:
+    - (1) $\mathrm{Rt}\triangle AED$ 中 $\sin A=\dfrac{DE}{DA}=\dfrac{3}{5}$，$AE=16$，得 $DE=12$，$DA=20$。
+    - $BD$ 平分 $\angle ABC$，$\angle AED=\angle C=90^{\circ}$，$\therefore CD=DE=12$。
+    - (2) $AC=32$，$\mathrm{Rt}\triangle ACB$ 中 $BC=24$。
+    - $\mathrm{Rt}\triangle BCD$ 中 $\cot\angle DBC=\dfrac{BC}{CD}=\dfrac{24}{12}=2$。
+    source_solution_images: []

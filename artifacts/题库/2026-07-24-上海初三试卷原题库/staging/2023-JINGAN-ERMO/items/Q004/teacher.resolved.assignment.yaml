@@ -1,0 +1,33 @@
+meta:
+  title: 2023年上海市静安区中考二模数学试卷第 4 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q004
+    points: 4
+    stem_latex: 能说明甲运动员成绩较好且更稳定的是（\quad）
+    choices:
+    - $\overline{x_{\text{甲}}}>\overline{x_{\text{乙}}}$ 且 $S^{2}_{\text{甲}}<S^{2}_{\text{乙}}$
+    - $\overline{x_{\text{甲}}}>\overline{x_{\text{乙}}}$ 且 $S^{2}_{\text{甲}}>S^{2}_{\text{乙}}$
+    - $\overline{x_{\text{甲}}}<\overline{x_{\text{乙}}}$ 且 $S^{2}_{\text{甲}}<S^{2}_{\text{乙}}$
+    - $\overline{x_{\text{甲}}}<\overline{x_{\text{乙}}}$ 且 $S^{2}_{\text{甲}}>S^{2}_{\text{乙}}$
+    answer: A
+    clue: 成绩好→平均数大；更稳定→方差小。
+    solution_steps:
+    - 甲平均数大于乙且方差小于乙。
+    source_solution_images: []

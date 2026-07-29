@@ -1,0 +1,39 @@
+meta:
+  title: 2024年上海市崇明区中考二模数学试卷第 22 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q022
+    points: 10
+    stem_latex: '某挖掘机由基座、主臂和伸展臂构成。主臂 $AB$ 长 $4.8$ 米，主臂伸展角 $25°\leqslant\angle QAB\leqslant60°$，伸展臂伸展角 $45°\leqslant\angle ABC\leqslant110°$。当 $\angle QAB$ 最小、$\angle ABC$ 最大时，伸展臂 $BC$ 恰好接触水平地面。（参考数据 $\sin25°\approx0.4$，$\cos25°\approx0.9$）
+
+      (1) 当挖掘机在 $A$ 处时，能否挖到距 $A$ 水平正前方 $6$ 米远的土石？
+
+      (2) 景观河全长 $1200$ 米，实际每天比原计划多挖 $20$ 米，提前 $3$ 天完成，求原计划每天挖多少米？'
+    answer: (1) 能挖到；(2) 原计划每天挖 $80$ 米
+    clue: (1) $BD=AB\sin25°$，$AD=AB\cos25°$，$\angle DBC=45°$，$CA=CD+AD$；(2) 分式方程。
+    solution_steps:
+    - (1) $BD\approx4.8\times0.4=1.92$，$AD\approx4.8\times0.9=4.32$，$\angle DBC=45°$，$CD=BD=1.92$。
+    - $CA=CD+AD=1.92+4.32=6.24>6$，能挖到。
+    - (2) 设原计划每天 $x$ 米：$\dfrac{1200}{x}-\dfrac{1200}{x+20}=3$，$x=80$（$-100$ 舍去）。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 95mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

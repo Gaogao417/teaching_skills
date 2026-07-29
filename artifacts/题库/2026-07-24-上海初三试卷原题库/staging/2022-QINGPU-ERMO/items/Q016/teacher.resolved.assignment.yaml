@@ -1,0 +1,33 @@
+meta:
+  title: 2022年上海市青浦区初三二模数学试卷第 16 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q016
+    points: 4
+    stem_latex: 如图，$\triangle ABC$ 中 $D$、$E$ 在 $AB$、$AC$ 上，$\angle ADE=\angle C$，$AN$ 平分 $\angle BAC$ 交 $DE$ 于 $M$，若 $S_{四边形BCED}=2S_{\triangle ADE}$，则 $\dfrac{AM}{AN}=$______
+    answer: $\dfrac{\sqrt{3}}{3}$
+    clue: 面积比求相似比+角平分线。
+    solution_steps:
+    - $\triangle ADE\sim\triangle ACB$，$S_{\triangle ACB}=3S_{\triangle ADE}$，$\dfrac{AD}{AC}=\dfrac{1}{\sqrt{3}}=\dfrac{\sqrt{3}}{3}$，由角平分线 $\dfrac{AM}{AN}=\dfrac{\sqrt{3}}{3}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 90mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

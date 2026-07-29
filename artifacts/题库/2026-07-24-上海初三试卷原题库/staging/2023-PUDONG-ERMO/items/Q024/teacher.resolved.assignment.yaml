@@ -1,0 +1,35 @@
+meta:
+  title: 2023年上海市浦东新区中考二模数学试卷第 24 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q024
+    points: 12
+    stem_latex: 直线 $y=-\dfrac12x-2$ 与 $x$ 轴交于 $A$、与 $y$ 轴交于 $C$，抛物线 $y=\dfrac14x^{2}+bx+c$ 经过 $A,C$，与 $x$ 轴另一交点为 $B$，顶点为 $P$。（1）求抛物线表达式；（2）对称轴与直线 $BC$ 交于 $D$，求 $\tan\angle ACD$；（3）平移抛物线，新抛物线交 $y$ 轴于 $E$，顶点 $Q$ 在原抛物线上，当四边形 $BPQE$ 是平行四边形时，求新抛物线表达式．
+    answer: (1) $y=\dfrac14x^{2}+\dfrac12x-2$；(2) $\tan\angle ACD=3$；(3) $y=\dfrac14x^{2}+\dfrac32x+1$
+    clue: (1) 待定系数；(2) 证 $\angle ADC=90\degree$，求正切；(3) 由平行四边形对角线互相平分求 $Q$。
+    solution_steps:
+    - (1) $A(-4,0),C(0,-2)$，代入得 $b=\dfrac12,c=-2$，$y=\dfrac14x^{2}+\dfrac12x-2$。
+    - (2) $B(2,0)$，直线 $BC$：$y=x-2$，$D(-1,-3)$；$AC^{2}=AD^{2}+CD^{2}\Rightarrow \angle ADC=90\degree$，$\tan\angle ACD=\dfrac{AD}{CD}=3$。
+    - (3) $P(-1,-\dfrac94)$；设 $Q(t,\dfrac14t^{2}+\dfrac12t-2)$，由 $BPQE$ 平行四边形对角线互相平分得 $t=-3$，$Q(-3,-\dfrac54)$，新抛物线 $y=\dfrac14(x+3)^{2}-\dfrac54=\dfrac14x^{2}+\dfrac32x+1$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 75mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

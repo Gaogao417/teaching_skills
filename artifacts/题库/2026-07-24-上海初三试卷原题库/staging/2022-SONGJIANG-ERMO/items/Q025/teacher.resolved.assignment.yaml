@@ -1,0 +1,41 @@
+meta:
+  title: 2022年上海市松江区初三二模数学试卷第 25 题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: '已知 $\triangle ABC$ 中 $AB=AC$，$AD$、$BE$ 是两条高，直线 $BE$ 与 $AD$ 交于 $Q$。
+
+      (1) 当 $\angle BAC$ 为锐角时：① 求证：$DB^{2}=DQ\cdot DA$；② 若 $\dfrac{AQ}{QD}=3$，求 $\angle C$ 的正切值；
+
+      (2) 若 $BQ=3$，$EQ=2$，求 $\triangle ABC$ 的面积。'
+    answer: (1)① 见证明；② $\tan\angle C=2$；(2) $\dfrac{15\sqrt{5}}{2}$ 或 $\dfrac{3\sqrt{5}}{10}$
+    clue: (1)① 射影定理；(1)② 设 $DQ=x$；(2) 分锐角/钝角。
+    solution_steps:
+    - (1)① $AB=AC$，$AD\perp BC$，$\angle BAD=\angle CAD$；$BE\perp AC$ 得 $\angle CBE=\angle CAD=\angle BAD$，$\triangle BDQ\sim\triangle ADB$，$DB^{2}=DQ\cdot DA$。
+    - ② 设 $DQ=x$，$AQ=3x$，$AD=4x$，$DB^{2}=x\cdot4x=4x^{2}$，$BD=2x$，$CD=BD=2x$，$\tan\angle C=\dfrac{AD}{CD}=\dfrac{4x}{2x}=2$。
+    - (2) 设 $DQ=x$，$\triangle BQD\sim\triangle AQE$，$\dfrac{BQ}{AQ}=\dfrac{DQ}{EQ}$，$AQ=\dfrac{6}{x}$。$DB^{2}=9-x^{2}=x\cdot AD$。
+    - 锐角时 $AD=x+\dfrac{6}{x}$，$9-x^{2}=x^{2}+6$，$x=\dfrac{\sqrt{6}}{2}$，$S=\dfrac{15\sqrt{5}}{2}$。
+    - 钝角时 $AD=x-\dfrac{6}{x}$，$9-x^{2}=x^{2}-6$，$x=\dfrac{\sqrt{30}}{2}$，$S=\dfrac{3\sqrt{5}}{10}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 90mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

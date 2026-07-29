@@ -1,0 +1,39 @@
+meta:
+  title: 2023年上海市金山区中考二模数学试卷第 6 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q006
+    points: 4
+    stem_latex: 如图，球放在长方体纸盒内，截面如图，已知 $EF=CD=8$，那么球的半径长是（\quad）
+    choices:
+    - $4$
+    - $5$
+    - $6$
+    - $8$
+    answer: B
+    clue: 垂径定理 + 勾股定理列半径方程。
+    solution_steps:
+    - 作 $OM\perp EF$ 于 $M$，$EM=4$，$OM=8-OE$。
+    - $OE^{2}=4^{2}+(8-OE)^{2}$，$OE=5$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 60mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

@@ -1,0 +1,30 @@
+meta:
+  title: 2023年上海市崇明区中考二模数学试卷第 20 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q020
+    points: 10
+    stem_latex: 解方程组：$\begin{cases} 2x - y = 6 \\ x^{2} - xy - 2y^{2} = 0 \end{cases}$
+    answer: $\begin{cases} x=2 \\ y=-2 \end{cases}$ 或 $\begin{cases} x=4 \\ y=2 \end{cases}$
+    clue: 用代入消元将②化为关于 $x$ 的方程。
+    solution_steps:
+    - 由① $y=2x-6$，代入②得 $x^{2}-x(2x-6)-2(2x-6)^{2}=0$。
+    - 化简得 $x^{2}-6x+8=0$，$x_{1}=2$，$x_{2}=4$。
+    - $x=2$ 时 $y=-2$；$x=4$ 时 $y=2$。
+    source_solution_images: []

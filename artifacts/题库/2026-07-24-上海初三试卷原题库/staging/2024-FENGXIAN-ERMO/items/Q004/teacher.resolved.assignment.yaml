@@ -1,0 +1,36 @@
+meta:
+  title: 2024年上海市奉贤区中考二模数学试卷第 4 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q004
+    points: 4
+    stem_latex: 运动会 $200$ 米赛跑，$5$ 位运动员成绩为 $32$、$34$、（遮盖）、$36$、$33$，平均成绩 $33$，标准差（遮盖），那么被遮盖的两个数据依次是（　　）
+    choices:
+    - $30,\;4$
+    - $30,\;2$
+    - $32,\;4$
+    - $32,\;2$
+    answer: B
+    clue: 由平均数求 $C=30$，再求方差 $S^2=4$，标准差 $S=2$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 50mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

@@ -1,0 +1,38 @@
+meta:
+  title: 2024年上海市奉贤区中考二模数学试卷第 21 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q021
+    points: 10
+    stem_latex: '如图，已知一次函数 $y=2x-3$ 与反比例函数 $y=\dfrac{k}{x}$ 交于点 $A(2,m)$。
+
+      (1) 求反比例函数的解析式；
+
+      (2) 已知点 $M$ 在点 $A$ 右侧的反比例函数图像上，过 $M$ 作 $x$ 轴垂线垂足为 $N$，如果 $S_{\triangle AMN}=\dfrac{1}{4}$，求点 $M$ 的坐标。'
+    answer: (1) $y=\dfrac{2}{x}$；(2) $M(\dfrac{8}{3},\dfrac{3}{4})$
+    clue: (1) $A(2,1)$，$k=2$；(2) $S=\dfrac{1}{2}\cdot\dfrac{2}{m}(m-2)=\dfrac{1}{4}$。
+    solution_steps:
+    - (1) $m=2\times2-3=1$，$A(2,1)$，$k=2$，$y=\dfrac{2}{x}$。
+    - (2) $M(m,\dfrac{2}{m})$，$S_{\triangle AMN}=\dfrac{1}{2}\times\dfrac{2}{m}\times(m-2)=\dfrac{1}{4}$，$\dfrac{2}{m}=\dfrac{3}{4}$... 实际 $\dfrac{m-2}{m}=\dfrac{1}{4}$，$m=\dfrac{8}{3}$，$M(\dfrac{8}{3},\dfrac{3}{4})$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 70mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

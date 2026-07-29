@@ -1,0 +1,39 @@
+meta:
+  title: 2023年上海市崇明区中考二模数学试卷第 4 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q004
+    points: 4
+    stem_latex: 如图是小明某一天测得的7次体温情况的折线统计图，下列信息不正确的是（\quad）
+    choices:
+    - 测得的最高体温为 $37.1\degree\text{C}$
+    - 前3次测得的体温在下降
+    - 这组数据的众数是 $36.8$
+    - 这组数据的中位数是 $36.6$
+    answer: D
+    clue: 由折线图读最高体温、升降趋势，按定义求众数、中位数。
+    solution_steps:
+    - 7次体温最高 $37.1\degree\text{C}$，A正确；前3次下降，B正确。
+    - 众数为 $36.8$，C正确；中位数应为 $36.8$，D错误。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 80mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

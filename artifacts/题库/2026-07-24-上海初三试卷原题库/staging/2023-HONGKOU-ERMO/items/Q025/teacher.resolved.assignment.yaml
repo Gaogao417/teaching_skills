@@ -1,0 +1,36 @@
+meta:
+  title: 2023年上海市虹口区中考二模数学试卷第 25 题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: 如图1，在菱形 $ABCD$ 中，$AB=2\sqrt{5}$，点 $P$ 在对角线 $BD$ 上，$\tan\angle DBC=\dfrac{1}{2}$，$\odot O$ 是 $\triangle PAB$ 的外接圆，记 $BP=m$。（1）如图2，当 $PA=PB$ 时，联结 $OB$，求证：$OB\perp BC$；（2）延长 $AP$ 交射线 $BC$ 于 $Q$，如果 $\triangle ABQ$ 是直角三角形，求 $PQ$ 的长；（3）当圆心 $O$ 在菱形 $ABCD$ 外部时，用含 $m$ 的代数式表示 $\odot O$ 的半径，并写出 $m$ 的取值范围．
+    answer: (1) 见解析；(2) $PQ=\dfrac{3\sqrt{5}}{5}$ 或 $\dfrac{5\sqrt{5}}{3}$；(3) $\sqrt{5}<m<5$
+    clue: (1) $PA=PB$ 用垂径定理 + 菱形角平分线证垂直；(2) 分 $\angle AQB=90\degree$ 与 $\angle BAQ=90\degree$ 解直角三角形；(3) 由 $O$ 在 $AB$、$BC$ 上等边界情形确定 $m$ 范围。
+    solution_steps:
+    - (1) $PA=PB\Rightarrow \overset{\frown}{AP}=\overset{\frown}{BP}$，$OP\perp AB$；$OP=OB\Rightarrow \angle OBP=\angle OPB$；菱形 $\angle 1=\angle 2$，故 $\angle 2+\angle OBP=90\degree$，$OB\perp BC$。
+    - (2) 当 $\angle AQB=90\degree$，$AB$ 为直径，$AP=\sqrt{5}$；设 $PQ=x$，$(2\sqrt{5})^{2}=(2x)^{2}+(x+\sqrt{5})^{2}$，$x=\dfrac{3\sqrt{5}}{5}$。
+    - 当 $\angle BAQ=90\degree$，$\tan\angle ABQ=\dfrac{4}{3}$，$AQ=\dfrac{8\sqrt{5}}{3}$，$AP=\sqrt{5}$，$PQ=\dfrac{5\sqrt{5}}{3}$。
+    - (3) $O$ 在 $AB$ 上时 $m=\sqrt{5}$；$O$ 在 $BC$ 上时 $BO=\dfrac{5\sqrt{5}}{3}$；$P=D$ 或 $P=B$ 时 $m=5$；综合得圆心在菱形外部时 $\sqrt{5}<m<5$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 80mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

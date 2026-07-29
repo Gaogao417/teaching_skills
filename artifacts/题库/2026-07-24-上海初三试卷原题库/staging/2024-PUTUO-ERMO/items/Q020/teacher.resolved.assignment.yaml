@@ -1,0 +1,29 @@
+meta:
+  title: 2024年上海市普陀区中考二模数学试卷第 20 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q020
+    points: 10
+    stem_latex: 解方程：$\dfrac{6x}{x^2-9}+\dfrac{x}{x+3}=2$
+    answer: $x=6$
+    clue: 去分母乘 $(x+3)(x-3)$，注意验根。
+    solution_steps:
+    - $6x+x(x-3)=2(x^2-9)$，$x^2-3x-18=0$，$(x-6)(x+3)=0$。
+    - $x_1=6$，$x_2=-3$（增根舍去），$x=6$。
+    source_solution_images: []

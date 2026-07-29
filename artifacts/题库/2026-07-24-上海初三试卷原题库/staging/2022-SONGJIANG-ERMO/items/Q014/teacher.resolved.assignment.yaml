@@ -1,0 +1,33 @@
+meta:
+  title: 2022年上海市松江区初三二模数学试卷第 14 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q014
+    points: 4
+    stem_latex: 手抄报评比统计（六年级60份占25%、八年级占30%、九年级24份），七年级作品份数是______
+    answer: '84'
+    clue: 总数 $60\div25\%=240$。
+    solution_steps:
+    - 总数240，八年级72，七年级 $240-60-72-24=84$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 100mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

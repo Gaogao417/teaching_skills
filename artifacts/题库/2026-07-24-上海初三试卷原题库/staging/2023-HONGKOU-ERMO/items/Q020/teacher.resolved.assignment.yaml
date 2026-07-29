@@ -1,0 +1,29 @@
+meta:
+  title: 2023年上海市虹口区中考二模数学试卷第 20 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q020
+    points: 10
+    stem_latex: 解方程组：$\begin{cases} x^{2}+6xy+9y^{2}=4 \\ x-3y=8 \end{cases}$
+    answer: $\begin{cases} x_{1}=5 \\ y_{1}=-1 \end{cases}$ 或 $\begin{cases} x_{2}=3 \\ y_{2}=-\dfrac{5}{3} \end{cases}$
+    clue: 把 $x^{2}+6xy+9y^{2}$ 化为 $(x+3y)^{2}$，拆成两个一次方程组。
+    solution_steps:
+    - $(x+3y)^{2}=4\Rightarrow x+3y=\pm2$。
+    - 与 $x-3y=8$ 联立，解得 $\begin{cases} x_{1}=5 \\ y_{1}=-1 \end{cases}$ 或 $\begin{cases} x_{2}=3 \\ y_{2}=-\dfrac{5}{3} \end{cases}$。
+    source_solution_images: []

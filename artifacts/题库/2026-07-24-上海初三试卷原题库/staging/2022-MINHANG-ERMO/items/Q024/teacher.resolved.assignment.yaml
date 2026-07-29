@@ -1,0 +1,39 @@
+meta:
+  title: 2022年上海市闵行区初三二模数学试卷第 24 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q024
+    points: 12
+    stem_latex: '抛物线 $y=ax^{2}+bx+4$ 与 $x$ 轴交于 $A(-1,0)$、$B(3,0)$，与 $y$ 轴交于 $C$。对称轴沿 $x$ 轴正方向平移，交 $x$ 轴于 $D$、交 $BC$ 于 $E$、交抛物线于 $F$，过 $F$ 作 $BC$ 的垂线垂足为 $G$。
+
+      (1) 求抛物线表达式；
+
+      (2) 以 $G$ 为圆心 $BG$ 为半径作 $\odot G$，以 $E$ 为圆心 $EF$ 为半径作 $\odot E$，当 $\odot G$ 与 $\odot E$ 内切时：① 证 $EF$ 与 $EB$ 的数量关系；② 求 $F$。'
+    answer: (1) $y=-\dfrac{4}{3}x^{2}+\dfrac{8}{3}x+4$；(2)① $EF=EB$；② $F\left(\dfrac{5}{4},\dfrac{21}{4}\right)$
+    clue: (1) 待定系数；(2) 内切切点为 $B$。
+    solution_steps:
+    - (1) $y=a(x+1)(x-3)$，$-3a=4$，$a=-\dfrac{4}{3}$，$b=\dfrac{8}{3}$，$y=-\dfrac{4}{3}x^{2}+\dfrac{8}{3}x+4$。
+    - (2)① 内切时切点为 $B$，$\therefore EF=EB$。
+    - ② 直线 $BC$：$y=-\dfrac{4}{3}x+4$，$BC=5$。设 $F(m,-\dfrac{4}{3}m^{2}+\dfrac{8}{3}m+4)$，$E(m,-\dfrac{4}{3}m+4)$，$EF=-\dfrac{4}{3}m^{2}+4m$，$EB=-\dfrac{5}{3}m+5$，由 $EF=EB$ 得 $4m^{2}-17m+15=0$，$m=\dfrac{5}{4}$（$m=3$ 舍），$F\left(\dfrac{5}{4},\dfrac{21}{4}\right)$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 75mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

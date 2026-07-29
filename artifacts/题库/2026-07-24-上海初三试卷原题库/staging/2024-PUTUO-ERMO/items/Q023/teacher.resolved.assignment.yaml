@@ -1,0 +1,38 @@
+meta:
+  title: 2024年上海市普陀区中考二模数学试卷第 23 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q023
+    points: 12
+    stem_latex: '如图，四边形 $ABCD$ 中，$AB\parallel CD$，点 $E$ 在边 $AD$ 上，$CE$ 与 $BA$ 延长线交于 $F$，$\dfrac{FA}{AB}=\dfrac{AE}{ED}$。
+
+      (1) 求证：四边形 $ABCD$ 为平行四边形；
+
+      (2) 联结 $FD$，分别延长 $FD$、$BC$ 交于 $G$，如果 $FC^2=FD\cdot FG$，求证：$AD\cdot CG=BF\cdot CD$。'
+    answer: (1)(2) 证明见详解
+    clue: (1) $\triangle AEF\sim\triangle DEC$，$AB=CD$；(2) $\triangle CFD\sim\triangle GFC$，$\triangle FBC\sim\triangle GBF$。
+    solution_steps:
+    - (1) $\triangle AEF\sim\triangle DEC$，$\dfrac{AF}{CD}=\dfrac{AE}{ED}=\dfrac{FA}{AB}$，$AB=CD$，平行四边形。
+    - (2) $FC^2=FD\cdot FG$ 得 $\triangle CFD\sim\triangle GFC$，$\angle FCD=\angle FGC$；$\triangle FBC\sim\triangle GBF$，$\dfrac{CG}{CD}=\dfrac{BF}{BC}$，$AD=BC$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 65mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

@@ -1,0 +1,33 @@
+meta:
+  title: 2024年上海市浦东新区中考二模数学试卷第 16 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q016
+    points: 4
+    stem_latex: 如图，已知 $\triangle ABC$ 中，中线 $AM$、$BN$ 相交于点 $G$，设 $\overrightarrow{AG}=\vec{a}$，$\overrightarrow{BG}=\vec{b}$，那么向量 $\overrightarrow{BC}$ 用向量 $\vec{a}$、$\vec{b}$ 表示为\u3000\u3000\u3000\u3000。
+    answer: $\vec{a}+2\vec{b}$
+    clue: $\overrightarrow{BM}=\dfrac{1}{2}\vec{a}+\vec{b}$，$\overrightarrow{BC}=2\overrightarrow{BM}$。
+    solution_steps:
+    - $\overrightarrow{BM}=\overrightarrow{BG}+\overrightarrow{GM}=\vec{b}+\dfrac{1}{2}\vec{a}$，$\overrightarrow{BC}=2\overrightarrow{BM}=\vec{a}+2\vec{b}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 60mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

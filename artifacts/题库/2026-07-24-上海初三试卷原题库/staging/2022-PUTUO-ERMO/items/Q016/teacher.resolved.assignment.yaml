@@ -1,0 +1,33 @@
+meta:
+  title: 2022年上海市普陀区初三二模数学试卷第 16 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q016
+    points: 4
+    stem_latex: 如图，梯形 $ABCD$ 中 $AD\parallel BC$，$BC=3AD$，设 $\overrightarrow{AB}=\vec{a}$，$\overrightarrow{DC}=\vec{b}$，则 $\overrightarrow{AD}=$______
+    answer: $\dfrac{1}{2}\vec{b}-\dfrac{1}{2}\vec{a}$
+    clue: 作 $DE\parallel AB$ 构造平行四边形。
+    solution_steps:
+    - $\overrightarrow{EC}=\vec{b}-\vec{a}$，$EC=2AD$，$\overrightarrow{AD}=\dfrac{1}{2}\overrightarrow{EC}=\dfrac{1}{2}\vec{b}-\dfrac{1}{2}\vec{a}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 100mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

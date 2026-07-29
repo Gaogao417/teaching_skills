@@ -1,0 +1,41 @@
+meta:
+  title: 2024年上海市浦东新区中考二模数学试卷第 24 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q024
+    points: 12
+    stem_latex: '在平面直角坐标系 $xOy$ 中，已知直线 $y=-x+2$ 与 $x$ 轴、$y$ 轴分别交于 $A$、$B$，抛物线 $C_1:y=-x^2+bx+c$ 经过 $A$、$B$，顶点为 $C$。
+
+      (1) 求 $b$、$c$ 的值；
+
+      (2) 点 $D$ 在 $C_1$ 对称轴上，射线 $AB$ 平分 $\angle CAD$，求点 $D$ 的坐标；
+
+      (3) 将 $C_1$ 平移得 $C_2$，顶点 $E$ 在射线 $BA$ 上，$C_2$ 与 $y$ 轴交于 $F$，$\triangle BEF$ 是等腰三角形，求 $C_2$ 的表达式。'
+    answer: (1) $b=1,c=2$；(2) $D(\dfrac{1}{2},1)$；(3) $y=-(x-1)^2+1$ 或 $y=-(x-\sqrt{2}+1)^2-\sqrt{2}+3$
+    clue: (1) 待定系数；(2) 对称点法；(3) 分 $BE=BF$、$BE=EF$ 讨论。
+    solution_steps:
+    - (1) $A(2,0),B(0,2)$ 代入得 $b=1,c=2$。
+    - (2) $D(\dfrac{1}{2},m)$，对称点 $D'(2-m,\dfrac{3}{2})$ 在 $AC:y=-\dfrac{3}{2}x+3$ 上，$m=1$，$D(\dfrac{1}{2},1)$。
+    - (3) $E(m,-m+2)$，$BE=\sqrt{2}m$，$BF=m^2+m$；$BE=BF$ 得 $m=\sqrt{2}-1$；$BE=EF$ 得 $m=1$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 70mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

@@ -1,0 +1,29 @@
+meta:
+  title: 2024年上海市奉贤区中考二模数学试卷第 20 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q020
+    points: 10
+    stem_latex: 解方程组：$\begin{cases} x+2y=1 \\ x^2-4y^2=-3 \end{cases}$
+    answer: $\begin{cases} x=-1 \\ y=1 \end{cases}$
+    clue: 由① $x=1-2y$ 代入②。
+    solution_steps:
+    - $x=1-2y$ 代入②：$(1-2y)^2-4y^2=-3$，$1-4y=-3$，$y=1$。
+    - $x=1-2=-1$。
+    source_solution_images: []

@@ -1,0 +1,38 @@
+meta:
+  title: 2022年上海市静安区初三二模数学试卷第 21 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q021
+    points: 10
+    stem_latex: '如图，$\triangle ABC$ 外接圆圆心 $O$ 在高 $AD$ 上，$E$ 在 $BC$ 延长线上，$EC=AB$。
+
+      (1) 求证：$\angle B=2\angle AEC$；
+
+      (2) 当 $OA=2$，$\cos\angle BAO=\dfrac{\sqrt{3}}{2}$ 时，求 $DE$。'
+    answer: (1) 见证明；(2) $DE=3\sqrt{3}$
+    clue: (1) $AB=AC$，$EC=AC$；(2) 解直角三角形。
+    solution_steps:
+    - (1) $O$ 在 $AD$ 上，$AD$ 垂直平分 $BC$，$AB=AC$，$\angle B=\angle ACB$；$EC=AB=AC$，$\angle AEC=\angle CAE$，$\angle ACB=\angle AEC+\angle CAE=2\angle AEC$，$\therefore \angle B=2\angle AEC$。
+    - (2) $\angle BAO=30^{\circ}$，$OB=OA=2$，$\angle BOD=60^{\circ}$，$BD=\sqrt{3}$，$OD=1$，$AD=3$，$AB=2\sqrt{3}$，$DE=DC+CE=\sqrt{3}+2\sqrt{3}=3\sqrt{3}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 100mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

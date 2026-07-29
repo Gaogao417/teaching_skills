@@ -1,0 +1,35 @@
+meta:
+  title: 2023年上海市嘉定区中考二模数学试卷第 21 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q021
+    points: 10
+    stem_latex: 如图，在 $\triangle ABC$ 中，$AC=AB$，$\sin A=\dfrac{3}{5}$，圆 $O$ 经过 $A$、$B$，圆心 $O$ 在线段 $AC$ 上，点 $C$ 在圆 $O$ 内，且 $OC=3$。（1）求圆 $O$ 的半径长；（2）求 $BC$ 的长．
+    answer: (1) 半径为 $5$；(2) $BC=\dfrac{8\sqrt{10}}{5}$
+    clue: (1) 延长 $AC$ 交圆于 $D$，用 $\sin A=\dfrac{AB}{AD}$ 列方程求半径；(2) 作 $BE\perp AC$，解直角三角形求 $BC$。
+    solution_steps:
+    - (1) 延长 $AC$ 交圆 $O$ 于 $D$，$AD=2r$，$AB=r+3$；$\sin A=\dfrac{AB}{AD}=\dfrac{r+3}{2r}=\dfrac{4}{5}$，$r=5$。
+    - (2) $AB=AC=8$；作 $BE\perp AC$ 于 $E$，$BE=8\times\dfrac{3}{5}=\dfrac{24}{5}$，$AE=\dfrac{32}{5}$，$CE=\dfrac{8}{5}$。
+    - $BC=\sqrt{BE^{2}+CE^{2}}=\dfrac{8\sqrt{10}}{5}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 60mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

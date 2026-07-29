@@ -1,0 +1,33 @@
+meta:
+  title: 2023年上海市普陀区中考二模数学试卷第 3 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q003
+    points: 4
+    stem_latex: 函数 $y=kx$（$k\neq0$）的图像经过第一、三象限，下列说法正确的是（\quad）
+    choices:
+    - $k<0$
+    - 图像一定经过点 $(1,k)$
+    - 图像是双曲线
+    - $y$ 随 $x$ 增大而减小
+    answer: B
+    clue: 过一、三象限则 $k>0$，$x=1$ 时 $y=k$。
+    solution_steps:
+    - $k>0$，图像过 $(1,k)$，B 正确。
+    source_solution_images: []

@@ -1,0 +1,34 @@
+meta:
+  title: 2022年上海市黄浦区初三二模数学试卷第 17 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q017
+    points: 4
+    stem_latex: 如图，三根等长木棍：$AB$ 垂直立于地面，$CD$ 斜钉在 $AB$ 上（$D$ 为 $AB$ 中点），$EF$ 斜钉在 $CD$ 上（$F$ 为 $CD$ 中点），$A$、$C$、E 三点共线，那么 $\dfrac{AC}{AE}=$______
+    answer: $\dfrac{\sqrt{5}-1}{2}$
+    clue: 由中点与垂直关系建立方程，结果为黄金分割比。
+    solution_steps:
+    - 设木棍长为 $2x$，则 $AD=BD=DF=CF=x$。
+    - 过 $F$ 作 $FH\perp AC$，由几何关系建立关于线段的比例方程，解得 $\dfrac{AC}{AE}=\dfrac{\sqrt{5}-1}{2}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 100mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

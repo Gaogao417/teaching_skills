@@ -1,0 +1,36 @@
+meta:
+  title: 2022年上海市金山区初三二模数学试卷第 21 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q021
+    points: 10
+    stem_latex: '如图，梯形 $ABCD$ 中 $AD\parallel BC$，$E$ 为 $AB$ 中点，$\angle CDE=90^{\circ}$，$CD=6$，$\tan\angle DCE=\dfrac{2}{3}$。
+
+      (1) 求 $CE$；(2) 求 $\cos\angle ADE$。'
+    answer: (1) $CE=2\sqrt{13}$；(2) $\cos\angle ADE=\dfrac{4}{5}$
+    clue: (1) 解直角三角形；(2) 中位线转化角。
+    solution_steps:
+    - (1) $\dfrac{DE}{CD}=\dfrac{2}{3}$，$DE=4$，$CE=\sqrt{4^{2}+6^{2}}=2\sqrt{13}$。
+    - (2) 取 $CD$ 中点 $F$，$EF$ 为中位线，$AD\parallel EF$，$\angle ADE=\angle DEF$。$\mathrm{Rt}\triangle DEF$ 中 $DF=3$，$EF=5$，$\cos\angle ADE=\dfrac{DE}{EF}=\dfrac{4}{5}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 100mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

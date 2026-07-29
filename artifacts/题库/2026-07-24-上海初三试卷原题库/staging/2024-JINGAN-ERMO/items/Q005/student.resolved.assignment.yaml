@@ -1,0 +1,33 @@
+meta:
+  title: 2024年上海市静安区中考二模数学试卷第 5 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: student
+  show_answers: false
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: student
+  blocks:
+  - type: choice
+    id: Q005
+    points: 4
+    stem_latex: 如图，菱形 $ABCD$ 的对角线 $AC$、$BD$ 相交于点 $O$，那么下列条件中，能判断菱形 $ABCD$ 是正方形的为（　　）
+    choices:
+    - $\angle AOB=\angle AOD$
+    - $\angle ABO=\angle ADO$
+    - $\angle BAO=\angle DAO$
+    - $\angle ABC=\angle BCD$
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 55mm
+      variant: prompt
+      disclosure_policy: clean

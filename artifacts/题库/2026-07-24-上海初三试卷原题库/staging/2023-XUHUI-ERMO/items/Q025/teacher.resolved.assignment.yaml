@@ -1,0 +1,35 @@
+meta:
+  title: 2023年上海市徐汇区中考二模数学试卷第 25 题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: 如图1，四边形 $ABCD$ 中 $AB=AD=CD$，$\angle B=\angle C<90\degree$。（1）求证：四边形 $ABCD$ 是等腰梯形；（2）边 $CD$ 的垂直平分线 $EF$ 交 $CD$ 于 $E$、交对角线 $AC$ 于 $P$、交射线 $AB$ 于 $F$：①当 $AF=AP$ 时，设 $AD=x$，用 $x$ 表示 $AC$；②当 $BF=DE$ 时，求 $\dfrac{AD}{BC}$．
+    answer: (1) 见解析；(2)① $AC=\dfrac{\sqrt{5}+1}{2}x$；② $\dfrac{AD}{BC}=\dfrac{\sqrt{13}-2}{3}$
+    clue: (1) 作双高证全等得 $AD\parallel BC$；(2)① 连 $PD$ 延长交 $BC$，由相似与平行四边形建方程；(2)② 延长 $AD$ 交 $FE$，证菱形与相似建方程。
+    solution_steps:
+    - (1) 作 $AQ\perp BC,DN\perp BC$，$\triangle AQB\cong\triangle DNC$，$AQND$ 为矩形，$AD\parallel BC$，等腰梯形。
+    - (2)① $\triangle CPD\sim\triangle CDA\Rightarrow CP\cdot CA=x^{2}$；四边形 $ABMD$ 为平行四边形，$AP=x$（$F,B$ 重合），$(CA-x)CA=x^{2}$，$AC=\dfrac{\sqrt5+1}{2}x$。
+    - (2)② $F$ 在 $AB$ 延长线上，证四边形 $DSCT$ 为菱形；设 $BS=m,SC=n$，由 $\triangle FBS\sim\triangle FAT$ 及 $\triangle FSI\cong\triangle ESC$ 建方程 $12m^{2}-10xm+x^{2}=0$，$m=\dfrac{5+\sqrt{13}}{12}x$，$BC=\dfrac{2+\sqrt{13}}{3}x$，$\dfrac{AD}{BC}=\dfrac{\sqrt{13}-2}{3}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 80mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

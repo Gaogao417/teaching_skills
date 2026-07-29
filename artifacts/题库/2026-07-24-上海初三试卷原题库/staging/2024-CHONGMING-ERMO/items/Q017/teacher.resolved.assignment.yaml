@@ -1,0 +1,30 @@
+meta:
+  title: 2024年上海市崇明区中考二模数学试卷第 17 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q017
+    points: 4
+    stem_latex: 已知在矩形 $ABCD$ 中，$AB=6$，$BC=4$，将矩形 $ABCD$ 绕点 $B$ 旋转，$AB$ 的对应边 $A'B$ 与边 $CD$ 相交于点 $E$，连接 $A'C$，当点 $E$ 是 $CD$ 中点时，$\tan\angle A'CD=$\u3000\u3000\u3000\u3000。
+    answer: $\dfrac{2}{9}$
+    clue: $BE=5$，$A'E=1$，$\triangle A'EH\sim\triangle EBF$ 求 $A'H$、$CH$。
+    solution_steps:
+    - $BF=CE=3$，$EF=BC=4$，$BE=5$，$A'E=6-5=1$。
+    - $\triangle A'EH\sim\triangle EBF$，$A'H=\dfrac{4}{5}$，$EH=\dfrac{3}{5}$，$CH=\dfrac{18}{5}$。
+    - $\tan\angle A'CD=\dfrac{A'H}{CH}=\dfrac{4/5}{18/5}=\dfrac{2}{9}$。
+    source_solution_images: []

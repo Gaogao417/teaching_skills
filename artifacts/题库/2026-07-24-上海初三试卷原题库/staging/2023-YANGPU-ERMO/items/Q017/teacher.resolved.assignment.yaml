@@ -1,0 +1,33 @@
+meta:
+  title: 2023年上海市杨浦区中考二模数学试卷第 17 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q017
+    points: 4
+    stem_latex: 如图，正五边形 $ABCDE$ 边长为2，以 $C,D$ 为圆心 $CD$ 为半径画弧交于 $F$，则 $\overset{\frown}{BF}$ 的长为 ______（保留 $\pi$）
+    answer: $\dfrac{8}{15}\pi$
+    clue: $\triangle CFD$ 等边得 $\angle FCD=60\degree$，正五边形内角 $108\degree$，$\angle BCF=48\degree$。
+    solution_steps:
+    - $\angle BCF=108\degree-60\degree=48\degree$，$\overset{\frown}{BF}=\dfrac{48\pi\times2}{180}=\dfrac{8}{15}\pi$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 45mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

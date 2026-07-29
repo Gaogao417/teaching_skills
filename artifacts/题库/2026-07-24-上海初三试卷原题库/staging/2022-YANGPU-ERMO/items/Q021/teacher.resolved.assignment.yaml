@@ -1,0 +1,38 @@
+meta:
+  title: 2022年上海市杨浦区初三二模数学试卷第 21 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q021
+    points: 10
+    stem_latex: '如图，平行四边形 $ABCD$，过 $D$ 作 $DE\perp AB$ 于 $E$，$AD=17$，$AB=20$，$\cos A=\dfrac{8}{17}$。
+
+      (1) 求平行四边形 $ABCD$ 面积；
+
+      (2) 联结 $CE$，求 $\sin\angle BCE$。'
+    answer: (1) $300$；(2) $\sin\angle BCE=\dfrac{36}{85}$
+    clue: (1) 解直角三角形求高；(2) 作 $EF\perp BC$。
+    solution_steps:
+    - (1) $AE=17\times\dfrac{8}{17}=8$，$DE=\sqrt{17^{2}-8^{2}}=15$，$S=AB\cdot DE=300$。
+    - (2) $EB=12$，$EF=EB\sin A=12\times\dfrac{15}{17}=\dfrac{180}{17}$，$EC=25$，$\sin\angle BCE=\dfrac{EF}{EC}=\dfrac{36}{85}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 90mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

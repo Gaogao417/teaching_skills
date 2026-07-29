@@ -1,0 +1,36 @@
+meta:
+  title: 2023年上海市崇明区中考二模数学试卷第 18 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q018
+    points: 4
+    stem_latex: 如图，在两个直角顶点重合的 Rt$\triangle ABC$ 和 Rt$\triangle CDE$ 中，$\angle ACB=\angle DCE=90\degree$，$\angle CAB=\angle CDE=30\degree$，$BC=3$，$CE=2$，将 $\triangle CDE$ 绕点 $C$ 顺时针旋转，当点 $D$ 恰好落在 $AB$ 边上时，联结 $BE$，那么 $BE=$ ______
+    answer: $\dfrac{3\sqrt{3}-\sqrt{7}}{2}$
+    clue: 由 $30\degree$ 直角三角形性质求 $AB$、$DE$，证 $\triangle ACD\sim\triangle BCE$ 得比例，再用勾股定理。
+    solution_steps:
+    - $AB=2BC=6$，$DE=2CE=4$；$\angle ACD=\angle BCE$，$\therefore \triangle ACD\sim\triangle BCE$。
+    - $\therefore \dfrac{AD}{BE}=\sqrt{3}$，$\angle CBE=\angle A=30\degree$，$\angle DBE=90\degree$。
+    - 设 $BE=x$，$AD=\sqrt{3}x$，$BD=6-\sqrt{3}x$，Rt$\triangle DBE$ 中 $4^{2}=x^{2}+(6-\sqrt{3}x)^{2}$。
+    - 解得 $x=\dfrac{3\sqrt{3}-\sqrt{7}}{2}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 45mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

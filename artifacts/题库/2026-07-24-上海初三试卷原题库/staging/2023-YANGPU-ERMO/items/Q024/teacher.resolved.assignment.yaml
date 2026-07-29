@@ -1,0 +1,35 @@
+meta:
+  title: 2023年上海市杨浦区中考二模数学试卷第 24 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q024
+    points: 12
+    stem_latex: 抛物线 $C_1:y=ax^{2}+b$ 与 $x$ 轴交于 $A(-2,0),B$，与 $y$ 轴交于 $C(0,2)$。（1）求 $C_1$ 表达式；（2）把 $C_1$ 沿射线 $CA$ 方向平移得 $C_2$，$A\to D,C\to E$ 均在直线 $AC$ 上，$F$ 在 $C_1$ 上且 $\triangle DEF$ 是以 $EF$ 为底的等腰直角三角形，求 $F$；（3）在(2)条件下，$M$ 在 $BC$ 上，$EN\perp EM$ 交直线 $BF$ 于 $N$，求 $\tan\angle ENM$．
+    answer: (1) $y=-\dfrac12x^{2}+2$；(2) $F(-4,-6)$；(3) $\tan\angle ENM=2$
+    clue: (1) 待定系数；(2) 等腰直角 $EF=\sqrt2 DE$ 列方程；(3) 证四边形 $DFBC$ 为矩形，由相似 $\dfrac{EM}{EN}$ 求正切。
+    solution_steps:
+    - (1) 代入 $A,C$ 得 $a=-\dfrac12,b=2$，$y=-\dfrac12x^{2}+2$。
+    - (2) 直线 $AC$：$y=x+2$；$EF=\sqrt2 DE=4$，设 $F(m,-\dfrac12m^{2}+2)$，$(m+2)-(-\dfrac12m^{2}+2)=4$，$m=-4$，$F(-4,-6)$。
+    - (3) $B(2,0)$，$\angle BCA=90\degree$，四边形 $DFBC$ 为矩形；$\triangle ENG\sim\triangle EMC$，$\dfrac{EM}{EN}=\dfrac{EC}{EG}=\dfrac{4\sqrt2}{2\sqrt2}=2$，$\tan\angle ENM=2$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 60mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

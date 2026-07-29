@@ -1,0 +1,35 @@
+meta:
+  title: 2023年上海市松江区中考二模数学试卷第 22 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q022
+    points: 10
+    stem_latex: 某校六年级安全知识测试分A(90~100)、B(80~89)、C(60~79)、D(0~59)四等级，抽样统计表与扇形图（B频率40%，A频数15，C频数 $a$，D频数 $b$）。（1）求B等级扇形圆心角；（2）中位数处在哪个等级；（3）若 $a$ 是 $b$ 的5倍，该校300名学生中需再教育（D等级）的约多少人？
+    answer: (1) $144\degree$；(2) $B$；(3) $20$ 人
+    clue: (1) 圆心角$=360\degree\times$频率；(2) 由频数定中位数所在等级；(3) 用样本D频率估计总体。
+    solution_steps:
+    - (1) $360\degree\times40\%=144\degree$。
+    - (2) 总数75，A频数15、B频数30，中位数第38个落在B等级。
+    - (3) $a+b=30$，$a=5b\Rightarrow b=5$；$300\times\dfrac{5}{75}=20$（人）。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 45mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

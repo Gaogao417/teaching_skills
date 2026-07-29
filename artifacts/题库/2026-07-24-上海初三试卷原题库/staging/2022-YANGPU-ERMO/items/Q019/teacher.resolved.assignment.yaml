@@ -1,0 +1,29 @@
+meta:
+  title: 2022年上海市杨浦区初三二模数学试卷第 19 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q019
+    points: 10
+    stem_latex: 先化简再计算：$\dfrac{a^{2}-4a+4}{a^{2}-1}\div\dfrac{a^{2}-2a}{a+1}+\dfrac{1}{a-1}$，其中 $a=\sqrt{2}$。
+    answer: $\dfrac{2}{a}$；代入得 $\sqrt{2}$
+    clue: 分式化简。
+    solution_steps:
+    - 原式 $=\dfrac{(a-2)^{2}}{(a+1)(a-1)}\cdot\dfrac{a+1}{a(a-2)}+\dfrac{1}{a-1}=\dfrac{a-2}{a(a-1)}+\dfrac{1}{a-1}=\dfrac{2}{a}$。
+    - $a=\sqrt{2}$ 时，原式 $=\dfrac{2}{\sqrt{2}}=\sqrt{2}$。
+    source_solution_images: []

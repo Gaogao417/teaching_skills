@@ -1,0 +1,40 @@
+meta:
+  title: 2023年上海市奉贤区中考二模数学试卷第 6 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q006
+    points: 4
+    stem_latex: 如图，矩形 $ABCD$ 中，$AB=1$，$\angle ABD=60\degree$，点 $O$ 在对角线 $BD$ 上，圆 $O$ 经过点 $C$。如果矩形 $ABCD$ 有两个顶点在圆 $O$ 内，那么圆 $O$ 的半径长 $r$ 的取值范围是（\quad）
+    choices:
+    - $0<r\leqslant1$
+    - $1<r\leqslant\sqrt{3}$
+    - $1<r\leqslant2$
+    - $\sqrt{3}<r\leqslant2$
+    answer: B
+    clue: 求 $AD=\sqrt{3}$，分析点 $O$ 在 $BD$ 上移动时各顶点到 $O$ 的距离，分类确定恰两顶点在内时 $r$ 的范围。
+    solution_steps:
+    - $\angle ADB=30\degree$，$BD=2$，$AD=\sqrt{3}$；作 $CE\perp BD$，$CE=\dfrac{\sqrt{3}}{2}$，$AC$ 交 $BD$ 于 $F$，$OC$ 在 $F$ 处为 $1$。
+    - 分析 $O$ 从 $D$ 到 $B$ 移动：当 $1<OC<\sqrt{3}$ 时恰有两顶点在圆内；端点 $OC=\sqrt{3}$ 也满足。
+    - $\therefore 1<r\leqslant\sqrt{3}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 50mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

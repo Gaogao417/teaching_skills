@@ -1,0 +1,43 @@
+meta:
+  title: 2022年上海市虹口区初三二模数学试卷第 25 题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: '在 $\triangle ABC$ 中，$AC=6$，$BC=9$，$\angle BAC=2\angle B$，$AD$ 平分 $\angle BAC$ 交 $BC$ 于 $D$。$E$、$F$ 分别在 $AB$、$DC$ 上且 $AE=DF$，联结 $EF$，以 $AE$、$EF$ 为邻边作平行四边形 $AEFG$。
+
+      (1) 求 $BD$ 的长；
+
+      (2) 当平行四边形 $AEFG$ 是矩形时，求 $AE$；
+
+      (3) 过 $D$ 作平行于 $AB$ 的直线，分别交 $EF$、$AG$、$AC$ 于 $P$、$Q$、$M$。当 $DP=MQ$ 时，求 $AE$。'
+    answer: (1) $BD=5$；(2) $AE=\dfrac{15}{7}$；(3) $AE=\dfrac{25-5\sqrt{19}}{3}$
+    clue: (1) 证 $\triangle ADC\sim\triangle BAC$；(2) 矩形+平行线分线段成比例；(3) 平行四边形+相似列方程。
+    solution_steps:
+    - (1) $\angle DAB=\angle DAC=\angle B$，$AD=BD$。$\triangle ADC\sim\triangle BAC$，$\dfrac{AC}{CD}=\dfrac{BC}{AC}$，$CD=4$，$BD=9-4=5$。
+    - (2) $AB=\dfrac{15}{2}$，$AN=BN=\dfrac{15}{4}$。矩形 $AEFG$ 中 $EF\perp AB$，$EF\parallel DN$。设 $AE=DF=x$，$\dfrac{5}{\frac{15}{4}}=\dfrac{5+x}{\frac{15}{2}-x}$，$x=\dfrac{15}{7}$。
+    - (3) 设 $AE=DF=a$，$DP=MQ=b$。四边形 $AEPQ$ 为平行四边形，$PQ=AE=a$。由 $\triangle CDM\sim\triangle CBA$ 得 $DM=\dfrac{10}{3}$，$a+2b=\dfrac{10}{3}$，$b=\dfrac{5}{3}-\dfrac{1}{2}a$。
+    - 由 $\triangle FDP\sim\triangle FBE$：$\dfrac{a}{a+5}=\dfrac{b}{\frac{15}{2}-a}$，整理 $3a^{2}-50a+50=0$，$a=\dfrac{25\pm5\sqrt{19}}{3}$。
+    - 舍去 $\dfrac{25+5\sqrt{19}}{3}$（超出 $AB$），$\therefore AE=\dfrac{25-5\sqrt{19}}{3}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 110mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

@@ -1,0 +1,33 @@
+meta:
+  title: 2023年上海市嘉定区中考二模数学试卷第 15 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q015
+    points: 4
+    stem_latex: 如图，在 $\triangle ABC$ 中，点 $D$ 是 $AC$ 边上一点，且 $AD:DC=2:1$。设 $\vec{BA}=\vec{a}$，$\vec{BC}=\vec{b}$，那么 $\vec{BD}=$ ______（用 $\vec{a}$、$\vec{b}$ 表示）
+    answer: $\dfrac{1}{3}\vec{a}+\dfrac{2}{3}\vec{b}$
+    clue: $\vec{BD}=\vec{BA}+\vec{AD}$，其中 $\vec{AD}=\dfrac{2}{3}\vec{AC}$。
+    solution_steps:
+    - $\vec{BD}=\vec{BA}+\dfrac{2}{3}(\vec{BC}-\vec{BA})=\dfrac{1}{3}\vec{a}+\dfrac{2}{3}\vec{b}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 40mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

@@ -1,0 +1,33 @@
+meta:
+  title: 2023年上海市徐汇区中考二模数学试卷第 15 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q015
+    points: 4
+    stem_latex: 如图，销售收入 $y_1$、销售成本 $y_2$ 与销售量 $x$ 的函数图像。当销售收入与销售成本相等时，销售量 $x$ 为 ______ 吨
+    answer: '4'
+    clue: 求两直线解析式，联立求交点横坐标。
+    solution_steps:
+    - $y_1=1000x$，$y_2=500x+2000$，联立得 $x=4$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 60mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

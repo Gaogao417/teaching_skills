@@ -1,0 +1,35 @@
+meta:
+  title: 2022年上海市黄浦区初三二模数学试卷第 14 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q014
+    points: 4
+    stem_latex: 如图，$AB\parallel DE$，$\angle ABC=70^{\circ}$，$\angle CDE=147^{\circ}$，则 $\angle BCD=$______
+    answer: $37^{\circ}$
+    clue: 延长 $ED$ 交 $BC$ 于 $F$，用三角形外角。
+    solution_steps:
+    - 延长 $ED$ 交 $BC$ 于 $F$，$\angle BFD=\angle B=70^{\circ}$。
+    - $\angle CDF=180^{\circ}-147^{\circ}=33^{\circ}$。
+    - $\angle BCD=\angle BFD-\angle CDF=70^{\circ}-33^{\circ}=37^{\circ}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 100mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

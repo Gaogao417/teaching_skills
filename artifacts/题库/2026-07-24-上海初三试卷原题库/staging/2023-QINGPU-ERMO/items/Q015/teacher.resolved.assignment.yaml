@@ -1,0 +1,33 @@
+meta:
+  title: 2023年上海市青浦区中考二模数学试卷第 15 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q015
+    points: 4
+    stem_latex: 如图反映轿车剩余油量 $q$（升）与行驶路程 $s$（千米）的函数关系，那么 $q$ 与 $s$ 的函数解析式为 ______
+    answer: $q=-\dfrac{1}{8}s+50$
+    clue: 由截距 $(0,50),(400,0)$ 用待定系数法。
+    solution_steps:
+    - 过 $(0,50),(400,0)$，$q=-\dfrac18s+50$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 75mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

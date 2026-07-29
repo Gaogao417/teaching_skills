@@ -1,0 +1,41 @@
+meta:
+  title: 2024年上海市嘉定区中考二模数学试卷第 24 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q024
+    points: 12
+    stem_latex: '在平面直角坐标系 $xOy$ 中，已知抛物线 $y=ax^2+bx+3$ 经过点 $A(1,0)$、$B(-2,3)$，与 $y$ 轴交于 $C$，对称轴为直线 $l$。
+
+      (1) 求此抛物线的表达式；
+
+      (2) 以 $C$ 为圆心 $CB$ 为半径作 $\odot C$，以 $A$ 为圆心作 $\odot A$，如果 $\odot A$ 与 $\odot C$ 外切，判断对称轴 $l$ 与 $\odot A$ 的位置关系；
+
+      (3) 已知点 $D$ 在 $y$ 轴正半轴上且在 $C$ 上方，如果 $\angle BDC=\angle BAC$，求点 $D$ 的坐标。'
+    answer: (1) $y=-x^2-2x+3$；(2) 相离；(3) $D(0,7)$
+    clue: (1) 待定系数；(2) $AM=2>r=\sqrt{10}-2$；(3) $\tan\angle BDC=\tan\angle BAC=\dfrac{1}{2}$。
+    solution_steps:
+    - (1) $a+b+3=0$，$4a-2b+3=3$，$a=-1,b=-2$，$y=-x^2-2x+3$。
+    - (2) $C(0,3)$，$CB=2$，$r=\sqrt{10}-2$，$AM=2>\sqrt{10}-2$，相离。
+    - (3) $\tan\angle BAC=\dfrac{CH}{AH}=\dfrac{1}{2}$，$\tan\angle BDC=\dfrac{CB}{CD}=\dfrac{2}{CD}=\dfrac{1}{2}$，$CD=4$，$D(0,7)$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 75mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

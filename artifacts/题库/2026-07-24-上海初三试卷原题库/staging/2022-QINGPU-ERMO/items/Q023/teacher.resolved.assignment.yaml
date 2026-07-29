@@ -1,0 +1,38 @@
+meta:
+  title: 2022年上海市青浦区初三二模数学试卷第 23 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q023
+    points: 12
+    stem_latex: '如图，梯形 $ABCD$ 中 $AD\parallel BC$，对角线交于 $E$，$BD$ 平分 $\angle ABC$，$G$ 在 $BC$ 上，$DG$ 交 $AC$ 于 $F$，$\angle DGB=\angle DAB$。
+
+      (1) 求证：四边形 $ABGD$ 是菱形；
+
+      (2) 联结 $EG$，求证：$BG\cdot EG=BC\cdot EF$。'
+    answer: 见证明
+    clue: (1) 平行四边形+角平分线；(2) 全等+相似。
+    solution_steps:
+    - (1) $\angle DGB=\angle DAB\Rightarrow AB\parallel GD$，四边形 $ABGD$ 是平行四边形；$BD$ 平分 $\angle ABC$，$\angle ABD=\angle ADB$，$AB=AD$，$\therefore$ 是菱形。
+    - (2) $\triangle ADE\cong\triangle GDE$，$AE=GE$；$\triangle ADE\sim\triangle CBE$，$\triangle ABE\sim\triangle FDE$，$\dfrac{AD}{BC}=\dfrac{EF}{AE}$，$AD\cdot AE=BC\cdot EF$，即 $BG\cdot EG=BC\cdot EF$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 100mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

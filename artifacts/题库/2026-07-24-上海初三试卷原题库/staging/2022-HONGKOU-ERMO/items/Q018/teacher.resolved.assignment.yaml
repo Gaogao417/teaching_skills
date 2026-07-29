@@ -1,0 +1,35 @@
+meta:
+  title: 2022年上海市虹口区初三二模数学试卷第 18 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q018
+    points: 4
+    stem_latex: 正方形 $ABCD$ 边长为1，$M$ 为 $CD$ 中点，将 $\triangle BCM$ 沿 $BM$ 翻折使 $C$ 落在 $E$ 处，联结 $AE$ 并延长交射线 $BM$ 于 $F$，那么 $EF=$______
+    answer: $\dfrac{\sqrt{10}}{5}$
+    clue: 翻折+等腰直角，$EF=\sqrt{2}EG$。
+    solution_steps:
+    - $BM=\sqrt{BC^{2}+CM^{2}}=\dfrac{\sqrt{5}}{2}$。翻折得 $BE=BC=1$，$EM=CM=\dfrac{1}{2}$。
+    - 由 $BE=BA$ 得 $\angle HBF=45^{\circ}$，$\angle HBF=\angle F$，$EF=\sqrt{2}EG$。
+    - $S_{\triangle BEM}=\dfrac{1}{2}\times\dfrac{1}{2}\times1=\dfrac{1}{2}EG\times\dfrac{\sqrt{5}}{2}$，$EG=\dfrac{\sqrt{5}}{5}$，$\therefore EF=\dfrac{\sqrt{10}}{5}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 90mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

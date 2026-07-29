@@ -1,0 +1,41 @@
+meta:
+  title: 2024年上海市黄浦区中考二模数学试卷第 25 题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: '已知 $\triangle ABC$ 是圆 $O$ 的内接三角形，$AB=AC$，$\overset{\frown}{AB}$、$\overset{\frown}{AC}$ 的中点分别为 $M$、$N$，$MN$ 与 $AB$、$OA$、$AC$ 分别交于点 $P$、$T$、$Q$。
+
+      (1) 求证：$OA\perp MN$；
+
+      (2) 当 $\triangle ABC$ 是等边三角形时，求 $\dfrac{AT}{OT}$ 的值；
+
+      (3) 如果圆心 $O$ 到弦 $BC$、$MN$ 的距离分别为 $7$ 和 $15$，求线段 $PQ$ 的长。'
+    answer: (1) 证明见详解；(2) $1$；(3) $PQ=15$ 或 $\dfrac{30\sqrt{11}}{11}$
+    clue: (1) $OA$ 垂直平分 $MN$；(2) $\triangle AON$ 等边，$AT=OT$；(3) 分两侧讨论。
+    solution_steps:
+    - (1) $\overset{\frown}{AM}=\overset{\frown}{AN}$，$OM=ON$，$O$、$A$ 都在 $MN$ 中垂线上，$\therefore OA\perp MN$。
+    - (2) $\angle AON=60°$，$\triangle AON$ 等边，$T$ 为 $OA$ 中点，$\dfrac{AT}{OT}=1$。
+    - (3) $OG=OT=15$，设半径 $r$，$2(r^2-15^2)=AH\cdot r$。两侧：$AH=r+7$ 得 $r=25$，$PQ=15$；同侧 $AH=r-7$ 得 $r=18$，$PQ=\dfrac{30\sqrt{11}}{11}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 95mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

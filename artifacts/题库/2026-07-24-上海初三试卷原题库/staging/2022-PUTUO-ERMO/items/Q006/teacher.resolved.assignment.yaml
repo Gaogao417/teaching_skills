@@ -1,0 +1,36 @@
+meta:
+  title: 2022年上海市普陀区初三二模数学试卷第 6 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q006
+    points: 4
+    stem_latex: 如图，$\triangle ABC$ 三边上 $D$、$E$、$F$、$G$、$H$、$I$ 构成正六边形 $DEFGHI$，下列不正确的是（\quad）
+    choices:
+    - $\angle A=60^{\circ}$
+    - $\dfrac{DE}{BC}=\dfrac{1}{3}$
+    - $\dfrac{C_{六边形}}{C_{\triangle ABC}}=\dfrac{3}{5}$
+    - $\dfrac{S_{六边形}}{S_{\triangle ABC}}=\dfrac{2}{3}$
+    answer: C
+    clue: 周长比应为 $\dfrac{6}{9}=\dfrac{2}{3}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 90mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

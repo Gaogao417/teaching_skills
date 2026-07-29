@@ -1,0 +1,33 @@
+meta:
+  title: 2024年上海市奉贤区中考二模数学试卷第 6 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: student
+  show_answers: false
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: student
+  blocks:
+  - type: choice
+    id: Q006
+    points: 4
+    stem_latex: 如图，四边形 $ABCD$ 是平行四边形，对角线 $AC$、$BD$ 交于点 $O$，下列条件能判断四边形 $ABCD$ 是正方形的是（　　）
+    choices:
+    - $AC=DB$ 且 $DA\perp AB$
+    - $AB=BC$ 且 $AC\perp BD$
+    - $AB=BC$ 且 $\angle ABD=\angle CBD$
+    - $DA\perp AB$ 且 $AC\perp BD$
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 70mm
+      variant: prompt
+      disclosure_policy: clean

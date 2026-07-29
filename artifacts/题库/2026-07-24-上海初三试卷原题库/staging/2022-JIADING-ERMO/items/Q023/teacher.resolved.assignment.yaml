@@ -1,0 +1,33 @@
+meta:
+  title: 2022年上海市嘉定区初三二模数学试卷第 23 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q023
+    points: 12
+    stem_latex: '四边形 $ABCD$ 中，$AC$ 为对角线，$AC=AD$，$E$ 在 $BC$ 上，$AB=AE$，$\angle BAE=\angle CAD$，联结 $DE$。
+
+      (1) 求证：$BC=DE$；
+
+      (2) 当 $AC=BC$ 时，求证：四边形 $ABCD$ 是平行四边形。'
+    answer: (1) 见证明；(2) 见证明
+    clue: (1) 证 $\triangle BAC\cong\triangle EAD$；(2) 证 $AD\parallel BC$ 且 $AD=BC$。
+    solution_steps:
+    - (1) $\angle BAE=\angle CAD\Rightarrow \angle BAC=\angle EAD$，又 $AB=AE$，$AC=AD$，$\triangle BAC\cong\triangle EAD$（SAS），$\therefore BC=DE$。
+    - (2) $AC=BC$ 时 $\angle B=\angle CAB$，$AB=AE$ 时 $\angle B=\angle AEB$，可推 $\angle ACB=\angle BAE=\angle CAD$，$\therefore AD\parallel BC$；又 $AC=BC=AD$，$\therefore$ 四边形 $ABCD$ 是平行四边形。
+    source_solution_images: []

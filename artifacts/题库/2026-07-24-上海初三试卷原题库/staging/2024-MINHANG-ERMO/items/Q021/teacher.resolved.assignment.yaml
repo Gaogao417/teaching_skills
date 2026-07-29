@@ -1,0 +1,38 @@
+meta:
+  title: 2024年上海市闵行区中考二模数学试卷第 21 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q021
+    points: 10
+    stem_latex: '如图，在 $\triangle ABC$ 中，点 $D$ 在 $BC$ 上，点 $G$ 在 $AB$ 上，$E$、$F$ 在 $AC$ 上，$GD\parallel AC$，$\angle DGF=\angle DEF$，$\angle B=\angle GFE$。
+
+      (1) 求证：四边形 $EDGF$ 是平行四边形；
+
+      (2) 求证：$\dfrac{GF}{AB}=\dfrac{CD}{AC}$。'
+    answer: (1)(2) 证明见详解
+    clue: (1) 证 $GF\parallel DE$；(2) $\triangle CDE\sim\triangle CAB$。
+    solution_steps:
+    - (1) $\angle DGF+\angle GFE=180°$，$\angle DEF+\angle GFE=180°$，$GF\parallel DE$，$EDGF$ 平行四边形。
+    - (2) $DE=GF$，$\angle DEC=\angle B$，$\triangle CDE\sim\triangle CAB$，$\dfrac{DE}{AB}=\dfrac{CD}{AC}$，$DE=GF$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 55mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

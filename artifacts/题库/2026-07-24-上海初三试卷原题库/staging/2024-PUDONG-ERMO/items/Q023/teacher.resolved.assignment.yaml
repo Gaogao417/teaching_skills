@@ -1,0 +1,38 @@
+meta:
+  title: 2024年上海市浦东新区中考二模数学试卷第 23 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q023
+    points: 12
+    stem_latex: '如图，在菱形 $ABCD$ 中，点 $E$ 在边 $CD$ 上，点 $F$ 在边 $BD$ 上，$EG\parallel BC$ 交 $AD$ 的延长线于点 $G$。
+
+      (1) 求证：$DF^2=FG\cdot BF$；
+
+      (2) 若 $BD\cdot DF=2AD\cdot DE$，求证：$AE\perp DC$。'
+    answer: (1)(2) 证明见详解
+    clue: (1) $\triangle ADF\sim\triangle EGF$，$\triangle ABF\sim\triangle EDF$；(2) $\triangle ADO\sim\triangle FDE$。
+    solution_steps:
+    - (1) $AD\parallel EG$，$\triangle ADF\sim\triangle EGF$，$\dfrac{AF}{EF}=\dfrac{DF}{FG}$；$AB\parallel CD$，$\triangle ABF\sim\triangle EDF$，$\dfrac{AF}{EF}=\dfrac{BF}{DF}$，$\therefore DF^2=FG\cdot BF$。
+    - (2) $BD=2OD$，$\dfrac{AD}{DF}=\dfrac{OD}{DE}$，$\triangle ADO\sim\triangle FDE$，$\angle FED=\angle AOD=90°$，$AE\perp DC$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 70mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

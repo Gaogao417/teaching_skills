@@ -1,0 +1,33 @@
+meta:
+  title: 2024年上海市崇明区中考二模数学试卷第 15 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q015
+    points: 4
+    stem_latex: 如图，在梯形 $ABCD$ 中，$AD\parallel BC$，$2BC=5AD$，若 $\overrightarrow{DA}=\vec{a}$，$\overrightarrow{DC}=\vec{b}$，用 $\vec{a}$、$\vec{b}$ 表示 $\overrightarrow{DB}=$\u3000\u3000\u3000\u3000。
+    answer: $\vec{b}+\dfrac{5}{2}\vec{a}$
+    clue: $\overrightarrow{DB}=\overrightarrow{DC}+\overrightarrow{CB}$，$\overrightarrow{CB}=\dfrac{5}{2}\overrightarrow{DA}$。
+    solution_steps:
+    - $\overrightarrow{CB}=\dfrac{5}{2}\vec{a}$，$\overrightarrow{DB}=\vec{b}+\dfrac{5}{2}\vec{a}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 70mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

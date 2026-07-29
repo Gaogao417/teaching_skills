@@ -1,0 +1,36 @@
+meta:
+  title: 2022年上海市虹口区初三二模数学试卷第 6 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q006
+    points: 4
+    stem_latex: 已知线段 $AB$，按如下步骤作图：①作射线 $AC$ 使 $AC\perp AB$；②作 $\angle BAC$ 的平分线 $AD$；③以 $A$ 为圆心、$AB$ 为半径作弧交 $AD$ 于 $E$；④过 $E$ 作 $EP\perp AB$ 于 $P$。则 $AP:AB=$（\quad）
+    choices:
+    - $1:\sqrt{5}$
+    - $1:2$
+    - $1:\sqrt{3}$
+    - $1:\sqrt{2}$
+    answer: D
+    clue: $\triangle APE$ 等腰直角，$AE=\sqrt{2}AP$，$AB=AE$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 90mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

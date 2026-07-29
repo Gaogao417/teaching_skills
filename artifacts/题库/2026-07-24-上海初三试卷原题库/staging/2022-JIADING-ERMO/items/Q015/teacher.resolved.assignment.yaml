@@ -1,0 +1,30 @@
+meta:
+  title: 2022年上海市嘉定区初三二模数学试卷第 15 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q015
+    points: 4
+    stem_latex: 如图，$\triangle ABC$ 中，$D$ 在 $BC$ 上，$BD=2DC$，设 $\overrightarrow{AB}=\vec{a}$，$\overrightarrow{BC}=\vec{b}$，那么 $\overrightarrow{DA}=$______
+    answer: $-\vec{a}-\dfrac{2}{3}\vec{b}$
+    clue: $\overrightarrow{DA}=-\overrightarrow{AD}=-(\vec{a}+\dfrac{2}{3}\vec{b})$。
+    solution_steps:
+    - $\overrightarrow{BD}=\dfrac{2}{3}\overrightarrow{BC}=\dfrac{2}{3}\vec{b}$。
+    - $\overrightarrow{AD}=\overrightarrow{AB}+\overrightarrow{BD}=\vec{a}+\dfrac{2}{3}\vec{b}$。
+    - $\overrightarrow{DA}=-\overrightarrow{AD}=-\vec{a}-\dfrac{2}{3}\vec{b}$。
+    source_solution_images: []

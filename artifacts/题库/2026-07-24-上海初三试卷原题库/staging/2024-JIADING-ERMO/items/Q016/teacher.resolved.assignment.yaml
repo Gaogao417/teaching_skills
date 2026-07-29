@@ -1,0 +1,33 @@
+meta:
+  title: 2024年上海市嘉定区中考二模数学试卷第 16 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q016
+    points: 4
+    stem_latex: 如图，在正方形 $ABCD$ 外侧作 $\triangle CDE$，已知 $DC=DE$，$\angle DCE=70°$，那么 $\angle AED$ 等于\u3000\u3000\u3000\u3000。
+    answer: $25°$
+    clue: $\angle CDE=40°$，$\angle ADE=130°$，$DA=DE$。
+    solution_steps:
+    - $\angle CDE=40°$，$\angle ADE=130°$，$\angle AED=\dfrac{180°-130°}{2}=25°$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 70mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

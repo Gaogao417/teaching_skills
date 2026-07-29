@@ -1,0 +1,29 @@
+meta:
+  title: 2022年上海市静安区初三二模数学试卷第 22 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q022
+    points: 10
+    stem_latex: 服装厂甲车间完成3000件、乙车间完成2500件，甲每天比乙多生产125件，同时开工且甲比乙提前2天完成，求两车间分别用的天数。
+    answer: 甲车间 $8$ 天，乙车间 $10$ 天
+    clue: 分式方程。
+    solution_steps:
+    - 设甲用 $x$ 天，乙用 $(x+2)$ 天，$\dfrac{3000}{x}=\dfrac{2500}{x+2}+125$。
+    - 整理 $x^{2}-2x-48=0$，$x=8$（$x=-6$ 舍），乙 $10$ 天。
+    source_solution_images: []

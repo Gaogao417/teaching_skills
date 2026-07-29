@@ -1,0 +1,29 @@
+meta:
+  title: 2022年上海市黄浦区初三二模数学试卷第 16 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q016
+    points: 4
+    stem_latex: 在 $\triangle ABC$ 中，$AB=AC$，$BC=10$，$\cot B=\dfrac{5}{12}$，若 $C$ 在 $\odot B$ 内、$A$ 在 $\odot B$ 外，则 $\odot B$ 半径 $r$ 的取值范围是______
+    answer: $10<r<13$
+    clue: 求 $BC$、$AB$ 长。
+    solution_steps:
+    - $BD=5$，$AD=\dfrac{5}{\cot B}=12$，$AB=\sqrt{12^{2}+5^{2}}=13$。
+    - $C$ 在圆内、$A$ 在圆外，$\therefore BC<r<AB$，即 $10<r<13$。
+    source_solution_images: []

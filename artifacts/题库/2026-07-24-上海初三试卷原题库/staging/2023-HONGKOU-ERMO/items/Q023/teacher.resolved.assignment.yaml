@@ -1,0 +1,35 @@
+meta:
+  title: 2023年上海市虹口区中考二模数学试卷第 23 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q023
+    points: 12
+    stem_latex: 如图，在梯形 $ABCD$ 中，$AD\parallel BC$，$AB=CD$，点 $E$ 为 $BC$ 延长线上一点，$\angle ADB=\angle CDE$，点 $F$ 在 $BD$ 上，联结 $CF$。（1）求证：$AD\cdot DE=AC\cdot DC$；（2）如果 $AD\cdot CE=DF\cdot DB$，求证：四边形 $DFCE$ 为梯形．
+    answer: (1)(2) 见解析
+    clue: (1) 等腰梯形 + $\angle ADB=\angle CDE$ 证 $\triangle DAB\sim\triangle DCE$，结合 $AC=BD$；(2) 由比例证 $\triangle DBC\sim\triangle DCF$ 得 $FC\parallel DE$。
+    solution_steps:
+    - (1) 等腰梯形 $AC=BD$，$\angle DCE=\angle ADC=\angle DAB$，又 $\angle ADB=\angle CDE$，$\triangle DAB\sim\triangle DCE$。
+    - $\dfrac{AD}{DC}=\dfrac{DB}{DE}$，$AD\cdot DE=DB\cdot DC=AC\cdot DC$。
+    - (2) 由 $\triangle DAB\sim\triangle DCE$ 得 $AD\cdot CE=AB\cdot DC=CD^{2}$；又 $=DF\cdot DB$，$\therefore \dfrac{DC}{DB}=\dfrac{DF}{DC}$，$\triangle DBC\sim\triangle DCF$，$\angle DBC=\angle DCF=\angle ADB=\angle EDC$，$FC\parallel DE$，四边形 $DFCE$ 为梯形。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 70mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

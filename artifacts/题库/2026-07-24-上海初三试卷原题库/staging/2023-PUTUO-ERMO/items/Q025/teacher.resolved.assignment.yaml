@@ -1,0 +1,35 @@
+meta:
+  title: 2023年上海市普陀区中考二模数学试卷第 25 题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: 如图，半圆 $O$ 直径 $AB=4$，$C$ 在 $\overset{\frown}{AB}$ 上（不与 $A,B$ 重合），$D$ 是 $\overset{\frown}{BC}$ 中点，连 $AC,BD$。（1）当 $AC$ 为圆 $O$ 内接正六边形一边时，求 $BD$；（2）设 $AC=x$，$BD=y$，求 $y$ 与 $x$ 的函数解析式及定义域；（3）（中腰线定义）延长 $AC,BD$ 交于 $P$，连 $PO$，$PO$ 是 $\triangle PAB$ 的中腰线，求 $AC$．
+    answer: (1) $BD=2$；(2) $y=\sqrt{8-2x}$（$0<x<4$）；(3) $AC=1$ 或 $3$
+    clue: (1) 正六边形中心角60°，$\triangle COD$ 等边；(2) 连 $OD$ 交 $BC$ 于 $E$，由 $\triangle OBE\sim\triangle ABC$ 及勾股表示 $y$；(3) 分 $PO=PB$、$PA=PO$ 两种等腰情形。
+    solution_steps:
+    - (1) $\angle AOC=60\degree,\angle COB=120\degree$，$D$ 为弧 $BC$ 中点 $\angle BOD=60\degree$，$\triangle COD$ 等边，$BD=2$。
+    - (2) $OD\perp BC$，$AC\parallel OD$，$\triangle OBE\sim\triangle ABC\Rightarrow OE=\dfrac12x$，$DE=2-\dfrac12x$；$BE=\dfrac12\sqrt{16-x^{2}}$，$y=\sqrt{BE^{2}+DE^{2}}=\sqrt{8-2x}$（$0<x<4$）。
+    - (3) 当 $PO=PB$ 时 $OF=FB=1$，$AP=4$，$PO=2\sqrt{2}=PB=2\sqrt{8-2x}$，$x=3$；当 $PA=PO$ 时同理 $x=1$。综上 $AC=1$ 或 $3$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 80mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

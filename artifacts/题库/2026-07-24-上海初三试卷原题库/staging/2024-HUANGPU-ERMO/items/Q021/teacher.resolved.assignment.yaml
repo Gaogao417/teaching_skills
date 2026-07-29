@@ -1,0 +1,38 @@
+meta:
+  title: 2024年上海市黄浦区中考二模数学试卷第 21 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q021
+    points: 10
+    stem_latex: '如图，$D$ 是 $\triangle ABC$ 边 $AB$ 上点，已知 $\angle BCD=\angle A$，$AD=5$，$BD=4$。
+
+      (1) 求边 $BC$ 的长；
+
+      (2) 如果 $\triangle ACD\sim\triangle CBD$，求 $\angle ACB$ 的度数。'
+    answer: (1) $BC=6$；(2) $\angle ACB=90°$
+    clue: (1) $\triangle BCD\sim\triangle BAC$，$BC^2=BA\cdot BD$；(2) 勾股逆定理。
+    solution_steps:
+    - (1) $\triangle BCD\sim\triangle BAC$，$BC^2=BA\cdot BD=9\times4=36$，$BC=6$。
+    - (2) $CD^2=AD\cdot BD=20$，$CD^2+BD^2=20+16=36=BC^2$，$\angle CDB=90°$，$\therefore\angle ACB=90°$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 65mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

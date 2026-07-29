@@ -1,0 +1,36 @@
+meta:
+  title: 2022年上海市徐汇区初三二模数学试卷第 25 题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: '如图，$AB$ 为半圆 $O$ 直径，$C$ 在 $AB$ 延长线上，$BC=OB$，$D$ 在半圆上（不与 $A$、$B$ 重合），$CE\perp CD$ 且 $CE=CD$，联结 $DE$。
+
+      (1) 线段 $CD$ 交半圆于 $F$，若 $DF=BF$，求证：$\dfrac{BF}{CF}=\dfrac{1}{2}$；
+
+      (2) 线段 $CD$ 交半圆于 $F$，若 $D$ 平分 $\overset{\frown}{AF}$，求 $\tan\angle DFA$；
+
+      (3) 联结 $OE$ 交 $CD$ 于 $G$，当 $\triangle DOG\sim\triangle EGC$ 时，求 $\angle AOD$。'
+    answer: (1) 见证明；(2) $\tan\angle DFA=\dfrac{\sqrt{15}}{5}$；(3) $\angle AOD=120^{\circ}$ 或 $45^{\circ}$
+    clue: (1) 相似；(2) 垂径+勾股；(3) 分对应角讨论。
+    solution_steps:
+    - (1) $DF=BF$，$\triangle FCB\sim\triangle OCF$，$\dfrac{BF}{CF}=\dfrac{OF}{OC}=\dfrac{OB}{3OB}=\dfrac{1}{2}$。
+    - (2) $D$ 平分 $\overset{\frown}{AF}$，$OD\perp AF$，$OM=\dfrac{1}{2}BF$，记 $OM=a$，$BF=2a$，$DO=4a$，$DM=3a$，$MF=\sqrt{15}a$，$\tan\angle DFA=\dfrac{DM}{MF}=\dfrac{\sqrt{15}}{5}$。
+    - (3) 当 $\angle ODG=\angle DCE=90^{\circ}$ 时 $\angle DCO=30^{\circ}$，$\angle AOD=120^{\circ}$；当 $\angle DOG=\angle DCE=90^{\circ}$ 时 $\angle DOC=135^{\circ}$，$\angle AOD=45^{\circ}$。
+    source_solution_images: []

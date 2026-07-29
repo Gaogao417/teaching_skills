@@ -1,0 +1,29 @@
+meta:
+  title: 2023年上海市黄浦区中考二模数学试卷第 20 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q020
+    points: 10
+    stem_latex: 解方程组：$\begin{cases} x^{2} - 2y^{2} - y = -1 \\ x - y = 1 \end{cases}$
+    answer: $\begin{cases} x_{1}=0 \\ y_{1}=-1 \end{cases}$，$\begin{cases} x_{2}=3 \\ y_{2}=2 \end{cases}$
+    clue: 用代入消元将①化为关于 $y$ 的方程。
+    solution_steps:
+    - 由② $x=y+1$，代入①得 $(y+1)^{2}-2y^{2}-y=-1$，$y_{1}=-1$，$y_{2}=2$。
+    - 回代得 $\begin{cases} x_{1}=0 \\ y_{1}=-1 \end{cases}$，$\begin{cases} x_{2}=3 \\ y_{2}=2 \end{cases}$。
+    source_solution_images: []

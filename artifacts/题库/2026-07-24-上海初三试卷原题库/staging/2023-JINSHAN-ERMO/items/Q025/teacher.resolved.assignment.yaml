@@ -1,0 +1,36 @@
+meta:
+  title: 2023年上海市金山区中考二模数学试卷第 25 题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: 如图，$\triangle ABC$ 中 $AB=AC$，$D$ 是 $BC$ 中点，$E$ 在 $AB$ 上且 $DE=DB$，延长 $ED$ 交 $AC$ 延长线于 $F$。（1）求证：$\angle A=\angle CDF$；（2）设 $AC$ 中点为 $O$：① 若 $CD$ 为过 $A,C,D$ 三点圆的弦且为正十边形一边，求 $CF:AC$；② $\odot M$ 过 $C,D$，联结 $OM,MF$，当 $\angle OFM=90\degree$，$AC=10$，$\tan A=\dfrac{3}{4}$ 时，求 $\odot M$ 半径．
+    answer: (1) 见解析；(2)① $(\sqrt{5}-1):4$；② $\dfrac{5}{9}\sqrt{61}$
+    clue: (1) 等腰 + $DE=DB$ 转角；(2)① 正十边形中心角 $36\degree$，$\triangle FDC\sim\triangle FOD$ 求比例；(2)② 作 $DH\perp OC$，由相似与勾股求半径。
+    solution_steps:
+    - (1) $AB=AC,DE=DB\Rightarrow \angle B=\angle ACB=\angle DEB$，$\angle A=180\degree-2\angle B=\angle CDF$。
+    - (2)① $AC$ 为直径，$\angle DOC=36\degree$；$\triangle FDC\sim\triangle FOD$，$FD=OD=r$，$\dfrac{r}{r+CF}=\dfrac{CF}{r}\Rightarrow CF=\dfrac{\sqrt{5}-1}{2}r$，$CF:AC=(\sqrt{5}-1):4$。
+    - (2)② $OC=OD=5$，$DH=3,OH=4,CH=1$；设 $CF=a$，$DF^{2}=a(a+5)=3^{2}+(a+1)^{2}$，$a=\dfrac{10}{3}$，$OF=\dfrac{25}{3}$。
+    - $\triangle HDC\sim\triangle FOM\Rightarrow MF=\dfrac{25}{9}$，$CM=\sqrt{CF^{2}+MF^{2}}=\dfrac{5}{9}\sqrt{61}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 80mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

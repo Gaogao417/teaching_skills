@@ -1,0 +1,35 @@
+meta:
+  title: 2023年上海市静安区中考二模数学试卷第 23 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q023
+    points: 12
+    stem_latex: 如图，在矩形 $ABCD$ 中，点 $P$ 是边 $BC$ 的中点，$\odot O$ 是 $\triangle PAD$ 的外接圆，$\odot O$ 交边 $AB$ 于点 $E$。（1）求证：$PA=PD$；（2）当 $AE$ 是以点 $O$ 为中心的正六边形的一边时，求证：$\dfrac{AE}{EP}=\sqrt{3}$．
+    answer: (1) 见解析；(2) 见解析
+    clue: (1) 由矩形及 $P$ 为 $BC$ 中点证 $\triangle ABP\cong\triangle DCP$；(2) 连 $OA,OE,OP$，由正六边形得 $\angle AOE=60\degree$，证 $\triangle AOE$ 等边并用平行转化角与弧求比值。
+    solution_steps:
+    - (1) 矩形中 $AB=DC$，$\angle B=\angle C$，$BP=CP$，$\triangle ABP\cong\triangle DCP$（SAS），$\therefore PA=PD$。
+    - (2) 连 $OA,OE,OP$，由 $PA=PD$、$OA=OD$ 知 $OP$ 垂直平分 $AD$，$OP\parallel AB$。
+    - $AE$ 为正六边形一边 $\Rightarrow \angle AOE=60\degree$，$\triangle AOE$ 等边；由 $OP\parallel AB$ 及等边性质转化角，可得 $\dfrac{AE}{EP}=\sqrt{3}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 65mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

@@ -1,0 +1,36 @@
+meta:
+  title: 2024年上海市浦东新区中考二模数学试卷第 4 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q004
+    points: 4
+    stem_latex: 如图，$AB\parallel CD$，$\angle D=13°$，$\angle B=28°$，那么 $\angle E$ 等于（　　）
+    choices:
+    - $13°$
+    - $14°$
+    - $15°$
+    - $16°$
+    answer: C
+    clue: $\angle BCD=\angle B=28°$，$\angle E=\angle BCD-\angle D=15°$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 70mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

@@ -1,0 +1,33 @@
+meta:
+  title: 2022年上海市浦东新区初三二模数学试卷第 15 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q015
+    points: 4
+    stem_latex: 如图，高 $BE=\sqrt{3}$ 米的长方体木箱沿坡比 $1:\sqrt{3}$ 的斜面下滑，$AB=3$ 米时，端点 $E$ 距地面 $AC$ 的高度 $EF=$______米
+    answer: '3'
+    clue: 解直角三角形。
+    solution_steps:
+    - $\angle DAF=30^{\circ}$，$\angle BDE=60^{\circ}$，$DE=2$，$DF=1$，$EF=DE+DF=3$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 100mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

@@ -1,0 +1,34 @@
+meta:
+  title: 2022年上海市静安区初三二模数学试卷第 15 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q015
+    points: 4
+    stem_latex: 如图，梯形 $ABCD$ 中，$AD\parallel BC$，对角线交于 $O$，$E$、$F$ 分别为 $AB$、$CD$ 中点，$AO:OC=1:4$，设 $\overrightarrow{AD}=\vec{a}$，那么 $\overrightarrow{EF}=$______
+    answer: $\dfrac{5}{2}\vec{a}$
+    clue: 中位线 $EF=\dfrac{1}{2}(AD+BC)$。
+    solution_steps:
+    - 由 $\triangle ADO\sim\triangle CBO$ 得 $AD:BC=1:4$，$BC=4\vec{a}$。
+    - $EF$ 为中位线，$\overrightarrow{EF}=\dfrac{1}{2}(\vec{a}+4\vec{a})=\dfrac{5}{2}\vec{a}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 110mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

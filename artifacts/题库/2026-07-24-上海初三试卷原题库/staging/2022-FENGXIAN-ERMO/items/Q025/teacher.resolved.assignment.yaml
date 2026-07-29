@@ -1,0 +1,41 @@
+meta:
+  title: 2022年上海市奉贤区初三二模数学试卷第 25 题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: '如图，$\triangle ABC$ 中，$E$ 在 $AC$ 上，$\angle BAC=\angle CBE$，过 $A$ 作 $BC$ 的平行线交射线 $BE$ 于 $D$，联结 $CD$。
+
+      (1) 求证：$AB^{2}=BE\cdot BD$；
+
+      (2) 若 $AB=4$，$\cos\angle ABC=\dfrac{1}{4}$。① 当 $BE=BC$ 时，求 $CE$；② 当 $AB=DC$ 时，求 $\sin\angle BAC$。'
+    answer: (1) 见证明；(2)① $CE=1$；② $\sin\angle BAC=\dfrac{\sqrt{30}}{8}$ 或 $\dfrac{\sqrt{10}}{4}$
+    clue: (1) 证 $\triangle ABE\sim\triangle DBA$；(2)① $\triangle ACB\sim\triangle BCE$；② 分平行四边形/等腰梯形。
+    solution_steps:
+    - (1) $AD\parallel BC$，$\angle ADB=\angle CBE$，又 $\angle BAC=\angle CBE$，$\therefore \angle BAE=\angle BDA$，$\angle ABE=\angle DBA$，$\triangle ABE\sim\triangle DBA$，$\therefore \dfrac{AB}{BD}=\dfrac{BE}{AB}$，$AB^{2}=BE\cdot BD$。
+    - (2)① $\triangle ACB\sim\triangle BCE$，$\dfrac{AB}{BE}=\dfrac{BC}{EC}$。$BE=BC$ 时 $AB=AC$，$BF=AB\cos B=1$，$BC=2$，$CE=\dfrac{BC^{2}}{AB}=1$。
+    - ② 当四边形 $ABCD$ 是平行四边形：$BD=2BE$，$AB^{2}=BE\cdot2BE$，$BE=2\sqrt{2}$；$EN=\dfrac{1}{2}AM=\dfrac{\sqrt{15}}{2}$，$\sin\angle BAC=\sin\angle CBE=\dfrac{EN}{BE}=\dfrac{\sqrt{30}}{8}$。
+    - 当四边形 $ABCD$ 是等腰梯形：$BC=AB=4$，$EQ=\dfrac{2\sqrt{15}}{3}$，$BE=\dfrac{4\sqrt{6}}{3}$，$\sin\angle BAC=\dfrac{EQ}{BE}=\dfrac{\sqrt{10}}{4}$。
+    - 综上，$\sin\angle BAC=\dfrac{\sqrt{30}}{8}$ 或 $\dfrac{\sqrt{10}}{4}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 90mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

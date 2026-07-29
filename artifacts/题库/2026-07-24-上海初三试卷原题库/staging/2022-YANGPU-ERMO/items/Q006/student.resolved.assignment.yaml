@@ -1,0 +1,33 @@
+meta:
+  title: 2022年上海市杨浦区初三二模数学试卷第 6 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: student
+  show_answers: false
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: student
+  blocks:
+  - type: choice
+    id: Q006
+    points: 4
+    stem_latex: 如图，四边形 $ABCD$ 中 $AC$、$BD$ 交于 $O$，$AD\parallel BC$，$AC=BD$，下列不能判定四边形 $ABCD$ 是矩形的是（\quad）
+    choices:
+    - $AD=BC$
+    - $AB=CD$
+    - $\angle DAB=\angle ABC$
+    - $\angle DAB=\angle DCB$
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 90mm
+      variant: prompt
+      disclosure_policy: clean

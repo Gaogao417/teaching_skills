@@ -1,0 +1,33 @@
+meta:
+  title: 2022年上海市嘉定区初三二模数学试卷第 22 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q022
+    points: 10
+    stem_latex: '直线 $y=kx+4$（$k\neq0$）与双曲线都经过 $A(2,m)$。
+
+      (1) 若 $B(-2,6)$ 在直线上，求 $m$；
+
+      (2) 若第三象限点 $C$ 与 $A$ 关于原点对称，$C$ 的纵坐标为 $-3$，求双曲线表达式。'
+    answer: (1) $m=2$；(2) $y=\dfrac{6}{x}$
+    clue: (1) 由 $B$ 求 $k$ 再求 $m$；(2) 由对称求 $A$ 坐标。
+    solution_steps:
+    - (1) $B(-2,6)$ 代入 $y=kx+4$ 得 $k=-1$，直线 $y=-x+4$；$A(2,m)$ 代入得 $m=2$。
+    - (2) $C$ 纵坐标 $-3$，$A$ 与 $C$ 关于原点对称，$A(2,3)$，代入 $y=\dfrac{k}{x}$ 得 $k=6$，$\therefore y=\dfrac{6}{x}$。
+    source_solution_images: []

@@ -1,0 +1,35 @@
+meta:
+  title: 2023年上海市松江区中考二模数学试卷第 25 题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: 如图，$\odot O$ 以 $AB$ 为直径，$C$ 在 $\overset{\frown}{AB}$ 上（不含端点），$O'$ 与 $O$ 关于直线 $AC$ 对称，$AC$ 与 $OO'$ 交于 $E$，$D$ 在 $\overset{\frown}{AB}$ 上使 $A,O',D$ 共线，$OO'$ 与 $AD$ 交于 $F$。（1）求证：$\overset{\frown}{O'A}=\overset{\frown}{BC}$；（2）若 $\angle DAB=30\degree$，求 $\dfrac{EF}{O'D}$；（3）若 $OA=3$，$O'D=1$，求 $OF$．
+    answer: (1) 见解析；(2) $\dfrac{\sqrt{2}}{4}$；(3) $OF=\dfrac{9}{7}$ 或 $\dfrac{9}{5}$
+    clue: (1) 证 $\triangle OAO'$ 等边得等弧；(2) 作 $ON\perp AD$ 解直角三角形；(3) 分 $O'$ 在半圆内、外两种情形用面积法。
+    solution_steps:
+    - (1) $O'$ 在半圆上，$OO'=OA$，由对称 $AO'=AO$，$\triangle OAO'$ 等边，$\angle AOO'=\angle BOC=60\degree$，$\therefore \overset{\frown}{O'A}=\overset{\frown}{BC}$。
+    - (2) 设半径 $2a$，$\angle AOD=120\degree$，$O'D=(2\sqrt3-2)a$，$EF=OE=\dfrac{\sqrt6-\sqrt2}{2}a$，比值 $\dfrac{\sqrt2}{4}$。
+    - (3) $O'$ 在半圆内：$AD=4$，$\dfrac{AD}{AO}=\dfrac{DF}{OF}=\dfrac43$，$OF=\dfrac97$；$O'$ 在半圆外：$AD=2$，$\dfrac{DF}{OF}=\dfrac23$，$OF=\dfrac95$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 80mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

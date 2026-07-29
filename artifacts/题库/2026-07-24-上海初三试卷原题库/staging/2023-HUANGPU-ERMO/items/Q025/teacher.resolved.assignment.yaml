@@ -1,0 +1,36 @@
+meta:
+  title: 2023年上海市黄浦区中考二模数学试卷第 25 题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: 如图，在菱形 $ABCD$ 中，$BC=10$，$E$ 是边 $BC$ 上一点，过 $E$ 作 $EH\perp BD$ 于 $H$，点 $G$ 在边 $AD$ 上，且 $GD=CE$，联结 $GE$ 分别交 $BD$、$CH$ 于 $M$、$N$。（1）已知 $\sin\angle DBC=\dfrac{3}{5}$：①当 $EC=4$ 时，求 $\triangle BHC$ 的面积；②以 $H$ 为圆心 $HM$ 为半径作 $\odot H$，以 $C$ 为圆心半径为1作 $\odot C$，两圆有且仅有一个公共点，求 $CE$ 的值；（2）延长 $AH$ 交边 $BC$ 于 $P$，设 $CE=x$，用含 $x$ 的代数式表示 $\dfrac{HP}{CN}$ 的值．
+    answer: (1)① $S_{\triangle BHC}=\dfrac{72}{5}$；② $CE=\dfrac{25}{8}$ 或 $\dfrac{65}{56}$；(2) $\dfrac{HP}{CN}=\dfrac{10-x}{2x}$
+    clue: (1)① 菱形中由 $\sin$ 求 $CO$、$BO$，用平行得 $BH$；(1)② 证 $HM=BH$ 表示两圆半径与圆心距，分外切、内切；(2) 证 $\triangle ABH\cong\triangle CBH$ 及 $\triangle HQP\sim\triangle CEN$ 转化比值。
+    solution_steps:
+    - (1)① 联 $AC$ 交 $BD$ 于 $O$，$CO=6$，$BO=8$；$EH\parallel CO$，$\dfrac{BH}{8}=\dfrac{6}{10}$，$BH=\dfrac{24}{5}$，$S_{\triangle BHC}=\dfrac{1}{2}\times\dfrac{24}{5}\times6=\dfrac{72}{5}$。
+    - (1)② 四边形 $CEGD$ 为平行四边形，$EG\parallel AB\Rightarrow BE=ME$，$EH\perp BD\Rightarrow HM=BH=8-\dfrac{4}{5}x$，$OH=\dfrac{4}{5}x$，$HC=\sqrt{\left(\dfrac{4}{5}x\right)^{2}+36}$。
+    - 外切：$\left(8-\dfrac{4}{5}x\right)+1=HC\Rightarrow x=\dfrac{25}{8}$；内切：$\left|7-\dfrac{4}{5}x\right|=HC\Rightarrow x=\dfrac{65}{56}$。
+    - (2) $\triangle ABH\cong\triangle CBH\Rightarrow \angle BAH=\angle BCN$；取 $BE$ 中点 $Q$，$\triangle HQP\sim\triangle CEN$，$\dfrac{HP}{CN}=\dfrac{HQ}{CE}=\dfrac{\frac{1}{2}(10-x)}{x}=\dfrac{10-x}{2x}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 70mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

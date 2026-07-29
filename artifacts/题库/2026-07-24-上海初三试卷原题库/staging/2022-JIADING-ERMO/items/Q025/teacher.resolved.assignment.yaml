@@ -1,0 +1,36 @@
+meta:
+  title: 2022年上海市嘉定区初三二模数学试卷第 25 题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: '梯形 $ABCD$ 中，$DC\parallel AB$，$\angle DAB=90^{\circ}$，$DC=3$，$DA=6$，$AB=9$，$E$ 在射线 $AB$ 上，过 $E$ 作 $EF\parallel AD$ 交射线 $DC$ 于 $F$，设 $AE=x$。
+
+      (1) 当 $x=1$ 时，$EF$ 与 $AC$ 交于 $G$，求 $GE$；
+
+      (2) 当 $x>3$ 时，$EF$ 与射线 $CB$ 交于 $H$。① 当 $3<x<9$ 时，动点 $M$（不与 $A$、$D$ 重合）在 $AD$ 上且 $AM=BE$，联结 $MH$ 交 $AC$ 于 $N$，问 $CH:HN$ 是否变化并求其值；② 联结 $AH$，若 $\angle HAE=\angle CAD$，求 $x$。'
+    answer: (1) $GE=2$；(2)① $CH:HN=\dfrac{2\sqrt{2}}{3}$（不变）；② $x=6$ 或 $18$
+    clue: (1) 平行线分线段成比例；(2)① 平行四边形+相似；② 解直角三角形列方程。
+    solution_steps:
+    - (1) $DC\parallel AB$，$\dfrac{FC}{AE}=\dfrac{FG}{GE}$。$EF\parallel AD$，四边形 $AEFD$ 是平行四边形，$DF=AE=1$，$CF=2$，$EF=AD=6$，$FG=6-GE$，$\dfrac{2}{1}=\dfrac{6-GE}{GE}$，$GE=2$。
+    - (2)① 过 $C$ 作 $CG\perp AB$ 于 $G$，$CG=6$，$GB=6$，$CB=6\sqrt{2}$，$\angle B=45^{\circ}$，$\angle EHB=45^{\circ}$，$HE=BE=AM$，四边形 $AMHE$ 是平行四边形，$MH\parallel AB$，$\triangle CNH\sim\triangle CAB$，$\dfrac{CH}{HN}=\dfrac{CB}{AB}=\dfrac{6\sqrt{2}}{9}=\dfrac{2\sqrt{2}}{3}$（不变）。
+    - ② $\tan\angle CAD=\dfrac{CD}{AD}=\dfrac{1}{2}$。当 $3<x<9$：$HE=9-x$，$\tan\angle HAE=\dfrac{9-x}{x}=\dfrac{1}{2}$，$x=6$。
+    - 当 $x>9$：$HE=x-9$，$\dfrac{x-9}{x}=\dfrac{1}{2}$，$x=18$。
+    - 综上，$x=6$ 或 $18$。
+    source_solution_images: []

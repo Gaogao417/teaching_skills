@@ -1,0 +1,39 @@
+meta:
+  title: 2024年上海市奉贤区中考二模数学试卷第 23 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q023
+    points: 12
+    stem_latex: '如图，在四边形 $ABCD$ 中，$AB\parallel DC$，$\angle B=\angle ADC$，点 $E$、$F$ 分别在边 $AB$、$BC$ 上，且 $\angle ADE=\angle CDF$。
+
+      (1) 求证：$CF\cdot CB=AE\cdot AB$；
+
+      (2) 连接 $AC$、$EF$，如果 $EF\parallel AC$，求证：四边形 $ABCD$ 是菱形。'
+    answer: (1)(2) 证明见详解
+    clue: (1) $\triangle ABC\sim\triangle CDA$，$\triangle CDF\sim\triangle ADE$；(2) $EF\parallel AC$ 得比例推 $AB=BC$。
+    solution_steps:
+    - (1) $\angle BAC=\angle DCA$，$\angle B=\angle ADC$，$\triangle ABC\sim\triangle CDA$，$\dfrac{AB}{BC}=\dfrac{DC}{AD}$。
+    - $\angle ADC=\angle B$，$\angle ADE=\angle CDF$，$\triangle CDF\sim\triangle ADE$，$\dfrac{CF}{AE}=\dfrac{CD}{AD}=\dfrac{AB}{BC}$，$\therefore CF\cdot CB=AE\cdot AB$。
+    - (2) $EF\parallel AC$ 得 $\dfrac{AE}{AB}=\dfrac{CF}{BC}$，结合(1)得 $AB=BC$；再证 $\triangle ABC\cong\triangle ADC$ 得 $AB=BC=CD=AD$，菱形。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 70mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

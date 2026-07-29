@@ -1,0 +1,34 @@
+meta:
+  title: 2023年上海市虹口区中考二模数学试卷第 14 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q014
+    points: 4
+    stem_latex: 如果正六边形的边心距为 $3$，那么它的半径是 ______
+    answer: $2\sqrt{3}$
+    clue: 正六边形中心与相邻顶点及边心构成含 $30\degree$ 的直角三角形。
+    solution_steps:
+    - $\angle AOC=30\degree$，设 $AC=x$，$OA=2x$，$(2x)^{2}-x^{2}=3^{2}$，$x=\sqrt{3}$。
+    - 半径 $OA=2\sqrt{3}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 40mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

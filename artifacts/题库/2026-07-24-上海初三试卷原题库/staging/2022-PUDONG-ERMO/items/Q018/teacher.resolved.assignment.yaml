@@ -1,0 +1,34 @@
+meta:
+  title: 2022年上海市浦东新区初三二模数学试卷第 18 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q018
+    points: 4
+    stem_latex: 如图，$\mathrm{Rt}\triangle ABC$ 中 $\angle ACB=90^{\circ}$，$\cos A=\dfrac{4}{5}$，$CD$ 为 $AB$ 中线，$CD=5$，以 $B$ 为圆心 $r$ 为半径作 $\odot B$。若 $\odot B$ 与中线 $CD$ 有且只有一个公共点，则 $r$ 的取值范围是______
+    answer: $5<r\leqslant6$ 或 $r=\dfrac{24}{5}$
+    clue: 求 $B$ 到 $CD$ 距离及 $BC$、$BD$。
+    solution_steps:
+    - $AB=10$，$AC=8$，$BC=6$，$BD=5$，$B$ 到 $CD$ 距离 $\dfrac{24}{5}$。
+    - $\therefore 5<r\leqslant6$ 或 $r=\dfrac{24}{5}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 90mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

@@ -1,0 +1,36 @@
+meta:
+  title: 2022年上海市嘉定区初三二模数学试卷第 24 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q024
+    points: 12
+    stem_latex: '抛物线 $y=ax^{2}+bx+3$ 经过 $A(3,0)$、$B(4,1)$，与 $y$ 轴交于 $C$。
+
+      (1) 求抛物线表达式；
+
+      (2) 求四边形 $OABC$ 的面积；
+
+      (3) 抛物线对称轴为 $l$，$D$ 与 $B$ 关于 $l$ 对称，线段 $BC$ 上是否存在点 $E$ 使四边形 $ADCE$ 是菱形？若存在求 $E$，若不存在说明理由。'
+    answer: (1) $y=\dfrac{1}{2}x^{2}-\dfrac{5}{2}x+3$；(2) $S_{OABC}=\dfrac{15}{2}$；(3) 存在，$E(2,2)$
+    clue: (1) 待定系数；(2) 分割法；(3) 菱形条件。
+    solution_steps:
+    - (1) 代入 $A$、$B$ 得 $\begin{cases}9a+3b+3=0\\16a+4b+3=1\end{cases}$，$a=\dfrac{1}{2}$，$b=-\dfrac{5}{2}$，$\therefore y=\dfrac{1}{2}x^{2}-\dfrac{5}{2}x+3$。
+    - (2) $C(0,3)$，$S_{OABC}=S_{\triangle BOC}+S_{\triangle OAB}=\dfrac{1}{2}\times4\times3+\dfrac{1}{2}\times3\times1=\dfrac{15}{2}$。
+    - (3) 对称轴 $x=\dfrac{5}{2}$，$D(1,1)$，$DC=AD=\sqrt{5}$。直线 $BC$：$y=-\dfrac{1}{2}x+3$，$AD\parallel BC$，需 $AD=EC$。设 $E(x,-\dfrac{1}{2}x+3)$，由 $EC=\sqrt{5}$ 解得 $x=2$，$\therefore E(2,2)$。
+    source_solution_images: []

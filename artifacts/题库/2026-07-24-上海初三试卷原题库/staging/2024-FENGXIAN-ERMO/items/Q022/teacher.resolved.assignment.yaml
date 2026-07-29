@@ -1,0 +1,39 @@
+meta:
+  title: 2024年上海市奉贤区中考二模数学试卷第 22 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q022
+    points: 10
+    stem_latex: '上海之鱼湖面外围有圆弧形水道，外侧有同圆心圆弧形道路。
+
+      (1) 用圆规和直尺在图上作出圆弧形水道的圆心 $O$（保留作图痕迹）；
+
+      (2) 在圆弧形道路内侧 $A$ 处将 $200$ 米绳子拉直至另一点 $B$，绳子中点 $C$ 与道路内侧中点 $D$ 的距离为 $10$ 米，圆弧形水道外侧到道路内侧距离 $DE=22$ 米（$D$、$C$、$E$ 共线），求圆弧形水道外侧的半径。'
+    answer: (1) 作两条弦的垂直平分线交点即为 $O$；(2) $483$ 米
+    clue: (2) 垂径定理 $AC=100$，$OC=r-10$，$r^2=(r-10)^2+100^2$。
+    solution_steps:
+    - (1) 在圆弧上取两条弦，分别作垂直平分线，交点即圆心 $O$。
+    - (2) $OC\perp AB$，$AC=100$，设 $OA=r$，$OC=r-10$，$r^2=(r-10)^2+100^2$，$r=505$。
+    - $OE=OD-DE=505-22=483$ 米。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 90mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

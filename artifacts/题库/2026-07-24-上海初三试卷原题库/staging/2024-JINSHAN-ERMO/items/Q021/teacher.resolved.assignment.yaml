@@ -1,0 +1,41 @@
+meta:
+  title: 2024年上海市金山区中考二模数学试卷第 21 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q021
+    points: 10
+    stem_latex: '某农业合作社销售草莓，销售额 $y_1$（元）与销售量 $x$（千克）关系如射线 $l_1$，成本 $y_2$（元）与 $x$ 关系如射线 $l_2$（$l_1$、$l_2$ 交于 $(20,400)$，$l_2$ 过 $(0,200)$）。
+
+      (1) 当销售量为多少时销售额和成本相等？
+
+      (2) 每千克草莓的销售价格是多少？
+
+      (3) 如果销售利润为 $2000$ 元，销售量为多少？'
+    answer: (1) $20$ 千克；(2) $20$ 元；(3) $220$ 千克
+    clue: (1) 交点；(2) $400\div20$；(3) $y_1-y_2=2000$。
+    solution_steps:
+    - (1) 交点 $x=20$ 千克。
+    - (2) $400\div20=20$ 元/千克。
+    - (3) $y_1=20x$，$y_2=10x+200$，$20x-(10x+200)=2000$，$x=220$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 85mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

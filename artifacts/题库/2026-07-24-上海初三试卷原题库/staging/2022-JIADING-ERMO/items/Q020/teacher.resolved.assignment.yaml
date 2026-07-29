@@ -1,0 +1,30 @@
+meta:
+  title: 2022年上海市嘉定区初三二模数学试卷第 20 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q020
+    points: 10
+    stem_latex: 解方程组：$\begin{cases} x-2y=8 \\ x^{2}+5xy-6y^{2}=0 \end{cases}$
+    answer: $\begin{cases} x_{1}=6 \\ y_{1}=-1 \end{cases}$ 或 $\begin{cases} x_{2}=-8 \\ y_{2}=-8 \end{cases}$
+    clue: ②因式分解降次。
+    solution_steps:
+    - ②化为 $(x+6y)(x-y)=0$，得 $x=-6y$ 或 $x=y$。
+    - $x=-6y$ 代入①：$-8y=8$，$y=-1$，$x=6$。
+    - $x=y$ 代入①：$-y=8$，$y=-8$，$x=-8$。
+    source_solution_images: []

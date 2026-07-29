@@ -1,0 +1,34 @@
+meta:
+  title: 2024年上海市虹口区中考二模数学试卷第 17 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q017
+    points: 4
+    stem_latex: 如图，在 $\square ABCD$ 中，$AB=7$，$BC=8$，$\sin B=\dfrac{4}{5}$。点 $P$ 在边 $AB$ 上，$AP=2$，以 $P$ 为圆心 $AP$ 为半径作 $\odot P$。点 $Q$ 在边 $BC$ 上，以 $Q$ 为圆心 $CQ$ 为半径作 $\odot Q$。如果 $\odot P$ 和 $\odot Q$ 外切，那么 $CQ$ 的长为\u3000\u3000\u3000\u3000。
+    answer: $\dfrac{37}{14}$
+    clue: $PH=4$，$BH=3$，$PQ=a+2$，$4^2+(5-a)^2=(a+2)^2$。
+    solution_steps:
+    - $BP=5$，$PH=4$，$BH=3$。设 $CQ=a$，$PQ=a+2$，$HQ=5-a$。
+    - $16+(5-a)^2=(a+2)^2$，$a=\dfrac{37}{14}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 85mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

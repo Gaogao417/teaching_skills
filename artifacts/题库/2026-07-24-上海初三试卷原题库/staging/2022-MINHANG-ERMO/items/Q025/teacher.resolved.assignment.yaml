@@ -1,0 +1,43 @@
+meta:
+  title: 2022年上海市闵行区初三二模数学试卷第 25 题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: '梯形 $ABCD$ 中，$AD\parallel BC$，$AB=26$，$BC=42$，$\cos B=\dfrac{5}{13}$，$AD=DC$。$M$ 在射线 $CB$ 上，以 $C$ 为圆心 $CM$ 为半径作 $\odot C$ 交射线 $CD$ 于 $N$，联结 $MN$ 交射线 $CA$ 于 $G$。
+
+      (1) 求 $AD$；
+
+      (2) 设 $CM=x$，$\dfrac{AG}{GC}=y$，当 $N$ 在线段 $CD$ 上时，求 $y$ 关于 $x$ 的解析式及定义域；
+
+      (3) 联结 $DM$，当 $\angle NMC=2\angle DMN$ 时，求 $CM$。'
+    answer: (1) $AD=25$；(2) $y=\dfrac{50-x}{x}$（$0<x\leqslant25$）；(3) $CM=55$ 或 $\dfrac{125}{11}$
+    clue: (1) 作高用勾股；(2) 等腰+三角函数；(3) 分 $N$ 在 $CD$ 上/延长线上。
+    solution_steps:
+    - (1) 作 $AE\perp BC$、$DF\perp BC$，$BE=10$，$AE=DF=24$，设 $AD=CD=x$，$CF=32-x$，$24^{2}+(32-x)^{2}=x^{2}$，$x=25$。
+    - (2) $AC=40$，$\cos\angle ACB=\dfrac{4}{5}$，$CM=CN$，$MN\perp AC$，$CG=\dfrac{4}{5}x$，$AG=40-\dfrac{4}{5}x$，$y=\dfrac{AG}{GC}=\dfrac{50-x}{x}$（$0<x\leqslant25$）。
+    - (3) 当 $N$ 在 $CD$ 上：$\angle DMN=\angle DNM$，$DN=MN$，$MN=\dfrac{6}{5}x$，$DN=25-x$，$\dfrac{6}{5}x=25-x$，$x=\dfrac{125}{11}$。
+    - 当 $N$ 在 $CD$ 延长线上：设 $MN$ 交 $DA$ 于 $P$，$PM=PD=DN=x-25$，$\dfrac{x-25}{\frac{6}{5}x}=\dfrac{25}{x}$，$x=55$。
+    - 综上，$CM=55$ 或 $\dfrac{125}{11}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 110mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

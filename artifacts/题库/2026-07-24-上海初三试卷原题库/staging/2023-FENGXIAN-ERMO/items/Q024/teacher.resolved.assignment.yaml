@@ -1,0 +1,37 @@
+meta:
+  title: 2023年上海市奉贤区中考二模数学试卷第 24 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q024
+    points: 12
+    stem_latex: 如图，在平面直角坐标系 $xOy$ 中，抛物线 $y=-x^{2}+bx+3$ 与 $x$ 轴交于 $A(1,0)$ 和 $B$，与 $y$ 轴交于 $C$。（1）求抛物线表达式和对称轴；（2）联结 $AC$、$BC$，$D$ 为 $x$ 轴上方抛物线上一点（与 $C$ 不重合），如果 $S_{\triangle ABD}=S_{\triangle ABC}$，求 $D$ 的坐标；（3）设 $P(m,4)$（$m>0$），$E$ 在对称轴上（$E$ 在顶点上方），当 $\angle APE=90\degree$ 且 $\dfrac{EP}{AP}=\dfrac{5}{4}$ 时，求 $E$ 的坐标．
+    answer: (1) $y=-x^{2}-2x+3$，对称轴 $x=-1$；(2) $D(-2,3)$；(3) $E\left(-1,\dfrac{31}{4}\right)$
+    clue: (1) 待定系数；(2) 等积则 $y_D=y_C$，由对称求 $D$；(3) 作 $AN\perp PM$，由 $\triangle NAP\sim\triangle MPE$ 求 $P$ 再求 $E$。
+    solution_steps:
+    - (1) 代入 $A(1,0)$ 得 $b=-2$，$y=-x^{2}-2x+3=-(x+1)^{2}+4$，对称轴 $x=-1$。
+    - (2) $C(0,3)$；$S_{\triangle ABD}=S_{\triangle ABC}\Rightarrow y_D=3$，$D$ 与 $C$ 关于 $x=-1$ 对称，$D(-2,3)$。
+    - (3) 顶点 $M(-1,4)$，$P,M$ 都在 $y=4$ 上，$EM\perp PM$；过 $A$ 作 $AN\perp PM$，$AN=4$。
+    - $\triangle NAP\sim\triangle MPE$，$\dfrac{PM}{AN}=\dfrac{5}{4}\Rightarrow PM=5$，$P(4,4)$，$PN=3$，$EM=\dfrac{5}{4}PN=\dfrac{15}{4}$。
+    - $y_E=4+\dfrac{15}{4}=\dfrac{31}{4}$，$E\left(-1,\dfrac{31}{4}\right)$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 70mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

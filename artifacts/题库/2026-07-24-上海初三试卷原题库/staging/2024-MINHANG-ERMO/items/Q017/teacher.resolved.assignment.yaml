@@ -1,0 +1,33 @@
+meta:
+  title: 2024年上海市闵行区中考二模数学试卷第 17 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q017
+    points: 4
+    stem_latex: 如图，在 $\triangle ABC$ 中，$BC$、$AC$ 上的中线 $AE$、$BD$ 相交于点 $F$，如果 $\angle BAE=\angle C$，那么 $\dfrac{AF}{AC}$ 的值为\u3000\u3000\u3000\u3000。
+    answer: $\dfrac{\sqrt{2}}{3}$
+    clue: $\triangle ABE\sim\triangle CBA$，$AE=\dfrac{\sqrt{2}}{2}AC$，$AF=\dfrac{2}{3}AE$。
+    solution_steps:
+    - $\triangle ABE\sim\triangle CBA$，$AE=\dfrac{\sqrt{2}}{2}AC$，$AF=\dfrac{2}{3}AE=\dfrac{\sqrt{2}}{3}AC$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 75mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

@@ -1,0 +1,33 @@
+meta:
+  title: 2023年上海市松江区中考二模数学试卷第 4 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q004
+    points: 4
+    stem_latex: 下列方程中有实数根的是（\quad）
+    choices:
+    - $x^{2}+2x+1=0$
+    - $x^{2}+x+1=0$
+    - $\sqrt{x}+1=0$
+    - $\dfrac{1}{x-1}=\dfrac{x}{x-1}$
+    answer: A
+    clue: 逐项判断判别式或增根。
+    solution_steps:
+    - A 的 $\Delta=0$，有等根；B 无实根；C 无解；D 增根。
+    source_solution_images: []

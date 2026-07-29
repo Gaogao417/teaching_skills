@@ -1,0 +1,36 @@
+meta:
+  title: 2024年上海市闵行区中考二模数学试卷第 6 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q006
+    points: 4
+    stem_latex: 在矩形 $ABCD$ 中，$AB<BC$，点 $E$ 在 $AB$ 上，点 $F$ 在 $BC$ 上，$AB=a$，$BE=CF=b$，$DE=c$，$\angle BEF=\angle DFC$。结论①$(a+b)^2+(a-b)^2=c^2$；②$a+b>\dfrac{\sqrt{2}}{2}c$。判断正确的是（　　）
+    choices:
+    - ①②都正确
+    - ①②都错误
+    - ①正确，②错误
+    - ①错误，②正确
+    answer: A
+    clue: $\triangle BEF\cong\triangle CFD$，$\triangle DEF$ 等腰直角，$a^2+b^2=\dfrac{1}{2}c^2$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 55mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

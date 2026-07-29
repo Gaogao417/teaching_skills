@@ -1,0 +1,29 @@
+meta:
+  title: 2022年上海市徐汇区初三二模数学试卷第 20 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q020
+    points: 10
+    stem_latex: 解方程组：$\begin{cases} x-3y=2 \\ x^{2}-2xy-y^{2}=4 \end{cases}$
+    answer: $\begin{cases} x_{1}=5 \\ y_{1}=1 \end{cases}$ 或 $\begin{cases} x_{2}=-7 \\ y_{2}=-3 \end{cases}$
+    clue: ②化为 $(x-y)^{2}-2y^{2}=4$ 并因式分解。
+    solution_steps:
+    - ②化为 $(x-y+4)(x-y-4)=0$（结合①），得 $x-y=\pm4$。
+    - 分别与①联立解得 $\begin{cases}x=5\\y=1\end{cases}$ 或 $\begin{cases}x=-7\\y=-3\end{cases}$。
+    source_solution_images: []

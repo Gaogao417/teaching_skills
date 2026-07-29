@@ -1,0 +1,38 @@
+meta:
+  title: 2024年上海市金山区中考二模数学试卷第 22 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q022
+    points: 10
+    stem_latex: '用\u201c立杆测影\u201d法测教学楼高度：$2$ 米杆影长 $1.6$ 米，教学楼影长 $24$ 米。再测量上海中心大厦高度：$CD=60$ 米，$\cot\alpha=10.667$，$\cot\beta=10.161$（方案1），$\cot\gamma=10.159$，$\cot\theta=10.254$（方案2）。
+
+      (1) 教学楼（$AB$）的高度；
+
+      (2) 选一种方案计算上海中心大厦（$SH$）的高度（精确到 $1$ 米）。'
+    answer: (1) $30$ 米；(2) 约 $632$ 米
+    clue: (1) $\dfrac{2}{1.6}=\dfrac{x}{24}$；(2) $\cot$ 关系列方程。
+    solution_steps:
+    - (1) $\dfrac{2}{1.6}=\dfrac{x}{24}$，$x=30$ 米。
+    - (2) 方案1：$10.667(x-30)=10.161x$，$x\approx632$ 米。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 95mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

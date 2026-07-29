@@ -1,0 +1,34 @@
+meta:
+  title: 2023年上海市虹口区中考二模数学试卷第 21 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q021
+    points: 10
+    stem_latex: 某商店以20元/千克的单价进货，销售量 $y$（千克）与销售单价 $x$（元/千克）成一次函数关系（如图）。（1）求 $y$ 与 $x$ 的函数表达式；（2）要使销售利润达到800元，销售单价应定为每千克多少元？
+    answer: (1) $y=\begin{cases}60 & (0<x<20)\\ -x+80 & (20\leqslant x\leqslant 80)\end{cases}$；(2) 40元或60元
+    clue: (1) 分段用待定系数法；(2) 利润 $=(x-20)y$，列方程求解。
+    solution_steps:
+    - (1) $0<x<20$ 时 $y=60$；$20\leqslant x\leqslant80$ 时由 $(20,60)$、$(80,0)$ 得 $y=-x+80$。
+    - (2) $(x-20)(-x+80)=800$，$x_{1}=40$，$x_{2}=60$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 60mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

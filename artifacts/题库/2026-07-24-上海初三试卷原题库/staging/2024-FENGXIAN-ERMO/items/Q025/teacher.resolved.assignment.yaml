@@ -1,0 +1,42 @@
+meta:
+  title: 2024年上海市奉贤区中考二模数学试卷第 25 题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: '如图，已知半圆 $O$ 的直径为 $MN$，点 $A$ 在半径 $OM$ 上，$B$ 为 $\overset{\frown}{MN}$ 的中点，点 $C$ 在 $\overset{\frown}{BN}$ 上，以 $AB$、$BC$ 为邻边作矩形 $ABCD$，边 $CD$ 交 $MN$ 于点 $E$。
+
+      (1) 如果 $MN=6$，$AM=2$，求边 $BC$ 的长；
+
+      (2) 连接 $CN$，当 $\triangle CEN$ 是以 $CN$ 为腰的等腰三角形时，求 $\angle BAN$ 的度数；
+
+      (3) 连接 $DO$ 并延长，交 $AB$ 于点 $P$，如果 $BP=2AP$，求 $\dfrac{BC}{AB}$ 的值。'
+    answer: (1) $BC=\dfrac{3\sqrt{10}}{5}$；(2) $\angle BAN=67.5°$；(3) $\dfrac{\sqrt{5}}{3}$
+    clue: (1) $\angle MOB=90°$，$\sin\angle ABO=\sin\angle BOH$；(2) 设 $\angle CON=\alpha$ 推 $\angle ECN=45°$；(3) $\triangle AOP\cong\triangle EOD$，$\triangle AOB\sim\triangle EDA$。
+    solution_steps:
+    - (1) $OB=3$，$OA=1$，$AB=\sqrt{10}$；$\dfrac{OA}{AB}=\dfrac{BH}{BO}$，$BH=\dfrac{3\sqrt{10}}{10}$，$BC=\dfrac{3\sqrt{10}}{5}$。
+    - (2) 设 $\angle CON=\alpha$，推得 $\angle ECN=45°$，$\angle CEN=45°+\dfrac{\alpha}{2}$；$CE=CN$ 时 $\alpha=45°$，$\angle BAN=\angle CEN=67.5°$。
+    - (3) $AO=OE$，$\triangle AOP\cong\triangle EOD$，$PA=ED$；设 $AO=OE=x$，$AP=ED=y$，$AB=3y$，$AE=2x$。
+    - $\triangle AOB\sim\triangle EDA$，$\dfrac{x}{y}=\dfrac{3y}{2x}$，$2x^2=3y^2$；$BC=AD=\sqrt{5}y$，$\dfrac{BC}{AB}=\dfrac{\sqrt{5}}{3}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 95mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

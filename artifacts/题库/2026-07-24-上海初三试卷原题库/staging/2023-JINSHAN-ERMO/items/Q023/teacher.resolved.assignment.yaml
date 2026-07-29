@@ -1,0 +1,34 @@
+meta:
+  title: 2023年上海市金山区中考二模数学试卷第 23 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q023
+    points: 12
+    stem_latex: 如图，$\triangle ABC$ 是等边三角形，过 $A$ 作 $DE\parallel BC$（$DE<BC$）且 $DA=EA$，联结 $BD,CE$。（1）求证：四边形 $DBCE$ 是等腰梯形；（2）$F$ 在腰 $CE$ 上，联结 $BF$ 交 $AC$ 于 $G$，若 $CF^{2}=GF\cdot BF$，求证：$CG=\dfrac{1}{2}DE$．
+    answer: (1)(2) 见解析
+    clue: (1) 证 $\triangle ABD\cong\triangle ACE$ 得 $BD=CE$；(2) 由 $CF^{2}=GF\cdot BF$ 证 $\triangle CFG\sim\triangle BFC$ 再证全等。
+    solution_steps:
+    - (1) $\angle DAB=\angle ABC=\angle ACB=\angle CAE=60\degree$，$DA=EA$，$\triangle ABD\cong\triangle ACE$，$BD=CE$，$DBCE$ 为等腰梯形。
+    - (2) $CF^{2}=GF\cdot BF\Rightarrow \triangle CFG\sim\triangle BFC\Rightarrow \angle FBC=\angle ACE$；又 $AC=BC$、$\angle ACB=\angle CAE$，$\triangle CBG\cong\triangle ACE$，$CG=AE=\dfrac{1}{2}DE$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 60mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

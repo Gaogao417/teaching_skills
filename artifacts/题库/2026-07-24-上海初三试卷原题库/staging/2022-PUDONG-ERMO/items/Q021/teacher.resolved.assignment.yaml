@@ -1,0 +1,35 @@
+meta:
+  title: 2022年上海市浦东新区初三二模数学试卷第 21 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q021
+    points: 10
+    stem_latex: 如图，$\triangle ABC$ 中 $\sin B=\dfrac{4}{5}$，$F$ 在 $BC$ 上，$AB=AF=5$，过 $F$ 作 $EF\perp CB$ 交 $AC$ 于 $E$，$AE:EC=3:5$，求 $BF$ 与 $\cot C$。
+    answer: $BF=6$；$\cot C=2$
+    clue: 等腰三线合一+相似。
+    solution_steps:
+    - 作 $AD\perp CB$，$AB=AF=5$，$BD=DF$，$AD=4$，$BD=3$，$BF=6$。
+    - $EF\parallel AD$，$\triangle CEF\sim\triangle CAD$，$\dfrac{EF}{AD}=\dfrac{CE}{CA}=\dfrac{5}{8}$，$EF=\dfrac{5}{2}$，$CF=5$。
+    - $\cot C=\dfrac{CF}{EF}=2$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 100mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

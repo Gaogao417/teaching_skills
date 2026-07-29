@@ -1,0 +1,41 @@
+meta:
+  title: 2022年上海市静安区初三二模数学试卷第 25 题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: '梯形 $ABCD$ 中，$AD\parallel BC$，$\angle A=90^{\circ}$，$AB=\sqrt{3}$，$AD=6$，$BC=7$，$P$ 在 $AD$ 上，联结 $BP$，作 $\angle BPF=\angle ADC$，射线 $PF$ 交 $BC$ 于 $E$、交射线 $DC$ 于 $F$。
+
+      (1) 求 $\angle ADC$；
+
+      (2) 若射线 $PF$ 经过点 $C$，求 $AP$；
+
+      (3) 设 $AP=x$，$DF=y$，求 $y$ 关于 $x$ 的解析式及定义域。'
+    answer: (1) $\angle ADC=120^{\circ}$；(2) $AP=2$ 或 $5$；(3) $y=-\dfrac{1}{2}x^{2}+\dfrac{7}{2}x-3$（$0<x<6$）
+    clue: (1) 作 $DH\perp BC$；(2) $\triangle DPC\sim\triangle PCB$；(3) $\tan\angle F=\tan\angle BPA$。
+    solution_steps:
+    - (1) 作 $DH\perp BC$ 于 $H$，四边形 $ABHD$ 是矩形，$DH=\sqrt{3}$，$BH=6$，$CH=1$，$\tan\angle CDH=\dfrac{1}{\sqrt{3}}$，$\angle CDH=30^{\circ}$，$\therefore \angle ADC=120^{\circ}$。
+    - (2) 作 $CM\perp AM$ 交 $AD$ 延长线于 $M$，四边形 $ABCM$ 是矩形，$DM=1$，$PM=7-AP$，$PD=6-AP$。$\triangle DPC\sim\triangle PCB$，$PC^{2}=PD\cdot BC$，即 $(7-AP)^{2}+3=7(6-AP)$，$AP^{2}-7AP+10=0$，$AP=2$ 或 $5$。
+    - (3) 作 $PM\perp DF$ 于 $M$，$\angle F=\angle BPA$，$\tan\angle F=\tan\angle BPA$，$\dfrac{\sqrt{3}}{x}=\dfrac{\sqrt{3}(6-x)}{6-x+2y}$，解得 $y=-\dfrac{1}{2}x^{2}+\dfrac{7}{2}x-3$（$0<x<6$）。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 110mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

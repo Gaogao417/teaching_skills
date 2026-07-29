@@ -1,0 +1,35 @@
+meta:
+  title: 2023年上海市金山区中考二模数学试卷第 24 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q024
+    points: 12
+    stem_latex: 抛物线 $y=\dfrac{1}{2}x^{2}+bx+c$ 经过 $A(-2,0)$、$B(6,8)$，直线 $AB$ 与 $y$ 轴交于 $C$，与抛物线对称轴 $l$ 交于 $D$。（1）求抛物线表达式及对称轴；（2）抛物线平移后经过 $C$，顶点 $P$ 在原抛物线上且在 $l$ 右侧，求 $P$；（3）$E$ 在 $l$ 上，若 $\tan\angle ABE=\dfrac{1}{3}$，求 $E$ 坐标．
+    answer: (1) $y=\dfrac{1}{2}x^{2}-x-4$，对称轴 $x=1$；(2) $P\left(3,-\dfrac{5}{2}\right)$；(3) $E\left(1,\dfrac{11}{2}\right)$ 或 $E(1,-2)$
+    clue: (1) 待定系数；(2) 平移后顶点式过 $C$ 求 $a$；(3) $E$ 在 $l:x=1$ 上，过 $E$ 作 $EF\perp BD$ 用正切分两种位置。
+    solution_steps:
+    - (1) 代入得 $b=-1,c=-4$，$y=\dfrac{1}{2}x^{2}-x-4$，对称轴 $x=1$。
+    - (2) 直线 $AB$：$y=x+2$，$C(0,2)$；设 $P(a,\dfrac{1}{2}a^{2}-a-4)$，平移后顶点式过 $C$ 解得 $a=3$，$P(3,-\dfrac{5}{2})$。
+    - (3) $D(1,3)$，$DB=5\sqrt{2}$；$E$ 在 $D$ 上方时 $DE=\dfrac{5}{2}$，$E(1,\dfrac{11}{2})$；下方时 $DE=5$，$E(1,-2)$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 70mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

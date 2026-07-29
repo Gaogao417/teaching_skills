@@ -1,0 +1,36 @@
+meta:
+  title: 2024年上海市浦东新区中考二模数学试卷第 6 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q006
+    points: 4
+    stem_latex: 如图，在 $Rt\triangle ABC$ 中，$\angle ACB=90°$，$AC=4$，$BC=3$，$D$ 在 $AB$ 上且 $\dfrac{BD}{AD}=\dfrac{1}{3}$，$DE\parallel BC$ 交 $AC$ 于 $E$，那么以 $E$ 为圆心 $EC$ 为半径的 $\odot E$ 和以 $D$ 为圆心 $BD$ 为半径的 $\odot D$ 的位置关系是（　　）
+    choices:
+    - 外离
+    - 外切
+    - 相交
+    - 内含
+    answer: B
+    clue: $CE+BD=\dfrac{9}{4}=DE$，两圆外切。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 60mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

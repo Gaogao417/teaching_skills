@@ -1,0 +1,34 @@
+meta:
+  title: 2022年上海市金山区初三二模数学试卷第 18 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q018
+    points: 4
+    stem_latex: 菱形 $ABCD$（$AB=5$，$AC=8$）绕 $A$ 逆时针旋转得菱形 $AB^{\prime}CD^{\prime}$，$B^{\prime}$ 落在 $AC$ 上，则点 $C$ 与 $C^{\prime}$ 的距离为______
+    answer: $\dfrac{8\sqrt{10}}{5}$
+    clue: 旋转不变量+勾股定理。
+    solution_steps:
+    - $AO=4$，$OD=3$，$\sin\angle OAD=\dfrac{3}{5}$，$CE=\dfrac{24}{5}$，$EC^{\prime}=\dfrac{8}{5}$。
+    - $CC^{\prime}=\sqrt{\left(\dfrac{24}{5}\right)^{2}+\left(\dfrac{8}{5}\right)^{2}}=\dfrac{8\sqrt{10}}{5}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 80mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

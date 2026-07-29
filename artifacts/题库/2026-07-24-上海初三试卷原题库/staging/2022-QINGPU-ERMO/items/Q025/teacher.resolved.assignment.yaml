@@ -1,0 +1,41 @@
+meta:
+  title: 2022年上海市青浦区初三二模数学试卷第 25 题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: '梯形 $ABCD$ 中 $AD\parallel BC$，$DC\perp BC$，$AB=10$，$\tan B=\dfrac{4}{3}$，$\odot O_{1}$ 以 $AB$ 为直径，$\odot O_{2}$ 以 $CD$ 为直径，$O_{1}O_{2}$ 与 $\odot O_{1}$ 交于 $M$、与 $\odot O_{2}$ 交于 $N$，$AD=x$。
+
+      (1) 两圆交点 $E$、$F$，当 $EF=6$ 时求 $x$；
+
+      (2) $\odot O_{2}$ 与线段 $AO_{1}$ 交于 $P$、$Q$，设 $PQ=y$，求 $y$ 关于 $x$ 的解析式及定义域；
+
+      (3) 联结 $AM$ 交 $\odot O_{2}$ 于 $G$，若 $\triangle GMN\sim\triangle GNO_{2}$，求 $x$。'
+    answer: (1) $x=1+\sqrt{7}$；(2) $y^{2}=-\dfrac{64}{25}(x+3)^{2}+64$（$1\leqslant x<2$）；(3) $x=6-\dfrac{8\sqrt{5}}{5}$
+    clue: (1) 中位线+勾股；(2) 垂径+正切；(3) 相似+勾股。
+    solution_steps:
+    - (1) 作 $AG\perp BC$，$AG=8$，$BG=6$，$O_{1}I=3$（中位线），$O_{1}H=4$，$O_{2}H=\sqrt{7}$，$AD=O_{1}O_{2}-O_{1}I=4+\sqrt{7}-3=1+\sqrt{7}$。
+    - (2) $O_{1}O_{2}=x+3$，$O_{2}G=\sqrt{16-\dfrac{y^{2}}{4}}$，$\dfrac{O_{2}G}{x+3}=\dfrac{4}{5}$，$y^{2}=-\dfrac{64}{25}(x+3)^{2}+64$（$1\leqslant x<2$）。
+    - (3) $MN=6-x$，由 $\triangle GMN\sim\triangle GNO_{2}$ 得 $MN=GN=6-x$，$\triangle AMO_{1}\sim\triangle GNO_{2}$，$AM=\dfrac{5}{4}(6-x)$，又 $AM=2\sqrt{5}$，$\therefore x=6-\dfrac{8\sqrt{5}}{5}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 100mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

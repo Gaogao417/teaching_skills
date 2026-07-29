@@ -1,0 +1,34 @@
+meta:
+  title: 2023年上海市金山区中考二模数学试卷第 18 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q018
+    points: 4
+    stem_latex: 如图，$\triangle ABC$ 中 $\angle BAC=90\degree$，$AB=3$，$\tan C=\dfrac{3}{4}$，$D$ 是 $BC$ 上动点，$E$ 在 $AC$ 上，如果 $E$ 关于直线 $AD$ 的对称点 $F$ 恰好落在 $BC$ 上，那么 $CE$ 的最大值为 ______
+    answer: $\dfrac{8}{5}$
+    clue: 由对称 $AF=AE$，$F$ 在 $BC$ 上，$AF$ 最小时 $CE$ 最大（$F$ 与垂足重合）。
+    solution_steps:
+    - $AC=4$，$BC=5$，$A$ 到 $BC$ 距离 $AG=\dfrac{12}{5}$。
+    - $F$ 与 $G$ 重合时 $AF=AG$ 最小，$AE=AG=\dfrac{12}{5}$，$CE_{\max}=4-\dfrac{12}{5}=\dfrac{8}{5}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 65mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

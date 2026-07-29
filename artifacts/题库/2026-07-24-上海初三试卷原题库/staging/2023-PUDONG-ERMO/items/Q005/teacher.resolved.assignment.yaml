@@ -1,0 +1,38 @@
+meta:
+  title: 2023年上海市浦东新区中考二模数学试卷第 5 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q005
+    points: 4
+    stem_latex: 如图，正方形 $DEFG$ 的 $D,E$ 在 $\triangle ABC$ 的边 $BC$ 上，$G,F$ 分别在 $AB,AC$ 上，$BC=8$，$\triangle ABC$ 面积为32，则正方形边长为（\quad）
+    choices:
+    - $4$
+    - $8$
+    - $\dfrac{8}{3}$
+    - $\dfrac{16}{3}$
+    answer: A
+    clue: 由面积求高 $AH$，由 $\triangle AGF\sim\triangle ABC$ 列方程求边长。
+    solution_steps:
+    - $AH=8$，设边长 $x$，$\dfrac{x}{8}=\dfrac{8-x}{8}$，$x=4$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 65mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

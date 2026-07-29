@@ -1,0 +1,41 @@
+meta:
+  title: 2022年上海市普陀区初三二模数学试卷第 25 题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: '矩形 $ABCD$ 中 $AD=5$，以 $AD$ 上一点 $E$ 为圆心、$EA$ 为半径的圆经过 $C$ 并交 $BC$ 于 $F$（$F$ 不与 $C$ 重合）。
+
+      (1) 当 $AE=4$ 时求对角线 $AC$；
+
+      (2) 设 $AB=x$，$CF=y$，求 $y$ 关于 $x$ 的解析式及定义域；
+
+      (3) $G$ 为 $\overset{\frown}{AC}$ 中点且 $\angle GEF=45^{\circ}$，求 $AB$。'
+    answer: (1) $AC=2\sqrt{10}$；(2) $y=\dfrac{25-x^{2}}{5}$（$0<x<5$）；(3) $AB=10-5\sqrt{3}$
+    clue: (1) 勾股；(2) 垂径+勾股；(3) 弧中点+圆周角。
+    solution_steps:
+    - (1) $CE=AE=4$，$ED=1$，$CD=\sqrt{15}$，$AC=\sqrt{25+15}=2\sqrt{10}$。
+    - (2) 作 $EH\perp BC$，$CH=\dfrac{y}{2}$，$EC=5-\dfrac{y}{2}$，$x^{2}+\left(\dfrac{y}{2}\right)^{2}=\left(5-\dfrac{y}{2}\right)^{2}$，$y=\dfrac{25-x^{2}}{5}$（$0<x<5$）。
+    - (3) $G$ 为 $\overset{\frown}{AC}$ 中点，$EG\perp AC$，$\angle EMC=45^{\circ}$，推得 $\angle DEC=30^{\circ}$，$CE=2CD$，$5-\dfrac{y}{2}=2x$，结合 (2) 解得 $x=10-5\sqrt{3}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 90mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

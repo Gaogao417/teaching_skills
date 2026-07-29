@@ -1,0 +1,39 @@
+meta:
+  title: 2022年上海市静安区初三二模数学试卷第 20 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q020
+    points: 10
+    stem_latex: '点 $A(2,1)$ 与 $B\left(\dfrac{1}{2},b\right)$ 都在双曲线 $y=\dfrac{m}{x}$ 上。
+
+      (1) 求双曲线表达式及 $B$ 的坐标；
+
+      (2) 判断 $\triangle OAB$ 的形状，并求 $\angle OBA$ 的正切值。'
+    answer: (1) $y=\dfrac{2}{x}$，$B\left(\dfrac{1}{2},4\right)$；(2) 直角三角形（$\angle A=90^{\circ}$），$\tan\angle OBA=\dfrac{2}{3}$
+    clue: (1) 待定系数；(2) 勾股逆定理+正切。
+    solution_steps:
+    - (1) $A(2,1)$ 代入得 $m=2$，$y=\dfrac{2}{x}$；$B$ 中 $\dfrac{1}{2}b=2$，$b=4$，$B\left(\dfrac{1}{2},4\right)$。
+    - (2) $OA^{2}=5$，$AB^{2}=\dfrac{45}{4}$，$OB^{2}=\dfrac{65}{4}$，$OA^{2}+AB^{2}=OB^{2}$，$\angle A=90^{\circ}$。
+    - $\tan\angle OBA=\dfrac{OA}{AB}=\dfrac{\sqrt{5}}{\frac{3\sqrt{5}}{2}}=\dfrac{2}{3}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 80mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

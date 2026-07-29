@@ -1,0 +1,40 @@
+meta:
+  title: 2022年上海市普陀区初三二模数学试卷第 24 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q024
+    points: 12
+    stem_latex: '抛物线 $y=ax^{2}+bx+8$ 与 $x$ 轴交于 $A(-2,0)$、$B(4,0)$，与 $y$ 轴交于 $C$，顶点为 $D$。
+
+      (1) 求抛物线表达式及 $D$ 坐标；
+
+      (2) $E$ 为第一象限抛物线上动点（横坐标 $m$），直线 $AE$ 交 $y$ 轴于 $F$。① 用 $m$ 表示直线 $AE$ 的截距；② 在 $S_{\triangle ECF}=S_{\triangle EAD}$ 条件下，探究 $y$ 轴右侧符合条件的直线。'
+    answer: (1) $y=-x^{2}+2x+8$，$D(1,9)$；(2)① 截距 $8-2m$；② $x=\dfrac{-3+\sqrt{33}}{2}$ 或 $x=\dfrac{-3+\sqrt{129}}{10}$
+    clue: (1) 待定系数；(2) 面积等式分类讨论。
+    solution_steps:
+    - (1) 代入 $A$、$B$ 得 $a=-1$，$b=2$，$y=-x^{2}+2x+8=-(x-1)^{2}+9$，$D(1,9)$。
+    - (2)① 直线 $AE$：$y=(4-m)x+8-2m$，截距 $8-2m$。
+    - ② $E$ 在对称轴右侧时 $S_{\triangle EAD}=\dfrac{1}{2}(3m-3)(m+2)$，$S_{\triangle ECF}=m^{2}$，相等得 $m=\dfrac{-3+\sqrt{33}}{2}$，直线 $x=\dfrac{-3+\sqrt{33}}{2}$。
+    - $E$ 在 $y$ 轴与对称轴之间时同理得直线 $x=\dfrac{-3+\sqrt{129}}{10}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 80mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

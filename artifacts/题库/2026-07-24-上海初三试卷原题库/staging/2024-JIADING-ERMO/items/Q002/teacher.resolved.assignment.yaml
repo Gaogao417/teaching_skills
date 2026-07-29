@@ -1,0 +1,31 @@
+meta:
+  title: 2024年上海市嘉定区中考二模数学试卷第 2 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q002
+    points: 4
+    stem_latex: 关于 $x$ 的方程 $x^2-6x-k=0$（$k$ 为常数）有两个不相等的实数根，那么 $k$ 的取值范围是（　　）
+    choices:
+    - $k>-9$ 且 $k\neq0$
+    - $k>-9$
+    - $k\leqslant-9$ 且 $k\neq0$
+    - $k\leqslant-9$
+    answer: B
+    clue: $\Delta=36+4k>0$，$k>-9$。
+    source_solution_images: []

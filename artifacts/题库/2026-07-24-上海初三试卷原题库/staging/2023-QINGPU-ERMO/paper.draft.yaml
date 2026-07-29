@@ -1,0 +1,671 @@
+schema: math_exam_staging_draft/v1
+paper:
+  id: 2023-QINGPU-ERMO
+  title: 2023年上海市青浦区中考二模数学试卷
+  grade: 九年级
+  subject: 数学
+  source_archive: documents/初三/2023届-上海市青浦区-初三二模数学-试卷及解析
+  duration: 100分钟
+  total_points: 150
+question_bank: ../../question-bank.yaml
+sections:
+- id: choice
+  title: 一、选择题
+  items:
+  - item_id: Q001
+    question_number: 1
+    question_type: choice
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2023届-上海市青浦区-初三二模数学-试卷及解析/word/pages/001.png
+      page_number: 1
+    prompt: []
+    official_solution:
+      word_evidence:
+      - page_image: documents/初三/2023届-上海市青浦区-初三二模数学-试卷及解析/word/pages/001.png
+        page_number: 1
+      start_anchor: 对各选项逐一进行化简
+      end_anchor: 故选C
+    block:
+      stem_latex: 下列二次根式中，最简二次根式的是（\quad）
+      choices:
+      - $\sqrt{0.2}$
+      - $\sqrt{8}$
+      - $\sqrt{6}$
+      - $\sqrt{\dfrac{1}{2}}$
+      answer: C
+      clue: 最简二次根式被开方数不含能开尽的因数且不含分母。
+      solution_steps:
+      - $\sqrt{6}$ 被开方数6不含平方因数，为最简二次根式。
+  - item_id: Q002
+    question_number: 2
+    question_type: choice
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2023届-上海市青浦区-初三二模数学-试卷及解析/word/pages/002.png
+      page_number: 2
+    prompt: []
+    official_solution:
+      word_evidence:
+      - page_image: documents/初三/2023届-上海市青浦区-初三二模数学-试卷及解析/word/pages/002.png
+        page_number: 2
+      start_anchor: 幂的乘方，底数不变指数相乘
+      end_anchor: 故选：B
+    block:
+      stem_latex: 下列计算中，正确的是（\quad）
+      choices:
+      - $\left(a^{3}\right)^{4}=a^{7}$
+      - $a^{2}\cdot a^{6}=a^{8}$
+      - $a^{3}+a^{3}=a^{6}$
+      - $a^{8}\div a^{4}=a^{2}$
+      answer: B
+      clue: 同底数幂相乘，底数不变指数相加。
+      solution_steps:
+      - $a^{2}\cdot a^{6}=a^{8}$，B 正确。
+  - item_id: Q003
+    question_number: 3
+    question_type: choice
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2023届-上海市青浦区-初三二模数学-试卷及解析/word/pages/003.png
+      page_number: 3
+    prompt: []
+    official_solution:
+      word_evidence:
+      - page_image: documents/初三/2023届-上海市青浦区-初三二模数学-试卷及解析/word/pages/003.png
+        page_number: 3
+      start_anchor: 一元二次方程根的判别式
+      end_anchor: 故选B
+    block:
+      stem_latex: 下列关于 $x$ 的方程一定有实数解的是（\quad）
+      choices:
+      - $4x^{2}+9=0$
+      - $x^{2}+x-2=0$
+      - $\sqrt{x-2}=1-x$
+      - $\dfrac{x+1}{x-1}=\dfrac{2}{x-1}$
+      answer: B
+      clue: 逐项判断判别式或检验增根。
+      solution_steps:
+      - $x^{2}+x-2=0$ 的 $\Delta=9>0$，有实数解；A 无解，C 无解，D 增根。
+  - item_id: Q004
+    question_number: 4
+    question_type: choice
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2023届-上海市青浦区-初三二模数学-试卷及解析/word/pages/004.png
+      page_number: 4
+    prompt: []
+    official_solution:
+      word_evidence:
+      - page_image: documents/初三/2023届-上海市青浦区-初三二模数学-试卷及解析/word/pages/004.png
+        page_number: 4
+      start_anchor: 第5名的成绩是中位数
+      end_anchor: 故选：A
+    block:
+      stem_latex: 9名选手决赛成绩各不相同，一名选手想知道自己能否进入前5名，除自己成绩外还需了解这9名学生成绩的（\quad）
+      choices:
+      - 中位数
+      - 平均数
+      - 众数
+      - 方差
+      answer: A
+      clue: 前5名以第5名（中位数）为分界。
+      solution_steps:
+      - 第5名成绩即中位数，与之比较即可判断是否进前5。
+  - item_id: Q005
+    question_number: 5
+    question_type: choice
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2023届-上海市青浦区-初三二模数学-试卷及解析/word/pages/005.png
+      page_number: 5
+    prompt: []
+    official_solution:
+      word_evidence:
+      - page_image: documents/初三/2023届-上海市青浦区-初三二模数学-试卷及解析/word/pages/005.png
+        page_number: 5
+      start_anchor: 菱形的判断条件
+      end_anchor: 故选：C
+    block:
+      stem_latex: 平行四边形 $ABCD$ 对角线交于 $O$，下列补充条件能判定它是菱形的是（\quad）
+      choices:
+      - $OA=OC$
+      - $OA=OB$
+      - $\angle ABD=\angle CBD$
+      - $\angle ABD=\angle CAB$
+      answer: C
+      clue: 邻边相等的平行四边形是菱形。
+      solution_steps:
+      - $\angle ABD=\angle CBD\Rightarrow CB=CD$，平行四边形为菱形。
+  - item_id: Q006
+    question_number: 6
+    question_type: choice
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2023届-上海市青浦区-初三二模数学-试卷及解析/word/pages/006.png
+      page_number: 6
+    prompt: []
+    official_solution:
+      word_evidence:
+      - page_image: documents/初三/2023届-上海市青浦区-初三二模数学-试卷及解析/word/pages/006.png
+        page_number: 6
+      start_anchor: 根据所给函数的性质逐一判断
+      end_anchor: 故选：D
+    block:
+      stem_latex: 函数图像过 $(-2,2)$、过第四象限、$x>0$ 时 $y$ 随 $x$ 增大而增大，这个函数表达式可能是（\quad）
+      choices:
+      - $y=-x$
+      - $y=x+4$
+      - $y=\dfrac{1}{2}x^{2}$
+      - $y=-\dfrac{4}{x}$
+      answer: D
+      clue: 逐项验证三个特征。
+      solution_steps:
+      - $y=-\dfrac{4}{x}$ 过 $(-2,2)$，过二、四象限，$x>0$ 时 $y$ 随 $x$ 增大而增大。
+- id: fill
+  title: 二、填空题
+  items:
+  - item_id: Q007
+    question_number: 7
+    question_type: short_answer
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2023届-上海市青浦区-初三二模数学-试卷及解析/word/pages/007.png
+      page_number: 7
+    prompt: []
+    official_solution:
+      word_evidence:
+      - page_image: documents/初三/2023届-上海市青浦区-初三二模数学-试卷及解析/word/pages/007.png
+        page_number: 7
+      start_anchor: $x+1\neq 0$
+      end_anchor: $x\neq -1$
+    block:
+      stem_latex: 函数 $y=\dfrac{1}{x+1}$ 的定义域是 ______
+      answer: $x\neq-1$
+      clue: 分式分母不为零。
+      solution_steps:
+      - $x+1\neq0$，$x\neq-1$。
+  - item_id: Q008
+    question_number: 8
+    question_type: short_answer
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2023届-上海市青浦区-初三二模数学-试卷及解析/word/pages/008.png
+      page_number: 8
+    prompt: []
+    official_solution:
+      word_evidence:
+      - page_image: documents/初三/2023届-上海市青浦区-初三二模数学-试卷及解析/word/pages/008.png
+        page_number: 8
+      start_anchor: $a^{2}-ab=a(a-b)$
+      end_anchor: $a(a-b)$
+    block:
+      stem_latex: 因式分解：$a^{2}-ab=$ ______
+      answer: $a(a-b)$
+      clue: 提公因式 $a$。
+      solution_steps:
+      - $a^{2}-ab=a(a-b)$。
+  - item_id: Q009
+    question_number: 9
+    question_type: short_answer
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2023届-上海市青浦区-初三二模数学-试卷及解析/word/pages/008.png
+      page_number: 8
+    prompt: []
+    official_solution:
+      word_evidence:
+      - page_image: documents/初三/2023届-上海市青浦区-初三二模数学-试卷及解析/word/pages/008.png
+        page_number: 8
+      start_anchor: 两边平方得，$2x-3=1$
+      end_anchor: $x=2$
+    block:
+      stem_latex: 方程 $\sqrt{2x-3}=1$ 的解是 ______
+      answer: $x=2$
+      clue: 两边平方后求解并检验。
+      solution_steps:
+      - $2x-3=1$，$x=2$（检验合格）。
+  - item_id: Q010
+    question_number: 10
+    question_type: short_answer
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2023届-上海市青浦区-初三二模数学-试卷及解析/word/pages/008.png
+      page_number: 8
+    prompt: []
+    official_solution:
+      word_evidence:
+      - page_image: documents/初三/2023届-上海市青浦区-初三二模数学-试卷及解析/word/pages/008.png
+        page_number: 8
+      start_anchor: $-2x<3$
+      end_anchor: $-\dfrac{3}{2}<x<1$
+    block:
+      stem_latex: 不等式组 $\begin{cases}-2x<3\\x-1<0\end{cases}$ 的解集是 ______
+      answer: $-\dfrac{3}{2}<x<1$
+      clue: 分别解两个不等式取交集。
+      solution_steps:
+      - ① $x>-\dfrac32$；② $x<1$；解集 $-\dfrac32<x<1$。
+  - item_id: Q011
+    question_number: 11
+    question_type: short_answer
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2023届-上海市青浦区-初三二模数学-试卷及解析/word/pages/009.png
+      page_number: 9
+    prompt: []
+    official_solution:
+      word_evidence:
+      - page_image: documents/初三/2023届-上海市青浦区-初三二模数学-试卷及解析/word/pages/009.png
+        page_number: 9
+      start_anchor: $P=\dfrac{1}{6}=\dfrac{1}{3}$
+      end_anchor: $\dfrac{1}{3}$
+    block:
+      stem_latex: 在 $-1,1,2$ 三个数中任取两个作为点 $P(x,y)$ 的横纵坐标，点 $P$ 在第二象限的概率为 ______
+      answer: $\dfrac{1}{3}$
+      clue: 列举所有坐标，数第二象限（$x<0,y>0$）的个数。
+      solution_steps:
+      - 共6种坐标，第二象限（$x<0,y>0$）有 $(-1,1),(-1,2)$ 共2个，$P=\dfrac{2}{6}=\dfrac13$。
+  - item_id: Q012
+    question_number: 12
+    question_type: short_answer
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2023届-上海市青浦区-初三二模数学-试卷及解析/word/pages/010.png
+      page_number: 10
+    prompt: []
+    official_solution:
+      word_evidence:
+      - page_image: documents/初三/2023届-上海市青浦区-初三二模数学-试卷及解析/word/pages/010.png
+        page_number: 10
+      start_anchor: $n=\dfrac{360\degree}{36\degree}=10$
+      end_anchor: '36'
+    block:
+      stem_latex: 若一个正多边形的每一个外角都等于 $36\degree$，那么这个正多边形的中心角为 ______ 度
+      answer: '36'
+      clue: 外角和 $360\degree$ 除以外角得边数，中心角 $=360\degree\div n$。
+      solution_steps:
+      - $n=360\div36=10$，中心角 $=360\div10=36\degree$。
+  - item_id: Q013
+    question_number: 13
+    question_type: short_answer
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2023届-上海市青浦区-初三二模数学-试卷及解析/word/pages/010.png
+      page_number: 10
+    prompt: []
+    official_solution:
+      word_evidence:
+      - page_image: documents/初三/2023届-上海市青浦区-初三二模数学-试卷及解析/word/pages/010.png
+        page_number: 10
+      start_anchor: $MN\parallel x$ 轴
+      end_anchor: $(3,2)$
+    block:
+      stem_latex: 点 $M(-1,2)$ 和 $N$ 都在抛物线 $y=x^{2}-2x+c$ 上，$MN\parallel x$ 轴，那么 $N$
+        的坐标为 ______
+      answer: $(3,2)$
+      clue: $MN\parallel x$ 轴则 $y_N=2$，由对称性求另一交点。
+      solution_steps:
+      - $M(-1,2)$ 代入得 $c=-1$；$y=2$ 时 $x=3$ 或 $-1$，$\therefore N(3,2)$。
+  - item_id: Q014
+    question_number: 14
+    question_type: short_answer
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2023届-上海市青浦区-初三二模数学-试卷及解析/word/pages/011.png
+      page_number: 11
+    prompt: []
+    official_solution:
+      word_evidence:
+      - page_image: documents/初三/2023届-上海市青浦区-初三二模数学-试卷及解析/word/pages/011.png
+        page_number: 11
+      start_anchor: $\vec{AG}=\dfrac{2}{3}\vec{AE}$
+      end_anchor: $\dfrac{1}{3}\vec{a}+\dfrac{1}{3}\vec{b}$
+    block:
+      stem_latex: 点 $G$ 为 $\triangle ABC$ 的重心，$\vec{AB}=\vec{a}$，$\vec{AC}=\vec{b}$，那么
+        $\vec{AG}=$ ______（用 $\vec{a},\vec{b}$ 表示）
+      answer: $\dfrac{1}{3}\vec{a}+\dfrac{1}{3}\vec{b}$
+      clue: 重心向量 $\vec{AG}=\dfrac13(\vec{AB}+\vec{AC})$。
+      solution_steps:
+      - $\vec{AG}=\dfrac13(\vec{a}+\vec{b})=\dfrac13\vec{a}+\dfrac13\vec{b}$。
+  - item_id: Q015
+    question_number: 15
+    question_type: short_answer
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2023届-上海市青浦区-初三二模数学-试卷及解析/word/pages/012.png
+      page_number: 12
+    prompt:
+    - source: documents/初三/2023届-上海市青浦区-初三二模数学-试卷及解析/word/media/image105.png
+      box_px:
+      - 0
+      - 0
+      - 500
+      - 291
+      width: 75mm
+    official_solution:
+      word_evidence:
+      - page_image: documents/初三/2023届-上海市青浦区-初三二模数学-试卷及解析/word/pages/012.png
+        page_number: 12
+      start_anchor: 函数与坐标轴的交点为 $(0,50)$，$(400,0)$
+      end_anchor: $q=-\dfrac{1}{8}s+50$
+    block:
+      stem_latex: 如图反映轿车剩余油量 $q$（升）与行驶路程 $s$（千米）的函数关系，那么 $q$ 与 $s$ 的函数解析式为 ______
+      answer: $q=-\dfrac{1}{8}s+50$
+      clue: 由截距 $(0,50),(400,0)$ 用待定系数法。
+      solution_steps:
+      - 过 $(0,50),(400,0)$，$q=-\dfrac18s+50$。
+  - item_id: Q016
+    question_number: 16
+    question_type: short_answer
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2023届-上海市青浦区-初三二模数学-试卷及解析/word/pages/013.png
+      page_number: 13
+    prompt:
+    - source: documents/初三/2023届-上海市青浦区-初三二模数学-试卷及解析/word/media/image113.png
+      box_px:
+      - 0
+      - 0
+      - 177
+      - 165
+      width: 50mm
+    official_solution:
+      word_evidence:
+      - page_image: documents/初三/2023届-上海市青浦区-初三二模数学-试卷及解析/word/pages/013.png
+        page_number: 13
+      start_anchor: $x^2=(x-2)^2+16$
+      end_anchor: '5'
+    block:
+      stem_latex: 如图，圆柱形油槽截面油的最大深度为2分米，油面宽度8分米，那么该圆柱形油槽的内半径为 ______ 分米
+      answer: '5'
+      clue: 垂径定理 + 勾股定理列半径方程。
+      solution_steps:
+      - $AD=4$，设半径 $x$，$OD=x-2$，$x^{2}=(x-2)^{2}+4^{2}$，$x=5$。
+  - item_id: Q017
+    question_number: 17
+    question_type: short_answer
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2023届-上海市青浦区-初三二模数学-试卷及解析/word/pages/014.png
+      page_number: 14
+    prompt:
+    - source: documents/初三/2023届-上海市青浦区-初三二模数学-试卷及解析/word/media/image134.png
+      box_px:
+      - 0
+      - 0
+      - 376
+      - 348
+      width: 65mm
+    official_solution:
+      word_evidence:
+      - page_image: documents/初三/2023届-上海市青浦区-初三二模数学-试卷及解析/word/pages/014.png
+        page_number: 14
+      - page_image: documents/初三/2023届-上海市青浦区-初三二模数学-试卷及解析/word/pages/015.png
+        page_number: 15
+      start_anchor: 点 $G$ 在直线 $AB$ 上
+      end_anchor: $\sqrt{2}$
+    block:
+      stem_latex: 如图，点 $G(-3,1)$，$A(-1,3)$，$B(-4,0)$，$\odot C$ 以 $AB$ 为直径，那么点 $G$
+        与 $\odot C$ 的最短距离为 ______
+      answer: $\sqrt{2}$
+      clue: 判断 $G$ 与圆的位置，$G$ 在 $AB$ 上时最短距离为到端点距离减半径。
+      solution_steps:
+      - 直线 $AB$：$y=x+4$，$G(-3,1)$ 在 $AB$ 上；$BG=\sqrt{1^{2}+1^{2}}=\sqrt{2}$，即最短距离。
+  - item_id: Q018
+    question_number: 18
+    question_type: short_answer
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2023届-上海市青浦区-初三二模数学-试卷及解析/word/pages/016.png
+      page_number: 16
+    prompt:
+    - source: documents/初三/2023届-上海市青浦区-初三二模数学-试卷及解析/word/media/image151.png
+      box_px:
+      - 0
+      - 0
+      - 280
+      - 164
+      width: 60mm
+    official_solution:
+      word_evidence:
+      - page_image: documents/初三/2023届-上海市青浦区-初三二模数学-试卷及解析/word/pages/016.png
+        page_number: 16
+      - page_image: documents/初三/2023届-上海市青浦区-初三二模数学-试卷及解析/word/pages/017.png
+        page_number: 17
+      start_anchor: $EC\parallel AB$
+      end_anchor: $\dfrac{14}{5}$
+    block:
+      stem_latex: 如图，Rt$\triangle ABC$ 中 $\angle C=90\degree$，$BC=6$，$AB=10$，$D$ 为
+        $AB$ 中点，$M$ 在 $AC$ 上，将 $\triangle ADM$ 沿 $DM$ 翻折，$A$ 落在 $E$，如果 $EC\parallel
+        AB$，那么 $CE=$ ______
+      answer: $\dfrac{14}{5}$
+      clue: 翻折保长保角，由 $EC\parallel AB$ 及全等/相似求 $CE$。
+      solution_steps:
+      - 翻折得 $\triangle ADM\cong\triangle EDM$，结合 $EC\parallel AB$ 构造全等，解得 $CE=\dfrac{14}{5}$。
+- id: solve
+  title: 三、解答题
+  items:
+  - item_id: Q019
+    question_number: 19
+    question_type: problem
+    points: 10
+    question_word_evidence:
+    - page_image: documents/初三/2023届-上海市青浦区-初三二模数学-试卷及解析/word/pages/018.png
+      page_number: 18
+    prompt: []
+    official_solution:
+      word_evidence:
+      - page_image: documents/初三/2023届-上海市青浦区-初三二模数学-试卷及解析/word/pages/018.png
+        page_number: 18
+      start_anchor: 原式 $=\sqrt{2}-1+4$
+      end_anchor: $=2$
+    block:
+      stem_latex: 计算：$|\sqrt{2}-1|+\left(\dfrac{1}{2}\right)^{-2}+\dfrac{1}{\sqrt{2}+1}-8^{\frac{1}{2}}$
+      answer: $2$
+      clue: 绝对值、负整数指数幂、分母有理化、二次根式。
+      solution_steps:
+      - 原式 $=(\sqrt{2}-1)+4+(\sqrt{2}-1)-2\sqrt{2}=2$。
+  - item_id: Q020
+    question_number: 20
+    question_type: problem
+    points: 10
+    question_word_evidence:
+    - page_image: documents/初三/2023届-上海市青浦区-初三二模数学-试卷及解析/word/pages/018.png
+      page_number: 18
+    prompt: []
+    official_solution:
+      word_evidence:
+      - page_image: documents/初三/2023届-上海市青浦区-初三二模数学-试卷及解析/word/pages/018.png
+        page_number: 18
+      start_anchor: 方程①可变形为 $(x+3y)(x-3y)=0$
+      end_anchor: $\begin{cases}x=-3\\y=-1\end{cases}$
+    block:
+      stem_latex: 解方程组：$\begin{cases} x^{2}-9y^{2}=0 \\ x^{2}-2xy+y^{2}=4 \end{cases}$
+      answer: $\begin{cases}x=\dfrac32\\y=-\dfrac12\end{cases}$，$\begin{cases}x=-\dfrac32\\y=\dfrac12\end{cases}$，$\begin{cases}x=3\\y=1\end{cases}$，$\begin{cases}x=-3\\y=-1\end{cases}$
+      clue: ①②分别因式分解，组合成四个二元一次方程组。
+      solution_steps:
+      - ① $(x+3y)(x-3y)=0$；② $(x-y)^{2}=4$，$x-y=\pm2$。
+      - 组合得四组解。
+  - item_id: Q021
+    question_number: 21
+    question_type: problem
+    points: 10
+    question_word_evidence:
+    - page_image: documents/初三/2023届-上海市青浦区-初三二模数学-试卷及解析/word/pages/019.png
+      page_number: 19
+    prompt:
+    - source: documents/初三/2023届-上海市青浦区-初三二模数学-试卷及解析/word/media/image192.png
+      box_px:
+      - 0
+      - 0
+      - 397
+      - 170
+      width: 70mm
+    official_solution:
+      word_evidence:
+      - page_image: documents/初三/2023届-上海市青浦区-初三二模数学-试卷及解析/word/pages/019.png
+        page_number: 19
+      - page_image: documents/初三/2023届-上海市青浦区-初三二模数学-试卷及解析/word/pages/020.png
+        page_number: 20
+      - page_image: documents/初三/2023届-上海市青浦区-初三二模数学-试卷及解析/word/pages/021.png
+        page_number: 21
+      - page_image: documents/初三/2023届-上海市青浦区-初三二模数学-试卷及解析/word/pages/022.png
+        page_number: 22
+      start_anchor: 作 $AH\perp BC$
+      end_anchor: $\angle BCD=\angle B$
+    block:
+      stem_latex: 如图，$\triangle ABC$ 中 $BC=12$，$\tan B=\dfrac12$，$\angle C=45\degree$。（1）求
+        $AB$；（2）$D$ 在 $AB$ 上且 $\dfrac{AD}{BD}=\dfrac13$，连 $CD$，说明 $\angle BCD=\angle
+        B$．
+      answer: (1) $AB=4\sqrt{5}$；(2) 见解析
+      clue: (1) 作 $AH\perp BC$，由 $\angle C=45\degree$ 及 $\tan B$ 求 $AH,BH$；(2) 作 $DG\perp
+        BC$ 证 $DG$ 为 $BC$ 垂直平分线。
+      solution_steps:
+      - (1) $AH=CH=x$，$BH=2x$，$3x=12$，$x=4$，$AB=\sqrt{4^{2}+8^{2}}=4\sqrt{5}$。
+      - (2) $DG\parallel AH$，$\dfrac{BG}{BH}=\dfrac{BD}{AB}=\dfrac34$，$BG=6=CG$，$DG$
+        垂直平分 $BC$，$BD=CD$，$\angle BCD=\angle B$。
+  - item_id: Q022
+    question_number: 22
+    question_type: problem
+    points: 10
+    question_word_evidence:
+    - page_image: documents/初三/2023届-上海市青浦区-初三二模数学-试卷及解析/word/pages/023.png
+      page_number: 23
+    prompt:
+    - source: documents/初三/2023届-上海市青浦区-初三二模数学-试卷及解析/word/media/image228.png
+      box_px:
+      - 0
+      - 0
+      - 376
+      - 358
+      width: 70mm
+    official_solution:
+      word_evidence:
+      - page_image: documents/初三/2023届-上海市青浦区-初三二模数学-试卷及解析/word/pages/023.png
+        page_number: 23
+      start_anchor: $80\div 40\%=200$
+      end_anchor: 足球40人
+    block:
+      stem_latex: 某校初三球类运动扇形图（如图），乒乓球80人占40%。（1）求篮球和足球总人数；（2）篮球、足球每人配备一只，篮球费用3000元、足球2400元，篮球单价比足球便宜10元，求篮球、足球人数．
+      answer: (1) $100$ 人；(2) 篮球60人，足球40人
+      clue: (1) 由乒乓球求总数再求篮足和；(2) 列分式方程，注意检验。
+      solution_steps:
+      - (1) 总数 $80\div40\%=200$，篮足共 $200\times(1-40\%-10\%)=100$ 人。
+      - (2) 设篮球 $x$ 人，$\dfrac{3000}{x}+10=\dfrac{2400}{100-x}$，$x=60$，足球40人。
+  - item_id: Q023
+    question_number: 23
+    question_type: problem
+    points: 12
+    question_word_evidence:
+    - page_image: documents/初三/2023届-上海市青浦区-初三二模数学-试卷及解析/word/pages/024.png
+      page_number: 24
+    prompt:
+    - source: documents/初三/2023届-上海市青浦区-初三二模数学-试卷及解析/word/media/image240.png
+      box_px:
+      - 0
+      - 0
+      - 545
+      - 298
+      width: 70mm
+    official_solution:
+      word_evidence:
+      - page_image: documents/初三/2023届-上海市青浦区-初三二模数学-试卷及解析/word/pages/024.png
+        page_number: 24
+      - page_image: documents/初三/2023届-上海市青浦区-初三二模数学-试卷及解析/word/pages/025.png
+        page_number: 25
+      - page_image: documents/初三/2023届-上海市青浦区-初三二模数学-试卷及解析/word/pages/026.png
+        page_number: 26
+      start_anchor: 【小问 1 详解】
+      end_anchor: $AD \cdot AE=BE \cdot BD$
+    block:
+      stem_latex: 如图，平行四边形 $ABCD$ 中 $BD$ 平分 $\angle ABC$，$E$ 在 $BC$ 上，$AE$ 交 $BD$
+        于 $F$，且 $AB^{2}=BF\cdot BD$。（1）求证：$F$ 在 $AB$ 的垂直平分线上；（2）求证：$AD\cdot AE=BE\cdot
+        BD$．
+      answer: (1)(2) 见解析
+      clue: (1) 由 $AB^{2}=BF\cdot BD$ 证 $\triangle ABD\sim\triangle FBA$ 转角得 $AB=AF$；(2)
+        证两组相似转化比例。
+      solution_steps:
+      - (1) $\triangle ABD\sim\triangle FBA\Rightarrow \angle BAF=\angle BDA=\angle
+        DBC=\angle DBA$，$\therefore AB=AF$，$F$ 在 $AB$ 垂直平分线上。
+      - (2) $\triangle BEF\sim\triangle AEB\Rightarrow \dfrac{BE}{AE}=\dfrac{BF}{AB}=\dfrac{AB}{BD}$，$\therefore
+        AB\cdot AE=BE\cdot BD$；又 $AB=AD$，$\therefore AD\cdot AE=BE\cdot BD$。
+  - item_id: Q024
+    question_number: 24
+    question_type: problem
+    points: 12
+    question_word_evidence:
+    - page_image: documents/初三/2023届-上海市青浦区-初三二模数学-试卷及解析/word/pages/027.png
+      page_number: 27
+    prompt:
+    - source: documents/初三/2023届-上海市青浦区-初三二模数学-试卷及解析/word/media/image272.png
+      box_px:
+      - 0
+      - 0
+      - 449
+      - 344
+      width: 70mm
+    official_solution:
+      word_evidence:
+      - page_image: documents/初三/2023届-上海市青浦区-初三二模数学-试卷及解析/word/pages/027.png
+        page_number: 27
+      - page_image: documents/初三/2023届-上海市青浦区-初三二模数学-试卷及解析/word/pages/028.png
+        page_number: 28
+      - page_image: documents/初三/2023届-上海市青浦区-初三二模数学-试卷及解析/word/pages/029.png
+        page_number: 29
+      start_anchor: 将点 $B(6,0)$ 和 $C(0,3)$ 代入
+      end_anchor: $\dfrac{19\sqrt{2}}{4}$
+    block:
+      stem_latex: 抛物线 $y=-\dfrac14x^{2}+bx+c$ 经过 $B(6,0),C(0,3)$，与 $x$ 轴另一交点为 $A$。（1）求解析式及
+        $A$；（2）向右平移 $m$（$m>0$）单位，$C\to D,A\to E$，若 $\angle DEC=90\degree$，求 $m$；（3）新抛物线顶点
+        $G$，对称轴右侧与 $x$ 轴交于 $F$，求 $C$ 到 $GF$ 的距离．
+      answer: (1) $y=-\dfrac14x^{2}+x+3$，$A(-2,0)$；(2) $m=\dfrac{13}{2}$；(3) $\dfrac{19\sqrt{2}}{4}$
+      clue: (1) 待定系数；(2) 由 $\angle DEC=90\degree$ 用 $\tan$ 列方程；(3) 平移后 $\angle GFP=45\degree$，用
+        $\sin45\degree$ 求距离。
+      solution_steps:
+      - (1) 代入得 $b=1,c=3$，$y=-\dfrac14x^{2}+x+3$，$A(-2,0)$。
+      - (2) $\angle CAO=\angle OCE$，$\tan\angle CAO=\dfrac32=\dfrac{OE}{3}$，$OE=\dfrac92$，$m=AE=\dfrac{13}{2}$。
+      - (3) 新抛物线顶点 $G(\dfrac{17}{2},4)$，$F(\dfrac{25}{2},0)$，$\angle GFP=45\degree$；$GF$
+        交 $y$ 轴于 $M$，$CM=\dfrac{19}{2}$，$CH=CM\sin45\degree=\dfrac{19\sqrt2}{4}$。
+  - item_id: Q025
+    question_number: 25
+    question_type: problem
+    points: 14
+    question_word_evidence:
+    - page_image: documents/初三/2023届-上海市青浦区-初三二模数学-试卷及解析/word/pages/030.png
+      page_number: 30
+    prompt:
+    - source: documents/初三/2023届-上海市青浦区-初三二模数学-试卷及解析/word/media/image319.png
+      box_px:
+      - 0
+      - 0
+      - 420
+      - 215
+      width: 75mm
+    official_solution:
+      word_evidence:
+      - page_image: documents/初三/2023届-上海市青浦区-初三二模数学-试卷及解析/word/pages/030.png
+        page_number: 30
+      - page_image: documents/初三/2023届-上海市青浦区-初三二模数学-试卷及解析/word/pages/031.png
+        page_number: 31
+      - page_image: documents/初三/2023届-上海市青浦区-初三二模数学-试卷及解析/word/pages/032.png
+        page_number: 32
+      - page_image: documents/初三/2023届-上海市青浦区-初三二模数学-试卷及解析/word/pages/033.png
+        page_number: 33
+      - page_image: documents/初三/2023届-上海市青浦区-初三二模数学-试卷及解析/word/pages/034.png
+        page_number: 34
+      start_anchor: 连接 $DO$
+      end_anchor: <END_OF_SOURCE>
+    block:
+      stem_latex: 如图，半圆 $O$ 直径 $AB=10$，$C$ 在半圆上，$BC=6$，$CH\perp AB$ 于 $H$，$D$ 是弧 $AC$
+        上一点。（1）若 $D$ 是弧 $AB$ 中点，求 $\tan\angle DOC$；（2）连 $BD$ 交 $OC$ 于 $E$、交 $CH$ 于
+        $F$，设 $OE=m$：①用 $m$ 表示 $CF$；②以 $O$ 为圆心 $OE$ 为半径、$C$ 为圆心 $CF$ 为半径作圆，当两圆相交时求
+        $m$ 取值范围．
+      answer: (1) $\dfrac{7}{24}$；(2)① $CF=\dfrac{600-120m}{125-7m}$；② $\dfrac57<m<5$
+      clue: (1) $D$ 为弧 $AB$ 中点 $\Rightarrow OD\perp AB\parallel CH$，转角求正切；(2)① 作 $HG\parallel
+        OC$ 构造两组相似表示 $CF$；② 由两圆外切临界求 $m$ 范围。
+      solution_steps:
+      - (1) $OD\parallel CH\Rightarrow \angle DOC=\angle OCH$；$CH=\dfrac{24}{5}$，$OH=\dfrac{7}{5}$，$\tan\angle
+        DOC=\dfrac{OH}{CH}=\dfrac{7}{24}$。
+      - (2)① 作 $HG\parallel OC$，$\triangle HGB\sim\triangle OEB\Rightarrow GH=\dfrac{18}{25}m$；$\triangle
+        CEF\sim\triangle HGF\Rightarrow CF=\dfrac{600-120m}{125-7m}$。
+      - (2)② 两圆外切时 $m+CF=5$，解得 $m=\dfrac57$ 或 $5$；相交时 $\dfrac57<m<5$（内切不可能）。

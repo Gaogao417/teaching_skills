@@ -1,0 +1,39 @@
+meta:
+  title: 2022年上海市浦东新区初三二模数学试卷第 25 题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: '在 $\mathrm{Rt}\triangle ABC$ 中，$\angle ACB=90^{\circ}$，$BC=2$，$AC=3$，以 $C$ 为圆心 $CB$ 为半径作 $\odot C$ 交 $AB$ 于 $D$，过 $A$ 作 $AE\parallel CD$ 交 $BC$ 延长线于 $E$。
+
+      (1) 求 $CE$；
+
+      (2) $P$ 在 $CE$ 延长线上，直线 $AP$、$CD$ 交于 $Q$。① 若 $\triangle ACQ\sim\triangle CPQ$，求 $CP$；② 若以 $A$ 为圆心 $AQ$ 为半径的圆与 $\odot C$ 相切，求 $CP$。'
+    answer: (1) $CE=\dfrac{5}{4}$；(2)① $CP=\dfrac{36}{5}$；② $CP=\dfrac{20+4\sqrt{10}}{15}$
+    clue: (1) 平行线比例+勾股；(2)① 相似；(2)② 圆与圆相切分类。
+    solution_steps:
+    - (1) $AE\parallel CD$，$BC=DC$，$BE=AE$，设 $CE=x$，$9+x^{2}=(x+2)^{2}$，$x=\dfrac{5}{4}$。
+    - (2)① $\triangle ACQ\sim\triangle CPQ\Rightarrow \angle ACQ=\angle P$，$\triangle ACE\sim\triangle PCA$，$AC^{2}=CE\cdot CP$，$CP=\dfrac{36}{5}$。
+    - ② 设 $CP=t$，$AQ=\dfrac{5\sqrt{t^{2}+9}}{4t-5}$。外切 $AQ=1$ 无解；内切 $AQ=5$，$15t^{2}-40t+16=0$，$t=\dfrac{20+4\sqrt{10}}{15}$（舍负）。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 110mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

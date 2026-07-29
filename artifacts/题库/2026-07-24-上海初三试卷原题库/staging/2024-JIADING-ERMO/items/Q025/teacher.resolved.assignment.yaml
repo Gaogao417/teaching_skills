@@ -1,0 +1,41 @@
+meta:
+  title: 2024年上海市嘉定区中考二模数学试卷第 25 题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: '在菱形 $ABCD$ 中，$\angle DAB=60°$，点 $E$ 在射线 $AB$ 上，连接 $CE$、$BD$。
+
+      (1) 当点 $E$ 是边 $AB$ 的中点，求 $\angle ECD$ 的正切值；
+
+      (2) 当点 $E$ 在线段 $AB$ 的延长线上，连接 $DE$ 与边 $BC$ 交于点 $F$，如果 $AD=6$，$\triangle EFC$ 的面积等于 $3\sqrt{3}$，求 $EF$ 的长；
+
+      (3) 当点 $E$ 在边 $AB$ 上，$CE$ 与 $BD$ 交于点 $H$，连接 $DE$ 并延长与 $CB$ 延长线交于点 $G$，如果 $AD=6$，$\triangle BCH$ 与 $\triangle EGB$ 相似，求 $AE$ 的长。'
+    answer: (1) $\dfrac{\sqrt{3}}{2}$；(2) $EF=\sqrt{7}$；(3) $AE=9-3\sqrt{5}$
+    clue: (1) $\triangle ABD$ 等边，$DE\perp AB$；(2) $DF=2EF$，$BE=3$；(3) $EG=EC$ 列方程。
+    solution_steps:
+    - (1) $\triangle ABD$ 等边，$DE\perp AB$，$DE=\sqrt{3}x$，$CD=2x$，$\tan\angle ECD=\dfrac{\sqrt{3}}{2}$。
+    - (2) $DM=3\sqrt{3}$，$S_{\triangle DEC}:S_{\triangle EFC}=3$，$DE:EF=3$，$BE=3$，$DE=3\sqrt{7}$，$EF=\sqrt{7}$。
+    - (3) $\angle G=\angle BCG$ 得 $EG=EC$，设 $AE=x$，$BE=6-x$，解方程得 $AE=9-3\sqrt{5}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 95mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

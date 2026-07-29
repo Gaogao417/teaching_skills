@@ -1,0 +1,38 @@
+meta:
+  title: 2022年上海市杨浦区初三二模数学试卷第 23 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q023
+    points: 12
+    stem_latex: '矩形 $ABCD$ 对角线 $AC$、$BD$ 交于 $O$，$E$、$F$ 分别为 $OC$、$OD$ 中点，联结 $AF$、$BE$。
+
+      (1) 求证：四边形 $ABEF$ 是等腰梯形；
+
+      (2) 过 $O$ 作 $OM\perp AB$ 于 $M$，联结 $ME$，若 $\angle OME=\angle BAC$，求证：四边形 $AMEF$ 是菱形。'
+    answer: 见证明
+    clue: (1) 中位线+等腰；(2) 平行四边形+邻边相等。
+    solution_steps:
+    - (1) $EF\parallel AB$，$OE=OF$，$BF=AE$，四边形 $ABEF$ 是等腰梯形。
+    - (2) $EF=\dfrac{1}{2}CD$，$M$ 为 $AB$ 中点，$EF=AM$，$EF\parallel AM$，四边形 $AMEF$ 是平行四边形；由 $\angle OME=\angle BAC$ 推得邻边相等，$\therefore$ 是菱形。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 90mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

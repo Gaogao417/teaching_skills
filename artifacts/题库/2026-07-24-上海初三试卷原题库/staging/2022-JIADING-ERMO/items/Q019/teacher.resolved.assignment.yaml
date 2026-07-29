@@ -1,0 +1,29 @@
+meta:
+  title: 2022年上海市嘉定区初三二模数学试卷第 19 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q019
+    points: 10
+    stem_latex: 计算：$\left(\dfrac{1}{2}\right)^{-1}+\sqrt{2}(1-\sqrt{2})+\dfrac{1}{\sqrt{2}-1}-(\sqrt{2})^{3}$
+    answer: '1'
+    clue: 负指数幂、分母有理化、幂的运算。
+    solution_steps:
+    - $\left(\dfrac{1}{2}\right)^{-1}=2$，$\sqrt{2}(1-\sqrt{2})=\sqrt{2}-2$，$\dfrac{1}{\sqrt{2}-1}=\sqrt{2}+1$，$(\sqrt{2})^{3}=2\sqrt{2}$。
+    - 原式 $=2+(\sqrt{2}-2)+(\sqrt{2}+1)-2\sqrt{2}=1$。
+    source_solution_images: []

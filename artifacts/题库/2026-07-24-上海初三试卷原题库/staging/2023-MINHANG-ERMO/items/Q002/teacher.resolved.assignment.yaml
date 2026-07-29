@@ -1,0 +1,33 @@
+meta:
+  title: 2023年上海市闵行区中考二模数学试卷第 2 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q002
+    points: 4
+    stem_latex: 某区一周最高气温数据，其众数和中位数分别是（\quad）
+    choices:
+    - $13$，$13$
+    - $13$，$15$
+    - $8$，$15$
+    - $8$，$13$
+    answer: B
+    clue: 众数为出现最多的数，中位数为排序后中间的数。
+    solution_steps:
+    - 数据 $13,13,13,15,16,22,23$，众数 $13$，中位数 $15$。
+    source_solution_images: []

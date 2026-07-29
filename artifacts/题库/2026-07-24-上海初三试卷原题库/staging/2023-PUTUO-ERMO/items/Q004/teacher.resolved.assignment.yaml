@@ -1,0 +1,33 @@
+meta:
+  title: 2023年上海市普陀区中考二模数学试卷第 4 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q004
+    points: 4
+    stem_latex: 某城市30天的空气质量指数数据（部分天数未知），下列统计量中可以确定的是（\quad）
+    choices:
+    - 平均数
+    - 众数
+    - 中位数
+    - 方差
+    answer: C
+    clue: 中位数取排序后第15、16个数，与未知天数无关。
+    solution_steps:
+    - 第15、16个数均为90，中位数可确定为90。
+    source_solution_images: []

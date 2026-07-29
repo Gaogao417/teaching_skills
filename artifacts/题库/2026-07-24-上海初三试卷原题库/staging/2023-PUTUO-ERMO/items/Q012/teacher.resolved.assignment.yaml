@@ -1,0 +1,28 @@
+meta:
+  title: 2023年上海市普陀区中考二模数学试卷第 12 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q012
+    points: 4
+    stem_latex: 一个三角形的两边长分别是2和3，第三边长为奇数，则这个三角形的周长为 ______
+    answer: '8'
+    clue: 由三角形三边关系定第三边范围，再取奇数。
+    solution_steps:
+    - $1<x<5$，第三边为奇数取3，周长 $2+3+3=8$。
+    source_solution_images: []

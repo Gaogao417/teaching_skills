@@ -1,0 +1,36 @@
+meta:
+  title: 2022年上海市虹口区初三二模数学试卷第 17 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q017
+    points: 4
+    stem_latex: 矩形 $ABCD$（$AB=4$，$BC=6$），$E$ 为 $BC$ 中点，$O$ 在 $AE$ 上，$\odot O$ 半径为1，如果 $\odot O$ 与矩形各边都没有公共点，那么 $AO$ 的取值范围是______
+    answer: $\dfrac{5}{3}<AO<\dfrac{15}{4}$
+    clue: 分别求与 $AB$、$BC$ 相切时的 $OA$。
+    solution_steps:
+    - $AE=\sqrt{AB^{2}+BE^{2}}=5$。
+    - 与 $AB$ 相切：$\dfrac{OM}{BE}=\dfrac{OA}{AE}$，$OA=\dfrac{5}{3}$。
+    - 与 $BC$ 相切：$OE=\dfrac{5}{4}$，$OA=5-\dfrac{5}{4}=\dfrac{15}{4}$。
+    - $\therefore \dfrac{5}{3}<AO<\dfrac{15}{4}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 90mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

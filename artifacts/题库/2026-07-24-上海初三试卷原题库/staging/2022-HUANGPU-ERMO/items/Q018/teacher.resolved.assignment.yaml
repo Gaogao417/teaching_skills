@@ -1,0 +1,35 @@
+meta:
+  title: 2022年上海市黄浦区初三二模数学试卷第 18 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q018
+    points: 4
+    stem_latex: 边长为1的正方形 $ABCD$，$A$、$B$ 在半径等于边长的 $\odot O$ 上，$C$、$D$ 在圆内。将正方形绕 $A$ 逆时针旋转，当 $D$ 第一次落在圆上时（$C$ 的对应点为 $C^{\prime}$），则 $\triangle ACC^{\prime}$ 的面积 =______
+    answer: $\dfrac{1}{2}$
+    clue: $\triangle OAB$ 等边，旋转角30°。
+    solution_steps:
+    - $OA=OB=AB=1$，$\triangle OAB$ 等边，$\angle OAB=60^{\circ}$，$\angle OAD=30^{\circ}$，$\angle OAD'=60^{\circ}$。
+    - $\angle CAC'=\angle DAD'=30^{\circ}$，$AC'=AC=\sqrt{2}$，$CE=\dfrac{1}{2}AC=\dfrac{\sqrt{2}}{2}$。
+    - $S_{\triangle ACC'}=\dfrac{1}{2}\cdot\sqrt{2}\cdot\dfrac{\sqrt{2}}{2}=\dfrac{1}{2}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 80mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

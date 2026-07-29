@@ -1,0 +1,35 @@
+meta:
+  title: 2023年上海市闵行区中考二模数学试卷第 24 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q024
+    points: 12
+    stem_latex: 抛物线 $y=-x^{2}+mx+n$ 经过 $A(3,0)$、$B(0,3)$，与 $x$ 轴负半轴交于 $C$。（1）求抛物线表达式及 $C$ 坐标；（2）$D$ 在抛物线上（对称轴右侧）：① $CD$ 与线段 $AB$ 交于 $E$ 且 $BE=2AE$，求 $\tan\angle ACD$；② $CD$ 与 $y$ 轴交于 $F$，以 $CF$ 为半径的 $\odot C$ 与以 $DB$ 为半径的 $\odot D$ 外切，求 $D$ 坐标．
+    answer: (1) $y=-x^{2}+2x+3$，$C(-1,0)$；(2)① $\tan\angle ACD=\dfrac{1}{3}$；② $D\left(\dfrac{5}{2},\dfrac{7}{4}\right)$
+    clue: (1) 待定系数；(2)① 由 $BE=2AE$ 及相似求 $E$，再求正切；② 由外切 $BD=DF$，过 $D$ 作 $DH\perp y$ 轴列方程。
+    solution_steps:
+    - (1) 代入得 $m=2,n=3$，$y=-x^{2}+2x+3$；令 $y=0$ 得 $C(-1,0)$。
+    - (2)① $BE=2AE$，$\triangle AEG\sim\triangle ABO$，$EG=1$，$CG=3$，$\tan\angle ACD=\dfrac{1}{3}$。
+    - ② 外切 $BD=DF$，设 $D(a,-a^{2}+2a+3)$，由 $\triangle DHF\sim\triangle COF$ 及 $BD=DF$ 解得 $a=\dfrac{5}{2}$，$D\left(\dfrac{5}{2},\dfrac{7}{4}\right)$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 80mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

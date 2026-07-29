@@ -1,0 +1,36 @@
+meta:
+  title: 2023年上海市奉贤区中考二模数学试卷第 18 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q018
+    points: 4
+    stem_latex: 如图，在正方形 $ABCD$ 中，点 $E$、$F$ 分别在边 $AD$、$AB$ 上，$EF\perp CE$。将 $\triangle CDE$ 沿直线 $CE$ 翻折，如果点 $D$ 的对应点恰好落在线段 $CF$ 上，那么 $\angle EFC$ 的正切值是 ______
+    answer: '2'
+    clue: 由折叠得全等，再证 $\triangle AEF\cong\triangle MEF$ 得 $AE=DE$，由相似与勾股求边长比得正切。
+    solution_steps:
+    - 折叠 $\triangle CDE\cong\triangle CME$，$DE=EM$；进而 $\triangle AEF\cong\triangle MEF$，$AE=DE$。
+    - 设 $CD=a$，$DE=AE=\dfrac{a}{2}$，$CE=\dfrac{\sqrt{5}}{2}a$。
+    - 由 $\triangle DCE\sim\triangle AEF$ 得 $AF=\dfrac{a}{4}$，$EF=\dfrac{\sqrt{5}}{4}a$。
+    - $\tan\angle EFC=\dfrac{CE}{EF}=\dfrac{\dfrac{\sqrt{5}}{2}a}{\dfrac{\sqrt{5}}{4}a}=2$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 50mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

@@ -1,0 +1,33 @@
+meta:
+  title: 2022年上海市普陀区初三二模数学试卷第 18 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q018
+    points: 4
+    stem_latex: 矩形 $ABCD$（$AB=3$，$BC=4$）绕 $A$ 旋转，$B^{\prime}$ 落在对角线 $BD$ 上，$DD^{\prime}$ 交 $B^{\prime}C^{\prime}$ 于 $E$，则 $DE=$______
+    answer: $\dfrac{21}{20}$
+    clue: 旋转+相似。
+    solution_steps:
+    - $BD=5$，$AF=2.4$，$BF=1.8$，$BB^{\prime}=3.6$，$B^{\prime}D=1.4$，由 $\triangle AB^{\prime}F\sim\triangle B^{\prime}ED$ 得 $DE=\dfrac{21}{20}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 90mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

@@ -1,0 +1,34 @@
+meta:
+  title: 2022年上海市黄浦区初三二模数学试卷第 23 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q023
+    points: 12
+    stem_latex: '如图，$A$、$B$、$C$ 是 $\odot O$ 上三点，$AB=AC$，$M$、$N$ 分别为 $AB$、$AC$ 中点，$E$、$F$ 分别在 $OM$、$ON$ 上。
+
+      (1) 求证：$\angle AOM=\angle AON$；
+
+      (2) 若 $AE\parallel ON$，$AF\parallel OM$，求证：$OE\cdot OM=\dfrac{1}{2}AO^{2}$。'
+    answer: 见证明
+    clue: (1) HL全等；(2) 菱形+相似。
+    solution_steps:
+    - (1) $OM\perp AB$，$ON\perp AC$，$AM=AN$，$\mathrm{Rt}\triangle AOM\cong\mathrm{Rt}\triangle AON$（HL），$\angle AOM=\angle AON$。
+    - (2) $AE\parallel ON$，$AF\parallel OM$，四边形 $AEOF$ 是平行四边形；$\angle EAO=\angle AON=\angle AOM$，$AE=EO$，$\therefore$ 四边形 $AEOF$ 是菱形，$EF\perp AO$，$OP=\dfrac{1}{2}AO$。
+    - $\triangle EPO\sim\triangle AMO$，$\dfrac{OE}{AO}=\dfrac{OP}{OM}$，$\therefore OE\cdot OM=AO\cdot OP=\dfrac{1}{2}AO^{2}$。
+    source_solution_images: []

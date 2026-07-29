@@ -1,0 +1,33 @@
+meta:
+  title: 2023年上海市闵行区中考二模数学试卷第 6 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: student
+  show_answers: false
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: student
+  blocks:
+  - type: choice
+    id: Q006
+    points: 4
+    stem_latex: 如图，在 $\triangle ABC$ 中 $\angle ACB=90\degree$，用尺规作图作出斜边上的中线 $CP$，下列作法正确的是（\quad）（四个选项各对应一种作图）
+    choices:
+    - 作法A
+    - 作法B
+    - 作法C
+    - 作法D
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 40mm
+      variant: prompt
+      disclosure_policy: clean

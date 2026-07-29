@@ -1,0 +1,38 @@
+meta:
+  title: 2023年上海市静安区中考二模数学试卷第 6 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q006
+    points: 4
+    stem_latex: 如图是"作 $\angle AOB$ 的平分线"的尺规作图，该作图可直接利用三角形全等说明，全等的依据是（\quad）
+    choices:
+    - 三边对应相等的两个三角形全等
+    - 两边及它们的夹角对应相等的两个三角形全等
+    - 两角及它们的夹边对应相等的两个三角形全等
+    - 两角及其中一个角的对边对应相等的两个三角形全等
+    answer: A
+    clue: 作图中 $OD=OE$、$DC=EC$、$OC$ 公共，三边对应相等。
+    solution_steps:
+    - $OD=OE$，$DC=EC$，$OC$ 公共，$\triangle ODC\cong\triangle OEC$（SSS）。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 65mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

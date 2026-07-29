@@ -1,0 +1,29 @@
+meta:
+  title: 2022年上海市闵行区初三二模数学试卷第 21 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q021
+    points: 10
+    stem_latex: 玩具厂接到6000箱订单，改良生产线后每天多生产20箱，提前10天完成，求改良前每天生产多少箱。
+    answer: $100$ 箱
+    clue: 分式方程。
+    solution_steps:
+    - 设改良前每天 $x$ 箱，$\dfrac{6000}{x}=\dfrac{6000}{x+20}+10$。
+    - 整理 $x^{2}+20x-12000=0$，$x=100$（$x=-120$ 舍）。
+    source_solution_images: []

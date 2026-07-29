@@ -1,0 +1,33 @@
+meta:
+  title: 2022年上海市青浦区初三二模数学试卷第 11 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q011
+    points: 4
+    stem_latex: 种子发芽天数扇形图（1天圆心角36°，3天占50%，2天与4天弧长相等），平均发芽天数为______天
+    answer: '2.8'
+    clue: 1天10%，2天20%，3天50%，4天20%。
+    solution_steps:
+    - $1\times10\%+2\times20\%+3\times50\%+4\times20\%=2.8$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 80mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

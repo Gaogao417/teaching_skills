@@ -1,0 +1,43 @@
+meta:
+  title: 2022年上海市金山区初三二模数学试卷第 25 题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: '在 $\mathrm{Rt}\triangle ABC$ 中，$\angle ACB=90^{\circ}$，$AB=10$，$\sin\angle BAC=\dfrac{3}{5}$，$O$ 在 $AC$ 上，以 $O$ 为圆心 $OA$ 为半径作 $\odot O$ 与 $AC$ 另一交点为 $D$、与 $AB$ 另一交点为 $E$，过 $O$ 作 $AB$ 的平行线交 $\odot O$ 于 $P$、交 $BC$ 于 $Q$，$DP$ 延长线交 $AB$ 于 $F$，联结 $FQ$。
+
+      (1) 求证：$DP=EP$；
+
+      (2) 设 $OA=x$，$\triangle FPQ$ 面积为 $y$，求 $y$ 关于 $x$ 的解析式及定义域；
+
+      (3) 若 $\triangle FPQ$ 是以 $FQ$ 为腰的等腰三角形，求 $AO$。'
+    answer: (1) 见证明；(2) $y=-\dfrac{27}{40}x^{2}+3x$（$0<x\leqslant4$）；(3) $AO=\dfrac{40}{13}$ 或 $\dfrac{200}{53}$
+    clue: (1) 证 $\angle DOP=\angle POE$；(2) 相似求 $PQ$；(3) 分 $FQ=PQ$、$FQ=FP$。
+    solution_steps:
+    - (1) 联结 $OE$，$OP\parallel AB$，$\angle DOP=\angle A$，$\angle POE=\angle OEA$，$OA=OE$ 得 $\angle A=\angle OEA$，$\therefore \angle DOP=\angle POE$，$DP=EP$。
+    - (2) 作 $OM\perp AB$、$FN\perp PQ$，$OM=FN=\dfrac{3}{5}x$。$BC=6$，$AC=8$。$\triangle COQ\sim\triangle CAB$，$OQ=10-\dfrac{5}{4}x$，$PQ=10-\dfrac{9}{4}x$，$y=\dfrac{1}{2}PQ\cdot FN=-\dfrac{27}{40}x^{2}+3x$（$0<x\leqslant4$）。
+    - (3) 若 $FQ=PQ$：推得 $AF=AD=2x$，$OQ=2x$，$2x=10-\dfrac{5}{4}x$，$x=\dfrac{40}{13}$。
+    - 若 $FQ=FP$：四边形 $OMFN$ 为矩形，$MF=ON=\dfrac{6}{5}x$，$PN=\dfrac{1}{5}x$，$PQ=\dfrac{2}{5}x$，$OQ=\dfrac{7}{5}x$，$\dfrac{7}{5}x=10-\dfrac{5}{4}x$，$x=\dfrac{200}{53}$。
+    - 综上，$AO=\dfrac{40}{13}$ 或 $\dfrac{200}{53}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 120mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

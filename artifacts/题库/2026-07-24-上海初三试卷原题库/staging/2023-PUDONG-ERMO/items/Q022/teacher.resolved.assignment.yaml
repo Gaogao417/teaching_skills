@@ -1,0 +1,35 @@
+meta:
+  title: 2023年上海市浦东新区中考二模数学试卷第 22 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q022
+    points: 10
+    stem_latex: 居民"阶梯水价"：第一阶梯（0~220，自来水2.25元/立方米+污水1.8元/立方米）；第二阶梯（220~300，4+1.8）；第三阶梯（300以上，6.99+1.8）。应缴水费=用水量×(自来水单价+污水处理单价)。（1）全年用水220立方米应缴多少元？（2）求第二阶梯线段 $AB$ 表达式；（3）全年缴水费1181元，求用水量．
+    answer: (1) $891$ 元；(2) $y=5.8x-385$（$220<x\leqslant300$）；(3) $270$ 立方米
+    clue: (1) 按第一阶梯单价计算；(2) 待定系数用两端点；(3) 判断所在阶梯后代入。
+    solution_steps:
+    - (1) $220\times(2.25+1.8)=891$ 元。
+    - (2) 由 $(220,891)$、$(300,1355)$ 得 $y=5.8x-385$（$220<x\leqslant300$）。
+    - (3) $891<1181<1355$ 属第二阶梯，$1181=5.8x-385$，$x=270$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 80mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

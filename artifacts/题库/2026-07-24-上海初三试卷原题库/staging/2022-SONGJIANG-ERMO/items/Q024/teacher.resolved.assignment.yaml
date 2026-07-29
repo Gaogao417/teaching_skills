@@ -1,0 +1,39 @@
+meta:
+  title: 2022年上海市松江区初三二模数学试卷第 24 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q024
+    points: 12
+    stem_latex: '直线 $y=2x+8$ 与 $x$ 轴交于 $A$、与 $y$ 轴交于 $B$，抛物线 $y=-x^{2}+bx+c$ 经过 $A$、$B$。
+
+      (1) 求抛物线表达式；
+
+      (2) $P$ 在抛物线上且在 $AB$ 上方，过 $P$ 作 $PM\parallel y$ 轴、$PN\parallel x$ 轴分别交 $AB$ 于 $M$、$N$。① 当 $MN=\dfrac{1}{2}AB$ 时求 $P$；② 联结 $OP$ 交 $AB$ 于 $C$，当 $C$ 为 $MN$ 中点时求 $\dfrac{PC}{OC}$。'
+    answer: (1) $y=-x^{2}-2x+8$；(2)① $P(-2,8)$；② $\dfrac{PC}{OC}=\sqrt{2}-1$
+    clue: (1) 待定系数；(2)① 相似；(2)② 中点+相似。
+    solution_steps:
+    - (1) $A(-4,0)$，$B(0,8)$，代入得 $b=-2$，$c=8$，$y=-x^{2}-2x+8$。
+    - (2)① 设 $P(t,-t^{2}-2t+8)$，$M(t,2t+8)$，$PM=-t^{2}-4t$。$\triangle PMN\sim\triangle OBA$，$MN=\dfrac{1}{2}AB\Rightarrow PM=4$，$-t^{2}-4t=4$，$t=-2$，$P(-2,8)$。
+    - ② $C$ 为 $MN$ 中点时 $C$ 为 $AB$ 中点，$D(2,4)$（$CD\perp x$ 轴）。设 $P(t,-t^{2}-2t+8)$，$PE=-t^{2}-2t+8$，$OE=-t$，$\dfrac{PE}{OE}=\dfrac{CD}{OD}=2$，$t=-2\sqrt{2}$，$\dfrac{PC}{OC}=\dfrac{ED}{DO}=\sqrt{2}-1$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 75mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

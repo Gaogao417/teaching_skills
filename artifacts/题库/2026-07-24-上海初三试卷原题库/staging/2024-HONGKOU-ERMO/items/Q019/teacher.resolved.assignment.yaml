@@ -1,0 +1,29 @@
+meta:
+  title: 2024年上海市虹口区中考二模数学试卷第 19 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q019
+    points: 10
+    stem_latex: 先化简，再求值：$\dfrac{m^2-2m+1}{m^2+3m}\div\left(1-\dfrac{4}{m+3}\right)$，其中 $m=\sqrt{2}$。
+    answer: $\dfrac{2-\sqrt{2}}{2}$
+    clue: 因式分解后除法变乘法，分母有理化代入。
+    solution_steps:
+    - 原式 $=\dfrac{(m-1)^2}{m(m+3)}\div\dfrac{m-1}{m+3}=\dfrac{(m-1)^2}{m(m+3)}\times\dfrac{m+3}{m-1}=\dfrac{m-1}{m}$。
+    - $m=\sqrt{2}$：$\dfrac{\sqrt{2}-1}{\sqrt{2}}=\dfrac{2-\sqrt{2}}{2}$。
+    source_solution_images: []

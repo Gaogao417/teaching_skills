@@ -1,0 +1,42 @@
+meta:
+  title: 2024年上海市奉贤区中考二模数学试卷第 24 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q024
+    points: 12
+    stem_latex: '如图，在直角坐标平面 $xOy$ 中，抛物线 $y=ax^2-2ax+c$ 与 $x$ 轴交于点 $A$、$B$，与 $y$ 轴正半轴交于点 $C$，顶点为 $P$，点 $A(-1,0)$。
+
+      (1) 写出抛物线开口方向，并求顶点 $P$ 的坐标（用 $a$ 表示）；
+
+      (2) 将抛物线向下平移后经过点 $(0,1)$，顶点 $P$ 平移至 $P''$。如果锐角 $\angle CP''P$ 的正切值为 $\dfrac{1}{2}$，求 $a$ 的值；
+
+      (3) 设抛物线对称轴与 $x$ 轴交于点 $D$，射线 $PC$ 与 $x$ 轴交于点 $E$，如果 $\angle EDC=\angle BPE$，求此抛物线的表达式。'
+    answer: (1) 开口向下，$P(1,-4a)$；(2) $a=-\dfrac{3}{2}$；(3) $y=-x^2+2x+3$
+    clue: (1) $c=-3a$，$a<0$；(2) 平移 $m$ 单位，$\tan=\dfrac{CH}{P'H}=\dfrac{1}{2}$；(3) $\triangle EDC\sim\triangle EPB$。
+    solution_steps:
+    - (1) $A(-1,0)$ 代入得 $c=-3a$，$a<0$ 开口向下；$y=a(x-1)^2-4a$，$P(1,-4a)$。
+    - (2) 平移 $m$ 单位：$P'(1,-4a-m)$，$\tan\angle CP'P=\dfrac{1}{2}$，$CH=1$，$P'H=2$；联立 $-3a-2=-4a-m$ 与 $a-4a-m=1$ 解得 $a=-\dfrac{3}{2}$。
+    - (3) $B(3,0)$，$C(0,-3a)$，直线 $PC: y=-ax-3a$，$E(-3,0)$，$D(1,0)$。
+    - $\triangle EDC\sim\triangle EPB$：$\dfrac{4}{4\sqrt{1+a^2}}=\dfrac{3\sqrt{1+a^2}}{6}$，$a=-1$，$\therefore y=-x^2+2x+3$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 80mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

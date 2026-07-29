@@ -1,0 +1,33 @@
+meta:
+  title: 2023年上海市静安区中考二模数学试卷第 1 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q001
+    points: 4
+    stem_latex: 化简 $\left(-x^{3}\right)^{2}$ 的结果是（\quad）
+    choices:
+    - $-x^{6}$
+    - $-x^{5}$
+    - $x^{6}$
+    - $x^{5}$
+    answer: C
+    clue: 积的乘方与幂的乘方，负数的偶次幂为正。
+    solution_steps:
+    - $\left(-x^{3}\right)^{2}=(-1)^{2}\cdot(x^{3})^{2}=x^{6}$。
+    source_solution_images: []

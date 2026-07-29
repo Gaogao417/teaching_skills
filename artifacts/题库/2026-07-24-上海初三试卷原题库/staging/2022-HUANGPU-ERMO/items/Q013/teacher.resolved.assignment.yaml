@@ -1,0 +1,34 @@
+meta:
+  title: 2022年上海市黄浦区初三二模数学试卷第 13 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q013
+    points: 4
+    stem_latex: 如图，梯形 $ABCD$ 中，$AB\parallel CD$，$AB=2CD$，$\overrightarrow{AD}=\vec{a}$，$\overrightarrow{AB}=\vec{b}$，用 $\vec{a}$、$\vec{b}$ 表示 $\overrightarrow{AC}=$______
+    answer: $\vec{a}+\dfrac{1}{2}\vec{b}$
+    clue: $\overrightarrow{AC}=\overrightarrow{AD}+\overrightarrow{CD}$。
+    solution_steps:
+    - $\overrightarrow{CD}=\dfrac{1}{2}\overrightarrow{AB}=\dfrac{1}{2}\vec{b}$。
+    - $\overrightarrow{AC}=\overrightarrow{AD}+\overrightarrow{CD}=\vec{a}+\dfrac{1}{2}\vec{b}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 110mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

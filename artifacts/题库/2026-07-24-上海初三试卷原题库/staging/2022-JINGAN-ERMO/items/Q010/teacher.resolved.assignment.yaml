@@ -1,0 +1,29 @@
+meta:
+  title: 2022年上海市静安区初三二模数学试卷第 10 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q010
+    points: 4
+    stem_latex: 不等式组 $\begin{cases} x+1>0 \\ x-2\leqslant0 \end{cases}$ 的解集为______
+    answer: $-1<x\leqslant2$
+    clue: 分别解再取交集。
+    solution_steps:
+    - 由 $x+1>0$ 得 $x>-1$；由 $x-2\leqslant0$ 得 $x\leqslant2$。
+    - $\therefore -1<x\leqslant2$。
+    source_solution_images: []

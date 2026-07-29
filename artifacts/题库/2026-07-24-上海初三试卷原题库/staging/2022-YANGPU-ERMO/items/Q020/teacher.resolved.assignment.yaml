@@ -1,0 +1,29 @@
+meta:
+  title: 2022年上海市杨浦区初三二模数学试卷第 20 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q020
+    points: 10
+    stem_latex: 解方程组：$\begin{cases} x-y=2 \\ x^{2}-2xy-3y^{2}=0 \end{cases}$
+    answer: $\begin{cases} x_{1}=1 \\ y_{1}=-1 \end{cases}$ 或 $\begin{cases} x_{2}=3 \\ y_{2}=1 \end{cases}$
+    clue: ②因式分解。
+    solution_steps:
+    - ②化为 $(x-3y)(x+y)=0$，$x=3y$ 或 $x=-y$。
+    - $x=3y$ 代入①：$2y=2$，$y=1$，$x=3$；$x=-y$ 代入①：$-2y=2$，$y=-1$，$x=1$。
+    source_solution_images: []

@@ -1,0 +1,35 @@
+meta:
+  title: 2023年上海市静安区中考二模数学试卷第 24 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q024
+    points: 12
+    stem_latex: 如图，抛物线 $y=ax^{2}-4x+c$ 与 $x$ 轴交于 $A(1,0)$、$B(3,0)$，与 $y$ 轴交于 $C$，连接 $BC$，$P$ 在线段 $BC$ 上，横坐标为 $m$。（1）求直线 $BC$ 的表达式；（2）以 $P$ 为顶点的新抛物线经过原点，与 $x$ 轴另一交点为 $D$：① 求新抛物线表达式（用 $m$ 表示）及 $m$ 取值范围；② 过 $P$ 作 $x$ 轴垂线交原抛物线于 $E$，当四边形 $AEDP$ 是轴对称图形时，求新抛物线表达式．
+    answer: (1) $y=-x+3$；(2)① $y=\dfrac{m-3}{m^{2}}(x-m)^{2}-m+3$，$0<m<3$；② $y=-\dfrac{1}{4}(x-2)^{2}+1$
+    clue: (1) 待定系数求抛物线与直线；(2)① 新抛物线顶点式过原点求 $a'$；② 按 $AEDP$ 关于 $AD$ 或 $PE$ 对称分类讨论。
+    solution_steps:
+    - (1) 抛物线 $y=x^{2}-4x+3$，$C(0,3)$，直线 $BC$：$y=-x+3$。
+    - (2)① $P(m,-m+3)$，新抛物线 $y=a'(x-m)^{2}-m+3$ 过原点 $\Rightarrow a'=\dfrac{m-3}{m^{2}}$，$0<m<3$。
+    - ② $D(2m,0)$，$E(m,m^{2}-4m+3)$；关于 $AD$ 对称时 $-m+3=-m^{2}+4m-3$，$m=2$，新抛物线 $y=-\dfrac{1}{4}(x-2)^{2}+1$（关于 $PE$ 对称不成立）。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 75mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

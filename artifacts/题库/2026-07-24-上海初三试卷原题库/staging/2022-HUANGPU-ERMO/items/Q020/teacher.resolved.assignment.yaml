@@ -1,0 +1,29 @@
+meta:
+  title: 2022年上海市黄浦区初三二模数学试卷第 20 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q020
+    points: 10
+    stem_latex: 解方程：$\dfrac{4x}{x^{2}-9}=1+\dfrac{2}{x-3}-\dfrac{2}{x+3}$
+    answer: $x=1$
+    clue: 去分母化为整式方程，检验增根。
+    solution_steps:
+    - 两边乘 $(x+3)(x-3)$：$4x=x^{2}-9+2(x+3)-2(x-3)$，即 $x^{2}-4x+3=0$。
+    - $x=1$ 或 $x=3$，检验 $x=3$ 为增根舍去，$\therefore x=1$。
+    source_solution_images: []

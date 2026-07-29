@@ -1,0 +1,35 @@
+meta:
+  title: 2023年上海市嘉定区中考二模数学试卷第 24 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q024
+    points: 12
+    stem_latex: 如图，在直角坐标平面 $xOy$ 中，点 $A$ 在 $y$ 轴负半轴，点 $C$ 在 $x$ 轴正半轴，$AB\parallel OC$，抛物线 $y=ax^{2}-2ax-4$（$a\neq0$）经过 $A$、$B$、$C$。（1）求 $A$、$B$ 坐标；（2）①若 $AC\perp OB$，求抛物线表达式；②抛物线对称轴上是否存在点 $P$，使 $S_{\triangle PAC}=4S_{\triangle ABC}$？若存在求 $P$ 坐标．
+    answer: (1) $A(0,-4)$，$B(2,-4)$；(2)① $y=\dfrac{1}{12}x^{2}-\dfrac{1}{6}x-4$；② 存在，$\left(1,-\dfrac{15}{2}\right)$ 或 $\left(1,\dfrac{1}{2}\right)$
+    clue: (1) 由对称轴 $x=1$ 及 $AB\parallel OC$ 求 $A,B$；(2)① 由 $AC\perp OB$ 证 $\triangle OAC\sim\triangle ABO$ 求 $OC$ 定 $a$；② 用面积关系求对称轴上 $P$ 的纵坐标。
+    solution_steps:
+    - (1) 对称轴 $x=1$；$A(0,-4)$，由 $AB\parallel OC$ 及对称性 $B(2,-4)$。
+    - (2)① $AC\perp OB$，$\triangle OAC\sim\triangle ABO$，$OC=8$，代入 $C(8,0)$ 得 $a=\dfrac{1}{12}$，$y=\dfrac{1}{12}x^{2}-\dfrac{1}{6}x-4$。
+    - ② 直线 $AC$：$y=\dfrac{1}{2}x-4$，对称轴 $x=1$ 交 $AC$ 于 $N(1,-\dfrac{7}{2})$；设 $P(1,m)$，由 $S_{\triangle PAC}=4S_{\triangle ABC}=16$ 解得 $m=-\dfrac{15}{2}$ 或 $m=\dfrac{1}{2}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 80mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

@@ -1,0 +1,42 @@
+meta:
+  title: 2024年上海市黄浦区中考二模数学试卷第 24 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q024
+    points: 12
+    stem_latex: '已知抛物线 $L:y=x^2-2x$，抛物线 $W$ 的顶点在 $L$ 上（非 $L$ 的顶点）且经过 $L$ 的顶点。
+
+      (1) 求出一个满足条件的抛物线 $W$ 的表达式（取顶点 $(0,0)$，设 $W:y=ax^2$，代入 $L$ 顶点 $(1,-1)$ 求 $a$）；
+
+      (2) 再写出一个满足条件的抛物线 $W$ 的表达式；
+
+      (3) 如果 $L$ 和 $W$ 在 $x$ 轴上所截得的线段长相等，求 $W$ 的表达式。'
+    answer: (1) $y=-x^2$；(2) $y=-(x-2)^2$；(3) $y=-(x-\sqrt{2}-1)^2+1$ 或 $y=-(x+\sqrt{2}-1)^2+1$
+    clue: (1) 取 $(0,0)$ 代入 $(1,-1)$ 得 $a=-1$；(3) $W$ 顶点 $(m,m^2-2m)$，$a=-1$，截距 $=2$ 求 $m$。
+    solution_steps:
+    - (1) $W$ 顶点 $(0,0)$，$y=ax^2$，代入 $(1,-1)$ 得 $a=-1$，$\therefore y=-x^2$。
+    - (2) $W$ 顶点 $(2,0)$，$y=a(x-2)^2$，$a=-1$，$\therefore y=-(x-2)^2$。
+    - (3) $L$ 截距 $=2$，$W:y=-(x-m)^2+m^2-2m$，过 $(m+1,0)$ 得 $-1+m^2-2m=0$，$m=1\pm\sqrt{2}$。
+    - $y=-(x-1-\sqrt{2})^2+1$ 或 $y=-(x-1+\sqrt{2})^2+1$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 75mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

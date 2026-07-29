@@ -1,0 +1,29 @@
+meta:
+  title: 2023年上海市杨浦区中考二模数学试卷第 19 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q019
+    points: 10
+    stem_latex: 先化简再求值：$\left(\dfrac{a+1}{a^{2}-4}-\dfrac{1}{a+2}\right)\div\dfrac{3}{a-2}$，其中 $a=\sqrt{3}$
+    answer: $2-\sqrt{3}$
+    clue: 通分、分解因式后约分化简，再代入有理化。
+    solution_steps:
+    - 原式 $=\dfrac{3}{(a+2)(a-2)}\cdot\dfrac{a-2}{3}=\dfrac{1}{a+2}$。
+    - $a=\sqrt3$ 时，原式 $=\dfrac{1}{\sqrt3+2}=2-\sqrt3$。
+    source_solution_images: []

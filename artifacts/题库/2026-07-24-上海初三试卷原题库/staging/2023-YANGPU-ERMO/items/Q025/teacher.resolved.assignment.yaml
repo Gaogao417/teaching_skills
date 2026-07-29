@@ -1,0 +1,35 @@
+meta:
+  title: 2023年上海市杨浦区中考二模数学试卷第 25 题
+  grade: 九年级
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q025
+    points: 14
+    stem_latex: $AB$ 是 $\odot O$ 直径，弦 $CD\perp AB$ 于 $H$，$E$ 在 $AB$ 上（不与 $A,B$ 重合），$EH=AH$，连 $CE$ 延长交 $\odot O$ 于 $F$。（1）当 $E$ 与 $O$ 重合时，求 $\angle AOC$；（2）连 $AF$ 交 $CD$ 于 $P$，若 $\dfrac{CE}{EF}=\dfrac{4}{3}$，求 $\dfrac{DP}{CP}$；（3）当四边形 $ACOF$ 是梯形且 $AB=6$ 时，求 $AE$．
+    answer: (1) $60\degree$；(2) $\dfrac{4}{7}$；(3) $AE=6-3\sqrt{2}$ 或 $\dfrac{9-3\sqrt{5}}{2}$
+    clue: (1) 证四边形 $ACOD$ 为菱形得等边 $\triangle OAC$；(2) 证 $\triangle ECH\cong\triangle ADH$ 与 $\triangle APD\sim\triangle FPC$；(3) 分 $OC\parallel AF$、$AC\parallel OF$ 两情形用相似求 $AE$。
+    solution_steps:
+    - (1) $E=O$ 时 $EH=AH=OH$，四边形 $ACOD$ 为菱形，$\triangle OAC$ 等边，$\angle AOC=60\degree$。
+    - (2) $\triangle ECH\cong\triangle ADH$（SAS），$CE=AD$；$\triangle APD\sim\triangle FPC$，$\dfrac{DP}{CP}=\dfrac{AD}{CF}=\dfrac{4a}{7a}=\dfrac47$。
+    - (3) $OC\parallel AF$ 时 $\triangle CEO\sim\triangle FEA$，$\dfrac{OE}{AE}=\dfrac{\sqrt2}{2}$，$AE=6-3\sqrt2$；$AC\parallel OF$ 时 $\triangle CAE\sim\triangle OAC$ 与 $\triangle ACE\sim\triangle OFE$ 联立，$AE=\dfrac{9-3\sqrt5}{2}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 80mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

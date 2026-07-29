@@ -1,0 +1,34 @@
+meta:
+  title: 2022年上海市青浦区初三二模数学试卷第 22 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q022
+    points: 12
+    stem_latex: 如图，$AB$ 是 $\odot O$ 直径，$P$ 在 $AO$ 上，$C$、$D$ 在直径两侧圆周上，$PB$ 平分 $\angle CPD$，求证：劣弧 $BC$ 与劣弧 $BD$ 相等。
+    answer: 见证明
+    clue: 角平分线性质+HL全等。
+    solution_steps:
+    - 作 $OE\perp PC$、$OF\perp PD$，$PB$ 平分 $\angle CPD$，$OE=OF$。
+    - $OC=OD$，$\triangle EOC\cong\triangle FOD$（HL），$\angle C=\angle D$，$\angle BOC=\angle BOD$，$\therefore \overset{\frown}{BC}=\overset{\frown}{BD}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 80mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

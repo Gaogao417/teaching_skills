@@ -1,0 +1,35 @@
+meta:
+  title: 2023年上海市静安区中考二模数学试卷第 22 题
+  grade: 九年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q022
+    points: 10
+    stem_latex: 小明家、街心公园、超市在同一直线上，家到公园900米、到超市1200米。小明和妈妈从家步行20分到公园，停留20分；妈妈原速回家，小明步行5分到超市，停留10分后骑车回家，妈妈比小明早到10分。如图为小明离家距离 $y$（米）与时间 $x$（分）的图像。（1）求小明家到公园的速度；（2）求公园到超市的速度；（3）求小明超市骑车回家段 $y$ 与 $x$ 的解析式及 $x$ 取值范围．
+    answer: (1) $45$ 米/分；(2) $60$ 米/分；(3) $y=-80x+5600$（$55\leqslant x\leqslant70$）
+    clue: 由图像读取关键点坐标，分段求速度与解析式。
+    solution_steps:
+    - (1) $900\div20=45$ 米/分。
+    - (2) $(1200-900)\div(45-40)=60$ 米/分。
+    - (3) 小明骑车段从 $(55,1200)$ 到 $(70,0)$，$y=-80x+5600$（$55\leqslant x\leqslant70$）。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 80mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

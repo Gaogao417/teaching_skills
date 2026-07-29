@@ -1,0 +1,40 @@
+meta:
+  title: 2024年上海市崇明区中考二模数学试卷第 23 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q023
+    points: 12
+    stem_latex: '如图，已知在四边形 $ABCD$ 中，$AB\parallel CD$，对角线 $AC$ 平分 $\angle DAB$，点 $O$ 是 $AC$ 上一点，以 $OA$ 为半径的 $\odot O$ 过 $B$、$D$ 两点。
+
+      (1) 求证：四边形 $ABCD$ 是菱形；
+
+      (2) 设 $\odot O$ 与 $AC$ 交于点 $E$，连接 $DE$ 并延长，交 $AB$ 的延长线于点 $F$，若 $AB^2=AC\cdot EC$，求证：$AE=EF$。'
+    answer: (1)(2) 证明见详解
+    clue: (1) $AE$ 为直径 $\Rightarrow\angle ABE=\angle ADE=90°$，$\triangle ABE\cong\triangle ADE$；(2) $\triangle ABC\sim\triangle CEB$ 推角。
+    solution_steps:
+    - (1) $AE$ 为直径，$\angle ABE=\angle ADE=90°$，$\angle BAE=\angle DAE$，$\triangle ABE\cong\triangle ADE$，$AB=AD$。
+    - $AB\parallel CD$，$\angle BAC=\angle DCA=\angle DAC$，$AD=CD=AB$，$\therefore$ 菱形。
+    - (2) $AB^2=AC\cdot EC\Rightarrow\triangle ABC\sim\triangle CEB$，$\angle CBE=\angle ACB=\angle BAC$，$\angle AEB=2\angle BAC$。
+    - $\angle BAE+\angle AEB=90°\Rightarrow\angle BAE=30°$，$\angle AED=60°$，$\angle AEF=120°$，$\angle F=30°=\angle EAF$，$\therefore AE=EF$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 80mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

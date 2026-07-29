@@ -1,0 +1,33 @@
+meta:
+  title: 2024年上海市浦东新区中考二模数学试卷第 18 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: short_answer
+    id: Q018
+    points: 4
+    stem_latex: 定义：四边形 $ABCD$ 中，点 $E$ 在 $AB$ 上，如果 $\triangle DEC$ 面积是四边形 $ABCD$ 面积的一半，且 $\triangle BEC$ 面积是 $\triangle ADE$ 与 $\triangle DCE$ 面积的比例中项，称 $E$ 为面积黄金分割点。梯形 $ABCD$（$AD\parallel BC$，$BC>AD$）中 $E$ 是面积黄金分割点，那么 $\dfrac{BC}{AD}=$\u3000\u3000\u3000\u3000。
+    answer: $\dfrac{1+\sqrt{5}}{2}$
+    clue: $S_2^2=S\cdot S_1$，$S_2=\dfrac{1+\sqrt{5}}{2}S_1$，$\dfrac{BC}{AD}=\dfrac{S_2}{S_1}$。
+    solution_steps:
+    - $S_2^2=S_1(S_1+S_2)$，$S_2=\dfrac{1+\sqrt{5}}{2}S_1$，$\dfrac{BC}{AD}=\dfrac{1+\sqrt{5}}{2}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 75mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

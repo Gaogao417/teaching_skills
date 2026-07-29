@@ -1,0 +1,38 @@
+meta:
+  title: 2024年上海市嘉定区中考二模数学试卷第 23 题
+  grade: 九年级
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q023
+    points: 12
+    stem_latex: '如图，在梯形 $ABCD$ 中，$AD\parallel BC$，$AB=DC$，点 $P$ 在四边形 $ABCD$ 内部，$PB=PC$，连接 $PA$、$PD$。
+
+      (1) 求证：$\triangle APD$ 是等腰三角形；
+
+      (2) 已知点 $Q$ 在 $AB$ 上，连接 $PQ$，如果 $AP\parallel CD$，$AQ=AP$，求证：四边形 $AQPD$ 是平行四边形。'
+    answer: (1)(2) 证明见详解
+    clue: (1) $\triangle ABP\cong\triangle DCP$；(2) $PD\parallel AQ$ 且 $PD=AQ$。
+    solution_steps:
+    - (1) 等腰梯形 $\angle ABC=\angle DCB$，$PB=PC$ 得 $\angle ABP=\angle DCP$，$\triangle ABP\cong\triangle DCP$，$AP=PD$。
+    - (2) $PA=PD$ 得 $\angle PAD=\angle PDA$，推 $PD\parallel AQ$；$PD=AP=AQ$，平行四边形。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 75mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []

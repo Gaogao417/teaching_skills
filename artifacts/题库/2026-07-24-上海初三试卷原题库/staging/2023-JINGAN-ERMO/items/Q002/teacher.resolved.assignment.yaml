@@ -1,0 +1,33 @@
+meta:
+  title: 2023年上海市静安区中考二模数学试卷第 2 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q002
+    points: 4
+    stem_latex: 下列无理数中，在 $-2$ 与 $0$ 之间的是（\quad）
+    choices:
+    - $-1-\sqrt{2}$
+    - $1-\sqrt{2}$
+    - $-1+\sqrt{2}$
+    - $1+\sqrt{2}$
+    answer: B
+    clue: 估算 $\sqrt{2}\approx1.414$，逐项判断范围。
+    solution_steps:
+    - $1-\sqrt{2}\approx-0.414\in(-2,0)$。
+    source_solution_images: []

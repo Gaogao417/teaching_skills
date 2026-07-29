@@ -1,0 +1,40 @@
+meta:
+  title: 2023年上海市虹口区中考二模数学试卷第 6 题
+  grade: 九年级
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 一、选择题
+  type: practice
+  visibility: both
+  blocks:
+  - type: choice
+    id: Q006
+    points: 4
+    stem_latex: 如图，在矩形 $ABCD$ 中，对角线 $AC$ 与 $BD$ 相交于点 $O$，$AB=5$，$BC=12$。分别以 $O$、$D$ 为圆心画圆，如果 $\odot O$ 与直线 $AD$ 相交、与直线 $CD$ 相离，且 $\odot D$ 与 $\odot O$ 内切，那么 $\odot D$ 的半径长 $r$ 的取值范围是（\quad）
+    choices:
+    - $\dfrac{1}{2}<r<4$
+    - $\dfrac{5}{2}<r<6$
+    - $9<r<\dfrac{25}{2}$
+    - $9<r<13$
+    answer: C
+    clue: 求 $BD=13$、$O$ 到 $AD$、$CD$ 的距离，由内切与相交/相离条件定 $r$ 范围。
+    solution_steps:
+    - $BD=13$，$OD=\dfrac{13}{2}$；$O$ 到 $AD$ 距离 $\dfrac{5}{2}$，到 $CD$ 距离 $6$。
+    - $\odot O$ 与 $AD$ 相交、与 $CD$ 相离，则其半径 $R$ 满足 $\dfrac{5}{2}<R<6$。
+    - $\odot D$ 与 $\odot O$ 内切，$r=OD+R=\dfrac{13}{2}+R$，$\therefore 9<r<\dfrac{25}{2}$。
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 55mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []
