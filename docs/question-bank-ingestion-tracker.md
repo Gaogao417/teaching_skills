@@ -7,12 +7,28 @@
 
 ## 总览
 
-| 状态 | 卷数 |
-|------|------|
-| ✅ 已完成 (COMPLETE) | 108 |
-| ⚠️ 录入未完成 (INCOMPLETE) | 2 |
-| ❌ 未录入 (MISSING) | 270 |
-| **待处理合计** | **272** |
+> 更新时间：2026-07-29（step1 批量提取后）
+>
+> step1 = DOC/DOCX 第 1 步提取（`extract_docx_source.py`，产出
+> `documents/初三/<规范名>/word/`：media + pages + word-source.yaml）。
+> step1 完成 ≠ COMPLETE；COMPLETE 仍以 staging 是否物化为准。
+
+| 状态 | 卷数 | 说明 |
+|------|------|------|
+| ✅ 已完成 (COMPLETE) | 123 | staging 已物化（scan 工具判定）|
+| ⚠️ 录入未完成 (INCOMPLETE) | 2 | staging 有 authoring-remaining |
+| 🟦 step1 提取就绪（未进 staging）| 255 | word/ 已生成，待 step2 observe/merge |
+| 🚫 无 DOC 源（PDF/图片）| 2 | 2024 奉贤/嘉定一模，走 pdf ingestion |
+| **合计** | **382** | |
+
+### step1 批量提取结果（2026-07-29）
+
+- 工具：`tools/question-bank/batch_extract_docx_source.py`（scan→prepare→extract，并行 6）
+- 255/255 DOC/DOCX 卷的 `word/` 完整（word-source.yaml + 非空 pages/）
+- 8 卷 `image_attribution_status: failed`（题号状态机失步，文本/pages 仍完整，
+  按 SKILL 在 step2 走 needs_review，不阻断）
+- 1 个共享归档：2012 宝山区嘉定区（BAOSHAN-ERMO + JIADING-ERMO 共用同一 source.doc）
+- 待处理 step2：observe_docx_pages（MiMo 转写）→ merge → adapt → staging draft
 
 ## 待录入清单（按年-类型）
 
