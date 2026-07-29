@@ -41,7 +41,7 @@ DISTRICT_CN = {
     "PUTUO": "普陀", "HONGKOU": "虹口", "YANGPU": "杨浦", "PUDONG": "浦东新区",
     "MINHANG": "闵行", "BAOSHAN": "宝山", "JIADING": "嘉定",
     "JINSHAN": "金山", "SONGJIANG": "松江", "QINGPU": "青浦",
-    "FENGXIAN": "奉贤", "CHONGMING": "崇明",
+    "FENGXIAN": "奉贤", "CHONGMING": "崇明", "ZHABEI": "闸北",
 }
 
 
