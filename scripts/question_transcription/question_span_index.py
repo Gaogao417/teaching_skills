@@ -92,7 +92,7 @@ class IndexedQuestion(_Strict):
 
     question_ref: NonEmptyStr
     question_number: int = Field(ge=1)
-    question_pages: list[int] = Field(min_length=1)
+    question_pages: list[int] = Field(default_factory=list)
     solution_pages: list[int] = Field(default_factory=list)
     question_section_ref: str | None = None
     solution_section_ref: str | None = None
@@ -102,6 +102,10 @@ class IndexedQuestion(_Strict):
 
     @model_validator(mode="after")
     def _pages_sorted_and_unique(self) -> "IndexedQuestion":
+        if not self.question_pages and not self.solution_pages:
+            raise ValueError(
+                "at least one of question_pages or solution_pages must be non-empty"
+            )
         for field_name in ("question_pages", "solution_pages"):
             value = getattr(self, field_name)
             if value != sorted(set(value)):
@@ -198,6 +202,11 @@ class PageText(_Strict):
 # dots and leading whitespace. A number followed by a dot is the Chinese exam
 # question-number convention.
 _QUESTION_NUMBER_RE = re.compile(r"^\s*(\d{1,3})[．.]")
+# Answer sheets commonly place several short answers on one line:
+# ``1.C； 2.B； 3.A``. Only semicolon-delimited occurrences are accepted after
+# the first one so decimal/table values such as ``36.0 36.1`` are not promoted
+# to question anchors.
+_COMPACT_ANSWER_NUMBER_RE = re.compile(r"(?:^|[；;])\s*(\d{1,3})[．.]")
 
 # Headings that switch the running role into the answer / solution region.
 _ANSWER_REGION_RE = re.compile(
@@ -384,8 +393,12 @@ def _collect_candidates(pages: list[PageText]) -> list[_NumberCandidate]:
                 saw_solution_marker_on_page = True
                 continue
 
-            match = _QUESTION_NUMBER_RE.match(stripped)
-            if match:
+            matches = (
+                list(_COMPACT_ANSWER_NUMBER_RE.finditer(stripped))
+                if role == "solution"
+                else [match] if (match := _QUESTION_NUMBER_RE.match(stripped)) else []
+            )
+            for match in matches:
                 number = int(match.group(1))
                 candidates.append(
                     _NumberCandidate(
@@ -461,12 +474,18 @@ def _assemble_regions(
     def _tail_exclusive(role: QuestionRole) -> int:
         """Exclusive upper page bound for ``role``'s region.
 
-        The question region stops where the solution region begins; the solution
-        region (which is always last) runs to the last page.
+        The question region stops where the solution region begins (or the last
+        page if there is no solution region); the solution region is always last
+        and always runs to the end of the document.
         """
-        other = "solution" if role == "question" else "question"
-        if first_page[other] is not None:
-            return first_page[other]  # type: ignore[return-value]
+        if role == "question":
+            # Question region stops where the solution region begins; if there
+            # is no solution region it runs to the last page.
+            if first_page["solution"] is not None:
+                return first_page["solution"]  # type: ignore[return-value]
+            return page_numbers[-1] + 1
+        # Solution region is always last and always runs to the end of the
+        # document, regardless of where the question region started.
         return page_numbers[-1] + 1
 
     question_items, q_issues = _build_regional_sequence(
@@ -483,6 +502,38 @@ def _assemble_regions(
     )
     issues.extend(q_issues)
     issues.extend(s_issues)
+    # Cross-region alignment: if both regions established a credible sequence,
+    # a question number present in one region but absent from the other signals
+    # a missing transcription target and must downgrade status to needs_review.
+    # (This cannot detect a number missing from *both* regions at once — that
+    # requires an expected question count, which is out of scope here.)
+    q_nums = {item.question_number for item in question_items}
+    s_nums = {item.question_number for item in solution_items}
+    if q_nums and s_nums:
+        for n in sorted(q_nums - s_nums):
+            issues.append(
+                SpanIndexIssue(
+                    code="solution_region_missing_question",
+                    severity="blocking",
+                    detail=(
+                        f"question {n} present in question region but absent from "
+                        f"solution region"
+                    ),
+                    question_ref=str(n),
+                )
+            )
+        for n in sorted(s_nums - q_nums):
+            issues.append(
+                SpanIndexIssue(
+                    code="question_region_missing_question",
+                    severity="blocking",
+                    detail=(
+                        f"question {n} present in solution region but absent from "
+                        f"question region"
+                    ),
+                    question_ref=str(n),
+                )
+            )
     return question_items, solution_items, issues
 
 
@@ -560,7 +611,7 @@ def _build_regional_sequence(
                 )
             )
             continue
-        section_ref = _section_ref_for_page(start_page)
+        section_ref = _section_ref_for_candidate(candidate)
         items.append(
             _RegionalItem(
                 question_ref=str(candidate.number),
@@ -580,11 +631,13 @@ def _longest_increasing_run(
     role: QuestionRole,
     issues: list[SpanIndexIssue],
 ) -> list[_NumberCandidate]:
-    """Return the longest credible strictly-increasing run of questions.
+    """Return the longest credible strictly-increasing candidate subsequence.
 
-    A candidate flagged ``after_solution_marker`` whose number is ``<=`` the last
-    accepted number is a solution step (skipped with a warning). A decrease from
-    a non-step candidate terminates the run.
+    Real rendered pages contain numeric table rows (for example ``36.0``) and
+    answer prose with numbered steps. Stopping at the first later decrease lets
+    one such outlier truncate the entire paper. Starting from the trusted seed,
+    choose the longest increasing subsequence instead; skipped decreases are
+    still recorded for review.
     """
     if not candidates:
         return []
@@ -595,15 +648,50 @@ def _longest_increasing_run(
     if seed_index is None:
         return []
 
-    accepted: list[_NumberCandidate] = [candidates[seed_index]]
-    last_number = candidates[seed_index].number
-    for candidate in candidates[seed_index + 1 :]:
-        if candidate.number > last_number:
-            accepted.append(candidate)
-            last_number = candidate.number
-            continue
-        # candidate.number <= last_number: a solution step or a duplicate.
-        if candidate.after_solution_marker:
+    tail = candidates[seed_index:]
+    paths: list[list[int] | None] = [None] * len(tail)
+    paths[0] = [0]
+    for index in range(1, len(tail)):
+        best: list[int] | None = None
+        for previous in range(index):
+            path = paths[previous]
+            if path is None or tail[previous].number >= tail[index].number:
+                continue
+            proposal = [*path, index]
+            if best is None or len(proposal) > len(best):
+                best = proposal
+            elif len(proposal) == len(best):
+                # Prefer the path with smaller cumulative numeric jumps.
+                proposal_gap = sum(
+                    tail[b].number - tail[a].number
+                    for a, b in zip(proposal, proposal[1:])
+                )
+                best_gap = sum(
+                    tail[b].number - tail[a].number
+                    for a, b in zip(best, best[1:])
+                )
+                if proposal_gap < best_gap:
+                    best = proposal
+        paths[index] = best
+
+    viable = [path for path in paths if path]
+    if not viable:
+        return []
+    best_path = max(
+        viable,
+        key=lambda path: (
+            len(path),
+            -sum(
+                tail[b].number - tail[a].number
+                for a, b in zip(path, path[1:])
+            ),
+        ),
+    )
+    accepted_indices = set(best_path)
+
+    previous_raw = tail[0]
+    for index, candidate in enumerate(tail[1:], start=1):
+        if candidate.after_solution_marker and candidate.number <= previous_raw.number:
             issues.append(
                 SpanIndexIssue(
                     code="solution_step_number",
@@ -611,33 +699,30 @@ def _longest_increasing_run(
                     detail=(
                         f"number {candidate.number} on page "
                         f"{candidate.page_number} follows a solution marker and "
-                        f"is <= running question {last_number}; treated as a "
+                        f"is <= preceding candidate {previous_raw.number}; treated as a "
                         f"solution step, not a new question"
                     ),
                     page_number=candidate.page_number,
                     question_ref=str(candidate.number),
                 )
             )
-            continue
-        if candidate.number == last_number:
-            # Duplicate number on a different page: ignore (likely a step).
-            continue
-        # A genuine decrease ends the credible run.
-        issues.append(
-            SpanIndexIssue(
-                code=f"{role}_sequence_decrease",
-                severity="warning",
-                detail=(
-                    f"question number decreased from {last_number} to "
-                    f"{candidate.number} on page {candidate.page_number}; "
-                    f"ending the {role} sequence here"
-                ),
-                page_number=candidate.page_number,
-                question_ref=str(candidate.number),
+        elif candidate.number < previous_raw.number:
+            issues.append(
+                SpanIndexIssue(
+                    code=f"{role}_sequence_decrease",
+                    severity="warning",
+                    detail=(
+                        f"candidate number decreased from {previous_raw.number} "
+                        f"to {candidate.number} on page {candidate.page_number}; "
+                        "the longest credible increasing sequence skips the noise"
+                    ),
+                    page_number=candidate.page_number,
+                    question_ref=str(candidate.number),
+                )
             )
-        )
-        break
-    return accepted
+        previous_raw = candidate
+
+    return [tail[index] for index in best_path if index in accepted_indices]
 
 
 def _choose_seed_index(candidates: list[_NumberCandidate]) -> int | None:
@@ -673,9 +758,13 @@ def _pages_between(start_page: int, end_page: int, page_set: set[int]) -> list[i
     return sorted(p for p in page_set if start_page <= p < end_page)
 
 
-def _section_ref_for_page(page: int) -> str:
-    """Stable advisory section label. Section refs never gate observation."""
-    return f"section-p{page:03d}"
+def _section_ref_for_candidate(candidate: _NumberCandidate) -> str:
+    """Stable advisory section label shared across one recognised section.
+
+    A page-derived label made every page look like a section transition, which
+    defeated greedy batch packing and regressed to one formal call per page.
+    """
+    return f"{candidate.role}-{candidate.type_hint}"
 
 
 def _report_gaps_and_disorder(
@@ -704,9 +793,9 @@ def _merge_regional_items(
 ) -> list[IndexedQuestion]:
     """Merge question-region and solution-region items by ``question_ref``.
 
-    Raw fields are accumulated in plain dicts so we never construct an
-    :class:`IndexedQuestion` with an empty page list (which would violate the
-    ``min_length=1`` validator). Models are built once, at the end.
+    Raw fields are accumulated in plain dicts and models are built once at the
+    end. A source containing only official answers legitimately produces empty
+    ``question_pages`` and populated ``solution_pages``.
     """
     accumulated: dict[str, dict[str, Any]] = {}
 
@@ -760,14 +849,6 @@ def _merge_regional_items(
         if ref not in accumulated:
             continue
         record = accumulated[ref]
-        # A ref that only appeared in one role still needs at least one page in
-        # the other; keep only refs that have content somewhere. (question_pages
-        # is min_length=1, so a solution-only ref must keep its question_pages
-        # non-empty by carrying the solution pages as the question footprint when
-        # there is no question region.)
-        if not record["question_pages"] and record["solution_pages"]:
-            record["question_pages"] = list(record["solution_pages"])
-            record["solution_pages"] = []
         result.append(IndexedQuestion.model_validate(record))
     return result
 

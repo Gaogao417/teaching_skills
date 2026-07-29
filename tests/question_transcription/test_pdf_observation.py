@@ -169,7 +169,9 @@ def test_provider_normalized_bbox_and_nulls_are_normalized(source):
     root, manifest = source
     raw = _question()
     raw["points"] = None
-    raw["notes"] = None
+    raw["section_ref"] = ""
+    raw["section_title"] = ""
+    raw["notes"] = "跨页继续。"
     raw["content"]["choices"] = None
     raw["content"]["clue"] = None
     raw["content"]["solution_notes"] = None
@@ -194,12 +196,37 @@ def test_provider_normalized_bbox_and_nulls_are_normalized(source):
     )[0]
     question = observed.questions[0]
     assert question.points == 0
+    assert question.section_ref == "unsectioned"
+    assert question.section_title == "未分节"
+    assert question.notes == ["跨页继续。"]
     assert question.content.clue == "依据题目条件推导。"
     assert question.solution_end_anchor == "<END_OF_SOURCE>"
     assert question.question_evidence[0].box_px == [10, 10, 190, 80]
     assert question.figures[0].box_px == [100, 20, 180, 75]
     assert question.figures[0].confidence == "medium"
     assert question.figures[0].state == "needs_review"
+
+
+@pytest.mark.parametrize(
+    ("whiteout_norm", "expected"),
+    [
+        ([0, 0, 0, 0], []),
+        ([100, 100, 200, 200], [[20, 16, 40, 32]]),
+    ],
+)
+def test_provider_tolerates_flat_whiteout_norm(source, whiteout_norm, expected):
+    root, manifest = source
+    raw = _question()
+    raw["figures"][0]["whiteout_norm"] = whiteout_norm
+    client = MimoClient(provider=lambda _body: {"questions": [raw]})
+    observed = observe_windows(
+        manifest,
+        paper=_paper(root.as_posix()),
+        client=client,
+        window_size=3,
+        overlap=0,
+    )[0]
+    assert observed.questions[0].figures[0].whiteout_px == expected
 
 
 def test_mimo_json_extraction_accepts_fence_and_surrounding_text():
@@ -405,29 +432,36 @@ def test_pdf_span_observe_prompt_carries_expected_refs_and_role(source, tmp_path
     assert any("题干" in p for p in seen)
 
 
-def test_pdf_span_observe_missing_triggers_repair(source, tmp_path):
+def test_pdf_span_observe_missing_triggers_targeted_page_repair(source, tmp_path):
     root, manifest = source
     index = _index(
-        [IndexedQuestion(question_ref="1", question_number=1, question_pages=[1])],
+        [
+            IndexedQuestion(question_ref="1", question_number=1, question_pages=[1]),
+            IndexedQuestion(question_ref="2", question_number=2, question_pages=[2]),
+        ],
         _shas(manifest),
     )
     first_done = {"v": False}
+    image_counts: list[int] = []
 
     def provider(body):
-        text = body["messages"][1]["content"][0]["text"]
-        is_repair = "repair" in text or "预期题号：1。" not in text
+        content = body["messages"][1]["content"]
+        text = content[0]["text"]
+        image_counts.append(sum(item["type"] == "image_url" for item in content))
+        is_repair = "repair" in text
         if not is_repair and not first_done["v"]:
             first_done["v"] = True
-            # First round: omit the expected question -> repair.
-            return {"questions": []}
-        return {"questions": [_pdf_question("1")]}
+            # First round freezes Q1 and omits Q2.
+            return {"questions": [_pdf_question("1", page_number=1)]}
+        return {"questions": [_pdf_question("2", page_number=2)]}
 
     client = MimoClient(provider=provider, cache_dir=tmp_path / "cache")
     observations = observe_with_index(
         manifest, paper=_paper(root.as_posix()), span_index=index, client=client, max_repairs=1
     )
     refs = [q.question_ref for obs in observations for q in obs.questions]
-    assert refs == ["1"]
+    assert refs == ["1", "2"]
+    assert image_counts == [2, 1]
 
 
 def test_pdf_span_observe_unexpected_is_isolated(source, tmp_path):

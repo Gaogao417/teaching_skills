@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Observe rendered DOCX pages in batched multimodal windows.
 
-Two entry points coexist during the index-rollout:
+The CLI uses the span-index entry point:
 
 * :func:`observe` (new) — driven by a ``math_question_span_index/v1``. The span
   index fixes exactly which pages each first-round batch sees and which question
@@ -9,9 +9,9 @@ Two entry points coexist during the index-rollout:
   / duplicate refs trigger a定点补读 (targeted repair) of just the affected
   question; already-good questions are frozen and never re-run. This is the path
   ``docs/question-span-index-redesign.md`` §7.2 prescribes.
-* :func:`observe_windows` (legacy) — the old overlapping-window flow with the
-  OOXML 全文 hint. Retained for one migration cycle and prints a deprecation
-  notice; ``--overlap`` is no longer honoured (a non-zero value hard-errors).
+The old :func:`observe_windows` flow remains importable for one library
+migration cycle, but the CLI requires ``--span-index`` and cannot fall back to
+it. ``--overlap`` is no longer honoured (a non-zero value hard-errors).
 
 The provider boundary is unchanged: a callable receives ``prompt`` and
 ``image_paths`` keyword arguments and returns a mapping. Tests inject a
@@ -26,7 +26,9 @@ import hashlib
 import json
 import re
 import sys
+import threading
 from collections.abc import Callable, Mapping, Sequence
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 from typing import Any
 
@@ -41,6 +43,9 @@ from scripts.question_transcription.docx_observation_contracts import (  # noqa:
     DocxPage,
     DocxWindowObservation,
 )
+from scripts.question_transcription.docx_observation_output import (  # noqa: E402
+    DocxObservationOutput,
+)
 from scripts.question_transcription.question_span_index import (  # noqa: E402
     ObservationBatch,
     QuestionSpanIndex,
@@ -49,10 +54,13 @@ from scripts.question_transcription.question_span_index import (  # noqa: E402
 )
 
 ProviderCallable = Callable[..., Mapping[str, Any]]
+# Structured provider seam (pydantic_ai tool-calling): receives the batch, the
+# page image paths and the role, returns a validated DocxObservationOutput dict.
+StructuredProviderCallable = Callable[..., Mapping[str, Any]]
 
 _BAILIAN_TYPE_MAP = {
     "选择题": "choice",
-    "填空题": "fill_blank",
+    "填空题": "fillin",
     "简答题": "short_answer",
     "问答题": "problem",
     "解答题": "problem",
@@ -179,6 +187,109 @@ def make_bailian_ocr_provider(client: Any) -> ProviderCallable:
             },
         )
         return normalized
+
+    return provider
+
+
+# --------------------------------------------------------------------------- #
+# Structured provider (pydantic_ai tool-calling) — §G
+# --------------------------------------------------------------------------- #
+
+DOCX_STRUCTURED_SYSTEM_PROMPT = (
+    "你是数学试卷多模态转录器。输入图像由 DOCX 渲染而来。"
+    "只转录页面上真实可见的题干、选项、答案、分析/提示和原解答;公式必须转为 LaTeX。"
+    "不要返回 bbox,不要描述插图,不要补写不存在的解法。"
+    "当前窗口可能只看到题干或只看到解答,这是合法的;不得把题干页伪装成解答证据,"
+    "也不得补写不可见的解答。看不到的字段:stem_latex/answer 写 null,"
+    "choices/solution_steps/solution_notes 写空数组,锚点写 null。"
+    "本批的角色(题干/官方解答)决定你应转录的字段:解答页常会重述原题,但解答批次"
+    "不得重述题干——即使题目可见,题干/选项字段也必须写 null/[],只转解答相关字段;"
+    "题干批次同理,即使页面末尾带答案,也只转题干,答案/解答字段写 null/[]。"
+    "clue 无可见提示时写\"原卷未提供提示\";points 无标注时写 0。"
+    "question_ref 使用原卷题号,不创建 Q001。"
+)
+
+
+def _image_sha256(image_paths: Sequence[Path]) -> list[str]:
+    return [hashlib.sha256(p.read_bytes()).hexdigest() for p in image_paths]
+
+
+def _structured_batch_prompt(
+    batch: ObservationBatch,
+    window_pages: Sequence[DocxPage],
+    ref_page_map: Mapping[str, Sequence[int]],
+) -> str:
+    """Lean per-batch prompt for the structured (tool-calling) path.
+
+    Field shapes are enforced by the ``DocxObservationOutput`` schema, so this
+    prompt only conveys what the schema cannot: the batch role, the exact
+    expected question refs, and the image→page mapping. Keeping it short avoids
+    the model returning an empty list under a heavy instruction load.
+    """
+    page_map = "\n".join(
+        f"- 第 {index} 张图 = page_number {page.page_number}, source={page.source}"
+        for index, page in enumerate(window_pages, start=1)
+    )
+    ref_pages = "\n".join(
+        f"- 题号 {ref}: pages={list(ref_page_map.get(ref, []))}"
+        for ref in batch.expected_question_refs
+    )
+    expected = ", ".join(batch.expected_question_refs)
+    if batch.role == "question":
+        role_rule = (
+            "本批角色=题干。只转录题干相关字段(stem_latex/choices);"
+            "不可见的解答字段(answer/solution_steps/solution_notes)写 null/[]。"
+            "即便页面末尾带答案,也只转题干,不得转录答案或解析。"
+        )
+    else:
+        role_rule = (
+            "本批角色=官方解答。只转录解答相关字段(answer/solution_steps/solution_notes);"
+            "不可见的题干字段(stem_latex/choices)写 null/[],不得重述题干或选项——"
+            "即使解答页复述了原题,题干/选项也必须留空。"
+        )
+    return (
+        f"{role_rule}\n"
+        f"本批必须返回且只返回这些题号:{expected}。"
+        "每道题都必须返回,不得遗漏;当前页不可见的字段留空(null/空数组)。"
+        "question_ref 用原卷题号。\n"
+        f"各题在本角色内的索引页集合:\n{ref_pages}\n"
+        f"图像与页对应关系:\n{page_map}"
+    )
+
+
+def make_mimo_structured_provider(client: Any) -> StructuredProviderCallable:
+    """Wrap :class:`MimoStructuredClient` behind the structured provider seam.
+
+    Returns a callable ``provider(*, prompt, image_paths)`` (same keyword shape
+    as the legacy providers) that drives MiMo via tool-calling with
+    :class:`DocxObservationOutput` as the output type. The returned mapping is
+    already schema-validated, so the caller skips
+    ``normalize_observation_field_shapes`` entirely.
+    """
+
+    def provider(*, prompt: str, image_paths: Sequence[Path], **_: Any) -> Mapping[str, Any]:
+        hashes = _image_sha256(image_paths)
+        output, _cache_hit = client.complete_structured(
+            output_type=DocxObservationOutput,
+            system_prompt=DOCX_STRUCTURED_SYSTEM_PROMPT,
+            prompt=prompt,
+            image_paths=image_paths,
+            cache_material={
+                "task": "docx_structured_observation",
+                "image_sha256": hashes,
+            },
+        )
+        questions_out = []
+        for q in output.questions:
+            data = q.model_dump(mode="json")
+            # Do NOT fabricate solution anchors from the question number. The
+            # window contract (PartialQuestionEvidence) allows None anchors, and
+            # a fake "1．" anchor would later be mistaken for a real text anchor
+            # by evidence-page expansion. Merge reconciles real anchors across
+            # windows and only falls back to a transparent placeholder when no
+            # window produced one at all.
+            questions_out.append(data)
+        return {"questions": questions_out}
 
     return provider
 
@@ -337,9 +448,15 @@ def normalize_observation_field_shapes(raw: Mapping[str, Any]) -> dict[str, Any]
             question["points"] = int(points.strip())
 
         question_type = str(question.get("question_type") or "")
+        # Collapse provider type drift to the canonical contract value.
+        if question_type in _BAILIAN_TYPE_MAP:
+            question_type = _BAILIAN_TYPE_MAP[question_type]
         if question_type == "fill_blank":
             question_type = "fillin"
-            question["question_type"] = question_type
+        if question_type not in {"choice", "fillin", "problem", "short_answer"}:
+            # Unknown label (e.g. a stray title) — default rather than fail validation.
+            question_type = "problem"
+        question["question_type"] = question_type
         if not str(question.get("section_ref") or "").strip():
             question["section_ref"] = f"section-{question_type or 'questions'}"
         if not str(question.get("section_title") or "").strip():
@@ -374,13 +491,48 @@ def normalize_observation_field_shapes(raw: Mapping[str, Any]) -> dict[str, Any]
         if isinstance(evidence_value, Mapping):
             evidence = dict(evidence_value)
             for field in ("question", "solution"):
-                if evidence.get(field) is None:
+                value = evidence.get(field)
+                if value is None:
+                    evidence[field] = []
+                elif isinstance(value, Mapping):
+                    # A single evidence object instead of a list — wrap it.
+                    evidence[field] = [dict(value)]
+                elif not isinstance(value, list):
                     evidence[field] = []
             for field in ("solution_start_anchor", "solution_end_anchor"):
                 value = evidence.get(field)
                 if value is None or (isinstance(value, str) and not value.strip()):
+                    # Leave the anchor as None. The window contract allows None
+                    # (PartialQuestionEvidence); fabricating "1．" from the
+                    # question number would feed a fake text anchor downstream.
+                    # Merge reconciles real anchors across windows and applies a
+                    # transparent placeholder only when none is available.
                     evidence[field] = None
             question["evidence"] = evidence
+        # transcription_confidence may be missing, a scalar, or have wrong keys.
+        confidence_value = question.get("transcription_confidence")
+        if not (
+            isinstance(confidence_value, Mapping)
+            and {"stem", "formula", "solution_steps"}.issubset(confidence_value)
+        ):
+            level = "medium"
+            if isinstance(confidence_value, str) and confidence_value in {"high", "medium", "low"}:
+                level = confidence_value
+            elif isinstance(confidence_value, (int, float)):
+                level = "high" if confidence_value >= 0.8 else ("medium" if confidence_value >= 0.5 else "low")
+            question["transcription_confidence"] = {
+                "stem": level,
+                "formula": level,
+                "solution_steps": level,
+            }
+        else:
+            # Ensure all three keys exist and are canonical confidence values.
+            conf = dict(confidence_value)
+            for key in ("stem", "formula", "solution_steps"):
+                val = conf.get(key)
+                if val not in {"high", "medium", "low"}:
+                    conf[key] = "medium"
+            question["transcription_confidence"] = conf
         normalized_questions.append(question)
 
     normalized["questions"] = normalized_questions
@@ -678,6 +830,7 @@ def _validate_span_index(
 def _batch_prompt(
     batch: ObservationBatch,
     window_pages: Sequence[DocxPage],
+    ref_page_map: Mapping[str, Sequence[int]],
 ) -> str:
     """Build the per-batch prompt for the span-index flow (§7.1).
 
@@ -691,6 +844,10 @@ def _batch_prompt(
         for index, page in enumerate(window_pages, start=1)
     )
     expected = ", ".join(batch.expected_question_refs)
+    ref_pages = "\n".join(
+        f"- 题号 {ref}: pages={list(ref_page_map.get(ref, []))}"
+        for ref in batch.expected_question_refs
+    )
     role_label = "题干" if batch.role == "question" else "官方解答"
     role_rule = (
         "本批只要求转录题干(stem_latex/choices);不可见的解答字段写 null/[]。"
@@ -713,6 +870,8 @@ def _batch_prompt(
         "evidence 含 question、solution、solution_start_anchor、solution_end_anchor,"
         "其中 question/solution 每项只含 kind=\"page\"、source、page_number。"
         "question_ref 使用原卷题号,不创建 Q001。\n"
+        "各题在本角色内的索引页集合:\n"
+        f"{ref_pages}\n"
         "图像与页面对应关系:\n"
         f"{page_map}"
     )
@@ -768,8 +927,14 @@ def _finalize_batch_observation(
     provider_version: str,
     provider_kind: str,
     prompt_version: str,
+    structured: bool = False,
 ) -> DocxWindowObservation:
-    """Assemble a validated :class:`DocxWindowObservation` from frozen questions."""
+    """Assemble a validated :class:`DocxWindowObservation` from frozen questions.
+
+    When ``structured`` is True the frozen questions are already schema-validated
+    by pydantic_ai tool-calling, so the ad-hoc ``normalize_observation_field_shapes``
+    patch is skipped.
+    """
     raw: dict[str, Any] = {
         "schema": "math_docx_window_observation/v1",
         "window_id": batch.batch_id,
@@ -777,7 +942,8 @@ def _finalize_batch_observation(
         "provider": {"kind": provider_kind, "name": provider_name, "version": provider_version},
         "questions": [dict(frozen[ref]) for ref in batch.expected_question_refs],
     }
-    raw = normalize_observation_field_shapes(raw)
+    if not structured:
+        raw = normalize_observation_field_shapes(raw)
     return DocxWindowObservation.model_validate(raw)
 
 
@@ -794,6 +960,9 @@ def _observe_batch(
     max_repairs: int = 1,
     repair_dir: Path | None = None,
     repair_log: list[dict[str, Any]] | None = None,
+    repair_log_lock: threading.Lock | None = None,
+    structured: bool = False,
+    ref_page_map: Mapping[str, Sequence[int]] | None = None,
 ) -> DocxWindowObservation:
     """Observe one batch with freeze + targeted repair (§7.1).
 
@@ -803,7 +972,11 @@ def _observe_batch(
     produced (the caller only writes after this returns).
     """
     expected_refs = list(batch.expected_question_refs)
-    prompt = _batch_prompt(batch, window_pages)
+    prompt_fn = _structured_batch_prompt if structured else _batch_prompt
+    role_page_map = ref_page_map or {
+        ref: list(batch.page_numbers) for ref in batch.expected_question_refs
+    }
+    prompt = prompt_fn(batch, window_pages, role_page_map)
 
     raw = dict(provider(prompt=prompt, image_paths=image_paths))
     frozen: dict[str, Mapping[str, Any]] = {}
@@ -861,20 +1034,50 @@ def _observe_batch(
                     detail=detail,
                 )
             if repair_log is not None:
-                repair_log.append({"batch_id": batch.batch_id, "status": "blocking", "detail": detail})
+                with (repair_log_lock or threading.Lock()):
+                    repair_log.append({"batch_id": batch.batch_id, "status": "blocking", "detail": detail})
             raise ValueError(detail)
         repairs_done += 1
 
-        # Targeted repair: only the outstanding question(s). §7.1 rules 3-5: the
-        # repair prompt's expected set is exactly the missing/duplicate refs, and
-        # the page set is the batch's pages (the index already narrowed them).
+        # Targeted repair: only the outstanding refs and the union of their
+        # role-internal index pages. Already-frozen questions and unrelated pages
+        # are never sent again.
+        repair_page_numbers = sorted(
+            {
+                page_number
+                for ref in outstanding
+                for page_number in role_page_map.get(ref, batch.page_numbers)
+            }
+        )
+        if not repair_page_numbers:
+            repair_page_numbers = list(batch.page_numbers)
+        page_by_number = {page.page_number: page for page in window_pages}
+        path_by_number = {
+            page.page_number: path
+            for page, path in zip(window_pages, image_paths)
+        }
+        repair_window_pages = [
+            page_by_number[number] for number in repair_page_numbers
+        ]
+        repair_image_paths = [
+            path_by_number[number] for number in repair_page_numbers
+        ]
         repair_batch = ObservationBatch(
             batch_id=f"{batch.batch_id}-repair-{repairs_done}",
             role=batch.role,
-            page_numbers=list(batch.page_numbers),
+            page_numbers=repair_page_numbers,
             expected_question_refs=outstanding,
         )
-        repair_raw = dict(provider(prompt=_batch_prompt(repair_batch, window_pages), image_paths=image_paths))
+        repair_raw = dict(
+            provider(
+                prompt=prompt_fn(
+                    repair_batch,
+                    repair_window_pages,
+                    role_page_map,
+                ),
+                image_paths=repair_image_paths,
+            )
+        )
         r_missing, r_unexpected, r_duplicate, r_good = _classify(repair_raw)
         _record(
             f"repair_{repairs_done}",
@@ -895,6 +1098,7 @@ def _observe_batch(
         provider_version=provider_version,
         provider_kind=provider_kind,
         prompt_version=prompt_version,
+        structured=structured,
     )
     if repair_dir is not None and (len(history) > 1 or any(h.get("missing") or h.get("unexpected") or h.get("duplicate") for h in history)):
         _atomic_write_repair_meta(
@@ -907,7 +1111,8 @@ def _observe_batch(
             detail="",
         )
     if repair_log is not None and repairs_done:
-        repair_log.append({"batch_id": batch.batch_id, "status": "repaired", "repairs": repairs_done})
+        with (repair_log_lock or threading.Lock()):
+            repair_log.append({"batch_id": batch.batch_id, "status": "repaired", "repairs": repairs_done})
     return observation
 
 
@@ -959,6 +1164,8 @@ def observe(
     max_repairs: int = 1,
     source_subdir: str = "word",
     page_number_offset: int = 0,
+    structured: bool = False,
+    max_workers: int | None = None,
 ) -> list[DocxWindowObservation]:
     """Observe DOCX pages driven by a span index (§7.2).
 
@@ -969,6 +1176,12 @@ def observe(
     of only the affected question while already-good questions stay frozen. A
     normal observation file is written only after a batch fully resolves, so a
     glob into ``output_dir`` never matches an unresolved batch.
+
+    When ``max_workers`` is > 1, batches run concurrently in a thread pool.
+    Batches are independent: each writes its own output file atomically and the
+    provider cache is keyed per request, so concurrency is safe. The shared
+    ``repair_log`` is guarded by a lock. ``None`` or ``<= 1`` keeps the legacy
+    sequential execution.
     """
     word_source = yaml.safe_load(word_source_path.read_text(encoding="utf-8"))
     if not isinstance(word_source, Mapping):
@@ -1011,11 +1224,29 @@ def observe(
         raise ValueError("span index produced no observation batches")
 
     repair_dir = output_dir / "_repair" if output_dir is not None else None
+    indexed_by_ref = {question.question_ref: question for question in span_index.questions}
     observations: list[DocxWindowObservation] = []
     repair_log: list[dict[str, Any]] = []
-    for batch in batches:
+    repair_log_lock = threading.Lock()
+    if output_dir is not None:
+        output_dir.mkdir(parents=True, exist_ok=True)
+
+    def _process_batch(batch: ObservationBatch) -> DocxWindowObservation:
+        """Run one batch to completion and persist its observation file.
+
+        Thread-safe: each batch reads immutable shared maps, calls the provider
+        (which has its own atomic cache), writes its own output file, and
+        appends to ``repair_log`` under the shared lock.
+        """
         window_pages = [pages_by_number[n] for n in batch.page_numbers]
         image_paths = [physical_by_number[n] for n in batch.page_numbers]
+        role_page_field = (
+            "question_pages" if batch.role == "question" else "solution_pages"
+        )
+        ref_page_map = {
+            ref: list(getattr(indexed_by_ref[ref], role_page_field))
+            for ref in batch.expected_question_refs
+        }
         observation = _observe_batch(
             batch,
             window_pages=window_pages,
@@ -1028,10 +1259,11 @@ def observe(
             max_repairs=max_repairs,
             repair_dir=repair_dir,
             repair_log=repair_log,
+            repair_log_lock=repair_log_lock,
+            structured=structured,
+            ref_page_map=ref_page_map,
         )
-        observations.append(observation)
         if output_dir is not None:
-            output_dir.mkdir(parents=True, exist_ok=True)
             path = output_dir / f"{observation.window_id}.yaml"
             tmp = path.with_suffix(path.suffix + ".tmp")
             tmp.write_text(
@@ -1044,6 +1276,16 @@ def observe(
                 encoding="utf-8",
             )
             tmp.replace(path)
+        return observation
+
+    if max_workers and max_workers > 1:
+        with ThreadPoolExecutor(max_workers=max_workers) as pool:
+            futures = {pool.submit(_process_batch, b): b for b in batches}
+            for fut in as_completed(futures):
+                observations.append(fut.result())
+    else:
+        for batch in batches:
+            observations.append(_process_batch(batch))
     if repair_dir is not None and repair_log:
         _atomic_write_repair_meta(
             repair_dir / "_summary.repair.yaml",
@@ -1069,14 +1311,14 @@ def main() -> int:
     parser.add_argument(
         "--span-index",
         type=Path,
-        default=None,
-        help="math_question_span_index/v1 path. When given, the new span-index "
-        "batch flow is used (recommended). Without it the legacy overlapping-"
-        "window flow runs (deprecated).",
+        required=True,
+        help="required math_question_span_index/v1 path",
     )
     provider_group = parser.add_mutually_exclusive_group(required=True)
     provider_group.add_argument("--responses", type=Path, nargs="+")
     provider_group.add_argument("--mimo", action="store_true")
+    provider_group.add_argument("--mimo-structured", action="store_true",
+        help="MiMo via pydantic_ai tool-calling (structured output; recommended)")
     provider_group.add_argument("--bailian-ocr", action="store_true")
     parser.add_argument("--cache-dir", type=Path)
     parser.add_argument("--output-dir", type=Path, required=True)
@@ -1085,11 +1327,12 @@ def main() -> int:
     parser.add_argument("--max-batch-pages", type=int, default=8)
     parser.add_argument("--target-batch-questions", type=int, default=12)
     parser.add_argument("--max-repairs", type=int, default=1)
-    # Legacy overlapping-window knobs (deprecation).
-    parser.add_argument("--window-size", type=int)
-    parser.add_argument("--overlap", type=int)
-    parser.add_argument("--page-start", type=int)
-    parser.add_argument("--page-end", type=int)
+    parser.add_argument("--max-workers", type=int, default=1,
+                        help="并发观察批次的线程数; >1 时试卷内各批并发执行 (默认1=串行)")
+    # Accepted for one migration cycle, but hidden because they no longer
+    # control span-index batching.
+    parser.add_argument("--window-size", type=int, help=argparse.SUPPRESS)
+    parser.add_argument("--overlap", type=int, help=argparse.SUPPRESS)
     parser.add_argument(
         "--source-subdir",
         default="word",
@@ -1105,12 +1348,25 @@ def main() -> int:
 
     queued = [json.loads(p.read_text(encoding="utf-8")) for p in (args.responses or [])]
 
-    def _build_provider() -> tuple[ProviderCallable, str, str, str]:
+    def _build_provider() -> tuple[ProviderCallable, str, str, str, bool]:
+        if args.mimo_structured:
+            from scripts.question_transcription.mimo_structured_client import (
+                MimoStructuredClient,
+            )
+
+            client = MimoStructuredClient(cache_dir=args.cache_dir)
+            return (
+                make_mimo_structured_provider(client),
+                "xiaomi-mimo-structured",
+                client.model,
+                "vision_api",
+                True,
+            )
         if args.mimo:
             from scripts.question_transcription.mimo_client import MimoClient
 
             client = MimoClient(cache_dir=args.cache_dir)
-            return make_mimo_provider(client), "xiaomi-mimo", client.model, "vision_api"
+            return make_mimo_provider(client), "xiaomi-mimo", client.model, "vision_api", False
         if args.bailian_ocr:
             from scripts.question_transcription.bailian_ocr_client import (
                 BAILIAN_OCR_MODEL,
@@ -1120,92 +1376,64 @@ def main() -> int:
             provider_callable = make_bailian_ocr_provider(
                 BailianOcrClient(cache_dir=args.cache_dir)
             )
-            return provider_callable, "bailian-qwen-ocr", BAILIAN_OCR_MODEL, "ocr"
+            return provider_callable, "bailian-qwen-ocr", BAILIAN_OCR_MODEL, "ocr", False
 
         def injected_provider(**_: Any) -> Mapping[str, Any]:
             if not queued:
                 raise ValueError("not enough injected response files for batches")
             return queued.pop(0)
 
-        return injected_provider, "injected", "v1", "manual"
+        return injected_provider, "injected", "v1", "manual", False
 
-    provider_callable, provider_name, provider_version, provider_kind = _build_provider()
+    provider_callable, provider_name, provider_version, provider_kind, structured = _build_provider()
 
-    if args.span_index is not None:
-        # New span-index flow. Bailian OCR formal downgrade is single-page only;
-        # a multi-page batch must be rejected rather than faked.
-        if args.bailian_ocr and args.max_batch_pages > 1:
-            print(
-                "ERROR: BaiLian OCR formal downgrade only supports single-page "
-                "batches; use --max-batch-pages 1 or MiMo for multi-page batches.",
-                file=sys.stderr,
-            )
-            return 2
-        try:
-            index = load_index(args.span_index)
-            observations = observe(
-                args.word_source,
-                source_archive=args.source_archive,
-                span_index=index,
-                provider=provider_callable,
-                provider_name=provider_name,
-                provider_version=provider_version,
-                provider_kind=provider_kind,
-                cache_dir=args.cache_dir,
-                output_dir=args.output_dir,
-                target_batch_pages=args.target_batch_pages,
-                max_batch_pages=args.max_batch_pages,
-                target_batch_questions=args.target_batch_questions,
-                max_repairs=args.max_repairs,
-                source_subdir=args.source_subdir,
-                page_number_offset=args.page_number_offset,
-            )
-        except ValueError as exc:
-            print(f"ERROR: {exc}", file=sys.stderr)
-            return 2
-        if args.responses and queued:
-            raise ValueError("more response files than batches")
-        print(
-            f"DOCX BATCHES OBSERVED: batches={len(observations)} output={args.output_dir}"
-        )
-        return 0
-
-    # Legacy overlapping-window flow (deprecated).
-    import warnings
-
-    warnings.warn(
-        "observe_docx_pages without --span-index is deprecated and injects the "
-        "OOXML 全文 hint; switch to the span-index flow.",
-        DeprecationWarning,
-        stacklevel=2,
-    )
     if args.overlap is not None and args.overlap != 0:
         print(
             "ERROR: --overlap is no longer honoured; the span-index flow uses "
-            "non-overlapping first-round batches. Pass --overlap 0 or migrate.",
+            "non-overlapping first-round batches.",
             file=sys.stderr,
         )
         return 2
-    window_size = args.window_size if args.window_size is not None else 3
-    observations = observe_windows(
-        args.word_source,
-        source_archive=args.source_archive,
-        provider=provider_callable,
-        provider_name=provider_name,
-        provider_version=provider_version,
-        provider_kind=provider_kind,
-        window_size=window_size,
-        overlap=0,
-        cache_dir=args.cache_dir,
-        output_dir=args.output_dir,
-        page_start=args.page_start,
-        page_end=args.page_end,
-        source_subdir=args.source_subdir,
-        page_number_offset=args.page_number_offset,
-    )
+    if args.window_size is not None or args.overlap is not None:
+        print(
+            "WARNING: --window-size/--overlap are deprecated and ignored; "
+            "use span-index batch limits.",
+            file=sys.stderr,
+        )
+    if args.bailian_ocr and args.max_batch_pages > 1:
+        print(
+            "ERROR: BaiLian OCR formal downgrade only supports single-page "
+            "batches; use --max-batch-pages 1 or MiMo for multi-page batches.",
+            file=sys.stderr,
+        )
+        return 2
+    try:
+        index = load_index(args.span_index)
+        observations = observe(
+            args.word_source,
+            source_archive=args.source_archive,
+            span_index=index,
+            provider=provider_callable,
+            provider_name=provider_name,
+            provider_version=provider_version,
+            provider_kind=provider_kind,
+            cache_dir=args.cache_dir,
+            output_dir=args.output_dir,
+            target_batch_pages=args.target_batch_pages,
+            max_batch_pages=args.max_batch_pages,
+            target_batch_questions=args.target_batch_questions,
+            max_repairs=args.max_repairs,
+            source_subdir=args.source_subdir,
+            page_number_offset=args.page_number_offset,
+            structured=structured,
+            max_workers=args.max_workers,
+        )
+    except ValueError as exc:
+        print(f"ERROR: {exc}", file=sys.stderr)
+        return 2
     if args.responses and queued:
-        raise ValueError("more response files than page windows")
-    print(f"DOCX WINDOWS OBSERVED: windows={len(observations)} output={args.output_dir}")
+        raise ValueError("more response files than batches")
+    print(f"DOCX BATCHES OBSERVED: batches={len(observations)} output={args.output_dir}")
     return 0
 
 

@@ -878,10 +878,9 @@ def test_span_observe_exact_match_passes(tmp_path: Path):
 
 
 def test_span_observe_missing_triggers_targeted_repair_only_for_missing(tmp_path: Path):
-    # Put both questions on page 1 so they land in one batch (shared page =>
-    # one non-splittable component), exercising repair within a single batch.
-    source, shas = _word_source_with_pages(tmp_path, 1)
-    index = _index([_q("1", [1]), _q("2", [1])], page_shas=shas)
+    source, shas = _word_source_with_pages(tmp_path, 2)
+    index = _index([_q("1", [1]), _q("2", [2])], page_shas=shas)
+    sent_pages: list[list[str]] = []
 
     def _expected_refs(prompt: str) -> list[str]:
         # The prompt lists expected refs after "以下预期题号:" up to the first "。".
@@ -890,13 +889,14 @@ def test_span_observe_missing_triggers_targeted_repair_only_for_missing(tmp_path
         return [tok.strip() for tok in segment.split(",") if tok.strip()]
 
     def provider(*, prompt, image_paths):
+        sent_pages.append([path.name for path in image_paths])
         expected = _expected_refs(prompt)
         if expected == ["1", "2"]:
             # First round: return only "1", omit "2".
             return {"questions": [_question_payload("1")]}
         # Repair round: prompt's expected set is only the missing ref "2".
         assert expected == ["2"], expected
-        return {"questions": [_question_payload("2")]}
+        return {"questions": [_question_payload("2", page=2)]}
 
     observations = observe_with_index(
         source,
@@ -909,6 +909,7 @@ def test_span_observe_missing_triggers_targeted_repair_only_for_missing(tmp_path
     )
     all_refs = [q.question_ref for obs in observations for q in obs.questions]
     assert sorted(all_refs) == ["1", "2"]
+    assert sent_pages == [["001.png", "002.png"], ["002.png"]]
 
 
 def test_span_observe_unexpected_is_isolated_not_into_observation(tmp_path: Path):
@@ -1071,6 +1072,8 @@ def test_cli_rejects_nonzero_overlap(tmp_path: Path):
             str(response_file),
             "--output-dir",
             str(tmp_path / "out"),
+            "--span-index",
+            str(tmp_path / "missing.span-index.yaml"),
             "--overlap",
             "1",
         ],
@@ -1120,3 +1123,162 @@ def test_span_observe_question_only_then_solution_merges(tmp_path: Path):
     # The merged question has both question and solution evidence.
     q = merged.questions[0]
     assert q.evidence.question and q.evidence.solution
+
+
+def test_span_observe_structured_skips_normalize_and_passes_contract(tmp_path: Path):
+    """§G: when structured=True the provider output is already schema-validated
+    (pydantic_ai tool-calling), so normalize is skipped and the fragment contract
+    passes directly. We simulate the structured provider by returning a payload
+    that matches DocxObservationOutput (which would have drifted under the old
+    json_object path: 填空题 type, scalar confidence)."""
+    from scripts.question_transcription.observe_docx_pages import observe as observe_idx
+
+    source, shas = _word_source_with_pages(tmp_path, 1)
+    index = _index([_q("1", [1]), _q("2", [1])], page_shas=shas)
+
+    # A payload shaped like a *raw* drifty model return (Chinese type, scalar
+    # confidence). Under structured=True the provider is responsible for having
+    # already coerced these — here we return the already-canonical shape to prove
+    # the assembly path (no normalize) still builds a valid observation.
+    def provider(*, prompt, image_paths):
+        return {
+            "questions": [
+                {
+                    "question_ref": "1",
+                    "question_number": 1,
+                    "question_type": "fillin",  # already canonical (no 填空题)
+                    "points": 3,
+                    "section_ref": "fillin",
+                    "section_title": "填空题",
+                    "content": {
+                        "stem_latex": "题1",
+                        "choices": [],
+                        "answer": "1",
+                        "clue": "原卷未提供提示",
+                        "solution_steps": [],
+                        "solution_notes": [],
+                    },
+                    "evidence": {
+                        "question": [
+                            {"kind": "page", "source": "documents/test/word/pages/001.png", "page_number": 1}
+                        ],
+                        "solution": [],
+                        "solution_start_anchor": None,
+                        "solution_end_anchor": None,
+                    },
+                    "transcription_confidence": {"stem": "high", "formula": "high", "solution_steps": "high"},
+                },
+                {
+                    "question_ref": "2",
+                    "question_number": 2,
+                    "question_type": "choice",
+                    "points": 3,
+                    "section_ref": "choice",
+                    "section_title": "选择题",
+                    "content": {
+                        "stem_latex": "题2",
+                        "choices": ["A", "B", "C", "D"],
+                        "answer": "A",
+                        "clue": "原卷未提供提示",
+                        "solution_steps": [],
+                        "solution_notes": [],
+                    },
+                    "evidence": {
+                        "question": [
+                            {"kind": "page", "source": "documents/test/word/pages/001.png", "page_number": 1}
+                        ],
+                        "solution": [],
+                        "solution_start_anchor": None,
+                        "solution_end_anchor": None,
+                    },
+                    "transcription_confidence": {"stem": "high", "formula": "high", "solution_steps": "high"},
+                },
+            ]
+        }
+
+    observations = observe_idx(
+        source,
+        source_archive="documents/test",
+        span_index=index,
+        provider=provider,
+        provider_name="mimo-structured",
+        provider_version="v1",
+        structured=True,
+    )
+    refs = sorted(q.question_ref for obs in observations for q in obs.questions)
+    assert refs == ["1", "2"]
+    # The fragment contract validates the structured output without normalize.
+    types = {q.question_ref: q.question_type for obs in observations for q in obs.questions}
+    assert types == {"1": "fillin", "2": "choice"}
+
+
+def test_mimo_structured_provider_factory_returns_validated_dict(tmp_path: Path):
+    """The structured provider factory drives MimoStructuredClient and returns a
+    dict already conforming to DocxObservationOutput (enum coerced at source)."""
+    from scripts.question_transcription.docx_observation_output import DocxObservationOutput, OutputQuestion
+    from scripts.question_transcription.observe_docx_pages import make_mimo_structured_provider
+
+    # Fake structured client: returns a validated DocxObservationOutput.
+    class FakeClient:
+        def complete_structured(
+            self,
+            *,
+            output_type,
+            system_prompt,
+            prompt,
+            image_paths,
+            cache_material,
+        ):
+            assert prompt == "any"
+            assert image_paths == [image]
+            out = output_type.model_validate({
+                "questions": [
+                    {"question_ref": "1", "question_number": 1, "question_type": "fillin",
+                     "points": 0, "section_ref": "s", "section_title": "填空题",
+                     "content": {"stem_latex": "x", "choices": [], "answer": "1",
+                                 "clue": "原卷未提供提示", "solution_steps": [], "solution_notes": []},
+                     "evidence": {"question": [{"kind": "page", "source": "s", "page_number": 1}],
+                                  "solution": [], "solution_start_anchor": None, "solution_end_anchor": None},
+                     "transcription_confidence": {"stem": "high", "formula": "high", "solution_steps": "high"}}
+                ]
+            })
+            return out, False
+
+    image = tmp_path / "p.png"
+    image.write_bytes(b"png")
+    provider = make_mimo_structured_provider(FakeClient())
+    result = provider(prompt="any", image_paths=[image])
+    assert result["questions"][0]["question_type"] == "fillin"  # enum coerced, no 填空题
+
+
+def test_mimo_structured_client_builds_pydantic_native_multimodal_input(tmp_path: Path):
+    """Regression: Agent.run needs UserContent, not an OpenAI message dict."""
+    from pydantic_ai import BinaryContent
+
+    from scripts.question_transcription.mimo_structured_client import (
+        _pydantic_user_content,
+    )
+
+    png = tmp_path / "page.png"
+    jpg = tmp_path / "page.jpg"
+    png.write_bytes(b"png-bytes")
+    jpg.write_bytes(b"jpg-bytes")
+
+    content = _pydantic_user_content("read the pages", [png, jpg])
+
+    assert content[0] == "read the pages"
+    assert all(isinstance(item, BinaryContent) for item in content[1:])
+    assert [item.media_type for item in content[1:]] == ["image/png", "image/jpeg"]
+    assert [item.data for item in content[1:]] == [b"png-bytes", b"jpg-bytes"]
+    assert all(item.vendor_metadata == {"detail": "high"} for item in content[1:])
+
+
+def test_docx_structured_output_rejects_empty_questions():
+    from pydantic import ValidationError
+
+    from scripts.question_transcription.docx_observation_output import (
+        DocxObservationOutput,
+    )
+
+    with pytest.raises(ValidationError):
+        DocxObservationOutput.model_validate({"questions": []})

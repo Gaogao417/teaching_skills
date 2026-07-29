@@ -172,6 +172,23 @@ def test_trailing_answer_region_renumbers_from_one_into_solution_pages():
     assert q1.solution_pages == [3]
 
 
+def test_answer_only_source_keeps_question_pages_empty():
+    pages = _pages({
+        9: "参考答案\n1. A\n2. B",
+        10: "3. 解：过程",
+    })
+    index = build_index_from_pages(
+        pages,
+        source_kind="docx",
+        fingerprint=_fp(page_number_offset=8),
+    )
+
+    assert _refs(index) == []
+    assert _refs(index, role="solution") == ["1", "2", "3"]
+    assert all(not question.question_pages for question in index.questions)
+    assert _pages_for(index, "3", role="solution") == [10]
+
+
 def test_numbered_solution_steps_not_recognised_as_new_questions():
     # Inside an answer region, 解：followed by 1. 2. steps must not spawn new
     # questions (they are <= the running answer number).

@@ -35,6 +35,12 @@ from scripts.question_transcription.review_issue_engine import (  # noqa: E402
 
 _CONFIDENCE_SCORE = {"low": 0, "medium": 1, "high": 2}
 
+# Transparent placeholder used when no window produced a real solution anchor.
+# It intentionally matches no real source text so evidence-page expansion never
+# mistakes it for a genuine anchor, while still satisfying the merged contract's
+# NonEmptyStr requirement and signalling the gap for human review.
+_PENDING_SOLUTION_ANCHOR = "<PENDING_SOLUTION_ANCHOR>"
+
 
 def _question_score(question: DocxObservedQuestionFragment) -> int:
     confidence = question.transcription_confidence
@@ -48,13 +54,35 @@ def _is_present(value: Any) -> bool:
     return value is not None and value != "" and value != []
 
 
+def _window_role(window_id: str) -> str | None:
+    """Classify a window as ``question``/``solution`` from its id prefix.
+
+    Window ids follow the ``{role}-NNN-pXXX-pYYY`` convention globally, so the
+    origin of each candidate is knowable without carrying an extra field.
+    """
+    if window_id.startswith("question-"):
+        return "question"
+    if window_id.startswith("solution-"):
+        return "solution"
+    return None
+
+
 def _select_value(
     entries: list[tuple[str, DocxObservedQuestionFragment]],
     getter: Any,
     *,
     confidence_field: str | None = None,
     zero_is_missing: bool = False,
+    preferred_role: str | None = None,
 ) -> tuple[Any, bool]:
+    """Pick a field value across windows.
+
+    Ranking is ``(-confidence, role_pref, json(value), window_id)``. The
+    ``preferred_role`` tiebreak only breaks ties between candidates of equal
+    confidence — a higher-confidence candidate always wins regardless of origin —
+    so stem fields prefer the question window while solution fields prefer the
+    solution window without discarding a genuinely more-confident reading.
+    """
     candidates: list[tuple[str, DocxObservedQuestionFragment, Any]] = []
     for window_id, question in entries:
         value = getter(question)
@@ -72,8 +100,10 @@ def _select_value(
             if confidence_field
             else _question_score(question)
         )
+        role_pref = 0 if (preferred_role and _window_role(window_id) == preferred_role) else 1
         return (
             -confidence,
+            role_pref,
             json.dumps(value, sort_keys=True, ensure_ascii=False),
             window_id,
         )
@@ -260,20 +290,24 @@ def _merge_question(
             conflicts.add(field)
         metadata[field] = value
 
+    # Field -> (confidence field, preferred window origin). Stem/choices come
+    # from the original paper (question window); answers/steps come from the
+    # official-solution pages (solution window). clue carries no role signal.
     content_specs = {
-        "stem_latex": "stem",
-        "choices": "formula",
-        "answer": "solution_steps",
-        "clue": "solution_steps",
-        "solution_steps": "solution_steps",
-        "solution_notes": "solution_steps",
+        "stem_latex": ("stem", "question"),
+        "choices": ("formula", "question"),
+        "answer": ("solution_steps", "solution"),
+        "clue": ("solution_steps", None),
+        "solution_steps": ("solution_steps", "solution"),
+        "solution_notes": ("solution_steps", "solution"),
     }
     content: dict[str, Any] = {}
-    for field, confidence_field in content_specs.items():
+    for field, (confidence_field, preferred_role) in content_specs.items():
         value, changed = _select_value(
             entries,
             lambda question, name=field: getattr(question.content, name),
             confidence_field=confidence_field,
+            preferred_role=preferred_role,
         )
         if value is None and field in {"choices", "solution_steps", "solution_notes"}:
             value = []
@@ -285,14 +319,25 @@ def _merge_question(
         entries,
         lambda question: question.evidence.solution_start_anchor,
         confidence_field="solution_steps",
+        preferred_role="solution",
     )
     end_anchor, end_changed = _select_value(
         entries,
         lambda question: question.evidence.solution_end_anchor,
         confidence_field="solution_steps",
+        preferred_role="solution",
     )
     if start_changed or end_changed:
         conflicts.add("evidence")
+    # Safety net: the merged contract requires a NonEmptyStr anchor. If no window
+    # produced a real anchor, surface a transparent placeholder (which matches no
+    # real text, so evidence-page expansion cannot be fooled by it) rather than
+    # aborting the whole merge or fabricating a deceptive "{num}．" value. The
+    # placeholder is surfaced in the conflict list by ``merge_with_issues``.
+    if start_anchor is None:
+        start_anchor = _PENDING_SOLUTION_ANCHOR
+    if end_anchor is None:
+        end_anchor = _PENDING_SOLUTION_ANCHOR
 
     confidence: dict[str, str] = {}
     for field in ("stem", "formula", "solution_steps"):
@@ -371,6 +416,26 @@ def merge_with_issues(
                         window_id for window_id, _ in entries if window_id != selected_window
                     ],
                     "fields": blocking_fields,
+                }
+            )
+        # Surface placeholder-filled anchors (no window produced a real anchor)
+        # so the review UI flags them for human attention. These are not
+        # field_conflict review issues (there is no competing candidate) but the
+        # question must still show up in the conflict list, not pass silently.
+        placeholder_fields = [
+            f"evidence.{name}"
+            for name in ("solution_start_anchor", "solution_end_anchor")
+            if getattr(selected.evidence, name) == _PENDING_SOLUTION_ANCHOR
+        ]
+        if placeholder_fields:
+            conflicts.append(
+                {
+                    "question_ref": question_ref,
+                    "selected_window_id": selected_window,
+                    "other_window_ids": [
+                        window_id for window_id, _ in entries if window_id != selected_window
+                    ],
+                    "fields": placeholder_fields,
                 }
             )
         questions.append(selected)

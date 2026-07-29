@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Observe PDF page batches with one joint MiMo transcription+bbox request.
 
-Two entry points coexist during the index-rollout:
+The CLI uses the span-index entry point:
 
 * :func:`observe` (new) — driven by a ``math_question_span_index/v1``. The span
   index fixes each first-round batch's pages and expected question refs, so MiMo
@@ -10,9 +10,9 @@ Two entry points coexist during the index-rollout:
   remains the formal provider (joint text + bbox); BaiLian is only used upstream
   for the prescan. This is the path ``question-span-index-redesign.md`` §7.3
   prescribes.
-* :func:`observe_windows` (legacy) — the old overlapping-window flow. Retained
-  for one migration cycle and prints a deprecation notice; ``--overlap`` is no
-  longer honoured (a non-zero value hard-errors).
+The old :func:`observe_windows` flow remains importable for one library
+migration cycle, but the CLI requires ``--span-index`` and cannot fall back to
+it. ``--overlap`` is no longer honoured (a non-zero value hard-errors).
 """
 
 from __future__ import annotations
@@ -56,7 +56,8 @@ question_type(choice|fillin|problem|short_answer), points,
 content 或 null；content 含 stem_latex, choices, answer, clue, solution_steps, solution_notes；
 question_evidence/solution_evidence 数组元素为 {page_number, box_norm:[left,top,right,bottom]}；
 solution_start_anchor/solution_end_anchor；figures 数组元素为
-{local_id,page_number,role:prompt|solution,order,box_norm,whiteout_norm,confidence,state,
+{local_id,page_number,role:prompt|solution,order,box_norm,
+whiteout_norm:[[left,top,right,bottom],...],confidence,state,
 note,needs_human_crop}；confidence 字典；continues_from_previous/continues_to_next；notes。
 所有 *_norm 坐标必须是相对页面宽高的 0–1000 整数坐标，不要使用模型内部缩放图的像素。
 question_evidence 是整题审计框，figure 是独立视觉对象，两者可重叠。
@@ -183,7 +184,10 @@ def _normalize_provider_questions(
         if not isinstance(question, dict):
             raise ValueError("each provider question must be an object")
         question["points"] = question.get("points") or 0
-        question["notes"] = question.get("notes") or []
+        question["section_ref"] = question.get("section_ref") or "unsectioned"
+        question["section_title"] = question.get("section_title") or "未分节"
+        notes = question.get("notes")
+        question["notes"] = [notes] if isinstance(notes, str) else (notes or [])
         question["confidence"] = question.get("confidence") or {}
         content = question.get("content")
         if isinstance(content, dict):
@@ -202,11 +206,23 @@ def _normalize_provider_questions(
         for figure in question["figures"]:
             _convert_box(figure, page_by_number, "box_norm", "box_px")
             if "whiteout_norm" in figure:
+                whiteout_norm = figure.pop("whiteout_norm") or []
+                # MiMo occasionally emits one flat box despite the prompt asking
+                # for a list of boxes. Accept that harmless shape drift; the
+                # all-zero sentinel means "no whiteout".
+                if (
+                    isinstance(whiteout_norm, list)
+                    and len(whiteout_norm) == 4
+                    and all(type(value) is int for value in whiteout_norm)
+                ):
+                    whiteout_norm = (
+                        [] if whiteout_norm == [0, 0, 0, 0] else [whiteout_norm]
+                    )
                 figure["whiteout_px"] = [
                     _norm_box_to_px(
                         box, page_by_number[int(figure["page_number"])]
                     )
-                    for box in (figure.pop("whiteout_norm") or [])
+                    for box in whiteout_norm
                 ]
             else:
                 figure["whiteout_px"] = figure.get("whiteout_px") or []
@@ -300,6 +316,7 @@ def _batch_user_prompt(
     window: Sequence[PdfPage],
     *,
     manifest: PdfSourceManifest,
+    ref_page_map: dict[str, list[int]],
 ) -> list[dict[str, Any]]:
     """Build the per-batch user content (§7.1): page metadata, expected refs, role."""
     metadata = [
@@ -312,6 +329,10 @@ def _batch_user_prompt(
         for page in window
     ]
     expected = ", ".join(batch.expected_question_refs)
+    ref_pages = "\n".join(
+        f"- 题号 {ref}: pages={ref_page_map.get(ref, [])}"
+        for ref in batch.expected_question_refs
+    )
     role_label = "题干" if batch.role == "question" else "官方解答"
     role_rule = (
         "本批只要求转录题干与题图;不可见的解答字段写 null/[]。"
@@ -329,6 +350,7 @@ def _batch_user_prompt(
                 "只返回预期题号;不得创建、合并、借用、拆分或省略任何题号。"
                 "若某预期题号在本批页面确实不可见,仍必须为它返回一个 question_ref 正确的"
                 "占位条目(content 可为 null),以便定点补读,绝不能遗漏题号或臆造内容。"
+                f"\n各题在本角色内的索引页集合：\n{ref_pages}"
             ),
         }
     ]
@@ -373,12 +395,21 @@ def _call_mimo(
     window: list[PdfPage],
     manifest: PdfSourceManifest,
     cache_material: dict[str, Any],
+    ref_page_map: dict[str, list[int]],
 ) -> list[dict[str, Any]]:
     """One MiMo call for a batch; returns normalized question dicts (with bbox)."""
     result, _cache_hit = client.complete_json(
         messages=[
             {"role": "system", "content": SYSTEM_PROMPT},
-            {"role": "user", "content": _batch_user_prompt(batch, window, manifest=manifest)},
+            {
+                "role": "user",
+                "content": _batch_user_prompt(
+                    batch,
+                    window,
+                    manifest=manifest,
+                    ref_page_map=ref_page_map,
+                ),
+            },
         ],
         cache_material=cache_material,
     )
@@ -396,6 +427,7 @@ def _observe_batch(
     max_repairs: int = 1,
     repair_dir: Path | None = None,
     repair_log: list[dict[str, Any]] | None = None,
+    ref_page_map: dict[str, list[int]] | None = None,
 ) -> PdfPageObservation:
     """Observe one PDF batch with freeze + targeted repair (§7.1).
 
@@ -404,6 +436,9 @@ def _observe_batch(
     file is produced only after the batch fully resolves.
     """
     expected_refs = list(batch.expected_question_refs)
+    role_page_map = ref_page_map or {
+        ref: list(batch.page_numbers) for ref in expected_refs
+    }
     cache_material = {
         "page_sha256": [page.sha256 for page in window],
         "prompt_version": prompt_version,
@@ -413,7 +448,14 @@ def _observe_batch(
         "role": batch.role,
     }
 
-    questions = _call_mimo(client, batch=batch, window=window, manifest=manifest, cache_material=cache_material)
+    questions = _call_mimo(
+        client,
+        batch=batch,
+        window=window,
+        manifest=manifest,
+        cache_material=cache_material,
+        ref_page_map=role_page_map,
+    )
     frozen: dict[str, dict[str, Any]] = {}
     history: list[dict[str, Any]] = []
 
@@ -455,17 +497,36 @@ def _observe_batch(
                 repair_log.append({"batch_id": batch.batch_id, "status": "blocking", "detail": detail})
             raise ValueError(detail)
         repairs_done += 1
+        repair_page_numbers = sorted(
+            {
+                page_number
+                for ref in outstanding
+                for page_number in role_page_map.get(ref, batch.page_numbers)
+            }
+        )
+        if not repair_page_numbers:
+            repair_page_numbers = list(batch.page_numbers)
+        page_by_number = {page.page_number: page for page in window}
+        repair_window = [
+            page_by_number[number] for number in repair_page_numbers
+        ]
         repair_batch = ObservationBatch(
             batch_id=f"{batch.batch_id}-repair-{repairs_done}",
             role=batch.role,
-            page_numbers=list(batch.page_numbers),
+            page_numbers=repair_page_numbers,
             expected_question_refs=outstanding,
         )
         repair_cache = dict(cache_material)
         repair_cache["batch_id"] = repair_batch.batch_id
         repair_cache["expected_refs"] = outstanding
+        repair_cache["page_sha256"] = [page.sha256 for page in repair_window]
         repair_questions = _call_mimo(
-            client, batch=repair_batch, window=window, manifest=manifest, cache_material=repair_cache
+            client,
+            batch=repair_batch,
+            window=repair_window,
+            manifest=manifest,
+            cache_material=repair_cache,
+            ref_page_map=role_page_map,
         )
         r_missing, r_unexpected, r_duplicate, r_good = _classify(repair_questions)
         _record(
@@ -528,10 +589,18 @@ def observe(
         raise ValueError("span index produced no observation batches")
 
     repair_dir = output_dir / "_repair" if output_dir is not None else None
+    indexed_by_ref = {question.question_ref: question for question in span_index.questions}
     observations: list[PdfPageObservation] = []
     repair_log: list[dict[str, Any]] = []
     for batch in batches:
         window = [pages_by_number[n] for n in batch.page_numbers]
+        role_page_field = (
+            "question_pages" if batch.role == "question" else "solution_pages"
+        )
+        ref_page_map = {
+            ref: list(getattr(indexed_by_ref[ref], role_page_field))
+            for ref in batch.expected_question_refs
+        }
         observation = _observe_batch(
             batch,
             window=window,
@@ -542,6 +611,7 @@ def observe(
             max_repairs=max_repairs,
             repair_dir=repair_dir,
             repair_log=repair_log,
+            ref_page_map=ref_page_map,
         )
         observations.append(observation)
         if output_dir is not None:
@@ -570,22 +640,18 @@ def main() -> int:
     parser.add_argument(
         "--span-index",
         type=Path,
-        default=None,
-        help="math_question_span_index/v1 path. When given, the new span-index "
-        "batch flow is used (recommended). Without it the legacy overlapping-"
-        "window flow runs (deprecated).",
+        required=True,
+        help="required math_question_span_index/v1 path",
     )
     # New span-index flow knobs.
     parser.add_argument("--target-batch-pages", type=int, default=6)
     parser.add_argument("--max-batch-pages", type=int, default=8)
     parser.add_argument("--target-batch-questions", type=int, default=12)
     parser.add_argument("--max-repairs", type=int, default=1)
-    # Legacy overlapping-window knobs (deprecation).
-    parser.add_argument("--window-size", type=int, default=3)
-    parser.add_argument("--overlap", type=int, default=1)
-    parser.add_argument(
-        "--document-role", choices=["question", "solution", "mixed"], default="mixed"
-    )
+    # Accepted for one migration cycle, but hidden because they no longer
+    # control span-index batching.
+    parser.add_argument("--window-size", type=int, help=argparse.SUPPRESS)
+    parser.add_argument("--overlap", type=int, help=argparse.SUPPRESS)
     parser.add_argument("--timeout", type=float, default=120)
     args = parser.parse_args()
     manifest = PdfSourceManifest.model_validate(
@@ -596,55 +662,36 @@ def main() -> int:
     )
     client = MimoClient(timeout_s=args.timeout, cache_dir=args.cache_dir)
 
-    if args.span_index is not None:
-        try:
-            index = load_index(args.span_index)
-            observations = observe(
-                manifest,
-                paper=paper,
-                span_index=index,
-                client=client,
-                target_batch_pages=args.target_batch_pages,
-                max_batch_pages=args.max_batch_pages,
-                target_batch_questions=args.target_batch_questions,
-                max_repairs=args.max_repairs,
-                output_dir=args.output_dir,
-            )
-        except ValueError as exc:
-            print(f"ERROR: {exc}", file=sys.stderr)
-            return 2
-        print(f"PDF BATCHES OBSERVED: batches={len(observations)} output={args.output_dir}")
-        return 0
-
-    # Legacy overlapping-window flow (deprecated).
-    if args.overlap != 0:
+    if args.overlap is not None and args.overlap != 0:
         print(
             "ERROR: --overlap is no longer honoured; the span-index flow uses "
-            "non-overlapping first-round batches. Pass --overlap 0 or migrate.",
+            "non-overlapping first-round batches.",
             file=sys.stderr,
         )
         return 2
-    observations = observe_windows(
-        manifest,
-        paper=paper,
-        client=client,
-        window_size=args.window_size,
-        overlap=0,
-        document_role=args.document_role,
-    )
-    args.output_dir.mkdir(parents=True, exist_ok=True)
-    for observation in observations:
-        output = args.output_dir / f"{observation.window_id}.observation.yaml"
-        output.write_text(
-            yaml.safe_dump(
-                observation.model_dump(by_alias=True, exclude_none=True),
-                allow_unicode=True,
-                sort_keys=False,
-                width=1000,
-            ),
-            encoding="utf-8",
+    if args.window_size is not None or args.overlap is not None:
+        print(
+            "WARNING: --window-size/--overlap are deprecated and ignored; "
+            "use span-index batch limits.",
+            file=sys.stderr,
         )
-    print(f"PDF OBSERVED: windows={len(observations)} output={args.output_dir}")
+    try:
+        index = load_index(args.span_index)
+        observations = observe(
+            manifest,
+            paper=paper,
+            span_index=index,
+            client=client,
+            target_batch_pages=args.target_batch_pages,
+            max_batch_pages=args.max_batch_pages,
+            target_batch_questions=args.target_batch_questions,
+            max_repairs=args.max_repairs,
+            output_dir=args.output_dir,
+        )
+    except ValueError as exc:
+        print(f"ERROR: {exc}", file=sys.stderr)
+        return 2
+    print(f"PDF BATCHES OBSERVED: batches={len(observations)} output={args.output_dir}")
     return 0
 
 
