@@ -127,7 +127,7 @@ description: "快速审核已生成的数学作业产物，从流程完整性、
 
 ## 边界
 
-- 不做完整 YAML schema 审查；需要时使用 `validate_assignment.py` 或 `math-assignment-latex/scripts/batch_yaml_review.py`。
+- 不做完整 YAML schema 审查；需要时使用 `validate_assignment.py` 或 `.codex/skills/math-assignment-latex/scripts/batch_yaml_review.py`。
 - 不详细排查 LaTeX 编译；只有 `build.log` 明确显示问题时才简述。
 - 不重新生成结构分析、YAML、TEX 或 PDF。
 - 不把结论表述为“数学保证正确”；这只是快速独立审核。

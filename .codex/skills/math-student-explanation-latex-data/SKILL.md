@@ -64,7 +64,7 @@ artifacts/<学生名>/YYYY-MM-DD-<内容>/02-student-explanation.assignment.yaml
 
 - `references/explanation-blocks.md`: block type 字段、最小 YAML 结构、常见错误写法。
 - `references/diagram-slot-contract.md`: `diagram_slot` 字段、clean/annotated 区分、plan/resolved 边界。
-- `math-assignment-latex/references/assignment-schema.md`: 只有需要查完整 schema 时读取。
+- `.codex/skills/math-assignment-latex/references/assignment-schema.md`: 只有需要查完整 schema 时读取。
 
 ## 自检
 
@@ -85,7 +85,7 @@ artifacts/<学生名>/YYYY-MM-DD-<内容>/02-student-explanation.assignment.yaml
 13. 若写 `solution`、`mistake` 或 `method_reminder`，每个 block 都有不可被例题步骤/side items 替代的独立作用；没有为了模板完整而机械添加。
 14. 若有多个情形，已优先考虑统一方法 + 结果判别；分类表确有必要时也没有放在首例之前压过例题入口。
 15. 若有图，已按 `references/diagram-slot-contract.md` 约束只声明 plan 图位。
-16. YAML 通过 `./.venv/bin/python math-assignment-latex/scripts/validate_assignment.py <yaml>`。
+16. YAML 通过 `./.venv/bin/python .codex/skills/math-assignment-latex/scripts/validate_assignment.py <yaml>`。
 
 ## Diagram resolve
 

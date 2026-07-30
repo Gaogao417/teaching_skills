@@ -129,7 +129,7 @@ teaching:
 
 - `references/practice-blocks.md`: `choice`、`fillin`、`problem` 最小字段和学生/教师版差异。
 - `references/practice-diagram-slot.md`: 练习题 `diagram_slot` 放置位置和 plan/resolved 边界。
-- `math-assignment-latex/references/assignment-schema.md`: 只有需要完整 schema 时读取。
+- `.codex/skills/math-assignment-latex/references/assignment-schema.md`: 只有需要完整 schema 时读取。
 
 ## 自检
 
@@ -144,7 +144,7 @@ teaching:
 7. 教师版答案经过代入或逻辑验算，解答题有 `solution_steps`；使用 `\because` / `\therefore` 的独立推理行时，句末没有逗号、句号或分号。
 8. `entry_point` 和 `variation_depth` 使用当前枚举。
 9. 若使用几何图，plan YAML 只写 `diagram_slot`，不写最终图片字段。
-10. YAML 通过 `./.venv/bin/python math-assignment-latex/scripts/validate_assignment.py <yaml>`。
+10. YAML 通过 `./.venv/bin/python .codex/skills/math-assignment-latex/scripts/validate_assignment.py <yaml>`。
 11. 最终可渲染 YAML 已直接生成并检查学生版、教师版 `.tex`；流程中没有人工确认等待点。
 
 ## Diagram resolve
@@ -156,12 +156,12 @@ teaching:
 若无 `diagram_slot`，将校验通过的学生版、教师版普通 assignment YAML 直接交给 `math-assignment-latex`；若有图，必须先完成两版 diagram resolve，再交付 resolved YAML。默认执行：
 
 ```bash
-./.venv/bin/python math-assignment-latex/scripts/validate_assignment.py <student-yaml>
-./.venv/bin/python math-assignment-latex/scripts/render_assignment.py <student-yaml> --out 03-adaptive-practice.student.tex
-./.venv/bin/python math-assignment-latex/scripts/check_latex.py 03-adaptive-practice.student.tex
-./.venv/bin/python math-assignment-latex/scripts/validate_assignment.py <teacher-yaml>
-./.venv/bin/python math-assignment-latex/scripts/render_assignment.py <teacher-yaml> --out 03-adaptive-practice.teacher.tex
-./.venv/bin/python math-assignment-latex/scripts/check_latex.py 03-adaptive-practice.teacher.tex
+./.venv/bin/python .codex/skills/math-assignment-latex/scripts/validate_assignment.py <student-yaml>
+./.venv/bin/python .codex/skills/math-assignment-latex/scripts/render_assignment.py <student-yaml> --out 03-adaptive-practice.student.tex
+./.venv/bin/python .codex/skills/math-assignment-latex/scripts/check_latex.py 03-adaptive-practice.student.tex
+./.venv/bin/python .codex/skills/math-assignment-latex/scripts/validate_assignment.py <teacher-yaml>
+./.venv/bin/python .codex/skills/math-assignment-latex/scripts/render_assignment.py <teacher-yaml> --out 03-adaptive-practice.teacher.tex
+./.venv/bin/python .codex/skills/math-assignment-latex/scripts/check_latex.py 03-adaptive-practice.teacher.tex
 code 03-adaptive-practice.student.tex 03-adaptive-practice.teacher.tex
 ```
 

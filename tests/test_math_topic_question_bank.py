@@ -199,7 +199,7 @@ def test_seeded_sampling_outputs_valid_assignments(tmp_path: Path) -> None:
         validate = subprocess.run(
             [
                 sys.executable,
-                str(REPO_ROOT / "math-assignment-latex/scripts/validate_assignment.py"),
+                str(REPO_ROOT / ".codex/skills/math-assignment-latex/scripts/validate_assignment.py"),
                 str(assignment),
             ],
             text=True,

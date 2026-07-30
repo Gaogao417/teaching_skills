@@ -381,12 +381,12 @@ assignment.resolved.yaml → Jinja2 template → .tex → XeLaTeX / tectonic →
 
 | 模块 | 职责 | 与 diagram 的关系 |
 |---|---|---|
-| `math-assignment-latex/scripts/render_assignment.py` | 读取 assignment YAML，按 `render.template` 选择 Jinja2 模板，输出 `.tex` | 只消费 resolved YAML 中的 `image_path` / `width` / `caption` |
-| `math-assignment-latex/scripts/compile_latex.sh` | 使用 XeLaTeX / tectonic 编译 `.tex` 为 PDF；可自动从对应 YAML 重新 render | 不生成图片；只要求 `\includegraphics` 路径可访问 |
-| `math-assignment-latex/templates/exam-zh-practice.tex.j2` | 练习页模板 | 支持选择题右栏图、diagram row、答题区右侧图、独立 diagram block |
-| `math-assignment-latex/templates/exam-zh-explanation.tex.j2` | 讲解页模板 | 支持 problemcard/problem 右栏图和独立居中 diagram block |
-| `math-assignment-latex/templates/preamble-exam-zh*.tex` | LaTeX 宏与样式 | 定义 `\diagramcolfigure`、`\diagramrowitem`、`\answerareawithdiagramcol` 等宏的样式边界 |
-| `math-assignment-latex/references/assignment-schema.md` | assignment DSL schema | 应升级为 plan/resolved 两阶段 diagram contract |
+| `.codex/skills/math-assignment-latex/scripts/render_assignment.py` | 读取 assignment YAML，按 `render.template` 选择 Jinja2 模板，输出 `.tex` | 只消费 resolved YAML 中的 `image_path` / `width` / `caption` |
+| `.codex/skills/math-assignment-latex/scripts/compile_latex.sh` | 使用 XeLaTeX / tectonic 编译 `.tex` 为 PDF；可自动从对应 YAML 重新 render | 不生成图片；只要求 `\includegraphics` 路径可访问 |
+| `.codex/skills/math-assignment-latex/templates/exam-zh-practice.tex.j2` | 练习页模板 | 支持选择题右栏图、diagram row、答题区右侧图、独立 diagram block |
+| `.codex/skills/math-assignment-latex/templates/exam-zh-explanation.tex.j2` | 讲解页模板 | 支持 problemcard/problem 右栏图和独立居中 diagram block |
+| `.codex/skills/math-assignment-latex/templates/preamble-exam-zh*.tex` | LaTeX 宏与样式 | 定义 `\diagramcolfigure`、`\diagramrowitem`、`\answerareawithdiagramcol` 等宏的样式边界 |
+| `.codex/skills/math-assignment-latex/references/assignment-schema.md` | assignment DSL schema | 应升级为 plan/resolved 两阶段 diagram contract |
 
 ---
 

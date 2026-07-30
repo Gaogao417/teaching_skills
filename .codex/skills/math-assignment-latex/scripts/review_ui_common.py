@@ -15,9 +15,11 @@ from typing import Any
 
 import yaml
 
+from repo_paths import find_repo_root
+
 
 SCRIPT_DIR = Path(__file__).resolve().parent
-REPO_ROOT = SCRIPT_DIR.parents[1]
+REPO_ROOT = find_repo_root(SCRIPT_DIR)
 RENDER_SCRIPT = SCRIPT_DIR / "render_assignment.py"
 VALIDATE_SCRIPT = SCRIPT_DIR / "validate_assignment.py"
 COMPILE_SCRIPT = SCRIPT_DIR / "compile_latex.sh"

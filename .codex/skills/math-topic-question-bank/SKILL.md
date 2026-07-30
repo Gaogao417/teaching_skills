@@ -44,7 +44,7 @@ artifacts/题库/<专题>/
 5. 用仓库解释器逐个校验 plan YAML：
 
    ```bash
-   ./.venv/bin/python math-assignment-latex/scripts/validate_assignment.py <teacher.plan.assignment.yaml>
+   ./.venv/bin/python .codex/skills/math-assignment-latex/scripts/validate_assignment.py <teacher.plan.assignment.yaml>
    ```
 
 6. 对含 `diagram_slot` 的教师 plan 调用 `math-geometry-diagram-renderer`，得到 `teacher.resolved.assignment.yaml`。无图题可直接把已验证的教师 assignment 作为 resolved 单题包。

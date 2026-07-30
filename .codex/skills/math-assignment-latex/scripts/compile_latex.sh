@@ -24,11 +24,29 @@ fi
 
 # Add local texmf tree so tectonic/xelatex finds exam-zh and other local packages
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-REPO_ROOT="$(cd "${SCRIPT_DIR}/../.." && pwd)"
+
+find_repo_root() {
+    local candidate="$SCRIPT_DIR"
+    while [ "$candidate" != "/" ]; do
+        if [ -e "$candidate/.git" ] && [ -f "$candidate/AGENTS.md" ]; then
+            printf '%s\n' "$candidate"
+            return 0
+        fi
+        candidate="$(dirname "$candidate")"
+    done
+    return 1
+}
+
+if ! REPO_ROOT="$(find_repo_root)"; then
+    echo "Error: repository root not found above $SCRIPT_DIR" >&2
+    exit 1
+fi
 PYTHON_BIN="${REPO_ROOT}/.venv/bin/python"
 if [ ! -x "$PYTHON_BIN" ]; then
-    PYTHON_BIN="python3"
+    echo "Error: repository Python not found: $PYTHON_BIN" >&2
+    exit 1
 fi
+echo "Python: $PYTHON_BIN"
 LOCAL_TEXMF="${SCRIPT_DIR}/../texmf"
 export TEXINPUTS="${LOCAL_TEXMF}/tex/latex//:${TEXINPUTS-}"
 

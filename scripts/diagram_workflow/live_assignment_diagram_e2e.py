@@ -237,7 +237,18 @@ def main() -> None:
     live_summary = _verify_live_jobs(artifact_dir)
 
     validate = _run(
-        [args.python, str(REPO_ROOT / "math-assignment-latex" / "scripts" / "validate_assignment.py"), str(resolved_path)],
+        [
+            args.python,
+            str(
+                REPO_ROOT
+                / ".codex"
+                / "skills"
+                / "math-assignment-latex"
+                / "scripts"
+                / "validate_assignment.py"
+            ),
+            str(resolved_path),
+        ],
         cwd=REPO_ROOT,
         timeout=120,
     )
@@ -246,7 +257,14 @@ def main() -> None:
     render = _run(
         [
             args.python,
-            str(REPO_ROOT / "math-assignment-latex" / "scripts" / "render_assignment.py"),
+            str(
+                REPO_ROOT
+                / ".codex"
+                / "skills"
+                / "math-assignment-latex"
+                / "scripts"
+                / "render_assignment.py"
+            ),
             str(resolved_path),
             "--out",
             str(tex_path),
@@ -257,7 +275,18 @@ def main() -> None:
     _require(render.returncode == 0, "LaTeX render failed")
 
     compile_pdf = _run(
-        ["bash", str(REPO_ROOT / "math-assignment-latex" / "scripts" / "compile_latex.sh"), str(tex_path)],
+        [
+            "bash",
+            str(
+                REPO_ROOT
+                / ".codex"
+                / "skills"
+                / "math-assignment-latex"
+                / "scripts"
+                / "compile_latex.sh"
+            ),
+            str(tex_path),
+        ],
         cwd=REPO_ROOT,
         timeout=240,
     )

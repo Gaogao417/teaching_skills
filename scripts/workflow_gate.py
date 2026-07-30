@@ -152,10 +152,24 @@ def cmd_preflight(args):
         "xelatex": shutil.which("xelatex") is not None,
         "pdftoppm": shutil.which("pdftoppm") is not None,
         "render_assignment_py": os.path.exists(
-            os.path.join(repo_root, "math-assignment-latex", "scripts", "render_assignment.py")
+            os.path.join(
+                repo_root,
+                ".codex",
+                "skills",
+                "math-assignment-latex",
+                "scripts",
+                "render_assignment.py",
+            )
         ),
         "compile_latex_sh": os.path.exists(
-            os.path.join(repo_root, "math-assignment-latex", "scripts", "compile_latex.sh")
+            os.path.join(
+                repo_root,
+                ".codex",
+                "skills",
+                "math-assignment-latex",
+                "scripts",
+                "compile_latex.sh",
+            )
         ),
     }
     blocking = [name for name in ("python_yaml", "jinja2", "xelatex", "render_assignment_py", "compile_latex_sh") if not checks[name]]

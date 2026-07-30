@@ -5,20 +5,22 @@
 ## 快速开始
 
 ```bash
-# 渲染
-python3 math-assignment-latex/scripts/render_assignment.py \
-  math-assignment-latex/examples/linear-function.practice.assignment.yaml \
-  --out artifacts/linear-function/04-assignment.tex
+# 验证并渲染
+./.venv/bin/python .codex/skills/math-assignment-latex/scripts/validate_assignment.py \
+  artifacts/<slug>/assignment.yaml
+./.venv/bin/python .codex/skills/math-assignment-latex/scripts/render_assignment.py \
+  artifacts/<slug>/assignment.yaml \
+  --out artifacts/<slug>/assignment.tex
 
 # 编译
-bash math-assignment-latex/scripts/compile_latex.sh \
-  artifacts/linear-function/04-assignment.tex
+bash .codex/skills/math-assignment-latex/scripts/compile_latex.sh \
+  artifacts/<slug>/assignment.tex
 ```
 
 ## 目录结构
 
 ```text
-math-assignment-latex/
+.codex/skills/math-assignment-latex/
   SKILL.md                              # Skill 定义
   README.md                             # 本文件
   templates/
@@ -38,11 +40,6 @@ math-assignment-latex/
     validate_assignment.py              # YAML Schema 验证
     sanitize_latex.py                   # LaTeX 文本转义
     compile_latex.sh                    # tectonic/XeLaTeX 编译脚本
-  examples/
-    linear-function.practice.assignment.yaml
-    linear-function.explanation.assignment.yaml
-    expected/
-      linear-function.practice.tex      # 预期输出（用于测试）
 ```
 
 ## 依赖

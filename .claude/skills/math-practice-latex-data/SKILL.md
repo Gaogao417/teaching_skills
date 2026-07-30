@@ -337,7 +337,7 @@ sections:
 
 ## Schema 遵循
 
-必须符合 `math-assignment-latex/references/assignment-schema.md` 定义的 schema。
+必须符合 `.codex/skills/math-assignment-latex/references/assignment-schema.md` 定义的 schema。
 
 ## 自检
 
@@ -364,17 +364,17 @@ sections:
 
 下一步：使用 math-assignment-latex 渲染、检查并编译 PDF。
 
-python math-assignment-latex/scripts/render_assignment.py \
+python .codex/skills/math-assignment-latex/scripts/render_assignment.py \
   artifacts/<学生名>/YYYY-MM-DD-<内容>/03-adaptive-practice.student.assignment.yaml \
   --out artifacts/<学生名>/YYYY-MM-DD-<内容>/03-practice-student.tex
 
-python math-assignment-latex/scripts/render_assignment.py \
+python .codex/skills/math-assignment-latex/scripts/render_assignment.py \
   artifacts/<学生名>/YYYY-MM-DD-<内容>/03-adaptive-practice.teacher.assignment.yaml \
   --out artifacts/<学生名>/YYYY-MM-DD-<内容>/03-practice-teacher.tex
 
-python math-assignment-latex/scripts/check_latex.py artifacts/<学生名>/YYYY-MM-DD-<内容>/03-practice-student.tex
-python math-assignment-latex/scripts/check_latex.py artifacts/<学生名>/YYYY-MM-DD-<内容>/03-practice-teacher.tex
+python .codex/skills/math-assignment-latex/scripts/check_latex.py artifacts/<学生名>/YYYY-MM-DD-<内容>/03-practice-student.tex
+python .codex/skills/math-assignment-latex/scripts/check_latex.py artifacts/<学生名>/YYYY-MM-DD-<内容>/03-practice-teacher.tex
 
-bash math-assignment-latex/scripts/compile_latex.sh artifacts/<学生名>/YYYY-MM-DD-<内容>/03-practice-student.tex
-bash math-assignment-latex/scripts/compile_latex.sh artifacts/<学生名>/YYYY-MM-DD-<内容>/03-practice-teacher.tex
+bash .codex/skills/math-assignment-latex/scripts/compile_latex.sh artifacts/<学生名>/YYYY-MM-DD-<内容>/03-practice-student.tex
+bash .codex/skills/math-assignment-latex/scripts/compile_latex.sh artifacts/<学生名>/YYYY-MM-DD-<内容>/03-practice-teacher.tex
 ```

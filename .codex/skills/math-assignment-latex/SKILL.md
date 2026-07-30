@@ -35,34 +35,34 @@ assignment.yaml -> Jinja2 template -> .tex -> 可选 PDF
 先验证 YAML：
 
 ```bash
-./.venv/bin/python math-assignment-latex/scripts/validate_assignment.py <input.yaml>
+./.venv/bin/python .codex/skills/math-assignment-latex/scripts/validate_assignment.py <input.yaml>
 ```
 
 再渲染 LaTeX：
 
 ```bash
-./.venv/bin/python math-assignment-latex/scripts/render_assignment.py <input.yaml> --out <output.tex>
+./.venv/bin/python .codex/skills/math-assignment-latex/scripts/render_assignment.py <input.yaml> --out <output.tex>
 ```
 
 检查 LaTeX，检查通过后用 VS Code 打开：
 
 ```bash
-./.venv/bin/python math-assignment-latex/scripts/check_latex.py <output.tex>
+./.venv/bin/python .codex/skills/math-assignment-latex/scripts/check_latex.py <output.tex>
 code <output.tex>
 ```
 
 用户要求 PDF 时再编译：
 
 ```bash
-bash math-assignment-latex/scripts/compile_latex.sh <output.tex>
+bash .codex/skills/math-assignment-latex/scripts/compile_latex.sh <output.tex>
 ```
 
 ## 参考
 
-- Schema: `math-assignment-latex/references/assignment-schema.md`
-- 模板映射: `math-assignment-latex/references/exam-zh-mapping.md`
-- LaTeX 风格: `math-assignment-latex/references/latex-style-guide.md`
-- 编译排错: `math-assignment-latex/references/compile-troubleshooting.md`
+- Schema: `references/assignment-schema.md`
+- 模板映射: `references/exam-zh-mapping.md`
+- LaTeX 风格: `references/latex-style-guide.md`
+- 编译排错: `references/compile-troubleshooting.md`
 
 只在需要具体字段、模板映射或排错时读取对应 reference。
 

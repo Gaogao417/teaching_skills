@@ -125,9 +125,9 @@ DELETE /api/banks/{bank_id}/items/{item_id}/images/official_solution/{index}
 
 明确不修改：
 
-- `math-assignment-latex/references/assignment-schema.md`
-- `math-assignment-latex/scripts/validate_assignment.py`
-- `math-assignment-latex/templates/exam-zh-practice.tex.j2`
+- `.codex/skills/math-assignment-latex/references/assignment-schema.md`
+- `.codex/skills/math-assignment-latex/scripts/validate_assignment.py`
+- `.codex/skills/math-assignment-latex/templates/exam-zh-practice.tex.j2`
 - `.codex/skills/math-topic-question-bank/scripts/derive_student_assignment.py`
 
 ## 7. 实施步骤

@@ -29,7 +29,7 @@ from question_bank_contracts import QuestionBank  # noqa: E402
 from validate_exam_source import validate_source  # noqa: E402
 from materialize_staging import materialize_crop  # noqa: E402
 
-sys.path.insert(0, str(ROOT / "math-assignment-latex/scripts"))
+sys.path.insert(0, str(ROOT / ".codex/skills/math-assignment-latex/scripts"))
 from render_assignment import render  # noqa: E402
 from validate_assignment import validate as validate_assignment  # noqa: E402
 
