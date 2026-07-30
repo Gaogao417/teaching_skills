@@ -1,7 +1,9 @@
-from pathlib import Path
 import yaml
 
-R=Path(__file__).resolve().parents[1]
+from question_bank_repo import find_repo_root
+
+
+R = find_repo_root()
 PID="2026-MINHANG-TERM"
 SRC="documents/初三/闵行区-2025学年第一学期初三年级学业质量调研-数学-试卷及参考答案"
 OUT=R/"artifacts/题库/2026-07-24-上海初三试卷原题库/staging"/PID

@@ -13,8 +13,10 @@ from typing import Any
 import yaml
 from PIL import Image
 
+from question_bank_repo import find_repo_root
 
-REPO_ROOT = Path(__file__).resolve().parents[1]
+
+REPO_ROOT = find_repo_root()
 TEACHER_ONLY_KEYS = {
     "answer",
     "clue",

@@ -9,18 +9,13 @@ import os
 from pathlib import Path
 import random
 import secrets
-import sys
 from typing import Any
 
 import yaml
 
-
-ROOT = Path(__file__).resolve().parents[1]
-QUESTION_BANK_SCRIPTS = ROOT / ".codex/skills/math-topic-question-bank/scripts"
-sys.path.insert(0, str(QUESTION_BANK_SCRIPTS))
-
-from question_bank_contracts import QuestionBank, QuestionBankItem  # noqa: E402
-from sample_question_bank import (  # noqa: E402
+from question_bank_repo import find_repo_root
+from question_bank_contracts import QuestionBank, QuestionBankItem
+from sample_question_bank import (
     find_question,
     find_solution_diagrams,
     load_yaml,
@@ -29,6 +24,9 @@ from sample_question_bank import (  # noqa: E402
     sanitize_student_content,
     weighted_sample_without_replacement,
 )
+
+
+ROOT = find_repo_root()
 
 
 def build_assignment(

@@ -1,6 +1,14 @@
 from __future__ import annotations
 
-from scripts.author_auxiliary_ratio_50_bank import (
+from pathlib import Path
+import sys
+
+
+REPO_ROOT = Path(__file__).resolve().parents[1]
+SKILL_SCRIPTS = REPO_ROOT / ".codex/skills/math-topic-question-bank/scripts"
+sys.path.insert(0, str(SKILL_SCRIPTS))
+
+from author_auxiliary_ratio_50_bank import (  # noqa: E402
     RATIO_SEGMENTS,
     ROUTES,
     auxiliary_route,

@@ -19,8 +19,10 @@ from typing import Any
 
 import yaml
 
+from question_bank_repo import find_repo_root
 
-ROOT = Path(__file__).resolve().parents[1]
+
+ROOT = find_repo_root()
 SOURCE_EXPLANATION = (
     "../../专题/2026-07-12-比例辅助线两组比例-待审核/"
     "02-student-explanation.plan.assignment.yaml"

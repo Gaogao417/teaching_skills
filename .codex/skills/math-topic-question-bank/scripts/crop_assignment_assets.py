@@ -9,6 +9,8 @@ from pathlib import Path
 import yaml
 from PIL import Image
 
+from question_bank_repo import find_repo_root
+
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
@@ -19,7 +21,7 @@ def parse_args() -> argparse.Namespace:
 def main() -> int:
     args = parse_args()
     manifest_path = args.manifest.resolve()
-    repo_root = Path(__file__).resolve().parents[1]
+    repo_root = find_repo_root()
     data = yaml.safe_load(manifest_path.read_text(encoding="utf-8"))
 
     for item in data.get("crops", []):

@@ -6,7 +6,6 @@ from __future__ import annotations
 import argparse
 import copy
 import random
-import sys
 from collections import Counter, defaultdict
 from dataclasses import dataclass
 from fractions import Fraction
@@ -15,18 +14,17 @@ from typing import Any
 
 import yaml
 
-
-ROOT = Path(__file__).resolve().parents[1]
-SKILL_SCRIPTS = ROOT / ".codex/skills/math-topic-question-bank/scripts"
-sys.path.insert(0, str(SKILL_SCRIPTS))
-
-from similarity_triangle_contracts import (  # noqa: E402
+from derive_student_assignment import derive as derive_student_assignment
+from question_bank_repo import find_repo_root
+from similarity_triangle_contracts import (
     SimilarityTriangleDatabase,
     SimilarityTriangleEntry,
 )
-from training_number_contracts import ExactLength, TrainingNumberEntry  # noqa: E402
-from training_number_review_state import load_database, load_review  # noqa: E402
-from derive_student_assignment import derive as derive_student_assignment  # noqa: E402
+from training_number_contracts import ExactLength, TrainingNumberEntry
+from training_number_review_state import load_database, load_review
+
+
+ROOT = find_repo_root()
 
 
 NUMBER_DATABASE = ROOT / ".codex/skills/math-topic-question-bank/data/training-number-database.yaml"
