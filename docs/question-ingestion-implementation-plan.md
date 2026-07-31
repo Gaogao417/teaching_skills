@@ -61,8 +61,8 @@ workflow/
 - [x] 以本文件替代首轮实施计划；
 - [x] 删除过期 ports design 和旧 LangGraph design；
 - [x] 更新代码注释、测试说明中的明确文档链接；
-- [ ] 新增或确认 dependency-boundary 测试入口；
-- [ ] 记录当前公开 import 路径，决定哪些需要兼容 shim。
+- [x] 新增或确认 dependency-boundary 测试入口（`tests/question_transcription/workflow/test_dependency_boundaries.py`，覆盖 utilities/infrastructure/domain 边界，未引入层自动 skip）；
+- [x] 记录当前公开 import 路径，决定哪些需要兼容 shim（结论：仅 workflow 自身的 tests 引用各模块，无仓库内生产调用方；M1–M7 的目录迁移期间对仍被测试引用的旧 import 路径提供 re-export shim，迁移完测试后在 M8 删除）。
 
 退出条件：
 
