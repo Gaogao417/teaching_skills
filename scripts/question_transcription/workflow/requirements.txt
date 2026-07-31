@@ -1,0 +1,18 @@
+# 题库录入 LangGraph 工作流依赖（G0.1）
+#
+# 安装到仓库共享 ./.venv：
+#   ./.venv/bin/python -m pip install -r scripts/question_transcription/workflow/requirements.txt
+#
+# 仓库主虚拟环境已提供 pydantic v2 / httpx / pyyaml / pillow / openai / pydantic_ai，
+# 这里只固定 LangGraph 全家桶，避免引入与主环境冲突的版本。
+#
+# 锁定原则：固定 LangGraph / LangSmith 兼容版本；其余作已有声明，不强制版本。
+langgraph>=0.2.50,<0.3
+langgraph-checkpoint-sqlite>=2.0.0,<3
+langsmith>=0.1.100,<0.2
+
+# 已有依赖声明（主环境已装，这里仅记录工作流的运行期依赖来源，pip 安装时若已满足则跳过）。
+pydantic>=2.7
+httpx>=0.27
+pyyaml>=6.0
+pillow>=10.0
