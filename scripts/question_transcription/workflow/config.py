@@ -64,12 +64,20 @@ DEFAULT_OPENCODE_SERVER_URL = "http://127.0.0.1:4096"
 DEFAULT_OPENCODE_AGENT_TYPE = "build"
 
 # Whole-paper Claude Code (§11 freeze #5 resolved): ``claude-agent-sdk`` drives the
-# locally installed ``claude`` CLI and sets model / permission_mode / output_format on
-# every request, so routing is verifiable by construction (unlike OpenCode's
-# server-side model binding). The SDK checks ``ANTHROPIC_API_KEY`` first, then the
-# CLI's stored credentials / ``CLAUDE_CODE_OAUTH_TOKEN``.
-# ``sonnet`` is the conventional Claude Code default model alias; overridable here.
-DEFAULT_CLAUDE_CODE_MODEL = "sonnet"
+# locally installed ``claude`` CLI and sets model / permission_mode on every request,
+# so routing is verifiable by construction (unlike OpenCode's server-side model
+# binding). The SDK checks ``ANTHROPIC_API_KEY`` first, then the CLI's stored
+# credentials / ``CLAUDE_CODE_OAUTH_TOKEN``.
+#
+# Model default is ``glm-5.2``: in this deployment the ``claude`` CLI is pointed
+# (via ~/.claude/settings.json env: ANTHROPIC_BASE_URL → open.bigmodel.cn/api/anthropic)
+# at the GLM Anthropic-compatible gateway, whose real model ids are glm-4.5..glm-5.2.
+# The SDK passes the model name verbatim to the gateway (it does NOT apply the CLI's
+# ANTHROPIC_DEFAULT_SONNET_MODEL alias remap), so the literal alias must be a model the
+# gateway recognizes. ``glm-5.2`` matches the OpenCode adapter for the same gateway
+# and is verified end-to-end by the live canary. Override to ``sonnet`` etc. when the
+# CLI points at a real Anthropic endpoint.
+DEFAULT_CLAUDE_CODE_MODEL = "glm-5.2"
 DEFAULT_CLAUDE_CODE_TIMEOUT_S = 300.0
 
 

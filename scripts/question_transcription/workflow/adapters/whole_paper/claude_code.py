@@ -109,7 +109,7 @@ class ClaudeQueryPort(Protocol):
     ) -> ClaudeTurn: ...
 
 
-async def _real_query(
+async def _real_run(
     *,
     system_prompt: str,
     prompt: str,
@@ -118,7 +118,7 @@ async def _real_query(
     allowed_tools: list[str],
     permission_mode: str,
 ) -> ClaudeTurn:
-    """The production ``ClaudeQueryPort``: drive ``claude_agent_sdk.query()``.
+    """The production SDK turn: drive ``claude_agent_sdk.query()``.
 
     Lazily imported so offline tests never load the SDK. The only place in this module
     that touches ``claude_agent_sdk``.
@@ -186,6 +186,21 @@ async def _real_query(
     return ClaudeTurn(
         assistant_text=joined, input_tokens=input_tokens, output_tokens=output_tokens
     )
+
+
+class _RealClaudeQueryPort:
+    """The production :class:`ClaudeQueryPort`: wraps :func:`_real_run` as a ``.run`` method.
+
+    Both the Model and the adapter default to a shared instance of this class, so the
+    production path and the injected-fake test path invoke the identical ``port.run(...)``
+    interface.
+    """
+
+    async def run(self, **kwargs: Any) -> ClaudeTurn:
+        return await _real_run(**kwargs)
+
+
+_REAL_QUERY_PORT: ClaudeQueryPort = _RealClaudeQueryPort()
 
 
 def _extract_tokens(usage: dict[str, Any] | None) -> tuple[int, int]:
@@ -257,7 +272,7 @@ class ClaudeCodeModel(Model):
         self,
         *,
         model_name: str,
-        query_port: ClaudeQueryPort,
+        query_port: ClaudeQueryPort | None = None,
         system_prompt: str = WHOLE_PAPER_SYSTEM_PROMPT,
         timeout_s: float = 300.0,
         allowed_tools: list[str] | None = None,
@@ -266,7 +281,8 @@ class ClaudeCodeModel(Model):
     ) -> None:
         super().__init__(settings=settings)
         self._model_name = model_name
-        self._query_port = query_port
+        # None → the production SDK port (resolved here so request() always has a port).
+        self._query_port = query_port or _REAL_QUERY_PORT
         self._system_prompt = system_prompt
         self._timeout_s = timeout_s
         self._allowed_tools = list(allowed_tools or [])
@@ -456,7 +472,7 @@ class ClaudeCodeTranscriber:
             cached = json.loads(cache_path.read_text(encoding="utf-8"))
             return QuestionTranscriptionBundle.model_validate(cached["bundle"])
 
-        port = self._query_port or _real_query
+        port = self._query_port or _REAL_QUERY_PORT
         model_obj = ClaudeCodeModel(
             model_name=self.model,
             query_port=port,
