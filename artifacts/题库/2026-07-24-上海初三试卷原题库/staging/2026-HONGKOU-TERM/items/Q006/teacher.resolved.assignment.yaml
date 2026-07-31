@@ -20,23 +20,27 @@ sections:
   - type: choice
     id: Q006
     points: 4
-    stem_latex: 如图3，在 $\triangle ABC$ 中，$AB=2AC$，点 $D$ 在边 $AB$ 上，且 $\angle ACD=\angle
-      B$，如果 $AD=2$，那么 $BD$ 的长是
+    stem_latex: 如图3，在 $\triangle ABC$ 中，$AB=2AC$，点 $D$ 在边 $AB$ 上，且 $\angle ACD=\angle B$，如果 $AD=2$，那么 $BD$ 的长是
     choices:
     - $3$
     - $4$
     - $5$
     - $6$
     answer: D
-    images:
-    - image_path: assets/prompt-figure-01.png
-      width: 0.82\linewidth
-      variant: source_prompt
-      disclosure_policy: always
-      label: 原题配图1
     source_solution_images:
     - image_path: assets/official-solution-01.png
       width: 0.96\linewidth
       variant: source_solution
       disclosure_policy: teacher_only
       label: 官方原解答第1页
+    diagram_col:
+      image_path: assets/prompt-figure-01.png
+      width: 65mm
+      variant: prompt
+      disclosure_policy: clean
+    images:
+    - image_path: assets/prompt-figure-01.png
+      width: 0.82\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图1

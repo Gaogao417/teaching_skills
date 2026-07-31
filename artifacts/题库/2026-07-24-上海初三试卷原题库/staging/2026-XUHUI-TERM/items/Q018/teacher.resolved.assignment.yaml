@@ -20,19 +20,23 @@ sections:
   - type: fillin
     id: Q018
     points: 4
-    stem_latex: 如图，在 $\triangle ABC$ 中，$AB=AC=5$，$\cos C=\frac45$，将 $\triangle ABC$ 绕点 $A$ 逆时针旋转得到 $\triangle ADE$，点 $B、C$
-      分别与点 $D、E$ 对应，边 $AD、DE$ 分别与原三角形底边 $BC$ 交于点 $F、G$。当 $\triangle DFG$ 是等腰三角形时，$FG$ 的长为
+    stem_latex: 如图，在 $\triangle ABC$ 中，$AB=AC=5$，$\cos C=\frac45$，将 $\triangle ABC$ 绕点 $A$ 逆时针旋转得到 $\triangle ADE$，点 $B、C$ 分别与点 $D、E$ 对应，边 $AD、DE$ 分别与原三角形底边 $BC$ 交于点 $F、G$。当 $\triangle DFG$ 是等腰三角形时，$FG$ 的长为
     answer: $\frac{15}{8}$ 或 $\sqrt{10}-2$
     explanation: 官方参考答案：$\frac{15}{8}$ 或 $\sqrt{10}-2$。
-    images:
-    - image_path: assets/prompt-figure.png
-      width: 0.78\linewidth
-      variant: source_prompt
-      disclosure_policy: always
-      label: 原题配图
     source_solution_images:
     - image_path: assets/official-solution-01.png
       width: 0.96\linewidth
       variant: source_solution
       disclosure_policy: teacher_only
       label: 官方原解答第1页
+    diagram_col:
+      image_path: assets/prompt-figure.png
+      width: 65mm
+      variant: prompt
+      disclosure_policy: clean
+    images:
+    - image_path: assets/prompt-figure.png
+      width: 0.78\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图
