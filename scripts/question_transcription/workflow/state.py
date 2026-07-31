@@ -61,12 +61,23 @@ def add_page_extract(
     barrier node (:mod:`.nodes.page_text`) is responsible for the *exact-coverage*
     post-condition (no missing, no duplicate, no failure) — this reducer only keeps
     the collection deterministic across arbitrary fan-out completion orders.
+
+    Inputs may be plain dicts (node outputs and checkpoint state are JSON-dumped);
+    we re-validate each into :class:`PageTextExtract` here.
     """
 
+    def _coerce(x) -> PageTextExtract:
+        if isinstance(x, PageTextExtract):
+            return x
+        return PageTextExtract.model_validate(x)
+
     if right is None:
-        return list(left)
-    incoming = right if isinstance(right, list) else [right]
-    merged: dict[int, PageTextExtract] = {x.artifact.page_number: x for x in left}
+        return [_coerce(x) for x in left]
+    incoming_raw = right if isinstance(right, list) else [right]
+    incoming = [_coerce(x) for x in incoming_raw]
+    merged: dict[int, PageTextExtract] = {
+        _coerce(x).artifact.page_number: _coerce(x) for x in left
+    }
     for extract in incoming:
         # Note: a duplicate page_number OVERWRITES here only so the reducer stays
         # total; the barrier treats any duplicate as a coverage violation and
