@@ -81,17 +81,31 @@ def _load_yaml(path: Path) -> dict[str, Any]:
 
 
 def _check_inside_archive(source: str, archive: str, label: str, errors: list[AssemblyError]) -> None:
-    """Forbid ``..`` escape and require the path to live under the source archive."""
-    p = Path(source)
-    if p.is_absolute() or ".." in p.parts:
+    """Forbid ``..`` escape and require the path to live under the source archive.
+
+    Two source shapes are accepted:
+
+    - **Archive-relative** (PDF flow): a repo-relative path that equals or starts
+      with the source archive name (e.g. ``2023-X.pdf`` slices).
+    - **Absolute rendered page path** (DOCX/whole-paper flow): the source-extraction
+      branch back-fills evidence with the absolute path of a rendered page image.
+      These are already ``resolve()``-d (no ``..``), and the downstream materialize
+      step enforces they stay under the repo root via its own ``inside()`` check, so
+      we accept them without the archive-prefix constraint.
+    """
+    if ".." in Path(source).parts:
         errors.append(
             AssemblyError(
                 code="path_escape",
-                detail=f"{label}: source path must stay inside the archive: {source}",
+                detail=f"{label}: source path must not contain '..': {source}",
             )
         )
         return
-    # Normalize without touching the filesystem; archive is repo-relative.
+    if Path(source).is_absolute():
+        # Rendered page-image path from the whole-paper evidence back-fill; safety
+        # is enforced by materialize_staging's inside(repo_root) check downstream.
+        return
+    # Relative path: must live under the source archive (PDF-slice convention).
     norm_archive = archive.rstrip("/") + "/"
     if not (source == archive or source.startswith(norm_archive)):
         errors.append(
