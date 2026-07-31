@@ -109,25 +109,59 @@ def _bind_page_text(config, store):
 
 def _bind_whole_paper(config, store):
     from .adapters.decorators import with_whole_paper_retry
+    from .adapters.whole_paper.structured_transcriber import (
+        StructuredWholePaperTranscriber,
+    )
+    from .prompts.whole_paper import WHOLE_PAPER_SYSTEM_PROMPT
+
+    bound_model, adapter_id, model_name = _bind_whole_paper_model(config)
+
+    inner = StructuredWholePaperTranscriber(
+        adapter_id=adapter_id,
+        model_name=model_name,
+        bound_model=bound_model,
+        store=store,
+        system_prompt=WHOLE_PAPER_SYSTEM_PROMPT,
+        agent_name=f"whole-paper-transcriber-{adapter_id}",
+    )
+    return with_whole_paper_retry(inner, config.whole_paper_retry)
+
+
+def _bind_whole_paper_model(config):
+    """Bind one infrastructure ``Model`` for the chosen whole-paper provider.
+
+    Returns ``(bound_model, adapter_id, model_name)``. This is the only place that
+    constructs the OpenCode or Claude Code infrastructure model; the unified
+    transcriber receives it already bound (architecture §3.8 / §9.5).
+    """
 
     if config.whole_paper_adapter == "opencode":
-        from .adapters.whole_paper.opencode import OpencodeGlmTranscriber
+        from scripts.infrastructure.ai.opencode.client import OpencodeClient
+        from scripts.infrastructure.ai.opencode.pydantic_model import OpencodeModel
 
-        inner = OpencodeGlmTranscriber(
-            model=config.opencode_model,
+        client = OpencodeClient(
             server_url=config.opencode_server_url,
             agent_type=config.opencode_agent_type,
-            store=store,
         )
-    else:  # claude_code
-        from .adapters.whole_paper.claude_code import ClaudeCodeTranscriber
+        return (
+            OpencodeModel(model_name=config.opencode_model, client=client),
+            "opencode",
+            config.opencode_model,
+        )
 
-        inner = ClaudeCodeTranscriber(
-            model=config.claude_code_model,
-            store=store,
+    # claude_code
+    from scripts.infrastructure.ai.claude_code.pydantic_model import ClaudeCodeModel
+    from .prompts.whole_paper import WHOLE_PAPER_SYSTEM_PROMPT
+
+    return (
+        ClaudeCodeModel(
+            model_name=config.claude_code_model,
+            system_prompt=WHOLE_PAPER_SYSTEM_PROMPT,
             timeout_s=config.claude_code_timeout_s,
-        )
-    return with_whole_paper_retry(inner, config.whole_paper_retry)
+        ),
+        "claude-code",
+        config.claude_code_model,
+    )
 
 
 def _bind_deterministic(config, store):

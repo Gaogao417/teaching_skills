@@ -121,14 +121,14 @@ workflow/adapters/whole_paper/
 
 工作包：
 
-| ID | 工作 |
-|---|---|
-| M2.1 | 定义 provider-neutral `StructuredModel` 注入方式 |
-| M2.2 | 实现统一 `StructuredWholePaperTranscriber` |
-| M2.3 | 把 prompt build、artifact commit、failure mapping 从 provider 文件迁出 |
-| M2.4 | 保持 provider 层不做手工补字段；未来 normalization 只能进入题目录入 application/adapter |
-| M2.5 | composition 分别创建 OpenCode/Claude model，再注入同一个 transcriber |
-| M2.6 | 保留旧 class/import 的临时兼容 shim |
+| ID | 工作 | 状态 |
+|---|---|---|
+| M2.1 | 定义 provider-neutral `StructuredModel` 注入方式（构造函数注入已绑定的 PydanticAI ``Model``） | ✅ |
+| M2.2 | 实现统一 `StructuredWholePaperTranscriber` | ✅ |
+| M2.3 | 把 prompt build、artifact commit、failure mapping 从 provider 文件迁出 | ✅ |
+| M2.4 | 保持 provider 层不做手工补字段；未来 normalization 只能进入题目录入 application/adapter | ✅ |
+| M2.5 | composition 分别创建 OpenCode/Claude model，再注入同一个 transcriber | ✅ |
+| M2.6 | 保留旧 class/import 的临时兼容 shim（`opencode.py`/`claude_code.py` 退化为转发 wrapper） | ✅ |
 
 测试：
 
