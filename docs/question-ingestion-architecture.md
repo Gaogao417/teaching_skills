@@ -72,7 +72,11 @@ scripts/question_transcription/workflow/
 
 当前结构仍存在的分层问题：
 
-- OpenCode/Claude 的通用 client、PydanticAI bridge 与题目录入 transcriber 混在 provider 文件中；
+- ~~OpenCode/Claude 的通用 client、PydanticAI bridge 与题目录入 transcriber 混在 provider 文件中~~
+  （M1 已完成：通用 transport 与 PydanticAI bridge 迁入
+  `scripts/infrastructure/ai/{opencode,claude_code}/{client,pydantic_model}.py`，provider
+  中立 failure 由 `scripts/infrastructure/ai/contracts.py` 的 `ModelFailure`/`ModelFailureError`
+  承担；题目录入 transcriber 只保留 prompt build、artifact commit 与 failure 映射）；
 - graph node 同时承担 LangGraph state 转换和 application stage 行为；
 - `ports/downstream.py` 使用相对位置命名，没有表达 staging 业务含义；
 - image attribution 在 `WorkflowDependencies` 中仍以 `object` 表示，没有正式端口；

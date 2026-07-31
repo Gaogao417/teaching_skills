@@ -1,34 +1,27 @@
-"""Claude Code whole-paper transcriber — Claude Code as a PydanticAI Model (ports §7.2).
+"""Claude Code whole-paper transcriber (architecture §3.2 and §3.6).
 
-Implements the current Claude Code path described by architecture §3.2 and §3.6.
+This adapter wraps the shared Claude Code infrastructure
+(:mod:`scripts.infrastructure.ai.claude_code`) into the question-ingestion
+:class:`WholePaperTranscriber` port. It is structurally symmetric with
+:mod:`.opencode`: it drives
+``Agent(model=ClaudeCodeModel(...), output_type=QuestionTranscriptionBundle).run()``
+so structured-output validation + ``ModelRetry`` live in the Agent layer (symmetric
+with OpenCode). The Model's ``request()`` only has to "make Claude behave like an
+LLM": turn messages into assistant text + usage.
 
-This adapter is **structurally symmetric** with :mod:`.opencode`: it exposes Claude Code
-as a PydanticAI :class:`~pydantic_ai.models.Model` (:class:`ClaudeCodeModel`, the
-sibling of OpenCode's ``OpencodeModel``) and the adapter drives
-``Agent(model=ClaudeCodeModel(...), output_type=QuestionTranscriptionBundle).run(prompt)``.
-Structured-output validation + ``ModelRetry`` live in the Agent layer — exactly as they
-do for the OpenCode adapter — so the Model's ``request()`` only has to "make Claude
-behave like an LLM": turn messages into assistant text + usage.
+The provider transport (``claude_agent_sdk.query()``) and the PydanticAI ``Model``
+bridge now live in shared infrastructure and are domain-free. This adapter owns the
+ingestion-specific concerns: page-text reading, whole-paper prompt build, the Agent
+output contract, artifact commit, and provider-neutral → domain failure mapping.
 
 Why routing is verifiable here (and not for OpenCode): the OpenCode server binds the
-model server-side in ``~/.config/opencode/opencode.json`` and the per-request
-``model_id`` never reaches the server (§7.2 GAP), so it must surface
-``routing_unverified``. The Claude SDK binds ``model`` / ``permission_mode`` on every
-request, so a non-empty validating response is a real transcription — this adapter
-never returns ``routing_unverified``.
+model server-side and the per-request ``model_id`` never reaches the server, so it
+must surface a routing failure; the Claude SDK binds ``model`` / ``permission_mode``
+on every request, so a non-empty validating response is a real transcription — this
+adapter never returns a routing failure.
 
 Auth: the SDK checks ``ANTHROPIC_API_KEY`` first, then the CLI's stored credentials /
 ``CLAUDE_CODE_OAUTH_TOKEN``. No credential is invented or logged.
-
-Layout:
-- :class:`ClaudeQueryPort` — injectable effect that runs one SDK ``query()`` turn.
-  Tests inject a fake; production resolves to :func:`_real_query` (the only place that
-  imports ``claude_agent_sdk``).
-- :class:`ClaudeCodeModel` — ``pydantic_ai.models.Model`` subclass (sibling of
-  ``OpencodeModel``). ``request()`` flattens messages, calls the port, returns
-  ``ModelResponse(parts=[TextPart], usage)``.
-- :class:`ClaudeCodeTranscriber` — :class:`WholePaperTranscriber`; structurally mirrors
-  ``OpencodeGlmTranscriber``: ordered pages → prompt → ``agent.run`` → commit bundle.
 """
 
 from __future__ import annotations
@@ -37,16 +30,8 @@ import asyncio
 import hashlib
 import json
 from pathlib import Path
-from typing import Any, Protocol
 
-# pydantic_ai is always installed in the repo venv (it is NOT the lazy-imported SDK).
-# Importing at module scope lets ClaudeCodeModel subclass Model — same pattern as
-# OpencodeModel. Only claude_agent_sdk (in _real_query) stays lazy-imported so offline
-# tests never load it.
-from pydantic_ai.messages import ModelResponse, TextPart
-from pydantic_ai.models import Model, check_allow_model_requests
-from pydantic_ai.settings import ModelSettings
-from pydantic_ai.usage import RequestUsage
+import yaml as _yaml
 
 from .._common_paths import repo_root  # noqa: F401  (sys.path bootstrap for contracts)
 from ...contracts import (
@@ -59,300 +44,67 @@ from ...prompts.whole_paper import (
     WHOLE_PAPER_SYSTEM_PROMPT,
     build_user_prompt,
 )
+# Shared AI infrastructure (M1). Domain-free: query port + PydanticAI Model bridge.
+from scripts.infrastructure.ai.claude_code.client import (
+    ADAPTER_ID,
+    ClaudeQueryPort,
+    ClaudeTurn,
+    RealClaudeQueryPort,
+)
+from scripts.infrastructure.ai.claude_code.pydantic_model import (
+    ClaudeCodeModel as _InfraClaudeCodeModel,
+)
+from scripts.infrastructure.ai.contracts import ModelFailure, ModelFailureError
 
 
-ADAPTER_ID = "claude-code"
+# Re-export under the historical names so existing tests/imports keep working until M8.
+ClaudeCodeModel = _InfraClaudeCodeModel
+
+
+def _map_failure(failure: ModelFailure) -> WholePaperFailure:
+    """Map a provider-neutral :class:`ModelFailure` to ``WholePaperFailure``.
+
+    Preserves the observable failure kinds of the pre-refactor adapter:
+    ``timed_out`` → ``execution_timed_out``; ``protocol`` (empty/protocol) →
+    ``invalid_structured_output``; everything else → ``transcriber_unavailable``.
+    """
+
+    kind = failure.kind
+    if kind == "timed_out":
+        domain_kind = "execution_timed_out"
+    elif kind == "protocol":
+        domain_kind = "invalid_structured_output"
+    else:
+        domain_kind = "transcriber_unavailable"
+    return WholePaperFailure(
+        adapter_id=ADAPTER_ID,
+        kind=domain_kind,
+        attempts=failure.attempts,
+        detail=failure.detail,
+    )
 
 
 class _CcsError(Exception):
-    """Internal control-flow exception carrying a structured WholePaperFailure."""
+    """Internal control-flow exception carrying a structured WholePaperFailure.
+
+    Retained as the adapter's intra-adapter control-flow carrier so the public
+    ``transcribe``/``_run_agent`` shape is unchanged. It is raised only after mapping
+    a :class:`ModelFailureError` (or a defensive exception) to a ``WholePaperFailure``.
+    """
 
     def __init__(self, failure: WholePaperFailure) -> None:
         super().__init__(failure.detail)
         self.failure = failure
 
 
-# --------------------------------------------------------------------------- #
-# Port: one SDK turn (injectable; only _real_query imports claude_agent_sdk)
-# --------------------------------------------------------------------------- #
-
-
-class ClaudeTurn:
-    """Result of one SDK ``query()`` turn: assistant text + token usage."""
-
-    __slots__ = ("assistant_text", "input_tokens", "output_tokens")
-
-    def __init__(self, *, assistant_text: str, input_tokens: int, output_tokens: int) -> None:
-        self.assistant_text = assistant_text
-        self.input_tokens = input_tokens
-        self.output_tokens = output_tokens
-
-
-class ClaudeQueryPort(Protocol):
-    """Run one stateless Claude Code agent turn.
-
-    ``system_prompt`` and ``prompt`` are sent as the SDK options.system_prompt and the
-    ``query(prompt=...)`` argument respectively (the SDK is stateless and accepts only
-    user turns — see module docstring). Production resolves to :func:`_real_query`;
-    tests inject a fake and never import the SDK.
-    """
-
-    async def run(
-        self,
-        *,
-        system_prompt: str,
-        prompt: str,
-        model: str,
-        timeout_s: float,
-        allowed_tools: list[str],
-        permission_mode: str,
-    ) -> ClaudeTurn: ...
-
-
-async def _real_run(
-    *,
-    system_prompt: str,
-    prompt: str,
-    model: str,
-    timeout_s: float,
-    allowed_tools: list[str],
-    permission_mode: str,
-) -> ClaudeTurn:
-    """The production SDK turn: drive ``claude_agent_sdk.query()``.
-
-    Lazily imported so offline tests never load the SDK. The only place in this module
-    that touches ``claude_agent_sdk``.
-    """
-
-    try:
-        from claude_agent_sdk import (  # type: ignore[import-not-found]
-            AssistantMessage,
-            ClaudeAgentOptions,
-            ResultMessage,
-            TextBlock,
-            query,
-        )
-    except ImportError as exc:
-        raise _CcsError(WholePaperFailure(
-            adapter_id=ADAPTER_ID, kind="transcriber_unavailable",
-            attempts=1,
-            detail=(
-                "claude-agent-sdk not importable: "
-                f"{exc}. Install with ./.venv/bin/python -m pip install "
-                "claude-agent-sdk and ensure the `claude` CLI is on PATH."
-            ),
-        ))
-
-    options = ClaudeAgentOptions(
-        model=model,
-        system_prompt=system_prompt,          # per-request: routing verifiable
-        allowed_tools=allowed_tools,          # [] — pure transcription, no tools (§14.12)
-        permission_mode=permission_mode,      # "default"
-        max_turns=1,                          # single assistant turn; we want text, not a tool loop
-    )
-
-    try:
-        text_parts: list[str] = []
-        usage: dict[str, Any] | None = None
-        async for message in query(prompt=prompt, options=options):
-            if isinstance(message, AssistantMessage):
-                for block in message.content:
-                    if isinstance(block, TextBlock):
-                        text_parts.append(block.text)
-            elif isinstance(message, ResultMessage):
-                # ResultMessage.usage is the authoritative aggregate (input/output tokens).
-                usage = message.usage
-    except TimeoutError as exc:
-        raise _CcsError(WholePaperFailure(
-            adapter_id=ADAPTER_ID, kind="execution_timed_out",
-            attempts=1, detail=f"claude-agent-sdk timed out: {exc}",
-        ))
-    except _CcsError:
-        raise
-    except Exception as exc:
-        raise _CcsError(WholePaperFailure(
-            adapter_id=ADAPTER_ID, kind="transcriber_unavailable",
-            attempts=1, detail=f"{type(exc).__name__}: {exc}",
-        ))
-
-    joined = "\n".join(p for p in text_parts if p).strip()
-    if not joined:
-        raise _CcsError(WholePaperFailure(
-            adapter_id=ADAPTER_ID, kind="invalid_structured_output",
-            attempts=1, detail="assistant returned empty text",
-        ))
-
-    input_tokens, output_tokens = _extract_tokens(usage)
-    return ClaudeTurn(
-        assistant_text=joined, input_tokens=input_tokens, output_tokens=output_tokens
-    )
-
-
-class _RealClaudeQueryPort:
-    """The production :class:`ClaudeQueryPort`: wraps :func:`_real_run` as a ``.run`` method.
-
-    Both the Model and the adapter default to a shared instance of this class, so the
-    production path and the injected-fake test path invoke the identical ``port.run(...)``
-    interface.
-    """
-
-    async def run(self, **kwargs: Any) -> ClaudeTurn:
-        return await _real_run(**kwargs)
-
-
-_REAL_QUERY_PORT: ClaudeQueryPort = _RealClaudeQueryPort()
-
-
-def _extract_tokens(usage: dict[str, Any] | None) -> tuple[int, int]:
-    """Pull (input_tokens, output_tokens) from a ResultMessage.usage dict."""
-
-    if not isinstance(usage, dict):
-        return 0, 0
-    return (
-        int(usage.get("input_tokens") or usage.get("inputTokens") or 0),
-        int(usage.get("output_tokens") or usage.get("outputTokens") or 0),
-    )
-
-
-# --------------------------------------------------------------------------- #
-# ClaudeCodeModel — pydantic_ai.Model subclass (sibling of OpencodeModel)
-# --------------------------------------------------------------------------- #
-
-
-def _convert_messages_to_prompt(messages: list[Any]) -> str:
-    """Flatten PydanticAI ``ModelMessage`` into a single prompt string.
-
-    The Claude SDK ``query()`` is **stateless**: its streaming input only accepts
-    ``type:"user"`` turns (no assistant turns), and ``options`` carries no history.
-    So we cannot replay a prior assistant turn as an assistant turn. Instead we render
-    the whole conversation as one ordered text transcript (role-prefixed) — the only
-    faithful mapping for a stateless SDK. The Agent's retry path re-enters ``request``
-    with ``[user, assistant-text, retry-prompt(user)]``, which this flattens in order.
-
-    Part roles follow ``OpencodeModel._convert_messages`` (system/user/assistant), with
-    tool/retry parts folded in as user content (they are instructions to the model).
-    """
-
-    blocks: list[str] = []
-    for message in messages:
-        for part in getattr(message, "parts", []):
-            content = getattr(part, "content", None)
-            if isinstance(content, list):
-                # Retry/output-schema parts may carry dicts as structured content.
-                fragments: list[str] = []
-                for item in content:
-                    if isinstance(item, str):
-                        fragments.append(item)
-                    elif isinstance(getattr(item, "text", None), str):
-                        fragments.append(item.text)
-                    elif isinstance(item, dict):
-                        fragments.append(json.dumps(item, ensure_ascii=False))
-                    else:
-                        fragments.append(str(item))
-                content = "\n".join(fragments)
-            if not isinstance(content, str) or not content.strip():
-                continue
-            part_type = type(part).__name__
-            if "System" in part_type or "Instruction" in part_type:
-                role = "system"
-            elif "User" in part_type:
-                role = "user"
-            elif "Text" in part_type:
-                role = "assistant"
-            else:
-                # RetryPrompt / ToolReturn / ToolCall etc. → model-facing instruction
-                role = "user"
-            blocks.append(f"[{role}]\n{content.strip()}")
-    return "\n\n".join(blocks)
-
-
-class ClaudeCodeModel(Model):
-    """PydanticAI ``Model`` backed by ``claude_agent_sdk.query``.
-
-    Mirrors :class:`opencode_agent_server.opencode_model.OpencodeModel`: implements the
-    three abstract members (``model_name`` / ``system`` / ``request``). ``request()``
-    is the only path the Agent uses for ``output_type`` validation; ``request_stream``
-    is inherited from ``Model`` (not overridden).
-    """
-
-    def __init__(
-        self,
-        *,
-        model_name: str,
-        query_port: ClaudeQueryPort | None = None,
-        system_prompt: str = WHOLE_PAPER_SYSTEM_PROMPT,
-        timeout_s: float = 300.0,
-        allowed_tools: list[str] | None = None,
-        permission_mode: str = "default",
-        settings: ModelSettings | None = None,
-    ) -> None:
-        super().__init__(settings=settings)
-        self._model_name = model_name
-        # None → the production SDK port (resolved here so request() always has a port).
-        self._query_port = query_port or _REAL_QUERY_PORT
-        self._system_prompt = system_prompt
-        self._timeout_s = timeout_s
-        self._allowed_tools = list(allowed_tools or [])
-        self._permission_mode = permission_mode
-
-    @property
-    def model_name(self) -> str:
-        return self._model_name
-
-    @property
-    def system(self) -> str:
-        return "claude-code"
-
-    async def request(
-        self,
-        messages: list[Any],
-        model_settings: ModelSettings | None,
-        model_request_parameters: Any,
-    ) -> ModelResponse:
-        model_settings, model_request_parameters = self.prepare_request(
-            model_settings, model_request_parameters
-        )
-        check_allow_model_requests()
-
-        prompt = _convert_messages_to_prompt(messages) or ""
-
-        try:
-            turn = await self._query_port.run(
-                system_prompt=self._system_prompt,
-                prompt=prompt,
-                model=self._model_name,
-                timeout_s=self._timeout_s,
-                allowed_tools=self._allowed_tools,
-                permission_mode=self._permission_mode,
-            )
-        except _CcsError as exc:
-            # Surface the structured failure out of the Model so the Agent / adapter can
-            # translate it; pydantic_ai lets request() raise.
-            raise
-
-        usage = RequestUsage(
-            input_tokens=turn.input_tokens, output_tokens=turn.output_tokens
-        )
-        return ModelResponse(
-            parts=[TextPart(content=turn.assistant_text)],
-            usage=usage,
-            model_name=self._model_name,
-            provider_name="claude-code",
-        )
-
-
-# --------------------------------------------------------------------------- #
-# ClaudeCodeTranscriber — WholePaperTranscriber (mirrors OpencodeGlmTranscriber)
-# --------------------------------------------------------------------------- #
-
-
 class ClaudeCodeTranscriber:
     """:class:`WholePaperTranscriber` driving a PydanticAI ``Agent``.
 
-    Structurally mirrors ``OpencodeGlmTranscriber``: read ordered page text, build the
-    shared whole-paper prompt, run the Agent with ``output_type=QuestionTranscriptionBundle``,
-    commit the validated bundle. The only difference from the OpenCode adapter is the
-    inner Model (``ClaudeCodeModel``) and therefore the host.
+    Structurally mirrors :class:`.opencode.OpencodeGlmTranscriber`: read ordered page
+    text, build the shared whole-paper prompt, run the Agent with
+    ``output_type=QuestionTranscriptionBundle``, commit the validated bundle. The only
+    difference from the OpenCode adapter is the inner Model (``ClaudeCodeModel``) and
+    therefore the host.
     """
 
     def __init__(
@@ -390,8 +142,6 @@ class ClaudeCodeTranscriber:
                 adapter_id=ADAPTER_ID, kind="transcriber_unavailable",
                 attempts=1, detail=f"{type(exc).__name__}: {exc}",
             )
-
-        import yaml as _yaml
 
         ref = self.store.commit_text(
             "structured/transcription.yaml",
@@ -480,9 +230,10 @@ class ClaudeCodeTranscriber:
             return QuestionTranscriptionBundle.model_validate(cached["bundle"])
 
         port = self._query_port or _REAL_QUERY_PORT
-        model_obj = ClaudeCodeModel(
+        model_obj = _InfraClaudeCodeModel(
             model_name=self.model,
             query_port=port,
+            system_prompt=WHOLE_PAPER_SYSTEM_PROMPT,
             timeout_s=self.timeout_s,
             permission_mode=self.permission_mode,
         )
@@ -502,6 +253,8 @@ class ClaudeCodeTranscriber:
 
         try:
             result = asyncio.run(agent.run(user_prompt))
+        except ModelFailureError as exc:
+            raise _CcsError(_map_failure(exc.failure))
         except _CcsError:
             raise
         except Exception as exc:
@@ -540,3 +293,6 @@ class ClaudeCodeTranscriber:
                 separators=(",", ":"),
             ).encode("utf-8")
         ).hexdigest()
+
+
+_REAL_QUERY_PORT: ClaudeQueryPort = RealClaudeQueryPort()

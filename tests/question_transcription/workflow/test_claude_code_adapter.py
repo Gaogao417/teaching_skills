@@ -140,7 +140,8 @@ def _fake_port(response: str | Exception, *, captured: dict | None = None):
     """A ``ClaudeQueryPort`` that records calls and yields a canned assistant turn.
 
     ``response`` is either the assistant text (a valid bundle JSON string) or an
-    Exception to raise (simulating an SDK / auth failure surfaced as ``_CcsError``).
+    Exception to raise. Real transport failures surface from shared infrastructure as
+    a provider-neutral :class:`ModelFailureError`; tests emulate that here.
     """
 
     cap = captured if captured is not None else {}
@@ -157,15 +158,17 @@ def _fake_port(response: str | Exception, *, captured: dict | None = None):
     return _Port(), cap
 
 
-def _ccs_error(kind: str, detail: str):
-    """Build a ``_CcsError`` (internal) to simulate the real port raising one."""
-    from scripts.question_transcription.workflow.adapters.whole_paper.claude_code import (
-        _CcsError,
-    )
-    from scripts.question_transcription.workflow.contracts import WholePaperFailure
+def _model_failure(kind: str, detail: str):
+    """Build a provider-neutral ``ModelFailureError`` for the port to raise.
 
-    return _CcsError(WholePaperFailure(
-        adapter_id=ADAPTER_ID, kind=kind, attempts=1, detail=detail
+    The adapter maps ``timed_out`` → ``execution_timed_out`` and everything else →
+    ``transcriber_unavailable`` (and ``protocol`` → ``invalid_structured_output``),
+    so these tests assert the same observable domain failure as before.
+    """
+    from scripts.infrastructure.ai.contracts import ModelFailure, ModelFailureError
+
+    return ModelFailureError(ModelFailure(
+        provider=ADAPTER_ID, kind=kind, attempts=1, detail=detail,
     ))
 
 
@@ -261,8 +264,9 @@ def test_transcribe_non_json_maps_to_invalid_structured_output(tmp_path):
 def test_transcribe_sdk_failure_maps_to_transcriber_unavailable(tmp_path):
     store = _store(tmp_path)
     request = _make_request(store, "page text")
-    # The real port surfaces structured failures as _CcsError; emulate an SDK/auth miss.
-    port, _ = _fake_port(_ccs_error("transcriber_unavailable", "claude CLI not found"))
+    # The real port surfaces transport failures as a provider-neutral ModelFailureError;
+    # emulate an SDK/auth miss (mapped by the adapter to transcriber_unavailable).
+    port, _ = _fake_port(_model_failure("unavailable", "claude CLI not found"))
     adapter = ClaudeCodeTranscriber(
         model="sonnet", store=store, cache_dir=tmp_path / "nocache", query_port=port,
     )
@@ -278,7 +282,7 @@ def test_transcribe_sdk_failure_maps_to_transcriber_unavailable(tmp_path):
 def test_transcribe_timeout_maps_to_execution_timed_out(tmp_path):
     store = _store(tmp_path)
     request = _make_request(store, "page text")
-    port, _ = _fake_port(_ccs_error("execution_timed_out", "timed out after 300s"))
+    port, _ = _fake_port(_model_failure("timed_out", "timed out after 300s"))
     adapter = ClaudeCodeTranscriber(
         model="sonnet", store=store, cache_dir=tmp_path / "nocache", query_port=port,
     )

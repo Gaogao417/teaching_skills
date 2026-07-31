@@ -1,17 +1,24 @@
-"""OpenCode glm-5.2 whole-paper transcriber — OpenCode as a PydanticAI Model.
+"""OpenCode glm-5.2 whole-paper transcriber.
 
-A self-contained HTTP client for the OpenCode server's session/message API. We
-deliberately do NOT depend on the ``opencode-agent`` packages. ``OpencodeModel``
-directly subclasses the repository's installed PydanticAI 2.x ``Model`` with
-``provider=None`` and calls the existing HTTP transport unchanged. The outer
-``OpencodeGlmTranscriber`` drives
-``Agent(model=OpencodeModel(...), output_type=QuestionTranscriptionBundle)`` so
-structured-output validation and ``ModelRetry`` are symmetric with Claude Code.
+This adapter wraps the shared OpenCode infrastructure
+(:mod:`scripts.infrastructure.ai.opencode`) into the question-ingestion
+:class:`WholePaperTranscriber` port. It owns the ingestion-specific concerns:
+
+- reading ordered page text from the artifact store;
+- building the whole-paper prompt for the chosen ``PaperLayout``;
+- driving the PydanticAI ``Agent(output_type=QuestionTranscriptionBundle)`` so
+  structured-output validation and ``ModelRetry`` are symmetric with Claude Code;
+- committing the transcription artifact;
+- mapping provider-neutral :class:`ModelFailure` into ``WholePaperFailure``.
+
+It does NOT select the OpenCode server or model — that is bootstrap's job. The
+provider transport and the PydanticAI ``Model`` bridge live in shared infrastructure
+and are domain-free.
 
 Model binding: the OpenCode server selects the model from its server-side config
-(``~/.config/opencode/opencode.json``); the per-request model is not propagated by
-the old opencode-agent provider. So this adapter relies on the server
-config binding glm-5.2 (verified by the live canary asserting a validated bundle).
+(``~/.config/opencode/opencode.json``); the per-request model is not propagated by the
+old opencode-agent provider. So this adapter relies on the server config binding
+glm-5.2 (verified by the live canary asserting a validated bundle).
 """
 
 from __future__ import annotations
@@ -19,15 +26,9 @@ from __future__ import annotations
 import asyncio
 import hashlib
 import json
-import time
 from typing import Any
 
-import httpx
 import yaml
-from pydantic_ai.messages import ModelResponse, TextPart
-from pydantic_ai.models import Model, check_allow_model_requests
-from pydantic_ai.settings import ModelSettings
-from pydantic_ai.usage import RequestUsage
 
 from .._common_paths import repo_root  # noqa: F401  (sys.path bootstrap for contracts)
 from ...contracts import (
@@ -40,132 +41,48 @@ from ...prompts.whole_paper import (
     WHOLE_PAPER_SYSTEM_PROMPT,
     build_user_prompt,
 )
+# Shared AI infrastructure (M1). Domain-free: client + PydanticAI Model bridge.
+from scripts.infrastructure.ai.contracts import ModelFailure, ModelFailureError
+from scripts.infrastructure.ai.opencode.client import OpencodeClient
+from scripts.infrastructure.ai.opencode.pydantic_model import (
+    OpencodeModel as _InfraOpencodeModel,
+)
 
 
 ADAPTER_ID = "opencode"
 
-
-def _extract_text(raw: dict) -> str:
-    """Join all text parts from an OpenCode /session/.../message response."""
-
-    parts = raw.get("parts") or []
-    return " ".join(p.get("text", "") for p in parts if p.get("type") == "text").strip()
+# Re-export under the historical name so existing tests/imports keep working until M8.
+OpencodeModel = _InfraOpencodeModel
 
 
-def _convert_messages_to_prompt(messages: list[Any]) -> str:
-    """Flatten PydanticAI messages into the text-only OpenCode transport.
+def _map_failure(failure: ModelFailure) -> WholePaperFailure:
+    """Map a provider-neutral :class:`ModelFailure` to ``WholePaperFailure``.
 
-    On ``ModelRetry`` the Agent calls the Model again with the prior assistant text
-    and validation feedback appended. Keeping every part in order lets the existing
-    stateless ``POST /session`` transport receive the complete retry conversation.
+    Preserves the observable failure kinds of the pre-refactor adapter:
+    ``timed_out`` → ``execution_timed_out``; ``protocol`` (empty/protocol) →
+    ``invalid_structured_output``; everything else → ``transcriber_unavailable``.
     """
 
-    blocks: list[str] = []
-    for message in messages:
-        for part in getattr(message, "parts", []):
-            content = getattr(part, "content", None)
-            if isinstance(content, list):
-                fragments: list[str] = []
-                for item in content:
-                    if isinstance(item, str):
-                        fragments.append(item)
-                    elif isinstance(getattr(item, "text", None), str):
-                        fragments.append(item.text)
-                    elif isinstance(item, dict):
-                        fragments.append(json.dumps(item, ensure_ascii=False))
-                    else:
-                        fragments.append(str(item))
-                content = "\n".join(fragments)
-            if not isinstance(content, str) or not content.strip():
-                continue
-            part_type = type(part).__name__
-            if "System" in part_type or "Instruction" in part_type:
-                role = "system"
-            elif "User" in part_type:
-                role = "user"
-            elif "Text" in part_type:
-                role = "assistant"
-            else:
-                role = "user"
-            blocks.append(f"[{role}]\n{content.strip()}")
-    return "\n\n".join(blocks)
-
-
-class OpencodeModel(Model):
-    """PydanticAI ``Model`` backed by the OpenCode session/message HTTP API.
-
-    No PydanticAI provider object is installed: ``Model.provider`` remains ``None``.
-    The injected ``send_message`` callable is the existing transport boundary and
-    returns the raw OpenCode response JSON.
-    """
-
-    def __init__(
-        self,
-        *,
-        model_name: str,
-        send_message,
-        settings: ModelSettings | None = None,
-    ) -> None:
-        super().__init__(settings=settings)
-        self._model_name = model_name
-        self._send_message = send_message
-
-    @property
-    def model_name(self) -> str:
-        return self._model_name
-
-    @property
-    def system(self) -> str:
-        return "opencode"
-
-    async def request(
-        self,
-        messages: list[Any],
-        model_settings: ModelSettings | None,
-        model_request_parameters: Any,
-    ) -> ModelResponse:
-        model_settings, model_request_parameters = self.prepare_request(
-            model_settings, model_request_parameters
-        )
-        check_allow_model_requests()
-
-        prompt = _convert_messages_to_prompt(messages)
-        try:
-            raw = await asyncio.to_thread(self._send_message, prompt)
-        except _OpcError:
-            raise
-        except Exception as exc:
-            low = str(exc).lower()
-            kind = "execution_timed_out" if "timeout" in low else "transcriber_unavailable"
-            raise _OpcError(WholePaperFailure(
-                adapter_id=ADAPTER_ID,
-                kind=kind,
-                attempts=1,
-                detail=f"server call failed: {exc}",
-            ))
-
-        text = _extract_text(raw)
-        if not text:
-            raise _OpcError(WholePaperFailure(
-                adapter_id=ADAPTER_ID,
-                kind="invalid_structured_output",
-                attempts=1,
-                detail="server returned empty text",
-            ))
-
-        return ModelResponse(
-            parts=[TextPart(content=text)],
-            usage=RequestUsage(input_tokens=0, output_tokens=0),
-            model_name=self._model_name,
-            provider_name="opencode",
-        )
+    kind = failure.kind
+    if kind == "timed_out":
+        domain_kind = "execution_timed_out"
+    elif kind == "protocol":
+        domain_kind = "invalid_structured_output"
+    else:
+        domain_kind = "transcriber_unavailable"
+    return WholePaperFailure(
+        adapter_id=ADAPTER_ID,
+        kind=domain_kind,
+        attempts=failure.attempts,
+        detail=failure.detail,
+    )
 
 
 class OpencodeGlmTranscriber:
     """:class:`WholePaperTranscriber` backed by the OpenCode server (glm-5.2).
 
-    Self-contained: no ``opencode-agent`` import. The server's session/message API
-    remains a direct httpx transport behind :class:`OpencodeModel`.
+    Self-contained at the ingestion layer: the server's session/message API transport
+    and the PydanticAI ``Model`` live in shared infrastructure.
     """
 
     def __init__(self, *, model: str, server_url: str, agent_type: str, store,
@@ -246,9 +163,15 @@ class OpencodeGlmTranscriber:
         from pydantic_ai import Agent
         from scripts.question_transcription.contracts import QuestionTranscriptionBundle
 
-        model_obj = OpencodeModel(
+        client = OpencodeClient(
+            server_url=self.server_url,
+            agent_type=self.agent_type,
+            timeout_s=self.timeout_s,
+            http_client=self.http_client,
+        )
+        model_obj = _InfraOpencodeModel(
             model_name=self.model,
-            send_message=self._send_message,
+            client=client,
         )
         agent = Agent(
             model=model_obj,
@@ -260,6 +183,8 @@ class OpencodeGlmTranscriber:
 
         try:
             result = asyncio.run(agent.run(user_prompt))
+        except ModelFailureError as exc:
+            raise _OpcError(_map_failure(exc.failure))
         except _OpcError:
             raise
         except Exception as exc:
@@ -284,44 +209,6 @@ class OpencodeGlmTranscriber:
             )
             tmp.replace(cache_path)
         return bundle
-
-    def _send_message(self, message: str) -> dict[str, Any]:
-        """POST /session then /session/{id}/message; return the raw response JSON.
-
-        Reuses one httpx client per call (created if not injected). The session id is
-        created fresh per transcription; opencode's session is stateful server-side.
-        """
-
-        # trust_env=False mirrors OpencodeProvider: prevents httpx from routing
-        # localhost through a proxy env var (which returns 502 against the server).
-        client = self.http_client or httpx.Client(timeout=self.timeout_s, trust_env=False)
-        close = self.http_client is None
-        try:
-            # 1. create session
-            create = client.post(f"{self.server_url}/session", json={"title": "question-ingestion"})
-            if create.is_error:
-                raise RuntimeError(f"POST /session HTTP {create.status_code}: {create.text[:300]}")
-            session_id = create.json().get("id")
-            if not session_id:
-                raise RuntimeError(f"POST /session returned no id: {create.text[:300]}")
-            # 2. send message (messageID must start with "msg")
-            payload: dict[str, Any] = {
-                "messageID": f"msg_{int(time.time() * 1000)}",
-                "parts": [{"type": "text", "text": message}],
-            }
-            if self.agent_type:
-                payload["agent"] = self.agent_type
-            msg = client.post(
-                f"{self.server_url}/session/{session_id}/message", json=payload
-            )
-            if msg.is_error:
-                raise RuntimeError(
-                    f"POST /session/{session_id}/message HTTP {msg.status_code}: {msg.text[:300]}"
-                )
-            return msg.json()
-        finally:
-            if close:
-                client.close()
 
     # -- helpers ----------------------------------------------------------- #
 

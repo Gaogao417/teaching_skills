@@ -85,14 +85,14 @@ scripts/infrastructure/ai/
 
 工作包：
 
-| ID | 工作 | 主要来源 | 目标 |
-|---|---|---|---|
-| M1.1 | 定义 provider-neutral failure/structured model 边界 | 现有两个 provider adapter | `infrastructure/ai/contracts.py` |
-| M1.2 | 提取 OpenCode session/message HTTP transport | `opencode.py` | `opencode/client.py` |
-| M1.3 | 提取 OpenCode PydanticAI bridge | `opencode.py` | `opencode/pydantic_model.py` |
-| M1.4 | 提取 Claude query SDK boundary | `claude_code.py` | `claude_code/client.py` |
-| M1.5 | 提取 Claude PydanticAI bridge | `claude_code.py` | `claude_code/pydantic_model.py` |
-| M1.6 | 为两个 infrastructure provider 增加注入 transport 的离线测试 | 现有 adapter tests | `tests/infrastructure/ai/` |
+| ID | 工作 | 主要来源 | 目标 | 状态 |
+|---|---|---|---|---|
+| M1.1 | 定义 provider-neutral failure/structured model 边界 | 现有两个 provider adapter | `infrastructure/ai/contracts.py` | ✅ |
+| M1.2 | 提取 OpenCode session/message HTTP transport | `opencode.py` | `opencode/client.py` | ✅ |
+| M1.3 | 提取 OpenCode PydanticAI bridge | `opencode.py` | `opencode/pydantic_model.py` | ✅ |
+| M1.4 | 提取 Claude query SDK boundary | `claude_code.py` | `claude_code/client.py` | ✅ |
+| M1.5 | 提取 Claude PydanticAI bridge | `claude_code.py` | `claude_code/pydantic_model.py` | ✅ |
+| M1.6 | 为两个 infrastructure provider 增加注入 transport 的离线测试 | 现有 adapter tests | `tests/infrastructure/ai/` | ✅ |
 
 边界要求：
 
