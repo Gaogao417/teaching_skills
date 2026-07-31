@@ -705,6 +705,30 @@ UseApi
 
 三者是启动配置的替代选项，不是运行时的备用链。
 
+> **Claude Code adapter（已落地，实现计划 §11 freeze #5）**：与 OpenCode adapter
+> **结构对称**——把 Claude Code 包成 PydanticAI 的 `Model`
+> （`ClaudeCodeModel`，是 `OpencodeModel` 的兄弟类），adapter 用
+> `Agent(model=ClaudeCodeModel(...), output_type=QuestionTranscriptionBundle).run(prompt)`
+> 调用。结构化输出校验与 `ModelRetry` 由 Agent 层负责（和 OpenCode adapter 一样），
+> `ClaudeCodeModel.request()` 只做"让 Claude 像 LLM"：把 messages 收敛成 prompt、
+> 调一次 SDK、回包 `ModelResponse(parts=[TextPart], usage)`。
+>
+> 与 OpenCode adapter 的关键区别：OpenCode server 把模型绑在 server-side 配置
+> （`opencode.json`），per-request `model_id` 到不了 server（§7.2 GAP），所以必须返回
+> `routing_unverified`。`claude-agent-sdk` 在**每次请求**显式绑定 `model` /
+> `permission_mode`（`allowed_tools=[]`、`max_turns=1`），因此一次非空且通过
+> `QuestionTranscriptionBundle` 校验的响应即为真实 transcription，**永不**返回
+> `routing_unverified`。鉴权顺序：`ANTHROPIC_API_KEY` → CLI 已登录凭证 /
+> `CLAUDE_CODE_OAUTH_TOKEN`；无凭证时立即 `transcriber_unavailable`，不发明凭证、
+> 不记录 key 内容。
+>
+> SDK 的 `query()` 无状态（streaming input 只接受 `type:"user"` 轮次，options 无
+> history），因此 Agent 的 repair 路径下 `request()` 收到的多轮 messages 被按角色顺序
+> 压成单条 prompt 文本喂入。SDK 调用封装为可注入的 `ClaudeQueryPort`（唯一触碰
+> `claude_agent_sdk` 的地方），离线测试用假 port 覆盖 Agent 全链路、缓存命中、坏 JSON、
+> SDK 缺失等分支（见 `test_claude_code_adapter.py`），live canary 见
+> `test_claude_code_canary.py`。
+
 ### 7.3 `TranscribeWholePaper` 节点的业务逻辑
 
 ```fsharp

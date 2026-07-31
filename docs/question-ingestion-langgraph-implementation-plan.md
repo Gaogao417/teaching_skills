@@ -490,7 +490,14 @@ adapter 可以按端口逐个启用，不改变业务节点。
 2. 首版 production 启用哪些 whole-paper adapter；
 3. qwen3.7-flash 的正式 API model id；
 4. direct GLM API 的 endpoint 与鉴权环境变量名；
-5. Claude Code 非交互执行的权限和输出协议；
+5. ~~Claude Code 非交互执行的权限和输出协议~~（**已冻结/落地**：与 OpenCode adapter
+   结构对称——`ClaudeCodeModel` 是 `pydantic_ai.Model` 子类（`OpencodeModel` 的兄弟），
+   adapter 走 `Agent(model=ClaudeCodeModel, output_type=QuestionTranscriptionBundle).run()`；
+   结构化校验/重试由 Agent 层负责。底层 `claude-agent-sdk`（PyPI）以子进程驱动本机
+   `claude` CLI，每次请求显式绑定 `model` / `permission_mode`（`allowed_tools=[]`、
+   `max_turns=1`），所以路由可验证、**永不**返回 `routing_unverified`。鉴权优先
+   `ANTHROPIC_API_KEY`，其次 CLI 已登录凭证 / `CLAUDE_CODE_OAUTH_TOKEN`。见
+   `adapters/whole_paper/claude_code.py` 与 ports §7.2）；
 6. OpenCode server-side transcription agent name；
 7. 每个 adapter 的 timeout、max attempts、并发、RPM、TPM；
 8. LangSmith dev/canary project 命名和正文脱敏策略；
