@@ -18,7 +18,8 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Optional
 
-from ..artifact_store import ArtifactStore, RunLayout
+from ..infrastructure.artifact_store import ArtifactStore
+from ..infrastructure.run_layout import RunLayout
 from ..domain.paper_layout import PaperLayout, paper_layout_from_str
 from ..ports.image_attribution import ImageAttributor
 from ..ports.page_text import PageTextExtractor

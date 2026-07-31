@@ -12,7 +12,7 @@ from __future__ import annotations
 
 from typing import Literal, Protocol, runtime_checkable
 
-from ..ports.downstream import StageFailure
+from ..ports.staging import StageFailure
 
 
 __all__ = ["FinalReviewStatus", "FinalReviewReader"]

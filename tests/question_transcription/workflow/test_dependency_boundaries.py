@@ -221,7 +221,9 @@ def test_workflow_state_and_contracts_name_no_provider_choice():
     # shim only re-exports, so it would not contain the frozen-choice tokens).
     from scripts.question_transcription.workflow.bootstrap import config as wconfig
     from scripts.question_transcription.workflow import contracts as wcontracts
-    from scripts.question_transcription.workflow import state as wstate
+    from scripts.question_transcription.workflow.orchestration.langgraph import (
+        state as wstate,
+    )
 
     forbidden = {"UseOpenCode", "UseClaudeCode", "UseApi", "RuntimeAdapterConfig"}
 

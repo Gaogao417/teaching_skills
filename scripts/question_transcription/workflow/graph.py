@@ -34,7 +34,7 @@ from .orchestration.langgraph.routing import (
     route_after_page_barrier,
 )
 from .orchestration.langgraph.state import WorkflowState
-from .dependencies import WorkflowDependencies
+from .bootstrap.dependencies import WorkflowDependencies
 from .nodes.downstream import (
     make_audit_staging_node,
     make_build_assets_node,

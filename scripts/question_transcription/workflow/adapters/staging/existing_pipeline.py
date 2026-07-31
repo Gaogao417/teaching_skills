@@ -22,7 +22,7 @@ from pathlib import Path
 
 from .._common_paths import repo_root  # noqa: F401
 from ...contracts import ArtifactRef
-from ...ports.downstream import StageFailure
+from ...ports.staging import StageFailure
 
 
 __all__ = [

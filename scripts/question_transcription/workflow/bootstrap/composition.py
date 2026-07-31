@@ -18,7 +18,8 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Literal
 
-from ..artifact_store import ArtifactStore, RunLayout, sha256_file
+from ..infrastructure.artifact_store import ArtifactStore, sha256_file
+from ..infrastructure.run_layout import RunLayout
 from .config import AdapterProvenance, RuntimeAdapterConfig
 from .dependencies import DeterministicPorts, WorkflowDependencies
 from ..tracing import NullTraceSink, TraceSink, reset as reset_trace

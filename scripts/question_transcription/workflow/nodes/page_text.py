@@ -23,7 +23,7 @@ from ..contracts import (
     PageTextExtract,
     PageTextJob,
 )
-from ..state import WorkflowState
+from ..orchestration.langgraph.state import WorkflowState
 from ..tracing import trace_event
 
 

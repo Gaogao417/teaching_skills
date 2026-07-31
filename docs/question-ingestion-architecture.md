@@ -38,64 +38,70 @@
 
 ## 2. 当前实现事实
 
-当前实现集中在：
+M0–M8 分层迁移已完成。当前实现分布在七层边界：
 
 ```text
-scripts/question_transcription/workflow/
-├── contracts.py / state.py / graph.py
-├── config.py / dependencies.py / composition.py / cli.py
-├── artifact_store.py / checkpoint.py / tracing.py
-├── ports/
-├── nodes/
-├── adapters/
-│   ├── page_text/{qwen,mimo}.py
-│   ├── whole_paper/{opencode,claude_code}.py
-│   ├── docx_or_pdf.py
-│   ├── source_build.py
-│   ├── downstream.py
-│   └── review.py
-├── prompts/whole_paper.py
-└── testsupport/fakes.py
+scripts/
+├── utilities/files/{atomic_write,hashing}.py        # L0 纯通用能力
+├── infrastructure/ai/                                # L1 shared provider infrastructure
+│   ├── contracts.py (ModelFailure / ModelFailureError)
+│   ├── opencode/{client,pydantic_model}.py
+│   └── claude_code/{client,pydantic_model}.py
+└── question_transcription/
+    ├── contracts.py / source_contracts.py / review_issue_contracts.py  # 权威 schema
+    └── workflow/
+        ├── domain/{lifecycle,artifacts,paper_layout}.py   # L2 稳定值对象/生命周期
+        ├── application/stages/{page_text,source,whole_paper}.py  # L3 框架无关 stage
+        ├── orchestration/langgraph/{state,reducers,routing}.py + graph.py  # L4
+        ├── adapters/
+        │   ├── page_text/{qwen,mimo}.py
+        │   ├── whole_paper/structured_transcriber.py (+ opencode/claude_code transport shim)
+        │   ├── source/{extraction,image_attribution,source_paper}.py
+        │   ├── staging/existing_pipeline.py
+        │   ├── review/filesystem.py
+        │   └── decorators.py
+        ├── ports/{source,source_build,page_text,whole_paper,image_attribution,staging,review}.py
+        ├── infrastructure/{artifact_store,run_layout}.py + checkpoint.py + tracing.py
+        ├── bootstrap/{config,dependencies,composition,cli}.py  # L6 唯一选择 provider
+        ├── prompts/whole_paper.py
+        ├── nodes/  # LangGraph thin wrappers
+        └── testsupport/fakes.py
 ```
 
-已经存在的正确边界：
+已经落实的边界（迁移后）：
 
-- `composition.py` 是唯一选择页级和整卷 provider 的模块；
+- `bootstrap/composition.py` 是唯一选择页级和整卷 provider 的模块；
 - graph node 依赖业务 Protocol，而不是 provider discriminator；
 - `WorkflowState` 主要保存 `ArtifactRef`，不保存 PDF、页图或完整模型响应；
 - 页级 fan-out 使用 LangGraph `Send` 和 reducer；
-- OpenCode 与 Claude Code 实现相同的 `WholePaperTranscriber` 业务端口；
-- OpenCode 与 Claude Code 都以 `provider=None` 的 PydanticAI `Model` 驱动
+- OpenCode 与 Claude Code 共享同一个 `StructuredWholePaperTranscriber`，只保留 transport/model
+  bridge 差异；两者都以 `provider=None` 的 PydanticAI `Model` 驱动
   `Agent(output_type=QuestionTranscriptionBundle)`，共享自动校验与 `ModelRetry` 语义；
+- shared AI infrastructure 不认识 `QuestionTranscriptionBundle`、数学 prompt 或 ingestion artifact；
+- `PaperLayout` 属于 `domain/paper_layout.py` request/domain 语义，不属于 provider runtime choice；
+- image attribution 有正式 `ImageAttributor` Protocol；
+- `downstream` 业务命名已统一为 `staging`；
 - fake dependencies 可以驱动离线 graph lifecycle；
 - run artifact 位于 `build/question-ingestion/<paper-id>/<run-id>/`。
 
-当前结构仍存在的分层问题：
+已完成的分层迁移（原“分层问题”已全部解决）：
 
-- ~~OpenCode/Claude 的通用 client、PydanticAI bridge 与题目录入 transcriber 混在 provider 文件中~~
-  （M1 已完成：通用 transport 与 PydanticAI bridge 迁入
-  `scripts/infrastructure/ai/{opencode,claude_code}/{client,pydantic_model}.py`，provider
-  中立 failure 由 `scripts/infrastructure/ai/contracts.py` 的 `ModelFailure`/`ModelFailureError`
-  承担；题目录入 transcriber 只保留 prompt build、artifact commit 与 failure 映射）；
-- ~~graph node 同时承担 LangGraph state 转换和 application stage 行为~~
-  （M4 已完成：纯业务决策/校验拆入 `application/stages/{page_text,source,whole_paper}.py`，
-  LangGraph state/reducer 拆入 `orchestration/langgraph/{state,reducers,routing}.py`，
-  graph node 退化为 thin wrapper，拓扑与 outcome 不变）；
-- ~~`ports/downstream.py` 使用相对位置命名，没有表达 staging 业务含义~~
-  （M3 已完成：稳定业务名 `ports/staging.py` 为真源，`ports/downstream.py` 退化为
-  re-export shim）；
-- ~~image attribution 在 `WorkflowDependencies` 中仍以 `object` 表示，没有正式端口~~
-  （M3 已完成：`ports/image_attribution.py` 定义 `ImageAttributor` Protocol，
-  `DeterministicPorts.image_attribution` 改为类型化字段）；
-- ~~`interleaved / separated` 是试卷布局语义，却暂存在 runtime adapter config~~
-  （M3 已完成：`domain/paper_layout.py` 定义 `PaperLayout` request/domain 类型，
-  `WorkflowDependencies.whole_paper_prompt_mode` 类型化为 `PaperLayout`，config 仍可
-  暂存原始字符串并在装配时 coerce）；
-- ~~`artifact_store/checkpoint/tracing`、配置装配和领域契约平铺在同一级~~
-  （M6 已完成：`RunLayout`/`ArtifactStore` 拆入 `infrastructure/{run_layout,artifact_store}.py`，
-  `config/dependencies/composition/cli` 拆入 `bootstrap/`，根级文件退化为 re-export shim，
-  artifact 路径/哈希/原子格式与 CLI 行为不变）；
-- `testsupport/fakes.py` 聚合所有 fake，已经形成单文件多职责。
+- M1：OpenCode/Claude 通用 transport 与 PydanticAI bridge 迁入 shared infrastructure；
+- M2：两个 provider 共享 `StructuredWholePaperTranscriber`；
+- M3：domain/ports 收口（`PaperLayout`、`ImageAttributor`、`staging` 重命名）；
+- M4：application stages 与 LangGraph thin nodes 分离；
+- M5：业务 adapter 按稳定能力命名（source/staging/review），`_common_paths` 清理；
+- M6：workflow infrastructure 与 bootstrap 分离；
+- M7：hashing/atomic-write 纯能力提取到 utilities；
+- M8：所有兼容 shim 已删除，调用方全部使用 canonical 路径。
+
+仍存在的已知技术债（不在本次重构范围）：
+
+- `testsupport/fakes.py` 聚合所有 fake，已经形成单文件多职责（架构 §8.3 建议按 scenario/adapter
+  拆分，但需要稳定的 fake 用例集后再做）；
+- `whole_paper/opencode.py`、`whole_paper/claude_code.py` 仍作为 transport/model bridge 的
+  历史入口保留（canonical 实现已在 shared infrastructure），未来 live canary 直接走 infrastructure
+  后可移除。
 
 ## 3. 中央架构决定
 

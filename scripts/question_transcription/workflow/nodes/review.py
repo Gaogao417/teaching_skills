@@ -16,7 +16,7 @@ from typing import Any
 
 from langgraph.types import interrupt
 
-from ..state import WorkflowState
+from ..orchestration.langgraph.state import WorkflowState
 from ..tracing import trace_event
 
 

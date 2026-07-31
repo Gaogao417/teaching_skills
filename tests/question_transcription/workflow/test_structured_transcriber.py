@@ -30,10 +30,10 @@ from scripts.infrastructure.ai.contracts import ModelFailure, ModelFailureError
 from scripts.question_transcription.workflow.adapters.whole_paper.structured_transcriber import (
     StructuredWholePaperTranscriber,
 )
-from scripts.question_transcription.workflow.artifact_store import (
+from scripts.question_transcription.workflow.infrastructure.artifact_store import (
     ArtifactStore,
-    RunLayout,
 )
+from scripts.question_transcription.workflow.infrastructure.run_layout import RunLayout
 from scripts.question_transcription.workflow.contracts import (
     ExecutionProvenance,
     PageTextArtifact,

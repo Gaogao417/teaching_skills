@@ -79,7 +79,7 @@ class DocxOrPdfSourceExtractor:
         pages_dir = self.store.layout.source_dir / "pages"
         page_paths = pdf_render(Path(source.source_archive), pages_dir, self.dpi)
         # Build a minimal PDF source manifest the page-text branch can consume.
-        from ...artifact_store import sha256_file
+        from ...infrastructure.artifact_store import sha256_file
 
         pages = [
             {"page_number": i + 1, "source": f"source/pages/{p.name}",
@@ -95,7 +95,7 @@ class DocxOrPdfSourceExtractor:
         return self._materialize_extracted(source, manifest, pages_dir, kind="pdf")
 
     def _materialize_extracted(self, source, manifest, output_dir, *, kind):
-        from ...artifact_store import sha256_file
+        from ...infrastructure.artifact_store import sha256_file
 
         page_refs = []
         pages = manifest.get("rendered_pages") or manifest.get("pages") or []

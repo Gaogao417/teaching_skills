@@ -18,7 +18,7 @@ from ..contracts import (
     WholePaperFailure,
     WholePaperTranscription,
 )
-from ..state import WorkflowState
+from ..orchestration.langgraph.state import WorkflowState
 from ..tracing import trace_event
 
 

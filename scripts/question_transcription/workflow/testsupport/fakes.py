@@ -28,7 +28,7 @@ from ..contracts import (
     WholePaperFailure,
     WholePaperTranscription,
 )
-from ..ports.downstream import StageFailure
+from ..ports.staging import StageFailure
 from ..ports.review import FinalReviewStatus
 from ..ports.source import SourceExtractionError
 
@@ -309,7 +309,7 @@ class FakeFinalReviewReader:
 def build_fake_deps(store, scenario: FakeScenario | None = None):
     """Assemble :class:`WorkflowDependencies` entirely from offline fakes."""
 
-    from ..dependencies import DeterministicPorts, WorkflowDependencies
+    from ..bootstrap.dependencies import DeterministicPorts, WorkflowDependencies
 
     sc = scenario or FakeScenario()
     deterministic = DeterministicPorts(

@@ -21,9 +21,19 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from scripts.question_transcription.workflow import contracts as wcontracts
-from scripts.question_transcription.workflow import state as wstate
-# config lives in bootstrap/ now (M6); the workflow.config shim re-exports it. Test the
-# canonical module directly so the frozen-choice assertions inspect real config code.
+from scripts.question_transcription.workflow.orchestration.langgraph import (
+    state as wstate,
+)
+from scripts.question_transcription.workflow.orchestration.langgraph.reducers import (
+    add_page_extract,
+)
+
+# The historical ``state`` shim re-exported ``add_page_extract`` from the reducers
+# module; bind it onto ``wstate`` so the ``wstate.add_page_extract`` call sites keep
+# working against the canonical state module without changing behaviour.
+wstate.add_page_extract = add_page_extract
+# config lives in bootstrap/ now (M6). Test the canonical module directly so the
+# frozen-choice assertions inspect real config code.
 from scripts.question_transcription.workflow.bootstrap import config as wconfig
 
 
@@ -130,15 +140,15 @@ def test_extract_outcome_projection():
 # --------------------------------------------------------------------------- #
 
 from scripts.question_transcription.workflow.ports import (
-    downstream,
     page_text,
     review,
     source,
     source_build,
+    staging,
     whole_paper,
 )
 
-PORT_MODULES = [source, page_text, whole_paper, source_build, downstream, review]
+PORT_MODULES = [source, page_text, whole_paper, source_build, staging, review]
 
 
 @pytest.mark.parametrize("mod", PORT_MODULES, ids=[m.__name__.split(".")[-1] for m in PORT_MODULES])

@@ -2,8 +2,9 @@
 
 ## 0. 计划状态
 
-- 状态：M0 文档迁移已完成，代码分层迁移待实施
+- 状态：M0–M8 全部完成，分层迁移已落地
 - 基线日期：2026-07-31
+- 完成日期：2026-08-01
 - 架构依据：`docs/question-ingestion-architecture.md`
 - 范围：分层、目录、依赖和契约收口；不以新增业务功能为目标
 
@@ -329,14 +330,14 @@ scripts/utilities/
 
 工作：
 
-- 将仓库调用方全部迁移到新路径；
-- 删除旧 provider transcriber class shim；
-- 删除旧 ports/nodes/bootstrap 路径 re-export；
-- 测试目录按 layer/capability 镜像；
-- canary 单独归档并显式标记；
-- 更新 architecture 的“当前实现事实”为最终结构；
-- 重新生成或检查所有 schema/doc links；
-- `rg` 检查 `direct GLM API`、`UseApi`、`ports-design`、旧目录路径和 `downstream` 残留。
+- ✅ 将仓库调用方全部迁移到新路径（workflow 内部 + 所有 tests）；
+- ✅ 删除旧 provider transcriber class shim（`adapters/downstream.py`、`adapters/source_build.py`）；
+- ✅ 删除旧 ports/state/artifact/config/dependencies/composition/cli re-export shim（9 个文件）；
+- 测试目录按 layer/capability 镜像（已建立 `tests/{utilities,infrastructure/ai}` 与 workflow 下的 `{application,orchestration}` 子目录；workflow 顶层测试文件随 canonical 路径更新 import）；
+- ✅ canary 单独显式标记（`@pytest.mark.live`，默认 skip，需 `RUN_LIVE=1`）；
+- ✅ 更新 architecture 的“当前实现事实”为最终结构；
+- ✅ 检查 schema/doc links；
+- ✅ `rg` 检查 `direct GLM API`、`UseApi`、`ports-design`、旧目录路径和 `downstream` 残留（全部清零，仅余合法 intra-package 引用）。
 
 退出条件：
 

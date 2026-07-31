@@ -24,10 +24,13 @@ if str(ROOT) not in sys.path:
 from scripts.question_transcription.workflow.adapters.review import (
     DeterministicFinalReviewReader,
 )
-from scripts.question_transcription.workflow.adapters.source_build import (
+from scripts.question_transcription.workflow.adapters.source.source_paper import (
     _project_minimal_v2,
 )
-from scripts.question_transcription.workflow.artifact_store import ArtifactStore, RunLayout
+from scripts.question_transcription.workflow.infrastructure.artifact_store import (
+    ArtifactStore,
+)
+from scripts.question_transcription.workflow.infrastructure.run_layout import RunLayout
 
 
 def _store(tmp_path: Path) -> ArtifactStore:
@@ -132,8 +135,8 @@ def test_project_minimal_v2_preserves_text_fields():
 
 
 def test_composition_live_binding_imports_real_adapters(tmp_path):
-    from scripts.question_transcription.workflow.composition import bind, build_run_layout
-    from scripts.question_transcription.workflow.config import RuntimeAdapterConfig
+    from scripts.question_transcription.workflow.bootstrap.composition import bind, build_run_layout
+    from scripts.question_transcription.workflow.bootstrap.config import RuntimeAdapterConfig
 
     layout = build_run_layout(tmp_path / "build", "p", "r")
     # bind(mode="live") must import the real adapter modules without network/key use

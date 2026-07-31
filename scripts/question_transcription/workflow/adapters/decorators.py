@@ -24,7 +24,7 @@ from __future__ import annotations
 import time
 from typing import Any, Callable
 
-from ..config import RetryPolicy
+from ..bootstrap.config import RetryPolicy
 from ..contracts import PageTextFailure, PageTextJob, PageTextExtract, WholePaperFailure
 
 

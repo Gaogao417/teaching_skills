@@ -22,7 +22,10 @@ from scripts.question_transcription.workflow.adapters.page_text._common import (
     PAGE_TEXT_PROMPT,
     PAGE_TEXT_PROMPT_VERSION,
 )
-from scripts.question_transcription.workflow.artifact_store import ArtifactStore, RunLayout
+from scripts.question_transcription.workflow.infrastructure.artifact_store import (
+    ArtifactStore,
+)
+from scripts.question_transcription.workflow.infrastructure.run_layout import RunLayout
 from scripts.question_transcription.workflow.contracts import PageTextJob, ArtifactRef
 
 
@@ -118,7 +121,7 @@ def test_retry_decorator_retries_then_exhausts(tmp_path):
     from scripts.question_transcription.workflow.adapters.decorators import (
         with_page_retry,
     )
-    from scripts.question_transcription.workflow.config import RetryPolicy
+    from scripts.question_transcription.workflow.bootstrap.config import RetryPolicy
 
     calls = {"n": 0}
 
@@ -143,7 +146,7 @@ def test_retry_decorator_does_not_retry_non_retryable(tmp_path):
     from scripts.question_transcription.workflow.adapters.decorators import (
         with_page_retry,
     )
-    from scripts.question_transcription.workflow.config import RetryPolicy
+    from scripts.question_transcription.workflow.bootstrap.config import RetryPolicy
 
     calls = {"n": 0}
 

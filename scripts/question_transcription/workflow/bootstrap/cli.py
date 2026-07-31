@@ -25,7 +25,7 @@ from ..checkpoint import make_inmemory_checkpointer, make_sqlite_checkpointer, t
 from .composition import BindMode, bind, build_run_layout, record_provenance
 from .config import RuntimeAdapterConfig
 from ..graph import build_graph
-from ..state import WorkflowState, dump_state, extract_outcome, initial_state, load_state
+from ..orchestration.langgraph.state import WorkflowState, dump_state, extract_outcome, initial_state, load_state
 
 
 __all__ = ["main", "start", "status", "resume"]

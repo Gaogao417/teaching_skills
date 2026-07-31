@@ -48,8 +48,10 @@ def test_claude_code_routes_and_structures(tmp_path):
     from scripts.question_transcription.workflow.adapters.whole_paper.claude_code import (
         ClaudeCodeTranscriber,
     )
-    from scripts.question_transcription.workflow.artifact_store import (
+    from scripts.question_transcription.workflow.infrastructure.artifact_store import (
         ArtifactStore,
+    )
+    from scripts.question_transcription.workflow.infrastructure.run_layout import (
         RunLayout,
     )
     from scripts.question_transcription.workflow.contracts import (

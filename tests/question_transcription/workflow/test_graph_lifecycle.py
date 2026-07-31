@@ -18,9 +18,12 @@ if str(ROOT) not in sys.path:
 
 from langgraph.checkpoint.memory import MemorySaver
 
-from scripts.question_transcription.workflow.artifact_store import ArtifactStore, RunLayout
+from scripts.question_transcription.workflow.infrastructure.artifact_store import (
+    ArtifactStore,
+)
+from scripts.question_transcription.workflow.infrastructure.run_layout import RunLayout
 from scripts.question_transcription.workflow.graph import build_graph
-from scripts.question_transcription.workflow.state import (
+from scripts.question_transcription.workflow.orchestration.langgraph.state import (
     extract_outcome,
     initial_state,
 )
