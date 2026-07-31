@@ -75,14 +75,21 @@ def make_attribute_images_node(deps):
     store = deps.artifact_store
 
     def attribute_images(state: WorkflowState) -> dict[str, Any]:
-        extracted_ref = state.get("extracted_source")
-        if extracted_ref is None:
+        extracted = state.get("extracted_source")
+        if extracted is None:
             return {"terminal_errors": ["attribute_images: source not extracted"]}
+        # state["extracted_source"] is the serialized ExtractedSource (manifest +
+        # pages + media_directory). The attribution adapter consumes the source
+        # MANIFEST (the word-source / pdf-source yaml), which is the ``manifest``
+        # ArtifactRef field — not the whole ExtractedSource object.
+        manifest_ref = extracted.get("manifest") if isinstance(extracted, dict) else None
+        if manifest_ref is None:
+            return {"terminal_errors": ["attribute_images: extracted source has no manifest"]}
         with trace_event("attribute_images"):
-            # The adapter contract: attribute(extracted_source_dict) -> (bundle_ref|None,
+            # The adapter contract: attribute(manifest_ref) -> (bundle_ref|None,
             # structure_status, issues_ref|None, detail|None). Implementation lives in
             # adapters/image_attribution (wraps adapt_docx_images / adapt_pdf_images).
-            result = image_attr.attribute(extracted_ref)
+            result = image_attr.attribute(manifest_ref)
         bundle_ref, structure_status, issues_ref, detail = result
         if structure_status == "failed" and bundle_ref is None:
             # ports §8: attribution failure is not fatal to text transcription, but

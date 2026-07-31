@@ -97,12 +97,30 @@ class DocxOrPdfSourceExtractor:
     def _materialize_extracted(self, source, manifest, output_dir, *, kind):
         from ...infrastructure.artifact_store import sha256_file
 
+        # Page-image paths in the manifest are relative to ``output_dir`` (e.g.
+        # ``pages/001.png`` under ``source/docx/`` for DOCX, or ``source/pages/xxx``
+        # for PDF). The downstream page-text adapter resolves refs against the RUN
+        # ROOT (``layout.root / job.image.path``), so we must rebase each path to be
+        # relative to the run root, not to ``output_dir``.
+        try:
+            prefix = output_dir.relative_to(self.store.layout.root)
+        except ValueError:
+            # output_dir is outside the run root (shouldn't happen); keep raw paths.
+            prefix = Path()
+        prefix_str = prefix.as_posix().strip("/")
+
         page_refs = []
         pages = manifest.get("rendered_pages") or manifest.get("pages") or []
         for p in pages:
-            rel = p.get("path") if isinstance(p, dict) else None
-            if rel is None:
+            raw = p.get("path") if isinstance(p, dict) else None
+            if raw is None:
                 continue
+            # Rebase to run-root-relative unless it is already run-root-relative
+            # (PDF manifests already emit ``source/pages/...``).
+            if prefix_str and not str(raw).startswith(prefix_str):
+                rel = f"{prefix_str}/{raw}" if prefix_str else str(raw)
+            else:
+                rel = str(raw)
             abs_path = self.store.layout.root / rel
             page_refs.append(
                 ArtifactRef(

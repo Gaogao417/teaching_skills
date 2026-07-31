@@ -66,8 +66,13 @@ def make_transcribe_whole_paper_node(deps):
 
             @property
             def source_manifest(self):
-                ref = self._s.get("extracted_source")
-                return ArtifactRef.model_validate(ref) if ref else None
+                extracted = self._s.get("extracted_source")
+                if not extracted:
+                    return None
+                # state["extracted_source"] is a serialized ExtractedSource; the
+                # manifest ArtifactRef is under its ``manifest`` field.
+                manifest = extracted.get("manifest") if isinstance(extracted, dict) else None
+                return ArtifactRef.model_validate(manifest) if manifest else None
 
             @property
             def paper_metadata(self):

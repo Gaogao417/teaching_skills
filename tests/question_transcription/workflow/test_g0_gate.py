@@ -57,7 +57,9 @@ def test_state_round_trip_preserves_fields():
         source_kind="docx",
         source_archive="documents/x.docx",
     )
-    original["extracted_source"] = _ref(0)
+    original["extracted_source"] = wcontracts.ExtractedSource(
+        manifest=_ref(0), pages=[_ref(1)], source_sha256=_ref(0).sha256
+    )
     original["page_text_extracts"] = [
         wcontracts.PageTextExtract(
             artifact=wcontracts.PageTextArtifact(
@@ -91,8 +93,9 @@ def test_state_round_trip_preserves_fields():
     assert wstate.dump_state(reloaded) == dumped
     # load_state returns a TypedDict whose values are plain JSON dicts (the graph
     # runtime representation); the typed object comes from WorkflowStateModel.
-    assert reloaded["extracted_source"]["path"] == "pages/page-000.txt"
-    assert reloaded["extracted_source"]["schema"] == "text/plain"
+    # extracted_source is an ExtractedSource whose ``manifest`` is the ArtifactRef.
+    assert reloaded["extracted_source"]["manifest"]["path"] == "pages/page-000.txt"
+    assert reloaded["extracted_source"]["manifest"]["schema"] == "text/plain"
 
 
 def test_page_extract_reducer_is_order_independent():

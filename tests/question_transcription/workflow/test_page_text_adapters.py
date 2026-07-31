@@ -135,8 +135,8 @@ def test_retry_decorator_retries_then_exhausts(tmp_path):
             )
 
     policy = RetryPolicy(max_attempts=3, base_delay_ms=1, max_delay_ms=10)
-    wrapped = with_page_retry(_Flaky(), policy)  # returns a bare extract() function
-    extract, failure = wrapped(_job(1))
+    wrapped = with_page_retry(_Flaky(), policy)  # returns an object exposing .extract
+    extract, failure = wrapped.extract(_job(1))
     assert extract is None
     assert failure.attempts == 3
     assert calls["n"] == 3
@@ -160,7 +160,7 @@ def test_retry_decorator_does_not_retry_non_retryable(tmp_path):
             )
 
     wrapped = with_page_retry(_SourceMismatch(), RetryPolicy(max_attempts=5, base_delay_ms=1))
-    _, failure = wrapped(_job(1))
+    _, failure = wrapped.extract(_job(1))
     assert failure.attempts == 1
     assert calls["n"] == 1  # not retried
 

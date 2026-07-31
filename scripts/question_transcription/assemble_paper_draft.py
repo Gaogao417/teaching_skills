@@ -186,6 +186,18 @@ def assemble(
     errors: list[AssemblyError] = []
     warnings: list[AssemblyWarning] = []
 
+    # Image attribution is an independent, optional branch (architecture §25/§414):
+    # a paper with no figures, or one whose attribution failed, must still assemble
+    # a text-only draft. Treat a missing bundle as an empty one keyed to this paper
+    # rather than crashing on ``images.paper_id``.
+    if images is None:
+        images = ImageAttributionBundle(
+            schema="math_image_attribution/v1",
+            paper_id=transcription.paper.id,
+            assets=[],
+            attributions=[],
+        )
+
     if transcription.paper.id != images.paper_id:
         errors.append(
             AssemblyError(

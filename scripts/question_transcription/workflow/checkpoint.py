@@ -38,8 +38,17 @@ def make_sqlite_checkpointer(db_path: Path | str) -> BaseCheckpointSaver:
 
     path = Path(db_path)
     path.parent.mkdir(parents=True, exist_ok=True)
-    # SqliteSaver.from_conn_string is the synchronous factory in langgraph 0.2.x.
-    return SqliteSaver.from_conn_string(str(path))
+    # SqliteSaver.from_conn_string is a @contextmanager (it yields the saver and owns
+    # the sqlite connection lifetime). Returning it directly breaks callers that need
+    # a ready instance (langgraph reads ``checkpointer.get_next_version`` eagerly at
+    # stream time). Construct the saver from our own sqlite3 connection so the
+    # returned object IS the saver; ``setup()`` initializes the schema idempotently.
+    import sqlite3
+
+    conn = sqlite3.connect(str(path), check_same_thread=False)
+    saver = SqliteSaver(conn)
+    saver.setup()
+    return saver
 
 
 def thread_id_for(run_id: str) -> str:

@@ -18,6 +18,7 @@ from typing import Annotated, Optional, TypedDict
 
 from ...contracts import (
     ArtifactRef,
+    ExtractedSource,
     PageTextExtract,
     PageTextJob,
     ReviewStateKind,
@@ -61,7 +62,7 @@ class WorkflowState(TypedDict, total=False):
     source_kind: SourceKind
     source_archive: str
 
-    extracted_source: Optional[ArtifactRef]
+    extracted_source: Optional[ExtractedSource]
     page_text_jobs: list[PageTextJob]
 
     page_text_extracts: Annotated[list[PageTextExtract], PageTextExtractsReducer()]
@@ -141,7 +142,7 @@ class WorkflowStateModel(BaseModel):
     source_kind: SourceKind
     source_archive: str = Field(min_length=1)
 
-    extracted_source: Optional[ArtifactRef] = None
+    extracted_source: Optional[ExtractedSource] = None
     page_text_jobs: list[PageTextJob] = []
     page_text_extracts: list[PageTextExtract] = []
     page_text_failures: list[str] = []

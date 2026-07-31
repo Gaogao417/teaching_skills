@@ -59,7 +59,13 @@ def _backoff(policy: RetryPolicy, attempt: int) -> float:
 
 
 def with_page_retry(inner, policy: RetryPolicy):
-    """Wrap a :class:`PageTextExtractor` with bounded retry (ports §6.3)."""
+    """Wrap a :class:`PageTextExtractor` with bounded retry (ports §6.3).
+
+    Returns an object exposing ``.extract(job)`` — the same surface the nodes and the
+    offline fakes (:class:`~..testsupport.fakes.FakePageTextExtractor`) implement — so
+    callers never branch on whether retry is decorated. Mirrors
+    :func:`with_whole_paper_retry`.
+    """
 
     def extract(job: PageTextJob):
         last_failure: PageTextFailure | None = None
@@ -77,8 +83,11 @@ def with_page_retry(inner, policy: RetryPolicy):
                 time.sleep(_backoff(policy, attempt))
         return None, last_failure.model_copy(update={"attempts": policy.max_attempts})
 
-    extract.__wrapped__ = inner  # type: ignore[attr-defined]
-    return extract
+    wrapper = type("RetryingPageTextExtractor", (), {
+        "extract": staticmethod(extract),
+        "__wrapped__": inner,
+    })()
+    return wrapper
 
 
 def with_whole_paper_retry(inner, policy: RetryPolicy):

@@ -64,31 +64,51 @@ class QwenPageTextExtractor:
                 attempts=1,
                 detail=f"page image missing: {image_path}",
             )
-        try:
-            data_url, _ = image_to_data_url(image_path)
-            messages = build_messages(data_url)
-            client = self._get_client()
-            text, cache_hit = client.complete_text(
-                messages=messages,
-                cache_material={
-                    "task": "page_text_ocr",
-                    "prompt_version": PAGE_TEXT_PROMPT_VERSION,
-                    "page_sha256": job.image.sha256,
-                },
-            )
-        except RuntimeError as exc:
-            # BailianOcrClient raises RuntimeError for HTTP errors / missing key.
-            kind = _classify_runtime(str(exc))
-            return None, PageTextFailure(
-                adapter_id=ADAPTER_ID, kind=kind, attempts=1, detail=str(exc)
-            )
-        except Exception as exc:  # pragma: no cover - defensive
-            return None, PageTextFailure(
-                adapter_id=ADAPTER_ID,
-                kind="invalid_response",
-                attempts=1,
-                detail=f"{type(exc).__name__}: {exc}",
-            )
+        # OTel span so the OCR prompt/result is visible in Langfuse. No-op when the
+        # driver has not initialized a TracerProvider (offline tests).
+        from opentelemetry import trace
+
+        tracer = trace.get_tracer("question-ingestion.page-text")
+        with tracer.start_as_current_span(
+            "llm.qwen_ocr", attributes={"adapter": ADAPTER_ID, "model": self.model}
+        ) as span:
+            try:
+                data_url, _ = image_to_data_url(image_path)
+                messages = build_messages(data_url)
+                # Record the prompt shape without the raw base64 image (too large);
+                # keep the role/text structure for observability.
+                span.set_attribute(
+                    "gen_ai.prompt.messages",
+                    _redact_messages(messages),
+                )
+                span.set_attribute("page.number", job.page_number)
+                client = self._get_client()
+                text, cache_hit = client.complete_text(
+                    messages=messages,
+                    cache_material={
+                        "task": "page_text_ocr",
+                        "prompt_version": PAGE_TEXT_PROMPT_VERSION,
+                        "page_sha256": job.image.sha256,
+                    },
+                )
+                if text:
+                    span.set_attribute("gen_ai.response.text", text[:4000])
+                span.set_attribute("cache_hit", bool(cache_hit))
+            except RuntimeError as exc:
+                # BailianOcrClient raises RuntimeError for HTTP errors / missing key.
+                kind = _classify_runtime(str(exc))
+                span.record_exception(exc)
+                return None, PageTextFailure(
+                    adapter_id=ADAPTER_ID, kind=kind, attempts=1, detail=str(exc)
+                )
+            except Exception as exc:  # pragma: no cover - defensive
+                span.record_exception(exc)
+                return None, PageTextFailure(
+                    adapter_id=ADAPTER_ID,
+                    kind="invalid_response",
+                    attempts=1,
+                    detail=f"{type(exc).__name__}: {exc}",
+                )
         if text is None or not text.strip():
             return None, PageTextFailure(
                 adapter_id=ADAPTER_ID, kind="empty_text", attempts=1,
@@ -100,6 +120,32 @@ class QwenPageTextExtractor:
             cache_hit=cache_hit,
         )
         return extract, None
+
+
+def _redact_messages(messages: list) -> str:
+    """Render the OCR prompt as compact JSON with image bytes replaced by a marker.
+
+    Langfuse should show the prompt *structure* (roles, text instructions) without
+    uploading megabytes of base64 page images.
+    """
+
+    import json
+
+    redacted = []
+    for m in messages:
+        content = m.get("content")
+        if isinstance(content, list):
+            parts = []
+            for part in content:
+                if isinstance(part, dict) and part.get("type") == "image_url":
+                    url = str(part.get("image_url", {}).get("url", ""))
+                    parts.append({"type": "image_url", "image_url": {"url": f"<base64 {len(url)} chars>"}})
+                else:
+                    parts.append(part)
+            redacted.append({"role": m.get("role"), "content": parts})
+        else:
+            redacted.append({"role": m.get("role"), "content": content})
+    return json.dumps(redacted, ensure_ascii=False)
 
 
 def _classify_runtime(detail: str) -> str:

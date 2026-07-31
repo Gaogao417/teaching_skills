@@ -31,15 +31,18 @@ class DocxOrPdfImageAttribution:
         kind = extracted_source.get("source_kind") if isinstance(extracted_source, dict) else None
         # The node passes the ArtifactRef dict for extracted_source; we read the
         # manifest to decide DOCX vs PDF attribution.
-        manifest_ref = extracted_source
         try:
-            manifest = self.store.read_yaml(
-                ArtifactRef.model_validate(manifest_ref)
-                if not isinstance(manifest_ref, ArtifactRef)
-                else manifest_ref
-            ) if isinstance(manifest_ref, (dict, ArtifactRef)) else None
-        except Exception:
-            manifest = None
+            ref = (
+                extracted_source
+                if isinstance(extracted_source, ArtifactRef)
+                else ArtifactRef.model_validate(extracted_source)
+            )
+            manifest = self.store.read_yaml(ref)
+        except Exception as exc:
+            # A malformed manifest ref is a real failure, not a "treat as PDF".
+            # Returning it as ``failed`` lets the node record it instead of
+            # silently routing to the PDF adapter with None and crashing deeper.
+            return None, "failed", None, f"read manifest: {type(exc).__name__}: {exc}"
         schema = (manifest or {}).get("schema", "")
         try:
             if "word_source" in schema:
