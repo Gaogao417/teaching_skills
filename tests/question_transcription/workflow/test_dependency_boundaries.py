@@ -135,6 +135,79 @@ def test_shared_infrastructure_does_not_import_question_transcription():
 
 
 # --------------------------------------------------------------------------- #
+# Domain layer (M3) — must not import LangGraph / provider SDK / concrete adapter
+# --------------------------------------------------------------------------- #
+
+
+DOMAIN_MODULES = [
+    "scripts.question_transcription.workflow.domain.lifecycle",
+    "scripts.question_transcription.workflow.domain.artifacts",
+    "scripts.question_transcription.workflow.domain.paper_layout",
+]
+
+
+@pytest.mark.parametrize("mod", DOMAIN_MODULES)
+def test_domain_layer_is_dependency_free(mod):
+    if not _module_exists(mod):
+        pytest.skip(f"{mod} not yet introduced (M3)")
+    forbidden = {
+        "langgraph",
+        "pydantic_ai",
+        "httpx",
+        "scripts.infrastructure",
+    }
+    import ast
+    import inspect
+
+    module = importlib.import_module(mod)
+    tree = ast.parse(inspect.getsource(module))
+    roots = set()
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Import):
+            for n in node.names:
+                roots.add(n.name.split(".")[0])
+        elif isinstance(node, ast.ImportFrom):
+            if node.module:
+                roots.add(node.module.split(".")[0])
+    leak = {r for f in forbidden for r in roots if r == f or r.startswith(f + ".")}
+    assert not leak, f"{mod} imports forbidden layer: {leak}"
+
+
+# --------------------------------------------------------------------------- #
+# Application layer (M4) — stages must not import LangGraph / provider SDK
+# --------------------------------------------------------------------------- #
+
+
+APPLICATION_STAGE_MODULES = [
+    "scripts.question_transcription.workflow.application.stages.page_text",
+    "scripts.question_transcription.workflow.application.stages.source",
+    "scripts.question_transcription.workflow.application.stages.whole_paper",
+]
+
+
+@pytest.mark.parametrize("mod", APPLICATION_STAGE_MODULES)
+def test_application_stages_are_framework_free(mod):
+    if not _module_exists(mod):
+        pytest.skip(f"{mod} not yet introduced (M4)")
+    forbidden = {"langgraph", "pydantic_ai", "httpx", "scripts.infrastructure"}
+    import ast
+    import inspect
+
+    module = importlib.import_module(mod)
+    tree = ast.parse(inspect.getsource(module))
+    roots = set()
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Import):
+            for n in node.names:
+                roots.add(n.name.split(".")[0])
+        elif isinstance(node, ast.ImportFrom):
+            if node.module:
+                roots.add(node.module.split(".")[0])
+    leak = {r for f in forbidden for r in roots if r == f or r.startswith(f + ".")}
+    assert not leak, f"{mod} imports forbidden layer: {leak}"
+
+
+# --------------------------------------------------------------------------- #
 # Current-state guard: config is the only workflow module naming provider choices
 # (carried over from test_g0_gate, restated here as an architecture invariant)
 # --------------------------------------------------------------------------- #

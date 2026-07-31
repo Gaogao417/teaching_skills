@@ -77,7 +77,10 @@ scripts/question_transcription/workflow/
   `scripts/infrastructure/ai/{opencode,claude_code}/{client,pydantic_model}.py`，provider
   中立 failure 由 `scripts/infrastructure/ai/contracts.py` 的 `ModelFailure`/`ModelFailureError`
   承担；题目录入 transcriber 只保留 prompt build、artifact commit 与 failure 映射）；
-- graph node 同时承担 LangGraph state 转换和 application stage 行为；
+- ~~graph node 同时承担 LangGraph state 转换和 application stage 行为~~
+  （M4 已完成：纯业务决策/校验拆入 `application/stages/{page_text,source,whole_paper}.py`，
+  LangGraph state/reducer 拆入 `orchestration/langgraph/{state,reducers,routing}.py`，
+  graph node 退化为 thin wrapper，拓扑与 outcome 不变）；
 - ~~`ports/downstream.py` 使用相对位置命名，没有表达 staging 业务含义~~
   （M3 已完成：稳定业务名 `ports/staging.py` 为真源，`ports/downstream.py` 退化为
   re-export shim）；

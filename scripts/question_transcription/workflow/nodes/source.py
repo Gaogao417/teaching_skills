@@ -12,6 +12,7 @@ from __future__ import annotations
 
 from typing import Any
 
+from ..application.stages.source import SourceReadyDecision, decide_source_ready
 from ..artifact_store import sha256_file
 from ..contracts import ArtifactRef, PageTextJob
 from ..state import WorkflowState
@@ -92,22 +93,6 @@ def make_attribute_images_node(deps):
         return {"image_attribution": bundle_ref.model_dump(mode="json") if hasattr(bundle_ref, 'model_dump') else bundle_ref}
 
     return attribute_images
-
-
-class SourceReadyDecision:
-    CONTINUE = "continue_to_draft"
-    WAIT_REVIEW = "wait_for_source_review"
-    STOP = "stop_source_build"
-
-
-def decide_source_ready(build_result, issues_ref):
-    """Pure source-ready gate decision (ports §9)."""
-
-    if build_result is None:
-        return SourceReadyDecision.STOP, None
-    if issues_ref is not None:
-        return SourceReadyDecision.WAIT_REVIEW, issues_ref
-    return SourceReadyDecision.CONTINUE, None
 
 
 def make_build_source_paper_node(deps):

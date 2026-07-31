@@ -193,11 +193,11 @@ workflow/orchestration/langgraph/
 
 迁移次序按 stage 纵向进行，避免一次拆完整 graph：
 
-1. page text stage；
-2. whole paper stage；
-3. source extraction/build/review；
-4. staging pipeline；
-5. final review。
+1. ✅ page text stage（`application/stages/page_text.py` 提取 `decide_page_barrier`）；
+2. ✅ whole paper stage（`application/stages/whole_paper.py` 提取 `validate_page_coverage`）；
+3. ✅ source extraction/build/review（`application/stages/source.py` 提取 `decide_source_ready`）；
+4. staging pipeline（节点 wrapper 保留，纯决策已在 staging port）；
+5. final review（节点 wrapper 保留，状态投影无独立纯决策需提取）。
 
 每个 stage 的步骤：
 
@@ -209,8 +209,8 @@ workflow/orchestration/langgraph/
 
 专门工作：
 
-- `state.py` 拆为 state/reducers；
-- graph edge router 移入 `routing.py`；
+- ✅ `state.py` 拆为 `orchestration/langgraph/{state,reducers}.py`（根 `state.py` re-export shim）；
+- ✅ graph edge router 移入 `orchestration/langgraph/routing.py`（graph.py 调用真源）；
 - fan-out dispatch 留在 orchestration，但 job planning 规则可放 application；
 - 明确实现文字与图片的 join，不依赖某分支通常先完成；
 - review interrupt 只负责暂停/恢复，批准事实来自 review artifact。

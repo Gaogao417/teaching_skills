@@ -15,6 +15,7 @@ from typing import Any
 
 from langgraph.types import Send
 
+from ..application.stages.page_text import PageBarrierDecision, decide_page_barrier
 from ..contracts import (
     ArtifactRef,
     ExecutionProvenance,
@@ -113,34 +114,6 @@ def make_extract_page_text_node(deps):
 # --------------------------------------------------------------------------- #
 # Barrier
 # --------------------------------------------------------------------------- #
-
-
-class PageBarrierDecision:
-    READY = "ready_for_whole_paper"
-    WAIT = "wait_for_remaining_pages"
-    STOP_FAILURES = "stop_for_page_failures"
-    STOP_COVERAGE = "stop_for_coverage_violation"
-
-
-def decide_page_barrier(
-    expected_pages: list[int],
-    completed: list[PageTextExtract],
-    failures: list[str],
-) -> tuple[str, Any]:
-    """Pure barrier decision (ports §6.4). Returns ``(decision, detail)``."""
-
-    if failures:
-        return PageBarrierDecision.STOP_FAILURES, failures
-    page_numbers = [e.artifact.page_number for e in completed]
-    if len(page_numbers) != len(set(page_numbers)):
-        return PageBarrierDecision.STOP_COVERAGE, "duplicate page extracts"
-    missing = sorted(set(expected_pages) - set(page_numbers))
-    if missing:
-        return PageBarrierDecision.WAIT, missing
-    extra = sorted(set(page_numbers) - set(expected_pages))
-    if extra:
-        return PageBarrierDecision.STOP_COVERAGE, f"unexpected pages: {extra}"
-    return PageBarrierDecision.READY, [e.artifact.page_number for e in completed]
 
 
 def page_barrier(state: WorkflowState) -> dict[str, Any]:

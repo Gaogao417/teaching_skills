@@ -27,7 +27,13 @@ from typing import Any
 
 from langgraph.graph import END, START, StateGraph
 
-from .state import WorkflowState
+from .orchestration.langgraph.routing import (
+    route_after_audit_staging,
+    route_after_build_source,
+    route_after_final_review,
+    route_after_page_barrier,
+)
+from .orchestration.langgraph.state import WorkflowState
 from .dependencies import WorkflowDependencies
 from .nodes.downstream import (
     make_audit_staging_node,
@@ -71,28 +77,6 @@ NODE_NAMES = [
     "final_review_check",
     "approved_audit",
 ]
-
-
-def _has_errors(state: WorkflowState) -> bool:
-    return bool(state.get("terminal_errors"))
-
-
-def _route_after_build_source(state: WorkflowState) -> str:
-    """clean -> build_draft; needs_review -> source_review_wait; error -> END."""
-
-    if _has_errors(state):
-        return END
-    if state.get("review_state") == "waiting_for_source_review":
-        return "source_review_wait"
-    return "build_draft"
-
-
-def _route_after_final_review(state: WorkflowState) -> str:
-    """approved -> approved_audit; else END (pending loops back, rejected/errors end)."""
-
-    if state.get("review_state") == "all_questions_approved":
-        return "approved_audit"
-    return END
 
 
 def build_graph(deps: WorkflowDependencies, checkpointer=None):
@@ -141,7 +125,7 @@ def build_graph(deps: WorkflowDependencies, checkpointer=None):
     # all converge into page_barrier before transcribe.
     graph.add_conditional_edges(
         "page_barrier",
-        lambda s: END if _has_errors(s) else "transcribe_whole_paper",
+        route_after_page_barrier,
         ["transcribe_whole_paper", END],
     )
 
@@ -155,20 +139,20 @@ def build_graph(deps: WorkflowDependencies, checkpointer=None):
     graph.add_edge("attribute_images", END)  # image branch is a leaf that only writes state
     graph.add_conditional_edges(
         "build_source_paper",
-        _route_after_build_source,
+        route_after_build_source,
         ["build_draft", "source_review_wait", END],
     )
     # source review loop: interrupt then rebuild.
     graph.add_edge("source_review_wait", "build_source_paper")
 
-    # -- edges: downstream staging pipeline (serial) ---------------------- #
+    # -- edges: staging pipeline (serial) --------------------------------- #
     graph.add_edge("build_draft", "complete_evidence")
     graph.add_edge("complete_evidence", "split_into_questions")
     graph.add_edge("split_into_questions", "build_assets")
     graph.add_edge("build_assets", "audit_staging")
     graph.add_conditional_edges(
         "audit_staging",
-        lambda s: END if _has_errors(s) else "refresh_review_ui",
+        route_after_audit_staging,
         ["refresh_review_ui", END],
     )
     graph.add_edge("refresh_review_ui", "final_review_check")
@@ -176,7 +160,7 @@ def build_graph(deps: WorkflowDependencies, checkpointer=None):
     # -- edges: final review loop ----------------------------------------- #
     graph.add_conditional_edges(
         "final_review_check",
-        _route_after_final_review,
+        route_after_final_review,
         ["approved_audit", END],
     )
     graph.add_edge("approved_audit", END)
