@@ -1,0 +1,462 @@
+meta:
+  title: 2026 届一模选择填空压轴精选 · 学生版
+  grade: 九年级
+  subject: 数学
+  total_points: 120
+  version: student
+  show_answers: false
+  source_artifacts:
+    question_bank: ../2026-07-24-上海初三试卷原题库
+    assignment_parts:
+    - 2026-JIADING-TERM/Q006 -> H001 (嘉定·选择6)
+    - 2026-JIADING-TERM/Q018 -> H002 (嘉定·填空18)
+    - 2026-JINSHAN-TERM/Q005 -> H003 (金山·选择5)
+    - 2026-JINSHAN-TERM/Q015 -> H004 (金山·填空15)
+    - 2026-PUTUO-TERM/Q006 -> H005 (普陀·选择6)
+    - 2026-PUTUO-TERM/Q018 -> H006 (普陀·填空18)
+    - 2026-MINHANG-TERM/Q006 -> H007 (闵行·选择6)
+    - 2026-MINHANG-TERM/Q018 -> H008 (闵行·填空18)
+    - 2026-SONGJIANG-TERM/Q006 -> H009 (松江·选择6)
+    - 2026-SONGJIANG-TERM/Q018 -> H010 (松江·填空18)
+    - 2026-JINGAN-TERM/Q006 -> H011 (静安·选择6)
+    - 2026-JINGAN-TERM/Q018 -> H012 (静安·填空18)
+    - 2026-CHONGMING-TERM/Q006 -> H013 (崇明·选择6)
+    - 2026-CHONGMING-TERM/Q018 -> H014 (崇明·填空18)
+    - 2026-QINGPU-TERM/Q006 -> H015 (青浦·选择6)
+    - 2026-QINGPU-TERM/Q018 -> H016 (青浦·填空18)
+    - 2026-HONGKOU-TERM/Q006 -> H017 (虹口·选择6)
+    - 2026-HONGKOU-TERM/Q018 -> H018 (虹口·填空18)
+    - 2026-YANGPU-TERM/Q006 -> H019 (杨浦·选择6)
+    - 2026-YANGPU-TERM/Q018 -> H020 (杨浦·填空18)
+    - 2026-HUANGPU-TERM/Q006 -> H021 (黄浦·选择6)
+    - 2026-HUANGPU-TERM/Q016 -> H022 (黄浦·填空16)
+    - 2026-XUHUI-TERM/Q006 -> H023 (徐汇·选择6)
+    - 2026-XUHUI-TERM/Q018 -> H024 (徐汇·填空18)
+    - 2026-BAOSHAN-TERM/Q006 -> H025 (宝山·选择6)
+    - 2026-BAOSHAN-TERM/Q018 -> H026 (宝山·填空18)
+    - 2026-FENGXIAN-TERM/Q006 -> H027 (奉贤·选择6)
+    - 2026-FENGXIAN-TERM/Q018 -> H028 (奉贤·填空18)
+    - GEN-TERM/Q006 -> H029 (期末练习卷·选择6)
+    - GEN-TERM/Q018 -> H030 (期末练习卷·填空18)
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: choice-fillin-final
+  type: practice
+  visibility: student
+  blocks:
+  - type: choice
+    id: H001
+    points: 4
+    stem_latex: 如图2，正方形 $DEFG$ 的边 $EF$ 在 $\triangle ABC$ 的边 $BC$ 上，顶点 $D$、$G$ 分别在边 $AB$、$AC$ 上，已知 $BC=AH$，选择不正确的结论。
+    choices:
+      A: $\triangle ABC\sim\triangle ADG$
+      B: $\dfrac{AD}{AB}=\dfrac{AP}{AH}$
+      C: $S_{\triangle ADG}=\dfrac25S_{\triangle ABC}$
+      D: $AP=PH$
+    diagram_col:
+      image_path: ../2026-07-24-上海初三试卷原题库/staging/2026-JIADING-TERM/items/Q006/assets/prompt-figure.png
+      width: 65mm
+      variant: prompt
+      disclosure_policy: clean
+    source_label: 嘉定·选择6
+  - type: fillin
+    id: H002
+    points: 4
+    stem_latex: 如图8，$Rt\triangle ABC$ 中，已知 $\angle C=90^\circ$，$AC=2$，$BC=4$，将 $\triangle ABC$ 绕点 $A$ 逆时针旋转 $\alpha\ (0^\circ<\alpha<90^\circ)$ 得到 $\triangle AB'C'$，点 $B$、$C$ 的对应点分别为 $B'$、$C'$，联结 $B'C$。如果直线 $B'C$ 垂直于 $AB$，联结 $B'B$，那么此时 $\triangle AB'B$ 的面积是 $\fillin$。
+    diagram_col:
+      image_path: ../2026-07-24-上海初三试卷原题库/staging/2026-JIADING-TERM/items/Q018/assets/prompt-figure.png
+      width: 65mm
+      variant: prompt
+      disclosure_policy: clean
+    source_label: 嘉定·填空18
+  - type: choice
+    id: H003
+    points: 4
+    stem_latex: 在等边 $\triangle ABC$ 中，点 $E$、$F$ 分别在边 $AB$、$AC$ 上，将 $\triangle ABC$ 沿 $EF$ 折叠，使得点 $A$ 与 $\triangle ABC$ 的重心 $G$ 重合，$EF$ 与 $AG$ 交于点 $O$，延长 $AG$ 交 $BC$ 于点 $D$，那么 $EF:OD$ 的值为（　）。
+    choices:
+      A: $\frac{\sqrt2}{2}$
+      B: $\frac{\sqrt3}{2}$
+      C: $\frac{\sqrt3}{3}$
+      D: $1$
+    source_label: 金山·选择5
+  - type: fillin
+    id: H004
+    points: 4
+    stem_latex: 在矩形 $ABCD$ 中，过点 $C$ 作 $CE\perp BD$，垂足为 $E$，以 $CE$ 为斜边作直角三角形 $CEF$，$AF$ 与 $BD$ 交于点 $P$。如果 $\dfrac{AP}{AF}=k$，那么 $k$ 的取值范围是 $\fillin$。
+    source_label: 金山·填空15
+  - type: choice
+    id: H005
+    points: 4
+    stem_latex: 如图，在等边三角形 $ABC$ 中，点 $D$ 在边 $BC$ 上，点 $D$ 关于直线 $AB、AC$ 的对称点分别是点 $P、Q$，那么关于线段 $PQ$ 与线段 $AD$ 之间的数量关系正确的是
+    choices:
+      A: $PQ=\dfrac{2\sqrt3}{3}AD$
+      B: $PQ=\sqrt3AD$
+      C: $PQ=2AD$
+      D: $PQ=\dfrac{\sqrt3}{2}AD$
+    explanation: 官方参考答案：B。
+    diagram_col:
+      image_path: ../2026-07-24-上海初三试卷原题库/staging/2026-PUTUO-TERM/items/Q006/assets/manual-prompt-1-cb991a967c4c8166.png
+      width: 65mm
+      variant: prompt
+      disclosure_policy: clean
+    images:
+    - image_path: ../2026-07-24-上海初三试卷原题库/staging/2026-PUTUO-TERM/items/Q006/assets/prompt-figure.png
+      width: 0.82\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图1
+    source_label: 普陀·选择6
+  - type: fillin
+    id: H006
+    points: 4
+    stem_latex: 如图，$\triangle ABC$ 中，$\angle BAC=90^\circ$，$AC=3$，$AB=4$，点 $D$ 在边 $AB$ 上，将 $\triangle ACD$ 沿着 $CD$ 翻折得 $\triangle A'CD$，其中点 $A$ 与点 $A'$ 对应，联结 $A'B$。如果 $\angle ACD=\angle A'BA$，那么 $AD=\fillin$。
+    explanation: 官方参考答案：$\dfrac{9-3\sqrt5}{2}$。
+    diagram_col:
+      image_path: ../2026-07-24-上海初三试卷原题库/staging/2026-PUTUO-TERM/items/Q018/assets/manual-prompt-1-29e7b26a7ba7c171.png
+      width: 65mm
+      variant: prompt
+      disclosure_policy: clean
+    images:
+    - image_path: ../2026-07-24-上海初三试卷原题库/staging/2026-PUTUO-TERM/items/Q018/assets/prompt-figure.png
+      width: 0.82\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图1
+    source_label: 普陀·填空18
+  - type: choice
+    id: H007
+    points: 4
+    stem_latex: 如图，抛物线 $C_1:y=x^2-6x$ 向右平移得到 $C_2,C_3$，三条抛物线与直线 $y=m$ 分别交于两点。六个交点横坐标之和是
+    choices:
+      A: $6$
+      B: $18$
+      C: $30$
+      D: $54$
+    diagram_col:
+      image_path: ../2026-07-24-上海初三试卷原题库/staging/2026-MINHANG-TERM/items/Q006/assets/prompt-01.png
+      width: 65mm
+      variant: prompt
+      disclosure_policy: clean
+    images:
+    - image_path: ../2026-07-24-上海初三试卷原题库/staging/2026-MINHANG-TERM/items/Q006/assets/prompt-01.png
+      width: 0.82\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图1
+    source_label: 闵行·选择6
+  - type: fillin
+    id: H008
+    points: 4
+    stem_latex: 如图，在矩形 $ABCD$ 中，$E$ 是 $BC$ 中点，过 $E$ 作 $EF\parallel BD$ 交 $CD$ 于 $F$，将 $\triangle CEF$ 沿 $EF$ 翻折到 $\triangle GEF$，若 $G$ 在 $AE$ 上，那么 $BG:AE=$\fillin。
+    diagram_col:
+      image_path: ../2026-07-24-上海初三试卷原题库/staging/2026-MINHANG-TERM/items/Q018/assets/prompt-01.png
+      width: 65mm
+      variant: prompt
+      disclosure_policy: clean
+    images:
+    - image_path: ../2026-07-24-上海初三试卷原题库/staging/2026-MINHANG-TERM/items/Q018/assets/prompt-01.png
+      width: 0.82\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图1
+    source_label: 闵行·填空18
+  - type: choice
+    id: H009
+    points: 4
+    stem_latex: 命题①腰和腰上的高对应成比例的两个等腰三角形相似；命题②底边和腰上的高对应成比例的两个等腰三角形相似。判断正确的是
+    choices:
+      A: ①和②都是真命题
+      B: ①和②都是假命题
+      C: ①是真命题，②是假命题
+      D: ①是假命题，②是真命题
+    source_label: 松江·选择6
+  - type: fillin
+    id: H010
+    points: 4
+    stem_latex: 在 $Rt\triangle ABC$ 中，$\angle ACB=90^\circ$，点 $P,O$ 分别在 $AB,BC$ 上；若 $\triangle ACO\sim\triangle BPO$ 且 $\triangle APO$ 是等腰三角形，则相应角的正切值为 $\fillin$。
+    source_label: 松江·填空18
+  - type: choice
+    id: H011
+    points: 4
+    stem_latex: 如图，在矩形 $ABCD$ 中，$AB=6$，$BC=8$。分别以 $A、C$ 为圆心的两圆相切，且点 $D$ 在圆 $C$ 内、点 $B$ 在圆 $C$ 外。圆 $A$ 的半径 $r$ 的取值范围是
+    choices:
+      A: $6<r<8$ 或 $10<r<18$
+      B: $2<r<4$ 或 $10<r<18$
+      C: $2<r<4$ 或 $16<r<18$
+      D: $6<r<8$ 或 $16<r<18$
+    diagram_col:
+      image_path: ../2026-07-24-上海初三试卷原题库/staging/2026-JINGAN-TERM/items/Q006/assets/prompt-01.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean
+    source_label: 静安·选择6
+  - type: fillin
+    id: H012
+    points: 4
+    stem_latex: 如图，在等边 $\triangle ABC$ 中，点 $D、E$ 分别在边 $BC、AC$ 上，$AE=CD$，$AD$ 交 $BE$ 于点 $P$，$BQ\perp AD$ 于点 $Q$。如果 $PQ=3PE$，且 $PE=a$，那么等边 $\triangle ABC$ 的边长为\fillin。
+    diagram_col:
+      image_path: ../2026-07-24-上海初三试卷原题库/staging/2026-JINGAN-TERM/items/Q018/assets/prompt-01.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean
+    source_label: 静安·填空18
+  - type: choice
+    id: H013
+    points: 4
+    stem_latex: 在 $\triangle ABC$ 和 $\triangle DEF$ 中，$AB=AC$，$DE=DF$，根据下列条件，一定能判断 $\triangle ABC$ 和 $\triangle DEF$ 相似的是
+    choices:
+      A: $\frac{AB}{DE}=\frac{AC}{DF}$
+      B: $\frac{AB}{DE}=\frac{AC}{EF}$
+      C: $\angle B=\angle D$
+      D: $\angle C=\angle E$
+    source_label: 崇明·选择6
+  - type: fillin
+    id: H014
+    points: 4
+    stem_latex: 定义：当一个三角形有两个内角的差为 $90^\circ$ 时，这个三角形叫做“差直角三角形”。如图，在 $\triangle ABC$ 中，$AC=BC=10$，$AB=16$，点 $D$ 是边 $AB$ 上的一动点（且 $AD>BD$），若 $\triangle BCD$ 是“差直角三角形”，则 $CD$ 的长为
+    explanation: 官方参考答案：$3\sqrt5$ 或 $\frac{15}{2}$。
+    diagram_col:
+      image_path: ../2026-07-24-上海初三试卷原题库/staging/2026-CHONGMING-TERM/items/Q018/assets/manual-prompt-1-e17b2ac1b6da10e0.png
+      width: 65mm
+      variant: prompt
+      disclosure_policy: clean
+    images:
+    - image_path: ../2026-07-24-上海初三试卷原题库/staging/2026-CHONGMING-TERM/items/Q018/assets/prompt-figure.png
+      width: 0.78\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图
+    source_label: 崇明·填空18
+  - type: choice
+    id: H015
+    points: 4
+    stem_latex: 学校在操场上举行升旗仪式，每个学生均站立在旗杆前方的水平地面上面向国旗行注目礼。已知国旗的初始位置距地面高度均大于或等于每个学生的身高。如果将看向国旗的视线与水平视线所形成的夹角定义为注视角，那么国旗从初始位置开始匀速上升至顶端的过程中，以下说法正确的是（　）。
+    choices:
+      A: 每个学生的注视角大小不变
+      B: 每个学生的注视角逐渐减小
+      C: 每个学生的注视角逐渐增大
+      D: 同一时刻相同身高学生的注视角相等
+    source_label: 青浦·选择6
+  - type: fillin
+    id: H016
+    points: 4
+    stem_latex: 如图4，已知 $\triangle ABC$ 中，$\tan B=\dfrac{\sqrt2}{3}，\tan C=\sqrt2，BC=4\sqrt2$。点 $M$ 是 $BC$ 中点，点 $D$ 在边 $AB$ 上，联结 $DM$，将 $\triangle BDM$ 沿直线 $DM$ 翻折，点 $B$ 的对应点为点 $E$。联结 $AE$，如果 $AE\parallel BC$，那么 $\angle BMD$ 的度数为 $\fillin$。
+    diagram_col:
+      image_path: ../2026-07-24-上海初三试卷原题库/staging/2026-QINGPU-TERM/items/Q018/assets/prompt-01.png
+      width: 46mm
+      variant: prompt
+      disclosure_policy: clean
+    source_label: 青浦·填空18
+  - type: choice
+    id: H017
+    points: 4
+    stem_latex: 如图3，在 $\triangle ABC$ 中，$AB=2AC$，点 $D$ 在边 $AB$ 上，且 $\angle ACD=\angle B$，如果 $AD=2$，那么 $BD$ 的长是
+    choices:
+      A: $3$
+      B: $4$
+      C: $5$
+      D: $6$
+    diagram_col:
+      image_path: ../2026-07-24-上海初三试卷原题库/staging/2026-HONGKOU-TERM/items/Q006/assets/prompt-figure-01.png
+      width: 65mm
+      variant: prompt
+      disclosure_policy: clean
+    images:
+    - image_path: ../2026-07-24-上海初三试卷原题库/staging/2026-HONGKOU-TERM/items/Q006/assets/prompt-figure-01.png
+      width: 0.82\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图1
+    source_label: 虹口·选择6
+  - type: fillin
+    id: H018
+    points: 4
+    stem_latex: 如图8，在 $\triangle ABC$ 中，$BC=5,\cot A=2,\sin B=\frac35$，$D$ 是 $AB$ 的中点。$E$ 是线段 $AC$ 延长线上一点，联结 $BE$，如果四边形 $BDCE$ 的一组对角相等且另一组对角不相等，那么 $AE$ 的长是\fillin。
+    diagram_col:
+      image_path: ../2026-07-24-上海初三试卷原题库/staging/2026-HONGKOU-TERM/items/Q018/assets/prompt-figure-01.png
+      width: 65mm
+      variant: prompt
+      disclosure_policy: clean
+    images:
+    - image_path: ../2026-07-24-上海初三试卷原题库/staging/2026-HONGKOU-TERM/items/Q018/assets/prompt-figure-01.png
+      width: 0.82\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图1
+    source_label: 虹口·填空18
+  - type: choice
+    id: H019
+    points: 4
+    stem_latex: 如图，已知在 $\triangle ABC$ 中，点 $D、E$ 分别在边 $AB、AC$ 上，$DE\parallel BC$，$\angle ACD=\angle B$，下列结论中错误的是
+    choices:
+      A: $\dfrac{DC^2}{BC^2}=\dfrac{AE}{AC}$
+      B: $\dfrac{DE^2}{DC^2}=\dfrac{AD}{AB}$
+      C: $\dfrac{AD^2}{AC^2}=\dfrac{AE}{AB}$
+      D: $\dfrac{EC^2}{BD^2}=\dfrac{DE}{BC}$
+    diagram_col:
+      image_path: ../2026-07-24-上海初三试卷原题库/staging/2026-YANGPU-TERM/items/Q006/assets/prompt-figure.png
+      width: 65mm
+      variant: prompt
+      disclosure_policy: clean
+    images:
+    - image_path: ../2026-07-24-上海初三试卷原题库/staging/2026-YANGPU-TERM/items/Q006/assets/prompt-figure.png
+      width: 0.82\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图1
+    source_label: 杨浦·选择6
+  - type: fillin
+    id: H020
+    points: 4
+    stem_latex: 如图，平行四边形 $ABCD$ 中，$AB=6$，$BC=5$。过点 $D$ 作 $DE\perp AB$，垂足为点 $E$；将 $\triangle ADE$ 绕点 $E$ 旋转得 $\triangle FGE$，点 $A$ 的对应点 $F$ 落在边 $AD$ 上，点 $D$ 的对应点 $G$ 落在边 $BC$ 上，连接 $FG$ 与 $DE$ 交于点 $H$，那么 $\dfrac{FH}{GH}=\fillin$。
+    diagram_col:
+      image_path: ../2026-07-24-上海初三试卷原题库/staging/2026-YANGPU-TERM/items/Q018/assets/prompt-figure.png
+      width: 65mm
+      variant: prompt
+      disclosure_policy: clean
+    images:
+    - image_path: ../2026-07-24-上海初三试卷原题库/staging/2026-YANGPU-TERM/items/Q018/assets/prompt-figure.png
+      width: 0.82\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图1
+    source_label: 杨浦·填空18
+  - type: choice
+    id: H021
+    points: 4
+    stem_latex: 如图，$D、E$ 是 $\triangle ABC$ 边 $AB、AC$ 上的两点，在下列条件中，能够判定 $DE\parallel BC$ 的是（　）。
+    choices:
+      A: $DB=1，CE=2，AD=3，AE=4$
+      B: $DB=1，CE=2，AB=3，AC=4$
+      C: $DB=1，CE=2，AD=3，AC=4$
+      D: $DB=1，CE=2，AB=3，AE=4$
+    diagram_col:
+      image_path: ../2026-07-24-上海初三试卷原题库/staging/2026-HUANGPU-TERM/items/Q006/assets/prompt-01.png
+      width: 48mm
+      variant: prompt
+      disclosure_policy: clean
+    source_label: 黄浦·选择6
+  - type: fillin
+    id: H022
+    points: 4
+    stem_latex: 对于抛物线 $y=ax^2+bx+c$ 及点 $P$，当过点 $P$ 垂直于抛物线对称轴的直线与该抛物线有两个交点，且两个交点位于点 $P$ 的两侧时，称点 $P$ 为该抛物线的内点。现有抛物线 $L_1:y=-x^2+2x+2$ 和 $L_2:y=\dfrac14x^2+\dfrac34x-\dfrac12$，如果点 $M$ 既是 $L_1$ 的内点，又是 $L_2$ 的内点，那么点 $M$ 的纵坐标 $y_M$ 的取值范围是 $\fillin$。
+    source_label: 黄浦·填空16
+  - type: choice
+    id: H023
+    points: 4
+    stem_latex: 如图，矩形 $ABCD$ 中，点 $E$ 在边 $AB$ 上，点 $F$ 在边 $BC$ 的延长线上，$DF\perp DE$，$DE$ 与对角线 $AC$ 交于点 $I$，$EF$ 与对角线 $AC$ 交于点 $G$，与边 $DC$ 交于点 $H$。则下列结论不一定成立的是
+    choices:
+      A: $\triangle DFH\sim\triangle GAE$
+      B: $\triangle ADE\sim\triangle DCA$
+      C: $\triangle DAI\sim\triangle GEI$
+      D: $\triangle DFH\sim\triangle GCH$
+    diagram_col:
+      image_path: ../2026-07-24-上海初三试卷原题库/staging/2026-XUHUI-TERM/items/Q006/assets/prompt-figure.png
+      width: 65mm
+      variant: prompt
+      disclosure_policy: clean
+    images:
+    - image_path: ../2026-07-24-上海初三试卷原题库/staging/2026-XUHUI-TERM/items/Q006/assets/prompt-figure.png
+      width: 0.78\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图
+    source_label: 徐汇·选择6
+  - type: fillin
+    id: H024
+    points: 4
+    stem_latex: 如图，在 $\triangle ABC$ 中，$AB=AC=5$，$\cos C=\frac45$，将 $\triangle ABC$ 绕点 $A$ 逆时针旋转得到 $\triangle ADE$，点 $B、C$ 分别与点 $D、E$ 对应，边 $AD、DE$ 分别与原三角形底边 $BC$ 交于点 $F、G$。当 $\triangle DFG$ 是等腰三角形时，$FG$ 的长为
+    diagram_col:
+      image_path: ../2026-07-24-上海初三试卷原题库/staging/2026-XUHUI-TERM/items/Q018/assets/prompt-figure.png
+      width: 65mm
+      variant: prompt
+      disclosure_policy: clean
+    images:
+    - image_path: ../2026-07-24-上海初三试卷原题库/staging/2026-XUHUI-TERM/items/Q018/assets/prompt-figure.png
+      width: 0.78\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图
+    source_label: 徐汇·填空18
+  - type: choice
+    id: H025
+    points: 4
+    stem_latex: 小孔 $O$ 到人 $AB$ 的距离、小孔 $O$ 到所成像 $CD$ 的距离均为 $6$ 米。要使像 $CD$ 的长度变为原来的 $1.5$ 倍，下列操作正确的是（　）。
+    choices:
+      A: 人向暗室后退 $2$ 米
+      B: 人向暗室前进 $2$ 米
+      C: 人向暗室后退 $4$ 米
+      D: 人向暗室前进 $4$ 米
+    diagram_col:
+      image_path: ../2026-07-24-上海初三试卷原题库/staging/2026-BAOSHAN-TERM/items/Q006/assets/prompt-figure.png
+      width: 65mm
+      variant: prompt
+      disclosure_policy: clean
+    images:
+    - image_path: ../2026-07-24-上海初三试卷原题库/staging/2026-BAOSHAN-TERM/items/Q006/assets/prompt-figure.png
+      width: 0.75\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图
+    source_label: 宝山·选择6
+  - type: fillin
+    id: H026
+    points: 4
+    stem_latex: 定义：有两个内角的差为 $90^\circ$ 的三角形叫做“差直三角形”。在 $\triangle ABC$ 中，$\angle B>90^\circ$，$\tan C=\dfrac34$，$BC=4$。如果 $\triangle ABC$ 是“差直三角形”，那么 $AB$ 的长为 $\fillin$。
+    source_label: 宝山·填空18
+  - type: choice
+    id: H027
+    points: 4
+    stem_latex: 一个三角形框架模型的边长分别为 $20$ cm、$30$ cm、$40$ cm。工人师傅要利用两根 $30$ cm 和 $50$ cm 的铁丝做一个与模型相似的三角形，要求以其中一根铁丝为一边，另一根上截出两段（允许有余料）作为另外两边，那么工人师傅做的这个三角形的周长是
+    choices:
+      A: $80$ cm
+      B: $67.5$ cm
+      C: $60$ cm
+      D: $52.5$ cm
+    source_label: 奉贤·选择6
+  - type: fillin
+    id: H028
+    points: 4
+    stem_latex: 如图，在 $\triangle ABC$ 中，$AB=AC=5$，$\cos B=\frac35$。将 $\triangle ABC$ 绕点 $A$ 旋转，点 $B$ 的对应点为点 $D$，联结 $AD$ 交边 $BC$ 于点 $E$。如果 $AE=3ED$，那么 $CE$ 的长为 $\fillin$。
+    explanation: 官方参考答案：$\frac{25}{4}$ 或 $\frac74$。
+    diagram_col:
+      image_path: ../2026-07-24-上海初三试卷原题库/staging/2026-FENGXIAN-TERM/items/Q018/assets/manual-prompt-1-2cd9e6da1a40cbc4.png
+      width: 65mm
+      variant: prompt
+      disclosure_policy: clean
+    images:
+    - image_path: ../2026-07-24-上海初三试卷原题库/staging/2026-FENGXIAN-TERM/items/Q018/assets/prompt-figure.png
+      width: 0.75\linewidth
+      variant: source_prompt
+      disclosure_policy: always
+      label: 原题配图
+    source_label: 奉贤·填空18
+  - type: choice
+    id: H029
+    points: 4
+    stem_latex: 如图3，已知抛物线 $y=ax^2+bx+c\,(a\ne0)$ 的对称轴是直线 $x=1$，且过点 $(-1,0)$，顶点在第一象限，其部分图像如图所示。给出以下结论：① $ab<0$；② $4a+2b+c>0$；③ $3a+c>0$。其中正确的选项是（　）
+    stem: 如图3，已知抛物线 $y=ax^2+bx+c\,(a\ne0)$ 的对称轴是直线 $x=1$，且过点 $(-1,0)$，顶点在第一象限，其部分图像如图所示。给出以下结论：① $ab<0$；② $4a+2b+c>0$；③ $3a+c>0$。其中正确的选项是（　）
+    choices:
+      A: ①②
+      B: ①③
+      C: ②③
+      D: ①②③
+    diagram_col:
+      image_path: ../2026-07-24-上海初三试卷原题库/staging/GEN-TERM/items/Q006/assets/q06-prompt.png
+      width: 0.30\linewidth
+      variant: prompt
+      disclosure_policy: clean
+    source_label: 期末练习卷·选择6
+  - type: fillin
+    id: H030
+    points: 4
+    stem_latex: 如图，在平行四边形 $ABCD$ 中，$AB=6$，$BC=8$，$\angle B=60^\circ$。将平行四边形 $ABCD$ 绕边 $BC$ 的中点 $O$ 旋转到平行四边形 $A'B'C'D'$ 的位置。当点 $B'$ 落在边 $AB$ 上时，边 $A'D'$ 与边 $CD$ 相交于点 $G$，则 $\cot\angle CGB'=$ \underline{\hspace{2cm}}。
+    diagram_col:
+      image_path: ../2026-07-24-上海初三试卷原题库/staging/GEN-TERM/items/Q018/assets/prompt-01.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean
+    source_label: 期末练习卷·填空18
