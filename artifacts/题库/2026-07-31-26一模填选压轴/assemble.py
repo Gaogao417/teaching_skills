@@ -53,6 +53,9 @@ DEFAULT_PICKS: list[tuple[str, str]] = [
 PICKS_OVERRIDE: dict[str, list[tuple[str, str]]] = {
     "2026-JINSHAN-TERM": [("Q005", "选择5"), ("Q015", "填空15")],
     "2026-HUANGPU-TERM": [("Q006", "选择6"), ("Q016", "填空16")],
+    # 闵行/杨浦额外补入填空倒数第二题（Q017），插在填空末题 Q018 之前。
+    "2026-MINHANG-TERM": [("Q006", "选择6"), ("Q017", "填空17"), ("Q018", "填空18")],
+    "2026-YANGPU-TERM": [("Q006", "选择6"), ("Q017", "填空17"), ("Q018", "填空18")],
 }
 
 
@@ -150,8 +153,12 @@ def generate_student_tex(blocks: list[dict[str, Any]], out_path: Path) -> None:
         diagram = block.get("diagram_col") or {}
         img_path = diagram.get("image_path", "")
         width = diagram.get("width", "58mm")
-        # 演算空白：填空压轴比选择压轴给更多空间
-        answer_h = "48mm" if btype == "fillin" else "40mm"
+        # 演算空白：填空压轴比选择压轴给更多空间。
+        # 首页因有 \section* 标题占位，前两题压缩答题区以保证 1、2 题同面。
+        if i <= 2:
+            answer_h = "30mm" if btype == "fillin" else "24mm"
+        else:
+            answer_h = "48mm" if btype == "fillin" else "40mm"
 
         lines.append(f"% ---------- 第 {i} 题 ({label}) ----------")
         lines.append(r"\needspace{10\baselineskip}")
