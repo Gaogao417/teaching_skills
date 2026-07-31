@@ -327,20 +327,27 @@ def _input_view(state: dict[str, Any]) -> dict[str, Any]:
 
 
 def _attach_state(span, prefix: str, state: dict[str, Any]) -> None:
-    """Attach a redacted, size-bounded state projection to a span as attributes.
+    """Attach a redacted, size-bounded state projection to a span.
 
-    State may carry large ArtifactRef dicts and page-text extracts; we keep the
-    structural shape (counts, refs, short text) so Langfuse shows useful context
-    without dumping megabytes.
+    Langfuse renders an observation's INPUT/OUTPUT from specific attributes
+    (``langfuse.observation.input`` / ``langfuse.observation.output``), not from
+    arbitrary ``prefix.key`` attributes. So we serialize the whole projection to one
+    JSON string and set it on the recognized attribute, so the node's input state
+    and output delta are visible in the UI's Input/Output panels.
     """
 
-    if span is None:
+    if span is None or not state:
         return
-    for k, v in (state or {}).items():
-        try:
-            span.set_attribute(f"{prefix}.{k}", _truncate(_simplify(v)))
-        except Exception:
-            pass
+    attr = (
+        "langfuse.observation.input" if prefix == "input" else "langfuse.observation.output"
+    )
+    projection = {k: _simplify(v) for k, v in state.items()}
+    try:
+        import json
+
+        span.set_attribute(attr, _truncate(json.dumps(projection, ensure_ascii=False)))
+    except Exception:
+        pass
 
 
 def _simplify(v: Any) -> Any:

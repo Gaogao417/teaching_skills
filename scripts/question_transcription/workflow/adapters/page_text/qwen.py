@@ -78,7 +78,7 @@ class QwenPageTextExtractor:
                 # Record the prompt shape without the raw base64 image (too large);
                 # keep the role/text structure for observability.
                 span.set_attribute(
-                    "gen_ai.prompt.messages",
+                    "gen_ai.prompt",
                     _redact_messages(messages),
                 )
                 span.set_attribute("page.number", job.page_number)
@@ -92,7 +92,7 @@ class QwenPageTextExtractor:
                     },
                 )
                 if text:
-                    span.set_attribute("gen_ai.response.text", text[:4000])
+                    span.set_attribute("gen_ai.completion", text[:4000])
                 span.set_attribute("cache_hit", bool(cache_hit))
             except RuntimeError as exc:
                 # BailianOcrClient raises RuntimeError for HTTP errors / missing key.
