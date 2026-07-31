@@ -172,7 +172,10 @@ class OpencodeGlmTranscriber:
         )
 
         try:
-            result = asyncio.run(agent.run(user_prompt, output_type=QuestionTranscriptionBundle))
+            # PydanticAI recommended usage (per opencode-agent's create_agent
+            # docstring): output_type is set ONCE at Agent construction; agent.run
+            # takes only the prompt. result.output is the validated model instance.
+            result = asyncio.run(agent.run(user_prompt))
             bundle = result.output
         except Exception as exc:
             raise _OpcError(WholePaperFailure(

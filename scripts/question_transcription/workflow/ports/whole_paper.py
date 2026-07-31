@@ -15,9 +15,8 @@ Real adapters:
 
 - :class:`~..adapters.whole_paper.opencode.OpencodeGlmTranscriber` -> OpenCode glm-5.2
 - :class:`~..adapters.whole_paper.claude_code.ClaudeCodeTranscriber` -> Claude Code (port only)
-- :class:`~..adapters.whole_paper.glm_api.GlmApiTranscriber` -> direct GLM-5.2 API
 
-All three implement this same contract.
+Both implement this same contract.
 """
 
 from __future__ import annotations

@@ -118,14 +118,6 @@ def _bind_whole_paper(config, store):
             agent_type=config.opencode_agent_type,
             store=store,
         )
-    elif config.whole_paper_adapter == "api":
-        from .adapters.whole_paper.glm_api import GlmApiTranscriber
-
-        inner = GlmApiTranscriber(
-            model=config.glm_api_model,
-            base_url=config.glm_api_base_url,
-            store=store,
-        )
     else:  # claude_code
         from .adapters.whole_paper.claude_code import ClaudeCodeTranscriber
 
@@ -178,8 +170,6 @@ def record_provenance(
     )
     if config.whole_paper_adapter == "opencode":
         wp_model = config.opencode_model
-    elif config.whole_paper_adapter == "api":
-        wp_model = config.glm_api_model
     else:
         wp_model = "claude-code"
     whole_prov = AdapterProvenance(

@@ -32,15 +32,13 @@ __all__ = [
     "DEFAULT_OPENCODE_MODEL",
     "DEFAULT_OPENCODE_SERVER_URL",
     "DEFAULT_OPENCODE_AGENT_TYPE",
-    "DEFAULT_GLM_API_MODEL",
-    "DEFAULT_GLM_API_BASE_URL",
     "RuntimeAdapterConfig",
     "AdapterProvenance",
 ]
 
 
 PageTextProviderChoice = Literal["qwen", "mimo"]
-WholePaperAdapterChoice = Literal["opencode", "claude_code", "api"]
+WholePaperAdapterChoice = Literal["opencode", "claude_code"]
 
 DEFAULT_PAGE_TEXT_PROVIDER: PageTextProviderChoice = "qwen"
 DEFAULT_WHOLE_PAPER_ADAPTER: WholePaperAdapterChoice = "opencode"
@@ -61,10 +59,6 @@ DEFAULT_MIMO_MODEL = "mimo-v2.5"
 DEFAULT_OPENCODE_MODEL = "glm-5.2"
 DEFAULT_OPENCODE_SERVER_URL = "http://127.0.0.1:4096"
 DEFAULT_OPENCODE_AGENT_TYPE = "build"
-
-# Direct GLM API fallback (zhipuai OpenAI-compatible endpoint; ZHIPUAI_API_KEY).
-DEFAULT_GLM_API_MODEL = "glm-5.2"
-DEFAULT_GLM_API_BASE_URL = "https://open.bigmodel.cn/api/paas/v4"
 
 
 class RetryPolicy(BaseModel):
@@ -121,8 +115,6 @@ class RuntimeAdapterConfig(BaseModel):
     opencode_model: str = DEFAULT_OPENCODE_MODEL
     opencode_server_url: str = DEFAULT_OPENCODE_SERVER_URL
     opencode_agent_type: str = DEFAULT_OPENCODE_AGENT_TYPE
-    glm_api_model: str = DEFAULT_GLM_API_MODEL
-    glm_api_base_url: str = DEFAULT_GLM_API_BASE_URL
 
     # Whole-paper structured-output repair budget (ports §7.4).
     whole_paper_max_repairs: int = Field(default=2, ge=0)

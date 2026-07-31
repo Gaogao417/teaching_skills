@@ -4,7 +4,7 @@
 
     python -m scripts.question_transcription.workflow.cli start \
         --paper-id <id> --source <path> --source-kind <doc|docx|pdf|pages> \
-        --page-provider <qwen|mimo> --agent-host <opencode|claude-code|api>
+        --page-provider <qwen|mimo> --agent-host <opencode|claude-code>
 
 ``start`` returns a stable ``run-id``. ``status``/``resume`` output only:
 ``running | waiting_for_source_review | waiting_for_final_review | completed | failed``.
@@ -126,7 +126,7 @@ def main(argv: list[str] | None = None) -> int:
     )
     p_start.add_argument("--page-provider", default="qwen", choices=["qwen", "mimo"])
     p_start.add_argument(
-        "--agent-host", default="opencode", choices=["opencode", "claude-code", "api"]
+        "--agent-host", default="opencode", choices=["opencode", "claude-code"]
     )
     p_start.add_argument(
         "--mode", default="live", choices=["live", "fake"], help="fake=offline test"
