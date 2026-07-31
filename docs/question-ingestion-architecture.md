@@ -49,7 +49,7 @@ scripts/question_transcription/workflow/
 ├── nodes/
 ├── adapters/
 │   ├── page_text/{qwen,mimo}.py
-│   ├── whole_paper/{opencode,claude_code,_normalize}.py
+│   ├── whole_paper/{opencode,claude_code}.py
 │   ├── docx_or_pdf.py
 │   ├── source_build.py
 │   ├── downstream.py
@@ -65,6 +65,8 @@ scripts/question_transcription/workflow/
 - `WorkflowState` 主要保存 `ArtifactRef`，不保存 PDF、页图或完整模型响应；
 - 页级 fan-out 使用 LangGraph `Send` 和 reducer；
 - OpenCode 与 Claude Code 实现相同的 `WholePaperTranscriber` 业务端口；
+- OpenCode 与 Claude Code 都以 `provider=None` 的 PydanticAI `Model` 驱动
+  `Agent(output_type=QuestionTranscriptionBundle)`，共享自动校验与 `ModelRetry` 语义；
 - fake dependencies 可以驱动离线 graph lifecycle；
 - run artifact 位于 `build/question-ingestion/<paper-id>/<run-id>/`。
 
@@ -75,7 +77,6 @@ scripts/question_transcription/workflow/
 - `ports/downstream.py` 使用相对位置命名，没有表达 staging 业务含义；
 - image attribution 在 `WorkflowDependencies` 中仍以 `object` 表示，没有正式端口；
 - `interleaved / separated` 是试卷布局语义，却暂存在 runtime adapter config；
-- `_normalize.py` 修改题目 evidence，属于题目录入策略，却位于 provider adapter 目录；
 - `artifact_store/checkpoint/tracing`、配置装配和领域契约平铺在同一级；
 - `testsupport/fakes.py` 聚合所有 fake，已经形成单文件多职责。
 
@@ -481,7 +482,7 @@ adapters/downstream.py -> adapters/staging/existing_pipeline.py
 
 ### 8.2 Normalization 所有权
 
-当前 whole-paper `_normalize.py` 会填充题目 evidence 和 answer anchors，因此它不是 provider utility。目标位置属于 `application/stages/whole_paper.py` 或题目录入 `structured_transcriber.py`，且必须由 contract test 约束。
+Provider 层不允许通过手工补字段绕过权威输出校验。若未来确有题目录入 normalization，目标位置属于 `application/stages/whole_paper.py` 或题目录入 `structured_transcriber.py`，且必须由 contract test 约束。
 
 ### 8.3 Fake 所有权
 
@@ -589,7 +590,6 @@ tests/question_transcription/workflow/
 | `workflow/tracing.py` | `workflow/infrastructure/tracing.py` |
 | `adapters/whole_paper/opencode.py` | shared OpenCode client/model + ingestion structured transcriber |
 | `adapters/whole_paper/claude_code.py` | shared Claude client/model + ingestion structured transcriber |
-| `adapters/whole_paper/_normalize.py` | ingestion whole-paper application/adapter |
 | `adapters/docx_or_pdf.py` | `adapters/source/{extraction,image_attribution}.py` |
 | `adapters/source_build.py` | `adapters/source/source_paper.py` |
 | `adapters/downstream.py` | `adapters/staging/existing_pipeline.py` |

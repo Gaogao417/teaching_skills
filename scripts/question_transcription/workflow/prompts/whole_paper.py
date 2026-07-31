@@ -2,8 +2,8 @@
 
 The bound :class:`WholePaperTranscriber` reads the ordered per-page text files and
 produces a :class:`QuestionTranscriptionBundle` (``math_question_transcription/v1``):
-questions, answers, solution steps. The prompt is provider-agnostic; all three
-adapters (currently OpenCode glm-5.2 and Claude Code) feed it the same input.
+questions, answers, solution steps. The prompt is provider-agnostic; both current
+adapters (OpenCode glm-5.2 and Claude Code) feed it the same input.
 """
 
 from __future__ import annotations

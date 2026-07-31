@@ -314,6 +314,9 @@ def test_model_is_pydantic_ai_model_subclass():
         ClaudeCodeModel,
     )
 
+    model = ClaudeCodeModel(model_name="sonnet")
+
     assert issubclass(ClaudeCodeModel, Model)
     # All abstract members satisfied.
     assert not ClaudeCodeModel.__abstractmethods__
+    assert model.provider is None

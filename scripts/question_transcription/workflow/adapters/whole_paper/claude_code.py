@@ -238,11 +238,18 @@ def _convert_messages_to_prompt(messages: list[Any]) -> str:
         for part in getattr(message, "parts", []):
             content = getattr(part, "content", None)
             if isinstance(content, list):
-                # Some parts carry structured content; join string fragments.
-                content = "\n".join(
-                    getattr(c, "text", c) if not isinstance(c, str) else c
-                    for c in content
-                )
+                # Retry/output-schema parts may carry dicts as structured content.
+                fragments: list[str] = []
+                for item in content:
+                    if isinstance(item, str):
+                        fragments.append(item)
+                    elif isinstance(getattr(item, "text", None), str):
+                        fragments.append(item.text)
+                    elif isinstance(item, dict):
+                        fragments.append(json.dumps(item, ensure_ascii=False))
+                    else:
+                        fragments.append(str(item))
+                content = "\n".join(fragments)
             if not isinstance(content, str) or not content.strip():
                 continue
             part_type = type(part).__name__

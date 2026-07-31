@@ -6,4 +6,6 @@ Both implement :class:`WholePaperTranscriber`:
 - :mod:`.claude_code` — Claude Code via ``claude-agent-sdk`` (model/permission bound per request)
 
 Bound by the composition root; the node never sees which host is in use.
+Both expose a providerless PydanticAI ``Model`` and use ``Agent(output_type=...)``
+for the same structured-output validation and retry chain.
 """

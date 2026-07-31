@@ -32,7 +32,7 @@ workflow/
 ├── ports/*.py
 ├── nodes/*.py
 ├── adapters/page_text/*.py
-├── adapters/whole_paper/{opencode,claude_code,_normalize}.py
+├── adapters/whole_paper/{opencode,claude_code}.py
 ├── adapters/{docx_or_pdf,source_build,downstream,review}.py
 └── testsupport/fakes.py
 ```
@@ -42,7 +42,7 @@ workflow/
 - graph node 名和 topology；
 - initial state/dump/load/outcome；
 - 页级 reducer 和 barrier；
-- OpenCode、Claude Code adapter contract；
+- OpenCode、Claude Code 的 providerless Model/Agent 校验契约；
 - interleaved/separated prompt；
 - run layout；
 - fake clean/review/failure 路径；
@@ -126,7 +126,7 @@ workflow/adapters/whole_paper/
 | M2.1 | 定义 provider-neutral `StructuredModel` 注入方式 |
 | M2.2 | 实现统一 `StructuredWholePaperTranscriber` |
 | M2.3 | 把 prompt build、artifact commit、failure mapping 从 provider 文件迁出 |
-| M2.4 | 把 `_normalize.py` 迁入题目录入 adapter/application 边界 |
+| M2.4 | 保持 provider 层不做手工补字段；未来 normalization 只能进入题目录入 application/adapter |
 | M2.5 | composition 分别创建 OpenCode/Claude model，再注入同一个 transcriber |
 | M2.6 | 保留旧 class/import 的临时兼容 shim |
 

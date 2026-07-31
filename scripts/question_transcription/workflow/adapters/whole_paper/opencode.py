@@ -1,21 +1,22 @@
-"""Current OpenCode glm-5.2 whole-paper transcriber (architecture §3.2 and §3.6).
+"""OpenCode glm-5.2 whole-paper transcriber — OpenCode as a PydanticAI Model.
 
 A self-contained HTTP client for the OpenCode server's session/message API. We
-deliberately do NOT depend on the ``opencode-agent`` packages: their ``OpencodeModel``
-+ PydanticAI ``Agent`` stack targets ``pydantic-ai>=0.0.14`` and breaks under the
-installed ``pydantic_ai`` 2.x, and importing ``opencode_agent_server.engine`` pulls
-in a ``Graph(...)`` that fails at import time. Only the session/message protocol
-concept is borrowed (POST ``/session`` to create, POST
-``/session/{id}/message`` to send; response ``parts[*].text`` joined).
+deliberately do NOT depend on the ``opencode-agent`` packages. ``OpencodeModel``
+directly subclasses the repository's installed PydanticAI 2.x ``Model`` with
+``provider=None`` and calls the existing HTTP transport unchanged. The outer
+``OpencodeGlmTranscriber`` drives
+``Agent(model=OpencodeModel(...), output_type=QuestionTranscriptionBundle)`` so
+structured-output validation and ``ModelRetry`` are symmetric with Claude Code.
 
 Model binding: the OpenCode server selects the model from its server-side config
 (``~/.config/opencode/opencode.json``); the per-request model is not propagated by
-opencode's provider (design ports §7.2 GAP 3). So this adapter relies on the server
+the old opencode-agent provider. So this adapter relies on the server
 config binding glm-5.2 (verified by the live canary asserting a validated bundle).
 """
 
 from __future__ import annotations
 
+import asyncio
 import hashlib
 import json
 import time
@@ -23,6 +24,10 @@ from typing import Any
 
 import httpx
 import yaml
+from pydantic_ai.messages import ModelResponse, TextPart
+from pydantic_ai.models import Model, check_allow_model_requests
+from pydantic_ai.settings import ModelSettings
+from pydantic_ai.usage import RequestUsage
 
 from .._common_paths import repo_root  # noqa: F401  (sys.path bootstrap for contracts)
 from ...contracts import (
@@ -40,23 +45,6 @@ from ...prompts.whole_paper import (
 ADAPTER_ID = "opencode"
 
 
-def _strip_fences(text: str) -> str:
-    """Strip ```json ... ``` fences and surrounding prose to recover the JSON object."""
-
-    s = text.strip()
-    if s.startswith("```"):
-        s = s.split("\n", 1)[1] if "\n" in s else s
-        if s.endswith("```"):
-            s = s[: -3]
-        s = s.strip()
-    if not s.startswith("{"):
-        start = s.find("{")
-        end = s.rfind("}")
-        if start != -1 and end != -1 and end > start:
-            s = s[start : end + 1]
-    return s
-
-
 def _extract_text(raw: dict) -> str:
     """Join all text parts from an OpenCode /session/.../message response."""
 
@@ -64,12 +52,120 @@ def _extract_text(raw: dict) -> str:
     return " ".join(p.get("text", "") for p in parts if p.get("type") == "text").strip()
 
 
+def _convert_messages_to_prompt(messages: list[Any]) -> str:
+    """Flatten PydanticAI messages into the text-only OpenCode transport.
+
+    On ``ModelRetry`` the Agent calls the Model again with the prior assistant text
+    and validation feedback appended. Keeping every part in order lets the existing
+    stateless ``POST /session`` transport receive the complete retry conversation.
+    """
+
+    blocks: list[str] = []
+    for message in messages:
+        for part in getattr(message, "parts", []):
+            content = getattr(part, "content", None)
+            if isinstance(content, list):
+                fragments: list[str] = []
+                for item in content:
+                    if isinstance(item, str):
+                        fragments.append(item)
+                    elif isinstance(getattr(item, "text", None), str):
+                        fragments.append(item.text)
+                    elif isinstance(item, dict):
+                        fragments.append(json.dumps(item, ensure_ascii=False))
+                    else:
+                        fragments.append(str(item))
+                content = "\n".join(fragments)
+            if not isinstance(content, str) or not content.strip():
+                continue
+            part_type = type(part).__name__
+            if "System" in part_type or "Instruction" in part_type:
+                role = "system"
+            elif "User" in part_type:
+                role = "user"
+            elif "Text" in part_type:
+                role = "assistant"
+            else:
+                role = "user"
+            blocks.append(f"[{role}]\n{content.strip()}")
+    return "\n\n".join(blocks)
+
+
+class OpencodeModel(Model):
+    """PydanticAI ``Model`` backed by the OpenCode session/message HTTP API.
+
+    No PydanticAI provider object is installed: ``Model.provider`` remains ``None``.
+    The injected ``send_message`` callable is the existing transport boundary and
+    returns the raw OpenCode response JSON.
+    """
+
+    def __init__(
+        self,
+        *,
+        model_name: str,
+        send_message,
+        settings: ModelSettings | None = None,
+    ) -> None:
+        super().__init__(settings=settings)
+        self._model_name = model_name
+        self._send_message = send_message
+
+    @property
+    def model_name(self) -> str:
+        return self._model_name
+
+    @property
+    def system(self) -> str:
+        return "opencode"
+
+    async def request(
+        self,
+        messages: list[Any],
+        model_settings: ModelSettings | None,
+        model_request_parameters: Any,
+    ) -> ModelResponse:
+        model_settings, model_request_parameters = self.prepare_request(
+            model_settings, model_request_parameters
+        )
+        check_allow_model_requests()
+
+        prompt = _convert_messages_to_prompt(messages)
+        try:
+            raw = await asyncio.to_thread(self._send_message, prompt)
+        except _OpcError:
+            raise
+        except Exception as exc:
+            low = str(exc).lower()
+            kind = "execution_timed_out" if "timeout" in low else "transcriber_unavailable"
+            raise _OpcError(WholePaperFailure(
+                adapter_id=ADAPTER_ID,
+                kind=kind,
+                attempts=1,
+                detail=f"server call failed: {exc}",
+            ))
+
+        text = _extract_text(raw)
+        if not text:
+            raise _OpcError(WholePaperFailure(
+                adapter_id=ADAPTER_ID,
+                kind="invalid_structured_output",
+                attempts=1,
+                detail="server returned empty text",
+            ))
+
+        return ModelResponse(
+            parts=[TextPart(content=text)],
+            usage=RequestUsage(input_tokens=0, output_tokens=0),
+            model_name=self._model_name,
+            provider_name="opencode",
+        )
+
+
 class OpencodeGlmTranscriber:
     """:class:`WholePaperTranscriber` backed by the OpenCode server (glm-5.2).
 
-    Self-contained: only stdlib + httpx + the repo's own Pydantic contracts. No
-    ``opencode-agent`` import. The server's session/message API is simple enough to
-    call directly.
+    Self-contained: no ``opencode-agent`` import. The server's session/message API
+    remains a direct httpx transport behind :class:`OpencodeModel`.
     """
 
     def __init__(self, *, model: str, server_url: str, agent_type: str, store,
@@ -105,8 +201,7 @@ class OpencodeGlmTranscriber:
                     ordered_pages=ordered,
                     mode="interleaved",
                 )
-            first_page = ordered[0][0] if ordered else 1
-            bundle = self._run(user_prompt, first_page)
+            bundle = self._run_agent(user_prompt)
         except _OpcError as exc:
             return None, exc.failure
         except Exception as exc:  # pragma: no cover - defensive
@@ -138,8 +233,8 @@ class OpencodeGlmTranscriber:
 
     # -- OpenCode server transport ---------------------------------------- #
 
-    def _run(self, user_prompt: str, first_page: int):
-        """Create a session, send the prompt, return a validated bundle."""
+    def _run_agent(self, user_prompt: str):
+        """Drive PydanticAI validation/retry and return a validated bundle."""
 
         cache_path = self.cache_dir / f"{self._cache_key(user_prompt)}.json" if self.cache_dir else None
         if cache_path and cache_path.exists():
@@ -148,40 +243,34 @@ class OpencodeGlmTranscriber:
             cached = json.loads(cache_path.read_text(encoding="utf-8"))
             return QuestionTranscriptionBundle.model_validate(cached["bundle"])
 
-        message = f"{WHOLE_PAPER_SYSTEM_PROMPT}\n\n{user_prompt}"
-        try:
-            raw = self._send_message(message)
-        except _OpcError:
-            raise
-        except Exception as exc:
-            low = str(exc).lower()
-            kind = "execution_timed_out" if "timeout" in low else "transcriber_unavailable"
-            raise _OpcError(WholePaperFailure(
-                adapter_id=ADAPTER_ID, kind=kind, attempts=1,
-                detail=f"server call failed: {exc}",
-            ))
+        from pydantic_ai import Agent
+        from scripts.question_transcription.contracts import QuestionTranscriptionBundle
 
-        text = _extract_text(raw)
-        if not text.strip():
-            raise _OpcError(WholePaperFailure(
-                adapter_id=ADAPTER_ID, kind="invalid_structured_output",
-                attempts=1, detail="server returned empty text",
-            ))
-        try:
-            from ._normalize import normalize_bundle
-            from scripts.question_transcription.contracts import QuestionTranscriptionBundle
-            from scripts.question_transcription.mimo_client import extract_json
+        model_obj = OpencodeModel(
+            model_name=self.model,
+            send_message=self._send_message,
+        )
+        agent = Agent(
+            model=model_obj,
+            output_type=QuestionTranscriptionBundle,
+            instructions=WHOLE_PAPER_SYSTEM_PROMPT,
+            retries=1,
+            name="whole-paper-transcriber-opencode",
+        )
 
-            data = extract_json(_strip_fences(text))
-            normalize_bundle(data, first_page)
-            bundle = QuestionTranscriptionBundle.model_validate(data)
+        try:
+            result = asyncio.run(agent.run(user_prompt))
         except _OpcError:
             raise
         except Exception as exc:
             raise _OpcError(WholePaperFailure(
-                adapter_id=ADAPTER_ID, kind="invalid_structured_output",
-                attempts=1, detail=f"bundle validation failed: {exc}; head={text[:200]!r}",
+                adapter_id=ADAPTER_ID,
+                kind="invalid_structured_output",
+                attempts=1,
+                detail=f"agent.run failed: {type(exc).__name__}: {exc}",
             ))
+
+        bundle = result.output
 
         if cache_path:
             cache_path.parent.mkdir(parents=True, exist_ok=True)
