@@ -1,0 +1,182 @@
+\documentclass{exam-zh}
+\usepackage{edu-practice}
+
+\examsetup{
+  question/show-answer = false,
+  fillin/show-answer = false,
+  solution/show-solution = hide,
+}
+
+% ---------- 教师版解答样式 ----------
+\newtcolorbox{solutionblock}{
+  enhanced, breakable,
+  colback=edu-blue-bg,
+  colframe=edu-blue!25,
+  boxrule=0pt,
+  borderline west={2pt}{0pt}{edu-blue!50},
+  arc=0pt,
+  left=3mm, right=3mm, top=2mm, bottom=2mm,
+  before skip=2mm,
+  after skip=3mm,
+  fontupper=\small,
+}
+
+% 解答步骤编号
+\newcounter{solstep}
+\newcommand{\solstep}[2]{%
+  \stepcounter{solstep}%
+  \par\medskip
+  \noindent\hangindent=6mm
+  {\color{edu-blue}\bfseries\textcircled{\scriptsize\thesolstep}\enspace #1}\enspace #2\par
+}
+
+\begin{document}
+
+\section*{相似三角形证明题精选}
+
+\section*{第 1 题}
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-58mm-6mm\relax}
+    \vspace{0pt}
+    如图，在 $\triangle ABC$ 中，点 $D,E$ 分别在边 $AB,AC$ 上，$AD\cdot AB=AE\cdot AC$，点 $F$ 是 $BE$ 与 $CD$ 的交点。
+\begin{enumerate}[label=(\arabic*)]
+  \item 求证：$\triangle FDB\sim\triangle FEC$；
+  \item 如果 $AB=15$，$AC=18$，$AD=6$，求 $EF:DF$。
+\end{enumerate}
+
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{58mm}{}
+  \includegraphics[width=\linewidth]{\detokenize{assets/q1-prompt.png}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[72mm]
+\end{problem}
+
+
+\section*{第 2 题}
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-58mm-6mm\relax}
+    \vspace{0pt}
+    已知：如图，在 $\mathrm{Rt}\triangle ABC$ 和 $\mathrm{Rt}\triangle DEF$ 中，$\angle C=\angle F=90^\circ$，且 $\dfrac{DE}{AB}=\dfrac{DF}{AC}$。求证：$\triangle DEF\sim\triangle ABC$。小明按题图框内①—④完成证明。
+\begin{enumerate}[label=(\arabic*)]
+  \item 小明的证明从第几部分开始出现错误？说明理由；
+  \item 请利用平行线作为辅助线，完成正确证明。
+\end{enumerate}
+
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{58mm}{}
+  \includegraphics[width=\linewidth]{\detokenize{assets/q2-prompt.png}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[72mm]
+\end{problem}
+
+
+\section*{第 3 题}
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=10]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-52mm-6mm\relax}
+    \vspace{0pt}
+    如图，在 $\mathrm{Rt}\triangle ABC$ 中，$\angle ABC=90^\circ$，点 $D$ 在边 $AC$ 上，过点 $D$ 作 $DE\perp AC$ 交 $AB$ 于点 $E$，联结 $EC、BD$ 交于点 $F$。
+\begin{enumerate}[label=(\arabic*)]
+  \item 求证：$\triangle ABD\sim\triangle ACE$；
+  \item 如果 $BC=BE$，求证：$\dfrac{1}{2}CE^2=BF\cdot BD$。
+\end{enumerate}
+
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{52mm}{}
+  \includegraphics[width=\linewidth]{\detokenize{assets/q3-prompt.png}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[72mm]
+\end{problem}
+
+
+\section*{第 4 题}
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=12]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-46mm-6mm\relax}
+    \vspace{0pt}
+    如图，点 $D$、$E$ 分别在 $\triangle ABC$ 的边 $AB$、$AC$ 上，$AE=EC$，$AE^2=\dfrac{1}{2}AD\cdot AB$，联结 $DE$。
+\begin{enumerate}[label=(\arabic*)]
+  \item 求证：$\triangle ADE\sim\triangle ACB$；
+  \item 取 $AD$ 的中点 $F$，联结 $EF$、$BE$，求证：$\angle DEF=\angle CBE$。
+\end{enumerate}
+
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{46mm}{}
+  \includegraphics[width=\linewidth]{\detokenize{assets/q4-prompt.png}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[72mm]
+\end{problem}
+
+
+\section*{第 5 题}
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=12]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-58mm-6mm\relax}
+    \vspace{0pt}
+    已知：如图，在梯形 $ABCD$ 中，$AB\parallel CD$，连接 $AC$、$BD$，$\triangle ABC$ 是等边三角形，$DE\parallel BC$，$DE$ 与 $AC$ 交于点 $E$，且 $\angle ADB=2\angle DBC$。
+\begin{enumerate}[label=(\arabic*)]
+  \item 求证：$\triangle ADE\sim\triangle DBC$；
+  \item 求证：点 $E$ 是线段 $AC$ 的黄金分割点。
+\end{enumerate}
+
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{58mm}{}
+  \includegraphics[width=\linewidth]{\detokenize{assets/q5-prompt.png}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[72mm]
+\end{problem}
+
+
+\section*{第 6 题}
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=12]
+  \noindent
+  \begin{minipage}[t]{\dimexpr\linewidth-58mm-6mm\relax}
+    \vspace{0pt}
+    已知在 $\triangle ABC$ 中，$CD$ 平分 $\angle ACB$，$E$ 是 $CD$ 延长线上一点，$AE=AD$，$F$ 是 $AB$ 延长线上的点，连接 $CF$。
+\begin{enumerate}[label=(\arabic*)]
+  \item 求证：$\triangle CEA\sim\triangle CDB$；
+  \item 如果 $CF\parallel AE$，求证：$\dfrac{BD}{AD}=\dfrac{BF}{CF}$。
+\end{enumerate}
+
+    
+  \end{minipage}\hfill
+  \begin{diagramcoltikz}{58mm}{}
+  \includegraphics[width=\linewidth]{\detokenize{assets/q6-prompt.png}}
+  \end{diagramcoltikz}
+  \par\medskip
+  \answerarea[72mm]
+\end{problem}
+
+
+
+\end{document}

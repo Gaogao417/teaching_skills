@@ -1,0 +1,196 @@
+meta:
+  title: 相似三角形证明题精选
+  subtitle: 上海各区模拟卷汇编（教师版）
+  grade: 九年级
+  subject: 数学
+  version: teacher
+  show_answers: true
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: q1
+  title: 第 1 题
+  type: practice
+  visibility: teacher
+  blocks:
+  - type: problem
+    id: Q001
+    points: 10
+    stem_latex: |
+      如图，在 $\triangle ABC$ 中，点 $D,E$ 分别在边 $AB,AC$ 上，$AD\cdot AB=AE\cdot AC$，点 $F$ 是 $BE$ 与 $CD$ 的交点。
+      \begin{enumerate}[label=(\arabic*)]
+        \item 求证：$\triangle FDB\sim\triangle FEC$；
+        \item 如果 $AB=15$，$AC=18$，$AD=6$，求 $EF:DF$。
+      \end{enumerate}
+    answer: （1）证明见解析；（2）$EF:DF=13:9$。
+    solution_steps:
+    - title: 第（1）问：由比例判相似
+      content: |
+        因为 $AD\cdot AB=AE\cdot AC$，所以 $\dfrac{AD}{AE}=\dfrac{AC}{AB}$。
+        又因为 $\angle DAC=\angle EAB$，所以 $\triangle DAC\sim\triangle EAB$，从而 $\angle ACD=\angle ABE$。
+        因为 $\angle EFC=\angle DFB$，所以 $\triangle FDB\sim\triangle FEC$。
+    - title: 第（2）问：求线段比
+      content: |
+        由 $AD\cdot AB=AE\cdot AC$，且 $AB=15$，$AC=18$，$AD=6$，得 $6\times15=18\cdot AE$，所以 $AE=5$，$BD=15-6=9$，$EC=18-5=13$。
+        由 $\triangle FDB\sim\triangle FEC$，得 $\dfrac{EF}{DF}=\dfrac{CE}{BD}$，所以 $EF:DF=13:9$。
+    answer_space:
+      type: lines
+      height: 72mm
+    diagram_col:
+      image_path: assets/q1-prompt.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean
+- id: q2
+  title: 第 2 题
+  type: practice
+  visibility: teacher
+  blocks:
+  - type: problem
+    id: Q002
+    points: 10
+    stem_latex: |
+      已知：如图，在 $\mathrm{Rt}\triangle ABC$ 和 $\mathrm{Rt}\triangle DEF$ 中，$\angle C=\angle F=90^\circ$，且 $\dfrac{DE}{AB}=\dfrac{DF}{AC}$。求证：$\triangle DEF\sim\triangle ABC$。小明按题图框内①—④完成证明。
+      \begin{enumerate}[label=(\arabic*)]
+        \item 小明的证明从第几部分开始出现错误？说明理由；
+        \item 请利用平行线作为辅助线，完成正确证明。
+      \end{enumerate}
+    answer: （1）从第③部分开始错误，理由是错误使用了平行线分线段成比例定理的逆定理；（2）见证明。
+    solution_steps:
+    - title: 官方解答
+      content: |
+        （1）从第③部分开始错误；由 $\dfrac{GH}{AB}=\dfrac{CG}{AC}$ 不能直接判定 $GH\parallel AB$，这是错误使用平行线分线段成比例定理的逆定理。
+        （2）在 $AC$ 上截取 $CG=FD$，过点 $G$ 作 $GH\parallel AB$，交 $BC$ 于 $H$。由平行线得 $\dfrac{GH}{AB}=\dfrac{CG}{AC}$。结合 $\dfrac{DE}{AB}=\dfrac{DF}{AC}$ 与 $CG=DF$，得 $GH=DE$。在直角三角形 $GHC$ 与 $DEF$ 中，$CG=DF$、$GH=DE$，故两三角形全等；又 $\triangle GHC\sim\triangle ABC$，所以 $\triangle DEF\sim\triangle ABC$。
+    answer_space:
+      type: lines
+      height: 72mm
+    diagram_col:
+      image_path: assets/q2-prompt.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean
+- id: q3
+  title: 第 3 题
+  type: practice
+  visibility: teacher
+  blocks:
+  - type: problem
+    id: Q003
+    points: 10
+    stem_latex: |
+      如图，在 $\mathrm{Rt}\triangle ABC$ 中，$\angle ABC=90^\circ$，点 $D$ 在边 $AC$ 上，过点 $D$ 作 $DE\perp AC$ 交 $AB$ 于点 $E$，联结 $EC、BD$ 交于点 $F$。
+      \begin{enumerate}[label=(\arabic*)]
+        \item 求证：$\triangle ABD\sim\triangle ACE$；
+        \item 如果 $BC=BE$，求证：$\dfrac{1}{2}CE^2=BF\cdot BD$。
+      \end{enumerate}
+    answer: 见官方证明。
+    solution_steps:
+    - title: 第（1）问
+      content: |
+        $\because DE\perp AC$，$\therefore\angle ADE=90^\circ$。$\because\angle ABC=90^\circ$，$\therefore\angle ADE=\angle ABC$。
+        $\because\angle DAE=\angle BAC$，$\therefore\triangle ADE\sim\triangle ABC$，$\therefore\dfrac{AD}{AB}=\dfrac{AE}{AC}$，即 $\dfrac{AD}{AE}=\dfrac{AB}{AC}$。
+        又 $\angle BAD=\angle CAE$，$\therefore\triangle ABD\sim\triangle ACE$。
+    - title: 第（2）问
+      content: |
+        由 $\triangle ABD\sim\triangle ACE$ 得 $\angle ABD=\angle ACE$。由角的关系得 $\angle BEF=\angle CDF$。
+        $\because BC=BE$，$\therefore\angle BEF=\angle BCF$。$\therefore\angle CDF=\angle BCF$。
+        又 $\angle DBC=\angle CBF$，$\therefore\triangle BCD\sim\triangle BFC$，$\therefore\dfrac{BC}{BF}=\dfrac{BD}{BC}$，即 $BC^2=BF\cdot BD$。
+        在 $\mathrm{Rt}\triangle CBE$ 中，$\angle BEF=\angle BCF=45^\circ$，$\therefore CE=\sqrt{2}\,BC$，$\therefore\dfrac{1}{2}CE^2=BF\cdot BD$。
+    answer_space:
+      type: lines
+      height: 72mm
+    diagram_col:
+      image_path: assets/q3-prompt.png
+      width: 52mm
+      variant: prompt
+      disclosure_policy: clean
+- id: q4
+  title: 第 4 题
+  type: practice
+  visibility: teacher
+  blocks:
+  - type: problem
+    id: Q004
+    points: 12
+    stem_latex: |
+      如图，点 $D$、$E$ 分别在 $\triangle ABC$ 的边 $AB$、$AC$ 上，$AE=EC$，$AE^2=\dfrac{1}{2}AD\cdot AB$，联结 $DE$。
+      \begin{enumerate}[label=(\arabic*)]
+        \item 求证：$\triangle ADE\sim\triangle ACB$；
+        \item 取 $AD$ 的中点 $F$，联结 $EF$、$BE$，求证：$\angle DEF=\angle CBE$。
+      \end{enumerate}
+    answer: 两个结论均成立。
+    solution_steps:
+    - title: 第（1）问
+      content: |
+        因为 $AE=EC$，所以 $AC=2AE$。由 $AE^2=\dfrac{1}{2}AD\cdot AB$ 得 $AE\cdot AC=AD\cdot AB$，即 $\dfrac{AE}{AB}=\dfrac{AD}{AC}$。
+        又 $\angle DAE=\angle CAB$，所以 $\triangle ADE\sim\triangle ACB$。
+    - title: 第（2）问
+      content: |
+        因为 $F$ 是 $AD$ 的中点，所以 $AD=2DF$。结合第（1）问的相似比例可得 $\dfrac{DF}{CB}=\dfrac{DE}{CE}$，且 $\angle FDE=\angle ECB$，
+        所以 $\triangle DEF\sim\triangle CBE$，故 $\angle DEF=\angle CBE$。
+    answer_space:
+      type: lines
+      height: 72mm
+    diagram_col:
+      image_path: assets/q4-prompt.png
+      width: 46mm
+      variant: prompt
+      disclosure_policy: clean
+- id: q5
+  title: 第 5 题
+  type: practice
+  visibility: teacher
+  blocks:
+  - type: problem
+    id: Q005
+    points: 12
+    stem_latex: |
+      已知：如图，在梯形 $ABCD$ 中，$AB\parallel CD$，连接 $AC$、$BD$，$\triangle ABC$ 是等边三角形，$DE\parallel BC$，$DE$ 与 $AC$ 交于点 $E$，且 $\angle ADB=2\angle DBC$。
+      \begin{enumerate}[label=(\arabic*)]
+        \item 求证：$\triangle ADE\sim\triangle DBC$；
+        \item 求证：点 $E$ 是线段 $AC$ 的黄金分割点。
+      \end{enumerate}
+    answer: （1）见证明；（2）见证明。
+    solution_steps:
+    - title: 官方解答
+      content: |
+        （1）由 $AB\parallel CD$、$DE\parallel BC$ 及等边三角形的角关系可得 $\angle AED=\angle DCB$，再结合 $\angle ADB=2\angle DBC$ 作角的转化，得 $\triangle ADE\sim\triangle DBC$。
+        （2）进一步得 $\angle EDC=60^\circ$，所以 $\triangle CDE$ 为等边三角形，$CE=DE=CD$；又 $AC=BC$。由相似关系得 $\dfrac{AE}{CD}=\dfrac{DE}{BC}$，故 $\dfrac{AE}{EC}=\dfrac{EC}{AC}$，所以点 $E$ 是线段 $AC$ 的黄金分割点。
+    answer_space:
+      type: lines
+      height: 72mm
+    diagram_col:
+      image_path: assets/q5-prompt.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean
+- id: q6
+  title: 第 6 题
+  type: practice
+  visibility: teacher
+  blocks:
+  - type: problem
+    id: Q006
+    points: 12
+    stem_latex: |
+      已知在 $\triangle ABC$ 中，$CD$ 平分 $\angle ACB$，$E$ 是 $CD$ 延长线上一点，$AE=AD$，$F$ 是 $AB$ 延长线上的点，连接 $CF$。
+      \begin{enumerate}[label=(\arabic*)]
+        \item 求证：$\triangle CEA\sim\triangle CDB$；
+        \item 如果 $CF\parallel AE$，求证：$\dfrac{BD}{AD}=\dfrac{BF}{CF}$。
+      \end{enumerate}
+    answer: 两结论均成立。
+    solution_steps:
+    - title: 官方证明
+      content: |
+        由 $AE=AD$、角平分线及对顶角关系得到两角对应相等，故 $\triangle CEA\sim\triangle CDB$。
+        再由 $CF\parallel AE$ 得角关系，证明 $\triangle CFB\sim\triangle AFC$，结合前一相似三角形的比例即可得 $\dfrac{BD}{AD}=\dfrac{BF}{CF}$。
+    answer_space:
+      type: lines
+      height: 72mm
+    diagram_col:
+      image_path: assets/q6-prompt.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean
