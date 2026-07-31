@@ -28,6 +28,67 @@ __all__ = [
 ]
 
 
+def _backfill_evidence_page_paths(store, transcription_ref, extracted_source, layout):
+    """Resolve whole-paper evidence ``source: "transcription"`` to real page paths.
+
+    The transcriber emits page-NUMBER evidence refs because it only sees OCR text,
+    not the rendered page images. The staging pipeline (materialize_staging) opens
+    ``evidence.source``/``page_image`` as a file and hashes it, so it must be a path
+    that resolves under the repo root. This maps each ``page_number`` to the absolute
+    path of the corresponding rendered page (from ``extracted_source.pages``) and
+    re-commits the transcription with the resolved paths.
+
+    Operates on the typed contracts (ExtractedSource / QuestionTranscriptionBundle /
+    PageEvidence) rather than raw dicts, so a malformed field fails loudly here
+    instead of silently producing an invalid artifact.
+
+    Returns the (possibly new) transcription ArtifactRef; on any failure it returns
+    the original ref unchanged so the run is not blocked by a backfill error.
+    """
+
+    from ..contracts import ExtractedSource  # typed contract for the source bundle
+    from ...contracts import QuestionTranscriptionBundle  # typed transcription
+
+    try:
+        extracted = ExtractedSource.model_validate(extracted_source)
+        page_path_by_number: dict[int, str] = {}
+        for i, pref in enumerate(extracted.pages):
+            page_path_by_number[i + 1] = str((layout.root / pref.path).resolve())
+        if not page_path_by_number:
+            return transcription_ref
+
+        bundle = QuestionTranscriptionBundle.model_validate(
+            store.read_yaml(transcription_ref)
+        )
+        changed = False
+        for section in bundle.sections:
+            for q in section.questions:
+                if q.evidence is None:
+                    continue
+                for role_refs in (q.evidence.question, q.evidence.solution):
+                    for ref in role_refs:
+                        if ref.source != "transcription":
+                            continue
+                        resolved = page_path_by_number.get(ref.page_number)
+                        if resolved is None:
+                            continue
+                        ref.source = resolved
+                        changed = True
+        if not changed:
+            return transcription_ref
+        # by_alias=True so the dumped yaml uses ``schema`` (the input alias the
+        # downstream projector re-validates with), not the python field name
+        # ``schema_`` (which model_validate rejects as extra).
+        return store.commit_yaml(
+            "structured/transcription.yaml",
+            bundle.model_dump(mode="json", by_alias=True),
+            bundle.schema_,
+        )
+    except Exception:
+        # Backfill must never block the pipeline; surface original ref on failure.
+        return transcription_ref
+
+
 def make_extract_source_node(deps):
     """Extract + freeze the source; build the per-page job list (design §3.1)."""
 
@@ -107,6 +168,7 @@ def make_build_source_paper_node(deps):
 
     builder = deps.deterministic.source_paper_builder
     store = deps.artifact_store
+    layout = deps.run_layout
 
     def build_source_paper(state: WorkflowState) -> dict[str, Any]:
         transcription_ref = state.get("whole_paper_transcription")
@@ -118,6 +180,18 @@ def make_build_source_paper_node(deps):
             if isinstance(transcription_ref, dict)
             else transcription_ref
         )
+        # Backfill evidence.source: the whole-paper transcriber knows only the page
+        # NUMBER each question/solution spans; it cannot know the rendered page-image
+        # file path (that is owned by the source-extraction branch). The downstream
+        # staging pipeline (materialize_staging) treats evidence.source/page_image as a
+        # real file path it opens and hashes. So before the builder reads the
+        # transcription, resolve every page-number evidence ref against
+        # extracted_source.pages into an absolute page-image path.
+        extracted = state.get("extracted_source")
+        if isinstance(extracted, dict):
+            trans_ref = _backfill_evidence_page_paths(
+                store, trans_ref, extracted, layout
+            )
         img_ref = None
         if image_ref is not None:
             img_ref = (

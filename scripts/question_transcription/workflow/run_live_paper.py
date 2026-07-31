@@ -185,7 +185,13 @@ def _span(name: str, **attrs) -> _NodeSpan:
 
 
 def _repo_root() -> Path:
-    return Path(__file__).resolve().parents[5]
+    # Must agree with adapters/_common_paths.repo_root() so build artifacts and the
+    # materialize step's repo_root resolve to the same directory. Hard-coding
+    # parents[N] is fragile (off-by layers between worktree layouts), so reuse the
+    # adapter's canonical resolver.
+    from .adapters._common_paths import repo_root
+
+    return repo_root()
 
 
 def _build_root() -> Path:
