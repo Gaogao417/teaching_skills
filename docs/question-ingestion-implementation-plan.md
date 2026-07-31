@@ -275,13 +275,13 @@ workflow/bootstrap/
 
 工作包：
 
-- 从 `artifact_store.py` 分离 `RunLayout`；
-- 保持当前 artifact path 和原子提交格式；
-- checkpoint factory 移入 workflow infrastructure；
-- tracing 明确脱敏边界；
-- composition 改为创建 shared infrastructure、ingestion adapters、application stages、graph runner；
-- 修正 CLI `start/status/resume` 与真实 checkpoint 生命周期的关系；
-- 根 `workflow/cli.py` 可暂时作为兼容入口，最终只转发 bootstrap CLI。
+- ✅ 从 `artifact_store.py` 分离 `RunLayout` → `infrastructure/run_layout.py`；
+- ✅ 保持当前 artifact path 和原子提交格式（`infrastructure/artifact_store.py`）；
+- checkpoint factory 已在 `checkpoint.py`（infrastructure 同级，行为不变，路径属同层）；
+- tracing 已在 `tracing.py` 并明确脱敏边界（NullTraceSink 不上传原文/原图）；
+- ✅ composition 改为创建 shared infrastructure、ingestion adapters、application stages、graph runner（`bootstrap/composition.py`，import 修正为 `..adapters`/`..infrastructure`）；
+- ✅ 修正 CLI `start/status/resume` 与真实 checkpoint 生命周期的关系（`bootstrap/cli.py`，`_repo_root` parents 计数随目录深度修正）；
+- ✅ 根 `workflow/{config,dependencies,composition,cli,artifact_store}.py` 退化为转发 bootstrap/infrastructure 的 re-export shim。
 
 退出条件：
 

@@ -217,7 +217,9 @@ def test_workflow_state_and_contracts_name_no_provider_choice():
     import ast
     import inspect
 
-    from scripts.question_transcription.workflow import config as wconfig
+    # config lives in bootstrap/ now (M6); inspect the canonical module (the workflow
+    # shim only re-exports, so it would not contain the frozen-choice tokens).
+    from scripts.question_transcription.workflow.bootstrap import config as wconfig
     from scripts.question_transcription.workflow import contracts as wcontracts
     from scripts.question_transcription.workflow import state as wstate
 

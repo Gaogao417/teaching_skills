@@ -22,7 +22,9 @@ if str(ROOT) not in sys.path:
 
 from scripts.question_transcription.workflow import contracts as wcontracts
 from scripts.question_transcription.workflow import state as wstate
-from scripts.question_transcription.workflow import config as wconfig
+# config lives in bootstrap/ now (M6); the workflow.config shim re-exports it. Test the
+# canonical module directly so the frozen-choice assertions inspect real config code.
+from scripts.question_transcription.workflow.bootstrap import config as wconfig
 
 
 # --------------------------------------------------------------------------- #

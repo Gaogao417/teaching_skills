@@ -91,7 +91,10 @@ scripts/question_transcription/workflow/
   （M3 已完成：`domain/paper_layout.py` 定义 `PaperLayout` request/domain 类型，
   `WorkflowDependencies.whole_paper_prompt_mode` 类型化为 `PaperLayout`，config 仍可
   暂存原始字符串并在装配时 coerce）；
-- `artifact_store/checkpoint/tracing`、配置装配和领域契约平铺在同一级；
+- ~~`artifact_store/checkpoint/tracing`、配置装配和领域契约平铺在同一级~~
+  （M6 已完成：`RunLayout`/`ArtifactStore` 拆入 `infrastructure/{run_layout,artifact_store}.py`，
+  `config/dependencies/composition/cli` 拆入 `bootstrap/`，根级文件退化为 re-export shim，
+  artifact 路径/哈希/原子格式与 CLI 行为不变）；
 - `testsupport/fakes.py` 聚合所有 fake，已经形成单文件多职责。
 
 ## 3. 中央架构决定
