@@ -10,8 +10,8 @@ The values here freeze the §11 decisions made for this milestone:
 - Page text provider default: ``qwen`` (qwen-vl-ocr, DashScope). MiMo is selectable.
 - Whole-paper adapter default: ``opencode`` (glm-5.2 via the OpenCode server, whose
   model is fixed server-side in ``~/.config/opencode/opencode.json``). Direct GLM
-  API and Claude Code are selectable. Claude Code binds per request via
-  ``claude-agent-sdk`` (implementation-plan §11 freeze #5 resolved).
+  Claude Code is selectable. Claude Code binds per request via
+  ``claude-agent-sdk``.
 """
 
 from __future__ import annotations
@@ -57,8 +57,8 @@ DEFAULT_MIMO_MODEL = "mimo-v2.5"
 # Whole-paper GLM-5.2 (§11 freeze): the OpenCode server is configured server-side
 # with glm-5.2 in ~/.config/opencode/opencode.json, so the adapter relies on the
 # server-side model binding rather than per-request model_id (which opencode-agent's
-# provider does not propagate — see docs/question-ingestion-langgraph-ports-design.md
-# §7.2 GAP). The agent_type selects a server-side agent config.
+# provider does not propagate; see ``docs/question-ingestion-architecture.md`` §7.1.
+# The agent_type selects a server-side agent config.
 DEFAULT_OPENCODE_MODEL = "glm-5.2"
 DEFAULT_OPENCODE_SERVER_URL = "http://127.0.0.1:4096"
 DEFAULT_OPENCODE_AGENT_TYPE = "build"
@@ -136,7 +136,8 @@ class RuntimeAdapterConfig(BaseModel):
     opencode_server_url: str = DEFAULT_OPENCODE_SERVER_URL
     opencode_agent_type: str = DEFAULT_OPENCODE_AGENT_TYPE
 
-    # Whole-paper prompt layout (design §15.3 E2 / dataset item 6: 题卷/答案分文件).
+    # Transitional location for paper layout (architecture §7.4). The target
+    # design moves this request semantic out of provider runtime config.
     # "interleaved" = questions and solutions on the same pages (default);
     # "separated"   = question paper and answer/solution file are separate.
     whole_paper_prompt_mode: Literal["interleaved", "separated"] = "interleaved"

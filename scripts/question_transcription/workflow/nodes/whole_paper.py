@@ -1,4 +1,4 @@
-"""Whole-paper transcription node (ports-design §7.3).
+"""Whole-paper transcription node (architecture §3.5 and §7.3).
 
 Validates exact page coverage, calls the bound :class:`WholePaperTranscriber`,
 validates/commits the output, and requests bounded structured-output repair through

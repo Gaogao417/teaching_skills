@@ -1,6 +1,6 @@
 """G0 contract gate tests.
 
-These verify the Wave 0 exit gate (plan §4 G0):
+These preserve the contract/import boundary baseline during the layered migration:
 - ``WorkflowState`` serializes round-trip;
 - ports are runtime-checkable Protocols and carry NO host/provider attribute;
 - importing the workflow package needs no API key;

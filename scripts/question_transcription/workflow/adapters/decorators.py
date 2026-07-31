@@ -1,4 +1,4 @@
-"""Transport-level retry / cache / rate-limit decorators (ports-design §5/§6/§7.4).
+"""Transport-level retry / cache / rate-limit decorators (architecture §7.2).
 
 These wrap a bound adapter so that nodes see a single ``extract``/``transcribe``
 call and never branch on transport concerns (design §16.13/§16.14). The decorator

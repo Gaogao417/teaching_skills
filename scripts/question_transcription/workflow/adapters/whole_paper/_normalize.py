@@ -1,4 +1,4 @@
-"""Shared bundle normalization (ports-design §7.3 post-condition).
+"""Current ingestion-specific bundle normalization (architecture §8.2).
 
 The model produces question/answer/solution content but NOT page-evidence geometry
 (that's an OCR-pipeline concern). ``normalize_bundle`` injects per-question evidence

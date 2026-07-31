@@ -1,6 +1,6 @@
 """Claude Code whole-paper transcriber — Claude Code as a PydanticAI Model (ports §7.2).
 
-Resolves the implementation-plan §11 freeze #5 ("Claude Code 非交互执行的权限和输出协议").
+Implements the current Claude Code path described by architecture §3.2 and §3.6.
 
 This adapter is **structurally symmetric** with :mod:`.opencode`: it exposes Claude Code
 as a PydanticAI :class:`~pydantic_ai.models.Model` (:class:`ClaudeCodeModel`, the

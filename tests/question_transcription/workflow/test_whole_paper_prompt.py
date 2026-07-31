@@ -1,6 +1,6 @@
 """Whole-paper prompt builder tests (interleaved vs separated layouts).
 
-Covers design §15.3 E2 / dataset item 6 (题卷/答案分文件): the prompt must support
+Covers architecture §7.4 (题卷/答案分文件): the prompt must support
 both an interleaved paper (questions + solutions on the same pages) and a separated
 paper (question-only卷 + answer-only参考答案).
 """

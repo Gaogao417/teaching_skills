@@ -1,4 +1,4 @@
-"""Source-extraction and join nodes (ports-design §3, §8).
+"""Source-extraction and join nodes (architecture §5.2).
 
 - :func:`make_extract_source_node` calls the bound :class:`SourceExtractor`, freezes
   page images + manifest, and builds the per-page :class:`PageTextJob` list.

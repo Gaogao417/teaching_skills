@@ -1,4 +1,4 @@
-"""Authoritative source-paper build port (ports-design §9).
+"""Authoritative source-paper build port (architecture §3.4 and §5.2).
 
 Joins the whole-paper transcription with the deterministic image attribution into
 the authoritative ``paper.source.yaml`` (:class:`SourcePaper`,

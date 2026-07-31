@@ -1,4 +1,4 @@
-"""Authoritative source-paper builder wrapper (ports-design §9).
+"""Authoritative source-paper builder wrapper (architecture §3.6 and §5.2).
 
 Joins the whole-paper transcription with the deterministic image attribution and
 produces the authoritative source artifact, then runs the source review gate.

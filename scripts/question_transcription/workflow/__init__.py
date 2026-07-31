@@ -1,7 +1,7 @@
 """题库录入 LangGraph / LangSmith 工作流（G0 骨架）。
 
-本 package 把 ``docs/question-ingestion-langgraph-design.md`` 与
-``docs/question-ingestion-langgraph-ports-design.md`` 的设计落地为可运行代码。
+本 package 是 ``docs/question-ingestion-architecture.md`` 所描述的当前实现；
+目标分层与迁移顺序见 ``docs/question-ingestion-implementation-plan.md``。
 LangGraph 管理完整生命周期（启动、分支、逐页并发、汇合、重试、缓存、两个审核
 interrupt、终止条件）；模型 provider 与现有确定性脚本通过业务端口执行具体工作；
 文件 artifact 保持权威、可审核、可重建。

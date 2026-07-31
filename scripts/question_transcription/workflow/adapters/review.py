@@ -1,4 +1,4 @@
-"""Final-review reader wrapper (ports-design §11).
+"""Final-review reader wrapper (architecture §3.6 and §5.3).
 
 Reads each item's ``review.yaml`` in the staging directory and projects the set into
 a coarse :data:`FinalReviewStatus`:

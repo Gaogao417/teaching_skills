@@ -1,4 +1,4 @@
-"""Source-extraction + image-attribution wrappers (ports-design §3, §8).
+"""Source-extraction + image-attribution wrappers (architecture §3.6 and §5.2).
 
 Wraps the existing deterministic functions (NOT the CLIs — we want exceptions, not
 ``SystemExit``):

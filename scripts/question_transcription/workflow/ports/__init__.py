@@ -1,7 +1,7 @@
-"""Business ports — provider-agnostic ``Protocol`` interfaces (ports-design §3-§11).
+"""Business ports — provider-agnostic ``Protocol`` interfaces (architecture §3.4).
 
 INVARIANT (design §16.13): no port carries a ``Host`` property or a
-``UseOpenCode / UseClaudeCode / UseApi`` parameter. Business nodes can only *call*
+``UseOpenCode / UseClaudeCode`` parameter. Business nodes can only *call*
 the port; they cannot ask or match the host type. The composition root
 (:mod:`.composition`) is the sole place that selects and decorates a concrete
 adapter.

@@ -1,10 +1,9 @@
 """Workflow dependencies — the bound-ports bundle handed to :func:`.graph.build_graph`.
 
-This is the Python counterpart of the F# ``WorkflowDependencies`` record in
-``docs/question-ingestion-langgraph-implementation-plan.md`` §3. It is built solely
-by :mod:`.composition` (the composition root) and consumed solely by graph
-construction. Nodes receive the ports they need from this bundle, never from a
-provider/host discriminator (design §16.13).
+This is the current Python counterpart of the bootstrap dependencies described in
+``docs/question-ingestion-architecture.md`` §3.8 and §9. It is built solely by
+:mod:`.composition` and consumed by graph construction. Nodes receive bound ports,
+never a provider/host discriminator.
 """
 
 from __future__ import annotations
@@ -34,7 +33,7 @@ __all__ = ["WorkflowDependencies", "DeterministicPorts"]
 
 @dataclass
 class DeterministicPorts:
-    """The deterministic source/image/downstream/review ports (ports-design §10)."""
+    """The deterministic source/image/staging/review ports in the current layout."""
 
     source_extractor: SourceExtractor
     source_paper_builder: SourcePaperBuilder
@@ -67,5 +66,5 @@ class WorkflowDependencies:
     whole_paper_max_repairs: int = 2
 
     # Whole-paper prompt layout: "interleaved" (default) or "separated"
-    # (题卷/答案分文件, design §15.3 E2).
+    # (题卷/答案分文件; architecture §7.4).
     whole_paper_prompt_mode: str = "interleaved"

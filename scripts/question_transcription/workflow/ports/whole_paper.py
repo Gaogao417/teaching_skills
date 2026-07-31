@@ -1,20 +1,20 @@
-"""Whole-paper transcription port (ports-design §7).
+"""Whole-paper transcription port (architecture §3.4 and §7).
 
 A bound ``WholePaperTranscriber`` reads the ordered per-page text files plus the
 source manifest and produces a full :class:`QuestionTranscriptionBundle`
 (questions, answers, solution steps) and optional review issues.
 
 INVARIANT (ports §7.1): the port carries **no** ``Host`` property and **no**
-``UseOpenCode / UseClaudeCode / UseApi`` parameter. Business nodes can only call
+``UseOpenCode / UseClaudeCode`` parameter. Business nodes can only call
 ``Transcribe`` / ``RepairStructuredOutput``; they cannot ask or match the host
 type. The composition root (:mod:`..composition`) is the sole place that selects
-the concrete adapter (OpenCode/GLM-5.2, Claude Code, or direct GLM API) and wraps
+the concrete adapter (currently OpenCode/GLM-5.2 or Claude Code) and wraps
 it with retry/cache/rate-limit decorators.
 
 Real adapters:
 
 - :class:`~..adapters.whole_paper.opencode.OpencodeGlmTranscriber` -> OpenCode glm-5.2
-- :class:`~..adapters.whole_paper.claude_code.ClaudeCodeTranscriber` -> Claude Code (port only)
+- :class:`~..adapters.whole_paper.claude_code.ClaudeCodeTranscriber` -> Claude Code
 
 Both implement this same contract.
 """
@@ -37,10 +37,8 @@ __all__ = ["AgentWorkspace", "WholePaperRequest", "WholePaperTranscriber"]
 class AgentWorkspace(Protocol):
     """Read-only working directory contract handed to a coding-agent adapter.
 
-    Real coding-agent adapters (OpenCode/Claude Code) receive these paths so the
-    model can read the page text files and write the output artifact. Direct-API
-    adapters read ``readable_artifacts`` into the prompt and write
-    ``writable_output_directory`` themselves.
+    Current coding-agent adapters receive these paths so the model can read the
+    page text files and write the output artifact.
     """
 
     @property
@@ -60,7 +58,7 @@ class WholePaperRequest(Protocol):
     coverage before calling the port (ports §6.4). ``idempotency_key`` is the
     cache key seed (ordered page-text sha256 + manifest sha + adapter/version).
 
-    For a **separated** paper (题卷/答案分文件, design §15.3 E2), ``solution_page_texts``
+    For a **separated** paper (题卷/答案分文件, architecture §7.4), ``solution_page_texts``
     carries the answer/solution pages and ``ordered_page_texts`` carries the
     question-only pages; the adapter then uses the separated prompt layout. When
     ``solution_page_texts`` is empty/None the paper is interleaved and

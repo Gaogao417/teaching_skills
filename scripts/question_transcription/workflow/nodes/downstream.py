@@ -1,4 +1,4 @@
-"""Downstream staging nodes (ports-design §10): the serial deterministic pipeline.
+"""Current staging nodes (architecture §5): the serial deterministic pipeline.
 
 project -> evidence -> expand -> materialize -> audit (structural) -> notify.
 

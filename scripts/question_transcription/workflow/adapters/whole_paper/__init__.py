@@ -1,4 +1,4 @@
-"""Whole-paper transcriber adapters (ports-design §7).
+"""Current whole-paper transcriber adapters (architecture §3.6 and §7).
 
 Both implement :class:`WholePaperTranscriber`:
 

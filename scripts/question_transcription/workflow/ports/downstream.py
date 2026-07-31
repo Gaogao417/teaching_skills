@@ -1,4 +1,4 @@
-"""Downstream deterministic ports (ports-design §10).
+"""Current deterministic staging ports (architecture §8.1).
 
 These stages wrap the existing deterministic scripts (projector / evidence /
 expand / materialize / audit / notify). They run strictly serially — each depends

@@ -1,4 +1,4 @@
-"""Source extraction port (ports-design §3).
+"""Source extraction port (architecture §3.4).
 
 Routes purely on :data:`~.contracts.SourceKind`::
 

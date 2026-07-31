@@ -1,4 +1,4 @@
-"""Shared OCR prompt + helpers for page-text adapters (ports-design §2.1 / §4).
+"""Shared OCR prompt + helpers for page-text adapters (architecture §5.1).
 
 The prompt is the single source of truth for what the page-text contract allows:
 visible words in reading order, LaTeX formulae, necessary line breaks — and nothing

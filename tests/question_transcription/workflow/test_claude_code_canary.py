@@ -1,10 +1,10 @@
-"""Claude Code SDK routing canary (design §7.2 / §14.9, ports §15 verification).
+"""Claude Code SDK routing canary (architecture §7.1 and §11).
 
 Verifies the ``claude-agent-sdk`` drives the locally-installed ``claude`` CLI and
 returns structured ``math_question_transcription/v1`` output. Marked ``live`` and
 skipped by default.
 
-Routing notes (see docs/question-ingestion-langgraph-ports-design.md §7.2):
+Routing notes (see docs/question-ingestion-architecture.md §7.1):
 - Unlike the OpenCode adapter (whose provider does not propagate per-request
   ``model_id``), the SDK sets ``model`` / ``permission_mode`` / ``output_format`` on
   every request, so a non-empty validating response IS a routing proof.

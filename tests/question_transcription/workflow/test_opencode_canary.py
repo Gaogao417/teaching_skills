@@ -1,4 +1,4 @@
-"""OpenCode glm-5.2 routing canary (design §7.2 / §14.9, ports §15 verification 9).
+"""OpenCode glm-5.2 routing canary (architecture §7.1 and §11).
 
 Verifies the OpenCode server routes a transcription-style request to a zhipuai GLM
 model and returns a validated :class:`QuestionTranscriptionBundle`. Marked ``live``

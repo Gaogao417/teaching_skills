@@ -1,4 +1,4 @@
-"""Final review port (ports-design §11).
+"""Final review port (architecture §5.3).
 
 Reads the per-question review state from the staging directory and decides whether
 to interrupt for final review, stop for rejected items, or run the approved audit.

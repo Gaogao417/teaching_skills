@@ -1,4 +1,4 @@
-"""Page-text extraction business port (ports-design §4).
+"""Page-text extraction business port (architecture §3.4 and §5.1).
 
 A bound ``PageTextExtractor`` performs OCR-style plain-text extraction of a single
 page image: transcribe visible words in reading order, render formulae as LaTeX,

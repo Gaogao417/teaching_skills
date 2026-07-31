@@ -1,14 +1,13 @@
 """Workflow domain contracts — small, serializable lifecycle types and artifact refs.
 
-These types mirror the F# declarations in
-``docs/question-ingestion-langgraph-design.md`` §5 and
-``docs/question-ingestion-langgraph-ports-design.md`` §2. They are the cross-cutting
+These types are the current implementation of the lifecycle/artifact contracts in
+``docs/question-ingestion-architecture.md`` §3.3 and §6. They are the cross-cutting
 domain vocabulary shared by :mod:`.state`, :mod:`.ports`, :mod:`.nodes` and
-:mod:`.adapters`.
+:mod:`.adapters` until the planned domain-layer migration is complete.
 
 INVARIANT (design §16.13): these types never carry a provider/host choice. Only
 :mod:`.config` (``RuntimeAdapterConfig``) and :mod:`.composition` may reference
-``UseQwen / UseMimo / UseOpenCode / UseClaudeCode / UseApi``; ``WorkflowState``, graph
+``UseQwen / UseMimo / UseOpenCode / UseClaudeCode``; ``WorkflowState``, graph
 nodes and subgraphs must not import :mod:`.config` and must not branch on adapter type.
 
 Re-use rule: the authoritative Pydantic schemas — ``SourcePaper``

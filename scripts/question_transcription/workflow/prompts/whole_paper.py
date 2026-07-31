@@ -1,9 +1,9 @@
-"""Whole-paper transcription prompt + output contract (ports-design §7, design §2.3).
+"""Whole-paper transcription prompt + output contract (architecture §7.4).
 
 The bound :class:`WholePaperTranscriber` reads the ordered per-page text files and
 produces a :class:`QuestionTranscriptionBundle` (``math_question_transcription/v1``):
 questions, answers, solution steps. The prompt is provider-agnostic; all three
-adapters (OpenCode glm-5.2 / Claude Code / direct GLM API) feed it the same input.
+adapters (currently OpenCode glm-5.2 and Claude Code) feed it the same input.
 """
 
 from __future__ import annotations
@@ -159,4 +159,3 @@ def build_user_prompt(
         source_archive=source_archive,
         ordered_pages=ordered_pages or [],
     )
-

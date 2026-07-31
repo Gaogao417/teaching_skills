@@ -1,4 +1,4 @@
-"""OpenCode glm-5.2 whole-paper transcriber (ports-design §7.2).
+"""Current OpenCode glm-5.2 whole-paper transcriber (architecture §3.2 and §3.6).
 
 A self-contained HTTP client for the OpenCode server's session/message API. We
 deliberately do NOT depend on the ``opencode-agent`` packages: their ``OpencodeModel``

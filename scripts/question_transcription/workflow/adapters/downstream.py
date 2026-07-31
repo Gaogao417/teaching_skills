@@ -1,4 +1,4 @@
-"""Downstream staging pipeline wrappers (ports-design §10).
+"""Current staging-pipeline wrappers (architecture §8.1).
 
 Wraps the existing deterministic functions, importing them directly (not via CLI,
 so we get exceptions instead of ``SystemExit``). Each returns the
