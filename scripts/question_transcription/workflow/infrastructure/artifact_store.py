@@ -7,12 +7,13 @@ artifact path. The graph state only ever holds ``ArtifactRef`` — bytes never e
 checkpoint (architecture §6).
 
 Split out of the historical ``workflow/artifact_store.py`` (M6); :class:`RunLayout`
-now lives in :mod:`.run_layout`. Behaviour is byte-identical.
+now lives in :mod:`.run_layout`. Behaviour is byte-identical. The hashing and atomic
+write primitives are delegated to :mod:`scripts.utilities.files` (M7) and re-exported
+here so existing ``from ..artifact_store import sha256_file`` imports keep working.
 """
 
 from __future__ import annotations
 
-import hashlib
 import os
 from datetime import datetime, timezone
 from pathlib import Path
@@ -20,6 +21,13 @@ from typing import Any
 
 import yaml
 from pydantic import BaseModel
+
+from scripts.utilities.files.atomic_write import (
+    atomic_write_bytes as _atomic_write_bytes,
+    atomic_write_text,
+    atomic_write_yaml,
+)
+from scripts.utilities.files.hashing import sha256_bytes, sha256_file
 
 from ..contracts import ArtifactRef
 from .run_layout import RunLayout
@@ -32,49 +40,6 @@ __all__ = [
     "atomic_write_text",
     "atomic_write_yaml",
 ]
-
-
-def sha256_bytes(data: bytes) -> str:
-    """Return the ``sha256:<hex>`` fingerprint of ``data``."""
-
-    return "sha256:" + hashlib.sha256(data).hexdigest()
-
-
-def sha256_file(path: Path | str) -> str:
-    """Stream-hash a file in 1 MiB chunks, returning ``sha256:<hex>``."""
-
-    h = hashlib.sha256()
-    with Path(path).open("rb") as fp:
-        for chunk in iter(lambda: fp.read(1024 * 1024), b""):
-            h.update(chunk)
-    return "sha256:" + h.hexdigest()
-
-
-def atomic_write_text(path: Path | str, text: str) -> None:
-    """Atomically write UTF-8 ``text`` to ``path`` via a sibling ``.tmp`` + replace."""
-
-    target = Path(path)
-    target.parent.mkdir(parents=True, exist_ok=True)
-    tmp = target.with_suffix(target.suffix + ".tmp")
-    tmp.write_text(text, encoding="utf-8")
-    os.replace(tmp, target)
-
-
-def atomic_write_yaml(path: Path | str, value: Any) -> None:
-    """Atomically dump ``value`` as YAML (stable, unicode, no sort)."""
-
-    target = Path(path)
-    target.parent.mkdir(parents=True, exist_ok=True)
-    tmp = target.with_suffix(target.suffix + ".tmp")
-    with tmp.open("w", encoding="utf-8") as fp:
-        yaml.safe_dump(
-            value,
-            fp,
-            allow_unicode=True,
-            sort_keys=False,
-            width=1000,
-        )
-    os.replace(tmp, target)
 
 
 class ArtifactStore:
@@ -106,11 +71,7 @@ class ArtifactStore:
         """Atomically write raw ``data`` and return its ``ArtifactRef``."""
 
         path = self.layout.root / rel_path
-        target = Path(path)
-        target.parent.mkdir(parents=True, exist_ok=True)
-        tmp = target.with_suffix(target.suffix + ".tmp")
-        tmp.write_bytes(data)
-        os.replace(tmp, target)
+        _atomic_write_bytes(path, data)
         return ArtifactRef(
             path=str(rel_path), sha256=sha256_bytes(data), schema=schema
         )

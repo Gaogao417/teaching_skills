@@ -303,13 +303,18 @@ scripts/utilities/
 └── resilience/{policy,retry}.py
 ```
 
-提取门槛：
+提取门槛（均已满足）：
 
 - 至少两个真实调用方；
 - 不携带题目录入 schema/path；
 - 不读取环境或调用 provider；
 - 有独立单元测试；
 - API 名能说明实际用途，不创建泛化 `common.py` 或 `utils.py` 杂物箱。
+
+已提取：
+- ✅ `files/hashing.py`（`sha256_bytes`/`sha256_file`/`sha256_hex`/`stable_json_sha256`）：调用方为 artifact store、source 抽取 adapter、整卷转写与 page-text 缓存键；
+- ✅ `files/atomic_write.py`（`atomic_write_text`/`atomic_write_yaml`/`atomic_write_bytes`）：调用方为 artifact store、整卷转写缓存、page-text 缓存；
+- 未提取：retry/resilience 与 whole-paper normalization 不满足 utility 条件（携带题目录入失败类型/domain），保留在 workflow adapter/bootstrap。
 
 注意：whole-paper normalization 不满足 utility 条件，必须留在 ingestion application/adapter。
 

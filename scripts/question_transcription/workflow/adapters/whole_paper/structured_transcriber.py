@@ -26,13 +26,15 @@ normalization bypassing the authoritative output contract (architecture §8.2).
 from __future__ import annotations
 
 import asyncio
-import hashlib
 import json
 from pathlib import Path
 from typing import Any
 
 import yaml
 from pydantic_ai.models import Model
+
+from scripts.utilities.files.atomic_write import atomic_write_text
+from scripts.utilities.files.hashing import sha256_hex, stable_json_sha256
 
 from .._common_paths import repo_root  # noqa: F401  (sys.path bootstrap for contracts)
 from ...contracts import (
@@ -222,16 +224,13 @@ class StructuredWholePaperTranscriber:
             ))
 
         bundle = result.output
-        cache_path.parent.mkdir(parents=True, exist_ok=True)
-        tmp = cache_path.with_suffix(".tmp")
-        tmp.write_text(
+        atomic_write_text(
+            cache_path,
             json.dumps(
                 {"bundle": bundle.model_dump(by_alias=True, mode="json")},
                 ensure_ascii=False,
             ),
-            encoding="utf-8",
         )
-        tmp.replace(cache_path)
         return bundle
 
     def _read_ordered_pages(self, request) -> list[tuple[int, str]]:
@@ -273,20 +272,16 @@ class StructuredWholePaperTranscriber:
             return ""
 
     def _execution_id(self, ordered) -> str:
-        return hashlib.sha256(
+        return sha256_hex(
             "|".join(text for _, text in ordered).encode("utf-8")
-        ).hexdigest()[:16]
+        )[:16]
 
     def _cache_key(self, user_prompt: str) -> str:
         payload: dict[str, Any] = {
             "adapter": self.adapter_id,
             "model": self.model_name,
             "prompt_version": WHOLE_PAPER_PROMPT_VERSION,
-            "user_prompt_sha256": hashlib.sha256(
-                user_prompt.encode("utf-8")
-            ).hexdigest(),
+            "user_prompt_sha256": sha256_hex(user_prompt.encode("utf-8")),
         }
         payload.update(self._cache_key_extras)
-        return hashlib.sha256(
-            json.dumps(payload, sort_keys=True, separators=(",", ":")).encode("utf-8")
-        ).hexdigest()
+        return stable_json_sha256(payload)

@@ -12,11 +12,13 @@ Bound by the composition root; the node never sees "mimo".
 
 from __future__ import annotations
 
-import hashlib
 import json
 from pathlib import Path
 
 import httpx
+
+from scripts.utilities.files.atomic_write import atomic_write_text
+from scripts.utilities.files.hashing import stable_json_sha256
 
 from .._common_paths import repo_root  # noqa: F401  (sys.path bootstrap)
 from ...contracts import PageTextFailure, PageTextJob
@@ -50,19 +52,14 @@ class MimoPageTextExtractor:
         self.http_client = http_client
 
     def _cache_key(self, cache_material: dict) -> str:
-        return hashlib.sha256(
-            json.dumps(
-                {
-                    "mode": "text",
-                    "request": cache_material,
-                    "model": self.model,
-                    "base_url": self.base_url,
-                },
-                ensure_ascii=False,
-                sort_keys=True,
-                separators=(",", ":"),
-            ).encode("utf-8")
-        ).hexdigest()
+        return stable_json_sha256(
+            {
+                "mode": "text",
+                "request": cache_material,
+                "model": self.model,
+                "base_url": self.base_url,
+            }
+        )
 
     def _call_text(self, messages: list[dict], cache_material: dict) -> tuple[str, bool]:
         """Plain-text MiMo call with content-addressed disk cache (mirrors BailianOcrClient)."""
@@ -101,16 +98,13 @@ class MimoPageTextExtractor:
             if close:
                 client.close()
         if cache_path:
-            cache_path.parent.mkdir(parents=True, exist_ok=True)
-            tmp = cache_path.with_suffix(".tmp")
-            tmp.write_text(
+            atomic_write_text(
+                cache_path,
                 json.dumps(
                     {"cache_key": cache_key, "mode": "text", "raw_text": raw},
                     ensure_ascii=False,
                 ),
-                encoding="utf-8",
             )
-            tmp.replace(cache_path)
         return raw, False
 
     def extract(self, job: PageTextJob):
