@@ -10,7 +10,8 @@ The values here freeze the §11 decisions made for this milestone:
 - Page text provider default: ``qwen`` (qwen-vl-ocr, DashScope). MiMo is selectable.
 - Whole-paper adapter default: ``opencode`` (glm-5.2 via the OpenCode server, whose
   model is fixed server-side in ``~/.config/opencode/opencode.json``). Direct GLM
-  API and Claude Code are selectable.
+  API and Claude Code are selectable. Claude Code binds per request via
+  ``claude-agent-sdk`` (implementation-plan §11 freeze #5 resolved).
 """
 
 from __future__ import annotations
@@ -32,6 +33,8 @@ __all__ = [
     "DEFAULT_OPENCODE_MODEL",
     "DEFAULT_OPENCODE_SERVER_URL",
     "DEFAULT_OPENCODE_AGENT_TYPE",
+    "DEFAULT_CLAUDE_CODE_MODEL",
+    "DEFAULT_CLAUDE_CODE_TIMEOUT_S",
     "RuntimeAdapterConfig",
     "AdapterProvenance",
 ]
@@ -59,6 +62,15 @@ DEFAULT_MIMO_MODEL = "mimo-v2.5"
 DEFAULT_OPENCODE_MODEL = "glm-5.2"
 DEFAULT_OPENCODE_SERVER_URL = "http://127.0.0.1:4096"
 DEFAULT_OPENCODE_AGENT_TYPE = "build"
+
+# Whole-paper Claude Code (§11 freeze #5 resolved): ``claude-agent-sdk`` drives the
+# locally installed ``claude`` CLI and sets model / permission_mode / output_format on
+# every request, so routing is verifiable by construction (unlike OpenCode's
+# server-side model binding). The SDK checks ``ANTHROPIC_API_KEY`` first, then the
+# CLI's stored credentials / ``CLAUDE_CODE_OAUTH_TOKEN``.
+# ``sonnet`` is the conventional Claude Code default model alias; overridable here.
+DEFAULT_CLAUDE_CODE_MODEL = "sonnet"
+DEFAULT_CLAUDE_CODE_TIMEOUT_S = 300.0
 
 
 class RetryPolicy(BaseModel):
@@ -115,6 +127,15 @@ class RuntimeAdapterConfig(BaseModel):
     opencode_model: str = DEFAULT_OPENCODE_MODEL
     opencode_server_url: str = DEFAULT_OPENCODE_SERVER_URL
     opencode_agent_type: str = DEFAULT_OPENCODE_AGENT_TYPE
+
+    # Whole-paper prompt layout (design §15.3 E2 / dataset item 6: 题卷/答案分文件).
+    # "interleaved" = questions and solutions on the same pages (default);
+    # "separated"   = question paper and answer/solution file are separate.
+    whole_paper_prompt_mode: Literal["interleaved", "separated"] = "interleaved"
+
+    # Claude Code adapter (claude-agent-sdk): per-request model + timeout.
+    claude_code_model: str = DEFAULT_CLAUDE_CODE_MODEL
+    claude_code_timeout_s: float = Field(default=DEFAULT_CLAUDE_CODE_TIMEOUT_S, gt=0)
 
     # Whole-paper structured-output repair budget (ports §7.4).
     whole_paper_max_repairs: int = Field(default=2, ge=0)

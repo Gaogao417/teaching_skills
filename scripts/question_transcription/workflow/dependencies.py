@@ -65,3 +65,7 @@ class WorkflowDependencies:
 
     # Whole-paper structured-output repair budget (ports §7.4).
     whole_paper_max_repairs: int = 2
+
+    # Whole-paper prompt layout: "interleaved" (default) or "separated"
+    # (题卷/答案分文件, design §15.3 E2).
+    whole_paper_prompt_mode: str = "interleaved"

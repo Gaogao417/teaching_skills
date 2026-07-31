@@ -44,6 +44,17 @@ def _run_dir(run_id: str) -> Path:
     return _build_root() / "question-ingestion"
 
 
+def _normalize_agent_host(agent_host: str) -> str:
+    """Map the CLI's hyphenated ``--agent-host`` token to the config canonical id.
+
+    ``--agent-host`` exposes ``opencode`` / ``claude-code`` (hyphen, the spelling users
+    type), but ``WholePaperAdapterChoice`` is underscore-canonical (``claude_code``).
+    Normalize at the CLI boundary so config validation never rejects the documented
+    choice.
+    """
+    return agent_host.replace("-", "_")
+
+
 def start(
     *,
     paper_id: str,
@@ -58,7 +69,7 @@ def start(
     run_id = f"run-{uuid.uuid4().hex[:12]}"
     config = RuntimeAdapterConfig(
         page_text_provider=page_provider,
-        whole_paper_adapter=agent_host,
+        whole_paper_adapter=_normalize_agent_host(agent_host),
     )
     layout = build_run_layout(_build_root(), paper_id, run_id)
     deps = bind(config, layout, mode=mode)

@@ -91,6 +91,7 @@ def _bind_live(
         whole_paper_transcriber=whole_transcriber,
         deterministic=deterministic,
         whole_paper_max_repairs=config.whole_paper_max_repairs,
+        whole_paper_prompt_mode=config.whole_paper_prompt_mode,
     )
 
 
@@ -121,7 +122,11 @@ def _bind_whole_paper(config, store):
     else:  # claude_code
         from .adapters.whole_paper.claude_code import ClaudeCodeTranscriber
 
-        inner = ClaudeCodeTranscriber(store=store)
+        inner = ClaudeCodeTranscriber(
+            model=config.claude_code_model,
+            store=store,
+            timeout_s=config.claude_code_timeout_s,
+        )
     return with_whole_paper_retry(inner, config.whole_paper_retry)
 
 
@@ -171,7 +176,7 @@ def record_provenance(
     if config.whole_paper_adapter == "opencode":
         wp_model = config.opencode_model
     else:
-        wp_model = "claude-code"
+        wp_model = config.claude_code_model
     whole_prov = AdapterProvenance(
         adapter_id=config.whole_paper_adapter,
         model=wp_model,

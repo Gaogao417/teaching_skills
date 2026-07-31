@@ -59,6 +59,12 @@ class WholePaperRequest(Protocol):
     ``ordered_page_texts`` MUST be sorted by page number; the node enforces exact
     coverage before calling the port (ports §6.4). ``idempotency_key`` is the
     cache key seed (ordered page-text sha256 + manifest sha + adapter/version).
+
+    For a **separated** paper (题卷/答案分文件, design §15.3 E2), ``solution_page_texts``
+    carries the answer/solution pages and ``ordered_page_texts`` carries the
+    question-only pages; the adapter then uses the separated prompt layout. When
+    ``solution_page_texts`` is empty/None the paper is interleaved and
+    ``ordered_page_texts`` covers the whole paper.
     """
 
     @property
@@ -87,6 +93,16 @@ class WholePaperRequest(Protocol):
 
     @property
     def idempotency_key(self) -> str: ...
+
+    @property
+    def solution_page_texts(self) -> list[PageTextExtract]:
+        """Solution/answer pages for a separated paper (empty for interleaved)."""
+        ...
+
+    @property
+    def prompt_mode(self) -> str:
+        """``"interleaved"`` (default) or ``"separated"``."""
+        ...
 
 
 @runtime_checkable
