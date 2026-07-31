@@ -17,7 +17,7 @@ from pathlib import Path
 
 import yaml
 
-from ..ports.review import FinalReviewStatus
+from ...ports.review import FinalReviewStatus
 
 
 __all__ = ["DeterministicFinalReviewReader"]

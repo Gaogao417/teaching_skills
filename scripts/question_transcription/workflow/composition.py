@@ -165,12 +165,10 @@ def _bind_whole_paper_model(config):
 
 
 def _bind_deterministic(config, store):
-    from .adapters.source_build import DeterministicSourcePaperBuilder
-    from .adapters.docx_or_pdf import (
-        DocxOrPdfImageAttribution,
-        DocxOrPdfSourceExtractor,
-    )
-    from .adapters.downstream import (
+    from .adapters.source.extraction import DocxOrPdfSourceExtractor
+    from .adapters.source.image_attribution import DocxOrPdfImageAttribution
+    from .adapters.source.source_paper import DeterministicSourcePaperBuilder
+    from .adapters.staging.existing_pipeline import (
         DeterministicAssetMaterializer,
         DeterministicCatalogNotifier,
         DeterministicDraftProjector,
@@ -178,7 +176,7 @@ def _bind_deterministic(config, store):
         DeterministicStagingAuditor,
         DeterministicStagingExpander,
     )
-    from .adapters.review import DeterministicFinalReviewReader
+    from .adapters.review.filesystem import DeterministicFinalReviewReader
 
     return DeterministicPorts(
         source_extractor=DocxOrPdfSourceExtractor(store),

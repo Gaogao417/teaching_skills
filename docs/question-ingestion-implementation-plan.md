@@ -239,13 +239,13 @@ workflow/adapters/
 
 工作包：
 
-- 拆分 `docx_or_pdf.py` 中 source extraction 与 image attribution；
-- 移动 `source_build.py`；
-- 将 `downstream.py` 改为 staging adapter；
-- 将 review reader 移入 review adapter；
-- adapter 优先 import 现有稳定 Python 函数；
-- 仅在无稳定函数入口时使用 subprocess，并结构化捕获 exit/stdout/stderr；
-- 清理 `_common_paths.py`，包导入正常后不得继续修改 `sys.path`。
+- ✅ 拆分 `docx_or_pdf.py` 中 source extraction 与 image attribution → `source/{extraction,image_attribution}.py`；
+- ✅ 移动 `source_build.py` → `source/source_paper.py`；
+- ✅ 将 `downstream.py` 改为 staging adapter → `staging/existing_pipeline.py`；
+- ✅ 将 review reader 移入 review adapter → `review/filesystem.py`；
+- adapter 优先 import 现有稳定 Python 函数（保持不变）；
+- 仅在无稳定函数入口时使用 subprocess，并结构化捕获 exit/stdout/stderr（保持不变）；
+- ✅ 清理 `_common_paths.py`：移除 import 时 `sys.path.insert` 副作用，仅保留 `repo_root()` 路径解析与显式 `ensure_repo_root_on_path()`；删除遗留空目录。
 
 退出条件：
 
