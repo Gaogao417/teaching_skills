@@ -78,9 +78,16 @@ scripts/question_transcription/workflow/
   中立 failure 由 `scripts/infrastructure/ai/contracts.py` 的 `ModelFailure`/`ModelFailureError`
   承担；题目录入 transcriber 只保留 prompt build、artifact commit 与 failure 映射）；
 - graph node 同时承担 LangGraph state 转换和 application stage 行为；
-- `ports/downstream.py` 使用相对位置命名，没有表达 staging 业务含义；
-- image attribution 在 `WorkflowDependencies` 中仍以 `object` 表示，没有正式端口；
-- `interleaved / separated` 是试卷布局语义，却暂存在 runtime adapter config；
+- ~~`ports/downstream.py` 使用相对位置命名，没有表达 staging 业务含义~~
+  （M3 已完成：稳定业务名 `ports/staging.py` 为真源，`ports/downstream.py` 退化为
+  re-export shim）；
+- ~~image attribution 在 `WorkflowDependencies` 中仍以 `object` 表示，没有正式端口~~
+  （M3 已完成：`ports/image_attribution.py` 定义 `ImageAttributor` Protocol，
+  `DeterministicPorts.image_attribution` 改为类型化字段）；
+- ~~`interleaved / separated` 是试卷布局语义，却暂存在 runtime adapter config~~
+  （M3 已完成：`domain/paper_layout.py` 定义 `PaperLayout` request/domain 类型，
+  `WorkflowDependencies.whole_paper_prompt_mode` 类型化为 `PaperLayout`，config 仍可
+  暂存原始字符串并在装配时 coerce）；
 - `artifact_store/checkpoint/tracing`、配置装配和领域契约平铺在同一级；
 - `testsupport/fakes.py` 聚合所有 fake，已经形成单文件多职责。
 

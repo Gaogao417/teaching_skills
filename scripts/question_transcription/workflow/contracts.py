@@ -3,12 +3,17 @@
 These types are the current implementation of the lifecycle/artifact contracts in
 ``docs/question-ingestion-architecture.md`` §3.3 and §6. They are the cross-cutting
 domain vocabulary shared by :mod:`.state`, :mod:`.ports`, :mod:`.nodes` and
-:mod:`.adapters` until the planned domain-layer migration is complete.
+:mod:`.adapters`.
 
 INVARIANT (design §16.13): these types never carry a provider/host choice. Only
 :mod:`.config` (``RuntimeAdapterConfig``) and :mod:`.composition` may reference
 ``UseQwen / UseMimo / UseOpenCode / UseClaudeCode``; ``WorkflowState``, graph
 nodes and subgraphs must not import :mod:`.config` and must not branch on adapter type.
+
+The domain-layer home for the stable lifecycle/artifact types is
+:mod:`.domain` (``domain/lifecycle.py``, ``domain/artifacts.py``,
+``domain/paper_layout.py``). This module re-exports those so existing import paths
+keep working, and adds the request/result wrapper types that sit closer to the ports.
 
 Re-use rule: the authoritative Pydantic schemas — ``SourcePaper``
 (``math_exam_source_paper/v2``), ``QuestionTranscriptionBundle`` /
@@ -24,6 +29,14 @@ from __future__ import annotations
 from typing import Literal, Optional
 
 from pydantic import BaseModel, ConfigDict, Field
+
+# Domain-layer home for the stable lifecycle/artifact types (architecture §3.3).
+from .domain.artifacts import ArtifactRef  # noqa: F401  (canonical re-export)
+from .domain.lifecycle import (  # noqa: F401  (canonical re-export)
+    ReviewStateKind,
+    WorkflowOutcomeKind,
+)
+from .domain.paper_layout import PaperLayout  # noqa: F401  (canonical re-export)
 
 # Re-export the authoritative schemas so node/adapter code has a single import path.
 # (Importing here does not couple state to provider choice — these are pure data
@@ -58,6 +71,7 @@ __all__ = [
     "SourceBuildResult",
     "ReviewStateKind",
     "WorkflowOutcomeKind",
+    "PaperLayout",
     # Re-exported authoritative schemas:
     "SourcePaper",
     "QuestionTranscriptionBundle",
@@ -84,22 +98,9 @@ class _Strict(BaseModel):
     )
 
 
-class ArtifactRef(_Strict):
-    """A path + sha256 + schema-name reference to a committed file artifact.
-
-    The graph state only ever holds ``ArtifactRef`` to large objects (page images,
-    page text, model responses, the full ``paper.source.yaml``); the bytes themselves
-    never enter the checkpoint (design §16.2).
-
-    The on-disk YAML key is ``schema`` (mirroring the existing
-    ``source_contracts``/``contracts`` convention); the Python attribute is
-    ``schema_`` to avoid shadowing the (deprecated) Pydantic v1 ``BaseModel.schema``
-    method.
-    """
-
-    path: str = Field(min_length=1)
-    sha256: str = Field(pattern=r"^sha256:[0-9a-f]{64}$")
-    schema_: str = Field(default=..., alias="schema", min_length=1)
+# ``ArtifactRef`` is now defined in ``.domain.artifacts``; the strict base there is the
+# canonical one. ``_Strict`` is retained only as the base for the request/result types
+# below that are not yet promoted to the domain layer.
 
 
 SourceKind = Literal["doc", "docx", "pdf", "pages"]
@@ -247,21 +248,5 @@ class SourceBuildResult(_Strict):
     issues: Optional[ArtifactRef] = None
 
 
-ReviewStateKind = Literal[
-    "no_review_pending",
-    "waiting_for_source_review",
-    "source_review_resolved",
-    "waiting_for_final_review",
-    "all_questions_approved",
-]
-"""Discriminator for the source-review / final-review lifecycle (design §5)."""
-
-
-WorkflowOutcomeKind = Literal[
-    "running",
-    "waiting_for_source_review",
-    "waiting_for_final_review",
-    "completed",
-    "failed",
-]
-"""The only values ``status``/``resume`` may return (design §12)."""
+# ``ReviewStateKind`` and ``WorkflowOutcomeKind`` are defined in ``.domain.lifecycle``
+# and re-exported at the top of this module.

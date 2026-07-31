@@ -157,15 +157,15 @@ workflow/application/ports/
 
 工作包：
 
-| ID | 工作 |
-|---|---|
-| M3.1 | 把 lifecycle、artifact、failure 从 `contracts.py` 拆入 domain |
-| M3.2 | 停止从 workflow contracts 重导出外层权威 schema |
-| M3.3 | 将 `PaperLayout` 从 runtime config 提升为 request/domain 类型 |
-| M3.4 | 合并 source extraction/build 边界并增加正式 `ImageAttributor` Protocol |
-| M3.5 | `downstream` port 改名为 `staging` |
-| M3.6 | 更新 `WorkflowDependencies`，消除 `image_attribution: object` |
-| M3.7 | 为旧 import 提供一轮兼容 re-export |
+| ID | 工作 | 状态 |
+|---|---|---|
+| M3.1 | 把 lifecycle、artifact 从 `contracts.py` 拆入 `domain/{lifecycle,artifacts}.py`（contracts 退化为 re-export） | ✅ |
+| M3.2 | 停止从 workflow contracts 重导出外层权威 schema（domain 不重导出，contracts 保留单一 import 入口） | ✅ |
+| M3.3 | 将 `PaperLayout` 从 runtime config 提升为 `domain/paper_layout.py` request/domain 类型 | ✅ |
+| M3.4 | 增加正式 `ImageAttributor` Protocol（`ports/image_attribution.py`） | ✅ |
+| M3.5 | `downstream` port 改名为 `staging`（`ports/staging.py` 真源，`downstream.py` re-export shim） | ✅ |
+| M3.6 | 更新 `WorkflowDependencies`，消除 `image_attribution: object`；`whole_paper_prompt_mode` 类型化为 `PaperLayout` | ✅ |
+| M3.7 | 为旧 import 提供一轮兼容 re-export（contracts/downstream 均保留） | ✅ |
 
 边界测试：
 
