@@ -44,37 +44,63 @@ def _skill_scripts(*names: str) -> None:
 
 
 class DeterministicDraftProjector:
-    """Assemble the v1 draft from transcription + image attribution."""
+    """Project the authoritative v2 source paper to the v1-compatible draft.
+
+    Consumes the v2 ``SourcePaper`` (the authoritative image record produced by
+    :class:`DeterministicSourcePaperBuilder`) via ``project_source_to_draft``,
+    instead of re-deriving a draft from the v1 transcription + image bundles.
+    The v1 bundles are a frozen compatibility contract that cannot carry
+    ``emf_class`` / ``ole_binding`` / ``rendition``; only the v2 paper has the
+    vector-asset classification that prevents raw WMF bytes from reaching the
+    materializer.
+    """
 
     def __init__(self, store) -> None:
         self.store = store
 
     def project(self, source_paper_ref):
         try:
-            # The draft is produced by the v1 assembler, not from the v2 source paper.
-            # We re-read the transcription + image bundle the builder used.
-            source = self.store.read_yaml(_as_ref(source_paper_ref))
-            # Re-derive the transcription/images from the run layout.
-            trans_path = self.store.layout.transcription_path
-            img_path = self.store.layout.image_attribution_path
-            if not trans_path.exists():
-                return None, "project_failed", "transcription artifact missing"
-            from scripts.question_transcription.contracts import (
-                ImageAttributionBundle, QuestionTranscriptionBundle,
+            from scripts.question_transcription.project_source_paper import (
+                project_source_to_draft,
             )
-            from scripts.question_transcription.assemble_paper_draft import assemble
-
+            from scripts.question_transcription.source_contracts import SourcePaper
+            from scripts.question_transcription.contracts import (
+                QuestionTranscriptionBundle,
+            )
+            from scripts.question_transcription.review_issue_contracts import (
+                ReviewIssuesBundle, ReviewResolutionsBundle,
+            )
             import yaml as _yaml
 
-            transcription = QuestionTranscriptionBundle.model_validate(
+            source = SourcePaper.model_validate(
+                self.store.read_yaml(_as_ref(source_paper_ref))
+            )
+            # The projector needs the transcription skeleton for the question_ref
+            # join (paper_id + section/question structure + evidence). The builder
+            # consumed the same skeleton when building the v2 paper.
+            trans_path = self.store.layout.transcription_path
+            if not trans_path.exists():
+                return None, "project_failed", "transcription artifact missing"
+            skeleton = QuestionTranscriptionBundle.model_validate(
                 _yaml.safe_load(trans_path.read_text(encoding="utf-8"))
             )
-            images = None
-            if img_path.exists():
-                images = ImageAttributionBundle.model_validate(
-                    _yaml.safe_load(img_path.read_text(encoding="utf-8"))
+            # Optional review issues / resolutions: the gate (inside
+            # project_source_to_draft) blocks when blocking issues are unresolved.
+            issues = None
+            issues_path = self.store.layout.review_dir / "review-issues.yaml"
+            if issues_path.exists():
+                issues = ReviewIssuesBundle.model_validate(
+                    _yaml.safe_load(issues_path.read_text(encoding="utf-8"))
                 )
-            draft, report = assemble(transcription, images)
+            resolutions = None
+            res_path = self.store.layout.review_resolutions_path
+            if res_path.exists():
+                resolutions = ReviewResolutionsBundle.model_validate(
+                    _yaml.safe_load(res_path.read_text(encoding="utf-8"))
+                )
+            draft, report = project_source_to_draft(
+                source, skeleton, issues, resolutions
+            )
             if report.errors:
                 return None, "project_failed", "; ".join(e.detail for e in report.errors)
             draft_ref = self.store.commit_yaml(

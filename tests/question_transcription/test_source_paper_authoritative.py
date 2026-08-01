@@ -24,6 +24,7 @@ ROOT = Path(__file__).resolve().parents[2]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
+from scripts.question_transcription.contracts import QuestionTranscriptionBundle  # noqa: E402
 from scripts.question_transcription.workflow.adapters.source.source_paper import (  # noqa: E402
     DeterministicSourcePaperBuilder,
     _collect_review_issues,
@@ -190,3 +191,125 @@ def test_no_manifest_is_allowed(tmp_path):
     assert result is not None
     sp = store.read_yaml(result.source_paper)
     assert sp["paper_id"] == "PAPER-A"
+
+
+# --------------------------------------------------------------------------- #
+# Stage 2 (commit 2): authoritative v2 join — full round-trip
+# --------------------------------------------------------------------------- #
+
+
+from scripts.question_transcription.workflow.adapters.source.source_paper import (  # noqa: E402
+    _build_authoritative_v2,
+)
+from scripts.question_transcription.project_source_paper import (  # noqa: E402
+    project_source_to_draft,
+)
+from scripts.question_transcription.source_contracts import SourcePaper  # noqa: E402
+
+_ARCHIVE = "documents/demo-paper"
+
+
+def _skeleton_dict(paper_id: str = "P", qtype: str = "short_answer") -> dict:
+    return {
+        "schema": "math_question_transcription/v1",
+        "paper": {
+            "id": paper_id, "title": "T", "grade": "九年级", "subject": "数学",
+            "source_archive": _ARCHIVE, "question_bank": "../../q.yaml",
+        },
+        "sections": [{
+            "section_ref": "I", "title": "x", "questions": [{
+                "question_ref": "1", "question_number": 1, "question_type": qtype,
+                "points": 4,
+                "content": {"stem_latex": "如图。", "answer": "1", "clue": "c",
+                            "solution_steps": ["s1"]},
+                "evidence": {
+                    "question": [{"kind": "page", "source": f"{_ARCHIVE}/p/1.png", "page_number": 1}],
+                    "solution": [{"kind": "page", "source": f"{_ARCHIVE}/p/2.png", "page_number": 2}],
+                    "solution_start_anchor": "1.", "solution_end_anchor": "2.",
+                },
+            }],
+        }],
+        "provider": {"kind": "manual", "name": "t", "version": "v1"},
+    }
+
+
+def _vector_images(paper_id: str) -> dict:
+    return {
+        "schema": "math_image_attribution/v1", "paper_id": paper_id,
+        "assets": [
+            {"asset_id": "word-image-ole-eq", "source": f"{_ARCHIVE}/media/image-ole-eq.wmf",
+             "sha256": "sha256:" + "1" * 64, "media_type": "image/wmf",
+             "width_px": 113, "height_px": 19, "disposition": "attributed"},
+            {"asset_id": "word-image-tiny", "source": f"{_ARCHIVE}/media/image-tiny.wmf",
+             "sha256": "sha256:" + "2" * 64, "media_type": "image/wmf",
+             "width_px": 5, "height_px": 6, "disposition": "attributed"},
+            {"asset_id": "word-image-big-no-rendition", "source": f"{_ARCHIVE}/media/image-big-no-rendition.wmf",
+             "sha256": "sha256:" + "3" * 64, "media_type": "image/wmf",
+             "width_px": 200, "height_px": 150, "disposition": "attributed"},
+            {"asset_id": "word-image-normal", "source": f"{_ARCHIVE}/media/image-normal.png",
+             "sha256": "sha256:" + "4" * 64, "media_type": "image/png",
+             "width_px": 475, "height_px": 512, "disposition": "attributed"},
+        ],
+        "attributions": [
+            {"attribution_id": "a4", "asset_id": "word-image-normal",
+             "question_ref": "1", "role": "prompt", "crop": {"kind": "full"},
+             "order": 0, "confidence": "high", "state": "accepted"},
+            {"attribution_id": "a1", "asset_id": "word-image-ole-eq",
+             "question_ref": "1", "role": "solution", "crop": {"kind": "full"},
+             "order": 0, "confidence": "high", "state": "accepted"},
+        ],
+    }
+
+
+def test_authoritative_v2_drops_ignored_and_reviews_missing_rendition():
+    """OLE formula + tiny fragment -> ignored (no asset/attr); big WMF no
+    rendition -> review issue; normal PNG -> accepted asset + attribution."""
+    ws = _word_source_dict()
+    sp, issues = _build_authoritative_v2(_skeleton_dict("P"), _vector_images("P"), ws)
+    m = SourcePaper.model_validate(sp)
+    # Only the normal PNG survives the guard.
+    assert [a.asset_id for a in m.assets] == ["word-image-normal"]
+    assert [a.asset_id for a in m.attributions] == ["word-image-normal"]
+    # Big WMF surfaced as a review issue.
+    assert any(i["kind"] == "vector_rendition_missing" for i in issues)
+
+
+def test_authoritative_v2_round_trips_through_projector():
+    """The v2 paper must project back to a valid v1 draft via
+    project_source_to_draft (content-image bindings hold, no gate errors)."""
+    ws = _word_source_dict()
+    sp, _ = _build_authoritative_v2(_skeleton_dict("P"), _vector_images("P"), ws)
+    source = SourcePaper.model_validate(sp)
+    skeleton = QuestionTranscriptionBundle.model_validate(_skeleton_dict("P"))
+    draft, report = project_source_to_draft(source, skeleton)
+    assert report.errors == [], [e.detail for e in report.errors]
+    item = draft["sections"][0]["items"][0]
+    # The accepted PNG became one prompt crop; OLE/tiny WMF never reached it.
+    assert len(item["prompt"]) == 1
+    assert item["prompt"][0]["source"].endswith("image-normal.png")
+
+
+def test_solution_role_round_trips_to_solution_crop():
+    """role=solution -> question_solution_step -> projector -> official crop."""
+    images = {
+        "schema": "math_image_attribution/v1", "paper_id": "P",
+        "assets": [{"asset_id": "img-sol", "source": f"{_ARCHIVE}/media/sol.png",
+                    "sha256": "sha256:" + "a" * 64, "media_type": "image/png",
+                    "width_px": 100, "height_px": 100, "disposition": "attributed"}],
+        "attributions": [{"attribution_id": "x", "asset_id": "img-sol",
+                          "question_ref": "1", "role": "solution",
+                          "crop": {"kind": "full"}, "order": 0,
+                          "confidence": "high", "state": "accepted"}],
+    }
+    ws = {"schema": "math_word_source_extract/v1",
+          "media": [{"path": "media/sol.png", "sha256": "sha256:" + "a" * 64,
+                     "width_px": 100, "height_px": 100}],
+          "image_attribution_status": "complete", "image_attribution": []}
+    sp, _ = _build_authoritative_v2(_skeleton_dict("P", "problem"), images, ws)
+    source = SourcePaper.model_validate(sp)
+    assert source.attributions[0].target.target == "question_solution_step"
+    skeleton = QuestionTranscriptionBundle.model_validate(_skeleton_dict("P", "problem"))
+    draft, report = project_source_to_draft(source, skeleton)
+    assert report.errors == []
+    item = draft["sections"][0]["items"][0]
+    assert len(item["official_solution"].get("crops", [])) == 1
