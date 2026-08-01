@@ -260,6 +260,11 @@ def build_item(
                     else "/solution_steps/0/diagram_col"
                 )
             if pointer is None:
+                # Multi-image roles are resolved upstream by the image-placement
+                # planner (materialize_image_group.resolve_placement_decisions),
+                # which composes them into a single group crop with an explicit
+                # assignment_path. Reaching this error means the draft was
+                # produced without that resolution step.
                 raise ValueError(
                     f"{item_id}: every {role} crop needs assignment_path when there are multiple crops"
                 )

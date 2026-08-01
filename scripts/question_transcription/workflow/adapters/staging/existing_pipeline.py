@@ -103,6 +103,14 @@ class DeterministicDraftProjector:
             )
             if report.errors:
                 return None, "project_failed", "; ".join(e.detail for e in report.errors)
+            # Resolve multi-image placements: a role with several images would
+            # otherwise trip the expander's "every crop needs assignment_path"
+            # check. The planner composes such groups into one PNG and stamps an
+            # assignment_path, so the committed draft is expander-ready.
+            from scripts.question_transcription.materialize_image_group import (
+                resolve_placement_decisions,
+            )
+            resolve_placement_decisions(draft, repo_root())
             draft_ref = self.store.commit_yaml(
                 "structured/paper.draft.yaml", draft, "math_exam_staging_draft/v1"
             )
