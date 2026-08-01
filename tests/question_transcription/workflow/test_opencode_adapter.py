@@ -12,9 +12,10 @@ ROOT = Path(__file__).resolve().parents[3]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from scripts.question_transcription.workflow.adapters.whole_paper.opencode import (
-    OpencodeGlmTranscriber,
-    OpencodeModel,
+from scripts.infrastructure.ai.opencode.client import OpencodeClient
+from scripts.infrastructure.ai.opencode.pydantic_model import OpencodeModel
+from scripts.question_transcription.workflow.adapters.whole_paper.structured_transcriber import (
+    StructuredWholePaperTranscriber,
 )
 from scripts.question_transcription.workflow.infrastructure.artifact_store import (
     ArtifactStore,
@@ -132,13 +133,26 @@ class _HttpClient:
 
 
 def _adapter(store, client, cache_dir):
-    return OpencodeGlmTranscriber(
-        model="glm-5.2",
+    """Build the real OpenCode transcriber chain with an injected HTTP client.
+
+    Mirrors composition.py: a provider-neutral :class:`StructuredWholePaperTranscriber`
+    fed an :class:`OpencodeModel`. ``cache_key_extras`` preserves the agent_type cache
+    partitioning the pre-unification adapter used.
+    """
+    opencode_client = OpencodeClient(
         server_url="http://127.0.0.1:4096",
         agent_type="build",
-        store=store,
-        cache_dir=cache_dir,
         http_client=client,
+    )
+    bound_model = OpencodeModel(model_name="glm-5.2", client=opencode_client)
+    return StructuredWholePaperTranscriber(
+        adapter_id="opencode",
+        model_name="glm-5.2",
+        bound_model=bound_model,
+        store=store,
+        agent_name="whole-paper-transcriber-opencode",
+        cache_dir=cache_dir,
+        cache_key_extras={"agent_type": "build"},
     )
 
 

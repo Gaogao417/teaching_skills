@@ -38,8 +38,10 @@ def test_opencode_routes_to_glm_and_produces_bundle(tmp_path):
     except Exception as exc:
         pytest.skip(f"opencode server not reachable on 4096: {exc}")
 
-    from scripts.question_transcription.workflow.adapters.whole_paper.opencode import (
-        OpencodeGlmTranscriber,
+    from scripts.infrastructure.ai.opencode.client import OpencodeClient
+    from scripts.infrastructure.ai.opencode.pydantic_model import OpencodeModel
+    from scripts.question_transcription.workflow.adapters.whole_paper.structured_transcriber import (
+        StructuredWholePaperTranscriber,
     )
     from scripts.question_transcription.workflow.infrastructure.artifact_store import (
         ArtifactStore,
@@ -86,12 +88,21 @@ def test_opencode_routes_to_glm_and_produces_bundle(tmp_path):
         ordered_page_texts = [extract]
         source_manifest = manifest
 
-    adapter = OpencodeGlmTranscriber(
-        model="glm-5.2",
-        server_url="http://127.0.0.1:4096",
-        agent_type="build",
+    bound_model = OpencodeModel(
+        model_name="glm-5.2",
+        client=OpencodeClient(
+            server_url="http://127.0.0.1:4096",
+            agent_type="build",
+        ),
+    )
+    adapter = StructuredWholePaperTranscriber(
+        adapter_id="opencode",
+        model_name="glm-5.2",
+        bound_model=bound_model,
         store=store,
+        agent_name="whole-paper-transcriber-opencode",
         cache_dir=tmp_path / "nocache",
+        cache_key_extras={"agent_type": "build"},
     )
     transcription, failure = adapter.transcribe(_Req())
     assert failure is None, f"live canary failed: {failure.kind}: {failure.detail}"

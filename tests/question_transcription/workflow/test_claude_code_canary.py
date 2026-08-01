@@ -45,8 +45,10 @@ def test_claude_code_routes_and_structures(tmp_path):
     except ImportError:
         pytest.skip("claude-agent-sdk not installed in this venv")
 
-    from scripts.question_transcription.workflow.adapters.whole_paper.claude_code import (
-        ClaudeCodeTranscriber,
+    from scripts.infrastructure.ai.claude_code.client import ADAPTER_ID
+    from scripts.infrastructure.ai.claude_code.pydantic_model import ClaudeCodeModel
+    from scripts.question_transcription.workflow.adapters.whole_paper.structured_transcriber import (
+        StructuredWholePaperTranscriber,
     )
     from scripts.question_transcription.workflow.infrastructure.artifact_store import (
         ArtifactStore,
@@ -92,11 +94,14 @@ def test_claude_code_routes_and_structures(tmp_path):
         ordered_page_texts = [extract]
         source_manifest = manifest
 
-    adapter = ClaudeCodeTranscriber(
-        model="sonnet",
+    bound_model = ClaudeCodeModel(model_name="sonnet", timeout_s=300.0)
+    adapter = StructuredWholePaperTranscriber(
+        adapter_id=ADAPTER_ID,
+        model_name="sonnet",
+        bound_model=bound_model,
         store=store,
+        agent_name="whole-paper-transcriber-claude-code",
         cache_dir=tmp_path / "nocache",
-        timeout_s=300.0,
     )
     transcription, failure = adapter.transcribe(_Req())
 
