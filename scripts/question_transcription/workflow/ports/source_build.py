@@ -30,12 +30,22 @@ SourceBuildFailure = Literal[
 
 @runtime_checkable
 class SourcePaperBuilder(Protocol):
-    """Build the authoritative ``paper.source.yaml`` from transcription + images."""
+    """Build the authoritative ``paper.source.yaml`` from transcription + images.
+
+    ``extracted_source_ref`` is the source manifest (DOCX ``word-source.yaml`` or
+    PDF detection). It is the ONLY source of vector-asset evidence
+    (``ole_binding`` / ``emf_class`` / dimensions / PNG rendition availability):
+    the v1 ``ImageAttributionBundle`` is a frozen compatibility contract that
+    cannot carry these fields, so the builder MUST join the manifest to recover
+    them. Passing ``None`` is allowed only for non-docx sources that have no
+    manifest; the builder then projects a minimal v2 (the legacy path).
+    """
 
     def build(
         self,
         transcription_ref: ArtifactRef,
         images_ref: ArtifactRef | None,
+        extracted_source_ref: ArtifactRef | None,
         resolutions_ref: ArtifactRef | None,
     ) -> "tuple[SourceBuildResult | None, SourceBuildFailure | None, str | None]":
         """Build the source paper.

@@ -192,6 +192,19 @@ def make_build_source_paper_node(deps):
             trans_ref = _backfill_evidence_page_paths(
                 store, trans_ref, extracted, layout
             )
+        # The source manifest (word-source.yaml) is the ONLY carrier of
+        # vector-asset evidence; pass its ArtifactRef to the builder so the v2
+        # paper can carry ole_binding / emf_class / rendition. Mirrors the
+        # attribute_images node's manifest extraction.
+        manifest_ref = None
+        if isinstance(extracted, dict):
+            manifest_raw = extracted.get("manifest")
+            if manifest_raw is not None:
+                manifest_ref = (
+                    ArtifactRef.model_validate(manifest_raw)
+                    if isinstance(manifest_raw, dict)
+                    else manifest_raw
+                )
         img_ref = None
         if image_ref is not None:
             img_ref = (
@@ -212,7 +225,9 @@ def make_build_source_paper_node(deps):
                 schema="math_transcription_review_resolutions/v1",
             )
         with trace_event("build_authoritative_source"):
-            result, failure, detail = builder.build(trans_ref, img_ref, resolutions_ref)
+            result, failure, detail = builder.build(
+                trans_ref, img_ref, manifest_ref, resolutions_ref
+            )
         if failure is not None:
             return {"terminal_errors": [f"build_source_paper: {failure}: {detail}"]}
         assert result is not None

@@ -199,7 +199,7 @@ class FakeSourcePaperBuilder:
         self.store = store
         self.scenario = scenario
 
-    def build(self, transcription_ref, images_ref, resolutions_ref):
+    def build(self, transcription_ref, images_ref, extracted_source_ref, resolutions_ref):
         import yaml as _yaml
 
         source = {

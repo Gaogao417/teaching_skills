@@ -86,6 +86,19 @@ def materialize_crop(
     if not isinstance(box, list) or len(box) != 4:
         raise ValueError(f"{label}: box_px must contain four integers")
     left, top, right, bottom = map(int, box)
+
+    # Defense-in-depth: a vector asset (WMF/EMF) must never reach the cropper.
+    # The v2 VectorAssetGuard routes such assets to ignored/needs_review before a
+    # draft crop is ever produced; this check catches a leak and surfaces a clear
+    # error instead of Pillow's opaque "cannot find loader for this WMF file".
+    suffix = source.suffix.lower()
+    if suffix in {".wmf", ".emf"}:
+        raise ValueError(
+            f"{label}: unsupported vector source without PNG rendition ({suffix}); "
+            "the VectorAssetGuard should have routed this asset to ignored or "
+            "needs_review before materialization"
+        )
+
     with Image.open(source) as image:
         width, height = image.size
         if not (0 <= left < right <= width and 0 <= top < bottom <= height):

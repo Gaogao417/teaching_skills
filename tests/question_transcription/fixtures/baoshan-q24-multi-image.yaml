@@ -1,0 +1,96 @@
+# Baoshan 2026 Q24 reproduced minimally: one question, three prompt figures.
+# Real image ids/order/dims preserved from
+#   build/question-ingestion/2026-BAOSHAN-ERMO/run-afe94c966f9f/structured/paper.draft.yaml
+# No assignment_path on any crop -> exercises the multi-image placement path.
+# paper.source.yaml v2 shape (what build_source_paper SHOULD produce after stage 2).
+schema: math_exam_source_paper/v2
+paper_id: 2026-BAOSHAN-ERMO
+questions:
+  - question_ref: "24"
+    question_number: 24
+    question_type: problem
+    points: 12
+    content:
+      stem:
+        - kind: text
+          text: |-
+            如图，已知抛物线$y=ax^2+bx+c$经过点$A(-1,0)$、$B(3,0)$，
+            交$y$轴于点$C$，顶点为$D$。
+      answer: 见官方解答
+      clue: 分三小问依次求解。
+      solution_steps:
+        - step_id: "1"
+          content:
+            - kind: text
+              text: "(1) 求抛物线表达式。"
+assets:
+  - asset_id: image295
+    original_path: media/image295.png
+    original_sha256: sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+    original_media_type: image/png
+    emf_class: diagram
+    ole_binding:
+      embedded: false
+    rendition:
+      path: media/image295.png
+      sha256: sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+      media_type: image/png
+      width_px: 1068
+      height_px: 954
+  - asset_id: image301
+    original_path: media/image301.png
+    original_sha256: sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+    original_media_type: image/png
+    emf_class: diagram
+    ole_binding:
+      embedded: false
+    rendition:
+      path: media/image301.png
+      sha256: sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+      media_type: image/png
+      width_px: 1181
+      height_px: 1037
+  - asset_id: image302
+    original_path: media/image302.png
+    original_sha256: sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+    original_media_type: image/png
+    emf_class: diagram
+    ole_binding:
+      embedded: false
+    rendition:
+      path: media/image302.png
+      sha256: sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+      media_type: image/png
+      width_px: 1177
+      height_px: 1068
+attributions:
+  - attribution_id: attr-image295-q24-prompt-0
+    asset_id: image295
+    question_ref: "24"
+    target:
+      target: question_stem
+    crop:
+      kind: full
+    order: 0
+    confidence: high
+    state: accepted
+  - attribution_id: attr-image301-q24-prompt-1
+    asset_id: image301
+    question_ref: "24"
+    target:
+      target: question_stem
+    crop:
+      kind: full
+    order: 1
+    confidence: high
+    state: accepted
+  - attribution_id: attr-image302-q24-prompt-2
+    asset_id: image302
+    question_ref: "24"
+    target:
+      target: question_stem
+    crop:
+      kind: full
+    order: 2
+    confidence: high
+    state: accepted

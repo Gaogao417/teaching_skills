@@ -63,6 +63,14 @@ MEDIA_TYPE_BY_SUFFIX = {
     ".tiff": "image/tiff",
     ".tif": "image/tiff",
     ".webp": "image/webp",
+    # Vector formats MUST be declared explicitly. Previously a missing suffix
+    # silently fell through to "image/png", so a .wmf Equation fragment was
+    # emitted as an image/png asset and later crashed Pillow's materializer with
+    # "cannot find loader for this WMF file". Vector classification is handled
+    # upstream of the v1 bundle (VectorAssetGuard at the v2 layer); here we only
+    # guarantee the v1 asset never lies about its media type.
+    ".wmf": "image/wmf",
+    ".emf": "image/emf",
 }
 
 
@@ -121,7 +129,14 @@ def adapt(
         asset_id = f"word-{stem}"
         asset_ids[leaf] = asset_id
         suffix = Path(leaf).suffix.lower()
-        media_type = MEDIA_TYPE_BY_SUFFIX.get(suffix, "image/png")
+        # No silent fallback: an undeclared suffix is a real error (it hid WMF
+        # assets as PNG in the baseline). Require the suffix be known above.
+        media_type = MEDIA_TYPE_BY_SUFFIX.get(suffix)
+        if media_type is None:
+            raise ValueError(
+                f"media {leaf}: unknown media suffix {suffix!r}; declare it in "
+                "MEDIA_TYPE_BY_SUFFIX rather than defaulting to image/png"
+            )
         width = int(entry.get("width_px") or 0)
         height = int(entry.get("height_px") or 0)
         if width < 1 or height < 1:
