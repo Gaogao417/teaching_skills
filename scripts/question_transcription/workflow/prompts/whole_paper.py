@@ -44,6 +44,10 @@ WHOLE_PAPER_SYSTEM_PROMPT = """\
   - choice 题：恰好 4 个 "choices" 字符串，answer 必须是 "A"/"B"/"C"/"D" 之一
   - problem/short_answer 题：非空 "solution_steps" 字符串数组（按原卷解答顺序）
 - "evidence": {"question": [...], "solution": [...], "solution_start_anchor": "...", "solution_end_anchor": "..."}
+  evidence.question 和 evidence.solution 各是一个 {"kind":"page","source":"transcription","page_number":N} 对象的数组，
+  记录这道题的题干 / 解答分别出现在哪些页。页号必须连续完整：若一道题的题干跨第 6、7、8 页，
+  则 evidence.question 必须列出 page_number 为 6、7、8 的三个对象，不得只标首尾而漏掉中间页。
+  每个被该题题干（或解答）占据的页面都要各列一条，即使只占该页一小部分。
 
 严格规则：
 1. 只根据给定页文本还原题目；不要编造没有出现的题目、答案或解答步骤。
@@ -51,6 +55,7 @@ WHOLE_PAPER_SYSTEM_PROMPT = """\
 3. 跨页题干要合并为同一题。
 4. 不要输出任何 JSON 以外的内容，不要 Markdown 代码围栏，不要前言或解释。
 5. paper.id / paper.source_archive 用 manifest 提供的值；title/grade 若文本未给出，用合理默认（如 "未知"、"初三"）。
+6. evidence 的页码范围必须连续完整覆盖该题实际占用的每一页，不得跳过中间页。
 
 下面是一个选择题的完整 JSON 示例（仅作格式参考，不要照抄内容）：
 {"schema":"math_question_transcription/v1","paper":{"id":"DEMO","title":"示例","grade":"初三","subject":"数学","source_archive":"demo.pdf"},"sections":[{"section_ref":"1","title":"一、选择题","questions":[{"question_ref":"1","question_number":1,"question_type":"choice","points":3,"content":{"stem_latex":"$2+2=$","choices":["3","4","5","6"],"answer":"B","clue":"基本加法"},"evidence":{"question":[{"kind":"page","source":"transcription","page_number":1}],"solution":[{"kind":"page","source":"transcription","page_number":1}],"solution_start_anchor":"B","solution_end_anchor":"B"}}]}],"provider":{"kind":"agent","name":"glm-5.2","version":"v1"}}
