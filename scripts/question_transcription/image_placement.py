@@ -118,17 +118,14 @@ def plan_placements(draft: dict) -> list[PlacementDecision]:
 def _plan_item(item_id: str, item: dict) -> PlacementDecision:
     decision = PlacementDecision(question_id=item_id)
 
+    # Only prompt figures are subject to placement planning. official_solution
+    # crops are SOURCE EVIDENCE (regions of the original answer page), not
+    # teacher-version solution-step diagrams — they must NOT be bound to
+    # /solution_steps/N/diagram_col or composed into a group. They pass through
+    # unchanged; the expander handles them via official_solution.crops.
     prompt_crops = item.get("prompt") or []
     if prompt_crops:
         _plan_role(item_id, "prompt", prompt_crops, "/diagram_col", decision)
-
-    sol_crops = ((item.get("official_solution") or {}).get("crops")) or []
-    if sol_crops:
-        # Solution images default to the first solution step's diagram column,
-        # matching the single-image default in expand_staging_draft.
-        _plan_role(
-            item_id, "solution", sol_crops, "/solution_steps/0/diagram_col", decision
-        )
 
     return decision
 

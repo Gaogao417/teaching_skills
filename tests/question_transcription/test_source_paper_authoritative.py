@@ -27,7 +27,6 @@ if str(ROOT) not in sys.path:
 from scripts.question_transcription.contracts import QuestionTranscriptionBundle  # noqa: E402
 from scripts.question_transcription.workflow.adapters.source.source_paper import (  # noqa: E402
     DeterministicSourcePaperBuilder,
-    _collect_review_issues,
 )
 from scripts.question_transcription.workflow.infrastructure.artifact_store import (  # noqa: E402
     ArtifactStore,
@@ -145,36 +144,59 @@ def test_needs_review_attribution_produces_real_issue_not_empty_list(tmp_path):
     assert any(i["kind"] == "attribution_needs_review" for i in issues["issues"])
 
 
-def test_needs_review_asset_disposition_produces_issue(tmp_path):
-    """The baseline _has_needs_review checked assets[].state (nonexistent field).
-    The fix checks assets[].disposition == 'needs_review'."""
-    issues = _collect_review_issues(
-        {
-            "assets": [
-                {"asset_id": "orphan1", "disposition": "needs_review",
-                 "disposition_reason": "unreferenced_in_paragraph_stream"}
-            ],
-            "attributions": [],
-        },
-        manifest=None,
+def test_unreferenced_needs_review_asset_does_not_block():
+    """Unreferenced v1 assets with disposition=needs_review (typically formula
+    WMF fragments the extractor could not attribute to any question) must NOT
+    become blocking review issues — that would bury real blockers under
+    formula-glyph noise (e.g. 441 unreferenced WMF in the Fengxian paper).
+    Only REFERENCED, non-fragment vector assets without a rendition block."""
+    from scripts.question_transcription.workflow.adapters.source.source_paper import (
+        _build_authoritative_v2,
     )
-    assert issues, "a needs_review disposition asset must produce an issue"
-    assert issues[0]["kind"] == "asset_needs_review"
+
+    images = {
+        "schema": "math_image_attribution/v1", "paper_id": "P",
+        "assets": [
+            {"asset_id": "orphan-wmf", "source": "media/x.wmf",
+             "sha256": "sha256:" + "0" * 64, "media_type": "image/wmf",
+             "width_px": 13, "height_px": 15, "disposition": "needs_review",
+             "disposition_reason": "unreferenced_in_paragraph_stream"},
+        ],
+        "attributions": [],
+    }
+    ws = {"schema": "math_word_source_extract/v1",
+          "media": [{"path": "media/x.wmf", "sha256": "sha256:" + "0" * 64,
+                     "width_px": 13, "height_px": 15,
+                     "ole_binding": {"embedded": False}, "emf_class": "diagram"}],
+          "image_attribution_status": "complete", "image_attribution": []}
+    sp, issues = _build_authoritative_v2(_skeleton_dict("P"), images, ws)
+    # No attribution references the orphan -> no issue, no asset in v2 paper.
+    assert issues == []
+    assert sp["assets"] == []
 
 
 def test_accepted_bundle_produces_no_issues(tmp_path):
     """A fully-accepted clean bundle must NOT produce issues (no false blocks)."""
-    issues = _collect_review_issues(
-        {
-            "assets": [{"asset_id": "a1", "disposition": "attributed"}],
-            "attributions": [
-                {"attribution_id": "x", "asset_id": "a1", "question_ref": "1",
-                 "role": "prompt", "crop": {"kind": "full"}, "order": 0,
-                 "confidence": "high", "state": "accepted"}
-            ],
-        },
-        manifest=None,
+    from scripts.question_transcription.workflow.adapters.source.source_paper import (
+        _build_authoritative_v2,
     )
+
+    images = {
+        "schema": "math_image_attribution/v1", "paper_id": "P",
+        "assets": [{"asset_id": "a1", "source": "media/a.png",
+                    "sha256": "sha256:" + "a" * 64, "media_type": "image/png",
+                    "width_px": 100, "height_px": 100, "disposition": "attributed"}],
+        "attributions": [
+            {"attribution_id": "x", "asset_id": "a1", "question_ref": "1",
+             "role": "prompt", "crop": {"kind": "full"}, "order": 0,
+             "confidence": "high", "state": "accepted"}
+        ],
+    }
+    ws = {"schema": "math_word_source_extract/v1",
+          "media": [{"path": "media/a.png", "sha256": "sha256:" + "a" * 64,
+                     "width_px": 100, "height_px": 100}],
+          "image_attribution_status": "complete", "image_attribution": []}
+    sp, issues = _build_authoritative_v2(_skeleton_dict("P"), images, ws)
     assert issues == []
 
 

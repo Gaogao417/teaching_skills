@@ -232,9 +232,6 @@ def _build_authoritative_v2(
 
     guard = VectorAssetGuard()
     v1_assets_by_id = {a.get("asset_id"): a for a in images.get("assets", []) or []}
-    referenced_asset_ids = {
-        a.get("asset_id") for a in images.get("attributions", []) or []
-    }
 
     # Classify each v1 asset. ignored -> dropped; needs_review -> issue;
     # accepted -> v2 SourceImageAsset.
@@ -366,159 +363,15 @@ def _build_authoritative_v2(
 
     questions = _build_questions(transcription, image_nodes_by_ref)
 
-    # Surface unreferenced needs_review dispositions from the v1 bundle.
-    for asset_id, v1_asset in v1_assets_by_id.items():
-        if asset_id in referenced_asset_ids:
-            continue
-        if v1_asset.get("disposition") == "needs_review":
-            review_issues.append({
-                "issue_id": f"asset-needs-review-{asset_id}",
-                "kind": "asset_needs_review",
-                "detail": (
-                    f"asset {asset_id} disposition=needs_review "
-                    f"({v1_asset.get('disposition_reason', 'unreferenced')})"
-                ),
-            })
-
-    source_paper = {
-        "schema": "math_exam_source_paper/v2",
-        "paper_id": paper_id,
-        "questions": questions,
-        "assets": assets,
-        "attributions": attributions,
-    }
-    return source_paper, review_issues
-
-    # Index manifest media by leaf for the join. The v1 asset source path ends in
-    # the same leaf as the manifest media path (media/image72.wmf).
-    media_by_leaf: dict[str, dict] = {}
-    if manifest:
-        for entry in manifest.get("media") or []:
-            leaf = Path(str(entry.get("path") or "")).name
-            if leaf:
-                media_by_leaf[leaf] = entry
-
-    guard = VectorAssetGuard()
-    assets: list[dict] = []
-    attributions: list[dict] = []
-    review_issues: list[dict] = []
-
-    if not images:
-        return (
-            {
-                "schema": "math_exam_source_paper/v2",
-                "paper_id": paper_id,
-                "questions": questions,
-                "assets": [],
-                "attributions": [],
-            },
-            [],
-        )
-
-    # Classify each v1 asset via the guard (using manifest evidence), then keep
-    # only accepted/needs_review assets for the v2 paper. ignored assets drop.
-    v1_assets_by_id = {a.get("asset_id"): a for a in images.get("assets", []) or []}
-    # Build the set of asset_ids that are referenced by at least one attribution;
-    # unreferenced media are not part of any question's figure set.
-    referenced_asset_ids = {
-        a.get("asset_id") for a in images.get("attributions", []) or []
-    }
-
-    # asset_id -> guard decision, computed once. We also remember whether a PNG
-    # rendition path was declared so the v2 asset can point at it.
-    accepted_asset_ids: set[str] = set()
-    for asset_id, v1_asset in v1_assets_by_id.items():
-        source_path = str(v1_asset.get("source") or "")
-        leaf = Path(source_path).name
-        media_entry = media_by_leaf.get(leaf, {})
-        # Construct the guard input from the manifest evidence (the v1 asset's
-        # media_type may still lie if produced by an older extractor; the
-        # manifest is authoritative for classification).
-        ginput = guard_input_from_media_entry(media_entry) if media_entry else None
-        if ginput is None:
-            # No manifest evidence (e.g. PDF region crop): treat as an ordinary
-            # raster asset — accept as-is. Such assets already exist as PNG page
-            # regions and never carry vector evidence.
-            ginput = GuardInput(
-                media_path=leaf,
-                media_type=str(v1_asset.get("media_type") or "image/png"),
-                width_px=int(v1_asset.get("width_px") or 0),
-                height_px=int(v1_asset.get("height_px") or 0),
-                emf_class=None,
-                ole_binding_embedded=None,
-                has_png_rendition=True,
-            )
-        decision = guard.classify(ginput)
-
-        if decision.disposition == "ignored":
-            # OLE formula or tiny fragment: do not emit a v2 asset or attribution.
-            continue
-        if decision.disposition == "needs_review":
-            review_issues.append({
-                "issue_id": f"vector-rendition-missing-{asset_id}",
-                "kind": "vector_rendition_missing",
-                "detail": (
-                    f"asset {asset_id} ({leaf}, {ginput.width_px}x{ginput.height_px}) "
-                    f"is a non-OLE vector without a PNG rendition; cannot be cropped"
-                ),
-            })
-            continue
-
-        # accepted: build the v2 SourceImageAsset. Raster originals self-rendition;
-        # vector assets use their declared PNG rendition (the guard accepted only
-        # because has_png_rendition was True).
-        assets.append(_build_v2_asset(asset_id, v1_asset, ginput, decision))
-        accepted_asset_ids.add(asset_id)
-
-    # Build v2 attributions from accepted v1 attributions whose asset survived
-    # the guard. Map role -> target conservatively (see module docstring).
-    order_counts: dict[tuple[str, str], int] = {}
-    for attr in images.get("attributions", []) or []:
-        asset_id = attr.get("asset_id")
-        if asset_id not in accepted_asset_ids:
-            continue
-        if attr.get("state") not in ("accepted",):
-            # needs_review attribution: surface as a review issue, not a v2 attr.
-            review_issues.append({
-                "issue_id": f"attribution-needs-review-{attr.get('attribution_id', len(review_issues))}",
-                "kind": "attribution_needs_review",
-                "detail": (
-                    f"attribution {attr.get('attribution_id', '?')} "
-                    f"(asset {asset_id}, q{attr.get('question_ref', '?')}) "
-                    f"is in needs_review state"
-                ),
-            })
-            continue
-        question_ref = str(attr.get("question_ref"))
-        role = str(attr.get("role"))
-        target = _role_to_target(role, question_ref, step1_by_ref)
-        order = order_counts.get((question_ref, role), 0)
-        order_counts[(question_ref, role)] = order + 1
-        attributions.append({
-            "attribution_id": str(attr.get("attribution_id") or f"attr-{asset_id}-{question_ref}-{role}-{order}"),
-            "asset_id": str(asset_id),
-            "question_ref": question_ref,
-            "target": target,
-            "crop": _project_crop(attr.get("crop")),
-            "order": order,
-            "confidence": str(attr.get("confidence") or "medium"),
-            "state": "accepted",
-        })
-
-    # Also surface unreferenced needs_review dispositions from the v1 bundle
-    # (assets the extractor could not classify to any question).
-    for asset_id, v1_asset in v1_assets_by_id.items():
-        if asset_id in referenced_asset_ids:
-            continue
-        if v1_asset.get("disposition") == "needs_review":
-            review_issues.append({
-                "issue_id": f"asset-needs-review-{asset_id}",
-                "kind": "asset_needs_review",
-                "detail": (
-                    f"asset {asset_id} disposition=needs_review "
-                    f"({v1_asset.get('disposition_reason', 'unreferenced')})"
-                ),
-            })
+    # NOTE: unreferenced v1 assets with disposition=needs_review (typically
+    # formula WMF fragments the extractor could not attribute to any question)
+    # are intentionally NOT surfaced as blocking review issues. They are not
+    # figures, they are not referenced by any question, and the VectorAssetGuard
+    # already classified their vector kind. Surfacing all of them (e.g. 441 in
+    # the Fengxian paper) would bury the real blockers under formula-glyph
+    # noise. Only REFERENCED, non-fragment vector assets without a rendition
+    # block (the vector_rendition_missing case above); unreferenced media is
+    # simply dropped from the v2 paper.
 
     source_paper = {
         "schema": "math_exam_source_paper/v2",
@@ -601,46 +454,6 @@ def _project_crop(crop: dict | None) -> dict:
         "box_px": list(crop.get("box_px", [])),
         "whiteout_px": [list(w) for w in crop.get("whiteout_px", [])],
     }
-
-
-def _collect_review_issues(images: dict | None, manifest: dict | None) -> list[dict]:
-    """Collect REAL blocking review issues from the image bundle.
-
-    The baseline ``_has_needs_review`` inspected ``assets[].state``, but the v1
-    ``AttributionAsset`` contract has no ``state`` field (only ``disposition``) —
-    so it always returned False and the issues list was always empty. A
-    needs-review signal lives in two places:
-
-    - ``attributions[].state == "needs_review"`` (model/structure uncertainty),
-    - ``assets[].disposition == "needs_review"`` (unreferenced / orphan media).
-
-    Each surfaces as a concrete review issue rather than being silently dropped.
-    """
-    if not images:
-        return []
-    issues: list[dict] = []
-    for attr in images.get("attributions", []) or []:
-        if attr.get("state") == "needs_review":
-            issues.append({
-                "issue_id": f"attr-needs-review-{attr.get('attribution_id', len(issues))}",
-                "kind": "attribution_needs_review",
-                "detail": (
-                    f"attribution {attr.get('attribution_id', '?')} "
-                    f"(asset {attr.get('asset_id', '?')}, q{attr.get('question_ref', '?')}) "
-                    f"is in needs_review state and was not auto-accepted"
-                ),
-            })
-    for asset in images.get("assets", []) or []:
-        if asset.get("disposition") == "needs_review":
-            issues.append({
-                "issue_id": f"asset-needs-review-{asset.get('asset_id', len(issues))}",
-                "kind": "asset_needs_review",
-                "detail": (
-                    f"asset {asset.get('asset_id', '?')} disposition=needs_review "
-                    f"({asset.get('disposition_reason', 'unreferenced')})"
-                ),
-            })
-    return issues
 
 
 def _classify(exc) -> SourceBuildFailure:

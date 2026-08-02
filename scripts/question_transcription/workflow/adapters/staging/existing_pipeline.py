@@ -105,15 +105,35 @@ class DeterministicDraftProjector:
                 return None, "project_failed", "; ".join(e.detail for e in report.errors)
             # Resolve multi-image placements: a role with several images would
             # otherwise trip the expander's "every crop needs assignment_path"
-            # check. The planner composes such groups into one PNG and stamps an
-            # assignment_path, so the committed draft is expander-ready.
+            # check. The planner rewrites the draft to single-crop roles with a
+            # deterministic composed path + box_px derived from the members. The
+            # actual PNG composition happens later in the materialize step (after
+            # expand creates the staging tree); the composition plan is stashed
+            # on the renderer and committed as a sidecar the materializer reads.
             from scripts.question_transcription.materialize_image_group import (
                 resolve_placement_decisions,
             )
-            resolve_placement_decisions(draft, repo_root())
+            resolved = resolve_placement_decisions(draft, repo_root(), staging_dir=None)
+            self._group_renderer = resolved.renderer
             draft_ref = self.store.commit_yaml(
                 "structured/paper.draft.yaml", draft, "math_exam_staging_draft/v1"
             )
+            # Persist the composition plan so the materialize step (which runs as
+            # a separate node and cannot see this renderer instance) can write
+            # the composed PNGs after expand creates the staging tree.
+            plan = getattr(resolved.renderer, "_last_composition_plan", None) or {}
+            if plan:
+                self.store.commit_yaml(
+                    "structured/placement-plan.yaml",
+                    {
+                        "schema": "placement_plan/v1",
+                        "groups": [
+                            {"question_id": qid, "role": role, **entry}
+                            for (qid, role), entry in plan.items()
+                        ],
+                    },
+                    "placement_plan/v1",
+                )
             return draft_ref, None, None
         except Exception as exc:
             return None, "project_failed", f"{type(exc).__name__}: {exc}"
@@ -165,6 +185,17 @@ class DeterministicAssetMaterializer:
 
             root = repo_root()
             staging = Path(staging_directory)
+            # Write composed group PNGs BEFORE materializing items. The projector
+            # stashed the composition plan in structured/placement-plan.yaml; each
+            # composed crop's source points at items/<id>/assets/<role>-group.png,
+            # which must exist before materialize_item opens it.
+            plan_path = self.store.layout.structured_dir / "placement-plan.yaml"
+            if plan_path.exists():
+                from scripts.question_transcription.materialize_image_group import (
+                    ImageGroupRenderer,
+                )
+                renderer = ImageGroupRenderer.from_plan_file(plan_path, root)
+                renderer.compose_groups(staging)
             ids = item_ids(staging, only=set())
             for item_id in ids:
                 materialize_item(staging / "items" / item_id, root)

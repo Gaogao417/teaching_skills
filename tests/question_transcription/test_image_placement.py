@@ -85,12 +85,13 @@ def test_multi_image_maps_to_group_with_warning():
     assert any(w.code == "grouped_adjacent_to_scalar_stem" for w in d.warnings)
 
 
-def test_solution_role_uses_step_path():
+def test_solution_crops_are_not_planned():
+    """official_solution.crops are SOURCE EVIDENCE, not solution-step diagrams.
+    The planner must NOT touch them — they pass through unchanged to the
+    expander's official_solution.crops handling."""
     decisions = plan_placements(_draft_with(prompt_count=0, sol_count=2))
-    d = decisions[0]
-    assert len(d.placements) == 1
-    assert d.placements[0].role == "solution"
-    assert d.placements[0].assignment_path == "/solution_steps/0/diagram_col"
+    # No prompt -> no placement decisions at all; solution crops untouched.
+    assert decisions == []
 
 
 def test_no_images_yields_no_decisions():
