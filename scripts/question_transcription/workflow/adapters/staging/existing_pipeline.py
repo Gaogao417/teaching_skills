@@ -141,18 +141,48 @@ class DeterministicDraftProjector:
 
 
 class DeterministicEvidenceCompleter:
-    """Evidence completion (Word evidence is DOCX-specific; PDF is page-based).
+    """Expand DOC/DOCX seed pages into complete Word evidence ranges.
 
-    For the first milestone this is a passthrough — the assembler already attaches
-    page evidence from the transcription. DOCX word-evidence enrichment is layered in
-    when the DOCX skill's ``word_evidence_pages`` is wired.
+    The whole-paper transcriber records the first question/solution page for each
+    item.  The DOCX ingestion contract requires the deterministic
+    ``word_evidence_pages`` resolver to fill the continuous ranges *before* the
+    draft is expanded.  Keeping this work in the ``complete_evidence`` adapter makes
+    the graph node observable and independently regression-testable; PDF/page-image
+    sources remain a passthrough because their evidence is crop based.
     """
 
     def __init__(self, store) -> None:
         self.store = store
 
     def complete(self, draft_ref, source_kind):
-        return draft_ref, None, None
+        if source_kind not in ("doc", "docx"):
+            return draft_ref, None, None
+        try:
+            _skill_scripts("math-docx-question-bank-ingestion")
+            from word_evidence_pages import resolve_draft_payload  # type: ignore
+
+            ref = _as_ref(draft_ref)
+            payload = self.store.read_yaml(ref)
+            updated, report = resolve_draft_payload(
+                payload,
+                repo_root=repo_root(),
+            )
+            completed_ref = self.store.commit_yaml(
+                ref.path,
+                updated,
+                "math_exam_staging_draft/v1",
+            )
+            self.store.commit_yaml(
+                "reports/word-evidence-report.yaml",
+                {
+                    "schema": "math_word_evidence_completion_report/v1",
+                    **report,
+                },
+                "math_word_evidence_completion_report/v1",
+            )
+            return completed_ref, None, None
+        except Exception as exc:
+            return None, "evidence_failed", f"{type(exc).__name__}: {exc}"
 
 
 class DeterministicStagingExpander:
