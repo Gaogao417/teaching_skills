@@ -93,7 +93,6 @@ def _bind_live(
         whole_paper_transcriber=whole_transcriber,
         deterministic=deterministic,
         whole_paper_max_repairs=config.whole_paper_max_repairs,
-        whole_paper_prompt_mode=config.whole_paper_prompt_mode,
     )
 
 
@@ -154,12 +153,17 @@ def _bind_whole_paper_model(config):
     # claude_code
     from scripts.infrastructure.ai.claude_code.pydantic_model import ClaudeCodeModel
     from ..prompts.whole_paper import WHOLE_PAPER_SYSTEM_PROMPT
+    from ..tools.validate_transcription import build_validate_mcp_server
 
     return (
         ClaudeCodeModel(
             model_name=config.claude_code_model,
             system_prompt=WHOLE_PAPER_SYSTEM_PROMPT,
             timeout_s=config.claude_code_timeout_s,
+            allowed_tools=config.claude_code_allowed_tools,
+            max_turns=config.claude_code_max_turns,
+            permission_mode=config.claude_code_permission_mode,
+            mcp_servers={"validator": build_validate_mcp_server()},
         ),
         "claude-code",
         config.claude_code_model,
@@ -211,10 +215,12 @@ def record_provenance(
         wp_model = config.opencode_model
     else:
         wp_model = config.claude_code_model
+    from ..prompts.whole_paper import WHOLE_PAPER_PROMPT_VERSION
+
     whole_prov = AdapterProvenance(
         adapter_id=config.whole_paper_adapter,
         model=wp_model,
-        prompt_version="whole-paper-v1",
+        prompt_version=WHOLE_PAPER_PROMPT_VERSION,
     )
     store.write_manifest(
         run_id,

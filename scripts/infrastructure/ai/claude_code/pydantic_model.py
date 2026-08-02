@@ -95,6 +95,8 @@ class ClaudeCodeModel(Model):
         timeout_s: float = 300.0,
         allowed_tools: list[str] | None = None,
         permission_mode: str = "default",
+        max_turns: int = 1,
+        mcp_servers: dict | None = None,
         settings: ModelSettings | None = None,
     ) -> None:
         super().__init__(settings=settings)
@@ -105,6 +107,8 @@ class ClaudeCodeModel(Model):
         self._timeout_s = timeout_s
         self._allowed_tools = list(allowed_tools or [])
         self._permission_mode = permission_mode
+        self._max_turns = max_turns
+        self._mcp_servers = dict(mcp_servers or {})
 
     @property
     def model_name(self) -> str:
@@ -134,6 +138,8 @@ class ClaudeCodeModel(Model):
             timeout_s=self._timeout_s,
             allowed_tools=self._allowed_tools,
             permission_mode=self._permission_mode,
+            max_turns=self._max_turns,
+            mcp_servers=self._mcp_servers,
         )
 
         usage = RequestUsage(

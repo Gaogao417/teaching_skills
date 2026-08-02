@@ -136,15 +136,27 @@ class RuntimeAdapterConfig(BaseModel):
     opencode_server_url: str = DEFAULT_OPENCODE_SERVER_URL
     opencode_agent_type: str = DEFAULT_OPENCODE_AGENT_TYPE
 
-    # Transitional location for paper layout (architecture §7.4). The target
-    # design moves this request semantic out of provider runtime config.
-    # "interleaved" = questions and solutions on the same pages (default);
-    # "separated"   = question paper and answer/solution file are separate.
-    whole_paper_prompt_mode: Literal["interleaved", "separated"] = "interleaved"
-
     # Claude Code adapter (claude-agent-sdk): per-request model + timeout.
     claude_code_model: str = DEFAULT_CLAUDE_CODE_MODEL
     claude_code_timeout_s: float = Field(default=DEFAULT_CLAUDE_CODE_TIMEOUT_S, gt=0)
+    # Tools the Claude Code agent may call. The agent self-validates its draft via
+    # the constrained in-process ``validate_transcription`` MCP tool (see
+    # scripts/question_transcription/workflow/tools/validate_transcription.py and
+    # WHOLE_PAPER_SYSTEM_PROMPT "输出前自检"), and may Write/Edit to fix small JSON
+    # errors without re-emitting the whole draft. Bash/Read are intentionally NOT
+    # granted: a free Bash tool induced long write-script/run/read loops (~14 turns).
+    # permission_mode="bypassPermissions" is REQUIRED in headless `claude -p`:
+    # acceptEdits only auto-approves edits to tracked files, NOT Write to new temp
+    # files, which the self-check needs.
+    claude_code_allowed_tools: list[str] = Field(
+        default_factory=lambda: ["Write", "Edit", "validate_transcription"]
+    )
+    # Whole-paper transcription is an agent task: glm-5.2 via Claude Code reads the
+    # validator contract, drafts the bundle, self-checks with Bash/Write/Read, then
+    # emits the final JSON — empirically ~14 turns. A tight cap aborts mid-task with
+    # "Reached maximum number of turns". 50 leaves headroom without being unbounded.
+    claude_code_max_turns: int = Field(default=50, ge=1)
+    claude_code_permission_mode: str = "bypassPermissions"
 
     # Whole-paper structured-output repair budget (ports §7.4).
     whole_paper_max_repairs: int = Field(default=2, ge=0)

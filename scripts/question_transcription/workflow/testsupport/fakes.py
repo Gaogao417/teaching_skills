@@ -133,6 +133,13 @@ class FakePageTextExtractor:
         )
 
 
+def _fake_prompt_version() -> str:
+    """Mirror the real prompt version so the fake's provenance stays in sync."""
+    from ..prompts.whole_paper import WHOLE_PAPER_PROMPT_VERSION
+
+    return WHOLE_PAPER_PROMPT_VERSION
+
+
 class FakeWholePaperTranscriber:
     def __init__(self, store, scenario: FakeScenario) -> None:
         self.store = store
@@ -166,7 +173,7 @@ class FakeWholePaperTranscriber:
                 issues=None,
                 execution_id="fake-exec-1",
                 model="fake-glm",
-                prompt_version="whole-paper-v1",
+                prompt_version=_fake_prompt_version(),
             ),
             None,
         )

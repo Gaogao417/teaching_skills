@@ -80,7 +80,9 @@ def make_transcribe_whole_paper_node(deps):
 
             @property
             def prompt_version(self):
-                return "whole-paper-v1"
+                from ..prompts.whole_paper import WHOLE_PAPER_PROMPT_VERSION
+
+                return WHOLE_PAPER_PROMPT_VERSION
 
             @property
             def output_schema(self):
@@ -93,19 +95,6 @@ def make_transcribe_whole_paper_node(deps):
                 return _h.sha256(
                     "|".join(e.artifact.text.sha256 for e in self._ex).encode()
                 ).hexdigest()
-
-            @property
-            def prompt_mode(self):
-                # Read from the bound deps (composition root froze the config).
-                # Default "interleaved" when the field is absent.
-                return getattr(deps, "whole_paper_prompt_mode", None) or "interleaved"
-
-            @property
-            def solution_page_texts(self):
-                # For a separated paper (题卷/答案分文件) the solution extracts would be
-                # threaded here from a second source branch. Empty until that branch
-                # is wired; the adapter then falls back to interleaved.
-                return []
 
         request = _Req(state, ordered)
         with trace_event(

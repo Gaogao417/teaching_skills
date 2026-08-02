@@ -11,9 +11,9 @@ INVARIANT (design §16.13): these types never carry a provider/host choice. Only
 nodes and subgraphs must not import :mod:`.config` and must not branch on adapter type.
 
 The domain-layer home for the stable lifecycle/artifact types is
-:mod:`.domain` (``domain/lifecycle.py``, ``domain/artifacts.py``,
-``domain/paper_layout.py``). This module re-exports those so existing import paths
-keep working, and adds the request/result wrapper types that sit closer to the ports.
+:mod:`.domain` (``domain/lifecycle.py``, ``domain/artifacts.py``). This module
+re-exports those so existing import paths keep working, and adds the request/result
+wrapper types that sit closer to the ports.
 
 Re-use rule: the authoritative Pydantic schemas — ``SourcePaper``
 (``math_exam_source_paper/v2``), ``QuestionTranscriptionBundle`` /
@@ -36,7 +36,6 @@ from .domain.lifecycle import (  # noqa: F401  (canonical re-export)
     ReviewStateKind,
     WorkflowOutcomeKind,
 )
-from .domain.paper_layout import PaperLayout  # noqa: F401  (canonical re-export)
 
 # Re-export the authoritative schemas so node/adapter code has a single import path.
 # (Importing here does not couple state to provider choice — these are pure data
@@ -71,7 +70,6 @@ __all__ = [
     "SourceBuildResult",
     "ReviewStateKind",
     "WorkflowOutcomeKind",
-    "PaperLayout",
     # Re-exported authoritative schemas:
     "SourcePaper",
     "QuestionTranscriptionBundle",

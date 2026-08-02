@@ -1,8 +1,8 @@
 """Tests for the unified :class:`StructuredWholePaperTranscriber` (architecture §3.6, M2).
 
 These prove the unification goals:
-- the SAME transcriber serves both provider layouts (a fake structured model validates
-  both ``interleaved`` and ``separated`` paper layouts with identical contract);
+- the SAME transcriber serves both providers (a fake structured model validates
+  the contract identically for opencode and claude-code);
 - a provider-neutral :class:`ModelFailure` maps to the right ``WholePaperFailure`` kind;
 - structured-output repair is a separate, node-visible lifecycle from transport retry;
 - repair reuses the same bound model (no provider switch).
@@ -143,12 +143,10 @@ def _manifest(store: ArtifactStore):
 
 
 class _Request:
-    def __init__(self, store, extracts, *, prompt_mode="interleaved", solution=None):
+    def __init__(self, store, extracts):
         self.paper_id = "P"
         self.ordered_page_texts = extracts
         self.source_manifest = _manifest(store)
-        self.prompt_mode = prompt_mode
-        self.solution_page_texts = solution or []
 
 
 # --------------------------------------------------------------------------- #
@@ -174,13 +172,20 @@ def test_transcribe_serves_both_providers_with_same_contract(tmp_path):
 
         assert failure is None, getattr(failure, "detail", failure)
         assert result.model == "fake"
-        assert result.prompt_version == "whole-paper-v1"
+        assert result.prompt_version == "whole-paper-v2"
         data = store2.read_yaml(result.transcription)
         assert data["schema"] == "math_question_transcription/v1"
         assert data["sections"][0]["questions"][0]["content"]["answer"] == "B"
 
 
-def test_separated_layout_uses_solution_pages(tmp_path):
+def test_single_stream_carries_question_and_solution_pages(tmp_path):
+    """Both question and solution pages are concatenated into one prompt stream.
+
+    The transcriber no longer takes a separated/interleaved mode. All ordered
+    pages (e.g. a questions-first page followed by an answers page) are fed into
+    one prompt and the agent judges the layout. This test pins that the prompt the
+    model receives carries every page's text regardless of layout.
+    """
     store = _store(tmp_path)
     question_extract = _page_extract(store, 1, "题目：$2+2=$")
     solution_extract = _page_extract(store, 2, "解答：$2+2=4$，选 B")
@@ -204,12 +209,12 @@ def test_separated_layout_uses_solution_pages(tmp_path):
         cache_dir=tmp_path / "nocache",
     )
     result, failure = t.transcribe(_Request(
-        store, [question_extract], prompt_mode="separated", solution=[solution_extract],
+        store, [question_extract, solution_extract],
     ))
 
     assert failure is None, getattr(failure, "detail", failure)
     assert result is not None
-    # The user prompt carried both the question page text and the solution page text.
+    # The single user prompt carried both pages' text.
     joined = "\n".join(captured)
     assert "$2+2=$" in joined
     assert "选 B" in joined

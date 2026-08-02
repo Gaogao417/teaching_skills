@@ -57,6 +57,8 @@ class ClaudeQueryPort(Protocol):
         timeout_s: float,
         allowed_tools: list[str],
         permission_mode: str,
+        max_turns: int = 1,
+        mcp_servers: dict | None = None,
     ) -> ClaudeTurn: ...
 
 
@@ -79,6 +81,8 @@ async def real_run(
     timeout_s: float,
     allowed_tools: list[str],
     permission_mode: str,
+    max_turns: int = 1,
+    mcp_servers: dict | None = None,
 ) -> ClaudeTurn:
     """The production SDK turn: drive ``claude_agent_sdk.query()``.
 
@@ -107,19 +111,28 @@ async def real_run(
     options = ClaudeAgentOptions(
         model=model,
         system_prompt=system_prompt,          # per-request: routing verifiable
-        allowed_tools=allowed_tools,          # [] — pure text, no tools
-        permission_mode=permission_mode,      # "default"
-        max_turns=1,                          # single assistant turn
+        allowed_tools=allowed_tools,          # tools the agent may call (e.g. self-check)
+        permission_mode=permission_mode,      # "acceptEdits" auto-approves tools headless
+        max_turns=max_turns,                  # >1 lets the agent self-check then answer
+        mcp_servers=mcp_servers or {},        # in-process MCP tools (e.g. validate_transcription)
     )
 
     try:
-        text_parts: list[str] = []
+        # With max_turns>1 the agent may emit several AssistantMessages (e.g. tool-call
+        # turns interleaved with prose like "let me check..."). Only the LAST
+        # AssistantMessage carries the final JSON answer; earlier text turns would
+        # pollute the output if concatenated. Track per-turn text and keep only the
+        # most recent non-empty turn.
+        last_turn_text: list[str] = []
         usage: dict[str, Any] | None = None
         async for message in query(prompt=prompt, options=options):
             if isinstance(message, AssistantMessage):
-                for block in message.content:
-                    if isinstance(block, TextBlock):
-                        text_parts.append(block.text)
+                turn_text = [
+                    block.text for block in message.content
+                    if isinstance(block, TextBlock) and block.text
+                ]
+                if turn_text:
+                    last_turn_text = turn_text
             elif isinstance(message, ResultMessage):
                 # ResultMessage.usage is the authoritative aggregate (input/output).
                 usage = message.usage
@@ -138,7 +151,7 @@ async def real_run(
             detail=f"{type(exc).__name__}: {exc}",
         ))
 
-    joined = "\n".join(p for p in text_parts if p).strip()
+    joined = "\n".join(p for p in last_turn_text if p).strip()
     if not joined:
         raise ModelFailureError(ModelFailure(
             provider=ADAPTER_ID, kind="protocol",

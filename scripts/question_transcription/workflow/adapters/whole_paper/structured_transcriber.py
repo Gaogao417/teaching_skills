@@ -9,10 +9,9 @@ hands it to this transcriber.
 
 Responsibilities (architecture §3.6):
 
-- read ordered page text (and, for separated papers, solution page text) from the
-  artifact store;
-- build the whole-paper prompt for the chosen ``PaperLayout`` (interleaved or
-  questions/solutions separated);
+- read ordered page text from the artifact store;
+- build the whole-paper prompt (the agent judges the paper's layout — interleaved
+  or questions-first/answers-after — from the page text itself);
 - drive ``Agent(model=<bound model>, output_type=QuestionTranscriptionBundle)`` so
   structured-output validation and ``ModelRetry`` are identical across providers;
 - commit the transcription artifact with stable schema/path/hash;
@@ -122,24 +121,11 @@ class StructuredWholePaperTranscriber:
     def transcribe(self, request):
         try:
             ordered = self._read_ordered_pages(request)
-            mode = getattr(request, "prompt_mode", "interleaved") or "interleaved"
-            solution_raw = getattr(request, "solution_page_texts", None) or []
-            if mode == "separated" and solution_raw:
-                solution = self._read_ordered_pages_from(solution_raw)
-                user_prompt = build_user_prompt(
-                    paper_id=request.paper_id,
-                    source_archive=self._source_archive(request),
-                    question_pages=ordered,
-                    solution_pages=solution,
-                    mode="separated",
-                )
-            else:
-                user_prompt = build_user_prompt(
-                    paper_id=request.paper_id,
-                    source_archive=self._source_archive(request),
-                    ordered_pages=ordered,
-                    mode="interleaved",
-                )
+            user_prompt = build_user_prompt(
+                paper_id=request.paper_id,
+                source_archive=self._source_archive(request),
+                ordered_pages=ordered,
+            )
             bundle = self._run_agent(user_prompt)
         except _TranscriberError as exc:
             return None, exc.failure
@@ -258,18 +244,24 @@ class StructuredWholePaperTranscriber:
         return pages
 
     def _source_archive(self, request) -> str:
+        # ``source_archive`` is a NonEmptyStr in the output contract. When the
+        # manifest omits it, fall back to ``paper_id`` rather than returning "" —
+        # an empty value would force the model to emit "" and trip a PydanticAI
+        # retry, re-generating the entire 20k-char JSON for a single field.
         manifest = request.source_manifest
-        if manifest is None:
-            return ""
-        ref = (
-            manifest if isinstance(manifest, ArtifactRef)
-            else ArtifactRef.model_validate(manifest)
-        )
-        try:
-            data = self.store.read_yaml(ref)
-            return str(data.get("source_archive") or "")
-        except Exception:
-            return ""
+        if manifest is not None:
+            ref = (
+                manifest if isinstance(manifest, ArtifactRef)
+                else ArtifactRef.model_validate(manifest)
+            )
+            try:
+                data = self.store.read_yaml(ref)
+                value = str(data.get("source_archive") or "")
+                if value:
+                    return value
+            except Exception:
+                pass
+        return request.paper_id
 
     def _execution_id(self, ordered) -> str:
         return sha256_hex(

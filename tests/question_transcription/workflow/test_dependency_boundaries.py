@@ -142,7 +142,6 @@ def test_shared_infrastructure_does_not_import_question_transcription():
 DOMAIN_MODULES = [
     "scripts.question_transcription.workflow.domain.lifecycle",
     "scripts.question_transcription.workflow.domain.artifacts",
-    "scripts.question_transcription.workflow.domain.paper_layout",
 ]
 
 

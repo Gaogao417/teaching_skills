@@ -12,6 +12,5 @@ second authoritative entry point.
 
 Submodules:
 - :mod:`.lifecycle` — review / outcome state discriminators;
-- :mod:`.artifacts` — the ``ArtifactRef`` value object;
-- :mod:`.paper_layout` — the ``PaperLayout`` request/domain semantic.
+- :mod:`.artifacts` — the ``ArtifactRef`` value object.
 """

@@ -263,3 +263,144 @@ def test_agent_roundtrip_with_non_math_schema_via_opencode():
     assert isinstance(result.output, ColorFact)
     assert result.output.color == "azure"
     assert result.output.hex_code == "#007FFF"
+
+
+# --------------------------------------------------------------------------- #
+# real_run multi-turn text collection (keep only the LAST assistant turn)
+# --------------------------------------------------------------------------- #
+
+
+class _FakeTextBlock:
+    def __init__(self, text: str):
+        self.text = text
+
+
+class _FakeAssistantMessage:
+    def __init__(self, texts: list[str]):
+        self.content = [_FakeTextBlock(t) for t in texts]
+
+
+class _FakeResultMessage:
+    def __init__(self):
+        self.usage = {"input_tokens": 7, "output_tokens": 9}
+
+
+def _install_fake_sdk(monkeypatch, stream: list, *, capture_options: dict | None = None):
+    """Inject a fake ``claude_agent_sdk`` into sys.modules for real_run's lazy import.
+
+    ``stream`` is the list of messages the fake ``query()`` yields. This lets us test
+    real_run's text-collection loop (keep only the last AssistantMessage) without the
+    real SDK or network.
+    """
+
+    async def _fake_query(*, prompt, options):
+        if capture_options is not None:
+            capture_options["max_turns"] = options.max_turns
+            capture_options["allowed_tools"] = options.allowed_tools
+            capture_options["mcp_servers"] = options.mcp_servers
+        for msg in stream:
+            yield msg
+
+    fake = type(sys)("claude_agent_sdk")
+    fake.query = _fake_query
+    fake.AssistantMessage = _FakeAssistantMessage
+    fake.ResultMessage = _FakeResultMessage
+    fake.TextBlock = _FakeTextBlock
+
+    class _Opts:
+        def __init__(self, **kw):
+            self.__dict__.update(kw)
+    fake.ClaudeAgentOptions = _Opts
+
+    monkeypatch.setitem(sys.modules, "claude_agent_sdk", fake)
+    return fake
+
+
+def test_real_run_keeps_only_last_assistant_turn(monkeypatch):
+    """With max_turns>1, intermediate prose turns must NOT pollute the final output.
+
+    The agent may emit several AssistantMessages (e.g. "let me check..." before a tool
+    call, then the final JSON). Only the last AssistantMessage carries the answer;
+    concatenating all turns would corrupt the JSON the caller parses.
+    """
+    from scripts.infrastructure.ai.claude_code.client import real_run
+
+    stream = [
+        _FakeAssistantMessage(["让我先校验一下 draft..."]),   # intermediate turn
+        _FakeAssistantMessage(['{"answer": "final"}']),       # final turn
+        _FakeResultMessage(),
+    ]
+    _install_fake_sdk(monkeypatch, stream)
+
+    turn = asyncio.run(real_run(
+        system_prompt="sys", prompt="do it", model="m", timeout_s=10,
+        allowed_tools=["Bash(python:*)"], permission_mode="acceptEdits", max_turns=6,
+    ))
+
+    assert turn.assistant_text == '{"answer": "final"}'  # not concatenated
+    assert "让我先校验" not in turn.assistant_text
+    assert turn.input_tokens == 7
+    assert turn.output_tokens == 9
+
+
+def test_real_run_single_turn_still_works(monkeypatch):
+    """A single AssistantMessage (the max_turns=1 legacy path) must still be returned."""
+
+    from scripts.infrastructure.ai.claude_code.client import real_run
+
+    stream = [_FakeAssistantMessage(["only turn"]), _FakeResultMessage()]
+    _install_fake_sdk(monkeypatch, stream)
+
+    turn = asyncio.run(real_run(
+        system_prompt="sys", prompt="hi", model="m", timeout_s=10,
+        allowed_tools=[], permission_mode="default", max_turns=1,
+    ))
+    assert turn.assistant_text == "only turn"
+
+
+def test_real_run_passes_max_turns_to_options(monkeypatch):
+    """max_turns must reach ClaudeAgentOptions so multi-turn self-check is enabled."""
+    from scripts.infrastructure.ai.claude_code.client import real_run
+
+    captured: dict = {}
+    stream = [_FakeAssistantMessage(["ok"]), _FakeResultMessage()]
+    _install_fake_sdk(monkeypatch, stream, capture_options=captured)
+
+    asyncio.run(real_run(
+        system_prompt="sys", prompt="hi", model="m", timeout_s=10,
+        allowed_tools=["Bash(python:*)"], permission_mode="acceptEdits", max_turns=6,
+    ))
+    assert captured["max_turns"] == 6
+    assert captured["allowed_tools"] == ["Bash(python:*)"]
+
+
+def test_real_run_passes_mcp_servers_to_options(monkeypatch):
+    """mcp_servers (in-process tools like validate_transcription) must reach options."""
+    from scripts.infrastructure.ai.claude_code.client import real_run
+
+    captured: dict = {}
+    stream = [_FakeAssistantMessage(["ok"]), _FakeResultMessage()]
+    _install_fake_sdk(monkeypatch, stream, capture_options=captured)
+
+    servers = {"validator": {"type": "sdk", "name": "transcription-validator"}}
+    asyncio.run(real_run(
+        system_prompt="sys", prompt="hi", model="m", timeout_s=10,
+        allowed_tools=["validate_transcription"], permission_mode="bypassPermissions",
+        max_turns=1, mcp_servers=servers,
+    ))
+    assert captured["mcp_servers"] == servers
+
+
+def test_real_run_defaults_mcp_servers_to_empty_when_none(monkeypatch):
+    """Omitting mcp_servers must not crash; options.mcp_servers defaults to {}."""
+    from scripts.infrastructure.ai.claude_code.client import real_run
+
+    captured: dict = {}
+    stream = [_FakeAssistantMessage(["ok"]), _FakeResultMessage()]
+    _install_fake_sdk(monkeypatch, stream, capture_options=captured)
+
+    asyncio.run(real_run(
+        system_prompt="sys", prompt="hi", model="m", timeout_s=10,
+        allowed_tools=[], permission_mode="default", max_turns=1,
+    ))
+    assert captured["mcp_servers"] == {}

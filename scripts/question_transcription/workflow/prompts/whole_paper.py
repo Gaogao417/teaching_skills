@@ -8,26 +8,28 @@ adapters (OpenCode glm-5.2 and Claude Code) feed it the same input.
 
 from __future__ import annotations
 
-import typing
-
 
 __all__ = [
     "WHOLE_PAPER_PROMPT_VERSION",
     "WHOLE_PAPER_SYSTEM_PROMPT",
-    "PromptMode",
     "build_user_prompt",
-    "build_interleaved_prompt",
-    "build_separated_prompt",
 ]
 
 
-WHOLE_PAPER_PROMPT_VERSION = "whole-paper-v1"
+WHOLE_PAPER_PROMPT_VERSION = "whole-paper-v2"
 
 WHOLE_PAPER_SYSTEM_PROMPT = """\
 你是数学试卷整卷结构化转写器。你将收到一份按页码顺序排列的纯文本（每页用页码标记分隔），
 这些纯文本来自试卷的逐页 OCR 抄录。
 
 你的任务是把整卷还原成结构化的 JSON，严格符合下面的 schema。
+
+【布局自判】收到的逐页文本可能是两种布局之一，你需要自己识别并按题号正确匹配：
+(a) 题答交织：题目与对应解答出现在同一页（如 `1. 题干……【详解】……`）。
+(b) 题在前、答在后：试卷前半部分只有题目，后半部分（如标有“参考答案/试题答案”处）
+    才是各题解答；此时要把每道解答按题号匹配到对应题目。
+无论哪种布局，你都要为每一道题分别标出题干所在页（evidence.question）和解答所在页
+（evidence.solution）。
 
 输出 JSON 必须有以下顶层字段，缺一不可：
 - "schema": 固定字符串 "math_question_transcription/v1"
@@ -44,10 +46,10 @@ WHOLE_PAPER_SYSTEM_PROMPT = """\
   - choice 题：恰好 4 个 "choices" 字符串，answer 必须是 "A"/"B"/"C"/"D" 之一
   - problem/short_answer 题：非空 "solution_steps" 字符串数组（按原卷解答顺序）
 - "evidence": {"question": [...], "solution": [...], "solution_start_anchor": "...", "solution_end_anchor": "..."}
-  evidence.question 和 evidence.solution 各是一个 {"kind":"page","source":"transcription","page_number":N} 对象的数组，
-  记录这道题的题干 / 解答分别出现在哪些页。页号必须连续完整：若一道题的题干跨第 6、7、8 页，
-  则 evidence.question 必须列出 page_number 为 6、7、8 的三个对象，不得只标首尾而漏掉中间页。
-  每个被该题题干（或解答）占据的页面都要各列一条，即使只占该页一小部分。
+  evidence.question 记录这道题的题干分别出现在哪些页；evidence.solution 记录这道题的解答
+  分别出现在哪些页。两者各是一个 {"kind":"page","source":"transcription","page_number":N} 对象的数组。
+  如实标注即可：一页上有多道题时，这些题都标该页；一道题跨多页时，把这几页都列出；
+  不要求单题的页号连续或完整覆盖某一段，只要每个页号真实对应题目所在页。
 
 严格规则：
 1. 只根据给定页文本还原题目；不要编造没有出现的题目、答案或解答步骤。
@@ -55,30 +57,25 @@ WHOLE_PAPER_SYSTEM_PROMPT = """\
 3. 跨页题干要合并为同一题。
 4. 不要输出任何 JSON 以外的内容，不要 Markdown 代码围栏，不要前言或解释。
 5. paper.id / paper.source_archive 用 manifest 提供的值；title/grade 若文本未给出，用合理默认（如 "未知"、"初三"）。
-6. evidence 的页码范围必须连续完整覆盖该题实际占用的每一页，不得跳过中间页。
+6. evidence 的页号只要求真实对应题目所在页；题干页和解答页可以不同（尤其是“题在前答在后”的布局，
+   解答页号应指向参考答案所在页，而不是题干页）。
 
 下面是一个选择题的完整 JSON 示例（仅作格式参考，不要照抄内容）：
 {"schema":"math_question_transcription/v1","paper":{"id":"DEMO","title":"示例","grade":"初三","subject":"数学","source_archive":"demo.pdf"},"sections":[{"section_ref":"1","title":"一、选择题","questions":[{"question_ref":"1","question_number":1,"question_type":"choice","points":3,"content":{"stem_latex":"$2+2=$","choices":["3","4","5","6"],"answer":"B","clue":"基本加法"},"evidence":{"question":[{"kind":"page","source":"transcription","page_number":1}],"solution":[{"kind":"page","source":"transcription","page_number":1}],"solution_start_anchor":"B","solution_end_anchor":"B"}}]}],"provider":{"kind":"agent","name":"glm-5.2","version":"v1"}}
 
 请严格按此结构输出，answer 字段必须非空（choice 题填 A/B/C/D）。
+
+【输出前自检（强制）】输出最终 JSON 之前，先调用 validate_transcription 工具校验你的 draft：
+- 把你拟输出的完整 JSON 对象作为 draft 参数传给该工具。
+- 工具返回 VALID：立即把该 JSON 作为最终回复输出（只放 JSON，不要 markdown 围栏）。
+- 工具返回错误：按错误信息用 Write/Edit 修正 draft，再调用 validate_transcription 校验一次。
+- 最多校验 3 次；若 3 次后仍不过，把当前最好的 JSON 直接输出。
+不要调用其它工具（如 Bash、Read）；不要在校验之外做任何操作。
 """
 
 
-PromptMode = typing.Literal["interleaved", "separated"]
-"""
-How the paper's questions and solutions are laid out across the page text:
-
-- ``interleaved`` — questions and their solutions are interleaved on the same pages
-  (e.g. ``1. 题干... 【详解】...``). One ordered page list covers the whole paper.
-- ``separated`` — the question paper and the answer/solution file are separate
-  (e.g. a question-only卷 and an answer-only参考答案). Two ordered page lists are
-  provided: question pages and solution pages. The model must match each solution
-  to its question by question number.
-"""
-
-
-def _format_pages(label: str, ordered_pages: list[tuple[int, str]]) -> list[str]:
-    blocks = [f"----- {label} -----"]
+def _format_pages(ordered_pages: list[tuple[int, str]]) -> list[str]:
+    blocks: list[str] = []
     for page_number, text in ordered_pages:
         blocks.append(f"===== page {page_number} =====")
         blocks.append(text)
@@ -86,81 +83,26 @@ def _format_pages(label: str, ordered_pages: list[tuple[int, str]]) -> list[str]
     return blocks
 
 
-def build_interleaved_prompt(
+def build_user_prompt(
     *, paper_id: str, source_archive: str, ordered_pages: list[tuple[int, str]]
 ) -> str:
-    """Compose the user message for an interleaved paper (questions + solutions together)."""
+    """Compose the user message for the whole paper.
+
+    All page text is concatenated in page order into a single block. The paper's
+    layout (questions+solutions interleaved, or questions-first/answers-after) is
+    not labelled here — the agent judges it itself from the page text (see the
+    system prompt's 布局自判 section).
+    """
 
     blocks = [
         f"paper_id: {paper_id}",
         f"source_archive: {source_archive}",
-        "本卷题目与解答在同一批页面中交织出现。以下是按页码顺序排列的整卷逐页文本：\n",
+        "以下是按页码顺序排列的整卷逐页文本（题目与解答可能交织在同一页，也可能题在前、答在后；"
+        "请自行判断布局，按题号正确匹配题干与解答）：\n",
     ]
-    blocks.extend(_format_pages("整卷（题题与解答交织）", ordered_pages))
+    blocks.extend(_format_pages(ordered_pages))
     blocks.append(
         "\n请把以上整卷还原为 math_question_transcription/v1 的 JSON，"
-        "每道题的 answer 与 solution_steps 从同一批页面的解答部分提取，"
-        "直接输出 JSON，不要任何额外文字。"
+        "为每道题分别标注题干与解答各自所在的页号，直接输出 JSON，不要任何额外文字。"
     )
     return "\n".join(blocks)
-
-
-def build_separated_prompt(
-    *,
-    paper_id: str,
-    source_archive: str,
-    question_pages: list[tuple[int, str]],
-    solution_pages: list[tuple[int, str]],
-) -> str:
-    """Compose the user message for a separated paper (题卷 + 答案分文件).
-
-    ``question_pages`` are the question-only pages; ``solution_pages`` are the
-    answer/solution-only pages. The model matches each solution to its question by
-    question number and merges them into one paper.
-    """
-
-    blocks = [
-        f"paper_id: {paper_id}",
-        f"source_archive: {source_archive}",
-        "本卷题目与解答分别在不同文件/页面：先给出【题卷】逐页文本，再给出【参考答案】逐页文本。"
-        "请把每道解答按题号匹配到对应题目，合并成一份完整的 math_question_transcription/v1。"
-        "题号在题卷和答案中应一致（如 `1．`、`18.`）。\n",
-    ]
-    blocks.extend(_format_pages("题卷（仅题目）", question_pages))
-    blocks.append("")
-    blocks.extend(_format_pages("参考答案（仅解答）", solution_pages))
-    blocks.append(
-        "\n请把以上题卷与答案合并还原为 math_question_transcription/v1 的 JSON，"
-        "每道题的 answer / solution_steps 取自参考答案，题干取自题卷，"
-        "直接输出 JSON，不要任何额外文字。"
-    )
-    return "\n".join(blocks)
-
-
-def build_user_prompt(
-    *,
-    paper_id: str,
-    source_archive: str,
-    ordered_pages: list[tuple[int, str]] | None = None,
-    question_pages: list[tuple[int, str]] | None = None,
-    solution_pages: list[tuple[int, str]] | None = None,
-    mode: PromptMode = "interleaved",
-) -> str:
-    """Dispatch to the interleaved or separated prompt builder.
-
-    - ``mode="interleaved"`` (default): uses ``ordered_pages``.
-    - ``mode="separated"``: uses ``question_pages`` + ``solution_pages``.
-    """
-
-    if mode == "separated":
-        return build_separated_prompt(
-            paper_id=paper_id,
-            source_archive=source_archive,
-            question_pages=question_pages or [],
-            solution_pages=solution_pages or [],
-        )
-    return build_interleaved_prompt(
-        paper_id=paper_id,
-        source_archive=source_archive,
-        ordered_pages=ordered_pages or [],
-    )
