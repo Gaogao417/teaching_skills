@@ -301,7 +301,7 @@ def _approve_final_review(staging_directory: str) -> int:
     return n
 
 
-def _stream_once(app, payload, config, label) -> dict[str, Any] | None:
+def _stream_once(app, payload, config, label, run_root=None) -> dict[str, Any] | None:
     """Run one stream pass; print node updates; record a span per node.
 
     Each node gets one OTel span whose attributes carry the output state delta and
@@ -325,9 +325,9 @@ def _stream_once(app, payload, config, label) -> dict[str, Any] | None:
                 ) as span:
                     if span is not None:
                         span.set_attribute("output.keys", ",".join(sorted(keys)))
-                        _attach_state(span, "output", delta)
+                        _attach_state(span, "output", delta, run_root=run_root)
                         # The input is the state before this node ran.
-                        _attach_state(span, "input", _input_view(prev_state))
+                        _attach_state(span, "input", _input_view(prev_state), run_root=run_root)
     except Exception as exc:  # surface real failures (adapter/model/contract)
         _log(f"  [{label}] STREAM ERROR: {type(exc).__name__}: {exc}")
         raise
@@ -362,7 +362,7 @@ def _input_view(state: dict[str, Any]) -> dict[str, Any]:
     return keep
 
 
-def _attach_state(span, prefix: str, state: dict[str, Any]) -> None:
+def _attach_state(span, prefix: str, state: dict[str, Any], *, run_root=None) -> None:
     """Attach a redacted, size-bounded state projection to a span.
 
     Langfuse renders an observation's INPUT/OUTPUT from specific attributes
@@ -370,6 +370,13 @@ def _attach_state(span, prefix: str, state: dict[str, Any]) -> None:
     arbitrary ``prefix.key`` attributes. So we serialize the whole projection to one
     JSON string and set it on the recognized attribute, so the node's input state
     and output delta are visible in the UI's Input/Output panels.
+
+    Field projection is content-aware (see :func:`_project_field`): the high-value
+    node outputs (transcription question refs + evidence page numbers, page-text
+    extracts, terminal errors) are expanded so they're readable in the UI instead
+    of collapsed to ``[list of N dict]``. Only genuinely large blobs (raw page
+    text bodies) stay folded. ``run_root`` lets the transcription ref be resolved
+    to a per-question summary inline.
     """
 
     if span is None or not state:
@@ -377,13 +384,96 @@ def _attach_state(span, prefix: str, state: dict[str, Any]) -> None:
     attr = (
         "langfuse.observation.input" if prefix == "input" else "langfuse.observation.output"
     )
-    projection = {k: _simplify(v) for k, v in state.items()}
+    projection = {k: _project_field(k, v, run_root=run_root) for k, v in state.items()}
     try:
         import json
 
         span.set_attribute(attr, _truncate(json.dumps(projection, ensure_ascii=False)))
     except Exception:
         pass
+
+
+def _project_field(key: str, value: Any, *, run_root=None) -> Any:
+    """Project one state field into a readable, size-bounded trace value.
+
+    The high-value fields get content-aware expansion so a node's Input/Output is
+    actually readable in Langfuse (question refs + evidence page numbers, error
+    text, page-text page numbers + text length). Everything else falls back to the
+    generic :func:`_simplify` count-summary so span attributes stay bounded.
+    """
+
+    if key == "whole_paper_transcription":
+        # An ArtifactRef to structured/transcription.yaml. Resolve and inline a
+        # compact per-question summary (ref + evidence page numbers) so the node's
+        # Output shows what was transcribed, not just the path.
+        ref = _simplify(value) if isinstance(value, dict) else str(value)
+        return {"ref": ref, "questions": _summarize_transcription(value, run_root)}
+    if key == "terminal_errors":
+        # Always show full error text — these are the thing you open the trace to read.
+        return value if isinstance(value, list) else [str(value)]
+    if key == "page_text_extracts" and isinstance(value, list):
+        # One entry per page: surface the page number + text length, fold the body.
+        out = []
+        for item in value:
+            if isinstance(item, dict):
+                art = item.get("artifact") or {}
+                page = art.get("page_number")
+                txt = art.get("text") or {}
+                body = txt.get("text") if isinstance(txt, dict) else None
+                out.append({
+                    "page_number": page,
+                    "text_chars": len(body) if isinstance(body, str) else None,
+                    "ref": _simplify(txt) if isinstance(txt, dict) else None,
+                })
+            else:
+                out.append(_simplify(item))
+        return out
+    if key in ("draft", "source_paper", "extracted_source", "image_attribution") and isinstance(value, dict):
+        # ArtifactRef-shaped: keep path + schema.
+        return _simplify(value)
+    return _simplify(value)
+
+
+def _summarize_transcription(ref: Any, run_root) -> list[dict[str, Any]]:
+    """Resolve a transcription ArtifactRef to a per-question evidence summary.
+
+    Returns ``[{"ref": "1", "type": "choice", "question_pages": [1],
+    "solution_pages": [7]}, ...]`` so a transcription node's Output shows the
+    page→question mapping directly, without opening the file. Folds to ``[]`` on
+    any resolution/parse failure (never raises — tracing must not break the run).
+    """
+
+    try:
+        if not isinstance(ref, dict) or not run_root:
+            return []
+        path = ref.get("path")
+        if not isinstance(path, str):
+            return []
+        from pathlib import Path
+
+        import yaml as _yaml
+
+        yaml_path = (Path(run_root) / path) if not Path(path).is_absolute() else Path(path)
+        if not yaml_path.exists():
+            return []
+        data = _yaml.safe_load(yaml_path.read_text(encoding="utf-8")) or {}
+        out = []
+        for section in data.get("sections") or []:
+            for q in section.get("questions") or []:
+                ev = q.get("evidence") or {}
+                qp = [p["page_number"] for p in (ev.get("question") or [])
+                      if isinstance(p, dict) and "page_number" in p]
+                sp = [p["page_number"] for p in (ev.get("solution") or [])
+                      if isinstance(p, dict) and "page_number" in p]
+                out.append({
+                    "ref": q.get("question_ref"),
+                    "type": q.get("question_type"),
+                    "question_pages": qp,
+                    "solution_pages": sp,
+                })
+        return out
+    except Exception:
+        return []
 
 
 def _simplify(v: Any) -> Any:
@@ -406,7 +496,7 @@ def _simplify(v: Any) -> Any:
     return str(v)
 
 
-def _truncate(s: str, n: int = 2000) -> str:
+def _truncate(s: str, n: int = 20000) -> str:
     return s if len(s) <= n else s[:n] + f"…<+{len(s) - n} chars>"
 
 
@@ -472,7 +562,7 @@ def run(
     payload: Any = state
     for rnd in range(max_resume_rounds):
         t0 = time.time()
-        result = _stream_once(app, payload, lg_config, f"round{rnd}")
+        result = _stream_once(app, payload, lg_config, f"round{rnd}", run_root=layout.root)
         elapsed = time.time() - t0
         gs = app.get_state(lg_config)
         outcome = extract_outcome(gs.values or {}) if gs and gs.values else "running"
