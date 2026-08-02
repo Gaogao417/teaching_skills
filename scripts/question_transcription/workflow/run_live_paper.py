@@ -17,6 +17,14 @@ Auto-approval policy (only when explicitly requested for verification):
   ``items/*/review.yaml`` for every question.  The default is ``human``: stop at
   the final-review interrupt after refreshing the Review UI catalog.
 
+Resume semantics (langgraph 0.2.76): an interrupt can only be woken by streaming
+``Command(resume=<value>)``; the ``<value>`` is what the interrupted node's
+``interrupt()`` call returns.  This driver resumes with the constant
+:data:`_RESUME_WAKE_ACK` — a pure wake signal that carries **no approval
+decision**.  Every gate re-reads its on-disk artifact on resume
+(``review-resolutions.yaml`` for source review, ``items/*/review.yaml`` for final
+review), so a wake can never approve anything by itself.
+
 Usage::
 
     source ~/.zshrc 2>/dev/null
@@ -32,6 +40,8 @@ from __future__ import annotations
 
 import argparse
 import datetime as _dt
+import os
+import subprocess
 import sys
 import time
 import uuid
@@ -39,6 +49,7 @@ from pathlib import Path
 from typing import Any
 
 import yaml
+from langgraph.types import Command
 
 from .bootstrap.composition import BindMode, bind, build_run_layout, record_provenance
 from .bootstrap.config import RuntimeAdapterConfig
@@ -206,6 +217,14 @@ def _ts() -> str:
 
 def _log(msg: str) -> None:
     print(f"[{_ts()}] {msg}", flush=True)
+
+
+# Value handed to ``Command(resume=...)`` to wake a paused interrupt.  It is a pure
+# wake signal — the approval gates ignore it and re-read their on-disk artifacts on
+# resume (design §16.8).  It must be non-None: in langgraph 0.2.76 ``Command(resume=None)``
+# raises ``EmptyInputError`` and ``stream(None, config)`` re-fires the interrupt instead
+# of resuming, so a falsy wake cannot complete a human-in-the-loop step.
+_RESUME_WAKE_ACK: dict[str, Any] = {"resume": True}
 
 
 def _approve_source_review(layout) -> bool:
@@ -500,15 +519,96 @@ def _truncate(s: str, n: int = 20000) -> str:
     return s if len(s) <= n else s[:n] + f"…<+{len(s) - n} chars>"
 
 
+def _main_repo_root() -> Path:
+    """The main worktree's root (where the shared ``.venv`` web stack lives).
+
+    In a linked worktree ``_repo_root()`` returns the worktree root, but the
+    FastAPI/uvicorn venv is typically provisioned once in the main worktree.  We resolve
+    it via ``git rev-parse --git-common-dir`` (the shared ``.git`` lives at the main
+    root); on any failure we fall back to the worktree root itself.
+    """
+
+    try:
+        common = subprocess.run(
+            ["git", "rev-parse", "--git-common-dir"],
+            capture_output=True,
+            text=True,
+            cwd=str(_repo_root()),
+            timeout=10,
+        )
+        if common.returncode == 0 and common.stdout.strip():
+            return Path(common.stdout.strip()).resolve().parent
+    except (OSError, subprocess.SubprocessError):
+        pass
+    return _repo_root()
+
+
+def _select_review_ui_python() -> str:
+    """Return an interpreter path whose site-packages expose fastapi + uvicorn.
+
+    The Review UI server (``open_question_bank_review.py``) imports ``uvicorn`` and the
+    FastAPI app at module load, so the launching interpreter must already have both
+    importable.  A worktree-local ``.venv`` is provisioned for the workflow (langgraph,
+    pydantic, …) but is *not* guaranteed to carry the Review UI's web stack, so we probe
+    candidates in order and pick the first that can ``import fastapi, uvicorn``:
+
+    1. the worktree-local ``./.venv/bin/python`` (preferred when present);
+    2. the main-repo ``.venv/bin/python`` (shared web-stack venv);
+    3. the ``python3`` on ``PATH`` as a last resort.
+
+    The chosen path is echoed exactly as it will be executed, so the printed command is
+    runnable as-is rather than just documented.
+    """
+
+    root = _repo_root()
+    candidates = [
+        root / ".venv/bin/python",
+        _main_repo_root() / ".venv/bin/python",
+        Path(os.environ.get("PYTHON", "python3")),
+    ]
+    # Deduplicate while preserving order.
+    seen: set[str] = set()
+    probe_order: list[Path] = []
+    for cand in candidates:
+        try:
+            resolved = cand.resolve()
+        except OSError:
+            resolved = cand
+        key = str(resolved)
+        if key in seen:
+            continue
+        seen.add(key)
+        probe_order.append(cand)
+    for cand in probe_order:
+        if not cand.exists():
+            continue
+        try:
+            proc = subprocess.run(
+                [str(cand), "-c", "import fastapi, uvicorn"],
+                capture_output=True,
+                text=True,
+                timeout=15,
+            )
+        except (OSError, subprocess.SubprocessError):
+            continue
+        if proc.returncode == 0:
+            return str(cand)
+    # Nothing probed cleanly — surface the first existing candidate so the failure is
+    # an explicit ImportError at run time instead of a silently wrong interpreter.
+    for cand in probe_order:
+        if cand.exists():
+            return str(cand)
+    return "python3"
+
+
 def _review_ui_command(layout) -> str:
     review_script = (
         _repo_root()
         / ".codex/skills/math-topic-question-bank/scripts/open_question_bank_review.py"
     )
-    return (
-        f"./.venv/bin/python {review_script} "
-        f"--bank-root {layout.root / 'review-catalog'}"
-    )
+    python_bin = _select_review_ui_python()
+    bank_root = layout.root / "review-catalog"
+    return f"{python_bin} {review_script} --bank-root {bank_root}"
 
 
 def run(
@@ -572,8 +672,9 @@ def run(
         )
         if outcome in ("completed", "failed"):
             break
-        # Handle interrupts: write the approval artifacts, then resume with None
-        # (resume only WAKES; approval is already on disk per design §16.8).
+        # Handle interrupts: write the approval artifacts, then resume.  Resume only
+        # WAKES the paused node via Command(resume=_RESUME_WAKE_ACK); approval lives on
+        # disk and is re-read by the gate on resume (design §16.8).
         resumed_something = False
         waiting_for_human_review = False
         if gs and getattr(gs, "tasks", None):
@@ -597,7 +698,7 @@ def run(
                             _log(f"  staging={staging}")
                             _log(f"  open Review UI: {_review_ui_command(layout)}")
                             _log(
-                                "  after review: ./.venv/bin/python -m "
+                                f"  after review: {sys.executable} -m "
                                 "scripts.question_transcription.workflow.run_live_paper "
                                 f"--paper-id {paper_id} --resume-run-id {run_id}"
                             )
@@ -607,7 +708,9 @@ def run(
         if not resumed_something and outcome == "running" and not next_interrupts:
             _log("  no interrupt to resume and graph idle; stopping.")
             break
-        payload = None  # subsequent passes resume the existing thread
+        # Wake the paused interrupt.  In langgraph 0.2.76 only a non-None Command
+        # resume value advances past the interrupt; the wake ack carries no decision.
+        payload = Command(resume=_RESUME_WAKE_ACK)
 
     final = app.get_state(lg_config)
     final_state = final.values if final is not None else {}
@@ -657,7 +760,11 @@ def resume(
         raise ValueError(f"checkpoint has no state for run {run_id}")
 
     _log(f"RESUME run_id={run_id} paper_id={paper_id}")
-    _stream_once(app, None, lg_config, "resume-final-review")
+    # Wake the persisted final-review interrupt.  The wake ack is not an approval:
+    # final_review_check re-reads items/*/review.yaml on every entry.  If reviews are
+    # still pending the node interrupts again (outcome stays waiting_for_final_review);
+    # only a complete fresh set of approved reviews routes on to approved_audit.
+    _stream_once(app, Command(resume=_RESUME_WAKE_ACK), lg_config, "resume-final-review")
     final = app.get_state(lg_config)
     final_state = final.values if final is not None else {}
     _persist_state(layout, final_state)
@@ -666,8 +773,16 @@ def resume(
     errors = final_state.get("terminal_errors") or []
     for error in errors:
         _log(f"  - {error}")
-    if outcome == "running":
+    if outcome in ("waiting_for_final_review", "running"):
+        still_pending = bool(final and final.next)
+        if still_pending:
+            _log("  final review still pending — complete Review UI approvals and resume again")
         _log(f"  Review UI: {_review_ui_command(layout)}")
+        _log(
+            f"  resume again: {sys.executable} -m "
+            "scripts.question_transcription.workflow.run_live_paper "
+            f"--paper-id {paper_id} --resume-run-id {run_id}"
+        )
     _log(f"layout={layout.root}")
     return run_id
 

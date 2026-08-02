@@ -56,9 +56,13 @@ def test_audit_routes_to_refresh_or_end():
 
 
 def test_final_review_only_approved_reaches_approved_audit():
-    # pending / rejected / errors all END (pending loops back via interrupt, not here)
+    # approved -> approved_audit; still-pending loops back into final_review_check so its
+    # next execution re-interrupts; everything else (no review state, errors) ends.
     assert route_after_final_review(_state(review_state="all_questions_approved")) == "approved_audit"
-    assert route_after_final_review(_state(review_state="waiting_for_final_review")) == END
+    assert (
+        route_after_final_review(_state(review_state="waiting_for_final_review"))
+        == "final_review_check"
+    )
     assert route_after_final_review(_state(review_state="no_review_pending")) == END
     assert route_after_final_review(_state(terminal_errors=["x"])) == END
 

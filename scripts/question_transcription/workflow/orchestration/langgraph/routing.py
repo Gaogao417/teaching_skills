@@ -49,8 +49,20 @@ def route_after_audit_staging(state: WorkflowState) -> str:
 
 
 def route_after_final_review(state: WorkflowState) -> str:
-    """approved -> approved_audit; else END (pending loops back, rejected/errors end)."""
+    """approved -> approved_audit; pending -> self-loop back to final_review_check.
 
+    ``final_review_check`` re-reads the on-disk reviews on every entry.  After a resume
+    it sets ``review_state`` to ``waiting_for_final_review`` while any item is still
+    pending, so this edge loops the node back into itself — its next execution
+    re-``interrupt()``s (a fresh interrupt in a new node execution), pausing again until
+    the human completes the Review UI.  Only ``all_questions_approved`` reaches
+    ``approved_audit``; errors/rejected end the run.
+    """
+
+    if has_errors(state):
+        return END
     if state.get("review_state") == "all_questions_approved":
         return "approved_audit"
+    if state.get("review_state") == "waiting_for_final_review":
+        return "final_review_check"
     return END

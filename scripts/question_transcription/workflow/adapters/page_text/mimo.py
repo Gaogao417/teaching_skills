@@ -27,6 +27,7 @@ from ._common import (
     build_messages,
     commit_extract,
     image_to_data_url,
+    is_role_leak_response,
 )
 
 
@@ -141,6 +142,11 @@ class MimoPageTextExtractor:
             return None, PageTextFailure(
                 adapter_id=ADAPTER_ID, kind="empty_text", attempts=1,
                 detail="provider returned blank page text",
+            )
+        if is_role_leak_response(text):
+            return None, PageTextFailure(
+                adapter_id=ADAPTER_ID, kind="invalid_response", attempts=1,
+                detail="provider echoed the OCR persona / asked for the image instead of transcribing the page",
             )
         extract = commit_extract(
             job=job, text=text, store=self.store, model=self.model,

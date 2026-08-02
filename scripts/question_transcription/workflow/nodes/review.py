@@ -71,9 +71,24 @@ def make_final_review_check_node(deps):
                     "pending": item_ids or [],
                 }
             )
-            # After resume, re-check by looping back (graph edge) — resume never
-            # auto-approves; the reader re-reads the actual review.yaml files.
-            return {}
+            # Resume reached: a Command(resume=...) woke the interrupt.  The wake value
+            # is NOT an approval (design §16.8), so re-read the on-disk reviews and route
+            # by what they actually say.  Still-pending -> self-loop back into this node
+            # (which re-interrupts on the next execution); approved -> approved_audit.
+            with trace_event("recheck_after_final_review_resume"):
+                status2, failure2, detail2, item_ids2 = reader.read_status(staging)
+            if failure2 is not None:
+                return {"terminal_errors": [f"final_review: {failure2}: {detail2}"]}
+            if status2 == "rejected":
+                return {
+                    "terminal_errors": [
+                        f"final_review: rejected items {item_ids2 or []}"
+                    ]
+                }
+            if status2 == "approved":
+                return {"review_state": "all_questions_approved"}
+            # still pending: re-interrupt by looping back (graph self-loop edge).
+            return {"review_state": "waiting_for_final_review"}
         # status == "approved" -> proceed to approved audit (graph edge).
         return {"review_state": "all_questions_approved"}
 

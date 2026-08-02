@@ -37,6 +37,34 @@ PAGE_TEXT_PROMPT = (
 
 _SHA_PREFIX_RE = re.compile(r"^sha256:")
 
+# Markers of a "role leak": the model echoed the OCR persona / asked for the image
+# instead of transcribing it (observed with MiMo vision on some pages). These short
+# strings are the persona the prompt assigns ("你是数学试卷逐页 OCR 抄录器"), reflected
+# back as "我是…", plus the canonical "please provide the image" refusal. A real page
+# transcript never contains them, so a hit means the provider produced no usable text.
+_ROLE_LEAK_MARKERS = (
+    "我是数学试卷逐页 OCR 抄录器",
+    "我是数学试卷逐页OCR抄录器",
+    "请提供图片",
+    "请提供需要处理的图片",
+    "请提供试卷图片",
+)
+
+
+def is_role_leak_response(text: str | None) -> bool:
+    """True when ``text`` is a persona echo / image request, not a page transcript.
+
+    Vision OCR models occasionally reply with the assistant persona assigned by the
+    prompt ("我是数学试卷逐页 OCR 抄录器…请提供图片") instead of reading the page. Such a
+    reply is non-empty (so it bypasses the blank-text guard) but carries zero page
+    content; treating it as ``invalid_response`` lets the workflow fail the page loudly
+    rather than silently dropping its coverage.
+    """
+
+    if not text:
+        return False
+    return any(marker in text for marker in _ROLE_LEAK_MARKERS)
+
 
 def image_to_data_url(path: Path) -> tuple[str, str]:
     """Return ``(data_url, media_type)`` for a page image (PNG default)."""

@@ -161,7 +161,7 @@ def build_graph(deps: WorkflowDependencies, checkpointer=None):
     graph.add_conditional_edges(
         "final_review_check",
         route_after_final_review,
-        ["approved_audit", END],
+        ["final_review_check", "approved_audit", END],
     )
     graph.add_edge("approved_audit", END)
 
