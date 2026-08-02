@@ -140,23 +140,22 @@ function preview(rootId, url, emptyText, alt) {
   root.append(image);
 }
 
-// 在「题目」 section 标题旁渲染原题来源 / 官方解答胶囊：点击打开图廊，逐张翻看所有来源图。
-// 合并两种来源图：裁切截图（*_previews，{title,url}）和整页 word_evidence（*_pages，
+// 在「题目」 section 标题旁渲染单一「原卷来源页」胶囊：点击打开图廊，按页码顺序翻看所有来源图。
+// word_evidence 的题干/解答分组不是业务需求（review ui 只做整卷溯源定位），故前端只渲染一个
+// 合并视图：裁切截图（*_previews，{title,url}）+ 合并去重的整页来源（source_pages，
 // {page,url}）。ingestion 对不同卷可能产出其中一种或两种都有，这里都收纳，谁有显示谁。
-// 无任何数据（formal 卷或缺证据）则不渲染对应胶囊。
+// 无任何数据（formal 卷或缺证据）则不渲染胶囊。
 function renderSourceCapsules(item) {
   const root = byId("source-capsules");
   root.replaceChildren();
   const groups = [
     {
-      label: "原题来源",
-      crops: item.source_question_previews,
-      pages: item.source_question_pages,
-    },
-    {
-      label: "官方解答",
-      crops: item.official_solution_previews,
-      pages: item.official_solution_pages,
+      label: "原卷来源页",
+      crops: [
+        ...((item.source_question_previews || [])),
+        ...((item.official_solution_previews || [])),
+      ],
+      pages: item.source_pages,
     },
   ];
   groups.forEach(({ label, crops, pages }) => {
