@@ -364,6 +364,19 @@ def resolve_draft_payload(
 def validate_staging_coverage(
     staging_dir: Path, ordered_item_ids: list[str], *, repo_root: Path
 ) -> list[str]:
+    """Validate that staging word evidence is reasonable, not contiguous.
+
+    ``word_evidence`` records where a question/solution lives in the source pages
+    so the review UI can locate it for human checking. It is *not* a precise
+    stem/solution slice, so we no longer force each item to cover a contiguous
+    range. Three lightweight checks remain:
+
+    1. each role is non-empty and lists unique ascending page numbers
+       (enforced by ``evidence_page_numbers``);
+    2. every evidence page number falls within ``[1, last_page]``;
+    3. every page ``1..last_page`` is covered by at least one item's question or
+       official_solution evidence (whole-paper coverage, no dropped pages).
+    """
     items = source_items(staging_dir, ordered_item_ids)
     if not items:
         return []
@@ -376,51 +389,33 @@ def validate_staging_coverage(
         if all(not (item.get("word_evidence") or {}) for item in items):
             return []
         return [str(exc)]
-    question_starts = [pages["question"][0] for pages in pages_by_item]
-    solution_starts = [pages["official_solution"][0] for pages in pages_by_item]
+
+    first_question, _ = _evidence_lists(items[0], draft=False)
     try:
-        layout = infer_layout(question_starts, solution_starts)
-        first_question, _ = _evidence_lists(items[0], draft=False)
         last_page = _last_page_from_evidence(first_question, repo_root=repo_root)
-        expected = expected_page_ranges(
-            question_starts,
-            solution_starts,
-            last_page=last_page,
-            layout=layout,
-        )
-        shared_boundaries = allowed_shared_boundaries(
-            question_starts,
-            solution_starts,
-            layout=layout,
-        )
     except ValueError as exc:
         return [f"Word evidence coverage: {exc}"]
 
     errors: list[str] = []
-    for item_id, actual, wanted, boundaries in zip(
-        ordered_item_ids,
-        pages_by_item,
-        expected,
-        shared_boundaries,
-        strict=True,
-    ):
+    covered: set[int] = set()
+    for item_id, pages in zip(ordered_item_ids, pages_by_item, strict=True):
         for role in ROLES:
-            missing = sorted(set(wanted[role]).difference(actual[role]))
-            extra = sorted(
-                set(actual[role])
-                .difference(wanted[role])
-                .difference(boundaries[role])
+            out_of_range = sorted(
+                page for page in pages[role] if page < 1 or page > last_page
             )
-            if missing or extra:
-                details = []
-                if missing:
-                    details.append(f"missing pages {missing}")
-                if extra:
-                    details.append(f"unexpected pages {extra}")
+            if out_of_range:
                 errors.append(
-                    f"{item_id}: word_evidence.{role} does not cover the complete "
-                    f"{layout} range ({'; '.join(details)})"
+                    f"{item_id}: word_evidence.{role} pages {out_of_range} "
+                    f"outside [1, {last_page}]"
                 )
+            covered.update(pages[role])
+
+    uncovered = sorted(set(range(1, last_page + 1)) - covered)
+    if uncovered:
+        errors.append(
+            f"Word evidence coverage: pages {uncovered} not covered by any item "
+            f"(expected full coverage of pages 1..{last_page})"
+        )
     return errors
 
 

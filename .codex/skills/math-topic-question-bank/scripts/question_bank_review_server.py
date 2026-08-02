@@ -1101,6 +1101,10 @@ class QuestionBankCatalog:
                 "prompt_previews": [],
                 "official_solution_previews": [],
                 "official_solution_pages": [],
+                # word_evidence.question + official_solution 合并去重后的整卷来源页，
+                # 按 page_number 升序。题干/解答 evidence 分组不是业务需求（review ui 只做
+                # 整卷溯源定位），故前端只渲染这一个合并视图；旧 role 字段保留供路由/兼容。
+                "source_pages": [],
                 "prompt_preview_url": None,
                 "solution_preview_url": None,
                 "solution_previews": [],
@@ -1239,6 +1243,20 @@ class QuestionBankCatalog:
                     item_id=item_id,
                     role="official_solution",
                 )
+                # 合并题干/解答两路来源页，按 page_number 去重（同页两角色都标 → 取先出现
+                # 的一条，URL 仍指向其原 role 的 source-pages 路由），再按页码升序输出。
+                merged: dict[int, dict[str, Any]] = {}
+                for entries in (
+                    rendered["source_question_pages"],
+                    rendered["official_solution_pages"],
+                ):
+                    for entry in entries:
+                        page = entry.get("page")
+                        if isinstance(page, int) and page not in merged:
+                            merged[page] = entry
+                rendered["source_pages"] = [
+                    merged[page] for page in sorted(merged)
+                ]
                 if not rendered["prompt_previews"]:
                     prompt = _diagram_preview(
                         student_block.get("diagram_col"), student_path, record.directory
