@@ -76,7 +76,12 @@ class EvidenceCompleter(Protocol):
     """Complete/verify per-question stem and official-solution evidence pages."""
 
     def complete(
-        self, draft_ref: ArtifactRef, source_kind: SourceKind
+        self,
+        draft_ref: ArtifactRef,
+        source_kind: SourceKind,
+        *,
+        layout: str | None = None,
+        layout_override_seeds: bool = False,
     ) -> "tuple[ArtifactRef | None, StageFailure | None, str | None]": ...
 
 

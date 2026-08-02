@@ -15,8 +15,10 @@ from scripts.question_transcription.recover_failed_runs import (
     RecoveryResult,
     RunRecord,
     _snapshot_failure,
+    recover_one,
     verify_one,
 )
+from scripts.question_transcription.workflow.contracts import ArtifactRef
 from scripts.question_transcription.workflow.infrastructure.run_layout import RunLayout
 
 
@@ -138,3 +140,78 @@ def test_snapshot_failure_writes_hashes_for_copied_backups(tmp_path) -> None:
     assert hashes["paper_id"] == "PAPER-X"
     assert set(hashes["hashes"]) == {"paper.draft.before.yaml", "state.before.json"}
     assert all(v.startswith("sha256:") for v in hashes["hashes"].values())
+
+
+def test_recover_one_threads_layout_override_into_evidence_completer(
+    tmp_path, monkeypatch
+) -> None:
+    """The --layout/--layout-override-seeds flags reach the evidence completer.
+
+    A B-class replay must forward the human-confirmed layout (and the seed-repair
+    opt-in) to ``DeterministicEvidenceCompleter.complete``. Without this wiring
+    the recover command could not unblock the 'cannot infer Word source layout'
+    runs at all.
+    """
+    record = _record("B")
+    runs_root, layout = _layout_for(tmp_path, record)
+    # The B/C replay path needs a source paper + state with a source_kind.
+    layout.source_paper_path.write_text("paper: {}", encoding="utf-8")
+    (layout.root / "state.json").write_text('{"source_kind": "docx"}', encoding="utf-8")
+
+    seen: dict = {}
+
+    def fake_project(self, source_ref):  # noqa: ANN001
+        return (
+            ArtifactRef(
+                path="structured/paper.draft.yaml",
+                sha256="sha256:" + "0" * 64,
+                schema="x",
+            ),
+            None,
+            None,
+        )
+
+    def fake_complete(  # noqa: ANN001
+        self, draft_ref, source_kind, layout=None, layout_override_seeds=False
+    ):
+        seen["source_kind"] = source_kind
+        seen["layout"] = layout
+        seen["layout_override_seeds"] = layout_override_seeds
+        return draft_ref, None, None
+
+    def fake_expand(self, draft_ref):  # noqa: ANN001
+        return str(layout.structured_dir), None, None
+
+    def fake_materialize(self, staging_directory):  # noqa: ANN001
+        return None, None, None
+
+    monkeypatch.setattr(
+        recover_failed_runs.DeterministicDraftProjector, "project", fake_project
+    )
+    monkeypatch.setattr(
+        recover_failed_runs.DeterministicEvidenceCompleter, "complete", fake_complete
+    )
+    monkeypatch.setattr(
+        recover_failed_runs.DeterministicStagingExpander, "expand", fake_expand
+    )
+    monkeypatch.setattr(
+        recover_failed_runs.DeterministicAssetMaterializer,
+        "materialize",
+        fake_materialize,
+    )
+    _patch_audit(monkeypatch, failure=None, detail=None)
+
+    result = recover_one(
+        record,
+        runs_root=runs_root,
+        aggregate_root=tmp_path / "catalog",
+        word_evidence_layout="separated",
+        word_evidence_override_seeds=True,
+    )
+
+    assert result.status == "recovered"
+    assert seen == {
+        "source_kind": "docx",
+        "layout": "separated",
+        "layout_override_seeds": True,
+    }

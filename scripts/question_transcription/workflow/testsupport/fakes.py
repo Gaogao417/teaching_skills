@@ -263,7 +263,7 @@ class FakeEvidenceCompleter:
     def __init__(self, store) -> None:
         self.store = store
 
-    def complete(self, draft_ref, source_kind):
+    def complete(self, draft_ref, source_kind, layout=None, layout_override_seeds=False):
         return draft_ref, None, None
 
 

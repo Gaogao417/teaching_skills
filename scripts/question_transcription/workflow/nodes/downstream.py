@@ -57,9 +57,17 @@ def make_complete_evidence_node(deps):
         draft_ref = _ref(state.get("draft"))
         if draft_ref is None:
             return {"terminal_errors": ["complete_evidence: draft missing"]}
+        # Optional human-confirmed Word layout, used by the recover command's
+        # replay path. Absent in the normal graph run, so the resolver falls back
+        # to its "auto" inference and the behavior is unchanged.
+        layout = state.get("word_evidence_layout")
+        override_seeds = bool(state.get("word_evidence_override_seeds"))
         with trace_event("complete_source_evidence"):
             completed_ref, failure, detail = completer.complete(
-                draft_ref, state["source_kind"]
+                draft_ref,
+                state["source_kind"],
+                layout=layout,
+                layout_override_seeds=override_seeds,
             )
         if failure is not None:
             return {"terminal_errors": [f"complete_evidence: {failure}: {detail}"]}

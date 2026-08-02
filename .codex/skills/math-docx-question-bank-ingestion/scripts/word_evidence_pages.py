@@ -141,6 +141,107 @@ def infer_layout(question_starts: list[int], solution_starts: list[int]) -> Layo
     )
 
 
+def coerce_question_seeds(
+    question_starts: list[int],
+    solution_starts: list[int],
+    *,
+    layout: Layout,
+) -> tuple[list[int], list[dict[str, int]]]:
+    """Clamp non-monotonic question seeds to fit a manually confirmed ``layout``.
+
+    Transcription drafts occasionally record the *answer* page of a trailing
+    question as its ``question_word_evidence`` first page (e.g. Q22->p28 when the
+    real question sits on page 6). Such a seed violates the ascending/in-layout
+    invariants ``infer_layout`` enforces, so a bare ``--layout separated`` would
+    silently expand it into a nonsensical multi-page range that still passes the
+    structural audit (every page stays in range and covered).
+
+    This helper repairs those seeds conservatively -- it only ever *clamps down*,
+    never invents new pages -- and returns a per-item correction list for the
+    completion report so a reviewer can see exactly what was changed:
+
+    * ``separated``: a question seed at or past the first solution page is an
+      outlier recorded in the answer block. Clamp it to ``first_solution_page -
+      1`` and keep the result monotonic non-decreasing. If the source is actually
+      interleaved (``first_solution_page == 1``) this layout is impossible and the
+      run must be replayed with ``--layout interleaved`` instead.
+    * ``interleaved``: a question seed past its own solution page (``q[i] >
+      s[i]``) is the same kind of mis-recording. Clamp it to ``s[i]`` and keep it
+      monotonic non-decreasing.
+    """
+    count = len(question_starts)
+    if count != len(solution_starts) or count == 0:
+        raise ValueError("question and solution page seeds must have equal non-zero length")
+
+    if layout == "separated":
+        first_solution = min(solution_starts)
+        if first_solution <= 1:
+            raise ValueError(
+                "separated layout impossible: solution evidence starts at page "
+                f"{first_solution}; this source is interleaved, "
+                "replay with --layout interleaved"
+            )
+        question_ceiling = first_solution - 1
+    else:  # interleaved
+        question_ceiling = None
+
+    coerced: list[int] = []
+    corrections: list[dict[str, int]] = []
+    previous = 1
+    for index in range(count):
+        original = question_starts[index]
+        clamped = original
+        if layout == "separated" and clamped >= first_solution:
+            clamped = min(clamped, question_ceiling)
+        elif layout == "interleaved" and clamped > solution_starts[index]:
+            clamped = solution_starts[index]
+        if layout == "separated":
+            # Keep the question block monotonic non-decreasing. A clamped seed
+            # below the running maximum would otherwise invert the block order.
+            if clamped < previous:
+                clamped = previous
+        # Interleaved clamps each item independently to its own solution page;
+        # a running maximum would propagate one outlier across every later item
+        # (e.g. a single answer-block seed at p14 would force every subsequent
+        # legitimate question seed up to p14, destroying valid evidence).
+        coerced.append(clamped)
+        if clamped != original:
+            corrections.append(
+                {"index": index, "original": original, "coerced": clamped}
+            )
+        previous = clamped
+    return coerced, corrections
+
+
+def _seeds_violate_layout(
+    question_starts: list[int], solution_starts: list[int], *, layout: Layout
+) -> bool:
+    """Whether the recorded seeds break the confirmed ``layout``'s invariant.
+
+    This mirrors the repair policy in :func:`coerce_question_seeds` so the guard
+    fires for exactly the cases the repair handles:
+
+    * ``separated``: every question page must precede the first solution page.
+      A question seed at or past ``min(solution_starts)`` is an answer-block
+      mis-recording (e.g. the trailing question whose only evidence page is its
+      solution). Non-monotonic question seeds also violate this, because they
+      cannot all stay below the solution block.
+    * ``interleaved``: each question page must not run past its own solution
+      page (``q[i] <= s[i]``). Monotonicity is not required here because the
+      repair clamps each item independently to its own solution page.
+    """
+    if not question_starts:
+        return False
+    if layout == "separated":
+        first_solution = min(solution_starts)
+        return any(seed >= first_solution for seed in question_starts)
+    # interleaved
+    return any(
+        question_starts[index] > solution_starts[index]
+        for index in range(len(question_starts))
+    )
+
+
 def _until_before(start: int, next_start: int) -> list[int]:
     """Cover through the page before the next item, sharing a same-page boundary."""
     end = start if next_start <= start else next_start - 1
@@ -285,6 +386,7 @@ def resolve_draft_payload(
     *,
     repo_root: Path,
     layout: Layout | Literal["auto"] = "auto",
+    layout_override_seeds: bool = False,
 ) -> tuple[dict[str, Any], dict[str, Any]]:
     updated = deepcopy(payload)
     items = draft_items(updated)
@@ -298,11 +400,32 @@ def resolve_draft_payload(
     ]
     question_starts = [pages["question"][0] for pages in pages_by_item]
     solution_starts = [pages["official_solution"][0] for pages in pages_by_item]
-    resolved_layout: Layout = (
-        infer_layout(question_starts, solution_starts)
-        if layout == "auto"
-        else layout
-    )
+    if layout == "auto":
+        resolved_layout: Layout = infer_layout(question_starts, solution_starts)
+        seed_corrections: list[dict[str, int]] = []
+    else:
+        # The layout was manually confirmed, so skip the inference checks. But a
+        # seed that violates the confirmed layout's invariant (a question page
+        # recorded in the answer block, or a non-monotonic sequence) must still
+        # be repaired before expansion, otherwise ``expected_page_ranges`` would
+        # silently produce multi-page ranges that pass the structural audit while
+        # pointing the review UI at wrong pages. Require an explicit opt-in so a
+        # bare ``--layout`` cannot mask bad data.
+        if _seeds_violate_layout(question_starts, solution_starts, layout=layout):
+            if not layout_override_seeds:
+                raise ValueError(
+                    "page seeds violate the confirmed layout; confirm the repair "
+                    "policy and pass --layout-override-seeds, or fix the draft "
+                    "seeds manually"
+                )
+            question_starts, seed_corrections = coerce_question_seeds(
+                question_starts,
+                solution_starts,
+                layout=layout,
+            )
+        else:
+            seed_corrections = []
+        resolved_layout = layout
     first_question, _ = _evidence_lists(items[0], draft=True)
     last_page = _last_page_from_evidence(first_question, repo_root=repo_root)
     expected = expected_page_ranges(
@@ -358,6 +481,7 @@ def resolve_draft_payload(
         "layout": resolved_layout,
         "last_page": last_page,
         "changes": changes,
+        "seed_corrections": seed_corrections,
     }
 
 
@@ -433,6 +557,15 @@ def main() -> int:
         action="store_true",
         help="report incomplete ranges without changing the draft",
     )
+    parser.add_argument(
+        "--layout-override-seeds",
+        action="store_true",
+        help=(
+            "with an explicit --layout, repair non-monotonic question page seeds "
+            "by clamping answer-block outliers back into the question region; "
+            "ignored for --layout auto"
+        ),
+    )
     args = parser.parse_args()
 
     draft_path = args.draft.resolve()
@@ -447,12 +580,20 @@ def main() -> int:
         payload,
         repo_root=repo_root,
         layout=args.layout,
+        layout_override_seeds=args.layout_override_seeds,
     )
     changes = report["changes"]
+    seed_corrections = report["seed_corrections"]
     print(
         f"WORD EVIDENCE: layout={report['layout']} "
-        f"last_page={report['last_page']} changed_items={len(changes)}"
+        f"last_page={report['last_page']} changed_items={len(changes)} "
+        f"seed_corrections={len(seed_corrections)}"
     )
+    for correction in seed_corrections:
+        print(
+            f"- seed[{correction['index']}]: "
+            f"{correction['original']} -> {correction['coerced']}"
+        )
     for change in changes:
         print(
             f"- {change['item_id']}: "

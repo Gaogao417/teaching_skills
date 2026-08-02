@@ -149,12 +149,16 @@ class DeterministicEvidenceCompleter:
     draft is expanded.  Keeping this work in the ``complete_evidence`` adapter makes
     the graph node observable and independently regression-testable; PDF/page-image
     sources remain a passthrough because their evidence is crop based.
+
+    ``layout`` / ``layout_override_seeds`` carry an optional human-confirmed Word
+    layout through the recover command's replay path; both default to leaving the
+    resolver on its normal ``auto`` inference, so the live graph is unaffected.
     """
 
     def __init__(self, store) -> None:
         self.store = store
 
-    def complete(self, draft_ref, source_kind):
+    def complete(self, draft_ref, source_kind, layout=None, layout_override_seeds=False):
         if source_kind not in ("doc", "docx"):
             return draft_ref, None, None
         try:
@@ -163,9 +167,16 @@ class DeterministicEvidenceCompleter:
 
             ref = _as_ref(draft_ref)
             payload = self.store.read_yaml(ref)
+            # ``layout`` is None for the normal graph path, which selects the
+            # resolver's "auto" inference. The recover command passes an explicit
+            # "interleaved"/"separated" after a human confirms the source layout,
+            # paired with ``layout_override_seeds`` to repair answer-block seeds.
+            resolve_layout = layout or "auto"
             updated, report = resolve_draft_payload(
                 payload,
                 repo_root=repo_root(),
+                layout=resolve_layout,
+                layout_override_seeds=layout_override_seeds,
             )
             completed_ref = self.store.commit_yaml(
                 ref.path,

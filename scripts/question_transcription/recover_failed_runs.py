@@ -244,6 +244,8 @@ def recover_one(
     *,
     runs_root: Path,
     aggregate_root: Path,
+    word_evidence_layout: str | None = None,
+    word_evidence_override_seeds: bool = False,
 ) -> RecoveryResult:
     result = RecoveryResult(record=record, status="running")
     if record.error_class not in RECOVERABLE_CLASSES:
@@ -283,6 +285,8 @@ def recover_one(
             json.loads((layout.root / "state.json").read_text(encoding="utf-8"))[
                 "source_kind"
             ],
+            layout=word_evidence_layout,
+            layout_override_seeds=word_evidence_override_seeds,
         )
         if not _record_stage(result, "complete_evidence", failure, detail):
             return result
@@ -422,6 +426,26 @@ def main(argv: list[str] | None = None) -> int:
     )
     parser.add_argument("--paper-id", action="append", default=[])
     parser.add_argument("--limit", type=int)
+    parser.add_argument(
+        "--layout",
+        choices=("interleaved", "separated"),
+        default=None,
+        help=(
+            "human-confirmed Word layout, applied only to the B/C replay's "
+            "complete_evidence step; use for runs whose page seeds cannot be "
+            "auto-inferred (class B 'cannot infer Word source layout'). Ignored "
+            "for A-class runs and for --verify"
+        ),
+    )
+    parser.add_argument(
+        "--layout-override-seeds",
+        action="store_true",
+        help=(
+            "with --layout, repair question page seeds recorded in the answer "
+            "block by clamping them back into the question region (requires "
+            "--apply; has no effect on --verify)"
+        ),
+    )
     action_group = parser.add_mutually_exclusive_group()
     action_group.add_argument(
         "--apply",
@@ -463,6 +487,11 @@ def main(argv: list[str] | None = None) -> int:
 
     aggregate_root = runs_root / "recovery-review-catalog"
 
+    if args.layout_override_seeds and args.layout is None:
+        parser.error("--layout-override-seeds requires --layout interleaved|separated")
+    if args.layout is not None and args.verify:
+        parser.error("--layout applies to the replay path only; drop it for --verify")
+
     if args.verify:
         verified = blocked = skipped = 0
         for record in records:
@@ -501,6 +530,8 @@ def main(argv: list[str] | None = None) -> int:
                 record,
                 runs_root=runs_root,
                 aggregate_root=aggregate_root,
+                word_evidence_layout=args.layout,
+                word_evidence_override_seeds=args.layout_override_seeds,
             )
         except Exception as exc:
             result = RecoveryResult(
