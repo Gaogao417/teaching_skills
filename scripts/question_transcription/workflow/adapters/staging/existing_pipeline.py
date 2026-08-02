@@ -16,6 +16,7 @@ so we get exceptions instead of ``SystemExit``). Each returns the
 
 from __future__ import annotations
 
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -240,7 +241,13 @@ class DeterministicStagingAuditor:
 
 
 class DeterministicCatalogNotifier:
-    """Bump ``.catalog-version`` so the Review UI rebuilds."""
+    """Publish a run-local Review UI catalog and bump its source version.
+
+    Workflow staging lives under the gitignored run directory, while the Review UI
+    discovers ``<bank-root>/*/staging/*/paper.yaml``.  A run-local catalog symlink
+    exposes the already-materialized staging without copying assets or publishing a
+    not-yet-approved paper into the formal artifact bank.
+    """
 
     def __init__(self, store) -> None:
         self.store = store
@@ -250,7 +257,26 @@ class DeterministicCatalogNotifier:
             _skill_scripts("math-topic-question-bank")
             from notify_catalog_version import bump_version_file  # type: ignore
 
-            bump_version_file(Path(staging_directory))
+            staging = Path(staging_directory).resolve()
+            bump_version_file(staging)
+            catalog_root = self.store.layout.root / "review-catalog"
+            alias = (
+                catalog_root
+                / "langgraph"
+                / "staging"
+                / self.store.layout.paper_id
+            )
+            alias.parent.mkdir(parents=True, exist_ok=True)
+            if alias.is_symlink():
+                if alias.resolve() != staging:
+                    raise ValueError(
+                        f"review catalog alias points at {alias.resolve()}, expected {staging}"
+                    )
+            elif alias.exists():
+                raise ValueError(f"review catalog alias already exists and is not a symlink: {alias}")
+            else:
+                relative_target = os.path.relpath(staging, start=alias.parent)
+                alias.symlink_to(relative_target, target_is_directory=True)
             return None, None, None
         except Exception as exc:
             return None, "notify_failed", f"{type(exc).__name__}: {exc}"

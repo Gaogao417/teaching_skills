@@ -11,9 +11,11 @@ invokes the graph. To verify the LangGraph workflow on a real paper we must comp
 the graph with a checkpointer, ``stream`` it, and drive the two human-in-the-loop
 interrupts (source review + final review) to completion.
 
-Auto-approval policy (for this verification run only):
+Auto-approval policy (only when explicitly requested for verification):
 - source review: write ``review/review-resolutions.yaml`` acknowledging all issues;
-- final review: write ``status: approved`` into every ``items/*/review.yaml``.
+- final review: ``--final-review-mode auto`` writes a complete, hash-bound
+  ``items/*/review.yaml`` for every question.  The default is ``human``: stop at
+  the final-review interrupt after refreshing the Review UI catalog.
 
 Usage::
 
@@ -242,7 +244,12 @@ def _approve_source_review(layout) -> bool:
 
 
 def _approve_final_review(staging_directory: str) -> int:
-    """Write status: approved into every items/*/review.yaml; return count."""
+    """Write complete, hash-bound approved reviews; return the item count.
+
+    ``review.yaml`` is an :class:`ExamItemReview`, not a status sidecar.  Its
+    ``source_key`` and ``content_hash`` must be copied from the materialized
+    ``source.yaml`` or the approved audit correctly rejects it as malformed/stale.
+    """
 
     staging = Path(staging_directory)
     items_dir = staging / "items"
@@ -253,15 +260,38 @@ def _approve_final_review(staging_directory: str) -> int:
     for item_dir in sorted(items_dir.iterdir()):
         if not item_dir.is_dir():
             continue
+        source_path = item_dir / "source.yaml"
+        if not source_path.is_file():
+            raise ValueError(f"{item_dir.name}: source.yaml missing before final review")
+        source = yaml.safe_load(source_path.read_text(encoding="utf-8")) or {}
+        source_key = source.get("source_key")
+        content_hash = source.get("content_hash")
+        source_item_id = source.get("item_id")
+        if source_item_id != item_dir.name:
+            raise ValueError(
+                f"{item_dir.name}: source.yaml item_id is {source_item_id!r}"
+            )
+        if not isinstance(source_key, str) or not source_key:
+            raise ValueError(f"{item_dir.name}: source.yaml source_key missing")
+        if not isinstance(content_hash, str) or not content_hash:
+            raise ValueError(f"{item_dir.name}: source.yaml content_hash missing")
         review = item_dir / "review.yaml"
-        doc: dict[str, Any] = {}
+        previous: dict[str, Any] = {}
         if review.exists():
-            doc = yaml.safe_load(review.read_text(encoding="utf-8")) or {}
-        doc.setdefault("schema", "math_exam_item_review/v1")
-        doc.setdefault("item_id", item_dir.name)
-        doc["status"] = "approved"
-        doc.setdefault("reviewer", "live-verification-driver")
-        doc["reviewed_at"] = now
+            previous = yaml.safe_load(review.read_text(encoding="utf-8")) or {}
+        notes = previous.get("notes")
+        if not isinstance(notes, list):
+            notes = []
+        doc = {
+            "schema": "math_exam_item_review/v1",
+            "item_id": source_item_id,
+            "source_key": source_key,
+            "content_hash": content_hash,
+            "status": "approved",
+            "reviewer": "live-verification-driver",
+            "reviewed_at": now,
+            "notes": notes,
+        }
         review.write_text(
             yaml.safe_dump(doc, allow_unicode=True, sort_keys=False, width=1000),
             encoding="utf-8",
@@ -380,6 +410,17 @@ def _truncate(s: str, n: int = 2000) -> str:
     return s if len(s) <= n else s[:n] + f"…<+{len(s) - n} chars>"
 
 
+def _review_ui_command(layout) -> str:
+    review_script = (
+        _repo_root()
+        / ".codex/skills/math-topic-question-bank/scripts/open_question_bank_review.py"
+    )
+    return (
+        f"./.venv/bin/python {review_script} "
+        f"--bank-root {layout.root / 'review-catalog'}"
+    )
+
+
 def run(
     *,
     paper_id: str,
@@ -387,11 +428,14 @@ def run(
     source_kind: str,
     agent_host: str = "claude-code",
     page_provider: str = "qwen",
+    final_review_mode: str = "human",
     max_resume_rounds: int = 6,
     langfuse_host: str | None = None,
     langfuse_public_key: str | None = None,
     langfuse_secret_key: str | None = None,
 ) -> str:
+    if final_review_mode not in {"human", "auto"}:
+        raise ValueError("final_review_mode must be 'human' or 'auto'")
     run_id = f"run-{uuid.uuid4().hex[:12]}"
     if langfuse_host and langfuse_public_key and langfuse_secret_key:
         setup_otel(
@@ -441,6 +485,7 @@ def run(
         # Handle interrupts: write the approval artifacts, then resume with None
         # (resume only WAKES; approval is already on disk per design §16.8).
         resumed_something = False
+        waiting_for_human_review = False
         if gs and getattr(gs, "tasks", None):
             for task in gs.tasks:
                 interrupts = getattr(task, "interrupts", ()) or ()
@@ -453,9 +498,22 @@ def run(
                     resumed_something = True
                 elif kind == "waiting_for_final_review":
                     staging = (gs.values or {}).get("staging_directory")
-                    if staging:
+                    if final_review_mode == "auto" and staging:
                         _approve_final_review(staging)
-                    resumed_something = True
+                        resumed_something = True
+                    else:
+                        _log("  final review is ready for Review UI; leaving graph interrupted")
+                        if staging:
+                            _log(f"  staging={staging}")
+                            _log(f"  open Review UI: {_review_ui_command(layout)}")
+                            _log(
+                                "  after review: ./.venv/bin/python -m "
+                                "scripts.question_transcription.workflow.run_live_paper "
+                                f"--paper-id {paper_id} --resume-run-id {run_id}"
+                            )
+                        waiting_for_human_review = True
+        if waiting_for_human_review:
+            break
         if not resumed_something and outcome == "running" and not next_interrupts:
             _log("  no interrupt to resume and graph idle; stopping.")
             break
@@ -475,6 +533,55 @@ def run(
     return run_id
 
 
+def resume(
+    *,
+    paper_id: str,
+    run_id: str,
+    agent_host: str = "claude-code",
+    page_provider: str = "qwen",
+) -> str:
+    """Resume one persisted final-review interrupt and run the approved audit.
+
+    The resume value carries no approval decision.  ``final_review_check`` re-reads
+    the on-disk Review UI artifacts; pending reviews interrupt again, while only a
+    complete set of fresh approved reviews can route to ``approved_audit``.
+    """
+
+    layout = build_run_layout(_build_root(), paper_id, run_id)
+    checkpoint_path = layout.root / f"{run_id}.sqlite"
+    if not checkpoint_path.is_file():
+        raise FileNotFoundError(f"checkpoint not found: {checkpoint_path}")
+    config = RuntimeAdapterConfig(
+        page_text_provider=page_provider,
+        whole_paper_adapter=agent_host.replace("-", "_"),
+    )
+    deps = bind(config, layout, mode="live")
+    checkpointer = make_sqlite_checkpointer(checkpoint_path)
+    lg_config = {
+        "configurable": {"thread_id": thread_id_for(run_id)},
+        "recursion_limit": 200,
+    }
+    app = build_graph(deps, checkpointer=checkpointer)
+    before = app.get_state(lg_config)
+    if before is None or not before.values:
+        raise ValueError(f"checkpoint has no state for run {run_id}")
+
+    _log(f"RESUME run_id={run_id} paper_id={paper_id}")
+    _stream_once(app, None, lg_config, "resume-final-review")
+    final = app.get_state(lg_config)
+    final_state = final.values if final is not None else {}
+    _persist_state(layout, final_state)
+    outcome = extract_outcome(final_state) if final_state else "failed"
+    _log(f"FINAL outcome={outcome}")
+    errors = final_state.get("terminal_errors") or []
+    for error in errors:
+        _log(f"  - {error}")
+    if outcome == "running":
+        _log(f"  Review UI: {_review_ui_command(layout)}")
+    _log(f"layout={layout.root}")
+    return run_id
+
+
 def _persist_state(layout, state: WorkflowState) -> None:
     layout.root.mkdir(parents=True, exist_ok=True)
     (layout.root / "state.json").write_text(
@@ -486,12 +593,25 @@ def _persist_state(layout, state: WorkflowState) -> None:
 def main(argv: list[str] | None = None) -> int:
     p = argparse.ArgumentParser(prog="run-live-paper")
     p.add_argument("--paper-id", required=True)
-    p.add_argument("--source", required=True)
+    p.add_argument("--source")
     p.add_argument(
-        "--source-kind", required=True, choices=["doc", "docx", "pdf", "pages"]
+        "--source-kind", choices=["doc", "docx", "pdf", "pages"]
+    )
+    p.add_argument(
+        "--resume-run-id",
+        help="resume an existing final-review checkpoint; --source is then omitted",
     )
     p.add_argument("--agent-host", default="claude-code", choices=["opencode", "claude-code"])
     p.add_argument("--page-provider", default="qwen", choices=["qwen", "mimo"])
+    p.add_argument(
+        "--final-review-mode",
+        default="human",
+        choices=["human", "auto"],
+        help=(
+            "human: stop after refreshing Review UI (default); "
+            "auto: write complete approved review.yaml files for E2E verification"
+        ),
+    )
     # Langfuse tracing (optional). When all three are set, OTLP traces are exported
     # to the local/self-hosted Langfuse and the Claude Code CLI subprocess inherits
     # the same OTLP env so its LLM calls appear in the same trace tree.
@@ -499,16 +619,29 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--langfuse-public-key", default=None)
     p.add_argument("--langfuse-secret-key", default=None)
     args = p.parse_args(argv)
-    run_id = run(
-        paper_id=args.paper_id,
-        source=str(Path(args.source).resolve()),
-        source_kind=args.source_kind,
-        agent_host=args.agent_host,
-        page_provider=args.page_provider,
-        langfuse_host=args.langfuse_host,
-        langfuse_public_key=args.langfuse_public_key,
-        langfuse_secret_key=args.langfuse_secret_key,
-    )
+    if args.resume_run_id:
+        if args.source or args.source_kind:
+            p.error("--resume-run-id cannot be combined with --source/--source-kind")
+        run_id = resume(
+            paper_id=args.paper_id,
+            run_id=args.resume_run_id,
+            agent_host=args.agent_host,
+            page_provider=args.page_provider,
+        )
+    else:
+        if not args.source or not args.source_kind:
+            p.error("a new run requires --source and --source-kind")
+        run_id = run(
+            paper_id=args.paper_id,
+            source=str(Path(args.source).resolve()),
+            source_kind=args.source_kind,
+            agent_host=args.agent_host,
+            page_provider=args.page_provider,
+            final_review_mode=args.final_review_mode,
+            langfuse_host=args.langfuse_host,
+            langfuse_public_key=args.langfuse_public_key,
+            langfuse_secret_key=args.langfuse_secret_key,
+        )
     print(run_id)
     return 0
 
