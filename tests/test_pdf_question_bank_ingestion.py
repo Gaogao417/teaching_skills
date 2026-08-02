@@ -22,6 +22,7 @@ from audit_staging import (  # noqa: E402
     box_area,
     box_intersection_area,
     choice_values,
+    normalize_choice_labels,
 )
 from expand_staging_draft import expand_draft  # noqa: E402
 from paper_map_contracts import validate_against_staging  # noqa: E402
@@ -125,6 +126,50 @@ def test_choice_values_reject_embedded_numeric_or_letter_labels() -> None:
     for dirty in ("0. 正文", "1、正文", "A. 正文", "（B）正文"):
         assert EMBEDDED_CHOICE_LABEL.match(dirty)
     assert not EMBEDDED_CHOICE_LABEL.match(r"$1<x<2$")
+    # Decimals / scientific notation are option BODIES, not labels: the half-width
+    # dot branch must not fire when a digit follows. （3.14 → pi, 0.3 → decimal,
+    # 3.0 \times 10^8 → scientific, 2.5x → coefficient.）
+    for body in ("3.14", "0.3", "2.5x", r"3.0 \times 10^8", "1.0"):
+        assert not EMBEDDED_CHOICE_LABEL.match(body), body
+    # A half-width dot after a digit IS a label only with a non-digit follower.
+    assert EMBEDDED_CHOICE_LABEL.match("3. 正文")
+    assert EMBEDDED_CHOICE_LABEL.match("3.正文")
+
+
+def test_choice_label_normalize_complete_sequence() -> None:
+    # Complete ordered A–D with non-empty bodies → normalizable, bodies returned.
+    ok, stripped = normalize_choice_labels(["A. 甲", "B. 乙", "C. 丙", "D. 丁"])
+    assert ok is True
+    assert stripped == ["甲", "乙", "丙", "丁"]
+    # Numeric sequence 0–3 with CJK separators normalizes too.
+    ok, stripped = normalize_choice_labels(["0、甲", "1、乙", "2、丙", "3、丁"])
+    assert ok is True
+    assert stripped == ["甲", "乙", "丙", "丁"]
+    # Parenthesized letters form a complete sequence.
+    ok, stripped = normalize_choice_labels(["（A）甲", "（B）乙", "（C）丙", "（D）丁"])
+    assert ok is True
+    assert stripped == ["甲", "乙", "丙", "丁"]
+
+
+def test_choice_label_empty_body_still_blocked() -> None:
+    # A label-only placeholder (no body) is NOT normalizable — it must stay a
+    # structural error rather than collapse into an empty option.
+    ok, stripped = normalize_choice_labels(["A.", "B. 乙", "C. 丙", "D. 丁"])
+    assert ok is True
+    assert stripped is not None
+    assert stripped[0] == ""  # caller checks: any empty body → keep as error
+
+
+def test_choice_label_partial_sequence_not_normalizable() -> None:
+    # Only some choices carry labels, or labels are out of order → not a complete
+    # sequence, so normalize_choice_labels returns False and the per-choice
+    # embedded-label check stays in force for the genuinely labelled ones.
+    ok, stripped = normalize_choice_labels(["A. 甲", "乙", "C. 丙", "D. 丁"])
+    assert ok is False
+    assert stripped is None
+    ok, stripped = normalize_choice_labels(["A. 甲", "A. 乙", "C. 丙", "D. 丁"])
+    assert ok is False
+    assert stripped is None
 
 
 def test_compact_draft_expands_canonical_staging_without_student_copy(
