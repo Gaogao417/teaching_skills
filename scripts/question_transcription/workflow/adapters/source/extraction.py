@@ -97,6 +97,15 @@ class DocxOrPdfSourceExtractor:
     def _materialize_extracted(self, source, manifest, output_dir, *, kind):
         from ...infrastructure.artifact_store import sha256_file
 
+        # ``extract_docx_source`` intentionally describes only the copied Word
+        # package and therefore does not know the workflow identity.  Freeze the
+        # authoritative request metadata at this adapter boundary so sibling
+        # branches (notably image attribution) cannot fall back to ``unknown`` or
+        # confuse the temporary ``source.docx`` copy with the original archive.
+        manifest = dict(manifest)
+        manifest["paper_id"] = source.paper_id
+        manifest["source_archive"] = source.source_archive
+
         # Page-image paths in the manifest are relative to ``output_dir`` (e.g.
         # ``pages/001.png`` under ``source/docx/`` for DOCX, or ``source/pages/xxx``
         # for PDF). The downstream page-text adapter resolves refs against the RUN

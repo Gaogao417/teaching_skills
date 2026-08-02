@@ -10,6 +10,8 @@ Bound by the composition root; the ``attribute_images`` node delegates to it.
 
 from __future__ import annotations
 
+from pathlib import Path
+
 from ...contracts import ArtifactRef
 
 
@@ -60,8 +62,37 @@ class DocxOrPdfImageAttribution:
         from scripts.question_transcription.adapt_docx_images import adapt  # type: ignore
 
         paper_id = manifest.get("paper_id", "unknown")
-        source_archive = manifest.get("source", {}).get("path") or manifest.get("source_archive", "")
-        return adapt(manifest, paper_id=paper_id, source_archive=source_archive)
+        source_archive = manifest.get("source_archive") or manifest.get("source", {}).get("path", "")
+        bundle = adapt(manifest, paper_id=paper_id, source_archive=source_archive)
+
+        # ``adapt_docx_images`` also serves archived, already-unpacked Word
+        # packages, where ``<archive>/word/media/...`` is correct.  In this
+        # workflow the extractor instead copies media directly to
+        # ``source/docx/media/...``.  Replace the archive-shaped compatibility
+        # paths with the real frozen files before the assembler validates them.
+        media_root = (self.store.layout.source_dir / "docx").resolve()
+        source_by_asset_id = {}
+        for entry in manifest.get("media") or []:
+            raw = str(entry.get("path") or "")
+            leaf = Path(raw).name
+            if not leaf:
+                continue
+            path = (media_root / raw).resolve()
+            try:
+                path.relative_to(media_root)
+            except ValueError as exc:
+                raise ValueError(f"word-source media path escapes extracted root: {raw}") from exc
+            if not path.is_file():
+                raise ValueError(f"word-source media file missing: {path}")
+            source_by_asset_id[f"word-{Path(leaf).stem}"] = str(path)
+
+        for asset in bundle.get("assets") or []:
+            asset_id = str(asset.get("asset_id") or "")
+            resolved = source_by_asset_id.get(asset_id)
+            if resolved is None:
+                raise ValueError(f"word-source asset has no extracted media file: {asset_id}")
+            asset["source"] = resolved
+        return bundle
 
     def _adapt_pdf(self, manifest):
         from scripts.question_transcription.adapt_pdf_images import adapt  # type: ignore

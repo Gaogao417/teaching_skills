@@ -510,43 +510,94 @@ def test_word_evidence_allows_and_preserves_shared_boundary_page(
     ] == [7, 8, 9]
 
 
-def test_staging_audit_rejects_incomplete_cross_page_word_evidence(
-    tmp_path: Path,
+def _write_word_evidence_item(
+    staging: Path,
+    item_id: str,
+    *,
+    paper: str,
+    question_pages: list[int],
+    solution_pages: list[int],
 ) -> None:
-    pages_dir = tmp_path / "documents/PAPER-CROSS/word/pages"
+    def evidence(pages: list[int]) -> list[dict[str, object]]:
+        return [
+            {
+                "page_image": f"documents/{paper}/word/pages/{page:03d}.png",
+                "page_number": page,
+            }
+            for page in pages
+        ]
+
+    write_yaml(
+        staging / f"items/{item_id}/source.yaml",
+        {
+            "item_id": item_id,
+            "word_evidence": {
+                "question": evidence(question_pages),
+                "official_solution": evidence(solution_pages),
+            },
+        },
+    )
+
+
+def test_staging_audit_accepts_non_contiguous_evidence(tmp_path: Path) -> None:
+    """填空/选择题同页共享、单题只标种子页都合法，不再强制逐题连续覆盖。
+
+    Q001 题干 p1、解答 p2；Q002 题干 p3/p4（跨页）、解答 p4。整卷 1..4 全覆盖，
+    每题非空且页码在范围内 → 无任何错误。旧实现会把这种如实标注判成逐题 missing。
+    """
+    pages_dir = tmp_path / "documents/PAPER-NONCONTIG/word/pages"
+    pages_dir.mkdir(parents=True)
+    for page in range(1, 5):
+        (pages_dir / f"{page:03d}.png").write_bytes(b"page")
+
+    staging = tmp_path / "staging/PAPER-NONCONTIG"
+    _write_word_evidence_item(
+        staging,
+        "Q001",
+        paper="PAPER-NONCONTIG",
+        question_pages=[1],
+        solution_pages=[2],
+    )
+    _write_word_evidence_item(
+        staging,
+        "Q002",
+        paper="PAPER-NONCONTIG",
+        question_pages=[3, 4],
+        solution_pages=[4],
+    )
+    errors = validate_staging_coverage(
+        staging,
+        ["Q001", "Q002"],
+        repo_root=tmp_path,
+    )
+    assert errors == []
+
+
+def test_staging_audit_flags_whole_paper_coverage_gap(tmp_path: Path) -> None:
+    """整卷若有页无人覆盖，只报一条整卷漏页，不再逐题报 missing/extra。
+
+    页 1..6 都有页图，但 evidence 只覆盖 1..4（p5、p6 无人标）→ 仅一条整卷漏页。
+    """
+    pages_dir = tmp_path / "documents/PAPER-GAP/word/pages"
     pages_dir.mkdir(parents=True)
     for page in range(1, 7):
         (pages_dir / f"{page:03d}.png").write_bytes(b"page")
 
-    staging = tmp_path / "staging/PAPER-CROSS"
-    for item_id, question, solution in (
-        ("Q001", 1, 2),
-        ("Q002", 3, 4),
-    ):
-        write_yaml(
-            staging / f"items/{item_id}/source.yaml",
-            {
-                "item_id": item_id,
-                "word_evidence": {
-                    "question": [
-                        {
-                            "page_image": (
-                                f"documents/PAPER-CROSS/word/pages/{question:03d}.png"
-                            ),
-                            "page_number": question,
-                        }
-                    ],
-                    "official_solution": [
-                        {
-                            "page_image": (
-                                f"documents/PAPER-CROSS/word/pages/{solution:03d}.png"
-                            ),
-                            "page_number": solution,
-                        }
-                    ],
-                },
-            },
-        )
+    staging = tmp_path / "staging/PAPER-GAP"
+    _write_word_evidence_item(
+        staging,
+        "Q001",
+        paper="PAPER-GAP",
+        question_pages=[1],
+        solution_pages=[2],
+    )
+    _write_word_evidence_item(
+        staging,
+        "Q002",
+        paper="PAPER-GAP",
+        question_pages=[3],
+        solution_pages=[4],
+    )
     errors = validate_staging_coverage(
         staging,
         ["Q001", "Q002"],
@@ -554,15 +605,39 @@ def test_staging_audit_rejects_incomplete_cross_page_word_evidence(
     )
     assert errors == [
         (
-            "Q001: word_evidence.question does not cover the complete "
-            "interleaved range (missing pages [2])"
-        ),
-        (
-            "Q002: word_evidence.question does not cover the complete "
-            "interleaved range (missing pages [4])"
-        ),
-        (
-            "Q002: word_evidence.official_solution does not cover the complete "
-            "interleaved range (missing pages [5, 6])"
-        ),
+            "Word evidence coverage: pages [5, 6] not covered by any item "
+            "(expected full coverage of pages 1..6)"
+        )
+    ]
+
+
+def test_staging_audit_rejects_out_of_range_evidence_pages(tmp_path: Path) -> None:
+    """页码越界（超出 last_page）逐题报错，整卷覆盖仍单独检查。"""
+    pages_dir = tmp_path / "documents/PAPER-OOR/word/pages"
+    pages_dir.mkdir(parents=True)
+    for page in range(1, 5):
+        (pages_dir / f"{page:03d}.png").write_bytes(b"page")
+
+    staging = tmp_path / "staging/PAPER-OOR"
+    _write_word_evidence_item(
+        staging,
+        "Q001",
+        paper="PAPER-OOR",
+        question_pages=[1, 9],  # 9 > last_page 4
+        solution_pages=[2],
+    )
+    _write_word_evidence_item(
+        staging,
+        "Q002",
+        paper="PAPER-OOR",
+        question_pages=[3],
+        solution_pages=[4],
+    )
+    errors = validate_staging_coverage(
+        staging,
+        ["Q001", "Q002"],
+        repo_root=tmp_path,
+    )
+    assert errors == [
+        "Q001: word_evidence.question pages [9] outside [1, 4]",
     ]
