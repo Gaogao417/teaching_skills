@@ -110,9 +110,13 @@ def test_build_accepts_and_reads_extracted_source_manifest(tmp_path):
     assert source_paper["schema"] == "math_exam_source_paper/v2"
 
 
-def test_needs_review_attribution_produces_real_issue_not_empty_list(tmp_path):
-    """The baseline always emitted issues: [] (empty). A needs_review attribution
-    must now produce a concrete, non-empty review issue."""
+def test_needs_review_attribution_excluded_not_blocking(tmp_path):
+    """A needs_review attribution does not fit the ReviewIssuesBundle contract
+    (only field_conflict/asset_classification are allowed, each with mandatory
+    candidate/hash fields). The builder must NOT write a malformed bundle; the
+    needs_review attribution is simply excluded from the v2 paper (only accepted
+    attributions carry content-image bindings), and the projector runs with
+    issues=None. The gate then catches any real binding problem."""
     store = _store(tmp_path)
     trans_ref = store.commit_yaml(
         "structured/transcription.yaml", _transcription_dict(),
@@ -138,10 +142,11 @@ def test_needs_review_attribution_produces_real_issue_not_empty_list(tmp_path):
     result, failure, detail = builder.build(trans_ref, images_ref, None, None)
     assert failure is None
     assert result is not None
-    assert result.issues is not None, "needs_review attribution must emit issues"
-    issues = store.read_yaml(result.issues)
-    assert issues["issues"], "issues list must not be empty (baseline bug)"
-    assert any(i["kind"] == "attribution_needs_review" for i in issues["issues"])
+    # No malformed issues bundle written; projector will run with issues=None.
+    assert result.issues is None
+    sp = store.read_yaml(result.source_paper)
+    # The needs_review attribution is excluded from the v2 paper.
+    assert sp["attributions"] == []
 
 
 def test_unreferenced_needs_review_asset_does_not_block():

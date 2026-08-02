@@ -73,18 +73,19 @@ class DeterministicSourcePaperBuilder:
             source_ref = self.store.commit_yaml(
                 "structured/paper.source.yaml", source_paper, "math_exam_source_paper/v2"
             )
-            # Emit REAL review issues (vector rendition missing, needs_review
-            # attribution/disposition). The baseline always wrote an empty list.
-            issues_ref = None
-            if review_items:
-                issues_ref = self.store.commit_yaml(
-                    "review/review-issues.yaml",
-                    {"schema": "math_transcription_review_issues/v1",
-                     "paper_id": source_paper.get("paper_id", "unknown"),
-                     "issues": review_items},
-                    "math_transcription_review_issues/v1",
-                )
-            return SourceBuildResult(source_paper=source_ref, issues=issues_ref), None, None
+            # NOTE on review issues: the ReviewIssuesBundle contract only accepts
+            # two structured issue kinds (field_conflict / asset_classification),
+            # each with mandatory candidate/hash fields. The needs_review
+            # attributions and vector_rendition_missing cases produced by the
+            # join do NOT fit either shape, so we must NOT write a malformed
+            # bundle (the projector's ReviewIssuesBundle.model_validate would
+            # reject it). Instead, needs_review attributions are simply excluded
+            # from the v2 paper (only accepted attributions carry content-image
+            # bindings), and the projector runs with issues=None. The gate then
+            # catches any real content-image binding problem. A future change
+            # that wants to BLOCK on vector_rendition_missing must construct a
+            # proper AssetClassificationIssue (emf_class_needs_confirmation).
+            return SourceBuildResult(source_paper=source_ref, issues=None), None, None
         except Exception as exc:  # pragma: no cover - defensive
             kind = _classify(exc)
             return None, kind, str(exc)
