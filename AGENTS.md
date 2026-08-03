@@ -48,6 +48,47 @@ etc.) are defined there and will be **missing** unless explicitly loaded.
 - If a key is genuinely unset (not just unloaded), stop and report it; do not
   invent fallbacks.
 
+## Langfuse Tracing (question-ingestion workflow)
+
+The LangGraph question-ingestion workflow (`run_live_paper.py` and the page-text
+/ whole-paper adapters) is observable in a self-hosted Langfuse via the official
+Langfuse Python SDK v4. A local Langfuse stack runs in Docker (web on
+`http://localhost:3000`; see `tmp/langfuse/docker-compose.yml`).
+
+- **Configuration is environment-only** (no CLI flags). Three variables, all
+  required to enable tracing; absent any one and the run is untraced:
+  ```bash
+  export LANGFUSE_BASE_URL="http://localhost:3000"
+  export LANGFUSE_PUBLIC_KEY="pk-lf-..."
+  export LANGFUSE_SECRET_KEY="sk-lf-..."
+  ```
+  Put them in `~/.zshrc` alongside the model API keys and load with
+  `source ~/.zshrc 2>/dev/null`. `LANGFUSE_HOST` is accepted as a legacy
+  fallback for `LANGFUSE_BASE_URL` at read time, but `LANGFUSE_BASE_URL` is the
+  standard.
+- **Three-state gating**: all three unset → tracing silently off; only some set
+  → off with a warning that config is incomplete; all three set but the
+  `langfuse` package import fails → hard `RuntimeError` (never silent — a broken
+  install must surface, not produce a silent no-trace run).
+- **What is traced automatically**: each LangGraph node (via the Langfuse
+  LangChain `CallbackHandler` injected through `config["callbacks"]`), wrapped
+  in one root `paper-ingestion` span per run. Native model calls are traced as
+  nested `generation` observations: `qwen-ocr` / `mimo-ocr` (page text) and
+  `whole-paper-transcribe` (the only one carrying real token `usage_details`,
+  from pydantic-ai).
+- **What is NOT uploaded**: the wrapper's `mask_otel_spans` hook truncates and
+  redacts the large `input`/`output` and `gen_ai.*` attributes; bare base64
+  blobs are replaced with `<base64 blob redacted>`. Note: true
+  `data:<ct>;base64,...` URIs are converted by Langfuse to media references, so
+  page images may still be stored in Langfuse's media backend (acceptable for
+  self-hosted; if images must never leave the host, replace them with
+  placeholders before entering the callback path).
+- **Flushing**: `run_live_paper` calls `lf.flush()` in a `finally` block so a
+  short-lived CLI process drains its trace queue before exit. Flush failures are
+  logged, never raised over a real workflow/model error.
+- Business code imports `scripts.question_transcription.workflow.observability.langfuse`
+  only — never `langfuse` or `opentelemetry` directly.
+
 ## Diagram Workflow Rules
 
 - Do not tell math YAML writers to avoid `diagram_slot` when a geometry problem needs a figure. If the stem says “如图/图中/下图”, or if a geometry condition would be hard to parse without a figure, the writer must declare a `diagram_slot`.

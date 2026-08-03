@@ -114,17 +114,32 @@ class MimoPageTextExtractor:
                 adapter_id=ADAPTER_ID, kind="source_hash_mismatch", attempts=1,
                 detail=f"page image missing: {image_path}",
             )
+        # One Langfuse "generation" observation around the MiMo OCR call. No-op
+        # when Langfuse is unconfigured (offline tests). Token usage is
+        # unavailable: the inline httpx transport returns only message content.
+        from ...observability import langfuse as _lf
+
         try:
             data_url, _ = image_to_data_url(image_path)
             messages = build_messages(data_url)
-            text, cache_hit = self._call_text(
-                messages,
-                cache_material={
-                    "task": "page_text_ocr",
-                    "prompt_version": PAGE_TEXT_PROMPT_VERSION,
-                    "page_sha256": job.image.sha256,
-                },
-            )
+            with _lf.generation(
+                "mimo-ocr",
+                model=self.model,
+                input={"page_number": job.page_number},
+                metadata={"adapter": ADAPTER_ID, "page_number": job.page_number},
+            ) as obs:
+                text, cache_hit = self._call_text(
+                    messages,
+                    cache_material={
+                        "task": "page_text_ocr",
+                        "prompt_version": PAGE_TEXT_PROMPT_VERSION,
+                        "page_sha256": job.image.sha256,
+                    },
+                )
+                obs.update(
+                    output=text[:4000] if text else None,
+                    metadata={"cache_hit": bool(cache_hit)},
+                )
         except RuntimeError as exc:
             return None, PageTextFailure(
                 adapter_id=ADAPTER_ID,
