@@ -45,6 +45,7 @@ import subprocess
 import sys
 import time
 import uuid
+from contextlib import contextmanager
 from pathlib import Path
 from typing import Any
 
@@ -214,6 +215,69 @@ def _stream_once(app, payload, config, label) -> dict[str, Any] | None:
     return last_state
 
 
+# --------------------------------------------------------------------------- #
+# Observability: one root observation per graph invocation (review #1/#2/#3).
+# --------------------------------------------------------------------------- #
+# The durable run is the Langfuse *session*; each real graph invocation
+# (initial run vs. a human-triggered resume) is its own *trace* inside that
+# session. A single process-internal auto-wake of an interrupt stays inside the
+# ``initial`` trace — only a separate ``resume()`` entry point opens a new
+# ``human-resume`` trace. This keeps ``root observation count ≈ graph invocation
+# count`` instead of ``≈ node + LLM + tool call count``.
+#
+# The context manager opens the root ``operation`` (which propagates trace-level
+# session/tags/name into the OTel context BEFORE creating the observation, so the
+# nested CallbackHandler node observations and adapter generations inherit them)
+# and builds the LangGraph runnable config with the CallbackHandler created
+# inside that root context (review #3). ``flush()`` runs in ``finally`` so a
+# mid-phase exception still exports whatever was collected.
+
+
+@contextmanager
+def _phase_root(*, run_id, paper_id, thread_id, phase):
+    """Yield ``(config, root_obs)`` for one graph invocation's trace.
+
+    ``config`` is a fresh LangGraph runnable config carrying the Langfuse
+    ``CallbackHandler`` and phase-bound metadata; callers pass it to
+    ``app.stream``/``app.get_state``. ``root_obs`` is the root observation (a
+    no-op when Langfuse is disabled) the caller may ``.update(output=...)``.
+    """
+    base_config = {
+        "configurable": {"thread_id": thread_id},
+        "recursion_limit": 200,
+    }
+    # Trace-level metadata attached to the CallbackHandler root observation.
+    config = {
+        **base_config,
+        "callbacks": _lf.graph_callbacks(),
+        "run_name": f"question-ingestion.{phase}:{paper_id}",
+        "metadata": {
+            "langfuse_session_id": run_id,
+            "langfuse_tags": ["question-ingestion"],
+            "paper_id": paper_id,
+            "run_id": run_id,
+            "phase": phase,
+        },
+    }
+    with _lf.operation(
+        f"paper-ingestion.{phase}",
+        input={"paper_id": paper_id, "phase": phase},
+        metadata={
+            "paper_id": paper_id,
+            "run_id": run_id,
+            "langgraph_thread_id": thread_id,
+            "phase": phase,
+        },
+        session_id=run_id,
+        tags=["question-ingestion"],
+        trace_name=f"question-ingestion:{run_id}:{phase}",
+    ) as root:
+        try:
+            yield config, root
+        finally:
+            _lf.flush()
+
+
 def _main_repo_root() -> Path:
     """The main worktree's root (where the shared ``.venv`` web stack lives).
 
@@ -329,21 +393,6 @@ def run(
 
     checkpointer = make_sqlite_checkpointer(layout.root / f"{run_id}.sqlite")
     thread = thread_id_for(run_id)
-    # Langfuse callbacks are injected here. When unconfigured (no LANGFUSE_*
-    # env), graph_callbacks() returns [] and the config is identical to the
-    # pre-tracing baseline. Trace-level attributes (session/tags/name) are set
-    # both here (for the CallbackHandler root) and inside operation() below.
-    lg_config = {
-        "configurable": {"thread_id": thread},
-        "recursion_limit": 200,
-        "callbacks": _lf.graph_callbacks(),
-        "run_name": f"question-ingestion:{paper_id}",
-        "metadata": {
-            "langfuse_session_id": paper_id,
-            "langfuse_tags": ["question-ingestion"],
-            "paper_id": paper_id,
-        },
-    }
     app = build_graph(deps, checkpointer=checkpointer)
 
     state = initial_state(
@@ -359,78 +408,78 @@ def run(
     _log(f"      agent={agent_host} page={page_provider}")
     _log(f"      langfuse: {'enabled' if _lf.is_enabled() else 'disabled'}")
 
-    # The whole run is one root observation; node observations created by the
-    # CallbackHandler and the per-LLM generations created by adapters nest
-    # under it via the shared OTel context. flush() in finally so a mid-run
-    # exception still flushes whatever was collected — but a flush failure must
-    # not mask the real error, so it is caught inside the wrapper.
+    # One root observation for the whole ``initial`` invocation: every auto-wake
+    # of an interrupt inside this process stays in the same trace, and node spans
+    # (CallbackHandler) + adapter generations nest under it via the shared OTel
+    # context. ``_phase_root`` owns the operation, the callbacks-bearing config,
+    # and ``flush()`` in ``finally`` (review #1/#2/#3).
     payload: Any = state
     final_state: dict[str, Any] = {}
-    try:
-        with _lf.operation(
-            "paper-ingestion",
-            input={"paper_id": paper_id, "source_kind": source_kind},
-            metadata={"paper_id": paper_id, "thread_id": thread},
-            session_id=paper_id,
-            tags=["question-ingestion"],
-            trace_name=f"question-ingestion:{paper_id}",
-        ):
-            for rnd in range(max_resume_rounds):
-                t0 = time.time()
-                result = _stream_once(app, payload, lg_config, f"round{rnd}")
-                elapsed = time.time() - t0
-                gs = app.get_state(lg_config)
-                outcome = extract_outcome(gs.values or {}) if gs and gs.values else "running"
-                next_interrupts = gs.next if gs is not None else ()
-                _log(
-                    f"  round{rnd} done in {elapsed:.1f}s -> outcome={outcome} next={list(next_interrupts)}"
-                )
-                if outcome in ("completed", "failed"):
-                    break
-                # Handle interrupts: write the approval artifacts, then resume.  Resume only
-                # WAKES the paused node via Command(resume=_RESUME_WAKE_ACK); approval lives on
-                # disk and is re-read by the gate on resume (design §16.8).
-                resumed_something = False
-                waiting_for_human_review = False
-                if gs and getattr(gs, "tasks", None):
-                    for task in gs.tasks:
-                        interrupts = getattr(task, "interrupts", ()) or ()
-                        if not interrupts:
-                            continue
-                        kind = interrupts[0].value.get("kind") if interrupts else None
-                        _log(f"  INTERRUPT kind={kind}")
-                        if kind == "waiting_for_source_review":
-                            _approve_source_review(layout)
+    with _phase_root(
+        run_id=run_id, paper_id=paper_id, thread_id=thread, phase="initial",
+    ) as (lg_config, _root):
+        for rnd in range(max_resume_rounds):
+            t0 = time.time()
+            result = _stream_once(app, payload, lg_config, f"round{rnd}")
+            elapsed = time.time() - t0
+            gs = app.get_state(lg_config)
+            outcome = extract_outcome(gs.values or {}) if gs and gs.values else "running"
+            next_interrupts = gs.next if gs is not None else ()
+            _log(
+                f"  round{rnd} done in {elapsed:.1f}s -> outcome={outcome} next={list(next_interrupts)}"
+            )
+            if outcome in ("completed", "failed"):
+                break
+            # Handle interrupts: write the approval artifacts, then resume.  Resume only
+            # WAKES the paused node via Command(resume=_RESUME_WAKE_ACK); approval lives on
+            # disk and is re-read by the gate on resume (design §16.8).
+            resumed_something = False
+            waiting_for_human_review = False
+            if gs and getattr(gs, "tasks", None):
+                for task in gs.tasks:
+                    interrupts = getattr(task, "interrupts", ()) or ()
+                    if not interrupts:
+                        continue
+                    kind = interrupts[0].value.get("kind") if interrupts else None
+                    _log(f"  INTERRUPT kind={kind}")
+                    if kind == "waiting_for_source_review":
+                        _approve_source_review(layout)
+                        resumed_something = True
+                    elif kind == "waiting_for_final_review":
+                        staging = (gs.values or {}).get("staging_directory")
+                        if final_review_mode == "auto" and staging:
+                            _approve_final_review(staging)
                             resumed_something = True
-                        elif kind == "waiting_for_final_review":
-                            staging = (gs.values or {}).get("staging_directory")
-                            if final_review_mode == "auto" and staging:
-                                _approve_final_review(staging)
-                                resumed_something = True
-                            else:
-                                _log("  final review is ready for Review UI; leaving graph interrupted")
-                                if staging:
-                                    _log(f"  staging={staging}")
-                                    _log(f"  open Review UI: {_review_ui_command(layout)}")
-                                    _log(
-                                        f"  after review: {sys.executable} -m "
-                                        "scripts.question_transcription.workflow.run_live_paper "
-                                        f"--paper-id {paper_id} --resume-run-id {run_id}"
-                                    )
-                                waiting_for_human_review = True
-                if waiting_for_human_review:
-                    break
-                if not resumed_something and outcome == "running" and not next_interrupts:
-                    _log("  no interrupt to resume and graph idle; stopping.")
-                    break
-                # Wake the paused interrupt.  In langgraph 0.2.76 only a non-None Command
-                # resume value advances past the interrupt; the wake ack carries no decision.
-                payload = Command(resume=_RESUME_WAKE_ACK)
+                        else:
+                            _log("  final review is ready for Review UI; leaving graph interrupted")
+                            if staging:
+                                _log(f"  staging={staging}")
+                                _log(f"  open Review UI: {_review_ui_command(layout)}")
+                                _log(
+                                    f"  after review: {sys.executable} -m "
+                                    "scripts.question_transcription.workflow.run_live_paper "
+                                    f"--paper-id {paper_id} --resume-run-id {run_id}"
+                                )
+                            waiting_for_human_review = True
+            if waiting_for_human_review:
+                break
+            if not resumed_something and outcome == "running" and not next_interrupts:
+                _log("  no interrupt to resume and graph idle; stopping.")
+                break
+            # Wake the paused interrupt.  In langgraph 0.2.76 only a non-None Command
+            # resume value advances past the interrupt; the wake ack carries no decision.
+            payload = Command(resume=_RESUME_WAKE_ACK)
 
-            final = app.get_state(lg_config)
-            final_state = final.values if final is not None else {}
-    finally:
-        _lf.flush()
+        final = app.get_state(lg_config)
+        final_state = final.values if final is not None else {}
+        # Give the root observation a meaningful output (best-practices baseline:
+        # a trace's root should carry input/output so it is readable in the UI).
+        # resume() sets the same shape; initial previously set none.
+        _root.update(output={
+            "outcome": extract_outcome(final_state) if final_state else "failed",
+            "waiting_nodes": list(final.next) if final is not None else [],
+            "terminal_errors": (final_state.get("terminal_errors", []) if final_state else []),
+        })
 
     _persist_state(layout, final_state)
     outcome = extract_outcome(final_state) if final_state else "failed"
@@ -468,23 +517,37 @@ def resume(
     )
     deps = bind(config, layout, mode="live")
     checkpointer = make_sqlite_checkpointer(checkpoint_path)
-    lg_config = {
-        "configurable": {"thread_id": thread_id_for(run_id)},
-        "recursion_limit": 200,
-    }
+    thread = thread_id_for(run_id)
+    # Pre-check the checkpoint with a bare config (no tracing) before opening the
+    # ``human-resume`` root observation — a missing state is a hard error and
+    # should not produce a trace.
+    probe_config = {"configurable": {"thread_id": thread}, "recursion_limit": 200}
     app = build_graph(deps, checkpointer=checkpointer)
-    before = app.get_state(lg_config)
+    before = app.get_state(probe_config)
     if before is None or not before.values:
         raise ValueError(f"checkpoint has no state for run {run_id}")
 
     _log(f"RESUME run_id={run_id} paper_id={paper_id}")
-    # Wake the persisted final-review interrupt.  The wake ack is not an approval:
-    # final_review_check re-reads items/*/review.yaml on every entry.  If reviews are
-    # still pending the node interrupts again (outcome stays waiting_for_final_review);
-    # only a complete fresh set of approved reviews routes on to approved_audit.
-    _stream_once(app, Command(resume=_RESUME_WAKE_ACK), lg_config, "resume-final-review")
-    final = app.get_state(lg_config)
-    final_state = final.values if final is not None else {}
+    _log(f"      langfuse: {'enabled' if _lf.is_enabled() else 'disabled'}")
+    # The human-triggered resume is its own trace inside the same session
+    # (run_id) as the initial run: a separate ``human-resume`` root observation
+    # so post-review node spans/generations are actually traced (previously
+    # ``resume()`` had no tracing at all — review #2).
+    with _phase_root(
+        run_id=run_id, paper_id=paper_id, thread_id=thread, phase="human-resume",
+    ) as (lg_config, root):
+        # Wake the persisted final-review interrupt.  The wake ack is not an approval:
+        # final_review_check re-reads items/*/review.yaml on every entry.  If reviews are
+        # still pending the node interrupts again (outcome stays waiting_for_final_review);
+        # only a complete fresh set of approved reviews routes on to approved_audit.
+        _stream_once(app, Command(resume=_RESUME_WAKE_ACK), lg_config, "resume-final-review")
+        final = app.get_state(lg_config)
+        final_state = final.values if final is not None else {}
+        root.update(output={
+            "outcome": extract_outcome(final_state) if final_state else "failed",
+            "waiting_nodes": list(final.next) if final is not None else [],
+            "terminal_errors": (final_state.get("terminal_errors", []) if final_state else []),
+        })
     _persist_state(layout, final_state)
     outcome = extract_outcome(final_state) if final_state else "failed"
     _log(f"FINAL outcome={outcome}")

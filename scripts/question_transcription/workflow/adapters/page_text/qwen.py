@@ -65,11 +65,11 @@ class QwenPageTextExtractor:
                 attempts=1,
                 detail=f"page image missing: {image_path}",
             )
-        # One Langfuse "generation" observation around the OCR call. No-op when
-        # Langfuse is unconfigured (offline tests). The prompt is recorded with
-        # image bytes replaced by a size marker so megabytes of base64 page
-        # images never enter the trace. Token usage is unavailable here because
-        # BailianOcrClient.complete_text returns only the text string.
+        # Observability: a real model call is recorded as a ``generation``; a
+        # cache-served result is recorded as a ``span`` (NOT a generation, so it
+        # does not pollute model-call count/latency/token/cost metrics). We only
+        # learn which path applied after ``complete_text`` returns, so we record
+        # after the call rather than wrapping it. No-op when Langfuse is off.
         from ...observability import langfuse as _lf
 
         try:
@@ -80,38 +80,70 @@ class QwenPageTextExtractor:
                 adapter_id=ADAPTER_ID, kind="invalid_response", attempts=1,
                 detail=f"image read failed: {exc}",
             )
-        with _lf.generation(
-            "qwen-ocr",
-            model=self.model,
-            input={"page_number": job.page_number, "prompt": _lf.sanitize(_prompt_shape(messages))},
-            metadata={"adapter": ADAPTER_ID, "page_number": job.page_number},
-        ) as obs:
-            try:
-                client = self._get_client()
-                text, cache_hit = client.complete_text(
-                    messages=messages,
-                    cache_material={
-                        "task": "page_text_ocr",
-                        "prompt_version": PAGE_TEXT_PROMPT_VERSION,
-                        "page_sha256": job.image.sha256,
-                    },
+        prompt_shape = _lf.sanitize(_prompt_shape(messages))
+        gen_input = {"page_number": job.page_number, "prompt": prompt_shape}
+        gen_meta = {"adapter": ADAPTER_ID, "page_number": job.page_number}
+        try:
+            client = self._get_client()
+            text, cache_hit = client.complete_text(
+                messages=messages,
+                cache_material={
+                    "task": "page_text_ocr",
+                    "prompt_version": PAGE_TEXT_PROMPT_VERSION,
+                    "page_sha256": job.image.sha256,
+                },
+            )
+        except RuntimeError as exc:
+            # Mark the generation ERROR before the context exits so a failed OCR
+            # is not displayed as a successful model call.
+            with _lf.generation(
+                "qwen-ocr",
+                model=self.model,
+                input=gen_input,
+                metadata=gen_meta,
+            ) as obs:
+                obs.update(
+                    level="ERROR",
+                    status_message=f"{type(exc).__name__}: {exc}",
                 )
+            kind = _classify_runtime(str(exc))
+            return None, PageTextFailure(
+                adapter_id=ADAPTER_ID, kind=kind, attempts=1, detail=str(exc)
+            )
+        except Exception as exc:  # pragma: no cover - defensive
+            with _lf.generation(
+                "qwen-ocr",
+                model=self.model,
+                input=gen_input,
+                metadata=gen_meta,
+            ) as obs:
+                obs.update(
+                    level="ERROR",
+                    status_message=f"{type(exc).__name__}: {exc}",
+                )
+            return None, PageTextFailure(
+                adapter_id=ADAPTER_ID,
+                kind="invalid_response",
+                attempts=1,
+                detail=f"{type(exc).__name__}: {exc}",
+            )
+        # Success path: record cache hit as a span, cache miss as a generation.
+        if cache_hit:
+            with _lf.cache_span(
+                "qwen-ocr.cache",
+                metadata={**gen_meta, "page_text_chars": len(text) if text else 0},
+            ) as obs:
+                obs.update(output=text[:4000] if text else None)
+        else:
+            with _lf.generation(
+                "qwen-ocr",
+                model=self.model,
+                input=gen_input,
+                metadata=gen_meta,
+            ) as obs:
                 obs.update(
                     output=text[:4000] if text else None,
-                    metadata={"cache_hit": bool(cache_hit)},
-                )
-            except RuntimeError as exc:
-                # BailianOcrClient raises RuntimeError for HTTP errors / missing key.
-                kind = _classify_runtime(str(exc))
-                return None, PageTextFailure(
-                    adapter_id=ADAPTER_ID, kind=kind, attempts=1, detail=str(exc)
-                )
-            except Exception as exc:  # pragma: no cover - defensive
-                return None, PageTextFailure(
-                    adapter_id=ADAPTER_ID,
-                    kind="invalid_response",
-                    attempts=1,
-                    detail=f"{type(exc).__name__}: {exc}",
+                    metadata={"cache_hit": False},
                 )
         if text is None or not text.strip():
             return None, PageTextFailure(

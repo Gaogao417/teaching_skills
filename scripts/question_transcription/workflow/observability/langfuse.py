@@ -40,6 +40,7 @@ __all__ = [
     "graph_callbacks",
     "operation",
     "generation",
+    "cache_span",
     "flush",
     "sanitize",
 ]
@@ -77,6 +78,13 @@ _BASE64_BLOB = re.compile(r"[A-Za-z0-9+/]{4000,}={0,2}")
 # non-trivial payload mixes the alphabet heavily; a string of 5000 identical
 # chars has 1 distinct char and is text, not base64.
 _BASE64_MIN_DISTINCT_CHARS = 16
+
+# Lists longer than this collapse to a count summary (``[list of N <type>]``).
+# Lists at or below this length are recursed element-by-element so small
+# structured payloads (e.g. an OCR prompt's role/content message list) stay
+# visible in the trace. The per-string-leaf cap still bounds total attribute
+# size, so this only controls structure visibility, not memory/bandwidth.
+_MAX_LIST_ELEMENTS = 50
 
 
 # --------------------------------------------------------------------------- #
@@ -152,10 +160,13 @@ def _client() -> Any:
             "`pip install langfuse` or unset the LANGFUSE_* variables."
         ) from exc
     # Register the mask hook exactly once by constructing the client explicitly.
+    # ``environment`` (development/production) keeps local smoke runs out of prod
+    # metrics; defaults to LANGFUSE_TRACING_ENVIRONMENT then "development".
     Langfuse(
         base_url=config.base_url,
         public_key=config.public_key,
         secret_key=config.secret_key,
+        environment=os.getenv("LANGFUSE_TRACING_ENVIRONMENT", "development"),
         mask_otel_spans=_mask_otel_spans,
     )
     return get_client(public_key=config.public_key)
@@ -282,6 +293,35 @@ def generation(
         yield obs
 
 
+@contextmanager
+def cache_span(
+    name: str,
+    *,
+    metadata: Optional[dict] = None,
+) -> Iterator[Any]:
+    """A ``span`` observation for a cache hit that served a would-be model call.
+
+    A cache hit must NOT be recorded as a ``GENERATION``: it is not a real model
+    invocation, so counting it would pollute model-call count / latency / token /
+    cost / success-rate metrics. Adapters call this instead of :func:`generation`
+    once they learn a request was served from cache. Carries ``cache_hit=True`` in
+    metadata so a dashboard can still attribute cache-served work if desired.
+    """
+
+    client = _client()
+    if client is None:
+        yield _NoopObs()
+        return
+    meta = dict(metadata or {})
+    meta.setdefault("cache_hit", True)
+    with client.start_as_current_observation(
+        name=name,
+        as_type="span",
+        metadata=sanitize(meta),
+    ) as obs:
+        yield obs
+
+
 # --------------------------------------------------------------------------- #
 # Sanitization (public + internal)
 # --------------------------------------------------------------------------- #
@@ -306,12 +346,16 @@ def _sanitize_value(value: Any, *, depth: int) -> Any:
     if isinstance(value, list):
         if not value:
             return []
-        first = value[0]
-        if isinstance(first, dict):
-            return f"[list of {len(value)} dict]"
-        if isinstance(first, str):
-            return f"[list of {len(value)} str]"
-        return f"[list of {len(value)} {type(first).__name__}]"
+        # Only collapse LARGE lists to a count summary. Small lists (e.g. an OCR
+        # prompt's handful of role/content messages) are recursed element-by-
+        # element so their structure stays visible in the trace; large lists
+        # (e.g. a whole WorkflowState page list) still collapse to a count. The
+        # per-string-leaf cap (_MAX_ATTRIBUTE_CHARS) still bounds total size, so
+        # expanding a small list cannot blow the attribute budget.
+        if len(value) > _MAX_LIST_ELEMENTS:
+            first = value[0]
+            return f"[list of {len(value)} {type(first).__name__}]"
+        return [_sanitize_value(item, depth=depth + 1) for item in value]
     if isinstance(value, dict):
         # ArtifactRef-shaped dicts: keep path + schema, drop the heavy payload.
         if "path" in value and "sha256" in value:

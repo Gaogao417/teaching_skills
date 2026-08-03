@@ -115,33 +115,37 @@ class MimoPageTextExtractor:
                 adapter_id=ADAPTER_ID, kind="source_hash_mismatch", attempts=1,
                 detail=f"page image missing: {image_path}",
             )
-        # One Langfuse "generation" observation around the MiMo OCR call. No-op
-        # when Langfuse is unconfigured (offline tests). Token usage is
-        # unavailable: the inline httpx transport returns only message content.
+        # Observability: a real model call is recorded as a ``generation``; a
+        # cache-served result is recorded as a ``span`` (NOT a generation, so it
+        # does not pollute model-call count/latency/token/cost metrics). We only
+        # learn which path applied after ``_call_text`` returns, so we record
+        # after the call rather than wrapping it. No-op when Langfuse is off.
         from ...observability import langfuse as _lf
 
+        gen_input = {"page_number": job.page_number}
+        gen_meta = {"adapter": ADAPTER_ID, "page_number": job.page_number}
         try:
             data_url, _ = image_to_data_url(image_path)
             messages = build_messages(data_url)
+            text, cache_hit = self._call_text(
+                messages,
+                cache_material={
+                    "task": "page_text_ocr",
+                    "prompt_version": PAGE_TEXT_PROMPT_VERSION,
+                    "page_sha256": job.image.sha256,
+                },
+            )
+        except RuntimeError as exc:
             with _lf.generation(
                 "mimo-ocr",
                 model=self.model,
-                input={"page_number": job.page_number},
-                metadata={"adapter": ADAPTER_ID, "page_number": job.page_number},
+                input=gen_input,
+                metadata=gen_meta,
             ) as obs:
-                text, cache_hit = self._call_text(
-                    messages,
-                    cache_material={
-                        "task": "page_text_ocr",
-                        "prompt_version": PAGE_TEXT_PROMPT_VERSION,
-                        "page_sha256": job.image.sha256,
-                    },
-                )
                 obs.update(
-                    output=text[:4000] if text else None,
-                    metadata={"cache_hit": bool(cache_hit)},
+                    level="ERROR",
+                    status_message=f"{type(exc).__name__}: {exc}",
                 )
-        except RuntimeError as exc:
             return None, PageTextFailure(
                 adapter_id=ADAPTER_ID,
                 kind=_classify(str(exc)),
@@ -149,10 +153,38 @@ class MimoPageTextExtractor:
                 detail=str(exc),
             )
         except Exception as exc:  # pragma: no cover - defensive
+            with _lf.generation(
+                "mimo-ocr",
+                model=self.model,
+                input=gen_input,
+                metadata=gen_meta,
+            ) as obs:
+                obs.update(
+                    level="ERROR",
+                    status_message=f"{type(exc).__name__}: {exc}",
+                )
             return None, PageTextFailure(
                 adapter_id=ADAPTER_ID, kind="invalid_response", attempts=1,
                 detail=f"{type(exc).__name__}: {exc}",
             )
+        # Success path: record cache hit as a span, cache miss as a generation.
+        if cache_hit:
+            with _lf.cache_span(
+                "mimo-ocr.cache",
+                metadata={**gen_meta, "page_text_chars": len(text) if text else 0},
+            ) as obs:
+                obs.update(output=text[:4000] if text else None)
+        else:
+            with _lf.generation(
+                "mimo-ocr",
+                model=self.model,
+                input=gen_input,
+                metadata=gen_meta,
+            ) as obs:
+                obs.update(
+                    output=text[:4000] if text else None,
+                    metadata={"cache_hit": False},
+                )
         if text is None or not text.strip():
             return None, PageTextFailure(
                 adapter_id=ADAPTER_ID, kind="empty_text", attempts=1,
