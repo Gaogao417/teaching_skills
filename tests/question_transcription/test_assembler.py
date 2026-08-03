@@ -124,19 +124,33 @@ def test_pdf_region_crop_and_needs_review_warning():
     draft, report = assemble(t, i)
     assert draft is not None
     assert report.errors == []
-    # The needs_review attribution is omitted from draft, only warned.
+    # The needs_review attribution enters the draft AND warns (no longer omitted).
     codes = {w.code for w in report.warnings}
     assert "image_needs_review" in codes
+    assert all(
+        "entered draft pending human confirmation" in w.detail
+        for w in report.warnings if w.code == "image_needs_review"
+    )
     item = draft["sections"][0]["items"][0]
     # question_evidence region bbox preserved verbatim
     assert item["question_evidence"][0]["box_px"] == [80, 210, 1010, 860]
     # prompt region bbox preserved verbatim (accepted medium-confidence)
     assert item["prompt"][0]["box_px"] == [650, 315, 1000, 690]
-    # needs_review solution attribution did NOT enter crops
-    sources = [c["source"] for c in item["official_solution"]["crops"]]
-    assert not any("page-008" in s for s in sources)
-    # but the region-evidence solution crop (page 008, accepted as evidence) IS there
-    assert any("pages/008.png" in s for s in sources)
+    # The needs_review solution attribution NOW enters crops, tagged with an
+    # attribution_review block carrying its original state/confidence.
+    sol_crops = item["official_solution"]["crops"]
+    needs_review_crops = [c for c in sol_crops if "attribution_review" in c]
+    assert len(needs_review_crops) == 1
+    nr = needs_review_crops[0]
+    assert "pages/008.png" in nr["source"]
+    assert nr["attribution_review"] == {
+        "attribution_id": "attr-page-008-q24-solution",
+        "state": "needs_review",
+        "confidence": "low",
+    }
+    # accepted crops carry no attribution_review block.
+    accepted_crops = [c for c in sol_crops if "attribution_review" not in c]
+    assert accepted_crops, "expected at least the region-evidence solution crop"
     assert item["official_solution"]["start_anchor"] == "24．"
     assert item["official_solution"]["end_anchor"] == "25．"
 

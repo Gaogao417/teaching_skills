@@ -122,7 +122,11 @@ def validate_source_review_gate(
         errors.extend(validate_resolutions_against_issues(issues, resolutions))
 
     expected_bindings = _expected_content_bindings(source)
-    accepted_bindings = {
+    # Both accepted and needs_review attributions carry a content-image binding
+    # (the ImageNode is emitted for either). needs_review attributions flow
+    # downstream into staging for human confirmation, so they satisfy the
+    # binding requirement here; only rejected/unknown attributions do not.
+    bound = {
         (
             attr.question_ref,
             attr.asset_id,
@@ -130,18 +134,18 @@ def validate_source_review_gate(
             attr.order,
         )
         for attr in source.attributions
-        if attr.state == "accepted"
+        if attr.state in ("accepted", "needs_review")
     }
-    for binding in sorted(expected_bindings - accepted_bindings):
+    for binding in sorted(expected_bindings - bound):
         question_ref, asset_id, target, order = binding
         errors.append(
             f"content image has no accepted attribution: question "
             f"{question_ref}, asset {asset_id}, target {target}, order {order}"
         )
-    for binding in sorted(accepted_bindings - expected_bindings):
+    for binding in sorted(bound - expected_bindings):
         question_ref, asset_id, target, order = binding
         errors.append(
-            f"accepted attribution has no matching content image: question "
+            f"attribution has no matching content image: question "
             f"{question_ref}, asset {asset_id}, target {target}, order {order}"
         )
 

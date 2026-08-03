@@ -289,6 +289,10 @@ def _replace_group_with_single_crop(
     The composed PNG's real dimensions populate ``box_px`` so the downstream
     expander/materializer see a positive-area full crop (a [0,0,0,0] box would
     be rejected by expand_staging_draft's positive-area check).
+
+    If any member is ``needs_review``, the composed crop inherits an
+    ``attribution_review`` block (state=needs_review, lowest member confidence)
+    so the pending attribution is not silently swallowed by the composition.
     """
 
     new_crop = {
@@ -296,11 +300,50 @@ def _replace_group_with_single_crop(
         "box_px": [0, 0, int(width), int(height)],
         "assignment_path": placement.assignment_path,
     }
+    merged = _merge_member_attribution_reviews(members)
+    if merged is not None:
+        new_crop["attribution_review"] = merged
     if placement.role == "prompt":
         item["prompt"] = [new_crop]
     else:
         official = item.setdefault("official_solution", {})
         official["crops"] = [new_crop]
+
+
+# Confidence rank (higher = weaker); used to pick the lowest confidence among
+# group members when composing an attribution_review for a merged crop.
+_CONFIDENCE_RANK = {"high": 0, "medium": 1, "low": 2}
+
+
+def _merge_member_attribution_reviews(members: list[dict]) -> dict | None:
+    """Merge the ``attribution_review`` blocks of group members.
+
+    Returns ``None`` when no member is needs_review (nothing to surface).
+    Otherwise returns a review block with ``state="needs_review"``, the
+    lowest (weakest) member confidence, the joined attribution id, and the
+    full list of member attribution ids for the audit trail.
+    """
+    pending = [
+        m["attribution_review"] for m in members
+        if isinstance(m.get("attribution_review"), dict)
+        and m["attribution_review"].get("state") == "needs_review"
+    ]
+    if not pending:
+        return None
+    confidences = [p.get("confidence") for p in pending if p.get("confidence")]
+    # Lowest = weakest confidence = highest rank value; fall back to "medium".
+    confidence = (
+        max(confidences, key=lambda c: _CONFIDENCE_RANK.get(c, 1))
+        if confidences else "medium"
+    )
+    member_ids = [str(p.get("attribution_id") or "") for p in pending]
+    member_ids = [mid for mid in member_ids if mid]
+    return {
+        "attribution_id": ",".join(member_ids) if member_ids else "group",
+        "state": "needs_review",
+        "confidence": confidence,
+        "member_attribution_ids": member_ids,
+    }
 
 
 def _role_crops(item: dict, role: str) -> list[dict]:

@@ -180,21 +180,32 @@ def _target_sort_key(attr: ImageAttributionV2) -> tuple:
 
 
 def project_image_bundle(source: SourcePaper) -> ImageAttributionBundle:
-    """Flatten accepted v2 targets into v1 prompt/solution attribution order."""
+    """Flatten accepted AND needs_review v2 targets into v1 prompt/solution
+    attribution order.
+
+    Attribution-level ``needs_review`` (asset is fine but the attribution is
+    uncertain) is projected alongside ``accepted`` so it flows downstream into
+    the draft and staging, where the Review UI surfaces it for human
+    confirmation. ``rejected``/unknown attributions are not projected.
+    """
 
     asset_by_id = {asset.asset_id: asset for asset in source.assets}
-    accepted = [attr for attr in source.attributions if attr.state == "accepted"]
+    projected = [
+        attr for attr in source.attributions
+        if attr.state in ("accepted", "needs_review")
+    ]
     grouped: dict[tuple[str, str], list[ImageAttributionV2]] = defaultdict(list)
-    for attr in accepted:
+    for attr in projected:
         grouped[(attr.question_ref, _target_role(attr))].append(attr)
 
     projected_assets: list[AttributionAsset] = []
-    used_asset_ids = sorted({attr.asset_id for attr in accepted})
+    used_asset_ids = sorted({attr.asset_id for attr in projected})
     for asset_id in used_asset_ids:
         asset = asset_by_id[asset_id]
         if asset.rendition is None:
             raise ValueError(
-                f"accepted asset {asset_id!r} has no display rendition"
+                f"asset {asset_id!r} referenced by a projected attribution "
+                f"has no display rendition"
             )
         projected_assets.append(
             AttributionAsset(
@@ -235,7 +246,9 @@ def project_image_bundle(source: SourcePaper) -> ImageAttributionBundle:
                     crop=crop,
                     order=order,
                     confidence=attr.confidence,
-                    state="accepted",
+                    # Preserve the original attribution state so needs_review
+                    # attributions stay marked pending downstream.
+                    state=attr.state,
                     provider=provider,
                 )
             )

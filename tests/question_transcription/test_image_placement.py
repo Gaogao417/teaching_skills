@@ -133,6 +133,57 @@ def test_resolve_single_image_stamps_assignment_path(tmp_path):
     assert item["prompt"][0]["assignment_path"] == "/diagram_col"
 
 
+def test_group_inherits_needs_review_from_members(tmp_path):
+    """When any member crop of a composed group is needs_review, the composed
+    crop must carry an attribution_review block (state=needs_review, lowest
+    member confidence) so the pending attribution is not silently lost."""
+    repo = tmp_path
+    for i in range(3):
+        _png(repo / "media" / f"img{i}.png", 100, 80)
+    draft = {
+        "schema": "math_exam_staging_draft/v1",
+        "paper": {"id": "P"},
+        "sections": [{
+            "id": "I", "title": "x", "items": [{
+                "item_id": "Q001",
+                "prompt": [
+                    {"source": "media/img0.png", "box_px": [0, 0, 100, 80]},
+                    {"source": "media/img1.png", "box_px": [0, 0, 100, 80],
+                     "attribution_review": {"attribution_id": "a1",
+                                            "state": "needs_review",
+                                            "confidence": "medium"}},
+                    {"source": "media/img2.png", "box_px": [0, 0, 100, 80],
+                     "attribution_review": {"attribution_id": "a2",
+                                            "state": "needs_review",
+                                            "confidence": "low"}},
+                ],
+                "official_solution": {"crops": [], "start_anchor": "1.", "end_anchor": "2."},
+                "block": {"stem_latex": "s", "answer": "1", "clue": "c"},
+            }],
+        }],
+    }
+    resolved = resolve_placement_decisions(draft, repo, staging_dir=None)
+    item = resolved.draft["sections"][0]["items"][0]
+    assert len(item["prompt"]) == 1
+    ar = item["prompt"][0]["attribution_review"]
+    assert ar["state"] == "needs_review"
+    # lowest of {medium, low} is low
+    assert ar["confidence"] == "low"
+    assert ar["member_attribution_ids"] == ["a1", "a2"]
+
+
+def test_group_without_needs_review_has_no_attribution_review(tmp_path):
+    """An all-accepted group must NOT carry an attribution_review block."""
+    repo = tmp_path
+    for i in range(2):
+        _png(repo / "media" / f"img{i}.png", 100, 80)
+    draft = _draft_with(prompt_count=2)
+    resolved = resolve_placement_decisions(draft, repo, staging_dir=None)
+    item = resolved.draft["sections"][0]["items"][0]
+    assert len(item["prompt"]) == 1
+    assert "attribution_review" not in item["prompt"][0]
+
+
 # --------------------------------------------------------------------------- #
 # Baoshan Q24 regression: the three-figure prompt
 # --------------------------------------------------------------------------- #

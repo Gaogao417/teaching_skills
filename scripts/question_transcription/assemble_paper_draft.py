@@ -20,11 +20,15 @@ Design rules (§7.1-7.5):
 - Image mapping:
     role=prompt   -> draft prompt[]
     role=solution -> draft official_solution.crops[]  (per §7.3 / §13.4)
-  Only ``state == "accepted"`` attributions are consumed; each exactly once.
+  ``state == "accepted"`` and ``state == "needs_review"`` attributions are both
+  consumed, each exactly once; ``rejected``/unknown are discarded. A
+  ``needs_review`` attribution enters the draft (its crop carries an
+  ``attribution_review`` block for downstream UI surfacing) and also raises a
+  non-blocking warning so the human-review step is visible in the report.
   crop: full    -> box_px = [0, 0, width, height]  (asset dims)
   crop: region  -> box_px / whiteout_px copied verbatim.
 - Hard errors (don't write the draft): paper_id mismatch, unknown question_ref,
-  duplicate order within (question, role), unconsumed accepted attribution,
+  duplicate order within (question, role), unconsumed attribution,
   out-of-bounds region crop, missing required text fields.
 - Warnings (don't block): ``needs_review`` attributions, ``needs_review``
   assets.
@@ -157,30 +161,43 @@ def _solution_evidence_field(question: TranscriptionQuestion) -> tuple[list[dict
 def _resolve_crop(
     attr: Attribution, asset: AttributionAsset, errors: list[AssemblyError]
 ) -> dict[str, Any] | None:
-    """Expand a CropSpec against the asset into a draft crop dict."""
+    """Expand a CropSpec against the asset into a draft crop dict.
+
+    When the attribution is ``needs_review``, an ``attribution_review`` block is
+    attached so the pending state/confidence survives into staging and the
+    Review UI can surface it. ``accepted`` crops carry no such block (the UI
+    treats the absence of the block as confirmed).
+    """
     crop = attr.crop
     if crop.kind == "full":
-        return {"source": asset.source, "box_px": [0, 0, asset.width_px, asset.height_px]}
-    # region
-    left, top, right, bottom = crop.box_px
-    if left < 0 or top < 0 or right > asset.width_px or bottom > asset.height_px:
-        errors.append(
-            AssemblyError(
-                code="crop_out_of_bounds",
-                detail=(
-                    f"attribution {attr.attribution_id}: region box_px "
-                    f"{list(crop.box_px)} exceeds asset {asset.asset_id} dims "
-                    f"{asset.width_px}x{asset.height_px}"
-                ),
-                attribution_id=attr.attribution_id,
-                asset_id=asset.asset_id,
+        resolved: dict[str, Any] = {"source": asset.source, "box_px": [0, 0, asset.width_px, asset.height_px]}
+    else:
+        # region
+        left, top, right, bottom = crop.box_px
+        if left < 0 or top < 0 or right > asset.width_px or bottom > asset.height_px:
+            errors.append(
+                AssemblyError(
+                    code="crop_out_of_bounds",
+                    detail=(
+                        f"attribution {attr.attribution_id}: region box_px "
+                        f"{list(crop.box_px)} exceeds asset {asset.asset_id} dims "
+                        f"{asset.width_px}x{asset.height_px}"
+                    ),
+                    attribution_id=attr.attribution_id,
+                    asset_id=attr.asset_id,
+                )
             )
-        )
-        return None
-    out: dict[str, Any] = {"source": asset.source, "box_px": list(crop.box_px)}
-    if crop.whiteout_px:
-        out["whiteout_px"] = [list(w) for w in crop.whiteout_px]
-    return out
+            return None
+        resolved = {"source": asset.source, "box_px": list(crop.box_px)}
+        if crop.whiteout_px:
+            resolved["whiteout_px"] = [list(w) for w in crop.whiteout_px]
+    if attr.state == "needs_review":
+        resolved["attribution_review"] = {
+            "attribution_id": attr.attribution_id,
+            "state": attr.state,
+            "confidence": attr.confidence,
+        }
+    return resolved
 
 
 # --------------------------------------------------------------------------- #
@@ -231,25 +248,32 @@ def assemble(
 
     assets_by_id = {a.asset_id: a for a in images.assets}
 
-    # Group accepted attributions by (question_ref, role) and validate ordering.
+    # Group accepted AND needs_review attributions by (question_ref, role) and
+    # validate ordering. Attribution-level needs_review (asset is fine but the
+    # attribution is uncertain) enters the draft so it flows downstream into
+    # staging for human confirmation; the warning still fires but now records
+    # "entered draft pending human confirmation" rather than "omitted".
     grouped: dict[tuple[str, str], list[Attribution]] = defaultdict(list)
     accepted_ids: set[str] = set()
     for attr in images.attributions:
-        if attr.state == "accepted":
+        if attr.state in ("accepted", "needs_review"):
             grouped[(attr.question_ref, attr.role)].append(attr)
             accepted_ids.add(attr.attribution_id)
-        elif attr.state == "needs_review":
-            warnings.append(
-                AssemblyWarning(
-                    code="image_needs_review",
-                    attribution_id=attr.attribution_id,
-                    asset_id=attr.asset_id,
-                    detail=f"attribution {attr.attribution_id} not accepted; omitted from draft",
+            if attr.state == "needs_review":
+                warnings.append(
+                    AssemblyWarning(
+                        code="image_needs_review",
+                        attribution_id=attr.attribution_id,
+                        asset_id=attr.asset_id,
+                        detail=(
+                            f"attribution {attr.attribution_id} needs review; "
+                            f"entered draft pending human confirmation"
+                        ),
+                    )
                 )
-            )
-        # rejected: neither consumed nor warned (explicitly discarded)
+        # rejected/unknown: neither consumed nor warned (explicitly discarded)
 
-    # Unknown question_ref among accepted attributions.
+    # Unknown question_ref among accepted/needs_review attributions.
     for (qref, _role), attrs in grouped.items():
         if qref not in questions_by_ref:
             for attr in attrs:
@@ -296,13 +320,16 @@ def assemble(
                 bucket[qref].append((attr, asset))
                 consumed.add(attr.attribution_id)
 
-    # Unconsumed accepted attribution -> hard error (§3.1: never silently drop).
+    # Unconsumed accepted/needs_review attribution -> hard error (§3.1: never
+    # silently drop). This fires only after a duplicate-order/unknown-ref
+    # failure prevented consumption; the error code name is kept stable for
+    # report consumers even though needs_review now also flows through.
     for attr_id in sorted(accepted_ids - consumed):
         errors.append(
             AssemblyError(
                 code="unconsumed_accepted_attribution",
                 detail=(
-                    f"attribution {attr_id} is accepted but was not consumed "
+                    f"attribution {attr_id} was not consumed "
                     "(likely a duplicate-order or unknown-ref failure)"
                 ),
                 attribution_id=attr_id,
@@ -316,7 +343,7 @@ def assemble(
             for ref in (*q.evidence.question, *q.evidence.solution):
                 _check_inside_archive(ref.source, archive, f"question {q.question_ref} evidence", errors)
     for attr in images.attributions:
-        if attr.state != "accepted":
+        if attr.state not in ("accepted", "needs_review"):
             continue
         asset = assets_by_id[attr.asset_id]
         _check_inside_archive(asset.source, archive, f"attribution {attr.attribution_id} asset", errors)

@@ -230,6 +230,13 @@ def materialize_item(item_dir: Path, repo_root: Path) -> tuple[str, bool]:
             role: [crop["output_sha256"] for crop in crops.get(role, [])]
             for role in ROLES
         },
+        # Pending-attribution reviews are part of the content identity: a change
+        # in attribution state/confidence must re-trigger human review even when
+        # the cropped image bytes are unchanged.
+        "attribution_reviews": {
+            role: [crop.get("attribution_review") for crop in crops.get(role, [])]
+            for role in ROLES
+        },
     }
     current_hash = canonical_hash(hash_payload)
     changed = previous_hash != current_hash

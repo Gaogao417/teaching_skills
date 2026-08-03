@@ -75,6 +75,11 @@ def normalize_crop(
         "output": output,
         "output_sha256": ZERO_HASH,
     }
+    # Carry through pending-attribution metadata so it survives into source.yaml
+    # (CropEvidence.attribution_review). Absent on accepted crops.
+    attribution_review = raw.get("attribution_review")
+    if isinstance(attribution_review, dict) and attribution_review:
+        crop["attribution_review"] = attribution_review
     presentation = {
         "assignment_path": raw.get("assignment_path"),
         "width": raw.get("width"),

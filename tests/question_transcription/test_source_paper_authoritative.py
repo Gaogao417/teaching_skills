@@ -1,15 +1,17 @@
 """SourcePaper builder evidence-channel tests (stage 0.5 / commit 1).
 
-Pins the three behaviours that the baseline got wrong and that commit 1 fixes:
+Pins the behaviours the builder must get right around image attributions:
 
 1. The builder MUST receive the source manifest (word-source.yaml) so the v2
-   paper can recover vector-asset evidence (ole_binding / emf_class). The
-   baseline build() signature did not accept it.
-2. ``_has_needs_review`` inspected ``assets[].state`` (a field that does not
-   exist on the v1 AttributionAsset contract), so it ALWAYS returned False and
-   the review-issues list was ALWAYS empty. The fix checks attribution.state
-   AND asset.disposition and emits REAL issues.
-3. The paper_id is recovered from the manifest when the transcription carries
+   paper can recover vector-asset evidence (ole_binding / emf_class).
+2. Attribution-level ``needs_review`` (asset is fine but the attribution is
+   uncertain) is PRESERVED into the v2 paper with its original
+   state/confidence and a matching inline ImageNode, so it flows downstream
+   into staging for human confirmation. No malformed ReviewIssuesBundle is
+   written (only field_conflict/asset_classification are contract-legal).
+3. Assets with no displayable rendition (vector_rendition_missing) are dropped
+   (nothing to crop) and emit no review issue.
+4. The paper_id is recovered from the manifest when the transcription carries
    the ingestion placeholder.
 """
 
@@ -110,13 +112,14 @@ def test_build_accepts_and_reads_extracted_source_manifest(tmp_path):
     assert source_paper["schema"] == "math_exam_source_paper/v2"
 
 
-def test_needs_review_attribution_excluded_not_blocking(tmp_path):
-    """A needs_review attribution does not fit the ReviewIssuesBundle contract
-    (only field_conflict/asset_classification are allowed, each with mandatory
-    candidate/hash fields). The builder must NOT write a malformed bundle; the
-    needs_review attribution is simply excluded from the v2 paper (only accepted
-    attributions carry content-image bindings), and the projector runs with
-    issues=None. The gate then catches any real binding problem."""
+def test_needs_review_attribution_preserved_not_blocking(tmp_path):
+    """An attribution-level needs_review (asset is fine but the question/role
+    attribution is uncertain) must be PRESERVED into the v2 paper with its
+    original state/confidence and a matching inline ImageNode, so it flows
+    downstream into staging for human confirmation. It must NOT produce a
+    malformed ReviewIssuesBundle (only field_conflict/asset_classification are
+    allowed, each with mandatory candidate/hash fields); the projector runs with
+    issues=None. The gate still catches any real binding problem."""
     store = _store(tmp_path)
     trans_ref = store.commit_yaml(
         "structured/transcription.yaml", _transcription_dict(),
@@ -145,8 +148,21 @@ def test_needs_review_attribution_excluded_not_blocking(tmp_path):
     # No malformed issues bundle written; projector will run with issues=None.
     assert result.issues is None
     sp = store.read_yaml(result.source_paper)
-    # The needs_review attribution is excluded from the v2 paper.
-    assert sp["attributions"] == []
+    # The needs_review attribution is preserved into the v2 paper.
+    assert len(sp["attributions"]) == 1
+    attr = sp["attributions"][0]
+    assert attr["attribution_id"] == "x"
+    assert attr["asset_id"] == "a1"
+    assert attr["question_ref"] == "1"
+    assert attr["target"] == {"target": "question_stem"}
+    assert attr["order"] == 1  # one text node precedes the image
+    # Original state/confidence carried through unchanged.
+    assert attr["state"] == "needs_review"
+    assert attr["confidence"] == "medium"
+    # Inline ImageNode binding holds: stem carries a text node then the image.
+    stem = sp["questions"][0]["content"]["stem"]
+    assert [n["kind"] for n in stem] == ["text", "image"]
+    assert stem[1]["asset_id"] == "a1"
 
 
 def test_unreferenced_needs_review_asset_does_not_block():
@@ -288,17 +304,18 @@ def _vector_images(paper_id: str) -> dict:
     }
 
 
-def test_authoritative_v2_drops_ignored_and_reviews_missing_rendition():
-    """OLE formula + tiny fragment -> ignored (no asset/attr); big WMF no
-    rendition -> review issue; normal PNG -> accepted asset + attribution."""
+def test_authoritative_v2_drops_ignored_and_drops_missing_rendition():
+    """OLE formula + tiny fragment -> ignored (no asset/attr); big WMF with no
+    rendition -> dropped (nothing to crop); normal PNG -> accepted asset +
+    attribution. None of the dropped assets produce a malformed review issue."""
     ws = _word_source_dict()
     sp, issues = _build_authoritative_v2(_skeleton_dict("P"), _vector_images("P"), ws)
     m = SourcePaper.model_validate(sp)
     # Only the normal PNG survives the guard.
     assert [a.asset_id for a in m.assets] == ["word-image-normal"]
     assert [a.asset_id for a in m.attributions] == ["word-image-normal"]
-    # Big WMF surfaced as a review issue.
-    assert any(i["kind"] == "vector_rendition_missing" for i in issues)
+    # No issues are produced (dropped assets emit no malformed review items).
+    assert issues == []
 
 
 def test_authoritative_v2_round_trips_through_projector():

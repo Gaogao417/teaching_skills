@@ -23,7 +23,10 @@ question's first step when one exists (else falls back to ``question_stem``).
 Precise part/step-level targets require the whole-paper transcriber to emit v2
 directly (future work). Images whose asset is classified ignored (OLE formula,
 tiny vector fragment) never produce an attribution; images whose asset is
-classified needs_review (vector rendition missing) surface as review issues.
+classified needs_review (vector rendition missing) are dropped (nothing to
+crop). Attribution-level ``needs_review`` (the asset is fine but the
+question/role attribution is uncertain) is preserved with its original
+state/confidence and flows downstream for human confirmation.
 """
 
 from __future__ import annotations
@@ -75,16 +78,17 @@ class DeterministicSourcePaperBuilder:
             )
             # NOTE on review issues: the ReviewIssuesBundle contract only accepts
             # two structured issue kinds (field_conflict / asset_classification),
-            # each with mandatory candidate/hash fields. The needs_review
-            # attributions and vector_rendition_missing cases produced by the
-            # join do NOT fit either shape, so we must NOT write a malformed
-            # bundle (the projector's ReviewIssuesBundle.model_validate would
-            # reject it). Instead, needs_review attributions are simply excluded
-            # from the v2 paper (only accepted attributions carry content-image
-            # bindings), and the projector runs with issues=None. The gate then
-            # catches any real content-image binding problem. A future change
-            # that wants to BLOCK on vector_rendition_missing must construct a
-            # proper AssetClassificationIssue (emf_class_needs_confirmation).
+            # each with mandatory candidate/hash fields. Neither the unreferenced
+            # vector asset without a rendition nor a pending attribution fits
+            # those shapes, so no malformed bundle is written and the projector
+            # runs with issues=None. Attribution-level needs_review is NOT a
+            # blocking condition here: attributions whose asset has a valid
+            # rendition are preserved into the v2 paper with their original
+            # state/confidence and flow downstream into staging, where the
+            # Review UI surfaces them for human confirmation. Only vector assets
+            # classified needs_review (no displayable rendition) are dropped,
+            # since there is nothing to crop. The gate still catches any real
+            # content-image binding problem.
             return SourceBuildResult(source_paper=source_ref, issues=None), None, None
         except Exception as exc:  # pragma: no cover - defensive
             kind = _classify(exc)
@@ -202,10 +206,15 @@ def _build_authoritative_v2(
 
     Assets classified ``ignored`` (OLE formula, tiny fragment) never produce an
     attribution and never reach the downstream materializer. Assets classified
-    ``needs_review`` (vector without rendition) produce a review issue instead of
-    an attribution. Ordinary raster assets and accepted vector assets (with a
-    PNG rendition) become v2 ``SourceImageAsset`` records with attributions and a
-    matching inline ``ImageNode`` so the review-gate content-image binding holds.
+    ``needs_review`` (vector without rendition) cannot be cropped and are
+    dropped. Ordinary raster assets and accepted vector assets (with a PNG
+    rendition) become v2 ``SourceImageAsset`` records. Attributions pointing at
+    a surviving asset keep their original ``state``: ``accepted`` attributions
+    enter normally, ``needs_review`` attributions are preserved too (with their
+    state/confidence) so they flow downstream into staging for human
+    confirmation, and ``rejected`` attributions are discarded. Each surviving
+    attribution gets a matching inline ``ImageNode`` so the review-gate
+    content-image binding holds.
     """
 
     paper_id = _resolve_paper_id(transcription, manifest)
@@ -261,14 +270,14 @@ def _build_authoritative_v2(
         if decision.disposition == "ignored":
             continue
         if decision.disposition == "needs_review":
-            review_issues.append({
-                "issue_id": f"vector-rendition-missing-{asset_id}",
-                "kind": "vector_rendition_missing",
-                "detail": (
-                    f"asset {asset_id} ({leaf}, {ginput.width_px}x{ginput.height_px}) "
-                    f"is a non-OLE vector without a PNG rendition; cannot be cropped"
-                ),
-            })
+            # A non-OLE vector without a PNG rendition cannot be cropped, so it
+            # never enters ``accepted_asset_ids`` and any attribution pointing
+            # at it is dropped below. This is NOT surfaced as a review issue:
+            # the dead ``vector_rendition_missing`` issue shape does not conform
+            # to the ReviewIssuesBundle contract (which only accepts
+            # field_conflict / asset_classification) and ``build()`` discards
+            # the issues list regardless. A future change that wants to BLOCK on
+            # this must construct a proper AssetClassificationIssue.
             continue
         assets.append(_build_v2_asset(asset_id, v1_asset, ginput, decision))
         accepted_asset_ids.add(asset_id)
@@ -286,8 +295,13 @@ def _build_authoritative_v2(
             steps = (q.get("content") or {}).get("solution_steps") or []
             step1_by_ref[ref] = "1" if steps else None
 
-    # Collect accepted attributions with their resolved target + a stable sort
-    # within each (question_ref, role) so order is deterministic.
+    # Collect accepted AND needs_review attributions whose asset survived the
+    # guard (i.e. has a displayable rendition). Attribution-level needs_review
+    # is preserved with its original state/confidence so it flows downstream
+    # into staging, where the Review UI surfaces it for human confirmation.
+    # ``rejected`` attributions and attributions whose asset had no rendition
+    # are dropped here. Each entry carries its resolved target + a stable sort
+    # within (question_ref, role) so order is deterministic.
     accepted_pairs: list[tuple[str, str, str, int, dict, dict]] = []
     # role rank: prompt (0) before solution (1) so prompt images lead when both
     # map to question_stem.
@@ -297,16 +311,9 @@ def _build_authoritative_v2(
         asset_id = attr.get("asset_id")
         if asset_id not in accepted_asset_ids:
             continue
-        if attr.get("state") != "accepted":
-            review_issues.append({
-                "issue_id": f"attribution-needs-review-{attr.get('attribution_id', len(review_issues))}",
-                "kind": "attribution_needs_review",
-                "detail": (
-                    f"attribution {attr.get('attribution_id', '?')} "
-                    f"(asset {asset_id}, q{attr.get('question_ref', '?')}) "
-                    f"is in needs_review state"
-                ),
-            })
+        state = attr.get("state")
+        if state not in ("accepted", "needs_review"):
+            # ``rejected`` (and any unknown state) is explicitly discarded.
             continue
         question_ref = str(attr.get("question_ref"))
         role = str(attr.get("role"))
@@ -352,7 +359,10 @@ def _build_authoritative_v2(
                 "crop": _project_crop(attr.get("crop")),
                 "order": order,
                 "confidence": str(attr.get("confidence") or "medium"),
-                "state": "accepted",
+                # Preserve the original attribution state so needs_review
+                # attributions remain marked pending human confirmation
+                # downstream. ``rejected``/unknown never reach here.
+                "state": attr.get("state") or "accepted",
             })
             nodes_bucket.append({"asset_id": asset_id, "order": order})
         qspec = image_nodes_by_ref.setdefault(question_ref, {})

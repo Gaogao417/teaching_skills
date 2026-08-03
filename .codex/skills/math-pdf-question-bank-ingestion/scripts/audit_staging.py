@@ -226,6 +226,16 @@ def audit_item(
             ]
             for role in ROLES
         },
+        # Pending-attribution reviews are part of the content identity. Must
+        # mirror materialize_staging's hash_payload so the audit recomputes the
+        # same hash the materializer wrote.
+        "attribution_reviews": {
+            role: [
+                crop.get("attribution_review") if isinstance(crop, dict) else None
+                for crop in (raw_source.get("crops") or {}).get(role, [])
+            ]
+            for role in ROLES
+        },
     }
     calculated_content_hash = canonical_hash(hash_payload)
     if raw_source.get("content_hash") != calculated_content_hash:
