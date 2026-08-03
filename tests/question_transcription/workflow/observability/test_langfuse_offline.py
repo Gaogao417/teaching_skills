@@ -74,6 +74,12 @@ def test_generation_is_noop_when_disabled():
         obs.update(output="text", usage_details={"input": 0, "output": 0})
 
 
+def test_cache_span_is_noop_when_disabled():
+    with lf.cache_span("qwen-ocr.cache", metadata={"page_number": 1}) as obs:
+        assert obs.__class__.__name__ == "_NoopObs"
+        obs.update(output="text")
+
+
 def test_flush_is_noop_when_disabled():
     lf.flush()  # must not raise
 
@@ -127,8 +133,17 @@ def test_sanitize_leaves_short_string_intact():
     assert lf.sanitize("hello world") == "hello world"
 
 
-def test_sanitize_collapses_list_of_dict():
-    assert lf.sanitize([{"a": 1}, {"b": 2}]) == "[list of 2 dict]"
+def test_sanitize_keeps_small_list_of_dict_structured():
+    # Small lists are recursed element-by-element so structured payloads (e.g. an
+    # OCR prompt's role/content message list) stay visible in the trace.
+    out = lf.sanitize([{"a": 1}, {"b": 2}])
+    assert out == [{"a": 1}, {"b": 2}]
+
+
+def test_sanitize_collapses_large_list_of_dict():
+    # Only LARGE lists collapse to a count summary.
+    big = [{"a": 1} for _ in range(lf._MAX_LIST_ELEMENTS + 1)]
+    assert lf.sanitize(big) == f"[list of {len(big)} dict]"
 
 
 def test_simplify_artifact_ref_shape():
