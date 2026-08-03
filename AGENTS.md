@@ -62,10 +62,27 @@ Langfuse Python SDK v4. A local Langfuse stack runs in Docker (web on
   export LANGFUSE_PUBLIC_KEY="pk-lf-..."
   export LANGFUSE_SECRET_KEY="sk-lf-..."
   ```
-  Put them in `~/.zshrc` alongside the model API keys and load with
-  `source ~/.zshrc 2>/dev/null`. `LANGFUSE_HOST` is accepted as a legacy
-  fallback for `LANGFUSE_BASE_URL` at read time, but `LANGFUSE_BASE_URL` is the
-  standard.
+  **Do NOT ask the user for these keys, and never put the secret in `~/.zshrc`
+  or commit it.** A gitignored `.env.langfuse` at the worktree root already
+  holds a working key pair for the local self-hosted stack; load it in the same
+  shell that runs the workflow:
+  ```bash
+  source .env.langfuse   # sets BASE_URL / PUBLIC_KEY / SECRET_KEY / TRACING_ENVIRONMENT
+  ```
+  If `.env.langfuse` is missing or its key was rotated, create a fresh pair
+  yourself rather than pestering the user:
+  1. Log in to the local Langfuse UI (`http://localhost:3000`,
+     `admin@local.dev` / `Localdev12345!`) and create a project API key under
+     Settings -> API Keys; OR
+  2. Programmatically via the tRPC internal API with the admin session cookie
+     (no existing key needed): `POST /api/trpc/projectApiKeys.create?batch=1`
+     with body `{"0":{"json":{"projectId":"<project-id>","note":"<reason>"}}}`
+     and the session cookie from a credentials login — returns the full
+     `publicKey`/`secretKey` plaintext once.
+  Write the resulting pair back into a gitignored `.env.langfuse`
+  (`.gitignore` covers `.env` and `.env.*`). `LANGFUSE_HOST` is accepted as a
+  legacy fallback for `LANGFUSE_BASE_URL` at read time, but `LANGFUSE_BASE_URL`
+  is the standard.
 - **Three-state gating**: all three unset → tracing silently off; only some set
   → off with a warning that config is incomplete; all three set but the
   `langfuse` package import fails → hard `RuntimeError` (never silent — a broken
