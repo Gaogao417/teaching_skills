@@ -119,9 +119,9 @@ function playPageTurnSound() {
   source.start();
 }
 
-function badge(text) {
+function badge(text, cls) {
   const node = document.createElement("span");
-  node.className = "badge";
+  node.className = cls ? `badge ${cls}` : "badge";
   node.textContent = text;
   return node;
 }
@@ -370,6 +370,13 @@ function previewGallery(rootId, entries, emptyText, altPrefix, options = {}) {
   list.forEach((entry, index) => {
     const figure = document.createElement("figure");
     figure.className = "preview-card";
+    // pending attribution: highlight the card and add a confidence-scaled badge.
+    if (entry.attribution_state === "needs_review") {
+      figure.classList.add("attribution-pending");
+      if (entry.attribution_confidence === "low") {
+        figure.classList.add("attribution-low");
+      }
+    }
     const image = document.createElement("img");
     image.src = entry.url;
     image.alt = `${altPrefix} ${index + 1}`;
@@ -378,6 +385,14 @@ function previewGallery(rootId, entries, emptyText, altPrefix, options = {}) {
     });
     const caption = document.createElement("figcaption");
     caption.textContent = entry.title || `第 ${index + 1} 步`;
+    if (entry.attribution_state === "needs_review") {
+      const badge = document.createElement("span");
+      badge.className = "attribution-badge";
+      badge.textContent = entry.attribution_confidence === "low"
+        ? "低置信度，请核对归属"
+        : "归因待确认";
+      caption.append(badge);
+    }
     if (entry.edit_target) {
       const label = entry.title || `${altPrefix} ${index + 1}`;
       wireImageSlot(figure, entry.edit_target, entry.edit_index, label);
@@ -464,6 +479,8 @@ function applyItem(item, itemIndex) {
     item.difficulty ? badge(item.difficulty) : null,
     item.points !== undefined ? badge(`${item.points} 分`) : null,
     ...(item.skill_tags || []).slice(0, 4).map(badge),
+    // pending image attributions: item-level hint that some figures await confirmation.
+    item.pending_image_count ? badge(`归因待确认 ${item.pending_image_count}`, "attribution-pending-badge") : null,
   ].filter(Boolean);
   badges.replaceChildren(...badgeNodes);
   const staging = state.detail.kind === "staging_exam";

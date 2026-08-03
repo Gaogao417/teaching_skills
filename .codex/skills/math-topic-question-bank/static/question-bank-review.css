@@ -57,6 +57,7 @@ select:focus-visible, button:focus-visible, textarea:focus-visible, .question-ro
 .reader { padding-bottom: 20px; }
 .badges { display: flex; flex-wrap: wrap; justify-content: end; gap: 6px; }
 .badge { padding: 4px 8px; border: 1px solid var(--line); border-radius: 999px; background: white; color: var(--muted); font-size: 11px; }
+.badge.attribution-pending-badge { border-color: #d4b36d; background: #fff4d6; color: #6b5316; font-weight: 800; }
 .reader-section { position: relative; min-width: 0; padding: 18px 22px 0; }
 .reader-section h3 { margin: 0 0 10px; font-size: 14px; }
 .section-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 10px; }
@@ -121,6 +122,11 @@ select:focus-visible, button:focus-visible, textarea:focus-visible, .question-ro
 .is-selected > .slot-paste-hint { color: var(--accent); font-weight: 800; }
 .image-delete-button { position: absolute; z-index: 2; top: 7px; right: 7px; width: 30px; min-width: 30px; min-height: 30px; padding: 0 0 2px; border: 1px solid #bd7d74; border-radius: 50%; background: rgba(255, 255, 255, .94); color: var(--danger); font-size: 21px; line-height: 1; opacity: 0; transform: scale(.9); transition: opacity .12s ease, transform .12s ease; box-shadow: 0 2px 7px rgba(48, 43, 34, .18); }
 .preview-card:hover > .image-delete-button, .preview-card:focus-within > .image-delete-button, .step-preview:hover > .image-delete-button, .step-preview:focus-within > .image-delete-button { opacity: 1; transform: scale(1); }
+/* pending image attribution: amber border + badge; low confidence is stronger red. */
+.preview-card.attribution-pending { border-color: #d4b36d; background: #fff9e8; }
+.preview-card.attribution-low { border-color: #cd8a7f; background: #fbeee9; }
+.attribution-badge { display: inline-block; margin-left: 6px; padding: 1px 7px; border-radius: 999px; background: #f0d68a; color: #6b5316; font-size: 11px; font-weight: 800; }
+.preview-card.attribution-low .attribution-badge { background: #e8b4a6; color: #6b2c1d; }
 .load-error { margin: 18px 22px 0; padding: 12px; border: 1px solid #cda9a2; border-radius: 10px; color: var(--danger); background: #f7ebe8; white-space: pre-wrap; overflow-wrap: anywhere; }
 .transcription-issues { margin: 18px 22px 0; padding: 16px; border: 2px solid #d4b36d; border-radius: 14px; background: #fff9e8; }
 .transcription-issues h3 { margin: 3px 0 0; }
