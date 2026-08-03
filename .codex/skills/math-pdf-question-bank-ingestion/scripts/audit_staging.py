@@ -50,6 +50,10 @@ _CHOICE_LABEL_PREFIX = re.compile(
 # Complete ordered label sequences whose prefix the renderer can re-emit itself.
 _COMPLETE_LETTER_SEQUENCE = ("A", "B", "C", "D")
 _COMPLETE_DIGIT_SEQUENCE = ("0", "1", "2", "3")
+# 题干里指向配图的强信号短语。只匹配这些明确「指代一张图」的表达，不匹配裸
+# 「图」字——「中心对称图形」「轴对称图形」「函数图象」「统计图」「柱状图」等
+# 纯文字描述会误报。命中即要求题目配了 prompt crop。
+FIGURE_REFERENCE = re.compile(r"如图|图所示|下图|上图|图中|示意图")
 
 
 def normalize_choice_labels(choices: list[str]) -> tuple[bool, list[str] | None]:
@@ -148,6 +152,14 @@ def choice_values(choices: Any) -> list[str]:
     if isinstance(choices, list):
         return [str(value) for value in choices]
     return []
+
+
+def mentions_figure(text: Any) -> bool:
+    """文本是否明确指代一张配图（如图/图所示/下图…）。
+
+    只命中强信号短语，避免「中心对称图形」「函数图象」这类纯文字描述触发。
+    """
+    return bool(FIGURE_REFERENCE.search(str(text or "")))
 
 
 def box_area(box: Any) -> int:
@@ -354,6 +366,13 @@ def audit_item(
         for crop in (raw_source.get("crops") or {}).get("prompt", [])
         if isinstance(crop, dict)
     ]
+    # 题干明确指代一张配图（如图/图所示/下图…）时，必须配 prompt crop；缺图属于
+    # 结构性缺陷，不应让无图版本进入题库。
+    if mentions_figure(teacher_stem) and not prompt_crops:
+        errors.append(
+            f"{item_id}: stem references a figure (如图/图所示/下图…) "
+            "but no prompt crop is attached"
+        )
     for prompt_crop in prompt_crops:
         same_page_evidence = [
             crop

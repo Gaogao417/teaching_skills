@@ -22,6 +22,7 @@ from audit_staging import (  # noqa: E402
     box_area,
     box_intersection_area,
     choice_values,
+    mentions_figure,
     normalize_choice_labels,
 )
 from expand_staging_draft import expand_draft  # noqa: E402
@@ -170,6 +171,29 @@ def test_choice_label_partial_sequence_not_normalizable() -> None:
     ok, stripped = normalize_choice_labels(["A. 甲", "A. 乙", "C. 丙", "D. 丁"])
     assert ok is False
     assert stripped is None
+
+
+def test_mentions_figure_detects_strong_signals() -> None:
+    # 强信号短语：明确指代一张配图，应命中。
+    for stem in (
+        "如图，在 $\\triangle ABC$ 中，$D$ 是 $AB$ 的中点",
+        "函数 $y=kx+b$ 的图象如图所示",
+        "下图中，线段 $AB$ 的长为",
+        "上图中阴影部分的面积",
+        "图中四边形 $ABCD$ 是矩形",
+        "某几何体的示意图如下",
+    ):
+        assert mentions_figure(stem), stem
+    # 纯文字描述里的「图」字：不指代具体配图，不应命中（避免误报）。
+    for stem in (
+        "下面选项中既是中心对称图形又是轴对称图形的是",
+        "反比例函数 $y=\\frac{k}{x}$ 的图象在二、四象限",
+        "根据统计图可知",
+        "该班学生身高柱状图的众数是",
+        "",
+        None,
+    ):
+        assert not mentions_figure(stem), stem
 
 
 def test_compact_draft_expands_canonical_staging_without_student_copy(
