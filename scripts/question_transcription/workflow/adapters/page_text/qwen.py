@@ -65,24 +65,28 @@ class QwenPageTextExtractor:
                 attempts=1,
                 detail=f"page image missing: {image_path}",
             )
-        # OTel span so the OCR prompt/result is visible in Langfuse. No-op when the
-        # driver has not initialized a TracerProvider (offline tests).
-        from opentelemetry import trace
+        # One Langfuse "generation" observation around the OCR call. No-op when
+        # Langfuse is unconfigured (offline tests). The prompt is recorded with
+        # image bytes replaced by a size marker so megabytes of base64 page
+        # images never enter the trace. Token usage is unavailable here because
+        # BailianOcrClient.complete_text returns only the text string.
+        from ...observability import langfuse as _lf
 
-        tracer = trace.get_tracer("question-ingestion.page-text")
-        with tracer.start_as_current_span(
-            "llm.qwen_ocr", attributes={"adapter": ADAPTER_ID, "model": self.model}
-        ) as span:
+        try:
+            data_url, _ = image_to_data_url(image_path)
+            messages = build_messages(data_url)
+        except RuntimeError as exc:
+            return None, PageTextFailure(
+                adapter_id=ADAPTER_ID, kind="invalid_response", attempts=1,
+                detail=f"image read failed: {exc}",
+            )
+        with _lf.generation(
+            "qwen-ocr",
+            model=self.model,
+            input={"page_number": job.page_number, "prompt": _lf.sanitize(_prompt_shape(messages))},
+            metadata={"adapter": ADAPTER_ID, "page_number": job.page_number},
+        ) as obs:
             try:
-                data_url, _ = image_to_data_url(image_path)
-                messages = build_messages(data_url)
-                # Record the prompt shape without the raw base64 image (too large);
-                # keep the role/text structure for observability.
-                span.set_attribute(
-                    "gen_ai.prompt",
-                    _redact_messages(messages),
-                )
-                span.set_attribute("page.number", job.page_number)
                 client = self._get_client()
                 text, cache_hit = client.complete_text(
                     messages=messages,
@@ -92,18 +96,17 @@ class QwenPageTextExtractor:
                         "page_sha256": job.image.sha256,
                     },
                 )
-                if text:
-                    span.set_attribute("gen_ai.completion", text[:4000])
-                span.set_attribute("cache_hit", bool(cache_hit))
+                obs.update(
+                    output=text[:4000] if text else None,
+                    metadata={"cache_hit": bool(cache_hit)},
+                )
             except RuntimeError as exc:
                 # BailianOcrClient raises RuntimeError for HTTP errors / missing key.
                 kind = _classify_runtime(str(exc))
-                span.record_exception(exc)
                 return None, PageTextFailure(
                     adapter_id=ADAPTER_ID, kind=kind, attempts=1, detail=str(exc)
                 )
             except Exception as exc:  # pragma: no cover - defensive
-                span.record_exception(exc)
                 return None, PageTextFailure(
                     adapter_id=ADAPTER_ID,
                     kind="invalid_response",
@@ -128,14 +131,13 @@ class QwenPageTextExtractor:
         return extract, None
 
 
-def _redact_messages(messages: list) -> str:
-    """Render the OCR prompt as compact JSON with image bytes replaced by a marker.
+def _prompt_shape(messages: list) -> list:
+    """Return the OCR prompt structure with image bytes replaced by a size marker.
 
-    Langfuse should show the prompt *structure* (roles, text instructions) without
-    uploading megabytes of base64 page images.
+    Keeps the role/text structure visible in the trace without uploading
+    megabytes of base64 page images. The result is JSON-safe and is passed
+    through ``sanitize`` by the caller before reaching Langfuse.
     """
-
-    import json
 
     redacted = []
     for m in messages:
@@ -151,7 +153,7 @@ def _redact_messages(messages: list) -> str:
             redacted.append({"role": m.get("role"), "content": parts})
         else:
             redacted.append({"role": m.get("role"), "content": content})
-    return json.dumps(redacted, ensure_ascii=False)
+    return redacted
 
 
 def _classify_runtime(detail: str) -> str:

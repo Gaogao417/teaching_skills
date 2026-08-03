@@ -55,146 +55,13 @@ from .bootstrap.composition import BindMode, bind, build_run_layout, record_prov
 from .bootstrap.config import RuntimeAdapterConfig
 from .checkpoint import make_sqlite_checkpointer, thread_id_for
 from .graph import build_graph
+from .observability import langfuse as _lf
 from .orchestration.langgraph.state import (
     WorkflowState,
     dump_state,
     extract_outcome,
     initial_state,
 )
-
-# --------------------------------------------------------------------------- #
-# OpenTelemetry -> Langfuse tracing
-# --------------------------------------------------------------------------- #
-# Two independent trace sources converge on the same Langfuse project:
-#   1. Claude Code SDK: the `claude` CLI subprocess emits OTLP when we set the
-#      CLAUDE_CODE_*_TELEMETRY env vars on os.environ (inherited by the child).
-#   2. This driver: we wrap each graph node stream in an OTel span so the LangGraph
-#      node-level execution tree is visible alongside the LLM calls.
-# Langfuse self-hosted OTLP HTTP endpoint is /api/public/otel with Basic Auth.
-_TRACER = None
-
-
-def setup_otel(
-    *,
-    langfuse_host: str,
-    langfuse_public_key: str,
-    langfuse_secret_key: str,
-    service_name: str,
-) -> bool:
-    """Initialize OTel TracerProvider exporting to Langfuse over OTLP/HTTP.
-
-    Returns False (and degrades to no-op tracing) if the OTLP exporter is missing or
-    Langfuse is unreachable; the run continues regardless so tracing never blocks the
-    workflow verification.
-    """
-
-    global _TRACER
-    try:
-        from opentelemetry import trace
-        from opentelemetry.exporter.otlp.proto.http.trace_exporter import (
-            OTLPSpanExporter,
-        )
-        from opentelemetry.sdk.resources import Resource
-        from opentelemetry.sdk.trace import TracerProvider
-        from opentelemetry.sdk.trace.export import BatchSpanProcessor
-    except Exception as exc:  # opentelemetry-sdk not installed
-        _log(f"OTEL disabled (sdk missing): {exc}")
-        return False
-
-    import base64
-
-    auth = base64.b64encode(
-        f"{langfuse_public_key}:{langfuse_secret_key}".encode()
-    ).decode()
-    resource = Resource.create(
-        {"service.name": service_name, "langfuse.project.key": langfuse_public_key}
-    )
-    provider = TracerProvider(resource=resource)
-    exporter = OTLPSpanExporter(
-        endpoint=f"{langfuse_host}/api/public/otel/v1/traces",
-        headers={
-            "Authorization": f"Basic {auth}",
-            "x-langfuse-ingestion-version": "4",
-        },
-        timeout=10,
-    )
-    provider.add_span_processor(
-        BatchSpanProcessor(exporter, export_timeout_millis=10000)
-    )
-    trace.set_tracer_provider(provider)
-    _TRACER = trace.get_tracer("question-ingestion")
-
-    # Tell the Claude Code CLI subprocess to emit its own OTLP trace/metrics/logs to
-    # the same Langfuse endpoint (docs: agent-sdk/observability).
-    import os
-
-    os.environ.setdefault("CLAUDE_CODE_ENABLE_TELEMETRY", "1")
-    os.environ.setdefault("CLAUDE_CODE_ENHANCED_TELEMETRY_BETA", "1")
-    os.environ.setdefault("OTEL_TRACES_EXPORTER", "otlp")
-    os.environ.setdefault("OTEL_METRICS_EXPORTER", "otlp")
-    os.environ.setdefault("OTEL_LOGS_EXPORTER", "otlp")
-    os.environ.setdefault("OTEL_EXPORTER_OTLP_PROTOCOL", "http/protobuf")
-    os.environ.setdefault("OTEL_EXPORTER_OTLP_ENDPOINT", f"{langfuse_host}/api/public/otel")
-    os.environ.setdefault(
-        "OTEL_EXPORTER_OTLP_HEADERS",
-        f"Authorization=Basic {auth},x-langfuse-ingestion-version=4",
-    )
-    # Short export intervals so short-lived runs flush before the process exits.
-    os.environ.setdefault("OTEL_TRACES_EXPORT_INTERVAL", "1000")
-    _log(f"OTEL enabled -> {langfuse_host}/api/public/otel (service={service_name})")
-    return True
-
-
-class _NodeSpan:
-    """Context manager exposing the live Span so callers can set IO attributes.
-
-    When OTEL is disabled (offline / no Langfuse), ``span`` is None and all set
-    calls become no-ops, so node code never has to branch on tracing.
-    """
-
-    __slots__ = ("_tracer", "_name", "_attrs", "_cm", "span")
-
-    def __init__(self, tracer, name: str, attrs: dict) -> None:
-        self._tracer = tracer
-        self._name = name
-        self._attrs = attrs
-        self._cm = None
-        self.span = None
-
-    def __enter__(self):
-        if self._tracer is None:
-            return None
-        self._cm = self._tracer.start_as_current_span(self._name)
-        self.span = self._cm.__enter__()
-        for k, v in self._attrs.items():
-            try:
-                self.span.set_attribute(k, v)
-            except Exception:
-                pass
-        return self.span
-
-    def __exit__(self, *exc):
-        if self._cm is not None:
-            if exc[0] is not None and self.span is not None:
-                try:
-                    self.span.record_exception(exc[1])
-                    self.span.set_status(_span_status_error())
-                except Exception:
-                    pass
-            return self._cm.__exit__(*exc)
-        return False
-
-
-def _span_status_error():
-    from opentelemetry.trace import Status, StatusCode
-
-    return Status(StatusCode.ERROR)
-
-
-def _span(name: str, **attrs) -> _NodeSpan:
-    """Return a context manager wrapping a node span; no-op if OTEL is disabled."""
-
-    return _NodeSpan(_TRACER, name, attrs)
 
 
 def _repo_root() -> Path:
@@ -320,17 +187,16 @@ def _approve_final_review(staging_directory: str) -> int:
     return n
 
 
-def _stream_once(app, payload, config, label, run_root=None) -> dict[str, Any] | None:
-    """Run one stream pass; print node updates; record a span per node.
+def _stream_once(app, payload, config, label) -> dict[str, Any] | None:
+    """Run one stream pass and print node updates.
 
-    Each node gets one OTel span whose attributes carry the output state delta and
-    (for the first node of a round) the relevant input state. Langfuse renders these
-    as the top-level node execution tree; LLM-call spans (qwen OCR / claude-code)
-    nest under whichever node invoked them via the OTel parent context.
+    Node-level tracing is produced automatically by the Langfuse
+    ``CallbackHandler`` carried in ``config["callbacks"]``; we no longer wrap
+    each chunk in a hand-rolled span. Per-node input/output is bounded by the
+    wrapper's ``mask_otel_spans`` hook rather than projected here.
     """
 
     last_state: dict[str, Any] | None = None
-    prev_state: dict[str, Any] = {}
     try:
         for chunk in app.stream(payload, config=config, stream_mode="updates"):
             # chunk is {node_name: state_delta} under stream_mode="updates".
@@ -339,184 +205,13 @@ def _stream_once(app, payload, config, label, run_root=None) -> dict[str, Any] |
                     continue
                 keys = [k for k in delta.keys() if k not in ("run_id", "paper_id")]
                 _log(f"  [{label}] node={node} -> {sorted(keys)}")
-                with _span(
-                    f"node.{node}", node=node, round=label
-                ) as span:
-                    if span is not None:
-                        span.set_attribute("output.keys", ",".join(sorted(keys)))
-                        _attach_state(span, "output", delta, run_root=run_root)
-                        # The input is the state before this node ran.
-                        _attach_state(span, "input", _input_view(prev_state), run_root=run_root)
     except Exception as exc:  # surface real failures (adapter/model/contract)
         _log(f"  [{label}] STREAM ERROR: {type(exc).__name__}: {exc}")
         raise
     state = app.get_state(config)
     if state is not None:
         last_state = state.values or {}
-        prev_state = dict(last_state)
     return last_state
-
-
-def _input_view(state: dict[str, Any]) -> dict[str, Any]:
-    """Project the large/rich state down to the fields nodes actually consume."""
-
-    keep = {}
-    for k in (
-        "source_kind",
-        "source_archive",
-        "extracted_source",
-        "page_text_jobs",
-        "page_text_extracts",
-        "page_text_failures",
-        "whole_paper_transcription",
-        "image_attribution",
-        "source_paper",
-        "draft",
-        "staging_directory",
-        "review_state",
-        "terminal_errors",
-    ):
-        if k in state:
-            keep[k] = state[k]
-    return keep
-
-
-def _attach_state(span, prefix: str, state: dict[str, Any], *, run_root=None) -> None:
-    """Attach a redacted, size-bounded state projection to a span.
-
-    Langfuse renders an observation's INPUT/OUTPUT from specific attributes
-    (``langfuse.observation.input`` / ``langfuse.observation.output``), not from
-    arbitrary ``prefix.key`` attributes. So we serialize the whole projection to one
-    JSON string and set it on the recognized attribute, so the node's input state
-    and output delta are visible in the UI's Input/Output panels.
-
-    Field projection is content-aware (see :func:`_project_field`): the high-value
-    node outputs (transcription question refs + evidence page numbers, page-text
-    extracts, terminal errors) are expanded so they're readable in the UI instead
-    of collapsed to ``[list of N dict]``. Only genuinely large blobs (raw page
-    text bodies) stay folded. ``run_root`` lets the transcription ref be resolved
-    to a per-question summary inline.
-    """
-
-    if span is None or not state:
-        return
-    attr = (
-        "langfuse.observation.input" if prefix == "input" else "langfuse.observation.output"
-    )
-    projection = {k: _project_field(k, v, run_root=run_root) for k, v in state.items()}
-    try:
-        import json
-
-        span.set_attribute(attr, _truncate(json.dumps(projection, ensure_ascii=False)))
-    except Exception:
-        pass
-
-
-def _project_field(key: str, value: Any, *, run_root=None) -> Any:
-    """Project one state field into a readable, size-bounded trace value.
-
-    The high-value fields get content-aware expansion so a node's Input/Output is
-    actually readable in Langfuse (question refs + evidence page numbers, error
-    text, page-text page numbers + text length). Everything else falls back to the
-    generic :func:`_simplify` count-summary so span attributes stay bounded.
-    """
-
-    if key == "whole_paper_transcription":
-        # An ArtifactRef to structured/transcription.yaml. Resolve and inline a
-        # compact per-question summary (ref + evidence page numbers) so the node's
-        # Output shows what was transcribed, not just the path.
-        ref = _simplify(value) if isinstance(value, dict) else str(value)
-        return {"ref": ref, "questions": _summarize_transcription(value, run_root)}
-    if key == "terminal_errors":
-        # Always show full error text — these are the thing you open the trace to read.
-        return value if isinstance(value, list) else [str(value)]
-    if key == "page_text_extracts" and isinstance(value, list):
-        # One entry per page: surface the page number + text length, fold the body.
-        out = []
-        for item in value:
-            if isinstance(item, dict):
-                art = item.get("artifact") or {}
-                page = art.get("page_number")
-                txt = art.get("text") or {}
-                body = txt.get("text") if isinstance(txt, dict) else None
-                out.append({
-                    "page_number": page,
-                    "text_chars": len(body) if isinstance(body, str) else None,
-                    "ref": _simplify(txt) if isinstance(txt, dict) else None,
-                })
-            else:
-                out.append(_simplify(item))
-        return out
-    if key in ("draft", "source_paper", "extracted_source", "image_attribution") and isinstance(value, dict):
-        # ArtifactRef-shaped: keep path + schema.
-        return _simplify(value)
-    return _simplify(value)
-
-
-def _summarize_transcription(ref: Any, run_root) -> list[dict[str, Any]]:
-    """Resolve a transcription ArtifactRef to a per-question evidence summary.
-
-    Returns ``[{"ref": "1", "type": "choice", "question_pages": [1],
-    "solution_pages": [7]}, ...]`` so a transcription node's Output shows the
-    page→question mapping directly, without opening the file. Folds to ``[]`` on
-    any resolution/parse failure (never raises — tracing must not break the run).
-    """
-
-    try:
-        if not isinstance(ref, dict) or not run_root:
-            return []
-        path = ref.get("path")
-        if not isinstance(path, str):
-            return []
-        from pathlib import Path
-
-        import yaml as _yaml
-
-        yaml_path = (Path(run_root) / path) if not Path(path).is_absolute() else Path(path)
-        if not yaml_path.exists():
-            return []
-        data = _yaml.safe_load(yaml_path.read_text(encoding="utf-8")) or {}
-        out = []
-        for section in data.get("sections") or []:
-            for q in section.get("questions") or []:
-                ev = q.get("evidence") or {}
-                qp = [p["page_number"] for p in (ev.get("question") or [])
-                      if isinstance(p, dict) and "page_number" in p]
-                sp = [p["page_number"] for p in (ev.get("solution") or [])
-                      if isinstance(p, dict) and "page_number" in p]
-                out.append({
-                    "ref": q.get("question_ref"),
-                    "type": q.get("question_type"),
-                    "question_pages": qp,
-                    "solution_pages": sp,
-                })
-        return out
-    except Exception:
-        return []
-
-
-def _simplify(v: Any) -> Any:
-    """Collapse lists/dicts to counts + short summaries to keep span attrs small."""
-
-    if isinstance(v, list):
-        if not v:
-            return "[]"
-        first = v[0]
-        if isinstance(first, dict):
-            return f"[list of {len(v)} dict]"
-        return f"[list of {len(v)} {type(first).__name__}]"
-    if isinstance(v, dict):
-        # ArtifactRef-shaped dicts: keep path + schema.
-        if "path" in v and "sha256" in v:
-            return f"ref:{v.get('path')}({v.get('schema', '?')})"
-        return f"{{dict {len(v)} keys: {','.join(sorted(v))[:120]}}}"
-    if isinstance(v, str):
-        return v
-    return str(v)
-
-
-def _truncate(s: str, n: int = 20000) -> str:
-    return s if len(s) <= n else s[:n] + f"…<+{len(s) - n} chars>"
 
 
 def _main_repo_root() -> Path:
@@ -620,20 +315,10 @@ def run(
     page_provider: str = "qwen",
     final_review_mode: str = "human",
     max_resume_rounds: int = 6,
-    langfuse_host: str | None = None,
-    langfuse_public_key: str | None = None,
-    langfuse_secret_key: str | None = None,
 ) -> str:
     if final_review_mode not in {"human", "auto"}:
         raise ValueError("final_review_mode must be 'human' or 'auto'")
     run_id = f"run-{uuid.uuid4().hex[:12]}"
-    if langfuse_host and langfuse_public_key and langfuse_secret_key:
-        setup_otel(
-            langfuse_host=langfuse_host,
-            langfuse_public_key=langfuse_public_key,
-            langfuse_secret_key=langfuse_secret_key,
-            service_name=f"question-ingestion:{paper_id}",
-        )
     config = RuntimeAdapterConfig(
         page_text_provider=page_provider,
         whole_paper_adapter=agent_host.replace("-", "_"),
@@ -644,7 +329,21 @@ def run(
 
     checkpointer = make_sqlite_checkpointer(layout.root / f"{run_id}.sqlite")
     thread = thread_id_for(run_id)
-    lg_config = {"configurable": {"thread_id": thread}, "recursion_limit": 200}
+    # Langfuse callbacks are injected here. When unconfigured (no LANGFUSE_*
+    # env), graph_callbacks() returns [] and the config is identical to the
+    # pre-tracing baseline. Trace-level attributes (session/tags/name) are set
+    # both here (for the CallbackHandler root) and inside operation() below.
+    lg_config = {
+        "configurable": {"thread_id": thread},
+        "recursion_limit": 200,
+        "callbacks": _lf.graph_callbacks(),
+        "run_name": f"question-ingestion:{paper_id}",
+        "metadata": {
+            "langfuse_session_id": paper_id,
+            "langfuse_tags": ["question-ingestion"],
+            "paper_id": paper_id,
+        },
+    }
     app = build_graph(deps, checkpointer=checkpointer)
 
     state = initial_state(
@@ -658,62 +357,81 @@ def run(
     _log(f"      source={source}")
     _log(f"      layout={layout.root}")
     _log(f"      agent={agent_host} page={page_provider}")
+    _log(f"      langfuse: {'enabled' if _lf.is_enabled() else 'disabled'}")
 
+    # The whole run is one root observation; node observations created by the
+    # CallbackHandler and the per-LLM generations created by adapters nest
+    # under it via the shared OTel context. flush() in finally so a mid-run
+    # exception still flushes whatever was collected — but a flush failure must
+    # not mask the real error, so it is caught inside the wrapper.
     payload: Any = state
-    for rnd in range(max_resume_rounds):
-        t0 = time.time()
-        result = _stream_once(app, payload, lg_config, f"round{rnd}", run_root=layout.root)
-        elapsed = time.time() - t0
-        gs = app.get_state(lg_config)
-        outcome = extract_outcome(gs.values or {}) if gs and gs.values else "running"
-        next_interrupts = gs.next if gs is not None else ()
-        _log(
-            f"  round{rnd} done in {elapsed:.1f}s -> outcome={outcome} next={list(next_interrupts)}"
-        )
-        if outcome in ("completed", "failed"):
-            break
-        # Handle interrupts: write the approval artifacts, then resume.  Resume only
-        # WAKES the paused node via Command(resume=_RESUME_WAKE_ACK); approval lives on
-        # disk and is re-read by the gate on resume (design §16.8).
-        resumed_something = False
-        waiting_for_human_review = False
-        if gs and getattr(gs, "tasks", None):
-            for task in gs.tasks:
-                interrupts = getattr(task, "interrupts", ()) or ()
-                if not interrupts:
-                    continue
-                kind = interrupts[0].value.get("kind") if interrupts else None
-                _log(f"  INTERRUPT kind={kind}")
-                if kind == "waiting_for_source_review":
-                    _approve_source_review(layout)
-                    resumed_something = True
-                elif kind == "waiting_for_final_review":
-                    staging = (gs.values or {}).get("staging_directory")
-                    if final_review_mode == "auto" and staging:
-                        _approve_final_review(staging)
-                        resumed_something = True
-                    else:
-                        _log("  final review is ready for Review UI; leaving graph interrupted")
-                        if staging:
-                            _log(f"  staging={staging}")
-                            _log(f"  open Review UI: {_review_ui_command(layout)}")
-                            _log(
-                                f"  after review: {sys.executable} -m "
-                                "scripts.question_transcription.workflow.run_live_paper "
-                                f"--paper-id {paper_id} --resume-run-id {run_id}"
-                            )
-                        waiting_for_human_review = True
-        if waiting_for_human_review:
-            break
-        if not resumed_something and outcome == "running" and not next_interrupts:
-            _log("  no interrupt to resume and graph idle; stopping.")
-            break
-        # Wake the paused interrupt.  In langgraph 0.2.76 only a non-None Command
-        # resume value advances past the interrupt; the wake ack carries no decision.
-        payload = Command(resume=_RESUME_WAKE_ACK)
+    final_state: dict[str, Any] = {}
+    try:
+        with _lf.operation(
+            "paper-ingestion",
+            input={"paper_id": paper_id, "source_kind": source_kind},
+            metadata={"paper_id": paper_id, "thread_id": thread},
+            session_id=paper_id,
+            tags=["question-ingestion"],
+            trace_name=f"question-ingestion:{paper_id}",
+        ):
+            for rnd in range(max_resume_rounds):
+                t0 = time.time()
+                result = _stream_once(app, payload, lg_config, f"round{rnd}")
+                elapsed = time.time() - t0
+                gs = app.get_state(lg_config)
+                outcome = extract_outcome(gs.values or {}) if gs and gs.values else "running"
+                next_interrupts = gs.next if gs is not None else ()
+                _log(
+                    f"  round{rnd} done in {elapsed:.1f}s -> outcome={outcome} next={list(next_interrupts)}"
+                )
+                if outcome in ("completed", "failed"):
+                    break
+                # Handle interrupts: write the approval artifacts, then resume.  Resume only
+                # WAKES the paused node via Command(resume=_RESUME_WAKE_ACK); approval lives on
+                # disk and is re-read by the gate on resume (design §16.8).
+                resumed_something = False
+                waiting_for_human_review = False
+                if gs and getattr(gs, "tasks", None):
+                    for task in gs.tasks:
+                        interrupts = getattr(task, "interrupts", ()) or ()
+                        if not interrupts:
+                            continue
+                        kind = interrupts[0].value.get("kind") if interrupts else None
+                        _log(f"  INTERRUPT kind={kind}")
+                        if kind == "waiting_for_source_review":
+                            _approve_source_review(layout)
+                            resumed_something = True
+                        elif kind == "waiting_for_final_review":
+                            staging = (gs.values or {}).get("staging_directory")
+                            if final_review_mode == "auto" and staging:
+                                _approve_final_review(staging)
+                                resumed_something = True
+                            else:
+                                _log("  final review is ready for Review UI; leaving graph interrupted")
+                                if staging:
+                                    _log(f"  staging={staging}")
+                                    _log(f"  open Review UI: {_review_ui_command(layout)}")
+                                    _log(
+                                        f"  after review: {sys.executable} -m "
+                                        "scripts.question_transcription.workflow.run_live_paper "
+                                        f"--paper-id {paper_id} --resume-run-id {run_id}"
+                                    )
+                                waiting_for_human_review = True
+                if waiting_for_human_review:
+                    break
+                if not resumed_something and outcome == "running" and not next_interrupts:
+                    _log("  no interrupt to resume and graph idle; stopping.")
+                    break
+                # Wake the paused interrupt.  In langgraph 0.2.76 only a non-None Command
+                # resume value advances past the interrupt; the wake ack carries no decision.
+                payload = Command(resume=_RESUME_WAKE_ACK)
 
-    final = app.get_state(lg_config)
-    final_state = final.values if final is not None else {}
+            final = app.get_state(lg_config)
+            final_state = final.values if final is not None else {}
+    finally:
+        _lf.flush()
+
     _persist_state(layout, final_state)
     outcome = extract_outcome(final_state) if final_state else "failed"
     errors = final_state.get("terminal_errors") or []
@@ -817,12 +535,8 @@ def main(argv: list[str] | None = None) -> int:
             "auto: write complete approved review.yaml files for E2E verification"
         ),
     )
-    # Langfuse tracing (optional). When all three are set, OTLP traces are exported
-    # to the local/self-hosted Langfuse and the Claude Code CLI subprocess inherits
-    # the same OTLP env so its LLM calls appear in the same trace tree.
-    p.add_argument("--langfuse-host", default="http://localhost:3000")
-    p.add_argument("--langfuse-public-key", default=None)
-    p.add_argument("--langfuse-secret-key", default=None)
+    # Langfuse tracing is configured via environment variables only
+    # (LANGFUSE_BASE_URL/PUBLIC_KEY/SECRET_KEY); see AGENTS.md.
     args = p.parse_args(argv)
     if args.resume_run_id:
         if args.source or args.source_kind:
@@ -843,9 +557,6 @@ def main(argv: list[str] | None = None) -> int:
             agent_host=args.agent_host,
             page_provider=args.page_provider,
             final_review_mode=args.final_review_mode,
-            langfuse_host=args.langfuse_host,
-            langfuse_public_key=args.langfuse_public_key,
-            langfuse_secret_key=args.langfuse_secret_key,
         )
     print(run_id)
     return 0

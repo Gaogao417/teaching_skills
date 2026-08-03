@@ -126,7 +126,7 @@ class StructuredWholePaperTranscriber:
                 source_archive=self._source_archive(request),
                 ordered_pages=ordered,
             )
-            bundle = self._run_agent(user_prompt)
+            bundle = self._run_agent(user_prompt, page_count=len(ordered))
         except _TranscriberError as exc:
             return None, exc.failure
         except Exception as exc:  # pragma: no cover - defensive
@@ -170,8 +170,12 @@ class StructuredWholePaperTranscriber:
 
     # -- internals -------------------------------------------------------- #
 
-    def _run_agent(self, user_prompt: str):
-        """Drive PydanticAI validation/retry and return a validated bundle."""
+    def _run_agent(self, user_prompt: str, page_count: int):
+        """Drive PydanticAI validation/retry and return a validated bundle.
+
+        ``page_count`` is the number of source pages fed in; it is recorded on
+        the Langfuse generation observation for latency/token-per-page analysis.
+        """
 
         cache_path = self.cache_dir / f"{self._cache_key(user_prompt)}.json"
         if cache_path.exists():
@@ -195,8 +199,31 @@ class StructuredWholePaperTranscriber:
             name=self.agent_name,
         )
 
+        # One Langfuse "generation" observation around the whole-paper agent
+        # turn. This is the only LLM call site that exposes real token usage
+        # (via pydantic_ai's RunUsage). No-op when Langfuse is unconfigured.
+        from ...observability import langfuse as _lf
+
         try:
-            result = asyncio.run(agent.run(user_prompt))
+            with _lf.generation(
+                "whole-paper-transcribe",
+                model=self.model_name,
+                input={"pages": page_count, "prompt_chars": len(user_prompt)},
+                metadata={"adapter": self.adapter_id},
+            ) as obs:
+                result = asyncio.run(agent.run(user_prompt))
+                # pydantic-ai exposes token usage as a `usage` property (RunUsage),
+                # not a method. getattr-with-defaults keeps this robust if the
+                # field names change; RunUsage.input_tokens/output_tokens are
+                # pinned by test_run_usage_has_input_output_token_fields.
+                usage = result.usage
+                obs.update(
+                    output={"questions": len(getattr(result.output, "questions", []) or [])},
+                    usage_details={
+                        "input": getattr(usage, "input_tokens", 0) or 0,
+                        "output": getattr(usage, "output_tokens", 0) or 0,
+                    },
+                )
         except ModelFailureError as exc:
             raise _TranscriberError(_map_failure(exc.failure, adapter_id=self.adapter_id))
         except _TranscriberError:
