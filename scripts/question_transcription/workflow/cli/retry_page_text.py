@@ -51,7 +51,7 @@ from scripts.question_transcription.workflow.infrastructure.artifact_store impor
 from scripts.question_transcription.workflow.infrastructure.run_layout import RunLayout
 
 
-REPO_ROOT = Path(__file__).resolve().parents[2]
+REPO_ROOT = Path(__file__).resolve().parents[4]
 DEFAULT_RUNS_ROOT = REPO_ROOT / "build" / "question-ingestion"
 
 

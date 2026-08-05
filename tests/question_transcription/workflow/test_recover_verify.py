@@ -10,8 +10,8 @@ ROOT = Path(__file__).resolve().parents[3]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from scripts.question_transcription import recover_failed_runs
-from scripts.question_transcription.recover_failed_runs import (
+from scripts.question_transcription.workflow.cli import recover_failed_runs
+from scripts.question_transcription.workflow.cli.recover_failed_runs import (
     RecoveryResult,
     RunRecord,
     _snapshot_failure,

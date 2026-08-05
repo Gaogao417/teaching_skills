@@ -16,7 +16,7 @@ when LF_PUBLIC_KEY/LF_SECRET_KEY env vars are set.
 
 Usage:
     source ~/.zshrc 2>/dev/null
-    ./.venv/bin/python -m scripts.question_transcription.batch_transcribe_papers \\
+    ./.venv/bin/python -m scripts.question_transcription.workflow.cli.batch_transcribe_papers \\
         --documents-root documents/初三 \\
         --workers 8 [--limit N] [--dry-run]
 """
@@ -217,7 +217,7 @@ def select_source(directory: Path, merge_dir: Path) -> PaperJob | None:
 # Already-transcribed check + worker
 # --------------------------------------------------------------------------- #
 
-REPO_ROOT = Path(__file__).resolve().parents[2]
+REPO_ROOT = Path(__file__).resolve().parents[4]
 
 
 def _transcribed(paper_id: str) -> bool:

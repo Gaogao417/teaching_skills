@@ -67,7 +67,7 @@ from scripts.question_transcription.workflow.nodes.whole_paper import (
 from scripts.question_transcription.workflow.run_live_paper import _build_root
 
 
-REPO_ROOT = Path(__file__).resolve().parents[2]
+REPO_ROOT = Path(__file__).resolve().parents[4]
 DEFAULT_RUNS_ROOT = REPO_ROOT / "build" / "question-ingestion"
 
 

@@ -12,7 +12,7 @@ ROOT = Path(__file__).resolve().parents[3]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from scripts.question_transcription import retry_page_text
+from scripts.question_transcription.workflow.cli import retry_page_text
 from scripts.question_transcription.workflow.contracts import (
     ArtifactRef,
     PageTextJob,

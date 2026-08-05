@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parents[3]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from scripts.question_transcription import resume_from_barrier
+from scripts.question_transcription.workflow.cli import resume_from_barrier
 from scripts.question_transcription.workflow.bootstrap.composition import (
     bind,
     build_run_layout,
