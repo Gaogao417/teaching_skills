@@ -36,7 +36,7 @@ from pathlib import Path
 from .._common_paths import repo_root  # noqa: F401
 from ...contracts import ArtifactRef, SourceBuildResult
 from ...ports.source_build import SourceBuildFailure
-from scripts.question_transcription.vector_asset_guard import (  # noqa: E402
+from .vector_asset_guard import (
     GuardDecision,
     GuardInput,
     VectorAssetGuard,

@@ -18,7 +18,7 @@ ROOT = Path(__file__).resolve().parents[2]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from scripts.question_transcription.vector_asset_guard import (  # noqa: E402
+from scripts.question_transcription.workflow.adapters.source.vector_asset_guard import (  # noqa: E402
     GuardInput,
     TINY_VECTOR_MAX_PX,
     VectorAssetGuard,
