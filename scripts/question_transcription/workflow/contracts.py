@@ -37,20 +37,10 @@ from .domain.lifecycle import (  # noqa: F401  (canonical re-export)
     WorkflowOutcomeKind,
 )
 
-# Re-export the authoritative schemas so node/adapter code has a single import path.
-# (Importing here does not couple state to provider choice — these are pure data
-# contracts shared by every adapter, fake or real.)
-from scripts.question_transcription.contracts import (  # noqa: F401  (re-export)
-    ImageAttributionBundle,
-    QuestionTranscriptionBundle,
-)
-from scripts.question_transcription.review_issue_contracts import (  # noqa: F401
-    ReviewIssuesBundle,
-    ReviewResolutionsBundle,
-)
-from scripts.question_transcription.source_contracts import (  # noqa: F401
-    SourcePaper,
-)
+# NOTE: the authoritative Pydantic schemas (SourcePaper, QuestionTranscriptionBundle,
+# ImageAttributionBundle, ReviewIssuesBundle, ReviewResolutionsBundle) are NOT
+# re-exported here — import them directly from
+# scripts.question_transcription.{source_contracts,contracts,review_issue_contracts}.
 
 __all__ = [
     "ArtifactRef",
@@ -70,12 +60,6 @@ __all__ = [
     "SourceBuildResult",
     "ReviewStateKind",
     "WorkflowOutcomeKind",
-    # Re-exported authoritative schemas:
-    "SourcePaper",
-    "QuestionTranscriptionBundle",
-    "ImageAttributionBundle",
-    "ReviewIssuesBundle",
-    "ReviewResolutionsBundle",
 ]
 
 
