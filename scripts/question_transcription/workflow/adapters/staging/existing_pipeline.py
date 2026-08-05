@@ -61,7 +61,7 @@ class DeterministicDraftProjector:
 
     def project(self, source_paper_ref):
         try:
-            from scripts.question_transcription.project_source_paper import (
+            from .project_source_paper import (
                 project_source_to_draft,
             )
             from scripts.question_transcription.source_contracts import SourcePaper
@@ -111,7 +111,7 @@ class DeterministicDraftProjector:
             # actual PNG composition happens later in the materialize step (after
             # expand creates the staging tree); the composition plan is stashed
             # on the renderer and committed as a sidecar the materializer reads.
-            from scripts.question_transcription.materialize_image_group import (
+            from .materialize_image_group import (
                 resolve_placement_decisions,
             )
             resolved = resolve_placement_decisions(draft, repo_root(), staging_dir=None)
@@ -233,7 +233,7 @@ class DeterministicAssetMaterializer:
             # which must exist before materialize_item opens it.
             plan_path = self.store.layout.structured_dir / "placement-plan.yaml"
             if plan_path.exists():
-                from scripts.question_transcription.materialize_image_group import (
+                from .materialize_image_group import (
                     ImageGroupRenderer,
                 )
                 renderer = ImageGroupRenderer.from_plan_file(plan_path, root)

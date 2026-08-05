@@ -113,7 +113,7 @@ def test_multi_image_resolved_draft_runs_full_pipeline(fake_repo: Path):
     """The composed group PNG must be written to disk with real dimensions and
     survive expand → materialize → audit. This is the test that was missing from
     commit 3 and would have caught the not-written / box_px=[0,0,0,0] bugs."""
-    from scripts.question_transcription.materialize_image_group import (
+    from scripts.question_transcription.workflow.adapters.staging.materialize_image_group import (
         resolve_placement_decisions,
     )
 

@@ -27,7 +27,7 @@ if str(ROOT) not in sys.path:
 
 from scripts.question_transcription.workflow.adapters.source.adapt_docx_images import adapt as adapt_docx  # noqa: E402
 from scripts.question_transcription.workflow.adapters.source.adapt_pdf_images import adapt as adapt_pdf  # noqa: E402
-from scripts.question_transcription.assemble_paper_draft import assemble  # noqa: E402
+from scripts.question_transcription.workflow.adapters.staging.assemble_paper_draft import assemble  # noqa: E402
 from scripts.question_transcription.contracts import (  # noqa: E402
     ImageAttributionBundle,
     QuestionTranscriptionBundle,

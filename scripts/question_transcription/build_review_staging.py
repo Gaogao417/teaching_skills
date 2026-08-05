@@ -23,7 +23,7 @@ from scripts.question_transcription.adapt_pdf_transcription import (  # noqa: E4
     adapt as adapt_pdf,
     adapt_for_review_staging as adapt_pdf_for_review,
 )
-from scripts.question_transcription.assemble_paper_draft import assemble  # noqa: E402
+from scripts.question_transcription.workflow.adapters.staging.assemble_paper_draft import assemble  # noqa: E402
 from scripts.question_transcription.contracts import ImageAttributionBundle  # noqa: E402
 from scripts.question_transcription.docx_observation_contracts import (  # noqa: E402
     DocxObservationBundle,

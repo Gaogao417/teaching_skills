@@ -17,7 +17,7 @@ from typing import Any
 
 import yaml
 
-from scripts.question_transcription.assemble_paper_draft import assemble
+from .assemble_paper_draft import assemble
 from scripts.question_transcription.contracts import (
     Attribution,
     AttributionAsset,
@@ -50,7 +50,7 @@ from scripts.question_transcription.source_contracts import (
     TargetQuestionStem,
     TextNode,
 )
-from scripts.question_transcription.source_review_validation import (
+from .source_review_validation import (
     assert_source_review_ready,
 )
 

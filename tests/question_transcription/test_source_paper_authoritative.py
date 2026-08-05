@@ -244,7 +244,7 @@ def test_no_manifest_is_allowed(tmp_path):
 from scripts.question_transcription.workflow.adapters.source.source_paper import (  # noqa: E402
     _build_authoritative_v2,
 )
-from scripts.question_transcription.project_source_paper import (  # noqa: E402
+from scripts.question_transcription.workflow.adapters.staging.project_source_paper import (  # noqa: E402
     project_source_to_draft,
 )
 from scripts.question_transcription.source_contracts import SourcePaper  # noqa: E402

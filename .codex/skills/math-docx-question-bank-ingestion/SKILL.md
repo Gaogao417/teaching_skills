@@ -123,7 +123,7 @@ word/
 ## provider/assembler 按 source_paper.schema 生成权威原卷
 ## <build>/paper.source.yaml
 
-./.venv/bin/python scripts/question_transcription/project_source_paper.py \
+./.venv/bin/python scripts/question_transcription/workflow/adapters/staging/project_source_paper.py \
   --source <build>/paper.source.yaml \
   --skeleton <build>/transcription.yaml \
   --issues <build>/review-issues.yaml \

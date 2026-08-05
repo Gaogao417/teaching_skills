@@ -90,7 +90,7 @@ PDF/扫描件冻结为不可变页图。多模态 provider 一次产生文本转
   --detection <build>/pdf-observation.yaml \
   --output <build>/image-attribution.yaml
 
-./.venv/bin/python scripts/question_transcription/assemble_paper_draft.py \
+./.venv/bin/python scripts/question_transcription/workflow/adapters/staging/assemble_paper_draft.py \
   --transcription <build>/transcription.yaml \
   --images <build>/image-attribution.yaml \
   --output staging/<paper-id>/paper.draft.yaml \

@@ -29,7 +29,7 @@ from scripts.question_transcription.source_contracts import (  # noqa: E402
     TargetQuestionStem,
     TextNode,
 )
-from scripts.question_transcription.source_review_validation import (  # noqa: E402
+from scripts.question_transcription.workflow.adapters.staging.source_review_validation import (  # noqa: E402
     assert_source_review_ready,
     validate_source_review_gate,
 )

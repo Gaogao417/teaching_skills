@@ -12,7 +12,7 @@ if str(ROOT) not in sys.path:
 from scripts.question_transcription.contracts import (  # noqa: E402
     QuestionTranscriptionBundle,
 )
-from scripts.question_transcription.project_source_paper import (  # noqa: E402
+from scripts.question_transcription.workflow.adapters.staging.project_source_paper import (  # noqa: E402
     project_image_bundle,
     project_source_to_draft,
     project_transcription_bundle,

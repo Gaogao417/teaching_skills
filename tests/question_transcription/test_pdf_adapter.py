@@ -20,7 +20,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from scripts.question_transcription.workflow.adapters.source.adapt_pdf_images import adapt  # noqa: E402
-from scripts.question_transcription.assemble_paper_draft import assemble  # noqa: E402
+from scripts.question_transcription.workflow.adapters.staging.assemble_paper_draft import assemble  # noqa: E402
 from scripts.question_transcription.contracts import (  # noqa: E402
     ImageAttributionBundle,
     QuestionTranscriptionBundle,

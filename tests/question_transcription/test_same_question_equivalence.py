@@ -42,7 +42,7 @@ from scripts.question_transcription.workflow.adapters.source.adapt_pdf_images im
 from scripts.question_transcription.adapt_pdf_transcription import (  # noqa: E402
     adapt as adapt_pdf_transcription,
 )
-from scripts.question_transcription.assemble_paper_draft import assemble  # noqa: E402
+from scripts.question_transcription.workflow.adapters.staging.assemble_paper_draft import assemble  # noqa: E402
 from scripts.question_transcription.contracts import (  # noqa: E402
     ImageAttributionBundle,
     QuestionTranscriptionBundle,
