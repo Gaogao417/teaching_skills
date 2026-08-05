@@ -3,32 +3,37 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>题库数值审核</title>
+    <title>三角形素材库审核</title>
     <link rel="stylesheet" href="/static/training-number-review.css">
   </head>
   <body>
     <header class="topbar">
       <div>
-        <p class="eyebrow">QUESTION BANK · NUMBER REVIEW</p>
-        <h1>题库数值审核</h1>
+        <p class="eyebrow">TRIANGLE PIPELINE · MATERIAL REVIEW</p>
+        <h1 id="page-title">数库审核</h1>
         <p class="subtitle">按钮凹下表示禁用；再次点击恢复可用。</p>
       </div>
       <div class="summary" aria-live="polite">
         <a class="game-link secondary-link" href="__QUESTION_BANK_REVIEW_URL__">题库 →</a>
         <a class="game-link" href="/game">打开倍数快找 →</a>
-        <span><strong id="total-count">—</strong> 组</span>
+        <span><strong id="total-count">—</strong> 项</span>
         <span class="disabled-summary"><strong id="disabled-count">—</strong> 已禁用</span>
       </div>
     </header>
 
     <main>
+      <nav class="library-tabs" aria-label="素材库层级">
+        <button type="button" data-library="numbers" aria-current="page">数库</button>
+        <button type="button" data-library="trig">三角比库</button>
+        <button type="button" data-library="triangles">三角形库</button>
+      </nav>
       <section class="toolbar" aria-label="筛选">
         <label class="search-field">
           <span>搜索</span>
-          <input id="search" type="search" placeholder="如 3/4、sqrt(3)、pythagorean">
+          <input id="search" type="search" placeholder="搜索编号、数值或标签">
         </label>
         <label>
-          <span>数值族</span>
+          <span id="family-filter-label">数值族</span>
           <select id="family-filter"><option value="">全部</option></select>
         </label>
         <label>

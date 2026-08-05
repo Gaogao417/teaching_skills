@@ -42,11 +42,17 @@ from scripts.question_transcription.review_issue_contracts import (  # noqa: E40
     ReviewResolutionsBundle,
     unresolved_issues,
 )
+from triangle_candidate_review_adapter import (  # noqa: E402
+    BANK_ID as TRIANGLE_CANDIDATE_BANK_ID,
+    TriangleCandidateReviewStore,
+)
 TEMPLATE_DIR = PACKAGE_DIR / "templates"
 STATIC_DIR = PACKAGE_DIR / "static"
 DEFAULT_BANK_ROOT = REPO_ROOT / "artifacts" / "题库"
 DEFAULT_STAGING_ROOT = REPO_ROOT / "artifacts" / "试卷整理"
 DEFAULT_NUMBER_REVIEW_URL = "http://127.0.0.1:8876/"
+DEFAULT_TRIANGLE_CANDIDATES = PACKAGE_DIR / "data" / "triangle-cosine-question-candidates.yaml"
+DEFAULT_TRIANGLE_QUESTION_REVIEW = PACKAGE_DIR / "data" / "triangle-cosine-question-review.yaml"
 REVIEW_SCHEMA = "math_exam_item_review/v1"
 SOURCE_SCHEMA = "math_exam_item_source/v1"
 PAPER_SCHEMA = "math_exam_paper/v1"
@@ -2087,8 +2093,15 @@ def create_question_bank_app(
     bank_root: str | Path = DEFAULT_BANK_ROOT,
     number_review_url: str = DEFAULT_NUMBER_REVIEW_URL,
     external_write_ttl: float | None = None,
+    triangle_candidates_path: str | Path | None = None,
+    triangle_question_review_path: str | Path = DEFAULT_TRIANGLE_QUESTION_REVIEW,
 ) -> FastAPI:
     catalog = QuestionBankCatalog(bank_root)
+    triangle_review = (
+        TriangleCandidateReviewStore(Path(triangle_candidates_path), Path(triangle_question_review_path))
+        if triangle_candidates_path is not None
+        else None
+    )
     app = FastAPI(title="Question Bank Review", version="0.1.0")
     app.state.catalog = catalog
     app.state.number_review_url = number_review_url
@@ -2120,7 +2133,7 @@ def create_question_bank_app(
         return {
             "ok": True,
             "ready": True,
-            "banks": len(snapshot.summaries),
+            "banks": len(snapshot.summaries) + int(triangle_review is not None),
             "errors": snapshot.errors,
             # §11 阶段 0 可观测：stats 非破坏性追加，现有 ok/ready/banks/errors 契约不变。
             "stats": catalog.stats(),
@@ -2136,11 +2149,12 @@ def create_question_bank_app(
         """
         snapshot = catalog.snapshot()
         facets = snapshot.facets
+        generated_summary = triangle_review.summary() if triangle_review else None
         return {
-            "banks": snapshot.summaries,
+            "banks": ([generated_summary] if generated_summary else []) + snapshot.summaries,
             "facets": {
-                "kinds": facets["kinds"],
-                "grades": facets["grades"],
+                "kinds": sorted(set(facets["kinds"]) | ({"staging_exam"} if generated_summary else set())),
+                "grades": sorted(set(facets["grades"]) | ({generated_summary["grade"]} if generated_summary else set())),
                 "years": facets["years"],
                 "exam_types": facets["exam_types"],
             },
@@ -2160,7 +2174,7 @@ def create_question_bank_app(
         # 内存过滤零成本（§4.2）。_filter_bank_summaries 原样复用。
         snapshot = catalog.snapshot()
         banks = _filter_bank_summaries(
-            snapshot.summaries,
+            ([triangle_review.summary()] if triangle_review else []) + snapshot.summaries,
             kind=kind,
             grade=grade,
             year=year,
@@ -2179,8 +2193,8 @@ def create_question_bank_app(
         snapshot = catalog.snapshot()
         facets = snapshot.facets
         return {
-            "kinds": facets["kinds"],
-            "grades": facets["grades"],
+            "kinds": sorted(set(facets["kinds"]) | ({"staging_exam"} if triangle_review else set())),
+            "grades": sorted(set(facets["grades"]) | ({"九年级"} if triangle_review else set())),
             "years": facets["years"],
             "exam_types": facets["exam_types"],
             "errors": snapshot.errors,
@@ -2194,6 +2208,11 @@ def create_question_bank_app(
         # ?directory=1（§8.3 阶段 5）：返回轻量卷级目录（counts + items 的 id/title/
         # review_status/stale），供前端首屏拿导航再逐题懒加载。默认仍返回整卷完整 detail，
         # 兼容已提交测试与未升级前端（§14 反向兼容开关）。
+        if bank_id == TRIANGLE_CANDIDATE_BANK_ID and triangle_review:
+            return triangle_review.directory() if directory else {
+                **triangle_review.directory(),
+                "items": [triangle_review.item(item["id"]) for item in triangle_review.directory()["items"]],
+            }
         if directory:
             try:
                 return catalog.paper_directory(bank_id)
@@ -2211,6 +2230,11 @@ def create_question_bank_app(
 
         前端懒加载（§10.3）：加载卷级目录后逐题请求此接口，避免一次拉整卷 3×N 份 YAML。
         """
+        if bank_id == TRIANGLE_CANDIDATE_BANK_ID and triangle_review:
+            try:
+                return triangle_review.item(item_id)
+            except KeyError as exc:
+                raise HTTPException(status_code=404, detail="题目不存在") from exc
         snapshot = catalog.ensure_bank_fresh(bank_id)
         try:
             return catalog.item_detail(bank_id, item_id)
@@ -2322,6 +2346,11 @@ def create_question_bank_app(
     def review_staging_item(
         bank_id: str, item_id: str, decision: ReviewDecision
     ) -> dict[str, Any]:
+        if bank_id == TRIANGLE_CANDIDATE_BANK_ID and triangle_review:
+            try:
+                return triangle_review.write_review(item_id, decision.decision, decision.note)
+            except KeyError as exc:
+                raise HTTPException(status_code=404, detail="候选题不存在") from exc
         try:
             return catalog.write_staging_review(bank_id, item_id, decision)
         except KeyError as exc:
@@ -2348,6 +2377,8 @@ def create_question_bank_app(
     @app.post("/api/banks/{bank_id}/review-all")
     def review_all_staging(bank_id: str) -> dict[str, Any]:
         """一键通过整张 staging 试卷，返回刷新后的 detail（含 items + errors）。"""
+        if bank_id == TRIANGLE_CANDIDATE_BANK_ID and triangle_review:
+            return triangle_review.approve_all()
         try:
             return catalog.approve_all_staging(bank_id)
         except KeyError as exc:
@@ -2397,6 +2428,8 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--host", default="127.0.0.1")
     parser.add_argument("--port", type=int, default=8877)
     parser.add_argument("--number-review-url", default=DEFAULT_NUMBER_REVIEW_URL)
+    parser.add_argument("--triangle-candidates", type=Path, default=DEFAULT_TRIANGLE_CANDIDATES)
+    parser.add_argument("--triangle-question-review", type=Path, default=DEFAULT_TRIANGLE_QUESTION_REVIEW)
     # §5.2 不受约束外部写兜底：>0 启动后台 TTL watcher（秒）。默认 0=不启动。
     parser.add_argument(
         "--external-write-ttl",
@@ -2410,6 +2443,8 @@ def main(argv: list[str] | None = None) -> int:
             args.bank_root,
             args.number_review_url,
             external_write_ttl=args.external_write_ttl or None,
+            triangle_candidates_path=args.triangle_candidates,
+            triangle_question_review_path=args.triangle_question_review,
         ),
         host=args.host,
         port=args.port,

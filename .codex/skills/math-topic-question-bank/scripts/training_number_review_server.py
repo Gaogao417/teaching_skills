@@ -5,8 +5,10 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import random
 import sqlite3
+import tempfile
 import threading
 from datetime import datetime, timezone
 from fractions import Fraction
@@ -14,6 +16,7 @@ from pathlib import Path
 from typing import Literal
 
 import uvicorn
+import yaml
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse, HTMLResponse
 from fastapi.staticfiles import StaticFiles
@@ -34,6 +37,10 @@ TEMPLATE_DIR = PACKAGE_DIR / "templates"
 STATIC_DIR = PACKAGE_DIR / "static"
 DEFAULT_DATABASE = DATA_DIR / "training-number-database.yaml"
 DEFAULT_REVIEW = DATA_DIR / "training-number-review.yaml"
+DEFAULT_TRIG_DATABASE = DATA_DIR / "triangle-trig-ratio-database.yaml"
+DEFAULT_TRIG_REVIEW = DATA_DIR / "triangle-trig-ratio-review.yaml"
+DEFAULT_TRIANGLE_DATABASE = DATA_DIR / "triangle-cosine-database.yaml"
+DEFAULT_TRIANGLE_REVIEW = DATA_DIR / "triangle-cosine-database-review.yaml"
 DEFAULT_QUESTION_BANK_REVIEW_URL = "http://127.0.0.1:8877/"
 GAME_SUBCATEGORIES = (
     "numerator_multiple_only",
@@ -46,6 +53,46 @@ class EntryReviewUpdate(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     disabled: bool
+
+
+def _load_simple_review(path: Path, schema: str, database_id: str) -> dict:
+    if path.is_file():
+        payload = yaml.safe_load(path.read_text(encoding="utf-8"))
+        if not isinstance(payload, dict) or payload.get("schema") != schema:
+            raise ValueError(f"{path.name} schema 必须为 {schema}")
+        return payload
+    return {"schema": schema, "database_id": database_id, "disabled_entry_ids": [], "updated_at": None}
+
+
+def _save_simple_review(path: Path, payload: dict) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    rendered = yaml.safe_dump(payload, allow_unicode=True, sort_keys=False, width=140)
+    descriptor, temporary = tempfile.mkstemp(prefix=f".{path.name}.", suffix=".tmp", dir=path.parent)
+    try:
+        with os.fdopen(descriptor, "w", encoding="utf-8") as handle:
+            handle.write(rendered)
+            handle.flush()
+            os.fsync(handle.fileno())
+        os.replace(temporary, path)
+    except Exception:
+        try:
+            os.unlink(temporary)
+        except FileNotFoundError:
+            pass
+        raise
+
+
+def _set_simple_disabled(path: Path, schema: str, database_id: str, entry_id: str, disabled: bool) -> dict:
+    review = _load_simple_review(path, schema, database_id)
+    disabled_ids = set(review.get("disabled_entry_ids") or [])
+    if disabled:
+        disabled_ids.add(entry_id)
+    else:
+        disabled_ids.discard(entry_id)
+    review["disabled_entry_ids"] = sorted(disabled_ids)
+    review["updated_at"] = datetime.now(timezone.utc).isoformat()
+    _save_simple_review(path, review)
+    return review
 
 
 GameSubcategory = Literal[
@@ -251,10 +298,18 @@ def create_app(
     review_path: Path = DEFAULT_REVIEW,
     history_path: Path | None = None,
     question_bank_review_url: str = DEFAULT_QUESTION_BANK_REVIEW_URL,
+    trig_database_path: Path = DEFAULT_TRIG_DATABASE,
+    trig_review_path: Path = DEFAULT_TRIG_REVIEW,
+    triangle_database_path: Path = DEFAULT_TRIANGLE_DATABASE,
+    triangle_review_path: Path = DEFAULT_TRIANGLE_REVIEW,
 ) -> FastAPI:
     database_path = database_path.resolve()
     review_path = review_path.resolve()
     history_path = (history_path or review_path.with_name("training-number-game-history.sqlite3")).resolve()
+    trig_database_path = trig_database_path.resolve()
+    trig_review_path = trig_review_path.resolve()
+    triangle_database_path = triangle_database_path.resolve()
+    triangle_review_path = triangle_review_path.resolve()
     database = load_database(database_path)
     entries_by_id = database.entries_by_id()
     lock = threading.Lock()
@@ -350,6 +405,48 @@ def create_app(
             "updated_at": review.updated_at,
         }
 
+    @app.get("/api/trig-ratios")
+    def api_trig_ratios() -> dict:
+        payload = yaml.safe_load(trig_database_path.read_text(encoding="utf-8"))
+        entries = payload.get("entries") or []
+        database_id = (payload.get("database") or {}).get("id", "triangle-acute-trig-ratios")
+        review = _load_simple_review(trig_review_path, "math_triangle_trig_ratio_review/v1", database_id)
+        disabled_ids = set(review.get("disabled_entry_ids") or [])
+        rendered = [dict(entry, disabled=entry.get("id") in disabled_ids) for entry in entries]
+        return {"database_id": database_id, "total_count": len(rendered), "disabled_count": len(disabled_ids), "entries": rendered}
+
+    @app.put("/api/trig-ratios/{entry_id}")
+    def api_update_trig_ratio(entry_id: str, update: EntryReviewUpdate) -> dict:
+        payload = yaml.safe_load(trig_database_path.read_text(encoding="utf-8"))
+        entries = {entry.get("id"): entry for entry in payload.get("entries") or []}
+        if entry_id not in entries:
+            raise HTTPException(status_code=404, detail="unknown trig-ratio entry")
+        database_id = (payload.get("database") or {}).get("id", "triangle-acute-trig-ratios")
+        with lock:
+            review = _set_simple_disabled(trig_review_path, "math_triangle_trig_ratio_review/v1", database_id, entry_id, update.disabled)
+        return {"entry_id": entry_id, "disabled": update.disabled, "disabled_count": len(review["disabled_entry_ids"])}
+
+    @app.get("/api/triangles")
+    def api_triangles() -> dict:
+        payload = yaml.safe_load(triangle_database_path.read_text(encoding="utf-8"))
+        triangles = payload.get("triangles") or []
+        database_id = (payload.get("database") or {}).get("id", "triangle-cosine-shapes")
+        review = _load_simple_review(triangle_review_path, "math_triangle_cosine_database_review/v1", database_id)
+        disabled_ids = set(review.get("disabled_entry_ids") or [])
+        rendered = [dict(entry, disabled=entry.get("id") in disabled_ids) for entry in triangles]
+        return {"database_id": database_id, "total_count": len(rendered), "disabled_count": len(disabled_ids), "entries": rendered}
+
+    @app.put("/api/triangles/{entry_id}")
+    def api_update_triangle(entry_id: str, update: EntryReviewUpdate) -> dict:
+        payload = yaml.safe_load(triangle_database_path.read_text(encoding="utf-8"))
+        entries = {entry.get("id"): entry for entry in payload.get("triangles") or []}
+        if entry_id not in entries:
+            raise HTTPException(status_code=404, detail="unknown triangle entry")
+        database_id = (payload.get("database") or {}).get("id", "triangle-cosine-shapes")
+        with lock:
+            review = _set_simple_disabled(triangle_review_path, "math_triangle_cosine_database_review/v1", database_id, entry_id, update.disabled)
+        return {"entry_id": entry_id, "disabled": update.disabled, "disabled_count": len(review["disabled_entry_ids"])}
+
     @app.post("/api/game/question")
     def api_game_question(request: GameQuestionRequest) -> dict:
         review = load_review(review_path, database)
@@ -437,9 +534,21 @@ def main() -> int:
     parser.add_argument("--host", default="127.0.0.1")
     parser.add_argument("--port", type=int, default=8876)
     parser.add_argument("--question-bank-review-url", default=DEFAULT_QUESTION_BANK_REVIEW_URL)
+    parser.add_argument("--trig-database", type=Path, default=DEFAULT_TRIG_DATABASE)
+    parser.add_argument("--trig-review", type=Path, default=DEFAULT_TRIG_REVIEW)
+    parser.add_argument("--triangle-database", type=Path, default=DEFAULT_TRIANGLE_DATABASE)
+    parser.add_argument("--triangle-review", type=Path, default=DEFAULT_TRIANGLE_REVIEW)
     args = parser.parse_args()
     uvicorn.run(
-        create_app(args.database, args.review, question_bank_review_url=args.question_bank_review_url),
+        create_app(
+            args.database,
+            args.review,
+            question_bank_review_url=args.question_bank_review_url,
+            trig_database_path=args.trig_database,
+            trig_review_path=args.trig_review,
+            triangle_database_path=args.triangle_database,
+            triangle_review_path=args.triangle_review,
+        ),
         host=args.host,
         port=args.port,
         log_level="info",

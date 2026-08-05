@@ -19,7 +19,7 @@ LATEX_CMDS = [
     "ldots", "vdots", "ddots", "quad", "qquad", "enspace",
     "textbf", "textit", "emph", "underline", "overline",
     "sqrt", "sum", "prod", "int", "lim", "log", "sin", "cos",
-    "tan", "to", "rightarrow", "leftarrow", "Rightarrow",
+    "tan", "cot", "to", "rightarrow", "leftarrow", "Rightarrow",
     "Leftarrow", "neq", "leq", "geq", "approx", "equiv",
     "infty", "partial", "alpha", "beta", "gamma", "delta",
     "pi", "theta", "lambda", "mu", "sigma", "omega",
