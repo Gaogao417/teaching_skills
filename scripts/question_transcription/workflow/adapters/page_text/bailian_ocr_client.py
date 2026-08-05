@@ -11,7 +11,7 @@ from typing import Any, Callable
 
 import httpx
 
-from scripts.question_transcription.mimo_client import extract_json
+from ...infrastructure.clients.mimo_client import extract_json
 
 
 BAILIAN_OCR_BASE_URL = "https://dashscope.aliyuncs.com/compatible-mode/v1"

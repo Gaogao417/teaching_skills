@@ -27,7 +27,7 @@ _REPO_ROOT = Path(__file__).resolve().parents[2]
 if str(_REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(_REPO_ROOT))
 
-from scripts.question_transcription.bailian_ocr_client import BailianOcrClient
+from scripts.question_transcription.workflow.adapters.page_text.bailian_ocr_client import BailianOcrClient
 from scripts.question_transcription.pdf_observation_contracts import PdfSourceManifest
 
 

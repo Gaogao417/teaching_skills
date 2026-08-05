@@ -15,7 +15,7 @@ import pytest
 import yaml
 from PIL import Image
 
-from scripts.question_transcription.bailian_ocr_client import (
+from scripts.question_transcription.workflow.adapters.page_text.bailian_ocr_client import (
     BAILIAN_OCR_MODEL,
     BailianOcrClient,
 )

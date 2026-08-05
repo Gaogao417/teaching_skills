@@ -21,7 +21,7 @@ from scripts.question_transcription.merge_pdf_observations import (
     merge_observations,
     merge_observations_with_issues,
 )
-from scripts.question_transcription.mimo_client import MimoClient, extract_json
+from scripts.question_transcription.workflow.infrastructure.clients.mimo_client import MimoClient, extract_json
 from scripts.question_transcription.observe_pdf_pages import (
     make_windows,
     observe_windows,

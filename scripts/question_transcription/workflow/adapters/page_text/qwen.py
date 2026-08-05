@@ -45,7 +45,7 @@ class QwenPageTextExtractor:
     def _get_client(self):
         if self._client is not None:
             return self._client
-        from scripts.question_transcription.bailian_ocr_client import BailianOcrClient
+        from .bailian_ocr_client import BailianOcrClient
 
         self._client = BailianOcrClient(
             api_key=self._api_key,

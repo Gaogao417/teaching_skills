@@ -35,7 +35,7 @@ from scripts.question_transcription.observe_docx_pages import (  # noqa: E402
     normalize_observation_field_shapes,
     observe_windows,
 )
-from scripts.question_transcription.bailian_ocr_client import (  # noqa: E402
+from scripts.question_transcription.workflow.adapters.page_text.bailian_ocr_client import (  # noqa: E402
     BAILIAN_OCR_MODEL,
     BailianOcrClient,
 )

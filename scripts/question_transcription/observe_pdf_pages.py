@@ -33,7 +33,7 @@ if str(_REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(_REPO_ROOT))
 
 from scripts.question_transcription.contracts import PaperMeta, Provider
-from scripts.question_transcription.mimo_client import MimoClient
+from scripts.question_transcription.workflow.infrastructure.clients.mimo_client import MimoClient
 from scripts.question_transcription.pdf_observation_contracts import (
     PdfPage,
     PdfPageObservation,

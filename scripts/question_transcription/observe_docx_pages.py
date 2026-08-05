@@ -1363,12 +1363,12 @@ def main() -> int:
                 True,
             )
         if args.mimo:
-            from scripts.question_transcription.mimo_client import MimoClient
+            from scripts.question_transcription.workflow.infrastructure.clients.mimo_client import MimoClient
 
             client = MimoClient(cache_dir=args.cache_dir)
             return make_mimo_provider(client), "xiaomi-mimo", client.model, "vision_api", False
         if args.bailian_ocr:
-            from scripts.question_transcription.bailian_ocr_client import (
+            from scripts.question_transcription.workflow.adapters.page_text.bailian_ocr_client import (
                 BAILIAN_OCR_MODEL,
                 BailianOcrClient,
             )

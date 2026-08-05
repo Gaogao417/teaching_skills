@@ -30,7 +30,7 @@ from typing import Any, Callable, Sequence, TypeVar
 import httpx
 from pydantic import BaseModel
 
-from scripts.question_transcription.mimo_client import MIMO_BASE_URL, MIMO_MODEL
+from scripts.question_transcription.workflow.infrastructure.clients.mimo_client import MIMO_BASE_URL, MIMO_MODEL
 
 T = TypeVar("T", bound=BaseModel)
 
