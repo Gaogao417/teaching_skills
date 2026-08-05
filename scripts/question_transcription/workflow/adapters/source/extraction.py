@@ -72,7 +72,7 @@ class DocxOrPdfSourceExtractor:
         if str(skill_scripts) not in sys.path:
             sys.path.insert(0, str(skill_scripts))
         from render_pdf_pages import render as pdf_render  # type: ignore
-        from scripts.question_transcription.pdf_source_manifest import (  # type: ignore
+        from .pdf_source_manifest import (
             PdfSourceManifest,
         )
 

@@ -29,7 +29,7 @@ from scripts.question_transcription.observe_pdf_pages import (
 from scripts.question_transcription.pdf_observation_contracts import (
     PdfPageObservation,
 )
-from scripts.question_transcription.pdf_source_manifest import build_manifest
+from scripts.question_transcription.workflow.adapters.source.pdf_source_manifest import build_manifest
 
 
 def _paper(source_archive: str) -> PaperMeta:
