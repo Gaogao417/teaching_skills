@@ -8,7 +8,7 @@ import pytest
 from PIL import Image
 from pydantic import ValidationError
 
-from scripts.question_transcription.adapt_pdf_images import adapt as adapt_images
+from scripts.question_transcription.workflow.adapters.source.adapt_pdf_images import adapt as adapt_images
 from scripts.question_transcription.adapt_pdf_transcription import (
     adapt as adapt_transcription,
 )

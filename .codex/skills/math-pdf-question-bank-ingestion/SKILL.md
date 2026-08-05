@@ -57,7 +57,7 @@ PDF/扫描件冻结为不可变页图。多模态 provider 一次产生文本转
 的预期题号；漏报/多报/重复只触发对缺失题的定点补读，正常题冻结复用不重跑。
 
 ```bash
-./.venv/bin/python scripts/question_transcription/pdf_source_manifest.py \
+./.venv/bin/python scripts/question_transcription/workflow/adapters/source/pdf_source_manifest.py \
   --paper-id <paper-id> --source-archive <source-archive> \
   --pages-dir <source-archive> --engine pdftoppm \
   --pdf <paper.pdf> --output <build>/pdf-source.yaml
@@ -86,7 +86,7 @@ PDF/扫描件冻结为不可变页图。多模态 provider 一次产生文本转
   --observation <build>/pdf-observation.yaml \
   --output <build>/transcription.yaml
 
-./.venv/bin/python scripts/question_transcription/adapt_pdf_images.py \
+./.venv/bin/python scripts/question_transcription/workflow/adapters/source/adapt_pdf_images.py \
   --detection <build>/pdf-observation.yaml \
   --output <build>/image-attribution.yaml
 

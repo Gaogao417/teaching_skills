@@ -115,7 +115,7 @@ word/
   --observation <build>/docx-observation.yaml \
   --output <build>/transcription.yaml
 
-./.venv/bin/python scripts/question_transcription/adapt_docx_images.py \
+./.venv/bin/python scripts/question_transcription/workflow/adapters/source/adapt_docx_images.py \
   --word-source <source-archive>/word/word-source.yaml \
   --paper-id <paper-id> --source-archive <source-archive> \
   --output <build>/image-attribution.yaml

@@ -59,7 +59,7 @@ class DocxOrPdfImageAttribution:
             return None, "failed", None, str(exc)
 
     def _adapt_docx(self, manifest):
-        from scripts.question_transcription.adapt_docx_images import adapt  # type: ignore
+        from .adapt_docx_images import adapt
 
         paper_id = manifest.get("paper_id", "unknown")
         source_archive = manifest.get("source_archive") or manifest.get("source", {}).get("path", "")
@@ -95,6 +95,6 @@ class DocxOrPdfImageAttribution:
         return bundle
 
     def _adapt_pdf(self, manifest):
-        from scripts.question_transcription.adapt_pdf_images import adapt  # type: ignore
+        from .adapt_pdf_images import adapt
 
         return adapt(manifest, allow_model_accepted=False)
