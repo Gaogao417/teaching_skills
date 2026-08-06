@@ -20,11 +20,11 @@ from typing import Any
 
 import yaml
 
-_REPO_ROOT = Path(__file__).resolve().parents[2]
+_REPO_ROOT = Path(__file__).resolve().parents[3]
 if str(_REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(_REPO_ROOT))
 
-from scripts.question_transcription.question_span_index import (
+from scripts.question_transcription.procedural.question_span_index import (
     PageText,
     QuestionSpanIndex,
     SourceFingerprint,

@@ -35,7 +35,7 @@ from typing import Any
 import yaml
 from PIL import Image
 
-_REPO_ROOT = Path(__file__).resolve().parents[2]
+_REPO_ROOT = Path(__file__).resolve().parents[3]
 if str(_REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(_REPO_ROOT))
 
@@ -43,10 +43,10 @@ from scripts.question_transcription.docx_observation_contracts import (  # noqa:
     DocxPage,
     DocxWindowObservation,
 )
-from scripts.question_transcription.docx_observation_output import (  # noqa: E402
+from scripts.question_transcription.procedural.docx_observation_output import (  # noqa: E402
     DocxObservationOutput,
 )
-from scripts.question_transcription.question_span_index import (  # noqa: E402
+from scripts.question_transcription.procedural.question_span_index import (  # noqa: E402
     ObservationBatch,
     QuestionSpanIndex,
     build_observation_batches,
@@ -1350,7 +1350,7 @@ def main() -> int:
 
     def _build_provider() -> tuple[ProviderCallable, str, str, str, bool]:
         if args.mimo_structured:
-            from scripts.question_transcription.mimo_structured_client import (
+            from scripts.question_transcription.procedural.mimo_structured_client import (
                 MimoStructuredClient,
             )
 

@@ -30,17 +30,17 @@ from scripts.question_transcription.contracts import PaperMeta  # noqa: E402
 from scripts.question_transcription.docx_observation_contracts import (  # noqa: E402
     DocxWindowObservation,
 )
-from scripts.question_transcription.merge_docx_observations import (  # noqa: E402
+from scripts.question_transcription.procedural.merge_docx_observations import (  # noqa: E402
     _PENDING_SOLUTION_ANCHOR,
     _select_value,
     _window_role,
     merge_with_issues,
 )
-from scripts.question_transcription.observe_docx_pages import (  # noqa: E402
+from scripts.question_transcription.procedural.observe_docx_pages import (  # noqa: E402
     _structured_batch_prompt,
     normalize_observation_field_shapes,
 )
-from scripts.question_transcription.question_span_index import (  # noqa: E402
+from scripts.question_transcription.procedural.question_span_index import (  # noqa: E402
     PageText,
     SourceFingerprint,
     build_index_from_pages,
@@ -131,7 +131,7 @@ def test_cross_region_aligned_has_no_missing_question_issue():
 
 
 def _batch(role: str, refs: tuple[str, ...] = ("1",)):
-    from scripts.question_transcription.question_span_index import ObservationBatch
+    from scripts.question_transcription.procedural.question_span_index import ObservationBatch
 
     return ObservationBatch(
         batch_id=f"{role}-001-p001-p001",

@@ -4,7 +4,7 @@
 The contracts are hand-authoritative; this just mirrors them as JSON Schema so
 non-Python providers (or a future Review UI) can validate independently. Run:
 
-    ./.venv/bin/python scripts/question_transcription/schema_dump.py --out schemas/question_transcription/
+    ./.venv/bin/python scripts/question_transcription/procedural/schema_dump.py --out schemas/question_transcription/
 
 Writing JSON Schema is new to this repo; it is intentionally a one-way dump
 (contracts own the semantics). ``schema.yaml`` (human-readable) and
@@ -20,9 +20,9 @@ from pathlib import Path
 
 import yaml
 
-# Allow running this file as `python scripts/question_transcription/schema_dump.py`
+# Allow running this file as `python scripts/question_transcription/procedural/schema_dump.py`
 # from the repo root (per the architecture doc CLI) as well as importing it.
-_REPO_ROOT = Path(__file__).resolve().parents[2]
+_REPO_ROOT = Path(__file__).resolve().parents[3]
 if str(_REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(_REPO_ROOT))
 

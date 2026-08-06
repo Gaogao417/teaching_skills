@@ -63,26 +63,26 @@ PDF/扫描件冻结为不可变页图。多模态 provider 一次产生文本转
   --pdf <paper.pdf> --output <build>/pdf-source.yaml
 
 # 百炼逐页预扫（prescan）→ 建 span index
-./.venv/bin/python scripts/question_transcription/prescan_pdf_pages.py \
+./.venv/bin/python scripts/question_transcription/procedural/prescan_pdf_pages.py \
   --manifest <build>/pdf-source.yaml \
   --output-dir <build>/prescan --cache-dir <build>/cache/prescan
 
-./.venv/bin/python scripts/question_transcription/build_pdf_span_index.py \
+./.venv/bin/python scripts/question_transcription/procedural/build_pdf_span_index.py \
   --prescan <build>/prescan/prescan-manifest.yaml \
   --output <build>/pdf.span-index.yaml
 
-./.venv/bin/python scripts/question_transcription/observe_pdf_pages.py \
+./.venv/bin/python scripts/question_transcription/procedural/observe_pdf_pages.py \
   --manifest <build>/pdf-source.yaml \
   --span-index <build>/pdf.span-index.yaml \
   --paper-meta <build>/paper-meta.yaml \
   --cache-dir <build>/cache --output-dir <build>/windows
 
-./.venv/bin/python scripts/question_transcription/merge_pdf_observations.py \
+./.venv/bin/python scripts/question_transcription/procedural/merge_pdf_observations.py \
   <build>/windows/*.observation.yaml \
   --output <build>/pdf-observation.yaml \
   --issues <build>/review-issues.yaml
 
-./.venv/bin/python scripts/question_transcription/adapt_pdf_transcription.py \
+./.venv/bin/python scripts/question_transcription/procedural/adapt_pdf_transcription.py \
   --observation <build>/pdf-observation.yaml \
   --output <build>/transcription.yaml
 

@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parents[2]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from scripts.question_transcription.scan_docx_source_features import (  # noqa: E402
+from scripts.question_transcription.procedural.scan_docx_source_features import (  # noqa: E402
     scan_docx,
 )
 

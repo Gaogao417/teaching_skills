@@ -20,7 +20,7 @@ from scripts.question_transcription.workflow.adapters.page_text.bailian_ocr_clie
     BailianOcrClient,
 )
 from scripts.question_transcription.workflow.adapters.source.pdf_source_manifest import build_manifest
-from scripts.question_transcription.prescan_pdf_pages import (
+from scripts.question_transcription.procedural.prescan_pdf_pages import (
     PRESCAN_PROMPT,
     PRESCAN_PROMPT_VERSION,
     prescan_pages,

@@ -12,7 +12,7 @@ from typing import Any
 
 import yaml
 
-_REPO_ROOT = Path(__file__).resolve().parents[2]
+_REPO_ROOT = Path(__file__).resolve().parents[3]
 if str(_REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(_REPO_ROOT))
 
@@ -33,7 +33,7 @@ from scripts.question_transcription.review_issue_contracts import (  # noqa: E40
     ReviewIssue,
     ReviewIssuesBundle,
 )
-from scripts.question_transcription.review_issue_engine import (  # noqa: E402
+from scripts.question_transcription.procedural.review_issue_engine import (  # noqa: E402
     FieldCandidate,
     build_issue,
     choose_by_confidence,

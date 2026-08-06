@@ -17,7 +17,7 @@ from typing import Any
 import zipfile
 
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[3]
 EXTRACTOR = (
     ROOT
     / ".codex/skills/math-docx-question-bank-ingestion/scripts"

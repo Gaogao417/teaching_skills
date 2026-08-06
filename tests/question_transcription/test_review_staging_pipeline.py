@@ -9,11 +9,11 @@ import sys
 from PIL import Image
 import yaml
 
-from scripts.question_transcription.build_review_staging import (
+from scripts.question_transcription.procedural.build_review_staging import (
     build_review_staging,
 )
-from scripts.question_transcription.apply_review_resolutions import apply_resolutions
-from scripts.question_transcription.compare_existing_staging import compare_existing
+from scripts.question_transcription.procedural.apply_review_resolutions import apply_resolutions
+from scripts.question_transcription.procedural.compare_existing_staging import compare_existing
 from scripts.question_transcription.contracts import (
     ImageAttributionBundle,
     RegionEvidence,
@@ -23,7 +23,7 @@ from scripts.question_transcription.review_issue_contracts import (
     ReviewIssuesBundle,
     ReviewResolutionsBundle,
 )
-from scripts.question_transcription.review_issue_engine import (
+from scripts.question_transcription.procedural.review_issue_engine import (
     FieldCandidate,
     build_issue,
 )

@@ -11,15 +11,15 @@ from typing import Any
 
 import yaml
 
-_REPO_ROOT = Path(__file__).resolve().parents[2]
+_REPO_ROOT = Path(__file__).resolve().parents[3]
 if str(_REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(_REPO_ROOT))
 
-from scripts.question_transcription.adapt_docx_transcription import (  # noqa: E402
+from scripts.question_transcription.procedural.adapt_docx_transcription import (  # noqa: E402
     adapt as adapt_docx,
     adapt_for_review_staging as adapt_docx_for_review,
 )
-from scripts.question_transcription.adapt_pdf_transcription import (  # noqa: E402
+from scripts.question_transcription.procedural.adapt_pdf_transcription import (  # noqa: E402
     adapt as adapt_pdf,
     adapt_for_review_staging as adapt_pdf_for_review,
 )

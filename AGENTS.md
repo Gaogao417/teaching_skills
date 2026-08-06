@@ -39,7 +39,7 @@ etc.) are defined there and will be **missing** unless explicitly loaded.
   command with `source ~/.zshrc 2>/dev/null` in the same shell invocation:
   ```bash
   source ~/.zshrc 2>/dev/null
-  ./.venv/bin/python scripts/question_transcription/observe_docx_pages.py ...
+  ./.venv/bin/python scripts/question_transcription/procedural/observe_docx_pages.py ...
   ```
 - For a one-liner: `source ~/.zshrc 2>/dev/null && ./.venv/bin/python <script>`.
 - Verify a key is present before a long batch run:

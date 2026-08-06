@@ -9,7 +9,7 @@ from PIL import Image
 from pydantic import ValidationError
 
 from scripts.question_transcription.workflow.adapters.source.adapt_pdf_images import adapt as adapt_images
-from scripts.question_transcription.adapt_pdf_transcription import (
+from scripts.question_transcription.procedural.adapt_pdf_transcription import (
     adapt as adapt_transcription,
 )
 from scripts.question_transcription.contracts import (
@@ -17,12 +17,12 @@ from scripts.question_transcription.contracts import (
     PaperMeta,
     QuestionTranscriptionBundle,
 )
-from scripts.question_transcription.merge_pdf_observations import (
+from scripts.question_transcription.procedural.merge_pdf_observations import (
     merge_observations,
     merge_observations_with_issues,
 )
 from scripts.question_transcription.workflow.infrastructure.clients.mimo_client import MimoClient, extract_json
-from scripts.question_transcription.observe_pdf_pages import (
+from scripts.question_transcription.procedural.observe_pdf_pages import (
     make_windows,
     observe_windows,
 )
@@ -357,8 +357,8 @@ def test_text_and_image_fail_independently(source):
 # Span-index-driven observation (§7.1 / §7.3 / §10.1)
 # =========================================================================== #
 
-from scripts.question_transcription.observe_pdf_pages import observe as observe_with_index  # noqa: E402
-from scripts.question_transcription.question_span_index import (  # noqa: E402
+from scripts.question_transcription.procedural.observe_pdf_pages import observe as observe_with_index  # noqa: E402
+from scripts.question_transcription.procedural.question_span_index import (  # noqa: E402
     IndexedQuestion,
     QuestionSpanIndex,
     SourceFingerprint,

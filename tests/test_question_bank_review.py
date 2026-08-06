@@ -21,7 +21,7 @@ from scripts.question_transcription.contracts import RegionEvidence  # noqa: E40
 from scripts.question_transcription.review_issue_contracts import (  # noqa: E402
     ReviewIssuesBundle,
 )
-from scripts.question_transcription.review_issue_engine import (  # noqa: E402
+from scripts.question_transcription.procedural.review_issue_engine import (  # noqa: E402
     FieldCandidate,
     build_issue,
 )
