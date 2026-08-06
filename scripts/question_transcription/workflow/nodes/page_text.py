@@ -41,7 +41,7 @@ __all__ = [
 # --------------------------------------------------------------------------- #
 
 
-def plan_page_text_dispatch(state: WorkflowState):
+def plan_page_text_dispatch(state: WorkflowState) -> list[Send]:
     """Routing function for the source->text fan-out edge.
 
     Reads frozen ``page_text_jobs`` and returns one :class:`Send` per page (plus we
@@ -52,13 +52,25 @@ def plan_page_text_dispatch(state: WorkflowState):
     This is a *routing function* (passed to ``add_conditional_edges``), not a node —
     LangGraph fan-out requires ``Send`` objects to come from the edge router, not
     from node state output.
+
+    Returns an empty list (no Sends) when upstream already set ``terminal_errors``
+    or when there are no pages, so a failed source extraction never schedules
+    dead ``extract_page_text`` work.
     """
 
+    # On upstream failure (extract_source set terminal_errors) or a degenerate
+    # empty page set, do not fan out: emit zero Sends. The graph already carries
+    # the terminal errors and the parallel image branch reaches END on its own,
+    # so the run resolves to failed instead of scheduling N dead page extracts.
+    if state.get("terminal_errors"):
+        return []
     raw_jobs = list(state.get("page_text_jobs") or [])
     jobs = [
         PageTextJob.model_validate(j if isinstance(j, dict) else j.model_dump())
         for j in raw_jobs
     ]
+    if not jobs:
+        return []
     jobs = sorted(jobs, key=lambda j: j.page_number)
     return [Send("extract_page_text", {"job": j.model_dump(mode="json")}) for j in jobs]
 
