@@ -14,7 +14,7 @@ ROOT = Path(__file__).resolve().parents[2]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from scripts.question_transcription.adapt_docx_transcription import (  # noqa: E402
+from scripts.question_transcription.procedural.adapt_docx_transcription import (  # noqa: E402
     adapt,
     adapt_for_review_staging,
 )
@@ -22,11 +22,11 @@ from scripts.question_transcription.contracts import PaperMeta, QuestionTranscri
 from scripts.question_transcription.docx_observation_contracts import (  # noqa: E402
     DocxWindowObservation,
 )
-from scripts.question_transcription.merge_docx_observations import (  # noqa: E402
+from scripts.question_transcription.procedural.merge_docx_observations import (  # noqa: E402
     merge,
     merge_with_issues,
 )
-from scripts.question_transcription.observe_docx_pages import (  # noqa: E402
+from scripts.question_transcription.procedural.observe_docx_pages import (  # noqa: E402
     build_windows,
     discover_pages,
     make_bailian_ocr_provider,
@@ -35,7 +35,7 @@ from scripts.question_transcription.observe_docx_pages import (  # noqa: E402
     normalize_observation_field_shapes,
     observe_windows,
 )
-from scripts.question_transcription.bailian_ocr_client import (  # noqa: E402
+from scripts.question_transcription.workflow.adapters.page_text.bailian_ocr_client import (  # noqa: E402
     BAILIAN_OCR_MODEL,
     BailianOcrClient,
 )
@@ -744,11 +744,11 @@ def test_window_contract_rejects_duplicate_question_ref(tmp_path: Path):
 # Span-index-driven observation (§7.1 / §7.2 / §10.1)
 # =========================================================================== #
 
-from scripts.question_transcription.observe_docx_pages import (  # noqa: E402
+from scripts.question_transcription.procedural.observe_docx_pages import (  # noqa: E402
     SPAN_INDEX_PROMPT_VERSION,
     observe as observe_with_index,
 )
-from scripts.question_transcription.question_span_index import (  # noqa: E402
+from scripts.question_transcription.procedural.question_span_index import (  # noqa: E402
     IndexedQuestion,
     QuestionSpanIndex,
     SourceFingerprint,
@@ -1063,7 +1063,7 @@ def test_cli_rejects_nonzero_overlap(tmp_path: Path):
     result = subprocess.run(
         [
             "./.venv/bin/python",
-            "scripts/question_transcription/observe_docx_pages.py",
+            "scripts/question_transcription/procedural/observe_docx_pages.py",
             "--word-source",
             str(source),
             "--source-archive",
@@ -1087,7 +1087,7 @@ def test_cli_rejects_nonzero_overlap(tmp_path: Path):
 def test_span_observe_question_only_then_solution_merges(tmp_path: Path):
     """§10.1: DOCX question-only / solution-only batches still merge via the
     existing merge path into a complete question."""
-    from scripts.question_transcription.merge_docx_observations import merge
+    from scripts.question_transcription.procedural.merge_docx_observations import merge
 
     source, shas = _word_source_with_pages(tmp_path, 2)
     q1 = _q("1", [1])
@@ -1131,7 +1131,7 @@ def test_span_observe_structured_skips_normalize_and_passes_contract(tmp_path: P
     passes directly. We simulate the structured provider by returning a payload
     that matches DocxObservationOutput (which would have drifted under the old
     json_object path: 填空题 type, scalar confidence)."""
-    from scripts.question_transcription.observe_docx_pages import observe as observe_idx
+    from scripts.question_transcription.procedural.observe_docx_pages import observe as observe_idx
 
     source, shas = _word_source_with_pages(tmp_path, 1)
     index = _index([_q("1", [1]), _q("2", [1])], page_shas=shas)
@@ -1215,8 +1215,8 @@ def test_span_observe_structured_skips_normalize_and_passes_contract(tmp_path: P
 def test_mimo_structured_provider_factory_returns_validated_dict(tmp_path: Path):
     """The structured provider factory drives MimoStructuredClient and returns a
     dict already conforming to DocxObservationOutput (enum coerced at source)."""
-    from scripts.question_transcription.docx_observation_output import DocxObservationOutput, OutputQuestion
-    from scripts.question_transcription.observe_docx_pages import make_mimo_structured_provider
+    from scripts.question_transcription.procedural.docx_observation_output import DocxObservationOutput, OutputQuestion
+    from scripts.question_transcription.procedural.observe_docx_pages import make_mimo_structured_provider
 
     # Fake structured client: returns a validated DocxObservationOutput.
     class FakeClient:
@@ -1255,7 +1255,7 @@ def test_mimo_structured_client_builds_pydantic_native_multimodal_input(tmp_path
     """Regression: Agent.run needs UserContent, not an OpenAI message dict."""
     from pydantic_ai import BinaryContent
 
-    from scripts.question_transcription.mimo_structured_client import (
+    from scripts.question_transcription.procedural.mimo_structured_client import (
         _pydantic_user_content,
     )
 
@@ -1276,7 +1276,7 @@ def test_mimo_structured_client_builds_pydantic_native_multimodal_input(tmp_path
 def test_docx_structured_output_rejects_empty_questions():
     from pydantic import ValidationError
 
-    from scripts.question_transcription.docx_observation_output import (
+    from scripts.question_transcription.procedural.docx_observation_output import (
         DocxObservationOutput,
     )
 

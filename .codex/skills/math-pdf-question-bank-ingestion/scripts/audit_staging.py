@@ -24,9 +24,69 @@ FORBIDDEN_STUDENT_KEYS = {
     "source_solution_images",
     "teaching",
 }
+# An embedded option label is a leading A–D / 0–3 followed by a separator.
+# Numeric separators split: ``、`` / ``．`` (CJK) can never start a decimal, but a
+# half-width ``.`` may — ``3.14`` / ``0.3`` / ``3.0 \times 10^8`` are option *bodies*,
+# not labels. The ``.`` branch therefore requires the next char to be non-digit.
 EMBEDDED_CHOICE_LABEL = re.compile(
-    r"^\s*(?:(?:[A-Da-d]|[0-3])\s*[.、．]\s*|[（(]\s*(?:[A-Da-d]|[0-3])\s*[）)]\s*)"
+    r"^\s*(?:"
+    r"(?:[A-Da-d]|[0-3])\s*[、．]\s*"  # CJK 顿号/全角句号:不可能是小数
+    r"|(?:[A-Da-d])\s*\.\s*"  # 半角点 + 字母:A./B. 等标签
+    r"|(?:[0-3])\s*\.(?!\d)\s*"  # 半角点 + 数字:后不接数字才算标签(排除 3.14)
+    r"|[（(]\s*(?:[A-Da-d]|[0-3])\s*[）)]\s*"  # 括号包裹:（A）(0)
+    r")"
 )
+# Strips a leading label to recover the option body. Mirrors EMBEDDED_CHOICE_LABEL
+# but used only when all four choices form a complete ordered A–D / 0–3 sequence, so
+# the renderer can re-add labels deterministically.
+_CHOICE_LABEL_PREFIX = re.compile(
+    r"^\s*(?:"
+    r"(?:[A-Da-d]|[0-3])\s*[、．]\s*"
+    r"|(?:[A-Da-d])\s*\.\s*"
+    r"|(?:[0-3])\s*\.(?!\d)\s*"
+    r"|[（(]\s*(?:[A-Da-d]|[0-3])\s*[）)]\s*"
+    r")"
+)
+# Complete ordered label sequences whose prefix the renderer can re-emit itself.
+_COMPLETE_LETTER_SEQUENCE = ("A", "B", "C", "D")
+_COMPLETE_DIGIT_SEQUENCE = ("0", "1", "2", "3")
+# 题干里指向配图的强信号短语。只匹配这些明确「指代一张图」的表达，不匹配裸
+# 「图」字——「中心对称图形」「轴对称图形」「函数图象」「统计图」「柱状图」等
+# 纯文字描述会误报。命中即要求题目配了 prompt crop。
+FIGURE_REFERENCE = re.compile(r"如图|图所示|下图|上图|图中|示意图")
+
+
+def normalize_choice_labels(choices: list[str]) -> tuple[bool, list[str] | None]:
+    """Strip leading A–D / 0–3 labels iff all four choices form a complete sequence.
+
+    Returns ``(normalized, stripped)``:
+
+    * ``normalized`` is True iff all four choices carry a leading label and those
+      labels are exactly ``A,B,C,D`` or ``0,1,2,3`` in order (case-insensitive for
+      letters). Only then is it safe for the renderer to re-emit labels itself.
+    * ``stripped`` is the label-free bodies when ``normalized`` is True, else None.
+      A body that becomes empty after stripping means the choice is a placeholder
+      with no real content; callers must keep treating that as a structural error
+      rather than silently turning it into an empty option.
+    """
+    if len(choices) != 4:
+        return False, None
+    extracted: list[str] = []
+    bodies: list[str] = []
+    for choice in choices:
+        match = _CHOICE_LABEL_PREFIX.match(choice)
+        if match is None:
+            return False, None
+        extracted.append(match.group(0).strip())
+        bodies.append(choice[match.end():])
+    labels = []
+    for token in extracted:
+        # Pull the single A–D / 0–3 char out of the matched prefix.
+        glyph = next(ch for ch in token if ch.isalnum())
+        labels.append(glyph.upper())
+    if tuple(labels) in (_COMPLETE_LETTER_SEQUENCE, _COMPLETE_DIGIT_SEQUENCE):
+        return True, bodies
+    return False, None
 
 
 def load_yaml(path: Path) -> dict[str, Any]:
@@ -92,6 +152,14 @@ def choice_values(choices: Any) -> list[str]:
     if isinstance(choices, list):
         return [str(value) for value in choices]
     return []
+
+
+def mentions_figure(text: Any) -> bool:
+    """文本是否明确指代一张配图（如图/图所示/下图…）。
+
+    只命中强信号短语，避免「中心对称图形」「函数图象」这类纯文字描述触发。
+    """
+    return bool(FIGURE_REFERENCE.search(str(text or "")))
 
 
 def box_area(box: Any) -> int:
@@ -170,6 +238,16 @@ def audit_item(
             ]
             for role in ROLES
         },
+        # Pending-attribution reviews are part of the content identity. Must
+        # mirror materialize_staging's hash_payload so the audit recomputes the
+        # same hash the materializer wrote.
+        "attribution_reviews": {
+            role: [
+                crop.get("attribution_review") if isinstance(crop, dict) else None
+                for crop in (raw_source.get("crops") or {}).get(role, [])
+            ]
+            for role in ROLES
+        },
     }
     calculated_content_hash = canonical_hash(hash_payload)
     if raw_source.get("content_hash") != calculated_content_hash:
@@ -208,11 +286,31 @@ def audit_item(
         for choice_index, choice in enumerate(teacher_choices):
             if not choice.strip():
                 errors.append(f"{item_id}: choice {choice_index + 1} is empty")
-            if EMBEDDED_CHOICE_LABEL.match(choice):
-                errors.append(
-                    f"{item_id}: choice {choice_index + 1} contains an embedded label; "
-                    "store only the option body and let the renderer add A/B/C/D"
+        # When all four choices carry a complete ordered A–D / 0–3 prefix, the
+        # renderer can re-emit labels itself, so we downgrade the embedded-label
+        # report to a *warning* — unless stripping leaves an empty body, which is a
+        # structural placeholder and stays an error (we never auto-clear it).
+        normalized, stripped = normalize_choice_labels(teacher_choices)
+        if normalized and stripped is not None:
+            if any(not body.strip() for body in stripped):
+                for choice_index, body in enumerate(stripped):
+                    if not body.strip():
+                        errors.append(
+                            f"{item_id}: choice {choice_index + 1} is only a label "
+                            "with no body; cannot auto-normalize into an empty option"
+                        )
+            else:
+                warnings.append(
+                    f"{item_id}: all four choices carry a complete A–D / 0–3 label "
+                    "sequence; strip the labels and let the renderer re-emit them"
                 )
+        else:
+            for choice_index, choice in enumerate(teacher_choices):
+                if EMBEDDED_CHOICE_LABEL.match(choice):
+                    errors.append(
+                        f"{item_id}: choice {choice_index + 1} contains an embedded label; "
+                        "store only the option body and let the renderer add A/B/C/D"
+                    )
         answer = str(teacher_block.get("answer") or "").strip().upper()
         if answer not in {"A", "B", "C", "D"}:
             errors.append(f"{item_id}: choice answer must be one of A/B/C/D")
@@ -268,6 +366,13 @@ def audit_item(
         for crop in (raw_source.get("crops") or {}).get("prompt", [])
         if isinstance(crop, dict)
     ]
+    # 题干明确指代一张配图（如图/图所示/下图…）时，必须配 prompt crop；缺图属于
+    # 结构性缺陷，不应让无图版本进入题库。
+    if mentions_figure(teacher_stem) and not prompt_crops:
+        errors.append(
+            f"{item_id}: stem references a figure (如图/图所示/下图…) "
+            "but no prompt crop is attached"
+        )
     for prompt_crop in prompt_crops:
         same_page_evidence = [
             crop

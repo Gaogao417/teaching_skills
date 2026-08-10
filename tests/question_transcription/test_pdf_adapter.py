@@ -19,8 +19,8 @@ ROOT = Path(__file__).resolve().parents[2]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from scripts.question_transcription.adapt_pdf_images import adapt  # noqa: E402
-from scripts.question_transcription.assemble_paper_draft import assemble  # noqa: E402
+from scripts.question_transcription.workflow.adapters.source.adapt_pdf_images import adapt  # noqa: E402
+from scripts.question_transcription.workflow.adapters.staging.assemble_paper_draft import assemble  # noqa: E402
 from scripts.question_transcription.contracts import (  # noqa: E402
     ImageAttributionBundle,
     QuestionTranscriptionBundle,
@@ -99,7 +99,8 @@ def test_pdf_region_q24_end_to_end_through_assembler():
     draft, report = assemble(transcription, image_bundle)
     assert draft is not None
     assert report.errors == []
-    # The low-confidence solution detection -> needs_review warning, omitted.
+    # The low-confidence solution detection -> needs_review warning, but the
+    # crop now enters the draft (pending human confirmation), no longer omitted.
     codes = {w.code for w in report.warnings}
     assert "image_needs_review" in codes
     item = draft["sections"][0]["items"][0]
@@ -108,10 +109,15 @@ def test_pdf_region_q24_end_to_end_through_assembler():
     assert item["prompt"][0]["source"].endswith("pages/004.png")
     # question_evidence region preserved (from transcription, not attribution)
     assert item["question_evidence"][0]["box_px"] == [80, 210, 1010, 860]
-    # the needs_review solution IMAGE bbox [120,120,1100,1200] did NOT enter crops
-    sol_boxes = [tuple(c["box_px"]) for c in item["official_solution"]["crops"]]
-    assert (120, 120, 1100, 1200) not in sol_boxes
-    # but the region-evidence solution crop (page 008, [80,120,1010,700]) IS present
+    # the needs_review solution IMAGE bbox [120,120,1100,1200] enters crops,
+    # tagged with an attribution_review block for downstream UI surfacing.
+    sol_crops = item["official_solution"]["crops"]
+    nr = [c for c in sol_crops if "attribution_review" in c]
+    assert len(nr) == 1
+    assert tuple(nr[0]["box_px"]) == (120, 120, 1100, 1200)
+    assert nr[0]["attribution_review"]["state"] == "needs_review"
+    # and the region-evidence solution crop (page 008, [80,120,1010,700]) is present
+    sol_boxes = [tuple(c["box_px"]) for c in sol_crops]
     assert (80, 120, 1010, 700) in sol_boxes
 
 

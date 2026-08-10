@@ -21,16 +21,16 @@ ROOT = Path(__file__).resolve().parents[2]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from scripts.question_transcription.build_docx_span_index import (  # noqa: E402
+from scripts.question_transcription.procedural.build_docx_span_index import (  # noqa: E402
     _detect_layout,
     _repair_missing_ooxml_numbers,
     _with_builder_issues,
     build_docx_span_index,
 )
-from scripts.question_transcription.build_pdf_span_index import (  # noqa: E402
+from scripts.question_transcription.procedural.build_pdf_span_index import (  # noqa: E402
     build_pdf_span_index,
 )
-from scripts.question_transcription.question_span_index import (  # noqa: E402
+from scripts.question_transcription.procedural.question_span_index import (  # noqa: E402
     PageText,
     SourceFingerprint,
     build_index_from_pages,
@@ -292,11 +292,11 @@ def test_docx_builder_unknown_layout_is_needs_review(tmp_path: Path, monkeypatch
         encoding="utf-8",
     )
     monkeypatch.setattr(
-        "scripts.question_transcription.build_docx_span_index._require_pdftotext",
+        "scripts.question_transcription.procedural.build_docx_span_index._require_pdftotext",
         lambda: "pdftotext",
     )
     monkeypatch.setattr(
-        "scripts.question_transcription.build_docx_span_index._run_pdftotext",
+        "scripts.question_transcription.procedural.build_docx_span_index._run_pdftotext",
         lambda executable, pdf_path: ["1．第一题"],
     )
 
@@ -310,7 +310,7 @@ def test_docx_builder_unknown_layout_is_needs_review(tmp_path: Path, monkeypatch
 
 def test_docx_builder_rejects_missing_pdftotext(tmp_path: Path, monkeypatch):
     monkeypatch.setattr(
-        "scripts.question_transcription.build_docx_span_index.shutil.which",
+        "scripts.question_transcription.procedural.build_docx_span_index.shutil.which",
         lambda name: None,
     )
     word_dir = tmp_path / "word"

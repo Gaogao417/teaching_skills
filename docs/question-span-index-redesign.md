@@ -32,7 +32,7 @@
 ## 2. 已核实的现状
 
 - DOCX 污染源位于
-  `scripts/question_transcription/observe_docx_pages.py::_paragraph_hint()`：
+  `scripts/question_transcription/procedural/observe_docx_pages.py::_paragraph_hint()`：
   每个窗口收到同一份最多 12000 字的段落全文。
 - DOCX 的 `_prompt()` 和 PDF 的 `SYSTEM_PROMPT` 都让模型自行识别题号、题型及
   题干/解答边界。
@@ -66,7 +66,7 @@
 
 ## 4. 上游数据模型
 
-新增 `scripts/question_transcription/question_span_index.py`。模型使用 Pydantic v2
+新增 `scripts/question_transcription/procedural/question_span_index.py`。模型使用 Pydantic v2
 且 `extra="forbid"`。
 
 ```python
@@ -165,10 +165,10 @@ class QuestionSpanIndex(_Strict):
 
 ### 5.2 DOCX
 
-新增 `scripts/question_transcription/build_docx_span_index.py`：
+新增 `scripts/question_transcription/procedural/build_docx_span_index.py`：
 
 ```bash
-./.venv/bin/python scripts/question_transcription/build_docx_span_index.py \
+./.venv/bin/python scripts/question_transcription/procedural/build_docx_span_index.py \
   --word-source <source-archive>/word/word-source.yaml \
   --output <build>/word.span-index.yaml
 ```
@@ -193,10 +193,10 @@ class QuestionSpanIndex(_Strict):
 - 缓存分别记录 raw text，不经过 `extract_json()`；
 - 不改变现有 `complete_json()` 行为。
 
-新增 `scripts/question_transcription/prescan_pdf_pages.py`：
+新增 `scripts/question_transcription/procedural/prescan_pdf_pages.py`：
 
 ```bash
-./.venv/bin/python scripts/question_transcription/prescan_pdf_pages.py \
+./.venv/bin/python scripts/question_transcription/procedural/prescan_pdf_pages.py \
   --manifest <build>/pdf-source.yaml \
   --output-dir <build>/prescan \
   --cache-dir <build>/cache/prescan
@@ -214,10 +214,10 @@ prescan/
 写文件采用临时文件后原子替换。已存在的 page text 只有在 page SHA、模型和 prompt
 版本都匹配时才复用。
 
-新增 `scripts/question_transcription/build_pdf_span_index.py`：
+新增 `scripts/question_transcription/procedural/build_pdf_span_index.py`：
 
 ```bash
-./.venv/bin/python scripts/question_transcription/build_pdf_span_index.py \
+./.venv/bin/python scripts/question_transcription/procedural/build_pdf_span_index.py \
   --prescan <build>/prescan/prescan-manifest.yaml \
   --output <build>/pdf.span-index.yaml
 ```
@@ -355,18 +355,18 @@ PDF 的 `content=null` 容忍仍保留给只出现题干或只出现解答的页
 
 ### 新增
 
-- `scripts/question_transcription/question_span_index.py`
-- `scripts/question_transcription/build_docx_span_index.py`
-- `scripts/question_transcription/prescan_pdf_pages.py`
-- `scripts/question_transcription/build_pdf_span_index.py`
+- `scripts/question_transcription/procedural/question_span_index.py`
+- `scripts/question_transcription/procedural/build_docx_span_index.py`
+- `scripts/question_transcription/procedural/prescan_pdf_pages.py`
+- `scripts/question_transcription/procedural/build_pdf_span_index.py`
 - `tests/question_transcription/test_question_span_index.py`
 - `tests/question_transcription/test_pdf_prescan.py`
 
 ### 修改
 
 - `scripts/question_transcription/bailian_ocr_client.py`
-- `scripts/question_transcription/observe_docx_pages.py`
-- `scripts/question_transcription/observe_pdf_pages.py`
+- `scripts/question_transcription/procedural/observe_docx_pages.py`
+- `scripts/question_transcription/procedural/observe_pdf_pages.py`
 - `tests/question_transcription/test_docx_observation.py`
 - `tests/question_transcription/test_pdf_observation.py`
 - `.codex/skills/math-docx-question-bank-ingestion/SKILL.md`
@@ -381,11 +381,11 @@ PDF 的 `content=null` 容忍仍保留给只出现题干或只出现解答的页
 在 extract 后新增索引步骤。试卷与答案分文件时分别建索引，并使用相同 offset 规则：
 
 ```bash
-./.venv/bin/python scripts/question_transcription/build_docx_span_index.py \
+./.venv/bin/python scripts/question_transcription/procedural/build_docx_span_index.py \
   --word-source <source-archive>/word/word-source.yaml \
   --output <build>/word.span-index.yaml
 
-./.venv/bin/python scripts/question_transcription/observe_docx_pages.py \
+./.venv/bin/python scripts/question_transcription/procedural/observe_docx_pages.py \
   --word-source <source-archive>/word/word-source.yaml \
   --span-index <build>/word.span-index.yaml \
   --source-archive <source-archive> \
@@ -405,16 +405,16 @@ PDF 的 `content=null` 容忍仍保留给只出现题干或只出现解答的页
 在 manifest 后、正式 observe 前插入：
 
 ```bash
-./.venv/bin/python scripts/question_transcription/prescan_pdf_pages.py \
+./.venv/bin/python scripts/question_transcription/procedural/prescan_pdf_pages.py \
   --manifest <build>/pdf-source.yaml \
   --output-dir <build>/prescan \
   --cache-dir <build>/cache/prescan
 
-./.venv/bin/python scripts/question_transcription/build_pdf_span_index.py \
+./.venv/bin/python scripts/question_transcription/procedural/build_pdf_span_index.py \
   --prescan <build>/prescan/prescan-manifest.yaml \
   --output <build>/pdf.span-index.yaml
 
-./.venv/bin/python scripts/question_transcription/observe_pdf_pages.py \
+./.venv/bin/python scripts/question_transcription/procedural/observe_pdf_pages.py \
   --manifest <build>/pdf-source.yaml \
   --span-index <build>/pdf.span-index.yaml \
   --paper-meta <build>/paper-meta.yaml \

@@ -636,7 +636,8 @@ def main() -> int:
         help=(
             "with an explicit --layout, repair question seeds that violate the "
             "confirmed layout (e.g. an outlier recorded in the answer block) "
-            "instead of failing; a bare --layout never masks bad data"
+            "instead of failing; a bare --layout never masks bad data; "
+            "ignored for --layout auto"
         ),
     )
     args = parser.parse_args()

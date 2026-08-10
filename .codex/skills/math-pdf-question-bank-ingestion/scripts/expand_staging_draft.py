@@ -75,6 +75,11 @@ def normalize_crop(
         "output": output,
         "output_sha256": ZERO_HASH,
     }
+    # Carry through pending-attribution metadata so it survives into source.yaml
+    # (CropEvidence.attribution_review). Absent on accepted crops.
+    attribution_review = raw.get("attribution_review")
+    if isinstance(attribution_review, dict) and attribution_review:
+        crop["attribution_review"] = attribution_review
     presentation = {
         "assignment_path": raw.get("assignment_path"),
         "width": raw.get("width"),
@@ -260,6 +265,11 @@ def build_item(
                     else "/solution_steps/0/diagram_col"
                 )
             if pointer is None:
+                # Multi-image roles are resolved upstream by the image-placement
+                # planner (materialize_image_group.resolve_placement_decisions),
+                # which composes them into a single group crop with an explicit
+                # assignment_path. Reaching this error means the draft was
+                # produced without that resolution step.
                 raise ValueError(
                     f"{item_id}: every {role} crop needs assignment_path when there are multiple crops"
                 )

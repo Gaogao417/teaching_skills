@@ -1,0 +1,62 @@
+# Minimal synthetic word-source.yaml exercising the four vector-asset branches:
+#   1. OLE-embedded Equation WMF  -> ignored / ole_formula
+#   2. tiny non-OLE WMF fragment  -> ignored / tiny_vector_fragment
+#   3. larger non-OLE WMF, no PNG rendition -> needs_review / vector_rendition_missing
+#   4. ordinary raster PNG        -> accepted (self-rendition)
+#
+# Mirrors the real math_word_source_extract/v1 schema; ole_binding / emf_class
+# appear only on vector (wmf/emf) media, exactly as the Fengxian extractor emits.
+schema: math_word_source_extract/v1
+source:
+  path: documents/初三/SYNTH-VECTOR-PAPER/source.docx
+media:
+  - path: media/image-ole-eq.wmf
+    sha256: sha256:1111111111111111111111111111111111111111111111111111111111111111
+    width_px: 113
+    height_px: 19
+    ole_binding:
+      embedded: true
+      relationship_id: rId7
+      object_path: embeddings/oleObject1.bin
+      prog_id: Equation.DSMT4
+    emf_class: formula
+  - path: media/image-tiny.wmf
+    sha256: sha256:2222222222222222222222222222222222222222222222222222222222222222
+    width_px: 5
+    height_px: 6
+    ole_binding:
+      embedded: false
+    emf_class: diagram
+  - path: media/image-big-no-rendition.wmf
+    sha256: sha256:3333333333333333333333333333333333333333333333333333333333333333
+    width_px: 200
+    height_px: 150
+    ole_binding:
+      embedded: false
+    emf_class: diagram
+  - path: media/image-normal.png
+    sha256: sha256:4444444444444444444444444444444444444444444444444444444444444444
+    width_px: 475
+    height_px: 512
+image_attribution_status: complete
+image_attribution:
+  - media: media/image-ole-eq.wmf
+    question_number: 1
+    bucket: solution
+    paragraph_index: 4
+    confidence: high
+  - media: media/image-tiny.wmf
+    question_number: 1
+    bucket: solution
+    paragraph_index: 5
+    confidence: high
+  - media: media/image-big-no-rendition.wmf
+    question_number: 1
+    bucket: prompt
+    paragraph_index: 6
+    confidence: high
+  - media: media/image-normal.png
+    question_number: 1
+    bucket: prompt
+    paragraph_index: 7
+    confidence: high

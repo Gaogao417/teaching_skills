@@ -23,7 +23,7 @@ from scripts.question_transcription.contracts import (  # noqa: E402
     ImageAttributionBundle,
     QuestionTranscriptionBundle,
 )
-from scripts.question_transcription import schema_dump  # noqa: E402
+from scripts.question_transcription.procedural import schema_dump  # noqa: E402
 
 FIX = ROOT / "tests" / "question_transcription" / "fixtures"
 

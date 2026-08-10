@@ -26,6 +26,28 @@ class StrictModel(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
 
+AttributionConfidence = Literal["high", "medium", "low"]
+
+
+class AttributionReview(StrictModel):
+    """Pending-attribution metadata carried on a crop.
+
+    Present only when the image attribution to this question/role was uncertain
+    (``state == "needs_review"``). The Review UI surfaces it for human
+    confirmation; once the whole item's review is approved, the attribution is
+    considered confirmed. Absent on accepted crops.
+
+    For composed multi-image groups, ``attribution_id`` joins the pending member
+    ids (comma-separated) and ``member_attribution_ids`` lists them so the
+    weakest-confidence member can be traced.
+    """
+
+    attribution_id: str = Field(min_length=1)
+    state: Literal["needs_review"]
+    confidence: AttributionConfidence
+    member_attribution_ids: list[str] = Field(default_factory=list)
+
+
 class CropEvidence(StrictModel):
     source: str = Field(min_length=1)
     source_sha256: Sha256
@@ -33,6 +55,7 @@ class CropEvidence(StrictModel):
     whiteout_px: list[tuple[int, int, int, int]] = Field(default_factory=list)
     output: str = Field(min_length=1)
     output_sha256: Sha256
+    attribution_review: AttributionReview | None = None
 
     @field_validator("source_sha256", "output_sha256")
     @classmethod

@@ -1006,8 +1006,8 @@ class QuestionBankCatalog:
         edit_target: str,
         title_prefix: str,
         preview_files: dict[tuple[str, str], Path],
-    ) -> list[dict[str, str]]:
-        previews: list[dict[str, str]] = []
+    ) -> list[dict[str, Any]]:
+        previews: list[dict[str, Any]] = []
         if not isinstance(entries, list):
             return previews
         for index, entry in enumerate(entries):
@@ -1021,12 +1021,26 @@ class QuestionBankCatalog:
                 continue
             role = f"{role_prefix}-{index}"
             preview_files[(item_id, role)] = image
+            # Surface pending-attribution metadata when present. A crop without
+            # an attribution_review block is treated as accepted/confirmed.
+            review = entry.get("attribution_review")
+            if isinstance(review, dict):
+                attribution_state = str(review.get("state") or "accepted")
+                attribution_confidence = review.get("confidence")
+                attribution_id = review.get("attribution_id")
+            else:
+                attribution_state = "accepted"
+                attribution_confidence = None
+                attribution_id = None
             previews.append(
                 {
                     "title": f"{title_prefix} {index + 1}",
                     "url": _asset_url(record.bank_id, item_id, role, image),
                     "edit_index": index,
                     "edit_target": edit_target,
+                    "attribution_state": attribution_state,
+                    "attribution_confidence": attribution_confidence,
+                    "attribution_id": attribution_id,
                 }
             )
         return previews
@@ -1107,6 +1121,8 @@ class QuestionBankCatalog:
                 "prompt_previews": [],
                 "official_solution_previews": [],
                 "official_solution_pages": [],
+                # crops whose attribution is still needs_review (0 when none/unknown).
+                "pending_image_count": 0,
                 # word_evidence.question + official_solution 合并去重后的整卷来源页，
                 # 按 page_number 升序。题干/解答 evidence 分组不是业务需求（review ui 只做
                 # 整卷溯源定位），故前端只渲染这一个合并视图；旧 role 字段保留供路由/兼容。
@@ -1234,6 +1250,18 @@ class QuestionBankCatalog:
                     title_prefix="官方解答原图",
                     preview_files=preview_files,
                 )
+                # Count crops whose attribution is still pending human confirmation,
+                # so the UI can show a per-item "归因待确认" hint at the item level.
+                pending = 0
+                for key in (
+                    "source_question_previews",
+                    "prompt_previews",
+                    "official_solution_previews",
+                ):
+                    for p in rendered.get(key, []) or []:
+                        if p.get("attribution_state") == "needs_review":
+                            pending += 1
+                rendered["pending_image_count"] = pending
                 word_evidence = source.get("word_evidence", {})
                 if not isinstance(word_evidence, dict):
                     word_evidence = {}

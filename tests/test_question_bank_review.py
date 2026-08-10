@@ -21,7 +21,7 @@ from scripts.question_transcription.contracts import RegionEvidence  # noqa: E40
 from scripts.question_transcription.review_issue_contracts import (  # noqa: E402
     ReviewIssuesBundle,
 )
-from scripts.question_transcription.review_issue_engine import (  # noqa: E402
+from scripts.question_transcription.procedural.review_issue_engine import (  # noqa: E402
     FieldCandidate,
     build_issue,
 )
@@ -327,6 +327,10 @@ def test_discovers_staging_exam_and_exposes_source_teacher_and_review_fields(
         f"/api/assets/{staging_id}/Q001/prompt-0?v="
     )
     assert item["prompt_previews"][0]["title"] == "题图 1"
+    # A crop without an attribution_review block is treated as accepted.
+    assert item["prompt_previews"][0]["attribution_state"] == "accepted"
+    assert item["prompt_previews"][0]["attribution_confidence"] is None
+    assert item["pending_image_count"] == 0
     assert item["official_solution_previews"][0]["url"].startswith(
         f"/api/assets/{staging_id}/Q001/official-solution-0?v="
     )
@@ -337,6 +341,33 @@ def test_discovers_staging_exam_and_exposes_source_teacher_and_review_fields(
     assert client.get(item["source_question_previews"][0]["url"]).status_code == 200
     assert client.get(item["solution_steps"][0]["preview_url"]).status_code == 200
     assert str(root) not in client.get(f"/api/banks/{staging_id}").text
+
+
+def test_staging_crop_attribution_review_is_surfaced_in_previews(
+    staging_root: tuple[Path, Path, str],
+) -> None:
+    """A prompt crop whose source.yaml carries an attribution_review block must
+    surface needs_review + its confidence in the item payload, and count toward
+    pending_image_count at the item level."""
+    root, paper_dir, staging_id = staging_root
+    source_path = paper_dir / "items" / "Q001" / "source.yaml"
+    source = yaml.safe_load(source_path.read_text(encoding="utf-8"))
+    source["crops"]["prompt"][0]["attribution_review"] = {
+        "attribution_id": "attr-prompt-1",
+        "state": "needs_review",
+        "confidence": "medium",
+    }
+    write_yaml(source_path, source)
+
+    client = TestClient(create_question_bank_app(root))
+    detail = client.get(f"/api/banks/{staging_id}").json()
+    item = detail["items"][0]
+    prompt = item["prompt_previews"][0]
+    assert prompt["attribution_state"] == "needs_review"
+    assert prompt["attribution_confidence"] == "medium"
+    assert prompt["attribution_id"] == "attr-prompt-1"
+    # Only the prompt crop is pending here.
+    assert item["pending_image_count"] == 1
 
 
 def test_transcription_quarantine_exposes_and_resolves_issue_but_blocks_approval(

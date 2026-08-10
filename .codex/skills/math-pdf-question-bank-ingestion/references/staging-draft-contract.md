@@ -131,6 +131,35 @@ solution:
 `official_solution` 自动按 crop 顺序生成 `source_solution_images`，不在
 `block` 中重复填写。`question_evidence` 不进入学生版或教师版题面。
 
+### 多图放置（image placement）
+
+当某题的 `prompt` 或 `solution` 出现多张图（例如宝山 Q24 三张连续题图）时，
+v1 draft 的 `stem_latex` 是标量字符串，无法把多图分别插入"问题背景／数据测量／
+问题解决"三段文本之间。**展开（expand）前**，`materialize_image_group.resolve_placement_decisions`
+会把同一 `assignment_path` 下的多图纵向合成成一张组合 PNG，并把该角色替换为单个
+带 `assignment_path` 的 crop，从而不触发 `every crop needs assignment_path`。
+
+合成结果与决策依据写入 `staging/<paper>/placement-decisions.yaml`：
+
+```yaml
+placements:
+  - question_id: Q024
+    kind: image_group
+    role: prompt
+    image_ids: [image295.png, image301.png, image302.png]
+    assignment_path: /diagram_col
+    layout: vertical
+    composed_source: items/Q024/assets/prompt-group.png
+    warnings:
+      - code: grouped_adjacent_to_scalar_stem
+        message: Q024 prompt: 3 images share the scalar path /diagram_col; ...
+```
+
+`grouped_adjacent_to_scalar_stem` 是**非阻塞** warning（顺序与归属无歧义，仅版式
+降级为相邻图组），不会暂停工作流。真正歧义（例如两张图声称不同 part 但 v1 无法
+表达）才会进入 `needs_review` 并暂停。expander 不负责组合图片、不选择布局、不猜
+步骤；多图必须在到达 expander 之前已被放置步骤合并为单图。
+
 ## 状态与限制
 
 - draft 展开时把 `human_review` 设为 `pending`。

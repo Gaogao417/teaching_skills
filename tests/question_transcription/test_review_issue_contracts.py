@@ -20,7 +20,7 @@ ROOT = Path(__file__).resolve().parents[2]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from scripts.question_transcription import schema_dump  # noqa: E402
+from scripts.question_transcription.procedural import schema_dump  # noqa: E402
 from scripts.question_transcription.review_issue_contracts import (  # noqa: E402
     AssetClassificationIssue,
     AssetClassificationResolution,

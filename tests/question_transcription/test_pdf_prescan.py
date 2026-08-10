@@ -15,12 +15,12 @@ import pytest
 import yaml
 from PIL import Image
 
-from scripts.question_transcription.bailian_ocr_client import (
+from scripts.question_transcription.workflow.adapters.page_text.bailian_ocr_client import (
     BAILIAN_OCR_MODEL,
     BailianOcrClient,
 )
-from scripts.question_transcription.pdf_source_manifest import build_manifest
-from scripts.question_transcription.prescan_pdf_pages import (
+from scripts.question_transcription.workflow.adapters.source.pdf_source_manifest import build_manifest
+from scripts.question_transcription.procedural.prescan_pdf_pages import (
     PRESCAN_PROMPT,
     PRESCAN_PROMPT_VERSION,
     prescan_pages,

@@ -18,6 +18,7 @@ from scripts.question_transcription.review_issue_contracts import (  # noqa: E40
     compute_asset_issue_hash,
 )
 from scripts.question_transcription.source_contracts import (  # noqa: E402
+    ImageAttributionV2,
     ImageRendition,
     ImageNode,
     OleFormulaBinding,
@@ -25,9 +26,10 @@ from scripts.question_transcription.source_contracts import (  # noqa: E402
     SourceImageAsset,
     SourcePaper,
     SourceQuestion,
+    TargetQuestionStem,
     TextNode,
 )
-from scripts.question_transcription.source_review_validation import (  # noqa: E402
+from scripts.question_transcription.workflow.adapters.staging.source_review_validation import (  # noqa: E402
     assert_source_review_ready,
     validate_source_review_gate,
 )
@@ -161,3 +163,34 @@ def test_content_image_without_exact_attribution_blocks_projection():
     paper = paper.model_copy(update={"questions": [question]})
     errors = validate_source_review_gate(paper)
     assert any("no accepted attribution" in error for error in errors)
+
+
+def test_needs_review_attribution_satisfies_content_image_binding():
+    """A needs_review attribution carries a valid content-image binding (the
+    ImageNode is emitted for it), so the gate must NOT block on it — it flows
+    downstream for human confirmation instead."""
+    asset = _asset("diagram")
+    paper = _paper(asset)
+    question = paper.questions[0].model_copy(
+        update={
+            "content": QuestionContentV2(
+                stem=[
+                    TextNode(kind="text", text="如图。"),
+                    ImageNode(kind="image", asset_id=asset.asset_id),
+                ],
+                answer="1",
+                clue="c",
+            )
+        }
+    )
+    attribution = ImageAttributionV2(
+        attribution_id="attr-1",
+        asset_id=asset.asset_id,
+        question_ref="1",
+        target=TargetQuestionStem(target="question_stem"),
+        order=1,
+        confidence="medium",
+        state="needs_review",
+    )
+    paper = paper.model_copy(update={"questions": [question], "attributions": [attribution]})
+    assert validate_source_review_gate(paper) == []

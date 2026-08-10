@@ -81,11 +81,11 @@ word/
 
 ```bash
 # 先建索引（试卷与答案分文件时分别建索引，答案文件传与 observe 相同的 offset）
-./.venv/bin/python scripts/question_transcription/build_docx_span_index.py \
+./.venv/bin/python scripts/question_transcription/procedural/build_docx_span_index.py \
   --word-source <source-archive>/word/word-source.yaml \
   --output <build>/word.span-index.yaml
 
-./.venv/bin/python scripts/question_transcription/observe_docx_pages.py \
+./.venv/bin/python scripts/question_transcription/procedural/observe_docx_pages.py \
   --word-source <source-archive>/word/word-source.yaml \
   --span-index <build>/word.span-index.yaml \
   --source-archive <source-archive> \
@@ -93,29 +93,29 @@ word/
 
 # 试卷与答案分文件时，答案页使用试卷页数作为 offset 续编；
 # evidence 仍保留真实的 word-answers 子目录。
-./.venv/bin/python scripts/question_transcription/build_docx_span_index.py \
+./.venv/bin/python scripts/question_transcription/procedural/build_docx_span_index.py \
   --word-source <source-archive>/word-answers/word-source.yaml \
   --output <build>/word-answers.span-index.yaml \
   --page-number-offset <exam-page-count>
 
-./.venv/bin/python scripts/question_transcription/observe_docx_pages.py \
+./.venv/bin/python scripts/question_transcription/procedural/observe_docx_pages.py \
   --word-source <source-archive>/word-answers/word-source.yaml \
   --span-index <build>/word-answers.span-index.yaml \
   --source-archive <source-archive> --source-subdir word-answers \
   --page-number-offset <exam-page-count> \
   --mimo-structured --cache-dir <build>/cache --output-dir <build>/windows
 
-./.venv/bin/python scripts/question_transcription/merge_docx_observations.py \
+./.venv/bin/python scripts/question_transcription/procedural/merge_docx_observations.py \
   --windows <build>/windows/*.yaml \
   --paper-meta <build>/paper-meta.yaml \
   --output <build>/docx-observation.yaml \
   --issues <build>/review-issues.yaml
 
-./.venv/bin/python scripts/question_transcription/adapt_docx_transcription.py \
+./.venv/bin/python scripts/question_transcription/procedural/adapt_docx_transcription.py \
   --observation <build>/docx-observation.yaml \
   --output <build>/transcription.yaml
 
-./.venv/bin/python scripts/question_transcription/adapt_docx_images.py \
+./.venv/bin/python scripts/question_transcription/workflow/adapters/source/adapt_docx_images.py \
   --word-source <source-archive>/word/word-source.yaml \
   --paper-id <paper-id> --source-archive <source-archive> \
   --output <build>/image-attribution.yaml
@@ -123,7 +123,7 @@ word/
 ## provider/assembler 按 source_paper.schema 生成权威原卷
 ## <build>/paper.source.yaml
 
-./.venv/bin/python scripts/question_transcription/project_source_paper.py \
+./.venv/bin/python scripts/question_transcription/workflow/adapters/staging/project_source_paper.py \
   --source <build>/paper.source.yaml \
   --skeleton <build>/transcription.yaml \
   --issues <build>/review-issues.yaml \
@@ -142,7 +142,7 @@ word/
 Review UI 逐项裁决；裁决完成后运行：
 
 ```bash
-./.venv/bin/python scripts/question_transcription/apply_review_resolutions.py \
+./.venv/bin/python scripts/question_transcription/procedural/apply_review_resolutions.py \
   --observation <build>/docx-observation.yaml \
   --issues <review-staging>/review-issues.yaml \
   --resolutions <review-staging>/review-resolutions.yaml \

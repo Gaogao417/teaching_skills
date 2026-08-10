@@ -1,0 +1,31 @@
+# 题库录入 LangGraph 工作流依赖（G0.1）
+#
+# 安装到仓库共享 ./.venv：
+#   ./.venv/bin/python -m pip install -r scripts/question_transcription/workflow/requirements.txt
+#
+# 仓库主虚拟环境已提供 pydantic v2 / httpx / pyyaml / pillow / openai / pydantic_ai，
+# 这里只固定 LangGraph 全家桶，避免引入与主环境冲突的版本。
+#
+# 锁定原则：固定 LangGraph / LangChain / Langfuse 兼容版本；其余作已有声明，不强制版本。
+langgraph>=0.2.50,<0.3
+langgraph-checkpoint-sqlite>=2.0.0,<3
+
+# Langfuse 可观测（tracing）。精确锁 4.14.2：mask_otel_spans 导出阶段脱敏钩子随
+# ~4.9 引入，强依赖该 API。回调走 Langfuse 官方 LangChain 集成（langfuse.langchain.
+# CallbackHandler），它要求完整 langchain（不只是 langchain-core）。langchain 0.3.x
+# 会把 langchain-core 提到 0.3.8x、langsmith 提到 0.10.x，因此下方 langsmith 上界
+# 同步放宽，与 langchain 0.3.30 的传递依赖对齐。
+langfuse==4.14.2
+langchain>=0.3,<0.4
+langsmith>=0.10,<0.11
+
+# 已有依赖声明（主环境已装，这里仅记录工作流的运行期依赖来源，pip 安装时若已满足则跳过）。
+pydantic>=2.7
+httpx>=0.27
+pyyaml>=6.0
+pillow>=10.0
+
+# 整卷 Claude Code adapter（ports §7.2 / 实现计划 §11 freeze #5）：claude-agent-sdk
+# 以子进程方式驱动本机已安装的 `claude` CLI（非 Python 纯依赖）。鉴权优先
+# ANTHROPIC_API_KEY，其次 CLI 已登录凭证 / CLAUDE_CODE_OAUTH_TOKEN。
+claude-agent-sdk>=0.2.128
