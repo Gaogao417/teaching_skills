@@ -3,6 +3,7 @@ from __future__ import annotations
 from pathlib import Path
 import sys
 
+import pytest
 import yaml
 
 
@@ -28,6 +29,7 @@ from paper_map_contracts import validate_against_staging  # noqa: E402
 from validate_exam_source import validate_source  # noqa: E402
 from word_evidence_pages import (  # noqa: E402
     allowed_shared_boundaries,
+    coerce_question_seeds,
     expected_page_ranges,
     infer_layout,
     resolve_draft_payload,
@@ -641,3 +643,135 @@ def test_staging_audit_rejects_out_of_range_evidence_pages(tmp_path: Path) -> No
     assert errors == [
         "Q001: word_evidence.question pages [9] outside [1, 4]",
     ]
+
+
+def test_expected_page_ranges_rejects_interleaved_blowup() -> None:
+    """interleaved 误判 + 大跨度不能把单题来源页膨胀到几百页。
+
+    复现"长宁一模最后一题 306 个来源页"：interleaved 分支用
+    ``range(question_start, solution_start + 1)`` 填充，当 solution_start 远大于
+    question_start 时一次性生成上百页，这些页全在 [1, last_page] 内且恰好
+    覆盖整卷，所以放宽后的整卷审计不拦。per-role 上限护栏必须在此硬拦截。
+    """
+    # interleaved + q=1 + s=306 + last=306 → range(1, 307) = 306 页
+    with pytest.raises(ValueError, match="exceeds the per-role ceiling"):
+        expected_page_ranges(
+            [1],
+            [306],
+            last_page=306,
+            layout="interleaved",
+        )
+
+
+def test_resolve_draft_payload_auto_blocks_runaway_interleaved(
+    tmp_path: Path,
+) -> None:
+    """auto 模式下 infer_layout 误判 interleaved 时，resolve 必须报错而非产出几百页。
+
+    转录把单题 solution 种子标到整卷末页，单题即满足 interleaved 充要条件
+    (q[i]<=s[i])，于是 interleaved 分支用 range(q, s+1) 把题→解之间所有页填进
+    question evidence。这些页全在 [1, last_page] 内且恰好覆盖整卷，放宽后的
+    审计不拦。coerce_question_seeds 只在手动 --layout 时生效，auto 路径靠
+    per-role 上限护栏兜底。
+    """
+    # 60 页真实页图 (last_page=60 合法，远低于整卷 200 上限)；单题 q=1 s=60
+    # → interleaved → range(1, 61) = 60 页 > 50 的 per-role 上限 → 硬拦截。
+    pages_dir = tmp_path / "documents/PAPER-BLOWUP/word/pages"
+    pages_dir.mkdir(parents=True)
+    for page in range(1, 61):
+        (pages_dir / f"{page:03d}.png").write_bytes(b"page")
+
+    def evidence(page: int) -> list[dict[str, object]]:
+        return [
+            {
+                "page_image": f"documents/PAPER-BLOWUP/word/pages/{page:03d}.png",
+                "page_number": page,
+            }
+        ]
+
+    draft = {
+        "schema": "math_exam_staging_draft/v1",
+        "sections": [
+            {
+                "id": "problem",
+                "items": [
+                    {
+                        "item_id": "Q001",
+                        "question_word_evidence": evidence(1),
+                        "official_solution": {"word_evidence": evidence(60)},
+                    },
+                ],
+            }
+        ],
+    }
+    with pytest.raises(ValueError, match="exceeds the per-role ceiling"):
+        resolve_draft_payload(draft, repo_root=tmp_path, layout="auto")
+
+
+def test_coerce_question_seeds_repairs_outlier_in_manual_layout() -> None:
+    """手动 --layout separated 时，标到答案区的 outlier question 种子被钳位。
+
+    转录常把压轴题唯一证据页（答案页）记成 question_word_evidence 首页，该种子
+    违反 separated 不变量（question 必须在首个 solution 之前），裸 --layout 会
+    膨胀成跨页区间。coerce_question_seeds 保守地把它钳到 first_solution-1 并保持
+    单调非递减，返回逐项修正记录供审核。
+    """
+    # 3 题：Q003 的 question 种子 28 落在答案区（solution 从 p9 起）→ 钳到 8
+    question = [1, 2, 28]
+    solution = [9, 12, 15]
+    coerced, corrections = coerce_question_seeds(question, solution, layout="separated")
+    assert coerced == [1, 2, 8]
+    assert corrections == [{"index": 2, "original": 28, "coerced": 8}]
+
+    # 手动 separated 但不给 override：违反布局的种子必须报错，不能静默膨胀。
+    # _seeds_violate_layout 在 _last_page_from_evidence 之前触发，故 repo_root
+    # 不会被实际用到，传一个不存在的路径即可。
+    with pytest.raises(ValueError, match="violate the confirmed layout"):
+        resolve_draft_payload(
+            {
+                "schema": "math_exam_staging_draft/v1",
+                "sections": [
+                    {
+                        "id": "problem",
+                        "items": [
+                            {
+                                "item_id": "Q001",
+                                "question_word_evidence": [
+                                    {
+                                        "page_image": "documents/P/word/pages/001.png",
+                                        "page_number": 1,
+                                    }
+                                ],
+                                "official_solution": {
+                                    "word_evidence": [
+                                        {
+                                            "page_image": "documents/P/word/pages/009.png",
+                                            "page_number": 9,
+                                        }
+                                    ]
+                                },
+                            },
+                            {
+                                "item_id": "Q002",
+                                "question_word_evidence": [
+                                    {
+                                        "page_image": "documents/P/word/pages/028.png",
+                                        "page_number": 28,
+                                    }
+                                ],
+                                "official_solution": {
+                                    "word_evidence": [
+                                        {
+                                            "page_image": "documents/P/word/pages/012.png",
+                                            "page_number": 12,
+                                        }
+                                    ]
+                                },
+                            },
+                        ],
+                    }
+                ],
+            },
+            repo_root=Path("/nonexistent-repo-root"),
+            layout="separated",
+        )
