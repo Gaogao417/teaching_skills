@@ -30,6 +30,7 @@ from expand_staging_draft import expand_draft  # noqa: E402
 from paper_map_contracts import validate_against_staging  # noqa: E402
 from validate_exam_source import validate_source  # noqa: E402
 from word_evidence_pages import (  # noqa: E402
+    _page_index_from_name,
     allowed_shared_boundaries,
     coerce_question_seeds,
     expected_page_ranges,
@@ -844,3 +845,134 @@ def test_coerce_question_seeds_repairs_outlier_in_manual_layout() -> None:
             repo_root=Path("/nonexistent-repo-root"),
             layout="separated",
         )
+
+
+# --------------------------------------------------------------------------- #
+# D-pages: page-N.png naming compatibility (PDF-extracted pages)
+# --------------------------------------------------------------------------- #
+
+
+def test_page_index_from_name_handles_both_naming_conventions() -> None:
+    """_page_index_from_name 接受纯数字(001)和 page-N(page-01)两种命名。
+
+    PDF 提取产出 page-01.png / page-1.png，DOCX 提取产出 001.png。
+    旧代码的 path.stem.isdigit() 跳过了所有 page-N 文件，导致
+    _last_page_from_evidence 对 PDF 源卷报 "no rendered pages found"。
+    """
+    assert _page_index_from_name("001") == 1
+    assert _page_index_from_name("042") == 42
+    assert _page_index_from_name("page-01") == 1
+    assert _page_index_from_name("page-1") == 1
+    assert _page_index_from_name("page-29") == 29
+    # 非页文件（media/ 公式碎片）返回 None，调用方跳过
+    assert _page_index_from_name("image1") is None
+    assert _page_index_from_name("media") is None
+
+
+def test_last_page_from_evidence_reads_page_n_named_directory(
+    tmp_path: Path,
+) -> None:
+    """_last_page_from_evidence 对 page-N.png 命名的页图目录正确取末页。
+
+    复现 D 类 2026-BAOSHAN 场景：35 个 page-NN.png 文件，旧 isdigit() 全跳过。
+    """
+    pages_dir = tmp_path / "documents/BAOSHAN/word/pages"
+    pages_dir.mkdir(parents=True)
+    for page in range(1, 36):
+        (pages_dir / f"page-{page:02d}.png").write_bytes(b"page")
+
+    draft = {
+        "schema": "math_exam_staging_draft/v1",
+        "sections": [
+            {
+                "id": "problem",
+                "items": [
+                    {
+                        "item_id": "Q001",
+                        "question_word_evidence": [
+                            {
+                                "page_image": "documents/BAOSHAN/word/pages/page-01.png",
+                                "page_number": 1,
+                            }
+                        ],
+                        "official_solution": {
+                            "word_evidence": [
+                                {
+                                    "page_image": "documents/BAOSHAN/word/pages/page-01.png",
+                                    "page_number": 1,
+                                }
+                            ]
+                        },
+                    },
+                ],
+            }
+        ],
+    }
+    # interleaved 单题 q=s=1；last_page 应解析为 35（不是报错）
+    _, report = resolve_draft_payload(draft, repo_root=tmp_path, layout="interleaved")
+    assert report["last_page"] == 35
+
+
+def test_entries_for_pages_emits_page_n_prefix_for_pdf_source(
+    tmp_path: Path,
+) -> None:
+    """resolve 对 page-N 源卷输出的 evidence 路径保留 page- 前缀。
+
+    确保展开后的 page_image 路径和磁盘上的 page-NN.png 命名一致，
+    不会退回 001.png（那样 materialize 阶段找不到文件）。
+    """
+    pages_dir = tmp_path / "documents/QINGPU/word/pages"
+    pages_dir.mkdir(parents=True)
+    for page in range(1, 8):
+        (pages_dir / f"page-{page:01d}.png").write_bytes(b"page")
+
+    draft = {
+        "schema": "math_exam_staging_draft/v1",
+        "sections": [
+            {
+                "id": "problem",
+                "items": [
+                    {
+                        "item_id": "Q001",
+                        "question_word_evidence": [
+                            {
+                                "page_image": "documents/QINGPU/word/pages/page-1.png",
+                                "page_number": 1,
+                            }
+                        ],
+                        "official_solution": {
+                            "word_evidence": [
+                                {
+                                    "page_image": "documents/QINGPU/word/pages/page-1.png",
+                                    "page_number": 1,
+                                }
+                            ]
+                        },
+                    },
+                    {
+                        "item_id": "Q002",
+                        "question_word_evidence": [
+                            {
+                                "page_image": "documents/QINGPU/word/pages/page-2.png",
+                                "page_number": 2,
+                            }
+                        ],
+                        "official_solution": {
+                            "word_evidence": [
+                                {
+                                    "page_image": "documents/QINGPU/word/pages/page-3.png",
+                                    "page_number": 3,
+                                }
+                            ]
+                        },
+                    },
+                ],
+            }
+        ],
+    }
+    resolved, _ = resolve_draft_payload(draft, repo_root=tmp_path, layout="interleaved")
+    q1 = resolved["sections"][0]["items"][0]["question_word_evidence"]
+    # 展开后路径仍以 page- 开头，不是纯数字
+    assert all("page-" in e["page_image"] for e in q1), [
+        e["page_image"] for e in q1
+    ]

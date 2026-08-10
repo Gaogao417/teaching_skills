@@ -394,7 +394,38 @@ def _complete_or_preserved_pages(
     return expected
 
 
-def _page_template(entries: list[dict[str, Any]], *, label: str) -> tuple[str, int, str]:
+def _page_index_from_name(stem: str) -> int | None:
+    """Extract a 1-based page index from a rendered-page file stem.
+
+    Two naming conventions exist in the corpus:
+
+    - **DOCX rendered pages**: pure zero-padded digits (``001``, ``042``),
+      produced by ``extract_docx_source.py``. ``isdigit()`` handles these.
+    - **PDF extracted pages**: ``page-01``, ``page-1`` (``page-N.png``),
+      produced by the older PDF extraction path. These are not digits, so the
+      original ``int(path.stem)`` silently skipped every PDF-sourced page and
+      ``_last_page_from_evidence`` reported "no rendered pages found" (the
+      D-pages precheck failure on 2026-BAOSHAN / 2024-QINGPU).
+
+    Returns ``None`` for a stem that is neither convention (e.g. a ``media/``
+    formula fragment named ``image1``), so callers can skip non-page files
+    without treating them as page 0.
+    """
+    if stem.isdigit():
+        return int(stem)
+    if stem.startswith("page-"):
+        tail = stem.removeprefix("page-").lstrip("0") or "0"
+        return int(tail) if tail.isdigit() else None
+    return None
+
+
+def _page_template(entries: list[dict[str, Any]], *, label: str) -> tuple[str, str, int, str]:
+    """Return ``(parent, prefix, width, suffix)`` for emitting page-image paths.
+
+    ``prefix`` is empty for the pure-digit DOCX convention and ``"page-"`` for
+    the PDF-extracted convention, so :func:`_entries_for_pages` can emit names
+    that match the on-disk rendered pages in either case.
+    """
     if not entries or not isinstance(entries[0], dict):
         raise ValueError(f"{label}: first evidence page is required")
     raw = str(entries[0].get("page_image") or "")
@@ -402,17 +433,25 @@ def _page_template(entries: list[dict[str, Any]], *, label: str) -> tuple[str, i
     if not raw or not path.name:
         raise ValueError(f"{label}: page_image is required")
     stem = path.stem
-    width = len(stem) if stem.isdigit() else 3
-    return path.parent.as_posix(), width, path.suffix or ".png"
+    if stem.isdigit():
+        prefix = ""
+        width = len(stem)
+    elif stem.startswith("page-"):
+        prefix = "page-"
+        width = 2
+    else:
+        prefix = ""
+        width = 3
+    return path.parent.as_posix(), prefix, width, path.suffix or ".png"
 
 
 def _entries_for_pages(
     seed_entries: list[dict[str, Any]], pages: list[int], *, label: str
 ) -> list[dict[str, Any]]:
-    parent, width, suffix = _page_template(seed_entries, label=label)
+    parent, prefix, width, suffix = _page_template(seed_entries, label=label)
     return [
         {
-            "page_image": f"{parent}/{page:0{width}d}{suffix}",
+            "page_image": f"{parent}/{prefix}{page:0{width}d}{suffix}",
             "page_number": page,
         }
         for page in pages
@@ -420,7 +459,7 @@ def _entries_for_pages(
 
 
 def _last_page_from_evidence(entries: list[dict[str, Any]], *, repo_root: Path) -> int:
-    parent, _, suffix = _page_template(entries, label="page evidence")
+    parent, _, _, suffix = _page_template(entries, label="page evidence")
     page_dir = Path(parent)
     if not page_dir.is_absolute():
         page_dir = repo_root / page_dir
@@ -437,11 +476,14 @@ def _last_page_from_evidence(entries: list[dict[str, Any]], *, repo_root: Path) 
             "asset folder, not the rendered-pages folder; check that page_image "
             "points at .../pages/<NNN>.png"
         )
-    pages = [
-        int(path.stem)
-        for path in page_dir.glob(f"*{suffix}")
-        if path.stem.isdigit()
-    ]
+    # Accept both pure-digit (001.png, DOCX) and page-N (page-01.png, PDF)
+    # naming via _page_index_from_name, so PDF-sourced papers like
+    # 2026-BAOSHAN / 2024-QINGPU are no longer silently skipped.
+    pages = []
+    for path in page_dir.glob(f"*{suffix}"):
+        index = _page_index_from_name(path.stem)
+        if index is not None:
+            pages.append(index)
     if not pages:
         raise ValueError(f"no rendered pages found in {page_dir}")
     if len(pages) > MAX_WHOLE_PAPER_PAGES:

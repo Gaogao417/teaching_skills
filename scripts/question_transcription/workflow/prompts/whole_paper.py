@@ -59,6 +59,12 @@ WHOLE_PAPER_SYSTEM_PROMPT = """\
 5. paper.id / paper.source_archive 用 manifest 提供的值；title/grade 若文本未给出，用合理默认（如 "未知"、"初三"）。
 6. evidence 的页号只要求真实对应题目所在页；题干页和解答页可以不同（尤其是“题在前答在后”的布局，
    解答页号应指向参考答案所在页，而不是题干页）。
+7. 【页号不变量 — 强制，校验工具会拦截】
+   (a) 若你判断布局是“题在前、答在后”：每道题的题干页（evidence.question）必须**全部小于**
+       参考答案的起始页（即所有 evidence.solution 页号的最小值）。答案区里虽然会重复出现题号
+       （如“18. 答案…”），但那是解答不是题干，绝不能把答案区的页标成 evidence.question。
+   (b) 题号顺序与页码顺序一致：evidence.question 的首页号必须随题号**非递减**（后一道题的题干页
+       不应小于前一道题）。同一页上有多道题时，这几道题都标该页号（相等合法，倒退不合法）。
 
 下面是一个选择题的完整 JSON 示例（仅作格式参考，不要照抄内容）：
 {"schema":"math_question_transcription/v1","paper":{"id":"DEMO","title":"示例","grade":"初三","subject":"数学","source_archive":"demo.pdf"},"sections":[{"section_ref":"1","title":"一、选择题","questions":[{"question_ref":"1","question_number":1,"question_type":"choice","points":3,"content":{"stem_latex":"$2+2=$","choices":["3","4","5","6"],"answer":"B","clue":"基本加法"},"evidence":{"question":[{"kind":"page","source":"transcription","page_number":1}],"solution":[{"kind":"page","source":"transcription","page_number":1}],"solution_start_anchor":"B","solution_end_anchor":"B"}}]}],"provider":{"kind":"agent","name":"glm-5.2","version":"v1"}}
