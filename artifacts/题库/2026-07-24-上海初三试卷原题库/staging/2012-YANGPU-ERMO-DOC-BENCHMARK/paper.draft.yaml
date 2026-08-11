@@ -1,237 +1,1672 @@
 schema: math_exam_staging_draft/v1
 paper:
   id: 2012-YANGPU-ERMO-DOC-BENCHMARK
-  title: 2012 年上海市杨浦区中考数学二模试卷
+  title: 2012年上海市杨浦区中考数学二模试卷
   grade: 初三
   subject: 数学
-  source_archive: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word
+  source_archive: /Users/gaochong/develop/teaching_skills/documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/source.doc
 question_bank: ../../question-bank.yaml
 sections:
-  - id: choice
-    title: 一、选择题
-    items:
-      - item_id: Q001
-        question_number: 1
-        question_type: choice
-        points: 4
-        question_word_evidence: [{manifest: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/word-source.yaml, paragraph_start: 2, paragraph_end: 3}]
-        official_solution: {start_anchor: '1．（4分）下列二次根式', end_anchor: '2．（4分）下列运算', word_evidence: [{manifest: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/word-source.yaml, paragraph_start: 89, paragraph_end: 100}]}
-        block:
-          stem_latex: '下列二次根式中，属于最简二次根式的是（　　）'
-          choices: ['$\sqrt{12}$', '$\sqrt{a^2-b^2}$', '$\sqrt{a^4}$', '$\sqrt{\frac{x}{3}}$']
-          answer: B
-          explanation: '逐项按最简二次根式定义判断，B 符合。'
-      - item_id: Q002
-        question_number: 2
-        question_type: choice
-        points: 4
-        question_word_evidence: [{manifest: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/word-source.yaml, paragraph_start: 4, paragraph_end: 6}]
-        official_solution: {start_anchor: '2．（4分）下列运算', end_anchor: '3．（4分）关于x', word_evidence: [{manifest: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/word-source.yaml, paragraph_start: 101, paragraph_end: 112}]}
-        block:
-          stem_latex: '下列运算正确的是（　　）'
-          choices: ['$\sqrt4=\pm2$', '$-(x-1)=-x-1$', '$-3^2=9$', '$-|-2|=-2$']
-          answer: D
-          explanation: '由算术平方根、去括号、乘方和绝对值性质判断，D 正确。'
-      - item_id: Q003
-        question_number: 3
-        question_type: choice
-        points: 4
-        question_word_evidence: [{manifest: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/word-source.yaml, paragraph_start: 7, paragraph_end: 9}]
-        official_solution: {start_anchor: '3．（4分）关于x', end_anchor: '4．（4分）下列四个函数', word_evidence: [{manifest: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/word-source.yaml, paragraph_start: 113, paragraph_end: 121}]}
-        block:
-          stem_latex: '关于 $x$ 的一元二次方程 $x^2-ax-1=0$ 根的情况是（　　）'
-          choices: [有两个相等的实数根, 没有实数根, 有两个不相等的实数根, 根的情况无法确定]
-          answer: C
-          explanation: '$\Delta=a^2+4>0$。'
-      - item_id: Q004
-        question_number: 4
-        question_type: choice
-        points: 4
-        question_word_evidence: [{manifest: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/word-source.yaml, paragraph_start: 10, paragraph_end: 12}]
-        prompt: [{source: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/derived/q4-options.png, box_px: [0, 0, 286, 217], assignment_path: /stem_image, width: 80mm}]
-        official_solution: {start_anchor: '4．（4分）下列四个函数', end_anchor: '5．（4分）一名同学', word_evidence: [{manifest: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/word-source.yaml, paragraph_start: 122, paragraph_end: 133}]}
-        block:
-          stem_latex: '下图按 A、B、C、D 顺序给出四个函数图象；当 $x>0$ 时，$y$ 随 $x$ 的增大而增大的是（　　）'
-          choices: [图A, 图B, 图C, 图D]
-          answer: C
-          explanation: '由图象单调性判断。'
-      - item_id: Q005
-        question_number: 5
-        question_type: choice
-        points: 4
-        question_word_evidence: [{manifest: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/word-source.yaml, paragraph_start: 13, paragraph_end: 14}]
-        prompt: [{source: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/derived/q5-options.png, box_px: [0, 0, 439, 110], assignment_path: /stem_image, width: 110mm}]
-        official_solution: {start_anchor: '5．（4分）一名同学', end_anchor: '6．（4分）下列命题', word_evidence: [{manifest: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/word-source.yaml, paragraph_start: 134, paragraph_end: 143}]}
-        block:
-          stem_latex: '下图按 A、B、C、D 顺序给出图案。要求图案关于正方形某条对角线对称，不符合要求的是（　　）'
-          choices: [图A, 图B, 图C, 图D]
-          answer: D
-          explanation: 'D 不关于正方形对角线对称。'
-      - item_id: Q006
-        question_number: 6
-        question_type: choice
-        points: 4
-        question_word_evidence: [{manifest: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/word-source.yaml, paragraph_start: 15, paragraph_end: 19}]
-        official_solution: {start_anchor: '6．（4分）下列命题', end_anchor: '二、填空题', word_evidence: [{manifest: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/word-source.yaml, paragraph_start: 144, paragraph_end: 156}]}
-        block:
-          stem_latex: '下列命题中，正确的是（　　）'
-          choices: ['Rt$\triangle ABC$ 中，$CD$ 是 $AB$ 上中线，则 $CD=AB$', '角平分线上的点到角两边距离相等', 'Rt$\triangle ABC$ 中，若 $\angle B=30^\circ$，则 $AC=AB$', '一边上的中线等于这边一半的三角形是直角三角形']
-          answer: D
-          explanation: '前三项缺少必要条件，D 为直角三角形判定。'
-  - id: fillin
-    title: 二、填空题
-    items:
-      - {item_id: Q007, question_number: 7, question_type: fillin, points: 4, question_word_evidence: [{manifest: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/word-source.yaml, paragraph_start: 21, paragraph_end: 21}], official_solution: {start_anchor: '7．（4分）计算', end_anchor: '8．（4分）分解因式', word_evidence: [{manifest: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/word-source.yaml, paragraph_start: 158, paragraph_end: 165}]}, block: {stem_latex: '计算：$-2x^3y^2\div xy=$\fillin。', answer: '$-2x^2y$', explanation: '单项式相除。'}}
-      - {item_id: Q008, question_number: 8, question_type: fillin, points: 4, question_word_evidence: [{manifest: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/word-source.yaml, paragraph_start: 22, paragraph_end: 22}], official_solution: {start_anchor: '8．（4分）分解因式', end_anchor: '9．（4分）方程', word_evidence: [{manifest: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/word-source.yaml, paragraph_start: 166, paragraph_end: 171}]}, block: {stem_latex: '分解因式：$x^2-9=$\fillin。', answer: '$(x+3)(x-3)$', explanation: '平方差公式。'}}
-      - item_id: Q009
-        question_number: 9
-        question_type: fillin
-        points: 4
-        question_word_evidence: [{manifest: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/word-source.yaml, paragraph_start: 23, paragraph_end: 23}]
-        prompt: [{source: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/media/image15.png, box_px: [0, 0, 54, 18], assignment_path: /stem_image, width: 30mm}]
-        official_solution: {start_anchor: '9．（4分）方程', end_anchor: '10．（4分）若点M', word_evidence: [{manifest: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/word-source.yaml, paragraph_start: 172, paragraph_end: 178}]}
-        block: {stem_latex: '解图示无理方程，$x=$\fillin。', answer: '-1', explanation: '两边平方后解得 $x=-1$。'}
-      - {item_id: Q010, question_number: 10, question_type: fillin, points: 4, question_word_evidence: [{manifest: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/word-source.yaml, paragraph_start: 24, paragraph_end: 24}], official_solution: {start_anchor: '10．（4分）若点M', end_anchor: '11．（4分）已知反比例函数', word_evidence: [{manifest: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/word-source.yaml, paragraph_start: 179, paragraph_end: 190}]}, block: {stem_latex: '若点 $M(x-1,3-x)$ 在第二象限，则 $x$ 的取值范围是\fillin。', answer: '$x<1$', explanation: '第二象限横坐标负、纵坐标正。'}}
-      - item_id: Q011
-        question_number: 11
-        question_type: fillin
-        points: 4
-        question_word_evidence: [{manifest: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/word-source.yaml, paragraph_start: 25, paragraph_end: 25}]
-        prompt: [{source: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/media/image16.png, box_px: [0, 0, 47, 35], assignment_path: /stem_image, width: 30mm}]
-        official_solution: {start_anchor: '11．（4分）已知反比例函数', end_anchor: '12．（4分）如果一次函数', word_evidence: [{manifest: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/word-source.yaml, paragraph_start: 191, paragraph_end: 198}]}
-        block: {stem_latex: '已知图示反比例函数图象在第二、四象限内，$k$ 的取值范围是\fillin。', answer: '$k<1$', explanation: '比例系数 $k-1<0$。'}
-      - {item_id: Q012, question_number: 12, question_type: fillin, points: 4, question_word_evidence: [{manifest: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/word-source.yaml, paragraph_start: 26, paragraph_end: 26}], official_solution: {start_anchor: '12．（4分）如果一次函数', end_anchor: '13．（4分）如图是同一副扑克', word_evidence: [{manifest: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/word-source.yaml, paragraph_start: 199, paragraph_end: 209}]}, block: {stem_latex: '一次函数 $y=kx+b$ 的图象与 $y=2x$ 平行，且过点 $(-3,5)$，其解析式为\fillin。', answer: '$y=2x+11$', explanation: '平行得 $k=2$，代点求 $b=11$。'}}
-      - item_id: Q013
-        question_number: 13
-        question_type: fillin
-        points: 4
-        question_word_evidence: [{manifest: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/word-source.yaml, paragraph_start: 27, paragraph_end: 28}]
-        prompt: [{source: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/derived/q13-cards.png, box_px: [0, 0, 514, 111], assignment_path: /stem_image, width: 110mm}]
-        official_solution: {start_anchor: '13．（4分）如图是同一副扑克', end_anchor: '14．（4分）在▱ABCD中', word_evidence: [{manifest: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/word-source.yaml, paragraph_start: 210, paragraph_end: 217}]}
-        block: {stem_latex: '图中四张牌洗匀后随机抽一张，抽到奇数的概率为\fillin。', answer: '$\frac12$', explanation: '4 张中奇数牌有 2 张。'}
-      - {item_id: Q014, question_number: 14, question_type: fillin, points: 4, question_word_evidence: [{manifest: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/word-source.yaml, paragraph_start: 29, paragraph_end: 29}], official_solution: {start_anchor: '14．（4分）在▱ABCD中', end_anchor: '15．（4分）在半径为5', word_evidence: [{manifest: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/word-source.yaml, paragraph_start: 218, paragraph_end: 229}]}, block: {stem_latex: '在平行四边形 $ABCD$ 中，$\overrightarrow{AB}=\vec a$，$\overrightarrow{AD}=\vec b$，对角线交于 $O$，则 $\overrightarrow{AO}=$\fillin。', answer: '$\frac12(\vec a+\vec b)$', explanation: '$\overrightarrow{AC}=\vec a+\vec b$ 且 $O$ 为对角线中点。'}}
-      - {item_id: Q015, question_number: 15, question_type: fillin, points: 4, question_word_evidence: [{manifest: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/word-source.yaml, paragraph_start: 30, paragraph_end: 30}], official_solution: {start_anchor: '15．（4分）在半径为5', end_anchor: '16．（4分）如图，在Rt', word_evidence: [{manifest: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/word-source.yaml, paragraph_start: 230, paragraph_end: 234}]}, block: {stem_latex: '在半径为 $5$ 的圆中，$30^\circ$ 的圆心角所对弧长为\fillin（结果保留 $\pi$）。', answer: '$\frac{5\pi}{6}$', explanation: '弧长公式 $l=\frac{n\pi r}{180}$。'}}
-      - item_id: Q016
-        question_number: 16
-        question_type: fillin
-        points: 4
-        question_word_evidence: [{manifest: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/word-source.yaml, paragraph_start: 31, paragraph_end: 32}]
-        prompt: [{source: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/media/image23.png, box_px: [0, 0, 104, 144], width: 50mm}]
-        official_solution: {start_anchor: '16．（4分）如图，在Rt', end_anchor: '17．（4分）如图，△ABC', word_evidence: [{manifest: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/word-source.yaml, paragraph_start: 235, paragraph_end: 246}]}
-        block: {stem_latex: '如图，在 Rt$\triangle ABC$ 中，$\angle ACB=90^\circ$，$D,E,F$ 分别为 $AB,BC,CA$ 的中点，若 $CD=5\text{ cm}$，则 $EF=$\fillin cm。', answer: '5', explanation: '斜边中线和三角形中位线性质。'}
-      - item_id: Q017
-        question_number: 17
-        question_type: fillin
-        points: 4
-        question_word_evidence: [{manifest: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/word-source.yaml, paragraph_start: 33, paragraph_end: 34}]
-        prompt: [{source: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/media/image24.png, box_px: [0, 0, 128, 94], width: 55mm}]
-        official_solution: {start_anchor: '17．（4分）如图，△ABC', end_anchor: '18．（4分）如图，正方形', word_evidence: [{manifest: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/word-source.yaml, paragraph_start: 247, paragraph_end: 258}]}
-        block: {stem_latex: '$\triangle ABC$ 绕点 $A$ 顺时针旋转 $80^\circ$ 得到 $\triangle AEF$。若 $\angle B=100^\circ$，$\angle F=50^\circ$，则 $\angle\alpha=$\fillin。', answer: '$50^\circ$', explanation: '旋转保角，先得 $\angle BAC=30^\circ$。'}
-      - item_id: Q018
-        question_number: 18
-        question_type: fillin
-        points: 4
-        question_word_evidence: [{manifest: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/word-source.yaml, paragraph_start: 35, paragraph_end: 36}]
-        prompt: [{source: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/media/image25.png, box_px: [0, 0, 115, 101], width: 55mm}]
-        official_solution: {start_anchor: '18．（4分）如图，正方形', end_anchor: '三、解答题', word_evidence: [{manifest: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/word-source.yaml, paragraph_start: 259, paragraph_end: 280}]}
-        block: {stem_latex: '如图，正方形 $ABCD$ 中的相切半圆满足题设条件，则 $S_{ADCE}:S_{ABCD}=$\fillin。', answer: '$5:8$', explanation: '由外切和勾股定理得边长关系，再求梯形面积。'}
-  - id: problem
-    title: 三、解答题
-    items:
-      - item_id: Q019
-        question_number: 19
-        question_type: problem
-        points: 10
-        question_word_evidence: [{manifest: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/word-source.yaml, paragraph_start: 38, paragraph_end: 38}]
-        prompt: [{source: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/derived/q19-formula.png, box_px: [0, 0, 65, 51], assignment_path: /stem_image, width: 35mm}]
-        official_solution: {start_anchor: '19．（10分）计算', end_anchor: '20．（10分）解方程', word_evidence: [{manifest: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/word-source.yaml, paragraph_start: 282, paragraph_end: 287}]}
-        block:
-          stem_latex: '计算图示实数综合运算。'
-          answer: '6'
-          explanation: '按绝对值、零指数幂、负整数指数幂和特殊角三角函数值化简。'
-          solution_steps: [{title: 计算, content: '按官方原解答逐项化简，原式等于 $6$。'}]
-      - item_id: Q020
-        question_number: 20
-        question_type: problem
-        points: 10
-        question_word_evidence: [{manifest: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/word-source.yaml, paragraph_start: 39, paragraph_end: 39}]
-        prompt: [{source: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/media/image28.png, box_px: [0, 0, 134, 41], assignment_path: /stem_image, width: 75mm}]
-        official_solution: {start_anchor: '20．（10分）解方程', end_anchor: '21．（10分）如图', word_evidence: [{manifest: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/word-source.yaml, paragraph_start: 288, paragraph_end: 299}]}
-        block:
-          stem_latex: '解图示分式方程。'
-          answer: '$x=1$'
-          explanation: '去分母后验根。'
-          solution_steps:
-            - {title: 去分母, content: '同乘 $(x+3)(x-3)$，整理得 $x^2-4x+3=0$。'}
-            - {title: 验根, content: '候选根为 $1,3$；$3$ 是增根，故 $x=1$。'}
-      - item_id: Q021
-        question_number: 21
-        question_type: problem
-        points: 10
-        question_word_evidence: [{manifest: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/word-source.yaml, paragraph_start: 40, paragraph_end: 48}]
-        prompt: [{source: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/media/image29.png, box_px: [0, 0, 173, 130], width: 80mm}]
-        official_solution: {start_anchor: '21．（10分）如图', end_anchor: '22．（10分）小明家', word_evidence: [{manifest: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/word-source.yaml, paragraph_start: 300, paragraph_end: 329}]}
-        block:
-          stem_latex: '如图，在单位长度为 $1$ 的正方形网格中，一段圆弧经过格点 $A,B,C$。建立以 $O$ 为原点的直角坐标系，标出圆心 $D$ 并连接 $AD,CD$；写出 $C,D$ 坐标和半径；求 $\sin\angle ACO$。'
-          answer: '$C(6,2),\ D(2,0),\ r=2,\ \sin\angle ACO=\frac35$'
-          explanation: '按弦的中垂线确定圆心，再用勾股定理和面积关系。'
-          solution_steps:
-            - {title: 作图与填空, content: '作弦的中垂线确定 $D$；$C(6,2)$，$D(2,0)$，半径为 $2$。'}
-            - {title: 求正弦, content: '连接 $AC,OC$，作辅助垂线，用面积关系求得 $\sin\angle ACO=\frac35$。'}
-      - item_id: Q022
-        question_number: 22
-        question_type: problem
-        points: 10
-        question_word_evidence: [{manifest: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/word-source.yaml, paragraph_start: 49, paragraph_end: 70}]
-        official_solution: {start_anchor: '22．（10分）小明家', end_anchor: '23．（12分）已知：如图', word_evidence: [{manifest: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/word-source.yaml, paragraph_start: 330, paragraph_end: 364}]}
-        block:
-          stem_latex: '某车一周每天行驶路程为 $6,6,8,8,10,20,12$（千米）。估计每月（30 天）路程；每 100 千米耗油 $x$ 升、油价 $y$ 元/升，表示月油费；当 $x=10,y=8$ 时估计年油费（精确到千元）。'
-          answer: '300 千米；$3xy$ 元；约 3 千元'
-          explanation: '以一周平均数估计总体。'
-          solution_steps:
-            - {title: 月路程, content: '周平均每日 $10$ 千米，估计月路程 $30\times10=300$ 千米。'}
-            - {title: 油费, content: '月耗油 $3x$ 升，月油费为 $3xy$ 元；年油费 $12\times3\times10\times8=2880$ 元，约 $3$ 千元。'}
-      - item_id: Q023
-        question_number: 23
-        question_type: problem
-        points: 12
-        question_word_evidence: [{manifest: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/word-source.yaml, paragraph_start: 71, paragraph_end: 74}]
-        prompt: [{source: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/media/image30.png, box_px: [0, 0, 144, 145], width: 70mm}]
-        official_solution: {start_anchor: '23．（12分）已知：如图', end_anchor: '24．（12分）已知抛物线', word_evidence: [{manifest: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/word-source.yaml, paragraph_start: 365, paragraph_end: 394}]}
-        block:
-          stem_latex: '如图，在梯形 $ABCD$ 中，$AD\parallel BC$，$BC=DC$，$CF$ 平分 $\angle BCD$，$DF\parallel AB$，$BF$ 的延长线交 $DC$ 于 $E$。求证：（1）$\triangle BFC\cong\triangle DFC$；（2）$AD=DE$。'
-          answer: '两结论均成立'
-          explanation: '先 SAS 证全等，再连接 $BD$ 证另一组全等。'
-          solution_steps:
-            - {title: 第（1）问, content: '$CF$ 平分 $\angle BCD$，且 $BC=DC$、$CF$ 公共，故 $\triangle BFC\cong\triangle DFC$（SAS）。'}
-            - {title: 第（2）问, content: '连接 $BD$。由（1）得 $BF=DF$，结合平行线角和 $BC=DC$，证 $\triangle BAD\cong\triangle BED$，故 $AD=DE$。'}
-      - item_id: Q024
-        question_number: 24
-        question_type: problem
-        points: 12
-        question_word_evidence: [{manifest: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/word-source.yaml, paragraph_start: 75, paragraph_end: 79}]
-        prompt: [{source: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/media/image31.png, box_px: [0, 0, 188, 157], width: 80mm}]
-        official_solution: {start_anchor: '24．（12分）已知抛物线', end_anchor: '25．（14分）如图', word_evidence: [{manifest: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/word-source.yaml, paragraph_start: 395, paragraph_end: 442}]}
-        block:
-          stem_latex: '抛物线 $y=ax^2-x-c$ 过 $A(-6,0)$，与 $y$ 轴交于 $B$，顶点为 $D$，对称轴为 $x=-2$。（1）求解析式及 $D$；（2）证明 $\angle AOD=\angle ABO$；（3）$P$ 在 $y$ 轴上且 $\triangle ADP\sim\triangle AOB$，求 $P$ 坐标。'
-          answer: '$y=-\frac14x^2-x+3$，$D(-2,4)$，$P(0,2)$'
-          explanation: '待定系数、正切和分类讨论。'
-          solution_steps:
-            - {title: 第（1）问, content: '由对称轴和点 $A$ 求得 $a=-\frac14,c=-3$，故 $y=-\frac14x^2-x+3$，$D(-2,4)$。'}
-            - {title: 第（2）问, content: '作 $DH\perp x$ 轴，分别计算两个直角三角形的正切，均为 $2$。'}
-            - {title: 第（3）问, content: '按 $\triangle ADP$ 的直角位置分类，只有 $P(0,2)$ 满足相似。'}
-      - item_id: Q025
-        question_number: 25
-        question_type: problem
-        points: 14
-        question_word_evidence: [{manifest: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/word-source.yaml, paragraph_start: 80, paragraph_end: 84}]
-        prompt: [{source: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/media/image32.png, box_px: [0, 0, 386, 192], width: 105mm}]
-        official_solution: {start_anchor: '25．（14分）如图', end_anchor: '<END_OF_SOURCE>', word_evidence: [{manifest: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/word-source.yaml, paragraph_start: 443, paragraph_end: 482}]}
-        block:
-          stem_latex: '如图，正方形 $ABCD$ 中 $AB=8$，$O$ 为 $AB$ 上动点。以 $O$ 为圆心、$OB$ 为半径的圆交 $AD$ 于 $E$，$EF\perp OE$ 交 $CD$ 于 $F$。设 $BO=x,AE=y$。（1）求 $y$ 关于 $x$ 的函数关系式及定义域；（2）求 $\triangle EFD$ 周长是否变化；（3）以 $A$ 为圆心、$OA$ 为半径作圆，讨论两圆位置关系。'
-          answer: '$y=4\sqrt{x-4}\ (4<x<8)$；周长为 $16$；相交 $4<x<\frac{16}{3}$，内切 $x=\frac{16}{3}$，内含 $\frac{16}{3}<x<8$'
-          explanation: '勾股定理、相似和圆的位置关系。'
-          solution_steps:
-            - {title: 第（1）问, content: '由 $OB=OE$ 和 Rt$\triangle AOE$，得 $(8-x)^2+y^2=x^2$，所以 $y=4\sqrt{x-4}$，$4<x<8$。'}
-            - {title: 第（2）问, content: '证 $\triangle AOE\sim\triangle DEF$，求得 $C_{\triangle DEF}=16$，周长不变。'}
-            - {title: 第（3）问, content: '半径分别为 $x,8-x$，圆心距为 $8-x$；解相交、内切、内含不等式得到相应范围。'}
+- id: '1'
+  title: 一、选择题
+  items:
+  - item_id: Q001
+    question_number: 1
+    question_type: choice
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/001.png
+      page_number: 1
+    prompt:
+    - source: items/Q001/assets/prompt-group.png
+      box_px:
+      - 0
+      - 0
+      - 57
+      - 103
+      assignment_path: /diagram_col
+      attribution_review:
+        attribution_id: attr-word-image1-q1-prompt-0,attr-word-image2-q1-prompt-1,attr-word-image3-q1-prompt-2,attr-word-image4-q1-prompt-3
+        state: needs_review
+        confidence: medium
+        member_attribution_ids:
+        - attr-word-image1-q1-prompt-0
+        - attr-word-image2-q1-prompt-1
+        - attr-word-image3-q1-prompt-2
+        - attr-word-image4-q1-prompt-3
+    official_solution:
+      start_anchor: A、√12=2√3
+      end_anchor: 故选：B
+      word_evidence:
+      - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/008.png
+        page_number: 8
+      - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/009.png
+        page_number: 9
+    block:
+      stem_latex: 下列二次根式中，属于最简二次根式的是（ ）
+      choices:
+      - $\sqrt{12}$
+      - $\sqrt{a^{2}-b^{2}}$
+      - $\sqrt{a^{4}}$
+      - $\sqrt{\frac{x}{3}}$
+      answer: B
+      clue: 最简二次根式的定义：被开方数不含分母且不含能开尽方的因数或因式
+      solution_steps:
+      - A、$\sqrt{12}=2\sqrt{3}$，被开方数含能开尽方的因数，不是最简二次根式；
+      - B、$\sqrt{a^{2}-b^{2}}$，符合最简二次根式的定义；
+      - C、$\sqrt{a^{4}}=a^{2}$，被开方数含能开尽方的因数，不是最简二次根式；
+      - D、$\sqrt{\frac{x}{3}}$，被开方数含分母，不是最简二次根式。故选B。
+  - item_id: Q002
+    question_number: 2
+    question_type: choice
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/001.png
+      page_number: 1
+    prompt:
+    - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image5.png
+      box_px:
+      - 0
+      - 0
+      - 20
+      - 18
+      attribution_review:
+        attribution_id: attr-word-image5-q2-prompt-0
+        state: needs_review
+        confidence: medium
+      assignment_path: /diagram_col
+    official_solution:
+      start_anchor: A、√4=2
+      end_anchor: 故选：D
+      word_evidence:
+      - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/009.png
+        page_number: 9
+      - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/010.png
+        page_number: 10
+    block:
+      stem_latex: 下列运算正确的是（ ）
+      choices:
+      - $\sqrt{4}=\pm 2$
+      - $-(x-1)=-x-1$
+      - $-3^{2}=9$
+      - $-|2|=-2$
+      answer: D
+      clue: 算术平方根、去括号、有理数乘方、绝对值的性质
+      solution_steps:
+      - A、$\sqrt{4}=2$，故本选项错误；
+      - B、$-(x-1)=-x+1$，故本选项错误；
+      - C、$-3^{2}=-9$，故本选项错误；
+      - D、$-|-2|=-2$，故本选项正确。故选D。
+  - item_id: Q003
+    question_number: 3
+    question_type: choice
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/001.png
+      page_number: 1
+    prompt: []
+    official_solution:
+      start_anchor: Δ=(-a)²-4×1×(-1)=a²+4>0
+      end_anchor: 故选：C
+      word_evidence:
+      - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/010.png
+        page_number: 10
+    block:
+      stem_latex: 关于 $x$ 的一元二次方程 $x^{2}-ax-1=0$ 根的情况是（ ）
+      choices:
+      - 有两个相等的实数根
+      - 没有实数根
+      - 有两个不相等的实数根
+      - 根的情况无法确定
+      answer: C
+      clue: 一元二次方程根的判别式 $\Delta=b^{2}-4ac$
+      solution_steps:
+      - $\Delta=(-a)^{2}-4\times1\times(-1)=a^{2}+4>0$，
+      - 所以方程 $x^{2}-ax-1=0$ 有两个不相等的实数根。故选C。
+  - item_id: Q004
+    question_number: 4
+    question_type: choice
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/001.png
+      page_number: 1
+    - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/002.png
+      page_number: 2
+    prompt:
+    - source: items/Q004/assets/prompt-group.png
+      box_px:
+      - 0
+      - 0
+      - 111
+      - 304
+      assignment_path: /diagram_col
+      attribution_review:
+        attribution_id: attr-word-image6-q4-prompt-0,attr-word-image7-q4-prompt-1,attr-word-image8-q4-prompt-2,attr-word-image9-q4-prompt-3
+        state: needs_review
+        confidence: medium
+        member_attribution_ids:
+        - attr-word-image6-q4-prompt-0
+        - attr-word-image7-q4-prompt-1
+        - attr-word-image8-q4-prompt-2
+        - attr-word-image9-q4-prompt-3
+    official_solution:
+      start_anchor: A、错误，此函数为减函数
+      end_anchor: 故选：C
+      word_evidence:
+      - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/011.png
+        page_number: 11
+      - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/012.png
+        page_number: 12
+    block:
+      stem_latex: 下列四个函数图象中，当 $x>0$ 时，$y$ 随 $x$ 的增大而增大的是（ ）
+      choices:
+      - 一次减函数图象（$y$ 随 $x$ 增大而减小）
+      - 反比例函数图象（$x>0$ 时 $y$ 随 $x$ 增大而减小）
+      - 开口向上、对称轴为 $y$ 轴的二次函数图象
+      - 开口向上、对称轴在 $y$ 轴右侧的二次函数图象
+      answer: C
+      clue: 一次函数、反比例函数、二次函数图象的增减性
+      solution_steps:
+      - A、为减函数，$y$ 随 $x$ 增大而减小，错误；
+      - B、为反比例函数，$x>0$ 时 $y$ 随 $x$ 增大而减小，错误；
+      - C、为二次函数，$x>0$ 时 $y$ 随 $x$ 增大而增大，正确；
+      - D、为二次函数，在对称轴左侧 $y$ 随 $x$ 增大而减小，错误。故选C。
+  - item_id: Q005
+    question_number: 5
+    question_type: choice
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/002.png
+      page_number: 2
+    prompt:
+    - source: items/Q005/assets/prompt-group.png
+      box_px:
+      - 0
+      - 0
+      - 78
+      - 309
+      assignment_path: /diagram_col
+      attribution_review:
+        attribution_id: attr-word-image10-q5-prompt-0,attr-word-image11-q5-prompt-1,attr-word-image12-q5-prompt-2,attr-word-image13-q5-prompt-3
+        state: needs_review
+        confidence: medium
+        member_attribution_ids:
+        - attr-word-image10-q5-prompt-0
+        - attr-word-image11-q5-prompt-1
+        - attr-word-image12-q5-prompt-2
+        - attr-word-image13-q5-prompt-3
+    official_solution:
+      start_anchor: A、图象关于对角线所在的直线对称
+      end_anchor: 故选：D
+      word_evidence:
+      - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/012.png
+        page_number: 12
+    block:
+      stem_latex: 一名同学想用正方形和圆设计一个图案，要求整个图案关于正方形的某条对角线对称，那么下列图案中不符合要求的是（ ）
+      choices:
+      - 图案A（关于两条对角线均对称）
+      - 图案B（关于两条对角线均对称）
+      - 图案C（关于一条对角线对称）
+      - 图案D（关于对角线不对称）
+      answer: D
+      clue: 轴对称图形的判断
+      solution_steps:
+      - A、图象关于对角线所在直线对称，两条对角线都是对称轴，符合要求；
+      - B、图象关于对角线所在直线对称，两条对角线都是对称轴，符合要求；
+      - C、图象关于对角线所在直线对称，有一条对称轴，符合要求；
+      - D、图象关于对角线所在直线不对称，不符合要求。故选D。
+  - item_id: Q006
+    question_number: 6
+    question_type: choice
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/002.png
+      page_number: 2
+    prompt:
+    - source: items/Q006/assets/prompt-group.png
+      box_px:
+      - 0
+      - 0
+      - 13
+      - 70
+      assignment_path: /diagram_col
+      attribution_review:
+        attribution_id: attr-word-image14-q6-prompt-0,attr-word-image14-q6-prompt-1
+        state: needs_review
+        confidence: medium
+        member_attribution_ids:
+        - attr-word-image14-q6-prompt-0
+        - attr-word-image14-q6-prompt-1
+    official_solution:
+      start_anchor: A、只有当∠C=90°时
+      end_anchor: 故选：D
+      word_evidence:
+      - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/013.png
+        page_number: 13
+      - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/014.png
+        page_number: 14
+    block:
+      stem_latex: 下列命题中，正确的是（ ）
+      choices:
+      - $\mathrm{Rt}\triangle ABC$ 中，$CD$ 是 $AB$ 上中线，则 $CD=\frac{1}{2}AB$
+      - 点 $P$ 是 $\angle AOB$ 的平分线上一点，点 $M$、$N$ 分别在 $OA$、$OB$ 上，则 $PM=PN$
+      - $\mathrm{Rt}\triangle ABC$ 中，若 $\angle B=30^{\circ}$，则 $AC=\frac{1}{2}AB$
+      - 一边上的中线等于这边的一半的三角形是直角三角形
+      answer: D
+      clue: 直角三角形性质、角平分线性质、命题真假判断
+      solution_steps:
+      - A、只有当 $\angle C=90^{\circ}$ 时，$CD$ 为斜边中线才有 $CD=\frac{1}{2}AB$，命题错误；
+      - B、需 $PM\perp OA$、$PN\perp OB$ 时才有 $PM=PN$，命题错误；
+      - C、只有当 $\angle C=90^{\circ}$ 时，若 $\angle B=30^{\circ}$ 才有 $AC=\frac{1}{2}AB$，命题错误；
+      - D、正确。故选D。
+- id: '2'
+  title: 二、填空题
+  items:
+  - item_id: Q007
+    question_number: 7
+    question_type: fillin
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/002.png
+      page_number: 2
+    prompt: []
+    official_solution:
+      start_anchor: -2x³y²÷xy，
+      end_anchor: =-2x²y
+      word_evidence:
+      - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/014.png
+        page_number: 14
+    block:
+      stem_latex: 计算：$-2x^{3}y^{2}\div xy=$ \_ .
+      answer: $-2x^{2}y$
+      clue: 单项式除以单项式
+      solution_steps:
+      - $-2x^{3}y^{2}\div xy=-2x^{3-1}y^{2-1}=-2x^{2}y$。
+  - item_id: Q008
+    question_number: 8
+    question_type: fillin
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/002.png
+      page_number: 2
+    prompt: []
+    official_solution:
+      start_anchor: x²-9=(x+3)(x-3)
+      end_anchor: (x+3)(x-3)
+      word_evidence:
+      - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/014.png
+        page_number: 14
+      - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/015.png
+        page_number: 15
+    block:
+      stem_latex: 分解因式：$x^{2}-9=$ \_ .
+      answer: $(x+3)(x-3)$
+      clue: 平方差公式因式分解
+      solution_steps:
+      - $x^{2}-9=(x+3)(x-3)$。
+  - item_id: Q009
+    question_number: 9
+    question_type: fillin
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/002.png
+      page_number: 2
+    prompt:
+    - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image15.png
+      box_px:
+      - 0
+      - 0
+      - 54
+      - 18
+      attribution_review:
+        attribution_id: attr-word-image15-q9-prompt-0
+        state: needs_review
+        confidence: medium
+      assignment_path: /diagram_col
+    official_solution:
+      start_anchor: 两边平方得：x+2=1
+      end_anchor: x=-1
+      word_evidence:
+      - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/015.png
+        page_number: 15
+    block:
+      stem_latex: 方程 $\sqrt{x+2}=1$ 的解是 $x=$ \_ .
+      answer: $-1$
+      clue: 无理方程（两边平方法）
+      solution_steps:
+      - 两边平方得 $x+2=1$，解得 $x=-1$。
+  - item_id: Q010
+    question_number: 10
+    question_type: fillin
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/003.png
+      page_number: 3
+    prompt: []
+    official_solution:
+      start_anchor: ∵点M(x-1,3-x)在第二象限
+      end_anchor: x<1
+      word_evidence:
+      - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/015.png
+        page_number: 15
+      - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/016.png
+        page_number: 16
+    block:
+      stem_latex: 若点 $M(x-1,\ 3-x)$ 在第二象限，则 $x$ 的取值范围是 \_ .
+      answer: $x<1$
+      clue: 各象限内点的坐标符号与一元一次不等式组
+      solution_steps:
+      - 点 $M$ 在第二象限，$\begin{cases}x-1<0\\ 3-x>0\end{cases}$，
+      - 由 $x-1<0$ 得 $x<1$，由 $3-x>0$ 得 $x<3$，
+      - 所以解集为 $x<1$。
+  - item_id: Q011
+    question_number: 11
+    question_type: fillin
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/003.png
+      page_number: 3
+    prompt:
+    - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image16.png
+      box_px:
+      - 0
+      - 0
+      - 47
+      - 35
+      attribution_review:
+        attribution_id: attr-word-image16-q11-prompt-0
+        state: needs_review
+        confidence: medium
+      assignment_path: /diagram_col
+    official_solution:
+      start_anchor: 由题意可得 k-1<0
+      end_anchor: k<1
+      word_evidence:
+      - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/016.png
+        page_number: 16
+      - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/017.png
+        page_number: 17
+    block:
+      stem_latex: 已知反比例函数 $y=\frac{k-1}{x}$ 的图象在第二、四象限内，那么 $k$ 的取值范围是 \_ .
+      answer: $k<1$
+      clue: 反比例函数图象的性质
+      solution_steps:
+      - 图象在二、四象限，则 $k-1<0$，解得 $k<1$。
+  - item_id: Q012
+    question_number: 12
+    question_type: fillin
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/003.png
+      page_number: 3
+    prompt: []
+    official_solution:
+      start_anchor: ∴k=2
+      end_anchor: y=2x+11
+      word_evidence:
+      - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/017.png
+        page_number: 17
+      - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/018.png
+        page_number: 18
+    block:
+      stem_latex: 如果一次函数 $y=kx+b$ 的图象与直线 $y=2x$ 平行，且过点 $(-3,\ 5)$，那么该一次函数解析式为 \_ .
+      answer: $y=2x+11$
+      clue: 两直线平行则 $k$ 值相等
+      solution_steps:
+      - 与 $y=2x$ 平行，故 $k=2$，
+      - 过点 $(-3,5)$，$2\times(-3)+b=5$，解得 $b=11$，
+      - 所以解析式为 $y=2x+11$。
+  - item_id: Q013
+    question_number: 13
+    question_type: fillin
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/003.png
+      page_number: 3
+    prompt:
+    - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image17.png
+      box_px:
+      - 0
+      - 0
+      - 292
+      - 79
+      assignment_path: /diagram_col
+    official_solution:
+      start_anchor: 一共有4张扑克牌
+      end_anchor: 1/2
+      word_evidence:
+      - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/018.png
+        page_number: 18
+    block:
+      stem_latex: 如图是同一副扑克中的 4 张扑克牌的正面，将它们正面朝下洗匀后放在桌上，从中抽出一张，则抽到奇数的概率是 \_ .
+      answer: $\frac{1}{2}$
+      clue: 概率公式 $P(A)=\frac{m}{n}$
+      solution_steps:
+      - 4 张牌中点数为奇数的有方片 3 和方片 7 共 2 张，
+      - $P(\text{抽到奇数})=\frac{2}{4}=\frac{1}{2}$。
+  - item_id: Q014
+    question_number: 14
+    question_type: fillin
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/003.png
+      page_number: 3
+    prompt:
+    - source: items/Q014/assets/prompt-group.png
+      box_px:
+      - 0
+      - 0
+      - 38
+      - 100
+      assignment_path: /diagram_col
+      attribution_review:
+        attribution_id: attr-word-image18-q14-prompt-0,attr-word-image19-q14-prompt-1,attr-word-image20-q14-prompt-2,attr-word-image21-q14-prompt-3,attr-word-image22-q14-prompt-4
+        state: needs_review
+        confidence: medium
+        member_attribution_ids:
+        - attr-word-image18-q14-prompt-0
+        - attr-word-image19-q14-prompt-1
+        - attr-word-image20-q14-prompt-2
+        - attr-word-image21-q14-prompt-3
+        - attr-word-image22-q14-prompt-4
+    official_solution:
+      start_anchor: ∴OA=OC=1/2AC
+      end_anchor: 1/2 a+1/2 b
+      word_evidence:
+      - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/018.png
+        page_number: 18
+      - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/019.png
+        page_number: 19
+    block:
+      stem_latex: 在 $\square ABCD$ 中，$AC$ 与 $BD$ 相交于点 $O$，$\overrightarrow{AB}=\overrightarrow{a}$，$\overrightarrow{AD}=\overrightarrow{b}$，那么 $\overrightarrow{AO}=$ \_ （用 $\overrightarrow{a}$ 和 $\overrightarrow{b}$ 表示）.
+      answer: $\frac{1}{2}\overrightarrow{a}+\frac{1}{2}\overrightarrow{b}$
+      clue: 平面向量与平行四边形性质
+      solution_steps:
+      - 四边形 $ABCD$ 为平行四边形，$\overrightarrow{AO}=\frac{1}{2}\overrightarrow{AC}$，$\overrightarrow{AD}=\overrightarrow{BC}$，
+      - $\overrightarrow{AC}=\overrightarrow{AB}+\overrightarrow{BC}=\overrightarrow{a}+\overrightarrow{b}$，
+      - 所以 $\overrightarrow{AO}=\frac{1}{2}(\overrightarrow{a}+\overrightarrow{b})=\frac{1}{2}\overrightarrow{a}+\frac{1}{2}\overrightarrow{b}$。
+  - item_id: Q015
+    question_number: 15
+    question_type: fillin
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/003.png
+      page_number: 3
+    prompt: []
+    official_solution:
+      start_anchor: L=nπR/180
+      end_anchor: 5π/6
+      word_evidence:
+      - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/019.png
+        page_number: 19
+      - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/020.png
+        page_number: 20
+    block:
+      stem_latex: 在半径为 5 的圆中，$30^{\circ}$ 的圆心角所对的弧长为 \_ （结果保留 $\pi$）.
+      answer: $\frac{5\pi}{6}$
+      clue: 弧长公式 $L=\frac{n\pi R}{180}$
+      solution_steps:
+      - $L=\frac{n\pi R}{180}=\frac{30\pi\cdot5}{180}=\frac{5\pi}{6}$。
+  - item_id: Q016
+    question_number: 16
+    question_type: fillin
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/003.png
+      page_number: 3
+    prompt:
+    - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image23.png
+      box_px:
+      - 0
+      - 0
+      - 104
+      - 144
+      assignment_path: /diagram_col
+    official_solution:
+      start_anchor: CD=1/2AB
+      end_anchor: EF=5
+      word_evidence:
+      - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/020.png
+        page_number: 20
+      - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/021.png
+        page_number: 21
+    block:
+      stem_latex: 如图，在 $\mathrm{Rt}\triangle ABC$ 中，$\angle ACB=90^{\circ}$，$D$、$E$、$F$ 分别是 $AB$、$BC$、$CA$ 的中点，若 $CD=5\ \mathrm{cm}$，则 $EF=$ \_ $\mathrm{cm}$.
+      answer: $5$
+      clue: 直角三角形斜边中线与三角形中位线定理
+      solution_steps:
+      - $CD$ 是斜边 $AB$ 的中线，$AB=2CD=10\ \mathrm{cm}$，
+      - $EF$ 是 $\triangle ABC$ 的中位线，$EF=\frac{1}{2}AB=5\ \mathrm{cm}$。
+  - item_id: Q017
+    question_number: 17
+    question_type: fillin
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/003.png
+      page_number: 3
+    prompt:
+    - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image24.png
+      box_px:
+      - 0
+      - 0
+      - 128
+      - 94
+      assignment_path: /diagram_col
+    official_solution:
+      start_anchor: ∵△ABC绕点A顺时针旋转80°
+      end_anchor: 50°
+      word_evidence:
+      - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/021.png
+        page_number: 21
+      - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/022.png
+        page_number: 22
+    block:
+      stem_latex: 如图，$\triangle ABC$ 绕点 $A$ 顺时针旋转 $80^{\circ}$ 得到 $\triangle AEF$，若 $\angle B=100^{\circ}$，$\angle F=50^{\circ}$，则 $\angle\alpha$ 的度数是 \_ .
+      answer: $50^{\circ}$
+      clue: 旋转的性质与三角形内角和定理
+      solution_steps:
+      - 由旋转得 $\angle C=\angle F=50^{\circ}$，$\angle BAE=80^{\circ}$，
+      - $\angle BAC=180^{\circ}-\angle B-\angle C=180^{\circ}-100^{\circ}-50^{\circ}=30^{\circ}$，
+      - $\angle\alpha=\angle BAE-\angle BAC=80^{\circ}-30^{\circ}=50^{\circ}$。
+  - item_id: Q018
+    question_number: 18
+    question_type: fillin
+    points: 4
+    question_word_evidence:
+    - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/003.png
+      page_number: 3
+    prompt:
+    - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image25.png
+      box_px:
+      - 0
+      - 0
+      - 115
+      - 101
+      assignment_path: /diagram_col
+    official_solution:
+      start_anchor: 设EC=x，AB=y
+      end_anchor: 5/8
+      word_evidence:
+      - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/023.png
+        page_number: 23
+      - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/024.png
+        page_number: 24
+    block:
+      stem_latex: 如图，正方形 $ABCD$ 中，$E$ 是 $BC$ 边上一点，以 $E$ 为圆心、$EC$ 为半径的半圆与以 $A$ 为圆心，$AB$ 为半径的圆弧外切，则 $S_{\text{四边形}ADCE}:S_{\text{正方形}ABCD}$ 的值为 \_ .
+      answer: $\frac{5}{8}$
+      clue: 相切两圆性质、正方形性质、勾股定理
+      solution_steps:
+      - 设 $EC=x$，$AB=y$。过 $E$ 作 $EF\perp AD$ 于 $F$，则 $DCEF$ 为矩形，$EF=DC=y$，$AF=y-x$，
+      - 两弧外切，$AE=x+y$，在 $\mathrm{Rt}\triangle AEF$ 中由勾股定理 $(x+y)^{2}=y^{2}+(y-x)^{2}$，解得 $y=4x$，
+      - $S_{\text{四边形}ADCE}=\frac{1}{2}(x+y)\cdot y=\frac{5}{8}y^{2}$，$S_{\text{正方形}ABCD}=y^{2}$，比值为 $\frac{5}{8}$。
+- id: '3'
+  title: 三、解答题
+  items:
+  - item_id: Q019
+    question_number: 19
+    question_type: problem
+    points: 10
+    question_word_evidence:
+    - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/004.png
+      page_number: 4
+    prompt:
+    - source: items/Q019/assets/prompt-group.png
+      box_px:
+      - 0
+      - 0
+      - 20
+      - 53
+      assignment_path: /diagram_col
+      attribution_review:
+        attribution_id: attr-word-image26-q19-prompt-0,attr-word-image27-q19-prompt-1
+        state: needs_review
+        confidence: medium
+        member_attribution_ids:
+        - attr-word-image26-q19-prompt-0
+        - attr-word-image27-q19-prompt-1
+    official_solution:
+      start_anchor: 原式=2-√3+1+3+3×√3/3
+      end_anchor: =6
+      word_evidence:
+      - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/024.png
+        page_number: 24
+      - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/025.png
+        page_number: 25
+    block:
+      stem_latex: 计算：$|\sqrt{3}-2|+2010^{0}+(\frac{1}{3})^{-1}+3\tan 30^{\circ}$.
+      answer: $6$
+      clue: 零指数幂、负整数指数幂、绝对值、特殊角三角函数值
+      solution_steps:
+      - $|\sqrt{3}-2|=2-\sqrt{3}$，$2010^{0}=1$，$(\frac{1}{3})^{-1}=3$，$3\tan 30^{\circ}=3\times\frac{\sqrt{3}}{3}=\sqrt{3}$，
+      - 原式 $=2-\sqrt{3}+1+3+\sqrt{3}=6$。
+  - item_id: Q020
+    question_number: 20
+    question_type: problem
+    points: 10
+    question_word_evidence:
+    - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/004.png
+      page_number: 4
+    prompt:
+    - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image28.png
+      box_px:
+      - 0
+      - 0
+      - 134
+      - 41
+      attribution_review:
+        attribution_id: attr-word-image28-q20-prompt-0
+        state: needs_review
+        confidence: medium
+      assignment_path: /diagram_col
+    official_solution:
+      start_anchor: 方程两边同乘以(x+3)(x-3)
+      end_anchor: x=1
+      word_evidence:
+      - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/025.png
+        page_number: 25
+      - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/026.png
+        page_number: 26
+    block:
+      stem_latex: 解方程：$\frac{4x}{x^{2}-9}=1+\frac{2}{x-3}-\frac{2}{x+3}$.
+      answer: $x=1$
+      clue: 分式方程（去分母转化为整式方程并验根）
+      solution_steps:
+      - 方程两边同乘 $(x+3)(x-3)$ 得 $4x=x^{2}-9+2(x+3)-2(x-3)$，
+      - 整理得 $x^{2}-4x+3=0$，解得 $x_{1}=1$，$x_{2}=3$，
+      - 经检验 $x_{2}=3$ 是增根，所以原方程的解为 $x=1$。
+  - item_id: Q021
+    question_number: 21
+    question_type: problem
+    points: 10
+    question_word_evidence:
+    - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/004.png
+      page_number: 4
+    - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/005.png
+      page_number: 5
+    prompt:
+    - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image29.png
+      box_px:
+      - 0
+      - 0
+      - 173
+      - 130
+      assignment_path: /diagram_col
+    official_solution:
+      start_anchor: C(6,2)，D(2,0)
+      end_anchor: sin∠ACO=3/5
+      word_evidence:
+      - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/026.png
+        page_number: 26
+      - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/027.png
+        page_number: 27
+      - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/028.png
+        page_number: 28
+      - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/029.png
+        page_number: 29
+    block:
+      stem_latex: 如图，在单位长度为 1 的正方形网格中，一段圆弧经过网格的交点 $A$、$B$、$C$.(1) 请完成如下操作：①以点 $O$ 为原点、网格边长为单位长，建立平面直角坐标系；②根据图形提供的信息，标出该圆弧所在圆的圆心 $D$，并连接 $AD$、$CD$.(2) 请在 (1) 的基础上，完成下列填空：①写出点的坐标：$C$ \_ 、$D$ \_；②$\odot D$ 的半径 $=$ \_；(3) 求 $\angle ACO$ 的正弦值.
+      answer: $C(6,2)$，$D(2,0)$，半径 $2\sqrt{5}$，$\sin\angle ACO=\frac{3}{5}$
+      clue: 坐标与图形、垂径定理、勾股定理、等积法
+      solution_steps:
+      - (1) 以 $O$ 为原点建系，作弦 $AB$、$BC$ 的中垂线，交点即圆心 $D$；
+      - (2) ① $C(6,2)$，$D(2,0)$；②在 $\mathrm{Rt}\triangle AOD$ 中，$AD=\sqrt{4^{2}+2^{2}}=2\sqrt{5}$，即 $\odot D$ 半径为 $2\sqrt{5}$；
+      - (3) 连 $AC$、$OC$，过 $C$ 作 $CH\perp AO$ 于 $H$，过 $A$ 作 $AM\perp CO$ 于 $M$。由 $\frac{1}{2}OA\cdot CH=\frac{1}{2}OC\cdot AM$，即 $\frac{1}{2}\times4\times6=\frac{1}{2}\times2\sqrt{10}\cdot AM$，得 $AM=\frac{6\sqrt{10}}{5}$；在 $\mathrm{Rt}\triangle AMC$ 中，$\sin\angle ACO=\frac{AM}{AC}=\frac{\frac{6\sqrt{10}}{5}}{2\sqrt{10}}=\frac{3}{5}$。
+  - item_id: Q022
+    question_number: 22
+    question_type: problem
+    points: 10
+    question_word_evidence:
+    - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/005.png
+      page_number: 5
+    prompt: []
+    official_solution:
+      start_anchor: (6+6+8+8+10+20+12)/7×30=300
+      end_anchor: ≈3千元
+      word_evidence:
+      - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/029.png
+        page_number: 29
+      - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/030.png
+        page_number: 30
+    block:
+      stem_latex: 小明家买了一辆小轿车，小明连续记录了某一周每天行驶的路程（星期一至星期日依次为 6、6、8、8、10、20、12 千米）。(1) 请你估计小明家的轿车每月（按 30 天计算）要行驶多少千米？(2) 已知每行驶 100 千米需汽油 $x$ 升，汽油每升 $y$ 元，试用含 $x$、$y$ 的代数式表示小明家每月的汽油费；(3) 设 $x=10$，$y=8$，求小明家一年（按 12 个月计算）的汽油费用大约是多少元（精确到千元）.
+      answer: (1) 300 千米；(2) $3xy$；(3) 约 3 千元
+      clue: 用样本估计总体、列代数式及代数式求值
+      solution_steps:
+      - (1) 这一周的平均路程 $\frac{6+6+8+8+10+20+12}{7}=10$ 千米/天，月路程 $10\times30=300$ 千米；
+      - (2) 月耗油 $(300\div100)x=3x$ 升，月汽油费为 $3xy$ 元；
+      - (3) 当 $x=10,y=8$ 时，年费用 $12\times3xy=12\times3\times10\times8=2880$ 元 $\approx3$ 千元。
+  - item_id: Q023
+    question_number: 23
+    question_type: problem
+    points: 12
+    question_word_evidence:
+    - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/006.png
+      page_number: 6
+    prompt:
+    - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image30.png
+      box_px:
+      - 0
+      - 0
+      - 144
+      - 145
+      assignment_path: /diagram_col
+    official_solution:
+      start_anchor: ∵CF平分∠BCD
+      end_anchor: AD=DE
+      word_evidence:
+      - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/030.png
+        page_number: 30
+      - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/031.png
+        page_number: 31
+      - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/032.png
+        page_number: 32
+    block:
+      stem_latex: 已知：如图，在梯形 $ABCD$ 中，$AD\parallel BC$，$BC=DC$，$CF$ 平分 $\angle BCD$，$DF\parallel AB$，$BF$ 的延长线交 $DC$ 于点 $E$。求证：(1) $\triangle BFC\cong\triangle DFC$；(2) $AD=DE$.
+      answer: （1）$\triangle BFC\cong\triangle DFC$；（2）$AD=DE$
+      clue: 全等三角形的判定（SAS、ASA）与性质、梯形
+      solution_steps:
+      - (1) ∵ $CF$ 平分 $\angle BCD$，∴ $\angle BCF=\angle DCF$。在 $\triangle BFC$ 和 $\triangle DFC$ 中，$BC=DC$，$\angle BCF=\angle DCF$，$FC=FC$，∴ $\triangle BFC\cong\triangle DFC$（SAS）；
+      - (2) 连接 $BD$。由 $\triangle BFC\cong\triangle DFC$ 得 $BF=DF$，∴ $\angle FBD=\angle FDB$。∵ $DF\parallel AB$，∴ $\angle ABD=\angle FDB$，∴ $\angle ABD=\angle FBD$。∵ $AD\parallel BC$，∴ $\angle BDA=\angle DBC$。∵ $BC=DC$，∴ $\angle DBC=\angle BDC$，∴ $\angle BDA=\angle BDC$。又 $BD$ 为公共边，∴ $\triangle BAD\cong\triangle BED$（ASA），∴ $AD=DE$。
+  - item_id: Q024
+    question_number: 24
+    question_type: problem
+    points: 12
+    question_word_evidence:
+    - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/007.png
+      page_number: 7
+    prompt:
+    - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image31.png
+      box_px:
+      - 0
+      - 0
+      - 188
+      - 157
+      attribution_review:
+        attribution_id: attr-word-image31-q24-prompt-0
+        state: needs_review
+        confidence: medium
+      assignment_path: /diagram_col
+    official_solution:
+      start_anchor: 由题意得 36a+6-c=0
+      end_anchor: P(0,2)
+      word_evidence:
+      - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/033.png
+        page_number: 33
+      - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/034.png
+        page_number: 34
+      - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/035.png
+        page_number: 35
+      - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/036.png
+        page_number: 36
+    block:
+      stem_latex: 已知抛物线 $y=ax^{2}-x-c$ 过点 $A(-6,0)$，与 $y$ 轴交于点 $B$，顶点为 $D$，对称轴是直线 $x=-2$。(1) 求此抛物线的表达式及点 $D$ 的坐标；(2) 连接 $DO$，求证：$\angle AOD=\angle ABO$；(3) 点 $P$ 在 $y$ 轴上，且 $\triangle ADP$ 与 $\triangle AOB$ 相似，求点 $P$ 的坐标.
+      answer: (1) $y=-\frac{1}{4}x^{2}-x+3$，$D(-2,4)$；(3) $P(0,2)$
+      clue: 待定系数法求二次函数解析式、相似三角形的判定与分类讨论
+      solution_steps:
+      - (1) 由题意 $\begin{cases}36a+6-c=0\\ -\frac{1}{2a}=-2\end{cases}$，解得 $a=-\frac{1}{4}$，$c=-3$，所以抛物线为 $y=-\frac{1}{4}x^{2}-x+3$，顶点 $D(-2,4)$；
+      - (2) 过 $D$ 作 $DH\perp x$ 轴，在 $\mathrm{Rt}\triangle DHO$ 中 $\tan\angle AOD=\frac{4}{2}=2$；又 $B(0,3)$，$A(-6,0)$，在 $\mathrm{Rt}\triangle ABO$ 中 $\tan\angle ABO=\frac{6}{3}=2$，故 $\angle AOD=\angle ABO$；
+      - (3) $\triangle AOB$ 为直角三角形，故 $\triangle ADP$ 也为直角三角形。情况1：若 $\angle DAP=90^{\circ}$，得 $P(0,-6)$，但此时 $\frac{AD}{AP}=\frac{2}{3}\neq\frac{OB}{AO}=\frac{1}{2}$，不相似，$P$ 不存在；情况2：若 $\angle ADP=90^{\circ}$，得 $P(0,2)$，此时 $\frac{DP}{AD}=\frac{1}{2}=\frac{OB}{AO}$，相似，$P(0,2)$ 成立；情况3：若 $\angle APD=90^{\circ}$，设 $P(0,t)$，由 $AP^{2}+PD^{2}=AD^{2}$ 得 $t^{2}-4t+12=0$，$\Delta<0$，无解。综上 $P(0,2)$。
+  - item_id: Q025
+    question_number: 25
+    question_type: problem
+    points: 14
+    question_word_evidence:
+    - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/007.png
+      page_number: 7
+    prompt:
+    - source: items/Q025/assets/prompt-group.png
+      box_px:
+      - 0
+      - 0
+      - 386
+      - 295
+      assignment_path: /diagram_col
+      attribution_review:
+        attribution_id: attr-word-image32-q25-prompt-0,attr-word-image33-q25-prompt-1,attr-word-image34-q25-prompt-2,attr-word-image35-q25-prompt-3,attr-word-image36-q25-prompt-4
+        state: needs_review
+        confidence: low
+        member_attribution_ids:
+        - attr-word-image32-q25-prompt-0
+        - attr-word-image33-q25-prompt-1
+        - attr-word-image34-q25-prompt-2
+        - attr-word-image35-q25-prompt-3
+        - attr-word-image36-q25-prompt-4
+    official_solution:
+      start_anchor: OB=OE
+      end_anchor: 16/3<x<8
+      crops:
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image37.png
+        box_px:
+        - 0
+        - 0
+        - 28
+        - 18
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image38.png
+        box_px:
+        - 0
+        - 0
+        - 20
+        - 18
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image39.png
+        box_px:
+        - 0
+        - 0
+        - 57
+        - 24
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image35.png
+        box_px:
+        - 0
+        - 0
+        - 29
+        - 24
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image36.png
+        box_px:
+        - 0
+        - 0
+        - 23
+        - 37
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image40.png
+        box_px:
+        - 0
+        - 0
+        - 20
+        - 18
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image40.png
+        box_px:
+        - 0
+        - 0
+        - 20
+        - 18
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image41.png
+        box_px:
+        - 0
+        - 0
+        - 111
+        - 76
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image42.png
+        box_px:
+        - 0
+        - 0
+        - 111
+        - 75
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image43.png
+        box_px:
+        - 0
+        - 0
+        - 111
+        - 76
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image44.png
+        box_px:
+        - 0
+        - 0
+        - 106
+        - 77
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image45.png
+        box_px:
+        - 0
+        - 0
+        - 77
+        - 77
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image46.png
+        box_px:
+        - 0
+        - 0
+        - 78
+        - 78
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image47.png
+        box_px:
+        - 0
+        - 0
+        - 78
+        - 77
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image48.png
+        box_px:
+        - 0
+        - 0
+        - 78
+        - 77
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image49.png
+        box_px:
+        - 0
+        - 0
+        - 13
+        - 35
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image49.png
+        box_px:
+        - 0
+        - 0
+        - 13
+        - 35
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image50.png
+        box_px:
+        - 0
+        - 0
+        - 13
+        - 35
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image50.png
+        box_px:
+        - 0
+        - 0
+        - 13
+        - 35
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image51.png
+        box_px:
+        - 0
+        - 0
+        - 54
+        - 18
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image52.png
+        box_px:
+        - 0
+        - 0
+        - 76
+        - 43
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image53.png
+        box_px:
+        - 0
+        - 0
+        - 47
+        - 35
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image54.png
+        box_px:
+        - 0
+        - 0
+        - 13
+        - 35
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image55.png
+        box_px:
+        - 0
+        - 0
+        - 292
+        - 79
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image54.png
+        box_px:
+        - 0
+        - 0
+        - 13
+        - 35
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image56.png
+        box_px:
+        - 0
+        - 0
+        - 13
+        - 35
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image54.png
+        box_px:
+        - 0
+        - 0
+        - 13
+        - 35
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image57.png
+        box_px:
+        - 0
+        - 0
+        - 13
+        - 35
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image58.png
+        box_px:
+        - 0
+        - 0
+        - 38
+        - 20
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image59.png
+        box_px:
+        - 0
+        - 0
+        - 38
+        - 20
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image60.png
+        box_px:
+        - 0
+        - 0
+        - 18
+        - 20
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image61.png
+        box_px:
+        - 0
+        - 0
+        - 56
+        - 35
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image62.png
+        box_px:
+        - 0
+        - 0
+        - 10
+        - 20
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image63.png
+        box_px:
+        - 0
+        - 0
+        - 10
+        - 20
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image64.png
+        box_px:
+        - 0
+        - 0
+        - 18
+        - 20
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image65.png
+        box_px:
+        - 0
+        - 0
+        - 13
+        - 35
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image66.png
+        box_px:
+        - 0
+        - 0
+        - 18
+        - 20
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image67.png
+        box_px:
+        - 0
+        - 0
+        - 18
+        - 20
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image68.png
+        box_px:
+        - 0
+        - 0
+        - 18
+        - 20
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image69.png
+        box_px:
+        - 0
+        - 0
+        - 18
+        - 20
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image70.png
+        box_px:
+        - 0
+        - 0
+        - 10
+        - 20
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image71.png
+        box_px:
+        - 0
+        - 0
+        - 10
+        - 20
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image72.png
+        box_px:
+        - 0
+        - 0
+        - 13
+        - 35
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image72.png
+        box_px:
+        - 0
+        - 0
+        - 13
+        - 35
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image73.png
+        box_px:
+        - 0
+        - 0
+        - 18
+        - 20
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image74.png
+        box_px:
+        - 0
+        - 0
+        - 18
+        - 20
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image75.png
+        box_px:
+        - 0
+        - 0
+        - 18
+        - 20
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image76.png
+        box_px:
+        - 0
+        - 0
+        - 18
+        - 20
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image77.png
+        box_px:
+        - 0
+        - 0
+        - 38
+        - 20
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image78.png
+        box_px:
+        - 0
+        - 0
+        - 38
+        - 20
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image74.png
+        box_px:
+        - 0
+        - 0
+        - 18
+        - 20
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image79.png
+        box_px:
+        - 0
+        - 0
+        - 18
+        - 20
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image80.png
+        box_px:
+        - 0
+        - 0
+        - 18
+        - 20
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image81.png
+        box_px:
+        - 0
+        - 0
+        - 10
+        - 20
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image82.png
+        box_px:
+        - 0
+        - 0
+        - 10
+        - 20
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image81.png
+        box_px:
+        - 0
+        - 0
+        - 10
+        - 20
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image82.png
+        box_px:
+        - 0
+        - 0
+        - 10
+        - 20
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image83.png
+        box_px:
+        - 0
+        - 0
+        - 18
+        - 20
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image84.png
+        box_px:
+        - 0
+        - 0
+        - 13
+        - 35
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image85.png
+        box_px:
+        - 0
+        - 0
+        - 18
+        - 20
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image86.png
+        box_px:
+        - 0
+        - 0
+        - 13
+        - 35
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image87.png
+        box_px:
+        - 0
+        - 0
+        - 10
+        - 20
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image88.png
+        box_px:
+        - 0
+        - 0
+        - 10
+        - 20
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image89.png
+        box_px:
+        - 0
+        - 0
+        - 121
+        - 75
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image90.png
+        box_px:
+        - 0
+        - 0
+        - 31
+        - 35
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image91.png
+        box_px:
+        - 0
+        - 0
+        - 37
+        - 35
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image92.png
+        box_px:
+        - 0
+        - 0
+        - 53
+        - 35
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image93.png
+        box_px:
+        - 0
+        - 0
+        - 29
+        - 35
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image94.png
+        box_px:
+        - 0
+        - 0
+        - 37
+        - 35
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image95.png
+        box_px:
+        - 0
+        - 0
+        - 48
+        - 41
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image96.png
+        box_px:
+        - 0
+        - 0
+        - 21
+        - 35
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image97.png
+        box_px:
+        - 0
+        - 0
+        - 104
+        - 144
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image98.png
+        box_px:
+        - 0
+        - 0
+        - 13
+        - 35
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image98.png
+        box_px:
+        - 0
+        - 0
+        - 13
+        - 35
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image99.png
+        box_px:
+        - 0
+        - 0
+        - 104
+        - 144
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image100.png
+        box_px:
+        - 0
+        - 0
+        - 128
+        - 94
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image101.png
+        box_px:
+        - 0
+        - 0
+        - 13
+        - 35
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image102.png
+        box_px:
+        - 0
+        - 0
+        - 115
+        - 101
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image103.png
+        box_px:
+        - 0
+        - 0
+        - 13
+        - 35
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image103.png
+        box_px:
+        - 0
+        - 0
+        - 13
+        - 35
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image104.png
+        box_px:
+        - 0
+        - 0
+        - 13
+        - 35
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image105.png
+        box_px:
+        - 0
+        - 0
+        - 13
+        - 35
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image105.png
+        box_px:
+        - 0
+        - 0
+        - 13
+        - 35
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image105.png
+        box_px:
+        - 0
+        - 0
+        - 13
+        - 35
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image106.png
+        box_px:
+        - 0
+        - 0
+        - 115
+        - 101
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image107.png
+        box_px:
+        - 0
+        - 0
+        - 20
+        - 18
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image108.png
+        box_px:
+        - 0
+        - 0
+        - 13
+        - 35
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image107.png
+        box_px:
+        - 0
+        - 0
+        - 20
+        - 18
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image109.png
+        box_px:
+        - 0
+        - 0
+        - 23
+        - 37
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image110.png
+        box_px:
+        - 0
+        - 0
+        - 134
+        - 41
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image111.png
+        box_px:
+        - 0
+        - 0
+        - 20
+        - 18
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image112.png
+        box_px:
+        - 0
+        - 0
+        - 173
+        - 130
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image113.png
+        box_px:
+        - 0
+        - 0
+        - 75
+        - 24
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image114.png
+        box_px:
+        - 0
+        - 0
+        - 57
+        - 24
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image115.png
+        box_px:
+        - 0
+        - 0
+        - 20
+        - 18
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image115.png
+        box_px:
+        - 0
+        - 0
+        - 20
+        - 18
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image116.png
+        box_px:
+        - 0
+        - 0
+        - 13
+        - 35
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image117.png
+        box_px:
+        - 0
+        - 0
+        - 13
+        - 35
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image118.png
+        box_px:
+        - 0
+        - 0
+        - 28
+        - 18
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image119.png
+        box_px:
+        - 0
+        - 0
+        - 41
+        - 37
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image120.png
+        box_px:
+        - 0
+        - 0
+        - 21
+        - 35
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image121.png
+        box_px:
+        - 0
+        - 0
+        - 44
+        - 58
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image122.png
+        box_px:
+        - 0
+        - 0
+        - 13
+        - 35
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image123.png
+        box_px:
+        - 0
+        - 0
+        - 171
+        - 141
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image124.png
+        box_px:
+        - 0
+        - 0
+        - 199
+        - 35
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image125.png
+        box_px:
+        - 0
+        - 0
+        - 144
+        - 145
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image126.png
+        box_px:
+        - 0
+        - 0
+        - 100
+        - 60
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image127.png
+        box_px:
+        - 0
+        - 0
+        - 144
+        - 145
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image128.png
+        box_px:
+        - 0
+        - 0
+        - 188
+        - 157
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image129.png
+        box_px:
+        - 0
+        - 0
+        - 84
+        - 57
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image130.png
+        box_px:
+        - 0
+        - 0
+        - 49
+        - 57
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image131.png
+        box_px:
+        - 0
+        - 0
+        - 13
+        - 35
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image132.png
+        box_px:
+        - 0
+        - 0
+        - 20
+        - 18
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image133.png
+        box_px:
+        - 0
+        - 0
+        - 21
+        - 35
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image134.png
+        box_px:
+        - 0
+        - 0
+        - 13
+        - 35
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image135.png
+        box_px:
+        - 0
+        - 0
+        - 21
+        - 35
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image136.png
+        box_px:
+        - 0
+        - 0
+        - 13
+        - 35
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image137.png
+        box_px:
+        - 0
+        - 0
+        - 21
+        - 35
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image138.png
+        box_px:
+        - 0
+        - 0
+        - 33
+        - 39
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image139.png
+        box_px:
+        - 0
+        - 0
+        - 13
+        - 35
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image140.png
+        box_px:
+        - 0
+        - 0
+        - 21
+        - 35
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image141.png
+        box_px:
+        - 0
+        - 0
+        - 258
+        - 147
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image142.png
+        box_px:
+        - 0
+        - 0
+        - 258
+        - 147
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image143.png
+        box_px:
+        - 0
+        - 0
+        - 386
+        - 192
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image144.png
+        box_px:
+        - 0
+        - 0
+        - 36
+        - 18
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image145.png
+        box_px:
+        - 0
+        - 0
+        - 47
+        - 46
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image146.png
+        box_px:
+        - 0
+        - 0
+        - 21
+        - 35
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image147.png
+        box_px:
+        - 0
+        - 0
+        - 47
+        - 42
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image148.png
+        box_px:
+        - 0
+        - 0
+        - 29
+        - 36
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image149.png
+        box_px:
+        - 0
+        - 0
+        - 48
+        - 42
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image150.png
+        box_px:
+        - 0
+        - 0
+        - 77
+        - 35
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image151.png
+        box_px:
+        - 0
+        - 0
+        - 61
+        - 35
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image152.png
+        box_px:
+        - 0
+        - 0
+        - 21
+        - 35
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image152.png
+        box_px:
+        - 0
+        - 0
+        - 21
+        - 35
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image152.png
+        box_px:
+        - 0
+        - 0
+        - 21
+        - 35
+      - source: /Users/gaochong/develop/teaching_skills/build/question-ingestion/2012-YANGPU-ERMO-DOC-BENCHMARK/run-9d95697db190/source/docx/media/image152.png
+        box_px:
+        - 0
+        - 0
+        - 21
+        - 35
+      word_evidence:
+      - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/036.png
+        page_number: 36
+      - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/037.png
+        page_number: 37
+      - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/038.png
+        page_number: 38
+      - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/039.png
+        page_number: 39
+      - page_image: documents/初三/2012届-上海市杨浦区-初三二模数学-纯DOC测速/word/pages/040.png
+        page_number: 40
+    block:
+      stem_latex: 如图，已知：正方形 $ABCD$ 中，$AB=8$，点 $O$ 为边 $AB$ 上一动点，以点 $O$ 为圆心，$OB$ 为半径的 $\odot O$ 交边 $AD$ 于点 $E$（不与点 $A$、$D$ 重合），$EF\perp OE$ 交边 $CD$ 于点 $F$。设 $BO=x$，$AE=y$。(1) 求 $y$ 关于 $x$ 的函数关系式，并写出定义域；(2) 在点 $O$ 运动的过程中，$\triangle EFD$ 的周长是否发生变化？请说明理由；(3) 以点 $A$ 为圆心，$OA$ 为半径作圆，在点 $O$ 运动的过程中，讨论 $\odot O$ 与 $\odot A$ 的位置关系，并写出相应的 $x$ 的取值范围.
+      answer: (1) $y=4\sqrt{x-4}$（$4<x<8$）；(2) 周长不变，为 16；(3) 相交 $4<x<\frac{16}{3}$，内切 $x=\frac{16}{3}$，内含 $\frac{16}{3}<x<8$
+      clue: 圆的综合：勾股定理、相似三角形、两圆位置关系分类讨论
+      solution_steps:
+      - (1) $OB=OE=x$，$\angle A=90^{\circ}$，在 $\mathrm{Rt}\triangle AOE$ 中 $(8-x)^{2}+y^{2}=x^{2}$，由 $y>0$ 得 $y=4\sqrt{x-4}$，定义域 $4<x<8$；
+      - (2) $\angle AEO+\angle AOE=90^{\circ}$，$\angle AEO+\angle DEF=90^{\circ}$，故 $\angle DEF=\angle AOE$，又 $\angle D=\angle A=90^{\circ}$，故 $\triangle AOE\sim\triangle DEF$。由 $\frac{8+y}{C_{\triangle DEF}}=\frac{8-x}{8-y}$ 得 $C_{\triangle DEF}=\frac{64-y^{2}}{8-x}=\frac{16(8-x)}{8-x}=16$，周长不变；
+      - (3) 设 $\odot O$ 半径 $R_{1}=x$，$\odot A$ 半径 $R_{2}=8-x$，圆心距 $d=OA=8-x$。点 $A$ 始终在 $\odot O$ 内，外离、外切不可能。相交：$R_{1}-R_{2}<d<R_{1}+R_{2}$，即 $2x-8<8-x$，得 $4<x<\frac{16}{3}$；内切：$d=R_{1}-R_{2}$，即 $8-x=2x-8$，得 $x=\frac{16}{3}$；内含：$0<d<R_{1}-R_{2}$，得 $\frac{16}{3}<x<8$。
