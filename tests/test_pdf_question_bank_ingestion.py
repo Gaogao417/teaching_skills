@@ -31,6 +31,7 @@ from paper_map_contracts import validate_against_staging  # noqa: E402
 from validate_exam_source import validate_source  # noqa: E402
 from word_evidence_pages import (  # noqa: E402
     _page_index_from_name,
+    _volume_is_region_only,
     allowed_shared_boundaries,
     coerce_question_seeds,
     expected_page_ranges,
@@ -976,3 +977,215 @@ def test_entries_for_pages_emits_page_n_prefix_for_pdf_source(
     assert all("page-" in e["page_image"] for e in q1), [
         e["page_image"] for e in q1
     ]
+
+
+# --------------------------------------------------------------------------- #
+# Region-only (pure-PDF source) volumes: resolve_draft_payload compatibility
+# --------------------------------------------------------------------------- #
+
+
+def _region_item(item_id: str, q_page: str, s_page: str) -> dict:
+    """A draft item carrying only PDF region evidence (box_px crops).
+
+    Mirrors the 13 C-class PDF-source volumes (e.g. 2025-CHANGNING-YIMO):
+    ``question_evidence`` crops and ``official_solution.crops`` carry page-region
+    slices, and no ``question_word_evidence`` / ``official_solution.word_evidence``
+    was ever produced.
+    """
+    return {
+        "item_id": item_id,
+        "question_evidence": [
+            {"source": q_page, "box_px": [110, 490, 970, 620]}
+        ],
+        "official_solution": {
+            "start_anchor": f"{item_id[-3:]}.B",
+            "end_anchor": "<END_OF_SOURCE>",
+            "crops": [{"source": s_page, "box_px": [110, 205, 205, 255]}],
+        },
+        "block": {"stem_latex": "x", "answer": "B"},
+    }
+
+
+def test_volume_is_region_only_detects_pdf_region_evidence_volume() -> None:
+    """_volume_is_region_only 为真当且仅当每题都只有 PDF region 证据。
+
+    这覆盖 13 卷纯 PDF 源（2025-CHANGNING-YIMO 等）：每题 question_evidence
+    + official_solution.crops 都有 box_px 裁剪，word evidence 两个 role 全空。
+    """
+    items = [
+        _region_item("Q001", "documents/P/002.png", "documents/P/006.png"),
+        _region_item("Q002", "documents/P/002.png", "documents/P/006.png"),
+    ]
+    assert _volume_is_region_only(items) is True
+
+
+def test_volume_is_region_only_rejects_word_evidence_volume() -> None:
+    """纯 word evidence 卷（两 role 都非空）不算 region-only。"""
+    items = [
+        {
+            "item_id": "Q001",
+            "question_word_evidence": [
+                {"page_image": "documents/P/pages/001.png", "page_number": 1}
+            ],
+            "official_solution": {
+                "word_evidence": [
+                    {"page_image": "documents/P/pages/005.png", "page_number": 5}
+                ]
+            },
+        }
+    ]
+    assert _volume_is_region_only(items) is False
+
+
+def test_volume_is_region_only_rejects_mixed_volume() -> None:
+    """混合卷（一题 word、一题 region）必须被拒，不能静默丢弃某一种证据。
+
+    真实语料里没有混合卷；PDF 源全 region-only，docx 源全 word-evidence-only。
+    混合说明转录异常，应让 resolve 走默认 word-evidence 路径报错。
+    """
+    items = [
+        _region_item("Q001", "documents/P/002.png", "documents/P/006.png"),
+        {
+            "item_id": "Q002",
+            "question_word_evidence": [
+                {"page_image": "documents/P/pages/003.png", "page_number": 3}
+            ],
+            "official_solution": {
+                "word_evidence": [
+                    {"page_image": "documents/P/pages/006.png", "page_number": 6}
+                ]
+            },
+        },
+    ]
+    assert _volume_is_region_only(items) is False
+
+
+def test_volume_is_region_only_rejects_item_missing_region_solution() -> None:
+    """某题缺 official_solution.crops（region 解答证据空）不算 region-only。
+
+    该题既无 word evidence 也无 region 解答证据，属于证据不全，应被拒，
+    落到默认 word-evidence 路径报 "must not be empty"。
+    """
+    items = [
+        {
+            "item_id": "Q001",
+            "question_evidence": [
+                {"source": "documents/P/002.png", "box_px": [10, 10, 90, 90]}
+            ],
+            "official_solution": {"crops": []},
+        }
+    ]
+    assert _volume_is_region_only(items) is False
+
+
+def test_resolve_draft_payload_region_only_volume_passes_unchanged(
+    tmp_path: Path,
+) -> None:
+    """纯 PDF region 卷 resolve 通过，draft 原样返回，report 标 region_only。
+
+    复现 2025-CHANGNING-YIMO 的场景：25 题每题 question_evidence + crops，
+    无 word evidence。旧 resolve 在 evidence_page_numbers 报
+    "must not be empty"；扩展后短路返回，draft 不被改写。
+    region 卷不需要 last_page / layout（每条 crop 自带页图和像素框），
+    所以 report 里这两项是 None。
+    """
+    # 不需要任何页图文件：region 路径不做 _last_page_from_evidence，不读盘。
+    draft = {
+        "schema": "math_exam_staging_draft/v1",
+        "sections": [
+            {
+                "id": "choice",
+                "items": [
+                    _region_item(
+                        "Q001", "documents/P/002.png", "documents/P/006.png"
+                    ),
+                    _region_item(
+                        "Q002", "documents/P/002.png", "documents/P/006.png"
+                    ),
+                ],
+            }
+        ],
+    }
+    resolved, report = resolve_draft_payload(draft, repo_root=tmp_path)
+    assert report["region_only"] is True
+    assert report["layout"] is None
+    assert report["last_page"] is None
+    assert report["changes"] == []
+    assert report["seed_corrections"] == []
+    # draft 原样：crops 还在，没有被注入 word_evidence
+    items = resolved["sections"][0]["items"]
+    assert items[0]["question_evidence"][0]["box_px"] == [110, 490, 970, 620]
+    assert items[0]["official_solution"]["crops"][0]["source"].endswith("006.png")
+    assert "question_word_evidence" not in items[0]
+    assert "word_evidence" not in items[0]["official_solution"]
+
+
+def test_resolve_draft_payload_region_only_ignores_layout_flag(tmp_path: Path) -> None:
+    """region 卷对 --layout 标志免疫：没有 word 页区间可约束。
+
+    --layout interleaved/separated 只约束 word-evidence 页区间展开，
+    region crop 自带页图+像素框，layout 概念不适用，所以显式传 layout
+    仍应短路到 region-only 路径。
+    """
+    draft = {
+        "schema": "math_exam_staging_draft/v1",
+        "sections": [
+            {
+                "id": "choice",
+                "items": [
+                    _region_item(
+                        "Q001", "documents/P/002.png", "documents/P/006.png"
+                    ),
+                ],
+            }
+        ],
+    }
+    for layout in ("auto", "interleaved", "separated"):
+        _, report = resolve_draft_payload(
+            draft, repo_root=tmp_path, layout=layout  # type: ignore[arg-type]
+        )
+        assert report["region_only"] is True, layout
+
+
+def test_resolve_draft_payload_mixed_volume_falls_through_to_word_error(
+    tmp_path: Path,
+) -> None:
+    """混合卷（一 region 一 word）不被当作 region-only，落到默认 word-evidence 路径。
+
+    Q002 有 word evidence 但 Q001 没有，evidence_page_numbers 对 Q001 的空
+    question role 报 "must not be empty"，而不是静默用 region 兜底——避免在
+    同一卷里丢失 word-evidence 维度的证据。
+    """
+    draft = {
+        "schema": "math_exam_staging_draft/v1",
+        "sections": [
+            {
+                "id": "choice",
+                "items": [
+                    _region_item(
+                        "Q001", "documents/P/002.png", "documents/P/006.png"
+                    ),
+                    {
+                        "item_id": "Q002",
+                        "question_word_evidence": [
+                            {
+                                "page_image": "documents/P/pages/003.png",
+                                "page_number": 3,
+                            }
+                        ],
+                        "official_solution": {
+                            "word_evidence": [
+                                {
+                                    "page_image": "documents/P/pages/006.png",
+                                    "page_number": 6,
+                                }
+                            ]
+                        },
+                    },
+                ],
+            }
+        ],
+    }
+    with pytest.raises(ValueError, match="must not be empty"):
+        resolve_draft_payload(draft, repo_root=tmp_path)
+

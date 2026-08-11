@@ -71,6 +71,65 @@ def source_items(staging_dir: Path, ordered_item_ids: list[str]) -> list[dict[st
     ]
 
 
+def _region_evidence_lists(item: dict[str, Any]) -> tuple[list[Any], list[Any]]:
+    """Return (question_evidence crops, official_solution.crops) for one draft item.
+
+    Region (PDF) evidence uses ``question_evidence`` crops and
+    ``official_solution.crops``, each a list of ``{source, box_px}`` page-region
+    slices. This is the PDF-source counterpart to :func:`_evidence_lists`, which
+    reads the Word-source ``question_word_evidence`` / ``official_solution.word_evidence``
+    page spans.
+    """
+    question = item.get("question_evidence") or []
+    official = item.get("official_solution") or {}
+    solution = (
+        official.get("crops") if isinstance(official, dict) else None
+    ) or []
+    if not isinstance(question, list) or not isinstance(solution, list):
+        raise ValueError("Region evidence roles must be lists")
+    return question, solution
+
+
+def _item_word_evidence_empty(item: dict[str, Any]) -> bool:
+    """Whether a draft item has no Word evidence in either role.
+
+    ``draft=True`` semantics of :func:`_evidence_lists`. Both roles absent means
+    the transcription produced region evidence (PDF path) instead of Word page
+    evidence. Used by :func:`resolve_draft_payload` to short-circuit the
+    Word-page-range expansion for region-only volumes.
+    """
+    question, solution = _evidence_lists(item, draft=True)
+    return not question and not solution
+
+
+def _volume_is_region_only(items: list[dict[str, Any]]) -> bool:
+    """Whether ``items`` is a pure region-evidence (PDF-source) volume.
+
+    Every region-only item must have:
+    * empty Word evidence in both roles (no ``question_word_evidence``,
+      no ``official_solution.word_evidence``);
+    * a non-empty ``question_evidence`` region crop and a non-empty
+      ``official_solution.crops`` region crop (region evidence is the sole
+      evidence and must therefore be complete).
+
+    A volume is region-only only if *every* item matches. Mixed volumes (some
+    items with Word evidence, some without) and items that have neither Word nor
+    region evidence are rejected as ambiguous or incomplete rather than silently
+    dropping one form of evidence. This mirrors the all-or-nothing shape of the
+    real corpus: the 13 PDF-source volumes are uniformly region-only across all
+    items, and Word-source volumes are uniformly Word-evidence-only.
+    """
+    if not items:
+        return False
+    for item in items:
+        if not _item_word_evidence_empty(item):
+            return False
+        question_region, solution_region = _region_evidence_lists(item)
+        if not question_region or not solution_region:
+            return False
+    return True
+
+
 def _evidence_lists(
     item: dict[str, Any], *, draft: bool
 ) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
@@ -505,6 +564,24 @@ def resolve_draft_payload(
 ) -> tuple[dict[str, Any], dict[str, Any]]:
     updated = deepcopy(payload)
     items = draft_items(updated)
+    # PDF-source volumes carry region evidence (``question_evidence`` / ``official_solution.crops``
+    # page-region slices with ``box_px``) and never produced Word page evidence.
+    # Each region crop is self-contained (it already names its page PNG and the
+    # pixel rectangle on it), so there is nothing for the Word-page resolver to
+    # expand: no page ranges, no layout inference, no ``last_page``. Short-circuit
+    # the whole Word-evidence pipeline and return the draft unchanged, flagged
+    # ``region_only``. This keeps the 13 pure-PDF C-class volumes (e.g.
+    # 2025-CHANGNING-YIMO) resolvable without inventing Word evidence for sources
+    # that have no docx. ``--layout`` / ``--layout-override-seeds`` are ignored
+    # here because they only constrain the Word-page expansion.
+    if _volume_is_region_only(items):
+        return updated, {
+            "layout": None,
+            "last_page": None,
+            "changes": [],
+            "seed_corrections": [],
+            "region_only": True,
+        }
     pages_by_item = [
         evidence_page_numbers(
             item,
@@ -597,6 +674,7 @@ def resolve_draft_payload(
         "last_page": last_page,
         "changes": changes,
         "seed_corrections": seed_corrections,
+        "region_only": False,
     }
 
 
@@ -700,11 +778,26 @@ def main() -> int:
     )
     changes = report["changes"]
     seed_corrections = report.get("seed_corrections") or []
-    print(
-        f"WORD EVIDENCE: layout={report['layout']} "
-        f"last_page={report['last_page']} changed_items={len(changes)} "
-        f"seed_corrections={len(seed_corrections)}"
-    )
+    if report.get("region_only"):
+        # Region-only (PDF-source) volumes need no Word-page expansion: each crop
+        # already names its page PNG and pixel rectangle. Report the item count so
+        # the operator can confirm every item was seen, and leave the draft as-is.
+        item_count = sum(
+            len(section.get("items") or [])
+            for section in (payload.get("sections") or [])
+            if isinstance(section, dict)
+        )
+        print(
+            f"WORD EVIDENCE: region-only items={item_count} "
+            f"changed_items={len(changes)} "
+            f"(PDF source; no Word page ranges to expand)"
+        )
+    else:
+        print(
+            f"WORD EVIDENCE: layout={report['layout']} "
+            f"last_page={report['last_page']} changed_items={len(changes)} "
+            f"seed_corrections={len(seed_corrections)}"
+        )
     for correction in seed_corrections:
         print(
             f"- item[{correction['index']}] question seed "
