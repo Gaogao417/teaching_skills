@@ -41,6 +41,11 @@ from runtime import (  # noqa: E402
     resolve_wolfram_kernel,
     wl_dir as resolve_wl_dir,
 )
+from annotation_signature import (  # noqa: E402
+    label_text_violation,
+    marker_signature,
+    text_signature,
+)
 
 configure_utf8_stdio()
 
@@ -979,6 +984,77 @@ def _normalize_marker(marker: Dict[str, object]) -> Dict[str, object]:
                 segments.append([parsed["from"], parsed["to"]])
         normalized["segments"] = segments
     return normalized
+def _compile_boundary_strip(
+    request: Dict[str, object],
+    markers: List[Dict[str, object]],
+    annotations: List[object],
+    labels: Dict[str, Dict[str, object]],
+) -> tuple[List[Dict[str, object]], List[object], Dict[str, Dict[str, object]], List[str]]:
+    """Enforce compile-boundary visual policy (deterministic, pre-audit).
+
+    Two jobs, both VISUAL-only — geometric objects (segments / polygons /
+    intersections) are never touched here and remain audited:
+
+    1. Label sanitization. Label text is pure visual (the point is already
+       solved by Wolfram). If the scene agent emitted a serialized Wolfram
+       aggregate as the label text (e.g. ``{C["GeometricPoint"][A], ...}``),
+       replace it with the plain point name. This is the deterministic fix for
+       the p2-style ``invalid_point_label`` failure.
+    2. Unauthorized marker / annotation strip (prompt + clean disclosure only).
+       Drop markers / text annotations whose signature is not declared in
+       ``visual_requirements.required_visible_annotations``, so an accidental
+       extra right-angle / equal-tick does not reach the audit as
+       ``prompt_disallowed_marker``.
+
+    Returns ``(markers, annotations, labels, warnings)``.
+    """
+    warnings: List[str] = []
+
+    sanitized_labels: Dict[str, Dict[str, object]] = {}
+    for name, label in labels.items():
+        label_dict = dict(label) if isinstance(label, dict) else {"text": str(name)}
+        violation = label_text_violation(label_dict)
+        if violation:
+            warnings.append(
+                f"sanitized label '{name}': {violation}; replaced text with point name"
+            )
+            label_dict = {**label_dict, "text": str(name)}
+        sanitized_labels[str(name)] = label_dict
+
+    variant = str(request.get("diagram_variant") or request.get("variant") or "prompt")
+    disclosure = str(request.get("disclosure_policy") or "clean")
+    if variant == "prompt" and disclosure == "clean":
+        visual = request.get("visual_requirements")
+        required = (
+            visual.get("required_visible_annotations") if isinstance(visual, dict) else None
+        )
+        required = required if isinstance(required, dict) else {}
+        req_markers = required.get("markers") if isinstance(required.get("markers"), list) else []
+        req_texts = required.get("texts") if isinstance(required.get("texts"), list) else []
+        req_marker_sigs = {marker_signature(m) for m in req_markers}
+        req_text_sigs = {text_signature(t) for t in req_texts}
+
+        kept_markers: List[Dict[str, object]] = []
+        for marker in markers:
+            sig = marker_signature(marker)
+            if sig in req_marker_sigs:
+                kept_markers.append(marker)
+            else:
+                warnings.append(f"stripped unauthorized prompt marker: {sig}")
+        markers = kept_markers
+
+        kept_annotations: List[object] = []
+        for annotation in annotations:
+            sig = text_signature(annotation)
+            if sig in req_text_sigs:
+                kept_annotations.append(annotation)
+            else:
+                warnings.append(f"stripped unauthorized prompt annotation: {sig}")
+        annotations = kept_annotations
+
+    return markers, annotations, sanitized_labels, warnings
+
+
 def _compile_renderer_spec(
     request: Dict[str, object],
     scene_payload: Dict[str, object],
@@ -1031,11 +1107,32 @@ def _compile_renderer_spec(
     markers = [_normalize_marker(marker) for marker in markers]
     _apply_auxiliary_constructions(segments, diagram_spec, points)
 
-    labels = diagram_spec.get("labels") if isinstance(diagram_spec.get("labels"), dict) else {}
+    raw_labels = diagram_spec.get("labels") if isinstance(diagram_spec.get("labels"), dict) else {}
     normalized_labels = {
-        name: labels.get(name, {"text": name}) if isinstance(labels.get(name), dict) else {"text": name}
+        name: raw_labels.get(name, {"text": name})
+        if isinstance(raw_labels.get(name), dict)
+        else {"text": name}
         for name in points
     }
+    raw_annotations = diagram_spec.get("annotations")
+    if not isinstance(raw_annotations, list):
+        raw_annotations = []
+
+    # Compile-boundary visual policy: sanitize aggregated label text and strip
+    # unauthorized prompt markers/annotations BEFORE the audit sees them.
+    markers, compile_annotations, compile_labels, compile_warnings = _compile_boundary_strip(
+        request, markers, raw_annotations, normalized_labels
+    )
+
+    source = {
+        "solver": "wolfram_geometric_scene",
+        "scene_code_path": "final_geometric_scene.wl",
+        "model_diagram_spec": diagram_spec,
+        "render_image_requested": render_result.get("render_image_requested", True),
+        "render_fail_type": render_result.get("fail_type", ""),
+    }
+    if compile_warnings:
+        source["compile_boundary_warnings"] = compile_warnings
 
     return _dict_from_model(GeometryRenderSpec.model_validate({
         "schema_version": "geometry-render-spec/v1",
@@ -1049,21 +1146,15 @@ def _compile_renderer_spec(
         "polygons": polygons,
         "segments": segments,
         "markers": markers,
-        "labels": normalized_labels,
-        "annotations": diagram_spec.get("annotations") or [],
+        "labels": compile_labels,
+        "annotations": compile_annotations,
         "teaching_focus": _compact_list(
             diagram_spec.get("teaching_focus") or request.get("teaching_focus")
         ),
         "constraints": _compact_list(
             diagram_spec.get("constraints") or objects_hint.get("constraints")
         ),
-        "source": {
-            "solver": "wolfram_geometric_scene",
-            "scene_code_path": "final_geometric_scene.wl",
-            "model_diagram_spec": diagram_spec,
-            "render_image_requested": render_result.get("render_image_requested", True),
-            "render_fail_type": render_result.get("fail_type", ""),
-        },
+        "source": source,
     }))
 
 
@@ -1347,8 +1438,8 @@ def _validate_final_agent_artifacts(out_dir: Path) -> Dict[str, object]:
 
     labels = renderer_spec.get("labels") if isinstance(renderer_spec.get("labels"), dict) else {}
     for name, label in labels.items():
-        bad_name = _bad_label_text(name)
-        bad_label = _bad_label_text(label)
+        bad_name = label_text_violation(name)
+        bad_label = label_text_violation(label)
         if bad_name or bad_label:
             raise ValueError(bad_name or bad_label)
     return result
@@ -1493,6 +1584,15 @@ def compile_spec_action(
     round_dir.mkdir(parents=True, exist_ok=True)
     spec_path = round_dir / "final_renderer_spec.json"
     _write_json(spec_path, renderer_spec)
+    source = renderer_spec.get("source") if isinstance(renderer_spec.get("source"), dict) else {}
+    compile_warnings = source.get("compile_boundary_warnings")
+    if isinstance(compile_warnings, list) and compile_warnings:
+        _emit_event(
+            out_dir,
+            "compile.boundary.warning",
+            round_index=round_index,
+            warnings=compile_warnings,
+        )
     return {
         "status": "ok" if renderer_spec.get("status") == "ready" else "failed",
         "action": "compile_spec",
@@ -1505,18 +1605,6 @@ def _relative_path(path: Path, base: Path) -> str:
         return path.resolve().relative_to(base.resolve()).as_posix()
     except ValueError:
         return str(path)
-
-
-def _bad_label_text(value: object) -> str:
-    if isinstance(value, dict):
-        value = value.get("text", "")
-    text = str(value)
-    forbidden = ["ref", "GeometricPoint", "[[", "]]", "C[\"", "Centroid"]
-    if any(item in text for item in forbidden):
-        return f"bad serialized label text: {text[:80]}"
-    if len(text) > 24:
-        return f"label text too long: {text[:80]}"
-    return ""
 
 
 def finalize_round_action(

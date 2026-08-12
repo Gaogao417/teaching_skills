@@ -9,50 +9,12 @@ from typing import Dict, List
 from diagram_contracts import GeometryRendererResult, GeometryRenderSpec
 from runtime import redact_secrets
 from tools import _read_json, _relative_path, _validate_scene_code, _write_json
-
-
-def _bad_label_text(value: object) -> str:
-    if isinstance(value, dict):
-        value = value.get("text", "")
-    text = str(value)
-    forbidden = ["ref", "GeometricPoint", "[[", "]]", "C[\"", "Centroid"]
-    if any(item in text for item in forbidden):
-        return f"bad serialized label text: {text[:80]}"
-    if len(text) > 24:
-        return f"label text too long: {text[:80]}"
-    return ""
-
-
-def _normalized_segment(value: object) -> tuple[str, str]:
-    if not isinstance(value, (list, tuple)) or len(value) != 2:
-        return ("", "")
-    return tuple(sorted((str(value[0]), str(value[1]))))
-
-
-def _marker_signature(value: object) -> tuple[object, ...]:
-    if not isinstance(value, dict):
-        return ("invalid",)
-    marker_type = str(value.get("type") or "")
-    aliases = {
-        "equal_tick": "equal_ticks",
-        "equal_segment": "equal_ticks",
-        "equal_segments": "equal_ticks",
-        "parallel_mark": "parallel",
-        "parallel_marks": "parallel",
-    }
-    marker_type = aliases.get(marker_type, marker_type)
-    if marker_type in {"equal_ticks", "parallel"}:
-        segments = value.get("segments") if isinstance(value.get("segments"), list) else []
-        return (marker_type, tuple(sorted(_normalized_segment(item) for item in segments)))
-    arms = value.get("arms") if isinstance(value.get("arms"), list) else []
-    return (marker_type, str(value.get("vertex") or ""), tuple(sorted(str(item) for item in arms)))
-
-
-def _text_signature(value: object) -> tuple[object, ...]:
-    if not isinstance(value, dict):
-        return ("invalid",)
-    target = value.get("target") if isinstance(value.get("target"), list) else []
-    return (str(value.get("text") or ""), tuple(str(item) for item in target))
+from annotation_signature import (  # noqa: E402  (shared with tools/compile boundary)
+    label_text_violation as _bad_label_text,
+    marker_signature as _marker_signature,
+    normalized_segment as _normalized_segment,
+    text_signature as _text_signature,
+)
 
 
 def _visible_requirements(request: Dict[str, object]) -> tuple[list[object], list[object]]:

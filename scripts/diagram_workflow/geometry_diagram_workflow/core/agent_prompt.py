@@ -314,14 +314,23 @@ def scene_writer_prompt(
         )
         repair_block = f"""
 
-This is the one and only automatic Wolfram syntax-repair round. Fix only syntax,
-brackets, argument shapes, unsupported Wolfram heads/property names, or equivalent
-API-form errors identified below. Preserve the exact mathematical condition set:
-do not add, remove, expand, derive, weaken, strengthen, or reinterpret any geometry
-condition. If the evidence cannot be fixed by a syntax-only edit, return
+This is the one and only automatic targeted-repair round. Apply the MINIMAL edit
+that fixes the failure evidence below — Wolfram syntax (brackets, argument shapes,
+unsupported heads/property names) OR serialization (per-point labels, marker
+shapes). Acceptable repairs include:
+- split an aggregated Wolfram label object back into plain per-point labels, e.g.
+  {{"A": {{"text": "A"}}, "B": {{"text": "B"}}}}; NEVER emit a label whose text is
+  a serialized Wolfram expression such as {{"C[\\"GeometricPoint\\"][A], ..."}} or
+  the bare symbol `regular`;
+- remove a disallowed visible marker (e.g. an extra right_angle) that the request's
+  required_visible_annotations does not declare.
+
+Preserve the exact mathematical condition set: do not add, remove, expand, derive,
+weaken, strengthen, or reinterpret any geometry condition, and do not move solved
+points. If the evidence cannot be fixed by such a minimal edit, return
 `needs_human_confirmation` and ask one precise question.
 
-Syntax failure evidence:
+Failure evidence (failure_type, failed_checks, repair_instruction, repair_target):
 {repair_json}
 """
 
