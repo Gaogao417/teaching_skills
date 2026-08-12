@@ -1,0 +1,567 @@
+meta:
+  title: "三垂直相似模型 专项练习（教师版）"
+  subtitle: "母模型 $a\\cdot d = b\\cdot c$：比例信息藏在哪里——五类变式 + 压缩交叉模型"
+  grade: "初三"
+  subject: "数学"
+  duration: "45分钟"
+  total_points: 100
+  version: "teacher"
+  notes:
+    - "本练习基于「三垂直相似 / 比例中项」母模型（$AB\\perp BD,DE\\perp BD,AC\\perp CE\\Rightarrow\\triangle ABC\\sim\\triangle CDE$，核心 $AB\\cdot DE=BC\\cdot CD$）的五类变式与压缩交叉模型 $BC^2=AB\\cdot CD$；与同目录全等版结构分析互补。"
+    - "模型库检索 fallback：未命中 canonical relation，全部题目以结构分析（母公式 $ad=bc$ 及其退化）为依据，source_relations 标记为 fallback:structure_analysis。"
+
+render:
+  template: "exam-zh-practice"
+  paper_size: "a4paper"
+  answer_key_position: "after_page_break"
+
+sections:
+  - id: "choice"
+    title: "一、选择题（每题 4 分）"
+    type: "practice"
+    visibility: "student"
+    blocks:
+      - type: "choice"
+        id: "c1"
+        points: 4
+        stem: "如图，$AB\\perp BD$，$DE\\perp BD$，$AC\\perp CE$，$B,C,D$ 三点共线。记 $AB=a$，$BC=b$，$CD=c$，$DE=d$。下列式子一定成立的是"
+        choices:
+          A: "$a\\cdot c = b\\cdot d$"
+          B: "$a\\cdot b = c\\cdot d$"
+          C: "$a\\cdot d = b\\cdot c$"
+          D: "$\\dfrac{a}{c}=\\dfrac{d}{b}$"
+        hints:
+          - content: "先找两个直角三角形相似，再盯紧对应边：$AB\\leftrightarrow CD$，$BC\\leftrightarrow DE$。"
+        answer: "C"
+        explanation: "$\\angle ABC=\\angle CDE=90^\\circ$；由 $AC\\perp CE$ 可推出 $\\angle BAC=\\angle DCE$，故 $\\triangle ABC\\sim\\triangle CDE$。对应边 $\\dfrac{AB}{CD}=\\dfrac{BC}{DE}$，交叉相乘得 $AB\\cdot DE=BC\\cdot CD$，即 $a\\cdot d=b\\cdot c$。"
+        teaching:
+          teaching_goal: "识别三垂直母图→两个直角三角形相似，写出核心比例式 $AB\\cdot DE=BC\\cdot CD$。"
+          source_relations: ["fallback:structure_analysis"]
+          model_fusion: {model_count: 1, models: ["三垂直相似母模型"], fusion_role: "single_model"}
+          expected_blocker: "把 $AB$ 与 $DE$ 配成对应边（正确对应是 $AB\\leftrightarrow CD$，$BC\\leftrightarrow DE$）。"
+          entry_point: "read_context"
+          scaffold_level: "high"
+          variation_depth: "same_structure"
+          complexity_note: "L2，仅识别与列式。"
+          upgrade_rule: "能独立写出 $AB\\cdot DE=BC\\cdot CD$ 并指出哪两条是对应边。"
+          fallback_move: "回到两个 $90^\\circ$ 角，用 $AC\\perp CE$ 找第二组等角。"
+        diagram_slot: &slot_mother_t
+          slot_id: "c1.prompt"
+          diagram_ref: "c1.prompt"
+          variant: "prompt"
+          disclosure_policy: "clean"
+          required: true
+          on_failure: "fail_assignment"
+          placement: "diagram_col"
+          layout_role: "question_sidecar"
+          display_profile: "worksheet_geometry_sidecar"
+          caption: "三垂直母图。"
+          diagram_kind: "synthetic_geometry"
+          teaching_intent: "practice_prompt"
+          semantic_constraints:
+            given_objects: ["A", "B", "C", "D", "E"]
+            given_constraints: ["B,C,D collinear", "AB⊥BD", "DE⊥BD", "AC⊥CE"]
+          visual_requirements:
+            required_visible_annotations:
+              markers:
+                - {type: right_angle, vertex: B, arms: [A, D]}
+                - {type: right_angle, vertex: C, arms: [A, E]}
+                - {type: right_angle, vertex: D, arms: [B, E]}
+      - type: "choice"
+        id: "c2"
+        points: 4
+        stem: "在上一题的图形条件下，若再增加 $AB=DE$，且 $BC=2$，$CD=8$，则 $AB=$"
+        choices:
+          A: "$2$"
+          B: "$4$"
+          C: "$5$"
+          D: "$16$"
+        hints:
+          - content: "把 $AB=DE$ 代入母公式，会得到一个「平方 = 乘积」的式子。"
+        answer: "B"
+        explanation: "$AB=DE\\Rightarrow AB^2=BC\\cdot CD=2\\times8=16\\Rightarrow AB=4$。"
+        teaching:
+          teaching_goal: "识别两侧等边 $a=d$ 使母公式退化为平方根型 $a^2=bc$。"
+          source_relations: ["fallback:structure_analysis"]
+          model_fusion: {model_count: 1, models: ["三垂直相似·平方根型"], fusion_role: "single_model"}
+          expected_blocker: "看不出 $AB=DE$ 把 $ad=bc$ 变成 $a^2=bc$。"
+          entry_point: "find_entry"
+          scaffold_level: "medium"
+          variation_depth: "packaged_condition"
+          complexity_note: "L2–L3。"
+          upgrade_rule: "见到 $AB=DE$ / 矩形 / 等腰条件，立刻想到平方根型。"
+          fallback_move: "令 $AB=DE=x$ 代入 $ad=bc$。"
+        diagram_slot:
+          <<: *slot_mother_t
+          slot_id: "c2.prompt"
+          diagram_ref: "c2.prompt"
+          caption: "三垂直母图，$AB=DE$。"
+          semantic_constraints:
+            given_objects: ["A", "B", "C", "D", "E"]
+            given_constraints: ["B,C,D collinear", "AB⊥BD", "DE⊥BD", "AC⊥CE", "AB=DE"]
+          visual_requirements:
+            required_visible_annotations:
+              markers:
+                - {type: right_angle, vertex: B, arms: [A, D]}
+                - {type: right_angle, vertex: C, arms: [A, E]}
+                - {type: right_angle, vertex: D, arms: [B, E]}
+                - {type: equal_ticks, segments: [[A, B], [D, E]]}
+      - type: "choice"
+        id: "c3"
+        points: 4
+        stem: "在母图条件下，若 $\\tan\\angle BAC=\\dfrac12$，则"
+        choices:
+          A: "$AB=2\\,BC$"
+          B: "$BC=2\\,AB$"
+          C: "$AB=BC$"
+          D: "$AB=4\\,BC$"
+        hints:
+          - content: "在 $\\triangle ABC$ 中 $\\angle B=90^\\circ$，$\\tan\\angle BAC$ 的对边与邻边分别是哪两条？"
+        answer: "A"
+        explanation: "$\\angle B=90^\\circ$，$\\tan\\angle BAC=\\dfrac{\\text{对边 }BC}{\\text{邻边 }AB}=\\dfrac12$，故 $AB=2\\,BC$。"
+        teaching:
+          teaching_goal: "把三角比 $\\tan\\angle BAC$ 翻译成 $BC:AB$ 的边比——比例信息的另一种藏法。"
+          source_relations: ["fallback:structure_analysis"]
+          model_fusion: {model_count: 1, models: ["三垂直相似·三角比包装"], fusion_role: "single_model"}
+          expected_blocker: "把 $\\tan$ 的对边、邻边写反。"
+          entry_point: "build_relation"
+          scaffold_level: "medium"
+          variation_depth: "changed_representation"
+          complexity_note: "L3。"
+          upgrade_rule: "给 $\\tan/\\sin/\\cos$ 能立刻还原边比并接入 $ad=bc$。"
+          fallback_move: "在 $\\triangle ABC$ 中标出 $\\angle BAC$ 的对边 $BC$、邻边 $AB$。"
+        diagram_slot:
+          <<: *slot_mother_t
+          slot_id: "c3.prompt"
+          diagram_ref: "c3.prompt"
+          caption: "三垂直母图，给 $\\tan\\angle BAC$。"
+          semantic_constraints:
+            given_objects: ["A", "B", "C", "D", "E"]
+            given_constraints: ["B,C,D collinear", "AB⊥BD", "DE⊥BD", "AC⊥CE"]
+
+  - id: "fillin"
+    title: "二、填空题（每题 4 分）"
+    type: "practice"
+    visibility: "student"
+    blocks:
+      - type: "fillin"
+        id: "f1"
+        points: 4
+        stem: "如图（母图），$AB=3$，$BC=4$，$CD=6$，则 $DE=\\underline{\\hspace{2em}}$。"
+        hints:
+          - content: "四条直角边知三求一，直接交叉相乘。"
+        answer: "8"
+        explanation: "$AB\\cdot DE=BC\\cdot CD\\Rightarrow 3\\cdot DE=4\\times6=24\\Rightarrow DE=8$。"
+        teaching:
+          teaching_goal: "知三求一，直接套母公式。"
+          source_relations: ["fallback:structure_analysis"]
+          model_fusion: {model_count: 1, models: ["三垂直相似·知三求一"], fusion_role: "single_model"}
+          expected_blocker: "交叉相乘时把边配错。"
+          entry_point: "solve_and_check"
+          scaffold_level: "medium"
+          variation_depth: "changed_numbers"
+          complexity_note: "L2。"
+          upgrade_rule: "能在无提示下列出 $ad=bc$ 并求第四边。"
+          fallback_move: "先写 $AB\\cdot DE=BC\\cdot CD$ 再代入。"
+        diagram_slot:
+          <<: *slot_mother_t
+          slot_id: "f1.prompt"
+          diagram_ref: "f1.prompt"
+          caption: "知三求一。"
+          semantic_constraints:
+            given_objects: ["A", "B", "C", "D", "E"]
+            given_constraints: ["B,C,D collinear", "AB⊥BD", "DE⊥BD", "AC⊥CE"]
+      - type: "fillin"
+        id: "f2"
+        points: 4
+        stem: "如图（母图），$AB=DE$，$BC=3$，$CD=12$，则 $AB=\\underline{\\hspace{2em}}$。"
+        hints:
+          - content: "令 $AB=DE=x$，母公式就变成 $x^2=BC\\cdot CD$。"
+        answer: "6"
+        explanation: "令 $AB=DE=x$，则 $x^2=BC\\cdot CD=3\\times12=36$，故 $x=6$，即 $AB=6$。"
+        teaching:
+          teaching_goal: "平方根型 $a=d\\Rightarrow a^2=bc$。"
+          source_relations: ["fallback:structure_analysis"]
+          model_fusion: {model_count: 1, models: ["三垂直相似·平方根型"], fusion_role: "single_model"}
+          expected_blocker: "不会用等量代换把两条未知边收成一个未知数。"
+          entry_point: "find_entry"
+          scaffold_level: "medium"
+          variation_depth: "packaged_condition"
+          complexity_note: "L3。"
+          upgrade_rule: "能自主设 $x$ 并得到 $x^2=bc$。"
+          fallback_move: "令 $AB=DE=x$ 代入 $ad=bc$。"
+        diagram_slot:
+          <<: *slot_mother_t
+          slot_id: "f2.prompt"
+          diagram_ref: "f2.prompt"
+          caption: "两侧等边 $a=d$，平方根型。"
+          semantic_constraints:
+            given_objects: ["A", "B", "C", "D", "E"]
+            given_constraints: ["B,C,D collinear", "AB⊥BD", "DE⊥BD", "AC⊥CE", "AB=DE"]
+          visual_requirements:
+            required_visible_annotations:
+              markers:
+                - {type: right_angle, vertex: B, arms: [A, D]}
+                - {type: right_angle, vertex: C, arms: [A, E]}
+                - {type: right_angle, vertex: D, arms: [B, E]}
+                - {type: equal_ticks, segments: [[A, B], [D, E]]}
+      - type: "fillin"
+        id: "f3"
+        points: 4
+        stem: "如图（母图），$C$ 是 $BD$ 的中点，$AB=2$，$DE=8$，则 $BC=\\underline{\\hspace{2em}}$。"
+        hints:
+          - content: "$C$ 为中点意味着 $BC=CD$，母公式变成 $BC^2=AB\\cdot DE$。"
+        answer: "4"
+        explanation: "$C$ 为中点 $\\Rightarrow BC=CD$，母公式化为 $BC^2=AB\\cdot DE=2\\times8=16$，故 $BC=4$。"
+        teaching:
+          teaching_goal: "底边中点 $b=c\\Rightarrow b^2=ad$（底边两段成为两侧高的比例中项）。"
+          source_relations: ["fallback:structure_analysis"]
+          model_fusion: {model_count: 1, models: ["三垂直相似·比例中项型"], fusion_role: "single_model"}
+          expected_blocker: "看不出「中点」就是把 $b=c$ 代入 $ad=bc$。"
+          entry_point: "find_entry"
+          scaffold_level: "medium"
+          variation_depth: "packaged_condition"
+          complexity_note: "L3。"
+          upgrade_rule: "见中点 / $BC=CD$ 即想到 $b^2=ad$。"
+          fallback_move: "把 $BC=CD$ 代入母公式。"
+        diagram_slot:
+          <<: *slot_mother_t
+          slot_id: "f3.prompt"
+          diagram_ref: "f3.prompt"
+          caption: "底边中点 $b=c$，比例中项型。"
+          semantic_constraints:
+            given_objects: ["A", "B", "C", "D", "E"]
+            given_constraints: ["B,C,D collinear", "AB⊥BD", "DE⊥BD", "AC⊥CE", "C midpoint of BD"]
+          visual_requirements:
+            required_visible_annotations:
+              markers:
+                - {type: right_angle, vertex: B, arms: [A, D]}
+                - {type: right_angle, vertex: C, arms: [A, E]}
+                - {type: right_angle, vertex: D, arms: [B, E]}
+                - {type: equal_ticks, segments: [[B, C], [C, D]]}
+
+  - id: "problem"
+    title: "三、解答题"
+    type: "practice"
+    visibility: "student"
+    blocks:
+      - type: "problem"
+        id: "p1"
+        points: 10
+        label: "第 7 题"
+        stem_latex: |
+          如图，$AB\\perp BC$，$CD\\perp BC$，$AC\\perp BD$（两条斜线交叉且垂直）。已知 $AB=3$，$CD=12$。
+          \begin{enumerate}[label=(\arabic*)]
+            \item 求 $BC$ 的长；
+            \item 求 $AC$ 的长。
+          \end{enumerate}
+        hints:
+          - content: "这是三垂直的「压缩交叉模型」：公共直角边 $BC$ 是 $AB$ 与 $CD$ 的比例中项。"
+        answer: "(1) $BC=6$；(2) $AC=3\\sqrt5$。"
+        solution_steps:
+          - title: "识别相似"
+            content: "由 $\\angle ABC=\\angle BCD=90^\\circ$ 及 $AC\\perp BD$ 得 $\\angle BAC=\\angle CBD$，所以 $\\triangle ABC\\sim\\triangle BCD$。"
+          - title: "比例中项求 BC"
+            content: "对应边 $\\dfrac{AB}{BC}=\\dfrac{BC}{CD}$，即 $BC^2=AB\\cdot CD=3\\times12=36$，故 $BC=6$。"
+          - title: "勾股求 AC"
+            content: "$AC=\\sqrt{AB^2+BC^2}=\\sqrt{9+36}=\\sqrt{45}=3\\sqrt5$。"
+        teaching:
+          teaching_goal: "压缩交叉模型 $BC^2=AB\\cdot CD$——公共直角边是两侧直角边的比例中项。"
+          source_relations: ["fallback:structure_analysis"]
+          model_fusion: {model_count: 1, models: ["三垂直·压缩交叉模型"], fusion_role: "single_model"}
+          expected_blocker: "认不出 $\\triangle ABC\\sim\\triangle BCD$（公共边 $BC$ 在两三角形中扮演不同对应边）。"
+          entry_point: "hidden_structure"
+          scaffold_level: "low"
+          variation_depth: "changed_representation"
+          complexity_note: "L3–L4。"
+          upgrade_rule: "见「两线交叉且垂直 + 两组直角」即想到压缩模型。"
+          fallback_move: "找两组直角，再用 $AC\\perp BD$ 推第二组等角。"
+        diagram_slot:
+          slot_id: "p1.prompt"
+          diagram_ref: "p1.prompt"
+          variant: "prompt"
+          disclosure_policy: "clean"
+          required: true
+          on_failure: "fail_assignment"
+          placement: "diagram_col"
+          layout_role: "question_sidecar"
+          display_profile: "worksheet_geometry_sidecar"
+          caption: "压缩交叉模型：$AC\\perp BD$。"
+          diagram_kind: "synthetic_geometry"
+          teaching_intent: "practice_prompt"
+          semantic_constraints:
+            given_objects: ["A", "B", "C", "D"]
+            given_constraints: ["B,C base line", "AB⊥BC", "CD⊥BC", "AC⊥BD"]
+          visual_requirements:
+            required_visible_annotations:
+              markers:
+                - {type: right_angle, vertex: B, arms: [A, C]}
+                - {type: right_angle, vertex: C, arms: [B, D]}
+      - type: "problem"
+        id: "p2"
+        points: 10
+        label: "第 8 题"
+        stem_latex: |
+          如图，在正方形 $ABCD$ 中，$E$ 是 $BC$ 的中点，过 $E$ 作 $EF\\perp AE$ 交 $CD$ 于 $F$。若正方形边长为 $4$，求 $DF$ 的长。
+        hints:
+          - content: "正方形给了 $\\angle B=\\angle C=90^\\circ$，$EF\\perp AE$ 给了第三个直角——这是三垂直相似。"
+        answer: "$DF=3$。"
+        solution_steps:
+          - title: "找相似三角形"
+            content: "$\\angle B=\\angle C=90^\\circ$；又 $EF\\perp AE$ 即 $\\angle AEF=90^\\circ$，故 $\\angle BAE=\\angle CEF$，所以 $\\triangle ABE\\sim\\triangle ECF$。"
+          - title: "对应边求 CF"
+            content: "$\\dfrac{AB}{EC}=\\dfrac{BE}{CF}$。$E$ 为 $BC$ 中点，$BE=EC=2$，故 $\\dfrac{4}{2}=\\dfrac{2}{CF}$，$CF=1$。"
+          - title: "求 DF"
+            content: "$DF=CD-CF=4-1=3$。"
+        teaching:
+          teaching_goal: "把三垂直藏进正方形：$\\angle B=\\angle C=90^\\circ$，$EF\\perp AE$ 提供第三组直角关系。"
+          source_relations: ["fallback:structure_analysis"]
+          model_fusion: {model_count: 1, models: ["三垂直相似·正方形包装"], fusion_role: "single_model"}
+          expected_blocker: "看不出 $\\triangle ABE\\sim\\triangle ECF$（被正方形外表挡住）。"
+          entry_point: "hidden_structure"
+          scaffold_level: "low"
+          variation_depth: "packaged_condition"
+          complexity_note: "L3–L4。"
+          upgrade_rule: "见正方形内「一点出发作垂线交两边」即想到三垂直相似。"
+          fallback_move: "用 $\\angle AEF=90^\\circ$ 拆出互余的两组角。"
+        diagram_slot:
+          slot_id: "p2.prompt"
+          diagram_ref: "p2.prompt"
+          variant: "prompt"
+          disclosure_policy: "clean"
+          required: true
+          on_failure: "fail_assignment"
+          placement: "diagram_col"
+          layout_role: "question_sidecar"
+          display_profile: "worksheet_geometry_sidecar"
+          caption: "正方形 $ABCD$，$E$ 为 $BC$ 中点，$EF\\perp AE$。"
+          diagram_kind: "synthetic_geometry"
+          teaching_intent: "practice_prompt"
+          semantic_constraints:
+            given_objects: ["A", "B", "C", "D", "E", "F"]
+            given_constraints: ["ABCD square", "E on BC", "BE=EC", "F on CD", "EF⊥AE"]
+          visual_requirements:
+            required_visible_annotations:
+              markers:
+                - {type: right_angle, vertex: A, arms: [B, D]}
+                - {type: right_angle, vertex: B, arms: [A, C]}
+                - {type: right_angle, vertex: C, arms: [B, D]}
+                - {type: right_angle, vertex: D, arms: [A, C]}
+                # 题干要求：EF⊥AE → E 处直角
+                - {type: right_angle, vertex: E, arms: [A, F]}
+                - {type: equal_ticks, segments: [[A, B], [B, C], [C, D], [D, A]]}
+                - {type: equal_ticks, segments: [[B, E], [E, C]]}
+      - type: "problem"
+        id: "p3"
+        points: 10
+        label: "第 9 题"
+        stem_latex: |
+          如图（母图），$AB=DE$，$BC=4$，$CD=9$。
+          \begin{enumerate}[label=(\arabic*)]
+            \item 求 $AB$ 的长；
+            \item 求 $AC$ 的长。
+          \end{enumerate}
+        hints:
+          - content: "先由 $AB=DE$ 解出 $AB$（平方根型），再用勾股求斜边 $AC$。"
+        answer: "(1) $AB=6$；(2) $AC=2\\sqrt{13}$。"
+        solution_steps:
+          - title: "平方根型求 AB"
+            content: "$AB=DE$，母公式化为 $AB^2=BC\\cdot CD=4\\times9=36$，故 $AB=6$。"
+          - title: "勾股求 AC"
+            content: "$AC=\\sqrt{AB^2+BC^2}=\\sqrt{36+16}=\\sqrt{52}=2\\sqrt{13}$。"
+        teaching:
+          teaching_goal: "平方根型解出直角边后，再勾股求斜边——两步组合。"
+          source_relations: ["fallback:structure_analysis"]
+          model_fusion: {model_count: 1, models: ["三垂直相似·平方根型 + 勾股"], fusion_role: "single_model"}
+          expected_blocker: "求出 $AB$ 后停住，忘记第 (2) 问要求斜边 $AC$。"
+          entry_point: "solve_and_check"
+          scaffold_level: "medium"
+          variation_depth: "packaged_condition"
+          complexity_note: "L3。"
+          upgrade_rule: "能自主把「求斜边」接在「求直角边」之后。"
+          fallback_move: "记 $AC^2=AB^2+BC^2$。"
+        diagram_slot:
+          <<: *slot_mother_t
+          slot_id: "p3.prompt"
+          diagram_ref: "p3.prompt"
+          caption: "$AB=DE$，求斜边 $AC$。"
+          semantic_constraints:
+            given_objects: ["A", "B", "C", "D", "E"]
+            given_constraints: ["B,C,D collinear", "AB⊥BD", "DE⊥BD", "AC⊥CE", "AB=DE"]
+          visual_requirements:
+            required_visible_annotations:
+              markers:
+                - {type: right_angle, vertex: B, arms: [A, D]}
+                - {type: right_angle, vertex: C, arms: [A, E]}
+                - {type: right_angle, vertex: D, arms: [B, E]}
+                - {type: equal_ticks, segments: [[A, B], [D, E]]}
+      - type: "problem"
+        id: "p4"
+        points: 10
+        label: "第 10 题"
+        stem_latex: |
+          如图（母图），$\\tan\\angle BAC=\\dfrac12$，$BC=3$，$CD=4$，求 $DE$ 的长。
+        hints:
+          - content: "先把 $\\tan\\angle BAC$ 翻译成 $AB$ 与 $BC$ 的边比，再用母公式。"
+        answer: "$DE=2$。"
+        solution_steps:
+          - title: "tan 翻边比"
+            content: "在 $\\triangle ABC$ 中 $\\angle B=90^\\circ$，$\\tan\\angle BAC=\\dfrac{BC}{AB}=\\dfrac12$，故 $AB=2BC=6$。"
+          - title: "母公式求 DE"
+            content: "$AB\\cdot DE=BC\\cdot CD\\Rightarrow 6\\cdot DE=3\\times4=12$，故 $DE=2$。"
+        teaching:
+          teaching_goal: "三角比给出 $a:b$，再接母公式求第四边。"
+          source_relations: ["fallback:structure_analysis"]
+          model_fusion: {model_count: 1, models: ["三垂直相似·三角比包装"], fusion_role: "single_model"}
+          expected_blocker: "把 $\\tan$ 翻成 $AB:BC$ 而非 $BC:AB$。"
+          entry_point: "build_relation"
+          scaffold_level: "medium"
+          variation_depth: "changed_representation"
+          complexity_note: "L3。"
+          upgrade_rule: "给 $\\tan/\\sin/\\cos$ 能一步还原边比。"
+          fallback_move: "标出 $\\angle BAC$ 的对边 $BC$、邻边 $AB$。"
+        diagram_slot:
+          <<: *slot_mother_t
+          slot_id: "p4.prompt"
+          diagram_ref: "p4.prompt"
+          caption: "给 $\\tan\\angle BAC$，求 $DE$。"
+          semantic_constraints:
+            given_objects: ["A", "B", "C", "D", "E"]
+            given_constraints: ["B,C,D collinear", "AB⊥BD", "DE⊥BD", "AC⊥CE"]
+      - type: "problem"
+        id: "p5"
+        points: 12
+        label: "第 11 题"
+        stem_latex: |
+          如图（母图），已知 $\\triangle ABC$ 的面积为 $6$，$\\triangle CDE$ 的面积为 $24$，且 $BC=3$，$CD=8$。
+          \begin{enumerate}[label=(\arabic*)]
+            \item 求 $AB$ 与 $DE$ 的长；
+            \item 求 $\\triangle ABC$ 与 $\\triangle CDE$ 的相似比，并说明它与面积比的关系。
+          \end{enumerate}
+        hints:
+          - content: "直角三角形面积 $=\\dfrac12\\times$两直角边之积；面积比等于相似比的平方。"
+        answer: "(1) $AB=4$，$DE=6$；(2) 相似比 $1:2$，面积比 $1:4=(1:2)^2$。"
+        solution_steps:
+          - title: "面积翻译成直角边"
+            content: "$S_{\\triangle ABC}=\\dfrac12 AB\\cdot BC=\\dfrac12 AB\\cdot3=6$，故 $AB=4$；$S_{\\triangle CDE}=\\dfrac12 CD\\cdot DE=\\dfrac12\\cdot8\\cdot DE=24$，故 $DE=6$。"
+          - title: "求相似比"
+            content: "对应边 $AB\\leftrightarrow CD$，相似比 $=\\dfrac{AB}{CD}=\\dfrac{4}{8}=\\dfrac12$。"
+          - title: "面积比与相似比"
+            content: "面积比 $\\dfrac{S_{\\triangle ABC}}{S_{\\triangle CDE}}=\\dfrac{6}{24}=\\dfrac14=\\left(\\dfrac12\\right)^2$，即面积比等于相似比的平方，与结论一致。"
+        teaching:
+          teaching_goal: "把比例信息藏进三角形面积——面积比 = 相似比²。"
+          source_relations: ["fallback:structure_analysis"]
+          model_fusion: {model_count: 1, models: ["三垂直相似 + 面积比"], fusion_role: "single_model"}
+          expected_blocker: "不会把面积条件翻译成直角边乘积。"
+          entry_point: "transfer"
+          scaffold_level: "low"
+          variation_depth: "partially_hidden"
+          complexity_note: "L4。"
+          upgrade_rule: "见面积条件能想到 $S=\\frac12 ab$ 与面积比=相似比²。"
+          fallback_move: "写 $S=\\frac12\\times$两直角边，先求边再看比。"
+        diagram_slot:
+          <<: *slot_mother_t
+          slot_id: "p5.prompt"
+          diagram_ref: "p5.prompt"
+          caption: "比例藏在面积里。"
+          semantic_constraints:
+            given_objects: ["A", "B", "C", "D", "E"]
+            given_constraints: ["B,C,D collinear", "AB⊥BD", "DE⊥BD", "AC⊥CE"]
+      - type: "problem"
+        id: "p6"
+        points: 12
+        label: "第 12 题"
+        stem_latex: |
+          如图（母图），$AB=4$，$DE=9$，且 $BD=BC+CD=13$，求 $BC$ 与 $CD$ 的长。
+        hints:
+          - content: "母公式给 $BC\\cdot CD$，$BD$ 给 $BC+CD$；知「积」与「和」，想到什么？"
+        answer: "$BC=4$，$CD=9$ 或 $BC=9$，$CD=4$。"
+        solution_steps:
+          - title: "列积与和"
+            content: "母公式 $AB\\cdot DE=BC\\cdot CD\\Rightarrow 4\\times9=36=BC\\cdot CD$；又 $BC+CD=BD=13$。"
+          - title: "解一元二次方程"
+            content: "$BC,CD$ 是方程 $t^2-13t+36=0$ 的两根，$(t-4)(t-9)=0$，故两根为 $4,9$。"
+          - title: "写两解"
+            content: "$BC=4,CD=9$ 或 $BC=9,CD=4$（$C$ 在 $B,D$ 之间，两段长度可互换，故有两解）。"
+        teaching:
+          teaching_goal: "知「积」与「和」反求两段——韦达型两解讨论。"
+          source_relations: ["fallback:structure_analysis"]
+          model_fusion: {model_count: 1, models: ["三垂直相似 + 韦达反求"], fusion_role: "single_model"}
+          expected_blocker: "漏掉第二解（只写 $BC=4,CD=9$）。"
+          entry_point: "reverse_construct"
+          scaffold_level: "low"
+          variation_depth: "reverse_construct"
+          complexity_note: "L4。"
+          upgrade_rule: "知积与和能想到设两根为方程，并写出全部两解。"
+          fallback_move: "设 $BC,CD$ 为方程 $t^2-(\\text{和})t+(\\text{积})=0$ 的两根。"
+        diagram_slot:
+          <<: *slot_mother_t
+          slot_id: "p6.prompt"
+          diagram_ref: "p6.prompt"
+          caption: "知「积」与「和」，两解讨论。"
+          semantic_constraints:
+            given_objects: ["A", "B", "C", "D", "E"]
+            given_constraints: ["B,C,D collinear", "AB⊥BD", "DE⊥BD", "AC⊥CE"]
+      - type: "problem"
+        id: "p7"
+        points: 12
+        label: "第 13 题"
+        stem_latex: |
+          如图，在平面直角坐标系中，$A(0,3)$，$B(0,0)$，$C(4,0)$，$D(7,0)$，$AC\\perp CE$，且点 $E$ 在过 $D$ 且垂直于 $x$ 轴的直线上。求点 $E$ 的坐标。
+        hints:
+          - content: "把坐标翻成四条直角边 $a=AB,b=BC,c=CD$，再套母公式求 $d=DE$。"
+        answer: "$E(7,4)$。"
+        solution_steps:
+          - title: "坐标翻直角边"
+            content: "$a=AB=3$，$b=BC=4$，$c=CD=7-4=3$。"
+          - title: "母公式求 DE"
+            content: "$ad=bc\\Rightarrow 3\\cdot DE=4\\times3=12$，故 $DE=4$。"
+          - title: "确定 E 坐标"
+            content: "$E$ 在过 $D(7,0)$ 且垂直于 $x$ 轴的直线上，横坐标为 $7$，纵坐标为 $DE=4$，故 $E(7,4)$。"
+          - title: "验算垂直"
+            content: "$AC$ 所在直线斜率 $k_{AC}=\\dfrac{0-3}{4-0}=-\\dfrac34$，$CE$ 斜率 $k_{CE}=\\dfrac{4-0}{7-4}=\\dfrac43$，$k_{AC}\\cdot k_{CE}=-1$，确认 $AC\\perp CE$。"
+        teaching:
+          teaching_goal: "把三垂直母模型迁移到坐标系：坐标↔直角边，再套母公式。"
+          source_relations: ["fallback:structure_analysis"]
+          model_fusion: {model_count: 1, models: ["三垂直相似·坐标包装"], fusion_role: "single_model"}
+          expected_blocker: "不会把点坐标翻译成 $a,b,c$ 三条直角边。"
+          entry_point: "transfer"
+          scaffold_level: "low"
+          variation_depth: "changed_representation"
+          complexity_note: "L4。"
+          upgrade_rule: "见坐标化的三垂直能直接读出 $a,b,c$ 并求 $d$。"
+          fallback_move: "以 $B(0,0)$ 为基准，读各点横向、纵向距离。"
+        diagram_slot:
+          slot_id: "p7.prompt"
+          diagram_ref: "p7.prompt"
+          variant: "prompt"
+          disclosure_policy: "clean"
+          required: true
+          on_failure: "fail_assignment"
+          placement: "diagram_col"
+          layout_role: "question_sidecar"
+          display_profile: "worksheet_geometry_sidecar"
+          caption: "三垂直迁移到坐标系。"
+          diagram_kind: "coordinate_geometry"
+          teaching_intent: "practice_prompt"
+          analytic_requirements:
+            coordinate_ir:
+              viewport:
+                x_min: -2
+                x_max: 9
+                y_min: -1
+                y_max: 6
+                preserve_aspect: true
+              axes:
+                x: true
+                y: true
+                grid: false
+                show_ticks: true
+                x_label: "x"
+                y_label: "y"
+              objects:
+                - {type: point, id: A, x: 0, y: 3, label: "A"}
+                - {type: point, id: B, x: 0, y: 0, label: "B"}
+                - {type: point, id: C, x: 4, y: 0, label: "C"}
+                - {type: point, id: D, x: 7, y: 0, label: "D"}
+                - {type: point, id: E, x: 7, y: 4, label: "E"}

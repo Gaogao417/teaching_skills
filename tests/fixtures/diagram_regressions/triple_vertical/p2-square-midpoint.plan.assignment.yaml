@@ -1,0 +1,64 @@
+# Standalone p2 regression fixture: 正方形 ABCD, E midpoint of BC, EF⊥AE.
+# Single-problem assignment so the p2-focused regression (P8-A) runs exactly one job.
+# Stem-required right angle at E (arms A, F) is declared explicitly so the audit
+# requires it and the scene-authoring agent must render it.
+meta:
+  title: "三垂直回归 p2：正方形中点垂线"
+  grade: "初三"
+  subject: "数学"
+  version: "student"
+  notes:
+    - "回归 fixture：三垂直相似·正方形包装。母模型 AB·DE=BC·CD 的正方形变体，EF⊥AE 给第三组直角。"
+
+render:
+  template: "exam-zh-practice"
+  paper_size: "a4paper"
+  answer_key_position: "after_page_break"
+
+sections:
+  - id: "problem"
+    title: "解答题"
+    type: "practice"
+    visibility: "student"
+    blocks:
+      - type: "problem"
+        id: "p2"
+        points: 10
+        label: "第 8 题"
+        stem_latex: |
+          如图，在正方形 $ABCD$ 中，$E$ 是 $BC$ 的中点，过 $E$ 作 $EF\perp AE$ 交 $CD$ 于 $F$。若正方形边长为 $4$，求 $DF$ 的长。
+        hints:
+          - content: '正方形给了 $\angle B=\angle C=90^\circ$，$EF\perp AE$ 给了第三个直角——这是三垂直相似。'
+        answer_space:
+          type: "steps"
+          height: "55mm"
+          step_count: 4
+        diagram_slot:
+          slot_id: "p2.prompt"
+          diagram_ref: "p2.prompt"
+          variant: "prompt"
+          disclosure_policy: "clean"
+          required: true
+          on_failure: "fail_assignment"
+          placement: "diagram_col"
+          layout_role: "question_sidecar"
+          display_profile: "worksheet_geometry_sidecar"
+          caption: '正方形 $ABCD$，$E$ 为 $BC$ 中点，$EF\perp AE$。'
+          diagram_kind: "synthetic_geometry"
+          teaching_intent: "practice_prompt"
+          semantic_constraints:
+            given_objects: ["A", "B", "C", "D", "E", "F"]
+            given_constraints: ["ABCD square", "E on BC", "BE=EC", "F on CD", "EF⊥AE"]
+          visual_requirements:
+            required_visible_annotations:
+              markers:
+                - {type: right_angle, vertex: A, arms: [B, D]}
+                - {type: right_angle, vertex: B, arms: [A, C]}
+                - {type: right_angle, vertex: C, arms: [B, D]}
+                - {type: right_angle, vertex: D, arms: [A, C]}
+                # 题干要求的第三组直角：EF⊥AE → E 处直角（arms A, F）
+                - {type: right_angle, vertex: E, arms: [A, F]}
+                # 正方形四边等
+                - {type: equal_ticks, segments: [[A, B], [B, C], [C, D], [D, A]]}
+                # E 为 BC 中点
+                - {type: equal_ticks, segments: [[B, E], [E, C]]}
