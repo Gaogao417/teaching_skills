@@ -2155,6 +2155,7 @@ class DiagramBatchJobResult(DiagramModel):
         "ok", "dry_run", "not_run",
         "workflow_failed", "renderer_failed", "renderer_no_spec",
         "dependency_failed", "job_gate_failed",
+        "cached_terminal_failure",
     ] = "not_run"
     workflow_status: str = "not_run"
     renderer_status: str = "not_run"

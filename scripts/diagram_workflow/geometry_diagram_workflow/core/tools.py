@@ -1357,6 +1357,9 @@ def _write_failed_workflow_result(
     request: Dict[str, object],
     fail_type: str,
     message: str,
+    *,
+    stage: str | None = None,
+    classification: Dict[str, object] | None = None,
 ) -> Dict[str, object]:
     result = _dict_from_model(DiagramJobResult.model_validate({
         "schema_version": "diagram-job-result/v2",
@@ -1377,6 +1380,13 @@ def _write_failed_workflow_result(
         "model_attempts": [],
         "rounds": [],
     }))
+    # Attach failure classification + stage AFTER model validation so the batch
+    # layer can fingerprint terminal failures and short-circuit re-runs without
+    # re-calling the scene-authoring agent (see run_diagram_batch failure ledger).
+    if stage:
+        result["failed_stage"] = stage
+    if classification:
+        result["failure_classification"] = classification
     _write_json(out_dir / "workflow_result.json", result)
     _emit_event(out_dir, "workflow.finalize", status="failed", error=result["message"])
     return result

@@ -75,6 +75,8 @@ def run_assignment_diagram_pipeline(
     python: str = sys.executable,
     skip_gate: bool = False,
     dry_run: bool = False,
+    jobs_filter: set[str] | None = None,
+    force_jobs: set[str] | None = None,
 ) -> Path:
     """Run collect → batch/job-gate → resolve → resolved-gate in one process.
 
@@ -127,8 +129,9 @@ def run_assignment_diagram_pipeline(
             python,
             max(1, max_workers),
             dry_run=False,
-            jobs_filter=None,
+            jobs_filter=jobs_filter,
             plan_data=plan_view,
+            force_jobs=force_jobs,
         )
         report_path = jobs_json.parent / "diagram_batch_report.json"
         write_batch_json(report_path, report.model_dump(mode="json"))

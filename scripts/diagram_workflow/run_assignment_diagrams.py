@@ -77,6 +77,16 @@ def _run_process_isolation(args: argparse.Namespace) -> None:
         str(args.max_workers),
         "--python",
         py,
+        *(
+            ["--jobs-filter", *(args.jobs_filter or [])]
+            if args.jobs_filter
+            else []
+        ),
+        *(
+            ["--force-job", *(args.force_job or [])]
+            if args.force_job
+            else []
+        ),
     ])
     run([
         py,
@@ -125,6 +135,17 @@ def main() -> None:
         help="Resolve without running check_diagram_gate.py; use only for debugging.",
     )
     parser.add_argument(
+        "--jobs-filter",
+        nargs="*",
+        help="Only run these job IDs (space-separated). Enables single-job repair "
+        "without re-running already-successful jobs.",
+    )
+    parser.add_argument(
+        "--force-job",
+        nargs="*",
+        help="Re-run these job IDs even if a terminal failure is cached for them.",
+    )
+    parser.add_argument(
         "--process-isolation",
         action="store_true",
         help=(
@@ -152,6 +173,8 @@ def main() -> None:
         python=args.python,
         skip_gate=args.skip_gate,
         dry_run=args.dry_run,
+        jobs_filter=set(args.jobs_filter) if args.jobs_filter else None,
+        force_jobs=set(args.force_job) if args.force_job else None,
     )
 
 

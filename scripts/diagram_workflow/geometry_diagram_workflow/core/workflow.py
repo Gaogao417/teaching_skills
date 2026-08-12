@@ -711,6 +711,28 @@ def _repair_request(
     return payload.model_dump(mode="json", by_alias=True)
 
 
+def _result_failure_classification(exc: WorkflowStageError) -> Dict[str, object]:
+    """failure_classification dict to attach to workflow_result.json.
+
+    ``human_confirmation_required`` wraps an earlier failure; classify the
+    ORIGINAL failure (a semantic audit error must stay semantic even after being
+    surfaced as human-confirmation) so the batch layer caches it as terminal.
+    """
+    ev = exc.evidence if isinstance(exc.evidence, dict) else {}
+    if exc.fail_type == "human_confirmation_required":
+        original_fail_type = str(ev.get("original_fail_type") or "human_confirmation_required")
+        original_ev = ev.get("original_evidence")
+        if isinstance(original_ev, dict) and isinstance(
+            original_ev.get("failure_classification"), dict
+        ):
+            return dict(original_ev["failure_classification"])  # type: ignore[arg-type]
+        issues = original_ev.get("issues") if isinstance(original_ev, dict) else None
+        return classify_error(exc.stage, original_fail_type, issues=issues).to_dict()
+    if isinstance(ev.get("failure_classification"), dict):
+        return dict(ev["failure_classification"])  # type: ignore[arg-type]
+    return classify_error(exc.stage, exc.fail_type, issues=ev.get("issues")).to_dict()
+
+
 def run_workflow(request: Dict[str, object], out_dir: Path, request_path: Path) -> Dict[str, object]:
     """Run normal scene authoring with a deterministic Host-owned lifecycle."""
 
@@ -1009,12 +1031,15 @@ def run_workflow(request: Dict[str, object], out_dir: Path, request_path: Path) 
             "scene writer exhausted without a finalized round",
         )
     except WorkflowStageError as exc:
+        classification = _result_failure_classification(exc)
         _emit_event(
             out_dir,
             "agent.end",
             status="failed",
             failed_stage=exc.stage,
             fail_type=exc.fail_type,
+            failure_class=classification.get("failure_class"),
+            terminal=classification.get("terminal"),
             error=redact_secrets(exc),
         )
         result = _write_failed_workflow_result(
@@ -1022,6 +1047,8 @@ def run_workflow(request: Dict[str, object], out_dir: Path, request_path: Path) 
             request,
             exc.fail_type,
             str(exc),
+            stage=exc.stage,
+            classification=classification,
         )
         _write_json(
             out_dir / "agent_result.json",
@@ -1054,11 +1081,16 @@ def run_workflow(request: Dict[str, object], out_dir: Path, request_path: Path) 
         return result
     except Exception as exc:
         _emit_event(out_dir, "agent.end", status="failed", error=redact_secrets(exc))
+        classification = classify_stage_failure(
+            "scene_generation", "codex_diagram_agent_failed"
+        ).to_dict()
         return _write_failed_workflow_result(
             out_dir,
             request,
             "codex_diagram_agent_failed",
             str(exc),
+            stage="scene_generation",
+            classification=classification,
         )
 
 

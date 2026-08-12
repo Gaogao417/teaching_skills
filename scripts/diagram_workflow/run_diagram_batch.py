@@ -20,6 +20,7 @@ import os
 import shutil
 import sys
 import tempfile
+import threading
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime
 from functools import lru_cache
@@ -28,6 +29,7 @@ from pathlib import Path
 from progress_subprocess import run_subprocess_streaming
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+sys.path.insert(0, str(Path(__file__).resolve().parent / "geometry_diagram_workflow" / "core"))
 from diagram_contracts import (  # noqa: E402
     AssignmentPlanDiagramView,
     DiagramBatchJobResult,
@@ -44,6 +46,7 @@ from diagram_contracts import (  # noqa: E402
     DiagramEngineOptions,
 )
 from diagram_gate.job_package import run_job_package_gate  # noqa: E402
+from failure_policy import classify_error, classify_stage_failure  # noqa: E402
 
 
 SCRIPT_DIR = Path(__file__).resolve().parent
@@ -762,12 +765,147 @@ def _write_semantic_provenance(
     )
 
 
+# ---------------------------------------------------------------------------
+# Terminal-failure ledger (cross-run de-duplication of deterministic failures)
+# ---------------------------------------------------------------------------
+#
+# Failures classified terminal (semantic_contract / environment_invariant) are
+# recorded keyed by the job's request hash (= success-cache key). On the next
+# run, a job whose request hash has a recorded terminal failure is short-circuited
+# as ``cached_terminal_failure`` WITHOUT calling the scene-authoring agent, so
+# the same deterministic wall is not re-attempted across runs. Editing the plan
+# (or workflow/skill code) changes the request hash and re-allows execution;
+# ``--force-job`` overrides the lookup for an explicit single-job repair.
+
+FAILURE_LEDGER_NAME = "failure_ledger.json"
+_FAILURE_STATUSES = frozenset(
+    {"workflow_failed", "renderer_failed", "renderer_no_spec", "job_gate_failed"}
+)
+_ledger_lock = threading.Lock()
+
+
+def _failure_ledger_path(build_dir: Path) -> Path:
+    return build_dir / FAILURE_LEDGER_NAME
+
+
+def _read_failure_ledger(build_dir: Path) -> dict[str, object]:
+    path = _failure_ledger_path(build_dir)
+    if not path.is_file():
+        return {}
+    data = read_json(path)
+    return data if isinstance(data, dict) else {}
+
+
+def _write_failure_ledger(build_dir: Path, ledger: dict[str, object]) -> None:
+    write_json(_failure_ledger_path(build_dir), ledger)
+
+
+def _failure_fingerprint(
+    cache_key: str,
+    stage: str,
+    fail_type: str,
+    classification_dict: dict[str, object] | None,
+) -> str:
+    fc = (classification_dict or {}).get("failure_class", "")
+    issues = (classification_dict or {}).get("issues", [])
+    payload = {
+        "request_hash": cache_key,
+        "failed_stage": stage,
+        "fail_type": fail_type,
+        "failure_class": fc,
+        "issues": sorted(str(i) for i in issues) if isinstance(issues, list) else [],
+    }
+    raw = json.dumps(payload, ensure_ascii=False, sort_keys=True)
+    return hashlib.sha256(raw.encode("utf-8")).hexdigest()[:16]
+
+
+def _classify_batch_failure(
+    status: str,
+    job_build_dir: Path,
+    renderer_fail_type: str = "",
+) -> tuple[str, str, dict[str, object]]:
+    """Return (failed_stage, fail_type, classification_dict) for a batch failure."""
+    if status == "workflow_failed":
+        wr_path = job_build_dir / "workflow_result.json"
+        wr = read_json(wr_path) if wr_path.is_file() else {}
+        wr = wr if isinstance(wr, dict) else {}
+        stage = str(wr.get("failed_stage") or "workflow")
+        fail_type = str(wr.get("fail_type") or "workflow_failed")
+        fc = wr.get("failure_classification")
+        if isinstance(fc, dict):
+            return stage, fail_type, fc
+        return stage, fail_type, classify_error(stage, fail_type).to_dict()
+    if status == "renderer_no_spec":
+        cls = classify_stage_failure("preview_render", "missing_rendered_image")
+        return "preview_render", "missing_rendered_image", cls.to_dict()
+    if status == "renderer_failed":
+        ft = renderer_fail_type or "renderer_failed"
+        cls = classify_stage_failure("preview_render", ft)
+        return "preview_render", ft, cls.to_dict()
+    if status == "job_gate_failed":
+        cls = classify_stage_failure("job_gate", "job_gate_block")
+        return "job_gate", "job_gate_block", cls.to_dict()
+    cls = classify_stage_failure("workflow", status)
+    return "workflow", status, cls.to_dict()
+
+
+def _record_terminal_failure(
+    build_dir: Path,
+    job_id: str,
+    cache_key: str,
+    status: str,
+    job_build_dir: Path,
+    renderer_fail_type: str = "",
+) -> None:
+    stage, fail_type, fc = _classify_batch_failure(status, job_build_dir, renderer_fail_type)
+    if not bool(fc.get("terminal")):
+        # Only deterministic terminal failures are cached; transient/syntax
+        # failures may legitimately succeed on a fresh attempt.
+        return
+    record = {
+        "job_id": job_id,
+        "request_hash": cache_key,
+        "failed_stage": stage,
+        "fail_type": fail_type,
+        "failure_class": fc.get("failure_class", ""),
+        "terminal": True,
+        "issues": fc.get("issues", []),
+        "fingerprint": _failure_fingerprint(cache_key, stage, fail_type, fc),
+        "status": status,
+        "recorded_at": datetime.now().isoformat(),
+    }
+    with _ledger_lock:
+        ledger = _read_failure_ledger(build_dir)
+        ledger[cache_key] = record
+        _write_failure_ledger(build_dir, ledger)
+        try:
+            write_json(build_dir / "jobs" / job_id / "terminal_failure.json", record)
+        except OSError:
+            pass
+
+
+def _clear_terminal_failure(build_dir: Path, cache_key: str) -> None:
+    with _ledger_lock:
+        ledger = _read_failure_ledger(build_dir)
+        if cache_key in ledger:
+            del ledger[cache_key]
+            _write_failure_ledger(build_dir, ledger)
+
+
+def _lookup_terminal_failure(build_dir: Path, cache_key: str) -> dict[str, object] | None:
+    with _ledger_lock:
+        ledger = _read_failure_ledger(build_dir)
+    rec = ledger.get(cache_key)
+    return rec if isinstance(rec, dict) else None
+
+
 def run_one_job(
     job: DiagramJob,
     request: DiagramJobRequest,
     artifact_dir: Path,
     python_executable: str,
     dry_run: bool,
+    force: bool = False,
 ) -> DiagramBatchJobResult:
     """Execute a single diagram job: write request → workflow → renderer.
 
@@ -803,6 +941,31 @@ def run_one_job(
             cache_hit=True,
             cache_key=cache_key,
         )
+
+    # Cross-run terminal-failure de-duplication: a job whose request hash has a
+    # recorded terminal (semantic/environment) failure is short-circuited without
+    # calling the scene-authoring agent. ``force`` (from --force-job) overrides.
+    if (
+        not force
+        and not dry_run
+        and request.human_revision is None
+    ):
+        prior = _lookup_terminal_failure(build_dir, cache_key)
+        if prior is not None:
+            _append_cache_event(job_build_dir, "failure.cached_terminal", cache_key)
+            return DiagramBatchJobResult(
+                job_id=job_id,
+                slot_id=job.slot_id,
+                variant=job.variant.value,
+                status="cached_terminal_failure",
+                workflow_status=str(prior.get("fail_type") or "terminal"),
+                failure_reason=(
+                    f"cached terminal failure ({prior.get('failure_class', '')}): "
+                    f"{prior.get('fail_type', '')} at {prior.get('failed_stage', '')}. "
+                    f"Use --force-job {job_id} to override."
+                ),
+                cache_key=cache_key,
+            )
 
     reusable_render_result = (
         _reusable_scene_render_result(request_payload, job_build_dir, artifact_dir)
@@ -862,6 +1025,7 @@ def run_one_job(
             status="workflow_failed",
             workflow_status=wf_status,
             failure_reason=f"workflow status: {wf_status}",
+            cache_key=cache_key,
         )
 
     # Renderer stage
@@ -874,6 +1038,7 @@ def run_one_job(
             status="renderer_no_spec",
             workflow_status="ok",
             renderer_status="no_spec",
+            cache_key=cache_key,
         )
 
     existing_package = _existing_renderer_package(job_build_dir)
@@ -901,6 +1066,7 @@ def run_one_job(
             workflow_status="ok",
             renderer_status="process_failed",
             failure_reason=rr_tikz_source_path or "renderer process failed",
+            cache_key=cache_key,
         )
     if rr_status == "ok":
         _write_semantic_provenance(job, request, job_build_dir)
@@ -920,6 +1086,7 @@ def run_one_job(
                 failure_reason="; ".join(
                     check.message for check in gate.checks if check.status == "block"
                 ),
+                cache_key=cache_key,
             )
         result = DiagramBatchJobResult(
             job_id=job_id,
@@ -1042,8 +1209,11 @@ def run_batch(
     jobs_filter: set[str] | None,
     plan_data: AssignmentPlanDiagramView | dict[str, object] | None,
     consume_finalized: bool = False,
+    force_jobs: set[str] | None = None,
 ) -> DiagramBatchReport:
     """Run all jobs in topological order with parallelism within each level."""
+    force_set = force_jobs or set()
+    build_dir = artifact_dir / "build" / "diagram"
     ordered_ids = manifest.topological_job_ids()
 
     if jobs_filter:
@@ -1106,18 +1276,45 @@ def run_batch(
             level_workers = 1
 
         with ThreadPoolExecutor(max_workers=level_workers) as executor:
-            futures = {
-                executor.submit(
-                    consume_finalized_job_package if consume_finalized else run_one_job,
-                    *((job, req, artifact_dir) if consume_finalized else (job, req, artifact_dir, python_executable, dry_run)),
-                ): job.job_id
-                for job, req in job_requests
-            }
+            futures: dict[object, str] = {}
+            for job, req in job_requests:
+                if consume_finalized:
+                    fut = executor.submit(
+                        consume_finalized_job_package, job, req, artifact_dir
+                    )
+                else:
+                    fut = executor.submit(
+                        run_one_job,
+                        job,
+                        req,
+                        artifact_dir,
+                        python_executable,
+                        dry_run,
+                        force=job.job_id in force_set,
+                    )
+                futures[fut] = job.job_id
             for future in as_completed(futures):
                 result = future.result()
                 results.append(result)
                 if result.status in ("ok", "dry_run"):
                     completed_ok.add(result.job_id)
+                    # A success (fresh or cache-hit) invalidates any stale
+                    # terminal-failure record for this request hash.
+                    if result.cache_key:
+                        _clear_terminal_failure(build_dir, result.cache_key)
+                elif result.status in _FAILURE_STATUSES:
+                    failed_job = job_by_id.get(result.job_id)
+                    failed_job_dir = (
+                        artifact_dir / failed_job.out_dir if failed_job else None
+                    )
+                    if failed_job_dir is not None:
+                        _record_terminal_failure(
+                            build_dir,
+                            result.job_id,
+                            result.cache_key,
+                            result.status,
+                            failed_job_dir,
+                        )
 
     results.sort(key=lambda r: r.job_id)
     ok_count = sum(1 for r in results if r.status in ("ok", "dry_run"))
@@ -1202,6 +1399,11 @@ def main() -> None:
         help="Only run these job IDs (space-separated)",
     )
     parser.add_argument(
+        "--force-job",
+        nargs="*",
+        help="Re-run these job IDs even if a terminal failure is cached for them",
+    )
+    parser.add_argument(
         "--plan-yaml",
         type=Path,
         help="Optional plan YAML for extracting problem context",
@@ -1230,6 +1432,7 @@ def main() -> None:
             pass
 
     jobs_filter = set(args.jobs_filter) if args.jobs_filter else None
+    force_jobs = set(args.force_job) if args.force_job else None
 
     report = run_batch(
         manifest,
@@ -1240,6 +1443,7 @@ def main() -> None:
         jobs_filter,
         plan_data,
         consume_finalized=args.consume_finalized,
+        force_jobs=force_jobs,
     )
 
     # Write report — single serialization point
