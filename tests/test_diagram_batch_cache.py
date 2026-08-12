@@ -21,6 +21,8 @@ from diagram_contracts import (  # noqa: E402
 from run_diagram_batch import (  # noqa: E402
     _cache_identity,
     _scene_geometry_identity,
+    _lookup_terminal_failure,
+    _record_terminal_failure,
     run_batch,
     run_one_job,
 )
@@ -272,6 +274,133 @@ class DiagramBatchCacheTest(unittest.TestCase):
         self.assertEqual(report.ok_count, 1)
         self.assertEqual(report.failed_count, 0)
         run_mock.assert_called_once()
+
+    # -- terminal-failure ledger (P3) --------------------------------------
+
+    def _failing_workflow(self, classification: dict, status: str = "failed"):
+        """A workflow double that writes a classified failed workflow_result."""
+        calls = {"count": 0}
+
+        def side_effect(request, request_path, job_dir, build_dir):  # type: ignore[no-untyped-def]
+            del request, request_path, build_dir
+            calls["count"] += 1
+            (Path(job_dir) / "workflow_result.json").write_text(
+                json.dumps(
+                    {
+                        "status": "failed",
+                        "fail_type": "deterministic_audit_failed",
+                        "failed_stage": "audit",
+                        "failure_classification": classification,
+                    }
+                ),
+                encoding="utf-8",
+            )
+            return status
+
+        return side_effect, calls
+
+    def _single_job_manifest(self) -> DiagramJobsManifest:
+        job, _ = _renderer_job()
+        return DiagramJobsManifest(
+            assignment_id="ledger-test",
+            source_assignment="assignment.plan.yaml",
+            jobs=[job],
+        )
+
+    def test_semantic_terminal_failure_is_cached_and_short_circuits(self) -> None:
+        semantic = {
+            "failure_class": "semantic_contract",
+            "terminal": True,
+            "retry_allowed": False,
+            "issues": ["prompt_disallowed_marker:('right_angle','E',('A','F'))"],
+        }
+        side_effect, calls = self._failing_workflow(semantic)
+        manifest = self._single_job_manifest()
+        with tempfile.TemporaryDirectory() as tmp, patch(
+            "run_diagram_batch._run_workflow_in_process", side_effect=side_effect
+        ):
+            artifact_dir = Path(tmp)
+            first = run_batch(manifest, artifact_dir, sys.executable, 1, False, None, None)
+            self.assertEqual(first.failed_count, 1)
+            self.assertEqual(first.jobs[0].status, "workflow_failed")
+            self.assertEqual(calls["count"], 1)
+
+            # Ledger now holds a terminal failure for this request hash.
+            second = run_batch(manifest, artifact_dir, sys.executable, 1, False, None, None)
+            self.assertEqual(second.failed_count, 1)
+            self.assertEqual(second.jobs[0].status, "cached_terminal_failure")
+            # The scene-authoring workflow must NOT be called again.
+            self.assertEqual(calls["count"], 1)
+
+    def test_force_job_overrides_cached_terminal_failure(self) -> None:
+        semantic = {
+            "failure_class": "semantic_contract",
+            "terminal": True,
+            "retry_allowed": False,
+            "issues": ["prompt_disallowed_marker:x"],
+        }
+        side_effect, calls = self._failing_workflow(semantic)
+        manifest = self._single_job_manifest()
+        job, _ = _renderer_job()
+        with tempfile.TemporaryDirectory() as tmp, patch(
+            "run_diagram_batch._run_workflow_in_process", side_effect=side_effect
+        ):
+            artifact_dir = Path(tmp)
+            run_batch(manifest, artifact_dir, sys.executable, 1, False, None, None)
+            self.assertEqual(calls["count"], 1)
+
+            forced = run_batch(
+                manifest, artifact_dir, sys.executable, 1, False, None, None,
+                force_jobs={job.job_id},
+            )
+            # force bypasses the cached terminal failure -> workflow called again.
+            self.assertEqual(forced.jobs[0].status, "workflow_failed")
+            self.assertEqual(calls["count"], 2)
+
+    def test_syntax_failure_is_not_cached_so_it_reruns(self) -> None:
+        syntax = {
+            "failure_class": "syntax_serialization",
+            "terminal": False,
+            "retry_allowed": True,
+            "issues": ["invalid_point_label: aggregate"],
+        }
+        side_effect, calls = self._failing_workflow(syntax)
+        manifest = self._single_job_manifest()
+        with tempfile.TemporaryDirectory() as tmp, patch(
+            "run_diagram_batch._run_workflow_in_process", side_effect=side_effect
+        ):
+            artifact_dir = Path(tmp)
+            run_batch(manifest, artifact_dir, sys.executable, 1, False, None, None)
+            run_batch(manifest, artifact_dir, sys.executable, 1, False, None, None)
+            # Non-terminal failures are not cached, so both runs invoke the workflow.
+            self.assertEqual(calls["count"], 2)
+
+    def test_record_then_clear_terminal_failure(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            build_dir = Path(tmp) / "build" / "diagram"
+            job_dir = build_dir / "jobs" / "x"
+            job_dir.mkdir(parents=True)
+            (job_dir / "workflow_result.json").write_text(
+                json.dumps(
+                    {
+                        "status": "failed",
+                        "fail_type": "deterministic_audit_failed",
+                        "failed_stage": "audit",
+                        "failure_classification": {
+                            "failure_class": "semantic_contract",
+                            "terminal": True,
+                            "issues": ["prompt_disallowed_marker:y"],
+                        },
+                    }
+                ),
+                encoding="utf-8",
+            )
+            _record_terminal_failure(build_dir, "x", "KEY", "workflow_failed", job_dir)
+            self.assertIsNotNone(_lookup_terminal_failure(build_dir, "KEY"))
+            # Re-recording produces a stable fingerprint for identical input.
+            rec = _lookup_terminal_failure(build_dir, "KEY")
+            self.assertEqual(rec["failure_class"], "semantic_contract")
+            self.assertTrue(rec["fingerprint"])
 
 
 if __name__ == "__main__":

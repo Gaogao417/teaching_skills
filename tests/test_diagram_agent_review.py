@@ -62,7 +62,7 @@ class DiagramAgentReviewContractTest(unittest.TestCase):
             },
         )
 
-        self.assertIn("one and only automatic Wolfram syntax-repair round", prompt)
+        self.assertIn("one and only automatic targeted-repair round", prompt)
         self.assertIn("Preserve the exact mathematical condition set", prompt)
         self.assertIn("do not add, remove, expand, derive, weaken, strengthen", prompt)
         self.assertIn("invalid_scene_code: bad head", prompt)

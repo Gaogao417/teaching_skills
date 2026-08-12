@@ -325,8 +325,7 @@ shapes). Acceptable repairs include:
 - remove a disallowed visible marker (e.g. an extra right_angle) that the request's
   required_visible_annotations does not declare.
 
-Preserve the exact mathematical condition set: do not add, remove, expand, derive,
-weaken, strengthen, or reinterpret any geometry condition, and do not move solved
+Preserve the exact mathematical condition set: do not add, remove, expand, derive, weaken, strengthen, or reinterpret any geometry condition. Do not move solved
 points. If the evidence cannot be fixed by such a minimal edit, return
 `needs_human_confirmation` and ask one precise question.
 

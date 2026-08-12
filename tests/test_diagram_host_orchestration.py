@@ -68,6 +68,7 @@ class DiagramHostOrchestrationTest(unittest.TestCase):
         render_side_effect: object,
         *,
         request: dict[str, object] | None = None,
+        audit_side_effect: object = None,
     ):
         workflow_request = request or _request()
         source_request = root / "source-request.json"
@@ -99,7 +100,13 @@ class DiagramHostOrchestrationTest(unittest.TestCase):
 
         def audit(*args: object, **kwargs: object) -> dict[str, object]:
             order.append("audit")
-            return {"status": "ok", "audit_result": {"status": "pass", "issues": []}}
+            if audit_side_effect is None:
+                return {"status": "ok", "audit_result": {"status": "pass", "issues": []}}
+            if isinstance(audit_side_effect, list):
+                value = audit_side_effect.pop(0)
+            else:
+                value = audit_side_effect
+            return value
 
         def finalize(*args: object, **kwargs: object) -> dict[str, object]:
             order.append("finalize_round")
@@ -495,6 +502,88 @@ class DiagramHostOrchestrationTest(unittest.TestCase):
         self.assertEqual(agent.call_count, 3)
         self.assertEqual(round_one_scene["diagram_spec"]["points"], {})
         self.assertEqual(round_one_scene["diagram_spec"]["labels"]["A"]["text"], "A")
+
+
+    # -- failure-policy-driven retry behavior (P2/P4) ----------------------
+
+    def test_audit_invalid_point_label_gets_one_targeted_repair(self) -> None:
+        """A serialization audit failure is eligible for ONE targeted repair."""
+        audit_fail = {
+            "status": "failed",
+            "audit_result": {
+                "status": "fail",
+                "issues": ["invalid_point_label: aggregated-wolfram-object"],
+            },
+        }
+        audit_ok = {"status": "ok", "audit_result": {"status": "pass", "issues": []}}
+        with tempfile.TemporaryDirectory() as tmp:
+            result, order, agent, out_dir = self._run_with_host_doubles(
+                Path(tmp),
+                [_agent_output("first"), _agent_output("repair")],
+                _render_ok(),
+                audit_side_effect=[audit_fail, audit_ok],
+            )
+            repair = json.loads(
+                (out_dir / "rounds" / "round_1" / "repair_request.json").read_text()
+            )
+
+        self.assertEqual(result["status"], "ok")
+        self.assertEqual(agent.call_count, 2)
+        self.assertEqual(order.count("audit"), 2)
+        self.assertEqual(repair["failure_type"], "deterministic_audit_failed")
+
+    def test_audit_prompt_disallowed_marker_is_terminal_without_repair(self) -> None:
+        """A semantic audit failure must NOT be blind-retried; it is terminal."""
+        audit_fail = {
+            "status": "failed",
+            "audit_result": {
+                "status": "fail",
+                "issues": ["prompt_disallowed_marker:('right_angle','E',('A','F'))"],
+            },
+        }
+        with tempfile.TemporaryDirectory() as tmp:
+            result, _order, agent, out_dir = self._run_with_host_doubles(
+                Path(tmp),
+                [_agent_output("first"), _agent_output("repair")],
+                _render_ok(),
+                audit_side_effect=audit_fail,
+            )
+            workflow_result = json.loads(
+                (out_dir / "workflow_result.json").read_text()
+            )
+
+        self.assertEqual(result["status"], "failed")
+        self.assertEqual(result["fail_type"], "deterministic_audit_failed")
+        self.assertEqual(agent.call_count, 1)
+        self.assertFalse((out_dir / "rounds" / "round_1" / "repair_request.json").exists())
+        classification = workflow_result["failure_classification"]
+        self.assertEqual(classification["failure_class"], "semantic_contract")
+        self.assertTrue(classification["terminal"])
+        self.assertTrue(classification["failure_fingerprint"])
+
+    def test_audit_mixed_semantic_and_serialization_is_terminal(self) -> None:
+        """Worst-class-wins: one semantic issue dominates many serialization ones."""
+        audit_fail = {
+            "status": "failed",
+            "audit_result": {
+                "status": "fail",
+                "issues": [
+                    "invalid_point_label: aggregate",
+                    "prompt_disallowed_marker:('right_angle','E',('A','F'))",
+                ],
+            },
+        }
+        with tempfile.TemporaryDirectory() as tmp:
+            result, _order, agent, _out_dir = self._run_with_host_doubles(
+                Path(tmp),
+                [_agent_output("first"), _agent_output("repair")],
+                _render_ok(),
+                audit_side_effect=audit_fail,
+            )
+
+        self.assertEqual(result["status"], "failed")
+        self.assertEqual(result["fail_type"], "deterministic_audit_failed")
+        self.assertEqual(agent.call_count, 1)
 
 
 if __name__ == "__main__":
