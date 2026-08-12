@@ -46,6 +46,12 @@ from tools import (  # noqa: E402
     skill_context_action,
 )
 from workflow_timing import StageTimer, write_profile_section  # noqa: E402
+from failure_policy import (  # noqa: E402
+    FailureClassification,
+    classify_audit_issues,
+    classify_error,
+    classify_stage_failure,
+)
 
 configure_utf8_stdio()
 
@@ -166,18 +172,13 @@ def _scene_payload_from_agent(
 
 
 def _audit_failure_is_repairable(issues: object) -> bool:
-    if not isinstance(issues, list) or not issues:
-        return False
-    repairable_prefixes = (
-        "invalid_scene_code:",
-        "wolfram_failed:",
-        "invalid_renderer_spec:",
-        "renderer_spec_not_ready:",
-        "invalid_point_label:",
-        "bad serialized label text:",
-        "label text too long:",
-    )
-    return any(str(issue).startswith(repairable_prefixes) for issue in issues)
+    """Deprecated shim; prefer failure_policy.classify_audit_issues.
+
+    Kept so any external caller still importing this name keeps working. The
+    host loop now classifies via ``classify_audit_issues`` so that mixed audit
+    issues are judged worst-class-wins instead of any().
+    """
+    return classify_audit_issues(issues).retry_allowed
 
 
 def _run_candidate_round(
@@ -287,12 +288,15 @@ def _run_candidate_round(
         audit_result = {}
     if audit_action.get("status") != "ok":
         issues = audit_result.get("issues", [])
+        classification = classify_audit_issues(issues)
+        evidence = dict(audit_result)
+        evidence["failure_classification"] = classification.to_dict()
         raise WorkflowStageError(
             "audit",
             "deterministic_audit_failed",
             "; ".join(str(issue) for issue in issues) or "deterministic audit failed",
-            evidence=audit_result,
-            repairable=_audit_failure_is_repairable(issues),
+            evidence=evidence,
+            repairable=classification.retry_allowed,
         )
 
     return {
@@ -684,15 +688,25 @@ def _repair_request(
         evidence_checks = []
     if not evidence_checks:
         evidence_checks = [f"{error.stage}: {error.fail_type}: {error}"]
+    classification_dict = error.evidence.get("failure_classification")
+    repair_target = ""
+    if isinstance(classification_dict, dict):
+        repair_target = str(classification_dict.get("repair_target") or "")
+    repair_instruction = (
+        "Preserve all correct givens and visible objects. Change only the scene constraints "
+        "or diagram_spec fields implicated by the deterministic failure evidence."
+    )
+    if repair_target:
+        repair_instruction = (
+            f"{repair_instruction} Target area: {repair_target}. "
+            "Do not modify the given geometric relationships."
+        )
     payload = SceneRepairRequest(
         failure_type=error.fail_type,
         message=str(error),
         failed_checks=[str(item) for item in evidence_checks],
         previous_scene_payload=ScenePayload.model_validate(scene_payload),
-        repair_instruction=(
-            "Preserve all correct givens and visible objects. Change only the scene constraints "
-            "or diagram_spec fields implicated by the deterministic failure evidence."
-        ),
+        repair_instruction=repair_instruction,
     )
     return payload.model_dump(mode="json", by_alias=True)
 
@@ -819,8 +833,25 @@ def run_workflow(request: Dict[str, object], out_dir: Path, request_path: Path) 
                     "runtime_error",
                     "invalid_head",
                 }
+                # Audit failures carry a structured failure_classification in
+                # evidence. A serialization/transient audit failure is eligible
+                # for the same single targeted-repair pass as a syntax stage
+                # failure; a semantic/environment audit failure is terminal and
+                # must NOT be blind-retried (worst-class-wins, see
+                # failure_policy.classify_audit_issues).
+                audit_cls = (
+                    exc.evidence.get("failure_classification")
+                    if exc.stage == "audit"
+                    else None
+                )
+                audit_retry_allowed = (
+                    isinstance(audit_cls, dict) and bool(audit_cls.get("retry_allowed"))
+                )
+                eligible_for_targeted_repair = (
+                    exc.fail_type in syntax_repair_types or audit_retry_allowed
+                )
                 if (
-                    exc.fail_type in syntax_repair_types
+                    eligible_for_targeted_repair
                     and round_index == 0
                     and round_index + 1 < max_candidates
                 ):
