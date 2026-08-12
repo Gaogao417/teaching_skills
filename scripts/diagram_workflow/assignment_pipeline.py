@@ -63,6 +63,48 @@ def default_resolved_path(plan_yaml: Path) -> Path:
     return plan_yaml.with_suffix(".resolved.yaml")
 
 
+def default_partial_path(plan_yaml: Path) -> Path:
+    """Partial-build output path; deliberately distinct from resolved."""
+    name = plan_yaml.name
+    if ".plan.assignment.yaml" in name:
+        return plan_yaml.with_name(name.replace(".plan.assignment.yaml", ".partial.assignment.yaml"))
+    if name.endswith(".plan.yaml"):
+        return plan_yaml.with_name(name[: -len(".plan.yaml")] + ".partial.yaml")
+    return plan_yaml.with_suffix(".partial.yaml")
+
+
+def _try_relative(path: Path, base: Path) -> str:
+    try:
+        return str(path.resolve().relative_to(base.resolve()))
+    except ValueError:
+        return str(path)
+
+
+def _failed_slot_messages(report) -> dict[str, str]:
+    """Map failed-job slot_id -> human reason for partial-build placeholders."""
+    messages: dict[str, str] = {}
+    for job in report.jobs:
+        if job.status in ("ok", "dry_run", "not_run"):
+            continue
+        reason = job.failure_reason or job.workflow_status or job.status
+        messages[job.slot_id] = f"{job.status}: {reason}"
+    return messages
+
+
+def _failed_job_summaries(report) -> list[dict[str, object]]:
+    return [
+        {
+            "job_id": job.job_id,
+            "slot_id": job.slot_id,
+            "status": job.status,
+            "workflow_status": job.workflow_status,
+            "failure_reason": job.failure_reason,
+        }
+        for job in report.jobs
+        if job.status not in ("ok", "dry_run", "not_run")
+    ]
+
+
 # ---------------------------------------------------------------------------
 # Pipeline
 # ---------------------------------------------------------------------------
@@ -137,6 +179,41 @@ def run_assignment_diagram_pipeline(
         write_batch_json(report_path, report.model_dump(mode="json"))
     print(json.dumps(report.model_dump(mode="json"), ensure_ascii=False, indent=2))
     if report.failed_count > 0:
+        # Partial build: some jobs failed. Resolve the successful ones and drop
+        # clear text placeholders for the failures so the user gets a viewable
+        # preview TeX instead of an hour of work with nothing to look at. This
+        # does NOT impersonate the resolved artifact (different filename, no
+        # resolved gate), and still exits non-zero so CI treats it as a failure.
+        partial_yaml = default_partial_path(plan_yaml).resolve()
+        with timer.measure("partial_resolve"):
+            artifacts_manifest = manifest_from_paths(jobs_json, jobs_dir, artifact_dir)
+            failed_slots = _failed_slot_messages(report)
+            partial = resolve_assignment(
+                raw_plan,
+                artifacts_manifest,
+                skip_required_check=True,
+                failed_slots=failed_slots,
+            )
+            partial["build_status"] = "partial"
+            write_yaml(partial_yaml, partial)
+        partial_report = {
+            "build_status": "partial",
+            "assignment_id": manifest.assignment_id,
+            "total_jobs": report.total_jobs,
+            "ok_count": report.ok_count,
+            "failed_count": report.failed_count,
+            "failed_jobs": _failed_job_summaries(report),
+            "partial_yaml": _try_relative(partial_yaml, artifact_dir),
+        }
+        write_batch_json(
+            build_dir / "partial_resolution_report.json", partial_report
+        )
+        print(
+            f"\nPARTIAL BUILD: {report.ok_count}/{report.total_jobs} jobs ok. "
+            f"Preview YAML: {partial_yaml}\n"
+            f"Failed jobs: {', '.join(j['job_id'] for j in partial_report['failed_jobs'])}",
+            file=sys.stderr,
+        )
         raise SystemExit(1)
 
     # Stage 3: resolve from packages already accepted by each JobPackageGate.

@@ -233,6 +233,19 @@ def _handle_missing_slot(
     )
 
 
+def _partial_fallback_placement(slot: DiagramSlot, reason: str) -> ResolvedDiagramPlacement:
+    """Text placeholder for a failed slot in a partial build.
+
+    Always textual (never a real diagram), so the partial YAML is renderable as
+    a preview without impersonating a resolved artifact.
+    """
+    field = _resolved_field_for_placement(slot.placement)
+    return ResolvedDiagramPlacement(
+        field=field,
+        fallback=ResolvedDiagramFallback(message=f"图暂不可用（{reason}）"),
+    )
+
+
 # ---------------------------------------------------------------------------
 # Main resolution
 # ---------------------------------------------------------------------------
@@ -242,6 +255,7 @@ def resolve_assignment(
     artifacts_manifest: RendererBindingManifest,
     *,
     skip_required_check: bool = False,
+    failed_slots: dict[str, str] | None = None,
 ) -> dict[str, object]:
     """Resolve all diagram slots in plan_data using renderer bindings.
 
@@ -250,6 +264,11 @@ def resolve_assignment(
 
     If skip_required_check is True, missing required slots produce a
     warning dict instead of raising (used during partial builds).
+
+    If failed_slots is supplied (slot_id/diagram_ref -> reason), slots listed
+    there get a textual "图暂不可用（reason）" placeholder even when their
+    declared on_failure is fail_assignment — used to produce a viewable partial
+    YAML when some jobs failed.
     """
     plan_view = (
         plan_data
@@ -262,6 +281,7 @@ def resolve_assignment(
         else plan_data
     )
     artifacts = artifacts_manifest.bindings
+    failed_slots = failed_slots or {}
 
     # Resolve each slot
     for slot_ref in _collect_slot_refs(plan_view):
@@ -273,13 +293,17 @@ def resolve_assignment(
             replacement = _resolve_slot(slot, artifact)
         else:
             # No usable artifact
-            try:
-                replacement = _handle_missing_slot(slot)
-            except ValueError:
-                if skip_required_check:
-                    # Leave the slot as-is for a partial build
-                    continue
-                raise
+            failure_reason = failed_slots.get(diagram_ref) or failed_slots.get(slot.slot_id)
+            if failure_reason:
+                replacement = _partial_fallback_placement(slot, failure_reason)
+            else:
+                try:
+                    replacement = _handle_missing_slot(slot)
+                except ValueError:
+                    if skip_required_check:
+                        # Leave the slot as-is for a partial build
+                        continue
+                    raise
 
         if replacement is None:
             # omit_diagram: remove the slot entirely
