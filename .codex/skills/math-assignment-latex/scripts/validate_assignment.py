@@ -43,6 +43,7 @@ VALID_ANSWER_SPACE_TYPES = {"lines", "blank", "steps"}
 VALID_DIAGRAM_VARIANTS = {"prompt", "solution", "source_solution"}
 VALID_DISCLOSURE_POLICIES = {"clean", "annotated", "teacher_only"}
 VALID_DUAL_LEFT_KINDS = {"hint", "mistake", "note"}
+VALID_SECTION_TYPES = {"practice", "explanation", "answer_key"}
 
 
 def has_any(block, keys):
@@ -200,6 +201,16 @@ def validate(data, base_dir=None):
     for si, section in enumerate(data["sections"]):
         prefix = f"sections[{si}]"
 
+        # Section type: a few block-only types are commonly misused as a section
+        # type. Surface a precise, actionable message rather than letting it pass
+        # silently (the section-level type is otherwise not checked).
+        stype = section.get("type")
+        if stype and stype in VALID_TYPES:
+            errors.append(
+                f"{prefix}: '{stype}' is a block type; "
+                f"section type should be one of: practice, explanation, answer_key"
+            )
+
         if "blocks" not in section:
             errors.append(f"{prefix}: missing 'blocks'")
             continue
@@ -220,6 +231,11 @@ def validate(data, base_dir=None):
             btype = block.get("type")
             if not btype:
                 errors.append(f"{bprefix}: missing 'type'")
+            elif btype == "answer_key":
+                errors.append(
+                    f"{bprefix} ({bid}): 'answer_key' is a section type; "
+                    f"use block type 'answers', 'answer', or 'step'"
+                )
             elif btype not in VALID_TYPES:
                 errors.append(f"{bprefix}: unknown type '{btype}'")
 

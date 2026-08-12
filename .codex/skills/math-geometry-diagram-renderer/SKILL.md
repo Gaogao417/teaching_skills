@@ -180,6 +180,33 @@ student disclosure、layout、diagram_ref/hash/path 一致性必须在 resolve �
 `renderer_result.json` 生成 `renderer_bindings.json` 供人工检查；它不是主链路
 必需步骤。
 
+## 失败处理与防撞墙（硬性规则）
+
+「流程不中断」指正常阶段之间连续 handoff，**不代表**遇到确定性错误仍要无限重跑。
+确定性失败由 `failure_policy.py` 分四类，最严重类胜出（worst-class-wins）：
+
+- `syntax_serialization` / `transient`：可获**一次** targeted repair（仅 round 0）。
+- `semantic_contract`（`prompt_disallowed_marker`、`missing_required_*`、退化几何、
+  辅助线违约）/ `environment_invariant`（无 tikz/preview、renderer 崩、Wolfram 缺失）：
+  **terminal，禁止盲重试**。
+
+撞墙硬规则：
+
+- **开始写任何文件前**，先报告当前 git 分支、cwd、artifact 绝对路径。
+- `deterministic_audit_failed` **禁止**用 shell 循环、`while`、反复重跑顶层脚本来
+  碰运气。同一 job + 同一输入 + 同一错误指纹最多自动修复一次。
+- 跨运行去重由 `build/diagram/failure_ledger.json`（按 request hash 索引）负责：terminal
+  失败被缓存后，下次运行该 job 直接返回 `cached_terminal_failure`，**不再调用
+  scene-authoring agent**。改 plan / 改代码会让 request hash 变化并重新允许执行。
+- 单图修复用 `--jobs-filter <job-id>`（只跑这一个 job，不重跑已成功的图）；
+  需要覆盖缓存的 terminal 失败时加 `--force-job <job-id>`。示例：
+  `run_assignment_diagrams.py plan.yaml --jobs-filter p2-prompt --force-job p2-prompt`。
+- 12/13 部分成功时，pipeline 自动产出 `<stem>.partial.assignment.yaml` +
+  `build/diagram/partial_resolution_report.json`（可渲染预览 TeX，但**不冒充**
+  `.resolved.assignment.yaml`，也跳过 resolved gate），再以非零码退出。terminal
+  failure 时先看 partial 预览，再向用户报告 blocker，不要丢掉一小时的工作。
+- 轮询按 30--45 秒读运行状态，**禁止** `sleep 380` / `sleep 540` 这类长阻塞。
+
 ## 语义复核
 
 gate 通过后仍要抽查图义；不要只看 `usable=true`。

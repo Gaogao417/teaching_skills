@@ -102,3 +102,34 @@ sections:
 ```
 
 教师版与学生版结构一致，但 `meta.version: "teacher"`，题目中可加入答案、解析、`solution_steps` 和 `teaching`，并添加 `answer_key` section。
+
+## answer_key section
+
+`answer_key` 是 **section type**，不是 block type。教师版用独立 section 收答案，该
+section 的 `type` 是 `answer_key`，里面的 block 用 `answers` / `answer` / `step`。
+不要在 block 层写 `type: answer_key`——`validate_assignment.py` 会拦截并提示
+"answer_key is a section type; use block type 'answers'/'answer'/'step'"。
+
+```yaml
+sections:
+  # ...题目 section（type: practice）省略...
+  - id: "answer-key"
+    title: "参考答案"
+    type: "answer_key"          # section type
+    visibility: "teacher"
+    layout:
+      break_before: true        # 渲染模板自动 \clearpage
+    blocks:
+      - type: "answers"         # block type，不是 answer_key
+        id: "answers-main"
+        items:                  # answers block 必须有非空 items/content/content_latex
+          - {id: "p1", answer: "42"}
+          - {id: "c1", answer: "C"}
+```
+
+要点：
+- `type: answer_key` 只能出现在 section 层；`type: answers` / `answer` / `step`
+  才是 block 层。
+- `answers` block 的 `items`（或 `content` / `content_latex`）必须非空，否则校验失败。
+- 渲染模板在 `type: "answer_key"` 的 section 前自动插入 `\clearpage`，无需手写。
+

@@ -123,7 +123,19 @@ teaching:
 - 学生版不得包含 `answer`、`explanation`、`solution_steps`、`teaching`。
 - 教师版可以包含 `answer`、`explanation`、`solution_steps`、`teaching`。
 - 解答题题干含公式或 enumerate 时，用 `stem_latex`，不要用 `stem`。
-- 教师版必须添加 `answer_key` section；答案区使用 `layout: { break_before: true }`。
+- 教师版必须添加 `answer_key` **section**（`type: answer_key` 是 section type，不是
+  block type）。section 内用 block type `answers`/`answer`/`step`，且 `answers` block
+  的 `items`/`content` 必须非空；答案区用 `layout: { break_before: true }`。完整示例见
+  `references/practice-blocks.md` 的「answer_key section」节。不要在 block 层写
+  `type: answer_key`——`validate_assignment.py` 会拦截。
+
+## 工作纪律
+
+- **写任何文件前**先报告当前 git 分支、cwd、artifact 绝对路径。
+- 「流程不中断」指正常阶段之间连续 handoff，**不代表**下游确定性错误（如
+  `deterministic_audit_failed`）要无限重跑。几何图 resolve 失败时交给
+  `math-geometry-diagram-renderer` 的失败分类 + 失败指纹 ledger 处理，单图修复用
+  `--jobs-filter`，不要靠 shell 循环重跑碰运气。
 
 ## References
 
