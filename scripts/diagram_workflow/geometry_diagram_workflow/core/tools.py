@@ -1083,6 +1083,16 @@ def _compile_renderer_spec(
         or diagram_spec.get("points")
         or objects_hint.get("points")
     )
+    # Drop solver "points" whose name is not a simple label. An aggregated
+    # Wolfram instance can leak through as an extra point whose name is a
+    # serialized expression (e.g. "['regular', '{C[\"GeometricPoint\"][A], ...}']");
+    # it cannot be referenced by any segment/polygon/marker and would only trip
+    # the audit's point-name check. The real geometry is the surviving points.
+    points = {
+        name: coord
+        for name, coord in points.items()
+        if re.fullmatch(r"[A-Za-z][A-Za-z0-9]*", str(name))
+    }
 
     segments: List[Dict[str, object]] = []
     polygons: List[Dict[str, object]] = []
