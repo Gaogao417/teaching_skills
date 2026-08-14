@@ -1,0 +1,188 @@
+meta:
+  title: "线段与锐角三角比的双向互求"
+  subtitle: "学生讲义"
+  grade: "九年级"
+  subject: "数学"
+  version: "student"
+  source_artifacts:
+    structure_analysis: "artifacts/专题/2026-08-02-线段三角比互求/01-structure-analysis.md"
+
+render:
+  template: "exam-zh-explanation"
+  paper_size: "a4paper"
+
+sections:
+  - id: "bidirectional-model"
+    title: '线段 $\Longleftrightarrow$ 三角比：一张图走通双向流程'
+    show_title: true
+    type: "explanation"
+    visibility: "student"
+    blocks:
+      - type: "problemcard"
+        id: "fixed-configuration"
+        label: "统一构型"
+        stem_latex: |
+          如图，在 $\operatorname{Rt}\triangle ABC$ 中，$\angle B=90^\circ$，本讲始终以 $\angle C$ 为参照角。
+          请先指出 $\angle C$ 的对边、邻边和斜边。
+        diagram_slot:
+          slot_id: "explanation.fixed-configuration.prompt"
+          diagram_ref: "explanation.fixed-configuration.prompt"
+          variant: "prompt"
+          disclosure_policy: "clean"
+          required: true
+          on_failure: "fail_assignment"
+          placement: "block_center"
+          layout_role: "center_block"
+          display_profile: "worksheet_geometry_center"
+          caption: '先盯住 $\angle C$：哪条边不碰它，哪条边碰它但不是斜边？'
+          diagram_kind: "synthetic_geometry"
+          teaching_intent: "explanation_prompt"
+          semantic_constraints:
+            given_objects: [A, B, C]
+            given_constraints:
+              - "angle ABC is 90 degrees with a visible right-angle marker"
+              - "draw segments AB, BC, AC"
+              - "BC is horizontal and directed from B to C"
+              - "A lies above B so the triangle is not isosceles"
+            clean_forbidden:
+              - "do not label opposite, adjacent, or hypotenuse"
+              - "do not show any side length"
+              - "do not show trigonometric ratios or answers"
+          visual_requirements:
+            required_visible_annotations:
+              markers:
+                - {type: right_angle, vertex: B, arms: [A, C]}
+              texts: []
+
+      - type: "route"
+        id: "fixed-role-route"
+        show_navigation: false
+        steps:
+          - id: "role-opposite"
+            latex: '固定 $\angle C$ 的对边'
+            content_latex: '不经过顶点 $C$ 的边是 $AB$，所以 $AB$ 是 $\angle C$ 的对边。'
+          - id: "role-adjacent"
+            latex: '固定 $\angle C$ 的邻边'
+            content_latex: '经过顶点 $C$ 且不是斜边的边是 $BC$，所以 $BC$ 是邻边。'
+          - id: "role-hypotenuse"
+            latex: '先由直角找斜边'
+            content_latex: '直角 $B$ 的对边是 $AC$，所以 $AC$ 是斜边。'
+
+      - type: "dual_explanation"
+        id: "fixed-role-solution"
+        side_title: "小贴士"
+        side_items:
+          - kind: "hint"
+            title: "先找斜边"
+            content_latex: '斜边只由直角决定；对边、邻边才由参照角决定。'
+          - kind: "hint"
+            title: "固定口令"
+            content_latex: '本讲始终记作：对 $AB$、邻 $BC$、斜 $AC$。'
+        solution_title: "边的角色"
+        solution_step_ids:
+          - "role-opposite"
+          - "role-adjacent"
+          - "role-hypotenuse"
+
+      - type: "solution"
+        id: "four-ratios"
+        title: '四个三角比：把边按正确顺序相除'
+        items:
+          - content_latex: |
+              \[
+              \sin C=\frac{AB}{AC},\qquad
+              \cos C=\frac{BC}{AC},\qquad
+              \tan C=\frac{AB}{BC},\qquad
+              \cot C=\frac{BC}{AB}.
+              \]
+          - latex: '\textbf{一句话：}$\sin$ 对斜，$\cos$ 邻斜，$\tan$ 对邻，$\cot$ 邻对。'
+
+      - type: "problemcard"
+        id: "ratio-to-segment-example"
+        label: "例题 1：三角比求线段"
+        stem_latex: |
+          在 $\operatorname{Rt}\triangle ABC$ 中，$\angle B=90^\circ$，
+          $\sin C=\dfrac35$，$BC=8$，求 $AC$。
+
+      - type: "route"
+        id: "ratio-to-segment-route"
+        steps:
+          - id: "ratio-to-segment-translate"
+            latex: "把三角比翻译成边的份数"
+            content_latex: '$\sin C=\dfrac{AB}{AC}=\dfrac35$，所以 $AB:AC=3:5$。'
+          - id: "ratio-to-segment-complete"
+            latex: "补成完整勾股数组"
+            content_latex: '$3^2+4^2=5^2$，所以 $AB:BC:AC=3:4:5$。'
+          - id: "ratio-to-segment-scale"
+            latex: "由已知边确定倍数"
+            content_latex: '$BC=8=4\times2$，故 $AC=5\times2=10$。'
+          - id: "ratio-to-segment-check"
+            latex: "用勾股关系检查"
+            content_latex: '$AB=6$，且 $6^2+8^2=10^2$，结果正确。'
+
+      - type: "dual_explanation"
+        id: "ratio-to-segment-solution"
+        side_title: "小贴士"
+        side_items:
+          - kind: "hint"
+            title: "分数不是答案"
+            content_latex: '$\dfrac35$ 表示对边与斜边的份数是 $3:5$；先说清是哪两条边。'
+          - kind: "hint"
+            title: "倍数必须统一"
+            content_latex: '一旦 $BC$ 的 $4$ 份变成 $8$，其余每一份都必须乘同一个 $2$。'
+        solution_title: "解答"
+        solution_step_ids:
+          - "ratio-to-segment-translate"
+          - "ratio-to-segment-complete"
+          - "ratio-to-segment-scale"
+          - "ratio-to-segment-check"
+
+      - type: "problemcard"
+        id: "segment-to-ratio-example"
+        label: "例题 2：线段求三角比"
+        stem_latex: |
+          在 $\operatorname{Rt}\triangle ABC$ 中，$\angle B=90^\circ$，
+          $AB=5$，$BC=12$，求 $\sin C$ 和 $\tan C$。
+
+      - type: "route"
+        id: "segment-to-ratio-route"
+        steps:
+          - id: "segment-to-ratio-target"
+            latex: "先看函数真正需要哪些边"
+            content_latex: '$\sin C$ 需要 $AB,AC$；$\tan C$ 需要 $AB,BC$。'
+          - id: "segment-to-ratio-pythagoras"
+            latex: "只补缺少的斜边"
+            content_latex: '$AC=\sqrt{AB^2+BC^2}=\sqrt{5^2+12^2}=13$。'
+          - id: "segment-to-ratio-write"
+            latex: "按定义列比并化简"
+            content_latex: '$\sin C=\dfrac{AB}{AC}=\dfrac5{13}$，$\tan C=\dfrac{AB}{BC}=\dfrac5{12}$。'
+
+      - type: "dual_explanation"
+        id: "segment-to-ratio-solution"
+        side_title: "小贴士"
+        side_items:
+          - kind: "hint"
+            title: "先看是否缺边"
+            content_latex: '$\tan C$ 的两条边已知，可以直接列比；$\sin C$ 缺斜边，才需要勾股。'
+          - kind: "hint"
+            title: "范围检查"
+            content_latex: '$\sin C$、$\cos C$ 必须在 $0$ 与 $1$ 之间；正切、余切不受这个上界限制。'
+        solution_title: "解答"
+        solution_step_ids:
+          - "segment-to-ratio-target"
+          - "segment-to-ratio-pythagoras"
+          - "segment-to-ratio-write"
+
+      - type: "mistake"
+        id: "bidirectional-mistake"
+        title: "最容易错的两件事"
+        content_latex: |
+          第一，把 $\tan C$ 写成 $BC/AB$；第二，识别出勾股数组后只缩放已知边，没有把三条边同时乘同一个倍数。
+
+      - type: "method_reminder"
+        id: "bidirectional-method"
+        title: "双向标准流程"
+        items:
+          - latex: '\textbf{边 $\to$ 比：}定边角色 $\to$ 看函数需要哪两边 $\to$ 缺边才勾股 $\to$ 列比化简。'
+          - latex: '\textbf{比 $\to$ 边：}把三角比读成边比 $\to$ 补成三边份数 $\to$ 已知边定倍数 $\to$ 同倍求边。'
+          - latex: '\textbf{最后检查：}斜边最长，勾股成立，$0<\sin C,\cos C<1$。'

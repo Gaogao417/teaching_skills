@@ -1,0 +1,400 @@
+meta:
+  title: "线段与锐角三角比双向互求练习"
+  subtitle: "教师版·15 题"
+  grade: "九年级"
+  subject: "数学"
+  duration: "35分钟"
+  total_points: 60
+  version: "teacher"
+  show_answers: true
+  source_artifacts:
+    structure_analysis: "artifacts/专题/2026-08-02-线段三角比互求/01-structure-analysis.md"
+    explanation: "artifacts/专题/2026-08-02-线段三角比互求/02-student-explanation.resolved.assignment.yaml"
+
+render:
+  template: "exam-zh-practice"
+  paper_size: "a4paper"
+  answer_key_position: "after_page_break"
+
+sections:
+  - id: "common-triples-1"
+    title: "一、常见勾股数：先把方向做对"
+    type: "practice"
+    visibility: "both"
+    blocks:
+      - type: "choice"
+        id: "q01"
+        points: 4
+        stem: '在 $\operatorname{Rt}\triangle ABC$ 中，$\angle B=90^\circ$，$AB=3$，$BC=4$，则 $\sin C=$（\quad）'
+        choices: {A: '$\dfrac34$', B: '$\dfrac35$', C: '$\dfrac45$', D: '$\dfrac43$'}
+        answer: "B"
+        explanation: '$AC=5$，相对 $\angle C$，对边为 $AB$，故 $\sin C=AB/AC=3/5$。'
+        teaching:
+          teaching_goal: "从两条整数边求正弦。"
+          source_relations: ["fallback:structure_analysis:right_triangle_segment_ratio_bidirectional"]
+          model_fusion: {model_count: 1, models: ["right_triangle_segment_ratio_bidirectional"], fusion_role: "single_model"}
+          expected_blocker: "把邻边放进正弦分子。"
+          entry_point: "build_relation"
+          scaffold_level: "medium"
+          variation_depth: "same_structure"
+          complexity_note: "直接识别 3-4-5。"
+          upgrade_rule: "能先口答对边与斜边，再列式。"
+          fallback_move: "先写对 AB、邻 BC、斜 AC。"
+          number_selection: {database_id: "question-bank-training-numbers", family_id: "right_triangle_integer_triples", entry_id: "pythagorean-3-4-5"}
+
+      - type: "fillin"
+        id: "q02"
+        points: 4
+        stem: '在 $\operatorname{Rt}\triangle ABC$ 中，$\angle B=90^\circ$，$AB=5$，$BC=12$，则 $\tan C=$\fillin。'
+        answer: '$\dfrac5{12}$'
+        explanation: '$\tan C=AB/BC=5/12$，不需要先求斜边。'
+        teaching:
+          teaching_goal: "看到正切只取两条直角边。"
+          source_relations: ["fallback:structure_analysis:right_triangle_segment_ratio_bidirectional"]
+          model_fusion: {model_count: 1, models: ["right_triangle_segment_ratio_bidirectional"], fusion_role: "single_model"}
+          expected_blocker: "机械补斜边或写成倒数。"
+          entry_point: "find_entry"
+          scaffold_level: "medium"
+          variation_depth: "changed_numbers"
+          complexity_note: "5-12-13 中无需使用 13。"
+          upgrade_rule: "能判断本题无需勾股。"
+          fallback_move: "只圈出正切所需的对边、邻边。"
+          number_selection: {database_id: "question-bank-training-numbers", family_id: "right_triangle_integer_triples", entry_id: "pythagorean-5-12-13"}
+
+      - type: "problem"
+        id: "q03"
+        points: 4
+        label: "第 3 题"
+        stem_latex: |
+          在 $\operatorname{Rt}\triangle ABC$ 中，$\angle B=90^\circ$，
+          $\sin C=\dfrac7{25}$，$BC=24$，求 $AC$。
+        answer_space: {type: "steps", height: "28mm", step_count: 3}
+        answer: '$AC=25$。'
+        explanation: "把正弦读成对边与斜边的份数，再用 7-24-25 的邻边份数定倍数。"
+        solution_steps:
+          - title: "还原份数"
+            content: '$\sin C=AB/AC=7/25$，故 $AB:BC:AC=7:24:25$。'
+          - title: "由已知边定倍数"
+            content: '$BC=24$，缩放倍数为 $1$，所以 $AC=25$。'
+        teaching:
+          teaching_goal: "由正弦反求斜边。"
+          source_relations: ["fallback:structure_analysis:right_triangle_segment_ratio_bidirectional"]
+          model_fusion: {model_count: 1, models: ["right_triangle_segment_ratio_bidirectional"], fusion_role: "single_model"}
+          expected_blocker: "不能从 7:25 补出邻边份数 24。"
+          entry_point: "build_relation"
+          scaffold_level: "medium"
+          variation_depth: "changed_question"
+          complexity_note: "整数份数，无额外缩放。"
+          upgrade_rule: "能从两项三角比补全三项份数。"
+          fallback_move: "计算 $25^2-7^2$。"
+          number_selection: {database_id: "question-bank-training-numbers", family_id: "right_triangle_integer_triples", entry_id: "pythagorean-7-24-25"}
+
+  - id: "common-triples-2"
+    title: "二、常见勾股数：交换已知与所求"
+    type: "practice"
+    visibility: "both"
+    blocks:
+      - type: "fillin"
+        id: "q04"
+        points: 4
+        stem: '在 $\operatorname{Rt}\triangle ABC$ 中，$\angle B=90^\circ$，$\cos C=\dfrac{15}{17}$，$AC=17$，则 $AB=$\fillin。'
+        answer: '$8$'
+        explanation: '$BC:AC=15:17$，补成 $AB:BC:AC=8:15:17$，故 $AB=8$。'
+        teaching:
+          teaching_goal: "由余弦与斜边反求对边。"
+          source_relations: ["fallback:structure_analysis:right_triangle_segment_ratio_bidirectional"]
+          model_fusion: {model_count: 1, models: ["right_triangle_segment_ratio_bidirectional"], fusion_role: "single_model"}
+          expected_blocker: "把余弦 15/17 误读成 AB/AC。"
+          entry_point: "build_relation"
+          scaffold_level: "medium"
+          variation_depth: "changed_question"
+          complexity_note: "直接使用 8-15-17。"
+          upgrade_rule: "能先指出 15 对应邻边。"
+          fallback_move: '先写 $\cos C=BC/AC$。'
+          number_selection: {database_id: "question-bank-training-numbers", family_id: "right_triangle_integer_triples", entry_id: "pythagorean-8-15-17"}
+
+      - type: "problem"
+        id: "q05"
+        points: 4
+        label: "第 5 题"
+        stem_latex: |
+          在 $\operatorname{Rt}\triangle ABC$ 中，$\angle B=90^\circ$，
+          $\tan C=\dfrac34$，$AC=10$。求 $AB$ 和 $BC$。
+        answer_space: {type: "steps", height: "32mm", step_count: 3}
+        answer: '$AB=6$，$BC=8$。'
+        explanation: "正切给出两条直角边份数 3:4，斜边份数为 5，再由 AC=10 定倍数。"
+        solution_steps:
+          - title: "还原三边份数"
+            content: '$\tan C=AB/BC=3/4$，故 $AB:BC:AC=3:4:5$。'
+          - title: "同倍缩放"
+            content: '$AC=10=5\times2$，所以 $AB=3\times2=6$，$BC=4\times2=8$。'
+        teaching:
+          teaching_goal: "由正切和斜边同时求两直角边。"
+          source_relations: ["fallback:structure_analysis:right_triangle_segment_ratio_bidirectional"]
+          model_fusion: {model_count: 1, models: ["right_triangle_segment_ratio_bidirectional"], fusion_role: "single_model"}
+          expected_blocker: "知道 3:4，却忘记斜边是 5 份。"
+          entry_point: "transfer"
+          scaffold_level: "medium"
+          variation_depth: "changed_question"
+          complexity_note: "3-4-5 整体放大 2 倍。"
+          upgrade_rule: "能由任意一种三角比补成完整三边份数。"
+          fallback_move: '先计算 $\sqrt{3^2+4^2}$。'
+          number_selection: {database_id: "question-bank-training-numbers", family_id: "right_triangle_integer_triples", entry_id: "pythagorean-3-4-5"}
+
+      - type: "fillin"
+        id: "q06"
+        points: 4
+        stem: '在 $\operatorname{Rt}\triangle ABC$ 中，$\angle B=90^\circ$，$AB=\dfrac{12}{7}$，$BC=\dfrac{16}{7}$，则 $\sin C=$\fillin。'
+        answer: '$\dfrac35$'
+        explanation: '$AC=20/7$，故 $\sin C=(12/7)/(20/7)=3/5$。'
+        teaching:
+          teaching_goal: "识别共同分母并化回 3-4-5。"
+          source_relations: ["fallback:structure_analysis:right_triangle_segment_ratio_bidirectional"]
+          model_fusion: {model_count: 1, models: ["right_triangle_segment_ratio_bidirectional"], fusion_role: "single_model"}
+          expected_blocker: "被分母 7 干扰，未先看共同缩放。"
+          entry_point: "transfer"
+          scaffold_level: "medium"
+          variation_depth: "changed_representation"
+          complexity_note: "3-4-5 乘 4/7。"
+          upgrade_rule: "能先约共同因子再做勾股。"
+          fallback_move: "三边同时乘 7/4。"
+          number_selection: {database_id: "question-bank-training-numbers", family_id: "integer_right_triangles_fraction_scaled", entry_id: "scaled-pythagorean-3-4-5-by-4-over-7"}
+
+  - id: "scaled-triples-1"
+    title: "三、分数倍勾股数：从边求比、从比求边"
+    type: "practice"
+    visibility: "both"
+    blocks:
+      - type: "choice"
+        id: "q07"
+        points: 4
+        stem: '在 $\operatorname{Rt}\triangle ABC$ 中，$\angle B=90^\circ$，$AB=\dfrac52$，$BC=6$，则 $\cos C=$（\quad）'
+        choices: {A: '$\dfrac5{12}$', B: '$\dfrac5{13}$', C: '$\dfrac{12}{13}$', D: '$\dfrac{13}{12}$'}
+        answer: "C"
+        explanation: '$AC=13/2$，所以 $\cos C=BC/AC=6/(13/2)=12/13$。'
+        teaching:
+          teaching_goal: "分数倍 5-12-13 中求余弦。"
+          source_relations: ["fallback:structure_analysis:right_triangle_segment_ratio_bidirectional"]
+          model_fusion: {model_count: 1, models: ["right_triangle_segment_ratio_bidirectional"], fusion_role: "single_model"}
+          expected_blocker: "把 6 直接写成分子而漏除斜边。"
+          entry_point: "solve_and_check"
+          scaffold_level: "low"
+          variation_depth: "changed_representation"
+          complexity_note: "5-12-13 乘 1/2。"
+          upgrade_rule: "能识别分数边仍保持原三角比。"
+          fallback_move: "把三边同时乘 2。"
+          number_selection: {database_id: "question-bank-training-numbers", family_id: "integer_right_triangles_fraction_scaled", entry_id: "scaled-pythagorean-5-12-13-by-1-over-2"}
+
+      - type: "fillin"
+        id: "q08"
+        points: 4
+        stem: '在 $\operatorname{Rt}\triangle ABC$ 中，$\angle B=90^\circ$，$\tan C=\dfrac34$，$AC=\dfrac52$，则 $AB=$\fillin。'
+        answer: '$\dfrac32$'
+        explanation: '$AB:BC:AC=3:4:5$，斜边由 5 份变为 $5/2$，倍数为 $1/2$，故 $AB=3/2$。'
+        teaching:
+          teaching_goal: "由正切和分数斜边定缩放。"
+          source_relations: ["fallback:structure_analysis:right_triangle_segment_ratio_bidirectional"]
+          model_fusion: {model_count: 1, models: ["right_triangle_segment_ratio_bidirectional"], fusion_role: "single_model"}
+          expected_blocker: "除以 2 时只处理斜边。"
+          entry_point: "transfer"
+          scaffold_level: "low"
+          variation_depth: "changed_representation"
+          complexity_note: "3-4-5 乘 1/2。"
+          upgrade_rule: "能用分数倍统一缩放三边。"
+          fallback_move: "先求 1 份等于 1/2。"
+          number_selection: {database_id: "question-bank-training-numbers", family_id: "integer_right_triangles_fraction_scaled", entry_id: "scaled-pythagorean-3-4-5-by-1-over-2"}
+
+      - type: "problem"
+        id: "q09"
+        points: 4
+        label: "第 9 题"
+        stem_latex: |
+          在 $\operatorname{Rt}\triangle ABC$ 中，$\angle B=90^\circ$，
+          $\cos C=\dfrac45$，$AC=4$，求 $BC$。
+        answer_space: {type: "steps", height: "28mm", step_count: 3}
+        answer: '$BC=\dfrac{16}{5}$。'
+        explanation: "余弦就是邻边与斜边之比，可直接用份数缩放。"
+        solution_steps:
+          - title: "读出边比"
+            content: '$\cos C=BC/AC=4/5$。'
+          - title: "按斜边缩放"
+            content: '$AC=4$，故 $BC=4\times\dfrac45=\dfrac{16}{5}$。'
+        teaching:
+          teaching_goal: "由余弦直接求邻边。"
+          source_relations: ["fallback:structure_analysis:right_triangle_segment_ratio_bidirectional"]
+          model_fusion: {model_count: 1, models: ["right_triangle_segment_ratio_bidirectional"], fusion_role: "single_model"}
+          expected_blocker: "把 4/5 误当成固定边长而不是比例。"
+          entry_point: "solve_and_check"
+          scaffold_level: "low"
+          variation_depth: "changed_question"
+          complexity_note: "3-4-5 乘 4/5。"
+          upgrade_rule: "能在无需补第三边时直接求目标边。"
+          fallback_move: "先写 $BC=(4/5)AC$。"
+          number_selection: {database_id: "question-bank-training-numbers", family_id: "integer_right_triangles_fraction_scaled", entry_id: "scaled-pythagorean-3-4-5-by-4-over-5"}
+
+  - id: "scaled-triples-2"
+    title: "四、分数倍勾股数：识别公因子"
+    type: "practice"
+    visibility: "both"
+    blocks:
+      - type: "fillin"
+        id: "q10"
+        points: 4
+        stem: '在 $\operatorname{Rt}\triangle ABC$ 中，$\angle B=90^\circ$，$AB=\dfrac{10}{3}$，$BC=8$，则 $\tan C=$\fillin。'
+        answer: '$\dfrac5{12}$'
+        explanation: '$\tan C=(10/3)/8=5/12$。'
+        teaching:
+          teaching_goal: "分数与整数混合时直接化简正切。"
+          source_relations: ["fallback:structure_analysis:right_triangle_segment_ratio_bidirectional"]
+          model_fusion: {model_count: 1, models: ["right_triangle_segment_ratio_bidirectional"], fusion_role: "single_model"}
+          expected_blocker: "复合分数化简错误。"
+          entry_point: "solve_and_check"
+          scaffold_level: "low"
+          variation_depth: "changed_representation"
+          complexity_note: "5-12-13 乘 2/3。"
+          upgrade_rule: "能把分数除法化成乘倒数。"
+          fallback_move: "把 8 写成 24/3。"
+          number_selection: {database_id: "question-bank-training-numbers", family_id: "integer_right_triangles_fraction_scaled", entry_id: "scaled-pythagorean-5-12-13-by-2-over-3"}
+
+      - type: "problem"
+        id: "q11"
+        points: 4
+        label: "第 11 题"
+        stem_latex: |
+          在 $\operatorname{Rt}\triangle ABC$ 中，$\angle B=90^\circ$，
+          $\sin C=\dfrac35$，$BC=5$，求 $AC$。
+        answer_space: {type: "steps", height: "28mm", step_count: 3}
+        answer: '$AC=\dfrac{25}{4}$。'
+        explanation: "3-4-5 中邻边为 4 份；4 份变为 5，倍数是 5/4。"
+        solution_steps:
+          - title: "补全份数"
+            content: '$\sin C=3/5$，故 $AB:BC:AC=3:4:5$。'
+          - title: "确定倍数"
+            content: '$BC=5=4\times\dfrac54$，故 $AC=5\times\dfrac54=\dfrac{25}{4}$。'
+        teaching:
+          teaching_goal: "由已知邻边确定非整数缩放倍数。"
+          source_relations: ["fallback:structure_analysis:right_triangle_segment_ratio_bidirectional"]
+          model_fusion: {model_count: 1, models: ["right_triangle_segment_ratio_bidirectional"], fusion_role: "single_model"}
+          expected_blocker: "把已知 BC=5 当作斜边 5 份。"
+          entry_point: "transfer"
+          scaffold_level: "low"
+          variation_depth: "partially_hidden"
+          complexity_note: "3-4-5 乘 5/4。"
+          upgrade_rule: "能按边的角色选择正确份数定倍数。"
+          fallback_move: "先在 3:4:5 下写 AB、BC、AC。"
+          number_selection: {database_id: "question-bank-training-numbers", family_id: "integer_right_triangles_fraction_scaled", entry_id: "scaled-pythagorean-3-4-5-by-5-over-4"}
+
+      - type: "choice"
+        id: "q12"
+        points: 4
+        stem: '在 $\operatorname{Rt}\triangle ABC$ 中，$\angle B=90^\circ$，$AB=\dfrac{21}{5}$，$BC=\dfrac{28}{5}$，则 $\cot C=$（\quad）'
+        choices: {A: '$\dfrac34$', B: '$\dfrac43$', C: '$\dfrac35$', D: '$\dfrac45$'}
+        answer: "B"
+        explanation: '$\cot C=BC/AB=(28/5)/(21/5)=4/3$。'
+        teaching:
+          teaching_goal: "辨析正切与余切的倒数关系。"
+          source_relations: ["fallback:structure_analysis:right_triangle_segment_ratio_bidirectional"]
+          model_fusion: {model_count: 1, models: ["right_triangle_segment_ratio_bidirectional"], fusion_role: "single_model"}
+          expected_blocker: "按正切写成 3/4。"
+          entry_point: "transfer"
+          scaffold_level: "low"
+          variation_depth: "changed_question"
+          complexity_note: "3-4-5 乘 7/5。"
+          upgrade_rule: "能不依赖口诀写出 cot=邻/对。"
+          fallback_move: '先写 $\cot C=BC/AB$。'
+          number_selection: {database_id: "question-bank-training-numbers", family_id: "integer_right_triangles_fraction_scaled", entry_id: "scaled-pythagorean-3-4-5-by-7-over-5"}
+
+  - id: "scaled-triples-3"
+    title: "五、双向混合：不看题号，只看已知与所求"
+    type: "practice"
+    visibility: "both"
+    blocks:
+      - type: "fillin"
+        id: "q13"
+        points: 4
+        stem: '在 $\operatorname{Rt}\triangle ABC$ 中，$\angle B=90^\circ$，$\cos C=\dfrac45$，$AC=3$，则 $AB=$\fillin。'
+        answer: '$\dfrac95$'
+        explanation: '$AB:BC:AC=3:4:5$，斜边 5 份变为 3，倍数为 3/5，故 $AB=9/5$。'
+        teaching:
+          teaching_goal: "余弦给邻斜比，补出对边份数。"
+          source_relations: ["fallback:structure_analysis:right_triangle_segment_ratio_bidirectional"]
+          model_fusion: {model_count: 1, models: ["right_triangle_segment_ratio_bidirectional"], fusion_role: "single_model"}
+          expected_blocker: "只使用 4:5，未补出对边 3 份。"
+          entry_point: "hidden_structure"
+          scaffold_level: "low"
+          variation_depth: "partially_hidden"
+          complexity_note: "3-4-5 乘 3/5。"
+          upgrade_rule: "能从任意两个份数补第三个。"
+          fallback_move: "计算 $5^2-4^2$。"
+          number_selection: {database_id: "question-bank-training-numbers", family_id: "integer_right_triangles_fraction_scaled", entry_id: "scaled-pythagorean-3-4-5-by-3-over-5"}
+
+      - type: "problem"
+        id: "q14"
+        points: 4
+        label: "第 14 题"
+        stem_latex: |
+          在 $\operatorname{Rt}\triangle ABC$ 中，$\angle B=90^\circ$，
+          $\tan C=\dfrac34$，$AC=\dfrac{35}{4}$，求 $BC$。
+        answer_space: {type: "steps", height: "28mm", step_count: 3}
+        answer: '$BC=7$。'
+        explanation: "由 3:4:5 和分数斜边确定倍数 7/4。"
+        solution_steps:
+          - title: "还原三边份数"
+            content: '$\tan C=3/4$，故 $AB:BC:AC=3:4:5$。'
+          - title: "同倍缩放"
+            content: '$AC=35/4=5\times7/4$，所以 $BC=4\times7/4=7$。'
+        teaching:
+          teaching_goal: "从分数斜边反推整数直角边。"
+          source_relations: ["fallback:structure_analysis:right_triangle_segment_ratio_bidirectional"]
+          model_fusion: {model_count: 1, models: ["right_triangle_segment_ratio_bidirectional"], fusion_role: "single_model"}
+          expected_blocker: "把 35/4 直接乘 4/5 时化简不稳。"
+          entry_point: "hidden_structure"
+          scaffold_level: "low"
+          variation_depth: "partially_hidden"
+          complexity_note: "3-4-5 乘 7/4。"
+          upgrade_rule: "能选择份数法或直接比例法并得到一致结果。"
+          fallback_move: "先求 1 份为 7/4。"
+          number_selection: {database_id: "question-bank-training-numbers", family_id: "integer_right_triangles_fraction_scaled", entry_id: "scaled-pythagorean-3-4-5-by-7-over-4"}
+
+      - type: "problem"
+        id: "q15"
+        points: 4
+        label: "第 15 题"
+        stem_latex: |
+          在 $\operatorname{Rt}\triangle ABC$ 中，$\angle B=90^\circ$，
+          $AB=2$，$BC=\dfrac83$。求 $\sin C$ 和 $\cos C$。
+        answer_space: {type: "steps", height: "34mm", step_count: 3}
+        answer: '$\sin C=\dfrac35$，$\cos C=\dfrac45$。'
+        explanation: "两条直角边同乘 3/2 可还原为 3 和 4，斜边相应为 5。"
+        solution_steps:
+          - title: "化回熟悉份数"
+            content: '$AB:BC=2:\dfrac83=3:4$，故 $AB:BC:AC=3:4:5$。'
+          - title: "分别列比"
+            content: '$\sin C=AB/AC=3/5$，$\cos C=BC/AC=4/5$。'
+        teaching:
+          teaching_goal: "收束双向流程并同时输出两个三角比。"
+          source_relations: ["fallback:structure_analysis:right_triangle_segment_ratio_bidirectional"]
+          model_fusion: {model_count: 1, models: ["right_triangle_segment_ratio_bidirectional"], fusion_role: "single_model"}
+          expected_blocker: "分别计算两个复合分数，未先整体归一。"
+          entry_point: "transfer"
+          scaffold_level: "low"
+          variation_depth: "changed_representation"
+          complexity_note: "3-4-5 乘 2/3。"
+          upgrade_rule: "能用一次份数还原连续回答多个三角比。"
+          fallback_move: "把两条已知边同时乘 3/2。"
+          number_selection: {database_id: "question-bank-training-numbers", family_id: "integer_right_triangles_fraction_scaled", entry_id: "scaled-pythagorean-3-4-5-by-2-over-3"}
+
+  - id: "answer-key"
+    title: "答案"
+    type: "answer_key"
+    visibility: "teacher"
+    layout:
+      break_before: true
+    blocks:
+      - type: "solution"
+        id: "answer-list"
+        title: "答案速查"
+        items:
+          - latex: '1. B；2. $\dfrac5{12}$；3. $25$；4. $8$；5. $AB=6,\ BC=8$。'
+          - latex: '6. $\dfrac35$；7. C；8. $\dfrac32$；9. $\dfrac{16}{5}$；10. $\dfrac5{12}$。'
+          - latex: '11. $\dfrac{25}{4}$；12. B；13. $\dfrac95$；14. $7$；15. $\sin C=\dfrac35,\ \cos C=\dfrac45$。'

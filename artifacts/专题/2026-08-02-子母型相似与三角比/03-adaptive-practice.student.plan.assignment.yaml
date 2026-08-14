@@ -1,0 +1,194 @@
+meta:
+  title: ""
+  subtitle: "学生版"
+  grade: "九年级"
+  subject: "数学"
+  duration: "25分钟"
+  total_points: 40
+  version: "student"
+  source_artifacts:
+    structure_analysis: "artifacts/专题/2026-08-02-子母型相似与三角比/01-structure-analysis.md"
+    explanation: "artifacts/专题/2026-08-02-子母型相似与三角比/02-student-explanation.resolved.assignment.yaml"
+
+render:
+  template: "exam-zh-practice"
+  paper_size: "a4paper"
+  answer_key_position: "after_page_break"
+
+sections:
+  - id: "mixed-practice"
+    title: ""
+    type: "practice"
+    visibility: "student"
+    blocks:
+      - type: "fillin"
+        id: "q1"
+        points: 8
+        stem: '如图，在 $\triangle ABC$ 中，点 $D$ 在线段 $AC$ 上，$BD\perp BC$，且 $\angle ABD=\angle ACB$。若 $AD:CD=1:7$，则 $\sin C=$\fillin。'
+        diagram_slot:
+          slot_id: "practice.q1.prompt"
+          diagram_ref: "practice.q1.prompt"
+          variant: "prompt"
+          disclosure_policy: "clean"
+          required: true
+          on_failure: "fail_assignment"
+          placement: "diagram_col"
+          layout_role: "question_sidecar"
+          display_profile: "worksheet_geometry_sidecar"
+          caption: "第 1 题图"
+          diagram_kind: "synthetic_geometry"
+          teaching_intent: "practice_prompt"
+          problem_context:
+            stem_latex: "A、D、C 依次共线，BD 垂直 BC，角 ABD 等于角 ACB，AD:CD=1:7。"
+            source_problem_text: "画一般三角形构型，A-D-C 依次共线，连接 AB、AC、BD、BC。BD 垂直 BC；角 ABD 与角 ACB 用相同单弧角标。只画题设，不显示比例推导或答案。"
+          semantic_constraints:
+            given_objects: [A, B, C, D]
+            given_constraints:
+              - "A, D, C are collinear with strict order A-D-C"
+              - "AD:DC=1:7"
+              - "BD is perpendicular to BC"
+              - "angle ABD equals angle ACB"
+            clean_forbidden:
+              - "do not imply AB=AC or D is a midpoint"
+              - "do not show similarity, ratios, or answers"
+          visual_requirements:
+            show_labels: true
+            show_given_markers: true
+            required_visible_annotations:
+              markers:
+                - {type: right_angle, vertex: B, arms: [D, C]}
+                - {type: angle_arc, vertex: B, arms: [A, D]}
+                - {type: angle_arc, vertex: C, arms: [A, B]}
+      - type: "problem"
+        id: "q2"
+        points: 12
+        label: "第 2 题"
+        stem_latex: |
+          如图，在 $\triangle ABC$ 中，点 $D$ 在线段 $AC$ 上，$BD\perp BC$，且
+          $\angle ABD=\angle ACB$。若 $AD:CD=9:7$，求 $\cos C$。
+        diagram_slot:
+          slot_id: "practice.q2.prompt"
+          diagram_ref: "practice.q2.prompt"
+          variant: "prompt"
+          disclosure_policy: "clean"
+          required: true
+          on_failure: "fail_assignment"
+          placement: "diagram_col"
+          layout_role: "question_sidecar"
+          display_profile: "worksheet_geometry_sidecar"
+          caption: "第 2 题图"
+          diagram_kind: "synthetic_geometry"
+          teaching_intent: "practice_prompt"
+          problem_context:
+            stem_latex: "A、D、C 依次共线，BD 垂直 BC，角 ABD 等于角 ACB，AD:CD=9:7。"
+            source_problem_text: "画一般三角形构型，A-D-C 依次共线且 D 靠近 AC 中部，连接 AB、AC、BD、BC。BD 垂直 BC；角 ABD 与角 ACB 用相同单弧角标。只画题设，不显示推导或答案。"
+          semantic_constraints:
+            given_objects: [A, B, C, D]
+            given_constraints:
+              - "A, D, C are collinear with strict order A-D-C"
+              - "AD:DC=9:7"
+              - "BD is perpendicular to BC"
+              - "angle ABD equals angle ACB"
+            clean_forbidden:
+              - "do not imply AB=AC or D is a midpoint"
+              - "do not show similarity, ratios, or answers"
+          visual_requirements:
+            show_labels: true
+            show_given_markers: true
+            required_visible_annotations:
+              markers:
+                - {type: right_angle, vertex: B, arms: [D, C]}
+                - {type: angle_arc, vertex: B, arms: [A, D]}
+                - {type: angle_arc, vertex: C, arms: [A, B]}
+        answer_space:
+          type: "steps"
+          height: "45mm"
+          step_count: 4
+        layout:
+          avoid_break: true
+
+      - type: "fillin"
+        id: "q3"
+        points: 8
+        stem: '如图，在 $\triangle ABC$ 中，点 $D$ 在线段 $AC$ 上，$BD\perp BC$，且 $\angle ABD=\angle ACB$。若 $\tan C=\dfrac25$，则 $AD:CD=$\fillin。'
+        diagram_slot:
+          slot_id: "practice.q3.prompt"
+          diagram_ref: "practice.q3.prompt"
+          variant: "prompt"
+          disclosure_policy: "clean"
+          required: true
+          on_failure: "fail_assignment"
+          placement: "diagram_col"
+          layout_role: "question_sidecar"
+          display_profile: "worksheet_geometry_sidecar"
+          caption: "第 3 题图"
+          diagram_kind: "synthetic_geometry"
+          teaching_intent: "practice_prompt"
+          problem_context:
+            stem_latex: "A、D、C 依次共线，BD 垂直 BC，角 ABD 等于角 ACB，tan C=2/5。"
+            source_problem_text: "画一般三角形构型，A-D-C 依次共线，连接 AB、AC、BD、BC。BD 垂直 BC；角 ABD 与角 ACB 用相同单弧角标。只画题设，不显示 AD:CD 或答案。"
+          semantic_constraints:
+            given_objects: [A, B, C, D]
+            given_constraints:
+              - "A, D, C are collinear with strict order A-D-C"
+              - "BD is perpendicular to BC"
+              - "angle ABD equals angle ACB"
+              - "tan(angle ACB)=2/5"
+            clean_forbidden:
+              - "do not label AD:DC"
+              - "do not show similarity or answers"
+          visual_requirements:
+            show_labels: true
+            show_given_markers: true
+            required_visible_annotations:
+              markers:
+                - {type: right_angle, vertex: B, arms: [D, C]}
+                - {type: angle_arc, vertex: B, arms: [A, D]}
+                - {type: angle_arc, vertex: C, arms: [A, B]}
+      - type: "problem"
+        id: "q4"
+        points: 12
+        label: "第 4 题"
+        stem_latex: |
+          如图，在 $\triangle ABC$ 中，点 $D$ 在线段 $AC$ 上，$BD\perp BC$，且
+          $\angle ABD=\angle ACB$。若 $\cos C=\dfrac{\sqrt3}{2}$，求 $AD:CD$。
+        diagram_slot:
+          slot_id: "practice.q4.prompt"
+          diagram_ref: "practice.q4.prompt"
+          variant: "prompt"
+          disclosure_policy: "clean"
+          required: true
+          on_failure: "fail_assignment"
+          placement: "diagram_col"
+          layout_role: "question_sidecar"
+          display_profile: "worksheet_geometry_sidecar"
+          caption: "第 4 题图"
+          diagram_kind: "synthetic_geometry"
+          teaching_intent: "practice_prompt"
+          problem_context:
+            stem_latex: "A、D、C 依次共线，BD 垂直 BC，角 ABD 等于角 ACB，cos C=sqrt(3)/2。"
+            source_problem_text: "画一般三角形构型，A-D-C 依次共线，连接 AB、AC、BD、BC。BD 垂直 BC；角 ABD 与角 ACB 用相同单弧角标。只画题设，不显示 AD:CD 或答案。"
+          semantic_constraints:
+            given_objects: [A, B, C, D]
+            given_constraints:
+              - "A, D, C are collinear with strict order A-D-C"
+              - "BD is perpendicular to BC"
+              - "angle ABD equals angle ACB"
+              - "cos(angle ACB)=sqrt(3)/2"
+            clean_forbidden:
+              - "do not label AD:DC"
+              - "do not show similarity or answers"
+          visual_requirements:
+            show_labels: true
+            show_given_markers: true
+            required_visible_annotations:
+              markers:
+                - {type: right_angle, vertex: B, arms: [D, C]}
+                - {type: angle_arc, vertex: B, arms: [A, D]}
+                - {type: angle_arc, vertex: C, arms: [A, B]}
+        answer_space:
+          type: "steps"
+          height: "50mm"
+          step_count: 4
+        layout:
+          avoid_break: true

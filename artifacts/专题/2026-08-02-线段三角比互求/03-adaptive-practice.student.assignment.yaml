@@ -1,0 +1,174 @@
+meta:
+  title: "解三角形作业"
+  subtitle: "学生版·15 题"
+  grade: "九年级"
+  subject: "数学"
+  duration: "35分钟"
+  total_points: 60
+  version: "student"
+  source_artifacts:
+    structure_analysis: "artifacts/专题/2026-08-02-线段三角比互求/01-structure-analysis.md"
+    explanation: "artifacts/专题/2026-08-02-线段三角比互求/02-student-explanation.resolved.assignment.yaml"
+
+render:
+  template: "exam-zh-practice"
+  paper_size: "a4paper"
+  answer_key_position: "after_page_break"
+
+sections:
+  - id: "common-triples-1"
+    title: ""
+    type: "practice"
+    visibility: "student"
+    blocks:
+      - type: "choice"
+        id: "q01"
+        points: 4
+        stem: '在 $\operatorname{Rt}\triangle ABC$ 中，$\angle B=90^\circ$，$AB=3$，$BC=4$，则 $\sin C=$（\quad）'
+        choices:
+          A: '$\dfrac34$'
+          B: '$\dfrac35$'
+          C: '$\dfrac45$'
+          D: '$\dfrac43$'
+
+      - type: "fillin"
+        id: "q02"
+        points: 4
+        stem: '在 $\operatorname{Rt}\triangle ABC$ 中，$\angle B=90^\circ$，$AB=5$，$BC=12$，则 $\tan C=$\fillin。'
+
+      - type: "problem"
+        id: "q03"
+        points: 4
+        label: "第 3 题"
+        stem_latex: |
+          在 $\operatorname{Rt}\triangle ABC$ 中，$\angle B=90^\circ$，
+          $\sin C=\dfrac7{25}$，$BC=24$，求 $AC$。
+        answer_space:
+          type: "steps"
+          height: "28mm"
+          step_count: 3
+
+  - id: "common-triples-2"
+    title: ""
+    type: "practice"
+    visibility: "student"
+    blocks:
+      - type: "fillin"
+        id: "q04"
+        points: 4
+        stem: '在 $\operatorname{Rt}\triangle ABC$ 中，$\angle B=90^\circ$，$\cos C=\dfrac{15}{17}$，$AC=17$，则 $AB=$\fillin。'
+
+      - type: "problem"
+        id: "q05"
+        points: 4
+        label: "第 5 题"
+        stem_latex: |
+          在 $\operatorname{Rt}\triangle ABC$ 中，$\angle B=90^\circ$，
+          $\tan C=\dfrac34$，$AC=10$。求 $AB$ 和 $BC$。
+        answer_space:
+          type: "steps"
+          height: "32mm"
+          step_count: 3
+
+      - type: "fillin"
+        id: "q06"
+        points: 4
+        stem: '在 $\operatorname{Rt}\triangle ABC$ 中，$\angle B=90^\circ$，$AB=\dfrac{12}{7}$，$BC=\dfrac{16}{7}$，则 $\sin C=$\fillin。'
+
+  - id: "scaled-triples-1"
+    title: ""
+    type: "practice"
+    visibility: "student"
+    blocks:
+      - type: "choice"
+        id: "q07"
+        points: 4
+        stem: '在 $\operatorname{Rt}\triangle ABC$ 中，$\angle B=90^\circ$，$AB=\dfrac52$，$BC=6$，则 $\cos C=$（\quad）'
+        choices:
+          A: '$\dfrac5{12}$'
+          B: '$\dfrac5{13}$'
+          C: '$\dfrac{12}{13}$'
+          D: '$\dfrac{13}{12}$'
+
+      - type: "fillin"
+        id: "q08"
+        points: 4
+        stem: '在 $\operatorname{Rt}\triangle ABC$ 中，$\angle B=90^\circ$，$\tan C=\dfrac34$，$AC=\dfrac52$，则 $AB=$\fillin。'
+
+      - type: "problem"
+        id: "q09"
+        points: 4
+        label: "第 9 题"
+        stem_latex: |
+          在 $\operatorname{Rt}\triangle ABC$ 中，$\angle B=90^\circ$，
+          $\cos C=\dfrac45$，$AC=4$，求 $BC$。
+        answer_space:
+          type: "steps"
+          height: "28mm"
+          step_count: 3
+
+  - id: "scaled-triples-2"
+    title: ""
+    type: "practice"
+    visibility: "student"
+    blocks:
+      - type: "fillin"
+        id: "q10"
+        points: 4
+        stem: '在 $\operatorname{Rt}\triangle ABC$ 中，$\angle B=90^\circ$，$AB=\dfrac{10}{3}$，$BC=8$，则 $\tan C=$\fillin。'
+
+      - type: "problem"
+        id: "q11"
+        points: 4
+        label: "第 11 题"
+        stem_latex: |
+          在 $\operatorname{Rt}\triangle ABC$ 中，$\angle B=90^\circ$，
+          $\sin C=\dfrac35$，$BC=5$，求 $AC$。
+        answer_space:
+          type: "steps"
+          height: "28mm"
+          step_count: 3
+
+      - type: "choice"
+        id: "q12"
+        points: 4
+        stem: '在 $\operatorname{Rt}\triangle ABC$ 中，$\angle B=90^\circ$，$AB=\dfrac{21}{5}$，$BC=\dfrac{28}{5}$，则 $\cot C=$（\quad）'
+        choices:
+          A: '$\dfrac34$'
+          B: '$\dfrac43$'
+          C: '$\dfrac35$'
+          D: '$\dfrac45$'
+
+  - id: "scaled-triples-3"
+    title: ""
+    type: "practice"
+    visibility: "student"
+    blocks:
+      - type: "fillin"
+        id: "q13"
+        points: 4
+        stem: '在 $\operatorname{Rt}\triangle ABC$ 中，$\angle B=90^\circ$，$\cos C=\dfrac45$，$AC=3$，则 $AB=$\fillin。'
+
+      - type: "problem"
+        id: "q14"
+        points: 4
+        label: "第 14 题"
+        stem_latex: |
+          在 $\operatorname{Rt}\triangle ABC$ 中，$\angle B=90^\circ$，
+          $\tan C=\dfrac34$，$AC=\dfrac{35}{4}$，求 $BC$。
+        answer_space:
+          type: "steps"
+          height: "28mm"
+          step_count: 3
+
+      - type: "problem"
+        id: "q15"
+        points: 4
+        label: "第 15 题"
+        stem_latex: |
+          在 $\operatorname{Rt}\triangle ABC$ 中，$\angle B=90^\circ$，
+          $AB=2$，$BC=\dfrac83$。求 $\sin C$ 和 $\cos C$。
+        answer_space:
+          type: "steps"
+          height: "34mm"
+          step_count: 3

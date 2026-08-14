@@ -1,0 +1,158 @@
+\documentclass{exam-zh}
+\usepackage{edu-explanation}
+
+\examsetup{
+  question/show-answer = true,
+  fillin/show-answer = true,
+  solution/show-solution = show-stay,
+}
+
+\begin{document}
+
+\eduSectionTitle{模型一：子母型相似——把共线线段比变成对应边比}
+
+\begin{eduProblemBlock}[例题]
+\noindent
+\begin{minipage}[t]{\dimexpr\linewidth-70mm-6mm\relax}
+\vspace{0pt}
+如图，在 $\triangle ABC$ 中，点 $D$ 在线段 $AC$ 上，$BD\perp BC$，且
+$\angle ABD=\angle ACB$。已知 $AD:CD=1:8$，求 $\tan\angle ACB$。
+
+\end{minipage}\hfill
+\begin{diagramcoltikz}{70mm}{先在图中圈出子三角形 $ABD$ 和母三角形 $ACB$。}
+\input{\detokenize{build/diagram/jobs/explanation-original-prompt/rendered/prompt.fragment.tex}}
+\end{diagramcoltikz}
+\end{eduProblemBlock}
+
+
+
+
+
+
+
+
+
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{小贴士}
+        \eduSideHint{先对角，再对边}{相似顺序是 $\triangle ABD\sim\triangle ACB$。先标 $A\leftrightarrow A$、$B\leftrightarrow C$、$D\leftrightarrow B$，对应边才不会乱。}
+        \eduSideHint{$CD$ 为什么不能直接列入比例}{$CD$ 不属于子三角形 $ABD$；必须先用 $AC=AD+CD$ 得到母三角形的整边。}
+        \eduSideHint{模型一做到哪里停}{这一模型的任务是把题设的 $AD:CD$ 转成 $BD:BC$。得到 $BD:BC=1:3$ 后，先不要急着写三角函数。}
+  \end{eduExplainLeft}
+
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{模型一解答}
+\needspace{5\baselineskip}$\because A,D,C$ 三点共线\\
+$\therefore \angle BAD=\angle CAB$\\
+$\because \angle ABD=\angle ACB$\\
+$\therefore \triangle ABD\sim\triangle ACB$
+\needspace{5\baselineskip}$\because A\leftrightarrow A,\ B\leftrightarrow C,\ D\leftrightarrow B$\\
+$\therefore \dfrac{AD}{AB}=\dfrac{AB}{AC}=\dfrac{BD}{BC}$\\
+$\therefore AB^2=AD\cdot AC$
+\needspace{5\baselineskip}设 $AD=x$，则 $CD=8x$，$AC=9x$\\
+$AB^2=AD\cdot AC=9x^2$，故 $AB=3x$\\
+$\therefore \dfrac{BD}{BC}=\dfrac{AD}{AB}=\dfrac13$
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+
+\begin{eduSolutionBox}{模型一的输入与输出}
+  \begingroup
+  \setlength{\parskip}{2.5mm}
+\textbf{入口：} 图中有共顶点的子、母三角形，并给出另一组等角。\par
+\textbf{主要动作：} 判定相似，锁定顶点对应，再写对应边比例。\par
+\textbf{本题输出：} $BD:BC=1:3$，交给下一个模型使用。\par
+  \endgroup
+\end{eduSolutionBox}
+
+
+
+\eduSectionTitle{模型二：解直角三角形——在边比和三角比之间转换}
+
+\begin{eduProblemBlock}[承接例题]
+模型一已经得到 $BD:BC=1:3$。又因为 $BD\perp BC$，在
+$\triangle BCD$ 中求 $\tan C$。
+
+\end{eduProblemBlock}
+
+
+
+
+
+
+
+
+
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{小贴士}
+        \eduSideHint{角 $C$ 属于哪个直角三角形}{直角三角形是 $BCD$，所以 $C$ 的对边是 $BD$，邻边是 $BC$，斜边是 $CD$。}
+        \eduSideHint{为什么不用 $AB$}{$AB$ 不属于直角三角形 $BCD$。它只在模型一中帮助得到 $BD:BC$，进入模型二后不再使用。}
+        \eduSideHint{若改求正弦或余弦}{先根据 $BD:BC$ 用勾股定理补出 $CD$，再按 $\sin C=BD/CD$、$\cos C=BC/CD$ 读取。}
+  \end{eduExplainLeft}
+
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{模型二解答}
+\needspace{5\baselineskip}$\because BD\perp BC$\\
+$\therefore \angle DBC=90^\circ$
+\needspace{5\baselineskip}设 $BD=x$，则 $BC=3x$\\
+\textbf{解直角 $\triangle BCD$}：已知 $\angle DBC=90^\circ$，$BD=x$，$BC=3x$，得 $\tan C=\dfrac{BD}{BC}=\dfrac13$。
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduProblemBlock}[反向例题]
+在同一构型中，若 $\cos C=\dfrac{\sqrt3}{2}$，求 $AD:CD$。
+
+\end{eduProblemBlock}
+
+
+
+
+
+
+
+
+
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{小贴士}
+        \eduSideHint{反向时模型顺序倒过来}{先在直角三角形 $BCD$ 中把 $\cos C$ 变成 $BD:BC$，再把这个边比交回子母型相似。}
+        \eduSideHint{两个模型在哪里交接}{无论正向还是反向，交接量始终是 $BD:BC$；不要把整条过程压成一个平方公式。}
+  \end{eduExplainLeft}
+
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{反向解答}
+\needspace{5\baselineskip}设 $CD=2x$，则 $BC=\sqrt3x$\\
+$\because \angle DBC=90^\circ$\\
+$\therefore BD=\sqrt{CD^2-BC^2}=x$\\
+$\therefore BD:BC=1:\sqrt3$
+\needspace{5\baselineskip}$\because \triangle ABD\sim\triangle ACB$\\
+$\therefore \dfrac{AD}{AB}=\dfrac{BD}{BC}=\dfrac1{\sqrt3}$\\
+设 $AD=y$，则 $AB=\sqrt3y$\\
+$\because AB^2=AD\cdot AC$\\
+$\therefore AC=3y$，$CD=2y$\\
+$\therefore AD:CD=1:2$
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduSummaryBlock}{\eduIconPin}{两模型串联顺序}
+\begin{eduBulletList}
+  \item \textbf{正向：} 共线线段比 $\xrightarrow{\text{子母型相似}} BD:BC \xrightarrow{\text{解直角三角形}}$ 三角比。  \item \textbf{反向：} 三角比 $\xrightarrow{\text{解直角三角形}} BD:BC \xrightarrow{\text{子母型相似}}$ 共线线段比。  \item \textbf{检查：} 模型一先核对相似对应；模型二先核对直角、对边、邻边和斜边。\end{eduBulletList}
+\end{eduSummaryBlock}
+
+
+
+
+\end{document}

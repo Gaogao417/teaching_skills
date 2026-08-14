@@ -1,0 +1,215 @@
+meta:
+  title: "子母型相似与解直角三角形"
+  subtitle: "学生讲义"
+  grade: "九年级"
+  subject: "数学"
+  version: "student"
+  source_artifacts:
+    structure_analysis: "artifacts/专题/2026-08-02-子母型相似与三角比/01-structure-analysis.md"
+
+render:
+  template: "exam-zh-explanation"
+  paper_size: "a4paper"
+
+sections:
+  - id: "model-nested-similarity"
+    title: "模型一：子母型相似——把共线线段比变成对应边比"
+    show_title: true
+    type: "explanation"
+    visibility: "student"
+    blocks:
+      - type: "problemcard"
+        id: "original-example"
+        label: "例题"
+        stem_latex: |
+          如图，在 $\triangle ABC$ 中，点 $D$ 在线段 $AC$ 上，$BD\perp BC$，且
+          $\angle ABD=\angle ACB$。已知 $AD:CD=1:8$，求 $\tan\angle ACB$。
+        diagram_slot:
+          slot_id: "explanation.original.prompt"
+          diagram_ref: "explanation.original.prompt"
+          variant: "prompt"
+          disclosure_policy: "clean"
+          required: true
+          on_failure: "fail_assignment"
+          placement: "block_center"
+          layout_role: "center_block"
+          display_profile: "worksheet_geometry_center"
+          caption: '先在图中圈出子三角形 $ABD$ 和母三角形 $ACB$。'
+          diagram_kind: "synthetic_geometry"
+          teaching_intent: "explanation_prompt"
+          problem_context:
+            stem_latex: "在三角形 ABC 中，D 在线段 AC 内部且点序为 A-D-C，连接 BD，BD 垂直 BC，角 ABD 等于角 ACB，AD:CD=1:8。"
+            source_problem_text: "画一般的非等腰三角形 ABC，A、D、C 依次共线，D 严格在线段 AC 内。连接 AB、AC、BD、BC。BD 与 BC 垂直。必须实际画出 B 处的直角标记，并用相同的单弧角标标出角 ABD 与角 ACB。只显示题设对象与点名，不显示相似结论、边比、辅助线或答案。"
+          semantic_constraints:
+            given_objects: [A, B, C, D]
+            given_constraints:
+              - "A, D, C are collinear with strict order A-D-C"
+              - "AD:DC=1:8"
+              - "segment BD is drawn"
+              - "BD is perpendicular to BC"
+              - "angle ABD equals angle ACB"
+            clean_forbidden:
+              - "do not imply AB=AC"
+              - "do not place D at the midpoint of AC"
+              - "do not mark AB perpendicular to BC"
+              - "do not show triangle similarity, ratios, or answers"
+          visual_requirements:
+            show_labels: true
+            show_given_markers: true
+            preferred_orientation: "portrait"
+            label_density: "normal"
+            required_visible_annotations:
+              markers:
+                - {type: right_angle, vertex: B, arms: [D, C]}
+                - {type: angle_arc, vertex: B, arms: [A, D]}
+                - {type: angle_arc, vertex: C, arms: [A, B]}
+
+      - type: "route"
+        id: "nested-route"
+        show_navigation: false
+        steps:
+          - id: "nested-prove"
+            latex: "先判定子母三角形相似"
+            content_latex: |
+              $\because A,D,C$ 三点共线\\
+              $\therefore \angle BAD=\angle CAB$\\
+              $\because \angle ABD=\angle ACB$\\
+              $\therefore \triangle ABD\sim\triangle ACB$
+          - id: "nested-correspondence"
+            latex: "按对应顶点写比例"
+            content_latex: |
+              $\because A\leftrightarrow A,\ B\leftrightarrow C,\ D\leftrightarrow B$\\
+              $\therefore \dfrac{AD}{AB}=\dfrac{AB}{AC}=\dfrac{BD}{BC}$\\
+              $\therefore AB^2=AD\cdot AC$
+          - id: "nested-output"
+            latex: "算出模型一的输出边比"
+            content_latex: |
+              设 $AD=x$，则 $CD=8x$，$AC=9x$\\
+              $AB^2=AD\cdot AC=9x^2$，故 $AB=3x$\\
+              $\therefore \dfrac{BD}{BC}=\dfrac{AD}{AB}=\dfrac13$
+
+      - type: "dual_explanation"
+        id: "nested-solution"
+        side_title: "小贴士"
+        side_items:
+          - kind: "hint"
+            title: "先对角，再对边"
+            content_latex: '相似顺序是 $\triangle ABD\sim\triangle ACB$。先标 $A\leftrightarrow A$、$B\leftrightarrow C$、$D\leftrightarrow B$，对应边才不会乱。'
+          - kind: "hint"
+            title: "$CD$ 为什么不能直接列入比例"
+            content_latex: '$CD$ 不属于子三角形 $ABD$；必须先用 $AC=AD+CD$ 得到母三角形的整边。'
+          - kind: "hint"
+            title: "模型一做到哪里停"
+            content_latex: '这一模型的任务是把题设的 $AD:CD$ 转成 $BD:BC$。得到 $BD:BC=1:3$ 后，先不要急着写三角函数。'
+        solution_title: "模型一解答"
+        plain_solution: true
+        solution_step_ids:
+          - "nested-prove"
+          - "nested-correspondence"
+          - "nested-output"
+
+      - type: "solution"
+        id: "nested-model-contract"
+        title: "模型一的输入与输出"
+        items:
+          - latex: '\textbf{入口：} 图中有共顶点的子、母三角形，并给出另一组等角。'
+          - latex: '\textbf{主要动作：} 判定相似，锁定顶点对应，再写对应边比例。'
+          - latex: '\textbf{本题输出：} $BD:BC=1:3$，交给下一个模型使用。'
+
+  - id: "model-right-triangle"
+    title: "模型二：解直角三角形——在边比和三角比之间转换"
+    show_title: true
+    type: "explanation"
+    visibility: "student"
+    blocks:
+      - type: "problemcard"
+        id: "right-triangle-handoff"
+        label: "承接例题"
+        stem_latex: |
+          模型一已经得到 $BD:BC=1:3$。又因为 $BD\perp BC$，在
+          $\triangle BCD$ 中求 $\tan C$。
+
+      - type: "route"
+        id: "right-triangle-route"
+        show_navigation: false
+        steps:
+          - id: "right-triangle-identify"
+            latex: "找准含角 $C$ 的直角三角形"
+            content_latex: |
+              $\because BD\perp BC$\\
+              $\therefore \angle DBC=90^\circ$
+          - id: "right-triangle-solve"
+            latex: "用对边和邻边求正切"
+            content_latex: |
+              设 $BD=x$，则 $BC=3x$\\
+              \textbf{解直角 $\triangle BCD$}：已知 $\angle DBC=90^\circ$，$BD=x$，$BC=3x$，得 $\tan C=\dfrac{BD}{BC}=\dfrac13$。
+
+      - type: "dual_explanation"
+        id: "right-triangle-solution"
+        side_title: "小贴士"
+        side_items:
+          - kind: "hint"
+            title: "角 $C$ 属于哪个直角三角形"
+            content_latex: '直角三角形是 $BCD$，所以 $C$ 的对边是 $BD$，邻边是 $BC$，斜边是 $CD$。'
+          - kind: "hint"
+            title: "为什么不用 $AB$"
+            content_latex: '$AB$ 不属于直角三角形 $BCD$。它只在模型一中帮助得到 $BD:BC$，进入模型二后不再使用。'
+          - kind: "hint"
+            title: "若改求正弦或余弦"
+            content_latex: '先根据 $BD:BC$ 用勾股定理补出 $CD$，再按 $\sin C=BD/CD$、$\cos C=BC/CD$ 读取。'
+        solution_title: "模型二解答"
+        plain_solution: true
+        solution_step_ids:
+          - "right-triangle-identify"
+          - "right-triangle-solve"
+
+      - type: "problemcard"
+        id: "reverse-example"
+        label: "反向例题"
+        stem_latex: |
+          在同一构型中，若 $\cos C=\dfrac{\sqrt3}{2}$，求 $AD:CD$。
+
+      - type: "route"
+        id: "reverse-two-model-route"
+        show_navigation: false
+        steps:
+          - id: "reverse-right-triangle"
+            latex: "先用模型二还原 $BD:BC$"
+            content_latex: |
+              设 $CD=2x$，则 $BC=\sqrt3x$\\
+              $\because \angle DBC=90^\circ$\\
+              $\therefore BD=\sqrt{CD^2-BC^2}=x$\\
+              $\therefore BD:BC=1:\sqrt3$
+          - id: "reverse-nested-similarity"
+            latex: "再回到模型一还原共线线段比"
+            content_latex: |
+              $\because \triangle ABD\sim\triangle ACB$\\
+              $\therefore \dfrac{AD}{AB}=\dfrac{BD}{BC}=\dfrac1{\sqrt3}$\\
+              设 $AD=y$，则 $AB=\sqrt3y$\\
+              $\because AB^2=AD\cdot AC$\\
+              $\therefore AC=3y$，$CD=2y$\\
+              $\therefore AD:CD=1:2$
+
+      - type: "dual_explanation"
+        id: "reverse-two-model-solution"
+        side_title: "小贴士"
+        side_items:
+          - kind: "hint"
+            title: "反向时模型顺序倒过来"
+            content_latex: '先在直角三角形 $BCD$ 中把 $\cos C$ 变成 $BD:BC$，再把这个边比交回子母型相似。'
+          - kind: "hint"
+            title: "两个模型在哪里交接"
+            content_latex: '无论正向还是反向，交接量始终是 $BD:BC$；不要把整条过程压成一个平方公式。'
+        solution_title: "反向解答"
+        plain_solution: true
+        solution_step_ids:
+          - "reverse-right-triangle"
+          - "reverse-nested-similarity"
+
+      - type: "method_reminder"
+        id: "two-model-summary"
+        title: "两模型串联顺序"
+        items:
+          - latex: '\textbf{正向：} 共线线段比 $\xrightarrow{\text{子母型相似}} BD:BC \xrightarrow{\text{解直角三角形}}$ 三角比。'
+          - latex: '\textbf{反向：} 三角比 $\xrightarrow{\text{解直角三角形}} BD:BC \xrightarrow{\text{子母型相似}}$ 共线线段比。'
+          - latex: '\textbf{检查：} 模型一先核对相似对应；模型二先核对直角、对边、邻边和斜边。'

@@ -1,0 +1,312 @@
+meta:
+  title: 子母型相似与三角比混合练习
+  subtitle: 教师版
+  grade: 九年级
+  subject: 数学
+  duration: 25分钟
+  total_points: 40
+  version: teacher
+  source_artifacts:
+    structure_analysis: artifacts/专题/2026-08-02-子母型相似与三角比/01-structure-analysis.md
+    explanation: artifacts/专题/2026-08-02-子母型相似与三角比/02-student-explanation.resolved.assignment.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: mixed-practice
+  title: 练习
+  type: practice
+  visibility: teacher
+  blocks:
+  - type: fillin
+    id: q1
+    points: 8
+    stem: 如图，在 $\triangle ABC$ 中，点 $D$ 在线段 $AC$ 上，$BD\perp BC$，且 $\angle ABD=\angle
+      ACB$。若 $AD:CD=1:7$，则 $\sin C=$\fillin。
+    answer: $\dfrac13$
+    explanation: 模型一：由 $AD:CD=1:7$ 和 $\triangle ABD\sim\triangle ACB$ 得 $BD:BC=1:2\sqrt2$。模型二：在直角
+      $\triangle BCD$ 中取 $BD=1$、$BC=2\sqrt2$，则 $CD=3$，故 $\sin C=BD/CD=1/3$。
+    teaching:
+      teaching_goal: 按模型一、模型二分段完成由共线线段比到正弦值的转换。
+      source_relations:
+      - fallback:structure_analysis:nested_similarity_to_side_ratio
+      - fallback:right_triangle:side_ratio_to_sin
+      model_fusion:
+        model_count: 2
+        models:
+        - 子母型相似
+        - 解直角三角形
+        fusion_role: target_transform
+      relation_chain:
+      - step: 1
+        relation_id: fallback:nested_similarity_to_side_ratio
+        inputs:
+          AD_DC: '1:7'
+        outputs:
+          BD_BC: 1:2sqrt(2)
+        constraints_checked:
+        - D 在线段 AC 内
+        - △ABD∽△ACB
+        - AB²=AD·AC
+      - step: 2
+        relation_id: fallback:right_triangle_side_ratio_to_sin
+        consumes:
+          BD_BC: step1.outputs.BD_BC
+        outputs:
+          sin_C: 1/3
+        constraints_checked:
+        - BD⊥BC
+        - CD 为斜边
+        - C 为锐角
+      expected_blocker: 两个模型混写，或进入直角三角形后仍继续使用 AB。
+      entry_point: transfer
+      scaffold_level: medium
+      variation_depth: changed_question
+      complexity_note: 模型一含一次平方开方；模型二用一次勾股定理，结果为简单分数。
+      upgrade_rule: 能清楚写出模型一的输出 $BD:BC$，再独立进入模型二。
+      fallback_move: 在草稿上画两个方框，分别写‘子母型相似’和‘直角三角形 BCD’，中间只传递 $BD:BC$。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/practice-q1-prompt/rendered/prompt.fragment.tex
+      diagram_ref: practice.q1.prompt
+      diagram_job_id: practice-q1-prompt
+      width: 60mm
+      caption: 第 1 题图
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:85acc3324f269ad9f5abd215d6c8c31506ed8f791ddb822e120202bf0a41877e
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: q2
+    points: 12
+    label: 第 2 题
+    stem_latex: |
+      如图，在 $\triangle ABC$ 中，点 $D$ 在线段 $AC$ 上，$BD\perp BC$，且
+      $\angle ABD=\angle ACB$。若 $AD:CD=9:7$，求 $\cos C$。
+    answer_space:
+      type: steps
+      height: 45mm
+      step_count: 4
+    layout:
+      avoid_break: true
+    answer: $\cos C=\dfrac45$
+    explanation: 模型一：设 $AD=9x$、$CD=7x$，则 $AC=16x$；由相似得 $AB^2=AD\cdot AC=144x^2$，所以
+      $AB=12x$，进而 $BD:BC=AD:AB=3:4$。模型二：在直角 $\triangle BCD$ 中，三边比为 $3:4:5$，故 $\cos
+      C=BC/CD=4/5$。
+    solution_steps:
+    - title: 模型一：求相似输出边比
+      content: 设 $AD=9x$、$CD=7x$，则 $AC=16x$。由 $AB^2=AD\cdot AC$ 得 $AB=12x$，所以 $BD:BC=AD:AB=3:4$。
+    - title: 模型二：补出斜边
+      content: 在直角 $\triangle BCD$ 中，设 $BD=3y$、$BC=4y$，由勾股定理得 $CD=5y$。
+    - title: 模型二：读取余弦
+      content: $\cos C=\dfrac{BC}{CD}=\dfrac45$。
+    teaching:
+      teaching_goal: 让模型一输出 $BD:BC$，再由模型二补斜边并读取余弦。
+      source_relations:
+      - fallback:structure_analysis:nested_similarity_to_side_ratio
+      - fallback:right_triangle:side_ratio_to_cos
+      model_fusion:
+        model_count: 2
+        models:
+        - 子母型相似
+        - 解直角三角形
+        fusion_role: target_transform
+      relation_chain:
+      - step: 1
+        relation_id: fallback:nested_similarity_to_side_ratio
+        inputs:
+          AD_DC: '9:7'
+        outputs:
+          BD_BC: '3:4'
+        constraints_checked:
+        - D 在线段 AC 内
+        - △ABD∽△ACB
+        - AB²=AD·AC
+      - step: 2
+        relation_id: fallback:right_triangle_side_ratio_to_cos
+        consumes:
+          BD_BC: step1.outputs.BD_BC
+        outputs:
+          cos_C: 4/5
+        constraints_checked:
+        - BD⊥BC
+        - CD 为斜边
+        - 勾股数 3-4-5
+      expected_blocker: 模型一求到 3:4 后直接当成余弦，没有先判断对边和邻边。
+      entry_point: transfer
+      scaffold_level: medium
+      variation_depth: changed_numbers
+      complexity_note: 模型一一次平方开方，模型二识别 3-4-5 直角三角形。
+      upgrade_rule: 能明确把 $BD:BC=3:4$ 作为模型交接量后进入反向题。
+      fallback_move: 先只完成模型一并框出 $BD:BC$，再另起一行画直角三角形三边。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/practice-q2-prompt/rendered/prompt.fragment.tex
+      diagram_ref: practice.q2.prompt
+      diagram_job_id: practice-q2-prompt
+      width: 60mm
+      caption: 第 2 题图
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:405317de66e01079b204aa135d8b885ceed0ca8e3c1c86d1b271940f25683eb5
+      packages:
+      - tikz
+      libraries: []
+  - type: fillin
+    id: q3
+    points: 8
+    stem: 如图，在 $\triangle ABC$ 中，点 $D$ 在线段 $AC$ 上，$BD\perp BC$，且 $\angle ABD=\angle
+      ACB$。若 $\tan C=\dfrac25$，则 $AD:CD=$\fillin。
+    answer: $4:21$
+    explanation: 模型二：在直角 $\triangle BCD$ 中，$\tan C=BD/BC=2/5$，故 $BD:BC=2:5$。模型一：由相似得
+      $AD:AB=AB:AC=2:5$。设 $AD=2x$、$AB=5x$，则 $AC=25x/2$，$CD=21x/2$，所以 $AD:CD=4:21$。
+    teaching:
+      teaching_goal: 按模型二到模型一的反向顺序，由正切值还原共线分段比。
+      source_relations:
+      - fallback:right_triangle:tan_to_side_ratio
+      - fallback:structure_analysis:side_ratio_to_nested_segments
+      model_fusion:
+        model_count: 2
+        models:
+        - 解直角三角形
+        - 子母型相似
+        fusion_role: target_transform
+      relation_chain:
+      - step: 1
+        relation_id: fallback:right_triangle_tan_to_side_ratio
+        inputs:
+          tan_C: 2/5
+        outputs:
+          BD_BC: '2:5'
+        constraints_checked:
+        - BD⊥BC
+        - BD 为角 C 的对边
+        - BC 为邻边
+      - step: 2
+        relation_id: fallback:side_ratio_to_nested_segments
+        consumes:
+          BD_BC: step1.outputs.BD_BC
+        outputs:
+          AD_DC: '4:21'
+        constraints_checked:
+        - △ABD∽△ACB
+        - AD/AB=AB/AC=BD/BC
+        - CD=AC-AD
+      expected_blocker: 没有先在直角三角形中读出 $BD:BC$，或回到模型一后只写一组对应边。
+      entry_point: reverse_construct
+      scaffold_level: low
+      variation_depth: reverse_construct
+      complexity_note: 模型二直接读正切；模型一含一次比例设元和整段减分段。
+      upgrade_rule: 能主动把 $BD:BC$ 作为两个模型的交接量后进入以余弦为已知的反向题。
+      fallback_move: 先只写 $BD:BC=2:5$，再在相似三角形旁标出三组对应边。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/practice-q3-prompt/rendered/prompt.fragment.tex
+      diagram_ref: practice.q3.prompt
+      diagram_job_id: practice-q3-prompt
+      width: 60mm
+      caption: 第 3 题图
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:8b9d9b5f7264d6ffd504abbabfc8e130d465eaec958dbe8212c29133914a2f16
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: q4
+    points: 12
+    label: 第 4 题
+    stem_latex: |
+      如图，在 $\triangle ABC$ 中，点 $D$ 在线段 $AC$ 上，$BD\perp BC$，且
+      $\angle ABD=\angle ACB$。若 $\cos C=\dfrac{\sqrt3}{2}$，求 $AD:CD$。
+    answer_space:
+      type: steps
+      height: 50mm
+      step_count: 4
+    layout:
+      avoid_break: true
+    answer: $AD:CD=1:2$
+    explanation: 模型二：在直角 $\triangle BCD$ 中设 $CD=2x$，由 $\cos C=BC/CD=\sqrt3/2$ 得 $BC=\sqrt3x$，再由勾股定理得
+      $BD=x$，所以 $BD:BC=1:\sqrt3$。模型一：由相似得 $AD:AB=AB:AC=1:\sqrt3$；设 $AD=y$、$AB=\sqrt3y$，则
+      $AC=3y$，故 $AD:CD=1:2$。
+    solution_steps:
+    - title: 模型二：由余弦还原三边比
+      content: 设 $CD=2x$，则 $BC=\sqrt3x$。由勾股定理得 $BD=x$，所以 $BD:BC=1:\sqrt3$。
+    - title: 模型一：接入相似对应边
+      content: $\because \triangle ABD\sim\triangle ACB$\\ $\therefore \dfrac{AD}{AB}=\dfrac{AB}{AC}=\dfrac{BD}{BC}=\dfrac1{\sqrt3}$
+    - title: 模型一：还原共线分段比
+      content: 设 $AD=y$、$AB=\sqrt3y$，则由 $AB^2=AD\cdot AC$ 得 $AC=3y$，所以 $CD=2y$，$AD:CD=1:2$。
+    teaching:
+      teaching_goal: 先用模型二由余弦还原 $BD:BC$，再用模型一反求共线分段比。
+      source_relations:
+      - fallback:right_triangle:cos_to_side_ratio
+      - fallback:structure_analysis:side_ratio_to_nested_segments
+      model_fusion:
+        model_count: 2
+        models:
+        - 解直角三角形
+        - 子母型相似
+        fusion_role: target_transform
+      relation_chain:
+      - step: 1
+        relation_id: fallback:right_triangle_cos_to_side_ratio
+        inputs:
+          cos_C: sqrt(3)/2
+        outputs:
+          BD_BC: 1:sqrt(3)
+        constraints_checked:
+        - BD⊥BC
+        - CD 为斜边
+        - BC 为角 C 的邻边
+      - step: 2
+        relation_id: fallback:side_ratio_to_nested_segments
+        consumes:
+          BD_BC: step1.outputs.BD_BC
+        outputs:
+          AD_DC: '1:2'
+        constraints_checked:
+        - △ABD∽△ACB
+        - AD/AB=AB/AC=BD/BC
+        - CD=AC-AD
+      expected_blocker: 在两个模型之间跳步，直接把余弦值代入相似比例。
+      entry_point: hidden_structure
+      scaffold_level: low
+      variation_depth: packaged_condition
+      complexity_note: 模型二使用一次勾股定理；模型一使用一次比例设元，根式在最终比例中消去。
+      upgrade_rule: 能在每一步标注当前使用的模型，并写清交接量 $BD:BC$。
+      fallback_move: 先单独画直角三角形求 $BD:BC$，再遮住原三角比，只凭该边比完成相似部分。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/practice-q4-prompt/rendered/prompt.fragment.tex
+      diagram_ref: practice.q4.prompt
+      diagram_job_id: practice-q4-prompt
+      width: 60mm
+      caption: 第 4 题图
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:e5af01ffe439958d2384b70ae551ac501de66a17302e363eae98e67b838f4c6a
+      packages:
+      - tikz
+      libraries: []
+- id: answer-key
+  title: 答案
+  type: answer_key
+  visibility: teacher
+  layout:
+    break_before: true
+  blocks:
+  - type: answer
+    id: answers
+    title: 答案速查
+    items:
+    - latex: 第 1 题：$\sin C=\dfrac13$。
+    - latex: 第 2 题：$\cos C=\dfrac45$。
+    - latex: 第 3 题：$AD:CD=4:21$。
+    - latex: 第 4 题：$AD:CD=1:2$。

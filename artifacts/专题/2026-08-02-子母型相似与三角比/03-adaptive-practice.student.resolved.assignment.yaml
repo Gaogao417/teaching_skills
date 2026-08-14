@@ -1,0 +1,113 @@
+meta:
+  title: ''
+  subtitle: 学生版
+  grade: 九年级
+  subject: 数学
+  duration: 25分钟
+  total_points: 40
+  version: student
+  source_artifacts:
+    structure_analysis: artifacts/专题/2026-08-02-子母型相似与三角比/01-structure-analysis.md
+    explanation: artifacts/专题/2026-08-02-子母型相似与三角比/02-student-explanation.resolved.assignment.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: mixed-practice
+  title: ''
+  type: practice
+  visibility: student
+  blocks:
+  - type: fillin
+    id: q1
+    points: 8
+    stem: 如图，在 $\triangle ABC$ 中，点 $D$ 在线段 $AC$ 上，$BD\perp BC$，且 $\angle ABD=\angle
+      ACB$。若 $AD:CD=1:7$，则 $\sin C=$\fillin。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/practice-q1-prompt/rendered/prompt.fragment.tex
+      diagram_ref: practice.q1.prompt
+      diagram_job_id: practice-q1-prompt
+      width: 60mm
+      caption: 第 1 题图
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:85acc3324f269ad9f5abd215d6c8c31506ed8f791ddb822e120202bf0a41877e
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: q2
+    points: 12
+    label: 第 2 题
+    stem_latex: |
+      如图，在 $\triangle ABC$ 中，点 $D$ 在线段 $AC$ 上，$BD\perp BC$，且
+      $\angle ABD=\angle ACB$。若 $AD:CD=9:7$，求 $\cos C$。
+    answer_space:
+      type: steps
+      height: 45mm
+      step_count: 4
+    layout:
+      avoid_break: true
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/practice-q2-prompt/rendered/prompt.fragment.tex
+      diagram_ref: practice.q2.prompt
+      diagram_job_id: practice-q2-prompt
+      width: 60mm
+      caption: 第 2 题图
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:405317de66e01079b204aa135d8b885ceed0ca8e3c1c86d1b271940f25683eb5
+      packages:
+      - tikz
+      libraries: []
+  - type: fillin
+    id: q3
+    points: 8
+    stem: 如图，在 $\triangle ABC$ 中，点 $D$ 在线段 $AC$ 上，$BD\perp BC$，且 $\angle ABD=\angle
+      ACB$。若 $\tan C=\dfrac25$，则 $AD:CD=$\fillin。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/practice-q3-prompt/rendered/prompt.fragment.tex
+      diagram_ref: practice.q3.prompt
+      diagram_job_id: practice-q3-prompt
+      width: 60mm
+      caption: 第 3 题图
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:8b9d9b5f7264d6ffd504abbabfc8e130d465eaec958dbe8212c29133914a2f16
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: q4
+    points: 12
+    label: 第 4 题
+    stem_latex: |
+      如图，在 $\triangle ABC$ 中，点 $D$ 在线段 $AC$ 上，$BD\perp BC$，且
+      $\angle ABD=\angle ACB$。若 $\cos C=\dfrac{\sqrt3}{2}$，求 $AD:CD$。
+    answer_space:
+      type: steps
+      height: 50mm
+      step_count: 4
+    layout:
+      avoid_break: true
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: build/diagram/jobs/practice-q4-prompt/rendered/prompt.fragment.tex
+      diagram_ref: practice.q4.prompt
+      diagram_job_id: practice-q4-prompt
+      width: 60mm
+      caption: 第 4 题图
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:e5af01ffe439958d2384b70ae551ac501de66a17302e363eae98e67b838f4c6a
+      packages:
+      - tikz
+      libraries: []

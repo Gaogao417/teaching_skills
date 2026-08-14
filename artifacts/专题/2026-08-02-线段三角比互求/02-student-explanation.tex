@@ -1,0 +1,158 @@
+\documentclass{exam-zh}
+\usepackage{edu-explanation}
+
+\examsetup{
+  question/show-answer = true,
+  fillin/show-answer = true,
+  solution/show-solution = show-stay,
+}
+
+\begin{document}
+
+\eduSectionTitle{线段 $\Longleftrightarrow$ 三角比：一张图走通双向流程}
+
+\begin{eduProblemBlock}[统一构型]
+\noindent
+\begin{minipage}[t]{\dimexpr\linewidth-70mm-6mm\relax}
+\vspace{0pt}
+如图，在 $\operatorname{Rt}\triangle ABC$ 中，$\angle B=90^\circ$，本讲始终以 $\angle C$ 为参照角。
+请先指出 $\angle C$ 的对边、邻边和斜边。
+
+\end{minipage}\hfill
+\begin{diagramcoltikz}{70mm}{先盯住 $\angle C$：哪条边不碰它，哪条边碰它但不是斜边？}
+\input{\detokenize{build/diagram/jobs/explanation-fixed-configuration-prompt/rendered/prompt.fragment.tex}}
+\end{diagramcoltikz}
+\end{eduProblemBlock}
+
+
+
+
+
+
+
+
+
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{小贴士}
+        \eduSideHint{先找斜边}{斜边只由直角决定；对边、邻边才由参照角决定。}
+        \eduSideHint{固定口令}{本讲始终记作：对 $AB$、邻 $BC$、斜 $AC$。}
+  \end{eduExplainLeft}
+
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{边的角色}
+\needspace{5\baselineskip}      \eduExplainStep{}{固定 $\angle C$ 的对边}{不经过顶点 $C$ 的边是 $AB$，所以 $AB$ 是 $\angle C$ 的对边。}
+\needspace{5\baselineskip}      \eduExplainStep{}{固定 $\angle C$ 的邻边}{经过顶点 $C$ 且不是斜边的边是 $BC$，所以 $BC$ 是邻边。}
+\needspace{5\baselineskip}      \eduExplainStep{}{先由直角找斜边}{直角 $B$ 的对边是 $AC$，所以 $AC$ 是斜边。}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+
+\begin{eduSolutionBox}{四个三角比：把边按正确顺序相除}
+  \begingroup
+  \setlength{\parskip}{2.5mm}
+\[
+\sin C=\frac{AB}{AC},\qquad
+\cos C=\frac{BC}{AC},\qquad
+\tan C=\frac{AB}{BC},\qquad
+\cot C=\frac{BC}{AB}.
+\]
+\par
+\textbf{一句话：}$\sin$ 对斜，$\cos$ 邻斜，$\tan$ 对邻，$\cot$ 邻对。\par
+  \endgroup
+\end{eduSolutionBox}
+
+
+
+
+\begin{eduProblemBlock}[例题 1：三角比求线段]
+在 $\operatorname{Rt}\triangle ABC$ 中，$\angle B=90^\circ$，
+$\sin C=\dfrac35$，$BC=8$，求 $AC$。
+
+\end{eduProblemBlock}
+
+
+
+
+
+\begin{eduAuxItem}{思路导航}
+把三角比翻译成边的份数$\;\to\;$补成完整勾股数组$\;\to\;$由已知边确定倍数$\;\to\;$用勾股关系检查\end{eduAuxItem}
+
+
+
+
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{小贴士}
+        \eduSideHint{分数不是答案}{$\dfrac35$ 表示对边与斜边的份数是 $3:5$；先说清是哪两条边。}
+        \eduSideHint{倍数必须统一}{一旦 $BC$ 的 $4$ 份变成 $8$，其余每一份都必须乘同一个 $2$。}
+  \end{eduExplainLeft}
+
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{解答}
+\needspace{5\baselineskip}      \eduExplainStep{}{把三角比翻译成边的份数}{$\sin C=\dfrac{AB}{AC}=\dfrac35$，所以 $AB:AC=3:5$。}
+\needspace{5\baselineskip}      \eduExplainStep{}{补成完整勾股数组}{$3^2+4^2=5^2$，所以 $AB:BC:AC=3:4:5$。}
+\needspace{5\baselineskip}      \eduExplainStep{}{由已知边确定倍数}{$BC=8=4\times2$，故 $AC=5\times2=10$。}
+\needspace{5\baselineskip}      \eduExplainStep{}{用勾股关系检查}{$AB=6$，且 $6^2+8^2=10^2$，结果正确。}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduProblemBlock}[例题 2：线段求三角比]
+在 $\operatorname{Rt}\triangle ABC$ 中，$\angle B=90^\circ$，
+$AB=5$，$BC=12$，求 $\sin C$ 和 $\tan C$。
+
+\end{eduProblemBlock}
+
+
+
+
+
+\begin{eduAuxItem}{思路导航}
+先看函数真正需要哪些边$\;\to\;$只补缺少的斜边$\;\to\;$按定义列比并化简\end{eduAuxItem}
+
+
+
+
+
+\begin{eduDualExplain}
+  \begin{eduExplainLeft}
+    \eduColumnTitle{\eduIconBulb}{小贴士}
+        \eduSideHint{先看是否缺边}{$\tan C$ 的两条边已知，可以直接列比；$\sin C$ 缺斜边，才需要勾股。}
+        \eduSideHint{范围检查}{$\sin C$、$\cos C$ 必须在 $0$ 与 $1$ 之间；正切、余切不受这个上界限制。}
+  \end{eduExplainLeft}
+
+  \begin{eduExplainRight}
+    \eduColumnTitle{\eduIconBook}{解答}
+\needspace{5\baselineskip}      \eduExplainStep{}{先看函数真正需要哪些边}{$\sin C$ 需要 $AB,AC$；$\tan C$ 需要 $AB,BC$。}
+\needspace{5\baselineskip}      \eduExplainStep{}{只补缺少的斜边}{$AC=\sqrt{AB^2+BC^2}=\sqrt{5^2+12^2}=13$。}
+\needspace{5\baselineskip}      \eduExplainStep{}{按定义列比并化简}{$\sin C=\dfrac{AB}{AC}=\dfrac5{13}$，$\tan C=\dfrac{AB}{BC}=\dfrac5{12}$。}
+  \end{eduExplainRight}
+\end{eduDualExplain}
+
+
+
+
+\begin{eduMistakeBox}
+\eduSubTitle{最容易错的两件事}第一，把 $\tan C$ 写成 $BC/AB$；第二，识别出勾股数组后只缩放已知边，没有把三条边同时乘同一个倍数。
+\end{eduMistakeBox}
+
+
+
+
+\begin{eduSummaryBlock}{\eduIconPin}{双向标准流程}
+\begin{eduBulletList}
+  \item \textbf{边 $\to$ 比：}定边角色 $\to$ 看函数需要哪两边 $\to$ 缺边才勾股 $\to$ 列比化简。  \item \textbf{比 $\to$ 边：}把三角比读成边比 $\to$ 补成三边份数 $\to$ 已知边定倍数 $\to$ 同倍求边。  \item \textbf{最后检查：}斜边最长，勾股成立，$0<\sin C,\cos C<1$。\end{eduBulletList}
+\end{eduSummaryBlock}
+
+
+
+
+\end{document}

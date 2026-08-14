@@ -1,0 +1,208 @@
+meta:
+  title: ''
+  grade: 八年级
+  subject: 数学
+  total_points: 60
+  version: student
+  show_answers: false
+  source_artifacts:
+    question_banks:
+    - question_bank: ../../题库/2026-07-16-反A形相似/question-bank.yaml
+      topic: 反A形相似
+      selected_question_ids:
+      - Q045
+      - Q005
+      random_seed: 1644807495220551073
+    - question_bank: ../../题库/2026-07-16-子母型相似/question-bank.yaml
+      topic: 子母型相似
+      selected_question_ids:
+      - Q034
+      - Q037
+      random_seed: 1791303126287703584
+    - question_bank: ../../题库/2026-07-16-蝶形相似/question-bank.yaml
+      topic: 蝶形相似
+      selected_question_ids:
+      - Q006
+      - Q013
+      random_seed: 4810378608681259927
+    master_seed: 598869720898481967
+    shuffle_seed: 5656540691279760949
+    mixed_order:
+    - position: 1
+      topic: 子母型相似
+      question_id: Q037
+    - position: 2
+      topic: 蝶形相似
+      question_id: Q006
+    - position: 3
+      topic: 子母型相似
+      question_id: Q034
+    - position: 4
+      topic: 反A形相似
+      question_id: Q005
+    - position: 5
+      topic: 蝶形相似
+      question_id: Q013
+    - position: 6
+      topic: 反A形相似
+      question_id: Q045
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: mixed-sampled-questions
+  title: 相似模型混合练习
+  type: practice
+  visibility: student
+  blocks:
+  - type: problem
+    id: M001
+    points: 10
+    label: 第 1 题
+    stem_latex: '如图，在 $\triangle ABC$ 中，$\angle ABD=\angle ACB$。
+
+
+      已知 $AC=8$，$CD=4$。求 $AB$ 的长。'
+    answer_space:
+      type: steps
+      height: 54mm
+      step_count: 5
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../题库/2026-07-16-子母型相似/items/Q037/build/diagram/jobs/question_bank-nested-v2-q037-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.nested.v2.q037.prompt
+      diagram_job_id: question_bank-nested-v2-q037-prompt
+      width: 60mm
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:5cda1b99e8a72db4ad0c6e3797a22442bda0f6558449efe7aca5311409e001d8
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: M002
+    points: 10
+    label: 第 2 题
+    stem_latex: '如图，$\angle OAC=\angle ODB$。
+
+
+      已知 $AC=\sqrt{6}$，$AO=2\sqrt{3}$，$DB=2$。求 $OD$ 的长。'
+    answer_space:
+      type: steps
+      height: 54mm
+      step_count: 5
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../题库/2026-07-16-蝶形相似/items/Q006/build/diagram/jobs/question_bank-butterfly-v2-q006-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.butterfly.v2.q006.prompt
+      diagram_job_id: question_bank-butterfly-v2-q006-prompt
+      width: 60mm
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:cc15b11f8013e951e7422fb39ea6b694edd8f636a036bfa8ba78417c543a5df4
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: M003
+    points: 10
+    label: 第 3 题
+    stem_latex: '如图，在 $\triangle ABC$ 中，$\angle ABD=\angle ACB$。
+
+
+      已知 $AC=3\sqrt{6}$，$AB=6$。求 $CD$ 的长。'
+    answer_space:
+      type: steps
+      height: 54mm
+      step_count: 5
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../题库/2026-07-16-子母型相似/items/Q034/build/diagram/jobs/question_bank-nested-v2-q034-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.nested.v2.q034.prompt
+      diagram_job_id: question_bank-nested-v2-q034-prompt
+      width: 60mm
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:3d4ce0739b77968cd8cdb96dad2d5a731ff8e2bf9cb88c1dc2eec071678eaa04
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: M004
+    points: 10
+    label: 第 4 题
+    stem_latex: '如图，$\angle PAB=\angle PDC$。
+
+
+      已知 $PA=2\sqrt{2}$，$AB=\sqrt{10}$，$PD=4$。求 $DC$ 的长。'
+    answer_space:
+      type: steps
+      height: 54mm
+      step_count: 5
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../题库/2026-07-16-反A形相似/items/Q005/build/diagram/jobs/question_bank-reverse_a-v2-q005-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.reverse_a.v2.q005.prompt
+      diagram_job_id: question_bank-reverse_a-v2-q005-prompt
+      width: 60mm
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:b5184d518025fee128db88b726b5ac4cf35f0c26a3dea86ec131efb09dd5c8c7
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: M005
+    points: 10
+    label: 第 5 题
+    stem_latex: '如图，$\angle OAC=\angle ODB$。
+
+
+      已知 $OC=2\sqrt{6}$，$AO=6\sqrt{2}$，$OB=3$。求 $OD$ 的长。'
+    answer_space:
+      type: steps
+      height: 54mm
+      step_count: 5
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../题库/2026-07-16-蝶形相似/items/Q013/build/diagram/jobs/question_bank-butterfly-v2-q013-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.butterfly.v2.q013.prompt
+      diagram_job_id: question_bank-butterfly-v2-q013-prompt
+      width: 60mm
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:bc581196582ce142e7e31d2998260cdd16d523cbbac09ef11150014d7702e0c6
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: M006
+    points: 10
+    label: 第 6 题
+    stem_latex: '如图，$\angle PAB=\angle PDC$。
+
+
+      已知 $PA=\sqrt{10}$，$PB=2\sqrt{5}$，$PD=5$。判断还可以求出哪条边，并求出它的长度。'
+    answer_space:
+      type: steps
+      height: 54mm
+      step_count: 5
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../题库/2026-07-16-反A形相似/items/Q045/build/diagram/jobs/question_bank-reverse_a-v2-q045-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.reverse_a.v2.q045.prompt
+      diagram_job_id: question_bank-reverse_a-v2-q045-prompt
+      width: 60mm
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:c88e60b16f1a4dc4df2fae81259e05cbac36d21731e1b431ef187a4c9ffe7307
+      packages:
+      - tikz
+      libraries: []

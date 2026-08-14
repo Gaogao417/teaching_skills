@@ -1,0 +1,820 @@
+meta:
+  title: 四大相似模型两阶段练习（第一部分 反A/蝶形 · 第二部分 混合乱序） · 学生版
+  grade: 初三
+  subject: 数学
+  total_points: 320
+  version: student
+  show_answers: false
+  source_artifacts:
+    assignment_parts:
+    - parts/A字型/sample
+    - parts/8字型/sample
+    - parts/反A形/sample
+    - parts/蝶形/sample
+    part1_rule: 反A形前4题 + 蝶形前4题（沿用 2026-08-14 抽题 seed）
+    part2_rule: A字型8 + 8字型8 + 反A形后4 + 蝶形后4，乱序
+    shuffle_seed: 20260818
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: part1-1
+  title: 反A形相似（第 1–4 题）
+  type: practice
+  visibility: student
+  blocks:
+  - type: problem
+    id: H001
+    points: 10
+    label: 第 1 题
+    stem_latex: '如图，$\angle PAB=\angle PDC$。
+
+
+      已知 $PB=2\sqrt{2}$，$AB=4$，$PC=4$。判断还可以求出哪条边，并求出它的长度。'
+    answer_space:
+      type: steps
+      height: 54mm
+      step_count: 5
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../题库/2026-07-16-反A形相似/items/Q044/build/diagram/jobs/question_bank-reverse_a-v2-q044-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.reverse_a.v2.q044.prompt
+      diagram_job_id: question_bank-reverse_a-v2-q044-prompt
+      width: 60mm
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:17165a69830c023f6c5b86d71ba9aa7a869ca2e7a349c9d62cdb6c546f69263f
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: H002
+    points: 10
+    label: 第 2 题
+    stem_latex: '如图，$\angle PAB=\angle PDC$。
+
+
+      已知 $PB=\sqrt{3}$，$PA=\sqrt{6}$，$PC=3$。求 $PD$ 的长。'
+    answer_space:
+      type: steps
+      height: 54mm
+      step_count: 5
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../题库/2026-07-16-反A形相似/items/Q023/build/diagram/jobs/question_bank-reverse_a-v2-q023-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.reverse_a.v2.q023.prompt
+      diagram_job_id: question_bank-reverse_a-v2-q023-prompt
+      width: 60mm
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:c43e0373e3e19d301369359bc50edfc2b4b12890ad61f15618b88bcd805fc8aa
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: H003
+    points: 10
+    label: 第 3 题
+    stem_latex: '如图，$\angle PAB=\angle PDC$。
+
+
+      已知 $AB=6$，$PA=6\sqrt{2}$，$DC=9$。判断还可以求出哪条边，并求出它的长度。'
+    answer_space:
+      type: steps
+      height: 54mm
+      step_count: 5
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../题库/2026-07-16-反A形相似/items/Q048/build/diagram/jobs/question_bank-reverse_a-v2-q048-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.reverse_a.v2.q048.prompt
+      diagram_job_id: question_bank-reverse_a-v2-q048-prompt
+      width: 60mm
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:352a181d226704c987703b92c472875bdb55bba14e90a81dd37f565676fda266
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: H004
+    points: 10
+    label: 第 4 题
+    stem_latex: '如图，$\angle PAB=\angle PDC$。
+
+
+      已知 $PB=2\sqrt{6}$，$PA=6$，$PC=8$。判断还可以求出哪条边，并求出它的长度。'
+    answer_space:
+      type: steps
+      height: 54mm
+      step_count: 5
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../题库/2026-07-16-反A形相似/items/Q042/build/diagram/jobs/question_bank-reverse_a-v2-q042-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.reverse_a.v2.q042.prompt
+      diagram_job_id: question_bank-reverse_a-v2-q042-prompt
+      width: 60mm
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:d690a4c9004aea00ab36f17a42b7dcf3c1927ee09ca8eeaa8eb211b41b2cff91
+      packages:
+      - tikz
+      libraries: []
+- id: part1-2
+  title: 蝶形相似（第 5–8 题）
+  type: practice
+  visibility: student
+  blocks:
+  - type: problem
+    id: H005
+    points: 10
+    label: 第 5 题
+    stem_latex: '如图，$\angle OAC=\angle ODB$。
+
+
+      已知 $AC=6$，$OC=3\sqrt{6}$，$DB=4$。判断还可以求出哪条边，并求出它的长度。'
+    answer_space:
+      type: steps
+      height: 54mm
+      step_count: 5
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../题库/2026-07-16-蝶形相似/items/Q048/build/diagram/jobs/question_bank-butterfly-v2-q048-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.butterfly.v2.q048.prompt
+      diagram_job_id: question_bank-butterfly-v2-q048-prompt
+      width: 60mm
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:51e1b7572273b09b49287ab9d06e55cfb31bc06bf90fe4dc6dbd70747b36f732
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: H006
+    points: 10
+    label: 第 6 题
+    stem_latex: '如图，$\angle OAC=\angle ODB$。
+
+
+      已知 $AO=3\sqrt{6}$，$AC=9$，$OD=5$。求 $DB$ 的长。'
+    answer_space:
+      type: steps
+      height: 54mm
+      step_count: 5
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../题库/2026-07-16-蝶形相似/items/Q032/build/diagram/jobs/question_bank-butterfly-v2-q032-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.butterfly.v2.q032.prompt
+      diagram_job_id: question_bank-butterfly-v2-q032-prompt
+      width: 60mm
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:dd9ba27dd1b4c9a243c9d6799fa66e2580b05270eb53b3272e733884c88b46c0
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: H007
+    points: 10
+    label: 第 7 题
+    stem_latex: '如图，$\angle OAC=\angle ODB$。
+
+
+      已知 $OC=4\sqrt{2}$，$AC=3\sqrt{6}$，$OB=4$。求 $DB$ 的长。'
+    answer_space:
+      type: steps
+      height: 54mm
+      step_count: 5
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../题库/2026-07-16-蝶形相似/items/Q017/build/diagram/jobs/question_bank-butterfly-v2-q017-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.butterfly.v2.q017.prompt
+      diagram_job_id: question_bank-butterfly-v2-q017-prompt
+      width: 60mm
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:af1690e098204e8918913051c6bef04bfa62c5a010da067f523c2188e69938eb
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: H008
+    points: 10
+    label: 第 8 题
+    stem_latex: '如图，$\angle OAC=\angle ODB$。
+
+
+      已知 $AC=6$，$OC=3\sqrt{6}$，$DB=4$。求 $OB$ 的长。'
+    answer_space:
+      type: steps
+      height: 54mm
+      step_count: 5
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../题库/2026-07-16-蝶形相似/items/Q035/build/diagram/jobs/question_bank-butterfly-v2-q035-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.butterfly.v2.q035.prompt
+      diagram_job_id: question_bank-butterfly-v2-q035-prompt
+      width: 60mm
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:51e1b7572273b09b49287ab9d06e55cfb31bc06bf90fe4dc6dbd70747b36f732
+      packages:
+      - tikz
+      libraries: []
+- id: part2-mixed
+  title: 第二部分：四类模型混合（乱序）
+  type: practice
+  visibility: student
+  blocks:
+  - type: problem
+    id: H009
+    points: 10
+    label: 第 9 题
+    stem_latex: '如图，$\angle OAC=\angle ODB$。
+
+
+      已知 $AO=3\sqrt{2}$，$AC=2\sqrt{6}$，$OD=3$。判断还可以求出哪条边，并求出它的长度。'
+    answer_space:
+      type: steps
+      height: 54mm
+      step_count: 5
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../题库/2026-07-16-蝶形相似/items/Q045/build/diagram/jobs/question_bank-butterfly-v2-q045-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.butterfly.v2.q045.prompt
+      diagram_job_id: question_bank-butterfly-v2-q045-prompt
+      width: 60mm
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:cf53d8d87a8f1d06e2f96cf4462690ef5556b92c37bafa02f44460e6c8cd5363
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: H010
+    points: 10
+    label: 第 10 题
+    stem_latex: '如图，$\angle PAB=\angle PDC$。
+
+
+      已知 $PA=6\sqrt{2}$，$AB=3\sqrt{10}$，$PD=12$。求 $DC$ 的长。'
+    answer_space:
+      type: steps
+      height: 54mm
+      step_count: 5
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../题库/2026-07-16-反A形相似/items/Q034/build/diagram/jobs/question_bank-reverse_a-v2-q034-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.reverse_a.v2.q034.prompt
+      diagram_job_id: question_bank-reverse_a-v2-q034-prompt
+      width: 60mm
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:b5184d518025fee128db88b726b5ac4cf35f0c26a3dea86ec131efb09dd5c8c7
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: H011
+    points: 10
+    label: 第 11 题
+    stem_latex: '如图，$AB\parallel CD$。
+
+      已知 $PA=14$，$PC=26$，$CD=65$，求 $AB$。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 4
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../题库/2026-07-17-三边求第四边-A字型8字型/items/Q025/build/diagram/jobs/question-bank-three-known-q025-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question.bank.three.known.q025.prompt
+      diagram_job_id: question-bank-three-known-q025-prompt
+      width: 60mm
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:57d679b89d679e5a2b65fafb23f862f72b73b03c8d7e14436f340ef1586c3616
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: H012
+    points: 10
+    label: 第 12 题
+    stem_latex: '如图，$\angle OAC=\angle ODB$。
+
+
+      已知 $AO=2\sqrt{6}$，$AC=6$，$OD=3$。求 $DB$ 的长。'
+    answer_space:
+      type: steps
+      height: 54mm
+      step_count: 5
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../题库/2026-07-16-蝶形相似/items/Q025/build/diagram/jobs/question_bank-butterfly-v2-q025-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.butterfly.v2.q025.prompt
+      diagram_job_id: question_bank-butterfly-v2-q025-prompt
+      width: 60mm
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:6e634bdd1f8481c6db1a76960b9f1022e3409fb5646eee60bb9bf8a38209186f
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: H013
+    points: 10
+    label: 第 13 题
+    stem_latex: '如图，$AB\parallel CD$。
+
+      已知 $PB=\sqrt{5}$，$PD=\sqrt{30}$，$PA=3\sqrt{5}$，求 $PC$。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 4
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../题库/2026-07-17-三边求第四边-A字型8字型/items/Q037/build/diagram/jobs/question-bank-three-known-q037-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question.bank.three.known.q037.prompt
+      diagram_job_id: question-bank-three-known-q037-prompt
+      width: 60mm
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:1e6b351f0eb08f2217577fd30092b63b5d7abcd85472365b0bca8dfba5eb953c
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: H014
+    points: 10
+    label: 第 14 题
+    stem_latex: '如图，$\angle OAC=\angle ODB$。
+
+
+      已知 $OC=2$，$AO=\sqrt{6}$，$OB=2$。求 $OD$ 的长。'
+    answer_space:
+      type: steps
+      height: 54mm
+      step_count: 5
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../题库/2026-07-16-蝶形相似/items/Q027/build/diagram/jobs/question_bank-butterfly-v2-q027-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.butterfly.v2.q027.prompt
+      diagram_job_id: question_bank-butterfly-v2-q027-prompt
+      width: 60mm
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:04b410a714bcc6f1aea5776cfc8553198ac6ff1f33d2ca10c9e199983cd0ee8e
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: H015
+    points: 10
+    label: 第 15 题
+    stem_latex: '如图，$AB\parallel CD$。
+
+      已知 $PA=\frac{7}{6}$，$PC=\frac{14}{3}$，$CD=\frac{28}{3}$，求 $AB$。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 4
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../题库/2026-07-17-三边求第四边-A字型8字型/items/Q039/build/diagram/jobs/question-bank-three-known-q039-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question.bank.three.known.q039.prompt
+      diagram_job_id: question-bank-three-known-q039-prompt
+      width: 60mm
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:89949d2b532fed0f654d72b37e9daa87206db39d050a927c4f4339927bb75d95
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: H016
+    points: 10
+    label: 第 16 题
+    stem_latex: '如图，$AB\parallel CD$。
+
+      已知 $PA=\sqrt{6}$，$PC=6$，$AB=4\sqrt{6}$，求 $CD$。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 4
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../题库/2026-07-17-三边求第四边-A字型8字型/items/Q043/build/diagram/jobs/question-bank-three-known-q043-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question.bank.three.known.q043.prompt
+      diagram_job_id: question-bank-three-known-q043-prompt
+      width: 60mm
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:5cf4847e3d942ef36546137e6645a4858cc5b4c70ccb83b99da88fd019fd25ab
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: H017
+    points: 10
+    label: 第 17 题
+    stem_latex: '如图，$AB\parallel CD$。
+
+      已知 $AP=8$，$PC=10$，$BP=8$，求 $PD$。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 4
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../题库/2026-07-17-三边求第四边-A字型8字型/items/Q006/build/diagram/jobs/question-bank-three-known-q006-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question.bank.three.known.q006.prompt
+      diagram_job_id: question-bank-three-known-q006-prompt
+      width: 60mm
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:1bb4c6d9b68b9ce5aa1cb6d08f1143a42d33a0291f5fc943ae1ae922ea6a56c9
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: H018
+    points: 10
+    label: 第 18 题
+    stem_latex: '如图，$\angle OAC=\angle ODB$。
+
+
+      已知 $AO=\sqrt{6}$，$AC=3$，$OD=2$。求 $DB$ 的长。'
+    answer_space:
+      type: steps
+      height: 54mm
+      step_count: 5
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../题库/2026-07-16-蝶形相似/items/Q036/build/diagram/jobs/question_bank-butterfly-v2-q036-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.butterfly.v2.q036.prompt
+      diagram_job_id: question_bank-butterfly-v2-q036-prompt
+      width: 60mm
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:238eaed83a988c3f20b998bb419fab145a49f626bc6b47b141b04938e1cb596d
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: H019
+    points: 10
+    label: 第 19 题
+    stem_latex: '如图，$\angle PAB=\angle PDC$。
+
+
+      已知 $PB=3\sqrt{2}$，$AB=6$，$PC=6$。求 $DC$ 的长。'
+    answer_space:
+      type: steps
+      height: 54mm
+      step_count: 5
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../题库/2026-07-16-反A形相似/items/Q036/build/diagram/jobs/question_bank-reverse_a-v2-q036-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.reverse_a.v2.q036.prompt
+      diagram_job_id: question_bank-reverse_a-v2-q036-prompt
+      width: 60mm
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:742290d1102d88d3085bd3effed055c8312f208faad367bf334d494c3555f216
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: H020
+    points: 10
+    label: 第 20 题
+    stem_latex: '如图，$AB\parallel CD$。
+
+      已知 $PA=\frac{7}{8}$，$PC=\frac{21}{4}$，$AB=\frac{21}{8}$，求 $CD$。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 4
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../题库/2026-07-17-三边求第四边-A字型8字型/items/Q035/build/diagram/jobs/question-bank-three-known-q035-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question.bank.three.known.q035.prompt
+      diagram_job_id: question-bank-three-known-q035-prompt
+      width: 60mm
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:3e6355459a92d7fd0d97afe9490b668f5abb9022a57f145d6cefe80c81b683fa
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: H021
+    points: 10
+    label: 第 21 题
+    stem_latex: '如图，$AB\parallel CD$。
+
+      已知 $BP=\sqrt{3}$，$PD=3$，$CD=12$，求 $AB$。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 4
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../题库/2026-07-17-三边求第四边-A字型8字型/items/Q046/build/diagram/jobs/question-bank-three-known-q046-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question.bank.three.known.q046.prompt
+      diagram_job_id: question-bank-three-known-q046-prompt
+      width: 60mm
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:3d1e1ebe7fe5a0638db51cc817ebff21d8188726cd4eed5e16298e2249a40dd6
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: H022
+    points: 10
+    label: 第 22 题
+    stem_latex: '如图，$AB\parallel CD$。
+
+      已知 $AP=15$，$PC=33$，$BP=15$，求 $PD$。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 4
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../题库/2026-07-17-三边求第四边-A字型8字型/items/Q022/build/diagram/jobs/question-bank-three-known-q022-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question.bank.three.known.q022.prompt
+      diagram_job_id: question-bank-three-known-q022-prompt
+      width: 60mm
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:57cc8ca5e44f5452ecf0e80758bf8cb6be111d1f2f5fc3fbb98d0dd3335ecb30
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: H023
+    points: 10
+    label: 第 23 题
+    stem_latex: '如图，$AB\parallel CD$。
+
+      已知 $BP=14$，$PD=24$，$CD=48$，求 $AB$。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 4
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../题库/2026-07-17-三边求第四边-A字型8字型/items/Q024/build/diagram/jobs/question-bank-three-known-q024-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question.bank.three.known.q024.prompt
+      diagram_job_id: question-bank-three-known-q024-prompt
+      width: 60mm
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:96b955a9d016eb2c1e3489d9fc69a36e4b627d0817f1edbbb88f948db7fcac38
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: H024
+    points: 10
+    label: 第 24 题
+    stem_latex: '如图，$AB\parallel CD$。
+
+      已知 $AP=\sqrt{2}$，$PC=2\sqrt{2}$，$PD=6\sqrt{2}$，求 $BP$。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 4
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../题库/2026-07-17-三边求第四边-A字型8字型/items/Q032/build/diagram/jobs/question-bank-three-known-q032-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question.bank.three.known.q032.prompt
+      diagram_job_id: question-bank-three-known-q032-prompt
+      width: 60mm
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:2b5ab32003e4121ea25404fb1399af984343f0ea1048e4145527b94628d03e31
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: H025
+    points: 10
+    label: 第 25 题
+    stem_latex: '如图，$AB\parallel CD$。
+
+      已知 $AP=\sqrt{3}$，$PC=3\sqrt{2}$，$PD=9\sqrt{2}$，求 $BP$。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 4
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../题库/2026-07-17-三边求第四边-A字型8字型/items/Q040/build/diagram/jobs/question-bank-three-known-q040-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question.bank.three.known.q040.prompt
+      diagram_job_id: question-bank-three-known-q040-prompt
+      width: 60mm
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:abe7258e85e974cf868be5f4b0775980d8d145edd780309657a354569b998849
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: H026
+    points: 10
+    label: 第 26 题
+    stem_latex: '如图，$\angle PAB=\angle PDC$。
+
+
+      已知 $PA=3$，$AB=2\sqrt{3}$，$PD=5$。求 $DC$ 的长。'
+    answer_space:
+      type: steps
+      height: 54mm
+      step_count: 5
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../题库/2026-07-16-反A形相似/items/Q014/build/diagram/jobs/question_bank-reverse_a-v2-q014-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.reverse_a.v2.q014.prompt
+      diagram_job_id: question_bank-reverse_a-v2-q014-prompt
+      width: 60mm
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:7f2ff49fdee846d2b9b4e7b80636504af5b1440172bcba5618cc6bbb3a010425
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: H027
+    points: 10
+    label: 第 27 题
+    stem_latex: '如图，$AB\parallel CD$。
+
+      已知 $PA=18$，$PC=32$，$AB=45$，求 $CD$。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 4
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../题库/2026-07-17-三边求第四边-A字型8字型/items/Q029/build/diagram/jobs/question-bank-three-known-q029-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question.bank.three.known.q029.prompt
+      diagram_job_id: question-bank-three-known-q029-prompt
+      width: 60mm
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:7929df80479f69f9905b1b850f1b0e9b3bfae1f6826929fc25c6014b102dc532
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: H028
+    points: 10
+    label: 第 28 题
+    stem_latex: '如图，$AB\parallel CD$。
+
+      已知 $PA=6$，$PC=10$，$AB=15$，求 $CD$。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 4
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../题库/2026-07-17-三边求第四边-A字型8字型/items/Q005/build/diagram/jobs/question-bank-three-known-q005-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question.bank.three.known.q005.prompt
+      diagram_job_id: question-bank-three-known-q005-prompt
+      width: 60mm
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:991dd958b6b9ccebf1b7752c8a2ebf25104e18780c8415560d02b8b84389e284
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: H029
+    points: 10
+    label: 第 29 题
+    stem_latex: '如图，$AB\parallel CD$。
+
+      已知 $BP=\frac{5}{4}$，$PD=5$，$CD=20$，求 $AB$。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 4
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../题库/2026-07-17-三边求第四边-A字型8字型/items/Q038/build/diagram/jobs/question-bank-three-known-q038-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question.bank.three.known.q038.prompt
+      diagram_job_id: question-bank-three-known-q038-prompt
+      width: 60mm
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:26c9f95aa8da4ee767bac7ab5d9cfa65b1a8f17a368e7fc474dba97cec4086de
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: H030
+    points: 10
+    label: 第 30 题
+    stem_latex: '如图，$\angle PAB=\angle PDC$。
+
+
+      已知 $PA=3\sqrt{5}$，$PB=3\sqrt{10}$，$PC=15$。判断还可以求出哪条边，并求出它的长度。'
+    answer_space:
+      type: steps
+      height: 54mm
+      step_count: 5
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../题库/2026-07-16-反A形相似/items/Q039/build/diagram/jobs/question_bank-reverse_a-v2-q039-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question_bank.reverse_a.v2.q039.prompt
+      diagram_job_id: question_bank-reverse_a-v2-q039-prompt
+      width: 60mm
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:a1f3cd9b663dcc0b0cba71d6980c9c1f8e01150d8ea4d444fa5d5394fad35896
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: H031
+    points: 10
+    label: 第 31 题
+    stem_latex: '如图，$AB\parallel CD$。
+
+      已知 $PA=3$，$PC=6$，$CD=8$，求 $AB$。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 4
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../题库/2026-07-17-三边求第四边-A字型8字型/items/Q001/build/diagram/jobs/question-bank-three-known-q001-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question.bank.three.known.q001.prompt
+      diagram_job_id: question-bank-three-known-q001-prompt
+      width: 60mm
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:12321961c2da97d1e40dedde9c4b94bce796a85eb32cb8adf2f6cca4a48cf2f6
+      packages:
+      - tikz
+      libraries: []
+  - type: problem
+    id: H032
+    points: 10
+    label: 第 32 题
+    stem_latex: '如图，$AB\parallel CD$。
+
+      已知 $BP=18$，$PD=28$，$AB=36$，求 $CD$。'
+    answer_space:
+      type: steps
+      height: 42mm
+      step_count: 4
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../题库/2026-07-17-三边求第四边-A字型8字型/items/Q028/build/diagram/jobs/question-bank-three-known-q028-prompt/rendered/prompt.fragment.tex
+      diagram_ref: question.bank.three.known.q028.prompt
+      diagram_job_id: question-bank-three-known-q028-prompt
+      width: 60mm
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:f5a7e9c4d5b30c99d9967720fdd215f5a67803c38765075ebb9a1e4aaaadeb02
+      packages:
+      - tikz
+      libraries: []

@@ -1,0 +1,251 @@
+\documentclass{exam-zh}
+\usepackage{edu-practice}
+
+\examsetup{
+  question/show-answer = true,
+  fillin/show-answer = true,
+  solution/show-solution = show-stay,
+}
+
+% ---------- 教师版解答样式 ----------
+\newtcolorbox{solutionblock}{
+  enhanced, breakable,
+  colback=edu-blue-bg,
+  colframe=edu-blue!25,
+  boxrule=0pt,
+  borderline west={2pt}{0pt}{edu-blue!50},
+  arc=0pt,
+  left=3mm, right=3mm, top=2mm, bottom=2mm,
+  before skip=2mm,
+  after skip=3mm,
+  fontupper=\small,
+}
+
+% 解答步骤编号
+\newcounter{solstep}
+\newcommand{\solstep}[2]{%
+  \stepcounter{solstep}%
+  \par\medskip
+  \noindent\hangindent=6mm
+  {\color{edu-blue}\bfseries\textcircled{\scriptsize\thesolstep}\enspace #1}\enspace #2\par
+}
+
+\begin{document}
+
+\section*{线段与锐角三角比双向互求练习}
+
+\section*{一、常见勾股数：先把方向做对}
+
+
+\begin{question}[points=4]
+  在 $\operatorname{Rt}\triangle ABC$ 中，$\angle B=90^\circ$，$AB=3$，$BC=4$，则 $\sin C=$（\quad）
+  
+  \begin{choices}
+    \item $\dfrac34$
+    \item $\dfrac35$
+    \item $\dfrac45$
+    \item $\dfrac43$
+  \end{choices}
+  \paren[B]
+\end{question}
+
+
+
+\begin{question}[points=4]
+  在 $\operatorname{Rt}\triangle ABC$ 中，$\angle B=90^\circ$，$AB=5$，$BC=12$，则 $\tan C=$\fillin。
+  
+  \paren[$\dfrac5{12}$]
+\end{question}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=4]
+    在 $\operatorname{Rt}\triangle ABC$ 中，$\angle B=90^\circ$，
+$\sin C=\dfrac7{25}$，$BC=24$，求 $AC$。
+
+    
+  \answerarea[28mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$AC=25$。\par\medskip
+    \solstep{还原份数}{$\sin C=AB/AC=7/25$，故 $AB:BC:AC=7:24:25$。}
+    \solstep{由已知边定倍数}{$BC=24$，缩放倍数为 $1$，所以 $AC=25$。}
+    
+  \end{solutionblock}
+\end{problem}
+
+
+\section*{二、常见勾股数：交换已知与所求}
+
+
+\begin{question}[points=4]
+  在 $\operatorname{Rt}\triangle ABC$ 中，$\angle B=90^\circ$，$\cos C=\dfrac{15}{17}$，$AC=17$，则 $AB=$\fillin。
+  
+  \paren[$8$]
+\end{question}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=4]
+    在 $\operatorname{Rt}\triangle ABC$ 中，$\angle B=90^\circ$，
+$\tan C=\dfrac34$，$AC=10$。求 $AB$ 和 $BC$。
+
+    
+  \answerarea[32mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$AB=6$，$BC=8$。\par\medskip
+    \solstep{还原三边份数}{$\tan C=AB/BC=3/4$，故 $AB:BC:AC=3:4:5$。}
+    \solstep{同倍缩放}{$AC=10=5\times2$，所以 $AB=3\times2=6$，$BC=4\times2=8$。}
+    
+  \end{solutionblock}
+\end{problem}
+
+
+
+\begin{question}[points=4]
+  在 $\operatorname{Rt}\triangle ABC$ 中，$\angle B=90^\circ$，$AB=\dfrac{12}{7}$，$BC=\dfrac{16}{7}$，则 $\sin C=$\fillin。
+  
+  \paren[$\dfrac35$]
+\end{question}
+
+
+\section*{三、分数倍勾股数：从边求比、从比求边}
+
+
+\begin{question}[points=4]
+  在 $\operatorname{Rt}\triangle ABC$ 中，$\angle B=90^\circ$，$AB=\dfrac52$，$BC=6$，则 $\cos C=$（\quad）
+  
+  \begin{choices}
+    \item $\dfrac5{12}$
+    \item $\dfrac5{13}$
+    \item $\dfrac{12}{13}$
+    \item $\dfrac{13}{12}$
+  \end{choices}
+  \paren[C]
+\end{question}
+
+
+
+\begin{question}[points=4]
+  在 $\operatorname{Rt}\triangle ABC$ 中，$\angle B=90^\circ$，$\tan C=\dfrac34$，$AC=\dfrac52$，则 $AB=$\fillin。
+  
+  \paren[$\dfrac32$]
+\end{question}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=4]
+    在 $\operatorname{Rt}\triangle ABC$ 中，$\angle B=90^\circ$，
+$\cos C=\dfrac45$，$AC=4$，求 $BC$。
+
+    
+  \answerarea[28mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$BC=\dfrac{16}{5}$。\par\medskip
+    \solstep{读出边比}{$\cos C=BC/AC=4/5$。}
+    \solstep{按斜边缩放}{$AC=4$，故 $BC=4\times\dfrac45=\dfrac{16}{5}$。}
+    
+  \end{solutionblock}
+\end{problem}
+
+
+\section*{四、分数倍勾股数：识别公因子}
+
+
+\begin{question}[points=4]
+  在 $\operatorname{Rt}\triangle ABC$ 中，$\angle B=90^\circ$，$AB=\dfrac{10}{3}$，$BC=8$，则 $\tan C=$\fillin。
+  
+  \paren[$\dfrac5{12}$]
+\end{question}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=4]
+    在 $\operatorname{Rt}\triangle ABC$ 中，$\angle B=90^\circ$，
+$\sin C=\dfrac35$，$BC=5$，求 $AC$。
+
+    
+  \answerarea[28mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$AC=\dfrac{25}{4}$。\par\medskip
+    \solstep{补全份数}{$\sin C=3/5$，故 $AB:BC:AC=3:4:5$。}
+    \solstep{确定倍数}{$BC=5=4\times\dfrac54$，故 $AC=5\times\dfrac54=\dfrac{25}{4}$。}
+    
+  \end{solutionblock}
+\end{problem}
+
+
+
+\begin{question}[points=4]
+  在 $\operatorname{Rt}\triangle ABC$ 中，$\angle B=90^\circ$，$AB=\dfrac{21}{5}$，$BC=\dfrac{28}{5}$，则 $\cot C=$（\quad）
+  
+  \begin{choices}
+    \item $\dfrac34$
+    \item $\dfrac43$
+    \item $\dfrac35$
+    \item $\dfrac45$
+  \end{choices}
+  \paren[B]
+\end{question}
+
+
+\section*{五、双向混合：不看题号，只看已知与所求}
+
+
+\begin{question}[points=4]
+  在 $\operatorname{Rt}\triangle ABC$ 中，$\angle B=90^\circ$，$\cos C=\dfrac45$，$AC=3$，则 $AB=$\fillin。
+  
+  \paren[$\dfrac95$]
+\end{question}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=4]
+    在 $\operatorname{Rt}\triangle ABC$ 中，$\angle B=90^\circ$，
+$\tan C=\dfrac34$，$AC=\dfrac{35}{4}$，求 $BC$。
+
+    
+  \answerarea[28mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$BC=7$。\par\medskip
+    \solstep{还原三边份数}{$\tan C=3/4$，故 $AB:BC:AC=3:4:5$。}
+    \solstep{同倍缩放}{$AC=35/4=5\times7/4$，所以 $BC=4\times7/4=7$。}
+    
+  \end{solutionblock}
+\end{problem}
+
+
+\needspace{8\baselineskip}
+
+\begin{problem}[points=4]
+    在 $\operatorname{Rt}\triangle ABC$ 中，$\angle B=90^\circ$，
+$AB=2$，$BC=\dfrac83$。求 $\sin C$ 和 $\cos C$。
+
+    
+  \answerarea[34mm]
+  \setcounter{solstep}{0}
+  \begin{solutionblock}
+    \textbf{答案：}$\sin C=\dfrac35$，$\cos C=\dfrac45$。\par\medskip
+    \solstep{化回熟悉份数}{$AB:BC=2:\dfrac83=3:4$，故 $AB:BC:AC=3:4:5$。}
+    \solstep{分别列比}{$\sin C=AB/AC=3/5$，$\cos C=BC/AC=4/5$。}
+    
+  \end{solutionblock}
+\end{problem}
+
+
+\clearpage
+\section*{答案}
+
+
+
+
+\end{document}
