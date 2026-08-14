@@ -31,8 +31,8 @@ sections:
     answer: $AE:EC=2:5$。
     explanation: 第一组相似标共同边，第二组沿用它，只给另一条目标边新增份数。
     solution_steps:
-    - title: 作辅助线
-      content: 过 C 作 CF 平行 AD，交直线 BE 于 F。蓝字标出题目给出的两组比。
+    - title: 作平行辅助线
+      content: 过 $C$ 作 $CF\parallel AD$，交直线 $BE$ 于 $F$。
       diagram_col:
         kind: tikz
         tikz_code: ''
@@ -47,9 +47,8 @@ sections:
         packages:
         - tikz
         libraries: []
-    - title: 解第一组A字
-      content: 由蓝色已知比解 A字 $\triangle BDP\sim\triangle BCF$。沿用图中已有份数，只新增红色 $CF=10$
-        份。
+    - title: 解第一组相似
+      content: 由 $CF\parallel AD$，得 $\triangle BDP\sim\triangle BCF$（AA），得 $CF$ 占 $10$ 份。
       diagram_col:
         kind: tikz
         tikz_code: ''
@@ -64,9 +63,8 @@ sections:
         packages:
         - tikz
         libraries: []
-    - title: 解第二组8字
-      content: 由蓝色已知比解 8字 $\triangle EAP\sim\triangle ECF$。保留前一步全部份数，本步用绿色补出 $AE=2$
-        份，$EC=5$ 份，使所求两边的份数同时显示。
+    - title: 解第二组相似
+      content: 由 $CF\parallel AD$，得 $\triangle EAP\sim\triangle ECF$（AA），结合第一组的份数得 $AE$ 占 $2$ 份、$EC$ 占 $5$ 份。
       diagram_col:
         kind: tikz
         tikz_code: ''
@@ -81,8 +79,8 @@ sections:
         packages:
         - tikz
         libraries: []
-    - title: 比较份数，写出答案
-      content: 直接比较图中所求两条边的份数并化简，因此 $AE:EC=2:5$。
+    - title: 比较份数写出结论
+      content: 比较所求两条边的份数并化简，得 $AE:EC=2:5$。
     teaching:
       teaching_goal: 由两组对应边整数比求第三组整数比
       source_relations:

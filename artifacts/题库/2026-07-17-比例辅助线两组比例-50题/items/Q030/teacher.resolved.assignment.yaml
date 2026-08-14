@@ -31,8 +31,8 @@ sections:
     answer: $AP:PD=1:2$。
     explanation: 第一组相似标共同边，第二组沿用它，只给另一条目标边新增份数。
     solution_steps:
-    - title: 作辅助线
-      content: 过 A 作 AF 平行 EP，交直线 BC 于 F。蓝字标出题目给出的两组比。
+    - title: 作平行辅助线
+      content: 过 $A$ 作 $AF\parallel EP$，交直线 $BC$ 于 $F$。
       diagram_col:
         kind: tikz
         tikz_code: ''
@@ -47,8 +47,8 @@ sections:
         packages:
         - tikz
         libraries: []
-    - title: 解第一组A字
-      content: 由蓝色已知比解 A字 $\triangle CAF\sim\triangle CEB$，得红色 $AF:BE=5:4$。
+    - title: 解第一组相似
+      content: 由 $AF\parallel EP$，得 $\triangle CAF\sim\triangle CEB$（AA），故 $AF:BE=5:4$。
       diagram_col:
         kind: tikz
         tikz_code: ''
@@ -63,9 +63,8 @@ sections:
         packages:
         - tikz
         libraries: []
-    - title: 解第二组A字
-      content: 由蓝色已知比解 A字 $\triangle DAF\sim\triangle DPB$。保留前一步全部份数，本步用绿色补出 $AP=1$
-        份，$PD=2$ 份，使所求两边的份数同时显示。
+    - title: 解第二组相似
+      content: 由 $AF\parallel EP$，得 $\triangle DAF\sim\triangle DPB$（AA），结合第一组的份数得 $AP$ 占 $1$ 份、$PD$ 占 $2$ 份。
       diagram_col:
         kind: tikz
         tikz_code: ''
@@ -80,8 +79,8 @@ sections:
         packages:
         - tikz
         libraries: []
-    - title: 比较份数，写出答案
-      content: 直接比较图中所求两条边的份数并化简，因此 $AP:PD=1:2$。
+    - title: 比较份数写出结论
+      content: 比较所求两条边的份数并化简，得 $AP:PD=1:2$。
     teaching:
       teaching_goal: 由两组对应边整数比求第三组整数比
       source_relations:

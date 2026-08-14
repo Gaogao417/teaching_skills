@@ -31,8 +31,8 @@ sections:
     answer: $BD:DC=1:2$。
     explanation: 第一组相似标共同边，第二组沿用它，只给另一条目标边新增份数。
     solution_steps:
-    - title: 作辅助线
-      content: 过 P 作 PF 平行 DB，交直线 AC 于 F。蓝字标出题目给出的两组比。
+    - title: 作平行辅助线
+      content: 过 $P$ 作 $PF\parallel DB$，交直线 $AC$ 于 $F$。
       diagram_col:
         kind: tikz
         tikz_code: ''
@@ -47,8 +47,8 @@ sections:
         packages:
         - tikz
         libraries: []
-    - title: 解第一组A字
-      content: 由蓝色已知比解 A字 $\triangle APF\sim\triangle ADC$，得红色 $PF:DC=2:3$。
+    - title: 解第一组相似
+      content: 由 $PF\parallel DB$，得 $\triangle APF\sim\triangle ADC$（AA），故 $PF:DC=2:3$。
       diagram_col:
         kind: tikz
         tikz_code: ''
@@ -63,9 +63,8 @@ sections:
         packages:
         - tikz
         libraries: []
-    - title: 解第二组A字
-      content: 由蓝色已知比解 A字 $\triangle EFP\sim\triangle ECB$。保留前一步全部份数，本步用绿色补出 $BC=\frac{9}{2}$
-        份，$BD=\frac{3}{2}$ 份，使所求两边的份数同时显示。
+    - title: 解第二组相似
+      content: 由 $PF\parallel DB$，得 $\triangle EFP\sim\triangle ECB$（AA），结合第一组的份数得 $BC$ 占 $\frac{9}{2}$ 份、$BD$ 占 $\frac{3}{2}$ 份。
       diagram_col:
         kind: tikz
         tikz_code: ''
@@ -80,8 +79,8 @@ sections:
         packages:
         - tikz
         libraries: []
-    - title: 比较份数，写出答案
-      content: 直接比较图中所求两条边的份数并化简，因此 $BD:DC=1:2$。
+    - title: 比较份数写出结论
+      content: 比较所求两条边的份数并化简，得 $BD:DC=1:2$。
     teaching:
       teaching_goal: 由两组对应边整数比求第三组整数比
       source_relations:
