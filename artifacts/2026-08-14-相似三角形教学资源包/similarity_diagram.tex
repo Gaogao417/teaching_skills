@@ -1,0 +1,48 @@
+\documentclass[tikz,border=10pt]{standalone}
+\usepackage{tikz}
+\usetikzlibrary{calc,intersections}
+
+\begin{document}
+\begin{tikzpicture}[scale=1.5]
+
+% 定义点
+\coordinate (A) at (0,3);
+\coordinate (B) at (-2,0);
+\coordinate (C) at (2,0);
+\coordinate (D) at (-1.5,1.5);
+\coordinate (E) at (1.5,1.5);
+\coordinate (O) at (0,1);
+
+% 绘制三角形ABC
+\draw[thick] (A) -- (B) -- (C) -- cycle;
+
+% 绘制内部线段
+\draw[thick] (A) -- (O);
+\draw[thick] (B) -- (E);
+\draw[thick] (C) -- (D);
+\draw[thick] (D) -- (E);
+
+% 标记点
+\fill (A) circle (1.5pt) node[above] {$A$};
+\fill (B) circle (1.5pt) node[below left] {$B$};
+\fill (C) circle (1.5pt) node[below right] {$C$};
+\fill (D) circle (1.5pt) node[above left] {$D$};
+\fill (E) circle (1.5pt) node[above right] {$E$};
+\fill (O) circle (1.5pt) node[below right] {$O$};
+
+% 添加角度标记（示例）
+\draw[blue,thick] (A) ++(0.3,0) arc (0:-45:0.3) node[midway,right] {$\alpha$};
+\draw[red,thick] (B) ++(0.3,0) arc (0:30:0.3) node[midway,above] {$\beta$};
+
+% 添加平行线标记（如果有）
+% \draw[dashed] (D) -- (E) node[midway,above] {$DE \parallel BC$};
+
+% 添加标题
+\node[above] at (0,3.5) {相似三角形图形};
+
+% 添加比例标记（示例）
+\node[below] at (0,-0.5) {公共角：$\angle BAC = \angle DAE$};
+\node[below] at (0,-0.8) {对顶角：$\angle BOC = \angle EOD$};
+
+\end{tikzpicture}
+\end{document}
