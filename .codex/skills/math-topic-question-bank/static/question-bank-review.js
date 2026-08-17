@@ -454,7 +454,14 @@ function renderList() {
     // 目录项没有 skill_tags，只有完整题才有；已缓存的题显示标签，未缓存只显示评审标签。
     const cached = state.itemCache.get(item.id);
     const tags = cached?.skill_tags || [];
-    meta.textContent = [reviewLabelOf(item), ...tags.slice(0, 3)].filter(Boolean).join(" · ");
+    // 小题讲解/解答状态：缺讲解或缺解答时在列表直接可见，便于定位待补题。
+    // 目录项暂无该摘要，仅完整题（detail 或已缓存）显示，避免误标。
+    const explanations = item.explanations_summary || cached?.explanations_summary;
+    const explanationMarks = [];
+    if (explanations?.missing_explanation) explanationMarks.push("缺讲解");
+    if (explanations?.missing_solution_count) explanationMarks.push(`缺解答×${explanations.missing_solution_count}`);
+    meta.textContent = [reviewLabelOf(item), ...tags.slice(0, 3), ...explanationMarks].filter(Boolean).join(" · ");
+    if (explanationMarks.length) button.classList.add("needs-explanations");
     button.append(heading, title, meta);
     button.addEventListener("mouseenter", () => selectItem(index));
     button.addEventListener("focus", () => selectItem(index));
@@ -610,6 +617,7 @@ function applyItem(item, itemIndex) {
   });
   wireImageSections();
   updateSlotSelection();
+  void loadExplanations(item.id);
 }
 
 function issueValue(value) {
@@ -1054,6 +1062,16 @@ function renderSkeleton(directoryItem, itemIndex) {
     const node = byId(id);
     if (node) node.replaceChildren();
   });
+  // 讲解/解答面板重置为骨架态；切题时若还在录音则先停止。
+  stopExplanationRecording();
+  const explanationsBody = byId("explanations-body");
+  if (explanationsBody) {
+    const loading = document.createElement("p");
+    loading.className = "explanations-loading";
+    loading.textContent = "正在读取讲解/解答…";
+    explanationsBody.replaceChildren(loading);
+  }
+  explanationMessageNode(byId("explanations-card"), "");
   if (state.detail.kind === "staging_exam") {
     ["prompt-preview", "official-solution-preview", "source-capsules"].forEach((id) => {
       const node = byId(id);
@@ -1516,4 +1534,640 @@ document.addEventListener("keydown", (event) => {
     event.preventDefault();
   }
 });
+// ---------------------------------------------------------------------------
+// 小题讲解 / 解答：录音 → 转写润色 → 编辑 → 批准 → 导出 teaching-tools blueprint
+// ---------------------------------------------------------------------------
+
+const explanationsState = {
+  payload: null,
+  token: 0,
+  itemId: null,
+};
+
+const explanationRecording = {
+  recorder: null,
+  chunks: [],
+  approachId: null,
+  bankId: null,
+  itemId: null,
+  mimeType: "",
+  timer: null,
+  startedAt: 0,
+};
+
+const EXPLANATION_SOURCE_LABELS = {
+  recorded: "录音",
+  transcript: "录音转写",
+  polished: "录音润色",
+  generated: "自动生成",
+  manual: "手工",
+};
+
+function explanationsEndpoint(bankId, itemId) {
+  return `/api/banks/${encodeURIComponent(bankId)}/items/${encodeURIComponent(itemId)}/explanations`;
+}
+
+function currentExplanationItemId() {
+  return state.detail?.items?.[state.itemIndex]?.id || null;
+}
+
+async function explanationsFetch(url, options = {}) {
+  const response = await fetch(url, options);
+  const payload = await response.json().catch(() => ({}));
+  if (!response.ok) {
+    throw new Error(payload.detail || `请求失败（${response.status}）`);
+  }
+  return payload;
+}
+
+function applyExplanationsPayload(payload) {
+  explanationsState.payload = payload?.subquestions ? payload : payload?.explanations;
+  renderExplanations();
+}
+
+function findExplanationApproach(approachId) {
+  for (const subquestion of explanationsState.payload?.subquestions || []) {
+    for (const approach of subquestion.approaches || []) {
+      if (approach.id === approachId) return { subquestion, approach };
+    }
+  }
+  return null;
+}
+
+function explanationMessageNode(scope, text, tone = "info") {
+  if (!scope) return;
+  const node = scope.classList?.contains("explanation-approach")
+    ? scope.querySelector(".explanation-message")
+    : byId("explanations-message");
+  if (!node) return;
+  node.textContent = text || "";
+  node.dataset.tone = tone;
+}
+
+async function loadExplanations(itemId) {
+  const bankId = state.detail?.id;
+  if (!bankId || !itemId) return;
+  const token = ++explanationsState.token;
+  explanationsState.itemId = itemId;
+  explanationsState.payload = null;
+  explanationMessageNode(byId("explanations-card"), "");
+  const body = byId("explanations-body");
+  if (body) {
+    const loading = document.createElement("p");
+    loading.className = "explanations-loading";
+    loading.textContent = "正在读取讲解/解答…";
+    body.replaceChildren(loading);
+  }
+  try {
+    const payload = await explanationsFetch(explanationsEndpoint(bankId, itemId));
+    if (token !== explanationsState.token) return;
+    explanationsState.payload = payload;
+    renderExplanations();
+  } catch (error) {
+    if (token !== explanationsState.token) return;
+    const target = byId("explanations-body");
+    if (target) {
+      const node = document.createElement("p");
+      node.className = "explanations-error";
+      node.textContent = `讲解/解答读取失败：${error.message}`;
+      target.replaceChildren(node);
+    }
+  }
+}
+
+function subquestionStatusLabel(subquestion) {
+  const approaches = subquestion.approaches || [];
+  if (!approaches.length) return "缺讲解";
+  const approved = approaches.filter(
+    (approach) => approach.explanation?.status === "approved" && approach.solution?.status === "approved",
+  ).length;
+  return approved === approaches.length && approved > 0
+    ? `${approaches.length} 对 · 全部已批准`
+    : `${approaches.length} 对 · ${approved} 已批准`;
+}
+
+function approachStatusLabel(approach) {
+  const explanation = approach.explanation || {};
+  const solution = approach.solution || {};
+  if (explanation.status === "approved" && solution.status === "approved") return "已批准";
+  const parts = [];
+  parts.push(explanation.text?.trim() ? "有讲解" : "缺讲解");
+  parts.push(solution.text?.trim() ? "有解答" : "缺解答");
+  return parts.join(" · ");
+}
+
+function renderExplanations() {
+  const payload = explanationsState.payload;
+  const body = byId("explanations-body");
+  if (!body || !payload) return;
+  body.replaceChildren();
+  (payload.subquestions || []).forEach((subquestion) => {
+    body.append(renderExplanationSubquestion(subquestion));
+  });
+  const hint = byId("explanations-hint");
+  if (hint) {
+    hint.textContent = payload.recording_supported
+      ? "讲解与解答按小题配对管理：点“录讲解”口述后自动转写并润色，可编辑、重新润色或补齐；批准后导出 teaching-tools blueprint。"
+      : "录音转写未启用（服务器缺 DASHSCOPE_API_KEY 或 ffmpeg）：仍可手动编辑讲解，或用“补齐缺失讲解/解答”自动生成。";
+  }
+  updateRecordingButtons();
+  scheduleExplanationsTypeset();
+}
+
+function scheduleExplanationsTypeset() {
+  const body = byId("explanations-body");
+  if (!body || !window.MathJax?.typesetPromise) return;
+  mathRenderQueue = mathRenderQueue.then(async () => {
+    await window.MathJax.typesetPromise([body]);
+  }).catch((error) => {
+    console.warn("MathJax typesetting failed", error);
+  });
+}
+
+function ghostButton(text, className = "ghost-button") {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = className;
+  button.textContent = text;
+  return button;
+}
+
+function renderExplanationSubquestion(subquestion) {
+  const wrap = document.createElement("article");
+  wrap.className = "explanation-subquestion";
+  wrap.dataset.subquestionId = subquestion.id;
+
+  const head = document.createElement("div");
+  head.className = "explanation-subquestion-head";
+  const label = document.createElement("strong");
+  label.className = "explanation-subquestion-label";
+  label.textContent = subquestion.label || "整题";
+  const stem = document.createElement("span");
+  stem.className = "explanation-subquestion-stem source-text";
+  stem.textContent = formatReviewText(subquestion.stem_latex || "");
+  const status = badge(subquestionStatusLabel(subquestion), "chip-explanation-status");
+  const addButton = ghostButton("＋ 新建讲解-解答");
+  addButton.addEventListener("click", () => {
+    void createApproachAction(subquestion.id, addButton);
+  });
+  head.append(label, stem, status, addButton);
+  wrap.append(head);
+
+  (subquestion.approaches || []).forEach((approach) => {
+    wrap.append(renderExplanationApproach(approach));
+  });
+  if (!(subquestion.approaches || []).length) {
+    const empty = document.createElement("p");
+    empty.className = "explanation-empty";
+    empty.textContent = "该小问还没有讲解-解答：点“新建讲解-解答”添加，或用顶部“补齐缺失讲解”自动生成。";
+    wrap.append(empty);
+  }
+  return wrap;
+}
+
+function renderExplanationApproach(approach) {
+  const card = document.createElement("article");
+  card.className = "explanation-approach";
+  card.dataset.approachId = approach.id;
+
+  const head = document.createElement("div");
+  head.className = "explanation-approach-head";
+  const title = document.createElement("strong");
+  title.className = "explanation-approach-title";
+  title.textContent = approach.title || `思路 ${approach.id}`;
+  const status = badge(approachStatusLabel(approach), "chip-explanation-status");
+  const headActions = document.createElement("span");
+  headActions.className = "explanation-approach-actions";
+
+  const recordButton = document.createElement("button");
+  recordButton.type = "button";
+  recordButton.className = "explanation-record-button";
+  recordButton.dataset.approachId = approach.id;
+  recordButton.textContent = "● 录讲解";
+  recordButton.addEventListener("click", () => {
+    void toggleExplanationRecording(approach.id);
+  });
+
+  const polishButton = ghostButton("润色讲解");
+  polishButton.addEventListener("click", () => {
+    void polishApproachAction(approach.id, polishButton);
+  });
+
+  const generateExplanationButton = ghostButton("生成讲解");
+  generateExplanationButton.addEventListener("click", () => {
+    void generateApproachTextAction("explanation", approach.id, generateExplanationButton);
+  });
+
+  const generateSolutionButton = ghostButton("生成解答");
+  generateSolutionButton.addEventListener("click", () => {
+    void generateApproachTextAction("solution", approach.id, generateSolutionButton);
+  });
+
+  const approveButton = ghostButton("批准并导出 blueprint", "approve-button");
+  approveButton.addEventListener("click", () => {
+    void approveApproachAction(approach.id, approveButton);
+  });
+
+  const deleteButton = ghostButton("删除", "reject-button");
+  deleteButton.addEventListener("click", () => {
+    void deleteApproachAction(approach.id);
+  });
+
+  headActions.append(recordButton);
+  if (approach.explanation?.transcript || approach.explanation?.audio_path) headActions.append(polishButton);
+  if (!approach.explanation?.text?.trim()) headActions.append(generateExplanationButton);
+  if (approach.explanation?.text?.trim() && !approach.solution?.text?.trim()) {
+    headActions.append(generateSolutionButton);
+  }
+  if (approach.explanation?.text?.trim() && approach.solution?.text?.trim()) {
+    headActions.append(approveButton);
+  }
+  headActions.append(deleteButton);
+
+  const headParts = [title, status];
+  if (approach.blueprint) {
+    headParts.push(badge(approach.blueprint.stale ? "blueprint 已过期" : "blueprint 已导出", "chip-blueprint"));
+  }
+  head.append(...headParts, headActions);
+  card.append(head);
+
+  card.append(renderExplanationField("讲解", approach, "explanation"));
+  if (approach.explanation?.transcript) {
+    const details = document.createElement("details");
+    details.className = "explanation-transcript";
+    const summary = document.createElement("summary");
+    summary.textContent = "录音转写稿";
+    const transcript = document.createElement("pre");
+    transcript.textContent = approach.explanation.transcript;
+    details.append(summary, transcript);
+    card.append(details);
+  }
+  card.append(renderExplanationField("解答", approach, "solution"));
+
+  const message = document.createElement("p");
+  message.className = "explanation-message";
+  message.setAttribute("role", "status");
+  card.append(message);
+  return card;
+}
+
+function renderExplanationField(labelText, approach, field) {
+  const block = document.createElement("div");
+  block.className = "explanation-field";
+  const head = document.createElement("div");
+  head.className = "explanation-field-head";
+  const label = document.createElement("span");
+  label.className = "explanation-field-label";
+  label.textContent = labelText;
+  const source = approach[field]?.source;
+  if (source && approach[field]?.text?.trim()) {
+    const sourceChip = badge(EXPLANATION_SOURCE_LABELS[source] || source, "chip-source");
+    head.append(label, sourceChip);
+  } else {
+    head.append(label);
+  }
+  const textarea = document.createElement("textarea");
+  textarea.rows = field === "explanation" ? 5 : 4;
+  textarea.className = "explanation-textarea";
+  textarea.value = approach[field]?.text || "";
+  textarea.setAttribute("aria-label", `${labelText}（编辑后失焦自动保存）`);
+  const preview = document.createElement("div");
+  preview.className = "explanation-preview source-text";
+  preview.textContent = formatReviewText(textarea.value);
+  bindExplanationEditor(textarea, preview, approach.id, field);
+  block.append(head, textarea, preview);
+  return block;
+}
+
+function bindExplanationEditor(textarea, preview, approachId, field) {
+  textarea.addEventListener("input", () => {
+    preview.textContent = formatReviewText(textarea.value);
+  });
+  textarea.addEventListener("blur", () => {
+    const found = findExplanationApproach(approachId);
+    if (!found) return;
+    const before = found.approach[field]?.text || "";
+    if (textarea.value.trim() === before.trim()) return;
+    void saveApproachText(approachId, field, textarea.value);
+  });
+}
+
+async function saveApproachText(approachId, field, value) {
+  const bankId = state.detail?.id;
+  const itemId = currentExplanationItemId();
+  if (!bankId || !itemId) return;
+  const body = field === "explanation" ? { explanation_text: value } : { solution_text: value };
+  const scope = document.querySelector(`.explanation-approach[data-approach-id="${approachId}"]`);
+  explanationMessageNode(scope, "保存中…");
+  try {
+    const payload = await explanationsFetch(
+      `${explanationsEndpoint(bankId, itemId)}/approaches/${encodeURIComponent(approachId)}`,
+      {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      },
+    );
+    if (explanationsState.itemId === itemId) applyExplanationsPayload(payload);
+    const fresh = document.querySelector(`.explanation-approach[data-approach-id="${approachId}"]`);
+    explanationMessageNode(fresh, "已保存。", "ok");
+  } catch (error) {
+    const fresh = document.querySelector(`.explanation-approach[data-approach-id="${approachId}"]`);
+    explanationMessageNode(fresh, `保存失败：${error.message}`, "error");
+  }
+}
+
+async function createApproachAction(subquestionId, button) {
+  const bankId = state.detail?.id;
+  const itemId = currentExplanationItemId();
+  if (!bankId || !itemId) return;
+  button.disabled = true;
+  try {
+    const payload = await explanationsFetch(`${explanationsEndpoint(bankId, itemId)}/approaches`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ subquestion_id: subquestionId }),
+    });
+    if (explanationsState.itemId === itemId) applyExplanationsPayload(payload);
+  } catch (error) {
+    explanationMessageNode(byId("explanations-card"), `新建失败：${error.message}`, "error");
+  } finally {
+    button.disabled = false;
+  }
+}
+
+async function deleteApproachAction(approachId) {
+  if (!window.confirm("删除这组讲解-解答？录音文件会保留在题库目录中。")) return;
+  const bankId = state.detail?.id;
+  const itemId = currentExplanationItemId();
+  if (!bankId || !itemId) return;
+  try {
+    const payload = await explanationsFetch(
+      `${explanationsEndpoint(bankId, itemId)}/approaches/${encodeURIComponent(approachId)}`,
+      { method: "DELETE" },
+    );
+    if (explanationsState.itemId === itemId) applyExplanationsPayload(payload);
+  } catch (error) {
+    explanationMessageNode(byId("explanations-card"), `删除失败：${error.message}`, "error");
+  }
+}
+
+async function polishApproachAction(approachId, button) {
+  const bankId = state.detail?.id;
+  const itemId = currentExplanationItemId();
+  if (!bankId || !itemId) return;
+  const scope = document.querySelector(`.explanation-approach[data-approach-id="${approachId}"]`);
+  explanationMessageNode(scope, "正在润色讲解…");
+  if (button) button.disabled = true;
+  try {
+    const payload = await explanationsFetch(
+      `${explanationsEndpoint(bankId, itemId)}/approaches/${encodeURIComponent(approachId)}/polish`,
+      { method: "POST" },
+    );
+    if (explanationsState.itemId === itemId) applyExplanationsPayload(payload);
+    const fresh = document.querySelector(`.explanation-approach[data-approach-id="${approachId}"]`);
+    explanationMessageNode(fresh, "润色完成，可直接编辑或重新润色。", "ok");
+  } catch (error) {
+    const fresh = document.querySelector(`.explanation-approach[data-approach-id="${approachId}"]`);
+    explanationMessageNode(fresh, `润色失败：${error.message}`, "error");
+  } finally {
+    if (button) button.disabled = false;
+  }
+}
+
+async function generateApproachTextAction(kind, approachId, button) {
+  // 单对补齐：kind=explanation 只填本对缺的讲解；kind=solution 只补本对解答。
+  const found = findExplanationApproach(approachId);
+  if (!found) return;
+  const bankId = state.detail?.id;
+  const itemId = currentExplanationItemId();
+  if (!bankId || !itemId) return;
+  const scope = document.querySelector(`.explanation-approach[data-approach-id="${approachId}"]`);
+  explanationMessageNode(scope, kind === "explanation" ? "正在生成讲解…" : "正在生成解答…");
+  if (button) button.disabled = true;
+  try {
+    const payload = await explanationsFetch(`${explanationsEndpoint(bankId, itemId)}/generate`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ kind }),
+    });
+    if (explanationsState.itemId === itemId) applyExplanationsPayload(payload);
+    const fresh = document.querySelector(`.explanation-approach[data-approach-id="${approachId}"]`);
+    explanationMessageNode(fresh, "已生成，可继续编辑或重新润色。", "ok");
+  } catch (error) {
+    const fresh = document.querySelector(`.explanation-approach[data-approach-id="${approachId}"]`);
+    explanationMessageNode(fresh, `生成失败：${error.message}`, "error");
+  } finally {
+    if (button) button.disabled = false;
+  }
+}
+
+async function generateMissingAction(kind) {
+  const bankId = state.detail?.id;
+  const itemId = currentExplanationItemId();
+  if (!bankId || !itemId) return;
+  const card = byId("explanations-card");
+  explanationMessageNode(card, kind === "explanation" ? "正在为缺讲解的小问生成讲解…" : "正在为缺解答的讲解生成解答…");
+  try {
+    const payload = await explanationsFetch(`${explanationsEndpoint(bankId, itemId)}/generate`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ kind }),
+    });
+    if (explanationsState.itemId === itemId) applyExplanationsPayload(payload.explanations || payload);
+    const errors = payload.errors || [];
+    if (!payload.generated && !errors.length) {
+      explanationMessageNode(card, "没有需要补齐的内容。");
+    } else if (errors.length) {
+      explanationMessageNode(card, `已生成 ${payload.generated} 项，失败 ${errors.length} 项：${errors.map((entry) => entry.error).join("；")}`, "error");
+    } else {
+      explanationMessageNode(card, `已生成 ${payload.generated} 项，请逐条核对后批准。`, "ok");
+    }
+  } catch (error) {
+    explanationMessageNode(card, `补齐失败：${error.message}`, "error");
+  }
+}
+
+async function exportBlueprintAction() {
+  const bankId = state.detail?.id;
+  if (!bankId) return;
+  const card = byId("explanations-card");
+  explanationMessageNode(card, "正在重导出 blueprint…");
+  try {
+    const payload = await explanationsFetch(
+      `/api/banks/${encodeURIComponent(bankId)}/explanations/blueprint`,
+      { method: "POST" },
+    );
+    explanationMessageNode(
+      card,
+      payload.candidate_count
+        ? `已导出 ${payload.candidate_count} 个 candidate（${payload.item_count} 题）→ ${payload.batch_path}`
+        : "当前题库还没有已批准的讲解-解答对，未生成 blueprint。",
+      payload.candidate_count ? "ok" : "info",
+    );
+  } catch (error) {
+    explanationMessageNode(card, `导出失败：${error.message}`, "error");
+  }
+}
+
+async function approveApproachAction(approachId, button) {
+  const bankId = state.detail?.id;
+  const itemId = currentExplanationItemId();
+  if (!bankId || !itemId) return;
+  const scope = document.querySelector(`.explanation-approach[data-approach-id="${approachId}"]`);
+  explanationMessageNode(scope, "正在批准并导出 blueprint…");
+  if (button) button.disabled = true;
+  try {
+    const payload = await explanationsFetch(
+      `${explanationsEndpoint(bankId, itemId)}/approaches/${encodeURIComponent(approachId)}/approve`,
+      { method: "POST" },
+    );
+    if (explanationsState.itemId === itemId && payload.explanations) {
+      applyExplanationsPayload(payload.explanations);
+    }
+    const fresh = document.querySelector(`.explanation-approach[data-approach-id="${approachId}"]`);
+    explanationMessageNode(
+      fresh,
+      `已批准并导出 blueprint：${payload.export.candidate_count} 个 candidate → ${payload.export.batch_path}`,
+      "ok",
+    );
+    playApprovalSound();
+  } catch (error) {
+    const fresh = document.querySelector(`.explanation-approach[data-approach-id="${approachId}"]`);
+    explanationMessageNode(fresh, `批准失败：${error.message}`, "error");
+  } finally {
+    if (button) button.disabled = false;
+  }
+}
+
+function pickRecordingMimeType() {
+  if (!window.MediaRecorder) return "";
+  for (const type of ["audio/webm;codecs=opus", "audio/webm", "audio/mp4"]) {
+    if (MediaRecorder.isTypeSupported(type)) return type;
+  }
+  return "";
+}
+
+function formatRecordingDuration(seconds) {
+  const minutes = Math.floor(seconds / 60);
+  const rest = seconds % 60;
+  return `${String(minutes).padStart(2, "0")}:${String(rest).padStart(2, "0")}`;
+}
+
+function updateRecordingButtons() {
+  document.querySelectorAll(".explanation-record-button").forEach((button) => {
+    const approachId = button.dataset.approachId;
+    if (explanationRecording.approachId === approachId) {
+      button.classList.add("is-recording");
+      const seconds = Math.floor((Date.now() - explanationRecording.startedAt) / 1000);
+      button.textContent = `■ 停止 ${formatRecordingDuration(seconds)}`;
+      button.setAttribute("aria-pressed", "true");
+    } else {
+      button.classList.remove("is-recording");
+      button.textContent = "● 录讲解";
+      button.setAttribute("aria-pressed", "false");
+      button.disabled = Boolean(explanationRecording.approachId);
+    }
+  });
+}
+
+async function toggleExplanationRecording(approachId) {
+  if (explanationRecording.approachId) {
+    stopExplanationRecording();
+    return;
+  }
+  const bankId = state.detail?.id;
+  const itemId = currentExplanationItemId();
+  const scope = document.querySelector(`.explanation-approach[data-approach-id="${approachId}"]`);
+  if (!bankId || !itemId) return;
+  if (!navigator.mediaDevices?.getUserMedia || !window.MediaRecorder) {
+    explanationMessageNode(scope, "当前浏览器不支持录音（需要 MediaRecorder 与麦克风权限）。", "error");
+    return;
+  }
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    const mimeType = pickRecordingMimeType();
+    const recorder = new MediaRecorder(stream, mimeType ? { mimeType } : undefined);
+    explanationRecording.recorder = recorder;
+    explanationRecording.chunks = [];
+    explanationRecording.approachId = approachId;
+    explanationRecording.bankId = bankId;
+    explanationRecording.itemId = itemId;
+    explanationRecording.mimeType = recorder.mimeType || mimeType || "audio/webm";
+    explanationRecording.startedAt = Date.now();
+    recorder.ondataavailable = (event) => {
+      if (event.data?.size) explanationRecording.chunks.push(event.data);
+    };
+    recorder.onstop = () => {
+      stream.getTracks().forEach((track) => track.stop());
+      const chunks = explanationRecording.chunks;
+      const meta = {
+        bankId: explanationRecording.bankId,
+        itemId: explanationRecording.itemId,
+        approachId: explanationRecording.approachId,
+        mimeType: explanationRecording.mimeType,
+      };
+      explanationRecording.recorder = null;
+      explanationRecording.approachId = null;
+      if (explanationRecording.timer) {
+        clearInterval(explanationRecording.timer);
+        explanationRecording.timer = null;
+      }
+      updateRecordingButtons();
+      if (chunks.length) {
+        void uploadExplanationRecording(meta, new Blob(chunks, { type: meta.mimeType }));
+      }
+    };
+    recorder.start();
+    explanationRecording.timer = setInterval(updateRecordingButtons, 500);
+    updateRecordingButtons();
+    explanationMessageNode(scope, "录音中…再次点击停止并转写。");
+  } catch (error) {
+    explanationRecording.approachId = null;
+    updateRecordingButtons();
+    explanationMessageNode(scope, `无法开始录音：${error.message}`, "error");
+  }
+}
+
+function stopExplanationRecording() {
+  if (explanationRecording.recorder?.state === "recording") {
+    explanationRecording.recorder.stop();
+  }
+}
+
+async function uploadExplanationRecording(meta, blob) {
+  const base = explanationsEndpoint(meta.bankId, meta.itemId);
+  const stillOnItem = explanationsState.itemId === meta.itemId;
+  const scope = document.querySelector(`.explanation-approach[data-approach-id="${meta.approachId}"]`);
+  if (stillOnItem) explanationMessageNode(scope, "录音结束，正在上传并转写…");
+  try {
+    const payload = await explanationsFetch(
+      `${base}/approaches/${encodeURIComponent(meta.approachId)}/audio`,
+      { method: "POST", headers: { "Content-Type": meta.mimeType }, body: blob },
+    );
+    if (explanationsState.itemId === meta.itemId) applyExplanationsPayload(payload);
+    let fresh = document.querySelector(`.explanation-approach[data-approach-id="${meta.approachId}"]`);
+    if (fresh) explanationMessageNode(fresh, "转写完成，正在润色讲解…");
+    try {
+      const polished = await explanationsFetch(
+        `${base}/approaches/${encodeURIComponent(meta.approachId)}/polish`,
+        { method: "POST" },
+      );
+      if (explanationsState.itemId === meta.itemId) applyExplanationsPayload(polished);
+      fresh = document.querySelector(`.explanation-approach[data-approach-id="${meta.approachId}"]`);
+      explanationMessageNode(fresh, "已根据录音润色讲解，可直接编辑、重新润色或批准。", "ok");
+    } catch (error) {
+      fresh = document.querySelector(`.explanation-approach[data-approach-id="${meta.approachId}"]`);
+      explanationMessageNode(fresh, `录音已保存、转写成功，但润色失败：${error.message}。可点“润色讲解”重试。`, "error");
+    }
+  } catch (error) {
+    const fresh = document.querySelector(`.explanation-approach[data-approach-id="${meta.approachId}"]`);
+    explanationMessageNode(fresh, `录音上传或转写失败：${error.message}`, "error");
+  }
+}
+
+byId("explanations-generate-missing").addEventListener("click", () => void generateMissingAction("explanation"));
+byId("explanations-generate-solutions").addEventListener("click", () => void generateMissingAction("solution"));
+byId("explanations-export-blueprint").addEventListener("click", () => void exportBlueprintAction());
+
 loadBanks();

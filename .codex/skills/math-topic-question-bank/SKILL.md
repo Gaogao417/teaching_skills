@@ -177,6 +177,33 @@ staging/<paper-id>/
 - 右上角“数库”跳到默认 `http://127.0.0.1:8876/`；数库页面的“题库”按钮可跳回。
 - 两个地址都可分别用 `--number-review-url` 和 `--question-bank-review-url` 覆盖。
 
+## 小题讲解 / 解答与 blueprint 导出
+
+Review UI 的“讲解 / 解答（小题）”面板把讲解和解答从大题拆到小题，并按
+“思路”成对管理。数据落在每题 sidecar `items/<Q###>/explanations.yaml`
+（schema `math_item_explanations/v1`），录音资产在 `assets/explanations/`；
+不改动学生/教师 assignment 本体。小题骨架从题干的 `（1）/(2)/①` 标记自动
+派生，没有标记时按单一“整题”处理。
+
+- 每小问可“新建讲解-解答”得到多组思路；每组包含讲解与解答两个可编辑文本框
+  （失焦自动保存），编辑已批准内容会自动回到草稿并把 blueprint 标记为过期。
+- 每组思路有“录讲解”按钮：浏览器录音上传后服务端用 DashScope
+  `qwen3-asr-flash` 转写（ffmpeg 先转 16 kHz WAV），再自动用 `qwen-plus`
+  润色成书面讲解；转写稿只读展示，可反复“润色讲解”重新生成。
+- 面板顶部“补齐缺失讲解”为每个缺讲解的小问由解答生成讲解；“补齐缺失解答”
+  为有讲解缺解答的思路生成配套解答。“重导出 blueprint”手动重建整卷导出。
+- 讲解与解答都非空才可“批准并导出 blueprint”：导出物是该题库全部已批准
+  讲解-解答对重建成 teaching-tools authoring candidate batch，写入
+  `<teaching-tools>/authoring/tmp/reviewed-bank-import/<bank>.candidates.json`
+  （`metadata.source: reviewed-bank-import`，可用 `scenario_pipeline.py
+  generate` 归一为 draft ScenarioRecord）。题库位置可用环境变量
+  `TEACHING_TOOLS_ROOT` 覆盖。
+- 依赖：录音转写需要 `DASHSCOPE_API_KEY` 与 ffmpeg；缺失时面板提示未启用，
+  讲解/解答仍可手动编辑或自动生成（生成同样需要该 key）。模型可用
+  `QUESTION_BANK_ASR_MODEL`、`QUESTION_BANK_LLM_MODEL` 覆盖默认值
+  （qwen3-asr-flash / qwen-plus）。
+- 题目列表对“缺讲解 / 缺解答”的题直接打标，便于定位待补题。
+
 ## 硬约束
 
 - 题库保存“现成题”，不是保存 prompt 模板或变式规则后临时再生成。

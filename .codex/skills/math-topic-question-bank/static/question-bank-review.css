@@ -205,3 +205,43 @@ select:focus-visible, button:focus-visible, textarea:focus-visible, .question-ro
   .source-lightbox-open img { max-height: 56vh; }
   .review-dialog-form { padding: 20px; }
 }
+
+/* ---- 小题讲解 / 解答 ---- */
+.ghost-button { min-height: 34px; padding: 6px 11px; border-color: var(--line); background: white; color: var(--ink); font-size: 13px; font-weight: 700; }
+.ghost-button:hover:enabled { border-color: var(--accent); color: var(--accent); }
+.explanations-card .section-head { display: flex; align-items: start; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.explanations-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.explanations-hint { margin: 10px 0 0; color: var(--muted); font-size: 12.5px; }
+.explanations-message { margin: 8px 0 0; min-height: 1.4em; color: var(--muted); font-size: 13px; }
+.explanations-message[data-tone="ok"] { color: var(--accent); font-weight: 700; }
+.explanations-message[data-tone="error"] { color: var(--danger); font-weight: 700; }
+.explanations-body { display: grid; gap: 14px; margin-top: 12px; }
+.explanations-loading, .explanations-error, .explanation-empty { margin: 6px 0; color: var(--muted); font-size: 13px; }
+.explanations-error { color: var(--danger); font-weight: 700; }
+.explanation-subquestion { padding: 12px 14px; border: 1px solid var(--line); border-radius: 12px; background: #fffefa; }
+.explanation-subquestion-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.explanation-subquestion-label { color: var(--accent); font-size: 15px; }
+.explanation-subquestion-stem { flex: 1 1 260px; min-width: 0; color: var(--muted); font-size: 13px; }
+.chip-explanation-status { border-color: #cbbfa5; background: #f6efdd; color: #6b5316; font-weight: 800; }
+.chip-blueprint { border-color: #a9c7b9; background: var(--accent-soft); color: var(--accent); font-weight: 800; }
+.chip-source { border-color: var(--line); background: white; color: var(--muted); font-weight: 700; }
+.explanation-approach { margin-top: 10px; padding: 10px 12px; border: 1px dashed #cfc8b8; border-radius: 10px; background: white; }
+.explanation-approach-head { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.explanation-approach-title { font-size: 14px; }
+.explanation-approach-actions { display: flex; gap: 6px; flex-wrap: wrap; margin-left: auto; }
+.explanation-record-button { min-height: 34px; padding: 6px 11px; border-color: #b47168; color: var(--danger); background: white; font-size: 13px; font-weight: 750; font-variant-numeric: tabular-nums; }
+.explanation-record-button:hover:enabled { border-color: var(--danger); }
+.explanation-record-button.is-recording { border-color: var(--danger); background: var(--danger); color: white; animation: explanation-pulse 1.2s ease-in-out infinite; }
+@keyframes explanation-pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(138, 63, 53, .35); } 50% { box-shadow: 0 0 0 6px rgba(138, 63, 53, 0); } }
+.explanation-field { margin-top: 10px; }
+.explanation-field-head { display: flex; align-items: center; gap: 8px; }
+.explanation-field-label { color: var(--muted); font-size: 12px; font-weight: 800; letter-spacing: .08em; }
+.explanation-textarea { display: block; width: 100%; margin-top: 4px; padding: 9px 11px; font-size: 14px; line-height: 1.65; resize: vertical; }
+.explanation-preview { margin-top: 6px; padding: 8px 10px; border-left: 3px solid var(--line); color: var(--ink); font-size: 13px; white-space: pre-wrap; background: rgba(251, 250, 246, .7); border-radius: 0 8px 8px 0; }
+.explanation-transcript { margin: 8px 0 0; font-size: 12.5px; }
+.explanation-transcript summary { color: var(--muted); cursor: pointer; font-weight: 700; }
+.explanation-transcript pre { margin: 6px 0 0; padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; background: #f7f5ee; color: var(--muted); white-space: pre-wrap; }
+.explanation-message { margin: 10px 0 0; min-height: 1.4em; color: var(--muted); font-size: 12.5px; }
+.explanation-message[data-tone="ok"] { color: var(--accent); font-weight: 700; }
+.explanation-message[data-tone="error"] { color: var(--danger); font-weight: 700; }
+.question-row.needs-explanations { border-style: dashed; }

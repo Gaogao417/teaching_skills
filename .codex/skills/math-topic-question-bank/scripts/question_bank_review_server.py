@@ -10,6 +10,7 @@ import json
 import mimetypes
 import os
 import re
+import shutil
 import sys
 import tempfile
 import threading
@@ -46,6 +47,8 @@ from triangle_candidate_review_adapter import (  # noqa: E402
     BANK_ID as TRIANGLE_CANDIDATE_BANK_ID,
     TriangleCandidateReviewStore,
 )
+import explanations_ai  # noqa: E402
+from explanations_ai import AiAssistError  # noqa: E402
 TEMPLATE_DIR = PACKAGE_DIR / "templates"
 STATIC_DIR = PACKAGE_DIR / "static"
 DEFAULT_BANK_ROOT = REPO_ROOT / "artifacts" / "题库"
@@ -56,6 +59,11 @@ DEFAULT_TRIANGLE_QUESTION_REVIEW = PACKAGE_DIR / "data" / "triangle-cosine-quest
 REVIEW_SCHEMA = "math_exam_item_review/v1"
 SOURCE_SCHEMA = "math_exam_item_source/v1"
 PAPER_SCHEMA = "math_exam_paper/v1"
+# 小题讲解/解答 sidecar：讲解与解答以小题为单位成对存放，批准后导出 teaching-tools
+# blueprint candidate。文件在 items/<item>/explanations.yaml，录音资产在 assets/explanations/。
+EXPLANATIONS_SCHEMA = "math_item_explanations/v1"
+EXPLANATIONS_FILE = "explanations.yaml"
+EXPLANATIONS_AUDIO_DIR = "assets/explanations"
 QUESTION_TYPES = {"choice", "fillin", "problem", "short_answer"}
 PREVIEW_SUFFIXES = {".png", ".jpg", ".jpeg", ".svg", ".webp"}
 EDITABLE_IMAGE_TARGETS = {
@@ -159,6 +167,27 @@ class ReviewNote(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     note: str = Field(default="", max_length=4000)
+
+
+class ApproachCreate(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    subquestion_id: str = Field(min_length=1)
+    title: str = Field(default="", max_length=200)
+
+
+class ApproachUpdate(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    title: str | None = Field(default=None, max_length=200)
+    explanation_text: str | None = None
+    solution_text: str | None = None
+
+
+class ExplanationGenerateRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    kind: Literal["explanation", "solution"]
 
 
 class ReviewDecision(ReviewNote):
@@ -361,6 +390,215 @@ def _first_question_block(payload: dict[str, Any]) -> dict[str, Any]:
     return _first_practice_block(payload)
 
 
+# 小题切分：识别 （1）/(2)/① 三类小问标记；少于 2 个标记按单一"整题"处理。
+_SUBQUESTION_MARKER = re.compile(
+    r"（\s*[0-9一二三四五六七八九十]{1,3}\s*）"
+    r"|\(\s*[0-9]{1,2}\s*\)"
+    r"|[①②③④⑤⑥⑦⑧⑨⑩⑪⑫]"
+)
+
+
+def _derive_subquestions(stem_latex: str) -> list[dict[str, Any]]:
+    stem = str(stem_latex or "").strip()
+    matches = list(_SUBQUESTION_MARKER.finditer(stem))
+    if len(matches) < 2:
+        return [{"id": "sq1", "label": "", "stem_latex": stem}]
+    subquestions: list[dict[str, Any]] = []
+    for index, match in enumerate(matches):
+        end = matches[index + 1].start() if index + 1 < len(matches) else len(stem)
+        subquestions.append(
+            {
+                "id": f"sq{index + 1}",
+                "label": match.group(0),
+                "stem_latex": stem[match.start() : end].strip(),
+            }
+        )
+    return subquestions
+
+
+def _explanations_path(item_dir: Path) -> Path:
+    return item_dir / EXPLANATIONS_FILE
+
+
+def _load_explanations(item_dir: Path) -> dict[str, Any] | None:
+    """读取 sidecar；不存在、为符号链接、schema 不符或损坏时按无数据处理。"""
+    path = _explanations_path(item_dir)
+    if path.is_symlink() or not path.is_file():
+        return None
+    try:
+        payload = _read_yaml(path)
+    except ValueError:
+        return None
+    if not isinstance(payload, dict) or payload.get("schema") != EXPLANATIONS_SCHEMA:
+        return None
+    if not isinstance(payload.get("subquestions"), list):
+        return None
+    return payload
+
+
+def _normalize_approach(approach: Any) -> dict[str, Any] | None:
+    if not isinstance(approach, dict) or not str(approach.get("id", "")).strip():
+        return None
+    explanation = approach.get("explanation") if isinstance(approach.get("explanation"), dict) else {}
+    solution = approach.get("solution") if isinstance(approach.get("solution"), dict) else {}
+    return {
+        "id": str(approach["id"]),
+        "title": str(approach.get("title", "")),
+        "explanation": {
+            "text": str(explanation.get("text", "")),
+            "status": str(explanation.get("status", "draft")),
+            "source": str(explanation.get("source", "manual")),
+            "transcript": str(explanation.get("transcript", "")),
+            "audio_path": explanation.get("audio_path"),
+        },
+        "solution": {
+            "text": str(solution.get("text", "")),
+            "status": str(solution.get("status", "draft")),
+            "source": str(solution.get("source", "manual")),
+        },
+        "created_at": approach.get("created_at"),
+        "approved_at": approach.get("approved_at"),
+        "blueprint": approach.get("blueprint") if isinstance(approach.get("blueprint"), dict) else None,
+    }
+
+
+def _merged_explanations(
+    item_dir: Path, teacher_block: dict[str, Any], item_id: str
+) -> dict[str, Any]:
+    """派生小题骨架 + sidecar 中已存的讲解-解答对合并成 API 视图。"""
+    derived = _derive_subquestions(str(teacher_block.get("stem_latex", "")))
+    stored = _load_explanations(item_dir)
+    stored_entries: dict[str, dict[str, Any]] = {}
+    extra_entries: list[dict[str, Any]] = []
+    derived_ids = {entry["id"] for entry in derived}
+    for entry in stored.get("subquestions", []) if stored else []:
+        if not isinstance(entry, dict):
+            continue
+        entry_id = str(entry.get("id", ""))
+        approaches = [
+            normalized
+            for normalized in (
+                _normalize_approach(approach) for approach in entry.get("approaches", []) or []
+            )
+            if normalized is not None
+        ]
+        if entry_id in derived_ids:
+            stored_entries[entry_id] = approaches
+        elif entry_id:
+            extra_entries.append(
+                {
+                    "id": entry_id,
+                    "label": str(entry.get("label", "")),
+                    "stem_latex": str(entry.get("stem_latex", "")),
+                    "approaches": approaches,
+                }
+            )
+    subquestions = [
+        {
+            "id": entry["id"],
+            "label": entry["label"],
+            "stem_latex": entry["stem_latex"],
+            "approaches": stored_entries.get(entry["id"], []),
+        }
+        for entry in derived
+    ]
+    subquestions.extend(extra_entries)
+    return {"schema": EXPLANATIONS_SCHEMA, "item_id": item_id, "subquestions": subquestions}
+
+
+def _iter_approaches(
+    payload: dict[str, Any],
+) -> list[tuple[dict[str, Any], dict[str, Any]]]:
+    pairs: list[tuple[dict[str, Any], dict[str, Any]]] = []
+    for subquestion in payload.get("subquestions", []) or []:
+        for approach in subquestion.get("approaches", []) or []:
+            pairs.append((subquestion, approach))
+    return pairs
+
+
+def _default_explanations_summary() -> dict[str, Any]:
+    return {
+        "has_sidecar": False,
+        "approach_count": 0,
+        "approved_count": 0,
+        "missing_explanation": True,
+        "missing_solution_count": 0,
+    }
+
+
+def _explanations_summary(item_dir: Path) -> dict[str, Any]:
+    """列表级状态：无 sidecar 即视为缺讲解；讲解齐但解答缺记为缺解答数。"""
+    stored = _load_explanations(item_dir)
+    if stored is None:
+        return _default_explanations_summary()
+    approaches = [pair[1] for pair in _iter_approaches(stored)]
+    with_explanation = [
+        approach
+        for approach in approaches
+        if (approach.get("explanation") or {}).get("text", "").strip()
+    ]
+    return {
+        "has_sidecar": True,
+        "approach_count": len(approaches),
+        "approved_count": sum(
+            1
+            for approach in approaches
+            if (approach.get("explanation") or {}).get("status") == "approved"
+            and (approach.get("solution") or {}).get("status") == "approved"
+        ),
+        "missing_explanation": not with_explanation,
+        "missing_solution_count": sum(
+            1
+            for approach in with_explanation
+            if not (approach.get("solution") or {}).get("text", "").strip()
+        ),
+    }
+
+
+def _solution_steps_text(teacher_block: dict[str, Any], label: str = "") -> str:
+    """把大题 solution_steps 拼成文本；有小问标记时优先取该小问对应步骤。"""
+    normalized = _normalized_solution_steps(teacher_block)
+    if label:
+        matched = [step for step in normalized if label in step["title"]]
+        if matched:
+            normalized = matched
+    lines = [
+        content if not title else f"{title}：{content}"
+        for title, content in ((step["title"], step["content"]) for step in normalized)
+        if content.strip()
+    ]
+    return "\n".join(lines)
+
+
+def _normalized_solution_steps(teacher_block: dict[str, Any]) -> list[dict[str, str]]:
+    """solution_steps 归一成 {title, content}（字符串步骤按无标题处理）。"""
+    normalized: list[dict[str, str]] = []
+    for step in teacher_block.get("solution_steps", []) or []:
+        if isinstance(step, str):
+            normalized.append({"title": "", "content": step})
+        elif isinstance(step, dict):
+            normalized.append(
+                {
+                    "title": str(step.get("title", "")),
+                    "content": str(step.get("content") or step.get("content_latex", "")),
+                }
+            )
+    return normalized
+
+
+def _resolve_teaching_tools_root(explicit: str | Path | None = None) -> Path:
+    if explicit is not None:
+        return Path(explicit)
+    env_root = os.environ.get("TEACHING_TOOLS_ROOT", "").strip()
+    if env_root:
+        return Path(env_root)
+    return REPO_ROOT.parent / "teaching-tools"
+
+
+def _utc_now_iso() -> str:
+    return datetime.now(timezone.utc).isoformat()
+
+
 def _derive_student_assignment(teacher: dict[str, Any]) -> dict[str, Any]:
     """Keep the review server self-contained while matching the normal derivation."""
 
@@ -416,6 +654,8 @@ def _derive_student_assignment(teacher: dict[str, Any]) -> dict[str, Any]:
 class QuestionBankCatalog:
     def __init__(self, bank_root: str | Path):
         self.bank_root = Path(bank_root).expanduser().resolve()
+        # 讲解批准后 blueprint candidate batch 的输出仓库（可被 app 工厂覆盖）。
+        self.teaching_tools_root = _resolve_teaching_tools_root()
         # 单进程读写模型（§6.1）：RLock 保护 snapshot 的构建与替换。
         self._lock = threading.RLock()
         self._snapshot: CatalogSnapshot | None = None
@@ -1130,6 +1370,7 @@ class QuestionBankCatalog:
                 "prompt_preview_url": None,
                 "solution_preview_url": None,
                 "solution_previews": [],
+                "explanations_summary": _default_explanations_summary(),
                 "review_issues": issues_by_item.get(item_id, []),
                 "review": {
                     "status": "pending",
@@ -1155,6 +1396,7 @@ class QuestionBankCatalog:
                 )
                 student_block = _first_practice_block(_read_yaml(student_path))
                 teacher_block = _first_practice_block(_read_yaml(teacher_path))
+                rendered["explanations_summary"] = _explanations_summary(item_dir)
                 teaching = teacher_block.get("teaching", {})
                 if not isinstance(teaching, dict):
                     teaching = {}
@@ -1855,6 +2097,453 @@ class QuestionBankCatalog:
             "errors": errors,
         }
 
+    # ------------------------------------------------------------------
+    # 小题讲解 / 解答（items/<item>/explanations.yaml sidecar）
+    # ------------------------------------------------------------------
+
+    def _explanations_entry(
+        self, bank_id: str, item_id: str
+    ) -> tuple[BankRecord, Path, Path, dict[str, Any], dict[str, Any]]:
+        """解析 (record, item_dir, teacher_path, teacher_payload, teacher_block)。"""
+        record = self.record(bank_id)
+        if record.kind == "staging_exam":
+            if item_id not in self._staging_item_ids(record):
+                raise KeyError((bank_id, item_id))
+            item_dir = record.directory / "items" / item_id
+            teacher_path = _safe_file(
+                item_dir, "teacher.resolved.assignment.yaml", record.directory
+            )
+            teacher_payload = _read_yaml(teacher_path)
+            teacher_block = _first_practice_block(teacher_payload)
+        else:
+            manifest_item = next(
+                (
+                    candidate
+                    for candidate in record.manifest.get("items", [])
+                    if isinstance(candidate, dict) and str(candidate.get("id", "")) == item_id
+                ),
+                None,
+            )
+            if manifest_item is None:
+                raise KeyError((bank_id, item_id))
+            teacher_path = _safe_file(
+                record.directory, str(manifest_item.get("teacher_assignment", "")), record.directory
+            )
+            teacher_payload = _read_yaml(teacher_path)
+            teacher_block = _practice_block(teacher_payload, item_id)
+        item_dir = teacher_path.parent
+        if not _inside(item_dir.resolve(), record.directory.resolve()):
+            raise ValueError("item 目录越界")
+        return record, item_dir, teacher_path, teacher_payload, teacher_block
+
+    def _persist_explanations(
+        self,
+        record: BankRecord,
+        bank_id: str,
+        item_id: str,
+        item_dir: Path,
+        payload: dict[str, Any],
+    ) -> None:
+        path = _explanations_path(item_dir)
+        if path.is_symlink():
+            raise ValueError("explanations.yaml 不允许为符号链接")
+        _atomic_write_yaml(
+            path,
+            {
+                "schema": EXPLANATIONS_SCHEMA,
+                "item_id": item_id,
+                "subquestions": payload["subquestions"],
+            },
+        )
+        self._invalidate_bank(bank_id)
+
+    @staticmethod
+    def _find_approach(
+        payload: dict[str, Any], approach_id: str
+    ) -> tuple[dict[str, Any], dict[str, Any]]:
+        for subquestion in payload["subquestions"]:
+            for approach in subquestion["approaches"]:
+                if approach["id"] == approach_id:
+                    return subquestion, approach
+        raise ValueError(f"讲解-解答对不存在：{approach_id}")
+
+    def _new_approach(
+        self, payload: dict[str, Any], subquestion: dict[str, Any], title: str = ""
+    ) -> dict[str, Any]:
+        numbers = [
+            int(approach["id"][1:])
+            for _, approach in _iter_approaches(payload)
+            if re.fullmatch(r"a\d+", str(approach["id"]))
+        ]
+        return {
+            "id": f"a{(max(numbers) + 1) if numbers else 1}",
+            "title": title.strip() or f"思路 {len(subquestion['approaches']) + 1}",
+            "explanation": {
+                "text": "",
+                "status": "draft",
+                "source": "manual",
+                "transcript": "",
+                "audio_path": None,
+            },
+            "solution": {"text": "", "status": "draft", "source": "manual"},
+            "created_at": _utc_now_iso(),
+            "approved_at": None,
+            "blueprint": None,
+        }
+
+    def explanations_view(self, bank_id: str, item_id: str) -> dict[str, Any]:
+        record, item_dir, _, _, teacher_block = self._explanations_entry(bank_id, item_id)
+        payload = _merged_explanations(item_dir, teacher_block, item_id)
+        payload["recording_supported"] = (
+            bool(explanations_ai.api_key()) and shutil.which("ffmpeg") is not None
+        )
+        return payload
+
+    def create_approach(
+        self, bank_id: str, item_id: str, subquestion_id: str, title: str = ""
+    ) -> dict[str, Any]:
+        record, item_dir, _, _, teacher_block = self._explanations_entry(bank_id, item_id)
+        payload = _merged_explanations(item_dir, teacher_block, item_id)
+        subquestion = next(
+            (entry for entry in payload["subquestions"] if entry["id"] == subquestion_id),
+            None,
+        )
+        if subquestion is None:
+            raise ValueError(f"小问不存在：{subquestion_id}")
+        subquestion["approaches"].append(self._new_approach(payload, subquestion, title))
+        self._persist_explanations(record, bank_id, item_id, item_dir, payload)
+        return payload
+
+    def update_approach(
+        self,
+        bank_id: str,
+        item_id: str,
+        approach_id: str,
+        *,
+        title: str | None = None,
+        explanation_text: str | None = None,
+        solution_text: str | None = None,
+    ) -> dict[str, Any]:
+        record, item_dir, _, _, teacher_block = self._explanations_entry(bank_id, item_id)
+        payload = _merged_explanations(item_dir, teacher_block, item_id)
+        _, approach = self._find_approach(payload, approach_id)
+        if title is not None:
+            approach["title"] = title.strip()
+        content_changed = False
+        if explanation_text is not None and explanation_text.strip() != approach["explanation"]["text"]:
+            approach["explanation"].update(
+                {"text": explanation_text.strip(), "status": "draft", "source": "manual"}
+            )
+            content_changed = True
+        if solution_text is not None and solution_text.strip() != approach["solution"]["text"]:
+            approach["solution"].update(
+                {"text": solution_text.strip(), "status": "draft", "source": "manual"}
+            )
+            content_changed = True
+        if content_changed:
+            # 批准后继续编辑 → 回到草稿，此前的 blueprint 导出自动过期。
+            if approach.get("approved_at"):
+                approach["approved_at"] = None
+                approach["explanation"]["status"] = "draft"
+                approach["solution"]["status"] = "draft"
+                stale_blueprint = dict(approach.get("blueprint") or {})
+                stale_blueprint["stale"] = True
+                approach["blueprint"] = stale_blueprint
+            self._persist_explanations(record, bank_id, item_id, item_dir, payload)
+        return payload
+
+    def delete_approach(self, bank_id: str, item_id: str, approach_id: str) -> dict[str, Any]:
+        record, item_dir, _, _, teacher_block = self._explanations_entry(bank_id, item_id)
+        payload = _merged_explanations(item_dir, teacher_block, item_id)
+        subquestion, _ = self._find_approach(payload, approach_id)
+        subquestion["approaches"] = [
+            approach
+            for approach in subquestion["approaches"]
+            if approach["id"] != approach_id
+        ]
+        self._persist_explanations(record, bank_id, item_id, item_dir, payload)
+        return payload
+
+    def save_recording(
+        self, bank_id: str, item_id: str, approach_id: str, audio: bytes, content_type: str
+    ) -> dict[str, Any]:
+        record, item_dir, _, _, teacher_block = self._explanations_entry(bank_id, item_id)
+        payload = _merged_explanations(item_dir, teacher_block, item_id)
+        _, approach = self._find_approach(payload, approach_id)
+        suffix = explanations_ai.audio_suffix_for(content_type)
+        if len(audio) > explanations_ai.MAX_AUDIO_BYTES:
+            raise AiAssistError("audio_too_large", "录音超过 50MB 上限")
+        if not audio:
+            raise ValueError("录音内容为空")
+        audio_dir = item_dir / EXPLANATIONS_AUDIO_DIR
+        audio_dir.mkdir(parents=True, exist_ok=True)
+        audio_file = audio_dir / f"{approach_id}-{int(time.time())}{suffix}"
+        audio_file.write_bytes(audio)
+        approach["explanation"]["audio_path"] = f"{EXPLANATIONS_AUDIO_DIR}/{audio_file.name}"
+        self._persist_explanations(record, bank_id, item_id, item_dir, payload)
+        # 转写失败时录音已登记，稍后可通过"润色"重读录音重试转写。
+        transcript = explanations_ai.transcribe_audio(audio, content_type)
+        approach["explanation"]["transcript"] = transcript
+        self._persist_explanations(record, bank_id, item_id, item_dir, payload)
+        return {**payload, "transcript": transcript}
+
+    def polish_approach(self, bank_id: str, item_id: str, approach_id: str) -> dict[str, Any]:
+        record, item_dir, _, _, teacher_block = self._explanations_entry(bank_id, item_id)
+        payload = _merged_explanations(item_dir, teacher_block, item_id)
+        subquestion, approach = self._find_approach(payload, approach_id)
+        explanation = approach["explanation"]
+        transcript = str(explanation.get("transcript", "")).strip()
+        if not transcript and explanation.get("audio_path"):
+            audio_file = item_dir / str(explanation["audio_path"])
+            if audio_file.is_file():
+                content_type = mimetypes.guess_type(audio_file.name)[0] or "audio/webm"
+                transcript = explanations_ai.transcribe_audio(
+                    audio_file.read_bytes(), content_type
+                )
+                explanation["transcript"] = transcript
+        if not transcript:
+            raise ValueError("没有可润色的录音转写稿：请先录制讲解")
+        polished = explanations_ai.polish_explanation_text(
+            {
+                "stem": str(teacher_block.get("stem_latex", "")),
+                "subquestion_label": subquestion.get("label", ""),
+                "subquestion_stem": subquestion.get("stem_latex", ""),
+                "answer": str(teacher_block.get("answer", "")),
+                "solution": str(approach["solution"].get("text", ""))
+                or _solution_steps_text(teacher_block, subquestion.get("label", "")),
+                "transcript": transcript,
+            }
+        )
+        explanation.update({"text": polished, "source": "polished", "status": "draft"})
+        if approach.get("approved_at"):
+            approach["approved_at"] = None
+            approach["solution"]["status"] = "draft"
+            stale_blueprint = dict(approach.get("blueprint") or {})
+            stale_blueprint["stale"] = True
+            approach["blueprint"] = stale_blueprint
+        self._persist_explanations(record, bank_id, item_id, item_dir, payload)
+        return payload
+
+    def generate_missing(self, bank_id: str, item_id: str, kind: str) -> dict[str, Any]:
+        """一键补齐：explanation=为缺讲解的小问生成讲解；solution=为有讲解缺解答的对生成解答。"""
+        if kind not in {"explanation", "solution"}:
+            raise ValueError("kind 必须是 explanation 或 solution")
+        record, item_dir, _, _, teacher_block = self._explanations_entry(bank_id, item_id)
+        payload = _merged_explanations(item_dir, teacher_block, item_id)
+        stem = str(teacher_block.get("stem_latex", ""))
+        answer = str(teacher_block.get("answer", ""))
+        errors: list[dict[str, str]] = []
+        last_error: AiAssistError | None = None
+        generated = 0
+        if kind == "explanation":
+            for subquestion in payload["subquestions"]:
+                if any(
+                    approach["explanation"]["text"].strip()
+                    for approach in subquestion["approaches"]
+                ):
+                    continue
+                approach = (
+                    subquestion["approaches"][0]
+                    if subquestion["approaches"]
+                    else self._new_approach(payload, subquestion)
+                )
+                if approach not in subquestion["approaches"]:
+                    subquestion["approaches"].append(approach)
+                try:
+                    approach["explanation"]["text"] = explanations_ai.generate_explanation_text(
+                        {
+                            "stem": stem,
+                            "subquestion_label": subquestion.get("label", ""),
+                            "subquestion_stem": subquestion.get("stem_latex", ""),
+                            "answer": answer,
+                            "solution": _solution_steps_text(
+                                teacher_block, subquestion.get("label", "")
+                            ),
+                        }
+                    )
+                    approach["explanation"].update({"source": "generated", "status": "draft"})
+                    generated += 1
+                except AiAssistError as exc:
+                    last_error = exc
+                    errors.append({"approach_id": approach["id"], "error": str(exc)})
+        else:
+            for subquestion, approach in _iter_approaches(payload):
+                if not approach["explanation"]["text"].strip():
+                    continue
+                if approach["solution"]["text"].strip():
+                    continue
+                try:
+                    approach["solution"]["text"] = explanations_ai.generate_solution_text(
+                        {
+                            "stem": stem,
+                            "subquestion_label": subquestion.get("label", ""),
+                            "subquestion_stem": subquestion.get("stem_latex", ""),
+                            "answer": answer,
+                            "explanation": approach["explanation"]["text"],
+                        }
+                    )
+                    approach["solution"].update({"source": "generated", "status": "draft"})
+                    generated += 1
+                except AiAssistError as exc:
+                    last_error = exc
+                    errors.append({"approach_id": approach["id"], "error": str(exc)})
+        if generated:
+            self._persist_explanations(record, bank_id, item_id, item_dir, payload)
+        if not generated and last_error is not None:
+            raise last_error
+        return {"explanations": payload, "generated": generated, "errors": errors}
+
+    def approve_approach(self, bank_id: str, item_id: str, approach_id: str) -> dict[str, Any]:
+        record, item_dir, _, _, teacher_block = self._explanations_entry(bank_id, item_id)
+        payload = _merged_explanations(item_dir, teacher_block, item_id)
+        _, approach = self._find_approach(payload, approach_id)
+        if not approach["explanation"]["text"].strip() or not approach["solution"]["text"].strip():
+            raise ValueError("讲解与解答都填写后才能批准并导出 blueprint")
+        approach["explanation"]["status"] = "approved"
+        approach["solution"]["status"] = "approved"
+        approach["approved_at"] = _utc_now_iso()
+        self._persist_explanations(record, bank_id, item_id, item_dir, payload)
+        export = self._export_bank_blueprints(bank_id, record=record)
+        refreshed = _merged_explanations(item_dir, teacher_block, item_id)
+        _, refreshed_approach = self._find_approach(refreshed, approach_id)
+        return {
+            "explanations": refreshed,
+            "blueprint": refreshed_approach.get("blueprint"),
+            "export": export,
+        }
+
+    def _bank_item_ids(self, record: BankRecord) -> list[str]:
+        if record.kind == "staging_exam":
+            return self._staging_item_ids(record)
+        return [
+            str(entry.get("id"))
+            for entry in record.manifest.get("items", [])
+            if isinstance(entry, dict) and entry.get("id")
+        ]
+
+    def export_bank_blueprints(self, bank_id: str) -> dict[str, Any]:
+        """手动重导出整卷 blueprint candidate batch。"""
+        return self._export_bank_blueprints(bank_id)
+
+    def _export_bank_blueprints(
+        self, bank_id: str, record: BankRecord | None = None
+    ) -> dict[str, Any]:
+        """把该题库所有已批准的讲解-解答对重建成 teaching-tools authoring candidate batch。
+
+        每次批准后全量重建（幂等）：输出覆盖写
+        ``<teaching-tools>/authoring/tmp/reviewed-bank-import/<slug>.candidates.json``，
+        candidate 元数据 source 固定为 reviewed-bank-import，assignments 指向教师版
+        resolved assignment 绝对路径，供 ``authoring/scenario_pipeline.py generate`` 消费。
+        """
+        record = record or self.record(bank_id)
+        root = self.teaching_tools_root
+        if not root.is_dir():
+            raise ValueError(f"teaching-tools 仓库目录不存在：{root}")
+        slug = re.sub(r"[^0-9A-Za-z._-]+", "-", bank_id).strip("-") or "bank"
+        candidates: list[dict[str, Any]] = []
+        assignments: set[str] = set()
+        items_with_candidates: set[str] = set()
+        for item_id in self._bank_item_ids(record):
+            try:
+                _, item_dir, teacher_path, teacher_payload, teacher_block = (
+                    self._explanations_entry(bank_id, item_id)
+                )
+            except (KeyError, ValueError, OSError):
+                continue
+            payload = _merged_explanations(item_dir, teacher_block, item_id)
+            manifest_item = next(
+                (
+                    entry
+                    for entry in record.manifest.get("items", [])
+                    if isinstance(entry, dict) and str(entry.get("id", "")) == item_id
+                ),
+                None,
+            )
+            meta = manifest_item or {}
+            item_candidates: list[dict[str, Any]] = []
+            changed = False
+            for subquestion, approach in _iter_approaches(payload):
+                explanation = approach["explanation"]
+                solution = approach["solution"]
+                if explanation.get("status") != "approved" or solution.get("status") != "approved":
+                    continue
+                content_hash = "sha256:" + _sha256_bytes(
+                    f"{explanation['text']}\n--\n{solution['text']}".encode("utf-8")
+                )
+                candidate_id = f"{bank_id}:{item_id}:{subquestion['id']}:{approach['id']}"
+                teacher_abs = str(teacher_path.resolve())
+                assignments.add(teacher_abs)
+                item_candidates.append(
+                    {
+                        "id": candidate_id,
+                        "promptData": {
+                            "promptLatex": subquestion.get("stem_latex") or str(
+                                teacher_block.get("stem_latex", "")
+                            ),
+                            "fullStemLatex": str(teacher_block.get("stem_latex", "")),
+                            "subquestionLabel": subquestion.get("label", ""),
+                            "itemId": item_id,
+                            "explanationLatex": explanation["text"],
+                            "solutionLatex": solution["text"],
+                            "approvedAt": approach.get("approved_at"),
+                        },
+                        "answerKey": {
+                            "answerLatex": str(teacher_block.get("answer", "")),
+                            "solutionSteps": _normalized_solution_steps(teacher_block),
+                        },
+                        "metadata": {
+                            "source": "reviewed-bank-import",
+                            "assignments": [teacher_abs],
+                            "tags": [str(tag) for tag in (meta.get("skill_tags") or [])],
+                            "difficulty": str(meta.get("difficulty", "")),
+                        },
+                    }
+                )
+                blueprint = {
+                    "candidate_id": candidate_id,
+                    "content_hash": content_hash,
+                    "exported_at": _utc_now_iso(),
+                }
+                if approach.get("blueprint") != blueprint:
+                    approach["blueprint"] = blueprint
+                    changed = True
+            candidates.extend(item_candidates)
+            if item_candidates:
+                items_with_candidates.add(item_id)
+            if changed:
+                self._persist_explanations(record, bank_id, item_id, item_dir, payload)
+        out_dir = root / "authoring" / "tmp" / "reviewed-bank-import"
+        batch_path = out_dir / f"{slug}.candidates.json"
+        if candidates:
+            out_dir.mkdir(parents=True, exist_ok=True)
+            batch = {
+                "taskId": slug,
+                "engineKind": "topic-practice",
+                "contentId": f"topic-practice.{slug}.v1",
+                "version": "1",
+                "source": "reviewed-bank-import",
+                "assignments": sorted(assignments),
+                "candidates": candidates,
+            }
+            with tempfile.NamedTemporaryFile(
+                "w", encoding="utf-8", dir=out_dir, delete=False
+            ) as handle:
+                json.dump(batch, handle, ensure_ascii=False, indent=2)
+                handle.write("\n")
+                temporary = Path(handle.name)
+            try:
+                os.replace(temporary, batch_path)
+            finally:
+                if temporary.exists():
+                    temporary.unlink()
+        elif batch_path.exists():
+            batch_path.unlink()
+        return {
+            "batch_path": str(batch_path),
+            "candidate_count": len(candidates),
+            "item_count": len(items_with_candidates),
+        }
+
     def detail(self, bank_id: str) -> tuple[dict[str, Any], dict[tuple[str, str], Path]]:
         return self._detail_for_record(self.record(bank_id))
 
@@ -1977,6 +2666,7 @@ class QuestionBankCatalog:
                     "prompt_preview_url": None,
                     "solution_preview_url": None,
                     "solution_previews": [],
+                    "explanations_summary": _default_explanations_summary(),
                 }
             )
             try:
@@ -1992,6 +2682,7 @@ class QuestionBankCatalog:
                 )
                 student_payload = _read_yaml(student_path)
                 teacher_payload = _read_yaml(teacher_path)
+                rendered["explanations_summary"] = _explanations_summary(teacher_path.parent)
                 student_block = _practice_block(student_payload, item_id)
                 teacher_block = _practice_block(teacher_payload, item_id)
                 rendered["stem_latex"] = str(student_block.get("stem_latex", ""))
@@ -2123,8 +2814,11 @@ def create_question_bank_app(
     external_write_ttl: float | None = None,
     triangle_candidates_path: str | Path | None = None,
     triangle_question_review_path: str | Path = DEFAULT_TRIANGLE_QUESTION_REVIEW,
+    teaching_tools_root: str | Path | None = None,
 ) -> FastAPI:
     catalog = QuestionBankCatalog(bank_root)
+    if teaching_tools_root is not None:
+        catalog.teaching_tools_root = _resolve_teaching_tools_root(teaching_tools_root)
     triangle_review = (
         TriangleCandidateReviewStore(Path(triangle_candidates_path), Path(triangle_question_review_path))
         if triangle_candidates_path is not None
@@ -2446,6 +3140,112 @@ def create_question_bank_app(
             raise HTTPException(status_code=404, detail="staging 图片位置不存在") from exc
         except ValueError as exc:
             raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+    # ------------------------------------------------------------------
+    # 小题讲解 / 解答：查看、录音、润色、补齐、批准、blueprint 导出
+    # ------------------------------------------------------------------
+
+    def _explanations_http_error(
+        exc: KeyError | ValueError | AiAssistError | OSError,
+    ) -> HTTPException:
+        if isinstance(exc, KeyError):
+            return HTTPException(status_code=404, detail="题目或题库不存在")
+        if isinstance(exc, AiAssistError):
+            status_by_code = {
+                "no_api_key": 503,
+                "unsupported_media_type": 415,
+                "audio_too_large": 413,
+            }
+            status = status_by_code.get(exc.code, 502)
+            return HTTPException(status_code=status, detail=str(exc))
+        return HTTPException(status_code=400, detail=str(exc))
+
+    @app.get("/api/banks/{bank_id}/items/{item_id}/explanations")
+    def get_explanations(bank_id: str, item_id: str) -> dict[str, Any]:
+        try:
+            return catalog.explanations_view(bank_id, item_id)
+        except (KeyError, ValueError, AiAssistError, OSError) as exc:
+            raise _explanations_http_error(exc) from exc
+
+    @app.post("/api/banks/{bank_id}/items/{item_id}/explanations/approaches")
+    def create_approach(
+        bank_id: str, item_id: str, payload: ApproachCreate
+    ) -> dict[str, Any]:
+        try:
+            return catalog.create_approach(
+                bank_id, item_id, payload.subquestion_id, payload.title
+            )
+        except (KeyError, ValueError, AiAssistError, OSError) as exc:
+            raise _explanations_http_error(exc) from exc
+
+    @app.put("/api/banks/{bank_id}/items/{item_id}/explanations/approaches/{approach_id}")
+    def update_approach(
+        bank_id: str, item_id: str, approach_id: str, payload: ApproachUpdate
+    ) -> dict[str, Any]:
+        try:
+            return catalog.update_approach(
+                bank_id,
+                item_id,
+                approach_id,
+                title=payload.title,
+                explanation_text=payload.explanation_text,
+                solution_text=payload.solution_text,
+            )
+        except (KeyError, ValueError, AiAssistError, OSError) as exc:
+            raise _explanations_http_error(exc) from exc
+
+    @app.delete("/api/banks/{bank_id}/items/{item_id}/explanations/approaches/{approach_id}")
+    def delete_approach(bank_id: str, item_id: str, approach_id: str) -> dict[str, Any]:
+        try:
+            return catalog.delete_approach(bank_id, item_id, approach_id)
+        except (KeyError, ValueError, AiAssistError, OSError) as exc:
+            raise _explanations_http_error(exc) from exc
+
+    @app.post("/api/banks/{bank_id}/items/{item_id}/explanations/approaches/{approach_id}/audio")
+    async def upload_recording(
+        bank_id: str,
+        item_id: str,
+        approach_id: str,
+        request: Request,
+    ) -> dict[str, Any]:
+        content_type = request.headers.get("content-type", "")
+        raw = await request.body()
+        try:
+            return catalog.save_recording(
+                bank_id, item_id, approach_id, raw, content_type
+            )
+        except (KeyError, ValueError, AiAssistError, OSError) as exc:
+            raise _explanations_http_error(exc) from exc
+
+    @app.post("/api/banks/{bank_id}/items/{item_id}/explanations/approaches/{approach_id}/polish")
+    def polish_approach(bank_id: str, item_id: str, approach_id: str) -> dict[str, Any]:
+        try:
+            return catalog.polish_approach(bank_id, item_id, approach_id)
+        except (KeyError, ValueError, AiAssistError, OSError) as exc:
+            raise _explanations_http_error(exc) from exc
+
+    @app.post("/api/banks/{bank_id}/items/{item_id}/explanations/generate")
+    def generate_explanations(
+        bank_id: str, item_id: str, payload: ExplanationGenerateRequest
+    ) -> dict[str, Any]:
+        try:
+            return catalog.generate_missing(bank_id, item_id, payload.kind)
+        except (KeyError, ValueError, AiAssistError, OSError) as exc:
+            raise _explanations_http_error(exc) from exc
+
+    @app.post("/api/banks/{bank_id}/items/{item_id}/explanations/approaches/{approach_id}/approve")
+    def approve_approach(bank_id: str, item_id: str, approach_id: str) -> dict[str, Any]:
+        try:
+            return catalog.approve_approach(bank_id, item_id, approach_id)
+        except (KeyError, ValueError, AiAssistError, OSError) as exc:
+            raise _explanations_http_error(exc) from exc
+
+    @app.post("/api/banks/{bank_id}/explanations/blueprint")
+    def export_blueprints(bank_id: str) -> dict[str, Any]:
+        try:
+            return catalog.export_bank_blueprints(bank_id)
+        except (KeyError, ValueError, AiAssistError, OSError) as exc:
+            raise _explanations_http_error(exc) from exc
 
     return app
 

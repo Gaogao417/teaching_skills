@@ -351,7 +351,16 @@ def test_paper_directory_is_lightweight(staging_root: tuple[Path, Path, str]) ->
     assert directory["item_count"] == 2
     assert len(directory["items"]) == 2
     item = directory["items"][0]
-    assert set(item.keys()) == {"id", "title", "review_status", "stale"}
+    # 转写疑点隔离审核（§转写疑点）后目录项追加 review_issue_count /
+    # unresolved_review_issue_count，仍是轻量标量字段，无 solution_steps。
+    assert set(item.keys()) == {
+        "id",
+        "title",
+        "review_status",
+        "stale",
+        "review_issue_count",
+        "unresolved_review_issue_count",
+    }
     assert item["review_status"] == "pending"
     assert item["stale"] is False
     # 默认（不带 directory）仍返回整卷完整 detail（§14 兼容）。
