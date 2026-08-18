@@ -1,0 +1,59 @@
+{
+  "schema": "ai_teaching_tutor_plan_bundle/v1",
+  "artifact_id": "TP-SMV-003",
+  "version": "v1",
+  "status": "Approved",
+  "question_ref": {
+    "artifact_id": "QT-SMV-001",
+    "version": "v1",
+    "content_hash": "sha256:c1b2c3d4e5f60718293a4b5c6d7e8f9012345678901234567890abcdefab0123"
+  },
+  "approach_ref": {
+    "artifact_id": "TA-SMV-001",
+    "version": "v1",
+    "content_hash": "sha256:0212c3d4e5f60718293a4b5c6d7e8f9012345678901234567890abcdefab0123"
+  },
+  "compiler_version": "tutor-plan-compiler-0.1.0",
+  "input_hash": "sha256:0a12c3d4e5f60718293a4b5c6d7e8f9012345678901234567890abcdefff0123",
+  "teach": {
+    "fast_explanation": "Assessment 投影：只保留作答入口，不含讲解与真值。",
+    "narration_segments": ["本投影用于 Assessment 会话。"],
+    "tutor_action_refs": [
+      {
+        "action_kind": "enter-text",
+        "step_id": "S3"
+      }
+    ],
+    "repair_guidance": []
+  },
+  "guided_solve": {
+    "opening_prompt": "请独立完成作答。",
+    "checkpoints": [
+      {
+        "checkpoint_id": "CP1",
+        "expected_reasoning": "（assessment 投影不携带期望推理路径的答案真值）",
+        "skill_ids": ["SKILL-SMV-007"],
+        "hint_ladder": [
+          { "level": 0, "hint": "请独立作答；如需帮助请结束本 Assessment。" },
+          { "level": 1, "hint": "Assessment 模式不提供逐步提示。" }
+        ]
+      }
+    ]
+  },
+  "diagnostic_probes": [],
+  "capability_validation": {
+    "catalog_version": "similarity-capability-catalog-v3",
+    "required_capabilities": ["similarity.build-side-equation"],
+    "satisfied": true
+  },
+  "assessment_mode": {
+    "enabled": true,
+    "answer_leak_scan": {
+      "status": "passed",
+      "scanned_fields": ["teach", "guided_solve", "diagnostic_probes"]
+    },
+    "tutor_tools": []
+  },
+  "content_hash": "sha256:0b12c3d4e5f60718293a4b5c6d7e8f9012345678901234567890abcdefff0123",
+  "artifact_uri": "artifact://tutor-plan/TP-SMV-003@v1"
+}

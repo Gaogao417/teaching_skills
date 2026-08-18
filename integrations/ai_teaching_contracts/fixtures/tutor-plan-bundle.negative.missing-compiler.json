@@ -1,0 +1,45 @@
+{
+  "schema": "ai_teaching_tutor_plan_bundle/v1",
+  "artifact_id": "TP-SMV-002",
+  "version": "v1",
+  "status": "Draft",
+  "question_ref": {
+    "artifact_id": "QT-SMV-001",
+    "version": "v1",
+    "content_hash": "sha256:c1b2c3d4e5f60718293a4b5c6d7e8f9012345678901234567890abcdefab0123"
+  },
+  "approach_ref": {
+    "artifact_id": "TA-SMV-001",
+    "version": "v1",
+    "content_hash": "sha256:0212c3d4e5f60718293a4b5c6d7e8f9012345678901234567890abcdefab0123"
+  },
+  "input_hash": "sha256:0812c3d4e5f60718293a4b5c6d7e8f9012345678901234567890abcdefab0123",
+  "teach": {
+    "fast_explanation": "缺 compiler_version 的反例：此字段是可复现性锚点，必填。",
+    "narration_segments": ["省略"],
+    "tutor_action_refs": [],
+    "repair_guidance": []
+  },
+  "guided_solve": {
+    "opening_prompt": "省略",
+    "checkpoints": [
+      {
+        "checkpoint_id": "CP1",
+        "expected_reasoning": "省略",
+        "skill_ids": ["SKILL-SMV-001"],
+        "hint_ladder": [
+          { "level": 1, "hint": "提示1" },
+          { "level": 2, "hint": "提示2" }
+        ]
+      }
+    ]
+  },
+  "diagnostic_probes": [],
+  "capability_validation": {
+    "catalog_version": "similarity-capability-catalog-v3",
+    "required_capabilities": ["similarity.mark-known-segments"],
+    "satisfied": true
+  },
+  "content_hash": "sha256:0912c3d4e5f60718293a4b5c6d7e8f9012345678901234567890abcdefab0123",
+  "artifact_uri": "artifact://tutor-plan/TP-SMV-002@v1"
+}

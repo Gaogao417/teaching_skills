@@ -1,0 +1,99 @@
+{
+  "schema": "ai_teaching_tutor_plan_bundle/v1",
+  "artifact_id": "TP-SMV-001",
+  "version": "v1",
+  "status": "Approved",
+  "question_ref": {
+    "artifact_id": "QT-SMV-001",
+    "version": "v1",
+    "content_hash": "sha256:c1b2c3d4e5f60718293a4b5c6d7e8f9012345678901234567890abcdefab0123"
+  },
+  "approach_ref": {
+    "artifact_id": "TA-SMV-001",
+    "version": "v1",
+    "content_hash": "sha256:0212c3d4e5f60718293a4b5c6d7e8f9012345678901234567890abcdefab0123"
+  },
+  "compiler_version": "tutor-plan-compiler-0.1.0",
+  "input_hash": "sha256:0612c3d4e5f60718293a4b5c6d7e8f9012345678901234567890abcdefab0123",
+  "teach": {
+    "fast_explanation": "翻折不变量 → 共角相似 → 设元列式求 BE。",
+    "narration_segments": [
+      "翻折前后，AD=AE、CD=DE，把等量标回图上。",
+      "∠AED=∠ACD=∠BAC，共角相似对出现。",
+      "设 BE=x，相似比列式求解并检验范围。"
+    ],
+    "tutor_action_refs": [
+      {
+        "action_kind": "mark-segment-values",
+        "step_id": "S1",
+        "domain_commands": ["set-segment-label"]
+      },
+      {
+        "action_kind": "enter-equation",
+        "step_id": "S3",
+        "domain_commands": ["set-emphasis"]
+      }
+    ],
+    "repair_guidance": [
+      "对应关系错 → 回 S1 重标等量",
+      "比例式错排 → 回 S2 用刻痕核对对应边"
+    ]
+  },
+  "guided_solve": {
+    "opening_prompt": "说说翻折之后哪些边保持相等？",
+    "checkpoints": [
+      {
+        "checkpoint_id": "CP1",
+        "expected_reasoning": "AD=AE、CD=DE（翻折不变量）",
+        "accepted_alternatives": ["先说角度不变再回到边长"],
+        "common_deviations": ["误用 AD=DE"],
+        "skill_ids": ["SKILL-SMV-001"],
+        "hint_ladder": [
+          { "level": 1, "hint": "翻折前后对应边长度会变吗？" },
+          { "level": 2, "hint": "点 D 的像是谁？AD 对应哪条边？" },
+          { "level": 3, "hint": "AD=AE，CD=DE。" }
+        ]
+      },
+      {
+        "checkpoint_id": "CP2",
+        "expected_reasoning": "∠AED=∠ACD 且等于 ∠BAC → 共角相似",
+        "accepted_alternatives": ["用 ∠BED 与 ∠BCA 互补一侧推"],
+        "common_deviations": ["把对顶角当特征角"],
+        "skill_ids": ["SKILL-SMV-008"],
+        "hint_ladder": [
+          { "level": 1, "hint": "∠AED 和图中哪个角相等？" },
+          { "level": 2, "hint": "由 ∠DAC=∠ACD 和等腰底角能推出什么？" }
+        ]
+      },
+      {
+        "checkpoint_id": "CP3",
+        "expected_reasoning": "设 BE=x，由相似比列方程求解并检验 0<x<6",
+        "common_deviations": ["上下位错配", "漏验取值范围"],
+        "skill_ids": ["SKILL-SMV-007"],
+        "hint_ladder": [
+          { "level": 1, "hint": "设 BE=x 之后，BD 怎么表示？" },
+          { "level": 2, "hint": "△BDE 与哪个三角形相似？对应边怎么配？" },
+          { "level": 3, "hint": "BE/BA=BD/BC，代入 4 和 6。" }
+        ]
+      }
+    ]
+  },
+  "diagnostic_probes": [
+    {
+      "probe_id": "DP1",
+      "target_skill_ids": ["SKILL-SMV-001"],
+      "prompt": "翻折后哪些线段保持相等？（select-option，≤1 步）",
+      "expected_evidence": "选对 AD=AE、CD=DE 的选项"
+    }
+  ],
+  "capability_validation": {
+    "catalog_version": "similarity-capability-catalog-v3",
+    "required_capabilities": [
+      "similarity.mark-known-segments",
+      "similarity.build-side-equation"
+    ],
+    "satisfied": true
+  },
+  "content_hash": "sha256:0712c3d4e5f60718293a4b5c6d7e8f9012345678901234567890abcdefab0123",
+  "artifact_uri": "artifact://tutor-plan/TP-SMV-001@v1"
+}

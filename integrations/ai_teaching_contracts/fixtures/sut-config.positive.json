@@ -1,0 +1,58 @@
+{
+  "schema": "ai_teaching_sut_config/v1",
+  "sut_id": "sut-a-claudecode-glm52-qwen",
+  "label": "当前推荐 production stack",
+  "components": {
+    "intake_ocr": {
+      "provider": "dashscope-qwen",
+      "model": "qwen3.5-ocr",
+      "harness": "skills question_transcription workflow"
+    },
+    "asr": {
+      "provider": "dashscope-qwen",
+      "model": "qwen3-asr-flash"
+    },
+    "polish": {
+      "provider": "dashscope-qwen",
+      "model": "qwen-plus"
+    },
+    "tutor_coach": {
+      "provider": "claude-code-harness",
+      "model": "glm-5.2",
+      "engine": "ClaudeCodeTextCoachEngine（流式）"
+    },
+    "realtime_voice": {
+      "provider": "dashscope-qwen",
+      "model": "qwen3.5-omni-plus-realtime",
+      "note": "live 不阻塞 MVP，scripted 先行"
+    },
+    "tts": {
+      "provider": "dashscope-qwen",
+      "note": "现有 MediaSession TTS 管线，两 SUT 共享"
+    }
+  },
+  "code_baseline": {
+    "repos": {
+      "teaching_skills": {
+        "commit": "7d756547",
+        "diff_sha256": "sha256:8657ee7751785765a40cb3ed3da2d8ad991764352f749487c86158f8347b543b",
+        "dirty": false
+      },
+      "teaching_tools": {
+        "commit": "e75aed0",
+        "diff_sha256": "sha256:571cacbfe4866a64f0809925fded9f43f8b8363d2bf7fccd5c87906e57cf0123",
+        "dirty": false
+      }
+    }
+  },
+  "prompt_workflow_versions": {
+    "approach_polish_prompt": "approach-polish-v3",
+    "intake_workflow": "question-transcription-2026.08"
+  },
+  "environment": {
+    "runtime": "node v25.9.0 / python 3.14.3",
+    "os": "darwin 25.2.0 arm64"
+  },
+  "price_table_version": "price-table-tbd-p7",
+  "registered_at": "2026-08-18T00:00:00Z"
+}

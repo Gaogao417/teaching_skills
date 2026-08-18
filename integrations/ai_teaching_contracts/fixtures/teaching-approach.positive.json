@@ -1,0 +1,81 @@
+{
+  "schema": "ai_teaching_teaching_approach/v1",
+  "artifact_id": "TA-SMV-001",
+  "version": "v1",
+  "status": "Approved",
+  "question_ref": {
+    "artifact_id": "QT-SMV-001",
+    "version": "v1",
+    "content_hash": "sha256:c1b2c3d4e5f60718293a4b5c6d7e8f9012345678901234567890abcdefab0123"
+  },
+  "title": "折叠等腰：抓住不变量再设元",
+  "goal": "让学生从翻折不变量出发，自主推出共角相似并设元列式",
+  "entry_signal": "学生能说出翻折前后相等的边",
+  "steps": [
+    {
+      "step_id": "S1",
+      "intent": "模型识别",
+      "narration": "翻折前后哪些量不变？我们把 AD、CD 的等量关系标回图上。",
+      "expected_student_reasoning": "翻折保持长度：AD=AE、CD=DE",
+      "accepted_alternatives": ["先看角度不变再回到边"],
+      "common_errors": ["误用 AD=DE（对应关系搞错）"],
+      "skill_ids": ["SKILL-SMV-001"]
+    },
+    {
+      "step_id": "S2",
+      "intent": "等角传递",
+      "narration": "∠AED=∠ACD，它和 ∠BAC 什么关系？",
+      "expected_student_reasoning": "∠ACD=∠DAC 且等腰 △ABC 底角相等 → 共角相似对出现",
+      "accepted_alternatives": ["直接用 ∠BED 与 ∠BCA 互补一侧推导"],
+      "common_errors": ["把对顶角当特征角"],
+      "skill_ids": ["SKILL-SMV-008"]
+    },
+    {
+      "step_id": "S3",
+      "intent": "设元列式",
+      "narration": "设 BE=x，用相似比把 x 解出来。",
+      "expected_student_reasoning": "△BDE∽△BCA → BE/BA=BD/BC，代入 4、6 求解",
+      "accepted_alternatives": ["用 DE=CD 表达 BD 后再列比例"],
+      "common_errors": ["比例式上下位错配（4:6 = x:(6-x) 类错排）", "漏验 0<x<6"],
+      "skill_ids": ["SKILL-SMV-007"]
+    }
+  ],
+  "evidence": {
+    "audio": [
+      {
+        "artifact_uri": "artifact://audio/TA-SMV-001@v1/recordings/primary.wav",
+        "content_hash": "sha256:0112c3d4e5f60718293a4b5c6d7e8f9012345678901234567890abcdefab0123",
+        "recorded_at": "2026-08-18T03:00:00Z",
+        "duration_seconds": 412.5
+      }
+    ],
+    "transcripts": [
+      {
+        "artifact_uri": "artifact://transcript/TA-SMV-001@v1/transcripts/primary.asr.txt",
+        "asr_provenance": {
+          "provider": "dashscope-qwen",
+          "model_id": "qwen3-asr-flash"
+        },
+        "revision": 1
+      }
+    ],
+    "polished": [
+      {
+        "artifact_uri": "artifact://transcript/TA-SMV-001@v1/transcripts/primary.polished.md",
+        "polish_provenance": {
+          "provider": "dashscope-qwen",
+          "model_id": "qwen-plus",
+          "prompt_version": "approach-polish-v3"
+        }
+      }
+    ],
+    "manual_edit_notes": ["S3 常见错因补充了范围检验"]
+  },
+  "approval": {
+    "reviewer_id": "reviewer-jing",
+    "approved_at": "2026-08-18T07:30:00Z",
+    "review_note": "录音、转写、润色、手编全链可追溯"
+  },
+  "content_hash": "sha256:0212c3d4e5f60718293a4b5c6d7e8f9012345678901234567890abcdefab0123",
+  "artifact_uri": "artifact://teaching-approach/TA-SMV-001@v1"
+}

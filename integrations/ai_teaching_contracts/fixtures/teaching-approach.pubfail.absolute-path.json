@@ -1,0 +1,51 @@
+{
+  "schema": "ai_teaching_teaching_approach/v1",
+  "artifact_id": "TA-SMV-003",
+  "version": "v1",
+  "status": "Approved",
+  "question_ref": {
+    "artifact_id": "QT-SMV-005",
+    "version": "v1",
+    "content_hash": "sha256:0412c3d4e5f60718293a4b5c6d7e8f9012345678901234567890abcdefab0123"
+  },
+  "title": "角平分线 SAS：先配对再下结论",
+  "goal": "训练对应边配对与刻痕标注",
+  "steps": [
+    {
+      "step_id": "S1",
+      "intent": "共角识别",
+      "narration": "CD 平分 ∠ACB 给了我们哪个公共角？",
+      "expected_student_reasoning": "∠ECA=∠DCB",
+      "skill_ids": ["SKILL-SMV-008"]
+    },
+    {
+      "step_id": "S2",
+      "intent": "对应边配对",
+      "narration": "夹这个角的两边分别对应谁？在图上刻痕。",
+      "expected_student_reasoning": "CA↔CB、CE↔CD",
+      "common_errors": ["SAS 共角两边对应错配（CA↔CD）"],
+      "skill_ids": ["SKILL-SMV-002"]
+    },
+    {
+      "step_id": "S3",
+      "intent": "平行导比例",
+      "narration": "CF∥AE 之后比例怎么转移？",
+      "expected_student_reasoning": "内错角 → 第二组相似 → BD/AD=BF/CF",
+      "skill_ids": ["SKILL-SMV-007", "SKILL-SMV-009"]
+    }
+  ],
+  "evidence": {
+    "audio": [],
+    "transcripts": [],
+    "manual_edit_notes": [
+      "迁移自 assignment teaching 字段；音频证据缺失属 Phase 3 补录",
+      "编辑时引用了本地旧稿 /Users/gaochong/develop/teaching_skills/artifacts/旧稿.yaml（违规示例）"
+    ]
+  },
+  "approval": {
+    "reviewer_id": "reviewer-jing",
+    "approved_at": "2026-08-18T08:00:00Z"
+  },
+  "content_hash": "sha256:0512c3d4e5f60718293a4b5c6d7e8f9012345678901234567890abcdefab0123",
+  "artifact_uri": "artifact://teaching-approach/TA-SMV-003@v1"
+}

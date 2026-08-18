@@ -1,0 +1,35 @@
+{
+  "schema": "ai_teaching_teaching_approach/v1",
+  "artifact_id": "TA-SMV-002",
+  "version": "v1",
+  "status": "Draft",
+  "question_ref": {
+    "artifact_id": "QT-SMV-002",
+    "version": "v1",
+    "content_hash": "sha256:d1b2c3d4e5f60718293a4b5c6d7e8f9012345678901234567890abcdefab0123"
+  },
+  "title": "只有两步的残缺 approach（schema 要求至少 3 个 TeachingStep）",
+  "goal": "违反 steps minItems 约束的反例",
+  "steps": [
+    {
+      "step_id": "S1",
+      "intent": "识别结构",
+      "narration": "找 8 字交叉。",
+      "expected_student_reasoning": "对顶角 + 等角",
+      "skill_ids": ["SKILL-SMV-006"]
+    },
+    {
+      "step_id": "S2",
+      "intent": "列比例",
+      "narration": "对应边成比例。",
+      "expected_student_reasoning": "△OCD∽△OBE",
+      "skill_ids": ["SKILL-SMV-007"]
+    }
+  ],
+  "evidence": {
+    "audio": [],
+    "transcripts": []
+  },
+  "content_hash": "sha256:0312c3d4e5f60718293a4b5c6d7e8f9012345678901234567890abcdefab0123",
+  "artifact_uri": "artifact://teaching-approach/TA-SMV-002@v1"
+}

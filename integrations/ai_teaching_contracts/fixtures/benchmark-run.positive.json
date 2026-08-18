@@ -1,0 +1,45 @@
+{
+  "schema": "ai_teaching_benchmark_run/v1",
+  "run_id": "BR-0001",
+  "dataset_id": "similarity-mvp-benchmark-v1",
+  "dataset_version": "v1",
+  "sut": {
+    "sut_id": "sut-a-claudecode-glm52-qwen",
+    "config_hash": "sha256:0c12c3d4e5f60718293a4b5c6d7e8f9012345678901234567890abcdefff0123",
+    "config_artifact_uri": "artifact://sut-config/sut-a-claudecode-glm52-qwen@v1"
+  },
+  "status": "completed",
+  "case_results": [
+    {
+      "case_id": "C-INT-01",
+      "stage": "intake",
+      "status": "pass",
+      "metrics": { "latency_ms_p50": 12500, "quality_score": 1.0 },
+      "cost": { "input_tokens": 8200, "output_tokens": 3100, "price_table_version": "price-table-tbd-p7", "estimated_cost": 0 }
+    },
+    {
+      "case_id": "C-TRU-01",
+      "stage": "truth",
+      "status": "fail",
+      "failure_class": "answer_mismatch",
+      "metrics": { "latency_ms_p50": 9800, "quality_score": 0.0 },
+      "raw_output_ref": "artifact://benchmark-output/BR-0001@v1/C-TRU-01.json"
+    },
+    {
+      "case_id": "C-RT-05",
+      "stage": "realtime",
+      "status": "not_executed"
+    }
+  ],
+  "summary": { "passed": 1, "failed": 1, "errored": 0, "not_executed": 1 },
+  "cost_total": {
+    "price_table_version": "price-table-tbd-p7",
+    "input_tokens": 8200,
+    "output_tokens": 3100,
+    "estimated_cost": 0
+  },
+  "runner_version": "benchmark-runner-skeleton-0.1.0",
+  "environment": "darwin 25.2.0 arm64",
+  "started_at": "2026-08-18T05:00:00Z",
+  "completed_at": "2026-08-18T05:40:00Z"
+}

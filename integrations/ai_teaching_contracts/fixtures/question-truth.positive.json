@@ -1,0 +1,30 @@
+{
+  "schema": "ai_teaching_question_truth/v1",
+  "artifact_id": "QT-SMV-001",
+  "version": "v1",
+  "status": "Approved",
+  "question_type": "fill_blank",
+  "stem": "等腰 △ABC 中，AB=AC=4，BC=6，点 D 在 BC 上且 ∠DAC=∠ACD，将 △ACD 翻折至 △AED，求 BE 的长。",
+  "canonical_answer": {
+    "kind": "numeric",
+    "value": "2√3",
+    "acceptance": ["radical_simplification", "numeric_equivalence"],
+    "range_constraint": "0 < BE < 6"
+  },
+  "reviewed_solution": "由 ∠DAC=∠ACD 得 AD=CD。翻折得 AE=AD、DE=CD，故 △BDE 中 BE=DE 成立需 ∠BED=∠ACB 推共角相似 △BDE∽△BCA，BE/BA=BD/BC 代入求解得 BE=2√3。",
+  "source_evidence_refs": [
+    {
+      "evidence_id": "SE-SMV-001",
+      "artifact_uri": "artifact://source-evidence/SE-SMV-001"
+    }
+  ],
+  "origin_candidate_id": "QC-SMV-001",
+  "approval": {
+    "reviewer_id": "reviewer-jing",
+    "approved_at": "2026-08-18T06:00:00Z",
+    "review_note": "题干照抄 parser 输出；答案人工复核通过",
+    "edits_applied": false
+  },
+  "content_hash": "sha256:c1b2c3d4e5f60718293a4b5c6d7e8f9012345678901234567890abcdefab0123",
+  "artifact_uri": "artifact://question-truth/QT-SMV-001@v1"
+}

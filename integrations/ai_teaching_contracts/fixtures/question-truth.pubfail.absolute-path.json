@@ -1,0 +1,32 @@
+{
+  "schema": "ai_teaching_question_truth/v1",
+  "artifact_id": "QT-SMV-004",
+  "version": "v1",
+  "status": "Approved",
+  "question_type": "solution",
+  "stem": "两互垂直木条测高仪（AB=40cm，CD=60cm）测树高，A 字型相似。",
+  "subquestions": [
+    { "part_id": "1", "prompt": "证明仪器所在三角形与树高三角形相似", "points": 5 },
+    { "part_id": "2", "prompt": "求树高", "points": 5 }
+  ],
+  "canonical_answer": {
+    "kind": "numeric",
+    "value": "树高 3 m（400 cm ÷ 40/60 比例换算）",
+    "acceptance": ["numeric_equivalence", "unit_conversion"]
+  },
+  "reviewed_solution": "A 字型相似 △ABO∽△树高三角形，对应边成比例 40:60 = 树高影长比，单位 cm→m。",
+  "source_evidence_refs": [
+    {
+      "evidence_id": "SE-SMV-001",
+      "artifact_uri": "artifact://source-evidence/SE-SMV-001"
+    }
+  ],
+  "approval": {
+    "reviewer_id": "reviewer-jing",
+    "approved_at": "2026-08-18T07:00:00Z",
+    "review_note": "审核备注附带了本地渲染图路径 /Users/gaochong/develop/teaching_skills/output/render-page005.png，违规示例",
+    "edits_applied": true
+  },
+  "content_hash": "sha256:f1b2c3d4e5f60718293a4b5c6d7e8f9012345678901234567890abcdefab0123",
+  "artifact_uri": "artifact://question-truth/QT-SMV-004@v1"
+}

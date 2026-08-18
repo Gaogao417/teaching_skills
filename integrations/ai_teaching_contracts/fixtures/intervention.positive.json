@@ -1,0 +1,23 @@
+{
+  "schema": "ai_teaching_intervention/v1",
+  "intervention_id": "IV-0001",
+  "student_id": "student-001",
+  "source_session_id": "TS-0001",
+  "source_hypothesis_ids": ["SH-0001"],
+  "decision": {
+    "kind": "near_transfer_practice",
+    "target_skill_ids": ["SKILL-SMV-002"],
+    "question_id": "QT-SMV-005"
+  },
+  "why": "pair-segments 步两次顺排错配但自修正一次；低置信弱点假设，优先一题近迁移确认而非批量刷题",
+  "expected_evidence": "reverseASimilarity 题库 changed_numbers 变式独立正确（无 hint）",
+  "stop_condition": "单题独立正确即停；若仍错则转 repair_explanation，不再连续派题",
+  "max_dose": 1,
+  "status": "completed",
+  "outcome": {
+    "event_refs": [{ "session_id": "TS-0002", "sequence": 12 }],
+    "observed_at": "2026-08-18T12:00:00Z",
+    "summary": "独立正确（hint level 0），SH-0001 置信下调至 0.2 并派生 SH-0002"
+  },
+  "created_at": "2026-08-18T11:30:00Z"
+}
