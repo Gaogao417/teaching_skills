@@ -74,9 +74,51 @@ class DiagramAgentReviewContractTest(unittest.TestCase):
         self.assertIn("Translate", prompt)
         self.assertIn("each supplied condition once", prompt)
         self.assertIn("needs_human_confirmation", prompt)
-        self.assertIn("Never guess and never repair the input", prompt)
-        self.assertIn("congruent/similar relation as one native GeometricAssertion", prompt)
+        self.assertIn("the input's meaning", prompt)
+        self.assertIn("never silently choose one reading", prompt)
+        self.assertIn("congruent/similar relation as one native", prompt)
         self.assertIn("do not invent layout constraints", prompt)
+
+    def test_scene_writer_allows_documented_recipes_instead_of_stopping(self) -> None:
+        prompt = scene_writer_prompt(_request().model_dump(mode="json"), skill_names="test")
+
+        self.assertIn("documented recipe", prompt)
+        self.assertIn("translation, not addition", prompt)
+        self.assertIn("belong to that one condition", prompt)
+        self.assertIn("Name the recipe used in the rationale", prompt)
+        self.assertIn("never a reason to ask", prompt)
+        # The old bans that forced stops on encodable conditions must be gone.
+        self.assertNotIn("Never guess and never repair the input", prompt)
+        self.assertNotIn("add point inequalities", prompt)
+        self.assertNotIn("expand a high-level relation", prompt)
+
+    def test_scene_writer_negative_conditions_follow_reference_omission_rule(self) -> None:
+        prompt = scene_writer_prompt(_request().model_dump(mode="json"), skill_names="test")
+
+        self.assertIn("a negative condition", prompt)
+        self.assertIn("may be omitted from scene hypotheses per the references", prompt)
+
+    def test_attached_wolfram_reference_documents_composite_recipes(self) -> None:
+        reference = (
+            WORKFLOW
+            / "geometry_diagram_workflow"
+            / ".codex"
+            / "skills"
+            / "wolfram-geometricscene-reference"
+            / "SKILL.md"
+        ).read_text(encoding="utf-8")
+
+        self.assertIn("组合配方", reference)
+        self.assertIn("EuclideanDistance[A, D] > 0", reference)
+        self.assertIn(
+            "PlanarAngle[{A, D, E}] == PlanarAngle[{A, C, B}]", reference
+        )
+        self.assertIn('"Counterclockwise"', reference)
+        self.assertIn("不要使用文档中不存在的", reference)
+        self.assertIn("Not[Element[C, InfiniteLine[{A, B}]]]", reference)
+        self.assertIn("Element[O, Line[{C, D}]]", reference)
+        self.assertIn("不能混入点符号", reference)
+        self.assertIn("RegionIntersection", reference)
 
     def test_attached_wolfram_reference_has_native_congruence_syntax(self) -> None:
         reference = (

@@ -275,9 +275,12 @@ exactly one JSON object matching the VisualDecision schema.
 Choose `accept` only when the preview is faithful to the stated geometry,
 readable, non-degenerate, and compliant with the disclosure policy. Choose
 `revise` only for a visible defect. For `revise`, provide the smallest host-
-validated replacement: `scene_code` may replace the symbolic scene and
-`diagram_spec_json` may replace renderer intent. Use an empty string for an
-unchanged field. The diagram spec JSON must not contain solved coordinates.
+validated fix: `scene_code` may replace the symbolic scene, and
+`diagram_spec_json` may override renderer intent field-by-field — include only
+the top-level fields you are changing (e.g. `labels`, `markers`); the host
+merges them over the current diagram spec, and absent fields keep their current
+values. Use an empty string for an unchanged field. The diagram spec JSON must
+not contain solved coordinates.
 
 You may not choose or change the engine, coordinate policy, paths, commands,
 candidate counters, or workflow state. Do not request tools or artifact writes.
@@ -323,11 +326,19 @@ shapes). Acceptable repairs include:
   a serialized Wolfram expression such as {{"C[\\"GeometricPoint\\"][A], ..."}} or
   the bare symbol `regular`;
 - remove a disallowed visible marker (e.g. an extra right_angle) that the request's
-  required_visible_annotations does not declare.
+  required_visible_annotations does not declare;
+- for an `invalid_head` Wolfram failure, some hypothesis expression has a head
+  RandomInstance rejects: re-encode that ONE condition with a documented recipe
+  from the attached references (orientation assertion for non-collinearity,
+  Element for incidence/intersection). Negated hypotheses — Not[Element[...]],
+  Not[GeometricAssertion[...]] — are always invalid; replacing or omitting a
+  negative condition per the references' omission guidance is an acceptable
+  minimal repair.
 
-Preserve the exact mathematical condition set: do not add, remove, expand, derive, weaken, strengthen, or reinterpret any geometry condition. Do not move solved
-points. If the evidence cannot be fixed by such a minimal edit, return
-`needs_human_confirmation` and ask one precise question.
+Preserve the exact mathematical condition set: do not add, remove, expand, derive, weaken, strengthen, or reinterpret any geometry condition — except that a
+negative condition may be omitted per the references' omission guidance. Do not
+move solved points. If the evidence cannot be fixed by such a minimal edit,
+return `needs_human_confirmation` and ask one precise question.
 
 Failure evidence (failure_type, failed_checks, repair_instruction, repair_target):
 {repair_json}
@@ -338,10 +349,14 @@ You are the scene-writer for one synthetic-geometry teaching diagram.
 Use the attached Codex skills: {skill_names}.
 
 Return exactly one JSON object matching the provided SceneWriterOutput schema:
-- status: `ready` only when every supplied condition has one unambiguous native
-  Wolfram translation; otherwise `needs_human_confirmation`.
+- status: `ready` when every supplied condition has a faithful encoding — either
+  one native Wolfram construct OR a documented recipe from the attached
+  references (an equivalent fixed combination of native constraints); otherwise
+  `needs_human_confirmation`.
 - confirmation_question: empty for `ready`; for `needs_human_confirmation`, ask
-  one precise question naming the ambiguous or unsupported condition or syntax.
+  one precise question naming the condition that admits multiple
+  non-equivalent mathematical readings or that conflicts with another
+  supplied condition.
 - scene_code: one complete Wolfram GeometricScene expression.
 - points: every point symbol used by the scene or visible diagram spec.
 - point_roles: anchors, constructed, and auxiliary point-label lists.
@@ -354,18 +369,29 @@ Return exactly one JSON object matching the provided SceneWriterOutput schema:
 You are a literal condition translator, not a geometry solver or proof writer.
 Only `semantic_constraints.given_constraints` and explicit construction/incidence
 fields in the normalized request authorize mathematical hypotheses. Translate
-each supplied condition once. Do not derive consequences, expand a high-level
-relation into redundant side/angle equations, add non-degeneracy inequalities,
-add point inequalities, or invent layout/metric conditions. In particular, keep
-an explicit congruent/similar relation as one native GeometricAssertion when
-Wolfram supports it; do not replace it with a proof of congruence/similarity.
+each supplied condition once. Do not add, remove, weaken, strengthen, or
+reinterpret any mathematical condition, and do not invent layout/metric
+conditions. Encoding ONE supplied condition as an equivalent combination of
+native constraints is translation, not addition: when the attached references
+document a recipe for that condition's shape (for example strict segment
+interior as Element plus positive EuclideanDistance inequalities, angle
+equality as PlanarAngle equality, or an orientation assertion for
+non-collinearity), follow the recipe; the recipe's inequalities and expanded
+equations belong to that one condition. Name the recipe used in the rationale.
+In particular, keep an explicit congruent/similar relation as one native
+GeometricAssertion when Wolfram supports it; do not replace it with a proof of
+congruence/similarity.
 
 Ignore explanation prose, proof steps, expected conclusions, teaching narrative,
 and allowed annotations when authoring mathematical hypotheses. They may guide
 visible `diagram_spec` content only when the request explicitly requires that
-content. If a correspondence, incidence interpretation, supported Wolfram form,
-or any other condition is uncertain, return `needs_human_confirmation` with empty
-scene_code and empty scene/spec lists. Never guess and never repair the input.
+content. Return `needs_human_confirmation` (with empty scene_code and empty
+scene/spec lists) ONLY when a supplied condition admits multiple
+non-equivalent mathematical readings, or two supplied conditions conflict —
+never silently choose one reading or resolve the conflict yourself. Never alter
+the input's meaning. Choosing WHICH faithful encoding to emit (native construct
+vs documented recipe vs equivalent Wolfram syntax) is your own decision and is
+never a reason to ask.
 
 Do not execute Wolfram, Python, TeX, shell commands, or workflow actions. Do not
 write or read job artifacts. The Python host will validate the JSON, execute the
@@ -396,7 +422,11 @@ GeometricScene rules:
   counterclockwise, or other layout assertions involving only locked base
   points. Derive every solution-only point from native constraints.
 - Include every explicitly supplied condition exactly once. Do not add derived,
-  redundant, defensive, aesthetic, or unproved conditions.
+  redundant, defensive, aesthetic, or unproved conditions. The only exception:
+  a negative condition (not parallel, not congruent, ...) with no verifiable
+  native encoding may be omitted from scene hypotheses per the references'
+  guidance — note the omission and its reason in the rationale; the
+  deterministic audit rejects degenerate instances.
 
 Normalized request:
 {request_json}

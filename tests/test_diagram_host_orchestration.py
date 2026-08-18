@@ -585,6 +585,58 @@ class DiagramHostOrchestrationTest(unittest.TestCase):
         self.assertEqual(result["fail_type"], "deterministic_audit_failed")
         self.assertEqual(agent.call_count, 1)
 
+    def test_visual_patch_merges_fields_instead_of_replacing_spec(self) -> None:
+        """A labels-only visual revision must keep segments and required markers."""
+        scene_payload = {
+            "scene_code": "GeometricScene[{A, B, C}, {}]",
+            "points": ["A", "B", "C"],
+            "point_roles": {
+                "anchors": ["A", "B", "C"],
+                "constructed": [],
+                "auxiliary": [],
+            },
+            "diagram_spec": {
+                "segments": [
+                    {"from": "A", "to": "B", "role": "main"},
+                    {"from": "A", "to": "C", "role": "main"},
+                ],
+                "markers": [
+                    {
+                        "type": "angle_arc",
+                        "vertex": "C",
+                        "arms": ["A", "B"],
+                        "angle_mode": "minor",
+                        "count": 1,
+                    }
+                ],
+                "labels": {"A": {"text": "A"}, "B": {"text": "B"}},
+            },
+            "rationale": "base round",
+        }
+        decision = {
+            "decision": "revise",
+            "reason": "labels stacked near the intersection cluster",
+            "patch": {
+                "scene_code": "",
+                "diagram_spec_json": json.dumps(
+                    {
+                        "labels": {
+                            "A": {"text": "A", "placement": "left", "dx": -10, "dy": 8},
+                        }
+                    }
+                ),
+            },
+        }
+
+        patched = workflow._apply_visual_patch(scene_payload, decision)
+
+        spec = patched["diagram_spec"]
+        self.assertEqual(len(spec["segments"]), 2)
+        self.assertEqual(len(spec["markers"]), 1)
+        self.assertEqual(spec["markers"][0]["vertex"], "C")
+        self.assertEqual(spec["labels"]["A"]["placement"], "left")
+        self.assertEqual(spec["labels"]["B"]["text"], "B")
+
 
 if __name__ == "__main__":
     unittest.main()

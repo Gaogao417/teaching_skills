@@ -1,0 +1,243 @@
+meta:
+  title: 反A一图四相似——相似证明三步法
+  subtitle: 学生讲义
+  grade: 八年级
+  subject: 数学
+  version: student
+  source_artifacts:
+    structure_analysis: artifacts/2026-08-14-相似模型混合32题/01-structure-analysis.md
+
+render:
+  template: exam-zh-explanation
+  paper_size: a4paper
+
+sections:
+  - id: reverse-a-four-similarities
+    title: 反A一图四相似：找等角、选判定、写格式
+    show_title: true
+    type: explanation
+    visibility: student
+    blocks:
+      - type: problemcard
+        id: composite-figure
+        label: 例图
+        stem_latex: |
+          如图，在 $\triangle ABC$ 中，点 $D$、$E$ 分别在 $AB$、$AC$ 上，且 $\angle ADE=\angle ACB$。连接 $BE$、$CD$，相交于点 $O$。
+
+          从 $\angle ADE=\angle ACB$ 出发，图中可以依次推出\textbf{四对}相似三角形。
+        diagram_slot:
+          slot_id: explanation.reverse-a-four.prompt
+          diagram_ref: explanation.reverse-a-four.prompt
+          variant: prompt
+          disclosure_policy: clean
+          required: true
+          on_failure: fail_assignment
+          placement: block_center
+          layout_role: center_block
+          display_profile: worksheet_geometry_center
+          caption: 先看公共顶点 $A$（公共角），再看对角线交点 $O$（对顶角）。
+          diagram_kind: synthetic_geometry
+          teaching_intent: explanation_prompt
+          problem_context:
+            stem_latex: 在 $\triangle ABC$ 中，$D$ 在 $AB$ 上，$E$ 在 $AC$ 上，$\angle ADE=\angle ACB$；连接 $DE$、$BE$、$CD$，$BE$ 与 $CD$ 交于点 $O$。
+            source_problem_text: 画三角形 ABC，D 在 AB 上、E 在 AC 上，满足角 ADE 等于角 ACB（反 A 形）。连接 DE、BE、CD，BE 与 CD 交于点 O。标注 A、B、C、D、E、O 六个点。用相同的单弧角标分别标出角 ADE 与角 ACB。只显示题设对象与点名，不显示四对相似结论、边比或比例式。
+          semantic_constraints:
+            given_objects: [A, B, C, D, E, O]
+            given_constraints:
+              - draw segments AB, AC, BC, DE, BE, CD
+            clean_forbidden:
+              - do not draw parallel arrows or parallel marks on DE and BC
+              - do not label the four pairs of similar triangles
+              - do not show any proportion or ratio between segments
+              - do not add a right-angle mark unless given
+          engine_options:
+            scene_payload:
+              scene_code: 'GeometricScene[{A, B, C, D, E, O}, {EuclideanDistance[A, B] == 5, EuclideanDistance[B, C] == 6, EuclideanDistance[A, C] == 7, EuclideanDistance[A, D] == 2, Element[D, Line[{A, B}]], Element[E, Line[{A, C}]], EuclideanDistance[A, E] > 0, EuclideanDistance[E, C] > 0, EuclideanDistance[A, C] == EuclideanDistance[A, E] + EuclideanDistance[E, C], PlanarAngle[{A, D, E}] == PlanarAngle[{A, C, B}], Element[O, Line[{B, E}]], Element[O, Line[{C, D}]], GeometricAssertion[Line[{B, C}], "Horizontal"], GeometricAssertion[Line[{B, C}], "Rightward"], GeometricAssertion[{B, C, A}, "Counterclockwise"]}]'
+              points: [A, B, C, D, E, O]
+              point_roles:
+                anchors: [A, B, C]
+                constructed: [D, E, O]
+                auxiliary: []
+              diagram_spec:
+                type: synthetic_geometry
+                segments:
+                  - {from: A, to: B, role: main}
+                  - {from: A, to: C, role: main}
+                  - {from: B, to: C, role: main}
+                  - {from: D, to: E, role: main}
+                  - {from: B, to: E, role: secondary}
+                  - {from: C, to: D, role: secondary}
+                labels:
+                  A: {text: A, placement: above}
+                  B: {text: B, placement: below left}
+                  C: {text: C, placement: below right}
+                  D: {text: D, placement: left}
+                  E: {text: E, placement: right}
+                  O: {text: O, placement: below right}
+                markers:
+                  - {type: angle_arc, vertex: D, arms: [A, E]}
+                  - {type: angle_arc, vertex: C, arms: [A, B]}
+              rationale: 反A一图四相似：5-6-7 非等腰三角形，AD=2 固定 D，角 ADE=角 ACB 确定 E，O 为 BE 与 CD 交点。
+          visual_requirements:
+            show_labels: true
+            show_given_markers: true
+            preferred_orientation: portrait
+            label_density: normal
+            required_visible_annotations:
+              markers:
+                - {type: angle_arc, vertex: D, arms: [A, E]}
+                - {type: angle_arc, vertex: C, arms: [A, B]}
+
+      # ── ① 反A形 ──────────────────────────────────
+      - type: route
+        id: route-reverse-a
+        steps:
+          - id: reverse-a-find
+            latex: 找等角
+            content_latex: $\angle DAE=\angle CAB$（公共角 $A$），又已知 $\angle ADE=\angle ACB$，凑成两对角分别相等。
+          - id: reverse-a-choose
+            latex: 选判定
+            content_latex: 两对角分别相等，用 $\text{AA}$。
+          - id: reverse-a-write
+            latex: 写格式
+            content_latex: |
+              在 $\triangle ADE$ 和 $\triangle ACB$ 中，\\
+              $\because \angle DAE=\angle CAB$（公共角）\\
+              $\quad\angle ADE=\angle ACB$（已知）\\
+              $\therefore \triangle ADE\sim\triangle ACB$（两角分别相等）
+
+      - type: dual_explanation
+        id: sol-reverse-a
+        label: ① 反A形
+        stem_latex: 求证 $\triangle ADE\sim\triangle ACB$，并写出它推出了什么。
+        side_title: 写一写
+        side_items:
+          - kind: hint
+            title: 这次推出了什么？
+            content_latex: 用 $\text{AA}$ 证相似，推出的是\textbf{边成比例} $\dfrac{AD}{AC}=\dfrac{AE}{AB}=\dfrac{DE}{CB}$；其中 $\dfrac{AD}{AC}=\dfrac{AE}{AB}$ 正是②的 $\text{SAS}$ 要用的条件。
+          - kind: hint
+            title: 对应怎么记
+            content_latex: $\angle ADE=\angle ACB$ 锁定 $D\leftrightarrow C$，公共角锁定 $A\leftrightarrow A$，于是 $E\leftrightarrow B$；是\textbf{交叉对应}，不是顺排。
+        solution_title: 解答
+        solution_step_ids:
+          - reverse-a-find
+          - reverse-a-choose
+          - reverse-a-write
+
+      # ── ② 共角换位 ──────────────────────────────
+      - type: route
+        id: route-common-transpose
+        steps:
+          - id: transpose-find
+            latex: 找等角
+            content_latex: $\angle DAC=\angle EAB$（同一个公共角 $A$，换成 $\triangle ADC$ 和 $\triangle AEB$）。
+          - id: transpose-choose
+            latex: 选判定
+            content_latex: 把①的边比交叉相乘：$AD\cdot AB=AE\cdot AC$，即 $\dfrac{AD}{AE}=\dfrac{AC}{AB}$，夹角都是 $\angle A$，用 $\text{SAS}$。
+          - id: transpose-write
+            latex: 写格式
+            content_latex: |
+              在 $\triangle ADC$ 和 $\triangle AEB$ 中，\\
+              $\because \angle DAC=\angle EAB$（公共角）\\
+              $\quad\dfrac{AD}{AE}=\dfrac{AC}{AB}$（由①交叉相乘）\\
+              $\therefore \triangle ADC\sim\triangle AEB$（两边成比例且夹角相等）
+
+      - type: dual_explanation
+        id: sol-common-transpose
+        label: ② 共角换位
+        stem_latex: 求证 $\triangle ADC\sim\triangle AEB$，并写出它推出了什么。
+        side_title: 写一写
+        side_items:
+          - kind: hint
+            title: 边比从哪来
+            content_latex: ①得 $\dfrac{AD}{AC}=\dfrac{AE}{AB}$，交叉相乘 $AD\cdot AB=AC\cdot AE$，再交换内项得 $\dfrac{AD}{AE}=\dfrac{AC}{AB}$。
+          - kind: hint
+            title: 这次推出了什么？
+            content_latex: 用 $\text{SAS}$ 证相似，推出的是\textbf{角相等} $\angle ADC=\angle AEB$；它取补角后正是③要用的条件。
+        solution_title: 解答
+        solution_step_ids:
+          - transpose-find
+          - transpose-choose
+          - transpose-write
+
+      # ── ③ 蝶形 ──────────────────────────────────
+      - type: route
+        id: route-butterfly
+        steps:
+          - id: butterfly-find
+            latex: 找等角
+            content_latex: $O$ 是 $BE$ 与 $CD$ 的交点，$\angle DOB=\angle EOC$（对顶角）。
+          - id: butterfly-choose
+            latex: 选判定
+            content_latex: 由②的 $\angle ADC=\angle AEB$ 取补角：$\angle ODB=180^\circ-\angle ADC$，$\angle OEC=180^\circ-\angle AEB$，等角的补角相等，凑成第二对角，用 $\text{AA}$。
+          - id: butterfly-write
+            latex: 写格式
+            content_latex: |
+              在 $\triangle ODB$ 和 $\triangle OEC$ 中，\\
+              $\because \angle DOB=\angle EOC$（对顶角）\\
+              $\quad\angle ODB=\angle OEC$（等角的补角相等）\\
+              $\therefore \triangle ODB\sim\triangle OEC$（两角分别相等）
+
+      - type: dual_explanation
+        id: sol-butterfly
+        label: ③ 蝶形
+        stem_latex: 求证 $\triangle ODB\sim\triangle OEC$，并写出它推出了什么。
+        side_title: 写一写
+        side_items:
+          - kind: hint
+            title: 角从哪来
+            content_latex: $D$ 在 $AB$ 上，$\angle ODB$ 与 $\angle ADC$ 互补；$E$ 在 $AC$ 上，$\angle OEC$ 与 $\angle AEB$ 互补。由②的等角取补角相等。
+          - kind: hint
+            title: 这次推出了什么？
+            content_latex: 用 $\text{AA}$ 证相似，推出的是\textbf{边成比例} $\dfrac{OD}{OE}=\dfrac{OB}{OC}=\dfrac{DB}{EC}$；其中 $\dfrac{OD}{OE}=\dfrac{OB}{OC}$ 正是④要用的条件。
+        solution_title: 解答
+        solution_step_ids:
+          - butterfly-find
+          - butterfly-choose
+          - butterfly-write
+
+      # ── ④ 8字型 ──────────────────────────────
+      - type: route
+        id: route-figure-eight
+        steps:
+          - id: figure-eight-find
+            latex: 找等角
+            content_latex: $O$ 是 $BE$ 与 $CD$ 的交点，$\angle DOE=\angle BOC$（对顶角）。
+          - id: figure-eight-choose
+            latex: 选判定
+            content_latex: 把③的边比交叉相乘：$OD\cdot OC=OE\cdot OB$，即 $\dfrac{OD}{OB}=\dfrac{OE}{OC}$，夹角都是 $\angle O$，用 $\text{SAS}$。
+          - id: figure-eight-write
+            latex: 写格式
+            content_latex: |
+              在 $\triangle ODE$ 和 $\triangle OBC$ 中，\\
+              $\because \angle DOE=\angle BOC$（对顶角）\\
+              $\quad\dfrac{OD}{OB}=\dfrac{OE}{OC}$（由③交叉相乘）\\
+              $\therefore \triangle ODE\sim\triangle OBC$（两边成比例且夹角相等）
+
+      - type: dual_explanation
+        id: sol-figure-eight
+        label: ④ 8字型
+        stem_latex: 求证 $\triangle ODE\sim\triangle OBC$，并写出它推出了什么。
+        side_title: 写一写
+        side_items:
+          - kind: hint
+            title: 边比从哪来
+            content_latex: ③得 $\dfrac{OD}{OE}=\dfrac{OB}{OC}$，交叉相乘 $OD\cdot OC=OB\cdot OE$，再交换内项得 $\dfrac{OD}{OB}=\dfrac{OE}{OC}$。
+          - kind: hint
+            title: 这次推出了什么？
+            content_latex: 用 $\text{SAS}$ 证相似，推出的是\textbf{角相等} $\angle ODE=\angle OBC$、$\angle OED=\angle OCB$。
+        solution_title: 解答
+        solution_step_ids:
+          - figure-eight-find
+          - figure-eight-choose
+          - figure-eight-write
+
+      # ── 收束 ──────────────────────────────────
+      - type: method_reminder
+        id: summary
+        title: 一图四相似速记
+        items:
+          - latex: '\textbf{公共角 $A$} $\;\to\;$ ① 反A形 $\triangle ADE\sim\triangle ACB$（AA）、② 共角换位 $\triangle ADC\sim\triangle AEB$（SAS）。'
+          - latex: '\textbf{对顶角 $O$} $\;\to\;$ ③ 蝶形 $\triangle ODB\sim\triangle OEC$（AA）、④ 8字型 $\triangle ODE\sim\triangle OBC$（SAS）。'
+          - latex: '\textbf{结论喂养链}：①推出的边比 $\to$ ②的 SAS 用；②推出的角 $\to$ ③的 AA 用；③推出的边比 $\to$ ④的 SAS 用。上一组推出的，正是下一组要用的。'
+          - latex: '\textbf{清点结论}：用 $\text{AA}$ 证 $\to$ 推出\textbf{边成比例}；用 $\text{SAS}$ 证 $\to$ 推出\textbf{角相等}。'

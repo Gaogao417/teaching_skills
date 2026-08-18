@@ -1,0 +1,44 @@
+meta:
+  title: 反A一图四相似证明 · Q002 · 学生版
+  grade: 八年级
+  subject: 数学
+  total_points: 10
+  version: student
+  show_answers: false
+  source_artifacts:
+    explanation: ../../2026-08-14-相似模型混合32题/02-student-explanation.resolved.assignment.yaml
+    structure_analysis: ../../2026-08-14-相似模型混合32题/01-structure-analysis.md
+    diagram_policy: 四题复用同一张已渲染 prompt 图；题图不泄露任何候选相似对
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: question
+  title: 专题题
+  type: practice
+  visibility: student
+  blocks:
+  - type: problem
+    id: Q002
+    points: 10
+    label: 规划证明
+    stem_latex: 如图，在 $\triangle ABC$ 中，点 $D$、$E$ 分别在 $AB$、$AC$ 上，且 $\angle ADE=\angle ACB$。连接 $BE$、$CD$，相交于点 $O$。由第①问可知 $\triangle ADE\sim\triangle ACB$，且 $\dfrac{AD}{AC}=\dfrac{AE}{AB}$。求证：$\triangle ADC\sim\triangle AEB$，并说明 $\angle ADC$ 与 $\angle AEB$ 的关系。
+    answer_space:
+      type: steps
+      height: 54mm
+      step_count: 6
+    explanation: 第②问为反推规划：根据证明目标整理公共角与第①问的边比，选择 SAS，反推出所需比例并完成变形，最后写出相似结论及下一问需要的对应角。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../../../2026-08-14-相似模型混合32题/build/diagram/jobs/explanation-reverse-a-four-prompt/rendered/prompt.fragment.tex
+      diagram_ref: explanation.reverse-a-four.prompt
+      diagram_job_id: explanation-reverse-a-four-prompt
+      width: 60mm
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:055693ca6b37bb58f518206ff01fc3cbc1f8a44215382b6aab86a716dab8c58f
+      packages:
+      - tikz
+      libraries: []

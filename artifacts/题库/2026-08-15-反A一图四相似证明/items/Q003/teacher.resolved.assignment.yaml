@@ -1,0 +1,153 @@
+meta:
+  title: 反A一图四相似证明 · Q003 · 教师版
+  grade: 八年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    explanation: ../../2026-08-14-相似模型混合32题/02-student-explanation.resolved.assignment.yaml
+    structure_analysis: ../../2026-08-14-相似模型混合32题/01-structure-analysis.md
+    diagram_policy: 四题复用同一张已渲染 prompt 图；题图不泄露任何候选相似对（发现式）
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: question
+  title: 专题题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q003
+    points: 10
+    label: 发现相似对
+    stem_latex: '如图，在 $\triangle ABC$ 中，点 $D$、$E$ 分别在 $AB$、$AC$ 上，且 $\angle ADE=\angle ACB$。连接 $BE$、$CD$，相交于点 $O$。由第②问可知 $\angle ADC=\angle AEB$。观察 $O$ 点的交叉结构，并结合分别与这两个角互补的角，找出一组可能相似的三角形，写出猜想并证明，再写出由这组相似得到的对应边比例。'
+    answer_space:
+      type: steps
+      height: 54mm
+      step_count: 6
+    answer: '$\triangle ODB\sim\triangle OEC$（两角分别相等），且推出 $\dfrac{OD}{OE}=\dfrac{OB}{OC}=\dfrac{DB}{EC}$。'
+    explanation: 第③问为正推发现：观察点 O 处的对顶角，结合第②问等角的补角识别蝶形相似，用 AA 验证并提取下一问需要的对应边比例。
+    solution_steps:
+    - id: q3-scan
+      title: 扫图：O 点结构
+      primitive: select
+      prompt_latex: '$O$ 点这里有什么特殊结构？'
+      coach_latex: '先只观察点 $O$：直线 $BE$ 与 $CD$ 在这里相交，因此可以立即得到一组对顶角相等。'
+      options:
+      - value: opt-scan-vertical
+        label: '两条线相交，产生对顶角（$\angle DOB=\angle EOC$ 与 $\angle DOE=\angle BOC$）'
+      - value: opt-scan-common
+        label: '公共角'
+        diagnosis: '经过 $O$ 点的四个三角形没有共享同一个顶点角；公共角是 $A$ 点的特征。'
+      - value: opt-scan-none
+        label: '没有特殊结构'
+        diagnosis: '$BE$ 与 $CD$ 在 $O$ 点相交，对顶角就藏在这里。'
+      - value: opt-scan-parallel-o
+        label: '平行线'
+        diagnosis: '图中没有平行线。'
+      accepted: opt-scan-vertical
+      error_diagnosis: '$O$ 是 $BE$ 与 $CD$ 的交点，两条相交直线产生对顶角：$\angle DOB=\angle EOC$，$\angle DOE=\angle BOC$。'
+      content_latex: '因为 $BE$ 与 $CD$ 交于点 $O$，所以 $\angle DOB=\angle EOC$（对顶角）。'
+    - id: q3-hypothesis
+      title: 猜想：蝶形
+      primitive: select
+      prompt_latex: '结合②刚推出的等角，哪个组合最可能产生新的相似？'
+      coach_latex: '把这组对顶角分别放进两个三角形，再看第②问的等角所对应的补角；两条线索能够落在同一对三角形中。'
+      options:
+      - value: opt-hyp-butterfly
+        label: '蝶形：$\angle DOB=\angle EOC$ 加补角 $\angle ODB=\angle OEC$，$\triangle ODB$ 与 $\triangle OEC$'
+      - value: opt-hyp-eight
+        label: '8字型：$\triangle ODE$ 与 $\triangle OBC$'
+        diagnosis: '那一对最终确实相似，但现在手里只有角、没有边比，暂时验证不了——先证能证的，它的边比正是8字型要用的。'
+      - value: opt-hyp-a-mix
+        label: 'A 字形组合'
+        diagnosis: 'A 字形要靠平行线；图中的相似都从等角来。'
+      accepted: opt-hyp-butterfly
+      error_diagnosis: '已有对顶角 $\angle DOB=\angle EOC$，②的等角取补角恰好补出第二对角——先证能证的蝶形 $\triangle ODB\sim\triangle OEC$。'
+      content_latex: '由第②问可知 $\angle ADC=\angle AEB$。'
+    - id: q3-route
+      title: 验证路线：AA 找缺口
+      primitive: select
+      prompt_latex: '已有对顶角，走哪条判定？缺的一对角到哪里找？'
+      coach_latex: '一组对顶角已经满足了一个角的条件。若能利用第②问的等角再得到一组角相等，就可以用两角判定相似。'
+      options:
+      - value: opt-route-aa-from-prev
+        label: '$\text{AA}$——已有对顶角，还缺的一对角到②的结论里加工'
+      - value: opt-route-sas-o
+        label: '$\text{SAS}$——直接找边比'
+        diagnosis: '手里还没有任何边比，SAS 的缺口补不上。'
+      - value: opt-route-sss-o
+        label: '$\text{SSS}$——需要三组边比'
+        diagnosis: '太远，且同样缺边比。'
+      accepted: opt-route-aa-from-prev
+      error_diagnosis: '已有一组对顶角；要使用两角判定，还需利用第②问的等角得到另一组角相等。'
+      content_latex: '因为点 $A$、$D$、$B$ 在同一直线上，点 $C$、$D$、$O$ 在同一直线上，所以 $\angle ODB$ 与 $\angle ADC$ 互补。'
+    - id: q3-derive
+      title: 加工：等角的补角相等
+      primitive: select
+      prompt_latex: '②给的是 $\angle ADC=\angle AEB$，怎样得到 $\angle ODB=\angle OEC$？'
+      coach_latex: '利用共线关系：$\angle ODB$ 与 $\angle ADC$ 互补，$\angle OEC$ 与 $\angle AEB$ 互补；等角的补角仍然相等。'
+      options:
+      - value: opt-derive-supplement
+        label: '$D$ 在 $AB$ 上，$\angle ODB$ 与 $\angle ADC$ 互补；$E$ 在 $AC$ 上，$\angle OEC$ 与 $\angle AEB$ 互补——等角的补角相等'
+      - value: opt-derive-vertical
+        label: '对顶角相等'
+        diagnosis: '$\angle ODB$ 与 $\angle ADC$ 顶点不同、边不互为反向延长线，不是对顶角。'
+      - value: opt-derive-corresponding
+        label: '同位角相等'
+        diagnosis: '同位角要靠平行线，图中没有平行线。'
+      - value: opt-derive-same-angle
+        label: '它们是同一个角'
+        diagnosis: '$\angle ODB$ 与 $\angle ADC$ 顶点相同但边不同，是两个互补的角，不是同一个角。'
+      accepted: opt-derive-supplement
+      error_diagnosis: '$D$ 在 $AB$ 上，$\angle ODB$ 与 $\angle ADC$ 互补；等角的补角相等，得 $\angle ODB=\angle OEC$。'
+      content_latex: '又因为点 $A$、$E$、$C$ 在同一直线上，点 $B$、$E$、$O$ 在同一直线上，所以 $\angle OEC$ 与 $\angle AEB$ 互补；由等角的补角相等，得 $\angle ODB=\angle OEC$。'
+    - id: q3-conclusion
+      title: 命名发现
+      primitive: input
+      prompt_latex: '写出你发现的相似结论（注意顶点顺序）。'
+      placeholder: '写出你发现的相似结论（注意顶点顺序）'
+      answer_normalization: similarity-statement
+      coach_latex: '对顶角确定 $O\leftrightarrow O$，补角关系确定 $D\leftrightarrow E$，剩下 $B\leftrightarrow C$；按这个顺序写出相似结论。'
+      accepted: '\triangle ODB\sim\triangle OEC'
+      error_diagnosis: '顶点顺序要体现 $O\leftrightarrow O$、$D\leftrightarrow E$、$B\leftrightarrow C$ 的对应关系。'
+      content_latex: '因此 $\triangle ODB\sim\triangle OEC$（两角分别相等）。'
+    - id: q3-yield
+      title: 提取结论：对应边比例
+      primitive: select
+      prompt_latex: '证明这组三角形相似后，哪组对应边比例可以供下一问使用？'
+      coach_latex: '相似成立后，对应角相等、对应边成比例都成立。下一问需要点 $O$ 两侧的边比，所以这里提取 $OD$、$OE$、$OB$、$OC$ 的对应比例。'
+      options:
+      - value: opt-yield-ratio-o
+        label: '边成比例 $\dfrac{OD}{OE}=\dfrac{OB}{OC}=\dfrac{DB}{EC}$'
+      - value: opt-yield-angle-o
+        label: '角相等 $\angle ODE=\angle OBC$'
+        diagnosis: '$\angle ODE$ 与 $\angle OBC$ 不是本问这组相似三角形的对应角，要在第④问证明另一组相似后才能得到。'
+      - value: opt-yield-area-o
+        label: '面积比'
+        diagnosis: '本题不涉及面积。'
+      accepted: opt-yield-ratio-o
+      error_diagnosis: '本题此处需要的是供第④问使用的对应边比例，即 $\dfrac{OD}{OE}=\dfrac{OB}{OC}=\dfrac{DB}{EC}$。'
+      content_latex: '由相似三角形的对应边成比例，得 $\dfrac{OD}{OE}=\dfrac{OB}{OC}=\dfrac{DB}{EC}$。'
+    teaching:
+      teaching_goal: 正推发现：观察点 O 处的对顶角，用第②问等角的补角识别蝶形相似并证明，提取对应边比例
+      expected_blocker: 把补角关系当成对顶角，或在手里没有边比时硬选8字型组合
+      fallback_move: 先数手里有几对角（对顶角一对、②的等角一对），再看哪个三角形组合能把两对角都用上
+      discovery_question: true
+      subsegments: [AD, DB, AE, EC, OD, OC, OB, OE]
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../../../2026-08-14-相似模型混合32题/build/diagram/jobs/explanation-reverse-a-four-prompt/rendered/prompt.fragment.tex
+      diagram_ref: explanation.reverse-a-four.prompt
+      diagram_job_id: explanation-reverse-a-four-prompt
+      width: 60mm
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:055693ca6b37bb58f518206ff01fc3cbc1f8a44215382b6aab86a716dab8c58f
+      packages:
+      - tikz
+      libraries: []

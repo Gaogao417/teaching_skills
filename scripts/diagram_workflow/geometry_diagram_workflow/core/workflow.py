@@ -526,7 +526,21 @@ def _apply_visual_patch(
         # outside their authority while retaining safe label/marker changes.
         for field in forbidden:
             raw_spec.pop(field, None)
-        updated["diagram_spec"] = SceneDiagramSpec.model_validate(raw_spec).model_dump(
+        # Merge field-by-field over the current spec: a partial patch (e.g.
+        # labels-only) must not drop segments, markers, or annotations that
+        # earlier rounds — and the deterministic audit — depend on. List
+        # fields replace wholesale when present; map fields (labels) merge
+        # per key so a single relabel keeps every other label.
+        merged_spec = dict(scene_payload.get("diagram_spec") or {})
+        for field, patch_value in raw_spec.items():
+            base_value = merged_spec.get(field)
+            if isinstance(base_value, dict) and isinstance(patch_value, dict):
+                merged_field = dict(base_value)
+                merged_field.update(patch_value)
+                merged_spec[field] = merged_field
+            else:
+                merged_spec[field] = patch_value
+        updated["diagram_spec"] = SceneDiagramSpec.model_validate(merged_spec).model_dump(
             mode="json",
             by_alias=True,
         )

@@ -1,0 +1,44 @@
+meta:
+  title: 反A一图四相似证明 · Q004 · 学生版
+  grade: 八年级
+  subject: 数学
+  total_points: 10
+  version: student
+  show_answers: false
+  source_artifacts:
+    explanation: ../../2026-08-14-相似模型混合32题/02-student-explanation.resolved.assignment.yaml
+    structure_analysis: ../../2026-08-14-相似模型混合32题/01-structure-analysis.md
+    diagram_policy: 四题复用同一张已渲染 prompt 图；题图不泄露任何候选相似对
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: question
+  title: 专题题
+  type: practice
+  visibility: student
+  blocks:
+  - type: problem
+    id: Q004
+    points: 10
+    label: 规划证明
+    stem_latex: 如图，在 $\triangle ABC$ 中，点 $D$、$E$ 分别在 $AB$、$AC$ 上，且 $\angle ADE=\angle ACB$。连接 $BE$、$CD$，相交于点 $O$。由第③问可知 $\triangle ODB\sim\triangle OEC$，且 $\dfrac{OD}{OE}=\dfrac{OB}{OC}$。求证：$\triangle ODE\sim\triangle OBC$，并写出由这组相似得到的两组对应角相等关系。
+    answer_space:
+      type: steps
+      height: 54mm
+      step_count: 6
+    explanation: 第④问为反推规划：目标 8 字型，盘点对顶角与③的边比，选 SAS，反推夹 ∠O 两边比，交叉相乘交换内项补缺口，写格式并收束全题速记。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../../../2026-08-14-相似模型混合32题/build/diagram/jobs/explanation-reverse-a-four-prompt/rendered/prompt.fragment.tex
+      diagram_ref: explanation.reverse-a-four.prompt
+      diagram_job_id: explanation-reverse-a-four-prompt
+      width: 60mm
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:055693ca6b37bb58f518206ff01fc3cbc1f8a44215382b6aab86a716dab8c58f
+      packages:
+      - tikz
+      libraries: []

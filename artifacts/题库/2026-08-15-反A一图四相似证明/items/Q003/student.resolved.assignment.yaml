@@ -1,0 +1,44 @@
+meta:
+  title: 反A一图四相似证明 · Q003 · 学生版
+  grade: 八年级
+  subject: 数学
+  total_points: 10
+  version: student
+  show_answers: false
+  source_artifacts:
+    explanation: ../../2026-08-14-相似模型混合32题/02-student-explanation.resolved.assignment.yaml
+    structure_analysis: ../../2026-08-14-相似模型混合32题/01-structure-analysis.md
+    diagram_policy: 四题复用同一张已渲染 prompt 图；题图不泄露任何候选相似对（发现式）
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: question
+  title: 专题题
+  type: practice
+  visibility: student
+  blocks:
+  - type: problem
+    id: Q003
+    points: 10
+    label: 发现相似对
+    stem_latex: 如图，在 $\triangle ABC$ 中，点 $D$、$E$ 分别在 $AB$、$AC$ 上，且 $\angle ADE=\angle ACB$。连接 $BE$、$CD$，相交于点 $O$。由第②问可知 $\angle ADC=\angle AEB$。观察 $O$ 点的交叉结构，并结合分别与这两个角互补的角，找出一组可能相似的三角形，写出猜想并证明，再写出由这组相似得到的对应边比例。
+    answer_space:
+      type: steps
+      height: 54mm
+      step_count: 6
+    explanation: 第③问为正推发现：观察点 O 处的对顶角，结合第②问等角的补角识别蝶形相似，用 AA 验证并提取下一问需要的对应边比例。
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../../../2026-08-14-相似模型混合32题/build/diagram/jobs/explanation-reverse-a-four-prompt/rendered/prompt.fragment.tex
+      diagram_ref: explanation.reverse-a-four.prompt
+      diagram_job_id: explanation-reverse-a-four-prompt
+      width: 60mm
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:055693ca6b37bb58f518206ff01fc3cbc1f8a44215382b6aab86a716dab8c58f
+      packages:
+      - tikz
+      libraries: []

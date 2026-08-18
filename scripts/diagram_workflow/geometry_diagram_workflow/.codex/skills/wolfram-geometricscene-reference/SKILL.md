@@ -305,7 +305,71 @@ G == TriangleCenter[{B, P, Q}]
 
 ---
 
-## 7. 参考资料
+## 7. 组合配方（一个条件 → 多行等价编码）
+
+题干条件没有一对一原生构造时，使用以下配方。配方产生的多行属于**同一个**条件，
+是翻译手段，不算"添加约束"。在 rationale 中注明所用配方。
+
+### 严格线段内部（点序 A-D-B）
+
+`Element[D, Line[{A, B}]]` 含端点；两行不等式排除端点，得到严格内部：
+
+```wl
+Element[D, Line[{A, B}]]
+EuclideanDistance[A, D] > 0
+EuclideanDistance[D, B] > 0
+```
+
+若上游已给出分点比，比例约束通常已排除端点，可省略不等式。
+
+### 两角相等
+
+```wl
+PlanarAngle[{A, D, E}] == PlanarAngle[{A, C, B}]
+```
+
+顶点写在三点列表的中间字母位置。
+
+### 不共线 / 定向
+
+```wl
+GeometricAssertion[{A, B, C}, "Counterclockwise"]   (* 或 "Clockwise" *)
+```
+
+方向断言隐含三点严格不共线，同时固定朝向。不要使用文档中不存在的
+`"Noncollinear"` 断言；也不要用取反形式 `Not[Element[C, InfiniteLine[{A, B}]]]`
+表达不共线——GeometricScene 假设不支持对 `Element` 取反（实测被
+RandomInstance 拒绝）。
+
+### 线交点（O 是 BE 与 CD 的交点）
+
+```wl
+Element[O, Line[{B, E}]]
+Element[O, Line[{C, D}]]
+```
+
+用两条 `Element` 分别把点钉在两条线上。以下写法均会被 RandomInstance 拒绝
+（实测）：
+
+- `O == RegionIntersection[Line[{B, E}], Line[{C, D}]]`——`RegionIntersection`
+  返回区域而非点，不能作为点的定义方程；
+- `GeometricAssertion[{Line[{B, E}], Line[{C, D}], O}, "Concurrent"]`——
+  `"Concurrent"` 的对象列表只能是线/圆等对象，**不能混入点符号**。
+
+### 不平行等否定条件
+
+GeometricScene 假设**不支持任何取反形式**：`Not[Element[...]]`、
+`Not[GeometricAssertion[...]]`、`"Noncollinear"`、`"NotParallel"` 均会被
+RandomInstance 拒绝（实测）。
+
+- 不共线：用上面的方向断言（`"Counterclockwise"` / `"Clockwise"`）表达。
+- 不平行等其他否定条件：一般随机实例以概率 1 满足否定条件，默认省略该
+  假设，交由确定性 audit 淘汰退化实例，并在 rationale 注明省略原因。
+  不要自行发明否定语法。
+
+---
+
+## 8. 参考资料
 
 - [Synthetic Geometry Guide](https://reference.wolfram.com/language/guide/SyntheticGeometry.html)
 - [Synthetic Geometry Tutorial](https://reference.wolfram.com/language/tutorial/SyntheticGeometry.html)

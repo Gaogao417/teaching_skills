@@ -9,53 +9,19 @@
 
 \begin{document}
 
-\eduSectionTitle{反A一图四相似——找等角、选判定、写格式}
-
-
-\begin{eduSolutionBox}{相似证明三步法}
-  \begingroup
-  \setlength{\parskip}{2.5mm}
-\textbf{第一步 找等角}——在两个三角形里先找到一对相等的角：公共顶点处的\textbf{公共角}，或交点 $O$ 处的\textbf{对顶角}。\par
-\textbf{第二步 选判定}——能找到第二对等角就用 $\textbf{AA}$；夹这个角的两组对应边成比例就用 $\textbf{SAS}$。\par
-\textbf{第三步 写格式}——按固定格式书写：``在 $\triangle XXX$ 和 $\triangle YYY$ 中''$\to$写条件（$\because$）$\to$下结论（$\therefore$）。\par
-\textbf{关键原则：用什么判定证，就推出另一种结论。}\\
-用 $\text{AA}$ 证（给两对角相等）$\to$ 推出\textbf{三组对应边成比例}；\\
-用 $\text{SAS}$ 证（给一对角 $+$ 夹角两组边比）$\to$ 推出\textbf{其余对应角相等}。
-\par
-  \endgroup
-\end{eduSolutionBox}
-
-
-
+\eduSectionTitle{反A一图四相似：找等角、选判定、写格式}
 
 \begin{eduProblemBlock}[例图]
 \noindent
-\begin{minipage}[t]{\dimexpr\linewidth-60mm-6mm\relax}
+\begin{minipage}[t]{\dimexpr\linewidth-70mm-6mm\relax}
 \vspace{0pt}
-如图，在 $\triangle ABC$ 中，点 $D$、$E$ 分别在 $AB$、$AC$ 上，且 $\angle ADE=\angle ACB$。
-连接 $BE$、$CD$，相交于点 $O$——四边形 $DECB$ 的两条对角线把下面分出一个``八''字。
-从 $\angle ADE=\angle ACB$ 出发，图中一共可以推出\textbf{四对}相似三角形。
+如图，在 $\triangle ABC$ 中，点 $D$、$E$ 分别在 $AB$、$AC$ 上，且 $\angle ADE=\angle ACB$。连接 $BE$、$CD$，相交于点 $O$。
+
+从 $\angle ADE=\angle ACB$ 出发，图中可以依次推出\textbf{四对}相似三角形。
 
 \end{minipage}\hfill
-\begin{diagramcoltikz}{60mm}{先看公共顶点 $A$（公共角），再看对角线交点 $O$（对顶角）。}
-\begin{tikzpicture}[scale=0.62,every node/.style={font=\small}]
-  \coordinate (A) at (3,6);
-  \coordinate (B) at (0,0);
-  \coordinate (C) at (6,0);
-  \coordinate (D) at (1.8,3.6);
-  \coordinate (E) at (4.2,3.6);
-  \coordinate (O) at (intersection of B--E and C--D);
-  \draw(A)--(B)--(C)--cycle;
-  \draw(B)--(E);
-  \draw(C)--(D);
-  \draw(D)--(E);
-  \fill(A)circle(1.5pt)node[above]{$A$};
-  \fill(B)circle(1.5pt)node[below left]{$B$};
-  \fill(C)circle(1.5pt)node[below right]{$C$};
-  \fill(D)circle(1.5pt)node[left]{$D$};
-  \fill(E)circle(1.5pt)node[right]{$E$};
-  \fill(O)circle(1.5pt)node[below right]{$O$};
-\end{tikzpicture}
+\begin{diagramcoltikz}{70mm}{先看公共顶点 $A$（公共角），再看对角线交点 $O$（对顶角）。}
+\input{\detokenize{build/diagram/jobs/explanation-reverse-a-four-prompt/rendered/prompt.fragment.tex}}
 \end{diagramcoltikz}
 \end{eduProblemBlock}
 
@@ -63,6 +29,8 @@
 
 
 
+\begin{eduAuxItem}{思路导航}
+找等角$\;\to\;$选判定$\;\to\;$写格式\end{eduAuxItem}
 
 
 
@@ -73,25 +41,27 @@
 \begin{eduDualExplain}
   \begin{eduExplainLeft}
     \eduColumnTitle{\eduIconBulb}{写一写}
-        \eduSideHint{这次推出了什么？}{用 $\text{AA}$ 证 $\to$ 推出\textbf{边成比例} $\dfrac{AD}{AC}=\dfrac{AE}{AB}$，下一组马上要用。}
-        \eduSideHint{``反''在哪里}{对应是交叉的：$D\leftrightarrow C$，$E\leftrightarrow B$，不是 $D$ 对 $B$、$E$ 对 $C$。}
+        \eduSideHint{这次推出了什么？}{用 $\text{AA}$ 证相似，推出的是\textbf{边成比例} $\dfrac{AD}{AC}=\dfrac{AE}{AB}=\dfrac{DE}{CB}$；其中 $\dfrac{AD}{AC}=\dfrac{AE}{AB}$ 正是②的 $\text{SAS}$ 要用的条件。}
+        \eduSideHint{对应怎么记}{$\angle ADE=\angle ACB$ 锁定 $D\leftrightarrow C$，公共角锁定 $A\leftrightarrow A$，于是 $E\leftrightarrow B$；是\textbf{交叉对应}，不是顺排。}
   \end{eduExplainLeft}
 
   \begin{eduExplainRight}
     \eduColumnTitle{\eduIconBook}{解答}
-\needspace{5\baselineskip}\textbf{找等角：}$\angle DAE=\angle CAB$（$A$ 是公共顶点，$D$ 在 $AB$ 上、$E$ 在 $AC$ 上）。\\
-\textbf{选判定：}已知 $\angle ADE=\angle ACB$，凑出第二对等角，用 $\text{AA}$。\\
-在 $\triangle ADE$ 和 $\triangle ACB$ 中，\\
+\needspace{5\baselineskip}      \eduExplainStep{}{找等角}{$\angle DAE=\angle CAB$（公共角 $A$），又已知 $\angle ADE=\angle ACB$，凑成两对角分别相等。}
+\needspace{5\baselineskip}      \eduExplainStep{}{选判定}{两对角分别相等，用 $\text{AA}$。}
+\needspace{5\baselineskip}      \eduExplainStep{}{写格式}{在 $\triangle ADE$ 和 $\triangle ACB$ 中，\\
 $\because \angle DAE=\angle CAB$（公共角）\\
 $\quad\angle ADE=\angle ACB$（已知）\\
-$\therefore \triangle ADE\sim\triangle ACB$（两角分别相等）\\\needspace{5\baselineskip}$\therefore \angle AED=\angle ABC$（角相等）\\
-$\quad\dfrac{AD}{AC}=\dfrac{AE}{AB}=\dfrac{DE}{CB}$（边成比例）\\
-\textit{用 AA 证相似，推出的是\textbf{边成比例}——它正是 ② 要用的条件。}  \end{eduExplainRight}
+$\therefore \triangle ADE\sim\triangle ACB$（两角分别相等）
+}
+  \end{eduExplainRight}
 \end{eduDualExplain}
 
 
 
 
+\begin{eduAuxItem}{思路导航}
+找等角$\;\to\;$选判定$\;\to\;$写格式\end{eduAuxItem}
 
 
 
@@ -102,25 +72,27 @@ $\quad\dfrac{AD}{AC}=\dfrac{AE}{AB}=\dfrac{DE}{CB}$（边成比例）\\
 \begin{eduDualExplain}
   \begin{eduExplainLeft}
     \eduColumnTitle{\eduIconBulb}{写一写}
-        \eduSideHint{边比从哪来}{① 得 $\dfrac{AD}{AC}=\dfrac{AE}{AB}$，交叉相乘得 $AD\cdot AB=AC\cdot AE$，再交换内项得 $\dfrac{AD}{AE}=\dfrac{AC}{AB}$。}
-        \eduSideHint{这次推出了什么？}{用 $\text{SAS}$ 证 $\to$ 推出\textbf{角相等} $\angle ADC=\angle AEB$，下一组马上要用。}
+        \eduSideHint{边比从哪来}{①得 $\dfrac{AD}{AC}=\dfrac{AE}{AB}$，交叉相乘 $AD\cdot AB=AC\cdot AE$，再交换内项得 $\dfrac{AD}{AE}=\dfrac{AC}{AB}$。}
+        \eduSideHint{这次推出了什么？}{用 $\text{SAS}$ 证相似，推出的是\textbf{角相等} $\angle ADC=\angle AEB$；它取补角后正是③要用的条件。}
   \end{eduExplainLeft}
 
   \begin{eduExplainRight}
     \eduColumnTitle{\eduIconBook}{解答}
-\needspace{5\baselineskip}\textbf{找等角：}$\angle DAC=\angle EAB$（同一个公共角 $A$，三角形换成 $\triangle ADC$ 和 $\triangle AEB$）。\\
-\textbf{选判定：}把 ① 的边比交叉相乘：$AD\cdot AB=AE\cdot AC$，即 $\dfrac{AD}{AE}=\dfrac{AC}{AB}$，用 $\text{SAS}$。\\
-在 $\triangle ADC$ 和 $\triangle AEB$ 中，\\
+\needspace{5\baselineskip}      \eduExplainStep{}{找等角}{$\angle DAC=\angle EAB$（同一个公共角 $A$，换成 $\triangle ADC$ 和 $\triangle AEB$）。}
+\needspace{5\baselineskip}      \eduExplainStep{}{选判定}{把①的边比交叉相乘：$AD\cdot AB=AE\cdot AC$，即 $\dfrac{AD}{AE}=\dfrac{AC}{AB}$，夹角都是 $\angle A$，用 $\text{SAS}$。}
+\needspace{5\baselineskip}      \eduExplainStep{}{写格式}{在 $\triangle ADC$ 和 $\triangle AEB$ 中，\\
 $\because \angle DAC=\angle EAB$（公共角）\\
-$\quad\dfrac{AD}{AE}=\dfrac{AC}{AB}$（由①）\\
-$\therefore \triangle ADC\sim\triangle AEB$（两边成比例且夹角相等）\\\needspace{5\baselineskip}$\therefore \angle ADC=\angle AEB,\ \angle ACD=\angle ABE$（角相等）\\
-$\quad\dfrac{DC}{EB}=\dfrac{AD}{AE}=\dfrac{AC}{AB}$（边成比例）\\
-\textit{用 SAS 证相似，推出的是\textbf{角相等}——$\angle ADC=\angle AEB$ 正是 ③ 要用的条件。}  \end{eduExplainRight}
+$\quad\dfrac{AD}{AE}=\dfrac{AC}{AB}$（由①交叉相乘）\\
+$\therefore \triangle ADC\sim\triangle AEB$（两边成比例且夹角相等）
+}
+  \end{eduExplainRight}
 \end{eduDualExplain}
 
 
 
 
+\begin{eduAuxItem}{思路导航}
+找等角$\;\to\;$选判定$\;\to\;$写格式\end{eduAuxItem}
 
 
 
@@ -131,24 +103,27 @@ $\quad\dfrac{DC}{EB}=\dfrac{AD}{AE}=\dfrac{AC}{AB}$（边成比例）\\
 \begin{eduDualExplain}
   \begin{eduExplainLeft}
     \eduColumnTitle{\eduIconBulb}{写一写}
-        \eduSideHint{角从哪来}{$D$ 在 $AB$ 上，$\angle ODB$ 与 $\angle ADC$ 互补；$E$ 在 $AC$ 上，$\angle OEC$ 与 $\angle AEB$ 互补。由②等角的补角相等。}
-        \eduSideHint{为什么叫蝶形}{$\triangle ODB$ 和 $\triangle OEC$ 像一对翅膀挂在交点 $O$ 两侧；对应仍是交叉的：$D\leftrightarrow E$，$B\leftrightarrow C$。}
+        \eduSideHint{角从哪来}{$D$ 在 $AB$ 上，$\angle ODB$ 与 $\angle ADC$ 互补；$E$ 在 $AC$ 上，$\angle OEC$ 与 $\angle AEB$ 互补。由②的等角取补角相等。}
+        \eduSideHint{这次推出了什么？}{用 $\text{AA}$ 证相似，推出的是\textbf{边成比例} $\dfrac{OD}{OE}=\dfrac{OB}{OC}=\dfrac{DB}{EC}$；其中 $\dfrac{OD}{OE}=\dfrac{OB}{OC}$ 正是④要用的条件。}
   \end{eduExplainLeft}
 
   \begin{eduExplainRight}
     \eduColumnTitle{\eduIconBook}{解答}
-\needspace{5\baselineskip}\textbf{找等角：}$O$ 是 $BE$ 与 $CD$ 的交点，$\angle DOB=\angle EOC$（对顶角）。\\
-\textbf{选判定：}由 ② 的 $\angle ADC=\angle AEB$ 取补角：$\angle ODB=180^\circ-\angle ADC$，$\angle OEC=180^\circ-\angle AEB$，等角的补角相等，凑出第二对等角，用 $\text{AA}$。\\
-在 $\triangle ODB$ 和 $\triangle OEC$ 中，\\
+\needspace{5\baselineskip}      \eduExplainStep{}{找等角}{$O$ 是 $BE$ 与 $CD$ 的交点，$\angle DOB=\angle EOC$（对顶角）。}
+\needspace{5\baselineskip}      \eduExplainStep{}{选判定}{由②的 $\angle ADC=\angle AEB$ 取补角：$\angle ODB=180^\circ-\angle ADC$，$\angle OEC=180^\circ-\angle AEB$，等角的补角相等，凑成第二对角，用 $\text{AA}$。}
+\needspace{5\baselineskip}      \eduExplainStep{}{写格式}{在 $\triangle ODB$ 和 $\triangle OEC$ 中，\\
 $\because \angle DOB=\angle EOC$（对顶角）\\
 $\quad\angle ODB=\angle OEC$（等角的补角相等）\\
-$\therefore \triangle ODB\sim\triangle OEC$（两角分别相等）\\\needspace{5\baselineskip}$\therefore \dfrac{OD}{OE}=\dfrac{OB}{OC}=\dfrac{DB}{EC}$（边成比例）\\
-\textit{用 AA 证相似，推出的是\textbf{边成比例}——它正是 ④ 要用的条件。}  \end{eduExplainRight}
+$\therefore \triangle ODB\sim\triangle OEC$（两角分别相等）
+}
+  \end{eduExplainRight}
 \end{eduDualExplain}
 
 
 
 
+\begin{eduAuxItem}{思路导航}
+找等角$\;\to\;$选判定$\;\to\;$写格式\end{eduAuxItem}
 
 
 
@@ -159,20 +134,20 @@ $\therefore \triangle ODB\sim\triangle OEC$（两角分别相等）\\\needspace{
 \begin{eduDualExplain}
   \begin{eduExplainLeft}
     \eduColumnTitle{\eduIconBulb}{写一写}
-        \eduSideHint{边比从哪来}{③ 得 $\dfrac{OD}{OE}=\dfrac{OB}{OC}$，交叉相乘得 $OD\cdot OC=OB\cdot OE$，再交换内项得 $\dfrac{OD}{OB}=\dfrac{OE}{OC}$。}
-        \eduSideHint{8 字怎么看}{$DE$ 一横在上、$BC$ 一横在下，$BE$ 与 $CD$ 交叉穿过 $O$——整个就是数字 $8$。对应：$D\leftrightarrow B$，$E\leftrightarrow C$。}
+        \eduSideHint{边比从哪来}{③得 $\dfrac{OD}{OE}=\dfrac{OB}{OC}$，交叉相乘 $OD\cdot OC=OB\cdot OE$，再交换内项得 $\dfrac{OD}{OB}=\dfrac{OE}{OC}$。}
+        \eduSideHint{这次推出了什么？}{用 $\text{SAS}$ 证相似，推出的是\textbf{角相等} $\angle ODE=\angle OBC$、$\angle OED=\angle OCB$。}
   \end{eduExplainLeft}
 
   \begin{eduExplainRight}
     \eduColumnTitle{\eduIconBook}{解答}
-\needspace{5\baselineskip}\textbf{找等角：}$\angle DOE=\angle BOC$（对顶角）。\\
-\textbf{选判定：}把 ③ 的边比交叉相乘：$OD\cdot OC=OE\cdot OB$，即 $\dfrac{OD}{OB}=\dfrac{OE}{OC}$，用 $\text{SAS}$。\\
-在 $\triangle ODE$ 和 $\triangle OBC$ 中，\\
+\needspace{5\baselineskip}      \eduExplainStep{}{找等角}{$O$ 是 $BE$ 与 $CD$ 的交点，$\angle DOE=\angle BOC$（对顶角）。}
+\needspace{5\baselineskip}      \eduExplainStep{}{选判定}{把③的边比交叉相乘：$OD\cdot OC=OE\cdot OB$，即 $\dfrac{OD}{OB}=\dfrac{OE}{OC}$，夹角都是 $\angle O$，用 $\text{SAS}$。}
+\needspace{5\baselineskip}      \eduExplainStep{}{写格式}{在 $\triangle ODE$ 和 $\triangle OBC$ 中，\\
 $\because \angle DOE=\angle BOC$（对顶角）\\
-$\quad\dfrac{OD}{OB}=\dfrac{OE}{OC}$（由③）\\
-$\therefore \triangle ODE\sim\triangle OBC$（两边成比例且夹角相等）\\\needspace{5\baselineskip}$\therefore \angle ODE=\angle OBC,\ \angle OED=\angle OCB$（角相等）\\
-$\quad\dfrac{DE}{BC}=\dfrac{OD}{OB}=\dfrac{OE}{OC}$（边成比例）\\
-\textit{④ 的相似比与 ① 相同——$DE$ 在 $BC$ 上方，两线交于 $O$，正是``八''字。}  \end{eduExplainRight}
+$\quad\dfrac{OD}{OB}=\dfrac{OE}{OC}$（由③交叉相乘）\\
+$\therefore \triangle ODE\sim\triangle OBC$（两边成比例且夹角相等）
+}
+  \end{eduExplainRight}
 \end{eduDualExplain}
 
 
@@ -180,7 +155,7 @@ $\quad\dfrac{DE}{BC}=\dfrac{OD}{OB}=\dfrac{OE}{OC}$（边成比例）\\
 
 \begin{eduSummaryBlock}{\eduIconPin}{一图四相似速记}
 \begin{eduBulletList}
-  \item \textbf{公共角 $A$}$\;\to\;$① 反A形 $\triangle ADE\sim\triangle ACB$（AA）、② 共角换位 $\triangle ADC\sim\triangle AEB$（SAS）。  \item \textbf{对顶角 $O$}$\;\to\;$③ 蝶形 $\triangle ODB\sim\triangle OEC$（AA）、④ 8 字型 $\triangle ODE\sim\triangle OBC$（SAS）。  \item \textbf{链条}：①推出边比 $\to$ ②的 SAS 用；②推出角 $\to$ ③的 AA 用；③推出边比 $\to$ ④的 SAS 用。上一组推出的，正是下一组要用的。  \item \textbf{写结论}：用 $\text{AA}$ 证 $\to$ 推出\textbf{边成比例}；用 $\text{SAS}$ 证 $\to$ 推出\textbf{角相等}。\end{eduBulletList}
+  \item \textbf{公共角 $A$} $\;\to\;$ ① 反A形 $\triangle ADE\sim\triangle ACB$（AA）、② 共角换位 $\triangle ADC\sim\triangle AEB$（SAS）。  \item \textbf{对顶角 $O$} $\;\to\;$ ③ 蝶形 $\triangle ODB\sim\triangle OEC$（AA）、④ 8字型 $\triangle ODE\sim\triangle OBC$（SAS）。  \item \textbf{结论喂养链}：①推出的边比 $\to$ ②的 SAS 用；②推出的角 $\to$ ③的 AA 用；③推出的边比 $\to$ ④的 SAS 用。上一组推出的，正是下一组要用的。  \item \textbf{清点结论}：用 $\text{AA}$ 证 $\to$ 推出\textbf{边成比例}；用 $\text{SAS}$ 证 $\to$ 推出\textbf{角相等}。\end{eduBulletList}
 \end{eduSummaryBlock}
 
 

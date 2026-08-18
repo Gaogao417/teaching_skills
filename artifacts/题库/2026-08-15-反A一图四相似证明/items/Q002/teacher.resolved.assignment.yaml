@@ -1,0 +1,152 @@
+meta:
+  title: 反A一图四相似证明 · Q002 · 教师版
+  grade: 八年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    explanation: ../../2026-08-14-相似模型混合32题/02-student-explanation.resolved.assignment.yaml
+    structure_analysis: ../../2026-08-14-相似模型混合32题/01-structure-analysis.md
+    diagram_policy: 四题复用同一张已渲染 prompt 图；题图不泄露任何候选相似对
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: question
+  title: 专题题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q002
+    points: 10
+    label: 规划证明
+    stem_latex: '如图，在 $\triangle ABC$ 中，点 $D$、$E$ 分别在 $AB$、$AC$ 上，且 $\angle ADE=\angle ACB$。连接 $BE$、$CD$，相交于点 $O$。由第①问可知 $\triangle ADE\sim\triangle ACB$，且 $\dfrac{AD}{AC}=\dfrac{AE}{AB}$。求证：$\triangle ADC\sim\triangle AEB$，并说明 $\angle ADC$ 与 $\angle AEB$ 的关系。'
+    answer_space:
+      type: steps
+      height: 54mm
+      step_count: 6
+    answer: '$\triangle ADC\sim\triangle AEB$（两边成比例且夹角相等），且推出 $\angle ADC=\angle AEB$ 及 $\angle ACD=\angle ABE$。'
+    explanation: 第②问为反推规划：根据证明目标整理公共角与第①问的边比，选择 SAS，反推出所需比例并完成变形，最后写出相似结论及下一问需要的对应角。
+    solution_steps:
+    - id: q2-inventory
+      title: 整理已有条件
+      primitive: select
+      prompt_latex: '要证 $\triangle ADC\sim\triangle AEB$，现在手里有什么？'
+      coach_latex: '先读清证明目标，再整理能直接使用的条件：顶点 $A$ 处有公共角，第①问还给出了与 $A$ 相邻的边比。'
+      options:
+      - value: opt-inv-common-plus-ratio
+        label: '公共角 $\angle DAC=\angle EAB$，加上①已证的边比 $\dfrac{AD}{AC}=\dfrac{AE}{AB}$'
+      - value: opt-inv-common-only
+        label: '只有公共角 $\angle DAC=\angle EAB$'
+        diagnosis: '①刚推出一整条边比，不能丢；它正是这一问的原料。'
+      - value: opt-inv-vertical-plus-ratio
+        label: '对顶角加上①的边比'
+        diagnosis: '$\angle DAC$ 与 $\angle EAB$ 是同一个公共角 $A$，不是对顶角。'
+      - value: opt-inv-common-plus-angle
+        label: '公共角加上①中另一组对应角相等'
+        diagnosis: '第①问的另一组对应角不属于当前要证明的两个三角形，不能直接补成 AA；本问应利用题干给出的边比。'
+      accepted: opt-inv-common-plus-ratio
+      error_diagnosis: '当前可直接使用两个条件：公共角 $\angle DAC=\angle EAB$，以及第①问得到的 $\dfrac{AD}{AC}=\dfrac{AE}{AB}$。'
+      content_latex: '由第①问可知 $\dfrac{AD}{AC}=\dfrac{AE}{AB}$。'
+    - id: q2-route
+      title: 选路线：SAS
+      primitive: select
+      prompt_latex: '根据现有条件，哪条判定路线最合适？'
+      coach_latex: '比较几种判定路线：目前只有一组角，但已有与这个角相邻的边比可供变形，因此从两边及其夹角入手最直接。'
+      options:
+      - value: opt-route-sas
+        label: '$\text{SAS}$——夹角 $\angle A$ 已有，且①的边比可以加工'
+      - value: opt-route-aa
+        label: '$\text{AA}$——再找一对角'
+        diagnosis: '还缺一对角且暂无来源，先看手里的边比。'
+      - value: opt-route-sss
+        label: '$\text{SSS}$——需要三组边比'
+        diagnosis: '三组边比太远，不是当前的最短路线。'
+      accepted: opt-route-sas
+      error_diagnosis: '缺角且无来源，先看手里的边比：夹角 $\angle A$ 已有，边比可加工，SAS 最有希望。'
+      content_latex: '又因为点 $D$、$E$ 分别在 $AB$、$AC$ 上，所以 $\angle DAC=\angle EAB$。'
+    - id: q2-subgoal
+      title: 子目标：夹 $\angle A$ 的两边比
+      primitive: select
+      prompt_latex: '若使用两边成比例且夹角相等，还需要哪组比例？'
+      coach_latex: '从目标反推：先找出两个三角形中夹着 $\angle A$ 的两组边，再按对应顺序写出判定相似所需的比例。'
+      options:
+      - value: opt-subgoal-ad-ae-ac-ab
+        label: '$\dfrac{AD}{AE}=\dfrac{AC}{AB}$（夹 $\angle A$ 的两边）'
+      - value: opt-subgoal-first-form
+        label: '$\dfrac{AD}{AC}=\dfrac{AE}{AB}$（①的原式）'
+        diagnosis: '那是①里 $\triangle ADE$ 与 $\triangle ACB$ 的对应，不是本问夹 $\angle A$ 的两边。'
+      - value: opt-subgoal-misaligned
+        label: '$\dfrac{AD}{AB}=\dfrac{AE}{AC}$（错位配对）'
+        diagnosis: '这两条边不分别是两个三角形里夹 $\angle A$ 的对应边；本问的对应是 $D\leftrightarrow E$、$C\leftrightarrow B$。'
+      accepted: opt-subgoal-ad-ae-ac-ab
+      error_diagnosis: 'SAS 要的是夹 $\angle A$ 的两边成比例：$\triangle ADC$ 里是 $AD$、$AC$，$\triangle AEB$ 里是 $AE$、$AB$，即 $\dfrac{AD}{AE}=\dfrac{AC}{AB}$。'
+      content_latex: '由比例的基本性质，可将第①问的比例化为夹角 $A$ 两边的对应比例。'
+    - id: q2-derive
+      title: 加工：交换内项
+      primitive: select
+      prompt_latex: '①给的是 $\dfrac{AD}{AC}=\dfrac{AE}{AB}$，怎样加工成子目标？'
+      coach_latex: '第①问的比例不能原样套用。先交叉相乘得到乘积等式，再重新整理，就能化成当前两个三角形所需的对应边比例。'
+      options:
+      - value: opt-derive-cross-swap
+        label: '交叉相乘 $AD\cdot AB=AC\cdot AE$，再交换内项'
+      - value: opt-derive-substitute
+        label: '直接代入'
+        diagnosis: '两个比例式形状不同，直接代入对不上；要先做恒等变形。'
+      - value: opt-derive-reciprocal
+        label: '两边取倒数'
+        diagnosis: '取倒数得到 $\dfrac{AC}{AD}=\dfrac{AB}{AE}$，还不是子目标的形状。'
+      - value: opt-derive-subtract-one
+        label: '两边各减 $1$'
+        diagnosis: '减 $1$ 得到的是分比形式，与子目标无关。'
+      accepted: opt-derive-cross-swap
+      error_diagnosis: '标准加工：交叉相乘得 $AD\cdot AB=AC\cdot AE$，交换内项即得 $\dfrac{AD}{AE}=\dfrac{AC}{AB}$。'
+      content_latex: '由 $\dfrac{AD}{AC}=\dfrac{AE}{AB}$ 交叉相乘，得 $AD\cdot AB=AC\cdot AE$，从而 $\dfrac{AD}{AE}=\dfrac{AC}{AB}$。'
+    - id: q2-conclusion
+      title: 写格式
+      primitive: input
+      prompt_latex: '写出第②问的相似结论（注意顶点顺序）。'
+      placeholder: '写出相似结论（注意顶点顺序）'
+      answer_normalization: similarity-statement
+      coach_latex: '公共角确定 $A\leftrightarrow A$，夹角两边的比例确定 $D\leftrightarrow E$、$C\leftrightarrow B$；按这个顺序写出相似结论。'
+      accepted: '\triangle ADC\sim\triangle AEB'
+      error_diagnosis: '顶点顺序要体现 $D\leftrightarrow E$、$C\leftrightarrow B$ 的对应，写成 $\triangle ADC\sim\triangle AEB$。'
+      content_latex: '因此 $\triangle ADC\sim\triangle AEB$（两边成比例且夹角相等）。'
+    - id: q2-yield
+      title: 提取结论：对应角
+      primitive: select
+      prompt_latex: '证明这组三角形相似后，哪组对应角关系可以供下一问使用？'
+      coach_latex: '相似成立后，对应角相等、对应边成比例都成立。下一问需要点 $D$、$E$ 处的等角及其补角，所以这里提取 $\angle ADC=\angle AEB$。'
+      options:
+      - value: opt-yield-angle
+        label: '角相等 $\angle ADC=\angle AEB$（及 $\angle ACD=\angle ABE$）'
+      - value: opt-yield-ratio-o
+        label: '边成比例 $\dfrac{OD}{OE}=\dfrac{OB}{OC}$'
+        diagnosis: '线段 $OD$、$OE$、$OB$、$OC$ 不属于本问这两个三角形，这组比例要在第③问证明新的相似后才能得到。'
+      - value: opt-yield-perimeter
+        label: '周长比'
+        diagnosis: '周长比等于相似比，本题不涉及。'
+      accepted: opt-yield-angle
+      error_diagnosis: '相似三角形的对应角相等；下一问需要的是 $\angle ADC=\angle AEB$，不要选择尚未证明的 $O$ 点线段比例。'
+      content_latex: '由相似三角形的对应角相等，得 $\angle ADC=\angle AEB$，$\angle ACD=\angle ABE$。'
+    teaching:
+      teaching_goal: 反推规划：看目标盘条件、选 SAS 路线、反推子目标并加工①的边比补缺口
+      expected_blocker: 把①的边比原样代入，不按本问对应关系交换内项
+      fallback_move: 先写出 SAS 需要的夹边比例，再与①的结论逐项对照，找到要变形的缺口
+      subsegments: [AD, DB, AE, EC, OD, OC, OB, OE]
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../../../2026-08-14-相似模型混合32题/build/diagram/jobs/explanation-reverse-a-four-prompt/rendered/prompt.fragment.tex
+      diagram_ref: explanation.reverse-a-four.prompt
+      diagram_job_id: explanation-reverse-a-four-prompt
+      width: 60mm
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:055693ca6b37bb58f518206ff01fc3cbc1f8a44215382b6aab86a716dab8c58f
+      packages:
+      - tikz
+      libraries: []

@@ -1,0 +1,136 @@
+meta:
+  title: 反A一图四相似证明 · Q001 · 教师版
+  grade: 八年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    explanation: ../../2026-08-14-相似模型混合32题/02-student-explanation.resolved.assignment.yaml
+    structure_analysis: ../../2026-08-14-相似模型混合32题/01-structure-analysis.md
+    diagram_policy: 四题复用同一张已渲染 prompt 图；题图不泄露任何候选相似对（发现式）
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: question
+  title: 专题题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q001
+    points: 10
+    label: 发现相似对
+    stem_latex: '如图，在 $\triangle ABC$ 中，点 $D$、$E$ 分别在 $AB$、$AC$ 上，且 $\angle ADE=\angle ACB$。连接 $BE$、$CD$，相交于点 $O$。观察分别以 $\angle ADE$ 和 $\angle ACB$ 为内角的两个三角形，找出一组可能相似的三角形，写出猜想并证明，再写出由这组相似得到的对应边比例。'
+    answer_space:
+      type: steps
+      height: 54mm
+      step_count: 5
+    answer: '$\triangle ADE\sim\triangle ACB$（两角分别相等），且推出 $\dfrac{AD}{AC}=\dfrac{AE}{AB}=\dfrac{DE}{CB}$。'
+    explanation: 第①问为正推发现：从已知等角锁定候选三角形，补出公共角，识别反A形相似，用 AA 验证并提取下一问需要的对应边比例。
+    solution_steps:
+    - id: q1-scan
+      title: 扫图：找等角特征
+      primitive: select
+      prompt_latex: '除已知的 $\angle ADE=\angle ACB$ 外，图中还有什么等角特征？'
+      coach_latex: '先从已知的 $\angle ADE=\angle ACB$ 出发，找出分别含有这两个角的三角形，再检查它们是否还共有一组相等的角。'
+      options:
+      - value: opt-scan-common-angle
+        label: '公共角 $\angle DAE=\angle CAB$（$A$ 为两个三角形共享的顶点）'
+      - value: opt-scan-vertical
+        label: '对顶角 $\angle DOB=\angle EOC$'
+        diagnosis: '对顶角在 $O$ 点确实存在，但这一步先看 $\angle ADE$、$\angle ACB$ 所在的两个三角形直接共享什么角。'
+      - value: opt-scan-aed-abc
+        label: '$\angle AED=\angle ABC$'
+        diagnosis: '这组角相等未必成立，不能当作图中的等角特征。'
+      - value: opt-scan-parallel
+        label: '由平行线导出等角'
+        diagnosis: '图中没有平行线，也没有作辅助线，导不出等角。'
+      accepted: opt-scan-common-angle
+      error_diagnosis: '再扫一次图：$\angle ADE$ 与 $\angle ACB$ 所在的两个三角形共享顶点 $A$，先看公共角。'
+      content_latex: '因为点 $D$、$E$ 分别在 $AB$、$AC$ 上，所以 $\angle DAE=\angle CAB$。'
+    - id: q1-hypothesis
+      title: 猜想：反A形相似
+      primitive: select
+      prompt_latex: '两组角相等——这是反A构型，哪两个三角形可能相似？'
+      coach_latex: '已知等角把候选范围缩小到两个三角形；再加上顶点 $A$ 处的公共角，就可以提出这两个三角形相似的猜想。'
+      options:
+      - value: opt-hyp-reverse-a
+        label: '反A形：$\triangle ADE$ 与 $\triangle ACB$'
+      - value: opt-hyp-sequential
+        label: '顺排：$\triangle ADE$ 与 $\triangle ABC$'
+        diagnosis: '$\angle ADE$ 对应的是 $\angle ACB$，不是 $\angle ABC$——按等角配顶点，不按图上位置顺排。'
+      - value: opt-hyp-ade-abe
+        label: '$\triangle ADE$ 与 $\triangle ABE$'
+        diagnosis: '$\triangle ABE$ 不是由这两对等角围出的三角形；先锁定等角所在的四个顶点 $A$、$D$、$E$ 与 $A$、$C$、$B$。'
+      - value: opt-hyp-butterfly-mix
+        label: '$O$ 点处的蝶形组合'
+        diagnosis: '$O$ 点的组合要等后面的等角和边比才能处理；第①问先看 $\angle ADE=\angle ACB$ 直接涉及的两个三角形。'
+      accepted: opt-hyp-reverse-a
+      error_diagnosis: '按等角配顶点：$\angle ADE$ 对应 $\angle ACB$，公共角对应公共角——是交叉对应，不是顺排。'
+      content_latex: '又因为 $\angle ADE=\angle ACB$，所以在 $\triangle ADE$ 与 $\triangle ACB$ 中已有两组对应角分别相等。'
+    - id: q1-route
+      title: 验证路线：选判定
+      primitive: select
+      prompt_latex: '这个猜想用哪条判定验证？'
+      coach_latex: '现在已经找到两组对应角分别相等，正好符合两角判定相似；这里不需要再寻找边长或边比。'
+      options:
+      - value: opt-route-aa
+        label: '$\text{AA}$——两角分别相等，已经凑齐'
+      - value: opt-route-sas
+        label: '$\text{SAS}$——还缺边比'
+        diagnosis: '现在手里只有两对角，没有现成的边比；先用能直接用的判定。'
+      - value: opt-route-sss
+        label: '$\text{SSS}$——需要三组边比，太远'
+        diagnosis: '三组边比都要再算，不是当前最短路线。'
+      accepted: opt-route-aa
+      error_diagnosis: '已有公共角与已知等角，两角分别相等恰好凑齐 AA 的条件。'
+      content_latex: '上述两组等角确定的顶点对应关系为 $A\leftrightarrow A$、$D\leftrightarrow C$、$E\leftrightarrow B$。'
+    - id: q1-conclusion
+      title: 命名发现
+      primitive: input
+      prompt_latex: '写出你发现的相似结论（注意顶点顺序）。'
+      placeholder: '写出你发现的相似结论（注意顶点顺序）'
+      answer_normalization: similarity-statement
+      coach_latex: '写相似式时要按等角确定顶点顺序：公共角对应 $A\leftrightarrow A$，已知等角对应 $D\leftrightarrow C$，剩下 $E\leftrightarrow B$。'
+      accepted: '\triangle ADE\sim\triangle ACB'
+      error_diagnosis: '顶点顺序要体现对应关系：$\angle ADE=\angle ACB$ 锁定 $D\leftrightarrow C$，公共角锁定 $A\leftrightarrow A$，于是 $E\leftrightarrow B$。'
+      content_latex: '因此 $\triangle ADE\sim\triangle ACB$（两角分别相等）。'
+    - id: q1-yield
+      title: 提取结论：对应边比例
+      primitive: select
+      prompt_latex: '证明这组三角形相似后，哪组对应边比例可以供下一问使用？'
+      coach_latex: '相似成立后，对应角相等、对应边成比例都成立。下一问需要边比，所以这里按相似式的顶点顺序写出对应边比例。'
+      options:
+      - value: opt-yield-ratio
+        label: '边成比例 $\dfrac{AD}{AC}=\dfrac{AE}{AB}=\dfrac{DE}{CB}$'
+      - value: opt-yield-angle
+        label: '角相等 $\angle ADC=\angle AEB$'
+        diagnosis: '$\angle ADC$ 与 $\angle AEB$ 不是这组相似三角形的对应角，不能由本问的相似结论直接得到。'
+      - value: opt-yield-area
+        label: '面积比'
+        diagnosis: '面积比要用相似比的平方，且本题不涉及面积。'
+      accepted: opt-yield-ratio
+      error_diagnosis: '相似三角形既有对应角相等，也有对应边成比例；本题此处要求的是供下一问使用的对应边比例。'
+      content_latex: '由相似三角形的对应边成比例，得 $\dfrac{AD}{AC}=\dfrac{AE}{AB}=\dfrac{DE}{CB}$。'
+    teaching:
+      teaching_goal: 正推发现：从已知等角锁定候选三角形，找到公共角，猜出反A形相似并用 AA 证明，提取对应边比例
+      expected_blocker: 按图上位置顺排顶点，不按等角顶点的对应关系排顶点序
+      fallback_move: 先把两对等角的顶点一一配对，再按配对结果写顶点序
+      discovery_question: true
+      subsegments: [AD, DB, AE, EC, OD, OC, OB, OE]
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../../../2026-08-14-相似模型混合32题/build/diagram/jobs/explanation-reverse-a-four-prompt/rendered/prompt.fragment.tex
+      diagram_ref: explanation.reverse-a-four.prompt
+      diagram_job_id: explanation-reverse-a-four-prompt
+      width: 60mm
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:055693ca6b37bb58f518206ff01fc3cbc1f8a44215382b6aab86a716dab8c58f
+      packages:
+      - tikz
+      libraries: []

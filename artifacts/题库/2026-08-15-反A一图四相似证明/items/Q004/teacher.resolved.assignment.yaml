@@ -1,0 +1,152 @@
+meta:
+  title: 反A一图四相似证明 · Q004 · 教师版
+  grade: 八年级
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    explanation: ../../2026-08-14-相似模型混合32题/02-student-explanation.resolved.assignment.yaml
+    structure_analysis: ../../2026-08-14-相似模型混合32题/01-structure-analysis.md
+    diagram_policy: 四题复用同一张已渲染 prompt 图；题图不泄露任何候选相似对
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: after_page_break
+sections:
+- id: question
+  title: 专题题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q004
+    points: 10
+    label: 规划证明
+    stem_latex: '如图，在 $\triangle ABC$ 中，点 $D$、$E$ 分别在 $AB$、$AC$ 上，且 $\angle ADE=\angle ACB$。连接 $BE$、$CD$，相交于点 $O$。由第③问可知 $\triangle ODB\sim\triangle OEC$，且 $\dfrac{OD}{OE}=\dfrac{OB}{OC}$。求证：$\triangle ODE\sim\triangle OBC$，并写出由这组相似得到的两组对应角相等关系。'
+    answer_space:
+      type: steps
+      height: 54mm
+      step_count: 6
+    answer: '$\triangle ODE\sim\triangle OBC$（两边成比例且夹角相等），且推出 $\angle ODE=\angle OBC$、$\angle OED=\angle OCB$。'
+    explanation: 第④问为反推规划：目标 8 字型，盘点对顶角与③的边比，选 SAS，反推夹 ∠O 两边比，交叉相乘交换内项补缺口，写格式并收束全题速记。
+    solution_steps:
+    - id: q4-inventory
+      title: 整理已有条件
+      primitive: select
+      prompt_latex: '要证 $\triangle ODE\sim\triangle OBC$，现在手里有什么？'
+      coach_latex: '先整理与证明目标直接相关的条件：点 $O$ 处有一组对顶角，第③问还给出了点 $O$ 两侧的边比。'
+      options:
+      - value: opt-inv-vertical-plus-ratio
+        label: '对顶角 $\angle DOE=\angle BOC$，加上③已证的边比 $\dfrac{OD}{OE}=\dfrac{OB}{OC}$'
+      - value: opt-inv-vertical-only
+        label: '只有对顶角 $\angle DOE=\angle BOC$'
+        diagnosis: '③刚推出的边比不能丢；它是这一问的原料。'
+      - value: opt-inv-common-plus-ratio-o
+        label: '公共角加上③的边比'
+        diagnosis: '这两个三角形不共享公共顶点角；$O$ 点给的是对顶角。'
+      - value: opt-inv-vertical-plus-angle
+        label: '对顶角加上③中另一组对应角相等'
+        diagnosis: '第③问的另一组对应角不属于当前要证明的两个三角形，不能直接补成 AA；本问应利用题干给出的边比。'
+      accepted: opt-inv-vertical-plus-ratio
+      error_diagnosis: '当前可直接使用两个条件：对顶角 $\angle DOE=\angle BOC$，以及第③问得到的 $\dfrac{OD}{OE}=\dfrac{OB}{OC}$。'
+      content_latex: '因为 $BE$ 与 $CD$ 交于点 $O$，所以 $\angle DOE=\angle BOC$（对顶角）。'
+    - id: q4-route
+      title: 选路线：SAS
+      primitive: select
+      prompt_latex: '根据现有条件，哪条判定路线最合适？'
+      coach_latex: '这里和第②问的规划方式相同：夹角 $\angle O$ 已知，现有边比又能够变形成夹角两边的对应比例，因此从两边及其夹角入手。'
+      options:
+      - value: opt-route-sas
+        label: '$\text{SAS}$——夹角 $\angle O$ 已有，且③的边比可以加工'
+      - value: opt-route-aa-o
+        label: '$\text{AA}$——再找一对角'
+        diagnosis: '还缺一对角且无来源，先看手里的边比。'
+      - value: opt-route-sss-o
+        label: '$\text{SSS}$——需要三组边比'
+        diagnosis: '太远，不是当前的最短路线。'
+      accepted: opt-route-sas
+      error_diagnosis: '缺角且无来源；夹角 $\angle O$ 已有、③的边比可加工，SAS 最有希望。'
+      content_latex: '由第③问可知 $\dfrac{OD}{OE}=\dfrac{OB}{OC}$。'
+    - id: q4-subgoal
+      title: 子目标：夹 $\angle O$ 的两边比
+      primitive: select
+      prompt_latex: '若使用两边成比例且夹角相等，还需要哪组比例？'
+      coach_latex: '从目标反推：分别找出两个三角形中夹着 $\angle O$ 的两组边，再按对应顺序写出判定相似所需的比例。'
+      options:
+      - value: opt-subgoal-od-ob-oe-oc
+        label: '$\dfrac{OD}{OB}=\dfrac{OE}{OC}$（夹 $\angle O$ 的两边）'
+      - value: opt-subgoal-third-form
+        label: '$\dfrac{OD}{OE}=\dfrac{OB}{OC}$（③的原式）'
+        diagnosis: '那是③里 $\triangle ODB$ 与 $\triangle OEC$ 的对应，不是本问夹 $\angle O$ 的两边。'
+      - value: opt-subgoal-misaligned-o
+        label: '$\dfrac{OD}{OC}=\dfrac{OE}{OB}$（错位配对）'
+        diagnosis: '这两条边不分别是两个三角形里夹 $\angle O$ 的对应边；本问的对应是 $D\leftrightarrow B$、$E\leftrightarrow C$。'
+      accepted: opt-subgoal-od-ob-oe-oc
+      error_diagnosis: 'SAS 要的是夹 $\angle O$ 的两边成比例：$\triangle ODE$ 里是 $OD$、$OE$，$\triangle OBC$ 里是 $OB$、$OC$，即 $\dfrac{OD}{OB}=\dfrac{OE}{OC}$。'
+      content_latex: '由比例的基本性质，可将第③问的比例化为夹角 $O$ 两边的对应比例。'
+    - id: q4-derive
+      title: 加工：交换内项
+      primitive: select
+      prompt_latex: '③给的是 $\dfrac{OD}{OE}=\dfrac{OB}{OC}$，怎样加工成子目标？'
+      coach_latex: '第③问的比例顺序与当前目标不同。先交叉相乘得到乘积等式，再重新整理，就能得到当前需要的对应边比例。'
+      options:
+      - value: opt-derive-cross-swap
+        label: '交叉相乘 $OD\cdot OC=OB\cdot OE$，再交换内项'
+      - value: opt-derive-substitute-o
+        label: '直接代入'
+        diagnosis: '两个比例式形状不同，直接代入对不上；要先做恒等变形。'
+      - value: opt-derive-reciprocal-o
+        label: '两边取倒数'
+        diagnosis: '取倒数得到的还是③的形状，不是子目标。'
+      - value: opt-derive-subtract-one-o
+        label: '两边各减 $1$'
+        diagnosis: '得到的是分比形式，与子目标无关。'
+      accepted: opt-derive-cross-swap
+      error_diagnosis: '标准加工：交叉相乘得 $OD\cdot OC=OB\cdot OE$，交换内项即得 $\dfrac{OD}{OB}=\dfrac{OE}{OC}$。'
+      content_latex: '由 $\dfrac{OD}{OE}=\dfrac{OB}{OC}$ 交叉相乘，得 $OD\cdot OC=OB\cdot OE$，从而 $\dfrac{OD}{OB}=\dfrac{OE}{OC}$。'
+    - id: q4-conclusion
+      title: 写格式
+      primitive: input
+      prompt_latex: '写出第④问的相似结论（注意顶点顺序）。'
+      placeholder: '写出相似结论（注意顶点顺序）'
+      answer_normalization: similarity-statement
+      coach_latex: '对顶角确定 $O\leftrightarrow O$，夹角两边的比例确定 $D\leftrightarrow B$、$E\leftrightarrow C$；按这个顺序写出相似结论。'
+      accepted: '\triangle ODE\sim\triangle OBC'
+      error_diagnosis: '顶点顺序要体现 $O\leftrightarrow O$、$D\leftrightarrow B$、$E\leftrightarrow C$ 的对应，写成 $\triangle ODE\sim\triangle OBC$。'
+      content_latex: '因此 $\triangle ODE\sim\triangle OBC$（两边成比例且夹角相等）。'
+    - id: q4-yield
+      title: 写出结论：对应角
+      primitive: select
+      prompt_latex: '证明这组三角形相似后，题目要求的两组对应角相等关系是什么？'
+      coach_latex: '相似成立后，对应角相等、对应边成比例都成立。题目要求写对应角，因此按照相似式的顶点顺序，可得到点 $D$ 与点 $B$、点 $E$ 与点 $C$ 处的对应角分别相等。'
+      options:
+      - value: opt-yield-angle-pair
+        label: '角相等 $\angle ODE=\angle OBC$、$\angle OED=\angle OCB$'
+      - value: opt-yield-ratio-final
+        label: '边成比例'
+        diagnosis: '对应边成比例也是相似三角形的性质，但题目明确要求写出两组对应角相等关系。'
+      - value: opt-yield-perimeter-final
+        label: '周长比'
+        diagnosis: '本题不涉及周长。'
+      accepted: opt-yield-angle-pair
+      error_diagnosis: '按相似式 $\triangle ODE\sim\triangle OBC$ 的顶点顺序，对应角为 $\angle ODE=\angle OBC$、$\angle OED=\angle OCB$。'
+      content_latex: '由相似三角形的对应角相等，得 $\angle ODE=\angle OBC$，$\angle OED=\angle OCB$。'
+    teaching:
+      teaching_goal: 反推规划：目标8字型，盘对顶角与③的边比、选 SAS、反推子目标并加工补缺口，收束全题
+      expected_blocker: 把③的边比原样代入，不按8字型对应交换内项
+      fallback_move: 先写出 SAS 需要的夹 $\angle O$ 两边比例，再与③的结论逐项对照，找到要变形的缺口
+      subsegments: [AD, DB, AE, EC, OD, OC, OB, OE]
+    diagram_col:
+      kind: tikz
+      tikz_code: ''
+      tikz_path: ../../../../2026-08-14-相似模型混合32题/build/diagram/jobs/explanation-reverse-a-four-prompt/rendered/prompt.fragment.tex
+      diagram_ref: explanation.reverse-a-four.prompt
+      diagram_job_id: explanation-reverse-a-four-prompt
+      width: 60mm
+      variant: prompt
+      disclosure_policy: clean
+      artifact_hash: sha256:055693ca6b37bb58f518206ff01fc3cbc1f8a44215382b6aab86a716dab8c58f
+      packages:
+      - tikz
+      libraries: []
