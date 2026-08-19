@@ -387,6 +387,7 @@ def run(
     final_review_mode: str = "human",
     max_resume_rounds: int = 6,
     answer_source: str | None = None,
+    transcribe_timeout_s: float = 300.0,
 ) -> str:
     if final_review_mode not in {"human", "auto"}:
         raise ValueError("final_review_mode must be 'human' or 'auto'")
@@ -398,6 +399,7 @@ def run(
         page_text_overrides_path=(
             overrides_path if overrides_path.is_file() else None
         ),
+        claude_code_timeout_s=transcribe_timeout_s,
     )
     layout = build_run_layout(_build_root(), paper_id, run_id)
     deps = bind(config, layout, mode="live")
@@ -535,6 +537,7 @@ def resume(
     run_id: str,
     agent_host: str = "claude-code",
     page_provider: str = "qwen",
+    transcribe_timeout_s: float = 300.0,
 ) -> str:
     """Resume one persisted final-review interrupt and run the approved audit.
 
@@ -554,6 +557,7 @@ def resume(
         page_text_overrides_path=(
             overrides_path if overrides_path and overrides_path.is_file() else None
         ),
+        claude_code_timeout_s=transcribe_timeout_s,
     )
     deps = bind(config, layout, mode="live")
     checkpointer = make_sqlite_checkpointer(checkpoint_path)
@@ -638,6 +642,12 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--agent-host", default="claude-code", choices=["opencode", "claude-code"])
     p.add_argument("--page-provider", default="qwen", choices=["qwen", "mimo"])
     p.add_argument(
+        "--transcribe-timeout-s",
+        type=float,
+        default=300.0,
+        help="整卷转录 agent 的单次执行超时(秒);模型慢时调大,如 600",
+    )
+    p.add_argument(
         "--final-review-mode",
         default="human",
         choices=["human", "auto"],
@@ -657,6 +667,7 @@ def main(argv: list[str] | None = None) -> int:
             run_id=args.resume_run_id,
             agent_host=args.agent_host,
             page_provider=args.page_provider,
+            transcribe_timeout_s=args.transcribe_timeout_s,
         )
     else:
         if not args.source or not args.source_kind:
@@ -671,6 +682,7 @@ def main(argv: list[str] | None = None) -> int:
             answer_source=(
                 str(Path(args.answer_source).resolve()) if args.answer_source else None
             ),
+            transcribe_timeout_s=args.transcribe_timeout_s,
         )
     print(run_id)
     return 0
