@@ -492,13 +492,16 @@ def build_candidate_export(
     parser_provenance: dict[str, Any],
     pack_map: dict[str, str],
     ledger_path: Path | None = None,
+    only_source_keys: set[str] | None = None,
 ) -> dict[str, Any]:
     """Build the canonical SourceEvidence + QuestionCandidate payloads.
 
     Returns ``{paper_id, items: [{source_key, se_payloads, qc_payload}]}``.
     Every payload is validated with the vendored ``ai_teaching_contracts``
     adapter before it is returned; a staging that cannot produce schema-valid
-    canonical payloads fails closed.
+    canonical payloads fails closed. ``only_source_keys`` restricts the export
+    to the given ledger source keys (ADR-005 v2 重迁移：只 re-promote 指定题，
+    其余 v1 存量保持不动).
     """
     staging_dir = Path(staging_dir).resolve()
     paper_payload = _load_yaml(staging_dir / "paper.yaml")
@@ -522,6 +525,8 @@ def build_candidate_export(
             continue
         item_source = _load_yaml(item_dir / "source.yaml")
         source_key = str(item_source.get("source_key"))
+        if only_source_keys is not None and source_key not in only_source_keys:
+            continue
         teacher = _load_yaml(item_dir / "teacher.resolved.assignment.yaml")
         block = _practice_block(teacher)
         allocation = ledger.allocation_for(source_key) or ledger.allocate(

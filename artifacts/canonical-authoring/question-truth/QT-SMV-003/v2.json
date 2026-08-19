@@ -1,0 +1,61 @@
+{
+  "approval": {
+    "approved_at": "2026-08-19T13:52:04.475898+00:00",
+    "edits_applied": true,
+    "review_note": null,
+    "reviewer_id": "question-bank-review-ui"
+  },
+  "artifact_id": "QT-SMV-003",
+  "artifact_uri": "artifact://question-truth/QT-SMV-003@v2",
+  "content_hash": "sha256:4308ade0fa955f2a35eba38cb004950325d0c9335765660e676ec5a3ca9e0684",
+  "origin_candidate_id": "QC-SMV-025",
+  "question_type": "solution",
+  "schema": "ai_teaching_question_truth/v2",
+  "source_evidence_refs": [
+    {
+      "artifact_uri": "artifact://source-evidence/SE-SMV-053",
+      "evidence_id": "SE-SMV-053"
+    },
+    {
+      "artifact_uri": "artifact://source-evidence/SE-SMV-054",
+      "evidence_id": "SE-SMV-054"
+    },
+    {
+      "artifact_uri": "artifact://source-evidence/SE-SMV-055",
+      "evidence_id": "SE-SMV-055"
+    }
+  ],
+  "status": "Approved",
+  "stem": "已知：如图，在 Rt$\\triangle ABC$ 和 Rt$\\triangle ACD$ 中，$AC = BC$，$\\angle ACB = 90^\\circ$，$\\angle ADC = 90^\\circ$，$CD = 2$（点 $A$、$B$ 分别在直线 $CD$ 的两侧），射线 $CD$ 交边 $AB$ 于点 $E$，点 $G$ 是 Rt$\\triangle ABC$ 的重心，射线 $CG$ 交边 $AB$ 于点 $F$，$AD = x$，$CE = y$",
+  "subquestions": [
+    {
+      "canonical_answer": {
+        "kind": "expression",
+        "value": "$\\angle DAB = \\angle DCF$ 得证（见解答）"
+      },
+      "part_id": "1",
+      "prompt": "求证：$\\angle DAB = \\angle DCF$；",
+      "reviewed_solution": "证明：$\\because$ 点 $G$ 是 Rt$\\triangle ABC$ 的重心，$\\therefore CF$ 是 Rt$\\triangle ABC$ 的中线；又 在 Rt$\\triangle ABC$ 中，$AC = BC$，$\\angle ACB = 90^\\circ$，$\\therefore CF \\perp AB$，即 $\\angle AFC = 90^\\circ$\n$\\because \\angle DEF = \\angle ADE + \\angle DAE = \\angle EFC + \\angle ECF$，且 $\\angle ADE = \\angle EFC = 90^\\circ$，$\\therefore \\angle DAB = \\angle DCF$"
+    },
+    {
+      "canonical_answer": {
+        "kind": "expression",
+        "range_constraint": "0 < x \\leq 2",
+        "value": "$y = \\frac{x^{2} + 4}{x + 2}$"
+      },
+      "part_id": "2",
+      "prompt": "当点 $E$ 在边 $CD$ 上时，求 $y$ 关于 $x$ 的函数关系式，并写出 $x$ 的取值范围；",
+      "reviewed_solution": "过点 $B$ 作 $BH \\perp CD$ 于点 $H$，可证 $\\triangle CAD \\cong \\triangle BCH$，$\\therefore BH = CD = 2$，$CH = AD = x$，$DH = 2 - x$\n可证 $AD \\parallel BH$，$\\frac{AD}{BH} = \\frac{DE}{EH}$，即 $\\frac{x}{2} = \\frac{DE}{EH}$，$\\therefore \\frac{x + 2}{2} = \\frac{DE + EH}{EH} = \\frac{DH}{EH}$，$EH = \\frac{4 - 2x}{x + 2}$\n$y = CE = CH + HE = x + \\frac{4 - 2x}{x + 2} = \\frac{x^{2} + 4}{x + 2}$（$0 < x \\leq 2$）"
+    },
+    {
+      "canonical_answer": {
+        "kind": "expression",
+        "value": "$AD = 1$ 或 $\\sqrt{14}$"
+      },
+      "part_id": "3",
+      "prompt": "如果 $\\triangle CDG$ 是以 $CG$ 为腰的等腰三角形，试求 $AD$ 的长。",
+      "reviewed_solution": "当 $GC = GD$ 时，如图 1：取 $AC$ 的中点 $M$，联结 $MD$，那么 $MD = MC$；联结 $MG$，$MG \\perp CD$，且直线 $MG$ 经过点 $B$，那么 $BH$ 与 $MG$ 共线；又 $CH = AD$，那么 $AD = CH = 1$\n当 $CG = CD$ 时，如图 2，即 $CG = 2$；点 $G$ 为 $\\triangle ABC$ 的重心，$CF = \\frac{3}{2}CG = 3$，$AC = \\frac{\\sqrt{2}}{2}AB = 3\\sqrt{2}$，$AD = \\sqrt{AC^{2} - CD^{2}} = \\sqrt{18 - 4} = \\sqrt{14}$\n综上所述，$AD = 1$ 或 $\\sqrt{14}$"
+    }
+  ],
+  "version": "v2"
+}

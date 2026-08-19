@@ -1,0 +1,51 @@
+{
+  "approval": {
+    "approved_at": "2026-08-19T13:55:12.437945+00:00",
+    "edits_applied": true,
+    "review_note": null,
+    "reviewer_id": "question-bank-review-ui"
+  },
+  "artifact_id": "QT-SMV-048",
+  "artifact_uri": "artifact://question-truth/QT-SMV-048@v2",
+  "content_hash": "sha256:c6c6f51a1bd67c72f97b707c0068a72069491e9c00b2798f8a2f459550f9e84c",
+  "origin_candidate_id": "QC-SMV-045",
+  "question_type": "solution",
+  "schema": "ai_teaching_question_truth/v2",
+  "source_evidence_refs": [
+    {
+      "artifact_uri": "artifact://source-evidence/SE-SMV-094",
+      "evidence_id": "SE-SMV-094"
+    },
+    {
+      "artifact_uri": "artifact://source-evidence/SE-SMV-095",
+      "evidence_id": "SE-SMV-095"
+    },
+    {
+      "artifact_uri": "artifact://source-evidence/SE-SMV-096",
+      "evidence_id": "SE-SMV-096"
+    }
+  ],
+  "status": "Approved",
+  "stem": "如图，在四边形 $ABCD$ 中，$AD\\parallel BC$，$AD=4$，$BC=5$，对角线 $AC$、$BD$ 交于点 $E$",
+  "subquestions": [
+    {
+      "canonical_answer": {
+        "kind": "expression",
+        "value": "$\\overrightarrow{AE}=\\frac{4}{5}\\vec{a}-\\frac{4}{9}\\vec{b}$"
+      },
+      "part_id": "1",
+      "prompt": "设 $\\overrightarrow{BC}=\\vec{a}$，$\\overrightarrow{BD}=\\vec{b}$，试用 $\\vec{a}$、$\\vec{b}$ 的线性组合表示向量 $\\overrightarrow{AE}$；",
+      "reviewed_solution": "∵ $AD\\parallel BC$，∴ $\\frac{AD}{BC}=\\frac{ED}{BE}$；∵ $AD=4$，$BC=5$，∴ $\\frac{ED}{BE}=\\frac{4}{5}$，$ED=\\frac{4}{9}BD$ .\n∵ $\\overrightarrow{BC}=\\vec{a}$，$\\overrightarrow{BD}=\\vec{b}$，∴ $\\overrightarrow{AD}=\\frac{4}{5}\\vec{a}$，$\\overrightarrow{ED}=\\frac{4}{9}\\vec{b}$ .\n∵ $\\overrightarrow{AE}=\\overrightarrow{AD}-\\overrightarrow{ED}$，∴ $\\overrightarrow{AE}=\\frac{4}{5}\\vec{a}-\\frac{4}{9}\\vec{b}$"
+    },
+    {
+      "canonical_answer": {
+        "kind": "expression",
+        "value": "$\\sin\\angle ABC=\\frac{2\\sqrt{5}}{5}$"
+      },
+      "part_id": "2",
+      "prompt": "已知 $AD\\perp CD$，$\\tan\\angle DAC=\\frac{1}{2}$，求 $\\sin\\angle ABC$ 的值 .",
+      "reviewed_solution": "方法一：过点 $A$ 作 $AF\\perp BC$，垂足为点 $F$ . 在 Rt $\\triangle ADC$ 中，$AD\\perp CD$，$AD=4$，$\\tan\\angle DAC=\\frac{1}{2}$，∴ $CD=2$ .\n∵ $AD\\parallel BC$，∴ $\\angle FAD=90^{\\circ}$，又 $AD\\perp CD$，∴ 四边形 $ADCF$ 是矩形 .\n∴ $AF=CD=2$，$AD=FC=4$；∵ $BC=5$，∴ $BF=1$，∴ $AB=\\sqrt{5}$ .\n∴ $\\sin\\angle ABC=\\frac{AF}{AB}=\\frac{2}{\\sqrt{5}}=\\frac{2\\sqrt{5}}{5}$ .\n方法二：∵ $AD\\perp CD$，$\\tan\\angle DAC=\\frac{1}{2}$，∴ $\\tan\\angle DAC=\\frac{CD}{AD}=\\frac{1}{2}$；∵ $AD=4$，∴ $CD=2$ .\n∵ $AC=\\sqrt{CD^{2}+AD^{2}}$，∴ $AC=2\\sqrt{5}$ .\n∵ $AD\\parallel BC$，∴ $\\angle DAC=\\angle ACB$，$\\frac{AD}{AC}=\\frac{AC}{BC}=\\frac{2}{\\sqrt{5}}$，∴ $\\triangle DAC\\sim\\triangle ACB$ .\n∴ $\\angle BAC=\\angle D=90^{\\circ}$，∴ $\\sin\\angle ABC=\\frac{AC}{BC}=\\frac{2\\sqrt{5}}{5}$"
+    }
+  ],
+  "version": "v2"
+}
