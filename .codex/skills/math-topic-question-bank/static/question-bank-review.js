@@ -826,15 +826,19 @@ function hideTextEditPanel() {
 // 小问拆分：与讲解面板（explanations）同源的显示级派生——从题干/答案文本
 // 里的（1）（2）标记切段。仅用于编辑 UI 的分段展示，保存时拼回整题字段，
 // 不改变底层存储（P2-03 小问文本编辑的 UI 层实现）。
+// 切片保留原文（不 trim、保留原标记符全/半角形态），保证"未改动即逐字节
+// 往返"——否则组装结果与原文出现假差异，保存时会把没改过的题误判为已编辑。
 function splitSubquestions(text) {
-  const markers = [...String(text || "").matchAll(/[（(]([1-9])[）)]/g)];
+  const value = String(text || "");
+  const markers = [...value.matchAll(/[（(]([1-9])[）)]/g)];
   if (markers.length < 2) return null;
-  const head = String(text).slice(0, markers[0].index).trim();
+  const head = value.slice(0, markers[0].index);
   const parts = markers.map((match, index) => {
-    const end = index + 1 < markers.length ? markers[index + 1].index : String(text).length;
+    const end = index + 1 < markers.length ? markers[index + 1].index : value.length;
     return {
       id: match[1],
-      text: String(text).slice(match.index + match[0].length, end).trim(),
+      marker: match[0],
+      text: value.slice(match.index + match[0].length, end),
     };
   });
   const ids = parts.map((part) => part.id);
@@ -843,10 +847,35 @@ function splitSubquestions(text) {
 }
 
 function assembleSubquestionText(head, parts) {
-  const body = parts
-    .map((part, index) => `（${index + 1}）${part}`)
-    .join("");
-  return head ? `${head}${body}` : body;
+  return head + parts.map((part) => `${part.marker}${part.text}`).join("");
+}
+
+// 二级小问：第(N)问内部的 ①② 分支（上海卷常见："…两次平移…① 求…；② 求…"）。
+// 同样只是显示级拆分，拼回时保持原文顺序与标记。
+const CIRCLED = "①②③④⑤⑥⑦⑧⑨⑩";
+
+function splitCircledParts(text) {
+  const value = String(text || "");
+  const indices = [...CIRCLED]
+    .map((glyph) => value.indexOf(glyph))
+    .filter((position) => position >= 0);
+  if (indices.length < 2) return null;
+  indices.sort((a, b) => a - b);
+  const prefix = value.slice(0, indices[0]);
+  const parts = indices.map((start, index) => {
+    const end = index + 1 < indices.length ? indices[index + 1] : value.length;
+    return {
+      glyph: value[start],
+      text: value.slice(start + 1, end),
+    };
+  });
+  return { prefix, parts };
+}
+
+function assembleCircledParts(prefix, partTexts, glyphs) {
+  return (
+    prefix + partTexts.map((text, index) => `${glyphs[index]}${text}`).join("")
+  );
 }
 
 function renderSegmentedEdit(item) {
@@ -854,16 +883,21 @@ function renderSegmentedEdit(item) {
   const answerParts = splitSubquestions(item.answer || "");
   const container = byId("edit-parts");
   container.replaceChildren();
+  const promptInputs = [];
+  const answerInputs = [];
   // 无小问标记 → 整题文本框（此前的形态）。
   if (!stemParts) {
-    byId("edit-stem").hidden = false;
-    byId("edit-answer").hidden = false;
+    byId("edit-stem-field").hidden = false;
+    byId("edit-answer-field").hidden = false;
     byId("edit-stem").value = item.stem_latex || "";
     byId("edit-answer").value = item.answer || "";
     return;
   }
-  byId("edit-stem").hidden = true;
-  byId("edit-answer").hidden = !answerParts;
+  byId("edit-stem-field").hidden = true;
+  byId("edit-answer-field").hidden = !answerParts;
+  if (!answerParts) {
+    byId("edit-answer").value = item.answer || "";
+  }
 
   const headLabel = document.createElement("label");
   const headSpan = document.createElement("span");
@@ -874,18 +908,46 @@ function renderSegmentedEdit(item) {
   headInput.value = stemParts.head;
   container.append(headLabel, headInput);
 
-  const promptInputs = [];
-  const answerInputs = [];
+  container.dataset.partInputs = "";
   stemParts.parts.forEach((part, index) => {
     const promptLabel = document.createElement("label");
     const promptSpan = document.createElement("span");
     promptSpan.textContent = `第（${index + 1}）问 题干`;
     promptLabel.append(promptSpan);
-    const promptInput = document.createElement("textarea");
-    promptInput.rows = 2;
-    promptInput.value = part.text;
-    promptInputs.push(promptInput);
-    container.append(promptLabel, promptInput);
+    container.append(promptLabel);
+
+    // 第(N)问内部含 ①② → 二级分栏(如黄浦24第(2)问的两个分支)。
+    const circled = splitCircledParts(part.text);
+    const partPromptInputs = [];
+    if (circled) {
+      const prefixLabel = document.createElement("label");
+      const prefixSpan = document.createElement("span");
+      prefixSpan.textContent = `第（${index + 1}）问 公共部分`;
+      prefixLabel.append(prefixSpan);
+      const prefixInput = document.createElement("textarea");
+      prefixInput.rows = 2;
+      prefixInput.value = circled.prefix;
+      container.append(prefixLabel, prefixInput);
+      partPromptInputs.push({ kind: "circled-prefix", input: prefixInput });
+      circled.parts.forEach((sub) => {
+        const subLabel = document.createElement("label");
+        const subSpan = document.createElement("span");
+        subSpan.textContent = `第（${index + 1}）问 ${sub.glyph}`;
+        subLabel.append(subSpan);
+        const subInput = document.createElement("textarea");
+        subInput.rows = 2;
+        subInput.value = sub.text;
+        container.append(subLabel, subInput);
+        partPromptInputs.push({ kind: "circled", glyph: sub.glyph, input: subInput });
+      });
+    } else {
+      const promptInput = document.createElement("textarea");
+      promptInput.rows = 2;
+      promptInput.value = part.text;
+      container.append(promptInput);
+      partPromptInputs.push({ kind: "plain", input: promptInput });
+    }
+    container.dataset.partInputs += `${index}:${partPromptInputs.length};`;
 
     if (answerParts && answerParts.parts[index]) {
       const answerLabel = document.createElement("label");
@@ -899,9 +961,6 @@ function renderSegmentedEdit(item) {
       container.append(answerLabel, answerInput);
     }
   });
-  if (!answerParts) {
-    byId("edit-answer").value = item.answer || "";
-  }
 }
 
 function readSegmentedEdit(item) {
@@ -909,27 +968,54 @@ function readSegmentedEdit(item) {
   if (!container.childElementCount) {
     return { stem: byId("edit-stem").value, answer: byId("edit-answer").value };
   }
-  const textareas = [...container.querySelectorAll("textarea")];
   const stemParts = splitSubquestions(item.stem_latex || "");
   const answerParts = splitSubquestions(item.answer || "");
+  const labels = [...container.querySelectorAll(":scope > label")];
+  const textareas = [...container.querySelectorAll(":scope > textarea")];
   const head = textareas[0].value.trim();
-  const partCount = stemParts.parts.length;
   const hasPartAnswers = Boolean(answerParts);
   const promptParts = [];
   const answerPartTexts = [];
-  for (let index = 0; index < partCount; index += 1) {
-    const promptInput = textareas[1 + index * (hasPartAnswers ? 2 : 1)];
-    promptParts.push(promptInput.value.trim());
-    if (hasPartAnswers) {
-      answerPartTexts.push(textareas[2 + index * 2].value.trim());
+  let cursor = 1; // 0 号是共享题干
+  stemParts.parts.forEach((part, index) => {
+    const circled = splitCircledParts(part.text);
+    if (circled) {
+      const prefix = textareas[cursor].value.trim();
+      cursor += 1;
+      const subTexts = [];
+      circled.parts.forEach(() => {
+        subTexts.push(textareas[cursor].value.trim());
+        cursor += 1;
+      });
+      promptParts.push(
+        assembleCircledParts(
+          prefix,
+          subTexts,
+          circled.parts.map((sub) => sub.glyph),
+        ),
+      );
+    } else {
+      promptParts.push(textareas[cursor].value.trim());
+      cursor += 1;
     }
-  }
-  const stem = assembleSubquestionText(head, promptParts);
+    if (hasPartAnswers) {
+      answerPartTexts.push(textareas[cursor].value.trim());
+      cursor += 1;
+    }
+  });
+  const stem = assembleSubquestionText(
+    head,
+    promptParts.map((part, index) => ({
+      marker: stemParts.parts[index].marker,
+      text: part,
+    })),
+  );
   const answer = hasPartAnswers
-    ? promptParts
-        .map((_, index) => `（${index + 1}）${answerPartTexts[index]}`)
+    ? stemParts.parts
+        .map((part, index) => `${part.marker}${answerPartTexts[index]}`)
         .join("；")
     : byId("edit-answer").value;
+  void labels;
   return { stem, answer };
 }
 

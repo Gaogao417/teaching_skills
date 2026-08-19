@@ -147,10 +147,14 @@
             <p id="text-edit-location-issues" class="review-message bulk-message" role="alert" hidden></p>
             <div id="text-edit-panel" class="review-card-bulk" hidden>
               <div id="edit-parts"></div>
-              <label for="edit-stem"><span>题干（LaTeX，含小问标记时自动切换为逐小问编辑）</span></label>
-              <textarea id="edit-stem" rows="4"></textarea>
-              <label for="edit-answer"><span>答案（含 (1)(2) 标记时随小问分栏编辑）</span></label>
-              <textarea id="edit-answer" rows="2"></textarea>
+              <div id="edit-stem-field">
+                <label for="edit-stem"><span>题干（LaTeX，含小问标记时自动切换为逐小问编辑）</span></label>
+                <textarea id="edit-stem" rows="4"></textarea>
+              </div>
+              <div id="edit-answer-field">
+                <label for="edit-answer"><span>答案（含 (1)(2) 标记时随小问分栏编辑）</span></label>
+                <textarea id="edit-answer" rows="2"></textarea>
+              </div>
               <label for="edit-clue"><span>思路提示</span></label>
               <textarea id="edit-clue" rows="2"></textarea>
               <label for="edit-steps"><span>解题步骤（每行一步）</span></label>
