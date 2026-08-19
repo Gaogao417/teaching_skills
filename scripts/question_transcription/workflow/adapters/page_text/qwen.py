@@ -29,9 +29,16 @@ from ._common import (
 
 ADAPTER_ID = "qwen"
 
-# 条带降级的横带几何（占页高比例，两两重叠 ~15%）。对 2026-08-19 观测的
-# 截断页（闵行答案页 004.png），中带完整覆盖了被整页输出丢掉的小问证明。
-_BAND_RATIOS = ((0.0, 0.45), (0.30, 0.75), (0.60, 1.0))
+# 条带降级的横带几何：5 个约 25% 页高的小带，相邻重叠约 5% 页高。
+# 45% 高条带在密集评分点页上仍会生成上千个 ``\cdots`` 后截断；缩短条带
+# 才能真正降低单次视觉输出预算，同时重叠区保证边界公式能由相邻带补全。
+_BAND_RATIOS = (
+    (0.0, 0.25),
+    (0.20, 0.45),
+    (0.40, 0.65),
+    (0.60, 0.85),
+    (0.80, 1.0),
+)
 _BAND_UPSCALE = 2
 
 
@@ -78,10 +85,9 @@ class QwenPageTextExtractor:
             band_path = band_dir / f"band-{index}.png"
             with Image.open(image_path) as page:
                 width, height = page.size
-                band = page.crop(
-                    (0, int(height * top), width, int(height * bottom))
-                ).resize(
-                    (band.width * _BAND_UPSCALE, band.height * _BAND_UPSCALE),
+                crop = page.crop((0, int(height * top), width, int(height * bottom)))
+                band = crop.resize(
+                    (crop.width * _BAND_UPSCALE, crop.height * _BAND_UPSCALE),
                     Image.LANCZOS,
                 )
                 band.save(band_path)
@@ -93,6 +99,7 @@ class QwenPageTextExtractor:
                         "task": "page_text_ocr",
                         "prompt_version": PAGE_TEXT_PROMPT_VERSION,
                         "page_sha256": f"{job.image.sha256}#stripe{index}",
+                        "stripe_geometry": [top, bottom, _BAND_UPSCALE],
                     },
                 )
             except RuntimeError as exc:
@@ -109,16 +116,10 @@ class QwenPageTextExtractor:
                     attempts=1 + index,
                     detail=f"stripe band {index} returned blank text",
                 )
-            if looks_truncated(text):
-                return None, PageTextFailure(
-                    adapter_id=ADAPTER_ID,
-                    kind="truncated_page_text",
-                    attempts=1 + index,
-                    detail=(
-                        f"stripe band {index} still looks truncated "
-                        "(unclosed $/fence or dangling dot-run tail)"
-                    ),
-                )
+            # A band may legitimately cut through a formula/environment at its
+            # physical lower edge. Judge truncation only after all overlapping
+            # bands have been stitched; rejecting one band here confuses the
+            # intentional crop boundary with provider output truncation.
             texts.append(text)
         stitched = stitch_band_texts(texts)
         if looks_truncated(stitched):

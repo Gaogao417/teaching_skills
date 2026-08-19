@@ -94,7 +94,8 @@ def _real_png(path: Path, width: int = 400, height: int = 560) -> None:
 def test_looks_truncated_signatures():
     # 观测到的真实截断:奇数个 $ + 尾部悬在 \cdot 点串上(闵行答案页 page-011)。
     assert looks_truncated("$\\therefore C E \\perp A B$ 又 $\\because \\angle E O B")
-    assert looks_truncated("完整句子。\n$\\cdot \\cdot \\cdot \\cdot$")
+    # 省略号/评分点线本身不是确定性截断信号（条带可能恰好裁在分值线上）。
+    assert not looks_truncated("证毕 $x$。\n……………………")
     # 未闭合代码围栏 / 未闭合环境
     assert looks_truncated("```latex\n第 1 行\n")
     assert looks_truncated("前文 $x$ 后文 \\begin{aligned} \\frac{1}{2}\n")
@@ -134,12 +135,14 @@ def test_qwen_adapter_stripe_fallback_recovers_truncated_page(tmp_path):
         "23. 证明: (1) $\\because AD \\cdot OC = AB \\cdot OD$。\n",
         "证明: (1) $\\because AD \\cdot OC = AB \\cdot OD$。\n$\\because AF$ 是 $\\angle BAC$ 的平分线, 证得 $AF \\cdot DE = AG \\cdot BC$。\n",
         "证得 $AF \\cdot DE = AG \\cdot BC$。\n24. 解: (1) 设抛物线为 $y = ax^2 + bx + c$。\n",
+        "24. 解: (1) 设抛物线为 $y = ax^2 + bx + c$。\n(2) 解方程。\n",
+        "(2) 解方程。\n25. 解：分类讨论。\n",
     ]
     fake = _SequenceBailianClient([truncated, *bands])
     adapter = QwenPageTextExtractor(model="qwen3.5-ocr", store=store, client=fake)
     extract, failure = adapter.extract(_job(3))
     assert failure is None, f"unexpected failure: {failure}"
-    assert fake.calls == 4  # 整页 1 次 + 条带 3 次
+    assert fake.calls == 6  # 整页 1 次 + 条带 5 次
     text = store.read_text(extract.artifact.text)
     # 拼接去重后重叠行只保留一份,但两段独有内容都在
     assert text.count("AD \\cdot OC") == 1
@@ -160,12 +163,21 @@ def test_qwen_adapter_stripe_still_truncated_fails_closed(tmp_path):
     _real_png(src / "page-004.png")
     truncated = "$\\therefore CE \\perp AB$ 又 $\\because \\angle EOB"
     band0_truncated = "$\\because AD$ 又 $\\angle EOB 未闭合"
-    fake = _SequenceBailianClient([truncated, band0_truncated])
+    fake = _SequenceBailianClient(
+        [
+            truncated,
+            band0_truncated,
+            "后续一。",
+            "后续二。",
+            "后续三。",
+            "末尾完整。",
+        ]
+    )
     adapter = QwenPageTextExtractor(model="qwen3.5-ocr", store=store, client=fake)
     extract, failure = adapter.extract(_job(4))
     assert extract is None
     assert failure.kind == "truncated_page_text"
-    assert "band 0" in failure.detail
+    assert "stitched stripe text" in failure.detail
 
 
 def test_qwen_adapter_commits_text_and_sidecar(tmp_path):

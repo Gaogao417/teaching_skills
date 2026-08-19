@@ -25,13 +25,9 @@ PAGE_TEXT_PROMPT_VERSION = "page-text-ocr-v1"
 
 # --- OCR 截断守卫（2026-08-19 闵行 Q23(2) 根因）-------------------------------
 # qwen3.5-ocr 对长而密的公式页（官方解答页）会在输出中段悄悄截断：观测特征是
-# 1) 行内公式定界符 ``$`` 计数为奇数（有一个 ``$`` 没闭合）；2) 输出尾部悬在
-# 「分值点虚线」的 \cdot/… 串上，没有任何收尾文字；3) 代码围栏或 \begin/\end
+# 1) 行内公式定界符 ``$`` 计数为奇数（有一个 ``$`` 没闭合）；2) 代码围栏或 \begin/\end
 # 环境不闭合。截断的页文本会让整卷转写模型把真实存在的内容标成
 # 「未出现在所给逐页文本中」，因此必须在页文本层确定性检出。
-_DANGLING_TAIL_RE = re.compile(
-    r"(?:\\cdot|\\cdots|\\ldots|\\dots|\.{3,}|…|・|⋯|\s)+$"
-)
 
 
 def looks_truncated(text: str) -> bool:
@@ -50,11 +46,28 @@ def looks_truncated(text: str) -> bool:
     outside_fence = re.sub(r"```.*?```", "", text, flags=re.S)
     if outside_fence.count("$") % 2 == 1:
         return True
-    return bool(_DANGLING_TAIL_RE.search(text.rstrip()))
+    # 不能把尾部省略号/评分点虚线单独当作截断：横条带经常恰好裁在答案
+    # 分值点线上，完整页也可能以这类点串结束。没有未闭合结构时应放行。
+    return False
 
 
 def _normalize_line(line: str) -> str:
     return re.sub(r"\s+", "", line)
+
+
+def _previous_line_covers(previous: str, following: str) -> bool:
+    """Whether the previous band already contains the following seam line.
+
+    OCR often keeps a question-number prefix in the upper band but drops it in
+    the overlapping lower band, or keeps a longer derivation before the shared
+    trailing clause. Treat that suffix as duplicate only when it is long enough
+    to be distinctive. The reverse containment is intentionally not accepted:
+    keeping a longer following line is safer than deleting new content.
+    """
+
+    left = _normalize_line(previous)
+    right = _normalize_line(following)
+    return left == right or (len(right) >= 12 and right in left)
 
 
 def stitch_band_texts(bands: list[str]) -> str:
@@ -75,9 +88,10 @@ def stitch_band_texts(bands: list[str]) -> str:
         max_overlap = min(12, len(merged), len(head))
         overlap = 0
         for k in range(max_overlap, 0, -1):
-            if [_normalize_line(x) for x in merged[-k:]] == [
-                _normalize_line(x) for x in head[:k]
-            ]:
+            if all(
+                _previous_line_covers(previous, following)
+                for previous, following in zip(merged[-k:], head[:k], strict=True)
+            ):
                 overlap = k
                 break
         merged.extend(head[overlap:])
