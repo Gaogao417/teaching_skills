@@ -1,0 +1,103 @@
+{
+  "approval": {
+    "approved_at": "2026-08-19T20:04:35.364640+00:00",
+    "review_note": "part 级重切（ADR-005），证据 ref 复用整题录音",
+    "reviewer_id": "migration-agent"
+  },
+  "artifact_id": "TA-SMV-015",
+  "artifact_uri": "artifact://teaching-approach/TA-SMV-015@v1",
+  "content_hash": "sha256:f480ab659eaf88e49e6224aff454c8dfddf67edb09039472d2cf1a4fe4b550b0",
+  "entry_signal": "学生能默写比例中项定义。",
+  "evidence": {
+    "audio": [
+      {
+        "artifact_uri": "artifact://audio/TA-SMV-015@v1/t1-r01-20260819T150118.832606_0000.wav",
+        "content_hash": "sha256:ed93c2da63d638c29211b47433f0ef470472a9178e830804de683d4db6445502",
+        "recorded_at": "2026-08-19T15:01:18.832846+00:00"
+      },
+      {
+        "artifact_uri": "artifact://audio/TA-SMV-015@v1/t1-r02-20260819T171915.181894_0000.wav",
+        "content_hash": "sha256:acc209d9c0e6c41c98546f9db60c95cefde7ea0f9c0b39a66b044286d726e294",
+        "recorded_at": "2026-08-19T17:19:15.182863+00:00"
+      }
+    ],
+    "manual_edit_notes": [
+      "part 级重切（ADR-005）：讲解稿按官方 reviewed_solution 撰写，证据 ref 复用整题录音"
+    ],
+    "polished": [
+      {
+        "artifact_uri": "artifact://transcript/TA-SMV-015@v1/t1-p01-20260819T150133.929012_0000.polished.txt",
+        "polish_provenance": {
+          "model_id": "qwen-plus",
+          "prompt_version": "POLISH_PROMPT@2026-08-v1",
+          "provider": "dashscope"
+        }
+      },
+      {
+        "artifact_uri": "artifact://transcript/TA-SMV-015@v1/t1-p02-20260819T171944.804640_0000.polished.txt",
+        "polish_provenance": {
+          "model_id": "qwen-plus",
+          "prompt_version": "POLISH_PROMPT@2026-08-v1",
+          "provider": "dashscope"
+        }
+      }
+    ],
+    "transcripts": [
+      {
+        "artifact_uri": "artifact://transcript/TA-SMV-015@v1/t1-r01-20260819T150118.832606_0000.transcript.txt",
+        "asr_provenance": {
+          "model_id": "qwen3-asr-flash",
+          "provider": "dashscope"
+        },
+        "revision": 1
+      },
+      {
+        "artifact_uri": "artifact://transcript/TA-SMV-015@v1/t1-r02-20260819T171915.181894_0000.transcript.txt",
+        "asr_provenance": {
+          "model_id": "qwen3-asr-flash",
+          "provider": "dashscope"
+        },
+        "revision": 2
+      }
+    ]
+  },
+  "goal": "巩固比例中项的定义性计算：$b^2=ac$，代入后开平方并按线段取正值。",
+  "question_ref": {
+    "artifact_id": "QT-SMV-013",
+    "content_hash": "sha256:e4f02022bff778db2cdb765036866a182280476e391763587e13145062e8f73c",
+    "version": "v2"
+  },
+  "schema": "ai_teaching_teaching_approach/v2",
+  "status": "Approved",
+  "steps": [
+    {
+      "expected_student_reasoning": "学生能写出两种等价表达并选用平方形式。",
+      "intent": "定义回忆",
+      "narration": "比例中项定义：$b^2=ac$（即 $\\frac{a}{b}=\\frac{b}{c}$），本题即求满足 $b^2=4\\times 9$ 的线段 $b$。",
+      "skill_ids": [
+        "SKILL-SMV-001"
+      ],
+      "step_id": "S1"
+    },
+    {
+      "expected_student_reasoning": "学生能正确完成乘法 4×9=36。",
+      "intent": "代入计算",
+      "narration": "代入 $a=4$、$c=9$，$b^2=36$。",
+      "skill_ids": [
+        "SKILL-SMV-007"
+      ],
+      "step_id": "S2"
+    },
+    {
+      "expected_student_reasoning": "学生能说明为什么开方后只取正值（线段长非负且非零）。",
+      "intent": "开方取正值",
+      "narration": "$b=\\sqrt{36}$，线段长度取正值，得比例中项为 $6$ 厘米。",
+      "skill_ids": [
+        "SKILL-SMV-007"
+      ],
+      "step_id": "S3"
+    }
+  ],
+  "title": "比例中项定义性计算",
+  "version": "v1"
+}

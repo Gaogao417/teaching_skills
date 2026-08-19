@@ -1,0 +1,106 @@
+{
+  "approval": {
+    "approved_at": "2026-08-19T20:06:46.655566+00:00",
+    "review_note": "part 级重切（ADR-005），证据 ref 复用整题录音",
+    "reviewer_id": "migration-agent"
+  },
+  "artifact_id": "TA-SMV-023",
+  "artifact_uri": "artifact://teaching-approach/TA-SMV-023@v1",
+  "content_hash": "sha256:7b8d1d4df19eda8880da34076e9cdcb39a88afa2137c52b2f412e7ddf27018a7",
+  "entry_signal": "学生能由 $AD\\perp CD$、$AD\\parallel BC$ 想到补出矩形。",
+  "evidence": {
+    "audio": [
+      {
+        "artifact_uri": "artifact://audio/TA-SMV-023@v1/t1-r01-20260819T150134.627786_0000.wav",
+        "content_hash": "sha256:c02fe5b408a2e45d039dd757f88d912d24fe755edcc7434239eb114ddf81298c",
+        "recorded_at": "2026-08-19T15:01:34.628147+00:00"
+      },
+      {
+        "artifact_uri": "artifact://audio/TA-SMV-023@v1/t1-r02-20260819T171945.836157_0000.wav",
+        "content_hash": "sha256:bb9aa2586e4348cf37b5bb9065e7142f563668437b7842fc648c1133fb455d0b",
+        "recorded_at": "2026-08-19T17:19:45.837725+00:00"
+      }
+    ],
+    "manual_edit_notes": [
+      "part 级重切（ADR-005）：讲解稿按官方 reviewed_solution 撰写，证据 ref 复用整题录音"
+    ],
+    "polished": [
+      {
+        "artifact_uri": "artifact://transcript/TA-SMV-023@v1/t1-p01-20260819T150203.871765_0000.polished.txt",
+        "polish_provenance": {
+          "model_id": "qwen-plus",
+          "prompt_version": "POLISH_PROMPT@2026-08-v1",
+          "provider": "dashscope"
+        }
+      },
+      {
+        "artifact_uri": "artifact://transcript/TA-SMV-023@v1/t1-p02-20260819T172024.037209_0000.polished.txt",
+        "polish_provenance": {
+          "model_id": "qwen-plus",
+          "prompt_version": "POLISH_PROMPT@2026-08-v1",
+          "provider": "dashscope"
+        }
+      }
+    ],
+    "transcripts": [
+      {
+        "artifact_uri": "artifact://transcript/TA-SMV-023@v1/t1-r01-20260819T150134.627786_0000.transcript.txt",
+        "asr_provenance": {
+          "model_id": "qwen3-asr-flash",
+          "provider": "dashscope"
+        },
+        "revision": 1
+      },
+      {
+        "artifact_uri": "artifact://transcript/TA-SMV-023@v1/t1-r02-20260819T171945.836157_0000.transcript.txt",
+        "asr_provenance": {
+          "model_id": "qwen3-asr-flash",
+          "provider": "dashscope"
+        },
+        "revision": 2
+      }
+    ]
+  },
+  "goal": "过 $A$ 作 $AF\\perp BC$ 构造矩形 $ADCF$，把 $\\angle ABC$ 放进 Rt$\\triangle ABF$ 中求 $\\sin\\angle ABC=\\frac{2\\sqrt{5}}{5}$。",
+  "question_ref": {
+    "artifact_id": "QT-SMV-048",
+    "content_hash": "sha256:c6c6f51a1bd67c72f97b707c0068a72069491e9c00b2798f8a2f459550f9e84c",
+    "part_id": "2",
+    "version": "v2"
+  },
+  "schema": "ai_teaching_teaching_approach/v2",
+  "status": "Approved",
+  "steps": [
+    {
+      "expected_student_reasoning": "学生能由正切与已知直角边解出另一直角边。",
+      "intent": "数据准备",
+      "narration": "在 Rt$\\triangle ADC$ 中 $AD=4$、$\\tan\\angle DAC=\\frac{1}{2}$，得 $CD=2$。",
+      "skill_ids": [
+        "SKILL-SMV-001",
+        "SKILL-SMV-007"
+      ],
+      "step_id": "S1"
+    },
+    {
+      "expected_student_reasoning": "学生能说明矩形从哪两个垂直条件来，并解出 AB。",
+      "intent": "构矩形转移",
+      "narration": "过点 $A$ 作 $AF\\perp BC$；$\\angle FAD=90^\\circ$ 且 $AD\\perp CD$，四边形 $ADCF$ 是矩形，故 $AF=CD=2$、$FC=AD=4$；$BC=5$ 得 $BF=1$，$AB=\\sqrt{AF^{2}+BF^{2}}=\\sqrt{5}$。",
+      "skill_ids": [
+        "SKILL-SMV-008",
+        "SKILL-SMV-002"
+      ],
+      "step_id": "S2"
+    },
+    {
+      "expected_student_reasoning": "学生能选对对边/斜边并完成分母有理化。",
+      "intent": "直角三角形求正弦",
+      "narration": "在 Rt$\\triangle ABF$ 中，对边 $AF=2$、斜边 $AB=\\sqrt{5}$，由 $\\frac{2}{\\sqrt{5}}$ 分母有理化，得 $\\sin\\angle ABC=\\frac{2\\sqrt{5}}{5}$。",
+      "skill_ids": [
+        "SKILL-SMV-007"
+      ],
+      "step_id": "S3"
+    }
+  ],
+  "title": "第(2)问：构矩形转移直角求正弦",
+  "version": "v1"
+}

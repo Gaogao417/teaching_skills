@@ -1,0 +1,107 @@
+{
+  "approval": {
+    "approved_at": "2026-08-19T20:04:35.564103+00:00",
+    "review_note": "part 级重切（ADR-005），证据 ref 复用整题录音",
+    "reviewer_id": "migration-agent"
+  },
+  "artifact_id": "TA-SMV-022",
+  "artifact_uri": "artifact://teaching-approach/TA-SMV-022@v1",
+  "content_hash": "sha256:8ecd7fdd8b117a0863295a366bcf1a02afc1d007074ab6eb9961648024c36848",
+  "entry_signal": "学生能在梯形里看出对角线交点分出的两组比。",
+  "evidence": {
+    "audio": [
+      {
+        "artifact_uri": "artifact://audio/TA-SMV-022@v1/t1-r01-20260819T150134.627786_0000.wav",
+        "content_hash": "sha256:c02fe5b408a2e45d039dd757f88d912d24fe755edcc7434239eb114ddf81298c",
+        "recorded_at": "2026-08-19T15:01:34.628147+00:00"
+      },
+      {
+        "artifact_uri": "artifact://audio/TA-SMV-022@v1/t1-r02-20260819T171945.836157_0000.wav",
+        "content_hash": "sha256:bb9aa2586e4348cf37b5bb9065e7142f563668437b7842fc648c1133fb455d0b",
+        "recorded_at": "2026-08-19T17:19:45.837725+00:00"
+      }
+    ],
+    "manual_edit_notes": [
+      "part 级重切（ADR-005）：讲解稿按官方 reviewed_solution 撰写，证据 ref 复用整题录音"
+    ],
+    "polished": [
+      {
+        "artifact_uri": "artifact://transcript/TA-SMV-022@v1/t1-p01-20260819T150203.871765_0000.polished.txt",
+        "polish_provenance": {
+          "model_id": "qwen-plus",
+          "prompt_version": "POLISH_PROMPT@2026-08-v1",
+          "provider": "dashscope"
+        }
+      },
+      {
+        "artifact_uri": "artifact://transcript/TA-SMV-022@v1/t1-p02-20260819T172024.037209_0000.polished.txt",
+        "polish_provenance": {
+          "model_id": "qwen-plus",
+          "prompt_version": "POLISH_PROMPT@2026-08-v1",
+          "provider": "dashscope"
+        }
+      }
+    ],
+    "transcripts": [
+      {
+        "artifact_uri": "artifact://transcript/TA-SMV-022@v1/t1-r01-20260819T150134.627786_0000.transcript.txt",
+        "asr_provenance": {
+          "model_id": "qwen3-asr-flash",
+          "provider": "dashscope"
+        },
+        "revision": 1
+      },
+      {
+        "artifact_uri": "artifact://transcript/TA-SMV-022@v1/t1-r02-20260819T171945.836157_0000.transcript.txt",
+        "asr_provenance": {
+          "model_id": "qwen3-asr-flash",
+          "provider": "dashscope"
+        },
+        "revision": 2
+      }
+    ]
+  },
+  "goal": "由 $AD\\parallel BC$ 的 8 字型相似定出对角线分比，再分步代入化为 $\\vec{a}$、$\\vec{b}$ 的线性组合。",
+  "question_ref": {
+    "artifact_id": "QT-SMV-048",
+    "content_hash": "sha256:c6c6f51a1bd67c72f97b707c0068a72069491e9c00b2798f8a2f459550f9e84c",
+    "part_id": "1",
+    "version": "v2"
+  },
+  "schema": "ai_teaching_teaching_approach/v2",
+  "status": "Approved",
+  "steps": [
+    {
+      "expected_student_reasoning": "学生能直接读出对角线被交点 E 分成的两组比。",
+      "intent": "平行出 8 字相似",
+      "narration": "由 $AD\\parallel BC$ 得 $\\triangle AED \\sim \\triangle CEB$（8 字型），故 $AE:EC=AD:CB=4:5$、$BE:ED=BC:AD=5:4$。",
+      "skill_ids": [
+        "SKILL-SMV-008"
+      ],
+      "step_id": "S1"
+    },
+    {
+      "expected_student_reasoning": "学生能先写「向量和」中间式，不直接跳到最终组合。",
+      "intent": "写向量中间式",
+      "narration": "$\\overrightarrow{AE}=\\overrightarrow{AB}+\\overrightarrow{BE}$，其中 $\\overrightarrow{AB}=\\overrightarrow{DB}-\\overrightarrow{DA}$ 分步用 $\\vec{a}$、$\\vec{b}$ 与定比表达。",
+      "skill_ids": [
+        "SKILL-SMV-002"
+      ],
+      "step_id": "S2"
+    },
+    {
+      "common_errors": [
+        "两个系数的比分母用反"
+      ],
+      "expected_student_reasoning": "学生能核对系数来源（4/5 来自 AE:EC，4/9 来自 BE:ED）。",
+      "intent": "代入定比收尾",
+      "narration": "由定比分解逐步代入，得 $\\overrightarrow{AE}=\\frac{4}{5}\\vec{a}-\\frac{4}{9}\\vec{b}$。",
+      "skill_ids": [
+        "SKILL-SMV-007"
+      ],
+      "step_id": "S3"
+    }
+  ],
+  "title": "第(1)问：8 字相似定比 + 向量分解",
+  "version": "v1"
+}

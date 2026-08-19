@@ -1,0 +1,20 @@
+我们来逐步分析这道题。请先观察图形，明确已知条件和各点位置关系。
+
+第一步：看图并标记已知信息。  
+在图中找到两个直角三角形：Rt$\triangle ABC$ 和 Rt$\triangle ACD$；其中 $\angle ACB = 90^\circ$，$\angle ADC = 90^\circ$，且 $AC = BC$；点 $A$、$B$ 分别在直线 $CD$ 的两侧；$CD = 2$；射线 $CD$ 与边 $AB$ 相交于点 $E$；点 $G$ 是 Rt$\triangle ABC$ 的重心；射线 $CG$ 与边 $AB$ 相交于点 $F$；设 $AD = x$，$CE = y$。
+
+第二步：证明 $\angle DAB = \angle DCF$。  
+先找出关键线段的性质：因为 $G$ 是 Rt$\triangle ABC$ 的重心，所以 $CF$ 是 Rt$\triangle ABC$ 的中线；又因为在 Rt$\triangle ABC$ 中，$AC = BC$ 且 $\angle ACB = 90^\circ$，所以 $\triangle ABC$ 是等腰直角三角形，斜边为 $AB$，因此中线 $CF$ 同时也是高线和角平分线，即 $CF \perp AB$，故 $\angle AFC = 90^\circ$。  
+再观察四边形或相关角：由于 $\angle ADE = 90^\circ$（因 $\angle ADC = 90^\circ$），$\angle EFC = 90^\circ$（因 $CF \perp AB$），所以在 $\triangle ADE$ 和 $\triangle CFE$ 中，$\angle DAE$ 与 $\angle ECF$ 都是其余角，从而 $\angle DAB = \angle DAE = \angle DCF$。  
+
+第三步：当点 $E$ 在线段 $CD$ 上时，求 $y$ 关于 $x$ 的函数关系式，并写出 $x$ 的取值范围。  
+先过点 $B$ 作 $BH \perp CD$，垂足为 $H$；由 $\triangle CAD \cong \triangle BCH$（ASA），可得 $BH = CD = 2$，$CH = AD = x$，所以 $DH = CD - CH = 2 - x$；  
+再由 $AD \parallel BH$（同垂直于 $CD$），得 $\frac{AD}{BH} = \frac{DE}{EH}$，即 $\frac{x}{2} = \frac{DE}{EH}$；整理得 $\frac{x + 2}{2} = \frac{DH}{EH}$，解得 $EH = \frac{4 - 2x}{x + 2}$；  
+最后计算 $y = CE = CH + HE = x + \frac{4 - 2x}{x + 2} = \frac{x^{2} + 4}{x + 2}$；  
+由于点 $E$ 在线段 $CD$ 上，且 $C$、$D$ 为端点，$CH = x > 0$，$DH = 2 - x \geq 0$，所以 $x$ 的取值范围是 $0 < x \leq 2$。
+
+第四步：若 $\triangle CDG$ 是以 $CG$ 为腰的等腰三角形，求 $AD$ 的长。  
+“以 $CG$ 为腰”说明等腰三角形的两条相等边中必有一条是 $CG$，因此分两种情况讨论：  
+① 当 $CG = GD$ 时，取 $AC$ 中点 $M$，连接 $MD$、$MG$；由等腰直角三角形性质可知 $MD = MC$，且 $MG \perp CD$，又 $BH \parallel MG$，结合 $CH = AD$，可得 $AD = CH = 1$；  
+② 当 $CG = CD$ 时，即 $CG = 2$；因 $G$ 是 $\triangle ABC$ 的重心，故 $CF = \frac{3}{2} CG = 3$；又 $CF$ 是等腰直角三角形斜边上的中线，所以 $AB = 2CF = 6$，进而 $AC = \frac{\sqrt{2}}{2} AB = 3\sqrt{2}$；在 Rt$\triangle ACD$ 中，由勾股定理得 $AD = \sqrt{AC^{2} - CD^{2}} = \sqrt{18 - 4} = \sqrt{14}$；  
+综上，满足条件的 $AD$ 的长为 $1$ 或 $\sqrt{14}$。

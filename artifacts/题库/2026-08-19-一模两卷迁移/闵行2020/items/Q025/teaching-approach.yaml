@@ -52,7 +52,8 @@ approaches:
     \ $BH = CD = 2$，$CH = AD = x$，所以 $DH = CD - CH = 2 - x$；  \n再由 $AD \\parallel BH$（同垂直于 $CD$），得 $\\frac{AD}{BH} = \\frac{DE}{EH}$，即 $\\frac{x}{2} = \\frac{DE}{EH}$；整理得 $\\frac{x + 2}{2} = \\frac{DH}{EH}$，解得 $EH = \\frac{4 - 2x}{x + 2}$；  \n最后计算 $y = CE = CH + HE = x + \\frac{4 - 2x}{x + 2} = \\frac{x^{2} + 4}{x + 2}$；  \n由于点 $E$ 在线段 $CD$ 上，且 $C$、$D$ 为端点，$CH = x > 0$，$DH = 2 - x \\geq 0$，所以 $x$ 的取值范围是 $0 < x \\leq 2$。\n\n第四步：若 $\\triangle CDG$ 是以 $CG$ 为腰的等腰三角形，求 $AD$ 的长。  \n“以 $CG$ 为腰”说明等腰三角形的两条相等边中必有一条是 $CG$，因此分两种情况讨论：  \n① 当 $CG = GD$ 时，取 $AC$ 中点 $M$，连接 $MD$、$MG$；由等腰直角三角形性质可知 $MD = MC$，且 $MG \\perp CD$，又 $BH \\parallel MG$，结合 $CH = AD$，可得 $AD = CH = 1$；  \n② 当 $CG = CD$ 时，即 $CG = 2$；因 $G$ 是 $\\triangle ABC$ 的重心，故 $CF = \\frac{3}{2} CG = 3$；又 $CF$ 是等腰直角三角形斜边上的中线，所以 $AB = 2CF = 6$，进而 $AC = \\frac{\\sqrt{2}}{2} AB = 3\\sqrt{2}$；在 Rt$\\triangle ACD$ 中，由勾股定理得 $AD = \\sqrt{AC^{2} - CD^{2}} = \\sqrt{18 - 4} = \\sqrt{14}$；  \n综上，满足条件的 $AD$ 的长为 $1$ 或 $\\sqrt{14}$。"
   evidence:
     recordings:
-    - revision: 1
+    - &id001
+      revision: 1
       audio_path: assets/teaching-approach/t1-r01-20260819T145244.124183_0000.wav
       audio_sha256: sha256:5c71a39630cb9179280721a930e9a817f4bf8401258f7e488f1c602b46826016
       audio_bytes: 257022
@@ -65,7 +66,8 @@ approaches:
         provider: dashscope
         model_id: qwen3-asr-flash
       transcribed_at: '2026-08-19T14:52:48.323108+00:00'
-    - revision: 2
+    - &id002
+      revision: 2
       audio_path: assets/teaching-approach/t1-r02-20260819T171512.391202_0000.wav
       audio_sha256: sha256:6c850ac9c1bafd748ecec830d22e4964a1036fcac9b2352f1ac871cf510943d4
       audio_bytes: 1542956
@@ -79,7 +81,8 @@ approaches:
         model_id: qwen3-asr-flash
       transcribed_at: '2026-08-19T17:15:59.420927+00:00'
     polishes:
-    - revision: 1
+    - &id003
+      revision: 1
       based_on_recording: 1
       polished_path: assets/teaching-approach/t1-p01-20260819T145313.893394_0000.polished.txt
       polished_sha256: sha256:009d8c49536812f0d78fd0589384adebe3c87d5e75334f0c6a49b0d4bceb462c
@@ -88,7 +91,8 @@ approaches:
         provider: dashscope
         model_id: qwen-plus
         prompt_version: POLISH_PROMPT@2026-08-v1
-    - revision: 2
+    - &id004
+      revision: 2
       based_on_recording: 2
       polished_path: assets/teaching-approach/t1-p02-20260819T171623.723804_0000.polished.txt
       polished_sha256: sha256:3f11c4c9920390a2d854517fbf6e7e89b8a1573c946b70a0300c54e466231327
@@ -110,3 +114,152 @@ approaches:
     content_hash: sha256:02745d42fd1739e61264ef879b42d84c4f5b11fe3810a061e16527d2c65c3abf
     approved_at: '2026-08-19T17:16:23.808267+00:00'
   created_at: '2026-08-19T14:52:43.575005+00:00'
+- id: t2
+  title: 第(1)问：重心中线 + 外角分解导角
+  author: migration-agent
+  status: approved
+  part_id: '1'
+  goal: 用「重心 → 中线 → 等腰直角斜边中线垂直」与外角和分解，证 $\angle DAB = \angle DCF$。
+  entry_signal: 学生看到重心条件能联想到三线合一与中线性质。
+  steps:
+  - step_id: S1
+    intent: 重心翻译成中线
+    narration: 点 $G$ 是 Rt$\triangle ABC$ 的重心，$CG$ 是中线，交 $AB$ 于 $F$；由 $AC=BC$、$\angle ACB=90^\circ$ 知 $CF$ 既是中线也是高，$\angle AFC=90^\circ$。
+    expected_student_reasoning: 学生能把「重心」翻译成「中线」，再由等腰直角得到垂直。
+    skill_ids:
+    - SKILL-SMV-001
+    - SKILL-SMV-008
+  - step_id: S2
+    intent: 外角和分解对齐
+    narration: $\angle DEF=\angle ADE+\angle DAE$（外角），$\angle DEF=\angle EFC+\angle ECF$；其中 $\angle ADE=\angle EFC=90^\circ$，两式相减得 $\angle DAE=\angle ECF$。
+    expected_student_reasoning: 学生能对同一个角写两条分解式并相减。
+    skill_ids:
+    - SKILL-SMV-005
+  - step_id: S3
+    intent: 收尾书写
+    narration: $\angle DAE$ 即 $\angle DAB$、$\angle ECF$ 即 $\angle DCF$，故 $\angle DAB = \angle DCF$ 得证。
+    expected_student_reasoning: 学生能核对角的记号转换（DAE→DAB、ECF→DCF）后落笔。
+    skill_ids:
+    - SKILL-SMV-009
+  steps_origin: manual
+  polished_text: ''
+  evidence:
+    recordings:
+    - *id001
+    - *id002
+    polishes:
+    - *id003
+    - *id004
+    manual_edit_notes:
+    - part 级重切（ADR-005）：讲解稿按官方 reviewed_solution 撰写，证据 ref 复用整题录音
+  approval:
+    reviewer_id: migration-agent
+    approved_at: '2026-08-19T20:04:35.286848+00:00'
+    review_note: part 级重切（ADR-005），代理批准待真人教师复核
+  canonical:
+    artifact_id: TA-SMV-012
+    version: v1
+    content_hash: sha256:da4c9dcc56babb27eaf4f732672bcdcc9e920821f1fdb13371bafe4319529a48
+    approved_at: '2026-08-19T20:04:35.286848+00:00'
+  created_at: '2026-08-19T20:04:35.266839+00:00'
+- id: t3
+  title: 第(2)问：构全等 + 平行导比例建函数式
+  author: migration-agent
+  status: approved
+  part_id: '2'
+  goal: 作 $BH \perp CD$ 构造全等转移线段，由 $AD \parallel BH$ 导比例，解出 $y = \frac{x^{2} + 4}{x + 2}$（$0 < x \leq 2$）。
+  entry_signal: 学生知道函数关系式要「设元 → 找等量 → 消元」。
+  steps:
+  - step_id: S1
+    intent: 构造高线全等转移
+    narration: 过点 $B$ 作 $BH \perp CD$ 于点 $H$，可证 $\triangle CAD \cong \triangle BCH$，得 $BH=CD=2$、$CH=AD=x$、$DH=2-x$。
+    expected_student_reasoning: 学生能想到作高构造全等，把 BC 侧的量转到 CD 轴上。
+    skill_ids:
+    - SKILL-SMV-001
+    - SKILL-SMV-008
+  - step_id: S2
+    intent: 平行导比例
+    narration: $AD \parallel BH$ 得 $\frac{AD}{BH}=\frac{DE}{EH}$，即 $\frac{x}{2}=\frac{DE}{EH}$；合比得 $\frac{DH}{EH}=\frac{x+2}{2}$，解出 $EH=\frac{4-2x}{x+2}$。
+    expected_student_reasoning: 学生能用合比性质把 DE/EH 转成 DH/EH。
+    skill_ids:
+    - SKILL-SMV-003
+    - SKILL-SMV-007
+  - step_id: S3
+    intent: 合并成函数并定范围
+    narration: $y=CE=CH+HE=x+\frac{4-2x}{x+2}$，整理得 $y = \frac{x^{2} + 4}{x + 2}$；由点 $E$ 在边 $CD$ 上得自变量范围 $0 < x \leq 2$。
+    expected_student_reasoning: 学生能合并分式并说明范围来自 E 的位置约束。
+    skill_ids:
+    - SKILL-SMV-007
+    common_errors:
+    - 范围写成 0<x<2（漏端点）
+  steps_origin: manual
+  polished_text: ''
+  evidence:
+    recordings:
+    - *id001
+    - *id002
+    polishes:
+    - *id003
+    - *id004
+    manual_edit_notes:
+    - part 级重切（ADR-005）：讲解稿按官方 reviewed_solution 撰写，证据 ref 复用整题录音
+  approval:
+    reviewer_id: migration-agent
+    approved_at: '2026-08-19T20:04:35.310926+00:00'
+    review_note: part 级重切（ADR-005），代理批准待真人教师复核
+  canonical:
+    artifact_id: TA-SMV-013
+    version: v1
+    content_hash: sha256:95550f01ff692ce8eff5e32123414efe94b800a878627b0b0a53027ada3a2e8a
+    approved_at: '2026-08-19T20:04:35.310926+00:00'
+  created_at: '2026-08-19T20:04:35.291788+00:00'
+- id: t4
+  title: 第(3)问：以 CG 为腰的等腰分类
+  author: migration-agent
+  status: approved
+  part_id: '3'
+  goal: 按 $GC=GD$、$CG=CD$ 两类画图列式，结合函数关系式求解并按范围取舍，得 $AD = 1$ 或 $\sqrt{14}$。
+  entry_signal: 学生能对「以 CG 为腰」枚举两种等腰可能并分别画图。
+  steps:
+  - step_id: S1
+    intent: 分类起点与图形
+    narration: $\triangle CDG$ 以 $CG$ 为腰 → 两类：$GC=GD$ 与 $CG=CD$；先明确 $CD=2$ 恒定，分类只改变 G 的位置。
+    expected_student_reasoning: 学生能不重不漏列出两类并说明分类依据（腰的两个端点）。
+    skill_ids:
+    - SKILL-SMV-009
+  - step_id: S2
+    intent: 类一 GC=GD
+    narration: 取 $AC$ 的中点 $M$，联结 $MD$，则 $MD=MC$；联结 $MG$ 则 $MG \perp CD$ 且直线 $MG$ 经过点 $B$，$BH$ 与 $MG$ 共线；又 $CH=AD$，得 $AD=CH=1$。
+    expected_student_reasoning: 学生能用「到两端等距 → 垂直」识别中垂线结构。
+    skill_ids:
+    - SKILL-SMV-005
+    - SKILL-SMV-001
+  - step_id: S3
+    intent: 类二 CG=CD 与总结
+    narration: $CG=CD=2$；G 为重心，$CF=\frac{3}{2}CG=3$，等腰直角得 $AC=\frac{\sqrt{2}}{2}AB=3\sqrt{2}$，$AD=\sqrt{AC^{2}-CD^{2}}=\sqrt{14}$。综上 $AD = 1$ 或 $\sqrt{14}$，均满足 $0 < x \leq 2$。
+    expected_student_reasoning: 学生能代回函数范围检验两解均合法。
+    skill_ids:
+    - SKILL-SMV-007
+    common_errors:
+    - 漏一类，或解后不代回范围
+  steps_origin: manual
+  polished_text: ''
+  evidence:
+    recordings:
+    - *id001
+    - *id002
+    polishes:
+    - *id003
+    - *id004
+    manual_edit_notes:
+    - part 级重切（ADR-005）：讲解稿按官方 reviewed_solution 撰写，证据 ref 复用整题录音
+  approval:
+    reviewer_id: migration-agent
+    approved_at: '2026-08-19T20:04:35.334840+00:00'
+    review_note: part 级重切（ADR-005），代理批准待真人教师复核
+  canonical:
+    artifact_id: TA-SMV-014
+    version: v1
+    content_hash: sha256:3da998319a958613f7bad08baf118b2e36bcaa606ec6874f99b91d76a792d067
+    approved_at: '2026-08-19T20:04:35.334840+00:00'
+  created_at: '2026-08-19T20:04:35.316220+00:00'

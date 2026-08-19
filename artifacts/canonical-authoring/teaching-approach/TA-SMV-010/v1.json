@@ -1,0 +1,108 @@
+{
+  "approval": {
+    "approved_at": "2026-08-19T20:04:35.232407+00:00",
+    "review_note": "part 级重切（ADR-005），证据 ref 复用整题录音",
+    "reviewer_id": "migration-agent"
+  },
+  "artifact_id": "TA-SMV-010",
+  "artifact_uri": "artifact://teaching-approach/TA-SMV-010@v1",
+  "content_hash": "sha256:5e18a4f46894449032fe44a54895a4faac4f094acddd367b03d028887a142ecf",
+  "entry_signal": "学生能把 $AD \\cdot OC = AB \\cdot OD$ 主动改写成比例式。",
+  "evidence": {
+    "audio": [
+      {
+        "artifact_uri": "artifact://audio/TA-SMV-010@v1/t1-r01-20260819T145218.831233_0000.wav",
+        "content_hash": "sha256:384fcfc74aa184529f0792c16fc23157495fdf69bd75c4335e47f3d99d782e0a",
+        "recorded_at": "2026-08-19T14:52:18.831569+00:00"
+      },
+      {
+        "artifact_uri": "artifact://audio/TA-SMV-010@v1/t1-r02-20260819T171416.150536_0000.wav",
+        "content_hash": "sha256:f988d100248d275800a6286c408cd1e982c5bca4db1e97f9ae68b4154ce0c957",
+        "recorded_at": "2026-08-19T17:14:16.152689+00:00"
+      }
+    ],
+    "manual_edit_notes": [
+      "part 级重切（ADR-005）：讲解稿按官方 reviewed_solution 撰写，证据 ref 复用整题录音"
+    ],
+    "polished": [
+      {
+        "artifact_uri": "artifact://transcript/TA-SMV-010@v1/t1-p01-20260819T145243.398966_0000.polished.txt",
+        "polish_provenance": {
+          "model_id": "qwen-plus",
+          "prompt_version": "POLISH_PROMPT@2026-08-v1",
+          "provider": "dashscope"
+        }
+      },
+      {
+        "artifact_uri": "artifact://transcript/TA-SMV-010@v1/t1-p02-20260819T171511.350567_0000.polished.txt",
+        "polish_provenance": {
+          "model_id": "qwen-plus",
+          "prompt_version": "POLISH_PROMPT@2026-08-v1",
+          "provider": "dashscope"
+        }
+      }
+    ],
+    "transcripts": [
+      {
+        "artifact_uri": "artifact://transcript/TA-SMV-010@v1/t1-r01-20260819T145218.831233_0000.transcript.txt",
+        "asr_provenance": {
+          "model_id": "qwen3-asr-flash",
+          "provider": "dashscope"
+        },
+        "revision": 1
+      },
+      {
+        "artifact_uri": "artifact://transcript/TA-SMV-010@v1/t1-r02-20260819T171416.150536_0000.transcript.txt",
+        "asr_provenance": {
+          "model_id": "qwen3-asr-flash",
+          "provider": "dashscope"
+        },
+        "revision": 2
+      }
+    ]
+  },
+  "goal": "掌握「等积式 → 比例式 → 配 SAS 相似 → 导角」路线，证得 $CE \\perp AB$。",
+  "question_ref": {
+    "artifact_id": "QT-SMV-002",
+    "content_hash": "sha256:91e1eb279e00d4b1b69d8c60d973ac4ffe2beb89e8897b2364b2c673a15ea83d",
+    "part_id": "1",
+    "version": "v2"
+  },
+  "schema": "ai_teaching_teaching_approach/v2",
+  "status": "Approved",
+  "steps": [
+    {
+      "expected_student_reasoning": "学生能先改比例再找三角形，而不是盯着等积式发呆。",
+      "intent": "等积式改比例",
+      "narration": "把 $AD \\cdot OC = AB \\cdot OD$ 交叉改写为 $\\frac{AD}{OD}=\\frac{AB}{OC}$，目标是配出两个直角三角形的公共顶点比例。",
+      "skill_ids": [
+        "SKILL-SMV-003"
+      ],
+      "step_id": "S1"
+    },
+    {
+      "expected_student_reasoning": "学生能在图中找到以 D 为公共直角顶点的两个直角三角形。",
+      "intent": "配 SAS 相似",
+      "narration": "$BD$ 是 $AC$ 边上的高，$\\angle ADB=\\angle ODC=90^\\circ$，两边成比例且夹角相等，配出 Rt$\\triangle ADB \\sim$ Rt$\\triangle ODC$。",
+      "skill_ids": [
+        "SKILL-SMV-008",
+        "SKILL-SMV-002"
+      ],
+      "step_id": "S2"
+    },
+    {
+      "common_errors": [
+        "导角链跳步，直接宣布垂直"
+      ],
+      "expected_student_reasoning": "学生能写全「相似对应角 → 互余 → 垂直」的链条，不跳步。",
+      "intent": "导角收尾证垂直",
+      "narration": "由相似得对应角相等，结合对顶角与互余关系写全导角链，推出 $\\angle AEC=90^\\circ$，即证得 $CE \\perp AB$。",
+      "skill_ids": [
+        "SKILL-SMV-006"
+      ],
+      "step_id": "S3"
+    }
+  ],
+  "title": "第(1)问：等积式改比例，配直角相似证垂直",
+  "version": "v1"
+}

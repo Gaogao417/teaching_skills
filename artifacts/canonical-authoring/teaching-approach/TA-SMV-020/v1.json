@@ -1,0 +1,108 @@
+{
+  "approval": {
+    "approved_at": "2026-08-19T20:04:35.506839+00:00",
+    "review_note": "part 级重切（ADR-005），证据 ref 复用整题录音",
+    "reviewer_id": "migration-agent"
+  },
+  "artifact_id": "TA-SMV-020",
+  "artifact_uri": "artifact://teaching-approach/TA-SMV-020@v1",
+  "content_hash": "sha256:7bcdd50e66a343c3d09a785399f7bbb45c4c776d8049884085de6530c5bea3d3",
+  "entry_signal": "学生能把「已证等角」当作第二问的现成工具。",
+  "evidence": {
+    "audio": [
+      {
+        "artifact_uri": "artifact://audio/TA-SMV-020@v1/t1-r01-20260819T150034.352111_0000.wav",
+        "content_hash": "sha256:e44e9079bd9cc5eeb47f0b95334aca0cccd0822c07c1b8fa0f3dddf401701f51",
+        "recorded_at": "2026-08-19T15:00:34.352385+00:00"
+      },
+      {
+        "artifact_uri": "artifact://audio/TA-SMV-020@v1/t1-r02-20260819T171805.287382_0000.wav",
+        "content_hash": "sha256:3e70286b9afc31459ab65b2570d27043da5095f68c1848a8cbac04c7def97022",
+        "recorded_at": "2026-08-19T17:18:05.288971+00:00"
+      }
+    ],
+    "manual_edit_notes": [
+      "part 级重切（ADR-005）：讲解稿按官方 reviewed_solution 撰写，证据 ref 复用整题录音"
+    ],
+    "polished": [
+      {
+        "artifact_uri": "artifact://transcript/TA-SMV-020@v1/t1-p01-20260819T150118.111708_0000.polished.txt",
+        "polish_provenance": {
+          "model_id": "qwen-plus",
+          "prompt_version": "POLISH_PROMPT@2026-08-v1",
+          "provider": "dashscope"
+        }
+      },
+      {
+        "artifact_uri": "artifact://transcript/TA-SMV-020@v1/t1-p02-20260819T171914.217652_0000.polished.txt",
+        "polish_provenance": {
+          "model_id": "qwen-plus",
+          "prompt_version": "POLISH_PROMPT@2026-08-v1",
+          "provider": "dashscope"
+        }
+      }
+    ],
+    "transcripts": [
+      {
+        "artifact_uri": "artifact://transcript/TA-SMV-020@v1/t1-r01-20260819T150034.352111_0000.transcript.txt",
+        "asr_provenance": {
+          "model_id": "qwen3-asr-flash",
+          "provider": "dashscope"
+        },
+        "revision": 1
+      },
+      {
+        "artifact_uri": "artifact://transcript/TA-SMV-020@v1/t1-r02-20260819T171805.287382_0000.transcript.txt",
+        "asr_provenance": {
+          "model_id": "qwen3-asr-flash",
+          "provider": "dashscope"
+        },
+        "revision": 2
+      }
+    ]
+  },
+  "goal": "由平行与第(1)问等角把角平移到 $\\triangle BPC$ 与 $\\triangle PFC$，用余切列比例解出 $BP=\\frac{17}{3}$。",
+  "question_ref": {
+    "artifact_id": "QT-SMV-006",
+    "content_hash": "sha256:2e6f08f2567a5f1a8d1701853e4dd7ab29736f69c98c69d10b62a831d22be35f",
+    "part_id": "2",
+    "version": "v2"
+  },
+  "schema": "ai_teaching_teaching_approach/v2",
+  "status": "Approved",
+  "steps": [
+    {
+      "expected_student_reasoning": "学生能写出「平行内错角 + 已证等角 → 差角相等」的链条。",
+      "intent": "平行 + 等角平移",
+      "narration": "$AB\\parallel CD$ 得 $\\angle BAC=\\angle ACD$；结合第(1)问 $\\angle PCF=\\angle BAC$ 得 $\\angle PCF=\\angle ACD$，同减 $\\angle ACP$ 得 $\\angle PCA=\\angle FCD$。",
+      "skill_ids": [
+        "SKILL-SMV-005",
+        "SKILL-SMV-008"
+      ],
+      "step_id": "S1"
+    },
+    {
+      "expected_student_reasoning": "学生能核对待定相似的对应顶点后再用条件。",
+      "intent": "相似条件对齐",
+      "narration": "$\\triangle APC\\sim\\triangle EFC$ 且 $\\angle PEC=\\angle APE<90^\\circ$，故 $\\angle APC=\\angle EFC$；同加直角得 $\\angle BPC=\\angle PFC$。",
+      "skill_ids": [
+        "SKILL-SMV-002"
+      ],
+      "step_id": "S2"
+    },
+    {
+      "common_errors": [
+        "用正切导致求出倒数"
+      ],
+      "expected_student_reasoning": "学生能用余切（而非正切）使所求边落在分子，解出 $BP=\\frac{17}{3}$。",
+      "intent": "余切列式解 BP",
+      "narration": "$\\cot\\angle BPC=\\cot\\angle PFC$ 得 $\\frac{PG}{CG}=\\frac{2}{3}$，$CG=4$，故 $PG=\\frac{8}{3}$，$BP=BG+PG=3+\\frac{8}{3}=\\frac{17}{3}$。",
+      "skill_ids": [
+        "SKILL-SMV-007"
+      ],
+      "step_id": "S3"
+    }
+  ],
+  "title": "第(2)问：等角平移锁相似，余切解 BP",
+  "version": "v1"
+}

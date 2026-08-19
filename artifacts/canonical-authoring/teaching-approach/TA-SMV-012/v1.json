@@ -1,0 +1,105 @@
+{
+  "approval": {
+    "approved_at": "2026-08-19T20:04:35.286848+00:00",
+    "review_note": "part 级重切（ADR-005），证据 ref 复用整题录音",
+    "reviewer_id": "migration-agent"
+  },
+  "artifact_id": "TA-SMV-012",
+  "artifact_uri": "artifact://teaching-approach/TA-SMV-012@v1",
+  "content_hash": "sha256:da4c9dcc56babb27eaf4f732672bcdcc9e920821f1fdb13371bafe4319529a48",
+  "entry_signal": "学生看到重心条件能联想到三线合一与中线性质。",
+  "evidence": {
+    "audio": [
+      {
+        "artifact_uri": "artifact://audio/TA-SMV-012@v1/t1-r01-20260819T145244.124183_0000.wav",
+        "content_hash": "sha256:5c71a39630cb9179280721a930e9a817f4bf8401258f7e488f1c602b46826016",
+        "recorded_at": "2026-08-19T14:52:44.124456+00:00"
+      },
+      {
+        "artifact_uri": "artifact://audio/TA-SMV-012@v1/t1-r02-20260819T171512.391202_0000.wav",
+        "content_hash": "sha256:6c850ac9c1bafd748ecec830d22e4964a1036fcac9b2352f1ac871cf510943d4",
+        "recorded_at": "2026-08-19T17:15:12.392399+00:00"
+      }
+    ],
+    "manual_edit_notes": [
+      "part 级重切（ADR-005）：讲解稿按官方 reviewed_solution 撰写，证据 ref 复用整题录音"
+    ],
+    "polished": [
+      {
+        "artifact_uri": "artifact://transcript/TA-SMV-012@v1/t1-p01-20260819T145313.893394_0000.polished.txt",
+        "polish_provenance": {
+          "model_id": "qwen-plus",
+          "prompt_version": "POLISH_PROMPT@2026-08-v1",
+          "provider": "dashscope"
+        }
+      },
+      {
+        "artifact_uri": "artifact://transcript/TA-SMV-012@v1/t1-p02-20260819T171623.723804_0000.polished.txt",
+        "polish_provenance": {
+          "model_id": "qwen-plus",
+          "prompt_version": "POLISH_PROMPT@2026-08-v1",
+          "provider": "dashscope"
+        }
+      }
+    ],
+    "transcripts": [
+      {
+        "artifact_uri": "artifact://transcript/TA-SMV-012@v1/t1-r01-20260819T145244.124183_0000.transcript.txt",
+        "asr_provenance": {
+          "model_id": "qwen3-asr-flash",
+          "provider": "dashscope"
+        },
+        "revision": 1
+      },
+      {
+        "artifact_uri": "artifact://transcript/TA-SMV-012@v1/t1-r02-20260819T171512.391202_0000.transcript.txt",
+        "asr_provenance": {
+          "model_id": "qwen3-asr-flash",
+          "provider": "dashscope"
+        },
+        "revision": 2
+      }
+    ]
+  },
+  "goal": "用「重心 → 中线 → 等腰直角斜边中线垂直」与外角和分解，证 $\\angle DAB = \\angle DCF$。",
+  "question_ref": {
+    "artifact_id": "QT-SMV-003",
+    "content_hash": "sha256:4308ade0fa955f2a35eba38cb004950325d0c9335765660e676ec5a3ca9e0684",
+    "part_id": "1",
+    "version": "v2"
+  },
+  "schema": "ai_teaching_teaching_approach/v2",
+  "status": "Approved",
+  "steps": [
+    {
+      "expected_student_reasoning": "学生能把「重心」翻译成「中线」，再由等腰直角得到垂直。",
+      "intent": "重心翻译成中线",
+      "narration": "点 $G$ 是 Rt$\\triangle ABC$ 的重心，$CG$ 是中线，交 $AB$ 于 $F$；由 $AC=BC$、$\\angle ACB=90^\\circ$ 知 $CF$ 既是中线也是高，$\\angle AFC=90^\\circ$。",
+      "skill_ids": [
+        "SKILL-SMV-001",
+        "SKILL-SMV-008"
+      ],
+      "step_id": "S1"
+    },
+    {
+      "expected_student_reasoning": "学生能对同一个角写两条分解式并相减。",
+      "intent": "外角和分解对齐",
+      "narration": "$\\angle DEF=\\angle ADE+\\angle DAE$（外角），$\\angle DEF=\\angle EFC+\\angle ECF$；其中 $\\angle ADE=\\angle EFC=90^\\circ$，两式相减得 $\\angle DAE=\\angle ECF$。",
+      "skill_ids": [
+        "SKILL-SMV-005"
+      ],
+      "step_id": "S2"
+    },
+    {
+      "expected_student_reasoning": "学生能核对角的记号转换（DAE→DAB、ECF→DCF）后落笔。",
+      "intent": "收尾书写",
+      "narration": "$\\angle DAE$ 即 $\\angle DAB$、$\\angle ECF$ 即 $\\angle DCF$，故 $\\angle DAB = \\angle DCF$ 得证。",
+      "skill_ids": [
+        "SKILL-SMV-009"
+      ],
+      "step_id": "S3"
+    }
+  ],
+  "title": "第(1)问：重心中线 + 外角分解导角",
+  "version": "v1"
+}

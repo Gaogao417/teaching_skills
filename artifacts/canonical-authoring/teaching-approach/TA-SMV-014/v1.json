@@ -1,0 +1,108 @@
+{
+  "approval": {
+    "approved_at": "2026-08-19T20:04:35.334840+00:00",
+    "review_note": "part 级重切（ADR-005），证据 ref 复用整题录音",
+    "reviewer_id": "migration-agent"
+  },
+  "artifact_id": "TA-SMV-014",
+  "artifact_uri": "artifact://teaching-approach/TA-SMV-014@v1",
+  "content_hash": "sha256:3da998319a958613f7bad08baf118b2e36bcaa606ec6874f99b91d76a792d067",
+  "entry_signal": "学生能对「以 CG 为腰」枚举两种等腰可能并分别画图。",
+  "evidence": {
+    "audio": [
+      {
+        "artifact_uri": "artifact://audio/TA-SMV-014@v1/t1-r01-20260819T145244.124183_0000.wav",
+        "content_hash": "sha256:5c71a39630cb9179280721a930e9a817f4bf8401258f7e488f1c602b46826016",
+        "recorded_at": "2026-08-19T14:52:44.124456+00:00"
+      },
+      {
+        "artifact_uri": "artifact://audio/TA-SMV-014@v1/t1-r02-20260819T171512.391202_0000.wav",
+        "content_hash": "sha256:6c850ac9c1bafd748ecec830d22e4964a1036fcac9b2352f1ac871cf510943d4",
+        "recorded_at": "2026-08-19T17:15:12.392399+00:00"
+      }
+    ],
+    "manual_edit_notes": [
+      "part 级重切（ADR-005）：讲解稿按官方 reviewed_solution 撰写，证据 ref 复用整题录音"
+    ],
+    "polished": [
+      {
+        "artifact_uri": "artifact://transcript/TA-SMV-014@v1/t1-p01-20260819T145313.893394_0000.polished.txt",
+        "polish_provenance": {
+          "model_id": "qwen-plus",
+          "prompt_version": "POLISH_PROMPT@2026-08-v1",
+          "provider": "dashscope"
+        }
+      },
+      {
+        "artifact_uri": "artifact://transcript/TA-SMV-014@v1/t1-p02-20260819T171623.723804_0000.polished.txt",
+        "polish_provenance": {
+          "model_id": "qwen-plus",
+          "prompt_version": "POLISH_PROMPT@2026-08-v1",
+          "provider": "dashscope"
+        }
+      }
+    ],
+    "transcripts": [
+      {
+        "artifact_uri": "artifact://transcript/TA-SMV-014@v1/t1-r01-20260819T145244.124183_0000.transcript.txt",
+        "asr_provenance": {
+          "model_id": "qwen3-asr-flash",
+          "provider": "dashscope"
+        },
+        "revision": 1
+      },
+      {
+        "artifact_uri": "artifact://transcript/TA-SMV-014@v1/t1-r02-20260819T171512.391202_0000.transcript.txt",
+        "asr_provenance": {
+          "model_id": "qwen3-asr-flash",
+          "provider": "dashscope"
+        },
+        "revision": 2
+      }
+    ]
+  },
+  "goal": "按 $GC=GD$、$CG=CD$ 两类画图列式，结合函数关系式求解并按范围取舍，得 $AD = 1$ 或 $\\sqrt{14}$。",
+  "question_ref": {
+    "artifact_id": "QT-SMV-003",
+    "content_hash": "sha256:4308ade0fa955f2a35eba38cb004950325d0c9335765660e676ec5a3ca9e0684",
+    "part_id": "3",
+    "version": "v2"
+  },
+  "schema": "ai_teaching_teaching_approach/v2",
+  "status": "Approved",
+  "steps": [
+    {
+      "expected_student_reasoning": "学生能不重不漏列出两类并说明分类依据（腰的两个端点）。",
+      "intent": "分类起点与图形",
+      "narration": "$\\triangle CDG$ 以 $CG$ 为腰 → 两类：$GC=GD$ 与 $CG=CD$；先明确 $CD=2$ 恒定，分类只改变 G 的位置。",
+      "skill_ids": [
+        "SKILL-SMV-009"
+      ],
+      "step_id": "S1"
+    },
+    {
+      "expected_student_reasoning": "学生能用「到两端等距 → 垂直」识别中垂线结构。",
+      "intent": "类一 GC=GD",
+      "narration": "取 $AC$ 的中点 $M$，联结 $MD$，则 $MD=MC$；联结 $MG$ 则 $MG \\perp CD$ 且直线 $MG$ 经过点 $B$，$BH$ 与 $MG$ 共线；又 $CH=AD$，得 $AD=CH=1$。",
+      "skill_ids": [
+        "SKILL-SMV-005",
+        "SKILL-SMV-001"
+      ],
+      "step_id": "S2"
+    },
+    {
+      "common_errors": [
+        "漏一类，或解后不代回范围"
+      ],
+      "expected_student_reasoning": "学生能代回函数范围检验两解均合法。",
+      "intent": "类二 CG=CD 与总结",
+      "narration": "$CG=CD=2$；G 为重心，$CF=\\frac{3}{2}CG=3$，等腰直角得 $AC=\\frac{\\sqrt{2}}{2}AB=3\\sqrt{2}$，$AD=\\sqrt{AC^{2}-CD^{2}}=\\sqrt{14}$。综上 $AD = 1$ 或 $\\sqrt{14}$，均满足 $0 < x \\leq 2$。",
+      "skill_ids": [
+        "SKILL-SMV-007"
+      ],
+      "step_id": "S3"
+    }
+  ],
+  "title": "第(3)问：以 CG 为腰的等腰分类",
+  "version": "v1"
+}

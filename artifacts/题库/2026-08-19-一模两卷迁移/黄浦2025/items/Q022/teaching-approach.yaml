@@ -50,7 +50,8 @@ approaches:
   polished_text: "先观察图形，明确已知条件：在 $\\triangle ABC$ 中，$CD$ 平分 $\\angle ACB$，点 $E$ 在 $CD$ 的延长线上，且 $AE=AD$；点 $F$ 在 $AB$ 的延长线上，连接 $CF$。  \n\n第（1）问要求证明 $\\triangle CEA\\sim\\triangle CDB$。  \n首先看角：因为 $CD$ 平分 $\\angle ACB$，所以 $\\angle ACE=\\angle BCD$。  \n再找另一组相等的角：由 $AE=AD$，得 $\\triangle AED$ 是等腰三角形，故 $\\angle AED=\\angle ADE$；又 $\\angle ADE$ 与 $\\angle CDB$ 是对顶角，所以 $\\angle AED=\\angle CDB$。  \n于是 $\\triangle CEA$ 和 $\\triangle CDB$ 有两组对应角分别相等，即 $\\angle ACE=\\angle BCD$，$\\angle AED=\\angle CDB$，根据 AA 相似判定法，可得 $\\triangle CEA\\sim\\triangle CDB$。  \n\n第（2）问已知 $CF\\parallel AE$，要求证明 $\\frac{BD}{AD}=\\frac{BF}{CF}$。  \n先利用第（1）问结论：由 $\\triangle CEA\\sim\\triangle CDB$，得对应边成比例，即 $\\frac{BD}{AE}=\\frac{BC}{AC}$；又 $AE=AD$，所以 $\\frac{BD}{AD}=\\frac{BC}{AC}$。  \n再利用平行条件：由 $CF\\parallel AE$，得 $\\angle BCF=\\angle CAD$（同位角相等），且 $\\angle F$ 为公共角，故 $\\triangle CFB\\sim\\triangle AFC$，从而 $\\frac{BF}{CF}=\\frac{BC}{AC}$。  \n综上，$\\frac{BD}{AD}=\\frac{BC}{AC}=\\frac{BF}{CF}$，即 $\\frac{BD}{AD}=\\frac{BF}{CF}$。"
   evidence:
     recordings:
-    - revision: 1
+    - &id001
+      revision: 1
       audio_path: assets/teaching-approach/t1-r01-20260819T150015.629558_0000.wav
       audio_sha256: sha256:b29291cc20504b36ed59f2395ecffa7c2a2c14e9786b2bd29ce63d0c67fac112
       audio_bytes: 342892
@@ -63,7 +64,8 @@ approaches:
         provider: dashscope
         model_id: qwen3-asr-flash
       transcribed_at: '2026-08-19T15:00:21.581430+00:00'
-    - revision: 2
+    - &id002
+      revision: 2
       audio_path: assets/teaching-approach/t1-r02-20260819T171727.936196_0000.wav
       audio_sha256: sha256:9dbef3b21d3909fd0e756d9913e6d7efb2c2d5ceae4ade7bebe80b16ca733357
       audio_bytes: 2040984
@@ -77,7 +79,8 @@ approaches:
         model_id: qwen3-asr-flash
       transcribed_at: '2026-08-19T17:17:52.591506+00:00'
     polishes:
-    - revision: 1
+    - &id003
+      revision: 1
       based_on_recording: 1
       polished_path: assets/teaching-approach/t1-p01-20260819T150033.626909_0000.polished.txt
       polished_sha256: sha256:238d8e77bbb948bc5ea07f5515e91f673c8975b2fec948fc1ffec4c75267f1ce
@@ -86,7 +89,8 @@ approaches:
         provider: dashscope
         model_id: qwen-plus
         prompt_version: POLISH_PROMPT@2026-08-v1
-    - revision: 2
+    - &id004
+      revision: 2
       based_on_recording: 2
       polished_path: assets/teaching-approach/t1-p02-20260819T171804.277088_0000.polished.txt
       polished_sha256: sha256:81a791b2bd0d0a8ae1fc2d03e8f2ad1cdb1666fec0e123dcf5e9f955b44f7a02
@@ -108,3 +112,99 @@ approaches:
     content_hash: sha256:d7371b983d22b651aa2a38bfeaad9ca77956430223b34922d7c8c82a9f38fca9
     approved_at: '2026-08-19T17:18:04.346454+00:00'
   created_at: '2026-08-19T15:00:14.939773+00:00'
+- id: t2
+  title: 第(1)问：角平分线公共角 + 等腰外角配 AA
+  author: migration-agent
+  status: approved
+  part_id: '1'
+  goal: 用「角平分线给公共角、等腰给外角」组合，AA 判定证 $\triangle CEA\sim\triangle CDB$。
+  entry_signal: 学生看到角平分线与等腰能分别翻译出等角。
+  steps:
+  - step_id: S1
+    intent: 角平分线给第一组角
+    narration: 由 $CD$ 平分 $\angle ACB$ 得 $\angle ACE=\angle DCB$，这是 $\triangle CEA$ 与 $\triangle CDB$ 的公共等角。
+    expected_student_reasoning: 学生能立刻把角平分线条件翻译成两个三角形的公共等角。
+    skill_ids:
+    - SKILL-SMV-008
+  - step_id: S2
+    intent: 等腰外角配第二组角
+    narration: 由 $AE=AD$ 得 $\triangle AED$ 等腰，$\angle CEA$ 与 $\angle CDB$ 是其两个外角，均等于 $2\angle EAD$，故 $\angle CEA=\angle CDB$。
+    expected_student_reasoning: 学生能用「等腰 + 外角」补出第二组角。
+    skill_ids:
+    - SKILL-SMV-002
+  - step_id: S3
+    intent: AA 判定收尾
+    narration: 两组对应角相等，由 AA 判定证得 $\triangle CEA\sim\triangle CDB$。
+    expected_student_reasoning: 学生能写明判定依据（AA）并核对顶点对应顺序。
+    skill_ids:
+    - SKILL-SMV-009
+  steps_origin: manual
+  polished_text: ''
+  evidence:
+    recordings:
+    - *id001
+    - *id002
+    polishes:
+    - *id003
+    - *id004
+    manual_edit_notes:
+    - part 级重切（ADR-005）：讲解稿按官方 reviewed_solution 撰写，证据 ref 复用整题录音
+  approval:
+    reviewer_id: migration-agent
+    approved_at: '2026-08-19T20:04:35.428354+00:00'
+    review_note: part 级重切（ADR-005），代理批准待真人教师复核
+  canonical:
+    artifact_id: TA-SMV-017
+    version: v1
+    content_hash: sha256:33dad78851eb31b130f1fda323a30bec2c0e97cc7af3b1ec74a6aab1f90ba356
+    approved_at: '2026-08-19T20:04:35.428354+00:00'
+  created_at: '2026-08-19T20:04:35.407570+00:00'
+- id: t3
+  title: 第(2)问：平行等角传递 + 相似比例收尾
+  author: migration-agent
+  status: approved
+  part_id: '2'
+  goal: 由 $CF\parallel AE$ 得新等角并做外角和分解，证 $\triangle CFB\sim\triangle AFC$ 后逐层转移比例，得 $\frac{BD}{AD}=\frac{BF}{CF}$。
+  entry_signal: 学生能把平行条件翻译成等角，并寻找公共角。
+  steps:
+  - step_id: S1
+    intent: 平行给新等角
+    narration: 由 $CF\parallel AE$ 得 $\angle E=\angle DCF$。
+    expected_student_reasoning: 学生能指出平行线截哪两条线产生这对内错角。
+    skill_ids:
+    - SKILL-SMV-005
+  - step_id: S2
+    intent: 外角和分解 + 公共角配相似
+    narration: $\angle DCF=\angle DCB+\angle BCF$，$\angle E=\angle CDF=\angle ACE+\angle CAD$，相减得 $\angle BCF=\angle CAD$；又 $\angle F=\angle F$（公共），故 $\triangle CFB\sim\triangle AFC$。
+    expected_student_reasoning: 学生能完成「分解 → 相减 → 公共角」的三步配角。
+    skill_ids:
+    - SKILL-SMV-002
+    - SKILL-SMV-008
+  - step_id: S3
+    intent: 比例转移收尾
+    narration: 由 $\triangle CFB\sim\triangle AFC$ 得 $\frac{BF}{CF}=\frac{CF}{AF}$，结合第(1)问 $\triangle CEA\sim\triangle CDB$ 的相似比 $\frac{CE}{CD}=\frac{CA}{CB}$ 逐层转移，最终证得 $\frac{BD}{AD}=\frac{BF}{CF}$。
+    expected_student_reasoning: 学生能规划「先相似比、再平行比」的转移顺序，不硬凑。
+    skill_ids:
+    - SKILL-SMV-009
+    - SKILL-SMV-007
+  steps_origin: manual
+  polished_text: ''
+  evidence:
+    recordings:
+    - *id001
+    - *id002
+    polishes:
+    - *id003
+    - *id004
+    manual_edit_notes:
+    - part 级重切（ADR-005）：讲解稿按官方 reviewed_solution 撰写，证据 ref 复用整题录音
+  approval:
+    reviewer_id: migration-agent
+    approved_at: '2026-08-19T20:04:35.451955+00:00'
+    review_note: part 级重切（ADR-005），代理批准待真人教师复核
+  canonical:
+    artifact_id: TA-SMV-018
+    version: v1
+    content_hash: sha256:2a3dcbbf6b4a5e7a9054bc295b7235908967a7904724bb8f7ec63f93f46e855d
+    approved_at: '2026-08-19T20:04:35.451955+00:00'
+  created_at: '2026-08-19T20:04:35.432824+00:00'

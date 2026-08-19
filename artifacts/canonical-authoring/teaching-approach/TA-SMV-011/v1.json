@@ -1,0 +1,106 @@
+{
+  "approval": {
+    "approved_at": "2026-08-19T20:04:35.258187+00:00",
+    "review_note": "part 级重切（ADR-005），证据 ref 复用整题录音",
+    "reviewer_id": "migration-agent"
+  },
+  "artifact_id": "TA-SMV-011",
+  "artifact_uri": "artifact://teaching-approach/TA-SMV-011@v1",
+  "content_hash": "sha256:040b66ad37b7287334ce360e6594ee206548368da34adca11c0077743b9c0454",
+  "entry_signal": "学生见等积式目标先改比例式，再规划三角形组。",
+  "evidence": {
+    "audio": [
+      {
+        "artifact_uri": "artifact://audio/TA-SMV-011@v1/t1-r01-20260819T145218.831233_0000.wav",
+        "content_hash": "sha256:384fcfc74aa184529f0792c16fc23157495fdf69bd75c4335e47f3d99d782e0a",
+        "recorded_at": "2026-08-19T14:52:18.831569+00:00"
+      },
+      {
+        "artifact_uri": "artifact://audio/TA-SMV-011@v1/t1-r02-20260819T171416.150536_0000.wav",
+        "content_hash": "sha256:f988d100248d275800a6286c408cd1e982c5bca4db1e97f9ae68b4154ce0c957",
+        "recorded_at": "2026-08-19T17:14:16.152689+00:00"
+      }
+    ],
+    "manual_edit_notes": [
+      "part 级重切（ADR-005）：讲解稿按官方 reviewed_solution 撰写，证据 ref 复用整题录音"
+    ],
+    "polished": [
+      {
+        "artifact_uri": "artifact://transcript/TA-SMV-011@v1/t1-p01-20260819T145243.398966_0000.polished.txt",
+        "polish_provenance": {
+          "model_id": "qwen-plus",
+          "prompt_version": "POLISH_PROMPT@2026-08-v1",
+          "provider": "dashscope"
+        }
+      },
+      {
+        "artifact_uri": "artifact://transcript/TA-SMV-011@v1/t1-p02-20260819T171511.350567_0000.polished.txt",
+        "polish_provenance": {
+          "model_id": "qwen-plus",
+          "prompt_version": "POLISH_PROMPT@2026-08-v1",
+          "provider": "dashscope"
+        }
+      }
+    ],
+    "transcripts": [
+      {
+        "artifact_uri": "artifact://transcript/TA-SMV-011@v1/t1-r01-20260819T145218.831233_0000.transcript.txt",
+        "asr_provenance": {
+          "model_id": "qwen3-asr-flash",
+          "provider": "dashscope"
+        },
+        "revision": 1
+      },
+      {
+        "artifact_uri": "artifact://transcript/TA-SMV-011@v1/t1-r02-20260819T171416.150536_0000.transcript.txt",
+        "asr_provenance": {
+          "model_id": "qwen3-asr-flash",
+          "provider": "dashscope"
+        },
+        "revision": 2
+      }
+    ]
+  },
+  "goal": "把目标 $AF \\cdot DE = AG \\cdot BC$ 改写为比例，规划「哪两组相似各贡献哪条边」，两次比例相乘约分收尾。",
+  "question_ref": {
+    "artifact_id": "QT-SMV-002",
+    "content_hash": "sha256:91e1eb279e00d4b1b69d8c60d973ac4ffe2beb89e8897b2364b2c673a15ea83d",
+    "part_id": "2",
+    "version": "v2"
+  },
+  "schema": "ai_teaching_teaching_approach/v2",
+  "status": "Approved",
+  "steps": [
+    {
+      "expected_student_reasoning": "学生能说出改写后四条边各自的来源任务。",
+      "intent": "目标改写为比例",
+      "narration": "目标 $AF \\cdot DE = AG \\cdot BC$ 改写为 $\\frac{AF}{AG}=\\frac{BC}{DE}$，明确要分别「供应」这四条边的相似三角形组。",
+      "skill_ids": [
+        "SKILL-SMV-003"
+      ],
+      "step_id": "S1"
+    },
+    {
+      "expected_student_reasoning": "学生能分工：第一组相似给哪两条边、角平分线给哪两条边。",
+      "intent": "锁定两组相似",
+      "narration": "由 $\\frac{AD}{AB}=\\frac{AE}{AC}$、$\\angle DAE=\\angle BAC$ 得 $\\triangle DAE \\sim \\triangle BAC$（供应 DE 与 BC）；由 $AF$ 平分 $\\angle BAC$ 用角平分线性质（供应 AF 与 AG）。",
+      "skill_ids": [
+        "SKILL-SMV-008",
+        "SKILL-SMV-002"
+      ],
+      "step_id": "S2"
+    },
+    {
+      "expected_student_reasoning": "学生能执行「乘 → 约 → 收」并核对方向（分子分母对齐目标）。",
+      "intent": "比例相乘约分收尾",
+      "narration": "两组比例相乘约去中间量，即证 $AF \\cdot DE = AG \\cdot BC$。",
+      "skill_ids": [
+        "SKILL-SMV-007",
+        "SKILL-SMV-009"
+      ],
+      "step_id": "S3"
+    }
+  ],
+  "title": "第(2)问：角平分线 + 相似转移证等积式",
+  "version": "v1"
+}

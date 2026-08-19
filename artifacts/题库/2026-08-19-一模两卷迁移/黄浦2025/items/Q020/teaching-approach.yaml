@@ -50,7 +50,8 @@ approaches:
     \ DAC=\\frac{CD}{AD}=\\frac{1}{2}$ 及 $AD=4$，得 $CD=2$；  \n然后算斜边：在 $\\triangle ADC$ 中，由勾股定理得 $AC=\\sqrt{AD^2+CD^2}=\\sqrt{4^2+2^2}=2\\sqrt{5}$；  \n接着利用平行线转移角度：因为 $AD\\parallel BC$，所以 $\\angle DAC=\\angle ACB$（内错角相等），进而可证 $\\triangle DAC\\sim\\triangle ACB$（两角对应相等）；  \n最后求正弦值：由相似得 $\\frac{AC}{BC}=\\frac{AD}{AC}$，即 $\\frac{AC}{5}=\\frac{4}{2\\sqrt{5}}$，验证无误；再由 $\\triangle ACB$ 中 $\\angle BAC=90^\\circ$，得 $\\sin\\angle ABC=\\frac{AC}{BC}=\\frac{2\\sqrt{5}}{5}$。"
   evidence:
     recordings:
-    - revision: 1
+    - &id001
+      revision: 1
       audio_path: assets/teaching-approach/t1-r01-20260819T150134.627786_0000.wav
       audio_sha256: sha256:c02fe5b408a2e45d039dd757f88d912d24fe755edcc7434239eb114ddf81298c
       audio_bytes: 395298
@@ -63,7 +64,8 @@ approaches:
         provider: dashscope
         model_id: qwen3-asr-flash
       transcribed_at: '2026-08-19T15:01:45.426557+00:00'
-    - revision: 2
+    - &id002
+      revision: 2
       audio_path: assets/teaching-approach/t1-r02-20260819T171945.836157_0000.wav
       audio_sha256: sha256:bb9aa2586e4348cf37b5bb9065e7142f563668437b7842fc648c1133fb455d0b
       audio_bytes: 1781574
@@ -77,7 +79,8 @@ approaches:
         model_id: qwen3-asr-flash
       transcribed_at: '2026-08-19T17:20:07.759727+00:00'
     polishes:
-    - revision: 1
+    - &id003
+      revision: 1
       based_on_recording: 1
       polished_path: assets/teaching-approach/t1-p01-20260819T150203.871765_0000.polished.txt
       polished_sha256: sha256:c030466fa12e4f9311768ddacfeb07c0622474654d2401ad20f946c0669bad2d
@@ -86,7 +89,8 @@ approaches:
         provider: dashscope
         model_id: qwen-plus
         prompt_version: POLISH_PROMPT@2026-08-v1
-    - revision: 2
+    - &id004
+      revision: 2
       based_on_recording: 2
       polished_path: assets/teaching-approach/t1-p02-20260819T172024.037209_0000.polished.txt
       polished_sha256: sha256:6f7191898199f6cd7cee293d82ab59115ba302c7bef104ba139e2b7105fb7dc6
@@ -108,3 +112,101 @@ approaches:
     content_hash: sha256:356c789d8a0bd68993e8f1f8c47cab7a3294a1b76c41640ac2ad461557ab0e24
     approved_at: '2026-08-19T17:20:24.107616+00:00'
   created_at: '2026-08-19T15:01:34.088983+00:00'
+- id: t2
+  title: 第(1)问：8 字相似定比 + 向量分解
+  author: migration-agent
+  status: approved
+  part_id: '1'
+  goal: 由 $AD\parallel BC$ 的 8 字型相似定出对角线分比，再分步代入化为 $\vec{a}$、$\vec{b}$ 的线性组合。
+  entry_signal: 学生能在梯形里看出对角线交点分出的两组比。
+  steps:
+  - step_id: S1
+    intent: 平行出 8 字相似
+    narration: 由 $AD\parallel BC$ 得 $\triangle AED \sim \triangle CEB$（8 字型），故 $AE:EC=AD:CB=4:5$、$BE:ED=BC:AD=5:4$。
+    expected_student_reasoning: 学生能直接读出对角线被交点 E 分成的两组比。
+    skill_ids:
+    - SKILL-SMV-008
+  - step_id: S2
+    intent: 写向量中间式
+    narration: $\overrightarrow{AE}=\overrightarrow{AB}+\overrightarrow{BE}$，其中 $\overrightarrow{AB}=\overrightarrow{DB}-\overrightarrow{DA}$ 分步用 $\vec{a}$、$\vec{b}$ 与定比表达。
+    expected_student_reasoning: 学生能先写「向量和」中间式，不直接跳到最终组合。
+    skill_ids:
+    - SKILL-SMV-002
+  - step_id: S3
+    intent: 代入定比收尾
+    narration: 由定比分解逐步代入，得 $\overrightarrow{AE}=\frac{4}{5}\vec{a}-\frac{4}{9}\vec{b}$。
+    expected_student_reasoning: 学生能核对系数来源（4/5 来自 AE:EC，4/9 来自 BE:ED）。
+    skill_ids:
+    - SKILL-SMV-007
+    common_errors:
+    - 两个系数的比分母用反
+  steps_origin: manual
+  polished_text: ''
+  evidence:
+    recordings:
+    - *id001
+    - *id002
+    polishes:
+    - *id003
+    - *id004
+    manual_edit_notes:
+    - part 级重切（ADR-005）：讲解稿按官方 reviewed_solution 撰写，证据 ref 复用整题录音
+  approval:
+    reviewer_id: migration-agent
+    approved_at: '2026-08-19T20:04:35.564103+00:00'
+    review_note: part 级重切（ADR-005），代理批准待真人教师复核
+  canonical:
+    artifact_id: TA-SMV-022
+    version: v1
+    content_hash: sha256:8ecd7fdd8b117a0863295a366bcf1a02afc1d007074ab6eb9961648024c36848
+    approved_at: '2026-08-19T20:04:35.564103+00:00'
+  created_at: '2026-08-19T20:04:35.541814+00:00'
+- id: t3
+  title: 第(2)问：构矩形转移直角求正弦
+  author: migration-agent
+  status: approved
+  part_id: '2'
+  goal: 过 $A$ 作 $AF\perp BC$ 构造矩形 $ADCF$，把 $\angle ABC$ 放进 Rt$\triangle ABF$ 中求 $\sin\angle ABC=\frac{2\sqrt{5}}{5}$。
+  entry_signal: 学生能由 $AD\perp CD$、$AD\parallel BC$ 想到补出矩形。
+  steps:
+  - step_id: S1
+    intent: 数据准备
+    narration: 在 Rt$\triangle ADC$ 中 $AD=4$、$\tan\angle DAC=\frac{1}{2}$，得 $CD=2$。
+    expected_student_reasoning: 学生能由正切与已知直角边解出另一直角边。
+    skill_ids:
+    - SKILL-SMV-001
+    - SKILL-SMV-007
+  - step_id: S2
+    intent: 构矩形转移
+    narration: 过点 $A$ 作 $AF\perp BC$；$\angle FAD=90^\circ$ 且 $AD\perp CD$，四边形 $ADCF$ 是矩形，故 $AF=CD=2$、$FC=AD=4$；$BC=5$ 得 $BF=1$，$AB=\sqrt{AF^{2}+BF^{2}}=\sqrt{5}$。
+    expected_student_reasoning: 学生能说明矩形从哪两个垂直条件来，并解出 AB。
+    skill_ids:
+    - SKILL-SMV-008
+    - SKILL-SMV-002
+  - step_id: S3
+    intent: 直角三角形求正弦
+    narration: 在 Rt$\triangle ABF$ 中，对边 $AF=2$、斜边 $AB=\sqrt{5}$，由 $\frac{2}{\sqrt{5}}$ 分母有理化，得 $\sin\angle ABC=\frac{2\sqrt{5}}{5}$。
+    expected_student_reasoning: 学生能选对对边/斜边并完成分母有理化。
+    skill_ids:
+    - SKILL-SMV-007
+  steps_origin: manual
+  polished_text: ''
+  evidence:
+    recordings:
+    - *id001
+    - *id002
+    polishes:
+    - *id003
+    - *id004
+    manual_edit_notes:
+    - part 级重切（ADR-005）：讲解稿按官方 reviewed_solution 撰写，证据 ref 复用整题录音
+  approval:
+    reviewer_id: migration-agent
+    approved_at: '2026-08-19T20:06:46.655566+00:00'
+    review_note: part 级重切（ADR-005），代理批准待真人教师复核
+  canonical:
+    artifact_id: TA-SMV-023
+    version: v1
+    content_hash: sha256:7b8d1d4df19eda8880da34076e9cdcb39a88afa2137c52b2f412e7ddf27018a7
+    approved_at: '2026-08-19T20:06:46.655566+00:00'
+  created_at: '2026-08-19T20:06:46.633001+00:00'

@@ -1,0 +1,30 @@
+我们来逐步分析这道题。请先看题目条件：已知平行四边形 $ABCD$ 中，$AB=9$，$BC=5$，$\sin B=\frac{4}{5}$；点 $P$ 在边 $AB$ 上运动；过点 $P$ 作 $PE\perp PC$，交射线 $CD$ 于点 $E$，交对角线 $AC$ 于点 $H$；点 $F$ 在线段 $PE$ 上，且满足 $\frac{FP}{PC}=\frac{2}{3}$；连接 $CF$。
+
+**第（1）问：求证 $\angle BAC = \angle PCF$**
+
+第一步：在平行四边形中，先构造直角三角形辅助计算。过点 $C$ 作 $CG\perp AB$，垂足为点 $G$。  
+第二步：在 $\triangle BCG$ 中，已知 $BC=5$，$\sin B = \frac{4}{5}$，所以对边 $CG = BC \cdot \sin B = 5 \times \frac{4}{5} = 4$；邻边 $BG = \sqrt{BC^2 - CG^2} = \sqrt{25 - 16} = 3$。  
+第三步：因为 $AB = 9$，且 $AG = AB - BG = 9 - 3 = 6$；又 $\angle AGC = 90^\circ$，所以在 $\triangle AGC$ 中，$\tan \angle BAC = \frac{CG}{AG} = \frac{4}{6} = \frac{2}{3}$。  
+第四步：观察 $\triangle PCF$：已知 $\angle CPF = 90^\circ$，且 $\frac{FP}{PC} = \frac{2}{3}$，所以在 $\triangle PCF$ 中，$\tan \angle PCF = \frac{FP}{PC} = \frac{2}{3}$。  
+第五步：由于 $\angle BAC$ 和 $\angle PCF$ 都是锐角，且正切值相等，因此 $\angle BAC = \angle PCF$。得证。
+
+**第（2）问：当 $\triangle APC \sim \triangle EFC$ 时，求 $BP$ 的长**
+
+第一步：由平行四边形性质，$AB \parallel CD$，所以 $\angle BAC = \angle ACD$（内错角相等）。  
+第二步：由第（1）问结论，$\angle PCF = \angle BAC$，所以 $\angle PCF = \angle ACD$，从而 $\angle PCA = \angle FCD$。  
+第三步：已知 $\triangle APC \sim \triangle EFC$，对应角相等，因此 $\angle APC = \angle EFC$；又 $\angle APC$ 与 $\angle BPC$ 互补，$\angle EFC$ 与 $\angle PFC$ 互补，可推出 $\angle BPC = \angle PFC$。  
+第四步：在 $\triangle BPC$ 中，$\cot \angle BPC = \frac{PG}{CG}$；在 $\triangle PFC$ 中，$\cot \angle PFC = \frac{FP}{PC} = \frac{2}{3}$；所以 $\frac{PG}{CG} = \frac{2}{3}$。  
+第五步：代入 $CG = 4$，得 $PG = \frac{8}{3}$；而 $BG = 3$，所以 $BP = BG + GP = 3 + \frac{8}{3} = \frac{17}{3}$。
+
+**第（3）问：当 $\frac{S_{\triangle HFC}}{S_{\triangle PHC}} = \frac{1}{3}$ 时，求 $\frac{AH}{AC}$ 的值**
+
+第一步：过点 $H$ 作 $HM \perp AB$，垂足为点 $M$；同时回顾前面所作的 $CG \perp AB$，垂足为 $G$。  
+第二步：注意到 $\angle FPC = 90^\circ$，所以 $\angle MPH = \angle PCG$（同为 $\angle CPB$ 的余角），又 $\angle HMP = \angle CGP = 90^\circ$，因此 $\triangle MPH \sim \triangle GCP$。  
+第三步：由面积比 $\frac{S_{\triangle HFC}}{S_{\triangle PHC}} = \frac{1}{3}$，且两三角形等高（以 $HC$ 为公共底边时，高之比即为 $FH : PH$），得 $\frac{FH}{PH} = \frac{1}{3}$。  
+第四步：分两种情况讨论点 $F$ 的位置：  
+
+① 若点 $F$ 在线段 $PH$ 的延长线上，则 $PF = PH + HF = PH + \frac{1}{3} PH = \frac{4}{3} PH$，结合 $\frac{PF}{PC} = \frac{2}{3}$，解得 $\frac{PH}{PC} = \frac{1}{2}$。设 $MH = a$，由 $\triangle MPH \sim \triangle GCP$ 得 $\frac{MP}{CG} = \frac{MH}{GP} = \frac{PH}{PC} = \frac{1}{2}$，即 $MP = \frac{1}{2} \times 4 = 2$，$GP = 2a$。又 $AG = 6$，$BG = 3$，$AB = 9$，所以 $AM + MP + PG + GB = AB$，即 $AM + 2 + 2a + 3 = 9$，得 $AM = 4 - 2a$；但由相似比 $\frac{AM}{AG} = \frac{MH}{CG} = \frac{a}{4}$，即 $AM = \frac{6a}{4} = \frac{3a}{2}$；联立得 $\frac{3a}{2} = 4 - 2a$，解得 $a = \frac{8}{7}$；所以 $\frac{AH}{AC} = \frac{MH}{CG} = \frac{8/7}{4} = \frac{2}{7}$。  
+
+② 若点 $F$ 在线段 $PH$ 上，则 $PF = PH - HF = PH - \frac{1}{3} PH = \frac{2}{3} PH$，结合 $\frac{PF}{PC} = \frac{2}{3}$，得 $PH = PC$。设 $MH = b$，由 $\triangle MPH \sim \triangle GCP$ 得 $\frac{MP}{CG} = \frac{MH}{GP} = \frac{PH}{PC} = 1$，即 $MP = 4$，$GP = b$；再由 $AM + MP + PG + GB = AB$，即 $AM + 4 + b + 3 = 9$，得 $AM = 2 - b$；又 $\frac{AM}{AG} = \frac{MH}{CG} = \frac{b}{4}$，即 $AM = \frac{6b}{4} = \frac{3b}{2}$；联立得 $\frac{3b}{2} = 2 - b$，解得 $b = \frac{4}{5}$；所以 $\frac{AH}{AC} = \frac{MH}{CG} = \frac{4/5}{4} = \frac{1}{5}$。  
+
+综上，$\frac{AH}{AC}$ 的值为 $\frac{2}{7}$ 或 $\frac{1}{5}$。

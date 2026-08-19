@@ -1,0 +1,104 @@
+{
+  "approval": {
+    "approved_at": "2026-08-19T20:04:35.428354+00:00",
+    "review_note": "part 级重切（ADR-005），证据 ref 复用整题录音",
+    "reviewer_id": "migration-agent"
+  },
+  "artifact_id": "TA-SMV-017",
+  "artifact_uri": "artifact://teaching-approach/TA-SMV-017@v1",
+  "content_hash": "sha256:33dad78851eb31b130f1fda323a30bec2c0e97cc7af3b1ec74a6aab1f90ba356",
+  "entry_signal": "学生看到角平分线与等腰能分别翻译出等角。",
+  "evidence": {
+    "audio": [
+      {
+        "artifact_uri": "artifact://audio/TA-SMV-017@v1/t1-r01-20260819T150015.629558_0000.wav",
+        "content_hash": "sha256:b29291cc20504b36ed59f2395ecffa7c2a2c14e9786b2bd29ce63d0c67fac112",
+        "recorded_at": "2026-08-19T15:00:15.629951+00:00"
+      },
+      {
+        "artifact_uri": "artifact://audio/TA-SMV-017@v1/t1-r02-20260819T171727.936196_0000.wav",
+        "content_hash": "sha256:9dbef3b21d3909fd0e756d9913e6d7efb2c2d5ceae4ade7bebe80b16ca733357",
+        "recorded_at": "2026-08-19T17:17:27.937976+00:00"
+      }
+    ],
+    "manual_edit_notes": [
+      "part 级重切（ADR-005）：讲解稿按官方 reviewed_solution 撰写，证据 ref 复用整题录音"
+    ],
+    "polished": [
+      {
+        "artifact_uri": "artifact://transcript/TA-SMV-017@v1/t1-p01-20260819T150033.626909_0000.polished.txt",
+        "polish_provenance": {
+          "model_id": "qwen-plus",
+          "prompt_version": "POLISH_PROMPT@2026-08-v1",
+          "provider": "dashscope"
+        }
+      },
+      {
+        "artifact_uri": "artifact://transcript/TA-SMV-017@v1/t1-p02-20260819T171804.277088_0000.polished.txt",
+        "polish_provenance": {
+          "model_id": "qwen-plus",
+          "prompt_version": "POLISH_PROMPT@2026-08-v1",
+          "provider": "dashscope"
+        }
+      }
+    ],
+    "transcripts": [
+      {
+        "artifact_uri": "artifact://transcript/TA-SMV-017@v1/t1-r01-20260819T150015.629558_0000.transcript.txt",
+        "asr_provenance": {
+          "model_id": "qwen3-asr-flash",
+          "provider": "dashscope"
+        },
+        "revision": 1
+      },
+      {
+        "artifact_uri": "artifact://transcript/TA-SMV-017@v1/t1-r02-20260819T171727.936196_0000.transcript.txt",
+        "asr_provenance": {
+          "model_id": "qwen3-asr-flash",
+          "provider": "dashscope"
+        },
+        "revision": 2
+      }
+    ]
+  },
+  "goal": "用「角平分线给公共角、等腰给外角」组合，AA 判定证 $\\triangle CEA\\sim\\triangle CDB$。",
+  "question_ref": {
+    "artifact_id": "QT-SMV-005",
+    "content_hash": "sha256:29ef3ddfc2c5bb78b7810f5ff2fc7f53e9a0fe1a27fe01c1f0e673c9896a2d7a",
+    "part_id": "1",
+    "version": "v2"
+  },
+  "schema": "ai_teaching_teaching_approach/v2",
+  "status": "Approved",
+  "steps": [
+    {
+      "expected_student_reasoning": "学生能立刻把角平分线条件翻译成两个三角形的公共等角。",
+      "intent": "角平分线给第一组角",
+      "narration": "由 $CD$ 平分 $\\angle ACB$ 得 $\\angle ACE=\\angle DCB$，这是 $\\triangle CEA$ 与 $\\triangle CDB$ 的公共等角。",
+      "skill_ids": [
+        "SKILL-SMV-008"
+      ],
+      "step_id": "S1"
+    },
+    {
+      "expected_student_reasoning": "学生能用「等腰 + 外角」补出第二组角。",
+      "intent": "等腰外角配第二组角",
+      "narration": "由 $AE=AD$ 得 $\\triangle AED$ 等腰，$\\angle CEA$ 与 $\\angle CDB$ 是其两个外角，均等于 $2\\angle EAD$，故 $\\angle CEA=\\angle CDB$。",
+      "skill_ids": [
+        "SKILL-SMV-002"
+      ],
+      "step_id": "S2"
+    },
+    {
+      "expected_student_reasoning": "学生能写明判定依据（AA）并核对顶点对应顺序。",
+      "intent": "AA 判定收尾",
+      "narration": "两组对应角相等，由 AA 判定证得 $\\triangle CEA\\sim\\triangle CDB$。",
+      "skill_ids": [
+        "SKILL-SMV-009"
+      ],
+      "step_id": "S3"
+    }
+  ],
+  "title": "第(1)问：角平分线公共角 + 等腰外角配 AA",
+  "version": "v1"
+}

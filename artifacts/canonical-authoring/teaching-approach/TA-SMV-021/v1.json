@@ -1,0 +1,109 @@
+{
+  "approval": {
+    "approved_at": "2026-08-19T20:04:35.531707+00:00",
+    "review_note": "part 级重切（ADR-005），证据 ref 复用整题录音",
+    "reviewer_id": "migration-agent"
+  },
+  "artifact_id": "TA-SMV-021",
+  "artifact_uri": "artifact://teaching-approach/TA-SMV-021@v1",
+  "content_hash": "sha256:78321cd30e6db01a59e124ac913df0ee9734b7cc8616db548bb2ac91c5146d36",
+  "entry_signal": "学生能把面积比转成同高线段比。",
+  "evidence": {
+    "audio": [
+      {
+        "artifact_uri": "artifact://audio/TA-SMV-021@v1/t1-r01-20260819T150034.352111_0000.wav",
+        "content_hash": "sha256:e44e9079bd9cc5eeb47f0b95334aca0cccd0822c07c1b8fa0f3dddf401701f51",
+        "recorded_at": "2026-08-19T15:00:34.352385+00:00"
+      },
+      {
+        "artifact_uri": "artifact://audio/TA-SMV-021@v1/t1-r02-20260819T171805.287382_0000.wav",
+        "content_hash": "sha256:3e70286b9afc31459ab65b2570d27043da5095f68c1848a8cbac04c7def97022",
+        "recorded_at": "2026-08-19T17:18:05.288971+00:00"
+      }
+    ],
+    "manual_edit_notes": [
+      "part 级重切（ADR-005）：讲解稿按官方 reviewed_solution 撰写，证据 ref 复用整题录音"
+    ],
+    "polished": [
+      {
+        "artifact_uri": "artifact://transcript/TA-SMV-021@v1/t1-p01-20260819T150118.111708_0000.polished.txt",
+        "polish_provenance": {
+          "model_id": "qwen-plus",
+          "prompt_version": "POLISH_PROMPT@2026-08-v1",
+          "provider": "dashscope"
+        }
+      },
+      {
+        "artifact_uri": "artifact://transcript/TA-SMV-021@v1/t1-p02-20260819T171914.217652_0000.polished.txt",
+        "polish_provenance": {
+          "model_id": "qwen-plus",
+          "prompt_version": "POLISH_PROMPT@2026-08-v1",
+          "provider": "dashscope"
+        }
+      }
+    ],
+    "transcripts": [
+      {
+        "artifact_uri": "artifact://transcript/TA-SMV-021@v1/t1-r01-20260819T150034.352111_0000.transcript.txt",
+        "asr_provenance": {
+          "model_id": "qwen3-asr-flash",
+          "provider": "dashscope"
+        },
+        "revision": 1
+      },
+      {
+        "artifact_uri": "artifact://transcript/TA-SMV-021@v1/t1-r02-20260819T171805.287382_0000.transcript.txt",
+        "asr_provenance": {
+          "model_id": "qwen3-asr-flash",
+          "provider": "dashscope"
+        },
+        "revision": 2
+      }
+    ]
+  },
+  "goal": "把 $\\frac{S_{\\triangle HFC}}{S_{\\triangle PHC}}=\\frac{1}{3}$ 转成 $\\frac{FH}{PH}=\\frac{1}{3}$，按 F 在 $PH$ 延长线/线段上两分类，解得 $\\frac{AH}{AC}=\frac{2}{7}$ 或 $\\frac{1}{5}$。",
+  "question_ref": {
+    "artifact_id": "QT-SMV-006",
+    "content_hash": "sha256:2e6f08f2567a5f1a8d1701853e4dd7ab29736f69c98c69d10b62a831d22be35f",
+    "part_id": "3",
+    "version": "v2"
+  },
+  "schema": "ai_teaching_teaching_approach/v2",
+  "status": "Approved",
+  "steps": [
+    {
+      "expected_student_reasoning": "学生能识别共顶点、底共线的等高结构并把面积比化成线段比。",
+      "intent": "面积比转线段比",
+      "narration": "$\\triangle HFC$ 与 $\\triangle PHC$ 共顶点 $C$，底 $FH$、$PH$ 同在直线 $PE$ 上（等高），故 $\\frac{S_{\\triangle HFC}}{S_{\\triangle PHC}}=\\frac{1}{3}$ 即 $\\frac{FH}{PH}=\\frac{1}{3}$。",
+      "skill_ids": [
+        "SKILL-SMV-003",
+        "SKILL-SMV-005"
+      ],
+      "step_id": "S1"
+    },
+    {
+      "expected_student_reasoning": "学生能用相似把 MH/GP 建立倍数关系并列一元方程。",
+      "intent": "类一：F 在 PH 延长线上",
+      "narration": "过 $H$ 作 $HM\\perp AB$；$\\angle MPH=\\angle PCG$ 且 $\\angle HMP=\\angle CGP=90^\\circ$，$\\triangle MPH\\sim\\triangle GCP$。此时 $\\frac{PH}{PC}=\\frac{1}{2}$，设 $MH=a$ 得 $GP=2a$、$MP=2$、$AM=\\frac{3}{2}a$，由 $2a+\\frac{3}{2}a+2+3=9$ 得 $a=\\frac{8}{7}$，故 $\\frac{AH}{AC}=\\frac{MH}{CG}=\\frac{2}{7}$。",
+      "skill_ids": [
+        "SKILL-SMV-002",
+        "SKILL-SMV-007"
+      ],
+      "step_id": "S2"
+    },
+    {
+      "common_errors": [
+        "漏掉 F 在延长线上的情形"
+      ],
+      "expected_student_reasoning": "学生能完整分两类并把两解分别代回检验。",
+      "intent": "类二：F 在 PH 上与总结",
+      "narration": "此时 $PH=PC$，设 $MH=b$ 得 $GP=b$、$MP=4$、$AM=\\frac{3}{2}b$，由 $b+\\frac{3}{2}b+4+3=9$ 得 $b=\\frac{4}{5}$，故 $\\frac{AH}{AC}=\\frac{1}{5}$。综上 $\\frac{AH}{AC}=\\frac{2}{7}$ 或 $\\frac{1}{5}$。",
+      "skill_ids": [
+        "SKILL-SMV-009"
+      ],
+      "step_id": "S3"
+    }
+  ],
+  "title": "第(3)问：面积比转化 + F 位置两分类",
+  "version": "v1"
+}

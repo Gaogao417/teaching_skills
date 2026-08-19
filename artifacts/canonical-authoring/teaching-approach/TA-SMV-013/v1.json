@@ -1,0 +1,109 @@
+{
+  "approval": {
+    "approved_at": "2026-08-19T20:04:35.310926+00:00",
+    "review_note": "part 级重切（ADR-005），证据 ref 复用整题录音",
+    "reviewer_id": "migration-agent"
+  },
+  "artifact_id": "TA-SMV-013",
+  "artifact_uri": "artifact://teaching-approach/TA-SMV-013@v1",
+  "content_hash": "sha256:95550f01ff692ce8eff5e32123414efe94b800a878627b0b0a53027ada3a2e8a",
+  "entry_signal": "学生知道函数关系式要「设元 → 找等量 → 消元」。",
+  "evidence": {
+    "audio": [
+      {
+        "artifact_uri": "artifact://audio/TA-SMV-013@v1/t1-r01-20260819T145244.124183_0000.wav",
+        "content_hash": "sha256:5c71a39630cb9179280721a930e9a817f4bf8401258f7e488f1c602b46826016",
+        "recorded_at": "2026-08-19T14:52:44.124456+00:00"
+      },
+      {
+        "artifact_uri": "artifact://audio/TA-SMV-013@v1/t1-r02-20260819T171512.391202_0000.wav",
+        "content_hash": "sha256:6c850ac9c1bafd748ecec830d22e4964a1036fcac9b2352f1ac871cf510943d4",
+        "recorded_at": "2026-08-19T17:15:12.392399+00:00"
+      }
+    ],
+    "manual_edit_notes": [
+      "part 级重切（ADR-005）：讲解稿按官方 reviewed_solution 撰写，证据 ref 复用整题录音"
+    ],
+    "polished": [
+      {
+        "artifact_uri": "artifact://transcript/TA-SMV-013@v1/t1-p01-20260819T145313.893394_0000.polished.txt",
+        "polish_provenance": {
+          "model_id": "qwen-plus",
+          "prompt_version": "POLISH_PROMPT@2026-08-v1",
+          "provider": "dashscope"
+        }
+      },
+      {
+        "artifact_uri": "artifact://transcript/TA-SMV-013@v1/t1-p02-20260819T171623.723804_0000.polished.txt",
+        "polish_provenance": {
+          "model_id": "qwen-plus",
+          "prompt_version": "POLISH_PROMPT@2026-08-v1",
+          "provider": "dashscope"
+        }
+      }
+    ],
+    "transcripts": [
+      {
+        "artifact_uri": "artifact://transcript/TA-SMV-013@v1/t1-r01-20260819T145244.124183_0000.transcript.txt",
+        "asr_provenance": {
+          "model_id": "qwen3-asr-flash",
+          "provider": "dashscope"
+        },
+        "revision": 1
+      },
+      {
+        "artifact_uri": "artifact://transcript/TA-SMV-013@v1/t1-r02-20260819T171512.391202_0000.transcript.txt",
+        "asr_provenance": {
+          "model_id": "qwen3-asr-flash",
+          "provider": "dashscope"
+        },
+        "revision": 2
+      }
+    ]
+  },
+  "goal": "作 $BH \\perp CD$ 构造全等转移线段，由 $AD \\parallel BH$ 导比例，解出 $y = \\frac{x^{2} + 4}{x + 2}$（$0 < x \\leq 2$）。",
+  "question_ref": {
+    "artifact_id": "QT-SMV-003",
+    "content_hash": "sha256:4308ade0fa955f2a35eba38cb004950325d0c9335765660e676ec5a3ca9e0684",
+    "part_id": "2",
+    "version": "v2"
+  },
+  "schema": "ai_teaching_teaching_approach/v2",
+  "status": "Approved",
+  "steps": [
+    {
+      "expected_student_reasoning": "学生能想到作高构造全等，把 BC 侧的量转到 CD 轴上。",
+      "intent": "构造高线全等转移",
+      "narration": "过点 $B$ 作 $BH \\perp CD$ 于点 $H$，可证 $\\triangle CAD \\cong \\triangle BCH$，得 $BH=CD=2$、$CH=AD=x$、$DH=2-x$。",
+      "skill_ids": [
+        "SKILL-SMV-001",
+        "SKILL-SMV-008"
+      ],
+      "step_id": "S1"
+    },
+    {
+      "expected_student_reasoning": "学生能用合比性质把 DE/EH 转成 DH/EH。",
+      "intent": "平行导比例",
+      "narration": "$AD \\parallel BH$ 得 $\\frac{AD}{BH}=\\frac{DE}{EH}$，即 $\\frac{x}{2}=\\frac{DE}{EH}$；合比得 $\\frac{DH}{EH}=\\frac{x+2}{2}$，解出 $EH=\\frac{4-2x}{x+2}$。",
+      "skill_ids": [
+        "SKILL-SMV-003",
+        "SKILL-SMV-007"
+      ],
+      "step_id": "S2"
+    },
+    {
+      "common_errors": [
+        "范围写成 0<x<2（漏端点）"
+      ],
+      "expected_student_reasoning": "学生能合并分式并说明范围来自 E 的位置约束。",
+      "intent": "合并成函数并定范围",
+      "narration": "$y=CE=CH+HE=x+\\frac{4-2x}{x+2}$，整理得 $y = \\frac{x^{2} + 4}{x + 2}$；由点 $E$ 在边 $CD$ 上得自变量范围 $0 < x \\leq 2$。",
+      "skill_ids": [
+        "SKILL-SMV-007"
+      ],
+      "step_id": "S3"
+    }
+  ],
+  "title": "第(2)问：构全等 + 平行导比例建函数式",
+  "version": "v1"
+}

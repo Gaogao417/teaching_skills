@@ -46,7 +46,8 @@ approaches:
   polished_text: "先看题干：已知线段 $a=4$ 厘米，$c=9$ 厘米，要求线段 $a$ 和 $c$ 的比例中项。  \n再回忆定义：若线段 $b$ 是 $a$ 与 $c$ 的比例中项，则满足 $b^2 = a \\cdot c$。  \n然后代入已知数据：$b^2 = 4 \\times 9 = 36$。  \n接着对等式两边开平方：$b = \\sqrt{36}$。  \n最后注意线段长度必须为正数，所以取正值，得 $b = 6$ 厘米。  \n特别提醒：比例中项是几何概念，不是算术平均数；开方后只取正根，不可写 $b = \\pm 6$。"
   evidence:
     recordings:
-    - revision: 1
+    - &id001
+      revision: 1
       audio_path: assets/teaching-approach/t1-r01-20260819T150118.832606_0000.wav
       audio_sha256: sha256:ed93c2da63d638c29211b47433f0ef470472a9178e830804de683d4db6445502
       audio_bytes: 186402
@@ -59,7 +60,8 @@ approaches:
         provider: dashscope
         model_id: qwen3-asr-flash
       transcribed_at: '2026-08-19T15:01:23.723316+00:00'
-    - revision: 2
+    - &id002
+      revision: 2
       audio_path: assets/teaching-approach/t1-r02-20260819T171915.181894_0000.wav
       audio_sha256: sha256:acc209d9c0e6c41c98546f9db60c95cefde7ea0f9c0b39a66b044286d726e294
       audio_bytes: 1137628
@@ -73,7 +75,8 @@ approaches:
         model_id: qwen3-asr-flash
       transcribed_at: '2026-08-19T17:19:39.413688+00:00'
     polishes:
-    - revision: 1
+    - &id003
+      revision: 1
       based_on_recording: 1
       polished_path: assets/teaching-approach/t1-p01-20260819T150133.929012_0000.polished.txt
       polished_sha256: sha256:f87f4bc11da44a1ccf798ff8374871e6dd43c7417fb96fc8526b6ffb4e410085
@@ -82,7 +85,8 @@ approaches:
         provider: dashscope
         model_id: qwen-plus
         prompt_version: POLISH_PROMPT@2026-08-v1
-    - revision: 2
+    - &id004
+      revision: 2
       based_on_recording: 2
       polished_path: assets/teaching-approach/t1-p02-20260819T171944.804640_0000.polished.txt
       polished_sha256: sha256:e2bec5b27aa7ca3498729017f0b8cf8b480908136da63d41ed88cadbe7ca216b
@@ -104,3 +108,50 @@ approaches:
     content_hash: sha256:a6e245f6052ad09e13dae4239b5d8b19f4c3dccfad971dbcdc2580453478cc00
     approved_at: '2026-08-19T17:19:44.874934+00:00'
   created_at: '2026-08-19T15:01:18.280213+00:00'
+- id: t2
+  title: 比例中项定义性计算
+  author: migration-agent
+  status: approved
+  part_id: ''
+  goal: 巩固比例中项的定义性计算：$b^2=ac$，代入后开平方并按线段取正值。
+  entry_signal: 学生能默写比例中项定义。
+  steps:
+  - step_id: S1
+    intent: 定义回忆
+    narration: 比例中项定义：$b^2=ac$（即 $\frac{a}{b}=\frac{b}{c}$），本题即求满足 $b^2=4\times 9$ 的线段 $b$。
+    expected_student_reasoning: 学生能写出两种等价表达并选用平方形式。
+    skill_ids:
+    - SKILL-SMV-001
+  - step_id: S2
+    intent: 代入计算
+    narration: 代入 $a=4$、$c=9$，$b^2=36$。
+    expected_student_reasoning: 学生能正确完成乘法 4×9=36。
+    skill_ids:
+    - SKILL-SMV-007
+  - step_id: S3
+    intent: 开方取正值
+    narration: $b=\sqrt{36}$，线段长度取正值，得比例中项为 $6$ 厘米。
+    expected_student_reasoning: 学生能说明为什么开方后只取正值（线段长非负且非零）。
+    skill_ids:
+    - SKILL-SMV-007
+  steps_origin: manual
+  polished_text: ''
+  evidence:
+    recordings:
+    - *id001
+    - *id002
+    polishes:
+    - *id003
+    - *id004
+    manual_edit_notes:
+    - part 级重切（ADR-005）：讲解稿按官方 reviewed_solution 撰写，证据 ref 复用整题录音
+  approval:
+    reviewer_id: migration-agent
+    approved_at: '2026-08-19T20:04:35.364640+00:00'
+    review_note: part 级重切（ADR-005），代理批准待真人教师复核
+  canonical:
+    artifact_id: TA-SMV-015
+    version: v1
+    content_hash: sha256:f480ab659eaf88e49e6224aff454c8dfddf67edb09039472d2cf1a4fe4b550b0
+    approved_at: '2026-08-19T20:04:35.364640+00:00'
+  created_at: '2026-08-19T20:04:35.344152+00:00'

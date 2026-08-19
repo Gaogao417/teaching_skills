@@ -1,0 +1,105 @@
+{
+  "approval": {
+    "approved_at": "2026-08-19T20:04:35.399033+00:00",
+    "review_note": "part 级重切（ADR-005），证据 ref 复用整题录音",
+    "reviewer_id": "migration-agent"
+  },
+  "artifact_id": "TA-SMV-016",
+  "artifact_uri": "artifact://teaching-approach/TA-SMV-016@v1",
+  "content_hash": "sha256:78959a0fe811b0e107d96cdf520ef9c175fb081af1947e2daf16c6dfec3684e4",
+  "entry_signal": "学生能把实物图抽象成两条平行线截得的相似三角形。",
+  "evidence": {
+    "audio": [
+      {
+        "artifact_uri": "artifact://audio/TA-SMV-016@v1/t1-r01-20260819T145314.620970_0000.wav",
+        "content_hash": "sha256:fa8a85352c5e61d5ae2ae170404a715ab429e4f13248c5f372d1414ba23fdd25",
+        "recorded_at": "2026-08-19T14:53:14.621249+00:00"
+      },
+      {
+        "artifact_uri": "artifact://audio/TA-SMV-016@v1/t1-r02-20260819T171624.830797_0000.wav",
+        "content_hash": "sha256:990453d512c3f26a77b7a4133019a5a68c79dc7824c37ba86ad14a8bf3b30117",
+        "recorded_at": "2026-08-19T17:16:24.832332+00:00"
+      }
+    ],
+    "manual_edit_notes": [
+      "part 级重切（ADR-005）：讲解稿按官方 reviewed_solution 撰写，证据 ref 复用整题录音"
+    ],
+    "polished": [
+      {
+        "artifact_uri": "artifact://transcript/TA-SMV-016@v1/t1-p01-20260819T150014.754851_0000.polished.txt",
+        "polish_provenance": {
+          "model_id": "qwen-plus",
+          "prompt_version": "POLISH_PROMPT@2026-08-v1",
+          "provider": "dashscope"
+        }
+      },
+      {
+        "artifact_uri": "artifact://transcript/TA-SMV-016@v1/t1-p02-20260819T171726.864218_0000.polished.txt",
+        "polish_provenance": {
+          "model_id": "qwen-plus",
+          "prompt_version": "POLISH_PROMPT@2026-08-v1",
+          "provider": "dashscope"
+        }
+      }
+    ],
+    "transcripts": [
+      {
+        "artifact_uri": "artifact://transcript/TA-SMV-016@v1/t1-r01-20260819T145314.620970_0000.transcript.txt",
+        "asr_provenance": {
+          "model_id": "qwen3-asr-flash",
+          "provider": "dashscope"
+        },
+        "revision": 1
+      },
+      {
+        "artifact_uri": "artifact://transcript/TA-SMV-016@v1/t1-r02-20260819T171624.830797_0000.transcript.txt",
+        "asr_provenance": {
+          "model_id": "qwen3-asr-flash",
+          "provider": "dashscope"
+        },
+        "revision": 2
+      }
+    ]
+  },
+  "goal": "在真实测量情境中把仪器结构翻译成 A 字型相似模型：两次实践分别求还需测量的量与树高表达式，并互相印证。",
+  "question_ref": {
+    "artifact_id": "QT-SMV-004",
+    "content_hash": "sha256:655cc7a1a579e435f3fe521954a0aea9776c7b0e60b280b06ba85bb42c74fc80",
+    "version": "v2"
+  },
+  "schema": "ai_teaching_teaching_approach/v2",
+  "status": "Approved",
+  "steps": [
+    {
+      "expected_student_reasoning": "学生能说出哪两条线平行、截出哪两个三角形。",
+      "intent": "读仪器，标注已知量",
+      "narration": "标注仪器结构：$AB=40\\,\\mathrm{cm}$、$CD=60\\,\\mathrm{cm}$、$DB=20\\,\\mathrm{cm}$，铅垂保证竖直方向；把「视线—标杆—树」翻译成 A 字型相似模型。",
+      "skill_ids": [
+        "SKILL-SMV-001"
+      ],
+      "step_id": "S1"
+    },
+    {
+      "expected_student_reasoning": "学生能写出比例式并解出 $MN=(a+b+40)\\,\\mathrm{cm}$，说明每项来源。",
+      "intent": "第一次实践列比例求表达式",
+      "narration": "由平行得 A 字型相似，对应边成比例，推出还需测量 $NE=b\\,\\mathrm{cm}$，树高 $MN=(a+b+40)\\,\\mathrm{cm}$（40 为仪器结构补偿量）。",
+      "skill_ids": [
+        "SKILL-SMV-008",
+        "SKILL-SMV-003"
+      ],
+      "step_id": "S2"
+    },
+    {
+      "expected_student_reasoning": "学生能独立完成第二次建模并解释两种表达式为何表示同一树高。",
+      "intent": "第二次实践与结果印证",
+      "narration": "换摆放后同理构造相似：还需测量 $EF=c\\,\\mathrm{cm}$，得 $MN=(c+a)\\,\\mathrm{cm}$；与第一次的 $MN=(a+b+40)\\,\\mathrm{cm}$ 互相印证，检查建模一致性。",
+      "skill_ids": [
+        "SKILL-SMV-003",
+        "SKILL-SMV-007"
+      ],
+      "step_id": "S3"
+    }
+  ],
+  "title": "测高仪 A 字型相似建模（两次实践互证）",
+  "version": "v1"
+}

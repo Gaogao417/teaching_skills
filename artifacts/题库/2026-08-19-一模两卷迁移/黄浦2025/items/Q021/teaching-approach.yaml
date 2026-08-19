@@ -52,7 +52,8 @@ approaches:
     \ $\\angle CAB=45^\\circ$，$\\angle DAB=\\arctan\\frac{1}{2}$；进而推出 $\\triangle AMN$ 中，两次观测点 $A$ 的水平位移差等于 $EF=c\\,\\mathrm{cm}$，且该位移差恰好等于树高超出 $BE$ 的部分，即 $MN-BE=EF$；因此 $MN=(c+a)\\,\\mathrm{cm}$。"
   evidence:
     recordings:
-    - revision: 1
+    - &id001
+      revision: 1
       audio_path: assets/teaching-approach/t1-r01-20260819T145314.620970_0000.wav
       audio_sha256: sha256:fa8a85352c5e61d5ae2ae170404a715ab429e4f13248c5f372d1414ba23fdd25
       audio_bytes: 280608
@@ -65,7 +66,8 @@ approaches:
         provider: dashscope
         model_id: qwen3-asr-flash
       transcribed_at: '2026-08-19T14:53:22.914594+00:00'
-    - revision: 2
+    - &id002
+      revision: 2
       audio_path: assets/teaching-approach/t1-r02-20260819T171624.830797_0000.wav
       audio_sha256: sha256:990453d512c3f26a77b7a4133019a5a68c79dc7824c37ba86ad14a8bf3b30117
       audio_bytes: 2103950
@@ -79,7 +81,8 @@ approaches:
         model_id: qwen3-asr-flash
       transcribed_at: '2026-08-19T17:17:09.876383+00:00'
     polishes:
-    - revision: 1
+    - &id003
+      revision: 1
       based_on_recording: 1
       polished_path: assets/teaching-approach/t1-p01-20260819T150014.754851_0000.polished.txt
       polished_sha256: sha256:16bc94fbefbc98d9e2d678c51df8e4678a03a9f94cb0f6f65fb37cb6202d37a6
@@ -88,7 +91,8 @@ approaches:
         provider: dashscope
         model_id: qwen-plus
         prompt_version: POLISH_PROMPT@2026-08-v1
-    - revision: 2
+    - &id004
+      revision: 2
       based_on_recording: 2
       polished_path: assets/teaching-approach/t1-p02-20260819T171726.864218_0000.polished.txt
       polished_sha256: sha256:a22169359b6041e5916955fa28aacfa09059e203ffd15e50dd5e49654e6a3a7a
@@ -110,3 +114,52 @@ approaches:
     content_hash: sha256:663f9b2b5f1801647cd0c2b0126473670d6131dafc1d6dd3917fc4ff7c0d2fa8
     approved_at: '2026-08-19T17:17:26.937772+00:00'
   created_at: '2026-08-19T14:53:14.066514+00:00'
+- id: t2
+  title: 测高仪 A 字型相似建模（两次实践互证）
+  author: migration-agent
+  status: approved
+  part_id: ''
+  goal: 在真实测量情境中把仪器结构翻译成 A 字型相似模型：两次实践分别求还需测量的量与树高表达式，并互相印证。
+  entry_signal: 学生能把实物图抽象成两条平行线截得的相似三角形。
+  steps:
+  - step_id: S1
+    intent: 读仪器，标注已知量
+    narration: 标注仪器结构：$AB=40\,\mathrm{cm}$、$CD=60\,\mathrm{cm}$、$DB=20\,\mathrm{cm}$，铅垂保证竖直方向；把「视线—标杆—树」翻译成 A 字型相似模型。
+    expected_student_reasoning: 学生能说出哪两条线平行、截出哪两个三角形。
+    skill_ids:
+    - SKILL-SMV-001
+  - step_id: S2
+    intent: 第一次实践列比例求表达式
+    narration: 由平行得 A 字型相似，对应边成比例，推出还需测量 $NE=b\,\mathrm{cm}$，树高 $MN=(a+b+40)\,\mathrm{cm}$（40 为仪器结构补偿量）。
+    expected_student_reasoning: 学生能写出比例式并解出 $MN=(a+b+40)\,\mathrm{cm}$，说明每项来源。
+    skill_ids:
+    - SKILL-SMV-008
+    - SKILL-SMV-003
+  - step_id: S3
+    intent: 第二次实践与结果印证
+    narration: 换摆放后同理构造相似：还需测量 $EF=c\,\mathrm{cm}$，得 $MN=(c+a)\,\mathrm{cm}$；与第一次的 $MN=(a+b+40)\,\mathrm{cm}$ 互相印证，检查建模一致性。
+    expected_student_reasoning: 学生能独立完成第二次建模并解释两种表达式为何表示同一树高。
+    skill_ids:
+    - SKILL-SMV-003
+    - SKILL-SMV-007
+  steps_origin: manual
+  polished_text: ''
+  evidence:
+    recordings:
+    - *id001
+    - *id002
+    polishes:
+    - *id003
+    - *id004
+    manual_edit_notes:
+    - part 级重切（ADR-005）：讲解稿按官方 reviewed_solution 撰写，证据 ref 复用整题录音
+  approval:
+    reviewer_id: migration-agent
+    approved_at: '2026-08-19T20:04:35.399033+00:00'
+    review_note: part 级重切（ADR-005），代理批准待真人教师复核
+  canonical:
+    artifact_id: TA-SMV-016
+    version: v1
+    content_hash: sha256:78959a0fe811b0e107d96cdf520ef9c175fb081af1947e2daf16c6dfec3684e4
+    approved_at: '2026-08-19T20:04:35.399033+00:00'
+  created_at: '2026-08-19T20:04:35.371910+00:00'
