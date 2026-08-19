@@ -82,6 +82,7 @@ __all__ = [
     "approach_history",
     "current_approach",
     "approaches_for_question",
+    "freeze_approach_set",
 ]
 
 APPROACH_SCHEMA = "math_item_teaching_approach/v1"
@@ -953,3 +954,205 @@ def approaches_for_question(
             continue
         current_list.append(payload)
     return current_list
+
+
+# --------------------------------------------------------------------------- #
+# ApproachSet freeze（ADR-005 §5：跨小问组合层，每题一份）
+# --------------------------------------------------------------------------- #
+
+AS_NAMESPACE = "approach-set"
+AS_ID_PATTERN = re.compile(r"^AS-[A-Z0-9]+-[0-9]{3,}$")
+
+
+def _as_registry_path(as_id: str, root: Path) -> Path:
+    return root / AS_NAMESPACE / as_id / "registry.yaml"
+
+
+def _as_version_path(as_id: str, version: str, root: Path) -> Path:
+    return root / AS_NAMESPACE / as_id / f"{version}.json"
+
+
+def freeze_approach_set(
+    qt_id: str,
+    parts: list[dict[str, Any]],
+    *,
+    reviewer_id: str,
+    review_note: str,
+    ledger_path: Path,
+    root: Path | None = None,
+    cross_part_rhythm: str | None = None,
+) -> dict[str, Any]:
+    """批准并冻结 canonical ApprovedApproachSet.v1（不可变，ADR-005 §5）。
+
+    门禁（全部 fail closed）：
+    - QT current 版本必须 Approved；parts 与 QT subquestions 一一对应
+      （无小问题时只允许一个省略 part_id 的整题 part）；
+    - 每个引用的 TA 必须 current Approved，且 question_ref 三元组与本 QT
+      current 完全一致、part_id 与所在 part 匹配（alternates 同样校验）；
+    - contracts schema + publication 校验后写 version 文件 + registry
+      （同 id 重冻 → v<N+1>，旧版 Superseded）；AS id 从账本 as_next_seq 分配。
+    """
+    root = root or ce.CANONICAL_ROOT
+    if not str(reviewer_id or "").strip():
+        raise TeachingApproachError("批准需要 reviewer_id")
+    truth = ce.current_truth(qt_id, root=root)
+    if truth.get("status") != "Approved":
+        raise TeachingApproachError(f"{qt_id}: QuestionTruth current 不是 Approved，拒绝冻结")
+    question_ids = [str(p.get("part_id") or "") for p in truth.get("subquestions") or []]
+    part_ids = [str(part.get("part_id") or "") for part in parts]
+    if question_ids:
+        if part_ids != question_ids:
+            raise TeachingApproachError(
+                f"{qt_id}: parts {part_ids} 与小问 {question_ids} 不一一对应"
+            )
+    else:
+        if len(parts) != 1 or part_ids != [""]:
+            raise TeachingApproachError(f"{qt_id}: 无小问，只允许一个整题 part")
+
+    def _check_approach_ref(ref: dict[str, Any], expected_part: str) -> dict[str, Any]:
+        ta_id = str(ref.get("artifact_id") or "")
+        if not TA_ID_PATTERN.match(ta_id):
+            raise TeachingApproachError(f"非法 TA id：{ta_id!r}")
+        current = read_approach_version(ta_id, str(ref.get("version") or ""), root=root)
+        if current.get("status") != "Approved":
+            raise TeachingApproachError(f"{ta_id}@{ref.get('version')}: 不是 Approved，拒绝引用")
+        bound = current.get("question_ref") or {}
+        if (
+            bound.get("artifact_id") != qt_id
+            or bound.get("version") != truth["version"]
+            or bound.get("content_hash") != truth["content_hash"]
+            or str(bound.get("part_id") or "") != expected_part
+        ):
+            raise TeachingApproachError(
+                f"{ta_id}: question_ref 与 QT current 或 part 不匹配，拒绝引用"
+            )
+        if current.get("content_hash") != str(ref.get("content_hash") or ""):
+            raise TeachingApproachError(f"{ta_id}: 引用 content_hash 与版本文件不一致")
+        return current
+
+    canonical_parts: list[dict[str, Any]] = []
+    for part in parts:
+        expected = str(part.get("part_id") or "")
+        primary = _check_approach_ref(part["approach"], expected)
+        canonical_parts.append(
+            {
+                **({"part_id": expected} if expected else {}),
+                "approach": {
+                    "artifact_id": primary["artifact_id"],
+                    "version": primary["version"],
+                    "content_hash": primary["content_hash"],
+                },
+                **(
+                    {
+                        "alternates": [
+                            {
+                                "artifact_id": alt_c["artifact_id"],
+                                "version": alt_c["version"],
+                                "content_hash": alt_c["content_hash"],
+                            }
+                            for alt_c in (
+                                _check_approach_ref(ref, expected)
+                                for ref in part.get("alternates") or []
+                            )
+                        ]
+                    }
+                    if part.get("alternates")
+                    else {}
+                ),
+                **({"note": str(part["note"])} if part.get("note") else {}),
+            }
+        )
+
+    ledger = ce._load_yaml(ledger_path)
+    by_question = ledger.setdefault("as_allocations", {})
+    as_id = str(by_question.get(qt_id) or "")
+    if not as_id:
+        seq = int(ledger.get("as_next_seq") or 1)
+        while True:
+            as_id = f"AS-SMV-{seq:03d}"
+            used = {
+                entry
+                for entries in by_question.values()
+                if isinstance(entries, str)
+                for entry in [entries]
+            }
+            if as_id not in used:
+                break
+            seq += 1
+        ledger["as_next_seq"] = seq + 1
+        by_question[qt_id] = as_id
+        ce._write_yaml_atomic(ledger_path, ledger)
+
+    registry_path = _as_registry_path(as_id, root)
+    registry = (
+        ce._load_yaml(registry_path)
+        if registry_path.is_file()
+        else {"artifact_id": as_id, "current_version": None, "versions": []}
+    )
+    current_version = registry.get("current_version")
+    versions: list[dict[str, Any]] = list(registry.get("versions") or [])
+    next_version = (
+        f"v{int(current_version[1:]) + 1}" if current_version is not None else "v1"
+    )
+    payload: dict[str, Any] = {
+        "schema": "ai_teaching_approach_set/v1",
+        "artifact_id": as_id,
+        "version": next_version,
+        "status": "Approved",
+        "question_ref": {
+            "artifact_id": qt_id,
+            "version": truth["version"],
+            "content_hash": truth["content_hash"],
+        },
+        "parts": canonical_parts,
+        **({"cross_part_rhythm": cross_part_rhythm} if cross_part_rhythm else {}),
+        "approval": {
+            "reviewer_id": reviewer_id.strip(),
+            "approved_at": ce._now(),
+            "review_note": review_note.strip() or None,
+        },
+        "content_hash": "",
+        "artifact_uri": f"artifact://{AS_NAMESPACE}/{as_id}@{next_version}",
+    }
+    payload["content_hash"] = ce._content_hash(payload)
+
+    ok, errors = validate_payload(payload)
+    if not ok:
+        raise TeachingApproachError(f"{as_id}: canonical schema invalid: {errors}")
+    publication_errors = validate_for_publication(payload)
+    if publication_errors:
+        raise TeachingApproachError(
+            f"{as_id}: publication validation failed (fail closed): "
+            f"{[str(e) for e in publication_errors]}"
+        )
+
+    ce._write_json_atomic(_as_version_path(as_id, next_version, root), payload)
+    if current_version is not None:
+        current_file = _as_version_path(as_id, current_version, root)
+        old_payload = _read_json(current_file)
+        old_payload["status"] = "Superseded"
+        old_payload["superseded_by"] = {"artifact_id": as_id, "version": next_version}
+        ce._write_json_atomic(current_file, old_payload)
+        versions = [
+            dict(
+                entry,
+                status="Superseded",
+                superseded_by={"artifact_id": as_id, "version": next_version},
+            )
+            if entry.get("version") == current_version
+            else entry
+            for entry in versions
+        ]
+    versions.append(
+        {
+            "version": next_version,
+            "status": "Approved",
+            "content_hash": payload["content_hash"],
+            "approved_at": payload["approval"]["approved_at"],
+            "question_ref": payload["question_ref"],
+        }
+    )
+    registry["current_version"] = next_version
+    registry["versions"] = versions
+    ce._write_yaml_atomic(registry_path, registry)
+    return payload

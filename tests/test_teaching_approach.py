@@ -951,3 +951,69 @@ def test_part_id_forbidden_without_subquestions(tmp_path: Path) -> None:
             _draft_part_approach(), tmp_path, reviewer_id="r", review_note="n",
             qt_id="QT-SMV-001", ledger_path=ledger, root=canonical_root, part_id="1",
         )
+
+
+def test_approach_set_freeze_gates(tmp_path: Path) -> None:
+    canonical_root = tmp_path / "canonical-authoring"
+    write_truth_v2_multipart(canonical_root)
+    ledger = _ledger(tmp_path)
+
+    frozen2 = ta.freeze_approved_approach(
+        _draft_part_approach(), tmp_path, reviewer_id="r", review_note="n",
+        qt_id="QT-SMV-003", ledger_path=ledger, root=canonical_root, part_id="2",
+    )
+    part1 = _draft_part_approach()
+    part1["id"] = "t2"
+    part1["part_id"] = "1"
+    part1["title"] = "第(1)问：AA 判定证相似"
+    part1["steps"][2]["narration"] = "两组对应角相等，AA 判定证得 $\\triangle ABE\\sim\\triangle EFC$。"
+    frozen1 = ta.freeze_approved_approach(
+        part1, tmp_path, reviewer_id="r", review_note="n",
+        qt_id="QT-SMV-003", ledger_path=ledger, root=canonical_root, part_id="1",
+    )
+    set_payload = ta.freeze_approach_set(
+        "QT-SMV-003",
+        [
+            {
+                "part_id": "1",
+                "approach": {
+                    "artifact_id": frozen1["artifact_id"],
+                    "version": frozen1["version"],
+                    "content_hash": frozen1["content_hash"],
+                },
+            },
+            {
+                "part_id": "2",
+                "approach": {
+                    "artifact_id": frozen2["artifact_id"],
+                    "version": frozen2["version"],
+                    "content_hash": frozen2["content_hash"],
+                },
+            },
+        ],
+        reviewer_id="r",
+        review_note="golden 选法",
+        ledger_path=ledger,
+        root=canonical_root,
+        cross_part_rhythm="第(1)问的相似是第(2)问比例求解的台阶",
+    )
+    assert set_payload["artifact_id"] == "AS-SMV-001"
+    assert set_payload["schema"] == "ai_teaching_approach_set/v1"
+    ok, errors = validate_payload(set_payload)
+    assert ok, errors
+    # parts 与小问不一一对应 → fail closed（缺 part 1）
+    with pytest.raises(ta.TeachingApproachError, match="不一一对应"):
+        ta.freeze_approach_set(
+            "QT-SMV-003", [{"part_id": "1", "approach": {}}, {"part_id": "3", "approach": {}}],
+            reviewer_id="r", review_note="n", ledger_path=ledger, root=canonical_root,
+        )
+    # 引用不存在/非 current Approved 版本 → fail closed
+    with pytest.raises(ta.TeachingApproachError, match="TA-SMV-999"):
+        ta.freeze_approach_set(
+            "QT-SMV-003",
+            [
+                {"part_id": "1", "approach": {"artifact_id": "TA-SMV-999", "version": "v1", "content_hash": frozen1["content_hash"]}},
+                {"part_id": "2", "approach": {"artifact_id": frozen2["artifact_id"], "version": frozen2["version"], "content_hash": frozen2["content_hash"]}},
+            ],
+            reviewer_id="r", review_note="n", ledger_path=ledger, root=canonical_root,
+        )
