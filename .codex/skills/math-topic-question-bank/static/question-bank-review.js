@@ -477,6 +477,16 @@ function applyItem(item, itemIndex) {
   setText("stem", formatReviewText(item.stem_latex || "题干不可用"));
   setText("answer", formatReviewText(item.answer || "暂无答案"));
   setText("clue", formatReviewText(item.clue || "暂无思路提示"));
+  // P2-03：staging 题目开放文本编辑（修订后重算 hash、旧审核置 stale）。
+  const editToggle = byId("edit-text-toggle");
+  editToggle.hidden = !(state.detail.kind === "staging_exam");
+  editToggle.textContent = item.text_edited ? "编辑题干/答案文本（已修订）" : "编辑题干/答案文本";
+  hideTextEditPanel();
+  const locationIssues = byId("text-edit-location-issues");
+  locationIssues.hidden = !(Array.isArray(item.source_location_issues) && item.source_location_issues.length);
+  locationIssues.textContent = item.source_location_issues
+    ? `来源页归属校验：${item.source_location_issues.join("；")}`
+    : "";
   setText("position-summary", `${itemIndex + 1} / ${state.detail.items.length}`);
   const error = byId("load-error");
   error.hidden = !item.load_error;
@@ -808,6 +818,76 @@ function applyFullItem(fullItem) {
     directoryItem.stale = Boolean(review.stale ?? directoryItem.stale);
   }
 }
+
+function hideTextEditPanel() {
+  byId("text-edit-panel").hidden = true;
+}
+
+function showTextEditPanel(item) {
+  byId("edit-stem").value = item.stem_latex || "";
+  byId("edit-answer").value = item.answer || "";
+  byId("edit-clue").value = item.clue || "";
+  byId("edit-steps").value = (item.solution_steps || [])
+    .map((step) => (typeof step === "string" ? step : step.content || step.title || ""))
+    .join("\n");
+  const message = byId("text-edit-message");
+  message.textContent = "";
+  message.hidden = true;
+  byId("text-edit-panel").hidden = false;
+  byId("edit-stem").focus();
+}
+
+async function saveTextEdits() {
+  const item = state.detail.items[state.itemIndex];
+  if (!item) return;
+  const message = byId("text-edit-message");
+  const payload = {};
+  const stem = byId("edit-stem").value.trim();
+  const answer = byId("edit-answer").value.trim();
+  const clue = byId("edit-clue").value;
+  const steps = byId("edit-steps").value.split("\n").map((line) => line.trim()).filter(Boolean);
+  if (stem !== (item.stem_latex || "")) payload.stem_latex = stem;
+  if (answer !== (item.answer || "")) payload.answer = answer;
+  if (clue !== (item.clue || "")) payload.clue = clue;
+  if (steps.join("\n") !== (item.solution_steps || []).map((s) => (typeof s === "string" ? s : s.content || s.title || "")).join("\n")) {
+    payload.solution_steps = steps;
+  }
+  if (!Object.keys(payload).length) {
+    message.textContent = "没有改动可保存。";
+    message.hidden = false;
+    return;
+  }
+  try {
+    const response = await fetch(
+      `/api/banks/${encodeURIComponent(state.detail.bank_id)}/items/${encodeURIComponent(item.id)}/text`,
+      {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      }
+    );
+    if (!response.ok) {
+      const body = await response.json().catch(() => ({}));
+      throw new Error(body.detail || `保存失败（${response.status}）`);
+    }
+    const updated = await response.json();
+    state.itemCache.set(item.id, updated);
+    applyFullItem(updated, state.itemIndex);
+    message.textContent = "已保存：content hash 已重算，请重新审核本题。";
+    message.hidden = false;
+  } catch (error) {
+    message.textContent = `保存失败：${error.message}`;
+    message.hidden = false;
+  }
+}
+
+byId("edit-text-toggle").addEventListener("click", () => {
+  const item = state.detail.items[state.itemIndex];
+  if (!item) return;
+  showTextEditPanel(item);
+});
+byId("edit-text-cancel").addEventListener("click", hideTextEditPanel);
+byId("edit-text-save").addEventListener("click", saveTextEdits);
 
 async function submitReview(decision, note = "") {
   const item = state.detail?.items?.[state.itemIndex];

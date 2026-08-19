@@ -194,6 +194,25 @@ class ReviewDecision(ReviewNote):
     decision: Literal["approved", "rejected"]
 
 
+class TextUpdate(BaseModel):
+    """P2-03：题干/选项/答案/提示/解答步骤的文本修订（staging 专用）。
+
+    全部字段可选——只更新提交的字段；未提交字段保持原值。保存即重算
+    content_hash（与 materialize 同公式），旧 review 自动 stale，
+    transcription.human_review 回到 pending，且追加 text-edits.yaml 修订痕迹。
+    """
+
+    model_config = ConfigDict(extra="forbid")
+
+    stem_latex: str | None = None
+    choices: list[str] | None = None
+    answer: str | None = None
+    clue: str | None = None
+    solution_steps: list[str] | None = None
+    solution_notes: list[str] | None = None
+    editor: str = "question-bank-review-ui"
+
+
 class TranscriptionIssueDecision(ReviewNote):
     decision: Literal[
         "accept_candidate", "accept_baseline", "manual",
@@ -367,6 +386,116 @@ def _canonical_hash(value: Any) -> str:
         value, ensure_ascii=False, sort_keys=True, separators=(",", ":")
     ).encode("utf-8")
     return _sha256_bytes(encoded)
+
+
+# Staging content-hash 必须与 materialize_staging 的 hash_payload 逐字节一致
+# （teacher + student + crop_hashes + attribution_reviews，固定四角色顺序），
+# 否则 UI 换图/改文本后任何一次 materialize 重跑都会改变 hash、把 review 打回
+# stale。此前 UI 端缺 attribution_reviews 段，属公式漂移（P2-03 修正）。
+_STAGING_HASH_ROLES = (
+    "question_evidence",
+    "prompt",
+    "solution",
+    "official_solution",
+)
+
+
+def _staging_content_hash(
+    source: dict[str, Any], teacher: dict[str, Any], student: dict[str, Any]
+) -> str:
+    crops = source.get("crops") or {}
+    if not isinstance(crops, dict):
+        crops = {}
+
+    def _entries(role: str) -> list[Any]:
+        entries = crops.get(role) or []
+        return entries if isinstance(entries, list) else []
+
+    return _canonical_hash(
+        {
+            "teacher": teacher,
+            "student": student,
+            "crop_hashes": {
+                role: [
+                    crop.get("output_sha256")
+                    for crop in _entries(role)
+                    if isinstance(crop, dict)
+                ]
+                for role in _STAGING_HASH_ROLES
+            },
+            "attribution_reviews": {
+                role: [
+                    crop.get("attribution_review") if isinstance(crop, dict) else None
+                    for crop in _entries(role)
+                ]
+                for role in _STAGING_HASH_ROLES
+            },
+        }
+    )
+
+
+def _page_number_from_source(source_path: str) -> int | None:
+    """页图路径 → 页码（word/pages/006.png 或 pages-pages/004.png 的数字词干）。"""
+    name = Path(str(source_path)).name
+    stem = Path(name).stem
+    if stem.isdigit():
+        return int(stem)
+    if stem.startswith("page-") and stem.removeprefix("page-").isdigit():
+        return int(stem.removeprefix("page-"))
+    return None
+
+
+# 目标角色 → word_evidence 角色（题图类必须落在题干页；解答类必须落在解答页）。
+_TARGET_EVIDENCE_ROLE = {
+    "question_evidence": "question",
+    "prompt": "question",
+    "solution_step": "official_solution",
+    "official_solution": "official_solution",
+}
+
+
+def _crop_source_location_issues(
+    source: dict[str, Any], *, target: str | None = None
+) -> list[str]:
+    """P2-04：crop 的来源页必须落在本题 word_evidence 声明的页集合内。
+
+    只校验来源确实指向页图（数字词干）的 crop；手工粘贴图的 source 指向
+    item 内 PNG（manual-*），无从判定页归属，跳过。返回可读问题列表（空 = 通过）。
+    """
+    word_evidence = source.get("word_evidence") or {}
+    if not isinstance(word_evidence, dict) or not word_evidence:
+        return []
+    allowed = {
+        role: {
+            _page_number_from_source(entry.get("page_image", ""))
+            for entry in (word_evidence.get(role) or [])
+            if isinstance(entry, dict)
+        }
+        - {None}
+        for role in ("question", "official_solution")
+    }
+    issues: list[str] = []
+    crops = source.get("crops") or {}
+    if not isinstance(crops, dict):
+        return []
+    for role, entries in crops.items():
+        if not isinstance(entries, list):
+            continue
+        evidence_role = _TARGET_EVIDENCE_ROLE.get(str(role))
+        if evidence_role is None:
+            continue
+        for index, crop in enumerate(entries):
+            if not isinstance(crop, dict):
+                continue
+            page = _page_number_from_source(crop.get("source", ""))
+            if page is None:
+                continue
+            if page not in allowed[evidence_role]:
+                issues.append(
+                    f"{role}[{index}]: 来源页 {page} 不在本题 "
+                    f"word_evidence.{evidence_role} 页 {sorted(allowed[evidence_role])} 内"
+                )
+    return issues
 
 
 def _atomic_write_yaml(path: Path, payload: dict[str, Any]) -> None:
@@ -1533,6 +1662,12 @@ class QuestionBankCatalog:
                 rendered["source_pages"] = [
                     merged[page] for page in sorted(merged)
                 ]
+                # P2-04：页归属校验结果随 detail 下发（空列表 = 无错配）。
+                rendered["source_location_issues"] = _crop_source_location_issues(
+                    source
+                )
+                # P2-03：是否已有 UI 文本修订痕迹（P2-08 门禁 3 的展示位）。
+                rendered["text_edited"] = (item_dir / "text-edits.yaml").is_file()
                 if not rendered["prompt_previews"]:
                     prompt = _diagram_preview(
                         student_block.get("diagram_col"), student_path, record.directory
@@ -1766,21 +1901,11 @@ class QuestionBankCatalog:
                 raise ValueError("只能替换现有图片或追加到末尾")
 
         student = _derive_student_assignment(teacher)
-        source["content_hash"] = _canonical_hash(
-            {
-                "teacher": teacher,
-                "student": student,
-                "crop_hashes": {
-                    crop_role: [
-                        crop.get("output_sha256")
-                        for crop in crop_entries
-                        if isinstance(crop, dict)
-                    ]
-                    for crop_role, crop_entries in crops.items()
-                    if isinstance(crop_entries, list)
-                },
-            }
-        )
+        # P2-04：写入前校验本题既有 crop 的页归属（页图类 crop 不得跨题错配）。
+        location_issues = _crop_source_location_issues(source, target=target)
+        if location_issues:
+            raise ValueError("来源页归属校验失败：" + "; ".join(location_issues))
+        source["content_hash"] = _staging_content_hash(source, teacher, student)
 
         output_path.parent.mkdir(parents=True, exist_ok=True)
         with tempfile.NamedTemporaryFile(
@@ -1905,21 +2030,7 @@ class QuestionBankCatalog:
                         images.pop(matching_index)
 
         student = _derive_student_assignment(teacher)
-        source["content_hash"] = _canonical_hash(
-            {
-                "teacher": teacher,
-                "student": student,
-                "crop_hashes": {
-                    crop_role: [
-                        crop.get("output_sha256")
-                        for crop in crop_entries
-                        if isinstance(crop, dict)
-                    ]
-                    for crop_role, crop_entries in crops.items()
-                    if isinstance(crop_entries, list)
-                },
-            }
-        )
+        source["content_hash"] = _staging_content_hash(source, teacher, student)
         _atomic_write_yaml(teacher_path, teacher)
         _atomic_write_yaml(student_path, student)
         _atomic_write_yaml(source_path, source)
@@ -1929,6 +2040,98 @@ class QuestionBankCatalog:
         updated = new_snapshot.items_by_bank_item.get((bank_id, item_id))
         if updated is None:
             # 失效后该题仍缺失（理论不应发生，因为 record 仍有效）→ 兜底重建。
+            detail, _ = self._staging_detail(record)
+            updated = next(item for item in detail["items"] if item["id"] == item_id)
+        return updated
+
+    def update_staging_text(
+        self, bank_id: str, item_id: str, update: TextUpdate
+    ) -> dict[str, Any]:
+        """P2-03：编辑题干/答案/小问文本，重算 hash，旧 review 置 stale。
+
+        写路径与图片替换一致（teacher + student + source 三写 + 精准失效）。
+        学生版只同步题干与选项（答案/提示/解答步骤绝不进入学生 assignment）。
+        修订痕迹追加在 items/<id>/text-edits.yaml（P2-08 门禁 3 的证据）。
+        """
+        record = self.record(bank_id)
+        if (
+            record.kind != "staging_exam"
+            or item_id not in self._staging_item_ids(record)
+        ):
+            raise KeyError((bank_id, item_id))
+        item_dir = record.directory / "items" / item_id
+        teacher_path = item_dir / "teacher.resolved.assignment.yaml"
+        student_path = item_dir / "student.resolved.assignment.yaml"
+        source_path = item_dir / "source.yaml"
+        for path in (teacher_path, student_path, source_path):
+            if not path.is_file():
+                raise KeyError((bank_id, item_id))
+
+        teacher = _read_yaml(teacher_path)
+        source = _read_yaml(source_path)
+        block = _first_practice_block(teacher)
+        changed: dict[str, Any] = {}
+        if update.stem_latex is not None:
+            text = update.stem_latex.strip()
+            if not text:
+                raise ValueError("题干不能为空")
+            block["stem_latex"] = text
+            changed["stem_latex"] = text
+        if update.choices is not None:
+            if len(update.choices) != 4 or any(not c.strip() for c in update.choices):
+                raise ValueError("选择题必须恰好 4 个非空选项")
+            block["choices"] = list(update.choices)
+            changed["choices"] = list(update.choices)
+        if update.answer is not None:
+            text = update.answer.strip()
+            if not text:
+                raise ValueError("答案不能为空")
+            block["answer"] = text
+            changed["answer"] = text
+        if update.clue is not None:
+            block["clue"] = update.clue
+            changed["clue"] = update.clue
+        if update.solution_steps is not None:
+            steps = [str(step).strip() for step in update.solution_steps]
+            if block.get("type") in {"problem", "short_answer"} and not steps:
+                raise ValueError("解答题至少需要一个解答步骤")
+            block["solution_steps"] = steps
+            changed["solution_steps"] = steps
+        if update.solution_notes is not None:
+            block["solution_notes"] = [str(note) for note in update.solution_notes]
+            changed["solution_notes"] = block["solution_notes"]
+        if not changed:
+            raise ValueError("没有可保存的文本修改")
+
+        student = _derive_student_assignment(teacher)
+        source["content_hash"] = _staging_content_hash(source, teacher, student)
+        # 内容已变：人工复核状态回 pending（与 materialize 的语义一致），
+        # 旧 review.yaml 因 hash 不再匹配而在读取侧显示 stale。
+        transcription = source.setdefault("transcription", {})
+        if isinstance(transcription, dict):
+            transcription["human_review"] = "pending"
+
+        edits_path = item_dir / "text-edits.yaml"
+        edits = (
+            _read_yaml(edits_path)
+            if edits_path.is_file()
+            else {"schema": "math_item_text_edits/v1", "item_id": item_id, "edits": []}
+        )
+        edits.setdefault("edits", []).append(
+            {
+                "edited_at": datetime.now(timezone.utc).isoformat(),
+                "editor": update.editor,
+                "fields": sorted(changed),
+            }
+        )
+        _atomic_write_yaml(teacher_path, teacher)
+        _atomic_write_yaml(student_path, student)
+        _atomic_write_yaml(source_path, source)
+        _atomic_write_yaml(edits_path, edits)
+
+        new_snapshot = self._invalidate_bank(bank_id)
+        updated = new_snapshot.items_by_bank_item.get((bank_id, item_id))
+        if updated is None:
             detail, _ = self._staging_detail(record)
             updated = next(item for item in detail["items"] if item["id"] == item_id)
         return updated
@@ -3105,6 +3308,20 @@ def create_question_bank_app(
             return catalog.approve_all_staging(bank_id)
         except KeyError as exc:
             raise HTTPException(status_code=404, detail="staging 试卷不存在") from exc
+
+    @app.put("/api/banks/{bank_id}/items/{item_id}/text")
+    def update_staging_text(
+        bank_id: str,
+        item_id: str,
+        update: TextUpdate,
+    ) -> dict[str, Any]:
+        """P2-03：保存文本修订（重算 content_hash，旧 review 自动 stale）。"""
+        try:
+            return catalog.update_staging_text(bank_id, item_id, update)
+        except KeyError as exc:
+            raise HTTPException(status_code=404, detail="staging 题目不存在") from exc
+        except ValueError as exc:
+            raise HTTPException(status_code=400, detail=str(exc)) from exc
 
     @app.post("/api/banks/{bank_id}/items/{item_id}/images/{target}/{index}")
     async def replace_staging_image(

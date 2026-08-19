@@ -59,6 +59,27 @@ class DeterministicDraftProjector:
     def __init__(self, store) -> None:
         self.store = store
 
+    def _stamp_page_plan(self, draft: dict) -> None:
+        """Carry the run's non-question-page claims onto the draft paper header.
+
+        The declaration is authored next to the original source files and frozen
+        by extraction into ``source/page-plan.yaml``. The draft is the only
+        hand-off the legacy staging pipeline has, so the claims travel on the
+        paper header: ``expand_staging_draft`` copies them into the staging
+        ``paper.yaml`` and the audit enforces them fail closed (declared pages
+        are the sole exemption from whole-paper coverage).
+        """
+        page_plan_path = self.store.layout.source_dir / "page-plan.yaml"
+        if not page_plan_path.is_file():
+            return
+        import yaml as _yaml
+
+        plan = _yaml.safe_load(page_plan_path.read_text(encoding="utf-8")) or {}
+        declared = plan.get("non_question_pages")
+        if isinstance(declared, list) and declared:
+            paper = draft.setdefault("paper", {})
+            paper["non_question_pages"] = declared
+
     def project(self, source_paper_ref):
         try:
             from .project_source_paper import (
@@ -104,6 +125,7 @@ class DeterministicDraftProjector:
             )
             if report.errors:
                 return None, "project_failed", "; ".join(e.detail for e in report.errors)
+            self._stamp_page_plan(draft)
             # Resolve multi-image placements: a role with several images would
             # otherwise trip the expander's "every crop needs assignment_path"
             # check. The planner rewrites the draft to single-crop roles with a
@@ -147,8 +169,11 @@ class DeterministicEvidenceCompleter:
     item.  The DOCX ingestion contract requires the deterministic
     ``word_evidence_pages`` resolver to fill the continuous ranges *before* the
     draft is expanded.  Keeping this work in the ``complete_evidence`` adapter makes
-    the graph node observable and independently regression-testable; PDF/page-image
-    sources remain a passthrough because their evidence is crop based.
+    the graph node observable and independently regression-testable. Pre-rendered
+    page-image packs (``pages``) carry page-span evidence too — the transcriber
+    only ever emits page-kind refs — so they go through the same resolver, which
+    also enforces the declared non-question-page exemption; region-only volumes
+    are short-circuited inside the resolver itself.
 
     ``layout`` / ``layout_override_seeds`` carry an optional human-confirmed Word
     layout through the recover command's replay path; both default to leaving the
@@ -159,7 +184,7 @@ class DeterministicEvidenceCompleter:
         self.store = store
 
     def complete(self, draft_ref, source_kind, layout=None, layout_override_seeds=False):
-        if source_kind not in ("doc", "docx"):
+        if source_kind not in ("doc", "docx", "pages"):
             return draft_ref, None, None
         try:
             _skill_scripts("math-docx-question-bank-ingestion")
@@ -167,6 +192,11 @@ class DeterministicEvidenceCompleter:
 
             ref = _as_ref(draft_ref)
             payload = self.store.read_yaml(ref)
+            # 含图题的整页题图兜底：扫描卷没有检测分支、闵行 2020 的 docx
+            # 图片归属失败（question-number 断档）——两者都没有 prompt crop，
+            # 但 audit 正确地要求含图题干带可视证据。已有归属 crop 的题
+            # 不受影响（fallback 只补空位），审核者可在 Review UI 精裁替换。
+            payload = self._attach_full_page_prompt_crops(payload)
             # ``layout`` is None for the normal graph path, which selects the
             # resolver's "auto" inference. The recover command passes an explicit
             # "interleaved"/"separated" after a human confirms the source layout,
@@ -194,6 +224,51 @@ class DeterministicEvidenceCompleter:
             return completed_ref, None, None
         except Exception as exc:
             return None, "evidence_failed", f"{type(exc).__name__}: {exc}"
+
+    @staticmethod
+    def _attach_full_page_prompt_crops(payload: dict) -> dict:
+        """扫描卷（pages）含图题的整页题图兜底（audit 图题规则的诚实满足）。
+
+        扫描来源没有检测分支可产出独立题图 crop，但 audit 正确地要求含图
+        （如图/图所示…）题干必须带可视证据。这里把题干首个证据页整页作为
+        prompt crop 附上：materialize 会把它裁成 assets/prompt-01.png 并注入
+        teacher/student 的题图位，审核者可在 Review UI 里进一步手工替换精裁。
+        不放松 audit 规则本身。
+        """
+        import re as _re
+
+        from PIL import Image as _Image
+
+        figure_reference = _re.compile(r"如图|图所示|下图|上图|图中|示意图")
+        attached = []
+        for section in payload.get("sections") or []:
+            for item in section.get("items") or []:
+                if not isinstance(item, dict):
+                    continue
+                if item.get("prompt"):
+                    continue
+                stem = str((item.get("block") or {}).get("stem_latex") or "")
+                if not figure_reference.search(stem):
+                    continue
+                entries = item.get("question_word_evidence") or []
+                if not entries:
+                    continue
+                page_image = str(entries[0].get("page_image") or "")
+                if not page_image:
+                    continue
+                page_path = Path(page_image)
+                if not page_path.is_absolute():
+                    page_path = repo_root() / page_image
+                with _Image.open(page_path) as image:
+                    width, height = image.size
+                item["prompt"] = [
+                    {
+                        "source": str(page_path),
+                        "box_px": [0, 0, width, height],
+                    }
+                ]
+                attached.append(item.get("item_id"))
+        return payload
 
 
 class DeterministicStagingExpander:

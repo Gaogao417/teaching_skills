@@ -61,6 +61,7 @@ class WorkflowState(TypedDict, total=False):
     graph_version: str
     source_kind: SourceKind
     source_archive: str
+    answer_archive: Optional[str]
 
     extracted_source: Optional[ExtractedSource]
     page_text_jobs: list[PageTextJob]
@@ -90,6 +91,7 @@ def initial_state(
     paper_id: str,
     source_kind: SourceKind,
     source_archive: str,
+    answer_archive: str | None = None,
 ) -> WorkflowState:
     """Construct the blank state a fresh run starts from."""
 
@@ -99,6 +101,7 @@ def initial_state(
         graph_version=GRAPH_VERSION,
         source_kind=source_kind,
         source_archive=source_archive,
+        answer_archive=answer_archive,
         extracted_source=None,
         page_text_jobs=[],
         page_text_extracts=[],
@@ -141,6 +144,7 @@ class WorkflowStateModel(BaseModel):
     graph_version: str = Field(min_length=1)
     source_kind: SourceKind
     source_archive: str = Field(min_length=1)
+    answer_archive: Optional[str] = None
 
     extracted_source: Optional[ExtractedSource] = None
     page_text_jobs: list[PageTextJob] = []

@@ -16,6 +16,7 @@ PACKAGE = ROOT / ".codex" / "skills" / "math-topic-question-bank"
 SCRIPTS = PACKAGE / "scripts"
 sys.path.insert(0, str(SCRIPTS))
 
+import question_bank_review_server  # noqa: E402
 from question_bank_review_server import create_question_bank_app  # noqa: E402
 from scripts.question_transcription.contracts import RegionEvidence  # noqa: E402
 from scripts.question_transcription.review_issue_contracts import (  # noqa: E402
@@ -1119,3 +1120,172 @@ def test_number_review_has_question_bank_link() -> None:
     template = (PACKAGE / "templates/training-number-review.html").read_text(encoding="utf-8")
     assert "题库" in template
     assert "__QUESTION_BANK_REVIEW_URL__" in template
+
+
+# --------------------------------------------------------------------------- #
+# Phase 2 P2-03/P2-04: 文本编辑 + hash 公式统一 + 来源页归属校验
+# --------------------------------------------------------------------------- #
+
+
+def _approve_staging_item(paper_dir: Path) -> None:
+    import yaml as _yaml
+
+    source = _yaml.safe_load((paper_dir / "items/Q001/source.yaml").read_text("utf-8"))
+    write_yaml(
+        paper_dir / "items/Q001/review.yaml",
+        {
+            "schema": "math_exam_item_review/v1",
+            "item_id": "Q001",
+            "source_key": source["source_key"],
+            "content_hash": source["content_hash"],
+            "status": "approved",
+            "reviewer": "教研-测试",
+            "reviewed_at": "2026-08-19T00:00:00+00:00",
+            "notes": [],
+        },
+    )
+
+
+def test_text_edit_recomputes_hash_and_stales_review(
+    staging_root: tuple[Path, Path, str],
+) -> None:
+    import yaml as _yaml
+
+    root, paper_dir, staging_id = staging_root
+    _approve_staging_item(paper_dir)
+    client = TestClient(create_question_bank_app(root))
+
+    response = client.put(
+        f"/api/banks/{staging_id}/items/Q001/text",
+        json={
+            "stem_latex": "下列结论正确的是（修改后）。",
+            "answer": "A",
+            "solution_steps": ["第一步。", "第二步。"],
+            "editor": "教研-测试",
+        },
+    )
+    assert response.status_code == 200, response.text
+    updated = response.json()
+    assert updated["stem_latex"] == "下列结论正确的是（修改后）。"
+    assert updated["answer"] == "A"
+    assert updated["text_edited"] is True
+
+    item_dir = paper_dir / "items/Q001"
+    source = _yaml.safe_load((item_dir / "source.yaml").read_text("utf-8"))
+    teacher = _yaml.safe_load(
+        (item_dir / "teacher.resolved.assignment.yaml").read_text("utf-8")
+    )
+    student = _yaml.safe_load(
+        (item_dir / "student.resolved.assignment.yaml").read_text("utf-8")
+    )
+    # 1) hash 公式与 materialize 完全一致（含 attribution_reviews 段）。
+    assert source["content_hash"] == question_bank_review_server._staging_content_hash(
+        source, teacher, student
+    )
+    # 2) 旧 review 立即 stale：读取侧以 hash 比对。
+    review = _yaml.safe_load((item_dir / "review.yaml").read_text("utf-8"))
+    assert review["content_hash"] != source["content_hash"]
+    detail = client.get(f"/api/banks/{staging_id}/items/Q001").json()
+    assert detail["review"]["stale"] is True
+    # 3) 人工复核回 pending + 修订痕迹落盘。
+    assert source["transcription"]["human_review"] == "pending"
+    edits = _yaml.safe_load((item_dir / "text-edits.yaml").read_text("utf-8"))
+    assert edits["schema"] == "math_item_text_edits/v1"
+    assert edits["edits"][0]["fields"] == ["answer", "solution_steps", "stem_latex"]
+    assert edits["edits"][0]["editor"] == "教研-测试"
+    # 4) 学生版同步了题干，但绝不包含答案。
+    student_block = question_bank_review_server._first_practice_block(student)
+    assert student_block["stem_latex"] == "下列结论正确的是（修改后）。"
+    assert "answer" not in student_block
+
+
+def test_text_edit_rejects_invalid_payloads(
+    staging_root: tuple[Path, Path, str],
+) -> None:
+    root, _, staging_id = staging_root
+    client = TestClient(create_question_bank_app(root))
+    empty_stem = client.put(
+        f"/api/banks/{staging_id}/items/Q001/text", json={"stem_latex": "  "}
+    )
+    assert empty_stem.status_code == 400
+    no_changes = client.put(
+        f"/api/banks/{staging_id}/items/Q001/text", json={}
+    )
+    assert no_changes.status_code == 400
+
+
+def test_image_edit_hash_matches_materialize_formula(
+    staging_root: tuple[Path, Path, str],
+) -> None:
+    import yaml as _yaml
+
+    root, paper_dir, staging_id = staging_root
+    client = TestClient(create_question_bank_app(root))
+    response = client.post(
+        f"/api/banks/{staging_id}/items/Q001/images/prompt/0",
+        content=pasted_png(),
+        headers={"Content-Type": "image/png"},
+    )
+    assert response.status_code == 200, response.text
+
+    item_dir = paper_dir / "items/Q001"
+    source = _yaml.safe_load((item_dir / "source.yaml").read_text("utf-8"))
+    teacher = _yaml.safe_load(
+        (item_dir / "teacher.resolved.assignment.yaml").read_text("utf-8")
+    )
+    student = _yaml.safe_load(
+        (item_dir / "student.resolved.assignment.yaml").read_text("utf-8")
+    )
+    assert source["content_hash"] == question_bank_review_server._staging_content_hash(
+        source, teacher, student
+    )
+
+
+def test_source_location_validation_blocks_mismatched_page_crop(
+    staging_root: tuple[Path, Path, str],
+) -> None:
+    import yaml as _yaml
+
+    root, paper_dir, staging_id = staging_root
+    item_dir = paper_dir / "items/Q001"
+    source_path = item_dir / "source.yaml"
+    source = _yaml.safe_load(source_path.read_text("utf-8"))
+    # 本题 word_evidence 只认题干页 2；把 prompt crop 的来源指向页 5 的页图。
+    source["word_evidence"] = {
+        "question": [
+            {
+                "page_image": "documents/paper-a/word/pages/002.png",
+                "page_number": 2,
+            }
+        ],
+        "official_solution": [
+            {
+                "page_image": "documents/paper-a/word/pages/008.png",
+                "page_number": 8,
+            }
+        ],
+    }
+    source["crops"]["prompt"] = [
+        {
+            "source": "documents/paper-a/word/pages/005.png",
+            "source_sha256": f"sha256:{'5' * 64}",
+            "box_px": [0, 0, 10, 10],
+            "whiteout_px": [],
+            "output": "assets/prompt.png",
+            "output_sha256": f"sha256:{'6' * 64}",
+        }
+    ]
+    write_yaml(source_path, source)
+
+    client = TestClient(create_question_bank_app(root))
+    # 读取侧：detail 带出归属问题。
+    detail = client.get(f"/api/banks/{staging_id}/items/Q001").json()
+    assert any("prompt[0]" in issue for issue in detail["source_location_issues"])
+    # 写入侧：错配未修复前，任何图片编辑被拒绝（fail closed）。
+    replace = client.post(
+        f"/api/banks/{staging_id}/items/Q001/images/official_solution/0",
+        content=pasted_png(),
+        headers={"Content-Type": "image/png"},
+    )
+    assert replace.status_code == 400
+    assert "来源页归属校验失败" in replace.json()["detail"]

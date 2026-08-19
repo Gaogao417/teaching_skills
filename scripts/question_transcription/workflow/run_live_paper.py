@@ -379,6 +379,7 @@ def run(
     page_provider: str = "qwen",
     final_review_mode: str = "human",
     max_resume_rounds: int = 6,
+    answer_source: str | None = None,
 ) -> str:
     if final_review_mode not in {"human", "auto"}:
         raise ValueError("final_review_mode must be 'human' or 'auto'")
@@ -400,10 +401,13 @@ def run(
         paper_id=paper_id,
         source_kind=source_kind,
         source_archive=source,
+        answer_archive=answer_source,
     )
     _persist_state(layout, state)
     _log(f"START run_id={run_id} paper_id={paper_id} kind={source_kind}")
     _log(f"      source={source}")
+    if answer_source:
+        _log(f"      answer_source={answer_source}")
     _log(f"      layout={layout.root}")
     _log(f"      agent={agent_host} page={page_provider}")
     _log(f"      langfuse: {'enabled' if _lf.is_enabled() else 'disabled'}")
@@ -587,6 +591,14 @@ def main(argv: list[str] | None = None) -> int:
         "--resume-run-id",
         help="resume an existing final-review checkpoint; --source is then omitted",
     )
+    p.add_argument(
+        "--answer-source",
+        help=(
+            "optional supplementary official-answer DOCX whose rendered pages "
+            "continue the paper's page numbering (for question-only exam "
+            "archives such as 2020-MINHANG-YIMO)"
+        ),
+    )
     p.add_argument("--agent-host", default="claude-code", choices=["opencode", "claude-code"])
     p.add_argument("--page-provider", default="qwen", choices=["qwen", "mimo"])
     p.add_argument(
@@ -620,6 +632,9 @@ def main(argv: list[str] | None = None) -> int:
             agent_host=args.agent_host,
             page_provider=args.page_provider,
             final_review_mode=args.final_review_mode,
+            answer_source=(
+                str(Path(args.answer_source).resolve()) if args.answer_source else None
+            ),
         )
     print(run_id)
     return 0

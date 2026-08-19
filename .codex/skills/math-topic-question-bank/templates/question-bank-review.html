@@ -143,6 +143,24 @@
               <button id="reject-item" type="button" class="reject-button">要求修改 <kbd>R</kbd></button>
               <button id="approve-item" type="button" class="approve-button">通过 <kbd>A</kbd></button>
             </div>
+            <button id="edit-text-toggle" type="button" class="ghost-button" hidden>编辑题干/答案文本</button>
+            <p id="text-edit-location-issues" class="review-message bulk-message" role="alert" hidden></p>
+            <div id="text-edit-panel" class="review-card-bulk" hidden>
+              <label for="edit-stem"><span>题干（LaTeX）</span></label>
+              <textarea id="edit-stem" rows="4"></textarea>
+              <label for="edit-answer"><span>答案</span></label>
+              <textarea id="edit-answer" rows="2"></textarea>
+              <label for="edit-clue"><span>思路提示</span></label>
+              <textarea id="edit-clue" rows="2"></textarea>
+              <label for="edit-steps"><span>解题步骤（每行一步）</span></label>
+              <textarea id="edit-steps" rows="6"></textarea>
+              <p class="shortcut-help">保存后自动重算 content hash，已有审核将标记 stale，需重新通过。</p>
+              <div class="review-actions">
+                <button id="edit-text-cancel" type="button" class="ghost-button">取消</button>
+                <button id="edit-text-save" type="button" class="approve-button">保存修订</button>
+              </div>
+              <p id="text-edit-message" class="review-message" role="status"></p>
+            </div>
             <p id="review-message" class="review-message" role="status"></p>
           </section>
           <nav class="reader-nav" aria-label="逐题浏览">

@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import copy
 import os
+import sys
 from pathlib import Path
 import shutil
 import tempfile
@@ -23,6 +24,13 @@ from exam_source_contracts import (
 from question_bank_contracts import QuestionBank, QuestionBankItem
 from validate_exam_source import load_yaml, validate_source
 from validate_question_bank import QUESTION_TYPES, question_blocks, validate_manifest
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from canonical_export import (  # noqa: E402
+    CanonicalExportError,
+    build_candidate_export,
+    promote_canonical,
+)
 
 
 DIFFICULTIES = {"foundation", "standard", "challenge"}
@@ -209,13 +217,37 @@ def _atomic_replace_yaml(path: Path, payload: dict[str, Any]) -> None:
 
 
 def promote_paper(
-    paper_path: Path, bank_path: Path, *, repo_root: Path | None = None
+    paper_path: Path,
+    bank_path: Path,
+    *,
+    repo_root: Path | None = None,
+    canonical: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
-    """Promote all paper items and atomically register them in ``question-bank.yaml``."""
+    """Promote all paper items and atomically register them in ``question-bank.yaml``.
+
+    ``canonical`` (Phase 2): when given (``{"parser_provenance": …,
+    "pack_map": …}``), immutable canonical QuestionTruth versions are written
+    for every approved item AFTER the bank promotion succeeds. Publication
+    validation runs BEFORE the bank is touched (fail closed: an un-publishable
+    truth never enters the bank, mirroring the pubfail fixtures).
+    """
 
     paper_path = paper_path.resolve()
     bank_path = bank_path.resolve()
     root = repo_root.resolve() if repo_root else Path.cwd().resolve()
+    canonical_export = None
+    if canonical is not None:
+        canonical_export = build_candidate_export(
+            paper_path.parent,
+            parser_provenance=canonical["parser_provenance"],
+            pack_map=canonical["pack_map"],
+            ledger_path=canonical.get("ledger_path"),
+        )
+        # Dry-run publication validation before ANY bank mutation.
+        from canonical_export import _build_truth_payload, _validate_publication
+
+        for item in canonical_export["items"]:
+            _validate_publication(_build_truth_payload(item, version="v_prevalidate"))
     if (paper_path.parent / "review-issues.yaml").is_file():
         raise ValueError(
             "staging contains review-issues.yaml; resolve issues, apply resolutions, "
@@ -340,6 +372,9 @@ def promote_paper(
             candidate_path.unlink(missing_ok=True)
 
         _atomic_replace_yaml(bank_path, candidate)
+        canonical_result = None
+        if canonical_export is not None:
+            canonical_result = promote_canonical(canonical_export)
     except BaseException:
         if paper_placed:
             shutil.rmtree(destination_paper_dir, ignore_errors=True)
@@ -349,12 +384,15 @@ def promote_paper(
     finally:
         shutil.rmtree(work_dir, ignore_errors=True)
 
-    return {
+    result = {
         "paper_id": paper.paper.id,
         "item_ids": ordered_ids,
         "question_bank": str(bank_path),
         "paper_manifest": str(destination_paper_dir / "paper.yaml"),
     }
+    if canonical_export is not None:
+        result["canonical"] = canonical_result
+    return result
 
 
 def main() -> int:
@@ -362,20 +400,69 @@ def main() -> int:
     parser.add_argument("paper", type=Path, help="staging/<paper>/paper.yaml")
     parser.add_argument("question_bank", type=Path, help="formal question-bank.yaml")
     parser.add_argument("--repo-root", type=Path)
+    parser.add_argument(
+        "--canonical",
+        action="store_true",
+        help=(
+            "also write immutable canonical QuestionTruth versions "
+            "(Phase 2; publication validation is fail closed)"
+        ),
+    )
+    parser.add_argument(
+        "--pack-map",
+        type=Path,
+        help="YAML mapping source directory name -> pack id (required with --canonical)",
+    )
+    parser.add_argument(
+        "--parser-id", default="math-topic-question-bank/ingestion"
+    )
+    parser.add_argument(
+        "--parser-version", default="langgraph-question-ingestion/v0+whole-paper-v2"
+    )
+    parser.add_argument(
+        "--harness",
+        default="langgraph+claude-code-glm-5.2+qwen3.5-ocr",
+    )
     args = parser.parse_args()
+    canonical = None
+    if args.canonical:
+        if not args.pack_map:
+            raise SystemExit("--canonical requires --pack-map")
+        pack_map = yaml.safe_load(args.pack_map.read_text(encoding="utf-8"))
+        if not isinstance(pack_map, dict):
+            raise SystemExit("--pack-map must be a mapping")
+        canonical = {
+            "parser_provenance": {
+                "parser_id": args.parser_id,
+                "parser_version": args.parser_version,
+                "harness": args.harness,
+            },
+            "pack_map": pack_map,
+        }
     try:
         result = promote_paper(
             args.paper,
             args.question_bank,
             repo_root=args.repo_root,
+            canonical=canonical,
         )
-    except (OSError, ValueError, yaml.YAMLError, ValidationError) as exc:
+    except (OSError, ValueError, yaml.YAMLError, ValidationError, CanonicalExportError) as exc:
         raise SystemExit(str(exc)) from exc
     print(
         f"PROMOTED PAPER {result['paper_id']}: "
         + ", ".join(result["item_ids"])
     )
     print(result["paper_manifest"])
+    if result.get("canonical"):
+        canonical_result = result["canonical"]
+        print(
+            "CANONICAL: promoted="
+            + ",".join(canonical_result["promoted"])
+            + " skipped="
+            + ",".join(canonical_result["skipped"])
+            + " superseded="
+            + ",".join(canonical_result["superseded"])
+        )
     return 0
 
 

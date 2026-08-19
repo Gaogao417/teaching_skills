@@ -90,12 +90,19 @@ SourceKind = Literal["doc", "docx", "pdf", "pages"]
 
 
 class SourceInput(_Strict):
-    """Frozen description of the input to be ingested (design ports §2)."""
+    """Frozen description of the input to be ingested (design ports §2).
+
+    ``answer_archive`` (optional, Phase 2) points at a supplementary official
+    answer document whose rendered pages continue the paper's page numbering.
+    Used when the exam archive itself carries questions only (e.g. the Minhang
+    2020 docx) and the reference answers live in a separate original file.
+    """
 
     paper_id: str = Field(min_length=1)
     source_kind: SourceKind
     source_path: str = Field(min_length=1)
     source_archive: str = Field(min_length=1)
+    answer_archive: Optional[str] = None
 
 
 class ExtractedSource(_Strict):
@@ -111,6 +118,27 @@ class ExtractedSource(_Strict):
     pages: list[ArtifactRef] = Field(min_length=1)
     media_directory: Optional[str] = None
     source_sha256: str = Field(pattern=r"^sha256:[0-9a-f]{64}$")
+    non_question_pages: list[NonQuestionPageDecl] = Field(default_factory=list)
+    page_plan: Optional[ArtifactRef] = None
+    answer_source: Optional[str] = None
+    answer_sha256: Optional[str] = None
+
+
+class NonQuestionPageDecl(_Strict):
+    """One explicitly claimed non-question page (fail-closed audit exemption).
+
+    A page is only exempt from the whole-paper coverage invariant through this
+    human-authored declaration, stored next to the original source files as
+    ``non-question-pages.yaml`` and carried through extraction into the staging
+    ``paper.yaml``. Roles mirror the docx skill's ``NON_QUESTION_ROLES``.
+    """
+
+    page_number: int = Field(ge=1)
+    role: Literal[
+        "cover", "instructions", "answer_only", "qr_code", "blank", "other"
+    ]
+    note: Optional[str] = None
+    claimed_by: Optional[str] = None
 
 
 class PageTextJob(_Strict):

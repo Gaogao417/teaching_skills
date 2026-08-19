@@ -97,4 +97,17 @@ class DocxOrPdfImageAttribution:
     def _adapt_pdf(self, manifest):
         from .adapt_pdf_images import adapt
 
+        # A pre-rendered page-image source manifest (``math_pdf_source/v1``)
+        # describes the immutable page set only. Page-level figure detection has
+        # no provider in this workflow, so there is nothing to attribute: an
+        # empty bundle is the honest projection (every page is its own asset
+        # with no independent figure crops), not a failure.
+        if manifest.get("schema") == "math_pdf_source/v1":
+            return {
+                "schema": "math_image_attribution/v1",
+                "paper_id": manifest.get("paper_id", "unknown"),
+                "assets": [],
+                "attributions": [],
+            }
+
         return adapt(manifest, allow_model_accepted=False)

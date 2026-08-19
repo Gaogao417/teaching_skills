@@ -14,7 +14,7 @@ from typing import Any
 
 from ..application.stages.source import SourceReadyDecision, decide_source_ready
 from ..infrastructure.artifact_store import sha256_file
-from ..contracts import ArtifactRef, PageTextJob
+from ..contracts import ArtifactRef, NonQuestionPageDecl, PageTextJob
 from ..orchestration.langgraph.state import WorkflowState
 from ..tracing import trace_event
 
@@ -104,13 +104,24 @@ def make_extract_source_node(deps):
             source_kind=state["source_kind"],
             source_path=state["source_archive"],
             source_archive=state["source_archive"],
+            answer_archive=state.get("answer_archive"),
         )
         with trace_event("extract_source", source_kind=state["source_kind"]):
             extracted, error_kind, detail = extractor.extract(source)
         if error_kind is not None:
             return {"terminal_errors": [f"extract_source: {error_kind}: {detail}"]}
         assert extracted is not None
-        # Build per-page jobs from the frozen page refs (ports §6.2).
+        # Declared non-question pages (scan covers, QR tails, blank render
+        # pages) never carry question text: exclude them from the page-text
+        # fan-out so the non-blank post-condition cannot fail on a page no
+        # question can ever come from. The declaration itself flows onward to
+        # the staging paper.yaml where the audit enforces it fail closed.
+        declared = {
+            entry.page_number
+            if isinstance(entry, NonQuestionPageDecl)
+            else int(entry.get("page_number"))
+            for entry in extracted.non_question_pages
+        }
         jobs = [
             PageTextJob(
                 run_id=state["run_id"],
@@ -120,6 +131,7 @@ def make_extract_source_node(deps):
                 input_fingerprint=page_ref.sha256,
             )
             for i, page_ref in enumerate(extracted.pages)
+            if (i + 1) not in declared
         ]
         return {
             "extracted_source": extracted.model_dump(mode="json"),

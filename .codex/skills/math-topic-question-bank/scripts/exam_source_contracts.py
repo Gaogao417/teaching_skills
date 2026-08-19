@@ -248,6 +248,19 @@ class ExamPaperMap(StrictModel):
         return self
 
 
+class NonQuestionPageClaim(StrictModel):
+    """显式认领的无题页（Phase 2 fail-closed 审计豁免的唯一载体）。
+
+    由源包目录下的人写 non-question-pages.yaml 声明，经抽取→draft→staging
+    paper.yaml 传递，audit_staging 只允许这些页不被任何 item 的 word_evidence
+    覆盖；未声明未覆盖页仍整卷拒绝。
+    """
+
+    page_number: int = Field(ge=1)
+    role: str = Field(min_length=1)
+    note: str | None = None
+
+
 class PaperMetadata(StrictModel):
     id: str = Field(min_length=1)
     title: str = Field(min_length=1)
@@ -255,6 +268,7 @@ class PaperMetadata(StrictModel):
     subject: str = "数学"
     duration: str | None = None
     source_archive: str | None = None
+    non_question_pages: list[NonQuestionPageClaim] = Field(default_factory=list)
 
 
 class PaperSection(StrictModel):

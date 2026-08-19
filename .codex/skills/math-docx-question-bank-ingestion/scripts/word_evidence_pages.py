@@ -23,6 +23,24 @@ import yaml
 
 Layout = Literal["interleaved", "separated"]
 ROLES = ("question", "official_solution")
+
+# Page-image suffixes a rendered-pages directory may mix. Real scan packs name
+# their cover/QR pages ``.jpg`` while question/solution pages are ``.png``
+# (e.g. 2025-HUANGPU-YIMO), so the last-page scan must not assume the suffix of
+# the first evidence entry covers every page file.
+_PAGE_SUFFIXES = (".png", ".jpg", ".jpeg")
+
+# Explicit roles a non-question page may be claimed with. A page can only be
+# exempted from the whole-paper coverage invariant by an explicit, human-authored
+# declaration (fail-closed: unclaimed pages still fail the audit).
+NON_QUESTION_ROLES = (
+    "cover",
+    "instructions",
+    "answer_only",
+    "qr_code",
+    "blank",
+    "other",
+)
 # Single-item single-role evidence pages are at most a handful (the largest real
 # value observed across every staged paper is 11). A blow-up into dozens or
 # hundreds of pages is always a mis-inferred layout or an outlier seed page, so
@@ -159,6 +177,70 @@ def _page_number(entry: Any, *, label: str) -> int:
     if not isinstance(page, int) or page < 1:
         raise ValueError(f"{label}: page_number must be a positive integer")
     return page
+
+
+def parse_non_question_pages(payload: Any, *, label: str = "paper") -> dict[int, dict]:
+    """Parse ``paper.non_question_pages`` from a draft/staging payload.
+
+    Returns ``{page_number: entry}``. A page is only exempt from the whole-paper
+    coverage invariant through this explicit declaration (fail-closed): the
+    declaration is human-authored next to the source files, flows through
+    extraction into the draft and staging ``paper.yaml``, and is enforced by
+    :func:`validate_staging_coverage`. Malformed declarations raise instead of
+    being silently ignored.
+    """
+    paper = payload.get("paper") if isinstance(payload, dict) else None
+    if not isinstance(paper, dict):
+        return {}
+    declared_raw = paper.get("non_question_pages")
+    if declared_raw is None:
+        return {}
+    if not isinstance(declared_raw, list) or not declared_raw:
+        raise ValueError(f"{label}.non_question_pages must be a non-empty list")
+    declared: dict[int, dict] = {}
+    for index, entry in enumerate(declared_raw):
+        if not isinstance(entry, dict):
+            raise ValueError(f"{label}.non_question_pages[{index}] must be a mapping")
+        page = entry.get("page_number")
+        if not isinstance(page, int) or isinstance(page, bool) or page < 1:
+            raise ValueError(
+                f"{label}.non_question_pages[{index}].page_number must be a positive integer"
+            )
+        if page in declared:
+            raise ValueError(
+                f"{label}.non_question_pages: duplicate declaration for page {page}"
+            )
+        role = entry.get("role")
+        if role not in NON_QUESTION_ROLES:
+            raise ValueError(
+                f"{label}.non_question_pages[{index}].role must be one of "
+                f"{'/'.join(NON_QUESTION_ROLES)}, got {role!r}"
+            )
+        note = entry.get("note")
+        if note is not None and not isinstance(note, str):
+            raise ValueError(
+                f"{label}.non_question_pages[{index}].note must be a string"
+            )
+        declared[page] = {
+            "page_number": page,
+            "role": role,
+            **({"note": note} if note else {}),
+        }
+    return declared
+
+
+def _declared_pages(payload: Any) -> set[int]:
+    """Best-effort declared-page set for the expansion filter.
+
+    The draft carries the declaration; a payload without one expands exactly as
+    before (strict full coverage), so older drafts keep working.
+    """
+    try:
+        return set(parse_non_question_pages(payload))
+    except ValueError:
+        # Malformed declarations must not be silently expanded around; surface
+        # them as-is and let validate_staging_coverage reject the staging.
+        return set()
 
 
 def evidence_page_numbers(
@@ -325,12 +407,23 @@ def expected_page_ranges(
     *,
     last_page: int,
     layout: Layout,
+    non_question_pages: frozenset[int] | set[int] = frozenset(),
 ) -> list[dict[str, list[int]]]:
     if last_page < max(question_starts + solution_starts):
         raise ValueError("last_page precedes an evidence seed")
     ceiling = min(last_page, MAX_PAGES_PER_ROLE)
     expected: list[dict[str, list[int]]] = []
     count = len(question_starts)
+
+    def _drop_declared(pages: list[int]) -> list[int]:
+        # A declared non-question page is not evidence for any item; expansion
+        # must never attach it mechanically (e.g. the trailing item absorbing a
+        # blank last page). Drop, don't truncate: a mid-range declared page
+        # splits the range instead of stealing pages after it.
+        if not non_question_pages:
+            return pages
+        return [page for page in pages if page not in non_question_pages]
+
     for index in range(count):
         question_start = question_starts[index]
         solution_start = solution_starts[index]
@@ -360,6 +453,8 @@ def expected_page_ranges(
         # still pass the structural audit (every page stays in range and the whole
         # paper stays covered). Reject that here so a 306-page evidence list can
         # never reach ``source.yaml`` or the review UI.
+        question_pages = _drop_declared(question_pages)
+        solution_pages = _drop_declared(solution_pages)
         _reject_runaway_role(
             index,
             "question",
@@ -537,12 +632,16 @@ def _last_page_from_evidence(entries: list[dict[str, Any]], *, repo_root: Path) 
         )
     # Accept both pure-digit (001.png, DOCX) and page-N (page-01.png, PDF)
     # naming via _page_index_from_name, so PDF-sourced papers like
-    # 2026-BAOSHAN / 2024-QINGPU are no longer silently skipped.
+    # 2026-BAOSHAN / 2024-QINGPU are no longer silently skipped. Scan every
+    # supported suffix: scan packs mix ``.jpg`` covers with ``.png`` pages, and
+    # a single-suffix glob would under-count ``last_page`` (the declared QR
+    # tail page would then fall outside [1..last_page] for no real reason).
     pages = []
-    for path in page_dir.glob(f"*{suffix}"):
-        index = _page_index_from_name(path.stem)
-        if index is not None:
-            pages.append(index)
+    for page_suffix in _PAGE_SUFFIXES:
+        for path in page_dir.glob(f"*{page_suffix}"):
+            index = _page_index_from_name(path.stem)
+            if index is not None:
+                pages.append(index)
     if not pages:
         raise ValueError(f"no rendered pages found in {page_dir}")
     if len(pages) > MAX_WHOLE_PAPER_PAGES:
@@ -620,11 +719,16 @@ def resolve_draft_payload(
         resolved_layout = layout
     first_question, _ = _evidence_lists(items[0], draft=True)
     last_page = _last_page_from_evidence(first_question, repo_root=repo_root)
+    # Declared non-question pages never become item evidence: the expansion
+    # below drops them mechanically so the trailing item cannot silently absorb
+    # a blank/cover page, and the audit later verifies the declaration itself.
+    non_question_pages = _declared_pages(updated)
     expected = expected_page_ranges(
         question_starts,
         solution_starts,
         last_page=last_page,
         layout=resolved_layout,
+        non_question_pages=non_question_pages,
     )
     shared_boundaries = allowed_shared_boundaries(
         question_starts,
@@ -675,6 +779,7 @@ def resolve_draft_payload(
         "changes": changes,
         "seed_corrections": seed_corrections,
         "region_only": False,
+        "non_question_pages": sorted(non_question_pages),
     }
 
 
@@ -692,7 +797,13 @@ def validate_staging_coverage(
        (enforced by ``evidence_page_numbers``);
     2. every evidence page number falls within ``[1, last_page]``;
     3. every page ``1..last_page`` is covered by at least one item's question or
-       official_solution evidence (whole-paper coverage, no dropped pages).
+       official_solution evidence — **unless the page is explicitly declared
+       non-question** in the staging ``paper.yaml`` (``paper.non_question_pages``,
+       e.g. scan covers, QR tails, blank render pages). The declaration is the
+       only exemption path (fail-closed): a page left uncovered without a
+       declaration still fails, a declared page referenced by item evidence
+       fails (the declaration and the evidence contradict each other), and a
+       declaration outside ``[1, last_page]`` fails.
     """
     items = source_items(staging_dir, ordered_item_ids)
     if not items:
@@ -713,6 +824,21 @@ def validate_staging_coverage(
     except ValueError as exc:
         return [f"Word evidence coverage: {exc}"]
 
+    paper_path = staging_dir / "paper.yaml"
+    if not paper_path.is_file():
+        # No staging paper.yaml (bare unit-test staging) → no declaration and
+        # therefore no exemption: strict full coverage, unchanged.
+        declared = {}
+    else:
+        try:
+            declared = parse_non_question_pages(
+                load_yaml(paper_path), label=str(paper_path)
+            )
+        except (OSError, ValueError, yaml.YAMLError) as exc:
+            return [
+                f"Word evidence coverage: non-question declaration invalid: {exc}"
+            ]
+
     errors: list[str] = []
     covered: set[int] = set()
     for item_id, pages in zip(ordered_item_ids, pages_by_item, strict=True):
@@ -725,12 +851,36 @@ def validate_staging_coverage(
                     f"{item_id}: word_evidence.{role} pages {out_of_range} "
                     f"outside [1, {last_page}]"
                 )
+            declared_refs = sorted(
+                page for page in pages[role] if page in declared
+            )
+            if declared_refs:
+                declared_roles = ", ".join(
+                    f"p{page}={declared[page]['role']}" for page in declared_refs
+                )
+                errors.append(
+                    f"{item_id}: word_evidence.{role} references declared "
+                    f"non-question page(s) {declared_refs} ({declared_roles}); "
+                    "fix the evidence or the declaration"
+                )
             covered.update(pages[role])
 
+    for page, entry in sorted(declared.items()):
+        if page < 1 or page > last_page:
+            errors.append(
+                f"Word evidence coverage: declared non-question page {page} "
+                f"({entry['role']}) is outside [1, {last_page}]"
+            )
+
     uncovered = sorted(set(range(1, last_page + 1)) - covered)
-    if uncovered:
+    undeclared = [page for page in uncovered if page not in declared]
+    if undeclared:
+        declared_note = (
+            f" (declared non-question: {sorted(declared)})" if declared else ""
+        )
         errors.append(
-            f"Word evidence coverage: pages {uncovered} not covered by any item "
+            f"Word evidence coverage: pages {undeclared} not covered by any item "
+            f"and not declared non-question{declared_note} "
             f"(expected full coverage of pages 1..{last_page})"
         )
     return errors

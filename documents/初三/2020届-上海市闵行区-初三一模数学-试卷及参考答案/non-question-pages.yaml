@@ -1,0 +1,10 @@
+# 无题页显式认领（fail-closed 审计豁免的唯一入口）
+# 语义：声明这些页不含任何题目/解答内容，允许它们不被任何 item 的
+# word_evidence 覆盖；未声明的未覆盖页仍会被 audit_staging 拒绝。
+# 页号 = ingestion 运行页集编号（试卷 1..7，官方答案文档接续 8..N）。
+schema: math_non_question_pages/v1
+pages:
+  - page_number: 7
+    role: blank
+    note: 渲染尾页为空白页（非白像素占比 0.07%，pypdf 提取文本为空）
+    claimed_by: migration-phase2

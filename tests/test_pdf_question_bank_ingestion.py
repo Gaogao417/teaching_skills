@@ -679,6 +679,7 @@ def test_staging_audit_flags_whole_paper_coverage_gap(tmp_path: Path) -> None:
     assert errors == [
         (
             "Word evidence coverage: pages [5, 6] not covered by any item "
+            "and not declared non-question "
             "(expected full coverage of pages 1..6)"
         )
     ]
@@ -1189,3 +1190,332 @@ def test_resolve_draft_payload_mixed_volume_falls_through_to_word_error(
     with pytest.raises(ValueError, match="must not be empty"):
         resolve_draft_payload(draft, repo_root=tmp_path)
 
+
+
+# --------------------------------------------------------------------------- #
+# Phase 2 P2-01: explicit non-question-page exemption (fail closed)
+# --------------------------------------------------------------------------- #
+
+
+def _write_declared_staging(
+    tmp_path: Path,
+    paper: str,
+    *,
+    declared: list[dict] | None,
+    page_count: int,
+) -> Path:
+    """A staging with question pages 2..N-1 covered and pages 1/N uncovered."""
+    pages_dir = tmp_path / f"documents/{paper}/word/pages"
+    pages_dir.mkdir(parents=True)
+    for page in range(1, page_count + 1):
+        suffix = ".jpg" if page in (1, page_count) else ".png"
+        (pages_dir / f"{page:03d}{suffix}").write_bytes(b"page")
+
+    staging = tmp_path / "staging" / paper
+    _write_word_evidence_item(
+        staging,
+        "Q001",
+        paper=paper,
+        question_pages=[2],
+        solution_pages=[2],
+    )
+    _write_word_evidence_item(
+        staging,
+        "Q002",
+        paper=paper,
+        question_pages=[3],
+        solution_pages=[3],
+    )
+    paper_payload = {
+        "schema": "math_exam_paper/v1",
+        "paper": {
+            "id": paper,
+            "title": paper,
+            "grade": "初三",
+            "source_archive": f"documents/{paper}",
+        },
+        "question_bank": "question-bank.yaml",
+        "sections": [],
+    }
+    if declared is not None:
+        paper_payload["paper"]["non_question_pages"] = declared
+    write_yaml(staging / "paper.yaml", paper_payload)
+    return staging
+
+
+def test_coverage_accepts_declared_non_question_pages(tmp_path: Path) -> None:
+    """声明过的封面/二维码页不被覆盖也合法；混合 jpg/png 后缀计入 last_page。"""
+    staging = _write_declared_staging(
+        tmp_path,
+        "PAPER-DECLARED",
+        declared=[
+            {"page_number": 1, "role": "cover"},
+            {"page_number": 4, "role": "qr_code"},
+        ],
+        page_count=4,
+    )
+    errors = validate_staging_coverage(
+        staging, ["Q001", "Q002"], repo_root=tmp_path
+    )
+    assert errors == []
+
+
+def test_coverage_rejects_uncovered_undeclared_pages(tmp_path: Path) -> None:
+    """同一 staging 不带声明 → 整卷漏页照旧拒绝（豁免必须显式认领）。"""
+    staging = _write_declared_staging(
+        tmp_path, "PAPER-UNDECLARED", declared=None, page_count=4
+    )
+    errors = validate_staging_coverage(
+        staging, ["Q001", "Q002"], repo_root=tmp_path
+    )
+    assert len(errors) == 1
+    assert "not declared non-question" in errors[0]
+    assert "[1, 4]" in errors[0]
+
+
+def test_coverage_rejects_declaration_referenced_by_evidence(tmp_path: Path) -> None:
+    """声明为无题的页又被 item 证据引用 → 矛盾，直接拒绝。"""
+    staging = _write_declared_staging(
+        tmp_path,
+        "PAPER-CONFLICT",
+        declared=[{"page_number": 1, "role": "cover"}],
+        page_count=4,
+    )
+    # Q001 额外引用了被声明的第 1 页。
+    _write_word_evidence_item(
+        staging,
+        "Q001",
+        paper="PAPER-CONFLICT",
+        question_pages=[1, 2],
+        solution_pages=[2],
+    )
+    errors = validate_staging_coverage(
+        staging, ["Q001", "Q002"], repo_root=tmp_path
+    )
+    assert any(
+        "references declared non-question page(s) [1]" in error
+        and "p1=cover" in error
+        for error in errors
+    )
+
+
+def test_coverage_rejects_declaration_outside_page_range(tmp_path: Path) -> None:
+    staging = _write_declared_staging(
+        tmp_path,
+        "PAPER-OUTOFBAND",
+        declared=[
+            {"page_number": 1, "role": "cover"},
+            {"page_number": 9, "role": "blank"},
+        ],
+        page_count=4,
+    )
+    errors = validate_staging_coverage(
+        staging, ["Q001", "Q002"], repo_root=tmp_path
+    )
+    assert any(
+        "declared non-question page 9 (blank) is outside [1, 4]" in error
+        for error in errors
+    )
+
+
+def test_coverage_rejects_malformed_declaration(tmp_path: Path) -> None:
+    staging = _write_declared_staging(
+        tmp_path,
+        "PAPER-BADDECL",
+        declared=[{"page_number": 1, "role": "not-a-role"}],
+        page_count=4,
+    )
+    errors = validate_staging_coverage(
+        staging, ["Q001", "Q002"], repo_root=tmp_path
+    )
+    assert any("declaration invalid" in error for error in errors)
+
+
+def test_expected_page_ranges_drops_declared_pages() -> None:
+    """separated 尾题的 question 段不得机械吞并已声明的空白尾页。"""
+    ranges = expected_page_ranges(
+        [1, 6],
+        [8, 8],
+        last_page=9,
+        layout="separated",
+        non_question_pages={7},
+    )
+    # Q002 question = until_before(6, 8) = [6, 7] -> declared 7 dropped -> [6].
+    assert ranges[1]["question"] == [6]
+    # Q002 solution keeps its own pages (8), trailing expansion [8, 9] intact.
+    assert ranges[1]["official_solution"] == [8, 9]
+
+
+def test_resolve_draft_payload_reports_declared_pages(tmp_path: Path) -> None:
+    pages_dir = tmp_path / "documents/PAPER-DECL/docx/pages"
+    pages_dir.mkdir(parents=True)
+    for page in range(1, 4):
+        (pages_dir / f"{page:03d}.png").write_bytes(b"page")
+
+    def evidence(pages: list[int]) -> list[dict]:
+        return [
+            {"page_image": str(pages_dir / f"{page:03d}.png"), "page_number": page}
+            for page in pages
+        ]
+
+    draft = {
+        "schema": "math_exam_staging_draft/v1",
+        "paper": {
+            "id": "PAPER-DECL",
+            "title": "declared",
+            "grade": "初三",
+            "source_archive": "documents/PAPER-DECL",
+            "non_question_pages": [
+                {"page_number": 3, "role": "blank", "note": "trailing blank"}
+            ],
+        },
+        "question_bank": "question-bank.yaml",
+        "sections": [
+            {
+                "id": "fillin",
+                "title": "填空",
+                "items": [
+                    {
+                        "item_id": "Q001",
+                        "question_number": 1,
+                        "question_type": "fillin",
+                        "block": {"stem_latex": "s", "answer": "a", "clue": "c"},
+                        "question_word_evidence": evidence([1]),
+                        "official_solution": {"word_evidence": evidence([2])},
+                    }
+                ],
+            }
+        ],
+    }
+    resolved, report = resolve_draft_payload(draft, repo_root=tmp_path)
+    assert report["non_question_pages"] == [3]
+    item = resolved["sections"][0]["items"][0]
+    # trailing solution expansion range(2, 4) drops the declared blank page 3.
+    assert [
+        entry["page_number"]
+        for entry in item["official_solution"]["word_evidence"]
+    ] == [2]
+
+
+def test_expand_carries_non_question_declaration_into_staging_paper(
+    tmp_path: Path,
+) -> None:
+    """draft paper 头上的无题页声明必须原样进入 staging paper.yaml（audit 依赖）。"""
+    staging = tmp_path / "staging/PAPER-DECL-EXPAND"
+    draft = staging / "paper.draft.yaml"
+    write_yaml(
+        draft,
+        {
+            "schema": "math_exam_staging_draft/v1",
+            "paper": {
+                "id": "PAPER-DECL-EXPAND",
+                "title": "声明卷",
+                "grade": "九年级",
+                "source_archive": "documents/PAPER-DECL-EXPAND",
+                "non_question_pages": [
+                    {"page_number": 1, "role": "cover", "note": "文章封面"},
+                ],
+            },
+            "question_bank": "../../question-bank.yaml",
+            "sections": [
+                {
+                    "id": "choice",
+                    "title": "一、选择题",
+                    "items": [
+                        {
+                            "item_id": "Q001",
+                            "question_number": 1,
+                            "question_type": "choice",
+                            "points": 4,
+                            "question_evidence": [
+                                {
+                                    "source": "documents/PAPER-DECL-EXPAND/002.png",
+                                    "box_px": [10, 20, 90, 60],
+                                }
+                            ],
+                            "prompt": [],
+                            "official_solution": {
+                                "start_anchor": "1. B",
+                                "end_anchor": "<END_OF_SOURCE>",
+                                "crops": [
+                                    {
+                                        "source": "documents/PAPER-DECL-EXPAND/003.png",
+                                        "box_px": [10, 10, 90, 40],
+                                    }
+                                ],
+                            },
+                            "block": {
+                                "stem_latex": "若 $x=1$，则 $x+1=$",
+                                "choices": ["1", "2", "3", "4"],
+                                "answer": "B",
+                            },
+                        }
+                    ],
+                }
+            ],
+        },
+    )
+    assert expand_draft(draft) == staging.resolve()
+    paper = yaml.safe_load(
+        (staging / "paper.yaml").read_text(encoding="utf-8")
+    )
+    assert paper["paper"]["non_question_pages"] == [
+        {"page_number": 1, "role": "cover", "note": "文章封面"}
+    ]
+
+
+def test_expand_rejects_malformed_non_question_declaration(tmp_path: Path) -> None:
+    staging = tmp_path / "staging/PAPER-DECL-BAD"
+    draft = staging / "paper.draft.yaml"
+    write_yaml(
+        draft,
+        {
+            "schema": "math_exam_staging_draft/v1",
+            "paper": {
+                "id": "PAPER-DECL-BAD",
+                "title": "坏声明卷",
+                "grade": "九年级",
+                "source_archive": "documents/PAPER-DECL-BAD",
+                "non_question_pages": [{"page_number": 0, "role": "cover"}],
+            },
+            "question_bank": "../../question-bank.yaml",
+            "sections": [
+                {
+                    "id": "choice",
+                    "title": "一、选择题",
+                    "items": [
+                        {
+                            "item_id": "Q001",
+                            "question_number": 1,
+                            "question_type": "choice",
+                            "points": 4,
+                            "question_evidence": [
+                                {
+                                    "source": "documents/PAPER-DECL-BAD/002.png",
+                                    "box_px": [10, 20, 90, 60],
+                                }
+                            ],
+                            "prompt": [],
+                            "official_solution": {
+                                "start_anchor": "1. B",
+                                "end_anchor": "<END_OF_SOURCE>",
+                                "crops": [
+                                    {
+                                        "source": "documents/PAPER-DECL-BAD/003.png",
+                                        "box_px": [10, 10, 90, 40],
+                                    }
+                                ],
+                            },
+                            "block": {
+                                "stem_latex": "若 $x=1$，则 $x+1=$",
+                                "choices": ["1", "2", "3", "4"],
+                                "answer": "B",
+                            },
+                        }
+                    ],
+                }
+            ],
+        },
+    )
+    with pytest.raises(ValueError, match="page_number must be a positive integer"):
+        expand_draft(draft)

@@ -405,6 +405,37 @@ def expand_draft(draft_path: Path) -> Path:
     }
     if paper_raw.get("duration"):
         paper["duration"] = str(paper_raw["duration"])
+    # Non-question pages (scan covers, QR tails, blank render pages) are the
+    # only pages exempt from the audit's whole-paper coverage invariant, and
+    # only through this explicit declaration. Carrying it from the draft into
+    # the staging paper.yaml lets audit_staging enforce the exemption fail
+    # closed; a malformed declaration is rejected here instead of ignored.
+    non_question_raw = paper_raw.get("non_question_pages")
+    if non_question_raw is not None:
+        if not isinstance(non_question_raw, list) or not non_question_raw:
+            raise ValueError("paper.non_question_pages must be a non-empty list")
+        non_question_pages = []
+        for index, entry in enumerate(non_question_raw):
+            if not isinstance(entry, dict):
+                raise ValueError(
+                    f"paper.non_question_pages[{index}] must be a mapping"
+                )
+            page = entry.get("page_number")
+            if not isinstance(page, int) or isinstance(page, bool) or page < 1:
+                raise ValueError(
+                    "paper.non_question_pages["
+                    f"{index}].page_number must be a positive integer"
+                )
+            role = entry.get("role")
+            if not isinstance(role, str) or not role:
+                raise ValueError(
+                    f"paper.non_question_pages[{index}].role must be a non-empty string"
+                )
+            declared = {"page_number": page, "role": role}
+            if entry.get("note"):
+                declared["note"] = str(entry["note"])
+            non_question_pages.append(declared)
+        paper["non_question_pages"] = non_question_pages
     staging_dir = draft_path.parent
     sections_raw = payload.get("sections")
     if not isinstance(sections_raw, list) or not sections_raw:

@@ -1,0 +1,14 @@
+# 无题页显式认领（fail-closed 审计豁免的唯一入口）
+# 语义：声明这些页不含任何题目/解答内容，允许它们不被任何 item 的
+# word_evidence 覆盖；未声明的未覆盖页仍会被 audit_staging 拒绝。
+# 页号 = manifest.json 数字文件名编号（001=1 … 012=12）。
+schema: math_non_question_pages/v1
+pages:
+  - page_number: 1
+    role: cover
+    note: 微信文章封面图（extraction-report.md：非试卷图片）
+    claimed_by: migration-phase2
+  - page_number: 12
+    role: qr_code
+    note: 文末二维码图（extraction-report.md：非试卷图片）
+    claimed_by: migration-phase2
