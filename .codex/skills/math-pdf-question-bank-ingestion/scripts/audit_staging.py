@@ -68,7 +68,7 @@ MISSING_QUESTIONS_FILENAME = "missing-questions.yaml"
 # 给定页文本中」「未出现在识别文本中」…），统一按「未出现在…文本」正则匹配。
 # 审计不拦截（占位符是模型的诚实报告），但必须以 WARNING 显式暴露，人工在
 # Review UI 补全或确认源缺后才能批准。
-TRANSCRIPTION_PLACEHOLDER_RE = re.compile(r"未出现在.{0,6}文本")
+TRANSCRIPTION_PLACEHOLDER_RE = re.compile(r"未出现在.{0,6}文本|未完整呈现")
 
 
 def find_transcription_placeholder(value: Any) -> str | None:
