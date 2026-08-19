@@ -768,3 +768,183 @@ def test_teaching_approach_ui_static_wiring() -> None:
     css = (PACKAGE / "static" / "question-bank-review.css").read_text(encoding="utf-8")
     for klass in (".approach-item", ".approach-steps", ".approach-recording audio"):
         assert klass in css, klass
+
+
+# --------------------------------------------------------------------------- #
+# ADR-005：小问粒度 part 绑定（v2）
+# --------------------------------------------------------------------------- #
+
+
+def write_truth_v2_multipart(canonical_root: Path, qt_id: str = "QT-SMV-003") -> dict:
+    payload = {
+        "schema": "ai_teaching_question_truth/v2",
+        "artifact_id": qt_id,
+        "version": "v1",
+        "status": "Approved",
+        "question_type": "solution",
+        "stem": "已知：如图，$BE \\parallel CF$。",
+        "subquestions": [
+            {
+                "part_id": "1",
+                "prompt": "求证：$\\triangle ABE\\sim\\triangle EFC$",
+                "canonical_answer": {"kind": "proof", "value": "相似得证"},
+                "reviewed_solution": "AA 判定得相似。",
+            },
+            {
+                "part_id": "2",
+                "prompt": "求 $CE$ 的长。",
+                "canonical_answer": {"kind": "expression", "value": "$CE=2$"},
+                "reviewed_solution": "对应边成比例求解。",
+            },
+        ],
+        "source_evidence_refs": [
+            {"evidence_id": "SE-TEST-001", "artifact_uri": "artifact://source-evidence/SE-TEST-001"}
+        ],
+        "approval": {"reviewer_id": "fixture", "approved_at": "2026-08-20T00:00:00+00:00"},
+        "content_hash": "",
+        "artifact_uri": f"artifact://question-truth/{qt_id}@v1",
+    }
+    payload["content_hash"] = ce._content_hash(payload)
+    base = canonical_root / "question-truth" / qt_id
+    ce._write_json_atomic(base / "v1.json", payload)
+    ce._write_yaml_atomic(
+        base / "registry.yaml",
+        {
+            "artifact_id": qt_id,
+            "current_version": "v1",
+            "versions": [
+                {
+                    "version": "v1",
+                    "status": "Approved",
+                    "content_hash": payload["content_hash"],
+                    "approved_at": payload["approval"]["approved_at"],
+                }
+            ],
+        },
+    )
+    return payload
+
+
+def _draft_part_approach(*, with_answer: bool = True) -> dict:
+    conclusion = "解得 $CE=2$" if with_answer else "解得结论"
+    return {
+        "id": "t1",
+        "title": "第(2)问：比例式求 CE",
+        "author": "teacher-a",
+        "status": "draft",
+        "part_id": "2",
+        "goal": "由对应边成比例求 CE",
+        "entry_signal": "已证相似",
+        "steps": [
+            {
+                "step_id": "S1",
+                "intent": "识别对应边",
+                "narration": "读出对应边。",
+                "expected_student_reasoning": "BE/EF",
+                "skill_ids": ["SKILL-SMV-002"],
+            },
+            {
+                "step_id": "S2",
+                "intent": "列比例式",
+                "narration": "由相似列比例。",
+                "expected_student_reasoning": "比例式",
+                "skill_ids": ["SKILL-SMV-007"],
+            },
+            {
+                "step_id": "S3",
+                "intent": "求解收尾",
+                "narration": conclusion,
+                "expected_student_reasoning": "CE 的长",
+                "skill_ids": ["SKILL-SMV-003"],
+            },
+        ],
+        "steps_origin": "manual",
+        "polished_text": "",
+        "evidence": {"recordings": [], "polishes": [], "manual_edit_notes": ["part 重切"]},
+        "approval": None,
+        "canonical": None,
+        "created_at": "2026-08-20T00:00:00+00:00",
+    }
+
+
+def _ledger(tmp_path: Path) -> Path:
+    ledger = tmp_path / "id-allocations.yaml"
+    write_yaml(
+        ledger,
+        {"schema": "ai_teaching_id_allocations/v1", "allocations": {}, "ta_next_seq": 1},
+    )
+    return ledger
+
+
+def test_part_binding_freeze_gates(tmp_path: Path) -> None:
+    canonical_root = tmp_path / "canonical-authoring"
+    truth = write_truth_v2_multipart(canonical_root)
+    ledger = _ledger(tmp_path)
+    approach = _draft_part_approach()
+
+    # 多小问 QT：缺 part_id / part_id 不在列表 → fail closed
+    with pytest.raises(ta.TeachingApproachError, match="必须绑定具体小问"):
+        ta.freeze_approved_approach(
+            approach, tmp_path, reviewer_id="r", review_note="n",
+            qt_id="QT-SMV-003", ledger_path=ledger, root=canonical_root,
+        )
+    with pytest.raises(ta.TeachingApproachError, match="不在小问列表"):
+        ta.freeze_approved_approach(
+            approach, tmp_path, reviewer_id="r", review_note="n",
+            qt_id="QT-SMV-003", ledger_path=ledger, root=canonical_root, part_id="9",
+        )
+    # 合法 part 绑定 → v2 冻结，question_ref 携带 part_id
+    frozen = ta.freeze_approved_approach(
+        approach, tmp_path, reviewer_id="r", review_note="n",
+        qt_id="QT-SMV-003", ledger_path=ledger, root=canonical_root, part_id="2",
+    )
+    assert frozen["schema"] == "ai_teaching_teaching_approach/v2"
+    assert frozen["question_ref"]["part_id"] == "2"
+    assert frozen["question_ref"]["content_hash"] == truth["content_hash"]
+    ok, errors = validate_payload(frozen)
+    assert ok, errors
+
+    # part 感知读取入口：只命中绑定 part 的 TA
+    all_current = ta.approaches_for_question(
+        "QT-SMV-003", ledger_path=ledger, root=canonical_root
+    )
+    part2 = ta.approaches_for_question(
+        "QT-SMV-003", ledger_path=ledger, root=canonical_root, part_id="2"
+    )
+    part1 = ta.approaches_for_question(
+        "QT-SMV-003", ledger_path=ledger, root=canonical_root, part_id="1"
+    )
+    assert [p["artifact_id"] for p in all_current] == [frozen["artifact_id"]]
+    assert [p["artifact_id"] for p in part2] == [frozen["artifact_id"]]
+    assert part1 == []
+
+
+def test_part_scoped_static_consistency(tmp_path: Path) -> None:
+    canonical_root = tmp_path / "canonical-authoring"
+    write_truth_v2_multipart(canonical_root)
+    ledger = _ledger(tmp_path)
+
+    # part 2 的步骤不陈述该问答案 → 一致性 fail closed
+    approach = _draft_part_approach(with_answer=False)
+    with pytest.raises(ta.TeachingApproachError, match="一致性"):
+        ta.freeze_approved_approach(
+            approach, tmp_path, reviewer_id="r", review_note="n",
+            qt_id="QT-SMV-003", ledger_path=ledger, root=canonical_root, part_id="2",
+        )
+    # 同样步骤对 part 1 求证目标也不满足（目标按 part 提取，互不串门）
+    with pytest.raises(ta.TeachingApproachError, match="一致性"):
+        ta.freeze_approved_approach(
+            approach, tmp_path, reviewer_id="r", review_note="n",
+            qt_id="QT-SMV-003", ledger_path=ledger, root=canonical_root, part_id="1",
+        )
+
+
+def test_part_id_forbidden_without_subquestions(tmp_path: Path) -> None:
+    canonical_root = tmp_path / "canonical-authoring"
+    write_truth(canonical_root, "QT-SMV-001")  # v1 风格：无 subquestions
+    ledger = _ledger(tmp_path)
+    with pytest.raises(ta.TeachingApproachError, match="不得携带 part_id"):
+        ta.freeze_approved_approach(
+            _draft_part_approach(), tmp_path, reviewer_id="r", review_note="n",
+            qt_id="QT-SMV-001", ledger_path=ledger, root=canonical_root, part_id="1",
+        )

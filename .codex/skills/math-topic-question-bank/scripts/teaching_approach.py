@@ -189,6 +189,7 @@ def new_approach(payload: dict[str, Any], *, title: str, author: str) -> dict[st
         "title": title.strip(),
         "author": author.strip() or "unknown-author",
         "status": "draft",
+        "part_id": "",  # ADR-005：小问绑定（空 = 整题/无小问题）
         "goal": "",
         "entry_signal": "",
         "steps": [],
@@ -396,22 +397,39 @@ def _normalize_math_text(value: str) -> str:
     return re.sub(r"\s+", "", lowered)
 
 
-def _answer_targets(truth_payload: dict[str, Any]) -> list[tuple[str, str]]:
-    """提取静态可核验的答案目标：题干 求证 目标 + canonical_answer 的 $…$ 数学片段。
+def _answer_targets(
+    truth_payload: dict[str, Any], part_id: str | None = None
+) -> list[tuple[str, str]]:
+    """提取静态可核验的答案目标：求证目标 + canonical_answer 的 $…$ 数学片段。
 
-    choice_option 用各选项 value；expression/solution 用 answer value 里的数学
-    片段（Phase 2 的答案 value 是 "(1) $…$ 得证；(2) $…$" 复合串）。提取不到
-    任何目标时返回空列表（调用方 fail closed）。
+    ADR-005：part_id 给定时目标取自该小问（prompt 的求证目标 + 小问级
+    canonical_answer）；v2 有小问的 Truth 顶层不再有答案，part_id 为空时对
+    多小问题退回整题混合目标（兼容 v1 存量）。提取不到任何目标返回空列表
+    （调用方 fail closed）。
     """
     targets: list[tuple[str, str]] = []
-    stem = str(truth_payload.get("stem") or "")
+    if part_id:
+        parts = truth_payload.get("subquestions") or []
+        part = next(
+            (p for p in parts if str(p.get("part_id") or "") == part_id), None
+        )
+        if part is None:
+            return []
+        stem = str(part.get("prompt") or "")
+        answer = part.get("canonical_answer") or {}
+    else:
+        stem = str(truth_payload.get("stem") or "")
+        subq_prompts = "；".join(
+            str(p.get("prompt") or "") for p in truth_payload.get("subquestions") or []
+        )
+        stem = f"{stem}；{subq_prompts}" if subq_prompts else stem
+        answer = truth_payload.get("canonical_answer") or {}
     for match in _PROVE_TARGET.finditer(stem):
         # 求证：(1) $…$；(2) $…$ —— 捕获里会带小问序号前缀，剥掉再比对。
         captured = re.sub(r"^[（(]\s*[0-9]\s*[）)]\s*", "", match.group(1)).strip()
         target = _normalize_math_text(captured)
         if len(target) >= 2:
             targets.append((f"求证目标 {captured}", target))
-    answer = truth_payload.get("canonical_answer") or {}
     if answer.get("kind") == "choice_option":
         for option in answer.get("options") or []:
             value = _normalize_math_text(str(option.get("value") or ""))
@@ -429,12 +447,15 @@ def _answer_targets(truth_payload: dict[str, Any]) -> list[tuple[str, str]]:
 
 
 def static_answer_consistency(
-    truth_payload: dict[str, Any], steps: list[dict[str, Any]]
+    truth_payload: dict[str, Any],
+    steps: list[dict[str, Any]],
+    part_id: str | None = None,
 ) -> list[str]:
     """静态答案一致性（fail closed）：教学步骤必须陈述 Truth 的答案/求证目标。
 
     目标 = 求证目标 + 答案数学片段，全部必须出现在步骤文本（narration ∪
     expected_student_reasoning）中；提取不到任何目标也视为失败（宁可拒绝）。
+    ADR-005：part_id 给定时只对照该小问的目标。
     """
     steps_text = _normalize_math_text(
         " ".join(
@@ -444,7 +465,7 @@ def static_answer_consistency(
             for step in steps
         )
     )
-    targets = _answer_targets(truth_payload)
+    targets = _answer_targets(truth_payload, part_id)
     if not targets:
         return ["无法从 QuestionTruth 提取可验证的答案/求证目标（fail closed）"]
     problems: list[str] = []
@@ -643,13 +664,16 @@ def freeze_approved_approach(
     qt_id: str,
     ledger_path: Path,
     root: Path | None = None,
+    part_id: str | None = None,
 ) -> dict[str, Any]:
-    """批准并冻结 canonical ApprovedTeachingApproach.v1（不可变，P3-07）。
+    """批准并冻结 canonical ApprovedTeachingApproach.v2（不可变，P3-07/ADR-005）。
 
     门禁（全部 fail closed，任何一步失败都不写文件）：
     工作区结构完整（≥3 步、字段齐、skill_refs）→ 绑定 QuestionTruth 当前
-    Approved 版本 → 静态答案一致性 → contracts schema + publication 校验 →
-    写 version 文件 + registry（同 id 重批 → v<N+1>，旧版 Superseded）。
+    Approved 版本（含 part 绑定合法性：QT 含 subquestions 时 part_id 必填且
+    必须命中，无小问时必须省略）→ 静态答案一致性（对照绑定 part 的目标）→
+    contracts schema + publication 校验 → 写 version 文件 + registry
+    （同 id 重批 → v<N+1>，旧版 Superseded）。
     """
     root = root or ce.CANONICAL_ROOT
     _validate_working_approach(approach)
@@ -661,12 +685,32 @@ def freeze_approved_approach(
         raise TeachingApproachError(
             f"{qt_id}: QuestionTruth current 版本不是 Approved，拒绝冻结"
         )
-    question_ref = {
+    subquestion_ids = [
+        str(part.get("part_id") or "") for part in truth.get("subquestions") or []
+    ]
+    bound_part_id = str(part_id or "").strip() or None
+    if subquestion_ids:
+        if bound_part_id is None:
+            raise TeachingApproachError(
+                f"{qt_id}: QuestionTruth 含小问 {subquestion_ids}，TeachingApproach "
+                "必须绑定具体小问（ADR-005 part_id）"
+            )
+        if bound_part_id not in subquestion_ids:
+            raise TeachingApproachError(
+                f"{qt_id}: part_id {bound_part_id} 不在小问列表 {subquestion_ids}"
+            )
+    elif bound_part_id is not None:
+        raise TeachingApproachError(
+            f"{qt_id}: QuestionTruth 无小问，TeachingApproach 不得携带 part_id"
+        )
+    question_ref: dict[str, Any] = {
         "artifact_id": qt_id,
         "version": truth["version"],
         "content_hash": truth["content_hash"],
     }
-    consistency = static_answer_consistency(truth, approach["steps"])
+    if bound_part_id is not None:
+        question_ref["part_id"] = bound_part_id
+    consistency = static_answer_consistency(truth, approach["steps"], bound_part_id)
     if consistency:
         raise TeachingApproachError(
             "静态答案一致性检查失败（fail closed）：" + "；".join(consistency)
@@ -696,7 +740,7 @@ def freeze_approved_approach(
         approach, item_dir, ta_id=ta_id, version=next_version, root=root
     )
     payload: dict[str, Any] = {
-        "schema": "ai_teaching_teaching_approach/v1",
+        "schema": "ai_teaching_teaching_approach/v2",
         "artifact_id": ta_id,
         "version": next_version,
         "status": "Approved",
@@ -879,12 +923,21 @@ def current_approach(ta_id: str, *, root: Path | None = None) -> dict[str, Any]:
 
 
 def approaches_for_question(
-    qt_id: str, *, ledger_path: Path, root: Path | None = None
+    qt_id: str,
+    *,
+    ledger_path: Path,
+    root: Path | None = None,
+    part_id: str | None = None,
 ) -> list[dict[str, Any]]:
-    """该 QuestionTruth 当前 Approved 的全部 TeachingApproach（Compiler 读取入口）。"""
+    """该 QuestionTruth 当前 Approved 的全部 TeachingApproach（Compiler 读取入口）。
+
+    ADR-005：part_id 给定时只返回绑定该小问的 TA（v1 存量整题 TA 不带
+    part_id，不命中任何 part 查询）；省略时返回该题全部当前 Approved TA。
+    """
     root = root or ce.CANONICAL_ROOT
     ledger = ce._load_yaml(ledger_path)
     entries = (ledger.get("ta_allocations") or {}).get(qt_id) or []
+    wanted_part = str(part_id or "").strip() or None
     current_list: list[dict[str, Any]] = []
     for entry in entries:
         ta_id = str(entry.get("ta_id") or "")
@@ -893,6 +946,10 @@ def approaches_for_question(
         registry = ce._load_yaml(_ta_registry_path(ta_id, root))
         current = str(registry.get("current_version") or "")
         payload = read_approach_version(ta_id, current, root=root)
-        if payload.get("status") == "Approved":
-            current_list.append(payload)
+        if payload.get("status") != "Approved":
+            continue
+        bound = str((payload.get("question_ref") or {}).get("part_id") or "") or None
+        if wanted_part is not None and bound != wanted_part:
+            continue
+        current_list.append(payload)
     return current_list
