@@ -435,7 +435,11 @@ def build_candidate_export(
             item_source.get("transcription", {}).get("reviewed_at") or _now()
         )
         se_payloads = []
-        for unit, se_id in zip(units, allocation["se_ids"], strict=True):
+        # Re-exports may produce fewer evidence units than a previous export
+        # allocated (resolver ranges differ per run); bind the first N in role
+        # order so evidence IDs stay stable across re-exports, and never
+        # reassign the spares to other items (SEQ 永不复用).
+        for unit, se_id in zip(units, allocation["se_ids"][:needed], strict=True):
             payload = dict(unit["payload"])
             payload["evidence_id"] = se_id
             payload["parser_provenance"] = parser_provenance

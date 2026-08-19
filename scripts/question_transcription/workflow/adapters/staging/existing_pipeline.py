@@ -192,11 +192,8 @@ class DeterministicEvidenceCompleter:
 
             ref = _as_ref(draft_ref)
             payload = self.store.read_yaml(ref)
-            # 含图题的整页题图兜底：扫描卷没有检测分支、闵行 2020 的 docx
-            # 图片归属失败（question-number 断档）——两者都没有 prompt crop，
-            # 但 audit 正确地要求含图题干带可视证据。已有归属 crop 的题
-            # 不受影响（fallback 只补空位），审核者可在 Review UI 精裁替换。
-            payload = self._attach_full_page_prompt_crops(payload)
+            # 含图题的题图补齐（vision 检测；详见 _attach_figure_prompt_crops）。
+            payload = self._attach_figure_prompt_crops(payload)
             # ``layout`` is None for the normal graph path, which selects the
             # resolver's "auto" inference. The recover command passes an explicit
             # "interleaved"/"separated" after a human confirms the source layout,
@@ -226,26 +223,26 @@ class DeterministicEvidenceCompleter:
             return None, "evidence_failed", f"{type(exc).__name__}: {exc}"
 
     @staticmethod
-    def _attach_full_page_prompt_crops(payload: dict) -> dict:
-        """扫描卷（pages）含图题的整页题图兜底（audit 图题规则的诚实满足）。
+    def _attach_figure_prompt_crops(payload: dict, *, detector=None) -> dict:
+        """含图题的题图补齐:vision 检测插图区域,整页仅作失败兜底。
 
-        扫描来源没有检测分支可产出独立题图 crop，但 audit 正确地要求含图
-        （如图/图所示…）题干必须带可视证据。这里把题干首个证据页整页作为
-        prompt crop 附上：materialize 会把它裁成 assets/prompt-01.png 并注入
-        teacher/student 的题图位，审核者可在 Review UI 里进一步手工替换精裁。
-        不放松 audit 规则本身。
+        两种真实来源的插图只存在于渲染页上——扫描包,以及插图是 VML 矢量
+        组合而非媒体资产的 DOCX(闵行 2020 的 41 个 media 全是公式 WMF)。
+        按架构 §8.2,这类来源的题图来自 vision detection(qwen-vl-max 边界框,
+        即本方法);带媒体资产的卷走 word-source 归因,不会进入本路径。
+        检出的 crop 一律挂 attribution_review=needs_review,审核者在
+        Review UI 确认或粘贴精裁;检测失败退化为整页框(同样 needs_review),
+        保证 audit 的图题规则不放松。
         """
         import re as _re
 
         from PIL import Image as _Image
 
         figure_reference = _re.compile(r"如图|图所示|下图|上图|图中|示意图")
-        attached = []
+        pending: list[tuple[dict, Path, int]] = []  # (item, page_path, page_number)
         for section in payload.get("sections") or []:
             for item in section.get("items") or []:
-                if not isinstance(item, dict):
-                    continue
-                if item.get("prompt"):
+                if not isinstance(item, dict) or item.get("prompt"):
                     continue
                 stem = str((item.get("block") or {}).get("stem_latex") or "")
                 if not figure_reference.search(stem):
@@ -259,15 +256,68 @@ class DeterministicEvidenceCompleter:
                 page_path = Path(page_image)
                 if not page_path.is_absolute():
                     page_path = repo_root() / page_image
-                with _Image.open(page_path) as image:
-                    width, height = image.size
-                item["prompt"] = [
-                    {
-                        "source": str(page_path),
-                        "box_px": [0, 0, width, height],
-                    }
-                ]
-                attached.append(item.get("item_id"))
+                pending.append((item, page_path, int(entries[0].get("page_number") or 0)))
+        if not pending:
+            return payload
+
+        # Group by page: one detection call per distinct page image.
+        by_page: dict[Path, list[tuple[dict, int]]] = {}
+        for item, page_path, _page_number in pending:
+            by_page.setdefault(page_path, []).append((item, _page_number))
+
+        from ..source.figure_detection import detect_page_figures
+
+        detection_boxes: dict[Path, dict[int, list[list[int]]]] = {}
+        if detector is None:
+            from ..source.figure_detection import FigureDetector
+
+            detector = FigureDetector(cache_dir=repo_root() / "build/figure-detection-cache")
+        for page_path, page_items in by_page.items():
+            with _Image.open(page_path) as image:
+                page_size = image.size
+            sha = None
+            try:
+                from ...infrastructure.artifact_store import sha256_file as _sha
+
+                sha = _sha(page_path)
+            except Exception:
+                sha = f"sha256:{page_path.stat().st_mtime_ns}"
+            questions = [
+                {
+                    "question_number": item.get("question_number"),
+                    "stem": (item.get("block") or {}).get("stem_latex") or "",
+                }
+                for item, _ in page_items
+            ]
+            detection_boxes[page_path] = detect_page_figures(
+                detector,
+                page_path,
+                page_sha256=sha,
+                questions=questions,
+                page_size=page_size,
+            )
+
+        for item, page_path, page_number in pending:
+            width, height = _Image.open(page_path).size
+            boxes = detection_boxes.get(page_path) or {}
+            number = item.get("question_number")
+            box = (boxes.get(number) or [None])[0]
+            if box is None:
+                # Detection failed for this item: degrade to the full page,
+                # still needs_review so the reviewer must confirm/crop.
+                box = [0, 0, width, height]
+            crop = {
+                "source": str(page_path),
+                "box_px": box,
+                "attribution_review": {
+                    "attribution_id": (
+                        f"figure-detect-p{page_number}-q{number}"
+                    ),
+                    "state": "needs_review",
+                    "confidence": "medium",
+                },
+            }
+            item["prompt"] = [crop]
         return payload
 
 

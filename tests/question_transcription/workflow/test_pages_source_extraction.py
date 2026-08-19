@@ -450,12 +450,12 @@ def test_draft_projector_stamps_page_plan_declaration(tmp_path: Path) -> None:
     assert "non_question_pages" not in draft2["paper"]
 
 
-def test_full_page_prompt_crops_attached_for_figure_stems(tmp_path: Path) -> None:
+def test_figure_prompt_crops_use_detection_with_needs_review(tmp_path: Path) -> None:
     from PIL import Image
 
     page = tmp_path / "pages" / "002.png"
     page.parent.mkdir(parents=True)
-    Image.new("RGB", (120, 200), "white").save(page)
+    Image.new("RGB", (1200, 800), "white").save(page)
     payload = {
         "schema": "math_exam_staging_draft/v1",
         "sections": [
@@ -465,6 +465,7 @@ def test_full_page_prompt_crops_attached_for_figure_stems(tmp_path: Path) -> Non
                 "items": [
                     {
                         "item_id": "Q001",
+                        "question_number": 18,
                         "prompt": [],
                         "block": {"stem_latex": "如图，求 BE 的长。"},
                         "question_word_evidence": [
@@ -473,6 +474,17 @@ def test_full_page_prompt_crops_attached_for_figure_stems(tmp_path: Path) -> Non
                     },
                     {
                         "item_id": "Q002",
+                        "question_number": 19,
+                        "prompt": [],
+                        # 检测失败(无框)→ 整页兜底,同样 needs_review
+                        "block": {"stem_latex": "如图，另一道含图题。"},
+                        "question_word_evidence": [
+                            {"page_image": str(page), "page_number": 2}
+                        ],
+                    },
+                    {
+                        "item_id": "Q003",
+                        "question_number": 20,
                         "prompt": [],
                         "block": {"stem_latex": "计算 2+2。"},
                         "question_word_evidence": [
@@ -483,17 +495,37 @@ def test_full_page_prompt_crops_attached_for_figure_stems(tmp_path: Path) -> Non
             }
         ],
     }
+
+    class _FakeDetector:
+        def detect(self, page_path, *, page_sha256, questions, page_size):
+            assert [q["question_number"] for q in questions] == [18, 19]
+            return {18: [[100, 120, 500, 420]]}
+
     from scripts.question_transcription.workflow.adapters.staging.existing_pipeline import (
         DeterministicEvidenceCompleter,
     )
 
-    updated = DeterministicEvidenceCompleter._attach_full_page_prompt_crops(payload)
+    updated = DeterministicEvidenceCompleter._attach_figure_prompt_crops(
+        payload, detector=_FakeDetector()
+    )
     items = updated["sections"][0]["items"]
-    # 含图题获得整页题图 crop；纯文字题不受影响。
+    # 检测命中 → 插图区域框,标 needs_review 待人工确认。
     assert items[0]["prompt"] == [
-        {"source": str(page), "box_px": [0, 0, 120, 200]}
+        {
+            "source": str(page),
+            "box_px": [100, 120, 500, 420],
+            "attribution_review": {
+                "attribution_id": "figure-detect-p2-q18",
+                "state": "needs_review",
+                "confidence": "medium",
+            },
+        }
     ]
-    assert items[1]["prompt"] == []
+    # 检测未命中 → 整页兜底框,同样 needs_review。
+    assert items[1]["prompt"][0]["box_px"] == [0, 0, 1200, 800]
+    assert items[1]["prompt"][0]["attribution_review"]["state"] == "needs_review"
+    # 纯文字题不受影响。
+    assert items[2]["prompt"] == []
 
 
 def test_low_resolution_page_gets_2x_ocr_upscale(tmp_path: Path) -> None:
