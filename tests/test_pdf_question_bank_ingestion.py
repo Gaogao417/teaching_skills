@@ -25,6 +25,7 @@ from audit_staging import (  # noqa: E402
     choice_values,
     mentions_figure,
     normalize_choice_labels,
+    validate_question_numbering,
 )
 from expand_staging_draft import expand_draft  # noqa: E402
 from paper_map_contracts import validate_against_staging  # noqa: E402
@@ -1519,3 +1520,153 @@ def test_expand_rejects_malformed_non_question_declaration(tmp_path: Path) -> No
     )
     with pytest.raises(ValueError, match="page_number must be a positive integer"):
         expand_draft(draft)
+
+
+# --------------------------------------------------------------------------- #
+# Phase 2 P2-01 追加:题号连续性 fail-closed + 源缺题显式声明豁免
+# --------------------------------------------------------------------------- #
+
+
+def _write_numbering_staging(
+    tmp_path: Path,
+    paper: str,
+    numbers: list[int],
+    *,
+    declaration: dict | None = None,
+) -> tuple[Path, list[str]]:
+    """只含 items/*/source.yaml 的最小 staging（题号审计只读 question_number
+    与 source_directory）。声明文件写到 pack 目录（原始源文件旁）。"""
+    pack_dir = tmp_path / "documents" / paper
+    staging = tmp_path / "staging"
+    for index, number in enumerate(numbers, start=1):
+        item_id = f"Q{index:03d}"
+        item_dir = staging / "items" / item_id
+        item_dir.mkdir(parents=True)
+        write_yaml(
+            item_dir / "source.yaml",
+            {
+                "schema": "math_exam_item_source/v1",
+                "item_id": item_id,
+                "paper_id": paper,
+                "question_number": number,
+                "source_directory": str(pack_dir),
+            },
+        )
+    if declaration is not None:
+        pack_dir.mkdir(parents=True, exist_ok=True)
+        write_yaml(pack_dir / "missing-questions.yaml", declaration)
+    return staging, [f"Q{index:03d}" for index in range(1, len(numbers) + 1)]
+
+
+def _missing_claim(number: int = 6) -> dict:
+    return {
+        "question_number": number,
+        "reason": "source_scan_missing",
+        "note": "扫描件缺该题版面（人工核验）",
+        "verified_at": "2026-08-19",
+    }
+
+
+def test_numbering_accepts_contiguous_run(tmp_path: Path) -> None:
+    staging, ordered = _write_numbering_staging(
+        tmp_path, "PAPER-NUM-OK", [1, 2, 3, 4, 5]
+    )
+    assert validate_question_numbering(staging, ordered, paper_id="PAPER-NUM-OK") == []
+
+
+def test_numbering_rejects_undeclared_gap(tmp_path: Path) -> None:
+    """未声明的断档必须失败——黄浦扫描件丢第 6 题正是这种情形。"""
+    staging, ordered = _write_numbering_staging(
+        tmp_path, "PAPER-NUM-GAP", [1, 2, 3, 4, 5, 7, 8]
+    )
+    errors = validate_question_numbering(staging, ordered, paper_id="PAPER-NUM-GAP")
+    assert len(errors) == 1
+    assert "question 6 is missing" in errors[0]
+    assert "missing-questions.yaml" in errors[0]
+
+
+def test_numbering_accepts_declared_gap(tmp_path: Path) -> None:
+    staging, ordered = _write_numbering_staging(
+        tmp_path,
+        "PAPER-NUM-DECL",
+        [1, 2, 3, 4, 5, 7, 8],
+        declaration={
+            "schema": "math_missing_questions/v1",
+            "paper_id": "PAPER-NUM-DECL",
+            "missing": [_missing_claim(6)],
+        },
+    )
+    assert validate_question_numbering(staging, ordered, paper_id="PAPER-NUM-DECL") == []
+
+
+def test_numbering_rejects_stale_declaration(tmp_path: Path) -> None:
+    """声明缺第 6 题但题目实际存在 → 过期声明，失败。"""
+    staging, ordered = _write_numbering_staging(
+        tmp_path,
+        "PAPER-NUM-STALE",
+        [1, 2, 3, 4, 5, 6, 7],
+        declaration={
+            "schema": "math_missing_questions/v1",
+            "paper_id": "PAPER-NUM-STALE",
+            "missing": [_missing_claim(6)],
+        },
+    )
+    errors = validate_question_numbering(
+        staging, ordered, paper_id="PAPER-NUM-STALE"
+    )
+    assert any("declares question 6 missing but it is present" in e for e in errors)
+
+
+def test_numbering_rejects_duplicates(tmp_path: Path) -> None:
+    staging, ordered = _write_numbering_staging(
+        tmp_path, "PAPER-NUM-DUP", [1, 2, 2, 3]
+    )
+    errors = validate_question_numbering(staging, ordered, paper_id="PAPER-NUM-DUP")
+    assert any("duplicate question_number 2" in e for e in errors)
+
+
+def test_numbering_rejects_run_not_starting_at_one(tmp_path: Path) -> None:
+    staging, ordered = _write_numbering_staging(
+        tmp_path, "PAPER-NUM-START", [2, 3, 4]
+    )
+    errors = validate_question_numbering(staging, ordered, paper_id="PAPER-NUM-START")
+    assert any("must start at 1" in e for e in errors)
+
+
+def test_numbering_rejects_foreign_paper_declaration(tmp_path: Path) -> None:
+    """声明文件 paper_id 与 staging 不符 → 拒绝（不豁免任何断档）。"""
+    staging, ordered = _write_numbering_staging(
+        tmp_path,
+        "PAPER-NUM-FOREIGN",
+        [1, 2, 3, 4, 5, 7],
+        declaration={
+            "schema": "math_missing_questions/v1",
+            "paper_id": "PAPER-OTHER",
+            "missing": [_missing_claim(6)],
+        },
+    )
+    errors = validate_question_numbering(
+        staging, ordered, paper_id="PAPER-NUM-FOREIGN"
+    )
+    assert any("declares paper_id" in e for e in errors)
+    assert any("question 6 is missing" in e for e in errors)
+
+
+def test_numbering_rejects_invalid_claim_reason(tmp_path: Path) -> None:
+    claim = _missing_claim(6)
+    claim["reason"] = "typo_reason"
+    staging, ordered = _write_numbering_staging(
+        tmp_path,
+        "PAPER-NUM-BADCLAIM",
+        [1, 2, 3, 4, 5, 7],
+        declaration={
+            "schema": "math_missing_questions/v1",
+            "paper_id": "PAPER-NUM-BADCLAIM",
+            "missing": [claim],
+        },
+    )
+    errors = validate_question_numbering(
+        staging, ordered, paper_id="PAPER-NUM-BADCLAIM"
+    )
+    assert any("reason must be one of" in e for e in errors)
+    assert any("question 6 is missing" in e for e in errors)

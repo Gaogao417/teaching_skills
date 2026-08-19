@@ -55,6 +55,14 @@ _COMPLETE_DIGIT_SEQUENCE = ("0", "1", "2", "3")
 # 纯文字描述会误报。命中即要求题目配了 prompt crop。
 FIGURE_REFERENCE = re.compile(r"如图|图所示|下图|上图|图中|示意图")
 
+# 源缺题声明（missing-questions.yaml，放在原始源文件旁，与 non-question-pages.yaml
+# 同一约定）。题号连续性不变式 fail-closed：题号必须从 1 连续递增到末题；断档只有
+# 在显式声明该题「原始源材料中不存在」时才放行（例如公众号扫描件丢版面：答案页有
+# 「6. C」但试卷页从第 5 题直接跳到第 7 题）。
+MISSING_QUESTIONS_SCHEMA = "math_missing_questions/v1"
+MISSING_QUESTION_REASONS = ("source_scan_missing", "source_omitted", "other")
+MISSING_QUESTIONS_FILENAME = "missing-questions.yaml"
+
 
 def normalize_choice_labels(choices: list[str]) -> tuple[bool, list[str] | None]:
     """Strip leading A–D / 0–3 labels iff all four choices form a complete sequence.
@@ -188,6 +196,161 @@ def box_intersection_area(first: Any, second: Any) -> int:
     width = max(0, min(a_right, b_right) - max(a_left, b_left))
     height = max(0, min(a_bottom, b_bottom) - max(a_top, b_top))
     return width * height
+
+
+def parse_missing_questions(payload: Any, *, label: str) -> dict[int, dict]:
+    """Parse and validate a missing-questions.yaml payload.
+
+    Returns ``{question_number: claim}``. Every field is mandatory — a
+    declaration exists to make a source-material gap explicit and reviewable,
+    so a vague or partial claim must fail rather than silently pass.
+    """
+    if not isinstance(payload, dict):
+        raise ValueError(f"{label}: YAML root must be a mapping")
+    if payload.get("schema") != MISSING_QUESTIONS_SCHEMA:
+        raise ValueError(f"{label}: schema must be {MISSING_QUESTIONS_SCHEMA}")
+    if not isinstance(payload.get("paper_id"), str) or not payload["paper_id"].strip():
+        raise ValueError(f"{label}: paper_id must be a non-empty string")
+    missing_raw = payload.get("missing")
+    if not isinstance(missing_raw, list) or not missing_raw:
+        raise ValueError(f"{label}: missing must be a non-empty list")
+    claims: dict[int, dict] = {}
+    for index, claim in enumerate(missing_raw):
+        where = f"{label}.missing[{index}]"
+        if not isinstance(claim, dict):
+            raise ValueError(f"{where} must be a mapping")
+        number = claim.get("question_number")
+        if not isinstance(number, int) or isinstance(number, bool) or number < 1:
+            raise ValueError(f"{where}.question_number must be a positive integer")
+        if number in claims:
+            raise ValueError(f"{where}: duplicate declaration for question {number}")
+        reason = claim.get("reason")
+        if reason not in MISSING_QUESTION_REASONS:
+            raise ValueError(
+                f"{where}.reason must be one of {', '.join(MISSING_QUESTION_REASONS)}"
+            )
+        if not isinstance(claim.get("note"), str) or not claim["note"].strip():
+            raise ValueError(f"{where}.note must be a non-empty string")
+        if not isinstance(claim.get("verified_at"), str) or not claim["verified_at"].strip():
+            raise ValueError(f"{where}.verified_at must be a non-empty string")
+        claims[number] = claim
+    return claims
+
+
+def collect_question_numbers(
+    staging_dir: Path, ordered: list[str]
+) -> tuple[list[int], list[str]]:
+    """Read each item's authoritative question_number from source.yaml."""
+    numbers: list[int] = []
+    errors: list[str] = []
+    for item_id in ordered:
+        source_path = staging_dir / "items" / item_id / "source.yaml"
+        try:
+            source = load_yaml(source_path)
+        except (OSError, ValueError, yaml.YAMLError) as exc:
+            errors.append(f"{item_id}: cannot read source.yaml ({exc})")
+            continue
+        number = source.get("question_number")
+        if not isinstance(number, int) or isinstance(number, bool) or number < 1:
+            errors.append(f"{item_id}: question_number must be a positive integer")
+            continue
+        numbers.append(number)
+    return numbers, errors
+
+
+def _declared_missing_questions(
+    staging_dir: Path, ordered: list[str], paper_id: str
+) -> tuple[dict[int, dict], list[str]]:
+    """Load missing-questions.yaml declarations for this paper.
+
+    The declaration file lives beside the original source files (same convention
+    as non-question-pages.yaml); candidate directories are the distinct
+    ``source_directory`` values recorded in item source.yaml.
+    """
+    directories: list[str] = []
+    for item_id in ordered:
+        source_path = staging_dir / "items" / item_id / "source.yaml"
+        try:
+            source = load_yaml(source_path)
+        except (OSError, ValueError, yaml.YAMLError):
+            continue
+        directory = str(source.get("source_directory") or "")
+        if directory and directory not in directories:
+            directories.append(directory)
+    claims: dict[int, dict] = {}
+    errors: list[str] = []
+    for directory in directories:
+        path = Path(directory) / MISSING_QUESTIONS_FILENAME
+        if not path.is_file():
+            continue
+        try:
+            payload = load_yaml(path)
+            paper_claims = parse_missing_questions(payload, label=str(path))
+        except (OSError, ValueError, yaml.YAMLError) as exc:
+            errors.append(f"question numbering: invalid {MISSING_QUESTIONS_FILENAME}: {exc}")
+            continue
+        if payload.get("paper_id") != paper_id:
+            errors.append(
+                f"question numbering: {path} declares paper_id "
+                f"{payload.get('paper_id')!r} but staging is {paper_id!r}"
+            )
+            continue
+        for number, claim in paper_claims.items():
+            if number in claims:
+                errors.append(
+                    f"question numbering: duplicate declaration for question "
+                    f"{number} across {MISSING_QUESTIONS_FILENAME} files"
+                )
+            claims[number] = claim
+    return claims, errors
+
+
+def validate_question_numbering(
+    staging_dir: Path, ordered: list[str], *, paper_id: str
+) -> list[str]:
+    """题号连续性不变式：题号必须从 1 连续递增到末题，不得重复。
+
+    断档必须由源缺题声明（missing-questions.yaml）显式豁免——声明了但题目
+    实际存在同样是错误（过期声明）。fail-closed：未声明的断档/重复直接失败。
+    """
+    if not ordered:
+        return ["question numbering: staging has no items"]
+    numbers, errors = collect_question_numbers(staging_dir, ordered)
+    if errors:
+        return errors
+    claims, claim_errors = _declared_missing_questions(staging_dir, ordered, paper_id)
+    errors.extend(claim_errors)
+    max_number = max(numbers)
+    gaps = sorted(set(range(1, max_number + 1)) - set(numbers))
+    duplicates = sorted({number for number in numbers if numbers.count(number) > 1})
+    for number in duplicates:
+        errors.append(
+            f"question numbering: duplicate question_number {number} across items"
+        )
+    for number in gaps:
+        claim = claims.get(number)
+        if claim is None:
+            errors.append(
+                f"question numbering: question {number} is missing between 1 and "
+                f"{max_number}; if the original source material genuinely lacks it, "
+                f"declare it in {MISSING_QUESTIONS_FILENAME} beside the source files"
+            )
+        else:
+            print(
+                f"NOTE: question {number} declared missing "
+                f"({claim.get('reason')}): {str(claim.get('note'))[:120]}"
+            )
+    stale_claims = sorted(set(claims) - set(gaps))
+    for number in stale_claims:
+        errors.append(
+            f"question numbering: {MISSING_QUESTIONS_FILENAME} declares question "
+            f"{number} missing but it is present in staging; remove the stale claim"
+        )
+    if numbers and min(numbers) != 1:
+        errors.append(
+            f"question numbering: numbering must start at 1, got {min(numbers)}"
+        )
+    return errors
 
 
 def audit_item(
@@ -594,6 +757,9 @@ def main() -> int:
             ordered,
             repo_root=repo_root,
         )
+        numbering_errors = validate_question_numbering(
+            staging_dir, ordered, paper_id=paper.paper.id
+        )
         if args.only:
             wanted = set(args.only)
             unknown = sorted(wanted.difference(ordered))
@@ -603,7 +769,7 @@ def main() -> int:
         if args.rows_per_sheet < 1:
             raise ValueError("--rows-per-sheet must be positive")
 
-        all_errors: list[str] = [*map_errors, *coverage_errors]
+        all_errors: list[str] = [*map_errors, *coverage_errors, *numbering_errors]
         all_warnings: list[str] = []
         assets_by_item: dict[str, dict[str, list[Path]]] = {}
         for item_id in ordered:

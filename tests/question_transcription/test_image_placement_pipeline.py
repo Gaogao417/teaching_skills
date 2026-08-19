@@ -77,7 +77,7 @@ def _baoshan_q24_draft(repo: Path) -> dict:
             "title": "三、解答题",
             "items": [{
                 "item_id": "Q001",
-                "question_number": 24,
+                "question_number": 1,
                 "question_type": "problem",
                 "points": 12,
                 "prompt": [
@@ -91,8 +91,8 @@ def _baoshan_q24_draft(repo: Path) -> dict:
                     {"page_image": "documents/q24/word/pages/003.png", "page_number": 3},
                 ],
                 "official_solution": {
-                    "start_anchor": "24.",
-                    "end_anchor": "25.",
+                    "start_anchor": "1.",
+                    "end_anchor": "2.",
                     "word_evidence": [
                         {"page_image": "documents/q24/word/pages/007.png", "page_number": 7},
                     ],
