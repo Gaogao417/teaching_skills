@@ -70,6 +70,31 @@ def _previous_line_covers(previous: str, following: str) -> bool:
     return left == right or (len(right) >= 12 and right in left)
 
 
+def _drop_seam_fragments(merged: list[str]) -> None:
+    """删掉被完整重读覆盖的接缝公式残行（就地修改 merged）。
+
+    条带下边缘会把一行公式物理切断：上一带的最后一行只读到半个公式（行内
+    ``$`` 未闭合），下一带在重叠区把同一行完整读出。拼接后残行与完整行并
+    存（或残行被保留、完整行被去重丢弃），都会让整页 ``$`` 计数为奇——被
+    :func:`looks_truncated` 误判为截断（2026-08-19 闵行答案页回归实测）。
+    全局判定：某行自身 ``$`` 计数为奇、且被另一行严格包含（归一后子串），
+    则它是残行、完整版本已在——删除之。
+    """
+    normalized = [_normalize_line(x) for x in merged]
+    keep: list[str] = []
+    for index, raw in enumerate(merged):
+        n = normalized[index]
+        if n and len(n) >= 6 and n.count("$") % 2 == 1:
+            if any(
+                len(other) > len(n) and n in other
+                for j, other in enumerate(normalized)
+                if j != index
+            ):
+                continue
+        keep.append(raw)
+    merged[:] = keep
+
+
 def stitch_band_texts(bands: list[str]) -> str:
     """把同一页的多个横条带 OCR 输出按顺序拼接，重叠行只保留一份。
 
@@ -95,6 +120,7 @@ def stitch_band_texts(bands: list[str]) -> str:
                 overlap = k
                 break
         merged.extend(head[overlap:])
+    _drop_seam_fragments(merged)
     return "\n".join(merged) + "\n"
 
 PAGE_TEXT_PROMPT = (

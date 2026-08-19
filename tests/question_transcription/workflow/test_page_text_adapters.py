@@ -121,6 +121,27 @@ def test_stitch_band_texts_no_overlap_keeps_all():
     assert stitch_band_texts([a, b]) == "第一段内容。\n第二段内容。\n"
 
 
+def test_stitch_band_texts_drops_seam_formula_fragment():
+    """前带底部把公式切断(奇 $ 残行),后带完整重读同一行 → 残行必须删除,
+    否则拼接结果 $ 计数为奇、被 looks_truncated 误判截断(闵行答案页实测)。"""
+    band0 = (
+        "23. 证明: (1) $\\because AD \\cdot OC = AB \\cdot OD$。\n"
+        "$\\therefore \\frac{AD}{OD} = \\frac{AB}{OC}$\n"
+        "$\\because BD$ 是高, $\\angle BDC = 90^\\circ$,"
+    )
+    band1 = (
+        "$\\because BD$ 是高, $\\angle BDC = 90^{\\circ}$, "
+        "$\\triangle ADB$ 和 $\\triangle ODC$ 是直角三角形。\n"
+    )
+    band2 = (
+        "$\\triangle ADB$ 和 $\\triangle ODC$ 是直角三角形。\n"
+        "$\\therefore$ Rt$\\triangle ADB \\sim$ Rt$\\triangle ODC$。\n"
+    )
+    stitched = stitch_band_texts([band0, band1, band2])
+    assert "Rt$\\triangle ADB \\sim$" in stitched
+    assert not looks_truncated(stitched)
+
+
 def test_qwen_adapter_stripe_fallback_recovers_truncated_page(tmp_path):
     from scripts.question_transcription.workflow.adapters.page_text.qwen import (
         QwenPageTextExtractor,
