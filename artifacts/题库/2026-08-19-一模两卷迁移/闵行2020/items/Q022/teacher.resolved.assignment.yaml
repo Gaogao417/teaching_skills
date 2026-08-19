@@ -1,0 +1,52 @@
+meta:
+  title: 2020年上海市闵行区中考数学一模试卷第 22 题
+  grade: 初三
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q022
+    points: 10
+    stem_latex: 2019 年第 18 号台风“米娜”于 9 月 29 日早晨 5 点整，由位于台湾省周边的 $B$ 岛东南方约 980 千米的西北太平洋面上（$A$
+      点）生成，向西北方向移动，并于 9 月 30 日 20 时 30 分到达 $B$ 岛后风力增强且转向，一路向北于 24 小时后在浙江省舟山市登陆。“米娜”在登陆后风力减弱且再一次转向，以每小时
+      20 千米的速度向北偏东 $30^\circ$ 的方向移动，距台风中心 170 千米的范围内是受台风影响的区域。已知上海位于舟山市北偏西 $7^\circ$
+      方向，且距舟山市 250 千米。(1) 台风中心从生成点（$A$ 点）到达 $B$ 岛的速度是每小时多少千米？(2) 10 月 2 日上海受到“米娜”影响，那么上海遭受这次台风影响的时间有多长？（结果保留整数。参考数据：$\sin
+      23^\circ \approx 0.39$，$\cos 23^\circ \approx 0.92$，$\tan 23^\circ \approx 0.42$；$\sin
+      37^\circ \approx 0.60$，$\cos 37^\circ \approx 0.80$，$\tan 37^\circ \approx 0.75$）
+    answer: (1) 每小时约 25 千米；(2) 约 8 小时
+    clue: (1) 路程除以时间求速度；(2) 过上海作垂线构造直角三角形，先求出台风中心到上海的最短距离，再由影响半径求影响路程与时间
+    solution_steps:
+    - (1) $v = \frac{980}{39.5} \approx 25$（千米/时）。答：台风中心从生成点（$A$ 点）到达 $B$ 岛的速度是每小时
+      25 千米
+    - (2) 过点 $S$ 作 $SH \perp ZD$，垂足为点 $H$，$\angle SHZ = 90^\circ$；$\because \angle
+      NZD = 30^\circ$，$\angle CZN = 7^\circ$，$\therefore \angle CZD = \angle CZN +
+      \angle NZD = 7^\circ + 30^\circ = 37^\circ$
+    - 在 Rt$\triangle SHZ$ 中，$\sin \angle CZD = \frac{SH}{SZ}$，$SH = SZ \cdot \sin
+      \angle CZD = 250 \times \sin 37^\circ \approx 250 \times 0.60 \approx 150$（千米），$\because
+      150$ 千米 $< 170$ 千米
+    - 设台风中心移动到 $E$ 处时上海开始遭受台风影响，到 $F$ 处影响结束，即 $SE = SF = 170$（千米）
+    - 在 Rt$\triangle SEH$ 中，$\angle SHE = 90^\circ$，$SE^2 = SH^2 + HE^2$，$\therefore
+      HE = \sqrt{SE^2 - SH^2} = \sqrt{170^2 - 150^2} \approx 80$，$EF = 2EH \approx
+      160$（千米）
+    - $\therefore$ 上海遭受这次台风影响的时间为 $\frac{EF}{20} = \frac{160}{20} \approx 8$（小时）
+    source_solution_images: []
+    teaching:
+      title: 第 22 题
+      difficulty: standard
+      skill_tags:
+      - 解答题
+      - 一模
+      variation_dimension: source_exam

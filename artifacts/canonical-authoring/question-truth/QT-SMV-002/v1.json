@@ -1,0 +1,46 @@
+{
+  "approval": {
+    "approved_at": "2026-08-19T13:52:04.472226+00:00",
+    "edits_applied": true,
+    "review_note": null,
+    "reviewer_id": "question-bank-review-ui"
+  },
+  "artifact_id": "QT-SMV-002",
+  "artifact_uri": "artifact://question-truth/QT-SMV-002@v1",
+  "canonical_answer": {
+    "kind": "expression",
+    "value": "(1) $CE \\perp AB$ 得证（见解答）；(2) $AF \\cdot DE = AG \\cdot BC$ 得证"
+  },
+  "content_hash": "sha256:735e9fdf87a32ed0a69f95e44b66e1ac48cd9a75ca95a5878e3a9e22c4c2ff2d",
+  "origin_candidate_id": "QC-SMV-023",
+  "question_type": "solution",
+  "reviewed_solution": "(1) $\\because AD \\cdot OC = AB \\cdot OD$，$\\therefore \\frac{AD}{OD} = \\frac{AB}{OC}$\n$\\because BD$ 是 $AC$ 边上的高，$\\therefore \\angle BDC = 90^\\circ$，$\\triangle ADB$ 和 $\\triangle ODC$ 是直角三角形，$\\therefore$ Rt$\\triangle ADB \\sim$ Rt$\\triangle ODC$，$\\therefore \\angle ABD = \\angle OCD$\n又 $\\because \\angle EOB = \\angle DOC$，$\\angle DOC + \\angle OCD + \\angle ODC = 180^\\circ$，$\\angle EOB + \\angle ABD + \\angle OEB = 180^\\circ$，$\\therefore \\angle OEB = 90^\\circ$\n$\\therefore CE \\perp AB$\n(2) 在 $\\triangle DAE$ 和 $\\triangle BAC$ 中，$\\because \\frac{AD}{AB} = \\frac{AE}{AC}$，$\\angle DAE = \\angle BAC$，$\\therefore \\triangle DAE \\sim \\triangle BAC$；$\\because AF$ 是 $\\angle BAC$ 的平分线，$\\therefore \\frac{AG}{AF} = \\frac{DE}{BC}$，即 $AF \\cdot DE = AG \\cdot BC$ .",
+  "schema": "ai_teaching_question_truth/v1",
+  "source_evidence_refs": [
+    {
+      "artifact_uri": "artifact://source-evidence/SE-SMV-047",
+      "evidence_id": "SE-SMV-047"
+    },
+    {
+      "artifact_uri": "artifact://source-evidence/SE-SMV-048",
+      "evidence_id": "SE-SMV-048"
+    },
+    {
+      "artifact_uri": "artifact://source-evidence/SE-SMV-049",
+      "evidence_id": "SE-SMV-049"
+    }
+  ],
+  "status": "Approved",
+  "stem": "如图，在 $\\triangle ABC$ 中，$BD$ 是 $AC$ 边上的高，点 $E$ 在边 $AB$ 上，联结 $CE$ 交 $BD$ 于点 $O$，且 $AD \\cdot OC = AB \\cdot OD$，$AF$ 是 $\\angle BAC$ 的平分线，交 $BC$ 于点 $F$，交 $DE$ 于点 $G$。求证：(1) $CE \\perp AB$；(2) $AF \\cdot DE = AG \\cdot BC$。",
+  "subquestions": [
+    {
+      "part_id": "1",
+      "prompt": "$CE \\perp AB$；"
+    },
+    {
+      "part_id": "2",
+      "prompt": "$AF \\cdot DE = AG \\cdot BC$。"
+    }
+  ],
+  "version": "v1"
+}

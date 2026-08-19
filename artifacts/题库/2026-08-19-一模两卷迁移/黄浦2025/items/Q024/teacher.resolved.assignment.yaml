@@ -1,0 +1,63 @@
+meta:
+  title: 2025年上海市黄浦区初三一模数学试卷（九年级期末考试数学试卷，2025年1月）第 25 题
+  grade: 初三
+  subject: 数学
+  total_points: 14
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q024
+    points: 14
+    stem_latex: 已知平行四边形 $ABCD$ 中，$AB=9$，$BC=5$，$\sin B=\frac{4}{5}$，$P$ 是边 $AB$ 上一动点，过点
+      $P$ 作 $PE\perp PC$，交射线 $CD$ 于点 $E$，交 $AC$ 于点 $H$，$F$ 是 $PE$ 上的点，$\frac{FP}{PC}=\frac{2}{3}$，联结
+      $CF$ . (1) 求证：$\angle BAC=\angle PCF$；(2) 当 $\triangle APC\sim\triangle EFC$
+      时，求线段 $BP$ 的长；(3) 当 $\frac{S_{\triangle HFC}}{S_{\triangle PHC}}=\frac{1}{3}$
+      时，求 $\frac{AH}{AC}$ 的值 .
+    answer: (1) 得证；(2) $BP=\frac{17}{3}$；(3) $\frac{AH}{AC}=\frac{2}{7}$ 或 $\frac{1}{5}$
+    clue: 平行四边形背景下的动点综合题：作垂线构造直角三角形，分类讨论点 $F$ 的位置
+    solution_steps:
+    - (1) 过点 $C$ 作 $CG\perp AB$，垂足为点 $G$ . ∵ $BC=5$，$\sin B=\frac{4}{5}$，∴ $BG=3$，$CG=4$
+      .
+    - ∵ $AB=9$，∴ $AG=6$；∵ $\angle AGC=90^{\circ}$，∴ $\tan\angle BAC=\frac{CG}{AG}=\frac{2}{3}$
+      .
+    - ∵ $\angle CPF=90^{\circ}$，$\frac{FP}{PC}=\frac{2}{3}$，∴ $\tan\angle PCF=\tan\angle
+      BAC=\frac{2}{3}$ .
+    - ∵ $\angle BAC=\angle PCF<90^{\circ}$，∴ $\angle BAC=\angle PCF$ .
+    - (2) ∵ $AB\parallel CD$，∴ $\angle BAC=\angle ACD$；∵ $\angle PCF=\angle BAC$，∴
+      $\angle PCF=\angle ACD$，∴ $\angle PCA=\angle FCD$ .
+    - ∵ $\triangle APC\sim\triangle EFC$，$\angle PEC=\angle APE<90^{\circ}$，∴ $\angle
+      APC=\angle EFC$，∴ $\angle BPC=\angle PFC$ .
+    - ∴ $\cot\angle BPC=\cot\angle PFC$，∴ $\frac{PG}{CG}=\frac{2}{3}$，∴ $PG=\frac{8}{3}$，∴
+      $BP=\frac{17}{3}$ .
+    - (3) 过点 $H$ 作 $HM\perp AB$，垂足为点 $M$ . ∵ $\angle FPC=90^{\circ}$，∴ $\angle MPH=\angle
+      PCG$；又 $\angle HMP=\angle CGP=90^{\circ}$，∴ $\triangle MPH\sim\triangle GCP$
+      .
+    - ∴ $\frac{MP}{GC}=\frac{MH}{GP}=\frac{PH}{CP}$；∵ $\frac{S_{\triangle HFC}}{S_{\triangle
+      PHC}}=\frac{1}{3}$，∴ $\frac{FH}{PH}=\frac{1}{3}$ .
+    - ① 当点 $F$ 在线段 $PH$ 的延长线上时，由 $\frac{PF}{PC}=\frac{2}{3}$，可得 $\frac{PH}{PC}=\frac{1}{2}$
+      . 设 $MH=a$，∴ $GP=2a$，$MP=2$，$AM=\frac{3}{2}a$，∴ $2a+\frac{3}{2}a+2+3=9$，$a=\frac{8}{7}$，∴
+      $\frac{AH}{AC}=\frac{MH}{CG}=\frac{2}{7}$ .
+    - ② 当点 $F$ 在线段 $PH$ 上时，可得 $PH=PC$ . 设 $MH=b$，∴ $GP=b$，$MP=4$，$AM=\frac{3}{2}b$，∴
+      $b+\frac{3}{2}b+4+3=9$，$b=\frac{4}{5}$，∴ $\frac{AH}{AC}=\frac{MH}{CG}=\frac{1}{5}$
+      .
+    - 综上所述，$\frac{AH}{AC}$ 的值为 $\frac{2}{7}$ 或 $\frac{1}{5}$ .
+    source_solution_images: []
+    teaching:
+      title: 第 25 题
+      difficulty: challenge
+      skill_tags:
+      - 解答题
+      - 一模
+      variation_dimension: source_exam

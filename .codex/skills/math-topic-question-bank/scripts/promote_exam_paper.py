@@ -243,11 +243,14 @@ def promote_paper(
             pack_map=canonical["pack_map"],
             ledger_path=canonical.get("ledger_path"),
         )
-        # Dry-run publication validation before ANY bank mutation.
+        # Dry-run publication validation before ANY bank mutation. The version is
+        # a schema-legal placeholder ("v0" is never a real version — real ones
+        # start at v1); version/artifact_uri are content-hash-excluded identity
+        # fields, so the validated content is exactly what promote will write.
         from canonical_export import _build_truth_payload, _validate_publication
 
         for item in canonical_export["items"]:
-            _validate_publication(_build_truth_payload(item, version="v_prevalidate"))
+            _validate_publication(_build_truth_payload(item, version="v0"))
     if (paper_path.parent / "review-issues.yaml").is_file():
         raise ValueError(
             "staging contains review-issues.yaml; resolve issues, apply resolutions, "

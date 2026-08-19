@@ -1,0 +1,46 @@
+{
+  "approval": {
+    "approved_at": "2026-08-19T13:55:12.444629+00:00",
+    "edits_applied": true,
+    "review_note": null,
+    "reviewer_id": "question-bank-review-ui"
+  },
+  "artifact_id": "QT-SMV-006",
+  "artifact_uri": "artifact://question-truth/QT-SMV-006@v1",
+  "canonical_answer": {
+    "kind": "expression",
+    "value": "(1) 得证；(2) $BP=\\frac{17}{3}$；(3) $\\frac{AH}{AC}=\\frac{2}{7}$ 或 $\\frac{1}{5}$"
+  },
+  "content_hash": "sha256:4acd2589d634848d234c82b0f788a33d91d603845c7e34531deedb974cb54ed8",
+  "origin_candidate_id": "QC-SMV-049",
+  "question_type": "solution",
+  "reviewed_solution": "(1) 过点 $C$ 作 $CG\\perp AB$，垂足为点 $G$ . ∵ $BC=5$，$\\sin B=\\frac{4}{5}$，∴ $BG=3$，$CG=4$ .\n∵ $AB=9$，∴ $AG=6$；∵ $\\angle AGC=90^{\\circ}$，∴ $\\tan\\angle BAC=\\frac{CG}{AG}=\\frac{2}{3}$ .\n∵ $\\angle CPF=90^{\\circ}$，$\\frac{FP}{PC}=\\frac{2}{3}$，∴ $\\tan\\angle PCF=\\tan\\angle BAC=\\frac{2}{3}$ .\n∵ $\\angle BAC=\\angle PCF<90^{\\circ}$，∴ $\\angle BAC=\\angle PCF$ .\n(2) ∵ $AB\\parallel CD$，∴ $\\angle BAC=\\angle ACD$；∵ $\\angle PCF=\\angle BAC$，∴ $\\angle PCF=\\angle ACD$，∴ $\\angle PCA=\\angle FCD$ .\n∵ $\\triangle APC\\sim\\triangle EFC$，$\\angle PEC=\\angle APE<90^{\\circ}$，∴ $\\angle APC=\\angle EFC$，∴ $\\angle BPC=\\angle PFC$ .\n∴ $\\cot\\angle BPC=\\cot\\angle PFC$，∴ $\\frac{PG}{CG}=\\frac{2}{3}$，∴ $PG=\\frac{8}{3}$，∴ $BP=\\frac{17}{3}$ .\n(3) 过点 $H$ 作 $HM\\perp AB$，垂足为点 $M$ . ∵ $\\angle FPC=90^{\\circ}$，∴ $\\angle MPH=\\angle PCG$；又 $\\angle HMP=\\angle CGP=90^{\\circ}$，∴ $\\triangle MPH\\sim\\triangle GCP$ .\n∴ $\\frac{MP}{GC}=\\frac{MH}{GP}=\\frac{PH}{CP}$；∵ $\\frac{S_{\\triangle HFC}}{S_{\\triangle PHC}}=\\frac{1}{3}$，∴ $\\frac{FH}{PH}=\\frac{1}{3}$ .\n① 当点 $F$ 在线段 $PH$ 的延长线上时，由 $\\frac{PF}{PC}=\\frac{2}{3}$，可得 $\\frac{PH}{PC}=\\frac{1}{2}$ . 设 $MH=a$，∴ $GP=2a$，$MP=2$，$AM=\\frac{3}{2}a$，∴ $2a+\\frac{3}{2}a+2+3=9$，$a=\\frac{8}{7}$，∴ $\\frac{AH}{AC}=\\frac{MH}{CG}=\\frac{2}{7}$ .\n② 当点 $F$ 在线段 $PH$ 上时，可得 $PH=PC$ . 设 $MH=b$，∴ $GP=b$，$MP=4$，$AM=\\frac{3}{2}b$，∴ $b+\\frac{3}{2}b+4+3=9$，$b=\\frac{4}{5}$，∴ $\\frac{AH}{AC}=\\frac{MH}{CG}=\\frac{1}{5}$ .\n综上所述，$\\frac{AH}{AC}$ 的值为 $\\frac{2}{7}$ 或 $\\frac{1}{5}$ .",
+  "schema": "ai_teaching_question_truth/v1",
+  "source_evidence_refs": [
+    {
+      "artifact_uri": "artifact://source-evidence/SE-SMV-104",
+      "evidence_id": "SE-SMV-104"
+    },
+    {
+      "artifact_uri": "artifact://source-evidence/SE-SMV-105",
+      "evidence_id": "SE-SMV-105"
+    }
+  ],
+  "status": "Approved",
+  "stem": "已知平行四边形 $ABCD$ 中，$AB=9$，$BC=5$，$\\sin B=\\frac{4}{5}$，$P$ 是边 $AB$ 上一动点，过点 $P$ 作 $PE\\perp PC$，交射线 $CD$ 于点 $E$，交 $AC$ 于点 $H$，$F$ 是 $PE$ 上的点，$\\frac{FP}{PC}=\\frac{2}{3}$，联结 $CF$ . (1) 求证：$\\angle BAC=\\angle PCF$；(2) 当 $\\triangle APC\\sim\\triangle EFC$ 时，求线段 $BP$ 的长；(3) 当 $\\frac{S_{\\triangle HFC}}{S_{\\triangle PHC}}=\\frac{1}{3}$ 时，求 $\\frac{AH}{AC}$ 的值 .",
+  "subquestions": [
+    {
+      "part_id": "1",
+      "prompt": "求证：$\\angle BAC=\\angle PCF$；"
+    },
+    {
+      "part_id": "2",
+      "prompt": "当 $\\triangle APC\\sim\\triangle EFC$ 时，求线段 $BP$ 的长；"
+    },
+    {
+      "part_id": "3",
+      "prompt": "当 $\\frac{S_{\\triangle HFC}}{S_{\\triangle PHC}}=\\frac{1}{3}$ 时，求 $\\frac{AH}{AC}$ 的值 ."
+    }
+  ],
+  "version": "v1"
+}

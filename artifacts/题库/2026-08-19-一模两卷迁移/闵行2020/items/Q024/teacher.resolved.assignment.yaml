@@ -1,0 +1,57 @@
+meta:
+  title: 2020年上海市闵行区中考数学一模试卷第 24 题
+  grade: 初三
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q024
+    points: 12
+    stem_latex: 已知：在平面直角坐标系 $xOy$ 中，对称轴为直线 $x = -2$ 的抛物线经过点 $C(0, 2)$，与 $x$ 轴交于 $A(-3,
+      0)$、$B$ 两点（点 $A$ 在点 $B$ 的左侧）。(1) 求这条抛物线的表达式；(2) 联结 $BC$，求 $\angle BCO$ 的余切值；(3)
+      如果过点 $C$ 的直线，交 $x$ 轴于点 $E$，交抛物线于点 $P$，且 $\angle CEO = \angle BCO$，求点 $P$ 的坐标。
+    answer: (1) $y = \frac{2}{3}x^{2} + \frac{8}{3}x + 2$；(2) $\cot \angle BCO = 2$；(3)
+      $P\left(-\frac{13}{4}, \frac{3}{8}\right)$ 或 $\left(-\frac{19}{4}, \frac{35}{8}\right)$
+    clue: (1) 由对称轴与交点用待定系数法；(2) 在 Rt$\triangle OBC$ 中用余切定义；(3) 由 $\angle CEO = \angle
+      BCO$ 分类讨论点 $E$ 位置，联立直线与抛物线求交点
+    solution_steps:
+    - $\because$ 点 $A$ 的坐标是 $(-3, 0)$，$\therefore$ 点 $B$ 的坐标是 $(-1, 0)$，这条抛物线的表达式为
+      $y = \frac{2}{3}x^{2} + \frac{8}{3}x + 2$
+    - (2) $\because C(0, 2)$，$\therefore OB = 1$，$OC = 2$；在 Rt$\triangle OBC$ 中，$\angle
+      BOC = 90^\circ$，$\therefore \cot \angle BCO = \frac{OC}{OB} = 2$
+    - (3) 设点 $E$ 的坐标是 $(x, 0)$，得 $OE = |x|$；$\because \angle CEO = \angle BCO$，$\therefore
+      \cot \angle CEO = \cot \angle BCO$，$\cot \angle CEO = \frac{OE}{OC} = \frac{|x|}{2}
+      = 2$，在 Rt$\triangle EOC$ 中，$|x| = 4$，$\therefore$ 点 $E$ 坐标是 $(4, 0)$ 或 $(-4,
+      0)$
+    - '$\because$ 点 $C$ 坐标是 $(0, 2)$，$l_{CE}: y = \frac{1}{2}x + 2$ 或 $y = -\frac{1}{2}x
+      + 2$'
+    - 联立 $y = \frac{1}{2}x + 2$ 与 $y = \frac{2}{3}x^{2} + \frac{8}{3}x + 2$，解得 $x
+      = -\frac{13}{4}$、$y = \frac{3}{8}$ 和 $x = 0$、$y = 2$（舍去）；或联立 $y = -\frac{1}{2}x
+      + 2$，解得 $x = -\frac{19}{4}$、$y = \frac{35}{8}$ 和 $x = 0$、$y = 2$（舍去）
+    - $\therefore$ 点 $P$ 坐标是 $\left(-\frac{13}{4}, \frac{3}{8}\right)$ 或 $\left(-\frac{19}{4},
+      \frac{35}{8}\right)$
+    source_solution_images: []
+    diagram_col:
+      image_path: assets/manual-prompt-1-177cc84778247743.png
+      variant: prompt
+      disclosure_policy: clean
+    teaching:
+      title: 第 24 题
+      difficulty: challenge
+      skill_tags:
+      - 解答题
+      - 一模
+      variation_dimension: source_exam

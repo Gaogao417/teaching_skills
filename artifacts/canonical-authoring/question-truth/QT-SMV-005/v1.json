@@ -1,0 +1,42 @@
+{
+  "approval": {
+    "approved_at": "2026-08-19T13:55:12.441478+00:00",
+    "edits_applied": true,
+    "review_note": null,
+    "reviewer_id": "question-bank-review-ui"
+  },
+  "artifact_id": "QT-SMV-005",
+  "artifact_uri": "artifact://question-truth/QT-SMV-005@v1",
+  "canonical_answer": {
+    "kind": "expression",
+    "value": "(1)(2) 均得证（见解题步骤）"
+  },
+  "content_hash": "sha256:851940d9a4af8026fa17607feb4c1f2afeeb1d733598174f298d497c0aa063cf",
+  "origin_candidate_id": "QC-SMV-047",
+  "question_type": "solution",
+  "reviewed_solution": "(1) ∵ $AE=AD$，∴ $\\angle E=\\angle ADE$ .\n∵ $\\angle ADE=\\angle CDB$，∴ $\\angle E=\\angle CDB$ .\n∵ $CD$ 平分 $\\angle ACB$，∴ $\\angle ACE=\\angle BCD$，∴ $\\triangle CEA\\sim\\triangle CDB$ .\n(2) ∵ $CF\\parallel AE$，∴ $\\angle E=\\angle DCF$ .\n∵ $\\angle DCF=\\angle DCB+\\angle BCF$，$\\angle E=\\angle CDF=\\angle ACE+\\angle CAD$，∴ $\\angle BCF=\\angle CAD$ .\n又 $\\angle F=\\angle F$，∴ $\\triangle CFB\\sim\\triangle AFC$，∴ $\\frac{BF}{CF}=\\frac{BC}{AC}$ .\n由 $\\triangle CEA\\sim\\triangle CDB$，∴ $\\frac{BC}{AC}=\\frac{BD}{AE}$；又 $AE=AD$，∴ $\\frac{BC}{AC}=\\frac{BD}{AD}$，∴ $\\frac{BD}{AD}=\\frac{BF}{CF}$ .",
+  "schema": "ai_teaching_question_truth/v1",
+  "source_evidence_refs": [
+    {
+      "artifact_uri": "artifact://source-evidence/SE-SMV-099",
+      "evidence_id": "SE-SMV-099"
+    },
+    {
+      "artifact_uri": "artifact://source-evidence/SE-SMV-100",
+      "evidence_id": "SE-SMV-100"
+    }
+  ],
+  "status": "Approved",
+  "stem": "（题号与分值标注未出现在给定页文本中，由本大题满分 78 分推知满分为 12 分）已知在 $\\triangle ABC$ 中，$CD$ 平分 $\\angle ACB$，$E$ 是 $CD$ 延长线上一点，$AE=AD$，$F$ 是 $AB$ 延长线上的点，联结 $CF$ . (1) 求证：$\\triangle CEA\\sim\\triangle CDB$；(2) 如果 $CF\\parallel AE$，求证：$\\frac{BD}{AD}=\\frac{BF}{CF}$ .",
+  "subquestions": [
+    {
+      "part_id": "1",
+      "prompt": "求证：$\\triangle CEA\\sim\\triangle CDB$；"
+    },
+    {
+      "part_id": "2",
+      "prompt": "如果 $CF\\parallel AE$，求证：$\\frac{BD}{AD}=\\frac{BF}{CF}$ ."
+    }
+  ],
+  "version": "v1"
+}

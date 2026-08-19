@@ -1,0 +1,42 @@
+{
+  "approval": {
+    "approved_at": "2026-08-19T13:55:12.436008+00:00",
+    "edits_applied": true,
+    "review_note": null,
+    "reviewer_id": "question-bank-review-ui"
+  },
+  "artifact_id": "QT-SMV-047",
+  "artifact_uri": "artifact://question-truth/QT-SMV-047@v1",
+  "canonical_answer": {
+    "kind": "expression",
+    "value": "(1) $y=x^{2}-4x+1$，对称轴为直线 $x=2$；(2) $S_{\\triangle ABD}=24$"
+  },
+  "content_hash": "sha256:6028d7841e3ba28c0611ab5e73f97e517561bcf605485761f8d5dab6226965c6",
+  "origin_candidate_id": "QC-SMV-044",
+  "question_type": "solution",
+  "reviewed_solution": "(1) ∵ 抛物线 $y=ax^{2}+bx+c$ 经过点 $A(-1,6)$、$B(1,-2)$、$C(0,1)$ 三点，∴ $a-b+c=6$，$a+b+c=-2$，$c=1$，解得 $a=1$，$b=-4$，$c=1$ .\n∴ 抛物线的表达式为 $y=x^{2}-4x+1$，抛物线的对称轴 $l$ 为直线 $x=2$ .\n(2) 过点 $B$ 作 $BH\\perp AD$，垂足为点 $H$ . ∵ 点 $A$ 与点 $D$ 关于对称轴 $l$ 对称，又点 $A(-1,6)$，∴ $D(5,6)$ .\n∴ $AD\\parallel x$ 轴，$AD=6$；∵ $B(1,-2)$，∴ $BH=8$ .\n∴ $S_{\\triangle ABD}=\\frac{1}{2}\\times AD\\times BH=\\frac{1}{2}\\times 6\\times 8=24$ .",
+  "schema": "ai_teaching_question_truth/v1",
+  "source_evidence_refs": [
+    {
+      "artifact_uri": "artifact://source-evidence/SE-SMV-092",
+      "evidence_id": "SE-SMV-092"
+    },
+    {
+      "artifact_uri": "artifact://source-evidence/SE-SMV-093",
+      "evidence_id": "SE-SMV-093"
+    }
+  ],
+  "status": "Approved",
+  "stem": "已知抛物线 $y=ax^{2}+bx+c$（$a\\neq 0$）经过点 $A(-1,6)$、$B(1,-2)$、$C(0,1)$ . (1) 求该抛物线的表达式及其对称轴 $l$；(2) 如果点 $A$ 与点 $D$ 关于对称轴 $l$ 对称，联结 $AB$、$BD$，求 $\\triangle ABD$ 的面积 .",
+  "subquestions": [
+    {
+      "part_id": "1",
+      "prompt": "求该抛物线的表达式及其对称轴 $l$；"
+    },
+    {
+      "part_id": "2",
+      "prompt": "如果点 $A$ 与点 $D$ 关于对称轴 $l$ 对称，联结 $AB$、$BD$，求 $\\triangle ABD$ 的面积 ."
+    }
+  ],
+  "version": "v1"
+}

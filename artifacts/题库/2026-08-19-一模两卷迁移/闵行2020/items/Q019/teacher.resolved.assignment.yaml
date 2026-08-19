@@ -1,0 +1,41 @@
+meta:
+  title: 2020年上海市闵行区中考数学一模试卷第 19 题
+  grade: 初三
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q019
+    points: 10
+    stem_latex: 已知二次函数图像的最高点是 $A(1, 4)$，且经过点 $B(0, 3)$，与 $x$ 轴交于 $C$、$D$ 两点（点 $C$
+      在点 $D$ 的左侧）。求 $\triangle BCD$ 的面积。
+    answer: $S_{\triangle BCD} = 6$
+    clue: 用顶点式待定系数求解析式，令 $y=0$ 得 $C$、$D$ 坐标，再用面积公式
+    solution_steps:
+    - 设所求的二次函数解析式为 $y = a(x-1)^2 + 4$（$a \neq 0$）
+    - 把 $B(0,3)$ 代入得 $3 = a(0-1)^2 + 4$，解得 $a = -1$
+    - 令 $y = 0$，那么 $-(x-1)^2 + 4 = 0$，解得 $x_1 = 3$，$x_2 = -1$
+    - $\therefore CD = 4$
+    - 在 $\triangle BCD$ 中，$S_{\triangle BCD} = \frac{1}{2} \cdot CD \cdot OB = \frac{1}{2}
+      \times 4 \times 3 = 6$
+    source_solution_images: []
+    teaching:
+      title: 第 19 题
+      difficulty: standard
+      skill_tags:
+      - 解答题
+      - 一模
+      variation_dimension: source_exam

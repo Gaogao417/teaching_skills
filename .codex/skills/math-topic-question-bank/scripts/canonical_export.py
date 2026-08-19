@@ -236,10 +236,25 @@ class AllocationLedger:
                 match = pattern.match(str(se_id))
                 if match:
                     best = max(best, int(match.group(1)))
+        # Golden pins reserve their QT ids GLOBALLY (any pack's source key).
+        # Without this, a fresh ledger hands a golden-reserved id to the first
+        # non-golden question of whichever pack exports first (observed:
+        # 2025-HUANGPU-YIMO-Q01 stole QT-SMV-001 pinned to a Minhang key).
+        if prefix.startswith("QT-"):
+            for value in self.golden_qt_ids.values():
+                match = pattern.match(str(value))
+                if match:
+                    best = max(best, int(match.group(1)))
         return best
 
     def allocation_for(self, source_key: str) -> dict[str, Any]:
         return self.allocations.get(source_key)
+
+    def _qt_id_owner(self, qt_id: str, *, excluding: str) -> str | None:
+        for key, entry in self.allocations.items():
+            if key != excluding and entry.get("qt_id") == qt_id:
+                return key
+        return None
 
     def allocate(
         self,
@@ -252,6 +267,12 @@ class AllocationLedger:
         """Return (creating if needed) the allocation for ``source_key``."""
         existing = self.allocations.get(source_key)
         if existing is not None:
+            owner = self._qt_id_owner(existing.get("qt_id", ""), excluding=source_key)
+            if owner is not None:
+                raise CanonicalExportError(
+                    f"id collision: {existing.get('qt_id')} allocated to both "
+                    f"{source_key} and {owner}; rebuild the ledger"
+                )
             return existing
         golden_qt_id = golden_qt_id or self.golden_qt_ids.get(source_key)
         qt_next = self._max_seq(f"QT-{scope}") + 1
@@ -261,6 +282,12 @@ class AllocationLedger:
             qt_id = golden_qt_id
         else:
             qt_id = f"QT-{scope}-{qt_next:03d}"
+        owner = self._qt_id_owner(qt_id, excluding=source_key)
+        if owner is not None:
+            raise CanonicalExportError(
+                f"id collision: {qt_id} already allocated to {owner}, "
+                f"cannot allocate for {source_key}"
+            )
         qc_id = f"QC-{scope}-{qc_next:03d}"
         se_ids = [f"SE-{scope}-{se_next + i:03d}" for i in range(evidence_count)]
         entry = {

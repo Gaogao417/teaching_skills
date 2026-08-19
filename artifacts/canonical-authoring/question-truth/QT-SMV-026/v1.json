@@ -1,0 +1,42 @@
+{
+  "approval": {
+    "approved_at": "2026-08-19T13:52:04.468733+00:00",
+    "edits_applied": true,
+    "review_note": null,
+    "reviewer_id": "question-bank-review-ui"
+  },
+  "artifact_id": "QT-SMV-026",
+  "artifact_uri": "artifact://question-truth/QT-SMV-026@v1",
+  "canonical_answer": {
+    "kind": "expression",
+    "value": "(1) $DE = CF$（证明见解答）；(2) $AB = 2\\sqrt{10}$"
+  },
+  "content_hash": "sha256:033f17c64419f34368cb30e33f42c41a42438528d8cfa258d721eb2653720bb2",
+  "origin_candidate_id": "QC-SMV-021",
+  "question_type": "solution",
+  "reviewed_solution": "(1) 过点 $O$ 作 $OH \\perp DC$，垂足为 $H$\n$\\because AD \\parallel BC$，$\\angle ADC = 90^\\circ$，$OH \\perp DC$，$\\therefore \\angle BCD = \\angle OHC = \\angle ADC = 90^\\circ$，$\\therefore AD \\parallel OH \\parallel BC$\n又 $\\because OA = OB$，$\\therefore DH = HC$\n$\\because OH \\perp DC$，$OH$ 过圆心，$\\therefore EH = HF$\n$\\therefore DH - EH = HC - HF$，即 $DE = CF$\n(2) 过点 $A$ 作 $AG \\perp BC$，垂足为点 $G$，$\\angle AGB = 90^\\circ$；$\\because \\angle AGB = \\angle BCD = 90^\\circ$，$\\therefore AG \\parallel DC$\n$\\because AD \\parallel BC$，$\\therefore AD = CG$；$\\because AD = 2$，$BC = 4$，$\\therefore BG = BC - CG = 2$\n在 Rt$\\triangle AGB$ 中，$\\because \\tan B = 3$，$\\therefore AG = BG \\cdot \\tan B = 2 \\times 3 = 6$\n在 Rt$\\triangle AGB$ 中，$AB^2 = AG^2 + BG^2$，$\\therefore AB = 2\\sqrt{10}$",
+  "schema": "ai_teaching_question_truth/v1",
+  "source_evidence_refs": [
+    {
+      "artifact_uri": "artifact://source-evidence/SE-SMV-043",
+      "evidence_id": "SE-SMV-043"
+    },
+    {
+      "artifact_uri": "artifact://source-evidence/SE-SMV-044",
+      "evidence_id": "SE-SMV-044"
+    }
+  ],
+  "status": "Approved",
+  "stem": "如图，梯形 $ABCD$ 中，$AD\\parallel BC$，$\\angle ADC = 90^\\circ$，$AD = 2$，$BC = 4$，$\\tan B = 3$。以 $AB$ 为直径作 $\\odot O$，交边 $DC$ 于 $E$、$F$ 两点。(1) 求证：$DE = CF$；(2) 求直径 $AB$ 的长。",
+  "subquestions": [
+    {
+      "part_id": "1",
+      "prompt": "求证：$DE = CF$；"
+    },
+    {
+      "part_id": "2",
+      "prompt": "求直径 $AB$ 的长。"
+    }
+  ],
+  "version": "v1"
+}

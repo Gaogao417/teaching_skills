@@ -1,0 +1,50 @@
+{
+  "approval": {
+    "approved_at": "2026-08-19T13:52:04.474018+00:00",
+    "edits_applied": true,
+    "review_note": null,
+    "reviewer_id": "question-bank-review-ui"
+  },
+  "artifact_id": "QT-SMV-028",
+  "artifact_uri": "artifact://question-truth/QT-SMV-028@v1",
+  "canonical_answer": {
+    "kind": "expression",
+    "value": "(1) $y = \\frac{2}{3}x^{2} + \\frac{8}{3}x + 2$；(2) $\\cot \\angle BCO = 2$；(3) $P\\left(-\\frac{13}{4}, \\frac{3}{8}\\right)$ 或 $\\left(-\\frac{19}{4}, \\frac{35}{8}\\right)$"
+  },
+  "content_hash": "sha256:4b14b3b5b1cd7cc5e97be040cba6481282891a08f3f841c43f16afe1402877d8",
+  "origin_candidate_id": "QC-SMV-024",
+  "question_type": "solution",
+  "reviewed_solution": "$\\because$ 点 $A$ 的坐标是 $(-3, 0)$，$\\therefore$ 点 $B$ 的坐标是 $(-1, 0)$，这条抛物线的表达式为 $y = \\frac{2}{3}x^{2} + \\frac{8}{3}x + 2$\n(2) $\\because C(0, 2)$，$\\therefore OB = 1$，$OC = 2$；在 Rt$\\triangle OBC$ 中，$\\angle BOC = 90^\\circ$，$\\therefore \\cot \\angle BCO = \\frac{OC}{OB} = 2$\n(3) 设点 $E$ 的坐标是 $(x, 0)$，得 $OE = |x|$；$\\because \\angle CEO = \\angle BCO$，$\\therefore \\cot \\angle CEO = \\cot \\angle BCO$，$\\cot \\angle CEO = \\frac{OE}{OC} = \\frac{|x|}{2} = 2$，在 Rt$\\triangle EOC$ 中，$|x| = 4$，$\\therefore$ 点 $E$ 坐标是 $(4, 0)$ 或 $(-4, 0)$\n$\\because$ 点 $C$ 坐标是 $(0, 2)$，$l_{CE}: y = \\frac{1}{2}x + 2$ 或 $y = -\\frac{1}{2}x + 2$\n联立 $y = \\frac{1}{2}x + 2$ 与 $y = \\frac{2}{3}x^{2} + \\frac{8}{3}x + 2$，解得 $x = -\\frac{13}{4}$、$y = \\frac{3}{8}$ 和 $x = 0$、$y = 2$（舍去）；或联立 $y = -\\frac{1}{2}x + 2$，解得 $x = -\\frac{19}{4}$、$y = \\frac{35}{8}$ 和 $x = 0$、$y = 2$（舍去）\n$\\therefore$ 点 $P$ 坐标是 $\\left(-\\frac{13}{4}, \\frac{3}{8}\\right)$ 或 $\\left(-\\frac{19}{4}, \\frac{35}{8}\\right)$",
+  "schema": "ai_teaching_question_truth/v1",
+  "source_evidence_refs": [
+    {
+      "artifact_uri": "artifact://source-evidence/SE-SMV-050",
+      "evidence_id": "SE-SMV-050"
+    },
+    {
+      "artifact_uri": "artifact://source-evidence/SE-SMV-051",
+      "evidence_id": "SE-SMV-051"
+    },
+    {
+      "artifact_uri": "artifact://source-evidence/SE-SMV-052",
+      "evidence_id": "SE-SMV-052"
+    }
+  ],
+  "status": "Approved",
+  "stem": "已知：在平面直角坐标系 $xOy$ 中，对称轴为直线 $x = -2$ 的抛物线经过点 $C(0, 2)$，与 $x$ 轴交于 $A(-3, 0)$、$B$ 两点（点 $A$ 在点 $B$ 的左侧）。(1) 求这条抛物线的表达式；(2) 联结 $BC$，求 $\\angle BCO$ 的余切值；(3) 如果过点 $C$ 的直线，交 $x$ 轴于点 $E$，交抛物线于点 $P$，且 $\\angle CEO = \\angle BCO$，求点 $P$ 的坐标。",
+  "subquestions": [
+    {
+      "part_id": "1",
+      "prompt": "求这条抛物线的表达式；"
+    },
+    {
+      "part_id": "2",
+      "prompt": "联结 $BC$，求 $\\angle BCO$ 的余切值；"
+    },
+    {
+      "part_id": "3",
+      "prompt": "如果过点 $C$ 的直线，交 $x$ 轴于点 $E$，交抛物线于点 $P$，且 $\\angle CEO = \\angle BCO$，求点 $P$ 的坐标。"
+    }
+  ],
+  "version": "v1"
+}

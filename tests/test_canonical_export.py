@@ -354,6 +354,20 @@ def test_split_subquestions_derives_structure_from_markers() -> None:
     assert ce.split_subquestions("（1）A（1）B") == []
 
 
+def test_publication_prevalidation_placeholder_is_schema_legal(
+    canonical_env: Path,
+) -> None:
+    """promote_exam_paper 的干跑预校验对每个 item 构造占位 version 的 payload
+    走 _validate_publication；占位必须满足 schema 的 ^v[0-9]+$ 模式（回归：
+    曾用 "v_prevalidate"，干跑恒失败，晋升永远进不去）。真实版本从 v1 起，
+    "v0" 不会被写成任何 registry 文件。"""
+    staging = _make_staging(canonical_env)
+    export = _export(staging)
+    assert export["items"]
+    for item in export["items"]:
+        ce._validate_publication(ce._build_truth_payload(item, version="v0"))
+
+
 def test_candidate_and_truth_carry_subquestions(canonical_env: Path) -> None:
     staging = _make_staging(
         canonical_env,

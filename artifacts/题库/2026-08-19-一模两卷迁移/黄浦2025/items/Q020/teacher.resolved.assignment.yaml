@@ -1,0 +1,62 @@
+meta:
+  title: 2025年上海市黄浦区初三一模数学试卷（九年级期末考试数学试卷，2025年1月）第 21 题
+  grade: 初三
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q020
+    points: 10
+    stem_latex: 如图，在四边形 $ABCD$ 中，$AD\parallel BC$，$AD=4$，$BC=5$，对角线 $AC$、$BD$ 交于点
+      $E$ . (1) 设 $\overrightarrow{BC}=\vec{a}$，$\overrightarrow{BD}=\vec{b}$，试用 $\vec{a}$、$\vec{b}$
+      的线性组合表示向量 $\overrightarrow{AE}$；(2) 已知 $AD\perp CD$，$\tan\angle DAC=\frac{1}{2}$，求
+      $\sin\angle ABC$ 的值 .
+    answer: (1) $\overrightarrow{AE}=\frac{4}{5}\vec{a}-\frac{4}{9}\vec{b}$；(2) $\sin\angle
+      ABC=\frac{2\sqrt{5}}{5}$
+    clue: 平面向量的线性组合表示与解直角三角形求三角比
+    solution_steps:
+    - (1) ∵ $AD\parallel BC$，∴ $\frac{AD}{BC}=\frac{ED}{BE}$；∵ $AD=4$，$BC=5$，∴ $\frac{ED}{BE}=\frac{4}{5}$，$ED=\frac{4}{9}BD$
+      .
+    - ∵ $\overrightarrow{BC}=\vec{a}$，$\overrightarrow{BD}=\vec{b}$，∴ $\overrightarrow{AD}=\frac{4}{5}\vec{a}$，$\overrightarrow{ED}=\frac{4}{9}\vec{b}$
+      .
+    - ∵ $\overrightarrow{AE}=\overrightarrow{AD}-\overrightarrow{ED}$，∴ $\overrightarrow{AE}=\frac{4}{5}\vec{a}-\frac{4}{9}\vec{b}$
+      .
+    - (2) 方法一：过点 $A$ 作 $AF\perp BC$，垂足为点 $F$ . 在 Rt $\triangle ADC$ 中，$AD\perp CD$，$AD=4$，$\tan\angle
+      DAC=\frac{1}{2}$，∴ $CD=2$ .
+    - ∵ $AD\parallel BC$，∴ $\angle FAD=90^{\circ}$，又 $AD\perp CD$，∴ 四边形 $ADCF$ 是矩形
+      .
+    - ∴ $AF=CD=2$，$AD=FC=4$；∵ $BC=5$，∴ $BF=1$，∴ $AB=\sqrt{5}$ .
+    - ∴ $\sin\angle ABC=\frac{AF}{AB}=\frac{2}{\sqrt{5}}=\frac{2\sqrt{5}}{5}$ .
+    - 方法二：∵ $AD\perp CD$，$\tan\angle DAC=\frac{1}{2}$，∴ $\tan\angle DAC=\frac{CD}{AD}=\frac{1}{2}$；∵
+      $AD=4$，∴ $CD=2$ .
+    - ∵ $AC=\sqrt{CD^{2}+AD^{2}}$，∴ $AC=2\sqrt{5}$ .
+    - ∵ $AD\parallel BC$，∴ $\angle DAC=\angle ACB$，$\frac{AD}{AC}=\frac{AC}{BC}=\frac{2}{\sqrt{5}}$，∴
+      $\triangle DAC\sim\triangle ACB$ .
+    - ∴ $\angle BAC=\angle D=90^{\circ}$，∴ $\sin\angle ABC=\frac{AC}{BC}=\frac{2\sqrt{5}}{5}$
+      .
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []
+    teaching:
+      title: 第 21 题
+      difficulty: standard
+      skill_tags:
+      - 解答题
+      - 一模
+      variation_dimension: source_exam

@@ -1,0 +1,57 @@
+meta:
+  title: 2020年上海市闵行区中考数学一模试卷第 23 题
+  grade: 初三
+  subject: 数学
+  total_points: 12
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q023
+    points: 12
+    stem_latex: 如图，在 $\triangle ABC$ 中，$BD$ 是 $AC$ 边上的高，点 $E$ 在边 $AB$ 上，联结 $CE$ 交
+      $BD$ 于点 $O$，且 $AD \cdot OC = AB \cdot OD$，$AF$ 是 $\angle BAC$ 的平分线，交 $BC$ 于点
+      $F$，交 $DE$ 于点 $G$。求证：(1) $CE \perp AB$；(2) $AF \cdot DE = AG \cdot BC$。
+    answer: (1) $CE \perp AB$ 得证（见解答）；(2) $AF \cdot DE = AG \cdot BC$ 得证
+    clue: (1) 由 $\frac{AD}{OD} = \frac{AB}{OC}$ 证 Rt$\triangle ADB \sim$ Rt$\triangle
+      ODC$，再由三角形内角和证垂直；(2) 结合角平分线与相似三角形证比例式
+    solution_steps:
+    - (1) $\because AD \cdot OC = AB \cdot OD$，$\therefore \frac{AD}{OD} = \frac{AB}{OC}$
+    - $\because BD$ 是 $AC$ 边上的高，$\therefore \angle BDC = 90^\circ$，$\triangle ADB$
+      和 $\triangle ODC$ 是直角三角形，$\therefore$ Rt$\triangle ADB \sim$ Rt$\triangle ODC$，$\therefore
+      \angle ABD = \angle OCD$
+    - 又 $\because \angle EOB = \angle DOC$，$\angle DOC + \angle OCD + \angle ODC =
+      180^\circ$，$\angle EOB + \angle ABD + \angle OEB = 180^\circ$，$\therefore \angle
+      OEB = 90^\circ$
+    - $\therefore CE \perp AB$
+    - (2) 在 $\triangle DAE$ 和 $\triangle BAC$ 中，$\because \frac{AD}{AB} = \frac{AE}{AC}$，$\angle
+      DAE = \angle BAC$，$\therefore \triangle DAE \sim \triangle BAC$；$\because AF$
+      是 $\angle BAC$ 的平分线，$\therefore \frac{AG}{AF} = \frac{DE}{BC}$，即 $AF \cdot DE
+      = AG \cdot BC$ .
+    diagram_col:
+      image_path: assets/manual-prompt-1-10d328dcbe27a844.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []
+    solution_notes:
+    - 修订依据（2026-08-19 人工核验）：qwen OCR 对官方答案渲染页 011.png 下半部分丢行，第 (2) 问证明体未进入逐页文本（原转录如实标注缺文）。人工比对渲染页补录该证明，结论与题干目标一致；官方原文见
+      official_solution 裁片（010–011 页）。
+    teaching:
+      title: 第 23 题
+      difficulty: challenge
+      skill_tags:
+      - 解答题
+      - 一模
+      variation_dimension: source_exam

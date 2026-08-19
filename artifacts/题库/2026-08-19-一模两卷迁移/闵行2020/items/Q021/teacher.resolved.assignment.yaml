@@ -1,0 +1,56 @@
+meta:
+  title: 2020年上海市闵行区中考数学一模试卷第 21 题
+  grade: 初三
+  subject: 数学
+  total_points: 10
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 三、解答题
+  type: practice
+  visibility: both
+  blocks:
+  - type: problem
+    id: Q021
+    points: 10
+    stem_latex: 如图，梯形 $ABCD$ 中，$AD\parallel BC$，$\angle ADC = 90^\circ$，$AD = 2$，$BC
+      = 4$，$\tan B = 3$。以 $AB$ 为直径作 $\odot O$，交边 $DC$ 于 $E$、$F$ 两点。(1) 求证：$DE = CF$；(2)
+      求直径 $AB$ 的长。
+    answer: (1) $DE = CF$（证明见解答）；(2) $AB = 2\sqrt{10}$
+    clue: (1) 过圆心作 $DC$ 的垂线，用平行线等分与垂径定理；(2) 过 $A$ 作 $BC$ 的垂线，在 Rt$\triangle AGB$ 中用
+      $\tan B$ 及勾股定理
+    solution_steps:
+    - (1) 过点 $O$ 作 $OH \perp DC$，垂足为 $H$
+    - $\because AD \parallel BC$，$\angle ADC = 90^\circ$，$OH \perp DC$，$\therefore
+      \angle BCD = \angle OHC = \angle ADC = 90^\circ$，$\therefore AD \parallel OH
+      \parallel BC$
+    - 又 $\because OA = OB$，$\therefore DH = HC$
+    - $\because OH \perp DC$，$OH$ 过圆心，$\therefore EH = HF$
+    - $\therefore DH - EH = HC - HF$，即 $DE = CF$
+    - (2) 过点 $A$ 作 $AG \perp BC$，垂足为点 $G$，$\angle AGB = 90^\circ$；$\because \angle
+      AGB = \angle BCD = 90^\circ$，$\therefore AG \parallel DC$
+    - $\because AD \parallel BC$，$\therefore AD = CG$；$\because AD = 2$，$BC = 4$，$\therefore
+      BG = BC - CG = 2$
+    - 在 Rt$\triangle AGB$ 中，$\because \tan B = 3$，$\therefore AG = BG \cdot \tan B
+      = 2 \times 3 = 6$
+    - 在 Rt$\triangle AGB$ 中，$AB^2 = AG^2 + BG^2$，$\therefore AB = 2\sqrt{10}$
+    diagram_col:
+      image_path: assets/prompt-01.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []
+    teaching:
+      title: 第 21 题
+      difficulty: standard
+      skill_tags:
+      - 解答题
+      - 一模
+      variation_dimension: source_exam

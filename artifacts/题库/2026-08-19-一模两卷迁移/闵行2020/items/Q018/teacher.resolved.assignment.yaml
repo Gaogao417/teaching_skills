@@ -1,0 +1,40 @@
+meta:
+  title: 2020年上海市闵行区中考数学一模试卷第 18 题
+  grade: 初三
+  subject: 数学
+  total_points: 4
+  version: teacher
+  show_answers: true
+  source_artifacts:
+    source_record: source.yaml
+render:
+  template: exam-zh-practice
+  paper_size: a4paper
+  answer_key_position: inline
+sections:
+- id: question
+  title: 二、填空题
+  type: practice
+  visibility: both
+  blocks:
+  - type: fillin
+    id: Q018
+    points: 4
+    stem_latex: 如图，在等腰 $\triangle ABC$ 中，$AB=AC=4$，$BC=6$，点 $D$ 在底边 $BC$ 上，且 $\angle
+      DAC=\angle ACD$，将 $\triangle ACD$ 沿着 $AD$ 所在直线翻折，使得点 $C$ 落到点 $E$ 处，联结 $BE$，那么
+      $BE$ 的长为______。
+    answer: $1$
+    clue: 由 $\angle DAC=\angle ACD$ 得 $AD=DC$，求出点 $D$ 位置后利用翻折性质求 $BE$
+    diagram_col:
+      image_path: assets/manual-prompt-1-1008bfa0fc0766fb.png
+      width: 58mm
+      variant: prompt
+      disclosure_policy: clean
+    source_solution_images: []
+    teaching:
+      title: 第 18 题
+      difficulty: challenge
+      skill_tags:
+      - 填空题
+      - 一模
+      variation_dimension: source_exam
