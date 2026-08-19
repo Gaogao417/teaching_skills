@@ -337,3 +337,35 @@ def test_golden_allocation_is_respected(canonical_env: Path) -> None:
     ]
     result = ce.promote_canonical(export)
     assert result["promoted"] == ["QT-SMV-001"]
+
+
+def test_split_subquestions_derives_structure_from_markers() -> None:
+    stem = (
+        "已知：如图，在 Rt△ABC 中．（1）求证：∠DAB=∠DCF；（2）当点 E 在边 CD 上时，"
+        "求 y 关于 x 的函数关系式；（3）试求 AD 的长."
+    )
+    parts = ce.split_subquestions(stem)
+    assert [p["part_id"] for p in parts] == ["1", "2", "3"]
+    assert parts[0]["prompt"].startswith("求证：")
+    assert parts[2]["prompt"].startswith("试求")
+    # 单标记 / 无标记 / 重复编号 → 不产出结构
+    assert ce.split_subquestions("（1）只有一小问") == []
+    assert ce.split_subquestions("纯文字题干") == []
+    assert ce.split_subquestions("（1）A（1）B") == []
+
+
+def test_candidate_and_truth_carry_subquestions(canonical_env: Path) -> None:
+    staging = _make_staging(
+        canonical_env,
+        stem="如图，在 △ABC 中．（1）求证：CE⊥AB；（2）求 AF·DE=AG·B．",
+    )
+    export = _export(staging)
+    qc = export["items"][0]["qc_payload"]
+    assert [p["part_id"] for p in qc["subquestions"]] == ["1", "2"]
+    ce.promote_canonical(export)
+    qt_id = export["items"][0]["allocation"]["qt_id"]
+    truth = ce.current_truth(qt_id)
+    assert [p["part_id"] for p in truth["subquestions"]] == ["1", "2"]
+    assert truth["subquestions"][1]["prompt"].startswith("求")
+    # 小问级答案/解答字段不存在（架构上归属 Phase 3 TeachingStep）。
+    assert all(set(p) == {"part_id", "prompt"} for p in truth["subquestions"])

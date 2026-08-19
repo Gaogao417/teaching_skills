@@ -94,6 +94,35 @@ class CanonicalExportError(Exception):
     """Canonical export/promotion failed (always fail closed)."""
 
 
+_SUBQUESTION_MARKER = re.compile(r"[（(]([1-9])[）)]")
+
+
+def split_subquestions(stem: str) -> list[dict[str, Any]]:
+    """Derive structured subquestions from （1）（2）… stem markers.
+
+    Display-grade derivation, same source of truth as the review UI's
+    explanations panel: prompts stay verbatim, part ids are the marker digits.
+    Fewer than two markers (or duplicate ids) → no structure. Per-subquestion
+    answers/solutions are deliberately NOT split — per the target architecture
+    (09 §data model) canonicalAnswer/reviewedSolution stay question-level and
+    the per-part teaching decomposition belongs to Phase 3 TeachingSteps.
+    """
+    text = str(stem or "")
+    matches = list(_SUBQUESTION_MARKER.finditer(text))
+    if len(matches) < 2:
+        return []
+    parts: list[dict[str, Any]] = []
+    for index, match in enumerate(matches):
+        end = matches[index + 1].start() if index + 1 < len(matches) else len(text)
+        prompt = text[match.end():end].strip()
+        if prompt:
+            parts.append({"part_id": match.group(1), "prompt": prompt})
+    ids = [part["part_id"] for part in parts]
+    if len(ids) != len(set(ids)):
+        return []
+    return parts
+
+
 def _canonical_json(value: Any) -> str:
     return json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
 
@@ -474,6 +503,7 @@ def build_candidate_export(
             ],
             "question_type": question_type,
             "stem": stem,
+            **({"subquestions": split_subquestions(stem)}),
             "figure_refs": [],
             "review_state": {
                 "status": "InReview",
@@ -580,13 +610,19 @@ def _build_truth_payload(
         if "<" in answer or "≤" in answer or ">" in answer or "≥" in answer:
             canonical_answer["range_constraint"] = answer
 
+    truth_stem = str(block.get("stem_latex") or block.get("stem") or "")
     payload: dict[str, Any] = {
         "schema": "ai_teaching_question_truth/v1",
         "artifact_id": allocation["qt_id"],
         "version": version,
         "status": "Approved",
         "question_type": _QUESTION_TYPE_MAP[staging_type],
-        "stem": str(block.get("stem_latex") or block.get("stem") or ""),
+        "stem": truth_stem,
+        **(
+            {"subquestions": subquestions}
+            if (subquestions := split_subquestions(truth_stem))
+            else {}
+        ),
         "canonical_answer": canonical_answer,
         "reviewed_solution": reviewed_solution,
         "source_evidence_refs": item["qc_payload"]["source_evidence_refs"],

@@ -823,9 +823,118 @@ function hideTextEditPanel() {
   byId("text-edit-panel").hidden = true;
 }
 
+// 小问拆分：与讲解面板（explanations）同源的显示级派生——从题干/答案文本
+// 里的（1）（2）标记切段。仅用于编辑 UI 的分段展示，保存时拼回整题字段，
+// 不改变底层存储（P2-03 小问文本编辑的 UI 层实现）。
+function splitSubquestions(text) {
+  const markers = [...String(text || "").matchAll(/[（(]([1-9])[）)]/g)];
+  if (markers.length < 2) return null;
+  const head = String(text).slice(0, markers[0].index).trim();
+  const parts = markers.map((match, index) => {
+    const end = index + 1 < markers.length ? markers[index + 1].index : String(text).length;
+    return {
+      id: match[1],
+      text: String(text).slice(match.index + match[0].length, end).trim(),
+    };
+  });
+  const ids = parts.map((part) => part.id);
+  if (new Set(ids).size !== ids.length) return null;
+  return { head, parts };
+}
+
+function assembleSubquestionText(head, parts) {
+  const body = parts
+    .map((part, index) => `（${index + 1}）${part}`)
+    .join("");
+  return head ? `${head}${body}` : body;
+}
+
+function renderSegmentedEdit(item) {
+  const stemParts = splitSubquestions(item.stem_latex || "");
+  const answerParts = splitSubquestions(item.answer || "");
+  const container = byId("edit-parts");
+  container.replaceChildren();
+  // 无小问标记 → 整题文本框（此前的形态）。
+  if (!stemParts) {
+    byId("edit-stem").hidden = false;
+    byId("edit-answer").hidden = false;
+    byId("edit-stem").value = item.stem_latex || "";
+    byId("edit-answer").value = item.answer || "";
+    return;
+  }
+  byId("edit-stem").hidden = true;
+  byId("edit-answer").hidden = !answerParts;
+
+  const headLabel = document.createElement("label");
+  const headSpan = document.createElement("span");
+  headSpan.textContent = "共享题干（各小问之前的部分）";
+  headLabel.append(headSpan);
+  const headInput = document.createElement("textarea");
+  headInput.rows = 3;
+  headInput.value = stemParts.head;
+  container.append(headLabel, headInput);
+
+  const promptInputs = [];
+  const answerInputs = [];
+  stemParts.parts.forEach((part, index) => {
+    const promptLabel = document.createElement("label");
+    const promptSpan = document.createElement("span");
+    promptSpan.textContent = `第（${index + 1}）问 题干`;
+    promptLabel.append(promptSpan);
+    const promptInput = document.createElement("textarea");
+    promptInput.rows = 2;
+    promptInput.value = part.text;
+    promptInputs.push(promptInput);
+    container.append(promptLabel, promptInput);
+
+    if (answerParts && answerParts.parts[index]) {
+      const answerLabel = document.createElement("label");
+      const answerSpan = document.createElement("span");
+      answerSpan.textContent = `第（${index + 1}）问 答案`;
+      answerLabel.append(answerSpan);
+      const answerInput = document.createElement("textarea");
+      answerInput.rows = 2;
+      answerInput.value = answerParts.parts[index].text;
+      answerInputs.push(answerInput);
+      container.append(answerLabel, answerInput);
+    }
+  });
+  if (!answerParts) {
+    byId("edit-answer").value = item.answer || "";
+  }
+}
+
+function readSegmentedEdit(item) {
+  const container = byId("edit-parts");
+  if (!container.childElementCount) {
+    return { stem: byId("edit-stem").value, answer: byId("edit-answer").value };
+  }
+  const textareas = [...container.querySelectorAll("textarea")];
+  const stemParts = splitSubquestions(item.stem_latex || "");
+  const answerParts = splitSubquestions(item.answer || "");
+  const head = textareas[0].value.trim();
+  const partCount = stemParts.parts.length;
+  const hasPartAnswers = Boolean(answerParts);
+  const promptParts = [];
+  const answerPartTexts = [];
+  for (let index = 0; index < partCount; index += 1) {
+    const promptInput = textareas[1 + index * (hasPartAnswers ? 2 : 1)];
+    promptParts.push(promptInput.value.trim());
+    if (hasPartAnswers) {
+      answerPartTexts.push(textareas[2 + index * 2].value.trim());
+    }
+  }
+  const stem = assembleSubquestionText(head, promptParts);
+  const answer = hasPartAnswers
+    ? promptParts
+        .map((_, index) => `（${index + 1}）${answerPartTexts[index]}`)
+        .join("；")
+    : byId("edit-answer").value;
+  return { stem, answer };
+}
+
 function showTextEditPanel(item) {
-  byId("edit-stem").value = item.stem_latex || "";
-  byId("edit-answer").value = item.answer || "";
+  renderSegmentedEdit(item);
   byId("edit-clue").value = item.clue || "";
   byId("edit-steps").value = (item.solution_steps || [])
     .map((step) => (typeof step === "string" ? step : step.content || step.title || ""))
@@ -834,7 +943,8 @@ function showTextEditPanel(item) {
   message.textContent = "";
   message.hidden = true;
   byId("text-edit-panel").hidden = false;
-  byId("edit-stem").focus();
+  const firstInput = byId("edit-parts").querySelector("textarea") || byId("edit-stem");
+  firstInput.focus();
 }
 
 async function saveTextEdits() {
@@ -842,8 +952,7 @@ async function saveTextEdits() {
   if (!item) return;
   const message = byId("text-edit-message");
   const payload = {};
-  const stem = byId("edit-stem").value.trim();
-  const answer = byId("edit-answer").value.trim();
+  const { stem, answer } = readSegmentedEdit(item);
   const clue = byId("edit-clue").value;
   const steps = byId("edit-steps").value.split("\n").map((line) => line.trim()).filter(Boolean);
   if (stem !== (item.stem_latex || "")) payload.stem_latex = stem;
