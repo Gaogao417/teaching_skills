@@ -20,10 +20,12 @@ from ._common import (
     PAGE_TEXT_PROMPT_VERSION,
     build_messages,
     commit_extract,
+    find_sequence_gaps,
     image_to_data_url,
     is_role_leak_response,
     looks_truncated,
     stitch_band_texts,
+    strip_code_fences,
 )
 
 
@@ -115,6 +117,14 @@ class QwenPageTextExtractor:
                     kind="truncated_page_text",
                     attempts=1 + index,
                     detail=f"stripe band {index} returned blank text",
+                )
+            text = strip_code_fences(text)
+            if not text.strip():
+                return None, PageTextFailure(
+                    adapter_id=ADAPTER_ID,
+                    kind="truncated_page_text",
+                    attempts=1 + index,
+                    detail=f"stripe band {index} was only a code fence",
                 )
             # A band may legitimately cut through a formula/environment at its
             # physical lower edge. Judge truncation only after all overlapping
@@ -230,12 +240,16 @@ class QwenPageTextExtractor:
                 adapter_id=ADAPTER_ID, kind="invalid_response", attempts=1,
                 detail="provider echoed the OCR persona / asked for the image instead of transcribing the page",
             )
-        # 截断守卫：整页输出带截断特征时降级到条带重 OCR（2026-08-19 根因：
-        # 闵行答案页 OCR 中段截断 → 整卷转写把真实存在的 (2) 小问证明标成
-        # 「未出现在所给逐页文本中」）。守卫对缓存命中同样生效——缓存里存着
-        # 的截断文本也会触发降级并被拼接结果替换。
+        # 守卫前先剥离模型违反提示词加的 ```latex 围栏:围栏不是页面内容,
+        # 未配对围栏会让 looks_truncated 误判、围栏行也会污染拼接。
+        text = strip_code_fences(text)
+        # 截断守卫 + 枚举序列守卫:整页输出带截断特征(未闭合 $/围栏/环境),
+        # 或选项字母/题号跳号(行内内容被悄悄丢掉、结构仍闭合——黄浦 002.png
+        # 第 5 题只剩 (A)(B)(D) 即此类)时,降级到条带重 OCR。守卫对缓存命中
+        # 同样生效——缓存里的坏文本也会触发降级并被拼接结果替换。
         enhancement = None
-        if looks_truncated(text):
+        gaps = find_sequence_gaps(text)
+        if looks_truncated(text) or gaps:
             stitched, stripe_failure = self._stripe_fallback(image_path, job)
             if stripe_failure is not None:
                 with _lf.generation(
@@ -249,6 +263,9 @@ class QwenPageTextExtractor:
                         status_message=f"stripe fallback failed: {stripe_failure.detail}",
                     )
                 return None, stripe_failure
+            # 序列跳号触发时源材料真缺(如声明过的缺题)可能拼不回来——
+            # 只要拼接结果没有新的截断特征就接受,缺题豁免由 staging 层
+            # missing-questions.yaml 声明机制兜底。
             text = stitched
             enhancement = "stripe-fallback"
         extract = commit_extract(

@@ -1691,7 +1691,7 @@ def test_find_transcription_placeholder_markers() -> None:
         ]
     }
     marker = find_transcription_placeholder(teacher_with_placeholder)
-    assert marker == "未出现在所给逐页文本中"
+    assert marker is not None and marker.startswith("未出现在") and "文本" in marker
     assert find_transcription_placeholder({"sections": []}) is None
     assert (
         find_transcription_placeholder(

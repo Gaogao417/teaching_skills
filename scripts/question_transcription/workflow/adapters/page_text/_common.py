@@ -21,7 +21,20 @@ from ...contracts import (
 )
 
 
-PAGE_TEXT_PROMPT_VERSION = "page-text-ocr-v1"
+PAGE_TEXT_PROMPT_VERSION = "page-text-ocr-v2"
+
+PAGE_TEXT_PROMPT = (
+    "你是数学试卷逐页 OCR 抄录器。只按视觉阅读顺序忠实抄录本页全部可见文字。\n"
+    "要求:\n"
+    "1. 数学公式写成 LaTeX。\n"
+    "2. 保留必要的换行。\n"
+    "3. 题号保持原样(如 `1．`、`2.`、`(1)`),不要识别题目边界。\n"
+    "4. 不要识别 bbox、不要判断题型、不要生成答案字段、不要解释或纠错。\n"
+    "5. 不要补全、不要合并多页。\n"
+    "6. 直接输出该页的纯文本,不要 JSON、不要 Markdown 代码围栏、不要任何前言或结论。\n"
+    "7. 评分点后的虚线点串(⋯⋯/……/.....)不要逐点抄录,省略为一个「……」即可;\n"
+    "   分值标注(如 (1分))保留。\n"
+)
 
 # --- OCR 截断守卫（2026-08-19 闵行 Q23(2) 根因）-------------------------------
 # qwen3.5-ocr 对长而密的公式页（官方解答页）会在输出中段悄悄截断：观测特征是
@@ -49,6 +62,73 @@ def looks_truncated(text: str) -> bool:
     # 不能把尾部省略号/评分点虚线单独当作截断：横条带经常恰好裁在答案
     # 分值点线上，完整页也可能以这类点串结束。没有未闭合结构时应放行。
     return False
+
+
+# 选项标签:（A）/(A)/A./A、/A． 形式(与 audit_staging 的 EMBEDDED_CHOICE_LABEL
+# 同源口径;数字标签要求后不接数字,排除 3.14 这类选项正文)。
+_OPTION_LABEL_RE = re.compile(
+    r"[（(]\s*(?:[A-Da-d]|[0-3])\s*[）)]"
+    r"|(?:\b[A-Da-d])\s*[、．.]"
+    r"|(?:\b[0-3])\s*\.(?!\d)"
+)
+# 行首题号:1./1．/1、/1␣ 形式(最多两位;不匹配 2020.1 这类年份——两位回溯
+# 后无分隔符即不命中)。
+_QUESTION_NUMBER_RE = re.compile(r"^(\d{1,2})\s*[.．、]\s*", re.M)
+
+
+def _labels_in_order(text: str) -> list[int]:
+    values: list[int] = []
+    for match in _OPTION_LABEL_RE.finditer(text):
+        token = match.group(0)
+        glyph = next(ch for ch in token if ch.isalnum())
+        values.append(int(glyph) if glyph.isdigit() else ord(glyph.upper()) - ord("A"))
+    return values
+
+
+def find_sequence_gaps(text: str) -> list[str]:
+    """行内内容缺失的确定性信号:枚举序列跳号。
+
+    OCR 可以把一行的中段悄悄丢掉而结构完全闭合(2026-08-19 黄浦 002.png:
+    第 5 题选项行只剩 (A)(B)(D),(C) 整个消失,``$`` 依然成对、收尾干净,
+    :func:`looks_truncated` 对此天然失明)。枚举序列不会合法跳号:
+
+    - 选项标签序列 A..D / 0..3 内出现跳号(如 A,B,D 缺 C);
+    - 行首题号序列内出现跳号(如 5→7 缺 6,源真缺题的情形由 staging 层的
+      missing-questions.yaml 声明豁免;这里只负责触发条带降级尽力找回)。
+    """
+    issues: list[str] = []
+    option_values = _labels_in_order(text)
+    for prev, following in zip(option_values, option_values[1:]):
+        if prev < following and following - prev > 1 and following <= 3:
+            missing = ", ".join(
+                chr(ord("A") + v) for v in range(prev + 1, following)
+            )
+            issues.append(f"choice labels skip {missing}")
+            break
+    numbers = [int(m.group(1)) for m in _QUESTION_NUMBER_RE.finditer(text)]
+    for prev, following in zip(numbers, numbers[1:]):
+        if prev < following and following - prev > 1 and following <= 30:
+            issues.append(
+                f"question numbers skip {prev + 1}-{following - 1}"
+                if following - prev > 2
+                else f"question numbers skip {prev + 1}"
+            )
+            break
+    return issues
+
+
+_FENCE_LINE_RE = re.compile(r"^\s*```[a-zA-Z]*\s*$")
+
+
+def strip_code_fences(text: str) -> str:
+    """去掉模型违反提示词加上的 ```/```latex 围栏行，只保留内容。
+
+    围栏不是页面内容:围栏不闭合会让 :func:`looks_truncated` 误判,围栏内
+    才是真正的抄录文本(2026-08-19 闵行答案页条带输出实测)。未配对的围栏
+    行也一并移除(内容保留)。
+    """
+    lines = [line for line in text.splitlines() if not _FENCE_LINE_RE.match(line)]
+    return "\n".join(lines)
 
 
 def _normalize_line(line: str) -> str:
@@ -122,17 +202,6 @@ def stitch_band_texts(bands: list[str]) -> str:
         merged.extend(head[overlap:])
     _drop_seam_fragments(merged)
     return "\n".join(merged) + "\n"
-
-PAGE_TEXT_PROMPT = (
-    "你是数学试卷逐页 OCR 抄录器。只按视觉阅读顺序忠实抄录本页全部可见文字。\n"
-    "要求:\n"
-    "1. 数学公式写成 LaTeX。\n"
-    "2. 保留必要的换行。\n"
-    "3. 题号保持原样(如 `1．`、`2.`、`(1)`),不要识别题目边界。\n"
-    "4. 不要识别 bbox、不要判断题型、不要生成答案字段、不要解释或纠错。\n"
-    "5. 不要补全、不要合并多页。\n"
-    "6. 直接输出该页的纯文本,不要 JSON、不要 Markdown 代码围栏、不要任何前言或结论。\n"
-)
 
 
 _SHA_PREFIX_RE = re.compile(r"^sha256:")

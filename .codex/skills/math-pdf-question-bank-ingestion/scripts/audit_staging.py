@@ -64,26 +64,21 @@ MISSING_QUESTION_REASONS = ("source_scan_missing", "source_omitted", "other")
 MISSING_QUESTIONS_FILENAME = "missing-questions.yaml"
 
 # 转写占位符标记：整卷转写模型在逐页文本中找不到对应内容时，会把这些说明性
-# 文字写进题干/选项/解答（例：闵行 Q23 第 (2) 小问证明因答案页 OCR 截断被标
-# 「未出现在所给逐页文本中」）。审计不拦截（占位符是模型的诚实报告），但必须
-# 以 WARNING 显式暴露，人工在 Review UI 补全或确认源缺后才能批准。
-TRANSCRIPTION_PLACEHOLDER_MARKERS = (
-    "未出现在所给逐页文本中",
-    "未出现在给定页文本中",
-    "未出现在给定文本中",
-)
+# 文字写进题干/选项/解答。措辞有变体（「未出现在所给逐页文本中」「未出现在
+# 给定页文本中」「未出现在识别文本中」…），统一按「未出现在…文本」正则匹配。
+# 审计不拦截（占位符是模型的诚实报告），但必须以 WARNING 显式暴露，人工在
+# Review UI 补全或确认源缺后才能批准。
+TRANSCRIPTION_PLACEHOLDER_RE = re.compile(r"未出现在.{0,6}文本")
 
 
 def find_transcription_placeholder(value: Any) -> str | None:
-    """返回 teacher 内容里命中的占位符标记（无则 None）。"""
+    """返回 teacher 内容里命中的占位符片段（无则 None）。"""
     try:
         blob = json.dumps(value, ensure_ascii=False)
     except (TypeError, ValueError):
         return None
-    for marker in TRANSCRIPTION_PLACEHOLDER_MARKERS:
-        if marker in blob:
-            return marker
-    return None
+    match = TRANSCRIPTION_PLACEHOLDER_RE.search(blob)
+    return match.group(0) if match else None
 
 
 def normalize_choice_labels(choices: list[str]) -> tuple[bool, list[str] | None]:

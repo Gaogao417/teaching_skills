@@ -21,8 +21,10 @@ if str(ROOT) not in sys.path:
 from scripts.question_transcription.workflow.adapters.page_text._common import (
     PAGE_TEXT_PROMPT,
     PAGE_TEXT_PROMPT_VERSION,
+    find_sequence_gaps,
     looks_truncated,
     stitch_band_texts,
+    strip_code_fences,
 )
 from scripts.question_transcription.workflow.infrastructure.artifact_store import (
     ArtifactStore,
@@ -140,6 +142,45 @@ def test_stitch_band_texts_drops_seam_formula_fragment():
     stitched = stitch_band_texts([band0, band1, band2])
     assert "Rt$\\triangle ADB \\sim$" in stitched
     assert not looks_truncated(stitched)
+
+
+def test_find_sequence_gaps_detects_dropped_choice_label():
+    """黄浦 002.png 实测:第 5 题选项行只剩 (A)(B)(D),(C) 被行内丢弃,结构
+    完全闭合——只有枚举序列跳号能发现。"""
+    text = (
+        "4. 在 $\\triangle ABC$ 中,下列条件中能推得 $DE \\parallel BC$ 的是 ( ▲ )\n"
+        "(A) $\\frac{DE}{BC}=\\frac{1}{3}$; (B) $\\frac{DE}{BC}=\\frac{1}{4}$; (D) $\\frac{AE}{AC}=\\frac{1}{4}$.\n"
+        "5. 已知抛物线 $y=ax^2+bx+c$ 的图像如图所示 ( ▲ )\n"
+    )
+    gaps = find_sequence_gaps(text)
+    assert any("skip C" in g for g in gaps)
+
+
+def test_find_sequence_gaps_detects_question_number_skip():
+    text = "5. 已知抛物线 $y=ax^2+bx+c$……\n7. $(\\vec{a}+\\vec{b})+3(\\frac{1}{3}\\vec{a}-2\\vec{b})=$\n"
+    gaps = find_sequence_gaps(text)
+    assert any("skip 6" in g for g in gaps)
+
+
+def test_find_sequence_gaps_clean_pages_pass():
+    contiguous = (
+        "1. 求 $y=2x+1$ 当 $x=3$ 时的值。\n(A) $1$; (B) $2$; (C) $3$; (D) $4$.\n"
+        "2. $(\\vec{a}+\\vec{b})+3(\\frac{1}{3}\\vec{a}-2\\vec{b})=$\n"
+    )
+    assert find_sequence_gaps(contiguous) == []
+    # 新题的选项重新从 A 开始(B→A 是换题,不是跳号)
+    two_questions = "(A) $x$; (B) $y$.\n2. 第二题 (A) $p$; (B) $q$.\n"
+    assert find_sequence_gaps(two_questions) == []
+
+
+def test_strip_code_fences_removes_paired_and_stray_fences():
+    fenced = "```latex\n23. 证明: (1) $\\because AD \\cdot OC$。\n```"
+    stripped = strip_code_fences(fenced)
+    assert "```" not in stripped
+    assert "23. 证明" in stripped
+    stray = "```latex\n第 1 行\n"
+    assert "```" not in strip_code_fences(stray)
+    assert "第 1 行" in strip_code_fences(stray)
 
 
 def test_qwen_adapter_stripe_fallback_recovers_truncated_page(tmp_path):
