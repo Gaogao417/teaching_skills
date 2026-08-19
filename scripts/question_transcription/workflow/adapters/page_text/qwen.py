@@ -16,6 +16,8 @@ from pathlib import Path
 
 from .._common_paths import repo_root  # noqa: F401  (ensures sys.path bootstrap)
 from ...contracts import PageTextFailure, PageTextJob
+import yaml
+
 from ._common import (
     PAGE_TEXT_PROMPT_VERSION,
     build_messages,
@@ -24,63 +26,74 @@ from ._common import (
     image_to_data_url,
     is_role_leak_response,
     looks_truncated,
-    stitch_band_texts,
     strip_code_fences,
 )
 
 
 ADAPTER_ID = "qwen"
 
-# 条带降级的横带几何：5 个约 25% 页高的小带，相邻重叠约 5% 页高。
-# 45% 高条带在密集评分点页上仍会生成上千个 ``\cdots`` 后截断；缩短条带
-# 才能真正降低单次视觉输出预算，同时重叠区保证边界公式能由相邻带补全。
-_BAND_RATIOS = (
-    (0.0, 0.25),
-    (0.20, 0.45),
-    (0.40, 0.65),
-    (0.60, 0.85),
-    (0.80, 1.0),
-)
-_BAND_UPSCALE = 2
-_BAND_MAX_ATTEMPTS = 3
-
-# 伪结构标记:忠实抄录的页文本不会出现这些排版命令——命中说明模型在
-# 「重新排版」而不是「抄录」,该次输出不可用于拼接(2026-08-19 黄浦答案页
-# 实测:同一带一次返回 338 字符 \section/\textbf 排版垃圾,重试即正常)。
-_PSEUDO_STRUCTURE_MARKERS = (
-    "\\section",
-    "\\textbf",
-    "\\includegraphics",
-    "\\begin{figure}",
-    "\\caption",
-    "\\textwidth",
-)
+# 人工页文本补丁(page-text-overrides.yaml,放在原始源文件旁,与
+# non-question-pages.yaml / missing-questions.yaml 同一约定)。OCR 守卫发现
+# 可疑页时不再自动修复(2026-08-19 用户裁定:自动拼接/重试机器拆除,检测→
+# 上报→人工补):人工在此声明整页文本(手抄/从原生 docx 复制),或提供一张
+# 手工截取的局部图片由工作流只对这张小图 OCR——小图输出短,不触发截断。
+PAGE_TEXT_OVERRIDES_SCHEMA = "math_page_text_overrides/v1"
+PAGE_TEXT_OVERRIDES_FILENAME = "page-text-overrides.yaml"
 
 
-def _band_acceptable(text: str) -> bool:
-    """条带输出是否可用于拼接。
-
-    - 命中伪结构标记 → 废(模型在排版,不是抄录);
-    - 无未闭合结构 → 可用;
-    - 未闭合结构只出现在最后一行 → 可用(底边物理切断,相邻重叠带的完整
-      重读 + stitch 的残行清除会补齐);出现在中部 → 废。
-    """
-    if any(marker in text for marker in _PSEUDO_STRUCTURE_MARKERS):
-        return False
-    if not looks_truncated(text):
-        return True
-    lines = [line for line in text.splitlines() if line.strip()]
-    if not lines:
-        return False
-    return not looks_truncated("\n".join(lines[:-1]))
+def load_page_text_overrides(payload, *, label: str) -> dict[int, dict]:
+    """Parse and validate a page-text-overrides.yaml payload → {page_number: claim}."""
+    if not isinstance(payload, dict):
+        raise ValueError(f"{label}: YAML root must be a mapping")
+    if payload.get("schema") != PAGE_TEXT_OVERRIDES_SCHEMA:
+        raise ValueError(f"{label}: schema must be {PAGE_TEXT_OVERRIDES_SCHEMA}")
+    if not isinstance(payload.get("paper_id"), str) or not payload["paper_id"].strip():
+        raise ValueError(f"{label}: paper_id must be a non-empty string")
+    raw = payload.get("overrides")
+    if not isinstance(raw, list) or not raw:
+        raise ValueError(f"{label}: overrides must be a non-empty list")
+    claims: dict[int, dict] = {}
+    for index, claim in enumerate(raw):
+        where = f"{label}.overrides[{index}]"
+        if not isinstance(claim, dict):
+            raise ValueError(f"{where} must be a mapping")
+        page = claim.get("page_number")
+        if not isinstance(page, int) or isinstance(page, bool) or page < 1:
+            raise ValueError(f"{where}.page_number must be a positive integer")
+        if page in claims:
+            raise ValueError(f"{where}: duplicate override for page {page}")
+        mode = claim.get("mode")
+        if mode not in ("text", "image"):
+            raise ValueError(f"{where}.mode must be one of text, image")
+        if mode == "text" and (
+            not isinstance(claim.get("text"), str) or not claim["text"].strip()
+        ):
+            raise ValueError(f"{where}.text must be a non-empty string")
+        if mode == "image" and (
+            not isinstance(claim.get("image"), str) or not claim["image"].strip()
+        ):
+            raise ValueError(f"{where}.image must be a non-empty path string")
+        if not isinstance(claim.get("note"), str) or not claim["note"].strip():
+            raise ValueError(f"{where}.note must be a non-empty string")
+        if not isinstance(claim.get("verified_at"), str) or not claim["verified_at"].strip():
+            raise ValueError(f"{where}.verified_at must be a non-empty string")
+        claims[page] = claim
+    return claims
 
 
 class QwenPageTextExtractor:
-    """:class:`PageTextExtractor` backed by BailianOcrClient (qwen3.5-ocr)."""
+    """:class:`PageTextExtractor` backed by BailianOcrClient (qwen3.5-ocr).
+
+    OCR 守卫(截断特征 + 枚举序列跳号)发现可疑页时:查人工补丁文件
+    (构造参数 ``overrides_path``)——有则用人工声明的整页文本(或对手工截取
+    图做一次 OCR);无则照常提交 OCR 文本并在 sidecar 记 ``ocr_suspect``
+    上报人工,由人在 Review UI / 补丁文件里补,不在适配器里自动修复。
+    """
 
     def __init__(self, *, model: str, store, api_key: str | None = None,
                  base_url: str | None = None, timeout_s: float = 180.0,
-                 cache_dir: Path | None = None, client=None) -> None:
+                 cache_dir: Path | None = None, client=None,
+                 overrides_path: Path | None = None) -> None:
         self.model = model
         self.store = store
         self.cache_dir = cache_dir or (store.layout.cache_dir)
@@ -88,6 +101,8 @@ class QwenPageTextExtractor:
         self._api_key = api_key
         self._base_url = base_url
         self._timeout_s = timeout_s
+        self._overrides_path = Path(overrides_path) if overrides_path else None
+        self._overrides_cache: dict[int, dict] | None = None
 
     def _get_client(self):
         if self._client is not None:
@@ -103,104 +118,59 @@ class QwenPageTextExtractor:
         )
         return self._client
 
-    def _stripe_fallback(self, image_path, job: PageTextJob):
-        """整页输出被判定截断后的条带降级：横切 3 带、各 2x 放大重 OCR、
-        按重叠去重拼接。任何条带仍呈现截断特征 → 结构化失败（fail-closed，
-        由 barrier 拦下整个 run），绝不提交已知不完整的页文本。"""
-        from PIL import Image
-
-        sha = job.image.sha256.removeprefix("sha256:")[:16]
-        band_dir = self.cache_dir / "bands" / sha
-        band_dir.mkdir(parents=True, exist_ok=True)
-        client = self._get_client()
-        texts: list[str] = []
-        for index, (top, bottom) in enumerate(_BAND_RATIOS):
-            band_path = band_dir / f"band-{index}.png"
-            with Image.open(image_path) as page:
-                width, height = page.size
-                crop = page.crop((0, int(height * top), width, int(height * bottom)))
-                band = crop.resize(
-                    (crop.width * _BAND_UPSCALE, crop.height * _BAND_UPSCALE),
-                    Image.LANCZOS,
-                )
-                band.save(band_path)
-            data_url, _ = image_to_data_url(band_path)
-            try:
-                text, _ = client.complete_text(
-                    messages=build_messages(data_url),
-                    cache_material={
-                        "task": "page_text_ocr",
-                        "prompt_version": PAGE_TEXT_PROMPT_VERSION,
-                        "page_sha256": f"{job.image.sha256}#stripe{index}",
-                        "stripe_geometry": [top, bottom, _BAND_UPSCALE],
-                    },
-                )
-            except RuntimeError as exc:
-                return None, PageTextFailure(
-                    adapter_id=ADAPTER_ID,
-                    kind="invalid_response",
-                    attempts=1 + index,
-                    detail=f"stripe band {index} request failed: {exc}",
-                )
-            if not text or not text.strip():
-                return None, PageTextFailure(
-                    adapter_id=ADAPTER_ID,
-                    kind="truncated_page_text",
-                    attempts=1 + index,
-                    detail=f"stripe band {index} returned blank text",
-                )
-            text = strip_code_fences(text)
-            if not text.strip():
-                return None, PageTextFailure(
-                    adapter_id=ADAPTER_ID,
-                    kind="truncated_page_text",
-                    attempts=1 + index,
-                    detail=f"stripe band {index} was only a code fence",
-                )
-            # A band may legitimately cut through a formula/environment at its
-            # physical lower edge — unclosed structure confined to the LAST line
-            # is acceptable (the overlap re-read of the next band completes it,
-            # and stitch_band_texts drops the covered fragment). Anything else —
-            # pseudo-structure (\section/\textbf/\begin{figure}: the model is
-            # typesetting, not transcribing) or unclosed structure mid-band —
-            # marks the attempt garbage: retry with a cache-busting key, since
-            # qwen sampling variance is high (2026-08-19 黄浦答案页实测:同一
-            # 条带一次返回 338 字符排版垃圾、重试即得正常抄录).
-            for attempt in range(1, _BAND_MAX_ATTEMPTS + 1):
-                if _band_acceptable(text):
-                    break
-                if attempt == _BAND_MAX_ATTEMPTS:
-                    return None, PageTextFailure(
-                        adapter_id=ADAPTER_ID,
-                        kind="truncated_page_text",
-                        attempts=1 + index + attempt,
-                        detail=(
-                            f"stripe band {index} keeps producing pseudo-structure "
-                            "or mid-band unclosed content after retries"
-                        ),
-                    )
-                retry_text, _ = client.complete_text(
-                    messages=build_messages(data_url),
-                    cache_material={
-                        "task": "page_text_ocr",
-                        "prompt_version": PAGE_TEXT_PROMPT_VERSION,
-                        "page_sha256": f"{job.image.sha256}#stripe{index}a{attempt}",
-                        "stripe_geometry": [top, bottom, _BAND_UPSCALE],
-                    },
-                )
-                retry_text = strip_code_fences(retry_text or "")
-                if retry_text.strip():
-                    text = retry_text
-            texts.append(text)
-        stitched = stitch_band_texts(texts)
-        if looks_truncated(stitched):
-            return None, PageTextFailure(
-                adapter_id=ADAPTER_ID,
-                kind="truncated_page_text",
-                attempts=1 + len(texts),
-                detail="stitched stripe text still looks truncated",
+    def _overrides_for(self, paper_id: str) -> dict[int, dict]:
+        """Load human page-text overrides (empty when the file is absent)."""
+        if self._overrides_cache is not None:
+            return self._overrides_cache
+        if self._overrides_path is None or not self._overrides_path.is_file():
+            self._overrides_cache = {}
+            return self._overrides_cache
+        payload = yaml.safe_load(self._overrides_path.read_text(encoding="utf-8"))
+        claims = load_page_text_overrides(payload, label=str(self._overrides_path))
+        if payload.get("paper_id") != paper_id:
+            raise ValueError(
+                f"{self._overrides_path}: declares paper_id {payload.get('paper_id')!r} "
+                f"but run is {paper_id!r}"
             )
-        return stitched, None
+        self._overrides_cache = claims
+        return claims
+
+    def _apply_override(self, claim: dict, job: PageTextJob):
+        """Return the human-supplied page text (``text`` mode) or OCR the
+        human-cropped image once (``image`` mode; a small crop's output budget
+        cannot trigger the dense-page truncation)."""
+        mode = claim.get("mode")
+        if mode == "text":
+            return str(claim["text"]), None
+        image_path = Path(str(claim["image"]))
+        if not image_path.is_absolute():
+            image_path = (self._overrides_path.parent / image_path).resolve()
+        if not image_path.is_file():
+            return None, PageTextFailure(
+                adapter_id=ADAPTER_ID, kind="invalid_response", attempts=1,
+                detail=f"override image missing for page {job.page_number}: {image_path}",
+            )
+        data_url, _ = image_to_data_url(image_path)
+        try:
+            text, _ = self._get_client().complete_text(
+                messages=build_messages(data_url),
+                cache_material={
+                    "task": "page_text_ocr",
+                    "prompt_version": PAGE_TEXT_PROMPT_VERSION,
+                    "page_sha256": f"override:{image_path.name}",
+                },
+            )
+        except RuntimeError as exc:
+            return None, PageTextFailure(
+                adapter_id=ADAPTER_ID, kind="invalid_response", attempts=1,
+                detail=f"override image OCR failed for page {job.page_number}: {exc}",
+            )
+        if not text or not text.strip():
+            return None, PageTextFailure(
+                adapter_id=ADAPTER_ID, kind="empty_text", attempts=1,
+                detail=f"override image OCR returned blank text for page {job.page_number}",
+            )
+        return strip_code_fences(text), None
 
     def extract(self, job: PageTextJob):
         image_path = self.store.layout.root / job.image.path
@@ -302,38 +272,40 @@ class QwenPageTextExtractor:
                 detail="provider echoed the OCR persona / asked for the image instead of transcribing the page",
             )
         # 守卫前先剥离模型违反提示词加的 ```latex 围栏:围栏不是页面内容,
-        # 未配对围栏会让 looks_truncated 误判、围栏行也会污染拼接。
+        # 未配对围栏会让 looks_truncated 误判。
         text = strip_code_fences(text)
-        # 截断守卫 + 枚举序列守卫:整页输出带截断特征(未闭合 $/围栏/环境),
-        # 或选项字母/题号跳号(行内内容被悄悄丢掉、结构仍闭合——黄浦 002.png
-        # 第 5 题只剩 (A)(B)(D) 即此类)时,降级到条带重 OCR。守卫对缓存命中
-        # 同样生效——缓存里的坏文本也会触发降级并被拼接结果替换。
+        # 检测 → 上报/人工补,不自动修复(2026-08-19 用户裁定):
+        # - 截断特征(未闭合 $/围栏/环境)或枚举序列跳号(选项字母/题号)→ 可疑;
+        # - 有人工补丁(整页文本或手工截图)→ 用补丁,provenance 记 manual-override;
+        # - 无补丁 → 照常提交 OCR 文本,sidecar 记 ocr_suspect 原因上报人工,
+        #   由人在 Review UI / 补丁文件补,run 不因此失败。
+        suspect_reasons = []
+        if looks_truncated(text):
+            suspect_reasons.append("truncated")
+        suspect_reasons.extend(find_sequence_gaps(text))
         enhancement = None
-        gaps = find_sequence_gaps(text)
-        if looks_truncated(text) or gaps:
-            stitched, stripe_failure = self._stripe_fallback(image_path, job)
-            if stripe_failure is not None:
-                with _lf.generation(
-                    "qwen-ocr",
-                    model=self.model,
-                    input={"page_number": job.page_number, "prompt": "stripe-fallback"},
-                    metadata={"adapter": ADAPTER_ID, "page_number": job.page_number},
-                ) as obs:
-                    obs.update(
-                        level="ERROR",
-                        status_message=f"stripe fallback failed: {stripe_failure.detail}",
-                    )
-                return None, stripe_failure
-            # 序列跳号触发时源材料真缺(如声明过的缺题)可能拼不回来——
-            # 只要拼接结果没有新的截断特征就接受,缺题豁免由 staging 层
-            # missing-questions.yaml 声明机制兜底。
-            text = stitched
-            enhancement = "stripe-fallback"
+        if suspect_reasons:
+            try:
+                overrides = self._overrides_for(job.paper_id)
+            except ValueError as exc:
+                return None, PageTextFailure(
+                    adapter_id=ADAPTER_ID, kind="invalid_response", attempts=1,
+                    detail=str(exc),
+                )
+            claim = overrides.get(job.page_number)
+            if claim is not None:
+                overridden, override_failure = self._apply_override(claim, job)
+                if override_failure is not None:
+                    return None, override_failure
+                text = overridden
+                enhancement = "manual-override"
+                suspect_reasons = []
         extract = commit_extract(
             job=job, text=text, store=self.store, model=self.model,
             adapter_id=ADAPTER_ID, prompt_version=PAGE_TEXT_PROMPT_VERSION,
             cache_hit=cache_hit,
             ocr_enhancement=enhancement,
+            ocr_suspect=suspect_reasons or None,
         )
         return extract, None
 

@@ -23,7 +23,6 @@ from scripts.question_transcription.workflow.adapters.page_text._common import (
     PAGE_TEXT_PROMPT_VERSION,
     find_sequence_gaps,
     looks_truncated,
-    stitch_band_texts,
     strip_code_fences,
 )
 from scripts.question_transcription.workflow.infrastructure.artifact_store import (
@@ -89,7 +88,7 @@ def _real_png(path: Path, width: int = 400, height: int = 560) -> None:
 
 
 # --------------------------------------------------------------------------- #
-# OCR 截断守卫:looks_truncated / stitch_band_texts（2026-08-19 闵行 Q23(2) 根因）
+# OCR 截断守卫:looks_truncated / find_sequence_gaps（2026-08-19 闵行 Q23(2) 根因）
 # --------------------------------------------------------------------------- #
 
 
@@ -106,42 +105,6 @@ def test_looks_truncated_signatures():
     assert not looks_truncated("(A) $\\frac{3}{4}$; (B) $\\frac{4}{3}$。")
     # 空白交给 empty_text 契约,不算截断
     assert not looks_truncated("   \n ")
-
-
-def test_stitch_band_texts_dedups_overlap():
-    band0 = "23. 证明: (1) $\\because AD \\cdot OC = AB \\cdot OD$\n$\\therefore \\frac{AD}{OD} = \\frac{AB}{OC}$\n"
-    # band1 头部与 band0 尾部有 1 行重叠(空白归一后相等)
-    band1 = "$\\therefore \\frac{AD}{OD}=\\frac{AB}{OC}$\n$\\because AF$ 是 $\\angle BAC$ 的平分线\n"
-    stitched = stitch_band_texts([band0, band1])
-    assert stitched.count("\\frac{AB}{OC}") == 1
-    assert "AF" in stitched and "平分线" in stitched
-
-
-def test_stitch_band_texts_no_overlap_keeps_all():
-    a = "第一段内容。\n"
-    b = "第二段内容。\n"
-    assert stitch_band_texts([a, b]) == "第一段内容。\n第二段内容。\n"
-
-
-def test_stitch_band_texts_drops_seam_formula_fragment():
-    """前带底部把公式切断(奇 $ 残行),后带完整重读同一行 → 残行必须删除,
-    否则拼接结果 $ 计数为奇、被 looks_truncated 误判截断(闵行答案页实测)。"""
-    band0 = (
-        "23. 证明: (1) $\\because AD \\cdot OC = AB \\cdot OD$。\n"
-        "$\\therefore \\frac{AD}{OD} = \\frac{AB}{OC}$\n"
-        "$\\because BD$ 是高, $\\angle BDC = 90^\\circ$,"
-    )
-    band1 = (
-        "$\\because BD$ 是高, $\\angle BDC = 90^{\\circ}$, "
-        "$\\triangle ADB$ 和 $\\triangle ODC$ 是直角三角形。\n"
-    )
-    band2 = (
-        "$\\triangle ADB$ 和 $\\triangle ODC$ 是直角三角形。\n"
-        "$\\therefore$ Rt$\\triangle ADB \\sim$ Rt$\\triangle ODC$。\n"
-    )
-    stitched = stitch_band_texts([band0, band1, band2])
-    assert "Rt$\\triangle ADB \\sim$" in stitched
-    assert not looks_truncated(stitched)
 
 
 def test_find_sequence_gaps_detects_dropped_choice_label():
@@ -183,7 +146,18 @@ def test_strip_code_fences_removes_paired_and_stray_fences():
     assert "第 1 行" in strip_code_fences(stray)
 
 
-def test_qwen_adapter_stripe_fallback_recovers_truncated_page(tmp_path):
+def _write_overrides(pack_dir, payload):
+    import yaml
+
+    pack_dir.mkdir(parents=True, exist_ok=True)
+    (pack_dir / "page-text-overrides.yaml").write_text(
+        yaml.safe_dump(payload, allow_unicode=True, sort_keys=False), encoding="utf-8"
+    )
+
+
+def test_qwen_adapter_flags_suspect_page_without_override(tmp_path):
+    """可疑页(截断/跳号)无人工补丁 → 照常提交 OCR 文本,suspect 原因进
+    sidecar 上报人工;不自动修复、不失败(2026-08-19 用户裁定)。"""
     from scripts.question_transcription.workflow.adapters.page_text.qwen import (
         QwenPageTextExtractor,
     )
@@ -193,28 +167,19 @@ def test_qwen_adapter_stripe_fallback_recovers_truncated_page(tmp_path):
     src.mkdir(parents=True, exist_ok=True)
     _real_png(src / "page-003.png")
     truncated = "$\\therefore CE \\perp AB$ 又 $\\because \\angle EOB"  # 奇数 $
-    bands = [
-        "23. 证明: (1) $\\because AD \\cdot OC = AB \\cdot OD$。\n",
-        "证明: (1) $\\because AD \\cdot OC = AB \\cdot OD$。\n$\\because AF$ 是 $\\angle BAC$ 的平分线, 证得 $AF \\cdot DE = AG \\cdot BC$。\n",
-        "证得 $AF \\cdot DE = AG \\cdot BC$。\n24. 解: (1) 设抛物线为 $y = ax^2 + bx + c$。\n",
-        "24. 解: (1) 设抛物线为 $y = ax^2 + bx + c$。\n(2) 解方程。\n",
-        "(2) 解方程。\n25. 解：分类讨论。\n",
-    ]
-    fake = _SequenceBailianClient([truncated, *bands])
+    fake = _SequenceBailianClient([truncated])
     adapter = QwenPageTextExtractor(model="qwen3.5-ocr", store=store, client=fake)
     extract, failure = adapter.extract(_job(3))
     assert failure is None, f"unexpected failure: {failure}"
-    assert fake.calls == 6  # 整页 1 次 + 条带 5 次
+    assert fake.calls == 1  # 只调一次整页 OCR,没有任何自动重试
     text = store.read_text(extract.artifact.text)
-    # 拼接去重后重叠行只保留一份,但两段独有内容都在
-    assert text.count("AD \\cdot OC") == 1
-    assert "AF \\cdot DE = AG \\cdot BC" in text
-    assert "24. 解" in text
+    assert "CE \\perp AB" in text
     side = store.read_yaml(extract.artifact.metadata)
-    assert side["ocr_enhancement"] == "stripe-fallback"
+    assert side["ocr_suspect"] == ["truncated"]
 
 
-def test_qwen_adapter_stripe_still_truncated_fails_closed(tmp_path):
+def test_qwen_adapter_uses_text_override_for_suspect_page(tmp_path):
+    """可疑页有人工文本补丁 → 整页用补丁文本,provenance 记 manual-override。"""
     from scripts.question_transcription.workflow.adapters.page_text.qwen import (
         QwenPageTextExtractor,
     )
@@ -223,124 +188,142 @@ def test_qwen_adapter_stripe_still_truncated_fails_closed(tmp_path):
     src = store.layout.root / "source"
     src.mkdir(parents=True, exist_ok=True)
     _real_png(src / "page-004.png")
+    pack_dir = tmp_path / "documents" / "PAPER-OVR"
+    _write_overrides(
+        pack_dir,
+        {
+            "schema": "math_page_text_overrides/v1",
+            "paper_id": "p",
+            "overrides": [
+                {
+                    "page_number": 4,
+                    "mode": "text",
+                    "text": "23. (2) $\\because AF$ 是 $\\angle BAC$ 的平分线, 证得 $AF \\cdot DE = AG \\cdot BC$。",
+                    "note": "答案页 OCR 截断,人工从官方答案 docx 抄录整页",
+                    "verified_at": "2026-08-19",
+                }
+            ],
+        },
+    )
     truncated = "$\\therefore CE \\perp AB$ 又 $\\because \\angle EOB"
-    band0_truncated = "$\\because AD$ 又 $\\angle EOB 未闭合"
-    fake = _SequenceBailianClient(
-        [
-            truncated,
-            band0_truncated,
-            "后续一。",
-            "后续二。",
-            "后续三。",
-            "末尾完整。",
-        ]
+    fake = _SequenceBailianClient([truncated])
+    adapter = QwenPageTextExtractor(
+        model="qwen3.5-ocr", store=store, client=fake,
+        overrides_path=pack_dir / "page-text-overrides.yaml",
     )
-    adapter = QwenPageTextExtractor(model="qwen3.5-ocr", store=store, client=fake)
     extract, failure = adapter.extract(_job(4))
-    assert extract is None
-    assert failure.kind == "truncated_page_text"
-    assert "stitched stripe text" in failure.detail
-
-
-def test_qwen_adapter_commits_text_and_sidecar(tmp_path):
-    from scripts.question_transcription.workflow.adapters.page_text.qwen import (
-        QwenPageTextExtractor,
-    )
-
-    store = _store(tmp_path)
-    # write the page image the adapter will read
-    (store.layout.root / "source").mkdir(parents=True, exist_ok=True)
-    (store.layout.root / "source/page-001.png").write_bytes(b"\x89PNG fake")
-    fake = _FakeBailianClient(text="第1页：求函数 $y=2x+1$ 的值。")
-    adapter = QwenPageTextExtractor(
-        model="qwen3.5-ocr", store=store, client=fake
-    )
-    extract, failure = adapter.extract(_job(1))
-    assert failure is None
-    assert extract.artifact.page_number == 1
+    assert failure is None, f"unexpected failure: {failure}"
     text = store.read_text(extract.artifact.text)
-    assert "y=2x+1" in text
+    assert "AF \\cdot DE = AG \\cdot BC" in text
     side = store.read_yaml(extract.artifact.metadata)
-    assert side["model"] == "qwen3.5-ocr"
-    assert side["adapter_id"] == "qwen"
-    assert side["prompt_version"] == PAGE_TEXT_PROMPT_VERSION
+    assert side["ocr_enhancement"] == "manual-override"
+    assert "ocr_suspect" not in side
 
 
-def test_qwen_adapter_blank_text_is_contract_failure(tmp_path):
+def test_qwen_adapter_uses_image_override_for_suspect_page(tmp_path):
+    """可疑页有人工截图补丁 → 只对这张手工小图做一次 OCR(小图输出预算
+    低,不触发密集页截断),作为该页文本。"""
+    from PIL import Image
+
     from scripts.question_transcription.workflow.adapters.page_text.qwen import (
         QwenPageTextExtractor,
     )
 
     store = _store(tmp_path)
-    (store.layout.root / "source").mkdir(parents=True, exist_ok=True)
-    (store.layout.root / "source/page-002.png").write_bytes(b"\x89PNG fake")
-    fake = _FakeBailianClient(text="   \n  ")  # whitespace only
-    adapter = QwenPageTextExtractor(model="qwen3.5-ocr", store=store, client=fake)
-    extract, failure = adapter.extract(_job(2))
-    assert extract is None
-    assert failure.kind == "empty_text"
-
-
-def test_qwen_adapter_missing_image_is_hash_mismatch(tmp_path):
-    from scripts.question_transcription.workflow.adapters.page_text.qwen import (
-        QwenPageTextExtractor,
+    src = store.layout.root / "source"
+    src.mkdir(parents=True, exist_ok=True)
+    _real_png(src / "page-005.png")
+    pack_dir = tmp_path / "documents" / "PAPER-OVR-IMG"
+    pack_dir.mkdir(parents=True)
+    Image.new("RGB", (600, 200), "white").save(pack_dir / "answer-23-crop.png")
+    _write_overrides(
+        pack_dir,
+        {
+            "schema": "math_page_text_overrides/v1",
+            "paper_id": "p",
+            "overrides": [
+                {
+                    "page_number": 5,
+                    "mode": "image",
+                    "image": "answer-23-crop.png",
+                    "note": "手工截取第 23 题第 (2) 问答案区域",
+                    "verified_at": "2026-08-19",
+                }
+            ],
+        },
     )
-
-    store = _store(tmp_path)
+    truncated = "$\\therefore CE \\perp AB$ 又 $\\because \\angle EOB"
+    cropped = "证得 $AF \\cdot DE = AG \\cdot BC$。"
+    fake = _SequenceBailianClient([truncated, cropped])
     adapter = QwenPageTextExtractor(
-        model="qwen3.5-ocr", store=store, client=_FakeBailianClient()
+        model="qwen3.5-ocr", store=store, client=fake,
+        overrides_path=pack_dir / "page-text-overrides.yaml",
     )
-    extract, failure = adapter.extract(_job(9))
+    extract, failure = adapter.extract(_job(5))
+    assert failure is None, f"unexpected failure: {failure}"
+    assert fake.calls == 2  # 整页 1 次 + 手工截图 1 次
+    text = store.read_text(extract.artifact.text)
+    assert "AG \\cdot BC" in text
+    side = store.read_yaml(extract.artifact.metadata)
+    assert side["ocr_enhancement"] == "manual-override"
+
+
+def test_qwen_adapter_rejects_foreign_paper_override(tmp_path):
+    """补丁文件 paper_id 与 run 不符 → 结构化失败(不静默用错卷的补丁)。"""
+    from scripts.question_transcription.workflow.adapters.page_text.qwen import (
+        QwenPageTextExtractor,
+    )
+
+    store = _store(tmp_path)
+    src = store.layout.root / "source"
+    src.mkdir(parents=True, exist_ok=True)
+    _real_png(src / "page-006.png")
+    pack_dir = tmp_path / "documents" / "PAPER-OTHER"
+    _write_overrides(
+        pack_dir,
+        {
+            "schema": "math_page_text_overrides/v1",
+            "paper_id": "PAPER-OTHER",
+            "overrides": [
+                {
+                    "page_number": 6,
+                    "mode": "text",
+                    "text": "别卷的内容",
+                    "note": "误放",
+                    "verified_at": "2026-08-19",
+                }
+            ],
+        },
+    )
+    truncated = "$\\therefore CE \\perp AB$ 又 $\\because \\angle EOB"
+    fake = _SequenceBailianClient([truncated])
+    adapter = QwenPageTextExtractor(
+        model="qwen3.5-ocr", store=store, client=fake,
+        overrides_path=pack_dir / "page-text-overrides.yaml",
+    )
+    extract, failure = adapter.extract(_job(6))
     assert extract is None
-    assert failure.kind == "source_hash_mismatch"
+    assert failure.kind == "invalid_response"
+    assert "paper_id" in failure.detail
 
 
-def test_retry_decorator_retries_then_exhausts(tmp_path):
-    from scripts.question_transcription.workflow.adapters.decorators import (
-        with_page_retry,
+def test_qwen_adapter_clean_page_has_no_suspect_flag(tmp_path):
+    from scripts.question_transcription.workflow.adapters.page_text.qwen import (
+        QwenPageTextExtractor,
     )
-    from scripts.question_transcription.workflow.bootstrap.config import RetryPolicy
 
-    calls = {"n": 0}
-
-    class _Flaky:
-        def extract(self, job):
-            calls["n"] += 1
-            return None, __import__(
-                "scripts.question_transcription.workflow.contracts", fromlist=["PageTextFailure"]
-            ).PageTextFailure(
-                adapter_id="qwen", kind="rate_limited", attempts=calls["n"], detail="429"
-            )
-
-    policy = RetryPolicy(max_attempts=3, base_delay_ms=1, max_delay_ms=10)
-    wrapped = with_page_retry(_Flaky(), policy)  # returns an object exposing .extract
-    extract, failure = wrapped.extract(_job(1))
-    assert extract is None
-    assert failure.attempts == 3
-    assert calls["n"] == 3
-
-
-def test_retry_decorator_does_not_retry_non_retryable(tmp_path):
-    from scripts.question_transcription.workflow.adapters.decorators import (
-        with_page_retry,
-    )
-    from scripts.question_transcription.workflow.bootstrap.config import RetryPolicy
-
-    calls = {"n": 0}
-
-    class _SourceMismatch:
-        def extract(self, job):
-            calls["n"] += 1
-            return None, __import__(
-                "scripts.question_transcription.workflow.contracts", fromlist=["PageTextFailure"]
-            ).PageTextFailure(
-                adapter_id="qwen", kind="source_hash_mismatch", attempts=1, detail="bad"
-            )
-
-    wrapped = with_page_retry(_SourceMismatch(), RetryPolicy(max_attempts=5, base_delay_ms=1))
-    _, failure = wrapped.extract(_job(1))
-    assert failure.attempts == 1
-    assert calls["n"] == 1  # not retried
+    store = _store(tmp_path)
+    src = store.layout.root / "source"
+    src.mkdir(parents=True, exist_ok=True)
+    _real_png(src / "page-007.png")
+    clean = "1. 求 $y=2x+1$ 当 $x=3$ 时的值。\n(A) $4$; (B) $5$; (C) $6$; (D) $7$。\n"
+    fake = _SequenceBailianClient([clean])
+    adapter = QwenPageTextExtractor(model="qwen3.5-ocr", store=store, client=fake)
+    extract, failure = adapter.extract(_job(7))
+    assert failure is None
+    side = store.read_yaml(extract.artifact.metadata)
+    assert "ocr_suspect" not in side
+    assert "ocr_enhancement" not in side
 
 
 # --------------------------------------------------------------------------- #

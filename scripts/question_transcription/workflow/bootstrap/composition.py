@@ -102,7 +102,11 @@ def _bind_page_text(config, store):
     from ..adapters.decorators import with_page_retry
 
     if config.page_text_provider == "qwen":
-        inner = QwenPageTextExtractor(model=config.qwen_model, store=store)
+        inner = QwenPageTextExtractor(
+            model=config.qwen_model,
+            store=store,
+            overrides_path=config.page_text_overrides_path,
+        )
     else:
         inner = MimoPageTextExtractor(model=config.mimo_model, store=store)
     return with_page_retry(inner, config.page_retry)

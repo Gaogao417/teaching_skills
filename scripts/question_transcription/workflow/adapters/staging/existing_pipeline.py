@@ -23,6 +23,11 @@ from pathlib import Path
 
 from .._common_paths import repo_root  # noqa: F401
 from ...contracts import ArtifactRef
+from ...domain.figure_requirements import (
+    is_geometry_long_problem,
+    mentions_figure,
+    no_figure_visual_check_note,
+)
 from ...ports.staging import StageFailure
 
 
@@ -306,34 +311,61 @@ class DeterministicEvidenceCompleter:
     ) -> dict:
         """Attach validated rendered-page figures for one semantic role."""
 
-        import re as _re
-
         from PIL import Image as _Image
 
         if role not in {"prompt", "solution"}:
             raise ValueError(f"unsupported figure role: {role}")
-        figure_reference = _re.compile(r"如图|图所示|下图|上图|图中|示意图")
+        import re as _re
+
         solution_figure_reference = _re.compile(
             r"如(?:右|左)?图|第\s*\d+\s*题图|小题图|图\s*[一二三四五六七八九十\d]+|画图|作图"
         )
-        pending: list[tuple[dict, list[tuple[Path, int]]]] = []
+        pending: list[tuple[dict, list[tuple[Path, int]], bool, bool]] = []
+
+        def mark_needs_human(item: dict, note: str) -> None:
+            transcription = item.setdefault("transcription", {})
+            status_key = "prompt_status" if role == "prompt" else "solution_status"
+            notes_key = (
+                "prompt_review_notes" if role == "prompt" else "solution_review_notes"
+            )
+            transcription[status_key] = "needs_human_crop"
+            notes = transcription.setdefault(notes_key, [])
+            if note not in notes:
+                notes.append(note)
+
         for section in payload.get("sections") or []:
             for item in section.get("items") or []:
                 if not isinstance(item, dict) or item.get(role):
                     continue
                 block = item.get("block") or {}
+                geometry_long_problem = is_geometry_long_problem(
+                    item.get("question_type"),
+                    block.get("stem_latex"),
+                    block.get("solution_steps") or [],
+                )
                 if role == "prompt":
                     stem = str(block.get("stem_latex") or "")
-                    if not figure_reference.search(stem):
+                    explicit_figure_reference = mentions_figure(stem)
+                    if not explicit_figure_reference and not geometry_long_problem:
                         continue
                     entries = item.get("question_word_evidence") or []
                 else:
                     if not (block.get("solution_steps") or []):
                         continue
+                    explicit_figure_reference = any(
+                        solution_figure_reference.search(str(step))
+                        for step in block.get("solution_steps") or []
+                    )
                     entries = (item.get("official_solution") or {}).get(
                         "word_evidence"
                     ) or []
                 if not entries:
+                    if geometry_long_problem:
+                        role_label = "题目" if role == "prompt" else "官方解答"
+                        mark_needs_human(
+                            item,
+                            f"几何大题{role_label}缺少可供视觉检查的证据页；请人工核对并补裁。",
+                        )
                     continue
                 pages: list[tuple[Path, int]] = []
                 seen_pages: set[Path] = set()
@@ -349,13 +381,26 @@ class DeterministicEvidenceCompleter:
                     seen_pages.add(page_path)
                     pages.append((page_path, int(entry.get("page_number") or 0)))
                 if pages:
-                    pending.append((item, pages))
+                    pending.append(
+                        (
+                            item,
+                            pages,
+                            geometry_long_problem,
+                            explicit_figure_reference,
+                        )
+                    )
+                elif geometry_long_problem:
+                    role_label = "题目" if role == "prompt" else "官方解答"
+                    mark_needs_human(
+                        item,
+                        f"几何大题{role_label}证据页路径无效，无法完成视觉检查；请人工核对并补裁。",
+                    )
         if not pending:
             return payload
 
         # Group by page: one detection call per distinct page image.
         by_page: dict[Path, list[tuple[dict, int]]] = {}
-        for item, pages in pending:
+        for item, pages, _, _ in pending:
             for page_path, page_number in pages:
                 by_page.setdefault(page_path, []).append((item, page_number))
 
@@ -395,7 +440,7 @@ class DeterministicEvidenceCompleter:
                 role=role,
             )
 
-        for item, pages in pending:
+        for item, pages, geometry_long_problem, explicit_figure_reference in pending:
             number = int(item.get("question_number"))
             matches: list[tuple[Path, int, list[int], int | None]] = []
             rejection_notes: list[str] = []
@@ -442,21 +487,30 @@ class DeterministicEvidenceCompleter:
                     item[role] = crops
                     if not rejection_notes:
                         continue
+                elif role == "solution":
+                    rejection_notes.append(
+                        "检测到解答图候选，但未能唯一绑定到具体解答步骤"
+                    )
 
             block = item.get("block") or {}
             if role == "prompt":
-                expected = True
+                expected = explicit_figure_reference
                 status_key = "prompt_status"
                 notes_key = "prompt_review_notes"
                 role_label = "题图"
             else:
-                expected = any(
-                    solution_figure_reference.search(str(step))
-                    for step in block.get("solution_steps") or []
-                )
+                expected = explicit_figure_reference
                 status_key = "solution_status"
                 notes_key = "solution_review_notes"
                 role_label = "解答图"
+            if geometry_long_problem and not expected and not rejection_notes:
+                transcription = item.setdefault("transcription", {})
+                transcription.setdefault(status_key, "author_pass")
+                notes = transcription.setdefault(notes_key, [])
+                check_note = no_figure_visual_check_note(role)
+                if check_note not in notes:
+                    notes.append(check_note)
+                continue
             # An empty detector result is normal for a text-only official
             # solution. Only surface a missing-crop state when the transcribed
             # solution explicitly refers to drawing/figure evidence, or when a
@@ -470,11 +524,7 @@ class DeterministicEvidenceCompleter:
                 "请对照原始页人工补裁。"
                 + "；".join(dict.fromkeys(rejection_notes))
             )
-            transcription = item.setdefault("transcription", {})
-            transcription[status_key] = "needs_human_crop"
-            existing_notes = transcription.setdefault(notes_key, [])
-            if note not in existing_notes:
-                existing_notes.append(note)
+            mark_needs_human(item, note)
         return payload
 
 

@@ -124,84 +124,11 @@ def strip_code_fences(text: str) -> str:
     """去掉模型违反提示词加上的 ```/```latex 围栏行，只保留内容。
 
     围栏不是页面内容:围栏不闭合会让 :func:`looks_truncated` 误判,围栏内
-    才是真正的抄录文本(2026-08-19 闵行答案页条带输出实测)。未配对的围栏
-    行也一并移除(内容保留)。
+    才是真正的抄录文本(2026-08-19 闵行答案页输出实测)。未配对的围栏行也
+    一并移除(内容保留)。
     """
     lines = [line for line in text.splitlines() if not _FENCE_LINE_RE.match(line)]
     return "\n".join(lines)
-
-
-def _normalize_line(line: str) -> str:
-    return re.sub(r"\s+", "", line)
-
-
-def _previous_line_covers(previous: str, following: str) -> bool:
-    """Whether the previous band already contains the following seam line.
-
-    OCR often keeps a question-number prefix in the upper band but drops it in
-    the overlapping lower band, or keeps a longer derivation before the shared
-    trailing clause. Treat that suffix as duplicate only when it is long enough
-    to be distinctive. The reverse containment is intentionally not accepted:
-    keeping a longer following line is safer than deleting new content.
-    """
-
-    left = _normalize_line(previous)
-    right = _normalize_line(following)
-    return left == right or (len(right) >= 12 and right in left)
-
-
-def _drop_seam_fragments(merged: list[str]) -> None:
-    """删掉被完整重读覆盖的接缝公式残行（就地修改 merged）。
-
-    条带下边缘会把一行公式物理切断：上一带的最后一行只读到半个公式（行内
-    ``$`` 未闭合），下一带在重叠区把同一行完整读出。拼接后残行与完整行并
-    存（或残行被保留、完整行被去重丢弃），都会让整页 ``$`` 计数为奇——被
-    :func:`looks_truncated` 误判为截断（2026-08-19 闵行答案页回归实测）。
-    全局判定：某行自身 ``$`` 计数为奇、且被另一行严格包含（归一后子串），
-    则它是残行、完整版本已在——删除之。
-    """
-    normalized = [_normalize_line(x) for x in merged]
-    keep: list[str] = []
-    for index, raw in enumerate(merged):
-        n = normalized[index]
-        if n and len(n) >= 6 and n.count("$") % 2 == 1:
-            if any(
-                len(other) > len(n) and n in other
-                for j, other in enumerate(normalized)
-                if j != index
-            ):
-                continue
-        keep.append(raw)
-    merged[:] = keep
-
-
-def stitch_band_texts(bands: list[str]) -> str:
-    """把同一页的多个横条带 OCR 输出按顺序拼接，重叠行只保留一份。
-
-    条带两两有 ~15% 高度重叠，同一段内容会在相邻条带各出现一次。按
-    「空白归一后整行相等」在接缝处做尾部/头部最长匹配（最多回看 12 行）去
-    重；匹配不上就原样接上——宁可保留重复行，也不能丢内容（整卷转写对
-    重复行不敏感，对缺行敏感）。
-    """
-    merged: list[str] = []
-    for band in bands:
-        lines = [line for line in band.splitlines() if line.strip()]
-        if not merged:
-            merged.extend(lines)
-            continue
-        head = [line for line in lines]
-        max_overlap = min(12, len(merged), len(head))
-        overlap = 0
-        for k in range(max_overlap, 0, -1):
-            if all(
-                _previous_line_covers(previous, following)
-                for previous, following in zip(merged[-k:], head[:k], strict=True)
-            ):
-                overlap = k
-                break
-        merged.extend(head[overlap:])
-    _drop_seam_fragments(merged)
-    return "\n".join(merged) + "\n"
 
 
 _SHA_PREFIX_RE = re.compile(r"^sha256:")
@@ -269,6 +196,7 @@ def commit_extract(
     prompt_version: str,
     cache_hit: bool,
     ocr_enhancement: str | None = None,
+    ocr_suspect: list[str] | None = None,
 ) -> PageTextExtract:
     """Commit ``page-NNN.txt`` + sidecar and return the typed extract."""
 
@@ -288,6 +216,8 @@ def commit_extract(
     }
     if ocr_enhancement is not None:
         sidecar["ocr_enhancement"] = ocr_enhancement
+    if ocr_suspect:
+        sidecar["ocr_suspect"] = ocr_suspect
     side_ref = store.commit_yaml(
         f"pages/page-{job.page_number:03d}.extract.yaml",
         sidecar,

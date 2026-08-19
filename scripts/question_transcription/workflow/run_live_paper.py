@@ -370,6 +370,13 @@ def _review_ui_command(layout) -> str:
     return f"{python_bin} {review_script} --bank-root {bank_root}"
 
 
+def _overrides_path_for(source: Path) -> Path:
+    """原始源文件旁的 page-text-overrides.yaml(docx 入口取其所在包目录)。"""
+    pack_dir = source.parent if source.is_file() else source
+    return pack_dir / "page-text-overrides.yaml"
+
+
+
 def run(
     *,
     paper_id: str,
@@ -384,9 +391,13 @@ def run(
     if final_review_mode not in {"human", "auto"}:
         raise ValueError("final_review_mode must be 'human' or 'auto'")
     run_id = f"run-{uuid.uuid4().hex[:12]}"
+    overrides_path = _overrides_path_for(Path(source))
     config = RuntimeAdapterConfig(
         page_text_provider=page_provider,
         whole_paper_adapter=agent_host.replace("-", "_"),
+        page_text_overrides_path=(
+            overrides_path if overrides_path.is_file() else None
+        ),
     )
     layout = build_run_layout(_build_root(), paper_id, run_id)
     deps = bind(config, layout, mode="live")
@@ -497,6 +508,27 @@ def run(
     return run_id
 
 
+def _resume_overrides_path(layout) -> Path | None:
+    """Resume 时从 run 的 page-plan 反查原始包目录下的补丁文件。"""
+    import yaml as _yaml
+
+    plan_path = layout.root / "source" / "page-plan.yaml"
+    if not plan_path.is_file():
+        return None
+    try:
+        plan = _yaml.safe_load(plan_path.read_text(encoding="utf-8"))
+        sources = plan.get("sources") or []
+        if not sources:
+            return None
+        origin = Path(str(sources[0].get("path", "")))
+        if not origin.exists():
+            return None
+        return _overrides_path_for(origin)
+    except Exception:
+        return None
+
+
+
 def resume(
     *,
     paper_id: str,
@@ -515,9 +547,13 @@ def resume(
     checkpoint_path = layout.root / f"{run_id}.sqlite"
     if not checkpoint_path.is_file():
         raise FileNotFoundError(f"checkpoint not found: {checkpoint_path}")
+    overrides_path = _resume_overrides_path(layout)
     config = RuntimeAdapterConfig(
         page_text_provider=page_provider,
         whole_paper_adapter=agent_host.replace("-", "_"),
+        page_text_overrides_path=(
+            overrides_path if overrides_path and overrides_path.is_file() else None
+        ),
     )
     deps = bind(config, layout, mode="live")
     checkpointer = make_sqlite_checkpointer(checkpoint_path)

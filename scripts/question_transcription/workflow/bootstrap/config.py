@@ -16,6 +16,7 @@ The values here freeze the §11 decisions made for this milestone:
 
 from __future__ import annotations
 
+from pathlib import Path
 from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field
@@ -134,6 +135,11 @@ class RuntimeAdapterConfig(BaseModel):
     # Model ids (overridable for experiments; defaults frozen above).
     qwen_model: str = DEFAULT_QWEN_MODEL
     mimo_model: str = DEFAULT_MIMO_MODEL
+
+    # 人工页文本补丁文件(原始源文件旁的 page-text-overrides.yaml;不存在则
+    # 无补丁)。OCR 守卫发现可疑页时优先用人工声明的整页文本/手工截图,
+    # 没有则上报人工,不在适配器里自动修复。
+    page_text_overrides_path: Path | None = None
     opencode_model: str = DEFAULT_OPENCODE_MODEL
     opencode_server_url: str = DEFAULT_OPENCODE_SERVER_URL
     opencode_agent_type: str = DEFAULT_OPENCODE_AGENT_TYPE
