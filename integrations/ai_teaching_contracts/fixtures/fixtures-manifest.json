@@ -1,8 +1,24 @@
 {
   "schema": "ai_teaching_fixtures_manifest/v1",
   "generated_at": "2026-08-18T00:00:00Z",
-  "fixture_count": 26,
+  "fixture_count": 33,
   "fixtures": [
+    {
+      "file": "approach-set.v1.negative.missing-ref-hash.json",
+      "object_schema": "ai_teaching_approach_set/v1",
+      "schema_ref": "../schemas/authoring/v1/approach-set.schema.json",
+      "expect_schema": "invalid",
+      "expect_publication": "n/a",
+      "sha256": "sha256:fcaadc01e45d2990121810b8cd312cbfca05bcce1163cc9bba0aa969d5dfc982"
+    },
+    {
+      "file": "approach-set.v1.positive.json",
+      "object_schema": "ai_teaching_approach_set/v1",
+      "schema_ref": "../schemas/authoring/v1/approach-set.schema.json",
+      "expect_schema": "valid",
+      "expect_publication": "valid",
+      "sha256": "sha256:47237e5c35b331d8db87a33f4ab05829c517179cfce85a803a0f128ff5ef4f3f"
+    },
     {
       "file": "benchmark-run.negative.fail-without-class.json",
       "object_schema": "ai_teaching_benchmark_run/v1",
@@ -92,6 +108,30 @@
       "sha256": "sha256:dd21224e85ed0f31411a9757296e22983321c4a9f9641a7da98ebd01e02e34de"
     },
     {
+      "file": "question-truth.v2.negative.dual-scope-answer.json",
+      "object_schema": "ai_teaching_question_truth/v2",
+      "schema_ref": "../schemas/authoring/v2/question-truth.schema.json",
+      "expect_schema": "invalid",
+      "expect_publication": "n/a",
+      "sha256": "sha256:9d9022a85c8f9eb25b0d00b611a03c64c4b50275355e595c4d7ddbb33b7fe889"
+    },
+    {
+      "file": "question-truth.v2.negative.missing-part-solution.json",
+      "object_schema": "ai_teaching_question_truth/v2",
+      "schema_ref": "../schemas/authoring/v2/question-truth.schema.json",
+      "expect_schema": "invalid",
+      "expect_publication": "n/a",
+      "sha256": "sha256:64f65564a6282d9dab05b256f8f3a26d1aa9352b7d5e54d085f6eaa8d041208a"
+    },
+    {
+      "file": "question-truth.v2.positive.multi-part.json",
+      "object_schema": "ai_teaching_question_truth/v2",
+      "schema_ref": "../schemas/authoring/v2/question-truth.schema.json",
+      "expect_schema": "valid",
+      "expect_publication": "valid",
+      "sha256": "sha256:e78b49145b88d10ef391a3ad9df29c2b82502fecc2c01737a16d1e49a475b2e5"
+    },
+    {
       "file": "skill-hypothesis.negative.confidence-over-1.json",
       "object_schema": "ai_teaching_skill_hypothesis/v1",
       "schema_ref": "../schemas/learning/v1/skill-hypothesis.schema.json",
@@ -162,6 +202,22 @@
       "expect_schema": "valid",
       "expect_publication": "invalid",
       "sha256": "sha256:4ecc44c0ded3ca44df6ebad6b5d1c03139aaa7a7bbb6097864b435786462aff6"
+    },
+    {
+      "file": "teaching-approach.v2.negative.bad-part-id.json",
+      "object_schema": "ai_teaching_teaching_approach/v2",
+      "schema_ref": "../schemas/authoring/v2/teaching-approach.schema.json",
+      "expect_schema": "invalid",
+      "expect_publication": "n/a",
+      "sha256": "sha256:2ac1ab52b92f36b2de3f2d4e298ff5c7ad0e515be82f5fb5eee240e8e09224c3"
+    },
+    {
+      "file": "teaching-approach.v2.positive.part-bound.json",
+      "object_schema": "ai_teaching_teaching_approach/v2",
+      "schema_ref": "../schemas/authoring/v2/teaching-approach.schema.json",
+      "expect_schema": "valid",
+      "expect_publication": "valid",
+      "sha256": "sha256:11a46fddaef6ca12958102562cab45ab57848a6f9919c3a77b94cc4e72dacb44"
     },
     {
       "file": "tutor-plan-bundle.assessment.positive.json",

@@ -1,0 +1,45 @@
+{
+  "schema": "ai_teaching_approach_set/v1",
+  "artifact_id": "AS-SMV-002",
+  "version": "v1",
+  "status": "Approved",
+  "question_ref": {
+    "artifact_id": "QT-SMV-002",
+    "version": "v2",
+    "content_hash": "sha256:d1b2c3d4e5f60718293a4b5c6d7e8f9012345678901234567890abcdefab0123"
+  },
+  "parts": [
+    {
+      "part_id": "1",
+      "approach": {
+        "artifact_id": "TA-SMV-009",
+        "version": "v1",
+        "content_hash": "sha256:e1b2c3d4e5f60718293a4b5c6d7e8f9012345678901234567890abcdefab0123"
+      },
+      "note": "正推：等积变形直接到达"
+    },
+    {
+      "part_id": "2",
+      "approach": {
+        "artifact_id": "TA-SMV-010",
+        "version": "v1",
+        "content_hash": "sha256:f1b2c3d4e5f60718293a4b5c6d7e8f9012345678901234567890abcdefab0123"
+      },
+      "alternates": [
+        {
+          "artifact_id": "TA-SMV-011",
+          "version": "v1",
+          "content_hash": "sha256:11b2c3d4e5f60718293a4b5c6d7e8f9012345678901234567890abcdefab0123"
+        }
+      ]
+    }
+  ],
+  "cross_part_rhythm": "第(1)问的垂直结论是第(2)问比例式的台阶，Teach 模式先固定再迁移。",
+  "approval": {
+    "reviewer_id": "migration-agent",
+    "approved_at": "2026-08-20T11:00:00+00:00",
+    "review_note": "golden 选法冻结（ADR-005 §5）"
+  },
+  "content_hash": "sha256:21b2c3d4e5f60718293a4b5c6d7e8f9012345678901234567890abcdefab0123",
+  "artifact_uri": "artifact://approach-set/AS-SMV-002@v1"
+}

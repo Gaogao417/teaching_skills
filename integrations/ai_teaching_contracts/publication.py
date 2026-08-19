@@ -10,11 +10,15 @@ from __future__ import annotations
 import re
 from typing import Iterable
 
-# 允许走 publication 校验的对象类型（authoring/planning 三类可发布 artifact）。
+# 允许走 publication 校验的对象类型（authoring/planning 可发布 artifact；
+# v2 为 ADR-005 小问粒度版本，approach-set 为其组合层）。
 PUBLISHABLE_SCHEMAS = frozenset(
     {
         "ai_teaching_question_truth/v1",
+        "ai_teaching_question_truth/v2",
         "ai_teaching_teaching_approach/v1",
+        "ai_teaching_teaching_approach/v2",
+        "ai_teaching_approach_set/v1",
         "ai_teaching_tutor_plan_bundle/v1",
     }
 )

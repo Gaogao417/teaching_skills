@@ -1,4 +1,4 @@
-"""canonical 对象的 Pydantic 模型，逐字段对应 PRD 仓 contracts/schemas/*/v1/。
+"""canonical 对象的 Pydantic 模型，逐字段对应 PRD 仓 contracts/schemas/*/v1、v2。
 
 规则来源是 JSON Schema；模型是它的可执行化。改 schema 必须同步改这里并
 重跑两仓 fixture tests（退出门禁 1）。字段名与 JSON 键一致（全 snake_case）。
@@ -21,6 +21,7 @@ QuestionId = Annotated[str, Field(pattern=r"^QT-[A-Z0-9]+-[0-9]{3,}$")]
 CandidateId = Annotated[str, Field(pattern=r"^QC-[A-Z0-9]+-[0-9]{3,}$")]
 EvidenceId = Annotated[str, Field(pattern=r"^SE-[A-Z0-9]+-[0-9]{3,}$")]
 ApproachId = Annotated[str, Field(pattern=r"^TA-[A-Z0-9]+-[0-9]{3,}$")]
+ApproachSetId = Annotated[str, Field(pattern=r"^AS-[A-Z0-9]+-[0-9]{3,}$")]
 PlanId = Annotated[str, Field(pattern=r"^TP-[A-Z0-9]+-[0-9]{3,}$")]
 SessionId = Annotated[str, Field(pattern=r"^TS-[0-9]{4,}$")]
 SkillId = Annotated[str, Field(pattern=r"^SKILL-[A-Z0-9]+-[0-9]{3,}$")]
@@ -193,6 +194,54 @@ class QuestionTruth(_Strict):
 
 
 # --------------------------------------------------------------------------- #
+# authoring/v2/question-truth（ADR-005 小问粒度）
+# --------------------------------------------------------------------------- #
+class SubquestionV2(_Strict):
+    part_id: Annotated[str, Field(pattern=r"^[1-9][0-9]{0,2}$")]
+    prompt: NonEmptyStr
+    points: float | None = Field(default=None, gt=0)
+    canonical_answer: CanonicalAnswer
+    reviewed_solution: NonEmptyStr
+
+
+class QuestionTruthV2(_Strict):
+    schema_: Literal["ai_teaching_question_truth/v2"] = Field(alias="schema")
+    artifact_id: QuestionId
+    version: VersionTag
+    status: Status
+    question_type: QuestionType
+    stem: NonEmptyStr
+    subquestions: list[SubquestionV2] = Field(default_factory=list)
+    canonical_answer: CanonicalAnswer | None = None
+    reviewed_solution: str | None = None
+    source_evidence_refs: Annotated[list[EvidenceRef], Field(min_length=1)]
+    origin_candidate_id: CandidateId | None = None
+    approval: Approval | None = None
+    superseded_by: SupersededBy | None = None
+    content_hash: Sha256
+    artifact_uri: Annotated[str, Field(pattern=r"^artifact://question-truth/[A-Za-z0-9-]+@v[0-9]+$")]
+
+    @model_validator(mode="after")
+    def _scope_requirements(self) -> "QuestionTruthV2":
+        if self.status == "Approved" and self.approval is None:
+            raise ValueError("status=Approved requires approval (schema allOf)")
+        if self.status == "Superseded" and self.superseded_by is None:
+            raise ValueError("status=Superseded requires superseded_by (schema allOf)")
+        if self.subquestions:
+            # 有小问：小问级真值为单一事实源，顶层不得重复存整题答案/解答。
+            if self.canonical_answer is not None or self.reviewed_solution is not None:
+                raise ValueError(
+                    "subquestions present: top-level canonical_answer/reviewed_solution forbidden"
+                )
+        else:
+            if self.canonical_answer is None or self.reviewed_solution is None:
+                raise ValueError(
+                    "no subquestions: top-level canonical_answer/reviewed_solution required"
+                )
+        return self
+
+
+# --------------------------------------------------------------------------- #
 # authoring/v1/teaching-approach
 # --------------------------------------------------------------------------- #
 class QuestionRef(_Strict):
@@ -265,6 +314,79 @@ class TeachingApproach(_Strict):
 
     @model_validator(mode="after")
     def _status_requirements(self) -> "TeachingApproach":
+        if self.status == "Approved" and self.approval is None:
+            raise ValueError("status=Approved requires approval (schema allOf)")
+        if self.status == "Superseded" and self.superseded_by is None:
+            raise ValueError("status=Superseded requires superseded_by (schema allOf)")
+        return self
+
+
+# --------------------------------------------------------------------------- #
+# authoring/v2/teaching-approach（ADR-005：一个小问 × 一种解法）
+# --------------------------------------------------------------------------- #
+class PartQuestionRef(_Strict):
+    artifact_id: QuestionId
+    version: VersionTag
+    content_hash: Sha256
+    # QT 含 subquestions 时必填（跨对象校验在冻结/评测层 fail closed）；无小问时省略即整题。
+    part_id: Annotated[str, Field(pattern=r"^[1-9][0-9]{0,2}$")] | None = None
+
+
+class TeachingApproachV2(_Strict):
+    schema_: Literal["ai_teaching_teaching_approach/v2"] = Field(alias="schema")
+    artifact_id: ApproachId
+    version: VersionTag
+    status: Status
+    question_ref: PartQuestionRef
+    title: NonEmptyStr
+    goal: NonEmptyStr
+    entry_signal: str | None = None
+    steps: Annotated[list[TeachingStep], Field(min_length=3)]
+    evidence: ApproachEvidence
+    approval: Approval | None = None
+    superseded_by: SupersededBy | None = None
+    content_hash: Sha256
+    artifact_uri: Annotated[str, Field(pattern=r"^artifact://teaching-approach/[A-Za-z0-9-]+@v[0-9]+$")]
+
+    @model_validator(mode="after")
+    def _status_requirements(self) -> "TeachingApproachV2":
+        if self.status == "Approved" and self.approval is None:
+            raise ValueError("status=Approved requires approval (schema allOf)")
+        if self.status == "Superseded" and self.superseded_by is None:
+            raise ValueError("status=Superseded requires superseded_by (schema allOf)")
+        return self
+
+
+# --------------------------------------------------------------------------- #
+# authoring/v1/approach-set（ADR-005 §5 跨小问组合层）
+# --------------------------------------------------------------------------- #
+class ApproachSetPart(_Strict):
+    part_id: Annotated[str, Field(pattern=r"^[1-9][0-9]{0,2}$")] | None = None
+    approach: "ApproachRef"
+    alternates: list["ApproachRef"] = Field(default_factory=list)
+    note: str | None = None
+
+
+class ApproachSetSupersededBy(_Strict):
+    artifact_id: ApproachSetId
+    version: VersionTag
+
+
+class ApproachSet(_Strict):
+    schema_: Literal["ai_teaching_approach_set/v1"] = Field(alias="schema")
+    artifact_id: ApproachSetId
+    version: VersionTag
+    status: Status
+    question_ref: QuestionRef
+    parts: Annotated[list[ApproachSetPart], Field(min_length=1)]
+    cross_part_rhythm: str | None = None
+    approval: Approval | None = None
+    superseded_by: ApproachSetSupersededBy | None = None
+    content_hash: Sha256
+    artifact_uri: Annotated[str, Field(pattern=r"^artifact://approach-set/[A-Za-z0-9-]+@v[0-9]+$")]
+
+    @model_validator(mode="after")
+    def _status_requirements(self) -> "ApproachSet":
         if self.status == "Approved" and self.approval is None:
             raise ValueError("status=Approved requires approval (schema allOf)")
         if self.status == "Superseded" and self.superseded_by is None:
@@ -711,3 +833,4 @@ class BenchmarkRun(_Strict):
 
 
 ParserProvenance.model_rebuild()
+ApproachSetPart.model_rebuild()

@@ -1,0 +1,61 @@
+{
+  "schema": "ai_teaching_teaching_approach/v2",
+  "artifact_id": "TA-SMV-009",
+  "version": "v1",
+  "status": "Approved",
+  "question_ref": {
+    "artifact_id": "QT-SMV-002",
+    "version": "v2",
+    "content_hash": "sha256:d1b2c3d4e5f60718293a4b5c6d7e8f9012345678901234567890abcdefab0123",
+    "part_id": "1"
+  },
+  "title": "第(1)问：等积变形证垂直",
+  "goal": "掌握由等积式变形与角平分线导出垂直的路线",
+  "entry_signal": "学生能读出 BD 是高、AF 平分角两组条件",
+  "steps": [
+    {
+      "step_id": "S1",
+      "intent": "识别 8 字交叉结构",
+      "narration": "先只看 CE 与 BD 相交形成的 8 字。",
+      "expected_student_reasoning": "△OCD 与 △OBE 对顶角相等",
+      "skill_ids": ["SKILL-SMV-008"]
+    },
+    {
+      "step_id": "S2",
+      "intent": "等积式改比例",
+      "narration": "AD·OC = AB·OD 改写为比例。",
+      "expected_student_reasoning": "AD/OD = AB/OC",
+      "skill_ids": ["SKILL-SMV-003"]
+    },
+    {
+      "step_id": "S3",
+      "intent": "导角收尾",
+      "narration": "相似导角加互余，得 CE⊥AB。",
+      "expected_student_reasoning": "∠AEC = 90°",
+      "skill_ids": ["SKILL-SMV-009"]
+    }
+  ],
+  "evidence": {
+    "audio": [
+      {
+        "artifact_uri": "artifact://audio/TA-SMV-009/v1/take-r02.wav",
+        "content_hash": "sha256:a1b2c3d4e5f60718293a4b5c6d7e8f9012345678901234567890abcdefab0123",
+        "recorded_at": "2026-08-20T09:00:00+00:00"
+      }
+    ],
+    "transcripts": [
+      {
+        "artifact_uri": "artifact://transcript/TA-SMV-009/v1/take-r02.txt",
+        "asr_provenance": { "provider": "dashscope", "model_id": "qwen3-asr-flash" },
+        "revision": 2
+      }
+    ]
+  },
+  "approval": {
+    "reviewer_id": "migration-agent",
+    "approved_at": "2026-08-20T10:30:00+00:00",
+    "review_note": "part 级重切（ADR-005），证据 ref 复用整题录音"
+  },
+  "content_hash": "sha256:e1b2c3d4e5f60718293a4b5c6d7e8f9012345678901234567890abcdefab0123",
+  "artifact_uri": "artifact://teaching-approach/TA-SMV-009@v1"
+}

@@ -37,7 +37,10 @@ def test_every_schema_has_positive_and_negative():
     by_schema: dict[str, set[str]] = {}
     for entry in MANIFEST["fixtures"]:
         by_schema.setdefault(entry["object_schema"], set()).add(entry["expect_schema"])
-    assert len(by_schema) == 10
+    # fixture 覆盖必须与 validation 分派表一一对应（新 schema 常量即新正反例义务）。
+    from integrations.ai_teaching_contracts.validation import _SCHEMA_CONST_TO_MODEL
+
+    assert set(by_schema) == set(_SCHEMA_CONST_TO_MODEL), by_schema.keys() ^ _SCHEMA_CONST_TO_MODEL.keys()
     for schema_const, outcomes in by_schema.items():
         assert "valid" in outcomes, f"{schema_const}: no positive fixture"
         assert "invalid" in outcomes, f"{schema_const}: no negative fixture"
