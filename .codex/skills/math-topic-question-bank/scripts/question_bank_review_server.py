@@ -3455,6 +3455,16 @@ class QuestionBankCatalog:
                 rendered["stem_latex"] = str(student_block.get("stem_latex", ""))
                 rendered["answer"] = str(teacher_block.get("answer", ""))
                 rendered["clue"] = str(teacher_block.get("clue", ""))
+                # ADR-005：审题面板的小问切分预览（formal bank 路径与 staging 同源）。
+                rendered["subquestion_split_preview"] = _subquestion_split_preview(
+                    stem=str(student_block.get("stem_latex") or ""),
+                    answer=str(teacher_block.get("answer", "")),
+                    solution_steps=[
+                        str(step) if isinstance(step, str) else str(step.get("content", ""))
+                        for step in teacher_block.get("solution_steps", [])
+                        if isinstance(step, (str, dict))
+                    ],
+                )
                 steps = teacher_block.get("solution_steps", [])
                 rendered_steps: list[dict[str, Any]] = []
                 solution_previews: list[dict[str, str]] = []
