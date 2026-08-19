@@ -23,6 +23,66 @@ from ...contracts import (
 
 PAGE_TEXT_PROMPT_VERSION = "page-text-ocr-v1"
 
+# --- OCR 截断守卫（2026-08-19 闵行 Q23(2) 根因）-------------------------------
+# qwen3.5-ocr 对长而密的公式页（官方解答页）会在输出中段悄悄截断：观测特征是
+# 1) 行内公式定界符 ``$`` 计数为奇数（有一个 ``$`` 没闭合）；2) 输出尾部悬在
+# 「分值点虚线」的 \cdot/… 串上，没有任何收尾文字；3) 代码围栏或 \begin/\end
+# 环境不闭合。截断的页文本会让整卷转写模型把真实存在的内容标成
+# 「未出现在所给逐页文本中」，因此必须在页文本层确定性检出。
+_DANGLING_TAIL_RE = re.compile(
+    r"(?:\\cdot|\\cdots|\\ldots|\\dots|\.{3,}|…|・|⋯|\s)+$"
+)
+
+
+def looks_truncated(text: str) -> bool:
+    """页文本是否带有 OCR 输出截断的确定性特征。
+
+    空白文本不算（空文本由 ``empty_text`` 契约处理）。误报的代价只是多跑
+    一次条带降级，漏报的代价是解答内容静默丢失，所以判定从严。
+    """
+    if not text or not text.strip():
+        return False
+    if text.count("```") % 2 == 1:
+        return True
+    if text.count("\\begin{") != text.count("\\end{"):
+        return True
+    # 行内公式定界：去掉代码围栏内容后 ``$`` 必须成对。
+    outside_fence = re.sub(r"```.*?```", "", text, flags=re.S)
+    if outside_fence.count("$") % 2 == 1:
+        return True
+    return bool(_DANGLING_TAIL_RE.search(text.rstrip()))
+
+
+def _normalize_line(line: str) -> str:
+    return re.sub(r"\s+", "", line)
+
+
+def stitch_band_texts(bands: list[str]) -> str:
+    """把同一页的多个横条带 OCR 输出按顺序拼接，重叠行只保留一份。
+
+    条带两两有 ~15% 高度重叠，同一段内容会在相邻条带各出现一次。按
+    「空白归一后整行相等」在接缝处做尾部/头部最长匹配（最多回看 12 行）去
+    重；匹配不上就原样接上——宁可保留重复行，也不能丢内容（整卷转写对
+    重复行不敏感，对缺行敏感）。
+    """
+    merged: list[str] = []
+    for band in bands:
+        lines = [line for line in band.splitlines() if line.strip()]
+        if not merged:
+            merged.extend(lines)
+            continue
+        head = [line for line in lines]
+        max_overlap = min(12, len(merged), len(head))
+        overlap = 0
+        for k in range(max_overlap, 0, -1):
+            if [_normalize_line(x) for x in merged[-k:]] == [
+                _normalize_line(x) for x in head[:k]
+            ]:
+                overlap = k
+                break
+        merged.extend(head[overlap:])
+    return "\n".join(merged) + "\n"
+
 PAGE_TEXT_PROMPT = (
     "你是数学试卷逐页 OCR 抄录器。只按视觉阅读顺序忠实抄录本页全部可见文字。\n"
     "要求:\n"
@@ -99,6 +159,7 @@ def commit_extract(
     adapter_id: str,
     prompt_version: str,
     cache_hit: bool,
+    ocr_enhancement: str | None = None,
 ) -> PageTextExtract:
     """Commit ``page-NNN.txt`` + sidecar and return the typed extract."""
 
@@ -116,6 +177,8 @@ def commit_extract(
         "prompt_version": prompt_version,
         "cache_hit": cache_hit,
     }
+    if ocr_enhancement is not None:
+        sidecar["ocr_enhancement"] = ocr_enhancement
     side_ref = store.commit_yaml(
         f"pages/page-{job.page_number:03d}.extract.yaml",
         sidecar,

@@ -261,6 +261,85 @@ def project_image_bundle(source: SourcePaper) -> ImageAttributionBundle:
     )
 
 
+def _projected_solution_step_index(
+    question: SourceQuestion,
+    attr: ImageAttributionV2,
+) -> int:
+    """Map a v2 solution target to the flattened v1 solution_steps index."""
+
+    target = attr.target
+    if isinstance(target, TargetQuestionSolutionStep):
+        for index, step in enumerate(question.content.solution_steps):
+            if step.step_id == target.step_id:
+                return index
+        raise ValueError(
+            f"question {question.question_ref}: unknown solution step {target.step_id}"
+        )
+    if isinstance(target, TargetPartSolutionStep):
+        offset = len(question.content.solution_steps)
+        for part in question.content.parts:
+            if part.part_id == target.part_id:
+                for local_index, step in enumerate(part.solution_steps):
+                    if step.step_id == target.step_id:
+                        return offset + local_index
+                raise ValueError(
+                    f"question {question.question_ref} part {target.part_id}: "
+                    f"unknown solution step {target.step_id}"
+                )
+            offset += len(part.solution_steps)
+    raise ValueError(
+        f"attribution {attr.attribution_id} is not a solution-step target"
+    )
+
+
+def _stamp_solution_assignment_paths(
+    draft: dict[str, Any],
+    source: SourcePaper,
+    skeleton: QuestionTranscriptionBundle,
+) -> None:
+    """Preserve v2 step targets when projecting into the scalar v1 draft."""
+
+    items = [
+        item
+        for section in draft.get("sections", [])
+        for item in section.get("items", [])
+    ]
+    skeleton_questions = [
+        question
+        for section in skeleton.sections
+        for question in section.questions
+    ]
+    if len(items) != len(skeleton_questions):
+        raise ValueError("draft/skeleton question count mismatch while placing solution images")
+    item_by_ref = {
+        question.question_ref: item
+        for question, item in zip(skeleton_questions, items, strict=True)
+    }
+    source_by_ref = {question.question_ref: question for question in source.questions}
+    attrs_by_ref: dict[str, list[ImageAttributionV2]] = defaultdict(list)
+    for attr in source.attributions:
+        if (
+            attr.state in ("accepted", "needs_review")
+            and isinstance(
+                attr.target, (TargetQuestionSolutionStep, TargetPartSolutionStep)
+            )
+        ):
+            attrs_by_ref[attr.question_ref].append(attr)
+
+    for question_ref, attrs in attrs_by_ref.items():
+        item = item_by_ref[question_ref]
+        crops = item.get("solution") or []
+        ordered = sorted(attrs, key=_target_sort_key)
+        if len(crops) != len(ordered):
+            raise ValueError(
+                f"question {question_ref}: projected solution crop/target count mismatch"
+            )
+        question = source_by_ref[question_ref]
+        for crop, attr in zip(crops, ordered, strict=True):
+            index = _projected_solution_step_index(question, attr)
+            crop["assignment_path"] = f"/solution_steps/{index}/diagram_col"
+
+
 def project_source_to_draft(
     source: SourcePaper,
     skeleton: QuestionTranscriptionBundle,
@@ -276,6 +355,7 @@ def project_source_to_draft(
     if draft is None or report.errors:
         details = "; ".join(error.detail for error in report.errors)
         raise ValueError(f"v1 DraftAssembler rejected projected source: {details}")
+    _stamp_solution_assignment_paths(draft, source, skeleton)
     return draft, report
 
 

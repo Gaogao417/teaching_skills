@@ -121,12 +121,18 @@ class TranscriptionState(StrictModel):
     human_review: TranscriptionStatus = "pending"
     prompt_status: PromptReviewStatus = "author_pass"
     prompt_review_notes: list[str] = Field(default_factory=list)
+    solution_status: PromptReviewStatus = "author_pass"
+    solution_review_notes: list[str] = Field(default_factory=list)
 
     @model_validator(mode="after")
     def validate_prompt_review(self) -> "TranscriptionState":
         if self.prompt_status == "needs_human_crop" and not self.prompt_review_notes:
             raise ValueError(
                 "prompt_review_notes is required when prompt_status is needs_human_crop"
+            )
+        if self.solution_status == "needs_human_crop" and not self.solution_review_notes:
+            raise ValueError(
+                "solution_review_notes is required when solution_status is needs_human_crop"
             )
         return self
 

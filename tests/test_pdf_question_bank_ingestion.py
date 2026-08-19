@@ -23,6 +23,7 @@ from audit_staging import (  # noqa: E402
     box_area,
     box_intersection_area,
     choice_values,
+    find_transcription_placeholder,
     mentions_figure,
     normalize_choice_labels,
     validate_question_numbering,
@@ -1670,3 +1671,31 @@ def test_numbering_rejects_invalid_claim_reason(tmp_path: Path) -> None:
     )
     assert any("reason must be one of" in e for e in errors)
     assert any("question 6 is missing" in e for e in errors)
+
+
+def test_find_transcription_placeholder_markers() -> None:
+    """转写占位符（如「未出现在所给逐页文本中」）必须能被审计发现。"""
+    teacher_with_placeholder = {
+        "sections": [
+            {
+                "blocks": [
+                    {
+                        "stem_latex": "证明题题干",
+                        "solution_steps": [
+                            "$\\because AD \\cdot OC = AB \\cdot OD$",
+                            "（第 (2) 小题的证明过程未出现在所给逐页文本中）",
+                        ],
+                    }
+                ]
+            }
+        ]
+    }
+    marker = find_transcription_placeholder(teacher_with_placeholder)
+    assert marker == "未出现在所给逐页文本中"
+    assert find_transcription_placeholder({"sections": []}) is None
+    assert (
+        find_transcription_placeholder(
+            {"sections": [{"blocks": [{"stem_latex": "正常题干 $x+1$"}]}]}
+        )
+        is None
+    )

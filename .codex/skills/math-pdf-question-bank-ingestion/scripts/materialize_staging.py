@@ -68,7 +68,13 @@ def materialize_crop(
 ) -> None:
     source = Path(str(crop.get("source", "")))
     if not source.is_absolute():
-        source = repo_root / source
+        # Composed image groups use a staging-relative ``items/<id>/...``
+        # source. Original evidence paths remain repository-relative.
+        source = (
+            item_dir.parents[1] / source
+            if source.parts and source.parts[0] == "items"
+            else repo_root / source
+        )
     source = source.resolve()
     if not inside(source, repo_root):
         raise ValueError(f"{label}: source escapes repo root")

@@ -65,6 +65,25 @@ def test_prompt_human_crop_marker_requires_a_note() -> None:
     assert state.prompt_status == "needs_human_crop"
 
 
+def test_solution_human_crop_marker_requires_a_note() -> None:
+    base = {
+        "question_status": "author_pass",
+        "official_solution_status": "author_pass",
+    }
+    with pytest.raises(ValueError, match="solution_review_notes"):
+        TranscriptionState.model_validate(
+            {**base, "solution_status": "needs_human_crop"}
+        )
+    state = TranscriptionState.model_validate(
+        {
+            **base,
+            "solution_status": "needs_human_crop",
+            "solution_review_notes": ["解答图无法唯一绑定步骤。"],
+        }
+    )
+    assert state.solution_status == "needs_human_crop"
+
+
 def source_fixture(tmp_path: Path, *, approved: bool = False) -> Path:
     tmp_path.mkdir(parents=True, exist_ok=True)
     original = tmp_path / "original.png"

@@ -94,6 +94,58 @@ def test_solution_crops_are_not_planned():
     assert decisions == []
 
 
+def test_solution_crops_are_planned_per_step_without_cross_step_grouping():
+    draft = _draft_with(prompt_count=0)
+    item = draft["sections"][0]["items"][0]
+    item["solution"] = [
+        {
+            "source": "media/a.png",
+            "box_px": [0, 0, 100, 80],
+            "assignment_path": "/solution_steps/0/diagram_col",
+        },
+        {
+            "source": "media/b.png",
+            "box_px": [0, 0, 100, 80],
+            "assignment_path": "/solution_steps/1/diagram_col",
+        },
+    ]
+
+    decision = plan_placements(draft)[0]
+    assert [placement.kind for placement in decision.placements] == [
+        "single_image",
+        "single_image",
+    ]
+    assert [placement.assignment_path for placement in decision.placements] == [
+        "/solution_steps/0/diagram_col",
+        "/solution_steps/1/diagram_col",
+    ]
+
+
+def test_multiple_solution_figures_for_one_step_are_grouped(tmp_path):
+    draft = _draft_with(prompt_count=0)
+    item = draft["sections"][0]["items"][0]
+    item["solution"] = [
+        {
+            "source": "media/a.png",
+            "box_px": [0, 0, 100, 80],
+            "assignment_path": "/solution_steps/2/diagram_col",
+        },
+        {
+            "source": "media/b.png",
+            "box_px": [0, 0, 120, 90],
+            "assignment_path": "/solution_steps/2/diagram_col",
+        },
+    ]
+    _png(tmp_path / "media/a.png", 100, 80)
+    _png(tmp_path / "media/b.png", 120, 90)
+
+    resolved = resolve_placement_decisions(draft, tmp_path, staging_dir=None)
+    solution = resolved.draft["sections"][0]["items"][0]["solution"]
+    assert len(solution) == 1
+    assert solution[0]["assignment_path"] == "/solution_steps/2/diagram_col"
+    assert solution[0]["source"].endswith("solution-step-2-group.png")
+
+
 def test_no_images_yields_no_decisions():
     decisions = plan_placements({
         "sections": [{"items": [{"item_id": "Q001", "prompt": [],
@@ -237,6 +289,31 @@ def test_baoshan_q24_three_figures_resolve_to_one_group(tmp_path):
     )
     assert audit["placements"][0]["image_ids"] == ["image295.png", "image301.png", "image302.png"]
     assert audit["placements"][0]["layout"] == "vertical"
+
+
+def test_composed_group_is_materializable_from_staging_relative_source(tmp_path):
+    import importlib.util
+
+    repo = tmp_path
+    draft = _baoshan_q24_draft(repo)
+    staging = repo / "build/run/structured"
+    resolved = resolve_placement_decisions(draft, repo, staging_dir=staging)
+    resolved.renderer.compose_groups(staging)
+    crop = resolved.draft["sections"][0]["items"][0]["prompt"][0]
+    crop["output"] = "assets/prompt-01.png"
+
+    ingestion = ROOT / ".codex/skills/math-pdf-question-bank-ingestion/scripts"
+    spec = importlib.util.spec_from_file_location(
+        "materialize_staging", ingestion / "materialize_staging.py"
+    )
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)  # type: ignore[union-attr]
+    item_dir = staging / "items/Q024"
+    module.materialize_crop(
+        crop, item_dir=item_dir, repo_root=repo, label="Q024 prompt[0]"
+    )
+
+    assert (item_dir / "assets/prompt-01.png").is_file()
 
 
 def test_baoshan_q24_resolved_draft_passes_expander_multi_crop_check(tmp_path):

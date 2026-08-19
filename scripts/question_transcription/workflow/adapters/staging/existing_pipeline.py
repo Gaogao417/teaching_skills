@@ -151,8 +151,13 @@ class DeterministicDraftProjector:
                     {
                         "schema": "placement_plan/v1",
                         "groups": [
-                            {"question_id": qid, "role": role, **entry}
-                            for (qid, role), entry in plan.items()
+                            {
+                                "question_id": qid,
+                                "role": role,
+                                "assignment_path": assignment_path,
+                                **entry,
+                            }
+                            for (qid, role, assignment_path), entry in plan.items()
                         ],
                     },
                     "placement_plan/v1",
@@ -192,11 +197,6 @@ class DeterministicEvidenceCompleter:
 
             ref = _as_ref(draft_ref)
             payload = self.store.read_yaml(ref)
-            # 含图题的题图补齐（vision 检测；详见 _attach_figure_prompt_crops）。
-            payload = self._attach_figure_prompt_crops(payload)
-            # 同一题可有多张独立子图（如综合实践题的图1～图4）。复用既有
-            # image-group planner 把它们合成一个 prompt，满足 v1 单图槽约束。
-            payload = self._resolve_figure_image_groups(payload)
             # ``layout`` is None for the normal graph path, which selects the
             # resolver's "auto" inference. The recover command passes an explicit
             # "interleaved"/"separated" after a human confirms the source layout,
@@ -208,6 +208,13 @@ class DeterministicEvidenceCompleter:
                 layout=resolve_layout,
                 layout_override_seeds=layout_override_seeds,
             )
+            # Figure detection must run AFTER evidence completion: a solution
+            # diagram often lives on the second/third answer page (Minhang Q25),
+            # not on the transcriber's seed page. Detect prompt and solution roles
+            # independently, then resolve same-target image groups before expand.
+            updated = self._attach_figure_prompt_crops(updated)
+            updated = self._attach_figure_solution_crops(updated)
+            updated = self._resolve_figure_image_groups(updated)
             completed_ref = self.store.commit_yaml(
                 ref.path,
                 updated,
@@ -226,7 +233,7 @@ class DeterministicEvidenceCompleter:
             return None, "evidence_failed", f"{type(exc).__name__}: {exc}"
 
     def _resolve_figure_image_groups(self, payload: dict) -> dict:
-        """Resolve newly detected multi-figure prompts and persist their plan."""
+        """Resolve newly detected prompt/solution groups and persist their plan."""
 
         import yaml as _yaml
 
@@ -238,16 +245,21 @@ class DeterministicEvidenceCompleter:
             return resolved.draft
 
         plan_path = self.store.layout.structured_dir / "placement-plan.yaml"
-        groups_by_key: dict[tuple[str, str], dict] = {}
+        groups_by_key: dict[tuple[str, str, str], dict] = {}
         if plan_path.exists():
             existing = _yaml.safe_load(plan_path.read_text(encoding="utf-8")) or {}
             for group in existing.get("groups", []) or []:
-                key = (str(group.get("question_id")), str(group.get("role")))
+                key = (
+                    str(group.get("question_id")),
+                    str(group.get("role")),
+                    str(group.get("assignment_path") or ""),
+                )
                 groups_by_key[key] = group
-        for (question_id, role), entry in new_plan.items():
-            groups_by_key[(question_id, role)] = {
+        for (question_id, role, assignment_path), entry in new_plan.items():
+            groups_by_key[(question_id, role, assignment_path)] = {
                 "question_id": question_id,
                 "role": role,
+                "assignment_path": assignment_path,
                 **entry,
             }
         self.store.commit_yaml(
@@ -271,20 +283,56 @@ class DeterministicEvidenceCompleter:
         写入 prompt_status=needs_human_crop 与明确备注。audit 的含图题可视证据
         规则保持 fail-closed，不因这个人工标记而放松。
         """
+        return DeterministicEvidenceCompleter._attach_figure_role_crops(
+            payload, role="prompt", detector=detector
+        )
+
+    @staticmethod
+    def _attach_figure_solution_crops(payload: dict, *, detector=None) -> dict:
+        """裁取官方解答中的独立插图，并绑定到唯一解答步骤。
+
+        解答图只从 ``official_solution.word_evidence`` 的完整页范围检测；检测器
+        必须返回题号、可见解答锚点和 0-based step index，裁片还须通过二次视觉
+        校验。无法唯一绑定时不写 ``solution``，仅记录人工补裁状态。
+        """
+
+        return DeterministicEvidenceCompleter._attach_figure_role_crops(
+            payload, role="solution", detector=detector
+        )
+
+    @staticmethod
+    def _attach_figure_role_crops(
+        payload: dict, *, role: str, detector=None
+    ) -> dict:
+        """Attach validated rendered-page figures for one semantic role."""
+
         import re as _re
 
         from PIL import Image as _Image
 
+        if role not in {"prompt", "solution"}:
+            raise ValueError(f"unsupported figure role: {role}")
         figure_reference = _re.compile(r"如图|图所示|下图|上图|图中|示意图")
+        solution_figure_reference = _re.compile(
+            r"如(?:右|左)?图|第\s*\d+\s*题图|小题图|图\s*[一二三四五六七八九十\d]+|画图|作图"
+        )
         pending: list[tuple[dict, list[tuple[Path, int]]]] = []
         for section in payload.get("sections") or []:
             for item in section.get("items") or []:
-                if not isinstance(item, dict) or item.get("prompt"):
+                if not isinstance(item, dict) or item.get(role):
                     continue
-                stem = str((item.get("block") or {}).get("stem_latex") or "")
-                if not figure_reference.search(stem):
-                    continue
-                entries = item.get("question_word_evidence") or []
+                block = item.get("block") or {}
+                if role == "prompt":
+                    stem = str(block.get("stem_latex") or "")
+                    if not figure_reference.search(stem):
+                        continue
+                    entries = item.get("question_word_evidence") or []
+                else:
+                    if not (block.get("solution_steps") or []):
+                        continue
+                    entries = (item.get("official_solution") or {}).get(
+                        "word_evidence"
+                    ) or []
                 if not entries:
                     continue
                 pages: list[tuple[Path, int]] = []
@@ -332,6 +380,9 @@ class DeterministicEvidenceCompleter:
                 {
                     "question_number": item.get("question_number"),
                     "stem": (item.get("block") or {}).get("stem_latex") or "",
+                    "solution_steps": (item.get("block") or {}).get(
+                        "solution_steps"
+                    ) or [],
                 }
                 for item, _ in page_items
             ]
@@ -341,49 +392,87 @@ class DeterministicEvidenceCompleter:
                 page_sha256=sha,
                 questions=questions,
                 page_size=page_size,
+                role=role,
             )
 
         for item, pages in pending:
             number = int(item.get("question_number"))
-            matches: list[tuple[Path, int, list[int]]] = []
+            matches: list[tuple[Path, int, list[int], int | None]] = []
             rejection_notes: list[str] = []
             for page_path, page_number in pages:
                 result = detection_results.get(page_path) or FigureDetectionResult()
-                matches.extend(
-                    (page_path, page_number, box)
-                    for box in result.boxes.get(number, [])
-                )
+                boxes = result.boxes.get(number, [])
+                step_indices = result.step_indices.get(number, [])
+                for index, box in enumerate(boxes):
+                    step_index = (
+                        step_indices[index] if index < len(step_indices) else None
+                    )
+                    matches.append((page_path, page_number, box, step_index))
                 rejection_notes.extend(result.review_notes.get(number, []))
 
             if matches:
                 crops: list[dict] = []
-                for index, (page_path, page_number, box) in enumerate(matches, 1):
-                    attribution_id = f"figure-detect-p{page_number}-q{number}"
+                for index, (page_path, page_number, box, step_index) in enumerate(
+                    matches, 1
+                ):
+                    if role == "solution" and step_index is None:
+                        continue
+                    attribution_id = (
+                        f"figure-detect-p{page_number}-q{number}"
+                        if role == "prompt"
+                        else f"figure-detect-solution-p{page_number}-q{number}"
+                    )
                     if len(matches) > 1:
                         attribution_id += f"-{index}"
-                    crops.append(
-                        {
-                            "source": str(page_path),
-                            "box_px": box,
-                            "attribution_review": {
-                                "attribution_id": attribution_id,
-                                "state": "needs_review",
-                                "confidence": "medium",
-                            },
-                        }
-                    )
-                item["prompt"] = crops
-                continue
+                    crop = {
+                        "source": str(page_path),
+                        "box_px": box,
+                        "attribution_review": {
+                            "attribution_id": attribution_id,
+                            "state": "needs_review",
+                            "confidence": "medium",
+                        },
+                    }
+                    if role == "solution":
+                        crop["assignment_path"] = (
+                            f"/solution_steps/{step_index}/diagram_col"
+                        )
+                    crops.append(crop)
+                if crops:
+                    item[role] = crops
+                    if not rejection_notes:
+                        continue
 
+            block = item.get("block") or {}
+            if role == "prompt":
+                expected = True
+                status_key = "prompt_status"
+                notes_key = "prompt_review_notes"
+                role_label = "题图"
+            else:
+                expected = any(
+                    solution_figure_reference.search(str(step))
+                    for step in block.get("solution_steps") or []
+                )
+                status_key = "solution_status"
+                notes_key = "solution_review_notes"
+                role_label = "解答图"
+            # An empty detector result is normal for a text-only official
+            # solution. Only surface a missing-crop state when the transcribed
+            # solution explicitly refers to drawing/figure evidence, or when a
+            # candidate was rejected/ambiguous.
+            if not expected and not rejection_notes:
+                continue
             if not rejection_notes:
                 rejection_notes.append("自动检测未找到通过插图内容校验的候选框")
             note = (
-                "自动插图检测未得到唯一且通过自校验的题图；请对照原始页人工补裁。"
+                f"自动插图检测未得到唯一且通过自校验的{role_label}；"
+                "请对照原始页人工补裁。"
                 + "；".join(dict.fromkeys(rejection_notes))
             )
             transcription = item.setdefault("transcription", {})
-            transcription["prompt_status"] = "needs_human_crop"
-            existing_notes = transcription.setdefault("prompt_review_notes", [])
+            transcription[status_key] = "needs_human_crop"
+            existing_notes = transcription.setdefault(notes_key, [])
             if note not in existing_notes:
                 existing_notes.append(note)
         return payload

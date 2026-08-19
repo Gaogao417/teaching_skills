@@ -18,12 +18,13 @@ is shown adjacent and the downgrade is recorded as a non-blocking warning.
 from __future__ import annotations
 
 import hashlib
+import re
 from pathlib import Path
 from typing import Any
 
 import yaml
 
-from .image_placement import PlacementDecision, Placement
+from .image_placement import PlacementDecision, Placement, _indexed_crop_ids
 
 
 __all__ = [
@@ -57,7 +58,7 @@ class ImageGroupRenderer:
         self.repo_root = repo_root
         # Stashed by render() so compose_groups() can write the PNGs after the
         # staging tree exists.
-        self._last_composition_plan: dict[tuple[str, str], dict] = {}
+        self._last_composition_plan: dict[tuple[str, str, str], dict] = {}
 
     @classmethod
     def from_plan_file(cls, plan_path: Path, repo_root: Path) -> "ImageGroupRenderer":
@@ -74,9 +75,11 @@ class ImageGroupRenderer:
         for group in payload.get("groups", []) or []:
             qid = str(group.get("question_id"))
             role = str(group.get("role"))
-            renderer._last_composition_plan[(qid, role)] = {
+            assignment_path = str(group.get("assignment_path") or "")
+            renderer._last_composition_plan[(qid, role, assignment_path)] = {
                 "members": list(group.get("members") or []),
                 "composed_source": str(group.get("composed_source") or ""),
+                "assignment_path": assignment_path,
             }
         return renderer
 
@@ -102,9 +105,9 @@ class ImageGroupRenderer:
                 items_by_id[str(item.get("item_id") or "")] = item
 
         audit_records: list[dict] = []
-        # Stash the composition plan keyed by (item_id, role) so compose_groups
-        # can write the PNGs after the staging tree exists.
-        composition_plan: dict[tuple[str, str], dict] = {}
+        # Stash the composition plan keyed by (item_id, role, assignment_path)
+        # so separate solution steps never overwrite one another.
+        composition_plan: dict[tuple[str, str, str], dict] = {}
 
         for decision in decisions:
             item = items_by_id.get(decision.question_id)
@@ -120,12 +123,22 @@ class ImageGroupRenderer:
                 # Deterministic composed path + dimensions derived from member
                 # box_px (no file IO here). The path is staging-relative and
                 # resolved by the materializer against repo_root.
-                composed_rel = _composed_rel_path(decision.question_id, placement.role)
+                composed_rel = _composed_rel_path(
+                    decision.question_id,
+                    placement.role,
+                    placement.assignment_path,
+                )
                 width, height = _vertical_dims_from_members(members)
                 _replace_group_with_single_crop(
                     item, placement, members, composed_rel, width, height
                 )
-                composition_plan[(decision.question_id, placement.role)] = {
+                composition_plan[
+                    (
+                        decision.question_id,
+                        placement.role,
+                        placement.assignment_path,
+                    )
+                ] = {
                     "members": [
                         {
                             "source": str(member.get("source") or ""),
@@ -134,6 +147,7 @@ class ImageGroupRenderer:
                         for member in members
                     ],
                     "composed_source": composed_rel,
+                    "assignment_path": placement.assignment_path,
                 }
                 audit_records.append(_audit_record(decision, placement, members, composed_rel))
 
@@ -142,7 +156,8 @@ class ImageGroupRenderer:
             # Persist the composition plan so compose_groups (in the materialize
             # step) can write the PNGs without re-deriving the plan.
             payload = {"placements": audit_records, "_composition_plan": {
-                f"{qid}:{role}": plan for (qid, role), plan in composition_plan.items()
+                f"{qid}:{role}:{assignment_path}": plan
+                for (qid, role, assignment_path), plan in composition_plan.items()
             }}
             if staging_dir is not None:
                 decisions_path = str((staging_dir / "placement-decisions.yaml"))
@@ -178,11 +193,11 @@ class ImageGroupRenderer:
         plan = getattr(self, "_last_composition_plan", None) or {}
         if not plan:
             return
-        for (question_id, role), entry in plan.items():
+        for (question_id, role, _assignment_path), entry in plan.items():
             member_specs = entry["members"]
             out_dir = staging_dir / "items" / question_id / "assets"
             out_dir.mkdir(parents=True, exist_ok=True)
-            out_path = out_dir / f"{role}-group.png"
+            out_path = out_dir / Path(entry["composed_source"]).name
             images: list[Image.Image] = []
             for member in member_specs:
                 if isinstance(member, dict):
@@ -237,27 +252,34 @@ class ImageGroupRenderer:
 def _stamp_single(item: dict, placement: Placement) -> None:
     """Set assignment_path on the single crop of a role (no composition)."""
 
-    crops = _role_crops(item, placement.role)
-    if not crops:
+    members = _collect_member_crops(item, placement)
+    if len(members) != 1:
         return
-    crops[0]["assignment_path"] = placement.assignment_path
+    members[0]["assignment_path"] = placement.assignment_path
 
 
 def _collect_member_crops(item: dict, placement: Placement) -> list[dict]:
     """Return the crop dicts that belong to this group, in order."""
 
     crops = _role_crops(item, placement.role)
-    # The group covers all crops of this role (the planner grouped the whole list).
-    return list(crops)
+    ids = _indexed_crop_ids(crops)
+    wanted = set(placement.image_ids)
+    return [crop for crop, crop_id in zip(crops, ids, strict=True) if crop_id in wanted]
 
 
-def _composed_rel_path(question_id: str, role: str) -> str:
+def _composed_rel_path(question_id: str, role: str, assignment_path: str) -> str:
     """The deterministic staging-relative path for a composed group PNG.
 
     ``items/<id>/assets/<role>-group.png``. The materializer resolves this
     against repo_root (materialize_crop does ``repo_root / source``).
     """
-    return f"items/{question_id}/assets/{role}-group.png"
+    if role == "prompt" and assignment_path == "/diagram_col":
+        filename = "prompt-group.png"
+    else:
+        match = re.search(r"/solution_steps/(\d+)/diagram_col$", assignment_path)
+        suffix = f"-step-{match.group(1)}" if match else ""
+        filename = f"{role}{suffix}-group.png"
+    return f"items/{question_id}/assets/{filename}"
 
 
 def _vertical_dims_from_members(members: list[dict]) -> tuple[int, int]:
@@ -320,11 +342,18 @@ def _replace_group_with_single_crop(
     merged = _merge_member_attribution_reviews(members)
     if merged is not None:
         new_crop["attribution_review"] = merged
-    if placement.role == "prompt":
-        item["prompt"] = [new_crop]
-    else:
-        official = item.setdefault("official_solution", {})
-        official["crops"] = [new_crop]
+    crops = _role_crops(item, placement.role)
+    member_ids = {id(member) for member in members}
+    rewritten: list[dict] = []
+    inserted = False
+    for crop in crops:
+        if id(crop) not in member_ids:
+            rewritten.append(crop)
+            continue
+        if not inserted:
+            rewritten.append(new_crop)
+            inserted = True
+    _set_role_crops(item, placement.role, rewritten)
 
 
 # Confidence rank (higher = weaker); used to pick the lowest confidence among
@@ -366,7 +395,14 @@ def _merge_member_attribution_reviews(members: list[dict]) -> dict | None:
 def _role_crops(item: dict, role: str) -> list[dict]:
     if role == "prompt":
         return item.get("prompt") or []
-    return ((item.get("official_solution") or {}).get("crops")) or []
+    return item.get("solution") or []
+
+
+def _set_role_crops(item: dict, role: str, crops: list[dict]) -> None:
+    if role == "prompt":
+        item["prompt"] = crops
+    else:
+        item["solution"] = crops
 
 
 def _audit_record(

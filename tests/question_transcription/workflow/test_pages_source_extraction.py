@@ -499,7 +499,8 @@ def test_figure_prompt_crops_use_validated_detection_and_fail_closed(
     }
 
     class _FakeDetector:
-        def detect(self, page_path, *, page_sha256, questions, page_size):
+        def detect(self, page_path, *, page_sha256, questions, page_size, role="prompt"):
+            assert role == "prompt"
             assert [q["question_number"] for q in questions] == [18, 19]
             return {18: [[100, 120, 500, 420]]}
 
@@ -565,7 +566,8 @@ def test_figure_prompt_detection_checks_all_question_evidence_pages(
     }
 
     class _CrossPageFakeDetector:
-        def detect(self, page_path, *, page_sha256, questions, page_size):
+        def detect(self, page_path, *, page_sha256, questions, page_size, role="prompt"):
+            assert role == "prompt"
             assert [question["question_number"] for question in questions] == [6]
             if page_path == second_page:
                 return {6: [[800, 80, 1120, 360]]}
@@ -615,7 +617,8 @@ def test_multiple_figures_for_one_question_are_composed_from_region_crops(
     }
 
     class _MultiFigureFakeDetector:
-        def detect(self, page_path, *, page_sha256, questions, page_size):
+        def detect(self, page_path, *, page_sha256, questions, page_size, role="prompt"):
+            assert role == "prompt"
             return {22: [[0, 0, 20, 10], [30, 30, 80, 50]]}
 
     from scripts.question_transcription.workflow.adapters.staging.existing_pipeline import (
@@ -650,6 +653,90 @@ def test_multiple_figures_for_one_question_are_composed_from_region_crops(
     renderer.compose_groups(staging)
     with Image.open(staging / "items" / "Q022" / "assets" / "prompt-group.png") as group:
         assert group.size == (50, 30)
+
+
+def test_solution_figures_attach_to_exact_steps_and_fail_closed(
+    tmp_path: Path,
+) -> None:
+    from PIL import Image
+
+    from scripts.question_transcription.workflow.adapters.source.figure_detection import (
+        FigureDetectionResult,
+    )
+    from scripts.question_transcription.workflow.adapters.staging.existing_pipeline import (
+        DeterministicEvidenceCompleter,
+    )
+
+    page = tmp_path / "answers" / "009.png"
+    page.parent.mkdir(parents=True)
+    Image.new("RGB", (1200, 1600), "white").save(page)
+    payload = {
+        "schema": "math_exam_staging_draft/v1",
+        "sections": [{
+            "id": "problem",
+            "title": "解答",
+            "items": [
+                {
+                    "item_id": "Q020",
+                    "question_number": 20,
+                    "solution": [],
+                    "block": {
+                        "stem_latex": "证明。",
+                        "solution_steps": ["先证明。", "作辅助线，如图。"],
+                    },
+                    "official_solution": {
+                        "word_evidence": [
+                            {"page_image": str(page), "page_number": 9}
+                        ]
+                    },
+                },
+                {
+                    "item_id": "Q021",
+                    "question_number": 21,
+                    "solution": [],
+                    "block": {
+                        "stem_latex": "计算。",
+                        "solution_steps": ["作图后求值。"],
+                    },
+                    "official_solution": {
+                        "word_evidence": [
+                            {"page_image": str(page), "page_number": 9}
+                        ]
+                    },
+                },
+            ],
+        }],
+    }
+
+    class _SolutionDetector:
+        def detect(self, page_path, *, page_sha256, questions, page_size, role="prompt"):
+            assert role == "solution"
+            assert [question["question_number"] for question in questions] == [20, 21]
+            return FigureDetectionResult(
+                boxes={20: [[100, 200, 500, 600]]},
+                step_indices={20: [1]},
+                review_notes={21: ["候选裁片主体是解答文字"]},
+            )
+
+    updated = DeterministicEvidenceCompleter._attach_figure_solution_crops(
+        payload, detector=_SolutionDetector()
+    )
+    items = updated["sections"][0]["items"]
+    assert items[0]["solution"] == [
+        {
+            "source": str(page),
+            "box_px": [100, 200, 500, 600],
+            "attribution_review": {
+                "attribution_id": "figure-detect-solution-p9-q20",
+                "state": "needs_review",
+                "confidence": "medium",
+            },
+            "assignment_path": "/solution_steps/1/diagram_col",
+        }
+    ]
+    assert items[1]["solution"] == []
+    assert items[1]["transcription"]["solution_status"] == "needs_human_crop"
+    assert "主体是解答文字" in items[1]["transcription"]["solution_review_notes"][0]
 
 
 def test_low_resolution_page_gets_2x_ocr_upscale(tmp_path: Path) -> None:

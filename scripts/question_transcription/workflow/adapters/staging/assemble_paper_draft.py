@@ -19,7 +19,7 @@ Design rules (§7.1-7.5):
     region  -> question_evidence       / official_solution.crops
 - Image mapping:
     role=prompt   -> draft prompt[]
-    role=solution -> draft official_solution.crops[]  (per §7.3 / §13.4)
+    role=solution -> draft solution[] (teacher-only, bound to solution_steps)
   ``state == "accepted"`` and ``state == "needs_review"`` attributions are both
   consumed, each exactly once; ``rejected``/unknown are discarded. A
   ``needs_review`` attribution enters the draft (its crop carries an
@@ -433,24 +433,21 @@ def _build_item(
         if crop is not None:
             item["prompt"].append(crop)
 
-    # official_solution: anchors + crops(region evidence) + word_evidence(page evidence)
+    # Independent official-answer diagrams are teacher-only solution crops.
+    # They are distinct from the complete official-answer source evidence below.
+    item["solution"] = []
+    for attr, asset in solution_pairs:
+        crop = _resolve_crop(attr, asset, errors)
+        if crop is not None:
+            item["solution"].append(crop)
+
+    # official_solution: anchors + region/page evidence for the complete answer.
     official: dict[str, Any] = {
         "start_anchor": question.evidence.solution_start_anchor,
         "end_anchor": question.evidence.solution_end_anchor,
     }
-    # solution images (role=solution) live in official_solution.crops per §7.3
-    sol_image_crops: list[dict[str, Any]] = []
-    for attr, asset in solution_pairs:
-        crop = _resolve_crop(attr, asset, errors)
-        if crop is not None:
-            sol_image_crops.append(crop)
-    # Merge: solution image crops + region-evidence solution crops. Image crops
-    # first (they are the attributed figures), then the region-evidence crops
-    # (the official-answer page regions). Both are legitimate crops on the same
-    # list; the expander treats them identically.
-    merged_crops = sol_image_crops + s_crops
-    if merged_crops:
-        official["crops"] = merged_crops
+    if s_crops:
+        official["crops"] = s_crops
     if s_spans:
         official["word_evidence"] = s_spans
     item["official_solution"] = official

@@ -84,7 +84,7 @@ class PlacementPlanner:
     """Plan image placement for a v1-compatible draft.
 
     ``plan`` consumes the draft items (each with a ``prompt`` and/or
-    ``official_solution.crops`` list of crops) and returns one
+    teacher-only ``solution`` list of crops) and returns one
     :class:`PlacementDecision` per question that has images.
     """
 
@@ -100,9 +100,9 @@ class PlacementPlanner:
 def plan_placements(draft: dict) -> list[PlacementDecision]:
     """Plan placements for every question in a v1 draft.
 
-    For each item, the prompt list and the official_solution.crops list are each
-    examined. A single image maps to ``SingleImage``; multiple images map to one
-    ``ImageGroup`` (vertical) with a non-blocking warning.
+    For each item, prompt and solution crops are grouped by assignment path.
+    A single image maps to ``SingleImage``; multiple images at the same scalar
+    path map to one ``ImageGroup`` (vertical) with a non-blocking warning.
     """
 
     decisions: list[PlacementDecision] = []
@@ -118,14 +118,18 @@ def plan_placements(draft: dict) -> list[PlacementDecision]:
 def _plan_item(item_id: str, item: dict) -> PlacementDecision:
     decision = PlacementDecision(question_id=item_id)
 
-    # Only prompt figures are subject to placement planning. official_solution
-    # crops are SOURCE EVIDENCE (regions of the original answer page), not
-    # teacher-version solution-step diagrams — they must NOT be bound to
-    # /solution_steps/N/diagram_col or composed into a group. They pass through
-    # unchanged; the expander handles them via official_solution.crops.
     prompt_crops = item.get("prompt") or []
     if prompt_crops:
         _plan_role(item_id, "prompt", prompt_crops, "/diagram_col", decision)
+    solution_crops = item.get("solution") or []
+    if solution_crops:
+        _plan_role(
+            item_id,
+            "solution",
+            solution_crops,
+            "/solution_steps/0/diagram_col",
+            decision,
+        )
 
     return decision
 
@@ -137,43 +141,47 @@ def _plan_role(
     default_path: str,
     decision: PlacementDecision,
 ) -> None:
-    # Identify each crop by a stable id derived from its source leaf. The
-    # renderer composes them in this order.
-    image_ids = [_crop_id(c, idx) for idx, c in enumerate(crops)]
+    ids = _indexed_crop_ids(crops)
+    grouped: dict[str, list[tuple[int, dict]]] = {}
+    for index, crop in enumerate(crops):
+        path = str(crop.get("assignment_path") or default_path)
+        grouped.setdefault(path, []).append((index, crop))
 
-    if len(crops) == 1:
+    for path, members in grouped.items():
+        image_ids = [ids[index] for index, _crop in members]
+        if len(members) == 1:
+            decision.placements.append(
+                Placement(
+                    kind="single_image",
+                    image_ids=image_ids,
+                    assignment_path=path,
+                    layout="single",
+                    role=role,
+                )
+            )
+            continue
+
+        # Multiple images at one scalar target are composed without changing
+        # their question/step ownership. Distinct paths remain distinct.
         decision.placements.append(
             Placement(
-                kind="single_image",
+                kind="image_group",
                 image_ids=image_ids,
-                assignment_path=default_path,
-                layout="single",
+                assignment_path=path,
+                layout="vertical",
                 role=role,
             )
         )
-        return
-
-    # Multiple images for one role: group them vertically at the default path.
-    # This is a layout downgrade, not a review (order + ownership are clear).
-    decision.placements.append(
-        Placement(
-            kind="image_group",
-            image_ids=image_ids,
-            assignment_path=default_path,
-            layout="vertical",
-            role=role,
+        decision.warnings.append(
+            PlacementWarning(
+                code="grouped_adjacent_to_scalar_stem",
+                message=(
+                    f"{item_id} {role}: {len(members)} images share the scalar path "
+                    f"{path}; composed vertically as an adjacent group "
+                    f"(original per-segment inline position not expressible in v1)"
+                ),
+            )
         )
-    )
-    decision.warnings.append(
-        PlacementWarning(
-            code="grouped_adjacent_to_scalar_stem",
-            message=(
-                f"{item_id} {role}: {len(crops)} images share the scalar path "
-                f"{default_path}; composed vertically as an adjacent group "
-                f"(original per-segment inline position not expressible in v1)"
-            ),
-        )
-    )
 
 
 def _crop_id(crop: dict, idx: int) -> str:
@@ -182,3 +190,14 @@ def _crop_id(crop: dict, idx: int) -> str:
     source = str(crop.get("source") or "")
     leaf = source.rsplit("/", 1)[-1] if source else ""
     return leaf or f"crop-{idx}"
+
+
+def _indexed_crop_ids(crops: list[dict]) -> list[str]:
+    """Return stable IDs, disambiguating several boxes cut from one page."""
+
+    base = [_crop_id(crop, index) for index, crop in enumerate(crops)]
+    counts = {value: base.count(value) for value in set(base)}
+    return [
+        value if counts[value] == 1 else f"{value}#{index}"
+        for index, value in enumerate(base)
+    ]

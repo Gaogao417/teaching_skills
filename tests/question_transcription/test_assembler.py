@@ -70,10 +70,10 @@ def test_accepted_consumed_once_ignored_not_consumed():
     assert report.consumed_attributions == 2
     assert report.ignored_assets == 1
     item = draft["sections"][0]["items"][0]
-    # image9 -> prompt, image10 -> official_solution.crops
+    # image9 -> prompt, image10 -> teacher-only solution crop
     assert item["prompt"][0]["box_px"] == [0, 0, 475, 512]  # full crop of image9
-    assert item["official_solution"]["crops"][0]["box_px"] == [0, 0, 510, 512]
-    assert item["official_solution"]["crops"][0]["source"].endswith("image10.png")
+    assert item["solution"][0]["box_px"] == [0, 0, 510, 512]
+    assert item["solution"][0]["source"].endswith("image10.png")
 
 
 # --------------------------------------------------------------------------- #
@@ -138,7 +138,7 @@ def test_pdf_region_crop_and_needs_review_warning():
     assert item["prompt"][0]["box_px"] == [650, 315, 1000, 690]
     # The needs_review solution attribution NOW enters crops, tagged with an
     # attribution_review block carrying its original state/confidence.
-    sol_crops = item["official_solution"]["crops"]
+    sol_crops = item["solution"]
     needs_review_crops = [c for c in sol_crops if "attribution_review" in c]
     assert len(needs_review_crops) == 1
     nr = needs_review_crops[0]
@@ -149,8 +149,9 @@ def test_pdf_region_crop_and_needs_review_warning():
         "confidence": "low",
     }
     # accepted crops carry no attribution_review block.
-    accepted_crops = [c for c in sol_crops if "attribution_review" not in c]
-    assert accepted_crops, "expected at least the region-evidence solution crop"
+    # The complete answer-page region remains source evidence, separate from
+    # the independent teacher-only diagram.
+    assert item["official_solution"]["crops"][0]["box_px"] == [80, 120, 1010, 700]
     assert item["official_solution"]["start_anchor"] == "24．"
     assert item["official_solution"]["end_anchor"] == "25．"
 
@@ -279,6 +280,7 @@ def test_yangpu_draft_is_expandable_by_existing_expander(tmp_path):
     # The source.yaml records the prompt + solution crops and the word evidence.
     src = yaml.safe_load((staging / "items/Q001/source.yaml").read_text("utf-8"))
     assert src["crops"]["prompt"][0]["box_px"] == [0, 0, 475, 512]
-    assert src["crops"]["official_solution"][0]["box_px"] == [0, 0, 510, 512]
+    assert src["crops"]["solution"][0]["box_px"] == [0, 0, 510, 512]
+    assert src["crops"]["official_solution"] == []
     assert src["word_evidence"]["question"][0]["page_number"] == 13
     assert src["word_evidence"]["official_solution"][0]["page_number"] == 14

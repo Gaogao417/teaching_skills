@@ -1557,6 +1557,12 @@ class QuestionBankCatalog:
                         "prompt_review_notes": transcription.get(
                             "prompt_review_notes", []
                         ),
+                        "solution_status": transcription.get(
+                            "solution_status", "author_pass"
+                        ),
+                        "solution_review_notes": transcription.get(
+                            "solution_review_notes", []
+                        ),
                         "content_hash": source.get("content_hash", ""),
                     }
                 )
@@ -1869,6 +1875,10 @@ class QuestionBankCatalog:
                 "variant": "solution",
                 "disclosure_policy": "teacher_only",
             }
+            transcription = source.setdefault("transcription", {})
+            if isinstance(transcription, dict):
+                transcription["solution_status"] = "review_pass"
+                transcription["solution_review_notes"] = []
         elif target == "official_solution":
             images = teacher_block.setdefault("source_solution_images", [])
             if not isinstance(images, list):
@@ -1995,6 +2005,12 @@ class QuestionBankCatalog:
             if crop_index is not None:
                 role_crops.pop(crop_index)
             steps[index].pop("diagram_col", None)
+            transcription = source.setdefault("transcription", {})
+            if isinstance(transcription, dict):
+                transcription["solution_status"] = "needs_human_crop"
+                transcription["solution_review_notes"] = [
+                    "解答图已从审核槽位移除，请点击加号后粘贴正确解答图。"
+                ]
         else:
             if index >= len(role_crops):
                 raise ValueError("图片位置不存在")

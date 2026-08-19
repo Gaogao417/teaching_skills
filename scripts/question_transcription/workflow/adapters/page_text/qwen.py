@@ -22,10 +22,17 @@ from ._common import (
     commit_extract,
     image_to_data_url,
     is_role_leak_response,
+    looks_truncated,
+    stitch_band_texts,
 )
 
 
 ADAPTER_ID = "qwen"
+
+# 条带降级的横带几何（占页高比例，两两重叠 ~15%）。对 2026-08-19 观测的
+# 截断页（闵行答案页 004.png），中带完整覆盖了被整页输出丢掉的小问证明。
+_BAND_RATIOS = ((0.0, 0.45), (0.30, 0.75), (0.60, 1.0))
+_BAND_UPSCALE = 2
 
 
 class QwenPageTextExtractor:
@@ -55,6 +62,73 @@ class QwenPageTextExtractor:
             cache_dir=self.cache_dir,
         )
         return self._client
+
+    def _stripe_fallback(self, image_path, job: PageTextJob):
+        """整页输出被判定截断后的条带降级：横切 3 带、各 2x 放大重 OCR、
+        按重叠去重拼接。任何条带仍呈现截断特征 → 结构化失败（fail-closed，
+        由 barrier 拦下整个 run），绝不提交已知不完整的页文本。"""
+        from PIL import Image
+
+        sha = job.image.sha256.removeprefix("sha256:")[:16]
+        band_dir = self.cache_dir / "bands" / sha
+        band_dir.mkdir(parents=True, exist_ok=True)
+        client = self._get_client()
+        texts: list[str] = []
+        for index, (top, bottom) in enumerate(_BAND_RATIOS):
+            band_path = band_dir / f"band-{index}.png"
+            with Image.open(image_path) as page:
+                width, height = page.size
+                band = page.crop(
+                    (0, int(height * top), width, int(height * bottom))
+                ).resize(
+                    (band.width * _BAND_UPSCALE, band.height * _BAND_UPSCALE),
+                    Image.LANCZOS,
+                )
+                band.save(band_path)
+            data_url, _ = image_to_data_url(band_path)
+            try:
+                text, _ = client.complete_text(
+                    messages=build_messages(data_url),
+                    cache_material={
+                        "task": "page_text_ocr",
+                        "prompt_version": PAGE_TEXT_PROMPT_VERSION,
+                        "page_sha256": f"{job.image.sha256}#stripe{index}",
+                    },
+                )
+            except RuntimeError as exc:
+                return None, PageTextFailure(
+                    adapter_id=ADAPTER_ID,
+                    kind="invalid_response",
+                    attempts=1 + index,
+                    detail=f"stripe band {index} request failed: {exc}",
+                )
+            if not text or not text.strip():
+                return None, PageTextFailure(
+                    adapter_id=ADAPTER_ID,
+                    kind="truncated_page_text",
+                    attempts=1 + index,
+                    detail=f"stripe band {index} returned blank text",
+                )
+            if looks_truncated(text):
+                return None, PageTextFailure(
+                    adapter_id=ADAPTER_ID,
+                    kind="truncated_page_text",
+                    attempts=1 + index,
+                    detail=(
+                        f"stripe band {index} still looks truncated "
+                        "(unclosed $/fence or dangling dot-run tail)"
+                    ),
+                )
+            texts.append(text)
+        stitched = stitch_band_texts(texts)
+        if looks_truncated(stitched):
+            return None, PageTextFailure(
+                adapter_id=ADAPTER_ID,
+                kind="truncated_page_text",
+                attempts=1 + len(texts),
+                detail="stitched stripe text still looks truncated",
+            )
+        return stitched, None
 
     def extract(self, job: PageTextJob):
         image_path = self.store.layout.root / job.image.path
@@ -155,10 +229,32 @@ class QwenPageTextExtractor:
                 adapter_id=ADAPTER_ID, kind="invalid_response", attempts=1,
                 detail="provider echoed the OCR persona / asked for the image instead of transcribing the page",
             )
+        # 截断守卫：整页输出带截断特征时降级到条带重 OCR（2026-08-19 根因：
+        # 闵行答案页 OCR 中段截断 → 整卷转写把真实存在的 (2) 小问证明标成
+        # 「未出现在所给逐页文本中」）。守卫对缓存命中同样生效——缓存里存着
+        # 的截断文本也会触发降级并被拼接结果替换。
+        enhancement = None
+        if looks_truncated(text):
+            stitched, stripe_failure = self._stripe_fallback(image_path, job)
+            if stripe_failure is not None:
+                with _lf.generation(
+                    "qwen-ocr",
+                    model=self.model,
+                    input={"page_number": job.page_number, "prompt": "stripe-fallback"},
+                    metadata={"adapter": ADAPTER_ID, "page_number": job.page_number},
+                ) as obs:
+                    obs.update(
+                        level="ERROR",
+                        status_message=f"stripe fallback failed: {stripe_failure.detail}",
+                    )
+                return None, stripe_failure
+            text = stitched
+            enhancement = "stripe-fallback"
         extract = commit_extract(
             job=job, text=text, store=self.store, model=self.model,
             adapter_id=ADAPTER_ID, prompt_version=PAGE_TEXT_PROMPT_VERSION,
             cache_hit=cache_hit,
+            ocr_enhancement=enhancement,
         )
         return extract, None
 

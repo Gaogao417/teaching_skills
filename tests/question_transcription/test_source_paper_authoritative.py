@@ -334,7 +334,7 @@ def test_authoritative_v2_round_trips_through_projector():
 
 
 def test_solution_role_round_trips_to_solution_crop():
-    """role=solution -> question_solution_step -> projector -> official crop."""
+    """role=solution -> question_solution_step -> projector -> solution crop."""
     images = {
         "schema": "math_image_attribution/v1", "paper_id": "P",
         "assets": [{"asset_id": "img-sol", "source": f"{_ARCHIVE}/media/sol.png",
@@ -356,4 +356,5 @@ def test_solution_role_round_trips_to_solution_crop():
     draft, report = project_source_to_draft(source, skeleton)
     assert report.errors == []
     item = draft["sections"][0]["items"][0]
-    assert len(item["official_solution"].get("crops", [])) == 1
+    assert len(item["solution"]) == 1
+    assert item["solution"][0]["assignment_path"] == "/solution_steps/0/diagram_col"

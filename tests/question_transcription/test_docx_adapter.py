@@ -202,8 +202,8 @@ def test_yangpu_q18_end_to_end_real_adapter_through_assembler():
     assert len(prompt) == 1
     assert prompt[0]["source"].endswith("/word/media/image9.png")
     assert prompt[0]["box_px"] == [0, 0, 475, 512]
-    # image10.png -> official_solution.crops, full crop of its real dims.
-    sol = item["official_solution"]["crops"]
+    # image10.png -> teacher-only solution crop, full crop of its real dims.
+    sol = item["solution"]
     assert len(sol) == 1
     assert sol[0]["source"].endswith("/word/media/image10.png")
     assert sol[0]["box_px"] == [0, 0, 510, 512]

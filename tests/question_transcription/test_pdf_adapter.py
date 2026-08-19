@@ -111,14 +111,14 @@ def test_pdf_region_q24_end_to_end_through_assembler():
     assert item["question_evidence"][0]["box_px"] == [80, 210, 1010, 860]
     # the needs_review solution IMAGE bbox [120,120,1100,1200] enters crops,
     # tagged with an attribution_review block for downstream UI surfacing.
-    sol_crops = item["official_solution"]["crops"]
+    sol_crops = item["solution"]
     nr = [c for c in sol_crops if "attribution_review" in c]
     assert len(nr) == 1
     assert tuple(nr[0]["box_px"]) == (120, 120, 1100, 1200)
     assert nr[0]["attribution_review"]["state"] == "needs_review"
-    # and the region-evidence solution crop (page 008, [80,120,1010,700]) is present
-    sol_boxes = [tuple(c["box_px"]) for c in sol_crops]
-    assert (80, 120, 1010, 700) in sol_boxes
+    # The complete region evidence stays under official_solution and is not
+    # mixed into teacher-only step diagrams.
+    assert item["official_solution"]["crops"][0]["box_px"] == [80, 120, 1010, 700]
 
 
 # --------------------------------------------------------------------------- #

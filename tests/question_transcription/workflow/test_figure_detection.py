@@ -260,6 +260,155 @@ def test_text_dominant_candidate_fails_second_pass_validation(tmp_path: Path) ->
     assert len(client.calls) == 2
 
 
+def test_solution_figures_are_bound_to_validated_question_steps(
+    tmp_path: Path,
+) -> None:
+    client = _FakeClient(
+        [
+            {
+                "coordinate_system": "width_normalized_1000",
+                "figures": [
+                    {
+                        "question_number": 20,
+                        "solution_step_index": 1,
+                        "nearest_question_anchor": "20．",
+                        "nearest_solution_anchor": "（2）如图",
+                        "box_w1000": [100, 100, 350, 350],
+                    },
+                    {
+                        "question_number": 21,
+                        "solution_step_index": 0,
+                        "nearest_question_anchor": "21．",
+                        "nearest_solution_anchor": "第21题图",
+                        "box_w1000": [600, 100, 850, 350],
+                    },
+                ],
+            },
+            {
+                "is_math_figure": True,
+                "belongs_to_solution_step": True,
+                "dominant_content": "math_figure",
+                "figure_box_w1000": [0, 0, 1000, 1000],
+                "confidence": "high",
+                "reason": "辅助图与（2）相邻",
+            },
+            {
+                "is_math_figure": True,
+                "belongs_to_solution_step": True,
+                "dominant_content": "math_figure",
+                "figure_box_w1000": [0, 0, 1000, 900],
+                "confidence": "high",
+                "reason": "图注为第21题图",
+            },
+        ]
+    )
+
+    result = FigureDetector(client=client).detect(
+        _page(tmp_path),
+        page_sha256="sha256:test",
+        questions=[
+            {
+                "question_number": 20,
+                "stem": "",
+                "solution_steps": ["先证明。", "作辅助线，如图。"],
+            },
+            {
+                "question_number": 21,
+                "stem": "",
+                "solution_steps": ["由第21题图可得。"],
+            },
+        ],
+        page_size=(2000, 1000),
+        role="solution",
+    )
+
+    assert set(result.boxes) == {20, 21}
+    assert result.step_indices == {20: [1], 21: [0]}
+    assert "solution_step_index" in client.calls[0]["messages"][0]["content"][1]["text"]
+
+
+def test_solution_crop_rejected_when_step_ownership_is_not_confirmed(
+    tmp_path: Path,
+) -> None:
+    client = _FakeClient(
+        [
+            {
+                "coordinate_system": "width_normalized_1000",
+                "figures": [
+                    {
+                        "question_number": 20,
+                        "solution_step_index": 0,
+                        "nearest_question_anchor": "20．",
+                        "nearest_solution_anchor": "（1）",
+                        "box_w1000": [100, 100, 350, 350],
+                    }
+                ],
+            },
+            {
+                "is_math_figure": True,
+                "belongs_to_solution_step": False,
+                "dominant_content": "math_figure",
+                "figure_box_w1000": [0, 0, 1000, 1000],
+                "confidence": "low",
+                "reason": "看不出属于第20题",
+            },
+        ]
+    )
+
+    result = FigureDetector(client=client).detect(
+        _page(tmp_path),
+        page_sha256="sha256:test",
+        questions=[
+            {"question_number": 20, "stem": "", "solution_steps": ["如图。"]}
+        ],
+        page_size=(2000, 1000),
+        role="solution",
+    )
+
+    assert result.boxes == {}
+    assert "看不出属于第20题" in result.review_notes[20][0]
+
+
+def test_same_solution_box_cannot_be_assigned_to_two_steps(tmp_path: Path) -> None:
+    client = _FakeClient(
+        [
+            {
+                "coordinate_system": "width_normalized_1000",
+                "figures": [
+                    {
+                        "question_number": 20,
+                        "solution_step_index": 0,
+                        "nearest_question_anchor": "20．",
+                        "nearest_solution_anchor": "（1）",
+                        "box_w1000": [100, 100, 350, 350],
+                    },
+                    {
+                        "question_number": 20,
+                        "solution_step_index": 1,
+                        "nearest_question_anchor": "20．",
+                        "nearest_solution_anchor": "（2）",
+                        "box_w1000": [100, 100, 350, 350],
+                    },
+                ],
+            }
+        ]
+    )
+
+    result = FigureDetector(client=client).detect(
+        _page(tmp_path),
+        page_sha256="sha256:test",
+        questions=[
+            {"question_number": 20, "stem": "", "solution_steps": ["一", "二"]}
+        ],
+        page_size=(2000, 1000),
+        role="solution",
+    )
+
+    assert result.boxes == {}
+    assert "多个解答步骤" in result.review_notes[20][0]
+    assert len(client.calls) == 1
+
+
 def test_figure_content_passes_even_when_completeness_is_over_cautious(
     tmp_path: Path,
 ) -> None:

@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import copy
+import re
 from pathlib import Path
 from typing import Any
 
@@ -171,6 +172,29 @@ def image_value(
     raise ValueError(f"{role} does not have assignment presentation metadata")
 
 
+def prepare_solution_step_target(block: dict[str, Any], pointer: str) -> None:
+    """Make a legacy string solution step able to carry a diagram field.
+
+    The transcription v1 contract deliberately stores solution steps as verbatim
+    strings.  Assignment YAML also supports structured steps, and a diagram that
+    belongs to one exact step must live on that step rather than at block level.
+    Convert only the referenced step, preserving its text as ``content``.
+    """
+
+    match = re.fullmatch(r"/solution_steps/(\d+)/diagram_col", pointer)
+    if match is None:
+        return
+    steps = block.get("solution_steps")
+    index = int(match.group(1))
+    if not isinstance(steps, list) or not 0 <= index < len(steps):
+        raise ValueError(f"assignment_path does not exist: {pointer}")
+    step = steps[index]
+    if isinstance(step, str):
+        steps[index] = {"content": step}
+    elif not isinstance(step, dict):
+        raise ValueError(f"assignment_path does not exist: {pointer}")
+
+
 def build_item(
     raw: dict[str, Any],
     *,
@@ -273,6 +297,8 @@ def build_item(
                 raise ValueError(
                     f"{item_id}: every {role} crop needs assignment_path when there are multiple crops"
                 )
+            if role == "solution":
+                prepare_solution_step_target(block, str(pointer))
             set_json_pointer(
                 block,
                 str(pointer),
@@ -309,6 +335,8 @@ def build_item(
         "human_review": "pending",
         "prompt_status": transcription_raw.get("prompt_status", "author_pass"),
         "prompt_review_notes": transcription_raw.get("prompt_review_notes") or [],
+        "solution_status": transcription_raw.get("solution_status", "author_pass"),
+        "solution_review_notes": transcription_raw.get("solution_review_notes") or [],
     }
     if (
         transcription["prompt_status"] == "needs_human_crop"
@@ -316,6 +344,13 @@ def build_item(
     ):
         raise ValueError(
             f"{item_id}: prompt_review_notes is required for needs_human_crop"
+        )
+    if (
+        transcription["solution_status"] == "needs_human_crop"
+        and not transcription["solution_review_notes"]
+    ):
+        raise ValueError(
+            f"{item_id}: solution_review_notes is required for needs_human_crop"
         )
     source = {
         "schema": "math_exam_item_source/v1",

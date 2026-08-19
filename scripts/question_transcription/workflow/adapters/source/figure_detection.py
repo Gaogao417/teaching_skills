@@ -28,7 +28,7 @@ import re
 import time
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any
+from typing import Any, Literal
 
 from PIL import Image
 
@@ -41,9 +41,11 @@ __all__ = [
     "detect_page_figures",
 ]
 
-FIGURE_DETECTION_PROMPT_VERSION = "figure-detection-v7-validated-edge-growth"
+FIGURE_DETECTION_PROMPT_VERSION = "figure-detection-v8-prompt-and-solution"
 _LOCALIZATION_PROMPT_VERSION = "figure-detection-v5-width-normalized-complete"
 _VALIDATION_PROMPT_VERSION = "figure-crop-validation-v2-refined-box"
+_SOLUTION_LOCALIZATION_PROMPT_VERSION = "solution-figure-detection-v1-step-anchor"
+_SOLUTION_VALIDATION_PROMPT_VERSION = "solution-figure-validation-v1-step-anchor"
 DETECTION_MODEL = "qwen-vl-max"
 _RETRYABLE_PROVIDER_ERRORS = {
     "ConnectError",
@@ -81,6 +83,37 @@ y_u=y_px/{page_width}×1000；左上角为 (0,0)，右下角约为\
 {question_list}
 """
 
+_SOLUTION_PROMPT_TEMPLATE = """\
+你是数学试卷官方解答页的插图定位器。下面给出一张官方解答页图片，以及本页可能涉及的\
+题号和逐条解答。请定位官方解答中实际印出的独立解答图（辅助几何图、函数图象、统计图、\
+作图结果等），并把每幅图唯一绑定到一道题的一条解答步骤。
+
+只输出 JSON，格式：
+{{"coordinate_system":"width_normalized_1000","figures":[{{"question_number":N,\
+"solution_step_index":0,"nearest_question_anchor":"第N题",\
+"nearest_solution_anchor":"(1) 如图或第N题图",\
+"box_w1000":[x0,y0,x1,y1]}}]}}
+
+规则：
+- 本页原图尺寸是 {page_width}×{page_height} 像素。坐标必须使用\
+width_normalized_1000 等比例坐标：x_u=x_px/{page_width}×1000，\
+y_u=y_px/{page_width}×1000；左上角为 (0,0)，右下角约为\
+(1000,{page_y_max})，x 向右、y 向下；
+- x/y 必须使用同一个基于图片宽度的比例。绝对禁止输出像素坐标，也禁止把 y\
+独立缩放到 0–1000；
+- solution_step_index 必须使用下面列表中方括号给出的 0-based 索引，不得自行重新编号；
+- nearest_question_anchor 与 nearest_solution_anchor 必须抄写页面上可见的最近题号、\
+小问号、"第N题图"、"图1/图2"或相邻解答短语；不得编造页面上没有的锚点；
+- box_w1000 只包围独立解答图，保留图内所有点名、刻度、坐标轴和自身图注，\
+不要包含大段解答文字、评分点虚线、页眉水印、相邻题或题目原图；
+- 一题有多张彼此独立的图时逐条输出；同一个框不得分配给多个题号或多个步骤；
+- 纯文字推导即使写了“过点作垂线”等构造语句，但页面没有实际画出的图，也不要输出；
+- 不要输出 JSON 以外的任何内容。
+
+本页候选题及解答步骤：
+{question_list}
+"""
+
 _VALIDATION_PROMPT_TEMPLATE = """\
 你是数学试卷插图裁片校验器。裁片来自第{question_number}题，定位器回报的最近锚点是\
 “{anchor}”。题干摘要：{stem}
@@ -105,12 +138,36 @@ y_u=y_px/{crop_width}×1000，裁片右下角约为 (1000,{crop_y_max})。它必
 is_math_figure 必须为 false。不要输出 JSON 以外的内容。
 """
 
+_SOLUTION_VALIDATION_PROMPT_TEMPLATE = """\
+你是数学试卷官方解答图裁片校验器。裁片候选归属于第{question_number}题的\
+第 {solution_step_index} 条解答步骤（0-based），定位器回报的题号锚点是\
+“{anchor}”，解答锚点是“{solution_anchor}”。目标步骤：{step_text}
+
+只判断并精定位该步骤实际印出的独立解答图，不要依据文字在脑中补画。裁片尺寸是\
+{crop_width}×{crop_height} 像素。
+
+只输出 JSON：
+{{"is_math_figure":true或false,"belongs_to_solution_step":true或false,\
+"dominant_content":"math_figure|text|formula|answer_option|blank|other",\
+"figure_box_w1000":[x0,y0,x1,y1],\
+"confidence":"high|medium|low","reason":"一句短说明"}}
+
+只有裁片主体确为独立数学插图，并且可由可见题号/小问/图注/相邻解答短语确认属于目标步骤时，\
+is_math_figure 与 belongs_to_solution_step 才都为 true。纯解答文字、公式、评分虚线、\
+题目原图或无法唯一归属的图必须判 false。
+
+figure_box_w1000 使用以裁片宽度为 1000 的等比例坐标：x_u=x_px/{crop_width}×1000，\
+y_u=y_px/{crop_width}×1000，裁片右下角约为 (1000,{crop_y_max})。子框必须保留图内\
+点名、刻度、坐标轴和自身图注，排除相邻正文与相邻题图。不要输出 JSON 以外的内容。
+"""
+
 
 @dataclass
 class FigureDetectionResult:
     """Validated per-question boxes plus human-readable rejection reasons."""
 
     boxes: dict[int, list[list[int]]] = field(default_factory=dict)
+    step_indices: dict[int, list[int | None]] = field(default_factory=dict)
     review_notes: dict[int, list[str]] = field(default_factory=dict)
 
     def add_note(self, question_number: int, note: str) -> None:
@@ -124,6 +181,8 @@ class _Candidate:
     question_number: int
     box_px: list[int]
     anchor: str
+    solution_anchor: str = ""
+    step_index: int | None = None
 
 
 class FigureDetector:
@@ -147,6 +206,7 @@ class FigureDetector:
         page_sha256: str,
         questions: list[dict[str, Any]],
         page_size: tuple[int, int],
+        role: Literal["prompt", "solution"] = "prompt",
     ) -> FigureDetectionResult:
         """Return only candidates that pass grounding and crop validation.
 
@@ -157,10 +217,26 @@ class FigureDetector:
         """
         if not questions:
             return FigureDetectionResult()
-        question_list = "\n".join(
-            f"- 第{q['question_number']}题：{str(q.get('stem', ''))[:40]}"
-            for q in questions
-        )
+        if role == "solution":
+            question_list = "\n".join(
+                "\n".join(
+                    [f"- 第{q['question_number']}题："]
+                    + [
+                        f"  [{index}] {str(step)[:160]}"
+                        for index, step in enumerate(q.get("solution_steps") or [])
+                    ]
+                )
+                for q in questions
+            )
+            prompt_template = _SOLUTION_PROMPT_TEMPLATE
+            localization_version = _SOLUTION_LOCALIZATION_PROMPT_VERSION
+        else:
+            question_list = "\n".join(
+                f"- 第{q['question_number']}题：{str(q.get('stem', ''))[:40]}"
+                for q in questions
+            )
+            prompt_template = _PROMPT_TEMPLATE
+            localization_version = _LOCALIZATION_PROMPT_VERSION
         data_url = _image_data_url(page_path)
         messages = [
             {
@@ -169,7 +245,7 @@ class FigureDetector:
                     {"type": "image_url", "image_url": {"url": data_url}},
                     {
                         "type": "text",
-                        "text": _PROMPT_TEMPLATE.format(
+                        "text": prompt_template.format(
                             question_list=question_list,
                             page_width=page_size[0],
                             page_height=page_size[1],
@@ -184,17 +260,24 @@ class FigureDetector:
             messages=messages,
             cache_material={
                 "task": "figure_detection",
-                "prompt_version": _LOCALIZATION_PROMPT_VERSION,
+                "prompt_version": localization_version,
+                "role": role,
                 "page_sha256": page_sha256,
                 "page_size": list(page_size),
                 "questions": [
-                    [q["question_number"], str(q.get("stem", ""))[:40]]
+                    [
+                        q["question_number"],
+                        str(q.get("stem", ""))[:40],
+                        [str(step)[:160] for step in q.get("solution_steps") or []],
+                    ]
                     for q in questions
                 ],
             },
             max_tokens=2048,
         )
-        result, candidates = _parse_candidates(payload, page_size, questions)
+        result, candidates = _parse_candidates(
+            payload, page_size, questions, role=role
+        )
         for candidate in candidates:
             validation_box = _pad_box(candidate.box_px, page_size)
             if not _sane_box(validation_box, page_size):
@@ -204,6 +287,42 @@ class FigureDetector:
                 )
                 continue
             try:
+                question = next(
+                    question for question in questions
+                    if int(question["question_number"]) == candidate.question_number
+                )
+                if role == "solution":
+                    steps = question.get("solution_steps") or []
+                    step_text = str(steps[candidate.step_index or 0])[:240]
+                    validation_prompt = _SOLUTION_VALIDATION_PROMPT_TEMPLATE.format(
+                        question_number=candidate.question_number,
+                        solution_step_index=candidate.step_index,
+                        anchor=candidate.anchor,
+                        solution_anchor=candidate.solution_anchor,
+                        step_text=step_text,
+                        crop_width=validation_box[2] - validation_box[0],
+                        crop_height=validation_box[3] - validation_box[1],
+                        crop_y_max=round(
+                            (validation_box[3] - validation_box[1])
+                            / (validation_box[2] - validation_box[0])
+                            * 1000
+                        ),
+                    )
+                    validation_version = _SOLUTION_VALIDATION_PROMPT_VERSION
+                else:
+                    validation_prompt = _VALIDATION_PROMPT_TEMPLATE.format(
+                        question_number=candidate.question_number,
+                        anchor=candidate.anchor,
+                        stem=str(question.get("stem") or "")[:120],
+                        crop_width=validation_box[2] - validation_box[0],
+                        crop_height=validation_box[3] - validation_box[1],
+                        crop_y_max=round(
+                            (validation_box[3] - validation_box[1])
+                            / (validation_box[2] - validation_box[0])
+                            * 1000
+                        ),
+                    )
+                    validation_version = _VALIDATION_PROMPT_VERSION
                 validation, _cache_hit = _complete_json_with_retry(
                     self._client,
                     messages=[
@@ -220,34 +339,18 @@ class FigureDetector:
                                 },
                                 {
                                     "type": "text",
-                                    "text": _VALIDATION_PROMPT_TEMPLATE.format(
-                                        question_number=candidate.question_number,
-                                        anchor=candidate.anchor,
-                                        stem=next(
-                                            str(question.get("stem") or "")[:120]
-                                            for question in questions
-                                            if int(question["question_number"])
-                                            == candidate.question_number
-                                        ),
-                                        crop_width=validation_box[2]
-                                        - validation_box[0],
-                                        crop_height=validation_box[3]
-                                        - validation_box[1],
-                                        crop_y_max=round(
-                                            (validation_box[3] - validation_box[1])
-                                            / (validation_box[2] - validation_box[0])
-                                            * 1000
-                                        ),
-                                    ),
+                                    "text": validation_prompt,
                                 },
                             ],
                         }
                     ],
                     cache_material={
                         "task": "figure_crop_validation",
-                        "prompt_version": _VALIDATION_PROMPT_VERSION,
+                        "prompt_version": validation_version,
+                        "role": role,
                         "page_sha256": page_sha256,
                         "question_number": candidate.question_number,
+                        "solution_step_index": candidate.step_index,
                         "box_px": validation_box,
                     },
                     max_tokens=256,
@@ -259,7 +362,7 @@ class FigureDetector:
                 )
                 continue
             refined_box = _refine_validated_box(
-                validation, validation_box, page_size
+                validation, validation_box, page_size, role=role
             )
             if refined_box is None:
                 reason = (
@@ -286,6 +389,9 @@ class FigureDetector:
             result.boxes.setdefault(candidate.question_number, []).append(
                 refined_box
             )
+            result.step_indices.setdefault(candidate.question_number, []).append(
+                candidate.step_index
+            )
         return result
 
 
@@ -296,6 +402,7 @@ def detect_page_figures(
     page_sha256: str,
     questions: list[dict[str, Any]],
     page_size: tuple[int, int],
+    role: Literal["prompt", "solution"] = "prompt",
 ) -> FigureDetectionResult:
     """Convenience wrapper; provider failures become per-question review notes."""
     try:
@@ -304,6 +411,7 @@ def detect_page_figures(
             page_sha256=page_sha256,
             questions=questions,
             page_size=page_size,
+            role=role,
         )
         if isinstance(detected, FigureDetectionResult):
             return detected
@@ -352,7 +460,11 @@ def _crop_data_url(path: Path, box_px: list[int]) -> str:
 
 
 def _parse_candidates(
-    payload: Any, page_size: tuple[int, int], questions: list[dict[str, Any]]
+    payload: Any,
+    page_size: tuple[int, int],
+    questions: list[dict[str, Any]],
+    *,
+    role: Literal["prompt", "solution"] = "prompt",
 ) -> tuple[FigureDetectionResult, list[_Candidate]]:
     width, height = page_size
     stems = {
@@ -383,7 +495,33 @@ def _parse_candidates(
         if not isinstance(number, int) or number not in wanted:
             continue
         anchor = str(entry.get("nearest_question_anchor") or "").strip()
-        if not _anchor_matches(number, anchor, stems[number]):
+        solution_anchor = ""
+        step_index: int | None = None
+        if role == "solution":
+            solution_anchor = str(entry.get("nearest_solution_anchor") or "").strip()
+            raw_step_index = entry.get("solution_step_index")
+            steps = next(
+                question.get("solution_steps") or []
+                for question in questions
+                if int(question["question_number"]) == number
+            )
+            if (
+                not isinstance(raw_step_index, int)
+                or raw_step_index < 0
+                or raw_step_index >= len(steps)
+            ):
+                result.add_note(number, "解答图缺少有效的 0-based 解答步骤索引")
+                continue
+            step_index = raw_step_index
+            if not _solution_anchor_matches(
+                number,
+                anchor,
+                solution_anchor,
+                unique_question=len(wanted) == 1,
+            ):
+                result.add_note(number, "解答图的题号/解答锚点无法唯一对应目标题目")
+                continue
+        elif not _anchor_matches(number, anchor, stems[number]):
             result.add_note(number, "候选框旁的题号锚点与目标题号不一致")
             continue
         box = entry.get("box_w1000")
@@ -415,7 +553,40 @@ def _parse_candidates(
         if not _sane_box([x0, y0, x1, y1], page_size):
             result.add_note(number, "候选框钳制并换算为像素后尺寸不合理")
             continue
-        candidates.append(_Candidate(number, [x0, y0, x1, y1], anchor))
+        candidates.append(
+            _Candidate(
+                number,
+                [x0, y0, x1, y1],
+                anchor,
+                solution_anchor=solution_anchor,
+                step_index=step_index,
+            )
+        )
+
+    # One physical solution figure cannot belong to two different steps. Reject
+    # both claims instead of silently keeping whichever row the model emitted
+    # first. Exact repeats for the same question/step remain harmless duplicates.
+    ambiguous_solution_rows: set[int] = set()
+    if role == "solution":
+        for left_index, left in enumerate(candidates):
+            for right_index, right in enumerate(
+                candidates[left_index + 1 :], start=left_index + 1
+            ):
+                if (
+                    left.question_number == right.question_number
+                    and left.step_index != right.step_index
+                    and _intersection_over_union(left.box_px, right.box_px) >= 0.9
+                ):
+                    ambiguous_solution_rows.update((left_index, right_index))
+                    result.add_note(
+                        left.question_number,
+                        "同一解答图框被分配到多个解答步骤，无法唯一配对",
+                    )
+        candidates = [
+            candidate
+            for index, candidate in enumerate(candidates)
+            if index not in ambiguous_solution_rows
+        ]
 
     # De-duplicate repeated rows for one question, then reject any box (or
     # practically identical box) assigned across different questions.
@@ -457,6 +628,24 @@ def _anchor_matches(question_number: int, anchor: str, stem: str) -> bool:
         return False
     figure_number = int(subfigure.group(1))
     return bool(re.search(rf"图\s*{figure_number}(?!\d)", stem))
+
+
+def _solution_anchor_matches(
+    question_number: int,
+    question_anchor: str,
+    solution_anchor: str,
+    *,
+    unique_question: bool,
+) -> bool:
+    """Require visible solution context, plus a question anchor on shared pages."""
+
+    if not solution_anchor:
+        return False
+    explicit_question = bool(
+        re.search(rf"(?:第\s*)?{question_number}\s*[\.．、]?\s*题", question_anchor)
+        or re.search(rf"(?:第\s*)?{question_number}\s*[\.．、]", question_anchor)
+    )
+    return explicit_question or unique_question
 
 
 def _sane_box(box: list[int], page_size: tuple[int, int]) -> bool:
@@ -514,11 +703,17 @@ def _is_figure_content(payload: Any) -> bool:
 
 
 def _refine_validated_box(
-    payload: Any, outer_box: list[int], page_size: tuple[int, int]
+    payload: Any,
+    outer_box: list[int],
+    page_size: tuple[int, int],
+    *,
+    role: Literal["prompt", "solution"] = "prompt",
 ) -> list[int] | None:
     """Convert the validator's crop-relative tight box back to page pixels."""
 
     if not _is_figure_content(payload) or not isinstance(payload, dict):
+        return None
+    if role == "solution" and payload.get("belongs_to_solution_step") is not True:
         return None
     box = payload.get("figure_box_w1000")
     if not isinstance(box, (list, tuple)) or len(box) != 4:

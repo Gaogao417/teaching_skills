@@ -21,6 +21,8 @@ if str(ROOT) not in sys.path:
 from scripts.question_transcription.workflow.adapters.page_text._common import (
     PAGE_TEXT_PROMPT,
     PAGE_TEXT_PROMPT_VERSION,
+    looks_truncated,
+    stitch_band_texts,
 )
 from scripts.question_transcription.workflow.infrastructure.artifact_store import (
     ArtifactStore,
@@ -62,6 +64,108 @@ class _FakeBailianClient:
         assert "page_text_ocr" == cache_material["task"]
         assert cache_material["prompt_version"] == PAGE_TEXT_PROMPT_VERSION
         return self.text, self.cache_hit
+
+
+class _SequenceBailianClient:
+    """按调用顺序依次返回预置响应（第 1 次=整页,其后=条带 0..n）。"""
+
+    def __init__(self, responses: list[str]):
+        self.responses = list(responses)
+        self.calls = 0
+
+    def complete_text(self, *, messages, cache_material):
+        index = self.calls
+        self.calls += 1
+        assert index < len(self.responses), "unexpected extra provider call"
+        return self.responses[index], False
+
+
+def _real_png(path: Path, width: int = 400, height: int = 560) -> None:
+    from PIL import Image
+
+    Image.new("RGB", (width, height), "white").save(path)
+
+
+# --------------------------------------------------------------------------- #
+# OCR 截断守卫:looks_truncated / stitch_band_texts（2026-08-19 闵行 Q23(2) 根因）
+# --------------------------------------------------------------------------- #
+
+
+def test_looks_truncated_signatures():
+    # 观测到的真实截断:奇数个 $ + 尾部悬在 \cdot 点串上(闵行答案页 page-011)。
+    assert looks_truncated("$\\therefore C E \\perp A B$ 又 $\\because \\angle E O B")
+    assert looks_truncated("完整句子。\n$\\cdot \\cdot \\cdot \\cdot$")
+    # 未闭合代码围栏 / 未闭合环境
+    assert looks_truncated("```latex\n第 1 行\n")
+    assert looks_truncated("前文 $x$ 后文 \\begin{aligned} \\frac{1}{2}\n")
+    # 健康文本:成对 $、干净收尾
+    assert not looks_truncated("1. 求 $y=2x+1$ 当 $x=3$ 时的值。")
+    assert not looks_truncated("(A) $\\frac{3}{4}$; (B) $\\frac{4}{3}$。")
+    # 空白交给 empty_text 契约,不算截断
+    assert not looks_truncated("   \n ")
+
+
+def test_stitch_band_texts_dedups_overlap():
+    band0 = "23. 证明: (1) $\\because AD \\cdot OC = AB \\cdot OD$\n$\\therefore \\frac{AD}{OD} = \\frac{AB}{OC}$\n"
+    # band1 头部与 band0 尾部有 1 行重叠(空白归一后相等)
+    band1 = "$\\therefore \\frac{AD}{OD}=\\frac{AB}{OC}$\n$\\because AF$ 是 $\\angle BAC$ 的平分线\n"
+    stitched = stitch_band_texts([band0, band1])
+    assert stitched.count("\\frac{AB}{OC}") == 1
+    assert "AF" in stitched and "平分线" in stitched
+
+
+def test_stitch_band_texts_no_overlap_keeps_all():
+    a = "第一段内容。\n"
+    b = "第二段内容。\n"
+    assert stitch_band_texts([a, b]) == "第一段内容。\n第二段内容。\n"
+
+
+def test_qwen_adapter_stripe_fallback_recovers_truncated_page(tmp_path):
+    from scripts.question_transcription.workflow.adapters.page_text.qwen import (
+        QwenPageTextExtractor,
+    )
+
+    store = _store(tmp_path)
+    src = store.layout.root / "source"
+    src.mkdir(parents=True, exist_ok=True)
+    _real_png(src / "page-003.png")
+    truncated = "$\\therefore CE \\perp AB$ 又 $\\because \\angle EOB"  # 奇数 $
+    bands = [
+        "23. 证明: (1) $\\because AD \\cdot OC = AB \\cdot OD$。\n",
+        "证明: (1) $\\because AD \\cdot OC = AB \\cdot OD$。\n$\\because AF$ 是 $\\angle BAC$ 的平分线, 证得 $AF \\cdot DE = AG \\cdot BC$。\n",
+        "证得 $AF \\cdot DE = AG \\cdot BC$。\n24. 解: (1) 设抛物线为 $y = ax^2 + bx + c$。\n",
+    ]
+    fake = _SequenceBailianClient([truncated, *bands])
+    adapter = QwenPageTextExtractor(model="qwen3.5-ocr", store=store, client=fake)
+    extract, failure = adapter.extract(_job(3))
+    assert failure is None, f"unexpected failure: {failure}"
+    assert fake.calls == 4  # 整页 1 次 + 条带 3 次
+    text = store.read_text(extract.artifact.text)
+    # 拼接去重后重叠行只保留一份,但两段独有内容都在
+    assert text.count("AD \\cdot OC") == 1
+    assert "AF \\cdot DE = AG \\cdot BC" in text
+    assert "24. 解" in text
+    side = store.read_yaml(extract.artifact.metadata)
+    assert side["ocr_enhancement"] == "stripe-fallback"
+
+
+def test_qwen_adapter_stripe_still_truncated_fails_closed(tmp_path):
+    from scripts.question_transcription.workflow.adapters.page_text.qwen import (
+        QwenPageTextExtractor,
+    )
+
+    store = _store(tmp_path)
+    src = store.layout.root / "source"
+    src.mkdir(parents=True, exist_ok=True)
+    _real_png(src / "page-004.png")
+    truncated = "$\\therefore CE \\perp AB$ 又 $\\because \\angle EOB"
+    band0_truncated = "$\\because AD$ 又 $\\angle EOB 未闭合"
+    fake = _SequenceBailianClient([truncated, band0_truncated])
+    adapter = QwenPageTextExtractor(model="qwen3.5-ocr", store=store, client=fake)
+    extract, failure = adapter.extract(_job(4))
+    assert extract is None
+    assert failure.kind == "truncated_page_text"
+    assert "band 0" in failure.detail
 
 
 def test_qwen_adapter_commits_text_and_sidecar(tmp_path):

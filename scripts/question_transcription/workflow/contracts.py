@@ -167,6 +167,7 @@ PageTextFailureKind = Literal[
     "request_timed_out",
     "invalid_response",
     "empty_text",
+    "truncated_page_text",
     "source_hash_mismatch",
     "cache_corrupt",
 ]
