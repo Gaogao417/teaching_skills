@@ -126,7 +126,13 @@ class ImageGroupRenderer:
                     item, placement, members, composed_rel, width, height
                 )
                 composition_plan[(decision.question_id, placement.role)] = {
-                    "members": [str(m.get("source") or "") for m in members],
+                    "members": [
+                        {
+                            "source": str(member.get("source") or ""),
+                            "box_px": list(member.get("box_px") or []),
+                        }
+                        for member in members
+                    ],
                     "composed_source": composed_rel,
                 }
                 audit_records.append(_audit_record(decision, placement, members, composed_rel))
@@ -173,17 +179,28 @@ class ImageGroupRenderer:
         if not plan:
             return
         for (question_id, role), entry in plan.items():
-            members_sources = entry["members"]
+            member_specs = entry["members"]
             out_dir = staging_dir / "items" / question_id / "assets"
             out_dir.mkdir(parents=True, exist_ok=True)
             out_path = out_dir / f"{role}-group.png"
             images: list[Image.Image] = []
-            for src_rel in members_sources:
+            for member in member_specs:
+                if isinstance(member, dict):
+                    src_rel = str(member.get("source") or "")
+                    box_px = member.get("box_px") or []
+                else:
+                    # Backward compatibility for plans written before region
+                    # crops were preserved in the composition sidecar.
+                    src_rel = str(member)
+                    box_px = []
                 src = Path(src_rel)
                 if not src.is_absolute():
                     src = self.repo_root / src
                 with Image.open(src) as im:
-                    images.append(im.convert("RGBA").copy())
+                    member_image = im.convert("RGBA")
+                    if isinstance(box_px, list) and len(box_px) == 4:
+                        member_image = member_image.crop(tuple(map(int, box_px)))
+                    images.append(member_image.copy())
             width = max(im.width for im in images)
             total_height = sum(im.height for im in images)
             canvas = Image.new("RGBA", (width, total_height), (255, 255, 255, 255))

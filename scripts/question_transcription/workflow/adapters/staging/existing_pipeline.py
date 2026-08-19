@@ -194,6 +194,9 @@ class DeterministicEvidenceCompleter:
             payload = self.store.read_yaml(ref)
             # 含图题的题图补齐（vision 检测；详见 _attach_figure_prompt_crops）。
             payload = self._attach_figure_prompt_crops(payload)
+            # 同一题可有多张独立子图（如综合实践题的图1～图4）。复用既有
+            # image-group planner 把它们合成一个 prompt，满足 v1 单图槽约束。
+            payload = self._resolve_figure_image_groups(payload)
             # ``layout`` is None for the normal graph path, which selects the
             # resolver's "auto" inference. The recover command passes an explicit
             # "interleaved"/"separated" after a human confirms the source layout,
@@ -222,24 +225,58 @@ class DeterministicEvidenceCompleter:
         except Exception as exc:
             return None, "evidence_failed", f"{type(exc).__name__}: {exc}"
 
+    def _resolve_figure_image_groups(self, payload: dict) -> dict:
+        """Resolve newly detected multi-figure prompts and persist their plan."""
+
+        import yaml as _yaml
+
+        from .materialize_image_group import resolve_placement_decisions
+
+        resolved = resolve_placement_decisions(payload, repo_root(), staging_dir=None)
+        new_plan = getattr(resolved.renderer, "_last_composition_plan", None) or {}
+        if not new_plan:
+            return resolved.draft
+
+        plan_path = self.store.layout.structured_dir / "placement-plan.yaml"
+        groups_by_key: dict[tuple[str, str], dict] = {}
+        if plan_path.exists():
+            existing = _yaml.safe_load(plan_path.read_text(encoding="utf-8")) or {}
+            for group in existing.get("groups", []) or []:
+                key = (str(group.get("question_id")), str(group.get("role")))
+                groups_by_key[key] = group
+        for (question_id, role), entry in new_plan.items():
+            groups_by_key[(question_id, role)] = {
+                "question_id": question_id,
+                "role": role,
+                **entry,
+            }
+        self.store.commit_yaml(
+            "structured/placement-plan.yaml",
+            {"schema": "placement_plan/v1", "groups": list(groups_by_key.values())},
+            "placement_plan/v1",
+        )
+        return resolved.draft
+
     @staticmethod
     def _attach_figure_prompt_crops(payload: dict, *, detector=None) -> dict:
-        """含图题的题图补齐:vision 检测插图区域,整页仅作失败兜底。
+        """含图题的题图补齐：仅挂通过题号配对和内容自校验的插图区域。
 
         两种真实来源的插图只存在于渲染页上——扫描包,以及插图是 VML 矢量
         组合而非媒体资产的 DOCX(闵行 2020 的 41 个 media 全是公式 WMF)。
         按架构 §8.2,这类来源的题图来自 vision detection(qwen-vl-max 边界框,
         即本方法);带媒体资产的卷走 word-source 归因,不会进入本路径。
-        检出的 crop 一律挂 attribution_review=needs_review,审核者在
-        Review UI 确认或粘贴精裁;检测失败退化为整页框(同样 needs_review),
-        保证 audit 的图题规则不放松。
+        每题的全部证据页都会参与检测（跨页题的图不一定在第一页）。检出的
+        crop 一律挂 attribution_review=needs_review，审核者在 Review UI 确认或
+        粘贴精裁；未得到唯一、自校验通过的候选时绝不挂猜测框或整页框，而是
+        写入 prompt_status=needs_human_crop 与明确备注。audit 的含图题可视证据
+        规则保持 fail-closed，不因这个人工标记而放松。
         """
         import re as _re
 
         from PIL import Image as _Image
 
         figure_reference = _re.compile(r"如图|图所示|下图|上图|图中|示意图")
-        pending: list[tuple[dict, Path, int]] = []  # (item, page_path, page_number)
+        pending: list[tuple[dict, list[tuple[Path, int]]]] = []
         for section in payload.get("sections") or []:
             for item in section.get("items") or []:
                 if not isinstance(item, dict) or item.get("prompt"):
@@ -250,24 +287,33 @@ class DeterministicEvidenceCompleter:
                 entries = item.get("question_word_evidence") or []
                 if not entries:
                     continue
-                page_image = str(entries[0].get("page_image") or "")
-                if not page_image:
-                    continue
-                page_path = Path(page_image)
-                if not page_path.is_absolute():
-                    page_path = repo_root() / page_image
-                pending.append((item, page_path, int(entries[0].get("page_number") or 0)))
+                pages: list[tuple[Path, int]] = []
+                seen_pages: set[Path] = set()
+                for entry in entries:
+                    page_image = str(entry.get("page_image") or "")
+                    if not page_image:
+                        continue
+                    page_path = Path(page_image)
+                    if not page_path.is_absolute():
+                        page_path = repo_root() / page_image
+                    if page_path in seen_pages:
+                        continue
+                    seen_pages.add(page_path)
+                    pages.append((page_path, int(entry.get("page_number") or 0)))
+                if pages:
+                    pending.append((item, pages))
         if not pending:
             return payload
 
         # Group by page: one detection call per distinct page image.
         by_page: dict[Path, list[tuple[dict, int]]] = {}
-        for item, page_path, _page_number in pending:
-            by_page.setdefault(page_path, []).append((item, _page_number))
+        for item, pages in pending:
+            for page_path, page_number in pages:
+                by_page.setdefault(page_path, []).append((item, page_number))
 
-        from ..source.figure_detection import detect_page_figures
+        from ..source.figure_detection import FigureDetectionResult, detect_page_figures
 
-        detection_boxes: dict[Path, dict[int, list[list[int]]]] = {}
+        detection_results: dict[Path, FigureDetectionResult] = {}
         if detector is None:
             from ..source.figure_detection import FigureDetector
 
@@ -289,7 +335,7 @@ class DeterministicEvidenceCompleter:
                 }
                 for item, _ in page_items
             ]
-            detection_boxes[page_path] = detect_page_figures(
+            detection_results[page_path] = detect_page_figures(
                 detector,
                 page_path,
                 page_sha256=sha,
@@ -297,27 +343,49 @@ class DeterministicEvidenceCompleter:
                 page_size=page_size,
             )
 
-        for item, page_path, page_number in pending:
-            width, height = _Image.open(page_path).size
-            boxes = detection_boxes.get(page_path) or {}
-            number = item.get("question_number")
-            box = (boxes.get(number) or [None])[0]
-            if box is None:
-                # Detection failed for this item: degrade to the full page,
-                # still needs_review so the reviewer must confirm/crop.
-                box = [0, 0, width, height]
-            crop = {
-                "source": str(page_path),
-                "box_px": box,
-                "attribution_review": {
-                    "attribution_id": (
-                        f"figure-detect-p{page_number}-q{number}"
-                    ),
-                    "state": "needs_review",
-                    "confidence": "medium",
-                },
-            }
-            item["prompt"] = [crop]
+        for item, pages in pending:
+            number = int(item.get("question_number"))
+            matches: list[tuple[Path, int, list[int]]] = []
+            rejection_notes: list[str] = []
+            for page_path, page_number in pages:
+                result = detection_results.get(page_path) or FigureDetectionResult()
+                matches.extend(
+                    (page_path, page_number, box)
+                    for box in result.boxes.get(number, [])
+                )
+                rejection_notes.extend(result.review_notes.get(number, []))
+
+            if matches:
+                crops: list[dict] = []
+                for index, (page_path, page_number, box) in enumerate(matches, 1):
+                    attribution_id = f"figure-detect-p{page_number}-q{number}"
+                    if len(matches) > 1:
+                        attribution_id += f"-{index}"
+                    crops.append(
+                        {
+                            "source": str(page_path),
+                            "box_px": box,
+                            "attribution_review": {
+                                "attribution_id": attribution_id,
+                                "state": "needs_review",
+                                "confidence": "medium",
+                            },
+                        }
+                    )
+                item["prompt"] = crops
+                continue
+
+            if not rejection_notes:
+                rejection_notes.append("自动检测未找到通过插图内容校验的候选框")
+            note = (
+                "自动插图检测未得到唯一且通过自校验的题图；请对照原始页人工补裁。"
+                + "；".join(dict.fromkeys(rejection_notes))
+            )
+            transcription = item.setdefault("transcription", {})
+            transcription["prompt_status"] = "needs_human_crop"
+            existing_notes = transcription.setdefault("prompt_review_notes", [])
+            if note not in existing_notes:
+                existing_notes.append(note)
         return payload
 
 

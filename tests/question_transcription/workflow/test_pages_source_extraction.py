@@ -450,7 +450,9 @@ def test_draft_projector_stamps_page_plan_declaration(tmp_path: Path) -> None:
     assert "non_question_pages" not in draft2["paper"]
 
 
-def test_figure_prompt_crops_use_detection_with_needs_review(tmp_path: Path) -> None:
+def test_figure_prompt_crops_use_validated_detection_and_fail_closed(
+    tmp_path: Path,
+) -> None:
     from PIL import Image
 
     page = tmp_path / "pages" / "002.png"
@@ -476,7 +478,7 @@ def test_figure_prompt_crops_use_detection_with_needs_review(tmp_path: Path) -> 
                         "item_id": "Q002",
                         "question_number": 19,
                         "prompt": [],
-                        # 检测失败(无框)→ 整页兜底,同样 needs_review
+                        # 检测失败（无框）→ 显式人工补裁，不挂猜测框。
                         "block": {"stem_latex": "如图，另一道含图题。"},
                         "question_word_evidence": [
                             {"page_image": str(page), "page_number": 2}
@@ -521,11 +523,133 @@ def test_figure_prompt_crops_use_detection_with_needs_review(tmp_path: Path) -> 
             },
         }
     ]
-    # 检测未命中 → 整页兜底框,同样 needs_review。
-    assert items[1]["prompt"][0]["box_px"] == [0, 0, 1200, 800]
-    assert items[1]["prompt"][0]["attribution_review"]["state"] == "needs_review"
+    # 检测未命中 → 不挂整页或其他猜测框，显式进入人工补裁 warning 路径。
+    assert items[1]["prompt"] == []
+    assert items[1]["transcription"]["prompt_status"] == "needs_human_crop"
+    assert items[1]["transcription"]["prompt_review_notes"]
     # 纯文字题不受影响。
     assert items[2]["prompt"] == []
+
+
+def test_figure_prompt_detection_checks_all_question_evidence_pages(
+    tmp_path: Path,
+) -> None:
+    from PIL import Image
+
+    pages = tmp_path / "pages"
+    pages.mkdir(parents=True)
+    first_page = pages / "001.png"
+    second_page = pages / "002.png"
+    Image.new("RGB", (1200, 800), "white").save(first_page)
+    Image.new("RGB", (1200, 800), "white").save(second_page)
+    payload = {
+        "schema": "math_exam_staging_draft/v1",
+        "sections": [
+            {
+                "id": "choice",
+                "title": "选择",
+                "items": [
+                    {
+                        "item_id": "Q006",
+                        "question_number": 6,
+                        "prompt": [],
+                        "block": {"stem_latex": "二次函数图像如图所示。"},
+                        "question_word_evidence": [
+                            {"page_image": str(first_page), "page_number": 1},
+                            {"page_image": str(second_page), "page_number": 2},
+                        ],
+                    }
+                ],
+            }
+        ],
+    }
+
+    class _CrossPageFakeDetector:
+        def detect(self, page_path, *, page_sha256, questions, page_size):
+            assert [question["question_number"] for question in questions] == [6]
+            if page_path == second_page:
+                return {6: [[800, 80, 1120, 360]]}
+            return {}
+
+    from scripts.question_transcription.workflow.adapters.staging.existing_pipeline import (
+        DeterministicEvidenceCompleter,
+    )
+
+    updated = DeterministicEvidenceCompleter._attach_figure_prompt_crops(
+        payload, detector=_CrossPageFakeDetector()
+    )
+
+    prompt = updated["sections"][0]["items"][0]["prompt"]
+    assert prompt[0]["source"] == str(second_page)
+    assert prompt[0]["box_px"] == [800, 80, 1120, 360]
+    assert prompt[0]["attribution_review"]["attribution_id"] == "figure-detect-p2-q6"
+
+
+def test_multiple_figures_for_one_question_are_composed_from_region_crops(
+    tmp_path: Path,
+) -> None:
+    from PIL import Image
+
+    page = tmp_path / "pages" / "005.png"
+    page.parent.mkdir(parents=True)
+    Image.new("RGB", (100, 100), "white").save(page)
+    payload = {
+        "schema": "math_exam_staging_draft/v1",
+        "sections": [
+            {
+                "id": "problem",
+                "title": "解答",
+                "items": [
+                    {
+                        "item_id": "Q022",
+                        "question_number": 22,
+                        "prompt": [],
+                        "block": {"stem_latex": "测高仪如图1，实践过程如图3。"},
+                        "question_word_evidence": [
+                            {"page_image": str(page), "page_number": 5}
+                        ],
+                    }
+                ],
+            }
+        ],
+    }
+
+    class _MultiFigureFakeDetector:
+        def detect(self, page_path, *, page_sha256, questions, page_size):
+            return {22: [[0, 0, 20, 10], [30, 30, 80, 50]]}
+
+    from scripts.question_transcription.workflow.adapters.staging.existing_pipeline import (
+        DeterministicEvidenceCompleter,
+    )
+    from scripts.question_transcription.workflow.adapters.staging.materialize_image_group import (
+        ImageGroupRenderer,
+    )
+
+    attached = DeterministicEvidenceCompleter._attach_figure_prompt_crops(
+        payload, detector=_MultiFigureFakeDetector()
+    )
+    assert len(attached["sections"][0]["items"][0]["prompt"]) == 2
+
+    store = _store(tmp_path)
+    completer = DeterministicEvidenceCompleter(store)
+    resolved = completer._resolve_figure_image_groups(attached)
+    prompt = resolved["sections"][0]["items"][0]["prompt"]
+    assert len(prompt) == 1
+    assert prompt[0]["box_px"] == [0, 0, 50, 30]
+
+    plan_path = store.layout.structured_dir / "placement-plan.yaml"
+    plan = yaml.safe_load(plan_path.read_text(encoding="utf-8"))
+    assert plan["groups"][0]["members"] == [
+        {"source": str(page), "box_px": [0, 0, 20, 10]},
+        {"source": str(page), "box_px": [30, 30, 80, 50]},
+    ]
+
+    staging = tmp_path / "staging"
+    (staging / "items" / "Q022" / "assets").mkdir(parents=True)
+    renderer = ImageGroupRenderer.from_plan_file(plan_path, tmp_path)
+    renderer.compose_groups(staging)
+    with Image.open(staging / "items" / "Q022" / "assets" / "prompt-group.png") as group:
+        assert group.size == (50, 30)
 
 
 def test_low_resolution_page_gets_2x_ocr_upscale(tmp_path: Path) -> None:
