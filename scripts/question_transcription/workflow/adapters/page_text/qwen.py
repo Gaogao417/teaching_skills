@@ -42,6 +42,37 @@ _BAND_RATIOS = (
     (0.80, 1.0),
 )
 _BAND_UPSCALE = 2
+_BAND_MAX_ATTEMPTS = 3
+
+# 伪结构标记:忠实抄录的页文本不会出现这些排版命令——命中说明模型在
+# 「重新排版」而不是「抄录」,该次输出不可用于拼接(2026-08-19 黄浦答案页
+# 实测:同一带一次返回 338 字符 \section/\textbf 排版垃圾,重试即正常)。
+_PSEUDO_STRUCTURE_MARKERS = (
+    "\\section",
+    "\\textbf",
+    "\\includegraphics",
+    "\\begin{figure}",
+    "\\caption",
+    "\\textwidth",
+)
+
+
+def _band_acceptable(text: str) -> bool:
+    """条带输出是否可用于拼接。
+
+    - 命中伪结构标记 → 废(模型在排版,不是抄录);
+    - 无未闭合结构 → 可用;
+    - 未闭合结构只出现在最后一行 → 可用(底边物理切断,相邻重叠带的完整
+      重读 + stitch 的残行清除会补齐);出现在中部 → 废。
+    """
+    if any(marker in text for marker in _PSEUDO_STRUCTURE_MARKERS):
+        return False
+    if not looks_truncated(text):
+        return True
+    lines = [line for line in text.splitlines() if line.strip()]
+    if not lines:
+        return False
+    return not looks_truncated("\n".join(lines[:-1]))
 
 
 class QwenPageTextExtractor:
@@ -127,9 +158,39 @@ class QwenPageTextExtractor:
                     detail=f"stripe band {index} was only a code fence",
                 )
             # A band may legitimately cut through a formula/environment at its
-            # physical lower edge. Judge truncation only after all overlapping
-            # bands have been stitched; rejecting one band here confuses the
-            # intentional crop boundary with provider output truncation.
+            # physical lower edge — unclosed structure confined to the LAST line
+            # is acceptable (the overlap re-read of the next band completes it,
+            # and stitch_band_texts drops the covered fragment). Anything else —
+            # pseudo-structure (\section/\textbf/\begin{figure}: the model is
+            # typesetting, not transcribing) or unclosed structure mid-band —
+            # marks the attempt garbage: retry with a cache-busting key, since
+            # qwen sampling variance is high (2026-08-19 黄浦答案页实测:同一
+            # 条带一次返回 338 字符排版垃圾、重试即得正常抄录).
+            for attempt in range(1, _BAND_MAX_ATTEMPTS + 1):
+                if _band_acceptable(text):
+                    break
+                if attempt == _BAND_MAX_ATTEMPTS:
+                    return None, PageTextFailure(
+                        adapter_id=ADAPTER_ID,
+                        kind="truncated_page_text",
+                        attempts=1 + index + attempt,
+                        detail=(
+                            f"stripe band {index} keeps producing pseudo-structure "
+                            "or mid-band unclosed content after retries"
+                        ),
+                    )
+                retry_text, _ = client.complete_text(
+                    messages=build_messages(data_url),
+                    cache_material={
+                        "task": "page_text_ocr",
+                        "prompt_version": PAGE_TEXT_PROMPT_VERSION,
+                        "page_sha256": f"{job.image.sha256}#stripe{index}a{attempt}",
+                        "stripe_geometry": [top, bottom, _BAND_UPSCALE],
+                    },
+                )
+                retry_text = strip_code_fences(retry_text or "")
+                if retry_text.strip():
+                    text = retry_text
             texts.append(text)
         stitched = stitch_band_texts(texts)
         if looks_truncated(stitched):
