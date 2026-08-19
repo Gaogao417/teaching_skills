@@ -96,6 +96,9 @@ class CanonicalExportError(Exception):
 
 _SUBQUESTION_MARKER = re.compile(r"[（(]([1-9])[）)]")
 
+# 取值范围括注（如 （$0 < x \leq 2$））：内层含比较符且不含嵌套括号。
+_RANGE_PARENTHETICAL = re.compile(r"[（(]([^()（）]*[<>≤≥][^()（）]*)[)）]")
+
 
 def split_subquestions(stem: str) -> list[dict[str, Any]]:
     """Derive structured subquestions from （1）（2）… stem markers.
@@ -103,9 +106,9 @@ def split_subquestions(stem: str) -> list[dict[str, Any]]:
     Display-grade derivation, same source of truth as the review UI's
     explanations panel: prompts stay verbatim, part ids are the marker digits.
     Fewer than two markers (or duplicate ids) → no structure. Per-subquestion
-    answers/solutions are deliberately NOT split — per the target architecture
-    (09 §data model) canonicalAnswer/reviewedSolution stay question-level and
-    the per-part teaching decomposition belongs to Phase 3 TeachingSteps.
+    answers/solutions live in QuestionTruth v2 (ADR-005, 2026-08-20): the
+    whole-question storage ruling of 747ca24 is superseded — the review-time
+    split is suggested deterministically here and confirmed by the reviewer.
     """
     text = str(stem or "")
     matches = list(_SUBQUESTION_MARKER.finditer(text))
@@ -121,6 +124,52 @@ def split_subquestions(stem: str) -> list[dict[str, Any]]:
     if len(ids) != len(set(ids)):
         return []
     return parts
+
+
+def split_marked_segments(text: str, part_ids: list[str]) -> dict[str, str] | None:
+    """Split a markered text （1）…（2）… into per-part segments.
+
+    ADR-005 review-time suggestion: the split is returned only when marker
+    digits match ``part_ids`` exactly (same set, same order); otherwise None
+    and the caller fails closed so a human confirms the split in review.
+    """
+    matches = list(_SUBQUESTION_MARKER.finditer(str(text or "")))
+    if not matches:
+        return None
+    ids = [m.group(1) for m in matches]
+    if ids != list(part_ids):
+        return None
+    segments: dict[str, str] = {}
+    for index, match in enumerate(matches):
+        end = matches[index + 1].start() if index + 1 < len(matches) else len(text)
+        segment = text[match.end():end].strip().rstrip("；;。.").strip()
+        if segment:
+            segments[match.group(1)] = segment
+    if sorted(segments) != sorted(part_ids):
+        return None
+    return segments
+
+
+def extract_range_constraint(answer: str) -> tuple[str, str | None]:
+    """Split a parenthesised range （0<x≤2） out of an answer value.
+
+    v1 data bug fixed here (ADR-005 §2): range_constraint must hold only the
+    range text, never the whole answer string.
+    """
+    found = _RANGE_PARENTHETICAL.findall(answer)
+    if len(found) != 1:
+        return answer.strip(), None
+    range_text = found[0].strip().strip("$").strip()
+    value = _RANGE_PARENTHETICAL.sub("", answer, count=1).strip().rstrip("，,；;").strip()
+    return value or answer.strip(), range_text or None
+
+
+def split_base_stem(stem: str) -> str:
+    """v2 stem de-inlining: drop the （1）… tail that lives in subquestions."""
+    match = _SUBQUESTION_MARKER.search(str(stem or ""))
+    if match is None:
+        return str(stem or "")
+    return stem[: match.start()].strip().rstrip("，,；;。.").strip()
 
 
 def _canonical_json(value: Any) -> str:
@@ -606,6 +655,16 @@ def _truth_version_path(artifact_id: str, version: str) -> Path:
     return CANONICAL_ROOT / QT_NAMESPACE / artifact_id / f"{version}.json"
 
 
+def _canonical_answer_for(staging_type: str, answer_text: str) -> dict[str, Any]:
+    if staging_type == "choice":
+        return {"kind": "choice_option", "value": answer_text.strip().upper()}
+    value, range_text = extract_range_constraint(answer_text)
+    canonical_answer: dict[str, Any] = {"kind": "expression", "value": value}
+    if range_text:
+        canonical_answer["range_constraint"] = range_text
+    return canonical_answer
+
+
 def _build_truth_payload(
     item: dict[str, Any], *, version: str, superseded_by: dict | None = None
 ) -> dict[str, Any]:
@@ -616,42 +675,16 @@ def _build_truth_payload(
     staging_type = str(source["question_type"])
     answer = str(block.get("answer") or "")
     steps = [_step_text(step) for step in (block.get("solution_steps") or [])]
-    if steps:
-        reviewed_solution = "\n".join(steps)
-    else:
-        pages = sorted(
-            {
-                entry["page_number"]
-                for entry in (source.get("word_evidence") or {}).get(
-                    "official_solution", []
-                )
-            }
-        )
-        reviewed_solution = (
-            f"参考答案：{answer}（官方解答页 {pages or '见证据'}，人工核对）"
-        )
-    if staging_type == "choice":
-        canonical_answer = {"kind": "choice_option", "value": answer.strip().upper()}
-    else:
-        canonical_answer = {"kind": "expression", "value": answer}
-        if "<" in answer or "≤" in answer or ">" in answer or "≥" in answer:
-            canonical_answer["range_constraint"] = answer
-
     truth_stem = str(block.get("stem_latex") or block.get("stem") or "")
+    subquestions = split_subquestions(truth_stem)
+
     payload: dict[str, Any] = {
-        "schema": "ai_teaching_question_truth/v1",
+        "schema": "ai_teaching_question_truth/v2",
         "artifact_id": allocation["qt_id"],
         "version": version,
         "status": "Approved",
         "question_type": _QUESTION_TYPE_MAP[staging_type],
-        "stem": truth_stem,
-        **(
-            {"subquestions": subquestions}
-            if (subquestions := split_subquestions(truth_stem))
-            else {}
-        ),
-        "canonical_answer": canonical_answer,
-        "reviewed_solution": reviewed_solution,
+        "stem": split_base_stem(truth_stem) if subquestions else truth_stem,
         "source_evidence_refs": item["qc_payload"]["source_evidence_refs"],
         "origin_candidate_id": allocation["qc_id"],
         "approval": {
@@ -663,6 +696,49 @@ def _build_truth_payload(
         "content_hash": "",
         "artifact_uri": f"artifact://{QT_NAMESPACE}/{allocation['qt_id']}@{version}",
     }
+
+    if not subquestions:
+        # 无小问：真值保留在顶层（v2 与 v1 同构，仅 schema 常量升级）。
+        if steps:
+            reviewed_solution = "\n".join(steps)
+        else:
+            pages = sorted(
+                {
+                    entry["page_number"]
+                    for entry in (source.get("word_evidence") or {}).get(
+                        "official_solution", []
+                    )
+                }
+            )
+            reviewed_solution = (
+                f"参考答案：{answer}（官方解答页 {pages or '见证据'}，人工核对）"
+            )
+        payload["canonical_answer"] = _canonical_answer_for(staging_type, answer)
+        payload["reviewed_solution"] = reviewed_solution
+    else:
+        # ADR-005：有小问 → 小问级单一事实源；切分建议必须与 part 对齐，
+        # 对不齐 fail closed（审题人工确认切分，不在录入层自动绑定）。
+        part_ids = [part["part_id"] for part in subquestions]
+        answer_segments = split_marked_segments(answer, part_ids)
+        if answer_segments is None:
+            raise CanonicalExportError(
+                f"{allocation['qt_id']}: multi-part answer split failed (markers do "
+                f"not match subquestion ids {part_ids}); confirm the split in review"
+            )
+        solution_segments = split_marked_segments("\n".join(steps), part_ids)
+        if solution_segments is None:
+            raise CanonicalExportError(
+                f"{allocation['qt_id']}: multi-part solution split failed (markers "
+                f"do not match subquestion ids {part_ids}); confirm the split in review"
+            )
+        for part in subquestions:
+            part_id = part["part_id"]
+            part["canonical_answer"] = _canonical_answer_for(
+                staging_type, answer_segments[part_id]
+            )
+            part["reviewed_solution"] = solution_segments[part_id]
+        payload["subquestions"] = subquestions
+
     if superseded_by is not None:
         payload["status"] = "Superseded"
         payload["superseded_by"] = superseded_by

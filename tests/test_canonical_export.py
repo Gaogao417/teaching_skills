@@ -56,6 +56,7 @@ def _make_staging(
     paper_id: str = "TEST-PAPER",
     stem: str = "如图，求 $BE$ 的长。",
     answer: str = "$1$",
+    solution_steps: list[str] | None = None,
 ) -> Path:
     staging = repo_root / "staging" / paper_id
     item = staging / "items" / "Q001"
@@ -112,7 +113,7 @@ def _make_staging(
                                 "stem_latex": stem,
                                 "answer": answer,
                                 "clue": "折叠",
-                                "solution_steps": [],
+                                "solution_steps": solution_steps or [],
                             }
                         ],
                     }
@@ -210,6 +211,7 @@ def test_first_promotion_writes_immutable_v1(canonical_env: Path) -> None:
     payload = ce.read_truth_version(qt_id, "v1")
     assert payload["status"] == "Approved"
     assert payload["version"] == "v1"
+    assert payload["schema"] == "ai_teaching_question_truth/v2"  # ADR-005 起 v2
     assert payload["artifact_uri"] == f"artifact://question-truth/{qt_id}@v1"
     assert payload["canonical_answer"] == {"kind": "expression", "value": "$1$"}
     assert payload["reviewed_solution"].startswith("参考答案：")
@@ -371,7 +373,12 @@ def test_publication_prevalidation_placeholder_is_schema_legal(
 def test_candidate_and_truth_carry_subquestions(canonical_env: Path) -> None:
     staging = _make_staging(
         canonical_env,
-        stem="如图，在 △ABC 中．（1）求证：CE⊥AB；（2）求 AF·DE=AG·B．",
+        stem="如图，在 △ABC 中．（1）求证：CE⊥AB；（2）求 y 关于 x 的解析式．",
+        answer="(1) CE⊥AB 得证；（2）$y=x+1$（$0<x<2$）",
+        solution_steps=[
+            "(1) 证明：由 BD⊥AC 与角平分线导等角，得 CE⊥AB。",
+            "(2) 设元列式，解得 $y=x+1$，范围 $0<x<2$。",
+        ],
     )
     export = _export(staging)
     qc = export["items"][0]["qc_payload"]
@@ -381,5 +388,48 @@ def test_candidate_and_truth_carry_subquestions(canonical_env: Path) -> None:
     truth = ce.current_truth(qt_id)
     assert [p["part_id"] for p in truth["subquestions"]] == ["1", "2"]
     assert truth["subquestions"][1]["prompt"].startswith("求")
-    # 小问级答案/解答字段不存在（架构上归属 Phase 3 TeachingStep）。
-    assert all(set(p) == {"part_id", "prompt"} for p in truth["subquestions"])
+    # ADR-005：小问级真值为单一事实源——顶层不再存整题答案/解答；stem 去内联。
+    assert "canonical_answer" not in truth
+    assert "reviewed_solution" not in truth
+    assert "（1）" not in truth["stem"]
+    first = truth["subquestions"][0]
+    assert first["canonical_answer"]["value"] == "CE⊥AB 得证"
+    assert first["reviewed_solution"].startswith("证明")  # 切分后不再带 (1) 前缀
+    second = truth["subquestions"][1]
+    # range_constraint 只存范围文本（v1 数据瑕疵的修复对象）。
+    assert second["canonical_answer"]["value"] == "$y=x+1$"
+    assert second["canonical_answer"]["range_constraint"] == "0<x<2"
+    assert second["reviewed_solution"].startswith("设元列式")
+
+
+def test_multi_part_unmarkered_answer_fails_closed(canonical_env: Path) -> None:
+    """多小问题但官方答案无 (1)(2) 标记 → 拒绝晋升（切分须人工确认）。"""
+    staging = _make_staging(
+        canonical_env, stem="如图．（1）求证：CE⊥AB；（2）求 AF·DE=AG·B．"
+    )
+    export = _export(staging)
+    with pytest.raises(ce.CanonicalExportError, match="multi-part answer split failed"):
+        ce.promote_canonical(export)
+
+
+def test_extract_range_constraint_only_stores_the_range() -> None:
+    value, range_text = ce.extract_range_constraint(
+        "$y=\\frac{x^{2}+4}{x+2}$（$0 < x \\leq 2$）"
+    )
+    assert value == "$y=\\frac{x^{2}+4}{x+2}$"
+    assert range_text == "0 < x \\leq 2"
+    # 无范围括注 / 多处括注 → 不拆。
+    assert ce.extract_range_constraint("$1$") == ("$1$", None)
+    mixed, none_range = ce.extract_range_constraint("$a$（$x>1$）且（$x<5$）")
+    assert none_range is None
+    assert mixed.startswith("$a$")
+
+
+def test_split_marked_segments_requires_exact_part_alignment() -> None:
+    assert ce.split_marked_segments("(1) 甲 (2) 乙", ["1", "2"]) == {
+        "1": "甲",
+        "2": "乙",
+    }
+    assert ce.split_marked_segments("(1) 甲", ["1", "2"]) is None
+    assert ce.split_marked_segments("(2) 乙 (1) 甲", ["1", "2"]) is None
+    assert ce.split_marked_segments("无标记", ["1", "2"]) is None
