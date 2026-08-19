@@ -16,7 +16,7 @@ __all__ = [
 ]
 
 
-WHOLE_PAPER_PROMPT_VERSION = "whole-paper-v2"
+WHOLE_PAPER_PROMPT_VERSION = "whole-paper-v3-terminal-validation"
 
 WHOLE_PAPER_SYSTEM_PROMPT = """\
 你是数学试卷整卷结构化转写器。你将收到一份按页码顺序排列的纯文本（每页用页码标记分隔），
@@ -73,10 +73,12 @@ WHOLE_PAPER_SYSTEM_PROMPT = """\
 
 【输出前自检（强制）】输出最终 JSON 之前，先调用 validate_transcription 工具校验你的 draft：
 - 把你拟输出的完整 JSON 对象作为 draft 参数传给该工具。
-- 工具返回 VALID：立即把该 JSON 作为最终回复输出（只放 JSON，不要 markdown 围栏）。
-- 工具返回错误：按错误信息用 Write/Edit 修正 draft，再调用 validate_transcription 校验一次。
+- 只有 paper、sections、provider 和全部题目都已完整填好后才能调用；禁止用 placeholder、
+  空壳对象或局部题目试探工具。
+- 工具返回 VALID：任务即完成，宿主会直接采用已校验的 draft；不要再次输出同一份 JSON。
+- 工具返回错误：在当前上下文中直接修正 draft，再调用 validate_transcription 校验一次。
 - 最多校验 3 次；若 3 次后仍不过，把当前最好的 JSON 直接输出。
-不要调用其它工具（如 Bash、Read）；不要在校验之外做任何操作。
+不要调用其它工具；不要写临时文件，也不要在校验之外做任何操作。
 """
 
 

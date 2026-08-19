@@ -17,6 +17,8 @@ must surface a routing failure; the Claude SDK binds ``model`` /
 
 from __future__ import annotations
 
+import asyncio
+import json
 from typing import Any, Protocol
 
 from ..contracts import ModelFailure, ModelFailureError, ModelFailureKind
@@ -31,12 +33,28 @@ ADAPTER_ID = "claude-code"
 class ClaudeTurn:
     """Result of one SDK ``query()`` turn: assistant text + token usage."""
 
-    __slots__ = ("assistant_text", "input_tokens", "output_tokens")
+    __slots__ = (
+        "assistant_text",
+        "input_tokens",
+        "output_tokens",
+        "model_name",
+        "session_id",
+    )
 
-    def __init__(self, *, assistant_text: str, input_tokens: int, output_tokens: int) -> None:
+    def __init__(
+        self,
+        *,
+        assistant_text: str,
+        input_tokens: int,
+        output_tokens: int,
+        model_name: str | None = None,
+        session_id: str | None = None,
+    ) -> None:
         self.assistant_text = assistant_text
         self.input_tokens = input_tokens
         self.output_tokens = output_tokens
+        self.model_name = model_name
+        self.session_id = session_id
 
 
 class ClaudeQueryPort(Protocol):
@@ -59,6 +77,11 @@ class ClaudeQueryPort(Protocol):
         permission_mode: str,
         max_turns: int = 1,
         mcp_servers: dict | None = None,
+        effort: str | None = None,
+        max_thinking_tokens: int | None = None,
+        terminal_tool_name: str | None = None,
+        terminal_tool_input_key: str | None = None,
+        terminal_tool_success_marker: str | None = None,
     ) -> ClaudeTurn: ...
 
 
@@ -73,6 +96,28 @@ def _extract_tokens(usage: dict[str, Any] | None) -> tuple[int, int]:
     )
 
 
+def _tool_response_text(response: Any) -> str:
+    """Flatten an SDK PostToolUse response enough to detect a success marker."""
+
+    if isinstance(response, str):
+        return response
+    if isinstance(response, dict):
+        return "\n".join(
+            _tool_response_text(value)
+            for key, value in response.items()
+            if key in {"content", "text", "result"}
+        )
+    if isinstance(response, list):
+        return "\n".join(_tool_response_text(value) for value in response)
+    return ""
+
+
+def _tool_name_matches(actual: str, configured: str) -> bool:
+    """Match an MCP short name against its SDK-qualified tool name."""
+
+    return actual == configured or actual.endswith(f"__{configured}")
+
+
 async def real_run(
     *,
     system_prompt: str,
@@ -83,6 +128,11 @@ async def real_run(
     permission_mode: str,
     max_turns: int = 1,
     mcp_servers: dict | None = None,
+    effort: str | None = None,
+    max_thinking_tokens: int | None = None,
+    terminal_tool_name: str | None = None,
+    terminal_tool_input_key: str | None = None,
+    terminal_tool_success_marker: str | None = None,
 ) -> ClaudeTurn:
     """The production SDK turn: drive ``claude_agent_sdk.query()``.
 
@@ -94,6 +144,7 @@ async def real_run(
         from claude_agent_sdk import (  # type: ignore[import-not-found]
             AssistantMessage,
             ClaudeAgentOptions,
+            HookMatcher,
             ResultMessage,
             TextBlock,
             query,
@@ -108,6 +159,42 @@ async def real_run(
             ),
         ))
 
+    terminal_output: Any | None = None
+
+    async def _stop_after_terminal_tool(
+        hook_input: dict[str, Any],
+        _tool_use_id: str | None,
+        _context: Any,
+    ) -> dict[str, Any]:
+        """Stop before the model re-emits an already validated large payload."""
+
+        nonlocal terminal_output
+        if not terminal_tool_name or not terminal_tool_input_key:
+            return {}
+        actual_name = str(hook_input.get("tool_name") or "")
+        if not _tool_name_matches(actual_name, terminal_tool_name):
+            return {}
+        response_text = _tool_response_text(hook_input.get("tool_response"))
+        marker = terminal_tool_success_marker or ""
+        if marker and marker not in response_text:
+            return {}
+        tool_input = hook_input.get("tool_input")
+        if not isinstance(tool_input, dict) or terminal_tool_input_key not in tool_input:
+            return {}
+        terminal_output = tool_input[terminal_tool_input_key]
+        return {
+            "continue_": False,
+            "stopReason": "terminal tool accepted the final structured output",
+        }
+
+    hooks = {}
+    if terminal_tool_name:
+        hooks = {
+            "PostToolUse": [
+                HookMatcher(matcher=None, hooks=[_stop_after_terminal_tool])
+            ]
+        }
+
     options = ClaudeAgentOptions(
         model=model,
         system_prompt=system_prompt,          # per-request: routing verifiable
@@ -115,6 +202,9 @@ async def real_run(
         permission_mode=permission_mode,      # "acceptEdits" auto-approves tools headless
         max_turns=max_turns,                  # >1 lets the agent self-check then answer
         mcp_servers=mcp_servers or {},        # in-process MCP tools (e.g. validate_transcription)
+        effort=effort,
+        max_thinking_tokens=max_thinking_tokens,
+        hooks=hooks,
     )
 
     try:
@@ -125,21 +215,29 @@ async def real_run(
         # most recent non-empty turn.
         last_turn_text: list[str] = []
         usage: dict[str, Any] | None = None
-        async for message in query(prompt=prompt, options=options):
-            if isinstance(message, AssistantMessage):
-                turn_text = [
-                    block.text for block in message.content
-                    if isinstance(block, TextBlock) and block.text
-                ]
-                if turn_text:
-                    last_turn_text = turn_text
-            elif isinstance(message, ResultMessage):
-                # ResultMessage.usage is the authoritative aggregate (input/output).
-                usage = message.usage
+        actual_model: str | None = None
+        session_id: str | None = None
+        async with asyncio.timeout(timeout_s):
+            async for message in query(prompt=prompt, options=options):
+                if isinstance(message, AssistantMessage):
+                    actual_model = str(getattr(message, "model", "") or "") or actual_model
+                    session_id = getattr(message, "session_id", None) or session_id
+                    turn_text = [
+                        block.text for block in message.content
+                        if isinstance(block, TextBlock) and block.text
+                    ]
+                    if turn_text:
+                        last_turn_text = turn_text
+                elif isinstance(message, ResultMessage):
+                    # ResultMessage.usage is the authoritative aggregate
+                    # (input/output); session_id lets callers correlate the local
+                    # ~/.claude JSONL without timestamp guessing.
+                    usage = message.usage
+                    session_id = message.session_id or session_id
     except TimeoutError as exc:
         raise ModelFailureError(ModelFailure(
             provider=ADAPTER_ID, kind="timed_out",
-            detail=f"claude-agent-sdk timed out: {exc}",
+            detail=f"claude-agent-sdk timed out after {timeout_s:g}s: {exc}",
         ))
     except ModelFailureError:
         raise
@@ -151,7 +249,10 @@ async def real_run(
             detail=f"{type(exc).__name__}: {exc}",
         ))
 
-    joined = "\n".join(p for p in last_turn_text if p).strip()
+    if terminal_output is not None:
+        joined = json.dumps(terminal_output, ensure_ascii=False, separators=(",", ":"))
+    else:
+        joined = "\n".join(p for p in last_turn_text if p).strip()
     if not joined:
         raise ModelFailureError(ModelFailure(
             provider=ADAPTER_ID, kind="protocol",
@@ -160,7 +261,11 @@ async def real_run(
 
     input_tokens, output_tokens = _extract_tokens(usage)
     return ClaudeTurn(
-        assistant_text=joined, input_tokens=input_tokens, output_tokens=output_tokens
+        assistant_text=joined,
+        input_tokens=input_tokens,
+        output_tokens=output_tokens,
+        model_name=actual_model or model,
+        session_id=session_id,
     )
 
 

@@ -126,7 +126,9 @@ class StructuredWholePaperTranscriber:
                 source_archive=self._source_archive(request),
                 ordered_pages=ordered,
             )
-            bundle = self._run_agent(user_prompt, page_count=len(ordered))
+            bundle, executed_model = self._run_agent(
+                user_prompt, page_count=len(ordered)
+            )
         except _TranscriberError as exc:
             return None, exc.failure
         except Exception as exc:  # pragma: no cover - defensive
@@ -149,7 +151,7 @@ class StructuredWholePaperTranscriber:
                 transcription=ref,
                 issues=None,
                 execution_id=self._execution_id(ordered),
-                model=self.model_name,
+                model=executed_model,
                 prompt_version=WHOLE_PAPER_PROMPT_VERSION,
             ),
             None,
@@ -184,7 +186,8 @@ class StructuredWholePaperTranscriber:
             )
 
             cached = json.loads(cache_path.read_text(encoding="utf-8"))
-            return QuestionTranscriptionBundle.model_validate(cached["bundle"])
+            bundle = QuestionTranscriptionBundle.model_validate(cached["bundle"])
+            return bundle, str(cached.get("model") or bundle.provider.name)
 
         from pydantic_ai import Agent
         from scripts.question_transcription.contracts import (
@@ -237,14 +240,25 @@ class StructuredWholePaperTranscriber:
             ))
 
         bundle = result.output
+        route_is_verifiable = getattr(self.bound_model, "system", "") == "claude-code"
+        executed_model = str(
+            getattr(result.response, "model_name", None) or self.model_name
+        ) if route_is_verifiable else self.model_name
+        # The gateway may resolve a requested alias to a newer concrete model
+        # (observed: requested glm-5.2, executed glm-5.3). Persist what actually
+        # answered instead of trusting the model-authored provider field.
+        bundle.provider.name = executed_model
         atomic_write_text(
             cache_path,
             json.dumps(
-                {"bundle": bundle.model_dump(by_alias=True, mode="json")},
+                {
+                    "bundle": bundle.model_dump(by_alias=True, mode="json"),
+                    "model": executed_model,
+                },
                 ensure_ascii=False,
             ),
         )
-        return bundle
+        return bundle, executed_model
 
     def _read_ordered_pages(self, request) -> list[tuple[int, str]]:
         return self._read_ordered_pages_from(request.ordered_page_texts)

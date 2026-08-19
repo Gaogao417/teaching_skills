@@ -31,7 +31,9 @@ from .client import ADAPTER_ID, ClaudeQueryPort, ClaudeTurn, RealClaudeQueryPort
 __all__ = ["ClaudeCodeModel", "convert_messages_to_prompt"]
 
 
-def convert_messages_to_prompt(messages: list[Any]) -> str:
+def convert_messages_to_prompt(
+    messages: list[Any], *, system_prompt_to_skip: str = ""
+) -> str:
     """Flatten PydanticAI ``ModelMessage`` into a single prompt string.
 
     The Claude SDK ``query()`` is **stateless**: its streaming input only accepts
@@ -65,6 +67,14 @@ def convert_messages_to_prompt(messages: list[Any]) -> str:
                 continue
             part_type = type(part).__name__
             if "System" in part_type or "Instruction" in part_type:
+                # The same caller-supplied instruction is already sent as the
+                # SDK's true system_prompt. Do not duplicate it in the flattened
+                # stateless transcript; keep any other dynamic system part.
+                if (
+                    system_prompt_to_skip
+                    and content.strip() == system_prompt_to_skip.strip()
+                ):
+                    continue
                 role = "system"
             elif "User" in part_type:
                 role = "user"
@@ -97,6 +107,11 @@ class ClaudeCodeModel(Model):
         permission_mode: str = "default",
         max_turns: int = 1,
         mcp_servers: dict | None = None,
+        effort: str | None = None,
+        max_thinking_tokens: int | None = None,
+        terminal_tool_name: str | None = None,
+        terminal_tool_input_key: str | None = None,
+        terminal_tool_success_marker: str | None = None,
         settings: ModelSettings | None = None,
     ) -> None:
         super().__init__(settings=settings)
@@ -109,6 +124,11 @@ class ClaudeCodeModel(Model):
         self._permission_mode = permission_mode
         self._max_turns = max_turns
         self._mcp_servers = dict(mcp_servers or {})
+        self._effort = effort
+        self._max_thinking_tokens = max_thinking_tokens
+        self._terminal_tool_name = terminal_tool_name
+        self._terminal_tool_input_key = terminal_tool_input_key
+        self._terminal_tool_success_marker = terminal_tool_success_marker
 
     @property
     def model_name(self) -> str:
@@ -129,7 +149,9 @@ class ClaudeCodeModel(Model):
         )
         check_allow_model_requests()
 
-        prompt = convert_messages_to_prompt(messages) or ""
+        prompt = convert_messages_to_prompt(
+            messages, system_prompt_to_skip=self._system_prompt
+        ) or ""
 
         turn: ClaudeTurn = await self._query_port.run(
             system_prompt=self._system_prompt,
@@ -140,6 +162,11 @@ class ClaudeCodeModel(Model):
             permission_mode=self._permission_mode,
             max_turns=self._max_turns,
             mcp_servers=self._mcp_servers,
+            effort=self._effort,
+            max_thinking_tokens=self._max_thinking_tokens,
+            terminal_tool_name=self._terminal_tool_name,
+            terminal_tool_input_key=self._terminal_tool_input_key,
+            terminal_tool_success_marker=self._terminal_tool_success_marker,
         )
 
         usage = RequestUsage(
@@ -148,8 +175,9 @@ class ClaudeCodeModel(Model):
         return ModelResponse(
             parts=[TextPart(content=turn.assistant_text)],
             usage=usage,
-            model_name=self._model_name,
+            model_name=turn.model_name or self._model_name,
             provider_name="claude-code",
+            provider_response_id=turn.session_id,
         )
 
 

@@ -24,6 +24,7 @@ from pydantic import BaseModel, ConfigDict, Field
 __all__ = [
     "PageTextProviderChoice",
     "WholePaperAdapterChoice",
+    "ClaudeCodeEffort",
     "RetryPolicy",
     "PageConcurrencyConfig",
     "DEFAULT_PAGE_TEXT_PROVIDER",
@@ -42,6 +43,7 @@ __all__ = [
 
 PageTextProviderChoice = Literal["qwen", "mimo"]
 WholePaperAdapterChoice = Literal["opencode", "claude_code"]
+ClaudeCodeEffort = Literal["low", "medium", "high", "xhigh", "max"]
 
 DEFAULT_PAGE_TEXT_PROVIDER: PageTextProviderChoice = "qwen"
 DEFAULT_WHOLE_PAPER_ADAPTER: WholePaperAdapterChoice = "opencode"
@@ -142,20 +144,20 @@ class RuntimeAdapterConfig(BaseModel):
     # Tools the Claude Code agent may call. The agent self-validates its draft via
     # the constrained in-process ``validate_transcription`` MCP tool (see
     # scripts/question_transcription/workflow/tools/validate_transcription.py and
-    # WHOLE_PAPER_SYSTEM_PROMPT "输出前自检"), and may Write/Edit to fix small JSON
-    # errors without re-emitting the whole draft. Bash/Read are intentionally NOT
-    # granted: a free Bash tool induced long write-script/run/read loops (~14 turns).
-    # permission_mode="bypassPermissions" is REQUIRED in headless `claude -p`:
-    # acceptEdits only auto-approves edits to tracked files, NOT Write to new temp
-    # files, which the self-check needs.
+    # WHOLE_PAPER_SYSTEM_PROMPT "输出前自检"). No filesystem or shell tool is
+    # needed: validation failures are corrected in the agent's current context.
     claude_code_allowed_tools: list[str] = Field(
-        default_factory=lambda: ["Write", "Edit", "validate_transcription"]
+        default_factory=lambda: ["validate_transcription"]
     )
-    # Whole-paper transcription is an agent task: glm-5.2 via Claude Code reads the
-    # validator contract, drafts the bundle, self-checks with Bash/Write/Read, then
-    # emits the final JSON — empirically ~14 turns. A tight cap aborts mid-task with
-    # "Reached maximum number of turns". 50 leaves headroom without being unbounded.
-    claude_code_max_turns: int = Field(default=50, ge=1)
+    # A successful validator call is terminal: the SDK bridge captures its draft
+    # and stops before the model serializes the same 20k JSON a second time. Three
+    # turns retain the prompt's bounded correction path for two failed validations.
+    claude_code_max_turns: int = Field(default=3, ge=1)
+    # Never inherit a workstation-wide ~/.claude effortLevel for this batch
+    # transcription task. High + an explicit thinking cap preserves
+    # whole-paper reasoning while preventing unbounded 40k-character thought logs.
+    claude_code_effort: ClaudeCodeEffort = "high"
+    claude_code_max_thinking_tokens: int = Field(default=12000, ge=0)
     claude_code_permission_mode: str = "bypassPermissions"
 
     # Whole-paper structured-output repair budget (ports §7.4).

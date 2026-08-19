@@ -58,8 +58,17 @@ from scripts.question_transcription.workflow.prompts.whole_paper import (
 # --------------------------------------------------------------------------- #
 
 
-def _adapter(store, *, cache_dir, query_port, allowed_tools=None, max_turns=1,
-             permission_mode="default"):
+def _adapter(
+    store,
+    *,
+    cache_dir,
+    query_port,
+    allowed_tools=None,
+    max_turns=1,
+    permission_mode="default",
+    effort=None,
+    max_thinking_tokens=None,
+):
     """Build the real Claude Code transcriber chain with an injected query port.
 
     This mirrors what composition.py binds: a provider-neutral
@@ -73,6 +82,8 @@ def _adapter(store, *, cache_dir, query_port, allowed_tools=None, max_turns=1,
         allowed_tools=allowed_tools,
         max_turns=max_turns,
         permission_mode=permission_mode,
+        effort=effort,
+        max_thinking_tokens=max_thinking_tokens,
     )
     return StructuredWholePaperTranscriber(
         adapter_id=ADAPTER_ID,
@@ -166,7 +177,12 @@ VALID_BUNDLE = {
 }
 
 
-def _fake_port(response: str | Exception, *, captured: dict | None = None):
+def _fake_port(
+    response: str | Exception,
+    *,
+    captured: dict | None = None,
+    actual_model: str | None = None,
+):
     """A ``ClaudeQueryPort`` that records calls and yields a canned assistant turn.
 
     ``response`` is either the assistant text (a valid bundle JSON string) or an
@@ -182,7 +198,10 @@ def _fake_port(response: str | Exception, *, captured: dict | None = None):
             if isinstance(response, Exception):
                 raise response
             return ClaudeTurn(
-                assistant_text=response, input_tokens=10, output_tokens=5
+                assistant_text=response,
+                input_tokens=10,
+                output_tokens=5,
+                model_name=actual_model,
             )
 
     return _Port(), cap
@@ -233,6 +252,22 @@ def test_transcribe_runs_agent_and_commits_valid_bundle(tmp_path):
     assert captured["system_prompt"]   # WHOLE_PAPER_SYSTEM_PROMPT
     assert "$2+2=$" in captured["prompt"]
     assert "exam.pdf" in captured["prompt"]
+
+
+def test_transcribe_persists_gateway_resolved_model(tmp_path):
+    store = _store(tmp_path)
+    request = _make_request(store, "1．选择题：$2+2=$（　）A．3 B．4 C．5 D．6")
+    port, _ = _fake_port(
+        json.dumps(VALID_BUNDLE, ensure_ascii=False), actual_model="glm-5.3"
+    )
+    adapter = _adapter(store, cache_dir=tmp_path / "nocache", query_port=port)
+
+    transcription, failure = adapter.transcribe(request)
+
+    assert failure is None
+    assert transcription.model == "glm-5.3"
+    data = store.read_yaml(transcription.transcription)
+    assert data["provider"]["name"] == "glm-5.3"
 
 
 def test_transcribe_cache_hit_short_circuits(tmp_path):
@@ -342,7 +377,7 @@ def test_tools_and_max_turns_propagate_to_port(tmp_path):
     """allowed_tools / max_turns / permission_mode must reach the query port.
 
     These reach the bound claude_agent_sdk options verbatim. The production
-    default is a constrained set (Write/Edit/validate_transcription); this test
+    default is the constrained validator only; this test
     passes an explicit list to prove the value is forwarded unchanged.
     """
     store = _store(tmp_path)
@@ -353,6 +388,7 @@ def test_tools_and_max_turns_propagate_to_port(tmp_path):
     adapter = _adapter(
         store, cache_dir=tmp_path / "nocache", query_port=port,
         allowed_tools=["Bash(python:*)"], max_turns=6, permission_mode="acceptEdits",
+        effort="high", max_thinking_tokens=12000,
     )
 
     transcription, failure = adapter.transcribe(request)
@@ -361,6 +397,8 @@ def test_tools_and_max_turns_propagate_to_port(tmp_path):
     assert captured["allowed_tools"] == ["Bash(python:*)"]
     assert captured["max_turns"] == 6
     assert captured["permission_mode"] == "acceptEdits"
+    assert captured["effort"] == "high"
+    assert captured["max_thinking_tokens"] == 12000
 
 
 def test_source_archive_falls_back_to_paper_id_when_manifest_empty(tmp_path):

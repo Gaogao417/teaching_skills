@@ -26,7 +26,7 @@ from scripts.question_transcription.workflow.prompts.whole_paper import (
 def test_prompt_version_bumped_to_v2():
     # The prompt wording changed (self-judge layout, no forced continuity); the
     # version must move so old caches miss.
-    assert WHOLE_PAPER_PROMPT_VERSION == "whole-paper-v2"
+    assert WHOLE_PAPER_PROMPT_VERSION == "whole-paper-v3-terminal-validation"
 
 
 def test_system_prompt_carries_schema_and_self_judge_layout_guidance():
@@ -50,6 +50,8 @@ def test_system_prompt_does_not_force_continuous_page_coverage():
     assert "不要求单题" in WHOLE_PAPER_SYSTEM_PROMPT
     # and solution pages may differ from question pages (answers-after layout)
     assert "题干页和解答页可以不同" in WHOLE_PAPER_SYSTEM_PROMPT
+    assert "禁止用 placeholder" in WHOLE_PAPER_SYSTEM_PROMPT
+    assert "不要再次输出同一份 JSON" in WHOLE_PAPER_SYSTEM_PROMPT
 
 
 def test_build_user_prompt_lists_all_pages_in_order_without_layout_label():

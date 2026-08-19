@@ -210,4 +210,8 @@ def test_runtime_config_validates_without_api_keys():
     cfg = wconfig.RuntimeAdapterConfig()
     assert cfg.page_text_provider == "qwen"
     assert cfg.whole_paper_adapter == "opencode"
+    assert cfg.claude_code_allowed_tools == ["validate_transcription"]
+    assert cfg.claude_code_max_turns == 3
+    assert cfg.claude_code_effort == "high"
+    assert cfg.claude_code_max_thinking_tokens == 12000
     # No exception means no key was required.

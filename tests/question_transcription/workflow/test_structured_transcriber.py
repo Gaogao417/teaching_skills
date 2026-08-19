@@ -172,7 +172,7 @@ def test_transcribe_serves_both_providers_with_same_contract(tmp_path):
 
         assert failure is None, getattr(failure, "detail", failure)
         assert result.model == "fake"
-        assert result.prompt_version == "whole-paper-v2"
+        assert result.prompt_version == "whole-paper-v3-terminal-validation"
         data = store2.read_yaml(result.transcription)
         assert data["schema"] == "math_question_transcription/v1"
         assert data["sections"][0]["questions"][0]["content"]["answer"] == "B"

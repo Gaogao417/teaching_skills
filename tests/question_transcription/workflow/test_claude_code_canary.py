@@ -50,6 +50,9 @@ def test_claude_code_routes_and_structures(tmp_path):
     from scripts.question_transcription.workflow.adapters.whole_paper.structured_transcriber import (
         StructuredWholePaperTranscriber,
     )
+    from scripts.question_transcription.workflow.bootstrap.config import (
+        RuntimeAdapterConfig,
+    )
     from scripts.question_transcription.workflow.infrastructure.artifact_store import (
         ArtifactStore,
     )
@@ -60,6 +63,12 @@ def test_claude_code_routes_and_structures(tmp_path):
         ExecutionProvenance,
         PageTextArtifact,
         PageTextExtract,
+    )
+    from scripts.question_transcription.workflow.prompts.whole_paper import (
+        WHOLE_PAPER_SYSTEM_PROMPT,
+    )
+    from scripts.question_transcription.workflow.tools.validate_transcription import (
+        build_validate_mcp_server,
     )
 
     layout = RunLayout(tmp_path / "build", "P", "R")
@@ -94,10 +103,24 @@ def test_claude_code_routes_and_structures(tmp_path):
         ordered_page_texts = [extract]
         source_manifest = manifest
 
-    bound_model = ClaudeCodeModel(model_name="sonnet", timeout_s=300.0)
+    config = RuntimeAdapterConfig(whole_paper_adapter="claude_code")
+    bound_model = ClaudeCodeModel(
+        model_name=config.claude_code_model,
+        timeout_s=config.claude_code_timeout_s,
+        system_prompt=WHOLE_PAPER_SYSTEM_PROMPT,
+        allowed_tools=config.claude_code_allowed_tools,
+        permission_mode=config.claude_code_permission_mode,
+        max_turns=config.claude_code_max_turns,
+        mcp_servers={"validator": build_validate_mcp_server()},
+        effort=config.claude_code_effort,
+        max_thinking_tokens=config.claude_code_max_thinking_tokens,
+        terminal_tool_name="validate_transcription",
+        terminal_tool_input_key="draft",
+        terminal_tool_success_marker="VALID",
+    )
     adapter = StructuredWholePaperTranscriber(
         adapter_id=ADAPTER_ID,
-        model_name="sonnet",
+        model_name=config.claude_code_model,
         bound_model=bound_model,
         store=store,
         agent_name="whole-paper-transcriber-claude-code",
@@ -114,4 +137,5 @@ def test_claude_code_routes_and_structures(tmp_path):
 
     data = store.read_yaml(transcription.transcription)
     assert data["schema"] == "math_question_transcription/v1"
-    assert transcription.model == "sonnet"
+    assert transcription.model
+    assert data["provider"]["name"] == transcription.model

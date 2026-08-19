@@ -36,7 +36,10 @@ from scripts.infrastructure.ai.claude_code.client import (
     ADAPTER_ID as CLAUDE_ID,
     ClaudeTurn,
 )
-from scripts.infrastructure.ai.claude_code.pydantic_model import ClaudeCodeModel
+from scripts.infrastructure.ai.claude_code.pydantic_model import (
+    ClaudeCodeModel,
+    convert_messages_to_prompt,
+)
 from scripts.infrastructure.ai.opencode.client import (
     OpencodeClient,
     extract_opencode_text,
@@ -221,6 +224,24 @@ def test_claude_model_request_carries_assistant_text_and_usage():
     assert response.provider_name == "claude-code"
 
 
+def test_claude_prompt_does_not_repeat_identical_sdk_system_prompt():
+    system_part = type("SystemPromptPart", (), {"content": "same system"})()
+    user_part = type("UserPromptPart", (), {"content": "hello"})()
+    system_message = type("Message", (), {"parts": [system_part]})()
+    user_message = type("Message", (), {"parts": [user_part]})()
+    messages = [
+        system_message,
+        user_message,
+    ]
+
+    prompt = convert_messages_to_prompt(
+        messages, system_prompt_to_skip="same system"
+    )
+
+    assert "same system" not in prompt
+    assert prompt == "[user]\nhello"
+
+
 def test_claude_model_surfaces_model_failure_error():
     port = _raising_port(ModelFailureError(ModelFailure(
         provider=CLAUDE_ID, kind="timed_out", detail="slow",
@@ -276,16 +297,26 @@ class _FakeTextBlock:
 
 
 class _FakeAssistantMessage:
-    def __init__(self, texts: list[str]):
+    def __init__(self, texts: list[str], *, model: str = "actual-model"):
         self.content = [_FakeTextBlock(t) for t in texts]
+        self.model = model
+        self.session_id = "session-from-assistant"
 
 
 class _FakeResultMessage:
     def __init__(self):
         self.usage = {"input_tokens": 7, "output_tokens": 9}
+        self.session_id = "session-from-result"
 
 
-def _install_fake_sdk(monkeypatch, stream: list, *, capture_options: dict | None = None):
+def _install_fake_sdk(
+    monkeypatch,
+    stream: list,
+    *,
+    capture_options: dict | None = None,
+    post_tool_event: dict | None = None,
+    delay_s: float = 0,
+):
     """Inject a fake ``claude_agent_sdk`` into sys.modules for real_run's lazy import.
 
     ``stream`` is the list of messages the fake ``query()`` yields. This lets us test
@@ -294,10 +325,19 @@ def _install_fake_sdk(monkeypatch, stream: list, *, capture_options: dict | None
     """
 
     async def _fake_query(*, prompt, options):
+        if delay_s:
+            await asyncio.sleep(delay_s)
         if capture_options is not None:
             capture_options["max_turns"] = options.max_turns
             capture_options["allowed_tools"] = options.allowed_tools
             capture_options["mcp_servers"] = options.mcp_servers
+            capture_options["effort"] = options.effort
+            capture_options["max_thinking_tokens"] = options.max_thinking_tokens
+        if post_tool_event is not None:
+            matcher = options.hooks["PostToolUse"][0]
+            hook_result = await matcher.hooks[0](post_tool_event, None, None)
+            if capture_options is not None:
+                capture_options["hook_result"] = hook_result
         for msg in stream:
             yield msg
 
@@ -306,6 +346,13 @@ def _install_fake_sdk(monkeypatch, stream: list, *, capture_options: dict | None
     fake.AssistantMessage = _FakeAssistantMessage
     fake.ResultMessage = _FakeResultMessage
     fake.TextBlock = _FakeTextBlock
+
+    class _HookMatcher:
+        def __init__(self, *, matcher=None, hooks=None):
+            self.matcher = matcher
+            self.hooks = list(hooks or [])
+
+    fake.HookMatcher = _HookMatcher
 
     class _Opts:
         def __init__(self, **kw):
@@ -372,6 +419,100 @@ def test_real_run_passes_max_turns_to_options(monkeypatch):
     ))
     assert captured["max_turns"] == 6
     assert captured["allowed_tools"] == ["Bash(python:*)"]
+
+
+def test_real_run_passes_effort_and_thinking_cap_to_options(monkeypatch):
+    from scripts.infrastructure.ai.claude_code.client import real_run
+
+    captured: dict = {}
+    _install_fake_sdk(
+        monkeypatch,
+        [_FakeAssistantMessage(["ok"]), _FakeResultMessage()],
+        capture_options=captured,
+    )
+
+    asyncio.run(real_run(
+        system_prompt="sys", prompt="hi", model="m", timeout_s=10,
+        allowed_tools=[], permission_mode="default", max_turns=3,
+        effort="high", max_thinking_tokens=12000,
+    ))
+
+    assert captured["effort"] == "high"
+    assert captured["max_thinking_tokens"] == 12000
+
+
+def test_real_run_returns_terminal_tool_draft_without_final_text(monkeypatch):
+    """A VALID tool call is the final payload; no second JSON turn is required."""
+
+    from scripts.infrastructure.ai.claude_code.client import real_run
+
+    captured: dict = {}
+    draft = {"schema": "demo/v1", "items": [1, 2]}
+    event = {
+        "tool_name": "mcp__validator__validate_transcription",
+        "tool_input": {"draft": draft},
+        "tool_response": {"content": [{"type": "text", "text": "VALID — ok"}]},
+    }
+    _install_fake_sdk(
+        monkeypatch,
+        [_FakeResultMessage()],
+        capture_options=captured,
+        post_tool_event=event,
+    )
+
+    turn = asyncio.run(real_run(
+        system_prompt="sys", prompt="hi", model="m", timeout_s=10,
+        allowed_tools=["validate_transcription"],
+        permission_mode="bypassPermissions", max_turns=3,
+        terminal_tool_name="validate_transcription",
+        terminal_tool_input_key="draft",
+        terminal_tool_success_marker="VALID",
+    ))
+
+    assert json.loads(turn.assistant_text) == draft
+    assert captured["hook_result"]["continue_"] is False
+    assert turn.session_id == "session-from-result"
+
+
+def test_real_run_does_not_stop_on_failed_terminal_tool(monkeypatch):
+    from scripts.infrastructure.ai.claude_code.client import real_run
+
+    captured: dict = {}
+    event = {
+        "tool_name": "mcp__validator__validate_transcription",
+        "tool_input": {"draft": {"schema": "broken"}},
+        "tool_response": {"content": "validation failed", "is_error": True},
+    }
+    _install_fake_sdk(
+        monkeypatch,
+        [_FakeAssistantMessage(['{"answer":"fixed"}']), _FakeResultMessage()],
+        capture_options=captured,
+        post_tool_event=event,
+    )
+
+    turn = asyncio.run(real_run(
+        system_prompt="sys", prompt="hi", model="m", timeout_s=10,
+        allowed_tools=["validate_transcription"], permission_mode="bypassPermissions",
+        max_turns=3, terminal_tool_name="validate_transcription",
+        terminal_tool_input_key="draft", terminal_tool_success_marker="VALID",
+    ))
+
+    assert turn.assistant_text == '{"answer":"fixed"}'
+    assert captured["hook_result"] == {}
+
+
+def test_real_run_enforces_timeout(monkeypatch):
+    from scripts.infrastructure.ai.claude_code.client import real_run
+
+    _install_fake_sdk(monkeypatch, [], delay_s=0.05)
+
+    with pytest.raises(ModelFailureError) as exc:
+        asyncio.run(real_run(
+            system_prompt="sys", prompt="hi", model="m", timeout_s=0.001,
+            allowed_tools=[], permission_mode="default", max_turns=1,
+        ))
+
+    assert exc.value.failure.kind == "timed_out"
 
 
 def test_real_run_passes_mcp_servers_to_options(monkeypatch):
