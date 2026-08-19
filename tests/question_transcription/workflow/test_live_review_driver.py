@@ -255,6 +255,7 @@ def test_cli_resumes_existing_review_checkpoint_without_source(monkeypatch) -> N
         "run_id": "run-123",
         "agent_host": "claude-code",
         "page_provider": "qwen",
+        "transcribe_timeout_s": 300.0,
     }
 
 
