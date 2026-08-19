@@ -553,13 +553,21 @@ def audit_item(
         for crop in (raw_source.get("crops") or {}).get("prompt", [])
         if isinstance(crop, dict)
     ]
-    # 题干明确指代一张配图（如图/图所示/下图…）时，必须配 prompt crop；缺图属于
-    # 结构性缺陷，不应让无图版本进入题库。
+    # 题干明确指代一张配图（如图/图所示/下图…）时，必须配 prompt crop。缺图
+    # 有两种情形：插图检测显式降级为 needs_human_crop（检测没有唯一可信框，
+    # 上报人工在 Review UI 补裁——2026-08-19 用户裁定：检测不出的交给人）→
+    # WARNING 放行到 review；既无 crop 也无降级声明 → 结构性错误。
     if mentions_figure(teacher_stem) and not prompt_crops:
-        errors.append(
-            f"{item_id}: stem references a figure (如图/图所示/下图…) "
-            "but no prompt crop is attached"
-        )
+        if (raw_source.get("transcription") or {}).get("prompt_status") == "needs_human_crop":
+            warnings.append(
+                f"{item_id}: stem references a figure and figure detection "
+                "returned needs_human_crop — 在 Review UI 对照原页人工补裁题图"
+            )
+        else:
+            errors.append(
+                f"{item_id}: stem references a figure (如图/图所示/下图…) "
+                "but no prompt crop is attached"
+            )
     for prompt_crop in prompt_crops:
         same_page_evidence = [
             crop
