@@ -1,0 +1,110 @@
+schema: math_item_teaching_approach/v1
+item_id: Q022
+question:
+  source_key: 2025-HUANGPU-YIMO-Q23
+  artifact_id: QT-SMV-005
+  bound_at: '2026-08-19T15:00:14.939749+00:00'
+approaches:
+- id: t1
+  title: 角平分线 + 等腰外角：AA 证相似，平行转移比例
+  author: mvp-phase3-dogfood
+  status: approved
+  goal: 掌握"角平分线给公共角、等腰给外角"的组合：AA 判定证 △CEA∽△CDB， 再用 CF∥AE 的平行条件把比例转移到目标比例式。
+  entry_signal: CD 平分 ∠ACB → ∠ACE=∠DCB 是现成的公共角。
+  steps:
+  - step_id: S1
+    intent: 找公共角（角平分线）
+    narration: 由 $CD$ 平分 $\angle ACB$ 得 $\angle ACE=\angle DCB$，这是 $\triangle CEA$ 与 $\triangle CDB$ 的第一组等角。
+    expected_student_reasoning: 学生能立刻把角平分线条件翻译成两个三角形的公共等角。
+    accepted_alternatives: []
+    common_errors:
+    - 平分线两侧的角与三角形顶点对应错
+    skill_ids:
+    - SKILL-SMV-008
+    origin: manual
+  - step_id: S2
+    intent: 等腰外角配第二组角，AA 判定
+    narration: 由 $AE=AD$ 得 △AED 等腰，$\angle CEA$ 与 $\angle CDB$ 是其两个外角， 均等于 $2\angle EAD$，故 $\angle CEA=\angle CDB$； 两组对应角相等，AA 判定证得 $\triangle CEA\sim\triangle CDB$。
+    expected_student_reasoning: 学生能用"等腰 + 外角"补出第二组角并写明判定依据。
+    accepted_alternatives:
+    - 用内错角/同位角另证第二组等角
+    common_errors:
+    - 把外角当成底角本身
+    - 顶点对应关系写错
+    skill_ids:
+    - SKILL-SMV-002
+    origin: manual
+  - step_id: S3
+    intent: 平行转移比例，规划证明路线
+    narration: 由 $CF\parallel AE$ 得新的等角与比例，结合第一问相似比 $\frac{CE}{CD}=\frac{CA}{CB}$ 逐层转移，最终证得 $\frac{BD}{AD}=\frac{BF}{CF}$。
+    expected_student_reasoning: 学生能规划"先相似比、再平行比"的转移顺序，而不是硬凑。
+    accepted_alternatives: []
+    common_errors:
+    - 平行线截得的比例上下位写反
+    - 不用第一问结论另起炉灶
+    skill_ids:
+    - SKILL-SMV-009
+    - SKILL-SMV-007
+    origin: manual
+  steps_origin: manual
+  polished_text: "先观察图形，明确已知条件：在 $\\triangle ABC$ 中，$CD$ 平分 $\\angle ACB$，点 $E$ 在 $CD$ 的延长线上，且 $AE=AD$；点 $F$ 在 $AB$ 的延长线上，连接 $CF$。  \n\n第（1）问要求证明 $\\triangle CEA\\sim\\triangle CDB$。  \n首先看角：因为 $CD$ 平分 $\\angle ACB$，所以 $\\angle ACE=\\angle BCD$。  \n再找另一组相等的角：由 $AE=AD$，得 $\\triangle AED$ 是等腰三角形，故 $\\angle AED=\\angle ADE$；又 $\\angle ADE$ 与 $\\angle CDB$ 是对顶角，所以 $\\angle AED=\\angle CDB$。  \n于是 $\\triangle CEA$ 和 $\\triangle CDB$ 有两组对应角分别相等，即 $\\angle ACE=\\angle BCD$，$\\angle AED=\\angle CDB$，根据 AA 相似判定法，可得 $\\triangle CEA\\sim\\triangle CDB$。  \n\n第（2）问已知 $CF\\parallel AE$，要求证明 $\\frac{BD}{AD}=\\frac{BF}{CF}$。  \n先利用第（1）问结论：由 $\\triangle CEA\\sim\\triangle CDB$，得对应边成比例，即 $\\frac{BD}{AE}=\\frac{BC}{AC}$；又 $AE=AD$，所以 $\\frac{BD}{AD}=\\frac{BC}{AC}$。  \n再利用平行条件：由 $CF\\parallel AE$，得 $\\angle BCF=\\angle CAD$（同位角相等），且 $\\angle F$ 为公共角，故 $\\triangle CFB\\sim\\triangle AFC$，从而 $\\frac{BF}{CF}=\\frac{BC}{AC}$。  \n综上，$\\frac{BD}{AD}=\\frac{BC}{AC}=\\frac{BF}{CF}$，即 $\\frac{BD}{AD}=\\frac{BF}{CF}$。"
+  evidence:
+    recordings:
+    - revision: 1
+      audio_path: assets/teaching-approach/t1-r01-20260819T150015.629558_0000.wav
+      audio_sha256: sha256:b29291cc20504b36ed59f2395ecffa7c2a2c14e9786b2bd29ce63d0c67fac112
+      audio_bytes: 342892
+      recorded_at: '2026-08-19T15:00:15.629951+00:00'
+      duration_seconds: null
+      transcript: C C D D D D D D D D D D D D D D D D D D D D
+      transcript_path: assets/teaching-approach/t1-r01-20260819T150015.629558_0000.transcript.txt
+      transcript_sha256: sha256:3eb2d57b6a2086aa94aca028d2ed6f7586c59191316921f39d058f32883bb5c9
+      asr:
+        provider: dashscope
+        model_id: qwen3-asr-flash
+      transcribed_at: '2026-08-19T15:00:21.581430+00:00'
+    - revision: 2
+      audio_path: assets/teaching-approach/t1-r02-20260819T171727.936196_0000.wav
+      audio_sha256: sha256:9dbef3b21d3909fd0e756d9913e6d7efb2c2d5ceae4ade7bebe80b16ca733357
+      audio_bytes: 2040984
+      recorded_at: '2026-08-19T17:17:27.937976+00:00'
+      duration_seconds: null
+      transcript: 第一问证三角形 JAR 相似于三角形 CDB，CD 平分角 ACB，所以角 A 等于角 DCB，这是第一组角。又因为 AE 等于 AT，三角形 EAT 是等腰三角形，底角相等，于是角 JAR 和角 CDB 分别是它的两个外角，都等于两倍的底角，所以角 JAR 等于角 CDB，两组角对应相等，AA 判定相似的证。第二问 CF 平行于 AE，要证 BD 比 AT 等于 BF 比 CF，利用平行线和第一问的相似比，把线段之间的比例一层层转移过去，先把 BD 与 AT 的比通过相似换成别的线段比，再用平行线分出新的比例，两边接上就得到目标比例式。
+      transcript_path: assets/teaching-approach/t1-r02-20260819T171727.936196_0000.transcript.txt
+      transcript_sha256: sha256:48bcb10aff9bb76b24ed6f16544b3dfde6d5ccbc6b440625bf531f9a96edd642
+      asr:
+        provider: dashscope
+        model_id: qwen3-asr-flash
+      transcribed_at: '2026-08-19T17:17:52.591506+00:00'
+    polishes:
+    - revision: 1
+      based_on_recording: 1
+      polished_path: assets/teaching-approach/t1-p01-20260819T150033.626909_0000.polished.txt
+      polished_sha256: sha256:238d8e77bbb948bc5ea07f5515e91f673c8975b2fec948fc1ffec4c75267f1ce
+      polished_at: '2026-08-19T15:00:33.627408+00:00'
+      provenance:
+        provider: dashscope
+        model_id: qwen-plus
+        prompt_version: POLISH_PROMPT@2026-08-v1
+    - revision: 2
+      based_on_recording: 2
+      polished_path: assets/teaching-approach/t1-p02-20260819T171804.277088_0000.polished.txt
+      polished_sha256: sha256:81a791b2bd0d0a8ae1fc2d03e8f2ad1cdb1666fec0e123dcf5e9f955b44f7a02
+      polished_at: '2026-08-19T17:18:04.277350+00:00'
+      provenance:
+        provider: dashscope
+        model_id: qwen-plus
+        prompt_version: POLISH_PROMPT@2026-08-v1
+    manual_edit_notes:
+    - 2026-08-19T15:00:33.679558+00:00 editor=mvp-phase3-dogfood edited=entry_signal,goal
+    - 2026-08-19T15:00:33.727912+00:00 editor=mvp-phase3-dogfood edited=steps
+  approval:
+    reviewer_id: phase3-dogfood-reviewer
+    approved_at: '2026-08-19T17:18:04.346454+00:00'
+    review_note: '[重录重批] AA 判定 + 平行转移比例路径与官方解答一致；△CEA∽△CDB 顶点对应关系经人工复核无误。'
+  canonical:
+    artifact_id: TA-SMV-005
+    version: v2
+    content_hash: sha256:d7371b983d22b651aa2a38bfeaad9ca77956430223b34922d7c8c82a9f38fca9
+    approved_at: '2026-08-19T17:18:04.346454+00:00'
+  created_at: '2026-08-19T15:00:14.939773+00:00'

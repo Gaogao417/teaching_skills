@@ -1,0 +1,103 @@
+{
+  "approval": {
+    "approved_at": "2026-08-19T15:04:53.115880+00:00",
+    "review_note": "A 字型建模与两次实践表达式均与官方答案一致；建议在 Runtime 阶段补仪器图标注的 checkpoint。",
+    "reviewer_id": "phase3-dogfood-reviewer"
+  },
+  "artifact_id": "TA-SMV-004",
+  "artifact_uri": "artifact://teaching-approach/TA-SMV-004@v1",
+  "content_hash": "sha256:fc2a795a164bda7065dbe3835ceb9363286114a4620044ed2dfee9f42f7118b8",
+  "entry_signal": "木条 AB⊥CD 且铅垂保证竖直 → 平行线构造 A 字型。",
+  "evidence": {
+    "audio": [
+      {
+        "artifact_uri": "artifact://audio/TA-SMV-004@v1/t1-r01-20260819T145314.620970_0000.wav",
+        "content_hash": "sha256:fa8a85352c5e61d5ae2ae170404a715ab429e4f13248c5f372d1414ba23fdd25",
+        "recorded_at": "2026-08-19T14:53:14.621249+00:00"
+      }
+    ],
+    "manual_edit_notes": [
+      "2026-08-19T15:00:14.828316+00:00 editor=mvp-phase3-dogfood edited=entry_signal,goal",
+      "2026-08-19T15:00:14.879674+00:00 editor=mvp-phase3-dogfood edited=steps"
+    ],
+    "polished": [
+      {
+        "artifact_uri": "artifact://transcript/TA-SMV-004@v1/t1-p01-20260819T150014.754851_0000.polished.txt",
+        "polish_provenance": {
+          "model_id": "qwen-plus",
+          "prompt_version": "POLISH_PROMPT@2026-08-v1",
+          "provider": "dashscope"
+        }
+      }
+    ],
+    "transcripts": [
+      {
+        "artifact_uri": "artifact://transcript/TA-SMV-004@v1/t1-r01-20260819T145314.620970_0000.transcript.txt",
+        "asr_provenance": {
+          "model_id": "qwen3-asr-flash",
+          "provider": "dashscope"
+        },
+        "revision": 1
+      }
+    ]
+  },
+  "goal": "在真实测量情境中把仪器结构翻译成 A 字型相似模型：由平行视线得两组对应边成比例， 两次实践分别求还需测量的量与树高表达式，体会建模的一致性检验。",
+  "question_ref": {
+    "artifact_id": "QT-SMV-004",
+    "content_hash": "sha256:623c8d4e4abc64d8b3b30e6270d0e5665aa4b030823a157382e0842799ab261c",
+    "version": "v1"
+  },
+  "schema": "ai_teaching_teaching_approach/v1",
+  "status": "Superseded",
+  "steps": [
+    {
+      "common_errors": [
+        "仪器边长与相似三角形对应边对应错"
+      ],
+      "expected_student_reasoning": "学生能把实物图抽象成两条平行线截得的 A 字型相似三角形。",
+      "intent": "读仪器，标注已知量",
+      "narration": "标注仪器结构：$AB=40\\,\\mathrm{cm}$、$CD=60\\,\\mathrm{cm}$、$DB=20\\,\\mathrm{cm}$， 铅垂保证竖直方向；把\"视线—标杆—树\"翻译成 A 字型相似模型。",
+      "skill_ids": [
+        "SKILL-SMV-001"
+      ],
+      "step_id": "S1"
+    },
+    {
+      "accepted_alternatives": [
+        "按另一组对应边列比例，结果一致"
+      ],
+      "common_errors": [
+        "A 字型对应边错配",
+        "漏加仪器的 40cm 结构量"
+      ],
+      "expected_student_reasoning": "学生能写出比例式并解出 $MN=(a+b+40)\\,\\mathrm{cm}$，说明每项的来源。",
+      "intent": "第一次实践列比例求表达式",
+      "narration": "由平行得 A 字型相似，对应边成比例，推出还需测量 $NE=b\\,\\mathrm{cm}$， 树高 $MN=(a+b+40)\\,\\mathrm{cm}$（40 为仪器结构补偿量）。",
+      "skill_ids": [
+        "SKILL-SMV-008",
+        "SKILL-SMV-003"
+      ],
+      "step_id": "S2"
+    },
+    {
+      "common_errors": [
+        "两次实践的比例方向写反",
+        "单位换算出错"
+      ],
+      "expected_student_reasoning": "学生能独立完成第二次建模并解释两种表达式为何都表示同一树高。",
+      "intent": "第二次实践与结果印证",
+      "narration": "换摆放后同理构造相似：还需测量 $EF=c\\,\\mathrm{cm}$，得 $MN=(c+a)\\,\\mathrm{cm}$； 与第一次实践的 $MN=(a+b+40)\\,\\mathrm{cm}$ 互相印证，检查建模一致性。",
+      "skill_ids": [
+        "SKILL-SMV-003",
+        "SKILL-SMV-007"
+      ],
+      "step_id": "S3"
+    }
+  ],
+  "superseded_by": {
+    "artifact_id": "TA-SMV-004",
+    "version": "v2"
+  },
+  "title": "测高仪实践：读仪器 → A 字型相似列比例 → 两次实践对比",
+  "version": "v1"
+}

@@ -245,3 +245,45 @@ select:focus-visible, button:focus-visible, textarea:focus-visible, .question-ro
 .explanation-message[data-tone="ok"] { color: var(--accent); font-weight: 700; }
 .explanation-message[data-tone="error"] { color: var(--danger); font-weight: 700; }
 .question-row.needs-explanations { border-style: dashed; }
+
+/* 教学策略 TeachingApproach（Phase 3） */
+.approach-card .explanations-actions input[type="text"] {
+  min-height: 34px; padding: 5px 10px; border: 1px solid var(--line); border-radius: 8px;
+  background: white; font-size: 13px; min-width: 150px;
+}
+.approach-binding { margin: 6px 0 0; color: var(--muted); font-size: 12.5px; }
+.approach-binding[data-bound="true"] { color: var(--accent); font-weight: 700; }
+.approach-binding[data-bound="false"] { color: var(--danger); font-weight: 700; }
+.approach-item {
+  border: 1px solid var(--line); border-radius: 10px; padding: 12px; margin: 10px 0;
+  background: #fffdf7; display: grid; gap: 10px;
+}
+.approach-title-input {
+  min-height: 34px; padding: 5px 10px; border: 1px solid var(--line); border-radius: 8px;
+  background: white; font-size: 14px; font-weight: 750; min-width: 220px;
+}
+.approach-evidence { display: grid; gap: 8px; }
+.approach-evidence-head { margin: 0; color: var(--muted); font-size: 12.5px; font-weight: 700; }
+.approach-recording { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.approach-recording audio { height: 34px; }
+.approach-recording-label { color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; }
+.approach-steps { display: grid; gap: 8px; }
+.approach-steps-head { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.approach-step {
+  border: 1px dashed var(--line); border-radius: 10px; padding: 10px;
+  display: grid; gap: 6px; background: white;
+}
+.approach-step-head { display: flex; align-items: center; gap: 8px; }
+.approach-step-field { display: grid; gap: 3px; }
+.approach-step-field > label { color: var(--muted); font-size: 12px; font-weight: 700; }
+.approach-step-field input[type="text"], .approach-step-field textarea {
+  min-height: 32px; padding: 5px 9px; border: 1px solid var(--line); border-radius: 8px;
+  background: white; font-size: 13px; width: 100%;
+}
+.approach-skill-option {
+  display: inline-flex; align-items: center; gap: 4px; margin-right: 10px;
+  font-size: 12.5px; color: var(--ink);
+}
+.approach-item-message { margin: 0; min-height: 1.4em; color: var(--muted); font-size: 12.5px; }
+.approach-item-message[data-tone="ok"] { color: var(--accent); font-weight: 700; }
+.approach-item-message[data-tone="error"] { color: var(--danger); font-weight: 700; }

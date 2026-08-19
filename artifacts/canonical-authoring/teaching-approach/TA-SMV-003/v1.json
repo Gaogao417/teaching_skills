@@ -1,0 +1,103 @@
+{
+  "approval": {
+    "approved_at": "2026-08-19T15:04:53.039980+00:00",
+    "review_note": "三小问递进结构与官方解答一致；分类讨论完备性经人工核对（AD=1 或 √14），录音转写有少量数字误读已由步骤编辑纠正。",
+    "reviewer_id": "phase3-dogfood-reviewer"
+  },
+  "artifact_id": "TA-SMV-003",
+  "artifact_uri": "artifact://teaching-approach/TA-SMV-003@v1",
+  "content_hash": "sha256:b71adf4aa89b36ba0659d18e05bf9e318bd4c200bee2d3d2ecf18e6e7d694006",
+  "entry_signal": "看到 Rt△ 与重心、射线交点，先用共边相似把角的关系立起来。",
+  "evidence": {
+    "audio": [
+      {
+        "artifact_uri": "artifact://audio/TA-SMV-003@v1/t1-r01-20260819T145244.124183_0000.wav",
+        "content_hash": "sha256:5c71a39630cb9179280721a930e9a817f4bf8401258f7e488f1c602b46826016",
+        "recorded_at": "2026-08-19T14:52:44.124456+00:00"
+      }
+    ],
+    "manual_edit_notes": [
+      "2026-08-19T14:53:13.957379+00:00 editor=mvp-phase3-dogfood edited=entry_signal,goal",
+      "2026-08-19T14:53:14.007693+00:00 editor=mvp-phase3-dogfood edited=steps"
+    ],
+    "polished": [
+      {
+        "artifact_uri": "artifact://transcript/TA-SMV-003@v1/t1-p01-20260819T145313.893394_0000.polished.txt",
+        "polish_provenance": {
+          "model_id": "qwen-plus",
+          "prompt_version": "POLISH_PROMPT@2026-08-v1",
+          "provider": "dashscope"
+        }
+      }
+    ],
+    "transcripts": [
+      {
+        "artifact_uri": "artifact://transcript/TA-SMV-003@v1/t1-r01-20260819T145244.124183_0000.transcript.txt",
+        "asr_provenance": {
+          "model_id": "qwen3-asr-flash",
+          "provider": "dashscope"
+        },
+        "revision": 1
+      }
+    ]
+  },
+  "goal": "综合训练三小问递进结构：共边相似导角、设 AD=x 建 $y$ 与 $x$ 的函数关系式、 等腰三角形存在性分类讨论，体会\"证据递进\"的压轴题节奏。",
+  "question_ref": {
+    "artifact_id": "QT-SMV-003",
+    "content_hash": "sha256:905c2d79566da5d268fb253fa4ad4f315909ece550e70bc04760e2d6f53ead05",
+    "version": "v1"
+  },
+  "schema": "ai_teaching_teaching_approach/v1",
+  "status": "Superseded",
+  "steps": [
+    {
+      "common_errors": [
+        "直角结构里漏看互余关系"
+      ],
+      "expected_student_reasoning": "学生能在双直角共边结构中找到互余的角对，写出完整导角链。",
+      "intent": "共边相似导角",
+      "narration": "由 Rt$\\triangle ABC$ 与 Rt$\\triangle ACD$ 共边的结构导角（等角的余角相等）， 证得 $\\angle DAB = \\angle DCF$。",
+      "skill_ids": [
+        "SKILL-SMV-008",
+        "SKILL-SMV-005"
+      ],
+      "step_id": "S1"
+    },
+    {
+      "accepted_alternatives": [
+        "用面积法或勾股关系另建等式"
+      ],
+      "common_errors": [
+        "母子型对应边错配（与 002 混淆）",
+        "漏求自变量范围"
+      ],
+      "expected_student_reasoning": "学生能选对相似三角形组列出比例，解出 y 并求定义域 $0 < x \\leq 2$。",
+      "intent": "设元建立函数关系式",
+      "narration": "设 $AD=x$、$CE=y$，由相似（母子型）对应边成比例建立等量关系， 整理得 $y = \\frac{x^{2} + 4}{x + 2}$，自变量范围 $0 < x \\leq 2$。",
+      "skill_ids": [
+        "SKILL-SMV-005",
+        "SKILL-SMV-007"
+      ],
+      "step_id": "S2"
+    },
+    {
+      "common_errors": [
+        "分类遗漏",
+        "解出后不检验 0<x≤2 导致多解"
+      ],
+      "expected_student_reasoning": "学生能不重不漏地分三类讨论，且解出的值逐一代回范围检验。",
+      "intent": "等腰存在性分类讨论",
+      "narration": "按 $GA=GD$、$AD=AG$、$DA=DG$ 三类分别画图、列式，结合函数关系式解方程并按范围取舍， 解得 $AD = 1$ 或 $\\sqrt{14}$。",
+      "skill_ids": [
+        "SKILL-SMV-009"
+      ],
+      "step_id": "S3"
+    }
+  ],
+  "superseded_by": {
+    "artifact_id": "TA-SMV-003",
+    "version": "v2"
+  },
+  "title": "母子型压轴：共边相似导角 → 函数关系式 → 等腰分类",
+  "version": "v1"
+}

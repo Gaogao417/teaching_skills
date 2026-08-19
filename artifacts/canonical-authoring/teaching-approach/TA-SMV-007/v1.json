@@ -1,0 +1,96 @@
+{
+  "approval": {
+    "approved_at": "2026-08-19T15:04:53.335972+00:00",
+    "review_note": "定义性计算路径正确；TTS 代理录音转写清晰，本题为最短链路样例。",
+    "reviewer_id": "phase3-dogfood-reviewer"
+  },
+  "artifact_id": "TA-SMV-007",
+  "artifact_uri": "artifact://teaching-approach/TA-SMV-007@v1",
+  "content_hash": "sha256:9b91943f75fc2fa50d9d99d48ebcb82f4ca48bb65e5c699113f88cd484814bbd",
+  "entry_signal": "看到「比例中项」四个字，直接写平方关系。",
+  "evidence": {
+    "audio": [
+      {
+        "artifact_uri": "artifact://audio/TA-SMV-007@v1/t1-r01-20260819T150118.832606_0000.wav",
+        "content_hash": "sha256:ed93c2da63d638c29211b47433f0ef470472a9178e830804de683d4db6445502",
+        "recorded_at": "2026-08-19T15:01:18.832846+00:00"
+      }
+    ],
+    "manual_edit_notes": [
+      "2026-08-19T15:01:33.983004+00:00 editor=mvp-phase3-dogfood edited=entry_signal,goal",
+      "2026-08-19T15:01:34.031084+00:00 editor=mvp-phase3-dogfood edited=steps"
+    ],
+    "polished": [
+      {
+        "artifact_uri": "artifact://transcript/TA-SMV-007@v1/t1-p01-20260819T150133.929012_0000.polished.txt",
+        "polish_provenance": {
+          "model_id": "qwen-plus",
+          "prompt_version": "POLISH_PROMPT@2026-08-v1",
+          "provider": "dashscope"
+        }
+      }
+    ],
+    "transcripts": [
+      {
+        "artifact_uri": "artifact://transcript/TA-SMV-007@v1/t1-r01-20260819T150118.832606_0000.transcript.txt",
+        "asr_provenance": {
+          "model_id": "qwen3-asr-flash",
+          "provider": "dashscope"
+        },
+        "revision": 1
+      }
+    ]
+  },
+  "goal": "巩固比例中项的定义性计算：b²=ac，代入后开平方并按线段取正值。",
+  "question_ref": {
+    "artifact_id": "QT-SMV-013",
+    "content_hash": "sha256:ec91c14fabda47dccc3953ccc324865a0b3842554553546f4de2207eeb8de5b3",
+    "version": "v1"
+  },
+  "schema": "ai_teaching_teaching_approach/v1",
+  "status": "Superseded",
+  "steps": [
+    {
+      "common_errors": [
+        "与算术平均数混淆"
+      ],
+      "expected_student_reasoning": "学生能默写比例中项的两种等价表达并选用平方形式。",
+      "intent": "定义回忆",
+      "narration": "比例中项定义：$b^2=ac$（即 $\\frac{a}{b}=\\frac{b}{c}$），本题即求 满足 $b^2=4\\times 9$ 的线段 $b$。",
+      "skill_ids": [
+        "SKILL-SMV-001"
+      ],
+      "step_id": "S1"
+    },
+    {
+      "common_errors": [
+        "乘法口误成 35"
+      ],
+      "expected_student_reasoning": "学生能正确完成乘法 4×9=36。",
+      "intent": "代入计算",
+      "narration": "代入 $a=4$、$c=9$，$b^2=36$。",
+      "skill_ids": [
+        "SKILL-SMV-007"
+      ],
+      "step_id": "S2"
+    },
+    {
+      "common_errors": [
+        "写出 ±6 忘记取舍"
+      ],
+      "expected_student_reasoning": "学生能说明为什么开方后只取正值（线段长非负且非零）。",
+      "intent": "开方取正值",
+      "narration": "$b=\\sqrt{36}$，线段长度取正值，得比例中项为 $6$ 厘米。",
+      "skill_ids": [
+        "SKILL-SMV-007"
+      ],
+      "step_id": "S3"
+    }
+  ],
+  "superseded_by": {
+    "artifact_id": "TA-SMV-007",
+    "version": "v2"
+  },
+  "title": "比例中项：定义 → 代入 → 开方取正",
+  "version": "v1"
+}

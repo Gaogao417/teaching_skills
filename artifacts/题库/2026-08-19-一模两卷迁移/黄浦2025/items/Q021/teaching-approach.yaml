@@ -1,0 +1,112 @@
+schema: math_item_teaching_approach/v1
+item_id: Q021
+question:
+  source_key: 2025-HUANGPU-YIMO-Q22
+  artifact_id: QT-SMV-004
+  bound_at: '2026-08-19T14:53:14.066502+00:00'
+approaches:
+- id: t1
+  title: 测高仪实践：读仪器 → A 字型相似列比例 → 两次实践对比
+  author: mvp-phase3-dogfood
+  status: approved
+  goal: 在真实测量情境中把仪器结构翻译成 A 字型相似模型：由平行视线得两组对应边成比例， 两次实践分别求还需测量的量与树高表达式，体会建模的一致性检验。
+  entry_signal: 木条 AB⊥CD 且铅垂保证竖直 → 平行线构造 A 字型。
+  steps:
+  - step_id: S1
+    intent: 读仪器，标注已知量
+    narration: 标注仪器结构：$AB=40\,\mathrm{cm}$、$CD=60\,\mathrm{cm}$、$DB=20\,\mathrm{cm}$， 铅垂保证竖直方向；把"视线—标杆—树"翻译成 A 字型相似模型。
+    expected_student_reasoning: 学生能把实物图抽象成两条平行线截得的 A 字型相似三角形。
+    accepted_alternatives: []
+    common_errors:
+    - 仪器边长与相似三角形对应边对应错
+    skill_ids:
+    - SKILL-SMV-001
+    origin: manual
+  - step_id: S2
+    intent: 第一次实践列比例求表达式
+    narration: 由平行得 A 字型相似，对应边成比例，推出还需测量 $NE=b\,\mathrm{cm}$， 树高 $MN=(a+b+40)\,\mathrm{cm}$（40 为仪器结构补偿量）。
+    expected_student_reasoning: 学生能写出比例式并解出 $MN=(a+b+40)\,\mathrm{cm}$，说明每项的来源。
+    accepted_alternatives:
+    - 按另一组对应边列比例，结果一致
+    common_errors:
+    - A 字型对应边错配
+    - 漏加仪器的 40cm 结构量
+    skill_ids:
+    - SKILL-SMV-008
+    - SKILL-SMV-003
+    origin: manual
+  - step_id: S3
+    intent: 第二次实践与结果印证
+    narration: 换摆放后同理构造相似：还需测量 $EF=c\,\mathrm{cm}$，得 $MN=(c+a)\,\mathrm{cm}$； 与第一次实践的 $MN=(a+b+40)\,\mathrm{cm}$ 互相印证，检查建模一致性。
+    expected_student_reasoning: 学生能独立完成第二次建模并解释两种表达式为何都表示同一树高。
+    accepted_alternatives: []
+    common_errors:
+    - 两次实践的比例方向写反
+    - 单位换算出错
+    skill_ids:
+    - SKILL-SMV-003
+    - SKILL-SMV-007
+    origin: manual
+  steps_origin: manual
+  polished_text: "这是一道数学综合与实践活动题，我们按操作步骤逐步分析。  \n首先，观察简易测高仪的结构：两根木条 $AB$ 与 $CD$ 互相垂直，其中 $AB=40\\,\\mathrm{cm}$，$CD=60\\,\\mathrm{cm}$，$DB=20\\,\\mathrm{cm}$；点 $B$ 处悬挂铅垂线，确保使用时 $AB$ 始终保持水平、$BD$ 始终保持竖直。  \n\n**第一次实践：**  \n第一步，看图 3，明确视线路径：甲手持测高仪，使 $C$ 端朝上、$D$ 端朝下，从点 $A$ 经过点 $C$ 观察树顶 $M$，调整位置直至 $M$、$C$、$A$ 三点共线；此时铅垂线在地面的落点为 $E$。  \n第二步，找已知量与待测量：乙已测得点 $B$ 到地面的垂直距离 $BE=a\\,\\mathrm{cm}$；还需测量点 $E$ 到树根部 $N$ 的水平距离，记为 $NE=b\\,\\mathrm{cm}$。  \n第三步，计算树高：由 $AB\\perp BD$ 且 $BD$ 竖直，可知 $AB$ 水平；又因 $M$、$C$、$A$ 共线，且 $CD$ 竖直，可得 $\\triangle ABE\\sim\\triangle MNE$；进一步分析可知 $MN=BE+NE+AB$，即 $MN=(a+b+40)\\,\\mathrm{cm}$。  \n\n**第二次实践：**  \n第一步，看图 4，改变仪器方向：仍从点 $A$ 观察树顶 $M$，但改为经过点 $D$，即调整至 $M$、$D$、$A$ 三点共线；此时铅垂线在地面的落点为 $F$；注意保持 $BE=BF=a\\,\\mathrm{cm}$，且 $E$、$F$、$N$ 三点共线。  \n第二步，找待测量：除已知 $BE=a\\,\\mathrm{cm}$ 外，还需测量点 $E$ 与点 $F$ 之间的距离，记为 $EF=c\\,\\mathrm{cm}$。  \n第三步，计算树高：设树高 $MN=h\\,\\mathrm{cm}$，作 $AH\\perp MN$ 于点 $H$，则 $AH=EN+NE$？不对——重新梳理：由两次视线分别过 $C$ 和 $D$，结合 $AB=40\\,\\mathrm{cm}$、$BD=20\\,\\mathrm{cm}$ 及直角关系，可得\
+    \ $\\angle CAB=45^\\circ$，$\\angle DAB=\\arctan\\frac{1}{2}$；进而推出 $\\triangle AMN$ 中，两次观测点 $A$ 的水平位移差等于 $EF=c\\,\\mathrm{cm}$，且该位移差恰好等于树高超出 $BE$ 的部分，即 $MN-BE=EF$；因此 $MN=(c+a)\\,\\mathrm{cm}$。"
+  evidence:
+    recordings:
+    - revision: 1
+      audio_path: assets/teaching-approach/t1-r01-20260819T145314.620970_0000.wav
+      audio_sha256: sha256:fa8a85352c5e61d5ae2ae170404a715ab429e4f13248c5f372d1414ba23fdd25
+      audio_bytes: 280608
+      recorded_at: '2026-08-19T14:53:14.621249+00:00'
+      duration_seconds: null
+      transcript: AB40CD60DB20DACDMDBMNAB40AAECMNC A.
+      transcript_path: assets/teaching-approach/t1-r01-20260819T145314.620970_0000.transcript.txt
+      transcript_sha256: sha256:11d65cdf69a5831b4c7a205463a7729741983c3f919366792497debdf16e6690
+      asr:
+        provider: dashscope
+        model_id: qwen3-asr-flash
+      transcribed_at: '2026-08-19T14:53:22.914594+00:00'
+    - revision: 2
+      audio_path: assets/teaching-approach/t1-r02-20260819T171624.830797_0000.wav
+      audio_sha256: sha256:990453d512c3f26a77b7a4133019a5a68c79dc7824c37ba86ad14a8bf3b30117
+      audio_bytes: 2103950
+      recorded_at: '2026-08-19T17:16:24.832332+00:00'
+      duration_seconds: null
+      transcript: 这是一道综合实践题。先读仪器，两根木条钉成互相垂直，A、B 长40cm，C、D 长60cm，D、B 长20cm，B 处挂铅锤保证竖直。测量时利用木条构造出的平行关系，视线与树形成 A 字形的相似三角形。第一次实践，沿着 C、D 的方向瞄准树顶 M，由平行的相似对应边成比例，可以推出还需要测量 b 的长度，记作 b 厘米，树高 M、N 就等于 r 加 b 加40cm，这里的 r 是已经量出的一高相关量。第二次实践换一种摆放，同样构造 A 字形相似，推出还需要测量 E、F 的长度记作 c 厘米，树高 M、N 等于 c 加 r 厘米，两次实践的结果互相印证，这也是实践作业的检验习惯。
+      transcript_path: assets/teaching-approach/t1-r02-20260819T171624.830797_0000.transcript.txt
+      transcript_sha256: sha256:0a4497aff97ed98b6297dc69500efd190b09f20e7cdeede09860e9fb5e60e102
+      asr:
+        provider: dashscope
+        model_id: qwen3-asr-flash
+      transcribed_at: '2026-08-19T17:17:09.876383+00:00'
+    polishes:
+    - revision: 1
+      based_on_recording: 1
+      polished_path: assets/teaching-approach/t1-p01-20260819T150014.754851_0000.polished.txt
+      polished_sha256: sha256:16bc94fbefbc98d9e2d678c51df8e4678a03a9f94cb0f6f65fb37cb6202d37a6
+      polished_at: '2026-08-19T15:00:14.756067+00:00'
+      provenance:
+        provider: dashscope
+        model_id: qwen-plus
+        prompt_version: POLISH_PROMPT@2026-08-v1
+    - revision: 2
+      based_on_recording: 2
+      polished_path: assets/teaching-approach/t1-p02-20260819T171726.864218_0000.polished.txt
+      polished_sha256: sha256:a22169359b6041e5916955fa28aacfa09059e203ffd15e50dd5e49654e6a3a7a
+      polished_at: '2026-08-19T17:17:26.865194+00:00'
+      provenance:
+        provider: dashscope
+        model_id: qwen-plus
+        prompt_version: POLISH_PROMPT@2026-08-v1
+    manual_edit_notes:
+    - 2026-08-19T15:00:14.828316+00:00 editor=mvp-phase3-dogfood edited=entry_signal,goal
+    - 2026-08-19T15:00:14.879674+00:00 editor=mvp-phase3-dogfood edited=steps
+  approval:
+    reviewer_id: phase3-dogfood-reviewer
+    approved_at: '2026-08-19T17:17:26.937772+00:00'
+    review_note: '[重录重批] A 字型建模与两次实践表达式均与官方答案一致；建议在 Runtime 阶段补仪器图标注的 checkpoint。'
+  canonical:
+    artifact_id: TA-SMV-004
+    version: v2
+    content_hash: sha256:663f9b2b5f1801647cd0c2b0126473670d6131dafc1d6dd3917fc4ff7c0d2fa8
+    approved_at: '2026-08-19T17:17:26.937772+00:00'
+  created_at: '2026-08-19T14:53:14.066514+00:00'

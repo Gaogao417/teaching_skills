@@ -628,6 +628,7 @@ function applyItem(item, itemIndex) {
   wireImageSections();
   updateSlotSelection();
   void loadExplanations(item.id);
+  void loadApproaches(item.id);
 }
 
 function issueValue(value) {
@@ -1339,6 +1340,7 @@ function renderSkeleton(directoryItem, itemIndex) {
   });
   // 讲解/解答面板重置为骨架态；切题时若还在录音则先停止。
   stopExplanationRecording();
+  stopApproachRecording();
   const explanationsBody = byId("explanations-body");
   if (explanationsBody) {
     const loading = document.createElement("p");
@@ -2444,5 +2446,728 @@ async function uploadExplanationRecording(meta, blob) {
 byId("explanations-generate-missing").addEventListener("click", () => void generateMissingAction("explanation"));
 byId("explanations-generate-solutions").addEventListener("click", () => void generateMissingAction("solution"));
 byId("explanations-export-blueprint").addEventListener("click", () => void exportBlueprintAction());
+
+// ---------------------------------------------------------------------------
+// 教学策略 TeachingApproach（Phase 3）：录音(append-only) → 回放 → 润色 →
+// 从解答初始化教学步骤 → 编辑 goal/entry/常见错误/skill → 批准冻结 canonical
+// ---------------------------------------------------------------------------
+
+const approachState = {
+  payload: null,
+  token: 0,
+  itemId: null,
+};
+
+const approachRecording = {
+  recorder: null,
+  chunks: [],
+  approachId: null,
+  bankId: null,
+  itemId: null,
+  mimeType: "",
+  timer: null,
+  startedAt: 0,
+};
+
+const APPROACH_ORIGIN_LABELS = {
+  ai_draft: "AI 建议",
+  assignment: "解答脚手架",
+  manual: "教师编辑",
+  none: "未初始化",
+};
+
+const APPROACH_EDITOR_KEY = "question-bank-review:approach-identity";
+
+function approachIdentity() {
+  try {
+    const stored = JSON.parse(window.localStorage.getItem(APPROACH_EDITOR_KEY) || "{}");
+    return { author: stored.author || "", reviewer: stored.reviewer || "" };
+  } catch {
+    return { author: "", reviewer: "" };
+  }
+}
+
+function saveApproachIdentity(author, reviewer) {
+  try {
+    window.localStorage.setItem(APPROACH_EDITOR_KEY, JSON.stringify({ author, reviewer }));
+  } catch {
+    /* localStorage 不可用时静默降级为会话内输入 */
+  }
+}
+
+function approachEndpoint(bankId, itemId) {
+  return `/api/banks/${encodeURIComponent(bankId)}/items/${encodeURIComponent(itemId)}/teaching-approach`;
+}
+
+function currentApproachItemId() {
+  return approachState.itemId || currentExplanationItemId();
+}
+
+function findTeachingApproach(approachId) {
+  for (const approach of approachState.payload?.approaches || []) {
+    if (approach.id === approachId) return approach;
+  }
+  return null;
+}
+
+function approachMessageNode(scope, text, tone = "info") {
+  if (!scope) return;
+  const node = scope.classList?.contains("approach-item")
+    ? scope.querySelector(".approach-item-message")
+    : byId("approach-message");
+  if (!node) return;
+  node.textContent = text || "";
+  node.dataset.tone = tone;
+}
+
+function applyApproachPayload(payload) {
+  approachState.payload = payload?.approaches ? payload : payload?.teaching_approach;
+  renderApproaches();
+}
+
+async function loadApproaches(itemId) {
+  const bankId = state.detail?.id;
+  if (!bankId || !itemId) return;
+  const token = ++approachState.token;
+  approachState.itemId = itemId;
+  approachState.payload = null;
+  approachMessageNode(byId("approach-card"), "");
+  const body = byId("approach-body");
+  if (body) {
+    const loading = document.createElement("p");
+    loading.className = "explanations-loading";
+    loading.textContent = "正在读取教学策略…";
+    body.replaceChildren(loading);
+  }
+  const bindingNode = byId("approach-binding");
+  if (bindingNode) bindingNode.textContent = "";
+  try {
+    const payload = await explanationsFetch(approachEndpoint(bankId, itemId));
+    if (token !== approachState.token) return;
+    approachState.payload = payload;
+    renderApproaches();
+  } catch (error) {
+    if (token !== approachState.token) return;
+    const target = byId("approach-body");
+    if (target) {
+      const node = document.createElement("p");
+      node.className = "explanations-error";
+      node.textContent = `教学策略读取失败：${error.message}`;
+      target.replaceChildren(node);
+    }
+  }
+}
+
+function approachStatusLabel(approach) {
+  if (approach.approval) return "已批准（canonical 冻结）";
+  const steps = approach.steps || [];
+  const complete = steps.filter(
+    (step) => step.intent?.trim() && step.narration?.trim()
+      && step.expected_student_reasoning?.trim() && (step.skill_ids || []).length,
+  ).length;
+  return steps.length
+    ? `草稿 · ${steps.length} 步（${complete} 步齐全，批准需 ≥3 步且全部齐全）`
+    : "草稿 · 未初始化步骤";
+}
+
+function renderApproaches() {
+  const payload = approachState.payload;
+  const body = byId("approach-body");
+  if (!body || !payload) return;
+  const identity = approachIdentity();
+  const reviewerInput = byId("approach-reviewer-input");
+  const authorInput = byId("approach-author-input");
+  if (reviewerInput && !reviewerInput.value) reviewerInput.value = identity.reviewer;
+  if (authorInput && !authorInput.value) authorInput.value = identity.author;
+
+  body.replaceChildren();
+  const question = payload.question;
+  const bindingNode = byId("approach-binding");
+  if (bindingNode) {
+    bindingNode.textContent = question
+      ? `绑定 canonical 题目：${question.artifact_id}（批准时校验当前版本，question 漂移自动 stale）`
+      : "该题没有 canonical QuestionTruth 绑定：不能创建教学策略（仅迁移题库支持）。";
+    bindingNode.dataset.bound = question ? "true" : "false";
+  }
+  const approaches = payload.approaches || [];
+  if (!approaches.length) {
+    const empty = document.createElement("p");
+    empty.className = "explanation-empty";
+    empty.textContent = "还没有整题教学策略：点右上「＋ 新建教学策略」，或先在小题讲解区试讲。";
+    body.append(empty);
+  }
+  approaches.forEach((approach) => body.append(renderApproachItem(approach)));
+  updateApproachRecordingButtons();
+  scheduleExplanationsTypeset();
+}
+
+function renderApproachItem(approach) {
+  const card = document.createElement("article");
+  card.className = "approach-item";
+  card.dataset.approachId = approach.id;
+
+  const head = document.createElement("div");
+  head.className = "explanation-approach-head";
+  const title = document.createElement("input");
+  title.type = "text";
+  title.className = "approach-title-input";
+  title.value = approach.title || "";
+  title.setAttribute("aria-label", "教学策略标题（失焦保存）");
+  title.addEventListener("blur", () => {
+    if (title.value.trim() && title.value.trim() !== approach.title) {
+      void saveApproachField(approach.id, { title: title.value.trim() });
+    }
+  });
+  const status = badge(approachStatusLabel(approach), "chip-explanation-status");
+  const authorChip = badge(`作者 ${approach.author || "?"}`, "chip-source");
+  head.append(title, status, authorChip);
+
+  const canonical = approach.canonical;
+  if (canonical) {
+    head.append(badge(
+      `canonical ${canonical.artifact_id}@${canonical.version} · ${String(canonical.content_hash).slice(0, 14)}…`,
+      "chip-blueprint",
+    ));
+  }
+  card.append(head);
+
+  // 录音按钮 + 证据链（音频回放 + 转写稿 + 润色稿，全部 append-only）
+  const actions = document.createElement("div");
+  actions.className = "explanation-approach-actions";
+  const recordButton = document.createElement("button");
+  recordButton.type = "button";
+  recordButton.className = "explanation-record-button approach-record-button";
+  recordButton.dataset.approachId = approach.id;
+  recordButton.textContent = "● 录讲解";
+  recordButton.addEventListener("click", () => {
+    void toggleApproachRecording(approach.id);
+  });
+  actions.append(recordButton);
+
+  const initStepsButton = ghostButton("从解答初始化步骤");
+  initStepsButton.addEventListener("click", () => {
+    void initApproachStepsAction(approach.id, initStepsButton);
+  });
+  actions.append(initStepsButton);
+
+  const approveButton = ghostButton("批准冻结 canonical", "approve-button");
+  approveButton.addEventListener("click", () => {
+    void approveApproachFreezeAction(approach.id, approveButton);
+  });
+  actions.append(approveButton);
+
+  const deleteButton = ghostButton("删除", "reject-button");
+  deleteButton.addEventListener("click", () => {
+    void deleteTeachingApproachAction(approach.id);
+  });
+  actions.append(deleteButton);
+  card.append(actions);
+
+  const evidence = approach.evidence || {};
+  const recordings = evidence.recordings || [];
+  if (recordings.length) {
+    const evidenceBlock = document.createElement("div");
+    evidenceBlock.className = "approach-evidence";
+    const evidenceHead = document.createElement("p");
+    evidenceHead.className = "approach-evidence-head";
+    evidenceHead.textContent = `证据链（append-only）：录音 ${recordings.length} 个修订 · 润色 ${(evidence.polishes || []).length} 个修订 · 人工编辑痕迹 ${(evidence.manual_edit_notes || []).length} 条`;
+    evidenceBlock.append(evidenceHead);
+    for (const entry of recordings) {
+      const row = document.createElement("div");
+      row.className = "approach-recording";
+      const audio = document.createElement("audio");
+      audio.controls = true;
+      audio.preload = "none";
+      const bankId = state.detail?.id;
+      const itemId = currentApproachItemId();
+      audio.src = `${approachEndpoint(bankId, itemId)}/approaches/${encodeURIComponent(approach.id)}/audio/${entry.revision}`;
+      const label = document.createElement("span");
+      label.className = "approach-recording-label";
+      label.textContent = `r${entry.revision} · ${entry.recorded_at || ""} · ${Math.max(1, Math.round((entry.audio_bytes || 0) / 1024))}KB`;
+      row.append(label, audio);
+      if (entry.transcript) {
+        const details = document.createElement("details");
+        details.className = "explanation-transcript";
+        const summary = document.createElement("summary");
+        summary.textContent = `转写稿 r${entry.revision}（ASR ${entry.asr?.model_id || "?"}）`;
+        const transcript = document.createElement("pre");
+        transcript.textContent = entry.transcript;
+        details.append(summary, transcript);
+        row.append(details);
+      }
+      evidenceBlock.append(row);
+    }
+    card.append(evidenceBlock);
+  }
+  if (approach.polished_text) {
+    const details = document.createElement("details");
+    details.className = "explanation-transcript";
+    const summary = document.createElement("summary");
+    summary.textContent = "润色稿（最新，供对照编辑）";
+    const polished = document.createElement("pre");
+    polished.textContent = approach.polished_text;
+    details.append(summary, polished);
+    card.append(details);
+  }
+
+  // goal / entry signal（P3-06）
+  card.append(renderApproachTextField(approach, "goal", "教学目标（goal）", "这一题想让学生学会什么思路？"));
+  card.append(renderApproachTextField(approach, "entry_signal", "入口信号（entry signal）", "学生从哪个条件切入？", true));
+
+  // TeachingStep 编辑器（P3-05/P3-06）
+  const stepsBlock = document.createElement("div");
+  stepsBlock.className = "approach-steps";
+  const stepsHead = document.createElement("div");
+  stepsHead.className = "approach-steps-head";
+  const stepsTitle = document.createElement("strong");
+  stepsTitle.textContent = "教学步骤（TeachingStep）";
+  const originChip = badge(APPROACH_ORIGIN_LABELS[approach.steps_origin] || approach.steps_origin, "chip-source");
+  const addStepButton = ghostButton("＋ 加一步");
+  addStepButton.addEventListener("click", () => {
+    void addApproachStepAction(approach.id);
+  });
+  const saveStepsButton = ghostButton("保存全部步骤", "approve-button");
+  saveStepsButton.addEventListener("click", () => {
+    void saveApproachStepsAction(approach.id, stepsBlock, saveStepsButton);
+  });
+  stepsHead.append(stepsTitle, originChip, addStepButton, saveStepsButton);
+  stepsBlock.append(stepsHead);
+  (approach.steps || []).forEach((step, index) => {
+    stepsBlock.append(renderApproachStepEditor(approach, step, index));
+  });
+  if (!(approach.steps || []).length) {
+    const empty = document.createElement("p");
+    empty.className = "explanation-empty";
+    empty.textContent = "还没有教学步骤：点「从解答初始化步骤」生成草稿（AI 只建议），再逐字段编辑。";
+    stepsBlock.append(empty);
+  }
+  card.append(stepsBlock);
+
+  const message = document.createElement("p");
+  message.className = "approach-item-message";
+  message.setAttribute("role", "status");
+  card.append(message);
+  return card;
+}
+
+function renderApproachTextField(approach, field, labelText, placeholder, singleLine = false) {
+  const block = document.createElement("div");
+  block.className = "explanation-field";
+  const head = document.createElement("div");
+  head.className = "explanation-field-head";
+  const label = document.createElement("span");
+  label.className = "explanation-field-label";
+  label.textContent = labelText;
+  head.append(label);
+  let input;
+  if (singleLine) {
+    input = document.createElement("input");
+    input.type = "text";
+  } else {
+    input = document.createElement("textarea");
+    input.rows = 2;
+  }
+  input.className = "explanation-textarea approach-field-input";
+  input.value = approach[field] || "";
+  input.placeholder = placeholder || "";
+  input.setAttribute("aria-label", `${labelText}（失焦保存）`);
+  input.addEventListener("blur", () => {
+    const before = approach[field] || "";
+    if (input.value.trim() === before.trim()) return;
+    void saveApproachField(approach.id, { [field]: input.value });
+  });
+  block.append(head, input);
+  return block;
+}
+
+function renderApproachStepEditor(approach, step, index) {
+  const wrap = document.createElement("div");
+  wrap.className = "approach-step";
+  wrap.dataset.stepIndex = String(index);
+  const head = document.createElement("div");
+  head.className = "approach-step-head";
+  const idLabel = document.createElement("strong");
+  idLabel.textContent = step.step_id || `S${index + 1}`;
+  const origin = badge(APPROACH_ORIGIN_LABELS[step.origin] || step.origin || "manual", "chip-source");
+  const removeButton = ghostButton("移除本步", "reject-button");
+  removeButton.addEventListener("click", () => {
+    void removeApproachStepAction(approach.id, index);
+  });
+  head.append(idLabel, origin, removeButton);
+  wrap.append(head);
+
+  const fields = [
+    ["intent", "教学意图（intent）", true],
+    ["narration", "讲解词（narration）", false],
+    ["expected_student_reasoning", "期望学生推理", false],
+    ["accepted_alternatives", "可接受等价路径（每行一条）", false],
+    ["common_errors", "常见错误（每行一条）", false],
+  ];
+  for (const [field, labelText, singleLine] of fields) {
+    const fieldBlock = document.createElement("div");
+    fieldBlock.className = "approach-step-field";
+    const label = document.createElement("label");
+    label.textContent = labelText;
+    let input;
+    if (singleLine) {
+      input = document.createElement("input");
+      input.type = "text";
+    } else {
+      input = document.createElement("textarea");
+      input.rows = 2;
+    }
+    input.className = `approach-step-${field}`;
+    const value = step[field];
+    input.value = Array.isArray(value) ? value.join("\n") : value || "";
+    fieldBlock.append(label, input);
+    wrap.append(fieldBlock);
+  }
+  const skillBlock = document.createElement("div");
+  skillBlock.className = "approach-step-field";
+  const skillLabel = document.createElement("label");
+  skillLabel.textContent = "skill refs";
+  skillBlock.append(skillLabel);
+  const skillIds = approachState.payload?.topic_skill_ids || [];
+  const selected = new Set(step.skill_ids || []);
+  for (const skillId of skillIds) {
+    const checkboxLabel = document.createElement("label");
+    checkboxLabel.className = "approach-skill-option";
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.value = skillId;
+    checkbox.checked = selected.has(skillId);
+    checkbox.className = "approach-step-skill";
+    checkboxLabel.append(checkbox, document.createTextNode(` ${skillId}`));
+    skillBlock.append(checkboxLabel);
+  }
+  wrap.append(skillBlock);
+  return wrap;
+}
+
+function collectStepsFromDom(approachId) {
+  const card = document.querySelector(`.approach-item[data-approach-id="${approachId}"]`);
+  if (!card) return null;
+  const steps = [];
+  card.querySelectorAll(".approach-step").forEach((stepNode) => {
+    const read = (selector) => stepNode.querySelector(selector)?.value || "";
+    steps.push({
+      intent: read(".approach-step-intent"),
+      narration: read(".approach-step-narration"),
+      expected_student_reasoning: read(".approach-step-expected_student_reasoning"),
+      accepted_alternatives: read(".approach-step-accepted_alternatives").split("\n").map((line) => line.trim()).filter(Boolean),
+      common_errors: read(".approach-step-common_errors").split("\n").map((line) => line.trim()).filter(Boolean),
+      skill_ids: [...stepNode.querySelectorAll(".approach-step-skill:checked")].map((node) => node.value),
+    });
+  });
+  return steps;
+}
+
+async function saveApproachField(approachId, body) {
+  const bankId = state.detail?.id;
+  const itemId = currentApproachItemId();
+  if (!bankId || !itemId) return;
+  const scope = document.querySelector(`.approach-item[data-approach-id="${approachId}"]`);
+  approachMessageNode(scope, "保存中…");
+  try {
+    const payload = await explanationsFetch(
+      `${approachEndpoint(bankId, itemId)}/approaches/${encodeURIComponent(approachId)}`,
+      {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...body, editor: reviewerInputValue() }),
+      },
+    );
+    if (approachState.itemId === itemId) applyApproachPayload(payload);
+    const fresh = document.querySelector(`.approach-item[data-approach-id="${approachId}"]`);
+    approachMessageNode(fresh, "已保存（留痕到 manual_edit_notes）。", "ok");
+  } catch (error) {
+    const fresh = document.querySelector(`.approach-item[data-approach-id="${approachId}"]`);
+    approachMessageNode(fresh, `保存失败：${error.message}`, "error");
+  }
+}
+
+async function saveApproachStepsAction(approachId, stepsBlock, button) {
+  const steps = collectStepsFromDom(approachId);
+  if (!steps) return;
+  if (button) button.disabled = true;
+  try {
+    await saveApproachFieldRaw(approachId, { steps });
+    const fresh = document.querySelector(`.approach-item[data-approach-id="${approachId}"]`);
+    approachMessageNode(fresh, `已保存 ${steps.length} 个教学步骤。`, "ok");
+  } finally {
+    if (button) button.disabled = false;
+  }
+}
+
+async function saveApproachFieldRaw(approachId, body) {
+  const bankId = state.detail?.id;
+  const itemId = currentApproachItemId();
+  const payload = await explanationsFetch(
+    `${approachEndpoint(bankId, itemId)}/approaches/${encodeURIComponent(approachId)}`,
+    {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...body, editor: reviewerInputValue() }),
+    },
+  );
+  if (approachState.itemId === itemId) applyApproachPayload(payload);
+  return payload;
+}
+
+async function addApproachStepAction(approachId) {
+  const found = findTeachingApproach(approachId);
+  if (!found) return;
+  const steps = collectStepsFromDom(approachId) || [];
+  steps.push({
+    intent: "",
+    narration: "",
+    expected_student_reasoning: "",
+    accepted_alternatives: [],
+    common_errors: [],
+    skill_ids: [],
+  });
+  await saveApproachFieldRaw(approachId, { steps });
+}
+
+async function removeApproachStepAction(approachId, index) {
+  const steps = collectStepsFromDom(approachId);
+  if (!steps) return;
+  steps.splice(index, 1);
+  await saveApproachFieldRaw(approachId, { steps });
+}
+
+async function createApproachTeachingAction() {
+  const bankId = state.detail?.id;
+  const itemId = currentApproachItemId();
+  if (!bankId || !itemId) return;
+  const title = window.prompt("教学策略标题（如：从公共角正推）");
+  if (!title || !title.trim()) return;
+  const author = authorInputValue();
+  saveApproachIdentity(author, reviewerInputValue());
+  try {
+    const payload = await explanationsFetch(`${approachEndpoint(bankId, itemId)}/approaches`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ title: title.trim(), author }),
+    });
+    if (approachState.itemId === itemId) applyApproachPayload(payload);
+  } catch (error) {
+    approachMessageNode(byId("approach-card"), `新建失败：${error.message}`, "error");
+  }
+}
+
+async function deleteTeachingApproachAction(approachId) {
+  const found = findTeachingApproach(approachId);
+  if (!found) return;
+  if (found.canonical) {
+    approachMessageNode(byId("approach-card"), "已有 canonical 冻结版本的教学策略不能删除：请编辑后重新批准。", "error");
+    return;
+  }
+  if (!window.confirm("删除该教学策略工作副本？（尚未冻结 canonical）")) return;
+  const bankId = state.detail?.id;
+  const itemId = currentApproachItemId();
+  try {
+    const payload = await explanationsFetch(
+      `${approachEndpoint(bankId, itemId)}/approaches/${encodeURIComponent(approachId)}`,
+      { method: "DELETE" },
+    );
+    if (approachState.itemId === itemId) applyApproachPayload(payload);
+  } catch (error) {
+    approachMessageNode(byId("approach-card"), `删除失败：${error.message}`, "error");
+  }
+}
+
+async function initApproachStepsAction(approachId, button) {
+  const found = findTeachingApproach(approachId);
+  if (!found) return;
+  const hasSteps = (found.steps || []).length > 0;
+  if (hasSteps && !window.confirm("已有教学步骤，重新初始化会覆盖当前草稿。继续？")) return;
+  const bankId = state.detail?.id;
+  const itemId = currentApproachItemId();
+  const scope = document.querySelector(`.approach-item[data-approach-id="${approachId}"]`);
+  approachMessageNode(scope, "正在初始化教学步骤草稿…");
+  if (button) button.disabled = true;
+  try {
+    const payload = await explanationsFetch(
+      `${approachEndpoint(bankId, itemId)}/approaches/${encodeURIComponent(approachId)}/steps/init`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ use_ai: true, replace: hasSteps }),
+      },
+    );
+    if (approachState.itemId === itemId) applyApproachPayload(payload);
+    const fresh = document.querySelector(`.approach-item[data-approach-id="${approachId}"]`);
+    approachMessageNode(fresh, "步骤草稿已生成（AI 只建议）：请逐字段核对编辑后保存。", "ok");
+  } catch (error) {
+    const fresh = document.querySelector(`.approach-item[data-approach-id="${approachId}"]`);
+    approachMessageNode(fresh, `初始化失败：${error.message}`, "error");
+  } finally {
+    if (button) button.disabled = false;
+  }
+}
+
+async function approveApproachFreezeAction(approachId, button) {
+  const bankId = state.detail?.id;
+  const itemId = currentApproachItemId();
+  if (!bankId || !itemId) return;
+  const reviewer = reviewerInputValue();
+  if (!reviewer) {
+    approachMessageNode(byId("approach-card"), "请先在右上填写审核人 ID。", "error");
+    return;
+  }
+  const reviewNote = window.prompt("审核备注（review note，将写入 canonical approval）", "") ?? "";
+  saveApproachIdentity(authorInputValue(), reviewer);
+  const scope = document.querySelector(`.approach-item[data-approach-id="${approachId}"]`);
+  approachMessageNode(scope, "正在批准并冻结 canonical…");
+  if (button) button.disabled = true;
+  try {
+    const payload = await explanationsFetch(
+      `${approachEndpoint(bankId, itemId)}/approaches/${encodeURIComponent(approachId)}/approve`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ reviewer_id: reviewer, review_note: reviewNote.trim() }),
+      },
+    );
+    if (approachState.itemId === itemId && payload.teaching_approach) {
+      applyApproachPayload(payload.teaching_approach);
+    }
+    const fresh = document.querySelector(`.approach-item[data-approach-id="${approachId}"]`);
+    approachMessageNode(
+      fresh,
+      `已冻结 ${payload.canonical.artifact_id}@${payload.canonical.version}（${payload.canonical.content_hash.slice(0, 14)}…）。`,
+      "ok",
+    );
+    playApprovalSound();
+  } catch (error) {
+    const fresh = document.querySelector(`.approach-item[data-approach-id="${approachId}"]`);
+    approachMessageNode(fresh, `批准失败：${error.message}`, "error");
+  } finally {
+    if (button) button.disabled = false;
+  }
+}
+
+function reviewerInputValue() {
+  return byId("approach-reviewer-input")?.value.trim() || "";
+}
+
+function authorInputValue() {
+  return byId("approach-author-input")?.value.trim() || "question-bank-review-ui";
+}
+
+function updateApproachRecordingButtons() {
+  document.querySelectorAll(".approach-record-button").forEach((button) => {
+    const approachId = button.dataset.approachId;
+    if (approachRecording.approachId === approachId) {
+      button.classList.add("is-recording");
+      const seconds = Math.floor((Date.now() - approachRecording.startedAt) / 1000);
+      button.textContent = `■ 停止 ${formatRecordingDuration(seconds)}`;
+      button.setAttribute("aria-pressed", "true");
+    } else {
+      button.classList.remove("is-recording");
+      button.textContent = "● 录讲解";
+      button.setAttribute("aria-pressed", "false");
+      button.disabled = Boolean(approachRecording.approachId);
+    }
+  });
+}
+
+async function toggleApproachRecording(approachId) {
+  if (approachRecording.approachId) {
+    stopApproachRecording();
+    return;
+  }
+  const bankId = state.detail?.id;
+  const itemId = currentApproachItemId();
+  const scope = document.querySelector(`.approach-item[data-approach-id="${approachId}"]`);
+  if (!bankId || !itemId) return;
+  if (!navigator.mediaDevices?.getUserMedia || !window.MediaRecorder) {
+    approachMessageNode(scope, "当前浏览器不支持录音（需要 MediaRecorder 与麦克风权限）。", "error");
+    return;
+  }
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    const mimeType = pickRecordingMimeType();
+    const recorder = new MediaRecorder(stream, mimeType ? { mimeType } : undefined);
+    approachRecording.recorder = recorder;
+    approachRecording.chunks = [];
+    approachRecording.approachId = approachId;
+    approachRecording.bankId = bankId;
+    approachRecording.itemId = itemId;
+    approachRecording.mimeType = recorder.mimeType || mimeType || "audio/webm";
+    approachRecording.startedAt = Date.now();
+    recorder.ondataavailable = (event) => {
+      if (event.data?.size) approachRecording.chunks.push(event.data);
+    };
+    recorder.onstop = () => {
+      stream.getTracks().forEach((track) => track.stop());
+      const chunks = approachRecording.chunks;
+      const meta = {
+        bankId: approachRecording.bankId,
+        itemId: approachRecording.itemId,
+        approachId: approachRecording.approachId,
+        mimeType: approachRecording.mimeType,
+      };
+      approachRecording.recorder = null;
+      approachRecording.approachId = null;
+      if (approachRecording.timer) {
+        clearInterval(approachRecording.timer);
+        approachRecording.timer = null;
+      }
+      updateApproachRecordingButtons();
+      if (chunks.length) {
+        void uploadApproachRecording(meta, new Blob(chunks, { type: meta.mimeType }));
+      }
+    };
+    recorder.start();
+    approachRecording.timer = setInterval(updateApproachRecordingButtons, 500);
+    updateApproachRecordingButtons();
+    approachMessageNode(scope, "录音中…再次点击停止并转写（append-only 新修订）。");
+  } catch (error) {
+    approachRecording.approachId = null;
+    updateApproachRecordingButtons();
+    approachMessageNode(scope, `无法开始录音：${error.message}`, "error");
+  }
+}
+
+function stopApproachRecording() {
+  if (approachRecording.recorder?.state === "recording") {
+    approachRecording.recorder.stop();
+  }
+}
+
+async function uploadApproachRecording(meta, blob) {
+  const base = approachEndpoint(meta.bankId, meta.itemId);
+  const stillOnItem = approachState.itemId === meta.itemId;
+  const scope = document.querySelector(`.approach-item[data-approach-id="${meta.approachId}"]`);
+  if (stillOnItem) approachMessageNode(scope, "录音结束，正在上传并转写…");
+  try {
+    const payload = await explanationsFetch(
+      `${base}/approaches/${encodeURIComponent(meta.approachId)}/audio`,
+      { method: "POST", headers: { "Content-Type": meta.mimeType }, body: blob },
+    );
+    if (approachState.itemId === meta.itemId) applyApproachPayload(payload);
+    let fresh = document.querySelector(`.approach-item[data-approach-id="${meta.approachId}"]`);
+    if (fresh) approachMessageNode(fresh, "转写完成，正在润色（新修订，不覆盖转写稿）…");
+    try {
+      const polished = await explanationsFetch(
+        `${base}/approaches/${encodeURIComponent(meta.approachId)}/polish`,
+        { method: "POST" },
+      );
+      if (approachState.itemId === meta.itemId) applyApproachPayload(polished);
+      fresh = document.querySelector(`.approach-item[data-approach-id="${meta.approachId}"]`);
+      approachMessageNode(fresh, "润色完成：对照录音与转写稿编辑步骤后批准。", "ok");
+    } catch (error) {
+      fresh = document.querySelector(`.approach-item[data-approach-id="${meta.approachId}"]`);
+      approachMessageNode(fresh, `录音已保存、转写成功，但润色失败：${error.message}。可稍后重试润色。`, "error");
+    }
+  } catch (error) {
+    const fresh = document.querySelector(`.approach-item[data-approach-id="${meta.approachId}"]`);
+    approachMessageNode(fresh, `录音上传或转写失败：${error.message}`, "error");
+  }
+}
+
+byId("approach-create").addEventListener("click", () => void createApproachTeachingAction());
 
 loadBanks();

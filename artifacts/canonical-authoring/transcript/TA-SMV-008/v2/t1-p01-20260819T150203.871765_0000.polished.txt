@@ -1,0 +1,16 @@
+先观察图形，明确四边形 $ABCD$ 中 $AD\parallel BC$，且 $AD=4$，$BC=5$，对角线 $AC$ 与 $BD$ 相交于点 $E$。  
+第（1）问要求用 $\vec{a}=\overrightarrow{BC}$、$\vec{b}=\overrightarrow{BD}$ 表示 $\overrightarrow{AE}$；请按以下步骤操作：  
+先看平行关系 $AD\parallel BC$，由此可得 $\triangle AED\sim\triangle CEB$（两组内错角相等），所以对应边成比例，即 $\frac{AD}{BC}=\frac{ED}{BE}$；  
+再代入已知长度 $AD=4$，$BC=5$，得 $\frac{ED}{BE}=\frac{4}{5}$，从而 $\frac{ED}{BD}=\frac{ED}{ED+BE}=\frac{4}{4+5}=\frac{4}{9}$，即 $ED=\frac{4}{9}BD$；  
+接着由 $\overrightarrow{BC}=\vec{a}$ 得 $\overrightarrow{AD}=\frac{4}{5}\vec{a}$（因 $AD\parallel BC$ 且同向，长度比为 $4:5$）；  
+又由 $\overrightarrow{BD}=\vec{b}$ 得 $\overrightarrow{ED}=\frac{4}{9}\vec{b}$（方向与 $\vec{b}$ 相同）；  
+然后利用向量减法：$\overrightarrow{AE}=\overrightarrow{AD}-\overrightarrow{ED}$；  
+最后代入得 $\overrightarrow{AE}=\frac{4}{5}\vec{a}-\frac{4}{9}\vec{b}$。  
+
+第（2）问已知 $AD\perp CD$，且 $\tan\angle DAC=\frac{1}{2}$，要求 $\sin\angle ABC$；请按以下步骤操作：  
+先在 $\triangle ADC$ 中分析：由 $AD\perp CD$ 知 $\triangle ADC$ 是直角三角形，直角在点 $D$，故 $\tan\angle DAC=\frac{CD}{AD}$；  
+再代入 $AD=4$ 和 $\tan\angle DAC=\frac{1}{2}$，得 $\frac{CD}{4}=\frac{1}{2}$，解得 $CD=2$；  
+然后计算斜边 $AC$：由勾股定理，$AC=\sqrt{AD^2+CD^2}=\sqrt{4^2+2^2}=\sqrt{20}=2\sqrt{5}$；  
+接着利用平行关系 $AD\parallel BC$，得 $\angle DAC=\angle ACB$（内错角相等），又 $\angle D=\angle BAC=90^\circ$，所以 $\triangle DAC\sim\triangle ACB$（两角对应相等）；  
+于是对应边成比例：$\frac{DA}{AC}=\frac{AC}{BC}$，即 $\frac{4}{2\sqrt{5}}=\frac{2\sqrt{5}}{5}$，验证比例成立；  
+最后由相似得 $\angle ABC$ 在 $\triangle ACB$ 中，其对边为 $AC$，斜边为 $BC$，故 $\sin\angle ABC=\frac{AC}{BC}=\frac{2\sqrt{5}}{5}$。

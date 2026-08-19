@@ -1,0 +1,106 @@
+schema: math_item_teaching_approach/v1
+item_id: Q007
+question:
+  source_key: 2020-MINHANG-YIMO-Q07
+  artifact_id: QT-SMV-013
+  bound_at: '2026-08-19T14:49:54.024590+00:00'
+approaches:
+- id: t1
+  title: 比例中项：定义 → 代入 → 开方取正
+  author: mvp-phase3-dogfood
+  status: approved
+  goal: 巩固比例中项的定义性计算：b²=ac，代入后开平方并按线段取正值。
+  entry_signal: 看到「比例中项」四个字，直接写平方关系。
+  steps:
+  - step_id: S1
+    intent: 定义回忆
+    narration: 比例中项定义：$b^2=ac$（即 $\frac{a}{b}=\frac{b}{c}$），本题即求 满足 $b^2=4\times 9$ 的线段 $b$。
+    expected_student_reasoning: 学生能默写比例中项的两种等价表达并选用平方形式。
+    accepted_alternatives: []
+    common_errors:
+    - 与算术平均数混淆
+    skill_ids:
+    - SKILL-SMV-001
+    origin: manual
+  - step_id: S2
+    intent: 代入计算
+    narration: 代入 $a=4$、$c=9$，$b^2=36$。
+    expected_student_reasoning: 学生能正确完成乘法 4×9=36。
+    accepted_alternatives: []
+    common_errors:
+    - 乘法口误成 35
+    skill_ids:
+    - SKILL-SMV-007
+    origin: manual
+  - step_id: S3
+    intent: 开方取正值
+    narration: $b=\sqrt{36}$，线段长度取正值，得比例中项为 $6$ 厘米。
+    expected_student_reasoning: 学生能说明为什么开方后只取正值（线段长非负且非零）。
+    accepted_alternatives: []
+    common_errors:
+    - 写出 ±6 忘记取舍
+    skill_ids:
+    - SKILL-SMV-007
+    origin: manual
+  steps_origin: manual
+  polished_text: "先看题干：已知线段 $a=4$ 厘米，$c=9$ 厘米，要求线段 $a$ 和 $c$ 的比例中项。  \n再回忆定义：若线段 $b$ 是 $a$ 与 $c$ 的比例中项，则满足 $b^2 = a \\cdot c$。  \n然后代入已知数据：$b^2 = 4 \\times 9 = 36$。  \n接着对等式两边开平方：$b = \\sqrt{36}$。  \n最后注意线段长度必须为正数，所以取正值，得 $b = 6$ 厘米。  \n特别提醒：比例中项是几何概念，不是算术平均数；开方后只取正根，不可写 $b = \\pm 6$。"
+  evidence:
+    recordings:
+    - revision: 1
+      audio_path: assets/teaching-approach/t1-r01-20260819T150118.832606_0000.wav
+      audio_sha256: sha256:ed93c2da63d638c29211b47433f0ef470472a9178e830804de683d4db6445502
+      audio_bytes: 186402
+      recorded_at: '2026-08-19T15:01:18.832846+00:00'
+      duration_seconds: null
+      transcript: a vier c neun d a c d a c a c vier neun sechs und dreißig sechs.
+      transcript_path: assets/teaching-approach/t1-r01-20260819T150118.832606_0000.transcript.txt
+      transcript_sha256: sha256:4b8086b20af6b2b65fdbcf40057bcfd5ededc0403387f366bd03971074e016a2
+      asr:
+        provider: dashscope
+        model_id: qwen3-asr-flash
+      transcribed_at: '2026-08-19T15:01:23.723316+00:00'
+    - revision: 2
+      audio_path: assets/teaching-approach/t1-r02-20260819T171915.181894_0000.wav
+      audio_sha256: sha256:acc209d9c0e6c41c98546f9db60c95cefde7ea0f9c0b39a66b044286d726e294
+      audio_bytes: 1137628
+      recorded_at: '2026-08-19T17:19:15.182863+00:00'
+      duration_seconds: null
+      transcript: 这道填空题考比例中项，线段 r 等于四厘米，c 等于九厘米，求它们的比例中项。第一步回忆定义，如果 b 是 r 和 c 的比例中项，那么 b 的平方等于 r 乘 c。第二步代入，r 乘 c 等于4×9=36。第三步开平方，注意线段长度取正值，所以比例中项是六厘米。这类题最容易错的就是开方后带了负值，或者把比例中项和平均数混淆。
+      transcript_path: assets/teaching-approach/t1-r02-20260819T171915.181894_0000.transcript.txt
+      transcript_sha256: sha256:a72bf502ac6bdc9606fb50d2804e3ee619dc3480244ca259f41d64f6c9b7f6fd
+      asr:
+        provider: dashscope
+        model_id: qwen3-asr-flash
+      transcribed_at: '2026-08-19T17:19:39.413688+00:00'
+    polishes:
+    - revision: 1
+      based_on_recording: 1
+      polished_path: assets/teaching-approach/t1-p01-20260819T150133.929012_0000.polished.txt
+      polished_sha256: sha256:f87f4bc11da44a1ccf798ff8374871e6dd43c7417fb96fc8526b6ffb4e410085
+      polished_at: '2026-08-19T15:01:33.929430+00:00'
+      provenance:
+        provider: dashscope
+        model_id: qwen-plus
+        prompt_version: POLISH_PROMPT@2026-08-v1
+    - revision: 2
+      based_on_recording: 2
+      polished_path: assets/teaching-approach/t1-p02-20260819T171944.804640_0000.polished.txt
+      polished_sha256: sha256:e2bec5b27aa7ca3498729017f0b8cf8b480908136da63d41ed88cadbe7ca216b
+      polished_at: '2026-08-19T17:19:44.805717+00:00'
+      provenance:
+        provider: dashscope
+        model_id: qwen-plus
+        prompt_version: POLISH_PROMPT@2026-08-v1
+    manual_edit_notes:
+    - 2026-08-19T15:01:33.983004+00:00 editor=mvp-phase3-dogfood edited=entry_signal,goal
+    - 2026-08-19T15:01:34.031084+00:00 editor=mvp-phase3-dogfood edited=steps
+  approval:
+    reviewer_id: phase3-dogfood-reviewer
+    approved_at: '2026-08-19T17:19:44.874934+00:00'
+    review_note: '[重录重批] 定义性计算路径正确；TTS 代理录音转写清晰，本题为最短链路样例。'
+  canonical:
+    artifact_id: TA-SMV-007
+    version: v2
+    content_hash: sha256:a6e245f6052ad09e13dae4239b5d8b19f4c3dccfad971dbcdc2580453478cc00
+    approved_at: '2026-08-19T17:19:44.874934+00:00'
+  created_at: '2026-08-19T15:01:18.280213+00:00'

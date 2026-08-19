@@ -1,0 +1,15 @@
+先观察图形：在四边形 $ABCD$ 中，已知 $AD\parallel BC$，$AD=4$，$BC=5$，对角线 $AC$ 与 $BD$ 相交于点 $E$。  
+第（1）问要求用 $\vec{a}=\overrightarrow{BC}$、$\vec{b}=\overrightarrow{BD}$ 表示 $\overrightarrow{AE}$；第（2）问在附加条件 $AD\perp CD$、$\tan\angle DAC=\frac{1}{2}$ 下，求 $\sin\angle ABC$ 的值。  
+
+对于第（1）问，请按以下步骤操作：  
+先看图中平行关系 $AD\parallel BC$，由此可得 $\triangle ADE\sim\triangle CBE$（两组内错角相等）；  
+再找对应边比例：由相似得 $\frac{AD}{BC}=\frac{DE}{BE}=\frac{4}{5}$，所以 $\frac{DE}{BD}=\frac{DE}{BE+ED}=\frac{4}{5+4}=\frac{4}{9}$，即 $DE=\frac{4}{9}BD$；  
+然后算向量：因为 $\overrightarrow{AD}\parallel\overrightarrow{BC}=\vec{a}$，且 $AD=4$、$BC=5$，所以 $\overrightarrow{AD}=\frac{4}{5}\vec{a}$；又 $\overrightarrow{ED}=\frac{4}{9}\overrightarrow{BD}=\frac{4}{9}\vec{b}$；  
+最后由向量减法得 $\overrightarrow{AE}=\overrightarrow{AD}-\overrightarrow{ED}=\frac{4}{5}\vec{a}-\frac{4}{9}\vec{b}$。  
+
+对于第（2）问，请按以下步骤操作：  
+先看直角和正切条件：已知 $AD\perp CD$，所以 $\triangle ADC$ 是直角三角形，且 $\angle DAC$ 是锐角；  
+再找边长关系：由 $\tan\angle DAC=\frac{CD}{AD}=\frac{1}{2}$ 及 $AD=4$，得 $CD=2$；  
+然后算斜边：在 $\triangle ADC$ 中，由勾股定理得 $AC=\sqrt{AD^2+CD^2}=\sqrt{4^2+2^2}=2\sqrt{5}$；  
+接着利用平行线转移角度：因为 $AD\parallel BC$，所以 $\angle DAC=\angle ACB$（内错角相等），进而可证 $\triangle DAC\sim\triangle ACB$（两角对应相等）；  
+最后求正弦值：由相似得 $\frac{AC}{BC}=\frac{AD}{AC}$，即 $\frac{AC}{5}=\frac{4}{2\sqrt{5}}$，验证无误；再由 $\triangle ACB$ 中 $\angle BAC=90^\circ$，得 $\sin\angle ABC=\frac{AC}{BC}=\frac{2\sqrt{5}}{5}$。

@@ -1,0 +1,17 @@
+先观察图形：在 $\triangle ABC$ 中，$BD$ 是 $AC$ 边上的高，因此 $\angle ADB = \angle CDB = 90^\circ$；点 $E$ 在边 $AB$ 上，连接 $CE$，交 $BD$ 于点 $O$；已知条件是 $AD \cdot OC = AB \cdot OD$；另外，$AF$ 是 $\angle BAC$ 的平分线，交 $BC$ 于点 $F$，交 $DE$ 于点 $G$。  
+
+第一步，证明 $CE \perp AB$：  
+先看 $\triangle ADB$ 和 $\triangle ODC$；因为 $BD \perp AC$，所以 $\angle ADB = \angle CDB = 90^\circ$，即 $\triangle ADB$ 和 $\triangle ODC$ 都是直角三角形；  
+再找对应边的比例关系：由已知 $AD \cdot OC = AB \cdot OD$，可得 $\frac{AD}{OD} = \frac{AB}{OC}$；  
+注意到在 $\triangle ADB$ 中，直角边为 $AD$ 和 $BD$，斜边为 $AB$；在 $\triangle ODC$ 中，直角边为 $OD$ 和 $CD$，斜边为 $OC$；而 $\frac{AD}{OD} = \frac{AB}{OC}$ 表明两直角三角形的斜边与一条直角边成比例，且夹角均为直角，因此 $\triangle ADB \sim \triangle ODC$；  
+由相似得 $\angle ABD = \angle OCD$；  
+又因为 $\angle EOB = \angle DOC$（对顶角相等），在 $\triangle EOB$ 中，$\angle EOB + \angle ABD + \angle OEB = 180^\circ$；在 $\triangle DOC$ 中，$\angle DOC + \angle OCD + \angle ODC = 180^\circ$；将 $\angle EOB = \angle DOC$ 和 $\angle ABD = \angle OCD$ 代入，可得 $\angle OEB = \angle ODC = 90^\circ$；  
+所以 $CE \perp AB$。  
+
+第二步，证明 $AF \cdot DE = AG \cdot BC$：  
+先看 $\triangle DAE$ 和 $\triangle BAC$；由第一问已证 $CE \perp AB$，结合 $BD \perp AC$，可推出 $\angle DAE = \angle BAC$（公共角）；  
+再找边的比例：在 $\triangle ADB$ 和 $\triangle CEB$ 中，利用垂直关系和角度相等，可得 $\frac{AD}{AB} = \frac{AE}{AC}$；  
+因此 $\triangle DAE \sim \triangle BAC$（两边成比例且夹角相等）；  
+于是有 $\frac{DE}{BC} = \frac{AD}{AB} = \frac{AE}{AC}$；  
+又因为 $AF$ 是 $\angle BAC$ 的平分线，且 $G$ 是 $AF$ 与 $DE$ 的交点，根据角平分线分线段成比例的性质，在相似三角形中对应线段保持比例，可得 $\frac{AG}{AF} = \frac{DE}{BC}$；  
+整理得 $AF \cdot DE = AG \cdot BC$。

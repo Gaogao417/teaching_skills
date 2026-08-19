@@ -1,0 +1,106 @@
+{
+  "approval": {
+    "approved_at": "2026-08-19T14:52:18.175949+00:00",
+    "review_note": "二次审核：补\"代回检验\"习惯目标后重批，验证 FR-4 生命周期（v1→Superseded）。",
+    "reviewer_id": "phase3-dogfood-reviewer"
+  },
+  "artifact_id": "TA-SMV-001",
+  "artifact_uri": "artifact://teaching-approach/TA-SMV-001@v2",
+  "content_hash": "sha256:f7325d340c37d10327f4d7826b6177cc525e81ad80bb6e76e4f605c28afda514",
+  "entry_signal": "条件 $\\angle DAC=\\angle ACD$ 立刻翻译成 AD=DC，而不是先算长度。",
+  "evidence": {
+    "audio": [
+      {
+        "artifact_uri": "artifact://audio/TA-SMV-001@v2/t1-r01-20260819T145034.604491_0000.wav",
+        "content_hash": "sha256:0655db437f21ae6e82aea4d451b2c97c99ce0f33fcb027487724f188cc591fca",
+        "recorded_at": "2026-08-19T14:50:34.605253+00:00"
+      }
+    ],
+    "manual_edit_notes": [
+      "2026-08-19T14:52:17.919577+00:00 editor=mvp-phase3-dogfood edited=entry_signal,goal",
+      "2026-08-19T14:52:17.974734+00:00 editor=mvp-phase3-dogfood edited=steps",
+      "2026-08-19T14:52:18.107913+00:00 editor=mvp-phase3-dogfood edited=goal"
+    ],
+    "polished": [
+      {
+        "artifact_uri": "artifact://transcript/TA-SMV-001@v2/t1-p01-20260819T145217.831296_0000.polished.txt",
+        "polish_provenance": {
+          "model_id": "qwen-plus",
+          "prompt_version": "POLISH_PROMPT@2026-08-v1",
+          "provider": "dashscope"
+        }
+      }
+    ],
+    "transcripts": [
+      {
+        "artifact_uri": "artifact://transcript/TA-SMV-001@v2/t1-r01-20260819T145034.604491_0000.transcript.txt",
+        "asr_provenance": {
+          "model_id": "qwen3-asr-flash",
+          "provider": "dashscope"
+        },
+        "revision": 1
+      }
+    ]
+  },
+  "goal": "（v2 修订）学会在翻折问题中抓\"不变量\"：等角对等边定出 AD=DC，翻折保长保角， 在斜三角形里用余弦定理收口求 BE，并养成代回图形检验的习惯。",
+  "question_ref": {
+    "artifact_id": "QT-SMV-001",
+    "content_hash": "sha256:db6af802c1e02956b913746769480504dffa01ceaf6b3d7fcc5827bbbfae92fb",
+    "version": "v1"
+  },
+  "schema": "ai_teaching_teaching_approach/v1",
+  "status": "Superseded",
+  "steps": [
+    {
+      "accepted_alternatives": [
+        "设 BD=x 再表示 DC=6-x"
+      ],
+      "common_errors": [
+        "把 ∠DAC 当成三角形 ADC 的外角",
+        "漏用 AB=AC 的等腰条件"
+      ],
+      "expected_student_reasoning": "学生看到 $\\angle DAC=\\angle ACD$ 能立刻写出 AD=DC 并设元，而不是先试图直接计算 BE。",
+      "intent": "读题标注，等角翻译成等边",
+      "narration": "标注等腰条件 $AB=AC=4$、$BC=6$；由 $\\angle DAC=\\angle ACD$ 得 $AD=DC$（等角对等边）， 设 $AD=DC=t$，$BD=6-t$。",
+      "skill_ids": [
+        "SKILL-SMV-001"
+      ],
+      "step_id": "S1"
+    },
+    {
+      "common_errors": [
+        "误以为 B、D、E 共线",
+        "翻折后角度方向搞反"
+      ],
+      "expected_student_reasoning": "学生能列出翻折不变量清单（对应边相等、对应角相等），并想到 BE 落在 △BDE 中求解。",
+      "intent": "抓翻折不变量，识别母子型结构",
+      "narration": "翻折保长保角：$AE=AC=4$、$DE=DC=t$、$\\angle ADE=\\angle ADC$； 由此识别折叠后的三角形 ADE 与原三角形 ADC 全等，并关注 B、D、E 构成的斜三角形。",
+      "skill_ids": [
+        "SKILL-SMV-008"
+      ],
+      "step_id": "S2"
+    },
+    {
+      "accepted_alternatives": [
+        "坐标法：设 B(0,0)、C(6,0)、A(3,√7) 直接求 E 点坐标"
+      ],
+      "common_errors": [
+        "余弦定理符号写错",
+        "角度用错（用 ∠ADC 代替 ∠BDE）"
+      ],
+      "expected_student_reasoning": "学生能先解出 t 与 BD，再选择余弦定理而不是硬凑勾股，最后得到 $BE=1$。",
+      "intent": "设元列式求 BE",
+      "narration": "用勾股关系解出 $t=\\frac{8}{3}$、$BD=\\frac{10}{3}$；再在 △BDE 中求出夹角 $\\angle BDE$ 后用余弦定理，解得 $BE=1$。",
+      "skill_ids": [
+        "SKILL-SMV-007"
+      ],
+      "step_id": "S3"
+    }
+  ],
+  "superseded_by": {
+    "artifact_id": "TA-SMV-001",
+    "version": "v3"
+  },
+  "title": "折叠等腰：标角 → 等角对等边 → 余弦定理求 BE",
+  "version": "v2"
+}

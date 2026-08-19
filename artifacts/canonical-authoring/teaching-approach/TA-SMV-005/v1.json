@@ -1,0 +1,102 @@
+{
+  "approval": {
+    "approved_at": "2026-08-19T15:04:53.190471+00:00",
+    "review_note": "AA 判定 + 平行转移比例路径与官方解答一致；△CEA∽△CDB 顶点对应关系经人工复核无误。",
+    "reviewer_id": "phase3-dogfood-reviewer"
+  },
+  "artifact_id": "TA-SMV-005",
+  "artifact_uri": "artifact://teaching-approach/TA-SMV-005@v1",
+  "content_hash": "sha256:a37d75c956a09f8454bdba09a6332a0bb9a7d06d56aa6ee0033bcbfd1a137707",
+  "entry_signal": "CD 平分 ∠ACB → ∠ACE=∠DCB 是现成的公共角。",
+  "evidence": {
+    "audio": [
+      {
+        "artifact_uri": "artifact://audio/TA-SMV-005@v1/t1-r01-20260819T150015.629558_0000.wav",
+        "content_hash": "sha256:b29291cc20504b36ed59f2395ecffa7c2a2c14e9786b2bd29ce63d0c67fac112",
+        "recorded_at": "2026-08-19T15:00:15.629951+00:00"
+      }
+    ],
+    "manual_edit_notes": [
+      "2026-08-19T15:00:33.679558+00:00 editor=mvp-phase3-dogfood edited=entry_signal,goal",
+      "2026-08-19T15:00:33.727912+00:00 editor=mvp-phase3-dogfood edited=steps"
+    ],
+    "polished": [
+      {
+        "artifact_uri": "artifact://transcript/TA-SMV-005@v1/t1-p01-20260819T150033.626909_0000.polished.txt",
+        "polish_provenance": {
+          "model_id": "qwen-plus",
+          "prompt_version": "POLISH_PROMPT@2026-08-v1",
+          "provider": "dashscope"
+        }
+      }
+    ],
+    "transcripts": [
+      {
+        "artifact_uri": "artifact://transcript/TA-SMV-005@v1/t1-r01-20260819T150015.629558_0000.transcript.txt",
+        "asr_provenance": {
+          "model_id": "qwen3-asr-flash",
+          "provider": "dashscope"
+        },
+        "revision": 1
+      }
+    ]
+  },
+  "goal": "掌握\"角平分线给公共角、等腰给外角\"的组合：AA 判定证 △CEA∽△CDB， 再用 CF∥AE 的平行条件把比例转移到目标比例式。",
+  "question_ref": {
+    "artifact_id": "QT-SMV-005",
+    "content_hash": "sha256:851940d9a4af8026fa17607feb4c1f2afeeb1d733598174f298d497c0aa063cf",
+    "version": "v1"
+  },
+  "schema": "ai_teaching_teaching_approach/v1",
+  "status": "Superseded",
+  "steps": [
+    {
+      "common_errors": [
+        "平分线两侧的角与三角形顶点对应错"
+      ],
+      "expected_student_reasoning": "学生能立刻把角平分线条件翻译成两个三角形的公共等角。",
+      "intent": "找公共角（角平分线）",
+      "narration": "由 $CD$ 平分 $\\angle ACB$ 得 $\\angle ACE=\\angle DCB$，这是 $\\triangle CEA$ 与 $\\triangle CDB$ 的第一组等角。",
+      "skill_ids": [
+        "SKILL-SMV-008"
+      ],
+      "step_id": "S1"
+    },
+    {
+      "accepted_alternatives": [
+        "用内错角/同位角另证第二组等角"
+      ],
+      "common_errors": [
+        "把外角当成底角本身",
+        "顶点对应关系写错"
+      ],
+      "expected_student_reasoning": "学生能用\"等腰 + 外角\"补出第二组角并写明判定依据。",
+      "intent": "等腰外角配第二组角，AA 判定",
+      "narration": "由 $AE=AD$ 得 △AED 等腰，$\\angle CEA$ 与 $\\angle CDB$ 是其两个外角， 均等于 $2\\angle EAD$，故 $\\angle CEA=\\angle CDB$； 两组对应角相等，AA 判定证得 $\\triangle CEA\\sim\\triangle CDB$。",
+      "skill_ids": [
+        "SKILL-SMV-002"
+      ],
+      "step_id": "S2"
+    },
+    {
+      "common_errors": [
+        "平行线截得的比例上下位写反",
+        "不用第一问结论另起炉灶"
+      ],
+      "expected_student_reasoning": "学生能规划\"先相似比、再平行比\"的转移顺序，而不是硬凑。",
+      "intent": "平行转移比例，规划证明路线",
+      "narration": "由 $CF\\parallel AE$ 得新的等角与比例，结合第一问相似比 $\\frac{CE}{CD}=\\frac{CA}{CB}$ 逐层转移，最终证得 $\\frac{BD}{AD}=\\frac{BF}{CF}$。",
+      "skill_ids": [
+        "SKILL-SMV-009",
+        "SKILL-SMV-007"
+      ],
+      "step_id": "S3"
+    }
+  ],
+  "superseded_by": {
+    "artifact_id": "TA-SMV-005",
+    "version": "v2"
+  },
+  "title": "角平分线 + 等腰外角：AA 证相似，平行转移比例",
+  "version": "v1"
+}

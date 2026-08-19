@@ -1,0 +1,118 @@
+{
+  "approval": {
+    "approved_at": "2026-08-19T17:20:24.107616+00:00",
+    "review_note": "[重录重批] 梯形对角线分比 + 向量组合与官方答案一致；向量小问按 golden fallback 约定整体纳入（非 golden 样本）。",
+    "reviewer_id": "phase3-dogfood-reviewer"
+  },
+  "artifact_id": "TA-SMV-008",
+  "artifact_uri": "artifact://teaching-approach/TA-SMV-008@v2",
+  "content_hash": "sha256:356c789d8a0bd68993e8f1f8c47cab7a3294a1b76c41640ac2ad461557ab0e24",
+  "entry_signal": "梯形中 AD∥BC → 对角线交点 E 把两条对角线按 AD:BC 分割。",
+  "evidence": {
+    "audio": [
+      {
+        "artifact_uri": "artifact://audio/TA-SMV-008@v2/t1-r01-20260819T150134.627786_0000.wav",
+        "content_hash": "sha256:c02fe5b408a2e45d039dd757f88d912d24fe755edcc7434239eb114ddf81298c",
+        "recorded_at": "2026-08-19T15:01:34.628147+00:00"
+      },
+      {
+        "artifact_uri": "artifact://audio/TA-SMV-008@v2/t1-r02-20260819T171945.836157_0000.wav",
+        "content_hash": "sha256:bb9aa2586e4348cf37b5bb9065e7142f563668437b7842fc648c1133fb455d0b",
+        "recorded_at": "2026-08-19T17:19:45.837725+00:00"
+      }
+    ],
+    "manual_edit_notes": [
+      "2026-08-19T15:02:03.924298+00:00 editor=mvp-phase3-dogfood edited=entry_signal,goal",
+      "2026-08-19T15:02:03.972260+00:00 editor=mvp-phase3-dogfood edited=steps"
+    ],
+    "polished": [
+      {
+        "artifact_uri": "artifact://transcript/TA-SMV-008@v2/t1-p01-20260819T150203.871765_0000.polished.txt",
+        "polish_provenance": {
+          "model_id": "qwen-plus",
+          "prompt_version": "POLISH_PROMPT@2026-08-v1",
+          "provider": "dashscope"
+        }
+      },
+      {
+        "artifact_uri": "artifact://transcript/TA-SMV-008@v2/t1-p02-20260819T172024.037209_0000.polished.txt",
+        "polish_provenance": {
+          "model_id": "qwen-plus",
+          "prompt_version": "POLISH_PROMPT@2026-08-v1",
+          "provider": "dashscope"
+        }
+      }
+    ],
+    "transcripts": [
+      {
+        "artifact_uri": "artifact://transcript/TA-SMV-008@v2/t1-r01-20260819T150134.627786_0000.transcript.txt",
+        "asr_provenance": {
+          "model_id": "qwen3-asr-flash",
+          "provider": "dashscope"
+        },
+        "revision": 1
+      },
+      {
+        "artifact_uri": "artifact://transcript/TA-SMV-008@v2/t1-r02-20260819T171945.836157_0000.transcript.txt",
+        "asr_provenance": {
+          "model_id": "qwen3-asr-flash",
+          "provider": "dashscope"
+        },
+        "revision": 2
+      }
+    ]
+  },
+  "goal": "用 AD∥BC 的相似分比（对角线互相分成 AD:BC 的比）先解决向量线性组合， 再用垂直与 tan 条件做等角转移求 sin∠ABC，体会\"平行出比例、比例出向量\"。",
+  "question_ref": {
+    "artifact_id": "QT-SMV-048",
+    "content_hash": "sha256:65c40102603596db0882c0a27f08ce4b7735a248f0642011cce6e0cce9885450",
+    "version": "v1"
+  },
+  "schema": "ai_teaching_teaching_approach/v1",
+  "status": "Approved",
+  "steps": [
+    {
+      "common_errors": [
+        "把两组比的方向都写反"
+      ],
+      "expected_student_reasoning": "学生能在梯形里直接看出对角线被交点分成的两组比。",
+      "intent": "平行出相似，对角线定比",
+      "narration": "由 $AD\\parallel BC$ 得 $\\triangle AED \\sim \\triangle CEB$（8 字型）， 故 $AE:EC=AD:CB=4:5$、$BE:ED=BC:AD=5:4$。",
+      "skill_ids": [
+        "SKILL-SMV-008"
+      ],
+      "step_id": "S1"
+    },
+    {
+      "accepted_alternatives": [
+        "先表示 AC 再按 4:5 内分"
+      ],
+      "common_errors": [
+        "向量减法方向错",
+        "分比 4/5 与 5/9 混用"
+      ],
+      "expected_student_reasoning": "学生能先写出 AE 用 AB、BE 表示的中间式，再逐步代入化为 a、b 的组合。",
+      "intent": "分比转成向量线性组合",
+      "narration": "由 $\\overrightarrow{BC}=\\vec{a}$、$\\overrightarrow{BD}=\\vec{b}$ 与定比分解， 得 $\\overrightarrow{AE}=\\frac{4}{5}\\vec{a}-\\frac{4}{9}\\vec{b}$。",
+      "skill_ids": [
+        "SKILL-SMV-002"
+      ],
+      "step_id": "S2"
+    },
+    {
+      "common_errors": [
+        "tan 的对边邻边放反",
+        "转移角时用错内错角与同旁内角"
+      ],
+      "expected_student_reasoning": "学生能说出\"转移哪个角、转移到哪个直角三角形\"再计算。",
+      "intent": "等角转移求正弦",
+      "narration": "由 $AD\\perp CD$、$\\tan\\angle DAC=\\frac{1}{2}$ 设元求边， 利用平行内错角把 $\\angle ABC$ 转到直角三角形中， 解得 $\\sin\\angle ABC=\\frac{2\\sqrt{5}}{5}$。",
+      "skill_ids": [
+        "SKILL-SMV-007"
+      ],
+      "step_id": "S3"
+    }
+  ],
+  "title": "梯形对角线比例：AD∥BC 分比 → 向量线性组合 → 等角转移求正弦",
+  "version": "v2"
+}

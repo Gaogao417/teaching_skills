@@ -341,3 +341,87 @@ def generate_solution_text(ctx: dict[str, Any]) -> str:
     if not result.strip():
         raise AiAssistError("llm_bad_output", "生成的解答为空")
     return result
+
+
+STEPS_DRAFT_PROMPT = """请依据题目与参考解答，为这道题起草一份教学策略的 TeachingStep 草稿（只建议，教师之后会编辑）。
+
+要求：
+- 输出 JSON 对象 {{"steps": [...]}}，不要输出其他文字；
+- steps 数组 3 到 6 个元素，按教学顺序排列；
+- 每个元素字段：intent（本步教学意图，短语）、narration（教师口头讲解词，2-4 句）、
+  expected_student_reasoning（希望学生形成的推理表述）、accepted_alternatives（可接受的
+  等价路径或表述，可为空数组）、common_errors（本步常见错误，1-3 条）、
+  skill_ids（从给定 allowed_skill_ids 中挑选，每步至少 1 个）；
+- 不得改变参考解答的数学事实与结论；语言面向九年级学生。
+
+题目：
+{stem}
+
+参考解答：
+{solution}
+
+思路提示：
+{clue}
+
+教学设计字段（可能为空）：
+{teaching}
+
+allowed_skill_ids：
+{allowed_skill_ids}
+"""
+
+
+def draft_teaching_steps(ctx: dict[str, Any]) -> list[dict[str, Any]]:
+    """从题干+参考解答起草 TeachingStep 建议（P3-05：AI 只建议，教师编辑）。
+
+    返回 step 字典列表（字段与 working sidecar 的 step 一致，另带 origin="ai_draft"）；
+    输出无法解析为非空 steps 时 fail closed。
+    """
+    _required_context(ctx, ("stem", "solution", "allowed_skill_ids"))
+    allowed = [str(item) for item in ctx["allowed_skill_ids"]]
+    text = _chat_text(
+        [
+            {
+                "role": "system",
+                "content": "你是数学教研助手。只输出严格的 JSON，不要输出解释或代码块。",
+            },
+            {"role": "user", "content": _render(STEPS_DRAFT_PROMPT, ctx)},
+        ],
+        llm_model(),
+    )
+    try:
+        parsed = _extract_json_object(text)
+    except AiAssistError as exc:
+        raise AiAssistError("steps_draft_failed", f"TeachingStep 草稿输出无法解析：{exc}") from exc
+    raw_steps = parsed.get("steps")
+    if not isinstance(raw_steps, list) or not raw_steps:
+        raise AiAssistError("steps_draft_failed", "TeachingStep 草稿输出为空")
+    steps: list[dict[str, Any]] = []
+    for entry in raw_steps:
+        if not isinstance(entry, dict):
+            continue
+        def _strings(key: str) -> list[str]:
+            value = entry.get(key)
+            if not isinstance(value, list):
+                return []
+            return [str(item).strip() for item in value if str(item).strip()]
+        skill_ids = [
+            item for item in _strings("skill_ids") if item in allowed
+        ]
+        steps.append(
+            {
+                "intent": str(entry.get("intent", "")).strip(),
+                "narration": str(entry.get("narration", "")).strip(),
+                "expected_student_reasoning": str(
+                    entry.get("expected_student_reasoning", "")
+                ).strip(),
+                "accepted_alternatives": _strings("accepted_alternatives"),
+                "common_errors": _strings("common_errors"),
+                "skill_ids": skill_ids,
+                "origin": "ai_draft",
+            }
+        )
+    steps = [step for step in steps if step["narration"]]
+    if not steps:
+        raise AiAssistError("steps_draft_failed", "TeachingStep 草稿没有有效步骤")
+    return steps

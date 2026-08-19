@@ -49,6 +49,9 @@ from triangle_candidate_review_adapter import (  # noqa: E402
 )
 import explanations_ai  # noqa: E402
 from explanations_ai import AiAssistError  # noqa: E402
+import teaching_approach as ta  # noqa: E402
+import canonical_export as ce  # noqa: E402
+from teaching_approach import TeachingApproachError  # noqa: E402
 TEMPLATE_DIR = PACKAGE_DIR / "templates"
 STATIC_DIR = PACKAGE_DIR / "static"
 DEFAULT_BANK_ROOT = REPO_ROOT / "artifacts" / "题库"
@@ -188,6 +191,48 @@ class ExplanationGenerateRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     kind: Literal["explanation", "solution"]
+
+
+class TeachingApproachCreate(BaseModel):
+    """Phase 3：新建教学策略（整题 TeachingApproach，非小题讲解对）。"""
+
+    model_config = ConfigDict(extra="forbid")
+
+    title: str = Field(min_length=1, max_length=200)
+    author: str = Field(default="", max_length=100)
+
+
+class TeachingApproachUpdate(BaseModel):
+    """Phase 3：编辑 title/goal/entry_signal/steps；steps 整体替换并重排 step_id。
+
+    任何实际改动都会：批准态回到 draft、追加 manual_edit_note（P3-03/P3-06）。
+    """
+
+    model_config = ConfigDict(extra="forbid")
+
+    title: str | None = Field(default=None, max_length=200)
+    goal: str | None = None
+    entry_signal: str | None = None
+    steps: list[dict[str, Any]] | None = None
+    editor: str = Field(default="question-bank-review-ui", max_length=100)
+
+
+class TeachingStepsInitRequest(BaseModel):
+    """P3-05：从 assignment teaching/solution_steps 初始化 TeachingStep 草稿。"""
+
+    model_config = ConfigDict(extra="forbid")
+
+    use_ai: bool = True
+    replace: bool = False
+
+
+class TeachingApproachApproveRequest(BaseModel):
+    """P3-07：批准冻结 ApprovedTeachingApproach.v1（reviewer + review note 必留）。"""
+
+    model_config = ConfigDict(extra="forbid")
+
+    reviewer_id: str = Field(min_length=1, max_length=100)
+    review_note: str = Field(default="", max_length=4000)
 
 
 class ReviewDecision(ReviewNote):
@@ -781,10 +826,17 @@ def _derive_student_assignment(teacher: dict[str, Any]) -> dict[str, Any]:
 
 
 class QuestionBankCatalog:
-    def __init__(self, bank_root: str | Path):
+    def __init__(self, bank_root: str | Path, canonical_root: str | Path | None = None):
         self.bank_root = Path(bank_root).expanduser().resolve()
         # 讲解批准后 blueprint candidate batch 的输出仓库（可被 app 工厂覆盖）。
         self.teaching_tools_root = _resolve_teaching_tools_root()
+        # Phase 3：canonical 注册表根（question-truth / teaching-approach / id 账本）。
+        self.canonical_root = (
+            Path(canonical_root).expanduser().resolve()
+            if canonical_root is not None
+            else Path(ce.CANONICAL_ROOT).resolve()
+        )
+        self.ta_ledger_path = self.canonical_root / "id-allocations.yaml"
         # 单进程读写模型（§6.1）：RLock 保护 snapshot 的构建与替换。
         self._lock = threading.RLock()
         self._snapshot: CatalogSnapshot | None = None
@@ -2446,8 +2498,10 @@ class QuestionBankCatalog:
         record, item_dir, _, _, teacher_block = self._explanations_entry(bank_id, item_id)
         payload = _merged_explanations(item_dir, teacher_block, item_id)
         _, approach = self._find_approach(payload, approach_id)
-        if title is not None:
+        title_changed = False
+        if title is not None and title.strip() != approach.get("title"):
             approach["title"] = title.strip()
+            title_changed = True
         content_changed = False
         if explanation_text is not None and explanation_text.strip() != approach["explanation"]["text"]:
             approach["explanation"].update(
@@ -2459,9 +2513,10 @@ class QuestionBankCatalog:
                 {"text": solution_text.strip(), "status": "draft", "source": "manual"}
             )
             content_changed = True
-        if content_changed:
+        # P3-01：title-only 更新也必须落盘（此前仅内容变化触发 persist，标题改动重启即丢）。
+        if content_changed or title_changed:
             # 批准后继续编辑 → 回到草稿，此前的 blueprint 导出自动过期。
-            if approach.get("approved_at"):
+            if content_changed and approach.get("approved_at"):
                 approach["approved_at"] = None
                 approach["explanation"]["status"] = "draft"
                 approach["solution"]["status"] = "draft"
@@ -2763,6 +2818,370 @@ class QuestionBankCatalog:
             "item_count": len(items_with_candidates),
         }
 
+    # ------------------------------------------------------------------
+    # 教学策略 TeachingApproach（Phase 3：items/<item>/teaching-approach.yaml）
+    # ------------------------------------------------------------------
+
+    def _teaching_view(
+        self,
+        item_dir: Path,
+        item_id: str,
+        *,
+        stored: dict[str, Any] | None = None,
+    ) -> dict[str, Any]:
+        payload = dict(stored if stored is not None else (ta.load_sidecar(item_dir) or {}))
+        payload.setdefault("schema", ta.APPROACH_SCHEMA)
+        payload.setdefault("item_id", item_id)
+        payload.setdefault("approaches", [])
+        if not payload.get("question"):
+            payload["question"] = ta.question_binding(item_dir, self.ta_ledger_path)
+        payload["recording_supported"] = (
+            bool(explanations_ai.api_key()) and shutil.which("ffmpeg") is not None
+        )
+        payload["topic_skill_ids"] = list(ta.TOPIC_SKILL_IDS)
+        return payload
+
+    def _find_teaching_approach(
+        self, payload: dict[str, Any], approach_id: str
+    ) -> dict[str, Any]:
+        for approach in payload.get("approaches") or []:
+            if str(approach.get("id")) == approach_id:
+                return approach
+        raise KeyError(approach_id)
+
+    def teaching_approach_view(self, bank_id: str, item_id: str) -> dict[str, Any]:
+        record, item_dir, _, _, _ = self._explanations_entry(bank_id, item_id)
+        return self._teaching_view(item_dir, item_id)
+
+    def create_teaching_approach(
+        self, bank_id: str, item_id: str, *, title: str, author: str
+    ) -> dict[str, Any]:
+        record, item_dir, _, _, _ = self._explanations_entry(bank_id, item_id)
+        binding = ta.question_binding(item_dir, self.ta_ledger_path)
+        if binding is None:
+            raise ValueError(
+                "该题没有 canonical QuestionTruth 绑定（不在 id-allocations 账本中），"
+                "不能创建教学策略"
+            )
+        payload = ta.load_sidecar(item_dir) or {
+            "schema": ta.APPROACH_SCHEMA,
+            "item_id": item_id,
+            "question": {**binding, "bound_at": _utc_now_iso()},
+            "approaches": [],
+        }
+        if not payload.get("question"):
+            payload["question"] = {**binding, "bound_at": _utc_now_iso()}
+        payload["approaches"].append(
+            ta.new_approach(payload, title=title, author=author)
+        )
+        ta.save_sidecar(item_dir, payload)
+        self._invalidate_bank(bank_id)
+        return self._teaching_view(item_dir, item_id, stored=payload)
+
+    def update_teaching_approach(
+        self,
+        bank_id: str,
+        item_id: str,
+        approach_id: str,
+        *,
+        title: str | None = None,
+        goal: str | None = None,
+        entry_signal: str | None = None,
+        steps: list[dict[str, Any]] | None = None,
+        editor: str = "question-bank-review-ui",
+    ) -> dict[str, Any]:
+        record, item_dir, _, _, _ = self._explanations_entry(bank_id, item_id)
+        payload = ta.load_sidecar(item_dir)
+        if payload is None:
+            raise KeyError(approach_id)
+        approach = self._find_teaching_approach(payload, approach_id)
+        changed: list[str] = []
+        if title is not None and title.strip() != approach.get("title"):
+            approach["title"] = title.strip()
+            changed.append("title")
+        if goal is not None and goal.strip() != approach.get("goal"):
+            approach["goal"] = goal.strip()
+            changed.append("goal")
+        if entry_signal is not None and entry_signal.strip() != approach.get("entry_signal"):
+            approach["entry_signal"] = entry_signal.strip()
+            changed.append("entry_signal")
+        if steps is not None:
+            normalized = [
+                ta.normalize_step(step, index) for index, step in enumerate(steps)
+            ]
+            if normalized != approach.get("steps"):
+                approach["steps"] = normalized
+                approach["steps_origin"] = "manual"
+                changed.append("steps")
+        if changed:
+            # Approved 修改回 Draft（FR-4）：旧 canonical 版本仍可从 registry 取回。
+            if approach.get("approval"):
+                approach["approval"] = None
+                approach["status"] = "draft"
+            ta.append_manual_edit_note(approach, editor=editor, fields=changed)
+            ta.save_sidecar(item_dir, payload)
+            self._invalidate_bank(bank_id)
+        return self._teaching_view(item_dir, item_id, stored=payload)
+
+    def delete_teaching_approach(
+        self, bank_id: str, item_id: str, approach_id: str
+    ) -> dict[str, Any]:
+        record, item_dir, _, _, _ = self._explanations_entry(bank_id, item_id)
+        payload = ta.load_sidecar(item_dir)
+        if payload is None:
+            raise KeyError(approach_id)
+        approach = self._find_teaching_approach(payload, approach_id)
+        if approach.get("canonical"):
+            raise ValueError(
+                "该教学策略已有冻结的 canonical 版本：工作副本不可删除"
+                "（历史证据链保留，可编辑后重新批准）"
+            )
+        payload["approaches"] = [
+            entry for entry in payload["approaches"] if entry.get("id") != approach_id
+        ]
+        ta.save_sidecar(item_dir, payload)
+        self._invalidate_bank(bank_id)
+        return self._teaching_view(item_dir, item_id, stored=payload)
+
+    def save_teaching_recording(
+        self, bank_id: str, item_id: str, approach_id: str, audio: bytes, content_type: str
+    ) -> dict[str, Any]:
+        record, item_dir, _, _, teacher_block = self._explanations_entry(bank_id, item_id)
+        payload = ta.load_sidecar(item_dir)
+        if payload is None:
+            raise KeyError(approach_id)
+        approach = self._find_teaching_approach(payload, approach_id)
+        suffix = explanations_ai.audio_suffix_for(content_type)
+        if len(audio) > explanations_ai.MAX_AUDIO_BYTES:
+            raise AiAssistError("audio_too_large", "录音超过 50MB 上限")
+        if not audio:
+            raise ValueError("录音内容为空")
+        revision_entry = ta.recording_revision(
+            approach, item_dir, audio_bytes=audio, suffix=suffix
+        )
+        # 先落盘：ASR 失败时录音修订已在案，稍后可重试转写（P3-03 append-only）。
+        ta.save_sidecar(item_dir, payload)
+        transcript = explanations_ai.transcribe_audio(audio, content_type)
+        ta.attach_transcript(
+            approach,
+            item_dir,
+            revision_entry,
+            transcript=transcript,
+            asr={
+                "provider": "dashscope",
+                "model_id": explanations_ai.asr_model(),
+            },
+        )
+        ta.save_sidecar(item_dir, payload)
+        self._invalidate_bank(bank_id)
+        return {**self._teaching_view(item_dir, item_id, stored=payload), "transcript": transcript}
+
+    def teaching_recording_file(
+        self, bank_id: str, item_id: str, approach_id: str, revision: int
+    ) -> Path:
+        """P3-02：受限音频回放——只允许读取该 approach 证据链里登记的录音修订。"""
+        record, item_dir, _, _, _ = self._explanations_entry(bank_id, item_id)
+        payload = ta.load_sidecar(item_dir)
+        if payload is None:
+            raise KeyError(approach_id)
+        approach = self._find_teaching_approach(payload, approach_id)
+        entry = next(
+            (
+                rec
+                for rec in (approach.get("evidence") or {}).get("recordings") or []
+                if int(rec.get("revision") or 0) == revision
+            ),
+            None,
+        )
+        if entry is None:
+            raise ValueError(f"录音修订不存在：r{revision}")
+        audio_file = item_dir / str(entry.get("audio_path") or "")
+        if not _inside(audio_file.resolve(), record.directory.resolve()) or not audio_file.is_file():
+            raise ValueError("录音文件缺失或越界")
+        if audio_file.is_symlink():
+            raise ValueError("录音文件不允许为符号链接")
+        return audio_file
+
+    def polish_teaching_approach(
+        self, bank_id: str, item_id: str, approach_id: str
+    ) -> dict[str, Any]:
+        record, item_dir, _, _, teacher_block = self._explanations_entry(bank_id, item_id)
+        payload = ta.load_sidecar(item_dir)
+        if payload is None:
+            raise KeyError(approach_id)
+        approach = self._find_teaching_approach(payload, approach_id)
+        recordings = (approach.get("evidence") or {}).get("recordings") or []
+        revision_entry = next(
+            (rec for rec in reversed(recordings) if str(rec.get("transcript") or "").strip()),
+            None,
+        )
+        if revision_entry is None:
+            latest = next(
+                (
+                    rec
+                    for rec in reversed(recordings)
+                    if rec.get("audio_path") and (item_dir / str(rec["audio_path"])).is_file()
+                ),
+                None,
+            )
+            if latest is None:
+                raise ValueError("没有可润色的录音转写稿：请先录制讲解")
+            content_type = mimetypes.guess_type(str(latest["audio_path"]))[0] or "audio/webm"
+            transcript = explanations_ai.transcribe_audio(
+                (item_dir / str(latest["audio_path"])).read_bytes(), content_type
+            )
+            ta.attach_transcript(
+                approach,
+                item_dir,
+                latest,
+                transcript=transcript,
+                asr={
+                    "provider": "dashscope",
+                    "model_id": explanations_ai.asr_model(),
+                },
+            )
+            revision_entry = latest
+        polished = explanations_ai.polish_explanation_text(
+            {
+                "stem": str(teacher_block.get("stem_latex", "")),
+                "subquestion_label": "",
+                "subquestion_stem": "",
+                "answer": str(teacher_block.get("answer", "")),
+                "solution": _solution_steps_text(teacher_block),
+                "transcript": str(revision_entry["transcript"]),
+            }
+        )
+        ta.polish_revision(
+            approach,
+            item_dir,
+            polished_text=polished,
+            provenance={
+                "provider": "dashscope",
+                "model_id": explanations_ai.llm_model(),
+                "prompt_version": "POLISH_PROMPT@2026-08-v1",
+            },
+            based_on_recording=int(revision_entry["revision"]),
+        )
+        approach["polished_text"] = polished
+        if approach.get("approval"):
+            approach["approval"] = None
+            approach["status"] = "draft"
+        ta.save_sidecar(item_dir, payload)
+        self._invalidate_bank(bank_id)
+        return self._teaching_view(item_dir, item_id, stored=payload)
+
+    def init_teaching_steps(
+        self,
+        bank_id: str,
+        item_id: str,
+        approach_id: str,
+        *,
+        use_ai: bool = True,
+        replace: bool = False,
+    ) -> dict[str, Any]:
+        """P3-05：从 assignment teaching/solution_steps 初始化 TeachingStep 草稿。
+
+        AI（qwen-plus）只产建议草稿；无 key/关闭 AI 时退化为确定性 assignment 脚手架。
+        草稿不会直接进入 canonical——批准门禁要求教师补齐空字段。
+        """
+        record, item_dir, _, _, teacher_block = self._explanations_entry(bank_id, item_id)
+        payload = ta.load_sidecar(item_dir)
+        if payload is None:
+            raise KeyError(approach_id)
+        approach = self._find_teaching_approach(payload, approach_id)
+        if (approach.get("steps") or []) and not replace:
+            raise ValueError("已有教学步骤：确认覆盖请传 replace=true")
+        if use_ai and explanations_ai.api_key():
+            teaching_fields = {
+                key: teacher_block.get("teaching", {}).get(key)
+                for key in ("teaching_goal", "expected_blocker", "fallback_move")
+                if teacher_block.get("teaching", {}).get(key)
+            }
+            drafts = explanations_ai.draft_teaching_steps(
+                {
+                    "stem": str(teacher_block.get("stem_latex", "")),
+                    "solution": _solution_steps_text(teacher_block)
+                    or str(teacher_block.get("answer", "")),
+                    "clue": str(teacher_block.get("clue") or ""),
+                    "teaching": yaml.safe_dump(teaching_fields, allow_unicode=True)
+                    if teaching_fields
+                    else "（无）",
+                    "allowed_skill_ids": ta.TOPIC_SKILL_IDS,
+                }
+            )
+            steps_origin = "ai_draft"
+        else:
+            drafts = ta.assignment_step_drafts(teacher_block)
+            steps_origin = "assignment"
+        approach["steps"] = [
+            ta.normalize_step(draft, index) for index, draft in enumerate(drafts)
+        ]
+        approach["steps_origin"] = steps_origin
+        if approach.get("approval"):
+            approach["approval"] = None
+            approach["status"] = "draft"
+        ta.save_sidecar(item_dir, payload)
+        self._invalidate_bank(bank_id)
+        return self._teaching_view(item_dir, item_id, stored=payload)
+
+    def approve_teaching_approach(
+        self,
+        bank_id: str,
+        item_id: str,
+        approach_id: str,
+        *,
+        reviewer_id: str,
+        review_note: str,
+    ) -> dict[str, Any]:
+        """P3-07/P3-08：批准冻结 canonical ApprovedTeachingApproach.v1。
+
+        冻结前先应用 Question change stale 事件（保证绑定的是 QT 当前版本）；
+        任何门禁失败（结构/绑定/静态答案一致性/schema/publication）都不写文件。
+        """
+        ta.apply_question_change_stale(root=self.canonical_root)
+        record, item_dir, _, _, _ = self._explanations_entry(bank_id, item_id)
+        payload = ta.load_sidecar(item_dir)
+        if payload is None:
+            raise KeyError(approach_id)
+        approach = self._find_teaching_approach(payload, approach_id)
+        binding = payload.get("question") or ta.question_binding(
+            item_dir, self.ta_ledger_path
+        )
+        if not binding or not binding.get("artifact_id"):
+            raise ValueError("该题没有 canonical QuestionTruth 绑定，不能批准")
+        frozen = ta.freeze_approved_approach(
+            approach,
+            item_dir,
+            reviewer_id=reviewer_id,
+            review_note=review_note,
+            qt_id=str(binding["artifact_id"]),
+            ledger_path=self.ta_ledger_path,
+            root=self.canonical_root,
+        )
+        approach["status"] = "approved"
+        approach["approval"] = {
+            "reviewer_id": reviewer_id,
+            "approved_at": frozen["approval"]["approved_at"],
+            "review_note": review_note.strip() or None,
+        }
+        approach["canonical"] = {
+            "artifact_id": frozen["artifact_id"],
+            "version": frozen["version"],
+            "content_hash": frozen["content_hash"],
+            "approved_at": frozen["approval"]["approved_at"],
+        }
+        ta.save_sidecar(item_dir, payload)
+        self._invalidate_bank(bank_id)
+        return {
+            "teaching_approach": self._teaching_view(item_dir, item_id, stored=payload),
+            "canonical": {
+                "artifact_id": frozen["artifact_id"],
+                "version": frozen["version"],
+                "artifact_uri": frozen["artifact_uri"],
+                "content_hash": frozen["content_hash"],
+            },
+        }
+
     def detail(self, bank_id: str) -> tuple[dict[str, Any], dict[tuple[str, str], Path]]:
         return self._detail_for_record(self.record(bank_id))
 
@@ -3034,8 +3453,9 @@ def create_question_bank_app(
     triangle_candidates_path: str | Path | None = None,
     triangle_question_review_path: str | Path = DEFAULT_TRIANGLE_QUESTION_REVIEW,
     teaching_tools_root: str | Path | None = None,
+    canonical_root: str | Path | None = None,
 ) -> FastAPI:
-    catalog = QuestionBankCatalog(bank_root)
+    catalog = QuestionBankCatalog(bank_root, canonical_root=canonical_root)
     if teaching_tools_root is not None:
         catalog.teaching_tools_root = _resolve_teaching_tools_root(teaching_tools_root)
     triangle_review = (
@@ -3379,7 +3799,7 @@ def create_question_bank_app(
     # ------------------------------------------------------------------
 
     def _explanations_http_error(
-        exc: KeyError | ValueError | AiAssistError | OSError,
+        exc: KeyError | ValueError | AiAssistError | OSError | TeachingApproachError,
     ) -> HTTPException:
         if isinstance(exc, KeyError):
             return HTTPException(status_code=404, detail="题目或题库不存在")
@@ -3480,6 +3900,169 @@ def create_question_bank_app(
         except (KeyError, ValueError, AiAssistError, OSError) as exc:
             raise _explanations_http_error(exc) from exc
 
+    @app.get("/api/banks/{bank_id}/items/{item_id}/explanations/approaches/{approach_id}/audio")
+    def get_explanation_audio(bank_id: str, item_id: str, approach_id: str) -> FileResponse:
+        """P3-02 兼容面：legacy 讲解录音的受限回放（只读 sidecar 登记的 audio_path）。"""
+        try:
+            record, item_dir, _, _, _ = catalog._explanations_entry(bank_id, item_id)
+            payload = _merged_explanations(item_dir, {}, item_id)
+            _, approach = catalog._find_approach(payload, approach_id)
+            audio_path = str((approach.get("explanation") or {}).get("audio_path") or "")
+            if not audio_path:
+                raise ValueError("该讲解还没有录音")
+            audio_file = item_dir / audio_path
+            if (
+                not _inside(audio_file.resolve(), record.directory.resolve())
+                or not audio_file.is_file()
+                or audio_file.is_symlink()
+            ):
+                raise ValueError("录音文件缺失或越界")
+            media_type = mimetypes.guess_type(audio_file.name)[0] or "application/octet-stream"
+            return FileResponse(audio_file, media_type=media_type, filename=audio_file.name)
+        except (KeyError, ValueError, AiAssistError, OSError) as exc:
+            raise _explanations_http_error(exc) from exc
+
+    # ------------------------------------------------------------------
+    # 教学策略 TeachingApproach（Phase 3）
+    # ------------------------------------------------------------------
+
+    def _ta_error(
+        exc: KeyError | ValueError | AiAssistError | OSError | TeachingApproachError,
+    ) -> HTTPException:
+        if isinstance(exc, KeyError):
+            return HTTPException(status_code=404, detail="题目、题库或教学策略不存在")
+        if isinstance(exc, AiAssistError):
+            status_by_code = {
+                "no_api_key": 503,
+                "unsupported_media_type": 415,
+                "audio_too_large": 413,
+            }
+            return HTTPException(status_code=status_by_code.get(exc.code, 502), detail=str(exc))
+        return HTTPException(status_code=400, detail=str(exc))
+
+    @app.get("/api/banks/{bank_id}/items/{item_id}/teaching-approach")
+    def get_teaching_approach(bank_id: str, item_id: str) -> dict[str, Any]:
+        try:
+            return catalog.teaching_approach_view(bank_id, item_id)
+        except (KeyError, ValueError, AiAssistError, OSError) as exc:
+            raise _ta_error(exc) from exc
+
+    @app.post("/api/banks/{bank_id}/items/{item_id}/teaching-approach/approaches")
+    def create_teaching_approach(
+        bank_id: str, item_id: str, payload: TeachingApproachCreate
+    ) -> dict[str, Any]:
+        try:
+            return catalog.create_teaching_approach(
+                bank_id, item_id, title=payload.title, author=payload.author
+            )
+        except (KeyError, ValueError, AiAssistError, OSError) as exc:
+            raise _ta_error(exc) from exc
+
+    @app.put("/api/banks/{bank_id}/items/{item_id}/teaching-approach/approaches/{approach_id}")
+    def update_teaching_approach(
+        bank_id: str, item_id: str, approach_id: str, payload: TeachingApproachUpdate
+    ) -> dict[str, Any]:
+        try:
+            return catalog.update_teaching_approach(
+                bank_id,
+                item_id,
+                approach_id,
+                title=payload.title,
+                goal=payload.goal,
+                entry_signal=payload.entry_signal,
+                steps=payload.steps,
+                editor=payload.editor,
+            )
+        except (KeyError, ValueError, AiAssistError, OSError) as exc:
+            raise _ta_error(exc) from exc
+
+    @app.delete("/api/banks/{bank_id}/items/{item_id}/teaching-approach/approaches/{approach_id}")
+    def delete_teaching_approach(bank_id: str, item_id: str, approach_id: str) -> dict[str, Any]:
+        try:
+            return catalog.delete_teaching_approach(bank_id, item_id, approach_id)
+        except (KeyError, ValueError, AiAssistError, OSError) as exc:
+            raise _ta_error(exc) from exc
+
+    @app.post("/api/banks/{bank_id}/items/{item_id}/teaching-approach/approaches/{approach_id}/audio")
+    async def upload_teaching_recording(
+        bank_id: str,
+        item_id: str,
+        approach_id: str,
+        request: Request,
+    ) -> dict[str, Any]:
+        content_type = request.headers.get("content-type", "")
+        raw = await request.body()
+        try:
+            return catalog.save_teaching_recording(
+                bank_id, item_id, approach_id, raw, content_type
+            )
+        except (KeyError, ValueError, AiAssistError, OSError) as exc:
+            raise _ta_error(exc) from exc
+
+    @app.get(
+        "/api/banks/{bank_id}/items/{item_id}/teaching-approach/"
+        "approaches/{approach_id}/audio/{revision}"
+    )
+    def get_teaching_recording(bank_id: str, item_id: str, approach_id: str, revision: int):
+        """P3-02：按修订号受限回放（文件必须在该 approach 证据链中登记）。"""
+        try:
+            audio_file = catalog.teaching_recording_file(
+                bank_id, item_id, approach_id, revision
+            )
+        except (KeyError, ValueError, AiAssistError, OSError) as exc:
+            raise _ta_error(exc) from exc
+        media_type = mimetypes.guess_type(audio_file.name)[0] or "application/octet-stream"
+        return FileResponse(audio_file, media_type=media_type, filename=audio_file.name)
+
+    @app.post("/api/banks/{bank_id}/items/{item_id}/teaching-approach/approaches/{approach_id}/polish")
+    def polish_teaching_approach(bank_id: str, item_id: str, approach_id: str) -> dict[str, Any]:
+        try:
+            return catalog.polish_teaching_approach(bank_id, item_id, approach_id)
+        except (KeyError, ValueError, AiAssistError, OSError) as exc:
+            raise _ta_error(exc) from exc
+
+    @app.post(
+        "/api/banks/{bank_id}/items/{item_id}/teaching-approach/"
+        "approaches/{approach_id}/steps/init"
+    )
+    def init_teaching_steps(
+        bank_id: str, item_id: str, approach_id: str, payload: TeachingStepsInitRequest
+    ) -> dict[str, Any]:
+        try:
+            return catalog.init_teaching_steps(
+                bank_id,
+                item_id,
+                approach_id,
+                use_ai=payload.use_ai,
+                replace=payload.replace,
+            )
+        except (KeyError, ValueError, AiAssistError, OSError) as exc:
+            raise _ta_error(exc) from exc
+
+    @app.post(
+        "/api/banks/{bank_id}/items/{item_id}/teaching-approach/"
+        "approaches/{approach_id}/approve"
+    )
+    def approve_teaching_approach(
+        bank_id: str, item_id: str, approach_id: str, payload: TeachingApproachApproveRequest
+    ) -> dict[str, Any]:
+        try:
+            return catalog.approve_teaching_approach(
+                bank_id,
+                item_id,
+                approach_id,
+                reviewer_id=payload.reviewer_id,
+                review_note=payload.review_note,
+            )
+        except (
+            KeyError,
+            ValueError,
+            AiAssistError,
+            OSError,
+            TeachingApproachError,
+        ) as exc:
+            raise _ta_error(exc) from exc
+
     return app
 
 
@@ -3498,6 +4081,13 @@ def main(argv: list[str] | None = None) -> int:
         default=0.0,
         help="后台指纹扫描间隔（秒）；0 关闭。覆盖手工编辑 YAML 这类不 bump 的外部写。",
     )
+    parser.add_argument(
+        "--canonical-root",
+        type=Path,
+        default=None,
+        help="canonical 注册表根（question-truth/teaching-approach/id-allocations）。"
+        "默认 teaching_approach.canonical_export.CANONICAL_ROOT。",
+    )
     args = parser.parse_args(argv)
     uvicorn.run(
         create_question_bank_app(
@@ -3506,6 +4096,7 @@ def main(argv: list[str] | None = None) -> int:
             external_write_ttl=args.external_write_ttl or None,
             triangle_candidates_path=args.triangle_candidates,
             triangle_question_review_path=args.triangle_question_review,
+            canonical_root=args.canonical_root,
         ),
         host=args.host,
         port=args.port,

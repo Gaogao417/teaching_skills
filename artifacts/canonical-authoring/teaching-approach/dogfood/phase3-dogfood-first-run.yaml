@@ -1,0 +1,55 @@
+schema: phase3_dogfood_log/v1
+base_url: http://127.0.0.1:8899
+voice: Flo
+started_at_utc: '2026-08-19T14:50:32Z'
+questions:
+- qt_id: QT-SMV-001
+  bank_id: yimo-migration-minhang-2026-08-19
+  item_id: Q018
+  timings_seconds:
+    create: 0.062
+    tts_proxy_recording: 1.966
+    upload_and_asr: 10.073
+    polish: 93.237
+    edit_goal_entry: 0.058
+    edit_steps: 0.054
+    approve_freeze: 0.078
+    second_round_edit_reapprove: 0.126
+    total: 105.654
+  ux_notes: []
+  approach_id: t1
+  audio_wav_bytes: 374818
+  asr_transcript_chars: 87
+  canonical_v1:
+    artifact_id: TA-SMV-001
+    version: v1
+    artifact_uri: artifact://teaching-approach/TA-SMV-001@v1
+    content_hash: sha256:1b75ccf092df8e3e0476786822b70d2bb51c042721bd189abef7c2e9152469ab
+  canonical_v2:
+    artifact_id: TA-SMV-001
+    version: v2
+    artifact_uri: artifact://teaching-approach/TA-SMV-001@v2
+    content_hash: sha256:f7325d340c37d10327f4d7826b6177cc525e81ad80bb6e76e4f605c28afda514
+- qt_id: QT-SMV-002
+  error: '''review_note'''
+- qt_id: QT-SMV-003
+  error: '''review_note'''
+- qt_id: QT-SMV-004
+  error: '''review_note'''
+- qt_id: QT-SMV-005
+  error: '''review_note'''
+- qt_id: QT-SMV-006
+  error: '''review_note'''
+- qt_id: QT-SMV-013
+  error: '''review_note'''
+- qt_id: QT-SMV-048
+  error: '''review_note'''
+completed_at_utc: '2026-08-19T15:02:04Z'
+failures:
+- 'QT-SMV-002: ''review_note'''
+- 'QT-SMV-003: ''review_note'''
+- 'QT-SMV-004: ''review_note'''
+- 'QT-SMV-005: ''review_note'''
+- 'QT-SMV-006: ''review_note'''
+- 'QT-SMV-013: ''review_note'''
+- 'QT-SMV-048: ''review_note'''

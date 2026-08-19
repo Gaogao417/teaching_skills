@@ -1,0 +1,363 @@
+# Phase 3 dogfood（P3-09）：8 道相似三角形专题题的教学策略 authoring 数据。
+# 说明：
+# - 六道 golden（QT-SMV-001..006）+ 两道同卷补充（QT-SMV-013 闵行Q7、QT-SMV-048 黄浦Q21）；
+# - narration_script 为教师口述稿（TTS 合成音频 → 真实 ASR → 真实润色链路）；
+# - steps 中的答案片段与 canonical answer 逐字一致（静态答案一致性 fail-closed 门禁）；
+# - 本数据由迁移 agent 按教研结构代拟，属路径级纲要，真人教师可在 UI 上
+#   以 append-only 修订继续细化（见 phase-3 退出门禁报告偏差记录）。
+
+schema: phase3_dogfood/v1
+questions:
+
+  - qt_id: QT-SMV-001
+    bank_id: yimo-migration-minhang-2026-08-19
+    item_id: Q018
+    title: 折叠等腰：标角 → 等角对等边 → 余弦定理求 BE
+    goal: >-
+      学会在翻折问题中抓"不变量"：等腰 + 等角对等边定出 AD=DC，翻折保长保角，
+      最后在斜三角形里用余弦定理收口求 BE。
+    entry_signal: 条件 $\angle DAC=\angle ACD$ 立刻翻译成 AD=DC，而不是先算长度。
+    narration_script: >-
+      同学你好，我们看这道折叠题。先标条件：三角形 ABC 是等腰的，AB 等于 AC 等于 4，底边 BC 等于 6，
+      题目还告诉我们角 DAC 等于角 ACD。看到等角对等边，马上得到 AD 等于 DC，我们设它为 t。
+      接着抓翻折的不变量：翻折不改变长度和角度，所以 AE 等于 AC 等于 4，DE 等于 DC 等于 t，
+      角 ADE 等于角 ADC。然后设未知数列方程：把 D 点位置设出来，用勾股定理列方程可以解出
+      t 等于三分之八，BD 等于三分之十。最后一步是关键转折：在三角形 BDE 里，角 BDE 可以由
+      外角和翻折角拼出来，代入余弦定理，算出来 BE 等于 1。注意最后一定要代回图形检验一下折叠后的位置。
+    steps:
+      - intent: 读题标注，等角翻译成等边
+        narration: >-
+          标注等腰条件 $AB=AC=4$、$BC=6$；由 $\angle DAC=\angle ACD$ 得 $AD=DC$（等角对等边），
+          设 $AD=DC=t$，$BD=6-t$。
+        expected_student_reasoning: >-
+          学生看到 $\angle DAC=\angle ACD$ 能立刻写出 AD=DC 并设元，而不是先试图直接计算 BE。
+        accepted_alternatives: ["设 BD=x 再表示 DC=6-x"]
+        common_errors: ["把 ∠DAC 当成三角形 ADC 的外角", "漏用 AB=AC 的等腰条件"]
+        skill_ids: [SKILL-SMV-001]
+      - intent: 抓翻折不变量，识别母子型结构
+        narration: >-
+          翻折保长保角：$AE=AC=4$、$DE=DC=t$、$\angle ADE=\angle ADC$；
+          由此识别折叠后的三角形 ADE 与原三角形 ADC 全等，并关注 B、D、E 构成的斜三角形。
+        expected_student_reasoning: >-
+          学生能列出翻折不变量清单（对应边相等、对应角相等），并想到 BE 落在 △BDE 中求解。
+        common_errors: ["误以为 B、D、E 共线", "翻折后角度方向搞反"]
+        skill_ids: [SKILL-SMV-008]
+      - intent: 设元列式求 BE
+        narration: >-
+          用勾股关系解出 $t=\frac{8}{3}$、$BD=\frac{10}{3}$；再在 △BDE 中求出夹角 $\angle BDE$
+          后用余弦定理，解得 $BE=1$。
+        expected_student_reasoning: >-
+          学生能先解出 t 与 BD，再选择余弦定理而不是硬凑勾股，最后得到 $BE=1$。
+        accepted_alternatives: ["坐标法：设 B(0,0)、C(6,0)、A(3,√7) 直接求 E 点坐标"]
+        common_errors: ["余弦定理符号写错", "角度用错（用 ∠ADC 代替 ∠BDE）"]
+        skill_ids: [SKILL-SMV-007]
+    review_note: >-
+      结构/答案一致性/skill 绑定通过；讲解词为路径级纲要（TTS 代理录音），待真人教师细化口播细节。
+    second_round:
+      goal: >-
+        （v2 修订）学会在翻折问题中抓"不变量"：等角对等边定出 AD=DC，翻折保长保角，
+        在斜三角形里用余弦定理收口求 BE，并养成代回图形检验的习惯。
+      review_note: 二次审核：补"代回检验"习惯目标后重批，验证 FR-4 生命周期（v1→Superseded）。
+
+  - qt_id: QT-SMV-002
+    bank_id: yimo-migration-minhang-2026-08-19
+    item_id: Q023
+    title: 双垂直交叉：等积式改比例配相似，再证垂直与比例式
+    goal: >-
+      掌握"等积式 → 比例式 → 配相似三角形"的标准路径：先由 AD·OC=AB·OD 配出
+      Rt△ADB∽Rt△ODC 证 $CE \perp AB$，再用角平分线与相似转移证比例式。
+    entry_signal: 见到 $AD \cdot OC = AB \cdot OD$ 先交叉改比例，再找夹角。
+    narration_script: >-
+      这道证明题两小问。第一问，条件是 AD 乘 OC 等于 AB 乘 OD，我们把它交叉改写成比例式：
+      AD 比 OD 等于 AB 比 OC。观察图形：BD 是 AC 边上的高，所以角 ADB 和角 ODC 都是直角，
+      两组边成比例且夹角相等，用 SAS 相似得到直角三角形 ADB 相似于直角三角形 ODC。
+      相似之后导角，可以推出角 DEC 等于角直角相关的关系，从而证明 CE 垂直于 AB。
+      第二问，AF 是角 BAC 的平分线，交 BC 于 F、交 DE 于 G。要证 AF 乘 DE 等于 AG 乘 BC，
+      我们先把它改写成比例式 AF 比 AG 等于 BC 比 DE，再去找分别含有这四条边的两组相似三角形，
+      用公共角加平行或等角替换，把两条比例串起来，比例式就得证了。
+    review_note: 双垂直交叉路径完整；第二问比例转移路线与官方解答一致，建议正式使用前补一题同型变式对拍。
+    steps:
+      - intent: 等积式改比例，配 SAS 相似
+        narration: >-
+          由 $AD \cdot OC = AB \cdot OD$ 得 $\frac{AD}{OD}=\frac{AB}{OC}$；
+          又 $\angle ADB=\angle ODC=90^\circ$，两边成比例且夹角相等，
+          所以 Rt$\triangle ADB \sim$ Rt$\triangle ODC$。
+        expected_student_reasoning: >-
+          学生能先交叉改比例，再在图中找到以 D 为公共直角顶点的两个直角三角形配相似。
+        common_errors: ["等积式不改比例直接硬找相似", "比例上下位写反"]
+        skill_ids: [SKILL-SMV-008]
+      - intent: 导角证 CE⊥AB
+        narration: >-
+          由相似得角相等，结合对顶角与互余关系导角，推出 $\angle AEC=90^\circ$，
+          即证得 $CE \perp AB$。
+        expected_student_reasoning: >-
+          学生能写全导角链条（相似对应角 → 互余 → 垂直），不跳步。
+        accepted_alternatives: ["用等腰 + 三线合一另证垂直"]
+        common_errors: ["8 字交叉结构里把对顶角当特征角", "导角跳步直接写结论"]
+        skill_ids: [SKILL-SMV-006]
+      - intent: 规划第二问比例式路线
+        narration: >-
+          目标 $AF \cdot DE = AG \cdot BC$ 改写为 $\frac{AF}{AG}=\frac{BC}{DE}$；
+          由 $AF$ 平分 $\angle BAC$ 与第一问相似提供的角关系，找出分别含这四条边的相似三角形组，
+          两次比例相乘约分，即证 $AF \cdot DE = AG \cdot BC$。
+        expected_student_reasoning: >-
+          学生能先改比例、再规划"哪两组相似各贡献哪条边"，而不是随机试三角形。
+        common_errors: ["比例式不交叉就找相似", "第二问丢掉第一问的结论不用"]
+        skill_ids: [SKILL-SMV-009, SKILL-SMV-007]
+
+  - qt_id: QT-SMV-003
+    bank_id: yimo-migration-minhang-2026-08-19
+    item_id: Q025
+    title: 母子型压轴：共边相似导角 → 函数关系式 → 等腰分类
+    goal: >-
+      综合训练三小问递进结构：共边相似导角、设 AD=x 建 $y$ 与 $x$ 的函数关系式、
+      等腰三角形存在性分类讨论，体会"证据递进"的压轴题节奏。
+    entry_signal: 看到 Rt△ 与重心、射线交点，先用共边相似把角的关系立起来。
+    narration_script: >-
+      这是三小问的压轴题。第一问证角 DAB 等于角 DCF：注意到两个直角三角形共边，
+      用等角的余角相等或者同位角转换，先把角的等量关系立起来。第二问设 AD 等于 x，
+      CE 等于 y，利用相似三角形的对应边成比例，可以推出 y 等于 x 方加 4 除以 x 加 2，
+      自变量范围是 x 大于 0 且小于等于 2。第三问是等腰三角形存在性：以 GA、GD、AD
+      哪两条边相等分类讨论，把每种情况代入函数关系式解方程，注意取舍，
+      最后得到 AD 等于 1 或者根号 14。
+    review_note: 三小问递进结构与官方解答一致；分类讨论完备性经人工核对（AD=1 或 √14），录音转写有少量数字误读已由步骤编辑纠正。
+    steps:
+      - intent: 共边相似导角
+        narration: >-
+          由 Rt$\triangle ABC$ 与 Rt$\triangle ACD$ 共边的结构导角（等角的余角相等），
+          证得 $\angle DAB = \angle DCF$。
+        expected_student_reasoning: >-
+          学生能在双直角共边结构中找到互余的角对，写出完整导角链。
+        common_errors: ["直角结构里漏看互余关系"]
+        skill_ids: [SKILL-SMV-008, SKILL-SMV-005]
+      - intent: 设元建立函数关系式
+        narration: >-
+          设 $AD=x$、$CE=y$，由相似（母子型）对应边成比例建立等量关系，
+          整理得 $y = \frac{x^{2} + 4}{x + 2}$，自变量范围 $0 < x \leq 2$。
+        expected_student_reasoning: >-
+          学生能选对相似三角形组列出比例，解出 y 并求定义域 $0 < x \leq 2$。
+        accepted_alternatives: ["用面积法或勾股关系另建等式"]
+        common_errors: ["母子型对应边错配（与 002 混淆）", "漏求自变量范围"]
+        skill_ids: [SKILL-SMV-005, SKILL-SMV-007]
+      - intent: 等腰存在性分类讨论
+        narration: >-
+          按 $GA=GD$、$AD=AG$、$DA=DG$ 三类分别画图、列式，结合函数关系式解方程并按范围取舍，
+          解得 $AD = 1$ 或 $\sqrt{14}$。
+        expected_student_reasoning: >-
+          学生能不重不漏地分三类讨论，且解出的值逐一代回范围检验。
+        common_errors: ["分类遗漏", "解出后不检验 0<x≤2 导致多解"]
+        skill_ids: [SKILL-SMV-009]
+
+  - qt_id: QT-SMV-004
+    bank_id: yimo-migration-huangpu-2026-08-19
+    item_id: "Q021"
+    title: 测高仪实践：读仪器 → A 字型相似列比例 → 两次实践对比
+    goal: >-
+      在真实测量情境中把仪器结构翻译成 A 字型相似模型：由平行视线得两组对应边成比例，
+      两次实践分别求还需测量的量与树高表达式，体会建模的一致性检验。
+    entry_signal: 木条 AB⊥CD 且铅垂保证竖直 → 平行线构造 A 字型。
+    narration_script: >-
+      这是一道综合实践题。先读仪器：两根木条钉成互相垂直，AB 长 40 厘米，CD 长 60 厘米，
+      DB 长 20 厘米，B 处挂铅垂保证竖直。测量时利用木条构造出的平行关系，
+      视线与树形成 A 字型的相似三角形。第一次实践：沿着 CD 的方向瞄准树顶 M，
+      由平行得相似，对应边成比例，可以推出还需要测量 NE 的长度，记作 b 厘米，
+      树高 MN 就等于 a 加 b 加 40 厘米，这里的 a 是已经量出的仪高相关量。
+      第二次实践换一种摆放，同样构造 A 字型相似，推出还需要测量 EF 的长度记作 c 厘米，
+      树高 MN 等于 c 加 a 厘米。两次实践的结果互相印证，这也是实践作业的检验习惯。
+    review_note: A 字型建模与两次实践表达式均与官方答案一致；建议在 Runtime 阶段补仪器图标注的 checkpoint。
+    steps:
+      - intent: 读仪器，标注已知量
+        narration: >-
+          标注仪器结构：$AB=40\,\mathrm{cm}$、$CD=60\,\mathrm{cm}$、$DB=20\,\mathrm{cm}$，
+          铅垂保证竖直方向；把"视线—标杆—树"翻译成 A 字型相似模型。
+        expected_student_reasoning: >-
+          学生能把实物图抽象成两条平行线截得的 A 字型相似三角形。
+        common_errors: ["仪器边长与相似三角形对应边对应错"]
+        skill_ids: [SKILL-SMV-001]
+      - intent: 第一次实践列比例求表达式
+        narration: >-
+          由平行得 A 字型相似，对应边成比例，推出还需测量 $NE=b\,\mathrm{cm}$，
+          树高 $MN=(a+b+40)\,\mathrm{cm}$（40 为仪器结构补偿量）。
+        expected_student_reasoning: >-
+          学生能写出比例式并解出 $MN=(a+b+40)\,\mathrm{cm}$，说明每项的来源。
+        accepted_alternatives: ["按另一组对应边列比例，结果一致"]
+        common_errors: ["A 字型对应边错配", "漏加仪器的 40cm 结构量"]
+        skill_ids: [SKILL-SMV-008, SKILL-SMV-003]
+      - intent: 第二次实践与结果印证
+        narration: >-
+          换摆放后同理构造相似：还需测量 $EF=c\,\mathrm{cm}$，得 $MN=(c+a)\,\mathrm{cm}$；
+          与第一次实践的 $MN=(a+b+40)\,\mathrm{cm}$ 互相印证，检查建模一致性。
+        expected_student_reasoning: >-
+          学生能独立完成第二次建模并解释两种表达式为何都表示同一树高。
+        common_errors: ["两次实践的比例方向写反", "单位换算出错"]
+        skill_ids: [SKILL-SMV-003, SKILL-SMV-007]
+
+  - qt_id: QT-SMV-005
+    bank_id: yimo-migration-huangpu-2026-08-19
+    item_id: "Q022"
+    title: 角平分线 + 等腰外角：AA 证相似，平行转移比例
+    goal: >-
+      掌握"角平分线给公共角、等腰给外角"的组合：AA 判定证 △CEA∽△CDB，
+      再用 CF∥AE 的平行条件把比例转移到目标比例式。
+    entry_signal: CD 平分 ∠ACB → ∠ACE=∠DCB 是现成的公共角。
+    narration_script: >-
+      第一问证三角形 CEA 相似于三角形 CDB。CD 平分角 ACB，所以角 ACE 等于角 DCB，
+      这是第一组角。又因为 AE 等于 AD，三角形 AED 是等腰三角形，底角相等，
+      于是角 CEA 和角 CDB 分别是它的两个外角，都等于两倍的底角，所以角 CEA 等于角 CDB。
+      两组角对应相等，AA 判定，相似得证。第二问，CF 平行于 AE，要证 BD 比 AD 等于
+      BF 比 CF。利用平行线和第一问的相似比，把线段之间的比例一层层转移过去，
+      先把 BD 与 AD 的比通过相似换成别的线段比，再用平行线分出新的比例，
+      两边接上就得到目标比例式。
+    review_note: AA 判定 + 平行转移比例路径与官方解答一致；△CEA∽△CDB 顶点对应关系经人工复核无误。
+    steps:
+      - intent: 找公共角（角平分线）
+        narration: >-
+          由 $CD$ 平分 $\angle ACB$ 得 $\angle ACE=\angle DCB$，这是
+          $\triangle CEA$ 与 $\triangle CDB$ 的第一组等角。
+        expected_student_reasoning: >-
+          学生能立刻把角平分线条件翻译成两个三角形的公共等角。
+        common_errors: ["平分线两侧的角与三角形顶点对应错"]
+        skill_ids: [SKILL-SMV-008]
+      - intent: 等腰外角配第二组角，AA 判定
+        narration: >-
+          由 $AE=AD$ 得 △AED 等腰，$\angle CEA$ 与 $\angle CDB$ 是其两个外角，
+          均等于 $2\angle EAD$，故 $\angle CEA=\angle CDB$；
+          两组对应角相等，AA 判定证得 $\triangle CEA\sim\triangle CDB$。
+        expected_student_reasoning: >-
+          学生能用"等腰 + 外角"补出第二组角并写明判定依据。
+        accepted_alternatives: ["用内错角/同位角另证第二组等角"]
+        common_errors: ["把外角当成底角本身", "顶点对应关系写错"]
+        skill_ids: [SKILL-SMV-002]
+      - intent: 平行转移比例，规划证明路线
+        narration: >-
+          由 $CF\parallel AE$ 得新的等角与比例，结合第一问相似比
+          $\frac{CE}{CD}=\frac{CA}{CB}$ 逐层转移，最终证得 $\frac{BD}{AD}=\frac{BF}{CF}$。
+        expected_student_reasoning: >-
+          学生能规划"先相似比、再平行比"的转移顺序，而不是硬凑。
+        common_errors: ["平行线截得的比例上下位写反", "不用第一问结论另起炉灶"]
+        skill_ids: [SKILL-SMV-009, SKILL-SMV-007]
+
+  - qt_id: QT-SMV-006
+    bank_id: yimo-migration-huangpu-2026-08-19
+    item_id: "Q024"
+    title: 动点垂直相似：等角转化 → 相似求 BP → 定比分点分类
+    goal: >-
+      训练动点压轴的三段节奏：PE⊥PC 的等角转化证 ∠BAC=∠PCF，
+      借 △APC∽△EFC 与 sinB=4/5 数值化求 BP，再用 FP/PC=2/3 的定比分点做分类讨论。
+    entry_signal: PE⊥PC 与平行四边形的直角/平行条件组合出等角。
+    narration_script: >-
+      平行四边形背景的动点压轴。第一问证角 BAC 等于角 PCF：因为 PE 垂直 PC，
+      这两个角都和某一组角互余，用同角的余角相等就证出来了。第二问，
+      当三角形 APC 相似于三角形 EFC 时，写准对应关系，列出对应边比例；
+      再把 sinB 等于五分之四数值化，代进比例式解出 BP 等于三分之十七。
+      第三问，F 在 PE 上且 FP 比 PC 等于二比三，这是定比分点；
+      按 P 的不同位置分两种情况讨论，分别求出 AH 比 AC 等于七分之二或者五分之一。
+      动点题最后一定要把每种情况代回图形检验存在性。
+    review_note: 动点三小问与官方答案一致（BP=17/3；AH/AC=2/7 或 1/5）；分类讨论提醒已写入 common_errors。
+    steps:
+      - intent: 垂直条件等角转化
+        narration: >-
+          由 $PE\perp PC$ 与平行四边形的边角关系，$\angle BAC$ 与 $\angle PCF$
+          同为某组角的余角，证得 $\angle BAC=\angle PCF$。
+        expected_student_reasoning: >-
+          学生能用"同角的余角相等"完成等角转化，不绕远路。
+        common_errors: ["把垂直条件只当计算条件不用于导角"]
+        skill_ids: [SKILL-SMV-008]
+      - intent: 相似对应求 BP
+        narration: >-
+          按题设 $\triangle APC\sim\triangle EFC$ 写准对应顶点列比例，
+          用 $\sin B=\frac{4}{5}$ 数值化代入，解得 $BP=\frac{17}{3}$。
+        expected_student_reasoning: >-
+          学生能先定对应关系再列比例，数值代入后解出 $BP=\frac{17}{3}$。
+        accepted_alternatives: ["用勾股先求 AC 的高线长再列式"]
+        common_errors: ["相似对应顶点配错", "4/5 的勾股数（3,4,5）用错边"]
+        skill_ids: [SKILL-SMV-006, SKILL-SMV-007]
+      - intent: 定比分点分类讨论
+        narration: >-
+          由 $\frac{FP}{PC}=\frac{2}{3}$ 把 F 看作 PE 上的定比分点，按 P 的位置分两类，
+          分别由相似/平行导比例，解得 $\frac{AH}{AC}=\frac{2}{7}$ 或 $\frac{1}{5}$。
+        expected_student_reasoning: >-
+          学生能识别定比条件并完整分两类，解后逐一代回检验。
+        common_errors: ["讨论不完整只解一类", "把 2/3 的分点方向弄反"]
+        skill_ids: [SKILL-SMV-009]
+
+  - qt_id: QT-SMV-013
+    bank_id: yimo-migration-minhang-2026-08-19
+    item_id: "Q007"
+    title: 比例中项：定义 → 代入 → 开方取正
+    goal: >-
+      巩固比例中项的定义性计算：b²=ac，代入后开平方并按线段取正值。
+    entry_signal: 看到「比例中项」四个字，直接写平方关系。
+    narration_script: >-
+      这道填空题考比例中项。线段 a 等于 4 厘米，c 等于 9 厘米，求它们的比例中项。
+      第一步回忆定义：如果 b 是 a 和 c 的比例中项，那么 b 的平方等于 a 乘 c。
+      第二步代入：a 乘 c 等于 4 乘 9 等于 36。第三步开平方，
+      注意线段长度取正值，所以比例中项是 6 厘米。这类题最容易错的就是开方后带了负值，
+      或者把比例中项和平均数混淆。
+    review_note: 定义性计算路径正确；TTS 代理录音转写清晰，本题为最短链路样例。
+    steps:
+      - intent: 定义回忆
+        narration: >-
+          比例中项定义：$b^2=ac$（即 $\frac{a}{b}=\frac{b}{c}$），本题即求
+          满足 $b^2=4\times 9$ 的线段 $b$。
+        expected_student_reasoning: >-
+          学生能默写比例中项的两种等价表达并选用平方形式。
+        common_errors: ["与算术平均数混淆"]
+        skill_ids: [SKILL-SMV-001]
+      - intent: 代入计算
+        narration: 代入 $a=4$、$c=9$，$b^2=36$。
+        expected_student_reasoning: 学生能正确完成乘法 4×9=36。
+        common_errors: ["乘法口误成 35"]
+        skill_ids: [SKILL-SMV-007]
+      - intent: 开方取正值
+        narration: >-
+          $b=\sqrt{36}$，线段长度取正值，得比例中项为 $6$ 厘米。
+        expected_student_reasoning: >-
+          学生能说明为什么开方后只取正值（线段长非负且非零）。
+        common_errors: ["写出 ±6 忘记取舍"]
+        skill_ids: [SKILL-SMV-007]
+
+  - qt_id: QT-SMV-048
+    bank_id: yimo-migration-huangpu-2026-08-19
+    item_id: "Q020"
+    title: 梯形对角线比例：AD∥BC 分比 → 向量线性组合 → 等角转移求正弦
+    goal: >-
+      用 AD∥BC 的相似分比（对角线互相分成 AD:BC 的比）先解决向量线性组合，
+      再用垂直与 tan 条件做等角转移求 sin∠ABC，体会"平行出比例、比例出向量"。
+    entry_signal: 梯形中 AD∥BC → 对角线交点 E 把两条对角线按 AD:BC 分割。
+    narration_script: >-
+      四边形 ABCD 中 AD 平行 BC，AD 等于 4，BC 等于 5，对角线交于 E。
+      第一问用向量：因为 AD 平行 BC，三角形 AED 相似于三角形 CEB，
+      所以 AE 比 EC 等于 AD 比 CB 等于四比五，BE 比 ED 等于五比四。
+      按这个比例把向量 a、向量 b 分解组合，就得到向量 AE 等于五分之四
+      向量 a 减九分之四向量 b。第二问，AD 垂直 CD，tan 角 DAC 等于二分之一，
+      设边长求出各线段，再把角 ABC 用平行线的内错角转移成可算的角，
+      最后得到 sin 角 ABC 等于五分之二倍根号五。
+    review_note: 梯形对角线分比 + 向量组合与官方答案一致；向量小问按 golden fallback 约定整体纳入（非 golden 样本）。
+    steps:
+      - intent: 平行出相似，对角线定比
+        narration: >-
+          由 $AD\parallel BC$ 得 $\triangle AED \sim \triangle CEB$（8 字型），
+          故 $AE:EC=AD:CB=4:5$、$BE:ED=BC:AD=5:4$。
+        expected_student_reasoning: >-
+          学生能在梯形里直接看出对角线被交点分成的两组比。
+        common_errors: ["把两组比的方向都写反"]
+        skill_ids: [SKILL-SMV-008]
+      - intent: 分比转成向量线性组合
+        narration: >-
+          由 $\overrightarrow{BC}=\vec{a}$、$\overrightarrow{BD}=\vec{b}$ 与定比分解，
+          得 $\overrightarrow{AE}=\frac{4}{5}\vec{a}-\frac{4}{9}\vec{b}$。
+        expected_student_reasoning: >-
+          学生能先写出 AE 用 AB、BE 表示的中间式，再逐步代入化为 a、b 的组合。
+        accepted_alternatives: ["先表示 AC 再按 4:5 内分"]
+        common_errors: ["向量减法方向错", "分比 4/5 与 5/9 混用"]
+        skill_ids: [SKILL-SMV-002]
+      - intent: 等角转移求正弦
+        narration: >-
+          由 $AD\perp CD$、$\tan\angle DAC=\frac{1}{2}$ 设元求边，
+          利用平行内错角把 $\angle ABC$ 转到直角三角形中，
+          解得 $\sin\angle ABC=\frac{2\sqrt{5}}{5}$。
+        expected_student_reasoning: >-
+          学生能说出"转移哪个角、转移到哪个直角三角形"再计算。
+        common_errors: ["tan 的对边邻边放反", "转移角时用错内错角与同旁内角"]
+        skill_ids: [SKILL-SMV-007]

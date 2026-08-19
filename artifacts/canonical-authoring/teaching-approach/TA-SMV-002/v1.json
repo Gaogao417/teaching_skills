@@ -1,0 +1,103 @@
+{
+  "approval": {
+    "approved_at": "2026-08-19T15:04:52.955958+00:00",
+    "review_note": "双垂直交叉路径完整；第二问比例转移路线与官方解答一致，建议正式使用前补一题同型变式对拍。",
+    "reviewer_id": "phase3-dogfood-reviewer"
+  },
+  "artifact_id": "TA-SMV-002",
+  "artifact_uri": "artifact://teaching-approach/TA-SMV-002@v1",
+  "content_hash": "sha256:43478e327a9f2fbe1df9b3825d5672a814502cffd50a45ecc1aea188a602847e",
+  "entry_signal": "见到 $AD \\cdot OC = AB \\cdot OD$ 先交叉改比例，再找夹角。",
+  "evidence": {
+    "audio": [
+      {
+        "artifact_uri": "artifact://audio/TA-SMV-002@v1/t1-r01-20260819T145218.831233_0000.wav",
+        "content_hash": "sha256:384fcfc74aa184529f0792c16fc23157495fdf69bd75c4335e47f3d99d782e0a",
+        "recorded_at": "2026-08-19T14:52:18.831569+00:00"
+      }
+    ],
+    "manual_edit_notes": [
+      "2026-08-19T14:52:43.465899+00:00 editor=mvp-phase3-dogfood edited=entry_signal,goal",
+      "2026-08-19T14:52:43.515723+00:00 editor=mvp-phase3-dogfood edited=steps"
+    ],
+    "polished": [
+      {
+        "artifact_uri": "artifact://transcript/TA-SMV-002@v1/t1-p01-20260819T145243.398966_0000.polished.txt",
+        "polish_provenance": {
+          "model_id": "qwen-plus",
+          "prompt_version": "POLISH_PROMPT@2026-08-v1",
+          "provider": "dashscope"
+        }
+      }
+    ],
+    "transcripts": [
+      {
+        "artifact_uri": "artifact://transcript/TA-SMV-002@v1/t1-r01-20260819T145218.831233_0000.transcript.txt",
+        "asr_provenance": {
+          "model_id": "qwen3-asr-flash",
+          "provider": "dashscope"
+        },
+        "revision": 1
+      }
+    ]
+  },
+  "goal": "掌握\"等积式 → 比例式 → 配相似三角形\"的标准路径：先由 AD·OC=AB·OD 配出 Rt△ADB∽Rt△ODC 证 $CE \\perp AB$，再用角平分线与相似转移证比例式。",
+  "question_ref": {
+    "artifact_id": "QT-SMV-002",
+    "content_hash": "sha256:735e9fdf87a32ed0a69f95e44b66e1ac48cd9a75ca95a5878e3a9e22c4c2ff2d",
+    "version": "v1"
+  },
+  "schema": "ai_teaching_teaching_approach/v1",
+  "status": "Superseded",
+  "steps": [
+    {
+      "common_errors": [
+        "等积式不改比例直接硬找相似",
+        "比例上下位写反"
+      ],
+      "expected_student_reasoning": "学生能先交叉改比例，再在图中找到以 D 为公共直角顶点的两个直角三角形配相似。",
+      "intent": "等积式改比例，配 SAS 相似",
+      "narration": "由 $AD \\cdot OC = AB \\cdot OD$ 得 $\\frac{AD}{OD}=\\frac{AB}{OC}$； 又 $\\angle ADB=\\angle ODC=90^\\circ$，两边成比例且夹角相等， 所以 Rt$\\triangle ADB \\sim$ Rt$\\triangle ODC$。",
+      "skill_ids": [
+        "SKILL-SMV-008"
+      ],
+      "step_id": "S1"
+    },
+    {
+      "accepted_alternatives": [
+        "用等腰 + 三线合一另证垂直"
+      ],
+      "common_errors": [
+        "8 字交叉结构里把对顶角当特征角",
+        "导角跳步直接写结论"
+      ],
+      "expected_student_reasoning": "学生能写全导角链条（相似对应角 → 互余 → 垂直），不跳步。",
+      "intent": "导角证 CE⊥AB",
+      "narration": "由相似得角相等，结合对顶角与互余关系导角，推出 $\\angle AEC=90^\\circ$， 即证得 $CE \\perp AB$。",
+      "skill_ids": [
+        "SKILL-SMV-006"
+      ],
+      "step_id": "S2"
+    },
+    {
+      "common_errors": [
+        "比例式不交叉就找相似",
+        "第二问丢掉第一问的结论不用"
+      ],
+      "expected_student_reasoning": "学生能先改比例、再规划\"哪两组相似各贡献哪条边\"，而不是随机试三角形。",
+      "intent": "规划第二问比例式路线",
+      "narration": "目标 $AF \\cdot DE = AG \\cdot BC$ 改写为 $\\frac{AF}{AG}=\\frac{BC}{DE}$； 由 $AF$ 平分 $\\angle BAC$ 与第一问相似提供的角关系，找出分别含这四条边的相似三角形组， 两次比例相乘约分，即证 $AF \\cdot DE = AG \\cdot BC$。",
+      "skill_ids": [
+        "SKILL-SMV-009",
+        "SKILL-SMV-007"
+      ],
+      "step_id": "S3"
+    }
+  ],
+  "superseded_by": {
+    "artifact_id": "TA-SMV-002",
+    "version": "v2"
+  },
+  "title": "双垂直交叉：等积式改比例配相似，再证垂直与比例式",
+  "version": "v1"
+}

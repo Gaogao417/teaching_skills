@@ -1,0 +1,119 @@
+{
+  "approval": {
+    "approved_at": "2026-08-19T17:19:14.293744+00:00",
+    "review_note": "[重录重批] 动点三小问与官方答案一致（BP=17/3；AH/AC=2/7 或 1/5）；分类讨论提醒已写入 common_errors。",
+    "reviewer_id": "phase3-dogfood-reviewer"
+  },
+  "artifact_id": "TA-SMV-006",
+  "artifact_uri": "artifact://teaching-approach/TA-SMV-006@v2",
+  "content_hash": "sha256:afcb6c0b0f4e6401ed128735e03b79400e2df149bc2ceb0a85786d1bc8ccb84e",
+  "entry_signal": "PE⊥PC 与平行四边形的直角/平行条件组合出等角。",
+  "evidence": {
+    "audio": [
+      {
+        "artifact_uri": "artifact://audio/TA-SMV-006@v2/t1-r01-20260819T150034.352111_0000.wav",
+        "content_hash": "sha256:e44e9079bd9cc5eeb47f0b95334aca0cccd0822c07c1b8fa0f3dddf401701f51",
+        "recorded_at": "2026-08-19T15:00:34.352385+00:00"
+      },
+      {
+        "artifact_uri": "artifact://audio/TA-SMV-006@v2/t1-r02-20260819T171805.287382_0000.wav",
+        "content_hash": "sha256:3e70286b9afc31459ab65b2570d27043da5095f68c1848a8cbac04c7def97022",
+        "recorded_at": "2026-08-19T17:18:05.288971+00:00"
+      }
+    ],
+    "manual_edit_notes": [
+      "2026-08-19T15:01:18.169871+00:00 editor=mvp-phase3-dogfood edited=entry_signal,goal",
+      "2026-08-19T15:01:18.221004+00:00 editor=mvp-phase3-dogfood edited=steps"
+    ],
+    "polished": [
+      {
+        "artifact_uri": "artifact://transcript/TA-SMV-006@v2/t1-p01-20260819T150118.111708_0000.polished.txt",
+        "polish_provenance": {
+          "model_id": "qwen-plus",
+          "prompt_version": "POLISH_PROMPT@2026-08-v1",
+          "provider": "dashscope"
+        }
+      },
+      {
+        "artifact_uri": "artifact://transcript/TA-SMV-006@v2/t1-p02-20260819T171914.217652_0000.polished.txt",
+        "polish_provenance": {
+          "model_id": "qwen-plus",
+          "prompt_version": "POLISH_PROMPT@2026-08-v1",
+          "provider": "dashscope"
+        }
+      }
+    ],
+    "transcripts": [
+      {
+        "artifact_uri": "artifact://transcript/TA-SMV-006@v2/t1-r01-20260819T150034.352111_0000.transcript.txt",
+        "asr_provenance": {
+          "model_id": "qwen3-asr-flash",
+          "provider": "dashscope"
+        },
+        "revision": 1
+      },
+      {
+        "artifact_uri": "artifact://transcript/TA-SMV-006@v2/t1-r02-20260819T171805.287382_0000.transcript.txt",
+        "asr_provenance": {
+          "model_id": "qwen3-asr-flash",
+          "provider": "dashscope"
+        },
+        "revision": 2
+      }
+    ]
+  },
+  "goal": "训练动点压轴的三段节奏：PE⊥PC 的等角转化证 ∠BAC=∠PCF， 借 △APC∽△EFC 与 sinB=4/5 数值化求 BP，再用 FP/PC=2/3 的定比分点做分类讨论。",
+  "question_ref": {
+    "artifact_id": "QT-SMV-006",
+    "content_hash": "sha256:4acd2589d634848d234c82b0f788a33d91d603845c7e34531deedb974cb54ed8",
+    "version": "v1"
+  },
+  "schema": "ai_teaching_teaching_approach/v1",
+  "status": "Approved",
+  "steps": [
+    {
+      "common_errors": [
+        "把垂直条件只当计算条件不用于导角"
+      ],
+      "expected_student_reasoning": "学生能用\"同角的余角相等\"完成等角转化，不绕远路。",
+      "intent": "垂直条件等角转化",
+      "narration": "由 $PE\\perp PC$ 与平行四边形的边角关系，$\\angle BAC$ 与 $\\angle PCF$ 同为某组角的余角，证得 $\\angle BAC=\\angle PCF$。",
+      "skill_ids": [
+        "SKILL-SMV-008"
+      ],
+      "step_id": "S1"
+    },
+    {
+      "accepted_alternatives": [
+        "用勾股先求 AC 的高线长再列式"
+      ],
+      "common_errors": [
+        "相似对应顶点配错",
+        "4/5 的勾股数（3,4,5）用错边"
+      ],
+      "expected_student_reasoning": "学生能先定对应关系再列比例，数值代入后解出 $BP=\\frac{17}{3}$。",
+      "intent": "相似对应求 BP",
+      "narration": "按题设 $\\triangle APC\\sim\\triangle EFC$ 写准对应顶点列比例， 用 $\\sin B=\\frac{4}{5}$ 数值化代入，解得 $BP=\\frac{17}{3}$。",
+      "skill_ids": [
+        "SKILL-SMV-006",
+        "SKILL-SMV-007"
+      ],
+      "step_id": "S2"
+    },
+    {
+      "common_errors": [
+        "讨论不完整只解一类",
+        "把 2/3 的分点方向弄反"
+      ],
+      "expected_student_reasoning": "学生能识别定比条件并完整分两类，解后逐一代回检验。",
+      "intent": "定比分点分类讨论",
+      "narration": "由 $\\frac{FP}{PC}=\\frac{2}{3}$ 把 F 看作 PE 上的定比分点，按 P 的位置分两类， 分别由相似/平行导比例，解得 $\\frac{AH}{AC}=\\frac{2}{7}$ 或 $\\frac{1}{5}$。",
+      "skill_ids": [
+        "SKILL-SMV-009"
+      ],
+      "step_id": "S3"
+    }
+  ],
+  "title": "动点垂直相似：等角转化 → 相似求 BP → 定比分点分类",
+  "version": "v2"
+}

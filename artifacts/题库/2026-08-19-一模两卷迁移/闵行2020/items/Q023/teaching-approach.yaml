@@ -1,0 +1,112 @@
+schema: math_item_teaching_approach/v1
+item_id: Q023
+question:
+  source_key: 2020-MINHANG-YIMO-Q23
+  artifact_id: QT-SMV-002
+  bound_at: '2026-08-19T14:52:18.240898+00:00'
+approaches:
+- id: t1
+  title: 双垂直交叉：等积式改比例配相似，再证垂直与比例式
+  author: mvp-phase3-dogfood
+  status: approved
+  goal: 掌握"等积式 → 比例式 → 配相似三角形"的标准路径：先由 AD·OC=AB·OD 配出 Rt△ADB∽Rt△ODC 证 $CE \perp AB$，再用角平分线与相似转移证比例式。
+  entry_signal: 见到 $AD \cdot OC = AB \cdot OD$ 先交叉改比例，再找夹角。
+  steps:
+  - step_id: S1
+    intent: 等积式改比例，配 SAS 相似
+    narration: 由 $AD \cdot OC = AB \cdot OD$ 得 $\frac{AD}{OD}=\frac{AB}{OC}$； 又 $\angle ADB=\angle ODC=90^\circ$，两边成比例且夹角相等， 所以 Rt$\triangle ADB \sim$ Rt$\triangle ODC$。
+    expected_student_reasoning: 学生能先交叉改比例，再在图中找到以 D 为公共直角顶点的两个直角三角形配相似。
+    accepted_alternatives: []
+    common_errors:
+    - 等积式不改比例直接硬找相似
+    - 比例上下位写反
+    skill_ids:
+    - SKILL-SMV-008
+    origin: manual
+  - step_id: S2
+    intent: 导角证 CE⊥AB
+    narration: 由相似得角相等，结合对顶角与互余关系导角，推出 $\angle AEC=90^\circ$， 即证得 $CE \perp AB$。
+    expected_student_reasoning: 学生能写全导角链条（相似对应角 → 互余 → 垂直），不跳步。
+    accepted_alternatives:
+    - 用等腰 + 三线合一另证垂直
+    common_errors:
+    - 8 字交叉结构里把对顶角当特征角
+    - 导角跳步直接写结论
+    skill_ids:
+    - SKILL-SMV-006
+    origin: manual
+  - step_id: S3
+    intent: 规划第二问比例式路线
+    narration: 目标 $AF \cdot DE = AG \cdot BC$ 改写为 $\frac{AF}{AG}=\frac{BC}{DE}$； 由 $AF$ 平分 $\angle BAC$ 与第一问相似提供的角关系，找出分别含这四条边的相似三角形组， 两次比例相乘约分，即证 $AF \cdot DE = AG \cdot BC$。
+    expected_student_reasoning: 学生能先改比例、再规划"哪两组相似各贡献哪条边"，而不是随机试三角形。
+    accepted_alternatives: []
+    common_errors:
+    - 比例式不交叉就找相似
+    - 第二问丢掉第一问的结论不用
+    skill_ids:
+    - SKILL-SMV-009
+    - SKILL-SMV-007
+    origin: manual
+  steps_origin: manual
+  polished_text: "先观察图形：在 $\\triangle ABC$ 中，$BD$ 是 $AC$ 边上的高，因此 $\\angle ADB = 90^\\circ$，$\\angle CDB = 90^\\circ$；点 $E$ 在 $AB$ 上，连接 $CE$，交 $BD$ 于点 $O$；已知条件为 $AD \\cdot OC = AB \\cdot OD$。  \n第一步：将已知等式 $AD \\cdot OC = AB \\cdot OD$ 改写为比例式 $\\frac{AD}{OD} = \\frac{AB}{OC}$。  \n第二步：注意到 $\\triangle ADB$ 和 $\\triangle ODC$ 都是直角三角形，且 $\\angle ADB = \\angle ODC = 90^\\circ$，又由上式得 $\\frac{AD}{OD} = \\frac{AB}{OC}$，即两组直角边对应成比例，因此 $\\triangle ADB \\sim \\triangle ODC$（SAS 相似）。  \n第三步：由相似得对应角相等，即 $\\angle ABD = \\angle OCD$；又 $\\angle EOB = \\angle DOC$（对顶角相等），在 $\\triangle EOB$ 中，$\\angle EOB + \\angle ABD + \\angle OEB = 180^\\circ$；在 $\\triangle ODC$ 中，$\\angle DOC + \\angle OCD + \\angle ODC = 180^\\circ$；将前两式中的等角代入，可得 $\\angle OEB = \\angle ODC = 90^\\circ$；所以 $CE \\perp AB$。  \n\n再看第（2）问：$AF$ 是 $\\angle BAC$ 的平分线，交 $BC$ 于点 $F$，交 $DE$ 于点 $G$；要证 $AF \\cdot DE = AG \\cdot BC$。  \n第一步：将待证等式改写为比例式 $\\frac{AG}{AF} = \\frac{DE}{BC}$。  \n第二步：观察 $\\triangle DAE$ 与 $\\triangle BAC$，发现 $\\angle DAE =\
+    \ \\angle BAC$（公共角），再结合第（1）问结论 $CE \\perp AB$ 可推出 $\\angle AED = \\angle ACB$，从而 $\\triangle DAE \\sim \\triangle BAC$（AA 相似），于是有 $\\frac{DE}{BC} = \\frac{AD}{AB} = \\frac{AE}{AC}$。  \n第三步：由于 $AF$ 平分 $\\angle BAC$，且 $G$ 是 $AF$ 与 $DE$ 的交点，在相似三角形 $\\triangle DAE$ 和 $\\triangle BAC$ 中，对应角平分线之比等于相似比，即 $\\frac{AG}{AF} = \\frac{DE}{BC}$；因此 $AF \\cdot DE = AG \\cdot BC$。"
+  evidence:
+    recordings:
+    - revision: 1
+      audio_path: assets/teaching-approach/t1-r01-20260819T145218.831233_0000.wav
+      audio_sha256: sha256:384fcfc74aa184529f0792c16fc23157495fdf69bd75c4335e47f3d99d782e0a
+      audio_bytes: 308770
+      recorded_at: '2026-08-19T14:52:18.831569+00:00'
+      duration_seconds: null
+      transcript: Oaoaoaoao d d a a o x a o t c a f a d c f d g a f d a d c a f d c d.
+      transcript_path: assets/teaching-approach/t1-r01-20260819T145218.831233_0000.transcript.txt
+      transcript_sha256: sha256:408f524a27eaf8f595f643612fb9715a719313ca1b59682af277c983f8ed1340
+      asr:
+        provider: dashscope
+        model_id: qwen3-asr-flash
+      transcribed_at: '2026-08-19T14:52:25.046240+00:00'
+    - revision: 2
+      audio_path: assets/teaching-approach/t1-r02-20260819T171416.150536_0000.wav
+      audio_sha256: sha256:f988d100248d275800a6286c408cd1e982c5bca4db1e97f9ae68b4154ce0c957
+      audio_bytes: 2181226
+      recorded_at: '2026-08-19T17:14:16.152689+00:00'
+      duration_seconds: null
+      transcript: 这道证明题两小问，第一问条件是 at 乘 op 等于 op 乘 ot，我们把它交叉改写成比例式 at 比 ot 等于 op 比 op。观察图形，b d 是 x 边上的高，所以角 a d b 和角 o d c 都是直角，两组边成比例且夹角相等，用 sss 相似得到直角三角形 a d b 相似于直角三角形 o d c，相似之后倒角可以推出角 x 等于角直角相关的关系，从而证明测垂直于 l。第二问 f 是角 box 的平分线，交 b c 于 f，交得于 g，要证 f 乘得等于 x 乘 b c，我们先把它改写成比例式 f 比 x 等于 b c 比得，再去找分别含有这四条边的两组相似三角形，用公共角加平行或等角替换，把两条比例串起来，比例式就得证了。
+      transcript_path: assets/teaching-approach/t1-r02-20260819T171416.150536_0000.transcript.txt
+      transcript_sha256: sha256:2ad4d16e3eaa86a9198ced3e2a301e61e6492b00a8cd079bc496eb9cb4167d4c
+      asr:
+        provider: dashscope
+        model_id: qwen3-asr-flash
+      transcribed_at: '2026-08-19T17:14:55.769451+00:00'
+    polishes:
+    - revision: 1
+      based_on_recording: 1
+      polished_path: assets/teaching-approach/t1-p01-20260819T145243.398966_0000.polished.txt
+      polished_sha256: sha256:1dca7fac22d7bdb47ef7530d703a87a65ba15fcaf0dc7a124fae321d62e4c582
+      polished_at: '2026-08-19T14:52:43.399680+00:00'
+      provenance:
+        provider: dashscope
+        model_id: qwen-plus
+        prompt_version: POLISH_PROMPT@2026-08-v1
+    - revision: 2
+      based_on_recording: 2
+      polished_path: assets/teaching-approach/t1-p02-20260819T171511.350567_0000.polished.txt
+      polished_sha256: sha256:1ad57d1b402abcea1571d84e7dfad57922e88ec554cc6ea932dfc2660974c9a8
+      polished_at: '2026-08-19T17:15:11.351196+00:00'
+      provenance:
+        provider: dashscope
+        model_id: qwen-plus
+        prompt_version: POLISH_PROMPT@2026-08-v1
+    manual_edit_notes:
+    - 2026-08-19T14:52:43.465899+00:00 editor=mvp-phase3-dogfood edited=entry_signal,goal
+    - 2026-08-19T14:52:43.515723+00:00 editor=mvp-phase3-dogfood edited=steps
+  approval:
+    reviewer_id: phase3-dogfood-reviewer
+    approved_at: '2026-08-19T17:15:11.438352+00:00'
+    review_note: '[重录重批] 双垂直交叉路径完整；第二问比例转移路线与官方解答一致，建议正式使用前补一题同型变式对拍。'
+  canonical:
+    artifact_id: TA-SMV-002
+    version: v2
+    content_hash: sha256:baefd4dfb7175321dd9c8f216596559cb047e3e2e984271c7d6430a153c09716
+    approved_at: '2026-08-19T17:15:11.438352+00:00'
+  created_at: '2026-08-19T14:52:18.240909+00:00'

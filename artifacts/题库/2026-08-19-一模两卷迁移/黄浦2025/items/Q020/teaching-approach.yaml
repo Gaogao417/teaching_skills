@@ -1,0 +1,110 @@
+schema: math_item_teaching_approach/v1
+item_id: Q020
+question:
+  source_key: 2025-HUANGPU-YIMO-Q21
+  artifact_id: QT-SMV-048
+  bound_at: '2026-08-19T15:01:34.088969+00:00'
+approaches:
+- id: t1
+  title: 梯形对角线比例：AD∥BC 分比 → 向量线性组合 → 等角转移求正弦
+  author: mvp-phase3-dogfood
+  status: approved
+  goal: 用 AD∥BC 的相似分比（对角线互相分成 AD:BC 的比）先解决向量线性组合， 再用垂直与 tan 条件做等角转移求 sin∠ABC，体会"平行出比例、比例出向量"。
+  entry_signal: 梯形中 AD∥BC → 对角线交点 E 把两条对角线按 AD:BC 分割。
+  steps:
+  - step_id: S1
+    intent: 平行出相似，对角线定比
+    narration: 由 $AD\parallel BC$ 得 $\triangle AED \sim \triangle CEB$（8 字型）， 故 $AE:EC=AD:CB=4:5$、$BE:ED=BC:AD=5:4$。
+    expected_student_reasoning: 学生能在梯形里直接看出对角线被交点分成的两组比。
+    accepted_alternatives: []
+    common_errors:
+    - 把两组比的方向都写反
+    skill_ids:
+    - SKILL-SMV-008
+    origin: manual
+  - step_id: S2
+    intent: 分比转成向量线性组合
+    narration: 由 $\overrightarrow{BC}=\vec{a}$、$\overrightarrow{BD}=\vec{b}$ 与定比分解， 得 $\overrightarrow{AE}=\frac{4}{5}\vec{a}-\frac{4}{9}\vec{b}$。
+    expected_student_reasoning: 学生能先写出 AE 用 AB、BE 表示的中间式，再逐步代入化为 a、b 的组合。
+    accepted_alternatives:
+    - 先表示 AC 再按 4:5 内分
+    common_errors:
+    - 向量减法方向错
+    - 分比 4/5 与 5/9 混用
+    skill_ids:
+    - SKILL-SMV-002
+    origin: manual
+  - step_id: S3
+    intent: 等角转移求正弦
+    narration: 由 $AD\perp CD$、$\tan\angle DAC=\frac{1}{2}$ 设元求边， 利用平行内错角把 $\angle ABC$ 转到直角三角形中， 解得 $\sin\angle ABC=\frac{2\sqrt{5}}{5}$。
+    expected_student_reasoning: 学生能说出"转移哪个角、转移到哪个直角三角形"再计算。
+    accepted_alternatives: []
+    common_errors:
+    - tan 的对边邻边放反
+    - 转移角时用错内错角与同旁内角
+    skill_ids:
+    - SKILL-SMV-007
+    origin: manual
+  steps_origin: manual
+  polished_text: "先观察图形：在四边形 $ABCD$ 中，已知 $AD\\parallel BC$，$AD=4$，$BC=5$，对角线 $AC$ 与 $BD$ 相交于点 $E$。  \n第（1）问要求用 $\\vec{a}=\\overrightarrow{BC}$、$\\vec{b}=\\overrightarrow{BD}$ 表示 $\\overrightarrow{AE}$；第（2）问在附加条件 $AD\\perp CD$、$\\tan\\angle DAC=\\frac{1}{2}$ 下，求 $\\sin\\angle ABC$ 的值。  \n\n对于第（1）问，请按以下步骤操作：  \n先看图中平行关系 $AD\\parallel BC$，由此可得 $\\triangle ADE\\sim\\triangle CBE$（两组内错角相等）；  \n再找对应边比例：由相似得 $\\frac{AD}{BC}=\\frac{DE}{BE}=\\frac{4}{5}$，所以 $\\frac{DE}{BD}=\\frac{DE}{BE+ED}=\\frac{4}{5+4}=\\frac{4}{9}$，即 $DE=\\frac{4}{9}BD$；  \n然后算向量：因为 $\\overrightarrow{AD}\\parallel\\overrightarrow{BC}=\\vec{a}$，且 $AD=4$、$BC=5$，所以 $\\overrightarrow{AD}=\\frac{4}{5}\\vec{a}$；又 $\\overrightarrow{ED}=\\frac{4}{9}\\overrightarrow{BD}=\\frac{4}{9}\\vec{b}$；  \n最后由向量减法得 $\\overrightarrow{AE}=\\overrightarrow{AD}-\\overrightarrow{ED}=\\frac{4}{5}\\vec{a}-\\frac{4}{9}\\vec{b}$。  \n\n对于第（2）问，请按以下步骤操作：  \n先看直角和正切条件：已知 $AD\\perp CD$，所以 $\\triangle ADC$ 是直角三角形，且 $\\angle DAC$ 是锐角；  \n再找边长关系：由 $\\tan\\angle\
+    \ DAC=\\frac{CD}{AD}=\\frac{1}{2}$ 及 $AD=4$，得 $CD=2$；  \n然后算斜边：在 $\\triangle ADC$ 中，由勾股定理得 $AC=\\sqrt{AD^2+CD^2}=\\sqrt{4^2+2^2}=2\\sqrt{5}$；  \n接着利用平行线转移角度：因为 $AD\\parallel BC$，所以 $\\angle DAC=\\angle ACB$（内错角相等），进而可证 $\\triangle DAC\\sim\\triangle ACB$（两角对应相等）；  \n最后求正弦值：由相似得 $\\frac{AC}{BC}=\\frac{AD}{AC}$，即 $\\frac{AC}{5}=\\frac{4}{2\\sqrt{5}}$，验证无误；再由 $\\triangle ACB$ 中 $\\angle BAC=90^\\circ$，得 $\\sin\\angle ABC=\\frac{AC}{BC}=\\frac{2\\sqrt{5}}{5}$。"
+  evidence:
+    recordings:
+    - revision: 1
+      audio_path: assets/teaching-approach/t1-r01-20260819T150134.627786_0000.wav
+      audio_sha256: sha256:c02fe5b408a2e45d039dd757f88d912d24fe755edcc7434239eb114ddf81298c
+      audio_bytes: 395298
+      recorded_at: '2026-08-19T15:01:34.628147+00:00'
+      duration_seconds: null
+      transcript: a b c d a b c d c a b c d e f g a b c i c a e a c b d a b a e a b a c d 三打 a b c 是 a b c。
+      transcript_path: assets/teaching-approach/t1-r01-20260819T150134.627786_0000.transcript.txt
+      transcript_sha256: sha256:611fd9ec714a00589b7f88656b6c9dd9eb3218a837c64d17154986fd90c1274f
+      asr:
+        provider: dashscope
+        model_id: qwen3-asr-flash
+      transcribed_at: '2026-08-19T15:01:45.426557+00:00'
+    - revision: 2
+      audio_path: assets/teaching-approach/t1-r02-20260819T171945.836157_0000.wav
+      audio_sha256: sha256:bb9aa2586e4348cf37b5bb9065e7142f563668437b7842fc648c1133fb455d0b
+      audio_bytes: 1781574
+      recorded_at: '2026-08-19T17:19:45.837725+00:00'
+      duration_seconds: null
+      transcript: 四边形ABCD中，AD平行BC，AD等于四，BC等于五，对角线交于E。第一问用向量，因为AD平行BC，三角形ADE相似于三角形CBE，所以AE比EC等于AD比CB等于4:5，BE比ED等于5:4。按这个比例把向量a、向量b分解组合，就得到向量AE等于4/5向量a减4/9向量b。第二问，AD垂直CD，tan角DAC等于1/2，设边长求出各线段，再把角ABC用平行线的内错角转移成可算的角，最后得到sin角ABC等于2/5倍根号五。
+      transcript_path: assets/teaching-approach/t1-r02-20260819T171945.836157_0000.transcript.txt
+      transcript_sha256: sha256:b374fe421a661e23050d976206e441373578bcbac7e32351fab0c57540b8c3f9
+      asr:
+        provider: dashscope
+        model_id: qwen3-asr-flash
+      transcribed_at: '2026-08-19T17:20:07.759727+00:00'
+    polishes:
+    - revision: 1
+      based_on_recording: 1
+      polished_path: assets/teaching-approach/t1-p01-20260819T150203.871765_0000.polished.txt
+      polished_sha256: sha256:c030466fa12e4f9311768ddacfeb07c0622474654d2401ad20f946c0669bad2d
+      polished_at: '2026-08-19T15:02:03.872266+00:00'
+      provenance:
+        provider: dashscope
+        model_id: qwen-plus
+        prompt_version: POLISH_PROMPT@2026-08-v1
+    - revision: 2
+      based_on_recording: 2
+      polished_path: assets/teaching-approach/t1-p02-20260819T172024.037209_0000.polished.txt
+      polished_sha256: sha256:6f7191898199f6cd7cee293d82ab59115ba302c7bef104ba139e2b7105fb7dc6
+      polished_at: '2026-08-19T17:20:24.037699+00:00'
+      provenance:
+        provider: dashscope
+        model_id: qwen-plus
+        prompt_version: POLISH_PROMPT@2026-08-v1
+    manual_edit_notes:
+    - 2026-08-19T15:02:03.924298+00:00 editor=mvp-phase3-dogfood edited=entry_signal,goal
+    - 2026-08-19T15:02:03.972260+00:00 editor=mvp-phase3-dogfood edited=steps
+  approval:
+    reviewer_id: phase3-dogfood-reviewer
+    approved_at: '2026-08-19T17:20:24.107616+00:00'
+    review_note: '[重录重批] 梯形对角线分比 + 向量组合与官方答案一致；向量小问按 golden fallback 约定整体纳入（非 golden 样本）。'
+  canonical:
+    artifact_id: TA-SMV-008
+    version: v2
+    content_hash: sha256:356c789d8a0bd68993e8f1f8c47cab7a3294a1b76c41640ac2ad461557ab0e24
+    approved_at: '2026-08-19T17:20:24.107616+00:00'
+  created_at: '2026-08-19T15:01:34.088983+00:00'

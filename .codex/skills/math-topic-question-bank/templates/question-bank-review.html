@@ -128,6 +128,20 @@
             <p id="explanations-message" class="explanations-message" role="status"></p>
             <div id="explanations-body" class="explanations-body"></div>
           </section>
+          <section id="approach-card" class="reader-section approach-card" aria-label="教学策略 TeachingApproach">
+            <div class="section-head">
+              <div><p class="eyebrow">TEACHING APPROACH</p><h3>教学策略（整题 Approach）</h3></div>
+              <div class="explanations-actions">
+                <input id="approach-reviewer-input" type="text" placeholder="审核人 ID（批准时使用）" aria-label="审核人 ID" />
+                <input id="approach-author-input" type="text" placeholder="作者 ID（新建时使用）" aria-label="作者 ID" />
+                <button id="approach-create" type="button" class="ghost-button">＋ 新建教学策略</button>
+              </div>
+            </div>
+            <p id="approach-binding" class="approach-binding"></p>
+            <p id="approach-hint" class="explanations-hint">整题教学策略：录音 → 转写 → 润色（append-only 修订）→ 从解答初始化教学步骤 → 编辑 goal/entry signal/常见错误/skill → 批准冻结 canonical ApprovedTeachingApproach.v1。</p>
+            <p id="approach-message" class="explanations-message" role="status"></p>
+            <div id="approach-body" class="explanations-body"></div>
+          </section>
           <section class="reader-section image-section" data-image-target="official_solution" hidden><h3>解答图</h3><div id="official-solution-preview" class="preview-well"></div></section>
           <section id="review-card" class="review-card" hidden>
             <div class="review-card-header">

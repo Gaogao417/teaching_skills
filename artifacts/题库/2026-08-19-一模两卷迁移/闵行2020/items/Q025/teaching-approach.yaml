@@ -1,0 +1,112 @@
+schema: math_item_teaching_approach/v1
+item_id: Q025
+question:
+  source_key: 2020-MINHANG-YIMO-Q25
+  artifact_id: QT-SMV-003
+  bound_at: '2026-08-19T14:52:43.574990+00:00'
+approaches:
+- id: t1
+  title: 母子型压轴：共边相似导角 → 函数关系式 → 等腰分类
+  author: mvp-phase3-dogfood
+  status: approved
+  goal: 综合训练三小问递进结构：共边相似导角、设 AD=x 建 $y$ 与 $x$ 的函数关系式、 等腰三角形存在性分类讨论，体会"证据递进"的压轴题节奏。
+  entry_signal: 看到 Rt△ 与重心、射线交点，先用共边相似把角的关系立起来。
+  steps:
+  - step_id: S1
+    intent: 共边相似导角
+    narration: 由 Rt$\triangle ABC$ 与 Rt$\triangle ACD$ 共边的结构导角（等角的余角相等）， 证得 $\angle DAB = \angle DCF$。
+    expected_student_reasoning: 学生能在双直角共边结构中找到互余的角对，写出完整导角链。
+    accepted_alternatives: []
+    common_errors:
+    - 直角结构里漏看互余关系
+    skill_ids:
+    - SKILL-SMV-008
+    - SKILL-SMV-005
+    origin: manual
+  - step_id: S2
+    intent: 设元建立函数关系式
+    narration: 设 $AD=x$、$CE=y$，由相似（母子型）对应边成比例建立等量关系， 整理得 $y = \frac{x^{2} + 4}{x + 2}$，自变量范围 $0 < x \leq 2$。
+    expected_student_reasoning: 学生能选对相似三角形组列出比例，解出 y 并求定义域 $0 < x \leq 2$。
+    accepted_alternatives:
+    - 用面积法或勾股关系另建等式
+    common_errors:
+    - 母子型对应边错配（与 002 混淆）
+    - 漏求自变量范围
+    skill_ids:
+    - SKILL-SMV-005
+    - SKILL-SMV-007
+    origin: manual
+  - step_id: S3
+    intent: 等腰存在性分类讨论
+    narration: 按 $GA=GD$、$AD=AG$、$DA=DG$ 三类分别画图、列式，结合函数关系式解方程并按范围取舍， 解得 $AD = 1$ 或 $\sqrt{14}$。
+    expected_student_reasoning: 学生能不重不漏地分三类讨论，且解出的值逐一代回范围检验。
+    accepted_alternatives: []
+    common_errors:
+    - 分类遗漏
+    - 解出后不检验 0<x≤2 导致多解
+    skill_ids:
+    - SKILL-SMV-009
+    origin: manual
+  steps_origin: manual
+  polished_text: "我们来逐步分析这道题。请先观察图形，明确已知条件和各点位置关系。\n\n第一步：看图并标记已知信息。  \n在图中找到两个直角三角形：Rt$\\triangle ABC$ 和 Rt$\\triangle ACD$；其中 $\\angle ACB = 90^\\circ$，$\\angle ADC = 90^\\circ$，且 $AC = BC$；点 $A$、$B$ 分别在直线 $CD$ 的两侧；$CD = 2$；射线 $CD$ 与边 $AB$ 相交于点 $E$；点 $G$ 是 Rt$\\triangle ABC$ 的重心；射线 $CG$ 与边 $AB$ 相交于点 $F$；设 $AD = x$，$CE = y$。\n\n第二步：证明 $\\angle DAB = \\angle DCF$。  \n先找出关键线段的性质：因为 $G$ 是 Rt$\\triangle ABC$ 的重心，所以 $CF$ 是 Rt$\\triangle ABC$ 的中线；又因为在 Rt$\\triangle ABC$ 中，$AC = BC$ 且 $\\angle ACB = 90^\\circ$，所以 $\\triangle ABC$ 是等腰直角三角形，斜边为 $AB$，因此中线 $CF$ 同时也是高线和角平分线，即 $CF \\perp AB$，故 $\\angle AFC = 90^\\circ$。  \n再观察四边形或相关角：由于 $\\angle ADE = 90^\\circ$（因 $\\angle ADC = 90^\\circ$），$\\angle EFC = 90^\\circ$（因 $CF \\perp AB$），所以在 $\\triangle ADE$ 和 $\\triangle CFE$ 中，$\\angle DAE$ 与 $\\angle ECF$ 都是其余角，从而 $\\angle DAB = \\angle DAE = \\angle DCF$。  \n\n第三步：当点 $E$ 在线段 $CD$ 上时，求 $y$ 关于 $x$ 的函数关系式，并写出 $x$ 的取值范围。  \n先过点 $B$ 作 $BH \\perp CD$，垂足为 $H$；由 $\\triangle CAD \\cong \\triangle BCH$（ASA），可得\
+    \ $BH = CD = 2$，$CH = AD = x$，所以 $DH = CD - CH = 2 - x$；  \n再由 $AD \\parallel BH$（同垂直于 $CD$），得 $\\frac{AD}{BH} = \\frac{DE}{EH}$，即 $\\frac{x}{2} = \\frac{DE}{EH}$；整理得 $\\frac{x + 2}{2} = \\frac{DH}{EH}$，解得 $EH = \\frac{4 - 2x}{x + 2}$；  \n最后计算 $y = CE = CH + HE = x + \\frac{4 - 2x}{x + 2} = \\frac{x^{2} + 4}{x + 2}$；  \n由于点 $E$ 在线段 $CD$ 上，且 $C$、$D$ 为端点，$CH = x > 0$，$DH = 2 - x \\geq 0$，所以 $x$ 的取值范围是 $0 < x \\leq 2$。\n\n第四步：若 $\\triangle CDG$ 是以 $CG$ 为腰的等腰三角形，求 $AD$ 的长。  \n“以 $CG$ 为腰”说明等腰三角形的两条相等边中必有一条是 $CG$，因此分两种情况讨论：  \n① 当 $CG = GD$ 时，取 $AC$ 中点 $M$，连接 $MD$、$MG$；由等腰直角三角形性质可知 $MD = MC$，且 $MG \\perp CD$，又 $BH \\parallel MG$，结合 $CH = AD$，可得 $AD = CH = 1$；  \n② 当 $CG = CD$ 时，即 $CG = 2$；因 $G$ 是 $\\triangle ABC$ 的重心，故 $CF = \\frac{3}{2} CG = 3$；又 $CF$ 是等腰直角三角形斜边上的中线，所以 $AB = 2CF = 6$，进而 $AC = \\frac{\\sqrt{2}}{2} AB = 3\\sqrt{2}$；在 Rt$\\triangle ACD$ 中，由勾股定理得 $AD = \\sqrt{AC^{2} - CD^{2}} = \\sqrt{18 - 4} = \\sqrt{14}$；  \n综上，满足条件的 $AD$ 的长为 $1$ 或 $\\sqrt{14}$。"
+  evidence:
+    recordings:
+    - revision: 1
+      audio_path: assets/teaching-approach/t1-r01-20260819T145244.124183_0000.wav
+      audio_sha256: sha256:5c71a39630cb9179280721a930e9a817f4bf8401258f7e488f1c602b46826016
+      audio_bytes: 257022
+      recorded_at: '2026-08-19T14:52:44.124456+00:00'
+      duration_seconds: null
+      transcript: w c c f x c y y x 四 x 二 x 零 二 k g d a a 1410。
+      transcript_path: assets/teaching-approach/t1-r01-20260819T145244.124183_0000.transcript.txt
+      transcript_sha256: sha256:91bf2793357d5fd9ad7927649d80f7fbc5e7c6053967a03fcaa730d38985e27d
+      asr:
+        provider: dashscope
+        model_id: qwen3-asr-flash
+      transcribed_at: '2026-08-19T14:52:48.323108+00:00'
+    - revision: 2
+      audio_path: assets/teaching-approach/t1-r02-20260819T171512.391202_0000.wav
+      audio_sha256: sha256:6c850ac9c1bafd748ecec830d22e4964a1036fcac9b2352f1ac871cf510943d4
+      audio_bytes: 1542956
+      recorded_at: '2026-08-19T17:15:12.392399+00:00'
+      duration_seconds: null
+      transcript: 这是三小问的压轴题。第一问证角 DAB 等于角 DCF，注意到两个直角三角形共边，用等角的余角相等或者同位角转换，先把角的等量关系立起来。第二问设 AD 等于 x，测等于 y，利用相似三角形的对应边成比例，可以推出 y 等于 x 方加四除以 x 加二，自变量范围是 x 大于零且小于等于二。第三问是等腰三角形存在性，以 GAD 拿两条边相等分类讨论，把每种情况代入函数关系式解方程，注意取舍，最后得到 AD 等于一或者根号14。
+      transcript_path: assets/teaching-approach/t1-r02-20260819T171512.391202_0000.transcript.txt
+      transcript_sha256: sha256:7ace2a03574db44ae40344178c6617b5611bb1fbe55bfa566bb656881b00cc09
+      asr:
+        provider: dashscope
+        model_id: qwen3-asr-flash
+      transcribed_at: '2026-08-19T17:15:59.420927+00:00'
+    polishes:
+    - revision: 1
+      based_on_recording: 1
+      polished_path: assets/teaching-approach/t1-p01-20260819T145313.893394_0000.polished.txt
+      polished_sha256: sha256:009d8c49536812f0d78fd0589384adebe3c87d5e75334f0c6a49b0d4bceb462c
+      polished_at: '2026-08-19T14:53:13.893763+00:00'
+      provenance:
+        provider: dashscope
+        model_id: qwen-plus
+        prompt_version: POLISH_PROMPT@2026-08-v1
+    - revision: 2
+      based_on_recording: 2
+      polished_path: assets/teaching-approach/t1-p02-20260819T171623.723804_0000.polished.txt
+      polished_sha256: sha256:3f11c4c9920390a2d854517fbf6e7e89b8a1573c946b70a0300c54e466231327
+      polished_at: '2026-08-19T17:16:23.724435+00:00'
+      provenance:
+        provider: dashscope
+        model_id: qwen-plus
+        prompt_version: POLISH_PROMPT@2026-08-v1
+    manual_edit_notes:
+    - 2026-08-19T14:53:13.957379+00:00 editor=mvp-phase3-dogfood edited=entry_signal,goal
+    - 2026-08-19T14:53:14.007693+00:00 editor=mvp-phase3-dogfood edited=steps
+  approval:
+    reviewer_id: phase3-dogfood-reviewer
+    approved_at: '2026-08-19T17:16:23.808267+00:00'
+    review_note: '[重录重批] 三小问递进结构与官方解答一致；分类讨论完备性经人工核对（AD=1 或 √14），录音转写有少量数字误读已由步骤编辑纠正。'
+  canonical:
+    artifact_id: TA-SMV-003
+    version: v2
+    content_hash: sha256:02745d42fd1739e61264ef879b42d84c4f5b11fe3810a061e16527d2c65c3abf
+    approved_at: '2026-08-19T17:16:23.808267+00:00'
+  created_at: '2026-08-19T14:52:43.575005+00:00'
