@@ -477,6 +477,7 @@ function applyItem(item, itemIndex) {
   setText("stem", formatReviewText(item.stem_latex || "题干不可用"));
   setText("answer", formatReviewText(item.answer || "暂无答案"));
   setText("clue", formatReviewText(item.clue || "暂无思路提示"));
+  renderSubquestionPreview(item);
   // P2-03：staging 题目开放文本编辑（修订后重算 hash、旧审核置 stale）。
   const editToggle = byId("edit-text-toggle");
   editToggle.hidden = !(state.detail.kind === "staging_exam");
@@ -2570,6 +2571,37 @@ function approachStatusLabel(approach) {
     : "草稿 · 未初始化步骤";
 }
 
+function renderSubquestionPreview(item) {
+  const section = byId("subquestion-preview-section");
+  if (!section) return;
+  const preview = item.subquestion_split_preview;
+  section.hidden = !preview || !(preview.parts || []).length;
+  if (section.hidden) return;
+  setText("subquestion-preview-note", preview.note || "");
+  const body = byId("subquestion-preview-body");
+  body.replaceChildren();
+  (preview.warnings || []).forEach((warning) => {
+    const alert = document.createElement("p");
+    alert.className = "subquestion-preview-warning";
+    alert.textContent = `⚠ ${warning}`;
+    body.append(alert);
+  });
+  (preview.parts || []).forEach((part) => {
+    const row = document.createElement("div");
+    row.className = "subquestion-preview-part";
+    const head = document.createElement("p");
+    head.className = "subquestion-preview-part-head";
+    head.textContent = `（${part.part_id}）${part.prompt}`;
+    const answer = document.createElement("p");
+    answer.textContent = `答案：${part.answer || "（未提取）"}${part.range_constraint ? `（范围 ${part.range_constraint}）` : ""}`;
+    const solution = document.createElement("p");
+    solution.className = "source-text";
+    solution.textContent = `解答：${part.solution || "（未提取）"}`;
+    row.append(head, answer, solution);
+    body.append(row);
+  });
+}
+
 function renderApproaches() {
   const payload = approachState.payload;
   const body = byId("approach-body");
@@ -2583,11 +2615,29 @@ function renderApproaches() {
   body.replaceChildren();
   const question = payload.question;
   const bindingNode = byId("approach-binding");
+  const questionParts = payload.question_parts || [];
   if (bindingNode) {
     bindingNode.textContent = question
-      ? `绑定 canonical 题目：${question.artifact_id}（批准时校验当前版本，question 漂移自动 stale）`
+      ? `绑定 canonical 题目：${question.artifact_id}${questionParts.length ? `（${questionParts.length} 个小问，Approach 须绑定具体小问）` : "（无小问，整题粒度）"}（批准时校验当前版本，question 漂移自动 stale）`
       : "该题没有 canonical QuestionTruth 绑定：不能创建教学策略（仅迁移题库支持）。";
     bindingNode.dataset.bound = question ? "true" : "false";
+  }
+  const partSelect = byId("approach-part-select");
+  if (partSelect) {
+    partSelect.hidden = !questionParts.length;
+    partSelect.replaceChildren();
+    if (questionParts.length) {
+      const placeholder = document.createElement("option");
+      placeholder.value = "";
+      placeholder.textContent = "选择小问（新建时）";
+      partSelect.append(placeholder);
+      questionParts.forEach((part) => {
+        const option = document.createElement("option");
+        option.value = part.part_id;
+        option.textContent = `（${part.part_id}）${(part.prompt || "").slice(0, 18)}`;
+        partSelect.append(option);
+      });
+    }
   }
   const approaches = payload.approaches || [];
   if (!approaches.length) {
@@ -2621,6 +2671,30 @@ function renderApproachItem(approach) {
   const status = badge(approachStatusLabel(approach), "chip-explanation-status");
   const authorChip = badge(`作者 ${approach.author || "?"}`, "chip-source");
   head.append(title, status, authorChip);
+  const questionParts = approachState.payload?.question_parts || [];
+  if (questionParts.length) {
+    const partSelect = document.createElement("select");
+    partSelect.className = "approach-part-select";
+    partSelect.setAttribute("aria-label", "绑定小问");
+    const emptyOption = document.createElement("option");
+    emptyOption.value = "";
+    emptyOption.textContent = "未选小问";
+    partSelect.append(emptyOption);
+    questionParts.forEach((part) => {
+      const option = document.createElement("option");
+      option.value = part.part_id;
+      option.textContent = `第（${part.part_id}）问`;
+      if (String(approach.part_id || "") === part.part_id) option.selected = true;
+      partSelect.append(option);
+    });
+    if (!approach.part_id) emptyOption.selected = true;
+    partSelect.addEventListener("change", () => {
+      void saveApproachField(approach.id, { part_id: partSelect.value });
+    });
+    head.append(partSelect);
+  } else if (approach.part_id) {
+    head.append(badge(`第（${approach.part_id}）问`, "chip-source"));
+  }
 
   const canonical = approach.canonical;
   if (canonical) {
@@ -2943,12 +3017,17 @@ async function createApproachTeachingAction() {
   const title = window.prompt("教学策略标题（如：从公共角正推）");
   if (!title || !title.trim()) return;
   const author = authorInputValue();
+  const partId = (byId("approach-part-select")?.value || "").trim();
+  if ((approachState.payload?.question_parts || []).length && !partId) {
+    approachMessageNode(byId("approach-card"), "该题含小问：新建教学策略前请先在「选择小问」下拉中选定小问（ADR-005 part 绑定）。", "error");
+    return;
+  }
   saveApproachIdentity(author, reviewerInputValue());
   try {
     const payload = await explanationsFetch(`${approachEndpoint(bankId, itemId)}/approaches`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ title: title.trim(), author }),
+      body: JSON.stringify({ title: title.trim(), author, part_id: partId }),
     });
     if (approachState.itemId === itemId) applyApproachPayload(payload);
   } catch (error) {

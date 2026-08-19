@@ -115,6 +115,11 @@
             <div class="reader-section"><h3>解题步骤</h3><ol id="solution-steps" class="solution-steps"></ol></div>
             <div id="solution-notes-section" class="reader-section" hidden><h3>严谨补充</h3><ul id="solution-notes" class="solution-notes"></ul></div>
           </section>
+          <section id="subquestion-preview-section" class="reader-section subquestion-preview" hidden>
+            <h3>小问切分预览（v2 真值）</h3>
+            <p id="subquestion-preview-note" class="explanations-hint"></p>
+            <div id="subquestion-preview-body"></div>
+          </section>
           <section id="explanations-card" class="reader-section explanations-card" aria-label="小题讲解与解答">
             <div class="section-head">
               <div><p class="eyebrow">TEACHING NOTES</p><h3>讲解 / 解答（小题）</h3></div>
@@ -130,15 +135,16 @@
           </section>
           <section id="approach-card" class="reader-section approach-card" aria-label="教学策略 TeachingApproach">
             <div class="section-head">
-              <div><p class="eyebrow">TEACHING APPROACH</p><h3>教学策略（整题 Approach）</h3></div>
+              <div><p class="eyebrow">TEACHING APPROACH</p><h3>教学策略（小问 Approach）</h3></div>
               <div class="explanations-actions">
                 <input id="approach-reviewer-input" type="text" placeholder="审核人 ID（批准时使用）" aria-label="审核人 ID" />
                 <input id="approach-author-input" type="text" placeholder="作者 ID（新建时使用）" aria-label="作者 ID" />
+                <select id="approach-part-select" aria-label="新建策略绑定的小问" hidden></select>
                 <button id="approach-create" type="button" class="ghost-button">＋ 新建教学策略</button>
               </div>
             </div>
             <p id="approach-binding" class="approach-binding"></p>
-            <p id="approach-hint" class="explanations-hint">整题教学策略：录音 → 转写 → 润色（append-only 修订）→ 从解答初始化教学步骤 → 编辑 goal/entry signal/常见错误/skill → 批准冻结 canonical ApprovedTeachingApproach.v1。</p>
+            <p id="approach-hint" class="explanations-hint">小问教学策略（ADR-005：一个 Approach = 一个小问 × 一种解法，同问可并存多份）：录音 → 转写 → 润色（append-only 修订）→ 从解答初始化教学步骤 → 编辑 goal/entry signal/常见错误/skill → 批准冻结 canonical ApprovedTeachingApproach.v2。</p>
             <p id="approach-message" class="explanations-message" role="status"></p>
             <div id="approach-body" class="explanations-body"></div>
           </section>

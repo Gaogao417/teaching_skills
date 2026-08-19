@@ -287,3 +287,29 @@ select:focus-visible, button:focus-visible, textarea:focus-visible, .question-ro
 .approach-item-message { margin: 0; min-height: 1.4em; color: var(--muted); font-size: 12.5px; }
 .approach-item-message[data-tone="ok"] { color: var(--accent); font-weight: 700; }
 .approach-item-message[data-tone="error"] { color: var(--danger); font-weight: 700; }
+
+/* ADR-005：小问切分预览 + TA part 选择器 */
+.subquestion-preview-warning {
+  color: #b3261e;
+  font-weight: 600;
+  margin: 6px 0;
+}
+.subquestion-preview-part {
+  border-left: 3px solid #6b7fd7;
+  padding: 6px 10px;
+  margin: 8px 0;
+  background: rgba(107, 127, 215, 0.06);
+}
+.subquestion-preview-part-head {
+  font-weight: 600;
+  margin: 0 0 4px;
+}
+.approach-part-select,
+#approach-part-select {
+  border: 1px solid rgba(15, 23, 42, 0.2);
+  border-radius: 6px;
+  padding: 4px 6px;
+  background: #fff;
+  font-size: 12px;
+  max-width: 220px;
+}

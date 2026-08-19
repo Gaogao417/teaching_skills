@@ -747,6 +747,8 @@ def test_teaching_approach_ui_static_wiring() -> None:
         "approach-create",
         "approach-reviewer-input",
         "approach-author-input",
+        "approach-part-select",  # ADR-005：新建策略的小问选择
+        "subquestion-preview-section",  # ADR-005：审题面板小问切分预览
     ):
         assert f'id="{node_id}"' in html, node_id
 
@@ -755,6 +757,7 @@ def test_teaching_approach_ui_static_wiring() -> None:
     for name in (
         "loadApproaches",
         "renderApproachItem",
+        "renderSubquestionPreview",
         "toggleApproachRecording",
         "uploadApproachRecording",
         "initApproachStepsAction",

@@ -194,16 +194,17 @@ class ExplanationGenerateRequest(BaseModel):
 
 
 class TeachingApproachCreate(BaseModel):
-    """Phase 3：新建教学策略（整题 TeachingApproach，非小题讲解对）。"""
+    """Phase 3 + ADR-005：新建教学策略（part 级绑定，空 = 整题/无小问题）。"""
 
     model_config = ConfigDict(extra="forbid")
 
     title: str = Field(min_length=1, max_length=200)
     author: str = Field(default="", max_length=100)
+    part_id: str = Field(default="", max_length=3)
 
 
 class TeachingApproachUpdate(BaseModel):
-    """Phase 3：编辑 title/goal/entry_signal/steps；steps 整体替换并重排 step_id。
+    """Phase 3：编辑 title/goal/entry_signal/steps/part_id；steps 整体替换并重排 step_id。
 
     任何实际改动都会：批准态回到 draft、追加 manual_edit_note（P3-03/P3-06）。
     """
@@ -214,6 +215,7 @@ class TeachingApproachUpdate(BaseModel):
     goal: str | None = None
     entry_signal: str | None = None
     steps: list[dict[str, Any]] | None = None
+    part_id: str | None = Field(default=None, max_length=3)
     editor: str = Field(default="question-bank-review-ui", max_length=100)
 
 
@@ -636,11 +638,72 @@ def _normalize_approach(approach: Any) -> dict[str, Any] | None:
     }
 
 
-def _merged_explanations(
-    item_dir: Path, teacher_block: dict[str, Any], item_id: str
+def _subquestion_split_preview(
+    *, stem: str, answer: str, solution_steps: list[str]
 ) -> dict[str, Any]:
-    """派生小题骨架 + sidecar 中已存的讲解-解答对合并成 API 视图。"""
-    derived = _derive_subquestions(str(teacher_block.get("stem_latex", "")))
+    """ADR-005 审题面板的小问切分预览：确定性建议 + 对齐告警（只读）。
+
+    与 canonical_export v2 组装同一套切分函数；promote 的 fail closed 门禁
+    是权威，这里只是让审题人在批准前看到切分结果并对齐告警。
+    """
+    parts = ce.split_subquestions(stem)
+    if not parts:
+        return {"parts": [], "aligned": True, "warnings": [], "note": "无小问：真值保持整题顶层存储"}
+    part_ids = [part["part_id"] for part in parts]
+    answers = ce.split_marked_segments(answer, part_ids)
+    solution = ce.split_marked_segments("\n".join(solution_steps), part_ids)
+    warnings: list[str] = []
+    if answers is None:
+        warnings.append("官方答案与 (1)(2) 小问标记未对齐：promote 将拒绝，请先调整答案文本")
+    if solution is None:
+        warnings.append("解答步骤与 (1)(2) 小问标记未对齐：promote 将拒绝，请先调整解答文本")
+    preview_parts: list[dict[str, Any]] = []
+    for part in parts:
+        part_id = part["part_id"]
+        segment_answer = (answers or {}).get(part_id, "")
+        value, range_text = (
+            ce.extract_range_constraint(segment_answer) if segment_answer else ("", None)
+        )
+        preview_parts.append(
+            {
+                "part_id": part_id,
+                "prompt": part["prompt"],
+                "answer": value,
+                "range_constraint": range_text,
+                "solution": (solution or {}).get(part_id, ""),
+            }
+        )
+    return {
+        "parts": preview_parts,
+        "aligned": not warnings,
+        "warnings": warnings,
+        "note": "v2 promote 将按此切分写入小问级真值（审题人工确认）",
+    }
+
+
+def _merged_explanations(
+    item_dir: Path,
+    teacher_block: dict[str, Any],
+    item_id: str,
+    canonical_parts: list[dict[str, Any]] | None = None,
+) -> dict[str, Any]:
+    """派生小题骨架 + sidecar 中已存的讲解-解答对合并成 API 视图。
+
+    ADR-005 派生收敛：canonical_parts（QT current 版本的小问清单）给定时
+    以它为骨架，不再从 stem 正则重推（消除 stem/小问双源漂移）；缺省回退
+    正则派生（无 canonical 绑定的题）。
+    """
+    if canonical_parts:
+        derived = [
+            {
+                "id": str(part.get("part_id") or ""),
+                "label": f"（{part.get('part_id')}）",
+                "stem_latex": str(part.get("prompt") or ""),
+            }
+            for part in canonical_parts
+        ]
+    else:
+        derived = _derive_subquestions(str(teacher_block.get("stem_latex", "")))
     stored = _load_explanations(item_dir)
     stored_entries: dict[str, dict[str, Any]] = {}
     extra_entries: list[dict[str, Any]] = []
@@ -1618,6 +1681,19 @@ class QuestionBankCatalog:
                         "content_hash": source.get("content_hash", ""),
                     }
                 )
+                rendered["subquestion_split_preview"] = _subquestion_split_preview(
+                    stem=str(
+                        student_block.get("stem_latex")
+                        or student_block.get("stem")
+                        or ""
+                    ),
+                    answer=str(teacher_block.get("answer", "")),
+                    solution_steps=[
+                        str(step) if isinstance(step, str) else str(step.get("content", ""))
+                        for step in teacher_block.get("solution_steps", [])
+                        if isinstance(step, (str, dict))
+                    ],
+                )
                 rendered["solution_steps"] = []
                 for step_index, step in enumerate(
                     teacher_block.get("solution_steps", []), start=1
@@ -2464,7 +2540,9 @@ class QuestionBankCatalog:
 
     def explanations_view(self, bank_id: str, item_id: str) -> dict[str, Any]:
         record, item_dir, _, _, teacher_block = self._explanations_entry(bank_id, item_id)
-        payload = _merged_explanations(item_dir, teacher_block, item_id)
+        payload = _merged_explanations(
+            item_dir, teacher_block, item_id, canonical_parts=self._question_parts(item_dir)
+        )
         payload["recording_supported"] = (
             bool(explanations_ai.api_key()) and shutil.which("ffmpeg") is not None
         )
@@ -2474,7 +2552,9 @@ class QuestionBankCatalog:
         self, bank_id: str, item_id: str, subquestion_id: str, title: str = ""
     ) -> dict[str, Any]:
         record, item_dir, _, _, teacher_block = self._explanations_entry(bank_id, item_id)
-        payload = _merged_explanations(item_dir, teacher_block, item_id)
+        payload = _merged_explanations(
+            item_dir, teacher_block, item_id, canonical_parts=self._question_parts(item_dir)
+        )
         subquestion = next(
             (entry for entry in payload["subquestions"] if entry["id"] == subquestion_id),
             None,
@@ -2496,7 +2576,9 @@ class QuestionBankCatalog:
         solution_text: str | None = None,
     ) -> dict[str, Any]:
         record, item_dir, _, _, teacher_block = self._explanations_entry(bank_id, item_id)
-        payload = _merged_explanations(item_dir, teacher_block, item_id)
+        payload = _merged_explanations(
+            item_dir, teacher_block, item_id, canonical_parts=self._question_parts(item_dir)
+        )
         _, approach = self._find_approach(payload, approach_id)
         title_changed = False
         if title is not None and title.strip() != approach.get("title"):
@@ -2528,7 +2610,9 @@ class QuestionBankCatalog:
 
     def delete_approach(self, bank_id: str, item_id: str, approach_id: str) -> dict[str, Any]:
         record, item_dir, _, _, teacher_block = self._explanations_entry(bank_id, item_id)
-        payload = _merged_explanations(item_dir, teacher_block, item_id)
+        payload = _merged_explanations(
+            item_dir, teacher_block, item_id, canonical_parts=self._question_parts(item_dir)
+        )
         subquestion, _ = self._find_approach(payload, approach_id)
         subquestion["approaches"] = [
             approach
@@ -2542,7 +2626,9 @@ class QuestionBankCatalog:
         self, bank_id: str, item_id: str, approach_id: str, audio: bytes, content_type: str
     ) -> dict[str, Any]:
         record, item_dir, _, _, teacher_block = self._explanations_entry(bank_id, item_id)
-        payload = _merged_explanations(item_dir, teacher_block, item_id)
+        payload = _merged_explanations(
+            item_dir, teacher_block, item_id, canonical_parts=self._question_parts(item_dir)
+        )
         _, approach = self._find_approach(payload, approach_id)
         suffix = explanations_ai.audio_suffix_for(content_type)
         if len(audio) > explanations_ai.MAX_AUDIO_BYTES:
@@ -2563,7 +2649,9 @@ class QuestionBankCatalog:
 
     def polish_approach(self, bank_id: str, item_id: str, approach_id: str) -> dict[str, Any]:
         record, item_dir, _, _, teacher_block = self._explanations_entry(bank_id, item_id)
-        payload = _merged_explanations(item_dir, teacher_block, item_id)
+        payload = _merged_explanations(
+            item_dir, teacher_block, item_id, canonical_parts=self._question_parts(item_dir)
+        )
         subquestion, approach = self._find_approach(payload, approach_id)
         explanation = approach["explanation"]
         transcript = str(explanation.get("transcript", "")).strip()
@@ -2603,7 +2691,9 @@ class QuestionBankCatalog:
         if kind not in {"explanation", "solution"}:
             raise ValueError("kind 必须是 explanation 或 solution")
         record, item_dir, _, _, teacher_block = self._explanations_entry(bank_id, item_id)
-        payload = _merged_explanations(item_dir, teacher_block, item_id)
+        payload = _merged_explanations(
+            item_dir, teacher_block, item_id, canonical_parts=self._question_parts(item_dir)
+        )
         stem = str(teacher_block.get("stem_latex", ""))
         answer = str(teacher_block.get("answer", ""))
         errors: list[dict[str, str]] = []
@@ -2669,7 +2759,9 @@ class QuestionBankCatalog:
 
     def approve_approach(self, bank_id: str, item_id: str, approach_id: str) -> dict[str, Any]:
         record, item_dir, _, _, teacher_block = self._explanations_entry(bank_id, item_id)
-        payload = _merged_explanations(item_dir, teacher_block, item_id)
+        payload = _merged_explanations(
+            item_dir, teacher_block, item_id, canonical_parts=self._question_parts(item_dir)
+        )
         _, approach = self._find_approach(payload, approach_id)
         if not approach["explanation"]["text"].strip() or not approach["solution"]["text"].strip():
             raise ValueError("讲解与解答都填写后才能批准并导出 blueprint")
@@ -2724,7 +2816,9 @@ class QuestionBankCatalog:
                 )
             except (KeyError, ValueError, OSError):
                 continue
-            payload = _merged_explanations(item_dir, teacher_block, item_id)
+            payload = _merged_explanations(
+            item_dir, teacher_block, item_id, canonical_parts=self._question_parts(item_dir)
+        )
             manifest_item = next(
                 (
                     entry
@@ -2839,7 +2933,22 @@ class QuestionBankCatalog:
             bool(explanations_ai.api_key()) and shutil.which("ffmpeg") is not None
         )
         payload["topic_skill_ids"] = list(ta.TOPIC_SKILL_IDS)
+        # ADR-005：绑定的 QT current 版本若含小问，UI 需要小问清单做 part 选择。
+        payload["question_parts"] = self._question_parts(item_dir)
         return payload
+
+    def _question_parts(self, item_dir: Path) -> list[dict[str, Any]]:
+        binding = ta.question_binding(item_dir, self.ta_ledger_path)
+        if not binding or not binding.get("artifact_id"):
+            return []
+        try:
+            truth = ce.current_truth(str(binding["artifact_id"]), root=self.canonical_root)
+        except Exception:
+            return []
+        return [
+            {"part_id": str(part.get("part_id") or ""), "prompt": str(part.get("prompt") or "")}
+            for part in truth.get("subquestions") or []
+        ]
 
     def _find_teaching_approach(
         self, payload: dict[str, Any], approach_id: str
@@ -2854,7 +2963,13 @@ class QuestionBankCatalog:
         return self._teaching_view(item_dir, item_id)
 
     def create_teaching_approach(
-        self, bank_id: str, item_id: str, *, title: str, author: str
+        self,
+        bank_id: str,
+        item_id: str,
+        *,
+        title: str,
+        author: str,
+        part_id: str = "",
     ) -> dict[str, Any]:
         record, item_dir, _, _, _ = self._explanations_entry(bank_id, item_id)
         binding = ta.question_binding(item_dir, self.ta_ledger_path)
@@ -2863,6 +2978,9 @@ class QuestionBankCatalog:
                 "该题没有 canonical QuestionTruth 绑定（不在 id-allocations 账本中），"
                 "不能创建教学策略"
             )
+        parts = self._question_parts(item_dir)
+        if parts and not str(part_id or "").strip():
+            raise ValueError("该题含小问，创建教学策略时必须选择小问（ADR-005 part 绑定）")
         payload = ta.load_sidecar(item_dir) or {
             "schema": ta.APPROACH_SCHEMA,
             "item_id": item_id,
@@ -2871,9 +2989,9 @@ class QuestionBankCatalog:
         }
         if not payload.get("question"):
             payload["question"] = {**binding, "bound_at": _utc_now_iso()}
-        payload["approaches"].append(
-            ta.new_approach(payload, title=title, author=author)
-        )
+        approach = ta.new_approach(payload, title=title, author=author)
+        approach["part_id"] = str(part_id or "").strip()
+        payload["approaches"].append(approach)
         ta.save_sidecar(item_dir, payload)
         self._invalidate_bank(bank_id)
         return self._teaching_view(item_dir, item_id, stored=payload)
@@ -2888,6 +3006,7 @@ class QuestionBankCatalog:
         goal: str | None = None,
         entry_signal: str | None = None,
         steps: list[dict[str, Any]] | None = None,
+        part_id: str | None = None,
         editor: str = "question-bank-review-ui",
     ) -> dict[str, Any]:
         record, item_dir, _, _, _ = self._explanations_entry(bank_id, item_id)
@@ -2905,6 +3024,14 @@ class QuestionBankCatalog:
         if entry_signal is not None and entry_signal.strip() != approach.get("entry_signal"):
             approach["entry_signal"] = entry_signal.strip()
             changed.append("entry_signal")
+        if part_id is not None:
+            normalized_part = str(part_id or "").strip()
+            if normalized_part != str(approach.get("part_id") or ""):
+                valid_parts = {p["part_id"] for p in self._question_parts(item_dir)}
+                if valid_parts and normalized_part not in valid_parts:
+                    raise ValueError(f"part_id {normalized_part} 不在该题小问列表中")
+                approach["part_id"] = normalized_part
+                changed.append("part_id")
         if steps is not None:
             normalized = [
                 ta.normalize_step(step, index) for index, step in enumerate(steps)
@@ -3133,9 +3260,10 @@ class QuestionBankCatalog:
         reviewer_id: str,
         review_note: str,
     ) -> dict[str, Any]:
-        """P3-07/P3-08：批准冻结 canonical ApprovedTeachingApproach.v1。
+        """P3-07/P3-08 + ADR-005：批准冻结 canonical ApprovedTeachingApproach.v2。
 
         冻结前先应用 Question change stale 事件（保证绑定的是 QT 当前版本）；
+        part 绑定合法性（QT 含小问时必填且命中）在 freeze 内 fail closed；
         任何门禁失败（结构/绑定/静态答案一致性/schema/publication）都不写文件。
         """
         ta.apply_question_change_stale(root=self.canonical_root)
@@ -3157,6 +3285,7 @@ class QuestionBankCatalog:
             qt_id=str(binding["artifact_id"]),
             ledger_path=self.ta_ledger_path,
             root=self.canonical_root,
+            part_id=str(approach.get("part_id") or "") or None,
         )
         approach["status"] = "approved"
         approach["approval"] = {
@@ -3953,7 +4082,11 @@ def create_question_bank_app(
     ) -> dict[str, Any]:
         try:
             return catalog.create_teaching_approach(
-                bank_id, item_id, title=payload.title, author=payload.author
+                bank_id,
+                item_id,
+                title=payload.title,
+                author=payload.author,
+                part_id=payload.part_id,
             )
         except (KeyError, ValueError, AiAssistError, OSError) as exc:
             raise _ta_error(exc) from exc
@@ -3971,6 +4104,7 @@ def create_question_bank_app(
                 goal=payload.goal,
                 entry_signal=payload.entry_signal,
                 steps=payload.steps,
+                part_id=payload.part_id,
                 editor=payload.editor,
             )
         except (KeyError, ValueError, AiAssistError, OSError) as exc:
