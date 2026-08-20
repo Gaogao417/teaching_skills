@@ -478,6 +478,8 @@ function applyItem(item, itemIndex) {
   setText("answer", formatReviewText(item.answer || "暂无答案"));
   setText("clue", formatReviewText(item.clue || "暂无思路提示"));
   renderSubquestionPreview(item);
+  // 小问 tab（整题/小问渐进披露）：切分预览 + question_parts 合并出 part 清单。
+  renderPartTabs();
   // P2-03：staging 题目开放文本编辑（修订后重算 hash、旧审核置 stale）。
   const editToggle = byId("edit-text-toggle");
   editToggle.hidden = !(state.detail.kind === "staging_exam");
@@ -585,7 +587,13 @@ function applyItem(item, itemIndex) {
       { editTarget: "prompt", editLabel: "题图" },
     );
   } else {
-    preview("prompt-preview", item.prompt_preview_url, "本题无题图", `${item.id} 题图`);
+    // formal/迁移卷与 staging 统一图卡样式（只读；粘贴编辑仅 staging 开放）。
+    previewGallery(
+      "prompt-preview",
+      item.prompt_preview_url ? [{ title: "题图", url: item.prompt_preview_url }] : [],
+      "本题无题图",
+      `${item.id} 题图`,
+    );
   }
   // 题目级“解答图”图库：仅在 staging 显示。来源凭证（整页官方解答）仍由顶部胶囊提供。
   const solutionGallery = byId("official-solution-preview");
@@ -1342,6 +1350,12 @@ function renderSkeleton(directoryItem, itemIndex) {
   // 讲解/解答面板重置为骨架态；切题时若还在录音则先停止。
   stopExplanationRecording();
   stopApproachRecording();
+  const partOverviewBody = byId("part-overview-body");
+  if (partOverviewBody) partOverviewBody.replaceChildren();
+  const wholeApproachBody = byId("whole-approach-body");
+  if (wholeApproachBody) wholeApproachBody.replaceChildren();
+  const splitWarnings = byId("split-warnings");
+  if (splitWarnings) splitWarnings.hidden = true;
   const explanationsBody = byId("explanations-body");
   if (explanationsBody) {
     const loading = document.createElement("p");
@@ -1953,10 +1967,14 @@ function renderExplanations() {
 }
 
 function scheduleExplanationsTypeset() {
-  const body = byId("explanations-body");
-  if (!body || !window.MathJax?.typesetPromise) return;
+  // 三个动态 TeX 容器一起排版：旧版讲解卡、教学策略卡（解法/步骤）、小问预览切片。
+  // 折叠态（details 未展开 / 面板 hidden）跳过，展开时会再排。
+  const scopes = ["explanations-body", "approach-body", "part-overview-body"]
+    .map((id) => byId(id))
+    .filter((node) => node && !node.hidden && !node.closest("details:not([open])"));
+  if (!scopes.length || !window.MathJax?.typesetPromise) return;
   mathRenderQueue = mathRenderQueue.then(async () => {
-    await window.MathJax.typesetPromise([body]);
+    await window.MathJax.typesetPromise(scopes);
   }).catch((error) => {
     console.warn("MathJax typesetting failed", error);
   });
@@ -2104,30 +2122,22 @@ function renderExplanationField(labelText, approach, field) {
   } else {
     head.append(label);
   }
-  const textarea = document.createElement("textarea");
-  textarea.rows = field === "explanation" ? 5 : 4;
-  textarea.className = "explanation-textarea";
-  textarea.value = approach[field]?.text || "";
-  textarea.setAttribute("aria-label", `${labelText}（编辑后失焦自动保存）`);
-  const preview = document.createElement("div");
-  preview.className = "explanation-preview source-text";
-  preview.textContent = formatReviewText(textarea.value);
-  bindExplanationEditor(textarea, preview, approach.id, field);
-  block.append(head, textarea, preview);
+  block.append(head, texEditField({
+    className: "explanation-textarea",
+    value: approach[field]?.text || "",
+    rows: field === "explanation" ? 5 : 4,
+    label: labelText,
+    ariaLabel: `${labelText}（点击渲染块编辑原始 TeX，失焦自动保存）`,
+    emptyHint: `点击填写${labelText}（支持 LaTeX）`,
+    onBlur: (value) => {
+      const found = findExplanationApproach(approach.id);
+      if (!found) return;
+      const before = found.approach[field]?.text || "";
+      if (value.trim() === before.trim()) return;
+      void saveApproachText(approach.id, field, value);
+    },
+  }));
   return block;
-}
-
-function bindExplanationEditor(textarea, preview, approachId, field) {
-  textarea.addEventListener("input", () => {
-    preview.textContent = formatReviewText(textarea.value);
-  });
-  textarea.addEventListener("blur", () => {
-    const found = findExplanationApproach(approachId);
-    if (!found) return;
-    const before = found.approach[field]?.text || "";
-    if (textarea.value.trim() === before.trim()) return;
-    void saveApproachText(approachId, field, textarea.value);
-  });
 }
 
 async function saveApproachText(approachId, field, value) {
@@ -2571,35 +2581,214 @@ function approachStatusLabel(approach) {
     : "草稿 · 未初始化步骤";
 }
 
-function renderSubquestionPreview(item) {
-  const section = byId("subquestion-preview-section");
-  if (!section) return;
-  const preview = item.subquestion_split_preview;
-  section.hidden = !preview || !(preview.parts || []).length;
-  if (section.hidden) return;
-  setText("subquestion-preview-note", preview.note || "");
-  const body = byId("subquestion-preview-body");
-  body.replaceChildren();
-  (preview.warnings || []).forEach((warning) => {
-    const alert = document.createElement("p");
-    alert.className = "subquestion-preview-warning";
-    alert.textContent = `⚠ ${warning}`;
-    body.append(alert);
+// ---------------------------------------------------------------------------
+// 小问栏（渐进披露）：页面 = 题目 → 题图 → 小问栏。小问栏承载该问全部信息
+// （真值切片 + 解法工作区），默认第一小问，箭头/圆点切换。
+// part 清单优先取题面切分预览（subquestion_split_preview，与 promote 同源），
+// 缺省回退 canonical question_parts（QT v2 绑定），两源按 part_id 合并。
+// ---------------------------------------------------------------------------
+const partUiState = {
+  itemId: null,
+  activeTab: null, // 当前小问 part_id；无小问的题为 null（整题粒度）
+  selected: new Map(), // scopeKey -> 选中的解法 id
+};
+
+function currentItem() {
+  const directoryItem = state.detail?.items?.[state.itemIndex];
+  if (!directoryItem) return null;
+  return state.itemCache.get(directoryItem.id) || null;
+}
+
+function mergedParts() {
+  const previewParts = currentItem()?.subquestion_split_preview?.parts || [];
+  const questionParts = approachState.payload?.question_parts || [];
+  const byId = new Map();
+  questionParts.forEach((part) => {
+    const partId = String(part.part_id || "").trim();
+    if (partId) byId.set(partId, { part_id: partId, prompt: String(part.prompt || "") });
   });
-  (preview.parts || []).forEach((part) => {
+  previewParts.forEach((part) => {
+    const partId = String(part.part_id || "").trim();
+    if (!partId) return;
+    const existing = byId.get(partId) || { part_id: partId };
+    byId.set(partId, {
+      ...existing,
+      prompt: String(part.prompt || existing.prompt || ""),
+      answer: part.answer,
+      range_constraint: part.range_constraint,
+      solution: part.solution,
+    });
+  });
+  return [...byId.values()].sort((a, b) => {
+    const numeric = (value) => (/^\d+$/.test(value) ? Number(value) : Infinity);
+    return numeric(a.part_id) - numeric(b.part_id) || a.part_id.localeCompare(b.part_id);
+  });
+}
+
+function scopedApproaches(partId) {
+  const approaches = approachState.payload?.approaches || [];
+  if (partId === null) return approaches;
+  return approaches.filter((approach) => String(approach.part_id || "").trim() === partId);
+}
+
+function currentApproachScope() {
+  const parts = mergedParts();
+  if (!parts.length) {
+    // 无小问的题：整题粒度，全部解法。
+    return { key: "whole", part: null, approaches: scopedApproaches(null) };
+  }
+  const partId = parts.some((part) => part.part_id === partUiState.activeTab)
+    ? partUiState.activeTab
+    : parts[0].part_id;
+  const part = parts.find((entry) => entry.part_id === partId) || null;
+  return {
+    key: `part:${part.part_id}`,
+    part,
+    approaches: scopedApproaches(part.part_id),
+  };
+}
+
+// 整题粒度旧数据（ADR-005 前的录音重切来源）：多小问题里收进底部折叠区供追溯。
+function legacyWholeApproaches() {
+  const parts = mergedParts();
+  if (!parts.length) return [];
+  return (approachState.payload?.approaches || [])
+    .filter((approach) => !String(approach.part_id || "").trim());
+}
+
+// 小问粒度完成度：none=无解法，draft=有草稿，approved=全部已批准冻结。
+function partTabStatus(partId) {
+  const approaches = scopedApproaches(partId);
+  if (!approaches.length) return "none";
+  return approaches.every((approach) => approach.approval) ? "approved" : "draft";
+}
+
+function partStatusChip(status) {
+  return { approved: "✓", draft: "…", none: "—" }[status] || "—";
+}
+
+function renderPartTabs() {
+  const nav = byId("part-tabs");
+  const list = byId("part-tab-list");
+  const parts = mergedParts();
+  nav.hidden = !parts.length;
+  const itemId = currentExplanationItemId();
+  if (partUiState.itemId !== itemId) {
+    partUiState.itemId = itemId;
+    partUiState.activeTab = null;
+    partUiState.selected = new Map();
+  }
+  if (parts.length && !parts.some((part) => part.part_id === partUiState.activeTab)) {
+    partUiState.activeTab = parts[0].part_id;
+  }
+  if (!parts.length) {
+    applyPartPanelVisibility();
+    return;
+  }
+  list.replaceChildren();
+  parts.forEach(({ part_id: partId, prompt }) => {
+    const status = partTabStatus(partId);
+    const tab = document.createElement("button");
+    tab.type = "button";
+    tab.className = "part-tab";
+    tab.setAttribute("role", "tab");
+    tab.setAttribute("aria-selected", String(partUiState.activeTab === partId));
+    tab.title = prompt || `第（${partId}）问`;
+    const text = document.createElement("span");
+    text.className = "part-tab-label";
+    text.textContent = `（${partId}）`;
+    const dot = document.createElement("span");
+    dot.className = `part-tab-dot is-${status}`;
+    dot.textContent = partStatusChip(status);
+    dot.title = { approved: "该问解法已全部批准", draft: "该问有解法草稿", none: "该问还没有解法" }[status];
+    tab.append(text, dot);
+    tab.addEventListener("click", () => selectPartTab(partId));
+    list.append(tab);
+  });
+  const index = parts.findIndex((part) => part.part_id === partUiState.activeTab);
+  byId("part-tab-prev").disabled = index <= 0;
+  byId("part-tab-next").disabled = index === parts.length - 1;
+  applyPartPanelVisibility();
+}
+
+// 答案卡只在无小问的题显示；多小问的答案/解答在小问栏的真值切片里。
+function applyPartPanelVisibility() {
+  const parts = mergedParts();
+  const answerCard = byId("answer-card");
+  if (answerCard) answerCard.hidden = parts.length > 0;
+  byId("part-overview-section").hidden = !currentApproachScope().part;
+  renderPartOverview();
+}
+
+function selectPartTab(key) {
+  const parts = mergedParts();
+  if (!parts.some((part) => part.part_id === key)) return;
+  if (partUiState.activeTab === key) return;
+  partUiState.activeTab = key;
+  renderPartTabs();
+  renderApproaches();
+}
+
+function navigatePartTab(delta) {
+  const parts = mergedParts();
+  if (!parts.length) return;
+  const next = parts.findIndex((part) => part.part_id === partUiState.activeTab) + delta;
+  if (next < 0 || next >= parts.length) return;
+  selectPartTab(parts[next].part_id);
+  playPageTurnSound();
+}
+
+// 当前小问的题面/真值切片（小问栏顶部固定上下文，来自 v2 切分预览）。
+function renderPartOverview() {
+  const section = byId("part-overview-section");
+  if (section.hidden) return;
+  const scope = currentApproachScope();
+  const part = scope.part;
+  const body = byId("part-overview-body");
+  body.replaceChildren();
+  if (!part) return;
+  setText("part-overview-title", `第（${part.part_id}）问`);
+  const approaches = scope.approaches;
+  const approved = approaches.filter((approach) => approach.approval).length;
+  setText(
+    "part-overview-meta",
+    approaches.length
+      ? `${approaches.length} 个解法 · ${approved} 已批准`
+      : "尚无解法",
+  );
+  byId("part-overview-meta").dataset.status = approaches.length
+    ? (approved === approaches.length ? "approved" : "draft")
+    : "none";
+  const rows = [
+    ["题面", part.prompt, "part-overview-prompt"],
+    ["答案", part.answer
+      ? `${part.answer}${part.range_constraint ? `（范围 ${part.range_constraint}）` : ""}`
+      : null, "part-overview-answer"],
+    ["解答", part.solution, "part-overview-solution"],
+  ];
+  rows.forEach(([label, value, cls]) => {
     const row = document.createElement("div");
-    row.className = "subquestion-preview-part";
-    const head = document.createElement("p");
-    head.className = "subquestion-preview-part-head";
-    head.textContent = `（${part.part_id}）${part.prompt}`;
-    const answer = document.createElement("p");
-    answer.textContent = `答案：${part.answer || "（未提取）"}${part.range_constraint ? `（范围 ${part.range_constraint}）` : ""}`;
-    const solution = document.createElement("p");
-    solution.className = "source-text";
-    solution.textContent = `解答：${part.solution || "（未提取）"}`;
-    row.append(head, answer, solution);
+    row.className = "part-overview-row";
+    const name = document.createElement("span");
+    name.className = "part-overview-row-label";
+    name.textContent = label;
+    const content = document.createElement("div");
+    content.className = `part-overview-row-body source-text ${cls || ""}`;
+    content.textContent = value ? formatReviewText(value) : "（未提取）";
+    if (!value) content.classList.add("is-missing");
+    row.append(name, content);
     body.append(row);
   });
+  scheduleExplanationsTypeset();
+}
+
+// 切分对齐告警（promote fail-closed 门禁信号）：多小问题在 tab 条上方给一条。
+function renderSubquestionPreview(item) {
+  const strip = byId("split-warnings");
+  if (!strip) return;
+  const warnings = item.subquestion_split_preview?.warnings || [];
+  strip.hidden = !warnings.length;
+  strip.textContent = warnings.length ? `小问切分未对齐（promote 将拒绝）：${warnings.join("；")}` : "";
 }
 
 function renderApproaches() {
@@ -2612,67 +2801,147 @@ function renderApproaches() {
   if (reviewerInput && !reviewerInput.value) reviewerInput.value = identity.reviewer;
   if (authorInput && !authorInput.value) authorInput.value = identity.author;
 
-  body.replaceChildren();
+  renderPartTabs();
+  const parts = mergedParts();
+  const scope = currentApproachScope();
   const question = payload.question;
   const bindingNode = byId("approach-binding");
-  const questionParts = payload.question_parts || [];
   if (bindingNode) {
     bindingNode.textContent = question
-      ? `绑定 canonical 题目：${question.artifact_id}${questionParts.length ? `（${questionParts.length} 个小问，Approach 须绑定具体小问）` : "（无小问，整题粒度）"}（批准时校验当前版本，question 漂移自动 stale）`
-      : "该题没有 canonical QuestionTruth 绑定：不能创建教学策略（仅迁移题库支持）。";
+      ? `绑定 canonical 题目：${question.artifact_id}${parts.length ? `（${parts.length} 个小问，解法按小问分栏）` : "（无小问，整题粒度）"}（批准时校验当前版本，question 漂移自动 stale）`
+      : "该题没有 canonical QuestionTruth 绑定：不能创建解法（仅迁移题库支持）。";
     bindingNode.dataset.bound = question ? "true" : "false";
   }
-  const partSelect = byId("approach-part-select");
-  if (partSelect) {
-    partSelect.hidden = !questionParts.length;
-    partSelect.replaceChildren();
-    if (questionParts.length) {
-      const placeholder = document.createElement("option");
-      placeholder.value = "";
-      placeholder.textContent = "选择小问（新建时）";
-      partSelect.append(placeholder);
-      questionParts.forEach((part) => {
-        const option = document.createElement("option");
-        option.value = part.part_id;
-        option.textContent = `（${part.part_id}）${(part.prompt || "").slice(0, 18)}`;
-        partSelect.append(option);
-      });
-    }
+  const cardTitle = byId("approach-card-title");
+  const hintNode = byId("approach-hint");
+  if (cardTitle) {
+    cardTitle.textContent = scope.part
+      ? `第（${scope.part.part_id}）问 · 解法与教学策略`
+      : "解法 · 录音与教学策略";
   }
-  const approaches = payload.approaches || [];
+  if (hintNode) {
+    hintNode.textContent = scope.part
+      ? "本解法工作区：录音 → 转写 → 润色（append-only）→ 从解答初始化教学步骤 → 编辑 goal/entry/常见错误/skill → 批准冻结 canonical。同问可并存多种解法，用上方切换器对比。"
+      : "一个解法 = 一种讲法：录音 → 转写 → 润色（append-only 修订）→ 从解答初始化教学步骤 → 编辑 goal/entry signal/常见错误/skill → 批准冻结 canonical ApprovedTeachingApproach.v2。";
+  }
+
+  body.replaceChildren();
+  const approaches = scope.approaches;
+  if (approaches.length > 1) body.append(renderApproachSwitcher(scope, approaches));
   if (!approaches.length) {
     const empty = document.createElement("p");
     empty.className = "explanation-empty";
-    empty.textContent = "还没有整题教学策略：点右上「＋ 新建教学策略」，或先在小题讲解区试讲。";
+    empty.textContent = scope.part
+      ? `第（${scope.part.part_id}）问还没有解法：点右上「＋ 新建解法」自动绑定本问。`
+      : "还没有解法：点右上「＋ 新建解法」，录第一段讲解开始。";
     body.append(empty);
+  } else {
+    body.append(renderApproachItem(pickSelectedApproach(scope, approaches), scope));
   }
-  approaches.forEach((approach) => body.append(renderApproachItem(approach)));
+
+  // ADR-005 前的整题粒度旧数据：收进底部折叠区供追溯（可补绑小问）。
+  const legacy = legacyWholeApproaches();
+  const legacyDetails = byId("whole-approach-details");
+  const legacyBody = byId("whole-approach-body");
+  if (legacyDetails && legacyBody) {
+    legacyDetails.hidden = !legacy.length;
+    legacyBody.replaceChildren();
+    if (legacy.length) {
+      setText("whole-approach-tag", `追溯 · ${legacy.length} 份 · 默认收起`);
+      const legacyScope = { key: "legacy", part: null, approaches: legacy };
+      legacy.forEach((approach) => legacyBody.append(renderApproachItem(approach, legacyScope)));
+    }
+  }
   updateApproachRecordingButtons();
   scheduleExplanationsTypeset();
 }
 
-function renderApproachItem(approach) {
+// 解法切换器：同一个小问的多种解法 segmented 切换（渐进披露第二级）。
+function renderApproachSwitcher(scope, approaches) {
+  const wrap = document.createElement("div");
+  wrap.className = "approach-switcher";
+  wrap.setAttribute("role", "tablist");
+  wrap.setAttribute("aria-label", "解法切换");
+  const selectedId = partUiState.selected.get(scope.key);
+  approaches.forEach((approach, index) => {
+    const tab = document.createElement("button");
+    tab.type = "button";
+    tab.className = "approach-switch";
+    const isSelected = approach.id === selectedId || (!selectedId && index === 0);
+    tab.setAttribute("aria-selected", String(isSelected));
+    tab.classList.toggle("is-active", isSelected);
+    if (approach.approval) tab.classList.add("is-approved");
+    const label = document.createElement("span");
+    label.className = "approach-switch-label";
+    label.textContent = `解法 ${index + 1}`;
+    const title = document.createElement("span");
+    title.className = "approach-switch-title";
+    title.textContent = approach.title || "未命名";
+    tab.append(label, title);
+    tab.addEventListener("click", () => {
+      partUiState.selected.set(scope.key, approach.id);
+      renderApproaches();
+    });
+    wrap.append(tab);
+  });
+  return wrap;
+}
+
+function pickSelectedApproach(scope, approaches) {
+  const selectedId = partUiState.selected.get(scope.key);
+  const found = approaches.find((approach) => approach.id === selectedId) || approaches[0];
+  partUiState.selected.set(scope.key, found.id);
+  return found;
+}
+
+// 分区小标题：录音 / 润色稿 / 策略定义 等区块统一视觉层级。
+function approachSubhead(title, note) {
+  const head = document.createElement("div");
+  head.className = "approach-subhead";
+  const name = document.createElement("span");
+  name.className = "approach-subhead-title";
+  name.textContent = title;
+  head.append(name);
+  if (note) {
+    const meta = document.createElement("span");
+    meta.className = "approach-subhead-note";
+    meta.textContent = note;
+    head.append(meta);
+  }
+  return head;
+}
+
+function renderApproachItem(approach, scopeOverride) {
   const card = document.createElement("article");
   card.className = "approach-item";
   card.dataset.approachId = approach.id;
 
+  // ── 头部：标题 + 状态 chips + 操作 ──────────────────────────────
   const head = document.createElement("div");
-  head.className = "explanation-approach-head";
+  head.className = "approach-item-head";
+  const main = document.createElement("div");
+  main.className = "approach-item-main";
   const title = document.createElement("input");
   title.type = "text";
   title.className = "approach-title-input";
   title.value = approach.title || "";
-  title.setAttribute("aria-label", "教学策略标题（失焦保存）");
+  title.placeholder = "解法标题（如：作高数值化 + 同正切证等角）";
+  title.setAttribute("aria-label", "解法标题（失焦保存）");
   title.addEventListener("blur", () => {
     if (title.value.trim() && title.value.trim() !== approach.title) {
       void saveApproachField(approach.id, { title: title.value.trim() });
     }
   });
-  const status = badge(approachStatusLabel(approach), "chip-explanation-status");
-  const authorChip = badge(`作者 ${approach.author || "?"}`, "chip-source");
-  head.append(title, status, authorChip);
-  const questionParts = approachState.payload?.question_parts || [];
-  if (questionParts.length) {
+  const chips = document.createElement("div");
+  chips.className = "approach-item-chips";
+  chips.append(badge(approachStatusLabel(approach), "chip-explanation-status"));
+  chips.append(badge(`作者 ${approach.author || "?"}`, "chip-source"));
+  const scope = scopeOverride || currentApproachScope();
+  const parts = mergedParts();
+  if (scope.part) {
+    chips.append(badge(`第（${scope.part.part_id}）问`, "chip-blueprint"));
+  } else if (parts.length) {
+    // 旧粒度解法（无 part 绑定）：允许补绑小问。
     const partSelect = document.createElement("select");
     partSelect.className = "approach-part-select";
     partSelect.setAttribute("aria-label", "绑定小问");
@@ -2680,7 +2949,7 @@ function renderApproachItem(approach) {
     emptyOption.value = "";
     emptyOption.textContent = "未选小问";
     partSelect.append(emptyOption);
-    questionParts.forEach((part) => {
+    parts.forEach((part) => {
       const option = document.createElement("option");
       option.value = part.part_id;
       option.textContent = `第（${part.part_id}）问`;
@@ -2691,23 +2960,21 @@ function renderApproachItem(approach) {
     partSelect.addEventListener("change", () => {
       void saveApproachField(approach.id, { part_id: partSelect.value });
     });
-    head.append(partSelect);
+    chips.append(partSelect);
   } else if (approach.part_id) {
-    head.append(badge(`第（${approach.part_id}）问`, "chip-source"));
+    chips.append(badge(`第（${approach.part_id}）问`, "chip-blueprint"));
   }
-
   const canonical = approach.canonical;
   if (canonical) {
-    head.append(badge(
+    chips.append(badge(
       `canonical ${canonical.artifact_id}@${canonical.version} · ${String(canonical.content_hash).slice(0, 14)}…`,
       "chip-blueprint",
     ));
   }
-  card.append(head);
+  main.append(title, chips);
 
-  // 录音按钮 + 证据链（音频回放 + 转写稿 + 润色稿，全部 append-only）
   const actions = document.createElement("div");
-  actions.className = "explanation-approach-actions";
+  actions.className = "explanation-approach-actions approach-item-actions";
   const recordButton = document.createElement("button");
   recordButton.type = "button";
   recordButton.className = "explanation-record-button approach-record-button";
@@ -2716,49 +2983,53 @@ function renderApproachItem(approach) {
   recordButton.addEventListener("click", () => {
     void toggleApproachRecording(approach.id);
   });
-  actions.append(recordButton);
-
   const initStepsButton = ghostButton("从解答初始化步骤");
   initStepsButton.addEventListener("click", () => {
     void initApproachStepsAction(approach.id, initStepsButton);
   });
-  actions.append(initStepsButton);
-
   const approveButton = ghostButton("批准冻结 canonical", "approve-button");
   approveButton.addEventListener("click", () => {
     void approveApproachFreezeAction(approach.id, approveButton);
   });
-  actions.append(approveButton);
-
   const deleteButton = ghostButton("删除", "reject-button");
   deleteButton.addEventListener("click", () => {
     void deleteTeachingApproachAction(approach.id);
   });
-  actions.append(deleteButton);
-  card.append(actions);
+  actions.append(recordButton, initStepsButton, approveButton, deleteButton);
+  head.append(main, actions);
+  card.append(head);
 
+  // ── 讲解录音（append-only 证据链）──────────────────────────────
   const evidence = approach.evidence || {};
   const recordings = evidence.recordings || [];
+  const evidenceBlock = document.createElement("section");
+  evidenceBlock.className = "approach-section";
+  evidenceBlock.append(approachSubhead(
+    "讲解录音",
+    `append-only · ${recordings.length} 个修订 · 润色 ${(evidence.polishes || []).length} 次 · 人工编辑 ${(evidence.manual_edit_notes || []).length} 条`,
+  ));
   if (recordings.length) {
-    const evidenceBlock = document.createElement("div");
-    evidenceBlock.className = "approach-evidence";
-    const evidenceHead = document.createElement("p");
-    evidenceHead.className = "approach-evidence-head";
-    evidenceHead.textContent = `证据链（append-only）：录音 ${recordings.length} 个修订 · 润色 ${(evidence.polishes || []).length} 个修订 · 人工编辑痕迹 ${(evidence.manual_edit_notes || []).length} 条`;
-    evidenceBlock.append(evidenceHead);
-    for (const entry of recordings) {
+    const list = document.createElement("div");
+    list.className = "approach-evidence";
+    for (const entry of recordings.slice().reverse()) {
       const row = document.createElement("div");
       row.className = "approach-recording";
+      const meta = document.createElement("div");
+      meta.className = "approach-recording-meta";
+      const rev = badge(`r${entry.revision}`, "chip-blueprint");
+      const label = document.createElement("span");
+      label.className = "approach-recording-label";
+      label.textContent = `${entry.recorded_at || ""} · ${Math.max(1, Math.round((entry.audio_bytes || 0) / 1024))}KB`;
+      meta.append(rev, label);
       const audio = document.createElement("audio");
       audio.controls = true;
       audio.preload = "none";
       const bankId = state.detail?.id;
       const itemId = currentApproachItemId();
       audio.src = `${approachEndpoint(bankId, itemId)}/approaches/${encodeURIComponent(approach.id)}/audio/${entry.revision}`;
-      const label = document.createElement("span");
-      label.className = "approach-recording-label";
-      label.textContent = `r${entry.revision} · ${entry.recorded_at || ""} · ${Math.max(1, Math.round((entry.audio_bytes || 0) / 1024))}KB`;
-      row.append(label, audio);
+      const body = document.createElement("div");
+      body.className = "approach-recording-body";
+      body.append(audio);
       if (entry.transcript) {
         const details = document.createElement("details");
         details.className = "explanation-transcript";
@@ -2767,28 +3038,57 @@ function renderApproachItem(approach) {
         const transcript = document.createElement("pre");
         transcript.textContent = entry.transcript;
         details.append(summary, transcript);
-        row.append(details);
+        body.append(details);
       }
-      evidenceBlock.append(row);
+      row.append(meta, body);
+      list.append(row);
     }
-    card.append(evidenceBlock);
+    evidenceBlock.append(list);
+  } else {
+    const empty = document.createElement("p");
+    empty.className = "explanation-empty";
+    empty.textContent = "还没有录音证据：点「● 录讲解」口述本解法，停止后自动转写。";
+    evidenceBlock.append(empty);
   }
+  card.append(evidenceBlock);
+
+  // ── 润色稿 ────────────────────────────────────────────────────
+  const polishBlock = document.createElement("section");
+  polishBlock.className = "approach-section";
+  polishBlock.append(approachSubhead("润色稿", "最新修订 · 供对照（只读，随润色动作更新）"));
   if (approach.polished_text) {
     const details = document.createElement("details");
-    details.className = "explanation-transcript";
+    details.open = true;
+    details.className = "approach-polished";
     const summary = document.createElement("summary");
-    summary.textContent = "润色稿（最新，供对照编辑）";
-    const polished = document.createElement("pre");
-    polished.textContent = approach.polished_text;
+    summary.textContent = "展开 / 收起润色稿";
+    const polished = document.createElement("div");
+    polished.className = "source-text approach-polished-view";
+    // 显示级转换：去掉 markdown 强调号，保留 TeX 交给 MathJax。
+    polished.textContent = String(approach.polished_text).replace(/\*\*/g, "");
     details.append(summary, polished);
-    card.append(details);
+    polishBlock.append(details);
+  } else {
+    const empty = document.createElement("p");
+    empty.className = "explanation-empty";
+    empty.textContent = "尚无润色稿：录音转写后自动生成，或在「整题」tab 用旧版润色稿对照。";
+    polishBlock.append(empty);
   }
+  card.append(polishBlock);
 
-  // goal / entry signal（P3-06）
-  card.append(renderApproachTextField(approach, "goal", "教学目标（goal）", "这一题想让学生学会什么思路？"));
-  card.append(renderApproachTextField(approach, "entry_signal", "入口信号（entry signal）", "学生从哪个条件切入？", true));
+  // ── 策略定义：goal / entry signal（P3-06）─────────────────────
+  const metaBlock = document.createElement("section");
+  metaBlock.className = "approach-section";
+  metaBlock.append(approachSubhead("策略定义"));
+  const metaGrid = document.createElement("div");
+  metaGrid.className = "approach-meta-grid";
+  const goalWrap = renderApproachTextField(approach, "goal", "教学目标（goal）", "这一题想让学生学会什么思路？");
+  const entryWrap = renderApproachTextField(approach, "entry_signal", "入口信号（entry signal）", "学生从哪个条件切入？", true);
+  metaGrid.append(goalWrap, entryWrap);
+  metaBlock.append(metaGrid);
+  card.append(metaBlock);
 
-  // TeachingStep 编辑器（P3-05/P3-06）
+  // ── 教学步骤（TeachingStep，P3-05/P3-06）──────────────────────
   const stepsBlock = document.createElement("div");
   stepsBlock.className = "approach-steps";
   const stepsHead = document.createElement("div");
@@ -2796,6 +3096,8 @@ function renderApproachItem(approach) {
   const stepsTitle = document.createElement("strong");
   stepsTitle.textContent = "教学步骤（TeachingStep）";
   const originChip = badge(APPROACH_ORIGIN_LABELS[approach.steps_origin] || approach.steps_origin, "chip-source");
+  const stepsTools = document.createElement("div");
+  stepsTools.className = "explanations-actions";
   const addStepButton = ghostButton("＋ 加一步");
   addStepButton.addEventListener("click", () => {
     void addApproachStepAction(approach.id);
@@ -2804,7 +3106,8 @@ function renderApproachItem(approach) {
   saveStepsButton.addEventListener("click", () => {
     void saveApproachStepsAction(approach.id, stepsBlock, saveStepsButton);
   });
-  stepsHead.append(stepsTitle, originChip, addStepButton, saveStepsButton);
+  stepsTools.append(addStepButton, saveStepsButton);
+  stepsHead.append(stepsTitle, originChip, stepsTools);
   stepsBlock.append(stepsHead);
   (approach.steps || []).forEach((step, index) => {
     stepsBlock.append(renderApproachStepEditor(approach, step, index));
@@ -2824,6 +3127,66 @@ function renderApproachItem(approach) {
   return card;
 }
 
+// TeX 字段「渲染态 ⇄ 编辑态」：平时用 MathJax 渲染 $...$，点击渲染块进入原始
+// TeX 编辑（textarea/input），失焦走原有保存链路后回到渲染态；Esc 还原放弃编辑。
+// 输入框常驻 DOM（仅 CSS 隐藏），collectStepsFromDom 等按 .value 读取不受影响。
+function texEditField(config) {
+  const wrap = document.createElement("div");
+  wrap.className = "tex-field";
+  let input;
+  if (config.singleLine) {
+    input = document.createElement("input");
+    input.type = "text";
+  } else {
+    input = document.createElement("textarea");
+    input.rows = config.rows || 3;
+  }
+  input.className = config.className || "";
+  input.value = config.value || "";
+  if (config.placeholder) input.placeholder = config.placeholder;
+  input.setAttribute("aria-label", config.ariaLabel || `${config.label || "字段"}（原始 TeX 编辑）`);
+
+  const view = document.createElement("div");
+  view.className = "tex-field-view source-text";
+  view.tabIndex = 0;
+  view.setAttribute("role", "button");
+  view.setAttribute("aria-label", `${config.label || "字段"}（已渲染，点击编辑原始 TeX）`);
+  const refreshView = () => {
+    const raw = String(input.value ?? "");
+    const display = config.displayTransform ? config.displayTransform(raw) : formatReviewText(raw);
+    view.textContent = raw.trim() ? display : (config.emptyHint || "点击填写");
+    view.classList.toggle("is-empty", !raw.trim());
+  };
+  refreshView();
+
+  const enterEdit = () => {
+    if (wrap.classList.contains("is-editing")) return;
+    wrap.classList.add("is-editing");
+    input.focus();
+  };
+  view.addEventListener("click", enterEdit);
+  view.addEventListener("keydown", (event) => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      enterEdit();
+    }
+  });
+  input.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      input.value = config.value || "";
+      input.blur();
+    }
+  });
+  input.addEventListener("blur", () => {
+    wrap.classList.remove("is-editing");
+    refreshView();
+    if (config.onBlur) config.onBlur(input.value);
+    scheduleExplanationsTypeset();
+  });
+  wrap.append(view, input);
+  return wrap;
+}
+
 function renderApproachTextField(approach, field, labelText, placeholder, singleLine = false) {
   const block = document.createElement("div");
   block.className = "explanation-field";
@@ -2833,25 +3196,37 @@ function renderApproachTextField(approach, field, labelText, placeholder, single
   label.className = "explanation-field-label";
   label.textContent = labelText;
   head.append(label);
-  let input;
-  if (singleLine) {
-    input = document.createElement("input");
-    input.type = "text";
-  } else {
-    input = document.createElement("textarea");
-    input.rows = 2;
-  }
-  input.className = "explanation-textarea approach-field-input";
-  input.value = approach[field] || "";
-  input.placeholder = placeholder || "";
-  input.setAttribute("aria-label", `${labelText}（失焦保存）`);
-  input.addEventListener("blur", () => {
-    const before = approach[field] || "";
-    if (input.value.trim() === before.trim()) return;
-    void saveApproachField(approach.id, { [field]: input.value });
-  });
-  block.append(head, input);
+  block.append(head, texEditField({
+    className: "explanation-textarea approach-field-input",
+    value: approach[field] || "",
+    placeholder,
+    singleLine,
+    rows: 2,
+    label: labelText,
+    ariaLabel: `${labelText}（失焦保存）`,
+    emptyHint: placeholder || "点击填写",
+    onBlur: (value) => {
+      const before = approach[field] || "";
+      if (value.trim() === before.trim()) return;
+      void saveApproachField(approach.id, { [field]: value });
+    },
+  }));
   return block;
+}
+
+// 批准门禁要求的四个字段（intent/narration/reasoning/skill）；折叠区外可见齐全度。
+const STEP_REQUIRED_FIELDS = [
+  ["intent", "意图"],
+  ["narration", "讲解词"],
+  ["expected_student_reasoning", "期望推理"],
+  ["skill_ids", "skill"],
+];
+
+function stepMissingLabels(step) {
+  return STEP_REQUIRED_FIELDS.filter(([field]) => {
+    if (field === "skill_ids") return !(step.skill_ids || []).length;
+    return !String(step[field] || "").trim();
+  }).map(([, label]) => label);
 }
 
 function renderApproachStepEditor(approach, step, index) {
@@ -2860,41 +3235,71 @@ function renderApproachStepEditor(approach, step, index) {
   wrap.dataset.stepIndex = String(index);
   const head = document.createElement("div");
   head.className = "approach-step-head";
-  const idLabel = document.createElement("strong");
+  const idLabel = document.createElement("span");
+  idLabel.className = "approach-step-index";
   idLabel.textContent = step.step_id || `S${index + 1}`;
+  const intentInput = document.createElement("input");
+  intentInput.type = "text";
+  intentInput.className = "approach-step-intent approach-step-inline-input";
+  intentInput.value = step.intent || "";
+  intentInput.placeholder = "本步教学意图（如：作高数值化 BC 侧）";
+  intentInput.setAttribute("aria-label", `第 ${index + 1} 步教学意图`);
   const origin = badge(APPROACH_ORIGIN_LABELS[step.origin] || step.origin || "manual", "chip-source");
-  const removeButton = ghostButton("移除本步", "reject-button");
+  const removeButton = ghostButton("移除", "reject-button");
+  removeButton.className += " approach-step-remove";
   removeButton.addEventListener("click", () => {
     void removeApproachStepAction(approach.id, index);
   });
-  head.append(idLabel, origin, removeButton);
+  head.append(idLabel, intentInput, origin, removeButton);
   wrap.append(head);
 
+  const narrationBlock = document.createElement("div");
+  narrationBlock.className = "approach-step-field";
+  const narrationLabel = document.createElement("label");
+  narrationLabel.textContent = "讲解词（narration）";
+  narrationBlock.append(narrationLabel, texEditField({
+    className: "approach-step-narration",
+    value: step.narration || "",
+    placeholder: "对学生说的话（支持 LaTeX）",
+    rows: 3,
+    label: "讲解词",
+    emptyHint: "点击填写讲解词（支持 LaTeX）",
+    ariaLabel: `第 ${index + 1} 步讲解词（原始 TeX，「保存全部步骤」时保存）`,
+  }));
+  wrap.append(narrationBlock);
+
+  // 次级字段折叠：期望推理 / 等价路径 / 常见错误 / skill refs。
+  // 摘要行直接给「缺什么」，不全打开也能看到门禁缺口。
+  const more = document.createElement("details");
+  more.className = "approach-step-more";
+  const summary = document.createElement("summary");
+  const missing = stepMissingLabels(step);
+  const chip = document.createElement("span");
+  chip.className = missing.length ? "approach-step-complete is-missing" : "approach-step-complete is-ok";
+  chip.textContent = missing.length ? `缺 ${missing.join("、")}` : "字段齐全 ✓";
+  summary.append(document.createTextNode("推理 · 等价 · 易错 · skill　"), chip);
+  more.append(summary);
+
   const fields = [
-    ["intent", "教学意图（intent）", true],
-    ["narration", "讲解词（narration）", false],
-    ["expected_student_reasoning", "期望学生推理", false],
-    ["accepted_alternatives", "可接受等价路径（每行一条）", false],
-    ["common_errors", "常见错误（每行一条）", false],
+    ["expected_student_reasoning", "期望学生推理", "期望学生能说出的推理（支持 LaTeX）"],
+    ["accepted_alternatives", "可接受等价路径（每行一条）", "每行一条等价路径"],
+    ["common_errors", "常见错误（每行一条）", "每行一条常见错误"],
   ];
-  for (const [field, labelText, singleLine] of fields) {
+  for (const [field, labelText, placeholder] of fields) {
     const fieldBlock = document.createElement("div");
     fieldBlock.className = "approach-step-field";
     const label = document.createElement("label");
     label.textContent = labelText;
-    let input;
-    if (singleLine) {
-      input = document.createElement("input");
-      input.type = "text";
-    } else {
-      input = document.createElement("textarea");
-      input.rows = 2;
-    }
-    input.className = `approach-step-${field}`;
     const value = step[field];
-    input.value = Array.isArray(value) ? value.join("\n") : value || "";
-    fieldBlock.append(label, input);
-    wrap.append(fieldBlock);
+    fieldBlock.append(label, texEditField({
+      className: `approach-step-${field}`,
+      value: Array.isArray(value) ? value.join("\n") : value || "",
+      placeholder,
+      rows: 2,
+      label: labelText,
+      ariaLabel: `第 ${index + 1} 步${labelText}（原始 TeX，「保存全部步骤」时保存）`,
+    }));
+    more.append(fieldBlock);
   }
   const skillBlock = document.createElement("div");
   skillBlock.className = "approach-step-field";
@@ -2903,6 +3308,8 @@ function renderApproachStepEditor(approach, step, index) {
   skillBlock.append(skillLabel);
   const skillIds = approachState.payload?.topic_skill_ids || [];
   const selected = new Set(step.skill_ids || []);
+  const skillRow = document.createElement("div");
+  skillRow.className = "approach-skill-row";
   for (const skillId of skillIds) {
     const checkboxLabel = document.createElement("label");
     checkboxLabel.className = "approach-skill-option";
@@ -2912,9 +3319,11 @@ function renderApproachStepEditor(approach, step, index) {
     checkbox.checked = selected.has(skillId);
     checkbox.className = "approach-step-skill";
     checkboxLabel.append(checkbox, document.createTextNode(` ${skillId}`));
-    skillBlock.append(checkboxLabel);
+    skillRow.append(checkboxLabel);
   }
-  wrap.append(skillBlock);
+  skillBlock.append(skillRow);
+  more.append(skillBlock);
+  wrap.append(more);
   return wrap;
 }
 
@@ -3014,12 +3423,14 @@ async function createApproachTeachingAction() {
   const bankId = state.detail?.id;
   const itemId = currentApproachItemId();
   if (!bankId || !itemId) return;
-  const title = window.prompt("教学策略标题（如：从公共角正推）");
+  const title = window.prompt("解法标题（如：作高数值化 + 同正切证等角）");
   if (!title || !title.trim()) return;
   const author = authorInputValue();
-  const partId = (byId("approach-part-select")?.value || "").trim();
+  // 小问栏内新建 → 自动绑定当前问（ADR-005）；无小问的题为整题粒度。
+  const scope = currentApproachScope();
+  const partId = scope.part ? scope.part.part_id : "";
   if ((approachState.payload?.question_parts || []).length && !partId) {
-    approachMessageNode(byId("approach-card"), "该题含小问：新建教学策略前请先在「选择小问」下拉中选定小问（ADR-005 part 绑定）。", "error");
+    approachMessageNode(byId("approach-card"), "该题含小问：请在对应小问栏内新建解法（自动绑定）。", "error");
     return;
   }
   saveApproachIdentity(author, reviewerInputValue());
@@ -3029,7 +3440,11 @@ async function createApproachTeachingAction() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ title: title.trim(), author, part_id: partId }),
     });
-    if (approachState.itemId === itemId) applyApproachPayload(payload);
+    if (approachState.itemId === itemId) {
+      const created = (payload.approaches || [])[(payload.approaches || []).length - 1];
+      partUiState.selected.set(scope.key, created?.id || null);
+      applyApproachPayload(payload);
+    }
   } catch (error) {
     approachMessageNode(byId("approach-card"), `新建失败：${error.message}`, "error");
   }
@@ -3248,5 +3663,7 @@ async function uploadApproachRecording(meta, blob) {
 }
 
 byId("approach-create").addEventListener("click", () => void createApproachTeachingAction());
+byId("part-tab-prev").addEventListener("click", () => navigatePartTab(-1));
+byId("part-tab-next").addEventListener("click", () => navigatePartTab(1));
 
 loadBanks();

@@ -108,10 +108,11 @@ select:focus-visible, button:focus-visible, textarea:focus-visible, .question-ro
 .image-section.is-empty .preview-well:hover { border-color: var(--accent); background: #eef7f1; }
 .image-section.is-empty.is-selected .preview-well { border-color: var(--accent); background: #eef7f1; box-shadow: 0 0 0 3px rgba(35, 100, 77, .17), 0 8px 20px rgba(35, 100, 77, .12); }
 .image-section.has-images .preview-well { border-style: solid; border-color: transparent; background: transparent; min-height: 0; padding: 0; }
-.image-section.has-images { cursor: pointer; }
-.image-section.has-images .preview-well::after { content: "＋ 追加图片 · 选中后 ⌘V"; display: block; grid-column: 1 / -1; margin-top: 4px; padding: 8px 12px; border: 2px dashed #9eb9aa; border-radius: 10px; background: #f7fbf8; color: var(--accent); font-size: 12px; font-weight: 750; text-align: center; transition: border-color .15s ease, background .15s ease; }
-.image-section.has-images.is-single .preview-well::after { content: "点击题图可替换 · 选中后 ⌘V"; border-style: solid; border-color: var(--line); background: white; color: var(--muted); }
-.image-section.has-images .preview-well:hover::after { border-color: var(--accent); background: #eef7f1; }
+/* 追加/替换编辑提示仅对可编辑（staging）section 开放；formal 只读图卡不显示。 */
+.image-section.has-images.is-editable { cursor: pointer; }
+.image-section.has-images.is-editable .preview-well::after { content: "＋ 追加图片 · 选中后 ⌘V"; display: block; grid-column: 1 / -1; margin-top: 4px; padding: 8px 12px; border: 2px dashed #9eb9aa; border-radius: 10px; background: #f7fbf8; color: var(--accent); font-size: 12px; font-weight: 750; text-align: center; transition: border-color .15s ease, background .15s ease; }
+.image-section.has-images.is-editable.is-single .preview-well::after { content: "点击题图可替换 · 选中后 ⌘V"; border-style: solid; border-color: var(--line); background: white; color: var(--muted); }
+.image-section.has-images.is-editable .preview-well:hover::after { border-color: var(--accent); background: #eef7f1; }
 .preview-card { position: relative; min-width: 0; margin: 0; padding: 12px; border: 1px solid var(--line); border-radius: 10px; background: #fffefa; cursor: pointer; transition: border-color .15s ease, box-shadow .15s ease, background .15s ease; }
 .preview-card img { width: 100%; }
 .preview-card figcaption { margin-top: 9px; color: var(--muted); font-size: 12px; font-weight: 750; text-align: center; }
@@ -204,6 +205,12 @@ select:focus-visible, button:focus-visible, textarea:focus-visible, .question-ro
   .source-lightbox-nav { width: 38px; min-width: 38px; min-height: 38px; }
   .source-lightbox-open img { max-height: 56vh; }
   .review-dialog-form { padding: 20px; }
+  .part-tabs { margin-left: 16px; margin-right: 16px; }
+  .legacy-details { margin-left: 16px; margin-right: 16px; }
+  .approach-item-head { flex-direction: column; }
+  .approach-item-actions { margin-left: 0; }
+  .approach-recording { grid-template-columns: 1fr; }
+  .approach-steps-head .explanations-actions { margin-left: 0; }
 }
 
 /* ---- 小题讲解 / 解答 ---- */
@@ -237,7 +244,23 @@ select:focus-visible, button:focus-visible, textarea:focus-visible, .question-ro
 .explanation-field-head { display: flex; align-items: center; gap: 8px; }
 .explanation-field-label { color: var(--muted); font-size: 12px; font-weight: 800; letter-spacing: .08em; }
 .explanation-textarea { display: block; width: 100%; margin-top: 4px; padding: 9px 11px; font-size: 14px; line-height: 1.65; resize: vertical; }
-.explanation-preview { margin-top: 6px; padding: 8px 10px; border-left: 3px solid var(--line); color: var(--ink); font-size: 13px; white-space: pre-wrap; background: rgba(251, 250, 246, .7); border-radius: 0 8px 8px 0; }
+/* TeX 字段：渲染态（MathJax 排版）⇄ 编辑态（原始 TeX 输入框）。 */
+.tex-field { display: grid; }
+.tex-field-view {
+  position: relative; min-height: 42px; padding: 9px 12px;
+  border: 1px solid transparent; border-radius: 9px;
+  background: #fdfcf8; cursor: text;
+  font-size: 13.5px; line-height: 1.75;
+}
+.tex-field-view:hover, .tex-field-view:focus-visible { border-color: #9eb9aa; background: #f7fbf8; outline: none; }
+.tex-field-view:hover::after, .tex-field-view:focus-visible::after {
+  content: "✎ 编辑 TeX"; margin-left: 10px; color: var(--accent); font-size: 11px; font-weight: 800; white-space: nowrap;
+}
+.tex-field-view.is-empty { border-style: dashed; border-color: #cfc8b8; color: var(--muted); font-size: 12.5px; }
+.tex-field-view.is-empty:hover::after, .tex-field-view.is-empty:focus-visible::after { content: "✎ 填写"; }
+.tex-field > textarea, .tex-field > input { display: none; }
+.tex-field.is-editing > textarea, .tex-field.is-editing > input { display: block; }
+.tex-field.is-editing > .tex-field-view { display: none; }
 .explanation-transcript { margin: 8px 0 0; font-size: 12.5px; }
 .explanation-transcript summary { color: var(--muted); cursor: pointer; font-weight: 700; }
 .explanation-transcript pre { margin: 6px 0 0; padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; background: #f7f5ee; color: var(--muted); white-space: pre-wrap; }
@@ -246,7 +269,84 @@ select:focus-visible, button:focus-visible, textarea:focus-visible, .question-ro
 .explanation-message[data-tone="error"] { color: var(--danger); font-weight: 700; }
 .question-row.needs-explanations { border-style: dashed; }
 
-/* 教学策略 TeachingApproach（Phase 3） */
+/* ---- 小问栏：题目/题图之下承载该问全部信息 ---- */
+.part-tabs {
+  display: flex; align-items: center; gap: 10px;
+  margin: 16px 22px 10px; padding: 8px;
+  border: 1px solid var(--line); border-radius: 12px; background: #f6f3ea;
+}
+.part-tab-list { display: flex; gap: 6px; flex: 1; overflow-x: auto; min-width: 0; }
+.part-tab-nav {
+  flex: 0 0 auto; width: 34px; min-width: 34px; min-height: 34px; padding: 0;
+  border-radius: 50%; background: white; color: var(--accent); font-size: 12px;
+}
+.part-tab-nav:hover:enabled { border-color: var(--accent); background: var(--accent-soft); }
+.part-tab {
+  display: inline-flex; align-items: center; gap: 7px; flex: 0 0 auto;
+  min-height: 36px; padding: 6px 14px;
+  border: 1px solid var(--line); border-radius: 999px;
+  background: white; color: var(--muted); font-size: 14px; font-weight: 750;
+  white-space: nowrap;
+}
+.part-tab:hover { border-color: #8eb09c; color: var(--ink); }
+.part-tab[aria-selected="true"] {
+  border-color: var(--accent); background: var(--accent-soft); color: var(--accent);
+  box-shadow: inset 0 0 0 1px var(--accent);
+}
+.part-tab-dot {
+  display: inline-grid; place-items: center; min-width: 18px; height: 18px; padding: 0 4px;
+  border-radius: 999px; font-size: 11px; font-weight: 800; line-height: 1;
+}
+.part-tab-dot.is-approved { background: #d9ebdf; color: var(--accent); }
+.part-tab-dot.is-draft { background: #f6efdd; color: #6b5316; }
+.part-tab-dot.is-none { background: #eeeae0; color: #9a958a; }
+
+/* 小问栏容器：真值切片 + 解法工作区合成一个面板 */
+.part-panel-workspace {
+  margin: 0 22px;
+  border: 1px solid var(--line); border-radius: 14px;
+  background: white; overflow: hidden;
+  box-shadow: 0 2px 8px rgba(48, 43, 34, .05);
+}
+
+/* 切分对齐告警（promote fail-closed 门禁信号）*/
+.split-warnings {
+  margin: 16px 22px 0; padding: 10px 14px;
+  border: 1px solid #d4a33e; border-radius: 10px;
+  background: #fff5d8; color: #765617; font-size: 13px; font-weight: 600;
+}
+
+/* ---- 小问真值切片（小问栏顶部固定上下文）---- */
+.part-overview { padding: 14px 18px 6px; border-bottom: 1px solid var(--line); background: #fbfaf4; }
+.part-overview .section-head { margin-bottom: 8px; }
+.part-overview-meta { padding: 5px 10px; border: 1px solid var(--line); border-radius: 999px; background: white; color: var(--muted); font-size: 12px; font-weight: 750; }
+.part-overview-meta[data-status="approved"] { border-color: #8db49e; color: var(--accent); background: var(--accent-soft); }
+.part-overview-meta[data-status="draft"] { border-color: #d4b36d; color: #6b5316; background: #fff5d8; }
+.part-overview-row { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 10px; padding: 9px 0; border-bottom: 1px dashed var(--line); }
+.part-overview-row:last-child { border-bottom: none; }
+.part-overview-row-label { color: var(--muted); font-size: 12px; font-weight: 800; letter-spacing: .08em; padding-top: 3px; }
+.part-overview-row-body { font-size: 14px; }
+.part-overview-row-body.is-missing { color: #b08900; font-size: 12.5px; }
+.part-overview-answer { color: var(--accent); font-weight: 800; }
+
+/* ---- 旧版讲解 sidecar / 整题粒度旧解法 折叠收纳 ---- */
+.legacy-details { margin: 20px 22px 0; border: 1px dashed var(--line); border-radius: 12px; background: rgba(248, 245, 237, .55); }
+#whole-approach-body { padding: 4px 16px 14px; display: grid; gap: 10px; }
+.legacy-details-summary {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 12px 16px; cursor: pointer; list-style: none;
+}
+.legacy-details-summary::-webkit-details-marker { display: none; }
+.legacy-details-summary::before { content: "▸"; color: var(--muted); font-size: 13px; transition: transform .15s ease; }
+.legacy-details[open] .legacy-details-summary::before { transform: rotate(90deg); }
+.legacy-details-title { display: flex; align-items: baseline; gap: 10px; }
+.legacy-details-title h3 { margin: 0; font-size: 14px; color: var(--muted); }
+.legacy-details-tag { flex: 0 0 auto; padding: 3px 9px; border-radius: 999px; background: #eeeae0; color: #9a958a; font-size: 11px; font-weight: 750; }
+.legacy-details[open] .legacy-details-title h3 { color: var(--ink); }
+
+/* ---- 教学策略 TeachingApproach（Phase 3）---- */
+.approach-card { padding: 14px 18px 18px; }
+.approach-card .section-head { margin-bottom: 8px; }
 .approach-card .explanations-actions input[type="text"] {
   min-height: 34px; padding: 5px 10px; border: 1px solid var(--line); border-radius: 8px;
   background: white; font-size: 13px; min-width: 150px;
@@ -254,56 +354,116 @@ select:focus-visible, button:focus-visible, textarea:focus-visible, .question-ro
 .approach-binding { margin: 6px 0 0; color: var(--muted); font-size: 12.5px; }
 .approach-binding[data-bound="true"] { color: var(--accent); font-weight: 700; }
 .approach-binding[data-bound="false"] { color: var(--danger); font-weight: 700; }
+
+/* 解法切换器（渐进披露二级）：同问多解法 segmented 对比。 */
+.approach-switcher { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+.approach-switch {
+  display: inline-flex; align-items: baseline; gap: 8px; flex: 0 1 auto;
+  min-height: 38px; padding: 7px 14px;
+  border: 1px solid var(--line); border-radius: 10px; background: white;
+  max-width: 100%;
+}
+.approach-switch:hover:enabled { border-color: #8eb09c; }
+.approach-switch.is-active { border-color: var(--accent); background: var(--accent-soft); box-shadow: inset 0 0 0 1px var(--accent); }
+.approach-switch-label { flex: 0 0 auto; color: var(--muted); font-size: 12px; font-weight: 800; }
+.approach-switch.is-active .approach-switch-label { color: var(--accent); }
+.approach-switch-title {
+  min-width: 0; max-width: 260px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  font-size: 13px; font-weight: 700; color: var(--ink);
+}
+.approach-switch.is-approved .approach-switch-title::after { content: " ✓"; color: var(--accent); font-weight: 800; }
+
+/* 解法卡：头部（标题 + chips + 操作）→ 录音 → 润色稿 → 策略定义 → 教学步骤。 */
 .approach-item {
-  border: 1px solid var(--line); border-radius: 10px; padding: 12px; margin: 10px 0;
-  background: #fffdf7; display: grid; gap: 10px;
+  border: 1px solid var(--line); border-radius: 14px; padding: 0; margin: 0;
+  background: white; display: grid; gap: 0; overflow: hidden;
+  box-shadow: 0 2px 8px rgba(48, 43, 34, .05);
 }
+.approach-item-head {
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 14px;
+  padding: 14px 16px; border-bottom: 1px solid var(--line);
+  background: #fbfaf4;
+}
+.approach-item-main { display: grid; gap: 8px; min-width: 0; flex: 1 1 320px; }
 .approach-title-input {
-  min-height: 34px; padding: 5px 10px; border: 1px solid var(--line); border-radius: 8px;
-  background: white; font-size: 14px; font-weight: 750; min-width: 220px;
+  min-height: 38px; padding: 6px 11px; border: 1px solid var(--line); border-radius: 8px;
+  background: white; font-size: 14.5px; font-weight: 750; width: 100%;
 }
+.approach-item-chips { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.approach-item-actions { margin-left: auto; flex: 0 0 auto; }
+.approach-section { padding: 13px 16px 4px; border-bottom: 1px solid #ece7db; }
+.approach-section:last-of-type { border-bottom: none; }
+.approach-subhead { display: flex; align-items: baseline; gap: 10px; margin-bottom: 9px; }
+.approach-subhead-title { color: var(--accent); font-size: 12.5px; font-weight: 800; letter-spacing: .06em; }
+.approach-subhead-note { color: var(--muted); font-size: 11.5px; }
+
+/* 讲解录音（append-only 修订行）*/
 .approach-evidence { display: grid; gap: 8px; }
-.approach-evidence-head { margin: 0; color: var(--muted); font-size: 12.5px; font-weight: 700; }
-.approach-recording { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-.approach-recording audio { height: 34px; }
-.approach-recording-label { color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; }
-.approach-steps { display: grid; gap: 8px; }
-.approach-steps-head { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-.approach-step {
-  border: 1px dashed var(--line); border-radius: 10px; padding: 10px;
-  display: grid; gap: 6px; background: white;
+.approach-recording {
+  display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: 4px 12px; align-items: start;
+  padding: 8px 10px; border: 1px solid #ece7db; border-radius: 10px; background: #fdfcf8;
 }
-.approach-step-head { display: flex; align-items: center; gap: 8px; }
+.approach-recording-meta { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; padding-top: 4px; }
+.approach-recording-label { color: var(--muted); font-size: 11.5px; font-variant-numeric: tabular-nums; }
+.approach-recording-body { display: grid; gap: 6px; min-width: 0; }
+.approach-recording audio { width: 100%; height: 36px; }
+
+/* 润色稿（只读渲染视图，MathJax 排版）*/
+.approach-polished summary { color: var(--muted); cursor: pointer; font-weight: 700; font-size: 12.5px; }
+.approach-polished-view {
+  margin-top: 8px; max-height: 320px; overflow: auto; padding: 12px 14px;
+  border: 1px solid var(--line); border-radius: 10px; background: #f8f5ed;
+  font-size: 13px; line-height: 1.7;
+}
+
+/* 策略定义：goal / entry 并排 */
+.approach-meta-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 10px 16px; }
+
+/* 教学步骤 */
+.approach-steps { padding: 13px 16px 14px; display: grid; gap: 10px; }
+.approach-steps-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.approach-steps-head strong { color: var(--accent); font-size: 12.5px; font-weight: 800; letter-spacing: .06em; }
+.approach-steps-head .explanations-actions { margin-left: auto; }
+.approach-step {
+  border: 1px solid #e3ddcf; border-radius: 12px; padding: 12px;
+  display: grid; gap: 9px; background: #fdfcf8;
+}
+.approach-step-head { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; }
+.approach-step-index {
+  display: inline-grid; place-items: center; flex: 0 0 auto;
+  min-width: 34px; height: 34px; padding: 0 6px;
+  border-radius: 999px; border: 1px solid #9eb9aa;
+  background: var(--accent-soft); color: var(--accent);
+  font-size: 12px; font-weight: 800;
+}
+.approach-step-inline-input {
+  flex: 1 1 220px; min-height: 34px; padding: 5px 10px;
+  border: 1px solid var(--line); border-radius: 8px; background: white;
+  font-size: 13.5px; font-weight: 700; min-width: 0;
+}
+.approach-step-remove { min-height: 30px; padding: 3px 10px; font-size: 12px; flex: 0 0 auto; }
 .approach-step-field { display: grid; gap: 3px; }
 .approach-step-field > label { color: var(--muted); font-size: 12px; font-weight: 700; }
-.approach-step-field input[type="text"], .approach-step-field textarea {
-  min-height: 32px; padding: 5px 9px; border: 1px solid var(--line); border-radius: 8px;
-  background: white; font-size: 13px; width: 100%;
+.approach-step-field textarea {
+  min-height: 32px; padding: 6px 10px; border: 1px solid var(--line); border-radius: 8px;
+  background: white; font-size: 13px; width: 100%; resize: vertical; line-height: 1.6;
 }
-.approach-skill-option {
-  display: inline-flex; align-items: center; gap: 4px; margin-right: 10px;
-  font-size: 12.5px; color: var(--ink);
+.approach-step-more { border-top: 1px dashed var(--line); padding-top: 8px; }
+.approach-step-more > summary {
+  display: flex; align-items: center; gap: 10px; cursor: pointer;
+  color: var(--muted); font-size: 12.5px; font-weight: 700; user-select: none;
 }
-.approach-item-message { margin: 0; min-height: 1.4em; color: var(--muted); font-size: 12.5px; }
+.approach-step-more[open] > summary { margin-bottom: 8px; }
+.approach-step-more[open] > summary::after { content: "（点此收起）"; font-size: 11px; font-weight: 500; }
+.approach-step-complete { padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 800; }
+.approach-step-complete.is-ok { background: #d9ebdf; color: var(--accent); }
+.approach-step-complete.is-missing { background: #f6efdd; color: #6b5316; }
+.approach-skill-row { display: flex; flex-wrap: wrap; gap: 4px 14px; padding-top: 2px; }
+.approach-skill-option { display: inline-flex; align-items: center; gap: 4px; font-size: 12.5px; color: var(--ink); }
+.approach-item-message { margin: 0 16px 14px; min-height: 1.4em; color: var(--muted); font-size: 12.5px; }
 .approach-item-message[data-tone="ok"] { color: var(--accent); font-weight: 700; }
 .approach-item-message[data-tone="error"] { color: var(--danger); font-weight: 700; }
 
-/* ADR-005：小问切分预览 + TA part 选择器 */
-.subquestion-preview-warning {
-  color: #b3261e;
-  font-weight: 600;
-  margin: 6px 0;
-}
-.subquestion-preview-part {
-  border-left: 3px solid #6b7fd7;
-  padding: 6px 10px;
-  margin: 8px 0;
-  background: rgba(107, 127, 215, 0.06);
-}
-.subquestion-preview-part-head {
-  font-weight: 600;
-  margin: 0 0 4px;
-}
 .approach-part-select,
 #approach-part-select {
   border: 1px solid rgba(15, 23, 42, 0.2);

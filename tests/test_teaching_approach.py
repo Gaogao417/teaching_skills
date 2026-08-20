@@ -747,8 +747,10 @@ def test_teaching_approach_ui_static_wiring() -> None:
         "approach-create",
         "approach-reviewer-input",
         "approach-author-input",
-        "approach-part-select",  # ADR-005：新建策略的小问选择
-        "subquestion-preview-section",  # ADR-005：审题面板小问切分预览
+        "approach-part-select",  # ADR-005：part 选择（旧粒度解法补绑；模板保留隐藏占位）
+        "part-overview-section",  # 小问栏：该问真值切片（题面/答案/解答）
+        "part-tabs",  # 小问栏切换（箭头 + 圆点，默认第一小问）
+        "whole-approach-details",  # ADR-005 前整题粒度旧解法折叠区
     ):
         assert f'id="{node_id}"' in html, node_id
 
