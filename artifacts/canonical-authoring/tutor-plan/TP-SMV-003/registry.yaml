@@ -1,11 +1,22 @@
 artifact_id: TP-SMV-003
-current_version: v1
+current_version: v2
 versions:
-- version: v1
-  status: Approved
-  content_hash: sha256:5cc921c53fc0af9b6c651ed4638653f73f1f805a18f57d6cb73a4fc3efcbe20a
-  approved_at: '2026-08-20T17:14:36.936Z'
-  question_ref:
-    artifact_id: QT-SMV-003
-    version: v2
-    content_hash: sha256:4308ade0fa955f2a35eba38cb004950325d0c9335765660e676ec5a3ca9e0684
+  - version: v1
+    status: Superseded
+    content_hash: sha256:5cc921c53fc0af9b6c651ed4638653f73f1f805a18f57d6cb73a4fc3efcbe20a
+    approved_at: 2026-08-20T17:14:36.936Z
+    question_ref:
+      artifact_id: QT-SMV-003
+      version: v2
+      content_hash: sha256:4308ade0fa955f2a35eba38cb004950325d0c9335765660e676ec5a3ca9e0684
+    superseded_by:
+      artifact_id: TP-SMV-003
+      version: v2
+  - version: v2
+    status: Approved
+    content_hash: sha256:becd1749c25082ebf2f5c5a00bfb9552a3dd6f965cf6b0dbdacfde00eae39424
+    approved_at: 2026-08-20T23:44:34.019Z
+    question_ref:
+      artifact_id: QT-SMV-003
+      version: v2
+      content_hash: sha256:4308ade0fa955f2a35eba38cb004950325d0c9335765660e676ec5a3ca9e0684

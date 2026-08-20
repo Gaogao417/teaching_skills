@@ -1,8 +1,8 @@
 {
   "schema": "ai_teaching_tutor_plan_bundle/v2",
   "artifact_id": "TP-SMV-002",
-  "version": "v1",
-  "status": "Superseded",
+  "version": "v2",
+  "status": "Approved",
   "question_ref": {
     "artifact_id": "QT-SMV-002",
     "version": "v2",
@@ -190,7 +190,7 @@
       "checkpoint_id": "CP1",
       "assistance_level": 1,
       "source": "agent_generated",
-      "content": "先别急着算——这一步的关键是「等积式改比例」。说说你打算怎么找？",
+      "content": "等积式改比例",
       "resource_id": "RES3"
     },
     {
@@ -198,7 +198,7 @@
       "checkpoint_id": "CP1",
       "assistance_level": 2,
       "source": "agent_generated",
-      "content": "提示：先写出这一步要用到的已知条件，再看它们如何组合出「等积式改比例」。",
+      "content": "检查还有哪个已知条件没有用上",
       "resource_id": "RES4"
     },
     {
@@ -220,7 +220,7 @@
       "checkpoint_id": "CP2",
       "assistance_level": 1,
       "source": "agent_generated",
-      "content": "先别急着算——这一步的关键是「配 SAS 相似」。说说你打算怎么找？",
+      "content": "配 SAS 相似",
       "resource_id": "RES7"
     },
     {
@@ -228,7 +228,7 @@
       "checkpoint_id": "CP2",
       "assistance_level": 2,
       "source": "agent_generated",
-      "content": "提示：先写出这一步要用到的已知条件，再看它们如何组合出「配 SAS 相似」。",
+      "content": "检查还有哪个已知条件没有用上",
       "resource_id": "RES8"
     },
     {
@@ -250,7 +250,7 @@
       "checkpoint_id": "CP3",
       "assistance_level": 1,
       "source": "agent_generated",
-      "content": "先别急着算——这一步的关键是「导角收尾证垂直」。说说你打算怎么找？",
+      "content": "导角收尾证垂直",
       "resource_id": "RES11"
     },
     {
@@ -258,7 +258,7 @@
       "checkpoint_id": "CP3",
       "assistance_level": 2,
       "source": "agent_generated",
-      "content": "常见卡点是「导角链跳步，直接宣布垂直」。回到「导角收尾证垂直」，检查还有哪个已知条件没有用上。",
+      "content": "常见卡点：导角链跳步，直接宣布垂直",
       "resource_id": "RES12"
     },
     {
@@ -296,7 +296,7 @@
       "checkpoint_id": "CP4",
       "assistance_level": 1,
       "source": "agent_generated",
-      "content": "先别急着算——这一步的关键是「目标改写为比例」。说说你打算怎么找？",
+      "content": "目标改写为比例",
       "resource_id": "RES17"
     },
     {
@@ -304,7 +304,7 @@
       "checkpoint_id": "CP4",
       "assistance_level": 2,
       "source": "agent_generated",
-      "content": "提示：先写出这一步要用到的已知条件，再看它们如何组合出「目标改写为比例」。",
+      "content": "检查还有哪个已知条件没有用上",
       "resource_id": "RES18"
     },
     {
@@ -319,7 +319,7 @@
       "checkpoint_id": "CP5",
       "assistance_level": 1,
       "source": "agent_generated",
-      "content": "先别急着算——这一步的关键是「锁定两组相似」。说说你打算怎么找？",
+      "content": "锁定两组相似",
       "resource_id": "RES20"
     },
     {
@@ -327,7 +327,7 @@
       "checkpoint_id": "CP5",
       "assistance_level": 2,
       "source": "agent_generated",
-      "content": "提示：先写出这一步要用到的已知条件，再看它们如何组合出「锁定两组相似」。",
+      "content": "检查还有哪个已知条件没有用上",
       "resource_id": "RES21"
     },
     {
@@ -342,7 +342,7 @@
       "checkpoint_id": "CP6",
       "assistance_level": 1,
       "source": "agent_generated",
-      "content": "先别急着算——这一步的关键是「比例相乘约分收尾」。说说你打算怎么找？",
+      "content": "比例相乘约分收尾",
       "resource_id": "RES23"
     },
     {
@@ -350,7 +350,7 @@
       "checkpoint_id": "CP6",
       "assistance_level": 2,
       "source": "agent_generated",
-      "content": "提示：先写出这一步要用到的已知条件，再看它们如何组合出「比例相乘约分收尾」。",
+      "content": "检查还有哪个已知条件没有用上",
       "resource_id": "RES24"
     },
     {
@@ -402,25 +402,21 @@
     "provider": "deterministic-rules",
     "model_id": "plan-build-rules/v1",
     "workflow_version": "tutor-plan-build/v1",
-    "run_id": "plan-build-20260821",
-    "built_at": "2026-08-20T17:14:36.931Z",
+    "run_id": "plan-build-20260821-v2",
+    "built_at": "2026-08-20T23:44:33.988Z",
     "runtime_registry_version": "action-runtime-registry/v5@32f7ae75600a"
   },
-  "content_hash": "sha256:50431e730a77ba3b871ae3299c5355b240564c5ed0757a6f3eea7beea918d751",
-  "artifact_uri": "artifact://tutor-plan/TP-SMV-002@v1",
+  "content_hash": "sha256:6e3aea7a42be0f9b30734889b059324ae6c1561eee13b6e67a3126c19445c3a8",
+  "artifact_uri": "artifact://tutor-plan/TP-SMV-002@v2",
   "approval": {
     "reviewer_id": "migration-agent",
-    "approved_at": "2026-08-20T17:14:36.932Z",
-    "review_note": "Phase 4 代理审核：预览走查路线/提示阶梯/Action 来源/skill 标注（用户 2026-08-20 裁定按需复核口径）"
+    "approved_at": "2026-08-20T23:44:33.993Z",
+    "review_note": "教师裁定 2026-08-21：禁用 hint 引导词包装句（P4-05 只要求≥2档，PRD 未要求句式）；L1=步骤意图本体、L2=常见卡点本体；代理重批出 v2"
   },
   "runtime_projection": {
     "materializer_version": "tutor-plan-materializer/0.1.0",
     "runtime_registry_version": "action-runtime-registry/v5@32f7ae75600a",
-    "projection_hash": "sha256:cd52e039c162c09c3c21f534b8ce5054061c221c9e578763bb0b5bd39b368c90",
+    "projection_hash": "sha256:4760c3eb8a93d0b603184772acca0855882d0ee51c5881485f1288deabe58341",
     "validation_status": "passed"
-  },
-  "superseded_by": {
-    "artifact_id": "TP-SMV-002",
-    "version": "v2"
   }
 }

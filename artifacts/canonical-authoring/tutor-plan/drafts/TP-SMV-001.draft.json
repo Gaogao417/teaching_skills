@@ -1,7 +1,7 @@
 {
   "schema": "ai_teaching_tutor_plan_bundle/v2",
   "artifact_id": "TP-SMV-001",
-  "version": "v1",
+  "version": "v2",
   "status": "Draft",
   "question_ref": {
     "artifact_id": "QT-SMV-001",
@@ -118,7 +118,7 @@
       "checkpoint_id": "CP1",
       "assistance_level": 1,
       "source": "agent_generated",
-      "content": "先别急着算——这一步的关键是「读题标注，等角翻译成等边」。说说你打算怎么找？",
+      "content": "读题标注，等角翻译成等边",
       "resource_id": "RES3"
     },
     {
@@ -126,7 +126,7 @@
       "checkpoint_id": "CP1",
       "assistance_level": 2,
       "source": "agent_generated",
-      "content": "提示：先写出这一步要用到的已知条件，再看它们如何组合出「读题标注，等角翻译成等边」。",
+      "content": "检查还有哪个已知条件没有用上",
       "resource_id": "RES4"
     },
     {
@@ -148,7 +148,7 @@
       "checkpoint_id": "CP2",
       "assistance_level": 1,
       "source": "agent_generated",
-      "content": "先别急着算——这一步的关键是「抓翻折不变量，识别母子型结构」。说说你打算怎么找？",
+      "content": "抓翻折不变量，识别母子型结构",
       "resource_id": "RES7"
     },
     {
@@ -156,7 +156,7 @@
       "checkpoint_id": "CP2",
       "assistance_level": 2,
       "source": "agent_generated",
-      "content": "提示：先写出这一步要用到的已知条件，再看它们如何组合出「抓翻折不变量，识别母子型结构」。",
+      "content": "检查还有哪个已知条件没有用上",
       "resource_id": "RES8"
     },
     {
@@ -171,7 +171,7 @@
       "checkpoint_id": "CP3",
       "assistance_level": 1,
       "source": "agent_generated",
-      "content": "先别急着算——这一步的关键是「设元列式求 BE」。说说你打算怎么找？",
+      "content": "设元列式求 BE",
       "resource_id": "RES10"
     },
     {
@@ -179,7 +179,7 @@
       "checkpoint_id": "CP3",
       "assistance_level": 2,
       "source": "agent_generated",
-      "content": "常见卡点是「在斜三角形中硬凑勾股」。回到「设元列式求 BE」，检查还有哪个已知条件没有用上。",
+      "content": "常见卡点：在斜三角形中硬凑勾股",
       "resource_id": "RES11"
     },
     {
@@ -231,10 +231,10 @@
     "provider": "deterministic-rules",
     "model_id": "plan-build-rules/v1",
     "workflow_version": "tutor-plan-build/v1",
-    "run_id": "plan-build-20260821",
-    "built_at": "2026-08-20T17:14:36.918Z",
+    "run_id": "plan-build-20260821-v2",
+    "built_at": "2026-08-20T23:44:33.939Z",
     "runtime_registry_version": "action-runtime-registry/v5@32f7ae75600a"
   },
-  "content_hash": "sha256:06b07dc5e6426a136bf18004c58e5255dfd9a7f74f523e6f3f5bd3c23d471814",
-  "artifact_uri": "artifact://tutor-plan/TP-SMV-001@v1"
+  "content_hash": "sha256:ed92853409ab89489f666cb648a1c1c67cbdb7cd13d1679bcb35db39f075808e",
+  "artifact_uri": "artifact://tutor-plan/TP-SMV-001@v2"
 }
