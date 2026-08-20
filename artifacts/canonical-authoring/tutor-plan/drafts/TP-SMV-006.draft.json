@@ -1,0 +1,592 @@
+{
+  "schema": "ai_teaching_tutor_plan_bundle/v2",
+  "artifact_id": "TP-SMV-006",
+  "version": "v1",
+  "status": "Draft",
+  "question_ref": {
+    "artifact_id": "QT-SMV-006",
+    "version": "v2",
+    "content_hash": "sha256:2e6f08f2567a5f1a8d1701853e4dd7ab29736f69c98c69d10b62a831d22be35f"
+  },
+  "approach_refs": [
+    {
+      "artifact_id": "TA-SMV-019",
+      "version": "v1",
+      "content_hash": "sha256:a97d2f295898ca35c35f1763131d459ec7c2aee616e7030a67f4335542afbc8e",
+      "part_id": "1"
+    },
+    {
+      "artifact_id": "TA-SMV-020",
+      "version": "v1",
+      "content_hash": "sha256:7bcdd50e66a343c3d09a785399f7bbb45c4c776d8049884085de6530c5bea3d3",
+      "part_id": "2"
+    },
+    {
+      "artifact_id": "TA-SMV-021",
+      "version": "v1",
+      "content_hash": "sha256:78321cd30e6db01a59e124ac913df0ee9734b7cc8616db548bb2ac91c5146d36",
+      "part_id": "3"
+    }
+  ],
+  "recommended_routes": [
+    {
+      "route_id": "R1",
+      "role": "primary",
+      "part_id": "1",
+      "checkpoint_ids": [
+        "CP1",
+        "CP2",
+        "CP3"
+      ],
+      "completion_condition": "作 $CG\\perp AB$ 把两个角各自数值化（正切都为 2/3），证 $\\angle BAC=\\angle PCF$。"
+    },
+    {
+      "route_id": "R2",
+      "role": "alternate",
+      "part_id": "1",
+      "entry_condition": "学生已能学生见到 sinB=4/5 能想到作高构造直角三角形。，可直接跳过开场确认",
+      "checkpoint_ids": [
+        "CP2",
+        "CP3"
+      ],
+      "completion_condition": "作 $CG\\perp AB$ 把两个角各自数值化（正切都为 2/3），证 $\\angle BAC=\\angle PCF$。"
+    },
+    {
+      "route_id": "R3",
+      "role": "primary",
+      "part_id": "2",
+      "checkpoint_ids": [
+        "CP4",
+        "CP5",
+        "CP6"
+      ],
+      "completion_condition": "由平行与第(1)问等角把角平移到 $\\triangle BPC$ 与 $\\triangle PFC$，用余切列比例解出 $BP=\\frac{17}{3}$。"
+    },
+    {
+      "route_id": "R4",
+      "role": "alternate",
+      "part_id": "2",
+      "entry_condition": "学生已能学生能把「已证等角」当作第二问的现成工具。，可直接跳过开场确认",
+      "checkpoint_ids": [
+        "CP5",
+        "CP6"
+      ],
+      "completion_condition": "由平行与第(1)问等角把角平移到 $\\triangle BPC$ 与 $\\triangle PFC$，用余切列比例解出 $BP=\\frac{17}{3}$。"
+    },
+    {
+      "route_id": "R5",
+      "role": "primary",
+      "part_id": "3",
+      "checkpoint_ids": [
+        "CP7",
+        "CP8",
+        "CP9"
+      ],
+      "completion_condition": "把 $\\frac{S_{\\triangle HFC}}{S_{\\triangle PHC}}=\\frac{1}{3}$ 转成 $\\frac{FH}{PH}=\\frac{1}{3}$，按 F 在 $PH$ 延长线/线段上两分类，解得 $\\frac{AH}{AC}=\frac{2}{7}$ 或 $\\frac{1}{5}$。"
+    },
+    {
+      "route_id": "R6",
+      "role": "alternate",
+      "part_id": "3",
+      "entry_condition": "学生已能学生能把面积比转成同高线段比。，可直接跳过开场确认",
+      "checkpoint_ids": [
+        "CP8",
+        "CP9"
+      ],
+      "completion_condition": "把 $\\frac{S_{\\triangle HFC}}{S_{\\triangle PHC}}=\\frac{1}{3}$ 转成 $\\frac{FH}{PH}=\\frac{1}{3}$，按 F 在 $PH$ 延长线/线段上两分类，解得 $\\frac{AH}{AC}=\frac{2}{7}$ 或 $\\frac{1}{5}$。"
+    }
+  ],
+  "checkpoints": [
+    {
+      "checkpoint_id": "CP1",
+      "part_id": "1",
+      "expected_reasoning": "学生能由三角函数值还原直角边并算出 AG。",
+      "skippable": true,
+      "skill_annotations": [
+        {
+          "skill_id": "SKILL-SMV-001",
+          "rationale": "该 checkpoint 对应教学步骤「作高数值化 BC 侧」，预期学生能学生能由三角函数值还原直角边并算出 AG。；此处证据可直接支持该 skill 的判定。",
+          "evidence_refs": [
+            "TA-SMV-019@v1#S1"
+          ]
+        }
+      ],
+      "resource_ids": [
+        "RES1",
+        "RES2",
+        "RES3",
+        "RES4",
+        "RES5"
+      ]
+    },
+    {
+      "checkpoint_id": "CP2",
+      "part_id": "1",
+      "expected_reasoning": "学生能在两个不同三角形里分别表达正切。",
+      "skill_annotations": [
+        {
+          "skill_id": "SKILL-SMV-003",
+          "rationale": "该 checkpoint 对应教学步骤「两侧各算正切」，预期学生能学生能在两个不同三角形里分别表达正切。；此处证据可直接支持该 skill 的判定。",
+          "evidence_refs": [
+            "TA-SMV-019@v1#S2"
+          ]
+        },
+        {
+          "skill_id": "SKILL-SMV-007",
+          "rationale": "该 checkpoint 对应教学步骤「两侧各算正切」，预期学生能学生能在两个不同三角形里分别表达正切。；此处证据可直接支持该 skill 的判定。",
+          "evidence_refs": [
+            "TA-SMV-019@v1#S2"
+          ]
+        }
+      ],
+      "resource_ids": [
+        "RES6",
+        "RES7",
+        "RES8",
+        "RES9"
+      ]
+    },
+    {
+      "checkpoint_id": "CP3",
+      "part_id": "1",
+      "expected_reasoning": "学生能说明「锐角 + 三角函数值相等 → 角相等」的依据。",
+      "unmapped_skill_reason": "v2 skill_ids 仅作 provisional hint：SKILL-SMV-009 未在此节点锚定（已在他处使用或粗粒度语境不足）",
+      "resource_ids": [
+        "RES10",
+        "RES11",
+        "RES12"
+      ]
+    },
+    {
+      "checkpoint_id": "CP4",
+      "part_id": "2",
+      "expected_reasoning": "学生能写出「平行内错角 + 已证等角 → 差角相等」的链条。",
+      "skippable": true,
+      "skill_annotations": [
+        {
+          "skill_id": "SKILL-SMV-005",
+          "rationale": "该 checkpoint 对应教学步骤「平行 + 等角平移」，预期学生能学生能写出「平行内错角 + 已证等角 → 差角相等」的链条。；此处证据可直接支持该 skill 的判定。",
+          "evidence_refs": [
+            "TA-SMV-020@v1#S1"
+          ]
+        }
+      ],
+      "resource_ids": [
+        "RES15",
+        "RES16",
+        "RES17",
+        "RES18",
+        "RES19"
+      ]
+    },
+    {
+      "checkpoint_id": "CP5",
+      "part_id": "2",
+      "expected_reasoning": "学生能核对待定相似的对应顶点后再用条件。",
+      "skill_annotations": [
+        {
+          "skill_id": "SKILL-SMV-002",
+          "rationale": "该 checkpoint 对应教学步骤「相似条件对齐」，预期学生能学生能核对待定相似的对应顶点后再用条件。；此处证据可直接支持该 skill 的判定。",
+          "evidence_refs": [
+            "TA-SMV-020@v1#S2"
+          ]
+        }
+      ],
+      "resource_ids": [
+        "RES20",
+        "RES21",
+        "RES22",
+        "RES23"
+      ]
+    },
+    {
+      "checkpoint_id": "CP6",
+      "part_id": "2",
+      "expected_reasoning": "学生能用余切（而非正切）使所求边落在分子，解出 $BP=\\frac{17}{3}$。",
+      "common_deviations": [
+        "用正切导致求出倒数"
+      ],
+      "unmapped_skill_reason": "v2 skill_ids 仅作 provisional hint：SKILL-SMV-007 未在此节点锚定（已在他处使用或粗粒度语境不足）",
+      "resource_ids": [
+        "RES24",
+        "RES25",
+        "RES26"
+      ]
+    },
+    {
+      "checkpoint_id": "CP7",
+      "part_id": "3",
+      "expected_reasoning": "学生能识别共顶点、底共线的等高结构并把面积比化成线段比。",
+      "skippable": true,
+      "unmapped_skill_reason": "v2 skill_ids 仅作 provisional hint：SKILL-SMV-003/SKILL-SMV-005 未在此节点锚定（已在他处使用或粗粒度语境不足）",
+      "resource_ids": [
+        "RES29",
+        "RES30",
+        "RES31",
+        "RES32"
+      ]
+    },
+    {
+      "checkpoint_id": "CP8",
+      "part_id": "3",
+      "expected_reasoning": "学生能用相似把 MH/GP 建立倍数关系并列一元方程。",
+      "unmapped_skill_reason": "v2 skill_ids 仅作 provisional hint：SKILL-SMV-002/SKILL-SMV-007 未在此节点锚定（已在他处使用或粗粒度语境不足）",
+      "resource_ids": [
+        "RES33",
+        "RES34",
+        "RES35"
+      ]
+    },
+    {
+      "checkpoint_id": "CP9",
+      "part_id": "3",
+      "expected_reasoning": "学生能完整分两类并把两解分别代回检验。",
+      "common_deviations": [
+        "漏掉 F 在延长线上的情形"
+      ],
+      "unmapped_skill_reason": "v2 skill_ids 仅作 provisional hint：SKILL-SMV-009 未在此节点锚定（已在他处使用或粗粒度语境不足）",
+      "resource_ids": [
+        "RES36",
+        "RES37",
+        "RES38"
+      ]
+    }
+  ],
+  "resources": [
+    {
+      "kind": "voice_seed",
+      "checkpoint_id": "CP1",
+      "source": "authored",
+      "content": "回到题干，把已知条件与要求的目标各列一遍，再对照图形找它们的联系。",
+      "resource_id": "RES1"
+    },
+    {
+      "kind": "explanation",
+      "checkpoint_id": "CP1",
+      "source": "authored",
+      "content": "过点 $C$ 作 $CG\\perp AB$，垂足为 $G$；由 $BC=5$、$\\sin B=\\frac{4}{5}$ 得 $BG=3$、$CG=4$；又 $AB=9$，得 $AG=6$。",
+      "resource_id": "RES2"
+    },
+    {
+      "kind": "hint",
+      "checkpoint_id": "CP1",
+      "assistance_level": 1,
+      "source": "agent_generated",
+      "content": "先别急着算——这一步的关键是「作高数值化 BC 侧」。说说你打算怎么找？",
+      "resource_id": "RES3"
+    },
+    {
+      "kind": "hint",
+      "checkpoint_id": "CP1",
+      "assistance_level": 2,
+      "source": "agent_generated",
+      "content": "提示：先写出这一步要用到的已知条件，再看它们如何组合出「作高数值化 BC 侧」。",
+      "resource_id": "RES4"
+    },
+    {
+      "kind": "diagnostic_probe",
+      "checkpoint_id": "CP1",
+      "source": "agent_generated",
+      "content": "快速确认：作高数值化 BC 侧——你能指出它在图或题干中对应的具体对象吗？",
+      "resource_id": "RES5"
+    },
+    {
+      "kind": "explanation",
+      "checkpoint_id": "CP2",
+      "source": "authored",
+      "content": "$\\tan\\angle BAC=\\frac{CG}{AG}=\\frac{2}{3}$；$\\angle CPF=90^\\circ$、$\\frac{FP}{PC}=\\frac{2}{3}$，故 $\\tan\\angle PCF=\\frac{2}{3}$。",
+      "resource_id": "RES6"
+    },
+    {
+      "kind": "hint",
+      "checkpoint_id": "CP2",
+      "assistance_level": 1,
+      "source": "agent_generated",
+      "content": "先别急着算——这一步的关键是「两侧各算正切」。说说你打算怎么找？",
+      "resource_id": "RES7"
+    },
+    {
+      "kind": "hint",
+      "checkpoint_id": "CP2",
+      "assistance_level": 2,
+      "source": "agent_generated",
+      "content": "提示：先写出这一步要用到的已知条件，再看它们如何组合出「两侧各算正切」。",
+      "resource_id": "RES8"
+    },
+    {
+      "kind": "diagnostic_probe",
+      "checkpoint_id": "CP2",
+      "source": "agent_generated",
+      "content": "快速确认：两侧各算正切——你能指出它在图或题干中对应的具体对象吗？",
+      "resource_id": "RES9"
+    },
+    {
+      "kind": "explanation",
+      "checkpoint_id": "CP3",
+      "source": "authored",
+      "content": "$\\angle BAC$ 与 $\\angle PCF$ 均为锐角且正切相等，故 $\\angle BAC=\\angle PCF$。",
+      "resource_id": "RES10"
+    },
+    {
+      "kind": "hint",
+      "checkpoint_id": "CP3",
+      "assistance_level": 1,
+      "source": "agent_generated",
+      "content": "先别急着算——这一步的关键是「锐角同一收尾」。说说你打算怎么找？",
+      "resource_id": "RES11"
+    },
+    {
+      "kind": "hint",
+      "checkpoint_id": "CP3",
+      "assistance_level": 2,
+      "source": "agent_generated",
+      "content": "提示：先写出这一步要用到的已知条件，再看它们如何组合出「锐角同一收尾」。",
+      "resource_id": "RES12"
+    },
+    {
+      "resource_id": "RES13",
+      "kind": "repair",
+      "checkpoint_id": "CP3",
+      "source": "agent_generated",
+      "content": "多次提示仍未推进时：回到第1问目标（作 $CG\\perp AB$ 把两个角各自数值化（正切都为 2/3），证 $\\angle BAC=\\angle PCF$。），由教师用该节点的讲解资源重新示范一遍，再请学生复述关键一步。"
+    },
+    {
+      "resource_id": "RES14",
+      "kind": "action_template",
+      "checkpoint_id": "CP3",
+      "source": "agent_generated",
+      "action_ref": "tp:TP-SMV-006:1:enter-text",
+      "capability": "similarity.plan-similarity-proof",
+      "content": "{\"actionId\":\"tp:TP-SMV-006:1:enter-text\",\"sourceStepId\":\"S3\",\"kind\":\"enter-text\",\"version\":1,\"title\":\"第1问结论\",\"instruction\":\"根据前面的推理，写出这一问的最终结论。\",\"input\":{\"placeholder\":\"写出第1问结论\"},\"teachingInput\":{\"expectedValues\":[\"得证\"]},\"capabilities\":[\"similarity.plan-similarity-proof\",\"agent:select-object\",\"agent:set-answer\",\"agent:back\",\"agent:clear\"],\"answerSlots\":[{\"id\":\"value\",\"label\":\"第1问结论\",\"kind\":\"text\",\"required\":true,\"placeholder\":\"写出第1问结论\"}],\"submitOnComplete\":true}"
+    },
+    {
+      "kind": "voice_seed",
+      "checkpoint_id": "CP4",
+      "source": "authored",
+      "content": "回到题干，把已知条件与要求的目标各列一遍，再对照图形找它们的联系。",
+      "resource_id": "RES15"
+    },
+    {
+      "kind": "explanation",
+      "checkpoint_id": "CP4",
+      "source": "authored",
+      "content": "$AB\\parallel CD$ 得 $\\angle BAC=\\angle ACD$；结合第(1)问 $\\angle PCF=\\angle BAC$ 得 $\\angle PCF=\\angle ACD$，同减 $\\angle ACP$ 得 $\\angle PCA=\\angle FCD$。",
+      "resource_id": "RES16"
+    },
+    {
+      "kind": "hint",
+      "checkpoint_id": "CP4",
+      "assistance_level": 1,
+      "source": "agent_generated",
+      "content": "先别急着算——这一步的关键是「平行 + 等角平移」。说说你打算怎么找？",
+      "resource_id": "RES17"
+    },
+    {
+      "kind": "hint",
+      "checkpoint_id": "CP4",
+      "assistance_level": 2,
+      "source": "agent_generated",
+      "content": "提示：先写出这一步要用到的已知条件，再看它们如何组合出「平行 + 等角平移」。",
+      "resource_id": "RES18"
+    },
+    {
+      "kind": "diagnostic_probe",
+      "checkpoint_id": "CP4",
+      "source": "agent_generated",
+      "content": "快速确认：平行 + 等角平移——你能指出它在图或题干中对应的具体对象吗？",
+      "resource_id": "RES19"
+    },
+    {
+      "kind": "explanation",
+      "checkpoint_id": "CP5",
+      "source": "authored",
+      "content": "$\\triangle APC\\sim\\triangle EFC$ 且 $\\angle PEC=\\angle APE<90^\\circ$，故 $\\angle APC=\\angle EFC$；同加直角得 $\\angle BPC=\\angle PFC$。",
+      "resource_id": "RES20"
+    },
+    {
+      "kind": "hint",
+      "checkpoint_id": "CP5",
+      "assistance_level": 1,
+      "source": "agent_generated",
+      "content": "先别急着算——这一步的关键是「相似条件对齐」。说说你打算怎么找？",
+      "resource_id": "RES21"
+    },
+    {
+      "kind": "hint",
+      "checkpoint_id": "CP5",
+      "assistance_level": 2,
+      "source": "agent_generated",
+      "content": "提示：先写出这一步要用到的已知条件，再看它们如何组合出「相似条件对齐」。",
+      "resource_id": "RES22"
+    },
+    {
+      "kind": "diagnostic_probe",
+      "checkpoint_id": "CP5",
+      "source": "agent_generated",
+      "content": "快速确认：相似条件对齐——你能指出它在图或题干中对应的具体对象吗？",
+      "resource_id": "RES23"
+    },
+    {
+      "kind": "explanation",
+      "checkpoint_id": "CP6",
+      "source": "authored",
+      "content": "$\\cot\\angle BPC=\\cot\\angle PFC$ 得 $\\frac{PG}{CG}=\\frac{2}{3}$，$CG=4$，故 $PG=\\frac{8}{3}$，$BP=BG+PG=3+\\frac{8}{3}=\\frac{17}{3}$。",
+      "resource_id": "RES24"
+    },
+    {
+      "kind": "hint",
+      "checkpoint_id": "CP6",
+      "assistance_level": 1,
+      "source": "agent_generated",
+      "content": "先别急着算——这一步的关键是「余切列式解 BP」。说说你打算怎么找？",
+      "resource_id": "RES25"
+    },
+    {
+      "kind": "hint",
+      "checkpoint_id": "CP6",
+      "assistance_level": 2,
+      "source": "agent_generated",
+      "content": "常见卡点是「用正切导致求出倒数」。回到「余切列式解 BP」，检查还有哪个已知条件没有用上。",
+      "resource_id": "RES26"
+    },
+    {
+      "resource_id": "RES27",
+      "kind": "repair",
+      "checkpoint_id": "CP6",
+      "source": "agent_generated",
+      "content": "多次提示仍未推进时：回到第2问目标（由平行与第(1)问等角把角平移到 $\\triangle BPC$ 与 $\\triangle PFC$，用余切列比例解出 $BP=\\frac{17}{3}$。），由教师用该节点的讲解资源重新示范一遍，再请学生复述关键一步。"
+    },
+    {
+      "resource_id": "RES28",
+      "kind": "action_template",
+      "checkpoint_id": "CP6",
+      "source": "agent_generated",
+      "action_ref": "tp:TP-SMV-006:2:enter-text",
+      "capability": "similarity.plan-similarity-proof",
+      "content": "{\"actionId\":\"tp:TP-SMV-006:2:enter-text\",\"sourceStepId\":\"S3\",\"kind\":\"enter-text\",\"version\":1,\"title\":\"第2问结论\",\"instruction\":\"根据前面的推理，写出这一问的最终结论。\",\"input\":{\"placeholder\":\"写出第2问结论\"},\"teachingInput\":{\"expectedValues\":[\"$BP=\\\\frac{17}{3}$\"]},\"capabilities\":[\"similarity.plan-similarity-proof\",\"agent:select-object\",\"agent:set-answer\",\"agent:back\",\"agent:clear\"],\"answerSlots\":[{\"id\":\"value\",\"label\":\"第2问结论\",\"kind\":\"text\",\"required\":true,\"placeholder\":\"写出第2问结论\"}],\"submitOnComplete\":true}"
+    },
+    {
+      "kind": "voice_seed",
+      "checkpoint_id": "CP7",
+      "source": "authored",
+      "content": "回到题干，把已知条件与要求的目标各列一遍，再对照图形找它们的联系。",
+      "resource_id": "RES29"
+    },
+    {
+      "kind": "explanation",
+      "checkpoint_id": "CP7",
+      "source": "authored",
+      "content": "$\\triangle HFC$ 与 $\\triangle PHC$ 共顶点 $C$，底 $FH$、$PH$ 同在直线 $PE$ 上（等高），故 $\\frac{S_{\\triangle HFC}}{S_{\\triangle PHC}}=\\frac{1}{3}$ 即 $\\frac{FH}{PH}=\\frac{1}{3}$。",
+      "resource_id": "RES30"
+    },
+    {
+      "kind": "hint",
+      "checkpoint_id": "CP7",
+      "assistance_level": 1,
+      "source": "agent_generated",
+      "content": "先别急着算——这一步的关键是「面积比转线段比」。说说你打算怎么找？",
+      "resource_id": "RES31"
+    },
+    {
+      "kind": "hint",
+      "checkpoint_id": "CP7",
+      "assistance_level": 2,
+      "source": "agent_generated",
+      "content": "提示：先写出这一步要用到的已知条件，再看它们如何组合出「面积比转线段比」。",
+      "resource_id": "RES32"
+    },
+    {
+      "kind": "explanation",
+      "checkpoint_id": "CP8",
+      "source": "authored",
+      "content": "过 $H$ 作 $HM\\perp AB$；$\\angle MPH=\\angle PCG$ 且 $\\angle HMP=\\angle CGP=90^\\circ$，$\\triangle MPH\\sim\\triangle GCP$。此时 $\\frac{PH}{PC}=\\frac{1}{2}$，设 $MH=a$ 得 $GP=2a$、$MP=2$、$AM=\\frac{3}{2}a$，由 $2a+\\frac{3}{2}a+2+3=9$ 得 $a=\\frac{8}{7}$，故 $\\frac{AH}{AC}=\\frac{MH}{CG}=\\frac{2}{7}$。",
+      "resource_id": "RES33"
+    },
+    {
+      "kind": "hint",
+      "checkpoint_id": "CP8",
+      "assistance_level": 1,
+      "source": "agent_generated",
+      "content": "先别急着算——这一步的关键是「类一：F 在 PH 延长线上」。说说你打算怎么找？",
+      "resource_id": "RES34"
+    },
+    {
+      "kind": "hint",
+      "checkpoint_id": "CP8",
+      "assistance_level": 2,
+      "source": "agent_generated",
+      "content": "提示：先写出这一步要用到的已知条件，再看它们如何组合出「类一：F 在 PH 延长线上」。",
+      "resource_id": "RES35"
+    },
+    {
+      "kind": "explanation",
+      "checkpoint_id": "CP9",
+      "source": "authored",
+      "content": "此时 $PH=PC$，设 $MH=b$ 得 $GP=b$、$MP=4$、$AM=\\frac{3}{2}b$，由 $b+\\frac{3}{2}b+4+3=9$ 得 $b=\\frac{4}{5}$，故 $\\frac{AH}{AC}=\\frac{1}{5}$。综上 $\\frac{AH}{AC}=\\frac{2}{7}$ 或 $\\frac{1}{5}$。",
+      "resource_id": "RES36"
+    },
+    {
+      "kind": "hint",
+      "checkpoint_id": "CP9",
+      "assistance_level": 1,
+      "source": "agent_generated",
+      "content": "先别急着算——这一步的关键是「类二：F 在 PH 上与总结」。说说你打算怎么找？",
+      "resource_id": "RES37"
+    },
+    {
+      "kind": "hint",
+      "checkpoint_id": "CP9",
+      "assistance_level": 2,
+      "source": "agent_generated",
+      "content": "常见卡点是「漏掉 F 在延长线上的情形」。回到「类二：F 在 PH 上与总结」，检查还有哪个已知条件没有用上。",
+      "resource_id": "RES38"
+    },
+    {
+      "resource_id": "RES39",
+      "kind": "repair",
+      "checkpoint_id": "CP9",
+      "source": "agent_generated",
+      "content": "多次提示仍未推进时：回到第3问目标（把 $\\frac{S_{\\triangle HFC}}{S_{\\triangle PHC}}=\\frac{1}{3}$ 转成 $\\frac{FH}{PH}=\\frac{1}{3}$，按 F 在 $PH$ 延长线/线段上两分类，解得 $\\frac{AH}{AC}=\frac{2}{7}$ 或 $\\frac{1}{5}$。），由教师用该节点的讲解资源重新示范一遍，再请学生复述关键一步。"
+    },
+    {
+      "resource_id": "RES40",
+      "kind": "action_template",
+      "checkpoint_id": "CP9",
+      "source": "agent_generated",
+      "action_ref": "tp:TP-SMV-006:3:enter-text",
+      "capability": "similarity.plan-similarity-proof",
+      "content": "{\"actionId\":\"tp:TP-SMV-006:3:enter-text\",\"sourceStepId\":\"S3\",\"kind\":\"enter-text\",\"version\":1,\"title\":\"第3问结论\",\"instruction\":\"根据前面的推理，写出这一问的最终结论。\",\"input\":{\"placeholder\":\"写出第3问结论\"},\"teachingInput\":{\"expectedValues\":[\"$\\\\frac{AH}{AC}=\\\\frac{2}{7}$ 或 $\\\\frac{1}{5}$\"]},\"capabilities\":[\"similarity.plan-similarity-proof\",\"agent:select-object\",\"agent:set-answer\",\"agent:back\",\"agent:clear\"],\"answerSlots\":[{\"id\":\"value\",\"label\":\"第3问结论\",\"kind\":\"text\",\"required\":true,\"placeholder\":\"写出第3问结论\"}],\"submitOnComplete\":true}"
+    }
+  ],
+  "policy_constraints": {
+    "allowed_move_types": [
+      "explain",
+      "prompt",
+      "hint",
+      "confirm",
+      "wait",
+      "repair"
+    ],
+    "allowed_capabilities": [
+      "similarity.plan-similarity-proof"
+    ],
+    "forbidden_content_kinds": [
+      "canonical_answer",
+      "reviewed_solution",
+      "hidden_truth",
+      "unapproved_tool"
+    ],
+    "maximum_assistance_level": 2,
+    "assessment_enabled": false
+  },
+  "build_provenance": {
+    "provider": "deterministic-rules",
+    "model_id": "plan-build-rules/v1",
+    "workflow_version": "tutor-plan-build/v1",
+    "run_id": "plan-build-20260821",
+    "built_at": "2026-08-20T17:14:36.946Z",
+    "runtime_registry_version": "action-runtime-registry/v5@32f7ae75600a"
+  },
+  "content_hash": "sha256:1691c0cbdbccb7f1834d8b49cffde3a7524dbe238ccbe7fe86c2b4a8b222e807",
+  "artifact_uri": "artifact://tutor-plan/TP-SMV-006@v1"
+}

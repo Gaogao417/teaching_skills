@@ -1,0 +1,253 @@
+{
+  "schema": "ai_teaching_tutor_plan_bundle/v2",
+  "artifact_id": "TP-SMV-004",
+  "version": "v1",
+  "status": "Draft",
+  "question_ref": {
+    "artifact_id": "QT-SMV-004",
+    "version": "v2",
+    "content_hash": "sha256:655cc7a1a579e435f3fe521954a0aea9776c7b0e60b280b06ba85bb42c74fc80"
+  },
+  "approach_refs": [
+    {
+      "artifact_id": "TA-SMV-016",
+      "version": "v1",
+      "content_hash": "sha256:78959a0fe811b0e107d96cdf520ef9c175fb081af1947e2daf16c6dfec3684e4",
+      "part_id": "1"
+    }
+  ],
+  "recommended_routes": [
+    {
+      "route_id": "R1",
+      "role": "primary",
+      "part_id": "1",
+      "checkpoint_ids": [
+        "CP1",
+        "CP2",
+        "CP3"
+      ],
+      "completion_condition": "在真实测量情境中把仪器结构翻译成 A 字型相似模型：两次实践分别求还需测量的量与树高表达式，并互相印证。"
+    },
+    {
+      "route_id": "R2",
+      "role": "alternate",
+      "part_id": "1",
+      "entry_condition": "学生已能学生能把实物图抽象成两条平行线截得的相似三角形。，可直接跳过开场确认",
+      "checkpoint_ids": [
+        "CP2",
+        "CP3"
+      ],
+      "completion_condition": "在真实测量情境中把仪器结构翻译成 A 字型相似模型：两次实践分别求还需测量的量与树高表达式，并互相印证。"
+    }
+  ],
+  "checkpoints": [
+    {
+      "checkpoint_id": "CP1",
+      "part_id": "1",
+      "expected_reasoning": "学生能说出哪两条线平行、截出哪两个三角形。",
+      "skippable": true,
+      "skill_annotations": [
+        {
+          "skill_id": "SKILL-SMV-001",
+          "rationale": "该 checkpoint 对应教学步骤「读仪器，标注已知量」，预期学生能学生能说出哪两条线平行、截出哪两个三角形。；此处证据可直接支持该 skill 的判定。",
+          "evidence_refs": [
+            "TA-SMV-016@v1#S1"
+          ]
+        }
+      ],
+      "resource_ids": [
+        "RES1",
+        "RES2",
+        "RES3",
+        "RES4",
+        "RES5"
+      ]
+    },
+    {
+      "checkpoint_id": "CP2",
+      "part_id": "1",
+      "expected_reasoning": "学生能写出比例式并解出 $MN=(a+b+40)\\,\\mathrm{cm}$，说明每项来源。",
+      "skill_annotations": [
+        {
+          "skill_id": "SKILL-SMV-003",
+          "rationale": "该 checkpoint 对应教学步骤「第一次实践列比例求表达式」，预期学生能学生能写出比例式并解出 $MN=(a+b+40)\\,\\mathrm{cm}$，说明每项来源。；此处证据可直接支持该 skill 的判定。",
+          "evidence_refs": [
+            "TA-SMV-016@v1#S2"
+          ]
+        }
+      ],
+      "resource_ids": [
+        "RES6",
+        "RES7",
+        "RES8",
+        "RES9"
+      ]
+    },
+    {
+      "checkpoint_id": "CP3",
+      "part_id": "1",
+      "expected_reasoning": "学生能独立完成第二次建模并解释两种表达式为何表示同一树高。",
+      "skill_annotations": [
+        {
+          "skill_id": "SKILL-SMV-007",
+          "rationale": "该 checkpoint 对应教学步骤「第二次实践与结果印证」，预期学生能学生能独立完成第二次建模并解释两种表达式为何表示同一树高。；此处证据可直接支持该 skill 的判定。",
+          "evidence_refs": [
+            "TA-SMV-016@v1#S3"
+          ]
+        }
+      ],
+      "resource_ids": [
+        "RES10",
+        "RES11",
+        "RES12",
+        "RES13"
+      ]
+    }
+  ],
+  "resources": [
+    {
+      "kind": "voice_seed",
+      "checkpoint_id": "CP1",
+      "source": "authored",
+      "content": "我们先看这道题：在真实测量情境中把仪器结构翻译成 A 字型相似模型：两次实践分别求还需测量的量与树高表达式，并互相印证。（在真实测量情境中把仪器结构翻译成 A 字型相似模型：两次实践分别求还需测量的量与树高表达式，并互相印证。）",
+      "resource_id": "RES1"
+    },
+    {
+      "kind": "explanation",
+      "checkpoint_id": "CP1",
+      "source": "authored",
+      "content": "标注仪器结构：$AB=40\\,\\mathrm{cm}$、$CD=60\\,\\mathrm{cm}$、$DB=20\\,\\mathrm{cm}$，铅垂保证竖直方向；把「视线—标杆—树」翻译成 A 字型相似模型。",
+      "resource_id": "RES2"
+    },
+    {
+      "kind": "hint",
+      "checkpoint_id": "CP1",
+      "assistance_level": 1,
+      "source": "agent_generated",
+      "content": "先别急着算——这一步的关键是「读仪器，标注已知量」。说说你打算怎么找？",
+      "resource_id": "RES3"
+    },
+    {
+      "kind": "hint",
+      "checkpoint_id": "CP1",
+      "assistance_level": 2,
+      "source": "agent_generated",
+      "content": "提示：先写出这一步要用到的已知条件，再看它们如何组合出「读仪器，标注已知量」。",
+      "resource_id": "RES4"
+    },
+    {
+      "kind": "diagnostic_probe",
+      "checkpoint_id": "CP1",
+      "source": "agent_generated",
+      "content": "快速确认：读仪器，标注已知量——你能指出它在图或题干中对应的具体对象吗？",
+      "resource_id": "RES5"
+    },
+    {
+      "kind": "explanation",
+      "checkpoint_id": "CP2",
+      "source": "authored",
+      "content": "由平行得 A 字型相似，对应边成比例，推出还需测量 $NE=b\\,\\mathrm{cm}$，树高 $MN=(a+b+40)\\,\\mathrm{cm}$（40 为仪器结构补偿量）。",
+      "resource_id": "RES6"
+    },
+    {
+      "kind": "hint",
+      "checkpoint_id": "CP2",
+      "assistance_level": 1,
+      "source": "agent_generated",
+      "content": "先别急着算——这一步的关键是「第一次实践列比例求表达式」。说说你打算怎么找？",
+      "resource_id": "RES7"
+    },
+    {
+      "kind": "hint",
+      "checkpoint_id": "CP2",
+      "assistance_level": 2,
+      "source": "agent_generated",
+      "content": "提示：先写出这一步要用到的已知条件，再看它们如何组合出「第一次实践列比例求表达式」。",
+      "resource_id": "RES8"
+    },
+    {
+      "kind": "diagnostic_probe",
+      "checkpoint_id": "CP2",
+      "source": "agent_generated",
+      "content": "快速确认：第一次实践列比例求表达式——你能指出它在图或题干中对应的具体对象吗？",
+      "resource_id": "RES9"
+    },
+    {
+      "kind": "explanation",
+      "checkpoint_id": "CP3",
+      "source": "authored",
+      "content": "换摆放后同理构造相似：还需测量 $EF=c\\,\\mathrm{cm}$，得 $MN=(c+a)\\,\\mathrm{cm}$；与第一次的 $MN=(a+b+40)\\,\\mathrm{cm}$ 互相印证，检查建模一致性。",
+      "resource_id": "RES10"
+    },
+    {
+      "kind": "hint",
+      "checkpoint_id": "CP3",
+      "assistance_level": 1,
+      "source": "agent_generated",
+      "content": "先别急着算——这一步的关键是「第二次实践与结果印证」。说说你打算怎么找？",
+      "resource_id": "RES11"
+    },
+    {
+      "kind": "hint",
+      "checkpoint_id": "CP3",
+      "assistance_level": 2,
+      "source": "agent_generated",
+      "content": "提示：先写出这一步要用到的已知条件，再看它们如何组合出「第二次实践与结果印证」。",
+      "resource_id": "RES12"
+    },
+    {
+      "kind": "diagnostic_probe",
+      "checkpoint_id": "CP3",
+      "source": "agent_generated",
+      "content": "快速确认：第二次实践与结果印证——你能指出它在图或题干中对应的具体对象吗？",
+      "resource_id": "RES13"
+    },
+    {
+      "resource_id": "RES14",
+      "kind": "repair",
+      "checkpoint_id": "CP3",
+      "source": "agent_generated",
+      "content": "多次提示仍未推进时：回到这道题目标（在真实测量情境中把仪器结构翻译成 A 字型相似模型：两次实践分别求还需测量的量与树高表达式，并互相印证。），由教师用该节点的讲解资源重新示范一遍，再请学生复述关键一步。"
+    },
+    {
+      "resource_id": "RES15",
+      "kind": "action_template",
+      "checkpoint_id": "CP3",
+      "source": "agent_generated",
+      "action_ref": "tp:TP-SMV-004:1:enter-text",
+      "capability": "similarity.plan-similarity-proof",
+      "content": "{\"actionId\":\"tp:TP-SMV-004:1:enter-text\",\"sourceStepId\":\"S3\",\"kind\":\"enter-text\",\"version\":1,\"title\":\"本题结论\",\"instruction\":\"根据前面的推理，写出这一问的最终结论。\",\"input\":{\"placeholder\":\"写出本题结论\"},\"teachingInput\":{\"expectedValues\":[\"第一次实践：还需测量 $NE=b\\\\,\\\\mathrm{cm}$，$MN=(a+b+40)\\\\,\\\\mathrm{cm}$；第二次实践：还需测量 $EF=c\\\\,\\\\mathrm{cm}$，$MN=(c+a)\\\\,\\\\mathrm{cm}$\"]},\"capabilities\":[\"similarity.plan-similarity-proof\",\"agent:select-object\",\"agent:set-answer\",\"agent:back\",\"agent:clear\"],\"answerSlots\":[{\"id\":\"value\",\"label\":\"本题结论\",\"kind\":\"text\",\"required\":true,\"placeholder\":\"写出本题结论\"}],\"submitOnComplete\":true}"
+    }
+  ],
+  "policy_constraints": {
+    "allowed_move_types": [
+      "explain",
+      "prompt",
+      "hint",
+      "confirm",
+      "wait",
+      "repair"
+    ],
+    "allowed_capabilities": [
+      "similarity.plan-similarity-proof"
+    ],
+    "forbidden_content_kinds": [
+      "canonical_answer",
+      "reviewed_solution",
+      "hidden_truth",
+      "unapproved_tool"
+    ],
+    "maximum_assistance_level": 2,
+    "assessment_enabled": false
+  },
+  "build_provenance": {
+    "provider": "deterministic-rules",
+    "model_id": "plan-build-rules/v1",
+    "workflow_version": "tutor-plan-build/v1",
+    "run_id": "plan-build-20260821",
+    "built_at": "2026-08-20T17:14:36.939Z",
+    "runtime_registry_version": "action-runtime-registry/v5@32f7ae75600a"
+  },
+  "content_hash": "sha256:aa96e0ad1a9a39332452a7358a15d6db3f1a08d4509894660b463badd7b2341e",
+  "artifact_uri": "artifact://tutor-plan/TP-SMV-004@v1"
+}

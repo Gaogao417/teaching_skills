@@ -1,0 +1,251 @@
+{
+  "schema": "ai_teaching_tutor_plan_bundle/v2",
+  "artifact_id": "TP-SMV-001",
+  "version": "v1",
+  "status": "Approved",
+  "question_ref": {
+    "artifact_id": "QT-SMV-001",
+    "version": "v2",
+    "content_hash": "sha256:c062168c637917ebda8c1da9e770b05ee7d9ce23618026d09ce4cc886f77bdde"
+  },
+  "approach_refs": [
+    {
+      "artifact_id": "TA-SMV-009",
+      "version": "v1",
+      "content_hash": "sha256:a766221b39998936ceb29ee121e1709d6101bd73779f15532ca0b5c8a60e78cd",
+      "part_id": "1"
+    }
+  ],
+  "recommended_routes": [
+    {
+      "route_id": "R1",
+      "role": "primary",
+      "part_id": "1",
+      "checkpoint_ids": [
+        "CP1",
+        "CP2",
+        "CP3"
+      ],
+      "completion_condition": "（承接整题讲法 v3）抓翻折不变量：等角对等边定出 AD=DC，翻折保长保角，在斜三角形里用余弦定理收口求 BE。"
+    },
+    {
+      "route_id": "R2",
+      "role": "alternate",
+      "part_id": "1",
+      "entry_condition": "学生已能学生看到翻折条件能先列不变量清单，而不是直接硬算 BE。，可直接跳过开场确认",
+      "checkpoint_ids": [
+        "CP2",
+        "CP3"
+      ],
+      "completion_condition": "（承接整题讲法 v3）抓翻折不变量：等角对等边定出 AD=DC，翻折保长保角，在斜三角形里用余弦定理收口求 BE。"
+    }
+  ],
+  "checkpoints": [
+    {
+      "checkpoint_id": "CP1",
+      "part_id": "1",
+      "expected_reasoning": "学生看到 $\\angle DAC=\\angle ACD$ 能立刻写出 AD=DC 并设元。",
+      "skippable": true,
+      "skill_annotations": [
+        {
+          "skill_id": "SKILL-SMV-001",
+          "rationale": "该 checkpoint 对应教学步骤「读题标注，等角翻译成等边」，预期学生能学生看到 $\\angle DAC=\\angle ACD$ 能立刻写出 AD=DC 并设元。；此处证据可直接支持该 skill 的判定。",
+          "evidence_refs": [
+            "TA-SMV-009@v1#S1"
+          ]
+        }
+      ],
+      "resource_ids": [
+        "RES1",
+        "RES2",
+        "RES3",
+        "RES4",
+        "RES5"
+      ]
+    },
+    {
+      "checkpoint_id": "CP2",
+      "part_id": "1",
+      "expected_reasoning": "学生能列出翻折不变量清单（对应边相等、对应角相等）。",
+      "unmapped_skill_reason": "v2 skill_ids 仅作 provisional hint：SKILL-SMV-008 未在此节点锚定（已在他处使用或粗粒度语境不足）",
+      "resource_ids": [
+        "RES6",
+        "RES7",
+        "RES8"
+      ]
+    },
+    {
+      "checkpoint_id": "CP3",
+      "part_id": "1",
+      "expected_reasoning": "学生能先解出 t 与 BD，再选余弦定理收口，最后得到 $BE=1$。",
+      "common_deviations": [
+        "在斜三角形中硬凑勾股"
+      ],
+      "skill_annotations": [
+        {
+          "skill_id": "SKILL-SMV-007",
+          "rationale": "该 checkpoint 对应教学步骤「设元列式求 BE」，预期学生能学生能先解出 t 与 BD，再选余弦定理收口，最后得到 $BE=1$。；此处证据可直接支持该 skill 的判定。",
+          "evidence_refs": [
+            "TA-SMV-009@v1#S3"
+          ]
+        }
+      ],
+      "resource_ids": [
+        "RES9",
+        "RES10",
+        "RES11",
+        "RES12"
+      ]
+    }
+  ],
+  "resources": [
+    {
+      "kind": "voice_seed",
+      "checkpoint_id": "CP1",
+      "source": "authored",
+      "content": "我们先看这道题：（承接整题讲法 v3）抓翻折不变量：等角对等边定出 AD=DC，翻折保长保角，在斜三角形里用余弦定理收口求 BE。（（承接整题讲法 v3）抓翻折不变量：等角对等边定出 AD=DC，翻折保长保角，在斜三角形里用余弦定理收口求 BE。）",
+      "resource_id": "RES1"
+    },
+    {
+      "kind": "explanation",
+      "checkpoint_id": "CP1",
+      "source": "authored",
+      "content": "标注等腰条件 $AB=AC=4$、$BC=6$；由 $\\angle DAC=\\angle ACD$ 得 $AD=DC$（等角对等边），设 $AD=DC=t$，$BD=6-t$。",
+      "resource_id": "RES2"
+    },
+    {
+      "kind": "hint",
+      "checkpoint_id": "CP1",
+      "assistance_level": 1,
+      "source": "agent_generated",
+      "content": "先别急着算——这一步的关键是「读题标注，等角翻译成等边」。说说你打算怎么找？",
+      "resource_id": "RES3"
+    },
+    {
+      "kind": "hint",
+      "checkpoint_id": "CP1",
+      "assistance_level": 2,
+      "source": "agent_generated",
+      "content": "提示：先写出这一步要用到的已知条件，再看它们如何组合出「读题标注，等角翻译成等边」。",
+      "resource_id": "RES4"
+    },
+    {
+      "kind": "diagnostic_probe",
+      "checkpoint_id": "CP1",
+      "source": "agent_generated",
+      "content": "快速确认：读题标注，等角翻译成等边——你能指出它在图或题干中对应的具体对象吗？",
+      "resource_id": "RES5"
+    },
+    {
+      "kind": "explanation",
+      "checkpoint_id": "CP2",
+      "source": "authored",
+      "content": "翻折保长保角：$AE=AC=4$、$DE=DC=t$、$\\angle ADE=\\angle ADC$；折叠后的三角形 ADE 与原三角形 ADC 全等，BE 落在 △BDE 中求解。",
+      "resource_id": "RES6"
+    },
+    {
+      "kind": "hint",
+      "checkpoint_id": "CP2",
+      "assistance_level": 1,
+      "source": "agent_generated",
+      "content": "先别急着算——这一步的关键是「抓翻折不变量，识别母子型结构」。说说你打算怎么找？",
+      "resource_id": "RES7"
+    },
+    {
+      "kind": "hint",
+      "checkpoint_id": "CP2",
+      "assistance_level": 2,
+      "source": "agent_generated",
+      "content": "提示：先写出这一步要用到的已知条件，再看它们如何组合出「抓翻折不变量，识别母子型结构」。",
+      "resource_id": "RES8"
+    },
+    {
+      "kind": "explanation",
+      "checkpoint_id": "CP3",
+      "source": "authored",
+      "content": "用勾股关系解出 $t=\\frac{8}{3}$、$BD=\\frac{10}{3}$；再在 △BDE 中求出夹角 $\\angle BDE$ 后用余弦定理，解得 $BE=1$。",
+      "resource_id": "RES9"
+    },
+    {
+      "kind": "hint",
+      "checkpoint_id": "CP3",
+      "assistance_level": 1,
+      "source": "agent_generated",
+      "content": "先别急着算——这一步的关键是「设元列式求 BE」。说说你打算怎么找？",
+      "resource_id": "RES10"
+    },
+    {
+      "kind": "hint",
+      "checkpoint_id": "CP3",
+      "assistance_level": 2,
+      "source": "agent_generated",
+      "content": "常见卡点是「在斜三角形中硬凑勾股」。回到「设元列式求 BE」，检查还有哪个已知条件没有用上。",
+      "resource_id": "RES11"
+    },
+    {
+      "kind": "diagnostic_probe",
+      "checkpoint_id": "CP3",
+      "source": "agent_generated",
+      "content": "快速确认：设元列式求 BE——你能指出它在图或题干中对应的具体对象吗？",
+      "resource_id": "RES12"
+    },
+    {
+      "resource_id": "RES13",
+      "kind": "repair",
+      "checkpoint_id": "CP3",
+      "source": "agent_generated",
+      "content": "多次提示仍未推进时：回到这道题目标（（承接整题讲法 v3）抓翻折不变量：等角对等边定出 AD=DC，翻折保长保角，在斜三角形里用余弦定理收口求 BE。），由教师用该节点的讲解资源重新示范一遍，再请学生复述关键一步。"
+    },
+    {
+      "resource_id": "RES14",
+      "kind": "action_template",
+      "checkpoint_id": "CP3",
+      "source": "agent_generated",
+      "action_ref": "tp:TP-SMV-001:1:enter-text",
+      "capability": "similarity.plan-similarity-proof",
+      "content": "{\"actionId\":\"tp:TP-SMV-001:1:enter-text\",\"sourceStepId\":\"S3\",\"kind\":\"enter-text\",\"version\":1,\"title\":\"本题结论\",\"instruction\":\"根据前面的推理，写出这一问的最终结论。\",\"input\":{\"placeholder\":\"写出本题结论\"},\"teachingInput\":{\"expectedValues\":[\"$1$\"]},\"capabilities\":[\"similarity.plan-similarity-proof\",\"agent:select-object\",\"agent:set-answer\",\"agent:back\",\"agent:clear\"],\"answerSlots\":[{\"id\":\"value\",\"label\":\"本题结论\",\"kind\":\"text\",\"required\":true,\"placeholder\":\"写出本题结论\"}],\"submitOnComplete\":true}"
+    }
+  ],
+  "policy_constraints": {
+    "allowed_move_types": [
+      "explain",
+      "prompt",
+      "hint",
+      "confirm",
+      "wait",
+      "repair"
+    ],
+    "allowed_capabilities": [
+      "similarity.plan-similarity-proof"
+    ],
+    "forbidden_content_kinds": [
+      "canonical_answer",
+      "reviewed_solution",
+      "hidden_truth",
+      "unapproved_tool"
+    ],
+    "maximum_assistance_level": 2,
+    "assessment_enabled": false
+  },
+  "build_provenance": {
+    "provider": "deterministic-rules",
+    "model_id": "plan-build-rules/v1",
+    "workflow_version": "tutor-plan-build/v1",
+    "run_id": "plan-build-20260821",
+    "built_at": "2026-08-20T17:14:36.918Z",
+    "runtime_registry_version": "action-runtime-registry/v5@32f7ae75600a"
+  },
+  "content_hash": "sha256:06b07dc5e6426a136bf18004c58e5255dfd9a7f74f523e6f3f5bd3c23d471814",
+  "artifact_uri": "artifact://tutor-plan/TP-SMV-001@v1",
+  "approval": {
+    "reviewer_id": "migration-agent",
+    "approved_at": "2026-08-20T17:14:36.922Z",
+    "review_note": "Phase 4 代理审核：预览走查路线/提示阶梯/Action 来源/skill 标注（用户 2026-08-20 裁定按需复核口径）"
+  },
+  "runtime_projection": {
+    "materializer_version": "tutor-plan-materializer/0.1.0",
+    "runtime_registry_version": "action-runtime-registry/v5@32f7ae75600a",
+    "projection_hash": "sha256:4b8260b5063f5b3e38a58be6e07a6c95d3d2630adb7c99d371df6ca4ad1c21dd",
+    "validation_status": "passed"
+  }
+}

@@ -1,0 +1,619 @@
+{
+  "schema": "ai_teaching_tutor_plan_bundle/v2",
+  "artifact_id": "TP-SMV-003",
+  "version": "v1",
+  "status": "Approved",
+  "question_ref": {
+    "artifact_id": "QT-SMV-003",
+    "version": "v2",
+    "content_hash": "sha256:4308ade0fa955f2a35eba38cb004950325d0c9335765660e676ec5a3ca9e0684"
+  },
+  "approach_refs": [
+    {
+      "artifact_id": "TA-SMV-012",
+      "version": "v1",
+      "content_hash": "sha256:da4c9dcc56babb27eaf4f732672bcdcc9e920821f1fdb13371bafe4319529a48",
+      "part_id": "1"
+    },
+    {
+      "artifact_id": "TA-SMV-013",
+      "version": "v1",
+      "content_hash": "sha256:95550f01ff692ce8eff5e32123414efe94b800a878627b0b0a53027ada3a2e8a",
+      "part_id": "2"
+    },
+    {
+      "artifact_id": "TA-SMV-014",
+      "version": "v1",
+      "content_hash": "sha256:3da998319a958613f7bad08baf118b2e36bcaa606ec6874f99b91d76a792d067",
+      "part_id": "3"
+    }
+  ],
+  "recommended_routes": [
+    {
+      "route_id": "R1",
+      "role": "primary",
+      "part_id": "1",
+      "checkpoint_ids": [
+        "CP1",
+        "CP2",
+        "CP3"
+      ],
+      "completion_condition": "用「重心 → 中线 → 等腰直角斜边中线垂直」与外角和分解，证 $\\angle DAB = \\angle DCF$。"
+    },
+    {
+      "route_id": "R2",
+      "role": "alternate",
+      "part_id": "1",
+      "entry_condition": "学生已能学生看到重心条件能联想到三线合一与中线性质。，可直接跳过开场确认",
+      "checkpoint_ids": [
+        "CP2",
+        "CP3"
+      ],
+      "completion_condition": "用「重心 → 中线 → 等腰直角斜边中线垂直」与外角和分解，证 $\\angle DAB = \\angle DCF$。"
+    },
+    {
+      "route_id": "R3",
+      "role": "primary",
+      "part_id": "2",
+      "checkpoint_ids": [
+        "CP4",
+        "CP5",
+        "CP6"
+      ],
+      "completion_condition": "作 $BH \\perp CD$ 构造全等转移线段，由 $AD \\parallel BH$ 导比例，解出 $y = \\frac{x^{2} + 4}{x + 2}$（$0 < x \\leq 2$）。"
+    },
+    {
+      "route_id": "R4",
+      "role": "alternate",
+      "part_id": "2",
+      "entry_condition": "学生已能学生知道函数关系式要「设元 → 找等量 → 消元」。，可直接跳过开场确认",
+      "checkpoint_ids": [
+        "CP5",
+        "CP6"
+      ],
+      "completion_condition": "作 $BH \\perp CD$ 构造全等转移线段，由 $AD \\parallel BH$ 导比例，解出 $y = \\frac{x^{2} + 4}{x + 2}$（$0 < x \\leq 2$）。"
+    },
+    {
+      "route_id": "R5",
+      "role": "primary",
+      "part_id": "3",
+      "checkpoint_ids": [
+        "CP7",
+        "CP8",
+        "CP9"
+      ],
+      "completion_condition": "按 $GC=GD$、$CG=CD$ 两类画图列式，结合函数关系式求解并按范围取舍，得 $AD = 1$ 或 $\\sqrt{14}$。"
+    },
+    {
+      "route_id": "R6",
+      "role": "alternate",
+      "part_id": "3",
+      "entry_condition": "学生已能学生能对「以 CG 为腰」枚举两种等腰可能并分别画图。，可直接跳过开场确认",
+      "checkpoint_ids": [
+        "CP8",
+        "CP9"
+      ],
+      "completion_condition": "按 $GC=GD$、$CG=CD$ 两类画图列式，结合函数关系式求解并按范围取舍，得 $AD = 1$ 或 $\\sqrt{14}$。"
+    }
+  ],
+  "checkpoints": [
+    {
+      "checkpoint_id": "CP1",
+      "part_id": "1",
+      "expected_reasoning": "学生能把「重心」翻译成「中线」，再由等腰直角得到垂直。",
+      "skippable": true,
+      "skill_annotations": [
+        {
+          "skill_id": "SKILL-SMV-001",
+          "rationale": "该 checkpoint 对应教学步骤「重心翻译成中线」，预期学生能学生能把「重心」翻译成「中线」，再由等腰直角得到垂直。；此处证据可直接支持该 skill 的判定。",
+          "evidence_refs": [
+            "TA-SMV-012@v1#S1"
+          ]
+        }
+      ],
+      "resource_ids": [
+        "RES1",
+        "RES2",
+        "RES3",
+        "RES4",
+        "RES5"
+      ]
+    },
+    {
+      "checkpoint_id": "CP2",
+      "part_id": "1",
+      "expected_reasoning": "学生能对同一个角写两条分解式并相减。",
+      "skill_annotations": [
+        {
+          "skill_id": "SKILL-SMV-005",
+          "rationale": "该 checkpoint 对应教学步骤「外角和分解对齐」，预期学生能学生能对同一个角写两条分解式并相减。；此处证据可直接支持该 skill 的判定。",
+          "evidence_refs": [
+            "TA-SMV-012@v1#S2"
+          ]
+        }
+      ],
+      "resource_ids": [
+        "RES6",
+        "RES7",
+        "RES8",
+        "RES9"
+      ]
+    },
+    {
+      "checkpoint_id": "CP3",
+      "part_id": "1",
+      "expected_reasoning": "学生能核对角的记号转换（DAE→DAB、ECF→DCF）后落笔。",
+      "unmapped_skill_reason": "v2 skill_ids 仅作 provisional hint：SKILL-SMV-009 未在此节点锚定（已在他处使用或粗粒度语境不足）",
+      "resource_ids": [
+        "RES10",
+        "RES11",
+        "RES12"
+      ]
+    },
+    {
+      "checkpoint_id": "CP4",
+      "part_id": "2",
+      "expected_reasoning": "学生能想到作高构造全等，把 BC 侧的量转到 CD 轴上。",
+      "skippable": true,
+      "skill_annotations": [
+        {
+          "skill_id": "SKILL-SMV-008",
+          "rationale": "select 类证据在 recognize/plan 间共享（capability-skill-map gap note）；以本 checkpoint 语境（构造高线全等转移）作为该 skill 的低置信线索。",
+          "evidence_refs": [
+            "TA-SMV-013@v1#S1"
+          ]
+        }
+      ],
+      "resource_ids": [
+        "RES15",
+        "RES16",
+        "RES17",
+        "RES18",
+        "RES19"
+      ]
+    },
+    {
+      "checkpoint_id": "CP5",
+      "part_id": "2",
+      "expected_reasoning": "学生能用合比性质把 DE/EH 转成 DH/EH。",
+      "skill_annotations": [
+        {
+          "skill_id": "SKILL-SMV-003",
+          "rationale": "该 checkpoint 对应教学步骤「平行导比例」，预期学生能学生能用合比性质把 DE/EH 转成 DH/EH。；此处证据可直接支持该 skill 的判定。",
+          "evidence_refs": [
+            "TA-SMV-013@v1#S2"
+          ]
+        },
+        {
+          "skill_id": "SKILL-SMV-007",
+          "rationale": "该 checkpoint 对应教学步骤「平行导比例」，预期学生能学生能用合比性质把 DE/EH 转成 DH/EH。；此处证据可直接支持该 skill 的判定。",
+          "evidence_refs": [
+            "TA-SMV-013@v1#S2"
+          ]
+        }
+      ],
+      "resource_ids": [
+        "RES20",
+        "RES21",
+        "RES22",
+        "RES23"
+      ]
+    },
+    {
+      "checkpoint_id": "CP6",
+      "part_id": "2",
+      "expected_reasoning": "学生能合并分式并说明范围来自 E 的位置约束。",
+      "common_deviations": [
+        "范围写成 0<x<2（漏端点）"
+      ],
+      "unmapped_skill_reason": "v2 skill_ids 仅作 provisional hint：SKILL-SMV-007 未在此节点锚定（已在他处使用或粗粒度语境不足）",
+      "resource_ids": [
+        "RES24",
+        "RES25",
+        "RES26"
+      ]
+    },
+    {
+      "checkpoint_id": "CP7",
+      "part_id": "3",
+      "expected_reasoning": "学生能不重不漏列出两类并说明分类依据（腰的两个端点）。",
+      "skippable": true,
+      "skill_annotations": [
+        {
+          "skill_id": "SKILL-SMV-009",
+          "rationale": "select 类证据在 recognize/plan 间共享（capability-skill-map gap note）；以本 checkpoint 语境（分类起点与图形）作为该 skill 的低置信线索。",
+          "evidence_refs": [
+            "TA-SMV-014@v1#S1"
+          ]
+        }
+      ],
+      "resource_ids": [
+        "RES29",
+        "RES30",
+        "RES31",
+        "RES32",
+        "RES33"
+      ]
+    },
+    {
+      "checkpoint_id": "CP8",
+      "part_id": "3",
+      "expected_reasoning": "学生能用「到两端等距 → 垂直」识别中垂线结构。",
+      "unmapped_skill_reason": "v2 skill_ids 仅作 provisional hint：SKILL-SMV-005/SKILL-SMV-001 未在此节点锚定（已在他处使用或粗粒度语境不足）",
+      "resource_ids": [
+        "RES34",
+        "RES35",
+        "RES36"
+      ]
+    },
+    {
+      "checkpoint_id": "CP9",
+      "part_id": "3",
+      "expected_reasoning": "学生能代回函数范围检验两解均合法。",
+      "common_deviations": [
+        "漏一类，或解后不代回范围"
+      ],
+      "unmapped_skill_reason": "v2 skill_ids 仅作 provisional hint：SKILL-SMV-007 未在此节点锚定（已在他处使用或粗粒度语境不足）",
+      "resource_ids": [
+        "RES37",
+        "RES38",
+        "RES39"
+      ]
+    }
+  ],
+  "resources": [
+    {
+      "kind": "voice_seed",
+      "checkpoint_id": "CP1",
+      "source": "authored",
+      "content": "回到题干，把已知条件与要求的目标各列一遍，再对照图形找它们的联系。",
+      "resource_id": "RES1"
+    },
+    {
+      "kind": "explanation",
+      "checkpoint_id": "CP1",
+      "source": "authored",
+      "content": "点 $G$ 是 Rt$\\triangle ABC$ 的重心，$CG$ 是中线，交 $AB$ 于 $F$；由 $AC=BC$、$\\angle ACB=90^\\circ$ 知 $CF$ 既是中线也是高，$\\angle AFC=90^\\circ$。",
+      "resource_id": "RES2"
+    },
+    {
+      "kind": "hint",
+      "checkpoint_id": "CP1",
+      "assistance_level": 1,
+      "source": "agent_generated",
+      "content": "先别急着算——这一步的关键是「重心翻译成中线」。说说你打算怎么找？",
+      "resource_id": "RES3"
+    },
+    {
+      "kind": "hint",
+      "checkpoint_id": "CP1",
+      "assistance_level": 2,
+      "source": "agent_generated",
+      "content": "提示：先写出这一步要用到的已知条件，再看它们如何组合出「重心翻译成中线」。",
+      "resource_id": "RES4"
+    },
+    {
+      "kind": "diagnostic_probe",
+      "checkpoint_id": "CP1",
+      "source": "agent_generated",
+      "content": "快速确认：重心翻译成中线——你能指出它在图或题干中对应的具体对象吗？",
+      "resource_id": "RES5"
+    },
+    {
+      "kind": "explanation",
+      "checkpoint_id": "CP2",
+      "source": "authored",
+      "content": "$\\angle DEF=\\angle ADE+\\angle DAE$（外角），$\\angle DEF=\\angle EFC+\\angle ECF$；其中 $\\angle ADE=\\angle EFC=90^\\circ$，两式相减得 $\\angle DAE=\\angle ECF$。",
+      "resource_id": "RES6"
+    },
+    {
+      "kind": "hint",
+      "checkpoint_id": "CP2",
+      "assistance_level": 1,
+      "source": "agent_generated",
+      "content": "先别急着算——这一步的关键是「外角和分解对齐」。说说你打算怎么找？",
+      "resource_id": "RES7"
+    },
+    {
+      "kind": "hint",
+      "checkpoint_id": "CP2",
+      "assistance_level": 2,
+      "source": "agent_generated",
+      "content": "提示：先写出这一步要用到的已知条件，再看它们如何组合出「外角和分解对齐」。",
+      "resource_id": "RES8"
+    },
+    {
+      "kind": "diagnostic_probe",
+      "checkpoint_id": "CP2",
+      "source": "agent_generated",
+      "content": "快速确认：外角和分解对齐——你能指出它在图或题干中对应的具体对象吗？",
+      "resource_id": "RES9"
+    },
+    {
+      "kind": "explanation",
+      "checkpoint_id": "CP3",
+      "source": "authored",
+      "content": "$\\angle DAE$ 即 $\\angle DAB$、$\\angle ECF$ 即 $\\angle DCF$，故 $\\angle DAB = \\angle DCF$ 得证。",
+      "resource_id": "RES10"
+    },
+    {
+      "kind": "hint",
+      "checkpoint_id": "CP3",
+      "assistance_level": 1,
+      "source": "agent_generated",
+      "content": "先别急着算——这一步的关键是「收尾书写」。说说你打算怎么找？",
+      "resource_id": "RES11"
+    },
+    {
+      "kind": "hint",
+      "checkpoint_id": "CP3",
+      "assistance_level": 2,
+      "source": "agent_generated",
+      "content": "提示：先写出这一步要用到的已知条件，再看它们如何组合出「收尾书写」。",
+      "resource_id": "RES12"
+    },
+    {
+      "resource_id": "RES13",
+      "kind": "repair",
+      "checkpoint_id": "CP3",
+      "source": "agent_generated",
+      "content": "多次提示仍未推进时：回到第1问目标（用「重心 → 中线 → 等腰直角斜边中线垂直」与外角和分解，证 $\\angle DAB = \\angle DCF$。），由教师用该节点的讲解资源重新示范一遍，再请学生复述关键一步。"
+    },
+    {
+      "resource_id": "RES14",
+      "kind": "action_template",
+      "checkpoint_id": "CP3",
+      "source": "agent_generated",
+      "action_ref": "tp:TP-SMV-003:1:enter-text",
+      "capability": "similarity.plan-similarity-proof",
+      "content": "{\"actionId\":\"tp:TP-SMV-003:1:enter-text\",\"sourceStepId\":\"S3\",\"kind\":\"enter-text\",\"version\":1,\"title\":\"第1问结论\",\"instruction\":\"根据前面的推理，写出这一问的最终结论。\",\"input\":{\"placeholder\":\"写出第1问结论\"},\"teachingInput\":{\"expectedValues\":[\"$\\\\angle DAB = \\\\angle DCF$ 得证（见解答）\"]},\"capabilities\":[\"similarity.plan-similarity-proof\",\"agent:select-object\",\"agent:set-answer\",\"agent:back\",\"agent:clear\"],\"answerSlots\":[{\"id\":\"value\",\"label\":\"第1问结论\",\"kind\":\"text\",\"required\":true,\"placeholder\":\"写出第1问结论\"}],\"submitOnComplete\":true}"
+    },
+    {
+      "kind": "voice_seed",
+      "checkpoint_id": "CP4",
+      "source": "authored",
+      "content": "回到题干，把已知条件与要求的目标各列一遍，再对照图形找它们的联系。",
+      "resource_id": "RES15"
+    },
+    {
+      "kind": "explanation",
+      "checkpoint_id": "CP4",
+      "source": "authored",
+      "content": "过点 $B$ 作 $BH \\perp CD$ 于点 $H$，可证 $\\triangle CAD \\cong \\triangle BCH$，得 $BH=CD=2$、$CH=AD=x$、$DH=2-x$。",
+      "resource_id": "RES16"
+    },
+    {
+      "kind": "hint",
+      "checkpoint_id": "CP4",
+      "assistance_level": 1,
+      "source": "agent_generated",
+      "content": "先别急着算——这一步的关键是「构造高线全等转移」。说说你打算怎么找？",
+      "resource_id": "RES17"
+    },
+    {
+      "kind": "hint",
+      "checkpoint_id": "CP4",
+      "assistance_level": 2,
+      "source": "agent_generated",
+      "content": "提示：先写出这一步要用到的已知条件，再看它们如何组合出「构造高线全等转移」。",
+      "resource_id": "RES18"
+    },
+    {
+      "kind": "diagnostic_probe",
+      "checkpoint_id": "CP4",
+      "source": "agent_generated",
+      "content": "快速确认：构造高线全等转移——你能指出它在图或题干中对应的具体对象吗？",
+      "resource_id": "RES19"
+    },
+    {
+      "kind": "explanation",
+      "checkpoint_id": "CP5",
+      "source": "authored",
+      "content": "$AD \\parallel BH$ 得 $\\frac{AD}{BH}=\\frac{DE}{EH}$，即 $\\frac{x}{2}=\\frac{DE}{EH}$；合比得 $\\frac{DH}{EH}=\\frac{x+2}{2}$，解出 $EH=\\frac{4-2x}{x+2}$。",
+      "resource_id": "RES20"
+    },
+    {
+      "kind": "hint",
+      "checkpoint_id": "CP5",
+      "assistance_level": 1,
+      "source": "agent_generated",
+      "content": "先别急着算——这一步的关键是「平行导比例」。说说你打算怎么找？",
+      "resource_id": "RES21"
+    },
+    {
+      "kind": "hint",
+      "checkpoint_id": "CP5",
+      "assistance_level": 2,
+      "source": "agent_generated",
+      "content": "提示：先写出这一步要用到的已知条件，再看它们如何组合出「平行导比例」。",
+      "resource_id": "RES22"
+    },
+    {
+      "kind": "diagnostic_probe",
+      "checkpoint_id": "CP5",
+      "source": "agent_generated",
+      "content": "快速确认：平行导比例——你能指出它在图或题干中对应的具体对象吗？",
+      "resource_id": "RES23"
+    },
+    {
+      "kind": "explanation",
+      "checkpoint_id": "CP6",
+      "source": "authored",
+      "content": "$y=CE=CH+HE=x+\\frac{4-2x}{x+2}$，整理得 $y = \\frac{x^{2} + 4}{x + 2}$；由点 $E$ 在边 $CD$ 上得自变量范围 $0 < x \\leq 2$。",
+      "resource_id": "RES24"
+    },
+    {
+      "kind": "hint",
+      "checkpoint_id": "CP6",
+      "assistance_level": 1,
+      "source": "agent_generated",
+      "content": "先别急着算——这一步的关键是「合并成函数并定范围」。说说你打算怎么找？",
+      "resource_id": "RES25"
+    },
+    {
+      "kind": "hint",
+      "checkpoint_id": "CP6",
+      "assistance_level": 2,
+      "source": "agent_generated",
+      "content": "常见卡点是「范围写成 0<x<2（漏端点）」。回到「合并成函数并定范围」，检查还有哪个已知条件没有用上。",
+      "resource_id": "RES26"
+    },
+    {
+      "resource_id": "RES27",
+      "kind": "repair",
+      "checkpoint_id": "CP6",
+      "source": "agent_generated",
+      "content": "多次提示仍未推进时：回到第2问目标（作 $BH \\perp CD$ 构造全等转移线段，由 $AD \\parallel BH$ 导比例，解出 $y = \\frac{x^{2} + 4}{x + 2}$（$0 < x \\leq 2$）。），由教师用该节点的讲解资源重新示范一遍，再请学生复述关键一步。"
+    },
+    {
+      "resource_id": "RES28",
+      "kind": "action_template",
+      "checkpoint_id": "CP6",
+      "source": "agent_generated",
+      "action_ref": "tp:TP-SMV-003:2:enter-text",
+      "capability": "similarity.plan-similarity-proof",
+      "content": "{\"actionId\":\"tp:TP-SMV-003:2:enter-text\",\"sourceStepId\":\"S3\",\"kind\":\"enter-text\",\"version\":1,\"title\":\"第2问结论\",\"instruction\":\"根据前面的推理，写出这一问的最终结论。\",\"input\":{\"placeholder\":\"写出第2问结论\"},\"teachingInput\":{\"expectedValues\":[\"$y = \\\\frac{x^{2} + 4}{x + 2}$\"]},\"capabilities\":[\"similarity.plan-similarity-proof\",\"agent:select-object\",\"agent:set-answer\",\"agent:back\",\"agent:clear\"],\"answerSlots\":[{\"id\":\"value\",\"label\":\"第2问结论\",\"kind\":\"text\",\"required\":true,\"placeholder\":\"写出第2问结论\"}],\"submitOnComplete\":true}"
+    },
+    {
+      "kind": "voice_seed",
+      "checkpoint_id": "CP7",
+      "source": "authored",
+      "content": "回到题干，把已知条件与要求的目标各列一遍，再对照图形找它们的联系。",
+      "resource_id": "RES29"
+    },
+    {
+      "kind": "explanation",
+      "checkpoint_id": "CP7",
+      "source": "authored",
+      "content": "$\\triangle CDG$ 以 $CG$ 为腰 → 两类：$GC=GD$ 与 $CG=CD$；先明确 $CD=2$ 恒定，分类只改变 G 的位置。",
+      "resource_id": "RES30"
+    },
+    {
+      "kind": "hint",
+      "checkpoint_id": "CP7",
+      "assistance_level": 1,
+      "source": "agent_generated",
+      "content": "先别急着算——这一步的关键是「分类起点与图形」。说说你打算怎么找？",
+      "resource_id": "RES31"
+    },
+    {
+      "kind": "hint",
+      "checkpoint_id": "CP7",
+      "assistance_level": 2,
+      "source": "agent_generated",
+      "content": "提示：先写出这一步要用到的已知条件，再看它们如何组合出「分类起点与图形」。",
+      "resource_id": "RES32"
+    },
+    {
+      "kind": "diagnostic_probe",
+      "checkpoint_id": "CP7",
+      "source": "agent_generated",
+      "content": "快速确认：分类起点与图形——你能指出它在图或题干中对应的具体对象吗？",
+      "resource_id": "RES33"
+    },
+    {
+      "kind": "explanation",
+      "checkpoint_id": "CP8",
+      "source": "authored",
+      "content": "取 $AC$ 的中点 $M$，联结 $MD$，则 $MD=MC$；联结 $MG$ 则 $MG \\perp CD$ 且直线 $MG$ 经过点 $B$，$BH$ 与 $MG$ 共线；又 $CH=AD$，得 $AD=CH=1$。",
+      "resource_id": "RES34"
+    },
+    {
+      "kind": "hint",
+      "checkpoint_id": "CP8",
+      "assistance_level": 1,
+      "source": "agent_generated",
+      "content": "先别急着算——这一步的关键是「类一 GC=GD」。说说你打算怎么找？",
+      "resource_id": "RES35"
+    },
+    {
+      "kind": "hint",
+      "checkpoint_id": "CP8",
+      "assistance_level": 2,
+      "source": "agent_generated",
+      "content": "提示：先写出这一步要用到的已知条件，再看它们如何组合出「类一 GC=GD」。",
+      "resource_id": "RES36"
+    },
+    {
+      "kind": "explanation",
+      "checkpoint_id": "CP9",
+      "source": "authored",
+      "content": "$CG=CD=2$；G 为重心，$CF=\\frac{3}{2}CG=3$，等腰直角得 $AC=\\frac{\\sqrt{2}}{2}AB=3\\sqrt{2}$，$AD=\\sqrt{AC^{2}-CD^{2}}=\\sqrt{14}$。综上 $AD = 1$ 或 $\\sqrt{14}$，均满足 $0 < x \\leq 2$。",
+      "resource_id": "RES37"
+    },
+    {
+      "kind": "hint",
+      "checkpoint_id": "CP9",
+      "assistance_level": 1,
+      "source": "agent_generated",
+      "content": "先别急着算——这一步的关键是「类二 CG=CD 与总结」。说说你打算怎么找？",
+      "resource_id": "RES38"
+    },
+    {
+      "kind": "hint",
+      "checkpoint_id": "CP9",
+      "assistance_level": 2,
+      "source": "agent_generated",
+      "content": "常见卡点是「漏一类，或解后不代回范围」。回到「类二 CG=CD 与总结」，检查还有哪个已知条件没有用上。",
+      "resource_id": "RES39"
+    },
+    {
+      "resource_id": "RES40",
+      "kind": "repair",
+      "checkpoint_id": "CP9",
+      "source": "agent_generated",
+      "content": "多次提示仍未推进时：回到第3问目标（按 $GC=GD$、$CG=CD$ 两类画图列式，结合函数关系式求解并按范围取舍，得 $AD = 1$ 或 $\\sqrt{14}$。），由教师用该节点的讲解资源重新示范一遍，再请学生复述关键一步。"
+    },
+    {
+      "resource_id": "RES41",
+      "kind": "action_template",
+      "checkpoint_id": "CP9",
+      "source": "agent_generated",
+      "action_ref": "tp:TP-SMV-003:3:enter-text",
+      "capability": "similarity.plan-similarity-proof",
+      "content": "{\"actionId\":\"tp:TP-SMV-003:3:enter-text\",\"sourceStepId\":\"S3\",\"kind\":\"enter-text\",\"version\":1,\"title\":\"第3问结论\",\"instruction\":\"根据前面的推理，写出这一问的最终结论。\",\"input\":{\"placeholder\":\"写出第3问结论\"},\"teachingInput\":{\"expectedValues\":[\"$AD = 1$ 或 $\\\\sqrt{14}$\"]},\"capabilities\":[\"similarity.plan-similarity-proof\",\"agent:select-object\",\"agent:set-answer\",\"agent:back\",\"agent:clear\"],\"answerSlots\":[{\"id\":\"value\",\"label\":\"第3问结论\",\"kind\":\"text\",\"required\":true,\"placeholder\":\"写出第3问结论\"}],\"submitOnComplete\":true}"
+    }
+  ],
+  "policy_constraints": {
+    "allowed_move_types": [
+      "explain",
+      "prompt",
+      "hint",
+      "confirm",
+      "wait",
+      "repair"
+    ],
+    "allowed_capabilities": [
+      "similarity.plan-similarity-proof"
+    ],
+    "forbidden_content_kinds": [
+      "canonical_answer",
+      "reviewed_solution",
+      "hidden_truth",
+      "unapproved_tool"
+    ],
+    "maximum_assistance_level": 2,
+    "assessment_enabled": false
+  },
+  "build_provenance": {
+    "provider": "deterministic-rules",
+    "model_id": "plan-build-rules/v1",
+    "workflow_version": "tutor-plan-build/v1",
+    "run_id": "plan-build-20260821",
+    "built_at": "2026-08-20T17:14:36.935Z",
+    "runtime_registry_version": "action-runtime-registry/v5@32f7ae75600a"
+  },
+  "content_hash": "sha256:5cc921c53fc0af9b6c651ed4638653f73f1f805a18f57d6cb73a4fc3efcbe20a",
+  "artifact_uri": "artifact://tutor-plan/TP-SMV-003@v1",
+  "approval": {
+    "reviewer_id": "migration-agent",
+    "approved_at": "2026-08-20T17:14:36.936Z",
+    "review_note": "Phase 4 代理审核：预览走查路线/提示阶梯/Action 来源/skill 标注（用户 2026-08-20 裁定按需复核口径）"
+  },
+  "runtime_projection": {
+    "materializer_version": "tutor-plan-materializer/0.1.0",
+    "runtime_registry_version": "action-runtime-registry/v5@32f7ae75600a",
+    "projection_hash": "sha256:c40a7144d3079cf665b9d53d0d8c12e64cda0a960305739cc3b6c231d5d1559b",
+    "validation_status": "passed"
+  }
+}

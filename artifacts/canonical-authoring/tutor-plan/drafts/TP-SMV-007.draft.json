@@ -1,0 +1,237 @@
+{
+  "schema": "ai_teaching_tutor_plan_bundle/v2",
+  "artifact_id": "TP-SMV-007",
+  "version": "v1",
+  "status": "Draft",
+  "question_ref": {
+    "artifact_id": "QT-SMV-013",
+    "version": "v2",
+    "content_hash": "sha256:e4f02022bff778db2cdb765036866a182280476e391763587e13145062e8f73c"
+  },
+  "approach_refs": [
+    {
+      "artifact_id": "TA-SMV-015",
+      "version": "v1",
+      "content_hash": "sha256:f480ab659eaf88e49e6224aff454c8dfddf67edb09039472d2cf1a4fe4b550b0",
+      "part_id": "1"
+    }
+  ],
+  "recommended_routes": [
+    {
+      "route_id": "R1",
+      "role": "primary",
+      "part_id": "1",
+      "checkpoint_ids": [
+        "CP1",
+        "CP2",
+        "CP3"
+      ],
+      "completion_condition": "巩固比例中项的定义性计算：$b^2=ac$，代入后开平方并按线段取正值。"
+    },
+    {
+      "route_id": "R2",
+      "role": "alternate",
+      "part_id": "1",
+      "entry_condition": "学生已能学生能默写比例中项定义。，可直接跳过开场确认",
+      "checkpoint_ids": [
+        "CP2",
+        "CP3"
+      ],
+      "completion_condition": "巩固比例中项的定义性计算：$b^2=ac$，代入后开平方并按线段取正值。"
+    }
+  ],
+  "checkpoints": [
+    {
+      "checkpoint_id": "CP1",
+      "part_id": "1",
+      "expected_reasoning": "学生能写出两种等价表达并选用平方形式。",
+      "skippable": true,
+      "skill_annotations": [
+        {
+          "skill_id": "SKILL-SMV-001",
+          "rationale": "该 checkpoint 对应教学步骤「定义回忆」，预期学生能学生能写出两种等价表达并选用平方形式。；此处证据可直接支持该 skill 的判定。",
+          "evidence_refs": [
+            "TA-SMV-015@v1#S1"
+          ]
+        }
+      ],
+      "resource_ids": [
+        "RES1",
+        "RES2",
+        "RES3",
+        "RES4",
+        "RES5"
+      ]
+    },
+    {
+      "checkpoint_id": "CP2",
+      "part_id": "1",
+      "expected_reasoning": "学生能正确完成乘法 4×9=36。",
+      "skill_annotations": [
+        {
+          "skill_id": "SKILL-SMV-007",
+          "rationale": "该 checkpoint 对应教学步骤「代入计算」，预期学生能学生能正确完成乘法 4×9=36。；此处证据可直接支持该 skill 的判定。",
+          "evidence_refs": [
+            "TA-SMV-015@v1#S2"
+          ]
+        }
+      ],
+      "resource_ids": [
+        "RES6",
+        "RES7",
+        "RES8",
+        "RES9"
+      ]
+    },
+    {
+      "checkpoint_id": "CP3",
+      "part_id": "1",
+      "expected_reasoning": "学生能说明为什么开方后只取正值（线段长非负且非零）。",
+      "unmapped_skill_reason": "v2 skill_ids 仅作 provisional hint：SKILL-SMV-007 未在此节点锚定（已在他处使用或粗粒度语境不足）",
+      "resource_ids": [
+        "RES10",
+        "RES11",
+        "RES12"
+      ]
+    }
+  ],
+  "resources": [
+    {
+      "kind": "voice_seed",
+      "checkpoint_id": "CP1",
+      "source": "authored",
+      "content": "我们先看这道题：巩固比例中项的定义性计算：$b^2=ac$，代入后开平方并按线段取正值。（巩固比例中项的定义性计算：$b^2=ac$，代入后开平方并按线段取正值。）",
+      "resource_id": "RES1"
+    },
+    {
+      "kind": "explanation",
+      "checkpoint_id": "CP1",
+      "source": "authored",
+      "content": "比例中项定义：$b^2=ac$（即 $\\frac{a}{b}=\\frac{b}{c}$），本题即求满足 $b^2=4\\times 9$ 的线段 $b$。",
+      "resource_id": "RES2"
+    },
+    {
+      "kind": "hint",
+      "checkpoint_id": "CP1",
+      "assistance_level": 1,
+      "source": "agent_generated",
+      "content": "先别急着算——这一步的关键是「定义回忆」。说说你打算怎么找？",
+      "resource_id": "RES3"
+    },
+    {
+      "kind": "hint",
+      "checkpoint_id": "CP1",
+      "assistance_level": 2,
+      "source": "agent_generated",
+      "content": "提示：先写出这一步要用到的已知条件，再看它们如何组合出「定义回忆」。",
+      "resource_id": "RES4"
+    },
+    {
+      "kind": "diagnostic_probe",
+      "checkpoint_id": "CP1",
+      "source": "agent_generated",
+      "content": "快速确认：定义回忆——你能指出它在图或题干中对应的具体对象吗？",
+      "resource_id": "RES5"
+    },
+    {
+      "kind": "explanation",
+      "checkpoint_id": "CP2",
+      "source": "authored",
+      "content": "代入 $a=4$、$c=9$，$b^2=36$。",
+      "resource_id": "RES6"
+    },
+    {
+      "kind": "hint",
+      "checkpoint_id": "CP2",
+      "assistance_level": 1,
+      "source": "agent_generated",
+      "content": "先别急着算——这一步的关键是「代入计算」。说说你打算怎么找？",
+      "resource_id": "RES7"
+    },
+    {
+      "kind": "hint",
+      "checkpoint_id": "CP2",
+      "assistance_level": 2,
+      "source": "agent_generated",
+      "content": "提示：先写出这一步要用到的已知条件，再看它们如何组合出「代入计算」。",
+      "resource_id": "RES8"
+    },
+    {
+      "kind": "diagnostic_probe",
+      "checkpoint_id": "CP2",
+      "source": "agent_generated",
+      "content": "快速确认：代入计算——你能指出它在图或题干中对应的具体对象吗？",
+      "resource_id": "RES9"
+    },
+    {
+      "kind": "explanation",
+      "checkpoint_id": "CP3",
+      "source": "authored",
+      "content": "$b=\\sqrt{36}$，线段长度取正值，得比例中项为 $6$ 厘米。",
+      "resource_id": "RES10"
+    },
+    {
+      "kind": "hint",
+      "checkpoint_id": "CP3",
+      "assistance_level": 1,
+      "source": "agent_generated",
+      "content": "先别急着算——这一步的关键是「开方取正值」。说说你打算怎么找？",
+      "resource_id": "RES11"
+    },
+    {
+      "kind": "hint",
+      "checkpoint_id": "CP3",
+      "assistance_level": 2,
+      "source": "agent_generated",
+      "content": "提示：先写出这一步要用到的已知条件，再看它们如何组合出「开方取正值」。",
+      "resource_id": "RES12"
+    },
+    {
+      "resource_id": "RES13",
+      "kind": "repair",
+      "checkpoint_id": "CP3",
+      "source": "agent_generated",
+      "content": "多次提示仍未推进时：回到这道题目标（巩固比例中项的定义性计算：$b^2=ac$，代入后开平方并按线段取正值。），由教师用该节点的讲解资源重新示范一遍，再请学生复述关键一步。"
+    },
+    {
+      "resource_id": "RES14",
+      "kind": "action_template",
+      "checkpoint_id": "CP3",
+      "source": "agent_generated",
+      "action_ref": "tp:TP-SMV-007:1:enter-text",
+      "capability": "similarity.plan-similarity-proof",
+      "content": "{\"actionId\":\"tp:TP-SMV-007:1:enter-text\",\"sourceStepId\":\"S3\",\"kind\":\"enter-text\",\"version\":1,\"title\":\"本题结论\",\"instruction\":\"根据前面的推理，写出这一问的最终结论。\",\"input\":{\"placeholder\":\"写出本题结论\"},\"teachingInput\":{\"expectedValues\":[\"$6$\"]},\"capabilities\":[\"similarity.plan-similarity-proof\",\"agent:select-object\",\"agent:set-answer\",\"agent:back\",\"agent:clear\"],\"answerSlots\":[{\"id\":\"value\",\"label\":\"本题结论\",\"kind\":\"text\",\"required\":true,\"placeholder\":\"写出本题结论\"}],\"submitOnComplete\":true}"
+    }
+  ],
+  "policy_constraints": {
+    "allowed_move_types": [
+      "explain",
+      "prompt",
+      "hint",
+      "confirm",
+      "wait",
+      "repair"
+    ],
+    "allowed_capabilities": [
+      "similarity.plan-similarity-proof"
+    ],
+    "forbidden_content_kinds": [
+      "canonical_answer",
+      "reviewed_solution",
+      "hidden_truth",
+      "unapproved_tool"
+    ],
+    "maximum_assistance_level": 2,
+    "assessment_enabled": false
+  },
+  "build_provenance": {
+    "provider": "deterministic-rules",
+    "model_id": "plan-build-rules/v1",
+    "workflow_version": "tutor-plan-build/v1",
+    "run_id": "plan-build-20260821",
+    "built_at": "2026-08-20T17:14:36.951Z",
+    "runtime_registry_version": "action-runtime-registry/v5@32f7ae75600a"
+  },
+  "content_hash": "sha256:d8a0600aafef18cd545784be08abd36532d2495c0f6bc2972ab6a5618e4f18c7",
+  "artifact_uri": "artifact://tutor-plan/TP-SMV-007@v1"
+}

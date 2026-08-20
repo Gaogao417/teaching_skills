@@ -1,0 +1,411 @@
+{
+  "schema": "ai_teaching_tutor_plan_bundle/v2",
+  "artifact_id": "TP-SMV-002",
+  "version": "v1",
+  "status": "Draft",
+  "question_ref": {
+    "artifact_id": "QT-SMV-002",
+    "version": "v2",
+    "content_hash": "sha256:91e1eb279e00d4b1b69d8c60d973ac4ffe2beb89e8897b2364b2c673a15ea83d"
+  },
+  "approach_refs": [
+    {
+      "artifact_id": "TA-SMV-010",
+      "version": "v1",
+      "content_hash": "sha256:5e18a4f46894449032fe44a54895a4faac4f094acddd367b03d028887a142ecf",
+      "part_id": "1"
+    },
+    {
+      "artifact_id": "TA-SMV-011",
+      "version": "v1",
+      "content_hash": "sha256:040b66ad37b7287334ce360e6594ee206548368da34adca11c0077743b9c0454",
+      "part_id": "2"
+    }
+  ],
+  "recommended_routes": [
+    {
+      "route_id": "R1",
+      "role": "primary",
+      "part_id": "1",
+      "checkpoint_ids": [
+        "CP1",
+        "CP2",
+        "CP3"
+      ],
+      "completion_condition": "掌握「等积式 → 比例式 → 配 SAS 相似 → 导角」路线，证得 $CE \\perp AB$。"
+    },
+    {
+      "route_id": "R2",
+      "role": "alternate",
+      "part_id": "1",
+      "entry_condition": "学生已能学生能把 $AD \\cdot OC = AB \\cdot OD$ 主动改写成比例式。，可直接跳过开场确认",
+      "checkpoint_ids": [
+        "CP2",
+        "CP3"
+      ],
+      "completion_condition": "掌握「等积式 → 比例式 → 配 SAS 相似 → 导角」路线，证得 $CE \\perp AB$。"
+    },
+    {
+      "route_id": "R3",
+      "role": "primary",
+      "part_id": "2",
+      "checkpoint_ids": [
+        "CP4",
+        "CP5",
+        "CP6"
+      ],
+      "completion_condition": "把目标 $AF \\cdot DE = AG \\cdot BC$ 改写为比例，规划「哪两组相似各贡献哪条边」，两次比例相乘约分收尾。"
+    },
+    {
+      "route_id": "R4",
+      "role": "alternate",
+      "part_id": "2",
+      "entry_condition": "学生已能学生见等积式目标先改比例式，再规划三角形组。，可直接跳过开场确认",
+      "checkpoint_ids": [
+        "CP5",
+        "CP6"
+      ],
+      "completion_condition": "把目标 $AF \\cdot DE = AG \\cdot BC$ 改写为比例，规划「哪两组相似各贡献哪条边」，两次比例相乘约分收尾。"
+    }
+  ],
+  "checkpoints": [
+    {
+      "checkpoint_id": "CP1",
+      "part_id": "1",
+      "expected_reasoning": "学生能先改比例再找三角形，而不是盯着等积式发呆。",
+      "skippable": true,
+      "skill_annotations": [
+        {
+          "skill_id": "SKILL-SMV-003",
+          "rationale": "该 checkpoint 对应教学步骤「等积式改比例」，预期学生能学生能先改比例再找三角形，而不是盯着等积式发呆。；此处证据可直接支持该 skill 的判定。",
+          "evidence_refs": [
+            "TA-SMV-010@v1#S1"
+          ]
+        }
+      ],
+      "resource_ids": [
+        "RES1",
+        "RES2",
+        "RES3",
+        "RES4",
+        "RES5"
+      ]
+    },
+    {
+      "checkpoint_id": "CP2",
+      "part_id": "1",
+      "expected_reasoning": "学生能在图中找到以 D 为公共直角顶点的两个直角三角形。",
+      "skill_annotations": [
+        {
+          "skill_id": "SKILL-SMV-002",
+          "rationale": "该 checkpoint 对应教学步骤「配 SAS 相似」，预期学生能学生能在图中找到以 D 为公共直角顶点的两个直角三角形。；此处证据可直接支持该 skill 的判定。",
+          "evidence_refs": [
+            "TA-SMV-010@v1#S2"
+          ]
+        }
+      ],
+      "resource_ids": [
+        "RES6",
+        "RES7",
+        "RES8",
+        "RES9"
+      ]
+    },
+    {
+      "checkpoint_id": "CP3",
+      "part_id": "1",
+      "expected_reasoning": "学生能写全「相似对应角 → 互余 → 垂直」的链条，不跳步。",
+      "common_deviations": [
+        "导角链跳步，直接宣布垂直"
+      ],
+      "unmapped_skill_reason": "v2 skill_ids 仅作 provisional hint：SKILL-SMV-006 未在此节点锚定（已在他处使用或粗粒度语境不足）",
+      "resource_ids": [
+        "RES10",
+        "RES11",
+        "RES12"
+      ]
+    },
+    {
+      "checkpoint_id": "CP4",
+      "part_id": "2",
+      "expected_reasoning": "学生能说出改写后四条边各自的来源任务。",
+      "skippable": true,
+      "unmapped_skill_reason": "v2 skill_ids 仅作 provisional hint：SKILL-SMV-003 未在此节点锚定（已在他处使用或粗粒度语境不足）",
+      "resource_ids": [
+        "RES15",
+        "RES16",
+        "RES17",
+        "RES18"
+      ]
+    },
+    {
+      "checkpoint_id": "CP5",
+      "part_id": "2",
+      "expected_reasoning": "学生能分工：第一组相似给哪两条边、角平分线给哪两条边。",
+      "unmapped_skill_reason": "v2 skill_ids 仅作 provisional hint：SKILL-SMV-008/SKILL-SMV-002 未在此节点锚定（已在他处使用或粗粒度语境不足）",
+      "resource_ids": [
+        "RES19",
+        "RES20",
+        "RES21"
+      ]
+    },
+    {
+      "checkpoint_id": "CP6",
+      "part_id": "2",
+      "expected_reasoning": "学生能执行「乘 → 约 → 收」并核对方向（分子分母对齐目标）。",
+      "skill_annotations": [
+        {
+          "skill_id": "SKILL-SMV-007",
+          "rationale": "该 checkpoint 对应教学步骤「比例相乘约分收尾」，预期学生能学生能执行「乘 → 约 → 收」并核对方向（分子分母对齐目标）。；此处证据可直接支持该 skill 的判定。",
+          "evidence_refs": [
+            "TA-SMV-011@v1#S3"
+          ]
+        }
+      ],
+      "resource_ids": [
+        "RES22",
+        "RES23",
+        "RES24",
+        "RES25"
+      ]
+    }
+  ],
+  "resources": [
+    {
+      "kind": "voice_seed",
+      "checkpoint_id": "CP1",
+      "source": "authored",
+      "content": "回到题干，把已知条件与要求的目标各列一遍，再对照图形找它们的联系。",
+      "resource_id": "RES1"
+    },
+    {
+      "kind": "explanation",
+      "checkpoint_id": "CP1",
+      "source": "authored",
+      "content": "把 $AD \\cdot OC = AB \\cdot OD$ 交叉改写为 $\\frac{AD}{OD}=\\frac{AB}{OC}$，目标是配出两个直角三角形的公共顶点比例。",
+      "resource_id": "RES2"
+    },
+    {
+      "kind": "hint",
+      "checkpoint_id": "CP1",
+      "assistance_level": 1,
+      "source": "agent_generated",
+      "content": "先别急着算——这一步的关键是「等积式改比例」。说说你打算怎么找？",
+      "resource_id": "RES3"
+    },
+    {
+      "kind": "hint",
+      "checkpoint_id": "CP1",
+      "assistance_level": 2,
+      "source": "agent_generated",
+      "content": "提示：先写出这一步要用到的已知条件，再看它们如何组合出「等积式改比例」。",
+      "resource_id": "RES4"
+    },
+    {
+      "kind": "diagnostic_probe",
+      "checkpoint_id": "CP1",
+      "source": "agent_generated",
+      "content": "快速确认：等积式改比例——你能指出它在图或题干中对应的具体对象吗？",
+      "resource_id": "RES5"
+    },
+    {
+      "kind": "explanation",
+      "checkpoint_id": "CP2",
+      "source": "authored",
+      "content": "$BD$ 是 $AC$ 边上的高，$\\angle ADB=\\angle ODC=90^\\circ$，两边成比例且夹角相等，配出 Rt$\\triangle ADB \\sim$ Rt$\\triangle ODC$。",
+      "resource_id": "RES6"
+    },
+    {
+      "kind": "hint",
+      "checkpoint_id": "CP2",
+      "assistance_level": 1,
+      "source": "agent_generated",
+      "content": "先别急着算——这一步的关键是「配 SAS 相似」。说说你打算怎么找？",
+      "resource_id": "RES7"
+    },
+    {
+      "kind": "hint",
+      "checkpoint_id": "CP2",
+      "assistance_level": 2,
+      "source": "agent_generated",
+      "content": "提示：先写出这一步要用到的已知条件，再看它们如何组合出「配 SAS 相似」。",
+      "resource_id": "RES8"
+    },
+    {
+      "kind": "diagnostic_probe",
+      "checkpoint_id": "CP2",
+      "source": "agent_generated",
+      "content": "快速确认：配 SAS 相似——你能指出它在图或题干中对应的具体对象吗？",
+      "resource_id": "RES9"
+    },
+    {
+      "kind": "explanation",
+      "checkpoint_id": "CP3",
+      "source": "authored",
+      "content": "由相似得对应角相等，结合对顶角与互余关系写全导角链，推出 $\\angle AEC=90^\\circ$，即证得 $CE \\perp AB$。",
+      "resource_id": "RES10"
+    },
+    {
+      "kind": "hint",
+      "checkpoint_id": "CP3",
+      "assistance_level": 1,
+      "source": "agent_generated",
+      "content": "先别急着算——这一步的关键是「导角收尾证垂直」。说说你打算怎么找？",
+      "resource_id": "RES11"
+    },
+    {
+      "kind": "hint",
+      "checkpoint_id": "CP3",
+      "assistance_level": 2,
+      "source": "agent_generated",
+      "content": "常见卡点是「导角链跳步，直接宣布垂直」。回到「导角收尾证垂直」，检查还有哪个已知条件没有用上。",
+      "resource_id": "RES12"
+    },
+    {
+      "resource_id": "RES13",
+      "kind": "repair",
+      "checkpoint_id": "CP3",
+      "source": "agent_generated",
+      "content": "多次提示仍未推进时：回到第1问目标（掌握「等积式 → 比例式 → 配 SAS 相似 → 导角」路线，证得 $CE \\perp AB$。），由教师用该节点的讲解资源重新示范一遍，再请学生复述关键一步。"
+    },
+    {
+      "resource_id": "RES14",
+      "kind": "action_template",
+      "checkpoint_id": "CP3",
+      "source": "agent_generated",
+      "action_ref": "tp:TP-SMV-002:1:enter-text",
+      "capability": "similarity.plan-similarity-proof",
+      "content": "{\"actionId\":\"tp:TP-SMV-002:1:enter-text\",\"sourceStepId\":\"S3\",\"kind\":\"enter-text\",\"version\":1,\"title\":\"第1问结论\",\"instruction\":\"根据前面的推理，写出这一问的最终结论。\",\"input\":{\"placeholder\":\"写出第1问结论\"},\"teachingInput\":{\"expectedValues\":[\"$CE \\\\perp AB$ 得证（见解答）\"]},\"capabilities\":[\"similarity.plan-similarity-proof\",\"agent:select-object\",\"agent:set-answer\",\"agent:back\",\"agent:clear\"],\"answerSlots\":[{\"id\":\"value\",\"label\":\"第1问结论\",\"kind\":\"text\",\"required\":true,\"placeholder\":\"写出第1问结论\"}],\"submitOnComplete\":true}"
+    },
+    {
+      "kind": "voice_seed",
+      "checkpoint_id": "CP4",
+      "source": "authored",
+      "content": "回到题干，把已知条件与要求的目标各列一遍，再对照图形找它们的联系。",
+      "resource_id": "RES15"
+    },
+    {
+      "kind": "explanation",
+      "checkpoint_id": "CP4",
+      "source": "authored",
+      "content": "目标 $AF \\cdot DE = AG \\cdot BC$ 改写为 $\\frac{AF}{AG}=\\frac{BC}{DE}$，明确要分别「供应」这四条边的相似三角形组。",
+      "resource_id": "RES16"
+    },
+    {
+      "kind": "hint",
+      "checkpoint_id": "CP4",
+      "assistance_level": 1,
+      "source": "agent_generated",
+      "content": "先别急着算——这一步的关键是「目标改写为比例」。说说你打算怎么找？",
+      "resource_id": "RES17"
+    },
+    {
+      "kind": "hint",
+      "checkpoint_id": "CP4",
+      "assistance_level": 2,
+      "source": "agent_generated",
+      "content": "提示：先写出这一步要用到的已知条件，再看它们如何组合出「目标改写为比例」。",
+      "resource_id": "RES18"
+    },
+    {
+      "kind": "explanation",
+      "checkpoint_id": "CP5",
+      "source": "authored",
+      "content": "由 $\\frac{AD}{AB}=\\frac{AE}{AC}$、$\\angle DAE=\\angle BAC$ 得 $\\triangle DAE \\sim \\triangle BAC$（供应 DE 与 BC）；由 $AF$ 平分 $\\angle BAC$ 用角平分线性质（供应 AF 与 AG）。",
+      "resource_id": "RES19"
+    },
+    {
+      "kind": "hint",
+      "checkpoint_id": "CP5",
+      "assistance_level": 1,
+      "source": "agent_generated",
+      "content": "先别急着算——这一步的关键是「锁定两组相似」。说说你打算怎么找？",
+      "resource_id": "RES20"
+    },
+    {
+      "kind": "hint",
+      "checkpoint_id": "CP5",
+      "assistance_level": 2,
+      "source": "agent_generated",
+      "content": "提示：先写出这一步要用到的已知条件，再看它们如何组合出「锁定两组相似」。",
+      "resource_id": "RES21"
+    },
+    {
+      "kind": "explanation",
+      "checkpoint_id": "CP6",
+      "source": "authored",
+      "content": "两组比例相乘约去中间量，即证 $AF \\cdot DE = AG \\cdot BC$。",
+      "resource_id": "RES22"
+    },
+    {
+      "kind": "hint",
+      "checkpoint_id": "CP6",
+      "assistance_level": 1,
+      "source": "agent_generated",
+      "content": "先别急着算——这一步的关键是「比例相乘约分收尾」。说说你打算怎么找？",
+      "resource_id": "RES23"
+    },
+    {
+      "kind": "hint",
+      "checkpoint_id": "CP6",
+      "assistance_level": 2,
+      "source": "agent_generated",
+      "content": "提示：先写出这一步要用到的已知条件，再看它们如何组合出「比例相乘约分收尾」。",
+      "resource_id": "RES24"
+    },
+    {
+      "kind": "diagnostic_probe",
+      "checkpoint_id": "CP6",
+      "source": "agent_generated",
+      "content": "快速确认：比例相乘约分收尾——你能指出它在图或题干中对应的具体对象吗？",
+      "resource_id": "RES25"
+    },
+    {
+      "resource_id": "RES26",
+      "kind": "repair",
+      "checkpoint_id": "CP6",
+      "source": "agent_generated",
+      "content": "多次提示仍未推进时：回到第2问目标（把目标 $AF \\cdot DE = AG \\cdot BC$ 改写为比例，规划「哪两组相似各贡献哪条边」，两次比例相乘约分收尾。），由教师用该节点的讲解资源重新示范一遍，再请学生复述关键一步。"
+    },
+    {
+      "resource_id": "RES27",
+      "kind": "action_template",
+      "checkpoint_id": "CP6",
+      "source": "agent_generated",
+      "action_ref": "tp:TP-SMV-002:2:enter-text",
+      "capability": "similarity.plan-similarity-proof",
+      "content": "{\"actionId\":\"tp:TP-SMV-002:2:enter-text\",\"sourceStepId\":\"S3\",\"kind\":\"enter-text\",\"version\":1,\"title\":\"第2问结论\",\"instruction\":\"根据前面的推理，写出这一问的最终结论。\",\"input\":{\"placeholder\":\"写出第2问结论\"},\"teachingInput\":{\"expectedValues\":[\"$AF \\\\cdot DE = AG \\\\cdot BC$ 得证\"]},\"capabilities\":[\"similarity.plan-similarity-proof\",\"agent:select-object\",\"agent:set-answer\",\"agent:back\",\"agent:clear\"],\"answerSlots\":[{\"id\":\"value\",\"label\":\"第2问结论\",\"kind\":\"text\",\"required\":true,\"placeholder\":\"写出第2问结论\"}],\"submitOnComplete\":true}"
+    }
+  ],
+  "policy_constraints": {
+    "allowed_move_types": [
+      "explain",
+      "prompt",
+      "hint",
+      "confirm",
+      "wait",
+      "repair"
+    ],
+    "allowed_capabilities": [
+      "similarity.plan-similarity-proof"
+    ],
+    "forbidden_content_kinds": [
+      "canonical_answer",
+      "reviewed_solution",
+      "hidden_truth",
+      "unapproved_tool"
+    ],
+    "maximum_assistance_level": 2,
+    "assessment_enabled": false
+  },
+  "build_provenance": {
+    "provider": "deterministic-rules",
+    "model_id": "plan-build-rules/v1",
+    "workflow_version": "tutor-plan-build/v1",
+    "run_id": "plan-build-20260821",
+    "built_at": "2026-08-20T17:14:36.931Z",
+    "runtime_registry_version": "action-runtime-registry/v5@32f7ae75600a"
+  },
+  "content_hash": "sha256:50431e730a77ba3b871ae3299c5355b240564c5ed0757a6f3eea7beea918d751",
+  "artifact_uri": "artifact://tutor-plan/TP-SMV-002@v1"
+}

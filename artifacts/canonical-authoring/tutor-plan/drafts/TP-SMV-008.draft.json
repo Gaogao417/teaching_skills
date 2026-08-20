@@ -1,0 +1,427 @@
+{
+  "schema": "ai_teaching_tutor_plan_bundle/v2",
+  "artifact_id": "TP-SMV-008",
+  "version": "v1",
+  "status": "Draft",
+  "question_ref": {
+    "artifact_id": "QT-SMV-048",
+    "version": "v2",
+    "content_hash": "sha256:c6c6f51a1bd67c72f97b707c0068a72069491e9c00b2798f8a2f459550f9e84c"
+  },
+  "approach_refs": [
+    {
+      "artifact_id": "TA-SMV-022",
+      "version": "v1",
+      "content_hash": "sha256:8ecd7fdd8b117a0863295a366bcf1a02afc1d007074ab6eb9961648024c36848",
+      "part_id": "1"
+    },
+    {
+      "artifact_id": "TA-SMV-023",
+      "version": "v1",
+      "content_hash": "sha256:7b8d1d4df19eda8880da34076e9cdcb39a88afa2137c52b2f412e7ddf27018a7",
+      "part_id": "2"
+    }
+  ],
+  "recommended_routes": [
+    {
+      "route_id": "R1",
+      "role": "primary",
+      "part_id": "1",
+      "checkpoint_ids": [
+        "CP1",
+        "CP2",
+        "CP3"
+      ],
+      "completion_condition": "由 $AD\\parallel BC$ 的 8 字型相似定出对角线分比，再分步代入化为 $\\vec{a}$、$\\vec{b}$ 的线性组合。"
+    },
+    {
+      "route_id": "R2",
+      "role": "alternate",
+      "part_id": "1",
+      "entry_condition": "学生已能学生能在梯形里看出对角线交点分出的两组比。，可直接跳过开场确认",
+      "checkpoint_ids": [
+        "CP2",
+        "CP3"
+      ],
+      "completion_condition": "由 $AD\\parallel BC$ 的 8 字型相似定出对角线分比，再分步代入化为 $\\vec{a}$、$\\vec{b}$ 的线性组合。"
+    },
+    {
+      "route_id": "R3",
+      "role": "primary",
+      "part_id": "2",
+      "checkpoint_ids": [
+        "CP4",
+        "CP5",
+        "CP6"
+      ],
+      "completion_condition": "过 $A$ 作 $AF\\perp BC$ 构造矩形 $ADCF$，把 $\\angle ABC$ 放进 Rt$\\triangle ABF$ 中求 $\\sin\\angle ABC=\\frac{2\\sqrt{5}}{5}$。"
+    },
+    {
+      "route_id": "R4",
+      "role": "alternate",
+      "part_id": "2",
+      "entry_condition": "学生已能学生能由 $AD\\perp CD$、$AD\\parallel BC$ 想到补出矩形。，可直接跳过开场确认",
+      "checkpoint_ids": [
+        "CP5",
+        "CP6"
+      ],
+      "completion_condition": "过 $A$ 作 $AF\\perp BC$ 构造矩形 $ADCF$，把 $\\angle ABC$ 放进 Rt$\\triangle ABF$ 中求 $\\sin\\angle ABC=\\frac{2\\sqrt{5}}{5}$。"
+    }
+  ],
+  "checkpoints": [
+    {
+      "checkpoint_id": "CP1",
+      "part_id": "1",
+      "expected_reasoning": "学生能直接读出对角线被交点 E 分成的两组比。",
+      "skippable": true,
+      "skill_annotations": [
+        {
+          "skill_id": "SKILL-SMV-008",
+          "rationale": "select 类证据在 recognize/plan 间共享（capability-skill-map gap note）；以本 checkpoint 语境（平行出 8 字相似）作为该 skill 的低置信线索。",
+          "evidence_refs": [
+            "TA-SMV-022@v1#S1"
+          ]
+        }
+      ],
+      "resource_ids": [
+        "RES1",
+        "RES2",
+        "RES3",
+        "RES4",
+        "RES5"
+      ]
+    },
+    {
+      "checkpoint_id": "CP2",
+      "part_id": "1",
+      "expected_reasoning": "学生能先写「向量和」中间式，不直接跳到最终组合。",
+      "skill_annotations": [
+        {
+          "skill_id": "SKILL-SMV-002",
+          "rationale": "该 checkpoint 对应教学步骤「写向量中间式」，预期学生能学生能先写「向量和」中间式，不直接跳到最终组合。；此处证据可直接支持该 skill 的判定。",
+          "evidence_refs": [
+            "TA-SMV-022@v1#S2"
+          ]
+        }
+      ],
+      "resource_ids": [
+        "RES6",
+        "RES7",
+        "RES8",
+        "RES9"
+      ]
+    },
+    {
+      "checkpoint_id": "CP3",
+      "part_id": "1",
+      "expected_reasoning": "学生能核对系数来源（4/5 来自 AE:EC，4/9 来自 BE:ED）。",
+      "common_deviations": [
+        "两个系数的比分母用反"
+      ],
+      "skill_annotations": [
+        {
+          "skill_id": "SKILL-SMV-007",
+          "rationale": "该 checkpoint 对应教学步骤「代入定比收尾」，预期学生能学生能核对系数来源（4/5 来自 AE:EC，4/9 来自 BE:ED）。；此处证据可直接支持该 skill 的判定。",
+          "evidence_refs": [
+            "TA-SMV-022@v1#S3"
+          ]
+        }
+      ],
+      "resource_ids": [
+        "RES10",
+        "RES11",
+        "RES12",
+        "RES13"
+      ]
+    },
+    {
+      "checkpoint_id": "CP4",
+      "part_id": "2",
+      "expected_reasoning": "学生能由正切与已知直角边解出另一直角边。",
+      "skippable": true,
+      "skill_annotations": [
+        {
+          "skill_id": "SKILL-SMV-001",
+          "rationale": "该 checkpoint 对应教学步骤「数据准备」，预期学生能学生能由正切与已知直角边解出另一直角边。；此处证据可直接支持该 skill 的判定。",
+          "evidence_refs": [
+            "TA-SMV-023@v1#S1"
+          ]
+        }
+      ],
+      "resource_ids": [
+        "RES16",
+        "RES17",
+        "RES18",
+        "RES19",
+        "RES20"
+      ]
+    },
+    {
+      "checkpoint_id": "CP5",
+      "part_id": "2",
+      "expected_reasoning": "学生能说明矩形从哪两个垂直条件来，并解出 AB。",
+      "unmapped_skill_reason": "v2 skill_ids 仅作 provisional hint：SKILL-SMV-008/SKILL-SMV-002 未在此节点锚定（已在他处使用或粗粒度语境不足）",
+      "resource_ids": [
+        "RES21",
+        "RES22",
+        "RES23"
+      ]
+    },
+    {
+      "checkpoint_id": "CP6",
+      "part_id": "2",
+      "expected_reasoning": "学生能选对对边/斜边并完成分母有理化。",
+      "unmapped_skill_reason": "v2 skill_ids 仅作 provisional hint：SKILL-SMV-007 未在此节点锚定（已在他处使用或粗粒度语境不足）",
+      "resource_ids": [
+        "RES24",
+        "RES25",
+        "RES26"
+      ]
+    }
+  ],
+  "resources": [
+    {
+      "kind": "voice_seed",
+      "checkpoint_id": "CP1",
+      "source": "authored",
+      "content": "我们先看第1问：由 $AD\\parallel BC$ 的 8 字型相似定出对角线分比，再分步代入化为 $\\vec{a}$、$\\vec{b}$ 的线性组合。（设 $\\overrightarrow{BC}=\\vec{a}$，$\\overrightarrow{BD}=\\vec{b}$，试用 $\\vec{a}$、$\\vec{b}$ 的线性组合表示向量 $\\overrightarrow{AE}$；）",
+      "resource_id": "RES1"
+    },
+    {
+      "kind": "explanation",
+      "checkpoint_id": "CP1",
+      "source": "authored",
+      "content": "由 $AD\\parallel BC$ 得 $\\triangle AED \\sim \\triangle CEB$（8 字型），故 $AE:EC=AD:CB=4:5$、$BE:ED=BC:AD=5:4$。",
+      "resource_id": "RES2"
+    },
+    {
+      "kind": "hint",
+      "checkpoint_id": "CP1",
+      "assistance_level": 1,
+      "source": "agent_generated",
+      "content": "先别急着算——这一步的关键是「平行出 8 字相似」。说说你打算怎么找？",
+      "resource_id": "RES3"
+    },
+    {
+      "kind": "hint",
+      "checkpoint_id": "CP1",
+      "assistance_level": 2,
+      "source": "agent_generated",
+      "content": "提示：先写出这一步要用到的已知条件，再看它们如何组合出「平行出 8 字相似」。",
+      "resource_id": "RES4"
+    },
+    {
+      "kind": "diagnostic_probe",
+      "checkpoint_id": "CP1",
+      "source": "agent_generated",
+      "content": "快速确认：平行出 8 字相似——你能指出它在图或题干中对应的具体对象吗？",
+      "resource_id": "RES5"
+    },
+    {
+      "kind": "explanation",
+      "checkpoint_id": "CP2",
+      "source": "authored",
+      "content": "$\\overrightarrow{AE}=\\overrightarrow{AB}+\\overrightarrow{BE}$，其中 $\\overrightarrow{AB}=\\overrightarrow{DB}-\\overrightarrow{DA}$ 分步用 $\\vec{a}$、$\\vec{b}$ 与定比表达。",
+      "resource_id": "RES6"
+    },
+    {
+      "kind": "hint",
+      "checkpoint_id": "CP2",
+      "assistance_level": 1,
+      "source": "agent_generated",
+      "content": "先别急着算——这一步的关键是「写向量中间式」。说说你打算怎么找？",
+      "resource_id": "RES7"
+    },
+    {
+      "kind": "hint",
+      "checkpoint_id": "CP2",
+      "assistance_level": 2,
+      "source": "agent_generated",
+      "content": "提示：先写出这一步要用到的已知条件，再看它们如何组合出「写向量中间式」。",
+      "resource_id": "RES8"
+    },
+    {
+      "kind": "diagnostic_probe",
+      "checkpoint_id": "CP2",
+      "source": "agent_generated",
+      "content": "快速确认：写向量中间式——你能指出它在图或题干中对应的具体对象吗？",
+      "resource_id": "RES9"
+    },
+    {
+      "kind": "explanation",
+      "checkpoint_id": "CP3",
+      "source": "authored",
+      "content": "由定比分解逐步代入，得 $\\overrightarrow{AE}=\\frac{4}{5}\\vec{a}-\\frac{4}{9}\\vec{b}$。",
+      "resource_id": "RES10"
+    },
+    {
+      "kind": "hint",
+      "checkpoint_id": "CP3",
+      "assistance_level": 1,
+      "source": "agent_generated",
+      "content": "先别急着算——这一步的关键是「代入定比收尾」。说说你打算怎么找？",
+      "resource_id": "RES11"
+    },
+    {
+      "kind": "hint",
+      "checkpoint_id": "CP3",
+      "assistance_level": 2,
+      "source": "agent_generated",
+      "content": "常见卡点是「两个系数的比分母用反」。回到「代入定比收尾」，检查还有哪个已知条件没有用上。",
+      "resource_id": "RES12"
+    },
+    {
+      "kind": "diagnostic_probe",
+      "checkpoint_id": "CP3",
+      "source": "agent_generated",
+      "content": "快速确认：代入定比收尾——你能指出它在图或题干中对应的具体对象吗？",
+      "resource_id": "RES13"
+    },
+    {
+      "resource_id": "RES14",
+      "kind": "repair",
+      "checkpoint_id": "CP3",
+      "source": "agent_generated",
+      "content": "多次提示仍未推进时：回到第1问目标（由 $AD\\parallel BC$ 的 8 字型相似定出对角线分比，再分步代入化为 $\\vec{a}$、$\\vec{b}$ 的线性组合。），由教师用该节点的讲解资源重新示范一遍，再请学生复述关键一步。"
+    },
+    {
+      "resource_id": "RES15",
+      "kind": "action_template",
+      "checkpoint_id": "CP3",
+      "source": "agent_generated",
+      "action_ref": "tp:TP-SMV-008:1:enter-text",
+      "capability": "similarity.plan-similarity-proof",
+      "content": "{\"actionId\":\"tp:TP-SMV-008:1:enter-text\",\"sourceStepId\":\"S3\",\"kind\":\"enter-text\",\"version\":1,\"title\":\"第1问结论\",\"instruction\":\"根据前面的推理，写出这一问的最终结论。\",\"input\":{\"placeholder\":\"写出第1问结论\"},\"teachingInput\":{\"expectedValues\":[\"$\\\\overrightarrow{AE}=\\\\frac{4}{5}\\\\vec{a}-\\\\frac{4}{9}\\\\vec{b}$\"]},\"capabilities\":[\"similarity.plan-similarity-proof\",\"agent:select-object\",\"agent:set-answer\",\"agent:back\",\"agent:clear\"],\"answerSlots\":[{\"id\":\"value\",\"label\":\"第1问结论\",\"kind\":\"text\",\"required\":true,\"placeholder\":\"写出第1问结论\"}],\"submitOnComplete\":true}"
+    },
+    {
+      "kind": "voice_seed",
+      "checkpoint_id": "CP4",
+      "source": "authored",
+      "content": "回到题干，把已知条件与要求的目标各列一遍，再对照图形找它们的联系。",
+      "resource_id": "RES16"
+    },
+    {
+      "kind": "explanation",
+      "checkpoint_id": "CP4",
+      "source": "authored",
+      "content": "在 Rt$\\triangle ADC$ 中 $AD=4$、$\\tan\\angle DAC=\\frac{1}{2}$，得 $CD=2$。",
+      "resource_id": "RES17"
+    },
+    {
+      "kind": "hint",
+      "checkpoint_id": "CP4",
+      "assistance_level": 1,
+      "source": "agent_generated",
+      "content": "先别急着算——这一步的关键是「数据准备」。说说你打算怎么找？",
+      "resource_id": "RES18"
+    },
+    {
+      "kind": "hint",
+      "checkpoint_id": "CP4",
+      "assistance_level": 2,
+      "source": "agent_generated",
+      "content": "提示：先写出这一步要用到的已知条件，再看它们如何组合出「数据准备」。",
+      "resource_id": "RES19"
+    },
+    {
+      "kind": "diagnostic_probe",
+      "checkpoint_id": "CP4",
+      "source": "agent_generated",
+      "content": "快速确认：数据准备——你能指出它在图或题干中对应的具体对象吗？",
+      "resource_id": "RES20"
+    },
+    {
+      "kind": "explanation",
+      "checkpoint_id": "CP5",
+      "source": "authored",
+      "content": "过点 $A$ 作 $AF\\perp BC$；$\\angle FAD=90^\\circ$ 且 $AD\\perp CD$，四边形 $ADCF$ 是矩形，故 $AF=CD=2$、$FC=AD=4$；$BC=5$ 得 $BF=1$，$AB=\\sqrt{AF^{2}+BF^{2}}=\\sqrt{5}$。",
+      "resource_id": "RES21"
+    },
+    {
+      "kind": "hint",
+      "checkpoint_id": "CP5",
+      "assistance_level": 1,
+      "source": "agent_generated",
+      "content": "先别急着算——这一步的关键是「构矩形转移」。说说你打算怎么找？",
+      "resource_id": "RES22"
+    },
+    {
+      "kind": "hint",
+      "checkpoint_id": "CP5",
+      "assistance_level": 2,
+      "source": "agent_generated",
+      "content": "提示：先写出这一步要用到的已知条件，再看它们如何组合出「构矩形转移」。",
+      "resource_id": "RES23"
+    },
+    {
+      "kind": "explanation",
+      "checkpoint_id": "CP6",
+      "source": "authored",
+      "content": "在 Rt$\\triangle ABF$ 中，对边 $AF=2$、斜边 $AB=\\sqrt{5}$，由 $\\frac{2}{\\sqrt{5}}$ 分母有理化，得 $\\sin\\angle ABC=\\frac{2\\sqrt{5}}{5}$。",
+      "resource_id": "RES24"
+    },
+    {
+      "kind": "hint",
+      "checkpoint_id": "CP6",
+      "assistance_level": 1,
+      "source": "agent_generated",
+      "content": "先别急着算——这一步的关键是「直角三角形求正弦」。说说你打算怎么找？",
+      "resource_id": "RES25"
+    },
+    {
+      "kind": "hint",
+      "checkpoint_id": "CP6",
+      "assistance_level": 2,
+      "source": "agent_generated",
+      "content": "提示：先写出这一步要用到的已知条件，再看它们如何组合出「直角三角形求正弦」。",
+      "resource_id": "RES26"
+    },
+    {
+      "resource_id": "RES27",
+      "kind": "repair",
+      "checkpoint_id": "CP6",
+      "source": "agent_generated",
+      "content": "多次提示仍未推进时：回到第2问目标（过 $A$ 作 $AF\\perp BC$ 构造矩形 $ADCF$，把 $\\angle ABC$ 放进 Rt$\\triangle ABF$ 中求 $\\sin\\angle ABC=\\frac{2\\sqrt{5}}{5}$。），由教师用该节点的讲解资源重新示范一遍，再请学生复述关键一步。"
+    },
+    {
+      "resource_id": "RES28",
+      "kind": "action_template",
+      "checkpoint_id": "CP6",
+      "source": "agent_generated",
+      "action_ref": "tp:TP-SMV-008:2:enter-text",
+      "capability": "similarity.plan-similarity-proof",
+      "content": "{\"actionId\":\"tp:TP-SMV-008:2:enter-text\",\"sourceStepId\":\"S3\",\"kind\":\"enter-text\",\"version\":1,\"title\":\"第2问结论\",\"instruction\":\"根据前面的推理，写出这一问的最终结论。\",\"input\":{\"placeholder\":\"写出第2问结论\"},\"teachingInput\":{\"expectedValues\":[\"$\\\\sin\\\\angle ABC=\\\\frac{2\\\\sqrt{5}}{5}$\"]},\"capabilities\":[\"similarity.plan-similarity-proof\",\"agent:select-object\",\"agent:set-answer\",\"agent:back\",\"agent:clear\"],\"answerSlots\":[{\"id\":\"value\",\"label\":\"第2问结论\",\"kind\":\"text\",\"required\":true,\"placeholder\":\"写出第2问结论\"}],\"submitOnComplete\":true}"
+    }
+  ],
+  "policy_constraints": {
+    "allowed_move_types": [
+      "explain",
+      "prompt",
+      "hint",
+      "confirm",
+      "wait",
+      "repair"
+    ],
+    "allowed_capabilities": [
+      "similarity.plan-similarity-proof"
+    ],
+    "forbidden_content_kinds": [
+      "canonical_answer",
+      "reviewed_solution",
+      "hidden_truth",
+      "unapproved_tool"
+    ],
+    "maximum_assistance_level": 2,
+    "assessment_enabled": false
+  },
+  "build_provenance": {
+    "provider": "deterministic-rules",
+    "model_id": "plan-build-rules/v1",
+    "workflow_version": "tutor-plan-build/v1",
+    "run_id": "plan-build-20260821",
+    "built_at": "2026-08-20T17:14:36.953Z",
+    "runtime_registry_version": "action-runtime-registry/v5@32f7ae75600a"
+  },
+  "content_hash": "sha256:9414048fda50cc1a7d2601fe3f60844fc9de7c3f003f3fb954aa995c81f4364c",
+  "artifact_uri": "artifact://tutor-plan/TP-SMV-008@v1"
+}
