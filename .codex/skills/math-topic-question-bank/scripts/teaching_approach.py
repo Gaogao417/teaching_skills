@@ -89,6 +89,7 @@ APPROACH_SCHEMA = "math_item_teaching_approach/v1"
 APPROACH_SIDECAR_FILE = "teaching-approach.yaml"
 APPROACH_AUDIO_DIR = "assets/teaching-approach"
 TA_NAMESPACE = "teaching-approach"
+TP_NAMESPACE = "tutor-plan"
 AUDIO_NAMESPACE = "audio"
 TRANSCRIPT_NAMESPACE = "transcript"
 TA_ID_PATTERN = re.compile(r"^TA-[A-Z0-9]+-[0-9]{3,}$")
@@ -828,10 +829,13 @@ def freeze_approved_approach(
 
 
 def apply_question_change_stale(root: Path | None = None) -> dict[str, Any]:
-    """读 Phase 2 stale-events.yaml，把绑定旧 QuestionTruth 版本的 TA registry 标 Stale。
+    """读 Phase 2 stale-events.yaml，把绑定旧 QuestionTruth 版本的 TA/TP registry 标 Stale。
 
     幂等：已 Stale 的条目跳过。Stale 版本文件与 registry 都保留（可读），
     但不再是 current Approved，后续编译/发布只认 current + Approved。
+    Phase 4 起同轮传播 tutor-plan（stale-events.yaml 的 downstream 声明本就
+    包含 {type: tutor-plan, action: stale}；TP registry 条目与 TA 同样携带
+    question_ref，复用同一判定）。
     """
     root = root or ce.CANONICAL_ROOT
     events_path = root / "stale-events.yaml"
@@ -853,33 +857,36 @@ def apply_question_change_stale(root: Path | None = None) -> dict[str, Any]:
             )
         except Exception:
             continue
-        ta_root = root / TA_NAMESPACE
-        if not ta_root.is_dir():
-            continue
-        for registry_file in sorted(ta_root.glob("TA-*/registry.yaml")):
-            registry = ce._load_yaml(registry_file)
-            mutated = False
-            for entry in registry.get("versions") or []:
-                ref = entry.get("question_ref") or {}
-                if (
-                    str(ref.get("artifact_id") or "") == qt_id
-                    and str(ref.get("version") or "") != to_version
-                    and entry.get("status") == "Approved"
-                ):
-                    entry["status"] = "Stale"
-                    version_file = (
-                        registry_file.parent / f"{entry.get('version')}.json"
-                    )
-                    if version_file.is_file():
-                        payload = _read_json(version_file)
-                        payload["status"] = "Stale"
-                        ce._write_json_atomic(version_file, payload)
-                    mutated = True
-                    changed.append(
-                        f"{registry.get('artifact_id')}@{entry.get('version')}"
-                    )
-            if mutated:
-                ce._write_yaml_atomic(registry_file, registry)
+        for namespace, prefix in ((TA_NAMESPACE, "TA"), (TP_NAMESPACE, "TP")):
+            namespace_root = root / namespace
+            if not namespace_root.is_dir():
+                continue
+            for registry_file in sorted(
+                namespace_root.glob(f"{prefix}-*/registry.yaml")
+            ):
+                registry = ce._load_yaml(registry_file)
+                mutated = False
+                for entry in registry.get("versions") or []:
+                    ref = entry.get("question_ref") or {}
+                    if (
+                        str(ref.get("artifact_id") or "") == qt_id
+                        and str(ref.get("version") or "") != to_version
+                        and entry.get("status") == "Approved"
+                    ):
+                        entry["status"] = "Stale"
+                        version_file = (
+                            registry_file.parent / f"{entry.get('version')}.json"
+                        )
+                        if version_file.is_file():
+                            payload = _read_json(version_file)
+                            payload["status"] = "Stale"
+                            ce._write_json_atomic(version_file, payload)
+                        mutated = True
+                        changed.append(
+                            f"{registry.get('artifact_id')}@{entry.get('version')}"
+                        )
+                if mutated:
+                    ce._write_yaml_atomic(registry_file, registry)
     return {"events_applied": len(changed), "stale_versions": changed}
 
 

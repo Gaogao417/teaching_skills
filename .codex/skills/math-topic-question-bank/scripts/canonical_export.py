@@ -176,11 +176,16 @@ def _canonical_json(value: Any) -> str:
     return json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
 
 
-def _content_hash(payload: dict[str, Any]) -> str:
+def _content_hash(payload: dict[str, Any], *, extra_excluded: tuple[str, ...] = ()) -> str:
+    """canonical content hash。Phase 4 TutorPlanBundle 在共用排除集之上额外排除
+    runtime_projection（materializer 输出，不是 plan 内容；Draft→Approved 添加
+    approval/runtime_projection 时 content_hash 不变，与 tools 仓
+    planBuild/canonicalInputs.canonicalHash(kind="plan") 同规则）。"""
+    excluded = _HASH_EXCLUDED | set(extra_excluded)
     content = {
         key: value
         for key, value in payload.items()
-        if key not in _HASH_EXCLUDED
+        if key not in excluded
     }
     return "sha256:" + hashlib.sha256(_canonical_json(content).encode("utf-8")).hexdigest()
 

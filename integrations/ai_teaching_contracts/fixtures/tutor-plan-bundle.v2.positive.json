@@ -1,0 +1,110 @@
+{
+  "schema": "ai_teaching_tutor_plan_bundle/v2",
+  "artifact_id": "TP-SMV-101",
+  "version": "v1",
+  "status": "Approved",
+  "question_ref": {
+    "artifact_id": "QT-SMV-001",
+    "version": "v2",
+    "content_hash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "approach_refs": [
+    {
+      "artifact_id": "TA-SMV-009",
+      "version": "v1",
+      "content_hash": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "part_id": "1"
+    }
+  ],
+  "recommended_routes": [
+    {
+      "route_id": "R1",
+      "role": "primary",
+      "part_id": "1",
+      "entry_condition": "学生尚未建立相似模型",
+      "checkpoint_ids": ["CP1", "CP2"],
+      "completion_condition": "学生能说明公共角与判定缺口"
+    }
+  ],
+  "checkpoints": [
+    {
+      "checkpoint_id": "CP1",
+      "part_id": "1",
+      "expected_reasoning": "识别需要比较的两个三角形",
+      "accepted_alternatives": ["指出目标三角形"],
+      "common_deviations": ["只看数值不看结构"],
+      "skippable": false,
+      "skill_annotations": [
+        {
+          "skill_id": "SKILL-SMV-008",
+          "rationale": "该 checkpoint 直接观察学生能否从图形结构识别候选相似三角形",
+          "evidence_refs": ["TA-SMV-009@v1#S1"]
+        }
+      ],
+      "resource_ids": ["RES1", "RES2"]
+    },
+    {
+      "checkpoint_id": "CP2",
+      "part_id": "1",
+      "expected_reasoning": "已有公共角后说明还需要哪类条件",
+      "common_deviations": ["直接宣称相似"],
+      "skippable": false,
+      "skill_annotations": [],
+      "unmapped_skill_reason": "MVP 不强制给所有路线规划节点套用 Skill",
+      "resource_ids": ["RES3"]
+    }
+  ],
+  "resources": [
+    {
+      "resource_id": "RES1",
+      "kind": "voice_seed",
+      "checkpoint_id": "CP1",
+      "source": "authored",
+      "content": "先只看这两个三角形。"
+    },
+    {
+      "resource_id": "RES2",
+      "kind": "workspace",
+      "checkpoint_id": "CP1",
+      "source": "agent_generated",
+      "capability": "workspace.focus-objects",
+      "target_ids": ["triangle-ABC", "triangle-ADE"]
+    },
+    {
+      "resource_id": "RES3",
+      "kind": "hint",
+      "checkpoint_id": "CP2",
+      "assistance_level": 1,
+      "source": "authored",
+      "content": "你现在已经有一组角相等了，证明相似还缺什么？"
+    }
+  ],
+  "policy_constraints": {
+    "allowed_move_types": ["explain", "prompt", "hint", "confirm", "wait", "repair"],
+    "allowed_capabilities": ["workspace.focus-objects"],
+    "forbidden_content_kinds": ["canonical_answer", "reviewed_solution", "hidden_truth", "unapproved_tool"],
+    "maximum_assistance_level": 5,
+    "assessment_enabled": false
+  },
+  "build_provenance": {
+    "provider": "dashscope",
+    "model_id": "qwen-plus",
+    "workflow_version": "topic-action-build-agent/v1",
+    "run_id": "plan-build-20260821-001",
+    "built_at": "2026-08-21T02:00:00Z",
+    "runtime_registry_version": "action-runtime-registry/v5@abc123"
+  },
+  "runtime_projection": {
+    "materializer_version": "tutor-plan-materializer/0.1.0",
+    "runtime_registry_version": "action-runtime-registry/v5@abc123",
+    "projection_hash": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "validation_status": "passed"
+  },
+  "approval": {
+    "reviewer_id": "teacher-001",
+    "approved_at": "2026-08-21T03:00:00Z",
+    "review_note": "路线、提示和 Workspace 资源通过预览。"
+  },
+  "content_hash": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+  "artifact_uri": "artifact://tutor-plan/TP-SMV-101@v1"
+}

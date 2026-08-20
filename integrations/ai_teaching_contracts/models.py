@@ -358,6 +358,52 @@ class TeachingApproachV2(_Strict):
 
 
 # --------------------------------------------------------------------------- #
+# authoring/v3/teaching-approach（ADR-006：步骤不再强制 skill_ids）
+# --------------------------------------------------------------------------- #
+class RequiredPartQuestionRef(_Strict):
+    artifact_id: QuestionId
+    version: VersionTag
+    content_hash: Sha256
+    # v3：part_id 必填（小问粒度是 v2 起的固定边界）。
+    part_id: Annotated[str, Field(pattern=r"^[1-9][0-9]{0,2}$")]
+
+
+class TeachingStepV3(_Strict):
+    step_id: Annotated[str, Field(pattern=r"^S[0-9]{1,3}$")]
+    intent: NonEmptyStr
+    narration: NonEmptyStr
+    expected_student_reasoning: NonEmptyStr
+    accepted_alternatives: list[NonEmptyStr] | None = None
+    common_errors: list[NonEmptyStr] | None = None
+    source_trace_refs: list[NonEmptyStr] | None = None
+
+
+class TeachingApproachV3(_Strict):
+    schema_: Literal["ai_teaching_teaching_approach/v3"] = Field(alias="schema")
+    artifact_id: ApproachId
+    version: VersionTag
+    status: Status
+    question_ref: RequiredPartQuestionRef
+    title: NonEmptyStr
+    goal: NonEmptyStr
+    entry_signal: str | None = None
+    steps: Annotated[list[TeachingStepV3], Field(min_length=3)]
+    evidence: ApproachEvidence
+    approval: Approval | None = None
+    superseded_by: SupersededBy | None = None
+    content_hash: Sha256
+    artifact_uri: Annotated[str, Field(pattern=r"^artifact://teaching-approach/[A-Za-z0-9-]+@v[0-9]+$")]
+
+    @model_validator(mode="after")
+    def _status_requirements(self) -> "TeachingApproachV3":
+        if self.status == "Approved" and self.approval is None:
+            raise ValueError("status=Approved requires approval (schema allOf)")
+        if self.status == "Superseded" and self.superseded_by is None:
+            raise ValueError("status=Superseded requires superseded_by (schema allOf)")
+        return self
+
+
+# --------------------------------------------------------------------------- #
 # authoring/v1/approach-set（ADR-005 §5 跨小问组合层）
 # --------------------------------------------------------------------------- #
 class ApproachSetPart(_Strict):
@@ -509,6 +555,132 @@ class TutorPlanBundle(_Strict):
 
 
 # --------------------------------------------------------------------------- #
+# planning/v2/tutor-plan-bundle（ADR-006 备课资源包）
+# --------------------------------------------------------------------------- #
+PartId = Annotated[str, Field(pattern=r"^[1-9][0-9]{0,2}$")]
+CheckpointId = Annotated[str, Field(pattern=r"^CP[0-9]{1,3}$")]
+ResourceId = Annotated[str, Field(pattern=r"^RES[0-9]{1,3}$")]
+
+
+class PartBoundApproachRef(_Strict):
+    artifact_id: ApproachId
+    version: VersionTag
+    content_hash: Sha256
+    part_id: PartId
+
+
+class RecommendedRoute(_Strict):
+    route_id: Annotated[str, Field(pattern=r"^R[0-9]{1,3}$")]
+    role: Literal["primary", "alternate"]
+    part_id: PartId | None = None
+    entry_condition: str | None = None
+    checkpoint_ids: Annotated[list[CheckpointId], Field(min_length=1)]
+    completion_condition: NonEmptyStr
+
+
+class SkillAnnotation(_Strict):
+    skill_id: SkillId
+    rationale: NonEmptyStr
+    evidence_refs: Annotated[list[NonEmptyStr], Field(min_length=1)]
+
+
+class PlanCheckpoint(_Strict):
+    checkpoint_id: CheckpointId
+    part_id: PartId
+    expected_reasoning: NonEmptyStr
+    accepted_alternatives: list[NonEmptyStr] | None = None
+    common_deviations: list[NonEmptyStr] | None = None
+    skippable: bool | None = None
+    skill_annotations: Annotated[list[SkillAnnotation], Field(max_length=2)] | None = None
+    unmapped_skill_reason: str | None = None
+    resource_ids: list[ResourceId] | None = None
+
+
+class PlanResource(_Strict):
+    resource_id: ResourceId
+    kind: Literal[
+        "explanation",
+        "hint",
+        "diagnostic_probe",
+        "repair",
+        "action_template",
+        "workspace",
+        "voice_seed",
+    ]
+    checkpoint_id: CheckpointId | None = None
+    assistance_level: int | None = Field(default=None, ge=0, le=5)
+    source: Literal["authored", "reused", "agent_generated"]
+    content: NonEmptyStr | None = None
+    action_ref: NonEmptyStr | None = None
+    capability: NonEmptyStr | None = None
+    target_ids: list[NonEmptyStr] | None = None
+
+
+class PolicyConstraints(_Strict):
+    allowed_move_types: Annotated[
+        list[Literal["explain", "prompt", "hint", "confirm", "wait", "repair"]],
+        Field(min_length=1),
+    ]
+    allowed_capabilities: list[NonEmptyStr]
+    forbidden_content_kinds: list[
+        Literal["canonical_answer", "reviewed_solution", "hidden_truth", "unapproved_tool"]
+    ]
+    maximum_assistance_level: int = Field(ge=0, le=5)
+    # ADR-006：资源包永不用于 Assessment（隔离投影不在此合同内）。
+    assessment_enabled: Literal[False]
+
+
+class BuildProvenance(_Strict):
+    provider: NonEmptyStr
+    model_id: NonEmptyStr
+    workflow_version: NonEmptyStr
+    run_id: NonEmptyStr
+    built_at: datetime
+    runtime_registry_version: NonEmptyStr
+
+
+class RuntimeProjection(_Strict):
+    materializer_version: NonEmptyStr
+    runtime_registry_version: NonEmptyStr
+    projection_hash: Sha256
+    validation_status: Literal["passed"]
+
+
+class PlanApproval(_Strict):
+    reviewer_id: NonEmptyStr
+    approved_at: datetime
+    review_note: str | None = None
+
+
+class TutorPlanBundleV2(_Strict):
+    schema_: Literal["ai_teaching_tutor_plan_bundle/v2"] = Field(alias="schema")
+    artifact_id: PlanId
+    version: VersionTag
+    status: Status
+    question_ref: QuestionRef
+    approach_refs: Annotated[list[PartBoundApproachRef], Field(min_length=1)]
+    recommended_routes: Annotated[list[RecommendedRoute], Field(min_length=1)]
+    checkpoints: Annotated[list[PlanCheckpoint], Field(min_length=1)]
+    resources: Annotated[list[PlanResource], Field(min_length=1)]
+    policy_constraints: PolicyConstraints
+    build_provenance: BuildProvenance
+    runtime_projection: RuntimeProjection | None = None
+    approval: PlanApproval | None = None
+    content_hash: Sha256
+    artifact_uri: Annotated[str, Field(pattern=r"^artifact://tutor-plan/[A-Za-z0-9-]+@v[0-9]+$")]
+
+    @model_validator(mode="after")
+    def _approved_requirements(self) -> "TutorPlanBundleV2":
+        if self.status == "Approved" and (
+            self.approval is None or self.runtime_projection is None
+        ):
+            raise ValueError(
+                "status=Approved requires approval and runtime_projection (schema allOf)"
+            )
+        return self
+
+
+# --------------------------------------------------------------------------- #
 # runtime/v1/tutor-session-event
 # --------------------------------------------------------------------------- #
 SessionMode = Literal["teach", "guided_solve", "repair"]
@@ -621,6 +793,195 @@ class TutorSessionEvent(_Strict):
     def _payload_matches_type(self) -> "TutorSessionEvent":
         model = _EVENT_PAYLOAD_MODELS[self.event_type]
         model.model_validate(self.payload)
+        return self
+
+
+# --------------------------------------------------------------------------- #
+# runtime/v2/tutor-session-event（ADR-006 因果链）
+# --------------------------------------------------------------------------- #
+DecisionId = Annotated[str, Field(pattern=r"^TD-[A-Za-z0-9._:-]{4,}$")]
+VoiceActionId = Annotated[str, Field(pattern=r"^VA-[A-Za-z0-9._:-]{4,}$")]
+WorkspaceActionId = Annotated[str, Field(pattern=r"^WA-[A-Za-z0-9._:-]{4,}$")]
+PurposeCode = Annotated[str, Field(pattern=r"^[a-z][a-z0-9._-]*$")]
+MoveType = Literal["explain", "prompt", "hint", "confirm", "wait", "repair"]
+AlignmentV2 = Literal[
+    "expected_checkpoint", "alternate_valid", "incorrect", "unclear", "no_progress"
+]
+
+
+class V2SessionStartedPayload(_Strict):
+    plan: PlanPinnedRef
+    initial_mode: SessionMode
+
+
+class V2ModeChangedPayload(_Strict):
+    from_mode: SessionMode
+    to_mode: SessionMode
+
+
+class V2StudentInputPayload(_Strict):
+    input_kind: Literal[
+        "reasoning_utterance",
+        "question_asked",
+        "pointing_evidence",
+        "structured_action_evidence",
+        "silence_observed",
+        "student_interrupted",
+    ]
+    text: str | None = None
+    object_id: str | None = None
+    action_id: str | None = None
+    action_payload: str | None = None
+    duration_ms: int | None = Field(default=None, ge=0)
+
+
+class V2ReasoningAlignedPayload(_Strict):
+    alignment: AlignmentV2
+    checkpoint_id: CheckpointId | None = None
+    alternate_description: str | None = None
+
+
+class V2TutorMovePayload(_Strict):
+    decision_id: DecisionId
+    move_type: MoveType
+    purpose_code: PurposeCode
+    policy_version: NonEmptyStr
+    source_event_sequence: int = Field(ge=1)
+    source_state_revision: int = Field(ge=0)
+    checkpoint_id: CheckpointId | None = None
+    assistance_level: int | None = Field(default=None, ge=0, le=5)
+    resource_ids: list[ResourceId] | None = None
+    fallback: bool | None = None
+
+    @model_validator(mode="after")
+    def _hint_requirements(self) -> "V2TutorMovePayload":
+        if self.move_type == "hint" and (
+            self.assistance_level is None or self.checkpoint_id is None
+        ):
+            raise ValueError("move_type=hint requires assistance_level and checkpoint_id (allOf)")
+        return self
+
+
+class V2VoiceActionIssuedPayload(_Strict):
+    action_id: VoiceActionId
+    decision_id: DecisionId
+    text: NonEmptyStr
+    interruptible: bool | None = None
+
+
+class V2ActionCompletedPayload(_Strict):
+    action_id: NonEmptyStr
+    outcome: Literal["completed", "interrupted", "rejected", "failed"]
+    failure_class: str | None = None
+    message: str | None = None
+
+
+class V2WorkspaceActionIssuedPayload(_Strict):
+    action_id: WorkspaceActionId
+    decision_id: DecisionId
+    capability: NonEmptyStr
+    target_ids: list[NonEmptyStr]
+    command_payload: str | None = None
+
+
+class V2HintIssuedPayload(_Strict):
+    decision_id: DecisionId
+    checkpoint_id: CheckpointId
+    level: int = Field(ge=0, le=5)
+
+
+class V2WorkingDiagnosisPayload(_Strict):
+    summary_code: PurposeCode
+    candidate_skill_ids: Annotated[list[SkillId], Field(max_length=3)] | None = None
+    evidence_sequences: Annotated[list[int], Field(min_length=1)]
+
+
+class V2PolicyFailedPayload(_Strict):
+    policy_version: NonEmptyStr
+    failure_class: NonEmptyStr
+    fallback_used: bool
+    fallback_resource_id: ResourceId | None = None
+
+
+class V2RuntimeFailurePayload(_Strict):
+    failure_class: NonEmptyStr
+    message: str
+    related_event_sequence: int | None = Field(default=None, ge=1)
+
+
+_V2_EVENT_PAYLOAD_MODELS: dict[str, type[BaseModel]] = {
+    "session_started": V2SessionStartedPayload,
+    "mode_changed": V2ModeChangedPayload,
+    "student_input_recorded": V2StudentInputPayload,
+    "reasoning_aligned": V2ReasoningAlignedPayload,
+    "tutor_move_decided": V2TutorMovePayload,
+    "voice_action_issued": V2VoiceActionIssuedPayload,
+    "voice_action_completed": V2ActionCompletedPayload,
+    "workspace_action_issued": V2WorkspaceActionIssuedPayload,
+    "workspace_action_completed": V2ActionCompletedPayload,
+    "hint_issued": V2HintIssuedPayload,
+    "working_diagnosis_updated": V2WorkingDiagnosisPayload,
+    "policy_failed": V2PolicyFailedPayload,
+    "runtime_failure": V2RuntimeFailurePayload,
+}
+
+# JSON Schema allOf 中显式 required: ["causation_sequence"] 的事件类型。
+_V2_CAUSATION_REQUIRED = frozenset(
+    {
+        "mode_changed",
+        "reasoning_aligned",
+        "tutor_move_decided",
+        "voice_action_issued",
+        "workspace_action_issued",
+        "voice_action_completed",
+        "workspace_action_completed",
+        "hint_issued",
+        "working_diagnosis_updated",
+        "policy_failed",
+    }
+)
+
+EventTypeV2 = Literal[
+    "session_started",
+    "mode_changed",
+    "student_input_recorded",
+    "reasoning_aligned",
+    "tutor_move_decided",
+    "voice_action_issued",
+    "voice_action_completed",
+    "workspace_action_issued",
+    "workspace_action_completed",
+    "hint_issued",
+    "student_progressed",
+    "student_self_corrected",
+    "working_diagnosis_updated",
+    "repair_delivered",
+    "policy_failed",
+    "runtime_failure",
+    "session_completed",
+]
+
+
+class TutorSessionEventV2(_Strict):
+    schema_: Literal["ai_teaching_tutor_session_event/v2"] = Field(alias="schema")
+    session_id: SessionId
+    sequence: int = Field(ge=1)
+    state_revision: int = Field(ge=0)
+    occurred_at: datetime
+    event_type: EventTypeV2
+    payload: dict
+    causation_sequence: int | None = Field(default=None, ge=1)
+    idempotency_key: Annotated[str, Field(pattern=r"^[A-Za-z0-9._:-]{8,128}$")]
+
+    @model_validator(mode="after")
+    def _payload_and_causation(self) -> "TutorSessionEventV2":
+        model = _V2_EVENT_PAYLOAD_MODELS.get(self.event_type)
+        if model is not None:
+            model.model_validate(self.payload)
+        if self.event_type in _V2_CAUSATION_REQUIRED and self.causation_sequence is None:
+            raise ValueError(
+                f"event_type={self.event_type} requires causation_sequence (schema allOf)"
+            )
         return self
 
 

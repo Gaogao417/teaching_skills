@@ -1,0 +1,66 @@
+{
+  "schema": "ai_teaching_tutor_plan_bundle/v2",
+  "artifact_id": "TP-SMV-102",
+  "version": "v1",
+  "status": "Approved",
+  "question_ref": {
+    "artifact_id": "QT-SMV-001",
+    "version": "v2",
+    "content_hash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "approach_refs": [
+    {
+      "artifact_id": "TA-SMV-009",
+      "version": "v1",
+      "content_hash": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "part_id": "1"
+    }
+  ],
+  "recommended_routes": [
+    {
+      "route_id": "R1",
+      "role": "primary",
+      "checkpoint_ids": ["CP1"],
+      "completion_condition": "学生完成当前认知节点"
+    }
+  ],
+  "checkpoints": [
+    {
+      "checkpoint_id": "CP1",
+      "part_id": "1",
+      "expected_reasoning": "识别目标三角形",
+      "resource_ids": ["RES1"]
+    }
+  ],
+  "resources": [
+    {
+      "resource_id": "RES1",
+      "kind": "voice_seed",
+      "source": "agent_generated",
+      "content": "先观察图形。"
+    }
+  ],
+  "policy_constraints": {
+    "allowed_move_types": ["prompt", "wait"],
+    "allowed_capabilities": [],
+    "forbidden_content_kinds": ["canonical_answer"],
+    "maximum_assistance_level": 2,
+    "assessment_enabled": false
+  },
+  "build_provenance": {
+    "provider": "dashscope",
+    "model_id": "qwen-plus",
+    "workflow_version": "topic-action-build-agent/v1",
+    "run_id": "plan-build-20260821-002",
+    "built_at": "2026-08-21T02:00:00Z",
+    "runtime_registry_version": "action-runtime-registry/v5@abc123"
+  },
+  "runtime_projection": {
+    "materializer_version": "tutor-plan-materializer/0.1.0",
+    "runtime_registry_version": "action-runtime-registry/v5@abc123",
+    "projection_hash": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "validation_status": "passed"
+  },
+  "content_hash": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+  "artifact_uri": "artifact://tutor-plan/TP-SMV-102@v1"
+}

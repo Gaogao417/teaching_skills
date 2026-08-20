@@ -1,0 +1,66 @@
+{
+  "schema": "ai_teaching_teaching_approach/v3",
+  "artifact_id": "TA-SMV-101",
+  "version": "v1",
+  "status": "Approved",
+  "question_ref": {
+    "artifact_id": "QT-SMV-001",
+    "version": "v2",
+    "content_hash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "title": "先识别结构，再检查相似条件",
+  "goal": "让学生建立从图形结构到判定条件的思考路径",
+  "entry_signal": "学生能指出目标三角形",
+  "steps": [
+    {
+      "step_id": "S1",
+      "intent": "识别目标结构",
+      "narration": "先只看这两个三角形。",
+      "expected_student_reasoning": "指出需要比较的两个三角形",
+      "common_errors": [
+        "只关注数值"
+      ]
+    },
+    {
+      "step_id": "S2",
+      "intent": "识别已有条件",
+      "narration": "看看它们已经有什么角关系。",
+      "expected_student_reasoning": "找到公共角",
+      "source_trace_refs": [
+        "skill-trace-draft:q0043#s2"
+      ]
+    },
+    {
+      "step_id": "S3",
+      "intent": "明确判定缺口",
+      "narration": "已有一组角以后，还需要什么？",
+      "expected_student_reasoning": "提出继续寻找角或边的条件"
+    }
+  ],
+  "evidence": {
+    "audio": [
+      {
+        "artifact_uri": "artifact://audio/TA-SMV-101@v1/recordings/primary.wav",
+        "content_hash": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "recorded_at": "2026-08-21T01:00:00Z",
+        "duration_seconds": 31
+      }
+    ],
+    "transcripts": [
+      {
+        "artifact_uri": "artifact://transcript/TA-SMV-101@v1/transcript.json",
+        "asr_provenance": {
+          "provider": "dashscope",
+          "model_id": "qwen3-asr-flash"
+        },
+        "revision": 1
+      }
+    ]
+  },
+  "approval": {
+    "reviewer_id": "teacher-001",
+    "approved_at": "2026-08-21T01:30:00Z"
+  },
+  "content_hash": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+  "artifact_uri": "artifact://teaching-approach/TA-SMV-101@v1"
+}

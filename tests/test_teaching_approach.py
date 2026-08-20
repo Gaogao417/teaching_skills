@@ -7,6 +7,7 @@ Question version mismatch 禁止批准/发布、静态答案一致性 fail close
 
 from __future__ import annotations
 
+import json
 import sys
 from pathlib import Path
 
@@ -704,6 +705,146 @@ def test_question_change_propagates_stale(
         "QT-SMV-001", ledger_path=canonical_root / "id-allocations.yaml", root=canonical_root
     )
     assert [a["version"] for a in current] == ["v2"]
+
+
+# --------------------------------------------------------------------------- #
+# Phase 4：question change 同轮传播 tutor-plan stale（stale-events downstream 声明）
+# --------------------------------------------------------------------------- #
+
+
+def _write_tutor_plan(
+    canonical_root: Path,
+    tp_id: str,
+    qt_id: str,
+    *,
+    qt_version: str = "v1",
+    qt_hash: str = "sha256:" + "a" * 64,
+    version: str = "v1",
+) -> dict:
+    """写入最小 Approved TutorPlanBundle v2 注册表（结构与 tools 仓 materializer 产物一致）。"""
+    payload = {
+        "schema": "ai_teaching_tutor_plan_bundle/v2",
+        "artifact_id": tp_id,
+        "version": version,
+        "status": "Approved",
+        "question_ref": {"artifact_id": qt_id, "version": qt_version, "content_hash": qt_hash},
+        "approach_refs": [
+            {
+                "artifact_id": "TA-SMV-001",
+                "version": "v1",
+                "content_hash": "sha256:" + "b" * 64,
+                "part_id": "1",
+            }
+        ],
+        "recommended_routes": [
+            {
+                "route_id": "R1",
+                "role": "primary",
+                "checkpoint_ids": ["CP1"],
+                "completion_condition": "fixture",
+            }
+        ],
+        "checkpoints": [
+            {"checkpoint_id": "CP1", "part_id": "1", "expected_reasoning": "fixture", "resource_ids": ["RES1"]}
+        ],
+        "resources": [
+            {"resource_id": "RES1", "kind": "explanation", "source": "authored", "content": "fixture"}
+        ],
+        "policy_constraints": {
+            "allowed_move_types": ["explain"],
+            "allowed_capabilities": [],
+            "forbidden_content_kinds": ["canonical_answer"],
+            "maximum_assistance_level": 2,
+            "assessment_enabled": False,
+        },
+        "build_provenance": {
+            "provider": "deterministic-rules",
+            "model_id": "plan-build-rules/v1",
+            "workflow_version": "tutor-plan-build/v1",
+            "run_id": "run-fixture",
+            "built_at": "2026-08-21T00:00:00Z",
+            "runtime_registry_version": "action-runtime-registry/v5@fixture",
+        },
+        "runtime_projection": {
+            "materializer_version": "tutor-plan-materializer/0.1.0",
+            "runtime_registry_version": "action-runtime-registry/v5@fixture",
+            "projection_hash": "sha256:" + "c" * 64,
+            "validation_status": "passed",
+        },
+        "approval": {"reviewer_id": "fixture", "approved_at": "2026-08-21T00:00:00Z"},
+        "content_hash": "",
+        "artifact_uri": f"artifact://tutor-plan/{tp_id}@{version}",
+    }
+    payload["content_hash"] = ce._content_hash(payload, extra_excluded=("runtime_projection",))
+    base = canonical_root / "tutor-plan" / tp_id
+    ce._write_json_atomic(base / f"{version}.json", payload)
+    ce._write_yaml_atomic(
+        base / "registry.yaml",
+        {
+            "artifact_id": tp_id,
+            "current_version": version,
+            "versions": [
+                {
+                    "version": version,
+                    "status": "Approved",
+                    "content_hash": payload["content_hash"],
+                    "approved_at": "2026-08-21T00:00:00Z",
+                    "question_ref": {
+                        "artifact_id": qt_id,
+                        "version": qt_version,
+                        "content_hash": qt_hash,
+                    },
+                }
+            ],
+        },
+    )
+    return payload
+
+
+def test_question_change_propagates_stale_to_tutor_plan(
+    canonical_root: Path,
+) -> None:
+    plan = _write_tutor_plan(canonical_root, "TP-SMV-001", "QT-SMV-001")
+    write_truth(canonical_root, "QT-SMV-001", answer_value="$CE=3$", version="v2")
+    ce._write_yaml_atomic(
+        canonical_root / "stale-events.yaml",
+        {
+            "schema": "ai_teaching_stale_events/v1",
+            "events": [
+                {
+                    "occurred_at": "2026-08-21T00:00:00+00:00",
+                    "kind": "question_change",
+                    "question": {"artifact_id": "QT-SMV-001", "from_version": "v1", "to_version": "v2"},
+                    "downstream": [
+                        {"type": "teaching-approach", "action": "stale"},
+                        {"type": "tutor-plan", "action": "stale"},
+                    ],
+                }
+            ],
+        },
+    )
+    result = ta.apply_question_change_stale(root=canonical_root)
+    assert "TP-SMV-001@v1" in result["stale_versions"]
+    registry = ce._load_yaml(canonical_root / "tutor-plan" / "TP-SMV-001" / "registry.yaml")
+    assert registry["versions"][0]["status"] == "Stale"
+    stale_plan = json.loads(
+        (canonical_root / "tutor-plan" / "TP-SMV-001" / "v1.json").read_text(encoding="utf-8")
+    )
+    assert stale_plan["status"] == "Stale"  # 可读不可发布
+    # 绑定新版本的 plan 不受影响。
+    fresh = _write_tutor_plan(
+        canonical_root,
+        "TP-SMV-002",
+        "QT-SMV-001",
+        qt_version="v2",
+    )
+    assert fresh["status"] == "Approved"
+    ce._write_yaml_atomic(canonical_root / "stale-events.yaml", {
+        "schema": "ai_teaching_stale_events/v1",
+        "events": [],
+    })
+    again = ta.apply_question_change_stale(root=canonical_root)
+    assert "TP-SMV-002@v1" not in again["stale_versions"]
 
 
 # --------------------------------------------------------------------------- #

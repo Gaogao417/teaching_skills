@@ -1,7 +1,7 @@
 {
   "schema": "ai_teaching_fixtures_manifest/v1",
-  "generated_at": "2026-08-18T00:00:00Z",
-  "fixture_count": 33,
+  "generated_at": "2026-08-21T00:00:00Z",
+  "fixture_count": 39,
   "fixtures": [
     {
       "file": "approach-set.v1.negative.missing-ref-hash.json",
@@ -220,6 +220,22 @@
       "sha256": "sha256:11a46fddaef6ca12958102562cab45ab57848a6f9919c3a77b94cc4e72dacb44"
     },
     {
+      "file": "teaching-approach.v3.negative.missing-part-id.json",
+      "object_schema": "ai_teaching_teaching_approach/v3",
+      "schema_ref": "../schemas/authoring/v3/teaching-approach.schema.json",
+      "expect_schema": "invalid",
+      "expect_publication": "n/a",
+      "sha256": "sha256:dfb20715fda8ab35e6b66f3bad94f753ca78db11a5c1f5b5a09507a6bc7de315"
+    },
+    {
+      "file": "teaching-approach.v3.positive.no-skill-ids.json",
+      "object_schema": "ai_teaching_teaching_approach/v3",
+      "schema_ref": "../schemas/authoring/v3/teaching-approach.schema.json",
+      "expect_schema": "valid",
+      "expect_publication": "valid",
+      "sha256": "sha256:5d33efb2ad06f2b5ee438aa0f2c15b9c12c05c91b45ba9099c4d1e704913055d"
+    },
+    {
       "file": "tutor-plan-bundle.assessment.positive.json",
       "object_schema": "ai_teaching_tutor_plan_bundle/v1",
       "schema_ref": "../schemas/planning/v1/tutor-plan-bundle.schema.json",
@@ -244,6 +260,22 @@
       "sha256": "sha256:dce315042ba534e33cfb5bd2a39f29201cf62804da540ac2875e404c98735083"
     },
     {
+      "file": "tutor-plan-bundle.v2.negative.approved-without-approval.json",
+      "object_schema": "ai_teaching_tutor_plan_bundle/v2",
+      "schema_ref": "../schemas/planning/v2/tutor-plan-bundle.schema.json",
+      "expect_schema": "invalid",
+      "expect_publication": "n/a",
+      "sha256": "sha256:fbe725a4f50f8482acb39c1b3100da520f45e67a705f69cd6c329ca40f336f4d"
+    },
+    {
+      "file": "tutor-plan-bundle.v2.positive.json",
+      "object_schema": "ai_teaching_tutor_plan_bundle/v2",
+      "schema_ref": "../schemas/planning/v2/tutor-plan-bundle.schema.json",
+      "expect_schema": "valid",
+      "expect_publication": "valid",
+      "sha256": "sha256:2a187e3cd8e933669812d4613403e97c46b86beae96afb014759aa4427255bfd"
+    },
+    {
       "file": "tutor-session-event.negative.payload-missing-level.json",
       "object_schema": "ai_teaching_tutor_session_event/v1",
       "schema_ref": "../schemas/runtime/v1/tutor-session-event.schema.json",
@@ -266,6 +298,22 @@
       "expect_schema": "valid",
       "expect_publication": "n/a",
       "sha256": "sha256:11e615a45e9343c172e910ece12c68a5fe459d1789e37c653028b86f84d09bc7"
+    },
+    {
+      "file": "tutor-session-event.v2.negative.move-missing-source.json",
+      "object_schema": "ai_teaching_tutor_session_event/v2",
+      "schema_ref": "../schemas/runtime/v2/tutor-session-event.schema.json",
+      "expect_schema": "invalid",
+      "expect_publication": "n/a",
+      "sha256": "sha256:89f55b3ba4fc223080277ff953cbaa53687e96e883d8b394573d939a32e7f38d"
+    },
+    {
+      "file": "tutor-session-event.v2.positive.tutor-move.json",
+      "object_schema": "ai_teaching_tutor_session_event/v2",
+      "schema_ref": "../schemas/runtime/v2/tutor-session-event.schema.json",
+      "expect_schema": "valid",
+      "expect_publication": "n/a",
+      "sha256": "sha256:cda7f68558c9c08376353fb88140293e1754d40424a320552a7540fb5fbca011"
     }
   ],
   "assessment_scan": {
