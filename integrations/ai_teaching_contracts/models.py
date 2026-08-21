@@ -986,6 +986,89 @@ class TutorSessionEventV2(_Strict):
 
 
 # --------------------------------------------------------------------------- #
+# runtime/v3/tutor-session-event（Phase 5 remediation 智能链 provenance）
+#
+# 只增量：payload 在 v2 基础上追加可选字段（client_turn_id / route_id /
+# confidence / aligner/workflow version / grounding_refs / model /
+# prompt_versions / voice_source / workspace_resource_ids / resource_ref /
+# generation_id）；事件类型与因果链语义不变，不保存 chain-of-thought。
+# --------------------------------------------------------------------------- #
+RouteId = Annotated[str, Field(pattern=r"^R[0-9]{1,3}$")]
+VoiceSource = Literal["approved-resource", "model-generated", "deterministic-scaffold"]
+GenerationId = Annotated[str, Field(pattern=r"^VG-[A-Za-z0-9._:-]{4,}$")]
+ClientTurnId = Annotated[str, Field(pattern=r"^[A-Za-z0-9._:-]{4,128}$")]
+GroundingRef = Annotated[str, Field(pattern=r"^[A-Za-z0-9_.\[\]-]{3,64}$")]
+
+
+class V3StudentInputPayload(V2StudentInputPayload):
+    client_turn_id: ClientTurnId | None = None
+
+
+class V3ReasoningAlignedPayload(V2ReasoningAlignedPayload):
+    route_id: RouteId | None = None
+    confidence: float | None = Field(default=None, ge=0, le=1)
+    aligner_version: NonEmptyStr | None = None
+    workflow_version: NonEmptyStr | None = None
+    grounding_refs: Annotated[list[GroundingRef], Field(max_length=8)] | None = None
+
+
+class V3TutorMovePayload(V2TutorMovePayload):
+    model: NonEmptyStr | None = None
+    workflow_version: NonEmptyStr | None = None
+    prompt_versions: Annotated[list[NonEmptyStr], Field(max_length=8)] | None = None
+    voice_source: VoiceSource | None = None
+    workspace_resource_ids: list[ResourceId] | None = None
+
+
+class V3VoiceActionIssuedPayload(V2VoiceActionIssuedPayload):
+    resource_ref: ResourceId | None = None
+    generation_id: GenerationId | None = None
+    voice_source: VoiceSource | None = None
+
+
+_V3_EVENT_PAYLOAD_MODELS: dict[str, type[BaseModel]] = {
+    **{
+        event_type: model
+        for event_type, model in _V2_EVENT_PAYLOAD_MODELS.items()
+        if event_type
+        not in {
+            "student_input_recorded",
+            "reasoning_aligned",
+            "tutor_move_decided",
+            "voice_action_issued",
+        }
+    },
+    "student_input_recorded": V3StudentInputPayload,
+    "reasoning_aligned": V3ReasoningAlignedPayload,
+    "tutor_move_decided": V3TutorMovePayload,
+    "voice_action_issued": V3VoiceActionIssuedPayload,
+}
+
+
+class TutorSessionEventV3(_Strict):
+    schema_: Literal["ai_teaching_tutor_session_event/v3"] = Field(alias="schema")
+    session_id: SessionId
+    sequence: int = Field(ge=1)
+    state_revision: int = Field(ge=0)
+    occurred_at: datetime
+    event_type: EventTypeV2
+    payload: dict
+    causation_sequence: int | None = Field(default=None, ge=1)
+    idempotency_key: Annotated[str, Field(pattern=r"^[A-Za-z0-9._:-]{8,128}$")]
+
+    @model_validator(mode="after")
+    def _payload_and_causation(self) -> "TutorSessionEventV3":
+        model = _V3_EVENT_PAYLOAD_MODELS.get(self.event_type)
+        if model is not None:
+            model.model_validate(self.payload)
+        if self.event_type in _V2_CAUSATION_REQUIRED and self.causation_sequence is None:
+            raise ValueError(
+                f"event_type={self.event_type} requires causation_sequence (schema allOf)"
+            )
+        return self
+
+
+# --------------------------------------------------------------------------- #
 # learning/v1/skill-hypothesis
 # --------------------------------------------------------------------------- #
 class EventEvidenceRef(_Strict):

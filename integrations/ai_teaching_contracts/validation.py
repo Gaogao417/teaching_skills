@@ -34,6 +34,7 @@ _SCHEMA_CONST_TO_MODEL: dict[str, type[BaseModel]] = {
     "ai_teaching_tutor_plan_bundle/v2": models.TutorPlanBundleV2,
     "ai_teaching_tutor_session_event/v1": models.TutorSessionEvent,
     "ai_teaching_tutor_session_event/v2": models.TutorSessionEventV2,
+    "ai_teaching_tutor_session_event/v3": models.TutorSessionEventV3,
     "ai_teaching_skill_hypothesis/v1": models.SkillHypothesis,
     "ai_teaching_intervention/v1": models.Intervention,
     "ai_teaching_sut_config/v1": models.SutConfig,

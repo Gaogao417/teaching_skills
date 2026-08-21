@@ -1,0 +1,26 @@
+{
+  "schema": "ai_teaching_tutor_session_event/v3",
+  "session_id": "TS-2002",
+  "sequence": 5,
+  "state_revision": 3,
+  "occurred_at": "2026-08-21T05:00:00Z",
+  "event_type": "tutor_move_decided",
+  "payload": {
+    "decision_id": "TD-TS-2002-1",
+    "move_type": "prompt",
+    "purpose_code": "prompt.action_step",
+    "policy_version": "tutor-policy-deepseek-langgraph/v1",
+    "source_event_sequence": 4,
+    "source_state_revision": 2,
+    "checkpoint_id": "CP2",
+    "resource_ids": ["RES4"],
+    "fallback": false,
+    "model": "deepseek-v4-flash",
+    "workflow_version": "tutor-policy-deepseek-langgraph/v1",
+    "prompt_versions": ["aligner-deepseek/v1", "policy-voice-deepseek/v1"],
+    "voice_source": "model-generated",
+    "workspace_resource_ids": ["RES4"]
+  },
+  "causation_sequence": 4,
+  "idempotency_key": "TS-2002:5"
+}
