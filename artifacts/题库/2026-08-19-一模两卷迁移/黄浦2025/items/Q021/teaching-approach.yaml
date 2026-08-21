@@ -128,6 +128,8 @@ approaches:
     expected_student_reasoning: 学生能说出哪两条线平行、截出哪两个三角形。
     skill_ids:
     - SKILL-SMV-001
+    common_errors:
+    - 仪器边长与相似三角形对应边对应错
   - step_id: S2
     intent: 第一次实践列比例求表达式
     narration: 由平行得 A 字型相似，对应边成比例，推出还需测量 $NE=b\,\mathrm{cm}$，树高 $MN=(a+b+40)\,\mathrm{cm}$（40 为仪器结构补偿量）。
@@ -135,6 +137,9 @@ approaches:
     skill_ids:
     - SKILL-SMV-008
     - SKILL-SMV-003
+    common_errors:
+    - A 字型对应边错配
+    - 漏加仪器的 40cm 结构量
   - step_id: S3
     intent: 第二次实践与结果印证
     narration: 换摆放后同理构造相似：还需测量 $EF=c\,\mathrm{cm}$，得 $MN=(c+a)\,\mathrm{cm}$；与第一次的 $MN=(a+b+40)\,\mathrm{cm}$ 互相印证，检查建模一致性。
@@ -142,6 +147,9 @@ approaches:
     skill_ids:
     - SKILL-SMV-003
     - SKILL-SMV-007
+    common_errors:
+    - 两次实践的比例方向写反
+    - 单位换算出错
   steps_origin: manual
   polished_text: ''
   evidence:
@@ -153,13 +161,14 @@ approaches:
     - *id004
     manual_edit_notes:
     - part 级重切（ADR-005）：讲解稿按官方 reviewed_solution 撰写，证据 ref 复用整题录音
+    - Phase 5 remediation（2026-08-21）：补 common_errors（TP-004/005 S6 剧本偏差输入来源），主体映射自旧整题 TA authored 错因
   approval:
     reviewer_id: migration-agent
-    approved_at: '2026-08-19T20:04:35.399033+00:00'
-    review_note: part 级重切（ADR-005），代理批准待真人教师复核
+    approved_at: '2026-08-21T04:20:08.934631+00:00'
+    review_note: Phase 5 remediation（S6 skip 消除）：补 step common_errors——主体按步映射自旧整题 TA-SMV-004/005@v2 authored 错因；TA-SMV-017 S3-2、TA-SMV-018 S1/S2 为 agent 代拟待真人教师复核（偏差登记）
   canonical:
     artifact_id: TA-SMV-016
-    version: v1
-    content_hash: sha256:78959a0fe811b0e107d96cdf520ef9c175fb081af1947e2daf16c6dfec3684e4
-    approved_at: '2026-08-19T20:04:35.399033+00:00'
+    version: v2
+    content_hash: sha256:f666bd35518ec54f136404c30d8d741ad761ea8244e3872d5e8dd2908d768d0f
+    approved_at: '2026-08-21T04:20:08.934631+00:00'
   created_at: '2026-08-19T20:04:35.371910+00:00'

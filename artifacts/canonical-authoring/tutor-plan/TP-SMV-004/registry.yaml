@@ -1,5 +1,5 @@
 artifact_id: TP-SMV-004
-current_version: v2
+current_version: v3
 versions:
   - version: v1
     status: Superseded
@@ -13,9 +13,20 @@ versions:
       artifact_id: TP-SMV-004
       version: v2
   - version: v2
-    status: Approved
+    status: Superseded
     content_hash: sha256:8c259289f4896000ba263d308d47e28487c6d1c27b442a254f71944a869899e5
     approved_at: 2026-08-20T23:44:34.037Z
+    question_ref:
+      artifact_id: QT-SMV-004
+      version: v2
+      content_hash: sha256:655cc7a1a579e435f3fe521954a0aea9776c7b0e60b280b06ba85bb42c74fc80
+    superseded_by:
+      artifact_id: TP-SMV-004
+      version: v3
+  - version: v3
+    status: Approved
+    content_hash: sha256:70c0a4f3ca61d41cb42d33e9db6b93fc29a6ddf94c814717c32a6d5b31758d29
+    approved_at: 2026-08-21T04:20:34.126Z
     question_ref:
       artifact_id: QT-SMV-004
       version: v2

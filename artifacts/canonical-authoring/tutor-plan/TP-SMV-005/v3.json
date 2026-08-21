@@ -2,7 +2,7 @@
   "schema": "ai_teaching_tutor_plan_bundle/v2",
   "artifact_id": "TP-SMV-005",
   "version": "v3",
-  "status": "Draft",
+  "status": "Approved",
   "question_ref": {
     "artifact_id": "QT-SMV-005",
     "version": "v2",
@@ -440,5 +440,16 @@
     "runtime_registry_version": "action-runtime-registry/v5@32f7ae75600a"
   },
   "content_hash": "sha256:4f0d3acbf835691368c36ebd8b7d9f59fe13409013f206d7dec958654510829e",
-  "artifact_uri": "artifact://tutor-plan/TP-SMV-005@v3"
+  "artifact_uri": "artifact://tutor-plan/TP-SMV-005@v3",
+  "approval": {
+    "reviewer_id": "migration-agent",
+    "approved_at": "2026-08-21T04:20:34.147Z",
+    "review_note": "Phase 5 remediation：TA-SMV-016/017/018 v2 补 common_errors（S6 skip 消除）→ checkpoint common_deviations 恢复；代理重批出 v3"
+  },
+  "runtime_projection": {
+    "materializer_version": "tutor-plan-materializer/0.1.0",
+    "runtime_registry_version": "action-runtime-registry/v5@32f7ae75600a",
+    "projection_hash": "sha256:251712e7aa7213ceae2b8b04f19621084ae343baa98bcfd4ddf1ae4589f82436",
+    "validation_status": "passed"
+  }
 }

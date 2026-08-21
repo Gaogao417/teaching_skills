@@ -1,32 +1,33 @@
 {
   "approval": {
-    "approved_at": "2026-08-19T20:04:35.451955+00:00",
-    "review_note": "part 级重切（ADR-005），证据 ref 复用整题录音",
+    "approved_at": "2026-08-21T04:20:08.992531+00:00",
+    "review_note": "Phase 5 remediation（S6 skip 消除）：补 step common_errors——主体按步映射自旧整题 TA-SMV-004/005@v2 authored 错因；TA-SMV-017 S3-2、TA-SMV-018 S1/S2 为 agent 代拟待真人教师复核（偏差登记）",
     "reviewer_id": "migration-agent"
   },
   "artifact_id": "TA-SMV-018",
-  "artifact_uri": "artifact://teaching-approach/TA-SMV-018@v1",
-  "content_hash": "sha256:2a3dcbbf6b4a5e7a9054bc295b7235908967a7904724bb8f7ec63f93f46e855d",
+  "artifact_uri": "artifact://teaching-approach/TA-SMV-018@v2",
+  "content_hash": "sha256:64966e5ed0ed93ee23f7e8d5ee9a04f4ec5573e6daf6b88056b406f2fa877247",
   "entry_signal": "学生能把平行条件翻译成等角，并寻找公共角。",
   "evidence": {
     "audio": [
       {
-        "artifact_uri": "artifact://audio/TA-SMV-018@v1/t1-r01-20260819T150015.629558_0000.wav",
+        "artifact_uri": "artifact://audio/TA-SMV-018@v2/t1-r01-20260819T150015.629558_0000.wav",
         "content_hash": "sha256:b29291cc20504b36ed59f2395ecffa7c2a2c14e9786b2bd29ce63d0c67fac112",
         "recorded_at": "2026-08-19T15:00:15.629951+00:00"
       },
       {
-        "artifact_uri": "artifact://audio/TA-SMV-018@v1/t1-r02-20260819T171727.936196_0000.wav",
+        "artifact_uri": "artifact://audio/TA-SMV-018@v2/t1-r02-20260819T171727.936196_0000.wav",
         "content_hash": "sha256:9dbef3b21d3909fd0e756d9913e6d7efb2c2d5ceae4ade7bebe80b16ca733357",
         "recorded_at": "2026-08-19T17:17:27.937976+00:00"
       }
     ],
     "manual_edit_notes": [
-      "part 级重切（ADR-005）：讲解稿按官方 reviewed_solution 撰写，证据 ref 复用整题录音"
+      "part 级重切（ADR-005）：讲解稿按官方 reviewed_solution 撰写，证据 ref 复用整题录音",
+      "Phase 5 remediation（2026-08-21）：补 common_errors（TP-004/005 S6 剧本偏差输入来源），主体映射自旧整题 TA authored 错因"
     ],
     "polished": [
       {
-        "artifact_uri": "artifact://transcript/TA-SMV-018@v1/t1-p01-20260819T150033.626909_0000.polished.txt",
+        "artifact_uri": "artifact://transcript/TA-SMV-018@v2/t1-p01-20260819T150033.626909_0000.polished.txt",
         "polish_provenance": {
           "model_id": "qwen-plus",
           "prompt_version": "POLISH_PROMPT@2026-08-v1",
@@ -34,7 +35,7 @@
         }
       },
       {
-        "artifact_uri": "artifact://transcript/TA-SMV-018@v1/t1-p02-20260819T171804.277088_0000.polished.txt",
+        "artifact_uri": "artifact://transcript/TA-SMV-018@v2/t1-p02-20260819T171804.277088_0000.polished.txt",
         "polish_provenance": {
           "model_id": "qwen-plus",
           "prompt_version": "POLISH_PROMPT@2026-08-v1",
@@ -44,7 +45,7 @@
     ],
     "transcripts": [
       {
-        "artifact_uri": "artifact://transcript/TA-SMV-018@v1/t1-r01-20260819T150015.629558_0000.transcript.txt",
+        "artifact_uri": "artifact://transcript/TA-SMV-018@v2/t1-r01-20260819T150015.629558_0000.transcript.txt",
         "asr_provenance": {
           "model_id": "qwen3-asr-flash",
           "provider": "dashscope"
@@ -52,7 +53,7 @@
         "revision": 1
       },
       {
-        "artifact_uri": "artifact://transcript/TA-SMV-018@v1/t1-r02-20260819T171727.936196_0000.transcript.txt",
+        "artifact_uri": "artifact://transcript/TA-SMV-018@v2/t1-r02-20260819T171727.936196_0000.transcript.txt",
         "asr_provenance": {
           "model_id": "qwen3-asr-flash",
           "provider": "dashscope"
@@ -69,9 +70,12 @@
     "version": "v2"
   },
   "schema": "ai_teaching_teaching_approach/v2",
-  "status": "Superseded",
+  "status": "Approved",
   "steps": [
     {
+      "common_errors": [
+        "平行等角认错位置（内错角与同位角混淆）"
+      ],
       "expected_student_reasoning": "学生能指出平行线截哪两条线产生这对内错角。",
       "intent": "平行给新等角",
       "narration": "由 $CF\\parallel AE$ 得 $\\angle E=\\angle DCF$。",
@@ -81,6 +85,9 @@
       "step_id": "S1"
     },
     {
+      "common_errors": [
+        "外角和分解相减时对应项错位"
+      ],
       "expected_student_reasoning": "学生能完成「分解 → 相减 → 公共角」的三步配角。",
       "intent": "外角和分解 + 公共角配相似",
       "narration": "$\\angle DCF=\\angle DCB+\\angle BCF$，$\\angle E=\\angle CDF=\\angle ACE+\\angle CAD$，相减得 $\\angle BCF=\\angle CAD$；又 $\\angle F=\\angle F$（公共），故 $\\triangle CFB\\sim\\triangle AFC$。",
@@ -91,6 +98,10 @@
       "step_id": "S2"
     },
     {
+      "common_errors": [
+        "平行线截得的比例上下位写反",
+        "不用第一问结论另起炉灶"
+      ],
       "expected_student_reasoning": "学生能规划「先相似比、再平行比」的转移顺序，不硬凑。",
       "intent": "比例转移收尾",
       "narration": "由 $\\triangle CFB\\sim\\triangle AFC$ 得 $\\frac{BF}{CF}=\\frac{CF}{AF}$，结合第(1)问 $\\triangle CEA\\sim\\triangle CDB$ 的相似比 $\\frac{CE}{CD}=\\frac{CA}{CB}$ 逐层转移，最终证得 $\\frac{BD}{AD}=\\frac{BF}{CF}$。",
@@ -101,10 +112,6 @@
       "step_id": "S3"
     }
   ],
-  "superseded_by": {
-    "artifact_id": "TA-SMV-018",
-    "version": "v2"
-  },
   "title": "第(2)问：平行等角传递 + 相似比例收尾",
-  "version": "v1"
+  "version": "v2"
 }
